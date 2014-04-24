@@ -167,7 +167,7 @@ HRESULT CDX7AllocatorPresenter::CreateDevice()
             ddsd.ddpfPixelFormat.dwRGBBitCount <= 8) {
         return DDERR_INVALIDMODE;
     }
-    m_RefreshRate = ddsd.dwRefreshRate;
+    m_refreshRate = ddsd.dwRefreshRate;
     m_ScreenSize.SetSize(ddsd.dwWidth, ddsd.dwHeight);
     CSize szDesktopSize(GetSystemMetrics(SM_CXVIRTUALSCREEN), GetSystemMetrics(SM_CYVIRTUALSCREEN));
 
@@ -262,8 +262,8 @@ HRESULT CDX7AllocatorPresenter::AllocSurfaces()
     INITDDSTRUCT(ddsd);
     ddsd.dwFlags = DDSD_CAPS | DDSD_WIDTH | DDSD_HEIGHT | DDSD_PIXELFORMAT;
     ddsd.ddsCaps.dwCaps = DDSCAPS_VIDEOMEMORY;
-    ddsd.dwWidth = m_NativeVideoSize.cx;
-    ddsd.dwHeight = m_NativeVideoSize.cy;
+    ddsd.dwWidth = m_nativeVideoSize.cx;
+    ddsd.dwHeight = m_nativeVideoSize.cy;
     ddsd.ddpfPixelFormat.dwSize = sizeof(DDPIXELFORMAT);
     ddsd.ddpfPixelFormat.dwFlags = DDPF_RGB;
     ddsd.ddpfPixelFormat.dwRGBBitCount = 32;
@@ -333,19 +333,19 @@ STDMETHODIMP_(bool) CDX7AllocatorPresenter::Paint(bool fAll)
 
     CAutoLock cAutoLock(this);
 
-    if (m_WindowRect.right <= m_WindowRect.left || m_WindowRect.bottom <= m_WindowRect.top
-            || m_NativeVideoSize.cx <= 0 || m_NativeVideoSize.cy <= 0
+    if (m_windowRect.right <= m_windowRect.left || m_windowRect.bottom <= m_windowRect.top
+            || m_nativeVideoSize.cx <= 0 || m_nativeVideoSize.cy <= 0
             || !m_pPrimary || !m_pBackBuffer || !m_pVideoSurface) {
         return false;
     }
 
     HRESULT hr;
 
-    CRect rSrcVid(CPoint(0, 0), m_NativeVideoSize);
-    CRect rDstVid(m_VideoRect);
+    CRect rSrcVid(CPoint(0, 0), m_nativeVideoSize);
+    CRect rDstVid(m_videoRect);
 
-    CRect rSrcPri(CPoint(0, 0), m_WindowRect.Size());
-    CRect rDstPri(m_WindowRect);
+    CRect rSrcPri(CPoint(0, 0), m_windowRect.Size());
+    CRect rDstPri(m_windowRect);
 
     if (fAll) {
         // clear the backbuffer

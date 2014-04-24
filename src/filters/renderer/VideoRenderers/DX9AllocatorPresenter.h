@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -190,7 +190,7 @@ namespace DSObjects
         double                  m_fSyncOffsetAvr;
         double                  m_DetectedRefreshRate;
 
-        CCritSec                m_RefreshRateLock;
+        CCritSec                m_refreshRateLock;
         double                  m_DetectedRefreshTime;
         double                  m_DetectedRefreshTimePrim;
         double                  m_DetectedScanlineTime;
@@ -201,7 +201,7 @@ namespace DSObjects
             if (m_DetectedRefreshRate) {
                 return m_DetectedRefreshRate;
             }
-            return m_RefreshRate;
+            return m_refreshRate;
         }
 
         LONG GetScanLines() const {

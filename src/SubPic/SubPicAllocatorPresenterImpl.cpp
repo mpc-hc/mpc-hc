@@ -35,12 +35,12 @@ CSubPicAllocatorPresenterImpl::CSubPicAllocatorPresenterImpl(HWND hWnd, HRESULT&
     : CUnknown(NAME("CSubPicAllocatorPresenterImpl"), nullptr)
     , m_hWnd(hWnd)
     , m_maxSubtitleTextureSize(0, 0)
-    , m_NativeVideoSize(0, 0)
-    , m_AspectRatio(0, 0)
-    , m_VideoRect(0, 0, 0, 0)
-    , m_WindowRect(0, 0, 0, 0)
+    , m_nativeVideoSize(0, 0)
+    , m_aspectRatio(0, 0)
+    , m_videoRect(0, 0, 0, 0)
+    , m_windowRect(0, 0, 0, 0)
     , m_fps(25.0)
-    , m_RefreshRate(0)
+    , m_refreshRate(0)
     , m_rtSubtitleDelay(0)
     , m_bDeviceResetRequested(false)
     , m_bPendingResetDevice(false)
@@ -54,7 +54,7 @@ CSubPicAllocatorPresenterImpl::CSubPicAllocatorPresenterImpl(HWND hWnd, HRESULT&
         }
         return;
     }
-    GetWindowRect(m_hWnd, &m_WindowRect);
+    GetWindowRect(m_hWnd, &m_windowRect);
     hr = S_OK;
 }
 
@@ -135,13 +135,13 @@ STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetVideoSize(CSize szVideo, C
         szAspectRatio = szVideo;
     }
 
-    bool fVideoSizeChanged = !!(m_NativeVideoSize != szVideo);
-    bool fAspectRatioChanged = !!(m_AspectRatio != szAspectRatio);
+    bool bVideoSizeChanged = !!(m_nativeVideoSize != szVideo);
+    bool bAspectRatioChanged = !!(m_aspectRatio != szAspectRatio);
 
-    m_NativeVideoSize = szVideo;
-    m_AspectRatio = szAspectRatio;
+    m_nativeVideoSize = szVideo;
+    m_aspectRatio = szAspectRatio;
 
-    if (fVideoSizeChanged || fAspectRatioChanged) {
+    if (bVideoSizeChanged || bAspectRatioChanged) {
         if (m_SubtitleTextureLimit == VIDEO) {
             m_maxSubtitleTextureSize = GetVideoSize();
             m_pAllocator->SetMaxTextureSize(m_maxSubtitleTextureSize);
@@ -149,12 +149,12 @@ STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetVideoSize(CSize szVideo, C
     }
 }
 
-STDMETHODIMP_(SIZE) CSubPicAllocatorPresenterImpl::GetVideoSize(bool fCorrectAR)
+STDMETHODIMP_(SIZE) CSubPicAllocatorPresenterImpl::GetVideoSize(bool bCorrectAR) const
 {
     CSize VideoSize(GetVisibleVideoSize());
 
-    if (fCorrectAR && m_AspectRatio.cx > 0 && m_AspectRatio.cy > 0) {
-        VideoSize.cx = (LONGLONG(VideoSize.cy) * LONGLONG(m_AspectRatio.cx)) / LONGLONG(m_AspectRatio.cy);
+    if (bCorrectAR && m_aspectRatio.cx > 0 && m_aspectRatio.cy > 0) {
+        VideoSize.cx = (LONGLONG(VideoSize.cy) * LONGLONG(m_aspectRatio.cx)) / LONGLONG(m_aspectRatio.cy);
     }
 
     return VideoSize;
@@ -162,19 +162,19 @@ STDMETHODIMP_(SIZE) CSubPicAllocatorPresenterImpl::GetVideoSize(bool fCorrectAR)
 
 STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetPosition(RECT w, RECT v)
 {
-    bool fWindowPosChanged = !!(m_WindowRect != w);
-    bool fWindowSizeChanged = !!(m_WindowRect.Size() != CRect(w).Size());
+    bool bWindowPosChanged = !!(m_windowRect != w);
+    bool bWindowSizeChanged = !!(m_windowRect.Size() != CRect(w).Size());
 
-    m_WindowRect = w;
+    m_windowRect = w;
 
-    bool fVideoRectChanged = !!(m_VideoRect != v);
+    bool bVideoRectChanged = !!(m_videoRect != v);
 
-    m_VideoRect = v;
+    m_videoRect = v;
 
-    if (fWindowSizeChanged || fVideoRectChanged) {
+    if (bWindowSizeChanged || bVideoRectChanged) {
         if (m_pAllocator) {
-            m_pAllocator->SetCurSize(m_WindowRect.Size());
-            m_pAllocator->SetCurVidRect(m_VideoRect);
+            m_pAllocator->SetCurSize(m_windowRect.Size());
+            m_pAllocator->SetCurVidRect(m_videoRect);
         }
 
         if (m_pSubPicQueue) {
@@ -182,17 +182,13 @@ STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetPosition(RECT w, RECT v)
         }
     }
 
-    if (fWindowPosChanged || fVideoRectChanged) {
-        Paint(fWindowSizeChanged || fVideoRectChanged);
+    if (bWindowPosChanged || bVideoRectChanged) {
+        Paint(bWindowSizeChanged || bVideoRectChanged);
     }
 }
 
 STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetTime(REFERENCE_TIME rtNow)
 {
-    /*
-    if (m_rtNow <= rtNow && rtNow <= m_rtNow + 1000000)
-        return;
-    */
     m_rtNow = rtNow - m_rtSubtitleDelay;
 
     if (m_pSubPicQueue) {
@@ -200,31 +196,31 @@ STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetTime(REFERENCE_TIME rtNow)
     }
 }
 
-STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetSubtitleDelay(int delay_ms)
+STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetSubtitleDelay(int delayMs)
 {
-    m_rtSubtitleDelay = delay_ms * 10000i64;
+    m_rtSubtitleDelay = delayMs * 10000i64;
 }
 
-STDMETHODIMP_(int) CSubPicAllocatorPresenterImpl::GetSubtitleDelay()
+STDMETHODIMP_(int) CSubPicAllocatorPresenterImpl::GetSubtitleDelay() const
 {
     return (int)(m_rtSubtitleDelay / 10000);
 }
 
-STDMETHODIMP_(double) CSubPicAllocatorPresenterImpl::GetFPS()
+STDMETHODIMP_(double) CSubPicAllocatorPresenterImpl::GetFPS() const
 {
     return m_fps;
 }
 
 STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetSubPicProvider(ISubPicProvider* pSubPicProvider)
 {
-    m_SubPicProvider = pSubPicProvider;
+    m_pSubPicProvider = pSubPicProvider;
 
     // Reset the default state to be sure text subtitles will be displayed right.
     // Subtitles with specific requirements will adapt those values later.
     if (m_pAllocator) {
         m_pAllocator->SetMaxTextureSize(m_maxSubtitleTextureSize);
-        m_pAllocator->SetCurSize(m_WindowRect.Size());
-        m_pAllocator->SetCurVidRect(m_VideoRect);
+        m_pAllocator->SetCurSize(m_windowRect.Size());
+        m_pAllocator->SetCurVidRect(m_videoRect);
         m_pAllocator->FreeStatic();
     }
 
@@ -318,13 +314,13 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::GetRect(LPCSTR field, RECT* value)
 {
     CheckPointer(value, E_POINTER);
     if (!strcmp(field, "videoOutputRect") || !strcmp(field, "subtitleTargetRect")) {
-        if (m_VideoRect.IsRectEmpty()) {
-            *value = m_WindowRect;
+        if (m_videoRect.IsRectEmpty()) {
+            *value = m_windowRect;
         } else {
             value->left = 0;
             value->top = 0;
-            value->right = m_VideoRect.Width();
-            value->bottom = m_VideoRect.Height();
+            value->right = m_videoRect.Width();
+            value->bottom = m_videoRect.Height();
         }
         return S_OK;
     }
@@ -347,7 +343,7 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::GetDouble(LPCSTR field, double* valu
 {
     CheckPointer(value, E_POINTER);
     if (!strcmp(field, "refreshRate")) {
-        *value = 1000.0 / m_RefreshRate;
+        *value = 1000.0 / m_refreshRate;
         return S_OK;
     }
 
@@ -367,8 +363,8 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::GetString(LPCSTR field, LPWSTR* valu
     } else if (!strcmp(field, "yuvMatrix")) {
         ret = L"None";
 
-        if (m_InputMediaType.IsValid() && m_InputMediaType.formattype == FORMAT_VideoInfo2) {
-            VIDEOINFOHEADER2* pVIH2 = (VIDEOINFOHEADER2*)m_InputMediaType.pbFormat;
+        if (m_inputMediaType.IsValid() && m_inputMediaType.formattype == FORMAT_VideoInfo2) {
+            VIDEOINFOHEADER2* pVIH2 = (VIDEOINFOHEADER2*)m_inputMediaType.pbFormat;
 
             if (pVIH2->dwControlFlags & AMCONTROL_COLORINFO_PRESENT) {
                 DXVA2_ExtendedFormat& flags = (DXVA2_ExtendedFormat&)pVIH2->dwControlFlags;
@@ -465,7 +461,7 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::Connect(ISubRenderProvider* subtitle
 {
     HRESULT hr = E_FAIL;
 
-    if (m_SubPicProvider) {
+    if (m_pSubPicProvider) {
         return hr;
     }
 
@@ -490,7 +486,7 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::Connect(ISubRenderProvider* subtitle
         if (SUCCEEDED(hr)) {
             CAutoLock(this);
             pSubPicQueue->SetSubPicProvider(pSubPicProvider);
-            m_SubPicProvider = pSubPicProvider;
+            m_pSubPicProvider = pSubPicProvider;
             m_pSubPicQueue = pSubPicQueue;
         }
     }
@@ -500,15 +496,15 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::Connect(ISubRenderProvider* subtitle
 
 STDMETHODIMP CSubPicAllocatorPresenterImpl::Disconnect()
 {
-    m_SubPicProvider = nullptr;
-    return m_pSubPicQueue->SetSubPicProvider(m_SubPicProvider);
+    m_pSubPicProvider = nullptr;
+    return m_pSubPicQueue->SetSubPicProvider(m_pSubPicProvider);
 }
 
 STDMETHODIMP CSubPicAllocatorPresenterImpl::DeliverFrame(REFERENCE_TIME start, REFERENCE_TIME stop, LPVOID context, ISubRenderFrame* subtitleFrame)
 {
     HRESULT hr = E_FAIL;
 
-    if (CComQIPtr<IXyCompatProvider> pXyProvider = m_SubPicProvider) {
+    if (CComQIPtr<IXyCompatProvider> pXyProvider = m_pSubPicProvider) {
         hr = pXyProvider->DeliverFrame(start, stop, context, subtitleFrame);
     }
 

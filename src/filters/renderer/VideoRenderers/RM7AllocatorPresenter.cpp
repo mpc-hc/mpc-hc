@@ -57,8 +57,8 @@ HRESULT CRM7AllocatorPresenter::AllocSurfaces()
     INITDDSTRUCT(ddsd);
     ddsd.dwFlags = DDSD_CAPS | DDSD_WIDTH | DDSD_HEIGHT | DDSD_PIXELFORMAT;
     ddsd.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN;
-    ddsd.dwWidth = m_NativeVideoSize.cx;
-    ddsd.dwHeight = m_NativeVideoSize.cy;
+    ddsd.dwWidth = m_nativeVideoSize.cx;
+    ddsd.dwHeight = m_nativeVideoSize.cy;
     ddsd.ddpfPixelFormat.dwSize = sizeof(DDPIXELFORMAT);
     ddsd.ddpfPixelFormat.dwFlags = DDPF_RGB;
     ddsd.ddpfPixelFormat.dwRGBBitCount = 32;
@@ -79,8 +79,8 @@ HRESULT CRM7AllocatorPresenter::AllocSurfaces()
     INITDDSTRUCT(ddsd);
     ddsd.dwFlags = DDSD_CAPS | DDSD_WIDTH | DDSD_HEIGHT | DDSD_PIXELFORMAT;
     ddsd.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN;
-    ddsd.dwWidth = m_NativeVideoSize.cx;
-    ddsd.dwHeight = m_NativeVideoSize.cy;
+    ddsd.dwWidth = m_nativeVideoSize.cx;
+    ddsd.dwHeight = m_nativeVideoSize.cy;
     ddsd.ddpfPixelFormat.dwSize = sizeof(DDPIXELFORMAT);
     ddsd.ddpfPixelFormat.dwFlags = DDPF_FOURCC;
     ddsd.ddpfPixelFormat.dwYUVBitCount = 16;

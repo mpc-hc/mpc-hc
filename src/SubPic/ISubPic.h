@@ -170,14 +170,14 @@ ISubPicAllocatorPresenter :
 public IUnknown {
     STDMETHOD(CreateRenderer)(IUnknown** ppRenderer) PURE;
 
-    STDMETHOD_(SIZE, GetVideoSize)(bool fCorrectAR = true) PURE;
+    STDMETHOD_(SIZE, GetVideoSize)(bool bCorrectAR = true) const PURE;
     STDMETHOD_(void, SetPosition)(RECT w, RECT v) PURE;
-    STDMETHOD_(bool, Paint)(bool fAll) PURE;
+    STDMETHOD_(bool, Paint)(bool bAll) PURE;
 
     STDMETHOD_(void, SetTime)(REFERENCE_TIME rtNow) PURE;
-    STDMETHOD_(void, SetSubtitleDelay)(int delay_ms) PURE;
-    STDMETHOD_(int, GetSubtitleDelay)() PURE;
-    STDMETHOD_(double, GetFPS)() PURE;
+    STDMETHOD_(void, SetSubtitleDelay)(int delayMs) PURE;
+    STDMETHOD_(int, GetSubtitleDelay)() const PURE;
+    STDMETHOD_(double, GetFPS)() const PURE;
 
     STDMETHOD_(void, SetSubPicProvider)(ISubPicProvider * pSubPicProvider) PURE;
     STDMETHOD_(void, Invalidate)(REFERENCE_TIME rtInvalidate = -1) PURE;
@@ -195,7 +195,7 @@ interface __declspec(uuid("767AEBA8-A084-488a-89C8-F6B74E53A90F"))
 ISubPicAllocatorPresenter2 :
 public ISubPicAllocatorPresenter {
     STDMETHOD(SetPixelShader2)(LPCSTR pSrcData, LPCSTR pTarget, bool bScreenSpace) PURE;
-    STDMETHOD_(SIZE, GetVisibleVideoSize)() PURE;
+    STDMETHOD_(SIZE, GetVisibleVideoSize)() const PURE;
 };
 
 //

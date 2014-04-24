@@ -54,7 +54,7 @@ HRESULT CRM9AllocatorPresenter::AllocSurfaces()
     HRESULT hr;
 
     if (FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(
-                        m_NativeVideoSize.cx, m_NativeVideoSize.cy, D3DFMT_X8R8G8B8,
+                        m_nativeVideoSize.cx, m_nativeVideoSize.cy, D3DFMT_X8R8G8B8,
                         D3DPOOL_DEFAULT, &m_pVideoSurfaceOff, nullptr))) {
         return hr;
     }
@@ -62,7 +62,7 @@ HRESULT CRM9AllocatorPresenter::AllocSurfaces()
     m_pD3DDev->ColorFill(m_pVideoSurfaceOff, nullptr, 0);
 
     if (FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(
-                        m_NativeVideoSize.cx, m_NativeVideoSize.cy, D3DFMT_YUY2,
+                        m_nativeVideoSize.cx, m_nativeVideoSize.cy, D3DFMT_YUY2,
                         D3DPOOL_DEFAULT, &m_pVideoSurfaceYUY2, nullptr))) {
         m_pVideoSurfaceYUY2 = nullptr;
     }

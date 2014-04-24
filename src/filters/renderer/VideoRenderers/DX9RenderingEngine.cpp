@@ -236,8 +236,8 @@ HRESULT CDX9RenderingEngine::CreateVideoSurfaces()
 
         for (int i = 0; i < nTexturesNeeded; i++) {
             if (FAILED(hr = m_pD3DDev->CreateTexture(
-                                m_NativeVideoSize.cx,
-                                m_NativeVideoSize.cy, 1,
+                                m_nativeVideoSize.cx,
+                                m_nativeVideoSize.cy, 1,
                                 D3DUSAGE_RENDERTARGET,
                                 m_SurfaceType,
                                 D3DPOOL_DEFAULT,
@@ -264,7 +264,7 @@ HRESULT CDX9RenderingEngine::CreateVideoSurfaces()
         m_RenderingPath = RENDERING_PATH_STRETCHRECT;
 
         if (FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(
-                            m_NativeVideoSize.cx, m_NativeVideoSize.cy,
+                            m_nativeVideoSize.cx, m_nativeVideoSize.cy,
                             m_SurfaceType,
                             D3DPOOL_DEFAULT, &m_pVideoSurface[m_nCurSurface], nullptr))) {
             return hr;
@@ -533,8 +533,8 @@ HRESULT CDX9RenderingEngine::InitTemporaryVideoTextures(int count)
     for (int i = 0; i < count; i++) {
         if (m_pTemporaryVideoTextures[i] == nullptr) {
             hr = m_pD3DDev->CreateTexture(
-                     m_NativeVideoSize.cx,
-                     m_NativeVideoSize.cy,
+                     m_nativeVideoSize.cx,
+                     m_nativeVideoSize.cy,
                      1,
                      D3DUSAGE_RENDERTARGET,
                      m_SurfaceType,
@@ -585,7 +585,7 @@ HRESULT CDX9RenderingEngine::InitTemporaryScreenSpaceTextures(int count)
     for (int i = 0; i < count; i++) {
         if (m_pTemporaryScreenSpaceTextures[i] == nullptr) {
             m_TemporaryScreenSpaceTextureSize = CSize(std::min(m_ScreenSize.cx, (long)m_Caps.MaxTextureWidth),
-                                                std::min(std::max(m_ScreenSize.cy, m_NativeVideoSize.cy), (long)m_Caps.MaxTextureHeight));
+                                                std::min(std::max(m_ScreenSize.cy, m_nativeVideoSize.cy), (long)m_Caps.MaxTextureHeight));
             hr = m_pD3DDev->CreateTexture(
                      m_TemporaryScreenSpaceTextureSize.cx,
                      m_TemporaryScreenSpaceTextureSize.cy,
@@ -1204,13 +1204,13 @@ HRESULT CDX9RenderingEngine::CreateIccProfileLut(TCHAR* profilePath, float* lut3
         videoSystem = VIDEO_SYSTEM_HDTV; // default
 
         for (int i = 0; i < _countof(ntscSizes); i++) {
-            if (m_NativeVideoSize.cx == ntscSizes[i][0] && m_NativeVideoSize.cy == ntscSizes[i][1]) {
+            if (m_nativeVideoSize.cx == ntscSizes[i][0] && m_nativeVideoSize.cy == ntscSizes[i][1]) {
                 videoSystem = VIDEO_SYSTEM_SDTV_NTSC;
             }
         }
 
         for (int i = 0; i < _countof(palSizes); i++) {
-            if (m_NativeVideoSize.cx == palSizes[i][0] && m_NativeVideoSize.cy == palSizes[i][1]) {
+            if (m_nativeVideoSize.cx == palSizes[i][0] && m_nativeVideoSize.cy == palSizes[i][1]) {
                 videoSystem = VIDEO_SYSTEM_SDTV_PAL;
             }
         }

@@ -682,7 +682,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
 
             DisplayMode.Format = pp.BackBufferFormat;
             m_ScreenSize.SetSize(DisplayMode.Width, DisplayMode.Height);
-            pp.FullScreen_RefreshRateInHz = m_RefreshRate = DisplayMode.RefreshRate;
+            pp.FullScreen_RefreshRateInHz = m_refreshRate = DisplayMode.RefreshRate;
             pp.BackBufferWidth = m_ScreenSize.cx;
             pp.BackBufferHeight = m_ScreenSize.cy;
 
@@ -716,7 +716,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
             m_pD3D->GetAdapterDisplayMode(m_CurrentAdapter, &d3ddm);
             d3ddm.Format = pp.BackBufferFormat;
             m_ScreenSize.SetSize(d3ddm.Width, d3ddm.Height);
-            pp.FullScreen_RefreshRateInHz = m_RefreshRate = d3ddm.RefreshRate;
+            pp.FullScreen_RefreshRateInHz = m_refreshRate = d3ddm.RefreshRate;
             pp.BackBufferWidth = m_ScreenSize.cx;
             pp.BackBufferHeight = m_ScreenSize.cy;
 
@@ -746,7 +746,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
         if (m_pD3DEx) {
             m_pD3DEx->GetAdapterDisplayModeEx(m_CurrentAdapter, &DisplayMode, nullptr);
             m_ScreenSize.SetSize(DisplayMode.Width, DisplayMode.Height);
-            m_RefreshRate = DisplayMode.RefreshRate;
+            m_refreshRate = DisplayMode.RefreshRate;
             pp.BackBufferWidth = szDesktopSize.cx;
             pp.BackBufferHeight = szDesktopSize.cy;
 
@@ -778,7 +778,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
         if (!m_pD3DDev) {
             m_pD3D->GetAdapterDisplayMode(m_CurrentAdapter, &d3ddm);
             m_ScreenSize.SetSize(d3ddm.Width, d3ddm.Height);
-            m_RefreshRate = d3ddm.RefreshRate;
+            m_refreshRate = d3ddm.RefreshRate;
             pp.BackBufferWidth = szDesktopSize.cx;
             pp.BackBufferHeight = szDesktopSize.cy;
 
@@ -1351,8 +1351,8 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
     LONGLONG StartPaint = rd->GetPerfCounter();
     CAutoLock cRenderLock(&m_RenderLock);
 
-    if (m_WindowRect.right <= m_WindowRect.left || m_WindowRect.bottom <= m_WindowRect.top
-            || m_NativeVideoSize.cx <= 0 || m_NativeVideoSize.cy <= 0
+    if (m_windowRect.right <= m_windowRect.left || m_windowRect.bottom <= m_windowRect.top
+            || m_nativeVideoSize.cx <= 0 || m_nativeVideoSize.cy <= 0
             || !m_pVideoSurface[m_nCurSurface]) {
         if (m_OrderedPaint) {
             --m_OrderedPaint;
@@ -1376,9 +1376,9 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
     hr = m_pD3DDev->Clear(0, nullptr, D3DCLEAR_TARGET, 0, 1.0f, 0);
 
     CRect rSrcVid(CPoint(0, 0), GetVisibleVideoSize());
-    CRect rDstVid(m_VideoRect);
+    CRect rDstVid(m_videoRect);
 
-    CRect rSrcPri(CPoint(0, 0), m_WindowRect.Size());
+    CRect rSrcPri(CPoint(0, 0), m_windowRect.Size());
     CRect rDstPri(rSrcPri);
 
     // Render the current video frame
@@ -1515,7 +1515,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
         m_pD3DDev->CreateQuery(D3DQUERYTYPE_EVENT, &pEventQuery);
 
         LONGLONG llPerf = rd->GetPerfCounter();
-        CRect presentationSrcRect(rDstPri), presentationDestRect(m_WindowRect);
+        CRect presentationSrcRect(rDstPri), presentationDestRect(m_windowRect);
         // PresentEx() / Present() performs the clipping
         // TODO: fix the race and uncomment the assert
         //ASSERT(presentationSrcRect.Size() == presentationDestRect.Size());
@@ -1909,7 +1909,7 @@ void CDX9AllocatorPresenter::DrawStats()
             OffsetRect(&rc, 0, TextHeight);
 
             if (m_bIsEVR) {
-                strText.Format(L"Refresh rate : %.05f Hz    SL: %4d     (%3u Hz)      Last Duration: %10.6f      Corrected Frame Time: %s", m_DetectedRefreshRate, int(m_DetectedScanlinesPerFrame + 0.5), m_RefreshRate, double(m_LastFrameDuration) / 10000.0, m_bCorrectedFrameTime ? L"Yes" : L"No");
+                strText.Format(L"Refresh rate : %.05f Hz    SL: %4d     (%3u Hz)      Last Duration: %10.6f      Corrected Frame Time: %s", m_DetectedRefreshRate, int(m_DetectedScanlinesPerFrame + 0.5), m_refreshRate, double(m_LastFrameDuration) / 10000.0, m_bCorrectedFrameTime ? L"Yes" : L"No");
                 DrawText(rc, strText, 1);
                 OffsetRect(&rc, 0, TextHeight);
             }
@@ -2019,7 +2019,7 @@ void CDX9AllocatorPresenter::DrawStats()
         OffsetRect(&rc, 0, TextHeight);
 
         if (iDetailedStats > 1) {
-            strText.Format(L"Video size   : %d x %d  (AR = %d : %d)", m_NativeVideoSize.cx, m_NativeVideoSize.cy, m_AspectRatio.cx, m_AspectRatio.cy);
+            strText.Format(L"Video size   : %d x %d  (AR = %d : %d)", m_nativeVideoSize.cx, m_nativeVideoSize.cy, m_aspectRatio.cx, m_aspectRatio.cy);
             DrawText(rc, strText, 1);
             OffsetRect(&rc, 0, TextHeight);
             if (m_pVideoTexture[0] || m_pVideoSurface[0]) {
@@ -2031,7 +2031,7 @@ void CDX9AllocatorPresenter::DrawStats()
                     m_pVideoSurface[0]->GetDesc(&desc);
                 }
 
-                if (desc.Width != (UINT)m_NativeVideoSize.cx || desc.Height != (UINT)m_NativeVideoSize.cy) {
+                if (desc.Width != (UINT)m_nativeVideoSize.cx || desc.Height != (UINT)m_nativeVideoSize.cy) {
                     strText.Format(L"Texture size : %u x %u", desc.Width, desc.Height);
                     DrawText(rc, strText, 1);
                     OffsetRect(&rc, 0, TextHeight);
@@ -2080,8 +2080,8 @@ void CDX9AllocatorPresenter::DrawStats()
         int DrawWidth = 625 * ScaleX + 50;
         int DrawHeight = 250 * ScaleY;
         int Alpha = 80;
-        StartX = m_WindowRect.Width() - (DrawWidth + 20);
-        StartY = m_WindowRect.Height() - (DrawHeight + 20);
+        StartX = m_windowRect.Width() - (DrawWidth + 20);
+        StartY = m_windowRect.Height() - (DrawHeight + 20);
 
         DrawRect(RGB(0, 0, 0), Alpha, CRect(StartX, StartY, StartX + DrawWidth, StartY + DrawHeight));
         // === Jitter Graduation

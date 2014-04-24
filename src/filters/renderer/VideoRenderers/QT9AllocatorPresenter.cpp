@@ -48,7 +48,7 @@ HRESULT CQT9AllocatorPresenter::AllocSurfaces()
     m_pVideoSurfaceOff = nullptr;
 
     if (FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(
-                        m_NativeVideoSize.cx, m_NativeVideoSize.cy, D3DFMT_X8R8G8B8,
+                        m_nativeVideoSize.cx, m_nativeVideoSize.cy, D3DFMT_X8R8G8B8,
                         D3DPOOL_DEFAULT, &m_pVideoSurfaceOff, nullptr))) {
         return hr;
     }

@@ -474,8 +474,8 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
         }
     }
 
-    m_RefreshRate = d3ddm.RefreshRate;
-    m_dD3DRefreshCycle = 1000.0 / m_RefreshRate; // In ms
+    m_refreshRate = d3ddm.RefreshRate;
+    m_dD3DRefreshCycle = 1000.0 / m_refreshRate; // In ms
     m_ScreenSize.SetSize(d3ddm.Width, d3ddm.Height);
     m_pGenlock->SetDisplayResolution(d3ddm.Width, d3ddm.Height);
     CSize szDesktopSize(GetSystemMetrics(SM_CXVIRTUALSCREEN), GetSystemMetrics(SM_CYVIRTUALSCREEN));
@@ -786,8 +786,8 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
         return E_UNEXPECTED;
     }
 
-    m_RefreshRate = d3ddm.RefreshRate;
-    m_dD3DRefreshCycle = 1000.0 / m_RefreshRate; // In ms
+    m_refreshRate = d3ddm.RefreshRate;
+    m_dD3DRefreshCycle = 1000.0 / m_refreshRate; // In ms
     m_ScreenSize.SetSize(d3ddm.Width, d3ddm.Height);
     m_pGenlock->SetDisplayResolution(d3ddm.Width, d3ddm.Height);
     CSize szDesktopSize(GetSystemMetrics(SM_CXVIRTUALSCREEN), GetSystemMetrics(SM_CYVIRTUALSCREEN));
@@ -966,8 +966,8 @@ HRESULT CBaseAP::AllocSurfaces(D3DFORMAT Format)
 
         for (int i = 0; i < nTexturesNeeded; i++) {
             if (FAILED(hr = m_pD3DDev->CreateTexture(
-                                m_NativeVideoSize.cx,
-                                m_NativeVideoSize.cy,
+                                m_nativeVideoSize.cx,
+                                m_nativeVideoSize.cy,
                                 1,
                                 D3DUSAGE_RENDERTARGET,
                                 Format,
@@ -987,7 +987,7 @@ HRESULT CBaseAP::AllocSurfaces(D3DFORMAT Format)
             }
         }
     } else {
-        if (FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(m_NativeVideoSize.cx, m_NativeVideoSize.cy, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &m_pVideoSurface[m_nCurSurface], nullptr))) {
+        if (FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(m_nativeVideoSize.cx, m_nativeVideoSize.cy, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &m_pVideoSurface[m_nCurSurface], nullptr))) {
             return hr;
         }
     }
@@ -1134,7 +1134,7 @@ HRESULT CBaseAP::InitResizers(float bicubicA, bool bNeedScreenSizeTexture)
     if (m_bicubicA || bNeedScreenSizeTexture) {
         if (FAILED(m_pD3DDev->CreateTexture(
                        std::min((DWORD)m_ScreenSize.cx, m_caps.MaxTextureWidth),
-                       std::min((DWORD)std::max(m_ScreenSize.cy, m_NativeVideoSize.cy), m_caps.MaxTextureHeight),
+                       std::min((DWORD)std::max(m_ScreenSize.cy, m_nativeVideoSize.cy), m_caps.MaxTextureHeight),
                        1,
                        D3DUSAGE_RENDERTARGET,
                        D3DFMT_A8R8G8B8,
@@ -1147,7 +1147,7 @@ HRESULT CBaseAP::InitResizers(float bicubicA, bool bNeedScreenSizeTexture)
 
         if (FAILED(m_pD3DDev->CreateTexture(
                        std::min((DWORD)m_ScreenSize.cx, m_caps.MaxTextureWidth),
-                       std::min((DWORD)std::max(m_ScreenSize.cy, m_NativeVideoSize.cy), m_caps.MaxTextureHeight),
+                       std::min((DWORD)std::max(m_ScreenSize.cy, m_nativeVideoSize.cy), m_caps.MaxTextureHeight),
                        1,
                        D3DUSAGE_RENDERTARGET,
                        D3DFMT_A8R8G8B8,
@@ -1582,16 +1582,16 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
     llSyncOffset = REFERENCE_TIME(10000.0 * dSyncOffset); // Reference time units (100 ns)
     m_llEstVBlankTime = llCurRefTime + llSyncOffset; // Estimated time for the start of next vblank
 
-    if (m_WindowRect.right <= m_WindowRect.left || m_WindowRect.bottom <= m_WindowRect.top
-            || m_NativeVideoSize.cx <= 0 || m_NativeVideoSize.cy <= 0
+    if (m_windowRect.right <= m_windowRect.left || m_windowRect.bottom <= m_windowRect.top
+            || m_nativeVideoSize.cx <= 0 || m_nativeVideoSize.cy <= 0
             || !m_pVideoSurface[m_nCurSurface]) {
         return false;
     }
 
     HRESULT hr;
-    CRect rSrcVid(CPoint(0, 0), m_NativeVideoSize);
-    CRect rDstVid(m_VideoRect);
-    CRect rSrcPri(CPoint(0, 0), m_WindowRect.Size());
+    CRect rSrcVid(CPoint(0, 0), m_nativeVideoSize);
+    CRect rDstVid(m_videoRect);
+    CRect rSrcPri(CPoint(0, 0), m_windowRect.Size());
     CRect rDstPri(rSrcPri);
 
     m_pD3DDev->BeginScene();
@@ -1804,7 +1804,7 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
     }
     m_pD3DDev->EndScene();
 
-    CRect presentationSrcRect(rDstPri), presentationDestRect(m_WindowRect);
+    CRect presentationSrcRect(rDstPri), presentationDestRect(m_windowRect);
     // PresentEx() / Present() performs the clipping
     // TODO: fix the race and uncomment the assert
     //ASSERT(presentationSrcRect.Size() == presentationDestRect.Size());
@@ -2005,7 +2005,7 @@ void CBaseAP::DrawStats()
             DrawText(rc, strText, 1);
             OffsetRect(&rc, 0, TextHeight);
 
-            strText.Format(L"Windows      : Display cycle %.3f ms    Display refresh rate %u Hz", m_dD3DRefreshCycle, m_RefreshRate);
+            strText.Format(L"Windows      : Display cycle %.3f ms    Display refresh rate %u Hz", m_dD3DRefreshCycle, m_refreshRate);
             DrawText(rc, strText, 1);
             OffsetRect(&rc, 0, TextHeight);
 
@@ -2055,7 +2055,7 @@ void CBaseAP::DrawStats()
             }
 #endif
 
-            strText.Format(L"Video size   : %d x %d  (AR = %d : %d)  Display resolution %d x %d ", m_NativeVideoSize.cx, m_NativeVideoSize.cy, m_AspectRatio.cx, m_AspectRatio.cy, m_ScreenSize.cx, m_ScreenSize.cy);
+            strText.Format(L"Video size   : %d x %d  (AR = %d : %d)  Display resolution %d x %d ", m_nativeVideoSize.cx, m_nativeVideoSize.cy, m_aspectRatio.cx, m_aspectRatio.cy, m_ScreenSize.cx, m_ScreenSize.cy);
             DrawText(rc, strText, 1);
             OffsetRect(&rc, 0, TextHeight);
 
@@ -2154,8 +2154,8 @@ void CBaseAP::DrawStats()
         int DrawWidth = 625;
         int DrawHeight = 250;
         int Alpha = 80;
-        int StartX = m_WindowRect.Width() - (DrawWidth + 20);
-        int StartY = m_WindowRect.Height() - (DrawHeight + 20);
+        int StartX = m_windowRect.Width() - (DrawWidth + 20);
+        int StartY = m_windowRect.Height() - (DrawHeight + 20);
 
         DrawRect(RGB(0, 0, 0), Alpha, CRect(StartX, StartY, StartX + DrawWidth, StartY + DrawHeight));
         m_pLine->SetWidth(2.5);
@@ -2209,7 +2209,7 @@ double CBaseAP::GetRefreshRate()
     if (m_pGenlock->powerstripTimingExists) {
         return m_pGenlock->curDisplayFreq;
     } else {
-        return (double)m_RefreshRate;
+        return (double)m_refreshRate;
     }
 }
 
@@ -2864,7 +2864,7 @@ float CSyncAP::GetMaxRate(BOOL bThin)
                             &fpsNumerator, &fpsDenominator);
 
         // Monitor refresh rate:
-        MonitorRateHz = m_RefreshRate; // D3DDISPLAYMODE
+        MonitorRateHz = m_refreshRate; // D3DDISPLAYMODE
 
         if (fpsDenominator && fpsNumerator && MonitorRateHz) {
             // Max Rate = Refresh Rate / Frame Rate
@@ -3006,12 +3006,12 @@ HRESULT CSyncAP::CreateProposedOutputType(IMFMediaType* pMixerType, IMFMediaType
     }
     CSize aspectRatio((LONG)dwARx, (LONG)dwARy);
 
-    if (videoSize != m_NativeVideoSize || aspectRatio != m_AspectRatio) {
+    if (videoSize != m_nativeVideoSize || aspectRatio != m_aspectRatio) {
         SetVideoSize(videoSize, aspectRatio);
 
         // Notify the graph about the change
         if (m_pSink) {
-            m_pSink->Notify(EC_VIDEO_SIZE_CHANGED, MAKELPARAM(m_NativeVideoSize.cx, m_NativeVideoSize.cy), 0);
+            m_pSink->Notify(EC_VIDEO_SIZE_CHANGED, MAKELPARAM(m_nativeVideoSize.cx, m_nativeVideoSize.cy), 0);
         }
     }
 
@@ -3097,7 +3097,7 @@ HRESULT CSyncAP::RenegotiateMediaType()
         AM_MEDIA_TYPE* pMT;
         hr = pType->GetRepresentation(FORMAT_VideoInfo2, (void**)&pMT);
         if (SUCCEEDED(hr)) {
-            m_InputMediaType = *pMT;
+            m_inputMediaType = *pMT;
             pType->FreeRepresentation(FORMAT_VideoInfo2, pMT);
         }
     }
@@ -3213,13 +3213,13 @@ bool CSyncAP::GetSampleFromMixer()
             rcTearing.left = m_nTearingPos;
             rcTearing.top = 0;
             rcTearing.right = rcTearing.left + 4;
-            rcTearing.bottom = m_NativeVideoSize.cy;
+            rcTearing.bottom = m_nativeVideoSize.cy;
             m_pD3DDev->ColorFill(m_pVideoSurface[dwSurface], &rcTearing, D3DCOLOR_ARGB(255, 255, 0, 0));
 
-            rcTearing.left = (rcTearing.right + 15) % m_NativeVideoSize.cx;
+            rcTearing.left = (rcTearing.right + 15) % m_nativeVideoSize.cx;
             rcTearing.right = rcTearing.left + 4;
             m_pD3DDev->ColorFill(m_pVideoSurface[dwSurface], &rcTearing, D3DCOLOR_ARGB(255, 255, 0, 0));
-            m_nTearingPos = (m_nTearingPos + 7) % m_NativeVideoSize.cx;
+            m_nTearingPos = (m_nTearingPos + 7) % m_nativeVideoSize.cx;
         }
         MoveToScheduledList(pSample, false); // Schedule, then go back to see if there is more where that came from
     }
@@ -3297,12 +3297,12 @@ STDMETHODIMP CSyncAP::Invoke(__RPC__in_opt IMFAsyncResult* pAsyncResult)
 STDMETHODIMP CSyncAP::GetNativeVideoSize(SIZE* pszVideo, SIZE* pszARVideo)
 {
     if (pszVideo) {
-        pszVideo->cx    = m_NativeVideoSize.cx;
-        pszVideo->cy    = m_NativeVideoSize.cy;
+        pszVideo->cx    = m_nativeVideoSize.cx;
+        pszVideo->cy    = m_nativeVideoSize.cy;
     }
     if (pszARVideo) {
-        pszARVideo->cx  = m_AspectRatio.cx;
-        pszARVideo->cy  = m_AspectRatio.cy;
+        pszARVideo->cx  = m_aspectRatio.cx;
+        pszARVideo->cy  = m_aspectRatio.cy;
     }
     return S_OK;
 }
@@ -3340,7 +3340,7 @@ STDMETHODIMP CSyncAP::GetVideoPosition(MFVideoNormalizedRect* pnrcSource, LPRECT
         pnrcSource->bottom  = 1.0;
     }
     if (prcDest) {
-        memcpy(prcDest, &m_VideoRect, sizeof(m_VideoRect));     //GetClientRect (m_hWnd, prcDest);
+        memcpy(prcDest, &m_videoRect, sizeof(m_videoRect));     //GetClientRect (m_hWnd, prcDest);
     }
     return S_OK;
 }
@@ -3515,16 +3515,16 @@ STDMETHODIMP CSyncAP::GetNativeVideoSize(LONG* lpWidth, LONG* lpHeight, LONG* lp
     ASSERT(FALSE);
 
     if (lpWidth) {
-        *lpWidth = m_NativeVideoSize.cx;
+        *lpWidth = m_nativeVideoSize.cx;
     }
     if (lpHeight) {
-        *lpHeight = m_NativeVideoSize.cy;
+        *lpHeight = m_nativeVideoSize.cy;
     }
     if (lpARWidth) {
-        *lpARWidth  = m_AspectRatio.cx;
+        *lpARWidth  = m_aspectRatio.cx;
     }
     if (lpARHeight) {
-        *lpARHeight = m_AspectRatio.cy;
+        *lpARHeight = m_aspectRatio.cy;
     }
     return S_OK;
 }
@@ -3543,7 +3543,7 @@ STDMETHODIMP CSyncAP::InitializeDevice(AM_MEDIA_TYPE* pMediaType)
     int w = vih2->bmiHeader.biWidth;
     int h = abs(vih2->bmiHeader.biHeight);
 
-    SetVideoSize(CSize(w, h), m_AspectRatio);
+    SetVideoSize(CSize(w, h), m_aspectRatio);
     if (m_bHighColorResolution) {
         hr = AllocSurfaces(D3DFMT_A2R10G10B10);
     } else {

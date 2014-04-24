@@ -102,8 +102,8 @@ HRESULT CDXRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
         m_pSubPicQueue->Invalidate();
     }
 
-    if (SUCCEEDED(hr) && m_SubPicProvider) {
-        m_pSubPicQueue->SetSubPicProvider(m_SubPicProvider);
+    if (SUCCEEDED(hr) && m_pSubPicProvider) {
+        m_pSubPicQueue->SetSubPicProvider(m_pSubPicProvider);
     }
 
     return hr;
