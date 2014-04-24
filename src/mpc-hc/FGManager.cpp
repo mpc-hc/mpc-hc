@@ -81,7 +81,7 @@ STDMETHODIMP CFGManager::NonDelegatingQueryInterface(REFIID riid, void** ppv)
         QI(IFilterGraph2)
         QI(IGraphBuilder2)
         QI(IGraphBuilderDeadEnd)
-        m_pUnkInner && (riid != IID_IUnknown && SUCCEEDED(m_pUnkInner->QueryInterface(riid, ppv))) ? S_OK :
+        (m_pUnkInner && riid != IID_IUnknown && SUCCEEDED(m_pUnkInner->QueryInterface(riid, ppv))) ? S_OK :
         __super::NonDelegatingQueryInterface(riid, ppv);
 }
 

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -44,7 +44,7 @@ public IUnknown {
 };
 
 // private use only
-interface __declspec(uuid("43CDA93D-6A4E-4A07-BD3E-49D161073EE7"))
+interface __declspec(uuid("546E72B3-66A1-4A58-A99B-56530B3E2FFF"))
 IBDATuner :
 public IUnknown {
     STDMETHOD(SetChannel)(int nChannelPrefNumber) PURE;
