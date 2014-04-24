@@ -113,7 +113,7 @@ public IUnknown {
     STDMETHOD_(bool, IsDynamicWriteOnly)() const PURE;
 
     STDMETHOD(ChangeDevice)(IUnknown * pDev) PURE;
-    STDMETHOD(SetMaxTextureSize)(SIZE MaxTextureSize) PURE;
+    STDMETHOD(SetMaxTextureSize)(SIZE maxTextureSize) PURE;
 
     STDMETHOD(FreeStatic)() PURE;
 };

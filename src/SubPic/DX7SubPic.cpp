@@ -73,7 +73,7 @@ STDMETHODIMP CDX7SubPic::CopyTo(ISubPic* pSubPic)
     }
 
     CPoint p = m_rcDirty.TopLeft();
-    hr = m_pD3DDev->Load((IDirectDrawSurface7*)pSubPic->GetObject(), &p, (IDirectDrawSurface7*)GetObject(), m_rcDirty, 0);
+    hr = m_pD3DDev->Load((IDirectDrawSurface7*)pSubPic->GetObject(), &p, m_pSurface, m_rcDirty, 0);
 
     return SUCCEEDED(hr) ? S_OK : E_FAIL;
 }
@@ -191,7 +191,6 @@ STDMETHODIMP CDX7SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
     m_pD3DDev->SetTextureStageState(0, D3DTSS_ADDRESS, D3DTADDRESS_CLAMP);
 
     /*//
-
     D3DDEVICEDESC7 d3ddevdesc;
     m_pD3DDev->GetCaps(&d3ddevdesc);
     if (d3ddevdesc.dpcTriCaps.dwAlphaCmpCaps & D3DPCMPCAPS_LESS)
@@ -200,7 +199,6 @@ STDMETHODIMP CDX7SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
         m_pD3DDev->SetRenderState(D3DRENDERSTATE_ALPHATESTENABLE, TRUE);
         m_pD3DDev->SetRenderState(D3DRENDERSTATE_ALPHAFUNC, D3DPCMPCAPS_LESS);
     }
-
     *///
 
     if (FAILED(hr = m_pD3DDev->BeginScene())) {
@@ -211,8 +209,6 @@ STDMETHODIMP CDX7SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
                                   D3DFVF_XYZRHW | D3DFVF_TEX1,
                                   pVertices, 4, D3DDP_WAIT);
     m_pD3DDev->EndScene();
-
-    //
 
     m_pD3DDev->SetTexture(0, nullptr);
 
@@ -235,21 +231,26 @@ CDX7SubPicAllocator::CDX7SubPicAllocator(IDirect3DDevice7* pD3DDev, SIZE maxsize
 STDMETHODIMP CDX7SubPicAllocator::ChangeDevice(IUnknown* pDev)
 {
     CComQIPtr<IDirect3DDevice7, &IID_IDirect3DDevice7> pD3DDev = pDev;
-    if (!pD3DDev) {
-        return E_NOINTERFACE;
-    }
+    CheckPointer(pD3DDev, E_NOINTERFACE);
 
     CAutoLock cAutoLock(this);
-    m_pD3DDev = pD3DDev;
+    HRESULT hr = S_FALSE;
+    if (m_pD3DDev != pD3DDev) {
+        m_pD3DDev = pD3DDev;
+        hr = __super::ChangeDevice(pDev);
+    }
 
-    return __super::ChangeDevice(pDev);
+    return hr;
 }
 
-STDMETHODIMP CDX7SubPicAllocator::SetMaxTextureSize(SIZE MaxTextureSize)
+STDMETHODIMP CDX7SubPicAllocator::SetMaxTextureSize(SIZE maxTextureSize)
 {
-    m_maxsize = MaxTextureSize;
-    SetCurSize(MaxTextureSize);
-    return S_OK;
+    CAutoLock cAutoLock(this);
+    if (m_maxsize != maxTextureSize) {
+        m_maxsize = maxTextureSize;
+    }
+
+    return SetCurSize(m_maxsize);
 }
 
 // ISubPicAllocatorImpl
@@ -290,7 +291,6 @@ bool CDX7SubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
             ddsd.dwHeight <<= 1;
         }
     }
-
 
     CComPtr<IDirect3D7> pD3D;
     CComQIPtr<IDirectDraw7, &IID_IDirectDraw7> pDD;
