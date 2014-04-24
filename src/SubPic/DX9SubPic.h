@@ -27,43 +27,6 @@
 
 // CDX9SubPic
 
-class CVirtualLock
-{
-public:
-    virtual void Lock() = 0;
-    virtual void Unlock() = 0;
-};
-
-typedef void (FLock)(void* _pLock);
-
-class CScopeLock
-{
-    void* m_pLock;
-    FLock* m_pUnlockFunc;
-public:
-    CScopeLock(): m_pLock(nullptr), m_pUnlockFunc(nullptr) {};
-
-    template <typename t_Lock>
-    class TCLocker
-    {
-    public:
-        static void fs_Locker(void* _pLock) {
-            ((t_Lock*)_pLock)->Unlock();
-        }
-    };
-
-    template <typename t_Lock>
-    CScopeLock(t_Lock& _Lock) {
-        _Lock.Lock();
-        m_pLock = &_Lock;
-        m_pUnlockFunc = TCLocker<t_Lock>::fs_Locker;
-    }
-
-    ~CScopeLock() {
-        m_pUnlockFunc(m_pLock);
-    }
-};
-
 
 class CDX9SubPicAllocator;
 class CDX9SubPic : public CSubPicImpl
