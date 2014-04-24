@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -44,10 +44,18 @@ STDMETHODIMP CSubPicProviderImpl::NonDelegatingQueryInterface(REFIID riid, void*
 
 STDMETHODIMP CSubPicProviderImpl::Lock()
 {
-    return m_pLock ? m_pLock->Lock(), S_OK : E_FAIL;
+    CheckPointer(m_pLock, E_FAIL);
+
+    m_pLock->Lock();
+
+    return S_OK;
 }
 
 STDMETHODIMP CSubPicProviderImpl::Unlock()
 {
-    return m_pLock ? m_pLock->Unlock(), S_OK : E_FAIL;
+    CheckPointer(m_pLock, E_FAIL);
+
+    m_pLock->Unlock();
+
+    return S_OK;
 }
