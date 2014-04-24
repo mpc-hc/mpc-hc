@@ -30,22 +30,22 @@ private:
     REFERENCE_TIME m_rtIn;
     REFERENCE_TIME m_rtOut;
     CString m_strName;
-public:
 
+public:
     CClip();
     ~CClip();
 
-    bool HaveIn() { return m_rtIn != _I64_MIN; };
-    bool HaveOut() { return m_rtOut != _I64_MIN; };
+    bool HaveIn() const { return m_rtIn != _I64_MIN; };
+    bool HaveOut() const { return m_rtOut != _I64_MIN; };
 
-    void SetOut(LPCTSTR strVal);
     void SetIn(LPCTSTR strVal);
+    void SetOut(LPCTSTR strVal);
     void SetIn(REFERENCE_TIME rtVal);
     void SetOut(REFERENCE_TIME rtVal);
     void SetName(LPCTSTR strName) { m_strName = strName; };
 
-    CString GetIn();
-    CString GetOut();
+    CString GetIn() const;
+    CString GetOut() const;
     CString GetName() const { return m_strName; };
 };
 
@@ -53,6 +53,7 @@ class CEditListEditor : public CPlayerBar
 {
     DECLARE_DYNAMIC(CEditListEditor)
 
+private:
     enum {
         COL_INDEX,
         COL_IN,
@@ -67,7 +68,7 @@ class CEditListEditor : public CPlayerBar
     CStatic         m_stHotFolders;
     CComboBox       m_cbHotFolders;
     CImageList      m_fakeImageList;
-    POSITION        m_CurPos;
+    POSITION        m_curPos;
     BOOL            m_bDragging;
     int             m_nDragIndex;
     int             m_nDropIndex;
@@ -76,20 +77,17 @@ class CEditListEditor : public CPlayerBar
 
     CString         m_strFileName;
     bool            m_bFileOpen;
-    CList<CClip>    m_EditList;
-    CArray<CString> m_NameList;
+    CList<CClip>    m_editList;
+    CArray<CString> m_nameList;
 
     void            SaveEditListToFile();
     void            ResizeListColumn();
-    POSITION        InsertClip(POSITION pos, CClip& NewClip);
+    POSITION        InsertClip(POSITION pos, CClip& newClip);
     void            DropItemOnList();
-    int             FindIndex(const POSITION pos);
-    int             FindNameIndex(LPCTSTR strName);
-    void            FillCombo(LPCTSTR strFileName, CComboBox& Combo, bool bAllowNull);
-    void            SelectCombo(LPCTSTR strValue, CComboBox& Combo);
-
-protected:
-    DECLARE_MESSAGE_MAP()
+    int             FindIndex(const POSITION pos) const;
+    int             FindNameIndex(LPCTSTR strName) const;
+    void            FillCombo(LPCTSTR strFileName, CComboBox& combo, bool bAllowNull);
+    void            SelectCombo(LPCTSTR strValue, CComboBox& combo);
 
 public:
     CEditListEditor();
@@ -105,6 +103,9 @@ public:
     void SetOut(REFERENCE_TIME rtOut);
     void NewClip(REFERENCE_TIME rtVal);
     void Save();
+
+protected:
+    DECLARE_MESSAGE_MAP()
 
     afx_msg void OnSize(UINT nType, int cx, int cy);
     afx_msg void OnLvnKeyDown(NMHDR* pNMHDR, LRESULT* pResult);

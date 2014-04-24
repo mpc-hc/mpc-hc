@@ -60,28 +60,20 @@ void CClip::SetOut(REFERENCE_TIME rtVal)
     }
 };
 
-CString CClip::GetIn()
+CString CClip::GetIn() const
 {
-    if (m_rtIn == _I64_MIN) {
-        return _T("");
-    } else {
-        return ReftimeToString(m_rtIn);
-    }
+    return (m_rtIn == _I64_MIN) ? _T("") : ReftimeToString(m_rtIn);
 }
 
-CString CClip::GetOut()
+CString CClip::GetOut() const
 {
-    if (m_rtOut == _I64_MIN) {
-        return _T("");
-    } else {
-        return ReftimeToString(m_rtOut);
-    }
+    return (m_rtOut == _I64_MIN) ? _T("") : ReftimeToString(m_rtOut);
 }
 
 IMPLEMENT_DYNAMIC(CEditListEditor, CPlayerBar)
 CEditListEditor::CEditListEditor()
     : m_pDragImage(nullptr)
-    , m_CurPos(nullptr)
+    , m_curPos(nullptr)
     , m_bDragging(FALSE)
     , m_nDragIndex(-1)
     , m_nDropIndex(-1)
@@ -171,9 +163,9 @@ void CEditListEditor::ResizeListColumn()
 
 void CEditListEditor::SaveEditListToFile()
 {
-    if ((m_bFileOpen || !m_EditList.IsEmpty()) && !m_strFileName.IsEmpty()) {
-        CStdioFile EditListFile;
-        if (EditListFile.Open(m_strFileName, CFile::modeCreate | CFile::modeWrite)) {
+    if ((m_bFileOpen || !m_editList.IsEmpty()) && !m_strFileName.IsEmpty()) {
+        CStdioFile editListFile;
+        if (editListFile.Open(m_strFileName, CFile::modeCreate | CFile::modeWrite)) {
             CString strLine;
             int nIndex;
             CString strUser;
@@ -189,17 +181,17 @@ void CEditListEditor::SaveEditListToFile()
                 m_cbHotFolders.GetLBText(nIndex, strHotFolders);
             }
 
-            POSITION pos = m_EditList.GetHeadPosition();
-            for (int i = 0; pos; i++, m_EditList.GetNext(pos)) {
-                CClip&  CurClip = m_EditList.GetAt(pos);
+            POSITION pos = m_editList.GetHeadPosition();
+            for (int i = 0; pos; i++, m_editList.GetNext(pos)) {
+                CClip&  CurClip = m_editList.GetAt(pos);
 
                 if (CurClip.HaveIn() && CurClip.HaveOut()) {
                     strLine.Format(_T("%s\t%s\t%s\t%s\t%s\n"), CurClip.GetIn(), CurClip.GetOut(), CurClip.GetName(), strUser, strHotFolders);
-                    EditListFile.WriteString(strLine);
+                    editListFile.WriteString(strLine);
                 }
             }
 
-            EditListFile.Close();
+            editListFile.Close();
         }
     }
 }
@@ -207,9 +199,9 @@ void CEditListEditor::SaveEditListToFile()
 void CEditListEditor::CloseFile()
 {
     SaveEditListToFile();
-    m_EditList.RemoveAll();
+    m_editList.RemoveAll();
     m_list.DeleteAllItems();
-    m_CurPos = nullptr;
+    m_curPos = nullptr;
     m_strFileName = "";
     m_bFileOpen = false;
     m_cbHotFolders.SetCurSel(0);
@@ -218,16 +210,16 @@ void CEditListEditor::CloseFile()
 void CEditListEditor::OpenFile(LPCTSTR lpFileName)
 {
     CString strLine;
-    CStdioFile EditListFile;
+    CStdioFile editListFile;
     CString strUser;
     CString strHotFolders;
 
     CloseFile();
     m_strFileName.Format(_T("%s.edl"), lpFileName);
 
-    if (EditListFile.Open(m_strFileName, CFile::modeRead)) {
+    if (editListFile.Open(m_strFileName, CFile::modeRead)) {
         m_bFileOpen = true;
-        while (EditListFile.ReadString(strLine)) {
+        while (editListFile.ReadString(strLine)) {
             //int nPos = 0;
             CString strIn;      //  = strLine.Tokenize(_T(" \t"), nPos);
             CString strOut;     //  = strLine.Tokenize(_T(" \t"), nPos);
@@ -255,57 +247,57 @@ void CEditListEditor::OpenFile(LPCTSTR lpFileName)
             }
         }
 
-        EditListFile.Close();
+        editListFile.Close();
     } else {
         m_bFileOpen = false;
     }
 
-    if (m_NameList.IsEmpty()) {
-        CStdioFile NameFile;
+    if (m_nameList.IsEmpty()) {
+        CStdioFile nameFile;
         CString str;
-        if (NameFile.Open(_T("EditListNames.txt"), CFile::modeRead)) {
-            while (NameFile.ReadString(str)) {
-                m_NameList.Add(str);
+        if (nameFile.Open(_T("EditListNames.txt"), CFile::modeRead)) {
+            while (nameFile.ReadString(str)) {
+                m_nameList.Add(str);
             }
-            NameFile.Close();
+            nameFile.Close();
         }
     }
 }
 
 void CEditListEditor::SetIn(REFERENCE_TIME rtIn)
 {
-    if (m_CurPos != nullptr) {
-        CClip& CurClip = m_EditList.GetAt(m_CurPos);
+    if (m_curPos) {
+        CClip& curClip = m_editList.GetAt(m_curPos);
 
-        CurClip.SetIn(rtIn);
+        curClip.SetIn(rtIn);
         m_list.Invalidate();
     }
 }
 
 void CEditListEditor::SetOut(REFERENCE_TIME rtOut)
 {
-    if (m_CurPos != nullptr) {
-        CClip& CurClip = m_EditList.GetAt(m_CurPos);
+    if (m_curPos) {
+        CClip& curClip = m_editList.GetAt(m_curPos);
 
-        CurClip.SetOut(rtOut);
+        curClip.SetOut(rtOut);
         m_list.Invalidate();
     }
 }
 
 void CEditListEditor::NewClip(REFERENCE_TIME rtVal)
 {
-    CClip NewClip;
+    CClip newClip;
 
-    if (m_CurPos != nullptr) {
-        CClip& CurClip = m_EditList.GetAt(m_CurPos);
+    if (m_curPos) {
+        CClip& curClip = m_editList.GetAt(m_curPos);
 
-        if (CurClip.HaveIn()) {
-            if (!CurClip.HaveOut()) {
-                CurClip.SetOut(rtVal);
+        if (curClip.HaveIn()) {
+            if (!curClip.HaveOut()) {
+                curClip.SetOut(rtVal);
             }
         }
     }
-    m_CurPos = InsertClip(m_CurPos, NewClip);
+    m_curPos = InsertClip(m_curPos, newClip);
     m_list.Invalidate();
 }
 
@@ -314,26 +306,15 @@ void CEditListEditor::Save()
     SaveEditListToFile();
 }
 
-int CEditListEditor::FindIndex(const POSITION pos)
-{
-    int iItem = 0;
-    POSITION CurPos = m_EditList.GetHeadPosition();
-    while (CurPos && CurPos != pos) {
-        m_EditList.GetNext(CurPos);
-        iItem++;
-    }
-    return iItem;
-}
-
-POSITION CEditListEditor::InsertClip(POSITION pos, CClip& NewClip)
+POSITION CEditListEditor::InsertClip(POSITION pos, CClip& newClip)
 {
     LVITEM lv;
-    POSITION NewClipPos;
+    POSITION newClipPos;
 
     if (pos == nullptr) {
-        NewClipPos = m_EditList.AddTail(NewClip);
+        newClipPos = m_editList.AddTail(newClip);
     } else {
-        NewClipPos = m_EditList.InsertAfter(pos, NewClip);
+        newClipPos = m_editList.InsertAfter(pos, newClip);
     }
 
     lv.mask = LVIF_STATE | LVIF_TEXT;
@@ -343,7 +324,62 @@ POSITION CEditListEditor::InsertClip(POSITION pos, CClip& NewClip)
     lv.state = m_list.GetItemCount() == 0 ? LVIS_SELECTED : 0;
     m_list.InsertItem(&lv);
 
-    return NewClipPos;
+    return newClipPos;
+}
+
+int CEditListEditor::FindIndex(const POSITION pos) const
+{
+    int iItem = 0;
+    POSITION curPos = m_editList.GetHeadPosition();
+    while (curPos && curPos != pos) {
+        m_editList.GetNext(curPos);
+        iItem++;
+    }
+    return iItem;
+}
+
+int CEditListEditor::FindNameIndex(LPCTSTR strName) const
+{
+    int nResult = -1;
+
+    for (int i = 0; i < m_nameList.GetCount(); i++) {
+        const CString& curName = m_nameList.GetAt(i);
+
+        if (curName == strName) {
+            nResult = i;
+            break;
+        }
+    }
+
+    return nResult;
+}
+
+void CEditListEditor::FillCombo(LPCTSTR strFileName, CComboBox& combo, bool bAllowNull)
+{
+    CStdioFile nameFile;
+    CString str;
+    if (nameFile.Open(strFileName, CFile::modeRead)) {
+        if (bAllowNull) {
+            combo.AddString(_T(""));
+        }
+
+        while (nameFile.ReadString(str)) {
+            combo.AddString(str);
+        }
+        nameFile.Close();
+    }
+}
+
+void CEditListEditor::SelectCombo(LPCTSTR strValue, CComboBox& combo)
+{
+    for (int i = 0; i < combo.GetCount(); i++) {
+        CString strTemp;
+        combo.GetLBText(i, strTemp);
+        if (strTemp == strValue) {
+            combo.SetCurSel(i);
+            break;
+        }
+    }
 }
 
 void CEditListEditor::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
@@ -354,12 +390,12 @@ void CEditListEditor::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
 
     int nItem = lpDrawItemStruct->itemID;
     CRect rcItem = lpDrawItemStruct->rcItem;
-    POSITION pos = m_EditList.FindIndex(nItem);
+    POSITION pos = m_editList.FindIndex(nItem);
 
-    if (pos != nullptr) {
-        bool fSelected = (pos == m_CurPos);
+    if (pos) {
+        bool fSelected = (pos == m_curPos);
         UNREFERENCED_PARAMETER(fSelected);
-        CClip& CurClip = m_EditList.GetAt(pos);
+        CClip& curClip = m_editList.GetAt(pos);
         CString strTemp;
 
         CDC* pDC = CDC::FromHandle(lpDrawItemStruct->hDC);
@@ -372,7 +408,7 @@ void CEditListEditor::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
         }
 
         COLORREF textcolor = RGB(0, 0, 0);
-        if (!CurClip.HaveIn() || !CurClip.HaveOut()) {
+        if (!curClip.HaveIn() || !curClip.HaveOut()) {
             textcolor = RGB(255, 0, 0);
         }
 
@@ -385,13 +421,13 @@ void CEditListEditor::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
                     pDC->DrawText(strTemp, rcItem, DT_CENTER | DT_VCENTER);
                     break;
                 case COL_IN:
-                    pDC->DrawText(CurClip.GetIn(), rcItem, DT_CENTER | DT_VCENTER);
+                    pDC->DrawText(curClip.GetIn(), rcItem, DT_CENTER | DT_VCENTER);
                     break;
                 case COL_OUT:
-                    pDC->DrawText(CurClip.GetOut(), rcItem, DT_CENTER | DT_VCENTER);
+                    pDC->DrawText(curClip.GetOut(), rcItem, DT_CENTER | DT_VCENTER);
                     break;
                 case COL_NAME:
-                    pDC->DrawText(CurClip.GetName(), rcItem, DT_LEFT | DT_VCENTER);
+                    pDC->DrawText(curClip.GetName(), rcItem, DT_LEFT | DT_VCENTER);
                     break;
             }
         }
@@ -403,7 +439,7 @@ void CEditListEditor::OnLvnItemchanged(NMHDR* pNMHDR, LRESULT* pResult)
     LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
 
     if (pNMLV->iItem >= 0) {
-        m_CurPos = m_EditList.FindIndex(pNMLV->iItem);
+        m_curPos = m_editList.FindIndex(pNMLV->iItem);
     }
 }
 
@@ -415,13 +451,13 @@ void CEditListEditor::OnLvnKeyDown(NMHDR* pNMHDR, LRESULT* pResult)
 
     if (pLVKeyDown->wVKey == VK_DELETE) {
         POSITION pos = m_list.GetFirstSelectedItemPosition();
-        POSITION ClipPos;
+        POSITION clipPos;
         int nItem = -1;
         while (pos) {
             nItem = m_list.GetNextSelectedItem(pos);
-            ClipPos = m_EditList.FindIndex(nItem);
-            if (ClipPos) {
-                m_EditList.RemoveAt(ClipPos);
+            clipPos = m_editList.FindIndex(nItem);
+            if (clipPos) {
+                m_editList.RemoveAt(clipPos);
             }
             m_list.DeleteItem(nItem);
         }
@@ -545,15 +581,15 @@ void CEditListEditor::OnLButtonUp(UINT nFlags, CPoint point)
 
 void CEditListEditor::DropItemOnList()
 {
-    m_ptDropPoint.y -= 10; //
+    m_ptDropPoint.y -= 10;
     m_nDropIndex = m_list.HitTest(CPoint(10, m_ptDropPoint.y));
 
-    POSITION DragPos = m_EditList.FindIndex(m_nDragIndex);
-    POSITION DropPos = m_EditList.FindIndex(m_nDropIndex);
-    if ((DragPos != nullptr) && (DropPos != nullptr)) {
-        CClip& DragClip = m_EditList.GetAt(DragPos);
-        m_EditList.InsertAfter(DropPos, DragClip);
-        m_EditList.RemoveAt(DragPos);
+    POSITION dragPos = m_editList.FindIndex(m_nDragIndex);
+    POSITION dropPos = m_editList.FindIndex(m_nDropIndex);
+    if (dragPos && dropPos) {
+        CClip& dragClip = m_editList.GetAt(dragPos);
+        m_editList.InsertAfter(dropPos, dragClip);
+        m_editList.RemoveAt(dragPos);
         m_list.Invalidate();
     }
 }
@@ -585,13 +621,13 @@ void CEditListEditor::OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
         return;
     }
 
-    if (m_CurPos != nullptr && pItem->iSubItem == COL_NAME) {
-        CClip& CurClip = m_EditList.GetAt(m_CurPos);
-        int nSel = FindNameIndex(CurClip.GetName());
+    if (m_curPos && pItem->iSubItem == COL_NAME) {
+        CClip& curClip = m_editList.GetAt(m_curPos);
+        int nSel = FindNameIndex(curClip.GetName());
 
         CAtlList<CString> sl;
-        for (int i = 0; i < m_NameList.GetCount(); i++) {
-            sl.AddTail(m_NameList.GetAt(i));
+        for (int i = 0; i < m_nameList.GetCount(); i++) {
+            sl.AddTail(m_nameList.GetAt(i));
         }
         m_list.ShowInPlaceComboBox(pItem->iItem, pItem->iSubItem, sl, nSel, true);
 
@@ -614,56 +650,12 @@ void CEditListEditor::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
         return;
     }
 
-    CString& CurName = m_NameList.GetAt(pItem->lParam);
+    CString& curName = m_nameList.GetAt(pItem->lParam);
 
-    if (m_CurPos != nullptr && pItem->iSubItem == COL_NAME) {
-        CClip& CurClip = m_EditList.GetAt(m_CurPos);
-        CurClip.SetName(CurName);
+    if (m_curPos && pItem->iSubItem == COL_NAME) {
+        CClip& curClip = m_editList.GetAt(m_curPos);
+        curClip.SetName(curName);
 
         *pResult = TRUE;
-    }
-}
-
-int CEditListEditor::FindNameIndex(LPCTSTR strName)
-{
-    int nResult = -1;
-
-    for (int i = 0; i < m_NameList.GetCount(); i++) {
-        CString& CurName = m_NameList.GetAt(i);
-
-        if (CurName == strName) {
-            nResult = i;
-            break;
-        }
-    }
-
-    return nResult;
-}
-
-void CEditListEditor::FillCombo(LPCTSTR strFileName, CComboBox& Combo, bool bAllowNull)
-{
-    CStdioFile NameFile;
-    CString str;
-    if (NameFile.Open(strFileName, CFile::modeRead)) {
-        if (bAllowNull) {
-            Combo.AddString(_T(""));
-        }
-
-        while (NameFile.ReadString(str)) {
-            Combo.AddString(str);
-        }
-        NameFile.Close();
-    }
-}
-
-void CEditListEditor::SelectCombo(LPCTSTR strValue, CComboBox& Combo)
-{
-    for (int i = 0; i < Combo.GetCount(); i++) {
-        CString strTemp;
-        Combo.GetLBText(i, strTemp);
-        if (strTemp == strValue) {
-            Combo.SetCurSel(i);
-            break;
-        }
     }
 }
