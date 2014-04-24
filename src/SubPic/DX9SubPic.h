@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -99,11 +99,11 @@ class CDX9SubPicAllocator : public CSubPicAllocatorImpl, public CCritSec
     bool Alloc(bool fStatic, ISubPic** ppSubPic);
 
 public:
-    static CCritSec ms_SurfaceQueueLock;
-    CAtlList<CComPtr<IDirect3DSurface9>> m_FreeSurfaces;
-    CAtlList<CDX9SubPic*> m_AllocatedSurfaces;
+    static CCritSec ms_surfaceQueueLock;
+    CAtlList<CComPtr<IDirect3DSurface9>> m_freeSurfaces;
+    CAtlList<CDX9SubPic*> m_allocatedSurfaces;
 
-    void GetStats(int& _nFree, int& _nAlloc);
+    void GetStats(int& nFree, int& nAlloc) const;
 
     CDX9SubPicAllocator(IDirect3DDevice9* pD3DDev, SIZE maxsize, bool fPow2Textures, bool bExternalRenderer);
     ~CDX9SubPicAllocator();
@@ -111,5 +111,5 @@ public:
 
     // ISubPicAllocator
     STDMETHODIMP ChangeDevice(IUnknown* pDev);
-    STDMETHODIMP SetMaxTextureSize(SIZE MaxTextureSize);
+    STDMETHODIMP SetMaxTextureSize(SIZE maxTextureSize);
 };
