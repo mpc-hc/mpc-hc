@@ -53,22 +53,22 @@ STDMETHODIMP CSubPicImpl::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 
 // ISubPic
 
-STDMETHODIMP_(REFERENCE_TIME) CSubPicImpl::GetStart()
+STDMETHODIMP_(REFERENCE_TIME) CSubPicImpl::GetStart() const
 {
     return m_rtStart;
 }
 
-STDMETHODIMP_(REFERENCE_TIME) CSubPicImpl::GetStop()
+STDMETHODIMP_(REFERENCE_TIME) CSubPicImpl::GetStop() const
 {
     return m_rtStop;
 }
 
-STDMETHODIMP_(REFERENCE_TIME) CSubPicImpl::GetSegmentStart()
+STDMETHODIMP_(REFERENCE_TIME) CSubPicImpl::GetSegmentStart() const
 {
     return m_rtSegmentStart ? m_rtSegmentStart : m_rtStart;
 }
 
-STDMETHODIMP_(REFERENCE_TIME) CSubPicImpl::GetSegmentStop()
+STDMETHODIMP_(REFERENCE_TIME) CSubPicImpl::GetSegmentStop() const
 {
     return m_rtSegmentStop ? m_rtSegmentStop : m_rtStop;
 }
@@ -111,12 +111,12 @@ STDMETHODIMP CSubPicImpl::CopyTo(ISubPic* pSubPic)
     return S_OK;
 }
 
-STDMETHODIMP CSubPicImpl::GetDirtyRect(RECT* pDirtyRect)
+STDMETHODIMP CSubPicImpl::GetDirtyRect(RECT* pDirtyRect) const
 {
     return pDirtyRect ? *pDirtyRect = m_rcDirty, S_OK : E_POINTER;
 }
 
-STDMETHODIMP CSubPicImpl::GetSourceAndDest(RECT rcWindow, RECT rcVideo, RECT* pRcSource, RECT* pRcDest)
+STDMETHODIMP CSubPicImpl::GetSourceAndDest(RECT rcWindow, RECT rcVideo, RECT* pRcSource, RECT* pRcDest) const
 {
     CheckPointer(pRcSource, E_POINTER);
     CheckPointer(pRcDest,   E_POINTER);
@@ -172,12 +172,12 @@ STDMETHODIMP CSubPicImpl::GetSourceAndDest(RECT rcWindow, RECT rcVideo, RECT* pR
     }
 }
 
-STDMETHODIMP CSubPicImpl::SetDirtyRect(RECT* pDirtyRect)
+STDMETHODIMP CSubPicImpl::SetDirtyRect(const RECT* pDirtyRect)
 {
     return pDirtyRect ? m_rcDirty = *pDirtyRect, S_OK : E_POINTER;
 }
 
-STDMETHODIMP CSubPicImpl::GetMaxSize(SIZE* pMaxSize)
+STDMETHODIMP CSubPicImpl::GetMaxSize(SIZE* pMaxSize) const
 {
     return pMaxSize ? *pMaxSize = m_maxsize, S_OK : E_POINTER;
 }
@@ -216,7 +216,7 @@ STDMETHODIMP CSubPicImpl::SetVirtualTextureSize(const SIZE pSize, const POINT pT
     return S_OK;
 }
 
-STDMETHODIMP_(bool) CSubPicImpl::GetInverseAlpha()
+STDMETHODIMP_(bool) CSubPicImpl::GetInverseAlpha() const
 {
     return m_invAlpha;
 }
@@ -226,7 +226,7 @@ STDMETHODIMP_(void) CSubPicImpl::SetInverseAlpha(bool bInverted)
     m_invAlpha = bInverted;
 }
 
-STDMETHODIMP CSubPicImpl::GetRelativeTo(RelativeTo* pRelativeTo)
+STDMETHODIMP CSubPicImpl::GetRelativeTo(RelativeTo* pRelativeTo) const
 {
     return pRelativeTo ? *pRelativeTo = m_relativeTo, S_OK : E_POINTER;
 }
@@ -316,7 +316,7 @@ STDMETHODIMP CSubPicAllocatorImpl::AllocDynamic(ISubPic** ppSubPic)
     return S_OK;
 }
 
-STDMETHODIMP_(bool) CSubPicAllocatorImpl::IsDynamicWriteOnly()
+STDMETHODIMP_(bool) CSubPicAllocatorImpl::IsDynamicWriteOnly() const
 {
     return m_fDynamicWriteOnly;
 }
