@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -31,7 +31,6 @@ class CSubPicQueueImpl : public CUnknown, public ISubPicQueue
 protected:
     double m_fps;
     REFERENCE_TIME m_rtNow;
-    REFERENCE_TIME m_rtNowLast;
 
     CComPtr<ISubPicAllocator> m_pAllocator;
 
@@ -64,28 +63,29 @@ class CSubPicQueue : public CSubPicQueueImpl, protected CAMThread
 {
 protected:
     int m_nMaxSubPic;
-    BOOL m_bDisableAnim;
+    bool m_bDisableAnim;
 
-    CInterfaceList<ISubPic> m_Queue;
+    CInterfaceList<ISubPic> m_queue;
 
-    CCritSec m_csQueueLock; // for protecting CInterfaceList<ISubPic>
+    CCritSec m_csQueueLock; // to protect CInterfaceList<ISubPic>
     REFERENCE_TIME UpdateQueue();
     void AppendQueue(ISubPic* pSubPic);
     int GetQueueCount();
 
+    REFERENCE_TIME m_rtNowLast;
     REFERENCE_TIME m_rtQueueMin;
     REFERENCE_TIME m_rtQueueMax;
     REFERENCE_TIME m_rtInvalidate;
 
     // CAMThread
 
-    bool m_fBreakBuffering;
+    bool m_bBreakBuffering;
     enum { EVENT_EXIT, EVENT_TIME, EVENT_COUNT }; // IMPORTANT: _EXIT must come before _TIME if we want to exit fast from the destructor
-    HANDLE m_ThreadEvents[EVENT_COUNT];
+    HANDLE m_hThreadEvents[EVENT_COUNT];
     virtual DWORD ThreadProc();
 
 public:
-    CSubPicQueue(int nMaxSubPic, BOOL bDisableAnim, ISubPicAllocator* pAllocator, HRESULT* phr);
+    CSubPicQueue(int nMaxSubPic, bool bDisableAnim, ISubPicAllocator* pAllocator, HRESULT* phr);
     virtual ~CSubPicQueue();
 
     // ISubPicQueue

@@ -56,7 +56,7 @@ DWORD CXySubPicQueue::ThreadProc()
 
     bool bAgain = true;
     for (;;) {
-        DWORD Ret = WaitForMultipleObjects(EVENT_COUNT, m_ThreadEvents, FALSE, bAgain ? 0 : INFINITE);
+        DWORD Ret = WaitForMultipleObjects(EVENT_COUNT, m_hThreadEvents, FALSE, bAgain ? 0 : INFINITE);
         bAgain = false;
 
         if (Ret == WAIT_TIMEOUT) {
@@ -74,7 +74,7 @@ DWORD CXySubPicQueue::ThreadProc()
         GetSubPicProvider(&pSubPicProvider);
         CComQIPtr<IXyCompatProvider> pXySubPicProvider = pSubPicProvider;
         if (pXySubPicProvider && SUCCEEDED(pSubPicProvider->Lock())) {
-            for (REFERENCE_TIME rtStart = rtNow; !m_fBreakBuffering && GetQueueCount() < nMaxSubPic; rtStart += rtTimePerFrame) {
+            for (REFERENCE_TIME rtStart = rtNow; !m_bBreakBuffering && GetQueueCount() < nMaxSubPic; rtStart += rtTimePerFrame) {
                 REFERENCE_TIME rtStop = rtStart + rtTimePerFrame;
 
                 if (m_rtNow >= rtStart) {
@@ -104,8 +104,8 @@ DWORD CXySubPicQueue::ThreadProc()
                             m_pAllocator->SetMaxTextureSize(MaxTextureSize);
                         }
 
-                        if (m_llSubId == id && !m_Queue.IsEmpty()) { // same subtitle as last time
-                            CComPtr<ISubPic> pSubPic = m_Queue.GetTail();
+                        if (m_llSubId == id && !m_queue.IsEmpty()) { // same subtitle as last time
+                            CComPtr<ISubPic> pSubPic = m_queue.GetTail();
                             pSubPic->SetStop(rtStop);
 #if SUBPIC_TRACE_LEVEL > 1
                             CRect r;
@@ -156,16 +156,16 @@ DWORD CXySubPicQueue::ThreadProc()
             pSubPicProvider->Unlock();
         }
 
-        if (m_fBreakBuffering) {
+        if (m_bBreakBuffering) {
             bAgain = true;
             CAutoLock cQueueLock(&m_csQueueLock);
 
             REFERENCE_TIME rtInvalidate = m_rtInvalidate;
 
-            POSITION Iter = m_Queue.GetHeadPosition();
+            POSITION Iter = m_queue.GetHeadPosition();
             while (Iter) {
                 POSITION ThisPos = Iter;
-                ISubPic* pSubPic = m_Queue.GetNext(Iter);
+                ISubPic* pSubPic = m_queue.GetNext(Iter);
 
                 REFERENCE_TIME rtStart = pSubPic->GetStart();
                 REFERENCE_TIME rtStop = pSubPic->GetStop();
@@ -174,7 +174,7 @@ DWORD CXySubPicQueue::ThreadProc()
 #if SUBPIC_TRACE_LEVEL >= 0
                     TRACE(_T("Removed subtitle because of invalidation: %f->%f\n"), double(rtStart) / 10000000.0, double(rtStop) / 10000000.0);
 #endif
-                    m_Queue.RemoveAt(ThisPos);
+                    m_queue.RemoveAt(ThisPos);
                     continue;
                 }
             }
@@ -190,7 +190,7 @@ DWORD CXySubPicQueue::ThreadProc()
             }
             */
 
-            m_fBreakBuffering = false;
+            m_bBreakBuffering = false;
         }
     }
 
