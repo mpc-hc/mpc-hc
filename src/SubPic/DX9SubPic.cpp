@@ -67,7 +67,7 @@ STDMETHODIMP_(void*) CDX9SubPic::GetObject()
 {
     CComPtr<IDirect3DTexture9> pTexture;
     if (SUCCEEDED(m_pSurface->GetContainer(IID_PPV_ARGS(&pTexture)))) {
-        return (void*)(IDirect3DTexture9*)pTexture;
+        return (IDirect3DTexture9*)pTexture;
     }
 
     return nullptr;
@@ -292,7 +292,7 @@ STDMETHODIMP CDX9SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
     hr = pD3DDev->SetRenderState(D3DRS_ZENABLE, FALSE);
     hr = pD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
     hr = pD3DDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE); // pre-multiplied src and ...
-    hr = pD3DDev->SetRenderState(D3DRS_DESTBLEND, m_invAlpha ? D3DBLEND_INVSRCALPHA : D3DBLEND_SRCALPHA); // ... inverse alpha channel for dst
+    hr = pD3DDev->SetRenderState(D3DRS_DESTBLEND, m_bInvAlpha ? D3DBLEND_INVSRCALPHA : D3DBLEND_SRCALPHA); // ... inverse alpha channel for dst
 
     hr = pD3DDev->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
     hr = pD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
@@ -309,7 +309,7 @@ STDMETHODIMP CDX9SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 
     hr = pD3DDev->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_BORDER);
     hr = pD3DDev->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_BORDER);
-    hr = pD3DDev->SetSamplerState(0, D3DSAMP_BORDERCOLOR, m_invAlpha ? 0x00000000 : 0xFF000000);
+    hr = pD3DDev->SetSamplerState(0, D3DSAMP_BORDERCOLOR, m_bInvAlpha ? 0x00000000 : 0xFF000000);
 
     /*//
 

@@ -32,9 +32,9 @@ protected:
     CSize  m_maxsize;
     CSize  m_size;
     CRect  m_vidrect;
-    CSize  m_VirtualTextureSize;
-    CPoint m_VirtualTextureTopLeft;
-    bool   m_invAlpha;
+    CSize  m_virtualTextureSize;
+    CPoint m_virtualTextureTopLeft;
+    bool   m_bInvAlpha;
     RelativeTo m_relativeTo;
 
     /*
@@ -112,7 +112,7 @@ public:
 class CSubPicAllocatorImpl : public CUnknown, public ISubPicAllocator
 {
 private:
-    CCritSec m_StaticLock;
+    CCritSec m_staticLock;
     CComPtr<ISubPic> m_pStatic;
 
     CSize m_cursize;
