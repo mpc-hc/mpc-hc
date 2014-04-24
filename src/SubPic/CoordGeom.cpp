@@ -28,10 +28,8 @@
 //
 
 Vector::Vector(float x, float y, float z)
+    : x(x), y(y), z(z)
 {
-    this->x = x;
-    this->y = y;
-    this->z = z;
 }
 
 void Vector::Set(float x, float y, float z)
@@ -41,38 +39,38 @@ void Vector::Set(float x, float y, float z)
     this->z = z;
 }
 
-float Vector::Length()
+float Vector::Length() const
 {
     return sqrt(x * x + y * y + z * z);
 }
 
-float Vector::Sum()
+float Vector::Sum() const
 {
     return (x + y + z);
 }
 
-float Vector::CrossSum()
+float Vector::CrossSum() const
 {
     return (x * y + x * z + y * z);
 }
 
-Vector Vector::Cross()
+Vector Vector::Cross() const
 {
     return Vector(x * y, x * z, y * z);
 }
 
-Vector Vector::Pow(float exp)
+Vector Vector::Pow(float exp) const
 {
-    return (exp == 0 ? Vector(1, 1, 1) : exp == 1 ? *this : Vector(pow(x, exp), pow(y, exp), pow(z, exp)));
+    return (exp == 0.0f ? Vector(1.0f, 1.0f, 1.0f) : exp == 1.0f ? *this : Vector(pow(x, exp), pow(y, exp), pow(z, exp)));
 }
 
-Vector Vector::Unit()
+Vector Vector::Unit() const
 {
     float l = Length();
-    if (!l || l == 1) {
+    if (!l || l == 1.0f) {
         return *this;
     }
-    return (*this * (1 / l));
+    return (*this * (1.0f / l));
 }
 
 Vector& Vector::Unitalize()
@@ -80,23 +78,23 @@ Vector& Vector::Unitalize()
     return (*this = Unit());
 }
 
-Vector Vector::Normal(Vector& a, Vector& b)
+Vector Vector::Normal(const Vector& a, const Vector& b) const
 {
     return ((a - *this) % (b - a));
 }
 
-float Vector::Angle(Vector& a, Vector& b)
+float Vector::Angle(const Vector& a, const Vector& b) const
 {
     return (((a - *this).Unit()).Angle((b - *this).Unit()));
 }
 
-float Vector::Angle(const Vector& a)
+float Vector::Angle(const Vector& a) const
 {
     float angle = *this | a;
-    return ((angle > 1) ? 0 : (angle < -1) ? (float)M_PI : acos(angle));
+    return ((angle > 1.0f) ? 0.0f : (angle < -1.0f) ? (float)M_PI : acos(angle));
 }
 
-void Vector::Angle(float& u, float& v)
+void Vector::Angle(float& u, float& v) const
 {
     Vector n = Unit();
 
@@ -111,7 +109,7 @@ void Vector::Angle(float& u, float& v)
     }
 }
 
-Vector Vector::Angle()
+Vector Vector::Angle() const
 {
     Vector ret;
     Angle(ret.x, ret.y);
@@ -135,48 +133,48 @@ Vector& Vector::Max(const Vector& a)
     return *this;
 }
 
-Vector Vector::Abs()
+Vector Vector::Abs() const
 {
     return Vector(fabs(x), fabs(y), fabs(z));
 }
 
-Vector Vector::Reflect(Vector& n)
+Vector Vector::Reflect(const Vector& n) const
 {
     return (n * ((-*this) | n) * 2 - (-*this));
 }
 
-Vector Vector::Refract(Vector& N, float nFront, float nBack, float* nOut)
+Vector Vector::Refract(const Vector& N, float nFront, float nBack, float* nOut /*= nullptr*/) const
 {
     Vector D = -*this;
 
     float N_dot_D = (N | D);
-    float n = N_dot_D >= 0 ? (nFront / nBack) : (nBack / nFront);
+    float n = N_dot_D >= 0.0f ? (nFront / nBack) : (nBack / nFront);
 
     Vector cos_D = N * N_dot_D;
     Vector sin_T = (cos_D - D) * n;
 
     float len_sin_T = sin_T | sin_T;
 
-    if (len_sin_T > 1) {
+    if (len_sin_T > 1.0f) {
         if (nOut) {
-            *nOut = N_dot_D >= 0 ? nFront : nBack;
+            *nOut = N_dot_D >= 0.0f ? nFront : nBack;
         }
         return this->Reflect(N);
     }
 
-    float N_dot_T = (float)sqrt(1.0 - len_sin_T);
-    if (N_dot_D < 0) {
+    float N_dot_T = (float)sqrt(1.0f - len_sin_T);
+    if (N_dot_D < 0.0f) {
         N_dot_T = -N_dot_T;
     }
 
     if (nOut) {
-        *nOut = N_dot_D >= 0 ? nBack : nFront;
+        *nOut = N_dot_D >= 0.0f ? nBack : nFront;
     }
 
     return (sin_T - (N * N_dot_T));
 }
 
-Vector Vector::Refract2(Vector& N, float nFrom, float nTo, float* nOut)
+Vector Vector::Refract2(const Vector& N, float nFrom, float nTo, float* nOut /*= nullptr*/) const
 {
     Vector D = -*this;
 
@@ -188,15 +186,15 @@ Vector Vector::Refract2(Vector& N, float nFrom, float nTo, float* nOut)
 
     float len_sin_T = sin_T | sin_T;
 
-    if (len_sin_T > 1) {
+    if (len_sin_T > 1.0f) {
         if (nOut) {
             *nOut = nFrom;
         }
         return this->Reflect(N);
     }
 
-    float N_dot_T = (float)sqrt(1.0 - len_sin_T);
-    if (N_dot_D < 0) {
+    float N_dot_T = (float)sqrt(1.0f - len_sin_T);
+    if (N_dot_D < 0.0f) {
         N_dot_T = -N_dot_T;
     }
 
@@ -207,12 +205,12 @@ Vector Vector::Refract2(Vector& N, float nFrom, float nTo, float* nOut)
     return (sin_T - (N * N_dot_T));
 }
 
-float Vector::operator | (const Vector& v)
+float Vector::operator | (const Vector& v) const
 {
     return (x * v.x + y * v.y + z * v.z);
 }
 
-Vector Vector::operator % (const Vector& v)
+Vector Vector::operator % (const Vector& v) const
 {
     return Vector(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x);
 }
@@ -222,60 +220,57 @@ float& Vector::operator [](size_t i)
     return (!i ? x : (i == 1) ? y : z);
 }
 
-Vector Vector::operator - ()
+Vector Vector::operator - () const
 {
     return Vector(-x, -y, -z);
 }
 
 bool Vector::operator == (const Vector& v) const
 {
-    if (IsZero(x - v.x) && IsZero(y - v.y) && IsZero(z - v.z)) {
-        return true;
-    }
-    return false;
+    return (IsZero(x - v.x) && IsZero(y - v.y) && IsZero(z - v.z));
 }
 
 bool Vector::operator != (const Vector& v) const
 {
-    return ((*this == v) ? false : true);
+    return !(*this == v);
 }
 
-Vector Vector::operator + (float d)
+Vector Vector::operator + (float d) const
 {
     return Vector(x + d, y + d, z + d);
 }
 
-Vector Vector::operator + (const Vector& v)
+Vector Vector::operator + (const Vector& v) const
 {
     return Vector(x + v.x, y + v.y, z + v.z);
 }
 
-Vector Vector::operator - (float d)
+Vector Vector::operator - (float d) const
 {
     return Vector(x - d, y - d, z - d);
 }
 
-Vector Vector::operator - (Vector& v)
+Vector Vector::operator - (const Vector& v) const
 {
     return Vector(x - v.x, y - v.y, z - v.z);
 }
 
-Vector Vector::operator * (float d)
+Vector Vector::operator * (float d) const
 {
     return Vector(x * d, y * d, z * d);
 }
 
-Vector Vector::operator * (const Vector& v)
+Vector Vector::operator * (const Vector& v) const
 {
     return Vector(x * v.x, y * v.y, z * v.z);
 }
 
-Vector Vector::operator / (float d)
+Vector Vector::operator / (float d) const
 {
     return Vector(x / d, y / d, z / d);
 }
 
-Vector Vector::operator / (const Vector& v)
+Vector Vector::operator / (const Vector& v) const
 {
     return Vector(x / v.x, y / v.y, z / v.z);
 }
@@ -348,7 +343,7 @@ Vector& Vector::operator /= (const Vector& v)
 // Ray
 //
 
-Ray::Ray(Vector& p, Vector& d)
+Ray::Ray(const Vector& p, const Vector& d)
     : p(p)
     , d(d)
 {
@@ -360,22 +355,22 @@ void Ray::Set(const Vector& p, const Vector& d)
     this->d = d;
 }
 
-float Ray::GetDistanceFrom(Ray& r)
+float Ray::GetDistanceFrom(const Ray& r) const
 {
     float t = (d | r.d);
     if (IsZero(t)) {
-        return -BIGNUMBER;    // plane is paralell to the ray, return -infinite
+        return -BIGNUMBER;    // plane is parallel to the ray, return -infinite
     }
     return (((r.p - p) | r.d) / t);
 }
 
-float Ray::GetDistanceFrom(Vector& v)
+float Ray::GetDistanceFrom(const Vector& v) const
 {
     float t = ((v - p) | d) / (d | d);
     return ((p + d * t) - v).Length();
 }
 
-Vector Ray::operator [](float t)
+Vector Ray::operator [](float t) const
 {
     return (p + d * t);
 }
@@ -385,7 +380,7 @@ Vector Ray::operator [](float t)
 //
 
 
-XForm::XForm(Ray& r, Vector& s, bool isWorldToLocal)
+XForm::XForm(const Ray& r, const Vector& s, bool isWorldToLocal /*= true*/)
 {
     m_isWorldToLocal = isWorldToLocal;
     if (isWorldToLocal) {
@@ -444,23 +439,23 @@ void XForm::operator <<= (const Vector& v)
 void XForm::operator /= (const Vector& v)
 {
     Vector s;
-    s.x = IsZero(v.x) ? 0 : 1 / v.x;
-    s.y = IsZero(v.y) ? 0 : 1 / v.y;
-    s.z = IsZero(v.z) ? 0 : 1 / v.z;
+    s.x = IsZero(v.x) ? 0.0f : 1.0f / v.x;
+    s.y = IsZero(v.y) ? 0.0f : 1.0f / v.y;
+    s.z = IsZero(v.z) ? 0.0f : 1.0f / v.z;
     *this *= s;
 }
 
-void XForm::operator -= (Vector& v)
+void XForm::operator -= (const Vector& v)
 {
     *this += -v;
 }
 
-void XForm::operator >>= (Vector& v)
+void XForm::operator >>= (const Vector& v)
 {
     *this <<= -v;
 }
 
-Vector XForm::operator < (Vector& n)
+Vector XForm::operator < (const Vector& n) const
 {
     Vector ret;
 
@@ -477,7 +472,7 @@ Vector XForm::operator < (Vector& n)
     return ret;
 }
 
-Vector XForm::operator << (const Vector& v)
+Vector XForm::operator << (const Vector& v) const
 {
     Vector ret;
 
@@ -497,7 +492,7 @@ Vector XForm::operator << (const Vector& v)
     return ret;
 }
 
-Ray XForm::operator << (Ray& r)
+Ray XForm::operator << (const Ray& r) const
 {
     return Ray(*this << r.p, *this < r.d);
 }
@@ -518,25 +513,25 @@ bool XForm::operator != (const XForm& x) const
 
 XForm::Matrix::Matrix()
 {
-    mat[0][0] = 1;
-    mat[0][1] = 0;
-    mat[0][2] = 0;
-    mat[0][3] = 0;
-    mat[1][0] = 0;
-    mat[1][1] = 1;
-    mat[1][2] = 0;
-    mat[1][3] = 0;
-    mat[2][0] = 0;
-    mat[2][1] = 0;
-    mat[2][2] = 1;
-    mat[2][3] = 0;
-    mat[3][0] = 0;
-    mat[3][1] = 0;
-    mat[3][2] = 0;
-    mat[3][3] = 1;
+    mat[0][0] = 1.0f;
+    mat[0][1] = 0.0f;
+    mat[0][2] = 0.0f;
+    mat[0][3] = 0.0f;
+    mat[1][0] = 0.0f;
+    mat[1][1] = 1.0f;
+    mat[1][2] = 0.0f;
+    mat[1][3] = 0.0f;
+    mat[2][0] = 0.0f;
+    mat[2][1] = 0.0f;
+    mat[2][2] = 1.0f;
+    mat[2][3] = 0.0f;
+    mat[3][0] = 0.0f;
+    mat[3][1] = 0.0f;
+    mat[3][2] = 0.0f;
+    mat[3][3] = 1.0f;
 }
 
-XForm::Matrix XForm::Matrix::operator * (const Matrix& m)
+XForm::Matrix XForm::Matrix::operator * (const Matrix& m) const
 {
     Matrix ret;
 
@@ -548,7 +543,7 @@ XForm::Matrix XForm::Matrix::operator * (const Matrix& m)
                             mat[i][3] * m.mat[3][j];
 
             if (IsZero(ret.mat[i][j])) {
-                ret.mat[i][j] = 0;
+                ret.mat[i][j] = 0.0f;
             }
         }
     }
