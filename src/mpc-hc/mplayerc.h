@@ -34,6 +34,7 @@
 #include <vmr9.h>
 #include <dxva2api.h> //#include <evr9.h>
 #include <map>
+#include <memory>
 #include <mutex>
 
 #include "EventDispatcher.h"
@@ -168,7 +169,7 @@ public:
     CString     m_strVersion;
     CString     m_AudioRendererDisplayName_CL;
 
-    CAppSettings m_s;
+    std::unique_ptr<CAppSettings> m_s;
 
     typedef UINT(*PTR_GetRemoteControlCode)(UINT nInputcode, HRAWINPUT hRawInput);
 
@@ -226,7 +227,7 @@ public:
     int TransposeScaledY(int y) { return MulDiv(y, m_dpix, m_dpiy); }
 };
 
-#define AfxGetAppSettings() static_cast<CMPlayerCApp*>(AfxGetApp())->m_s
+#define AfxGetAppSettings() (*static_cast<CMPlayerCApp*>(AfxGetApp())->m_s.get())
 #define AfxGetMyApp()       static_cast<CMPlayerCApp*>(AfxGetApp())
 #define AfxGetMainFrame()   dynamic_cast<CMainFrame*>(AfxGetMainWnd())
 

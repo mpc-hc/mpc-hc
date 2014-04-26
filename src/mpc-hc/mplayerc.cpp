@@ -383,7 +383,7 @@ void CMPlayerCApp::ShowCmdlnSwitches() const
 {
     CString s;
 
-    if (m_s.nCLSwitches & CLSW_UNRECOGNIZEDSWITCH) {
+    if (m_s->nCLSwitches & CLSW_UNRECOGNIZEDSWITCH) {
         CAtlList<CString> sl;
         for (int i = 0; i < __argc; i++) {
             sl.AddTail(__targv[i]);
@@ -468,9 +468,9 @@ bool CMPlayerCApp::ChangeSettingsLocation(bool useIni)
 
     // Load favorites so that they can be correctly saved to the new location
     CAtlList<CString> filesFav, DVDsFav, devicesFav;
-    m_s.GetFav(FAV_FILE, filesFav);
-    m_s.GetFav(FAV_DVD, DVDsFav);
-    m_s.GetFav(FAV_DEVICE, devicesFav);
+    m_s->GetFav(FAV_FILE, filesFav);
+    m_s->GetFav(FAV_DVD, DVDsFav);
+    m_s->GetFav(FAV_DEVICE, devicesFav);
 
     if (useIni) {
         success = StoreSettingsToIni();
@@ -482,15 +482,15 @@ bool CMPlayerCApp::ChangeSettingsLocation(bool useIni)
     }
 
     // Save favorites to the new location
-    m_s.SetFav(FAV_FILE, filesFav);
-    m_s.SetFav(FAV_DVD, DVDsFav);
-    m_s.SetFav(FAV_DEVICE, devicesFav);
+    m_s->SetFav(FAV_FILE, filesFav);
+    m_s->SetFav(FAV_DVD, DVDsFav);
+    m_s->SetFav(FAV_DEVICE, devicesFav);
 
     // Save external filters to the new location
-    m_s.SaveExternalFilters();
+    m_s->SaveExternalFilters();
 
     // Write settings immediately
-    m_s.SaveSettings();
+    m_s->SaveSettings();
 
     return success;
 }
@@ -498,7 +498,7 @@ bool CMPlayerCApp::ChangeSettingsLocation(bool useIni)
 bool CMPlayerCApp::ExportSettings(CString savePath, CString subKey)
 {
     bool success = false;
-    m_s.SaveSettings();
+    m_s->SaveSettings();
 
     if (IsIniValid()) {
         success = !!CopyFile(GetIniPath(), savePath, FALSE);
@@ -1273,6 +1273,8 @@ BOOL CMPlayerCApp::InitInstance()
         return FALSE;
     }
 
+    m_s = std::make_unique<CAppSettings>();
+
     // Be careful if you move that code: IDR_MAINFRAME icon can only be loaded from the executable,
     // LoadIcon can't be used after the language DLL has been set as the main resource.
     HICON icon = LoadIcon(IDR_MAINFRAME);
@@ -1306,17 +1308,17 @@ BOOL CMPlayerCApp::InitInstance()
         StoreSettingsToRegistry();
     }
 
-    m_s.ParseCommandLine(m_cmdln);
+    m_s->ParseCommandLine(m_cmdln);
 
     VERIFY(SetCurrentDirectory(GetProgramPath()));
 
-    if (m_s.nCLSwitches & (CLSW_HELP | CLSW_UNRECOGNIZEDSWITCH)) { // show commandline help window
-        m_s.LoadSettings();
+    if (m_s->nCLSwitches & (CLSW_HELP | CLSW_UNRECOGNIZEDSWITCH)) { // show commandline help window
+        m_s->LoadSettings();
         ShowCmdlnSwitches();
         return FALSE;
     }
 
-    if (m_s.nCLSwitches & CLSW_RESET) { // reset settings
+    if (m_s->nCLSwitches & CLSW_RESET) { // reset settings
         // We want the other instances to be closed before resetting the settings.
         HWND hWnd = FindWindow(MPC_WND_CLASS_NAME, nullptr);
 
@@ -1373,14 +1375,14 @@ BOOL CMPlayerCApp::InitInstance()
         }
     }
 
-    if ((m_s.nCLSwitches & CLSW_CLOSE) && m_s.slFiles.IsEmpty()) { // "/close" switch and empty file list
+    if ((m_s->nCLSwitches & CLSW_CLOSE) && m_s->slFiles.IsEmpty()) { // "/close" switch and empty file list
         return FALSE;
     }
 
-    if (m_s.nCLSwitches & (CLSW_REGEXTVID | CLSW_REGEXTAUD | CLSW_REGEXTPL)) { // register file types
+    if (m_s->nCLSwitches & (CLSW_REGEXTVID | CLSW_REGEXTAUD | CLSW_REGEXTPL)) { // register file types
         CFileAssoc::RegisterApp();
 
-        CMediaFormats& mf = m_s.m_Formats;
+        CMediaFormats& mf = m_s->m_Formats;
         mf.UpdateData(false);
 
         bool bAudioOnly;
@@ -1391,15 +1393,15 @@ BOOL CMPlayerCApp::InitInstance()
         for (size_t i = 0, cnt = mf.GetCount(); i < cnt; i++) {
             bool bPlaylist = !mf[i].GetLabel().CompareNoCase(_T("pls"));
 
-            if (bPlaylist && !(m_s.nCLSwitches & CLSW_REGEXTPL)) {
+            if (bPlaylist && !(m_s->nCLSwitches & CLSW_REGEXTPL)) {
                 continue;
             }
 
             bAudioOnly = mf[i].IsAudioOnly();
 
-            if (((m_s.nCLSwitches & CLSW_REGEXTVID) && !bAudioOnly) ||
-                    ((m_s.nCLSwitches & CLSW_REGEXTAUD) && bAudioOnly) ||
-                    ((m_s.nCLSwitches & CLSW_REGEXTPL) && bPlaylist)) {
+            if (((m_s->nCLSwitches & CLSW_REGEXTVID) && !bAudioOnly) ||
+                    ((m_s->nCLSwitches & CLSW_REGEXTAUD) && bAudioOnly) ||
+                    ((m_s->nCLSwitches & CLSW_REGEXTPL) && bPlaylist)) {
                 CFileAssoc::Register(mf[i], true, false, true);
             }
         }
@@ -1411,8 +1413,8 @@ BOOL CMPlayerCApp::InitInstance()
         return FALSE;
     }
 
-    if (m_s.nCLSwitches & CLSW_UNREGEXT) { // unregistered file types
-        CMediaFormats& mf = m_s.m_Formats;
+    if (m_s->nCLSwitches & CLSW_UNREGEXT) { // unregistered file types
+        CMediaFormats& mf = m_s->m_Formats;
         mf.UpdateData(false);
 
         for (size_t i = 0, cnt = mf.GetCount(); i < cnt; i++) {
@@ -1424,8 +1426,8 @@ BOOL CMPlayerCApp::InitInstance()
         return FALSE;
     }
 
-    if (m_s.nCLSwitches & CLSW_ICONSASSOC) {
-        CMediaFormats& mf = m_s.m_Formats;
+    if (m_s->nCLSwitches & CLSW_ICONSASSOC) {
+        CMediaFormats& mf = m_s->m_Formats;
         mf.UpdateData(false);
 
         CAtlList<CString> registeredExts;
@@ -1439,12 +1441,12 @@ BOOL CMPlayerCApp::InitInstance()
     }
 
     // Enable to open options with administrator privilege (for Vista UAC)
-    if (m_s.nCLSwitches & CLSW_ADMINOPTION) {
-        m_s.LoadSettings(); // read all settings. long time but not critical at this point
+    if (m_s->nCLSwitches & CLSW_ADMINOPTION) {
+        m_s->LoadSettings(); // read all settings. long time but not critical at this point
 
-        switch (m_s.iAdminOption) {
+        switch (m_s->iAdminOption) {
             case CPPageFormats::IDD: {
-                CPPageSheet options(ResStr(IDS_OPTIONS_CAPTION), nullptr, nullptr, m_s.iAdminOption);
+                CPPageSheet options(ResStr(IDS_OPTIONS_CAPTION), nullptr, nullptr, m_s->iAdminOption);
                 options.LockPage();
                 options.DoModal();
             }
@@ -1459,7 +1461,7 @@ BOOL CMPlayerCApp::InitInstance()
     m_mutexOneInstance.Create(nullptr, TRUE, MPC_WND_CLASS_NAME);
 
     if (GetLastError() == ERROR_ALREADY_EXISTS &&
-            (!(m_s.GetAllowMultiInst() || m_s.nCLSwitches & CLSW_NEW || m_cmdln.IsEmpty()) || m_s.nCLSwitches & CLSW_ADD)) {
+            (!(m_s->GetAllowMultiInst() || m_s->nCLSwitches & CLSW_NEW || m_cmdln.IsEmpty()) || m_s->nCLSwitches & CLSW_ADD)) {
 
         DWORD res = WaitForSingleObject(m_mutexOneInstance.m_h, 5000);
         if (res == WAIT_OBJECT_0 || res == WAIT_ABANDONED) {
@@ -1471,7 +1473,7 @@ BOOL CMPlayerCApp::InitInstance()
                 } else {
                     ASSERT(FALSE);
                 }
-                if (!(m_s.nCLSwitches & CLSW_MINIMIZED) && IsIconic(hWnd)) {
+                if (!(m_s->nCLSwitches & CLSW_MINIMIZED) && IsIconic(hWnd)) {
                     ShowWindow(hWnd, SW_RESTORE);
                 }
                 if (SendCommandLine(hWnd)) {
@@ -1497,8 +1499,8 @@ BOOL CMPlayerCApp::InitInstance()
         }
     }
 
-    m_s.UpdateSettings(); // update settings
-    m_s.LoadSettings(); // read settings
+    m_s->UpdateSettings(); // update settings
+    m_s->LoadSettings(); // read settings
 
     m_AudioRendererDisplayName_CL = _T("");
 
@@ -1516,24 +1518,24 @@ BOOL CMPlayerCApp::InitInstance()
         return FALSE;
     }
     pFrame->m_controls.LoadState();
-    pFrame->SetDefaultWindowRect((m_s.nCLSwitches & CLSW_MONITOR) ? m_s.iMonitor : 0);
-    if (!m_s.slFiles.IsEmpty()) {
+    pFrame->SetDefaultWindowRect((m_s->nCLSwitches & CLSW_MONITOR) ? m_s->iMonitor : 0);
+    if (!m_s->slFiles.IsEmpty()) {
         pFrame->m_controls.DelayShowNotLoaded(true);
     }
     pFrame->SetDefaultFullscreenState();
     pFrame->UpdateControlState(CMainFrame::UPDATE_CONTROLS_VISIBILITY);
     pFrame->SetIcon(icon, TRUE);
     pFrame->DragAcceptFiles();
-    pFrame->ShowWindow((m_s.nCLSwitches & CLSW_MINIMIZED) ? SW_SHOWMINIMIZED : SW_SHOW);
+    pFrame->ShowWindow((m_s->nCLSwitches & CLSW_MINIMIZED) ? SW_SHOWMINIMIZED : SW_SHOW);
     pFrame->UpdateWindow();
-    pFrame->m_hAccelTable = m_s.hAccel;
-    m_s.WinLircClient.SetHWND(m_pMainWnd->m_hWnd);
-    if (m_s.fWinLirc) {
-        m_s.WinLircClient.Connect(m_s.strWinLircAddr);
+    pFrame->m_hAccelTable = m_s->hAccel;
+    m_s->WinLircClient.SetHWND(m_pMainWnd->m_hWnd);
+    if (m_s->fWinLirc) {
+        m_s->WinLircClient.Connect(m_s->strWinLircAddr);
     }
-    m_s.UIceClient.SetHWND(m_pMainWnd->m_hWnd);
-    if (m_s.fUIce) {
-        m_s.UIceClient.Connect(m_s.strUIceAddr);
+    m_s->UIceClient.SetHWND(m_pMainWnd->m_hWnd);
+    if (m_s->fUIce) {
+        m_s->UIceClient.Connect(m_s->strUIceAddr);
     }
 
     if (UpdateChecker::IsAutoUpdateEnabled()) {
@@ -1565,7 +1567,7 @@ BOOL CMPlayerCApp::InitInstance()
 
     CWebServer::Init();
 
-    if (m_s.fAssociatedWithIcons) {
+    if (m_s->fAssociatedWithIcons) {
         CFileAssoc::CheckIconsAssoc();
     }
 
@@ -1693,11 +1695,11 @@ void CMPlayerCApp::RegisterHotkeys()
 
     RegisterRawInputDevices(MCEInputDevice, _countof(MCEInputDevice), sizeof(RAWINPUTDEVICE));
 
-    if (m_s.fGlobalMedia) {
-        POSITION pos = m_s.wmcmds.GetHeadPosition();
+    if (m_s->fGlobalMedia) {
+        POSITION pos = m_s->wmcmds.GetHeadPosition();
 
         while (pos) {
-            wmcmd& wc = m_s.wmcmds.GetNext(pos);
+            wmcmd& wc = m_s->wmcmds.GetNext(pos);
             if (wc.appcmd != 0) {
                 RegisterHotKey(m_pMainWnd->m_hWnd, wc.appcmd, 0, GetVKFromAppCommand(wc.appcmd));
             }
@@ -1707,11 +1709,11 @@ void CMPlayerCApp::RegisterHotkeys()
 
 void CMPlayerCApp::UnregisterHotkeys()
 {
-    if (m_s.fGlobalMedia) {
-        POSITION pos = m_s.wmcmds.GetHeadPosition();
+    if (m_s->fGlobalMedia) {
+        POSITION pos = m_s->wmcmds.GetHeadPosition();
 
         while (pos) {
-            wmcmd& wc = m_s.wmcmds.GetNext(pos);
+            wmcmd& wc = m_s->wmcmds.GetNext(pos);
             if (wc.appcmd != 0) {
                 UnregisterHotKey(m_pMainWnd->m_hWnd, wc.appcmd);
             }
@@ -1765,7 +1767,7 @@ UINT CMPlayerCApp::GetVKFromAppCommand(UINT nAppCommand)
 
 int CMPlayerCApp::ExitInstance()
 {
-    m_s.SaveSettings();
+    m_s->SaveSettings();
 
     OleUninitialize();
 
