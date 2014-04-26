@@ -1387,8 +1387,10 @@ BOOL CMPlayerCApp::InitInstance()
 
         bool bAudioOnly;
 
-        m_s->fileAssoc.LoadIconLib();
-        m_s->fileAssoc.SaveIconLibVersion();
+        auto iconLib = m_s->fileAssoc.GetIconLib();
+        if (iconLib) {
+            iconLib->SaveVersion();
+        }
 
         for (size_t i = 0, cnt = mf.GetCount(); i < cnt; i++) {
             bool bPlaylist = !mf[i].GetLabel().CompareNoCase(_T("pls"));
@@ -1405,8 +1407,6 @@ BOOL CMPlayerCApp::InitInstance()
                 m_s->fileAssoc.Register(mf[i], true, false, true);
             }
         }
-
-        m_s->fileAssoc.FreeIconLib();
 
         SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, nullptr, nullptr);
 

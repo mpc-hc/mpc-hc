@@ -24,43 +24,13 @@
 #include <afxwin.h>
 #include "MediaFormats.h"
 
+#include <array>
+#include <memory>
 #include <mutex>
 #include <thread>
 
 class CFileAssoc
 {
-private:
-    typedef int (*GetIconIndexFunc)(LPCTSTR);
-    typedef UINT(*GetIconLibVersionFunc)();
-
-    static CString GetOpenCommand();
-    static CString GetEnqueueCommand();
-
-    IApplicationAssociationRegistration* CreateRegistrationManager();
-
-    bool SetFileAssociation(CString strExt, CString strProgID, bool bRegister);
-
-    std::mutex m_checkIconsAssocMutex;
-    std::thread m_checkIconsAssocThread;
-    void RunCheckIconsAssocThread();
-
-    static CString m_iconLibPath;
-    static HMODULE m_hIconLib;
-    static GetIconIndexFunc GetIconIndex;
-    static GetIconLibVersionFunc GetIconLibVersion;
-
-    static LPCTSTR strRegisteredAppName;
-    static LPCTSTR strOldAssocKey;
-    static LPCTSTR strRegisteredAppKey;
-    static LPCTSTR strRegAppFileAssocKey;
-
-    static bool m_bNoRecentDocs;
-
-    static const CString strOpenCommand;
-    static const CString strEnqueueCommand;
-
-    static CComPtr<IApplicationAssociationRegistration> m_pAAR;
-
 public:
     enum reg_state_t {
         NOT_REGISTERED,
@@ -74,39 +44,93 @@ public:
         AP_DVDMOVIE
     };
 
-    CFileAssoc() = default;
+    class IconLib
+    {
+    public:
+        typedef int(*GetIconIndexFunc)(LPCTSTR);
+        typedef UINT(*GetIconLibVersionFunc)();
+
+        IconLib() = delete;
+        IconLib(const IconLib&) = delete;
+        IconLib& operator=(const IconLib&) = delete;
+        IconLib(GetIconIndexFunc fnGetIconIndex, GetIconLibVersionFunc fnGetIconLibVersion, HMODULE hLib);
+        ~IconLib();
+
+        int GetIconIndex(const CString& str) const;
+        UINT GetVersion() const;
+        void SaveVersion() const;
+
+    protected:
+        const GetIconIndexFunc m_fnGetIconIndex;
+        const GetIconLibVersionFunc m_fnGetIconLibVersion;
+        const HMODULE m_hLib;
+    };
+
+    CFileAssoc();
     CFileAssoc(const CFileAssoc&) = delete;
     CFileAssoc& operator=(const CFileAssoc&) = delete;
     ~CFileAssoc();
 
-    bool LoadIconLib();
-    bool FreeIconLib();
-    bool SaveIconLibVersion();
+    std::shared_ptr<const IconLib> GetIconLib() const;
 
     void SetNoRecentDocs(bool bNoRecentDocs, bool bUpdateAssocs = false);
 
     bool RegisterApp();
 
     bool Register(CString ext, CString strLabel, bool bRegister, bool bRegisterContextMenuEntries, bool bAssociatedWithIcon);
-    bool IsRegistered(CString ext);
-    bool AreRegisteredFileContextMenuEntries(CString strExt);
+    bool IsRegistered(CString ext) const;
+    bool AreRegisteredFileContextMenuEntries(CString strExt) const;
 
     bool Register(const CMediaFormatCategory& mfc, bool bRegister, bool bRegisterContextMenuEntries, bool bAssociatedWithIcon);
-    reg_state_t IsRegistered(const CMediaFormatCategory& mfc);
-    reg_state_t AreRegisteredFileContextMenuEntries(const CMediaFormatCategory& mfc);
+    reg_state_t IsRegistered(const CMediaFormatCategory& mfc) const;
+    reg_state_t AreRegisteredFileContextMenuEntries(const CMediaFormatCategory& mfc) const;
 
     bool RegisterFolderContextMenuEntries(bool bRegister);
-    bool AreRegisteredFolderContextMenuEntries();
+    bool AreRegisteredFolderContextMenuEntries() const;
 
     bool RegisterAutoPlay(autoplay_t ap, bool bRegister);
-    bool IsAutoPlayRegistered(autoplay_t ap);
+    bool IsAutoPlayRegistered(autoplay_t ap) const;
 
-    bool GetAssociatedExtensions(const CMediaFormats& mf, CAtlList<CString>& exts);
-    bool GetAssociatedExtensionsFromRegistry(CAtlList<CString>& exts);
+    bool GetAssociatedExtensions(const CMediaFormats& mf, CAtlList<CString>& exts) const;
+    bool GetAssociatedExtensionsFromRegistry(CAtlList<CString>& exts) const;
 
     bool ReAssocIcons(const CAtlList<CString>& exts);
 
     void CheckIconsAssoc();
 
-    bool ShowWindowsAssocDialog();
+    bool ShowWindowsAssocDialog() const;
+
+protected:
+    struct Handler {
+        CString verb;
+        CString cmd;
+        UINT action;
+
+        Handler()
+            : action(0) {}
+        Handler(const CString& verb, const CString& cmd, UINT action)
+            : verb(verb), cmd(cmd), action(action) {}
+    };
+
+    bool SetFileAssociation(CString strExt, CString strProgID, bool bRegister);
+
+    void CheckIconsAssocThread();
+
+    const CString m_iconLibPath;
+    const CString m_strRegisteredAppName;
+    const CString m_strOldAssocKey;
+    const CString m_strRegisteredAppKey;
+    const CString m_strRegAppFileAssocKey;
+
+    const CString m_strOpenCommand;
+    const CString m_strEnqueueCommand;
+
+    bool m_bNoRecentDocs;
+
+    CComPtr<IApplicationAssociationRegistration> m_pAAR;
+
+    std::mutex m_checkIconsAssocMutex;
+    std::thread m_checkIconsAssocThread;
+
+    std::array<Handler, 4> m_handlers;
 };

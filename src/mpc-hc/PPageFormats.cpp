@@ -295,7 +295,9 @@ BOOL CPPageFormats::OnApply()
         int fSetAssociatedWithIcon = m_fAssociatedWithIcons.GetCheck();
 
         if (m_bFileExtChanged) {
-            if (fSetAssociatedWithIcon && IsNeededIconsLib() && !s.fileAssoc.LoadIconLib()) {
+            auto iconLib = s.fileAssoc.GetIconLib();
+
+            if (fSetAssociatedWithIcon && IsNeededIconsLib() && !iconLib) {
                 AfxMessageBox(IDS_MISSING_ICONS_LIB, MB_ICONEXCLAMATION | MB_OK, 0);
             }
 
@@ -312,10 +314,6 @@ BOOL CPPageFormats::OnApply()
             }
 
             m_bFileExtChanged = false;
-
-            if (fSetAssociatedWithIcon) {
-                s.fileAssoc.FreeIconLib();
-            }
         }
 
         s.fileAssoc.RegisterFolderContextMenuEntries(!!m_fContextDir.GetCheck());
