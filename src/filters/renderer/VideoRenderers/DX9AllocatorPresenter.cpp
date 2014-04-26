@@ -1936,24 +1936,17 @@ void CDX9AllocatorPresenter::DrawStats()
             int nFree = 0;
             int nAlloc = 0;
             int nSubPic = 0;
-            REFERENCE_TIME QueueStart = 0;
-            REFERENCE_TIME QueueEnd = 0;
+            REFERENCE_TIME rtQueueStart = 0;
+            REFERENCE_TIME rtQueueEnd = 0;
 
             if (m_pSubPicQueue) {
-                REFERENCE_TIME QueueNow = 0;
-                m_pSubPicQueue->GetStats(nSubPic, QueueNow, QueueStart, QueueEnd);
-
-                if (QueueStart) {
-                    QueueStart -= QueueNow;
-                }
-
-                if (QueueEnd) {
-                    QueueEnd -= QueueNow;
-                }
+                REFERENCE_TIME rtQueueNow = 0;
+                m_pSubPicQueue->GetStats(nSubPic, rtQueueNow, rtQueueStart, rtQueueEnd);
             }
 
             pAlloc->GetStats(nFree, nAlloc);
-            strText.Format(L"Subtitles    : Free %d     Allocated %d     Buffered %d     QueueStart %7.3f     QueueEnd %7.3f", nFree, nAlloc, nSubPic, (double(QueueStart) / 10000000.0), (double(QueueEnd) / 10000000.0));
+            strText.Format(L"Subtitles    : Free %d     Allocated %d     Buffered %d     QueueStart %7.3f     QueueEnd %7.3f",
+                           nFree, nAlloc, nSubPic, (double(rtQueueStart) / 10000000.0), (double(rtQueueEnd) / 10000000.0));
             DrawText(rc, strText, 1);
             OffsetRect(&rc, 0, TextHeight);
         }
