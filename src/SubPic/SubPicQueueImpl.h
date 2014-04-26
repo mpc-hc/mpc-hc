@@ -21,6 +21,9 @@
 
 #pragma once
 
+#include <mutex>
+#include <condition_variable>
+
 #include "ISubPic.h"
 
 class CSubPicQueueImpl : public CUnknown, public ISubPicQueue
@@ -62,26 +65,29 @@ public:
 class CSubPicQueue : public CSubPicQueueImpl, protected CAMThread
 {
 protected:
+    bool m_bExitThread;
+
     int m_nMaxSubPic;
     bool m_bDisableAnim;
 
+    CComPtr<ISubPic> m_pSubPic;
     CInterfaceList<ISubPic> m_queue;
 
-    CCritSec m_csQueueLock; // to protect CInterfaceList<ISubPic>
-    REFERENCE_TIME UpdateQueue();
-    void AppendQueue(ISubPic* pSubPic);
-    int GetQueueCount();
+    std::mutex m_mutexSubpic; // to protect m_pSubPic
+    std::mutex m_mutexQueue; // to protect m_queue
+    std::condition_variable m_condQueueFull;
+
+    CAMEvent m_runQueueEvent;
 
     REFERENCE_TIME m_rtNowLast;
-    REFERENCE_TIME m_rtQueueMin;
-    REFERENCE_TIME m_rtQueueMax;
+
+    bool m_bInvalidate;
     REFERENCE_TIME m_rtInvalidate;
 
-    // CAMThread
+    bool EnqueueSubPic(CComPtr<ISubPic>& pSubPic, bool bBlocking);
+    REFERENCE_TIME GetCurrentRenderingTime();
 
-    bool m_bBreakBuffering;
-    enum { EVENT_EXIT, EVENT_TIME, EVENT_COUNT }; // IMPORTANT: _EXIT must come before _TIME if we want to exit fast from the destructor
-    HANDLE m_hThreadEvents[EVENT_COUNT];
+    // CAMThread
     virtual DWORD ThreadProc();
 
 public:
