@@ -1380,15 +1380,15 @@ BOOL CMPlayerCApp::InitInstance()
     }
 
     if (m_s->nCLSwitches & (CLSW_REGEXTVID | CLSW_REGEXTAUD | CLSW_REGEXTPL)) { // register file types
-        CFileAssoc::RegisterApp();
+        m_s->fileAssoc.RegisterApp();
 
         CMediaFormats& mf = m_s->m_Formats;
         mf.UpdateData(false);
 
         bool bAudioOnly;
 
-        CFileAssoc::LoadIconLib();
-        CFileAssoc::SaveIconLibVersion();
+        m_s->fileAssoc.LoadIconLib();
+        m_s->fileAssoc.SaveIconLibVersion();
 
         for (size_t i = 0, cnt = mf.GetCount(); i < cnt; i++) {
             bool bPlaylist = !mf[i].GetLabel().CompareNoCase(_T("pls"));
@@ -1402,11 +1402,11 @@ BOOL CMPlayerCApp::InitInstance()
             if (((m_s->nCLSwitches & CLSW_REGEXTVID) && !bAudioOnly) ||
                     ((m_s->nCLSwitches & CLSW_REGEXTAUD) && bAudioOnly) ||
                     ((m_s->nCLSwitches & CLSW_REGEXTPL) && bPlaylist)) {
-                CFileAssoc::Register(mf[i], true, false, true);
+                m_s->fileAssoc.Register(mf[i], true, false, true);
             }
         }
 
-        CFileAssoc::FreeIconLib();
+        m_s->fileAssoc.FreeIconLib();
 
         SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, nullptr, nullptr);
 
@@ -1418,7 +1418,7 @@ BOOL CMPlayerCApp::InitInstance()
         mf.UpdateData(false);
 
         for (size_t i = 0, cnt = mf.GetCount(); i < cnt; i++) {
-            CFileAssoc::Register(mf[i], false, false, false);
+            m_s->fileAssoc.Register(mf[i], false, false, false);
         }
 
         SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, nullptr, nullptr);
@@ -1431,9 +1431,9 @@ BOOL CMPlayerCApp::InitInstance()
         mf.UpdateData(false);
 
         CAtlList<CString> registeredExts;
-        CFileAssoc::GetAssociatedExtensionsFromRegistry(registeredExts);
+        m_s->fileAssoc.GetAssociatedExtensionsFromRegistry(registeredExts);
 
-        CFileAssoc::ReAssocIcons(registeredExts);
+        m_s->fileAssoc.ReAssocIcons(registeredExts);
 
         SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, nullptr, nullptr);
 
@@ -1568,7 +1568,7 @@ BOOL CMPlayerCApp::InitInstance()
     CWebServer::Init();
 
     if (m_s->fAssociatedWithIcons) {
-        CFileAssoc::CheckIconsAssoc();
+        m_s->fileAssoc.CheckIconsAssoc();
     }
 
     return TRUE;

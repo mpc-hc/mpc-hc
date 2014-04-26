@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -74,6 +74,13 @@ IApplicationAssociationRegistration* CFileAssoc::CreateRegistrationManager()
     UNREFERENCED_PARAMETER(hr);
 
     return pAAR;
+}
+
+CFileAssoc::~CFileAssoc()
+{
+    if (m_checkIconsAssocThread.joinable()) {
+        m_checkIconsAssocThread.join();
+    }
 }
 
 bool CFileAssoc::LoadIconLib()
@@ -722,7 +729,7 @@ bool CFileAssoc::GetAssociatedExtensions(const CMediaFormats& mf, CAtlList<CStri
         POSITION pos = mfcExts.GetHeadPosition();
         while (pos) {
             const CString ext = mfcExts.GetNext(pos);
-            if (CFileAssoc::IsRegistered(ext)) {
+            if (IsRegistered(ext)) {
                 exts.AddTail(ext);
             }
         }
@@ -748,7 +755,7 @@ bool CFileAssoc::GetAssociatedExtensionsFromRegistry(CAtlList<CString>& exts)
             if (keyName.Find(PROGID) == 0) {
                 ext = keyName.Mid(_countof(PROGID) - 1);
 
-                if (CFileAssoc::IsRegistered(ext)) {
+                if (IsRegistered(ext)) {
                     exts.AddTail(ext);
                 }
             }
@@ -812,7 +819,7 @@ static HRESULT CALLBACK TaskDialogCallbackProc(HWND hwnd, UINT uNotification, WP
     return S_OK;
 }
 
-UINT CFileAssoc::RunCheckIconsAssocThread(LPVOID /*pParam*/)
+void CFileAssoc::RunCheckIconsAssocThread()
 {
     UINT nLastVersion = AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ICON_LIB_VERSION, 0);
 
@@ -862,13 +869,15 @@ UINT CFileAssoc::RunCheckIconsAssocThread(LPVOID /*pParam*/)
 
         FreeIconLib();
     }
-
-    return 0;
 }
 
 void CFileAssoc::CheckIconsAssoc()
 {
-    AfxBeginThread(RunCheckIconsAssocThread, nullptr);
+    std::lock_guard<std::mutex> lock(m_checkIconsAssocMutex);
+    if (m_checkIconsAssocThread.joinable()) {
+        m_checkIconsAssocThread.join();
+    }
+    m_checkIconsAssocThread = std::thread([this] { RunCheckIconsAssocThread(); });
 }
 
 bool CFileAssoc::ShowWindowsAssocDialog()

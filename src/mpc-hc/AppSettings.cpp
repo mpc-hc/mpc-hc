@@ -1216,7 +1216,7 @@ void CAppSettings::LoadSettings()
     sizeAspectRatio.cy = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ASPECTRATIO_Y, 0);
 
     fKeepHistory = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_KEEPHISTORY, TRUE);
-    CFileAssoc::SetNoRecentDocs(!fKeepHistory);
+    fileAssoc.SetNoRecentDocs(!fKeepHistory);
 
     if (pApp->GetProfileBinary(IDS_R_SETTINGS, IDS_RS_LASTWINDOWRECT, &ptr, &len)) {
         if (len == sizeof(CRect)) {

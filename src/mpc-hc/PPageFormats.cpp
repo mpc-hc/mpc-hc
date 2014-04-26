@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -93,7 +93,9 @@ void CPPageFormats::UpdateMediaCategoryState(int iItem)
         return;
     }
 
-    CFileAssoc::reg_state_t state = CFileAssoc::IsRegistered(m_mf[m_list.GetItemData(iItem)]);
+    auto& s = AfxGetAppSettings();
+
+    CFileAssoc::reg_state_t state = s.fileAssoc.IsRegistered(m_mf[m_list.GetItemData(iItem)]);
 
     SetCheckedMediaCategory(iItem, (state == CFileAssoc::SOME_REGISTERED) ? 2 : (state == CFileAssoc::ALL_REGISTERED));
 }
@@ -154,7 +156,7 @@ BOOL CPPageFormats::OnInitDialog()
 
     int fSetContextFiles = FALSE;
 
-    const CAppSettings& s = AfxGetAppSettings();
+    auto& s = AfxGetAppSettings();
     m_mf = s.m_Formats;
 
     for (int i = 0, cnt = (int)m_mf.GetCount(); i < cnt; i++) {
@@ -174,13 +176,13 @@ BOOL CPPageFormats::OnInitDialog()
                            e == QuickTime ? _T("QuickTime") :
                            e == ShockWave ? _T("ShockWave") : _T("-"));
 
-        CFileAssoc::reg_state_t state = CFileAssoc::IsRegistered(m_mf[i]);
+        CFileAssoc::reg_state_t state = s.fileAssoc.IsRegistered(m_mf[i]);
         if (!m_bHaveRegisteredCategory && state != CFileAssoc::NOT_REGISTERED) {
             m_bHaveRegisteredCategory = true;
         }
         SetCheckedMediaCategory(iItem, (state == CFileAssoc::SOME_REGISTERED) ? 2 : (state == CFileAssoc::ALL_REGISTERED));
 
-        if (!fSetContextFiles && CFileAssoc::AreRegisteredFileContextMenuEntries(m_mf[i]) != CFileAssoc::NOT_REGISTERED) {
+        if (!fSetContextFiles && s.fileAssoc.AreRegisteredFileContextMenuEntries(m_mf[i]) != CFileAssoc::NOT_REGISTERED) {
             fSetContextFiles = TRUE;
         }
     }
@@ -198,10 +200,10 @@ BOOL CPPageFormats::OnInitDialog()
 
     m_fContextFiles.SetCheck(fSetContextFiles);
 
-    m_apvideo.SetCheck(CFileAssoc::IsAutoPlayRegistered(CFileAssoc::AP_VIDEO));
-    m_apmusic.SetCheck(CFileAssoc::IsAutoPlayRegistered(CFileAssoc::AP_MUSIC));
-    m_apaudiocd.SetCheck(CFileAssoc::IsAutoPlayRegistered(CFileAssoc::AP_AUDIOCD));
-    m_apdvd.SetCheck(CFileAssoc::IsAutoPlayRegistered(CFileAssoc::AP_DVDMOVIE));
+    m_apvideo.SetCheck(s.fileAssoc.IsAutoPlayRegistered(CFileAssoc::AP_VIDEO));
+    m_apmusic.SetCheck(s.fileAssoc.IsAutoPlayRegistered(CFileAssoc::AP_MUSIC));
+    m_apaudiocd.SetCheck(s.fileAssoc.IsAutoPlayRegistered(CFileAssoc::AP_AUDIOCD));
+    m_apdvd.SetCheck(s.fileAssoc.IsAutoPlayRegistered(CFileAssoc::AP_DVDMOVIE));
 
     CreateToolTip();
 
@@ -260,7 +262,7 @@ BOOL CPPageFormats::OnInitDialog()
         GetDlgItem(IDC_BUTTON6)->ShowWindow(SW_HIDE);
     }
 
-    m_fContextDir.SetCheck(CFileAssoc::AreRegisteredFolderContextMenuEntries());
+    m_fContextDir.SetCheck(s.fileAssoc.AreRegisteredFolderContextMenuEntries());
     m_fAssociatedWithIcons.SetCheck(s.fAssociatedWithIcons);
 
     UpdateData(FALSE);
@@ -271,6 +273,8 @@ BOOL CPPageFormats::OnInitDialog()
 
 BOOL CPPageFormats::OnApply()
 {
+    auto& s = AfxGetAppSettings();
+
     m_bHaveRegisteredCategory = false;
 
     if (!m_bInsufficientPrivileges) {
@@ -285,13 +289,13 @@ BOOL CPPageFormats::OnApply()
             UpdateData(FALSE);
         }
 
-        CFileAssoc::RegisterApp();
+        s.fileAssoc.RegisterApp();
 
         int fSetContextFiles = m_fContextFiles.GetCheck();
         int fSetAssociatedWithIcon = m_fAssociatedWithIcons.GetCheck();
 
         if (m_bFileExtChanged) {
-            if (fSetAssociatedWithIcon && IsNeededIconsLib() && !CFileAssoc::LoadIconLib()) {
+            if (fSetAssociatedWithIcon && IsNeededIconsLib() && !s.fileAssoc.LoadIconLib()) {
                 AfxMessageBox(IDS_MISSING_ICONS_LIB, MB_ICONEXCLAMATION | MB_OK, 0);
             }
 
@@ -304,28 +308,27 @@ BOOL CPPageFormats::OnApply()
                     continue;
                 }
 
-                CFileAssoc::Register(m_mf[m_list.GetItemData(i)], !!iChecked, !!fSetContextFiles, !!fSetAssociatedWithIcon);
+                s.fileAssoc.Register(m_mf[m_list.GetItemData(i)], !!iChecked, !!fSetContextFiles, !!fSetAssociatedWithIcon);
             }
 
             m_bFileExtChanged = false;
 
             if (fSetAssociatedWithIcon) {
-                CFileAssoc::FreeIconLib();
+                s.fileAssoc.FreeIconLib();
             }
         }
 
-        CFileAssoc::RegisterFolderContextMenuEntries(!!m_fContextDir.GetCheck());
+        s.fileAssoc.RegisterFolderContextMenuEntries(!!m_fContextDir.GetCheck());
 
         UpdateMediaCategoryState(m_list.GetSelectionMark());
 
-        CFileAssoc::RegisterAutoPlay(CFileAssoc::AP_VIDEO, !!m_apvideo.GetCheck());
-        CFileAssoc::RegisterAutoPlay(CFileAssoc::AP_MUSIC, !!m_apmusic.GetCheck());
-        CFileAssoc::RegisterAutoPlay(CFileAssoc::AP_AUDIOCD, !!m_apaudiocd.GetCheck());
-        CFileAssoc::RegisterAutoPlay(CFileAssoc::AP_DVDMOVIE, !!m_apdvd.GetCheck());
+        s.fileAssoc.RegisterAutoPlay(CFileAssoc::AP_VIDEO, !!m_apvideo.GetCheck());
+        s.fileAssoc.RegisterAutoPlay(CFileAssoc::AP_MUSIC, !!m_apmusic.GetCheck());
+        s.fileAssoc.RegisterAutoPlay(CFileAssoc::AP_AUDIOCD, !!m_apaudiocd.GetCheck());
+        s.fileAssoc.RegisterAutoPlay(CFileAssoc::AP_DVDMOVIE, !!m_apdvd.GetCheck());
 
         m_mf.SetRtspHandler(m_iRtspHandler == 0 ? RealMedia : m_iRtspHandler == 1 ? QuickTime : DirectShow, !!m_fRtspFileExtFirst);
 
-        CAppSettings& s = AfxGetAppSettings();
         s.m_Formats = m_mf;
         s.fAssociatedWithIcons = !!m_fAssociatedWithIcons.GetCheck();
 
@@ -563,7 +566,7 @@ void CPPageFormats::OnBnWin8SetDefProg()
 {
     // Windows 8 prevents the applications from programmatically changing the default handler
     // for a file type or protocol so we have to make use of Windows UI for that.
-    CFileAssoc::ShowWindowsAssocDialog();
+    AfxGetAppSettings().fileAssoc.ShowWindowsAssocDialog();
 }
 
 void CPPageFormats::OnUpdateButtonDefault(CCmdUI* pCmdUI)

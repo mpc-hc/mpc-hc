@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -167,10 +167,10 @@ BOOL CPPagePlayer::OnApply()
         }
 
         // Ensure no new items are added in Windows recent menu and in the "Recent" jump list
-        CFileAssoc::SetNoRecentDocs(true, true);
+        s.fileAssoc.SetNoRecentDocs(true, true);
     } else {
         // Re-enable Windows recent menu and the "Recent" jump list if needed
-        CFileAssoc::SetNoRecentDocs(false, true);
+        s.fileAssoc.SetNoRecentDocs(false, true);
     }
     if (!m_fKeepHistory || !m_fRememberFilePos) {
         s.filePositions.Empty();

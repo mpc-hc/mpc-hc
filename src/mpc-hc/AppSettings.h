@@ -30,6 +30,7 @@
 #include "MediaPositionList.h"
 #include "../filters/switcher/AudioSwitcher/AudioSwitcher.h"
 #include "Shaders.h"
+#include "FileAssoc.h"
 
 #include <afxsock.h>
 
@@ -629,6 +630,8 @@ public:
     CString         SelectedAudioRenderer() const;
     bool            IsISRAutoLoadEnabled() const;
     bool            IsISRAvailable() const;
+
+    CFileAssoc      fileAssoc;
 
 private:
     struct FilterKey {

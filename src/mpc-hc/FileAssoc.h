@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -24,23 +24,25 @@
 #include <afxwin.h>
 #include "MediaFormats.h"
 
+#include <mutex>
+#include <thread>
 
 class CFileAssoc
 {
 private:
-    CFileAssoc();
-
     typedef int (*GetIconIndexFunc)(LPCTSTR);
     typedef UINT(*GetIconLibVersionFunc)();
 
     static CString GetOpenCommand();
     static CString GetEnqueueCommand();
 
-    static IApplicationAssociationRegistration* CreateRegistrationManager();
+    IApplicationAssociationRegistration* CreateRegistrationManager();
 
-    static bool SetFileAssociation(CString strExt, CString strProgID, bool bRegister);
+    bool SetFileAssociation(CString strExt, CString strProgID, bool bRegister);
 
-    static UINT RunCheckIconsAssocThread(LPVOID pParam);
+    std::mutex m_checkIconsAssocMutex;
+    std::thread m_checkIconsAssocThread;
+    void RunCheckIconsAssocThread();
 
     static CString m_iconLibPath;
     static HMODULE m_hIconLib;
@@ -72,34 +74,39 @@ public:
         AP_DVDMOVIE
     };
 
-    static bool LoadIconLib();
-    static bool FreeIconLib();
-    static bool SaveIconLibVersion();
+    CFileAssoc() = default;
+    CFileAssoc(const CFileAssoc&) = delete;
+    CFileAssoc& operator=(const CFileAssoc&) = delete;
+    ~CFileAssoc();
 
-    static void SetNoRecentDocs(bool bNoRecentDocs, bool bUpdateAssocs = false);
+    bool LoadIconLib();
+    bool FreeIconLib();
+    bool SaveIconLibVersion();
 
-    static bool RegisterApp();
+    void SetNoRecentDocs(bool bNoRecentDocs, bool bUpdateAssocs = false);
 
-    static bool Register(CString ext, CString strLabel, bool bRegister, bool bRegisterContextMenuEntries, bool bAssociatedWithIcon);
-    static bool IsRegistered(CString ext);
-    static bool AreRegisteredFileContextMenuEntries(CString strExt);
+    bool RegisterApp();
 
-    static bool Register(const CMediaFormatCategory& mfc, bool bRegister, bool bRegisterContextMenuEntries, bool bAssociatedWithIcon);
-    static reg_state_t IsRegistered(const CMediaFormatCategory& mfc);
-    static reg_state_t AreRegisteredFileContextMenuEntries(const CMediaFormatCategory& mfc);
+    bool Register(CString ext, CString strLabel, bool bRegister, bool bRegisterContextMenuEntries, bool bAssociatedWithIcon);
+    bool IsRegistered(CString ext);
+    bool AreRegisteredFileContextMenuEntries(CString strExt);
 
-    static bool RegisterFolderContextMenuEntries(bool bRegister);
-    static bool AreRegisteredFolderContextMenuEntries();
+    bool Register(const CMediaFormatCategory& mfc, bool bRegister, bool bRegisterContextMenuEntries, bool bAssociatedWithIcon);
+    reg_state_t IsRegistered(const CMediaFormatCategory& mfc);
+    reg_state_t AreRegisteredFileContextMenuEntries(const CMediaFormatCategory& mfc);
 
-    static bool RegisterAutoPlay(autoplay_t ap, bool bRegister);
-    static bool IsAutoPlayRegistered(autoplay_t ap);
+    bool RegisterFolderContextMenuEntries(bool bRegister);
+    bool AreRegisteredFolderContextMenuEntries();
 
-    static bool GetAssociatedExtensions(const CMediaFormats& mf, CAtlList<CString>& exts);
-    static bool GetAssociatedExtensionsFromRegistry(CAtlList<CString>& exts);
+    bool RegisterAutoPlay(autoplay_t ap, bool bRegister);
+    bool IsAutoPlayRegistered(autoplay_t ap);
 
-    static bool ReAssocIcons(const CAtlList<CString>& exts);
+    bool GetAssociatedExtensions(const CMediaFormats& mf, CAtlList<CString>& exts);
+    bool GetAssociatedExtensionsFromRegistry(CAtlList<CString>& exts);
 
-    static void CheckIconsAssoc();
+    bool ReAssocIcons(const CAtlList<CString>& exts);
 
-    static bool ShowWindowsAssocDialog();
+    void CheckIconsAssoc();
+
+    bool ShowWindowsAssocDialog();
 };
