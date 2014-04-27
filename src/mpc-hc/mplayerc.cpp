@@ -1502,35 +1502,6 @@ BOOL WINAPI Mine_LockWindowUpdate(HWND hWndLock)
     }
 }
 
-static BOOL SetHeapOptions()
-{
-    HMODULE hLib = LoadLibrary(L"kernel32.dll");
-    if (hLib == nullptr) {
-        return FALSE;
-    }
-
-    typedef BOOL (WINAPI * HSI)
-    (HANDLE, HEAP_INFORMATION_CLASS , PVOID, SIZE_T);
-    HSI pHsi = (HSI)GetProcAddress(hLib, "HeapSetInformation");
-    if (!pHsi) {
-        FreeLibrary(hLib);
-        return FALSE;
-    }
-
-#ifndef HeapEnableTerminationOnCorruption
-#   define HeapEnableTerminationOnCorruption (HEAP_INFORMATION_CLASS)1
-#endif
-
-    BOOL fRet = (pHsi)(nullptr, HeapEnableTerminationOnCorruption, nullptr, 0)
-                ? TRUE
-                : FALSE;
-    if (hLib) {
-        FreeLibrary(hLib);
-    }
-
-    return fRet;
-}
-
 BOOL CMPlayerCApp::InitInstance()
 {
     // Remove the working directory from the search path to work around the DLL preloading vulnerability
@@ -1538,12 +1509,9 @@ BOOL CMPlayerCApp::InitInstance()
 
     WorkAroundMathLibraryBug();
 
-    if (SetHeapOptions()) {
-        TRACE(_T("Terminate on corruption enabled\n"));
-    } else {
-        CString heap_err;
-        heap_err.Format(_T("Terminate on corruption error = %u\n"), GetLastError());
-        TRACE(heap_err);
+    if (!HeapSetInformation(nullptr, HeapEnableTerminationOnCorruption, nullptr, 0)) {
+        TRACE(_T("Failed to enable \"terminate on corruption\" heap option, error %u\n"), GetLastError());
+        ASSERT(FALSE);
     }
 
     // At this point only main thread should be present, mhook is custom-hacked accordingly
