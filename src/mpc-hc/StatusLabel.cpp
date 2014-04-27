@@ -73,35 +73,31 @@ BOOL CStatusLabel::PreTranslateMessage(MSG* pMsg)
 
 void CStatusLabel::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 {
-    CDC dc;
-    dc.Attach(lpDrawItemStruct->hDC);
     CString str;
     GetWindowText(str);
-    CRect r;
-    GetClientRect(&r);
-    CFont* old = dc.SelectObject(&m_font);
+    CRect clientRect;
+    GetClientRect(&clientRect);
+
+    CDC dc;
+    dc.Attach(lpDrawItemStruct->hDC);
     dc.SetTextColor(0xffffff);
     dc.SetBkColor(0);
-    CSize size = dc.GetTextExtent(str);
-    CPoint p = CPoint(m_fRightAlign ? r.Width() - size.cx : 0, (r.Height() - size.cy) / 2);
-
-    if (m_fAddEllipses)
-        while (size.cx > r.Width() && str.GetLength() > 3) {
-            str = str.Left(str.GetLength() - 4) + _T("...");
-            size = dc.GetTextExtent(str);
-        }
-
-    dc.TextOut(p.x, p.y, str);
-    dc.ExcludeClipRect(CRect(p, size));
+    CFont* old = dc.SelectObject(&m_font);
+    const UINT style = DT_SINGLELINE | DT_NOPREFIX | (m_fAddEllipses ? DT_END_ELLIPSIS : 0);
+    CRect textRect(clientRect);
+    dc.DrawText(str, textRect, style | DT_CALCRECT);
+    if (m_fRightAlign) {
+        textRect.MoveToX(clientRect.Width() - textRect.Width());
+    }
+    textRect.MoveToY((clientRect.Height() - textRect.Height()) / 2);
+    dc.DrawText(str, textRect, style);
+    dc.ExcludeClipRect(textRect);
+    dc.FillSolidRect(clientRect, 0);
     dc.SelectObject(&old);
-    dc.FillSolidRect(&r, 0);
     dc.Detach();
 }
 
 BOOL CStatusLabel::OnEraseBkgnd(CDC* pDC)
 {
-    CRect r;
-    GetClientRect(&r);
-    pDC->FillSolidRect(&r, 0);
     return TRUE;
 }
