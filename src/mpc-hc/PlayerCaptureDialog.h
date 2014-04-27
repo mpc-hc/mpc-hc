@@ -454,6 +454,9 @@ public:
     void SetupVideoControls(CStringW DisplayName, IAMStreamConfig* pAMSC, IAMVfwCaptureDialogs* pAMVfwCD);
     void SetupAudioControls(CStringW DisplayName, IAMStreamConfig* pAMSC, const CInterfaceArray<IAMAudioInputMixer>& pAMAIM);
 
+    void UpdateVideoControls();
+    void UpdateAudioControls();
+
     bool IsTunerActive();
 
     bool SetVideoInput(int input);
