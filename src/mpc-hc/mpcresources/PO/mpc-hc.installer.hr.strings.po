@@ -2,13 +2,14 @@
 # Copyright (C) 2002 - 2014 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# schop <aprcel00@fesb.hr>, 2014
 # iivana24 <iivana24@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2013-12-21 11:15:54+0000\n"
-"PO-Revision-Date: 2014-01-06 08:20+0000\n"
-"Last-Translator: iivana24 <iivana24@gmail.com>\n"
+"PO-Revision-Date: 2014-04-15 22:50+0000\n"
+"Last-Translator: schop <aprcel00@fesb.hr>\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/mpc-hc/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,15 +19,15 @@ msgstr ""
 
 msgctxt "Messages_WelcomeLabel2"
 msgid "This will install [name] on your computer.\n\nIt is recommended that you close all other applications before continuing."
-msgstr "Ovo ce instalirati [name] na vase racunalo\n\nPreporucljivo je da zatvorite sve otvorene aplikacije prije nego nastavite"
+msgstr "Ovo će instalirati [name] na vaše računalo.\n\nPreporučeno je da zatvorite sve otvorene programe prije nego nastavite."
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows XP Service Pack 3 or newer to run."
-msgstr "[name] zahtijeva Windows XP Service Pack 3 ili noviju verziju da bi se pokrenuo."
+msgstr "Da bi se pokrenuo [name] potrebno je imati Windows XP Service Pack 3 ili novije."
 
 msgctxt "CustomMessages_comp_mpciconlib"
 msgid "Icon Library"
-msgstr "Ikona Pojmovnika"
+msgstr "Biblioteka ikona"
 
 msgctxt "CustomMessages_comp_mpcresources"
 msgid "Translations"
@@ -34,19 +35,19 @@ msgstr "Prijevodi"
 
 msgctxt "CustomMessages_msg_DeleteSettings"
 msgid "Do you also want to delete MPC-HC settings?\n\nIf you plan on installing MPC-HC again then you do not have to delete them."
-msgstr "Zelite li obrisati i MPC-HC postavke?\n\nAko planirate ponovno instalirati MPC-HC, ne morate ih brisati."
+msgstr "Želite li obrisati postavke od MPC-HC?\n\nAko planirate ponovno instalirati MPC-HC, ne morate ih brisati."
 
 msgctxt "CustomMessages_msg_SetupIsRunningWarning"
 msgid "MPC-HC setup is already running!"
-msgstr "MPC-HC setup je vec pokrenut!"
+msgstr "MPC-HC instalacija je već pokrenuta!"
 
 msgctxt "CustomMessages_msg_simd_sse"
 msgid "This build of MPC-HC requires a CPU with SSE extension support.\n\nYour CPU does not have those capabilities."
-msgstr "Ova verzija MPC-HC zahtijeva CPU sa SSE podrskom.\n\nVas CPU nema te mogucnosti"
+msgstr "Ova verzija MPC-HC zahtijeva procesor sa SSE podrškom.\n\nVaš procesor nema te mogućnosti."
 
 msgctxt "CustomMessages_msg_simd_sse2"
 msgid "This build of MPC-HC requires a CPU with SSE2 extension support.\n\nYour CPU does not have those capabilities."
-msgstr "Ova verzija MPC-HC zahtijeva CPU sa SSE2 podrskom.\n\nVas CPU nema te mogucnosti"
+msgstr "Ova verzija MPC-HC zahtijeva procesor sa SSE2 podrškom.\n\nVaš procesor nema te mogućnosti."
 
 msgctxt "CustomMessages_tsk_AllUsers"
 msgid "For all users"
@@ -62,17 +63,17 @@ msgstr "Ostali zadaci:"
 
 msgctxt "CustomMessages_tsk_ResetSettings"
 msgid "Reset settings"
-msgstr "Resetiraj postavke"
+msgstr "Vrati na početne postavke programa"
 
 msgctxt "CustomMessages_types_DefaultInstallation"
 msgid "Default installation"
-msgstr "Pocetna instalacija"
+msgstr "Standarnda instalacija"
 
 msgctxt "CustomMessages_types_CustomInstallation"
 msgid "Custom installation"
-msgstr "Prilagodjena instalacija"
+msgstr "Prilagođena instalacija"
 
 msgctxt "CustomMessages_ViewChangelog"
 msgid "View Changelog"
-msgstr "Pogledaj Log promjena"
+msgstr "Pogledaj popis promjena"
 

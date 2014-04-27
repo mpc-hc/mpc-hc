@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-03-21 18:23:35+0000\n"
-"PO-Revision-Date: 2014-03-30 04:40+0000\n"
+"PO-Revision-Date: 2014-04-23 08:11+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitoschido@ubuntu.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/mpc-hc/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -137,7 +137,7 @@ msgstr "Tiempo"
 
 msgctxt "IDD_GOTO_DLG_IDC_OK1"
 msgid "Go!"
-msgstr "¡Ir!"
+msgstr "Ir"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Enter two numbers to jump to a specified frame, the first is the frame number, the second is the frame rate."
@@ -149,7 +149,7 @@ msgstr "Cuadro"
 
 msgctxt "IDD_GOTO_DLG_IDC_OK2"
 msgid "Go!"
-msgstr "¡Ir!"
+msgstr "Ir"
 
 msgctxt "IDD_OPEN_DLG_CAPTION"
 msgid "Open"
@@ -541,7 +541,7 @@ msgstr "Advertencia"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu."
-msgstr "Si activa el modo de antialiasing a pantalla completa en la configuración de su tarjeta gráfica, los subtítulos no lucirán mejor pero se tragarán su cpu."
+msgstr "Si activa el modo de suavizado a pantalla completa en la configuración de la tarjeta de vídeo, se incrementará el uso de la CPU sin mejoras de calidad visual de los subtítulos."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
 msgid "File extensions"
@@ -609,7 +609,7 @@ msgstr "Basarse primero en extensión"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Explorer Context Menu"
-msgstr "Menú Contextual de Explorer"
+msgstr "Menú contextual del Explorador"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK6"
 msgid "Directory"
@@ -621,7 +621,7 @@ msgstr "Archivo(s)"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC1"
 msgid "Autoplay"
-msgstr "Auto-reproducción"
+msgstr "Reproducción automática"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK1"
 msgid "Video"
@@ -717,7 +717,7 @@ msgstr "Abajo"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON5"
 msgid "Add Media Type..."
-msgstr "Agregar Tipo..."
+msgstr "Añadir tipo de medio…"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON6"
 msgid "Add Sub Type..."
@@ -817,7 +817,7 @@ msgstr "Bajar"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON2"
 msgid "Delete"
-msgstr "Borrar"
+msgstr "Eliminar"
 
 msgctxt "IDD_FAVORGANIZE_IDOK"
 msgid "OK"
@@ -833,7 +833,7 @@ msgstr "Nuevo"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON3"
 msgid "Delete"
-msgstr "Borrar"
+msgstr "Eliminar"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON4"
 msgid "Up"
@@ -869,19 +869,19 @@ msgstr "Teclas multimedia globales"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON1"
 msgid "Select All"
-msgstr "Sel. Todos"
+msgstr "Seleccionar todo"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON2"
 msgid "Reset Selected"
-msgstr "Reiniciar Sel."
+msgstr "Restablecer selec."
 
 msgctxt "IDD_MEDIATYPES_DLG_CAPTION"
 msgid "Warning"
-msgstr "Advertencia"
+msgstr "Aviso"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC1"
 msgid "MPC-HC could not render some of the pins in the graph, you may not have the needed codecs or filters installed on the system."
-msgstr "MPC-HC no pudo renderizar algunos de los conectores del esquema, talvez no tengas los codecs o filtros instalados en el sistema."
+msgstr "MPC-HC no pudo renderizar algunos de los conectores del esquema. Quizá no haya instalado los códecs o los filtros necesarios en el sistema."
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC2"
 msgid "The following pin(s) failed to find a connectable filter:"
@@ -909,7 +909,7 @@ msgstr "Codificando:"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC"
 msgid "Delay:"
-msgstr "Retraso:"
+msgstr "Retardo:"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC"
 msgid "ms"
@@ -929,7 +929,7 @@ msgstr "columnas"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "Image width:"
-msgstr "Ancho:"
+msgstr "Anchura de imagen:"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "pixels"
@@ -937,11 +937,11 @@ msgstr "pixeles"
 
 msgctxt "IDD_ADDREGFILTER_CAPTION"
 msgid "Select Filter"
-msgstr "Seleccionar Filtro"
+msgstr "Seleccionar filtro"
 
 msgctxt "IDD_ADDREGFILTER_IDC_BUTTON1"
 msgid "Browse..."
-msgstr "Explorar..."
+msgstr "Examinar…"
 
 msgctxt "IDD_ADDREGFILTER_IDOK"
 msgid "OK"
@@ -953,11 +953,11 @@ msgstr "Cancelar"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Font"
-msgstr "Fuente"
+msgstr "Tipo de letra"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_BUTTON1"
 msgid "Font"
-msgstr "Fuente"
+msgstr "Tipo de letra"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Spacing"
@@ -977,15 +977,15 @@ msgstr "Escala (y,%)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Border Style"
-msgstr "Estilo de Bordes"
+msgstr "Estilo de borde"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO1"
 msgid "Outline"
-msgstr "Trans."
+msgstr "Contorno"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO2"
 msgid "Opaque box"
-msgstr "Caja opaca"
+msgstr "Recuadro opaco"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Width"
@@ -1241,7 +1241,7 @@ msgstr "Subtítulos disponibles en linea"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
 msgid "Download && Open"
-msgstr "Descargar y Abrir"
+msgstr "Descargar y abrir"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
 msgid "Replace currently loaded subtitles"
@@ -1289,7 +1289,7 @@ msgstr "Retraso entre cada comprobación:"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"
-msgstr "día(s)"
+msgstr "días"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Settings management"
@@ -1481,7 +1481,7 @@ msgstr "Salir de pantalla completa al terminar"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Fullscreen monitor"
-msgstr "Monitor en Pantalla Completa"
+msgstr "Monitor a pantalla completa"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK2"
 msgid "Use autochange fullscreen monitor mode"
@@ -1493,7 +1493,7 @@ msgstr "Añadir"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON2"
 msgid "Del"
-msgstr "Borrar"
+msgstr "Eliminar"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON3"
 msgid "Up"
@@ -1545,7 +1545,7 @@ msgstr "Cargar direcciones automáticamente"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON1"
 msgid "Reset"
-msgstr "Reiniciar"
+msgstr "Restablecer"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Online database"
@@ -1553,7 +1553,7 @@ msgstr "Base de datos en línea"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Base URL of the online subtitle database:"
-msgstr "La URL base de la base de datos de subtítulos:"
+msgstr "URL básico de la base de datos de subtítulos:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON2"
 msgid "Test"
@@ -1609,7 +1609,7 @@ msgstr "Guardar"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON5"
 msgid "Delete"
-msgstr "Borrar"
+msgstr "Eliminar"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active pre-resize shaders"

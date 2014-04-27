@@ -70,8 +70,8 @@ he.WelcomeLabel2=תוכנית התקנה זו תתקין את [name] על מחש
 he.WinVersionTooLowError=[name] דורש Windows XP Service Pack 3 או חדש יותר כדי לרוץ.
 
 ; Croatian
-hr.WelcomeLabel2=Ovo ce instalirati [name] na vase racunalo%n%nPreporucljivo je da zatvorite sve otvorene aplikacije prije nego nastavite
-hr.WinVersionTooLowError=[name] zahtijeva Windows XP Service Pack 3 ili noviju verziju da bi se pokrenuo.
+hr.WelcomeLabel2=Ovo će instalirati [name] na vaše računalo.%n%nPreporučeno je da zatvorite sve otvorene programe prije nego nastavite.
+hr.WinVersionTooLowError=Da bi se pokrenuo [name] potrebno je imati Windows XP Service Pack 3 ili novije.
 
 ; Hungarian
 hu.WelcomeLabel2=Ez telepíteni fogja a(z) [name]-t a számítógépére.%nAjánlott, hogy minden más alkalmazást zárjon be a folytatás előtt.
@@ -176,7 +176,7 @@ be.ViewChangelog=Спіс зменаў
 
 ; Catalan
 ca.langid=00001027
-ca.comp_mpciconlib=Llibreria d'icones
+ca.comp_mpciconlib=Col·lecció d’icones
 ca.comp_mpcresources=Traduccions
 ca.msg_DeleteSettings=Vols eliminar les preferències del MPC-HC?%n%nSi planeges instal.lar altre cop el MPC-HC no necessites eliminar-les.
 ca.msg_SetupIsRunningWarning=La instal.lació del MPC-HC ja se està executant!
@@ -189,8 +189,8 @@ ca.tsk_AllUsers=Per tots els usuaris
 ca.tsk_CurrentUser=Només per l'usuari actual
 ca.tsk_Other=Altres tasques:
 ca.tsk_ResetSettings=Reiniciar preferències
-ca.types_DefaultInstallation=Instal.lació per defecte
-ca.types_CustomInstallation=Instal.lació personalitzada
+ca.types_DefaultInstallation=Instal·lació per defecte
+ca.types_CustomInstallation=Instal·lació personalitzada
 ca.ViewChangelog=Veure registre de canvis
 
 ; Czech
@@ -283,7 +283,7 @@ es.msg_simd_sse2=Esta versión de MPC-HC requiere una CPU con soporte de extensi
 es.tsk_AllUsers=Para todos los usuarios
 es.tsk_CurrentUser=Solo para el usuario actual
 es.tsk_Other=Otras tareas:
-es.tsk_ResetSettings=Restaurar preferencias
+es.tsk_ResetSettings=Restablecer configuración
 es.types_DefaultInstallation=Instalación predeterminada
 es.types_CustomInstallation=Instalación personalizada
 es.ViewChangelog=Ver registro de cambios
@@ -366,22 +366,22 @@ he.ViewChangelog=הצג רשימת עדכונים
 
 ; Croatian
 hr.langid=00001050
-hr.comp_mpciconlib=Ikona Pojmovnika
+hr.comp_mpciconlib=Biblioteka ikona
 hr.comp_mpcresources=Prijevodi
-hr.msg_DeleteSettings=Zelite li obrisati i MPC-HC postavke?%n%nAko planirate ponovno instalirati MPC-HC, ne morate ih brisati.
-hr.msg_SetupIsRunningWarning=MPC-HC setup je vec pokrenut!
+hr.msg_DeleteSettings=Želite li obrisati postavke od MPC-HC?%n%nAko planirate ponovno instalirati MPC-HC, ne morate ih brisati.
+hr.msg_SetupIsRunningWarning=MPC-HC instalacija je već pokrenuta!
 #if defined(sse_required)
-hr.msg_simd_sse=Ova verzija MPC-HC zahtijeva CPU sa SSE podrskom.%n%nVas CPU nema te mogucnosti
+hr.msg_simd_sse=Ova verzija MPC-HC zahtijeva procesor sa SSE podrškom.%n%nVaš procesor nema te mogućnosti.
 #elif defined(sse2_required)
-hr.msg_simd_sse2=Ova verzija MPC-HC zahtijeva CPU sa SSE2 podrskom.%n%nVas CPU nema te mogucnosti
+hr.msg_simd_sse2=Ova verzija MPC-HC zahtijeva procesor sa SSE2 podrškom.%n%nVaš procesor nema te mogućnosti.
 #endif
 hr.tsk_AllUsers=Za sve korisnike
 hr.tsk_CurrentUser=Samo za trenutnog korisnika
 hr.tsk_Other=Ostali zadaci:
-hr.tsk_ResetSettings=Resetiraj postavke
-hr.types_DefaultInstallation=Pocetna instalacija
-hr.types_CustomInstallation=Prilagodjena instalacija
-hr.ViewChangelog=Pogledaj Log promjena
+hr.tsk_ResetSettings=Vrati na početne postavke programa
+hr.types_DefaultInstallation=Standarnda instalacija
+hr.types_CustomInstallation=Prilagođena instalacija
+hr.ViewChangelog=Pogledaj popis promjena
 
 ; Hungarian
 hu.langid=00001038

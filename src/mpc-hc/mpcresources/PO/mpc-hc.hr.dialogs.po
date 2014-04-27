@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-03-21 18:23:35+0000\n"
-"PO-Revision-Date: 2014-04-13 10:50+0000\n"
+"PO-Revision-Date: 2014-04-16 09:30+0000\n"
 "Last-Translator: schop <aprcel00@fesb.hr>\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/mpc-hc/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -77,11 +77,11 @@ msgstr "Snimi"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK2"
 msgid "Enable built-in audio switcher filter (requires restart)"
-msgstr "Omogući ugrađeni zvučni prekidački filtar (zahtijeva ponovo pokretanje)"
+msgstr "Omogući ugrađeni zamijenik zvuka (zahtijeva ponovo pokretanje)"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK5"
 msgid "Normalize"
-msgstr "Normaliziraj"
+msgstr "Normaliziraj zvuk"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC4"
 msgid "Max amplification:"
@@ -97,7 +97,7 @@ msgstr "Vrati jačinu"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC6"
 msgid "Boost:"
-msgstr "Podigni:"
+msgstr "Pojačanje:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK3"
 msgid "Down-sample to 44100 Hz"
@@ -121,7 +121,7 @@ msgstr "ulazni kanali:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
 msgid "Hold shift for immediate changes when clicking something "
-msgstr "Držite pritisnutu tipku SHIFT za trenutne promjene kada kliknete nešto"
+msgstr "Držite pritisnutu tipku SHIFT za instantne promjene kada kliknete nešto"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."
@@ -169,7 +169,7 @@ msgstr "Traži..."
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC1"
 msgid "Dub:"
-msgstr "Dubliraj:"
+msgstr "Zvučna traka:"
 
 msgctxt "IDD_OPEN_DLG_IDC_BUTTON2"
 msgid "Browse..."
@@ -185,11 +185,11 @@ msgstr "Otkaži"
 
 msgctxt "IDD_OPEN_DLG_IDC_CHECK1"
 msgid "Add to playlist without opening"
-msgstr "Dodaj na playlistu bez otvaranja"
+msgstr "Dodaj na playlistu (bez pokretanja)"
 
 msgctxt "IDD_ABOUTBOX_CAPTION"
 msgid "About"
-msgstr "O"
+msgstr "O programu"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
 msgid "Copyright © 2002-2014 see Authors.txt"
@@ -197,7 +197,7 @@ msgstr "Zasticeno  © 2002-2014 - pogledaj - Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
-msgstr "Ovaj program je besplatan i objavljen pod okriljem GNU General Public licencom."
+msgstr "Ovaj program je besplatan i objavljen je pod okriljem GNU General Public License."
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
@@ -213,7 +213,7 @@ msgstr "Verzija:"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Compiler:"
-msgstr "Kompajler:"
+msgstr "Compiler:"
 
 msgctxt "IDD_ABOUTBOX_IDC_LAVFILTERS_VERSION"
 msgid "Not used"
@@ -221,7 +221,7 @@ msgstr "Nije korišten"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build date:"
-msgstr "Datum nadogradnje:"
+msgstr "Datum:"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Operating system"
@@ -241,7 +241,7 @@ msgstr "U redu"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Open options"
-msgstr "Otvori opcije"
+msgstr "Opcije otvaranja"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO1"
 msgid "Use the same player for each media file"
@@ -285,7 +285,7 @@ msgstr "Prikaži OSD (zahtijeva ponovno pokretanje)"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK4"
 msgid "Limit window proportions on resize"
-msgstr "Ograniči proporcije prozora kada se mijenja veličina"
+msgstr "Ograniči omjer prozora pri promjeni veličine"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK12"
 msgid "Snap to desktop edges"
@@ -301,7 +301,7 @@ msgstr "Onemogući izbornik \"Otvori disk\""
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK9"
 msgid "Process priority above normal"
-msgstr "Prioritet procesa poviše normale"
+msgstr "Prioritet procesa preko normalnog"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "History"
@@ -309,7 +309,7 @@ msgstr "Povijest"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK1"
 msgid "Keep history of recently opened files"
-msgstr "Sačuvaj povijest za nedavno otvorene datoteke"
+msgstr "Spremi povijest za nedavno otvorene datoteke"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK2"
 msgid "Remember last playlist"
@@ -413,7 +413,7 @@ msgstr "Ponavljaj zauvijek"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC1"
 msgid "time(s)"
-msgstr "vrijeme(s)"
+msgstr "puta"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK1"
 msgid "Rewind when done playing"
@@ -421,11 +421,11 @@ msgstr "Vrati na početak kada izvođenje završi"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Output"
-msgstr "Izlaz"
+msgstr "Prikaz"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
-msgstr "Automatsko zumiranje:"
+msgstr "Automatski zoom:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC2"
 msgid "Auto fit factor:"

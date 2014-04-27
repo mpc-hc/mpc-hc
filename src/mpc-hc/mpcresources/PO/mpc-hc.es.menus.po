@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-02-16 20:48:44+0000\n"
-"PO-Revision-Date: 2014-03-30 07:00+0000\n"
+"PO-Revision-Date: 2014-04-23 08:11+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitoschido@ubuntu.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/mpc-hc/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -104,15 +104,15 @@ msgstr "&Ver"
 
 msgctxt "ID_VIEW_CAPTIONMENU"
 msgid "Caption&&Menu"
-msgstr "Letras y Menú"
+msgstr "Subtítulos &y menú"
 
 msgctxt "ID_VIEW_SEEKER"
 msgid "See&k Bar"
-msgstr "Barra de &Busqueda"
+msgstr "Barra de na&vegación"
 
 msgctxt "ID_VIEW_CONTROLS"
 msgid "&Controls"
-msgstr "Cont&roles"
+msgstr "&Controles"
 
 msgctxt "ID_VIEW_INFORMATION"
 msgid "&Information"
@@ -132,15 +132,15 @@ msgstr "Subresync"
 
 msgctxt "ID_VIEW_PLAYLIST"
 msgid "Pla&ylist"
-msgstr "Lista de Reproducción"
+msgstr "&Lista de reproducción"
 
 msgctxt "ID_VIEW_CAPTURE"
 msgid "Captu&re"
-msgstr "Captura"
+msgstr "Captu&rar"
 
 msgctxt "ID_VIEW_NAVIGATION"
 msgid "Na&vigation"
-msgstr "Navegación"
+msgstr "Na&vegación"
 
 msgctxt "ID_VIEW_DEBUGSHADERS"
 msgid "&Debug Shaders"
@@ -192,7 +192,7 @@ msgstr "Auto Fit (Larger Only)"
 
 msgctxt "ID_MENU_LANGUAGE"
 msgid "&Language"
-msgstr "&Idioma"
+msgstr "Idioma (&Language)"
 
 msgctxt "POPUP"
 msgid "R&enderer Settings"
@@ -260,7 +260,7 @@ msgstr "Activar Corrección de Tiempos en Cuadros"
 
 msgctxt "POPUP"
 msgid "&Color Management"
-msgstr "Gestión de Colores"
+msgstr "Gestión de &colores"
 
 msgctxt "ID_VIEW_CM_ENABLE"
 msgid "&Enable"
@@ -272,35 +272,35 @@ msgstr "Tipo de entrada"
 
 msgctxt "ID_VIEW_CM_INPUT_AUTO"
 msgid "&Auto-Detect"
-msgstr "Auto-Detectar"
+msgstr "Detectar &automáticamente"
 
 msgctxt "ID_VIEW_CM_INPUT_HDTV"
 msgid "&HDTV"
-msgstr "HDTV"
+msgstr "&HDTV"
 
 msgctxt "ID_VIEW_CM_INPUT_SDTV_NTSC"
 msgid "SDTV &NTSC"
-msgstr "SDTV NTSC"
+msgstr "SDTV, &NTSC"
 
 msgctxt "ID_VIEW_CM_INPUT_SDTV_PAL"
 msgid "SDTV &PAL"
-msgstr "SDTV PAL"
+msgstr "SDTV, &PAL"
 
 msgctxt "POPUP"
 msgid "Ambient &Light"
-msgstr "Luz ambiente"
+msgstr "&Luz ambiental"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
 msgid "&Bright (2.2 Gamma)"
-msgstr "Brillante (2.2 Gamma)"
+msgstr "&Brillante (2,2 gamma)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DIM"
 msgid "&Dim (2.35 Gamma)"
-msgstr "Ténue (2.35 Gamma)"
+msgstr "&Tenue (2,35 gamma)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DARK"
 msgid "D&ark (2.4 Gamma)"
-msgstr "Oscura (2.4 Gamma)"
+msgstr "&Oscura (2,4 gamma)"
 
 msgctxt "POPUP"
 msgid "&Rendering Intent"
@@ -364,15 +364,15 @@ msgstr "Esperar por Vaciados"
 
 msgctxt "POPUP"
 msgid "R&eset"
-msgstr "Regresar"
+msgstr "R&establecer"
 
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
-msgstr "Regresar a los ajustes predeterminados del render"
+msgstr "Restablecer a&justes predeterminados del renderizador"
 
 msgctxt "ID_VIEW_RESET_OPTIMAL"
 msgid "Reset to &optimal renderer settings"
-msgstr "Regresar a los ajustes optimos del render"
+msgstr "Restablecer aj&ustes óptimos del renderizador"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
@@ -412,7 +412,7 @@ msgstr "Tocar Ventana desde Ad&entro"
 
 msgctxt "ID_VIEW_VF_KEEPASPECTRATIO"
 msgid "&Keep Aspect Ratio"
-msgstr "Ma&ntener Razón de Proporcionalidad"
+msgstr "&Mantener relación de aspecto"
 
 msgctxt "POPUP"
 msgid "Override &Aspect Ratio"
@@ -504,23 +504,23 @@ msgstr "Siempre Visible"
 
 msgctxt "ID_ONTOP_DEFAULT"
 msgid "&Default"
-msgstr "Original"
+msgstr "&Predeterminado"
 
 msgctxt "ID_ONTOP_ALWAYS"
 msgid "&Always"
-msgstr "Activado"
+msgstr "&Siempre"
 
 msgctxt "ID_ONTOP_WHILEPLAYING"
 msgid "While &Playing"
-msgstr "Activado al Reproducir"
+msgstr "Al &reproducir"
 
 msgctxt "ID_ONTOP_WHILEPLAYINGVIDEO"
 msgid "While Playing &Video"
-msgstr "While Playing Video"
+msgstr "Al reproducir &vídeo"
 
 msgctxt "ID_VIEW_OPTIONS"
 msgid "&Options..."
-msgstr "&Opciones..."
+msgstr "&Opciones…"
 
 msgctxt "POPUP"
 msgid "&Play"
@@ -612,11 +612,11 @@ msgstr "Apagar"
 
 msgctxt "ID_AFTERPLAYBACK_LOGOFF"
 msgid "Log &Off"
-msgstr "Cerrar Sesión"
+msgstr "Cerrar la &sesión"
 
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
-msgstr "Lock"
+msgstr "&Bloquear"
 
 msgctxt "ID_AFTERPLAYBACK_EVERYTIME"
 msgid "------ Every time ------"
@@ -628,7 +628,7 @@ msgstr "Cerrar "
 
 msgctxt "ID_AFTERPLAYBACK_DONOTHING"
 msgid "Do &Nothing"
-msgstr "No Hacer Nada"
+msgstr "&No hacer nada"
 
 msgctxt "ID_AFTERPLAYBACK_NEXT"
 msgid "Play next in the &folder"

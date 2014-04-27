@@ -2,13 +2,14 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# Adolfo Jayme Barrientos <fitoschido@ubuntu.com>, 2014
 # papu <usforos@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-02-16 20:48:44+0000\n"
-"PO-Revision-Date: 2014-02-17 08:49+0000\n"
-"Last-Translator: JellyFrog\n"
+"PO-Revision-Date: 2014-04-23 08:11+0000\n"
+"Last-Translator: Adolfo Jayme Barrientos <fitoschido@ubuntu.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,7 +19,7 @@ msgstr ""
 
 msgctxt "POPUP"
 msgid "&File"
-msgstr "&Arxiu"
+msgstr "&Fitxer"
 
 msgctxt "ID_FILE_OPENQUICK"
 msgid "&Quick Open File..."
@@ -46,11 +47,11 @@ msgstr "Obrir Di&sc"
 
 msgctxt "ID_RECENT_FILES"
 msgid "Recent &Files"
-msgstr "Ar&xius Recents"
+msgstr "&Fitxers recents"
 
 msgctxt "ID_FILE_CLOSE_AND_RESTORE"
 msgid "&Close"
-msgstr "&Tancar"
+msgstr "&Tanca"
 
 msgctxt "ID_FILE_SAVE_COPY"
 msgid "&Save a Copy..."
@@ -78,7 +79,7 @@ msgstr "&Base de Dades dels Subtítols"
 
 msgctxt "ID_FILE_ISDB_SEARCH"
 msgid "&Search..."
-msgstr "Bus&car..."
+msgstr "&Cerca…"
 
 msgctxt "ID_FILE_ISDB_UPLOAD"
 msgid "&Upload..."
@@ -86,7 +87,7 @@ msgstr "Pu&jar..."
 
 msgctxt "ID_FILE_ISDB_DOWNLOAD"
 msgid "&Download..."
-msgstr "Descarre&gar..."
+msgstr "&Baixa…"
 
 msgctxt "ID_FILE_PROPERTIES"
 msgid "P&roperties"
@@ -94,11 +95,11 @@ msgstr "Pr&opietats"
 
 msgctxt "ID_FILE_EXIT"
 msgid "E&xit"
-msgstr "So&rtir"
+msgstr "&Surt"
 
 msgctxt "POPUP"
 msgid "&View"
-msgstr "&Veure"
+msgstr "&Visualitza"
 
 msgctxt "ID_VIEW_CAPTIONMENU"
 msgid "Caption&&Menu"
@@ -286,7 +287,7 @@ msgstr "SDTV &PAL"
 
 msgctxt "POPUP"
 msgid "Ambient &Light"
-msgstr "&LLum ambiental"
+msgstr "&Llum ambiental"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
 msgid "&Bright (2.2 Gamma)"
@@ -522,15 +523,15 @@ msgstr "&Opcions..."
 
 msgctxt "POPUP"
 msgid "&Play"
-msgstr "&Reproduir"
+msgstr "&Reprodueix"
 
 msgctxt "ID_PLAY_PLAYPAUSE"
 msgid "&Play/Pause"
-msgstr "&Reproduir/Pausa"
+msgstr "&Reprodueix/pausa"
 
 msgctxt "ID_PLAY_STOP"
 msgid "&Stop"
-msgstr "&Aturar"
+msgstr "&Atura"
 
 msgctxt "ID_PLAY_FRAMESTEP"
 msgid "F&rame Step"
@@ -590,7 +591,7 @@ msgstr "Després de la Re&producció"
 
 msgctxt "ID_AFTERPLAYBACK_ONCE"
 msgid "--------- Once ---------"
-msgstr "-------- Un Cop -------"
+msgstr "-------- Un cop -------"
 
 msgctxt "ID_AFTERPLAYBACK_CLOSE"
 msgid "&Exit"
@@ -610,7 +611,7 @@ msgstr "&Apagar"
 
 msgctxt "ID_AFTERPLAYBACK_LOGOFF"
 msgid "Log &Off"
-msgstr "Tancar &Sessió"
+msgstr "&Finalitza la sessió"
 
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
@@ -678,11 +679,11 @@ msgstr "&Favorits"
 
 msgctxt "POPUP"
 msgid "&Help"
-msgstr "A&juda"
+msgstr "&Ajuda"
 
 msgctxt "ID_HELP_HOMEPAGE"
 msgid "&Home Page"
-msgstr "Pàgina del P&rograma"
+msgstr "&Lloc web"
 
 msgctxt "ID_HELP_CHECKFORUPDATE"
 msgid "Check for &updates"
@@ -690,11 +691,11 @@ msgstr "Verificar &actualitzacions"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"
-msgstr "Opcions de la L&ínia de Comandaments"
+msgstr "&Opcions de la línia d’ordres"
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"
-msgstr "Decarregar Icones per la &Barra de Control"
+msgstr "&Baixa icones per la barra de control"
 
 msgctxt "ID_HELP_DONATE"
 msgid "&Donate"
@@ -702,5 +703,5 @@ msgstr "D&onació"
 
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
-msgstr "&Quant Al..."
+msgstr "&Quant a…"
 
