@@ -718,12 +718,23 @@ Ztring& Ztring::From_CC4 (const int32u S)
     S1.append(1, (char)((S&0xFF000000)>>24));
     S1.append(1, (char)((S&0x00FF0000)>>16));
     S1.append(1, (char)((S&0x0000FF00)>> 8));
-    S1.append(1, (char)((S&0x000000FF)>> 0));
+    S1.append(1, (char)((S&0x000000FF)    ));
     From_Local(S1.c_str());
 
-    //Test
-    if (empty())
-        assign(__T("(empty)"));
+    // Validity Test
+    if ( size()==4
+     || (size()==3 && (S&0x000000FF)==0x00000000 && at(0)>=0x20 && at(1)>=0x20 && at(2)>=0x20)
+     || (size()==2 && (S&0x0000FFFF)==0x00000000 && at(0)>=0x20 && at(1)>=0x20)
+     || (size()==1 && (S&0x00FFFFFF)==0x00000000 && at(0)>=0x20))
+        return *this;
+
+    // Not valid, using 0x as fallback
+    clear();
+    append(__T("0x"));
+    append(Ztring().From_CC1((int8u)((S&0xFF000000)>>24)));
+    append(Ztring().From_CC1((int8u)((S&0x00FF0000)>>16)));
+    append(Ztring().From_CC1((int8u)((S&0x0000FF00)>> 8)));
+    append(Ztring().From_CC1((int8u)((S&0x000000FF)    )));
 
     return *this;
 }

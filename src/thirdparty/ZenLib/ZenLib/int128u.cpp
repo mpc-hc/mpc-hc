@@ -46,6 +46,7 @@
     defined (__FreeBSD__)    || defined (__OpenBSD__)   || \
     defined (__NetBSD__)     || defined (__DragonFly__) || \
     defined (__sparc__)      || defined (__sparc64__)   || \
+    defined (__CYGWIN__) || \
     defined (__SUNPRO_CC)
     #define fmodl fmod
 #endif
