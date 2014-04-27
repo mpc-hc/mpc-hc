@@ -191,8 +191,8 @@ public:
     void UnregisterHotkeys();
 
 public:
-    virtual BOOL InitInstance();
-    virtual int ExitInstance();
+    virtual BOOL InitInstance() override;
+    virtual int ExitInstance() override;
 
 public:
     DECLARE_MESSAGE_MAP()
