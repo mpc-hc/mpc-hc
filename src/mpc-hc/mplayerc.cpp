@@ -366,7 +366,9 @@ BOOL CMPlayerCApp::OnIdle(LONG lCount)
 {
     BOOL ret = __super::OnIdle(lCount);
 
-    FlushProfile(false);
+    if (!ret) {
+        FlushProfile(false);
+    }
 
     return ret;
 }
