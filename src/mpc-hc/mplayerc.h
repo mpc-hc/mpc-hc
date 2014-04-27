@@ -25,19 +25,18 @@
 #error include 'stdafx.h' before including this file for PCH
 #endif
 
-#include "resource.h"       // main symbols
-#include <afxadv.h>
+#include "EventDispatcher.h"
+#include "RenderersSettings.h"
+#include "resource.h"
+
 #include <atlsync.h>
-#include "FakeFilterMapper2.h"
-#include "AppSettings.h"
-#include <d3d9.h>
+#include <d3d9.h> // needed for dxva2api.h and vmr9.h
+#include <dxva2api.h>
 #include <vmr9.h>
-#include <dxva2api.h> //#include <evr9.h>
+
 #include <map>
 #include <memory>
 #include <mutex>
-
-#include "EventDispatcher.h"
 
 #define MPC_WND_CLASS_NAME L"MediaPlayerClassicW"
 
@@ -105,6 +104,8 @@ struct LanguageResource {
     LPCTSTR name;
     LPCTSTR dllPath;
 };
+
+class CAppSettings;
 
 class CMPlayerCApp : public CWinApp
 {

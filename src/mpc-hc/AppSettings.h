@@ -31,7 +31,9 @@
 #include "../filters/switcher/AudioSwitcher/AudioSwitcher.h"
 #include "Shaders.h"
 #include "FileAssoc.h"
+#include "FakeFilterMapper2.h"
 
+#include <afxadv.h>
 #include <afxsock.h>
 
 // flags for CAppSettings::nCS

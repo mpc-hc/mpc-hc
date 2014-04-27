@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,6 +21,7 @@
 
 #include "stdafx.h"
 #include "RenderersSettings.h"
+#include "../../../mpc-hc/AppSettings.h"
 #include "../../../mpc-hc/mplayerc.h"
 #include "../../../DSUtil/SysVersion.h"
 #include "version.h"
