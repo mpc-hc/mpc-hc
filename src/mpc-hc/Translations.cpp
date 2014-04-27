@@ -20,6 +20,8 @@
 
 #include "stdafx.h"
 #include "Translations.h"
+#include "FileVersionInfo.h"
+#include "VersionInfo.h"
 #include "WinAPIUtils.h"
 
 static const std::vector<const Translations::LanguageResource> languageResources = {
@@ -87,4 +89,84 @@ std::list<const Translations::LanguageResource> Translations::GetAvailableLangua
     }
 
     return availableResources;
+}
+
+LANGID Translations::SetDefaultLanguage()
+{
+    auto languageResource = GetLanguageResourceByLocaleID(GetUserDefaultUILanguage());
+
+    // Try to set the language resource but don't fail if it can't be loaded
+    // English will we used instead in case of error
+    return SetLanguage(languageResource, false) ? languageResource.localeID : 0;
+}
+
+static LRESULT CALLBACK RTLWindowsLayoutCbtFilterHook(int code, WPARAM wParam, LPARAM lParam)
+{
+    if (code == HCBT_CREATEWND) {
+        HWND hWnd = (HWND)wParam;
+        if ((GetWindowLongPtr(hWnd, GWL_STYLE) & WS_CHILD) == 0) {
+            SetWindowLongPtr(hWnd, GWL_EXSTYLE, GetWindowLongPtr(hWnd, GWL_EXSTYLE) | WS_EX_LAYOUTRTL);
+        }
+    }
+    return CallNextHookEx(nullptr, code, wParam, lParam);
+}
+
+bool Translations::SetLanguage(LanguageResource languageResource, bool showErrorMsg /*= true*/)
+{
+    HMODULE hMod = nullptr;
+    bool success = false;
+
+    // Note that all messages should stay in English in that method!
+
+    // Try to load the resource dll if any
+    if (languageResource.dllPath) {
+        hMod = LoadLibrary(languageResource.dllPath);
+        if (hMod == nullptr) { // The dll failed to load for some reason
+            if (showErrorMsg) {
+                MessageBox(nullptr, _T("Error loading the chosen language.\n\nPlease reinstall MPC-HC."),
+                           _T("MPC-HC"), MB_ICONWARNING | MB_OK);
+            }
+        } else { // Check if the version of the resource dll is correct
+            CString strSatVersion = CFileVersionInfo::GetFileVersionStr(languageResource.dllPath);
+            CString strNeededVersion;
+            strNeededVersion.Format(_T("%u.%u.%u.0"), VersionInfo::GetMajorNumber(), VersionInfo::GetMinorNumber(), VersionInfo::GetPatchNumber());
+
+            if (strSatVersion == strNeededVersion) {
+                success = true;
+            } else { // The version wasn't correct
+                if (showErrorMsg) {
+                    int sel = MessageBox(nullptr, _T("Your language pack will not work with this version.\n\nDo you want to visit the download page to get a full package including the translations?"),
+                                         _T("MPC-HC"), MB_ICONWARNING | MB_YESNO);
+                    if (sel == IDYES) {
+                        ShellExecute(nullptr, _T("open"), DOWNLOAD_URL, nullptr, nullptr, SW_SHOWDEFAULT);
+                    }
+                }
+                // Free the loaded resource dll
+                FreeLibrary(hMod);
+                hMod = nullptr;
+            }
+        }
+    }
+
+    // In case no dll was loaded, load the English translation from the executable
+    if (hMod == nullptr) {
+        hMod = AfxGetApp()->m_hInstance;
+        // If a resource dll was supposed to be loaded we had an error
+        success = (languageResource.dllPath == nullptr);
+    }
+    // In case a dll was loaded, check if some special action is needed
+    else if (PRIMARYLANGID(languageResource.localeID) == LANG_HEBREW) {
+        // Hebrew needs the RTL flag.
+        SetProcessDefaultLayout(LAYOUT_RTL);
+        SetWindowsHookEx(WH_CBT, RTLWindowsLayoutCbtFilterHook, nullptr, GetCurrentThreadId());
+    }
+
+    // Free the old resource if it was a dll
+    if (AfxGetResourceHandle() != AfxGetApp()->m_hInstance) {
+        FreeLibrary(AfxGetResourceHandle());
+    }
+    // Set the new resource
+    AfxSetResourceHandle(hMod);
+
+    return success;
 }

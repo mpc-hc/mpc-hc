@@ -1105,13 +1105,14 @@ void CAppSettings::LoadSettings()
     // Set interface language first!
     language = (LANGID)pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LANGUAGE, -1);
     if (language == LANGID(-1)) {
-        CMPlayerCApp::SetDefaultLanguage();
+        language = Translations::SetDefaultLanguage();
     } else if (language != 0) {
         if (language <= 23) {
             // We must be updating from a really old version, use the default language
-            CMPlayerCApp::SetDefaultLanguage();
-        } else {
-            CMPlayerCApp::SetLanguage(Translations::GetLanguageResourceByLocaleID(language));
+            language = Translations::SetDefaultLanguage();
+        } else if (!Translations::SetLanguage(Translations::GetLanguageResourceByLocaleID(language))) {
+            // In case of error, reset the language to English
+            language = 0;
         }
     }
 

@@ -22,6 +22,7 @@
 #pragma once
 
 #include "PPageBase.h"
+#include "EventDispatcher.h"
 
 
 // CPPagePlayer dialog
@@ -54,6 +55,8 @@ public:
 
     DWORD m_dwCheckIniLastTick;
 
+    EventClient m_eventc;
+
     // Dialog Data
     enum { IDD = IDD_PPAGEPLAYER };
 
@@ -61,6 +64,7 @@ protected:
     CStatic m_iconSingle;
     CStatic m_iconMulti;
     CComboBox m_langsComboBox;
+    int m_nPosLangEnglish;
 
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
     virtual BOOL OnInitDialog();

@@ -44,4 +44,7 @@ namespace Translations
     LanguageResource GetLanguageResourceByLocaleID(LANGID localeID);
 
     std::list<const LanguageResource> GetAvailableLanguageResources();
+
+    LANGID SetDefaultLanguage();
+    bool SetLanguage(LanguageResource languageResource, bool showErrorMsg = true);
 };

@@ -52,7 +52,6 @@
 #include "OpenDirHelper.h"
 #include "SubtitleDlDlg.h"
 #include "ISDb.h"
-#include "Translations.h"
 #include "UpdateChecker.h"
 #include "UpdateCheckerDlg.h"
 #include "WinapiFunc.h"
@@ -668,6 +667,9 @@ void CMainFrame::EventCallback(MpcEvent ev)
                 }
             }
             break;
+        case MpcEvent::CHANGING_UI_LANGUAGE:
+            UpdateUILanguage();
+            break;
         default:
             ASSERT(FALSE);
     }
@@ -776,6 +778,7 @@ CMainFrame::CMainFrame()
     recieves.insert(MpcEvent::SHADER_POSTRESIZE_SELECTION_CHANGED);
     recieves.insert(MpcEvent::DISPLAY_MODE_AUTOCHANGING);
     recieves.insert(MpcEvent::DISPLAY_MODE_AUTOCHANGED);
+    recieves.insert(MpcEvent::CHANGING_UI_LANGUAGE);
     EventRouter::EventSelection fires;
     fires.insert(MpcEvent::SWITCHING_TO_FULLSCREEN);
     fires.insert(MpcEvent::SWITCHED_TO_FULLSCREEN);
@@ -16022,53 +16025,6 @@ void CMainFrame::UpdateAudioSwitcher()
     }
 }
 
-void CMainFrame::UpdateLanguage()
-{
-    LANGID language = AfxGetAppSettings().language;
-
-    CMenu  defaultMenu;
-    CMenu* oldMenu;
-
-    // Show a warning when switching to Hebrew (must not be translated)
-    if (PRIMARYLANGID(language) == LANG_HEBREW) {
-        MessageBox(_T("The Hebrew translation will be correctly displayed (with a right-to-left layout) after restarting the application.\n"),
-                   _T("MPC-HC"), MB_ICONINFORMATION | MB_OK);
-    }
-
-    CMPlayerCApp::SetLanguage(Translations::GetLanguageResourceByLocaleID(language));
-
-    // Destroy the dynamic menus before reloading the main menus
-    DestroyDynamicMenus();
-
-    // Reload the main menus
-    m_popupMenu.DestroyMenu();
-    m_popupMenu.LoadMenu(IDR_POPUP);
-    m_mainPopupMenu.DestroyMenu();
-    m_mainPopupMenu.LoadMenu(IDR_POPUPMAIN);
-
-    oldMenu = GetMenu();
-    defaultMenu.LoadMenu(IDR_MAINFRAME);
-    if (oldMenu) {
-        // Attach the new menu to the window only if there was a menu before
-        SetMenu(&defaultMenu);
-        // and then destroy the old one
-        oldMenu->DestroyMenu();
-    }
-    m_hMenuDefault = defaultMenu.Detach();
-
-    // Reload the dynamic menus
-    CreateDynamicMenus();
-
-    // Reload the static bars
-    OpenSetupInfoBar();
-    OpenSetupStatsBar();
-
-    // Reload the dockable bars
-    for (const auto& pair : m_controls.m_panels) {
-        pair.second->ReloadTranslatableResources();
-    }
-}
-
 void CMainFrame::UpdateControlState(UpdateControlTarget target)
 {
     const auto& s = AfxGetAppSettings();
@@ -16099,12 +16055,41 @@ void CMainFrame::UpdateControlState(UpdateControlTarget target)
             // produce WM_MOUSEMOVE message when we release mouse capture on top of it, here's a workaround
             m_timerOneTime.Subscribe(TimerOneTimeSubscriber::CHILDVIEW_CURSOR_HACK, std::bind(&CChildView::Invalidate, &m_wndView, FALSE), 16);
             break;
-        case UPDATE_LANGUAGE:
-            UpdateLanguage();
-            break;
         default:
             ASSERT(FALSE);
     }
+}
+
+void CMainFrame::UpdateUILanguage()
+{
+    CMenu  defaultMenu;
+    CMenu* oldMenu;
+
+    // Destroy the dynamic menus before reloading the main menus
+    DestroyDynamicMenus();
+
+    // Reload the main menus
+    m_popupMenu.DestroyMenu();
+    m_popupMenu.LoadMenu(IDR_POPUP);
+    m_mainPopupMenu.DestroyMenu();
+    m_mainPopupMenu.LoadMenu(IDR_POPUPMAIN);
+
+    oldMenu = GetMenu();
+    defaultMenu.LoadMenu(IDR_MAINFRAME);
+    if (oldMenu) {
+        // Attach the new menu to the window only if there was a menu before
+        SetMenu(&defaultMenu);
+        // and then destroy the old one
+        oldMenu->DestroyMenu();
+    }
+    m_hMenuDefault = defaultMenu.Detach();
+
+    // Reload the dynamic menus
+    CreateDynamicMenus();
+
+    // Reload the static bars
+    OpenSetupInfoBar();
+    OpenSetupStatsBar();
 }
 
 bool CMainFrame::OpenBD(CString Path)

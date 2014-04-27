@@ -991,7 +991,8 @@ protected:
     void UpdateSkypeHandler();
     void UpdateSeekbarChapterBag();
     void UpdateAudioSwitcher();
-    void UpdateLanguage();
+
+    void UpdateUILanguage();
 
     bool m_bAltDownClean;
     bool m_bShowingFloatingMenubar;
@@ -1029,7 +1030,6 @@ public:
         UPDATE_AUDIO_SWITCHER,
         UPDATE_CONTROLS_VISIBILITY,
         UPDATE_CHILDVIEW_CURSOR_HACK,
-        UPDATE_LANGUAGE,
     };
 
     void UpdateControlState(UpdateControlTarget target);

@@ -29,6 +29,9 @@ class CPlayerBar : public CSizingControlBarG
 
     DECLARE_DYNAMIC(CPlayerBar)
 
+    EventClient m_eventc;
+    void EventCallback(MpcEvent ev);
+
     bool m_bAutohidden;
     bool m_bHasActivePopup;
 

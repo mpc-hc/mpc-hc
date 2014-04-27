@@ -28,10 +28,24 @@ CPlayerBar::CPlayerBar()
     , m_bAutohidden(false)
     , m_bHasActivePopup(false)
 {
+    EventRouter::EventSelection recieves;
+    recieves.insert(MpcEvent::CHANGING_UI_LANGUAGE);
+    GetEventd().Connect(m_eventc, recieves, std::bind(&CPlayerBar::EventCallback, this, std::placeholders::_1));
 }
 
 CPlayerBar::~CPlayerBar()
 {
+}
+
+void CPlayerBar::EventCallback(MpcEvent ev)
+{
+    switch (ev) {
+        case MpcEvent::CHANGING_UI_LANGUAGE:
+            ReloadTranslatableResources();
+            break;
+        default:
+            ASSERT(FALSE);
+    }
 }
 
 BEGIN_MESSAGE_MAP(CPlayerBar, CSizingControlBarG)

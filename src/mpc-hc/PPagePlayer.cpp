@@ -50,7 +50,11 @@ CPPagePlayer::CPPagePlayer()
     , m_fRememberFilePos(FALSE)
     , m_bRememberPlaylistItems(TRUE)
     , m_dwCheckIniLastTick(0)
+    , m_nPosLangEnglish(0)
 {
+    EventRouter::EventSelection fires;
+    fires.insert(MpcEvent::CHANGING_UI_LANGUAGE);
+    GetEventd().Connect(m_eventc, fires);
 }
 
 CPPagePlayer::~CPPagePlayer()
@@ -125,6 +129,9 @@ BOOL CPPagePlayer::OnInitDialog()
             if (lr.localeID == s.language) {
                 m_langsComboBox.SetCurSel(pos);
             }
+            if (lr.localeID == 0) {
+                m_nPosLangEnglish = pos;
+            }
         } else {
             ASSERT(FALSE);
         }
@@ -162,13 +169,25 @@ BOOL CPPagePlayer::OnApply()
     s.fRememberFilePos = !!m_fRememberFilePos;
     s.bRememberPlaylistItems = !!m_bRememberPlaylistItems;
 
-    bool bLanguageModified = false;
     int iLangSel = m_langsComboBox.GetCurSel();
     if (iLangSel != CB_ERR) {
         LANGID language = (LANGID)m_langsComboBox.GetItemData(iLangSel);
         if (s.language != language) {
+            // Show a warning when switching to Hebrew (must not be translated)
+            if (PRIMARYLANGID(language) == LANG_HEBREW) {
+                AfxMessageBox(_T("The Hebrew translation will be correctly displayed (with a right-to-left layout) after restarting the application.\n"),
+                              MB_ICONINFORMATION | MB_OK);
+            }
+
+            if (!Translations::SetLanguage(Translations::GetLanguageResourceByLocaleID(language))) {
+                // In case of error, reset the language to English
+                language = 0;
+                m_langsComboBox.SetCurSel(m_nPosLangEnglish);
+            }
             s.language = language;
-            bLanguageModified = true;
+
+            // Inform all interested listeners that the UI language changed
+            m_eventc.FireEvent(MpcEvent::CHANGING_UI_LANGUAGE);
         }
     } else {
         ASSERT(FALSE);
@@ -215,9 +234,6 @@ BOOL CPPagePlayer::OnApply()
         pMainFrame->ShowTrayIcon(s.fTrayIcon);
         pMainFrame->UpdateControlState(CMainFrame::UPDATE_LOGO);
         pMainFrame->UpdateControlState(CMainFrame::UPDATE_WINDOW_TITLE);
-        if (bLanguageModified) {
-            pMainFrame->UpdateControlState(CMainFrame::UPDATE_LANGUAGE);
-        }
     }
 
     ::SetPriorityClass(::GetCurrentProcess(), s.dwPriority);
