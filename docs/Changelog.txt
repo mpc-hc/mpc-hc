@@ -7,6 +7,9 @@ Legend:
 * Changed
 ! Fixed
 
+next version - not released yet
+===============================
+! Ticket #4240, Crashes could randomly occur when playing files with PGS subtitles (mostly when seeking quickly)
 
 1.7.4 - 16 April 2014
 =====================

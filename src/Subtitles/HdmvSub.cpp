@@ -37,7 +37,6 @@ CHdmvSub::CHdmvSub()
     , m_nTotalSegBuffer(0)
     , m_nSegBufferPos(0)
     , m_nSegSize(0)
-    , m_pCurrentPresentationSegment(nullptr)
 {
 }
 
@@ -174,7 +173,7 @@ HRESULT CHdmvSub::ParseSample(IMediaSample* pSample)
 
 int CHdmvSub::ParsePresentationSegment(REFERENCE_TIME rt, CGolombBuffer* pGBuffer)
 {
-    m_pCurrentPresentationSegment = DEBUG_NEW HDMV_PRESENTATION_SEGMENT();
+    m_pCurrentPresentationSegment = CAutoPtr<HDMV_PRESENTATION_SEGMENT>(DEBUG_NEW HDMV_PRESENTATION_SEGMENT());
 
     m_pCurrentPresentationSegment->rtStart = rt;
     m_pCurrentPresentationSegment->rtStop = INFINITE_TIME; // Unknown for now
@@ -218,15 +217,13 @@ void CHdmvSub::EnqueuePresentationSegment()
                 }
             }
 
-            m_pPresentationSegments.AddTail(m_pCurrentPresentationSegment);
             TRACE_HDMVSUB(_T("CHdmvSub: Enqueue Presentation Segment %d - %s => ?\n"), m_pCurrentPresentationSegment->composition_descriptor.nNumber,
                           ReftimeToString(m_pCurrentPresentationSegment->rtStart));
+            m_pPresentationSegments.AddTail(m_pCurrentPresentationSegment.Detach());
         } else {
             TRACE_HDMVSUB(_T("CHdmvSub: Delete empty Presentation Segment %d\n"), m_pCurrentPresentationSegment->composition_descriptor.nNumber);
-            delete m_pCurrentPresentationSegment;
+            m_pCurrentPresentationSegment.Free();
         }
-
-        m_pCurrentPresentationSegment = nullptr;
     }
 }
 
@@ -391,7 +388,7 @@ void CHdmvSub::Reset()
 {
     m_nSegBufferPos = m_nSegSize = 0;
     m_nCurSegment = NO_SEGMENT;
-    delete m_pCurrentPresentationSegment;
+    m_pCurrentPresentationSegment.Free();
     while (!m_pPresentationSegments.IsEmpty()) {
         delete m_pPresentationSegments.RemoveHead();
     }

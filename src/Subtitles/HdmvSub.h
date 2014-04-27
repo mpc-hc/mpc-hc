@@ -126,7 +126,7 @@ private:
     int               m_nSegBufferPos;
     int               m_nSegSize;
 
-    HDMV_PRESENTATION_SEGMENT*           m_pCurrentPresentationSegment;
+    CAutoPtr<HDMV_PRESENTATION_SEGMENT>  m_pCurrentPresentationSegment;
     CAtlList<HDMV_PRESENTATION_SEGMENT*> m_pPresentationSegments;
 
     HDMV_CLUT m_CLUTs[256];
