@@ -84,14 +84,7 @@ public:
 
         int objectCount;
 
-        CAtlList<CompositionObject*> objects;
-
-        ~HDMV_PRESENTATION_SEGMENT() {
-            while (!objects.IsEmpty()) {
-                CompositionObject* pObject = objects.RemoveHead();
-                delete pObject;
-            }
-        }
+        CAutoPtrList<CompositionObject> objects;
     };
 
     CHdmvSub();
@@ -106,11 +99,11 @@ public:
     };
 
     virtual REFERENCE_TIME GetStart(POSITION nPos) {
-        HDMV_PRESENTATION_SEGMENT* pPresentationSegment = m_pPresentationSegments.GetAt(nPos);
+        const auto& pPresentationSegment = m_pPresentationSegments.GetAt(nPos);
         return pPresentationSegment ? pPresentationSegment->rtStart : INVALID_TIME;
     };
     virtual REFERENCE_TIME GetStop(POSITION nPos) {
-        HDMV_PRESENTATION_SEGMENT* pPresentationSegment = m_pPresentationSegments.GetAt(nPos);
+        const auto& pPresentationSegment = m_pPresentationSegments.GetAt(nPos);
         return pPresentationSegment ? pPresentationSegment->rtStop : INVALID_TIME;
     };
 
@@ -126,8 +119,8 @@ private:
     int               m_nSegBufferPos;
     int               m_nSegSize;
 
-    CAutoPtr<HDMV_PRESENTATION_SEGMENT>  m_pCurrentPresentationSegment;
-    CAtlList<HDMV_PRESENTATION_SEGMENT*> m_pPresentationSegments;
+    CAutoPtr<HDMV_PRESENTATION_SEGMENT>     m_pCurrentPresentationSegment;
+    CAutoPtrList<HDMV_PRESENTATION_SEGMENT> m_pPresentationSegments;
 
     HDMV_CLUT m_CLUTs[256];
     CompositionObject m_compositionObjects[64];
@@ -141,12 +134,11 @@ private:
 
     void ParseVideoDescriptor(CGolombBuffer* pGBuffer, VIDEO_DESCRIPTOR* pVideoDescriptor);
     void ParseCompositionDescriptor(CGolombBuffer* pGBuffer, COMPOSITION_DESCRIPTOR* pCompositionDescriptor);
-    void ParseCompositionObject(CGolombBuffer* pGBuffer, CompositionObject* pCompositionObject);
+    void ParseCompositionObject(CGolombBuffer* pGBuffer, const CAutoPtr<CompositionObject>& pCompositionObject);
 
     void AllocSegment(int nSize);
 
-    HDMV_PRESENTATION_SEGMENT* FindPresentationSegment(REFERENCE_TIME rt);
-    CompositionObject* FindObject(HDMV_PRESENTATION_SEGMENT* pPresentationSegment, short sObjectId);
+    POSITION FindPresentationSegment(REFERENCE_TIME rt) const;
 
     void RemoveOldSegments(REFERENCE_TIME rt);
 };
