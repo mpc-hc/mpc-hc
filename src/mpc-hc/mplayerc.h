@@ -40,44 +40,16 @@
 
 #define MPC_WND_CLASS_NAME L"MediaPlayerClassicW"
 
-//define the default logo we use
+// define the default logo we use
 #define DEF_LOGO IDF_LOGO3
-
-
-enum {
-    WM_GRAPHNOTIFY = WM_RESET_DEVICE + 1,
-    WM_POSTOPEN,
-    WM_OPENFAILED,
-    WM_SAVESETTINGS,
-    WM_TUNER_SCAN_PROGRESS,
-    WM_TUNER_SCAN_END,
-    WM_TUNER_STATS,
-    WM_TUNER_NEW_CHANNEL
-};
-
-///////////////
 
 extern HICON LoadIcon(CString fn, bool fSmall);
 extern bool LoadType(CString fn, CString& type);
 extern bool LoadResource(UINT resid, CStringA& str, LPCTSTR restype);
 extern CStringA GetContentType(CString fn, CAtlList<CString>* redir = nullptr);
 extern WORD AssignedToCmd(UINT keyOrMouseValue, bool bIsFullScreen = false, bool bCheckMouse = true);
-
-enum ControlType {
-    ProcAmp_Brightness = 0x1,
-    ProcAmp_Contrast   = 0x2,
-    ProcAmp_Hue        = 0x4,
-    ProcAmp_Saturation = 0x8,
-    ProcAmp_All = ProcAmp_Brightness | ProcAmp_Contrast | ProcAmp_Hue | ProcAmp_Saturation
-};
-
-struct COLORPROPERTY_RANGE {
-    DWORD dwProperty;
-    int   MinValue;
-    int   MaxValue;
-    int   DefaultValue;
-    int   StepSize;
-};
+extern void SetAudioRenderer(int AudioDevNo);
+extern void SetHandCursor(HWND m_hWnd, UINT nID);
 
 __inline DXVA2_Fixed32 IntToFixed(__in const int _int_, __in const short divisor = 1)
 {
@@ -94,9 +66,32 @@ __inline int FixedToInt(__in const DXVA2_Fixed32& _fixed_, __in const short fact
     return (int)_fixed_.Value * factor + ((int)_fixed_.Fraction * factor + 0x8000) / 0x10000;
 }
 
-extern void SetAudioRenderer(int AudioDevNo);
+enum {
+    WM_GRAPHNOTIFY = WM_RESET_DEVICE + 1,
+    WM_POSTOPEN,
+    WM_OPENFAILED,
+    WM_SAVESETTINGS,
+    WM_TUNER_SCAN_PROGRESS,
+    WM_TUNER_SCAN_END,
+    WM_TUNER_STATS,
+    WM_TUNER_NEW_CHANNEL
+};
 
-extern void SetHandCursor(HWND m_hWnd, UINT nID);
+enum ControlType {
+    ProcAmp_Brightness = 0x1,
+    ProcAmp_Contrast   = 0x2,
+    ProcAmp_Hue        = 0x4,
+    ProcAmp_Saturation = 0x8,
+    ProcAmp_All = ProcAmp_Brightness | ProcAmp_Contrast | ProcAmp_Hue | ProcAmp_Saturation
+};
+
+struct COLORPROPERTY_RANGE {
+    DWORD dwProperty;
+    int   MinValue;
+    int   MaxValue;
+    int   DefaultValue;
+    int   StepSize;
+};
 
 struct LanguageResource {
     UINT resourceID;
@@ -153,6 +148,7 @@ private:
     void InitProfile();
     std::recursive_mutex m_profileMutex;
     DWORD m_dwProfileLastAccessTick;
+
 public:
     void FlushProfile(bool bForce = true);
     virtual BOOL GetProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPBYTE* ppData, UINT* pBytes) override;
@@ -193,15 +189,10 @@ public:
 
     void RegisterHotkeys();
     void UnregisterHotkeys();
-    // Overrides
-    // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CMPlayerCApp)
+
 public:
     virtual BOOL InitInstance();
     virtual int ExitInstance();
-    //}}AFX_VIRTUAL
-
-    // Implementation
 
 public:
     DECLARE_MESSAGE_MAP()
