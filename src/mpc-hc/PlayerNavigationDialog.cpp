@@ -30,6 +30,7 @@
 CPlayerNavigationDialog::CPlayerNavigationDialog(CMainFrame* pMainFrame)
     : CResizableDialog(CPlayerNavigationDialog::IDD, nullptr)
     , m_pMainFrame(pMainFrame)
+    , m_bChannelInfoAvailable(false)
     , m_bTVStations(true)
 {
 }
@@ -51,10 +52,9 @@ BOOL CPlayerNavigationDialog::Create(CWnd* pParent)
 void CPlayerNavigationDialog::DoDataExchange(CDataExchange* pDX)
 {
     __super::DoDataExchange(pDX);
-    DDX_Control(pDX, IDC_LISTCHANNELS, m_ChannelList);
-    DDX_Control(pDX, IDC_NAVIGATION_INFO, m_ButtonInfo);
-    DDX_Control(pDX, IDC_NAVIGATION_SCAN, m_ButtonScan);
-    DDX_Control(pDX, IDC_NAVIGATION_FILTERSTATIONS, m_ButtonFilterStations);
+    DDX_Control(pDX, IDC_LISTCHANNELS, m_channelList);
+    DDX_Control(pDX, IDC_NAVIGATION_INFO, m_buttonInfo);
+    DDX_Control(pDX, IDC_NAVIGATION_FILTERSTATIONS, m_buttonFilterStations);
 }
 
 BOOL CPlayerNavigationDialog::PreTranslateMessage(MSG* pMsg)
@@ -62,7 +62,7 @@ BOOL CPlayerNavigationDialog::PreTranslateMessage(MSG* pMsg)
     if (pMsg->message == WM_KEYDOWN) {
         if (pMsg->wParam == VK_RETURN) {
             CWnd* pFocused = GetFocus();
-            if (pFocused && pFocused->m_hWnd == m_ChannelList.m_hWnd) {
+            if (pFocused && pFocused->m_hWnd == m_channelList.m_hWnd) {
                 return TRUE;
             }
         }
@@ -74,7 +74,8 @@ BEGIN_MESSAGE_MAP(CPlayerNavigationDialog, CResizableDialog)
     ON_WM_DESTROY()
     ON_WM_CONTEXTMENU()
     ON_LBN_SELCHANGE(IDC_LISTCHANNELS, OnChangeChannel)
-    ON_BN_CLICKED(IDC_NAVIGATION_INFO, OnButtonInfo)
+    ON_BN_CLICKED(IDC_NAVIGATION_INFO, OnShowChannelInfo)
+    ON_UPDATE_COMMAND_UI(IDC_NAVIGATION_INFO, OnUpdateShowChannelInfoButton)
     ON_BN_CLICKED(IDC_NAVIGATION_SCAN, OnTunerScan)
     ON_BN_CLICKED(IDC_NAVIGATION_FILTERSTATIONS, OnTvRadioStations)
 END_MESSAGE_MAP()
@@ -87,9 +88,9 @@ BOOL CPlayerNavigationDialog::OnInitDialog()
     __super::OnInitDialog();
 
     if (m_bTVStations) {
-        m_ButtonFilterStations.SetWindowText(ResStr(IDS_DVB_TVNAV_SEERADIO));
+        m_buttonFilterStations.SetWindowText(ResStr(IDS_DVB_TVNAV_SEERADIO));
     } else {
-        m_ButtonFilterStations.SetWindowText(ResStr(IDS_DVB_TVNAV_SEETV));
+        m_buttonFilterStations.SetWindowText(ResStr(IDS_DVB_TVNAV_SEETV));
     }
 
     return TRUE;  // return TRUE unless you set the focus to a control
@@ -98,15 +99,15 @@ BOOL CPlayerNavigationDialog::OnInitDialog()
 
 void CPlayerNavigationDialog::OnDestroy()
 {
-    m_ChannelList.ResetContent();
+    m_channelList.ResetContent();
     __super::OnDestroy();
 }
 
 void CPlayerNavigationDialog::OnChangeChannel()
 {
-    int nItem = m_ChannelList.GetCurSel();
+    int nItem = m_channelList.GetCurSel();
     if (nItem != LB_ERR) {
-        UINT nChannelID = (UINT)m_ChannelList.GetItemData(nItem) + ID_NAVIGATE_JUMPTO_SUBITEM_START;
+        UINT nChannelID = (UINT)m_channelList.GetItemData(nItem) + ID_NAVIGATE_JUMPTO_SUBITEM_START;
         m_pMainFrame->OnNavigateJumpTo(nChannelID);
     }
 }
@@ -115,15 +116,15 @@ void CPlayerNavigationDialog::UpdateElementList()
 {
     if (m_pMainFrame->GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
         const auto& s = AfxGetAppSettings();
-        m_ChannelList.ResetContent();
+        m_channelList.ResetContent();
 
         for (const auto& channel : s.m_DVBChannels) {
             if (channel.GetAudioCount() && (m_bTVStations && channel.GetVideoPID() || !m_bTVStations && !channel.GetVideoPID())) {
-                int nItem = m_ChannelList.AddString(channel.GetName());
+                int nItem = m_channelList.AddString(channel.GetName());
                 if (nItem != LB_ERR) {
-                    m_ChannelList.SetItemData(nItem, (DWORD_PTR)channel.GetPrefNumber());
+                    m_channelList.SetItemData(nItem, (DWORD_PTR)channel.GetPrefNumber());
                     if (s.nDVBLastChannel == channel.GetPrefNumber()) {
-                        m_ChannelList.SetCurSel(nItem);
+                        m_channelList.SetCurSel(nItem);
                     }
                 }
             }
@@ -133,12 +134,17 @@ void CPlayerNavigationDialog::UpdateElementList()
 
 void CPlayerNavigationDialog::UpdatePos(int nID)
 {
-    for (int i = 0, count = m_ChannelList.GetCount(); i < count; i++) {
-        if ((int)m_ChannelList.GetItemData(i) == nID) {
-            m_ChannelList.SetCurSel(i);
+    for (int i = 0, count = m_channelList.GetCount(); i < count; i++) {
+        if ((int)m_channelList.GetItemData(i) == nID) {
+            m_channelList.SetCurSel(i);
             break;
         }
     }
+}
+
+void CPlayerNavigationDialog::SetChannelInfoAvailable(bool bAvailable)
+{
+    m_bChannelInfoAvailable = bAvailable;
 }
 
 void CPlayerNavigationDialog::OnTunerScan()
@@ -147,9 +153,14 @@ void CPlayerNavigationDialog::OnTunerScan()
     UpdateElementList();
 }
 
-void CPlayerNavigationDialog::OnButtonInfo()
+void CPlayerNavigationDialog::OnShowChannelInfo()
 {
     m_pMainFrame->UpdateCurrentChannelInfo(true, true);
+}
+
+void CPlayerNavigationDialog::OnUpdateShowChannelInfoButton(CCmdUI* pCmdUI)
+{
+    pCmdUI->Enable(m_bChannelInfoAvailable);
 }
 
 void CPlayerNavigationDialog::OnTvRadioStations()
@@ -158,9 +169,9 @@ void CPlayerNavigationDialog::OnTvRadioStations()
     UpdateElementList();
 
     if (m_bTVStations) {
-        m_ButtonFilterStations.SetWindowText(ResStr(IDS_DVB_TVNAV_SEERADIO));
+        m_buttonFilterStations.SetWindowText(ResStr(IDS_DVB_TVNAV_SEERADIO));
     } else {
-        m_ButtonFilterStations.SetWindowText(ResStr(IDS_DVB_TVNAV_SEETV));
+        m_buttonFilterStations.SetWindowText(ResStr(IDS_DVB_TVNAV_SEETV));
     }
 }
 
@@ -168,11 +179,11 @@ void CPlayerNavigationDialog::OnContextMenu(CWnd* pWnd, CPoint point)
 {
     auto& s = AfxGetAppSettings();
     CPoint clientPoint = point;
-    m_ChannelList.ScreenToClient(&clientPoint);
+    m_channelList.ScreenToClient(&clientPoint);
     BOOL bOutside;
-    const UINT nItem = m_ChannelList.ItemFromPoint(clientPoint, bOutside);
-    const int curSel = m_ChannelList.GetCurSel();
-    const int channelCount = m_ChannelList.GetCount();
+    const UINT nItem = m_channelList.ItemFromPoint(clientPoint, bOutside);
+    const int curSel = m_channelList.GetCurSel();
+    const int channelCount = m_channelList.GetCount();
     CMenu m;
     m.CreatePopupMenu();
 
@@ -186,7 +197,7 @@ void CPlayerNavigationDialog::OnContextMenu(CWnd* pWnd, CPoint point)
     };
 
     auto findChannelByItemNumber = [this](std::vector<CDVBChannel>& c, int nItem) {
-        int nPrefNumber = m_ChannelList.GetItemData(nItem);
+        int nPrefNumber = m_channelList.GetItemData(nItem);
         return find_if(c.begin(), c.end(), [&](CDVBChannel const & channel) {
             return channel.GetPrefNumber() == nPrefNumber;
         });
@@ -195,7 +206,7 @@ void CPlayerNavigationDialog::OnContextMenu(CWnd* pWnd, CPoint point)
     };
 
     if (!bOutside) {
-        m_ChannelList.SetCurSel(nItem);
+        m_channelList.SetCurSel(nItem);
 
         m.AppendMenu(MF_STRING | (curSel != nItem ? MF_ENABLED : (MF_DISABLED | MF_GRAYED)), M_WATCH, ResStr(IDS_NAVIGATION_WATCH));
         m.AppendMenu(MF_SEPARATOR);
@@ -251,7 +262,7 @@ void CPlayerNavigationDialog::OnContextMenu(CWnd* pWnd, CPoint point)
                 if (NewChanIt != s.m_DVBChannels.end()) {
                     // Update pref number of the current channel
                     s.nDVBLastChannel = NewChanIt->GetPrefNumber();
-                    m_ChannelList.SetCurSel(newCurSel);
+                    m_channelList.SetCurSel(newCurSel);
                     if (curSel == nItem) {
                         // Set closest channel on list after removing current channel
                         m_pMainFrame->SetChannel(s.nDVBLastChannel);
@@ -266,7 +277,7 @@ void CPlayerNavigationDialog::OnContextMenu(CWnd* pWnd, CPoint point)
                 }
                 break;
             default:
-                m_ChannelList.SetCurSel(curSel);
+                m_channelList.SetCurSel(curSel);
                 break;
         }
     } catch (std::exception& e) {
