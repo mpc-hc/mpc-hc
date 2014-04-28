@@ -3349,12 +3349,15 @@ void File_MpegPs::video_stream()
         //New parsers
         switch (Streams[stream_id].stream_type)
         {
-            case 0x10 : Streams[stream_id].Parsers.push_back(ChooseParser_Mpeg4v()); break;
-            case 0x1B : Streams[stream_id].Parsers.push_back(ChooseParser_Avc()   ); break;
-            case 0x27 : Streams[stream_id].Parsers.push_back(ChooseParser_Hevc()  ); break;
             case 0x01 :
             case 0x02 :
             case 0x80 : Streams[stream_id].Parsers.push_back(ChooseParser_Mpegv() ); break;
+            case 0x10 :
+                        Streams[stream_id].Parsers.push_back(ChooseParser_Mpeg4v()); break;
+            case 0x1B :
+                        Streams[stream_id].Parsers.push_back(ChooseParser_Avc()   ); break;
+            case 0x24 :
+            case 0x27 : Streams[stream_id].Parsers.push_back(ChooseParser_Hevc()  ); break;
             default   :
                         #if defined(MEDIAINFO_MPEGV_YES)
                             Streams[stream_id].Parsers.push_back(ChooseParser_Mpegv());

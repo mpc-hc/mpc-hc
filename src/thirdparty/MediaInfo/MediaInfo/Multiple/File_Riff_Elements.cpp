@@ -702,12 +702,16 @@ void File_Riff::AIFF_COMM()
             Parser->Endianness='B';
         Parser->BitDepth=(int8u)sampleSize;
         #if MEDIAINFO_DEMUX
+            if (Demux_Rate)
+                Parser->Frame_Count_Valid=Demux_Rate;
             if (Config->Demux_Unpacketize_Get())
             {
                 Parser->Demux_Level=2; //Container
                 Parser->Demux_UnpacketizeContainer=true;
                 Demux_Level=4; //Intermediate
             }
+        #else //MEDIAINFO_DEMUX
+            Parser->Frame_Count_Valid=(int64u)-1; //Disabling it, waiting for SMPTE ST 337 parser reject
         #endif //MEDIAINFO_DEMUX
         Stream[Stream_ID].Parsers.push_back(Parser);
         Stream[Stream_ID].IsPcm=true;
@@ -1315,12 +1319,16 @@ void File_Riff::AVI__hdlr_strl_strf_auds()
         Parser->Endianness='L';
         Parser->BitDepth=(int8u)BitsPerSample;
         #if MEDIAINFO_DEMUX
+            if (Demux_Rate)
+                Parser->Frame_Count_Valid=Demux_Rate;
             if (Config->Demux_Unpacketize_Get() && Retrieve(Stream_General, 0, General_Format)==__T("Wave"))
             {
                 Parser->Demux_Level=2; //Container
                 Parser->Demux_UnpacketizeContainer=true;
                 Demux_Level=4; //Intermediate
             }
+        #else //MEDIAINFO_DEMUX
+            Parser->Frame_Count_Valid=(int64u)-1; //Disabling it, waiting for SMPTE ST 337 parser reject
         #endif //MEDIAINFO_DEMUX
         Stream[Stream_ID].Parsers.push_back(Parser);
         Stream[Stream_ID].IsPcm=true;

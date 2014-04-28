@@ -59,6 +59,7 @@ private :
     void video_ScreenVideo(int8u Version);
     void video_VP6(bool WithAlpha);
     void video_AVC();
+    void video_HEVC();
     void audio();
     void audio_MPEG();
     void audio_AAC();

@@ -191,7 +191,13 @@
     <ClInclude Include="MediaInfo\Export\Export_PBCore.h">
       <Filter>Header Files\Export</Filter>
     </ClInclude>
+    <ClInclude Include="MediaInfo\Image\File_ArriRaw.h">
+      <Filter>Header Files\Image</Filter>
+    </ClInclude>
     <ClInclude Include="MediaInfo\Image\File_Bmp.h">
+      <Filter>Header Files\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Image\File_Dds.h">
       <Filter>Header Files\Image</Filter>
     </ClInclude>
     <ClInclude Include="MediaInfo\Image\File_Dpx.h">
@@ -530,6 +536,9 @@
     <ClInclude Include="MediaInfo\Audio\File_Mpega.h">
       <Filter>Header Files\Audio</Filter>
     </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_OpenMG.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
     <ClInclude Include="MediaInfo\Audio\File_Opus.h">
       <Filter>Header Files\Audio</Filter>
     </ClInclude>
@@ -739,7 +748,13 @@
     <ClCompile Include="MediaInfo\Archive\File_Zip.cpp">
       <Filter>Source Files\Archive</Filter>
     </ClCompile>
+    <ClCompile Include="MediaInfo\Image\File_ArriRaw.cpp">
+      <Filter>Source Files\Image</Filter>
+    </ClCompile>
     <ClCompile Include="MediaInfo\Image\File_Bmp.cpp">
+      <Filter>Source Files\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Image\File_Dds.cpp">
       <Filter>Source Files\Image</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Image\File_Dpx.cpp">
@@ -1109,6 +1124,9 @@
       <Filter>Source Files\Audio</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Audio\File_Mpega.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_OpenMG.cpp">
       <Filter>Source Files\Audio</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Audio\File_Opus.cpp">

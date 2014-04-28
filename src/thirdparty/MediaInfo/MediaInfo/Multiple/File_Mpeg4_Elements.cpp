@@ -1450,7 +1450,7 @@ void File_Mpeg4::jp2c()
             Merge(MI, MI.StreamKind, 0, 0);
 
             Fill("MPEG-4");
-            if (Config->File_Names.size()>1)
+            if (Config->File_Names.size()>1 && File_Size!=(int64u)-1)
             {
                 int64u OverHead=Config->File_Sizes[0]-Element_Size;
                 Fill(Stream_Video, 0, Video_StreamSize, File_Size-Config->File_Names.size()*OverHead, 10, true);
@@ -4533,6 +4533,22 @@ void File_Mpeg4::moov_trak_mdia_minf_stbl_stsd_xxxxVideo()
                     Streams[moov_trak_tkhd_TrackID].Parsers.push_back(Parser);
                 }
             #endif
+            #if defined(MEDIAINFO_HEVC_YES)
+                if (MediaInfoLib::Config.CodecID_Get(Stream_Video, InfoCodecID_Format_Mpeg4, Ztring().From_CC4((int32u)Element_Code), InfoCodecID_Format)==__T("HEVC"))
+                {
+                    File_Hevc* Parser=new File_Hevc;
+                    Parser->FrameIsAlwaysComplete=true;
+                    #if MEDIAINFO_DEMUX
+                        if (Config->Demux_Avc_Transcode_Iso14496_15_to_Iso14496_10_Get())
+                        {
+                            Streams[moov_trak_tkhd_TrackID].Demux_Level=4; //Intermediate
+                            Parser->Demux_Level=2; //Container
+                            Parser->Demux_UnpacketizeContainer=true;
+                        }
+                    #endif //MEDIAINFO_DEMUX
+                    Streams[moov_trak_tkhd_TrackID].Parsers.push_back(Parser);
+                }
+            #endif
             #if defined(MEDIAINFO_MPEGV_YES)
                 if (MediaInfoLib::Config.CodecID_Get(Stream_Video, InfoCodecID_Format_Mpeg4, Ztring().From_CC4((int32u)Element_Code), InfoCodecID_Format)==__T("MPEG Video") && Element_Code!=0x6D78336E && Element_Code!=0x6D783370 && Element_Code!=0x6D78356E && Element_Code!=0x6D783570) //mx3n, mx3p, mx5n, mx5p
                 {
@@ -5375,6 +5391,8 @@ void File_Mpeg4::moov_trak_mdia_minf_stbl_stsd_xxxx_fiel()
                                         break;
                             default  :  ;
                         }
+                        // Priorizing https://developer.apple.com/library/mac/technotes/tn2162/_index.html#//apple_ref/doc/uid/DTS40013070-CH1-TNTAG10-THE__FIEL__IMAGEDESCRIPTION_EXTENSION__FIELD_FRAME_INFORMATION
+                        /*
                         switch(detail)
                         {
                             case  9 :   // B is displayed earliest, T is stored first in the file.
@@ -5383,6 +5401,21 @@ void File_Mpeg4::moov_trak_mdia_minf_stbl_stsd_xxxx_fiel()
                                         break;
                             default  :  ;
                         }
+                        */
+                        switch (detail)
+                        {
+                            case  1  :  // Separated fields, TFF
+                            case  6 :   // Separated fields, BFF
+                                        Fill(Stream_Video, StreamPos_Last, Video_ScanType_StoreMethod_FieldsPerBlock, 2, 10, true);
+                                        Fill(Stream_Video, StreamPos_Last, Video_ScanType_StoreMethod, "SeparatedFields", Unlimited, true, true);
+                                        break;
+                            case  9  :  // Interleaved fields, TFF
+                            case 14 :   // Interleaved fields, BFF
+                                        Fill(Stream_Video, StreamPos_Last, Video_ScanType_StoreMethod, "InterleavedFields", Unlimited, true, true);
+                                        break;
+                            default  :  ;
+                        }
+
                         #ifdef MEDIAINFO_JPEG_YES
                             if (Retrieve(Stream_Video, StreamPos_Last, Video_Format)==__T("JPEG") && Streams[moov_trak_tkhd_TrackID].Parsers.size()==1)
                                 ((File_Jpeg*)Streams[moov_trak_tkhd_TrackID].Parsers[0])->Interlaced=true;
@@ -5401,24 +5434,22 @@ void File_Mpeg4::moov_trak_mdia_minf_stbl_stsd_xxxx_glbl()
     if (Retrieve(Stream_Video, StreamPos_Last, Video_MuxingMode)==__T("MXF"))
     {
         Clear(Stream_Video, StreamPos_Last, Video_MuxingMode);
-        for (size_t Pos=0; Pos<Streams[moov_trak_tkhd_TrackID].Parsers.size(); Pos++)
-            delete Streams[moov_trak_tkhd_TrackID].Parsers[Pos];
-        Streams[moov_trak_tkhd_TrackID].Parsers.clear();
         #if defined(MEDIAINFO_MPEGV_YES)
             File_Mpegv* Parser=new File_Mpegv;
             Streams[moov_trak_tkhd_TrackID].Parsers.push_back(Parser);
-        #endif //defined(MEDIAINFO_MPEGV_YES)
 
-        //Re-init
-        if (!Streams[moov_trak_tkhd_TrackID].Parsers.empty())
-        {
+            //Re-init
             int64u Elemen_Code_Save=Element_Code;
             Element_Code=moov_trak_tkhd_TrackID; //Element_Code is use for stream identifier
-            for (size_t Pos=0; Pos<Streams[moov_trak_tkhd_TrackID].Parsers.size(); Pos++)
-                Open_Buffer_Init(Streams[moov_trak_tkhd_TrackID].Parsers[Pos]);
+            Open_Buffer_Init(Parser);
             Element_Code=Elemen_Code_Save;
             mdat_MustParse=true; //Data is in MDAT
-        }
+
+            Open_Buffer_Continue(Parser);
+        #endif //defined(MEDIAINFO_MPEGV_YES)
+
+        //TODO: demux is not done in this case (2 possibilities: MXF wrapped and it is useless, not MXF wrapped and we may need it but up to now we saw only data in this atom redundant with the raw stream data)
+        return;
     }
 
     //Demux
@@ -5438,38 +5469,56 @@ void File_Mpeg4::moov_trak_mdia_minf_stbl_stsd_xxxx_hvcC()
     Element_Name("HEVCDecoderConfigurationRecord");
 
     //Parsing
-    int8u Version;
-    Get_B1 (Version,                                            "Version");
-    if (moov_trak_mdia_minf_stbl_stsd_Pos>1)
-    {
-        Skip_XX(Element_Size-Element_Offset,                    "Data not analyzed");
-        return; //Handling only the first description
-    }
-    else if (Version==1)
-    {
-        #ifdef MEDIAINFO_HEVC_YES
-            for (size_t Pos=0; Pos<Streams[moov_trak_tkhd_TrackID].Parsers.size(); Pos++) //Removing any previous parser (in case of multiple streams in one track, or dummy parser for demux)
-                delete Streams[moov_trak_tkhd_TrackID].Parsers[Pos];
-            Streams[moov_trak_tkhd_TrackID].Parsers.clear();
+    #ifdef MEDIAINFO_HEVC_YES
+        for (size_t Pos=0; Pos<Streams[moov_trak_tkhd_TrackID].Parsers.size(); Pos++) //Removing any previous parser (in case of multiple streams in one track, or dummy parser for demux)
+            delete Streams[moov_trak_tkhd_TrackID].Parsers[Pos];
+        Streams[moov_trak_tkhd_TrackID].Parsers.clear();
 
-            File_Hevc* Parser=new File_Hevc;
-            Parser->FrameIsAlwaysComplete=true;
-            Open_Buffer_Init(Parser);
-            Parser->MustParse_VPS_SPS_PPS=true;
-            Parser->MustSynchronize=false;
-            Streams[moov_trak_tkhd_TrackID].Parsers.push_back(Parser);
-            mdat_MustParse=true; //Data is in MDAT
+        File_Hevc* Parser=new File_Hevc;
+        Parser->FrameIsAlwaysComplete=true;
+        #if MEDIAINFO_DEMUX
+            Element_Code=moov_trak_tkhd_TrackID;
+            if (Config->Demux_Avc_Transcode_Iso14496_15_to_Iso14496_10_Get())
+            {
+                Streams[moov_trak_tkhd_TrackID].Demux_Level=4; //Intermediate
+                Parser->Demux_Level=2; //Container
+                Parser->Demux_UnpacketizeContainer=true;
+            }
+        #endif //MEDIAINFO_DEMUX
+        Open_Buffer_Init(Parser);
+        Parser->MustParse_VPS_SPS_PPS=true;
+        Parser->MustSynchronize=false;
+        Streams[moov_trak_tkhd_TrackID].Parsers.push_back(Parser);
+        mdat_MustParse=true; //Data is in MDAT
 
-            //Parsing
-            Open_Buffer_Continue(Parser);
+        //Demux
+        #if MEDIAINFO_DEMUX
+            if (!Config->Demux_Avc_Transcode_Iso14496_15_to_Iso14496_10_Get())
+                switch (Config->Demux_InitData_Get())
+                {
+                    case 0 :    //In demux event
+                                Demux_Level=2; //Container
+                                Demux(Buffer+Buffer_Offset, (size_t)Element_Size, ContentType_Header);
+                                break;
+                    case 1 :    //In field
+                                {
+                                std::string Data_Raw((const char*)(Buffer+Buffer_Offset), (size_t)Element_Size);
+                                std::string Data_Base64(Base64::encode(Data_Raw));
+                                Fill(Stream_Video, StreamPos_Last, "Demux_InitBytes", Data_Base64);
+                                (*Stream_More)[Stream_Video][StreamPos_Last](Ztring().From_Local("Demux_InitBytes"), Info_Options)=__T("N NT");
+                                }
+                                break;
+                    default :   ;
+                }
+        #endif //MEDIAINFO_DEMUX
 
-            Parser->SizedBlocks=true;  //Now this is SizeBlocks
-        #else
-            Skip_XX(Element_Size,                               "HEVC Data");
-        #endif
-    }
-    else
-        Skip_XX(Element_Size,                                   "Data");
+        //Parsing
+        Open_Buffer_Continue(Parser);
+
+        Parser->SizedBlocks=true;  //Now this is SizeBlocks
+    #else
+        Skip_XX(Element_Size,                               "HEVC Data");
+    #endif
 }
 
 //---------------------------------------------------------------------------

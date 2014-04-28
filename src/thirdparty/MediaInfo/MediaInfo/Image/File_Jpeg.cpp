@@ -189,6 +189,13 @@ void File_Jpeg::Streams_Accept()
     Frame_Count_NotParsedIncluded=0;
 }
 
+//---------------------------------------------------------------------------
+void File_Jpeg::Streams_Finish()
+{
+    if (StreamKind_Last==Stream_Video && Config->ParseSpeed>=1.0)
+        Fill (Stream_Video, 0, Video_StreamSize, Buffer_TotalBytes, 10, true);
+}
+
 //***************************************************************************
 // Static stuff
 //***************************************************************************

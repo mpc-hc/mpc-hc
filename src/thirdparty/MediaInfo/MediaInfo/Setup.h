@@ -107,6 +107,9 @@
     #if !defined (MEDIAINFO_MPEGTS_DUPLICATE_NO) && !defined (MEDIAINFO_MPEGTS_DUPLICATE_YES)
         #define MEDIAINFO_MPEGTS_DUPLICATE_NO
     #endif
+    #if !defined (MEDIAINFO_READTHREAD_NO) && !defined (MEDIAINFO_READTHREAD_YES)
+        #define MEDIAINFO_READTHREAD_NO
+    #endif
 #endif
 
 //---------------------------------------------------------------------------
@@ -225,6 +228,16 @@
         #define MEDIAINFO_IBI 0
     #else
         #define MEDIAINFO_IBI 1
+    #endif
+#endif
+#if !defined(MEDIAINFO_READTHREAD)
+    #if defined(MEDIAINFO_READTHREAD_NO) && defined(MEDIAINFO_READTHREAD_YES)
+        #undef MEDIAINFO_READTHREAD_NO //MEDIAINFO_READTHREAD_YES has priority
+    #endif
+    #if defined(MEDIAINFO_READTHREAD_NO) || !defined(WINDOWS) //Currently supported only on Windows TODO: add support of non Windows OS
+        #define MEDIAINFO_READTHREAD 0
+    #else
+        #define MEDIAINFO_READTHREAD 1
     #endif
 #endif
 
@@ -530,6 +543,9 @@
 #if !defined(MEDIAINFO_AUDIO_NO) && !defined(MEDIAINFO_MPEGA_NO) && !defined(MEDIAINFO_MPEGA_YES)
     #define MEDIAINFO_MPEGA_YES
 #endif
+#if !defined(MEDIAINFO_AUDIO_NO) && !defined(MEDIAINFO_OPENMG_NO) && !defined(MEDIAINFO_OPENMG_YES)
+    #define MEDIAINFO_OPENMG_YES
+#endif
 #if !defined(MEDIAINFO_AUDIO_NO) && !defined(MEDIAINFO_OPUS_NO) && !defined(MEDIAINFO_OPUS_YES)
     #define MEDIAINFO_OPUS_YES
 #endif
@@ -638,8 +654,14 @@
 
 //---------------------------------------------------------------------------
 // Image
+#if !defined(MEDIAINFO_IMAGE_NO) && !defined(MEDIAINFO_ARRIRAW_NO) && !defined(MEDIAINFO_ARRIRAW_YES)
+    #define MEDIAINFO_ARRIRAW_YES
+#endif
 #if !defined(MEDIAINFO_IMAGE_NO) && !defined(MEDIAINFO_BMP_NO) && !defined(MEDIAINFO_BMP_YES)
     #define MEDIAINFO_BMP_YES
+#endif
+#if !defined(MEDIAINFO_IMAGE_NO) && !defined(MEDIAINFO_DDS_NO) && !defined(MEDIAINFO_DDS_YES)
+    #define MEDIAINFO_DDS_YES
 #endif
 #if !defined(MEDIAINFO_IMAGE_NO) && !defined(MEDIAINFO_DPX_NO) && !defined(MEDIAINFO_DPX_YES)
     #define MEDIAINFO_DPX_YES

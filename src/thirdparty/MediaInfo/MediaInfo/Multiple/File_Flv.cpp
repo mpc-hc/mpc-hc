@@ -35,6 +35,9 @@
 #if defined(MEDIAINFO_AVC_YES)
     #include "MediaInfo/Video/File_Avc.h"
 #endif
+#if defined(MEDIAINFO_HEVC_YES)
+    #include "MediaInfo/Video/File_Hevc.h"
+#endif
 #if defined(MEDIAINFO_AAC_YES)
     #include "MediaInfo/Audio/File_Aac.h"
 #endif
@@ -49,6 +52,9 @@
     #include "MediaInfo/MediaInfo_Events.h"
 #endif //MEDIAINFO_EVENTS
 #include <algorithm>
+#if MEDIAINFO_DEMUX
+    #include "base64.h"
+#endif //MEDIAINFO_DEMUX
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib
@@ -641,12 +647,22 @@ void File_Flv::FileHeader_Parse()
         if (video_stream_Count)
         {
             Stream_Prepare(Stream_Video);
+            #if MEDIAINFO_DEMUX
+                if (Config->Demux_ForceIds_Get())
+                    Fill(Stream_Video, 0, Video_ID, 9);
+            #endif //MEDIAINFO_DEMUX
             video_stream_FrameRate_Detected=false;
         }
         else
             video_stream_FrameRate_Detected=true;
         if (audio_stream_Count)
+        {
             Stream_Prepare(Stream_Audio);
+            #if MEDIAINFO_DEMUX
+                if (Config->Demux_ForceIds_Get())
+                    Fill(Stream_Audio, 0, Audio_ID, 8);
+            #endif //MEDIAINFO_DEMUX
+        }
 
         if (Version>1)
         {
@@ -900,8 +916,6 @@ void File_Flv::video()
         return;
     }
 
-    Demux(Buffer+Buffer_Offset+(size_t)Element_Offset, (size_t)(Element_Size-Element_Offset), ContentType_MainStream);
-
     //Needed?
     if (!video_stream_Count && Config->ParseSpeed<1)
         return; //No more need of Video stream
@@ -940,10 +954,19 @@ void File_Flv::video()
             case  5 : video_VP6(true); break;
             case  6 : video_ScreenVideo(2); break;
             case  7 : video_AVC(); break;
+            case 12 : video_HEVC(); break;
             default : Skip_XX(Element_Size-Element_Offset,      "Unknown");
                       video_stream_Count=false; //No more need of Video stream;
         }
     FILLING_END();
+
+    #if MEDIAINFO_DEMUX
+        int8u Demux_Level_old=Demux_Level;
+        if (Stream[Stream_Video].Parser && Stream[Stream_Video].Parser->Demux_Level==2)
+            Demux_Level=4;
+        Demux(Buffer+Buffer_Offset+1, (size_t)(Element_Size-1), ContentType_MainStream);
+        Demux_Level=Demux_Level_old;
+    #endif //MEDIAINFO_DEMUX
 }
 
 //---------------------------------------------------------------------------
@@ -1119,6 +1142,87 @@ void File_Flv::video_AVC()
                  video_stream_Count=false; //Unable to parse it
     }
 }
+
+//---------------------------------------------------------------------------
+void File_Flv::video_HEVC()
+{
+    int8u AVCPacketType;
+    Get_B1 (AVCPacketType,                                      "AVCPacketType"); Param_Info1(Flv_AVCPacketType(AVCPacketType));
+    Info_B3(CompositionTime,                                    "CompositionTime"); Param_Info1(Ztring::ToZtring((int32s)(CompositionTime+0xFF000000)));
+
+    switch (AVCPacketType)
+    {
+        case 0 :
+                #ifdef MEDIAINFO_HEVC_YES
+                    if (Stream[Stream_Video].Parser==NULL)
+                    {
+                        Stream[Stream_Video].Parser=new File_Hevc;
+                        Open_Buffer_Init(Stream[Stream_Video].Parser);
+                        ((File_Hevc*)Stream[Stream_Video].Parser)->MustParse_VPS_SPS_PPS=true;
+                        ((File_Hevc*)Stream[Stream_Video].Parser)->MustParse_VPS_SPS_PPS_FromFlv=true;
+                        ((File_Hevc*)Stream[Stream_Video].Parser)->MustSynchronize=false;
+                        ((File_Hevc*)Stream[Stream_Video].Parser)->SizedBlocks=true;
+                        #if MEDIAINFO_DEMUX
+                            if (Config->Demux_Avc_Transcode_Iso14496_15_to_Iso14496_10_Get())
+                            {
+                                Stream[Stream_Video].Parser->Demux_Level=2; //Container
+                                Stream[Stream_Video].Parser->Demux_UnpacketizeContainer=true;
+                            }
+                        #endif //MEDIAINFO_DEMUX
+                    }
+
+                    //Parsing
+                    Open_Buffer_Continue(Stream[Stream_Video].Parser);
+
+                    //Demux
+                    #if MEDIAINFO_DEMUX
+                        switch (Config->Demux_InitData_Get())
+                        {
+                            case 0 :    //In demux event
+                                        Demux_Level=2; //Container
+                                        Demux(Buffer+Buffer_Offset+2, (size_t)(Element_Size-2), ContentType_Header);
+                                        break;
+                            case 1 :    //In field
+                                        {
+                                        std::string Data_Raw((const char*)(Buffer+Buffer_Offset+2), (size_t)(Element_Size-2));
+                                        std::string Data_Base64(Base64::encode(Data_Raw));
+                                        Fill(Stream_Video, StreamPos_Last, "Demux_InitBytes", Data_Base64);
+                                        (*Stream_More)[Stream_Video][StreamPos_Last](Ztring().From_Local("Demux_InitBytes"), Info_Options)=__T("N NT");
+                                        }
+                                        break;
+                            default :   ;
+                        }
+                    #endif //MEDIAINFO_DEMUX
+                #else
+                    Skip_XX(Element_Size-Element_Offset,        "HEVC Data");
+                    video_stream_Count=false; //Unable to parse it
+                #endif
+                break;
+        case 1 :
+                #ifdef MEDIAINFO_HEVC_YES
+                    if (Stream[Stream_Video].Parser==NULL)
+                    {
+                        //Data before header, this is wrong
+                        video_stream_Count=false;
+                        break;
+                    }
+
+                    //Parsing
+                    Open_Buffer_Continue(Stream[Stream_Video].Parser);
+
+                    //Disabling this stream
+                    if (Stream[Stream_Video].Parser->File_GoTo!=(int64u)-1 || Stream[Stream_Video].Parser->Count_Get(Stream_Video)>0 || (Config->ParseSpeed<1.0 && Stream[Stream_Video].PacketCount>=300))
+                         video_stream_Count=false;
+                #else
+                    Skip_XX(Element_Size-Element_Offset,        "HEVC Data");
+                    video_stream_Count=false; //Unable to parse it
+                #endif
+                break;
+        default: Skip_XX(Element_Size-Element_Offset,           "Unknown");
+                 video_stream_Count=false; //Unable to parse it
+    }
+}
+
 //---------------------------------------------------------------------------
 void File_Flv::audio()
 {
@@ -1131,8 +1235,6 @@ void File_Flv::audio()
         Element_Info1("Null");
         return;
     }
-
-    Demux(Buffer+Buffer_Offset+(size_t)Element_Offset+1, (size_t)(Element_Size-Element_Offset-1), ContentType_MainStream);
 
     //Needed?
     if (!audio_stream_Count && Config->ParseSpeed<1)
@@ -1155,6 +1257,11 @@ void File_Flv::audio()
     {
         sampling_rate=5; //8000 Hz forced
         is_stereo=false; //Mono forced
+    }
+
+    if (codec!=10) // AAC has an header
+    {
+        Demux(Buffer+Buffer_Offset+(size_t)(Element_Offset+1), (size_t)(Element_Size-Element_Offset-1), ContentType_MainStream);
     }
 
     FILLING_BEGIN();
@@ -1237,6 +1344,26 @@ void File_Flv::audio_AAC()
 
                     //Parsing
                     Open_Buffer_Continue(Stream[Stream_Audio].Parser);
+
+                    //Demux
+                    #if MEDIAINFO_DEMUX
+                        switch (Config->Demux_InitData_Get())
+                        {
+                            case 0 :    //In demux event
+                                        Demux_Level=2; //Container
+                                        Demux(Buffer+Buffer_Offset+2, (size_t)(Element_Size-2), ContentType_Header);
+                                        break;
+                            case 1 :    //In field
+                                        {
+                                        std::string Data_Raw((const char*)(Buffer+Buffer_Offset+2), (size_t)(Element_Size-2));
+                                        std::string Data_Base64(Base64::encode(Data_Raw));
+                                        Fill(Stream_Audio, StreamPos_Last, "Demux_InitBytes", Data_Base64);
+                                        (*Stream_More)[Stream_Audio][StreamPos_Last](Ztring().From_Local("Demux_InitBytes"), Info_Options)=__T("N NT");
+                                        }
+                                        break;
+                            default :   ;
+                        }
+                    #endif //MEDIAINFO_DEMUX
                 #else
                     Skip_XX(Element_Size-Element_Offset,        "AAC Data");
                     audio_stream_Count=false; //Unable to parse it
@@ -1244,6 +1371,7 @@ void File_Flv::audio_AAC()
                 break;
         case 1 :
                 //Parsing
+                Demux(Buffer+Buffer_Offset+(size_t)Element_Offset, (size_t)(Element_Size-Element_Offset), ContentType_MainStream);
                 Open_Buffer_Continue(Stream[Stream_Audio].Parser);
 
                 audio_stream_Count=false; //No need of more

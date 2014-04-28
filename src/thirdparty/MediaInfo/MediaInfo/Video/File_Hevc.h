@@ -28,10 +28,8 @@ public :
     bool   FrameIsAlwaysComplete;
     bool   MustParse_VPS_SPS_PPS;
     bool   MustParse_VPS_SPS_PPS_FromMatroska;
+    bool   MustParse_VPS_SPS_PPS_FromFlv;
     bool   SizedBlocks;
-
-    //Config
-    int8u                               lengthSizeMinusOne;
 
     //Constructor/Destructor
     File_Hevc();
@@ -45,6 +43,26 @@ private :
     {
         int8u   vps_max_sub_layers_minus1;
         bool    IsSynched; //Computed value
+
+        #if MEDIAINFO_DEMUX
+        int8u*  Iso14496_10_Buffer;
+        size_t  Iso14496_10_Buffer_Size;
+        #endif //MEDIAINFO_DEMUX
+
+        //Constructor/Destructor
+        #if MEDIAINFO_DEMUX
+        video_parameter_set_struct()
+        {
+            Iso14496_10_Buffer=NULL;
+            Iso14496_10_Buffer_Size=0;
+        }
+        #endif //MEDIAINFO_DEMUX
+        #if MEDIAINFO_DEMUX
+        ~video_parameter_set_struct()
+        {
+            delete[] Iso14496_10_Buffer;
+        }
+        #endif //MEDIAINFO_DEMUX
     };
     typedef vector<video_parameter_set_struct*> video_parameter_set_structs;
 
@@ -140,6 +158,26 @@ private :
         
         //Computed value
         int8u   ChromaArrayType() {return separate_colour_plane_flag?0:chroma_format_idc;}
+
+        #if MEDIAINFO_DEMUX
+        int8u*  Iso14496_10_Buffer;
+        size_t  Iso14496_10_Buffer_Size;
+        #endif //MEDIAINFO_DEMUX
+
+        //Constructor/Destructor
+        #if MEDIAINFO_DEMUX
+        seq_parameter_set_struct()
+        {
+            Iso14496_10_Buffer=NULL;
+            Iso14496_10_Buffer_Size=0;
+        }
+        #endif //MEDIAINFO_DEMUX
+        #if MEDIAINFO_DEMUX
+        ~seq_parameter_set_struct()
+        {
+            delete[] Iso14496_10_Buffer;
+        }
+        #endif //MEDIAINFO_DEMUX
     };
     typedef vector<seq_parameter_set_struct*> seq_parameter_set_structs;
 
@@ -152,6 +190,26 @@ private :
         int8u   num_extra_slice_header_bits;
         bool    dependent_slice_segments_enabled_flag;
         bool    IsSynched; //Computed value
+
+        #if MEDIAINFO_DEMUX
+        int8u*  Iso14496_10_Buffer;
+        size_t  Iso14496_10_Buffer_Size;
+        #endif //MEDIAINFO_DEMUX
+
+        //Constructor/Destructor
+        #if MEDIAINFO_DEMUX
+        pic_parameter_set_struct()
+        {
+            Iso14496_10_Buffer=NULL;
+            Iso14496_10_Buffer_Size=0;
+        }
+        #endif //MEDIAINFO_DEMUX
+        #if MEDIAINFO_DEMUX
+        ~pic_parameter_set_struct()
+        {
+            delete[] Iso14496_10_Buffer;
+        }
+        #endif //MEDIAINFO_DEMUX
     };
     typedef vector<pic_parameter_set_struct*> pic_parameter_set_structs;
 
@@ -171,6 +229,7 @@ private :
     //Buffer - Demux
     #if MEDIAINFO_DEMUX
     bool Demux_UnpacketizeContainer_Test();
+    bool Demux_Transcode_Iso14496_15_to_Iso14496_10;
     #endif //MEDIAINFO_DEMUX
 
     //Buffer - Global
@@ -229,6 +288,9 @@ private :
     video_parameter_set_structs         video_parameter_sets;
     seq_parameter_set_structs           seq_parameter_sets;
     pic_parameter_set_structs           pic_parameter_sets;
+
+    //File specific
+    int8u                               lengthSizeMinusOne;
 
     //File specific
     size_t                              IFrame_Count;

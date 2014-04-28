@@ -57,6 +57,7 @@ MediaInfo_Config_MediaInfo::MediaInfo_Config_MediaInfo()
     File_ID_OnlyRoot=false;
     #if MEDIAINFO_ADVANCED
         File_IgnoreSequenceFileSize=false;
+        File_IgnoreSequenceFilesCount=false;
         File_DefaultFrameRate=0;
         File_Source_List=false;
         File_RiskyBitRateEstimation=false;
@@ -286,10 +287,10 @@ Ztring MediaInfo_Config_MediaInfo::Option (const String &Option, const String &V
     {
         return File_ID_OnlyRoot_Get()?"1":"0";
     }
-    else if (Option_Lower==__T("file_ignoresequencefilesize"))
+    else if (Option_Lower==__T("file_ignoresequencefilescount"))
     {
         #if MEDIAINFO_MD5
-            File_IgnoreSequenceFileSize_Set(!(Value==__T("0") || Value.empty()));
+            File_IgnoreSequenceFilesCount_Set(!(Value==__T("0") || Value.empty()));
             return Ztring();
         #else //MEDIAINFO_MD5
             return __T("Disabled due to compilation options");
@@ -1077,6 +1078,21 @@ bool MediaInfo_Config_MediaInfo::File_IgnoreSequenceFileSize_Get ()
 {
     CriticalSectionLocker CSL(CS);
     return File_IgnoreSequenceFileSize;
+}
+#endif //MEDIAINFO_ADVANCED
+
+//---------------------------------------------------------------------------
+#if MEDIAINFO_ADVANCED
+void MediaInfo_Config_MediaInfo::File_IgnoreSequenceFilesCount_Set (bool NewValue)
+{
+    CriticalSectionLocker CSL(CS);
+    File_IgnoreSequenceFilesCount=NewValue;
+}
+
+bool MediaInfo_Config_MediaInfo::File_IgnoreSequenceFilesCount_Get ()
+{
+    CriticalSectionLocker CSL(CS);
+    return File_IgnoreSequenceFilesCount;
 }
 #endif //MEDIAINFO_ADVANCED
 

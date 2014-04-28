@@ -67,7 +67,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <AdditionalIncludeDirectories>.;ThirdParty\base64;ThirdParty\tinyxml2;..\ZenLib;..\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_LIB;CURL_STATICLIB;MEDIAINFO_ADVANCED_NO;MEDIAINFO_ARCHIVE_NO;MEDIAINFO_DEMUX_NO;MEDIAINFO_DVDIF_ANALYZE_NO;MEDIAINFO_EVENTS_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;MEDIAINFO_MD5_NO;MEDIAINFO_MINIMAL_YES;MEDIAINFO_MPEGTS_DUPLICATE_NO;MEDIAINFO_N19_NO;MEDIAINFO_OTHERTEXT_NO;MEDIAINFO_TRACE_NO;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_LIB;CURL_STATICLIB;MEDIAINFO_ADVANCED_NO;MEDIAINFO_ARCHIVE_NO;MEDIAINFO_DEMUX_NO;MEDIAINFO_DVDIF_ANALYZE_NO;MEDIAINFO_EVENTS_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;MEDIAINFO_MD5_NO;MEDIAINFO_MINIMAL_YES;MEDIAINFO_MPEGTS_DUPLICATE_NO;MEDIAINFO_N19_NO;MEDIAINFO_OTHERTEXT_NO;MEDIAINFO_TRACE_NO;MEDIAINFO_READTHREAD_NO;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <PrecompiledHeaderFile>MediaInfo/PreComp.h</PrecompiledHeaderFile>
       <EnablePREfast>false</EnablePREfast>
@@ -76,7 +76,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>.;ThirdParty\base64;ThirdParty\tinyxml2;..\ZenLib;..\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_LIB;CURL_STATICLIB;MEDIAINFO_ADVANCED_NO;MEDIAINFO_ARCHIVE_NO;MEDIAINFO_DEMUX_NO;MEDIAINFO_DVDIF_ANALYZE_NO;MEDIAINFO_EVENTS_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;MEDIAINFO_MD5_NO;MEDIAINFO_MINIMAL_YES;MEDIAINFO_MPEGTS_DUPLICATE_NO;MEDIAINFO_N19_NO;MEDIAINFO_OTHERTEXT_NO;MEDIAINFO_TRACE_NO;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_LIB;CURL_STATICLIB;MEDIAINFO_ADVANCED_NO;MEDIAINFO_ARCHIVE_NO;MEDIAINFO_DEMUX_NO;MEDIAINFO_DVDIF_ANALYZE_NO;MEDIAINFO_EVENTS_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;MEDIAINFO_MD5_NO;MEDIAINFO_MINIMAL_YES;MEDIAINFO_MPEGTS_DUPLICATE_NO;MEDIAINFO_N19_NO;MEDIAINFO_OTHERTEXT_NO;MEDIAINFO_TRACE_NO;MEDIAINFO_READTHREAD_NO;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <PrecompiledHeaderFile>MediaInfo/PreComp.h</PrecompiledHeaderFile>
       <EnablePREfast>false</EnablePREfast>
@@ -85,7 +85,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <AdditionalIncludeDirectories>.;ThirdParty\base64;ThirdParty\tinyxml2;..\ZenLib;..\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_LIB;CURL_STATICLIB;MEDIAINFO_ADVANCED_NO;MEDIAINFO_ARCHIVE_NO;MEDIAINFO_DEMUX_NO;MEDIAINFO_DVDIF_ANALYZE_NO;MEDIAINFO_EVENTS_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;MEDIAINFO_MD5_NO;MEDIAINFO_MINIMAL_YES;MEDIAINFO_MPEGTS_DUPLICATE_NO;MEDIAINFO_N19_NO;MEDIAINFO_OTHERTEXT_NO;MEDIAINFO_TRACE_NO;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_LIB;CURL_STATICLIB;MEDIAINFO_ADVANCED_NO;MEDIAINFO_ARCHIVE_NO;MEDIAINFO_DEMUX_NO;MEDIAINFO_DVDIF_ANALYZE_NO;MEDIAINFO_EVENTS_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;MEDIAINFO_MD5_NO;MEDIAINFO_MINIMAL_YES;MEDIAINFO_MPEGTS_DUPLICATE_NO;MEDIAINFO_N19_NO;MEDIAINFO_OTHERTEXT_NO;MEDIAINFO_TRACE_NO;MEDIAINFO_READTHREAD_NO;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <PrecompiledHeaderFile>MediaInfo/PreComp.h</PrecompiledHeaderFile>
       <EnablePREfast>false</EnablePREfast>
@@ -94,7 +94,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>.;ThirdParty\base64;ThirdParty\tinyxml2;..\ZenLib;..\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_LIB;CURL_STATICLIB;MEDIAINFO_ADVANCED_NO;MEDIAINFO_ARCHIVE_NO;MEDIAINFO_DEMUX_NO;MEDIAINFO_DVDIF_ANALYZE_NO;MEDIAINFO_EVENTS_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;MEDIAINFO_MD5_NO;MEDIAINFO_MINIMAL_YES;MEDIAINFO_MPEGTS_DUPLICATE_NO;MEDIAINFO_N19_NO;MEDIAINFO_OTHERTEXT_NO;MEDIAINFO_TRACE_NO;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_LIB;CURL_STATICLIB;MEDIAINFO_ADVANCED_NO;MEDIAINFO_ARCHIVE_NO;MEDIAINFO_DEMUX_NO;MEDIAINFO_DVDIF_ANALYZE_NO;MEDIAINFO_EVENTS_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;MEDIAINFO_MD5_NO;MEDIAINFO_MINIMAL_YES;MEDIAINFO_MPEGTS_DUPLICATE_NO;MEDIAINFO_N19_NO;MEDIAINFO_OTHERTEXT_NO;MEDIAINFO_TRACE_NO;MEDIAINFO_READTHREAD_NO;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <PrecompiledHeaderFile>MediaInfo/PreComp.h</PrecompiledHeaderFile>
       <EnablePREfast>false</EnablePREfast>
@@ -150,6 +150,7 @@
     <ClInclude Include="MediaInfo\Audio\File_Mpc.h" />
     <ClInclude Include="MediaInfo\Audio\File_MpcSv8.h" />
     <ClInclude Include="MediaInfo\Audio\File_Mpega.h" />
+    <ClInclude Include="MediaInfo\Audio\File_OpenMG.h" />
     <ClInclude Include="MediaInfo\Audio\File_Opus.h" />
     <ClInclude Include="MediaInfo\Audio\File_Pcm.h" />
     <ClInclude Include="MediaInfo\Audio\File_Pcm_M2ts.h" />
@@ -180,7 +181,9 @@
     <ClInclude Include="MediaInfo\File__Base.h" />
     <ClInclude Include="MediaInfo\File__Duplicate.h" />
     <ClInclude Include="MediaInfo\File__MultipleParsing.h" />
+    <ClInclude Include="MediaInfo\Image\File_ArriRaw.h" />
     <ClInclude Include="MediaInfo\Image\File_Bmp.h" />
+    <ClInclude Include="MediaInfo\Image\File_Dds.h" />
     <ClInclude Include="MediaInfo\Image\File_Dpx.h" />
     <ClInclude Include="MediaInfo\Image\File_Exr.h" />
     <ClInclude Include="MediaInfo\Image\File_Gif.h" />
@@ -327,6 +330,7 @@
     <ClCompile Include="MediaInfo\Audio\File_Mpc.cpp" />
     <ClCompile Include="MediaInfo\Audio\File_MpcSv8.cpp" />
     <ClCompile Include="MediaInfo\Audio\File_Mpega.cpp" />
+    <ClCompile Include="MediaInfo\Audio\File_OpenMG.cpp" />
     <ClCompile Include="MediaInfo\Audio\File_Opus.cpp" />
     <ClCompile Include="MediaInfo\Audio\File_Pcm.cpp" />
     <ClCompile Include="MediaInfo\Audio\File_Pcm_M2ts.cpp" />
@@ -360,7 +364,9 @@
     <ClCompile Include="MediaInfo\File__Base.cpp" />
     <ClCompile Include="MediaInfo\File__Duplicate.cpp" />
     <ClCompile Include="MediaInfo\File__MultipleParsing.cpp" />
+    <ClCompile Include="MediaInfo\Image\File_ArriRaw.cpp" />
     <ClCompile Include="MediaInfo\Image\File_Bmp.cpp" />
+    <ClCompile Include="MediaInfo\Image\File_Dds.cpp" />
     <ClCompile Include="MediaInfo\Image\File_Dpx.cpp" />
     <ClCompile Include="MediaInfo\Image\File_Exr.cpp" />
     <ClCompile Include="MediaInfo\Image\File_Gif.cpp" />

@@ -106,6 +106,7 @@ const char* Mpeg_Psi_stream_type_Format(int8u stream_type, int32u format_identif
         case 0x1E : return "MPEG Video"; //ISO/IEC 23002-3
         case 0x1F : return "AVC";
         case 0x20 : return "AVC";
+        case 0x24 :
         case 0x27 : return "HEVC";
         default :
             switch (format_identifier)
@@ -173,6 +174,7 @@ const char* Mpeg_Psi_stream_type_Codec(int8u stream_type, int32u format_identifi
         case 0x1E : return "MPEG-2V";
         case 0x1F : return "AVC";
         case 0x20 : return "AVC";
+        case 0x24 :
         case 0x27 : return "HEVC";
         default :
             switch (format_identifier)
@@ -222,19 +224,24 @@ stream_t Mpeg_Psi_stream_type_StreamKind(int32u stream_type, int32u format_ident
 {
     switch (stream_type)
     {
-        case 0x01 : return Stream_Video;
-        case 0x02 : return Stream_Video;
-        case 0x03 : return Stream_Audio;
-        case 0x04 : return Stream_Audio;
-        case 0x0F : return Stream_Audio;
-        case 0x10 : return Stream_Video;
-        case 0x11 : return Stream_Audio;
-        case 0x1B : return Stream_Video;
-        case 0x1C : return Stream_Audio;
-        case 0x1D : return Stream_Text;
-        case 0x1E : return Stream_Video;
-        case 0x1F : return Stream_Video;
-        case 0x20 : return Stream_Video;
+        case 0x01 :
+        case 0x02 :
+        case 0x10 :
+        case 0x1B :
+        case 0x1E :
+        case 0x1F :
+        case 0x20 :
+        case 0x24 :
+        case 0x27 :
+                    return Stream_Video;
+        case 0x03 :
+        case 0x04 :
+        case 0x0F :
+        case 0x11 :
+        case 0x1C :
+                    return Stream_Audio;
+        case 0x1D :
+                    return Stream_Text;
         default :
             switch (format_identifier)
             {
@@ -327,6 +334,7 @@ const char* Mpeg_Psi_stream_type_Info(int8u stream_type, int32u format_identifie
         case 0x1E : return "Auxiliary video data stream as defined in ISO/IEC 23002-3";
         case 0x1F : return "SVC video sub-bitstream of an AVC video stream conforming to one or more profiles defined in Annex G of ITU-T Rec. H.264 | ISO/IEC 14496-10";
         case 0x20 : return "MVC video sub-bitstream of an AVC video stream conforming to one or more profiles defined in Annex H of ITU-T Rec. H.264 | ISO/IEC 14496-10";
+        case 0x24 :
         case 0x27 : return "ITU-T Rec. H.265 | ISO/IEC 23008-2 MPEG-H Part 2 / HEVC video stream";
         case 0x7F : return "IPMP stream";
         default :

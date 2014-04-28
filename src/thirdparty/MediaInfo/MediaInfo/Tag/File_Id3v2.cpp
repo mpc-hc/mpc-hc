@@ -315,7 +315,15 @@ bool File_Id3v2::Static_Synchronize_Tags(const int8u* Buffer, size_t Buffer_Offs
         return false;
 
     //ID
-    Tag_Found=CC3(Buffer+Buffer_Offset)==0x494433; //"ID3"
+    if ((Buffer[Buffer_Offset  ]==0x45 // "ID3"
+      && Buffer[Buffer_Offset+1]==0x41
+      && Buffer[Buffer_Offset+2]==0x33)
+     || (Buffer[Buffer_Offset  ]==0x45 // "ea3", found in OpenMG
+      && Buffer[Buffer_Offset+1]==0x41
+      && Buffer[Buffer_Offset+2]==0x33))
+        Tag_Found=true;
+    else
+        Tag_Found=false;
 
     //Continue
     return true;
@@ -1243,6 +1251,14 @@ void File_Id3v2::Fill_Name()
                          else if (Element_Values(0)==__T("replaygain_track_gain"))  Fill(Stream_Audio,   0, Audio_ReplayGain_Gain,           Element_Values(1).To_float64(), 2, true);
                          else if (Element_Values(0)==__T("replaygain_track_peak"))  Fill(Stream_Audio,   0, Audio_ReplayGain_Peak,           Element_Values(1).To_float64(), 6, true);
                          else if (Element_Values(0)==__T("TRACKTOTAL"))             Fill(Stream_General, 0, General_Track_Position_Total,    Element_Values(1), true);
+                         else if (Element_Values(0)==__T("OMG_AGENR"))              ; //Duplicate of Genre
+                         else if (Element_Values(0)==__T("OMG_ALBMS"))              ; //Duplicate of Album
+                         else if (Element_Values(0)==__T("OMG_ASGTM"))              ; //?
+                         else if (Element_Values(0)==__T("OMG_ATPE1"))              ; //Duplicate of Title
+                         else if (Element_Values(0)==__T("OMG_TIT2S"))              ; //Duplicate of Title
+                         else if (Element_Values(0)==__T("OMG_TPE1S"))              ; //Duplicate of Artist
+                         else if (Element_Values(0)==__T("OMG_TRACK"))              Fill(Stream_General, 0, General_Track_Position,          Element_Values(1), true);
+                         else if (Element_Values(0)==__T("OMG_TRLDA"))              ; //Duplicate of Date
                          else
                             Fill(Stream_General, 0, Element_Values(0).To_UTF8().c_str(), Element_Values(1));
                          break;

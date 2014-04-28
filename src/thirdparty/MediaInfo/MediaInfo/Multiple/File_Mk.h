@@ -334,6 +334,7 @@ private :
     int64u              Segment_Offset_Begin;
     int64u              Segment_Offset_End;
     std::vector<int64u> Segment_Seeks;
+    size_t              Segment_Seeks_Pos;
     int64u              Segment_Tag_TrackUID;
     std::vector<Ztring> Segment_Tag_SimpleTag_TagNames;
     int64u Segment_Cluster_BlockGroup_BlockDuration_Value;

@@ -725,20 +725,21 @@ void File_Mpeg4::Streams_Finish()
         }
 
         //ScanOrder_StoredDisplayedInverted
-        if (Temp->second.ScanOrder_StoredDisplayedInverted)
+        // Priorizing https://developer.apple.com/library/mac/technotes/tn2162/_index.html#//apple_ref/doc/uid/DTS40013070-CH1-TNTAG10-THE__FIEL__IMAGEDESCRIPTION_EXTENSION__FIELD_FRAME_INFORMATION
+        /*
+        switch (Temp->second.fiel_detail)
         {
-            if (Retrieve(Stream_Video, 0, Video_ScanOrder)==__T("BFF"))
-            {
-                Fill(Stream_Video, 0, Video_ScanOrder, "TFF", Unlimited, true, true);
-                Fill(Stream_Video, 0, Video_ScanOrder_Stored, "BFF", Unlimited, true, true);
-            }
-            else if (Retrieve(Stream_Video, 0, Video_ScanOrder)==__T("TFF"))
-            {
-                Fill(Stream_Video, 0, Video_ScanOrder, "BFF", Unlimited, true, true);
-                Fill(Stream_Video, 0, Video_ScanOrder_Stored, "TFF", Unlimited, true, true);
-            }
-            Fill(Stream_Video, 0, Video_ScanOrder_StoredDisplayedInverted, "Yes");
+            case  1  :  // Separated fields, TFF
+            case  6 :   // Separated fields, BFF
+                        Fill(Stream_Video, StreamPos_Last, Video_ScanOrder, "TFF", Unlimited, true, true);
+                        break;
+            case  9  :  // Interleaved fields, TFF
+            case 14 :   // Interleaved fields, BFF
+                        Fill(Stream_Video, StreamPos_Last, Video_ScanOrder, "BFF", Unlimited, true, true);
+                        break;
+            default  :  ;
         }
+        */
 
         //External file name specific
         if (Temp->second.MI && Temp->second.MI->Info)

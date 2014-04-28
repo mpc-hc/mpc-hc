@@ -92,6 +92,18 @@ File_Aac::~File_Aac()
 //***************************************************************************
 
 //---------------------------------------------------------------------------
+void File_Aac::Streams_Accept()
+{
+    switch (Mode)
+    {
+         case Mode_ADTS :
+                       if (!IsSub)
+                            TestContinuousFileNames();
+        default : ;
+    }
+}
+
+//---------------------------------------------------------------------------
 void File_Aac::Streams_Fill()
 {
     switch(Mode)

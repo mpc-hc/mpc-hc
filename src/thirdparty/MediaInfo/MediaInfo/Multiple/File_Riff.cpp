@@ -734,7 +734,7 @@ bool File_Riff::Header_Begin()
             default        : AVI__movi_xxxx();
         }
 
-        if (Config->ParseSpeed<1.0 && File_Offset+Buffer_Offset+Element_Offset-Buffer_DataToParse_Begin>=0x10000)
+        if (Config->ParseSpeed<1.0 && File_Offset+Buffer_Offset+Element_Offset-Buffer_DataToParse_Begin>=256*1024)
         {
             File_GoTo=Buffer_DataToParse_End;
             Buffer_Offset=Buffer_Size;

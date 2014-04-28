@@ -110,15 +110,21 @@ void File__Analyze::TestContinuousFileNames(size_t CountOfFiles, Ztring FileExte
     bool AlreadyPresent=Config->File_Names.size()==1?true:false;
     FileName FileToTest(Config->File_Names.Read(Config->File_Names.size()-1));
     Ztring FileToTest_Name=FileToTest.Name_Get();
-    size_t FileNameToTest_Pos=FileToTest_Name.size();
+    Ztring FileToTest_Name_After=FileToTest_Name;
+    size_t FileNameToTest_End=FileToTest_Name.size();
+    while (FileNameToTest_End && !(FileToTest_Name[FileNameToTest_End-1]>=__T('0') && FileToTest_Name[FileNameToTest_End-1]<=__T('9')))
+        FileNameToTest_End--;
+    size_t FileNameToTest_Pos=FileNameToTest_End;
     while (FileNameToTest_Pos && FileToTest_Name[FileNameToTest_Pos-1]>=__T('0') && FileToTest_Name[FileNameToTest_Pos-1]<=__T('9'))
         FileNameToTest_Pos--;
-    if (FileNameToTest_Pos!=FileToTest_Name.size())
+    if (FileNameToTest_Pos!=FileToTest_Name.size() && FileNameToTest_Pos!=FileNameToTest_End)
     {
-        size_t Numbers_Size=FileToTest_Name.size()-FileNameToTest_Pos;
+        size_t Numbers_Size=FileNameToTest_End-FileNameToTest_Pos;
         int64u Pos=Ztring(FileToTest_Name.substr(FileNameToTest_Pos)).To_int64u();
         FileToTest_Name.resize(FileNameToTest_Pos);
+        FileToTest_Name_After.erase(0, FileToTest_Name.size()+Numbers_Size);
 
+        /*
         for (;;)
         {
             Pos++;
@@ -130,6 +136,53 @@ void File__Analyze::TestContinuousFileNames(size_t CountOfFiles, Ztring FileExte
                 break;
             Config->File_Names.push_back(Next);
         }
+        */
+
+        //Detecting with a smarter algo (but missing frames are not detected)
+        Ztring FileToTest_Name_Begin=FileToTest.Path_Get()+PathSeparator+FileToTest_Name;
+        Ztring FileToTest_Name_End=FileToTest_Name_After+__T('.')+(FileExtension.empty()?FileToTest.Extension_Get():FileExtension);
+        int64u Pos_Base=Pos;
+        int64u Pos_Add_Max=1;
+        #if MEDIAINFO_ADVANCED
+            bool File_IgnoreSequenceFileSize=Config->File_IgnoreSequenceFilesCount_Get();
+        #endif //MEDIAINFO_ADVANCED
+        for (;;)
+        {
+            Ztring Pos_Ztring; Pos_Ztring.From_Number(Pos_Base+Pos_Add_Max);
+            if (Numbers_Size>Pos_Ztring.size())
+                Pos_Ztring.insert(0, Numbers_Size-Pos_Ztring.size(), __T('0'));
+            Ztring Next=FileToTest_Name_Begin+Pos_Ztring+FileToTest_Name_End;
+            if (!File::Exists(Next))
+                break;
+            Pos_Add_Max<<=1;
+            #if MEDIAINFO_ADVANCED
+                if (File_IgnoreSequenceFileSize && Pos_Add_Max>=CountOfFiles)
+                    break;
+            #endif //MEDIAINFO_ADVANCED
+        }
+        int64u Pos_Add_Min=Pos_Add_Max>>1;
+        while (Pos_Add_Min+1<Pos_Add_Max)
+        {
+            int64u Pos_Add_Middle=Pos_Add_Min+((Pos_Add_Max-Pos_Add_Min)>>1);
+            Ztring Pos_Ztring; Pos_Ztring.From_Number(Pos_Base+Pos_Add_Middle);
+            if (Numbers_Size>Pos_Ztring.size())
+                Pos_Ztring.insert(0, Numbers_Size-Pos_Ztring.size(), __T('0'));
+            Ztring Next=FileToTest_Name_Begin+Pos_Ztring+FileToTest_Name_End;
+            if (File::Exists(Next))
+                Pos_Add_Min=Pos_Add_Middle;
+            else
+                Pos_Add_Max=Pos_Add_Middle;
+        }
+
+        int64u Pos_Max=Pos_Base+Pos_Add_Max;
+        Config->File_Names.reserve(Pos_Add_Max);
+        for (Pos=Pos_Base+1; Pos<Pos_Max; ++Pos)
+        {
+            Ztring Pos_Ztring; Pos_Ztring.From_Number(Pos);
+            if (Numbers_Size>Pos_Ztring.size())
+                Pos_Ztring.insert(0, Numbers_Size-Pos_Ztring.size(), __T('0'));
+            Config->File_Names.push_back(FileToTest_Name_Begin+Pos_Ztring+FileToTest_Name_End);
+        }
 
         if (!Config->File_IsReferenced_Get() && Config->File_Names.size()<CountOfFiles && AlreadyPresent)
             Config->File_Names.resize(1); //Removing files, wrong detection
@@ -139,7 +192,7 @@ void File__Analyze::TestContinuousFileNames(size_t CountOfFiles, Ztring FileExte
         return;
 
     #if MEDIAINFO_ADVANCED
-        if (!Config->File_IgnoreSequenceFileSize_Get())
+        if (!Config->File_IgnoreSequenceFileSize_Get() || Config->File_Names.size()<=1)
     #endif //MEDIAINFO_ADVANCED
     {
         for (; Pos<Config->File_Names.size(); Pos++)
@@ -149,17 +202,29 @@ void File__Analyze::TestContinuousFileNames(size_t CountOfFiles, Ztring FileExte
             Config->File_Size+=Size;
         }
     }
+    #if MEDIAINFO_ADVANCED
+        else
+        {
+            Config->File_Size=(int64u)-1;
+            File_Size=(int64u)-1;
+        }
+    #endif //MEDIAINFO_ADVANCED
 
     File_Size=Config->File_Size;
     Element[0].Next=File_Size;
     #if MEDIAINFO_ADVANCED
-        if (!Config->File_IgnoreSequenceFileSize_Get())
+        if (!Config->File_IgnoreSequenceFileSize_Get() || Config->File_Names.size()<=1)
     #endif //MEDIAINFO_ADVANCED
         Fill (Stream_General, 0, General_FileSize, File_Size, 10, true);
-    Fill (Stream_General, 0, General_CompleteName_Last, Config->File_Names[Config->File_Names.size()-1], true);
-    Fill (Stream_General, 0, General_FolderName_Last, FileName::Path_Get(Config->File_Names[Config->File_Names.size()-1]), true);
-    Fill (Stream_General, 0, General_FileName_Last, FileName::Name_Get(Config->File_Names[Config->File_Names.size()-1]), true);
-    Fill (Stream_General, 0, General_FileExtension_Last, FileName::Extension_Get(Config->File_Names[Config->File_Names.size()-1]), true);
+    #if MEDIAINFO_ADVANCED
+        if (!Config->File_IgnoreSequenceFilesCount_Get())
+    #endif //MEDIAINFO_ADVANCED
+    {
+        Fill (Stream_General, 0, General_CompleteName_Last, Config->File_Names[Config->File_Names.size()-1], true);
+        Fill (Stream_General, 0, General_FolderName_Last, FileName::Path_Get(Config->File_Names[Config->File_Names.size()-1]), true);
+        Fill (Stream_General, 0, General_FileName_Last, FileName::Name_Get(Config->File_Names[Config->File_Names.size()-1]), true);
+        Fill (Stream_General, 0, General_FileExtension_Last, FileName::Extension_Get(Config->File_Names[Config->File_Names.size()-1]), true);
+    }
 
     #if MEDIAINFO_ADVANCED
         if (Config->File_Source_List_Get())

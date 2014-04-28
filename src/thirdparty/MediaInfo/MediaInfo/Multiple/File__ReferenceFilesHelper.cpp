@@ -1329,6 +1329,8 @@ MediaInfo_Internal* File__ReferenceFilesHelper::MI_Create()
     #if MEDIAINFO_ADVANCED
         if (Config->File_IgnoreSequenceFileSize_Get())
             MI_Temp->Option(__T("File_IgnoreSequenceFileSize"), __T("1"));
+        if (Config->File_IgnoreSequenceFilesCount_Get())
+            MI_Temp->Option(__T("File_IgnoreSequenceFilesCount"), __T("1"));
         if (Config->File_Source_List_Get())
             MI_Temp->Option(__T("File_Source_List"), __T("1"));
     #endif //MEDIAINFO_ADVANCED

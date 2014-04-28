@@ -90,6 +90,7 @@ public :
 
 protected :
     //Streams management
+    void Streams_Accept();
     void Streams_Fill();
     void Streams_Update();
     void Streams_Finish();

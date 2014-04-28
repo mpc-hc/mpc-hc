@@ -1369,6 +1369,8 @@ void File_Mxf::Streams_Finish_Essence(int32u EssenceUID, int128u TrackUID)
         if (StreamKind_Last==Stream_Max)
             return; //Not found
     }
+    if (IsSub)
+        Fill(StreamKind_Last, StreamPos_Last, "MuxingMode", "MXF");
 
     for (descriptors::iterator Descriptor=Descriptors.begin(); Descriptor!=Descriptors.end(); ++Descriptor)
         if (Descriptor->second.LinkedTrackID==Essence->second.TrackID)

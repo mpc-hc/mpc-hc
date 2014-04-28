@@ -180,7 +180,7 @@
 /* The callback function                                                   */
 /***************************************************************************/
 
-#if !defined(__WINDOWS__)
+#if !defined(__WINDOWS__) && !defined(__stdcall)
     #define __stdcall
 #endif //!defined(__WINDOWS__)
 

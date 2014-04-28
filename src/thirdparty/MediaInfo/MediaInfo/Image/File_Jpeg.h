@@ -39,6 +39,7 @@ public :
 private :
     //Streams management
     void Streams_Accept();
+    void Streams_Finish();
 
     //Buffer - File header
     bool FileHeader_Begin();

@@ -6,54 +6,59 @@
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //
-// Information about SubRip files
+// Information about DDS (DirectDraw Surface) files
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 //---------------------------------------------------------------------------
-#ifndef MediaInfo_File_SubRipH
-#define MediaInfo_File_SubRipH
+#ifndef MediaInfo_File_DdsH
+#define MediaInfo_File_DdsH
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
 #include "MediaInfo/File__Analyze.h"
-#include <vector>
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib
 {
 
 //***************************************************************************
-// Class File_SubRip
+// Class File_Dds
 //***************************************************************************
 
-class File_SubRip : public File__Analyze
+class File_Dds : public File__Analyze
 {
 public :
-    File_SubRip();
+    //Constructor/Destructor
+    File_Dds();
 
 private :
+    //Streams management
+    void Streams_Accept();
+
     //Buffer - File header
     bool FileHeader_Begin();
+    void FileHeader_Parse();
+
+    //Buffer - Demux
+    #if MEDIAINFO_DEMUX
+    bool Demux_UnpacketizeContainer_Test() {return Demux_UnpacketizeContainer_Test_OneFramePerFile();}
+    #endif //MEDIAINFO_DEMUX
 
     //Buffer - Global
+    void Read_Buffer_Unsynched();
     #if MEDIAINFO_SEEK
-    size_t Read_Buffer_Seek (size_t Method, int64u Value, int64u ID);
+    size_t Read_Buffer_Seek (size_t Method, int64u Value, int64u ID) {return Read_Buffer_Seek_OneFramePerFile(Method, Value, ID);}
     #endif //MEDIAINFO_SEEK
-    void Read_Buffer_Continue();
+    void Read_Buffer_Continue ();
 
-    //Temp
-    bool IsVTT;
-    bool HasBOM;
-    #if MEDIAINFO_DEMUX
-    struct item
-    {
-        int64u PTS_Begin;
-        int64u PTS_End;
-        Ztring Content;
-    };
-    std::vector<item> Items;
-    #endif //MEDIAINFO_DEMUX
+    // Temp
+    int32u Flags;
+    int32u Width;
+    int32u Height;
+    int32u Depth;
+    int32u pfFlags;
+    int32u FourCC;
 };
 
 } //NameSpace

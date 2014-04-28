@@ -6,54 +6,43 @@
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //
-// Information about SubRip files
+// Information about OpenMG (OMA) files
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 //---------------------------------------------------------------------------
-#ifndef MediaInfo_File_SubRipH
-#define MediaInfo_File_SubRipH
+#ifndef MediaInfo_File_OpenMGH
+#define MediaInfo_File_OpenMGH
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
-#include "MediaInfo/File__Analyze.h"
-#include <vector>
+#include "MediaInfo/Tag/File__Tags.h"
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib
 {
 
 //***************************************************************************
-// Class File_SubRip
+// Class File_OpenMG
 //***************************************************************************
 
-class File_SubRip : public File__Analyze
+class File_OpenMG : public File__Analyze, public File__Tags_Helper
 {
 public :
-    File_SubRip();
+    //Constructor/Destructor
+    File_OpenMG();
 
 private :
+    //Streams management
+    void Streams_Fill();
+    void Streams_Finish()                                                       {File__Tags_Helper::Streams_Finish();}
+
     //Buffer - File header
     bool FileHeader_Begin();
+    void FileHeader_Parse();
 
     //Buffer - Global
-    #if MEDIAINFO_SEEK
-    size_t Read_Buffer_Seek (size_t Method, int64u Value, int64u ID);
-    #endif //MEDIAINFO_SEEK
     void Read_Buffer_Continue();
-
-    //Temp
-    bool IsVTT;
-    bool HasBOM;
-    #if MEDIAINFO_DEMUX
-    struct item
-    {
-        int64u PTS_Begin;
-        int64u PTS_End;
-        Ztring Content;
-    };
-    std::vector<item> Items;
-    #endif //MEDIAINFO_DEMUX
 };
 
 } //NameSpace

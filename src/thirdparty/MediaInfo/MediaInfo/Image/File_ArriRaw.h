@@ -6,54 +6,50 @@
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //
-// Information about SubRip files
+// Information about ARRI RAW files
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 //---------------------------------------------------------------------------
-#ifndef MediaInfo_File_SubRipH
-#define MediaInfo_File_SubRipH
+#ifndef MediaInfo_File_ArriRawH
+#define MediaInfo_File_ArriRawH
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
 #include "MediaInfo/File__Analyze.h"
-#include <vector>
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib
 {
 
 //***************************************************************************
-// Class File_SubRip
+// Class File_ArriRaw
 //***************************************************************************
 
-class File_SubRip : public File__Analyze
+class File_ArriRaw : public File__Analyze
 {
 public :
-    File_SubRip();
+    //Constructor/Destructor
+    File_ArriRaw();
 
 private :
+    //Streams management
+    void Streams_Accept();
+
     //Buffer - File header
     bool FileHeader_Begin();
 
-    //Buffer - Global
-    #if MEDIAINFO_SEEK
-    size_t Read_Buffer_Seek (size_t Method, int64u Value, int64u ID);
-    #endif //MEDIAINFO_SEEK
-    void Read_Buffer_Continue();
-
-    //Temp
-    bool IsVTT;
-    bool HasBOM;
+    //Buffer - Demux
     #if MEDIAINFO_DEMUX
-    struct item
-    {
-        int64u PTS_Begin;
-        int64u PTS_End;
-        Ztring Content;
-    };
-    std::vector<item> Items;
+    bool Demux_UnpacketizeContainer_Test() {return Demux_UnpacketizeContainer_Test_OneFramePerFile();}
     #endif //MEDIAINFO_DEMUX
+
+    //Buffer - Global
+    void Read_Buffer_Unsynched();
+    #if MEDIAINFO_SEEK
+    size_t Read_Buffer_Seek (size_t Method, int64u Value, int64u ID) {return Read_Buffer_Seek_OneFramePerFile(Method, Value, ID);}
+    #endif //MEDIAINFO_SEEK
+    void Read_Buffer_Continue ();
 };
 
 } //NameSpace

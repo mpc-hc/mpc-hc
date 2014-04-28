@@ -19,6 +19,7 @@ next version - not released yet
   The increasing number of translations had reduced the usability of the menu
 * Updated Little CMS to v2.6 (git 4da8703)
 * Updated Unrar to v5.1.4
+* Updated MediaInfoLib to v0.7.69
 * Updated ZenLib to v0.4.29 r458
 * Updated LAV Filters to v0.61.2.14:
     - Ticket #3575, LAV Splitter: Alternate audio support for HLS

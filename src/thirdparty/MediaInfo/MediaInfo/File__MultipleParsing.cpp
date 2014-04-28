@@ -212,6 +212,9 @@
 #if defined(MEDIAINFO_MPEGA_YES)
     #include "MediaInfo/Audio/File_Mpega.h"
 #endif
+#if defined(MEDIAINFO_OPENMG_YES)
+    #include "MediaInfo/Audio/File_OpenMG.h"
+#endif
 #if defined(MEDIAINFO_PCM_YES)
     #include "MediaInfo/Audio/File_Pcm.h"
 #endif
@@ -254,8 +257,14 @@
 
 //---------------------------------------------------------------------------
 // Image
+#if defined(MEDIAINFO_ARRIRAW_YES)
+    #include "MediaInfo/Image/File_ArriRaw.h"
+#endif
 #if defined(MEDIAINFO_BMP_YES)
     #include "MediaInfo/Image/File_Bmp.h"
+#endif
+#if defined(MEDIAINFO_DDS_YES)
+    #include "MediaInfo/Image/File_Dds.h"
 #endif
 #if defined(MEDIAINFO_GIF_YES)
     #include "MediaInfo/Image/File_Gif.h"
@@ -546,6 +555,9 @@ File__MultipleParsing::File__MultipleParsing()
     #if defined(MEDIAINFO_MPEGA_YES)
         Parser.push_back(new File_Mpega());
     #endif
+    #if defined(MEDIAINFO_OPENMG_YES)
+        Parser.push_back(new File_OpenMG());
+    #endif
     #if defined(MEDIAINFO_RKAU_YES)
         Parser.push_back(new File_Rkau());
     #endif
@@ -586,8 +598,14 @@ File__MultipleParsing::File__MultipleParsing()
     #endif
 
     // Image
+    #if defined(MEDIAINFO_ARRIRAW_YES)
+        Parser.push_back(new File_ArriRaw());
+    #endif
     #if defined(MEDIAINFO_BMP_YES)
         Parser.push_back(new File_Bmp());
+    #endif
+    #if defined(MEDIAINFO_DDS_YES)
+        Parser.push_back(new File_Dds());
     #endif
     #if defined(MEDIAINFO_GIF_YES)
         Parser.push_back(new File_Gif());

@@ -190,6 +190,9 @@ void File_MpegTs::Streams_Accept()
         if (Config->NextPacket_Get() && Config->Event_CallBackFunction_IsSet())
             Config->Demux_EventWasSent=true;
     #endif //MEDIAINFO_DEMUX && MEDIAINFO_NEXTPACKET
+
+    if (!IsSub)
+        TestContinuousFileNames();
 }
 
 //---------------------------------------------------------------------------

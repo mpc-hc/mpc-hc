@@ -195,7 +195,7 @@ bool File__Tags_Helper::Synched_Test()
             int32u ID=CC3(Base->Buffer+Base->Buffer_Offset);
             int32u ID4=CC4(Base->Buffer+Base->Buffer_Offset);
             int64u ID8=CC8(Base->Buffer+Base->Buffer_Offset);
-                 if (ID==0x494433) //"ID3"
+                 if (ID==0x494433 || ID==0x656133) //"ID3" and "ea3" (found in OpenMG)
             {
                 if (Base->Buffer_Offset+10>Base->Buffer_Size)
                     return false;

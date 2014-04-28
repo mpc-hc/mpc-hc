@@ -136,7 +136,7 @@ File_SmpteSt0337::File_SmpteSt0337()
         ParserIDs[0]=MediaInfo_Parser_Aes3;
     #endif // MEDIAINFO_EVENTS
     MustSynchronize=true;
-    Buffer_TotalBytes_FirstSynched_Max=32*1024;
+    Buffer_TotalBytes_FirstSynched_Max=256*1024;
     PTS_DTS_Needed=true;
 
     // In

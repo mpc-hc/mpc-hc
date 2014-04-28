@@ -1552,14 +1552,14 @@ void File_DvDif::video_source()
 
     BS_Begin();
     //PC1
-    Skip_S1(4,                                                  "TVCH (tens of units, 0–9)");
-    Skip_S1(4,                                                  "TVCH (units, 0–9)");
+    Skip_S1(4,                                                  "TVCH (tens of units, 0-9)");
+    Skip_S1(4,                                                  "TVCH (units, 0-9)");
 
     //PC2
     Skip_SB(                                                    "B/W - Black and White"); //0=Black and White, 1=Color
     Skip_SB(                                                    "EN - Color Frames is not valid");
     Skip_S1(2,                                                  "CLF - Color frames id");
-    Skip_S1(4,                                                  "TVCH (hundreds of units, 0–9)");
+    Skip_S1(4,                                                  "TVCH (hundreds of units, 0-9)");
 
     //PC3
     Skip_S1(2,                                                  "SRC");
