@@ -28,25 +28,29 @@ class CMainFrame;
 
 class CPlayerNavigationDialog : public CResizableDialog
 {
+private:
+    CListBox m_channelList;
+    CButton m_buttonInfo;
+    CButton m_buttonFilterStations;
+
+    CMainFrame* m_pMainFrame;
+    bool m_bChannelInfoAvailable;
+    bool m_bTVStations;
+
 public:
     CPlayerNavigationDialog() = delete;
     CPlayerNavigationDialog(CMainFrame* pMainFrame);
     virtual ~CPlayerNavigationDialog() = default;
 
     BOOL Create(CWnd* pParent = nullptr);
-    void UpdateElementList();
-    void UpdatePos(int nID);
-    bool m_bTVStations;
 
     // Dialog Data
     enum { IDD = IDD_NAVIGATION_DLG };
 
-    CMainFrame* m_pMainFrame;
+    void UpdateElementList();
+    void UpdatePos(int nID);
 
-    CListBox m_ChannelList;
-    CButton m_ButtonInfo;
-    CButton m_ButtonScan;
-    CButton m_ButtonFilterStations;
+    void SetChannelInfoAvailable(bool bAvailable);
 
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);
@@ -58,7 +62,8 @@ protected:
     afx_msg void OnDestroy();
     afx_msg void OnChangeChannel();
     afx_msg void OnTunerScan();
-    afx_msg void OnButtonInfo();
+    afx_msg void OnShowChannelInfo();
+    afx_msg void OnUpdateShowChannelInfoButton(CCmdUI* pCmdUI);
     afx_msg void OnTvRadioStations();
     afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
 };

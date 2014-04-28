@@ -14608,7 +14608,7 @@ HRESULT CMainFrame::SetChannel(int nChannel)
     if (pTun && pChannel && !m_pDVBState->bSetChannelActive) {
         m_pDVBState->Reset();
         m_wndInfoBar.RemoveAllLines();
-        m_wndNavigationBar.m_navdlg.m_ButtonInfo.EnableWindow(FALSE);
+        m_wndNavigationBar.m_navdlg.SetChannelInfoAvailable(false);
         RecalcLayout();
         m_pDVBState->bSetChannelActive = true;
 
@@ -14709,9 +14709,9 @@ LRESULT CMainFrame::OnCurrentChannelInfoUpdated(WPARAM wParam, LPARAM lParam)
             m_timerOneTime.Subscribe(TimerOneTimeSubscriber::DVBINFO_UPDATE,
                                      [this] { UpdateCurrentChannelInfo(false, false); },
                                      1000 * (UINT)tElapse);
-            m_wndNavigationBar.m_navdlg.m_ButtonInfo.EnableWindow();
+            m_wndNavigationBar.m_navdlg.SetChannelInfoAvailable(true);
         } else {
-            m_wndNavigationBar.m_navdlg.m_ButtonInfo.EnableWindow(FALSE);
+            m_wndNavigationBar.m_navdlg.SetChannelInfoAvailable(false);
         }
 
         CString sChannelInfo = m_pDVBState->sChannelName;
