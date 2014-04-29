@@ -10,6 +10,7 @@ Legend:
 next version - not released yet
 ===============================
 * Updated Catalan, Croatian, Japanese, Slovenian and Spanish translations
+! Ticket #3691, PGS subtitles: Some lines stayed visible for too long when using the queue
 ! Ticket #4231, Don't prevent the users from using the ISR if they choose not to block VSFilter like filters
 ! Ticket #4240, Crashes could randomly occur when playing files with PGS subtitles (mostly when seeking quickly)
 

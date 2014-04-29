@@ -199,7 +199,9 @@ int CHdmvSub::ParsePresentationSegment(REFERENCE_TIME rt, CGolombBuffer* pGBuffe
 void CHdmvSub::EnqueuePresentationSegment()
 {
     if (m_pCurrentPresentationSegment) {
-        if (m_pCurrentPresentationSegment->objectCount > 0) {
+        // TODO: improve the handling of subtitles without known end time in the queue
+        //       so that empty segments can be ignored again safely
+        /*if (m_pCurrentPresentationSegment->objectCount > 0) {*/
             m_pCurrentPresentationSegment->CLUT = m_CLUTs[m_pCurrentPresentationSegment->CLUT.id];
 
             // Get the objects' data
@@ -220,10 +222,10 @@ void CHdmvSub::EnqueuePresentationSegment()
             TRACE_HDMVSUB(_T("CHdmvSub: Enqueue Presentation Segment %d - %s => ?\n"), m_pCurrentPresentationSegment->composition_descriptor.nNumber,
                           ReftimeToString(m_pCurrentPresentationSegment->rtStart));
             m_pPresentationSegments.AddTail(m_pCurrentPresentationSegment.Detach());
-        } else {
+        /*} else {
             TRACE_HDMVSUB(_T("CHdmvSub: Delete empty Presentation Segment %d\n"), m_pCurrentPresentationSegment->composition_descriptor.nNumber);
             m_pCurrentPresentationSegment.Free();
-        }
+        }*/
     }
 }
 
