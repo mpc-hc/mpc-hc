@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-03-22 09:25:06+0000\n"
-"PO-Revision-Date: 2014-04-15 22:50+0000\n"
+"PO-Revision-Date: 2014-05-01 10:30+0000\n"
 "Last-Translator: schop <aprcel00@fesb.hr>\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/mpc-hc/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -41,23 +41,23 @@ msgstr "Poglavlje"
 
 msgctxt "IDS_CONTROLS_COMPLETING"
 msgid "Completing..."
-msgstr "Zavrsavam..."
+msgstr "Dovršavanje..."
 
 msgctxt "IDS_AUTOPLAY_PLAYVIDEO"
 msgid "Play Video"
-msgstr "Pusti Video"
+msgstr "Pokreni Video"
 
 msgctxt "IDS_AUTOPLAY_PLAYMUSIC"
 msgid "Play Music"
-msgstr "Pusti muziku"
+msgstr "Pokreni glazbu"
 
 msgctxt "IDS_AUTOPLAY_PLAYAUDIOCD"
 msgid "Play Audio CD"
-msgstr "Pusti Audio CD"
+msgstr "Pokreni Audio CD"
 
 msgctxt "IDS_AUTOPLAY_PLAYDVDMOVIE"
 msgid "Play DVD Movie"
-msgstr "Pusti DVD Film"
+msgstr "Pokreni DVD Film"
 
 msgctxt "IDS_PROPSHEET_PROPERTIES"
 msgid "Properties"
@@ -65,7 +65,7 @@ msgstr "Svojstva"
 
 msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
 msgid "&Default Style"
-msgstr "&Zadani stil"
+msgstr "&Standardni stil"
 
 msgctxt "IDS_FAVFILES"
 msgid "Files"
@@ -73,7 +73,7 @@ msgstr "Datoteke"
 
 msgctxt "IDS_FAVDVDS"
 msgid "DVDs"
-msgstr "DVD*ovi"
+msgstr "DVDovi"
 
 msgctxt "IDS_INFOBAR_CHANNEL"
 msgid "Channel"
@@ -89,7 +89,7 @@ msgstr "Sync Offset"
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET_FORMAT"
 msgid "avg: %d ms, dev: %d ms"
-msgstr "prosjecno: %d ms, dev: %d ms"
+msgstr "prosjek: %d ms, odstupanje: %d ms"
 
 msgctxt "IDS_STATSBAR_JITTER"
 msgid "Jitter"
@@ -101,7 +101,7 @@ msgstr "Bitrate"
 
 msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
 msgid " (avg/cur)"
-msgstr "(prosjecno/tekuce)"
+msgstr "(prosječno/trenutno)"
 
 msgctxt "IDS_STATSBAR_SIGNAL"
 msgid "Signal"
@@ -109,7 +109,7 @@ msgstr "signal"
 
 msgctxt "IDS_STATSBAR_SIGNAL_FORMAT"
 msgid "Strength: %d dB, Quality: %d%%"
-msgstr "jacina: %d dB, Kvaliteta: %d%%"
+msgstr "Jačina: %d dB, Kvaliteta: %d%%"
 
 msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
 msgid "Styles"
@@ -117,11 +117,11 @@ msgstr "Stilovi"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
-msgstr "Nikad (najbrzi pristup)"
+msgstr "Nikad (najbrži pristup)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG1"
 msgid "Only when switching different video types (default)"
-msgstr "Samo kad prebacujem razlicite tipove videa (default)"
+msgstr "Samo kada mijenjam na druge tipove videa (standardno)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG2"
 msgid "Always (slowest option)"
@@ -129,31 +129,31 @@ msgstr "Uvijek (najsporija opcija)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
 msgid "Not supported by some devices. Two video decoders always present in the filter graph."
-msgstr "Nije podrzano od strane nekih uredjaja. Dva video dekodera su uvijek prisutna u filteru grafike."
+msgstr "Nije podržano od strane nekih uređaja. U grafu filtara su uvijek prisutna dva video dekodera."
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
 msgid "Fast except when switching between different video streams. Only one video decoder present in the filter graph."
-msgstr "Brzo osim kada se prebacuje izmedju razlicita video streama. Samo jedan vido dekoder prisutan u filteru grafike."
+msgstr "Brzo osim kada se prebacuje između različite tipove videa. Samo jedan video dekoder je prisutan u grafu filtara."
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC2"
 msgid "Not recommended. Only for testing purposes."
-msgstr "Ne preporuca se. Samo za testiranje"
+msgstr "Nije preporučljivo. Samo za svrhe testiranja."
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG0"
 msgid "Never if possible (fastest, but not supported by most filters)"
-msgstr "Never if possible (fastest, but not supported by most filters)"
+msgstr "Nikada, ako je moguće (najbrže, ali nije često nije podržano)"
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG1"
 msgid "Only when switching different video types (default)"
-msgstr "Samo kad prebacujem razlicite tipove videa (default)"
+msgstr "Samo pri promjeni na drugi tip videa (standardno)"
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG2"
 msgid "Always (may be required by some devices)"
-msgstr "Uvijek (neki uredjaji mogu zahtijevati)"
+msgstr "Uvijek (neki uređaji mogu zahtijevati)"
 
 msgctxt "IDS_INFOBAR_PARENTAL_RATING"
 msgid "Parental rating"
-msgstr "Parental rating"
+msgstr "Roditeljska razina zaštite"
 
 msgctxt "IDS_PARENTAL_RATING"
 msgid "%d+"
@@ -165,7 +165,7 @@ msgstr "Nije ocijenjeno"
 
 msgctxt "IDS_INFOBAR_CONTENT"
 msgid "Content"
-msgstr "Sadrzaj"
+msgstr "Sadržaj"
 
 msgctxt "IDS_CONTENT_MOVIE_DRAMA"
 msgid "Movie/Drama"
@@ -189,15 +189,15 @@ msgstr "DVD dodan u omiljene"
 
 msgctxt "IDS_CAPTURE_SETTINGS"
 msgid "Capture Settings"
-msgstr "Capture Settings"
+msgstr "Postavke snimanja"
 
 msgctxt "IDS_NAVIGATION_BAR"
 msgid "Navigation Bar"
-msgstr "NAvigacijski bar"
+msgstr "Navigacijska traka"
 
 msgctxt "IDS_SUBRESYNC_CAPTION"
 msgid "Subresync"
-msgstr "Subresync"
+msgstr "Resink. podnapisa"
 
 msgctxt "IDS_SUBRESYNC_CLN_TIME"
 msgid "Time"
@@ -233,47 +233,47 @@ msgstr "Stil"
 
 msgctxt "IDS_SUBRESYNC_CLN_FONT"
 msgid "Font"
-msgstr "Tip slova"
+msgstr "Font"
 
 msgctxt "IDS_DVD_NAV_SOME_PINS_ERROR"
 msgid "Failed to render some of the pins of the DVD Navigator filter"
-msgstr "Failed to render some of the pins of the DVD Navigator filter"
+msgstr "Nije uspjelo renderiranje nekih pinov DVD-Navigacijskog filtra."
 
 msgctxt "IDS_DVD_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for DVD playback"
-msgstr "Neuspjeh u pronalasku potrebnih sucelja koji omogucuju izvodjenje DVD a"
+msgstr "Neuspjeh u pronalasku potrebnih sučelja koji omogućuju izvođenje DVDa"
 
 msgctxt "IDS_CAPTURE_LIVE"
 msgid "Live"
-msgstr "Uzivo"
+msgstr "Uživo"
 
 msgctxt "IDS_CAPTURE_ERROR_VID_FILTER"
 msgid "Can't add video capture filter to the graph"
-msgstr "Ne mogu dodat Video Capture filter"
+msgstr "U graf se ne može dodati Video Capture filtar"
 
 msgctxt "IDS_CAPTURE_ERROR_AUD_FILTER"
 msgid "Can't add audio capture filter to the graph"
-msgstr "Can't add audio capture filter to the graph"
+msgstr "U graf se ne može dodati Audio Capture filtar"
 
 msgctxt "IDS_CAPTURE_ERROR_DEVICE"
 msgid "Could not open capture device."
-msgstr "Ne mogu otvorit uredjaj za snimanje"
+msgstr "Ne mogu otvoriti uređaj za snimanje."
 
 msgctxt "IDS_INVALID_PARAMS_ERROR"
 msgid "Can't open, invalid input parameters"
-msgstr "Ne moze se otvorit, nevaljali ulazni parametri"
+msgstr "Ne može se otvoriti, nevaljali ulazni parametri"
 
 msgctxt "IDS_EDIT_LIST_EDITOR"
 msgid "Edit List Editor"
-msgstr "Editiraj Listu urednjenja"
+msgstr "Uredi editor liste"
 
 msgctxt "IDS_GOTO_ERROR_INVALID_TIME"
 msgid "The entered time is greater than the file duration."
-msgstr "Uneseno vrijeme je vece od trajanja same datoteke"
+msgstr "Uneseno vrijeme je veće od trajanja same datoteke."
 
 msgctxt "IDS_MISSING_ICONS_LIB"
 msgid "The icons library \"mpciconlib.dll\" is missing.\nThe player's default icon will be used for file associations.\nPlease, reinstall MPC-HC to get \"mpciconlib.dll\"."
-msgstr "Ikona knjiznice \"mpciconlib.dll\" - nedostaje\nBiti ce koristena pocetka ikona playera\nMolim vas, reinstalirajte MPC-HC da dobijete "
+msgstr "Datoteka s ikonama \"mpciconlib.dll\" nedostaje.\nBiti će korištena standardna ikona playera za asocirane datoteke.\nMolim vas, ponovo instalirajte MPC-HC da dobijete \"mpciconlib.dll\"."
 
 msgctxt "IDS_SUBDL_DLG_FILENAME_COL"
 msgid "File"
@@ -301,15 +301,15 @@ msgstr "CharSet"
 
 msgctxt "IDS_SUBRESYNC_CLN_UNICODE"
 msgid "Unicode"
-msgstr "unicode"
+msgstr "Unicode"
 
 msgctxt "IDS_SUBRESYNC_CLN_LAYER"
 msgid "Layer"
-msgstr "layer"
+msgstr "Sloj"
 
 msgctxt "IDS_SUBRESYNC_CLN_ACTOR"
 msgid "Actor"
-msgstr "glumac"
+msgstr "Glumac"
 
 msgctxt "IDS_SUBRESYNC_CLN_EFFECT"
 msgid "Effect"
@@ -333,11 +333,11 @@ msgstr "Do fps"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
-msgstr "Dispaly mode (Hz)"
+msgstr "Način prikaza (Hz)"
 
 msgctxt "IDS_PPAGE_FS_DEFAULT"
 msgid "Default"
-msgstr "Pocetni"
+msgstr "Standardni"
 
 msgctxt "IDS_PPAGE_FS_OTHER"
 msgid "Other"
@@ -345,19 +345,19 @@ msgstr "Drugo"
 
 msgctxt "IDS_PPAGE_OUTPUT_SYS_DEF"
 msgid "System Default"
-msgstr "Default po sistemu"
+msgstr "Sistemski standard"
 
 msgctxt "IDS_GRAPH_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for playback"
-msgstr "Neuspjesno otkrivanje sucelja potrebnih za izvodjenje"
+msgstr "Greška pri pozivanju sučelja potrebnih za izvođenje"
 
 msgctxt "IDS_GRAPH_TARGET_WND_ERROR"
 msgid "Could not set target window for graph notification"
-msgstr "Could not set target window for graph notification"
+msgstr "Ciljani okvir za obavijesni graf nije moguće podesiti"
 
 msgctxt "IDS_DVD_NAV_ALL_PINS_ERROR"
 msgid "Failed to render all pins of the DVD Navigator filter"
-msgstr "Failed to render all pins of the DVD Navigator filter"
+msgstr "Nije uspjeli renderiranje nijednog pina od DVD-navigacijskog filtra."
 
 msgctxt "IDS_PLAYLIST_OPEN"
 msgid "&Open"
@@ -365,7 +365,7 @@ msgstr "&Otvori"
 
 msgctxt "IDS_PLAYLIST_ADD"
 msgid "A&dd"
-msgstr "A&dd"
+msgstr "&Dodaj"
 
 msgctxt "IDS_PLAYLIST_REMOVE"
 msgid "&Remove"
@@ -373,7 +373,7 @@ msgstr "&Ukloni"
 
 msgctxt "IDS_PLAYLIST_CLEAR"
 msgid "C&lear"
-msgstr "C&ocisti"
+msgstr "&obriši pospi"
 
 msgctxt "IDS_PLAYLIST_COPYTOCLIPBOARD"
 msgid "&Copy to clipboard"
@@ -381,11 +381,11 @@ msgstr "&Kopiraj u medjuspremnik"
 
 msgctxt "IDS_PLAYLIST_SAVEAS"
 msgid "&Save As..."
-msgstr "&Spremi kao"
+msgstr "&Spremi kao..."
 
 msgctxt "IDS_PLAYLIST_SORTBYLABEL"
 msgid "Sort by &label"
-msgstr "Sortiraj po &naljepnici"
+msgstr "Sortiraj po &oznaci"
 
 msgctxt "IDS_PLAYLIST_SORTBYPATH"
 msgid "Sort by &path"
@@ -393,11 +393,11 @@ msgstr "Sortiraj po &putanji"
 
 msgctxt "IDS_PLAYLIST_RANDOMIZE"
 msgid "R&andomize"
-msgstr "N&asumicno"
+msgstr "N&asumično"
 
 msgctxt "IDS_PLAYLIST_RESTORE"
 msgid "R&estore"
-msgstr "R&estore"
+msgstr "V&rati"
 
 msgctxt "IDS_SUBRESYNC_SEPARATOR"
 msgid "&Separator"
@@ -405,11 +405,11 @@ msgstr "&Separator"
 
 msgctxt "IDS_SUBRESYNC_DELETE"
 msgid "&Delete"
-msgstr "&Obrisi"
+msgstr "&Obriši"
 
 msgctxt "IDS_SUBRESYNC_DUPLICATE"
 msgid "D&uplicate"
-msgstr "D&upliraj"
+msgstr "D&upliciraj"
 
 msgctxt "IDS_SUBRESYNC_RESET"
 msgid "&Reset"
@@ -417,7 +417,7 @@ msgstr "&Resetiraj"
 
 msgctxt "IDS_MPLAYERC_104"
 msgid "Subtitle Delay -"
-msgstr "Kasnjenje podnapisa - "
+msgstr "Kašnjenje podnapisa - "
 
 msgctxt "IDS_MPLAYERC_105"
 msgid "Subtitle Delay +"
@@ -425,7 +425,7 @@ msgstr "Kašnjenje podnapisa +"
 
 msgctxt "IDS_FILE_SAVE_THUMBNAILS"
 msgid "Save thumbnails"
-msgstr "Sacuvaj thumbnailove"
+msgstr "Sačuvaj sličice"
 
 msgctxt "IDD_PPAGEPLAYBACK"
 msgid "Playback"
@@ -449,15 +449,15 @@ msgstr "Player::Formati"
 
 msgctxt "IDD_PPAGETWEAKS"
 msgid "Tweaks"
-msgstr "Tweakovi"
+msgstr "Optimizacije"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER"
 msgid "Internal Filters::Audio Switcher"
-msgstr "Interni filteri::Audio Switcher"
+msgstr "Interni filtri::Audio Switcher"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS"
 msgid "External Filters"
-msgstr "Eksterni filteri"
+msgstr "Eksterni filtri"
 
 msgctxt "IDD_PPAGESHADERS"
 msgid "Playback::Shaders"
@@ -469,15 +469,15 @@ msgstr "Audio switcher"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_TITLE"
 msgid "New version of the icon library"
-msgstr "Nova verzija ikone knjiznice"
+msgstr "Nova verzija biblioteke ikona"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_INSTR"
 msgid "Do you want to reassociate the icons?"
-msgstr "Da li želite ponovno pridruživanje ikona programima?"
+msgstr "Da li želite ponovno pridružiti ikone?"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_CONTENT"
 msgid "This will fix the icons being incorrectly displayed after an update of the icon library.\nThe file associations will not be modified, only the corresponding icons will be refreshed."
-msgstr "Ovo ce sprijeciti neispravan prikaz ikona knjiznice nakon updatea.\nSamo osnovne ikone ce biti refreshane"
+msgstr "Ovo će popraviti neispravan prikaz ikona nakon nadogradnje biblioteke ikona.\nSamo ikone će biti osvježene, asocijacije s datotekama neće biti promijenjene."
 
 msgctxt "IDS_PPAGE_OUTPUT_OLDRENDERER"
 msgid "Old Video Renderer"
@@ -529,15 +529,15 @@ msgstr "madVR"
 
 msgctxt "IDD_PPAGEACCELTBL"
 msgid "Player::Keys"
-msgstr "Player::Ključevi"
+msgstr "Player::Tipke"
 
 msgctxt "IDD_PPAGESUBSTYLE"
 msgid "Subtitles::Default Style"
-msgstr "Podnapisi::Početni stil"
+msgstr "Podnapisi::Standardni stil"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS"
 msgid "Internal Filters"
-msgstr "Interni filteri"
+msgstr "Interni filtri"
 
 msgctxt "IDD_PPAGELOGO"
 msgid "Player::Logo"
@@ -545,7 +545,7 @@ msgstr "Player::Logo"
 
 msgctxt "IDD_PPAGEOUTPUT"
 msgid "Playback::Output"
-msgstr "Playback::Output"
+msgstr "Prikaz::Izlaz"
 
 msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
@@ -573,11 +573,11 @@ msgstr "Playback::Uhvati (zaustavi)"
 
 msgctxt "IDD_PPAGESYNC"
 msgid "Playback::Sync Renderer Settings"
-msgstr "Playback::Sync Renderer Settings"
+msgstr "Playback::Postavke za Sync Renderer"
 
 msgctxt "IDD_PPAGEFULLSCREEN"
 msgid "Playback::Fullscreen"
-msgstr "Playback::Fullscreen"
+msgstr "Playback::Cijeli ekran"
 
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"

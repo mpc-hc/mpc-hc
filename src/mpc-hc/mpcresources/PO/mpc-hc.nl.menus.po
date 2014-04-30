@@ -1,15 +1,16 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2014 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Devrim <devrim.extra@gmail.com>, 2013
 # kasper93, 2013
+# rjongejan <ruben.jongejan@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-04 19:40:54+0000\n"
-"PO-Revision-Date: 2013-12-17 21:38+0000\n"
-"Last-Translator: Underground78\n"
+"POT-Creation-Date: 2014-02-16 20:48:44+0000\n"
+"PO-Revision-Date: 2014-05-01 07:40+0000\n"
+"Last-Translator: rjongejan <ruben.jongejan@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/mpc-hc/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -123,7 +124,7 @@ msgstr "S&tatistieken"
 
 msgctxt "ID_VIEW_STATUS"
 msgid "St&atus"
-msgstr ""
+msgstr "St&atus"
 
 msgctxt "ID_VIEW_SUBRESYNC"
 msgid "Su&bresync"
@@ -399,11 +400,11 @@ msgstr "Pas venster vanuit binnen aan"
 
 msgctxt "ID_VIEW_VF_ZOOM1"
 msgid "Zoom &1"
-msgstr ""
+msgstr "Zoom &1"
 
 msgctxt "ID_VIEW_VF_ZOOM2"
 msgid "Zoom &2"
-msgstr ""
+msgstr "Zoom &2"
 
 msgctxt "ID_VIEW_VF_FROMOUTSIDE"
 msgid "Touch Window From &Outside"
@@ -559,7 +560,7 @@ msgstr "Pixel S&hader"
 
 msgctxt "ID_AUDIOS"
 msgid "&Audio"
-msgstr ""
+msgstr "&Audio"
 
 msgctxt "ID_SUBTITLES"
 msgid "Su&btitles"

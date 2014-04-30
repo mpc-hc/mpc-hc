@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-03-22 09:25:06+0000\n"
-"PO-Revision-Date: 2014-04-21 17:11+0000\n"
+"PO-Revision-Date: 2014-04-29 13:27+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -3070,7 +3070,7 @@ msgstr "半浮動小数点演算: オフ"
 
 msgctxt "IDS_BRIGHTNESS_DEC"
 msgid "Brightness decrease"
-msgstr "明度を下げる"
+msgstr "明るさを下げる"
 
 msgctxt "IDS_CONTRAST_INC"
 msgid "Contrast increase"
@@ -3082,19 +3082,19 @@ msgstr "コントラストを下げる"
 
 msgctxt "IDS_HUE_INC"
 msgid "Hue increase"
-msgstr "色相を上げる"
+msgstr "色合いを上げる"
 
 msgctxt "IDS_HUE_DEC"
 msgid "Hue decrease"
-msgstr "色相を下げる"
+msgstr "色合いを下げる"
 
 msgctxt "IDS_SATURATION_INC"
 msgid "Saturation increase"
-msgstr "彩度を上げる"
+msgstr "鮮やかさを上げる"
 
 msgctxt "IDS_SATURATION_DEC"
 msgid "Saturation decrease"
-msgstr "彩度を下げる"
+msgstr "鮮やかさを下げる"
 
 msgctxt "IDS_RESET_COLOR"
 msgid "Reset color settings"
@@ -3350,7 +3350,7 @@ msgstr "再生終了後: フォルダ内を順次再生"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
-msgstr "明度: %s"
+msgstr "明るさ: %s"
 
 msgctxt "IDS_OSD_CONTRAST"
 msgid "Contrast: %s"
@@ -3358,11 +3358,11 @@ msgstr "コントラスト: %s"
 
 msgctxt "IDS_OSD_HUE"
 msgid "Hue: %s°"
-msgstr "色相: %s°"
+msgstr "色合い: %s°"
 
 msgctxt "IDS_OSD_SATURATION"
 msgid "Saturation: %s"
-msgstr "彩度: %s"
+msgstr "鮮やかさ: %s"
 
 msgctxt "IDS_OSD_RESET_COLOR"
 msgid "Color settings restored"
@@ -3374,7 +3374,7 @@ msgstr "カラー コントロールはサポートされていません"
 
 msgctxt "IDS_BRIGHTNESS_INC"
 msgid "Brightness increase"
-msgstr "明度を上げる"
+msgstr "明るさを上げる"
 
 msgctxt "IDS_LANG_PREF_EXAMPLE"
 msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""

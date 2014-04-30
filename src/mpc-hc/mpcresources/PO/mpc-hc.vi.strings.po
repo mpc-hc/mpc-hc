@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-03-22 09:25:06+0000\n"
-"PO-Revision-Date: 2014-04-02 04:40+0000\n"
-"Last-Translator: anhminhvks <anhminhvks@yahoo.com>\n"
+"PO-Revision-Date: 2014-04-30 14:40+0000\n"
+"Last-Translator: Luong Anh Dat <datanhlg@gmail.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/mpc-hc/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -531,7 +531,7 @@ msgstr "Trình phát::Phím"
 
 msgctxt "IDD_PPAGESUBSTYLE"
 msgid "Subtitles::Default Style"
-msgstr "Phụ đề:Dạng mặc định"
+msgstr "Phụ đề::Dạng mặc định"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS"
 msgid "Internal Filters"
@@ -551,7 +551,7 @@ msgstr "Trình phát::Giao diện Web"
 
 msgctxt "IDD_PPAGESUBDB"
 msgid "Subtitles::Database"
-msgstr "Phụ đề:Cơ sở dữ liệu"
+msgstr "Phụ đề::Cơ sở dữ liệu"
 
 msgctxt "IDD_FILEPROPRES"
 msgid "Resources"
@@ -1947,7 +1947,7 @@ msgstr "MPC-HC không có đủ quyền để thay đổi các tập tin định
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
-msgstr "MPC-HC là một trọng lượng nhẹ vô cùng, phương tiện truyền thông máy nghe nhạc mở nguồn cho Windows. Nó hỗ trợ tất cả các video phổ biến và các định dạng tập tin âm thanh có sẵn để phát lại. Chúng tôi là 100% phần mềm miễn phí, không có quảng cáo hoặc các thanh công cụ."
+msgstr "MPC-HC là một phương tiện truyền thông máy nghe nhạc mở nguồn cho Windows. Nó hỗ trợ tất cả các video phổ biến và các định dạng tập tin âm thanh có sẵn để phát lại. Phần mềm này 100% phần mềm miễn phí, không có quảng cáo hoặc các thanh công cụ."
 
 msgctxt "IDS_MAINFRM_12"
 msgid "channel"
