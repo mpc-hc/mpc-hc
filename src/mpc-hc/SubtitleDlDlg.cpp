@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -412,7 +412,7 @@ void CSubtitleDlDlg::OnOK()
     }
 
     CAppSettings& s = AfxGetAppSettings();
-    CComPtr<ISubStream> pSubStreamToSet;
+    SubtitleInput subInputToSet;
 
     POSITION pos = m_selsubs.GetHeadPosition();
     while (pos) {
@@ -429,15 +429,15 @@ void CSubtitleDlDlg::OnOK()
             if (pRTS && pRTS->Open((BYTE*)(LPCSTR)str, str.GetLength(), DEFAULT_CHARSET, CString(sub.name)) && pRTS->GetStreamCount() > 0) {
                 SubtitleInput subElement(pRTS.Detach());
                 pMF->m_pSubStreams.AddTail(subElement);
-                if (!pSubStreamToSet) {
-                    pSubStreamToSet = subElement.subStream;
+                if (!subInputToSet.subStream) {
+                    subInputToSet = subElement;
                 }
             }
         }
     }
 
-    if (pSubStreamToSet) {
-        pMF->SetSubtitle(pSubStreamToSet);
+    if (subInputToSet.subStream) {
+        pMF->SetSubtitle(subInputToSet);
     }
 
     __super::OnOK();

@@ -258,7 +258,7 @@ private:
 
     CList<SubtitleInput> m_pSubStreams;
     POSITION m_posFirstExtSub;
-    ISubStream* m_pCurrentSubStream;
+    SubtitleInput m_pCurrentSubInput;
 
     SubtitleInput* GetSubtitleInput(int& i, bool bIsOffset = false);
 
@@ -517,9 +517,9 @@ public:
     int SetupAudioStreams();
     int SetupSubtitleStreams();
 
-    bool LoadSubtitle(CString fn, ISubStream** actualStream = nullptr, bool bAutoLoad = false);
+    bool LoadSubtitle(CString fn, SubtitleInput* actualSubInput = nullptr, bool bAutoLoad = false);
     bool SetSubtitle(int i, bool bIsOffset = false, bool bDisplayMessage = false, bool bApplyDefStyle = false);
-    void SetSubtitle(ISubStream* pSubStream, bool bApplyDefStyle = false);
+    void SetSubtitle(const SubtitleInput& subInput, bool bApplyDefStyle = false);
     void ToggleSubtitleOnOff(bool bDisplayMessage = false);
     void ReplaceSubtitle(const ISubStream* pSubStreamOld, ISubStream* pSubStreamNew);
     void InvalidateSubtitle(DWORD_PTR nSubtitleId = DWORD_PTR_MAX, REFERENCE_TIME rtInvalidate = -1);
