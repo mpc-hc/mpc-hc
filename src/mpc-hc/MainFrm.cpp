@@ -5199,7 +5199,7 @@ void CMainFrame::OnFileSavesubtitle()
 
     if (pSubInput) {
         CLSID clsid;
-        if (FAILED(pSubInput->subStream->GetClassID(&clsid))) {
+        if (FAILED(pSubInput->pSubStream->GetClassID(&clsid))) {
             return;
         }
 
@@ -5213,7 +5213,7 @@ void CMainFrame::OnFileSavesubtitle()
         }
 
         if (clsid == __uuidof(CVobSubFile)) {
-            CVobSubFile* pVSF = (CVobSubFile*)(ISubStream*)pSubInput->subStream;
+            CVobSubFile* pVSF = (CVobSubFile*)(ISubStream*)pSubInput->pSubStream;
 
             // remember to set lpszDefExt to the first extension in the filter so that the save dialog autocompletes the extension
             // and tracks attempts to overwrite in a graceful manner
@@ -5225,7 +5225,7 @@ void CMainFrame::OnFileSavesubtitle()
                 pVSF->Save(fd.GetPathName(), fd.GetDelay());
             }
         } else if (clsid == __uuidof(CRenderedTextSubtitle)) {
-            CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)pSubInput->subStream;
+            CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)pSubInput->pSubStream;
 
             CString filter;
             // WATCH the order in GFN.h for exttype
@@ -5252,10 +5252,10 @@ void CMainFrame::OnUpdateFileSavesubtitle(CCmdUI* pCmdUI)
 {
     bool bEnable = false;
 
-    if (!m_pCurrentSubInput.sourceFilter) {
-        if (auto pRTS = dynamic_cast<CRenderedTextSubtitle*>((ISubStream*)m_pCurrentSubInput.subStream)) {
+    if (!m_pCurrentSubInput.pSourceFilter) {
+        if (auto pRTS = dynamic_cast<CRenderedTextSubtitle*>((ISubStream*)m_pCurrentSubInput.pSubStream)) {
             bEnable = !pRTS->IsEmpty();
-        } else if (dynamic_cast<CVobSubFile*>((ISubStream*)m_pCurrentSubInput.subStream)) {
+        } else if (dynamic_cast<CVobSubFile*>((ISubStream*)m_pCurrentSubInput.pSubStream)) {
             bEnable = true;
         }
     }
@@ -7762,9 +7762,9 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
             SubtitleInput* pSubInput = GetSubtitleInput(j, true);
             CLSID clsid;
 
-            if (pSubInput && SUCCEEDED(pSubInput->subStream->GetClassID(&clsid))) {
+            if (pSubInput && SUCCEEDED(pSubInput->pSubStream->GetClassID(&clsid))) {
                 if (clsid == __uuidof(CRenderedTextSubtitle)) {
-                    CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)pSubInput->subStream;
+                    CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)pSubInput->pSubStream;
 
                     CAutoPtrArray<CPPageSubStyle> pages;
                     CAtlArray<STSStyle*> styles;
@@ -11493,14 +11493,14 @@ int CMainFrame::SetupSubtitleStreams()
                 externalPriority = s.fPrioritizeExternalSubtitles;
             }
             SubtitleInput& subInput = m_pSubStreams.GetNext(pos);
-            CComPtr<ISubStream> pSubStream = subInput.subStream;
-            CComQIPtr<IAMStreamSelect> pSSF = subInput.sourceFilter;
+            CComPtr<ISubStream> pSubStream = subInput.pSubStream;
+            CComQIPtr<IAMStreamSelect> pSSF = subInput.pSourceFilter;
 
             bool bAllowOverridingSplitterChoice;
             // If the internal LAV Splitter has its own language preferences set, we choose not to override its choice
-            if (pSSF && CFGFilterLAV::IsInternalInstance(subInput.sourceFilter)) {
+            if (pSSF && CFGFilterLAV::IsInternalInstance(subInput.pSourceFilter)) {
                 bAllowOverridingSplitterChoice = true;
-                if (CComQIPtr<ILAVFSettings> pLAVFSettings = subInput.sourceFilter) {
+                if (CComQIPtr<ILAVFSettings> pLAVFSettings = subInput.pSourceFilter) {
                     LPWSTR langPrefs = nullptr;
                     LAVSubtitleMode subtitleMode = pLAVFSettings->GetSubtitleMode();
                     if ((((subtitleMode == LAVSubtitleMode_Default && SUCCEEDED(pLAVFSettings->GetPreferredSubtitleLanguages(&langPrefs)))
@@ -12584,7 +12584,7 @@ void CMainFrame::SetupSubtitlesSubMenu()
         while (pos) {
             SubtitleInput& subInput = m_pSubStreams.GetNext(pos);
 
-            if (CComQIPtr<IAMStreamSelect> pSSF = subInput.sourceFilter) {
+            if (CComQIPtr<IAMStreamSelect> pSSF = subInput.pSourceFilter) {
                 DWORD cStreams;
                 if (FAILED(pSSF->Count(&cStreams))) {
                     continue;
@@ -12608,7 +12608,7 @@ void CMainFrame::SetupSubtitlesSubMenu()
                         continue;
                     }
 
-                    if (subInput.subStream == m_pCurrentSubInput.subStream
+                    if (subInput.pSubStream == m_pCurrentSubInput.pSubStream
                             && dwFlags & (AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE)) {
                         iSelected = i;
                     }
@@ -12637,12 +12637,12 @@ void CMainFrame::SetupSubtitlesSubMenu()
                     i++;
                 }
             } else {
-                CComPtr<ISubStream> pSubStream = subInput.subStream;
+                CComPtr<ISubStream> pSubStream = subInput.pSubStream;
                 if (!pSubStream) {
                     continue;
                 }
 
-                if (subInput.subStream == m_pCurrentSubInput.subStream) {
+                if (subInput.pSubStream == m_pCurrentSubInput.pSubStream) {
                     iSelected = i + pSubStream->GetStream();
                 }
 
@@ -12661,9 +12661,9 @@ void CMainFrame::SetupSubtitlesSubMenu()
                 }
             }
 
-            if (subInput.subStream == m_pCurrentSubInput.subStream) {
+            if (subInput.pSubStream == m_pCurrentSubInput.pSubStream) {
                 CLSID clsid;
-                if (SUCCEEDED(subInput.subStream->GetClassID(&clsid))
+                if (SUCCEEDED(subInput.pSubStream->GetClassID(&clsid))
                         && clsid == __uuidof(CRenderedTextSubtitle)) {
                     bStyleEnabled = true;
                 }
@@ -13355,7 +13355,7 @@ HRESULT CMainFrame::InsertTextPassThruFilter(IBaseFilter* pBF, IPin* pPin, IPin*
     return hr;
 }
 
-bool CMainFrame::LoadSubtitle(CString fn, SubtitleInput* actualStream /*= nullptr*/, bool bAutoLoad /*= false*/)
+bool CMainFrame::LoadSubtitle(CString fn, SubtitleInput* pSubInput /*= nullptr*/, bool bAutoLoad /*= false*/)
 {
     CAppSettings& s = AfxGetAppSettings();
     CComQIPtr<ISubStream> pSubStream;
@@ -13402,8 +13402,8 @@ bool CMainFrame::LoadSubtitle(CString fn, SubtitleInput* actualStream /*= nullpt
             m_posFirstExtSub = m_pSubStreams.GetTailPosition();
         }
 
-        if (actualStream) {
-            *actualStream = subInput;
+        if (pSubInput) {
+            *pSubInput = subInput;
         }
     }
 
@@ -13422,7 +13422,7 @@ bool CMainFrame::SetSubtitle(int i, bool bIsOffset /*= false*/, bool bDisplayMes
 
     if (pSubInput) {
         WCHAR* pName = nullptr;
-        if (CComQIPtr<IAMStreamSelect> pSSF = pSubInput->sourceFilter) {
+        if (CComQIPtr<IAMStreamSelect> pSSF = pSubInput->pSourceFilter) {
             DWORD dwFlags;
             if (FAILED(pSSF->Info(i, nullptr, &dwFlags, nullptr, nullptr, &pName, nullptr, nullptr))) {
                 dwFlags = 0;
@@ -13437,12 +13437,12 @@ bool CMainFrame::SetSubtitle(int i, bool bIsOffset /*= false*/, bool bDisplayMes
         {
             // m_csSubLock shouldn't be locked when using IAMStreamSelect::Enable
             CAutoLock cAutoLock(&m_csSubLock);
-            pSubInput->subStream->SetStream(i);
+            pSubInput->pSubStream->SetStream(i);
             SetSubtitle(*pSubInput, bApplyDefStyle);
         }
 
         if (bDisplayMessage) {
-            if (pName || SUCCEEDED(pSubInput->subStream->GetStreamInfo(0, &pName, nullptr))) {
+            if (pName || SUCCEEDED(pSubInput->pSubStream->GetStreamInfo(0, &pName, nullptr))) {
                 CString strMessage;
                 strMessage.Format(IDS_SUBTITLE_STREAM, pName);
                 m_OSD.DisplayMessage(OSD_TOPLEFT, strMessage);
@@ -13462,11 +13462,11 @@ void CMainFrame::SetSubtitle(const SubtitleInput& subInput, bool bApplyDefStyle 
 {
     CAppSettings& s = AfxGetAppSettings();
 
-    if (subInput.subStream) {
+    if (subInput.pSubStream) {
         bool found = false;
         POSITION pos = m_pSubStreams.GetHeadPosition();
         while (pos) {
-            if (subInput.subStream == m_pSubStreams.GetNext(pos).subStream) {
+            if (subInput.pSubStream == m_pSubStreams.GetNext(pos).pSubStream) {
                 found = true;
                 break;
             }
@@ -13477,22 +13477,22 @@ void CMainFrame::SetSubtitle(const SubtitleInput& subInput, bool bApplyDefStyle 
         }
 
         CLSID clsid;
-        subInput.subStream->GetClassID(&clsid);
+        subInput.pSubStream->GetClassID(&clsid);
 
         if (clsid == __uuidof(CVobSubFile)) {
-            CVobSubFile* pVSF = (CVobSubFile*)(ISubStream*)subInput.subStream;
+            CVobSubFile* pVSF = (CVobSubFile*)(ISubStream*)subInput.pSubStream;
 
             if (bApplyDefStyle) {
                 pVSF->SetAlignment(s.fOverridePlacement, s.nHorPos, s.nVerPos, 1, 1);
             }
         } else if (clsid == __uuidof(CVobSubStream)) {
-            CVobSubStream* pVSS = (CVobSubStream*)(ISubStream*)subInput.subStream;
+            CVobSubStream* pVSS = (CVobSubStream*)(ISubStream*)subInput.pSubStream;
 
             if (bApplyDefStyle) {
                 pVSS->SetAlignment(s.fOverridePlacement, s.nHorPos, s.nVerPos, 1, 1);
             }
         } else if (clsid == __uuidof(CRenderedTextSubtitle)) {
-            CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)subInput.subStream;
+            CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)subInput.pSubStream;
 
             STSStyle style;
 
@@ -13522,7 +13522,7 @@ void CMainFrame::SetSubtitle(const SubtitleInput& subInput, bool bApplyDefStyle 
 
             pRTS->Deinit();
         } else if (clsid == __uuidof(CRenderedHdmvSubtitle)) {
-            CRenderedHdmvSubtitle* pRHS = (CRenderedHdmvSubtitle*)(ISubStream*)subInput.subStream;
+            CRenderedHdmvSubtitle* pRHS = (CRenderedHdmvSubtitle*)(ISubStream*)subInput.pSubStream;
 
             CComQIPtr<ISubRenderOptions> pSRO = m_pCAP;
             CComQIPtr<IMadVRInfo> pMVRI = m_pCAP;
@@ -13556,8 +13556,8 @@ void CMainFrame::SetSubtitle(const SubtitleInput& subInput, bool bApplyDefStyle 
     m_pCurrentSubInput = subInput;
 
     if (m_pCAP && s.fEnableSubtitles) {
-        m_pCAP->SetSubPicProvider(CComQIPtr<ISubPicProvider>(subInput.subStream));
-        m_wndSubresyncBar.SetSubtitle(subInput.subStream, m_pCAP->GetFPS());
+        m_pCAP->SetSubPicProvider(CComQIPtr<ISubPicProvider>(subInput.pSubStream));
+        m_wndSubresyncBar.SetSubtitle(subInput.pSubStream, m_pCAP->GetFPS());
     }
 }
 
@@ -13582,9 +13582,9 @@ void CMainFrame::ReplaceSubtitle(const ISubStream* pSubStreamOld, ISubStream* pS
     POSITION pos = m_pSubStreams.GetHeadPosition();
     while (pos) {
         POSITION cur = pos;
-        if (pSubStreamOld == m_pSubStreams.GetNext(pos).subStream) {
-            m_pSubStreams.GetAt(cur).subStream = pSubStreamNew;
-            if (m_pCurrentSubInput.subStream == pSubStreamOld) {
+        if (pSubStreamOld == m_pSubStreams.GetNext(pos).pSubStream) {
+            m_pSubStreams.GetAt(cur).pSubStream = pSubStreamNew;
+            if (m_pCurrentSubInput.pSubStream == pSubStreamOld) {
                 SetSubtitle(m_pSubStreams.GetAt(cur));
             }
             break;
@@ -13595,7 +13595,7 @@ void CMainFrame::ReplaceSubtitle(const ISubStream* pSubStreamOld, ISubStream* pS
 void CMainFrame::InvalidateSubtitle(DWORD_PTR nSubtitleId /*= DWORD_PTR_MAX*/, REFERENCE_TIME rtInvalidate /*= -1*/)
 {
     if (m_pCAP) {
-        if (nSubtitleId == DWORD_PTR_MAX || nSubtitleId == (DWORD_PTR)(ISubStream*)m_pCurrentSubInput.subStream) {
+        if (nSubtitleId == DWORD_PTR_MAX || nSubtitleId == (DWORD_PTR)(ISubStream*)m_pCurrentSubInput.pSubStream) {
             m_pCAP->Invalidate(rtInvalidate);
         }
     }
@@ -13607,7 +13607,7 @@ void CMainFrame::ReloadSubtitle()
         CAutoLock cAutoLock(&m_csSubLock);
         POSITION pos = m_pSubStreams.GetHeadPosition();
         while (pos) {
-            m_pSubStreams.GetNext(pos).subStream->Reload();
+            m_pSubStreams.GetNext(pos).pSubStream->Reload();
         }
     }
     SetSubtitle(0, true);
@@ -15266,7 +15266,7 @@ void CMainFrame::SendSubtitleTracksToApi()
             while (pos) {
                 SubtitleInput& subInput = m_pSubStreams.GetNext(pos);
 
-                if (CComQIPtr<IAMStreamSelect> pSSF = subInput.sourceFilter) {
+                if (CComQIPtr<IAMStreamSelect> pSSF = subInput.pSourceFilter) {
                     DWORD cStreams;
                     if (FAILED(pSSF->Count(&cStreams))) {
                         continue;
@@ -15288,7 +15288,7 @@ void CMainFrame::SendSubtitleTracksToApi()
                             continue;
                         }
 
-                        if (subInput.subStream == m_pCurrentSubInput.subStream
+                        if (subInput.pSubStream == m_pCurrentSubInput.pSubStream
                                 && dwFlags & (AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE)) {
                             iSelected = j;
                         }
@@ -15302,12 +15302,12 @@ void CMainFrame::SendSubtitleTracksToApi()
                         i++;
                     }
                 } else {
-                    CComPtr<ISubStream> pSubStream = subInput.subStream;
+                    CComPtr<ISubStream> pSubStream = subInput.pSubStream;
                     if (!pSubStream) {
                         continue;
                     }
 
-                    if (subInput.subStream == m_pCurrentSubInput.subStream) {
+                    if (subInput.pSubStream == m_pCurrentSubInput.pSubStream) {
                         iSelected = i + pSubStream->GetStream();
                     }
 
@@ -16189,7 +16189,7 @@ SubtitleInput* CMainFrame::GetSubtitleInput(int& i, bool bIsOffset /*= false*/)
     while (pos && !pSubInput) {
         SubtitleInput& subInput = m_pSubStreams.GetNext(pos);
 
-        if (CComQIPtr<IAMStreamSelect> pSSF = subInput.sourceFilter) {
+        if (CComQIPtr<IAMStreamSelect> pSSF = subInput.pSourceFilter) {
             DWORD cStreams;
             if (FAILED(pSSF->Count(&cStreams))) {
                 continue;
@@ -16211,7 +16211,7 @@ SubtitleInput* CMainFrame::GetSubtitleInput(int& i, bool bIsOffset /*= false*/)
                         pSubInput = &subInput;
                         iLocalIdx = j;
                         break;
-                    } else if (subInput.subStream == m_pCurrentSubInput.subStream
+                    } else if (subInput.pSubStream == m_pCurrentSubInput.pSubStream
                                && dwFlags & (AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE)) {
                         if (i == 0) {
                             pSubInput = &subInput;
@@ -16247,9 +16247,9 @@ SubtitleInput* CMainFrame::GetSubtitleInput(int& i, bool bIsOffset /*= false*/)
                     pSubInput = &subInput;
                     iLocalIdx = 0;
                     break;
-                } else if (subInput.subStream == m_pCurrentSubInput.subStream) {
-                    iLocalIdx = subInput.subStream->GetStream() + i;
-                    if (iLocalIdx >= 0 && iLocalIdx < subInput.subStream->GetStreamCount()) {
+                } else if (subInput.pSubStream == m_pCurrentSubInput.pSubStream) {
+                    iLocalIdx = subInput.pSubStream->GetStream() + i;
+                    if (iLocalIdx >= 0 && iLocalIdx < subInput.pSubStream->GetStreamCount()) {
                         // The subtitles track we want to select is part of this substream
                         pSubInput = &subInput;
                     } else if (i > 0) { // We want to the select the next subtitles track
@@ -16263,14 +16263,14 @@ SubtitleInput* CMainFrame::GetSubtitleInput(int& i, bool bIsOffset /*= false*/)
                     }
                 } else {
                     pSubInputPrec = &subInput;
-                    iLocalIdxPrec = subInput.subStream->GetStreamCount() - 1;
+                    iLocalIdxPrec = subInput.pSubStream->GetStreamCount() - 1;
                 }
             } else {
-                if (i < subInput.subStream->GetStreamCount()) {
+                if (i < subInput.pSubStream->GetStreamCount()) {
                     pSubInput = &subInput;
                     iLocalIdx = i;
                 } else {
-                    i -= subInput.subStream->GetStreamCount();
+                    i -= subInput.pSubStream->GetStreamCount();
                 }
             }
         }

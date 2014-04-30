@@ -141,13 +141,13 @@ public:
 };
 
 struct SubtitleInput {
-    CComQIPtr<ISubStream> subStream;
-    CComPtr<IBaseFilter> sourceFilter;
+    CComQIPtr<ISubStream> pSubStream;
+    CComPtr<IBaseFilter> pSourceFilter;
 
     SubtitleInput() {};
-    SubtitleInput(CComQIPtr<ISubStream> subStream) : subStream(subStream) {};
-    SubtitleInput(CComQIPtr<ISubStream> subStream, CComPtr<IBaseFilter> sourceFilter)
-        : subStream(subStream), sourceFilter(sourceFilter) {};
+    SubtitleInput(CComQIPtr<ISubStream> pSubStream) : pSubStream(pSubStream) {};
+    SubtitleInput(CComQIPtr<ISubStream> pSubStream, CComPtr<IBaseFilter> pSourceFilter)
+        : pSubStream(pSubStream), pSourceFilter(pSourceFilter) {};
 };
 
 interface ISubClock;
@@ -517,7 +517,7 @@ public:
     int SetupAudioStreams();
     int SetupSubtitleStreams();
 
-    bool LoadSubtitle(CString fn, SubtitleInput* actualSubInput = nullptr, bool bAutoLoad = false);
+    bool LoadSubtitle(CString fn, SubtitleInput* pSubInput = nullptr, bool bAutoLoad = false);
     bool SetSubtitle(int i, bool bIsOffset = false, bool bDisplayMessage = false, bool bApplyDefStyle = false);
     void SetSubtitle(const SubtitleInput& subInput, bool bApplyDefStyle = false);
     void ToggleSubtitleOnOff(bool bDisplayMessage = false);

@@ -429,14 +429,14 @@ void CSubtitleDlDlg::OnOK()
             if (pRTS && pRTS->Open((BYTE*)(LPCSTR)str, str.GetLength(), DEFAULT_CHARSET, CString(sub.name)) && pRTS->GetStreamCount() > 0) {
                 SubtitleInput subElement(pRTS.Detach());
                 pMF->m_pSubStreams.AddTail(subElement);
-                if (!subInputToSet.subStream) {
+                if (!subInputToSet.pSubStream) {
                     subInputToSet = subElement;
                 }
             }
         }
     }
 
-    if (subInputToSet.subStream) {
+    if (subInputToSet.pSubStream) {
         pMF->SetSubtitle(subInputToSet);
     }
 
