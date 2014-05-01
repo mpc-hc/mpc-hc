@@ -2514,7 +2514,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                                 m_iDVDTitle   = s.lDVDTitle;
                                 s.lDVDTitle   = 0;
                                 s.lDVDChapter = 0;
-                            } else if (pDVDData->pDvdState) {
+                            } else if (pDVDData && pDVDData->pDvdState) {
                                 // Set position from favorite
                                 VERIFY(SUCCEEDED(m_pDVDC->SetState(pDVDData->pDvdState, DVD_CMD_FLAG_Block, nullptr)));
                                 // We don't want to restore the position from the favorite
