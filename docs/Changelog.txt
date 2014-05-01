@@ -10,6 +10,7 @@ Legend:
 
 next version - not released yet
 ===============================
+* Updated Little CMS to v2.6 (git 4da8703)
 * Updated LAV Filters to v0.61.2.6:
     - Ticket #3575, LAV Splitter: Alternate audio support for HLS
     - LAV Video: Support VP7 video
