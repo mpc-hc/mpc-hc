@@ -9974,7 +9974,12 @@ void CMainFrame::ZoomVideoWindow(double dScale/* = ZOOM_DEFAULT_LEVEL*/)
         return;
     }
 
-    if ((m_fFullScreen || !s.HasFixedWindowSize()) && !IsD3DFullScreenMode()) {
+    // Leave fullscreen when changing the zoom level
+    if (m_fFullScreen || IsD3DFullScreenMode()) {
+        OnViewFullscreen();
+    }
+
+    if (!s.HasFixedWindowSize()) {
         if (dScale == ZOOM_DEFAULT_LEVEL) {
             dScale =
                 s.iZoomLevel == 0 ? 0.5 :

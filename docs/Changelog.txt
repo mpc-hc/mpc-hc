@@ -14,6 +14,7 @@ next version - not released yet
     - Ticket #3575, LAV Splitter: Alternate audio support for HLS
     - LAV Video: Support VP7 video
     - LAV Video: Use the MediaFondation WMV decoder on Windows 7+ instead of the DMO WMV decoder
+! Ticket #4288, Changing the zoom level when in fullscreen mode did nothing
 
 
 1.7.5 - 01 May 2014
