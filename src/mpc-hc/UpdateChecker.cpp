@@ -243,7 +243,7 @@ static UINT RunCheckForUpdateThread(LPVOID pParam)
         Update_Status status = updateChecker.IsUpdateAvailable();
 
         if (!autoCheck || status == UPDATER_UPDATE_AVAILABLE) {
-            UpdateCheckerDlg dlg(status, updateChecker.GetLatestVersion());
+            UpdateCheckerDlg dlg(status, &updateChecker);
 
             if (dlg.DoModal() == IDC_UPDATE_IGNORE_BUTTON) {
                 updateChecker.IgnoreLatestVersion();
