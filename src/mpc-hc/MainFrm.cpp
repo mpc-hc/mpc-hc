@@ -3380,9 +3380,8 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
     } else {
         // OnUpdatePlayPauseStop() will decide if we can pause the media
         if (m_bOpeningInAutochangedMonitorMode && uModeChangeDelay) {
-            auto cb = [this]() { OnCommand(ID_PLAY_PAUSE, 0); };
             m_timerOneTime.Subscribe(TimerOneTimeSubscriber::DELAY_PLAYPAUSE_AFTER_AUTOCHANGE_MODE,
-                                     std::move(cb), uModeChangeDelay);
+                                     [this] { OnCommand(ID_PLAY_PAUSE, 0); }, uModeChangeDelay);
         } else {
             OnCommand(ID_PLAY_PAUSE, 0);
         }
