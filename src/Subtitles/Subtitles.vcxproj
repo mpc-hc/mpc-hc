@@ -98,10 +98,10 @@
     <ClCompile Include="CompositionObject.cpp" />
     <ClCompile Include="DVBSub.cpp" />
     <ClCompile Include="GFN.cpp" />
-    <ClCompile Include="HdmvSub.cpp" />
+    <ClCompile Include="PGSSub.cpp" />
     <ClCompile Include="Rasterizer.cpp" />
     <ClCompile Include="RealTextParser.cpp" />
-    <ClCompile Include="RenderedHdmvSubtitle.cpp" />
+    <ClCompile Include="RLECodedSubtitle.cpp" />
     <ClCompile Include="RTS.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
@@ -117,16 +117,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Utf8.h" />
-    <ClInclude Include="BaseSub.h" />
     <ClInclude Include="RenderingCache.h" />
     <ClInclude Include="CCDecoder.h" />
     <ClInclude Include="CompositionObject.h" />
     <ClInclude Include="DVBSub.h" />
     <ClInclude Include="GFN.h" />
-    <ClInclude Include="HdmvSub.h" />
+    <ClInclude Include="PGSSub.h" />
     <ClInclude Include="Rasterizer.h" />
     <ClInclude Include="RealTextParser.h" />
-    <ClInclude Include="RenderedHdmvSubtitle.h" />
+    <ClInclude Include="RLECodedSubtitle.h" />
     <ClInclude Include="RTS.h" />
     <ClInclude Include="SeparableFilter.h" />
     <ClInclude Include="stdafx.h" />

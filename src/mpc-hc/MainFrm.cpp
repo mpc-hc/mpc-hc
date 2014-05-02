@@ -96,7 +96,7 @@
 
 #include "../Subtitles/RTS.h"
 #include "../Subtitles/STS.h"
-#include "../Subtitles/RenderedHdmvSubtitle.h"
+#include "../Subtitles/RLECodedSubtitle.h"
 
 template<typename T>
 bool NEARLY_EQ(T a, T b, T tol)
@@ -13521,8 +13521,8 @@ void CMainFrame::SetSubtitle(const SubtitleInput& subInput, bool bApplyDefStyle 
             pRTS->SetOverride(s.fUseDefaultSubtitlesStyle, &s.subtitlesDefStyle);
 
             pRTS->Deinit();
-        } else if (clsid == __uuidof(CRenderedHdmvSubtitle)) {
-            CRenderedHdmvSubtitle* pRHS = (CRenderedHdmvSubtitle*)(ISubStream*)subInput.pSubStream;
+        } else if (clsid == __uuidof(CRLECodedSubtitle)) {
+            CRLECodedSubtitle* pRHS = (CRLECodedSubtitle*)(ISubStream*)subInput.pSubStream;
 
             CComQIPtr<ISubRenderOptions> pSRO = m_pCAP;
             CComQIPtr<IMadVRInfo> pMVRI = m_pCAP;

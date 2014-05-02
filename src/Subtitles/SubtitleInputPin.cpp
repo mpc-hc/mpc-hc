@@ -23,7 +23,8 @@
 #include "SubtitleInputPin.h"
 #include "VobSubFile.h"
 #include "RTS.h"
-#include "RenderedHdmvSubtitle.h"
+#include "DVBSub.h"
+#include "PGSSub.h"
 
 #include <InitGuid.h>
 #include <uuids.h>
@@ -62,7 +63,7 @@ HRESULT CSubtitleInputPin::CheckMediaType(const CMediaType* pmt)
            || pmt->majortype == MEDIATYPE_Subtitle && pmt->subtype == MEDIASUBTYPE_UTF8
            || pmt->majortype == MEDIATYPE_Subtitle && (pmt->subtype == MEDIASUBTYPE_SSA || pmt->subtype == MEDIASUBTYPE_ASS || pmt->subtype == MEDIASUBTYPE_ASS2)
            || pmt->majortype == MEDIATYPE_Subtitle && (pmt->subtype == MEDIASUBTYPE_VOBSUB)
-           || IsHdmvSub(pmt)
+           || IsRLECodedSub(pmt)
            ? S_OK
            : E_FAIL;
 }
@@ -141,8 +142,13 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
             }
             CVobSubStream* pVSS = (CVobSubStream*)(ISubStream*)m_pSubStream;
             pVSS->Open(name, m_mt.pbFormat + dwOffset, m_mt.cbFormat - dwOffset);
-        } else if (IsHdmvSub(&m_mt)) {
-            if (!(m_pSubStream = DEBUG_NEW CRenderedHdmvSubtitle(m_pSubLock, (m_mt.subtype == MEDIASUBTYPE_DVB_SUBTITLES) ? ST_DVB : ST_HDMV, name, lcid))) {
+        } else if (IsRLECodedSub(&m_mt)) {
+            if (m_mt.subtype == MEDIASUBTYPE_DVB_SUBTITLES) {
+                m_pSubStream = DEBUG_NEW CDVBSub(m_pSubLock, name, lcid);
+            } else {
+                m_pSubStream = DEBUG_NEW CPGSSub(m_pSubLock, name, lcid);
+            }
+            if (!m_pSubStream) {
                 return E_FAIL;
             }
         }
@@ -195,10 +201,10 @@ STDMETHODIMP CSubtitleInputPin::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME
         CAutoLock cAutoLock2(m_pSubLock);
         CVobSubStream* pVSS = (CVobSubStream*)(ISubStream*)m_pSubStream;
         pVSS->RemoveAll();
-    } else if (IsHdmvSub(&m_mt)) {
+    } else if (IsRLECodedSub(&m_mt)) {
         CAutoLock cAutoLock2(m_pSubLock);
-        CRenderedHdmvSubtitle* pHdmvSubtitle = (CRenderedHdmvSubtitle*)(ISubStream*)m_pSubStream;
-        pHdmvSubtitle->NewSegment(tStart, tStop, dRate);
+        CRLECodedSubtitle* pRLECodedSubtitle = (CRLECodedSubtitle*)(ISubStream*)m_pSubStream;
+        pRLECodedSubtitle->NewSegment(tStart, tStop, dRate);
     }
 
     TRACE(_T("NewSegment: InvalidateSubtitle(%I64d, ...)\n"), tStart);
@@ -345,9 +351,9 @@ STDMETHODIMP CSubtitleInputPin::Receive(IMediaSample* pSample)
         } else if (m_mt.subtype == MEDIASUBTYPE_VOBSUB) {
             CVobSubStream* pVSS = (CVobSubStream*)(ISubStream*)m_pSubStream;
             pVSS->Add(tStart, tStop, pData, len);
-        } else if (IsHdmvSub(&m_mt)) {
-            CRenderedHdmvSubtitle* pHdmvSubtitle = (CRenderedHdmvSubtitle*)(ISubStream*)m_pSubStream;
-            pHdmvSubtitle->ParseSample(pSample);
+        } else if (IsRLECodedSub(&m_mt)) {
+            CRLECodedSubtitle* pRLECodedSubtitle = (CRLECodedSubtitle*)(ISubStream*)m_pSubStream;
+            pRLECodedSubtitle->ParseSample(pSample);
         }
     }
 
@@ -366,20 +372,19 @@ STDMETHODIMP CSubtitleInputPin::EndOfStream(void)
 {
     HRESULT hr = __super::EndOfStream();
 
-    if (SUCCEEDED(hr) && IsHdmvSub(&m_mt)) {
+    if (SUCCEEDED(hr) && IsRLECodedSub(&m_mt)) {
         CAutoLock cAutoLock(m_pSubLock);
-        CRenderedHdmvSubtitle* pHdmvSubtitle = (CRenderedHdmvSubtitle*)(ISubStream*)m_pSubStream;
-        pHdmvSubtitle->EndOfStream();
+        CRLECodedSubtitle* pRLECodedSubtitle = (CRLECodedSubtitle*)(ISubStream*)m_pSubStream;
+        pRLECodedSubtitle->EndOfStream();
     }
 
     return hr;
 }
 
-bool CSubtitleInputPin::IsHdmvSub(const CMediaType* pmt)
+bool CSubtitleInputPin::IsRLECodedSub(const CMediaType* pmt) const
 {
-    return pmt->majortype == MEDIATYPE_Subtitle && (pmt->subtype == MEDIASUBTYPE_HDMVSUB ||         // Blu ray presentation graphics
-            pmt->subtype == MEDIASUBTYPE_DVB_SUBTITLES ||                                           // DVB subtitles
-            (pmt->subtype == MEDIASUBTYPE_NULL && pmt->formattype == FORMAT_SubtitleInfo))          // Workaround : support for Haali PGS
-           ? true
-           : false;
+    return !!(pmt->majortype == MEDIATYPE_Subtitle
+              && (pmt->subtype == MEDIASUBTYPE_HDMVSUB                                                // Blu-Ray presentation graphics
+                  || pmt->subtype == MEDIASUBTYPE_DVB_SUBTITLES                                       // DVB subtitles
+                  || (pmt->subtype == MEDIASUBTYPE_NULL && pmt->formattype == FORMAT_SubtitleInfo))); // Workaround : support for Haali PGS
 }

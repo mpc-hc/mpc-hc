@@ -20,26 +20,31 @@
 
 #pragma once
 
-#include "BaseSub.h"
+#include "RLECodedSubtitle.h"
+#include "CompositionObject.h"
 
 class CGolombBuffer;
 
-class CDVBSub : public CBaseSub
+class CDVBSub : public CRLECodedSubtitle
 {
 public:
-    CDVBSub();
+    CDVBSub(CCritSec* pLock, const CString& name, LCID lcid);
     ~CDVBSub();
 
-    virtual HRESULT        ParseSample(IMediaSample* pSample);
-    virtual void           EndOfStream();
-    virtual void           Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox);
-    virtual HRESULT        GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VideoSize, POINT& VideoTopLeft);
-    virtual POSITION       GetStartPosition(REFERENCE_TIME rt, double fps);
-    virtual POSITION       GetNext(POSITION pos);
-    virtual REFERENCE_TIME GetStart(POSITION nPos);
-    virtual REFERENCE_TIME GetStop(POSITION nPos);
-    virtual void           Reset();
+    // ISubPicProvider
+    STDMETHODIMP_(POSITION)       GetStartPosition(REFERENCE_TIME rt, double fps);
+    STDMETHODIMP_(POSITION)       GetNext(POSITION pos);
+    STDMETHODIMP_(REFERENCE_TIME) GetStart(POSITION pos, double fps);
+    STDMETHODIMP_(REFERENCE_TIME) GetStop(POSITION pos, double fps);
+    STDMETHODIMP_(bool)           IsAnimated(POSITION pos);
+    STDMETHODIMP                  Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox);
+    STDMETHODIMP                  GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VirtualSize, POINT& VirtualTopLeft);
 
+    virtual HRESULT ParseSample(IMediaSample* pSample);
+    virtual void    EndOfStream();
+    virtual void    Reset();
+
+private:
     // EN 300-743, table 2
     enum DVB_SEGMENT_TYPE {
         NO_SEGMENT     = 0xFFFF,
@@ -203,7 +208,6 @@ public:
         }
     };
 
-private:
     int                    m_nBufferSize;
     int                    m_nBufferReadPos;
     int                    m_nBufferWritePos;
@@ -215,6 +219,7 @@ private:
     REFERENCE_TIME         m_rtStop;
 
     HRESULT  AddToBuffer(BYTE* pData, int nSize);
+
     POSITION FindPage(REFERENCE_TIME rt) const;
     POSITION FindRegion(const CAutoPtr<DVB_PAGE>& pPage, BYTE bRegionId) const;
     POSITION FindClut(const CAutoPtr<DVB_PAGE>& pPage, BYTE bClutId) const;

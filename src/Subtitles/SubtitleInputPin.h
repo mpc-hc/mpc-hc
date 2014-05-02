@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -38,7 +38,8 @@ protected:
     virtual void AddSubStream(ISubStream* pSubStream) = 0;
     virtual void RemoveSubStream(ISubStream* pSubStream) = 0;
     virtual void InvalidateSubtitle(REFERENCE_TIME rtStart, ISubStream* pSubStream) = 0;
-    bool IsHdmvSub(const CMediaType* pmt);
+
+    bool IsRLECodedSub(const CMediaType* pmt) const;
 
 public:
     CSubtitleInputPin(CBaseFilter* pFilter, CCritSec* pLock, CCritSec* pSubLock, HRESULT* phr);

@@ -31,7 +31,7 @@
 #include "../../../DSUtil/MediaTypes.h"
 #include "../../../SubPic/MemSubPic.h"
 #include "../../../SubPic/SubPicQueueImpl.h"
-#include "../../../Subtitles/RenderedHdmvSubtitle.h"
+#include "../../../Subtitles/RLECodedSubtitle.h"
 
 #include <InitGuid.h>
 #include <d3d9.h>
@@ -1590,8 +1590,8 @@ void CDirectVobSubFilter::SetSubtitle(ISubStream* pSubStream, bool fApplyDefStyl
             }
 
             pRTS->Deinit();
-        } else if (clsid == __uuidof(CRenderedHdmvSubtitle)) {
-            CRenderedHdmvSubtitle* pRHS = (CRenderedHdmvSubtitle*)(ISubStream*)pSubStream;
+        } else if (clsid == __uuidof(CRLECodedSubtitle)) {
+            CRLECodedSubtitle* pRHS = (CRLECodedSubtitle*)(ISubStream*)pSubStream;
 
             DXVA2_ExtendedFormat extFormat;
             extFormat.value = m_cf;
