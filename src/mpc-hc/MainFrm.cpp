@@ -7211,8 +7211,10 @@ void CMainFrame::OnPlayFramestep(UINT nID)
                 if (SUCCEEDED(pPin->ConnectionMediaType(&mt))) {
                     if (mt.majortype == MEDIATYPE_Video && mt.formattype == FORMAT_VideoInfo) {
                         rtAvgTime = ((VIDEOINFOHEADER*)mt.pbFormat)->AvgTimePerFrame;
+                        break;
                     } else if (mt.majortype == MEDIATYPE_Video && mt.formattype == FORMAT_VideoInfo2) {
                         rtAvgTime = ((VIDEOINFOHEADER2*)mt.pbFormat)->AvgTimePerFrame;
+                        break;
                     }
                 }
             }
