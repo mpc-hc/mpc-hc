@@ -1962,7 +1962,7 @@ void CDX9AllocatorPresenter::DrawStats()
         DrawText(rc, strText, 2);
         OffsetRect(&rc, 0, TextHeight);
 
-        if (iDetailedStats > 1) {
+        if (iDetailedStats > 1 && r.m_AdvRendSets.bVMR9VSync) {
             strText.Format(L"Raster Status: Wait %7.3f ms   Min %7.3f ms   Max %7.3f ms", (double(m_RasterStatusWaitTime) / 10000.0), (double(m_RasterStatusWaitTimeMin) / 10000.0), (double(m_RasterStatusWaitTimeMax) / 10000.0));
             DrawText(rc, strText, 1);
             OffsetRect(&rc, 0, TextHeight);
