@@ -50,6 +50,15 @@ void RarTime::GetLocal(RarLocalTime *lt)
   SystemTimeToTzSpecificLocalTime(NULL,&st1,&st2);
   SystemTimeToFileTime(&st2,&lft);
 
+  // Correct precision loss (low 4 decimal digits) in FileTimeToSystemTime.
+  FILETIME rft;
+  SystemTimeToFileTime(&st1,&rft);
+  int64 Corrected=INT32TO64(ft.dwHighDateTime,ft.dwLowDateTime)-
+                  INT32TO64(rft.dwHighDateTime,rft.dwLowDateTime)+
+                  INT32TO64(lft.dwHighDateTime,lft.dwLowDateTime);
+  lft.dwLowDateTime=(DWORD)Corrected;
+  lft.dwHighDateTime=(DWORD)(Corrected>>32);
+
   SYSTEMTIME st;
   FileTimeToSystemTime(&lft,&st);
   lt->Year=st.wYear;
@@ -118,6 +127,15 @@ void RarTime::SetLocal(RarLocalTime *lt)
     TzSpecificLocalTimeToSystemTime(NULL,&st2,&st1);
     FILETIME ft;
     SystemTimeToFileTime(&st1,&ft);
+
+    // Correct precision loss (low 4 decimal digits) in FileTimeToSystemTime.
+    FILETIME rft;
+    SystemTimeToFileTime(&st2,&rft);
+    int64 Corrected=INT32TO64(lft.dwHighDateTime,lft.dwLowDateTime)-
+                    INT32TO64(rft.dwHighDateTime,rft.dwLowDateTime)+
+                    INT32TO64(ft.dwHighDateTime,ft.dwLowDateTime);
+    ft.dwLowDateTime=(DWORD)Corrected;
+    ft.dwHighDateTime=(DWORD)(Corrected>>32);
 
     *this=ft;
   }

@@ -44,8 +44,9 @@ int ComprDataIO::UnpRead(byte *Addr,size_t Count)
   // block size. We can do it by simple masking, because unpack read code
   // always reads more than CRYPT_BLOCK_SIZE, so we do not risk to make it 0.
   if (Decryption)
-    Count&=~CRYPT_BLOCK_MASK;
+    Count &= ~CRYPT_BLOCK_MASK;
 #endif
+  
   int ReadSize=0,TotalRead=0;
   byte *ReadAddr;
   ReadAddr=Addr;
@@ -62,14 +63,30 @@ int ComprDataIO::UnpRead(byte *Addr,size_t Count)
     else
     {
       size_t SizeToRead=((int64)Count>UnpPackedSize) ? (size_t)UnpPackedSize:Count;
-      if (SizeToRead==0)
-        return 0;
-      if (!SrcFile->IsOpened())
-        return(-1);
-      ReadSize=SrcFile->Read(ReadAddr,SizeToRead);
-      FileHeader *hd=SubHead!=NULL ? SubHead:&SrcArc->FileHead;
-      if (hd->SplitAfter)
-        PackedDataHash.Update(ReadAddr,ReadSize);
+      if (SizeToRead > 0)
+      {
+        if (UnpVolume && Decryption && (int64)Count>UnpPackedSize)
+        {
+          // We need aligned blocks for decryption and we want "Keep broken
+          // files" to work efficiently with missing encrypted volumes.
+          // So for last data block in volume we adjust the size to read to
+          // next equal or smaller block producing aligned total block size.
+          // So we'll ask for next volume only when processing few unaligned
+          // bytes left in the end, when most of data is already extracted.
+          size_t NewTotalRead = TotalRead + SizeToRead;
+          size_t Adjust = NewTotalRead - (NewTotalRead  & ~CRYPT_BLOCK_MASK);
+          size_t NewSizeToRead = SizeToRead - Adjust;
+          if ((int)NewSizeToRead > 0)
+            SizeToRead = NewSizeToRead;
+        }
+
+        if (!SrcFile->IsOpened())
+          return -1;
+        ReadSize=SrcFile->Read(ReadAddr,SizeToRead);
+        FileHeader *hd=SubHead!=NULL ? SubHead:&SrcArc->FileHead;
+        if (hd->SplitAfter)
+          PackedDataHash.Update(ReadAddr,ReadSize);
+      }
     }
     CurUnpRead+=ReadSize;
     TotalRead+=ReadSize;
@@ -80,14 +97,23 @@ int ComprDataIO::UnpRead(byte *Addr,size_t Count)
     Count-=ReadSize;
 #endif
     UnpPackedSize-=ReadSize;
-    if (UnpPackedSize == 0 && UnpVolume)
+
+    // Do not ask for next volume if we read something from current volume.
+    // If next volume is missing, we need to process all data from current
+    // volume before aborting. It helps to recover all possible data
+    // in "Keep broken files" mode. But if we process encrypted data,
+    // we ask for next volume also if we have non-aligned encryption block.
+    // Since we adjust data size for decryption earlier above,
+    // it does not hurt "Keep broken files" mode efficiency.
+    if (UnpVolume && UnpPackedSize == 0 && 
+        (ReadSize==0 || Decryption && (TotalRead & CRYPT_BLOCK_MASK) != 0) )
     {
 #ifndef NOVOLUME
       if (!MergeArchive(*SrcArc,this,true,CurrentCommand))
 #endif
       {
         NextVolumeMissing=true;
-        return(-1);
+        return -1;
       }
     }
     else

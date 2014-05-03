@@ -3,7 +3,11 @@ UIASKREP_RESULT uiAskReplace(wchar *Name,size_t MaxNameSize,int64 FileSize,RarTi
 {
   bool AllowRename=(Flags & UIASKREP_F_NORENAME)==0;
   eprintf(St(MFileExists),Name);
-  int Choice=Ask(St(AllowRename ? MYesNoAllRenQ : MYesNoAllQ));
+  int Choice=0;
+  do
+  {
+    Choice=Ask(St(AllowRename ? MYesNoAllRenQ : MYesNoAllQ));
+  } while (Choice==0); // 0 means invalid input.
   switch(Choice)
   {
     case 1:

@@ -766,7 +766,15 @@ static void GenArcName(wchar *ArcName,wchar *GenerateMask,uint ArcNumber,bool &A
     }
     const wchar *ChPtr=wcschr(MaskChars,toupperw(Mask[I]));
     if (ChPtr==NULL || QuoteMode)
+    {
       DateText[J]=Mask[I];
+#ifdef _WIN_ALL
+      // We do not allow ':' in Windows because of NTFS streams.
+      // Users had problems after specifying hh:mm mask.
+      if (DateText[J]==':')
+        DateText[J]='_';
+#endif
+    }
     else
     {
       size_t FieldPos=ChPtr-MaskChars;

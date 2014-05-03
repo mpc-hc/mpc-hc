@@ -243,6 +243,10 @@ bool getwstr(wchar *str,size_t n)
 
 
 #ifndef SILENT
+// We allow this function to return 0 in case of invalid input,
+// because it might be convenient to press Enter to some not dangerous
+// prompts like "insert disk with next volume". We should call this function
+// again in case of 0 in dangerous prompt such as overwriting file.
 int Ask(const wchar *AskStr)
 {
   uiAlarm(UIALARM_QUESTION);
