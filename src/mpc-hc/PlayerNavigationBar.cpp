@@ -82,6 +82,13 @@ LRESULT CALLBACK ParentFrameSubclassWndProc(HWND hwnd, UINT message, WPARAM wPar
     return CallWindowProc(g_parentFrameOrigWndProc, hwnd, message, wParam, lParam);
 }
 
+void CPlayerNavigationBar::OnUpdateCmdUI(CFrameWnd* pTarget, BOOL bDisableIfNoHndler)
+{
+    __super::OnUpdateCmdUI(pTarget, bDisableIfNoHndler);
+
+    m_navdlg.UpdateDialogControls(&m_navdlg, bDisableIfNoHndler);
+}
+
 BOOL CPlayerNavigationBar::PreTranslateMessage(MSG* pMsg)
 {
     if (CWnd* pParent1 = GetParent()) {

@@ -31,22 +31,25 @@ class CPlayerNavigationBar : public CPlayerBar
 {
     DECLARE_DYNAMIC(CPlayerNavigationBar)
 
-public:
+private:
     CWnd* m_pParent;
-    CPlayerNavigationBar(CMainFrame* pMainFrame);
-    virtual ~CPlayerNavigationBar();
-    BOOL Create(CWnd* pParentWnd, UINT defDockBarID);
-    virtual void ReloadTranslatableResources();
 
 public:
     CPlayerNavigationDialog m_navdlg;
+
+    CPlayerNavigationBar(CMainFrame* pMainFrame);
+    virtual ~CPlayerNavigationBar();
+
+    BOOL Create(CWnd* pParentWnd, UINT defDockBarID);
+    virtual void ReloadTranslatableResources();
+
+    virtual void OnUpdateCmdUI(CFrameWnd* pTarget, BOOL bDisableIfNoHndler);
 
 protected:
     virtual BOOL PreTranslateMessage(MSG* pMsg);
 
     DECLARE_MESSAGE_MAP()
 
-public:
     afx_msg void OnSize(UINT nType, int cx, int cy);
     afx_msg void OnNcLButtonUp(UINT nHitTest, CPoint point);
 };
