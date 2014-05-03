@@ -68,6 +68,7 @@ class CPPageSheet : public TreePropSheet::CTreePropSheet
 
 private:
     bool m_bLockPage;
+    bool m_bLanguageChanged;
 
     CPPagePlayer m_player;
     CPPageFormats m_formats;
@@ -92,18 +93,24 @@ private:
     CPPageTweaks m_tweaks;
     CPPageMisc m_misc;
 
+    EventClient m_eventc;
+    void EventCallback(MpcEvent ev);
+
     CTreeCtrl* CreatePageTreeObject();
 
 public:
     CPPageSheet(LPCTSTR pszCaption, IFilterGraph* pFG, CWnd* pParentWnd, UINT idPage = 0);
     virtual ~CPPageSheet();
-    afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
 
     void LockPage() { m_bLockPage = true; };
+
 protected:
     DPI m_dpi;
 
-    DECLARE_MESSAGE_MAP()
-public:
     virtual BOOL OnInitDialog();
+
+    DECLARE_MESSAGE_MAP()
+
+    afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
+    afx_msg void OnApply();
 };

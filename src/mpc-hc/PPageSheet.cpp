@@ -32,7 +32,12 @@ CPPageSheet::CPPageSheet(LPCTSTR pszCaption, IFilterGraph* pFG, CWnd* pParentWnd
     : CTreePropSheet(pszCaption, pParentWnd, 0)
     , m_audioswitcher(pFG)
     , m_bLockPage(false)
+    , m_bLanguageChanged(false)
 {
+    EventRouter::EventSelection recieves;
+    recieves.insert(MpcEvent::CHANGING_UI_LANGUAGE);
+    GetEventd().Connect(m_eventc, recieves, std::bind(&CPPageSheet::EventCallback, this, std::placeholders::_1));
+
     SetTreeWidth(m_dpi.ScaleX(180));
     AddPage(&m_player);
     AddPage(&m_formats);
@@ -78,6 +83,17 @@ CPPageSheet::~CPPageSheet()
 {
 }
 
+void CPPageSheet::EventCallback(MpcEvent ev)
+{
+    switch (ev) {
+        case MpcEvent::CHANGING_UI_LANGUAGE:
+            m_bLanguageChanged = true;
+            break;
+        default:
+            ASSERT(FALSE);
+    }
+}
+
 CTreeCtrl* CPPageSheet::CreatePageTreeObject()
 {
     return DEBUG_NEW CTreePropSheetTreeCtrl();
@@ -85,6 +101,7 @@ CTreeCtrl* CPPageSheet::CreatePageTreeObject()
 
 BEGIN_MESSAGE_MAP(CPPageSheet, CTreePropSheet)
     ON_WM_CONTEXTMENU()
+    ON_COMMAND(ID_APPLY_NOW, OnApply)
 END_MESSAGE_MAP()
 
 BOOL CPPageSheet::OnInitDialog()
@@ -107,6 +124,18 @@ BOOL CPPageSheet::OnInitDialog()
 void CPPageSheet::OnContextMenu(CWnd* /*pWnd*/, CPoint /*point*/)
 {
     // display your own context menu handler or do nothing
+}
+
+void CPPageSheet::OnApply()
+{
+    // Execute the default actions first
+    Default();
+
+    // If the language was changed, we quit the dialog and return IDRETRY code
+    if (m_bLanguageChanged) {
+        m_bLanguageChanged = false;
+        EndDialog(IDRETRY);
+    }
 }
 
 // CTreePropSheetTreeCtrl

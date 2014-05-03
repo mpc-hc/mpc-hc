@@ -14226,8 +14226,12 @@ void CMainFrame::ShowOptions(int idPage/* = 0*/)
         return;
     }
 
-    CPPageSheet options(ResStr(IDS_OPTIONS_CAPTION), m_pGB, GetModalParent(), idPage);
-    INT_PTR iRes = options.DoModal();
+    INT_PTR iRes;
+    do {
+        CPPageSheet options(ResStr(IDS_OPTIONS_CAPTION), m_pGB, GetModalParent(), idPage);
+        iRes = options.DoModal();
+        idPage = 0; // If we are to show the dialog again, always show the latest page
+    } while (iRes == IDRETRY); // IDRETRY means we quited the dialog so that the language change is applied
     ASSERT(iRes > 0 && iRes != IDABORT);
 }
 
