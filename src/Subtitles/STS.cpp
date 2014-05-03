@@ -2978,14 +2978,8 @@ bool STSStyle::operator == (const STSStyle& s) const
             && outlineWidthY == s.outlineWidthY
             && shadowDepthX == s.shadowDepthX
             && shadowDepthY == s.shadowDepthY
-            && *((int*)&colors[0]) == *((int*)&s.colors[0])
-            && *((int*)&colors[1]) == *((int*)&s.colors[1])
-            && *((int*)&colors[2]) == *((int*)&s.colors[2])
-            && *((int*)&colors[3]) == *((int*)&s.colors[3])
-            && alpha[0] == s.alpha[0]
-            && alpha[1] == s.alpha[1]
-            && alpha[2] == s.alpha[2]
-            && alpha[3] == s.alpha[3]
+            && colors == s.colors
+            && alpha == s.alpha
             && fBlur == s.fBlur
             && fGaussianBlur == s.fGaussianBlur
             && relativeTo == s.relativeTo

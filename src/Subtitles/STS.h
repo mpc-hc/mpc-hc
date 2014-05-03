@@ -22,6 +22,7 @@
 #pragma once
 
 #include <atlcoll.h>
+#include <array>
 #include "BaseClasses/wxutil.h"
 #include "TextFile.h"
 #include "SubtitleHelpers.h"
@@ -31,18 +32,18 @@ enum tmode { TIME, FRAME }; // the meaning of STSEntry::start/end
 class STSStyle
 {
 public:
-    CRect    marginRect;     // measured from the sides
-    int      scrAlignment;   // 1 - 9: as on the numpad, 0: default
-    int      borderStyle;    // 0: outline, 1: opaque box
+    CRect    marginRect;             // measured from the sides
+    int      scrAlignment;           // 1 - 9: as on the numpad, 0: default
+    int      borderStyle;            // 0: outline, 1: opaque box
     double   outlineWidthX, outlineWidthY;
     double   shadowDepthX, shadowDepthY;
-    COLORREF colors[4];      // usually: {primary, secondary, outline/background, shadow}
-    BYTE     alpha[4];
+    std::array<COLORREF, 4> colors;  // usually: {primary, secondary, outline/background, shadow}
+    std::array<BYTE, 4> alpha;
     int      charSet;
     CString  fontName;
-    double   fontSize;       // height
+    double   fontSize;               // height
     double   fontScaleX, fontScaleY; // percent
-    double   fontSpacing;    // +/- pixels
+    double   fontSpacing;            // +/- pixels
     LONG     fontWeight;
     int      fItalic;
     int      fUnderline;
@@ -51,7 +52,7 @@ public:
     double   fGaussianBlur;
     double   fontAngleZ, fontAngleX, fontAngleY;
     double   fontShiftX, fontShiftY;
-    int      relativeTo;     // 0: window, 1: video, 2: undefined (~window)
+    int      relativeTo;             // 0: window, 1: video, 2: undefined (~window)
 
     STSStyle();
 

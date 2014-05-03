@@ -2582,7 +2582,7 @@ bool CRenderedTextSubtitle::ParseHtmlTag(CSubtitle* sub, CStringW str, STSStyle&
         } else {
             style.fontName = org.fontName;
             style.fontSize = org.fontSize;
-            memcpy(style.colors, org.colors, sizeof(style.colors));
+            style.colors = org.colors;
         }
     } else if (tag == L"k" && attribs.GetCount() == 1 && attribs[0] == L"t") {
         m_ktype = 1;
