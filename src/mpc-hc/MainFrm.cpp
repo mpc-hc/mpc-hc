@@ -2691,10 +2691,11 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                 CSize size((DWORD)evParam1);
                 TRACE(_T("\t%dx%d\n"), size.cx, size.cy);
 
+                const bool bWasAudioOnly = m_fAudioOnly;
                 m_fAudioOnly = (size.cx <= 0 || size.cy <= 0);
 
                 if (GetLoadState() == MLS::LOADED &&
-                        ((s.fRememberZoomLevel && s.fLimitWindowProportions) || m_fAudioOnly) &&
+                        ((s.fRememberZoomLevel && s.fLimitWindowProportions) || m_fAudioOnly || bWasAudioOnly) &&
                         !(m_fFullScreen || IsD3DFullScreenMode() || IsZoomed() || IsIconic() || IsAeroSnapped())) {
                     CSize videoSize(0, 0);
                     if (!m_fAudioOnly) {
