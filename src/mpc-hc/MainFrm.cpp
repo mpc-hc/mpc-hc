@@ -15894,7 +15894,16 @@ bool CMainFrame::IsAeroSnapped()
     if (IsWindowVisible() && !IsZoomed() && !IsIconic() && GetWindowPlacement(&wp)) {
         CRect rect;
         GetWindowRect(rect);
-        ret = !!(rect != wp.rcNormalPosition);
+        if (HMONITOR hMon = MonitorFromRect(rect, MONITOR_DEFAULTTONULL)) {
+            MONITORINFO mi = { sizeof(mi) };
+            if (GetMonitorInfo(hMon, &mi)) {
+                CRect wpRect(wp.rcNormalPosition);
+                wpRect.OffsetRect(mi.rcWork.left - mi.rcMonitor.left, mi.rcWork.top - mi.rcMonitor.top);
+                ret = !!(rect != wpRect);
+            } else {
+                ASSERT(FALSE);
+            }
+        }
     }
     return ret;
 }
