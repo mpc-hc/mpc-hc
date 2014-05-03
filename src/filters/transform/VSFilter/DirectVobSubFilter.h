@@ -149,7 +149,7 @@ protected:
 
     CCritSec m_csSubLock;
     CInterfaceList<ISubStream> m_pSubStreams;
-    DWORD_PTR m_nSubtitleId;
+    CComQIPtr<ISubStream> m_pCurrentSubStream;
     void UpdateSubtitle();
     void SetSubtitle(ISubStream* pSubStream);
     void InvalidateSubtitle(REFERENCE_TIME rtInvalidate = -1, DWORD_PTR nSubtitleId = DWORD_PTR_MAX);

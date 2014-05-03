@@ -56,7 +56,6 @@ CDirectVobSubFilter::CDirectVobSubFilter(LPUNKNOWN punk, HRESULT* phr, const GUI
     , m_hfont(0)
     , m_fps(25.0)
     , m_fMSMpeg4Fix(false)
-    , m_nSubtitleId(DWORD_PTR(-1))
 {
     AFX_MANAGE_STATE(AfxGetStaticModuleState());
     {
@@ -1036,7 +1035,22 @@ STDMETHODIMP CDirectVobSubFilter::put_Placement(bool fOverridePlacement, int xpe
     HRESULT hr = CDirectVobSub::put_Placement(fOverridePlacement, xperc, yperc);
 
     if (hr == NOERROR) {
-        UpdateSubtitle();
+        if (auto pRTS = dynamic_cast<CRenderedTextSubtitle*>((ISubStream*)m_pCurrentSubStream)) {
+            {
+                CAutoLock cAutoLock(&m_csSubLock);
+
+                pRTS->SetAlignment(m_fOverridePlacement, m_PlacementXperc, m_PlacementYperc);
+                pRTS->Deinit();
+            }
+            InvalidateSubtitle();
+        } else if (auto pVSS = dynamic_cast<CVobSubSettings*>((ISubStream*)m_pCurrentSubStream)) {
+            {
+                CAutoLock cAutoLock(&m_csSubLock);
+
+                pVSS->SetAlignment(m_fOverridePlacement, m_PlacementXperc, m_PlacementYperc);
+            }
+            InvalidateSubtitle();
+        }
     }
 
     return hr;
@@ -1127,7 +1141,15 @@ STDMETHODIMP CDirectVobSubFilter::put_TextSettings(STSStyle* pDefStyle)
     HRESULT hr = CDirectVobSub::put_TextSettings(pDefStyle);
 
     if (hr == NOERROR) {
-        UpdateSubtitle();
+        if (auto pRTS = dynamic_cast<CRenderedTextSubtitle*>((ISubStream*)m_pCurrentSubStream)) {
+            {
+                CAutoLock cAutoLock(&m_csSubLock);
+
+                pRTS->SetDefaultStyle(m_defStyle);
+                pRTS->Deinit();
+            }
+            InvalidateSubtitle();
+        }
     }
 
     return hr;
@@ -1138,7 +1160,22 @@ STDMETHODIMP CDirectVobSubFilter::put_AspectRatioSettings(CSimpleTextSubtitle::E
     HRESULT hr = CDirectVobSub::put_AspectRatioSettings(ePARCompensationType);
 
     if (hr == NOERROR) {
-        UpdateSubtitle();
+        if (auto pRTS = dynamic_cast<CRenderedTextSubtitle*>((ISubStream*)m_pCurrentSubStream)) {
+            {
+                CAutoLock cAutoLock(&m_csSubLock);
+
+                pRTS->m_ePARCompensationType = m_ePARCompensationType;
+                if (m_CurrentVIH2.dwPictAspectRatioX && m_CurrentVIH2.dwPictAspectRatioY && m_CurrentVIH2.bmiHeader.biWidth && m_CurrentVIH2.bmiHeader.biHeight) {
+                    pRTS->m_dPARCompensation = ((double)abs(m_CurrentVIH2.bmiHeader.biWidth) / (double)abs(m_CurrentVIH2.bmiHeader.biHeight)) /
+                                               ((double)abs((long)m_CurrentVIH2.dwPictAspectRatioX) / (double)abs((long)m_CurrentVIH2.dwPictAspectRatioY));
+                } else {
+                    pRTS->m_dPARCompensation = 1.00;
+                }
+
+                pRTS->Deinit();
+            }
+            InvalidateSubtitle();
+        }
     }
 
     return hr;
@@ -1624,7 +1661,7 @@ void CDirectVobSubFilter::SetSubtitle(ISubStream* pSubStream)
         i += pSubStream2->GetStreamCount();
     }
 
-    m_nSubtitleId = (DWORD_PTR)pSubStream;
+    m_pCurrentSubStream = pSubStream;
 
     if (m_pSubPicQueue) {
         m_pSubPicQueue->SetSubPicProvider(CComQIPtr<ISubPicProvider>(pSubStream));
@@ -1636,7 +1673,7 @@ void CDirectVobSubFilter::InvalidateSubtitle(REFERENCE_TIME rtInvalidate /*= -1*
     CAutoLock cAutolock(&m_csQueueLock);
 
     if (m_pSubPicQueue) {
-        if (nSubtitleId == DWORD_PTR_MAX || nSubtitleId == m_nSubtitleId) {
+        if (nSubtitleId == DWORD_PTR_MAX || nSubtitleId == (DWORD_PTR)(ISubStream*)m_pCurrentSubStream) {
             m_pSubPicQueue->Invalidate(rtInvalidate);
         }
     }
@@ -1678,7 +1715,7 @@ void CDirectVobSubFilter::RemoveSubStream(ISubStream* pSubStream)
 
 void CDirectVobSubFilter::Post_EC_OLE_EVENT(CString str, DWORD_PTR nSubtitleId /*= DWORD_PTR_MAX*/)
 {
-    if (nSubtitleId != DWORD_PTR_MAX && nSubtitleId != m_nSubtitleId) {
+    if (nSubtitleId != DWORD_PTR_MAX && nSubtitleId != (DWORD_PTR)(ISubStream*)m_pCurrentSubStream) {
         return;
     }
 

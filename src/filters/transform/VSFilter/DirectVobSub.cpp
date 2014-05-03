@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -751,7 +751,7 @@ STDMETHODIMP CDirectVobSub::put_TextSettings(STSStyle* pDefStyle)
 
     CAutoLock cAutoLock(&m_propsLock);
 
-    if (!memcmp(&m_defStyle, pDefStyle, sizeof(m_defStyle))) {
+    if (m_defStyle == *pDefStyle) {
         return S_FALSE;
     }
 
@@ -762,6 +762,8 @@ STDMETHODIMP CDirectVobSub::put_TextSettings(STSStyle* pDefStyle)
 
 STDMETHODIMP CDirectVobSub::get_AspectRatioSettings(CSimpleTextSubtitle::EPARCompensationType* ePARCompensationType)
 {
+    CheckPointer(ePARCompensationType, E_POINTER);
+
     CAutoLock cAutoLock(&m_propsLock);
 
     *ePARCompensationType = m_ePARCompensationType;
@@ -771,7 +773,13 @@ STDMETHODIMP CDirectVobSub::get_AspectRatioSettings(CSimpleTextSubtitle::EPARCom
 
 STDMETHODIMP CDirectVobSub::put_AspectRatioSettings(CSimpleTextSubtitle::EPARCompensationType* ePARCompensationType)
 {
+    CheckPointer(ePARCompensationType, E_POINTER);
+
     CAutoLock cAutoLock(&m_propsLock);
+
+    if (m_ePARCompensationType == *ePARCompensationType) {
+        return S_FALSE;
+    }
 
     m_ePARCompensationType = *ePARCompensationType;
 
