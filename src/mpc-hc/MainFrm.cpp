@@ -2688,9 +2688,9 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                 TRACE(_T("\t%d %d\n"), evParam1, evParam2);
                 break;
             case EC_VIDEO_SIZE_CHANGED: {
-                TRACE(_T("\t%dx%d\n"), CSize((DWORD)evParam1));
-
                 CSize size((DWORD)evParam1);
+                TRACE(_T("\t%dx%d\n"), size.cx, size.cy);
+
                 m_fAudioOnly = (size.cx <= 0 || size.cy <= 0);
 
                 if (GetLoadState() == MLS::LOADED &&
