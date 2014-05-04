@@ -13399,6 +13399,8 @@ bool CMainFrame::LoadSubtitle(CString fn, SubtitleInput* pSubInput /*= nullptr*/
         AddTextPassThruFilter();
     }
 
+    CString videoName = GetPlaybackMode() == PM_FILE ? m_wndPlaylistBar.GetCurFileName() : _T("");
+
     if (!pSubStream) {
         CAutoPtr<CVobSubFile> pVSF(DEBUG_NEW CVobSubFile(&m_csSubLock));
         CString ext = CPath(fn).GetExtension().MakeLower();
@@ -13412,7 +13414,6 @@ bool CMainFrame::LoadSubtitle(CString fn, SubtitleInput* pSubInput /*= nullptr*/
     if (!pSubStream) {
         CAutoPtr<CRenderedTextSubtitle> pRTS(DEBUG_NEW CRenderedTextSubtitle(&m_csSubLock));
 
-        CString videoName = GetPlaybackMode() == PM_FILE ? m_wndPlaylistBar.GetCurFileName() : _T("");
         if (pRTS && pRTS->Open(fn, DEFAULT_CHARSET, _T(""), videoName) && pRTS->GetStreamCount() > 0) {
             pSubStream = pRTS.Detach();
         }
@@ -13420,7 +13421,7 @@ bool CMainFrame::LoadSubtitle(CString fn, SubtitleInput* pSubInput /*= nullptr*/
 
     if (!pSubStream) {
         CAutoPtr<CPGSSubFile> pPSF(DEBUG_NEW CPGSSubFile(&m_csSubLock));
-        if (pPSF && pPSF->Open(fn, PathUtils::BaseName(fn)) && pPSF->GetStreamCount() > 0) {
+        if (pPSF && pPSF->Open(fn, _T(""), videoName) && pPSF->GetStreamCount() > 0) {
             pSubStream = pPSF.Detach();
         }
     }

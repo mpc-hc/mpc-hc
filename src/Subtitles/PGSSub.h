@@ -147,7 +147,7 @@ public:
     // ISubPicProvider
     STDMETHODIMP Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox);
 
-    bool Open(CString fn, CString name = _T(""));
+    bool Open(CString fn, CString name = _T(""), CString videoName = _T(""));
 
 private:
     static const WORD PGS_SYNC_CODE = 'PG';

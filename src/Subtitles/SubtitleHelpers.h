@@ -48,4 +48,6 @@ namespace Subtitle
     };
 
     void GetSubFileNames(CString fn, const CAtlArray<CString>& paths, CAtlArray<SubFile>& ret);
+
+    CString GuessSubtitleName(CString fn, CString videoName);
 };

@@ -22,6 +22,7 @@
 #include "PGSSub.h"
 #include "../DSUtil/GolombBuffer.h"
 #include <algorithm>
+#include "SubtitleHelpers.h"
 
 #if (0) // Set to 1 to activate PGS subtitles traces
 #define TRACE_PGSSUB TRACE
@@ -507,11 +508,13 @@ STDMETHODIMP CPGSSubFile::Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps,
     return __super::Render(spd, rt, bbox, false);
 }
 
-bool CPGSSubFile::Open(CString fn, CString name /*= _T("")*/)
+bool CPGSSubFile::Open(CString fn, CString name /*= _T("")*/, CString videoName /*= _T("")*/)
 {
     bool bOpened = false;
 
-    if (!name.IsEmpty()) {
+    if (name.IsEmpty()) {
+        m_name = Subtitle::GuessSubtitleName(fn, videoName);
+    } else {
         m_name = name;
     }
 
