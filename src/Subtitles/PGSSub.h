@@ -22,6 +22,7 @@
 
 #include "RLECodedSubtitle.h"
 #include "CompositionObject.h"
+#include <thread>
 
 class CGolombBuffer;
 
@@ -29,7 +30,7 @@ class CPGSSub : public CRLECodedSubtitle
 {
 public:
     CPGSSub(CCritSec* pLock, const CString& name, LCID lcid);
-    ~CPGSSub();
+    virtual ~CPGSSub();
 
     // ISubPicProvider
     STDMETHODIMP_(POSITION)       GetStartPosition(REFERENCE_TIME rt, double fps);
@@ -43,6 +44,10 @@ public:
     virtual HRESULT ParseSample(IMediaSample* pSample);
     virtual void    EndOfStream() { /* Nothing to do */ };
     virtual void    Reset();
+
+protected:
+    HRESULT ParseSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE* pData, int len);
+    HRESULT Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox, bool bRemoveOldSegments);
 
 private:
     enum HDMV_SEGMENT_TYPE {
@@ -131,4 +136,24 @@ private:
     POSITION FindPresentationSegment(REFERENCE_TIME rt) const;
 
     void RemoveOldSegments(REFERENCE_TIME rt);
+};
+
+class CPGSSubFile : public CPGSSub
+{
+public:
+    CPGSSubFile(CCritSec* pLock);
+    virtual ~CPGSSubFile();
+
+    // ISubPicProvider
+    STDMETHODIMP Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox);
+
+    bool Open(CString fn, CString name = _T(""));
+
+private:
+    static const WORD PGS_SYNC_CODE = 'PG';
+
+    bool m_bStopParsing;
+    std::thread m_parsingThread;
+
+    void ParseFile(CString fn);
 };

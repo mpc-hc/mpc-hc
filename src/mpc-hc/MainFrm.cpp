@@ -97,6 +97,7 @@
 #include "../Subtitles/RTS.h"
 #include "../Subtitles/STS.h"
 #include "../Subtitles/RLECodedSubtitle.h"
+#include "../Subtitles/PGSSub.h"
 
 template<typename T>
 bool NEARLY_EQ(T a, T b, T tol)
@@ -5145,8 +5146,8 @@ void CMainFrame::OnFileLoadsubtitle()
     }
 
     static TCHAR szFilter[] =
-        _T(".srt .sub .ssa .ass .smi .psb .txt .idx .usf .xss|")
-        _T("*.srt;*.sub;*.ssa;*.ass;*smi;*.psb;*.txt;*.idx;*.usf;*.xss||");
+        _T(".srt .sub .ssa .ass .smi .psb .txt .idx .usf .xss .rt .sup|")
+        _T("*.srt;*.sub;*.ssa;*.ass;*smi;*.psb;*.txt;*.idx;*.usf;*.xss;*.rt;*.sup||");
 
     CFileDialog fd(TRUE, nullptr, nullptr,
                    OFN_EXPLORER | OFN_ENABLESIZING | OFN_HIDEREADONLY | OFN_NOCHANGEDIR,
@@ -13406,6 +13407,13 @@ bool CMainFrame::LoadSubtitle(CString fn, SubtitleInput* pSubInput /*= nullptr*/
         CString videoName = GetPlaybackMode() == PM_FILE ? m_wndPlaylistBar.GetCurFileName() : _T("");
         if (pRTS && pRTS->Open(fn, DEFAULT_CHARSET, _T(""), videoName) && pRTS->GetStreamCount() > 0) {
             pSubStream = pRTS.Detach();
+        }
+    }
+
+    if (!pSubStream) {
+        CAutoPtr<CPGSSubFile> pPSF(DEBUG_NEW CPGSSubFile(&m_csSubLock));
+        if (pPSF && pPSF->Open(fn, PathUtils::BaseName(fn)) && pPSF->GetStreamCount() > 0) {
+            pSubStream = pPSF.Detach();
         }
     }
 

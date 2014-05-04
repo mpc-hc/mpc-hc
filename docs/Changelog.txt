@@ -17,6 +17,7 @@ next version - not released yet
     - LAV Video: Support VP7 video
     - LAV Video: Use the MediaFondation WMV decoder on Windows 7+ instead of the DMO WMV decoder
 ! Ticket #34, VSFilter/ISR: Override placement feature was not working even if enabled
+! Ticket #1411, Internal Subtitle Renderer/VSFilter: Support loading external PGS subtitles
 ! Ticket #1574/#4171, ISR: Subtitle positioning was wrong when using default style override
 ! Ticket #2244, ISR: Changes in subresync bar were lost after changing style
 ! Ticket #2671, VSFilter: Video frames were not marked as interlaced

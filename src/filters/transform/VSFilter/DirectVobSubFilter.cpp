@@ -29,9 +29,11 @@
 #include "Systray.h"
 #include "../../../DSUtil/FileVersionInfo.h"
 #include "../../../DSUtil/MediaTypes.h"
+#include "../../../DSUtil/PathUtils.h"
 #include "../../../SubPic/MemSubPic.h"
 #include "../../../SubPic/SubPicQueueImpl.h"
 #include "../../../Subtitles/RLECodedSubtitle.h"
+#include "../../../Subtitles/PGSSub.h"
 
 #include <InitGuid.h>
 #include <d3d9.h>
@@ -1489,6 +1491,13 @@ bool CDirectVobSubFilter::Open()
             if (pRTS && pRTS->Open(ret[i].fn, DEFAULT_CHARSET) && pRTS->GetStreamCount() > 0) {
                 pSubStream = pRTS.Detach();
                 m_frd.files.AddTail(ret[i].fn + _T(".style"));
+            }
+        }
+
+        if (!pSubStream) {
+            CAutoPtr<CPGSSubFile> pPSF(DEBUG_NEW CPGSSubFile(&m_csSubLock));
+            if (pPSF && pPSF->Open(ret[i].fn, PathUtils::BaseName(ret[i].fn)) && pPSF->GetStreamCount() > 0) {
+                pSubStream = pPSF.Detach();
             }
         }
 
