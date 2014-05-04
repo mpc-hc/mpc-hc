@@ -135,6 +135,7 @@
   <ItemGroup>
     <ClCompile Include="AvgLines.cpp" />
     <ClCompile Include="Copy.cpp" />
+    <ClCompile Include="..\..\..\mpc-hc\ColorButton.cpp" />
     <ClCompile Include="csriapi.cpp" />
     <ClCompile Include="DirectVobSub.cpp" />
     <ClCompile Include="DirectVobSubFilter.cpp" />
@@ -160,6 +161,7 @@
   <ItemGroup>
     <ClInclude Include="AvgLines.h" />
     <ClInclude Include="csri.h" />
+    <ClInclude Include="..\..\..\mpc-hc\ColorButton.h" />
     <ClInclude Include="DirectVobSub.h" />
     <ClInclude Include="DirectVobSubFilter.h" />
     <ClInclude Include="DirectVobSubPropPage.h" />

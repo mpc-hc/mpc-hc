@@ -34,7 +34,7 @@ class CPPageSubStyle : public CPPageBase
 private:
     CString m_title;
     STSStyle m_stss;
-    bool m_fUseDefaultStyle;
+    bool m_bDefaultStyle;
 
     void AskColor(int i);
 
@@ -42,7 +42,7 @@ public:
     CPPageSubStyle();
     virtual ~CPPageSubStyle();
 
-    void InitStyle(CString title, const STSStyle& stss);
+    void InitStyle(const CString& title, const STSStyle& stss);
     void GetStyle(STSStyle& stss) { stss = m_stss; }
 
     // Dialog Data
@@ -88,5 +88,4 @@ protected:
     afx_msg void OnStnClickedColorshad();
     afx_msg void OnBnClickedCheck1();
     afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
-public:
 };

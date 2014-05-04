@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -19,20 +19,10 @@
  *
  */
 
-// StyleEditorDialog.cpp : implementation file
-//
-
 #include "stdafx.h"
-#include <math.h>
 #include <algorithm>
 #include <afxdlgs.h>
 #include "StyleEditorDialog.h"
-
-IMPLEMENT_DYNAMIC(CColorStatic, CStatic)
-
-BEGIN_MESSAGE_MAP(CColorStatic, CStatic)
-END_MESSAGE_MAP()
-
 
 // CStyleEditorDialog dialog
 
@@ -107,95 +97,22 @@ void CStyleEditorDialog::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECK1, m_linkalphasliders);
 }
 
-void CStyleEditorDialog::UpdateControlData(bool fSave)
-{
-    if (fSave) {
-        UpdateData();
-
-        if (m_iCharset >= 0) {
-            m_stss.charSet = (int)m_charset.GetItemData(m_iCharset);
-        }
-        m_stss.fontSpacing = m_spacing;
-        m_stss.fontAngleZ = m_angle;
-        m_stss.fontScaleX = m_scalex;
-        m_stss.fontScaleY = m_scaley;
-
-        m_stss.borderStyle = m_borderstyle;
-        m_stss.outlineWidthX = m_stss.outlineWidthY = m_borderwidth;
-        m_stss.shadowDepthX = m_stss.shadowDepthY = m_shadowdepth;
-
-        m_stss.scrAlignment = m_screenalignment + 1;
-        m_stss.marginRect = m_margin;
-
-        for (ptrdiff_t i = 0; i < 4; i++) {
-            m_stss.alpha[i] = 255 - m_alpha[i];
-        }
-    } else {
-        m_font.SetWindowText(m_stss.fontName);
-        m_iCharset = -1;
-        for (int i = 0; i < CharSetLen; i++) {
-            CString str;
-            str.Format(_T("%s (%d)"), CharSetNames[i], CharSetList[i]);
-            m_charset.AddString(str);
-            m_charset.SetItemData(i, CharSetList[i]);
-            if (m_stss.charSet == CharSetList[i]) {
-                m_iCharset = i;
-            }
-        }
-        // TODO: allow floats in these edit boxes
-        m_spacing = (int)m_stss.fontSpacing;
-        m_spacingspin.SetRange32(-10000, 10000);
-        while (m_stss.fontAngleZ < 0) {
-            m_stss.fontAngleZ += 360;
-        }
-        m_angle = (int)fmod(m_stss.fontAngleZ, 360);
-        m_anglespin.SetRange32(0, 359);
-        m_scalex = (int)m_stss.fontScaleX;
-        m_scalexspin.SetRange32(-10000, 10000);
-        m_scaley = (int)m_stss.fontScaleY;
-        m_scaleyspin.SetRange32(-10000, 10000);
-
-        m_borderstyle = m_stss.borderStyle;
-        m_borderwidth = (int)std::min(m_stss.outlineWidthX, m_stss.outlineWidthY);
-        m_borderwidthspin.SetRange32(0, 10000);
-        m_shadowdepth = (int)std::min(m_stss.shadowDepthX, m_stss.shadowDepthY);
-        m_shadowdepthspin.SetRange32(0, 10000);
-
-        m_screenalignment = m_stss.scrAlignment - 1;
-        m_margin = m_stss.marginRect;
-        m_marginleftspin.SetRange32(-10000, 10000);
-        m_marginrightspin.SetRange32(-10000, 10000);
-        m_margintopspin.SetRange32(-10000, 10000);
-        m_marginbottomspin.SetRange32(-10000, 10000);
-
-        for (ptrdiff_t i = 0; i < 4; i++) {
-            m_color[i].SetColorPtr(&m_stss.colors[i]);
-            m_alpha[i] = 255 - m_stss.alpha[i];
-            m_alphasliders[i].SetRange(0, 255);
-        }
-
-        m_linkalphasliders = FALSE;
-
-        UpdateData(FALSE);
-    }
-}
-
 void CStyleEditorDialog::AskColor(int i)
 {
     CColorDialog dlg(m_stss.colors[i]);
     dlg.m_cc.Flags |= CC_FULLOPEN;
     if (dlg.DoModal() == IDOK) {
         m_stss.colors[i] = dlg.m_cc.rgbResult;
-        m_color[i].Invalidate();
+        m_color[i].SetColor(dlg.m_cc.rgbResult);
     }
 }
 
 BEGIN_MESSAGE_MAP(CStyleEditorDialog, CDialog)
     ON_BN_CLICKED(IDC_BUTTON1, OnBnClickedButton1)
-    ON_STN_CLICKED(IDC_COLORPRI, OnStnClickedColorpri)
-    ON_STN_CLICKED(IDC_COLORSEC, OnStnClickedColorsec)
-    ON_STN_CLICKED(IDC_COLOROUTL, OnStnClickedColoroutl)
-    ON_STN_CLICKED(IDC_COLORSHAD, OnStnClickedColorshad)
+    ON_BN_CLICKED(IDC_COLORPRI, OnStnClickedColorpri)
+    ON_BN_CLICKED(IDC_COLORSEC, OnStnClickedColorsec)
+    ON_BN_CLICKED(IDC_COLOROUTL, OnStnClickedColoroutl)
+    ON_BN_CLICKED(IDC_COLORSHAD, OnStnClickedColorshad)
     ON_BN_CLICKED(IDC_CHECK1, OnBnClickedCheck1)
     ON_WM_HSCROLL()
 END_MESSAGE_MAP()
@@ -205,11 +122,56 @@ END_MESSAGE_MAP()
 
 BOOL CStyleEditorDialog::OnInitDialog()
 {
-    CDialog::OnInitDialog();
+    __super::OnInitDialog();
 
     SetWindowText(_T("Style Editor - \"") + m_title + _T("\""));
 
-    UpdateControlData(false);
+    m_font.SetWindowText(m_stss.fontName);
+    m_iCharset = -1;
+    for (int i = 0; i < CharSetLen; i++) {
+        CString str;
+        str.Format(_T("%s (%d)"), CharSetNames[i], CharSetList[i]);
+        m_charset.AddString(str);
+        m_charset.SetItemData(i, CharSetList[i]);
+        if (m_stss.charSet == CharSetList[i]) {
+            m_iCharset = i;
+        }
+    }
+    // TODO: allow floats in these edit boxes
+    m_spacing = (int)m_stss.fontSpacing;
+    m_spacingspin.SetRange32(-10000, 10000);
+    while (m_stss.fontAngleZ < 0) {
+        m_stss.fontAngleZ += 360;
+    }
+    m_angle = (int)fmod(m_stss.fontAngleZ, 360);
+    m_anglespin.SetRange32(0, 359);
+    m_scalex = (int)m_stss.fontScaleX;
+    m_scalexspin.SetRange32(-10000, 10000);
+    m_scaley = (int)m_stss.fontScaleY;
+    m_scaleyspin.SetRange32(-10000, 10000);
+
+    m_borderstyle = m_stss.borderStyle;
+    m_borderwidth = (int)std::min(m_stss.outlineWidthX, m_stss.outlineWidthY);
+    m_borderwidthspin.SetRange32(0, 10000);
+    m_shadowdepth = (int)std::min(m_stss.shadowDepthX, m_stss.shadowDepthY);
+    m_shadowdepthspin.SetRange32(0, 10000);
+
+    m_screenalignment = m_stss.scrAlignment - 1;
+    m_margin = m_stss.marginRect;
+    m_marginleftspin.SetRange32(-10000, 10000);
+    m_marginrightspin.SetRange32(-10000, 10000);
+    m_margintopspin.SetRange32(-10000, 10000);
+    m_marginbottomspin.SetRange32(-10000, 10000);
+
+    for (int i = 0; i < 4; i++) {
+        m_color[i].SetColor(m_stss.colors[i]);
+        m_alpha[i] = 255 - m_stss.alpha[i];
+        m_alphasliders[i].SetRange(0, 255);
+    }
+
+    m_linkalphasliders = FALSE;
+
+    UpdateData(FALSE);
 
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
@@ -217,17 +179,41 @@ BOOL CStyleEditorDialog::OnInitDialog()
 
 void CStyleEditorDialog::OnOK()
 {
-    UpdateControlData(true);
+    UpdateData();
 
-    CDialog::OnOK();
+    if (m_iCharset >= 0) {
+        m_stss.charSet = (int)m_charset.GetItemData(m_iCharset);
+    }
+    m_stss.fontSpacing = m_spacing;
+    m_stss.fontAngleZ = m_angle;
+    m_stss.fontScaleX = m_scalex;
+    m_stss.fontScaleY = m_scaley;
+
+    m_stss.borderStyle = m_borderstyle;
+    m_stss.outlineWidthX = m_stss.outlineWidthY = m_borderwidth;
+    m_stss.shadowDepthX = m_stss.shadowDepthY = m_shadowdepth;
+
+    m_stss.scrAlignment = m_screenalignment + 1;
+    m_stss.marginRect = m_margin;
+
+    for (int i = 0; i < 4; i++) {
+        m_stss.alpha[i] = 255 - m_alpha[i];
+    }
+
+    __super::OnOK();
 }
 
 void CStyleEditorDialog::OnBnClickedButton1()
 {
+    UpdateData();
+
     LOGFONT lf;
     lf <<= m_stss;
+    if (m_iCharset >= 0) {
+        lf.lfCharSet = (BYTE)m_charset.GetItemData(m_iCharset);
+    }
 
-    CFontDialog dlg(&lf, CF_SCREENFONTS | CF_INITTOLOGFONTSTRUCT | CF_FORCEFONTEXIST | CF_SCALABLEONLY | CF_EFFECTS);
+    CFontDialog dlg(&lf, CF_SCREENFONTS | CF_INITTOLOGFONTSTRUCT | CF_FORCEFONTEXIST | CF_SCALABLEONLY);
     if (dlg.DoModal() == IDOK) {
         CString str(lf.lfFaceName);
         if (str.GetLength() > 16) {
@@ -271,11 +257,11 @@ void CStyleEditorDialog::OnBnClickedCheck1()
     UpdateData();
 
     int avg = 0;
-    for (ptrdiff_t i = 0; i < 4; i++) {
+    for (int i = 0; i < 4; i++) {
         avg += m_alphasliders[i].GetPos();
     }
     avg /= 4;
-    for (ptrdiff_t i = 0; i < 4; i++) {
+    for (int i = 0; i < 4; i++) {
         m_alphasliders[i].SetPos(avg);
     }
 }
@@ -284,10 +270,10 @@ void CStyleEditorDialog::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollB
 {
     if (m_linkalphasliders && pScrollBar) {
         int pos = ((CSliderCtrl*)pScrollBar)->GetPos();
-        for (ptrdiff_t i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++) {
             m_alphasliders[i].SetPos(pos);
         }
     }
 
-    CDialog::OnHScroll(nSBCode, nPos, pScrollBar);
+    __super::OnHScroll(nSBCode, nPos, pScrollBar);
 }
