@@ -1445,12 +1445,14 @@ bool CDirectVobSubFilter2::ShouldWeAutoload(IFilterGraph* pGraph)
     }
     EndEnumFilters;
 
-    if ((m_fExternalLoad || m_fWebLoad) && (m_fWebLoad || !(wcsstr(m_videoFileName, L"http://") || wcsstr(m_videoFileName, L"mms://")))) {
-        bool fTemp = m_fHideSubtitles;
-        fRet = !m_videoFileName.IsEmpty() && SUCCEEDED(put_FileName((LPWSTR)(LPCWSTR)m_videoFileName))
-               || SUCCEEDED(put_FileName(L"c:\\tmp.srt"))
-               || fRet;
-        if (fTemp) {
+    if (!m_videoFileName.IsEmpty() && (m_fExternalLoad || m_fWebLoad) && (m_fWebLoad || !(wcsstr(m_videoFileName, L"http://") || wcsstr(m_videoFileName, L"mms://")))) {
+        bool bSubtitlesWereHidden = m_fHideSubtitles;
+
+        if (SUCCEEDED(put_FileName((LPWSTR)(LPCWSTR)m_videoFileName))) {
+            fRet = true;
+        }
+
+        if (bSubtitlesWereHidden) {
             m_fHideSubtitles = true;
         }
     }
