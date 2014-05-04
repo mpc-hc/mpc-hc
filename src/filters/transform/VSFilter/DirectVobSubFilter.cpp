@@ -1431,24 +1431,22 @@ bool CDirectVobSubFilter2::ShouldWeAutoload(IFilterGraph* pGraph)
 
     // find file name
 
-    CStringW fn;
-
     BeginEnumFilters(pGraph, pEF, pBF) {
         if (CComQIPtr<IFileSourceFilter> pFSF = pBF) {
             LPOLESTR fnw = nullptr;
             if (!pFSF || FAILED(pFSF->GetCurFile(&fnw, nullptr)) || !fnw) {
                 continue;
             }
-            fn = CString(fnw);
+            m_videoFileName = CString(fnw);
             CoTaskMemFree(fnw);
             break;
         }
     }
     EndEnumFilters;
 
-    if ((m_fExternalLoad || m_fWebLoad) && (m_fWebLoad || !(wcsstr(fn, L"http://") || wcsstr(fn, L"mms://")))) {
+    if ((m_fExternalLoad || m_fWebLoad) && (m_fWebLoad || !(wcsstr(m_videoFileName, L"http://") || wcsstr(m_videoFileName, L"mms://")))) {
         bool fTemp = m_fHideSubtitles;
-        fRet = !fn.IsEmpty() && SUCCEEDED(put_FileName((LPWSTR)(LPCWSTR)fn))
+        fRet = !m_videoFileName.IsEmpty() && SUCCEEDED(put_FileName((LPWSTR)(LPCWSTR)m_videoFileName))
                || SUCCEEDED(put_FileName(L"c:\\tmp.srt"))
                || fRet;
         if (fTemp) {
@@ -1524,7 +1522,7 @@ bool CDirectVobSubFilter::Open()
 
         if (!pSubStream) {
             CAutoPtr<CRenderedTextSubtitle> pRTS(DEBUG_NEW CRenderedTextSubtitle(&m_csSubLock));
-            if (pRTS && pRTS->Open(ret[i].fn, DEFAULT_CHARSET) && pRTS->GetStreamCount() > 0) {
+            if (pRTS && pRTS->Open(ret[i].fn, DEFAULT_CHARSET, _T(""), m_videoFileName) && pRTS->GetStreamCount() > 0) {
                 pSubStream = pRTS.Detach();
                 m_frd.files.AddTail(ret[i].fn + _T(".style"));
             }
@@ -1532,7 +1530,7 @@ bool CDirectVobSubFilter::Open()
 
         if (!pSubStream) {
             CAutoPtr<CPGSSubFile> pPSF(DEBUG_NEW CPGSSubFile(&m_csSubLock));
-            if (pPSF && pPSF->Open(ret[i].fn) && pPSF->GetStreamCount() > 0) {
+            if (pPSF && pPSF->Open(ret[i].fn, _T(""), m_videoFileName) && pPSF->GetStreamCount() > 0) {
                 pSubStream = pPSF.Detach();
             }
         }

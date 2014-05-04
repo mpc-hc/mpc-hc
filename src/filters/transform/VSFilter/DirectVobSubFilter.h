@@ -142,6 +142,8 @@ protected:
     // don't set the "hide subtitles" stream until we are finished with loading
     bool m_fLoading;
 
+    CString m_videoFileName;
+
     bool Open();
 
     int FindPreferedLanguage(bool fHideToo = true);
