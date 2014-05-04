@@ -7254,7 +7254,7 @@ void CMainFrame::OnUpdatePlayFramestep(CCmdUI* pCmdUI)
     bool fEnable = false;
 
     if (GetLoadState() == MLS::LOADED && !m_fAudioOnly && !m_fLiveWM
-            && (GetPlaybackMode() == PM_FILE || (GetPlaybackMode() == PM_DVD && m_iDVDDomain != DVD_DOMAIN_Title))) {
+            && (GetPlaybackMode() == PM_FILE || (GetPlaybackMode() == PM_DVD && m_iDVDDomain == DVD_DOMAIN_Title))) {
         if (S_OK == m_pMS->IsFormatSupported(&TIME_FORMAT_FRAME)) {
             fEnable = true;
         } else if (pCmdUI->m_nID == ID_PLAY_FRAMESTEP) {
