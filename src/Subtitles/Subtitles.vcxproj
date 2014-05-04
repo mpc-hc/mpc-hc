@@ -97,7 +97,7 @@
     <ClCompile Include="CCDecoder.cpp" />
     <ClCompile Include="CompositionObject.cpp" />
     <ClCompile Include="DVBSub.cpp" />
-    <ClCompile Include="GFN.cpp" />
+    <ClCompile Include="SubtitleHelpers.cpp" />
     <ClCompile Include="PGSSub.cpp" />
     <ClCompile Include="Rasterizer.cpp" />
     <ClCompile Include="RealTextParser.cpp" />
@@ -121,7 +121,7 @@
     <ClInclude Include="CCDecoder.h" />
     <ClInclude Include="CompositionObject.h" />
     <ClInclude Include="DVBSub.h" />
-    <ClInclude Include="GFN.h" />
+    <ClInclude Include="SubtitleHelpers.h" />
     <ClInclude Include="PGSSub.h" />
     <ClInclude Include="Rasterizer.h" />
     <ClInclude Include="RealTextParser.h" />

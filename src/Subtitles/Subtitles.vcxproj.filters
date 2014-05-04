@@ -20,9 +20,6 @@
     <ClCompile Include="DVBSub.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GFN.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Rasterizer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -68,6 +65,9 @@
     <ClCompile Include="PGSSub.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SubtitleHelpers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CCDecoder.h">
@@ -77,9 +77,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DVBSub.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GFN.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Rasterizer.h">
@@ -131,6 +128,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PGSSub.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SubtitleHelpers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

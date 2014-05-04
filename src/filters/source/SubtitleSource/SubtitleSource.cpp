@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -646,7 +646,7 @@ HRESULT CSubtitleSourceSSA::GetMediaType(CMediaType* pmt)
 
     _tcscat_s(fn, _T(".ssa"));
 
-    if (!sts.SaveAs(fn, EXTSSA, -1, CTextFile::UTF8) || !f.Open(fn, CFile::modeRead)) {
+    if (!sts.SaveAs(fn, Subtitle::SSA, -1, CTextFile::UTF8) || !f.Open(fn, CFile::modeRead)) {
         return E_FAIL;
     }
 
@@ -697,7 +697,7 @@ HRESULT CSubtitleSourceASS::GetMediaType(CMediaType* pmt)
 
     _tcscat_s(fn, _T(".ass"));
 
-    if (!sts.SaveAs(fn, EXTASS, -1, CTextFile::UTF8) || !f.Open(fn, CFile::modeRead)) {
+    if (!sts.SaveAs(fn, Subtitle::ASS, -1, CTextFile::UTF8) || !f.Open(fn, CFile::modeRead)) {
         return E_FAIL;
     }
 

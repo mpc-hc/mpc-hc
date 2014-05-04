@@ -209,8 +209,8 @@ void CPlaylistItem::AutoLoadFiles()
         CString title = dir.Mid(l, l2 - l);
         paths.Add(title);
 
-        CAtlArray<SubFile> ret;
-        GetSubFileNames(fn, paths, ret);
+        CAtlArray<Subtitle::SubFile> ret;
+        Subtitle::GetSubFileNames(fn, paths, ret);
 
         for (size_t i = 0; i < ret.GetCount(); i++) {
             if (!FindFileInList(m_subs, ret[i].fn)) {

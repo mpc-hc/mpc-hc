@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,6 +21,7 @@
 
 #include "stdafx.h"
 #include "CCDecoder.h"
+#include "SubtitleHelpers.h"
 
 CCDecoder::CCDecoder(CString fn, CString rawfn) : m_fn(fn), m_rawfn(rawfn)
 {
@@ -41,10 +42,10 @@ CCDecoder::~CCDecoder()
 {
     if (!m_sts.IsEmpty() && !m_fn.IsEmpty()) {
         m_sts.Sort();
-        m_sts.SaveAs(m_fn, EXTSRT, -1, 0, CTextFile::DEFAULT_ENCODING);
-        m_sts.SaveAs(m_fn.Left(m_fn.ReverseFind('.') + 1) + _T("utf8.srt"), EXTSRT, -1, 0, CTextFile::UTF8);
-        m_sts.SaveAs(m_fn.Left(m_fn.ReverseFind('.') + 1) + _T("utf16le.srt"), EXTSRT, -1, 0, CTextFile::LE16);
-        m_sts.SaveAs(m_fn.Left(m_fn.ReverseFind('.') + 1) + _T("utf16be.srt"), EXTSRT, -1, 0, CTextFile::BE16);
+        m_sts.SaveAs(m_fn, Subtitle::SRT, -1, 0, CTextFile::DEFAULT_ENCODING);
+        m_sts.SaveAs(m_fn.Left(m_fn.ReverseFind('.') + 1) + _T("utf8.srt"), Subtitle::SRT, -1, 0, CTextFile::UTF8);
+        m_sts.SaveAs(m_fn.Left(m_fn.ReverseFind('.') + 1) + _T("utf16le.srt"), Subtitle::SRT, -1, 0, CTextFile::LE16);
+        m_sts.SaveAs(m_fn.Left(m_fn.ReverseFind('.') + 1) + _T("utf16be.srt"), Subtitle::SRT, -1, 0, CTextFile::BE16);
     }
 }
 

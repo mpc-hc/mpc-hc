@@ -5228,8 +5228,16 @@ void CMainFrame::OnFileSavesubtitle()
         } else if (clsid == __uuidof(CRenderedTextSubtitle)) {
             CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)pSubInput->pSubStream;
 
+            const std::vector<Subtitle::SubType> types = {
+                Subtitle::SRT,
+                Subtitle::SUB,
+                Subtitle::SMI,
+                Subtitle::PSB,
+                Subtitle::SSA,
+                Subtitle::ASS
+            };
+
             CString filter;
-            // WATCH the order in GFN.h for exttype
             filter += _T("SubRip (*.srt)|*.srt|");
             filter += _T("MicroDVD (*.sub)|*.sub|");
             filter += _T("SAMI (*.smi)|*.smi|");
@@ -5243,7 +5251,7 @@ void CMainFrame::OnFileSavesubtitle()
 
             if (fd.DoModal() == IDOK) {
                 CAutoLock cAutoLock(&m_csSubLock);
-                pRTS->SaveAs(fd.GetPathName(), (exttype)(fd.m_ofn.nFilterIndex - 1), m_pCAP->GetFPS(), fd.GetDelay(), fd.GetEncoding());
+                pRTS->SaveAs(fd.GetPathName(), types[fd.m_ofn.nFilterIndex - 1], m_pCAP->GetFPS(), fd.GetDelay(), fd.GetEncoding());
             }
         }
     }

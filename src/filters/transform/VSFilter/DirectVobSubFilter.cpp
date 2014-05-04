@@ -1468,8 +1468,8 @@ bool CDirectVobSubFilter::Open()
         }
     }
 
-    CAtlArray<SubFile> ret;
-    GetSubFileNames(m_FileName, paths, ret);
+    CAtlArray<Subtitle::SubFile> ret;
+    Subtitle::GetSubFileNames(m_FileName, paths, ret);
 
     for (size_t i = 0; i < ret.GetCount(); i++) {
         if (m_frd.files.Find(ret[i].fn)) {
