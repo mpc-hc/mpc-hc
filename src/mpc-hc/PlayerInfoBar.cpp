@@ -94,11 +94,10 @@ void CPlayerInfoBar::RemoveLine(CString label)
             m_tooltip.DelTool(m_info[i]);
             m_label.RemoveAt(i);
             m_info.RemoveAt(i);
+            Relayout();
             break;
         }
     }
-
-    Relayout();
 }
 
 void CPlayerInfoBar::RemoveAllLines()
