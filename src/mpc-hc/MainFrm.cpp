@@ -9219,7 +9219,7 @@ void CMainFrame::RestoreDefaultWindowRect()
 
     if (!m_fFullScreen && wp.showCmd != SW_SHOWMAXIMIZED && wp.showCmd != SW_SHOWMINIMIZED
             //&& (GetExStyle()&WS_EX_APPWINDOW)
-            && !s.fRememberWindowSize) {
+            && !s.fRememberWindowSize && !IsAeroSnapped()) {
         int x, y, w, h;
 
         if (s.HasFixedWindowSize()) {
