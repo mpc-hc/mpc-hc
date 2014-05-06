@@ -27,6 +27,7 @@ next version - not released yet
   Czech, Dutch, French, Galician, German, Greek, Hebrew, Hungarian, Italian, Japanese, Korean, Malay, Polish, Portuguese (Brazil),
   Romanian, Russian, Slovak, Slovenian, Spanish, Swedish, Tatar, Turkish, Ukrainian and Vietnamese translations
 * Don't use auto-zoom feature when the window was positioned using the Aero Snap
+* Don't exit fullscreen when loosing focus to a window on the same monitor
 ! The dockable bars were not updated when changing the UI language
 ! Statusbar: Fixed occasional flickering of text and media type icon
 ! D3D Fullscreen last state was inverted and wasn't properly restored with "Remember last window size and position" option

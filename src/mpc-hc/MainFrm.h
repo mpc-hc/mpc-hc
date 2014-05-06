@@ -175,6 +175,7 @@ public:
         DELAY_PLAYPAUSE_AFTER_AUTOCHANGE_MODE,
         DVBINFO_UPDATE,
         STATUS_ERASE,
+        PLACE_FULLSCREEN_UNDER_ACTIVE_WINDOW,
     };
     OneTimeTimerPool<TimerOneTimeSubscriber> m_timerOneTime;
 

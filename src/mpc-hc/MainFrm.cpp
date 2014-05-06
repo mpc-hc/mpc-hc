@@ -1616,56 +1616,56 @@ void CMainFrame::OnActivateApp(BOOL bActive, DWORD dwThreadID)
 {
     __super::OnActivateApp(bActive, dwThreadID);
 
-    if (AfxGetAppSettings().iOnTop) {
-        SetAlwaysOnTop(AfxGetAppSettings().iOnTop);
-        return;
-    }
+    m_timerOneTime.Unsubscribe(TimerOneTimeSubscriber::PLACE_FULLSCREEN_UNDER_ACTIVE_WINDOW);
 
-    MONITORINFO mi;
-    mi.cbSize = sizeof(MONITORINFO);
-    GetMonitorInfo(MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST), &mi);
-
-    if (!bActive && (mi.dwFlags & MONITORINFOF_PRIMARY) && m_fFullScreen && GetLoadState() == MLS::LOADED) {
-        bool fExitFullscreen = true;
-
-        if (CWnd* pWnd = GetForegroundWindow()) {
-            HMONITOR hMonitor1 = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
-            HMONITOR hMonitor2 = MonitorFromWindow(pWnd->m_hWnd, MONITOR_DEFAULTTONEAREST);
-            if (hMonitor1 && hMonitor2 && hMonitor1 != hMonitor2) {
-                fExitFullscreen = false;
-            }
-
-            CString title;
-            pWnd->GetWindowText(title);
-
-            CString module;
-
-            DWORD pid;
-            GetWindowThreadProcessId(pWnd->m_hWnd, &pid);
-
-            if (HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, pid)) {
-                HMODULE hMod;
-                DWORD cbNeeded;
-
-                if (EnumProcessModules(hProcess, &hMod, sizeof(hMod), &cbNeeded)) {
-                    module.ReleaseBufferSetLength(GetModuleFileNameEx(hProcess, hMod, module.GetBuffer(MAX_PATH), MAX_PATH));
+    if (m_fFullScreen) {
+        if (bActive) {
+            // keep the fullscreen window on top while it's active,
+            // we don't want notification pop-ups to cover it
+            SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+        } else {
+            // don't keep the fullscreen window on top when it's not active,
+            // we want to be able to switch to other windows nicely
+            struct {
+                void operator()() {
+                    CMainFrame* pMainFrame = AfxGetMainFrame();
+                    const CAppSettings& s = AfxGetAppSettings();
+                    if (!pMainFrame || !pMainFrame->m_fFullScreen || s.iOnTop || pMainFrame->m_bExtOnTop) {
+                        return;
+                    }
+                    // place our window under the new active window
+                    // when we can't determine that window, we try later
+                    if (CWnd* pActiveWnd = GetForegroundWindow()) {
+                        bool bMoved = false;
+                        if (CWnd* pActiveRootWnd = pActiveWnd->GetAncestor(GA_ROOT)) {
+                            if ((pActiveRootWnd->GetStyle() & WS_OVERLAPPED) &&
+                                    !(pActiveRootWnd->GetExStyle() & WS_EX_TOPMOST)) {
+                                if (CWnd* pLastWnd = GetDesktopWindow()->GetTopWindow()) {
+                                    while (CWnd* pWnd = pLastWnd->GetNextWindow(GW_HWNDNEXT)) {
+                                        if (*pLastWnd == *pActiveRootWnd) {
+                                            pMainFrame->SetWindowPos(
+                                                pWnd, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+                                            bMoved = true;
+                                            break;
+                                        }
+                                        pLastWnd = pWnd;
+                                    }
+                                } else {
+                                    ASSERT(FALSE);
+                                }
+                            }
+                        }
+                        if (!bMoved) {
+                            pMainFrame->SetWindowPos(
+                                &wndNoTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+                        }
+                    } else {
+                        pMainFrame->m_timerOneTime.Subscribe(
+                            TimerOneTimeSubscriber::PLACE_FULLSCREEN_UNDER_ACTIVE_WINDOW, *this, 1);
+                    }
                 }
-
-                CloseHandle(hProcess);
-            }
-
-            CPath p(module);
-            p.StripPath();
-            module = (LPCTSTR)p;
-            module.MakeLower();
-
-            CString str;
-            str.Format(IDS_MAINFRM_2, module, title);
-            SendStatusMessage(str, 5000);
-        }
-
-        if (fExitFullscreen) {
-            OnViewFullscreen();
+            } placeUnder;
+            placeUnder();
         }
     }
 }
