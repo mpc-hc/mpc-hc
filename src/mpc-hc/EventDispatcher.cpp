@@ -1,5 +1,5 @@
 /*
- * (C) 2013 see Authors.txt
+ * (C) 2013-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -30,7 +30,7 @@ EventRouter::EventRouterCore::EventRouterCore()
 void EventRouter::EventRouterCore::FireEvent(MpcEvent ev)
 {
     for (const auto& pair : m_conns) {
-        if (pair.second.recieves.find(ev) != std::end(pair.second.recieves)) {
+        if (pair.second.receives.find(ev) != std::end(pair.second.receives)) {
             pair.second.callback(ev);
         }
     }
@@ -46,11 +46,11 @@ EventRouter::~EventRouter()
     m_core->m_bDestroyed = true;
 }
 
-void EventRouter::Connect(EventClient& node, const EventSelection& recieves, const EventCallback& callback)
+void EventRouter::Connect(EventClient& node, const EventSelection& receives, const EventCallback& callback)
 {
     ASSERT(GetCurrentThreadId() == m_core->m_tid);
     EventRouterCore::EventClientInfo info;
-    info.recieves = recieves;
+    info.receives = receives;
     info.callback = callback;
     m_core->m_conns[&node] = info;
     node.m_conns.insert(m_core);
@@ -65,11 +65,11 @@ void EventRouter::Connect(EventClient& node, const EventSelection& fires)
     node.m_conns.insert(m_core);
 }
 
-void EventRouter::Connect(EventClient& node, const EventSelection& recieves, const EventCallback& callback, const EventSelection& fires)
+void EventRouter::Connect(EventClient& node, const EventSelection& receives, const EventCallback& callback, const EventSelection& fires)
 {
     ASSERT(GetCurrentThreadId() == m_core->m_tid);
     EventRouterCore::EventClientInfo info;
-    info.recieves = recieves;
+    info.receives = receives;
     info.fires = fires;
     info.callback = callback;
     m_core->m_conns[&node] = info;

@@ -62,7 +62,7 @@ private:
         DWORD m_tid;
         bool m_bDestroyed;
         struct EventClientInfo {
-            EventSelection recieves, fires;
+            EventSelection receives, fires;
             EventCallback callback;
         };
         std::map<EventClient*, EventClientInfo> m_conns;
@@ -76,9 +76,9 @@ public:
     EventRouter();
     ~EventRouter();
 
-    void Connect(EventClient& node, const EventSelection& recieves, const EventCallback& callback);
+    void Connect(EventClient& node, const EventSelection& receives, const EventCallback& callback);
     void Connect(EventClient& node, const EventSelection& fires);
-    void Connect(EventClient& node, const EventSelection& recieves, const EventCallback& callback, const EventSelection& fires);
+    void Connect(EventClient& node, const EventSelection& receives, const EventCallback& callback, const EventSelection& fires);
     void Disconnect(EventClient& node);
 };
 

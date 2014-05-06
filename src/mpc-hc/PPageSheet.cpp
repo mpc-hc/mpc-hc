@@ -34,9 +34,9 @@ CPPageSheet::CPPageSheet(LPCTSTR pszCaption, IFilterGraph* pFG, CWnd* pParentWnd
     , m_bLockPage(false)
     , m_bLanguageChanged(false)
 {
-    EventRouter::EventSelection recieves;
-    recieves.insert(MpcEvent::CHANGING_UI_LANGUAGE);
-    GetEventd().Connect(m_eventc, recieves, std::bind(&CPPageSheet::EventCallback, this, std::placeholders::_1));
+    EventRouter::EventSelection receives;
+    receives.insert(MpcEvent::CHANGING_UI_LANGUAGE);
+    GetEventd().Connect(m_eventc, receives, std::bind(&CPPageSheet::EventCallback, this, std::placeholders::_1));
 
     SetTreeWidth(m_dpi.ScaleX(180));
     AddPage(&m_player);

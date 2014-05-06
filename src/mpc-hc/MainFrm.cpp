@@ -772,13 +772,13 @@ CMainFrame::CMainFrame()
     // disabled menu items are always re-enabled by CFrameWnd.
     m_bAutoMenuEnable = FALSE;
 
-    EventRouter::EventSelection recieves;
-    recieves.insert(MpcEvent::SHADER_SELECTION_CHANGED);
-    recieves.insert(MpcEvent::SHADER_PRERESIZE_SELECTION_CHANGED);
-    recieves.insert(MpcEvent::SHADER_POSTRESIZE_SELECTION_CHANGED);
-    recieves.insert(MpcEvent::DISPLAY_MODE_AUTOCHANGING);
-    recieves.insert(MpcEvent::DISPLAY_MODE_AUTOCHANGED);
-    recieves.insert(MpcEvent::CHANGING_UI_LANGUAGE);
+    EventRouter::EventSelection receives;
+    receives.insert(MpcEvent::SHADER_SELECTION_CHANGED);
+    receives.insert(MpcEvent::SHADER_PRERESIZE_SELECTION_CHANGED);
+    receives.insert(MpcEvent::SHADER_POSTRESIZE_SELECTION_CHANGED);
+    receives.insert(MpcEvent::DISPLAY_MODE_AUTOCHANGING);
+    receives.insert(MpcEvent::DISPLAY_MODE_AUTOCHANGED);
+    receives.insert(MpcEvent::CHANGING_UI_LANGUAGE);
     EventRouter::EventSelection fires;
     fires.insert(MpcEvent::SWITCHING_TO_FULLSCREEN);
     fires.insert(MpcEvent::SWITCHED_TO_FULLSCREEN);
@@ -793,7 +793,7 @@ CMainFrame::CMainFrame()
     fires.insert(MpcEvent::CONTEXT_MENU_POPUP_UNINITIALIZED);
     fires.insert(MpcEvent::SYSTEM_MENU_POPUP_INITIALIZED);
     fires.insert(MpcEvent::SYSTEM_MENU_POPUP_UNINITIALIZED);
-    GetEventd().Connect(m_eventc, recieves, std::bind(&CMainFrame::EventCallback, this, std::placeholders::_1), fires);
+    GetEventd().Connect(m_eventc, receives, std::bind(&CMainFrame::EventCallback, this, std::placeholders::_1), fires);
 }
 
 CMainFrame::~CMainFrame()

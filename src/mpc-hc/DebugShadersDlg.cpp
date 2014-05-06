@@ -53,9 +53,9 @@ CDebugShadersDlg::CDebugShadersDlg()
     , m_Compiler(nullptr)
     , m_timerOneTime(this, TIMER_ONETIME_START, TIMER_ONETIME_END - TIMER_ONETIME_START + 1)
 {
-    EventRouter::EventSelection recieves;
-    recieves.insert(MpcEvent::SHADER_LIST_CHANGED);
-    GetEventd().Connect(m_eventc, recieves, std::bind(&CDebugShadersDlg::EventCallback, this, std::placeholders::_1));
+    EventRouter::EventSelection receives;
+    receives.insert(MpcEvent::SHADER_LIST_CHANGED);
+    GetEventd().Connect(m_eventc, receives, std::bind(&CDebugShadersDlg::EventCallback, this, std::placeholders::_1));
 
     // Set window icon
     VERIFY(SetIcon(AfxGetMainWnd()->GetIcon(true), true) == nullptr);
