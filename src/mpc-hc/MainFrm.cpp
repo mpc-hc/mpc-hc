@@ -763,6 +763,7 @@ CMainFrame::CMainFrame()
     , m_fSetChannelActive(false)
     , m_dLastVideoScaleFactor(0)
     , m_nLastVideoWidth(0)
+    , m_bExtOnTop(false)
 {
     m_Lcd.SetVolumeRange(0, 100);
     m_liLastSaveTime.QuadPart = 0;
@@ -9355,8 +9356,6 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
     CMonitors monitors;
 
-    static bool bExtOnTop; // True if the "on top" flag was set by an external tool
-
     if (!m_fFullScreen) {
         SetCursor(nullptr); // prevents cursor flickering when our window is not under the cursor
         m_eventc.FireEvent(MpcEvent::SWITCHING_TO_FULLSCREEN);
@@ -9434,7 +9433,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
             }
         }
 
-        bExtOnTop = (!s.iOnTop && (GetExStyle() & WS_EX_TOPMOST));
+        m_bExtOnTop = (!s.iOnTop && (GetExStyle() & WS_EX_TOPMOST));
         SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
     } else {
         ModifyStyle(0, WS_MINIMIZEBOX, SWP_NOZORDER);
@@ -9490,7 +9489,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
     // we restore the current internal on top state.
     // Note that this should be called after m_fAudioOnly is restored
     // to its initial value.
-    if (!m_fFullScreen && !bExtOnTop) {
+    if (!m_fFullScreen && !m_bExtOnTop) {
         SetWindowPos(&wndNoTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
         SetAlwaysOnTop(s.iOnTop);
     }
