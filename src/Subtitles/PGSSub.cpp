@@ -147,6 +147,8 @@ HRESULT CPGSSub::ParseSample(IMediaSample* pSample)
 
 void CPGSSub::Reset()
 {
+    CAutoLock cAutoLock(&m_csCritSec);
+
     m_nSegBufferPos = m_nSegSize = 0;
     m_nCurSegment = NO_SEGMENT;
     m_pCurrentPresentationSegment.Free();
@@ -159,6 +161,8 @@ void CPGSSub::Reset()
 HRESULT CPGSSub::ParseSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE* pData, int nLen)
 {
     CheckPointer(pData, E_POINTER);
+
+    CAutoLock cAutoLock(&m_csCritSec);
 
     CGolombBuffer sampleBuffer(pData, nLen);
 
