@@ -3356,7 +3356,8 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
     OnTimer(TIMER_STREAMPOSPOLLER2);
 
     // auto-zoom if requested
-    if (IsWindowVisible() && s.fRememberZoomLevel && !m_fFullScreen && !IsZoomed() && !IsIconic() && !IsAeroSnapped()) {
+    if (IsWindowVisible() && s.fRememberZoomLevel &&
+            !m_fFullScreen && !IsD3DFullScreenMode() && !IsZoomed() && !IsIconic() && !IsAeroSnapped()) {
         ZoomVideoWindow();
     }
 
