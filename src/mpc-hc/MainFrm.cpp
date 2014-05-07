@@ -7165,17 +7165,14 @@ void CMainFrame::OnUpdatePlayPauseStop(CCmdUI* pCmdUI)
 
 void CMainFrame::OnPlayFramestep(UINT nID)
 {
-    REFERENCE_TIME rt;
-
+    m_OSD.EnableShowMessage(false);
     if (m_pFS && m_fQuicktimeGraph) {
         if (GetMediaState() != State_Paused) {
             SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
         }
 
-        m_pFS->Step(nID == ID_PLAY_FRAMESTEP ? 1 : -1, nullptr);
+        m_pFS->Step((nID == ID_PLAY_FRAMESTEP) ? 1 : -1, nullptr);
     } else if (m_pFS && nID == ID_PLAY_FRAMESTEP) {
-        m_OSD.EnableShowMessage(false);
-
         if (GetMediaState() != State_Paused && !queue_ffdshow_support) {
             SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
         }
@@ -7192,61 +7189,46 @@ void CMainFrame::OnPlayFramestep(UINT nID)
         m_pBA->put_Volume(-10000);
 
         m_pFS->Step(1, nullptr);
-
-        m_OSD.EnableShowMessage();
-
     } else if (S_OK == m_pMS->IsFormatSupported(&TIME_FORMAT_FRAME)) {
         if (GetMediaState() != State_Paused) {
             SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
         }
 
-        m_pMS->SetTimeFormat(&TIME_FORMAT_FRAME);
-        m_pMS->GetCurrentPosition(&rt);
-        if (nID == ID_PLAY_FRAMESTEP) {
-            rt++;
-        } else if (nID == ID_PLAY_FRAMESTEPCANCEL) {
-            rt--;
+        if (SUCCEEDED(m_pMS->SetTimeFormat(&TIME_FORMAT_FRAME))) {
+            REFERENCE_TIME rtCurPos;
+
+            if (SUCCEEDED(m_pMS->GetCurrentPosition(&rtCurPos))) {
+                rtCurPos += (nID == ID_PLAY_FRAMESTEP) ? 1 : -1;
+
+                m_pMS->SetPositions(&rtCurPos, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning);
+            }
+            m_pMS->SetTimeFormat(&TIME_FORMAT_MEDIA_TIME);
         }
-        m_pMS->SetPositions(&rt, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning);
-        m_pMS->SetTimeFormat(&TIME_FORMAT_MEDIA_TIME);
     } else { //if (s.iDSVideoRendererType != VIDRNDT_DS_VMR9WINDOWED && s.iDSVideoRendererType != VIDRNDT_DS_VMR9RENDERLESS)
         if (GetMediaState() != State_Paused) {
             SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
         }
 
-        REFERENCE_TIME rtAvgTime = 0;
-        BeginEnumFilters(m_pGB, pEF, pBF) {
-            BeginEnumPins(pBF, pEP, pPin) {
-                AM_MEDIA_TYPE mt;
-                if (SUCCEEDED(pPin->ConnectionMediaType(&mt))) {
-                    if (mt.majortype == MEDIATYPE_Video && mt.formattype == FORMAT_VideoInfo) {
-                        rtAvgTime = ((VIDEOINFOHEADER*)mt.pbFormat)->AvgTimePerFrame;
-                        break;
-                    } else if (mt.majortype == MEDIATYPE_Video && mt.formattype == FORMAT_VideoInfo2) {
-                        rtAvgTime = ((VIDEOINFOHEADER2*)mt.pbFormat)->AvgTimePerFrame;
-                        break;
-                    }
-                }
-            }
-            EndEnumPins;
-        }
-        EndEnumFilters;
+        const REFERENCE_TIME rtAvgTimePerFrame = std::llround(GetAvgTimePerFrame() * 10000000i64);
+        REFERENCE_TIME rtCurPos = 0;
 
         // Exit of framestep forward : calculate the initial position
-        if (m_nStepForwardCount != 0) {
+        if (m_nStepForwardCount) {
             m_pFS->CancelStep();
-            rt = m_rtStepForwardStart + m_nStepForwardCount * rtAvgTime;
+            rtCurPos = m_rtStepForwardStart + m_nStepForwardCount * rtAvgTimePerFrame;
             m_nStepForwardCount = 0;
+        } else if (GetPlaybackMode() == PM_DVD) {
+            // IMediaSeeking doesn't work well with DVD Navigator
+            rtCurPos = m_wndSeekBar.GetPos();
         } else {
-            m_pMS->GetCurrentPosition(&rt);
+            m_pMS->GetCurrentPosition(&rtCurPos);
+
         }
-        if (nID == ID_PLAY_FRAMESTEP) {
-            rt += rtAvgTime;
-        } else if (nID == ID_PLAY_FRAMESTEPCANCEL) {
-            rt -= rtAvgTime;
-        }
-        m_pMS->SetPositions(&rt, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning);
+
+        rtCurPos += (nID == ID_PLAY_FRAMESTEP) ? rtAvgTimePerFrame : -rtAvgTimePerFrame;
+        SeekTo(rtCurPos);
     }
+    m_OSD.EnableShowMessage();
 }
 
 void CMainFrame::OnUpdatePlayFramestep(CCmdUI* pCmdUI)
@@ -8397,55 +8379,11 @@ void CMainFrame::OnNavigateGoto()
         return;
     }
 
-    REFTIME atpf = 0.0;
-    if (FAILED(m_pBV->get_AvgTimePerFrame(&atpf)) || atpf <= 0.0) {
-        BeginEnumFilters(m_pGB, pEF, pBF) {
-            if (atpf > 0.0) {
-                break;
-            }
-
-            BeginEnumPins(pBF, pEP, pPin) {
-                if (atpf > 0.0) {
-                    break;
-                }
-
-                AM_MEDIA_TYPE mt;
-                if (SUCCEEDED(pPin->ConnectionMediaType(&mt))) {
-                    if (mt.majortype == MEDIATYPE_Video && mt.formattype == FORMAT_VideoInfo) {
-                        atpf = (REFTIME)((VIDEOINFOHEADER*)mt.pbFormat)->AvgTimePerFrame / 10000000i64;
-                    } else if (mt.majortype == MEDIATYPE_Video && mt.formattype == FORMAT_VideoInfo2) {
-                        atpf = (REFTIME)((VIDEOINFOHEADER2*)mt.pbFormat)->AvgTimePerFrame / 10000000i64;
-                    }
-                }
-            }
-            EndEnumPins;
-        }
-        EndEnumFilters;
-    }
-
-    // Double-check that the detection is correct for DVDs
-    DVD_VideoAttributes VATR;
-    if (m_pDVDI && SUCCEEDED(m_pDVDI->GetCurrentVideoAttributes(&VATR))) {
-        double ratio;
-        if (VATR.ulFrameRate == 50) {
-            ratio = 25.0 * atpf;
-            // Accept 25 or 50 fps
-            if (!NEARLY_EQ(ratio, 1.0, 1e-2) && !NEARLY_EQ(ratio, 2.0, 1e-2)) {
-                atpf = 1.0 / 25.0;
-            }
-        } else {
-            ratio = 29.97 * atpf;
-            // Accept 29,97, 59.94, 23.976 or 47.952 fps
-            if (!NEARLY_EQ(ratio, 1.0, 1e-2) && !NEARLY_EQ(ratio, 2.0, 1e-2)
-                    && !NEARLY_EQ(ratio, 1.25, 1e-2)  && !NEARLY_EQ(ratio, 2.5, 1e-2)) {
-                atpf = 1.0 / 29.97;
-            }
-        }
-    }
+    const REFTIME atpf = GetAvgTimePerFrame();
 
     REFERENCE_TIME start, dur = -1;
     m_wndSeekBar.GetRange(start, dur);
-    CGoToDlg dlg(m_wndSeekBar.GetPos(), dur, atpf > 0 ? (1.0 / atpf) : 0);
+    CGoToDlg dlg(m_wndSeekBar.GetPos(), dur, atpf > 0.0 ? (1.0 / atpf) : 0.0);
     if (IDOK != dlg.DoModal() || dlg.m_time < 0) {
         return;
     }
@@ -13732,12 +13670,25 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool bShowOSD /*= true*/)
         m_pMS->SetPositions(&rtPos, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning);
         UpdateChapterInInfoBar();
     } else if (GetPlaybackMode() == PM_DVD && m_iDVDDomain == DVD_DOMAIN_Title) {
-        if (fs != State_Running) {
-            SendMessage(WM_COMMAND, ID_PLAY_PLAY);
+        if (fs == State_Stopped) {
+            SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
+            fs = State_Paused;
         }
 
-        DVD_HMSF_TIMECODE tc = RT2HMSF(rtPos);
+        const REFTIME refAvgTimePerFrame = GetAvgTimePerFrame();
+        if (fs == State_Paused) {
+            // Jump one more frame back, this is needed because we don't have any other
+            // way to seek to specific time without running playback to refresh state.
+            rtPos -= std::llround(refAvgTimePerFrame * 10000000i64);
+        }
+
+        DVD_HMSF_TIMECODE tc = RT2HMSF(rtPos, (1.0 / refAvgTimePerFrame));
         m_pDVDC->PlayAtTime(&tc, DVD_CMD_FLAG_Block | DVD_CMD_FLAG_Flush, nullptr);
+
+        if (fs == State_Paused) {
+            // Do frame step to update current position in paused state
+            m_pFS->Step(1, nullptr);
+        }
     } else {
         ASSERT(FALSE);
     }
@@ -16404,4 +16355,58 @@ void CMainFrame::UpdateDefaultSubtitleStyle()
         }
         InvalidateSubtitle();
     }
+}
+
+REFTIME CMainFrame::GetAvgTimePerFrame() const
+{
+    REFTIME refAvgTimePerFrame = 0.0;
+
+    if (FAILED(m_pBV->get_AvgTimePerFrame(&refAvgTimePerFrame))) {
+        if (m_pCAP) {
+            refAvgTimePerFrame = 1.0 / m_pCAP->GetFPS();
+        }
+
+        BeginEnumFilters(m_pGB, pEF, pBF) {
+            if (refAvgTimePerFrame > 0.0) {
+                break;
+            }
+
+            BeginEnumPins(pBF, pEP, pPin) {
+                AM_MEDIA_TYPE mt;
+                if (SUCCEEDED(pPin->ConnectionMediaType(&mt))) {
+                    if (mt.majortype == MEDIATYPE_Video && mt.formattype == FORMAT_VideoInfo) {
+                        refAvgTimePerFrame = (REFTIME)((VIDEOINFOHEADER*)mt.pbFormat)->AvgTimePerFrame / 10000000i64;
+                        break;
+                    } else if (mt.majortype == MEDIATYPE_Video && mt.formattype == FORMAT_VideoInfo2) {
+                        refAvgTimePerFrame = (REFTIME)((VIDEOINFOHEADER2*)mt.pbFormat)->AvgTimePerFrame / 10000000i64;
+                        break;
+                    }
+                }
+            }
+            EndEnumPins;
+        }
+        EndEnumFilters;
+    }
+
+    // Double-check that the detection is correct for DVDs
+    DVD_VideoAttributes VATR;
+    if (m_pDVDI && SUCCEEDED(m_pDVDI->GetCurrentVideoAttributes(&VATR))) {
+        double ratio;
+        if (VATR.ulFrameRate == 50) {
+            ratio = 25.0 * refAvgTimePerFrame;
+            // Accept 25 or 50 fps
+            if (!NEARLY_EQ(ratio, 1.0, 1e-2) && !NEARLY_EQ(ratio, 2.0, 1e-2)) {
+                refAvgTimePerFrame = 1.0 / 25.0;
+            }
+        } else {
+            ratio = 29.97 * refAvgTimePerFrame;
+            // Accept 29,97, 59.94, 23.976 or 47.952 fps
+            if (!NEARLY_EQ(ratio, 1.0, 1e-2) && !NEARLY_EQ(ratio, 2.0, 1e-2)
+                    && !NEARLY_EQ(ratio, 1.25, 1e-2) && !NEARLY_EQ(ratio, 2.5, 1e-2)) {
+                refAvgTimePerFrame = 1.0 / 29.97;
+            }
+        }
+    }
+
+    return refAvgTimePerFrame;
 }

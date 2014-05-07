@@ -377,6 +377,8 @@ private:
 
     MLS m_eMediaLoadState;
 
+    REFTIME GetAvgTimePerFrame() const;
+
 public:
     void StartWebServer(int nPort);
     void StopWebServer();
