@@ -9521,7 +9521,7 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
 
         bool bIsFullscreen = false;
         pD3DFS->GetD3DFullscreen(&bIsFullscreen);
-        s.fLastFullScreen = bIsFullscreen;
+        s.fLastFullScreen = !bIsFullscreen;
 
         if (bIsFullscreen) {
             // Turn off D3D Fullscreen
