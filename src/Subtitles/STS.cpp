@@ -1085,7 +1085,7 @@ static bool OpenSami(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
         return false;
     }
 
-    file->Seek(pos, 0);
+    file->Seek(pos, CFile::begin);
 
     bool fComment = false;
     int start_time = 0;
@@ -2607,7 +2607,7 @@ static int CountLines(CTextFile* f, ULONGLONG from, ULONGLONG to)
 {
     int n = 0;
     CString s;
-    f->Seek(from, 0);
+    f->Seek(from, CFile::begin);
     while (f->ReadString(s) && f->GetPosition() < to) {
         n++;
     }
@@ -2631,7 +2631,7 @@ bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name)
                 break;
             }
 
-            f->Seek(pos, 0);
+            f->Seek(pos, CFile::begin);
             Empty();
             continue;
         }
