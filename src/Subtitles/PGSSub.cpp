@@ -307,7 +307,7 @@ HRESULT CPGSSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox, bool bRe
         bbox = { 0, 0, 0, 0 };
     }
 
-    return bRendered ? S_OK : S_FALSE;
+    return S_OK;
 }
 
 int CPGSSub::ParsePresentationSegment(REFERENCE_TIME rt, CGolombBuffer* pGBuffer)
