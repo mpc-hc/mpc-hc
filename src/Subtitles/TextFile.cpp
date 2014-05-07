@@ -153,32 +153,40 @@ ULONGLONG CTextFile::GetLength() const
 
 ULONGLONG CTextFile::Seek(LONGLONG lOff, UINT nFrom)
 {
-    ULONGLONG pos = GetPosition();
-    ULONGLONG len = GetLength();
-
-    switch (nFrom) {
-        default:
-        case begin:
-            break;
-        case current:
-            lOff = pos + lOff;
-            break;
-        case end:
-            lOff = len - lOff;
-            break;
-    }
-
-    lOff = std::max((LONGLONG)std::min((ULONGLONG)lOff, len), 0ll);
-
     ULONGLONG newPos;
 
-    // Try to reuse the buffer if possible
-    m_posInBuffer += LONGLONG(ULONGLONG(lOff) - pos);
-    if (m_posInBuffer < 0 || m_posInBuffer >= m_nInBuffer) {
-        m_nInBuffer = m_posInBuffer = 0;
-        newPos = __super::Seek(lOff + m_offset, begin) - m_offset;
-    } else {
-        newPos = ULONGLONG(lOff);
+    // Try to reuse the buffer if any
+    if (m_nInBuffer > 0) {
+        ULONGLONG pos = GetPosition();
+        ULONGLONG len = GetLength();
+
+        switch (nFrom) {
+            default:
+            case begin:
+                break;
+            case current:
+                lOff = pos + lOff;
+                break;
+            case end:
+                lOff = len - lOff;
+                break;
+        }
+
+        lOff = std::max((LONGLONG)std::min((ULONGLONG)lOff, len), 0ll);
+
+        m_posInBuffer += LONGLONG(ULONGLONG(lOff) - pos);
+        if (m_posInBuffer < 0 || m_posInBuffer >= m_nInBuffer) {
+            // If we would have to end up out of the buffer, we just reset it and seek normally
+            m_nInBuffer = m_posInBuffer = 0;
+            newPos = __super::Seek(lOff + m_offset, begin) - m_offset;
+        } else { // If we can reuse the buffer, we have nother special to do
+            newPos = ULONGLONG(lOff);
+        }
+    } else { // No buffer, we can use the base implementation
+        if (nFrom == begin) {
+            lOff += m_offset;
+        }
+        newPos = __super::Seek(lOff, nFrom) - m_offset;
     }
 
     return newPos;

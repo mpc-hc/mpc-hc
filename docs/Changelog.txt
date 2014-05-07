@@ -32,6 +32,7 @@ next version - not released yet
 ! Ticket #4284, Auto-zoom feature didn't work properly when the taskbar was docked at the left or the top of the screen
 ! Ticket #4288, Changing the zoom level when in fullscreen mode did nothing
 ! Ticket #4299, Frame stepping was not working for DVD
+! Ticket #4307, ANSI subtitles files with Unix line endings could crash MPC-HC
 
 
 1.7.5 - 01 May 2014
