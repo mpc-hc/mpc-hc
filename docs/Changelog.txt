@@ -12,6 +12,7 @@ next version - not released yet
 ===============================
 + ISR: Add an option to control subtitle renderer behavior regarding anamorphic video
 + VSFilter: Display more informative names for external subtitles (similar to what is done with the internal subtitle renderer)
++ Add a "Copy to clipboard" feature to the "Play > Filters" menu so that the list of currently loaded filters can be copied easily
 * Ticket #4144, Move the user interface language selection to the Options dialog and remove the "Language" menu.
   The increasing number of translations had reduced the usability of the menu
 * Updated Little CMS to v2.6 (git 4da8703)

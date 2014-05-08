@@ -1236,6 +1236,10 @@ msgctxt "IDS_STATSBAR_PLAYBACK_RATE"
 msgid "Playback rate"
 msgstr "Швидкість відтворення"
 
+msgctxt "IDS_FILTERS_COPY_TO_CLIPBOARD"
+msgid "&Copy filters list to clipboard"
+msgstr ""
+
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
 msgstr "Відкрити пристрій"

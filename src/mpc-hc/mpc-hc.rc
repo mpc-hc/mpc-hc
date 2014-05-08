@@ -2540,7 +2540,8 @@ BEGIN
     IDS_PLAYLIST_ADDFOLDER  "Add containing folder"
     IDS_HW_INDICATOR        "[H/W]"
     IDS_TOOLTIP_SOFTWARE_DECODING "Software Decoding"
-    IDS_STATSBAR_PLAYBACK_RATE "Playback rate"
+    IDS_STATSBAR_PLAYBACK_RATE    "Playback rate"
+    IDS_FILTERS_COPY_TO_CLIPBOARD "&Copy filters list to clipboard"
 END
 
 STRINGTABLE

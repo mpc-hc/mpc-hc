@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-03-22 09:25:06+0000\n"
+"POT-Creation-Date: 2014-05-11 20:22:10+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1231,6 +1231,10 @@ msgstr ""
 
 msgctxt "IDS_STATSBAR_PLAYBACK_RATE"
 msgid "Playback rate"
+msgstr ""
+
+msgctxt "IDS_FILTERS_COPY_TO_CLIPBOARD"
+msgid "&Copy filters list to clipboard"
 msgstr ""
 
 msgctxt "IDS_AG_OPEN_DEVICE"
