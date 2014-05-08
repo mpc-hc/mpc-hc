@@ -40,7 +40,7 @@
 #include <afxsock.h>
 #include <atlsync.h>
 #include <atlutil.h>
-#include "atl/atlrx.h"
+#include <regex>
 #include <share.h>
 #include "mpc-hc_config.h"
 #include "../MathLibFix/MathLibFix.h"
@@ -220,26 +220,14 @@ bool LoadResource(UINT resid, CStringA& str, LPCTSTR restype)
     return true;
 }
 
-typedef CAtlRegExp<CAtlRECharTraits> CAtlRegExpT;
-typedef CAtlREMatchContext<CAtlRECharTraits> CAtlREMatchContextT;
-
-static bool FindRedir(const CUrl& src, CString ct, const CString& body, CAtlList<CString>& urls, CAutoPtrList<CAtlRegExpT>& res)
+static bool FindRedir(const CUrl& src, CString ct, const CString& body, CAtlList<CString>& urls, const std::vector<std::wregex>& res)
 {
-    POSITION pos = res.GetHeadPosition();
     bool bDetectHLS = false;
-    while (pos) {
-        CAtlRegExpT* re = res.GetNext(pos);
+    for (const auto re : res) {
+        std::wcmatch mc;
 
-        CAtlREMatchContextT mc;
-        const CAtlREMatchContextT::RECHAR* s = (LPCTSTR)body;
-        const CAtlREMatchContextT::RECHAR* e = nullptr;
-        for (; s && re->Match(s, &mc, &e); s = e) {
-            const CAtlREMatchContextT::RECHAR* szStart = 0;
-            const CAtlREMatchContextT::RECHAR* szEnd = 0;
-            mc.GetMatch(0, &szStart, &szEnd);
-
-            CString url;
-            url.Format(_T("%.*s"), szEnd - szStart, szStart);
+        for (LPCTSTR s = body; std::regex_search(s, mc, re); s += mc.position() + mc.length()) {
+            CString url = mc[mc.size() - 1].str().c_str();
             url.Trim();
 
             if (url.CompareNoCase(_T("asf path")) == 0) {
@@ -275,7 +263,7 @@ static bool FindRedir(const CUrl& src, CString ct, const CString& body, CAtlList
     return !urls.IsEmpty();
 }
 
-static bool FindRedir(const CString& fn, CString ct, CAtlList<CString>& fns, CAutoPtrList<CAtlRegExpT>& res)
+static bool FindRedir(const CString& fn, CString ct, CAtlList<CString>& fns, const std::vector<std::wregex>& res)
 {
     CString body;
 
@@ -288,20 +276,11 @@ static bool FindRedir(const CString& fn, CString ct, CAtlList<CString>& fns, CAu
 
     CString dir = fn.Left(max(fn.ReverseFind('/'), fn.ReverseFind('\\')) + 1); // "ReverseFindOneOf"
 
-    POSITION pos = res.GetHeadPosition();
-    while (pos) {
-        CAtlRegExpT* re = res.GetNext(pos);
+    for (const auto re : res) {
+        std::wcmatch mc;
 
-        CAtlREMatchContextT mc;
-        const CAtlREMatchContextT::RECHAR* s = (LPCTSTR)body;
-        const CAtlREMatchContextT::RECHAR* e = nullptr;
-        for (; s && re->Match(s, &mc, &e); s = e) {
-            const CAtlREMatchContextT::RECHAR* szStart = 0;
-            const CAtlREMatchContextT::RECHAR* szEnd = 0;
-            mc.GetMatch(0, &szStart, &szEnd);
-
-            CString fn2;
-            fn2.Format(_T("%.*s"), szEnd - szStart, szStart);
+        for (LPCTSTR s = body; std::regex_search(s, mc, re); s += mc.position() + mc.length()) {
+            CString fn2 = mc[mc.size() - 1].str().c_str();
             fn2.Trim();
 
             if (!fn2.CompareNoCase(_T("asf path"))) {
@@ -527,39 +506,24 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
     }
 
     if (redir && !ct.IsEmpty()) {
-        CAutoPtrList<CAtlRegExpT> res;
-        CAutoPtr<CAtlRegExpT> re;
+        std::vector<std::wregex> res;
+        const std::wregex::flag_type reFlags = std::wregex::icase | std::wregex::optimize;
 
         if (ct == _T("video/x-ms-asf")) {
             // ...://..."/>
-            re.Attach(DEBUG_NEW CAtlRegExpT());
-            if (re && REPARSE_ERROR_OK == re->Parse(_T("{[a-zA-Z]+://[^\n\">]*}"), FALSE)) {
-                res.AddTail(re);
-            }
+            res.emplace_back(_T("[a-zA-Z]+://[^\n\">]*"), reFlags);
             // Ref#n= ...://...\n
-            re.Attach(DEBUG_NEW CAtlRegExpT());
-            if (re && REPARSE_ERROR_OK == re->Parse(_T("Ref\\z\\b*=\\b*[\"]*{[a-zA-Z]+://[^\n\"]+}"), FALSE)) {
-                res.AddTail(re);
-            }
+            res.emplace_back(_T("Ref\\d+\\s*=\\s*[\"]*([a-zA-Z]+://[^\n\"]+)"), reFlags);
         } else if (ct == _T("audio/x-scpls") || ct == _T("audio/scpls")) {
             // File1=...\n
-            re.Attach(DEBUG_NEW CAtlRegExp<>());
-            if (re && REPARSE_ERROR_OK == re->Parse(_T("file\\z\\b*=\\b*[\"]*{[^\n\"]+}"), FALSE)) {
-                res.AddTail(re);
-            }
+            res.emplace_back(_T("file\\d+\\s*=\\s*[\"]*([^\n\"]+)"), reFlags);
         } else if (ct == _T("audio/x-mpegurl") || ct == _T("audio/mpegurl")) {
             // #comment
             // ...
-            re.Attach(DEBUG_NEW CAtlRegExp<>());
-            if (re && REPARSE_ERROR_OK == re->Parse(_T("{[^#][^\n]+}"), FALSE)) {
-                res.AddTail(re);
-            }
+            res.emplace_back(_T("[^#][^\n]+"), reFlags);
         } else if (ct == _T("audio/x-pn-realaudio")) {
             // rtsp://...
-            re.Attach(DEBUG_NEW CAtlRegExp<>());
-            if (re && REPARSE_ERROR_OK == re->Parse(_T("{rtsp://[^\n]+}"), FALSE)) {
-                res.AddTail(re);
-            }
+            res.emplace_back(_T("rtsp://[^\n]+"), reFlags);
         }
 
         if (!body.IsEmpty()) {

@@ -22,7 +22,7 @@
 #include "stdafx.h"
 #include <io.h>
 #include <vector>
-#include "atl/atlrx.h"
+#include <regex>
 #include "TextFile.h"
 #include "SubtitleHelpers.h"
 
@@ -86,10 +86,8 @@ void Subtitle::GetSubFileNames(CString fn, const CAtlArray<CString>& paths, CAtl
         regExpSub.Format(_T("([%s]+.+)?\\.(%s)$"), separators, extListSub);
         regExpVid.Format(_T(".+\\.(%s)$"), extListVid);
 
-        CAtlRegExp<CAtlRECharTraits> reSub, reVid;
-        CAtlREMatchContext<CAtlRECharTraits> mc;
-        ENSURE(REPARSE_ERROR_OK == reSub.Parse(regExpSub, FALSE));
-        ENSURE(REPARSE_ERROR_OK == reVid.Parse(regExpVid, FALSE));
+        const std::wregex::flag_type reFlags = std::wregex::icase | std::wregex::optimize;
+        std::wregex reSub(regExpSub, reFlags), reVid(regExpVid, reFlags);
 
         for (size_t k = 0; k < paths.GetCount(); k++) {
             CString path = paths[k];
@@ -112,9 +110,9 @@ void Subtitle::GetSubFileNames(CString fn, const CAtlArray<CString>& paths, CAtl
             if ((hFile = FindFirstFile(path + title + _T("*"), &wfd)) != INVALID_HANDLE_VALUE) {
                 do {
                     CString fn = path + wfd.cFileName;
-                    if (reSub.Match(&wfd.cFileName[titleLength], &mc)) {
+                    if (std::regex_match(&wfd.cFileName[titleLength], reSub)) {
                         subs.AddTail(fn);
-                    } else if (reVid.Match(&wfd.cFileName[titleLength], &mc)) {
+                    } else if (std::regex_match(&wfd.cFileName[titleLength], reVid)) {
                         // Convert to lower-case and cut the extension for easier matching
                         vids.AddTail(fn.Left(fn.ReverseFind(_T('.'))).MakeLower());
                     }
@@ -197,15 +195,15 @@ CString Subtitle::GuessSubtitleName(CString fn, CString videoName)
             }
             subName = subName.Mid(iVideoNameEnd);
 
-            CAtlRegExp<CAtlRECharTraits> re;
-            CAtlREMatchContext<CAtlRECharTraits> mc;
-            if (REPARSE_ERROR_OK == re.Parse(_T("^[.\\-_ ]+{[^.\\-_ ]+}([.\\-_ ]+{[^.\\-_ ]+})?"), FALSE) && re.Match(subName, &mc)) {
-                LPCTSTR s, e;
-                mc.GetMatch(0, &s, &e);
-                lang = ISO639XToLanguage(CStringA(s, int(e - s)), true);
-                if (!lang.IsEmpty()) {
-                    mc.GetMatch(1, &s, &e);
-                    bHearingImpaired = (CString(s, int(e - s)).CompareNoCase(_T("hi")) == 0);
+            std::wregex re(_T("^[.\\-_ ]+([^.\\-_ ]+)(?:[.\\-_ ]+([^.\\-_ ]+))?"), std::wregex::icase);
+            std::wcmatch mc;
+            if (std::regex_search((LPCTSTR)subName, mc, re)) {
+                ASSERT(mc.size() == 3);
+                ASSERT(mc[1].matched);
+                lang = ISO639XToLanguage(CStringA(mc[1].str().c_str()), true);
+
+                if (!lang.IsEmpty() && mc[2].matched) {
+                    bHearingImpaired = (CString(mc[2].str().c_str()).CompareNoCase(_T("hi")) == 0);
                 }
             }
         }
@@ -213,15 +211,17 @@ CString Subtitle::GuessSubtitleName(CString fn, CString videoName)
 
     // If we couldn't find any info yet, we try to find the language at the end of the filename
     if (lang.IsEmpty()) {
-        CAtlRegExp<CAtlRECharTraits> re;
-        CAtlREMatchContext<CAtlRECharTraits> mc;
-        if (REPARSE_ERROR_OK == re.Parse(_T(".*?[.\\-_ ]+{[^.\\-_ ]+}([.\\-_ ]+{[^.\\-_ ]+})?$"), FALSE) && re.Match(subName, &mc)) {
-            LPCTSTR s, e;
-            mc.GetMatch(0, &s, &e);
-            lang = ISO639XToLanguage(CStringA(s, int(e - s)), true);
+        std::wregex re(_T(".*?[.\\-_ ]+([^.\\-_ ]+)(?:[.\\-_ ]+([^.\\-_ ]+))?$"), std::wregex::icase);
+        std::wcmatch mc;
+        if (std::regex_search((LPCTSTR)subName, mc, re)) {
+            ASSERT(mc.size() == 3);
+            ASSERT(mc[1].matched);
+            lang = ISO639XToLanguage(CStringA(mc[1].str().c_str()), true);
 
-            mc.GetMatch(1, &s, &e);
-            CStringA str(s, int(e - s));
+            CStringA str;
+            if (mc[2].matched) {
+                str = mc[2].str().c_str();
+            }
 
             if (!lang.IsEmpty() && str.CompareNoCase("hi") == 0) {
                 bHearingImpaired = true;
