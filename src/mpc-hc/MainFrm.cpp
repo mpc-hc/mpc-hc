@@ -12103,9 +12103,9 @@ void CMainFrame::SetupFiltersSubMenu()
         UINT idl = ID_FILTERSTREAMS_SUBITEM_START;
 
         BeginEnumFilters(m_pGB, pEF, pBF) {
-            CString name(GetFilterName(pBF));
-            if (name.GetLength() >= 43) {
-                name = name.Left(40) + _T("...");
+            CString filterName(GetFilterName(pBF));
+            if (filterName.GetLength() >= 43) {
+                filterName = filterName.Left(40) + _T("...");
             }
 
             CLSID clsid = GetCLSID(pBF);
@@ -12116,24 +12116,23 @@ void CMainFrame::SetupFiltersSubMenu()
                     DWORD c = ((VIDEOINFOHEADER*)mt.pbFormat)->bmiHeader.biCompression;
                     switch (c) {
                         case BI_RGB:
-                            name += _T(" (RGB)");
+                            filterName += _T(" (RGB)");
                             break;
                         case BI_RLE4:
-                            name += _T(" (RLE4)");
+                            filterName += _T(" (RLE4)");
                             break;
                         case BI_RLE8:
-                            name += _T(" (RLE8)");
+                            filterName += _T(" (RLE8)");
                             break;
                         case BI_BITFIELDS:
-                            name += _T(" (BITF)");
+                            filterName += _T(" (BITF)");
                             break;
                         default:
-                            name.Format(_T("%s (%c%c%c%c)"),
-                                        CString(name),
-                                        (TCHAR)((c >> 0) & 0xff),
-                                        (TCHAR)((c >> 8) & 0xff),
-                                        (TCHAR)((c >> 16) & 0xff),
-                                        (TCHAR)((c >> 24) & 0xff));
+                            filterName.AppendFormat(_T(" (%c%c%c%c)"),
+                                                    (TCHAR)((c >> 0) & 0xff),
+                                                    (TCHAR)((c >> 8) & 0xff),
+                                                    (TCHAR)((c >> 16) & 0xff),
+                                                    (TCHAR)((c >> 24) & 0xff));
                             break;
                     }
                 }
@@ -12142,7 +12141,7 @@ void CMainFrame::SetupFiltersSubMenu()
                 AM_MEDIA_TYPE mt;
                 if (pPin && SUCCEEDED(pPin->ConnectionMediaType(&mt))) {
                     WORD c = ((WAVEFORMATEX*)mt.pbFormat)->wFormatTag;
-                    name.Format(_T("%s (0x%04x)"), CString(name), (int)c);
+                    filterName.AppendFormat(_T(" (0x%04x)"), (int)c);
                 }
             } else if (clsid == __uuidof(CTextPassThruFilter)
                        || clsid == __uuidof(CNullTextRenderer)
@@ -12164,15 +12163,15 @@ void CMainFrame::SetupFiltersSubMenu()
             nPPages++;
 
             BeginEnumPins(pBF, pEP, pPin) {
-                CString name = GetPinName(pPin);
-                name.Replace(_T("&"), _T("&&"));
+                CString pinName = GetPinName(pPin);
+                pinName.Replace(_T("&"), _T("&&"));
 
                 if (pSPP = pPin) {
                     CAUUID caGUID;
                     caGUID.pElems = nullptr;
                     if (SUCCEEDED(pSPP->GetPages(&caGUID)) && caGUID.cElems > 0) {
                         m_pparray.Add(pPin);
-                        VERIFY(internalSubMenu.AppendMenu(MF_STRING | MF_ENABLED, ids + nPPages, name + ResStr(IDS_MAINFRM_117)));
+                        VERIFY(internalSubMenu.AppendMenu(MF_STRING | MF_ENABLED, ids + nPPages, pinName + ResStr(IDS_MAINFRM_117)));
 
                         if (caGUID.pElems) {
                             CoTaskMemFree(caGUID.pElems);
@@ -12227,17 +12226,17 @@ void CMainFrame::SetupFiltersSubMenu()
                         uMenuFlags |= MF_CHECKED;
                     }
 
-                    CString name;
+                    CString streamName;
                     if (!wname) {
-                        name.LoadString(IDS_AG_UNKNOWN_STREAM);
-                        name.AppendFormat(_T(" %u"), i + 1);
+                        streamName.LoadString(IDS_AG_UNKNOWN_STREAM);
+                        streamName.AppendFormat(_T(" %u"), i + 1);
                     } else {
-                        name = wname;
-                        name.Replace(_T("&"), _T("&&"));
+                        streamName = wname;
+                        streamName.Replace(_T("&"), _T("&&"));
                         CoTaskMemFree(wname);
                     }
 
-                    VERIFY(internalSubMenu.AppendMenu(uMenuFlags, idl++, name));
+                    VERIFY(internalSubMenu.AppendMenu(uMenuFlags, idl++, streamName));
                 }
                 if (selectedInGroup) {
                     VERIFY(internalSubMenu.CheckMenuRadioItem(idlstart, idl - 1, selectedInGroup, MF_BYCOMMAND));
@@ -12249,9 +12248,9 @@ void CMainFrame::SetupFiltersSubMenu()
             }
 
             if (nPPages == 1 && !pSS) {
-                VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, ids, name));
+                VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, ids, filterName));
             } else {
-                VERIFY(subMenu.AppendMenu(MF_STRING | MF_DISABLED | MF_GRAYED, idf, name));
+                VERIFY(subMenu.AppendMenu(MF_STRING | MF_DISABLED | MF_GRAYED, idf, filterName));
 
                 if (nPPages > 0 || pSS) {
                     MENUITEMINFO mii;
