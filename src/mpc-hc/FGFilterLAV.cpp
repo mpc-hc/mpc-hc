@@ -104,7 +104,7 @@ CString CFGFilterLAV::GetFilterPath(LAVFILTER_TYPE filterType)
 
 bool CFGFilterLAV::CheckVersion(CString filterPath)
 {
-    QWORD version = CFileVersionInfo::GetFileVersionNum(filterPath);
+    QWORD version = FileVersionInfo::GetFileVersionNum(filterPath);
 
     return (version >= LAV_FILTERS_VERSION);
 }
@@ -128,15 +128,15 @@ CString CFGFilterLAV::GetVersion(LAVFILTER_TYPE filterType /*= INVALID*/)
     while (pos) {
         CString& path = paths.GetNext(pos);
 
-        QWORD version = CFileVersionInfo::GetFileVersionNum(path);
+        QWORD version = FileVersionInfo::GetFileVersionNum(path);
         if (version) {
             if (version < uiVersionMin) {
                 uiVersionMin = version;
-                strVersionMin = CFileVersionInfo::GetFileVersionStr(path);
+                strVersionMin = FileVersionInfo::FormatVersionString(version);
             }
             if (version > uiVersionMax) {
                 uiVersionMax = version;
-                strVersionMax = CFileVersionInfo::GetFileVersionStr(path);
+                strVersionMax = FileVersionInfo::FormatVersionString(version);
             }
         }
     }

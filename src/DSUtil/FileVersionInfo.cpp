@@ -1,5 +1,5 @@
 /*
- * (C) 2012-2013 see Authors.txt
+ * (C) 2012-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,15 +21,7 @@
 #include "stdafx.h"
 #include "FileVersionInfo.h"
 
-CFileVersionInfo::CFileVersionInfo()
-{
-}
-
-CFileVersionInfo::~CFileVersionInfo()
-{
-}
-
-bool CFileVersionInfo::LoadInfo(LPCTSTR filePath, VS_FIXEDFILEINFO& fileInfo)
+bool FileVersionInfo::LoadInfo(LPCTSTR filePath, VS_FIXEDFILEINFO& fileInfo)
 {
     bool success = false;
 
@@ -58,23 +50,19 @@ bool CFileVersionInfo::LoadInfo(LPCTSTR filePath, VS_FIXEDFILEINFO& fileInfo)
     return success;
 }
 
-CString CFileVersionInfo::GetFileVersionStr(LPCTSTR filePath)
+CString FileVersionInfo::GetFileVersionStr(LPCTSTR filePath)
 {
     VS_FIXEDFILEINFO fileInfo;
     CString strFileVersion;
 
     if (LoadInfo(filePath, fileInfo)) {
-        strFileVersion.Format(_T("%u.%u.%u.%u"),
-                              (fileInfo.dwFileVersionMS & 0xFFFF0000) >> 16,
-                              (fileInfo.dwFileVersionMS & 0x0000FFFF),
-                              (fileInfo.dwFileVersionLS & 0xFFFF0000) >> 16,
-                              (fileInfo.dwFileVersionLS & 0x0000FFFF));
+        strFileVersion = FormatVersionString(fileInfo.dwFileVersionLS, fileInfo.dwFileVersionMS);
     }
 
     return strFileVersion;
 }
 
-QWORD CFileVersionInfo::GetFileVersionNum(LPCTSTR filePath)
+QWORD FileVersionInfo::GetFileVersionNum(LPCTSTR filePath)
 {
     VS_FIXEDFILEINFO fileInfo;
     QWORD qwFileVersion = 0;
@@ -84,4 +72,20 @@ QWORD CFileVersionInfo::GetFileVersionNum(LPCTSTR filePath)
     }
 
     return qwFileVersion;
+}
+
+CString FileVersionInfo::FormatVersionString(DWORD dwVersionNumberLow, DWORD dwVersionNumberHigh)
+{
+    CString strFileVersion;
+    strFileVersion.Format(_T("%u.%u.%u.%u"),
+                          (dwVersionNumberHigh & 0xFFFF0000) >> 16,
+                          (dwVersionNumberHigh & 0x0000FFFF),
+                          (dwVersionNumberLow & 0xFFFF0000) >> 16,
+                          (dwVersionNumberLow & 0x0000FFFF));
+    return strFileVersion;
+}
+
+CString FileVersionInfo::FormatVersionString(QWORD qwVersionNumber)
+{
+    return FormatVersionString(qwVersionNumber & DWORD_MAX, (qwVersionNumber >> 32) & DWORD_MAX);
 }

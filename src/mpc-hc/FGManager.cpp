@@ -2123,7 +2123,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 
         if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, _T("CLSID\\") + clsid + _T("\\InprocServer32"), KEY_READ)
                 && ERROR_SUCCESS == key.QueryStringValue(nullptr, buff, &len)
-                && CFileVersionInfo::GetFileVersionNum(buff) < 0x0001000000030000ui64) {
+                && FileVersionInfo::GetFileVersionNum(buff) < 0x0001000000030000ui64) {
             m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(GUIDFromCString(clsid), MERIT64_DO_NOT_USE));
         }
     }

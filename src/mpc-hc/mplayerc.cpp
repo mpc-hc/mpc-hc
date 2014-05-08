@@ -645,7 +645,7 @@ CMPlayerCApp::CMPlayerCApp()
     TCHAR strApp[MAX_PATH];
 
     GetModuleFileNameEx(GetCurrentProcess(), m_hInstance, strApp, MAX_PATH);
-    m_strVersion = CFileVersionInfo::GetFileVersionStr(strApp);
+    m_strVersion = FileVersionInfo::GetFileVersionStr(strApp);
 
     ZeroMemory(&m_ColorControl, sizeof(m_ColorControl));
     ResetColorControlRange();

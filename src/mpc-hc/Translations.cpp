@@ -127,7 +127,7 @@ bool Translations::SetLanguage(LanguageResource languageResource, bool showError
                            _T("MPC-HC"), MB_ICONWARNING | MB_OK);
             }
         } else { // Check if the version of the resource dll is correct
-            CString strSatVersion = CFileVersionInfo::GetFileVersionStr(languageResource.dllPath);
+            CString strSatVersion = FileVersionInfo::GetFileVersionStr(languageResource.dllPath);
             CString strNeededVersion;
             strNeededVersion.Format(_T("%u.%u.%u.0"), VersionInfo::GetMajorNumber(), VersionInfo::GetMinorNumber(), VersionInfo::GetPatchNumber());
 

@@ -1,5 +1,5 @@
 /*
- * (C) 2012 see Authors.txt
+ * (C) 2012-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,14 +20,13 @@
 
 #pragma once
 
-class CFileVersionInfo
+namespace FileVersionInfo
 {
-private:
-    CFileVersionInfo();
-    ~CFileVersionInfo();
+    bool LoadInfo(LPCTSTR filePath, VS_FIXEDFILEINFO& fileInfo);
 
-public:
-    static bool LoadInfo(LPCTSTR filePath, VS_FIXEDFILEINFO& fileInfo);
-    static CString GetFileVersionStr(LPCTSTR filePath);
-    static QWORD GetFileVersionNum(LPCTSTR filePath);
+    CString GetFileVersionStr(LPCTSTR filePath);
+    QWORD GetFileVersionNum(LPCTSTR filePath);
+
+    CString FormatVersionString(DWORD dwVersionNumberLow, DWORD dwVersionNumberHigh);
+    CString FormatVersionString(QWORD qwVersionNumber);
 };
