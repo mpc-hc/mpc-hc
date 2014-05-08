@@ -1,5 +1,5 @@
 /*
- * (C) 2012-2013 see Authors.txt
+ * (C) 2012-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -25,6 +25,7 @@
 #include "FGFilterLAV.h"
 #endif
 #include "mplayerc.h"
+#include "FileVersionInfo.h"
 #include "VersionInfo.h"
 #include "SysVersion.h"
 #include "WinAPIUtils.h"
@@ -221,6 +222,22 @@ void CAboutDlg::OnCopyToClipboard()
     info += _T("Operating system:\r\n");
     info += _T("    Name:               ") + m_OSName + _T("\r\n");
     info += _T("    Version:            ") + m_OSVersion + _T("\r\n");
+
+    if (CComPtr<IDirect3D9> pD3D9 = Direct3DCreate9(D3D_SDK_VERSION)) {
+        info += _T("\r\nVideo device(s):\r\n");
+
+        for (UINT adapter = 0, adapterCount = pD3D9->GetAdapterCount(); adapter < adapterCount; adapter++) {
+            D3DADAPTER_IDENTIFIER9 adapterIdentifier;
+            if (pD3D9->GetAdapterIdentifier(adapter, 0, &adapterIdentifier) == D3D_OK) {
+                info += _T("    - ") + CString(adapterIdentifier.Description);
+                if (adapterIdentifier.DriverVersion.QuadPart) {
+                    info.AppendFormat(_T(" (driver version: %s)"),
+                                      FileVersionInfo::FormatVersionString(adapterIdentifier.DriverVersion.LowPart, adapterIdentifier.DriverVersion.HighPart));
+                }
+                info += _T("\r\n");
+            }
+        }
+    }
 
     // Allocate a global memory object for the text
     int len = info.GetLength() + 1;
