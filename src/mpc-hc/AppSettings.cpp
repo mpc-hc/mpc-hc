@@ -122,7 +122,6 @@ CAppSettings::CAppSettings()
     , bAllowOverridingExternalSplitterChoice(false)
     , iAnalogCountry(1)
     , iDefaultCaptureDevice(0)
-    , fRestoreResAfterExit(true)
     , fExitFullScreenAtTheEnd(true)
     , fLaunchfullscreen(false)
     , fD3DFullscreen(false)
@@ -192,7 +191,6 @@ CAppSettings::CAppSettings()
     , bHideFullscreenDockedPanels(true)
     , bHideWindowedControls(false)
     , bHideWindowedMousePointer(true)
-    , uAutoChangeFullscrResDelay(0)
 {
     // Internal source filter
 #if INTERNAL_SOURCEFILTER_CDDA
@@ -660,10 +658,11 @@ void CAppSettings::SaveSettings()
 
     VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_HIDE_WINDOWED_MOUSE_POINTER, bHideWindowedMousePointer));
 
-    pApp->WriteProfileBinary(IDS_R_SETTINGS, IDS_RS_FULLSCREENRES, (BYTE*)&AutoChangeFullscrRes, sizeof(AutoChangeFullscrRes));
-    VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_FULLSCREENRES_DELAY, (int)uAutoChangeFullscrResDelay));
+    // Auto-change fullscreen mode
+    SaveSettingsAutoChangeFullScreenMode();
+
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_EXITFULLSCREENATTHEEND, fExitFullScreenAtTheEnd);
-    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_RESTORERESAFTEREXIT, fRestoreResAfterExit);
+
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_REMEMBERWINDOWPOS, fRememberWindowPos);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_REMEMBERWINDOWSIZE, fRememberWindowSize);
     if (fSavePnSZoom) {
@@ -1092,6 +1091,43 @@ void CAppSettings::SaveExternalFilters(CAutoPtrList<FilterOverride>& filters, LP
     }
 }
 
+void CAppSettings::SaveSettingsAutoChangeFullScreenMode()
+{
+    CWinApp* pApp = AfxGetApp();
+    ASSERT(pApp);
+
+    // Ensure the section is cleared before saving the new settings
+    for (size_t i = 0;; i++) {
+        CString section;
+        section.Format(IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE, i);
+
+        if (!pApp->WriteProfileString(section, nullptr, nullptr)) {
+            break;
+        }
+    }
+    pApp->WriteProfileString(IDS_R_SETTINGS_FULLSCREEN_AUTOCHANGE_MODE, nullptr, nullptr);
+
+    VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS_FULLSCREEN_AUTOCHANGE_MODE, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_ENABLE, autoChangeFSMode.bEnabled));
+    VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS_FULLSCREEN_AUTOCHANGE_MODE, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_APPLYDEFMODEATFSEXIT, autoChangeFSMode.bApplyDefaultModeAtFSExit));
+    VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS_FULLSCREEN_AUTOCHANGE_MODE, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_RESTORERESAFTEREXIT, autoChangeFSMode.bRestoreResAfterProgExit));
+    VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS_FULLSCREEN_AUTOCHANGE_MODE, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_DELAY, (int)autoChangeFSMode.uDelay));
+
+    for (size_t i = 0; i < autoChangeFSMode.modes.size(); i++) {
+        const auto& mode = autoChangeFSMode.modes[i];
+        CString section;
+        section.Format(IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE, i);
+
+        VERIFY(pApp->WriteProfileInt(section, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_CHECKED, mode.bChecked));
+        VERIFY(pApp->WriteProfileInt(section, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_FRAMERATESTART, std::lround(mode.dFrameRateStart * 1000000)));
+        VERIFY(pApp->WriteProfileInt(section, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_FRAMERATESTOP, std::lround(mode.dFrameRateStop * 1000000)));
+        VERIFY(pApp->WriteProfileInt(section, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_DM_BPP, mode.dm.bpp));
+        VERIFY(pApp->WriteProfileInt(section, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_DM_FREQ, mode.dm.freq));
+        VERIFY(pApp->WriteProfileInt(section, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_DM_SIZEX, mode.dm.size.cx));
+        VERIFY(pApp->WriteProfileInt(section, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_DM_SIZEY, mode.dm.size.cy));
+        VERIFY(pApp->WriteProfileInt(section, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_DM_FLAGS, (int)mode.dm.dwDisplayFlags));
+    }
+}
+
 void CAppSettings::LoadSettings()
 {
     CWinApp* pApp = AfxGetApp();
@@ -1190,20 +1226,37 @@ void CAppSettings::LoadSettings()
     // Last Open Dir
     strLastOpenDir = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_LAST_OPEN_DIR, _T("C:\\"));
 
-    if (pApp->GetProfileBinary(IDS_R_SETTINGS, IDS_RS_FULLSCREENRES, &ptr, &len)) {
-        if (len == sizeof(AChFR)) {
-            memcpy(&AutoChangeFullscrRes, ptr, sizeof(AChFR));
-        } else {
-            AutoChangeFullscrRes.bEnabled = false;
+    // Auto-change fullscreen mode
+    autoChangeFSMode.bEnabled = !!pApp->GetProfileInt(IDS_R_SETTINGS_FULLSCREEN_AUTOCHANGE_MODE, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_ENABLE, FALSE);
+    autoChangeFSMode.bApplyDefaultModeAtFSExit = !!pApp->GetProfileInt(IDS_R_SETTINGS_FULLSCREEN_AUTOCHANGE_MODE, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_APPLYDEFMODEATFSEXIT, TRUE);
+    autoChangeFSMode.bRestoreResAfterProgExit  = !!pApp->GetProfileInt(IDS_R_SETTINGS_FULLSCREEN_AUTOCHANGE_MODE, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_RESTORERESAFTEREXIT, TRUE);
+    autoChangeFSMode.uDelay = pApp->GetProfileInt(IDS_R_SETTINGS_FULLSCREEN_AUTOCHANGE_MODE, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_DELAY, 0);
+
+    autoChangeFSMode.modes.clear();
+    for (size_t i = 0;; i++) {
+        CString section;
+        section.Format(IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE, i);
+
+        int iChecked = (int)pApp->GetProfileInt(section, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_CHECKED, INT_ERROR);
+        if (iChecked == INT_ERROR) {
+            break;
         }
-        delete [] ptr;
-    } else {
-        AutoChangeFullscrRes.bEnabled = false;
+
+        double dFrameRateStart = pApp->GetProfileInt(section, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_FRAMERATESTART, 0) / 1000000.0;
+        double dFrameRateStop = pApp->GetProfileInt(section, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_FRAMERATESTOP, 0) / 1000000.0;
+        DisplayMode dm;
+        dm.bValid = true;
+        dm.bpp = (int)pApp->GetProfileInt(section, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_DM_BPP, 0);
+        dm.freq = (int)pApp->GetProfileInt(section, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_DM_FREQ, 0);
+        dm.size.cx = (LONG)pApp->GetProfileInt(section, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_DM_SIZEX, 0);
+        dm.size.cy = (LONG)pApp->GetProfileInt(section, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_DM_SIZEY, 0);
+        dm.dwDisplayFlags = pApp->GetProfileInt(section, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_DM_FLAGS, 0);
+
+        autoChangeFSMode.modes.emplace_back(!!iChecked, dFrameRateStart, dFrameRateStop, dm);
     }
-    uAutoChangeFullscrResDelay = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_FULLSCREENRES_DELAY, 0);
 
     fExitFullScreenAtTheEnd = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_EXITFULLSCREENATTHEEND, TRUE);
-    fRestoreResAfterExit = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_RESTORERESAFTEREXIT, TRUE);
+
     fRememberWindowPos = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_REMEMBERWINDOWPOS, FALSE);
     fRememberWindowSize = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_REMEMBERWINDOWSIZE, FALSE);
     CString str = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_PANSCANZOOM);
@@ -2171,6 +2224,79 @@ void CAppSettings::UpdateSettings()
                     VERIFY(pApp->WriteProfileInt(section, _T("HideFullscreenControlsDelay"), nTimeout * 1000));
                 }
             }
+        }
+        // no break
+        case 3: {
+#pragma pack(push, 1)
+            struct dispmode {
+                bool fValid;
+                CSize size;
+                int bpp, freq;
+                DWORD dmDisplayFlags;
+            };
+
+            struct fpsmode {
+                double vfr_from;
+                double vfr_to;
+                bool fChecked;
+                dispmode dmFSRes;
+                bool fIsData;
+            };
+
+            struct AChFR {
+                bool bEnabled;
+                fpsmode dmFullscreenRes[30];
+                bool bApplyDefault;
+            }; //AutoChangeFullscrRes
+#pragma pack(pop)
+
+            LPBYTE ptr;
+            UINT len;
+            bool bSetDefault = true;
+            if (pApp->GetProfileBinary(IDS_R_SETTINGS, _T("FullscreenRes"), &ptr, &len)) {
+                if (len == sizeof(AChFR)) {
+                    AChFR autoChangeFullscrRes;
+                    memcpy(&autoChangeFullscrRes, ptr, sizeof(AChFR));
+
+                    autoChangeFSMode.bEnabled = autoChangeFullscrRes.bEnabled;
+                    autoChangeFSMode.bApplyDefaultModeAtFSExit = autoChangeFullscrRes.bApplyDefault;
+
+                    for (size_t i = 0; i < _countof(autoChangeFullscrRes.dmFullscreenRes); i++) {
+                        const auto& modeOld = autoChangeFullscrRes.dmFullscreenRes[i];
+                        // The old settings could be corrupted quite easily so be careful when converting them
+                        if (modeOld.fIsData
+                                && modeOld.vfr_from >= 0.0 && modeOld.vfr_from <= 126.0
+                                && modeOld.vfr_to >= 0.0 && modeOld.vfr_to <= 126.0
+                                && modeOld.dmFSRes.fValid
+                                && modeOld.dmFSRes.bpp == 32
+                                && modeOld.dmFSRes.size.cx >= 640 && modeOld.dmFSRes.size.cx < 10000
+                                && modeOld.dmFSRes.size.cy >= 380 && modeOld.dmFSRes.size.cy < 10000
+                                && modeOld.dmFSRes.freq > 0 && modeOld.dmFSRes.freq < 1000) {
+                            DisplayMode dm;
+                            dm.bValid = true;
+                            dm.size = modeOld.dmFSRes.size;
+                            dm.bpp = 32;
+                            dm.freq = modeOld.dmFSRes.freq;
+                            dm.dwDisplayFlags = modeOld.dmFSRes.dmDisplayFlags & DM_INTERLACED;
+
+                            autoChangeFSMode.modes.emplace_back(modeOld.fChecked, modeOld.vfr_from, modeOld.vfr_to, dm);
+                        }
+                    }
+
+                    bSetDefault = autoChangeFSMode.modes.empty() || autoChangeFSMode.modes[0].dFrameRateStart != 0.0 || autoChangeFSMode.modes[0].dFrameRateStop != 0.0;
+                }
+                delete [] ptr;
+            }
+
+            if (bSetDefault) {
+                autoChangeFSMode.bEnabled = false;
+                autoChangeFSMode.bApplyDefaultModeAtFSExit = true;
+                autoChangeFSMode.modes.clear();
+            }
+            autoChangeFSMode.bRestoreResAfterProgExit = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("RestoreResAfterExit"), TRUE);
+            autoChangeFSMode.uDelay = pApp->GetProfileInt(IDS_R_SETTINGS, _T("FullscreenResDelay"), 0);
+
+            SaveSettingsAutoChangeFullScreenMode();
         }
         // no break
         default:

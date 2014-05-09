@@ -427,7 +427,6 @@ protected:
     bool m_bPausedForAutochangeMonitorMode;
 
     bool m_fAudioOnly;
-    dispmode m_dmBeforeFullscreen;
     CString m_LastOpenBDPath;
     CAutoPtr<OpenMediaData> m_lastOMD;
     HMONITOR m_LastWindow_HM;
@@ -461,11 +460,11 @@ protected:
     void OpenSetupWindowTitle(bool reset = false);
 
 public:
-    static bool GetCurDispMode(const CString& displayName, dispmode& dm);
-    static bool GetDispMode(CString displayName, int i, dispmode& dm);
+    static bool GetCurDispMode(const CString& displayName, DisplayMode& dm);
+    static bool GetDispMode(CString displayName, int i, DisplayMode& dm);
 
 protected:
-    void SetDispMode(CString displayName, const dispmode& dm);
+    void SetDispMode(CString displayName, const DisplayMode& dm);
     void AutoChangeMonitorMode();
 
     bool GraphEventComplete();

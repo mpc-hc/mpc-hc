@@ -647,7 +647,7 @@ void CMainFrame::EventCallback(MpcEvent ev)
             SetShaders(false, true);
             break;
         case MpcEvent::DISPLAY_MODE_AUTOCHANGING:
-            if (GetLoadState() == MLS::LOADED && GetMediaState() == State_Running && s.uAutoChangeFullscrResDelay) {
+            if (GetLoadState() == MLS::LOADED && GetMediaState() == State_Running && s.autoChangeFSMode.uDelay) {
                 // pause if the mode is being changed during playback
                 OnPlayPause();
                 m_bPausedForAutochangeMonitorMode = true;
@@ -655,10 +655,10 @@ void CMainFrame::EventCallback(MpcEvent ev)
             break;
         case MpcEvent::DISPLAY_MODE_AUTOCHANGED:
             if (GetLoadState() == MLS::LOADED) {
-                if (m_bPausedForAutochangeMonitorMode && s.uAutoChangeFullscrResDelay) {
+                if (m_bPausedForAutochangeMonitorMode && s.autoChangeFSMode.uDelay) {
                     // delay play if was paused due to mode change
                     ASSERT(GetMediaState() != State_Stopped);
-                    const unsigned uModeChangeDelay = s.uAutoChangeFullscrResDelay * 1000;
+                    const unsigned uModeChangeDelay = s.autoChangeFSMode.uDelay * 1000;
                     m_timerOneTime.Subscribe(TimerOneTimeSubscriber::DELAY_PLAYPAUSE_AFTER_AUTOCHANGE_MODE,
                                              std::bind(&CMainFrame::OnPlayPlay, this), uModeChangeDelay);
                 } else if (m_bDelaySetOutputRect) {
@@ -2743,7 +2743,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                 }
                 break;
             case EC_DVD_PLAYBACK_RATE_CHANGE:
-                if (m_fCustomGraph && s.AutoChangeFullscrRes.bEnabled &&
+                if (m_fCustomGraph && s.autoChangeFSMode.bEnabled &&
                         (m_fFullScreen || IsD3DFullScreenMode()) && m_iDVDDomain == DVD_DOMAIN_Title) {
                     AutoChangeMonitorMode();
                 }
@@ -3264,7 +3264,7 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
     SetLoadState(MLS::LOADED);
 
     // auto-change monitor mode if requested
-    if (s.AutoChangeFullscrRes.bEnabled && (m_fFullScreen || IsD3DFullScreenMode())) {
+    if (s.autoChangeFSMode.bEnabled && (m_fFullScreen || IsD3DFullScreenMode())) {
         AutoChangeMonitorMode();
         // make sure the fullscreen window is positioned properly after the mode change,
         // OnWindowPosChanging() will take care of that
@@ -3372,7 +3372,7 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
 
     // start playback if requested
     m_bFirstPlay = true;
-    const auto uModeChangeDelay = s.uAutoChangeFullscrResDelay * 1000;
+    const auto uModeChangeDelay = s.autoChangeFSMode.uDelay * 1000;
     if (!(s.nCLSwitches & CLSW_OPEN) && (s.nLoops > 0)) {
         if (m_bOpeningInAutochangedMonitorMode && uModeChangeDelay) {
             m_timerOneTime.Subscribe(TimerOneTimeSubscriber::DELAY_PLAYPAUSE_AFTER_AUTOCHANGE_MODE,
@@ -9360,7 +9360,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
         if (!m_fFirstFSAfterLaunchOnFS) {
             GetWindowRect(&m_lastWindowRect);
         }
-        if (s.AutoChangeFullscrRes.bEnabled && fSwitchScreenResWhenHasTo && (GetPlaybackMode() != PM_NONE)) {
+        if (s.autoChangeFSMode.bEnabled && fSwitchScreenResWhenHasTo && (GetPlaybackMode() != PM_NONE)) {
             AutoChangeMonitorMode();
         }
         m_LastWindow_HM = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
@@ -9394,8 +9394,8 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
     } else {
         m_eventc.FireEvent(MpcEvent::SWITCHING_FROM_FULLSCREEN);
 
-        if (s.AutoChangeFullscrRes.bEnabled && s.AutoChangeFullscrRes.bApplyDefault && s.AutoChangeFullscrRes.dmFullscreenRes[0].fChecked == 1) {
-            SetDispMode(s.strFullScreenMonitor, s.AutoChangeFullscrRes.dmFullscreenRes[0].dmFSRes);
+        if (s.autoChangeFSMode.bEnabled && s.autoChangeFSMode.bApplyDefaultModeAtFSExit && !s.autoChangeFSMode.modes.empty() && s.autoChangeFSMode.modes[0].bChecked) {
+            SetDispMode(s.strFullScreenMonitor, s.autoChangeFSMode.modes[0].dm);
         }
 
         dwAdd = (s.eCaptionMenuMode == MODE_BORDERLESS ? 0 : s.eCaptionMenuMode == MODE_FRAMEONLY ? WS_THICKFRAME : WS_CAPTION | WS_THICKFRAME);
@@ -9541,7 +9541,7 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
             MoveVideoWindow();
         } else {
             // Set the fullscreen display mode
-            if (s.AutoChangeFullscrRes.bEnabled && fSwitchScreenResWhenHasTo) {
+            if (s.autoChangeFSMode.bEnabled && fSwitchScreenResWhenHasTo) {
                 AutoChangeMonitorMode();
             }
 
@@ -9570,12 +9570,12 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
     }
 }
 
-bool CMainFrame::GetCurDispMode(const CString& displayName, dispmode& dm)
+bool CMainFrame::GetCurDispMode(const CString& displayName, DisplayMode& dm)
 {
     return GetDispMode(displayName, ENUM_CURRENT_SETTINGS, dm);
 }
 
-bool CMainFrame::GetDispMode(CString displayName, int i, dispmode& dm)
+bool CMainFrame::GetDispMode(CString displayName, int i, DisplayMode& dm)
 {
     DEVMODE devmode;
     devmode.dmSize = sizeof(DEVMODE);
@@ -9584,22 +9584,21 @@ bool CMainFrame::GetDispMode(CString displayName, int i, dispmode& dm)
         monitor.GetName(displayName);
     }
 
-    dm.fValid = !!EnumDisplaySettings(displayName, i, &devmode);
+    dm.bValid = !!EnumDisplaySettings(displayName, i, &devmode);
 
-    if (dm.fValid) {
-        dm.fValid = true;
+    if (dm.bValid) {
         dm.size = CSize(devmode.dmPelsWidth, devmode.dmPelsHeight);
         dm.bpp = devmode.dmBitsPerPel;
         dm.freq = devmode.dmDisplayFrequency;
-        dm.dmDisplayFlags = devmode.dmDisplayFlags;
+        dm.dwDisplayFlags = devmode.dmDisplayFlags;
     }
 
-    return dm.fValid;
+    return dm.bValid;
 }
 
-void CMainFrame::SetDispMode(CString displayName, const dispmode& dm)
+void CMainFrame::SetDispMode(CString displayName, const DisplayMode& dm)
 {
-    dispmode dmCurrent;
+    DisplayMode dmCurrent;
     if (!GetCurDispMode(displayName, dmCurrent) || (dm.size == dmCurrent.size && dm.bpp == dmCurrent.bpp && dm.freq == dmCurrent.freq)) {
         return;
     }
@@ -9611,7 +9610,7 @@ void CMainFrame::SetDispMode(CString displayName, const dispmode& dm)
     dmScreenSettings.dmPelsHeight = dm.size.cy;
     dmScreenSettings.dmBitsPerPel = dm.bpp;
     dmScreenSettings.dmDisplayFrequency = dm.freq;
-    dmScreenSettings.dmDisplayFlags = dm.dmDisplayFlags;
+    dmScreenSettings.dmDisplayFlags = dm.dwDisplayFlags;
     dmScreenSettings.dmFields = DM_PELSWIDTH | DM_PELSHEIGHT | DM_BITSPERPEL | DM_DISPLAYFREQUENCY | DM_DISPLAYFLAGS;
 
     if (displayName == _T("Current") || displayName.IsEmpty()) {
@@ -9620,7 +9619,7 @@ void CMainFrame::SetDispMode(CString displayName, const dispmode& dm)
     }
 
     m_eventc.FireEvent(MpcEvent::DISPLAY_MODE_AUTOCHANGING);
-    if (AfxGetAppSettings().fRestoreResAfterExit) {
+    if (AfxGetAppSettings().autoChangeFSMode.bRestoreResAfterProgExit) {
         ChangeDisplaySettingsEx(displayName, &dmScreenSettings, nullptr, CDS_FULLSCREEN, nullptr);
     } else {
         ChangeDisplaySettingsEx(displayName, &dmScreenSettings, nullptr, 0, nullptr);
@@ -9631,8 +9630,11 @@ void CMainFrame::SetDispMode(CString displayName, const dispmode& dm)
 void CMainFrame::AutoChangeMonitorMode()
 {
     const CAppSettings& s = AfxGetAppSettings();
-    CStringW mf_hmonitor = s.strFullScreenMonitor;
-    double MediaFPS = 0.0;
+    if (s.autoChangeFSMode.modes.empty()) {
+        return;
+    }
+
+    double dMediaFPS = 0.0;
 
     if (GetPlaybackMode() == PM_FILE) {
         REFERENCE_TIME m_rtTimePerFrame = 1;
@@ -9653,29 +9655,24 @@ void CMainFrame::AutoChangeMonitorMode()
             EndEnumPins;
         }
         EndEnumFilters;
-        MediaFPS = 10000000.0 / m_rtTimePerFrame;
+        dMediaFPS = 10000000.0 / m_rtTimePerFrame;
     } else if (GetPlaybackMode() == PM_DVD) {
         DVD_PLAYBACK_LOCATION2 Location;
         if (m_pDVDI->GetCurrentLocation(&Location) == S_OK) {
-            MediaFPS  = Location.TimeCodeFlags == DVD_TC_FLAG_25fps ? 25.0
+            dMediaFPS = Location.TimeCodeFlags == DVD_TC_FLAG_25fps ? 25.0
                         : Location.TimeCodeFlags == DVD_TC_FLAG_30fps ? 30.0
                         : Location.TimeCodeFlags == DVD_TC_FLAG_DropFrame ? 29.97
                         : 25.0;
         }
     }
 
-    for (size_t rs = 1; rs < MAX_FPS_COUNT ; rs++) {
-        if (s.AutoChangeFullscrRes.dmFullscreenRes[rs].fIsData
-                && s.AutoChangeFullscrRes.dmFullscreenRes[rs].fChecked
-                && MediaFPS >= s.AutoChangeFullscrRes.dmFullscreenRes[rs].vfr_from
-                && MediaFPS <= s.AutoChangeFullscrRes.dmFullscreenRes[rs].vfr_to) {
-            SetDispMode(mf_hmonitor, s.AutoChangeFullscrRes.dmFullscreenRes[rs].dmFSRes);
+    for (const auto& mode : s.autoChangeFSMode.modes) {
+        if (mode.bChecked && dMediaFPS >= mode.dFrameRateStart && dMediaFPS <= mode.dFrameRateStop) {
+            SetDispMode(s.strFullScreenMonitor, mode.dm);
             return;
         }
     }
-    if (s.AutoChangeFullscrRes.dmFullscreenRes[0].fChecked) {
-        SetDispMode(mf_hmonitor, s.AutoChangeFullscrRes.dmFullscreenRes[0].dmFSRes);
-    }
+    SetDispMode(s.strFullScreenMonitor, s.autoChangeFSMode.modes[0].dm);
 }
 
 void CMainFrame::MoveVideoWindow(bool fShowStats/* = false*/, bool bSetStoppedVideoRect/* = false*/)
