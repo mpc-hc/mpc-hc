@@ -90,12 +90,14 @@ int TranslateResIn(int _In)
         case 3:
         case 4:
         case 5:
-            return _In + 4;
+            return _In + 5;
         case 6:
         case 7:
         case 8:
         case 9:
-            return _In - 5;
+            return _In - 4;
+        case 10:
+            return 1;
     }
     return _In;
 }
@@ -106,16 +108,18 @@ int TranslateResOut(int _In)
         case 0:
             return 0;
         case 1:
+            return 10;
         case 2:
         case 3:
         case 4:
-            return _In + 5;
         case 5:
+            return _In + 4;
         case 6:
         case 7:
         case 8:
         case 9:
-            return _In - 4;
+        case 10:
+            return _In - 5;
     }
     return _In;
 }
@@ -136,6 +140,7 @@ BOOL CPPageSubtitles::OnInitDialog()
     m_nSPCSize = s.m_RenderersSettings.nSPCSize;
     m_nSPCSizeCtrl.SetRange32(0, 60);
     m_spmaxres.AddString(_T("Desktop"));
+    m_spmaxres.AddString(_T("Video"));
     m_spmaxres.AddString(_T("2560x1600"));
     m_spmaxres.AddString(_T("1920x1080"));
     m_spmaxres.AddString(_T("1320x900"));

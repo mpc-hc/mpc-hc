@@ -418,6 +418,10 @@ bool CDX9SubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
         return false;
     }
 
+    if (m_maxsize.cx <= 0 || m_maxsize.cy <= 0) {
+        return false;
+    }
+
     CAutoLock cAutoLock(this);
 
     *ppSubPic = nullptr;

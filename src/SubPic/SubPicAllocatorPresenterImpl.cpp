@@ -74,10 +74,13 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::NonDelegatingQueryInterface(REFIID r
 
 void CSubPicAllocatorPresenterImpl::InitMaxSubtitleTextureSize(int maxSize, CSize desktopSize)
 {
+    m_SubtitleTextureLimit = STATIC;
+
     switch (maxSize) {
         case 0:
         default:
             m_maxSubtitleTextureSize = desktopSize;
+            m_SubtitleTextureLimit = DESKTOP;
             break;
         case 1:
             m_maxSubtitleTextureSize.SetSize(1024, 768);
@@ -105,6 +108,9 @@ void CSubPicAllocatorPresenterImpl::InitMaxSubtitleTextureSize(int maxSize, CSiz
             break;
         case 9:
             m_maxSubtitleTextureSize.SetSize(1280, 720);
+            break;
+        case 10:
+            m_SubtitleTextureLimit = VIDEO;
             break;
     }
 }
@@ -146,6 +152,10 @@ STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetPosition(RECT w, RECT v)
 
     if (fWindowSizeChanged || fVideoRectChanged) {
         if (m_pAllocator) {
+            if (m_SubtitleTextureLimit == VIDEO) {
+                m_maxSubtitleTextureSize = GetVideoSize();
+                m_pAllocator->SetMaxTextureSize(m_maxSubtitleTextureSize);
+            }
             m_pAllocator->SetCurSize(m_WindowRect.Size());
             m_pAllocator->SetCurVidRect(m_VideoRect);
         }
