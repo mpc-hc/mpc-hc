@@ -30,6 +30,7 @@ next version - not released yet
 ! The dockable bars were not updated when changing the UI language
 ! Statusbar: Fixed occasional flickering of text and media type icon
 ! D3D Fullscreen last state was inverted and wasn't properly restored with "Remember last window size and position" option
+! D3D Fullscreen produced invisible window for audio-only files
 ! Ticket #34, VSFilter/ISR: Override placement feature was not working even if enabled
 ! Ticket #1411, Internal Subtitle Renderer/VSFilter: Support loading external PGS subtitles
 ! Ticket #1574/#4171, ISR: Subtitle positioning was wrong when using default style override

@@ -3266,6 +3266,12 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
     // from this on
     SetLoadState(MLS::LOADED);
 
+    // destroy invisible top-level d3dfs window if there is no video renderer
+    if (IsD3DFullScreenMode() && !m_pMFVDC && !m_pVMRWC) {
+        m_pFullscreenWnd->DestroyWindow();
+        m_fStartInD3DFullscreen = true;
+    }
+
     // auto-change monitor mode if requested
     if (s.autoChangeFSMode.bEnabled && (m_fFullScreen || IsD3DFullScreenMode())) {
         AutoChangeMonitorMode();
