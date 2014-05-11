@@ -5,12 +5,13 @@
 # kenelin <kenelin@gmail.com>, 2013
 # Peter Chen <petercpg@gmail.com>, 2014
 # roytam1 <roytam@gmail.com>, 2014
+# 冠旭 陳 <zakk0610@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-02-16 23:19:09+0000\n"
-"PO-Revision-Date: 2014-03-07 20:10+0000\n"
-"Last-Translator: Peter Chen <petercpg@gmail.com>\n"
+"POT-Creation-Date: 2014-03-22 09:25:06+0000\n"
+"PO-Revision-Date: 2014-05-08 04:40+0000\n"
+"Last-Translator: 冠旭 陳 <zakk0610@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/mpc-hc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2328,7 +2329,7 @@ msgstr " (導演解說 2)"
 
 msgctxt "IDS_DVD_SUBTITLES_ENABLE"
 msgid "Enable DVD subtitles"
-msgstr ""
+msgstr "啟動DVD字幕"
 
 msgctxt "IDS_AG_ANGLE"
 msgid "Angle %d"

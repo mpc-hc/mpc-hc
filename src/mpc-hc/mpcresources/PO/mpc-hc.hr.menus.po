@@ -2,13 +2,14 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# schop <aprcel00@fesb.hr>, 2014
 # Ico2005 <vukasinac@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-02-16 20:48:44+0000\n"
-"PO-Revision-Date: 2014-02-17 08:49+0000\n"
-"Last-Translator: JellyFrog\n"
+"POT-Creation-Date: 2014-04-22 11:15:01+0000\n"
+"PO-Revision-Date: 2014-05-10 20:50+0000\n"
+"Last-Translator: schop <aprcel00@fesb.hr>\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/mpc-hc/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -38,7 +39,7 @@ msgstr "Otvori &uređaj..."
 
 msgctxt "ID_FILE_OPENDIRECTORY"
 msgid "Open Dir&ectory..."
-msgstr "Otvori &mapu..."
+msgstr "Otvori &direktorij..."
 
 msgctxt "ID_FILE_OPENDISC"
 msgid "O&pen Disc"
@@ -62,19 +63,19 @@ msgstr "Spremi &sliku..."
 
 msgctxt "ID_FILE_SAVE_THUMBNAILS"
 msgid "Save &Thumbnails..."
-msgstr "Spremi & sličice..."
+msgstr "Spremi &sličice..."
 
 msgctxt "ID_FILE_LOAD_SUBTITLE"
 msgid "&Load Subtitle..."
-msgstr "&Učitaj titlove..."
+msgstr "&Učitaj podnapise..."
 
 msgctxt "ID_FILE_SAVE_SUBTITLE"
 msgid "Save S&ubtitle..."
-msgstr "Spremi t&itlove..."
+msgstr "Spremi p&odnapise..."
 
 msgctxt "POPUP"
 msgid "Subtitle Data&base"
-msgstr "Baza titl&ova"
+msgstr "Baza pod&napisa"
 
 msgctxt "ID_FILE_ISDB_SEARCH"
 msgid "&Search..."
@@ -86,7 +87,7 @@ msgstr "&Pošalji..."
 
 msgctxt "ID_FILE_ISDB_DOWNLOAD"
 msgid "&Download..."
-msgstr "&Skidanje..."
+msgstr "&Preuzmi..."
 
 msgctxt "ID_FILE_PROPERTIES"
 msgid "P&roperties"
@@ -102,15 +103,15 @@ msgstr "&Pogled"
 
 msgctxt "ID_VIEW_CAPTIONMENU"
 msgid "Caption&&Menu"
-msgstr "Naslov&& i meni"
+msgstr "Elementi prozora"
 
 msgctxt "ID_VIEW_SEEKER"
 msgid "See&k Bar"
-msgstr "Tražen&je"
+msgstr "Vremens&ka traka"
 
 msgctxt "ID_VIEW_CONTROLS"
 msgid "&Controls"
-msgstr "&Kontrola"
+msgstr "&Kontrole"
 
 msgctxt "ID_VIEW_INFORMATION"
 msgid "&Information"
@@ -126,15 +127,15 @@ msgstr "St&atus"
 
 msgctxt "ID_VIEW_SUBRESYNC"
 msgid "Su&bresync"
-msgstr "Resinhro titlova"
+msgstr "Resinkronizacija podnapisa"
 
 msgctxt "ID_VIEW_PLAYLIST"
 msgid "Pla&ylist"
-msgstr "Lista& za izvođenje"
+msgstr "Pla&ylist"
 
 msgctxt "ID_VIEW_CAPTURE"
 msgid "Captu&re"
-msgstr "Snimak& stanja"
+msgstr "&snimak"
 
 msgctxt "ID_VIEW_NAVIGATION"
 msgid "Na&vigation"
@@ -146,7 +147,7 @@ msgstr "&Otklanjanje neispravnosti shadera"
 
 msgctxt "POPUP"
 msgid "&Presets..."
-msgstr "&Memorirano"
+msgstr "&Profili"
 
 msgctxt "ID_VIEW_PRESETS_MINIMAL"
 msgid "&Minimal"
@@ -154,7 +155,7 @@ msgstr "&Najmanje"
 
 msgctxt "ID_VIEW_PRESETS_COMPACT"
 msgid "&Compact"
-msgstr "&Suženo"
+msgstr "&Kompaktno"
 
 msgctxt "ID_VIEW_PRESETS_NORMAL"
 msgid "&Normal"
@@ -182,15 +183,15 @@ msgstr "&200%"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT"
 msgid "Auto &Fit"
-msgstr "&Auto podešavanje"
+msgstr "Auto &podešavanje"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (&Larger Only)"
-msgstr "Auto namještanje (&Samo veliko)"
+msgstr "Auto podešavanje (&Samo veliko)"
 
 msgctxt "POPUP"
 msgid "R&enderer Settings"
-msgstr "P&odešavanje renderiranja"
+msgstr "P&ostavke renderera"
 
 msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"

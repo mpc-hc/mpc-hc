@@ -98,8 +98,8 @@ ms_MY.WelcomeLabel2=Ini akan memasang [name] ke dalam komputer anda.%n%nDisarank
 ms_MY.WinVersionTooLowError=[name] memerlukan Windows XP Service Pack 3 atau yg lebih baharu untuk dijalankan.
 
 ; Dutch (Neutral)
-nl.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
-nl.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+nl.WelcomeLabel2=Dit programma zal [name] op uw computer installeren.%n%nHet is aanbevolen dat u alle andere toepassingen sluit voordat u verder gaat.
+nl.WinVersionTooLowError=[name] vereist Windows XP Service Pack 3 of hoger om uit te voeren.
 
 ; Polish
 pl.WelcomeLabel2=Zostanie zainstalowane [name] na Twoim komputerze.%n%nZaleca się zamknięcie wszystkich innych aplikacji przed kontynuowaniem.
@@ -142,7 +142,7 @@ uk.WelcomeLabel2=На ваш комп'ютер буде встановлено [
 uk.WinVersionTooLowError=[name] вимагає використання ОС Windows XP Service Pack 3 або пізнішої версії.
 
 ; Vietnamese
-vi.WelcomeLabel2=Chuẩn bị cài đặt [name] vào máy tính của bạn.%n%nĐề nghị bạn đóng tất cả các ứng dụng khác trước khi tiếp tục.
+vi.WelcomeLabel2=Chuẩn bị cài [name] vào máy tính của bạn.%n%nĐề nghị bạn đóng tất cả các ứng dụng khác trước khi tiếp tục.
 vi.WinVersionTooLowError=Để cài đặt, [name] yêu cầu Windows XP Service Pack 3 hoặc mới hơn.
 
 ; Chinese (P.R.C.)
@@ -455,7 +455,7 @@ ja.tsk_AllUsers=全てのユーザーにインストールする
 ja.tsk_CurrentUser=現在実行しているユーザーにのみインストールする
 ja.tsk_Other=他のタスク:
 ja.tsk_ResetSettings=設定を初期化する
-ja.types_DefaultInstallation=デフォルト インストール
+ja.types_DefaultInstallation=既定のインストール
 ja.types_CustomInstallation=カスタム インストール
 ja.ViewChangelog=変更履歴を表示する
 
@@ -500,13 +500,13 @@ ms_MY.ViewChangelog=Lihat Log Perubahan
 ; Dutch (Neutral)
 nl.langid=00001043
 nl.comp_mpciconlib=Iconen voor mediabestanden
-nl.comp_mpcresources=Localisaties
-nl.msg_DeleteSettings=Wil je ook de instellingen vab MPC-HC verwijderen?%n%nAls je MPC-HC opnieuw gaat installeren is dit niet nodig.
+nl.comp_mpcresources=Taal
+nl.msg_DeleteSettings=Wilt u ook de instellingen van MPC-HC verwijderen?%n%nAls u van plan bent MPC-HC opnieuw te gaan installeren is dit niet nodig.
 nl.msg_SetupIsRunningWarning=MPC-HC installatie is al gestart!
 #if defined(sse_required)
-nl.msg_simd_sse=Deze versie van MPC-HC heeft een processor nodig die SSE ondersteunt.%n%nJouw processor ondersteund dit niet.
+nl.msg_simd_sse=Deze versie van MPC-HC heeft een processor nodig die SSE ondersteunt.%n%nUw processor ondersteund dit niet.
 #elif defined(sse2_required)
-nl.msg_simd_sse2=Deze versie van MPC-HC heeft een processor nodig die SSE2 ondersteunt.%n%nJouw processor ondersteund dit niet.
+nl.msg_simd_sse2=Deze versie van MPC-HC heeft een processor nodig die SSE2 ondersteunt.%n%nUw processor ondersteund dit niet.
 #endif
 nl.tsk_AllUsers=Voor alle gebruikers
 nl.tsk_CurrentUser=Allen voor de huidige gebruiker

@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-03-21 18:23:35+0000\n"
-"PO-Revision-Date: 2014-04-30 05:50+0000\n"
+"POT-Creation-Date: 2014-05-04 16:42:23+0000\n"
+"PO-Revision-Date: 2014-05-08 01:30+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitoschido@ubuntu.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/mpc-hc/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -37,7 +37,7 @@ msgstr "Vídeo"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_BUTTON1"
 msgid "Set"
-msgstr "Fijar"
+msgstr "Establecer"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
 msgid "Audio"
@@ -113,7 +113,7 @@ msgstr "Activar mapeo de canales editable"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
 msgid "Speaker configuration for "
-msgstr "Config. de bocinas (altavoces) para"
+msgstr "Configuración de altavoces para"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
 msgid "input channels:"
@@ -125,11 +125,11 @@ msgstr "Mantenga presionada Mayús para aplicar los cambios de inmediato"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."
-msgstr "Ir a..."
+msgstr "Ir a…"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time. You do not need to enter the separators explicitly."
-msgstr "Inserta una hora usando el formato [hh]:mm:ss:ms para saltar a un tiempo especificado. No necesitas insertar los separadores de forma explícita."
+msgstr "Escriba una marca de tiempo en el formato [hh]:mm:ss:ms para saltar a ese momento. No es necesario escribir los separadores."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Time"
@@ -205,7 +205,7 @@ msgstr "Traducción al español: SquallMX, XPC y Fitoschido."
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build information"
-msgstr "Info. de la compilación"
+msgstr "Información de la compilación"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Version:"
@@ -233,7 +233,7 @@ msgstr "Nombre:"
 
 msgctxt "IDD_ABOUTBOX_IDC_BUTTON1"
 msgid "Copy to clipboard"
-msgstr "Copiar al portapapeles"
+msgstr "Copiar en el portapapeles"
 
 msgctxt "IDD_ABOUTBOX_IDOK"
 msgid "OK"
@@ -245,15 +245,15 @@ msgstr "Opciones de apertura"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO1"
 msgid "Use the same player for each media file"
-msgstr "Usar el mismo reproductor para cada archivo de medios que se reproduzca"
+msgstr "Usar el mismo reproductor para cada archivo multimedia"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO2"
 msgid "Open a new player for each media file played"
-msgstr "Abrir un nuevo reproductor para cada archivo de medios que se reproduzca"
+msgstr "Abrir un reproductor nuevo para cada archivo multimedia"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Language"
-msgstr ""
+msgstr "Idioma"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Title bar"
@@ -1601,11 +1601,11 @@ msgstr "Eliminar"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON1"
 msgid "Add to pre-resize"
-msgstr "Agregar a pre-redimención"
+msgstr "Añadir a preredimensión"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON2"
 msgid "Add to post-resize"
-msgstr "Agregar a post-redimención"
+msgstr "Añadir a posredimensión"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shader presets"

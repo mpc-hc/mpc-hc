@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-03-21 18:23:35+0000\n"
-"PO-Revision-Date: 2014-04-30 14:40+0000\n"
-"Last-Translator: Luong Anh Dat <datanhlg@gmail.com>\n"
+"POT-Creation-Date: 2014-05-04 16:42:23+0000\n"
+"PO-Revision-Date: 2014-05-07 08:50+0000\n"
+"Last-Translator: JellyFrog\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/mpc-hc/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -127,7 +127,7 @@ msgstr "Nhảy đến..."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time. You do not need to enter the separators explicitly."
-msgstr "Nhập một mã hóa thời gian sử dụng định dạng [gg:] pp: gg.mg để chuyển đến một thời gian quy định. Bạn không cần phải nhập dải phân cách một cách rõ ràng."
+msgstr "Nhập một mã hóa thời gian sử dụng định dạng [gg:] pp: gg.mlg để chuyển đến một thời gian quy định. Bạn không cần phải nhập dải phân cách một cách rõ ràng."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Time"
@@ -251,7 +251,7 @@ msgstr "Mở một trình phát nhạc mới cho mỗi tập tin chơi phương 
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Language"
-msgstr ""
+msgstr "Ngôn ngữ"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Title bar"
@@ -515,7 +515,7 @@ msgstr "Độ trễ"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "ms"
-msgstr "mili giây"
+msgstr "giây"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Texture settings (open the video again to see the changes)"
@@ -651,7 +651,7 @@ msgstr "CD âm "
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "Jump distances (small, medium, large in ms)"
-msgstr "Khoảng cách nhảy (nhỏ, trung bình, lớn bằng mg)"
+msgstr "Khoảng cách nhảy (nhỏ, trung bình, lớn bằng giây)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_BUTTON1"
 msgid "Default"
@@ -923,7 +923,7 @@ msgstr "Độ trễ:"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC"
 msgid "ms"
-msgstr "mili giây"
+msgstr "giây"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "Thumbnails:"
@@ -1451,7 +1451,7 @@ msgstr "Đồng bộ offset đích:"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC6"
 msgid "ms"
-msgstr "mili giây"
+msgstr "giây"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC7"
 msgid "Control limits:"
@@ -1463,7 +1463,7 @@ msgstr "+/-"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC9"
 msgid "ms"
-msgstr "mili giây"
+msgstr "giây"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC10"
 msgid "Changes take effect after the playback has been closed and restarted."
@@ -1479,7 +1479,7 @@ msgstr "Ẩn điều khiển ở chế độ toàn màn hình"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC1"
 msgid "ms"
-msgstr "mili giây"
+msgstr "giây"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK6"
 msgid "Hide docked panels"

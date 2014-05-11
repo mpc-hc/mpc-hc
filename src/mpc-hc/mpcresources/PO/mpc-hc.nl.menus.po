@@ -2,15 +2,15 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Devrim <devrim.extra@gmail.com>, 2013
+# Devrim <devrim.extra@gmail.com>, 2013-2014
 # kasper93, 2013
 # rjongejan <ruben.jongejan@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-02-16 20:48:44+0000\n"
-"PO-Revision-Date: 2014-05-01 07:40+0000\n"
-"Last-Translator: rjongejan <ruben.jongejan@gmail.com>\n"
+"POT-Creation-Date: 2014-04-22 11:15:01+0000\n"
+"PO-Revision-Date: 2014-05-07 08:42+0000\n"
+"Last-Translator: JellyFrog\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/mpc-hc/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -652,7 +652,7 @@ msgstr "&Titel Menu"
 
 msgctxt "ID_NAVIGATE_ROOTMENU"
 msgid "&Root Menu"
-msgstr ""
+msgstr "&Hoofd Menu"
 
 msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
 msgid "&Subtitle Menu"

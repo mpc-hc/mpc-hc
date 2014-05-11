@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-02-16 20:48:44+0000\n"
-"PO-Revision-Date: 2014-02-27 10:51+0000\n"
+"POT-Creation-Date: 2014-04-22 11:15:01+0000\n"
+"PO-Revision-Date: 2014-05-08 04:50+0000\n"
 "Last-Translator: limeburst <me@limeburst.net>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/mpc-hc/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -54,7 +54,7 @@ msgstr "닫기(&C)"
 
 msgctxt "ID_FILE_SAVE_COPY"
 msgid "&Save a Copy..."
-msgstr ""
+msgstr "다른 이름으로 저장(&S)..."
 
 msgctxt "ID_FILE_SAVE_IMAGE"
 msgid "Save &Image..."
@@ -682,7 +682,7 @@ msgstr "홈페이지"
 
 msgctxt "ID_HELP_CHECKFORUPDATE"
 msgid "Check for &updates"
-msgstr ""
+msgstr "업데이트 확인(&U)"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"

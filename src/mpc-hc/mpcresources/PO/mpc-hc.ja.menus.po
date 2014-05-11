@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-02-16 20:48:44+0000\n"
-"PO-Revision-Date: 2014-04-29 13:41+0000\n"
+"POT-Creation-Date: 2014-04-22 11:15:01+0000\n"
+"PO-Revision-Date: 2014-05-11 08:20+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -170,15 +170,15 @@ msgstr "拡大(&Z)"
 
 msgctxt "ID_VIEW_ZOOM_50"
 msgid "&50%"
-msgstr "50%(&5)"
+msgstr "&50%"
 
 msgctxt "ID_VIEW_ZOOM_100"
 msgid "&100%"
-msgstr "100%(&1)"
+msgstr "&100%"
 
 msgctxt "ID_VIEW_ZOOM_200"
 msgid "&200%"
-msgstr "200%(&2)"
+msgstr "&200%"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT"
 msgid "Auto &Fit"
@@ -362,7 +362,7 @@ msgstr "リセット(&E)"
 
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
-msgstr "デフォルトのレンダラ設定にリセット(&D)"
+msgstr "既定のレンダラ設定にリセット(&D)"
 
 msgctxt "ID_VIEW_RESET_OPTIMAL"
 msgid "Reset to &optimal renderer settings"
@@ -682,7 +682,7 @@ msgstr "ホームページ(&H)"
 
 msgctxt "ID_HELP_CHECKFORUPDATE"
 msgid "Check for &updates"
-msgstr "更新のチェック(&U)"
+msgstr "更新を確認する(&U)"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"

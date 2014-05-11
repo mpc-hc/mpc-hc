@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-03-22 09:25:06+0000\n"
-"PO-Revision-Date: 2014-04-30 14:40+0000\n"
+"PO-Revision-Date: 2014-05-07 08:51+0000\n"
 "Last-Translator: Luong Anh Dat <datanhlg@gmail.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/mpc-hc/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -759,7 +759,7 @@ msgstr "Tải phụ đề"
 
 msgctxt "IDS_SUBFILE_DELAY"
 msgid "Delay (ms):"
-msgstr "Độ trễ (mili giây):"
+msgstr "Độ trễ (giây):"
 
 msgctxt "IDS_SPEEDSTEP_AUTO"
 msgid "Auto"
@@ -1443,11 +1443,11 @@ msgstr "Đặt lại đánh giá"
 
 msgctxt "IDS_MPLAYERC_21"
 msgid "Audio Delay +10ms"
-msgstr "Độ trễ âm +10 mili giây"
+msgstr "Độ trễ âm +10 giây"
 
 msgctxt "IDS_MPLAYERC_22"
 msgid "Audio Delay -10ms"
-msgstr "Độ trễ âm -10 mili giây"
+msgstr "Độ trễ âm -10 giây"
 
 msgctxt "IDS_MPLAYERC_23"
 msgid "Jump Forward (small)"
@@ -2003,7 +2003,7 @@ msgstr "Tùy chọn này được thiết kế để tránh bị nhiễu. Tuy nh
 
 msgctxt "IDS_MAINFRM_139"
 msgid "Sub delay: %ld ms"
-msgstr "Độ trễ phụ đề: %ld mili giây"
+msgstr "Độ trễ phụ đề: %ld giây"
 
 msgctxt "IDS_AG_TITLE2"
 msgid "Title: %02d/%02d"
@@ -2135,7 +2135,7 @@ msgstr "Tỉ lệ khung hình: Mặc định"
 
 msgctxt "IDS_MAINFRM_70"
 msgid "Audio Delay: %I64dms"
-msgstr "Độ trễ âm: %I64d mili giây"
+msgstr "Độ trễ âm: %I64dgiây"
 
 msgctxt "IDS_AG_CHAPTER"
 msgid "Chapter %d"
@@ -2355,7 +2355,7 @@ msgstr "Định dạng chưa biết"
 
 msgctxt "IDS_MAINFRM_138"
 msgid "Sub shift: %ld ms"
-msgstr "Shift phụ đề: %ld mili giây"
+msgstr "Shift phụ đề: %ld giây"
 
 msgctxt "IDS_VOLUME_BOOST_INC"
 msgid "Volume boost increase"
@@ -2375,7 +2375,7 @@ msgstr "Khối lượng âm lớn nhất"
 
 msgctxt "IDS_USAGE"
 msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "Cách sử dụng: mpc-hc.exe \"pathname\" [chuyển]\n\n\"pathname\"\tCác tập tin hoặc thư mục chính được nạp (ký tự đại diện\n\t\tcho phép, \"-\" biểu thị đầu vào tiêu chuẩn)\n/dub \"dubname\"\tNạp một tập tin âm thanh khác\n/dubdelay \"file\"\tNạp một tập tin âm thanh thêm dịch chuyển XXms (nếu\n\t\ttệp chứa \"...Độ trễ XXms...\")\n/d3dfs\t\tBắt đầu dựng hình trong chế độ toàn màn hình D3D\n/sub \"subname\"\tNạp một file phụ đề thêm\n/filter \"filtername\"\tBộ lọc DirectShow tải từ một liên thư viện\n\t\tkết động(ký tự đại diện)\n/dvd\t\tChạy chế độ dvd, \"pathname\" nghĩa là thư mục\n\t\tDVD(tùy chọn)\n/dvdpos T#C\tBắt đầu phát lại tại tiêu đề T, chương C\n/dvdpos T#hh:mm\tPhát lại tại tiêu đề T, vị trí gg:pp:gg\n/cd\t\tTải tất cả các bài hát của một đĩa CD âm thanh hoặc (s) VCD,\n\t\t\"pathname\" nghĩa là đường dẫn cd(tùy chọn)\n/device\t\tMở thiết bị video mặc định\n/open\t\tMở tập tin, không tự động bắt đầu phát lại\n/play\t\tBắt đầu chơi các tập tin ngay sau trình phát nhạc\n\t\tđã chạy\n/close\t\tĐóng trình phát nhạc sau khi phát lại (chỉ hoạt động khi\n\t\tdùng với /phát)\n/shutdown\tTắt máy tính, hệ điều hành sau khi phát lại\n/fullscreen\tBắt đầu trong chế độ toàn màn hình\n/minimized\tBắt đầu trong chế độ giảm thiểu\n/new\t\tSử dụng một trường hợp mới của trình phát nhạc\n/add\t\tThêm\"pathname\" vào danh sách phát, sẽ kết hợp\n\t\tvới/mở và/phát\n/regvid\t\tTạo ra các phần mở rộng cho các tập tin video\n/regaud\t\tTạo ra các phần mở rộng cho các tập tin âm thanh\n/regpl\t\tTạo ra các phần mở rộng cho các tập tin danh sách phát\n/regall\t\tTạo ra các phần mở rộng cho các tất cả các tập tin \n/unregall\t\tLoại bỏ phần mở rộng\n/start ms\t\tBắt đầu phát lúc \"mlg\" (= mili giây)\n/startpos hh:mm:ss\tPhát tại vị trí gg:pp:gg\n/fixedsize w,h\tThiết lập một kích thước cửa sổ cố định\n/monitor N\tBắt đầu chơi trên màn hình N, trong đó N bắt đầu từ 1\n/audiorenderer N\tBắt đầu sử dụng trình âm N, trong đó N bắt đầu từ 1\n\t\t(xem thiết lập\"Ngõ ra\")\n/shaderpreset \"Pr\"\tBắt đầu sử dụng \"Pr\" tạo bóng đặt trước\n/reset\t\tKhôi phục cài đặt mặc định\n/help /h /?\tHiện giúp đỡ về chuyển dòng lệnh\n"
+msgstr "Cách sử dụng: mpc-hc.exe \"pathname\" [chuyển]\n\n\"pathname\"\tCác tập tin hoặc thư mục chính được nạp (ký tự đại diện\n\t\tcho phép, \"-\" biểu thị đầu vào tiêu chuẩn)\n/dub \"dubname\"\tNạp một tập tin âm thanh khác\n/dubdelay \"file\"\tNạp một tập tin âm thanh thêm dịch chuyển XXms (nếu\n\t\ttệp chứa \"...Độ trễ XX giây...\")\n/d3dfs\t\tBắt đầu dựng hình trong chế độ toàn màn hình D3D\n/sub \"subname\"\tNạp một file phụ đề thêm\n/filter \"filtername\"\tBộ lọc DirectShow tải từ một liên thư viện\n\t\tkết động(ký tự đại diện)\n/dvd\t\tChạy chế độ dvd, \"pathname\" nghĩa là thư mục\n\t\tDVD(tùy chọn)\n/dvdpos T#C\tBắt đầu phát lại tại tiêu đề T, chương C\n/dvdpos T#hh:mm\tPhát lại tại tiêu đề T, vị trí gg:pp:gg\n/cd\t\tTải tất cả các bài hát của một đĩa CD âm thanh hoặc (s) VCD,\n\t\t\"pathname\" nghĩa là đường dẫn cd(tùy chọn)\n/device\t\tMở thiết bị video mặc định\n/open\t\tMở tập tin, không tự động bắt đầu phát lại\n/play\t\tBắt đầu chơi các tập tin ngay sau trình phát nhạc\n\t\tđã chạy\n/close\t\tĐóng trình phát nhạc sau khi phát lại (chỉ hoạt động khi\n\t\tdùng với /phát)\n/shutdown\tTắt máy tính, hệ điều hành sau khi phát lại\n/fullscreen\tBắt đầu trong chế độ toàn màn hình\n/minimized\tBắt đầu trong chế độ giảm thiểu\n/new\t\tSử dụng một trường hợp mới của trình phát nhạc\n/add\t\tThêm\"pathname\" vào danh sách phát, sẽ kết hợp\n\t\tvới/mở và/phát\n/regvid\t\tTạo ra các phần mở rộng cho các tập tin video\n/regaud\t\tTạo ra các phần mở rộng cho các tập tin âm thanh\n/regpl\t\tTạo ra các phần mở rộng cho các tập tin danh sách phát\n/regall\t\tTạo ra các phần mở rộng cho các tất cả các tập tin \n/unregall\t\tLoại bỏ phần mở rộng\n/start ms\t\tBắt đầu phát lúc \"mlg\" (= mili giây)\n/startpos hh:mm:ss\tPhát tại vị trí gg:pp:gg\n/fixedsize w,h\tThiết lập một kích thước cửa sổ cố định\n/monitor N\tBắt đầu chơi trên màn hình N, trong đó N bắt đầu từ 1\n/audiorenderer N\tBắt đầu sử dụng trình âm N, trong đó N bắt đầu từ 1\n\t\t(xem thiết lập\"Ngõ ra\")\n/shaderpreset \"Pr\"\tBắt đầu sử dụng \"Pr\" tạo bóng đặt trước\n/reset\t\tKhôi phục cài đặt mặc định\n/help /h /?\tHiện giúp đỡ về chuyển dòng lệnh\n"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"

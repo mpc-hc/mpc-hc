@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-03-21 18:23:35+0000\n"
-"PO-Revision-Date: 2014-04-30 21:50+0000\n"
+"POT-Creation-Date: 2014-05-04 16:42:23+0000\n"
+"PO-Revision-Date: 2014-05-10 20:30+0000\n"
 "Last-Translator: schop <aprcel00@fesb.hr>\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/mpc-hc/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +41,7 @@ msgstr "Podesi"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
 msgid "Audio"
-msgstr "Zvuk"
+msgstr "Audio"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
 msgid "Output"
@@ -193,7 +193,7 @@ msgstr "O programu"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
 msgid "Copyright © 2002-2014 see Authors.txt"
-msgstr "Zasticeno  © 2002-2014 - pogledaj - Authors.txt"
+msgstr "Zaštićeno © 2002-2014 - pogledaj Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -253,7 +253,7 @@ msgstr "Otvori novi player za svaku medijsku datoteku"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Language"
-msgstr ""
+msgstr "Jezik"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Title bar"
@@ -269,7 +269,7 @@ msgstr "Samo naziv datoteke"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO5"
 msgid "Don't prefix anything"
-msgstr "Ne stavljaj nigdje prefiks"
+msgstr "Ne stavljaj prefiks"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK13"
 msgid "Replace file name with title"
@@ -305,7 +305,7 @@ msgstr "Onemogući izbornik \"Otvori disk\""
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK9"
 msgid "Process priority above normal"
-msgstr "Prioritet procesa preko normalnog"
+msgstr "Prioritet procesa iznad normalnog"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "History"
@@ -361,7 +361,7 @@ msgstr "Izbornik"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO4"
 msgid "Audio"
-msgstr "Zvuk"
+msgstr "Audio"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO5"
 msgid "Subtitles"
@@ -377,7 +377,7 @@ msgstr "Dopusti podnaslove zvukova u \"Line 21 Decoder\""
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Audio"
-msgstr "Zvuk"
+msgstr "Audio"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Volume"
@@ -449,7 +449,7 @@ msgstr "Podnaslovi:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Audio:"
-msgstr "Zvuk:"
+msgstr "Audio:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK4"
 msgid "Allow overriding external splitter choice"
@@ -469,7 +469,7 @@ msgstr "Prijavi pinove koji se ne uspiju renderirat"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
-msgstr "Automatski učitaj zvučne datoteke"
+msgstr "Automatski učitaj audio datoteke"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
 msgid "Use the built-in subtitle renderer"
@@ -553,7 +553,7 @@ msgstr "Upozorenje"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu."
-msgstr "Ako omogućite antialiasing za sliku na cijelom ekranu bilo gdje u postavkama grafičke kartice i date tim postavkama veći prioritet, podnapisi neće bolje izgledati, ali će Vam zasigurno opteretiti procesor."
+msgstr "Ako bilo gdje u postavkama grafičke kartice omogućite antialiasing za sliku na cijelom ekranu i date tim postavkama veći prioritet, podnapisi neće bolje izgledati, ali će Vam zasigurno opteretiti procesor."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
 msgid "File extensions"
@@ -665,7 +665,7 @@ msgstr "Brzo traženje"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK2"
 msgid "Show chapter marks in seek bar"
-msgstr "Prikazi oznake poglavlja u vremenskoj traci"
+msgstr "Prikaži oznake poglavlja u vremenskoj traci"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK4"
 msgid "Display \"Now Playing\" information in Skype's mood message"
@@ -673,7 +673,7 @@ msgstr "Prikaži \"Sada svira\" informacije u poruci raspoloženja na Skypeu"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
-msgstr "Spriječi minimiziranje playera kada je zauzima cijeli ekran na sekundarnom monitoru"
+msgstr "Spriječi minimiziranje playera kada zauzima cijeli ekran na sekundarnom monitoru"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_WIN7"
 msgid "Use Windows 7 Taskbar features"
@@ -697,7 +697,7 @@ msgstr "Omogući Logitech LCD podršku (eksperimentalno)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
 msgid "Auto-hide the mouse pointer during playback in windowed mode"
-msgstr "Automatski sakrij pokazivač miša u prozoru tijekom izvođenja"
+msgstr "Automatski sakrij pokazivač miša tijekom izvođenja"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
 msgid "Add Filter..."
@@ -893,7 +893,7 @@ msgstr "Upozorenje"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC1"
 msgid "MPC-HC could not render some of the pins in the graph, you may not have the needed codecs or filters installed on the system."
-msgstr "MPC-HC ne može spojiti neke pinove u grafu, možda nemate potrebne kodeke ili filtre instalirane na Vašem sistemu."
+msgstr "MPC-HC ne može renderirati neke pinove u grafu, možda nemate instalirano potrebne kodere ili filtre na Vašem sistemu."
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC2"
 msgid "The following pin(s) failed to find a connectable filter:"
@@ -913,11 +913,11 @@ msgstr "Otkaži"
 
 msgctxt "IDD_SAVETEXTFILEDIALOGTEMPL_IDC_STATIC1"
 msgid "Encoding:"
-msgstr "Kodiram:"
+msgstr "Kodiranje:"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC1"
 msgid "Encoding:"
-msgstr "Kodiram:"
+msgstr "Kodiranje:"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC"
 msgid "Delay:"
@@ -1061,7 +1061,7 @@ msgstr "Poveži alpha kanale"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "If you would like to use the stand-alone versions of these filters or another replacement, disable them here."
-msgstr "Ako želite koristiti samostalne verzije ovih filtera ili neku drugu zamjenu, onemogućite ih ovdje."
+msgstr "Ako želite koristiti samostalne verzije ovih filtara ili neku drugu zamjenu, onemogućite ih ovdje."
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Source Filters"
@@ -1069,11 +1069,11 @@ msgstr "Izvorni filtri"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Transform Filters"
-msgstr "Transformiraj filtere"
+msgstr "Transformiraj filtre"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Internal LAV Filters settings"
-msgstr "Interne postavke LAV filtera"
+msgstr "Interne postavke LAV filtra"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_SPLITTER_CONF"
 msgid "Splitter"
@@ -1085,15 +1085,15 @@ msgstr "Video dekoder"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_AUDIO_DEC_CONF"
 msgid "Audio decoder"
-msgstr "Zvučni dekoder"
+msgstr "Audio dekoder"
 
 msgctxt "IDD_PPAGELOGO_IDC_RADIO1"
 msgid "Internal:"
-msgstr "Unutrašnje:"
+msgstr "Interno:"
 
 msgctxt "IDD_PPAGELOGO_IDC_RADIO2"
 msgid "External:"
-msgstr "Vanjsko:"
+msgstr "Eksterno:"
 
 msgctxt "IDD_PPAGELOGO_IDC_BUTTON2"
 msgid "Browse..."
@@ -1129,11 +1129,11 @@ msgstr "Promjena veličine:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_D3D9DEVICE"
 msgid "Select D3D9 Render Device"
-msgstr "Odaberi D3D9 Render uređaj"
+msgstr "Odaberi uređaj za D3D9 render"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_RESETDEVICE"
 msgid "Reinitialize when changing display"
-msgstr "Ponovno inicijaliziraj pri promjeni ekrana"
+msgstr "Pri promjeni ekrana ponovno inicijaliziraj"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "D3D Fullscreen"
@@ -1153,7 +1153,7 @@ msgstr "YUV miksanje"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_EVR_BUFFERS_TXT"
 msgid "EVR Buffers:"
-msgstr "EVR veličina međuspremnika:"
+msgstr "EVR međuspremnik:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "DXVA"
@@ -1165,7 +1165,7 @@ msgstr "Podnapisi *"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Screenshot"
-msgstr "Snimka zaslona"
+msgstr "Slika zaslona"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Shaders"
@@ -1317,7 +1317,7 @@ msgstr "Izvezi"
 
 msgctxt "IDD_PPAGEMISC_IDC_EXPORT_KEYS"
 msgid "Export keys"
-msgstr "Izvezi tipke"
+msgstr "Izvezi postavke tipkovnice"
 
 msgctxt "IDD_TUNER_SCAN_CAPTION"
 msgid "Tuner scan"
@@ -1385,7 +1385,7 @@ msgstr "Video"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC2"
 msgid "Audio"
-msgstr "Zvuk"
+msgstr "Audio"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC3"
 msgid "Country"
@@ -1425,7 +1425,7 @@ msgstr "Sinkroniziraj video za prikaz"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC1"
 msgid "Frequency adjustment:"
-msgstr "Podesavanje frekvencije:"
+msgstr "Podešavanje frekvencije:"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCDISPLAY"
 msgid "Sync display to video"
@@ -1469,15 +1469,15 @@ msgstr "ms"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC10"
 msgid "Changes take effect after the playback has been closed and restarted."
-msgstr "Promjene ce stupiti na snagu nakon sto se playback zatvori i ponovno pokrene"
+msgstr "Promjene će stupiti na snagu nakon što se reprodukcija zatvori i ponovno pokrene"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK1"
 msgid "Launch files in fullscreen"
-msgstr "Pokreni datoteke u cijelom zaslonu"
+msgstr "Pokreni datoteke u fullscreen modu"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK4"
 msgid "Hide controls in fullscreen"
-msgstr "Sakrij kontrole u prikazu na cijelom zaslonu"
+msgstr "Sakrij kontrole u fullscreen modu"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC1"
 msgid "ms"
@@ -1485,19 +1485,19 @@ msgstr "ms"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK6"
 msgid "Hide docked panels"
-msgstr "Sakrij dodatni panel"
+msgstr "Sakrij dodatni prozor"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK5"
 msgid "Exit fullscreen at the end of playback"
-msgstr "Napusti prikaz na cijelom monitoru pri završetku reprodukcije"
+msgstr "Pri završetku reprodukcije napusti fullscreen"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Fullscreen monitor"
-msgstr "Fullscreen monitor"
+msgstr "Monitor za fullscreen"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK2"
 msgid "Use autochange fullscreen monitor mode"
-msgstr "Uporabi automatsku promjenu načina rada monitora u punom prikazu slike"
+msgstr "Uporabi automatsku promjenu načina rada monitora u fullscreenu"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON1"
 msgid "Add"
@@ -1505,7 +1505,7 @@ msgstr "Dodaj"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON2"
 msgid "Del"
-msgstr "Obrisi"
+msgstr "Obriši"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON3"
 msgid "Up"
@@ -1517,7 +1517,7 @@ msgstr "Dolje"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK3"
 msgid "Apply default monitor mode on fullscreen exit"
-msgstr "Primjeni pocetne postavke monitora kad izadjes iz fullscreena"
+msgstr "Primjeni zadane postavke monitora kad se napusti fullscreen"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_RESTORERESCHECK"
 msgid "Restore resolution on program exit"
@@ -1525,7 +1525,7 @@ msgstr "Vrati rezoluciju prilikom izlaska iz programa"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Delay"
-msgstr "Kasnjenje"
+msgstr "Kašnjenje"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC2"
 msgid "s"
@@ -1541,19 +1541,19 @@ msgstr "Scan"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK1"
 msgid "Prefer forced and/or default subtitles tracks"
-msgstr "Prefer forced and/or default subtitles tracks"
+msgstr "Preferiraj forsirana i/ili zadane podnapise"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK2"
 msgid "Prefer external subtitles over embedded subtitles"
-msgstr "Daj prednost vanjskim titlovima"
+msgstr "Daj prednost vanjskim podnapisima"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK3"
 msgid "Ignore embedded subtitles"
-msgstr "Ignoriraj ugradjene titlove"
+msgstr "Ignoriraj ugrađene podnapise"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Autoload paths"
-msgstr "Automatski ucitaj putanju"
+msgstr "Automatski učitaj putanju"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON1"
 msgid "Reset"
@@ -1561,39 +1561,39 @@ msgstr "Resetiraj"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Online database"
-msgstr "Online baza podataka"
+msgstr "Online baza podnapisa"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Base URL of the online subtitle database:"
-msgstr "Osnovni URL online baze titlova"
+msgstr "Osnovni URL online baze podnapisa"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON2"
 msgid "Test"
-msgstr "test"
+msgstr "Test"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
-msgstr "Apdejtaj Checker"
+msgstr "Provjera nadogradnji"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_DL_BUTTON"
 msgid "&Download now"
-msgstr "& Downloadaj sada"
+msgstr "&Preuzmi sada"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_LATER_BUTTON"
 msgid "Remind me &later"
-msgstr "Podsjeti me kasnije"
+msgstr "&Podsjeti me kasnije"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_IGNORE_BUTTON"
 msgid "&Ignore this update"
-msgstr "Ignoriraj ovaj update"
+msgstr "&Ignoriraj ovu nadogradnju"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shaders contain special effects which can be added to the video rendering process."
-msgstr "Nijansiranje zahtijeva posebne efekte koji ne mogu biti dodani izvodjenju videa"
+msgstr "Shader sadrže posebne efekte koji se mogu dodati procesu renderiranja videa"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON12"
 msgid "Add shader file"
-msgstr "Dodaj datoteku nijansi"
+msgstr "Dodaj datoteku shadera"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON13"
 msgid "Remove"
@@ -1609,11 +1609,11 @@ msgstr "Dodaj poslije promjene velicine"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shader presets"
-msgstr "Tipovi sjene"
+msgstr "Shader profili"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON3"
 msgid "Load"
-msgstr "Ucitaj"
+msgstr "Učitaj"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON4"
 msgid "Save"
@@ -1621,23 +1621,23 @@ msgstr "Spremi"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON5"
 msgid "Delete"
-msgstr "Obrisi"
+msgstr "Obriši"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active pre-resize shaders"
-msgstr "Aktivne sjene prije promjene velicine"
+msgstr "Aktivni shaderi prije promjene veličine"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active post-resize shaders"
-msgstr "Aktivne sjene poslije promjene velicine"
+msgstr "Aktivne shaderi poslije promjene veličine"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_CAPTION"
 msgid "Debug Shaders"
-msgstr "Otkloni neispravne sjene"
+msgstr "Debugiranje Shadera"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_STATIC"
 msgid "Debug Information"
-msgstr "Informacije o otklanjanju neispravnosti"
+msgstr "Debug informacije"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO1"
 msgid "PS 2.0"

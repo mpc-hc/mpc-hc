@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-03-22 09:25:06+0000\n"
-"PO-Revision-Date: 2014-03-25 15:20+0000\n"
+"PO-Revision-Date: 2014-05-09 07:00+0000\n"
 "Last-Translator: кери <khazirek@mail.ru>\n"
 "Language-Team: Tatar (http://www.transifex.com/projects/p/mpc-hc/language/tt/)\n"
 "MIME-Version: 1.0\n"
@@ -36,27 +36,27 @@ msgstr "Субтитрлар"
 
 msgctxt "IDS_INFOBAR_CHAPTER"
 msgid "Chapter"
-msgstr "Бүлек:"
+msgstr "Бүлек"
 
 msgctxt "IDS_CONTROLS_COMPLETING"
 msgid "Completing..."
-msgstr "Завершение..."
+msgstr "Тәмамлау..."
 
 msgctxt "IDS_AUTOPLAY_PLAYVIDEO"
 msgid "Play Video"
-msgstr "Воспроизведение видео"
+msgstr "Видео уйнату"
 
 msgctxt "IDS_AUTOPLAY_PLAYMUSIC"
 msgid "Play Music"
-msgstr "Воспроизведение музыки"
+msgstr "Музыка уйнату"
 
 msgctxt "IDS_AUTOPLAY_PLAYAUDIOCD"
 msgid "Play Audio CD"
-msgstr "Воспроизведение Audio CD"
+msgstr "Audio CD уйнату"
 
 msgctxt "IDS_AUTOPLAY_PLAYDVDMOVIE"
 msgid "Play DVD Movie"
-msgstr "Воспроизведение DVD"
+msgstr "DVD уйнатырга"
 
 msgctxt "IDS_PROPSHEET_PROPERTIES"
 msgid "Properties"
@@ -84,11 +84,11 @@ msgstr "Вакыт"
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET"
 msgid "Sync Offset"
-msgstr "Сдвиг Sync"
+msgstr "Sync китеше"
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET_FORMAT"
 msgid "avg: %d ms, dev: %d ms"
-msgstr "сред: %d мс, откл: %d мс"
+msgstr "урта: %d мс, сүн: %d мс"
 
 msgctxt "IDS_STATSBAR_JITTER"
 msgid "Jitter"
@@ -100,7 +100,7 @@ msgstr "Битрейт"
 
 msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
 msgid " (avg/cur)"
-msgstr " (сред/тек)"
+msgstr " (урта/тек)"
 
 msgctxt "IDS_STATSBAR_SIGNAL"
 msgid "Signal"
@@ -108,7 +108,7 @@ msgstr "Белдерү"
 
 msgctxt "IDS_STATSBAR_SIGNAL_FORMAT"
 msgid "Strength: %d dB, Quality: %d%%"
-msgstr "Сила: %d дБ, Качество: %d%%"
+msgstr "Көч: %d дБ, Сыйфат: %d%%"
 
 msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
 msgid "Styles"
@@ -116,7 +116,7 @@ msgstr "Стильләр"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
-msgstr "Никогда (быстро)"
+msgstr "Беркайчан (тиз)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG1"
 msgid "Only when switching different video types (default)"
@@ -124,7 +124,7 @@ msgstr "Только при изменении типа видео (по умо�
 
 msgctxt "IDS_PPAGE_CAPTURE_FG2"
 msgid "Always (slowest option)"
-msgstr "Всегда (медленно)"
+msgstr "Һәрвакыт (әкрен)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
 msgid "Not supported by some devices. Two video decoders always present in the filter graph."
@@ -152,7 +152,7 @@ msgstr "Всегда (необходимо для некоторых устро�
 
 msgctxt "IDS_INFOBAR_PARENTAL_RATING"
 msgid "Parental rating"
-msgstr "Родительский рейтинг"
+msgstr "Чыганак рейтингы"
 
 msgctxt "IDS_PARENTAL_RATING"
 msgid "%d+"
@@ -160,7 +160,7 @@ msgstr "%d+"
 
 msgctxt "IDS_NO_PARENTAL_RATING"
 msgid "Not rated"
-msgstr "Нет рейтинга"
+msgstr "Рейтинг юк"
 
 msgctxt "IDS_INFOBAR_CONTENT"
 msgid "Content"
@@ -168,11 +168,11 @@ msgstr "Эчтәлек"
 
 msgctxt "IDS_CONTENT_MOVIE_DRAMA"
 msgid "Movie/Drama"
-msgstr "Фильмы/Драмы"
+msgstr "Фильмнар/Драмалар"
 
 msgctxt "IDS_CONTENT_NEWS_CURRENTAFFAIRS"
 msgid "News/Current affairs"
-msgstr "Новости/Текущие события"
+msgstr "Яңалыклар/Хәзерге вакыйгалар"
 
 msgctxt "IDS_SPEED_UNIT_G"
 msgid "GB/s"
@@ -180,15 +180,15 @@ msgstr "ГБ/с"
 
 msgctxt "IDS_FILE_FAV_ADDED"
 msgid "File added to favorites"
-msgstr "Файл добавлен в закладки"
+msgstr "Файл кыстыргычка өстәлде"
 
 msgctxt "IDS_DVD_FAV_ADDED"
 msgid "DVD added to favorites"
-msgstr "DVD добавлен в закладки"
+msgstr "DVD кыстыргычка өстәлде"
 
 msgctxt "IDS_CAPTURE_SETTINGS"
 msgid "Capture Settings"
-msgstr "Настройки захвата"
+msgstr "Эләктерүне көйләү"
 
 msgctxt "IDS_NAVIGATION_BAR"
 msgid "Navigation Bar"
@@ -244,7 +244,7 @@ msgstr "Не удалось запросить необходимые интер
 
 msgctxt "IDS_CAPTURE_LIVE"
 msgid "Live"
-msgstr "Прямой эфир"
+msgstr "Туры эфир"
 
 msgctxt "IDS_CAPTURE_ERROR_VID_FILTER"
 msgid "Can't add video capture filter to the graph"
@@ -264,7 +264,7 @@ msgstr "Не удается открыть, неверные входные па
 
 msgctxt "IDS_EDIT_LIST_EDITOR"
 msgid "Edit List Editor"
-msgstr "Изменить список редактора"
+msgstr "Мөхәррир исемлеген үзгәртергә"
 
 msgctxt "IDS_GOTO_ERROR_INVALID_TIME"
 msgid "The entered time is greater than the file duration."
@@ -312,7 +312,7 @@ msgstr "Актер"
 
 msgctxt "IDS_SUBRESYNC_CLN_EFFECT"
 msgid "Effect"
-msgstr "Эффект"
+msgstr "Тәэсир"
 
 msgctxt "IDS_PLAYLIST_CAPTION"
 msgid "Playlist"
@@ -324,15 +324,15 @@ msgstr "Каб./Сүн."
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
 msgid "From fps"
-msgstr "От (fps)"
+msgstr "Башлап (fps)"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
 msgid "To fps"
-msgstr "До (fps)"
+msgstr "Кадәр (fps)"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
-msgstr "Режим (Гц)"
+msgstr "Рәвеш (Гц)"
 
 msgctxt "IDS_PPAGE_FS_DEFAULT"
 msgid "Default"
@@ -340,11 +340,11 @@ msgstr "Килешү буенча"
 
 msgctxt "IDS_PPAGE_FS_OTHER"
 msgid "Other"
-msgstr "другие"
+msgstr "башка"
 
 msgctxt "IDS_PPAGE_OUTPUT_SYS_DEF"
 msgid "System Default"
-msgstr "Системный по умолчанию"
+msgstr "Системаныкы килешү буенча"
 
 msgctxt "IDS_GRAPH_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for playback"
@@ -388,7 +388,7 @@ msgstr "&Исем буенча аралау"
 
 msgctxt "IDS_PLAYLIST_SORTBYPATH"
 msgid "Sort by &path"
-msgstr "Сортировать по &пути"
+msgstr "&Юл буенча тәртипләү"
 
 msgctxt "IDS_PLAYLIST_RANDOMIZE"
 msgid "R&andomize"
@@ -408,7 +408,7 @@ msgstr "&Хәзер бетерергә"
 
 msgctxt "IDS_SUBRESYNC_DUPLICATE"
 msgid "D&uplicate"
-msgstr "&Дублировать"
+msgstr "&Кабатларга"
 
 msgctxt "IDS_SUBRESYNC_RESET"
 msgid "&Reset"
@@ -416,11 +416,11 @@ msgstr "&Ташларга"
 
 msgctxt "IDS_MPLAYERC_104"
 msgid "Subtitle Delay -"
-msgstr "Задержка субтитров -"
+msgstr "Субтитрларны тоткарлау -"
 
 msgctxt "IDS_MPLAYERC_105"
 msgid "Subtitle Delay +"
-msgstr "Задержка субтитров +"
+msgstr "Субтитрларны тоткарлау +"
 
 msgctxt "IDS_FILE_SAVE_THUMBNAILS"
 msgid "Save thumbnails"
@@ -432,11 +432,11 @@ msgstr "Уйнату"
 
 msgctxt "IDD_PPAGEPLAYER"
 msgid "Player"
-msgstr "Проигрыватель"
+msgstr "Уйнаткыч"
 
 msgctxt "IDD_PPAGEDVD"
 msgid "Playback::DVD/OGM"
-msgstr "Воспроизведение::DVD/OGM"
+msgstr "Уйнату::DVD/OGM"
 
 msgctxt "IDD_PPAGESUBTITLES"
 msgid "Subtitles"
@@ -444,7 +444,7 @@ msgstr "Субтитрлар"
 
 msgctxt "IDD_PPAGEFORMATS"
 msgid "Player::Formats"
-msgstr "Проигрыватель::Форматы"
+msgstr "Уйнаткыч::Форматлар"
 
 msgctxt "IDD_PPAGETWEAKS"
 msgid "Tweaks"
@@ -456,19 +456,19 @@ msgstr "Встроенные фильтры::Аудиопереключател�
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS"
 msgid "External Filters"
-msgstr "Внешние фильтры"
+msgstr "Тышкы сөзгечләр"
 
 msgctxt "IDD_PPAGESHADERS"
 msgid "Playback::Shaders"
-msgstr "Проигрыватель::Шейдеры"
+msgstr "Уйнаткыч::Шейдерлар"
 
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
-msgstr "Аудиопереключатель"
+msgstr "Аудиокүчергеч"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_TITLE"
 msgid "New version of the icon library"
-msgstr "Новая версия библиотеки иконок"
+msgstr "Яңа билгечекләр китапханәсе юрамасы"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_INSTR"
 msgid "Do you want to reassociate the icons?"
@@ -480,7 +480,7 @@ msgstr "Это устраняет проблему неправильного о
 
 msgctxt "IDS_PPAGE_OUTPUT_OLDRENDERER"
 msgid "Old Video Renderer"
-msgstr "Устаревший видео рендерер"
+msgstr "Искергән видео рендерер"
 
 msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
@@ -504,7 +504,7 @@ msgstr "Видео Mixing Renderer 9 (без рендера)"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR"
 msgid "Enhanced Video Renderer"
-msgstr "Расширенный видео рендерер"
+msgstr "Киңәйтелгән видео рендерер"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR_CUSTOM"
 msgid "Enhanced Video Renderer (custom presenter)"
@@ -516,11 +516,11 @@ msgstr "Haali видео рендерер"
 
 msgctxt "IDS_PPAGE_OUTPUT_NULL_COMP"
 msgid "Null (anything)"
-msgstr "Null (все)"
+msgstr "Null (барысы)"
 
 msgctxt "IDS_PPAGE_OUTPUT_NULL_UNCOMP"
 msgid "Null (uncompressed)"
-msgstr "Null (без сжатия)"
+msgstr "Null (кысусыз)"
 
 msgctxt "IDS_PPAGE_OUTPUT_MADVR"
 msgid "madVR"
@@ -528,35 +528,35 @@ msgstr "madVR"
 
 msgctxt "IDD_PPAGEACCELTBL"
 msgid "Player::Keys"
-msgstr "Проигрыватель::Клавиши"
+msgstr "Уйнаткыч::Төймәләр"
 
 msgctxt "IDD_PPAGESUBSTYLE"
 msgid "Subtitles::Default Style"
-msgstr "Субтитры::Стандартный стиль"
+msgstr "Субтитрлар::Гади стиль"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS"
 msgid "Internal Filters"
-msgstr "Встроенные фильтры"
+msgstr "Кертелгән сөзгечләр"
 
 msgctxt "IDD_PPAGELOGO"
 msgid "Player::Logo"
-msgstr "Проигрыватель::Логотип"
+msgstr "Уйнаткыч::Логотип"
 
 msgctxt "IDD_PPAGEOUTPUT"
 msgid "Playback::Output"
-msgstr "Воспроизведение::Вывод"
+msgstr "Уйнаткыч::Чыгару"
 
 msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
-msgstr "Проигрыватель::Web-интерфейс"
+msgstr "Уйнаткыч::Web-интерфейс"
 
 msgctxt "IDD_PPAGESUBDB"
 msgid "Subtitles::Database"
-msgstr "Субтитры::База"
+msgstr "Субтитрлар::Нигез"
 
 msgctxt "IDD_FILEPROPRES"
 msgid "Resources"
-msgstr "Ресурсы"
+msgstr "Чыганаклар"
 
 msgctxt "IDD_PPAGEMISC"
 msgid "Miscellaneous"
@@ -568,19 +568,19 @@ msgstr "MediaInfo"
 
 msgctxt "IDD_PPAGECAPTURE"
 msgid "Playback::Capture"
-msgstr "Воспроизведение::Захват"
+msgstr "Уйнату::Эләктерү"
 
 msgctxt "IDD_PPAGESYNC"
 msgid "Playback::Sync Renderer Settings"
-msgstr "Воспроизведение::Sync Renderer"
+msgstr "Уйнату::Sync Renderer"
 
 msgctxt "IDD_PPAGEFULLSCREEN"
 msgid "Playback::Fullscreen"
-msgstr "Воспроизведение::Полный экран"
+msgstr "Уйнату::Тулы экран"
 
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
-msgstr "Подробно"
+msgstr "Тулырак"
 
 msgctxt "IDD_FILEPROPCLIP"
 msgid "Clip"
@@ -680,7 +680,7 @@ msgstr "Sync Renderer"
 
 msgctxt "IDS_MPC_BUG_REPORT_TITLE"
 msgid "MPC-HC - Reporting a bug"
-msgstr "MPC-HC - Сообщение об ошибке"
+msgstr "MPC-HC - Хата турында хәбәр"
 
 msgctxt "IDS_MPC_BUG_REPORT"
 msgid "MPC-HC just crashed but this build was compiled without debug information.\nIf you want to report this bug, you should first try an official build.\n\nDo you want to visit the download page now?"
@@ -688,43 +688,43 @@ msgstr "MPC-HC упал, но эта сборка была скомпилиро�
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
 msgid "Regular offscreen plain surface"
-msgstr "Обычная поверхность вне экрана"
+msgstr "Гади өслек экраннан тыш"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_2D"
 msgid "2D surfaces"
-msgstr "2D-поверхность"
+msgstr "2D-өслек"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_3D"
 msgid "3D surfaces (recommended)"
-msgstr "3D-поверхность (рекомендуется)"
+msgstr "3D-өслек (тәкъдим ителә)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZE_NN"
 msgid "Nearest neighbor"
-msgstr "Ближайший сосед"
+msgstr "Якындагы күрше"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BILIN"
 msgid "Bilinear"
-msgstr "Билинейный"
+msgstr "Сызыксыман"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BIL_PS"
 msgid "Bilinear (PS 2.0)"
-msgstr "Билинейный (PS 2.0)"
+msgstr "Сызыксыман (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB1"
 msgid "Bicubic A=-0.60 (PS 2.0)"
-msgstr "Бикубический A=-0.60 (PS 2.0)"
+msgstr "Бикуб A=-0.60 (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB2"
 msgid "Bicubic A=-0.75 (PS 2.0)"
-msgstr "Бикубический A=-0.75 (PS 2.0)"
+msgstr "Бикуб A=-0.75 (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB3"
 msgid "Bicubic A=-1.00 (PS 2.0)"
-msgstr "Бикубический A=-1.00 (PS 2.0)"
+msgstr "Бикуб A=-1.00 (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLE"
 msgid "**unavailable**"
-msgstr "**недоступен**"
+msgstr "**мөмкин түгел**"
 
 msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLEMSG"
 msgid "The selected renderer is not installed."
@@ -732,11 +732,11 @@ msgstr "Выбранный рендерер не установлен."
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_COMP"
 msgid "Null (anything)"
-msgstr "Null (все)"
+msgstr "Null (барысы)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP"
 msgid "Null (uncompressed)"
-msgstr "Null (без сжатия)"
+msgstr "Null (кысусыз)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND"
 msgid "MPC-HC Audio Renderer"
@@ -756,11 +756,11 @@ msgstr "Для того, чтобы просмотреть внедренный 
 
 msgctxt "IDS_DOWNLOAD_SUBS"
 msgid "Download subtitles"
-msgstr "Загрузить субтитры"
+msgstr "Субтитрларны йөкләргә"
 
 msgctxt "IDS_SUBFILE_DELAY"
 msgid "Delay (ms):"
-msgstr "Задержка (мс):"
+msgstr "Тоткарлау (мс):"
 
 msgctxt "IDS_SPEEDSTEP_AUTO"
 msgid "Auto"
@@ -772,11 +772,11 @@ msgstr "Нет настроенных клавиш для экспорта."
 
 msgctxt "IDS_RFS_NO_FILES"
 msgid "No media files found in the archive"
-msgstr "В архиве не найдены медиафайлы"
+msgstr "Архивта медиафайллар табылмады"
 
 msgctxt "IDS_RFS_COMPRESSED"
 msgid "Compressed files are not supported"
-msgstr "Сжатые файлы не поддерживаются"
+msgstr "Кысылган файллар кулланылмый"
 
 msgctxt "IDS_RFS_ENCRYPTED"
 msgid "Encrypted files are not supported"
@@ -784,7 +784,7 @@ msgstr "Зашифрованные файлы не поддерживаются"
 
 msgctxt "IDS_RFS_MISSING_VOLS"
 msgid "Couldn't find all archive volumes"
-msgstr "Не могу найти все архивные тома"
+msgstr "Барлык архив томнарын таба алмыйм"
 
 msgctxt "IDC_TEXTURESURF2D"
 msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
@@ -824,7 +824,7 @@ msgstr "Основан на RARFileSource, не поддерживает сжа�
 
 msgctxt "IDS_INTERNAL_LAVF"
 msgid "Uses LAV Filters"
-msgstr "Использует LAV Filters"
+msgstr "LAV Filters кулланаrs"
 
 msgctxt "IDS_INTERNAL_LAVF_WMV"
 msgid "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
@@ -832,7 +832,7 @@ msgstr "Использует LAV Filters. По умолчанию отключе
 
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
-msgstr "Вкл/Откл панель навигации"
+msgstr "Навигация аслыгын Каб/Сүн"
 
 msgctxt "IDS_AG_VSYNCACCURATE"
 msgid "Accurate VSync"
@@ -856,27 +856,27 @@ msgstr "После нажатия этой кнопки, выбранное со
 
 msgctxt "ID_PLAY_PLAY"
 msgid "Play\nPlay"
-msgstr "Воспроизведение\nВоспроизведение"
+msgstr "Уйнату\nУйнату"
 
 msgctxt "ID_PLAY_PAUSE"
 msgid "Pause\nPause"
-msgstr "Пауза\nПауза"
+msgstr "Тыналыш\nТыналыш"
 
 msgctxt "ID_PLAY_STOP"
 msgid "Stop\nStop"
-msgstr "Стоп\nСтоп"
+msgstr "Туктату\nТуктату"
 
 msgctxt "ID_PLAY_FRAMESTEP"
 msgid "Step\nStep"
-msgstr "Шаг\nШаг"
+msgstr "Адым\nАдым"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "Decrease speed\nDecrease speed"
-msgstr "Уменьшить скорость\nУменьшить скорость"
+msgstr "Тизлекне киметергә\nТизлекне киметергә"
 
 msgctxt "ID_PLAY_INCRATE"
 msgid "Increase speed\nIncrease speed"
-msgstr "Увеличить скорость\nУвеличить скорость"
+msgstr "Тизлекне арттырырга\nТизлекне арттырырга"
 
 msgctxt "ID_VOLUME_MUTE"
 msgid "Mute"
@@ -892,15 +892,15 @@ msgstr "Тавышсыз"
 
 msgctxt "ID_NAVIGATE_SKIPBACK"
 msgid "Skip back\nSkip back"
-msgstr "Назад\nНазад"
+msgstr "Кире\nКире"
 
 msgctxt "ID_NAVIGATE_SKIPFORWARD"
 msgid "Skip forward\nSkip forward"
-msgstr "Вперед\nВперед"
+msgstr "Алга\nАлга"
 
 msgctxt "IDS_SUBRESYNC_ORIGINAL"
 msgid "&Original"
-msgstr "&Оригинальный"
+msgstr "&Оригиналь"
 
 msgctxt "IDS_SUBRESYNC_CURRENT"
 msgid "&Current"
@@ -968,7 +968,7 @@ msgstr "Тыналыш"
 
 msgctxt "IDS_AG_EDL_NEW_CLIP"
 msgid "EDL new clip"
-msgstr "Новый клип EDL"
+msgstr "Яңа клип EDL"
 
 msgctxt "IDS_RECENT_FILES_CLEAR"
 msgid "&Clear list"
@@ -976,11 +976,11 @@ msgstr "Исемлекне чистарту"
 
 msgctxt "IDS_RECENT_FILES_QUESTION"
 msgid "Are you sure that you want to delete recent files list?"
-msgstr "Вы уверены, что хотите очистить список недавно открытых файлов?"
+msgstr "Сез күптән түгел ачылган файллар исемлеген чистартырга телисезме?"
 
 msgctxt "IDS_AG_EDL_SAVE"
 msgid "EDL save"
-msgstr "EDL сохранить"
+msgstr "EDL сакларга"
 
 msgctxt "IDS_AG_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time Correction"
@@ -988,35 +988,35 @@ msgstr "Кадр вакыты төзәтүен кабызырга"
 
 msgctxt "IDS_AG_TOGGLE_EDITLISTEDITOR"
 msgid "Toggle EDL window"
-msgstr "Вкл/Откл окно EDL"
+msgstr "Каб/Сүн EDL тәрәзәсе"
 
 msgctxt "IDS_AG_EDL_IN"
 msgid "EDL set In"
-msgstr "Установить EDL внутрь"
+msgstr "EDL эчкә урнаштырырга"
 
 msgctxt "IDS_AG_EDL_OUT"
 msgid "EDL set Out"
-msgstr "Установить EDL наружу"
+msgstr "EDL тышка урнаштырырга"
 
 msgctxt "IDS_AG_PNS_ROTATEX_M"
 msgid "PnS Rotate X-"
-msgstr "Повернуть кадр по X-"
+msgstr "Кадрны X- буенча борырга"
 
 msgctxt "IDS_AG_PNS_ROTATEY_P"
 msgid "PnS Rotate Y+"
-msgstr "Повернуть кадр по Y+"
+msgstr "Кадрны Y+ буенча борырга"
 
 msgctxt "IDS_AG_PNS_ROTATEY_M"
 msgid "PnS Rotate Y-"
-msgstr "Повернуть кадр по Y-"
+msgstr "Кадрны Y- буенча борырга"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_P"
 msgid "PnS Rotate Z+"
-msgstr "Повернуть кадр по Z+"
+msgstr "Кадрны Z+ буенча борырга"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_M"
 msgid "PnS Rotate Z-"
-msgstr "Повернуть кадр по Z-"
+msgstr "Кадрны Z- буенча борырга"
 
 msgctxt "IDS_AG_TEARING_TEST"
 msgid "Tearing Test"
@@ -1036,11 +1036,11 @@ msgstr "Масштабировать в Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_PLAYLIST_HIDEFS"
 msgid "Hide on Fullscreen"
-msgstr "Скрыть, когда на полный экран"
+msgstr "Тулы экранда яшерергә"
 
 msgctxt "IDS_CONTROLS_STOPPED"
 msgid "Stopped"
-msgstr "Остановлено"
+msgstr "Туктатылды"
 
 msgctxt "IDS_CONTROLS_BUFFERING"
 msgid "Buffering... (%d%%)"
@@ -1048,11 +1048,11 @@ msgstr "Буферизация... (%d%%)"
 
 msgctxt "IDS_CONTROLS_CAPTURING"
 msgid "Capturing..."
-msgstr "Идёт захват..."
+msgstr "Эләктерү бара..."
 
 msgctxt "IDS_CONTROLS_OPENING"
 msgid "Opening..."
-msgstr "Открывается..."
+msgstr "Ачыла..."
 
 msgctxt "IDS_CONTROLS_CLOSED"
 msgid "Closed"
@@ -1088,7 +1088,7 @@ msgstr "Авторы"
 
 msgctxt "IDS_INFOBAR_COPYRIGHT"
 msgid "Copyright"
-msgstr "Права"
+msgstr "Хокуклар"
 
 msgctxt "IDS_INFOBAR_RATING"
 msgid "Rating"
@@ -1120,27 +1120,27 @@ msgstr "Төймә"
 
 msgctxt "IDS_AG_MOUSE"
 msgid "Mouse Windowed"
-msgstr "Мышь в окне"
+msgstr "Тычкан тәрәзәдә"
 
 msgctxt "IDS_AG_MOUSE_FS"
 msgid "Mouse Fullscreen"
-msgstr "Мышь на полном экране"
+msgstr "Тычкан тулы экранда"
 
 msgctxt "IDS_AG_APP_COMMAND"
 msgid "App Command"
-msgstr "Команда приложения"
+msgstr "Кушымта боерыгы"
 
 msgctxt "IDS_AG_MEDIAFILES"
 msgid "Media files (all types)"
-msgstr "Медиафайлы (все типы)"
+msgstr "Медиафайллар (бөтен төрләр)"
 
 msgctxt "IDS_AG_ALLFILES"
 msgid "All files (*.*)|*.*|"
-msgstr "Все файлы (*.*)|*.*|"
+msgstr "Барлык файллар (*.*)|*.*|"
 
 msgctxt "IDS_AG_AUDIOFILES"
 msgid "Audio files (all types)"
-msgstr "Аудиофайлы (все типы)"
+msgstr "Аудиофайллар (бөтен төрләр)"
 
 msgctxt "IDS_AG_NOT_KNOWN"
 msgid "Not known"
@@ -1180,15 +1180,15 @@ msgstr "Не удается найти точку входа необходим�
 
 msgctxt "IDS_OSD_SHADERS_PRESET"
 msgid "Shader preset: %s"
-msgstr "Предустановка шейдера: %s"
+msgstr "Шейдерның алдагы көйләүләре: %s"
 
 msgctxt "IDS_AG_SHADERS_PRESET_NEXT"
 msgid "Next Shader Preset"
-msgstr "Следующая предустановка шейдера"
+msgstr "Киләсе шейдерның алдагы көйләүләре"
 
 msgctxt "IDS_AG_SHADERS_PRESET_PREV"
 msgid "Prev Shader Preset"
-msgstr "Предыдущая предустановка шейдера"
+msgstr "Алдагы шейдерның баштагы көйләүләре"
 
 msgctxt "IDS_STRING_COLON"
 msgid "%s:"
@@ -1204,15 +1204,15 @@ msgstr "Туктату"
 
 msgctxt "IDS_BALANCE"
 msgid "L = R"
-msgstr "Л = П"
+msgstr "С = У"
 
 msgctxt "IDS_BALANCE_L"
 msgid "L +%d%%"
-msgstr "Л +%d%%"
+msgstr "С +%d%%"
 
 msgctxt "IDS_BALANCE_R"
 msgid "R +%d%%"
-msgstr "П +%d%%"
+msgstr "У +%d%%"
 
 msgctxt "IDS_VOLUME"
 msgid "%d%%"
@@ -1224,7 +1224,7 @@ msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
 msgid "Add containing folder"
-msgstr "Добавить содержащую папку"
+msgstr "Булган папканы өстәргә"
 
 msgctxt "IDS_HW_INDICATOR"
 msgid "[H/W]"
@@ -1232,11 +1232,11 @@ msgstr "[H/W]"
 
 msgctxt "IDS_TOOLTIP_SOFTWARE_DECODING"
 msgid "Software Decoding"
-msgstr "Программы декодирования"
+msgstr "Декодлау программалары"
 
 msgctxt "IDS_STATSBAR_PLAYBACK_RATE"
 msgid "Playback rate"
-msgstr "Скорость воспроизведения"
+msgstr "Уйнату тизлеге"
 
 msgctxt "IDS_FILTERS_COPY_TO_CLIPBOARD"
 msgid "&Copy filters list to clipboard"
@@ -1256,15 +1256,15 @@ msgstr "Сурәтне сакларга"
 
 msgctxt "IDS_MPLAYERC_6"
 msgid "Save Image (auto)"
-msgstr "Сохранить изображение (автоматически)"
+msgstr "Сурәтне сакларга (үзе)"
 
 msgctxt "IDS_OSD_IMAGE_SAVED"
 msgid "Image saved successfully"
-msgstr "Изображение успешно сохранено"
+msgstr "Сурәт уңышлы сакланды"
 
 msgctxt "IDS_AG_LOAD_SUBTITLE"
 msgid "Load Subtitle"
-msgstr "Загрузить субтитры"
+msgstr "Субтитрларны йөкләргә"
 
 msgctxt "IDS_AG_SAVE_SUBTITLE"
 msgid "Save Subtitle"
@@ -1280,7 +1280,7 @@ msgstr "Чыгу"
 
 msgctxt "IDS_AG_PLAYPAUSE"
 msgid "Play/Pause"
-msgstr "Воспроизведение/Пауза"
+msgstr "Уйнату/Тыналыш"
 
 msgctxt "IDS_AG_PLAY"
 msgid "Play"
@@ -1292,7 +1292,7 @@ msgstr "Туктату"
 
 msgctxt "IDS_AG_FRAMESTEP"
 msgid "Framestep"
-msgstr "Шаг вперед"
+msgstr "Алга адым"
 
 msgctxt "IDS_MPLAYERC_16"
 msgid "Framestep back"
@@ -1300,7 +1300,7 @@ msgstr "Адым алга"
 
 msgctxt "IDS_AG_GO_TO"
 msgid "Go To"
-msgstr "Переход в позицию"
+msgstr "Урынга күчү"
 
 msgctxt "IDS_AG_INCREASE_RATE"
 msgid "Increase Rate"
@@ -1308,7 +1308,7 @@ msgstr "Тизлекне арттырырга"
 
 msgctxt "IDS_CONTENT_SHOW_GAMESHOW"
 msgid "Show/Game show"
-msgstr "Шоу/Игровые шоу"
+msgstr "Тамаша/Уен тамашасы"
 
 msgctxt "IDS_CONTENT_SPORTS"
 msgid "Sports"
@@ -1316,39 +1316,39 @@ msgstr "Спорт"
 
 msgctxt "IDS_CONTENT_CHILDREN_YOUTH_PROG"
 msgid "Children's/Youth programmes"
-msgstr "Детские/молодёжные программы"
+msgstr "Балалар/яшьләр программалары"
 
 msgctxt "IDS_CONTENT_MUSIC_BALLET_DANCE"
 msgid "Music/Ballet/Dance"
-msgstr "Музыка/Балет/Танцы"
+msgstr "Музыка/Балет/Бию"
 
 msgctxt "IDS_CONTENT_MUSIC_ART_CULTURE"
 msgid "Arts/Culture"
-msgstr "Искусство/Культура"
+msgstr "Сәнгать/Мәдәният"
 
 msgctxt "IDS_CONTENT_SOCIAL_POLITICAL_ECO"
 msgid "Social/Political issues/Economics"
-msgstr "Социальные/политические события/Экономика"
+msgstr "Социаль/Сәяси вакыйгалар/Икътисат"
 
 msgctxt "IDS_CONTENT_LEISURE"
 msgid "Leisure hobbies"
-msgstr "Досуг и отдых"
+msgstr "Буш вакыт һәм ял"
 
 msgctxt "IDS_FILE_RECYCLE"
 msgid "Move to Recycle Bin"
-msgstr "Переместить в корзину"
+msgstr "Кәрзингә күчерергә"
 
 msgctxt "IDS_AG_SAVE_COPY"
 msgid "Save a Copy"
-msgstr "Күчермәне сакларга..."
+msgstr "Күчермәне сакларга"
 
 msgctxt "IDS_FASTSEEK_LATEST"
 msgid "Latest keyframe"
-msgstr "Последний ключевой кадр"
+msgstr "Соңгы мөһим кадр"
 
 msgctxt "IDS_FASTSEEK_NEAREST"
 msgid "Nearest keyframe"
-msgstr "Ближайший ключевой кадр"
+msgstr "Якындагы мөһим кадр"
 
 msgctxt "IDS_HOOKS_FAILED"
 msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
@@ -1356,7 +1356,7 @@ msgstr "MPC-HC столкнулся с проблемой во время ини
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
 msgid "Never show"
-msgstr "Никогда не показывать"
+msgstr "Беркайчан күрсәтмәскә"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWMOVED"
 msgid "Show when moving the cursor, hide after:"
@@ -1384,15 +1384,15 @@ msgstr "Целевое смещение синхронизации: %.1f"
 
 msgctxt "IDS_OSD_RS_VSYNC_OFFSET"
 msgid "VSync Offset: %d"
-msgstr "Сдвиг VSync: %d"
+msgstr "Китеш VSync: %d"
 
 msgctxt "IDS_OSD_SPEED"
 msgid "Speed: %.2lfx"
-msgstr "Скорость: %.2lfx"
+msgstr "Тизлек: %.2lfx"
 
 msgctxt "IDS_OSD_THUMBS_SAVED"
 msgid "Thumbnails saved successfully"
-msgstr "Миниатюра успешно сохранена"
+msgstr "Миниатюра уңышлы сакланды"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
 msgid "&Video Stream"
@@ -1400,7 +1400,7 @@ msgstr "&Видео ташкыны"
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
 msgid "Video Ang&le"
-msgstr "Угол &видео"
+msgstr "&Видео почмагы"
 
 msgctxt "IDS_RESET_SETTINGS"
 msgid "Reset settings"
@@ -1416,7 +1416,7 @@ msgstr "Пожалуйста, закройте другие копии MPC-HC."
 
 msgctxt "IDS_EXPORT_SETTINGS"
 msgid "Export settings"
-msgstr "Экспорт настроек"
+msgstr "Көйләүләрне экспортлау"
 
 msgctxt "IDS_EXPORT_SETTINGS_WARNING"
 msgid "Some changes have not been saved yet.\nDo you want to save them before exporting?"
@@ -1432,7 +1432,7 @@ msgstr "Не удалось выполнить экспорт! Возможно 
 
 msgctxt "IDS_BDA_ERROR"
 msgid "BDA Error"
-msgstr "Ошибка BDA"
+msgstr "BDA хатасы"
 
 msgctxt "IDS_AG_DECREASE_RATE"
 msgid "Decrease Rate"
@@ -1440,47 +1440,47 @@ msgstr "Тизлекне киметергә"
 
 msgctxt "IDS_AG_RESET_RATE"
 msgid "Reset Rate"
-msgstr "Сбросить скорость в 100%"
+msgstr "Тизлекне 100% ташлау 100%"
 
 msgctxt "IDS_MPLAYERC_21"
 msgid "Audio Delay +10ms"
-msgstr "Задержка аудио +10мс"
+msgstr "Аудионы тоткарлау +10мс"
 
 msgctxt "IDS_MPLAYERC_22"
 msgid "Audio Delay -10ms"
-msgstr "Задержка аудио -10мс"
+msgstr "Аудионы тоткарлау -10мс"
 
 msgctxt "IDS_MPLAYERC_23"
 msgid "Jump Forward (small)"
-msgstr "Переход вперед (короткий)"
+msgstr "Алга күчәргә (кыска)"
 
 msgctxt "IDS_MPLAYERC_24"
 msgid "Jump Backward (small)"
-msgstr "Переход назад (короткий)"
+msgstr "Артка күчәргә (кыска)"
 
 msgctxt "IDS_MPLAYERC_25"
 msgid "Jump Forward (medium)"
-msgstr "Переход вперед (средний)"
+msgstr "Алга күчәргә (урта)"
 
 msgctxt "IDS_MPLAYERC_26"
 msgid "Jump Backward (medium)"
-msgstr "Переход назад (средний)"
+msgstr "Артка күчәргә (урта)"
 
 msgctxt "IDS_MPLAYERC_27"
 msgid "Jump Forward (large)"
-msgstr "Переход вперед (длинный)"
+msgstr "Алга күчәргә (озын)"
 
 msgctxt "IDS_MPLAYERC_28"
 msgid "Jump Backward (large)"
-msgstr "Переход назад (длинный)"
+msgstr "Артка күчәргә (озын)"
 
 msgctxt "IDS_MPLAYERC_29"
 msgid "Jump Forward (keyframe)"
-msgstr "Переход вперед (по ключевым кадрам)"
+msgstr "Алга күчәргә (төп кадрлар буенча)"
 
 msgctxt "IDS_MPLAYERC_30"
 msgid "Jump Backward (keyframe)"
-msgstr "Переход назад (по ключевым кадрам)"
+msgstr "Артка күчәргә (төп кадрлар буенча)"
 
 msgctxt "IDS_AG_NEXT"
 msgid "Next"
@@ -1500,23 +1500,23 @@ msgstr "Алдагы файл"
 
 msgctxt "IDS_MPLAYERC_99"
 msgid "Toggle Direct3D fullscreen"
-msgstr "Полноэкранный Direct3D Вкл/Откл"
+msgstr "Тулы экранлы Direct3D Каб/Сүн"
 
 msgctxt "IDS_MPLAYERC_100"
 msgid "Goto Prev Subtitle"
-msgstr "Перейти к предыдущим субтитрам"
+msgstr "Алдагы субтитрларга күчәргә"
 
 msgctxt "IDS_MPLAYERC_101"
 msgid "Goto Next Subtitle"
-msgstr "Перейти к следующим субтитрам"
+msgstr "Киләсе субтитрларга күчәргә"
 
 msgctxt "IDS_MPLAYERC_102"
 msgid "Shift Subtitle Left"
-msgstr "Сдвинуть субтитры влево"
+msgstr "Субтитрларны сулга шудырырга"
 
 msgctxt "IDS_MPLAYERC_103"
 msgid "Shift Subtitle Right"
-msgstr "Сдвинуть субтитры вправо"
+msgstr "Субтитрларны уңга шудырырга"
 
 msgctxt "IDS_AG_DISPLAY_STATS"
 msgid "Display Stats"
@@ -1524,19 +1524,19 @@ msgstr "Статистиканы күрсәтергә"
 
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"
-msgstr "Перейти к началу"
+msgstr "Башка күчү"
 
 msgctxt "IDS_AG_VIEW_MINIMAL"
 msgid "View Minimal"
-msgstr "Минимальный вид"
+msgstr "Минималь күренеш"
 
 msgctxt "IDS_AG_VIEW_COMPACT"
 msgid "View Compact"
-msgstr "Компактный вид"
+msgstr "Җыйнак күренеш"
 
 msgctxt "IDS_AG_VIEW_NORMAL"
 msgid "View Normal"
-msgstr "Нормальный вид"
+msgstr "Гади күренеш"
 
 msgctxt "IDS_AG_FULLSCREEN"
 msgid "Fullscreen"
@@ -1544,7 +1544,7 @@ msgstr "Тулы экранга"
 
 msgctxt "IDS_MPLAYERC_39"
 msgid "Fullscreen (w/o res.change)"
-msgstr "Во весь экран (без смены разрешения)"
+msgstr "Тулы экранга (рөхсәтне үзгәртмичә)"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT"
 msgid "Zoom Auto Fit"
@@ -1552,15 +1552,15 @@ msgstr "Туры китерү"
 
 msgctxt "IDS_AG_VIDFRM_HALF"
 msgid "VidFrm Half"
-msgstr "Половинный видеокадр"
+msgstr "Яртылы видеокадр"
 
 msgctxt "IDS_AG_VIDFRM_NORMAL"
 msgid "VidFrm Normal"
-msgstr "Нормальный видеокадр"
+msgstr "Гади видеокадр"
 
 msgctxt "IDS_AG_VIDFRM_DOUBLE"
 msgid "VidFrm Double"
-msgstr "Двойной видеокадр"
+msgstr "Икеләтә видеокадр"
 
 msgctxt "IDS_AG_ALWAYS_ON_TOP"
 msgid "Always On Top"
@@ -1568,43 +1568,43 @@ msgstr "Барлык тәрәзә өстеннән"
 
 msgctxt "IDS_AG_PNS_INC_SIZE"
 msgid "PnS Inc Size"
-msgstr "Увеличить размер кадра"
+msgstr "Кадр зурлыгын арттырырга"
 
 msgctxt "IDS_AG_PNS_INC_WIDTH"
 msgid "PnS Inc Width"
-msgstr "Увеличить ширину кадра"
+msgstr "Кадр киңлеген арттырырга"
 
 msgctxt "IDS_MPLAYERC_47"
 msgid "PnS Inc Height"
-msgstr "Увеличить высоту кадра"
+msgstr "Кадр биеклеген арттырырга"
 
 msgctxt "IDS_AG_PNS_DEC_SIZE"
 msgid "PnS Dec Size"
-msgstr "Уменьшить размер кадра"
+msgstr "Кадр зурлыгын киметергә"
 
 msgctxt "IDS_AG_PNS_DEC_WIDTH"
 msgid "PnS Dec Width"
-msgstr "Уменьшить ширину кадра"
+msgstr "Кадр киңлеген киметергә"
 
 msgctxt "IDS_MPLAYERC_50"
 msgid "PnS Dec Height"
-msgstr "Уменьшить высоту кадра"
+msgstr "Кадр биеклеген киметергә"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
 msgid "Downloading subtitle(s), please wait."
-msgstr "Субтитры загружаются, пожалуйста, подождите."
+msgstr "Субтитрлар йөкләнә, зинһар көтегез."
 
 msgctxt "IDS_SUBDL_DLG_PARSING"
 msgid "Parsing list..."
-msgstr "Анализ списка..."
+msgstr "Исемлекне билгеләү..."
 
 msgctxt "IDS_SUBDL_DLG_NOT_FOUND"
 msgid "No subtitles found."
-msgstr "Субтитры не найдены."
+msgstr "Субтитрлар табылмады."
 
 msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
 msgid " %d subtitle(s) available."
-msgstr " %d субтитров доступно."
+msgstr " %d субтитр бар."
 
 msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
@@ -1636,7 +1636,7 @@ msgstr "Туры китерү (зурларны гына)"
 
 msgctxt "IDS_OSD_ZOOM_AUTO_LARGER"
 msgid "Zoom: Auto (Larger Only)"
-msgstr "Масштаб: Авто (только большие)"
+msgstr "Зурлык: Үзе (зурлар гына)"
 
 msgctxt "IDS_TOOLTIP_EXPLORE_TO_FILE"
 msgid "Double click to open file location"
@@ -1648,7 +1648,7 @@ msgstr "Переключение между прошедшим и оставши
 
 msgctxt "IDS_UPDATE_DELAY_ERROR_TITLE"
 msgid "Invalid delay"
-msgstr "Некорректный интервал"
+msgstr "Нәзакәтсез аралык"
 
 msgctxt "IDS_UPDATE_DELAY_ERROR_MSG"
 msgid "Please enter a number between 1 and 365."
@@ -1656,47 +1656,47 @@ msgstr "Пожалуйста, введите число от 1 до 365."
 
 msgctxt "IDS_AG_PNS_CENTER"
 msgid "PnS Center"
-msgstr "Центрировать кадр"
+msgstr "Кадрны үзәкләү"
 
 msgctxt "IDS_AG_PNS_LEFT"
 msgid "PnS Left"
-msgstr "Сдвинуть кадр влево"
+msgstr "Кадрны сулга шудырырга"
 
 msgctxt "IDS_AG_PNS_RIGHT"
 msgid "PnS Right"
-msgstr "Сдвинуть кадр вправо"
+msgstr "Кадрны уңга шудырырга"
 
 msgctxt "IDS_AG_PNS_UP"
 msgid "PnS Up"
-msgstr "Сдвинуть кадр вверх"
+msgstr "Кадрны өскә шудырырга"
 
 msgctxt "IDS_AG_PNS_DOWN"
 msgid "PnS Down"
-msgstr "Сдвинуть кадр вниз"
+msgstr "Кадрны аска шудырырга"
 
 msgctxt "IDS_AG_PNS_UPLEFT"
 msgid "PnS Up/Left"
-msgstr "Сдвинуть кадр вверх/влево"
+msgstr "Кадрны өскә/сулга шудырырга"
 
 msgctxt "IDS_AG_PNS_UPRIGHT"
 msgid "PnS Up/Right"
-msgstr "Сдвинуть кадр вверх/вправо"
+msgstr "Кадрны өскә/уңга шудырырга"
 
 msgctxt "IDS_AG_PNS_DOWNLEFT"
 msgid "PnS Down/Left"
-msgstr "Сдвинуть кадр вниз/влево"
+msgstr "Кадрны аска/сулга шудырырга"
 
 msgctxt "IDS_MPLAYERC_59"
 msgid "PnS Down/Right"
-msgstr "Сдвинуть кадр вниз/вправо"
+msgstr "Кадрны аска/уңга шудырырга"
 
 msgctxt "IDS_AG_VOLUME_UP"
 msgid "Volume Up"
-msgstr "Увеличить громкость"
+msgstr "Тавыш көчен арттырырга"
 
 msgctxt "IDS_AG_VOLUME_DOWN"
 msgid "Volume Down"
-msgstr "Уменьшить громкость"
+msgstr "Тавыш көчен киметергә"
 
 msgctxt "IDS_AG_VOLUME_MUTE"
 msgid "Volume Mute"
@@ -1704,71 +1704,71 @@ msgstr "Тавышны сүндерү"
 
 msgctxt "IDS_MPLAYERC_63"
 msgid "DVD Title Menu"
-msgstr "DVD - заглавное меню"
+msgstr "DVD - баш меню"
 
 msgctxt "IDS_AG_DVD_ROOT_MENU"
 msgid "DVD Root Menu"
-msgstr "DVD - корневое меню"
+msgstr "DVD - тамыр меню"
 
 msgctxt "IDS_MPLAYERC_65"
 msgid "DVD Subtitle Menu"
-msgstr "DVD - меню субтитров"
+msgstr "DVD - субтитрлар менюсы"
 
 msgctxt "IDS_MPLAYERC_66"
 msgid "DVD Audio Menu"
-msgstr "DVD - меню аудио"
+msgstr "DVD - аудио менюсы"
 
 msgctxt "IDS_MPLAYERC_67"
 msgid "DVD Angle Menu"
-msgstr "DVD - меню углов"
+msgstr "DVD - почмаклар менюсы"
 
 msgctxt "IDS_MPLAYERC_68"
 msgid "DVD Chapter Menu"
-msgstr "DVD - меню сцен"
+msgstr "DVD - сәхнә менюсы"
 
 msgctxt "IDS_AG_DVD_MENU_LEFT"
 msgid "DVD Menu Left"
-msgstr "DVD меню - влево"
+msgstr "DVD меню - сулга"
 
 msgctxt "IDS_MPLAYERC_70"
 msgid "DVD Menu Right"
-msgstr "DVD меню - вправо"
+msgstr "DVD меню - уңга"
 
 msgctxt "IDS_AG_DVD_MENU_UP"
 msgid "DVD Menu Up"
-msgstr "DVD меню - вверх"
+msgstr "DVD меню - өскә"
 
 msgctxt "IDS_AG_DVD_MENU_DOWN"
 msgid "DVD Menu Down"
-msgstr "DVD меню - вниз"
+msgstr "DVD меню - аска"
 
 msgctxt "IDS_MPLAYERC_73"
 msgid "DVD Menu Activate"
-msgstr "DVD меню - активировать"
+msgstr "DVD меню - эшләтергә"
 
 msgctxt "IDS_AG_DVD_MENU_BACK"
 msgid "DVD Menu Back"
-msgstr "DVD меню - назад"
+msgstr "DVD меню - кире"
 
 msgctxt "IDS_MPLAYERC_75"
 msgid "DVD Menu Leave"
-msgstr "DVD меню - покинуть"
+msgstr "DVD меню - калдырырга"
 
 msgctxt "IDS_AG_BOSS_KEY"
 msgid "Boss key"
-msgstr "Босс-клавиша"
+msgstr "Босс-төймә"
 
 msgctxt "IDS_MPLAYERC_77"
 msgid "Player Menu (short)"
-msgstr "Меню проигрывателя (сокращенное)"
+msgstr "Уйнаткыч менюсы (кыскартылган)"
 
 msgctxt "IDS_MPLAYERC_78"
 msgid "Player Menu (long)"
-msgstr "Меню проигрывателя (полное)"
+msgstr "Уйнаткыч менюсы (тулы)"
 
 msgctxt "IDS_AG_FILTERS_MENU"
 msgid "Filters Menu"
-msgstr "Меню фильтров"
+msgstr "Сөзгечләр менюсы"
 
 msgctxt "IDS_AG_OPTIONS"
 msgid "Options"
@@ -1776,71 +1776,71 @@ msgstr "Рәвешләр"
 
 msgctxt "IDS_AG_NEXT_AUDIO"
 msgid "Next Audio"
-msgstr "Следующее аудио"
+msgstr "Киләсе аудио"
 
 msgctxt "IDS_AG_PREV_AUDIO"
 msgid "Prev Audio"
-msgstr "Предыдущее аудио"
+msgstr "Алдагы аудио"
 
 msgctxt "IDS_AG_NEXT_SUBTITLE"
 msgid "Next Subtitle"
-msgstr "Следующие субтитры"
+msgstr "Киләсе субтитрлар"
 
 msgctxt "IDS_AG_PREV_SUBTITLE"
 msgid "Prev Subtitle"
-msgstr "Предыдущие субтитры"
+msgstr "Алдагы субтитрлар"
 
 msgctxt "IDS_MPLAYERC_85"
 msgid "On/Off Subtitle"
-msgstr "Субтитры Вкл/Откл"
+msgstr "Субтитрлар Каб/Сүн"
 
 msgctxt "IDS_MPLAYERC_86"
 msgid "Reload Subtitles"
-msgstr "Перезагрузить субтитры"
+msgstr "Субтитрларны киредән йөкләргә"
 
 msgctxt "IDS_MPLAYERC_87"
 msgid "Next Audio (OGM)"
-msgstr "Следующее аудио (OGM)"
+msgstr "Киләсе аудио (OGM)"
 
 msgctxt "IDS_MPLAYERC_88"
 msgid "Prev Audio (OGM)"
-msgstr "Предыдущее аудио (OGM)"
+msgstr "Алдагы аудио (OGM)"
 
 msgctxt "IDS_MPLAYERC_89"
 msgid "Next Subtitle (OGM)"
-msgstr "Следующие субтитры (OGM)"
+msgstr "Киләсе субтитрлар (OGM)"
 
 msgctxt "IDS_MPLAYERC_90"
 msgid "Prev Subtitle (OGM)"
-msgstr "Предыдущие субтитры (OGM)"
+msgstr "Алдагы субтитрлар (OGM)"
 
 msgctxt "IDS_MPLAYERC_91"
 msgid "Next Angle (DVD)"
-msgstr "Следующий угол (DVD)"
+msgstr "Киләсе почмак (DVD)"
 
 msgctxt "IDS_MPLAYERC_92"
 msgid "Prev Angle (DVD)"
-msgstr "Предыдущий угол (DVD)"
+msgstr "Алдагы почмак (DVD)"
 
 msgctxt "IDS_MPLAYERC_93"
 msgid "Next Audio (DVD)"
-msgstr "Следующее аудио (DVD)"
+msgstr "Киләсе аудио (DVD)"
 
 msgctxt "IDS_MPLAYERC_94"
 msgid "Prev Audio (DVD)"
-msgstr "Предыдущее аудио (DVD)"
+msgstr "Алдагы аудио (DVD)"
 
 msgctxt "IDS_MPLAYERC_95"
 msgid "Next Subtitle (DVD)"
-msgstr "Следующие субтитры (DVD)"
+msgstr "Киләсе субтитрлар (DVD)"
 
 msgctxt "IDS_MPLAYERC_96"
 msgid "Prev Subtitle (DVD)"
-msgstr "Предыдущие субтитры (DVD)"
+msgstr "Алдагы субтитрлар (DVD)"
 
 msgctxt "IDS_MPLAYERC_97"
 msgid "On/Off Subtitle (DVD)"
-msgstr "Субтитры Вкл/Откл (DVD)"
+msgstr "Субтитрлар Каб/Сүн (DVD)"
 
 msgctxt "IDS_MPLAYERC_98"
 msgid "Remaining Time"
@@ -1852,7 +1852,7 @@ msgstr "Папка сайлагыз"
 
 msgctxt "IDS_FAVORITES_QUICKADDFAVORITE"
 msgid "Quick add favorite"
-msgstr "Быстро добавить в закладки"
+msgstr "Кыстыргычка тиз өстәргә"
 
 msgctxt "IDS_DVB_CHANNEL_NUMBER"
 msgid "N"
@@ -1868,7 +1868,7 @@ msgstr "Ешлык:"
 
 msgctxt "IDS_DVB_CHANNEL_ENCRYPTION"
 msgid "Encrypted"
-msgstr "Зашифрованный"
+msgstr "Шифрланган"
 
 msgctxt "IDS_DVB_CHANNEL_ENCRYPTED"
 msgid "Yes"
@@ -1888,11 +1888,11 @@ msgstr "Туктату"
 
 msgctxt "IDS_DVB_TVNAV_SEERADIO"
 msgid "Radio stations"
-msgstr "Радиостанции"
+msgstr "Радиостанция"
 
 msgctxt "IDS_DVB_TVNAV_SEETV"
 msgid "TV stations"
-msgstr "ТВ-станции"
+msgstr "ТВ-станция"
 
 msgctxt "IDS_DVB_CHANNEL_FORMAT"
 msgid "Format"
@@ -1900,31 +1900,31 @@ msgstr "Форматы"
 
 msgctxt "IDS_MAINFRM_2"
 msgid "Focus lost to: %s - %s"
-msgstr "Фокус перешел к: %s - %s"
+msgstr "Фокус күчте: %s - %s"
 
 msgctxt "IDS_AG_SUBTITLES_SAVED"
 msgid "Subtitles saved"
-msgstr "Субтитры сохранены"
+msgstr "Субтитрлар сакланды"
 
 msgctxt "IDS_MAINFRM_4"
 msgid "Cannot save subtitles"
-msgstr "Не удаётся сохранить субтитры."
+msgstr "Субтитрларны саклап булмый."
 
 msgctxt "IDS_AG_FRAMERATE"
 msgid "Frame rate"
-msgstr "Частота кадров"
+msgstr "Кадрлар ешлыгы"
 
 msgctxt "IDS_MAINFRM_6"
 msgid "drawn: %d, dropped: %d"
-msgstr "записано: %d, потеряно: %d"
+msgstr "язылды: %d, югалды: %d"
 
 msgctxt "IDS_AG_FRAMES"
 msgid "Frames"
-msgstr "Кадров"
+msgstr "Кадр"
 
 msgctxt "IDS_AG_BUFFERS"
 msgid "Buffers"
-msgstr "Буферов"
+msgstr "Буфер"
 
 msgctxt "IDS_MAINFRM_9"
 msgid "Volume: %02d/%02d, Title: %02d/%02d, Chapter: %02d/%02d"
@@ -1940,11 +1940,11 @@ msgstr "%s, %s %d Гц %d бит %d %s"
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
-msgstr "Добавить в плейлист MPC-HC"
+msgstr "MPC-HC уйнату битенә өстәргә"
 
 msgctxt "IDS_OPEN_WITH_MPC"
 msgid "Play with MPC-HC"
-msgstr "Воспроизвести в MPC-HC"
+msgstr "MPC-HC белән уйнатырга"
 
 msgctxt "IDS_CANNOT_CHANGE_FORMAT"
 msgid "MPC-HC has not enough privileges to change files formats associations. Please click on \"Modify\" button to get administrator rights."
@@ -1960,15 +1960,15 @@ msgstr "канал"
 
 msgctxt "IDS_MAINFRM_13"
 msgid "channels"
-msgstr "каналов"
+msgstr "канал"
 
 msgctxt "IDS_AG_TITLE"
 msgid "Title %d"
-msgstr "Раздел %d"
+msgstr "Бүлек %d"
 
 msgctxt "IDS_MAINFRM_16"
 msgid "DVD: Unexpected error"
-msgstr "DVD: Непредвиденная ошибка."
+msgstr "DVD: Көтелмәгән хата."
 
 msgctxt "IDS_MAINFRM_17"
 msgid "DVD: Copy-Protect Fail"
@@ -1976,11 +1976,11 @@ msgstr "DVD: проблема с защитой от копирования."
 
 msgctxt "IDS_MAINFRM_18"
 msgid "DVD: Invalid DVD 1.x Disc"
-msgstr "DVD: Неправильный диск DVD 1.x"
+msgstr "DVD: Дөрес булмаган DVD 1.x тәлинкәсе"
 
 msgctxt "IDS_MAINFRM_19"
 msgid "DVD: Invalid Disc Region"
-msgstr "DVD: Неправильный регион диска."
+msgstr "DVD: Тәлинкәнең өлкәсе дөрес түгел."
 
 msgctxt "IDS_MAINFRM_20"
 msgid "DVD: Low Parental Level"
@@ -1988,7 +1988,7 @@ msgstr "DVD: Низкий уровень родительского контро
 
 msgctxt "IDS_MAINFRM_21"
 msgid "DVD: Macrovision Fail"
-msgstr "DVD: Проблема с Macrovision."
+msgstr "DVD: Macrovision белән проблемаon."
 
 msgctxt "IDS_MAINFRM_22"
 msgid "DVD: Incompatible System And Decoder Regions"
@@ -2004,11 +2004,11 @@ msgstr "Эта опция служит для устранения дрожан�
 
 msgctxt "IDS_MAINFRM_139"
 msgid "Sub delay: %ld ms"
-msgstr "Задержка субтитров: %ld мс"
+msgstr "Субтитрлар тоткарлануы: %ld мс"
 
 msgctxt "IDS_AG_TITLE2"
 msgid "Title: %02d/%02d"
-msgstr "Раздел: %02d/%02d"
+msgstr "Бүлек: %02d/%02d"
 
 msgctxt "IDS_REALVIDEO_INCOMPATIBLE"
 msgid "Filename contains unsupported characters (use only A-Z, 0-9)"
@@ -2028,7 +2028,7 @@ msgstr "Киңлек"
 
 msgctxt "IDS_PPSDB_URLCORRECT"
 msgid "The URL appears to be correct!"
-msgstr "Введённый URL верный!"
+msgstr "Кертелгән URL дөрес түгел!"
 
 msgctxt "IDS_PPSDB_PROTOCOLERR"
 msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
@@ -2036,31 +2036,31 @@ msgstr "Версия протокола не совпадает. Пожалуй�
 
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
-msgstr "Пропорции"
+msgstr "Пропорция"
 
 msgctxt "IDS_MAINFRM_37"
 msgid ", Total: %d, Dropped: %d"
-msgstr ", Всего: %d, Потеряно: %d"
+msgstr ", Барысы: %d, Югалды: %d"
 
 msgctxt "IDS_MAINFRM_38"
 msgid ", Size: %I64dKB"
-msgstr ", Размер: %I64dКб"
+msgstr ", Зурлыгы: %I64dКб"
 
 msgctxt "IDS_MAINFRM_39"
 msgid ", Size: %I64dMB"
-msgstr ", Размер: %I64dМб"
+msgstr ", Зурлыгы: %I64dМб"
 
 msgctxt "IDS_MAINFRM_40"
 msgid ", Free: %I64dKB"
-msgstr ", Свободно: %I64dКб"
+msgstr ", Буш: %I64dКб"
 
 msgctxt "IDS_MAINFRM_41"
 msgid ", Free: %I64dMB"
-msgstr ", Свободно: %I64dМб"
+msgstr ", Буш: %I64dМб"
 
 msgctxt "IDS_MAINFRM_42"
 msgid ", Free V/A Buffers: %03d/%03d"
-msgstr ", Свободно буферов: %03d/%03d"
+msgstr ", Буш буфер: %03d/%03d"
 
 msgctxt "IDS_AG_ERROR"
 msgid "Error"
@@ -2068,7 +2068,7 @@ msgstr "Хата"
 
 msgctxt "IDS_SUBTITLE_STREAM_OFF"
 msgid "Subtitle: off"
-msgstr "Субтитры: отключены"
+msgstr "Субтитрлар: сүндерелгән"
 
 msgctxt "IDS_SUBTITLE_STREAM"
 msgid "Subtitle: %s"
@@ -2076,19 +2076,19 @@ msgstr "Субтитрлар: %s"
 
 msgctxt "IDS_MAINFRM_46"
 msgid "Select the path for the DVD/BD:"
-msgstr "Выберите путь для DVD/BD:"
+msgstr "DVD/BD өчен юл сайлагыз:"
 
 msgctxt "IDS_MAINFRM_47"
 msgid " loaded successfully"
-msgstr " успешно загружен"
+msgstr " уңышлы йөкләнгән"
 
 msgctxt "IDS_MAINFRM_48"
 msgid "All files (*.*)|*.*||"
-msgstr "Все файлы (*.*)|*.*||"
+msgstr "Барлык файллар (*.*)|*.*||"
 
 msgctxt "IDS_MAINFRM_49"
 msgid "GetDIB failed, hr = %08x"
-msgstr "Проблема с GetDIB, hr = %08x"
+msgstr "GetDIB белән проблема, hr = %08x"
 
 msgctxt "IDS_MAINFRM_51"
 msgid "GetCurrentImage failed, hr = %08x"
@@ -2096,7 +2096,7 @@ msgstr "Проблема с GetCurrentImage, hr = %08x"
 
 msgctxt "IDS_MAINFRM_53"
 msgid "Cannot create file"
-msgstr "Не удаётся создать файл"
+msgstr "Файлны ясап булмый"
 
 msgctxt "IDS_MAINFRM_54"
 msgid "Cannot create thumbnails for files with no duration"
@@ -2108,7 +2108,7 @@ msgstr "Не удаётся получить размер видеокадра"
 
 msgctxt "IDS_MAINFRM_56"
 msgid "Out of memory, go buy some more!"
-msgstr "Не хватает памяти, купите ещё!"
+msgstr "Хәтер җитми, тагын сатып алыгыз!"
 
 msgctxt "IDS_MAINFRM_57"
 msgid "Invalid image format, cannot create thumbnails out of %d bpp dibs."
@@ -2116,7 +2116,7 @@ msgstr "Неправильный формат изображения, невоз
 
 msgctxt "IDS_MAINFRM_58"
 msgid "File Size: %s (%s bytes)\\N"
-msgstr "Размер файла: %s (%s байт)\\N"
+msgstr "Файл зурлыгы: %s (%s байт)\\N"
 
 msgctxt "IDS_MAINFRM_59"
 msgid "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: %dx%d %s\\NDuration: %02d:%02d:%02d"
@@ -2128,19 +2128,19 @@ msgstr "Для загрузки субтитров необходимо изме
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %d:%d"
-msgstr "Пропорции: %d:%d"
+msgstr "Пропорция: %d:%d"
 
 msgctxt "IDS_MAINFRM_69"
 msgid "Aspect Ratio: Default"
-msgstr "Пропорции: стандартные"
+msgstr "Пропорция: стандарт"
 
 msgctxt "IDS_MAINFRM_70"
 msgid "Audio Delay: %I64dms"
-msgstr "Задержка аудио: %I64dмс"
+msgstr "Аудио тоткарлау: %I64dмс"
 
 msgctxt "IDS_AG_CHAPTER"
 msgid "Chapter %d"
-msgstr "Глава %d"
+msgstr "Бүлек %d"
 
 msgctxt "IDS_AG_OUT_OF_MEMORY"
 msgid "Out of memory"
@@ -2148,7 +2148,7 @@ msgstr "Хәтер җитми"
 
 msgctxt "IDS_MAINFRM_77"
 msgid "Error: Flash player for IE is required"
-msgstr "Ошибка: требуется Flash для IE"
+msgstr "Хата: IE өчен Flash кирәк"
 
 msgctxt "IDS_MAINFRM_78"
 msgid "QuickTime not yet supported for X64 (apple library not available)"
@@ -2156,19 +2156,19 @@ msgstr "QuickTime пока не поддерживается для X64 (биб�
 
 msgctxt "IDS_MAINFRM_80"
 msgid "Failed to create the filter graph object"
-msgstr "Не удаётся создать граф фильтра"
+msgstr "Сөзгечнең баганасын ясап булмый"
 
 msgctxt "IDS_MAINFRM_81"
 msgid "Invalid argument"
-msgstr "Неверный аргумент"
+msgstr "Билгесез дәлил"
 
 msgctxt "IDS_MAINFRM_82"
 msgid "Opening aborted"
-msgstr "Открытие прервано"
+msgstr "Ачу туктатылды"
 
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
-msgstr "Не удаётся воспроизвести файл"
+msgstr "Файлны уйнатып булмый"
 
 msgctxt "IDS_PPSDB_BADURL"
 msgid "Bad URL, could not locate subtitle database there!"
@@ -2176,19 +2176,19 @@ msgstr "URL неверный, невозможно обнаружить базу
 
 msgctxt "IDS_AG_CHAPTER2"
 msgid "Chapter: "
-msgstr "Глава: "
+msgstr "Бүлек: "
 
 msgctxt "IDS_VOLUME_OSD"
 msgid "Vol: %d%%"
-msgstr "Громкость: %d%%"
+msgstr "Тавыш көче: %d%%"
 
 msgctxt "IDS_BOOST_OSD"
 msgid "Boost: +%u%%"
-msgstr "Усиление: +%u%%"
+msgstr "Арттыру: +%u%%"
 
 msgctxt "IDS_BALANCE_OSD"
 msgid "Balance: %s"
-msgstr "Баланс: %s"
+msgstr "Тигезлек: %s"
 
 msgctxt "IDS_FULLSCREENMONITOR_CURRENT"
 msgid "Current"
@@ -2208,7 +2208,7 @@ msgstr "Папка сайлагыз"
 
 msgctxt "IDS_MAINFRM_DIR_CHECK"
 msgid "Include subdirectories"
-msgstr "Вкл. подпапки"
+msgstr "Аспапкаларны каб."
 
 msgctxt "IDS_AG_PAUSE"
 msgid "Pause"
@@ -2216,23 +2216,23 @@ msgstr "Тыналыш"
 
 msgctxt "IDS_AG_TOGGLE_CAPTION"
 msgid "Toggle Caption&Menu"
-msgstr "Вкл/Откл заголовок и меню"
+msgstr "Башлам һәм менюны Каб/Сүн"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
 msgid "Toggle Seeker"
-msgstr "Вкл/Откл полосу прокрутки"
+msgstr "Әйләндерү тасмасын Каб/Сүн"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
 msgid "Toggle Controls"
-msgstr "Вкл/Откл управление"
+msgstr "Идарәне Каб/Сүн"
 
 msgctxt "IDS_MAINFRM_84"
 msgid "Invalid file name"
-msgstr "Неверное имя файла"
+msgstr "Файл исеме дөрес түгел"
 
 msgctxt "IDS_MAINFRM_86"
 msgid "Cannot connect the filters"
-msgstr "Не удаётся подключить фильтры"
+msgstr "Сөзгечләрне тоташтырып булмый"
 
 msgctxt "IDS_MAINFRM_87"
 msgid "Cannot load any source filter"
@@ -2240,11 +2240,11 @@ msgstr "Не удаётся загрузить ни одного фильтра 
 
 msgctxt "IDS_MAINFRM_88"
 msgid "Cannot render the file"
-msgstr "Не удаётся воспроизвести файл"
+msgstr "Файлны уйнатып булмый"
 
 msgctxt "IDS_MAINFRM_89"
 msgid "Invalid file format"
-msgstr "Неверный формат файла"
+msgstr "Файл форматы дөрес түгел"
 
 msgctxt "IDS_MAINFRM_90"
 msgid "File not found"
@@ -2256,11 +2256,11 @@ msgstr "Билгесез файл төре."
 
 msgctxt "IDS_MAINFRM_92"
 msgid "Unsupported stream"
-msgstr "Неподдерживаемый поток"
+msgstr "Кулланылмаган ташкын"
 
 msgctxt "IDS_MAINFRM_93"
 msgid "Cannot find DVD directory"
-msgstr "Не удаётся найти каталог DVD"
+msgstr "DVD каталогын табып булмый"
 
 msgctxt "IDS_MAINFRM_94"
 msgid "Can't create the DVD Navigator filter"
@@ -2268,7 +2268,7 @@ msgstr "Не удаётся создать фильтр DVD-навигатора
 
 msgctxt "IDS_AG_FAILED"
 msgid "Failed"
-msgstr "Неудачно"
+msgstr "Уңышсыз"
 
 msgctxt "IDS_MAINFRM_96"
 msgid "Can't create video capture filter"
@@ -2276,7 +2276,7 @@ msgstr "Не удаётся создать фильтр видеозахвата
 
 msgctxt "IDS_MAINFRM_98"
 msgid "No capture filters"
-msgstr "Фильтры видеозахвата отсутствуют"
+msgstr "Видеоэләктерү сөзгечләре юк"
 
 msgctxt "IDS_MAINFRM_99"
 msgid "Can't create capture graph builder object"
@@ -2296,7 +2296,7 @@ msgstr "%s не найден, пожалуйста, вставьте носит�
 
 msgctxt "IDS_AG_ABORTED"
 msgid "Aborted"
-msgstr "Прервано"
+msgstr "Туктатылды"
 
 msgctxt "IDS_MAINFRM_116"
 msgid "&Properties..."
@@ -2304,15 +2304,15 @@ msgstr "Ү&злекләр..."
 
 msgctxt "IDS_MAINFRM_117"
 msgid " (pin) properties..."
-msgstr " (pin) свойства..."
+msgstr " (pin) үзлекләре..."
 
 msgctxt "IDS_AG_UNKNOWN_STREAM"
 msgid "Unknown Stream"
-msgstr "Неизвестный поток"
+msgstr "Билгесез ташкын"
 
 msgctxt "IDS_AG_UNKNOWN"
 msgid "Unknown %d"
-msgstr "Неизвестный %d"
+msgstr "Билгесез %d"
 
 msgctxt "IDS_AG_VSYNC"
 msgid "VSync"
@@ -2320,19 +2320,19 @@ msgstr "VSync"
 
 msgctxt "IDS_MAINFRM_121"
 msgid " (Director Comments 1)"
-msgstr " (Комментарии режиссера 1)"
+msgstr " (Режиссер аңлатмасы 1)"
 
 msgctxt "IDS_MAINFRM_122"
 msgid " (Director Comments 2)"
-msgstr " (Комментарии режиссера 2)"
+msgstr " (Режиссер аңлатмасы 2)"
 
 msgctxt "IDS_DVD_SUBTITLES_ENABLE"
 msgid "Enable DVD subtitles"
-msgstr "Включить DVD субтитры"
+msgstr "DVD субтитрларны кабызырга"
 
 msgctxt "IDS_AG_ANGLE"
 msgid "Angle %d"
-msgstr "Угол %d"
+msgstr "Почмак %d"
 
 msgctxt "IDS_AG_VSYNCOFFSET_INCREASE"
 msgid "Increase VSync Offset"
@@ -2348,31 +2348,31 @@ msgstr "VSync китешен киметергә"
 
 msgctxt "IDS_MAINFRM_136"
 msgid "MPC-HC D3D Fullscreen"
-msgstr "MPC-HC Полноэкранный D3D"
+msgstr "MPC-HC Тулы экранлы D3D"
 
 msgctxt "IDS_MAINFRM_137"
 msgid "Unknown format"
-msgstr "Неизвестный формат"
+msgstr "Билгесез формат"
 
 msgctxt "IDS_MAINFRM_138"
 msgid "Sub shift: %ld ms"
-msgstr "Смещение субтитров: %ld"
+msgstr "Субтитрлар күчеше: %ld"
 
 msgctxt "IDS_VOLUME_BOOST_INC"
 msgid "Volume boost increase"
-msgstr "Усиление громкости - увеличить"
+msgstr "Тавыш көчен арттыру - арттырырга"
 
 msgctxt "IDS_VOLUME_BOOST_DEC"
 msgid "Volume boost decrease"
-msgstr "Усиление громкости - уменьшить"
+msgstr "Тавыш көчен арттыру - киметергә"
 
 msgctxt "IDS_VOLUME_BOOST_MIN"
 msgid "Volume boost Min"
-msgstr "Усиление громкости - Min"
+msgstr "Тавыш көчен арттыру - Min"
 
 msgctxt "IDS_VOLUME_BOOST_MAX"
 msgid "Volume boost Max"
-msgstr "Усиление громкости - Max"
+msgstr "Тавыш көчен арттыру - Max"
 
 msgctxt "IDS_USAGE"
 msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
@@ -2384,15 +2384,15 @@ msgstr "В командной строке найдены нераспознан
 
 msgctxt "IDS_AG_TOGGLE_INFO"
 msgid "Toggle Information"
-msgstr "Вкл/Откл информацию"
+msgstr "Мәгълүматны Каб/Сүн"
 
 msgctxt "IDS_AG_TOGGLE_STATS"
 msgid "Toggle Statistics"
-msgstr "Вкл/Откл статистику"
+msgstr "Статистиканы Каб/Сүн"
 
 msgctxt "IDS_AG_TOGGLE_STATUS"
 msgid "Toggle Status"
-msgstr "Вкл/Откл статусную строку"
+msgstr "Халәт юлын Каб/Сүн"
 
 msgctxt "IDS_AG_TOGGLE_SUBRESYNC"
 msgid "Toggle Subresync Bar"
@@ -2400,15 +2400,15 @@ msgstr "Вкл/Откл окно синхронизации субтитров"
 
 msgctxt "IDS_AG_TOGGLE_PLAYLIST"
 msgid "Toggle Playlist Bar"
-msgstr "Вкл/Откл плейлист"
+msgstr "Уйнату битен Каб/Сүн"
 
 msgctxt "IDS_AG_TOGGLE_CAPTURE"
 msgid "Toggle Capture Bar"
-msgstr "Вкл/Откл окно захвата"
+msgstr "Эләктерү тәрәзәсен Каб/Сүн"
 
 msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
 msgid "Toggle Debug Shaders"
-msgstr "Вкл/Откл отладку шейдеров"
+msgstr "Шейдерлар көйләве Каб/Сүн"
 
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
@@ -2444,7 +2444,7 @@ msgstr "Сбросить настройки положения кадра"
 
 msgctxt "IDS_AG_PNS_ROTATEX_P"
 msgid "PnS Rotate X+"
-msgstr "Повернуть кадр по X+"
+msgstr "Кадрны X- буенча борырга"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "VidFrm Zoom 1"
@@ -2456,15 +2456,15 @@ msgstr "Видеокадр. Zoom 2"
 
 msgctxt "IDS_AG_VIDFRM_SWITCHZOOM"
 msgid "VidFrm Switch Zoom"
-msgstr "Видеокадр. Изменить масштаб"
+msgstr "Видеокадр. Зурлыкны үзгәртергә"
 
 msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
-msgstr "&Включить все фильтры"
+msgstr "&Барлык сөзгечләрне кабызырга"
 
 msgctxt "IDS_NAVIGATE_TUNERSCAN"
 msgid "Tuner scan"
-msgstr "Настройка тюнера"
+msgstr "Тюнерны көйләргә"
 
 msgctxt "IDS_SUBTITLES_ERROR"
 msgid "Subtitles are not loaded or unsupported renderer."
@@ -2488,15 +2488,15 @@ msgstr "Последний файл из папки уже загружен."
 
 msgctxt "IDS_FRONT_LEFT"
 msgid "Front Left"
-msgstr "Передний левый"
+msgstr "Алгы уң"
 
 msgctxt "IDS_FRONT_RIGHT"
 msgid "Front Right"
-msgstr "Передний правый"
+msgstr "Алгы уң"
 
 msgctxt "IDS_FRONT_CENTER"
 msgid "Front Center"
-msgstr "Передний центр"
+msgstr "Алгы үзәк"
 
 msgctxt "IDS_LOW_FREQUENCY"
 msgid "Low Frequency"
@@ -2504,91 +2504,91 @@ msgstr "Сабвуфер"
 
 msgctxt "IDS_BACK_LEFT"
 msgid "Back Left"
-msgstr "Задний левый"
+msgstr "Арткы сул"
 
 msgctxt "IDS_BACK_RIGHT"
 msgid "Back Right"
-msgstr "Задний правый"
+msgstr "Арткы уң"
 
 msgctxt "IDS_FRONT_LEFT_OF_CENTER"
 msgid "Front Left of Center"
-msgstr "Перед. центр левый"
+msgstr "Алгы үзәк сул"
 
 msgctxt "IDS_FRONT_RIGHT_OF_CENTER"
 msgid "Front Right of Center"
-msgstr "Перед. центр правый"
+msgstr "Алгы үзәк уң"
 
 msgctxt "IDS_BACK_CENTER"
 msgid "Back Center"
-msgstr "Задний центр"
+msgstr "Арткы үзәк"
 
 msgctxt "IDS_SIDE_LEFT"
 msgid "Side Left"
-msgstr "Боковой левый"
+msgstr "Кырый сул"
 
 msgctxt "IDS_SIDE_RIGHT"
 msgid "Side Right"
-msgstr "Боковой правый"
+msgstr "Кырый уң"
 
 msgctxt "IDS_TOP_CENTER"
 msgid "Top Center"
-msgstr "Верх. центр"
+msgstr "Өске үзәк"
 
 msgctxt "IDS_TOP_FRONT_LEFT"
 msgid "Top Front Left"
-msgstr "Верх. передн. левый"
+msgstr "Өске алгы сул"
 
 msgctxt "IDS_TOP_FRONT_CENTER"
 msgid "Top Front Center"
-msgstr "Верх. передн. центр"
+msgstr "Өске алгы үзәк"
 
 msgctxt "IDS_TOP_FRONT_RIGHT"
 msgid "Top Front Right"
-msgstr "Верх. передн. правый"
+msgstr "Өске алгы уң"
 
 msgctxt "IDS_TOP_BACK_LEFT"
 msgid "Top Back Left"
-msgstr "Верх. задний левый"
+msgstr "Өске арткы сул"
 
 msgctxt "IDS_TOP_BACK_CENTER"
 msgid "Top Back Center"
-msgstr "Верх. задний центр"
+msgstr "Өске арткы үзәк"
 
 msgctxt "IDS_TOP_BACK_RIGHT"
 msgid "Top Back Right"
-msgstr "Верх. задний правый"
+msgstr "Өске арткы уң"
 
 msgctxt "IDS_AG_RESET_STATS"
 msgid "Reset Display Stats"
-msgstr "Сброс статистики"
+msgstr "Статистиканы ташлау"
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
-msgstr "Субтитры::Дополнительно"
+msgstr "Субтитрлар::Өстәмә"
 
 msgctxt "IDS_VIEW_BORDERLESS"
 msgid "Hide &borders"
-msgstr "Скрыть границы"
+msgstr "Чикләрне яшерергә"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
 msgid "Frame Only"
-msgstr "Только видеокадр"
+msgstr "Видеокадр гына"
 
 msgctxt "IDS_VIEW_CAPTIONMENU"
 msgid "Sho&w Caption&&Menu"
-msgstr "Показать заголовок и меню"
+msgstr "Башлам һәм менюны күрсәтергә"
 
 msgctxt "IDS_VIEW_HIDEMENU"
 msgid "Hide &Menu"
-msgstr "Скрыть меню"
+msgstr "Менюны яшерергә"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seekbar"
-msgstr "над полосой прокрутки"
+msgstr "әйләндерү тасмасы өстендә"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
 msgid "Below seekbar"
-msgstr "под полосой прокрутки"
+msgstr "әйләндерү тасмасы астында"
 
 msgctxt "IDS_VIDEO_STREAM"
 msgid "Video: %s"
@@ -2608,11 +2608,11 @@ msgstr "Баш тартырга"
 
 msgctxt "IDS_THUMB_THUMBNAILS"
 msgid "Layout"
-msgstr "Размешение"
+msgstr "Болгату"
 
 msgctxt "IDS_THUMB_PIXELS"
 msgid "Pixels:"
-msgstr "пиксельләр:"
+msgstr "Пиксель:"
 
 msgctxt "IDS_TEXTFILE_ENC"
 msgid "Encoding:"
@@ -2620,23 +2620,23 @@ msgstr "Кодлау:"
 
 msgctxt "IDS_DISABLE_ALL_FILTERS"
 msgid "&Disable all filters"
-msgstr "&Отключить все фильтры"
+msgstr "&Барлык сөзгечләрне сүндерергә"
 
 msgctxt "IDS_ENABLE_AUDIO_FILTERS"
 msgid "Enable all audio decoders"
-msgstr "Включить все аудио декодеры"
+msgstr "Барлык аудио декодерларны кабызырга"
 
 msgctxt "IDS_DISABLE_AUDIO_FILTERS"
 msgid "Disable all audio decoders"
-msgstr "Отключить все аудио декодеры"
+msgstr "Барлык аудио декодерларны сүндерергә"
 
 msgctxt "IDS_ENABLE_VIDEO_FILTERS"
 msgid "Enable all video decoders"
-msgstr "Включить все видео декодеры"
+msgstr "Барлык видео декодерларны кабызырга"
 
 msgctxt "IDS_DISABLE_VIDEO_FILTERS"
 msgid "Disable all video decoders"
-msgstr "Отключить все видео декодеры"
+msgstr "Барлык видео декодерларны сүндерергә"
 
 msgctxt "IDS_STRETCH_TO_WINDOW"
 msgid "Stretch To Window"
@@ -2660,11 +2660,11 @@ msgstr "Экранны тутырырга һәм кадрны кисәргә"
 
 msgctxt "IDS_AUDIO_STREAM"
 msgid "Audio: %s"
-msgstr "Аудио поток: %s"
+msgstr "Аудио ташкын: %s"
 
 msgctxt "IDS_AG_REOPEN"
 msgid "Reopen File"
-msgstr "Открыть файл заново"
+msgstr "Файлны киредән ачарга"
 
 msgctxt "IDS_MFMT_AVI"
 msgid "AVI"
@@ -2752,7 +2752,7 @@ msgstr "Shockwave Flash"
 
 msgctxt "IDS_MFMT_OTHER_AUDIO"
 msgid "Other Audio"
-msgstr "Прочее аудио"
+msgstr "Башка аудио"
 
 msgctxt "IDS_MFMT_AC3"
 msgid "AC-3/DTS"
@@ -2764,7 +2764,7 @@ msgstr "AIFF"
 
 msgctxt "IDS_MFMT_ALAC"
 msgid "Apple Lossless"
-msgstr "Apple Lossless (без потерь)"
+msgstr "Apple Lossless (югалтусыз)"
 
 msgctxt "IDS_MFMT_AMR"
 msgid "AMR"
@@ -2780,7 +2780,7 @@ msgstr "AU/SND"
 
 msgctxt "IDS_MFMT_CDA"
 msgid "Audio CD track"
-msgstr "Дорожка аудио CD"
+msgstr "Аудио CD юлы"
 
 msgctxt "IDS_MFMT_FLAC"
 msgid "FLAC"
@@ -2852,7 +2852,7 @@ msgstr "Уйнату бите"
 
 msgctxt "IDS_MFMT_BDPLS"
 msgid "Blu-ray playlist"
-msgstr "Blu-ray плейлист"
+msgstr "Blu-ray уйнату бите"
 
 msgctxt "IDS_MFMT_RAR"
 msgid "RAR Archive"
@@ -2868,7 +2868,7 @@ msgstr "Мөмкинлек"
 
 msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
 msgid "Aspect Ratio"
-msgstr "Соотношение сторон"
+msgstr "Яклар чагыштырмасы"
 
 msgctxt "IDS_ARS_WASAPI_MODE"
 msgid "Use WASAPI (restart playback)"
@@ -2880,23 +2880,23 @@ msgstr "Отключить звук при быстрой перемотке"
 
 msgctxt "IDS_ARS_SOUND_DEVICE"
 msgid "Sound Device:"
-msgstr "Звуковое устройство:"
+msgstr "Тавыш җиһазы:"
 
 msgctxt "IDS_OSD_RS_VSYNC_ON"
 msgid "VSync: On"
-msgstr "VSync: включен"
+msgstr "VSync: кабызылган"
 
 msgctxt "IDS_OSD_RS_VSYNC_OFF"
 msgid "VSync: Off"
-msgstr "VSync: выключен"
+msgstr "VSync: сүндерелгән"
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_ON"
 msgid "Accurate VSync: On"
-msgstr "Аккуратный VSync: включен"
+msgstr "Җыйнак VSync: кабызылган"
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_OFF"
 msgid "Accurate VSync: Off"
-msgstr "Аккуратный VSync: отключен"
+msgstr "Җыйнак VSync: сүндерелгән"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_ON"
 msgid "Synchronize Video to Display: On"
@@ -2924,27 +2924,27 @@ msgstr "Представлять с ближайшим VSync: отключено
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_ON"
 msgid "Color Management: On"
-msgstr "Управление цветом: включено"
+msgstr "Төс идарәсе: кабызылган"
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_OFF"
 msgid "Color Management: Off"
-msgstr "Управление цветом: отключено"
+msgstr "Төс идарәсе: сүндерелгән"
 
 msgctxt "IDS_OSD_RS_INPUT_TYPE_AUTO"
 msgid "Input Type: Auto-Detect"
-msgstr "Тип входа: Автоопределение"
+msgstr "Керү төре: Үзе билгеләү"
 
 msgctxt "IDS_OSD_RS_INPUT_TYPE_HDTV"
 msgid "Input Type: HDTV"
-msgstr "Тип входа: HDTV"
+msgstr "Керү төре: HDTV"
 
 msgctxt "IDS_OSD_RS_INPUT_TYPE_SD_NTSC"
 msgid "Input Type: SDTV NTSC"
-msgstr "Тип входа: SDTV NTSC"
+msgstr "Керү төре: SDTV NTSC"
 
 msgctxt "IDS_OSD_RS_INPUT_TYPE_SD_PAL"
 msgid "Input Type: SDTV PAL"
-msgstr "Тип входа: SDTV PAL"
+msgstr "Керү төре: SDTV PAL"
 
 msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_BRIGHT"
 msgid "Ambient Light: Bright (2.2 Gamma)"
@@ -2960,7 +2960,7 @@ msgstr "Окружающий свет: Темный (гамма 2.4)"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_PERCEPT"
 msgid "Rendering Intent: Perceptual"
-msgstr "Метод пересчета: Восприятие"
+msgstr "Киредән санау ысулы: Үзләштерү"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_RELATIVE"
 msgid "Rendering Intent: Relative Colorimetric"
@@ -2968,7 +2968,7 @@ msgstr "Метод пересчета: Относительный колорим
 
 msgctxt "IDS_OSD_RS_REND_INTENT_SATUR"
 msgid "Rendering Intent: Saturation"
-msgstr "Метод пересчета: Насыщенность"
+msgstr "Киредән санау ысулы: Куелык"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_ABSOLUTE"
 msgid "Rendering Intent: Absolute Colorimetric"
@@ -2976,7 +2976,7 @@ msgstr "Метод пересчета: Абсолютный колориметр
 
 msgctxt "IDS_OSD_RS_OUTPUT_RANGE"
 msgid "Output Range: %s"
-msgstr "Диапазон вывода: %s"
+msgstr "Чыгару аралыгы: %s"
 
 msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_ON"
 msgid "Flush GPU before VSync: On"
@@ -3004,11 +3004,11 @@ msgstr "Заполнить GPU перед VSync: отключено"
 
 msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_ON"
 msgid "D3D Fullscreen: On"
-msgstr "Полноэкранный D3D: включен"
+msgstr "Тулы экранлы D3D: кабызылган"
 
 msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_OFF"
 msgid "D3D Fullscreen: Off"
-msgstr "Полноэкранный D3D: отключен"
+msgstr "Тулы экранлы D3D: сүндерелгән"
 
 msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_ON"
 msgid "Disable desktop composition: On"
@@ -3020,11 +3020,11 @@ msgstr "эффекты рабочего стола (Aero): включены"
 
 msgctxt "IDS_OSD_RS_ALT_VSYNC_ON"
 msgid "Alternative VSync: On"
-msgstr "Альтернативный VSync: включен"
+msgstr "Башка VSync: кабызылган"
 
 msgctxt "IDS_OSD_RS_ALT_VSYNC_OFF"
 msgid "Alternative VSync: Off"
-msgstr "Альтернативный VSync: отключен"
+msgstr "Башка VSync: сүндерелгән"
 
 msgctxt "IDS_OSD_RS_RESET_DEFAULT"
 msgid "Renderer settings reset to default"
@@ -3032,7 +3032,7 @@ msgstr "Настройки рендеринга по умолчанию"
 
 msgctxt "IDS_OSD_RS_RESET_OPTIMAL"
 msgid "Renderer settings reset to optimal"
-msgstr "Настройки рендеринга оптимальные"
+msgstr "Рендеринг көйләүләре уңайлы"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
 msgid "D3D Fullscreen GUI Support: On"
@@ -3044,11 +3044,11 @@ msgstr "Полноэкранный D3D с поддержкой GUI: отключ
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_ON"
 msgid "10-bit RGB Output: On"
-msgstr "10-битный RGB вывод: включен"
+msgstr "10-битлы RGB чыгу: кабызылган"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_OFF"
 msgid "10-bit RGB Output: Off"
-msgstr "10-битный RGB вывод: отключен"
+msgstr "10-битлы RGB чыгару: сүндерелгән"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_IN_ON"
 msgid "Force 10-bit RGB Input: On"
@@ -3076,51 +3076,51 @@ msgstr "Быстрые расчеты в числах с плавающей то
 
 msgctxt "IDS_BRIGHTNESS_DEC"
 msgid "Brightness decrease"
-msgstr "Яркость уменьшить"
+msgstr "Яктылыкны киметү"
 
 msgctxt "IDS_CONTRAST_INC"
 msgid "Contrast increase"
-msgstr "Контраст увеличить"
+msgstr "Каршылыкны арттырырга"
 
 msgctxt "IDS_CONTRAST_DEC"
 msgid "Contrast decrease"
-msgstr "Контраст уменьшить"
+msgstr "Каршылыкны киметергә"
 
 msgctxt "IDS_HUE_INC"
 msgid "Hue increase"
-msgstr "Увеличение цв. тона"
+msgstr "Төс төсмерен артыр"
 
 msgctxt "IDS_HUE_DEC"
 msgid "Hue decrease"
-msgstr "Уменьшение цв. тона"
+msgstr "Төс төсмерен кимет"
 
 msgctxt "IDS_SATURATION_INC"
 msgid "Saturation increase"
-msgstr "Насыщенность увеличить"
+msgstr "Куелыкны арттырырга"
 
 msgctxt "IDS_SATURATION_DEC"
 msgid "Saturation decrease"
-msgstr "Насыщенность уменьшить"
+msgstr "Куелыкны киметергә"
 
 msgctxt "IDS_RESET_COLOR"
 msgid "Reset color settings"
-msgstr "Сбросить настройки цвета"
+msgstr "Төс көйләүләрен ташларга"
 
 msgctxt "IDS_USING_LATEST_STABLE"
 msgid "\nYou are already using the latest stable version."
-msgstr "\nВы используете последнюю стабильную версию."
+msgstr "\nСез соңгы тотрыклы юраманы кулланасыз."
 
 msgctxt "IDS_USING_NEWER_VERSION"
 msgid "Your current version is v%s.\n\nThe latest stable version is v%s."
-msgstr "Ваша текущая версия v%s.\n\nПоследняя стабильная версия v%s."
+msgstr "Сезнең хәзерге юрама v%s.\n\nСоңгы тотрыклы юрама v%s."
 
 msgctxt "IDS_NEW_UPDATE_AVAILABLE"
 msgid "MPC-HC v%s is now available. You are using v%s.\n\nDo you want to visit MPC-HC's website to download it?"
-msgstr "Доступна новая версия %s. Вы используете %s.\n\nВы хотите посетить сайт MPC-HC, чтобы скачать её ?"
+msgstr "Яңа юрама чыкты %s. Сез кулланасыз %s.\n\nСез MPC-HC сәхифәсенә аны йөкләү өчен күчәргә телисезме ?"
 
 msgctxt "IDS_UPDATE_ERROR"
 msgid "Update server not found.\n\nPlease check your internet connection or try again later."
-msgstr "Сервер обновлений не найден.\n\nПожалуйста, проверьте связь с интернетом и попробуйте снова."
+msgstr "Яңартулар серверы табылмады.\n\nЗинһар, интернет белән тоташуны тикшерегез һәм кабатлап карагыз."
 
 msgctxt "IDS_UPDATE_CLOSE"
 msgid "&Close"
@@ -3128,11 +3128,11 @@ msgstr "&Ябарга"
 
 msgctxt "IDS_OSD_ZOOM"
 msgid "Zoom: %.0lf%%"
-msgstr "Масштаб: %.0lf%%"
+msgstr "Зурлык: %.0lf%%"
 
 msgctxt "IDS_OSD_ZOOM_AUTO"
 msgid "Zoom: Auto"
-msgstr "Масштаб: Авто"
+msgstr "Зурлык: Үзе"
 
 msgctxt "IDS_CUSTOM_CHANNEL_MAPPING"
 msgid "Toggle custom channel mapping"
@@ -3148,15 +3148,15 @@ msgstr "Пользовательское распределение канало
 
 msgctxt "IDS_NORMALIZE"
 msgid "Toggle normalization"
-msgstr "Нормализация Вкл/Откл"
+msgstr "Гадиләштерү Каб/Сүн"
 
 msgctxt "IDS_OSD_NORMALIZE_ON"
 msgid "Normalization: On"
-msgstr "Нормализация: включена"
+msgstr "Гадиләштерү: кабызылган"
 
 msgctxt "IDS_OSD_NORMALIZE_OFF"
 msgid "Normalization: Off"
-msgstr "Нормализация: отключена"
+msgstr "Гадиләштерү: сүндерелгән"
 
 msgctxt "IDS_REGAIN_VOLUME"
 msgid "Toggle regain volume"
@@ -3192,11 +3192,11 @@ msgstr "МБ/с"
 
 msgctxt "IDS_BDA_ERROR_CREATE_TUNER"
 msgid "Could not create the tuner."
-msgstr "Невозможно создать тюнер."
+msgstr "Тюнерны ясап булмый."
 
 msgctxt "IDS_BDA_ERROR_CREATE_RECEIVER"
 msgid "Could not create the receiver."
-msgstr "Невозможно создать приемник."
+msgstr "Алгычны ясап булмый."
 
 msgctxt "IDS_BDA_ERROR_CONNECT_NW_TUNER"
 msgid "Could not connect the network and the tuner."
@@ -3216,11 +3216,11 @@ msgstr "Невозможно создать демультиплексор."
 
 msgctxt "IDS_GOTO_ERROR_PARSING_TIME"
 msgid "Error parsing the entered time!"
-msgstr "Время написано некорректно!"
+msgstr "Вакыт нәзакәтсез язылган!"
 
 msgctxt "IDS_GOTO_ERROR_PARSING_TEXT"
 msgid "Error parsing the entered text!"
-msgstr "Текст написан некорректно!"
+msgstr "Текст нәзакәтсез язылган!"
 
 msgctxt "IDS_GOTO_ERROR_PARSING_FPS"
 msgid "Error parsing the entered frame rate!"
@@ -3256,7 +3256,7 @@ msgstr "Вы хотите активировать EDL редактор?"
 
 msgctxt "IDS_CAPTURE_ERROR"
 msgid "Capture Error"
-msgstr "Ошибка захвата"
+msgstr "Эләктерү хатасы"
 
 msgctxt "IDS_CAPTURE_ERROR_VIDEO"
 msgid "video"
@@ -3312,7 +3312,7 @@ msgstr "Правильный формат времени [-]hh:mm:ss.ms (нап�
 
 msgctxt "IDS_EXTERNAL_FILTERS_ERROR_MT"
 msgid "This type is already in the list!"
-msgstr "Такой тип уже есть в списке!"
+msgstr "Андый төр исемлектә бар инде!"
 
 msgctxt "IDS_WEBSERVER_ERROR_TEST"
 msgid "You need to apply the new settings before testing them."
@@ -3356,7 +3356,7 @@ msgstr "По окончании воспроизведения: перейти �
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
-msgstr "Яркость: %s"
+msgstr "Яктылык: %s"
 
 msgctxt "IDS_OSD_CONTRAST"
 msgid "Contrast: %s"
@@ -3364,15 +3364,15 @@ msgstr "Капма-каршылык: %s"
 
 msgctxt "IDS_OSD_HUE"
 msgid "Hue: %s°"
-msgstr "Оттенок: %s°"
+msgstr "Төсмер: %s°"
 
 msgctxt "IDS_OSD_SATURATION"
 msgid "Saturation: %s"
-msgstr "Насыщенность: %s"
+msgstr "Куелык: %s"
 
 msgctxt "IDS_OSD_RESET_COLOR"
 msgid "Color settings restored"
-msgstr "Настройки цвета восстановлены"
+msgstr "Төс көйләүләре торгызылган"
 
 msgctxt "IDS_OSD_NO_COLORCONTROL"
 msgid "Color control is not supported"
@@ -3380,7 +3380,7 @@ msgstr "Управление цветом не поддерживается"
 
 msgctxt "IDS_BRIGHTNESS_INC"
 msgid "Brightness increase"
-msgstr "Яркость увеличить"
+msgstr "Яктылыкны арттыру"
 
 msgctxt "IDS_LANG_PREF_EXAMPLE"
 msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
@@ -3392,7 +3392,7 @@ msgstr "Внешние сплиттеры могут иметь свои нас�
 
 msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
 msgid "&Blu-Ray playlists"
-msgstr "П&лейлисты Blu-ray "
+msgstr "&Blu-ray уйнату битләре "
 
 msgctxt "IDS_NAVIGATE_PLAYLIST"
 msgid "&Playlist"
