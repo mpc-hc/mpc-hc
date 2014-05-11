@@ -819,8 +819,7 @@ HRESULT CEVRAllocatorPresenter::CreateProposedOutputType(IMFMediaType* pMixerTyp
     }
 
     if (videoSize != m_NativeVideoSize || aspectRatio != m_AspectRatio) {
-        m_NativeVideoSize = videoSize;
-        m_AspectRatio = aspectRatio;
+        SetVideoSize(videoSize, aspectRatio);
 
         // Notify the graph about the change
         if (m_pSink) {
@@ -1538,7 +1537,7 @@ STDMETHODIMP CEVRAllocatorPresenter::InitializeDevice(IMFMediaType* pMediaType)
 
     D3DFORMAT Format;
     if (SUCCEEDED(hr)) {
-        m_NativeVideoSize = CSize(Width, Height);
+        SetVideoSize(CSize(Width, Height), m_AspectRatio);
         hr = GetMediaTypeFourCC(pMediaType, (DWORD*)&Format);
     }
 

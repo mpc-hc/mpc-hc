@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -216,7 +216,7 @@ STDMETHODIMP CRM9AllocatorPresenter::BeginOptimizedBlt(RMABitmapInfoHeader* pBit
     CAutoLock cAutoLock(this);
     CAutoLock cRenderLock(&m_RenderLock);
     DeleteSurfaces();
-    m_NativeVideoSize = m_AspectRatio = CSize(pBitmapInfo->biWidth, abs(pBitmapInfo->biHeight));
+    SetVideoSize(CSize(pBitmapInfo->biWidth, abs(pBitmapInfo->biHeight)));
     if (FAILED(AllocSurfaces())) {
         return E_FAIL;
     }

@@ -166,12 +166,9 @@ STDMETHODIMP CVMR7AllocatorPresenter::AllocateSurface(DWORD_PTR dwUserID, VMRALL
         return hr;
     }
 
-    m_NativeVideoSize = CSize(abs(lpAllocInfo->lpHdr->biWidth), abs(lpAllocInfo->lpHdr->biHeight));
-    m_AspectRatio = m_NativeVideoSize;
-    int arx = lpAllocInfo->szAspectRatio.cx, ary = lpAllocInfo->szAspectRatio.cy;
-    if (arx > 0 && ary > 0) {
-        m_AspectRatio.SetSize(arx, ary);
-    }
+    CSize VideoSize(abs(lpAllocInfo->lpHdr->biWidth), abs(lpAllocInfo->lpHdr->biHeight));
+    CSize AspectRatio(lpAllocInfo->szAspectRatio.cx, lpAllocInfo->szAspectRatio.cy);
+    SetVideoSize(VideoSize, AspectRatio);
 
     if (FAILED(hr = AllocSurfaces())) {
         return hr;
@@ -281,7 +278,7 @@ STDMETHODIMP CVMR7AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMRPRESEN
         VideoSize.cx = VideoSize.cy * arx / ary;
     }
     if (VideoSize != GetVideoSize()) {
-        m_AspectRatio.SetSize(arx, ary);
+        SetVideoSize(m_NativeVideoSize, CSize(lpPresInfo->szAspectRatio));
         AfxGetApp()->m_pMainWnd->PostMessage(WM_REARRANGERENDERLESS);
     }
 

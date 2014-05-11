@@ -2963,8 +2963,7 @@ HRESULT CSyncAP::CreateProposedOutputType(IMFMediaType* pMixerType, IMFMediaType
     }
 
     if (videoSize != m_NativeVideoSize || aspectRatio != m_AspectRatio) {
-        m_NativeVideoSize = videoSize;
-        m_AspectRatio = aspectRatio;
+        SetVideoSize(videoSize, aspectRatio);
 
         // Notify the graph about the change
         if (m_pSink) {
@@ -3500,7 +3499,7 @@ STDMETHODIMP CSyncAP::InitializeDevice(AM_MEDIA_TYPE* pMediaType)
     int w = vih2->bmiHeader.biWidth;
     int h = abs(vih2->bmiHeader.biHeight);
 
-    m_NativeVideoSize = CSize(w, h);
+    SetVideoSize(CSize(w, h), m_AspectRatio);
     if (m_bHighColorResolution) {
         hr = AllocSurfaces(D3DFMT_A2R10G10B10);
     } else {

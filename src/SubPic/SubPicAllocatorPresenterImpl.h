@@ -76,6 +76,7 @@ public:
 
     STDMETHODIMP CreateRenderer(IUnknown** ppRenderer) PURE;
 
+    STDMETHODIMP_(void) SetVideoSize(CSize szVideo, CSize szAspectRatio = CSize(0, 0));
     STDMETHODIMP_(SIZE) GetVideoSize(bool fCorrectAR = true);
     STDMETHODIMP_(SIZE) GetVisibleVideoSize() {
         return m_NativeVideoSize;

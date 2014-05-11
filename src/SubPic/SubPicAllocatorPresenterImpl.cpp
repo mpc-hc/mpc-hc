@@ -128,6 +128,26 @@ void CSubPicAllocatorPresenterImpl::AlphaBltSubPic(const CRect& windowRect, cons
 
 // ISubPicAllocatorPresenter
 
+STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetVideoSize(CSize szVideo, CSize szAspectRatio /* = CSize(0, 0) */)
+{
+    if (szAspectRatio == CSize(0, 0)) {
+        szAspectRatio = szVideo;
+    }
+
+    bool fVideoSizeChanged = !!(m_NativeVideoSize != szVideo);
+    bool fAspectRatioChanged = !!(m_AspectRatio != szAspectRatio);
+
+    m_NativeVideoSize = szVideo;
+    m_AspectRatio = szAspectRatio;
+
+    if (fVideoSizeChanged || fAspectRatioChanged) {
+        if (m_SubtitleTextureLimit == VIDEO) {
+            m_maxSubtitleTextureSize = GetVideoSize();
+            m_pAllocator->SetMaxTextureSize(m_maxSubtitleTextureSize);
+        }
+    }
+}
+
 STDMETHODIMP_(SIZE) CSubPicAllocatorPresenterImpl::GetVideoSize(bool fCorrectAR)
 {
     CSize VideoSize(GetVisibleVideoSize());
@@ -152,10 +172,6 @@ STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetPosition(RECT w, RECT v)
 
     if (fWindowSizeChanged || fVideoRectChanged) {
         if (m_pAllocator) {
-            if (m_SubtitleTextureLimit == VIDEO) {
-                m_maxSubtitleTextureSize = GetVideoSize();
-                m_pAllocator->SetMaxTextureSize(m_maxSubtitleTextureSize);
-            }
             m_pAllocator->SetCurSize(m_WindowRect.Size());
             m_pAllocator->SetCurVidRect(m_VideoRect);
         }
