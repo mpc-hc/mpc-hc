@@ -1,18 +1,14 @@
 Here is a quick how-to release a new stable build:
 
-1) Update version and set the `MPC_NIGHTLY_RELEASE` define to `0` in "include/version.h"
-2) Update "thirdparty/versions.txt" and the version/release date in "Changelog.txt"
-3) Commit the changes
-4) Create a git tag for the new release: `git tag -a 1.7.5 -m "Tag v1.7.5"`
-5) Make sure you have a clean source tree, no modified files, or unpushed commits
-6) Compile MPC-HC and the standalone filters:
+1) Update "thirdparty/versions.txt" and the version/release date in "Changelog.txt"
+2) Commit the changes
+3) Create a git tag for the new release: `git tag -a 1.7.5 -m "Tag v1.7.5"`
+4) Make sure you have a clean source tree, no modified files, or unpushed commits
+5) Compile MPC-HC and the standalone filters:
    a. CALL "build.bat" Clean All Both Release
    b. CALL "build.bat" Build All Both Release Packages
-7) Keep the PDB files of all the filters and MPC-HC builds
-8) Upload the binary packages on SourceForge following the directory and the packages names scheme
+6) Keep the PDB files of all the filters and MPC-HC builds
+7) Upload the binary packages on SourceForge following the directory and the packages names scheme
    (upload the PDB files too, use 7zip for creating the 7z packages)
-9) Update the website with the new download links, changelog and version.txt with
+8) Update the website with the new download links, changelog and version.txt with
    the new version number
-
-
-In the next commit, set the `MPC_NIGHTLY_RELEASE` define to `1` in "include/version.h"
