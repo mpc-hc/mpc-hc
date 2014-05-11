@@ -1286,8 +1286,8 @@ STDMETHODIMP CEVRAllocatorPresenter::GetNativeVideoSize(SIZE* pszVideo, SIZE* ps
         pszVideo->cy = m_NativeVideoSize.cy;
     }
     if (pszARVideo) {
-        pszARVideo->cx  = m_NativeVideoSize.cx * m_AspectRatio.cx;
-        pszARVideo->cy  = m_NativeVideoSize.cy * m_AspectRatio.cy;
+        pszARVideo->cx  = m_AspectRatio.cx;
+        pszARVideo->cy  = m_AspectRatio.cy;
     }
     return S_OK;
 }
