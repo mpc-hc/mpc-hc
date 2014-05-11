@@ -7806,7 +7806,7 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
             // override default style
             // TODO: default subtitles style toggle here
             s.fUseDefaultSubtitlesStyle = !s.fUseDefaultSubtitlesStyle;
-            UpdateDefaultSubtitleStyle();
+            UpdateSubDefaultStyle();
         } else if (i >= 0) {
             // this is an actual item from the subtitles list
             s.fEnableSubtitles = true;
@@ -9765,7 +9765,7 @@ void CMainFrame::MoveVideoWindow(bool fShowStats/* = false*/, bool bSetStoppedVi
             m_pCAP->SetPosition(windowRect, videoRect);
             Vector v(Vector::DegToRad(m_AngleX), Vector::DegToRad(m_AngleY), Vector::DegToRad(m_AngleZ));
             m_pCAP->SetVideoAngle(v);
-            UpdateAspectRatioCompensation();
+            UpdateSubAspectRatioCompensation();
         } else {
             HRESULT hr;
             hr = m_pBV->SetDefaultSourcePosition();
@@ -16344,7 +16344,7 @@ bool CMainFrame::GetDecoderType(CString& type) const
     return false;
 }
 
-void CMainFrame::UpdateOverridePlacement()
+void CMainFrame::UpdateSubOverridePlacement()
 {
     const CAppSettings& s = AfxGetAppSettings();
     if (auto pRTS = dynamic_cast<CRenderedTextSubtitle*>((ISubStream*)m_pCurrentSubInput.pSubStream)) {
@@ -16365,7 +16365,7 @@ void CMainFrame::UpdateOverridePlacement()
     }
 }
 
-void CMainFrame::UpdateDefaultSubtitleStyle()
+void CMainFrame::UpdateSubDefaultStyle()
 {
     const CAppSettings& s = AfxGetAppSettings();
     if (auto pRTS = dynamic_cast<CRenderedTextSubtitle*>((ISubStream*)m_pCurrentSubInput.pSubStream)) {
@@ -16379,7 +16379,7 @@ void CMainFrame::UpdateDefaultSubtitleStyle()
     }
 }
 
-void CMainFrame::UpdateAspectRatioCompensation()
+void CMainFrame::UpdateSubAspectRatioCompensation()
 {
     const CAppSettings& s = AfxGetAppSettings();
     if (auto pRTS = dynamic_cast<CRenderedTextSubtitle*>((ISubStream*)m_pCurrentSubInput.pSubStream)) {
