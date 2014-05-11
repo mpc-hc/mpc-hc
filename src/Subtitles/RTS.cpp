@@ -2665,26 +2665,23 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
         }
     }
 
+    double dFontScaleXCompensation = 1.0;
+    double dFontScaleYCompensation = 1.0;
+
     if (m_ePARCompensationType == EPCTUpscale) {
-        if (stss.fontScaleX / stss.fontScaleY == 1.0 && m_dPARCompensation != 1.0) {
-            if (m_dPARCompensation < 1.0) {
-                stss.fontScaleY /= m_dPARCompensation;
-            } else {
-                stss.fontScaleX *= m_dPARCompensation;
-            }
+        if (m_dPARCompensation < 1.0) {
+            dFontScaleYCompensation = 1.0 / m_dPARCompensation;
+        } else {
+            dFontScaleXCompensation = m_dPARCompensation;
         }
     } else if (m_ePARCompensationType == EPCTDownscale) {
-        if (stss.fontScaleX / stss.fontScaleY == 1.0 && m_dPARCompensation != 1.0) {
-            if (m_dPARCompensation < 1.0) {
-                stss.fontScaleX *= m_dPARCompensation;
-            } else {
-                stss.fontScaleY /= m_dPARCompensation;
-            }
+        if (m_dPARCompensation < 1.0) {
+            dFontScaleXCompensation = m_dPARCompensation;
+        } else {
+            dFontScaleYCompensation = 1.0 / m_dPARCompensation;
         }
-    } else if (m_ePARCompensationType == EPCTAccurateSize) {
-        if (stss.fontScaleX / stss.fontScaleY == 1.0 && m_dPARCompensation != 1.0) {
-            stss.fontScaleX *= m_dPARCompensation;
-        }
+    } else if (m_ePARCompensationType == EPCTAccurateSize || m_ePARCompensationType == EPCTAccurateSize_ISR) {
+        dFontScaleXCompensation = m_dPARCompensation;
     }
 
     STSStyle orgstss = stss;
@@ -2747,6 +2744,12 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
         tmp.outlineWidthY *= (fScaledBAS ? sub->m_scaley : 1.0) * 8.0;
         tmp.shadowDepthX  *= (fScaledBAS ? sub->m_scalex : 1.0) * 8.0;
         tmp.shadowDepthY  *= (fScaledBAS ? sub->m_scaley : 1.0) * 8.0;
+
+        if ((tmp.fontScaleX == tmp.fontScaleY && m_ePARCompensationType != EPCTAccurateSize_ISR)
+                || (tmp.fontScaleX != tmp.fontScaleY && m_ePARCompensationType == EPCTAccurateSize_ISR)) {
+            tmp.fontScaleX *= dFontScaleXCompensation;
+            tmp.fontScaleY *= dFontScaleYCompensation;
+        }
 
         if (m_nPolygon) {
             ParsePolygon(sub, str.Left(i), tmp);

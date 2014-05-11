@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2013 see Authors.txt
+ * (C) 2009-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -112,6 +112,7 @@
 #define IDS_RS_SPOVERRIDEPLACEMENT          _T("SPOverridePlacement")
 #define IDS_RS_SPHORPOS                     _T("SPHorPos")
 #define IDS_RS_SPVERPOS                     _T("SPVerPos")
+#define IDS_RS_SUBTITLEARCOMPENSATION       _T("SubtitleARCompensation")
 #define IDS_RS_SPCSIZE                      _T("SPCSize")
 #define IDS_RS_SPCMAXRES                    _T("SPCMaxRes")
 #define IDS_RS_INTREALMEDIA                 _T("IntRealMedia")

@@ -9765,6 +9765,7 @@ void CMainFrame::MoveVideoWindow(bool fShowStats/* = false*/, bool bSetStoppedVi
             m_pCAP->SetPosition(windowRect, videoRect);
             Vector v(Vector::DegToRad(m_AngleX), Vector::DegToRad(m_AngleY), Vector::DegToRad(m_AngleZ));
             m_pCAP->SetVideoAngle(v);
+            UpdateAspectRatioCompensation();
         } else {
             HRESULT hr;
             hr = m_pBV->SetDefaultSourcePosition();
@@ -13434,6 +13435,27 @@ void CMainFrame::SetSubtitle(const SubtitleInput& subInput)
                 pRTS->SetDefaultStyle(style);
             }
 
+            if (m_pCAP) {
+                bool bKeepAspectRatio = s.fKeepAspectRatio;
+                CSize szAspectRatio = m_pCAP->GetVideoSize(true);
+                CSize szVideoFrame;
+                if (CComQIPtr<IMadVRInfo> pMVRI = m_pCAP) {
+                    // Use IMadVRInfo to get size. See http://bugs.madshi.net/view.php?id=180
+                    pMVRI->GetSize("originalVideoSize", &szVideoFrame);
+                    bKeepAspectRatio = true;
+                } else {
+                    szVideoFrame = m_pCAP->GetVideoSize(false);
+                }
+
+                pRTS->m_ePARCompensationType = CSimpleTextSubtitle::EPARCompensationType::EPCTAccurateSize_ISR;
+                if (s.bSubtitleARCompensation && szAspectRatio.cx && szAspectRatio.cy && szVideoFrame.cx && szVideoFrame.cy && bKeepAspectRatio) {
+                    pRTS->m_dPARCompensation = ((double)szAspectRatio.cx / szAspectRatio.cy) /
+                                               ((double)szVideoFrame.cx / szVideoFrame.cy);
+                } else {
+                    pRTS->m_dPARCompensation = 1.0;
+                }
+            }
+
             pRTS->SetOverride(s.fUseDefaultSubtitlesStyle, s.subtitlesDefStyle);
             pRTS->SetAlignment(s.fOverridePlacement, s.nHorPos, s.nVerPos);
             pRTS->Deinit();
@@ -16354,6 +16376,46 @@ void CMainFrame::UpdateDefaultSubtitleStyle()
             pRTS->Deinit();
         }
         InvalidateSubtitle();
+    }
+}
+
+void CMainFrame::UpdateAspectRatioCompensation()
+{
+    const CAppSettings& s = AfxGetAppSettings();
+    if (auto pRTS = dynamic_cast<CRenderedTextSubtitle*>((ISubStream*)m_pCurrentSubInput.pSubStream)) {
+        bool bInvalidate = false;
+        double dPARCompensation = 1.0;
+        if (m_pCAP) {
+            bool bKeepAspectRatio = s.fKeepAspectRatio;
+            CSize szAspectRatio = m_pCAP->GetVideoSize(true);
+            CSize szVideoFrame;
+            if (CComQIPtr<IMadVRInfo> pMVRI = m_pCAP) {
+                // Use IMadVRInfo to get size. See http://bugs.madshi.net/view.php?id=180
+                pMVRI->GetSize("originalVideoSize", &szVideoFrame);
+                bKeepAspectRatio = true;
+            } else {
+                szVideoFrame = m_pCAP->GetVideoSize(false);
+            }
+
+            if (s.bSubtitleARCompensation && szAspectRatio.cx && szAspectRatio.cy && szVideoFrame.cx && szVideoFrame.cy && bKeepAspectRatio) {
+                dPARCompensation = ((double)szAspectRatio.cx / szAspectRatio.cy) /
+                                   ((double)szVideoFrame.cx / szVideoFrame.cy);
+            }
+        }
+
+        {
+            CAutoLock cAutoLock(&m_csSubLock);
+
+            pRTS->m_ePARCompensationType = CSimpleTextSubtitle::EPARCompensationType::EPCTAccurateSize_ISR;
+            if (pRTS->m_dPARCompensation != dPARCompensation) {
+                bInvalidate = true;
+                pRTS->m_dPARCompensation = dPARCompensation;
+                pRTS->Deinit();
+            }
+        }
+        if (bInvalidate) {
+            InvalidateSubtitle();
+        }
     }
 }
 

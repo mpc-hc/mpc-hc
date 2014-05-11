@@ -10,6 +10,7 @@ Legend:
 
 next version - not released yet
 ===============================
++ ISR: Add an option to control subtitle renderer behavior regarding anamorphic video
 * Move the user interface language selection to the Options dialog and remove the "Language" menu
 * Updated Little CMS to v2.6 (git 4da8703)
 * Updated Unrar to v5.1.4

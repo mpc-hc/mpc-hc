@@ -537,6 +537,14 @@ msgid "Round up to power of two"
 msgstr "Borobildu biren indarrera"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "Renderer Layout"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SUB_AR_COMPENSATION"
+msgid "Apply aspect ratio compensation for anamorphic videos"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Warning"
 msgstr "Kontuz"
 

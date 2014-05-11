@@ -37,6 +37,7 @@ CPPageSubtitles::CPPageSubtitles()
     , m_fSPCPow2Tex(FALSE)
     , m_fSPCAllowAnimationWhenBuffering(TRUE)
     , m_nSubDelayInterval(0)
+    , m_bSubtitleARCompensation(TRUE)
 {
 }
 
@@ -60,6 +61,7 @@ void CPPageSubtitles::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECK_SPCPOW2TEX, m_fSPCPow2Tex);
     DDX_Check(pDX, IDC_CHECK_SPCANIMWITHBUFFER, m_fSPCAllowAnimationWhenBuffering);
     DDX_Text(pDX, IDC_EDIT4, m_nSubDelayInterval);
+    DDX_Check(pDX, IDC_CHECK_SUB_AR_COMPENSATION, m_bSubtitleARCompensation);
 }
 
 
@@ -147,6 +149,7 @@ BOOL CPPageSubtitles::OnInitDialog()
     m_fSPCPow2Tex = s.m_RenderersSettings.fSPCPow2Tex;
     m_fSPCAllowAnimationWhenBuffering = s.m_RenderersSettings.fSPCAllowAnimationWhenBuffering;
     m_nSubDelayInterval = s.nSubDelayInterval;
+    m_bSubtitleARCompensation = s.bSubtitleARCompensation;
 
     UpdateData(FALSE);
 
@@ -162,16 +165,17 @@ BOOL CPPageSubtitles::OnApply()
 
     CAppSettings& s = AfxGetAppSettings();
 
-    if (s.m_RenderersSettings.nSPCSize != m_nSPCSize
-            || s.nSubDelayInterval != m_nSubDelayInterval
-            || s.m_RenderersSettings.nSPCMaxRes != TranslateResOut(m_spmaxres.GetCurSel())
-            || s.m_RenderersSettings.fSPCPow2Tex != !!m_fSPCPow2Tex
-            || s.m_RenderersSettings.fSPCAllowAnimationWhenBuffering != !!m_fSPCAllowAnimationWhenBuffering) {
-        s.m_RenderersSettings.nSPCSize = m_nSPCSize;
-        s.nSubDelayInterval = m_nSubDelayInterval;
-        s.m_RenderersSettings.nSPCMaxRes = TranslateResOut(m_spmaxres.GetCurSel());
-        s.m_RenderersSettings.fSPCPow2Tex = !!m_fSPCPow2Tex;
-        s.m_RenderersSettings.fSPCAllowAnimationWhenBuffering = !!m_fSPCAllowAnimationWhenBuffering;
+    s.m_RenderersSettings.nSPCSize = m_nSPCSize;
+    s.nSubDelayInterval = m_nSubDelayInterval;
+    s.m_RenderersSettings.nSPCMaxRes = TranslateResOut(m_spmaxres.GetCurSel());
+    s.m_RenderersSettings.fSPCPow2Tex = !!m_fSPCPow2Tex;
+    s.m_RenderersSettings.fSPCAllowAnimationWhenBuffering = !!m_fSPCAllowAnimationWhenBuffering;
+
+    if (s.bSubtitleARCompensation != !!m_bSubtitleARCompensation) {
+        s.bSubtitleARCompensation = !!m_bSubtitleARCompensation;
+        if (auto pMainFrame = dynamic_cast<CMainFrame*>(AfxGetMainWnd())) {
+            pMainFrame->UpdateAspectRatioCompensation();
+        }
     }
 
     if (s.fOverridePlacement != !!m_fOverridePlacement

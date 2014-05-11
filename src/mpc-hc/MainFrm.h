@@ -527,6 +527,7 @@ public:
     void ReloadSubtitle();
     void UpdateOverridePlacement();
     void UpdateDefaultSubtitleStyle();
+    void UpdateAspectRatioCompensation();
     HRESULT InsertTextPassThruFilter(IBaseFilter* pBF, IPin* pPin, IPin* pPinto);
 
     void SetAudioTrackIdx(int index);

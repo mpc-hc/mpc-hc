@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -47,6 +47,7 @@ public:
     BOOL m_fSPCPow2Tex;
     BOOL m_fSPCAllowAnimationWhenBuffering;
     int m_nSubDelayInterval;
+    BOOL m_bSubtitleARCompensation;
 
     // Dialog Data
     enum { IDD = IDD_PPAGESUBTITLES };

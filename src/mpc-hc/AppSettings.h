@@ -531,6 +531,7 @@ public:
     // Subtitles
     bool            fOverridePlacement;
     int             nHorPos, nVerPos;
+    bool            bSubtitleARCompensation;
     int             nSubDelayInterval;
 
     // Default Style

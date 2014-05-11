@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-05-04 16:42:23+0000\n"
+"POT-Creation-Date: 2014-05-11 19:53:40+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -531,6 +531,14 @@ msgstr ""
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SPCPOW2TEX"
 msgid "Round up to power of two"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "Renderer Layout"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SUB_AR_COMPENSATION"
+msgid "Apply aspect ratio compensation for anamorphic videos"
 msgstr ""
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"

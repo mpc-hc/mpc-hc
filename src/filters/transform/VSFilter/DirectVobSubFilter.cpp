@@ -1166,8 +1166,8 @@ STDMETHODIMP CDirectVobSubFilter::put_AspectRatioSettings(CSimpleTextSubtitle::E
 
                 pRTS->m_ePARCompensationType = m_ePARCompensationType;
                 if (m_CurrentVIH2.dwPictAspectRatioX && m_CurrentVIH2.dwPictAspectRatioY && m_CurrentVIH2.bmiHeader.biWidth && m_CurrentVIH2.bmiHeader.biHeight) {
-                    pRTS->m_dPARCompensation = ((double)abs(m_CurrentVIH2.bmiHeader.biWidth) / (double)abs(m_CurrentVIH2.bmiHeader.biHeight)) /
-                                               ((double)abs((long)m_CurrentVIH2.dwPictAspectRatioX) / (double)abs((long)m_CurrentVIH2.dwPictAspectRatioY));
+                    pRTS->m_dPARCompensation = ((double)abs(m_CurrentVIH2.bmiHeader.biWidth) / abs(m_CurrentVIH2.bmiHeader.biHeight)) /
+                                               ((double)abs((long)m_CurrentVIH2.dwPictAspectRatioX) / abs((long)m_CurrentVIH2.dwPictAspectRatioY));
                 } else {
                     pRTS->m_dPARCompensation = 1.00;
                 }
@@ -1613,8 +1613,8 @@ void CDirectVobSubFilter::SetSubtitle(ISubStream* pSubStream)
 
             pRTS->m_ePARCompensationType = m_ePARCompensationType;
             if (m_CurrentVIH2.dwPictAspectRatioX && m_CurrentVIH2.dwPictAspectRatioY && m_CurrentVIH2.bmiHeader.biWidth && m_CurrentVIH2.bmiHeader.biHeight) {
-                pRTS->m_dPARCompensation = ((double)abs(m_CurrentVIH2.bmiHeader.biWidth) / (double)abs(m_CurrentVIH2.bmiHeader.biHeight)) /
-                                           ((double)abs((long)m_CurrentVIH2.dwPictAspectRatioX) / (double)abs((long)m_CurrentVIH2.dwPictAspectRatioY));
+                pRTS->m_dPARCompensation = ((double)abs(m_CurrentVIH2.bmiHeader.biWidth) / abs(m_CurrentVIH2.bmiHeader.biHeight)) /
+                                           ((double)abs((long)m_CurrentVIH2.dwPictAspectRatioX) / abs((long)m_CurrentVIH2.dwPictAspectRatioY));
             } else {
                 pRTS->m_dPARCompensation = 1.00;
             }
