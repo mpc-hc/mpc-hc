@@ -6387,7 +6387,7 @@ void CMainFrame::OnViewDebugShaders()
     }
     if (!dlg) {
         // dialog doesn't exist - create and show it
-        dlg = new CDebugShadersDlg();
+        dlg = DEBUG_NEW CDebugShadersDlg();
         dlg->ShowWindow(SW_SHOW);
     } else if (dlg->IsWindowVisible()) {
         if (dlg->IsIconic()) {
@@ -16115,6 +16115,19 @@ void CMainFrame::UpdateUILanguage()
     // Reload the static bars
     OpenSetupInfoBar();
     OpenSetupStatsBar();
+
+    // Reload the debug shaders dialog if need be
+    if (m_pDebugShaders && IsWindow(m_pDebugShaders->m_hWnd)) {
+        BOOL bWasVisible = m_pDebugShaders->IsWindowVisible();
+        VERIFY(m_pDebugShaders->DestroyWindow());
+        SAFE_DELETE(m_pDebugShaders);
+        m_pDebugShaders = DEBUG_NEW CDebugShadersDlg();
+        if (bWasVisible) {
+            m_pDebugShaders->ShowWindow(SW_SHOWNA);
+            // Don't steal focus from main frame
+            SetActiveWindow();
+        }
+    }
 }
 
 bool CMainFrame::OpenBD(CString Path)
