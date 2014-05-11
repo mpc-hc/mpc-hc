@@ -745,7 +745,6 @@ CMainFrame::CMainFrame()
     , m_wndNavigationBar(this)
     , m_OSD(this)
     , m_bDelaySetOutputRect(false)
-    , m_pDebugShaders(nullptr)
     , m_bOpeningInAutochangedMonitorMode(false)
     , m_bPausedForAutochangeMonitorMode(false)
     , m_wndPlaylistBar(this)
@@ -938,6 +937,10 @@ void CMainFrame::OnDestroy()
     WTSUnRegisterSessionNotification();
     ShowTrayIcon(false);
     m_fileDropTarget.Revoke();
+
+    if (m_pDebugShaders && IsWindow(m_pDebugShaders->m_hWnd)) {
+        VERIFY(m_pDebugShaders->DestroyWindow());
+    }
 
     if (m_pGraphThread) {
         CAMMsgEvent e;
@@ -6383,11 +6386,11 @@ void CMainFrame::OnViewDebugShaders()
     auto& dlg = m_pDebugShaders;
     if (dlg && !dlg->m_hWnd) {
         // something has destroyed the dialog and we didn't know about it
-        SAFE_DELETE(dlg);
+        dlg = nullptr;
     }
     if (!dlg) {
         // dialog doesn't exist - create and show it
-        dlg = DEBUG_NEW CDebugShadersDlg();
+        dlg = std::make_unique<CDebugShadersDlg>();
         dlg->ShowWindow(SW_SHOW);
     } else if (dlg->IsWindowVisible()) {
         if (dlg->IsIconic()) {
@@ -6397,7 +6400,7 @@ void CMainFrame::OnViewDebugShaders()
             // dialog is visible and not iconic - destroy it
             VERIFY(dlg->DestroyWindow());
             ASSERT(!dlg->m_hWnd);
-            SAFE_DELETE(dlg);
+            dlg = nullptr;
         }
     } else {
         // dialog is not visible - show it
@@ -16120,8 +16123,7 @@ void CMainFrame::UpdateUILanguage()
     if (m_pDebugShaders && IsWindow(m_pDebugShaders->m_hWnd)) {
         BOOL bWasVisible = m_pDebugShaders->IsWindowVisible();
         VERIFY(m_pDebugShaders->DestroyWindow());
-        SAFE_DELETE(m_pDebugShaders);
-        m_pDebugShaders = DEBUG_NEW CDebugShadersDlg();
+        m_pDebugShaders = std::make_unique<CDebugShadersDlg>();
         if (bWasVisible) {
             m_pDebugShaders->ShowWindow(SW_SHOWNA);
             // Don't steal focus from main frame

@@ -72,6 +72,8 @@
 #include "DSMPropertyBag.h"
 #include "SkypeMoodMsgHandler.h"
 
+#include <memory>
+
 
 class CFullscreenWnd;
 
@@ -587,7 +589,7 @@ protected:  // control bar embedded members
     CPlayerNavigationBar m_wndNavigationBar;
     CEditListEditor m_wndEditListEditor;
 
-    CDebugShadersDlg* m_pDebugShaders;
+    std::unique_ptr<CDebugShadersDlg> m_pDebugShaders;
 
     CFileDropTarget m_fileDropTarget;
     // TODO
