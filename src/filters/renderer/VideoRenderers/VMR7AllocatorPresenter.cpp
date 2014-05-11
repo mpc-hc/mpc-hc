@@ -295,20 +295,19 @@ STDMETHODIMP CVMR7AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMRPRESEN
 
 STDMETHODIMP CVMR7AllocatorPresenter::GetNativeVideoSize(LONG* lpWidth, LONG* lpHeight, LONG* lpARWidth, LONG* lpARHeight)
 {
-    CSize vs = m_NativeVideoSize, ar = m_AspectRatio;
-    // DVD Nav. bug workaround fix
-    vs.cx = vs.cy * ar.cx / ar.cy;
+    CSize VideoSize = GetVideoSize(); // DVD Nav. bug workaround fix
+
     if (lpWidth) {
-        *lpWidth = vs.cx;
+        *lpWidth = VideoSize.cx;
     }
     if (lpHeight) {
-        *lpHeight = vs.cy;
+        *lpHeight = VideoSize.cy;
     }
     if (lpARWidth) {
-        *lpARWidth = ar.cx;
+        *lpARWidth = m_AspectRatio.cx;
     }
     if (lpARHeight) {
-        *lpARHeight = ar.cy;
+        *lpARHeight = m_AspectRatio.cy;
     }
     return S_OK;
 }
