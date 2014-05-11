@@ -140,7 +140,7 @@ void CPPageFullscreen::ModesUpdate()
         // Find the corresponding display mode index
         int iDisplayMode = findDisplayMode(mode.dm);
         if (iDisplayMode < 0) {
-            iDisplayMode = m_nCurrentDisplayModeIndex;
+            iDisplayMode = (int)m_nCurrentDisplayModeIndex;
         }
         m_list.SetItemData(nItem, (DWORD_PTR)iDisplayMode);
 

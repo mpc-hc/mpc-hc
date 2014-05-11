@@ -548,9 +548,9 @@ void CPGSSubFile::ParseFile(CString fn)
     const int nExtraSize = 1 + 2; // segment type + segment size
     std::vector<BYTE> segBuff;
 
-    while (!m_bStopParsing && f.Read(header.data(), header.size()) == header.size()) {
+    while (!m_bStopParsing && f.Read(header.data(), (UINT)header.size()) == header.size()) {
         // Parse the header
-        CGolombBuffer headerBuffer(header.data(), header.size());
+        CGolombBuffer headerBuffer(header.data(), (int)header.size());
 
         if (WORD(headerBuffer.ReadShort()) != PGS_SYNC_CODE) {
             break;
