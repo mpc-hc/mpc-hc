@@ -2183,6 +2183,9 @@ void CAppSettings::UpdateSettings()
             for (int iChannel = 0; ; iChannel++) {
                 CString strTemp, strChannel;
                 strTemp.Format(_T("%d"), iChannel);
+                if (!pApp->HasProfileEntry(oldSection, strTemp)) {
+                    break;
+                }
                 strChannel = pApp->GetProfileString(oldSection, strTemp);
                 if (strChannel.IsEmpty()) {
                     break;
