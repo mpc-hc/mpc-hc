@@ -1093,7 +1093,7 @@ void CAppSettings::SaveExternalFilters(CAutoPtrList<FilterOverride>& filters, LP
 
 void CAppSettings::SaveSettingsAutoChangeFullScreenMode()
 {
-    CWinApp* pApp = AfxGetApp();
+    auto pApp = AfxGetMyApp();
     ASSERT(pApp);
 
     // Ensure the section is cleared before saving the new settings
@@ -1101,8 +1101,12 @@ void CAppSettings::SaveSettingsAutoChangeFullScreenMode()
         CString section;
         section.Format(IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE, i);
 
-        if (!pApp->WriteProfileString(section, nullptr, nullptr)) {
+        // WriteProfileString doesn't return false when INI is used and the section doesn't exist
+        // so instead check for the a value inside that section
+        if (!pApp->HasProfileEntry(section, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_CHECKED)) {
             break;
+        } else {
+            VERIFY(pApp->WriteProfileString(section, nullptr, nullptr));
         }
     }
     pApp->WriteProfileString(IDS_R_SETTINGS_FULLSCREEN_AUTOCHANGE_MODE, nullptr, nullptr);
