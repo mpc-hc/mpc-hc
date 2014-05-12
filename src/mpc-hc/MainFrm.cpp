@@ -7159,7 +7159,12 @@ void CMainFrame::OnPlayFramestep(UINT nID)
         // To support framestep back, store the initial position when
         // stepping forward
         if (m_nStepForwardCount == 0) {
-            m_pMS->GetCurrentPosition(&m_rtStepForwardStart);
+            if (GetPlaybackMode() == PM_DVD) {
+                OnTimer(TIMER_STREAMPOSPOLLER);
+                m_rtStepForwardStart = m_wndSeekBar.GetPos();
+            } else {
+                m_pMS->GetCurrentPosition(&m_rtStepForwardStart);
+            }
         }
 
         m_fFrameSteppingActive = true;
@@ -7198,6 +7203,7 @@ void CMainFrame::OnPlayFramestep(UINT nID)
             m_nStepForwardCount = 0;
         } else if (GetPlaybackMode() == PM_DVD) {
             // IMediaSeeking doesn't work well with DVD Navigator
+            OnTimer(TIMER_STREAMPOSPOLLER);
             rtCurPos = m_wndSeekBar.GetPos();
         } else {
             m_pMS->GetCurrentPosition(&rtCurPos);
@@ -13714,7 +13720,11 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool bShowOSD /*= true*/)
         m_pMS->SetPositions(&rtPos, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning);
         UpdateChapterInInfoBar();
     } else if (GetPlaybackMode() == PM_DVD && m_iDVDDomain == DVD_DOMAIN_Title) {
-        if (fs == State_Stopped) {
+        if (!SysVersion::IsVistaOrLater() && fs != State_Running) {
+            // DVD Navigator hang on XP if we call IDvdControl2::PlayAtTime twice in paused state.
+            SendMessage(WM_COMMAND, ID_PLAY_PLAY);
+            fs = State_Running;
+        } else if (fs == State_Stopped) {
             SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
             fs = State_Paused;
         }
@@ -13724,6 +13734,7 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool bShowOSD /*= true*/)
             // Jump one more frame back, this is needed because we don't have any other
             // way to seek to specific time without running playback to refresh state.
             rtPos -= std::llround(refAvgTimePerFrame * 10000000i64);
+            m_pFS->CancelStep();
         }
 
         DVD_HMSF_TIMECODE tc = RT2HMSF(rtPos, (1.0 / refAvgTimePerFrame));
