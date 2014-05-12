@@ -1237,11 +1237,16 @@ bool CMPlayerCApp::HasProfileEntry(LPCTSTR lpszSection, LPCTSTR lpszEntry)
 
     bool ret = false;
     if (m_pszRegistryKey) {
-        HKEY hSectionKey = GetSectionKey(lpszSection);
-        if (hSectionKey) {
-            LONG lResult = RegQueryValueEx(hSectionKey, lpszEntry, nullptr, nullptr, nullptr, nullptr);
-            VERIFY(RegCloseKey(hSectionKey) == ERROR_SUCCESS);
-            ret = (lResult == ERROR_SUCCESS);
+        if (HKEY hAppKey = GetAppRegistryKey()) {
+            HKEY hSectionKey;
+            if (RegOpenKeyEx(hAppKey, lpszSection, 0, KEY_READ, &hSectionKey) == ERROR_SUCCESS) {
+                LONG lResult = RegQueryValueEx(hSectionKey, lpszEntry, nullptr, nullptr, nullptr, nullptr);
+                ret = (lResult == ERROR_SUCCESS);
+                VERIFY(RegCloseKey(hSectionKey) == ERROR_SUCCESS);
+            }
+            VERIFY(RegCloseKey(hAppKey) == ERROR_SUCCESS);
+        } else {
+            ASSERT(FALSE);
         }
     } else {
         InitProfile();
