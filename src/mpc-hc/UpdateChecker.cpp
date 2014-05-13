@@ -265,3 +265,27 @@ void UpdateChecker::CheckForUpdate(bool autoCheck /*= false*/)
         AfxBeginThread(RunCheckForUpdateThread, (LPVOID)autoCheck);
     }
 }
+
+bool UpdateChecker::IsRunningInstalled()
+{
+    CRegKey key;
+#ifdef _WIN64
+    CString str(_T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\{2ACBF1FA-F5C3-4B19-A774-B22A31F231B9}_is1"));
+#else
+    CString str(_T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\{2624B969-7135-4EB1-B0F6-2D8C397B45F7}_is1"));
+#endif
+    if (ERROR_SUCCESS == key.Open(HKEY_LOCAL_MACHINE, str, KEY_READ)) {
+        TCHAR buff[256];
+        DWORD len = _countof(buff);
+        if (ERROR_SUCCESS == key.QueryStringValue(_T("InstallLocation"), buff, &len)) {
+            CString strInstallPath = CString(buff).MakeLower();
+
+            len = _countof(buff);
+            len = GetModuleFileName(NULL, buff, len);
+            CString strRunningPath = CString(buff).MakeLower();
+            strRunningPath.SetAt(strRunningPath.ReverseFind('\\') + 1, 0);
+            return (strInstallPath == strRunningPath);
+        }
+    }
+    return false;
+}

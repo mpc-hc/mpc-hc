@@ -22,6 +22,8 @@
 #include "UpdateCheckerDlg.h"
 #include "mpc-hc_config.h"
 #include <afxdialogex.h>
+#include "WinApiFunc.h"
+#include "VersionInfo.h"
 
 #include <Softpub.h>
 #include <wincrypt.h>
@@ -72,7 +74,7 @@ BOOL VerifyEmbeddedSignature(LPCWSTR pwszSourceFile)
 
 IMPLEMENT_DYNAMIC(UpdateCheckerDlg, CDialog)
 
-UpdateCheckerDlg::UpdateCheckerDlg(Update_Status updateStatus, UpdateChecker *updateChecker, CWnd* pParent /*=nullptr*/)
+UpdateCheckerDlg::UpdateCheckerDlg(Update_Status updateStatus, UpdateChecker* updateChecker, CWnd* pParent /*=nullptr*/)
     : CDialog(UpdateCheckerDlg::IDD, pParent)
     , m_updateChecker(updateChecker)
     , m_updateStatus(updateStatus)
@@ -103,8 +105,9 @@ UpdateCheckerDlg::UpdateCheckerDlg(Update_Status updateStatus, UpdateChecker *up
 
 UpdateCheckerDlg::~UpdateCheckerDlg()
 {
-    if (m_pDownloadThread)
+    if (m_pDownloadThread) {
         delete m_pDownloadThread;
+    }
 }
 
 void UpdateCheckerDlg::DoDataExchange(CDataExchange* pDX)
@@ -173,8 +176,9 @@ void UpdateCheckerDlg::OnOpenDownloadPage()
     m_dlButton.ShowWindow(FALSE);
     m_ignoreButton.ShowWindow(FALSE);
     m_laterButton.ShowWindow(FALSE);
-    if (!m_pDownloadThread)
+    if (!m_pDownloadThread) {
         m_pDownloadThread = new CDownloadThread(m_updateChecker, this);
+    }
     m_pDownloadThread->CreateThread();
 }
 
@@ -192,8 +196,9 @@ void UpdateCheckerDlg::OnUpdateLater()
 
 void UpdateCheckerDlg::OnIgnoreUpdate()
 {
-    if (m_updateStatus == UPDATER_UPDATE_AVAILABLE)
+    if (m_updateStatus == UPDATER_UPDATE_AVAILABLE) {
         m_updateChecker->IgnoreLatestVersion();
+    }
     EndDialog((m_updateStatus == UPDATER_UPDATE_AVAILABLE) ? IDC_UPDATE_IGNORE_BUTTON : 0);
 }
 
@@ -209,31 +214,76 @@ void UpdateCheckerDlg::DownloadStarted(double total)
 
 void UpdateCheckerDlg::DownloadProgress(double done, double total, double speed)
 {
-    m_text.Format(_T("Downloading v%s...\n\nProgress: %.2f MB of %.2f MB (%.2f kb/s)"), m_updateChecker->GetLatestVersion().ToString(), (double)(done / 1000), (double)(total / 1000), speed);
+    m_text.Format(_T("Downloading v%s...\n\nProgress: %.2f MB of %.2f MB (%.2f KiB/s)"), m_updateChecker->GetLatestVersion().ToString(), (double)(done / 1000), (double)(total / 1000), speed);
     SetDlgItemText(IDC_UPDATE_DLG_TEXT, m_text);
     m_progress.SetPos((int)done);
 }
 
-void UpdateCheckerDlg::DownloadFinished(double total, const CString &file)
+void UpdateCheckerDlg::DownloadFinished(double total, const CString& file)
 {
-    m_text.Format(_T("Finished downloading v%s.\n\nRunning installer..."), m_updateChecker->GetLatestVersion().ToString());
-    SetDlgItemText(IDC_UPDATE_DLG_TEXT, m_text);
-    m_progress.SetPos((int)total);
-    m_cancelButton.EnableWindow(FALSE);
-    Sleep(500);
+    if (m_updateChecker->IsRunningInstalled()) {
+        m_text.Format(_T("Finished downloading v%s.\n\nRunning installer..."), m_updateChecker->GetLatestVersion().ToString());
+        SetDlgItemText(IDC_UPDATE_DLG_TEXT, m_text);
+        m_progress.SetPos((int)total);
+        m_cancelButton.EnableWindow(FALSE);
+        Sleep(500);
 
-    SHELLEXECUTEINFO shExecInfo = { 0 };
-    shExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
-    shExecInfo.fMask = SEE_MASK_CLASSNAME;
-    shExecInfo.lpClass = _T("exefile");
-    shExecInfo.lpVerb = _T("open");
-    shExecInfo.lpFile = file;
-    shExecInfo.nShow = SW_SHOWNORMAL;
-    shExecInfo.lpParameters = _T("/SILENT /SP- /NORESTART /CLOSEAPPLICATIONS /RESTARTAPPLICATIONS /NOCANCEL");
-    ShellExecuteEx(&shExecInfo);
+        SHELLEXECUTEINFO shExecInfo = { 0 };
+        shExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
+        shExecInfo.fMask = SEE_MASK_CLASSNAME;
+        shExecInfo.lpClass = _T("exefile");
+        shExecInfo.lpVerb = _T("open");
+        shExecInfo.lpFile = file;
+        shExecInfo.nShow = SW_SHOWNORMAL;
+        shExecInfo.lpParameters = _T("/SILENT /SP- /NORESTART /CLOSEAPPLICATIONS /RESTARTAPPLICATIONS /NOCANCEL");
+        ShellExecuteEx(&shExecInfo);
 
-    PostMessage(WM_CLOSE, 0, 0);
-    AfxGetMainWnd()->PostMessage(WM_CLOSE, 0, 0);
+        PostMessage(WM_CLOSE, 0, 0);
+        AfxGetMainWnd()->PostMessage(WM_CLOSE, 0, 0);
+    } else {
+        m_text.Format(_T("Finished downloading v%s.\n\nSaving archive..."), m_updateChecker->GetLatestVersion().ToString());
+        SetDlgItemText(IDC_UPDATE_DLG_TEXT, m_text);
+        m_progress.SetPos((int)total);
+        m_cancelButton.EnableWindow(FALSE);
+
+        CString strFile;
+        strFile.Format(_T("MPC-HC.%s.%s.7z"), m_updateChecker->GetLatestVersion().ToString(), (VersionInfo::Is64Bit() ? _T("x64") : _T("x86")));
+
+        CString strInitialDir;
+
+        const WinapiFunc<HRESULT(REFKNOWNFOLDERID, DWORD, HANDLE, PWSTR*)>
+        fnSHGetKnownFolderPath = { "Shell32.dll", "SHGetKnownFolderPath" };
+
+        if (fnSHGetKnownFolderPath) {
+            PWSTR ppszPath = nullptr;
+            fnSHGetKnownFolderPath(FOLDERID_Downloads, 0, nullptr, &ppszPath);
+            strInitialDir = ppszPath;
+            CoTaskMemFree(ppszPath);
+        } else {
+            SHGetFolderPath(nullptr, CSIDL_MYDOCUMENTS, nullptr, 0, strInitialDir.GetBufferSetLength(MAX_PATH));
+            strInitialDir.ReleaseBuffer();
+        }
+
+        // Initialize the OPENFILENAME members.
+        OPENFILENAME Ofn = { 0 };
+        Ofn.lStructSize = sizeof(OPENFILENAME);
+        Ofn.hwndOwner = *this;
+        Ofn.lpstrFilter = _T("7z Archive\0*.7z\0\0");
+        Ofn.lpstrFile = strFile.GetBufferSetLength(MAX_PATH);
+        Ofn.nMaxFile = MAX_PATH;
+        Ofn.lpstrInitialDir = strInitialDir;
+        Ofn.Flags = OFN_DONTADDTORECENT | OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT;
+        Ofn.lpstrTitle = nullptr;
+
+        if (GetSaveFileName(&Ofn)) {
+            strFile.ReleaseBuffer();
+            MoveFileEx(file, strFile, MOVEFILE_REPLACE_EXISTING);
+        } else {
+            strFile.ReleaseBuffer();
+        }
+
+        EndDialog(IDC_UPDATE_IGNORE_BUTTON);
+    }
 }
 
 void UpdateCheckerDlg::DownloadAborted()
@@ -258,16 +308,19 @@ void UpdateCheckerDlg::DownloadFailed()
     m_ignoreButton.ShowWindow(SW_SHOW);
 }
 
-void CDownloadThread::ThreadProc() {
+void CDownloadThread::ThreadProc()
+{
 #ifdef _WIN64
-    CStringA strDownloadLink = "http://sourceforge.net/projects/mpc-hc/files/MPC HomeCinema - x64/MPC-HC_v%s_x64/MPC-HC.%s.x64.exe/download";
+    CStringA strDownloadLink = "http://sourceforge.net/projects/mpc-hc/files/MPC HomeCinema - x64/MPC-HC_v%s_x64/MPC-HC.%s.x64.%s/download";
 #else
-    CStringA strDownloadLink = "http://sourceforge.net/projects/mpc-hc/files/MPC HomeCinema - Win32/MPC-HC_v%s_x86/MPC-HC.%s.x86.exe/download";
+    CStringA strDownloadLink = "http://sourceforge.net/projects/mpc-hc/files/MPC HomeCinema - Win32/MPC-HC_v%s_x86/MPC-HC.%s.x86.%s/download";
 #endif
     CStringA strVersion = m_updateChecker->GetLatestVersion().ToString();
+    bool isInstalled = m_updateChecker->IsRunningInstalled();
+    CStringA strExtension = isInstalled ? "exe" : "7z";
 
     CStringA strLink;
-    strLink.Format(strDownloadLink, strVersion, strVersion);
+    strLink.Format(strDownloadLink, strVersion, strVersion, strExtension);
 
     try {
         CInternetSession is;
@@ -287,9 +340,10 @@ void CDownloadThread::ThreadProc() {
                 total_length += length;
             }
 
-            total_length = std::max((size_t)total_length, (size_t)pHttpFile->GetLength());
-            if (IsWindow(*m_pUpdateCheckerDlg))
+            total_length = std::max(total_length, (DWORD)pHttpFile->GetLength());
+            if (IsWindow(*m_pUpdateCheckerDlg)) {
                 m_pUpdateCheckerDlg->DownloadStarted(total_length / 1024);
+            }
 
             std::vector<char> buff(1024);
             LARGE_INTEGER ticks_per_sec = { 0 };
@@ -310,14 +364,15 @@ void CDownloadThread::ThreadProc() {
                     double dblDurationTime = ((double)(iEndTime.QuadPart - iStartTime.QuadPart) / (double)ticks_per_sec.QuadPart);
                     double kb_per_sec = (((double)download_length / 1024) / (dblDurationTime));
 
-                    if (IsWindow(*m_pUpdateCheckerDlg))
+                    if (IsWindow(*m_pUpdateCheckerDlg)) {
                         m_pUpdateCheckerDlg->DownloadProgress(download_length / 1024, total_length / 1024, kb_per_sec);
+                    }
                 }
             }
             pHttpFile->Close(); // must close it because the destructor doesn't seem to do it and we will get an exception when "is" is destroying
             pFile.Close();
 
-            if (VerifyEmbeddedSignature(file) == FALSE) {
+            if (isInstalled == true && VerifyEmbeddedSignature(file) == FALSE) {
                 if (IsWindow(*m_pUpdateCheckerDlg))  {
                     m_pUpdateCheckerDlg->DownloadFailed();
                 }
