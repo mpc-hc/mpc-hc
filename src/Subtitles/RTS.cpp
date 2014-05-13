@@ -2686,13 +2686,60 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
 
     STSStyle orgstss = stss;
 
-    sub->m_clip.SetRect(0, 0, m_size.cx >> 3, m_size.cy >> 3);
     sub->m_scrAlignment = -stss.scrAlignment;
     sub->m_wrapStyle = m_defaultWrapStyle;
     sub->m_fAnimated = false;
     sub->m_relativeTo = stss.relativeTo;
     sub->m_scalex = m_dstScreenSize.cx > 0 ? double(stss.relativeTo == 1 ? m_vidrect.Width() : m_size.cx) / (m_dstScreenSize.cx * 8.0) : 1.0;
     sub->m_scaley = m_dstScreenSize.cy > 0 ? double(stss.relativeTo == 1 ? m_vidrect.Height() : m_size.cy) / (m_dstScreenSize.cy * 8.0) : 1.0;
+
+    STSEntry stse = GetAt(entry);
+    CRect marginRect = stse.marginRect;
+    if (marginRect.left == 0) {
+        marginRect.left = orgstss.marginRect.left;
+    }
+    if (marginRect.top == 0) {
+        marginRect.top = orgstss.marginRect.top;
+    }
+    if (marginRect.right == 0) {
+        marginRect.right = orgstss.marginRect.right;
+    }
+    if (marginRect.bottom == 0) {
+        marginRect.bottom = orgstss.marginRect.bottom;
+    }
+
+    marginRect.left   = lround(sub->m_scalex * marginRect.left * 8.0);
+    marginRect.top    = lround(sub->m_scaley * marginRect.top * 8.0);
+    marginRect.right  = lround(sub->m_scalex * marginRect.right * 8.0);
+    marginRect.bottom = lround(sub->m_scaley * marginRect.bottom * 8.0);
+
+    if (stss.relativeTo == 1) { // Don't be strict when using undefined mode (relativeTo == 2)
+        // Account for the user trying to fool the renderer by setting negative margins
+        CRect clipRect = m_vidrect;
+        if (marginRect.left < 0) {
+            clipRect.left = std::max(0l, clipRect.left + marginRect.left);
+        }
+        if (marginRect.top < 0) {
+            clipRect.top = std::max(0l, clipRect.top + marginRect.top);
+        }
+        if (marginRect.right < 0) {
+            clipRect.right = std::min(m_size.cx, clipRect.right - marginRect.right);
+        }
+        if (marginRect.bottom < 0) {
+            clipRect.bottom = std::min(m_size.cy, clipRect.bottom - marginRect.bottom);
+        }
+
+        sub->m_clip.SetRect(clipRect.left >> 3, clipRect.top >> 3, clipRect.right >> 3, clipRect.bottom >> 3);
+    } else {
+        sub->m_clip.SetRect(0, 0, m_size.cx >> 3, m_size.cy >> 3);
+    }
+
+    if (stss.relativeTo == 1) {
+        marginRect.left   += m_vidrect.left;
+        marginRect.top    += m_vidrect.top;
+        marginRect.right  += m_size.cx - m_vidrect.right;
+        marginRect.bottom += m_size.cy - m_vidrect.bottom;
+    }
 
     m_animStart = m_animEnd = 0;
     m_animAccel = 1;
@@ -2766,32 +2813,6 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
     }
 
     sub->m_scrAlignment = abs(sub->m_scrAlignment);
-
-    STSEntry stse = GetAt(entry);
-    CRect marginRect = stse.marginRect;
-    if (marginRect.left == 0) {
-        marginRect.left = orgstss.marginRect.left;
-    }
-    if (marginRect.top == 0) {
-        marginRect.top = orgstss.marginRect.top;
-    }
-    if (marginRect.right == 0) {
-        marginRect.right = orgstss.marginRect.right;
-    }
-    if (marginRect.bottom == 0) {
-        marginRect.bottom = orgstss.marginRect.bottom;
-    }
-    marginRect.left   = lround(sub->m_scalex * marginRect.left * 8.0);
-    marginRect.top    = lround(sub->m_scaley * marginRect.top * 8.0);
-    marginRect.right  = lround(sub->m_scalex * marginRect.right * 8.0);
-    marginRect.bottom = lround(sub->m_scaley * marginRect.bottom * 8.0);
-
-    if (stss.relativeTo == 1) {
-        marginRect.left += m_vidrect.left;
-        marginRect.top += m_vidrect.top;
-        marginRect.right += m_size.cx - m_vidrect.right;
-        marginRect.bottom += m_size.cy - m_vidrect.bottom;
-    }
 
     sub->CreateClippers(m_size);
 
