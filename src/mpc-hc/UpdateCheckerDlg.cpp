@@ -18,7 +18,6 @@
  *
  */
 
-
 #include "stdafx.h"
 #include "UpdateCheckerDlg.h"
 #include "mpc-hc_config.h"
@@ -27,9 +26,6 @@
 #include <Softpub.h>
 #include <wincrypt.h>
 #include <wintrust.h>
-
-// Link with the Wintrust.lib file.
-#pragma comment (lib, "wintrust")
 
 BOOL VerifyEmbeddedSignature(LPCWSTR pwszSourceFile)
 {
@@ -62,7 +58,6 @@ BOOL VerifyEmbeddedSignature(LPCWSTR pwszSourceFile)
     pWinTrustData.pwszURLReference = NULL;
     pWinTrustData.dwUIContext = 0;
     pWinTrustData.dwProvFlags = WTD_SAFER_FLAG;
-
 
     // WinVerifyTrust verifies signatures as specified by the GUID and Wintrust_Data.
     LONG lStatus = WinVerifyTrust(NULL, &WVTPolicyGUID, &pWinTrustData);
@@ -204,8 +199,8 @@ void UpdateCheckerDlg::OnIgnoreUpdate()
 
 void UpdateCheckerDlg::DownloadStarted(double total)
 {
-    m_icon.SetIcon(LoadIcon(nullptr, IDI_APPLICATION));
-    m_text.Format(_T("Downloading v%s...\n\nProgress: %.2f mb of %.2f mb"), m_updateChecker->GetLatestVersion().ToString(), (double)0.0, (double)(total / 1000));
+    m_icon.SetIcon(LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDR_MAINFRAME)));
+    m_text.Format(_T("Downloading v%s...\n\nProgress: %.2f MB of %.2f MB"), m_updateChecker->GetLatestVersion().ToString(), (double)0.0, (double)(total / 1000));
     SetDlgItemText(IDC_UPDATE_DLG_TEXT, m_text);
     m_progress.SetRange32(0, (int)total);
     m_progress.SetPos(0);
@@ -214,7 +209,7 @@ void UpdateCheckerDlg::DownloadStarted(double total)
 
 void UpdateCheckerDlg::DownloadProgress(double done, double total, double speed)
 {
-    m_text.Format(_T("Downloading v%s...\n\nProgress: %.2f mb of %.2f mb (%.2f kb/s)"), m_updateChecker->GetLatestVersion().ToString(), (double)(done / 1000), (double)(total / 1000), speed);
+    m_text.Format(_T("Downloading v%s...\n\nProgress: %.2f MB of %.2f MB (%.2f kb/s)"), m_updateChecker->GetLatestVersion().ToString(), (double)(done / 1000), (double)(total / 1000), speed);
     SetDlgItemText(IDC_UPDATE_DLG_TEXT, m_text);
     m_progress.SetPos((int)done);
 }
@@ -225,6 +220,7 @@ void UpdateCheckerDlg::DownloadFinished(double total, const CString &file)
     SetDlgItemText(IDC_UPDATE_DLG_TEXT, m_text);
     m_progress.SetPos((int)total);
     m_cancelButton.EnableWindow(FALSE);
+    Sleep(500);
 
     SHELLEXECUTEINFO shExecInfo = { 0 };
     shExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
@@ -233,10 +229,9 @@ void UpdateCheckerDlg::DownloadFinished(double total, const CString &file)
     shExecInfo.lpVerb = _T("open");
     shExecInfo.lpFile = file;
     shExecInfo.nShow = SW_SHOWNORMAL;
-    //shExecInfo.lpParameters = _T("/VERYSILENT /SP- /NORESTART /SUPPRESSMSGBOXES /RESTARTAPPLICATIONS");
+    shExecInfo.lpParameters = _T("/SILENT /SP- /NORESTART /CLOSEAPPLICATIONS /RESTARTAPPLICATIONS /NOCANCEL");
     ShellExecuteEx(&shExecInfo);
 
-    Sleep(1000);
     PostMessage(WM_CLOSE, 0, 0);
     AfxGetMainWnd()->PostMessage(WM_CLOSE, 0, 0);
 }
