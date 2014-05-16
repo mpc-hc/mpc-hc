@@ -1638,8 +1638,9 @@ void CMainFrame::OnActivateApp(BOOL bActive, DWORD dwThreadID)
                     if (CWnd* pActiveWnd = GetForegroundWindow()) {
                         bool bMoved = false;
                         if (CWnd* pActiveRootWnd = pActiveWnd->GetAncestor(GA_ROOT)) {
-                            if ((pActiveRootWnd->GetStyle() & WS_OVERLAPPED) &&
-                                    !(pActiveRootWnd->GetExStyle() & WS_EX_TOPMOST)) {
+                            const DWORD dwStyle = pActiveRootWnd->GetStyle();
+                            const DWORD dwExStyle = pActiveRootWnd->GetExStyle();
+                            if (!(dwStyle & WS_CHILD) && !(dwStyle & WS_POPUP) && !(dwExStyle & WS_EX_TOPMOST)) {
                                 if (CWnd* pLastWnd = GetDesktopWindow()->GetTopWindow()) {
                                     while (CWnd* pWnd = pLastWnd->GetNextWindow(GW_HWNDNEXT)) {
                                         if (*pLastWnd == *pActiveRootWnd) {
