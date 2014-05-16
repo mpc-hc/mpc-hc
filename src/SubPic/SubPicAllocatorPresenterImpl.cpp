@@ -45,6 +45,7 @@ CSubPicAllocatorPresenterImpl::CSubPicAllocatorPresenterImpl(HWND hWnd, HRESULT&
     , m_bDeviceResetRequested(false)
     , m_bPendingResetDevice(false)
     , m_rtNow(0)
+    , m_SubtitleTextureLimit(STATIC)
 {
     if (!IsWindow(m_hWnd)) {
         hr = E_INVALIDARG;
