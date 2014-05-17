@@ -1627,7 +1627,7 @@ void CMainFrame::OnActivateApp(BOOL bActive, DWORD dwThreadID)
             // don't keep the fullscreen window on top when it's not active,
             // we want to be able to switch to other windows nicely
             struct {
-                void operator()() {
+                void operator()() const {
                     CMainFrame* pMainFrame = AfxGetMainFrame();
                     const CAppSettings& s = AfxGetAppSettings();
                     if (!pMainFrame || !pMainFrame->m_fFullScreen || s.iOnTop || pMainFrame->m_bExtOnTop) {
