@@ -522,8 +522,8 @@ bool CPGSSubFile::Open(CString fn, CString name /*= _T("")*/, CString videoName 
         m_name = name;
     }
 
-    CFile f(fn, CFile::modeRead | CFile::shareDenyWrite);
-    if (f) {
+    CFile f;
+    if (f.Open(fn, CFile::modeRead | CFile::shareDenyWrite)) {
         WORD wSyncCode = 0;
         f.Read(&wSyncCode, sizeof(wSyncCode));
         wSyncCode = _byteswap_ushort(wSyncCode);
@@ -538,8 +538,8 @@ bool CPGSSubFile::Open(CString fn, CString name /*= _T("")*/, CString videoName 
 
 void CPGSSubFile::ParseFile(CString fn)
 {
-    CFile f(fn, CFile::modeRead | CFile::shareDenyWrite);
-    if (!f) {
+    CFile f;
+    if (!f.Open(fn, CFile::modeRead | CFile::shareDenyWrite)) {
         return;
     }
 
