@@ -1003,7 +1003,8 @@ BOOL CMainFrame::OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoi
     UINT CF_URL = RegisterClipboardFormat(_T("UniformResourceLocator"));
     BOOL bResult = FALSE;
 
-    if (pDataObject->IsDataAvailable(CF_URL)) {
+    // If we are dropping a file, let OnDropFiles handle drag-and-drop
+    if (!pDataObject->IsDataAvailable(CF_HDROP) && pDataObject->IsDataAvailable(CF_URL)) {
         FORMATETC fmt = {CF_URL, nullptr, DVASPECT_CONTENT, -1, TYMED_HGLOBAL};
         if (HGLOBAL hGlobal = pDataObject->GetGlobalData(CF_URL, &fmt)) {
             LPCSTR pText = (LPCSTR)GlobalLock(hGlobal);
