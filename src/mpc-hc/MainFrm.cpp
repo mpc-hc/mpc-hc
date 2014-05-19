@@ -12160,9 +12160,6 @@ void CMainFrame::SetupFiltersSubMenu()
     m_ssarray.RemoveAll();
 
     if (GetLoadState() == MLS::LOADED) {
-        VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, ID_FILTERS_COPY_TO_CLIPBOARD, ResStr(IDS_FILTERS_COPY_TO_CLIPBOARD)));
-        VERIFY(subMenu.AppendMenu(MF_SEPARATOR | MF_ENABLED));
-
         UINT idf = 0;
         UINT ids = ID_FILTERS_SUBITEM_START;
         UINT idl = ID_FILTERSTREAMS_SUBITEM_START;
@@ -12332,6 +12329,11 @@ void CMainFrame::SetupFiltersSubMenu()
             idf++;
         }
         EndEnumFilters;
+
+        if (subMenu.GetMenuItemCount() > 0) {
+            VERIFY(subMenu.InsertMenu(0, MF_STRING | MF_ENABLED | MF_BYPOSITION, ID_FILTERS_COPY_TO_CLIPBOARD, ResStr(IDS_FILTERS_COPY_TO_CLIPBOARD)));
+            VERIFY(subMenu.InsertMenu(1, MF_SEPARATOR | MF_ENABLED | MF_BYPOSITION));
+        }
     }
 }
 
