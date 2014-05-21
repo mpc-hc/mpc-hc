@@ -155,7 +155,6 @@ Vector Vector::Refract(Vector& N, float nFront, float nBack, float* nOut)
     Vector cos_D = N * N_dot_D;
     Vector sin_T = (cos_D - D) * n;
 
-    // cppcheck-suppress duplicateExpression
     float len_sin_T = sin_T | sin_T;
 
     if (len_sin_T > 1) {
@@ -187,7 +186,6 @@ Vector Vector::Refract2(Vector& N, float nFrom, float nTo, float* nOut)
     Vector cos_D = N * N_dot_D;
     Vector sin_T = (cos_D - D) * n;
 
-    // cppcheck-suppress duplicateExpression
     float len_sin_T = sin_T | sin_T;
 
     if (len_sin_T > 1) {
@@ -373,7 +371,6 @@ float Ray::GetDistanceFrom(Ray& r)
 
 float Ray::GetDistanceFrom(Vector& v)
 {
-    // cppcheck-suppress duplicateExpression
     float t = ((v - p) | d) / (d | d);
     return ((p + d * t) - v).Length();
 }
