@@ -11,8 +11,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-03-22 09:25:06+0000\n"
-"PO-Revision-Date: 2014-05-07 08:51+0000\n"
+"POT-Creation-Date: 2014-05-11 20:22:10+0000\n"
+"PO-Revision-Date: 2014-05-13 20:41+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitoschido@ubuntu.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/mpc-hc/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -131,7 +131,7 @@ msgstr "Siempre (la opción más lenta)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
 msgid "Not supported by some devices. Two video decoders always present in the filter graph."
-msgstr "No es soportado por algunos dispositivos. Dos decodificadores de vídeo siempre presentes en el grafo de filtros."
+msgstr "Algunos dispositivos no lo admiten. Dos decodificadores de vídeo siempre presentes en el gráfico de filtros."
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
 msgid "Fast except when switching between different video streams. Only one video decoder present in the filter graph."
@@ -675,7 +675,7 @@ msgstr "La superficie de video será distribuida como una superficie regular fue
 
 msgctxt "IDC_AUDRND_COMBO"
 msgid "MPC Audio Renderer is broken, do not use."
-msgstr "El renderizador de audio MPC está roto, no usarlo. "
+msgstr "El renderizador de audio MPC está dañado. Evite su uso."
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
@@ -779,11 +779,11 @@ msgstr "No se encontraron archivos de multimedia en el comprimido"
 
 msgctxt "IDS_RFS_COMPRESSED"
 msgid "Compressed files are not supported"
-msgstr "Archivos comprimidos no están soportados"
+msgstr "No se admiten los archivos comprimidos"
 
 msgctxt "IDS_RFS_ENCRYPTED"
 msgid "Encrypted files are not supported"
-msgstr "Archivos encriptados no están soportados"
+msgstr "No se admiten los archivos cifrados"
 
 msgctxt "IDS_RFS_MISSING_VOLS"
 msgid "Couldn't find all archive volumes"
@@ -1143,7 +1143,7 @@ msgstr "Todos los archivos (*.*)|*.*|"
 
 msgctxt "IDS_AG_AUDIOFILES"
 msgid "Audio files (all types)"
-msgstr "Archivos de Audio (Todos los tipos)"
+msgstr "Archivos de audio (todos los tipos)"
 
 msgctxt "IDS_AG_NOT_KNOWN"
 msgid "Not known"
@@ -1183,7 +1183,7 @@ msgstr ""
 
 msgctxt "IDS_OSD_SHADERS_PRESET"
 msgid "Shader preset: %s"
-msgstr ""
+msgstr "Preajuste de «shader»: %s"
 
 msgctxt "IDS_AG_SHADERS_PRESET_NEXT"
 msgid "Next Shader Preset"
@@ -1243,7 +1243,7 @@ msgstr "Tasa de reproducción"
 
 msgctxt "IDS_FILTERS_COPY_TO_CLIPBOARD"
 msgid "&Copy filters list to clipboard"
-msgstr ""
+msgstr "&Copiar lista de filtros en portapapeles"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1399,11 +1399,11 @@ msgstr "Miniaturas guardadas satisfactoriamente"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
 msgid "&Video Stream"
-msgstr "Video S&tream"
+msgstr "&Transmisión de vídeo"
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
 msgid "Video Ang&le"
-msgstr "Ángu&lo de Vídeo"
+msgstr "Ángu&lo del vídeo"
 
 msgctxt "IDS_RESET_SETTINGS"
 msgid "Reset settings"
@@ -1447,11 +1447,11 @@ msgstr "Reiniciar Velocidad"
 
 msgctxt "IDS_MPLAYERC_21"
 msgid "Audio Delay +10ms"
-msgstr "Ajuste de Audio de +10ms"
+msgstr "Retardo de audio de +10 ms"
 
 msgctxt "IDS_MPLAYERC_22"
 msgid "Audio Delay -10ms"
-msgstr "Ajuste de Audio de -10ms"
+msgstr "Retardo de audio de -10 ms"
 
 msgctxt "IDS_MPLAYERC_23"
 msgid "Jump Forward (small)"
@@ -1719,7 +1719,7 @@ msgstr "Menú de Subtítulos del DVD"
 
 msgctxt "IDS_MPLAYERC_66"
 msgid "DVD Audio Menu"
-msgstr "Menú de Audio del DVD"
+msgstr "Menú de audio del DVD"
 
 msgctxt "IDS_MPLAYERC_67"
 msgid "DVD Angle Menu"
@@ -1779,11 +1779,11 @@ msgstr "Opciones"
 
 msgctxt "IDS_AG_NEXT_AUDIO"
 msgid "Next Audio"
-msgstr "Audio Siguiente"
+msgstr "Audio siguiente"
 
 msgctxt "IDS_AG_PREV_AUDIO"
 msgid "Prev Audio"
-msgstr "Audio Previo"
+msgstr "Audio anterior"
 
 msgctxt "IDS_AG_NEXT_SUBTITLE"
 msgid "Next Subtitle"
@@ -1803,11 +1803,11 @@ msgstr "Recargar Subtítulos"
 
 msgctxt "IDS_MPLAYERC_87"
 msgid "Next Audio (OGM)"
-msgstr "Audio Siguiente (OGM)"
+msgstr "Audio siguiente (OGM)"
 
 msgctxt "IDS_MPLAYERC_88"
 msgid "Prev Audio (OGM)"
-msgstr "Audio Previo (OGM)"
+msgstr "Audio anterior (OGM)"
 
 msgctxt "IDS_MPLAYERC_89"
 msgid "Next Subtitle (OGM)"
@@ -1827,11 +1827,11 @@ msgstr "Angulo Previo (DVD)"
 
 msgctxt "IDS_MPLAYERC_93"
 msgid "Next Audio (DVD)"
-msgstr "Audio Siguiente (DVD)"
+msgstr "Audio siguiente (DVD)"
 
 msgctxt "IDS_MPLAYERC_94"
 msgid "Prev Audio (DVD)"
-msgstr "Audio Previo (DVD)"
+msgstr "Audio anterior (DVD)"
 
 msgctxt "IDS_MPLAYERC_95"
 msgid "Next Subtitle (DVD)"
@@ -1955,7 +1955,7 @@ msgstr "MPC-HC no tiene suficientes privilegios para cambiar las asociaciones de
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
-msgstr "MPC-HC es un reproductor para Windows extremadamente ligero y de código abierto. Soporta todos los formatos comunes de vídeo y formatos de archivos de augio disponibles para reproducción. Estamos 100% libres de spyware, nada de anuncios o barras de herramientas."
+msgstr "MPC-HC es un reproductor para Windows extremadamente ligero y de código abierto. Admite todos los formatos comunes de vídeo y de audio. Estamos 100 % libres de «spyware», nada de anuncios ni barras de herramientas."
 
 msgctxt "IDS_MAINFRM_12"
 msgid "channel"
@@ -2107,7 +2107,7 @@ msgstr "Imposible crear miniaturas para los archivos sin duración"
 
 msgctxt "IDS_MAINFRM_55"
 msgid "Failed to get video frame size"
-msgstr "Imposible obtener el tamaño del cuadro de video"
+msgstr "No se pudo obtener el tamaño de fotograma de vídeo"
 
 msgctxt "IDS_MAINFRM_56"
 msgid "Out of memory, go buy some more!"
@@ -2139,7 +2139,7 @@ msgstr "Razón de Proporcionalidad: Original"
 
 msgctxt "IDS_MAINFRM_70"
 msgid "Audio Delay: %I64dms"
-msgstr "Diferencia entre Video y Audio: %I64dms"
+msgstr "Retardo del audio: %I64dms"
 
 msgctxt "IDS_AG_CHAPTER"
 msgid "Chapter %d"
@@ -2259,7 +2259,7 @@ msgstr "Tipo de archivo desconocido"
 
 msgctxt "IDS_MAINFRM_92"
 msgid "Unsupported stream"
-msgstr "Pista no soportada"
+msgstr "Transmisión no admitida"
 
 msgctxt "IDS_MAINFRM_93"
 msgid "Cannot find DVD directory"
@@ -2471,7 +2471,7 @@ msgstr "Sintonización"
 
 msgctxt "IDS_SUBTITLES_ERROR"
 msgid "Subtitles are not loaded or unsupported renderer."
-msgstr "Subtítulos no cargados o renderer no soportado."
+msgstr "No se cargaron los subtítulos o el renderizador no es compatible."
 
 msgctxt "IDS_LOGO_AUTHOR"
 msgid "Author unknown. Contact us if you made this logo!"
@@ -2627,19 +2627,19 @@ msgstr "&Desactivar todos los filtros"
 
 msgctxt "IDS_ENABLE_AUDIO_FILTERS"
 msgid "Enable all audio decoders"
-msgstr "Habilitar todos los codificadores de audio"
+msgstr "Activar todos los codificadores de audio"
 
 msgctxt "IDS_DISABLE_AUDIO_FILTERS"
 msgid "Disable all audio decoders"
-msgstr "Inhabilitar todos los codificadores de audio"
+msgstr "Desactivar todos los codificadores de audio"
 
 msgctxt "IDS_ENABLE_VIDEO_FILTERS"
 msgid "Enable all video decoders"
-msgstr "Habilitar todos los decodificadores de vídeo"
+msgstr "Activar todos los decodificadores de vídeo"
 
 msgctxt "IDS_DISABLE_VIDEO_FILTERS"
 msgid "Disable all video decoders"
-msgstr "Inhabilitar todos los decodificadores de vídeo"
+msgstr "Desactivar todos los decodificadores de vídeo"
 
 msgctxt "IDS_STRETCH_TO_WINDOW"
 msgid "Stretch To Window"
@@ -2731,7 +2731,7 @@ msgstr "Windows Media Video"
 
 msgctxt "IDS_MFMT_BINK"
 msgid "Smacker/Bink Video"
-msgstr ""
+msgstr "Vídeo de Smacker/Bink"
 
 msgctxt "IDS_MFMT_FLIC"
 msgid "FLIC Animation"
@@ -2903,11 +2903,11 @@ msgstr "VSync con precisión: Apagado"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_ON"
 msgid "Synchronize Video to Display: On"
-msgstr "Sincronizar video a visualizar: Encendido"
+msgstr "Sincronizar vídeo a visualizar: activado"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_OFF"
 msgid "Synchronize Video to Display: Off"
-msgstr "Sincronizar video a visualizar: Apagado"
+msgstr "Sincronizar vídeo a visualizar: desactivado"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_ON"
 msgid "Synchronize Display to Video: On"
@@ -3039,11 +3039,11 @@ msgstr "Restablecer configuraciónes de renderizado a optimos"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
 msgid "D3D Fullscreen GUI Support: On"
-msgstr "D3D a pantalla completa con soporte GUI: Encendido"
+msgstr "D3D a pantalla completa con IGU: activado"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF"
 msgid "D3D Fullscreen GUI Support: Off"
-msgstr "D3D a pantalla completa con soporte GUI: Apagado"
+msgstr "D3D a pantalla completa con IGU: desactivado"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_ON"
 msgid "10-bit RGB Output: On"
@@ -3379,7 +3379,7 @@ msgstr "Configuraciones de color restablecidas"
 
 msgctxt "IDS_OSD_NO_COLORCONTROL"
 msgid "Color control is not supported"
-msgstr "Control de control no soportado."
+msgstr "No se admite el control de color"
 
 msgctxt "IDS_BRIGHTNESS_INC"
 msgid "Brightness increase"

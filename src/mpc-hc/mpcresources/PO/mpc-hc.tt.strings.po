@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # kefir500 <kefir500@gmail.com>, 2014
+# кери <khazirek@mail.ru>, 2014
 # sayanvd <sayanvd@yandex.ru>, 2014
 # Underground78, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-03-22 09:25:06+0000\n"
-"PO-Revision-Date: 2014-05-09 07:00+0000\n"
+"POT-Creation-Date: 2014-05-11 20:22:10+0000\n"
+"PO-Revision-Date: 2014-05-25 17:26+0000\n"
 "Last-Translator: кери <khazirek@mail.ru>\n"
 "Language-Team: Tatar (http://www.transifex.com/projects/p/mpc-hc/language/tt/)\n"
 "MIME-Version: 1.0\n"
@@ -1240,7 +1241,7 @@ msgstr "Уйнату тизлеге"
 
 msgctxt "IDS_FILTERS_COPY_TO_CLIPBOARD"
 msgid "&Copy filters list to clipboard"
-msgstr ""
+msgstr "&Сөзгечләр битен буферга күчерергә"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"

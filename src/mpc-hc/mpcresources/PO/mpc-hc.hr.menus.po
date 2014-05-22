@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-04-22 11:15:01+0000\n"
-"PO-Revision-Date: 2014-05-10 20:50+0000\n"
+"PO-Revision-Date: 2014-05-11 21:50+0000\n"
 "Last-Translator: schop <aprcel00@fesb.hr>\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/mpc-hc/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -143,7 +143,7 @@ msgstr "Navi&gacija"
 
 msgctxt "ID_VIEW_DEBUGSHADERS"
 msgid "&Debug Shaders"
-msgstr "&Otklanjanje neispravnosti shadera"
+msgstr "&Debugiranje shadera"
 
 msgctxt "POPUP"
 msgid "&Presets..."
@@ -195,7 +195,7 @@ msgstr "P&ostavke renderera"
 
 msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
-msgstr "&Razdvajanje teksta"
+msgstr "&Test razdvajanja"
 
 msgctxt "ID_VIEW_DISPLAYSTATS"
 msgid "&Display Stats"
@@ -223,11 +223,11 @@ msgstr "&Prezentacija"
 
 msgctxt "ID_VIEW_D3DFULLSCREEN"
 msgid "D3D Fullscreen &Mode"
-msgstr "D3D mod preko cijelog &ekrana"
+msgstr "D3D &fullscreen način rada"
 
 msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
 msgid "D3D Fullscreen &GUI Support"
-msgstr "D3D Puni ekran i &GUI podrška"
+msgstr "D3D fullscreen i &GUI podrška"
 
 msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
 msgid "10-bit &RGB Output"
@@ -235,23 +235,23 @@ msgstr "10-bit &RGB izlaz"
 
 msgctxt "ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION"
 msgid "Force 10-bit RGB &Input"
-msgstr "Forsiraj 10-bit RGB &izlaz"
+msgstr "Forsiraj 10-bit RGB &ulaz"
 
 msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
 msgid "&Full Floating Point Processing"
-msgstr "&Puna obrada plivajuće točke"
+msgstr "&Obrada broja s pomičnim zarezom s potpunom preciznošću"
 
 msgctxt "ID_VIEW_HALFFLOATINGPOINTPROCESSING"
 msgid "&Half Floating Point Processing"
-msgstr "&Polovična obrada plivajuće točke"
+msgstr "&Obrada broja s pomičnim zarezom s polovičnom preciznošću"
 
 msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
 msgid "Disable desktop composition (&Aero)"
-msgstr "Onemogući kompoziciju desktopa (&Aero)"
+msgstr "Onemogući oblikovanje radne površine (&Aero)"
 
 msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time &Correction"
-msgstr "Omogući korekciju vremena i &sličice"
+msgstr "Omogući korekciju vremena &okvira"
 
 msgctxt "POPUP"
 msgid "&Color Management"
@@ -275,23 +275,23 @@ msgstr "&HDTV"
 
 msgctxt "ID_VIEW_CM_INPUT_SDTV_NTSC"
 msgid "SDTV &NTSC"
-msgstr "SDTV i &NTSC"
+msgstr "SDTV &NTSC"
 
 msgctxt "ID_VIEW_CM_INPUT_SDTV_PAL"
 msgid "SDTV &PAL"
-msgstr "SDTV i &PAL"
+msgstr "SDTV &PAL"
 
 msgctxt "POPUP"
 msgid "Ambient &Light"
-msgstr "Svjetlo &ugođaja"
+msgstr "Svjetlo &ambijenta"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
 msgid "&Bright (2.2 Gamma)"
-msgstr "&Svjetlost (2.2 Gamma)"
+msgstr "&Svjetlo (2.2 Gamma)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DIM"
 msgid "&Dim (2.35 Gamma)"
-msgstr "&Zatamnjenje (2.35 Gamma)"
+msgstr "&Zatamnjeno (2.35 Gamma)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DARK"
 msgid "D&ark (2.4 Gamma)"
@@ -299,7 +299,7 @@ msgstr "T&amno (2.4 Gamma)"
 
 msgctxt "POPUP"
 msgid "&Rendering Intent"
-msgstr "&Namjera renderiranja"
+msgstr "&Cilj reprodukcije"
 
 msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
 msgid "&Perceptual"
@@ -307,7 +307,7 @@ msgstr "&Percepcija"
 
 msgctxt "ID_VIEW_CM_INTENT_RELATIVECOLORIMETRIC"
 msgid "&Relative Colorimetric"
-msgstr "&Relativna kolometrija"
+msgstr "&Relativno kolormetrično"
 
 msgctxt "ID_VIEW_CM_INTENT_SATURATION"
 msgid "&Saturation"
@@ -315,47 +315,47 @@ msgstr "&Zasićenje"
 
 msgctxt "ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC"
 msgid "&Absolute Colorimetric"
-msgstr "&Potpuna kolometrija"
+msgstr "&Potpuno kolormetrično"
 
 msgctxt "POPUP"
 msgid "&VSync"
-msgstr "&V-sinhronizacija"
+msgstr "&V-sinkro."
 
 msgctxt "ID_VIEW_VSYNC"
 msgid "&VSync"
-msgstr "&V-sinhronizacija"
+msgstr "&V-sinkro."
 
 msgctxt "ID_VIEW_VSYNCACCURATE"
 msgid "&Accurate VSync"
-msgstr "&Točna V-sinkr."
+msgstr "&Precizna V-sinkro."
 
 msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
 msgid "A&lternative VSync"
-msgstr "A&lternativna V-sinkr."
+msgstr "A&lternativna V-sinkro."
 
 msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
 msgid "&Decrease VSync Offset"
-msgstr "&Smanji neutralnu V-sinkro."
+msgstr "&Smanji pomak V-sinkronizacije"
 
 msgctxt "ID_VIEW_VSYNCOFFSET_INCREASE"
 msgid "&Increase VSync Offset"
-msgstr "&Povećaj neutralnu V-sinkro."
+msgstr "&Povećaj pomak V-sinkronizacije"
 
 msgctxt "POPUP"
 msgid "&GPU Control"
-msgstr "&Kontrola GP"
+msgstr "&GPU kontrola"
 
 msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
 msgid "Flush GPU &before VSync"
-msgstr "Očisti GPU &prije V-sinkro."
+msgstr "Isprazni GPU &prije V-sinkro."
 
 msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
 msgid "Flush GPU &after Present"
-msgstr "Očisti GPU &poslije memorije."
+msgstr "Isprazni GPU &poslije reprodukcije"
 
 msgctxt "ID_VIEW_FLUSHGPU_WAIT"
 msgid "&Wait for flushes"
-msgstr "&Sačekaj za čišćenje"
+msgstr "&Sačekaj za pražnjenje"
 
 msgctxt "POPUP"
 msgid "R&eset"
@@ -363,15 +363,15 @@ msgstr "R&esetiranje"
 
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
-msgstr "Resetiranje na &početne postavke renderiranja"
+msgstr "Učitaj &početne postavke renderiranja"
 
 msgctxt "ID_VIEW_RESET_OPTIMAL"
 msgid "Reset to &optimal renderer settings"
-msgstr "Resetiranje na &optimalne postavke renderiranja"
+msgstr "Učitaj &optimalne postavke renderiranja"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
-msgstr "Video &sličica"
+msgstr "Video &slika"
 
 msgctxt "ID_VIEW_VF_HALF"
 msgid "&Half Size"
@@ -387,11 +387,11 @@ msgstr "&Dvostruka veličina"
 
 msgctxt "ID_VIEW_VF_STRETCH"
 msgid "&Stretch To Window"
-msgstr "&Rastegni preko prozora"
+msgstr "&Prilagodi veličini prozora"
 
 msgctxt "ID_VIEW_VF_FROMINSIDE"
 msgid "Touch Window From &Inside"
-msgstr "Rastegni vanjski dio preko cijelog &ekrana"
+msgstr "Dotakni prozor &iznutra"
 
 msgctxt "ID_VIEW_VF_ZOOM1"
 msgid "Zoom &1"
@@ -403,7 +403,7 @@ msgstr "Uvećanje &2"
 
 msgctxt "ID_VIEW_VF_FROMOUTSIDE"
 msgid "Touch Window From &Outside"
-msgstr "Rastegni unutarnji dio preko cijelog &ekrana"
+msgstr "Dotakni prozor &izvana"
 
 msgctxt "ID_VIEW_VF_KEEPASPECTRATIO"
 msgid "&Keep Aspect Ratio"
@@ -435,11 +435,11 @@ msgstr "&235:100"
 
 msgctxt "ID_ASPECTRATIO_185_100"
 msgid "1&85:100"
-msgstr "&1.85:100"
+msgstr "1&85:100"
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"
-msgstr "&Ispravan AR Diff na monitoru/desktopu"
+msgstr "&Ispravi razliku omjera slike na monitoru/radnoj površini"
 
 msgctxt "POPUP"
 msgid "Pa&n&&Scan"
@@ -515,7 +515,7 @@ msgstr "Dok se izvodi &video"
 
 msgctxt "ID_VIEW_OPTIONS"
 msgid "&Options..."
-msgstr "&Opcije"
+msgstr "&Opcije..."
 
 msgctxt "POPUP"
 msgid "&Play"
@@ -535,11 +535,11 @@ msgstr "K&orak okvira"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "&Decrease Rate"
-msgstr "&Povećaj stopu"
+msgstr "&Smanji stopu"
 
 msgctxt "ID_PLAY_INCRATE"
 msgid "&Increase Rate"
-msgstr "&Smanji stopu"
+msgstr "&Povećaj stopu"
 
 msgctxt "ID_PLAY_RESETRATE"
 msgid "R&eset Rate"
@@ -547,7 +547,7 @@ msgstr "R&esetiraj stopu"
 
 msgctxt "ID_FILTERS"
 msgid "&Filters"
-msgstr "&Filteri"
+msgstr "&Filtri"
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"
@@ -555,19 +555,19 @@ msgstr "S&haderi"
 
 msgctxt "ID_AUDIOS"
 msgid "&Audio"
-msgstr "&Zvuk"
+msgstr "&Audio"
 
 msgctxt "ID_SUBTITLES"
 msgid "Su&btitles"
-msgstr "Ti&tlovi"
+msgstr "Pod&napisi"
 
 msgctxt "ID_VIDEO_STREAMS"
 msgid "&Video Stream"
-msgstr "&Video protok"
+msgstr "&Video traka"
 
 msgctxt "POPUP"
 msgid "&Volume"
-msgstr "&Jačina"
+msgstr "&Glasnoća"
 
 msgctxt "ID_VOLUME_UP"
 msgid "&Up"
@@ -583,35 +583,35 @@ msgstr "&Tišina"
 
 msgctxt "POPUP"
 msgid "Af&ter Playback"
-msgstr "Povslije izvođenja"
+msgstr "Na&kon reprodukcije"
 
 msgctxt "ID_AFTERPLAYBACK_ONCE"
 msgid "--------- Once ---------"
-msgstr "--------- Jednom ---------"
+msgstr "------- Jednom -------"
 
 msgctxt "ID_AFTERPLAYBACK_CLOSE"
 msgid "&Exit"
-msgstr "&Izlaz"
+msgstr "&Zatvori program"
 
 msgctxt "ID_AFTERPLAYBACK_STANDBY"
 msgid "&Stand By"
-msgstr "&U pripremi"
+msgstr "&Stanje pripravnosti"
 
 msgctxt "ID_AFTERPLAYBACK_HIBERNATE"
 msgid "&Hibernate"
-msgstr "&Spavanje"
+msgstr "&Hibernacija"
 
 msgctxt "ID_AFTERPLAYBACK_SHUTDOWN"
 msgid "Shut&down"
-msgstr "Isklju&čivanje"
+msgstr "Isključi &računalo"
 
 msgctxt "ID_AFTERPLAYBACK_LOGOFF"
 msgid "Log &Off"
-msgstr "Odjav&ljivanje"
+msgstr "Odjavi &korisnika"
 
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
-msgstr "&Zaključavanje"
+msgstr "&Zaključaj korisnika"
 
 msgctxt "ID_AFTERPLAYBACK_EVERYTIME"
 msgid "------ Every time ------"
@@ -619,7 +619,7 @@ msgstr "--------- Uvijek ---------"
 
 msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "E&xit"
-msgstr "&Izlaz"
+msgstr "&Zatvori program"
 
 msgctxt "ID_AFTERPLAYBACK_DONOTHING"
 msgid "Do &Nothing"
@@ -655,7 +655,7 @@ msgstr "&Glavni izbornik"
 
 msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
 msgid "&Subtitle Menu"
-msgstr "&Izbor titlova"
+msgstr "&Izbor podnapisa"
 
 msgctxt "ID_NAVIGATE_AUDIOMENU"
 msgid "&Audio Menu"
@@ -687,11 +687,11 @@ msgstr "Provjeri &ažuriranja"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"
-msgstr "&Prijelaz na komandnu liniju"
+msgstr "&Naredbe komandne linije"
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"
-msgstr "Skini & Toolbar slike"
+msgstr "Skini &Toolbar slike"
 
 msgctxt "ID_HELP_DONATE"
 msgid "&Donate"

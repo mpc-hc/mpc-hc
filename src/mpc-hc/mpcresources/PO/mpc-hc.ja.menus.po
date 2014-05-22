@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-04-22 11:15:01+0000\n"
-"PO-Revision-Date: 2014-05-11 08:20+0000\n"
+"PO-Revision-Date: 2014-05-26 00:31+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -118,7 +118,7 @@ msgstr "ファイル情報(&I)"
 
 msgctxt "ID_VIEW_STATISTICS"
 msgid "&Statistics"
-msgstr "統計(&S)"
+msgstr "統計情報(&S)"
 
 msgctxt "ID_VIEW_STATUS"
 msgid "St&atus"
@@ -130,7 +130,7 @@ msgstr "字幕編集(&B)"
 
 msgctxt "ID_VIEW_PLAYLIST"
 msgid "Pla&ylist"
-msgstr "プレイリスト(&Y)"
+msgstr "再生リスト(&Y)"
 
 msgctxt "ID_VIEW_CAPTURE"
 msgid "Captu&re"
@@ -162,7 +162,7 @@ msgstr "標準(&N)"
 
 msgctxt "ID_VIEW_FULLSCREEN"
 msgid "F&ull Screen"
-msgstr "フル スクリーン(&U)"
+msgstr "全画面表示(&U)"
 
 msgctxt "POPUP"
 msgid "&Zoom"
@@ -198,7 +198,7 @@ msgstr "テアリング テスト(&T)"
 
 msgctxt "ID_VIEW_DISPLAYSTATS"
 msgid "&Display Stats"
-msgstr "統計の表示(&D)"
+msgstr "統計情報の表示(&D)"
 
 msgctxt "ID_VIEW_REMAINING_TIME"
 msgid "&Remaining Time"
@@ -222,11 +222,11 @@ msgstr "プレゼンテーション(&P)"
 
 msgctxt "ID_VIEW_D3DFULLSCREEN"
 msgid "D3D Fullscreen &Mode"
-msgstr "D3D フルスクリーン モード(&M)"
+msgstr " Direct3D フルスクリーン モード(&M)"
 
 msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
 msgid "D3D Fullscreen &GUI Support"
-msgstr "D3D フルスクリーン GUI 対応(&G)"
+msgstr "Direct3D フルスクリーン GUI 対応(&G)"
 
 msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
 msgid "10-bit &RGB Output"
@@ -254,7 +254,7 @@ msgstr "フレーム時間補正を有効にする(&C)"
 
 msgctxt "POPUP"
 msgid "&Color Management"
-msgstr "カラー マネージメント(&C)"
+msgstr "カラー調整(&C)"
 
 msgctxt "ID_VIEW_CM_ENABLE"
 msgid "&Enable"
@@ -302,7 +302,7 @@ msgstr "色空間変換の方法(&R)"
 
 msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
 msgid "&Perceptual"
-msgstr "知覚(&P)"
+msgstr "知覚的(&P)"
 
 msgctxt "ID_VIEW_CM_INTENT_RELATIVECOLORIMETRIC"
 msgid "&Relative Colorimetric"
@@ -630,7 +630,7 @@ msgstr "フォルダ内を順次再生(&F)"
 
 msgctxt "POPUP"
 msgid "&Navigate"
-msgstr "操作(&N)"
+msgstr "移動(&N)"
 
 msgctxt "ID_NAVIGATE_SKIPBACK"
 msgid "&Previous"
@@ -642,7 +642,7 @@ msgstr "次へ(&N)"
 
 msgctxt "ID_NAVIGATE_GOTO"
 msgid "&Go To..."
-msgstr "移動(&G)..."
+msgstr "再生位置を移動(&G)..."
 
 msgctxt "ID_NAVIGATE_TITLEMENU"
 msgid "&Title Menu"

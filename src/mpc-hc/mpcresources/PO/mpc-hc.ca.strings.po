@@ -3,11 +3,12 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # papu <papu@openmailbox.org>, 2014
+# papu <papu@openmailbox.org>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-03-22 09:25:06+0000\n"
-"PO-Revision-Date: 2014-05-07 08:51+0000\n"
+"POT-Creation-Date: 2014-05-11 20:22:10+0000\n"
+"PO-Revision-Date: 2014-05-12 09:20+0000\n"
 "Last-Translator: papu <papu@openmailbox.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -1238,7 +1239,7 @@ msgstr "Velocitat de reproducció"
 
 msgctxt "IDS_FILTERS_COPY_TO_CLIPBOARD"
 msgid "&Copy filters list to clipboard"
-msgstr ""
+msgstr "&Copiar la llista de filtres al portapapers"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"

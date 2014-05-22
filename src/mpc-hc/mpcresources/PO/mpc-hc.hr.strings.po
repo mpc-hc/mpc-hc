@@ -9,9 +9,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-03-22 09:25:06+0000\n"
-"PO-Revision-Date: 2014-05-10 20:20+0000\n"
-"Last-Translator: schop <aprcel00@fesb.hr>\n"
+"POT-Creation-Date: 2014-05-11 20:22:10+0000\n"
+"PO-Revision-Date: 2014-05-12 08:49+0000\n"
+"Last-Translator: JellyFrog\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/mpc-hc/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -85,7 +85,7 @@ msgstr "Vrijeme"
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET"
 msgid "Sync Offset"
-msgstr "Sync Offset"
+msgstr "Pomak sinkronizacije"
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET_FORMAT"
 msgid "avg: %d ms, dev: %d ms"
@@ -121,7 +121,7 @@ msgstr "Nikad (najbrži pristup)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG1"
 msgid "Only when switching different video types (default)"
-msgstr "Samo kada mijenjam na druge tipove videa (standardno)"
+msgstr "Samo kada se mijenja na druge tipove videa (zadano)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG2"
 msgid "Always (slowest option)"
@@ -141,15 +141,15 @@ msgstr "Nije preporučljivo. Samo za svrhe testiranja."
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG0"
 msgid "Never if possible (fastest, but not supported by most filters)"
-msgstr "Nikada, ako je moguće (najbrže, ali nije često nije podržano)"
+msgstr "Nikada ako je moguće (najbrže, ali nije često nije podržano)"
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG1"
 msgid "Only when switching different video types (default)"
-msgstr "Samo pri promjeni na drugi tip videa (standardno)"
+msgstr "Samo pri promjeni tipa videa (zadano)"
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG2"
 msgid "Always (may be required by some devices)"
-msgstr "Uvijek (neki uređaji mogu zahtijevati)"
+msgstr "Uvijek (neki uređaji mogu to zahtijevati)"
 
 msgctxt "IDS_INFOBAR_PARENTAL_RATING"
 msgid "Parental rating"
@@ -209,7 +209,7 @@ msgstr "Kraj"
 
 msgctxt "IDS_SUBRESYNC_CLN_PREVIEW"
 msgid "Preview"
-msgstr "Pregled"
+msgstr "Pretpregled"
 
 msgctxt "IDS_SUBRESYNC_CLN_VOB_ID"
 msgid "Vob ID"
@@ -221,7 +221,7 @@ msgstr "Cell ID"
 
 msgctxt "IDS_SUBRESYNC_CLN_FORCED"
 msgid "Forced"
-msgstr "Prisilno"
+msgstr "Prisiljeno"
 
 msgctxt "IDS_SUBRESYNC_CLN_TEXT"
 msgid "Text"
@@ -237,11 +237,11 @@ msgstr "Font"
 
 msgctxt "IDS_DVD_NAV_SOME_PINS_ERROR"
 msgid "Failed to render some of the pins of the DVD Navigator filter"
-msgstr "Nije uspjelo renderiranje nekih pinov DVD-Navigacijskog filtra."
+msgstr "Nije uspjelo renderiranje nekih pinova DVD-Navigacijskog filtra."
 
 msgctxt "IDS_DVD_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for DVD playback"
-msgstr "Neuspjeh u pronalasku potrebnih sučelja koji omogućuju izvođenje DVDa"
+msgstr "Bezuspješno pronalaženje potrebnih sučelja koji omogućuju izvođenje DVDa"
 
 msgctxt "IDS_CAPTURE_LIVE"
 msgid "Live"
@@ -257,7 +257,7 @@ msgstr "U graf se ne može dodati Audio Capture filtar"
 
 msgctxt "IDS_CAPTURE_ERROR_DEVICE"
 msgid "Could not open capture device."
-msgstr "Ne mogu otvoriti uređaj za snimanje."
+msgstr "Ne može se otvoriti uređaj za snimanje."
 
 msgctxt "IDS_INVALID_PARAMS_ERROR"
 msgid "Can't open, invalid input parameters"
@@ -297,7 +297,7 @@ msgstr "Naslov(i)"
 
 msgctxt "IDS_SUBRESYNC_CLN_CHARSET"
 msgid "CharSet"
-msgstr "CharSet"
+msgstr "Skup znakova"
 
 msgctxt "IDS_SUBRESYNC_CLN_UNICODE"
 msgid "Unicode"
@@ -321,7 +321,7 @@ msgstr "Playlista"
 
 msgctxt "IDS_PPAGE_FS_CLN_ON_OFF"
 msgid "On/Off"
-msgstr "On/Off"
+msgstr "Uklj./Isklj."
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
 msgid "From fps"
@@ -337,7 +337,7 @@ msgstr "Način prikaza (Hz)"
 
 msgctxt "IDS_PPAGE_FS_DEFAULT"
 msgid "Default"
-msgstr "Standardni"
+msgstr "Zadan"
 
 msgctxt "IDS_PPAGE_FS_OTHER"
 msgid "Other"
@@ -345,7 +345,7 @@ msgstr "Drugo"
 
 msgctxt "IDS_PPAGE_OUTPUT_SYS_DEF"
 msgid "System Default"
-msgstr "Sistemski standard"
+msgstr "Sistemski zadan"
 
 msgctxt "IDS_GRAPH_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for playback"
@@ -357,7 +357,7 @@ msgstr "Ciljani okvir za obavijesni graf nije moguće podesiti"
 
 msgctxt "IDS_DVD_NAV_ALL_PINS_ERROR"
 msgid "Failed to render all pins of the DVD Navigator filter"
-msgstr "Nije uspjeli renderiranje nijednog pina od DVD-navigacijskog filtra."
+msgstr "Nije uspjelo renderiranje nijednog pina od DVD-navigacijskog filtra."
 
 msgctxt "IDS_PLAYLIST_OPEN"
 msgid "&Open"
@@ -373,11 +373,11 @@ msgstr "&Ukloni"
 
 msgctxt "IDS_PLAYLIST_CLEAR"
 msgid "C&lear"
-msgstr "&obriši pospi"
+msgstr "&Obriši"
 
 msgctxt "IDS_PLAYLIST_COPYTOCLIPBOARD"
 msgid "&Copy to clipboard"
-msgstr "&Kopiraj u medjuspremnik"
+msgstr "&Kopiraj u međuspremnik"
 
 msgctxt "IDS_PLAYLIST_SAVEAS"
 msgid "&Save As..."
@@ -417,7 +417,7 @@ msgstr "&Resetiraj"
 
 msgctxt "IDS_MPLAYERC_104"
 msgid "Subtitle Delay -"
-msgstr "Kašnjenje podnapisa - "
+msgstr "Kašnjenje podnapisa -"
 
 msgctxt "IDS_MPLAYERC_105"
 msgid "Subtitle Delay +"
@@ -425,11 +425,11 @@ msgstr "Kašnjenje podnapisa +"
 
 msgctxt "IDS_FILE_SAVE_THUMBNAILS"
 msgid "Save thumbnails"
-msgstr "Sačuvaj sličice"
+msgstr "Spremi sličice"
 
 msgctxt "IDD_PPAGEPLAYBACK"
 msgid "Playback"
-msgstr "Playback"
+msgstr "Reprodukcija"
 
 msgctxt "IDD_PPAGEPLAYER"
 msgid "Player"
@@ -437,7 +437,7 @@ msgstr "Player"
 
 msgctxt "IDD_PPAGEDVD"
 msgid "Playback::DVD/OGM"
-msgstr "Playback::DVD/OGM"
+msgstr "Reprodukcija::DVD/OGM"
 
 msgctxt "IDD_PPAGESUBTITLES"
 msgid "Subtitles"
@@ -481,7 +481,7 @@ msgstr "Ovo će popraviti neispravan prikaz ikona nakon nadogradnje biblioteke i
 
 msgctxt "IDS_PPAGE_OUTPUT_OLDRENDERER"
 msgid "Old Video Renderer"
-msgstr "Old Video Renderer"
+msgstr "Stari video render"
 
 msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
@@ -533,7 +533,7 @@ msgstr "Player::Tipke"
 
 msgctxt "IDD_PPAGESUBSTYLE"
 msgid "Subtitles::Default Style"
-msgstr "Podnapisi::Standardni stil"
+msgstr "Podnapisi::Zadani stil"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS"
 msgid "Internal Filters"
@@ -569,15 +569,15 @@ msgstr "MediaInfo"
 
 msgctxt "IDD_PPAGECAPTURE"
 msgid "Playback::Capture"
-msgstr "Playback::Uhvati (zaustavi)"
+msgstr "Reprodukcija::Uhvati"
 
 msgctxt "IDD_PPAGESYNC"
 msgid "Playback::Sync Renderer Settings"
-msgstr "Playback::Postavke za Sync Renderer"
+msgstr "Reprodukcija::Postavke sinkronizacijskog rendera"
 
 msgctxt "IDD_PPAGEFULLSCREEN"
 msgid "Playback::Fullscreen"
-msgstr "Playback::Cijeli ekran"
+msgstr "Reprodukcija::Fullscreen"
 
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
@@ -589,7 +589,7 @@ msgstr "Clip"
 
 msgctxt "IDC_DSSYSDEF"
 msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason. On Windown XP this is the same as VMR-7 (windowed)."
-msgstr "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason. On Windown XP this is the same as VMR-7 (windowed)."
+msgstr "Zadani video render filtri za DirectShow. Ostali video renderi, ako se ne mogu učitati, će biti postavljeni na ovaj. Na Windows XP je ovo ekvivalent VMR-7 (windowed)."
 
 msgctxt "IDC_DSOLD"
 msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."

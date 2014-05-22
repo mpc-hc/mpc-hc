@@ -224,7 +224,7 @@ de.msg_simd_sse=Dieses MPC-HC-Build benötigt einen Prozessor mit SSE-Unterstüt
 de.msg_simd_sse2=Dieses MPC-HC-Build benötigt einen Prozessor mit SSE2-Unterstützung.%n%nIhr Prozessor besitzt nicht diese Eigenschaft.
 #endif
 de.tsk_AllUsers=Für alle Benutzer
-de.tsk_CurrentUser=Für aktuellen Benutzer
+de.tsk_CurrentUser=Nur für den aktuellen Benutzer
 de.tsk_Other=Andere Aufgaben:
 de.tsk_ResetSettings=Programmeinstellungen zurücksetzen
 de.types_DefaultInstallation=Standard Installation
@@ -445,7 +445,7 @@ ja.langid=00001041
 ja.comp_mpciconlib=アイコン ライブラリ
 ja.comp_mpcresources=翻訳
 ja.msg_DeleteSettings=MPC-HC の設定を削除してもよろしいですか？%n%nMPC-HC を再度インストールする場合は、設定を削除する必要はありません。
-ja.msg_SetupIsRunningWarning=MPC-HC のインストーラは既に実行されています！
+ja.msg_SetupIsRunningWarning=MPC-HC のセットアップは既に実行されています！
 #if defined(sse_required)
 ja.msg_simd_sse=このバージョンの MPC-HC には CPU の SSE サポートが必要です。%n%nお使いの CPU はこの条件を満たしません。
 #elif defined(sse2_required)
@@ -454,7 +454,7 @@ ja.msg_simd_sse2=このバージョンの MPC-HC には CPU の SSE2 サポー�
 ja.tsk_AllUsers=全てのユーザーにインストールする
 ja.tsk_CurrentUser=現在実行しているユーザーにのみインストールする
 ja.tsk_Other=他のタスク:
-ja.tsk_ResetSettings=設定を初期化する
+ja.tsk_ResetSettings=設定をリセットする
 ja.types_DefaultInstallation=既定のインストール
 ja.types_CustomInstallation=カスタム インストール
 ja.ViewChangelog=変更履歴を表示する

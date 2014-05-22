@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2013-12-21 11:15:54+0000\n"
-"PO-Revision-Date: 2014-05-03 08:40+0000\n"
+"PO-Revision-Date: 2014-05-24 15:14+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -38,7 +38,7 @@ msgstr "MPC-HC の設定を削除してもよろしいですか？\n\nMPC-HC を
 
 msgctxt "CustomMessages_msg_SetupIsRunningWarning"
 msgid "MPC-HC setup is already running!"
-msgstr "MPC-HC のインストーラは既に実行されています！"
+msgstr "MPC-HC のセットアップは既に実行されています！"
 
 msgctxt "CustomMessages_msg_simd_sse"
 msgid "This build of MPC-HC requires a CPU with SSE extension support.\n\nYour CPU does not have those capabilities."
@@ -62,7 +62,7 @@ msgstr "他のタスク:"
 
 msgctxt "CustomMessages_tsk_ResetSettings"
 msgid "Reset settings"
-msgstr "設定を初期化する"
+msgstr "設定をリセットする"
 
 msgctxt "CustomMessages_types_DefaultInstallation"
 msgid "Default installation"
