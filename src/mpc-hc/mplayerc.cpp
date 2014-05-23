@@ -2015,6 +2015,8 @@ int CMPlayerCApp::ExitInstance()
 {
     m_s->SaveSettings();
 
+    m_s = nullptr;
+
     OleUninitialize();
 
     return CWinApp::ExitInstance();

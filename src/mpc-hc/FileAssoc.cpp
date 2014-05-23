@@ -72,6 +72,7 @@ CFileAssoc::CFileAssoc()
     , m_strOpenCommand(_T("\"") + GetProgramPath(true) + _T("\" \"%1\""))
     , m_strEnqueueCommand(_T("\"") + GetProgramPath(true) + _T("\" /add \"%1\""))
     , m_bNoRecentDocs(false)
+    , m_checkIconsAssocInactiveEvent(TRUE, TRUE) // initially set, manual reset
 {
     // Default manager (requires at least Vista)
     VERIFY(CoCreateInstance(CLSID_ApplicationAssociationRegistration, nullptr,
@@ -85,9 +86,9 @@ CFileAssoc::CFileAssoc()
 
 CFileAssoc::~CFileAssoc()
 {
-    if (m_checkIconsAssocThread.joinable()) {
-        m_checkIconsAssocThread.join();
-    }
+    HANDLE hEvent = m_checkIconsAssocInactiveEvent;
+    DWORD dwEvent;
+    VERIFY(CoWaitForMultipleHandles(0, INFINITE, 1, &hEvent, &dwEvent) == S_OK);
 }
 
 std::shared_ptr<const CFileAssoc::IconLib> CFileAssoc::GetIconLib() const
@@ -816,15 +817,20 @@ void CFileAssoc::CheckIconsAssocThread()
             }
         }
     }
+
+    m_checkIconsAssocInactiveEvent.SetEvent();
 }
 
 void CFileAssoc::CheckIconsAssoc()
 {
     std::lock_guard<std::mutex> lock(m_checkIconsAssocMutex);
-    if (m_checkIconsAssocThread.joinable()) {
-        m_checkIconsAssocThread.join();
-    }
-    m_checkIconsAssocThread = std::thread([this] { CheckIconsAssocThread(); });
+    HANDLE hEvent = m_checkIconsAssocInactiveEvent;
+    DWORD dwEvent;
+    VERIFY(CoWaitForMultipleHandles(0, INFINITE, 1, &hEvent, &dwEvent) == S_OK);
+    m_checkIconsAssocInactiveEvent.ResetEvent();
+    std::thread(
+        [this] { CheckIconsAssocThread(); }
+    ).detach();
 }
 
 bool CFileAssoc::ShowWindowsAssocDialog() const

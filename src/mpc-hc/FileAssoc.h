@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include <afxmt.h>
 #include <afxwin.h>
 #include "MediaFormats.h"
 
@@ -130,7 +131,7 @@ protected:
     CComPtr<IApplicationAssociationRegistration> m_pAAR;
 
     std::mutex m_checkIconsAssocMutex;
-    std::thread m_checkIconsAssocThread;
+    ::CEvent m_checkIconsAssocInactiveEvent;
 
     std::array<Handler, 4> m_handlers;
 };
