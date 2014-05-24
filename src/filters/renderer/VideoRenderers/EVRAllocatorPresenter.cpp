@@ -766,9 +766,6 @@ HRESULT CEVRAllocatorPresenter::CreateProposedOutputType(IMFMediaType* pMixerTyp
     CSize videoSize;
     videoSize.cx = VideoFormat->videoInfo.dwWidth;
     videoSize.cy = VideoFormat->videoInfo.dwHeight;
-    CSize aspectRatio;
-    aspectRatio.cx = VideoFormat->videoInfo.PixelAspectRatio.Numerator;
-    aspectRatio.cy = VideoFormat->videoInfo.PixelAspectRatio.Denominator;
 
     if (SUCCEEDED(hr)) {
         i64Size.HighPart = videoSize.cx;
@@ -800,8 +797,8 @@ HRESULT CEVRAllocatorPresenter::CreateProposedOutputType(IMFMediaType* pMixerTyp
 
         m_LastSetOutputRange = r.m_AdvRendSets.iEVROutputRange;
 
-        i64Size.HighPart = aspectRatio.cx;
-        i64Size.LowPart  = aspectRatio.cy;
+        i64Size.HighPart = VideoFormat->videoInfo.PixelAspectRatio.Numerator;
+        i64Size.LowPart = VideoFormat->videoInfo.PixelAspectRatio.Denominator;
         pMediaType->SetUINT64(MF_MT_PIXEL_ASPECT_RATIO, i64Size.QuadPart);
 
         MFVideoArea Area = MakeArea(0, 0, videoSize.cx, videoSize.cy);
@@ -809,14 +806,14 @@ HRESULT CEVRAllocatorPresenter::CreateProposedOutputType(IMFMediaType* pMixerTyp
 
     }
 
-    aspectRatio.cx *= videoSize.cx;
-    aspectRatio.cy *= videoSize.cy;
-
-    int gcd = GCD(aspectRatio.cx, aspectRatio.cy);
+    UINT64 dwARx = UINT64(VideoFormat->videoInfo.PixelAspectRatio.Numerator)   * videoSize.cx;
+    UINT64 dwARy = UINT64(VideoFormat->videoInfo.PixelAspectRatio.Denominator) * videoSize.cy;
+    UINT64 gcd = GCD(dwARx, dwARy);
     if (gcd > 1) {
-        aspectRatio.cx /= gcd;
-        aspectRatio.cy /= gcd;
+        dwARx /= gcd;
+        dwARy /= gcd;
     }
+    CSize aspectRatio((LONG)dwARx, (LONG)dwARy);
 
     if (videoSize != m_NativeVideoSize || aspectRatio != m_AspectRatio) {
         SetVideoSize(videoSize, aspectRatio);

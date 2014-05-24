@@ -44,6 +44,7 @@ next version - not released yet
 ! Ticket #3701, Subtitle outline was too thick when using default style override
 ! Ticket #4284, Auto-zoom feature didn't work properly when the taskbar was docked at the left or the top of the screen
 ! Ticket #4285, Fix a freeze when opening some files when EVR-CP or Sync renderer are selected
+! Ticket #4285, EVR-CP and Sync renderers: Properly set the aspect ratio
 ! Ticket #4288, Changing the zoom level when in fullscreen mode did nothing
 ! Ticket #4298, The auto-change fullscreen mode monitor settings could be randomly corrupted or missing
 ! Ticket #4299, Frame stepping was not working for DVD
