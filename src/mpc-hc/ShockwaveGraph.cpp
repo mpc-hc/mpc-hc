@@ -275,8 +275,6 @@ STDMETHODIMP CShockwaveGraph::GetVideoSize(long* pWidth, long* pHeight)
         // no call exists to determine these...
         *pWidth = 384;//m_wndDestFrame.get_;
         *pHeight = 288;
-
-        NotifyEvent(EC_BG_AUDIO_CHANGED, 2, 0);
     }
 
     return S_OK;
