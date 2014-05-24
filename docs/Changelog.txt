@@ -43,6 +43,7 @@ next version - not released yet
 ! Ticket #3036, Fix drag-and-drop from some applications. Drag-and-dropping a downloaded file from Chrome failed for example
 ! Ticket #3701, Subtitle outline was too thick when using default style override
 ! Ticket #4284, Auto-zoom feature didn't work properly when the taskbar was docked at the left or the top of the screen
+! Ticket #4285, Fix a freeze when opening some files when EVR-CP or Sync renderer are selected
 ! Ticket #4288, Changing the zoom level when in fullscreen mode did nothing
 ! Ticket #4298, The auto-change fullscreen mode monitor settings could be randomly corrupted or missing
 ! Ticket #4299, Frame stepping was not working for DVD

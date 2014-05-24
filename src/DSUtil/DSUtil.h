@@ -267,10 +267,12 @@ static CUnknown* WINAPI CreateInstance(LPUNKNOWN lpunk, HRESULT* phr)
     return punk;
 }
 
-inline int GCD(int a, int b)
+template <class T>
+typename std::enable_if<std::is_unsigned<T>::value, T>::type GCD(T a, T b)
 {
+    static_assert(std::is_integral<T>::value, "GCD supports integral types only");
     if (a == 0 || b == 0) {
-        return 1;
+        return std::max(std::max(a, b), 1);
     }
     while (a != b) {
         if (a < b) {
@@ -280,6 +282,14 @@ inline int GCD(int a, int b)
         }
     }
     return a;
+}
+
+template <class T>
+typename std::enable_if<std::is_signed<T>::value, T>::type GCD(T a, T b)
+{
+    typedef std::make_unsigned<T>::type uT;
+
+    return T(GCD(uT(std::abs(a)), uT(std::abs(b))));
 }
 
 namespace CStringUtils
