@@ -267,8 +267,8 @@ STDMETHODIMP CShockwaveGraph::GetVideoSize(long* pWidth, long* pHeight)
     }
 
     // no call exists to determine these...
-    *pWidth = 384;
-    *pHeight = 288;
+    *pWidth = 480;
+    *pHeight = 360;
 
     return S_OK;
 }
