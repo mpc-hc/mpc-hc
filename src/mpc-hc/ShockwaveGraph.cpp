@@ -266,16 +266,9 @@ STDMETHODIMP CShockwaveGraph::GetVideoSize(long* pWidth, long* pHeight)
         return E_POINTER;
     }
 
-    CRect r;
-    m_wndWindowFrame.GetWindowRect(r);
-    if (!r.IsRectEmpty()) {
-        *pWidth = r.Width();
-        *pHeight = r.Height();
-    } else {
-        // no call exists to determine these...
-        *pWidth = 384;//m_wndDestFrame.get_;
-        *pHeight = 288;
-    }
+    // no call exists to determine these...
+    *pWidth = 384;
+    *pHeight = 288;
 
     return S_OK;
 }
