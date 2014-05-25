@@ -2120,6 +2120,10 @@ msgctxt "IDS_MAINFRM_59"
 msgid "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: %dx%d %s\\NDuration: %02d:%02d:%02d"
 msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}ファイル名: %s\\N%s解像度: %dx%d %s\\N再生時間: %02d:%02d:%02d"
 
+msgctxt "IDS_THUMBNAIL_TOO_SMALL"
+msgid "The thumbnails would be too small, impossible to create the file.\n\nTry lowering the number of thumbnails or increasing the total size."
+msgstr ""
+
 msgctxt "IDS_MAINFRM_60"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
 msgstr "字幕を読み込むためにはビデオ レンダラを変更しファイルを開き直す必要があります。\n- DirectShow: VMR-7/VMR-9 (レンダーレス)、EVR (カスタム プレゼンタ)、同期、madVR、Haali\n- RealMedia: RealMedia 用の特別なレンダラまたは DirectShow を用いて開く\n- QuickTime: QuickTime 用の DirectX 7 または DirectX 9 レンダラ\n- ShockWave: n/a"

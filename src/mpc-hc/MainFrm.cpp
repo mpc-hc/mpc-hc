@@ -4683,24 +4683,24 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
     m_pMC->Pause();
     GetMediaState(); // wait for completion of the pause command
 
-    CSize video, wh(0, 0), arxy(0, 0);
+    CSize szVideoARCorrected, szVideo, szAR;
 
     if (m_pCAP) {
-        wh = m_pCAP->GetVideoSize(false);
-        arxy = m_pCAP->GetVideoSize(true);
+        szVideo = m_pCAP->GetVideoSize(false);
+        szAR = m_pCAP->GetVideoSize(true);
     } else if (m_pMFVDC) {
-        m_pMFVDC->GetNativeVideoSize(&wh, &arxy);
+        VERIFY(SUCCEEDED(m_pMFVDC->GetNativeVideoSize(&szVideo, &szAR)));
     } else {
-        m_pBV->GetVideoSize(&wh.cx, &wh.cy);
+        VERIFY(SUCCEEDED(m_pBV->GetVideoSize(&szVideo.cx, &szVideo.cy)));
 
-        long arx = 0, ary = 0;
         CComQIPtr<IBasicVideo2> pBV2 = m_pBV;
-        if (pBV2 && SUCCEEDED(pBV2->GetPreferredAspectRatio(&arx, &ary)) && arx > 0 && ary > 0) {
-            arxy.SetSize(arx, ary);
+        long lARx = 0, lARy = 0;
+        if (pBV2 && SUCCEEDED(pBV2->GetPreferredAspectRatio(&lARx, &lARy)) && lARx > 0 && lARy > 0) {
+            szAR.SetSize(lARx, lARy);
         }
     }
 
-    if (wh.cx <= 0 || wh.cy <= 0) {
+    if (szVideo.cx <= 0 || szVideo.cy <= 0) {
         AfxMessageBox(IDS_MAINFRM_55, MB_ICONWARNING | MB_OK, 0);
         return;
     }
@@ -4708,21 +4708,20 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
     // with the overlay mixer IBasicVideo2 won't tell the new AR when changed dynamically
     DVD_VideoAttributes VATR;
     if (GetPlaybackMode() == PM_DVD && SUCCEEDED(m_pDVDI->GetCurrentVideoAttributes(&VATR))) {
-        arxy.SetSize(VATR.ulAspectX, VATR.ulAspectY);
+        szAR.SetSize(VATR.ulAspectX, VATR.ulAspectY);
     }
 
-    video = (arxy.cx <= 0 || arxy.cy <= 0) ? wh : CSize(MulDiv(wh.cy, arxy.cx, arxy.cy), wh.cy);
-
-    //
+    szVideoARCorrected = (szAR.cx <= 0 || szAR.cy <= 0) ? szVideo : CSize(MulDiv(szVideo.cy, szAR.cx, szAR.cy), szVideo.cy);
 
     const CAppSettings& s = AfxGetAppSettings();
 
-    int cols = max(1, min(10, s.iThumbCols)), rows = max(1, min(20, s.iThumbRows));
+    int cols = max(1, min(10, s.iThumbCols));
+    int rows = max(1, min(20, s.iThumbRows));
 
-    int margin = 5;
-    int infoheight = 70;
+    const int margin = 5;
+    const int infoheight = 70;
     int width = max(256, min(2560, s.iThumbWidth));
-    int height = width * video.cy / video.cx * rows / cols + infoheight;
+    int height = width * szVideoARCorrected.cy / szVideoARCorrected.cx * rows / cols + infoheight;
 
     int dibsize = sizeof(BITMAPINFOHEADER) + width * height * 4;
 
@@ -4751,6 +4750,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
     spd.vidrect = CRect(0, 0, width, height);
     spd.bits = (BYTE*)(bih + 1) + (width * 4) * (height - 1);
 
+    // Paint the background
     {
         BYTE* p = (BYTE*)spd.bits;
         for (int y = 0; y < spd.h; y++, p += spd.pitch) {
@@ -4762,7 +4762,14 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 
     CCritSec csSubLock;
     RECT bbox;
+    CSize szThumbnail((width - margin * 2) / cols - margin * 2, (height - margin * 2 - infoheight) / rows - margin * 2);
+    // Ensure the thumbnails aren't ridiculously small so that the time indication can at least fit
+    if (szThumbnail.cx < 60 || szThumbnail.cy < 20) {
+        AfxMessageBox(IDS_THUMBNAIL_TOO_SMALL, MB_ICONWARNING | MB_OK, 0);
+        return;
+    }
 
+    // Draw the thumbnails
     for (int i = 1, pics = cols * rows; i <= pics; i++) {
         REFERENCE_TIME rt = rtDur * i / (pics + 1);
         DVD_HMSF_TIMECODE hmsf = RT2HMS_r(rt);
@@ -4799,10 +4806,8 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
         int col = (i - 1) % cols;
         int row = (i - 1) / cols;
 
-        CSize siz((width - margin * 2) / cols, (height - margin * 2 - infoheight) / rows);
-        CPoint p(margin + col * siz.cx, margin + row * siz.cy + infoheight);
-        CRect r(p, siz);
-        r.DeflateRect(margin, margin);
+        CPoint p(2 * margin + col * (szThumbnail.cx + 2 * margin), infoheight + 2 * margin + row * (szThumbnail.cy + 2 * margin));
+        CRect r(p, szThumbnail);
 
         CRenderedTextSubtitle rts(&csSubLock);
         rts.CreateDefaultStyle(0);
@@ -4814,12 +4819,12 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
         CStringW str;
         str.Format(L"{\\an7\\1c&Hffffff&\\4a&Hb0&\\bord1\\shad4\\be1}{\\p1}m %d %d l %d %d %d %d %d %d{\\p}",
                    r.left, r.top, r.right, r.top, r.right, r.bottom, r.left, r.bottom);
-        rts.Add(str, true, 0, 1, _T("thumbs"));
+        rts.Add(str, true, 0, 1, _T("thumbs")); // Thumbnail background
         str.Format(L"{\\an3\\1c&Hffffff&\\3c&H000000&\\alpha&H80&\\fs16\\b1\\bord2\\shad0\\pos(%d,%d)}%02u:%02u:%02u",
                    r.right - 5, r.bottom - 3, hmsf.bHours, hmsf.bMinutes, hmsf.bSeconds);
-        rts.Add(str, true, 1, 2, _T("thumbs"));
+        rts.Add(str, true, 1, 2, _T("thumbs")); // Thumbnail time
 
-        rts.Render(spd, 0, 25, bbox);
+        rts.Render(spd, 0, 25, bbox); // Draw the thumbnail background
 
         BYTE* pData = nullptr;
         long size = 0;
@@ -4847,9 +4852,9 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
         }
 
         int dp = spd.pitch;
-        BYTE* dst = (BYTE*)spd.bits + spd.pitch * r.top + r.left * 4;
+        BYTE* dst = spd.bits + spd.pitch * r.top + r.left * 4;
 
-        for (DWORD h = r.bottom - r.top, y = 0, yd = (sh << 8) / h; h > 0; y += yd, h--) {
+        for (DWORD h = szThumbnail.cy, y = 0, yd = (sh << 8) / h; h > 0; y += yd, h--) {
             DWORD yf = y & 0xff;
             DWORD yi = y >> 8;
 
@@ -4857,7 +4862,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
             DWORD* s1 = (DWORD*)(src + (int)yi * sp + sp);
             DWORD* d = (DWORD*)dst;
 
-            for (DWORD w = r.right - r.left, x = 0, xd = (sw << 8) / w; w > 0; x += xd, w--) {
+            for (DWORD w = szThumbnail.cx, x = 0, xd = (sw << 8) / w; w > 0; x += xd, w--) {
                 DWORD xf = x & 0xff;
                 DWORD xi = x >> 8;
 
@@ -4881,11 +4886,12 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
             dst += dp;
         }
 
-        rts.Render(spd, 10000, 25, bbox);
+        rts.Render(spd, 10000, 25, bbox); // Draw the thumbnail time
 
         delete [] pData;
     }
 
+    // Draw the file information
     {
         CRenderedTextSubtitle rts(&csSubLock);
         rts.CreateDefaultStyle(0);
@@ -4921,12 +4927,12 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
         }
 
         CStringW ar;
-        if (arxy.cx > 0 && arxy.cy > 0 && arxy.cx != wh.cx && arxy.cy != wh.cy) {
-            ar.Format(L"(%d:%d)", arxy.cx, arxy.cy);
+        if (szAR.cx > 0 && szAR.cy > 0 && szAR.cx != szVideo.cx && szAR.cy != szVideo.cy) {
+            ar.Format(L"(%d:%d)", szAR.cx, szAR.cy);
         }
 
         str.Format(IDS_MAINFRM_59,
-                   fnp, fs, wh.cx, wh.cy, ar, hmsf.bHours, hmsf.bMinutes, hmsf.bSeconds);
+                   fnp, fs, szVideo.cx, szVideo.cy, ar, hmsf.bHours, hmsf.bMinutes, hmsf.bSeconds);
         rts.Add(str, true, 0, 1, _T("thumbs"));
 
         rts.Render(spd, 0, 25, bbox);

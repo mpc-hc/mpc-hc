@@ -2120,6 +2120,10 @@ msgctxt "IDS_MAINFRM_59"
 msgid "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: %dx%d %s\\NDuration: %02d:%02d:%02d"
 msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}ফাইলের সাইজ: %s\\N%sরেজ্যুলূশন: %dx%d %s\\Nস্থিতিকাল: %02d:%02d:%02d"
 
+msgctxt "IDS_THUMBNAIL_TOO_SMALL"
+msgid "The thumbnails would be too small, impossible to create the file.\n\nTry lowering the number of thumbnails or increasing the total size."
+msgstr ""
+
 msgctxt "IDS_MAINFRM_60"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
 msgstr "সাবটাইটেল লোড করার জন্য আপনাকে ভিডিও রেনডারার ধরন পরিবর্তন করতে হবে এবং পুনরায় ফাইলটি চালনা করতে হবে।\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR অথবা Haali\n- RealMedia: RealMediaর জন্য বিশেষ রেনডারার, অথবা DirectShow দিয়ে চালনা করুন\n- QuickTime: QuickTimeএর জন্য DX7 অথবা DX9 রেনডারার\n- ShockWave: n/a"

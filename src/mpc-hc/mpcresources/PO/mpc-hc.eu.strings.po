@@ -2120,6 +2120,10 @@ msgctxt "IDS_MAINFRM_59"
 msgid "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: %dx%d %s\\NDuration: %02d:%02d:%02d"
 msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Agiri Izena: %s\\N%sBereizmena: %dx%d %s\\NIraupena: %02d:%02d:%02d"
 
+msgctxt "IDS_THUMBNAIL_TOO_SMALL"
+msgid "The thumbnails would be too small, impossible to create the file.\n\nTry lowering the number of thumbnails or increasing the total size."
+msgstr ""
+
 msgctxt "IDS_MAINFRM_60"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
 msgstr "Azpidatziak gertatzeko bideo aurkezlea aldatu eta agiria berrireki behar duzu.\n- DirectShow: VMR-7/VMR-9 (aurkezgabe), EVR Egile, EVR Aldib, edo Haali\n- RealMedia: RealMediarako aurkezle berezia, edo ireki DirectShow bidez\n- QuickTime: DX7 edo DX9 aurkezleak QuickTimerako\n- ShockWave: n/a"

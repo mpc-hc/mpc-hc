@@ -835,7 +835,8 @@
 #define IDS_MAINFRM_57                  33064
 #define IDS_MAINFRM_58                  33065
 #define IDS_MAINFRM_59                  33066
-#define IDS_MAINFRM_60                  33067
+#define IDS_THUMBNAIL_TOO_SMALL         33067
+#define IDS_MAINFRM_60                  33068
 #define IDS_MAINFRM_68                  33075
 #define IDS_MAINFRM_69                  33076
 #define IDS_MAINFRM_70                  33077

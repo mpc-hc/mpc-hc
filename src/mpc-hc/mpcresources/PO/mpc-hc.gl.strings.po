@@ -2121,6 +2121,10 @@ msgctxt "IDS_MAINFRM_59"
 msgid "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: %dx%d %s\\NDuration: %02d:%02d:%02d"
 msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Nome do Ficheiro: %s\\N%sResolución: %dx%d %s\\NDuración: %02d:%02d:%02d"
 
+msgctxt "IDS_THUMBNAIL_TOO_SMALL"
+msgid "The thumbnails would be too small, impossible to create the file.\n\nTry lowering the number of thumbnails or increasing the total size."
+msgstr ""
+
 msgctxt "IDS_MAINFRM_60"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
 msgstr "Para cargar os subtítulos tes que cambiar o tipo de renderizador de video e reabrir o ficheiro.\n- DirectShow: VMR-7/VMR-9 (sen renderizador), EVR (CP), Sync, madVR ou Haali\n- RealMedia: Renderizador especial para RealMedia, ou abrilo con DirectShow\n- QuickTime: DX7 ou DX9 renderizador paraQuickTime\n- ShockWave: non dispoñible"
