@@ -2088,47 +2088,47 @@ msgctxt "IDS_MAINFRM_46"
 msgid "Select the path for the DVD/BD:"
 msgstr "DVD/BD의 경로를 선택:"
 
-msgctxt "IDS_MAINFRM_47"
+msgctxt "IDS_SUB_LOADED_SUCCESS"
 msgid " loaded successfully"
 msgstr " 성공적으로 불러옴"
 
-msgctxt "IDS_MAINFRM_48"
+msgctxt "IDS_ALL_FILES_FILTER"
 msgid "All files (*.*)|*.*||"
 msgstr "모든 파일 (*.*)|*.*||"
 
-msgctxt "IDS_MAINFRM_49"
+msgctxt "IDS_GETDIB_FAILED"
 msgid "GetDIB failed, hr = %08x"
 msgstr "DIB 얻기 실패, hr = %08x"
 
-msgctxt "IDS_MAINFRM_51"
+msgctxt "IDS_GETCURRENTIMAGE_FAILED"
 msgid "GetCurrentImage failed, hr = %08x"
 msgstr "현재 이미지 얻기 실패, hr = %08x"
 
-msgctxt "IDS_MAINFRM_53"
+msgctxt "IDS_SCREENSHOT_ERROR"
 msgid "Cannot create file"
 msgstr "파일을 만들수 없음"
 
-msgctxt "IDS_MAINFRM_54"
+msgctxt "IDS_THUMBNAILS_NO_DURATION"
 msgid "Cannot create thumbnails for files with no duration"
 msgstr "썸네일을 만들수 없음"
 
-msgctxt "IDS_MAINFRM_55"
+msgctxt "IDS_THUMBNAILS_NO_FRAME_SIZE"
 msgid "Failed to get video frame size"
 msgstr "비디오 프레임 사이즈 얻기 실패"
 
-msgctxt "IDS_MAINFRM_56"
+msgctxt "IDS_OUT_OF_MEMORY"
 msgid "Out of memory, go buy some more!"
 msgstr "메모리 없음!"
 
-msgctxt "IDS_MAINFRM_57"
+msgctxt "IDS_THUMBNAILS_INVALID_FORMAT"
 msgid "Invalid image format, cannot create thumbnails out of %d bpp dibs."
 msgstr "사용가능하지않은 이미지 포맷, %d bpp dibs 썸네일을 만들수 없음."
 
-msgctxt "IDS_MAINFRM_58"
+msgctxt "IDS_THUMBNAILS_INFO_FILESIZE"
 msgid "File Size: %s (%s bytes)\\N"
 msgstr "파일 크기: %s (%s 바이트)\\N"
 
-msgctxt "IDS_MAINFRM_59"
+msgctxt "IDS_THUMBNAILS_INFO_HEADER"
 msgid "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: %dx%d %s\\NDuration: %02d:%02d:%02d"
 msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}파일 이름: %s\\N%s해상도: %dx%d %s\\N기간: %02d:%02d:%02d"
 
@@ -2136,7 +2136,7 @@ msgctxt "IDS_THUMBNAIL_TOO_SMALL"
 msgid "The thumbnails would be too small, impossible to create the file.\n\nTry lowering the number of thumbnails or increasing the total size."
 msgstr ""
 
-msgctxt "IDS_MAINFRM_60"
+msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
 msgstr ""
 

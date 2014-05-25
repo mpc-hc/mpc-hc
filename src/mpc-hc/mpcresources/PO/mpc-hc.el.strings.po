@@ -2089,47 +2089,47 @@ msgctxt "IDS_MAINFRM_46"
 msgid "Select the path for the DVD/BD:"
 msgstr "Επιλέξτε τη διαδρομή για το DVD:"
 
-msgctxt "IDS_MAINFRM_47"
+msgctxt "IDS_SUB_LOADED_SUCCESS"
 msgid " loaded successfully"
 msgstr " φορτώθηκε επιτυχώς"
 
-msgctxt "IDS_MAINFRM_48"
+msgctxt "IDS_ALL_FILES_FILTER"
 msgid "All files (*.*)|*.*||"
 msgstr "Όλα τα αρχεία (*.*)|*.*||"
 
-msgctxt "IDS_MAINFRM_49"
+msgctxt "IDS_GETDIB_FAILED"
 msgid "GetDIB failed, hr = %08x"
 msgstr "Το GetDIB απέτυχε. hr = %08x"
 
-msgctxt "IDS_MAINFRM_51"
+msgctxt "IDS_GETCURRENTIMAGE_FAILED"
 msgid "GetCurrentImage failed, hr = %08x"
 msgstr "Το GetCurrentImage απέτυχε. hr = %08x"
 
-msgctxt "IDS_MAINFRM_53"
+msgctxt "IDS_SCREENSHOT_ERROR"
 msgid "Cannot create file"
 msgstr "Δεν είναι δυνατή η δημιουργία αρχείου"
 
-msgctxt "IDS_MAINFRM_54"
+msgctxt "IDS_THUMBNAILS_NO_DURATION"
 msgid "Cannot create thumbnails for files with no duration"
 msgstr "Δεν είναι δυνατή η δημιουργία μικρογραφιών για αρχεία χωρίς διάρκεια"
 
-msgctxt "IDS_MAINFRM_55"
+msgctxt "IDS_THUMBNAILS_NO_FRAME_SIZE"
 msgid "Failed to get video frame size"
 msgstr "Απέτυχε η λήψη μεγέθους καρέ του βίντεο"
 
-msgctxt "IDS_MAINFRM_56"
+msgctxt "IDS_OUT_OF_MEMORY"
 msgid "Out of memory, go buy some more!"
 msgstr "Ανεπαρκής μνήμη. Πρέπει να προμηθευτείτε περισσότερη!"
 
-msgctxt "IDS_MAINFRM_57"
+msgctxt "IDS_THUMBNAILS_INVALID_FORMAT"
 msgid "Invalid image format, cannot create thumbnails out of %d bpp dibs."
 msgstr "Μη έγκυρη μορφή εικόνας. Δεν είναι δυνατή η δημιουργία μικρογραφιών από %d bpp dibs."
 
-msgctxt "IDS_MAINFRM_58"
+msgctxt "IDS_THUMBNAILS_INFO_FILESIZE"
 msgid "File Size: %s (%s bytes)\\N"
 msgstr "Μέγεθος αρχείου: %s (%s bytes)\\N"
 
-msgctxt "IDS_MAINFRM_59"
+msgctxt "IDS_THUMBNAILS_INFO_HEADER"
 msgid "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: %dx%d %s\\NDuration: %02d:%02d:%02d"
 msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Όνομα αρχείου: %s\\N%sΑνάλυση: %dx%d %s\\NΔιάρκεια: %02d:%02d:%02d"
 
@@ -2137,7 +2137,7 @@ msgctxt "IDS_THUMBNAIL_TOO_SMALL"
 msgid "The thumbnails would be too small, impossible to create the file.\n\nTry lowering the number of thumbnails or increasing the total size."
 msgstr "Οι μικρογραφίες θα είναι πολύ μικρές. Δεν είναι δυνατό να δημιουργηθεί το αρχείο.\n\nΠροσπαθήστε να μειώσετε τον αριθμό των μικρογραφιών ή να αυξήσετε το συνολικό μέγεθος."
 
-msgctxt "IDS_MAINFRM_60"
+msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
 msgstr "Για φόρτωση υποτίτλων πρέπει να αλλάξετε τον τύπο απόδοσης βίντεο και να ανοίξετε ξανά το αρχείο.\n- DirectShow: VMR-7/VMR-9 (χωρίς απόδοση), EVR (CP), Sync, madVR ή Haali\n- RealMedia: Ειδική απόδοση για RealMedia ή άνοιγμά του με το DirectShow\n- QuickTime : απόδοση DX7 ή DX9 για QuickTime\n- ShockWave : Μη διαθέσιμο"
 

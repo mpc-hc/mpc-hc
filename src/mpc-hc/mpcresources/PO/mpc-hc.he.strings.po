@@ -2089,47 +2089,47 @@ msgctxt "IDS_MAINFRM_46"
 msgid "Select the path for the DVD/BD:"
 msgstr "בחר נתיב עבור הדי.וי.די/BD:"
 
-msgctxt "IDS_MAINFRM_47"
+msgctxt "IDS_SUB_LOADED_SUCCESS"
 msgid " loaded successfully"
 msgstr " נטען בהצלחה"
 
-msgctxt "IDS_MAINFRM_48"
+msgctxt "IDS_ALL_FILES_FILTER"
 msgid "All files (*.*)|*.*||"
 msgstr "כל הקבצים (*.*)|*.*||"
 
-msgctxt "IDS_MAINFRM_49"
+msgctxt "IDS_GETDIB_FAILED"
 msgid "GetDIB failed, hr = %08x"
 msgstr "GetDIB נכשל, hr = %08x"
 
-msgctxt "IDS_MAINFRM_51"
+msgctxt "IDS_GETCURRENTIMAGE_FAILED"
 msgid "GetCurrentImage failed, hr = %08x"
 msgstr "GetCurrentImage נכשל, hr = %08x"
 
-msgctxt "IDS_MAINFRM_53"
+msgctxt "IDS_SCREENSHOT_ERROR"
 msgid "Cannot create file"
 msgstr "לא יכול ליצור קובץ"
 
-msgctxt "IDS_MAINFRM_54"
+msgctxt "IDS_THUMBNAILS_NO_DURATION"
 msgid "Cannot create thumbnails for files with no duration"
 msgstr "לא יכול ליצור תמונות ממוזערות עבור קבצים ללא אורך"
 
-msgctxt "IDS_MAINFRM_55"
+msgctxt "IDS_THUMBNAILS_NO_FRAME_SIZE"
 msgid "Failed to get video frame size"
 msgstr "קבלת גודל מסגרת הוידאו נכשלה"
 
-msgctxt "IDS_MAINFRM_56"
+msgctxt "IDS_OUT_OF_MEMORY"
 msgid "Out of memory, go buy some more!"
 msgstr "הזיכרון אזל, לך וקנה עוד!"
 
-msgctxt "IDS_MAINFRM_57"
+msgctxt "IDS_THUMBNAILS_INVALID_FORMAT"
 msgid "Invalid image format, cannot create thumbnails out of %d bpp dibs."
 msgstr "פורמט תמונה לא תקין, לא יכול ליצור תמונות ממוזערות של %d bpp dibs."
 
-msgctxt "IDS_MAINFRM_58"
+msgctxt "IDS_THUMBNAILS_INFO_FILESIZE"
 msgid "File Size: %s (%s bytes)\\N"
 msgstr "גודל קובץ: %s (%s בתים)\\N"
 
-msgctxt "IDS_MAINFRM_59"
+msgctxt "IDS_THUMBNAILS_INFO_HEADER"
 msgid "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: %dx%d %s\\NDuration: %02d:%02d:%02d"
 msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}שם קובץ: %s\\N%sרזולוציה: %dx%d %s\\Nאורך: %02d:%02d:%02d"
 
@@ -2137,7 +2137,7 @@ msgctxt "IDS_THUMBNAIL_TOO_SMALL"
 msgid "The thumbnails would be too small, impossible to create the file.\n\nTry lowering the number of thumbnails or increasing the total size."
 msgstr ""
 
-msgctxt "IDS_MAINFRM_60"
+msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
 msgstr ""
 

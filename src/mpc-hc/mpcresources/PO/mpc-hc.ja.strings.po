@@ -2088,47 +2088,47 @@ msgctxt "IDS_MAINFRM_46"
 msgid "Select the path for the DVD/BD:"
 msgstr "DVD/BD のパスを選択してください:"
 
-msgctxt "IDS_MAINFRM_47"
+msgctxt "IDS_SUB_LOADED_SUCCESS"
 msgid " loaded successfully"
 msgstr " 正常に読み込まれました"
 
-msgctxt "IDS_MAINFRM_48"
+msgctxt "IDS_ALL_FILES_FILTER"
 msgid "All files (*.*)|*.*||"
 msgstr "すべてのファイル (*.*)|*.*||"
 
-msgctxt "IDS_MAINFRM_49"
+msgctxt "IDS_GETDIB_FAILED"
 msgid "GetDIB failed, hr = %08x"
 msgstr "GetDIB 失敗, hr = %08x"
 
-msgctxt "IDS_MAINFRM_51"
+msgctxt "IDS_GETCURRENTIMAGE_FAILED"
 msgid "GetCurrentImage failed, hr = %08x"
 msgstr "GetCurrentImage 失敗, hr = %08x"
 
-msgctxt "IDS_MAINFRM_53"
+msgctxt "IDS_SCREENSHOT_ERROR"
 msgid "Cannot create file"
 msgstr "ファイルを作成できません"
 
-msgctxt "IDS_MAINFRM_54"
+msgctxt "IDS_THUMBNAILS_NO_DURATION"
 msgid "Cannot create thumbnails for files with no duration"
 msgstr "再生時間のないファイルのサムネイルは作成できません"
 
-msgctxt "IDS_MAINFRM_55"
+msgctxt "IDS_THUMBNAILS_NO_FRAME_SIZE"
 msgid "Failed to get video frame size"
 msgstr "ビデオ フレームのサイズを取得できませんでした"
 
-msgctxt "IDS_MAINFRM_56"
+msgctxt "IDS_OUT_OF_MEMORY"
 msgid "Out of memory, go buy some more!"
 msgstr "メモリが不足しています。より多くのメモリを購入してください！"
 
-msgctxt "IDS_MAINFRM_57"
+msgctxt "IDS_THUMBNAILS_INVALID_FORMAT"
 msgid "Invalid image format, cannot create thumbnails out of %d bpp dibs."
 msgstr "無効な画像形式です。%d bpp dibs 以上のサムネイルは作成できません。"
 
-msgctxt "IDS_MAINFRM_58"
+msgctxt "IDS_THUMBNAILS_INFO_FILESIZE"
 msgid "File Size: %s (%s bytes)\\N"
 msgstr "ファイル サイズ: %s (%s バイト)\\N"
 
-msgctxt "IDS_MAINFRM_59"
+msgctxt "IDS_THUMBNAILS_INFO_HEADER"
 msgid "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: %dx%d %s\\NDuration: %02d:%02d:%02d"
 msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}ファイル名: %s\\N%s解像度: %dx%d %s\\N再生時間: %02d:%02d:%02d"
 
@@ -2136,7 +2136,7 @@ msgctxt "IDS_THUMBNAIL_TOO_SMALL"
 msgid "The thumbnails would be too small, impossible to create the file.\n\nTry lowering the number of thumbnails or increasing the total size."
 msgstr "サムネイルが小さすぎて、ファイルを作成できません。\n\nサムネイルの数を減らすか、全体のサイズを大きくしてみてください。"
 
-msgctxt "IDS_MAINFRM_60"
+msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
 msgstr "字幕を読み込むためにはビデオ レンダラを変更しファイルを​​再度開く必要があります。\n- DirectShow: VMR-7/VMR-9 (レンダーレス)、EVR (カスタム プレゼンタ)、同期、madVR、Haali\n- RealMedia: RealMedia 用の特別なレンダラまたは DirectShow を用いて開く\n- QuickTime: QuickTime 用の DirectX 7 または DirectX 9 レンダラ\n- ShockWave: n/a"
 

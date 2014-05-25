@@ -2089,47 +2089,47 @@ msgctxt "IDS_MAINFRM_46"
 msgid "Select the path for the DVD/BD:"
 msgstr "Selectați calea către DVD/BD:"
 
-msgctxt "IDS_MAINFRM_47"
+msgctxt "IDS_SUB_LOADED_SUCCESS"
 msgid " loaded successfully"
 msgstr " încărcată cu succes"
 
-msgctxt "IDS_MAINFRM_48"
+msgctxt "IDS_ALL_FILES_FILTER"
 msgid "All files (*.*)|*.*||"
 msgstr "Toate fișierele (*.*)|*.*||"
 
-msgctxt "IDS_MAINFRM_49"
+msgctxt "IDS_GETDIB_FAILED"
 msgid "GetDIB failed, hr = %08x"
 msgstr "GetDIB a eșuat, hr = %08x"
 
-msgctxt "IDS_MAINFRM_51"
+msgctxt "IDS_GETCURRENTIMAGE_FAILED"
 msgid "GetCurrentImage failed, hr = %08x"
 msgstr "Obţinerea cadrului curent a eșuat, hr = %08x"
 
-msgctxt "IDS_MAINFRM_53"
+msgctxt "IDS_SCREENSHOT_ERROR"
 msgid "Cannot create file"
 msgstr "Fișierul nu poate fi creat"
 
-msgctxt "IDS_MAINFRM_54"
+msgctxt "IDS_THUMBNAILS_NO_DURATION"
 msgid "Cannot create thumbnails for files with no duration"
 msgstr "Nu se pot crea miniaturi pentru fișiere fără durată"
 
-msgctxt "IDS_MAINFRM_55"
+msgctxt "IDS_THUMBNAILS_NO_FRAME_SIZE"
 msgid "Failed to get video frame size"
 msgstr "Eșuare la preluarea dimensiunii cadrului video"
 
-msgctxt "IDS_MAINFRM_56"
+msgctxt "IDS_OUT_OF_MEMORY"
 msgid "Out of memory, go buy some more!"
 msgstr "Memorie insuficientă, duceți-vă și cumpărați mai multă!"
 
-msgctxt "IDS_MAINFRM_57"
+msgctxt "IDS_THUMBNAILS_INVALID_FORMAT"
 msgid "Invalid image format, cannot create thumbnails out of %d bpp dibs."
 msgstr "Format de imagine nevalid, nu pot fi create miniaturi de %d bpp dibs."
 
-msgctxt "IDS_MAINFRM_58"
+msgctxt "IDS_THUMBNAILS_INFO_FILESIZE"
 msgid "File Size: %s (%s bytes)\\N"
 msgstr "Dimensiune fișier: %s (%s bytes)\\N"
 
-msgctxt "IDS_MAINFRM_59"
+msgctxt "IDS_THUMBNAILS_INFO_HEADER"
 msgid "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: %dx%d %s\\NDuration: %02d:%02d:%02d"
 msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Nume fișier: %s\\N%sRezoluție: %dx%d %s\\NDurată: %02d:%02d:%02d"
 
@@ -2137,7 +2137,7 @@ msgctxt "IDS_THUMBNAIL_TOO_SMALL"
 msgid "The thumbnails would be too small, impossible to create the file.\n\nTry lowering the number of thumbnails or increasing the total size."
 msgstr ""
 
-msgctxt "IDS_MAINFRM_60"
+msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
 msgstr "Pentru a încărca subtitrări trebuie să schimbați tipul randorului video și să redeschideți fișierul.\n- DirectShow: VMR-7/VMR-9 (fără randare), EVR (CP), Sync, madVR sau Haali\n- RealMedia: Randor special pentru RealMedia sau deschideţi cu DirectShow\n- QuickTime: Randor DX7 sau DX9 pentru QuickTime\n- ShockWave: indisponibil"
 

@@ -4352,7 +4352,7 @@ void CMainFrame::OnDropFiles(HDROP hDropInfo)
             AfxGetAppSettings().fEnableSubtitles = true;
             SetSubtitle(subInput);
             fn.StripPath();
-            SendStatusMessage((CString&)fn + ResStr(IDS_MAINFRM_47), 3000);
+            SendStatusMessage((CString&)fn + ResStr(IDS_SUB_LOADED_SUCCESS), 3000);
             return;
         }
     }
@@ -4378,7 +4378,7 @@ void CMainFrame::OnFileSaveAs()
 
     CFileDialog fd(FALSE, 0, out,
                    OFN_EXPLORER | OFN_ENABLESIZING | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST | OFN_NOCHANGEDIR,
-                   ResStr(IDS_MAINFRM_48), GetModalParent(), 0);
+                   ResStr(IDS_ALL_FILES_FILTER), GetModalParent(), 0);
     if (fd.DoModal() != IDOK || !in.CompareNoCase(fd.GetPathName())) {
         return;
     }
@@ -4445,7 +4445,7 @@ bool CMainFrame::GetDIB(BYTE** ppData, long& size, bool fSilent)
         if (m_pCAP) {
             hr = m_pCAP->GetDIB(nullptr, (DWORD*)&size);
             if (FAILED(hr)) {
-                errmsg.Format(IDS_MAINFRM_49, hr);
+                errmsg.Format(IDS_GETDIB_FAILED, hr);
                 break;
             }
 
@@ -4469,7 +4469,7 @@ bool CMainFrame::GetDIB(BYTE** ppData, long& size, bool fSilent)
                     retry++;
                 }
                 if (FAILED(hr)) {
-                    errmsg.Format(IDS_MAINFRM_49, hr);
+                    errmsg.Format(IDS_GETDIB_FAILED, hr);
                     break;
                 }
             }
@@ -4481,7 +4481,7 @@ bool CMainFrame::GetDIB(BYTE** ppData, long& size, bool fSilent)
             REFERENCE_TIME rtImage = 0;
             hr = m_pMFVDC->GetCurrentImage(&bih, &pDib, &dwSize, &rtImage);
             if (FAILED(hr) || dwSize == 0) {
-                errmsg.Format(IDS_MAINFRM_51, hr);
+                errmsg.Format(IDS_GETCURRENTIMAGE_FAILED, hr);
                 break;
             }
 
@@ -4496,7 +4496,7 @@ bool CMainFrame::GetDIB(BYTE** ppData, long& size, bool fSilent)
         } else {
             hr = m_pBV->GetCurrentImage(&size, nullptr);
             if (FAILED(hr) || size == 0) {
-                errmsg.Format(IDS_MAINFRM_51, hr);
+                errmsg.Format(IDS_GETCURRENTIMAGE_FAILED, hr);
                 break;
             }
 
@@ -4507,7 +4507,7 @@ bool CMainFrame::GetDIB(BYTE** ppData, long& size, bool fSilent)
 
             hr = m_pBV->GetCurrentImage(&size, (long*)*ppData);
             if (FAILED(hr)) {
-                errmsg.Format(IDS_MAINFRM_51, hr);
+                errmsg.Format(IDS_GETCURRENTIMAGE_FAILED, hr);
                 break;
             }
         }
@@ -4540,7 +4540,7 @@ void CMainFrame::SaveDIB(LPCTSTR fn, BYTE* pData, long size)
     int bpp = bih->biBitCount;
 
     if (bpp != 16 && bpp != 24 && bpp != 32) {
-        AfxMessageBox(IDS_MAINFRM_53, MB_ICONWARNING | MB_OK, 0);
+        AfxMessageBox(IDS_SCREENSHOT_ERROR, MB_ICONWARNING | MB_OK, 0);
         return;
     }
     int w = bih->biWidth;
@@ -4601,7 +4601,7 @@ void CMainFrame::SaveDIB(LPCTSTR fn, BYTE* pData, long size)
         delete [] p;
 
         if (s != Gdiplus::Ok) {
-            AfxMessageBox(IDS_MAINFRM_53, MB_ICONWARNING | MB_OK, 0);
+            AfxMessageBox(IDS_SCREENSHOT_ERROR, MB_ICONWARNING | MB_OK, 0);
             return;
         }
     }
@@ -4634,7 +4634,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
     REFERENCE_TIME rtDur = GetDur();
 
     if (rtDur <= 0) {
-        AfxMessageBox(IDS_MAINFRM_54, MB_ICONWARNING | MB_OK, 0);
+        AfxMessageBox(IDS_THUMBNAILS_NO_DURATION, MB_ICONWARNING | MB_OK, 0);
         return;
     }
 
@@ -4659,7 +4659,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
     }
 
     if (szVideo.cx <= 0 || szVideo.cy <= 0) {
-        AfxMessageBox(IDS_MAINFRM_55, MB_ICONWARNING | MB_OK, 0);
+        AfxMessageBox(IDS_THUMBNAILS_NO_FRAME_SIZE, MB_ICONWARNING | MB_OK, 0);
         return;
     }
 
@@ -4685,7 +4685,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 
     CAutoVectorPtr<BYTE> dib;
     if (!dib.Allocate(dibsize)) {
-        AfxMessageBox(IDS_MAINFRM_56, MB_ICONWARNING | MB_OK, 0);
+        AfxMessageBox(IDS_OUT_OF_MEMORY, MB_ICONWARNING | MB_OK, 0);
         return;
     }
 
@@ -4794,7 +4794,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 
         if (bi->bmiHeader.biBitCount != 32) {
             CString strTemp;
-            strTemp.Format(IDS_MAINFRM_57, bi->bmiHeader.biBitCount);
+            strTemp.Format(IDS_THUMBNAILS_INVALID_FORMAT, bi->bmiHeader.biBitCount);
             AfxMessageBox(strTemp);
             delete [] pData;
             return;
@@ -4881,7 +4881,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
             StrFormatByteSizeW(size, szFileSize, MAX_FILE_SIZE_BUFFER);
             CString szByteSize;
             szByteSize.Format(_T("%I64d"), size);
-            fs.Format(IDS_MAINFRM_58, szFileSize, FormatNumber(szByteSize));
+            fs.Format(IDS_THUMBNAILS_INFO_FILESIZE, szFileSize, FormatNumber(szByteSize));
         }
 
         CStringW ar;
@@ -4889,7 +4889,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
             ar.Format(L"(%d:%d)", szAR.cx, szAR.cy);
         }
 
-        str.Format(IDS_MAINFRM_59,
+        str.Format(IDS_THUMBNAILS_INFO_HEADER,
                    fnp, fs, szVideo.cx, szVideo.cy, ar, hmsf.bHours, hmsf.bMinutes, hmsf.bSeconds);
         rts.Add(str, true, 0, 1, _T("thumbs"));
 
@@ -5118,7 +5118,7 @@ void CMainFrame::OnUpdateFileSaveThumbnails(CCmdUI* pCmdUI)
 void CMainFrame::OnFileLoadsubtitle()
 {
     if (!m_pCAP) {
-        AfxMessageBox(IDS_MAINFRM_60, MB_ICONINFORMATION | MB_OK, 0);
+        AfxMessageBox(IDS_CANNOT_LOAD_SUB, MB_ICONINFORMATION | MB_OK, 0);
         return;
     }
 

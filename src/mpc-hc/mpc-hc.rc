@@ -356,7 +356,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,81,277,8
     CONTROL         "Round up to power of two",IDC_CHECK_SPCPOW2TEX,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,93,277,8
     GROUPBOX        "Renderer Layout",IDC_STATIC,5,108,286,26
-    CONTROL         "Apply aspect ratio compensation for anamorphic videos", IDC_CHECK_SUB_AR_COMPENSATION,
+    CONTROL         "Apply aspect ratio compensation for anamorphic videos",IDC_CHECK_SUB_AR_COMPENSATION,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,120,277,8
     GROUPBOX        "Warning",IDC_STATIC,5,137,286,43
     LTEXT           "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu.",IDC_STATIC,10,148,267,27
@@ -2519,7 +2519,7 @@ BEGIN
     IDS_PLAYLIST_ADDFOLDER  "Add containing folder"
     IDS_HW_INDICATOR        "[H/W]"
     IDS_TOOLTIP_SOFTWARE_DECODING "Software Decoding"
-    IDS_STATSBAR_PLAYBACK_RATE    "Playback rate"
+    IDS_STATSBAR_PLAYBACK_RATE "Playback rate"
     IDS_FILTERS_COPY_TO_CLIPBOARD "&Copy filters list to clipboard"
     IDS_CREDENTIALS_SERVER  "Enter server credentials"
     IDS_CREDENTIALS_CONNECT "Enter your credentials to connect"
@@ -2813,19 +2813,22 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_MAINFRM_47          " loaded successfully"
-    IDS_MAINFRM_48          "All files (*.*)|*.*||"
-    IDS_MAINFRM_49          "GetDIB failed, hr = %08x"
-    IDS_MAINFRM_51          "GetCurrentImage failed, hr = %08x"
-    IDS_MAINFRM_53          "Cannot create file"
-    IDS_MAINFRM_54          "Cannot create thumbnails for files with no duration"
-    IDS_MAINFRM_55          "Failed to get video frame size"
-    IDS_MAINFRM_56          "Out of memory, go buy some more!"
-    IDS_MAINFRM_57          "Invalid image format, cannot create thumbnails out of %d bpp dibs."
-    IDS_MAINFRM_58          "File Size: %s (%s bytes)\\N"
-    IDS_MAINFRM_59          "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: %dx%d %s\\NDuration: %02d:%02d:%02d"
+    IDS_SUB_LOADED_SUCCESS  " loaded successfully"
+    IDS_ALL_FILES_FILTER    "All files (*.*)|*.*||"
+    IDS_GETDIB_FAILED       "GetDIB failed, hr = %08x"
+    IDS_GETCURRENTIMAGE_FAILED "GetCurrentImage failed, hr = %08x"
+    IDS_SCREENSHOT_ERROR    "Cannot create file"
+    IDS_THUMBNAILS_NO_DURATION 
+                            "Cannot create thumbnails for files with no duration"
+    IDS_THUMBNAILS_NO_FRAME_SIZE "Failed to get video frame size"
+    IDS_OUT_OF_MEMORY       "Out of memory, go buy some more!"
+    IDS_THUMBNAILS_INVALID_FORMAT 
+                            "Invalid image format, cannot create thumbnails out of %d bpp dibs."
+    IDS_THUMBNAILS_INFO_FILESIZE "File Size: %s (%s bytes)\\N"
+    IDS_THUMBNAILS_INFO_HEADER 
+                            "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: %dx%d %s\\NDuration: %02d:%02d:%02d"
     IDS_THUMBNAIL_TOO_SMALL "The thumbnails would be too small, impossible to create the file.\n\nTry lowering the number of thumbnails or increasing the total size."
-    IDS_MAINFRM_60          "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+    IDS_CANNOT_LOAD_SUB     "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
 END
 
 STRINGTABLE
