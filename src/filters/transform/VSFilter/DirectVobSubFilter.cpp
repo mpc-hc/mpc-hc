@@ -1366,6 +1366,7 @@ bool CDirectVobSubFilter2::IsAppBlackListed()
         _T("yso_win."), // Ys Origin (Game)
         _T("launcher_main."), // Logitech WebCam Software
         _T("webcamdell2."), // Dell WebCam Software
+        _T("data."), // Dark Souls 1 (Game)
     };
 
     for (size_t i = 0; i < _countof(blacklistedapps); i++) {
