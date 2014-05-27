@@ -2982,7 +2982,7 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
                 || nID >= ID_FAVORITES_FILE_START && nID <= ID_FAVORITES_FILE_END
                 || nID >= ID_RECENT_FILE_START && nID <= ID_RECENT_FILE_END
                 || nID >= ID_SUBTITLES_SUBITEM_START && nID <= ID_SUBTITLES_SUBITEM_END
-                || nID >= ID_NAVIGATE_JUMPTO_SUBITEM_START && nID <= ID_NAVIGATE_JUMPTO_SUBITEM_START) {
+                || nID >= ID_NAVIGATE_JUMPTO_SUBITEM_START && nID <= ID_NAVIGATE_JUMPTO_SUBITEM_END) {
             continue;
         }
 
@@ -12622,9 +12622,9 @@ void CMainFrame::SetupSubtitlesSubMenu()
         // Build the dynamic menu's items
         int i = 0, iSelected = -1;
         while (pos) {
-            SubtitleInput& subInput = m_pSubStreams.GetNext(pos);
+            SubtitleInput& pSubInput = m_pSubStreams.GetNext(pos);
 
-            if (CComQIPtr<IAMStreamSelect> pSSF = subInput.pSourceFilter) {
+            if (CComQIPtr<IAMStreamSelect> pSSF = pSubInput.pSourceFilter) {
                 DWORD cStreams;
                 if (FAILED(pSSF->Count(&cStreams))) {
                     continue;
@@ -12648,7 +12648,7 @@ void CMainFrame::SetupSubtitlesSubMenu()
                         continue;
                     }
 
-                    if (subInput.pSubStream == m_pCurrentSubInput.pSubStream
+                    if (pSubInput.pSubStream == m_pCurrentSubInput.pSubStream
                             && dwFlags & (AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE)) {
                         iSelected = i;
                     }
@@ -12677,46 +12677,57 @@ void CMainFrame::SetupSubtitlesSubMenu()
                     i++;
                 }
             } else {
-                CComPtr<ISubStream> pSubStream = subInput.pSubStream;
+                CComPtr<ISubStream> pSubStream = pSubInput.pSubStream;
                 if (!pSubStream) {
                     continue;
                 }
 
-                if (subInput.pSubStream == m_pCurrentSubInput.pSubStream) {
+                if (pSubInput.pSubStream == m_pCurrentSubInput.pSubStream) {
                     iSelected = i + pSubStream->GetStream();
                 }
 
                 for (int j = 0, cnt = pSubStream->GetStreamCount(); j < cnt; j++) {
-                    WCHAR* pName = nullptr;
-                    if (SUCCEEDED(pSubStream->GetStreamInfo(j, &pName, nullptr))) {
-                        CString name(pName);
-                        CoTaskMemFree(pName);
+                    CLSID clsid;
+                    if (FAILED(pSubStream->GetClassID(&clsid))) {
+                        continue;
+                    }
 
+                    CString strName;
+                    if (clsid == __uuidof(CRenderedTextSubtitle)) {
                         CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)pSubStream;
-                        CString str;
+                        CString strLanguage;
                         if (pRTS->m_lcid != 0) {
-                            int len = GetLocaleInfo(pRTS->m_lcid, LOCALE_SENGLANGUAGE, str.GetBuffer(64), 64);
-                            str.ReleaseBufferSetLength(max(len - 1, 0));
+                            int len = GetLocaleInfo(pRTS->m_lcid, LOCALE_SENGLANGUAGE, strLanguage.GetBuffer(64), 64);
+                            strLanguage.ReleaseBufferSetLength(max(len - 1, 0));
                         } else {
-                            str = _T("Unknown");
+                            strLanguage = _T("Unknown");
                         }
 
                         TCHAR left = pRTS->m_fHearingImpaired == TRUE ? '[' : ' ';
                         TCHAR right = pRTS->m_fHearingImpaired == TRUE ? ']' : ' ';
-                        name.Format(L"[%s] %s\t%c%s%c", pRTS->m_provider, pRTS->m_name, left, str, right);
+                        strName.Format(L"[%s] %s\t%c%s%c", pRTS->m_provider, pRTS->m_name, left, strLanguage, right);
 
-                        name.Replace(_T("&"), _T("&&"));
-                        VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, name));
-                    } else {
-                        VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_AG_UNKNOWN)));
+                        strName.Replace(_T("&"), _T("&&"));
+                        VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, strName));
+                    } else { // if (clsid == __uuidof(CVobSubFile) || clsid == __uuidof(CVobSubStream) || clsid == __uuidof(CRLECodedSubtitle)) {
+                        WCHAR* pName = nullptr;
+                        if (SUCCEEDED(pSubStream->GetStreamInfo(j, &pName, nullptr))) {
+                            strName = pName;
+                            CoTaskMemFree(pName);
+
+                            strName.Replace(_T("&"), _T("&&"));
+                            VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, strName));
+                        } else {
+                            VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_AG_UNKNOWN)));
+                        }
                     }
                     i++;
                 }
             }
 
-            if (subInput.pSubStream == m_pCurrentSubInput.pSubStream) {
+            if (pSubInput.pSubStream == m_pCurrentSubInput.pSubStream) {
                 CLSID clsid;
-                if (SUCCEEDED(subInput.pSubStream->GetClassID(&clsid))
+                if (SUCCEEDED(pSubInput.pSubStream->GetClassID(&clsid))
                         && clsid == __uuidof(CRenderedTextSubtitle)) {
                     bTextSubtitles = true;
                 }
