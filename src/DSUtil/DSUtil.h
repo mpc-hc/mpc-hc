@@ -272,7 +272,7 @@ typename std::enable_if<std::is_unsigned<T>::value, T>::type GCD(T a, T b)
 {
     static_assert(std::is_integral<T>::value, "GCD supports integral types only");
     if (a == 0 || b == 0) {
-        return std::max(std::max(a, b), 1);
+        return std::max(std::max(a, b), T(1));
     }
     while (a != b) {
         if (a < b) {
