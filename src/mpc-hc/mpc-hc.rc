@@ -2542,6 +2542,8 @@ BEGIN
     IDS_TOOLTIP_SOFTWARE_DECODING "Software Decoding"
     IDS_STATSBAR_PLAYBACK_RATE    "Playback rate"
     IDS_FILTERS_COPY_TO_CLIPBOARD "&Copy filters list to clipboard"
+    IDS_CREDENTIALS_SERVER  "Enter server credentials"
+    IDS_CREDENTIALS_CONNECT "Enter your credentials to connect"
 END
 
 STRINGTABLE

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,38 +22,5 @@
 #pragma once
 
 #include <afxwin.h>
-#include "resource.h"
 
-
-// CAuthDlg dialog
-
-class CAuthDlg : public CDialog
-{
-    DECLARE_DYNAMIC(CAuthDlg)
-
-private:
-    CString DEncrypt(CString pw);
-    CMapStringToString m_logins;
-
-public:
-    CAuthDlg(CWnd* pParent = nullptr);   // standard constructor
-    virtual ~CAuthDlg();
-
-    // Dialog Data
-    enum { IDD = IDD_AUTH_DLG };
-    CComboBox m_usernamectrl;
-    CString m_username;
-    CString m_password;
-    BOOL m_remember;
-
-protected:
-    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-    virtual BOOL OnInitDialog();
-
-    DECLARE_MESSAGE_MAP()
-
-public:
-    afx_msg void OnBnClickedOk();
-    afx_msg void OnCbnSelchangeCombo1();
-    afx_msg void OnEnSetfocusEdit3();
-};
+HRESULT PromptForCredentials(HWND hWnd, const CString& strCaptionText, const CString& strMessageText, CString& strDomain, CString& strUsername, CString& strPassword, BOOL* bSave);

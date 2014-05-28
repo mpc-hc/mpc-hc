@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -349,11 +349,11 @@ STDMETHODIMP CRealMediaPlayer::OnContacting(const char* pHostName)
 // IRMAAuthenticationManager
 STDMETHODIMP CRealMediaPlayer::HandleAuthenticationRequest(IRMAAuthenticationManagerResponse* pResponse)
 {
-    CAuthDlg dlg;
-
-    if (dlg.DoModal() == IDOK) {
-        pResponse->AuthenticationRequestDone(
-            PNR_OK, CStringA(dlg.m_username), CStringA(dlg.m_password));
+    CString strDomain, strUserName, strPassword;
+    if (PromptForCredentials(m_hWndParent,
+                             ResStr(IDS_CREDENTIALS_SERVER), ResStr(IDS_CREDENTIALS_CONNECT),
+                             strDomain, strUserName, strPassword, nullptr) == ERROR_SUCCESS) {
+        pResponse->AuthenticationRequestDone(PNR_OK, CStringA(strUserName), CStringA(strPassword));
         return PNR_OK;
     }
 
