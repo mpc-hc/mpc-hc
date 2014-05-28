@@ -294,7 +294,6 @@
 //
 #define IDD_OPEN_DLG                    10000
 #define IDD_MEDIATYPES_DLG              10002
-#define IDD_AUTH_DLG                    10003
 #define IDD_SAVE_DLG                    10004
 #define IDD_SUBTITLEDL_DLG              10005
 #define IDD_FILEPROPDETAILS             10010
