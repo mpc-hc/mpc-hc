@@ -55,7 +55,7 @@ protected:
     BOOL m_bPreferHearingImpairedSubtitles;
     CString m_strSubtitlesProviders;
     CString m_strSubtitlesLanguageOrder;
-    CString m_szAutoloadPaths;
+    CString m_strAutoloadPaths;
     CListCtrl m_list;
 
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support

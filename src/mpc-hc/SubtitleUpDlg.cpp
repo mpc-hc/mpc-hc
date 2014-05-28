@@ -66,7 +66,7 @@ BOOL CSubtitleUpDlg::OnInitDialog()
     m_progress.SetParent(&m_status);
     m_progress.UpdateWindow();
 
-    int n(0), curPos(0);
+    int n = 0, curPos = 0;
     CArray<int> columnWidth;
 
     CString strColumnWidth(AfxGetApp()->GetProfileString(IDS_R_DLG_SUBTITLEUP, IDS_RS_DLG_SUBTITLEUP_COLWIDTH));
@@ -99,10 +99,10 @@ BOOL CSubtitleUpDlg::OnInitDialog()
     m_list.SetRedraw(FALSE);
     m_list.DeleteAllItems();
 
-    int i(0);
+    int i = 0;
     for (const auto& iter : m_pMainFrame.m_pSubtitlesProviders->Providers()) {
         if (iter->Flags(SPF_UPLOAD)) {
-            int iItem(m_list.InsertItem((int)i++, CString(iter->Name().c_str())));
+            int iItem = m_list.InsertItem((int)i++, CString(iter->Name().c_str()));
             m_list.SetItemText(iItem, COL_USERNAME, UTF8To16(iter->UserName().c_str()));
             m_list.SetItemText(iItem, COL_STATUS, _T("Ready..."));
             m_list.SetCheck(iItem, iter->Enabled(SPF_UPLOAD));
@@ -161,8 +161,8 @@ void CSubtitleUpDlg::OnOptions()
 
 void CSubtitleUpDlg::OnUpdateOk(CCmdUI* pCmdUI)
 {
-    bool fEnable(false);
-    for (int i(0); !fEnable && i < m_list.GetItemCount(); ++i) {
+    bool fEnable = false;
+    for (int i = 0; !fEnable && i < m_list.GetItemCount(); ++i) {
         fEnable = (m_list.GetCheck(i) == TRUE);
     }
 
@@ -171,7 +171,7 @@ void CSubtitleUpDlg::OnUpdateOk(CCmdUI* pCmdUI)
 
 void CSubtitleUpDlg::OnUpdateRefresh(CCmdUI* pCmdUI)
 {
-    bool fEnable(true);
+    bool fEnable = true;
     pCmdUI->Enable(fEnable);
 }
 
@@ -199,11 +199,11 @@ void CSubtitleUpDlg::OnDestroy()
 {
     RemoveAllAnchors();
 
-    const CHeaderCtrl& pHC(*m_list.GetHeaderCtrl());
+    const CHeaderCtrl& pHC = *m_list.GetHeaderCtrl();
     CString strColumnWidth;
 
-    for (int i(0); i < pHC.GetItemCount(); ++i) {
-        int w(m_list.GetColumnWidth(i));
+    for (int i = 0; i < pHC.GetItemCount(); ++i) {
+        int w = m_list.GetColumnWidth(i);
         strColumnWidth.AppendFormat(L"%d,", w);
     }
     AfxGetApp()->WriteProfileString(IDS_R_DLG_SUBTITLEUP, IDS_RS_DLG_SUBTITLEUP_COLWIDTH, strColumnWidth);
@@ -220,9 +220,9 @@ BOOL CSubtitleUpDlg::OnEraseBkgnd(CDC* pDC)
 
 void CSubtitleUpDlg::DownloadSelectedSubtitles()
 {
-    POSITION pos(m_list.GetFirstSelectedItemPosition());
+    POSITION pos = m_list.GetFirstSelectedItemPosition();
     while (pos) {
-        int nItem(m_list.GetNextSelectedItem(pos));
+        int nItem = m_list.GetNextSelectedItem(pos);
         if (nItem >= 0 && nItem < m_list.GetItemCount()) {
             ListView_SetCheckState(m_list.GetSafeHwnd(), nItem, TRUE);
         }
@@ -255,7 +255,7 @@ END_MESSAGE_MAP()
 
 void CSubtitleUpDlg::OnDoubleClickSubtitle(NMHDR* pNMHDR, LRESULT* pResult)
 {
-    LPNMITEMACTIVATE pItemActivate((LPNMITEMACTIVATE)(pNMHDR));
+    LPNMITEMACTIVATE pItemActivate = (LPNMITEMACTIVATE)(pNMHDR);
 
     if (pItemActivate->iItem >= 0 &&  m_list.GetCheck(pItemActivate->iItem) != -1) {
         //DownloadSelectedSubtitles();
@@ -264,7 +264,7 @@ void CSubtitleUpDlg::OnDoubleClickSubtitle(NMHDR* pNMHDR, LRESULT* pResult)
 
 void CSubtitleUpDlg::OnKeyPressedSubtitle(NMHDR* pNMHDR, LRESULT* pResult)
 {
-    LV_KEYDOWN* pLVKeyDow((LV_KEYDOWN*)pNMHDR);
+    LV_KEYDOWN* pLVKeyDow = (LV_KEYDOWN*)pNMHDR;
 
     if (pLVKeyDow->wVKey == VK_RETURN) {
         //DownloadSelectedSubtitles();
@@ -274,11 +274,11 @@ void CSubtitleUpDlg::OnKeyPressedSubtitle(NMHDR* pNMHDR, LRESULT* pResult)
 
 void CSubtitleUpDlg::OnRightClick(NMHDR* pNMHDR, LRESULT* pResult)
 {
-    LPNMLISTVIEW lpnmlv((LPNMLISTVIEW)pNMHDR);
+    LPNMLISTVIEW lpnmlv = (LPNMLISTVIEW)pNMHDR;
 
     if (lpnmlv->iItem >= 0 && lpnmlv->iSubItem >= 0) {
-        auto& s(AfxGetAppSettings());
-        SubtitlesProvider& provider(*(SubtitlesProvider*)(m_list.GetItemData(lpnmlv->iItem)));
+        auto& s = AfxGetAppSettings();
+        SubtitlesProvider& provider = *(SubtitlesProvider*)(m_list.GetItemData(lpnmlv->iItem));
 
         enum {
             SET_CREDENTIALS = 0x1000,
@@ -298,10 +298,10 @@ void CSubtitleUpDlg::OnRightClick(NMHDR* pNMHDR, LRESULT* pResult)
         m.AppendMenu(MF_SEPARATOR);
         m.AppendMenu(MF_STRING | MF_ENABLED, OPEN_URL, L"Open Url" /*ResStr(IDS_ENABLE_ALL_FILTERS)*/);
 
-        CPoint p(lpnmlv->ptAction);
-        ::MapWindowPoints(lpnmlv->hdr.hwndFrom, HWND_DESKTOP, &p, 1);
+        CPoint pt = lpnmlv->ptAction;
+        ::MapWindowPoints(lpnmlv->hdr.hwndFrom, HWND_DESKTOP, &pt, 1);
 
-        switch (m.TrackPopupMenu(TPM_LEFTBUTTON | TPM_RETURNCMD, p.x, p.y, this)) {
+        switch (m.TrackPopupMenu(TPM_LEFTBUTTON | TPM_RETURNCMD, pt.x, pt.y, this)) {
             case OPEN_URL:
                 provider.OpenUrl();
                 break;
@@ -349,15 +349,15 @@ void CSubtitleUpDlg::OnRightClick(NMHDR* pNMHDR, LRESULT* pResult)
 
 int CALLBACK CSubtitleUpDlg::SortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
-    CListCtrl& list(*(CListCtrl*)CListCtrl::FromHandle((HWND)(lParamSort)));
-    size_t left(((SubtitlesProvider*)list.GetItemData((int)lParam1))->Index());
-    size_t right(((SubtitlesProvider*)list.GetItemData((int)lParam2))->Index());
+    CListCtrl& list = *(CListCtrl*)CListCtrl::FromHandle((HWND)(lParamSort));
+    size_t left = ((SubtitlesProvider*)list.GetItemData((int)lParam1))->Index();
+    size_t right = ((SubtitlesProvider*)list.GetItemData((int)lParam2))->Index();
     return left == right ? 0 : (int)(left - right);
 }
 
 void CSubtitleUpDlg::OnItemChanging(NMHDR* pNMHDR, LRESULT* pResult)
 {
-    LPNMLISTVIEW pNMLV((LPNMLISTVIEW)(pNMHDR));
+    LPNMLISTVIEW pNMLV = (LPNMLISTVIEW)(pNMHDR);
 
     if (pNMLV->uOldState == 0 && pNMLV->uNewState == 0x1000 && pNMLV->lParam) {
         *pResult = TRUE;
@@ -366,12 +366,12 @@ void CSubtitleUpDlg::OnItemChanging(NMHDR* pNMHDR, LRESULT* pResult)
 
 void CSubtitleUpDlg::OnItemChanged(NMHDR* pNMHDR, LRESULT* pResult)
 {
-    LPNMLISTVIEW pNMLV((LPNMLISTVIEW)(pNMHDR));
+    LPNMLISTVIEW pNMLV = (LPNMLISTVIEW)(pNMHDR);
 
     if (((pNMLV->uOldState | pNMLV->uNewState) == 0x3000) && pNMLV->lParam) {
-        SubtitlesProvider& _provider(*(SubtitlesProvider*)pNMLV->lParam);
+        SubtitlesProvider& _provider = *(SubtitlesProvider*)pNMLV->lParam;
         _provider.Enabled(SPF_UPLOAD, pNMLV->uNewState == 0x2000 ? TRUE : FALSE);
-        auto& s(AfxGetAppSettings());
+        auto& s = AfxGetAppSettings();
         s.strSubtitlesProviders = CString(m_pMainFrame.m_pSubtitlesProviders->WriteSettings().c_str());
         s.SaveSettings();
     }
@@ -394,7 +394,7 @@ void CSubtitleUpDlg::OnShowWindow(BOOL bShow, UINT nStatus)
 
 afx_msg LRESULT CSubtitleUpDlg::OnUpload(WPARAM wParam, LPARAM /*lParam*/)
 {
-    INT _nCount((INT)wParam);
+    INT _nCount = (INT)wParam;
 
     SetStatusText(L"Uploading subtitles, please wait...");
     GetDlgItem(IDC_BUTTON1)->EnableWindow(TRUE);
@@ -408,10 +408,10 @@ afx_msg LRESULT CSubtitleUpDlg::OnUpload(WPARAM wParam, LPARAM /*lParam*/)
 
 afx_msg LRESULT CSubtitleUpDlg::OnUploading(WPARAM /*wParam*/, LPARAM lParam)
 {
-    SubtitlesProvider& _provider(*(SubtitlesProvider*)lParam);
+    SubtitlesProvider& _provider = *(SubtitlesProvider*)lParam;
 
     for (int i = 0; i < m_list.GetItemCount(); ++i) {
-        SubtitlesProvider& iter(*(SubtitlesProvider*)m_list.GetItemData(i));
+        SubtitlesProvider& iter = *(SubtitlesProvider*)m_list.GetItemData(i);
         if (&iter == &_provider) {
             m_list.SetItemText(i, COL_STATUS, _T("Uploading..."));
         }
@@ -423,13 +423,13 @@ afx_msg LRESULT CSubtitleUpDlg::OnUploading(WPARAM /*wParam*/, LPARAM lParam)
 
 afx_msg LRESULT CSubtitleUpDlg::OnCompleted(WPARAM wParam, LPARAM lParam)
 {
-    SRESULT _result((SRESULT)wParam);
-    SubtitlesProvider& _provider(*(SubtitlesProvider*)lParam);
+    SRESULT _result = (SRESULT)wParam;
+    SubtitlesProvider& _provider = *(SubtitlesProvider*)lParam;
 
     m_progress.StepIt();
 
     for (int i = 0; i < m_list.GetItemCount(); ++i) {
-        SubtitlesProvider& iter(*(SubtitlesProvider*)m_list.GetItemData(i));
+        SubtitlesProvider& iter = *(SubtitlesProvider*)m_list.GetItemData(i);
         if (&iter == &_provider) {
             switch (_result) {
                 case SR_SUCCEEDED:
@@ -454,7 +454,7 @@ afx_msg LRESULT CSubtitleUpDlg::OnCompleted(WPARAM wParam, LPARAM lParam)
 
 afx_msg LRESULT CSubtitleUpDlg::OnFinished(WPARAM wParam, LPARAM /*lParam*/)
 {
-    BOOL _bAborted((BOOL)wParam);
+    BOOL _bAborted = (BOOL)wParam;
 
     if (_bAborted == FALSE) {
         SetStatusText(_T("Upload finished."));
@@ -481,7 +481,7 @@ afx_msg LRESULT CSubtitleUpDlg::OnClear(WPARAM /*wParam*/, LPARAM /*lParam*/)
     SetStatusText("");
 
     for (int i = 0; i < m_list.GetItemCount(); ++i) {
-        SubtitlesProvider& iter(*(SubtitlesProvider*)m_list.GetItemData(i));
+        SubtitlesProvider& iter = *(SubtitlesProvider*)m_list.GetItemData(i);
         if (iter.Flags(SPF_UPLOAD)) {
             m_list.SetItemText(i, COL_STATUS, _T("Ready..."));
         }

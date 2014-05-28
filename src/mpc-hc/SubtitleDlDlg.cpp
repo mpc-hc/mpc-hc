@@ -66,9 +66,9 @@ void CSubtitleDlDlg::SetStatusText(const CString& status, BOOL bPropagate/* = TR
 
 void CSubtitleDlDlg::SetListViewSortColumn()
 {
-    CHeaderCtrl* header(m_list.GetHeaderCtrl());
-    int columnCount(header->GetItemCount());
-    for (int i(0); i < columnCount; ++i) {
+    CHeaderCtrl* header = m_list.GetHeaderCtrl();
+    int columnCount = header->GetItemCount();
+    for (int i = 0; i < columnCount; ++i) {
         HDITEM hi = { 0 };
         hi.mask = HDI_FORMAT;
         header->GetItem(i, &hi);
@@ -84,16 +84,16 @@ void CSubtitleDlDlg::SetListViewSortColumn()
 
 int CALLBACK CSubtitleDlDlg::SortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
-    PPARAMSORT ps((PPARAMSORT)(lParamSort));
-    CListCtrl* list((CListCtrl*)CListCtrl::FromHandle(ps->m_hWnd));
+    PPARAMSORT ps = (PPARAMSORT)(lParamSort);
+    CListCtrl* list = (CListCtrl*)CListCtrl::FromHandle(ps->m_hWnd);
 
     if (ps->m_fSortOrder == 0) {
-        DWORD left((*(SubtitlesInfo*)(list->GetItemData((int)lParam1))).Score());
-        DWORD right((*(SubtitlesInfo*)(list->GetItemData((int)lParam2))).Score());
+        DWORD left = (*(SubtitlesInfo*)(list->GetItemData((int)lParam1))).Score();
+        DWORD right = (*(SubtitlesInfo*)(list->GetItemData((int)lParam2))).Score();
         return left == right ? 0 : left < right ? 1 : -1;
     } else if (ps->m_nSortColumn == COL_DOWNLOADS) {
-        int left((*(SubtitlesInfo*)(list->GetItemData((int)lParam1))).downloadCount);
-        int right((*(SubtitlesInfo*)(list->GetItemData((int)lParam2))).downloadCount);
+        int left = (*(SubtitlesInfo*)(list->GetItemData((int)lParam1))).downloadCount;
+        int right = (*(SubtitlesInfo*)(list->GetItemData((int)lParam2))).downloadCount;
         if (left == -1 && right != -1) {
             return 1;
         } else if (left != -1 && right == -1) {
@@ -105,8 +105,8 @@ int CALLBACK CSubtitleDlDlg::SortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM 
         }
 #ifdef _DEBUG
     } else if (ps->m_nSortColumn == COL_SCORE) {
-        SHORT left((SHORT)LOWORD((*(SubtitlesInfo*)(list->GetItemData((int)lParam1))).Score()));
-        SHORT right((SHORT)LOWORD((*(SubtitlesInfo*)(list->GetItemData((int)lParam2))).Score()));
+        SHORT left = (SHORT)LOWORD((*(SubtitlesInfo*)(list->GetItemData((int)lParam1))).Score());
+        SHORT right = (SHORT)LOWORD((*(SubtitlesInfo*)(list->GetItemData((int)lParam2))).Score());
         return left == right ? 0 : (ps->m_fSortOrder == 1)
                ? (left > right ? 1 : -1)
                : (left < right ? 1 : -1);
@@ -139,7 +139,7 @@ BOOL CSubtitleDlDlg::OnInitDialog()
     m_ps.m_nSortColumn = AfxGetApp()->GetProfileInt(IDS_R_DLG_SUBTITLEDL, IDS_RS_DLG_SUBTITLEDL_SORTCOLUMN, 0);
     m_ps.m_fSortOrder = AfxGetApp()->GetProfileInt(IDS_R_DLG_SUBTITLEDL, IDS_RS_DLG_SUBTITLEDL_SORTORDER, 0);
 
-    int n(0), curPos(0);
+    int n = 0, curPos = 0;
     CArray<int> columnWidth;
 
     CString strColumnWidth(AfxGetApp()->GetProfileString(IDS_R_DLG_SUBTITLEDL, IDS_RS_DLG_SUBTITLEDL_COLWIDTH));
@@ -217,14 +217,14 @@ void CSubtitleDlDlg::OnOK()
         m_pMainFrame.m_pSubStreams.RemoveAll();
     }
 
-    BOOL bActivate(TRUE);
-    for (int i(0); i < m_list.GetItemCount(); ++i) {
+    BOOL bActivate = TRUE;
+    for (int i = 0; i < m_list.GetItemCount(); ++i) {
         if (m_list.GetCheck(i) == TRUE) {
 
-            SubtitlesInfo& subtitlesInfo(*(SubtitlesInfo*)(m_list.GetItemData(i)));
+            SubtitlesInfo& subtitlesInfo = *(SubtitlesInfo*)(m_list.GetItemData(i));
             LVITEMINDEX lvii = { i , -1 };
             m_list.SetItemIndexState(&lvii, INDEXTOSTATEIMAGEMASK(0), LVIS_STATEIMAGEMASK);
-            HRESULT hr(S_OK);
+            HRESULT hr = S_OK;
             subtitlesInfo.Download(bActivate);
             bActivate = FALSE;
         }
@@ -251,8 +251,8 @@ void CSubtitleDlDlg::OnOptions()
 
 void CSubtitleDlDlg::OnUpdateOk(CCmdUI* pCmdUI)
 {
-    bool fEnable(false);
-    for (int i(0); !fEnable && i < m_list.GetItemCount(); ++i) {
+    bool fEnable = false;
+    for (int i = 0; !fEnable && i < m_list.GetItemCount(); ++i) {
         fEnable = (m_list.GetCheck(i) == TRUE);
     }
 
@@ -261,13 +261,13 @@ void CSubtitleDlDlg::OnUpdateOk(CCmdUI* pCmdUI)
 
 void CSubtitleDlDlg::OnUpdateRefresh(CCmdUI* pCmdUI)
 {
-    bool fEnable(true);
+    bool fEnable = true;
     pCmdUI->Enable(fEnable);
 }
 
 void CSubtitleDlDlg::OnColumnClick(NMHDR* pNMHDR, LRESULT* pResult)
 {
-    LPNMHEADER phdr((LPNMHEADER)(pNMHDR));
+    LPNMHEADER phdr = (LPNMHEADER)(pNMHDR);
     *pResult = 0;
 
     if (phdr->iItem == m_ps.m_nSortColumn) {
@@ -316,11 +316,11 @@ void CSubtitleDlDlg::OnDestroy()
 {
     RemoveAllAnchors();
 
-    const CHeaderCtrl& pHC(*m_list.GetHeaderCtrl());
+    const CHeaderCtrl& pHC = *m_list.GetHeaderCtrl();
     CString strColumnWidth;
 
-    for (int i(0); i < pHC.GetItemCount(); ++i) {
-        int w(m_list.GetColumnWidth(i));
+    for (int i = 0; i < pHC.GetItemCount(); ++i) {
+        int w = m_list.GetColumnWidth(i);
         strColumnWidth.AppendFormat(L"%d,", w);
     }
     AfxGetApp()->WriteProfileString(IDS_R_DLG_SUBTITLEDL, IDS_RS_DLG_SUBTITLEDL_COLWIDTH, strColumnWidth);
@@ -339,9 +339,9 @@ BOOL CSubtitleDlDlg::OnEraseBkgnd(CDC* pDC)
 
 void CSubtitleDlDlg::DownloadSelectedSubtitles()
 {
-    POSITION pos(m_list.GetFirstSelectedItemPosition());
+    POSITION pos = m_list.GetFirstSelectedItemPosition();
     while (pos) {
-        int nItem(m_list.GetNextSelectedItem(pos));
+        int nItem = m_list.GetNextSelectedItem(pos);
         if (nItem >= 0 && nItem < m_list.GetItemCount()) {
             m_list.SetCheck(nItem, TRUE);
         }
@@ -379,7 +379,7 @@ END_MESSAGE_MAP()
 
 void CSubtitleDlDlg::OnDoubleClickSubtitle(NMHDR* pNMHDR, LRESULT* pResult)
 {
-    LPNMITEMACTIVATE pItemActivate((LPNMITEMACTIVATE)(pNMHDR));
+    LPNMITEMACTIVATE pItemActivate = (LPNMITEMACTIVATE)(pNMHDR);
 
     if (pItemActivate->iItem >= 0 &&  m_list.GetCheck(pItemActivate->iItem) != -1) {
         DownloadSelectedSubtitles();
@@ -388,7 +388,7 @@ void CSubtitleDlDlg::OnDoubleClickSubtitle(NMHDR* pNMHDR, LRESULT* pResult)
 
 void CSubtitleDlDlg::OnKeyPressedSubtitle(NMHDR* pNMHDR, LRESULT* pResult)
 {
-    LV_KEYDOWN* pLVKeyDow((LV_KEYDOWN*)pNMHDR);
+    LV_KEYDOWN* pLVKeyDow = (LV_KEYDOWN*)pNMHDR;
 
     if (pLVKeyDow->wVKey == VK_RETURN) {
         DownloadSelectedSubtitles();
@@ -398,10 +398,10 @@ void CSubtitleDlDlg::OnKeyPressedSubtitle(NMHDR* pNMHDR, LRESULT* pResult)
 
 void CSubtitleDlDlg::OnRightClick(NMHDR* pNMHDR, LRESULT* pResult)
 {
-    LPNMLISTVIEW lpnmlv((LPNMLISTVIEW)pNMHDR);
+    LPNMLISTVIEW lpnmlv = (LPNMLISTVIEW)pNMHDR;
 
     if (lpnmlv->iItem >= 0 && lpnmlv->iSubItem >= 0) {
-        SubtitlesInfo& subtitlesInfo(*(SubtitlesInfo*)(m_list.GetItemData(lpnmlv->iItem)));
+        SubtitlesInfo& subtitlesInfo = *(SubtitlesInfo*)(m_list.GetItemData(lpnmlv->iItem));
 
         enum {
             DOWNLOAD = 0x1000,
@@ -414,10 +414,10 @@ void CSubtitleDlDlg::OnRightClick(NMHDR* pNMHDR, LRESULT* pResult)
         m.AppendMenu(MF_SEPARATOR);
         m.AppendMenu(MF_STRING | (!subtitlesInfo.url.empty() ? MF_ENABLED : MF_DISABLED), OPEN_URL, L"Open Url" /*ResStr(IDS_ENABLE_ALL_FILTERS)*/);
 
-        CPoint p(lpnmlv->ptAction);
-        ::MapWindowPoints(lpnmlv->hdr.hwndFrom, HWND_DESKTOP, &p, 1);
+        CPoint pt = lpnmlv->ptAction;
+        ::MapWindowPoints(lpnmlv->hdr.hwndFrom, HWND_DESKTOP, &pt, 1);
 
-        switch (m.TrackPopupMenu(TPM_LEFTBUTTON | TPM_RETURNCMD, p.x, p.y, this)) {
+        switch (m.TrackPopupMenu(TPM_LEFTBUTTON | TPM_RETURNCMD, pt.x, pt.y, this)) {
             case DOWNLOAD:
                 m_list.SetCheck(lpnmlv->iItem, TRUE);
                 OnOK();
@@ -433,7 +433,7 @@ void CSubtitleDlDlg::OnRightClick(NMHDR* pNMHDR, LRESULT* pResult)
 
 void CSubtitleDlDlg::OnItemChanging(NMHDR* pNMHDR, LRESULT* pResult)
 {
-    LPNMLISTVIEW pNMLV((LPNMLISTVIEW)(pNMHDR));
+    LPNMLISTVIEW pNMLV = (LPNMLISTVIEW)(pNMHDR);
 
     if (pNMLV->uOldState == 0 && pNMLV->uNewState == 0x1000 && pNMLV->lParam) {
         *pResult = TRUE;
@@ -460,7 +460,7 @@ void CSubtitleDlDlg::OnShowWindow(BOOL bShow, UINT nStatus)
 
 afx_msg LRESULT CSubtitleDlDlg::OnSearch(WPARAM wParam, LPARAM /*lParam*/)
 {
-    INT _nCount((INT)wParam);
+    INT _nCount = (INT)wParam;
 
     SetStatusText(_T("Searching for subtitles online, please wait..."));
     GetDlgItem(IDC_BUTTON1)->EnableWindow(FALSE);
@@ -476,14 +476,14 @@ afx_msg LRESULT CSubtitleDlDlg::OnSearch(WPARAM wParam, LPARAM /*lParam*/)
 
 afx_msg LRESULT CSubtitleDlDlg::OnSearching(WPARAM /*wParam*/, LPARAM lParam)
 {
-    SubtitlesProvider& _provider(*(SubtitlesProvider*)lParam);
+    SubtitlesProvider& _provider = *(SubtitlesProvider*)lParam;
 
     return S_OK;
 }
 
 afx_msg LRESULT CSubtitleDlDlg::OnDownloading(WPARAM /*wParam*/, LPARAM lParam)
 {
-    SubtitlesInfo& _fileInfo(*(SubtitlesInfo*)lParam);
+    SubtitlesInfo& _fileInfo = *(SubtitlesInfo*)lParam;
 
     CString statusMessage;
     statusMessage.Format(_T("Downloading [%s] \"%s\""), CString(_fileInfo.Provider().Name().c_str()), CString(_fileInfo.fileName.c_str()));
@@ -494,14 +494,14 @@ afx_msg LRESULT CSubtitleDlDlg::OnDownloading(WPARAM /*wParam*/, LPARAM lParam)
 
 afx_msg LRESULT CSubtitleDlDlg::OnDownloaded(WPARAM /*wParam*/, LPARAM lParam)
 {
-    SubtitlesInfo& _fileInfo(*(SubtitlesInfo*)lParam);
+    SubtitlesInfo& _fileInfo = *(SubtitlesInfo*)lParam;
 
     if (!GetDlgItem(IDC_BUTTON1)->IsWindowEnabled()) {
         SetStatusText(_T("Searching for subtitles online, please wait..."), FALSE);
     }
 
     for (int i = 0; i < m_list.GetItemCount(); ++i) {
-        SubtitlesInfo& iter(*(SubtitlesInfo*)m_list.GetItemData(i));
+        SubtitlesInfo& iter = *(SubtitlesInfo*)m_list.GetItemData(i);
         if (iter.UID() == _fileInfo.UID()) {
             LVITEMINDEX lvii = { i, -1 };
             m_list.SetItemIndexState(&lvii, INDEXTOSTATEIMAGEMASK(0), LVIS_STATEIMAGEMASK);
@@ -513,8 +513,8 @@ afx_msg LRESULT CSubtitleDlDlg::OnDownloaded(WPARAM /*wParam*/, LPARAM lParam)
 
 afx_msg LRESULT CSubtitleDlDlg::OnCompleted(WPARAM wParam, LPARAM lParam)
 {
-    SRESULT _result((SRESULT)wParam);
-    SubtitlesList& _subtitlesList(*(SubtitlesList*)lParam);
+    SRESULT _result = (SRESULT)wParam;
+    SubtitlesList& _subtitlesList = *(SubtitlesList*)lParam;
 
     m_progress.StepIt();
 
@@ -527,9 +527,9 @@ afx_msg LRESULT CSubtitleDlDlg::OnCompleted(WPARAM wParam, LPARAM lParam)
         _begin = (_begin == m_Subtitles.end()) ? _begin = m_Subtitles.begin() : ++_begin;
         SubtitlesList::const_iterator _end = std::next(_begin, _subtitlesList.size());
 
-        SubtitlesList::const_iterator iter(_begin);
+        SubtitlesList::const_iterator iter = _begin;
         for (; iter != _end; ++iter) {
-            int iItem(m_list.InsertItem(0, UTF8To16(iter->Provider().Name().c_str())));
+            int iItem = m_list.InsertItem(0, UTF8To16(iter->Provider().Name().c_str()));
             m_list.SetItemText(iItem, COL_FILENAME, UTF8To16(iter->fileName.c_str()));
             m_list.SetItemText(iItem, COL_LANGUAGE, UTF8To16(iter->languageName.c_str()));
             CString disc;
@@ -565,8 +565,8 @@ afx_msg LRESULT CSubtitleDlDlg::OnCompleted(WPARAM wParam, LPARAM lParam)
 
 afx_msg LRESULT CSubtitleDlDlg::OnFinished(WPARAM wParam, LPARAM lParam)
 {
-    BOOL _bAborted((BOOL)wParam);
-    BOOL _bShowDialog((BOOL)lParam);
+    BOOL _bAborted = (BOOL)wParam;
+    BOOL _bShowDialog = (BOOL)lParam;
 
     if (_bAborted == FALSE) {
         if (!m_Subtitles.empty()) {
@@ -584,7 +584,7 @@ afx_msg LRESULT CSubtitleDlDlg::OnFinished(WPARAM wParam, LPARAM lParam)
         SetStatusText("Online subtitles search aborted.");
     }
 
-    int nLower(0), nUpper(0);
+    int nLower = 0, nUpper = 0;
     m_progress.GetRange(nLower, nUpper);
     m_progress.SetPos(nUpper);
 

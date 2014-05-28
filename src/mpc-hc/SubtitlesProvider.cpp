@@ -72,19 +72,19 @@ SRESULT OpenSubtitles::Login(std::string& _UserName, std::string& _Password)
 
 SRESULT OpenSubtitles::Hash(SubtitlesInfo& fileInfo)
 {
-    UINT64 fileHash(fileInfo.fileSize);
+    UINT64 fileHash = fileInfo.fileSize;
     if (fileInfo.pAsyncReader) {
-        UINT64 position(0);
-        for (UINT64 tmp(0), i(0); i < PROBE_SIZE / sizeof(tmp) && SUCCEEDED(fileInfo.pAsyncReader->SyncRead(position, sizeof(tmp), (BYTE*)&tmp)); fileHash += tmp, position += sizeof(tmp), ++i);
+        UINT64 position = 0;
+        for (UINT64 tmp = 0, i = 0; i < PROBE_SIZE / sizeof(tmp) && SUCCEEDED(fileInfo.pAsyncReader->SyncRead(position, sizeof(tmp), (BYTE*)&tmp)); fileHash += tmp, position += sizeof(tmp), ++i);
         position = std::max((UINT64)0, (UINT64)(fileInfo.fileSize - PROBE_SIZE));
-        for (UINT64 tmp(0), i(0); i < PROBE_SIZE / sizeof(tmp) && SUCCEEDED(fileInfo.pAsyncReader->SyncRead(position, sizeof(tmp), (BYTE*)&tmp)); fileHash += tmp, position += sizeof(tmp), ++i);
+        for (UINT64 tmp = 0, i = 0; i < PROBE_SIZE / sizeof(tmp) && SUCCEEDED(fileInfo.pAsyncReader->SyncRead(position, sizeof(tmp), (BYTE*)&tmp)); fileHash += tmp, position += sizeof(tmp), ++i);
     } else {
         CFile file;
         CFileException fileException;
         if (file.Open(CString(fileInfo.filePath.c_str()), CFile::modeRead | CFile::osSequentialScan | CFile::shareDenyNone | CFile::typeBinary, &fileException)) {
-            for (UINT64 tmp(0), i(0); i < PROBE_SIZE / sizeof(tmp) && file.Read(&tmp, sizeof(tmp)); fileHash += tmp, ++i);
+            for (UINT64 tmp = 0, i = 0; i < PROBE_SIZE / sizeof(tmp) && file.Read(&tmp, sizeof(tmp)); fileHash += tmp, ++i);
             file.Seek(std::max((UINT64)0, (UINT64)(fileInfo.fileSize - PROBE_SIZE)), CFile::begin);
-            for (UINT64 tmp(0), i(0); i < PROBE_SIZE / sizeof(tmp) && file.Read(&tmp, sizeof(tmp)); fileHash += tmp, ++i);
+            for (UINT64 tmp = 0, i = 0; i < PROBE_SIZE / sizeof(tmp) && file.Read(&tmp, sizeof(tmp)); fileHash += tmp, ++i);
         }
     }
     fileInfo.fileHash = string_format("%016I64x", fileHash);
@@ -105,8 +105,8 @@ SRESULT OpenSubtitles::Search(const SubtitlesInfo& fileInfo, volatile BOOL& _bAb
 
     if (result["data"].getType() != XmlRpcValue::Type::TypeArray) { return SR_FAILED; }
 
-    int nCount(result["data"].size());
-    for (int i(0); i < nCount; ++i) {
+    int nCount = result["data"].size();
+    for (int i = 0; i < nCount; ++i) {
         CheckAbortAndReturn();
         XmlRpcValue& data(result["data"][i]);
         SubtitlesInfo subtitlesInfo;
@@ -216,8 +216,8 @@ SRESULT OpenSubtitles::Upload(const SubtitlesInfo& fileInfo, volatile BOOL& _bAb
                 if (!xmlrpc->execute("CheckMovieHash2", _args, _result)) { return SR_FAILED; }
 
                 if (_result["data"].getType() == XmlRpcValue::Type::TypeArray) {
-                    int nCount(_result["data"][fileInfo.fileHash].size());
-                    for (int i(0); i < nCount; ++i) {
+                    int nCount = _result["data"][fileInfo.fileHash].size();
+                    for (int i = 0; i < nCount; ++i) {
                         regex_results results;
                         string_regex("\"(.+)\" .+|(.+)", string_replace((const char*)_result["data"][fileInfo.fileHash][i]["MovieName"], "and", "&"), results);
                         std::string _title(results[0][0] + results[0][1]);
@@ -236,8 +236,8 @@ SRESULT OpenSubtitles::Upload(const SubtitlesInfo& fileInfo, volatile BOOL& _bAb
                 _args[1] = title;
                 if (!xmlrpc->execute("SearchMoviesOnIMDB", _args, _result)) { return SR_FAILED; }
                 if (_result["data"].getType() == XmlRpcValue::Type::TypeArray) {
-                    int nCount(_result["data"].size());
-                    for (int i(0); i < nCount; ++i) {
+                    int nCount = _result["data"].size();
+                    for (int i = 0; i < nCount; ++i) {
                         regex_results results;
                         string_regex("(.+) [(](\\d{4})[)]", string_replace((const char*)_result["data"][i]["title"], "and", "&"), results);
                         if (results.size() == 1) {
@@ -298,8 +298,8 @@ std::string OpenSubtitles::Languages()
 
         if (result["data"].getType() != XmlRpcValue::Type::TypeArray) { return data; }
 
-        int count(result["data"].size());
-        for (int i(0); i < count; ++i) {
+        int count = result["data"].size();
+        for (int i = 0; i < count; ++i) {
             if (i != 0) { data.append(","); }
             data.append(result["data"][i]["SubLanguageID"]);
         }
@@ -313,19 +313,19 @@ std::string OpenSubtitles::Languages()
 
 SRESULT OpenSubtitlesISDB::Hash(SubtitlesInfo& fileInfo)
 {
-    UINT64 fileHash(fileInfo.fileSize);
+    UINT64 fileHash = fileInfo.fileSize;
     if (fileInfo.pAsyncReader) {
-        UINT64 position(0);
-        for (UINT64 tmp(0), i(0); i < PROBE_SIZE / sizeof(tmp) && SUCCEEDED(fileInfo.pAsyncReader->SyncRead(position, sizeof(tmp), (BYTE*)&tmp)); fileHash += tmp, position += sizeof(tmp), ++i);
+        UINT64 position = 0;
+        for (UINT64 tmp = 0, i = 0; i < PROBE_SIZE / sizeof(tmp) && SUCCEEDED(fileInfo.pAsyncReader->SyncRead(position, sizeof(tmp), (BYTE*)&tmp)); fileHash += tmp, position += sizeof(tmp), ++i);
         position = std::max((UINT64)0, (UINT64)(fileInfo.fileSize - PROBE_SIZE));
-        for (UINT64 tmp(0), i(0); i < PROBE_SIZE / sizeof(tmp) && SUCCEEDED(fileInfo.pAsyncReader->SyncRead(position, sizeof(tmp), (BYTE*)&tmp)); fileHash += tmp, position += sizeof(tmp), ++i);
+        for (UINT64 tmp = 0, i = 0; i < PROBE_SIZE / sizeof(tmp) && SUCCEEDED(fileInfo.pAsyncReader->SyncRead(position, sizeof(tmp), (BYTE*)&tmp)); fileHash += tmp, position += sizeof(tmp), ++i);
     } else {
         CFile file;
         CFileException fileException;
         if (file.Open(CString(fileInfo.filePath.c_str()), CFile::modeRead | CFile::osSequentialScan | CFile::shareDenyNone | CFile::typeBinary, &fileException)) {
-            for (UINT64 tmp(0), i(0); i < PROBE_SIZE / sizeof(tmp) && file.Read(&tmp, sizeof(tmp)); fileHash += tmp, ++i);
+            for (UINT64 tmp = 0, i = 0; i < PROBE_SIZE / sizeof(tmp) && file.Read(&tmp, sizeof(tmp)); fileHash += tmp, ++i);
             file.Seek(std::max((UINT64)0, (UINT64)(fileInfo.fileSize - PROBE_SIZE)), CFile::begin);
-            for (UINT64 tmp(0), i(0); i < PROBE_SIZE / sizeof(tmp) && file.Read(&tmp, sizeof(tmp)); fileHash += tmp, ++i);
+            for (UINT64 tmp = 0, i = 0; i < PROBE_SIZE / sizeof(tmp) && file.Read(&tmp, sizeof(tmp)); fileHash += tmp, ++i);
         }
     }
     fileInfo.fileHash = string_format("%016I64x", fileHash);
@@ -334,7 +334,7 @@ SRESULT OpenSubtitlesISDB::Hash(SubtitlesInfo& fileInfo)
 
 SRESULT OpenSubtitlesISDB::Search(const SubtitlesInfo& fileInfo, volatile BOOL& _bAborting)
 {
-    SRESULT searchResult(SR_UNDEFINED);
+    SRESULT searchResult = SR_UNDEFINED;
     std::string data;
     searchResult = Download(string_format("http://www.opensubtitles.org/isdb/index.php?player=mpc-hc&name[0]=%s&size[0]=%016I64x&hash[0]=%s",
                                           UrlEncode(fileInfo.fileName.c_str()), fileInfo.fileSize, fileInfo.fileHash.c_str()), "", data);
@@ -343,7 +343,7 @@ SRESULT OpenSubtitlesISDB::Search(const SubtitlesInfo& fileInfo, volatile BOOL& 
     string_array tags(string_tokenize(data, "\n"));
     for (const auto& iter : tags) {
         CheckAbortAndReturn();
-        std::string::size_type pos(iter.find("="));
+        std::string::size_type pos = iter.find("=");
         std::string param(iter.substr(0, pos));
         std::string value(pos != std::string::npos ? iter.substr(pos + 1) : "");
 
@@ -401,7 +401,7 @@ SRESULT SubDB::Hash(SubtitlesInfo& fileInfo)
 {
     std::vector<BYTE> buffer(2 * PROBE_SIZE);
     if (fileInfo.pAsyncReader) {
-        UINT64 position(0);
+        UINT64 position = 0;
         fileInfo.pAsyncReader->SyncRead(position, PROBE_SIZE, (BYTE*)&buffer[0]);
         position = std::max((UINT64)0, (UINT64)(fileInfo.fileSize - PROBE_SIZE));
         fileInfo.pAsyncReader->SyncRead(position, PROBE_SIZE, (BYTE*)&buffer[PROBE_SIZE]);
@@ -420,7 +420,7 @@ SRESULT SubDB::Hash(SubtitlesInfo& fileInfo)
 
 SRESULT SubDB::Search(const SubtitlesInfo& fileInfo, volatile BOOL& _bAborting)
 {
-    SRESULT searchResult(SR_UNDEFINED);
+    SRESULT searchResult = SR_UNDEFINED;
     std::string data;
     searchResult = Download(string_format("http://api.thesubdb.com/?action=search&hash=%s", fileInfo.fileHash.c_str()), "", data);
 
@@ -469,7 +469,7 @@ SRESULT SubDB::Upload(const SubtitlesInfo& fileInfo, volatile BOOL& _bAborting)
 
     CheckAbortAndReturn();
 
-    DWORD dwStatusCode(NULL);
+    DWORD dwStatusCode = NULL;
     string_upload(url, headers, content, data, FALSE, &dwStatusCode);
 
     switch (dwStatusCode) {
@@ -508,7 +508,7 @@ const std::regex TVsubtitles::regex_pattern[] = {
 
 SRESULT TVsubtitles::Search(const SubtitlesInfo& fileInfo, volatile BOOL& _bAborting)
 {
-    SRESULT searchResult(SR_UNDEFINED);
+    SRESULT searchResult = SR_UNDEFINED;
     if (fileInfo.seasonNumber != -1) {
         std::string data;
         searchResult = Download(string_format("http://www.tvsubtitles.net/search.php?q=%s", UrlEncode(fileInfo.title.c_str())), "", data);
@@ -539,7 +539,7 @@ SRESULT TVsubtitles::Search(const SubtitlesInfo& fileInfo, volatile BOOL& _bAbor
                     for (const auto& language : tvsubtitles_languages) { if (iter2[1] == language.code) { iter2[1] = language.name; } }
                     if (CheckLanguage(iter2[1])) {
                         std::string data3;
-                        std::string url(string_format("http://www.tvsubtitles.net/subtitle-%s.html", iter2[0].c_str()));
+                        std::string url = string_format("http://www.tvsubtitles.net/subtitle-%s.html", iter2[0].c_str());
                         searchResult = Download(url, "", data3);
 
                         regex_results results3;
@@ -593,7 +593,7 @@ const std::regex Moviesubtitles::regex_pattern[] = {
 
 SRESULT Moviesubtitles::Search(const SubtitlesInfo& fileInfo, volatile BOOL& _bAborting)
 {
-    SRESULT searchResult(SR_UNDEFINED);
+    SRESULT searchResult = SR_UNDEFINED;
     if (fileInfo.seasonNumber == -1) {
         std::string data;
         searchResult = Download(string_format("http://www.moviesubtitles.org/search.php?q=%s", UrlEncode(fileInfo.title.c_str())), "", data);
@@ -673,7 +673,7 @@ SRESULT addic7ed::Login(std::string& _UserName, std::string& _Password)
         content += string_format("username=%s&password=%s&Submit=Log+in",
                                  UrlEncode(_UserName.c_str()), UrlEncode(_Password.c_str()));
 
-        DWORD dwStatusCode(NULL);
+        DWORD dwStatusCode = NULL;
         string_upload(url, headers, content, data, FALSE, &dwStatusCode);
         //'Success ':   (HTTP/1.1 302 Found): If everything was OK, the HTTP status code 302 will be returned.
         return (dwStatusCode == 302) ? SR_SUCCEEDED : SR_FAILED;
@@ -684,7 +684,7 @@ SRESULT addic7ed::Login(std::string& _UserName, std::string& _Password)
 
 SRESULT addic7ed::Search(const SubtitlesInfo& fileInfo, volatile BOOL& _bAborting)
 {
-    SRESULT searchResult(SR_UNDEFINED);
+    SRESULT searchResult = SR_UNDEFINED;
     if (fileInfo.seasonNumber != -1) {
         std::string data;
         std::string search(fileInfo.title);
@@ -812,8 +812,8 @@ SRESULT podnapisi::Login(std::string& _UserName, std::string& _Password)
 
 SRESULT podnapisi::Search(const SubtitlesInfo& fileInfo, volatile BOOL& _bAborting)
 {
-    SRESULT searchResult(SR_UNDEFINED);
-    int page(1), pages(1);
+    SRESULT searchResult = SR_UNDEFINED;
+    int page = 1, pages = 1;
     do {
         CheckAbortAndReturn();
         std::string data;
@@ -876,7 +876,7 @@ SRESULT podnapisi::Search(const SubtitlesInfo& fileInfo, volatile BOOL& _bAborti
 
 SRESULT podnapisi::Download(SubtitlesInfo& subtitlesInfo, volatile BOOL& _bAborting)
 {
-    SRESULT searchResult(SR_UNDEFINED);
+    SRESULT searchResult = SR_UNDEFINED;
     std::string temp;
     searchResult = Download(subtitlesInfo.url, "", temp);
 

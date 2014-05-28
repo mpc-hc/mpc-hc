@@ -46,8 +46,8 @@ int LevenshteinDistance(std::string s, std::string t)
     t = CStringA((char*)t.c_str()).MakeLower();
     // degenerate cases
     if (s == t) { return 0; }
-    if (s.length() == size_t(0)) { return int(t.length()); }
-    if (t.length() == size_t(0)) { return int(s.length()); }
+    if (s.length() == size_t(0)) { return (int)t.length(); }
+    if (t.length() == size_t(0)) { return (int)s.length(); }
 
     // create two work vectors of integer distances
     std::vector<int> v0(t.length() + 1);
@@ -56,11 +56,11 @@ int LevenshteinDistance(std::string s, std::string t)
     // initialize v0 (the previous row of distances)
     // this row is A[0][i]: edit distance for an empty s
     // the distance is just the number of characters to delete from t
-    for (size_t i(0); i < v0.size(); i++) {
+    for (size_t i = 0; i < v0.size(); i++) {
         v0[i] = (int)i;
     }
 
-    for (size_t i(0); i < s.length(); i++) {
+    for (size_t i = 0; i < s.length(); i++) {
         // calculate v1 (current row distances) from the previous row v0
 
         // first element of v1 is A[i+1][0]
@@ -68,13 +68,13 @@ int LevenshteinDistance(std::string s, std::string t)
         v1[0] = (int)i + 1;
 
         // use formula to fill in the rest of the row
-        for (size_t j(0); j < t.length(); j++) {
-            bool cost((s[i] == t[j]) ? 0 : 1);
+        for (size_t j = 0; j < t.length(); j++) {
+            bool cost = (s[i] == t[j]) ? 0 : 1;
             v1[j + 1] = std::min(std::min(v1[j] + 1, v0[j + 1] + 1), v0[j] + cost);
         }
 
         // copy v1 (current row) to v0 (previous row) for next iteration
-        for (size_t j(0); j < v0.size(); j++) {
+        for (size_t j = 0; j < v0.size(); j++) {
             v0[j] = v1[j];
         }
     }
@@ -106,7 +106,7 @@ std::string hex_to_bytes(const std::string& hex)
 {
     std::vector<unsigned char> bytes;
     bytes.reserve(hex.size() / 2);
-    for (std::string::size_type i(0), i_end(hex.size()); i < i_end; i += 2) {
+    for (std::string::size_type i = 0, i_end = hex.size(); i < i_end; i += 2) {
         unsigned byte;
         std::istringstream hex_byte(hex.substr(i, 2));
         hex_byte >> std::hex >> byte;
@@ -130,12 +130,12 @@ std::string string_bytes(const std::string& data)
 std::string string_hash(const std::string& data, ALG_ID Algid)
 {
     std::string result;
-    HCRYPTPROV hCryptProv(NULL);
+    HCRYPTPROV hCryptProv = NULL;
     if (CryptAcquireContext(&hCryptProv, nullptr, nullptr, PROV_RSA_AES, CRYPT_VERIFYCONTEXT)) {
-        HCRYPTPROV hHash(NULL);
+        HCRYPTPROV hHash = NULL;
         if (CryptCreateHash(hCryptProv, Algid, 0, 0, &hHash)) {
             if (CryptHashData(hHash, (const BYTE*)(data.c_str()), (DWORD)data.length(), 0)) {
-                DWORD cbHashSize(0), dwCount(sizeof(DWORD));
+                DWORD cbHashSize = 0, dwCount = sizeof(DWORD);
                 if (CryptGetHashParam(hHash, HP_HASHSIZE, (BYTE*)&cbHashSize, &dwCount, 0)) {
                     std::vector<BYTE> buffer(cbHashSize);
                     if (CryptGetHashParam(hHash, HP_HASHVAL, (BYTE*)(&buffer[0]), &cbHashSize, 0)) {
@@ -159,15 +159,15 @@ std::string string_hash(const std::string& data, ALG_ID Algid)
 std::string string_encrypt(const std::string& data, const std::string& key, ALG_ID Algid)
 {
     std::string result;
-    HCRYPTPROV hCryptProv(NULL);
+    HCRYPTPROV hCryptProv = NULL;
     if (CryptAcquireContext(&hCryptProv, nullptr, nullptr, PROV_RSA_AES, 0)) {
-        HCRYPTHASH hHash(NULL);
+        HCRYPTHASH hHash = NULL;
         if (CryptCreateHash(hCryptProv, CALG_MD5, NULL, 0, &hHash)) {
-            HCRYPTKEY hKey(NULL);
+            HCRYPTKEY hKey = NULL;
             if (CryptHashData(hHash, (const BYTE*)key.c_str(), (DWORD)key.length(), 0)) {
                 if (CryptDeriveKey(hCryptProv, Algid, hHash, CRYPT_KEYLENGTH, &hKey)) {
+                    DWORD dwCount = (DWORD)data.length();
                     std::vector<BYTE> buffer(data.begin(), data.end());
-                    DWORD dwCount((DWORD)data.length());
                     if (CryptEncrypt(hKey, NULL, TRUE, 0, nullptr, &dwCount, NULL)) {
                         buffer.resize(dwCount);
                         dwCount = (DWORD)data.length();
@@ -189,14 +189,14 @@ std::string string_decrypt(const std::string& data, const std::string& key, ALG_
 {
     std::string result;
     if (!data.empty()) {
-        HCRYPTPROV hCryptProv(NULL);
+        HCRYPTPROV hCryptProv = NULL;
         if (CryptAcquireContext(&hCryptProv, nullptr, nullptr, PROV_RSA_AES, 0)) {
-            HCRYPTHASH hHash(NULL);
+            HCRYPTHASH hHash = NULL;
             if (CryptCreateHash(hCryptProv, CALG_MD5, NULL, 0, &hHash)) {
-                HCRYPTKEY hKey(NULL);
+                HCRYPTKEY hKey = NULL;
                 if (CryptHashData(hHash, (const BYTE*)key.c_str(), (DWORD)key.length(), 0)) {
                     if (CryptDeriveKey(hCryptProv, Algid, hHash, CRYPT_KEYLENGTH, &hKey)) {
-                        DWORD dwCount((DWORD)data.length());
+                        DWORD dwCount = (DWORD)data.length();
                         std::vector<BYTE> buffer(data.begin(), data.end());
                         if (CryptDecrypt(hKey, NULL, TRUE, 0, (BYTE*)(&buffer[0]), &dwCount)) {
                             result.assign((const char*)(&buffer[0]), dwCount);
@@ -214,7 +214,7 @@ std::string string_decrypt(const std::string& data, const std::string& key, ALG_
 
 std::string string_format(const char* fmt, ...)
 {
-    int nSize(0x400);
+    int nSize = 0x400;
     std::vector<char> buffer(nSize);
     va_list vl;
     va_start(vl, fmt);
@@ -274,14 +274,14 @@ std::string string_gzdeflate(const std::string& data)
 {
     std::string result;
 
-    UINT buffer_len(32 * 1024);
+    UINT buffer_len = 32 * 1024;
     std::vector<BYTE> buffer(buffer_len);
 
     z_stream deflate_stream = { 0 };
     deflate_stream.next_in = (BYTE*)data.c_str();
     deflate_stream.avail_in = (UINT)data.length();
 
-    int ret(Z_OK);
+    int ret = Z_OK;
     if ((ret = deflateInit2(&deflate_stream, Z_BEST_COMPRESSION, Z_DEFLATED, DEF_WBITS + Z_ENCODING_GZIP, DEF_MEM_LEVEL, Z_DEFAULT_STRATEGY)) == Z_OK) {
         do {
             deflate_stream.next_out = &buffer[0];
@@ -299,14 +299,14 @@ std::string string_gzcompress(const std::string& data)
 {
     std::string result;
 
-    UINT buffer_len(32 * 1024);
+    UINT buffer_len = 32 * 1024;
     std::vector<BYTE> buffer(buffer_len);
 
     z_stream deflate_stream = { 0 };
     deflate_stream.next_in = (BYTE*)data.c_str();
     deflate_stream.avail_in = (UINT)data.length();
 
-    int ret(Z_OK);
+    int ret = Z_OK;
     //if ((ret = deflateInit2(&deflate_stream, Z_BEST_COMPRESSION, Z_DEFLATED, DEF_WBITS, DEF_MEM_LEVEL, Z_DEFAULT_STRATEGY)) == Z_OK) {
     if ((ret = deflateInit(&deflate_stream, Z_BEST_COMPRESSION)) == Z_OK) {
         do {
@@ -325,14 +325,14 @@ std::string string_gzinflate(const std::string& data)
 {
     std::string result;
 
-    UINT buffer_len(32 * 1024);
+    UINT buffer_len = 32 * 1024;
     std::vector<BYTE> buffer(buffer_len);
 
     z_stream inflate_stream = { 0 };
     inflate_stream.next_in = (BYTE*)data.c_str();
     inflate_stream.avail_in = (UINT)data.length();
 
-    int ret(Z_OK);
+    int ret = Z_OK;
     if ((ret = inflateInit2(&inflate_stream, DEF_WBITS + Z_DECODING_ZLIB_GZIP)) == Z_OK) {
         do {
             inflate_stream.next_out = &buffer[0];
@@ -350,14 +350,14 @@ std::string string_gzuncompress(const std::string& data)
 {
     std::string result;
 
-    UINT buffer_len(32 * 1024);
+    UINT buffer_len = 32 * 1024;
     std::vector<BYTE> buffer(buffer_len);
 
     z_stream inflate_stream = { 0 };
     inflate_stream.next_in = (BYTE*)data.c_str();
     inflate_stream.avail_in = (UINT)data.length();
 
-    int ret(Z_OK);
+    int ret = Z_OK;
     //if ((ret = inflateInit2(&inflate_stream, DEF_WBITS)) == Z_OK) {
     if ((ret = inflateInit(&inflate_stream)) == Z_OK) {
         do {
@@ -378,7 +378,7 @@ int file_unzip(CStringA file, CStringA fn, string_map& dataOut)
 #define MAX_FILENAME 512
 #define READ_SIZE 8192
     // Open the zip file
-    unzFile zipfile(unzOpen(file));
+    unzFile zipfile = unzOpen(file);
     if (zipfile == nullptr) {
         printf("%s: not found\n");
         return -1;
@@ -396,7 +396,7 @@ int file_unzip(CStringA file, CStringA fn, string_map& dataOut)
     char read_buffer[READ_SIZE];
 
     // Loop to extract all files
-    for (uLong i(0); i < global_info.number_entry; ++i) {
+    for (uLong i = 0; i < global_info.number_entry; ++i) {
         // Get info about current file.
         unz_file_info file_info;
         char filename[MAX_FILENAME];
@@ -405,7 +405,7 @@ int file_unzip(CStringA file, CStringA fn, string_map& dataOut)
             unzClose(zipfile);
             return -1;
         }
-        CStringA subfn(filename);
+        CStringA subfn = filename;
         if ((fn.GetLength() && fn == filename) || (/*!fn.GetLength() && */(!subfn.Right(4).CompareNoCase(".sub") || !subfn.Right(4).CompareNoCase(".srt")))) {
             // Entry is a file, so extract it.
             printf("file:%s\n", filename);
@@ -417,7 +417,7 @@ int file_unzip(CStringA file, CStringA fn, string_map& dataOut)
 
             std::string data;
             data.reserve(file_info.uncompressed_size);
-            int error(UNZ_OK);
+            int error = UNZ_OK;
             do {
                 error = unzReadCurrentFile(zipfile, read_buffer, READ_SIZE);
                 if (error < 0) {
@@ -564,7 +564,7 @@ string_map string_uncompress(const std::string& data, const std::string& fileNam
     } else if (data.compare(0, sizeof(zip), zip, sizeof(zip)) == 0) {
         TCHAR path[MAX_PATH], file[MAX_PATH];
         GetTempPath(MAX_PATH, path);
-        UINT unique(GetTempFileName(path, _T("mpc"), 0, file));
+        UINT unique = GetTempFileName(path, _T("mpc"), 0, file);
 
         CFile f;
         if (f.Open(file, CFile::modeCreate | CFile::modeWrite | CFile::typeBinary | CFile::shareDenyNone)) {
@@ -577,7 +577,7 @@ string_map string_uncompress(const std::string& data, const std::string& fileNam
     } else if ((data.compare(0, sizeof(rar4), rar4, sizeof(rar4)) == 0) || (data.compare(0, sizeof(rar5), rar5, sizeof(rar5)) == 0)) {
         TCHAR path[MAX_PATH], file[MAX_PATH];
         GetTempPath(MAX_PATH, path);
-        UINT unique(GetTempFileName(path, _T("mpc"), 0, file));
+        UINT unique = GetTempFileName(path, _T("mpc"), 0, file);
 
         CFile f;
         if (f.Open(file, CFile::modeCreate | CFile::modeWrite | CFile::typeBinary | CFile::shareDenyNone)) {
@@ -621,7 +621,7 @@ HRESULT string_download(const std::string& url, const string_map& headers, std::
         is.SetOption(INTERNET_OPTION_CONNECT_TIMEOUT, 5000 /*default=60000*/);
         CAutoPtr<CHttpFile> pHttpFile((CHttpFile*)is.OpenURL(UTF8To16(url.c_str()), 1, INTERNET_FLAG_TRANSFER_BINARY | INTERNET_FLAG_EXISTING_CONNECT | (bAutoRedirect == FALSE ? INTERNET_FLAG_NO_AUTO_REDIRECT : NULL), UTF8To16(strHeaders.c_str()), -1));
 
-        DWORD total_length(0), length(0), index(0);
+        DWORD total_length = 0, length = 0, index = 0;
         while (pHttpFile->QueryInfo(HTTP_QUERY_CONTENT_LENGTH, length, &index)) {
             total_length += length;
         }
@@ -629,7 +629,7 @@ HRESULT string_download(const std::string& url, const string_map& headers, std::
         data.reserve(std::max((size_t)total_length, (size_t)pHttpFile->GetLength()));
 
         std::vector<char> buff(1024);
-        for (int len(0); (len = pHttpFile->Read(&buff[0], (UINT)buff.size())) > 0; data.append(&buff[0], len));
+        for (int len = 0; (len = pHttpFile->Read(&buff[0], (UINT)buff.size())) > 0; data.append(&buff[0], len));
 
         if (dwStatusCode) {
             pHttpFile->QueryInfoStatusCode(*dwStatusCode);
@@ -637,7 +637,7 @@ HRESULT string_download(const std::string& url, const string_map& headers, std::
 
         pHttpFile->Close(); // must close it because the destructor doesn't seem to do it and we will get an exception when "is" is destroying
     } catch (CInternetException* ie) {
-        HRESULT hr(HRESULT_FROM_WIN32(ie->m_dwError));
+        HRESULT hr = HRESULT_FROM_WIN32(ie->m_dwError);
         TCHAR szErr[1024];
         szErr[0] = '\0';
         if (!ie->GetErrorMessage(szErr, 1024)) {
@@ -653,9 +653,9 @@ HRESULT string_download(const std::string& url, const string_map& headers, std::
 HRESULT string_upload(const std::string& url, const string_map& headers, const std::string& content, std::string& data, BOOL bAutoRedirect, DWORD* dwStatusCode)
 {
     try {
-        DWORD dwServiceType(NULL);
+        DWORD dwServiceType = NULL;
         CString strServer, strObject, strUserName, strPassword;
-        INTERNET_PORT nPort(NULL);
+        INTERNET_PORT nPort = NULL;
         if (!AfxParseURLEx(UTF8To16(url.c_str()), dwServiceType, strServer, strObject, nPort, strUserName, strPassword)) {
             return E_FAIL;
         }
@@ -675,14 +675,14 @@ HRESULT string_upload(const std::string& url, const string_map& headers, const s
         pHttpFile->Flush();
         pHttpFile->EndRequest(HSR_SYNC);
 
-        DWORD total_length(0), length(0), index(0);
+        DWORD total_length = 0, length = 0, index = 0;
         while (pHttpFile->QueryInfo(HTTP_QUERY_CONTENT_LENGTH, length, &index)) {
             total_length += length;
         }
         data.reserve(std::max((size_t)length, (size_t)pHttpFile->GetLength()));
 
         std::vector<char> buff(1024);
-        for (int len(0); (len = pHttpFile->Read(&buff[0], (UINT)buff.size())) > 0; data.append(&buff[0], len));
+        for (int len = 0; (len = pHttpFile->Read(&buff[0], (UINT)buff.size())) > 0; data.append(&buff[0], len));
 
         if (dwStatusCode) {
             pHttpFile->QueryInfoStatusCode(*dwStatusCode);
@@ -691,7 +691,7 @@ HRESULT string_upload(const std::string& url, const string_map& headers, const s
         pHttpFile->Close();
         pHttpConnection->Close();
     } catch (CInternetException* ie) {
-        HRESULT hr(HRESULT_FROM_WIN32(ie->m_dwError));
+        HRESULT hr = HRESULT_FROM_WIN32(ie->m_dwError);
         TCHAR szErr[1024];
         szErr[0] = '\0';
         if (!ie->GetErrorMessage(szErr, 1024)) {
@@ -745,7 +745,7 @@ std::string string_trim(const std::string& text, const std::string& characters, 
 std::string string_replace(const std::string& text, const std::string& find, const std::string& replace)
 {
     std::string result(text);
-    std::string::size_type pos(0);
+    std::string::size_type pos = 0;
     while ((pos = result.find(find, pos)) != std::string::npos) {
         result.erase(pos, find.length());
         result.insert(pos, replace);

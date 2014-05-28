@@ -16690,14 +16690,14 @@ typedef struct { SubtitlesInfo* fileInfo; BOOL bActivate; std::string fileName; 
 
 afx_msg LRESULT CMainFrame::OnLoadSubtitles(WPARAM wParam, LPARAM lParam)
 {
-    SubtitlesData& data(*(SubtitlesData*)lParam);
+    SubtitlesData& data = *(SubtitlesData*)lParam;
 
     CAutoLock cAutoLock(&m_csSubLock);
     CAutoPtr<CRenderedTextSubtitle> pRTS(DEBUG_NEW CRenderedTextSubtitle(&m_csSubLock));
     if (pRTS && pRTS->Open(CString(data.fileInfo->Provider().Name().c_str()), (BYTE*)(LPCSTR)data.fileContents.c_str(), (int)data.fileContents.length(), DEFAULT_CHARSET, UTF8To16(data.fileName.c_str()), data.fileInfo->hearingImpaired, ISO6391ToLcid(data.fileInfo->languageCode.c_str())) && pRTS->GetStreamCount() > 0) {
         m_wndSubtitlesDownloadDialog.DoDownloaded(*data.fileInfo);
 
-        SubtitleInput subElement(pRTS.Detach());
+        SubtitleInput subElement = pRTS.Detach();
         m_pSubStreams.AddTail(subElement);
         if ((BOOL)data.bActivate) {
             SetSubtitle(subElement.pSubStream);
@@ -16711,9 +16711,9 @@ afx_msg LRESULT CMainFrame::OnLoadSubtitles(WPARAM wParam, LPARAM lParam)
 afx_msg LRESULT CMainFrame::OnGetSubtitles(WPARAM wParam, LPARAM lParam)
 {
     if (lParam) {
-        SubtitlesInfo& fileInfo(*(SubtitlesInfo*)lParam);
-        int i(0);
-        SubtitleInput* pSubInput(GetSubtitleInput(i, true));
+        SubtitlesInfo& fileInfo = *(SubtitlesInfo*)lParam;
+        int i = 0;
+        SubtitleInput* pSubInput = GetSubtitleInput(i, true);
         CStringW content;
         if (pSubInput) {
             CLSID clsid;
@@ -16725,7 +16725,7 @@ afx_msg LRESULT CMainFrame::OnGetSubtitles(WPARAM wParam, LPARAM lParam)
             suggestedFileName.RemoveExtension(); // exclude the extension, it will be auto-completed
 
             if (clsid == __uuidof(CRenderedTextSubtitle)) {
-                CRenderedTextSubtitle* pRTS((CRenderedTextSubtitle*)(ISubStream*)pSubInput->pSubStream);
+                CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)pSubInput->pSubStream;
                 // Only for external text subtitles
                 if (!pRTS->m_path.IsEmpty()) {
                     fileInfo.GetFileInfo();
@@ -16736,7 +16736,7 @@ afx_msg LRESULT CMainFrame::OnGetSubtitles(WPARAM wParam, LPARAM lParam)
 
                     if (!fileInfo.languageCode.length() && pRTS->m_lcid != 0) {
                         CString str;
-                        int len(GetLocaleInfo(pRTS->m_lcid, LOCALE_SISO639LANGNAME, str.GetBuffer(64), 64));
+                        int len = GetLocaleInfo(pRTS->m_lcid, LOCALE_SISO639LANGNAME, str.GetBuffer(64), 64);
                         str.ReleaseBufferSetLength(std::max(len - 1, 0));
                         fileInfo.languageCode = UTF16To8(str);
                     }
@@ -16744,33 +16744,33 @@ afx_msg LRESULT CMainFrame::OnGetSubtitles(WPARAM wParam, LPARAM lParam)
 
                     CAutoLock cAutoLock(&m_csSubLock);
                     //pRTS->SaveAs(fd.GetPathName(), (exttype)(fd.m_ofn.nFilterIndex - 1), pMF->m_pCAP->GetFPS(), fd.GetDelay(), fd.GetEncoding());
-                    double fps(m_pCAP->GetFPS());
-                    int delay(0);
+                    double fps = m_pCAP->GetFPS();
+                    int delay = 0;
                     CStringW fmt(L"%d\n%02d:%02d:%02d,%03d --> %02d:%02d:%02d,%03d\n%s\n\n");
 
                     if (pRTS->m_mode == FRAME) {
                         delay = (int)(delay * fps / 1000);
                     }
 
-                    for (int i(0), j = (int)pRTS->GetCount(), k = 0; i < j; i++) {
+                    for (int i = 0, j = (int)pRTS->GetCount(), k = 0; i < j; i++) {
                         STSEntry& stse = pRTS->GetAt(i);
 
-                        int t1(pRTS->TranslateStart(i, fps) + delay);
+                        int t1 = pRTS->TranslateStart(i, fps) + delay;
                         if (t1 < 0) {
                             k++;
                             continue;
                         }
 
-                        int t2(pRTS->TranslateEnd(i, fps) + delay);
+                        int t2 = pRTS->TranslateEnd(i, fps) + delay;
 
-                        int hh1((t1 / 60 / 60 / 1000));
-                        int mm1((t1 / 60 / 1000) % 60);
-                        int ss1((t1 / 1000) % 60);
-                        int ms1((t1) % 1000);
-                        int hh2((t2 / 60 / 60 / 1000));
-                        int mm2((t2 / 60 / 1000) % 60);
-                        int ss2((t2 / 1000) % 60);
-                        int ms2((t2) % 1000);
+                        int hh1 = (t1 / 60 / 60 / 1000);
+                        int mm1 = (t1 / 60 / 1000) % 60;
+                        int ss1 = (t1 / 1000) % 60;
+                        int ms1 = (t1) % 1000;
+                        int hh2 = (t2 / 60 / 60 / 1000);
+                        int mm2 = (t2 / 60 / 1000) % 60;
+                        int ss2 = (t2 / 1000) % 60;
+                        int ms2 = (t2) % 1000;
 
                         CStringW str(true /*f.IsUnicode()*/
                                      ? pRTS->GetStrW(i, false)
