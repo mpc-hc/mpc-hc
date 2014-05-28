@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -51,8 +51,6 @@
 #include "FullscreenWnd.h"
 #include "TunerScanDlg.h"
 #include "OpenDirHelper.h"
-#include "SubtitleDlDlg.h"
-#include "ISDb.h"
 #include "UpdateChecker.h"
 #include "UpdateCheckerDlg.h"
 #include "WinapiFunc.h"
@@ -95,6 +93,8 @@
 #include "MPCPngImage.h"
 #include "DSMPropertyBag.h"
 #include "CoverArt.h"
+
+#include "SubtitlesProvider.h"
 
 #include "../Subtitles/RTS.h"
 #include "../Subtitles/STS.h"
@@ -256,16 +256,14 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_UPDATE_COMMAND_UI(ID_FILE_SAVE_IMAGE_AUTO, OnUpdateFileSaveImage)
     ON_COMMAND(ID_FILE_SAVE_THUMBNAILS, OnFileSaveThumbnails)
     ON_UPDATE_COMMAND_UI(ID_FILE_SAVE_THUMBNAILS, OnUpdateFileSaveThumbnails)
-    ON_COMMAND(ID_FILE_LOAD_SUBTITLE, OnFileLoadsubtitle)
-    ON_UPDATE_COMMAND_UI(ID_FILE_LOAD_SUBTITLE, OnUpdateFileLoadsubtitle)
-    ON_COMMAND(ID_FILE_SAVE_SUBTITLE, OnFileSavesubtitle)
-    ON_UPDATE_COMMAND_UI(ID_FILE_SAVE_SUBTITLE, OnUpdateFileSavesubtitle)
-    ON_COMMAND(ID_FILE_ISDB_SEARCH, OnFileISDBSearch)
-    ON_UPDATE_COMMAND_UI(ID_FILE_ISDB_SEARCH, OnUpdateFileISDBSearch)
-    ON_COMMAND(ID_FILE_ISDB_UPLOAD, OnFileISDBUpload)
-    ON_UPDATE_COMMAND_UI(ID_FILE_ISDB_UPLOAD, OnUpdateFileISDBUpload)
-    ON_COMMAND(ID_FILE_ISDB_DOWNLOAD, OnFileISDBDownload)
-    ON_UPDATE_COMMAND_UI(ID_FILE_ISDB_DOWNLOAD, OnUpdateFileISDBDownload)
+    ON_COMMAND(ID_FILE_SUBTITLES_LOAD, OnFileSubtitlesLoad)
+    ON_UPDATE_COMMAND_UI(ID_FILE_SUBTITLES_LOAD, OnUpdateFileSubtitlesLoad)
+    ON_COMMAND(ID_FILE_SUBTITLES_SAVE, OnFileSubtitlesSave)
+    ON_UPDATE_COMMAND_UI(ID_FILE_SUBTITLES_SAVE, OnUpdateFileSubtitlesSave)
+    ON_COMMAND(ID_FILE_SUBTITLES_UPLOAD, OnFileSubtitlesUpload)
+    ON_UPDATE_COMMAND_UI(ID_FILE_SUBTITLES_UPLOAD, OnUpdateFileSubtitlesUpload)
+    ON_COMMAND(ID_FILE_SUBTITLES_DOWNLOAD, OnFileSubtitlesDownload)
+    ON_UPDATE_COMMAND_UI(ID_FILE_SUBTITLES_DOWNLOAD, OnUpdateFileSubtitlesDownload)
     ON_COMMAND(ID_FILE_PROPERTIES, OnFileProperties)
     ON_UPDATE_COMMAND_UI(ID_FILE_PROPERTIES, OnUpdateFileProperties)
     ON_COMMAND(ID_FILE_CLOSE_AND_RESTORE, OnFileCloseAndRestore)
@@ -517,6 +515,9 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_UPDATE_COMMAND_UI(ID_VIEW_NAVIGATION, OnUpdateViewNavigation)
 
     ON_WM_WTSSESSION_CHANGE()
+
+    ON_MESSAGE(WM_LOADSUBTITLES, OnLoadSubtitles)
+    ON_MESSAGE(WM_GETSUBTITLES, OnGetSubtitles)
 END_MESSAGE_MAP()
 
 #ifdef _DEBUG
@@ -754,6 +755,9 @@ CMainFrame::CMainFrame()
     , m_wndInfoBar(this)
     , m_wndStatsBar(this)
     , m_wndStatusBar(this)
+    , m_wndSubtitlesDownloadDialog(this)
+    , m_wndSubtitlesUploadDialog(this)
+
     , m_bAltDownClean(false)
     , m_nJumpToSubMenusCount(0)
     , m_nVolumeBeforeFrameStepping(0)
@@ -917,6 +921,10 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
     if (m_pGraphThread) {
         m_pGraphThread->SetMainFrame(this);
     }
+
+    m_pSubtitlesProviders = &SubtitlesProviders::Instance();
+    m_wndSubtitlesDownloadDialog.Create(m_wndSubtitlesDownloadDialog.IDD, this);
+    m_wndSubtitlesUploadDialog.Create(m_wndSubtitlesUploadDialog.IDD, this);
 
     if (s.nCmdlnWebServerPort != 0) {
         if (s.nCmdlnWebServerPort > 0) {
@@ -2339,6 +2347,10 @@ void CMainFrame::GraphEventComplete()
         ++m_nLoops;
         bBreak = !!(s.nCLSwitches & CLSW_AFTERPLAYBACK_MASK);
     }
+    if (!m_pSubStreams.IsEmpty() && s.fEnableSubtitles && s.bAutoUploadSubtitles) {
+        m_pSubtitlesProviders->Upload();
+    }
+
 
     if (s.fLoopForever || m_nLoops < s.nLoops) {
         if (bBreak) {
@@ -2969,6 +2981,7 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
         if (nID == ID_SEPARATOR || nID == -1
                 || nID >= ID_FAVORITES_FILE_START && nID <= ID_FAVORITES_FILE_END
                 || nID >= ID_RECENT_FILE_START && nID <= ID_RECENT_FILE_END
+                || nID >= ID_SUBTITLES_SUBITEM_START && nID <= ID_SUBTITLES_SUBITEM_END
                 || nID >= ID_NAVIGATE_JUMPTO_SUBITEM_START && nID <= ID_NAVIGATE_JUMPTO_SUBITEM_END) {
             continue;
         }
@@ -5194,7 +5207,7 @@ void CMainFrame::OnUpdateFileSaveThumbnails(CCmdUI* pCmdUI)
     pCmdUI->Enable(GetLoadState() == MLS::LOADED && !m_fAudioOnly && (GetPlaybackMode() == PM_FILE /*|| GetPlaybackMode() == PM_DVD*/));
 }
 
-void CMainFrame::OnFileLoadsubtitle()
+void CMainFrame::OnFileSubtitlesLoad()
 {
     if (!m_pCAP) {
         AfxMessageBox(IDS_CANNOT_LOAD_SUB, MB_ICONINFORMATION | MB_OK, 0);
@@ -5239,12 +5252,12 @@ void CMainFrame::OnFileLoadsubtitle()
     }
 }
 
-void CMainFrame::OnUpdateFileLoadsubtitle(CCmdUI* pCmdUI)
+void CMainFrame::OnUpdateFileSubtitlesLoad(CCmdUI* pCmdUI)
 {
     pCmdUI->Enable(GetLoadState() == MLS::LOADED && !IsPlaybackCaptureMode() && !m_fAudioOnly && m_pCAP);
 }
 
-void CMainFrame::OnFileSavesubtitle()
+void CMainFrame::OnFileSubtitlesSave()
 {
     int i = 0;
     SubtitleInput* pSubInput = GetSubtitleInput(i, true);
@@ -5308,11 +5321,13 @@ void CMainFrame::OnFileSavesubtitle()
                 s.bSubSaveExternalStyleFile = fd.GetSaveExternalStyleFile();
                 pRTS->SaveAs(fd.GetPathName(), types[fd.m_ofn.nFilterIndex - 1], m_pCAP->GetFPS(), fd.GetDelay(), fd.GetEncoding(), fd.GetSaveExternalStyleFile());
             }
+        } else {
+            AfxMessageBox(_T("This operation is not supported.\r\nThe selected subtitles cannot be saved."), MB_ICONEXCLAMATION | MB_OK);
         }
     }
 }
 
-void CMainFrame::OnUpdateFileSavesubtitle(CCmdUI* pCmdUI)
+void CMainFrame::OnUpdateFileSubtitlesSave(CCmdUI* pCmdUI)
 {
     bool bEnable = false;
 
@@ -5327,58 +5342,23 @@ void CMainFrame::OnUpdateFileSavesubtitle(CCmdUI* pCmdUI)
     pCmdUI->Enable(bEnable);
 }
 
-void CMainFrame::OnFileISDBSearch()
+void CMainFrame::OnFileSubtitlesUpload()
 {
-    CStringA url = "http://" + AfxGetAppSettings().strISDb + "/index.php?";
-    CStringA args = ISDb::makeargs(m_wndPlaylistBar.m_pl);
-    ShellExecute(m_hWnd, _T("open"), CString(url + args), nullptr, nullptr, SW_SHOWDEFAULT);
+    m_wndSubtitlesUploadDialog.ShowWindow(SW_SHOW);
 }
 
-void CMainFrame::OnUpdateFileISDBSearch(CCmdUI* pCmdUI)
-{
-    pCmdUI->Enable(TRUE);
-}
-
-void CMainFrame::OnFileISDBUpload()
-{
-    CStringA url = "http://" + AfxGetAppSettings().strISDb + "/ul.php?";
-
-    CStringA args = ISDb::makeargs(m_wndPlaylistBar.m_pl);
-    ShellExecute(m_hWnd, _T("open"), CString(url + args), nullptr, nullptr, SW_SHOWDEFAULT);
-}
-
-void CMainFrame::OnUpdateFileISDBUpload(CCmdUI* pCmdUI)
-{
-    pCmdUI->Enable(!IsPlaylistEmpty());
-}
-
-void CMainFrame::OnFileISDBDownload()
+void CMainFrame::OnUpdateFileSubtitlesUpload(CCmdUI* pCmdUI)
 {
     const CAppSettings& s = AfxGetAppSettings();
-    ISDb::filehash fh;
-    if (!ISDb::mpc_filehash(m_pFSF, fh)) {
-        if (!ISDb::mpc_filehash((CString)m_wndPlaylistBar.GetCurFileName(), fh)) {
-            MessageBeep(UINT_MAX);
-            return;
-        }
-    }
-
-    try {
-        CStringA url = "http://" + s.strISDb + "/index.php?";
-        CStringA args;
-        args.Format("player=mpc-hc&name[0]=%s&size[0]=%016I64x&hash[0]=%016I64x",
-                    UrlEncode(CStringA(fh.name)), fh.size, fh.mpc_filehash);
-        url.Append(args);
-
-        CSubtitleDlDlg dlg(GetModalParent(), url, fh.name);
-        dlg.DoModal();
-    } catch (CInternetException* ie) {
-        ie->Delete();
-        return;
-    }
+    pCmdUI->Enable(!m_pSubStreams.IsEmpty() && s.fEnableSubtitles);
 }
 
-void CMainFrame::OnUpdateFileISDBDownload(CCmdUI* pCmdUI)
+void CMainFrame::OnFileSubtitlesDownload()
+{
+    m_wndSubtitlesDownloadDialog.ShowWindow(SW_SHOW);
+}
+
+void CMainFrame::OnUpdateFileSubtitlesDownload(CCmdUI* pCmdUI)
 {
     pCmdUI->Enable(GetLoadState() == MLS::LOADED && !IsPlaybackCaptureMode() && m_pCAP && !m_fAudioOnly);
 }
@@ -11654,6 +11634,10 @@ int CMainFrame::SetupSubtitleStreams()
         return selected;
     }
 
+    if (cStreams == 0 && s.fAutoloadSubtitles && s.bAutoDownloadSubtitles && !m_fAudioOnly) {
+        m_pSubtitlesProviders->Search(TRUE);
+    }
+
     return -1;
 }
 
@@ -12638,9 +12622,9 @@ void CMainFrame::SetupSubtitlesSubMenu()
         // Build the dynamic menu's items
         int i = 0, iSelected = -1;
         while (pos) {
-            SubtitleInput& subInput = m_pSubStreams.GetNext(pos);
+            SubtitleInput& pSubInput = m_pSubStreams.GetNext(pos);
 
-            if (CComQIPtr<IAMStreamSelect> pSSF = subInput.pSourceFilter) {
+            if (CComQIPtr<IAMStreamSelect> pSSF = pSubInput.pSourceFilter) {
                 DWORD cStreams;
                 if (FAILED(pSSF->Count(&cStreams))) {
                     continue;
@@ -12664,7 +12648,7 @@ void CMainFrame::SetupSubtitlesSubMenu()
                         continue;
                     }
 
-                    if (subInput.pSubStream == m_pCurrentSubInput.pSubStream
+                    if (pSubInput.pSubStream == m_pCurrentSubInput.pSubStream
                             && dwFlags & (AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE)) {
                         iSelected = i;
                     }
@@ -12693,33 +12677,57 @@ void CMainFrame::SetupSubtitlesSubMenu()
                     i++;
                 }
             } else {
-                CComPtr<ISubStream> pSubStream = subInput.pSubStream;
+                CComPtr<ISubStream> pSubStream = pSubInput.pSubStream;
                 if (!pSubStream) {
                     continue;
                 }
 
-                if (subInput.pSubStream == m_pCurrentSubInput.pSubStream) {
+                if (pSubInput.pSubStream == m_pCurrentSubInput.pSubStream) {
                     iSelected = i + pSubStream->GetStream();
                 }
 
                 for (int j = 0, cnt = pSubStream->GetStreamCount(); j < cnt; j++) {
-                    WCHAR* pName = nullptr;
-                    if (SUCCEEDED(pSubStream->GetStreamInfo(j, &pName, nullptr))) {
-                        CString name(pName);
-                        name.Replace(_T("&"), _T("&&"));
+                    CLSID clsid;
+                    if (FAILED(pSubStream->GetClassID(&clsid))) {
+                        continue;
+                    }
 
-                        VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, name));
-                        CoTaskMemFree(pName);
-                    } else {
-                        VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_AG_UNKNOWN)));
+                    CString strName;
+                    if (clsid == __uuidof(CRenderedTextSubtitle)) {
+                        CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)pSubStream;
+                        CString strLanguage;
+                        if (pRTS->m_lcid != 0) {
+                            int len = GetLocaleInfo(pRTS->m_lcid, LOCALE_SENGLANGUAGE, strLanguage.GetBuffer(64), 64);
+                            strLanguage.ReleaseBufferSetLength(max(len - 1, 0));
+                        } else {
+                            strLanguage = _T("Unknown");
+                        }
+
+                        TCHAR left = pRTS->m_eHearingImpaired == HI_YES ? '[' : ' ';
+                        TCHAR right = pRTS->m_eHearingImpaired == HI_YES ? ']' : ' ';
+                        strName.Format(L"[%s] %s\t%c%s%c", pRTS->m_provider, pRTS->m_name, left, strLanguage, right);
+
+                        strName.Replace(_T("&"), _T("&&"));
+                        VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, strName));
+                    } else { // if (clsid == __uuidof(CVobSubFile) || clsid == __uuidof(CVobSubStream) || clsid == __uuidof(CRLECodedSubtitle)) {
+                        WCHAR* pName = nullptr;
+                        if (SUCCEEDED(pSubStream->GetStreamInfo(j, &pName, nullptr))) {
+                            strName = pName;
+                            CoTaskMemFree(pName);
+
+                            strName.Replace(_T("&"), _T("&&"));
+                            VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, strName));
+                        } else {
+                            VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_AG_UNKNOWN)));
+                        }
                     }
                     i++;
                 }
             }
 
-            if (subInput.pSubStream == m_pCurrentSubInput.pSubStream) {
+            if (pSubInput.pSubStream == m_pCurrentSubInput.pSubStream) {
                 CLSID clsid;
-                if (SUCCEEDED(subInput.pSubStream->GetClassID(&clsid))
+                if (SUCCEEDED(pSubInput.pSubStream->GetClassID(&clsid))
                         && clsid == __uuidof(CRenderedTextSubtitle)) {
                     bTextSubtitles = true;
                 }
@@ -14616,6 +14624,9 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
     SetupSubtitlesSubMenu();
     SetupVideoStreamsSubMenu();
     SetupJumpToSubMenus();
+
+    m_pSubtitlesProviders->Abort(SubtitlesThreadType(STT_SEARCH | STT_DOWNLOAD));
+    m_wndSubtitlesDownloadDialog.DoClear();
 
     // initiate graph destruction
     if (m_pGraphThread && m_bOpenedThroughThread) {
@@ -16673,4 +16684,105 @@ REFTIME CMainFrame::GetAvgTimePerFrame() const
     }
 
     return refAvgTimePerFrame;
+}
+
+typedef struct { SubtitlesInfo* fileInfo; BOOL bActivate; std::string fileName; std::string fileContents; } SubtitlesData;
+
+afx_msg LRESULT CMainFrame::OnLoadSubtitles(WPARAM wParam, LPARAM lParam)
+{
+    SubtitlesData& data = *(SubtitlesData*)lParam;
+
+    CAutoLock cAutoLock(&m_csSubLock);
+    CAutoPtr<CRenderedTextSubtitle> pRTS(DEBUG_NEW CRenderedTextSubtitle(&m_csSubLock));
+    if (pRTS && pRTS->Open(CString(data.fileInfo->Provider().Name().c_str()), (BYTE*)(LPCSTR)data.fileContents.c_str(), (int)data.fileContents.length(), DEFAULT_CHARSET, UTF8To16(data.fileName.c_str()), HearingImpairedType(data.fileInfo->hearingImpaired), ISO6391ToLcid(data.fileInfo->languageCode.c_str())) && pRTS->GetStreamCount() > 0) {
+        m_wndSubtitlesDownloadDialog.DoDownloaded(*data.fileInfo);
+
+        SubtitleInput subElement = pRTS.Detach();
+        m_pSubStreams.AddTail(subElement);
+        if (data.bActivate) {
+            SetSubtitle(subElement.pSubStream);
+        }
+        return TRUE;
+    }
+
+    return FALSE;
+}
+
+afx_msg LRESULT CMainFrame::OnGetSubtitles(WPARAM wParam, LPARAM lParam)
+{
+    if (lParam) {
+        SubtitlesInfo& fileInfo = *(SubtitlesInfo*)lParam;
+        int i = 0;
+        SubtitleInput* pSubInput = GetSubtitleInput(i, true);
+        CStringW content;
+        if (pSubInput) {
+            CLSID clsid;
+            if (FAILED(pSubInput->pSubStream->GetClassID(&clsid))) {
+                return E_FAIL;
+            }
+
+            CPath suggestedFileName(GetFileName());
+            suggestedFileName.RemoveExtension(); // exclude the extension, it will be auto-completed
+
+            if (clsid == __uuidof(CRenderedTextSubtitle)) {
+                CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)pSubInput->pSubStream;
+                // Only for external text subtitles
+                if (!pRTS->m_path.IsEmpty()) {
+                    fileInfo.GetFileInfo();
+                    fileInfo.releaseName = (const char*)UTF16To8(pRTS->m_name);
+                    if (fileInfo.hearingImpaired == -1) {
+                        fileInfo.hearingImpaired = pRTS->m_eHearingImpaired;
+                    }
+
+                    if (!fileInfo.languageCode.length() && pRTS->m_lcid != 0) {
+                        CString str;
+                        int len = GetLocaleInfo(pRTS->m_lcid, LOCALE_SISO639LANGNAME, str.GetBuffer(64), 64);
+                        str.ReleaseBufferSetLength(std::max(len - 1, 0));
+                        fileInfo.languageCode = UTF16To8(str);
+                    }
+                    fileInfo.frameRate = m_pCAP->GetFPS();
+
+                    CAutoLock cAutoLock(&m_csSubLock);
+                    //pRTS->SaveAs(fd.GetPathName(), (exttype)(fd.m_ofn.nFilterIndex - 1), pMF->m_pCAP->GetFPS(), fd.GetDelay(), fd.GetEncoding());
+                    double fps = m_pCAP->GetFPS();
+                    int delay = 0;
+                    CStringW fmt(L"%d\n%02d:%02d:%02d,%03d --> %02d:%02d:%02d,%03d\n%s\n\n");
+
+                    if (pRTS->m_mode == FRAME) {
+                        delay = (int)(delay * fps / 1000);
+                    }
+
+                    for (int i = 0, j = (int)pRTS->GetCount(), k = 0; i < j; i++) {
+                        STSEntry& stse = pRTS->GetAt(i);
+
+                        int t1 = pRTS->TranslateStart(i, fps) + delay;
+                        if (t1 < 0) {
+                            k++;
+                            continue;
+                        }
+
+                        int t2 = pRTS->TranslateEnd(i, fps) + delay;
+
+                        int hh1 = (t1 / 60 / 60 / 1000);
+                        int mm1 = (t1 / 60 / 1000) % 60;
+                        int ss1 = (t1 / 1000) % 60;
+                        int ms1 = (t1) % 1000;
+                        int hh2 = (t2 / 60 / 60 / 1000);
+                        int mm2 = (t2 / 60 / 1000) % 60;
+                        int ss2 = (t2 / 1000) % 60;
+                        int ms2 = (t2) % 1000;
+
+                        CStringW str(true /*f.IsUnicode()*/
+                                     ? pRTS->GetStrW(i, false)
+                                     : pRTS->GetStrWA(i, false));
+
+                        content.AppendFormat(fmt, i - k + 1, hh1, mm1, ss1, ms1, hh2, mm2, ss2, ms2, str);
+                    }
+                }
+            }
+        }
+        fileInfo.fileContents = UTF16To8(content);
+        return TRUE;
+    }
+    return FALSE;
 }
