@@ -110,7 +110,6 @@ extern LCID ISO6392ToLcid(LPCSTR code);
 extern CString ISO6391To6392(LPCSTR code);
 extern CString ISO6392To6391(LPCSTR code);
 extern CString LanguageToISO6392(LPCTSTR lang);
-extern int  MakeAACInitData(BYTE* pData, int profile, int freq, int channels);
 extern BOOL CFileGetStatus(LPCTSTR lpszFileName, CFileStatus& status);
 extern bool DeleteRegKey(LPCTSTR pszKey, LPCTSTR pszSubkey);
 extern bool SetRegKeyValue(LPCTSTR pszKey, LPCTSTR pszSubkey, LPCTSTR pszValueName, LPCTSTR pszValue);
