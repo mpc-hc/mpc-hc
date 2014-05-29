@@ -97,7 +97,7 @@ STDMETHODIMP_(bool) CPGSSub::IsAnimated(POSITION pos)
 {
     const auto& pPresentationSegment = m_pPresentationSegments.GetAt(pos);
     // If the end time isn't known yet, we consider the subtitle as animated to be sure it will properly updated
-    return (pPresentationSegment && pPresentationSegment->rtStop == INFINITE_TIME);
+    return (pPresentationSegment && pPresentationSegment->rtStop == UNKNOWN_TIME);
 }
 
 STDMETHODIMP CPGSSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox)
@@ -275,7 +275,7 @@ HRESULT CPGSSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox, bool bRe
 
         TRACE_PGSSUB(_T("CPGSSub:Render Presentation segment %d --> %s - %s\n"), pPresentationSegment->composition_descriptor.nNumber,
                      ReftimeToString(pPresentationSegment->rtStart + m_rtCurrentSegmentStart),
-                     (pPresentationSegment->rtStop == INFINITE_TIME) ? _T("?") : ReftimeToString(pPresentationSegment->rtStop + m_rtCurrentSegmentStart));
+                     (pPresentationSegment->rtStop == UNKNOWN_TIME) ? _T("?") : ReftimeToString(pPresentationSegment->rtStop + m_rtCurrentSegmentStart));
 
         bbox.left = bbox.top = LONG_MAX;
         bbox.right = bbox.bottom = 0;
@@ -316,7 +316,7 @@ int CPGSSub::ParsePresentationSegment(REFERENCE_TIME rt, CGolombBuffer* pGBuffer
     m_pCurrentPresentationSegment = CAutoPtr<HDMV_PRESENTATION_SEGMENT>(DEBUG_NEW HDMV_PRESENTATION_SEGMENT());
 
     m_pCurrentPresentationSegment->rtStart = rt;
-    m_pCurrentPresentationSegment->rtStop = INFINITE_TIME; // Unknown for now
+    m_pCurrentPresentationSegment->rtStop = UNKNOWN_TIME; // Unknown for now
 
     ParseVideoDescriptor(pGBuffer, &m_pCurrentPresentationSegment->video_descriptor);
     ParseCompositionDescriptor(pGBuffer, &m_pCurrentPresentationSegment->composition_descriptor);
@@ -376,7 +376,7 @@ void CPGSSub::UpdateTimeStamp(REFERENCE_TIME rtStop)
 
         // Since we drop empty segments we might be trying to update a segment that isn't
         // in the queue so we update the timestamp only if it was previously unknown.
-        if (pPresentationSegment->rtStop == INFINITE_TIME) {
+        if (pPresentationSegment->rtStop == UNKNOWN_TIME) {
             pPresentationSegment->rtStop = rtStop;
 
             TRACE_PGSSUB(_T("CPGSSub: Update Presentation Segment TimeStamp %d - %s => %s\n"), pPresentationSegment->composition_descriptor.nNumber,
@@ -483,7 +483,7 @@ void CPGSSub::RemoveOldSegments(REFERENCE_TIME rt)
 {
     // Cleanup the old presentation segments. We keep a 2 min buffer to play nice with the queue.
     while (!m_pPresentationSegments.IsEmpty()
-            && m_pPresentationSegments.GetHead()->rtStop != INFINITE_TIME
+            && m_pPresentationSegments.GetHead()->rtStop != UNKNOWN_TIME
             && m_pPresentationSegments.GetHead()->rtStop + 120 * 10000000i64 < rt) {
         auto pPresentationSegment = m_pPresentationSegments.RemoveHead();
         TRACE_PGSSUB(_T("CPGSSub::RemoveOldSegments Remove presentation segment %d %s => %s (rt=%s)\n"),

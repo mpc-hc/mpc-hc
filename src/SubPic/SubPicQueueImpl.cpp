@@ -503,19 +503,27 @@ DWORD CSubPicQueue::ThreadProc()
                             break;
                         }
 
+                        REFERENCE_TIME rtStopReal;
+                        if (rtStop == ISubPicProvider::UNKNOWN_TIME) { // Special case for subtitles with unknown end time
+                            // Force a one frame duration
+                            rtStopReal = rtCurrent + rtTimePerFrame;
+                        } else {
+                            rtStopReal = rtStop;
+                        }
+
                         HRESULT hr;
                         if (bIsAnimated) {
-                            REFERENCE_TIME rtEndThis = std::min(rtCurrent + rtTimePerFrame, rtStop);
+                            REFERENCE_TIME rtEndThis = std::min(rtCurrent + rtTimePerFrame, rtStopReal);
                             hr = RenderTo(pStatic, rtCurrent, rtEndThis, fps, bIsAnimated);
                             pStatic->SetSegmentStart(rtStart);
-                            pStatic->SetSegmentStop(rtStop);
+                            pStatic->SetSegmentStop(rtStopReal);
                             rtCurrent = rtEndThis;
                         } else {
-                            hr = RenderTo(pStatic, rtStart, rtStop, fps, bIsAnimated);
+                            hr = RenderTo(pStatic, rtStart, rtStopReal, fps, bIsAnimated);
                             // Non-animated subtitles aren't part of a segment
                             pStatic->SetSegmentStart(0);
                             pStatic->SetSegmentStop(0);
-                            rtCurrent = rtStop;
+                            rtCurrent = rtStopReal;
                         }
 
                         if (FAILED(hr)) {
@@ -639,6 +647,10 @@ STDMETHODIMP_(bool) CSubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, CCo
                 } else {
                     rtStart = pSubPicProvider->GetStart(pos, fps);
                     rtStop = pSubPicProvider->GetStop(pos, fps);
+                    if (rtStop == ISubPicProvider::UNKNOWN_TIME) { // Special case for subtitles with unknown end time
+                        // Force a one frame duration
+                        rtStop = rtNow + 1;
+                    }
                 }
 
                 if (rtStart <= rtNow && rtNow < rtStop) {

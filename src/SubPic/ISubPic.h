@@ -125,6 +125,8 @@ public IUnknown {
 interface __declspec(uuid("D62B9A1A-879A-42db-AB04-88AA8F243CFD"))
 ISubPicProvider :
 public IUnknown {
+    static const REFERENCE_TIME UNKNOWN_TIME = _I64_MAX;
+
     STDMETHOD(Lock)() PURE;
     STDMETHOD(Unlock)() PURE;
 

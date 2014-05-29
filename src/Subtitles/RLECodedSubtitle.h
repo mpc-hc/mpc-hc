@@ -28,7 +28,6 @@ class __declspec(uuid("FCA68599-C83E-4ea5-94A3-C2E1B0E326B9"))
 {
 public:
     static const REFERENCE_TIME INVALID_TIME = _I64_MIN;
-    static const REFERENCE_TIME INFINITE_TIME = _I64_MAX;
 
     CRLECodedSubtitle(CCritSec* pLock, const CString& name, LCID lcid);
     virtual ~CRLECodedSubtitle() = default;
