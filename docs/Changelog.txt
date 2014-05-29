@@ -18,6 +18,7 @@ next version - not released yet
 * Text subtitles: When rendering to the video frame, clip subtitles that go out of the frame
 * Ticket #4144, Move the user interface language selection to the Options dialog and remove the "Language" menu.
   The increasing number of translations had reduced the usability of the menu
+* Ticket #3739, Make error reporting less verbose when some non-critical DVD hooks fail
 * Updated Little CMS to v2.6 (git 4da8703)
 * Updated Unrar to v5.1.4
 * Updated MediaInfoLib to v0.7.69

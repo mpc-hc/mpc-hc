@@ -1496,8 +1496,6 @@ BOOL CMPlayerCApp::InitInstance()
     }
 #endif
 
-    bHookingSuccessful &= !!Mhook_SetHook(&(PVOID&)Real_ChangeDisplaySettingsExA, (PVOID)Mine_ChangeDisplaySettingsExA);
-    bHookingSuccessful &= !!Mhook_SetHook(&(PVOID&)Real_ChangeDisplaySettingsExW, (PVOID)Mine_ChangeDisplaySettingsExW);
     bHookingSuccessful &= !!Mhook_SetHook(&(PVOID&)Real_CreateFileW, (PVOID)Mine_CreateFileW);
     bHookingSuccessful &= !!Mhook_SetHook(&(PVOID&)Real_DeviceIoControl, (PVOID)Mine_DeviceIoControl);
 
@@ -1508,6 +1506,8 @@ BOOL CMPlayerCApp::InitInstance()
     }
 
     // If those hooks fail it's annoying but try to run anyway without reporting any error in release mode
+    VERIFY(Mhook_SetHook(&(PVOID&)Real_ChangeDisplaySettingsExA, (PVOID)Mine_ChangeDisplaySettingsExA));
+    VERIFY(Mhook_SetHook(&(PVOID&)Real_ChangeDisplaySettingsExW, (PVOID)Mine_ChangeDisplaySettingsExW));
     VERIFY(Mhook_SetHook(&(PVOID&)Real_CreateFileA, (PVOID)Mine_CreateFileA)); // The internal splitter uses the right share mode anyway so this is no big deal
     VERIFY(Mhook_SetHook(&(PVOID&)Real_LockWindowUpdate, (PVOID)Mine_LockWindowUpdate));
     VERIFY(Mhook_SetHook(&(PVOID&)Real_mixerSetControlDetails, (PVOID)Mine_mixerSetControlDetails));
