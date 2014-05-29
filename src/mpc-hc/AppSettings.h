@@ -703,7 +703,10 @@ private:
 
 public:
     CAppSettings();
-    virtual ~CAppSettings();
+    CAppSettings(const CAppSettings&) = delete;
+    ~CAppSettings();
+
+    CAppSettings& operator = (const CAppSettings&) = delete;
 
     void            SaveSettings();
     void            LoadSettings();
