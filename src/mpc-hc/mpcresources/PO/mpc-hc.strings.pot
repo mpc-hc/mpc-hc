@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-05-28 21:38:03+0000\n"
+"POT-Creation-Date: 2014-06-04 20:22:52+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1243,6 +1243,10 @@ msgstr ""
 
 msgctxt "IDS_CREDENTIALS_CONNECT"
 msgid "Enter your credentials to connect"
+msgstr ""
+
+msgctxt "IDS_SUB_SAVE_EXTERNAL_STYLE_FILE"
+msgid "Save custom style"
 msgstr ""
 
 msgctxt "IDS_AG_OPEN_DEVICE"

@@ -635,6 +635,8 @@ public:
     CString         strSnapshotPath, strSnapshotExt;
     // Save Thumbnails...
     int             iThumbRows, iThumbCols, iThumbWidth;
+    // Save Subtitle
+    bool            bSubSaveExternalStyleFile;
     // Shaders
     ShaderList      m_ShadersExtraList;
     ShaderSelection m_Shaders;

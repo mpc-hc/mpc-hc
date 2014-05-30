@@ -1,5 +1,5 @@
 /*
- * (C) 2012-2013 see Authors.txt
+ * (C) 2012-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -28,10 +28,15 @@
 class CSaveSubtitlesFileDialog : public CSaveTextFileDialog
 {
 protected:
+    std::vector<Subtitle::SubType> m_types;
+
     bool m_bDisableEncoding;
+    bool m_bDisableExternalStyleCheckBox;
 
     int m_delay;
     CSpinButtonCtrl m_delayCtrl;
+
+    BOOL m_bSaveExternalStyleFile;
 
     void InitCustomization();
 
@@ -39,20 +44,23 @@ protected:
 
 public:
     CSaveSubtitlesFileDialog(
-        CTextFile::enc e, int delay,
+        CTextFile::enc e, int delay, bool bSaveExternalStyleFile,
         LPCTSTR lpszDefExt = nullptr, LPCTSTR lpszFileName = nullptr,
-        LPCTSTR lpszFilter = nullptr, CWnd* pParentWnd = nullptr);
+        LPCTSTR lpszFilter = nullptr, std::vector<Subtitle::SubType> types = {},
+        CWnd* pParentWnd = nullptr);
     CSaveSubtitlesFileDialog(
         int delay,
         LPCTSTR lpszDefExt = nullptr, LPCTSTR lpszFileName = nullptr,
         LPCTSTR lpszFilter = nullptr, CWnd* pParentWnd = nullptr);
     virtual ~CSaveSubtitlesFileDialog();
 
-    int GetDelay() { return m_delay; }
+    int GetDelay() const { return m_delay; }
+    bool GetSaveExternalStyleFile() const { return !!m_bSaveExternalStyleFile; }
 
 protected:
     DECLARE_MESSAGE_MAP()
     virtual void DoDataExchange(CDataExchange* pDX);
     virtual BOOL OnInitDialog();
     virtual BOOL OnFileNameOK();
+    virtual void OnTypeChange();
 };

@@ -14,6 +14,7 @@ next version - not released yet
 + ISR: Add an option to render subtitles at the source video resolution like VSFilter.
 + VSFilter: Display more informative names for external subtitles (similar to what is done with the internal subtitle renderer)
 + Add a "Copy to clipboard" feature to the "Play > Filters" menu so that the list of currently loaded filters can be copied easily
++ Add an option in the "Save Subtitle" dialog to control the export of the default style as an external ".style" file
 + Ticket #1411, Internal Subtitle Renderer/VSFilter: Support loading external PGS subtitles
 * Text subtitles: When rendering to the video frame, clip subtitles that go out of the frame
 * Ticket #4144, Move the user interface language selection to the Options dialog and remove the "Language" menu.

@@ -5265,12 +5265,16 @@ void CMainFrame::OnFileSavesubtitle()
             filter += _T("Advanced SubStation Alpha (*.ass)|*.ass|");
             filter += _T("|");
 
+            CAppSettings& s = AfxGetAppSettings();
+
             // same thing as in the case of CVobSubFile above for lpszDefExt
-            CSaveSubtitlesFileDialog fd(pRTS->m_encoding, m_pCAP->GetSubtitleDelay(), _T("srt"), suggestedFileName, filter, GetModalParent());
+            CSaveSubtitlesFileDialog fd(pRTS->m_encoding, m_pCAP->GetSubtitleDelay(), s.bSubSaveExternalStyleFile,
+                                        _T("srt"), suggestedFileName, filter, types, GetModalParent());
 
             if (fd.DoModal() == IDOK) {
                 CAutoLock cAutoLock(&m_csSubLock);
-                pRTS->SaveAs(fd.GetPathName(), types[fd.m_ofn.nFilterIndex - 1], m_pCAP->GetFPS(), fd.GetDelay(), fd.GetEncoding());
+                s.bSubSaveExternalStyleFile = fd.GetSaveExternalStyleFile();
+                pRTS->SaveAs(fd.GetPathName(), types[fd.m_ofn.nFilterIndex - 1], m_pCAP->GetFPS(), fd.GetDelay(), fd.GetEncoding(), fd.GetSaveExternalStyleFile());
             }
         }
     }

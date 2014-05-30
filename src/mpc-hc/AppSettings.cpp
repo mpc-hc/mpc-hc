@@ -110,6 +110,7 @@ CAppSettings::CAppSettings()
     , iThumbRows(4)
     , iThumbCols(4)
     , iThumbWidth(1024)
+    , bSubSaveExternalStyleFile(false)
     , bShufflePlaylistItems(false)
     , bHidePlaylistFullScreen(false)
     , nLastWindowType(SIZE_RESTORED)
@@ -895,6 +896,8 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_THUMBCOLS, iThumbCols);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_THUMBWIDTH, iThumbWidth);
 
+    VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SUBSAVEEXTERNALSTYLEFILE, bSubSaveExternalStyleFile));
+
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_ISDB, strISDb);
 
     {
@@ -1508,6 +1511,8 @@ void CAppSettings::LoadSettings()
     iThumbRows = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_THUMBROWS, 4);
     iThumbCols = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_THUMBCOLS, 4);
     iThumbWidth = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_THUMBWIDTH, 1024);
+
+    bSubSaveExternalStyleFile = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SUBSAVEEXTERNALSTYLEFILE, FALSE);
 
     strISDb = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_ISDB, _T("www.opensubtitles.org/isdb"));
 

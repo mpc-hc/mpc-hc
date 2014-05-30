@@ -63,6 +63,7 @@
 #define IDS_RS_SUBTITLEPATHS                _T("SubtitlePaths")
 #define IDS_RS_USEDEFAULTSUBTITLESSTYLE     _T("UseDefaultsubtitlesStyle")
 #define IDS_RS_THUMBWIDTH                   _T("ThumbWidth")
+#define IDS_RS_SUBSAVEEXTERNALSTYLEFILE     _T("SubSaveExternalStyleFile")
 #define IDS_RS_D3DFULLSCREEN                _T("D3DFullScreen")
 //#define IDS_RS_MONITOR_AUTOREFRESHRATE      _T("MonitorAutoRefreshRate")
 #define IDS_RS_SPEEDSTEP                    _T("SpeedStep")

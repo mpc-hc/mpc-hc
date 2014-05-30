@@ -926,6 +926,10 @@ msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC"
 msgid "ms"
 msgstr "ms"
 
+msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_CHECK1"
+msgid "Save custom style"
+msgstr ""
+
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "Thumbnails:"
 msgstr "Küçük resimler:"

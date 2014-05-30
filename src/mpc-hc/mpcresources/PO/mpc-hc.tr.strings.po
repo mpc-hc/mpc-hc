@@ -1250,6 +1250,10 @@ msgctxt "IDS_CREDENTIALS_CONNECT"
 msgid "Enter your credentials to connect"
 msgstr "Bağlanmak için kimliğinizi giriniz"
 
+msgctxt "IDS_SUB_SAVE_EXTERNAL_STYLE_FILE"
+msgid "Save custom style"
+msgstr ""
+
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
 msgstr "Aygıt Aç"
