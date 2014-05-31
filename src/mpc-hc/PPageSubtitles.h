@@ -46,6 +46,8 @@ public:
     CComboBox m_spmaxres;
     BOOL m_fSPCPow2Tex;
     BOOL m_bDisableSubtitleAnimation;
+    int m_nRenderAtWhenAnimationIsDisabled;
+    CSpinButtonCtrl m_renderAtCtrl;
     int m_nSubDelayInterval;
     BOOL m_bSubtitleARCompensation;
 
@@ -63,4 +65,5 @@ protected:
 public:
     afx_msg void OnBnClickedButton1();
     afx_msg void OnUpdatePosOverride(CCmdUI* pCmdUI);
+    afx_msg void OnUpdateRenderAtWhenAnimationIsDisabled(CCmdUI* pCmdUI);
 };

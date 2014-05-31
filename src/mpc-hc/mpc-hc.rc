@@ -346,7 +346,7 @@ BEGIN
     GROUPBOX        "Delay interval",IDC_STATIC,212,5,79,28
     EDITTEXT        IDC_EDIT4,217,17,40,13,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "ms",IDC_STATIC,261,19,25,11
-    GROUPBOX        "Texture settings (open the video again to see the changes)",IDC_STATIC,5,37,286,68
+    GROUPBOX        "Texture settings (open the video again to see the changes)",IDC_STATIC,5,37,286,82
     LTEXT           "Sub pictures to buffer:",IDC_STATIC,10,51,125,8
     EDITTEXT        IDC_EDIT1,139,49,32,12,ES_CENTER | ES_AUTOHSCROLL | ES_READONLY | ES_NUMBER
     CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,159,49,12,12
@@ -355,11 +355,15 @@ BEGIN
     CONTROL         "Round up to power of two",IDC_CHECK_SPCPOW2TEX,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,81,277,8
     CONTROL         "Never animate the subtitles",IDC_CHECK_NO_SUB_ANIM,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,93,277,8
-    GROUPBOX        "Renderer Layout",IDC_STATIC,5,108,286,26
+    LTEXT           "Render at",IDC_STATIC5,10,105,60,8
+    EDITTEXT        IDC_EDIT5,70,103,32,12,ES_CENTER | ES_AUTOHSCROLL | ES_READONLY | ES_NUMBER
+    CONTROL         "",IDC_SPIN5,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,90,103,12,12
+    LTEXT           "% of the animation",IDC_STATIC6,106,105,180,8
+    GROUPBOX        "Renderer Layout",IDC_STATIC,5,120,286,26
     CONTROL         "Apply aspect ratio compensation for anamorphic videos",IDC_CHECK_SUB_AR_COMPENSATION,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,120,277,8
-    GROUPBOX        "Warning",IDC_STATIC,5,137,286,43
-    LTEXT           "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu.",IDC_STATIC,10,148,267,27
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,132,277,8
+    GROUPBOX        "Warning",IDC_STATIC,5,149,286,43
+    LTEXT           "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu.",IDC_STATIC,10,160,267,27
 END
 
 IDD_PPAGEFORMATS DIALOGEX 0, 0, 296, 241

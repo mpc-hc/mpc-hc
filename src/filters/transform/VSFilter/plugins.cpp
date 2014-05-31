@@ -88,7 +88,7 @@ namespace Plugin
                 CComPtr<ISubPicAllocator> pAllocator = DEBUG_NEW CMemSubPicAllocator(dst.type, size);
 
                 HRESULT hr = E_FAIL;
-                if (!(m_pSubPicQueue = DEBUG_NEW CSubPicQueueNoThread(SubPicQueueSettings(0, 0, false, false), pAllocator, &hr)) || FAILED(hr)) {
+                if (!(m_pSubPicQueue = DEBUG_NEW CSubPicQueueNoThread(SubPicQueueSettings(0, 0, false, false, 50), pAllocator, &hr)) || FAILED(hr)) {
                     m_pSubPicQueue = nullptr;
                     return false;
                 }

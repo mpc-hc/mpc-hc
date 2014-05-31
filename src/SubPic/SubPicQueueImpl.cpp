@@ -127,7 +127,11 @@ HRESULT CSubPicQueueImpl::RenderTo(ISubPic* pSubPic, REFERENCE_TIME rtStart, REF
     }
     if (SUCCEEDED(hr)) {
         CRect r(0, 0, 0, 0);
-        hr = pSubPicProvider->Render(spd, bIsAnimated ? rtStart : ((rtStart + rtStop) / 2), fps, r);
+        REFERENCE_TIME rtRender = rtStart;
+        if (!bIsAnimated) {
+            rtRender += std::llround((rtStop - rtStart - 1) * m_settings.nRenderAtWhenAnimationIsDisabled / 100.0);
+        }
+        hr = pSubPicProvider->Render(spd, rtRender, fps, r);
 
         pSubPic->SetStart(rtStart);
         pSubPic->SetStop(rtStop);
@@ -642,8 +646,9 @@ STDMETHODIMP_(bool) CSubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, CCo
             if (pos) {
                 REFERENCE_TIME rtStart;
                 REFERENCE_TIME rtStop;
+                bool bAnimated = pSubPicProvider->IsAnimated(pos) && !m_settings.bDisableSubtitleAnimation;
 
-                if (pSubPicProvider->IsAnimated(pos) && !m_settings.bDisableSubtitleAnimation) {
+                if (bAnimated) {
                     rtStart = rtNow;
                     rtStop = rtNow + 1;
                 } else {
@@ -684,12 +689,12 @@ STDMETHODIMP_(bool) CSubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, CCo
                     if (m_pAllocator->IsDynamicWriteOnly()) {
                         CComPtr<ISubPic> pStatic;
                         if (SUCCEEDED(m_pAllocator->GetStatic(&pStatic))
-                                && SUCCEEDED(RenderTo(pStatic, rtStart, rtStop, fps, false))
+                                && SUCCEEDED(RenderTo(pStatic, rtStart, rtStop, fps, bAnimated))
                                 && SUCCEEDED(pStatic->CopyTo(pSubPic))) {
                             ppSubPic = pSubPic;
                         }
                     } else {
-                        if (SUCCEEDED(RenderTo(pSubPic, rtStart, rtStop, fps, false))) {
+                        if (SUCCEEDED(RenderTo(pSubPic, rtStart, rtStop, fps, bAnimated))) {
                             ppSubPic = pSubPic;
                         }
                     }
