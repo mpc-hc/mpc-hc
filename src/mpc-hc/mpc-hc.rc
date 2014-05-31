@@ -348,7 +348,7 @@ BEGIN
     LTEXT           "ms",IDC_STATIC,261,19,25,11
     GROUPBOX        "Texture settings (open the video again to see the changes)",IDC_STATIC,5,37,286,82
     LTEXT           "Sub pictures to buffer:",IDC_STATIC,10,51,125,8
-    EDITTEXT        IDC_EDIT1,139,49,32,12,ES_CENTER | ES_AUTOHSCROLL | ES_READONLY | ES_NUMBER
+    EDITTEXT        IDC_SUBPIC_TO_BUFFER,139,49,32,12,ES_CENTER | ES_AUTOHSCROLL | ES_READONLY | ES_NUMBER
     CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,159,49,12,12
     LTEXT           "Maximum texture resolution:",IDC_STATIC,10,67,125,8
     COMBOBOX        IDC_COMBO1,139,65,59,45,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
@@ -2394,6 +2394,7 @@ BEGIN
     IDC_CHECK_RELATIVETO    "If the rendering target is left undefined, it will be inherited from the default style."
     IDC_CHECK_SPCPOW2TEX    "Unchecking this frees up a little video memory and saves bandwidth on local to video memory transfers, but it may not work with older video cards."
     IDC_CHECK_NO_SUB_ANIM   "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
+    IDC_SUBPIC_TO_BUFFER    "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
     IDC_BUTTON_EXT_SET      "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
 END
 
@@ -2561,7 +2562,7 @@ BEGIN
                             "Prevent external subtitle renderer to be loaded when internal is in use."
     IDS_PPAGEADVANCED_COL_NAME "Name"
     IDS_PPAGEADVANCED_COL_VALUE "Value"
-    IDS_PPAGEADVANCED_RECENT_FILES_NUMBER
+    IDS_PPAGEADVANCED_RECENT_FILES_NUMBER 
                             "Maximum number of files shown in the ""Recent files"" menu and for which the position is potentially saved."
 END
 

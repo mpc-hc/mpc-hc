@@ -30,14 +30,14 @@
 IMPLEMENT_DYNAMIC(CPPageSubtitles, CPPageBase)
 CPPageSubtitles::CPPageSubtitles()
     : CPPageBase(CPPageSubtitles::IDD, CPPageSubtitles::IDD)
-    , m_fOverridePlacement(FALSE)
+    , m_bOverridePlacement(FALSE)
     , m_nHorPos(0)
     , m_nVerPos(0)
-    , m_nSPCSize(0)
-    , m_fSPCPow2Tex(FALSE)
+    , m_nSPQSize(10)
+    , m_bSPQPow2Tex(TRUE)
     , m_bDisableSubtitleAnimation(FALSE)
     , m_nRenderAtWhenAnimationIsDisabled(50)
-    , m_nSubDelayInterval(0)
+    , m_nSubDelayInterval(500)
     , m_bSubtitleARCompensation(TRUE)
 {
 }
@@ -49,17 +49,15 @@ CPPageSubtitles::~CPPageSubtitles()
 void CPPageSubtitles::DoDataExchange(CDataExchange* pDX)
 {
     __super::DoDataExchange(pDX);
-    DDX_Check(pDX, IDC_CHECK3, m_fOverridePlacement);
+    DDX_Check(pDX, IDC_CHECK3, m_bOverridePlacement);
     DDX_Text(pDX, IDC_EDIT2, m_nHorPos);
-    DDX_Control(pDX, IDC_SPIN2, m_nHorPosCtrl);
+    DDX_Control(pDX, IDC_SPIN2, m_horPosCtrl);
     DDX_Text(pDX, IDC_EDIT3, m_nVerPos);
-    DDX_Control(pDX, IDC_SPIN3, m_nVerPosCtrl);
-    DDX_Text(pDX, IDC_EDIT1, m_nSPCSize);
-    DDX_Control(pDX, IDC_SPIN1, m_nSPCSizeCtrl);
-    DDX_Control(pDX, IDC_COMBO1, m_spmaxres);
-    DDX_Control(pDX, IDC_EDIT2, m_nHorPosEdit);
-    DDX_Control(pDX, IDC_EDIT3, m_nVerPosEdit);
-    DDX_Check(pDX, IDC_CHECK_SPCPOW2TEX, m_fSPCPow2Tex);
+    DDX_Control(pDX, IDC_SPIN3, m_verPosCtrl);
+    DDX_Text(pDX, IDC_SUBPIC_TO_BUFFER, m_nSPQSize);
+    DDX_Control(pDX, IDC_SPIN1, m_SPQSizeCtrl);
+    DDX_Control(pDX, IDC_COMBO1, m_cbSPQMaxRes);
+    DDX_Check(pDX, IDC_CHECK_SPCPOW2TEX, m_bSPQPow2Tex);
     DDX_Check(pDX, IDC_CHECK_NO_SUB_ANIM, m_bDisableSubtitleAnimation);
     DDX_Text(pDX, IDC_EDIT5, m_nRenderAtWhenAnimationIsDisabled);
     DDX_Control(pDX, IDC_SPIN5, m_renderAtCtrl);
@@ -87,9 +85,12 @@ END_MESSAGE_MAP()
 
 // CPPageSubtitles message handlers
 
-int TranslateResIn(int _In)
+static int TranslateResSettingToUIPos(int nResSetting)
 {
-    switch (_In) {
+    switch (nResSetting) {
+        default:
+            ASSERT(FALSE);
+        // no break
         case 0:
             return 0;
         case 1:
@@ -97,21 +98,23 @@ int TranslateResIn(int _In)
         case 3:
         case 4:
         case 5:
-            return _In + 5;
+            return nResSetting + 5;
         case 6:
         case 7:
         case 8:
         case 9:
-            return _In - 4;
+            return nResSetting - 4;
         case 10:
             return 1;
     }
-    return _In;
 }
 
-int TranslateResOut(int _In)
+static int TranslateResUIPosToSetting(int nResPos)
 {
-    switch (_In) {
+    switch (nResPos) {
+        default:
+            ASSERT(FALSE);
+        // no break
         case 0:
             return 0;
         case 1:
@@ -120,15 +123,14 @@ int TranslateResOut(int _In)
         case 3:
         case 4:
         case 5:
-            return _In + 4;
+            return nResPos + 4;
         case 6:
         case 7:
         case 8:
         case 9:
         case 10:
-            return _In - 5;
+            return nResPos - 5;
     }
-    return _In;
 }
 
 BOOL CPPageSubtitles::OnInitDialog()
@@ -140,26 +142,26 @@ BOOL CPPageSubtitles::OnInitDialog()
     const CAppSettings& s = AfxGetAppSettings();
     const CRenderersSettings& r = GetRenderersSettings();
 
-    m_fOverridePlacement = s.fOverridePlacement;
+    m_bOverridePlacement = s.fOverridePlacement;
     m_nHorPos = s.nHorPos;
-    m_nHorPosCtrl.SetRange32(-40, 140);
+    m_horPosCtrl.SetRange32(-40, 140);
     m_nVerPos = s.nVerPos;
-    m_nVerPosCtrl.SetRange32(140, -40);
-    m_nSPCSize = r.subPicQueueSettings.nSize;
-    m_nSPCSizeCtrl.SetRange32(0, 60);
-    m_spmaxres.AddString(_T("Desktop"));
-    m_spmaxres.AddString(_T("Video"));
-    m_spmaxres.AddString(_T("2560x1600"));
-    m_spmaxres.AddString(_T("1920x1080"));
-    m_spmaxres.AddString(_T("1320x900"));
-    m_spmaxres.AddString(_T("1280x720"));
-    m_spmaxres.AddString(_T("1024x768"));
-    m_spmaxres.AddString(_T("800x600"));
-    m_spmaxres.AddString(_T("640x480"));
-    m_spmaxres.AddString(_T("512x384"));
-    m_spmaxres.AddString(_T("384x288"));
-    m_spmaxres.SetCurSel(TranslateResIn(r.subPicQueueSettings.nMaxRes));
-    m_fSPCPow2Tex = r.subPicQueueSettings.bPow2Tex;
+    m_verPosCtrl.SetRange32(140, -40);
+    m_nSPQSize = r.subPicQueueSettings.nSize;
+    m_SPQSizeCtrl.SetRange32(0, 120);
+    m_cbSPQMaxRes.AddString(_T("Desktop"));
+    m_cbSPQMaxRes.AddString(_T("Video"));
+    m_cbSPQMaxRes.AddString(_T("2560x1600"));
+    m_cbSPQMaxRes.AddString(_T("1920x1080"));
+    m_cbSPQMaxRes.AddString(_T("1320x900"));
+    m_cbSPQMaxRes.AddString(_T("1280x720"));
+    m_cbSPQMaxRes.AddString(_T("1024x768"));
+    m_cbSPQMaxRes.AddString(_T("800x600"));
+    m_cbSPQMaxRes.AddString(_T("640x480"));
+    m_cbSPQMaxRes.AddString(_T("512x384"));
+    m_cbSPQMaxRes.AddString(_T("384x288"));
+    m_cbSPQMaxRes.SetCurSel(TranslateResSettingToUIPos(r.subPicQueueSettings.nMaxRes));
+    m_bSPQPow2Tex = r.subPicQueueSettings.bPow2Tex;
     m_bDisableSubtitleAnimation = r.subPicQueueSettings.bDisableSubtitleAnimation;
     m_nRenderAtWhenAnimationIsDisabled = r.subPicQueueSettings.nRenderAtWhenAnimationIsDisabled;
     m_renderAtCtrl.SetRange32(0, 100);
@@ -181,10 +183,10 @@ BOOL CPPageSubtitles::OnApply()
     CAppSettings& s = AfxGetAppSettings();
     CRenderersSettings& r = GetRenderersSettings();
 
-    r.subPicQueueSettings.nSize = m_nSPCSize;
+    r.subPicQueueSettings.nSize = m_nSPQSize;
     s.nSubDelayInterval = m_nSubDelayInterval;
-    r.subPicQueueSettings.nMaxRes = TranslateResOut(m_spmaxres.GetCurSel());
-    r.subPicQueueSettings.bPow2Tex = !!m_fSPCPow2Tex;
+    r.subPicQueueSettings.nMaxRes = TranslateResUIPosToSetting(m_cbSPQMaxRes.GetCurSel());
+    r.subPicQueueSettings.bPow2Tex = !!m_bSPQPow2Tex;
     r.subPicQueueSettings.bDisableSubtitleAnimation = !!m_bDisableSubtitleAnimation;
     r.subPicQueueSettings.nRenderAtWhenAnimationIsDisabled = std::max(0, std::min(m_nRenderAtWhenAnimationIsDisabled, 100));
 
@@ -195,10 +197,10 @@ BOOL CPPageSubtitles::OnApply()
         }
     }
 
-    if (s.fOverridePlacement != !!m_fOverridePlacement
+    if (s.fOverridePlacement != !!m_bOverridePlacement
             || s.nHorPos != m_nHorPos
             || s.nVerPos != m_nVerPos) {
-        s.fOverridePlacement = !!m_fOverridePlacement;
+        s.fOverridePlacement = !!m_bOverridePlacement;
         s.nHorPos = m_nHorPos;
         s.nVerPos = m_nVerPos;
         if (auto pMainFrame = dynamic_cast<CMainFrame*>(AfxGetMainWnd())) {
@@ -212,7 +214,7 @@ BOOL CPPageSubtitles::OnApply()
 void CPPageSubtitles::OnUpdatePosOverride(CCmdUI* pCmdUI)
 {
     UpdateData();
-    pCmdUI->Enable(m_fOverridePlacement);
+    pCmdUI->Enable(m_bOverridePlacement);
 }
 
 void CPPageSubtitles::OnSubDelayInterval()

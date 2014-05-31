@@ -852,6 +852,10 @@ msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
 msgstr ""
 
+msgctxt "IDC_SUBPIC_TO_BUFFER"
+msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
+msgstr ""
+
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
 msgstr "এই বাটনটি ক্লিক করার পরে, নির্ধারণকৃত ধরন শ্রেণীর ফাইলসমূহ MPC-HCএর সাথে সংশ্লিষ্ট হবে। নতুন করে এক্সটেনশন যোগ করলে নির্ধারণ টিক-চিহ্নটি ছাই রং ধারণ করবে, তাই অপশন ডায়লগ বক্স বন্ধ করার পূর্বে সেটা পুনরায় নির্ধারণ করতে ভুলবেন না!"
