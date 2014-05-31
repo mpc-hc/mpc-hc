@@ -163,7 +163,7 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
         (FARPROC&)m_pDirect3DCreate9Ex = GetProcAddress(m_hD3D9, "Direct3DCreate9Ex");
     }
     if (m_pDirect3DCreate9Ex) {
-        DEBUG_ONLY(_tprintf_s(_T("m_pDirect3DCreate9Ex\n")));
+        TRACE(_T("m_pDirect3DCreate9Ex\n"));
         m_pDirect3DCreate9Ex(D3D_SDK_VERSION, &m_pD3DEx);
         if (!m_pD3DEx) {
             m_pDirect3DCreate9Ex(D3D9b_SDK_VERSION, &m_pD3DEx);
@@ -177,7 +177,7 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
             m_pD3D.Attach(Direct3DCreate9(D3D9b_SDK_VERSION));
         }
         if (m_pD3D) {
-            DEBUG_ONLY(_tprintf_s(_T("m_pDirect3DCreate9\n")));
+            TRACE(_T("m_pDirect3DCreate9\n"));
         }
     } else {
         m_pD3D = m_pD3DEx;
@@ -492,7 +492,7 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
         pp.BackBufferWidth = d3ddm.Width;
         pp.BackBufferHeight = d3ddm.Height;
         pp.hDeviceWindow = m_hWnd;
-        DEBUG_ONLY(_tprintf_s(_T("Wnd in CreateDXDevice: %p\n"), m_hWnd));
+        TRACE(_T("Wnd in CreateDXDevice: %p\n"), m_hWnd);
         pp.BackBufferCount = 3;
         pp.SwapEffect = D3DSWAPEFFECT_DISCARD;
         pp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
@@ -559,7 +559,7 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
                     return hr;
                 }
             }
-            DEBUG_ONLY(_tprintf_s(_T("Created full-screen device\n")));
+            TRACE(_T("Created full-screen device\n"));
             if (m_pD3DDev) {
                 m_BackbufferType = pp.BackBufferFormat;
                 m_DisplayType = d3ddm.Format;
@@ -629,7 +629,7 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
                     return hr;
                 }
             }
-            DEBUG_ONLY(_tprintf_s(_T("Created windowed device\n")));
+            TRACE(_T("Created windowed device\n"));
         }
     }
 
@@ -670,7 +670,7 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
 
     CComPtr<ISubPicProvider> pSubPicProvider;
     if (m_pSubPicQueue) {
-        DEBUG_ONLY(_tprintf_s(_T("m_pSubPicQueue != nullptr\n")));
+        TRACE(_T("m_pSubPicQueue != nullptr\n"));
         m_pSubPicQueue->GetSubPicProvider(&pSubPicProvider);
     }
 
@@ -735,7 +735,7 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
             CComPtr<IPin> input;
             CComPtr<IPin> output;
             while (hr = rendererInputEnum->Next(1, &input.p, 0), hr == S_OK) { // Must have .p here
-                DEBUG_ONLY(_tprintf_s(_T("Pin found\n")));
+                TRACE(_T("Pin found\n"));
                 input->ConnectedTo(&output.p);
                 if (output != nullptr) {
                     rendererInput.push_back(input);
@@ -748,10 +748,10 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
             return hr;
         }
         for (DWORD i = 0; i < decoderOutput.size(); i++) {
-            DEBUG_ONLY(_tprintf_s(_T("Disconnecting pin\n")));
+            TRACE(_T("Disconnecting pin\n"));
             filterInfo.pGraph->Disconnect(decoderOutput.at(i).p);
             filterInfo.pGraph->Disconnect(rendererInput.at(i).p);
-            DEBUG_ONLY(_tprintf_s(_T("Pin disconnected\n")));
+            TRACE(_T("Pin disconnected\n"));
         }
         disconnected = true;
     }
@@ -1822,7 +1822,7 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool bAll)
         }
     }
     if (FAILED(hr)) {
-        DEBUG_ONLY(_tprintf_s(_T("Device lost or something\n")));
+        TRACE(_T("Device lost or something\n"));
     }
     // Calculate timing statistics
     if (m_pRefClock) {
