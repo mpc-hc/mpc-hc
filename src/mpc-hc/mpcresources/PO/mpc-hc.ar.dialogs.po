@@ -534,13 +534,13 @@ msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Maximum texture resolution:"
 msgstr "تصميم النصوص بالحد الأعلى:"
 
-msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SPCANIMWITHBUFFER"
-msgid "Allow animation when buffering"
-msgstr "إسمح للصور المتحركّة عندما يوجد ذاكرة مؤقته"
-
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SPCPOW2TEX"
 msgid "Round up to power of two"
 msgstr "إرفع دوران القوّة إلى إثنان"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_NO_SUB_ANIM"
+msgid "Never animate the subtitles"
+msgstr ""
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Renderer Layout"

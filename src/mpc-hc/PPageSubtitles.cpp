@@ -35,7 +35,7 @@ CPPageSubtitles::CPPageSubtitles()
     , m_nVerPos(0)
     , m_nSPCSize(0)
     , m_fSPCPow2Tex(FALSE)
-    , m_fSPCAllowAnimationWhenBuffering(TRUE)
+    , m_bDisallowSubtitleAnimation(FALSE)
     , m_nSubDelayInterval(0)
     , m_bSubtitleARCompensation(TRUE)
 {
@@ -59,7 +59,7 @@ void CPPageSubtitles::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_EDIT2, m_nHorPosEdit);
     DDX_Control(pDX, IDC_EDIT3, m_nVerPosEdit);
     DDX_Check(pDX, IDC_CHECK_SPCPOW2TEX, m_fSPCPow2Tex);
-    DDX_Check(pDX, IDC_CHECK_SPCANIMWITHBUFFER, m_fSPCAllowAnimationWhenBuffering);
+    DDX_Check(pDX, IDC_CHECK_NO_SUB_ANIM, m_bDisallowSubtitleAnimation);
     DDX_Text(pDX, IDC_EDIT4, m_nSubDelayInterval);
     DDX_Check(pDX, IDC_CHECK_SUB_AR_COMPENSATION, m_bSubtitleARCompensation);
 }
@@ -152,7 +152,7 @@ BOOL CPPageSubtitles::OnInitDialog()
     m_spmaxres.AddString(_T("384x288"));
     m_spmaxres.SetCurSel(TranslateResIn(s.m_RenderersSettings.nSPCMaxRes));
     m_fSPCPow2Tex = s.m_RenderersSettings.fSPCPow2Tex;
-    m_fSPCAllowAnimationWhenBuffering = s.m_RenderersSettings.fSPCAllowAnimationWhenBuffering;
+    m_bDisallowSubtitleAnimation = s.m_RenderersSettings.bDisallowSubtitleAnimation;
     m_nSubDelayInterval = s.nSubDelayInterval;
     m_bSubtitleARCompensation = s.bSubtitleARCompensation;
 
@@ -174,7 +174,7 @@ BOOL CPPageSubtitles::OnApply()
     s.nSubDelayInterval = m_nSubDelayInterval;
     s.m_RenderersSettings.nSPCMaxRes = TranslateResOut(m_spmaxres.GetCurSel());
     s.m_RenderersSettings.fSPCPow2Tex = !!m_fSPCPow2Tex;
-    s.m_RenderersSettings.fSPCAllowAnimationWhenBuffering = !!m_fSPCAllowAnimationWhenBuffering;
+    s.m_RenderersSettings.bDisallowSubtitleAnimation = !!m_bDisallowSubtitleAnimation;
 
     if (s.bSubtitleARCompensation != !!m_bSubtitleARCompensation) {
         s.bSubtitleARCompensation = !!m_bSubtitleARCompensation;

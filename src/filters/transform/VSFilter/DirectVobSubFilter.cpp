@@ -573,7 +573,7 @@ void CDirectVobSubFilter::InitSubPicQueue()
 
     m_pSubPicQueue = m_uSubPictToBuffer > 0
                      ? (ISubPicQueue*)DEBUG_NEW CSubPicQueue(m_uSubPictToBuffer, !m_fAnimWhenBuffering, pSubPicAllocator, &hr)
-                     : (ISubPicQueue*)DEBUG_NEW CSubPicQueueNoThread(pSubPicAllocator, &hr);
+                     : (ISubPicQueue*)DEBUG_NEW CSubPicQueueNoThread(false, pSubPicAllocator, &hr);
 
     if (FAILED(hr)) {
         m_pSubPicQueue = nullptr;

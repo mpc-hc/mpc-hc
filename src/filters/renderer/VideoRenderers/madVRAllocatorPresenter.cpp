@@ -106,7 +106,7 @@ HRESULT CmadVRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
     HRESULT hr = S_OK;
     if (!m_pSubPicQueue) {
         CAutoLock(this);
-        m_pSubPicQueue = (ISubPicQueue*)DEBUG_NEW CSubPicQueueNoThread(m_pAllocator, &hr);
+        m_pSubPicQueue = (ISubPicQueue*)DEBUG_NEW CSubPicQueueNoThread(GetRenderersSettings().bDisallowSubtitleAnimation, m_pAllocator, &hr);
     } else {
         m_pSubPicQueue->Invalidate();
     }

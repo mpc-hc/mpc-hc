@@ -1692,7 +1692,7 @@ void CAppSettings::UpdateRenderersData(bool fSave)
         pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SPCSIZE, r.nSPCSize);
         pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SPCMAXRES, r.nSPCMaxRes);
         pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_POW2TEX, r.fSPCPow2Tex);
-        pApp->WriteProfileInt(IDS_R_SETTINGS, _T("SPCAllowAnimationWhenBuffering"), r.fSPCAllowAnimationWhenBuffering);
+        pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DISALLOW_SUBTITLE_ANIMATION, r.bDisallowSubtitleAnimation);
 
         pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_EVR_BUFFERS, r.iEvrBuffers);
 
@@ -1754,7 +1754,7 @@ void CAppSettings::UpdateRenderersData(bool fSave)
         r.nSPCSize = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SPCSIZE, 10);
         r.nSPCMaxRes = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SPCMAXRES, 0);
         r.fSPCPow2Tex = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_POW2TEX, TRUE);
-        r.fSPCAllowAnimationWhenBuffering = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("SPCAllowAnimationWhenBuffering"), TRUE);
+        r.bDisallowSubtitleAnimation = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DISALLOW_SUBTITLE_ANIMATION, FALSE);
 
         r.iEvrBuffers = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_EVR_BUFFERS, 5);
         r.D3D9RenderDevice = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_D3D9RENDERDEVICE);
@@ -2340,6 +2340,11 @@ void CAppSettings::UpdateSettings()
             autoChangeFSMode.uDelay = pApp->GetProfileInt(IDS_R_SETTINGS, _T("FullscreenResDelay"), 0);
 
             SaveSettingsAutoChangeFullScreenMode();
+        }
+        // no break
+        case 4: {
+            bool bDisallowSubtitleAnimation = !pApp->GetProfileInt(IDS_R_SETTINGS, _T("SPCAllowAnimationWhenBuffering"), TRUE);
+            VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DISALLOW_SUBTITLE_ANIMATION, bDisallowSubtitleAnimation));
         }
         // no break
         default:

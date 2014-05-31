@@ -529,13 +529,13 @@ msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Maximum texture resolution:"
 msgstr "רזולוצייה מקסימלית עבור תת-תמונה:"
 
-msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SPCANIMWITHBUFFER"
-msgid "Allow animation when buffering"
-msgstr "אפשר אנימציית כתוביות כאשר מבוצע שימוש במאגר"
-
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SPCPOW2TEX"
 msgid "Round up to power of two"
 msgstr "תעגל כלפי מעלה לכפולות של 2"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_NO_SUB_ANIM"
+msgid "Never animate the subtitles"
+msgstr ""
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Renderer Layout"

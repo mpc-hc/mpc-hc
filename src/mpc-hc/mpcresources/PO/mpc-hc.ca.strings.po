@@ -850,9 +850,9 @@ msgctxt "IDC_CHECK_SPCPOW2TEX"
 msgid "Unchecking this frees up a little video memory and saves bandwidth on local to video memory transfers, but it may not work with older video cards."
 msgstr "Si desmarcas això es llibera una mica de memòria de vídeo i guardes amplada de banda en transferencias de memoria local a memòria de vídeo, però no funcionar amb tarjetas gràficas antigues."
 
-msgctxt "IDC_CHECK_SPCANIMWITHBUFFER"
-msgid "Allows subtitle animation when using a subpicture buffer larger than 0. Disabling this option will lower CPU usage. Also disable if you experience flashing subtitles."
-msgstr "Permet subtítols amb animació al utilitzar una memoria intermèdia per sub-imágenes més grans que 0. Inhabilitant auquesta opció es minimitza l'ús de CPU. Inhabilitar també si els subtítols pipillejent."
+msgctxt "IDC_CHECK_NO_SUB_ANIM"
+msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
+msgstr ""
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"

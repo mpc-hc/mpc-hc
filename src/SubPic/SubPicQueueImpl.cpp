@@ -32,11 +32,12 @@
 // CSubPicQueueImpl
 //
 
-CSubPicQueueImpl::CSubPicQueueImpl(ISubPicAllocator* pAllocator, HRESULT* phr)
+CSubPicQueueImpl::CSubPicQueueImpl(bool bDisableAnim, ISubPicAllocator* pAllocator, HRESULT* phr)
     : CUnknown(NAME("CSubPicQueueImpl"), nullptr)
     , m_pAllocator(pAllocator)
     , m_rtNow(0)
     , m_fps(25.0)
+    , m_bDisableAnim(bDisableAnim)
 {
     if (phr) {
         *phr = S_OK;
@@ -142,10 +143,9 @@ HRESULT CSubPicQueueImpl::RenderTo(ISubPic* pSubPic, REFERENCE_TIME rtStart, REF
 //
 
 CSubPicQueue::CSubPicQueue(int nMaxSubPic, bool bDisableAnim, ISubPicAllocator* pAllocator, HRESULT* phr)
-    : CSubPicQueueImpl(pAllocator, phr)
+    : CSubPicQueueImpl(bDisableAnim, pAllocator, phr)
     , m_bExitThread(false)
     , m_nMaxSubPic(nMaxSubPic)
-    , m_bDisableAnim(bDisableAnim)
     , m_rtNowLast(LONGLONG_ERROR)
     , m_bInvalidate(false)
     , m_rtInvalidate(0)
@@ -597,8 +597,8 @@ DWORD CSubPicQueue::ThreadProc()
 // CSubPicQueueNoThread
 //
 
-CSubPicQueueNoThread::CSubPicQueueNoThread(ISubPicAllocator* pAllocator, HRESULT* phr)
-    : CSubPicQueueImpl(pAllocator, phr)
+CSubPicQueueNoThread::CSubPicQueueNoThread(bool bDisableAnim, ISubPicAllocator* pAllocator, HRESULT* phr)
+    : CSubPicQueueImpl(bDisableAnim, pAllocator, phr)
 {
 }
 
@@ -641,7 +641,7 @@ STDMETHODIMP_(bool) CSubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, CCo
                 REFERENCE_TIME rtStart;
                 REFERENCE_TIME rtStop;
 
-                if (pSubPicProvider->IsAnimated(pos)) {
+                if (pSubPicProvider->IsAnimated(pos) && !m_bDisableAnim) {
                     rtStart = rtNow;
                     rtStop = rtNow + 1;
                 } else {

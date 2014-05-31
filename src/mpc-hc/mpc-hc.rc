@@ -352,9 +352,9 @@ BEGIN
     CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,159,49,12,12
     LTEXT           "Maximum texture resolution:",IDC_STATIC,10,67,125,8
     COMBOBOX        IDC_COMBO1,139,65,59,45,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Allow animation when buffering",IDC_CHECK_SPCANIMWITHBUFFER,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,81,277,8
-    CONTROL         "Round up to power of two",IDC_CHECK_SPCPOW2TEX,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,93,277,8
+    CONTROL         "Round up to power of two",IDC_CHECK_SPCPOW2TEX,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,81,277,8
+    CONTROL         "Never animate the subtitles",IDC_CHECK_NO_SUB_ANIM,
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,93,277,8
     GROUPBOX        "Renderer Layout",IDC_STATIC,5,108,286,26
     CONTROL         "Apply aspect ratio compensation for anamorphic videos",IDC_CHECK_SUB_AR_COMPENSATION,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,120,277,8
@@ -2389,8 +2389,7 @@ STRINGTABLE
 BEGIN
     IDC_CHECK_RELATIVETO    "If the rendering target is left undefined, it will be inherited from the default style."
     IDC_CHECK_SPCPOW2TEX    "Unchecking this frees up a little video memory and saves bandwidth on local to video memory transfers, but it may not work with older video cards."
-    IDC_CHECK_SPCANIMWITHBUFFER 
-                            "Allows subtitle animation when using a subpicture buffer larger than 0. Disabling this option will lower CPU usage. Also disable if you experience flashing subtitles."
+    IDC_CHECK_NO_SUB_ANIM   "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
     IDC_BUTTON_EXT_SET      "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
 END
 

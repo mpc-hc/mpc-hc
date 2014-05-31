@@ -204,7 +204,7 @@ DWORD CXySubPicQueue::ThreadProc()
 //
 
 CXySubPicQueueNoThread::CXySubPicQueueNoThread(ISubPicAllocator* pAllocator, HRESULT* phr)
-    : CSubPicQueueNoThread(pAllocator, phr)
+    : CSubPicQueueNoThread(false, pAllocator, phr)
     , m_llSubId(0)
 {
 }

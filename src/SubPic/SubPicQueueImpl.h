@@ -35,12 +35,14 @@ protected:
     double m_fps;
     REFERENCE_TIME m_rtNow;
 
+    bool m_bDisableAnim;
+
     CComPtr<ISubPicAllocator> m_pAllocator;
 
     HRESULT RenderTo(ISubPic* pSubPic, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, double fps, BOOL bIsAnimated);
 
 public:
-    CSubPicQueueImpl(ISubPicAllocator* pAllocator, HRESULT* phr);
+    CSubPicQueueImpl(bool bDisableAnim, ISubPicAllocator* pAllocator, HRESULT* phr);
     virtual ~CSubPicQueueImpl();
 
     DECLARE_IUNKNOWN;
@@ -68,7 +70,6 @@ protected:
     bool m_bExitThread;
 
     int m_nMaxSubPic;
-    bool m_bDisableAnim;
 
     CComPtr<ISubPic> m_pSubPic;
     CInterfaceList<ISubPic> m_queue;
@@ -113,7 +114,7 @@ protected:
     CComPtr<ISubPic> m_pSubPic;
 
 public:
-    CSubPicQueueNoThread(ISubPicAllocator* pAllocator, HRESULT* phr);
+    CSubPicQueueNoThread(bool bDisableAnim, ISubPicAllocator* pAllocator, HRESULT* phr);
     virtual ~CSubPicQueueNoThread();
 
     // ISubPicQueue

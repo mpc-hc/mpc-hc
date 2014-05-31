@@ -45,7 +45,7 @@ public:
     CSpinButtonCtrl m_nSPCSizeCtrl;
     CComboBox m_spmaxres;
     BOOL m_fSPCPow2Tex;
-    BOOL m_fSPCAllowAnimationWhenBuffering;
+    BOOL m_bDisallowSubtitleAnimation;
     int m_nSubDelayInterval;
     BOOL m_bSubtitleARCompensation;
 

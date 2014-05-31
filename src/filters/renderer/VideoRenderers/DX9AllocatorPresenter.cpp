@@ -842,8 +842,8 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
     if (!m_pSubPicQueue) {
         CAutoLock(this);
         m_pSubPicQueue = GetRenderersSettings().nSPCSize > 0
-                         ? (ISubPicQueue*)DEBUG_NEW CSubPicQueue(GetRenderersSettings().nSPCSize, !GetRenderersSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
-                         : (ISubPicQueue*)DEBUG_NEW CSubPicQueueNoThread(m_pAllocator, &hr);
+                         ? (ISubPicQueue*)DEBUG_NEW CSubPicQueue(GetRenderersSettings().nSPCSize, GetRenderersSettings().bDisallowSubtitleAnimation, m_pAllocator, &hr)
+                         : (ISubPicQueue*)DEBUG_NEW CSubPicQueueNoThread(GetRenderersSettings().bDisallowSubtitleAnimation, m_pAllocator, &hr);
     } else {
         m_pSubPicQueue->Invalidate();
     }
