@@ -97,18 +97,18 @@ HRESULT CmadVRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
         return S_OK;
     }
 
-    InitMaxSubtitleTextureSize(r.nSPCMaxRes, m_ScreenSize);
+    InitMaxSubtitleTextureSize(r.subPicQueueSettings.nMaxRes, m_ScreenSize);
 
     if (m_pAllocator) {
         m_pAllocator->ChangeDevice(pD3DDev);
     } else {
-        m_pAllocator = DEBUG_NEW CDX9SubPicAllocator(pD3DDev, m_maxSubtitleTextureSize, r.fSPCPow2Tex, true);
+        m_pAllocator = DEBUG_NEW CDX9SubPicAllocator(pD3DDev, m_maxSubtitleTextureSize, r.subPicQueueSettings.bPow2Tex, true);
     }
 
     HRESULT hr = S_OK;
     if (!m_pSubPicQueue) {
         CAutoLock(this);
-        m_pSubPicQueue = (ISubPicQueue*)DEBUG_NEW CSubPicQueueNoThread(r.bDisallowSubtitleAnimation, m_pAllocator, &hr);
+        m_pSubPicQueue = (ISubPicQueue*)DEBUG_NEW CSubPicQueueNoThread(r.subPicQueueSettings, m_pAllocator, &hr);
     } else {
         m_pSubPicQueue->Invalidate();
     }

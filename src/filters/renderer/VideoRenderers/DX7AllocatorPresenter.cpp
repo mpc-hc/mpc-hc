@@ -226,20 +226,20 @@ HRESULT CDX7AllocatorPresenter::CreateDevice()
         m_pSubPicQueue->GetSubPicProvider(&pSubPicProvider);
     }
 
-    InitMaxSubtitleTextureSize(r.nSPCMaxRes, szDesktopSize);
+    InitMaxSubtitleTextureSize(r.subPicQueueSettings.nMaxRes, szDesktopSize);
 
     if (m_pAllocator) {
         m_pAllocator->ChangeDevice(m_pD3DDev);
     } else {
-        m_pAllocator = DEBUG_NEW CDX7SubPicAllocator(m_pD3DDev, m_maxSubtitleTextureSize, r.fSPCPow2Tex);
+        m_pAllocator = DEBUG_NEW CDX7SubPicAllocator(m_pD3DDev, m_maxSubtitleTextureSize, r.subPicQueueSettings.bPow2Tex);
     }
 
     hr = S_OK;
     if (!m_pSubPicQueue) {
         CAutoLock(this);
-        m_pSubPicQueue = r.nSPCSize > 0
-                         ? (ISubPicQueue*)DEBUG_NEW CSubPicQueue(r.nSPCSize, r.bDisallowSubtitleAnimation, m_pAllocator, &hr)
-                         : (ISubPicQueue*)DEBUG_NEW CSubPicQueueNoThread(r.bDisallowSubtitleAnimation, m_pAllocator, &hr);
+        m_pSubPicQueue = r.subPicQueueSettings.nSize > 0
+                         ? (ISubPicQueue*)DEBUG_NEW CSubPicQueue(r.subPicQueueSettings, m_pAllocator, &hr)
+                         : (ISubPicQueue*)DEBUG_NEW CSubPicQueueNoThread(r.subPicQueueSettings, m_pAllocator, &hr);
     } else {
         m_pSubPicQueue->Invalidate();
     }

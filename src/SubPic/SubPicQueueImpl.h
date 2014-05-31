@@ -25,6 +25,7 @@
 #include <condition_variable>
 
 #include "ISubPic.h"
+#include "SubPicQueueSettings.h"
 
 class CSubPicQueueImpl : public CUnknown, public ISubPicQueue
 {
@@ -35,14 +36,14 @@ protected:
     double m_fps;
     REFERENCE_TIME m_rtNow;
 
-    bool m_bDisableAnim;
+    SubPicQueueSettings m_settings;
 
     CComPtr<ISubPicAllocator> m_pAllocator;
 
     HRESULT RenderTo(ISubPic* pSubPic, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, double fps, BOOL bIsAnimated);
 
 public:
-    CSubPicQueueImpl(bool bDisableAnim, ISubPicAllocator* pAllocator, HRESULT* phr);
+    CSubPicQueueImpl(SubPicQueueSettings settings, ISubPicAllocator* pAllocator, HRESULT* phr);
     virtual ~CSubPicQueueImpl();
 
     DECLARE_IUNKNOWN;
@@ -69,8 +70,6 @@ class CSubPicQueue : public CSubPicQueueImpl, protected CAMThread
 protected:
     bool m_bExitThread;
 
-    int m_nMaxSubPic;
-
     CComPtr<ISubPic> m_pSubPic;
     CInterfaceList<ISubPic> m_queue;
 
@@ -92,7 +91,7 @@ protected:
     virtual DWORD ThreadProc();
 
 public:
-    CSubPicQueue(int nMaxSubPic, bool bDisableAnim, ISubPicAllocator* pAllocator, HRESULT* phr);
+    CSubPicQueue(SubPicQueueSettings settings, ISubPicAllocator* pAllocator, HRESULT* phr);
     virtual ~CSubPicQueue();
 
     // ISubPicQueue
@@ -114,7 +113,7 @@ protected:
     CComPtr<ISubPic> m_pSubPic;
 
 public:
-    CSubPicQueueNoThread(bool bDisableAnim, ISubPicAllocator* pAllocator, HRESULT* phr);
+    CSubPicQueueNoThread(SubPicQueueSettings settings, ISubPicAllocator* pAllocator, HRESULT* phr);
     virtual ~CSubPicQueueNoThread();
 
     // ISubPicQueue

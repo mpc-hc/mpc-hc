@@ -32,12 +32,12 @@
 // CSubPicQueueImpl
 //
 
-CSubPicQueueImpl::CSubPicQueueImpl(bool bDisableAnim, ISubPicAllocator* pAllocator, HRESULT* phr)
+CSubPicQueueImpl::CSubPicQueueImpl(SubPicQueueSettings settings, ISubPicAllocator* pAllocator, HRESULT* phr)
     : CUnknown(NAME("CSubPicQueueImpl"), nullptr)
+    , m_settings(settings)
     , m_pAllocator(pAllocator)
     , m_rtNow(0)
     , m_fps(25.0)
-    , m_bDisableAnim(bDisableAnim)
 {
     if (phr) {
         *phr = S_OK;
@@ -142,10 +142,9 @@ HRESULT CSubPicQueueImpl::RenderTo(ISubPic* pSubPic, REFERENCE_TIME rtStart, REF
 // CSubPicQueue
 //
 
-CSubPicQueue::CSubPicQueue(int nMaxSubPic, bool bDisableAnim, ISubPicAllocator* pAllocator, HRESULT* phr)
-    : CSubPicQueueImpl(bDisableAnim, pAllocator, phr)
+CSubPicQueue::CSubPicQueue(SubPicQueueSettings settings, ISubPicAllocator* pAllocator, HRESULT* phr)
+    : CSubPicQueueImpl(settings, pAllocator, phr)
     , m_bExitThread(false)
-    , m_nMaxSubPic(nMaxSubPic)
     , m_rtNowLast(LONGLONG_ERROR)
     , m_bInvalidate(false)
     , m_rtInvalidate(0)
@@ -154,7 +153,7 @@ CSubPicQueue::CSubPicQueue(int nMaxSubPic, bool bDisableAnim, ISubPicAllocator* 
         return;
     }
 
-    if (m_nMaxSubPic < 1) {
+    if (m_settings.nSize < 1) {
         if (phr) {
             *phr = E_INVALIDARG;
         }
@@ -402,7 +401,7 @@ STDMETHODIMP CSubPicQueue::GetStats(int nSubPic, REFERENCE_TIME& rtStart, REFERE
 bool CSubPicQueue::EnqueueSubPic(CComPtr<ISubPic>& pSubPic, bool bBlocking)
 {
     auto canAddToQueue = [this]() {
-        return (int)m_queue.GetCount() < m_nMaxSubPic;
+        return (int)m_queue.GetCount() < m_settings.nSize;
     };
 
     bool bAdded = false;
@@ -447,7 +446,7 @@ REFERENCE_TIME CSubPicQueue::GetCurrentRenderingTime()
 
 DWORD CSubPicQueue::ThreadProc()
 {
-    bool bDisableAnim = m_bDisableAnim;
+    bool bDisableAnim = m_settings.bDisableSubtitleAnimation;
     SetThreadName(DWORD(-1), "Subtitle Renderer Thread");
     SetThreadPriority(m_hThread, bDisableAnim ? THREAD_PRIORITY_LOWEST : THREAD_PRIORITY_ABOVE_NORMAL);
 
@@ -597,9 +596,12 @@ DWORD CSubPicQueue::ThreadProc()
 // CSubPicQueueNoThread
 //
 
-CSubPicQueueNoThread::CSubPicQueueNoThread(bool bDisableAnim, ISubPicAllocator* pAllocator, HRESULT* phr)
-    : CSubPicQueueImpl(bDisableAnim, pAllocator, phr)
+CSubPicQueueNoThread::CSubPicQueueNoThread(SubPicQueueSettings settings, ISubPicAllocator* pAllocator, HRESULT* phr)
+    : CSubPicQueueImpl(settings, pAllocator, phr)
 {
+    if (phr && SUCCEEDED(*phr) && m_settings.nSize != 0) {
+        *phr = E_INVALIDARG;
+    }
 }
 
 CSubPicQueueNoThread::~CSubPicQueueNoThread()
@@ -641,7 +643,7 @@ STDMETHODIMP_(bool) CSubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, CCo
                 REFERENCE_TIME rtStart;
                 REFERENCE_TIME rtStop;
 
-                if (pSubPicProvider->IsAnimated(pos) && !m_bDisableAnim) {
+                if (pSubPicProvider->IsAnimated(pos) && !m_settings.bDisableSubtitleAnimation) {
                     rtStart = rtNow;
                     rtStop = rtNow + 1;
                 } else {

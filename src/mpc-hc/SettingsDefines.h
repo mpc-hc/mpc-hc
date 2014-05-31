@@ -120,7 +120,7 @@
 #define IDS_RS_SPCSIZE                      _T("SPCSize")
 #define IDS_RS_SPCMAXRES                    _T("SPCMaxRes")
 #define IDS_RS_POW2TEX                      _T("SPCPow2Tex")
-#define IDS_RS_DISALLOW_SUBTITLE_ANIMATION  _T("DisallowSubtitleAnimation")
+#define IDS_RS_DISABLE_SUBTITLE_ANIMATION   _T("DisableSubtitleAnimation")
 #define IDS_RS_INTREALMEDIA                 _T("IntRealMedia")
 #define IDS_RS_EXITFULLSCREENATTHEEND       _T("ExitFullscreenAtTheEnd")
 #define IDS_RS_REMEMBERWINDOWPOS            _T("RememberWindowPos")

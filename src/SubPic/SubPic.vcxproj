@@ -111,6 +111,7 @@
     <ClInclude Include="CoordGeom.h" />
     <ClInclude Include="DX7SubPic.h" />
     <ClInclude Include="DX9SubPic.h" />
+    <ClInclude Include="SubPicQueueSettings.h" />
     <ClInclude Include="ISubPic.h" />
     <ClInclude Include="ISubRender.h" />
     <ClInclude Include="MemSubPic.h" />

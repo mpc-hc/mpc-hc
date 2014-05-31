@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include "../../../SubPic/SubPicQueueSettings.h"
+
 enum {
     WM_REARRANGERENDERLESS = WM_APP + 1,
     WM_RESET_DEVICE
@@ -121,10 +123,7 @@ public:
     bool        fVMR9MixerYUV;
     int         iEvrBuffers;
 
-    int         nSPCSize;
-    int         nSPCMaxRes;
-    bool        fSPCPow2Tex;
-    bool        bDisallowSubtitleAnimation;
+    SubPicQueueSettings subPicQueueSettings;
 
     CString     D3D9RenderDevice;
     void        UpdateData(bool fSave);

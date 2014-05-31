@@ -35,7 +35,7 @@ CPPageSubtitles::CPPageSubtitles()
     , m_nVerPos(0)
     , m_nSPCSize(0)
     , m_fSPCPow2Tex(FALSE)
-    , m_bDisallowSubtitleAnimation(FALSE)
+    , m_bDisableSubtitleAnimation(FALSE)
     , m_nSubDelayInterval(0)
     , m_bSubtitleARCompensation(TRUE)
 {
@@ -59,7 +59,7 @@ void CPPageSubtitles::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_EDIT2, m_nHorPosEdit);
     DDX_Control(pDX, IDC_EDIT3, m_nVerPosEdit);
     DDX_Check(pDX, IDC_CHECK_SPCPOW2TEX, m_fSPCPow2Tex);
-    DDX_Check(pDX, IDC_CHECK_NO_SUB_ANIM, m_bDisallowSubtitleAnimation);
+    DDX_Check(pDX, IDC_CHECK_NO_SUB_ANIM, m_bDisableSubtitleAnimation);
     DDX_Text(pDX, IDC_EDIT4, m_nSubDelayInterval);
     DDX_Check(pDX, IDC_CHECK_SUB_AR_COMPENSATION, m_bSubtitleARCompensation);
 }
@@ -131,13 +131,14 @@ BOOL CPPageSubtitles::OnInitDialog()
     SetHandCursor(m_hWnd, IDC_COMBO1);
 
     const CAppSettings& s = AfxGetAppSettings();
+    const CRenderersSettings& r = GetRenderersSettings();
 
     m_fOverridePlacement = s.fOverridePlacement;
     m_nHorPos = s.nHorPos;
     m_nHorPosCtrl.SetRange32(-40, 140);
     m_nVerPos = s.nVerPos;
     m_nVerPosCtrl.SetRange32(140, -40);
-    m_nSPCSize = s.m_RenderersSettings.nSPCSize;
+    m_nSPCSize = r.subPicQueueSettings.nSize;
     m_nSPCSizeCtrl.SetRange32(0, 60);
     m_spmaxres.AddString(_T("Desktop"));
     m_spmaxres.AddString(_T("Video"));
@@ -150,9 +151,9 @@ BOOL CPPageSubtitles::OnInitDialog()
     m_spmaxres.AddString(_T("640x480"));
     m_spmaxres.AddString(_T("512x384"));
     m_spmaxres.AddString(_T("384x288"));
-    m_spmaxres.SetCurSel(TranslateResIn(s.m_RenderersSettings.nSPCMaxRes));
-    m_fSPCPow2Tex = s.m_RenderersSettings.fSPCPow2Tex;
-    m_bDisallowSubtitleAnimation = s.m_RenderersSettings.bDisallowSubtitleAnimation;
+    m_spmaxres.SetCurSel(TranslateResIn(r.subPicQueueSettings.nMaxRes));
+    m_fSPCPow2Tex = r.subPicQueueSettings.bPow2Tex;
+    m_bDisableSubtitleAnimation = r.subPicQueueSettings.bDisableSubtitleAnimation;
     m_nSubDelayInterval = s.nSubDelayInterval;
     m_bSubtitleARCompensation = s.bSubtitleARCompensation;
 
@@ -169,12 +170,13 @@ BOOL CPPageSubtitles::OnApply()
     UpdateData();
 
     CAppSettings& s = AfxGetAppSettings();
+    CRenderersSettings& r = GetRenderersSettings();
 
-    s.m_RenderersSettings.nSPCSize = m_nSPCSize;
+    r.subPicQueueSettings.nSize = m_nSPCSize;
     s.nSubDelayInterval = m_nSubDelayInterval;
-    s.m_RenderersSettings.nSPCMaxRes = TranslateResOut(m_spmaxres.GetCurSel());
-    s.m_RenderersSettings.fSPCPow2Tex = !!m_fSPCPow2Tex;
-    s.m_RenderersSettings.bDisallowSubtitleAnimation = !!m_bDisallowSubtitleAnimation;
+    r.subPicQueueSettings.nMaxRes = TranslateResOut(m_spmaxres.GetCurSel());
+    r.subPicQueueSettings.bPow2Tex = !!m_fSPCPow2Tex;
+    r.subPicQueueSettings.bDisableSubtitleAnimation = !!m_bDisableSubtitleAnimation;
 
     if (s.bSubtitleARCompensation != !!m_bSubtitleARCompensation) {
         s.bSubtitleARCompensation = !!m_bSubtitleARCompensation;

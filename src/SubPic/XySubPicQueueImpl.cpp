@@ -31,7 +31,7 @@
 
 #if 0
 CXySubPicQueue::CXySubPicQueue(int nMaxSubPic, ISubPicAllocator* pAllocator, HRESULT* phr)
-    : CSubPicQueue(nMaxSubPic, false, pAllocator, phr)
+    : CSubPicQueue(SubPicQueueSettings(nMaxSubPic, 0, false, false), pAllocator, phr)
     , m_llSubId(0)
 {
 }
@@ -204,7 +204,7 @@ DWORD CXySubPicQueue::ThreadProc()
 //
 
 CXySubPicQueueNoThread::CXySubPicQueueNoThread(ISubPicAllocator* pAllocator, HRESULT* phr)
-    : CSubPicQueueNoThread(false, pAllocator, phr)
+    : CSubPicQueueNoThread(SubPicQueueSettings(0, 0, false, false), pAllocator, phr)
     , m_llSubId(0)
 {
 }

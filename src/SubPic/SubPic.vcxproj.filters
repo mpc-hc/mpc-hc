@@ -85,5 +85,8 @@
     <ClInclude Include="XySubPicProvider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SubPicQueueSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
