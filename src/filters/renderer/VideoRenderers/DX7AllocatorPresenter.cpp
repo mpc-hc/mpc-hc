@@ -157,6 +157,8 @@ CDX7AllocatorPresenter::~CDX7AllocatorPresenter()
 
 HRESULT CDX7AllocatorPresenter::CreateDevice()
 {
+    const CRenderersSettings& r = GetRenderersSettings();
+
     m_pD3DDev = nullptr;
     m_pPrimary = nullptr;
     m_pBackBuffer = nullptr;
@@ -224,20 +226,20 @@ HRESULT CDX7AllocatorPresenter::CreateDevice()
         m_pSubPicQueue->GetSubPicProvider(&pSubPicProvider);
     }
 
-    InitMaxSubtitleTextureSize(GetRenderersSettings().nSPCMaxRes, szDesktopSize);
+    InitMaxSubtitleTextureSize(r.nSPCMaxRes, szDesktopSize);
 
     if (m_pAllocator) {
         m_pAllocator->ChangeDevice(m_pD3DDev);
     } else {
-        m_pAllocator = DEBUG_NEW CDX7SubPicAllocator(m_pD3DDev, m_maxSubtitleTextureSize, GetRenderersSettings().fSPCPow2Tex);
+        m_pAllocator = DEBUG_NEW CDX7SubPicAllocator(m_pD3DDev, m_maxSubtitleTextureSize, r.fSPCPow2Tex);
     }
 
     hr = S_OK;
     if (!m_pSubPicQueue) {
         CAutoLock(this);
-        m_pSubPicQueue = GetRenderersSettings().nSPCSize > 0
-                         ? (ISubPicQueue*)DEBUG_NEW CSubPicQueue(GetRenderersSettings().nSPCSize, GetRenderersSettings().bDisallowSubtitleAnimation, m_pAllocator, &hr)
-                         : (ISubPicQueue*)DEBUG_NEW CSubPicQueueNoThread(GetRenderersSettings().bDisallowSubtitleAnimation, m_pAllocator, &hr);
+        m_pSubPicQueue = r.nSPCSize > 0
+                         ? (ISubPicQueue*)DEBUG_NEW CSubPicQueue(r.nSPCSize, r.bDisallowSubtitleAnimation, m_pAllocator, &hr)
+                         : (ISubPicQueue*)DEBUG_NEW CSubPicQueueNoThread(r.bDisallowSubtitleAnimation, m_pAllocator, &hr);
     } else {
         m_pSubPicQueue->Invalidate();
     }

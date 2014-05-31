@@ -463,7 +463,7 @@ public:
 bool CDX9AllocatorPresenter::SettingsNeedResetDevice()
 {
     CRenderersSettings& r = GetRenderersSettings();
-    CRenderersSettings::CAdvRendererSettings& New = GetRenderersSettings().m_AdvRendSets;
+    CRenderersSettings::CAdvRendererSettings& New = r.m_AdvRendSets;
     CRenderersSettings::CAdvRendererSettings& Current = m_LastRendererSettings;
 
     bool bRet = false;
@@ -830,20 +830,20 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
         m_pSubPicQueue->GetSubPicProvider(&pSubPicProvider);
     }
 
-    InitMaxSubtitleTextureSize(GetRenderersSettings().nSPCMaxRes, m_bIsFullscreen ? m_ScreenSize : szDesktopSize);
+    InitMaxSubtitleTextureSize(r.nSPCMaxRes, m_bIsFullscreen ? m_ScreenSize : szDesktopSize);
 
     if (m_pAllocator) {
         m_pAllocator->ChangeDevice(m_pD3DDev);
     } else {
-        m_pAllocator = DEBUG_NEW CDX9SubPicAllocator(m_pD3DDev, m_maxSubtitleTextureSize, GetRenderersSettings().fSPCPow2Tex, false);
+        m_pAllocator = DEBUG_NEW CDX9SubPicAllocator(m_pD3DDev, m_maxSubtitleTextureSize, r.fSPCPow2Tex, false);
     }
 
     hr = S_OK;
     if (!m_pSubPicQueue) {
         CAutoLock(this);
-        m_pSubPicQueue = GetRenderersSettings().nSPCSize > 0
-                         ? (ISubPicQueue*)DEBUG_NEW CSubPicQueue(GetRenderersSettings().nSPCSize, GetRenderersSettings().bDisallowSubtitleAnimation, m_pAllocator, &hr)
-                         : (ISubPicQueue*)DEBUG_NEW CSubPicQueueNoThread(GetRenderersSettings().bDisallowSubtitleAnimation, m_pAllocator, &hr);
+        m_pSubPicQueue = r.nSPCSize > 0
+                         ? (ISubPicQueue*)DEBUG_NEW CSubPicQueue(r.nSPCSize, r.bDisallowSubtitleAnimation, m_pAllocator, &hr)
+                         : (ISubPicQueue*)DEBUG_NEW CSubPicQueueNoThread(r.bDisallowSubtitleAnimation, m_pAllocator, &hr);
     } else {
         m_pSubPicQueue->Invalidate();
     }
