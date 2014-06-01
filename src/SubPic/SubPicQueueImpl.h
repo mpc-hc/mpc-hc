@@ -29,11 +29,14 @@
 
 class CSubPicQueueImpl : public CUnknown, public ISubPicQueue
 {
+    static const double DEFAULT_FPS;
+
     CCritSec m_csSubPicProvider;
     CComPtr<ISubPicProvider> m_pSubPicProvider;
 
 protected:
     double m_fps;
+    REFERENCE_TIME m_rtTimePerSubFrame;
     REFERENCE_TIME m_rtNow;
 
     SubPicQueueSettings m_settings;
@@ -117,6 +120,8 @@ public:
     virtual ~CSubPicQueueNoThread();
 
     // ISubPicQueue
+
+    STDMETHODIMP SetFPS(double fps);
 
     STDMETHODIMP Invalidate(REFERENCE_TIME rtInvalidate = -1);
     STDMETHODIMP_(bool) LookupSubPic(REFERENCE_TIME rtNow, CComPtr<ISubPic>& pSubPic);

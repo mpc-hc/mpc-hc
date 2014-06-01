@@ -37,6 +37,7 @@ CPPageSubtitles::CPPageSubtitles()
     , m_bSPQPow2Tex(TRUE)
     , m_bDisableSubtitleAnimation(FALSE)
     , m_nRenderAtWhenAnimationIsDisabled(50)
+    , m_nAnimationRate(100)
     , m_nSubDelayInterval(500)
     , m_bSubtitleARCompensation(TRUE)
 {
@@ -61,6 +62,8 @@ void CPPageSubtitles::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECK_NO_SUB_ANIM, m_bDisableSubtitleAnimation);
     DDX_Text(pDX, IDC_EDIT5, m_nRenderAtWhenAnimationIsDisabled);
     DDX_Control(pDX, IDC_SPIN5, m_renderAtCtrl);
+    DDX_Text(pDX, IDC_EDIT6, m_nAnimationRate);
+    DDX_Control(pDX, IDC_SPIN6, m_animationRateCtrl);
     DDX_Text(pDX, IDC_EDIT4, m_nSubDelayInterval);
     DDX_Check(pDX, IDC_CHECK_SUB_AR_COMPENSATION, m_bSubtitleARCompensation);
 }
@@ -80,6 +83,10 @@ BEGIN_MESSAGE_MAP(CPPageSubtitles, CPPageBase)
     ON_UPDATE_COMMAND_UI(IDC_EDIT5, OnUpdateRenderAtWhenAnimationIsDisabled)
     ON_UPDATE_COMMAND_UI(IDC_SPIN5, OnUpdateRenderAtWhenAnimationIsDisabled)
     ON_UPDATE_COMMAND_UI(IDC_STATIC6, OnUpdateRenderAtWhenAnimationIsDisabled)
+    ON_UPDATE_COMMAND_UI(IDC_STATIC7, OnUpdateAnimationRate)
+    ON_UPDATE_COMMAND_UI(IDC_EDIT6, OnUpdateAnimationRate)
+    ON_UPDATE_COMMAND_UI(IDC_SPIN6, OnUpdateAnimationRate)
+    ON_UPDATE_COMMAND_UI(IDC_STATIC8, OnUpdateAnimationRate)
 END_MESSAGE_MAP()
 
 
@@ -165,6 +172,10 @@ BOOL CPPageSubtitles::OnInitDialog()
     m_bDisableSubtitleAnimation = r.subPicQueueSettings.bDisableSubtitleAnimation;
     m_nRenderAtWhenAnimationIsDisabled = r.subPicQueueSettings.nRenderAtWhenAnimationIsDisabled;
     m_renderAtCtrl.SetRange32(0, 100);
+    m_nAnimationRate = r.subPicQueueSettings.nAnimationRate;
+    m_animationRateCtrl.SetRange32(10, 100);
+    UDACCEL accels[] = { { 0, 5 }, { 2, 10 }, { 5, 20 } };
+    m_animationRateCtrl.SetAccel(_countof(accels), accels);
     m_nSubDelayInterval = s.nSubDelayInterval;
     m_bSubtitleARCompensation = s.bSubtitleARCompensation;
 
@@ -189,6 +200,7 @@ BOOL CPPageSubtitles::OnApply()
     r.subPicQueueSettings.bPow2Tex = !!m_bSPQPow2Tex;
     r.subPicQueueSettings.bDisableSubtitleAnimation = !!m_bDisableSubtitleAnimation;
     r.subPicQueueSettings.nRenderAtWhenAnimationIsDisabled = std::max(0, std::min(m_nRenderAtWhenAnimationIsDisabled, 100));
+    r.subPicQueueSettings.nAnimationRate = std::max(10, std::min(m_nAnimationRate, 100));
 
     if (s.bSubtitleARCompensation != !!m_bSubtitleARCompensation) {
         s.bSubtitleARCompensation = !!m_bSubtitleARCompensation;
@@ -230,4 +242,9 @@ void CPPageSubtitles::OnSubDelayInterval()
 void CPPageSubtitles::OnUpdateRenderAtWhenAnimationIsDisabled(CCmdUI* pCmdUI)
 {
     pCmdUI->Enable(IsDlgButtonChecked(IDC_CHECK_NO_SUB_ANIM));
+}
+
+void CPPageSubtitles::OnUpdateAnimationRate(CCmdUI* pCmdUI)
+{
+    pCmdUI->Enable(!IsDlgButtonChecked(IDC_CHECK_NO_SUB_ANIM));
 }

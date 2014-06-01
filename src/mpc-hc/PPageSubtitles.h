@@ -43,6 +43,8 @@ private:
     BOOL m_bDisableSubtitleAnimation;
     int m_nRenderAtWhenAnimationIsDisabled;
     CSpinButtonCtrl m_renderAtCtrl;
+    int m_nAnimationRate;
+    CSpinButtonCtrl m_animationRateCtrl;
     int m_nSubDelayInterval;
     BOOL m_bSubtitleARCompensation;
 
@@ -62,5 +64,6 @@ protected:
 
     afx_msg void OnUpdatePosOverride(CCmdUI* pCmdUI);
     afx_msg void OnUpdateRenderAtWhenAnimationIsDisabled(CCmdUI* pCmdUI);
+    afx_msg void OnUpdateAnimationRate(CCmdUI* pCmdUI);
     afx_msg void OnSubDelayInterval();
 };

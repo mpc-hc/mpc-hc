@@ -32,12 +32,15 @@
 // CSubPicQueueImpl
 //
 
+const double CSubPicQueueImpl::DEFAULT_FPS = 25.0;
+
 CSubPicQueueImpl::CSubPicQueueImpl(SubPicQueueSettings settings, ISubPicAllocator* pAllocator, HRESULT* phr)
     : CUnknown(NAME("CSubPicQueueImpl"), nullptr)
     , m_settings(settings)
     , m_pAllocator(pAllocator)
     , m_rtNow(0)
-    , m_fps(25.0)
+    , m_fps(DEFAULT_FPS)
+    , m_rtTimePerSubFrame(REFERENCE_TIME(10000000.0 / (DEFAULT_FPS* settings.nAnimationRate / 100.0)))
 {
     if (phr) {
         *phr = S_OK;
@@ -182,6 +185,8 @@ STDMETHODIMP CSubPicQueue::SetFPS(double fps)
     if (FAILED(hr)) {
         return hr;
     }
+
+    m_rtTimePerSubFrame = REFERENCE_TIME(10000000.0 / (m_fps * m_settings.nAnimationRate / 100.0));
 
     m_runQueueEvent.Set();
 
@@ -466,7 +471,7 @@ DWORD CSubPicQueue::ThreadProc()
         if (SUCCEEDED(GetSubPicProvider(&pSubPicProvider)) && pSubPicProvider
                 && SUCCEEDED(pSubPicProvider->Lock())) {
             double fps = m_fps;
-            REFERENCE_TIME rtTimePerFrame = (REFERENCE_TIME)(10000000.0 / fps);
+            REFERENCE_TIME rtTimePerSubFrame = m_rtTimePerSubFrame;
             m_bInvalidate = false;
             CComPtr<ISubPic> pSubPic;
 
@@ -509,14 +514,14 @@ DWORD CSubPicQueue::ThreadProc()
                         REFERENCE_TIME rtStopReal;
                         if (rtStop == ISubPicProvider::UNKNOWN_TIME) { // Special case for subtitles with unknown end time
                             // Force a one frame duration
-                            rtStopReal = rtCurrent + rtTimePerFrame;
+                            rtStopReal = rtCurrent + REFERENCE_TIME(10000000.0 / fps);
                         } else {
                             rtStopReal = rtStop;
                         }
 
                         HRESULT hr;
                         if (bIsAnimated) {
-                            REFERENCE_TIME rtEndThis = std::min(rtCurrent + rtTimePerFrame, rtStopReal);
+                            REFERENCE_TIME rtEndThis = std::min(rtCurrent + rtTimePerSubFrame, rtStopReal);
                             hr = RenderTo(pStatic, rtCurrent, rtEndThis, fps, bIsAnimated);
                             pStatic->SetSegmentStart(rtStart);
                             pStatic->SetSegmentStop(rtStopReal);
@@ -614,6 +619,23 @@ CSubPicQueueNoThread::~CSubPicQueueNoThread()
 
 // ISubPicQueue
 
+STDMETHODIMP CSubPicQueueNoThread::SetFPS(double fps)
+{
+    HRESULT hr = __super::SetFPS(fps);
+    if (FAILED(hr)) {
+        return hr;
+    }
+
+    if (m_settings.nAnimationRate == 100) { // Special case when rendering at full speed
+        // Ensure the subtitle will really be updated every frame by setting a really small duration
+        m_rtTimePerSubFrame = 1;
+    } else {
+        m_rtTimePerSubFrame = REFERENCE_TIME(10000000.0 / (m_fps * m_settings.nAnimationRate / 100.0));
+    }
+
+    return S_OK;
+}
+
 STDMETHODIMP CSubPicQueueNoThread::Invalidate(REFERENCE_TIME rtInvalidate /*= -1*/)
 {
     CAutoLock cQueueLock(&m_csLock);
@@ -645,19 +667,20 @@ STDMETHODIMP_(bool) CSubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, CCo
             POSITION pos = pSubPicProvider->GetStartPosition(rtNow, fps);
             if (pos) {
                 REFERENCE_TIME rtStart;
-                REFERENCE_TIME rtStop;
+                REFERENCE_TIME rtStop = pSubPicProvider->GetStop(pos, fps);
                 bool bAnimated = pSubPicProvider->IsAnimated(pos) && !m_settings.bDisableSubtitleAnimation;
+
+                // Special case for subtitles with unknown end time
+                if (rtStop == ISubPicProvider::UNKNOWN_TIME) {
+                    // Force a one frame duration
+                    rtStop = rtNow + 1;
+                }
 
                 if (bAnimated) {
                     rtStart = rtNow;
-                    rtStop = rtNow + 1;
+                    rtStop = std::min(rtNow + m_rtTimePerSubFrame, rtStop);
                 } else {
                     rtStart = pSubPicProvider->GetStart(pos, fps);
-                    rtStop = pSubPicProvider->GetStop(pos, fps);
-                    if (rtStop == ISubPicProvider::UNKNOWN_TIME) { // Special case for subtitles with unknown end time
-                        // Force a one frame duration
-                        rtStop = rtNow + 1;
-                    }
                 }
 
                 if (rtStart <= rtNow && rtNow < rtStop) {

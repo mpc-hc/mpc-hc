@@ -28,17 +28,19 @@ struct SubPicQueueSettings {
     bool bPow2Tex;
     bool bDisableSubtitleAnimation;
     int  nRenderAtWhenAnimationIsDisabled;
+    int  nAnimationRate;
 
     SubPicQueueSettings(int nSize, int nMaxRes, bool bPow2Tex,
-                        bool bDisableSubtitleAnimation, int nRenderAtWhenAnimationIsDisabled)
+                        bool bDisableSubtitleAnimation, int nRenderAtWhenAnimationIsDisabled, int nAnimationRate)
         : nSize(nSize)
         , nMaxRes(nMaxRes)
         , bPow2Tex(bPow2Tex)
         , bDisableSubtitleAnimation(bDisableSubtitleAnimation)
         , nRenderAtWhenAnimationIsDisabled(nRenderAtWhenAnimationIsDisabled)
+        , nAnimationRate(nAnimationRate)
     {};
 
     SubPicQueueSettings()
-        : SubPicQueueSettings(10, 0, true, false, 50)
+        : SubPicQueueSettings(10, 0, true, false, 50, 100)
     {};
 };

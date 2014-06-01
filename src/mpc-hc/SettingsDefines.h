@@ -122,6 +122,7 @@
 #define IDS_RS_POW2TEX                      _T("SPCPow2Tex")
 #define IDS_RS_DISABLE_SUBTITLE_ANIMATION   _T("DisableSubtitleAnimation")
 #define IDS_RS_RENDER_AT_WHEN_ANIM_DISABLED _T("RenderAtWhenSubtitleAnimationIsDisabled")
+#define IDS_RS_SUBTITLE_ANIMATION_RATE      _T("SubtitleAnimationRate")
 #define IDS_RS_INTREALMEDIA                 _T("IntRealMedia")
 #define IDS_RS_EXITFULLSCREENATTHEEND       _T("ExitFullscreenAtTheEnd")
 #define IDS_RS_REMEMBERWINDOWPOS            _T("RememberWindowPos")
