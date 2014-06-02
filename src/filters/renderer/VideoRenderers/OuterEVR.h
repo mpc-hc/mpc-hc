@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -30,12 +30,15 @@ namespace DSObjects
         , public IBaseFilter
     {
         CComPtr<IUnknown> m_pEVR;
+        IBaseFilter* m_pEVRBase;
         VMR9AlphaBitmap*  m_pVMR9AlphaBitmap;
         CEVRAllocatorPresenter* m_pAllocatorPresenter;
 
     public:
         COuterEVR(const TCHAR* pName, LPUNKNOWN pUnk, HRESULT& hr, VMR9AlphaBitmap* pVMR9AlphaBitmap, CEVRAllocatorPresenter* pAllocatorPresenter) : CUnknown(pName, pUnk) {
             hr = m_pEVR.CoCreateInstance(CLSID_EnhancedVideoRenderer, GetOwner());
+            CComQIPtr<IBaseFilter> pEVRBase = m_pEVR;
+            m_pEVRBase = pEVRBase; // Don't keep a second reference on the EVR filter
             m_pVMR9AlphaBitmap = pVMR9AlphaBitmap;
             m_pAllocatorPresenter = pAllocatorPresenter;
         }

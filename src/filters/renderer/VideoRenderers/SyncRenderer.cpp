@@ -3954,6 +3954,8 @@ HRESULT CreateSyncRenderer(const CLSID& clsid, HWND hWnd, bool bFullscreen, ISub
 CSyncRenderer::CSyncRenderer(const TCHAR* pName, LPUNKNOWN pUnk, HRESULT& hr, VMR9AlphaBitmap* pVMR9AlphaBitmap, CSyncAP* pAllocatorPresenter): CUnknown(pName, pUnk)
 {
     hr = m_pEVR.CoCreateInstance(CLSID_EnhancedVideoRenderer, GetOwner());
+    CComQIPtr<IBaseFilter> pEVRBase = m_pEVR;
+    m_pEVRBase = pEVRBase; // Don't keep a second reference on the EVR filter
     m_pVMR9AlphaBitmap = pVMR9AlphaBitmap;
     m_pAllocatorPresenter = pAllocatorPresenter;
 }
@@ -3964,144 +3966,96 @@ CSyncRenderer::~CSyncRenderer()
 
 HRESULT STDMETHODCALLTYPE CSyncRenderer::GetState(DWORD dwMilliSecsTimeout, __out  FILTER_STATE* State)
 {
-    CComPtr<IBaseFilter> pEVRBase;
-    if (m_pEVR) {
-        m_pEVR->QueryInterface(&pEVRBase);
-    }
-    if (pEVRBase) {
-        return pEVRBase->GetState(dwMilliSecsTimeout, State);
+    if (m_pEVRBase) {
+        return m_pEVRBase->GetState(dwMilliSecsTimeout, State);
     }
     return E_NOTIMPL;
 }
 
 STDMETHODIMP CSyncRenderer::EnumPins(__out IEnumPins** ppEnum)
 {
-    CComPtr<IBaseFilter> pEVRBase;
-    if (m_pEVR) {
-        m_pEVR->QueryInterface(&pEVRBase);
-    }
-    if (pEVRBase) {
-        return pEVRBase->EnumPins(ppEnum);
+    if (m_pEVRBase) {
+        return m_pEVRBase->EnumPins(ppEnum);
     }
     return E_NOTIMPL;
 }
 
 STDMETHODIMP CSyncRenderer::FindPin(LPCWSTR Id, __out  IPin** ppPin)
 {
-    CComPtr<IBaseFilter> pEVRBase;
-    if (m_pEVR) {
-        m_pEVR->QueryInterface(&pEVRBase);
-    }
-    if (pEVRBase) {
-        return pEVRBase->FindPin(Id, ppPin);
+    if (m_pEVRBase) {
+        return m_pEVRBase->FindPin(Id, ppPin);
     }
     return E_NOTIMPL;
 }
 
 STDMETHODIMP CSyncRenderer::QueryFilterInfo(__out  FILTER_INFO* pInfo)
 {
-    CComPtr<IBaseFilter> pEVRBase;
-    if (m_pEVR) {
-        m_pEVR->QueryInterface(&pEVRBase);
-    }
-    if (pEVRBase) {
-        return pEVRBase->QueryFilterInfo(pInfo);
+    if (m_pEVRBase) {
+        return m_pEVRBase->QueryFilterInfo(pInfo);
     }
     return E_NOTIMPL;
 }
 
 STDMETHODIMP CSyncRenderer::JoinFilterGraph(__in_opt  IFilterGraph* pGraph, __in_opt  LPCWSTR pName)
 {
-    CComPtr<IBaseFilter> pEVRBase;
-    if (m_pEVR) {
-        m_pEVR->QueryInterface(&pEVRBase);
-    }
-    if (pEVRBase) {
-        return pEVRBase->JoinFilterGraph(pGraph, pName);
+    if (m_pEVRBase) {
+        return m_pEVRBase->JoinFilterGraph(pGraph, pName);
     }
     return E_NOTIMPL;
 }
 
 STDMETHODIMP CSyncRenderer::QueryVendorInfo(__out  LPWSTR* pVendorInfo)
 {
-    CComPtr<IBaseFilter> pEVRBase;
-    if (m_pEVR) {
-        m_pEVR->QueryInterface(&pEVRBase);
-    }
-    if (pEVRBase) {
-        return pEVRBase->QueryVendorInfo(pVendorInfo);
+    if (m_pEVRBase) {
+        return m_pEVRBase->QueryVendorInfo(pVendorInfo);
     }
     return E_NOTIMPL;
 }
 
 STDMETHODIMP CSyncRenderer::Stop()
 {
-    CComPtr<IBaseFilter> pEVRBase;
-    if (m_pEVR) {
-        m_pEVR->QueryInterface(&pEVRBase);
-    }
-    if (pEVRBase) {
-        return pEVRBase->Stop();
+    if (m_pEVRBase) {
+        return m_pEVRBase->Stop();
     }
     return E_NOTIMPL;
 }
 
 STDMETHODIMP CSyncRenderer::Pause()
 {
-    CComPtr<IBaseFilter> pEVRBase;
-    if (m_pEVR) {
-        m_pEVR->QueryInterface(&pEVRBase);
-    }
-    if (pEVRBase) {
-        return pEVRBase->Pause();
+    if (m_pEVRBase) {
+        return m_pEVRBase->Pause();
     }
     return E_NOTIMPL;
 }
 
 STDMETHODIMP CSyncRenderer::Run(REFERENCE_TIME tStart)
 {
-    CComPtr<IBaseFilter> pEVRBase;
-    if (m_pEVR) {
-        m_pEVR->QueryInterface(&pEVRBase);
-    }
-    if (pEVRBase) {
-        return pEVRBase->Run(tStart);
+    if (m_pEVRBase) {
+        return m_pEVRBase->Run(tStart);
     }
     return E_NOTIMPL;
 }
 
 STDMETHODIMP CSyncRenderer::SetSyncSource(__in_opt IReferenceClock* pClock)
 {
-    CComPtr<IBaseFilter> pEVRBase;
-    if (m_pEVR) {
-        m_pEVR->QueryInterface(&pEVRBase);
-    }
-    if (pEVRBase) {
-        return pEVRBase->SetSyncSource(pClock);
+    if (m_pEVRBase) {
+        return m_pEVRBase->SetSyncSource(pClock);
     }
     return E_NOTIMPL;
 }
 
 STDMETHODIMP CSyncRenderer::GetSyncSource(__deref_out_opt IReferenceClock** pClock)
 {
-    CComPtr<IBaseFilter> pEVRBase;
-    if (m_pEVR) {
-        m_pEVR->QueryInterface(&pEVRBase);
-    }
-    if (pEVRBase) {
-        return pEVRBase->GetSyncSource(pClock);
+    if (m_pEVRBase) {
+        return m_pEVRBase->GetSyncSource(pClock);
     }
     return E_NOTIMPL;
 }
 
 STDMETHODIMP CSyncRenderer::GetClassID(__RPC__out CLSID* pClassID)
 {
-    CComPtr<IBaseFilter> pEVRBase;
-    if (m_pEVR) {
-        m_pEVR->QueryInterface(&pEVRBase);
-    }
-    if (pEVRBase) {
-        return pEVRBase->GetClassID(pClassID);
+    if (m_pEVRBase) {
+        return m_pEVRBase->GetClassID(pClassID);
     }
     return E_NOTIMPL;
 }
