@@ -63,6 +63,8 @@
 #define IDS_RS_DISABLEINTERNALSUBTITLES     _T("DisableInternalSubtitles")
 #define IDS_RS_ALLOW_OVERRIDING_EXT_SPLITTER _T("AllowOverridingExternalSplitterSubtitleChoice")
 #define IDS_RS_AUTODOWNLOADSUBTITLES        _T("AutoDownloadSubtitles")
+#define IDS_RS_AUTODOWNLOADSCOREMOVIES      _T("AutoDownloadScoreMovies")
+#define IDS_RS_AUTODOWNLOADSCORESERIES      _T("AutoDownloadScoreSeries")
 #define IDS_RS_AUTODOWNLOADSUBTITLESEXCLUDE _T("AutoDownloadSubtitlesExclude")
 #define IDS_RS_AUTOUPLOADSUBTITLES          _T("AutoUploadSubtitles")
 #define IDS_RS_SUBTITLESPROVIDERS           _T("SubtitlesProviders")

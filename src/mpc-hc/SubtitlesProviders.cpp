@@ -918,8 +918,8 @@ void SubtitlesThread::_DownloadProc(SubtitlesList& _subtitlesList)
             }
         }
         if (bDownload == TRUE) {
-            //TODO: Consider making minimum score a settings variable ?
-            if ((iter.episodeNumber != -1 && (SHORT)LOWORD(iter.Score()) >= 0x18) || (iter.episodeNumber == -1 && (SHORT)LOWORD(iter.Score()) >= 0x16)) {
+            const auto& s = AfxGetAppSettings();
+            if ((iter.episodeNumber != -1 && (SHORT)LOWORD(iter.Score()) >= s.nAutoDownloadScoreSeries) || (iter.episodeNumber == -1 && (SHORT)LOWORD(iter.Score()) >= s.nAutoDownloadScoreMovies)) {
                 CheckAbortAndThrow();
                 _DownloadProc(iter, TRUE);
             }
