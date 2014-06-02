@@ -958,3 +958,63 @@ bool CWebClientSocket::OnViewRes(CStringA& hdr, CStringA& body, CStringA& mime)
 
     return true;
 }
+
+static CStringA GetChannelsJSON(const CAtlList<CDVBChannel>& channels)
+{
+    // begin the JSON object with the "channels" array inside
+    CStringA jsonChannels = "{ \"channels\" : [";
+
+    POSITION channelPos = channels.GetHeadPosition();
+    while (channelPos) {
+        // fill the array with individual channel objects
+        jsonChannels += channels.GetNext(channelPos).ToJSON();
+        if (channelPos) {
+            jsonChannels += ",";
+        }
+    }
+
+    // terminate the array and the object, and return.
+    jsonChannels += "] }";
+    return jsonChannels;
+}
+
+bool CWebClientSocket::OnDVBChannels(CStringA& hdr, CStringA& body, CStringA& mime)
+{
+    if (m_pMainFrame->GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
+        mime = "application/json";
+        body = GetChannelsJSON(AfxGetAppSettings().m_DVBChannels);
+    } else {
+        // if we're not currently running the capture, report the service as
+        // unavailable and return.
+        hdr = "HTTP/1.0 503 Service Unavailable\r\n";
+    }
+
+    // the request is always "handled", successfully or not.
+    return true;
+}
+
+bool CWebClientSocket::OnDVBSetChannel(CStringA& hdr, CStringA& body, CStringA& mime)
+{
+    CString requestParam;
+    int channelIdx;
+    if (m_pMainFrame->GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
+        // the 'idx' GET parameter should contain a valid integer of the
+        // channel to switch to.
+        if (m_get.Lookup("idx", requestParam)
+                && _stscanf_s(requestParam, _T("%d"), &channelIdx) == 1
+                && channelIdx >= 0) {
+            // SetChannelUpdatePos() will return an error if the channel was
+            // not found (among other things). return a 404 in that case.
+            if (FAILED(m_pMainFrame->SetChannelUpdatePos(channelIdx))) {
+                hdr = "HTTP/1.0 404 Not Found\r\n";
+            }
+        } else {
+            // invalid parameters.
+            hdr = "HTTP/1.0 400 Bad Request\r\n";
+        }
+    } else {
+        // not running the capture - don't report channels.
+        hdr = "HTTP/1.0 503 Service Unavailable\r\n";
+    }
+    return true;
+}

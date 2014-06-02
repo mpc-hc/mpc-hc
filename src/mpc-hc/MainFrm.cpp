@@ -8494,6 +8494,24 @@ void CMainFrame::OnUpdateNavigateMenu(CCmdUI* pCmdUI)
     pCmdUI->Enable(!(ulUOPs & (UOP_FLAG_ShowMenu_Title << nID)));
 }
 
+HRESULT CMainFrame::SetChannelUpdatePos(int channelId)
+{
+    const CAppSettings& s = AfxGetAppSettings();
+    HRESULT hr = E_FAIL;
+    CComQIPtr<IBDATuner> pTun = m_pGB;
+    if (pTun) {
+        if (s.nDVBLastChannel != channelId) {
+            hr = SetChannel(channelId);
+            if (SUCCEEDED(hr)) {
+                if (m_controls.ControlChecked(CMainFrameControls::Panel::NAVIGATION)) {
+                    m_wndNavigationBar.m_navdlg.UpdatePos(channelId);
+                }
+            }
+        }
+    }
+    return hr;
+}
+
 void CMainFrame::OnNavigateJumpTo(UINT nID)
 {
     if (nID < ID_NAVIGATE_JUMPTO_SUBITEM_START) {
@@ -8542,18 +8560,7 @@ void CMainFrame::OnNavigateJumpTo(UINT nID)
     } else if (GetPlaybackMode() == PM_DVD) {
         SeekToDVDChapter(nID - ID_NAVIGATE_JUMPTO_SUBITEM_START + 1);
     } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-        nID -= ID_NAVIGATE_JUMPTO_SUBITEM_START;
-
-        CComQIPtr<IBDATuner> pTun = m_pGB;
-        if (pTun) {
-            if (s.nDVBLastChannel != nID) {
-                if (SUCCEEDED(SetChannel(nID))) {
-                    if (m_controls.ControlChecked(CMainFrameControls::Panel::NAVIGATION)) {
-                        m_wndNavigationBar.m_navdlg.UpdatePos(nID);
-                    }
-                }
-            }
-        }
+        SetChannelUpdatePos(nID - ID_NAVIGATE_JUMPTO_SUBITEM_START);
     }
 }
 

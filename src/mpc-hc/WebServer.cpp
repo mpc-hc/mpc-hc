@@ -100,6 +100,8 @@ void CWebServer::Init()
     m_internalpages["/status.html"] = &CWebClientSocket::OnStatus;
     m_internalpages["/variables.html"] = &CWebClientSocket::OnVariables;
     m_internalpages["/viewres.html"] = &CWebClientSocket::OnViewRes;
+    m_internalpages["/dvb/channels.json"] = &CWebClientSocket::OnDVBChannels;
+    m_internalpages["/dvb/setchannel"] = &CWebClientSocket::OnDVBSetChannel;
 
     m_downloads["/default.css"] = IDF_DEFAULT_CSS;
     m_downloads["/favicon.ico"] = IDF_FAVICON;

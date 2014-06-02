@@ -91,6 +91,22 @@ CStringA UrlEncode(const CStringA& strIn)
     return strOut;
 }
 
+CStringA EscapeJSONString(const CStringA& str)
+{
+    CStringA escapedString = str;
+    // replace all of JSON's reserved characters with their escaped
+    // equivalents.
+    escapedString.Replace("\"", "\\\"");
+    escapedString.Replace("\\", "\\\\");
+    escapedString.Replace("/", "\\/");
+    escapedString.Replace("\b", "\\b");
+    escapedString.Replace("\f", "\\f");
+    escapedString.Replace("\n", "\\n");
+    escapedString.Replace("\r", "\\r");
+    escapedString.Replace("\t", "\\t");
+    return escapedString;
+}
+
 CStringA UrlDecode(const CStringA& strIn)
 {
     CStringA strOut;

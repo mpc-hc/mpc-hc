@@ -166,6 +166,15 @@ CString CDVBChannel::ToString()
     return strValue;
 }
 
+CStringA CDVBChannel::ToJSON() const
+{
+    CStringA jsonChannel;
+    jsonChannel.Format("{ \"index\" : %d, \"name\" : \"%s\" }",
+                       m_nPrefNumber,
+                       EscapeJSONString(UTF16To8(m_strName)));
+    return jsonChannel;
+}
+
 void CDVBChannel::AddStreamInfo(ULONG ulPID, DVB_STREAM_TYPE nType, PES_STREAM_TYPE nPesType, LPCTSTR strLanguage)
 {
     switch (nType) {

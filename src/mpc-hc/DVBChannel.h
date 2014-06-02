@@ -109,6 +109,14 @@ public:
 
     bool FromString(CString strValue);
     CString ToString();
+    /**
+     * @brief Output a JSON representation of a DVB channel.
+     * @note The object contains two elements : "index", which corresponds to
+     * @c m_nPrefNumber, and "name", which contains @c m_strName.
+     * @returns A string representing a JSON object containing the
+     * aforementioned elements.
+     */
+    CStringA ToJSON() const;
 
     LPCTSTR GetName() const { return m_strName; };
     ULONG GetFrequency() const { return m_ulFrequency; };

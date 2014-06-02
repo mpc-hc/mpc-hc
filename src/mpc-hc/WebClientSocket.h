@@ -77,4 +77,6 @@ public:
     bool OnPlayer(CStringA& hdr, CStringA& body, CStringA& mime);
     bool OnSnapshotJpeg(CStringA& hdr, CStringA& body, CStringA& mime);
     bool OnViewRes(CStringA& hdr, CStringA& body, CStringA& mime);
+    bool OnDVBChannels(CStringA& hdr, CStringA& body, CStringA& mime);
+    bool OnDVBSetChannel(CStringA& hdr, CStringA& body, CStringA& mime);
 };
