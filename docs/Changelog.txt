@@ -24,11 +24,12 @@ next version - not released yet
 * Updated Unrar to v5.1.4
 * Updated MediaInfoLib to v0.7.69
 * Updated ZenLib to v0.4.29 r458
-* Updated LAV Filters to v0.61.2.31:
+* Updated LAV Filters to v0.61.2.35:
     - Ticket #3575, LAV Splitter: Alternate audio support for HLS
     - Ticket #4326, LAV Splitter: No subtitles were displayed when using the special "Forced subtitles" track created for PGS subtitles
     - LAV Video: Support VP7 video
     - LAV Video: Use the MediaFondation WMV decoder on Windows 7+ instead of the DMO WMV decoder
+    - Ticket #4032, LAV Video: Fix some issues with DVD subtitles (flashing, overlapping and generally all kind of timing issues)
     - Ticket #4357, LAV Video: Fix some performance regressions introduced in v0.61 (mostly visible on old operating systems like Windows XP)
 * Updated Armenian, Basque, Belarusian, Bengali, British English, Catalan, Chinese (simplified and traditional), Croatian,
   Czech, Dutch, French, Galician, German, Greek, Hebrew, Hungarian, Italian, Japanese, Korean, Malay, Polish, Portuguese (Brazil),
