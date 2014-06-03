@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-05-11 19:53:40+0000\n"
-"PO-Revision-Date: 2014-05-27 11:35+0000\n"
+"POT-Creation-Date: 2014-05-28 21:39:34+0000\n"
+"PO-Revision-Date: 2014-06-02 10:41+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -74,7 +74,7 @@ msgstr "開始"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK2"
 msgid "Enable built-in audio switcher filter (requires restart)"
-msgstr "内蔵の音声切り替えフィルタを有効にする (ファイルの開き直しが必要)"
+msgstr "内蔵の音声切り替えフィルタを有効にする (再起動が必要)"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK5"
 msgid "Normalize"
@@ -282,11 +282,11 @@ msgstr "タスク トレイ アイコン"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_SHOW_OSD"
 msgid "Show OSD (requires restart)"
-msgstr "OSD を表示する (要再起動)"
+msgstr "OSD を表示する (再起動が必要)"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK4"
 msgid "Limit window proportions on resize"
-msgstr "リサイズ時にウィンドウのアスペクト比を固定する"
+msgstr "リサイズ時にウィンドウ サイズの縦横比を固定する"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK12"
 msgid "Snap to desktop edges"
@@ -518,7 +518,7 @@ msgstr "ms"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Texture settings (open the video again to see the changes)"
-msgstr "テクスチャ設定 (変更を有効にするにはビデオを開き直してください)"
+msgstr "テクスチャ設定 (変更を有効にするにはビデオを再度開いてください)"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Sub pictures to buffer:"
@@ -542,7 +542,7 @@ msgstr "レンダラのレイアウト"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SUB_AR_COMPENSATION"
 msgid "Apply aspect ratio compensation for anamorphic videos"
-msgstr "アナモルフィック ビデオにアスペクト比補正を適用する"
+msgstr "アナモルフィック ビデオに縦横比の補正を適用する"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Warning"
@@ -1438,7 +1438,7 @@ msgstr "ms"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC10"
 msgid "Changes take effect after the playback has been closed and restarted."
-msgstr "ファイルを開き直すと変更が有効になります。"
+msgstr "再生を終了してファイルを再度開いた後に変更が有効になります。"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK1"
 msgid "Launch files in fullscreen"

@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-05-11 20:22:10+0000\n"
-"PO-Revision-Date: 2014-05-12 11:10+0000\n"
+"POT-Creation-Date: 2014-05-28 21:38:03+0000\n"
+"PO-Revision-Date: 2014-05-29 15:19+0000\n"
 "Last-Translator: BetaKing <yzonline@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/mpc-hc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -1243,11 +1243,11 @@ msgstr "复制滤镜列表到剪贴板(&C)"
 
 msgctxt "IDS_CREDENTIALS_SERVER"
 msgid "Enter server credentials"
-msgstr ""
+msgstr "输入服务器凭据"
 
 msgctxt "IDS_CREDENTIALS_CONNECT"
 msgid "Enter your credentials to connect"
-msgstr ""
+msgstr "输入您的凭据以连接"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2119,7 +2119,7 @@ msgstr "内存溢出,赶快去买!"
 
 msgctxt "IDS_MAINFRM_57"
 msgid "Invalid image format, cannot create thumbnails out of %d bpp dibs."
-msgstr "无效的图像格式, 无法创建大于 %d bpp 的缩略图。"
+msgstr "无效的图像格式, 无法创建大于 %d bpp DIBS 的缩略图。"
 
 msgctxt "IDS_MAINFRM_58"
 msgid "File Size: %s (%s bytes)\\N"
@@ -2131,7 +2131,7 @@ msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}文件名: %s\\N%s分辨率:
 
 msgctxt "IDS_THUMBNAIL_TOO_SMALL"
 msgid "The thumbnails would be too small, impossible to create the file.\n\nTry lowering the number of thumbnails or increasing the total size."
-msgstr ""
+msgstr "缩略图将会太小, 而无法创建该文件。\\n\\n请尝试调低缩略图的数量或增加总大小。"
 
 msgctxt "IDS_MAINFRM_60"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"

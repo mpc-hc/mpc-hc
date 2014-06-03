@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-05-11 20:22:10+0000\n"
-"PO-Revision-Date: 2014-05-27 11:38+0000\n"
+"POT-Creation-Date: 2014-05-28 21:38:03+0000\n"
+"PO-Revision-Date: 2014-06-02 10:52+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -982,7 +982,7 @@ msgstr "編集決定リスト (EDL) 保存"
 
 msgctxt "IDS_AG_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time Correction"
-msgstr "フレーム時間補正を有効にする"
+msgstr "フレーム時間の補正を有効にする"
 
 msgctxt "IDS_AG_TOGGLE_EDITLISTEDITOR"
 msgid "Toggle EDL window"
@@ -990,11 +990,11 @@ msgstr "編集決定リスト (EDL) ウィンドウの表示"
 
 msgctxt "IDS_AG_EDL_IN"
 msgid "EDL set In"
-msgstr "編集決定リスト (EDL) 開始点の設定"
+msgstr "編集決定リスト (EDL) 開始点を設定"
 
 msgctxt "IDS_AG_EDL_OUT"
 msgid "EDL set Out"
-msgstr "編集決定リスト (EDL) 終了点の設定"
+msgstr "編集決定リスト (EDL) 終了点を設定"
 
 msgctxt "IDS_AG_PNS_ROTATEX_M"
 msgid "PnS Rotate X-"
@@ -1242,11 +1242,11 @@ msgstr "フィルタ リストをクリップボードにコピー"
 
 msgctxt "IDS_CREDENTIALS_SERVER"
 msgid "Enter server credentials"
-msgstr ""
+msgstr "サーバーの資格情報を入力してください"
 
 msgctxt "IDS_CREDENTIALS_CONNECT"
 msgid "Enter your credentials to connect"
-msgstr ""
+msgstr "接続するための資格情報を入力してください"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1378,11 +1378,11 @@ msgstr "リサイズ前のシェーダを設定できませんでした"
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
 msgid "Frame Time Correction: On"
-msgstr "フレーム時間補正: オン"
+msgstr "フレーム時間の補正: オン"
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_OFF"
 msgid "Frame Time Correction: Off"
-msgstr "フレーム時間補正: オフ"
+msgstr "フレーム時間の補正: オフ"
 
 msgctxt "IDS_OSD_RS_TARGET_VSYNC_OFFSET"
 msgid "Target VSync Offset: %.1f"
@@ -2042,7 +2042,7 @@ msgstr "プロトコルのバージョンが一致しません。プレーヤー
 
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
-msgstr "アスペクト比"
+msgstr "縦横比"
 
 msgctxt "IDS_MAINFRM_37"
 msgid ", Total: %d, Dropped: %d"
@@ -2130,19 +2130,19 @@ msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}ファイル名: %s\\N%s解�
 
 msgctxt "IDS_THUMBNAIL_TOO_SMALL"
 msgid "The thumbnails would be too small, impossible to create the file.\n\nTry lowering the number of thumbnails or increasing the total size."
-msgstr ""
+msgstr "サムネイルが小さすぎて、ファイルを作成できません。\n\nサムネイルの数を減らすか、全体のサイズを大きくしてみてください。"
 
 msgctxt "IDS_MAINFRM_60"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "字幕を読み込むためにはビデオ レンダラを変更しファイルを開き直す必要があります。\n- DirectShow: VMR-7/VMR-9 (レンダーレス)、EVR (カスタム プレゼンタ)、同期、madVR、Haali\n- RealMedia: RealMedia 用の特別なレンダラまたは DirectShow を用いて開く\n- QuickTime: QuickTime 用の DirectX 7 または DirectX 9 レンダラ\n- ShockWave: n/a"
+msgstr "字幕を読み込むためにはビデオ レンダラを変更しファイルを​​再度開く必要があります。\n- DirectShow: VMR-7/VMR-9 (レンダーレス)、EVR (カスタム プレゼンタ)、同期、madVR、Haali\n- RealMedia: RealMedia 用の特別なレンダラまたは DirectShow を用いて開く\n- QuickTime: QuickTime 用の DirectX 7 または DirectX 9 レンダラ\n- ShockWave: n/a"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %d:%d"
-msgstr "アスペクト比: %d:%d"
+msgstr "縦横比: %d:%d"
 
 msgctxt "IDS_MAINFRM_69"
 msgid "Aspect Ratio: Default"
-msgstr "アスペクト比: 標準"
+msgstr "縦横比: 標準"
 
 msgctxt "IDS_MAINFRM_70"
 msgid "Audio Delay: %I64dms"
@@ -2434,7 +2434,7 @@ msgstr "拡大 200%"
 
 msgctxt "IDS_AG_NEXT_AR_PRESET"
 msgid "Next AR Preset"
-msgstr "アスペクト比の切り替え"
+msgstr "次の縦横比のプリセット"
 
 msgctxt "IDS_AG_VIDFRM_STRETCH"
 msgid "VidFrm Stretch"
@@ -2674,7 +2674,7 @@ msgstr "オーディオ: %s"
 
 msgctxt "IDS_AG_REOPEN"
 msgid "Reopen File"
-msgstr "ファイルを開き直す"
+msgstr "ファイルを​​再度開く"
 
 msgctxt "IDS_MFMT_AVI"
 msgid "AVI"
@@ -2878,7 +2878,7 @@ msgstr "解像度"
 
 msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
 msgid "Aspect Ratio"
-msgstr "アスペクト比"
+msgstr "縦横比"
 
 msgctxt "IDS_ARS_WASAPI_MODE"
 msgid "Use WASAPI (restart playback)"

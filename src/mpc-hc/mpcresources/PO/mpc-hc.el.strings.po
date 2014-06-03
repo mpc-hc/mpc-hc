@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-05-11 20:22:10+0000\n"
-"PO-Revision-Date: 2014-05-12 18:46+0000\n"
+"POT-Creation-Date: 2014-05-28 21:38:03+0000\n"
+"PO-Revision-Date: 2014-05-29 15:20+0000\n"
 "Last-Translator: geogeo.gr <admin@geogeo.gr>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/mpc-hc/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -1243,11 +1243,11 @@ msgstr "Αντι&γραφή λίστας φίλτρων στο Πρόχειρο"
 
 msgctxt "IDS_CREDENTIALS_SERVER"
 msgid "Enter server credentials"
-msgstr ""
+msgstr "Εισαγωγή διαπιστευτηρίων διακομιστή"
 
 msgctxt "IDS_CREDENTIALS_CONNECT"
 msgid "Enter your credentials to connect"
-msgstr ""
+msgstr "Εισάγετε τα διαπιστευτήριά σας για να συνδεθείτε"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2131,7 +2131,7 @@ msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Όνομα αρχείου: %
 
 msgctxt "IDS_THUMBNAIL_TOO_SMALL"
 msgid "The thumbnails would be too small, impossible to create the file.\n\nTry lowering the number of thumbnails or increasing the total size."
-msgstr ""
+msgstr "Οι μικρογραφίες θα είναι πολύ μικρές. Δεν είναι δυνατό να δημιουργηθεί το αρχείο.\n\nΠροσπαθήστε να μειώσετε τον αριθμό των μικρογραφιών ή να αυξήσετε το συνολικό μέγεθος."
 
 msgctxt "IDS_MAINFRM_60"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"

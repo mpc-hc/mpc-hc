@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-05-11 19:53:40+0000\n"
-"PO-Revision-Date: 2014-05-15 02:55+0000\n"
+"POT-Creation-Date: 2014-05-28 21:39:34+0000\n"
+"PO-Revision-Date: 2014-05-29 20:11+0000\n"
 "Last-Translator: bosluk\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/mpc-hc/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -372,7 +372,7 @@ msgstr "Diğer ayarlar"
 
 msgctxt "IDD_PPAGEDVD_IDC_CHECK2"
 msgid "Allow closed captions in \"Line 21 Decoder\""
-msgstr "Line 21 Çözücüsü için görüntü almaya izin ver"
+msgstr "\"Line 21 Çözücüsü\" için görüntü almaya izin ver"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Audio"
@@ -544,7 +544,7 @@ msgstr "İşleyici yerleşimi"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SUB_AR_COMPENSATION"
 msgid "Apply aspect ratio compensation for anamorphic videos"
-msgstr "Sıkıştırılmış dosyalar için taraf oranı dengelemesinii kullan"
+msgstr "Sıkıştırılmış dosyalar için taraf oranı dengelemesini kullan"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Warning"
@@ -1072,7 +1072,7 @@ msgstr "Dönüştürme Süzgeçleri"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Internal LAV Filters settings"
-msgstr "Dahili LAV Filters Ayarları"
+msgstr "Dahili LAV Filters ayarları"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_SPLITTER_CONF"
 msgid "Splitter"
@@ -1608,7 +1608,7 @@ msgstr "Tonlama hata ayıklayıcı"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_STATIC"
 msgid "Debug Information"
-msgstr "Ayıklama bilgisi"
+msgstr "Hata Ayıklama Bilgisi"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO1"
 msgid "PS 2.0"
