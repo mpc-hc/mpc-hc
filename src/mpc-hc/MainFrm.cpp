@@ -9076,26 +9076,15 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
         h = windowRect.Height() - clientRect.Height() + logoSize.cy + uTop + uBottom;
     }
 
-    bool inmonitor = false;
+    bool bRestoreWindowPosition = false;
     if (s.fRememberWindowPos) {
-        CMonitor monitor;
-        CMonitors monitors;
-        POINT ptA;
-        ptA.x = s.rcLastWindowPos.TopLeft().x;
-        ptA.y = s.rcLastWindowPos.TopLeft().y;
-        inmonitor = (ptA.x < 0 || ptA.y < 0);
-        if (!inmonitor) {
-            for (int i = 0; i < monitors.GetCount(); i++) {
-                monitor = monitors.GetMonitor(i);
-                if (monitor.IsOnMonitor(ptA)) {
-                    inmonitor = true;
-                    break;
-                }
-            }
+        CRect rect(s.rcLastWindowPos.TopLeft(), CSize(w, h));
+        if (CMonitors::IsOnScreen(rect)) {
+            bRestoreWindowPosition = true;
         }
     }
 
-    if (s.fRememberWindowPos && inmonitor) {
+    if (bRestoreWindowPosition) {
         x = s.rcLastWindowPos.TopLeft().x;
         y = s.rcLastWindowPos.TopLeft().y;
     } else {
