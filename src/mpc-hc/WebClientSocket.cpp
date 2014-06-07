@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -1003,9 +1003,10 @@ bool CWebClientSocket::OnDVBSetChannel(CStringA& hdr, CStringA& body, CStringA& 
         if (m_get.Lookup("idx", requestParam)
                 && _stscanf_s(requestParam, _T("%d"), &channelIdx) == 1
                 && channelIdx >= 0) {
-            // SetChannelUpdatePos() will return an error if the channel was
-            // not found (among other things). return a 404 in that case.
-            if (FAILED(m_pMainFrame->SetChannelUpdatePos(channelIdx))) {
+            if (AfxGetAppSettings().FindChannelByPref(channelIdx)) {
+                m_pMainFrame->SendMessage(WM_COMMAND, channelIdx + ID_NAVIGATE_JUMPTO_SUBITEM_START);
+            } else {
+                // Return a 404 if requested channel number was not found.
                 hdr = "HTTP/1.0 404 Not Found\r\n";
             }
         } else {

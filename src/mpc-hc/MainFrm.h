@@ -495,19 +495,6 @@ public:
     void StopTunerScan();
     HRESULT SetChannel(int nChannel);
 
-    /**
-     * @brief Changes the currently played DVB channel to the one indicated by
-     * the parameter to this function.
-     * @param nChannel The @c PrefNumber of the channel that should be set.
-     * @note This function also updates the navigation dialog in order to
-     * display the new channel as the selected one, if visible.
-     * @warning The channel change is not performed if the requested channel is
-     * the same as the channel currently being played.
-     * @returns The value returned by @c SetChannel.
-     * @see CDVBChannel
-     */
-    HRESULT SetChannelUpdatePos(int nChannel);
-
     void AddCurDevToPlaylist();
 
     bool m_bTrayIcon;
