@@ -2,6 +2,35 @@
 
 extern const byte blake2s_sigma[10][16];
 
+// Initialization vector.
+static __m128i blake2s_IV_0_3, blake2s_IV_4_7;
+
+#ifdef _WIN_64
+// Constants for cyclic rotation. Used in 64-bit mode in mm_rotr_epi32 macro.
+static __m128i crotr8, crotr16;
+#endif
+
+static void blake2s_init_sse()
+{
+  // We cannot initialize these 128 bit variables in place when declaring
+  // them globally, because global scope initialization is performed before
+  // our SSE check and it would make code incompatible with older non-SSE2
+  // CPUs. Also we cannot initialize them as static inside of function
+  // using these variables, because SSE static initialization is not thread
+  // safe: first thread starts initialization and sets "init done" flag even
+  // if it is not done yet, second thread can attempt to access half-init
+  // SSE data. So we moved init code here.
+
+  blake2s_IV_0_3 = _mm_setr_epi32( 0x6A09E667, 0xBB67AE85, 0x3C6EF372, 0xA54FF53A );
+  blake2s_IV_4_7 = _mm_setr_epi32( 0x510E527F, 0x9B05688C, 0x1F83D9AB, 0x5BE0CD19 );
+
+#ifdef _WIN_64
+  crotr8 = _mm_set_epi8( 12, 15, 14, 13, 8, 11, 10, 9, 4, 7, 6, 5, 0, 3, 2, 1 );
+  crotr16 = _mm_set_epi8( 13, 12, 15, 14, 9, 8, 11, 10, 5, 4, 7, 6, 1, 0, 3, 2 );
+#endif
+}
+
+
 #define LOAD(p)  _mm_load_si128( (__m128i *)(p) )
 #define STORE(p,r) _mm_store_si128((__m128i *)(p), r)
 
@@ -72,21 +101,6 @@ extern const byte blake2s_sigma[10][16];
 
 static int blake2s_compress_sse( blake2s_state *S, const byte block[BLAKE2S_BLOCKBYTES] )
 {
-  // Initialization vector. Moving them outside of function would provide
-  // ~5% speed gain in 32-bit mode, but would make code incompatible
-  // with older non-SSE2 compatible CPUs. Global static initialization
-  // is performed before our SSE check.
-  static const __m128i blake2s_IV_0_3 = _mm_setr_epi32( 0x6A09E667, 0xBB67AE85, 0x3C6EF372, 0xA54FF53A );
-  static const __m128i blake2s_IV_4_7 = _mm_setr_epi32( 0x510E527F, 0x9B05688C, 0x1F83D9AB, 0x5BE0CD19 );
-
-#ifdef _WIN_64
-  // Constants for cyclic rotation. We use them in 64-bit mode
-  // in mm_rotr_epi32 macro above. We must not define in global scope
-  // to be compatible with non-SSE CPU.
-  static const __m128i crotr8 = _mm_set_epi8( 12, 15, 14, 13, 8, 11, 10, 9, 4, 7, 6, 5, 0, 3, 2, 1 );
-  static const __m128i crotr16 = _mm_set_epi8( 13, 12, 15, 14, 9, 8, 11, 10, 5, 4, 7, 6, 1, 0, 3, 2 );
-#endif
-
   __m128i row[4];
   __m128i ff0, ff1;
   
