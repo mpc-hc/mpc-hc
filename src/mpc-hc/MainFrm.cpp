@@ -2714,8 +2714,9 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 
 LRESULT CMainFrame::OnResetDevice(WPARAM wParam, LPARAM lParam)
 {
-    OAFilterState fs = State_Stopped;
-    m_pMC->GetState(0, &fs);
+    m_OSD.HideMessage(true);
+
+    OAFilterState fs = GetMediaState();
     if (fs == State_Running) {
         if (!IsPlaybackCaptureMode()) {
             m_pMC->Pause();
@@ -2724,18 +2725,13 @@ LRESULT CMainFrame::OnResetDevice(WPARAM wParam, LPARAM lParam)
         }
     }
 
-    m_OSD.HideMessage(true);
-    BOOL bResult = false;
-
     if (m_bOpenedThroughThread) {
         CAMMsgEvent e;
-        m_pGraphThread->PostThreadMessage(CGraphThread::TM_RESET, (WPARAM)&bResult, (LPARAM)&e);
+        m_pGraphThread->PostThreadMessage(CGraphThread::TM_RESET, 0, (LPARAM)&e);
         e.WaitMsg();
     } else {
         ResetDevice();
     }
-
-    m_OSD.HideMessage(false);
 
     if (fs == State_Running) {
         m_pMC->Run();
@@ -2749,6 +2745,9 @@ LRESULT CMainFrame::OnResetDevice(WPARAM wParam, LPARAM lParam)
             }
         }
     }
+
+    m_OSD.HideMessage(false);
+
     return S_OK;
 }
 
