@@ -1694,6 +1694,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::ResetDevice()
 
 STDMETHODIMP_(bool) CDX9AllocatorPresenter::DisplayChange()
 {
+    m_bPendingResetDevice = true;
     SendResetRequest();
     return true;
 }
