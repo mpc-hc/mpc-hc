@@ -1533,26 +1533,6 @@ void CMainFrame::OnDisplayChange() // untested, not sure if it's working...
 {
     TRACE(_T("*** CMainFrame::OnDisplayChange()\n"));
 
-    if (IsD3DFullScreenMode()) {
-        MONITORINFO MonitorInfo;
-        HMONITOR    hMonitor;
-
-        ZeroMemory(&MonitorInfo, sizeof(MonitorInfo));
-        MonitorInfo.cbSize = sizeof(MonitorInfo);
-
-        hMonitor = MonitorFromWindow(m_pFullscreenWnd->m_hWnd, 0);
-        if (GetMonitorInfo(hMonitor, &MonitorInfo)) {
-            CRect MonitorRect = CRect(MonitorInfo.rcMonitor);
-            m_pFullscreenWnd->SetWindowPos(nullptr,
-                                           MonitorRect.left,
-                                           MonitorRect.top,
-                                           MonitorRect.Width(),
-                                           MonitorRect.Height(),
-                                           SWP_NOZORDER);
-            MoveVideoWindow();
-        }
-    }
-
     const CAppSettings& s = AfxGetAppSettings();
     if (s.iDSVideoRendererType != VIDRNDT_DS_MADVR && s.iDSVideoRendererType != VIDRNDT_DS_DXR && !s.IsD3DFullscreen()) {
         DWORD nPCIVendor = 0;
@@ -1573,9 +1553,31 @@ void CMainFrame::OnDisplayChange() // untested, not sure if it's working...
 
     if (GetLoadState() == MLS::LOADED) {
         if (m_pGraphThread) {
-            m_pGraphThread->PostThreadMessage(CGraphThread::TM_DISPLAY_CHANGE, 0, 0);
+            CAMMsgEvent e;
+            m_pGraphThread->PostThreadMessage(CGraphThread::TM_DISPLAY_CHANGE, 0, (LPARAM)&e);
+            e.WaitMsg();
         } else {
             DisplayChange();
+        }
+    }
+
+    if (IsD3DFullScreenMode()) {
+        MONITORINFO MonitorInfo;
+        HMONITOR    hMonitor;
+
+        ZeroMemory(&MonitorInfo, sizeof(MonitorInfo));
+        MonitorInfo.cbSize = sizeof(MonitorInfo);
+
+        hMonitor = MonitorFromWindow(m_pFullscreenWnd->m_hWnd, 0);
+        if (GetMonitorInfo(hMonitor, &MonitorInfo)) {
+            CRect MonitorRect = CRect(MonitorInfo.rcMonitor);
+            m_pFullscreenWnd->SetWindowPos(nullptr,
+                                           MonitorRect.left,
+                                           MonitorRect.top,
+                                           MonitorRect.Width(),
+                                           MonitorRect.Height(),
+                                           SWP_NOZORDER);
+            MoveVideoWindow();
         }
     }
 }

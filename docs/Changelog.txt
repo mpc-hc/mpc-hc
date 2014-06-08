@@ -46,6 +46,7 @@ next version - not released yet
 ! Ticket #2671, VSFilter: Video frames were not marked as interlaced
 ! Ticket #3036, Fix drag-and-drop from some applications. Drag-and-dropping a downloaded file from Chrome failed for example
 ! Ticket #3701, Subtitle outline was too thick when using default style override
+! Ticket #4213, Fix a deadlock when starting MPC-HC in D3D fullscreen and auto-changing the monitor mode
 ! Ticket #4284, Auto-zoom feature didn't work properly when the taskbar was docked at the left or the top of the screen
 ! Ticket #4285, Fix a freeze when opening some files when EVR-CP or Sync renderer are selected
 ! Ticket #4285, EVR-CP and Sync renderers: Properly set the aspect ratio

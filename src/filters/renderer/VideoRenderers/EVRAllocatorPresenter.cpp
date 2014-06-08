@@ -1962,6 +1962,8 @@ STDMETHODIMP_(bool) CEVRAllocatorPresenter::DisplayChange()
     CAutoLock lock2(&m_ImageProcessingLock);
     CAutoLock cRenderLock(&m_RenderLock);
 
+    bool bResult = __super::DisplayChange();
+
     m_DetectedFrameRate = 0.0;
     m_DetectedFrameTime = 0.0;
     m_DetectedFrameTimeStdDev = 0.0;
@@ -1988,8 +1990,6 @@ STDMETHODIMP_(bool) CEVRAllocatorPresenter::DisplayChange()
     m_fSyncOffsetStdDev = 0.0;
     m_fSyncOffsetAvr    = 0.0;
     m_bSyncStatsAvailable = false;
-
-    bool bResult = __super::DisplayChange();
 
     return bResult;
 }

@@ -62,6 +62,9 @@ void CGraphThread::OnDisplayChange(WPARAM wParam, LPARAM lParam)
     if (m_pMainFrame) {
         m_pMainFrame->DisplayChange();
     }
+    if (CAMEvent* e = (CAMEvent*)lParam) {
+        e->Set();
+    }
 }
 
 void CGraphThread::OnExit(WPARAM wParam, LPARAM lParam)
