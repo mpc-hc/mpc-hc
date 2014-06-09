@@ -837,7 +837,7 @@ CClipper::CClipper(CStringW str, CSize size, double scalex, double scaley, bool 
 
     if (inverse) {
         BYTE* inv_dst = m_pAlphaMask;
-        for (ptrdiff_t i = size.cx * size.cy; i > 0; --i, ++inv_dst) {
+        for (ptrdiff_t i = ptrdiff_t(size.cx) * size.cy; i > 0; --i, ++inv_dst) {
             *inv_dst = 0x40 - *inv_dst;    // mask is 6 bit
         }
     }
