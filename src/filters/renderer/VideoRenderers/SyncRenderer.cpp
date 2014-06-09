@@ -1906,6 +1906,8 @@ STDMETHODIMP_(bool) CBaseAP::ResetDevice()
 
 STDMETHODIMP_(bool) CBaseAP::DisplayChange()
 {
+    m_bPendingResetDevice = true;
+    SendResetRequest();
     return true;
 }
 
