@@ -29,9 +29,9 @@ IF DEFINED COVDIR IF NOT EXIST "%COVDIR%" (
 )
 
 
-CALL "%VS120COMNTOOLS%..\..\VC\vcvarsall.bat" x86
+CALL "%VS120COMNTOOLS%\vsvars32.bat"
 IF %ERRORLEVEL% NEQ 0 (
-  ECHO vcvarsall.bat call failed.
+  ECHO vsvars32.bat call failed.
   GOTO End
 )
 
@@ -44,10 +44,14 @@ IF EXIST "MPC-HC.tgz"  DEL "MPC-HC.tgz"
 
 
 :Main
-"%COVDIR%\bin\cov-build.exe" --dir cov-int "..\build.bat" Rebuild Lite Win32 main Release silent
-"%COVDIR%\bin\cov-build.exe" --dir cov-int "..\build.bat" Rebuild Filters Win32 Release silent
-"%COVDIR%\bin\cov-build.exe" --dir cov-int "..\build.bat" Rebuild IconLib Win32 Release silent
-"%COVDIR%\bin\cov-build.exe" --dir cov-int "..\build.bat" Rebuild Api Win32 Release silent
+CALL "..\build.bat" clean Lite Both Main Release silent
+CALL "..\build.bat" clean Filters Both Release silent
+CALL "..\build.bat" clean IconLib Both Release silent
+CALL "..\build.bat" clean Api Both Release silent
+"%COVDIR%\bin\cov-build.exe" --dir cov-int "..\build.bat" Build Lite Both Main Release silent
+"%COVDIR%\bin\cov-build.exe" --dir cov-int "..\build.bat" Build Filters Both Release silent
+"%COVDIR%\bin\cov-build.exe" --dir cov-int "..\build.bat" Build IconLib Both Release silent
+"%COVDIR%\bin\cov-build.exe" --dir cov-int "..\build.bat" Build Api Both Release silent
 
 
 :tar
