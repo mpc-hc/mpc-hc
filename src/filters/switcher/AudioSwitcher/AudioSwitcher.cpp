@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -289,7 +289,7 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
     BYTE* pTmp = nullptr;
     BYTE* pDst = nullptr;
     if (bDownSampleTo441 && m_fCustomChannelMapping && wfe->nChannels <= AS_MAX_CHANNELS) {
-        pDst = pTmp = DEBUG_NEW BYTE[len * bps * wfeout->nChannels];
+        pDst = pTmp = DEBUG_NEW BYTE[size_t(len) * size_t(bps) * wfeout->nChannels];
     } else {
         pDst = pDataOut;
     }
@@ -378,7 +378,7 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
     }
 
     if (m_fNormalize || m_boostFactor > 1) {
-        size_t samples = lenout * wfeout->nChannels;
+        size_t samples = size_t(lenout) * wfeout->nChannels;
         double sample_mul = 1.0;
 
         if (m_fNormalize) {
