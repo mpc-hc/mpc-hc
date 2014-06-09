@@ -217,10 +217,13 @@ CDX9AllocatorPresenter::~CDX9AllocatorPresenter()
         }
     }
 
-    m_pFont     = nullptr;
-    m_pLine     = nullptr;
-    m_pD3DDev   = nullptr;
-    m_pD3DDevEx = nullptr;
+    m_pFont       = nullptr;
+    m_pLine       = nullptr;
+    m_pSprite     = nullptr;
+    m_pOSDTexture = nullptr;
+    m_pOSDSurface = nullptr;
+    m_pD3DDev     = nullptr;
+    m_pD3DDevEx   = nullptr;
 
     CleanupRenderingEngine();
 
@@ -540,11 +543,23 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
     ZeroMemory(m_ClockChangeHistory, sizeof(m_ClockChangeHistory));
     m_ClockTimeChangeHistoryPos = 0;
 
-    m_pD3DDev = nullptr;
-    m_pD3DDevEx = nullptr;
+    m_pSprite = nullptr;
+    m_pLine = nullptr;
+    m_pFont = nullptr;
+    m_pOSDTexture = nullptr;
+    m_pOSDSurface = nullptr;
     m_pDirectDraw = nullptr;
 
     CleanupRenderingEngine();
+
+    UINT currentAdapter = GetAdapter(m_pD3D);
+    bool bTryToReset = (currentAdapter == m_CurrentAdapter);
+
+    if (!bTryToReset) {
+        m_pD3DDev = nullptr;
+        m_pD3DDevEx = nullptr;
+        m_CurrentAdapter = currentAdapter;
+    }
 
     if (!m_pD3D) {
         _Error += L"Failed to create D3D9\n";
@@ -552,7 +567,6 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
     }
 
     HRESULT hr = S_OK;
-    m_CurrentAdapter = GetAdapter(m_pD3D);
 
     /*// TODO : add NVIDIA PerfHUD !!!
 
@@ -672,16 +686,30 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
             pp.BackBufferWidth = m_ScreenSize.cx;
             pp.BackBufferHeight = m_ScreenSize.cy;
 
-            hr = m_pD3DEx->CreateDeviceEx(
-                     m_CurrentAdapter, D3DDEVTYPE_HAL, m_FocusThread->GetFocusWindow(),
-                     GetVertexProcessing() | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS | D3DCREATE_NOWINDOWCHANGES, //D3DCREATE_MANAGED
-                     &pp, &DisplayMode, &m_pD3DDevEx);
+            if (bTryToReset) {
+                if (!m_pD3DDevEx || FAILED(hr = m_pD3DDevEx->ResetEx(&pp, &DisplayMode))) {
+                    bTryToReset = false;
+                    m_pD3DDev = nullptr;
+                    m_pD3DDevEx = nullptr;
+                }
+            }
+            if (!bTryToReset) {
+                hr = m_pD3DEx->CreateDeviceEx(
+                         m_CurrentAdapter, D3DDEVTYPE_HAL, m_FocusThread->GetFocusWindow(),
+                         GetVertexProcessing() | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS | D3DCREATE_NOWINDOWCHANGES, //D3DCREATE_MANAGED
+                         &pp, &DisplayMode, &m_pD3DDevEx);
+            }
 
             m_D3DDevExError = GetWindowsErrorMessage(hr, m_hD3D9);
             if (m_pD3DDevEx) {
                 m_pD3DDev = m_pD3DDevEx;
                 m_BackbufferType = pp.BackBufferFormat;
                 m_DisplayType = DisplayMode.Format;
+            }
+        }
+        if (bTryToReset && m_pD3DDev && !m_pD3DDevEx) {
+            if (FAILED(hr = m_pD3DDev->Reset(&pp))) {
+                m_pD3DDev = nullptr;
             }
         }
         if (!m_pD3DDev) {
@@ -722,15 +750,29 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
             pp.BackBufferWidth = szDesktopSize.cx;
             pp.BackBufferHeight = szDesktopSize.cy;
 
-            // We can get 0x8876086a here when switching from two displays to one display using Win + P (Windows 7)
-            // Cause: We might not reinitialize dx correctly during the switch
-            hr = m_pD3DEx->CreateDeviceEx(
-                     m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
-                     GetVertexProcessing() | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS, //D3DCREATE_MANAGED
-                     &pp, nullptr, &m_pD3DDevEx);
+            if (bTryToReset) {
+                if (!m_pD3DDevEx || FAILED(hr = m_pD3DDevEx->ResetEx(&pp, nullptr))) {
+                    bTryToReset = false;
+                    m_pD3DDev = nullptr;
+                    m_pD3DDevEx = nullptr;
+                }
+            }
+            if (!bTryToReset) {
+                // We can get 0x8876086a here when switching from two displays to one display using Win + P (Windows 7)
+                // Cause: We might not reinitialize dx correctly during the switch
+                hr = m_pD3DEx->CreateDeviceEx(
+                         m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
+                         GetVertexProcessing() | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS, //D3DCREATE_MANAGED
+                         &pp, nullptr, &m_pD3DDevEx);
+            }
             if (m_pD3DDevEx) {
                 m_pD3DDev = m_pD3DDevEx;
                 m_DisplayType = DisplayMode.Format;
+            }
+        }
+        if (bTryToReset && m_pD3DDev && !m_pD3DDevEx) {
+            if (FAILED(hr = m_pD3DDev->Reset(&pp))) {
+                m_pD3DDev = nullptr;
             }
         }
         if (!m_pD3DDev) {
@@ -816,7 +858,6 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
         m_pSubPicQueue->SetSubPicProvider(pSubPicProvider);
     }
 
-    m_pFont = nullptr;
     if (m_pD3DXCreateFont) {
         long MinSize = 1600;
         long CurrentSize = std::min(m_ScreenSize.cx, MinSize);
@@ -836,15 +877,11 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
                           &m_pFont);                   // ppFont
     }
 
-
-    m_pSprite = nullptr;
-
     if (m_pD3DXCreateSprite) {
         m_pD3DXCreateSprite(m_pD3DDev,                 // D3D device
                             &m_pSprite);
     }
 
-    m_pLine = nullptr;
     if (m_pD3DXCreateLine) {
         m_pD3DXCreateLine(m_pD3DDev, &m_pLine);
     }

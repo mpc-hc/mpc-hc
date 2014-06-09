@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -147,7 +147,7 @@ CDX9RenderingEngine::CDX9RenderingEngine(HWND hWnd, HRESULT& hr, CString* _pErro
     , m_ScreenSize(0, 0)
     , m_nNbDXSurface(1)
     , m_nCurSurface(0)
-    , m_CurrentAdapter(0)
+    , m_CurrentAdapter(UINT_ERROR)
     , m_BackbufferType(D3DFMT_UNKNOWN)
     , m_DisplayType(D3DFMT_UNKNOWN)
     , m_bHighColorResolution(false)

@@ -47,7 +47,10 @@ next version - not released yet
 ! Ticket #3036, Fix drag-and-drop from some applications. Drag-and-dropping a downloaded file from Chrome failed for example
 ! Ticket #3701, Subtitle outline was too thick when using default style override
 ! Ticket #4213, Fix a deadlock when starting MPC-HC in D3D fullscreen and auto-changing the monitor mode
+! Ticket #4213, Fix auto-changing the monitor mode when starting in D3D fullscreen with "play 0 time" option
+  or the auto-change delay greater than 0s
 ! Ticket #4213, D3D fullscreen: Obey "Apply default monitor mode on fullscreen exit" option
+! Ticket #4214, Fix monitor mode flickering when auto-changing the monitor mode
 ! Ticket #4284, Auto-zoom feature didn't work properly when the taskbar was docked at the left or the top of the screen
 ! Ticket #4285, Fix a freeze when opening some files when EVR-CP or Sync renderer are selected
 ! Ticket #4285, EVR-CP and Sync renderers: Properly set the aspect ratio

@@ -92,7 +92,7 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
     , m_dCycleDifference(1.0)
     , m_llEstVBlankTime(0)
     , m_LastAdapterCheck(0)
-    , m_CurrentAdapter(0)
+    , m_CurrentAdapter(UINT_ERROR)
     , m_FocusThread(nullptr)
     , m_lNextSampleWait(1)
     , m_MinJitter(MAXLONG64)
@@ -425,10 +425,10 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
     m_pFont = nullptr;
     m_pSprite = nullptr;
     m_pLine = nullptr;
+    m_pOSDTexture = nullptr;
+    m_pOSDSurface = nullptr;
 
     m_pPSC.Free();
-    m_pD3DDev = nullptr;
-    m_pD3DDevEx = nullptr;
 
     m_pResizerPixelShader[0] = 0;
     m_pResizerPixelShader[1] = 0;
@@ -446,6 +446,15 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
         Shader.m_pPixelShader = nullptr;
     }
 
+    UINT currentAdapter = GetAdapter(m_pD3D, m_hWnd);
+    bool bTryToReset = (currentAdapter == m_CurrentAdapter);
+
+    if (!bTryToReset) {
+        m_pD3DDev = nullptr;
+        m_pD3DDevEx = nullptr;
+        m_CurrentAdapter = currentAdapter;
+    }
+
     if (!m_pD3D) {
         _Error += L"Failed to create Direct3D device\n";
         return E_UNEXPECTED;
@@ -453,7 +462,6 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
 
     D3DDISPLAYMODE d3ddm;
     ZeroMemory(&d3ddm, sizeof(d3ddm));
-    m_CurrentAdapter = GetAdapter(m_pD3D, m_hWnd);
     if (FAILED(m_pD3D->GetAdapterDisplayMode(m_CurrentAdapter, &d3ddm))) {
         _Error += L"Can not retrieve display mode data\n";
         return E_UNEXPECTED;
@@ -516,23 +524,40 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
             DisplayMode.Format = pp.BackBufferFormat;
             pp.FullScreen_RefreshRateInHz = DisplayMode.RefreshRate;
 
-            if (FAILED(hr = m_pD3DEx->CreateDeviceEx(m_CurrentAdapter, D3DDEVTYPE_HAL, m_FocusThread->GetFocusWindow(),
-                            D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS | D3DCREATE_NOWINDOWCHANGES,
-                            &pp, &DisplayMode, &m_pD3DDevEx))) {
-                _Error += GetWindowsErrorMessage(hr, m_hD3D9);
-                return hr;
+            if (bTryToReset) {
+                if (!m_pD3DDevEx || FAILED(hr = m_pD3DDevEx->ResetEx(&pp, &DisplayMode))) {
+                    bTryToReset = false;
+                    m_pD3DDev = nullptr;
+                    m_pD3DDevEx = nullptr;
+                }
             }
+            if (!bTryToReset) {
+                if (FAILED(hr = m_pD3DEx->CreateDeviceEx(m_CurrentAdapter, D3DDEVTYPE_HAL, m_FocusThread->GetFocusWindow(),
+                                D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS | D3DCREATE_NOWINDOWCHANGES,
+                                &pp, &DisplayMode, &m_pD3DDevEx))) {
+                    _Error += GetWindowsErrorMessage(hr, m_hD3D9);
+                    return hr;
+                }
+            }
+
             if (m_pD3DDevEx) {
                 m_pD3DDev = m_pD3DDevEx;
                 m_BackbufferType = pp.BackBufferFormat;
                 m_DisplayType = DisplayMode.Format;
             }
         } else {
-            if (FAILED(hr = m_pD3D->CreateDevice(m_CurrentAdapter, D3DDEVTYPE_HAL, m_FocusThread->GetFocusWindow(),
-                                                 D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_NOWINDOWCHANGES,
-                                                 &pp, &m_pD3DDev))) {
-                _Error += GetWindowsErrorMessage(hr, m_hD3D9);
-                return hr;
+            if (bTryToReset) {
+                if (!m_pD3DDev || FAILED(hr = m_pD3DDev->Reset(&pp))) {
+                    bTryToReset = false;
+                }
+            }
+            if (!bTryToReset) {
+                if (FAILED(hr = m_pD3D->CreateDevice(m_CurrentAdapter, D3DDEVTYPE_HAL, m_FocusThread->GetFocusWindow(),
+                                                     D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_NOWINDOWCHANGES,
+                                                     &pp, &m_pD3DDev))) {
+                    _Error += GetWindowsErrorMessage(hr, m_hD3D9);
+                    return hr;
+                }
             }
             DEBUG_ONLY(_tprintf_s(_T("Created full-screen device\n")));
             if (m_pD3DDev) {
@@ -569,21 +594,38 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
             pp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
         }
         if (m_pD3DEx) {
-            if (FAILED(hr = m_pD3DEx->CreateDeviceEx(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
-                            D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS,
-                            &pp, nullptr, &m_pD3DDevEx))) {
-                _Error += GetWindowsErrorMessage(hr, m_hD3D9);
-                return hr;
+            if (bTryToReset) {
+                if (!m_pD3DDevEx || FAILED(hr = m_pD3DDevEx->ResetEx(&pp, nullptr))) {
+                    bTryToReset = false;
+                    m_pD3DDev = nullptr;
+                    m_pD3DDevEx = nullptr;
+                }
             }
+            if (!bTryToReset) {
+                if (FAILED(hr = m_pD3DEx->CreateDeviceEx(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
+                                D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS,
+                                &pp, nullptr, &m_pD3DDevEx))) {
+                    _Error += GetWindowsErrorMessage(hr, m_hD3D9);
+                    return hr;
+                }
+            }
+
             if (m_pD3DDevEx) {
                 m_pD3DDev = m_pD3DDevEx;
             }
         } else {
-            if (FAILED(hr = m_pD3D->CreateDevice(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
-                                                 D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED,
-                                                 &pp, &m_pD3DDev))) {
-                _Error += GetWindowsErrorMessage(hr, m_hD3D9);
-                return hr;
+            if (bTryToReset) {
+                if (!m_pD3DDev || FAILED(hr = m_pD3DDev->Reset(&pp))) {
+                    bTryToReset = false;
+                }
+            }
+            if (!bTryToReset) {
+                if (FAILED(hr = m_pD3D->CreateDevice(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
+                                                     D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED,
+                                                     &pp, &m_pD3DDev))) {
+                    _Error += GetWindowsErrorMessage(hr, m_hD3D9);
+                    return hr;
+                }
             }
             DEBUG_ONLY(_tprintf_s(_T("Created windowed device\n")));
         }
