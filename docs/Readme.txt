@@ -52,8 +52,8 @@ MPC-HC makes use of the following third-party code:
 
 Project             License                     Website
 --------------------------------------------------------------------
-CSizingControlBar   GPLv2                       http://www.datamekanix.com/sizecbar/
-LAV Filters         GPLv2                       http://code.google.com/p/lavfilters/
+CSizingControlBar   -                           http://www.datamekanix.com/sizecbar/
+LAV Filters         GPLv2+                      http://code.google.com/p/lavfilters/
 Little CMS          MIT License                 http://www.littlecms.com/
 Logitech SDK        -                           -
 MediaInfoLib        Simplified BSD License      http://mediaarea.net/MediaInfo
@@ -67,6 +67,6 @@ Silk Icons          CC Attribution 2.5          http://www.famfamfam.com/lab/ico
 SoundTouch          LGPLv2.1                    http://www.surina.net/soundtouch/
 TreePropSheet       -                           http://www.codeproject.com/Articles/3709/CTreePropSheet-A-Netscape-Visual-Studio-NET-like-P
 UnRAR               freeware                    http://www.rarlab.com/rar_add.htm
-VirtualDub          GPLv2                       http://www.virtualdub.org/
+VirtualDub          GPLv2+                      http://www.virtualdub.org/
 ZenLib              zlib License                http://sourceforge.net/projects/zenlib/
 zlib                zlib License                http://zlib.net/

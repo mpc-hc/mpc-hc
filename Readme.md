@@ -72,12 +72,12 @@ MPC-HC makes use of the following third-party code:
   <tbody>
     <tr>
       <td>CSizingControlBar</td>
-      <td>GPLv2</td>
+      <td>-</td>
       <td>http://www.datamekanix.com/sizecbar/</td>
     </tr>
     <tr>
       <td>LAV Filters</td>
-      <td>GPLv2</td>
+      <td>GPLv2+</td>
       <td>http://code.google.com/p/lavfilters/</td>
     </tr>
     <tr>
@@ -147,7 +147,7 @@ MPC-HC makes use of the following third-party code:
     </tr>
     <tr>
       <td>VirtualDub</td>
-      <td>GPLv2</td>
+      <td>GPLv2+</td>
       <td>http://www.virtualdub.org/</td>
     </tr>
     <tr>
