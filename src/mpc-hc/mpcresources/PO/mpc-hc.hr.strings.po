@@ -4,13 +4,13 @@
 # Translators:
 # schop <aprcel00@fesb.hr>, 2014
 # iivana24 <iivana24@gmail.com>, 2014
-# Goran Dž <the.vbm@gmail.com>, 2014
+# vBm <the.vbm@gmail.com>, 2014
 # Ico2005 <vukasinac@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-05-11 20:22:10+0000\n"
-"PO-Revision-Date: 2014-05-12 08:49+0000\n"
+"POT-Creation-Date: 2014-06-04 20:22:52+0000\n"
+"PO-Revision-Date: 2014-06-05 20:10+0000\n"
 "Last-Translator: JellyFrog\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/mpc-hc/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -1253,7 +1253,7 @@ msgstr ""
 
 msgctxt "IDS_SUB_SAVE_EXTERNAL_STYLE_FILE"
 msgid "Save custom style"
-msgstr ""
+msgstr "Spremi prilagođeni stil"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"

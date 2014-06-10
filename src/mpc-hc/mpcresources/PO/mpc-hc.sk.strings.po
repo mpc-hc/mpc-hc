@@ -2,14 +2,14 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# mhikanik <podnety@mojepreklady.net>, 2013-2014
-# mhikanik <podnety@mojepreklady.net>, 2014
+# Marián Hikaník <podnety@mojepreklady.net>, 2013-2014
+# Marián Hikaník <podnety@mojepreklady.net>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-05-28 21:38:03+0000\n"
-"PO-Revision-Date: 2014-05-29 15:41+0000\n"
-"Last-Translator: mhikanik <podnety@mojepreklady.net>\n"
+"POT-Creation-Date: 2014-06-04 20:22:52+0000\n"
+"PO-Revision-Date: 2014-06-05 10:02+0000\n"
+"Last-Translator: Marián Hikaník <podnety@mojepreklady.net>\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/mpc-hc/language/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1251,7 +1251,7 @@ msgstr "Zadajte svoje prihlasovacie údaje pre pripojenie"
 
 msgctxt "IDS_SUB_SAVE_EXTERNAL_STYLE_FILE"
 msgid "Save custom style"
-msgstr ""
+msgstr "Uložiť používateľom nastavený štýl"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"

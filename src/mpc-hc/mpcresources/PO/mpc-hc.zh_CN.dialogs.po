@@ -2,13 +2,13 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# BetaKing <yzonline@gmail.com>, 2013-2014
+# Ming Chen <yzonline@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-05-28 21:39:34+0000\n"
-"PO-Revision-Date: 2014-05-29 08:38+0000\n"
-"Last-Translator: JellyFrog\n"
+"POT-Creation-Date: 2014-06-03 21:36:02+0000\n"
+"PO-Revision-Date: 2014-06-05 11:42+0000\n"
+"Last-Translator: Ming Chen <yzonline@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/mpc-hc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -926,7 +926,7 @@ msgstr "毫秒"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_CHECK1"
 msgid "Save custom style"
-msgstr ""
+msgstr "保存自定义样式"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "Thumbnails:"
@@ -990,7 +990,7 @@ msgstr "比例 (y,%)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Border Style"
-msgstr "边框类型"
+msgstr "边框样式"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO1"
 msgid "Outline"

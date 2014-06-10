@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-05-28 21:38:03+0000\n"
-"PO-Revision-Date: 2014-06-02 10:52+0000\n"
+"POT-Creation-Date: 2014-06-04 20:22:52+0000\n"
+"PO-Revision-Date: 2014-06-09 11:50+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -1250,7 +1250,7 @@ msgstr "接続するための資格情報を入力してください"
 
 msgctxt "IDS_SUB_SAVE_EXTERNAL_STYLE_FILE"
 msgid "Save custom style"
-msgstr ""
+msgstr "ユーザー設定のスタイルを保存"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2478,7 +2478,7 @@ msgstr "すべてのフィルタを有効(&E)"
 
 msgctxt "IDS_NAVIGATE_TUNERSCAN"
 msgid "Tuner scan"
-msgstr "チューナー調整"
+msgstr "チューナー検出"
 
 msgctxt "IDS_SUBTITLES_ERROR"
 msgid "Subtitles are not loaded or unsupported renderer."
@@ -3242,7 +3242,7 @@ msgstr "入力されたフレーム レートを解析中エラーが発生し�
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
 msgid "Cannot frame step, try a different video renderer."
-msgstr "コマ送りできません。別のビデオ レンダラを試してください。"
+msgstr "フレーム ステップできません。別のビデオ レンダラを試してください。"
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for RealMedia.\nSelect one of the DirectX renderers for RealMedia in MPC-HC's output options and reopen the file."

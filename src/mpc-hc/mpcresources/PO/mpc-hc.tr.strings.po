@@ -2,15 +2,15 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# brk <burakgarci@gmail.com>, 2013
-# bosluk, 2014
-# bosluk, 2013
+# Burak <burakgarci@gmail.com>, 2013
+# Sinan H., 2014
+# Sinan H., 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-05-28 21:38:03+0000\n"
-"PO-Revision-Date: 2014-05-29 20:11+0000\n"
-"Last-Translator: bosluk\n"
+"POT-Creation-Date: 2014-06-04 20:22:52+0000\n"
+"PO-Revision-Date: 2014-06-05 13:21+0000\n"
+"Last-Translator: Sinan H.\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/mpc-hc/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1252,7 +1252,7 @@ msgstr "Bağlanmak için kimliğinizi giriniz"
 
 msgctxt "IDS_SUB_SAVE_EXTERNAL_STYLE_FILE"
 msgid "Save custom style"
-msgstr ""
+msgstr "Özel biçimi kaydet"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"

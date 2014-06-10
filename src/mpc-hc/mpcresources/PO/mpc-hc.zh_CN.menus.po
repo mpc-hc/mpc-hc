@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # kasper93, 2013
-# BetaKing <yzonline@gmail.com>, 2013
+# Ming Chen <yzonline@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"

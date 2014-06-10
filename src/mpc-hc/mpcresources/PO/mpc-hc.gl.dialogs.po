@@ -2,13 +2,13 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# anxo_cruel <feiticeiro2010@hotmail.es>, 2014
+# Rubén <feiticeiro2010@hotmail.es>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-05-11 19:53:40+0000\n"
-"PO-Revision-Date: 2014-05-23 11:09+0000\n"
-"Last-Translator: anxo_cruel <feiticeiro2010@hotmail.es>\n"
+"POT-Creation-Date: 2014-06-03 21:36:02+0000\n"
+"PO-Revision-Date: 2014-06-07 20:50+0000\n"
+"Last-Translator: Rubén <feiticeiro2010@hotmail.es>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/mpc-hc/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -926,7 +926,7 @@ msgstr "ms"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_CHECK1"
 msgid "Save custom style"
-msgstr ""
+msgstr "Gravar estilo personalizado"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "Thumbnails:"

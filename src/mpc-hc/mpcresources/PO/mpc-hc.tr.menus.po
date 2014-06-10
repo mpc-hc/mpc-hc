@@ -2,11 +2,11 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# brk <burakgarci@gmail.com>, 2013
-# Devrim <devrim.extra@gmail.com>, 2013
+# Burak <burakgarci@gmail.com>, 2013
+# Devrim Yolo <devrim.extra@gmail.com>, 2013
 # kasper93, 2013
-# bosluk, 2014
-# bosluk, 2013
+# Sinan H., 2014
+# Sinan H., 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"

@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-05-28 21:38:03+0000\n"
-"PO-Revision-Date: 2014-05-29 08:45+0000\n"
-"Last-Translator: JellyFrog\n"
+"POT-Creation-Date: 2014-06-04 20:22:52+0000\n"
+"PO-Revision-Date: 2014-06-06 09:23+0000\n"
+"Last-Translator: Máté <lang.mate@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/mpc-hc/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -90,7 +90,7 @@ msgstr "átl: %d ms, elt: %d ms"
 
 msgctxt "IDS_STATSBAR_JITTER"
 msgid "Jitter"
-msgstr ""
+msgstr "Jitter"
 
 msgctxt "IDS_STATSBAR_BITRATE"
 msgid "Bitrate"
@@ -154,7 +154,7 @@ msgstr "Korhatár-besorolás"
 
 msgctxt "IDS_PARENTAL_RATING"
 msgid "%d+"
-msgstr ""
+msgstr "%d+"
 
 msgctxt "IDS_NO_PARENTAL_RATING"
 msgid "Not rated"
@@ -322,11 +322,11 @@ msgstr "Be/Ki"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
 msgid "From fps"
-msgstr ""
+msgstr "FPS-től"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
 msgid "To fps"
-msgstr ""
+msgstr "FPS-ig"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
@@ -478,11 +478,11 @@ msgstr ""
 
 msgctxt "IDS_PPAGE_OUTPUT_OLDRENDERER"
 msgid "Old Video Renderer"
-msgstr ""
+msgstr "Old Video Renderer"
 
 msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
-msgstr ""
+msgstr "Overlay Mixer Renderer"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
 msgid "Video Mixing Renderer 7 (windowed)"
@@ -506,7 +506,7 @@ msgstr "Enhanced Video Renderer"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR_CUSTOM"
 msgid "Enhanced Video Renderer (custom presenter)"
-msgstr ""
+msgstr "Enhanced Video Renderer (custom presenter)"
 
 msgctxt "IDS_PPAGE_OUTPUT_DXR"
 msgid "Haali Video Renderer"
@@ -514,11 +514,11 @@ msgstr "Haali Video Renderer"
 
 msgctxt "IDS_PPAGE_OUTPUT_NULL_COMP"
 msgid "Null (anything)"
-msgstr ""
+msgstr "Null (anything)"
 
 msgctxt "IDS_PPAGE_OUTPUT_NULL_UNCOMP"
 msgid "Null (uncompressed)"
-msgstr ""
+msgstr "Null (uncompressed)"
 
 msgctxt "IDS_PPAGE_OUTPUT_MADVR"
 msgid "madVR"
@@ -730,11 +730,11 @@ msgstr "A kiválasztott renderelő nincs telepítve"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_COMP"
 msgid "Null (anything)"
-msgstr ""
+msgstr "Null (anything)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP"
 msgid "Null (uncompressed)"
-msgstr ""
+msgstr "Null (uncompressed)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND"
 msgid "MPC-HC Audio Renderer"
@@ -882,7 +882,7 @@ msgstr "Elnémítás"
 
 msgctxt "ID_VOLUME_MUTE_ON"
 msgid "Unmute"
-msgstr ""
+msgstr "Előző hangerő"
 
 msgctxt "ID_VOLUME_MUTE_DISABLED"
 msgid "No audio"
@@ -1118,11 +1118,11 @@ msgstr "Billentyű"
 
 msgctxt "IDS_AG_MOUSE"
 msgid "Mouse Windowed"
-msgstr ""
+msgstr "Egér ablakos módban"
 
 msgctxt "IDS_AG_MOUSE_FS"
 msgid "Mouse Fullscreen"
-msgstr ""
+msgstr "Egér teljes képernyős módban"
 
 msgctxt "IDS_AG_APP_COMMAND"
 msgid "App Command"
@@ -2198,7 +2198,7 @@ msgstr "Hang: %d%%"
 
 msgctxt "IDS_BOOST_OSD"
 msgid "Boost: +%u%%"
-msgstr ""
+msgstr "Erősítés: +%u%%"
 
 msgctxt "IDS_BALANCE_OSD"
 msgid "Balance: %s"
@@ -2422,7 +2422,7 @@ msgstr "Rögzítés oszlop Ki-Bekapcsolása"
 
 msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
 msgid "Toggle Debug Shaders"
-msgstr ""
+msgstr "Árnyékoló hibakeresés be- és kikapcsolása"
 
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
@@ -2606,7 +2606,7 @@ msgstr "Keresősáv alatt"
 
 msgctxt "IDS_VIDEO_STREAM"
 msgid "Video: %s"
-msgstr ""
+msgstr "Videó: %s"
 
 msgctxt "IDS_APPLY"
 msgid "Apply"
@@ -2614,7 +2614,7 @@ msgstr "Alkalmazás"
 
 msgctxt "IDS_CLEAR"
 msgid "Clear"
-msgstr ""
+msgstr "Törlés"
 
 msgctxt "IDS_CANCEL"
 msgid "Cancel"
@@ -2990,7 +2990,7 @@ msgstr ""
 
 msgctxt "IDS_OSD_RS_OUTPUT_RANGE"
 msgid "Output Range: %s"
-msgstr ""
+msgstr "Kimeneti tartomány: %s"
 
 msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_ON"
 msgid "Flush GPU before VSync: On"
@@ -3162,7 +3162,7 @@ msgstr "Egyedi csatornaleképezés: Kikapcsolva"
 
 msgctxt "IDS_NORMALIZE"
 msgid "Toggle normalization"
-msgstr ""
+msgstr "Normalizáció be- és kikapcsolása"
 
 msgctxt "IDS_OSD_NORMALIZE_ON"
 msgid "Normalization: On"
@@ -3174,7 +3174,7 @@ msgstr "Normalizáció: Kikapcsolva"
 
 msgctxt "IDS_REGAIN_VOLUME"
 msgid "Toggle regain volume"
-msgstr ""
+msgstr "Hangerő visszanyerés be- és kikapcsolása"
 
 msgctxt "IDS_OSD_REGAIN_VOLUME_ON"
 msgid "Regain volume: On"

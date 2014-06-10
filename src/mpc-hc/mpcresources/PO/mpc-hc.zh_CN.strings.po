@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # hkenneth <extremekeny@hotmail.com>, 2013
-# BetaKing <yzonline@gmail.com>, 2013-2014
+# Ming Chen <yzonline@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-05-28 21:38:03+0000\n"
-"PO-Revision-Date: 2014-05-29 15:19+0000\n"
-"Last-Translator: BetaKing <yzonline@gmail.com>\n"
+"POT-Creation-Date: 2014-06-04 20:22:52+0000\n"
+"PO-Revision-Date: 2014-06-05 22:19+0000\n"
+"Last-Translator: Ming Chen <yzonline@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/mpc-hc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -63,7 +63,7 @@ msgstr "属性"
 
 msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
 msgid "&Default Style"
-msgstr "默认风格(&D)"
+msgstr "默认样式(&D)"
 
 msgctxt "IDS_FAVFILES"
 msgid "Files"
@@ -111,7 +111,7 @@ msgstr "强度: %d dB, 质量: %d%%"
 
 msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
 msgid "Styles"
-msgstr "风格"
+msgstr "样式"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -227,7 +227,7 @@ msgstr "文本"
 
 msgctxt "IDS_SUBRESYNC_CLN_STYLE"
 msgid "Style"
-msgstr "风格"
+msgstr "样式"
 
 msgctxt "IDS_SUBRESYNC_CLN_FONT"
 msgid "Font"
@@ -531,7 +531,7 @@ msgstr "播放器::按键"
 
 msgctxt "IDD_PPAGESUBSTYLE"
 msgid "Subtitles::Default Style"
-msgstr "字幕::默认风格"
+msgstr "字幕::默认样式"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS"
 msgid "Internal Filters"
@@ -839,7 +839,7 @@ msgstr "精确垂直同步"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid "Default state gets inherited to other styles where it is still undefined"
-msgstr "仍未定义从其它风格获取的默认区域"
+msgstr "仍未定义从其它样式获取的默认区域"
 
 msgctxt "IDC_CHECK_SPCPOW2TEX"
 msgid "Unchecking this frees up a little video memory and saves bandwidth on local to video memory transfers, but it may not work with older video cards."
@@ -1063,7 +1063,7 @@ msgstr "选项(&O)..."
 
 msgctxt "IDS_SUBTITLES_STYLES"
 msgid "&Styles..."
-msgstr "风格(&S)..."
+msgstr "样式(&S)..."
 
 msgctxt "IDS_SUBTITLES_RELOAD"
 msgid "&Reload"
@@ -1251,7 +1251,7 @@ msgstr "输入您的凭据以连接"
 
 msgctxt "IDS_SUB_SAVE_EXTERNAL_STYLE_FILE"
 msgid "Save custom style"
-msgstr ""
+msgstr "保存自定义样式"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2043,7 +2043,7 @@ msgstr "URL 看上去不正确！"
 
 msgctxt "IDS_PPSDB_PROTOCOLERR"
 msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
-msgstr "协议版本不匹配,请升级您的播放器或选择一个不同的地址！"
+msgstr "协议版本不匹配, 请升级您的播放器或选择一个不同的地址！"
 
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
@@ -2123,7 +2123,7 @@ msgstr "内存溢出,赶快去买!"
 
 msgctxt "IDS_MAINFRM_57"
 msgid "Invalid image format, cannot create thumbnails out of %d bpp dibs."
-msgstr "无效的图像格式, 无法创建大于 %d bpp DIBS 的缩略图。"
+msgstr "无效的图像格式, 无法创建大于 %d bpp DIBs 的缩略图。"
 
 msgctxt "IDS_MAINFRM_58"
 msgid "File Size: %s (%s bytes)\\N"
@@ -2135,7 +2135,7 @@ msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}文件名: %s\\N%s分辨率:
 
 msgctxt "IDS_THUMBNAIL_TOO_SMALL"
 msgid "The thumbnails would be too small, impossible to create the file.\n\nTry lowering the number of thumbnails or increasing the total size."
-msgstr "缩略图将会太小, 而无法创建该文件。\\n\\n请尝试调低缩略图的数量或增加总大小。"
+msgstr "缩略图会太小, 而无法创建该文件。\n\n请尝试调低缩略图的数量或增加总大小。"
 
 msgctxt "IDS_MAINFRM_60"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"

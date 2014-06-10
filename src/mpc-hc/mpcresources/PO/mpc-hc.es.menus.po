@@ -2,7 +2,7 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Adolfo Jayme Barrientos <fitoschido@ubuntu.com>, 2014
+# Adolfo Jayme Barrientos <fitoschido@ubuntu.com>, 2014
 # JellyFrog, 2013
 # squallmx <squallmx@users.sourceforge.net>, 2014
 msgid ""
