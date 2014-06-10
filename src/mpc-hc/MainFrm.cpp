@@ -13708,7 +13708,7 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool bShowOSD /*= true*/)
         UpdateChapterInInfoBar();
     } else if (GetPlaybackMode() == PM_DVD && m_iDVDDomain == DVD_DOMAIN_Title) {
         if (!SysVersion::IsVistaOrLater() && fs != State_Running) {
-            // DVD Navigator hang on XP if we call IDvdControl2::PlayAtTime twice in paused state.
+            // DVD Navigator hangs on XP if we call IDvdControl2::PlayAtTime twice in paused state.
             SendMessage(WM_COMMAND, ID_PLAY_PLAY);
             fs = State_Running;
         } else if (fs == State_Stopped) {
