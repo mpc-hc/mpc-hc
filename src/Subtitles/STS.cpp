@@ -1192,7 +1192,7 @@ CStringW GetStrW(CStringW& buff, char sep = ',') //throw(...)
 
     CStringW ret = buff.Left(pos);
     if (pos < buff.GetLength()) {
-        buff = buff.Mid(pos + 1);
+        buff.Delete(0, pos + 1);
     }
 
     return ret;
