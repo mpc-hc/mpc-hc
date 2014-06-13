@@ -27,6 +27,7 @@ inline void CResizableSheet::PrivateConstruct()
     m_bEnableSaveRestore = FALSE;
     m_bSavePage = FALSE;
     m_dwGripTempState = 1;
+    m_bRectOnly = FALSE;
 }
 
 

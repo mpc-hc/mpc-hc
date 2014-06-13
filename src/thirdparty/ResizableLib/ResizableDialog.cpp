@@ -24,6 +24,7 @@ inline void CResizableDialog::PrivateConstruct()
 {
     m_bEnableSaveRestore = FALSE;
     m_dwGripTempState = 1;
+    m_bRectOnly = FALSE;
 }
 
 CResizableDialog::CResizableDialog()
