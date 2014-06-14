@@ -71,11 +71,6 @@ MPC-HC makes use of the following third-party code:
   </thead>
   <tbody>
     <tr>
-      <td>CLineNumberEdit</td>
-      <td>-</td>
-      <td>http://www.codeproject.com/Articles/6385/Controls-in-controls-A-line-numbering-edit-box</td>
-    </tr>
-    <tr>
       <td>CSizingControlBar</td>
       <td>GPLv2</td>
       <td>http://www.datamekanix.com/sizecbar/</td>

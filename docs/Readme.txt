@@ -52,7 +52,6 @@ MPC-HC makes use of the following third-party code:
 
 Project             License                     Website
 --------------------------------------------------------------------
-CLineNumberEdit     -                           http://www.codeproject.com/Articles/6385/Controls-in-controls-A-line-numbering-edit-box
 CSizingControlBar   GPLv2                       http://www.datamekanix.com/sizecbar/
 LAV Filters         GPLv2                       http://code.google.com/p/lavfilters/
 Little CMS          MIT License                 http://www.littlecms.com/
