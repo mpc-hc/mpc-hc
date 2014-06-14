@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,8 +22,6 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "GoToDlg.h"
-
-#include "atl/atlrx.h"
 #include "SettingsDefines.h"
 #include <math.h>
 

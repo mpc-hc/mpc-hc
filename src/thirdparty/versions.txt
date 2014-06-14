@@ -1,6 +1,5 @@
 Project             Version
 ----------------------------------------
-ATL Server          -
 CLineNumberEdit     12 May '04 (modified)
 CSizingControlBar   2.45
 LAV Filters         0.61.2-5-g7a393d4 (custom build based on 0.61.2)

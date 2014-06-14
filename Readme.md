@@ -71,11 +71,6 @@ MPC-HC makes use of the following third-party code:
   </thead>
   <tbody>
     <tr>
-      <td>ATL Server</td>
-      <td>Ms-LPL</td>
-      <td>http://atlserver.codeplex.com/</td>
-    </tr>
-    <tr>
       <td>CLineNumberEdit</td>
       <td>-</td>
       <td>http://www.codeproject.com/Articles/6385/Controls-in-controls-A-line-numbering-edit-box</td>

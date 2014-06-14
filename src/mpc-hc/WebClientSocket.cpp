@@ -20,7 +20,6 @@
  */
 
 #include "stdafx.h"
-#include "atl/atlisapi.h"
 #include "mplayerc.h"
 #include "resource.h"
 #include "MainFrm.h"
