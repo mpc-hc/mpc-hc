@@ -663,7 +663,7 @@ HRESULT CDVBSub::ParseObject(CGolombBuffer& gb, WORD wSegLength)
             pObject->SetRLEData(gb.GetBufferPos(), wSegLength - nExpectedSize, wSegLength - nExpectedSize);
             gb.SkipBytes(wSegLength - 3);
 
-            hr = (wSegLength >= nExpectedSize) ? S_OK : E_UNEXPECTED;;
+            hr = (wSegLength >= nExpectedSize) ? S_OK : E_UNEXPECTED;
         } else {
             TRACE_DVB(_T("DVB - Text subtitles are currently not supported\n"));
             m_pCurrentPage->objects.RemoveTail();

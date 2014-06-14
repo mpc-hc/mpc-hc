@@ -328,7 +328,7 @@ void CMainFrameControls::UpdateToolbarsVisibility()
         void show(int mask) { maskShow |= mask; maskHide &= ~mask; }
         void hide(int mask) { maskHide |= mask; maskShow &= ~mask; }
     } mask = { 0, 0 };
-    const int maskAll = DOCK_LEFT | DOCK_RIGHT | DOCK_TOP | DOCK_BOTTOM;;
+    const int maskAll = DOCK_LEFT | DOCK_RIGHT | DOCK_TOP | DOCK_BOTTOM;
 
     bool bRecalcLayout = false;
 
