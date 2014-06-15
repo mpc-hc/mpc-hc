@@ -225,7 +225,7 @@ void CTextFile::WriteString(LPCWSTR lpsz/*CStringW str*/)
         for (unsigned int i = 0, l = str.GetLength(); i < l; i++) {
             DWORD c = (WORD)str[i];
 
-            if (0 <= c && c < 0x80) { // 0xxxxxxx
+            if (c < 0x80) { // 0xxxxxxx
                 Write(&c, 1);
             } else if (0x80 <= c && c < 0x800) { // 110xxxxx 10xxxxxx
                 c = 0xc080 | ((c << 2) & 0x1f00) | (c & 0x003f);
