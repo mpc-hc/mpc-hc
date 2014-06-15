@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2013 see Authors.txt
+ * (C) 2009-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -139,23 +139,23 @@ private:
     bool m_useWASAPIAfterRestart;
     bool m_bMuteFastForward;
     CString m_csSound_Device;
-    IMMDevice* pMMDevice;
-    IAudioClient* pAudioClient;
-    IAudioRenderClient* pRenderClient;
-    UINT32 nFramesInBuffer;
-    REFERENCE_TIME hnsPeriod, hnsActualDuration;
-    HANDLE hTask;
+    IMMDevice* m_pMMDevice;
+    IAudioClient* m_pAudioClient;
+    IAudioRenderClient* m_pRenderClient;
+    UINT32 m_nFramesInBuffer;
+    REFERENCE_TIME m_hnsPeriod, m_hnsActualDuration;
+    HANDLE m_hTask;
     CCritSec m_csCheck;
-    UINT32 bufferSize;
-    bool isAudioClientStarted;
-    DWORD lastBufferTime;
+    UINT32 m_bufferSize;
+    bool m_isAudioClientStarted;
+    DWORD m_lastBufferTime;
 
     // avrt.dll (Vista or greater)
     typedef HANDLE(__stdcall* PTR_AvSetMmThreadCharacteristicsW)(LPCWSTR TaskName, LPDWORD TaskIndex);
     typedef BOOL (__stdcall* PTR_AvRevertMmThreadCharacteristics)(HANDLE AvrtHandle);
 
     HMODULE m_hLibAVRT;
-    PTR_AvSetMmThreadCharacteristicsW pfAvSetMmThreadCharacteristicsW;
-    PTR_AvRevertMmThreadCharacteristics pfAvRevertMmThreadCharacteristics;
+    PTR_AvSetMmThreadCharacteristicsW m_pfAvSetMmThreadCharacteristicsW;
+    PTR_AvRevertMmThreadCharacteristics m_pfAvRevertMmThreadCharacteristics;
 
 };
