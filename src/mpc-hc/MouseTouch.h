@@ -32,6 +32,8 @@ class CMouse
 {
 public:
     CMouse(CMainFrame* pMainFrm, bool bD3DFS = false);
+    CMouse(const CMouse&) = delete;
+
     virtual ~CMouse();
 
     static inline bool PointEqualsImprecise(long a, long b) {
@@ -49,8 +51,9 @@ public:
 
     bool Dragging();
 
+    CMouse& operator=(const CMouse&) = delete;
+
 private:
-    CMouse(const CMouse&);
     const bool m_bD3DFS;
     CMainFrame* m_pMainFrame;
     bool m_bMouseHiderStarted;
