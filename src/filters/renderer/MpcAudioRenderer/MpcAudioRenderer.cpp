@@ -996,24 +996,28 @@ HRESULT CMpcAudioRenderer::CheckAudioClient(WAVEFORMATEX* pWaveFormatEx)
     HRESULT hr = S_OK;
     CAutoLock cAutoLock(&m_csCheck);
     TRACE(_T("CMpcAudioRenderer::CheckAudioClient\n"));
-    if (m_pMMDevice == nullptr) {
+    if (!m_pMMDevice) {
         hr = GetAudioDevice(&m_pMMDevice);
     }
 
     // If no WAVEFORMATEX structure provided and client already exists, return it
-    if (m_pAudioClient != nullptr && pWaveFormatEx == nullptr) {
+    if (m_pAudioClient && !pWaveFormatEx) {
         return hr;
     }
 
     // Just create the audio client if no WAVEFORMATEX provided
-    if (m_pAudioClient == nullptr && pWaveFormatEx == nullptr) {
+    if (!m_pAudioClient && !pWaveFormatEx) {
         if (SUCCEEDED(hr)) {
             hr = CreateAudioClient(m_pMMDevice, &m_pAudioClient);
         }
         return hr;
     }
 
-    // Compare the exisiting WAVEFORMATEX with the one provided
+    // If we reach that point, m_pAudioClient should have been initialized
+    ASSERT(m_pAudioClient);
+    CheckPointer(m_pAudioClient, E_POINTER);
+
+    // Compare the existing WAVEFORMATEX with the one provided
     WAVEFORMATEX* pNewWaveFormatEx = nullptr;
     if (CheckFormatChanged(pWaveFormatEx, &pNewWaveFormatEx)) {
         // Format has changed, audio client has to be reinitialized
@@ -1025,25 +1029,23 @@ HRESULT CMpcAudioRenderer::CheckAudioClient(WAVEFORMATEX* pWaveFormatEx)
         m_pWaveFileFormat = pNewWaveFormatEx;
         hr = m_pAudioClient->IsFormatSupported(AUDCLNT_SHAREMODE_EXCLUSIVE, pWaveFormatEx, nullptr);
         if (SUCCEEDED(hr)) {
-            if (m_pAudioClient != nullptr && m_isAudioClientStarted) {
+            if (m_isAudioClientStarted) {
                 m_pAudioClient->Stop();
+                m_isAudioClientStarted = false;
             }
-            m_isAudioClientStarted = false;
             SAFE_RELEASE(m_pRenderClient);
             SAFE_RELEASE(m_pAudioClient);
-            if (SUCCEEDED(hr)) {
-                hr = CreateAudioClient(m_pMMDevice, &m_pAudioClient);
-            }
+
+            hr = CreateAudioClient(m_pMMDevice, &m_pAudioClient);
         } else {
             TRACE(_T("CMpcAudioRenderer::CheckAudioClient New format not supported, accept it anyway\n"));
             return S_OK;
         }
-    } else if (m_pRenderClient == nullptr) {
+    } else if (!m_pRenderClient) {
         TRACE(_T("CMpcAudioRenderer::CheckAudioClient First initialization of the audio renderer\n"));
     } else {
         return hr;
     }
-
 
     SAFE_RELEASE(m_pRenderClient);
     if (SUCCEEDED(hr)) {
@@ -1211,6 +1213,11 @@ HRESULT CMpcAudioRenderer::GetBufferSize(WAVEFORMATEX* pWaveFormatEx, REFERENCE_
 HRESULT CMpcAudioRenderer::InitAudioClient(WAVEFORMATEX* pWaveFormatEx, IAudioClient* pAudioClient, IAudioRenderClient** ppRenderClient)
 {
     TRACE(_T("CMpcAudioRenderer::InitAudioClient\n"));
+
+    ASSERT(pAudioClient && ppRenderClient);
+    CheckPointer(pAudioClient, E_POINTER);
+    CheckPointer(ppRenderClient, E_POINTER);
+
     HRESULT hr = S_OK;
     // Initialize the stream to play at the minimum latency.
     //if (SUCCEEDED (hr)) hr = pAudioClient->GetDevicePeriod(nullptr, &hnsPeriod);
@@ -1242,8 +1249,7 @@ HRESULT CMpcAudioRenderer::InitAudioClient(WAVEFORMATEX* pWaveFormatEx, IAudioCl
         hr = pAudioClient->GetBufferSize(&m_nFramesInBuffer);
 
         // throw away this IAudioClient
-        pAudioClient->Release();
-        pAudioClient = nullptr;
+        SAFE_RELEASE(pAudioClient);
 
         // calculate the new aligned periodicity
         m_hnsPeriod = // hns =
@@ -1295,6 +1301,9 @@ HRESULT CMpcAudioRenderer::CreateAudioClient(IMMDevice* pMMDevice, IAudioClient*
 
     TRACE(_T("CMpcAudioRenderer::CreateAudioClient\n"));
 
+    ASSERT(ppAudioClient);
+    CheckPointer(ppAudioClient, E_POINTER);
+
     if (*ppAudioClient) {
         if (m_isAudioClientStarted) {
             (*ppAudioClient)->Stop();
@@ -1303,7 +1312,7 @@ HRESULT CMpcAudioRenderer::CreateAudioClient(IMMDevice* pMMDevice, IAudioClient*
         m_isAudioClientStarted = false;
     }
 
-    if (pMMDevice == nullptr) {
+    if (!pMMDevice) {
         TRACE(_T("CMpcAudioRenderer::CreateAudioClient failed, device not loaded\n"));
         return E_FAIL;
     }
