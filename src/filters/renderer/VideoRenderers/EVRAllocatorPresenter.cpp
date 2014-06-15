@@ -2201,12 +2201,12 @@ void CEVRAllocatorPresenter::RenderThread()
                                     TimePerFrame = SampleDuration;
                                 }
 
-                                LONGLONG MinMargin;
-                                if (m_FrameTimeCorrection && 0) {
-                                    MinMargin = MIN_FRAME_TIME;
-                                } else {
-                                    MinMargin = MIN_FRAME_TIME + std::min(LONGLONG(m_DetectedFrameTimeStdDev), 20000ll);
-                                }
+                                LONGLONG MinMargin = MIN_FRAME_TIME + std::min(LONGLONG(m_DetectedFrameTimeStdDev), 20000ll);
+                                //if (m_FrameTimeCorrection) {
+                                //    MinMargin = MIN_FRAME_TIME;
+                                //} else {
+                                //    MinMargin = MIN_FRAME_TIME + std::min(LONGLONG(m_DetectedFrameTimeStdDev), 20000ll);
+                                //}
                                 LONGLONG TimePerFrameMargin = std::min(std::max(TimePerFrame * 2l / 100l, MinMargin), TimePerFrame * 11l / 100l); // (0.02..0.11)TimePerFrame
                                 LONGLONG TimePerFrameMargin0 = TimePerFrameMargin / 2;
                                 LONGLONG TimePerFrameMargin1 = 0;

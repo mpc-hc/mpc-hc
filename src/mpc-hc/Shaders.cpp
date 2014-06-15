@@ -1,5 +1,5 @@
 /*
- * (C) 2013 see Authors.txt
+ * (C) 2013-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -423,7 +423,7 @@ bool ShaderSelection::PrevPreset(bool bWrap/* = true*/)
     } else {
         auto it = m_presets.find(m_strCurrentPresetName);
         if (it != m_presets.end()) {
-            if (it == m_presets.begin() && bWrap && it != m_presets.end()) {
+            if (it == m_presets.begin() && bWrap) {
                 it-- = m_presets.end();
             }
             if (it != m_presets.begin()) {
