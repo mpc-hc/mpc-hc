@@ -32,6 +32,7 @@ CTextFile::CTextFile(enc e)
     : m_encoding(e)
     , m_defaultencoding(e)
     , m_offset(0)
+    , m_posInFile(0)
     , m_posInBuffer(0)
     , m_nInBuffer(0)
 {
@@ -80,6 +81,8 @@ bool CTextFile::Open(LPCTSTR lpszFileName)
         }
     } else if (m_offset == 0) { // No BOM detected, ensure the file is read from the beginning
         Seek(0, begin);
+    } else {
+        m_posInFile = __super::GetPosition();
     }
 
     return true;
@@ -179,7 +182,7 @@ ULONGLONG CTextFile::Seek(LONGLONG lOff, UINT nFrom)
             // If we would have to end up out of the buffer, we just reset it and seek normally
             m_nInBuffer = m_posInBuffer = 0;
             newPos = __super::Seek(lOff + m_offset, begin) - m_offset;
-        } else { // If we can reuse the buffer, we have nother special to do
+        } else { // If we can reuse the buffer, we have nothing special to do
             newPos = ULONGLONG(lOff);
         }
     } else { // No buffer, we can use the base implementation
@@ -188,6 +191,8 @@ ULONGLONG CTextFile::Seek(LONGLONG lOff, UINT nFrom)
         }
         newPos = __super::Seek(lOff, nFrom) - m_offset;
     }
+
+    m_posInFile = newPos + m_offset + (m_nInBuffer - m_posInBuffer);
 
     return newPos;
 }
@@ -267,8 +272,14 @@ bool CTextFile::FillBuffer()
     if (nBytesRead) {
         m_nInBuffer += nBytesRead;
     }
+    m_posInFile = __super::GetPosition();
 
     return !nBytesRead;
+}
+
+ULONGLONG CTextFile::GetPositionFastBuffered() const
+{
+    return (m_posInFile - m_offset - (m_nInBuffer - m_posInBuffer));
 }
 
 BOOL CTextFile::ReadString(CStringA& str)
@@ -323,7 +334,7 @@ BOOL CTextFile::ReadString(CStringA& str)
             }
         } while (!bLineEndFound);
     } else if (m_encoding == UTF8) {
-        ULONGLONG lineStartPos = GetPosition();
+        ULONGLONG lineStartPos = GetPositionFastBuffered();
         bool bValid = true;
         bool bLineEndFound = false;
         fEOF = false;
@@ -540,7 +551,7 @@ BOOL CTextFile::ReadString(CStringW& str)
             }
         } while (!bLineEndFound);
     } else if (m_encoding == UTF8) {
-        ULONGLONG lineStartPos = GetPosition();
+        ULONGLONG lineStartPos = GetPositionFastBuffered();
         bool bValid = true;
         bool bLineEndFound = false;
         fEOF = false;

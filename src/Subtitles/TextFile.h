@@ -37,6 +37,7 @@ public:
 private:
     enc m_encoding, m_defaultencoding;
     int m_offset;
+    ULONGLONG m_posInFile;
     CAutoVectorPtr<char> m_buffer;
     CAutoVectorPtr<WCHAR> m_wbuffer;
     LONGLONG m_posInBuffer, m_nInBuffer;
@@ -69,6 +70,7 @@ public:
 protected:
     virtual bool ReopenAsText();
     bool FillBuffer();
+    ULONGLONG GetPositionFastBuffered() const;
 };
 
 class CWebTextFile : public CTextFile

@@ -17,6 +17,7 @@ next version - not released yet
 + Add an option in the "Save Subtitle" dialog to control the export of the default style as an external ".style" file
 + Ticket #1411, Internal Subtitle Renderer/VSFilter: Support loading external PGS subtitles
 * Text subtitles: When rendering to the video frame, clip subtitles that go out of the frame
+* Text subtitles: Faster subtitle parsing (around 20%)
 * Ticket #4144, Move the user interface language selection to the Options dialog and remove the "Language" menu.
   The increasing number of translations had reduced the usability of the menu
 * Ticket #3739, Make error reporting less verbose when some non-critical DVD hooks fail
