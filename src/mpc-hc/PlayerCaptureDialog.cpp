@@ -268,10 +268,10 @@ static void SetupMediaTypes(IAMStreamConfig* pAMSC, CFormatArray<T>& tfa, CCombo
                         continue;
                     }
 
-                    CMediaType mt = pfe->mt;
+                    CMediaType mtCap = pfe->mt;
 
-                    if (mt.formattype == FORMAT_VideoInfo) {
-                        VIDEOINFOHEADER* vih = (VIDEOINFOHEADER*)mt.pbFormat;
+                    if (mtCap.formattype == FORMAT_VideoInfo) {
+                        VIDEOINFOHEADER* vih = (VIDEOINFOHEADER*)mtCap.pbFormat;
                         if (!vih->bmiHeader.biHeight) {
                             vih->bmiHeader.biHeight = 1;
                         }
@@ -280,16 +280,16 @@ static void SetupMediaTypes(IAMStreamConfig* pAMSC, CFormatArray<T>& tfa, CCombo
                         vih->bmiHeader.biSizeImage = presets[j].cx * presets[j].cy * vih->bmiHeader.biBitCount >> 3;
 
                         AM_MEDIA_TYPE* pmt = (AM_MEDIA_TYPE*)CoTaskMemAlloc(sizeof(AM_MEDIA_TYPE));
-                        CopyMediaType(pmt, &mt);
+                        CopyMediaType(pmt, &mtCap);
                         tfa.AddFormat(pmt, pcaps, sizeof(*pcaps));
 
                         if (presets[j].cx * 3 != presets[j].cy * 4) {
-                            int extra = mt.cbFormat - sizeof(VIDEOINFOHEADER);
+                            int extra = mtCap.cbFormat - sizeof(VIDEOINFOHEADER);
                             int bmiHeaderSize = sizeof(vih->bmiHeader) + extra;
                             BYTE* pbmiHeader = DEBUG_NEW BYTE[bmiHeaderSize];
                             memcpy(pbmiHeader, &vih->bmiHeader, bmiHeaderSize);
-                            mt.ReallocFormatBuffer(FIELD_OFFSET(VIDEOINFOHEADER2, bmiHeader) + bmiHeaderSize);
-                            VIDEOINFOHEADER2* vih2 = (VIDEOINFOHEADER2*)mt.pbFormat;
+                            mtCap.ReallocFormatBuffer(FIELD_OFFSET(VIDEOINFOHEADER2, bmiHeader) + bmiHeaderSize);
+                            VIDEOINFOHEADER2* vih2 = (VIDEOINFOHEADER2*)mtCap.pbFormat;
                             memcpy(&vih2->bmiHeader, pbmiHeader, bmiHeaderSize);
                             delete [] pbmiHeader;
                             vih2->dwInterlaceFlags = vih2->dwCopyProtectFlags = 0;
@@ -298,11 +298,11 @@ static void SetupMediaTypes(IAMStreamConfig* pAMSC, CFormatArray<T>& tfa, CCombo
                             vih2->dwPictAspectRatioY = 3;
 
                             AM_MEDIA_TYPE* pmt = (AM_MEDIA_TYPE*)CoTaskMemAlloc(sizeof(AM_MEDIA_TYPE));
-                            CopyMediaType(pmt, &mt);
+                            CopyMediaType(pmt, &mtCap);
                             tfa.AddFormat(pmt, pcaps, sizeof(*pcaps));
                         }
-                    } else if (mt.formattype == FORMAT_VideoInfo2) {
-                        VIDEOINFOHEADER2* vih2 = (VIDEOINFOHEADER2*)mt.pbFormat;
+                    } else if (mtCap.formattype == FORMAT_VideoInfo2) {
+                        VIDEOINFOHEADER2* vih2 = (VIDEOINFOHEADER2*)mtCap.pbFormat;
                         if (!vih2->bmiHeader.biHeight) {
                             vih2->bmiHeader.biHeight = 1;
                         }
@@ -313,7 +313,7 @@ static void SetupMediaTypes(IAMStreamConfig* pAMSC, CFormatArray<T>& tfa, CCombo
                         vih2->dwPictAspectRatioY = 3;
 
                         AM_MEDIA_TYPE* pmt = (AM_MEDIA_TYPE*)CoTaskMemAlloc(sizeof(AM_MEDIA_TYPE));
-                        CopyMediaType(pmt, &mt);
+                        CopyMediaType(pmt, &mtCap);
                         tfa.AddFormat(pmt, pcaps, sizeof(*pcaps));
                     }
                 }
