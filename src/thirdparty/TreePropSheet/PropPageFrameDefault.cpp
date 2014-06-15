@@ -28,34 +28,12 @@
 namespace TreePropSheet
 {
 
-
-//uncomment the following line, if you don't have installed the
-//new platform SDK
-#define XPSUPPORT
-
-#ifdef XPSUPPORT
 #include <uxtheme.h>
 #include <vssym32.h>
-#endif
 
 //-------------------------------------------------------------------
 // class CThemeLib
 //-------------------------------------------------------------------
-
-#define THEMEAPITYPE(f)                 typedef HRESULT (__stdcall *_##f)
-#define THEMEAPITYPE_(t, f)         typedef t (__stdcall *_##f)
-#define THEMEAPIPTR(f)                  _##f m_p##f
-
-#ifdef XPSUPPORT
-    #define THEMECALL(f)                        return (*m_p##f)
-    #define GETTHEMECALL(f)                 m_p##f = (_##f)GetProcAddress(m_hThemeLib, #f)
-#else
-    void ThemeDummy(...) {ASSERT(FALSE);}
-    #define HTHEME                                  void*
-    #define TABP_PANE                               0
-    #define THEMECALL(f)                        return 0; ThemeDummy
-    #define GETTHEMECALL(f)                 m_p##f = NULL
-#endif
 
 
 /**
@@ -83,38 +61,36 @@ public:
 // call wrappers
 public:
     BOOL IsThemeActive() const
-    {THEMECALL(IsThemeActive)();}
+    {return (*m_pIsThemeActive)();}
 
     HTHEME OpenThemeData(HWND hwnd, LPCWSTR pszClassList) const
-    {THEMECALL(OpenThemeData)(hwnd, pszClassList);}
+    {return (*m_pOpenThemeData)(hwnd, pszClassList);}
 
     HRESULT CloseThemeData(HTHEME hTheme) const
-    {THEMECALL(CloseThemeData)(hTheme);}
+    {return (*m_pCloseThemeData)(hTheme);}
 
-    HRESULT GetThemeBackgroundContentRect(HTHEME hTheme, OPTIONAL HDC hdc, int iPartId, int iStateId,  const RECT *pBoundingRect, OUT RECT *pContentRect) const
-    {THEMECALL(GetThemeBackgroundContentRect)(hTheme, hdc, iPartId, iStateId, pBoundingRect, pContentRect);}
+    HRESULT GetThemeBackgroundContentRect(HTHEME hTheme, OPTIONAL HDC hdc, int iPartId, int iStateId, const RECT *pBoundingRect, OUT RECT *pContentRect) const
+    {return (*m_pGetThemeBackgroundContentRect)(hTheme, hdc, iPartId, iStateId, pBoundingRect, pContentRect);}
 
     HRESULT DrawThemeBackground(HTHEME hTheme, HDC hdc, int iPartId, int iStateId, const RECT *pRect, OPTIONAL const RECT *pClipRect) const
-    {THEMECALL(DrawThemeBackground)(hTheme, hdc, iPartId, iStateId, pRect, pClipRect);}
+    {return (*m_pDrawThemeBackground)(hTheme, hdc, iPartId, iStateId, pRect, pClipRect);}
 
 // function pointers
 private:
-#ifdef XPSUPPORT
-    THEMEAPITYPE_(BOOL, IsThemeActive)();
-    THEMEAPIPTR(IsThemeActive);
+    typedef BOOL (__stdcall *_IsThemeActive)();
+    _IsThemeActive m_pIsThemeActive;
 
-    THEMEAPITYPE_(HTHEME, OpenThemeData)(HWND hwnd, LPCWSTR pszClassList);
-    THEMEAPIPTR(OpenThemeData);
+    typedef HTHEME (__stdcall *_OpenThemeData)(HWND hwnd, LPCWSTR pszClassList);
+    _OpenThemeData m_pOpenThemeData;
 
-    THEMEAPITYPE(CloseThemeData)(HTHEME hTheme);
-    THEMEAPIPTR(CloseThemeData);
+    typedef HRESULT(__stdcall *_CloseThemeData)(HTHEME hTheme);
+    _CloseThemeData m_pCloseThemeData;
 
-    THEMEAPITYPE(GetThemeBackgroundContentRect)(HTHEME hTheme, OPTIONAL HDC hdc, int iPartId, int iStateId,  const RECT *pBoundingRect, OUT RECT *pContentRect);
-    THEMEAPIPTR(GetThemeBackgroundContentRect);
+    typedef HRESULT(__stdcall *_GetThemeBackgroundContentRect)(HTHEME hTheme, OPTIONAL HDC hdc, int iPartId, int iStateId, const RECT *pBoundingRect, OUT RECT *pContentRect);
+    _GetThemeBackgroundContentRect m_pGetThemeBackgroundContentRect;
 
-    THEMEAPITYPE(DrawThemeBackground)(HTHEME hTheme, HDC hdc, int iPartId, int iStateId, const RECT *pRect, OPTIONAL const RECT *pClipRect);
-    THEMEAPIPTR(DrawThemeBackground);
-#endif
+    typedef HRESULT (__stdcall *_DrawThemeBackground)(HTHEME hTheme, HDC hdc, int iPartId, int iStateId, const RECT *pRect, OPTIONAL const RECT *pClipRect);
+    _DrawThemeBackground m_pDrawThemeBackground;
 
 // properties
 private:
@@ -129,19 +105,17 @@ static CThemeLib g_ThemeLib;
 
 
 CThemeLib::CThemeLib()
-:   m_hThemeLib(NULL)
+    : m_hThemeLib(NULL)
 {
-#ifdef XPSUPPORT
     m_hThemeLib = LoadLibrary(_T("uxtheme.dll"));
     if (!m_hThemeLib)
         return;
 
-    GETTHEMECALL(IsThemeActive);
-    GETTHEMECALL(OpenThemeData);
-    GETTHEMECALL(CloseThemeData);
-    GETTHEMECALL(GetThemeBackgroundContentRect);
-    GETTHEMECALL(DrawThemeBackground);
-#endif
+    m_pIsThemeActive = (_IsThemeActive)GetProcAddress(m_hThemeLib, "IsThemeActive");
+    m_pOpenThemeData = (_OpenThemeData)GetProcAddress(m_hThemeLib, "OpenThemeData");
+    m_pCloseThemeData = (_CloseThemeData)GetProcAddress(m_hThemeLib, "CloseThemeData");
+    m_pGetThemeBackgroundContentRect = (_GetThemeBackgroundContentRect)GetProcAddress(m_hThemeLib, "GetThemeBackgroundContentRect");
+    m_pDrawThemeBackground = (_DrawThemeBackground)GetProcAddress(m_hThemeLib, "DrawThemeBackground");
 }
 
 
