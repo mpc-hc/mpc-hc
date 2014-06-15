@@ -690,7 +690,8 @@ SRESULT addic7ed::Search(const SubtitlesInfo& fileInfo, volatile BOOL& _bAbortin
         std::string search(fileInfo.title);
         if (!fileInfo.country.empty()) { search += " " + fileInfo.country; }
         if (fileInfo.year != -1) { search += " (" + std::to_string(fileInfo.year) + ")"; }
-        searchResult = Download(string_format("http://www.addic7ed.com/search.php?search=%s", UrlEncode(search.c_str())), "", data);
+        search = std::regex_replace(search, std::regex("(?: and |[&':])+", regex_flags), " ");
+        searchResult = Download(string_format("http://www.addic7ed.com/search.php?search=%s", UrlEncode(search .c_str())), "", data);
 
         regex_results results;
         string_regex(regex_pattern[0], data, results);
