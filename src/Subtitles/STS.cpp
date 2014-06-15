@@ -31,7 +31,7 @@
 #include "../DSUtil/WinAPIUtils.h"
 
 
-struct htmlcolor {
+static struct htmlcolor{
     TCHAR* name;
     DWORD  color;
 } hmtlcolors[] = {
@@ -250,7 +250,7 @@ static DWORD CharSetToCodePage(DWORD dwCharSet)
     return cs.ciACP;
 }
 
-int FindChar(CStringW str, WCHAR c, int pos, bool fUnicode, int CharSet)
+static int FindChar(CStringW str, WCHAR c, int pos, bool fUnicode, int CharSet)
 {
     if (fUnicode) {
         return str.Find(c, pos);
@@ -434,7 +434,7 @@ static CStringW MBCSSSAToUnicode(CStringW str, int CharSet)
     return ret;
 }
 
-CStringW RemoveSSATags(CStringW str, bool fUnicode, int CharSet)
+static CStringW RemoveSSATags(CStringW str, bool fUnicode, int CharSet)
 {
     str.Replace(L"{\\i1}", L"<i>");
     str.Replace(L"{\\i}", L"</i>");
@@ -1178,7 +1178,7 @@ static bool OpenVPlayer(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
     return !ret.IsEmpty();
 }
 
-CStringW GetStrW(CStringW& buff, char sep = ',') //throw(...)
+static CStringW GetStrW(CStringW& buff, char sep = ',') //throw(...)
 {
     buff.TrimLeft();
 
@@ -1198,7 +1198,7 @@ CStringW GetStrW(CStringW& buff, char sep = ',') //throw(...)
     return ret;
 }
 
-int GetInt(CStringW& buff, char sep = ',') //throw(...)
+static int GetInt(CStringW& buff, char sep = ',') //throw(...)
 {
     CStringW str;
 
@@ -1222,7 +1222,7 @@ int GetInt(CStringW& buff, char sep = ',') //throw(...)
     return ret;
 }
 
-double GetFloat(CStringW& buff, char sep = ',') //throw(...)
+static double GetFloat(CStringW& buff, char sep = ',') //throw(...)
 {
     CStringW str;
 
