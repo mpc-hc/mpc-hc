@@ -13891,7 +13891,7 @@ HRESULT CMainFrame::BuildCapture(IPin* pPin, IBaseFilter* pBF[3], const GUID& ma
 
 bool CMainFrame::BuildToCapturePreviewPin(
     IBaseFilter* pVidCap, IPin** ppVidCapPin, IPin** ppVidPrevPin,
-    IBaseFilter* m_pAudCap, IPin** ppAudCapPin, IPin** ppAudPrevPin)
+    IBaseFilter* pAudCap, IPin** ppAudCapPin, IPin** ppAudPrevPin)
 {
     HRESULT hr;
     *ppVidCapPin = *ppVidPrevPin = nullptr;
@@ -13900,7 +13900,7 @@ bool CMainFrame::BuildToCapturePreviewPin(
 
     if (pVidCap) {
         CComPtr<IPin> pPin;
-        if (!m_pAudCap // only look for interleaved stream when we don't use any other audio capture source
+        if (!pAudCap // only look for interleaved stream when we don't use any other audio capture source
                 && SUCCEEDED(m_pCGB->FindPin(pVidCap, PINDIR_OUTPUT, &PIN_CATEGORY_CAPTURE, &MEDIATYPE_Interleaved, TRUE, 0, &pPin))) {
             CComPtr<IBaseFilter> pDVSplitter;
             hr = pDVSplitter.CoCreateInstance(CLSID_DVSplitter);
@@ -13935,11 +13935,11 @@ bool CMainFrame::BuildToCapturePreviewPin(
         hr = pSmartTee->FindPin(L"Capture", ppVidCapPin);
     }
 
-    if (m_pAudCap || pDVAudPin) {
+    if (pAudCap || pDVAudPin) {
         CComPtr<IPin> pPin;
         if (pDVAudPin) {
             pPin = pDVAudPin;
-        } else if (FAILED(m_pCGB->FindPin(m_pAudCap, PINDIR_OUTPUT, &PIN_CATEGORY_CAPTURE, &MEDIATYPE_Audio, TRUE, 0, &pPin))) {
+        } else if (FAILED(m_pCGB->FindPin(pAudCap, PINDIR_OUTPUT, &PIN_CATEGORY_CAPTURE, &MEDIATYPE_Audio, TRUE, 0, &pPin))) {
             MessageBox(ResStr(IDS_CAPTURE_ERROR_AUD_CAPT_PIN), ResStr(IDS_CAPTURE_ERROR), MB_ICONERROR | MB_OK);
             return false;
         }
