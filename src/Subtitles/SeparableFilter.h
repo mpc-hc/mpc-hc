@@ -368,4 +368,5 @@ struct GaussianKernel {
     }
 
     GaussianKernel(const GaussianKernel&) = delete;
+    GaussianKernel& operator=(const GaussianKernel&) = delete;
 };
