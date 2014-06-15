@@ -275,7 +275,7 @@ BOOL CTextFile::ReadString(CStringA& str)
 {
     bool fEOF = true;
 
-    str.Empty();
+    str.Truncate(0);
 
     if (m_encoding == DEFAULT_ENCODING) {
         CString s;
@@ -491,7 +491,7 @@ BOOL CTextFile::ReadString(CStringW& str)
 {
     bool fEOF = true;
 
-    str.Empty();
+    str.Truncate(0);
 
     if (m_encoding == DEFAULT_ENCODING) {
         CString s;
