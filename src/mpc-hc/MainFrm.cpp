@@ -9827,7 +9827,7 @@ CSize CMainFrame::GetZoomWindowSize(double dScale)
     const auto& s = AfxGetAppSettings();
     CSize ret(0, 0);
 
-    if (dScale > 0 && GetLoadState() == MLS::LOADED) {
+    if (dScale >= 0.0 && GetLoadState() == MLS::LOADED) {
         MINMAXINFO mmi;
         OnGetMinMaxInfo(&mmi);
 
@@ -10036,6 +10036,11 @@ double CMainFrame::GetZoomAutoFitScale(bool bLargerOnly)
     // Take movie aspect ratio into consideration
     // The scaling is computed so that the height is an integer value
     sy = floor(arxy.cy * floor(arxy.cx * sx + 0.5) / arxy.cx + 0.5) / arxy.cy;
+
+    if (sy < 0.0) {
+        ASSERT(FALSE);
+        sy = 0.0;
+    }
 
     return sy;
 }
