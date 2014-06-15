@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2013 see Authors.txt
+ * (C) 2009-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -642,8 +642,8 @@ HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, EventDescriptor& NowNext)
                                     IDS_CONTENT_MUSIC_BALLET_DANCE,
                                     IDS_CONTENT_MUSIC_ART_CULTURE,
                                     IDS_CONTENT_SOCIAL_POLITICAL_ECO,
+                                    IDS_CONTENT_EDUCATION_SCIENCE,
                                     IDS_CONTENT_LEISURE
-
                                 };
 
                                 NowNext.content.Append(ResStr(contents[content - 1]));

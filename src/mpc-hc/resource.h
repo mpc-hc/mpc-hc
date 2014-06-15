@@ -1423,6 +1423,7 @@
 #define IDS_CREDENTIALS_SERVER          57399
 #define IDS_CREDENTIALS_CONNECT         57400
 #define IDS_SUB_SAVE_EXTERNAL_STYLE_FILE 57401
+#define IDS_CONTENT_EDUCATION_SCIENCE   57402
 
 // Next default values for new objects
 //

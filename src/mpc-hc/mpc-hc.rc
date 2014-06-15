@@ -2524,6 +2524,7 @@ BEGIN
     IDS_CREDENTIALS_SERVER  "Enter server credentials"
     IDS_CREDENTIALS_CONNECT "Enter your credentials to connect"
     IDS_SUB_SAVE_EXTERNAL_STYLE_FILE "Save custom style"
+    IDS_CONTENT_EDUCATION_SCIENCE "Education/Science/Factual topics"
 END
 
 STRINGTABLE
