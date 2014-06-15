@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -399,7 +399,7 @@ bool CCDDAStream::Load(const WCHAR* fnw)
 
             if (pDesc->CharacterPosition == 0) {
                 str[pDesc->PackType][pDesc->TrackNumber] = text;
-            } else if (pDesc->CharacterPosition <= 0xf) {
+            } else { // pDesc->CharacterPosition <= 0xf since CharacterPosition is a 4-bit field
                 if (pDesc->CharacterPosition < 0xf && !last.IsEmpty()) {
                     str[pDesc->PackType][pDesc->TrackNumber] = last + text;
                 } else {
