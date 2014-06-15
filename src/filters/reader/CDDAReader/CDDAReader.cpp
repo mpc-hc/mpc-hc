@@ -393,9 +393,11 @@ bool CCDDAStream::Load(const WCHAR* fnw)
                              : CString(CStringW((WCHAR*)pDesc->WText + tlen + 1, lenW - (tlen + 1))))
                           : _T("");
 
-            if ((pDesc->PackType -= 0x80) >= 0x10) {
+            
+            if (pDesc->PackType < 0x80 || pDesc->PackType >= 0x80 + 0x10) {
                 continue;
             }
+            pDesc->PackType -= 0x80;
 
             if (pDesc->CharacterPosition == 0) {
                 str[pDesc->PackType][pDesc->TrackNumber] = text;
