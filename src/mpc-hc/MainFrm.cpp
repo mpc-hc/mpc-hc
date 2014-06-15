@@ -6164,7 +6164,7 @@ void CMainFrame::SetCaptionState(MpcCaptionState eState)
 
     const int base = MpcCaptionState::MODE_COUNT;
     const bool bZoomed = !!IsZoomed();
-    for (int i = eOldState; i != eState; ++i %= base) {
+    for (int i = eOldState; i != eState; i = (i + 1) % base) {
         switch (static_cast<MpcCaptionState>(i)) {
             case MpcCaptionState::MODE_BORDERLESS:
                 dwMenuFlags = AFX_MBV_KEEPVISIBLE;
