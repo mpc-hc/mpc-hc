@@ -780,10 +780,14 @@ OpticalDiskType_t GetOpticalDiskType(TCHAR drive, CAtlList<CString>& files)
             DWORD BytesReturned;
             CDROM_TOC TOC;
             if (DeviceIoControl(hDrive, IOCTL_CDROM_READ_TOC, nullptr, 0, &TOC, sizeof(TOC), &BytesReturned, 0)) {
+                ASSERT(TOC.FirstTrack >= 1u && TOC.LastTrack <= _countof(TOC.TrackData));
+                TOC.FirstTrack = std::max(TOC.FirstTrack, UCHAR(1));
+                TOC.LastTrack = std::min(TOC.LastTrack, UCHAR(_countof(TOC.TrackData)));
                 for (ptrdiff_t i = TOC.FirstTrack; i <= TOC.LastTrack; i++) {
                     // MMC-3 Draft Revision 10g: Table 222 - Q Sub-channel control field
-                    TOC.TrackData[i - 1].Control &= 5;
-                    if (TOC.TrackData[i - 1].Control == 0 || TOC.TrackData[i - 1].Control == 1) {
+                    auto& trackData = TOC.TrackData[i - 1];
+                    trackData.Control &= 5;
+                    if (trackData.Control == 0 || trackData.Control == 1) {
                         CString fn;
                         fn.Format(_T("%s\\track%02Id.cda"), path, i);
                         files.AddTail(fn);
