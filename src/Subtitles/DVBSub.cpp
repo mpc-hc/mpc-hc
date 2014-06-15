@@ -298,7 +298,7 @@ HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
                             }
 
                             for (POSITION pos = pPrevPage->objects.GetHeadPosition(); pos;) {
-                                m_pCurrentPage->objects.AddTail(CAutoPtr<CompositionObject>(pPrevPage->objects.GetNext(pos)->Copy()));
+                                m_pCurrentPage->objects.AddTail(CAutoPtr<CompositionObject>(DEBUG_NEW CompositionObject(*pPrevPage->objects.GetNext(pos))));
                             }
 
                             for (POSITION pos = pPrevPage->CLUTs.GetHeadPosition(); pos;) {
