@@ -1791,13 +1791,13 @@ static OpenFunctStruct OpenFuncts[] = {
     OpenOldSubRipper, TIME, Subtitle::SRT,
     OpenSubViewer, TIME, Subtitle::SUB,
     OpenMicroDVD, FRAME, Subtitle::SSA,
-    OpenSami, TIME, Subtitle::SMI,
     OpenVPlayer, TIME, Subtitle::SRT,
     OpenSubStationAlpha, TIME, Subtitle::SSA,
     OpenXombieSub, TIME, Subtitle::XSS,
-    OpenUSF, TIME, Subtitle::USF,
     OpenMPL2, TIME, Subtitle::SRT,
     OpenRealText, TIME, Subtitle::RT,
+    OpenSami, TIME, Subtitle::SMI,
+    OpenUSF, TIME, Subtitle::USF,
 };
 
 static int nOpenFuncts = _countof(OpenFuncts);
