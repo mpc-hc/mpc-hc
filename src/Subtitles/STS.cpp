@@ -2603,10 +2603,9 @@ bool CSimpleTextSubtitle::Open(CString fn, int CharSet, CString name, CString vi
     return Open(&f, CharSet, name);
 }
 
-static int CountLines(CTextFile* f, ULONGLONG from, ULONGLONG to)
+static size_t CountLines(CTextFile* f, ULONGLONG from, ULONGLONG to, CString& s = CString())
 {
-    int n = 0;
-    CString s;
+    size_t n = 0;
     f->Seek(from, CFile::begin);
     while (f->ReadString(s) && f->GetPosition() < to) {
         n++;
@@ -2621,12 +2620,13 @@ bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name)
     ULONGLONG pos = f->GetPosition();
 
     for (ptrdiff_t i = 0; i < nOpenFuncts; i++) {
-        if (!OpenFuncts[i].open(f, *this, CharSet) /*|| !GetCount()*/) {
+        if (!OpenFuncts[i].open(f, *this, CharSet)) {
             if (!IsEmpty()) {
-                int n = CountLines(f, pos, f->GetPosition());
-                CString s;
-                s.Format(_T("Syntax error at line %d!\t"), n + 1);
-                AfxMessageBox(s, MB_OK | MB_ICONERROR);
+                CString lastLine;
+                size_t n = CountLines(f, pos, f->GetPosition(), lastLine);
+                CString msg;
+                msg.Format(_T("Unable to parse the subtitle file. Syntax error at line %Iu:\n\"%s\""), n + 1, lastLine);
+                AfxMessageBox(msg, MB_OK | MB_ICONERROR);
                 Empty();
                 break;
             }

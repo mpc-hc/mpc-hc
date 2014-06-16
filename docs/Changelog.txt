@@ -8,6 +8,11 @@ Legend:
 ! Fixed
 
 
+next version - not released yet
+===============================
+* Ticket #4428, Improve the clarity of the error message when opening a subtitle file fails
+
+
 1.7.6 - 05 July 2014
 ====================
 + ISR: Add an option to control subtitle renderer behavior regarding anamorphic video
