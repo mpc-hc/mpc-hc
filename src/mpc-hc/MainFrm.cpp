@@ -218,6 +218,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 
     ON_MESSAGE(WM_POSTOPEN, OnFilePostOpenmedia)
     ON_MESSAGE(WM_OPENFAILED, OnOpenMediaFailed)
+    ON_MESSAGE(WM_DVB_EIT_DATA_READY, OnCurrentChannelInfoUpdated)
 
     ON_COMMAND(ID_BOSS, OnBossKey)
 
@@ -1879,7 +1880,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                         }
                         break;
                     case PM_DIGITAL_CAPTURE: {
-                        EventDescriptor& NowNext = m_DVBState.NowNext;
+                        EventDescriptor& NowNext = m_pDVBState->NowNext;
                         time_t tNow;
                         time(&tNow);
                         if (NowNext.duration > 0 && tNow >= NowNext.startTime && tNow <= NowNext.startTime + NowNext.duration) {
@@ -2159,7 +2160,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 
                 m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_SUBTITLES), Subtitles);
             } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-                if (m_DVBState.bActive) {
+                if (m_pDVBState->bActive) {
                     CComQIPtr<IBDATuner> pTun = m_pGB;
                     BOOLEAN bPresent, bLocked;
                     LONG lDbStrength, lPercentQuality;
@@ -5032,7 +5033,7 @@ void CMainFrame::OnFileSaveImage()
     } else if (GetPlaybackMode() == PM_DVD) {
         prefix.Format(_T("dvd_snapshot_%s"), GetVidPos());
     } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-        prefix.Format(_T("%s_snapshot"), m_DVBState.sChannelName);
+        prefix.Format(_T("%s_snapshot"), m_pDVBState->sChannelName);
     }
     psrc.Combine(s.strSnapshotPath, MakeSnapshotFileName(prefix));
 
@@ -5093,7 +5094,7 @@ void CMainFrame::OnFileSaveImageAuto()
     } else if (GetPlaybackMode() == PM_DVD) {
         prefix.Format(_T("dvd_snapshot_%s"), GetVidPos());
     } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-        prefix.Format(_T("%s_snapshot"), m_DVBState.sChannelName);
+        prefix.Format(_T("%s_snapshot"), m_pDVBState->sChannelName);
     }
 
     CString fn;
@@ -7115,7 +7116,7 @@ void CMainFrame::OnPlayStop()
             m_pDVDC->SetOption(DVD_ResetOnStop, FALSE);
         } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
             m_pMC->Stop();
-            m_DVBState.bActive = false;
+            m_pDVBState->bActive = false;
             OpenSetupWindowTitle();
             m_wndStatusBar.SetStatusTimer(ResStr(IDS_CAPTURE_LIVE));
         } else if (GetPlaybackMode() == PM_ANALOG_CAPTURE) {
@@ -7800,7 +7801,7 @@ void CMainFrame::OnPlayAudio(UINT nID)
     } else if (GetPlaybackMode() == PM_FILE) {
         OnNavStreamSelectSubMenu(i, 1);
     } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-        if (CDVBChannel* pChannel = m_DVBState.pChannel) {
+        if (CDVBChannel* pChannel = m_pDVBState->pChannel) {
             OnNavStreamSelectSubMenu(i, 1);
             pChannel->SetDefaultAudio(i);
         }
@@ -7828,7 +7829,7 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
     }
 
     if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-        if (CDVBChannel* pChannel = m_DVBState.pChannel) {
+        if (CDVBChannel* pChannel = m_pDVBState->pChannel) {
             OnNavStreamSelectSubMenu(i, 2);
             pChannel->SetDefaultSubtitle(i);
         }
@@ -8394,7 +8395,7 @@ void CMainFrame::OnUpdateNavigateSkip(CCmdUI* pCmdUI)
                         && m_iDVDDomain != DVD_DOMAIN_VideoTitleSetMenu)
                        || (GetPlaybackMode() == PM_FILE  && s.fUseSearchInFolder)
                        || (GetPlaybackMode() == PM_FILE  && !s.fUseSearchInFolder && (m_wndPlaylistBar.GetCount() > 1 || m_pCB->ChapGetCount() > 1))
-                       || (GetPlaybackMode() == PM_DIGITAL_CAPTURE && !m_DVBState.bSetChannelActive)));
+                       || (GetPlaybackMode() == PM_DIGITAL_CAPTURE && !m_pDVBState->bSetChannelActive)));
 }
 
 void CMainFrame::OnNavigateSkipFile(UINT nID)
@@ -10714,6 +10715,7 @@ HRESULT CMainFrame::OpenBDAGraph()
     HRESULT hr = m_pGB->RenderFile(L"", L"");
     if (SUCCEEDED(hr)) {
         SetPlaybackMode(PM_DIGITAL_CAPTURE);
+        m_pDVBState = make_unique<DVBState>();
     }
     return hr;
 }
@@ -11815,7 +11817,7 @@ void CMainFrame::CloseMediaPrivate()
     m_fEndOfStream = false;
     m_rtDurationOverride = -1;
     m_bUsingDXVA = false;
-    m_DVBState = DVBState();
+    m_pDVBState = nullptr;
     m_pCB.Release();
 
     SetSubtitle(SubtitleInput(nullptr));
@@ -14612,9 +14614,12 @@ HRESULT CMainFrame::SetChannel(int nChannel)
     CComQIPtr<IBDATuner> pTun = m_pGB;
     CDVBChannel* pChannel = s.FindChannelByPref(nChannel);
 
-    if (pTun && pChannel && !m_DVBState.bSetChannelActive) {
-        m_DVBState = DVBState();
-        m_DVBState.bSetChannelActive = true;
+    if (pTun && pChannel && !m_pDVBState->bSetChannelActive) {
+        m_pDVBState->Reset();
+        m_wndInfoBar.RemoveAllLines();
+        m_wndNavigationBar.m_navdlg.m_ButtonInfo.EnableWindow(FALSE);
+        RecalcLayout();
+        m_pDVBState->bSetChannelActive = true;
 
         // Skip n intermediate ZoomVideoWindow() calls while the new size is stabilized:
         switch (s.iDSVideoRendererType) {
@@ -14639,9 +14644,12 @@ HRESULT CMainFrame::SetChannel(int nChannel)
                 return hr;
             }
 
-            m_DVBState.bActive = true;
-            m_DVBState.pChannel = pChannel;
-            m_DVBState.sChannelName = pChannel->GetName();
+            m_pDVBState->bActive = true;
+            m_pDVBState->pChannel = pChannel;
+            m_pDVBState->sChannelName = pChannel->GetName();
+
+            m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_CHANNEL), m_pDVBState->sChannelName);
+            RecalcLayout();
 
             if (s.fRememberZoomLevel && !(m_fFullScreen || IsZoomed() || IsIconic())) {
                 ZoomVideoWindow();
@@ -14654,9 +14662,9 @@ HRESULT CMainFrame::SetChannel(int nChannel)
             m_timerOneTime.Subscribe(TimerOneTimeSubscriber::AUTOFIT_TIMEOUT, [this]
             { m_bAllowWindowZoom = false; }, 5000);
 
-            ShowCurrentChannelInfo();
+            UpdateCurrentChannelInfo();
         }
-        m_DVBState.bSetChannelActive = false;
+        m_pDVBState->bSetChannelActive = false;
     } else {
         hr = E_FAIL;
         ASSERT(FALSE);
@@ -14664,18 +14672,40 @@ HRESULT CMainFrame::SetChannel(int nChannel)
     return hr;
 }
 
-void CMainFrame::ShowCurrentChannelInfo(bool fShowOSD /*= true*/, bool fShowInfoBar /*= false*/)
+void CMainFrame::UpdateCurrentChannelInfo(bool bShowOSD /*= true*/, bool bShowInfoBar /*= false*/)
 {
-    CDVBChannel* pChannel = m_DVBState.pChannel;
+    const CDVBChannel* pChannel = m_pDVBState->pChannel;
     CComQIPtr<IBDATuner> pTun = m_pGB;
 
-    if (!m_DVBState.bInfoActive && pChannel && pTun) {
-        EventDescriptor& NowNext = m_DVBState.NowNext;
-        m_DVBState.bInfoActive = true;
-        // Get EIT information:
-        HRESULT hr = pTun->UpdatePSI(pChannel, NowNext);
+    if (!m_pDVBState->bInfoActive && pChannel && pTun) {
+        if (m_pDVBState->infoData.valid()) {
+            m_pDVBState->bAbortInfo = true;
+            m_pDVBState->infoData.get();
+        }
+        m_pDVBState->bAbortInfo = false;
+        m_pDVBState->bInfoActive = true;
+        m_pDVBState->infoData = std::async(std::launch::async, [this, pChannel, pTun, bShowOSD, bShowInfoBar] {
+            DVBState::EITData infoData;
+            infoData.hr = pTun->UpdatePSI(pChannel, infoData.NowNext);
+            infoData.bShowOSD = bShowOSD;
+            infoData.bShowInfoBar = bShowInfoBar;
+            if (!m_pDVBState->bAbortInfo)
+            {
+                PostMessage(WM_DVB_EIT_DATA_READY);
+            }
+            return infoData;
+        });
+    }
+}
 
-        if (hr != S_FALSE) {
+LRESULT CMainFrame::OnCurrentChannelInfoUpdated(WPARAM wParam, LPARAM lParam)
+{
+    if (!m_pDVBState->bAbortInfo && m_pDVBState->infoData.valid()) {
+        EventDescriptor& NowNext = m_pDVBState->NowNext;
+        const auto infoData = m_pDVBState->infoData.get();
+        NowNext = infoData.NowNext;
+
+        if (infoData.hr != S_FALSE) {
             // Set a timer to update the infos only if channel has now/next flag
             time_t tNow;
             time(&tNow);
@@ -14686,20 +14716,20 @@ void CMainFrame::ShowCurrentChannelInfo(bool fShowOSD /*= true*/, bool fShowInfo
             // We set a 15s delay to let some room for the program infos to change
             tElapse += 15;
             m_timerOneTime.Subscribe(TimerOneTimeSubscriber::DVBINFO_UPDATE,
-                                     [this] { ShowCurrentChannelInfo(false, false); },
+                                     [this] { UpdateCurrentChannelInfo(false, false); },
                                      1000 * (UINT)tElapse);
             m_wndNavigationBar.m_navdlg.m_ButtonInfo.EnableWindow();
         } else {
             m_wndNavigationBar.m_navdlg.m_ButtonInfo.EnableWindow(FALSE);
         }
 
-        CString sChannelInfo = m_DVBState.sChannelName;
+        CString sChannelInfo = m_pDVBState->sChannelName;
         m_wndInfoBar.RemoveAllLines();
         m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_CHANNEL), sChannelInfo);
 
-        if (hr == S_OK) {
+        if (infoData.hr == S_OK) {
             // EIT information parsed correctly
-            if (fShowOSD) {
+            if (infoData.bShowOSD) {
                 sChannelInfo.AppendFormat(_T(" | %s (%s - %s)"), NowNext.eventName, NowNext.strStartTime, NowNext.strEndTime);
             }
 
@@ -14733,18 +14763,16 @@ void CMainFrame::ShowCurrentChannelInfo(bool fShowOSD /*= true*/, bool fShowInfo
                 m_wndInfoBar.SetLine(item.first, item.second);
             }
 
-            if (fShowInfoBar) {
+            if (infoData.bShowInfoBar) {
                 AfxGetAppSettings().nCS |= CS_INFOBAR;
                 UpdateControlState(UPDATE_CONTROLS_VISIBILITY);
             }
         }
 
         RecalcLayout();
-        if (fShowOSD) {
+        if (infoData.bShowOSD) {
             m_OSD.DisplayMessage(OSD_TOPLEFT, sChannelInfo, 3500);
         }
-
-        m_DVBState.bInfoActive = false;
 
         // Update window title and skype status
         OpenSetupWindowTitle();
@@ -14752,6 +14780,10 @@ void CMainFrame::ShowCurrentChannelInfo(bool fShowOSD /*= true*/, bool fShowInfo
     } else {
         ASSERT(FALSE);
     }
+
+    m_pDVBState->bInfoActive = false;
+
+    return 0;
 }
 
 // ==== Added by CASIMIR666
@@ -16375,9 +16407,9 @@ CString CMainFrame::GetCaptureTitle()
             title.AppendFormat(_T(" | %s"), devName);
         }
     } else {
-        CString& eventName = m_DVBState.NowNext.eventName;
-        if (m_DVBState.bActive) {
-            title.AppendFormat(_T(" | %s"), m_DVBState.sChannelName);
+        CString& eventName = m_pDVBState->NowNext.eventName;
+        if (m_pDVBState->bActive) {
+            title.AppendFormat(_T(" | %s"), m_pDVBState->sChannelName);
             if (!eventName.IsEmpty()) {
                 title.AppendFormat(_T(" - %s"), eventName);
             }
