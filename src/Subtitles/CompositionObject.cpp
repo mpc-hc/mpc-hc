@@ -43,6 +43,8 @@ CompositionObject::CompositionObject(const CompositionObject& obj)
     , m_cropping_width(obj.m_cropping_width)
     , m_cropping_height(obj.m_cropping_height)
     , m_pRLEData(nullptr)
+    , m_nRLEDataSize(0)
+    , m_nRLEPos(0)
     , m_nColorNumber(obj.m_nColorNumber)
     , m_colors(obj.m_colors)
 {
