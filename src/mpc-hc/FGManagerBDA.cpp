@@ -1006,7 +1006,8 @@ HRESULT CFGManagerBDA::CreateMicrosoftDemux(CComPtr<IBaseFilter>& pMpeg2Demux)
                 CheckNoLog(Connect(pPin, nullptr, false));
                 CComPtr<IPin> pPinTo;
                 pPin->ConnectedTo(&pPinTo);
-                if (SUCCEEDED(hr = ((CMainFrame*)AfxGetMainWnd())->InsertTextPassThruFilter(pMpeg2Demux, pPin, pPinTo))) {
+                CMainFrame* pMainFrame = dynamic_cast<CMainFrame*>(AfxGetApp()->GetMainWnd());
+                if (pMainFrame && SUCCEEDED(hr = pMainFrame->InsertTextPassThruFilter(pMpeg2Demux, pPin, pPinTo))) {
                     Stream.SetPin(pPin);
                     LOG(_T("Filter connected to Demux for media type %d."), nType);
                 } else {

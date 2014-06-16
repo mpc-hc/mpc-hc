@@ -14427,17 +14427,8 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
     SetLoadState(MLS::LOADING);
 
     // use the graph thread only for some media types
-    bool fUseThread = m_pGraphThread && s.fEnableWorkerThreadForOpening;
-    if (pFileData) {
-        if (!pFileData->fns.IsEmpty()) {
-            engine_t e = s.m_Formats.GetEngine(pFileData->fns.GetHead());
-            if (e != DirectShow /*&& e != RealMedia && e != QuickTime*/) {
-                fUseThread = false;
-            }
-        }
-    } else if (pDeviceData) {
-        fUseThread = false;
-    }
+    bool bDirectShow = pFileData && !pFileData->fns.IsEmpty() && s.m_Formats.GetEngine(pFileData->fns.GetHead()) == DirectShow;
+    bool bUseThread = m_pGraphThread && s.fEnableWorkerThreadForOpening && (bDirectShow || !pFileData) && (s.iDefaultCaptureDevice == 1 || !pDeviceData);
 
     // create d3dfs window if launching in fullscreen and d3dfs is enabled
     if (s.IsD3DFullscreen() && m_fStartInD3DFullscreen) {
@@ -14461,7 +14452,7 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
     }
 
     // initiate graph creation, OpenMediaPrivate() will call OnFilePostOpenmedia()
-    if (fUseThread) {
+    if (bUseThread) {
         VERIFY(m_evOpenPrivateFinished.ResetEvent());
         VERIFY(m_pGraphThread->PostThreadMessage(CGraphThread::TM_OPEN, 0, (LPARAM)pOMD.Detach()));
         m_bOpenedThroughThread = true;
