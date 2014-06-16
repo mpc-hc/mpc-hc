@@ -149,7 +149,7 @@ void CPlayerNavigationDialog::OnTunerScan()
 
 void CPlayerNavigationDialog::OnButtonInfo()
 {
-    m_pMainFrame->ShowCurrentChannelInfo(true, true);
+    m_pMainFrame->UpdateCurrentChannelInfo(true, true);
 }
 
 void CPlayerNavigationDialog::OnTvRadioStations()

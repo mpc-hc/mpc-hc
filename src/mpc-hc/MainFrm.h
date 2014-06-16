@@ -73,6 +73,7 @@
 #include "SkypeMoodMsgHandler.h"
 
 #include <memory>
+#include <future>
 
 
 class CFullscreenWnd;
@@ -565,16 +566,42 @@ public:
     virtual void RecalcLayout(BOOL bNotify = TRUE);
 
     // DVB capture
-    void ShowCurrentChannelInfo(bool fShowOSD = true, bool fShowInfoBar = false);
+    void UpdateCurrentChannelInfo(bool bShowOSD = true, bool bShowInfoBar = false);
+    LRESULT OnCurrentChannelInfoUpdated(WPARAM wParam, LPARAM lParam);
 
     struct DVBState {
+        struct EITData {
+            HRESULT hr        = E_FAIL;
+            EventDescriptor NowNext;
+            bool bShowOSD     = true;
+            bool bShowInfoBar = false;
+        };
+
         CString         sChannelName;
         CDVBChannel*    pChannel          = nullptr;
         EventDescriptor NowNext;
         bool            bActive           = false;
         bool            bSetChannelActive = false;
         bool            bInfoActive       = false;
-    } m_DVBState;
+        bool            bAbortInfo        = true;
+        std::future<DVBState::EITData> infoData;
+
+        void Reset() {
+            sChannelName.Empty();
+            pChannel          = nullptr;
+            NowNext           = EventDescriptor();
+            bActive           = false;
+            bSetChannelActive = false;
+            bInfoActive       = false;
+            bAbortInfo        = true;
+        }
+
+        ~DVBState() {
+            bAbortInfo = true;
+        }
+    };
+
+    std::unique_ptr<DVBState> m_pDVBState = nullptr;
 
     // Implementation
 public:
