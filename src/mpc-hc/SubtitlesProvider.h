@@ -21,7 +21,7 @@
 #pragma once
 
 #include "SubtitlesProviders.h"
-#include "../../thirdparty/TimXmlRpc/TimXmlRpc.h"
+#include "TimXmlRpc/TimXmlRpc.h"
 
 #define DEFINE_SUBTITLESPROVIDER_BEGIN(P, U, F)                               \
 class P : public SubtitlesProvider {                                          \

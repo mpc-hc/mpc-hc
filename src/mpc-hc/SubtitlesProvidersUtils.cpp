@@ -31,10 +31,10 @@
 #include "unrar/dll.hpp"
 #endif
 
-#include "../../thirdparty/zlib/zlib.h"
-#include "../../thirdparty/zlib/zutil.h"
+#include "zlib/zlib.h"
+#include "zlib/zutil.h"
 
-#include "../../thirdparty/zlib/minizip/unzip.h"
+#include "zlib/minizip/unzip.h"
 
 #include "SubtitlesProvidersUtils.h"
 #include "mplayerc.h"

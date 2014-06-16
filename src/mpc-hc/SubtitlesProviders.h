@@ -21,7 +21,7 @@
 #pragma once
 
 #include "SubtitlesProvidersUtils.h"
-#include "thirdparty/base64/base64.h"
+#include "MediaInfo/thirdparty/base64/base64.h"
 #include "MainFrm.h"
 #include "version.h"
 
