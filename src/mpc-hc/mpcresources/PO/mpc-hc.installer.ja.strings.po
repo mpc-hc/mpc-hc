@@ -48,6 +48,10 @@ msgctxt "CustomMessages_msg_simd_sse2"
 msgid "This build of MPC-HC requires a CPU with SSE2 extension support.\n\nYour CPU does not have those capabilities."
 msgstr "このバージョンの MPC-HC には CPU の SSE2 サポートが必要です。\n\nお使いの CPU はこの条件を満たしません。"
 
+msgctxt "CustomMessages_run_DownloadToolbarImages"
+msgid "Visit our Wiki page to download toolbar images"
+msgstr ""
+
 msgctxt "CustomMessages_tsk_AllUsers"
 msgid "For all users"
 msgstr "全てのユーザーにインストールする"

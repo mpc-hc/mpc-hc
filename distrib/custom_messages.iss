@@ -1,4 +1,4 @@
-﻿; (C) 2009-2013 see Authors.txt
+﻿; (C) 2009-2014 see Authors.txt
 ;
 ; This file is part of MPC-HC.
 ;
@@ -21,7 +21,7 @@
 ; Do NOT change the langid  <http://msdn.microsoft.com/en-us/goglobal/bb964664.aspx?>
 ; Do NOT change the file encoding; it must be UTF-8 Signature
 ; Keep the translations close to the English strings
-; comp=component, tsk=Task, msg=Message
+; comp=component, msg=Message, tsk=Task
 
 
 [Messages]
@@ -43,6 +43,7 @@ en.msg_simd_sse=This build of MPC-HC requires a CPU with SSE extension support.%
 #elif defined(sse2_required)
 en.msg_simd_sse2=This build of MPC-HC requires a CPU with SSE2 extension support.%n%nYour CPU does not have those capabilities.
 #endif
+en.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
 en.tsk_AllUsers=For all users
 en.tsk_CurrentUser=For the current user only
 en.tsk_Other=Other tasks:

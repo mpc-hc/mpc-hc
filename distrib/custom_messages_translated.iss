@@ -1,4 +1,4 @@
-﻿; (C) 2009-2013 see Authors.txt
+﻿; (C) 2009-2014 see Authors.txt
 ;
 ; This file is part of MPC-HC.
 ;
@@ -21,7 +21,7 @@
 ; Do NOT change the langid  <http://msdn.microsoft.com/en-us/goglobal/bb964664.aspx?>
 ; Do NOT change the file encoding; it must be UTF-8 Signature
 ; Keep the translations close to the English strings
-; comp=component, tsk=Task, msg=Message
+; comp=component, msg=Message, tsk=Task
 
 
 [Messages]
@@ -166,6 +166,7 @@ be.msg_simd_sse=Гэтая будова MPC-HC вымагае працэсар, 
 #elif defined(sse2_required)
 be.msg_simd_sse2=Гэтая будова MPC-HC вымагае працэсар, здольны выконваць інструкцыі SSE2.%n%nВаш працэсар гэтага не ўмее.
 #endif
+be.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
 be.tsk_AllUsers=Для ўсіх карыстальнікаў
 be.tsk_CurrentUser=Толькі для дзейнага карыстальніка
 be.tsk_Other=Іншыя заданні:
@@ -185,6 +186,7 @@ ca.msg_simd_sse=Aquesta versió de MPC-HC requereix una CPU amb suport d'extensi
 #elif defined(sse2_required)
 ca.msg_simd_sse2=Aquesta versió de MPC-HC requereix una CPU amb suport d'extensions SSE2.%n%nLa teva CPU no cumpleix aquestes característiques.
 #endif
+ca.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
 ca.tsk_AllUsers=Per tots els usuaris
 ca.tsk_CurrentUser=Només per l'usuari actual
 ca.tsk_Other=Altres tasques:
@@ -204,6 +206,7 @@ cs.msg_simd_sse=Toto sestavení MPC-HC vyžaduje procesor s podporou rozšíře
 #elif defined(sse2_required)
 cs.msg_simd_sse2=Toto sestavení MPC-HC vyžaduje procesor s podporou rozšíření SSE2.%n%nVáš procesor tato rozšíření nepodporuje.
 #endif
+cs.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
 cs.tsk_AllUsers=Pro všechny uživatele
 cs.tsk_CurrentUser=Jen pro právě přihlášeného uživatele
 cs.tsk_Other=Ostatní úlohy:
@@ -223,6 +226,7 @@ de.msg_simd_sse=Dieses MPC-HC-Build benötigt einen Prozessor mit SSE-Unterstüt
 #elif defined(sse2_required)
 de.msg_simd_sse2=Dieses MPC-HC-Build benötigt einen Prozessor mit SSE2-Unterstützung.%n%nIhr Prozessor besitzt nicht diese Eigenschaft.
 #endif
+de.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
 de.tsk_AllUsers=Für alle Benutzer
 de.tsk_CurrentUser=Nur für den aktuellen Benutzer
 de.tsk_Other=Andere Aufgaben:
@@ -242,6 +246,7 @@ el.msg_simd_sse=Αυτή η έκδοση του MPC-HC απαιτεί επεξε
 #elif defined(sse2_required)
 el.msg_simd_sse2=Αυτή η έκδοση του MPC-HC απαιτεί επεξεργαστή με υποστήριξη SSE2.%n%nΟ επεξεργαστής σας δεν έχει αυτές τις δυνατότητες.
 #endif
+el.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
 el.tsk_AllUsers=Για όλους τους χρήστες
 el.tsk_CurrentUser=Για τον τρέχοντα χρήστη μόνο
 el.tsk_Other=Επιπλέον ενέργειες:
@@ -261,6 +266,7 @@ en_GB.msg_simd_sse=This build of MPC-HC requires a CPU with SSE extension suppor
 #elif defined(sse2_required)
 en_GB.msg_simd_sse2=This build of MPC-HC requires a CPU with SSE2 extension support.%n%nYour CPU does not have those capabilities.
 #endif
+en_GB.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
 en_GB.tsk_AllUsers=For all users
 en_GB.tsk_CurrentUser=For the current user only
 en_GB.tsk_Other=Other tasks:
@@ -280,6 +286,7 @@ es.msg_simd_sse=Esta versión de MPC-HC requiere una CPU con soporte de extensio
 #elif defined(sse2_required)
 es.msg_simd_sse2=Esta versión de MPC-HC requiere una CPU con soporte de extensiones SSE2.%n%nSu CPU carece de esta característica.
 #endif
+es.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
 es.tsk_AllUsers=Para todos los usuarios
 es.tsk_CurrentUser=Solo para el usuario actual
 es.tsk_Other=Otras tareas:
@@ -299,6 +306,7 @@ eu.msg_simd_sse=MPC-HC eraiketa honek SSE hedapen sostengua duen CPU bat behar d
 #elif defined(sse2_required)
 eu.msg_simd_sse2=MPC-HC erakiketa honek SSE2 hedapen sostengua duen CPU bat behar du.%n%nZure CPU-ak ez ditu gaitasun hauek.
 #endif
+eu.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
 eu.tsk_AllUsers=Erabiltzaile guztientzat
 eu.tsk_CurrentUser=Oraingo erabiltzailearentzat bakarrrik
 eu.tsk_Other=Beste eginkizunak:
@@ -318,6 +326,7 @@ fr.msg_simd_sse=Cette version de MPC-HC nécessite un CPU avec support des instr
 #elif defined(sse2_required)
 fr.msg_simd_sse2=Cette version de MPC-HC nécessite un CPU avec support des instructions SSE2.%n%nVotre processeur ne supporte pas cette fonctionnalité.
 #endif
+fr.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
 fr.tsk_AllUsers=Pour tous les utilisateurs
 fr.tsk_CurrentUser=Pour l'utilisateur actuel uniquement
 fr.tsk_Other=Autres tâches :
@@ -337,6 +346,7 @@ gl.msg_simd_sse=Esta versión de MPC-HC require unha CPU con soporte para a exte
 #elif defined(sse2_required)
 gl.msg_simd_sse2=Esta versión de MPC-HC require unha CPU con soporte para a extensión SSE2 .%n%nO seu CPU non ten estas capacidades.
 #endif
+gl.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
 gl.tsk_AllUsers=Para todos os usuarios
 gl.tsk_CurrentUser=Só para o usuario actual
 gl.tsk_Other=Outras tarefas:
@@ -356,6 +366,7 @@ he.msg_simd_sse=גרסה זו של MPC-HC דורשת מעבד עם תמיכה ב
 #elif defined(sse2_required)
 he.msg_simd_sse2=גרסה זו של MPC-HC דורשת מעבד עם תמיכה בהרחבת SSE2.%n%nהמעבד שברשותך אינו תומך בכך.
 #endif
+he.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
 he.tsk_AllUsers=עבור כל המשתמשים
 he.tsk_CurrentUser=עבור המשתמש הנוכחי בלבד
 he.tsk_Other=פעולות אחרות:
@@ -375,6 +386,7 @@ hr.msg_simd_sse=Ova verzija MPC-HC zahtijeva procesor sa SSE podrškom.%n%nVaš 
 #elif defined(sse2_required)
 hr.msg_simd_sse2=Ova verzija MPC-HC zahtijeva procesor sa SSE2 podrškom.%n%nVaš procesor nema te mogućnosti.
 #endif
+hr.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
 hr.tsk_AllUsers=Za sve korisnike
 hr.tsk_CurrentUser=Samo za trenutnog korisnika
 hr.tsk_Other=Ostali zadaci:
@@ -394,6 +406,7 @@ hu.msg_simd_sse=Az MPC-HC jelen változatához SSE támogatással bíró CPU-ra 
 #elif defined(sse2_required)
 hu.msg_simd_sse2=Az MPC-HC jelen változatához SSE2 támogatással bíró CPU-ra van szüksége.%n%nAz ön CPU-ja nem rendelkezik ilyen támogatással.
 #endif
+hu.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
 hu.tsk_AllUsers=Minden felhasználónak
 hu.tsk_CurrentUser=Csak a jelenlegi felhasználónak
 hu.tsk_Other=Egyéb feladatok:
@@ -413,6 +426,7 @@ hy.msg_simd_sse=MPC-HC-ի այս տարբերակը պահանջում է CPU՝ 
 #elif defined(sse2_required)
 hy.msg_simd_sse2=MPC-HC-ի այս տարբերակը պահանջում է CPU՝ SSE2-ի աջակցմամբ։%n%nՁեր CPU-ն այն չի աջակցում։
 #endif
+hy.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
 hy.tsk_AllUsers=Բոլորի համար
 hy.tsk_CurrentUser=Միայն ձեզ համար
 hy.tsk_Other=Լրացուցիչ.
@@ -432,6 +446,7 @@ it.msg_simd_sse=Questa build di MPC-HC richiede una CPU con il supporto alle est
 #elif defined(sse2_required)
 it.msg_simd_sse2=Questa build di MPC-HC richiede una CPU con il supporto alle estensioni SSE2.%n%nLa tua CPU non dispone di questa caratteristica.
 #endif
+it.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
 it.tsk_AllUsers=Per tutti gli utenti
 it.tsk_CurrentUser=Solo per l'utente corrente
 it.tsk_Other=Altre operazioni:
@@ -451,6 +466,7 @@ ja.msg_simd_sse=このバージョンの MPC-HC には CPU の SSE サポート�
 #elif defined(sse2_required)
 ja.msg_simd_sse2=このバージョンの MPC-HC には CPU の SSE2 サポートが必要です。%n%nお使いの CPU はこの条件を満たしません。
 #endif
+ja.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
 ja.tsk_AllUsers=全てのユーザーにインストールする
 ja.tsk_CurrentUser=現在実行しているユーザーにのみインストールする
 ja.tsk_Other=他のタスク:
@@ -470,6 +486,7 @@ ko.msg_simd_sse=이 버전의 MPC-HC 는 SSE 기술을 지원하는 CPU가 필�
 #elif defined(sse2_required)
 ko.msg_simd_sse2=이 버전의 MPC-HC 는 SSE2 기술을 지원하는 CPU가 필요합니다.%n%n이 컴퓨터의 CPU는 이 기술을 지원하지않습니다.
 #endif
+ko.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
 ko.tsk_AllUsers=모든 사용자
 ko.tsk_CurrentUser=현재 사용자만
 ko.tsk_Other=다른 작업:
@@ -489,6 +506,7 @@ ms_MY.msg_simd_sse=Binaan MPC-HC ini memerlukan CPU dengan sokongan sambungan SS
 #elif defined(sse2_required)
 ms_MY.msg_simd_sse2=Binaan MPC-HC ini memerlukan CPU dengan sokongan sambungan SSE2.%n%nCPU anda tidak mempunyai keupayaan tersebut.
 #endif
+ms_MY.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
 ms_MY.tsk_AllUsers=Untuk semua pengguna
 ms_MY.tsk_CurrentUser=Untuk pengguna semasa sahaja
 ms_MY.tsk_Other=Tugas lain:
@@ -508,6 +526,7 @@ nl.msg_simd_sse=Deze versie van MPC-HC heeft een processor nodig die SSE onderst
 #elif defined(sse2_required)
 nl.msg_simd_sse2=Deze versie van MPC-HC heeft een processor nodig die SSE2 ondersteunt.%n%nUw processor ondersteund dit niet.
 #endif
+nl.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
 nl.tsk_AllUsers=Voor alle gebruikers
 nl.tsk_CurrentUser=Allen voor de huidige gebruiker
 nl.tsk_Other=Andere taken:
@@ -527,6 +546,7 @@ pl.msg_simd_sse=Ta kompilacja MPC-HC wymaga procesora z obsługą zestawu instru
 #elif defined(sse2_required)
 pl.msg_simd_sse2=Ta kompilacja MPC-HC wymaga procesora z obsługą zestawu instrukcji SSE2.%n%nTwój procesor ich nie obsługuje.
 #endif
+pl.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
 pl.tsk_AllUsers=Dla wszystkich użytkowników
 pl.tsk_CurrentUser=Tylko dla bieżącego użytkownika
 pl.tsk_Other=Inne zadania:
@@ -546,6 +566,7 @@ pt_BR.msg_simd_sse=Esta versão do MPC-HC necessita uma CPU com suporte a extens
 #elif defined(sse2_required)
 pt_BR.msg_simd_sse2=Esta versão do MPC-HC necessita uma CPU com suporte a extensões SSE2.%n%nSua CPU não tem esse suporte.
 #endif
+pt_BR.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
 pt_BR.tsk_AllUsers=Para todos os usuários
 pt_BR.tsk_CurrentUser=Para o usuário atual somente
 pt_BR.tsk_Other=Outras tarefas:
@@ -565,6 +586,7 @@ ro.msg_simd_sse=Această versiune de MPC-HC necesită un procesor cu suport pent
 #elif defined(sse2_required)
 ro.msg_simd_sse2=Această versiune de MPC-HC necesită un procesor cu suport pentru extensii SSE2.%n%nProcesorul dumneavoastră nu are aceste capacităţi.
 #endif
+ro.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
 ro.tsk_AllUsers=Pentru toţi utilizatorii
 ro.tsk_CurrentUser=Doar pentru utilizatorul curent
 ro.tsk_Other=Alte activităţi:
@@ -584,6 +606,7 @@ ru.msg_simd_sse=Для этой сборки MPC-HC требуется проц�
 #elif defined(sse2_required)
 ru.msg_simd_sse2=Для этой сборки MPC-HC требуется процессор с поддержкой SSE2-инструкций.%n%nВ данном процессоре они не поддерживаются.
 #endif
+ru.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
 ru.tsk_AllUsers=Для всех пользователей данного компьютера
 ru.tsk_CurrentUser=Только для текущего пользователя
 ru.tsk_Other=Другие задачи:
@@ -603,6 +626,7 @@ sk.msg_simd_sse=Toto zostavenie MPC-HC vyžaduje procesor s podporou inštrukci�
 #elif defined(sse2_required)
 sk.msg_simd_sse2=Toto zostavenie MPC-HC vyžaduje procesor s podporou inštrukcií SSE2.%n%nVáš procesor ich nepodporuje.
 #endif
+sk.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
 sk.tsk_AllUsers=Pre všetkých používateľov
 sk.tsk_CurrentUser=Len pre aktuálneho používateľa
 sk.tsk_Other=Iné úlohy:
@@ -622,6 +646,7 @@ sl.msg_simd_sse=Ta različica MPC-HC zahteva procesor s podporo SSE razširitvam
 #elif defined(sse2_required)
 sl.msg_simd_sse2=Ta različica MPC-HC zahteva procesor s podporo SSE2 razširitvam.%n%nVaš procesor nima teh zmožnosti.
 #endif
+sl.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
 sl.tsk_AllUsers=Za vse uporabnike
 sl.tsk_CurrentUser=Samo za trenutnega uporabnika
 sl.tsk_Other=Ostala opravila:
@@ -641,6 +666,7 @@ sv.msg_simd_sse=Denna version av MPC-HC kräver en processor med stöd för SSE.
 #elif defined(sse2_required)
 sv.msg_simd_sse2=Denna version av MPC-HC kräver en processor med stöd för SSE2.%n%nDin processor saknar detta stöd.
 #endif
+sv.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
 sv.tsk_AllUsers=För alla användare
 sv.tsk_CurrentUser=Endast för den aktuella användaren
 sv.tsk_Other=Andra uppgifter:
@@ -660,6 +686,7 @@ tr.msg_simd_sse=Bu MPC-HC sürümü, SSE eklentisi destekleyen bir işlemci gere
 #elif defined(sse2_required)
 tr.msg_simd_sse2=Bu MPC-HC sürümü, SSE2 eklentisi destekleyen bir işlemci gerektirmektedir.%n%nİşlemciniz bu özelliği desteklemiyor.
 #endif
+tr.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
 tr.tsk_AllUsers=Tüm kullanıcılar için
 tr.tsk_CurrentUser=Sadece geçerli kullanıcı için
 tr.tsk_Other=Diğer görevler:
@@ -679,6 +706,7 @@ tt.msg_simd_sse=Бу MPC-HC бөрмәсе өчен SSE-кагыйдәләрен
 #elif defined(sse2_required)
 tt.msg_simd_sse2=Бу MPC-HC бөрмәсе өчен SSE2-кагыйдәләрен кулланган процессор кирәк.%n%nӘлеге процессорда алар кулланылмый.
 #endif
+tt.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
 tt.tsk_AllUsers=Әлеге санакны кулланган барлык кулланучылар өчен
 tt.tsk_CurrentUser=Хәзерге кулланучы өчен генә
 tt.tsk_Other=Башка йомышлар:
@@ -698,6 +726,7 @@ uk.msg_simd_sse=Для використання даної версії MPC-HC �
 #elif defined(sse2_required)
 uk.msg_simd_sse2=Для використання даної версії MPC-HC необхідно, щоб ваш процесор підтримував SSE2 розширення.%n%nАле ваш процесор не підтримує їх.
 #endif
+uk.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
 uk.tsk_AllUsers=Для всіх користувачів
 uk.tsk_CurrentUser=Лише для поточного користувача
 uk.tsk_Other=Інші завдання:
@@ -717,6 +746,7 @@ vi.msg_simd_sse=Phiên bản MPC-HC này yêu cầu CPU có hỗ trợ phần m�
 #elif defined(sse2_required)
 vi.msg_simd_sse2=Phiên bản MPC-HC này yêu cầu CPU có hỗ trợ phần mở rộng SSE2.%n%nCPU của bạn không đáp ứng được yêu cầu này.
 #endif
+vi.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
 vi.tsk_AllUsers=Cho mọi người dùng
 vi.tsk_CurrentUser=Chỉ cho người dùng hiện tại
 vi.tsk_Other=Các tác vụ khác:
@@ -736,6 +766,7 @@ zh_CN.msg_simd_sse=此 MPC-HC 编译版本要求 CPU 支持 SSE 指令集。%n%n
 #elif defined(sse2_required)
 zh_CN.msg_simd_sse2=此 MPC-HC 编译版本要求 CPU 支持 SSE2 指令集。%n%n您的 CPU 不具备该能力。
 #endif
+zh_CN.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
 zh_CN.tsk_AllUsers=为所有用户安装
 zh_CN.tsk_CurrentUser=仅为当前用户安装
 zh_CN.tsk_Other=其他任务:
@@ -755,6 +786,7 @@ zh_TW.msg_simd_sse=此版的 MPC-HC 需要有支援 SSE 延伸指令集的 CPU�
 #elif defined(sse2_required)
 zh_TW.msg_simd_sse2=此版的 MPC-HC 須要有支援 SSE2 延伸指令集的 CPU。%n%n您的 CPU 並未相容這些功能。
 #endif
+zh_TW.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
 zh_TW.tsk_AllUsers=安裝給所有使用者
 zh_TW.tsk_CurrentUser=僅安裝給目前使用者
 zh_TW.tsk_Other=其它工作：

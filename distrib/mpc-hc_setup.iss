@@ -273,6 +273,7 @@ Name: {group}\{cm:UninstallProgram,{#app_name}}; Filename: {uninstallexe};      
 [Run]
 Filename: {app}\{#mpchc_exe};                    Description: {cm:LaunchProgram,{#app_name}}; WorkingDir: {app}; Flags: nowait postinstall skipifsilent unchecked
 Filename: {app}\Changelog.txt;                   Description: {cm:ViewChangelog};             WorkingDir: {app}; Flags: nowait postinstall skipifsilent unchecked shellexec
+Filename: {#TOOLBARS_URL};                       Description: {cm:run_DownloadToolbarImages};                    Flags: nowait postinstall skipifsilent unchecked shellexec
 
 
 [InstallDelete]
