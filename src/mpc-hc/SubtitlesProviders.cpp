@@ -872,7 +872,7 @@ void SubtitlesThread::_SearchProc(SubtitlesInfo& _fileInfo, SubtitlesList& _subt
     CheckAbortAndThrow();
     _fileInfo.Provider().Hash(_fileInfo);
     CheckAbortAndThrow();
-    m_pMainFrame->m_wndSubtitlesDownloadDialog.DoSearching(_fileInfo.Provider());
+    m_pMainFrame->m_wndSubtitlesDownloadDialog.DoSearching(_fileInfo);
     SRESULT searchResult = _fileInfo.Provider().Search(_fileInfo, m_bAbort);
     CheckAbortAndThrow();
     _subtitlesList.sort();
