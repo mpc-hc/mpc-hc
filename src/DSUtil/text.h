@@ -138,3 +138,30 @@ extern CAtlList<CString>& MakeLower(CAtlList<CString>& sl);
 extern CAtlList<CString>& MakeUpper(CAtlList<CString>& sl);
 
 CString FormatNumber(CString szNumber, bool bNoFractionalDigits = true);
+
+template<class T>
+T& FastTrimRight(T& str)
+{
+    if (!str.IsEmpty()) {
+        T::PCXSTR szStart = str;
+        T::PCXSTR szEnd   = szStart + str.GetLength() - 1;
+        T::PCXSTR szCur   = szEnd;
+        for (; szCur >= szStart; szCur--) {
+            if (!T::StrTraits::IsSpace(*szCur)) {
+                break;
+            }
+        }
+
+        if (szCur != szEnd) {
+            str.Truncate(int(szCur - szStart + 1));
+        }
+    }
+
+    return str;
+}
+
+template<class T>
+T& FastTrim(T& str)
+{
+    return FastTrimRight(str).TrimLeft();
+}
