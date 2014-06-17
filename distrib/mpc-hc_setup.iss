@@ -115,53 +115,46 @@
 
 [Setup]
 #ifdef x64Build
-AppId={{2ACBF1FA-F5C3-4B19-A774-B22A31F231B9}
-DefaultGroupName={#app_name} x64
-ArchitecturesAllowed=x64
-ArchitecturesInstallIn64BitMode=x64
+AppId                     = {{2ACBF1FA-F5C3-4B19-A774-B22A31F231B9}
+DefaultGroupName          = {#app_name} x64
+ArchitecturesAllowed      = x64
+ArchitecturesInstallIn64BitMode = x64
 #else
-AppId={{2624B969-7135-4EB1-B0F6-2D8C397B45F7}
-DefaultGroupName={#app_name}
+AppId                     = {{2624B969-7135-4EB1-B0F6-2D8C397B45F7}
+DefaultGroupName          = {#app_name}
 #endif
 
-AppName={#app_name}
-AppVersion={#app_ver}
-AppVerName={#app_vername}
-AppPublisher=MPC-HC Team
-AppPublisherURL={#WEBSITE_URL}
-AppSupportURL={#TRAC_URL}
-AppUpdatesURL={#WEBSITE_URL}
-AppContact={#WEBSITE_URL}contact-us/
-AppCopyright={#copyright_str}
-VersionInfoCompany=MPC-HC Team
-VersionInfoCopyright={#copyright_str}
-VersionInfoDescription={#app_name} Setup
-VersionInfoProductName={#app_name}
-VersionInfoProductVersion={#app_ver}
-VersionInfoProductTextVersion={#app_ver}
-VersionInfoTextVersion={#app_ver}
-VersionInfoVersion={#app_ver}
-UninstallDisplayIcon={app}\{#mpchc_exe}
-UninstallDisplayName={#FullAppNameVer}
-OutputBaseFilename={#OutFilename}
-DefaultDirName={code:GetInstallFolder}
-LicenseFile=..\COPYING.txt
-OutputDir=.
-SetupIconFile=..\src\mpc-hc\res\icon.ico
-AppReadmeFile={app}\Readme.txt
-WizardImageFile=WizardImageFile.bmp
-WizardSmallImageFile=WizardSmallImageFile.bmp
-Compression=lzma2/ultra
-InternalCompressLevel=ultra
-SolidCompression=yes
-AllowNoIcons=yes
-ShowTasksTreeLines=yes
-DisableDirPage=auto
-DisableProgramGroupPage=auto
-MinVersion=5.01.2600sp3
-CloseApplications=true
+AppName                   = {#app_name}
+AppVersion                = {#app_ver}
+AppVerName                = {#app_vername}
+AppPublisher              = MPC-HC Team
+AppPublisherURL           = {#WEBSITE_URL}
+AppSupportURL             = {#TRAC_URL}
+AppUpdatesURL             = {#WEBSITE_URL}
+AppContact                = {#WEBSITE_URL}contact-us/
+AppCopyright              = {#copyright_str}
+VersionInfoVersion        = {#app_ver}
+UninstallDisplayIcon      = {app}\{#mpchc_exe}
+UninstallDisplayName      = {#FullAppNameVer}
+OutputBaseFilename        = {#OutFilename}
+DefaultDirName            = {code:GetInstallFolder}
+LicenseFile               = ..\COPYING.txt
+OutputDir                 = .
+SetupIconFile             = ..\src\mpc-hc\res\icon.ico
+AppReadmeFile             = {app}\Readme.txt
+WizardImageFile           = WizardImageFile.bmp
+WizardSmallImageFile      = WizardSmallImageFile.bmp
+Compression               = lzma2/ultra
+InternalCompressLevel     = ultra
+SolidCompression          = yes
+AllowNoIcons              = yes
+ShowTasksTreeLines        = yes
+DisableDirPage            = auto
+DisableProgramGroupPage   = auto
+MinVersion                = 5.1sp3
+CloseApplications         = true
 #ifexist "..\signinfo.txt"
-SignTool=MySignTool
+SignTool                  = MySignTool
 #endif
 
 
