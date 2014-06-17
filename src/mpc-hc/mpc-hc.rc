@@ -1034,7 +1034,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,90,270,8
     CONTROL         "Prefer subtitles for hearing impaired (when indicated by subtitles provider)",IDC_CHECK5,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,102,255,8
-    LTEXT           "Ignore files containing any of the following word(s):",IDC_STATIC,22,117,170,8
+    LTEXT           "Ignore files containing any of the following word(s):",IDC_STATIC1,22,117,170,8
     EDITTEXT        IDC_EDIT2,194,114,90,14,ES_AUTOHSCROLL
     LTEXT           "Languages in order of preference (i.e. ""eng ell spa""):",IDC_STATIC,12,133,180,8
     EDITTEXT        IDC_EDIT3,194,130,90,14,ES_AUTOHSCROLL

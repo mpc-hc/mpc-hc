@@ -79,6 +79,10 @@ BOOL CPPageSubMisc::OnInitDialog()
     m_strSubtitlesLanguageOrder = s.strSubtitlesLanguageOrder;
     m_strSubtitlesProviders = s.strSubtitlesProviders;
 
+    GetDlgItem(IDC_CHECK5)->EnableWindow(m_bAutoDownloadSubtitles);
+    GetDlgItem(IDC_STATIC1)->EnableWindow(m_bAutoDownloadSubtitles);
+    GetDlgItem(IDC_EDIT2)->EnableWindow(m_bAutoDownloadSubtitles);
+
     m_list.SetExtendedStyle(m_list.GetExtendedStyle()
                             | LVS_EX_DOUBLEBUFFER | LVS_EX_FULLROWSELECT
                             | LVS_EX_CHECKBOXES | LVS_EX_LABELTIP);
@@ -147,6 +151,7 @@ BOOL CPPageSubMisc::OnApply()
 
 BEGIN_MESSAGE_MAP(CPPageSubMisc, CPPageBase)
     ON_BN_CLICKED(IDC_BUTTON1, OnBnClickedResetSubsPath)
+    ON_BN_CLICKED(IDC_CHECK4, OnAutoDownloadSubtitlesClicked)
     ON_NOTIFY(NM_RCLICK, IDC_LIST1, OnRightClick)
     ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, OnItemChanged)
 END_MESSAGE_MAP()
@@ -219,6 +224,18 @@ void CPPageSubMisc::OnRightClick(NMHDR* pNMHDR, LRESULT* pResult)
                 break;
         }
     }
+}
+
+void CPPageSubMisc::OnAutoDownloadSubtitlesClicked()
+{
+    m_bAutoDownloadSubtitles = IsDlgButtonChecked(IDC_CHECK4);
+    GetDlgItem(IDC_CHECK5)->EnableWindow(m_bAutoDownloadSubtitles);
+    GetDlgItem(IDC_STATIC1)->EnableWindow(m_bAutoDownloadSubtitles);
+    GetDlgItem(IDC_EDIT2)->EnableWindow(m_bAutoDownloadSubtitles);
+    UpdateWindow();
+
+    UpdateData(FALSE);
+    SetModified();
 }
 
 void CPPageSubMisc::OnBnClickedResetSubsPath()

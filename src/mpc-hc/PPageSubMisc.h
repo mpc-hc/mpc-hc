@@ -67,6 +67,7 @@ protected:
     DECLARE_MESSAGE_MAP()
 
     afx_msg void OnBnClickedResetSubsPath();
+    afx_msg void OnAutoDownloadSubtitlesClicked();
     afx_msg void OnRightClick(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnItemChanged(NMHDR* pNMHDR, LRESULT* pResult);
 
