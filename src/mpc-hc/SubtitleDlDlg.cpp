@@ -452,7 +452,7 @@ void CSubtitleDlDlg::OnShowWindow(BOOL bShow, UINT nStatus)
 
     const auto& s = AfxGetAppSettings();
 
-    if (bShow == TRUE && !m_list.GetItemCount() && m_pMainFrame.m_pSubStreams.IsEmpty() && !m_pMainFrame.m_fAudioOnly && s.fEnableSubtitles  && !s.bAutoDownloadSubtitles) {
+    if (bShow == TRUE && !m_list.GetItemCount() && !m_pMainFrame.m_fAudioOnly && s.fEnableSubtitles  && !s.bAutoDownloadSubtitles) {
         OnRefresh();
     }
 }
