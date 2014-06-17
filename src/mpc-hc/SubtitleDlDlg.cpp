@@ -451,7 +451,7 @@ void CSubtitleDlDlg::OnShowWindow(BOOL bShow, UINT nStatus)
 
     const auto& s = AfxGetAppSettings();
 
-    if (bShow == TRUE && !m_list.GetItemCount() && m_MainFrame.m_pSubStreams.IsEmpty() && !m_MainFrame.m_fAudioOnly && s.fEnableSubtitles  && !s.bAutoDownloadSubtitles) {
+    if (bShow == TRUE && !m_list.GetItemCount() && !m_MainFrame.m_fAudioOnly && s.fEnableSubtitles  && !s.bAutoDownloadSubtitles) {
         OnRefresh();
     }
 }
@@ -475,8 +475,9 @@ afx_msg LRESULT CSubtitleDlDlg::OnSearch(WPARAM wParam, LPARAM /*lParam*/)
 
 afx_msg LRESULT CSubtitleDlDlg::OnSearching(WPARAM /*wParam*/, LPARAM lParam)
 {
-    SubtitlesProvider& _provider = *(SubtitlesProvider*)lParam;
-
+    SubtitlesInfo& _fileInfo = *(SubtitlesInfo*)lParam;
+    CString title = _T("Download subtitles - ") + CString(_fileInfo.fileName.c_str());
+    SetWindowText(title);
     return S_OK;
 }
 
@@ -605,6 +606,9 @@ afx_msg LRESULT CSubtitleDlDlg::OnFailed(WPARAM /*wParam*/, LPARAM /*lParam*/)
 
 afx_msg LRESULT CSubtitleDlDlg::OnClear(WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
+    CString title = _T("Download subtitles");
+    SetWindowText(title);
+
     m_progress.SetPos(0);
     SetStatusText("");
     m_list.DeleteAllItems();
@@ -622,9 +626,9 @@ void CSubtitleDlDlg::DoSearch(INT _nCount)
 {
     SendMessage(UWM_SEARCH, (WPARAM)_nCount, (LPARAM)nullptr);
 }
-void CSubtitleDlDlg::DoSearching(SubtitlesProvider& _provider)
+void CSubtitleDlDlg::DoSearching(SubtitlesInfo& _fileInfo)
 {
-    SendMessage(UWM_SEARCHING, (WPARAM)nullptr, (LPARAM)&_provider);
+    SendMessage(UWM_SEARCHING, (WPARAM)nullptr, (LPARAM)&_fileInfo);
 }
 void CSubtitleDlDlg::DoDownloading(SubtitlesInfo& _fileInfo)
 {

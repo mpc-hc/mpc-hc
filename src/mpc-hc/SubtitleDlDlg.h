@@ -116,7 +116,7 @@ protected:
 
 public:
     void DoSearch(INT _nCount);
-    void DoSearching(SubtitlesProvider& _provider);
+    void DoSearching(SubtitlesInfo& _fileInfo);
     void DoDownloading(SubtitlesInfo& _fileInfo);
     void DoDownloaded(SubtitlesInfo& _fileInfo);
     void DoCompleted(SRESULT _result, SubtitlesList& _subtitlesList);
