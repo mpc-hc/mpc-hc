@@ -1178,7 +1178,7 @@ static bool OpenVPlayer(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
     return !ret.IsEmpty();
 }
 
-static CStringW GetStrW(CStringW& buff, char sep = ',') //throw(...)
+static CStringW GetStrW(CStringW& buff, WCHAR sep = L',')
 {
     buff.TrimLeft();
 
@@ -1198,7 +1198,7 @@ static CStringW GetStrW(CStringW& buff, char sep = ',') //throw(...)
     return ret;
 }
 
-static int GetInt(CStringW& buff, char sep = ',') //throw(...)
+static int GetInt(CStringW& buff, WCHAR sep = L',')
 {
     CStringW str;
 
@@ -1222,7 +1222,7 @@ static int GetInt(CStringW& buff, char sep = ',') //throw(...)
     return ret;
 }
 
-static double GetFloat(CStringW& buff, char sep = ',') //throw(...)
+static double GetFloat(CStringW& buff, WCHAR sep = L',')
 {
     CStringW str;
 
@@ -1357,20 +1357,144 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
 
     while (file->ReadString(buff)) {
         buff.Trim();
-        if (buff.IsEmpty() || buff.GetAt(0) == ';') {
+        if (buff.IsEmpty() || buff.GetAt(0) == L';') {
             continue;
         }
 
-        CStringW entry;
-
-        //      try {
-        entry = GetStrW(buff, ':');
-        //  }
-        //      catch(...) {continue;}
-
+        CStringW entry = GetStrW(buff, L':');
         entry.MakeLower();
 
-        if (entry == L"[script info]") {
+        if (entry == L"dialogue") {
+            try {
+                int hh1, mm1, ss1, ms1_div10, hh2, mm2, ss2, ms2_div10, layer = 0;
+                CRect marginRect;
+
+                if (version <= 4) {
+                    GetStrW(buff, L'=');      /* Marked = */
+                    GetInt(buff);
+                }
+                if (version >= 5) {
+                    layer = GetInt(buff);
+                }
+                hh1 = GetInt(buff, L':');
+                mm1 = GetInt(buff, L':');
+                ss1 = GetInt(buff, L'.');
+                ms1_div10 = GetInt(buff);
+                hh2 = GetInt(buff, L':');
+                mm2 = GetInt(buff, L':');
+                ss2 = GetInt(buff, L'.');
+                ms2_div10 = GetInt(buff);
+                CString style = WToT(GetStrW(buff));
+                CString actor = WToT(GetStrW(buff));
+                marginRect.left = GetInt(buff);
+                marginRect.right = GetInt(buff);
+                marginRect.top = marginRect.bottom = GetInt(buff);
+                if (version >= 6) {
+                    marginRect.bottom = GetInt(buff);
+                }
+
+                CString effect = WToT(GetStrW(buff));
+                int len = std::min(effect.GetLength(), buff.GetLength());
+                if (effect.Left(len) == WToT(buff.Left(len))) {
+                    effect.Empty();
+                }
+
+                style.TrimLeft(_T('*'));
+                if (!style.CompareNoCase(_T("Default"))) {
+                    style = _T("Default");
+                }
+
+                ret.Add(buff,
+                        file->IsUnicode(),
+                        (((hh1 * 60 + mm1) * 60) + ss1) * 1000 + ms1_div10 * 10,
+                        (((hh2 * 60 + mm2) * 60) + ss2) * 1000 + ms2_div10 * 10,
+                        style, actor, effect,
+                        marginRect,
+                        layer);
+            } catch (...) {
+                return false;
+            }
+        } else if (entry == L"style") {
+            STSStyle* style = DEBUG_NEW STSStyle;
+            if (!style) {
+                return false;
+            }
+
+            try {
+                CString styleName = WToT(GetStrW(buff));
+                style->fontName = WToT(GetStrW(buff));
+                style->fontSize = GetFloat(buff);
+                for (size_t i = 0; i < 4; i++) {
+                    style->colors[i] = (COLORREF)GetInt(buff);
+                }
+                style->fontWeight = GetInt(buff) ? FW_BOLD : FW_NORMAL;
+                style->fItalic = GetInt(buff);
+                if (sver >= 5)  {
+                    style->fUnderline = GetInt(buff);
+                    style->fStrikeOut = GetInt(buff);
+                    style->fontScaleX = GetFloat(buff);
+                    style->fontScaleY = GetFloat(buff);
+                    style->fontSpacing = GetFloat(buff);
+                    style->fontAngleZ = GetFloat(buff);
+                }
+                if (sver >= 4)  {
+                    style->borderStyle = GetInt(buff);
+                }
+                style->outlineWidthX = style->outlineWidthY = GetFloat(buff);
+                style->shadowDepthX = style->shadowDepthY = GetFloat(buff);
+                style->scrAlignment = GetInt(buff);
+                style->marginRect.left = GetInt(buff);
+                style->marginRect.right = GetInt(buff);
+                style->marginRect.top = style->marginRect.bottom = GetInt(buff);
+                if (sver >= 6)  {
+                    style->marginRect.bottom = GetInt(buff);
+                }
+
+                int alpha = 0;
+                if (sver <= 4)  {
+                    alpha = GetInt(buff);
+                }
+                style->charSet = GetInt(buff);
+                if (sver >= 6)  {
+                    style->relativeTo = GetInt(buff);
+                }
+
+                if (sver <= 4)  {
+                    style->colors[2] = style->colors[3];    // style->colors[2] is used for drawing the outline
+                    alpha = std::max(std::min(alpha, 0xff), 0);
+                    for (size_t i = 0; i < 3; i++) {
+                        style->alpha[i] = alpha;
+                    }
+                    style->alpha[3] = 0x80;
+                }
+                if (sver >= 5) {
+                    for (size_t i = 0; i < 4; i++) {
+                        style->alpha[i] = (BYTE)(style->colors[i] >> 24);
+                        style->colors[i] &= 0xffffff;
+                    }
+                    style->fontScaleX = std::max(style->fontScaleX, 0.0);
+                    style->fontScaleY = std::max(style->fontScaleY, 0.0);
+                }
+                style->fontAngleX = style->fontAngleY = 0;
+                style->borderStyle = style->borderStyle == 1 ? 0 : style->borderStyle == 3 ? 1 : 0;
+                style->outlineWidthX = std::max(style->outlineWidthX, 0.0);
+                style->outlineWidthY = std::max(style->outlineWidthY, 0.0);
+                style->shadowDepthX = std::max(style->shadowDepthX, 0.0);
+                style->shadowDepthY = std::max(style->shadowDepthY, 0.0);
+                if (sver <= 4) {
+                    style->scrAlignment = (style->scrAlignment & 4) ? ((style->scrAlignment & 3) + 6) // top
+                                          : (style->scrAlignment & 8) ? ((style->scrAlignment & 3) + 3) // mid
+                                          : (style->scrAlignment & 3); // bottom
+                }
+
+                styleName.TrimLeft(_T('*'));
+
+                ret.AddStyle(styleName, style);
+            } catch (...) {
+                delete style;
+                return false;
+            }
+        } else if (entry == L"[script info]") {
             fRet = true;
         } else if (entry == L"playresx") {
             try {
@@ -1430,140 +1554,8 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
         } else if (entry == L"[v4++ styles]") {
             fRet = true;
             sver = 6;
-        } else if (entry == L"style") {
-            STSStyle* style = DEBUG_NEW STSStyle;
-            if (!style) {
-                return false;
-            }
-
-            try {
-                CString StyleName;
-                int alpha = 0;
-
-                StyleName = WToT(GetStrW(buff));
-                style->fontName = WToT(GetStrW(buff));
-                style->fontSize = GetFloat(buff);
-                for (size_t i = 0; i < 4; i++) {
-                    style->colors[i] = (COLORREF)GetInt(buff);
-                }
-                style->fontWeight = GetInt(buff) ? FW_BOLD : FW_NORMAL;
-                style->fItalic = GetInt(buff);
-                if (sver >= 5)  {
-                    style->fUnderline = GetInt(buff);
-                    style->fStrikeOut = GetInt(buff);
-                    style->fontScaleX = GetFloat(buff);
-                    style->fontScaleY = GetFloat(buff);
-                    style->fontSpacing = GetFloat(buff);
-                    style->fontAngleZ = GetFloat(buff);
-                }
-                if (sver >= 4)  {
-                    style->borderStyle = GetInt(buff);
-                }
-                style->outlineWidthX = style->outlineWidthY = GetFloat(buff);
-                style->shadowDepthX = style->shadowDepthY = GetFloat(buff);
-                style->scrAlignment = GetInt(buff);
-                style->marginRect.left = GetInt(buff);
-                style->marginRect.right = GetInt(buff);
-                style->marginRect.top = style->marginRect.bottom = GetInt(buff);
-                if (sver >= 6)  {
-                    style->marginRect.bottom = GetInt(buff);
-                }
-                if (sver <= 4)  {
-                    alpha = GetInt(buff);
-                }
-                style->charSet = GetInt(buff);
-                if (sver >= 6)  {
-                    style->relativeTo = GetInt(buff);
-                }
-
-                if (sver <= 4)  {
-                    style->colors[2] = style->colors[3];    // style->colors[2] is used for drawing the outline
-                    alpha = std::max(std::min(alpha, 0xff), 0);
-                    for (size_t i = 0; i < 3; i++) {
-                        style->alpha[i] = alpha;
-                    }
-                    style->alpha[3] = 0x80;
-                }
-                if (sver >= 5) {
-                    for (size_t i = 0; i < 4; i++) {
-                        style->alpha[i] = (BYTE)(style->colors[i] >> 24);
-                        style->colors[i] &= 0xffffff;
-                    }
-                    style->fontScaleX = std::max(style->fontScaleX, 0.0);
-                    style->fontScaleY = std::max(style->fontScaleY, 0.0);
-                }
-                style->fontAngleX = style->fontAngleY = 0;
-                style->borderStyle = style->borderStyle == 1 ? 0 : style->borderStyle == 3 ? 1 : 0;
-                style->outlineWidthX = std::max(style->outlineWidthX, 0.0);
-                style->outlineWidthY = std::max(style->outlineWidthY, 0.0);
-                style->shadowDepthX = std::max(style->shadowDepthX, 0.0);
-                style->shadowDepthY = std::max(style->shadowDepthY, 0.0);
-                if (sver <= 4) {
-                    style->scrAlignment = (style->scrAlignment & 4) ? ((style->scrAlignment & 3) + 6) // top
-                                          : (style->scrAlignment & 8) ? ((style->scrAlignment & 3) + 3) // mid
-                                          : (style->scrAlignment & 3); // bottom
-                }
-
-                StyleName.TrimLeft('*');
-
-                ret.AddStyle(StyleName, style);
-            } catch (...) {
-                delete style;
-                return false;
-            }
         } else if (entry == L"[events]") {
             fRet = true;
-        } else if (entry == _T("dialogue")) {
-            try {
-                int hh1, mm1, ss1, ms1_div10, hh2, mm2, ss2, ms2_div10, layer = 0;
-                CString Style, Actor, Effect;
-                CRect marginRect;
-
-                if (version <= 4) {
-                    GetStrW(buff, '=');      /* Marked = */
-                    GetInt(buff);
-                }
-                if (version >= 5) {
-                    layer = GetInt(buff);
-                }
-                hh1 = GetInt(buff, ':');
-                mm1 = GetInt(buff, ':');
-                ss1 = GetInt(buff, '.');
-                ms1_div10 = GetInt(buff);
-                hh2 = GetInt(buff, ':');
-                mm2 = GetInt(buff, ':');
-                ss2 = GetInt(buff, '.');
-                ms2_div10 = GetInt(buff);
-                Style = WToT(GetStrW(buff));
-                Actor = WToT(GetStrW(buff));
-                marginRect.left = GetInt(buff);
-                marginRect.right = GetInt(buff);
-                marginRect.top = marginRect.bottom = GetInt(buff);
-                if (version >= 6) {
-                    marginRect.bottom = GetInt(buff);
-                }
-                Effect = WToT(GetStrW(buff));
-
-                int len = std::min(Effect.GetLength(), buff.GetLength());
-                if (Effect.Left(len) == WToT(buff.Left(len))) {
-                    Effect.Empty();
-                }
-
-                Style.TrimLeft('*');
-                if (!Style.CompareNoCase(_T("Default"))) {
-                    Style = _T("Default");
-                }
-
-                ret.Add(buff,
-                        file->IsUnicode(),
-                        (((hh1 * 60 + mm1) * 60) + ss1) * 1000 + ms1_div10 * 10,
-                        (((hh2 * 60 + mm2) * 60) + ss2) * 1000 + ms2_div10 * 10,
-                        Style, Actor, Effect,
-                        marginRect,
-                        layer);
-            } catch (...) {
-                return false;
-            }
         } else if (entry == L"fontname") {
             LoadUUEFont(file);
         }
@@ -1578,19 +1570,12 @@ static bool OpenXombieSub(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
 
     CStringW buff;
     while (file->ReadString(buff)) {
-
         buff.Trim();
-        if (buff.IsEmpty() || buff.GetAt(0) == ';') {
+        if (buff.IsEmpty() || buff.GetAt(0) == L';') {
             continue;
         }
 
-        CStringW entry;
-
-        //try {
-        entry = GetStrW(buff, '=');
-        //}
-        //catch(...) {continue;}
-
+        CStringW entry = GetStrW(buff, L'=');
         entry.MakeLower();
 
         /*if (entry == L"version") {
@@ -1629,9 +1614,7 @@ static bool OpenXombieSub(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
             }
 
             try {
-                CString StyleName;
-
-                StyleName = WToT(GetStrW(buff)) + _T("_") + WToT(GetStrW(buff));
+                CString styleName = WToT(GetStrW(buff)) + _T("_") + WToT(GetStrW(buff));
                 style->fontName = WToT(GetStrW(buff));
                 style->fontSize = GetFloat(buff);
                 for (size_t i = 0; i < 4; i++) {
@@ -1669,47 +1652,45 @@ static bool OpenXombieSub(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
                 style->shadowDepthX = std::max(style->shadowDepthX, 0.0);
                 style->shadowDepthY = std::max(style->shadowDepthY, 0.0);
 
-                ret.AddStyle(StyleName, style);
+                ret.AddStyle(styleName, style);
             } catch (...) {
                 delete style;
                 return false;
             }
         } else if (entry == L"line") {
             try {
-                CString id;
                 int hh1, mm1, ss1, ms1, hh2, mm2, ss2, ms2, layer = 0;
-                CString Style, Actor;
                 CRect marginRect;
 
                 if (GetStrW(buff) != L"D") {
                     continue;
                 }
-                id = GetStrW(buff);
+                CString id = GetStrW(buff);
                 layer = GetInt(buff);
-                hh1 = GetInt(buff, ':');
-                mm1 = GetInt(buff, ':');
-                ss1 = GetInt(buff, '.');
+                hh1 = GetInt(buff, L':');
+                mm1 = GetInt(buff, L':');
+                ss1 = GetInt(buff, L'.');
                 ms1 = GetInt(buff);
-                hh2 = GetInt(buff, ':');
-                mm2 = GetInt(buff, ':');
-                ss2 = GetInt(buff, '.');
+                hh2 = GetInt(buff, L':');
+                mm2 = GetInt(buff, L':');
+                ss2 = GetInt(buff, L'.');
                 ms2 = GetInt(buff);
-                Style = WToT(GetStrW(buff)) + _T("_") + WToT(GetStrW(buff));
-                Actor = WToT(GetStrW(buff));
+                CString style = WToT(GetStrW(buff)) + _T("_") + WToT(GetStrW(buff));
+                CString actor = WToT(GetStrW(buff));
                 marginRect.left = GetInt(buff);
                 marginRect.right = GetInt(buff);
                 marginRect.top = marginRect.bottom = GetInt(buff);
 
-                Style.TrimLeft('*');
-                if (!Style.CompareNoCase(_T("Default"))) {
-                    Style = _T("Default");
+                style.TrimLeft('*');
+                if (!style.CompareNoCase(_T("Default"))) {
+                    style = _T("Default");
                 }
 
                 ret.Add(buff,
                         file->IsUnicode(),
                         (((hh1 * 60 + mm1) * 60) + ss1) * 1000 + ms1,
                         (((hh2 * 60 + mm2) * 60) + ss2) * 1000 + ms2,
-                        Style, Actor, _T(""),
+                        style, actor, _T(""),
                         marginRect,
                         layer);
             } catch (...) {
@@ -3078,38 +3059,38 @@ STSStyle& operator <<= (STSStyle& s, const CString& style)
     try {
         CStringW str = TToW(style);
         if (str.Find(';') >= 0) {
-            s.marginRect.left = GetInt(str, ';');
-            s.marginRect.right = GetInt(str, ';');
-            s.marginRect.top = GetInt(str, ';');
-            s.marginRect.bottom = GetInt(str, ';');
-            s.scrAlignment = GetInt(str, ';');
-            s.borderStyle = GetInt(str, ';');
-            s.outlineWidthX = GetFloat(str, ';');
-            s.outlineWidthY = GetFloat(str, ';');
-            s.shadowDepthX = GetFloat(str, ';');
-            s.shadowDepthY = GetFloat(str, ';');
+            s.marginRect.left = GetInt(str, L';');
+            s.marginRect.right = GetInt(str, L';');
+            s.marginRect.top = GetInt(str, L';');
+            s.marginRect.bottom = GetInt(str, L';');
+            s.scrAlignment = GetInt(str, L';');
+            s.borderStyle = GetInt(str, L';');
+            s.outlineWidthX = GetFloat(str, L';');
+            s.outlineWidthY = GetFloat(str, L';');
+            s.shadowDepthX = GetFloat(str, L';');
+            s.shadowDepthY = GetFloat(str, L';');
             for (size_t i = 0; i < 4; i++) {
-                s.colors[i] = (COLORREF)GetInt(str, ';');
+                s.colors[i] = (COLORREF)GetInt(str, L';');
             }
             for (size_t i = 0; i < 4; i++) {
-                s.alpha[i] = GetInt(str, ';');
+                s.alpha[i] = GetInt(str, L';');
             }
-            s.charSet = GetInt(str, ';');
-            s.fontName = WToT(GetStrW(str, ';'));
-            s.fontSize = GetFloat(str, ';');
-            s.fontScaleX = GetFloat(str, ';');
-            s.fontScaleY = GetFloat(str, ';');
-            s.fontSpacing = GetFloat(str, ';');
-            s.fontWeight = GetInt(str, ';');
-            s.fItalic = GetInt(str, ';');
-            s.fUnderline = GetInt(str, ';');
-            s.fStrikeOut = GetInt(str, ';');
-            s.fBlur = GetInt(str, ';');
-            s.fGaussianBlur = GetFloat(str, ';');
-            s.fontAngleZ = GetFloat(str, ';');
-            s.fontAngleX = GetFloat(str, ';');
-            s.fontAngleY = GetFloat(str, ';');
-            s.relativeTo = GetInt(str, ';');
+            s.charSet = GetInt(str, L';');
+            s.fontName = WToT(GetStrW(str, L';'));
+            s.fontSize = GetFloat(str, L';');
+            s.fontScaleX = GetFloat(str, L';');
+            s.fontScaleY = GetFloat(str, L';');
+            s.fontSpacing = GetFloat(str, L';');
+            s.fontWeight = GetInt(str, L';');
+            s.fItalic = GetInt(str, L';');
+            s.fUnderline = GetInt(str, L';');
+            s.fStrikeOut = GetInt(str, L';');
+            s.fBlur = GetInt(str, L';');
+            s.fGaussianBlur = GetFloat(str, L';');
+            s.fontAngleZ = GetFloat(str, L';');
+            s.fontAngleX = GetFloat(str, L';');
+            s.fontAngleY = GetFloat(str, L';');
+            s.relativeTo = GetInt(str, L';');
         }
     } catch (...) {
         s.SetDefault();
