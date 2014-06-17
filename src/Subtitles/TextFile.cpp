@@ -803,44 +803,52 @@ CStringA WToA(CStringW str)
 
 CString AToT(CStringA str)
 {
+#ifdef UNICODE
     CString ret;
     for (int i = 0, j = str.GetLength(); i < j; i++) {
         ret += (TCHAR)(BYTE)str[i];
     }
     return ret;
+#else
+    return str;
+#endif
 }
 
 CString WToT(CStringW str)
 {
+#ifdef UNICODE
+    return str;
+#else
     CString ret;
     for (int i = 0, j = str.GetLength(); i < j; i++) {
         ret += (TCHAR)(WORD)str[i];
     }
     return ret;
+#endif
 }
 
 CStringA TToA(CString str)
 {
-    CStringA ret;
 #ifdef UNICODE
+    CStringA ret;
     for (int i = 0, j = str.GetLength(); i < j; i++) {
         ret += (CHAR)(BYTE)str[i];
     }
-#else
-    ret = str;
-#endif
     return ret;
+#else
+    return str;
+#endif
 }
 
 CStringW TToW(CString str)
 {
-    CStringW ret;
 #ifdef UNICODE
-    ret = str;
+    return str;
 #else
+    CStringW ret;
     for (size_t i = 0, j = str.GetLength(); i < j; i++) {
         ret += (WCHAR)(BYTE)str[i];
     }
-#endif
     return ret;
+#endif
 }
