@@ -206,6 +206,9 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 
     ON_WM_ENTERMENULOOP()
 
+    ON_WM_QUERYENDSESSION()
+    ON_WM_ENDSESSION()
+
     ON_COMMAND(ID_MENU_PLAYER_SHORT, OnMenuPlayerShort)
     ON_COMMAND(ID_MENU_PLAYER_LONG, OnMenuPlayerLong)
     ON_COMMAND(ID_MENU_FILTERS, OnMenuFilters)
@@ -3037,6 +3040,16 @@ void CMainFrame::OnEnterMenuLoop(BOOL bIsTrackPopupMenu)
         VERIFY(SetMenuBarState(AFX_MBS_VISIBLE));
     }
     __super::OnEnterMenuLoop(bIsTrackPopupMenu);
+}
+
+BOOL CMainFrame::OnQueryEndSession()
+{
+    return TRUE;
+}
+
+void CMainFrame::OnEndSession(BOOL bEnding)
+{
+    // do nothing for now
 }
 
 BOOL CMainFrame::OnMenu(CMenu* pMenu)

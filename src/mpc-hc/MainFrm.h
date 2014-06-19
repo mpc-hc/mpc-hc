@@ -655,6 +655,9 @@ public:
     afx_msg void OnUnInitMenuPopup(CMenu* pPopupMenu, UINT nFlags);
     afx_msg void OnEnterMenuLoop(BOOL bIsTrackPopupMenu);
 
+    afx_msg BOOL OnQueryEndSession();
+    afx_msg void OnEndSession(BOOL bEnding);
+
     BOOL OnMenu(CMenu* pMenu);
     afx_msg void OnMenuPlayerShort();
     afx_msg void OnMenuPlayerLong();
