@@ -12,6 +12,7 @@ next version - not released yet
 ===============================
 + DVB: Show current event time in the status bar
 + DVB: Add context menu to the navigation dialog
+! Ticket #4436, DVB: Improve compatibility with certain tuners
 
 
 1.7.7 - 05 October 2014

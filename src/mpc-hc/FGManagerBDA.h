@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2013 see Authors.txt
+ * (C) 2009-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -180,6 +180,9 @@ private:
 #include <sys/types.h>
 #include <sys/timeb.h>
 
+#define CheckAndLogBDA(x, msg)  hr = ##x; if (FAILED(hr)) { LOG(msg _T(": 0x%08x\n"), hr); return hr; }
+#define CheckAndLogBDANoRet(x, msg)  hr = ##x; if (FAILED(hr)) { LOG(msg _T(": 0x%08x\n"), hr); }
+
 static void LOG(LPCTSTR fmt, ...)
 {
     va_list args;
@@ -208,4 +211,6 @@ static void LOG(LPCTSTR fmt, ...)
 }
 #else
 inline void LOG(LPCTSTR fmt, ...) {}
+#define CheckAndLogBDA(x, msg)  hr = ##x; if (FAILED(hr)) { TRACE(msg _T(": 0x%08x\n"), hr); return hr; }
+#define CheckAndLogBDANoRet(x, msg)  hr = ##x; if (FAILED(hr)) { TRACE(msg _T(": 0x%08x\n"), hr); }
 #endif
