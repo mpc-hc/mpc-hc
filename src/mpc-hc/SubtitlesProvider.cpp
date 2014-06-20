@@ -655,7 +655,7 @@ std::string Moviesubtitles::Languages()
 ******************************************************************************/
 
 const std::regex addic7ed::regex_pattern[] = {
-    std::regex("<a href=\"/show/(\\d+)\" >Show <i>(.*?)(?: [(](\\d{4})[)])?</i></a>", regex_flags),
+    std::regex("<a href=\"/show/(\\d+)\" >Show <i>(.*?)(?: [(](\\d{4})[)])?(?: [(]?(AU|CA|FR|JP|UK|US)[)]?)?</i></a>", regex_flags),
     std::regex(),
 };
 
@@ -690,7 +690,8 @@ SRESULT addic7ed::Search(const SubtitlesInfo& fileInfo, volatile BOOL& _bAbortin
         std::string search(fileInfo.title);
         if (!fileInfo.country.empty()) { search += " " + fileInfo.country; }
         if (fileInfo.year != -1) { search += " (" + std::to_string(fileInfo.year) + ")"; }
-        search = std::regex_replace(search, std::regex("(?: and |[&':])+", regex_flags), " ");
+        // remove ' and ' from string and replace '!?&':' with ' ' to get more accurate results
+        search = std::regex_replace(search, std::regex(" and |[!?&':]", regex_flags), " ");
         searchResult = Download(string_format("http://www.addic7ed.com/search.php?search=%s", UrlEncode(search .c_str())), "", data);
 
         regex_results results;
@@ -718,6 +719,7 @@ SRESULT addic7ed::Search(const SubtitlesInfo& fileInfo, volatile BOOL& _bAbortin
                 subtitlesInfo.title = iter[1];
                 subtitlesInfo.title2 = HtmlSpecialCharsDecode(iter1[1].c_str());
                 subtitlesInfo.year = iter[2].empty() ? -1 : atoi(iter[2].c_str());
+                subtitlesInfo.country = iter[3];
                 subtitlesInfo.discNumber = 1;
                 subtitlesInfo.discCount = 1;
                 Set(fileInfo, subtitlesInfo, _bAborting);
@@ -769,7 +771,7 @@ std::string addic7ed::GetLanguagesString()
 
 const std::regex podnapisi::regex_pattern[] = {
     std::regex("<pagination>[^<]+<current>(\\d+)</current>[^<]+<count>(\\d+)</count>[^<]+<results>(\\d+)</results>[^<]+</pagination>", regex_flags),
-    std::regex("<subtitle>[^<]+<id>(\\d+)</id>[^<]+<title>(.+?)</title>[^<]+<year>(\\d+)</year>[^<]+<movieId>(\\d+)</movieId>[^<]+<url>(.+?)</url>[^<]+<uploaderId>(\\d+)</uploaderId>[^<]+<uploaderName>(.+?)</uploaderName>[^<]+<release>(.+?)</release>[^<]+<languageId>(\\d+)</languageId>[^<]+<languageName>(.+?)</languageName>[^<]+<time>(\\d+)</time>[^<]+<tvSeason>(\\d+)</tvSeason>[^<]+<tvEpisode>(\\d+)</tvEpisode>[^<]+<tvSpecial>(\\d+)</tvSpecial>[^<]+<cds>(\\d+)</cds>[^<]+<format>(.+?)</format>[^<]+<fps>(.+?)</fps>[^<]+<rating>(\\d+)</rating>[^<]+<flags/?>(?:(.*?)</flags>)?[^<]+<downloads>(\\d+)</downloads>[^<]+</subtitle>", regex_flags),
+    std::regex("<subtitle>[^<]+<id>(\\d*)</id>[^<]+<title>(.*?)</title>[^<]+<year>(\\d*)</year>[^<]+<movieId>(\\d*)</movieId>[^<]+<url>(.*?)</url>[^<]+<uploaderId>(\\d*)</uploaderId>[^<]+<uploaderName>(.*?)</uploaderName>[^<]+<release>(.*?)</release>[^<]+<languageId>(\\d*)</languageId>[^<]+<languageName>(.*?)</languageName>[^<]+<time>(\\d*)</time>[^<]+<tvSeason>(\\d*)</tvSeason>[^<]+<tvEpisode>(\\d*)</tvEpisode>[^<]+<tvSpecial>(\\d*)</tvSpecial>[^<]+<cds>(\\d*)</cds>[^<]+<format>(.*?)</format>[^<]+<fps>(.*?)</fps>[^<]+<rating>(\\d*)</rating>[^<]+<flags/?>(?:(.*?)</flags>)?[^<]+<downloads>(\\d*)</downloads>[^<]+</subtitle>", regex_flags),
     std::regex("<a href=\"(/en/ppodnapisi/download/i/\\d+/k/[^\"]+)\">", regex_flags),
 };
 
@@ -819,14 +821,19 @@ SRESULT podnapisi::Search(const SubtitlesInfo& fileInfo, volatile BOOL& _bAborti
         CheckAbortAndReturn();
         std::string data;
         std::string languages(GetLanguagesString());
+
+        std::string search(fileInfo.title);
+        if (!fileInfo.country.empty()) { search += " " + fileInfo.country; }
+        search = std::regex_replace(search, std::regex(" and | *[!?&':] *", regex_flags), " ");
+
         std::string url("http://simple.podnapisi.net/en/ppodnapisi/search");
         url += "/sXML/1";
         url += "/sAKA/1";
-        url += (!fileInfo.title.empty() ? "/sK/" + UrlEncode(fileInfo.title.c_str()) : "");
+        url += (!search.empty() ? "/sK/" + UrlEncode(search.c_str()) : "");
         url += (fileInfo.year != -1 ? "/sY/" + std::to_string(fileInfo.year) : "");
         url += (fileInfo.seasonNumber != -1 ? "/sTS/" + std::to_string(fileInfo.seasonNumber) : "");
         url += (fileInfo.episodeNumber != -1 ? "/sTE/" + std::to_string(fileInfo.episodeNumber) : "");
-        url += "/sR/" + UrlEncode(fileInfo.fileName.c_str());
+        //url += "/sR/" + UrlEncode(fileInfo.fileName.c_str());
         url += (!languages.empty() ? "/sJ/" + languages : "");
         url += "/page/" + std::to_string(page);
         searchResult = Download(url, "", data);
@@ -851,7 +858,11 @@ SRESULT podnapisi::Search(const SubtitlesInfo& fileInfo, volatile BOOL& _bAborti
             subtitlesInfo.year = iter1[2].empty() ? -1 : atoi(iter1[2].c_str());
             subtitlesInfo.url = iter1[4];
             subtitlesInfo.fileExtension = iter1[15] == "SubRip" ? "srt" : iter1[15];
+
             string_array fileNames(string_tokenize(iter1[7], " "));
+            if (fileNames.empty()) {
+                fileNames.push_back(fileInfo.fileName + "." + subtitlesInfo.fileExtension);
+            }
             subtitlesInfo.fileName = fileNames[0] + "." + subtitlesInfo.fileExtension;
             for (const auto& fileName : fileNames) {
                 if (fileName == fileInfo.fileName) {

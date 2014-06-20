@@ -89,12 +89,26 @@ struct SubtitlesInfo {
         score = MAKELONG(_score + 0x10, MAKEWORD(_hearingImpaired, _language));
     }
 
-    std::string Title() const {
+    std::string DisplayTitle() const {
         std::string _title(title);
         if (!title2.empty()) { _title.append(": " + title2); }
         if (year != -1) { _title.append(" (" + std::to_string(year) + ")"); }
         return _title;
     }
+
+    std::string NormalizeString(std::string _title) const {
+        // remove ' and ' from string and replace '!?&:\' with ' ' to get more accurate results
+        _title = std::regex_replace(_title, std::regex(" and ", regex_flags), " ");
+        _title = std::regex_replace(_title, std::regex(" *[!?&:] *", regex_flags), " ");
+        _title = std::regex_replace(_title, std::regex("'", regex_flags), "");
+
+        return _title;
+    }
+
+    std::string NormalizeTitle() const {
+        return NormalizeString(title);
+    }
+
     UINT UID() { return uid; }
 
 private:

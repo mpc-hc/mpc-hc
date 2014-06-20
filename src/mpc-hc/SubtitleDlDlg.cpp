@@ -543,7 +543,7 @@ afx_msg LRESULT CSubtitleDlDlg::OnCompleted(WPARAM wParam, LPARAM lParam)
                 downloads = FormatNumber(downloads);
             }
             m_list.SetItemText(iItem, COL_DOWNLOADS, downloads);
-            m_list.SetItemText(iItem, COL_TITLES, UTF8To16(iter->Title().c_str()));
+            m_list.SetItemText(iItem, COL_TITLES, UTF8To16(iter->DisplayTitle().c_str()));
 #ifdef _DEBUG
             CString score;
             score.Format(_T("%d"), (SHORT)LOWORD(iter->Score()));

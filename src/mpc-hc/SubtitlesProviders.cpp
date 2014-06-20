@@ -462,17 +462,20 @@ void SubtitlesProvider::Set(const SubtitlesInfo& fileInfo, SubtitlesInfo& subtit
 
     _thread.CheckAbortAndThrow();
 
-
-    //SubtitlesInfo fileInfo2;
     SubtitlesInfo& fileInfo2 = subtitlesInfo;
+    std::string _title = fileInfo2.title;
+    if (!_title.empty()) { fileInfo2.title.clear(); }
     fileInfo2.GetFileInfo(subtitlesInfo.fileName);
-    //if (fileInfo2.hearingImpaired == TRUE && subtitlesInfo.hearingImpaired == FALSE) {
-    //    subtitlesInfo.hearingImpaired = TRUE;
-    //}
 
     //iter.score = 0; //LevenshteinDistance(fileInfo.fileName, string_(subtitlesName)) * 100;
+
     SHORT score = ((SHORT)subtitlesInfo.corrected);
-    score += (!fileInfo.title.empty() && _strcmpi(fileInfo.title.c_str(), fileInfo2.title.c_str()) == 0) ? 3 : !fileInfo.title.empty() ? -3 : 0;
+    score += (((!fileInfo.title.empty() && _strcmpi(fileInfo.NormalizeTitle().c_str(), fileInfo2.NormalizeTitle().c_str()) == 0)) ||
+              ((!_title.empty() && _strcmpi(fileInfo.NormalizeTitle().c_str(), fileInfo2.NormalizeString(_title).c_str()) == 0)))
+             ? 3 : !fileInfo.title.empty() || !_title.empty() ? -3 : 0;
+
+    if (!_title.empty()) { fileInfo2.title = _title; }
+
     score += (!fileInfo.country.empty() && _strcmpi(fileInfo.country.c_str(), fileInfo2.country.c_str()) == 0) ? 2 : !fileInfo.country.empty() ? -2 : 0;
     score += (fileInfo.year != -1 && fileInfo.year == fileInfo2.year) ? 1 : 0;
     score += (fileInfo.seasonNumber != -1 && fileInfo.seasonNumber == fileInfo2.seasonNumber) ? 2 : fileInfo.seasonNumber > 0 ? -2 : 0;
