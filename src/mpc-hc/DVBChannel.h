@@ -176,6 +176,9 @@ public:
         return (aOriginNumber == 0 && bOriginNumber == 0) ? GetPrefNumber() < channel.GetPrefNumber() : (aOriginNumber == 0 || bOriginNumber == 0) ? bOriginNumber == 0 : aOriginNumber < bOriginNumber;
     }
 
+    // Returns true for channels with the same place, doesn't necessarily need to be equal (i.e if internal streams were updated)
+    bool operator==(CDVBChannel const& channel) const { return GetPMT() == channel.GetPMT() && GetFrequency() == channel.GetFrequency(); }
+
 private:
     CString m_strName;
     ULONG m_ulFrequency             = 0;
@@ -199,8 +202,8 @@ private:
     int m_nDefaultAudio             = 0;
     int m_nSubtitleCount            = 0;
     int m_nDefaultSubtitle          = -1;
-    DVBStreamInfo m_Audios[DVB_MAX_AUDIO];
-    DVBStreamInfo m_Subtitles[DVB_MAX_SUBTITLE];
+    std::array<DVBStreamInfo, DVB_MAX_AUDIO> m_Audios;
+    std::array<DVBStreamInfo, DVB_MAX_SUBTITLE> m_Subtitles;
 
     void FromString(CString strValue);
 };

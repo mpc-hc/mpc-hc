@@ -120,14 +120,30 @@ END_MESSAGE_MAP()
 
 void CTunerScanDlg::OnBnClickedSave()
 {
-    CAppSettings& s = AfxGetAppSettings();
-    s.m_DVBChannels.clear();
+    auto& DVBChannels = AfxGetAppSettings().m_DVBChannels;
+    const size_t maxChannelsNum = ID_NAVIGATE_JUMPTO_SUBITEM_END - ID_NAVIGATE_JUMPTO_SUBITEM_START + 1;
 
     for (int i = 0; i < m_ChannelList.GetItemCount(); i++) {
         try {
             CDVBChannel channel(m_ChannelList.GetItemText(i, TSCC_CHANNEL));
-            channel.SetPrefNumber(i);
-            s.m_DVBChannels.push_back(channel);
+            auto it = std::find(std::begin(DVBChannels), std::end(DVBChannels), channel);
+            if (it != DVBChannels.end()) {
+                // replace existing channel
+                channel.SetPrefNumber(it->GetPrefNumber());
+                *it = channel;
+            } else {
+                // add new channel to the end
+                const size_t size = DVBChannels.size();
+                if (size < maxChannelsNum) {
+                    channel.SetPrefNumber(size);
+                    DVBChannels.push_back(channel);
+                } else {
+                    // Just to be safe. We have 600 channels limit, but we never know what user might load there.
+                    CString msg;
+                    msg.Format(_T("Unable to add new channel \"%s\" to the list. Channels list is full. Please notify developers about the problem."), channel.GetName());
+                    AfxMessageBox(msg, MB_OK | MB_ICONERROR);
+                }
+            }
         } catch (CException* e) {
             // The tokenisation can fail if the input string was invalid
             TRACE(_T("Failed to parse a DVB channel from string \"%s\""), m_ChannelList.GetItemText(i, TSCC_CHANNEL));
