@@ -2347,7 +2347,8 @@ void CMainFrame::GraphEventComplete()
         ++m_nLoops;
         bBreak = !!(s.nCLSwitches & CLSW_AFTERPLAYBACK_MASK);
     }
-    if (!m_pSubStreams.IsEmpty() && s.fEnableSubtitles && s.bAutoUploadSubtitles) {
+
+    if (!m_pSubStreams.IsEmpty() && s.fEnableSubtitles && s.bAutoUploadSubtitles && m_pCAP && m_pCAP->GetSubtitleDelay() == 0) {
         m_pSubtitlesProviders->Upload();
     }
 
