@@ -1178,7 +1178,7 @@ static bool OpenVPlayer(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
     return !ret.IsEmpty();
 }
 
-static CStringW GetStrW(LPCWSTR& pszBuff, int& nLength, WCHAR sep = L',')
+static void GetStrW(LPCWSTR& pszBuff, int& nLength, WCHAR sep, LPCWSTR& pszMatch, int& nMatchLength)
 {
     // Trim left whitespace
     while (CStringW::StrTraits::IsSpace(*pszBuff)) {
@@ -1187,7 +1187,6 @@ static CStringW GetStrW(LPCWSTR& pszBuff, int& nLength, WCHAR sep = L',')
     }
 
     LPCWSTR pEnd = CStringW::StrTraits::StringFindChar(pszBuff, sep);
-    int nMatchLength;
     if (pEnd == nullptr) {
         if (nLength < 1) {
             throw 1;
@@ -1197,31 +1196,42 @@ static CStringW GetStrW(LPCWSTR& pszBuff, int& nLength, WCHAR sep = L',')
         nMatchLength = int(pEnd - pszBuff);
     }
 
-    CStringW ret(pszBuff, nMatchLength);
+    pszMatch = pszBuff;
     if (nMatchLength < nLength) {
         pszBuff = pEnd + 1;
         nLength -= nMatchLength + 1;
     }
+}
 
-    return ret;
+static CStringW GetStrW(LPCWSTR& pszBuff, int& nLength, WCHAR sep = L',')
+{
+    LPCWSTR pszMatch;
+    int nMatchLength;
+    GetStrW(pszBuff, nLength, sep, pszMatch, nMatchLength);
+
+    return CStringW(pszMatch, nMatchLength);
 }
 
 static int GetInt(LPCWSTR& pszBuff, int& nLength, WCHAR sep = L',')
 {
-    CStringW str = GetStrW(pszBuff, nLength, sep);
+    LPCWSTR pszMatch;
+    int nMatchLength;
+    GetStrW(pszBuff, nLength, sep, pszMatch, nMatchLength);
 
     int base;
-    if (str.GetLength() > 2
-            && ((str[0] == L'&' && towlower(str[1]) == L'h') || (str[0] == L'0' && towlower(str[1]) == L'x'))) {
-        str.Delete(0, 2);
+    if (nMatchLength > 2
+            && ((pszMatch[0] == L'&' && towlower(pszMatch[1]) == L'h')
+                || (pszMatch[0] == L'0' && towlower(pszMatch[1]) == L'x'))) {
+        pszMatch += 2;
+        nMatchLength -= 2;
         base = 16;
     } else {
         base = 10;
     }
 
     LPWSTR strEnd;
-    int ret = wcstol(str, &strEnd, base);
-    if (LPCWSTR(str) == strEnd) { // Ensure something was parsed
+    int ret = wcstol(pszMatch, &strEnd, base);
+    if (pszMatch == strEnd) { // Ensure something was parsed
         throw 1;
     }
 
@@ -1230,11 +1240,18 @@ static int GetInt(LPCWSTR& pszBuff, int& nLength, WCHAR sep = L',')
 
 static double GetFloat(LPCWSTR& pszBuff, int& nLength, WCHAR sep = L',')
 {
-    CStringW str = GetStrW(pszBuff, nLength, sep);
+    if (sep == L'.') { // Parsing a float with '.' as separator doesn't make much sense...
+        ASSERT(FALSE);
+        return GetInt(pszBuff, nLength, sep);
+    }
+
+    LPCWSTR pszMatch;
+    int nMatchLength;
+    GetStrW(pszBuff, nLength, sep, pszMatch, nMatchLength);
 
     LPWSTR strEnd;
-    double ret = wcstod(str, &strEnd);
-    if (LPCWSTR(str) == strEnd) { // Ensure something was parsed
+    double ret = wcstod(pszMatch, &strEnd);
+    if (pszMatch == strEnd) { // Ensure something was parsed
         throw 1;
     }
 
