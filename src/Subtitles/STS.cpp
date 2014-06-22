@@ -1202,17 +1202,18 @@ static int GetInt(CStringW& buff, WCHAR sep = L',')
 {
     CStringW str = GetStrW(buff, sep);
 
-    LPCWSTR fmtstr;
+    int base;
     if (str.GetLength() > 2
             && ((str[0] == L'&' && towlower(str[1]) == L'h') || (str[0] == L'0' && towlower(str[1]) == L'x'))) {
         str.Delete(0, 2);
-        fmtstr = L"%x";
+        base = 16;
     } else {
-        fmtstr = L"%d";
+        base = 10;
     }
 
-    int ret;
-    if (swscanf_s(str, fmtstr, &ret) != 1) {
+    LPWSTR strEnd;
+    int ret = wcstol(str, &strEnd, base);
+    if (LPCWSTR(str) == strEnd) { // Ensure something was parsed
         throw 1;
     }
 
@@ -1223,8 +1224,9 @@ static double GetFloat(CStringW& buff, WCHAR sep = L',')
 {
     CStringW str = GetStrW(buff, sep);
 
-    double ret;
-    if (swscanf_s(str, L"%lf", &ret) != 1) {
+    LPWSTR strEnd;
+    double ret = wcstod(str, &strEnd);
+    if (LPCWSTR(str) == strEnd) { // Ensure something was parsed
         throw 1;
     }
 
