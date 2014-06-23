@@ -589,6 +589,9 @@
 #define IDD_PPAGEADVANCED               20014
 #define IDD_SAVEIMAGEDIALOGTEMPL        20015
 #define IDD_CMD_LINE_HELP               20016
+#define IDI_OPENSUBTITLES               21001
+#define IDI_PODNAPISI                   21002
+#define IDI_SUBDB                       21003
 #define IDC_FULLSCREEN_MONITOR_CHECK    22002
 #define IDC_SLI_CONTRAST                22003
 #define IDC_RESET                       22004
