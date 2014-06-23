@@ -829,7 +829,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSM
 CAPTION "Download subtitles"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,5,5,490,157
+    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_SHAREIMAGELISTS | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,5,5,490,157
     CONTROL         "Replace currently loaded subtitles",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,169,145,8
     DEFPUSHBUTTON   "Download",IDOK,341,166,50,14
     PUSHBUTTON      "Refresh",IDC_BUTTON1,393,166,50,14
@@ -844,7 +844,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSM
 CAPTION "Upload subtitles"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,5,5,490,157
+    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_SHAREIMAGELISTS | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,5,5,490,157
     DEFPUSHBUTTON   "Upload",IDOK,341,166,50,14
     PUSHBUTTON      "Abort",IDC_BUTTON1,393,166,50,14,WS_DISABLED
     PUSHBUTTON      "Options",IDC_BUTTON2,445,166,50,14
@@ -1038,7 +1038,7 @@ BEGIN
     EDITTEXT        IDC_EDIT2,194,114,90,14,ES_AUTOHSCROLL
     LTEXT           "Languages in order of preference (i.e. ""eng ell spa""):",IDC_STATIC,12,133,180,8
     EDITTEXT        IDC_EDIT3,194,130,90,14,ES_AUTOHSCROLL
-    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,12,146,272,73
+    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_SHAREIMAGELISTS | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,12,146,272,73
     CONTROL         "Automatically upload active subtitles at the end of video playback",IDC_CHECK6,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,222,270,8
 END
@@ -3453,6 +3453,30 @@ BEGIN
 END
 
 #endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United Kingdom) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ADDIC7ED            ICON                    "res\\subtitles\\favicon_addic7ed.ico"
+IDI_TVSUBTITLES         ICON                    "res\\subtitles\\favicon_moviesubtitles.ico"
+IDI_OPENSUBTITLES       ICON                    "res\\subtitles\\favicon_opensubtitles.ico"
+IDI_PODNAPISI           ICON                    "res\\subtitles\\favicon_podnapisi.ico"
+IDI_SUBDB               ICON                    "res\\subtitles\\favicon_subdb.ico"
+IDI_MOVIESUBTITLES      ICON                    "res\\subtitles\\favicon_tvsubtitles.ico"
+#endif    // English (United Kingdom) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

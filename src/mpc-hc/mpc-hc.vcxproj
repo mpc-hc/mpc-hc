@@ -829,6 +829,14 @@
     <Image Include="res\check_video.bmp" />
     <Image Include="res\uncheck_all.bmp" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\subtitles\favicon_addic7ed.ico" />
+    <Image Include="res\subtitles\favicon_moviesubtitles.ico" />
+    <Image Include="res\subtitles\favicon_opensubtitles.ico" />
+    <Image Include="res\subtitles\favicon_podnapisi.ico" />
+    <Image Include="res\subtitles\favicon_subdb.ico" />
+    <Image Include="res\subtitles\favicon_tvsubtitles.ico" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

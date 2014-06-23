@@ -84,6 +84,8 @@ BOOL CSubtitleUpDlg::OnInitDialog()
                             | LVS_EX_DOUBLEBUFFER | LVS_EX_FULLROWSELECT
                             | LVS_EX_CHECKBOXES   | LVS_EX_LABELTIP);
 
+    m_list.SetImageList(&m_pMainFrame.m_pSubtitlesProviders->GetImageList(), LVSIL_SMALL);
+
     if (columnWidth.GetCount() != COL_TOTAL_COLUMNS) {
         // default sizes
         columnWidth.RemoveAll();
@@ -102,7 +104,7 @@ BOOL CSubtitleUpDlg::OnInitDialog()
     int i = 0;
     for (const auto& iter : m_pMainFrame.m_pSubtitlesProviders->Providers()) {
         if (iter->Flags(SPF_UPLOAD)) {
-            int iItem = m_list.InsertItem((int)i++, CString(iter->Name().c_str()));
+            int iItem = m_list.InsertItem((int)i++, CString(iter->Name().c_str()), iter->GetIconIndex());
             m_list.SetItemText(iItem, COL_USERNAME, UTF8To16(iter->UserName().c_str()));
             m_list.SetItemText(iItem, COL_STATUS, _T("Ready..."));
             m_list.SetCheck(iItem, iter->Enabled(SPF_UPLOAD));

@@ -23,7 +23,7 @@
 #include "SubtitlesProviders.h"
 #include "TimXmlRpc/TimXmlRpc.h"
 
-#define DEFINE_SUBTITLESPROVIDER_BEGIN(P, U, F)                               \
+#define DEFINE_SUBTITLESPROVIDER_BEGIN(P, U, I, F)                            \
 class P : public SubtitlesProvider {                                          \
 private:                                                                      \
     P() { Initialize(); }                                                     \
@@ -40,6 +40,7 @@ private:                                                                      \
     virtual std::string Url() { return U; }                                   \
     virtual std::string Languages();                                          \
     virtual BOOL Flags(DWORD flag) { return (flag & (F)) == flag; }           \
+    virtual int Icon() { return I; }                                          \
 private:                                                                      \
     virtual SRESULT Search(const SubtitlesInfo&, volatile BOOL&);             \
     virtual SRESULT Download(SubtitlesInfo&, volatile BOOL&);                 \
@@ -49,7 +50,7 @@ private:
 #define DEFINE_SUBTITLESPROVIDER_END                                          \
 };
 
-DEFINE_SUBTITLESPROVIDER_BEGIN(OpenSubtitles, "http://www.opensubtitles.org", SPF_LOGIN | SPF_HASH | SPF_UPLOAD)
+DEFINE_SUBTITLESPROVIDER_BEGIN(OpenSubtitles, "http://www.opensubtitles.org", IDI_OPENSUBTITLES, SPF_LOGIN | SPF_HASH | SPF_UPLOAD)
 virtual void Initialize();
 virtual void Uninitialize();
 virtual SRESULT Login(std::string& _UserName, std::string& _Password);
@@ -59,32 +60,32 @@ XmlRpcClient* xmlrpc;
 XmlRpcValue token;
 DEFINE_SUBTITLESPROVIDER_END
 
-DEFINE_SUBTITLESPROVIDER_BEGIN(OpenSubtitlesISDB, "http://www.opensubtitles.org", SPF_HASH)
+DEFINE_SUBTITLESPROVIDER_BEGIN(OpenSubtitlesISDB, "http://www.opensubtitles.org", IDI_OPENSUBTITLES, SPF_HASH)
 virtual SRESULT Hash(SubtitlesInfo& fileInfo);
 std::string ticket;
 DEFINE_SUBTITLESPROVIDER_END
 
-DEFINE_SUBTITLESPROVIDER_BEGIN(SubDB, "http://api.thesubdb.com", SPF_HASH | SPF_UPLOAD)
+DEFINE_SUBTITLESPROVIDER_BEGIN(SubDB, "http://api.thesubdb.com", IDI_SUBDB, SPF_HASH | SPF_UPLOAD)
 virtual SRESULT Hash(SubtitlesInfo& fileInfo);
 virtual SRESULT Upload(const SubtitlesInfo& fileInfo, volatile BOOL& _bAborting);
 virtual std::string UserAgent() { return string_format("SubDB/1.0 (mpc-hc/%S; http://mpc-hc.org)", MPC_VERSION_STR); }
 DEFINE_SUBTITLESPROVIDER_END
 
-DEFINE_SUBTITLESPROVIDER_BEGIN(TVsubtitles, "http://www.tvsubtitles.net", SPF_SEARCH)
+DEFINE_SUBTITLESPROVIDER_BEGIN(TVsubtitles, "http://www.tvsubtitles.net", IDI_TVSUBTITLES, SPF_SEARCH)
 static const std::regex regex_pattern[];
 DEFINE_SUBTITLESPROVIDER_END
 
-DEFINE_SUBTITLESPROVIDER_BEGIN(Moviesubtitles, "http://www.moviesubtitles.org", SPF_SEARCH)
+DEFINE_SUBTITLESPROVIDER_BEGIN(Moviesubtitles, "http://www.moviesubtitles.org", IDI_MOVIESUBTITLES, SPF_SEARCH)
 static const std::regex regex_pattern[];
 DEFINE_SUBTITLESPROVIDER_END
 
-DEFINE_SUBTITLESPROVIDER_BEGIN(addic7ed, "http://www.addic7ted.com", SPF_LOGIN)
+DEFINE_SUBTITLESPROVIDER_BEGIN(addic7ed, "http://www.addic7ted.com", IDI_ADDIC7ED, SPF_LOGIN)
 virtual SRESULT Login(std::string& _UserName, std::string& _Password);
 std::string GetLanguagesString();
 static const std::regex regex_pattern[];
 DEFINE_SUBTITLESPROVIDER_END
 
-DEFINE_SUBTITLESPROVIDER_BEGIN(podnapisi, "http://www.podnapisi.net", SPF_SEARCH)
+DEFINE_SUBTITLESPROVIDER_BEGIN(podnapisi, "http://www.podnapisi.net", IDI_PODNAPISI, SPF_SEARCH)
 virtual SRESULT Login(std::string& _UserName, std::string& _Password);
 std::string GetLanguagesString();
 static const std::regex regex_pattern[];

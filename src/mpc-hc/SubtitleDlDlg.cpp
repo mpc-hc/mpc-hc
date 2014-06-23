@@ -135,6 +135,8 @@ BOOL CSubtitleDlDlg::OnInitDialog()
                             | LVS_EX_DOUBLEBUFFER | LVS_EX_FULLROWSELECT
                             | LVS_EX_CHECKBOXES   | LVS_EX_LABELTIP);
 
+    m_list.SetImageList(&m_pMainFrame.m_pSubtitlesProviders->GetImageList(), LVSIL_SMALL);
+
     m_ps.m_hWnd = m_list.GetSafeHwnd();
     m_ps.m_nSortColumn = AfxGetApp()->GetProfileInt(IDS_R_DLG_SUBTITLEDL, IDS_RS_DLG_SUBTITLEDL_SORTCOLUMN, 0);
     m_ps.m_fSortOrder = AfxGetApp()->GetProfileInt(IDS_R_DLG_SUBTITLEDL, IDS_RS_DLG_SUBTITLEDL_SORTORDER, 0);
@@ -530,7 +532,7 @@ afx_msg LRESULT CSubtitleDlDlg::OnCompleted(WPARAM wParam, LPARAM lParam)
 
         SubtitlesList::const_iterator iter = _begin;
         for (; iter != _end; ++iter) {
-            int iItem = m_list.InsertItem(0, UTF8To16(iter->Provider().Name().c_str()));
+            int iItem = m_list.InsertItem(0, UTF8To16(iter->Provider().Name().c_str()), iter->Provider().GetIconIndex());
             m_list.SetItemText(iItem, COL_FILENAME, UTF8To16(iter->fileName.c_str()));
             m_list.SetItemText(iItem, COL_LANGUAGE, UTF8To16(iter->languageName.c_str()));
             CString disc;

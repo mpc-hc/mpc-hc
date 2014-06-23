@@ -1075,6 +1075,26 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\subtitles\favicon_addic7ed.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\subtitles\favicon_moviesubtitles.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\subtitles\favicon_opensubtitles.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\subtitles\favicon_podnapisi.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\subtitles\favicon_subdb.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\subtitles\favicon_tvsubtitles.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
     <Object Include="..\thirdparty\LAVFilters\src\bin_$(PlatformName)\ffmpeg\GCCInfo.o">
       <Filter>Build Info</Filter>
     </Object>

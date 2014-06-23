@@ -540,6 +540,7 @@ BOOL SubtitlesProvider::CheckInternetConnection()
 SubtitlesProviders::SubtitlesProviders() :
     m_pMainFrame(*(CMainFrame*)(AfxGetMyApp()->GetMainWnd()))
 {
+    m_himl.Create(16, 16, ILC_COLOR32, 0, 0);
     RegisterProviders();
     ReadSettings();
 }

@@ -169,6 +169,7 @@ public: // implemented
     virtual std::string Url() PURE;
     virtual std::string Languages() PURE;
     virtual BOOL Flags(DWORD flag) PURE;
+    virtual int Icon() PURE;
     virtual SRESULT Search(const SubtitlesInfo& fileInfo, volatile BOOL& _bAborting) PURE;
     virtual SRESULT Download(SubtitlesInfo& subtitlesInfo, volatile BOOL& _bAborting) PURE;
 
@@ -197,6 +198,8 @@ public:
     std::string Password(BOOL _Decrypt = TRUE) { return _Decrypt ? string_decrypt(m_Password, string_generate_unique_key()) : m_Password; };
     void Password(std::string _Password, BOOL _Encrypt = TRUE) { m_Password = _Encrypt ? string_encrypt(_Password, string_generate_unique_key()) : _Password; };
     SubtitlesProviders& Providers() { return m_Providers; }
+    int GetIconIndex() { return m_nIconIndex; }
+    void SetIconIndex(int nIconIndex) { m_nIconIndex = nIconIndex; }
 
 private:
     BOOL m_Search;
@@ -205,6 +208,7 @@ private:
     std::string m_Password;
     SubtitlesProviders& m_Providers;
     SubtitlesProviderLogin m_LoggedIn;
+    int m_nIconIndex;
 };
 
 class SubtitlesProviders
@@ -221,7 +225,13 @@ public:
 private:
     void RegisterProviders();
     template <class T>
-    void Register() { m_Providers.push_back((SubtitlesProvider*)&T::Instance()); }
+    void Register() {
+        m_Providers.push_back((SubtitlesProvider*)&T::Instance());
+        auto& provider = m_Providers.back();
+        HICON hIcon = ::LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(provider->Icon()));
+        provider->SetIconIndex(m_himl.Add(hIcon));
+        DestroyIcon(hIcon);
+    }
 
 public:
     std::vector<SubtitlesProvider*>& Providers() { return m_Providers; };
@@ -252,6 +262,7 @@ public:
         std::iter_swap(m_Providers.begin() + index, m_Providers.begin() + index + 1);
     }
 
+    CImageList& GetImageList() { return m_himl; }
 private:
     CMainFrame& m_pMainFrame;
 
@@ -259,6 +270,7 @@ private:
 
     CCritSec m_csSyncThreads;
     std::list<SubtitlesThread*> m_pThreads;
+    CImageList m_himl;
 };
 
 struct SubtitlesThreadParam {
