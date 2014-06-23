@@ -675,7 +675,7 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
                 }
             }
 
-            EXECUTE_ASSERT(Disconnect(pPinOut));
+            EXECUTE_ASSERT(SUCCEEDED(Disconnect(pPinOut)));
         }
     }
 
