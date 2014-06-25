@@ -13,6 +13,7 @@ next version - not released yet
 + Accept loading more than one subtitle file at a time using the "Load subtitle" dialog or drag-and-drop
 + Add advanced settings page
 * Text subtitles: Faster subtitle parsing (up to 4 times faster for SSA/ASS subtitles)
+* Text subtitles: Much faster subtitle opening in the Subresync bar
 * Ticket #4428, Improve the clarity of the error message when opening a subtitle file fails
 ! "Load subtitle" dialog: Fix the file filters on Windows Vista+
 ! Ticket #3930, Fix a possible crash with embedded subtitles when the subtitle queue is disabled

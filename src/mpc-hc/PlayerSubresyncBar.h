@@ -86,13 +86,19 @@ private:
     CAtlArray<SubTime> m_subtimes;
 
     CSimpleTextSubtitle m_sts;
+    CAtlArray<CVobSubFile::SubPos> m_vobSub;
+
+    struct DisplayData {
+        int tStart, tPrevStart, tEnd, tPrevEnd;
+        int flags;
+    };
+    CAtlArray<DisplayData> m_displayData;
+    CString m_displayBuffer;
 
     int GetStartTime(int iItem);
     int GetEndTime(int iItem);
-    void FormatTime(int iItem, TCHAR* buff, size_t buffLen, int time /* 0:start, 1:newstart, 2:preview */, bool fEnd);
 
     void UpdatePreview();
-    void UpdateStrings();
 
     enum {
         TSMOD = 1,
@@ -110,6 +116,9 @@ private:
 
     bool ModStart(int iItem, int t, bool fReset = false);
     bool ModEnd(int iItem, int t, bool fReset = false);
+
+    void OnGetDisplayInfoTextSub(LV_ITEM* pItem);
+    void OnGetDisplayInfoVobSub(LV_ITEM* pItem);
 
 public:
     CPlayerSubresyncBar();
@@ -140,6 +149,7 @@ protected:
     DECLARE_MESSAGE_MAP()
 
     afx_msg void OnSize(UINT nType, int cx, int cy);
+    afx_msg void OnGetDisplayInfo(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnBeginlabeleditList(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult);
