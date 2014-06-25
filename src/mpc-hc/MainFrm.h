@@ -498,6 +498,7 @@ protected:
     friend class SubtitlesProviders;
     SubtitlesProviders* m_pSubtitlesProviders;
     friend struct SubtitlesInfo;
+    friend class SubtitlesTask;
     friend class SubtitlesThread;
 
 public:

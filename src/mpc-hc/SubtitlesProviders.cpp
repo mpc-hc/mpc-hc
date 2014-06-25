@@ -31,7 +31,6 @@ using namespace MediaInfoLib;
 using namespace MediaInfoDLL;
 #endif
 
-
 /******************************************************************************
 ** SubtitlesInfo
 ******************************************************************************/
@@ -49,85 +48,6 @@ void SubtitlesInfo::OpenUrl() const
         ShellExecute((HWND)AfxGetMyApp()->GetMainWnd(), _T("open"), UTF8To16(url.c_str()), nullptr, nullptr, SW_SHOWDEFAULT);
     }
 }
-
-//HRESULT SubtitlesInfo::GetCurrentSubtitles()
-//{
-//    CMainFrame& pMainFrame = *(CMainFrame*)(AfxGetMyApp()->GetMainWnd());
-//    int i = 0;
-//    SubtitleInput* pSubInput = pMainFrame.GetSubtitleInput(i, true);
-//    CStringW content;
-//    if (pSubInput) {
-//        CLSID clsid;
-//        if (FAILED(pSubInput->subStream->GetClassID(&clsid))) {
-//            return E_FAIL;
-//        }
-//
-//        CPath suggestedFileName(pMainFrame.GetFileName());
-//        suggestedFileName.RemoveExtension(); // exclude the extension, it will be auto-completed
-//
-//        if (clsid == __uuidof(CRenderedTextSubtitle)) {
-//            CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)pSubInput->subStream;
-//            // Only for external text subtitles
-//            if (!pRTS->m_path.IsEmpty()) {
-//                GetFileInfo();
-//                //GetFileInfo((const char*)UTF16To8(pRTS->m_name));
-//                releaseName = (const char*)UTF16To8(pRTS->m_name);
-//                if (hearingImpaired == -1) {
-//                    hearingImpaired = pRTS->m_fHearingImpaired;
-//                }
-//
-//                if (!languageCode.length() && pRTS->m_lcid != 0) {
-//                    CString str;
-//                    int len = GetLocaleInfo(pRTS->m_lcid, LOCALE_SISO639LANGNAME, str.GetBuffer(64), 64);
-//                    str.ReleaseBufferSetLength(std::max(len - 1, 0));
-//                    languageCode = UTF16To8(str);
-//                }
-//                frameRate = pMainFrame.m_pCAP->GetFPS();
-//
-//                pRTS->m_encoding;
-//                pRTS->m_exttype;
-//                CAutoLock cAutoLock(&pMainFrame.m_csSubLock);
-//                //pRTS->SaveAs(fd.GetPathName(), (exttype)(fd.m_ofn.nFilterIndex - 1), pMF->m_pCAP->GetFPS(), fd.GetDelay(), fd.GetEncoding());
-//                double fps = pMainFrame.m_pCAP->GetFPS();
-//                int delay = 0;
-//                CStringW fmt(L"%d\n%02d:%02d:%02d,%03d --> %02d:%02d:%02d,%03d\n%s\n\n");
-//
-//                if (pRTS->m_mode == FRAME) {
-//                    delay = (int)(delay * fps / 1000);
-//                }
-//
-//                for (int i = 0, j = (int)pRTS->GetCount(), k = 0; i < j; i++) {
-//                    STSEntry& stse = pRTS->GetAt(i);
-//
-//                    int t1 = pRTS->TranslateStart(i, fps) + delay;
-//                    if (t1 < 0) {
-//                        k++;
-//                        continue;
-//                    }
-//
-//                    int t2 = pRTS->TranslateEnd(i, fps) + delay;
-//
-//                    int hh1 = (t1 / 60 / 60 / 1000);
-//                    int mm1 = (t1 / 60 / 1000) % 60;
-//                    int ss1 = (t1 / 1000) % 60;
-//                    int ms1 = (t1) % 1000;
-//                    int hh2 = (t2 / 60 / 60 / 1000);
-//                    int mm2 = (t2 / 60 / 1000) % 60;
-//                    int ss2 = (t2 / 1000) % 60;
-//                    int ms2 = (t2) % 1000;
-//
-//                    CStringW str(true /*f.IsUnicode()*/
-//                                 ? pRTS->GetStrW(i, false)
-//                                 : pRTS->GetStrWA(i, false));
-//
-//                    content.AppendFormat(fmt, i - k + 1, hh1, mm1, ss1, ms1, hh2, mm2, ss2, ms2, str);
-//                }
-//            }
-//        }
-//    }
-//    fileContents = UTF16To8(content);
-//    return S_OK;
-//}
 
 
 #define RE_ITE(_cond, _true, _false)  "(?(" _cond ")" _true "|" _false ")"
@@ -298,9 +218,9 @@ std::regex regex_pattern[] = {
     //--------------------------------------
 };
 
-HRESULT SubtitlesInfo::GetFileInfo(const std::string& _fileName /*= std::string()*/)
+HRESULT SubtitlesInfo::GetFileInfo(const std::string& sFileName /*= std::string()*/)
 {
-    if (_fileName.empty()) {
+    if (sFileName.empty()) {
         CMainFrame& pMainFrame = *(CMainFrame*)(AfxGetMyApp()->GetMainWnd());
         if (CComQIPtr<IBaseFilter> pBF = pMainFrame.m_pFSF) {
             BeginEnumPins(pBF, pEP, pPin) {
@@ -355,7 +275,7 @@ HRESULT SubtitlesInfo::GetFileInfo(const std::string& _fileName /*= std::string(
             }
         }
     } else {
-        filePath = _fileName;
+        filePath = sFileName;
     }
 
     CPath p(UTF8To16(filePath.c_str()));
@@ -428,7 +348,8 @@ HRESULT SubtitlesInfo::GetFileInfo(const std::string& _fileName /*= std::string(
 ** SubtitlesProvider
 ******************************************************************************/
 
-SubtitlesProvider::SubtitlesProvider() : m_Providers(SubtitlesProviders::Instance()), m_Search(FALSE), m_Upload(FALSE), m_LoggedIn(SPL_UNDEFINED)
+SubtitlesProvider::SubtitlesProvider()
+    : m_Providers(SubtitlesProviders::Instance()), m_bSearch(FALSE), m_bUpload(FALSE), m_nLoggedIn(SPL_UNDEFINED)
 {
 }
 
@@ -440,61 +361,31 @@ void SubtitlesProvider::OpenUrl()
 BOOL SubtitlesProvider::Login()
 {
     HRESULT hr = S_OK;
-    if (!(m_LoggedIn & (SPL_REGISTERED | SPL_ANONYMOUS))) {
+    if (!(m_nLoggedIn & (SPL_REGISTERED | SPL_ANONYMOUS))) {
         hr = Login(UserName(), Password());
-        m_LoggedIn = (hr == S_OK) ? (!UserName().empty() ? SPL_REGISTERED : SPL_ANONYMOUS) :
-                     (hr == E_NOTIMPL) ? SPL_ANONYMOUS : SPL_FAILED;
+        m_nLoggedIn = (hr == S_OK) ? (!UserName().empty() ? SPL_REGISTERED : SPL_ANONYMOUS) :
+                      (hr == E_NOTIMPL) ? SPL_ANONYMOUS : SPL_FAILED;
     }
-    return m_LoggedIn & (SPL_REGISTERED | SPL_ANONYMOUS) ? TRUE : FALSE;
+    return m_nLoggedIn & (SPL_REGISTERED | SPL_ANONYMOUS) ? TRUE : FALSE;
 }
 
 
-bool SubtitlesProvider::CheckLanguage(const std::string& languageCode) const
+bool SubtitlesProvider::CheckLanguage(const std::string& sLanguageCode) const
 {
-    SubtitlesThread& _thread = *((SubtitlesThreadParam*)AfxGetThread()->m_pThreadParams)->pThread;
-    return ((_thread.Languages().empty()) || (_thread.Languages().find(languageCode) != std::string::npos));
+    SubtitlesThread& pThread = *((SubtitlesThread*)AfxGetThread()->m_pThreadParams);
+    return ((pThread.Languages().empty()) || (pThread.Languages().find(sLanguageCode) != std::string::npos));
 }
 
-void SubtitlesProvider::Set(const SubtitlesInfo& fileInfo, SubtitlesInfo& subtitlesInfo, volatile BOOL& _bAborting)
+void SubtitlesProvider::Set(SubtitlesInfo& pSubtitlesInfo)
 {
-    SubtitlesThread& _thread = *((SubtitlesThreadParam*)AfxGetThread()->m_pThreadParams)->pThread;
-    SubtitlesList& _subtitlesList = ((SubtitlesThreadParam*)AfxGetThread()->m_pThreadParams)->subtitlesList;
+    SubtitlesThread& pThread = *((SubtitlesThread*)AfxGetThread()->m_pThreadParams);
+    pThread.Set(pSubtitlesInfo);
+}
 
-    _thread.CheckAbortAndThrow();
-
-    SubtitlesInfo& fileInfo2 = subtitlesInfo;
-    std::string _title = fileInfo2.title;
-    if (!_title.empty()) { fileInfo2.title.clear(); }
-    fileInfo2.GetFileInfo(subtitlesInfo.fileName);
-
-    //iter.score = 0; //LevenshteinDistance(fileInfo.fileName, string_(subtitlesName)) * 100;
-
-    SHORT score = ((SHORT)subtitlesInfo.corrected);
-    score += (((!fileInfo.title.empty() && _strcmpi(fileInfo.NormalizeTitle().c_str(), fileInfo2.NormalizeTitle().c_str()) == 0)) ||
-              ((!_title.empty() && _strcmpi(fileInfo.NormalizeTitle().c_str(), fileInfo2.NormalizeString(_title).c_str()) == 0)))
-             ? 3 : !fileInfo.title.empty() || !_title.empty() ? -3 : 0;
-
-    if (!_title.empty()) { fileInfo2.title = _title; }
-
-    score += (!fileInfo.country.empty() && _strcmpi(fileInfo.country.c_str(), fileInfo2.country.c_str()) == 0) ? 2 : !fileInfo.country.empty() ? -2 : 0;
-    score += (fileInfo.year != -1 && fileInfo.year == fileInfo2.year) ? 1 : 0;
-    score += (fileInfo.seasonNumber != -1 && fileInfo.seasonNumber == fileInfo2.seasonNumber) ? 2 : fileInfo.seasonNumber > 0 ? -2 : 0;
-    score += (fileInfo.episodeNumber != -1 && fileInfo.episodeNumber == fileInfo2.episodeNumber) ? 2 : fileInfo.episodeNumber > 0 ? -2 : 0;
-    score += (!fileInfo.title2.empty() && _strcmpi(fileInfo.title2.c_str(), fileInfo2.title2.c_str()) == 0) ? 2 : 0;
-    score += (!fileInfo.resolution.empty() && _strcmpi(fileInfo.resolution.c_str(), fileInfo2.resolution.c_str()) == 0) ? 1 : 0;
-    score += (!fileInfo.format.empty() && _strcmpi(fileInfo.format.c_str(), fileInfo2.format.c_str()) == 0) ? 1 : 0;
-    score += (!fileInfo.audioCodec.empty() && _strcmpi(fileInfo.audioCodec.c_str(), fileInfo2.audioCodec.c_str()) == 0) ? 1 : 0;
-    score += (!fileInfo.videoCodec.empty() && _strcmpi(fileInfo.videoCodec.c_str(), fileInfo2.videoCodec.c_str()) == 0) ? 1 : 0;
-    score += (!fileInfo.releaseGroup.empty() && _strcmpi(fileInfo.releaseGroup.c_str(), fileInfo2.releaseGroup.c_str()) == 0) ? 1 : 0;
-    const auto& s = AfxGetAppSettings();
-    _thread.CheckAbortAndThrow();
-
-    subtitlesInfo.Set(this,
-                      (BYTE)((_thread.Languages().length() - _thread.Languages().find(subtitlesInfo.languageCode) + 1) / 3),
-                      (BYTE)(subtitlesInfo.hearingImpaired == (int)s.bPreferHearingImpairedSubtitles),
-                      score);
-
-    _subtitlesList.push_back(subtitlesInfo);
+BOOL SubtitlesProvider::IsAborting()
+{
+    SubtitlesThread& pThread = *((SubtitlesThread*)AfxGetThread()->m_pThreadParams);
+    return pThread.IsThreadAborting();
 }
 
 SRESULT SubtitlesProvider::Download(std::string url, std::string referer, std::string& data)
@@ -537,8 +428,8 @@ BOOL SubtitlesProvider::CheckInternetConnection()
 ** SubtitlesProviders
 ******************************************************************************/
 
-SubtitlesProviders::SubtitlesProviders() :
-    m_pMainFrame(*(CMainFrame*)(AfxGetMyApp()->GetMainWnd()))
+SubtitlesProviders::SubtitlesProviders()
+    : m_pMainFrame(*(CMainFrame*)(AfxGetMyApp()->GetMainWnd()))
 {
     m_himl.Create(16, 16, ILC_COLOR32, 0, 0);
     RegisterProviders();
@@ -562,20 +453,16 @@ void SubtitlesProviders::Search(BOOL bAutoDownload)
     m_pMainFrame.m_wndSubtitlesDownloadDialog.DoClear();
 
     if (CheckInternetConnection()) {
-        SubtitlesThread* pThread = (SubtitlesThread*)AfxBeginThread(RUNTIME_CLASS(SubtitlesThread));
-        pThread->Initialize(&m_pMainFrame, this, SubtitlesThreadType(STT_SEARCH | (bAutoDownload ? STT_DOWNLOAD : NULL)));
-        pThread->Search(bAutoDownload, LanguagesISO6391());
+        InsertTask(DEBUG_NEW SubtitlesTask(&m_pMainFrame, bAutoDownload, LanguagesISO6391()));
     } else if (bAutoDownload == FALSE) {
         m_pMainFrame.m_wndSubtitlesDownloadDialog.DoFailed();
     }
 }
 
-void SubtitlesProviders::Download(SubtitlesInfo& fileInfo, BOOL bActivate)
+void SubtitlesProviders::Download(SubtitlesInfo& pSubtitlesInfo, BOOL bActivate)
 {
     if (CheckInternetConnection()) {
-        SubtitlesThread* pThread = (SubtitlesThread*)AfxBeginThread(RUNTIME_CLASS(SubtitlesThread));
-        pThread->Initialize(&m_pMainFrame, this, STT_DOWNLOAD);
-        pThread->Download(fileInfo, bActivate);
+        InsertTask(DEBUG_NEW SubtitlesTask(&m_pMainFrame, pSubtitlesInfo, bActivate));
     }
 }
 
@@ -584,28 +471,25 @@ void SubtitlesProviders::Upload()
     if (CheckInternetConnection()) {
         // We get all the information we need within the main thread, to delay closing the file
         // until we have everything we need.
-        SubtitlesInfo fileInfo;
-        m_pMainFrame.SendMessage(WM_GETSUBTITLES, 0, (LPARAM)&fileInfo);
-        //fileInfo.GetCurrentSubtitles();
+        SubtitlesInfo pSubtitlesInfo;
+        m_pMainFrame.SendMessage(WM_GETSUBTITLES, 0, (LPARAM)&pSubtitlesInfo);
+        //pSubtitlesInfo.GetCurrentSubtitles();
 
-        if (!fileInfo.fileContents.empty()) {
-            SubtitlesThread* pThread = (SubtitlesThread*)AfxBeginThread(RUNTIME_CLASS(SubtitlesThread));
-            pThread->Initialize(&m_pMainFrame, this, STT_UPLOAD);
-            pThread->Upload(fileInfo);
+        if (!pSubtitlesInfo.fileContents.empty()) {
+            InsertTask(DEBUG_NEW SubtitlesTask(&m_pMainFrame, pSubtitlesInfo));
         }
     }
 }
 
-void SubtitlesProviders::Abort(SubtitlesThreadType Type)
+void SubtitlesProviders::Abort(SubtitlesThreadType nType)
 {
-    CAutoLock cAutoLock(&m_csSyncThreads);
-    for (auto& pThread : m_pThreads) {
-        if (pThread->Type() & Type) {
-            pThread->Abort();
+    CAutoLock cAutoLock(&m_csTasks);
+    for (auto& pTask : m_pTasks) {
+        if (pTask->Type() & nType) {
+            pTask->Abort();
         }
     }
 }
-
 
 void SubtitlesProviders::ReadSettings()
 {
@@ -641,277 +525,178 @@ std::string SubtitlesProviders::WriteSettings()
     return result;
 }
 
+/******************************************************************************
+** SubtitlesTask
+******************************************************************************/
 
-
-
-
-IMPLEMENT_DYNCREATE(SubtitlesThread, CWinThread)
-
-BOOL SubtitlesThread::InitInstance()
-{
-    AfxSocketInit();
-    return SUCCEEDED(CoInitialize(0)) ? TRUE : FALSE;
-}
-
-int SubtitlesThread::ExitInstance()
-{
-    m_pProviders->RemoveThread(this);
-
-    CoUninitialize();
-    return __super::ExitInstance();
-}
-
-void SubtitlesThread::Initialize(CMainFrame* pMainFrame, SubtitlesProviders* pProviders, SubtitlesThreadType Type)
+SubtitlesTask::SubtitlesTask(CMainFrame* pMainFrame, BOOL bAutoDownload, std::string sLanguages)
 {
     m_pMainFrame = pMainFrame;
-    m_pProviders = pProviders;
-    m_Type = Type;
+    m_nType = SubtitlesThreadType(STT_SEARCH | (bAutoDownload ? STT_DOWNLOAD : NULL));
 
-    m_pProviders->InsertThread(this);
-
-    SetThreadName(DWORD(-1), ThreadName().c_str());
-}
-
-std::string SubtitlesThread::ThreadName()
-{
-    std::string threadName("SubtitlesThread::");
-    if (m_Type & STT_SEARCH) { threadName.append("Search"); }
-    if (m_Type & STT_DOWNLOAD) { threadName.append("Download"); }
-    if (m_Type & STT_UPLOAD) { threadName.append("Upload"); }
-    return threadName;
-}
-
-void SubtitlesThread::Quit()
-{
-    PostThreadMessage(TM_QUIT, 0, 0);
-}
-
-void SubtitlesThread::Abort()
-{
-    m_bAbort = TRUE;
-}
-
-void SubtitlesThread::Search(BOOL bAutoDownload, std::string languages)
-{
-    ATLASSERT(m_Type & STT_SEARCH);
     m_bAutoDownload = bAutoDownload;
-    m_Languages = languages;
+    m_sLanguages = sLanguages;
     if (bAutoDownload) {
-        string_array _languages(string_tokenize(languages, ","));
+        string_array _languages(string_tokenize(sLanguages, ","));
         for (const auto& iter : _languages) {
             m_AutoDownload[iter] = FALSE;
         }
     }
-    PostThreadMessage(TM_SEARCH, 0, 0);
+    CreateThread();
 }
 
-void SubtitlesThread::Upload(SubtitlesInfo info)
+SubtitlesTask::SubtitlesTask(CMainFrame* pMainFrame, SubtitlesInfo& pSubtitlesInfo, BOOL bActivate)
 {
-    ATLASSERT(m_Type & STT_UPLOAD);
-    m_fileInfo = info;
-    PostThreadMessage(TM_UPLOAD, 0, 0);
-}
+    m_pMainFrame = pMainFrame;
+    m_nType = STT_DOWNLOAD;
 
-void SubtitlesThread::Download(SubtitlesInfo& info, BOOL bActivate)
-{
-    ATLASSERT(m_Type & STT_DOWNLOAD);
-    m_fileInfo = info;
+    m_pFileInfo = pSubtitlesInfo;
     m_bActivate = bActivate;
-    PostThreadMessage(TM_DOWNLOAD, 0, 0);
+    CreateThread();
 }
 
-BEGIN_MESSAGE_MAP(SubtitlesThread, CWinThread)
-    ON_THREAD_MESSAGE(TM_QUIT, OnQuit)
-    ON_THREAD_MESSAGE(TM_SEARCH, OnSearch)
-    ON_THREAD_MESSAGE(TM_UPLOAD, OnUpload)
-    ON_THREAD_MESSAGE(TM_DOWNLOAD, OnDownload)
-END_MESSAGE_MAP()
-
-void SubtitlesThread::OnQuit(WPARAM wParam, LPARAM lParam)
+SubtitlesTask::SubtitlesTask(CMainFrame* pMainFrame, const SubtitlesInfo& pSubtitlesInfo)
 {
-    PostQuitMessage(0);
-    if (CAMEvent* e = (CAMEvent*)lParam) {
-        e->Set();
-    }
+    m_pMainFrame = pMainFrame;
+    m_nType = STT_UPLOAD;
+
+    m_pFileInfo = pSubtitlesInfo;
+    CreateThread();
 }
 
-void SubtitlesThread::OnSearch(WPARAM wParam, LPARAM lParam)
+void SubtitlesTask::ThreadProc()
 {
-    ATLASSERT(m_Type & STT_SEARCH);
+    if (m_nType & STT_SEARCH) {
+        // We get all the information we need within a separate thread,
+        // to avoid delaying the video playback.
+        SubtitlesInfo pFileInfo;
+        pFileInfo.GetFileInfo();
 
-    // We get all the information we need within a separate thread,
-    // to avoid delaying the video playback.
-    SubtitlesInfo fileInfo;
-    fileInfo.GetFileInfo();
-
-    const auto& s = AfxGetAppSettings();
-    std::string exclude = UTF16To8(s.strAutoDownloadSubtitlesExclude);
-    string_array exclude_array = string_tokenize(exclude, "|;, ");
-    for (auto& iter : exclude_array) {
-        if (fileInfo.filePath.find(iter) != std::string::npos) {
-            return Quit();
-        }
-    }
-
-    if (!CheckAbort()) {
-        CAutoLock cAutoLock(&m_csSyncThreads);
-        for (const auto& iter : m_pProviders->Providers()) {
-            if (iter->Enabled(SPF_SEARCH)) {
-                SubtitlesThreadParam* pThreadParam = DEBUG_NEW SubtitlesThreadParam(this, iter, fileInfo);
-                m_pThreads.push_back(AfxBeginThread(_WorkerProc, (LPVOID)pThreadParam));
+        const auto& s = AfxGetAppSettings();
+        std::string exclude = UTF16To8(s.strAutoDownloadSubtitlesExclude);
+        string_array exclude_array = string_tokenize(exclude, "|;, ");
+        for (auto& iter : exclude_array) {
+            if (pFileInfo.filePath.find(iter) != std::string::npos) {
+                return;
             }
         }
 
-        if (!m_pThreads.empty()) {
-            return _SearchInitialize();
+        if (!IsThreadAborting()) {
+            for (const auto& iter : m_pMainFrame->m_pSubtitlesProviders->Providers()) {
+                if (iter->Enabled(SPF_SEARCH)) {
+                    InsertThread(DEBUG_NEW SubtitlesThread(this, pFileInfo, iter));
+                }
+            }
         }
-    }
-    Quit();
-}
 
-void SubtitlesThread::OnDownload(WPARAM wParam, LPARAM lParam)
-{
-    ATLASSERT(m_Type & STT_DOWNLOAD);
-
-    if (!CheckAbort()) {
-        CAutoLock cAutoLock(&m_csSyncThreads);
-        SubtitlesThreadParam* pThreadParam = DEBUG_NEW SubtitlesThreadParam(this, &m_fileInfo.Provider(), m_fileInfo);
-        m_pThreads.push_back(AfxBeginThread(_WorkerProc, (LPVOID)pThreadParam));
-
-        if (!m_pThreads.empty()) {
-            return _DownloadInitialize();
-        }
-    }
-    Quit();
-}
-
-void SubtitlesThread::OnUpload(WPARAM wParam, LPARAM lParam)
-{
-    ATLASSERT(m_Type & STT_UPLOAD);
-
-    if (!CheckAbort()) {
-        CAutoLock cAutoLock(&m_csSyncThreads);
-        for (const auto& iter : m_pProviders->Providers()) {
+    } else if (m_nType & STT_DOWNLOAD) {
+        InsertThread(DEBUG_NEW SubtitlesThread(this, m_pFileInfo, &m_pFileInfo.Provider()));
+    } else if (m_nType & STT_UPLOAD) {
+        for (const auto& iter : m_pMainFrame->m_pSubtitlesProviders->Providers()) {
             if (iter->Enabled(SPF_UPLOAD) && iter->Flags(SPF_UPLOAD)) {
-                SubtitlesThreadParam* pThreadParam = DEBUG_NEW SubtitlesThreadParam(this, iter, m_fileInfo);
-                m_pThreads.push_back(AfxBeginThread(_WorkerProc, (LPVOID)pThreadParam));
+                InsertThread(DEBUG_NEW SubtitlesThread(this, m_pFileInfo, iter));
             }
         }
+    }
 
-        if (!m_pThreads.empty()) {
-            return _UploadInitialize();
+    if (!m_pThreads.empty() && !IsThreadAborting()) {
+        if (m_nType & STT_SEARCH) {
+            m_pMainFrame->m_wndSubtitlesDownloadDialog.DoSearch((INT)m_pThreads.size());
+        } else if (m_nType & STT_DOWNLOAD) {
+        } else if (m_nType & STT_UPLOAD) {
+            m_pMainFrame->m_wndSubtitlesUploadDialog.DoUpload((INT)m_pThreads.size());
+        }
+
+        CAutoLock cAutoLock(&m_csThreads);
+        for (auto& iter : m_pThreads) {
+            iter->CreateThread();
+
+            // Provide a timing advantage for providers with higher priority
+            if (m_nType & STT_SEARCH) {
+                Sleep(250);
+            }
         }
     }
-    Quit();
+
+    // Wait here until all threads have finished
+    while (!m_pThreads.empty()) { Sleep(0); }
+
+    if (m_nType & STT_SEARCH) {
+        BOOL bShowDialog = !m_AutoDownload.empty() ? TRUE : m_bAutoDownload;
+        for (const auto& iter : m_AutoDownload) {
+            if (iter.second == TRUE) {
+                bShowDialog = FALSE;
+                break;
+            }
+        }
+        m_pMainFrame->m_wndSubtitlesDownloadDialog.DoFinished(IsThreadAborting(), bShowDialog);
+    } else if (m_nType & STT_DOWNLOAD) {
+    } else if (m_nType & STT_UPLOAD) {
+        m_pMainFrame->m_wndSubtitlesUploadDialog.DoFinished(IsThreadAborting());
+    }
+
+    m_pMainFrame->m_pSubtitlesProviders->RemoveTask(this);
 }
 
-UINT SubtitlesThread::_WorkerProc(LPVOID pParam)
+/******************************************************************************
+** SubtitlesThread
+******************************************************************************/
+
+void SubtitlesThread::ThreadProc()
 {
-    CWinThread& _this = *AfxGetThread();
-    SubtitlesThread& _thread = *((SubtitlesThreadParam*)pParam)->pThread;
-    SubtitlesInfo& _fileInfo = ((SubtitlesThreadParam*)pParam)->fileInfo;
-    SubtitlesList& _subtitlesList = ((SubtitlesThreadParam*)pParam)->subtitlesList;
-
-    std::string threadName = string_format("%s(%s)", _thread.ThreadName().c_str(), _fileInfo.Provider().Name().c_str());
-    SetThreadName(DWORD(-1), threadName.c_str());
-
-    { CAutoLock cAutoLock(&_thread.m_csSyncThreads); }
-
     try {
-        //DEBUGINFO("MPC-HC --> [%05.d] Start Thread: %s", _this.m_nThreadID, threadName.c_str());
-        if (_fileInfo.Provider().Login() <= SR_SUCCEEDED) {
-            if (_thread.m_Type & STT_SEARCH) {
-                _thread._SearchProc(_fileInfo, _subtitlesList);
-            } else if (_thread.m_Type & STT_DOWNLOAD) {
-                _thread._DownloadProc(_fileInfo, _thread.m_bActivate);
-            } else if (_thread.m_Type & STT_UPLOAD) {
-                _thread._UploadProc(_fileInfo);
+        if (m_pFileInfo.Provider().Login() <= SR_SUCCEEDED) {
+            if (m_pTask->m_nType & STT_SEARCH) {
+                Search();
+            } else if (m_pTask->m_nType & STT_DOWNLOAD) {
+                Download(m_pFileInfo, m_pTask->m_bActivate);
+            } else if (m_pTask->m_nType & STT_UPLOAD) {
+                Upload();
             }
         } else {
-            if (_thread.m_Type & STT_SEARCH) {
-                _thread.m_pMainFrame->m_wndSubtitlesDownloadDialog.DoCompleted(SR_FAILED, _subtitlesList);
-            } else if (_thread.m_Type & STT_UPLOAD) {
-                _thread.m_pMainFrame->m_wndSubtitlesUploadDialog.DoCompleted(SR_FAILED, _fileInfo.Provider());
+            if (m_pTask->m_nType & STT_SEARCH) {
+                m_pTask->m_pMainFrame->m_wndSubtitlesDownloadDialog.DoCompleted(SR_FAILED, m_pSubtitlesList);
+            } else if (m_pTask->m_nType & STT_UPLOAD) {
+                m_pTask->m_pMainFrame->m_wndSubtitlesUploadDialog.DoCompleted(SR_FAILED, m_pFileInfo.Provider());
             }
         }
-        //DEBUGINFO("MPC-HC --> [%05.d]   End Thread: %s", _this.m_nThreadID, threadName.c_str());
     } catch (/*HRESULT e*/...) {
-        if (_thread.m_Type & STT_SEARCH) {
-            _thread.m_pMainFrame->m_wndSubtitlesDownloadDialog.DoCompleted(SR_ABORTED, _subtitlesList);
-        } else if (_thread.m_Type & STT_UPLOAD) {
-            _thread.m_pMainFrame->m_wndSubtitlesUploadDialog.DoCompleted(SR_ABORTED, _fileInfo.Provider());
-        }
-        //DEBUGINFO("MPC-HC --> [%05.d] Throw Thread: %s", _this.m_nThreadID, threadName.c_str());
-    }
-
-    delete(SubtitlesThreadParam*)pParam;
-    pParam = nullptr;
-
-    CAutoLock cAutoLock(&_thread.m_csSyncThreads);
-    _thread.m_pThreads.remove(&_this);
-
-    if (_thread.m_pThreads.empty()) {
-        if (_thread.m_Type & STT_SEARCH) {
-            _thread._SearchFinalize();
-        } else if (_thread.m_Type & STT_DOWNLOAD) {
-            _thread._DownloadFinalize();
-        } else if (_thread.m_Type & STT_UPLOAD) {
-            _thread._UploadFinalize();
-        }
-
-        _thread.Quit();
-    }
-
-    return 0;
-}
-
-void SubtitlesThread::_SearchInitialize()
-{
-    m_pMainFrame->m_wndSubtitlesDownloadDialog.DoSearch((INT)m_pThreads.size());
-}
-
-void SubtitlesThread::_SearchProc(SubtitlesInfo& _fileInfo, SubtitlesList& _subtitlesList)
-{
-    //auto CheckAbortAndThrow = [&]() { if (m_bAbort) throw E_ABORT; };
-    CheckAbortAndThrow();
-    _fileInfo.Provider().Hash(_fileInfo);
-    CheckAbortAndThrow();
-    m_pMainFrame->m_wndSubtitlesDownloadDialog.DoSearching(_fileInfo);
-    SRESULT searchResult = _fileInfo.Provider().Search(_fileInfo, m_bAbort);
-    CheckAbortAndThrow();
-    _subtitlesList.sort();
-    CheckAbortAndThrow();
-    m_pMainFrame->m_wndSubtitlesDownloadDialog.DoCompleted(searchResult, _subtitlesList);
-    CheckAbortAndThrow();
-    if (!_subtitlesList.empty() && (m_Type & STT_DOWNLOAD) && !m_AutoDownload.empty()) {
-        _DownloadProc(_subtitlesList);
-    }
-}
-
-void SubtitlesThread::_SearchFinalize()
-{
-    BOOL bShowDialog = !m_AutoDownload.empty() ? TRUE : m_bAutoDownload;
-    for (const auto& iter : m_AutoDownload) {
-        if (iter.second == TRUE) {
-            bShowDialog = FALSE;
-            break;
+        if (m_pTask->m_nType & STT_SEARCH) {
+            m_pTask->m_pMainFrame->m_wndSubtitlesDownloadDialog.DoCompleted(SR_ABORTED, m_pSubtitlesList);
+        } else if (m_pTask->m_nType & STT_UPLOAD) {
+            m_pTask->m_pMainFrame->m_wndSubtitlesUploadDialog.DoCompleted(SR_ABORTED, m_pFileInfo.Provider());
         }
     }
-    m_pMainFrame->m_wndSubtitlesDownloadDialog.DoFinished(m_bAbort, bShowDialog);
+
+    // Don't exit thread until all threads have been created
+    m_pTask->RemoveThread(this);
 }
 
-void SubtitlesThread::_DownloadInitialize()
+void SubtitlesThread::Search()
 {
-}
-
-void SubtitlesThread::_DownloadProc(SubtitlesList& _subtitlesList)
-{
-    CAutoLock cAutoLock(&m_csSyncThreads);
     CheckAbortAndThrow();
-    for (auto& iter : _subtitlesList) {
+    m_pFileInfo.Provider().Hash(m_pFileInfo);
+    CheckAbortAndThrow();
+    m_pTask->m_pMainFrame->m_wndSubtitlesDownloadDialog.DoSearching(m_pFileInfo);
+    SRESULT searchResult = m_pFileInfo.Provider().Search(m_pFileInfo);
+    CheckAbortAndThrow();
+    m_pSubtitlesList.sort();
+    CheckAbortAndThrow();
+    m_pTask->m_pMainFrame->m_wndSubtitlesDownloadDialog.DoCompleted(searchResult, m_pSubtitlesList);
+    CheckAbortAndThrow();
+    if (!m_pSubtitlesList.empty() && (m_pTask->m_nType & STT_DOWNLOAD) && !m_pTask->m_AutoDownload.empty()) {
+        Download();
+    }
+}
+
+void SubtitlesThread::Download()
+{
+    CAutoLock cAutoLock(&m_pTask->m_csThreads);
+    CheckAbortAndThrow();
+    for (auto& iter : m_pSubtitlesList) {
         CheckAbortAndThrow();
         BOOL bDownload = FALSE;
-        for (const auto& language : m_AutoDownload) {
+        for (const auto& language : m_pTask->m_AutoDownload) {
             if (language.first == iter.languageCode) {
                 if (language.second == FALSE) {
                     bDownload = TRUE;
@@ -925,55 +710,85 @@ void SubtitlesThread::_DownloadProc(SubtitlesList& _subtitlesList)
             const auto& s = AfxGetAppSettings();
             if ((iter.episodeNumber != -1 && (SHORT)LOWORD(iter.Score()) >= s.nAutoDownloadScoreSeries) || (iter.episodeNumber == -1 && (SHORT)LOWORD(iter.Score()) >= s.nAutoDownloadScoreMovies)) {
                 CheckAbortAndThrow();
-                _DownloadProc(iter, TRUE);
+                Download(iter, TRUE);
             }
         }
     }
 }
 
-void SubtitlesThread::_DownloadProc(SubtitlesInfo& _fileInfo, BOOL _bActivate)
+void SubtitlesThread::Download(SubtitlesInfo& pSubtitlesInfo, BOOL bActivate)
 {
     CheckAbortAndThrow();
-    m_pMainFrame->m_wndSubtitlesDownloadDialog.DoDownloading(_fileInfo);
-    if (_fileInfo.Provider().Download(_fileInfo, m_bAbort) == SR_SUCCEEDED) {
+    m_pTask->m_pMainFrame->m_wndSubtitlesDownloadDialog.DoDownloading(pSubtitlesInfo);
+    if (pSubtitlesInfo.Provider().Download(pSubtitlesInfo) == SR_SUCCEEDED) {
         CheckAbortAndThrow();
-        string_map data = string_uncompress(_fileInfo.fileContents, _fileInfo.fileName);
+        string_map data = string_uncompress(pSubtitlesInfo.fileContents, pSubtitlesInfo.fileName);
         CheckAbortAndThrow();
         for (const auto& iter : data) {
             CheckAbortAndThrow();
-            struct { SubtitlesInfo* fileInfo; BOOL bActivate; std::string fileName; std::string fileContents; } data({ &_fileInfo, _bActivate, iter.first, iter.second });
-            if (m_pMainFrame->SendMessage(WM_LOADSUBTITLES, (BOOL)_bActivate, (LPARAM)&data) == TRUE) {
-                if (!m_AutoDownload.empty()) {
-                    m_AutoDownload[_fileInfo.languageCode] = TRUE;
+            struct { SubtitlesInfo* pSubtitlesInfo; BOOL bActivate; std::string fileName; std::string fileContents; } data({ &pSubtitlesInfo, bActivate, iter.first, iter.second });
+            if (m_pTask->m_pMainFrame->SendMessage(WM_LOADSUBTITLES, (BOOL)bActivate, (LPARAM)&data) == TRUE) {
+                if (!m_pTask->m_AutoDownload.empty()) {
+                    m_pTask->m_AutoDownload[pSubtitlesInfo.languageCode] = TRUE;
                 }
             }
         }
     }
 }
 
-void SubtitlesThread::_DownloadFinalize()
+void SubtitlesThread::Upload()
 {
-}
-
-void SubtitlesThread::_UploadInitialize()
-{
-    if (!m_pThreads.empty()) {
-        m_pMainFrame->m_wndSubtitlesUploadDialog.DoUpload((INT)m_pThreads.size());
-    }
-}
-
-void SubtitlesThread::_UploadProc(SubtitlesInfo& _fileInfo)
-{
-    //auto CheckAbortAndThrow = [&]() { if (m_bAbort) throw E_ABORT; };
     CheckAbortAndThrow();
-    m_pMainFrame->m_wndSubtitlesUploadDialog.DoUploading(_fileInfo.Provider());
-    _fileInfo.Provider().Hash(_fileInfo);
+    m_pTask->m_pMainFrame->m_wndSubtitlesUploadDialog.DoUploading(m_pFileInfo.Provider());
+    m_pFileInfo.Provider().Hash(m_pFileInfo);
     CheckAbortAndThrow();
-    SRESULT uploadResult = _fileInfo.Provider().Upload(_fileInfo, m_bAbort);
-    m_pMainFrame->m_wndSubtitlesUploadDialog.DoCompleted(uploadResult, _fileInfo.Provider());
+    SRESULT uploadResult = m_pFileInfo.Provider().Upload(m_pFileInfo);
+    m_pTask->m_pMainFrame->m_wndSubtitlesUploadDialog.DoCompleted(uploadResult, m_pFileInfo.Provider());
 }
 
-void SubtitlesThread::_UploadFinalize()
+std::string& SubtitlesThread::Languages()
 {
-    m_pMainFrame->m_wndSubtitlesUploadDialog.DoFinished(m_bAbort);
+    return m_pTask->m_sLanguages;
+}
+
+
+void SubtitlesThread::Set(SubtitlesInfo& pSubtitlesInfo)
+{
+    if (IsThreadAborting()) { return; }
+
+    std::string _title = pSubtitlesInfo.title;
+    if (!_title.empty()) { pSubtitlesInfo.title.clear(); }
+    pSubtitlesInfo.GetFileInfo(pSubtitlesInfo.fileName);
+
+    //iter.score = 0; //LevenshteinDistance(m_pFileInfo.fileName, string_(subtitlesName)) * 100;
+
+    SHORT score = ((SHORT)pSubtitlesInfo.corrected);
+    score += (((!m_pFileInfo.title.empty() && _strcmpi(m_pFileInfo.NormalizeTitle().c_str(), pSubtitlesInfo.NormalizeTitle().c_str()) == 0)) ||
+              ((!_title.empty() && _strcmpi(m_pFileInfo.NormalizeTitle().c_str(), pSubtitlesInfo.NormalizeString(_title).c_str()) == 0)))
+             ? 3 : !m_pFileInfo.title.empty() || !_title.empty() ? -3 : 0;
+
+    if (!_title.empty()) { pSubtitlesInfo.title = _title; }
+
+    score += (!m_pFileInfo.country.empty() && _strcmpi(m_pFileInfo.country.c_str(), pSubtitlesInfo.country.c_str()) == 0) ? 2 : !m_pFileInfo.country.empty() ? -2 : 0;
+    score += (m_pFileInfo.year != -1 && m_pFileInfo.year == pSubtitlesInfo.year) ? 1 : 0;
+    score += (m_pFileInfo.seasonNumber != -1 && m_pFileInfo.seasonNumber == pSubtitlesInfo.seasonNumber) ? 2 : m_pFileInfo.seasonNumber > 0 ? -2 : 0;
+    score += (m_pFileInfo.episodeNumber != -1 && m_pFileInfo.episodeNumber == pSubtitlesInfo.episodeNumber) ? 2 : m_pFileInfo.episodeNumber > 0 ? -2 : 0;
+    score += (!m_pFileInfo.title2.empty() && _strcmpi(m_pFileInfo.title2.c_str(), pSubtitlesInfo.title2.c_str()) == 0) ? 2 : 0;
+    score += (!m_pFileInfo.resolution.empty() && _strcmpi(m_pFileInfo.resolution.c_str(), pSubtitlesInfo.resolution.c_str()) == 0) ? 1 : 0;
+    score += (!m_pFileInfo.format.empty() && _strcmpi(m_pFileInfo.format.c_str(), pSubtitlesInfo.format.c_str()) == 0) ? 1 : 0;
+    score += (!m_pFileInfo.audioCodec.empty() && _strcmpi(m_pFileInfo.audioCodec.c_str(), pSubtitlesInfo.audioCodec.c_str()) == 0) ? 1 : 0;
+    score += (!m_pFileInfo.videoCodec.empty() && _strcmpi(m_pFileInfo.videoCodec.c_str(), pSubtitlesInfo.videoCodec.c_str()) == 0) ? 1 : 0;
+    score += (!m_pFileInfo.releaseGroup.empty() && _strcmpi(m_pFileInfo.releaseGroup.c_str(), pSubtitlesInfo.releaseGroup.c_str()) == 0) ? 1 : 0;
+    const auto& s = AfxGetAppSettings();
+
+    if (IsThreadAborting()) { return; }
+
+    pSubtitlesInfo.Set(&m_pFileInfo.Provider(),
+                       (BYTE)((Languages().length() - Languages().find(pSubtitlesInfo.languageCode) + 1) / 3),
+                       (BYTE)(pSubtitlesInfo.hearingImpaired == (int)s.bPreferHearingImpairedSubtitles),
+                       score);
+
+    if (IsThreadAborting()) { return; }
+
+    m_pSubtitlesList.push_back(pSubtitlesInfo);
 }
