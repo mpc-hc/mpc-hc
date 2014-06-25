@@ -498,6 +498,7 @@ protected:
     friend class SubtitlesProviders;
     SubtitlesProviders* m_pSubtitlesProviders;
     friend struct SubtitlesInfo;
+    friend class SubtitlesTask;
     friend class SubtitlesThread;
 
 public:
@@ -733,6 +734,8 @@ public:
     afx_msg void OnDvdSub(UINT nID);
     afx_msg void OnDvdSubOnOff();
 
+    afx_msg LRESULT OnLoadSubtitles(WPARAM wParam, LPARAM lParam);
+    afx_msg LRESULT OnGetSubtitles(WPARAM wParam, LPARAM lParam);
 
     // menu item handlers
 
@@ -1105,7 +1108,4 @@ public:
     bool GetDecoderType(CString& type) const;
 
     DPI m_dpi;
-protected:
-    afx_msg LRESULT OnLoadSubtitles(WPARAM wParam, LPARAM lParam);
-    afx_msg LRESULT OnGetSubtitles(WPARAM wParam, LPARAM lParam);
 };

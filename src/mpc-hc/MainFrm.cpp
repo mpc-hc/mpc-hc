@@ -16686,16 +16686,15 @@ REFTIME CMainFrame::GetAvgTimePerFrame() const
     return refAvgTimePerFrame;
 }
 
-typedef struct { SubtitlesInfo* fileInfo; BOOL bActivate; std::string fileName; std::string fileContents; } SubtitlesData;
+typedef struct { SubtitlesInfo* pSubtitlesInfo; BOOL bActivate; std::string fileName; std::string fileContents; } SubtitlesData;
 
-afx_msg LRESULT CMainFrame::OnLoadSubtitles(WPARAM wParam, LPARAM lParam)
+LRESULT CMainFrame::OnLoadSubtitles(WPARAM wParam, LPARAM lParam)
 {
     SubtitlesData& data = *(SubtitlesData*)lParam;
 
-    CAutoLock cAutoLock(&m_csSubLock);
     CAutoPtr<CRenderedTextSubtitle> pRTS(DEBUG_NEW CRenderedTextSubtitle(&m_csSubLock));
-    if (pRTS && pRTS->Open(CString(data.fileInfo->Provider().Name().c_str()), (BYTE*)(LPCSTR)data.fileContents.c_str(), (int)data.fileContents.length(), DEFAULT_CHARSET, UTF8To16(data.fileName.c_str()), HearingImpairedType(data.fileInfo->hearingImpaired), ISO6391ToLcid(data.fileInfo->languageCode.c_str())) && pRTS->GetStreamCount() > 0) {
-        m_wndSubtitlesDownloadDialog.DoDownloaded(*data.fileInfo);
+    if (pRTS && pRTS->Open(CString(data.pSubtitlesInfo->Provider().Name().c_str()), (BYTE*)(LPCSTR)data.fileContents.c_str(), (int)data.fileContents.length(), DEFAULT_CHARSET, UTF8To16(data.fileName.c_str()), HearingImpairedType(data.pSubtitlesInfo->hearingImpaired), ISO6391ToLcid(data.pSubtitlesInfo->languageCode.c_str())) && pRTS->GetStreamCount() > 0) {
+        m_wndSubtitlesDownloadDialog.DoDownloaded(*data.pSubtitlesInfo);
 
         SubtitleInput subElement = pRTS.Detach();
         m_pSubStreams.AddTail(subElement);
@@ -16708,10 +16707,10 @@ afx_msg LRESULT CMainFrame::OnLoadSubtitles(WPARAM wParam, LPARAM lParam)
     return FALSE;
 }
 
-afx_msg LRESULT CMainFrame::OnGetSubtitles(WPARAM wParam, LPARAM lParam)
+LRESULT CMainFrame::OnGetSubtitles(WPARAM wParam, LPARAM lParam)
 {
     if (lParam) {
-        SubtitlesInfo& fileInfo = *(SubtitlesInfo*)lParam;
+        SubtitlesInfo& pSubtitlesInfo = *(SubtitlesInfo*)lParam;
         int i = 0;
         SubtitleInput* pSubInput = GetSubtitleInput(i, true);
         CStringW content;
@@ -16728,19 +16727,19 @@ afx_msg LRESULT CMainFrame::OnGetSubtitles(WPARAM wParam, LPARAM lParam)
                 CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)pSubInput->pSubStream;
                 // Only for external text subtitles
                 if (!pRTS->m_path.IsEmpty()) {
-                    fileInfo.GetFileInfo();
-                    fileInfo.releaseName = (const char*)UTF16To8(pRTS->m_name);
-                    if (fileInfo.hearingImpaired == -1) {
-                        fileInfo.hearingImpaired = pRTS->m_eHearingImpaired;
+                    pSubtitlesInfo.GetFileInfo();
+                    pSubtitlesInfo.releaseName = (const char*)UTF16To8(pRTS->m_name);
+                    if (pSubtitlesInfo.hearingImpaired == -1) {
+                        pSubtitlesInfo.hearingImpaired = pRTS->m_eHearingImpaired;
                     }
 
-                    if (!fileInfo.languageCode.length() && pRTS->m_lcid != 0) {
+                    if (!pSubtitlesInfo.languageCode.length() && pRTS->m_lcid != 0) {
                         CString str;
                         int len = GetLocaleInfo(pRTS->m_lcid, LOCALE_SISO639LANGNAME, str.GetBuffer(64), 64);
                         str.ReleaseBufferSetLength(std::max(len - 1, 0));
-                        fileInfo.languageCode = UTF16To8(str);
+                        pSubtitlesInfo.languageCode = UTF16To8(str);
                     }
-                    fileInfo.frameRate = m_pCAP->GetFPS();
+                    pSubtitlesInfo.frameRate = m_pCAP->GetFPS();
 
                     CAutoLock cAutoLock(&m_csSubLock);
                     //pRTS->SaveAs(fd.GetPathName(), (exttype)(fd.m_ofn.nFilterIndex - 1), pMF->m_pCAP->GetFPS(), fd.GetDelay(), fd.GetEncoding());
@@ -16781,7 +16780,7 @@ afx_msg LRESULT CMainFrame::OnGetSubtitles(WPARAM wParam, LPARAM lParam)
                 }
             }
         }
-        fileInfo.fileContents = UTF16To8(content);
+        pSubtitlesInfo.fileContents = UTF16To8(content);
         return TRUE;
     }
     return FALSE;
