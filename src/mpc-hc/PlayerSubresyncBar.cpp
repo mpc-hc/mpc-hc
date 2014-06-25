@@ -57,6 +57,11 @@ BOOL CPlayerSubresyncBar::Create(CWnd* pParentWnd, UINT defDockBarID, CCritSec* 
 
     m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER);
 
+    m_strYes = m_strYesMenu = ResStr(IDS_SUBRESYNC_YES);
+    m_strNo = m_strNoMenu = ResStr(IDS_SUBRESYNC_NO);
+    m_strYes.Remove(_T('&'));
+    m_strNo.Remove(_T('&'));
+
     return TRUE;
 }
 
@@ -83,6 +88,11 @@ BOOL CPlayerSubresyncBar::PreTranslateMessage(MSG* pMsg)
 void CPlayerSubresyncBar::ReloadTranslatableResources()
 {
     SetWindowText(ResStr(IDS_SUBRESYNC_CAPTION));
+
+    m_strYes = m_strYesMenu = ResStr(IDS_SUBRESYNC_YES);
+    m_strNo = m_strNoMenu = ResStr(IDS_SUBRESYNC_NO);
+    m_strYes.Remove(_T('&'));
+    m_strNo.Remove(_T('&'));
 
     CHeaderCtrl* pHeaderCtrl = m_list.GetHeaderCtrl();
     if (pHeaderCtrl && pHeaderCtrl->GetItemCount() > 4) {
@@ -465,7 +475,7 @@ void CPlayerSubresyncBar::UpdateStrings()
             m_list.SetItemText(i, COL_FONT, stss.fontName);
             str.Format(_T("%d"), stss.charSet);
             m_list.SetItemText(i, COL_CHARSET, str);
-            m_list.SetItemText(i, COL_UNICODE, m_sts.IsEntryUnicode(i) ? ResStr(IDS_SUBRESYNC_YES) : ResStr(IDS_SUBRESYNC_NO));
+            m_list.SetItemText(i, COL_UNICODE, m_sts.IsEntryUnicode(i) ? m_strYes : m_strNo);
             str.Format(_T("%d"), m_sts[i].layer);
             m_list.SetItemText(i, COL_LAYER, str);
             m_list.SetItemText(i, COL_ACTOR, m_sts[i].actor);
@@ -491,8 +501,7 @@ void CPlayerSubresyncBar::UpdateStrings()
                 str.Format(_T("%d"), cellid);
             }
             m_list.SetItemText(i, COL_CELLID, str);
-            str = forced ? ResStr(IDS_SUBRESYNC_YES) : ResStr(IDS_SUBRESYNC_NO);
-            m_list.SetItemText(i, COL_FORCED, str);
+            m_list.SetItemText(i, COL_FORCED, forced ? m_strYes : m_strNo);
         }
     }
 }
@@ -888,8 +897,8 @@ void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
             case COL_UNICODE:
                 if (m_mode == TEXTSUB) {
                     m.AppendMenu(MF_SEPARATOR);
-                    m.AppendMenu(MF_STRING | MF_ENABLED, UNICODEYES, ResStr(IDS_SUBRESYNC_YES));
-                    m.AppendMenu(MF_STRING | MF_ENABLED, UNICODENO, ResStr(IDS_SUBRESYNC_NO));
+                    m.AppendMenu(MF_STRING | MF_ENABLED, UNICODEYES, m_strYesMenu);
+                    m.AppendMenu(MF_STRING | MF_ENABLED, UNICODENO, m_strNoMenu);
                 }
                 break;
             case COL_LAYER:
@@ -1121,7 +1130,7 @@ void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
                     } else if (id == UNICODEYES || id == UNICODENO) {
                         m_sts.ConvertUnicode(iItem, id == UNICODEYES);
                         m_list.SetItemText(iItem, COL_TEXT, m_sts.GetStrW(iItem, true));
-                        m_list.SetItemText(iItem, COL_UNICODE, m_sts.IsEntryUnicode(iItem) ? ResStr(IDS_SUBRESYNC_YES) : ResStr(IDS_SUBRESYNC_NO));
+                        m_list.SetItemText(iItem, COL_UNICODE, m_sts.IsEntryUnicode(iItem) ? m_strYes : m_strNo);
                         fNeedsUpdate = true;
                     } else if (id == LAYERDEC || id == LAYERINC) {
                         int d = (id == LAYERDEC) ? -1 : 1;

@@ -35,6 +35,9 @@ class CPlayerSubresyncBar : public CPlayerBar
     DECLARE_DYNAMIC(CPlayerSubresyncBar)
 
 private:
+    CString m_strYes, m_strNo;
+    CString m_strYesMenu, m_strNoMenu;
+
     CPlayerListCtrl m_list;
 
     CFont m_font;
