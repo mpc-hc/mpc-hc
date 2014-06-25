@@ -4317,25 +4317,14 @@ void CMainFrame::OnDropFiles(HDROP hDropInfo)
 {
     SetForegroundWindow();
 
-    CAtlList<CString> sl;
-
     UINT nFiles = ::DragQueryFile(hDropInfo, UINT_MAX, nullptr, 0);
 
-    if (nFiles == 1) {
-        CString path;
-        path.ReleaseBuffer(::DragQueryFile(hDropInfo, 0, path.GetBuffer(MAX_PATH), MAX_PATH));
-        if (OpenBD(path)) {
-            return;
-        }
-    }
-
+    CAtlList<CString> sl;
     for (UINT iFile = 0; iFile < nFiles; iFile++) {
         CString fn;
         fn.ReleaseBuffer(::DragQueryFile(hDropInfo, iFile, fn.GetBuffer(MAX_PATH), MAX_PATH));
         sl.AddTail(fn);
     }
-
-    ParseDirs(sl);
 
     ::DragFinish(hDropInfo);
 
@@ -4343,22 +4332,47 @@ void CMainFrame::OnDropFiles(HDROP hDropInfo)
         return;
     }
 
-    if (sl.GetCount() == 1 && GetLoadState() == MLS::LOADED && !IsPlaybackCaptureMode() && !m_fAudioOnly && m_pCAP) {
-        CPath fn(sl.GetHead());
-        SubtitleInput subInput;
+    if (sl.GetCount() == 1 && OpenBD(sl.GetHead())) {
+        return;
+    }
 
-        if (LoadSubtitle(fn, &subInput)) {
-            // Use the subtitles file that was just added
-            AfxGetAppSettings().fEnableSubtitles = true;
-            SetSubtitle(subInput);
-            fn.StripPath();
-            SendStatusMessage((CString&)fn + ResStr(IDS_SUB_LOADED_SUCCESS), 3000);
-            return;
+    ParseDirs(sl);
+
+    SubtitleInput subInputSelected;
+    if (GetLoadState() == MLS::LOADED && !IsPlaybackCaptureMode() && !m_fAudioOnly && m_pCAP) {
+        POSITION pos = sl.GetHeadPosition();
+        while (pos) {
+            // Try to open all dropped files as subtitles. If one of the files
+            // cannot be loaded as subtitle, add all files to the playlist.
+            SubtitleInput subInput;
+            if (LoadSubtitle(sl.GetNext(pos), &subInput)) {
+                if (!subInputSelected.pSubStream) {
+                    subInputSelected = subInput;
+                }
+            } else {
+                subInputSelected = SubtitleInput();
+                break;
+            }
         }
     }
 
-    m_wndPlaylistBar.Open(sl, true);
-    OpenCurPlaylistItem();
+    // Use the first subtitle file that was just loaded
+    if (subInputSelected.pSubStream) {
+        AfxGetAppSettings().fEnableSubtitles = true;
+        SetSubtitle(subInputSelected);
+
+        CString filenames;
+        POSITION pos = sl.GetHeadPosition();
+        while (pos) {
+            CPath fn(sl.GetNext(pos));
+            fn.StripPath();
+            filenames.AppendFormat(pos ? _T("%s, ") : _T("%s"), fn);
+        }
+        SendStatusMessage(filenames + ResStr(IDS_SUB_LOADED_SUCCESS), 3000);
+    } else {
+        m_wndPlaylistBar.Open(sl, true);
+        OpenCurPlaylistItem();
+    }
 }
 
 void CMainFrame::OnFileSaveAs()
