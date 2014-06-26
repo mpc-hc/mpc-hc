@@ -2148,6 +2148,10 @@ msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
 msgstr "要載入字幕您必須變更視訊繪製器類型並重新開啟檔案。\n- DirectShow: VMR-7/VMR-9 (無轉換), EVR 自訂呈現, 同步, madVR 或是 Haali\n- RealMedia: 給 RealMedia 用的特殊繪製器, 或是透過 DirectShow 開啟\n- QuickTime: 給 QuickTime 用的 DX7 或 DX9 繪製器\n- ShockWave: n/a"
 
+msgctxt "IDS_SUBTITLE_FILES_FILTER"
+msgid "Subtitle files"
+msgstr ""
+
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %d:%d"
 msgstr "長寬比例: %d:%d"

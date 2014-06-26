@@ -5136,46 +5136,27 @@ void CMainFrame::OnFileLoadsubtitle()
         return;
     }
 
-    static TCHAR szFilter[] =
-        _T(".srt .sub .ssa .ass .smi .psb .txt .idx .usf .xss .rt .sup|")
-        _T("*.srt;*.sub;*.ssa;*.ass;*smi;*.psb;*.txt;*.idx;*.usf;*.xss;*.rt;*.sup||");
+    CString filters;
+    filters.Format(_T("%s|*.srt;*.sub;*.ssa;*.ass;*smi;*.psb;*.txt;*.idx;*.usf;*.xss;*.rt;*.sup|%s"),
+                   ResStr(IDS_SUBTITLE_FILES_FILTER), ResStr(IDS_ALL_FILES_FILTER));
 
     CFileDialog fd(TRUE, nullptr, nullptr,
-                   OFN_EXPLORER | OFN_ENABLESIZING | OFN_HIDEREADONLY | OFN_NOCHANGEDIR,
-                   szFilter, GetModalParent(), 0);
-    CComPtr<IFileOpenDialog> openDlgPtr;
+                   OFN_EXPLORER | OFN_ENABLESIZING | OFN_NOCHANGEDIR,
+                   filters, GetModalParent());
 
-    CPath path(m_wndPlaylistBar.GetCurFileName());
-    path.RemoveFileSpec();
-    CString defaultDir = (CString)path;
-
-    if (SysVersion::IsVistaOrLater()) {
-        openDlgPtr = fd.GetIFileOpenDialog();
-
-        if (openDlgPtr != nullptr) {
-            if (!defaultDir.IsEmpty()) {
-                CComPtr<IShellItem> psiFolder;
-                if (SUCCEEDED(afxGlobalData.ShellCreateItemFromParsingName(defaultDir, nullptr, IID_PPV_ARGS(&psiFolder)))) {
-                    openDlgPtr->SetFolder(psiFolder);
-                }
-            }
-
-            if (FAILED(openDlgPtr->Show(m_hWnd))) {
-                return;
-            }
-        }
-    } else {
+    CPath defaultDir(m_wndPlaylistBar.GetCurFileName());
+    defaultDir.RemoveFileSpec();
+    if (!defaultDir.m_strPath.IsEmpty()) {
         fd.GetOFN().lpstrInitialDir = defaultDir;
-        if (fd.DoModal() != IDOK) {
-            return;
-        }
     }
 
-    SubtitleInput subInput;
-    if (LoadSubtitle(fd.GetPathName(), &subInput)) {
-        // Use the subtitles file that was just added
-        AfxGetAppSettings().fEnableSubtitles = true;
-        SetSubtitle(subInput);
+    if (fd.DoModal() == IDOK) {
+        SubtitleInput subInput;
+        if (LoadSubtitle(fd.GetPathName(), &subInput)) {
+            // Use the subtitles file that was just added
+            AfxGetAppSettings().fEnableSubtitles = true;
+            SetSubtitle(subInput);
+        }
     }
 }
 

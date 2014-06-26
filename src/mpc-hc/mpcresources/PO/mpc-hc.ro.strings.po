@@ -2145,6 +2145,10 @@ msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
 msgstr "Pentru a încărca subtitrări trebuie să schimbați tipul randorului video și să redeschideți fișierul.\n- DirectShow: VMR-7/VMR-9 (fără randare), EVR (CP), Sync, madVR sau Haali\n- RealMedia: Randor special pentru RealMedia sau deschideţi cu DirectShow\n- QuickTime: Randor DX7 sau DX9 pentru QuickTime\n- ShockWave: indisponibil"
 
+msgctxt "IDS_SUBTITLE_FILES_FILTER"
+msgid "Subtitle files"
+msgstr ""
+
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %d:%d"
 msgstr "Raport de aspect: %d:%d"

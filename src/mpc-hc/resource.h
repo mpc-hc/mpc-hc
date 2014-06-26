@@ -836,6 +836,7 @@
 #define IDS_THUMBNAILS_INFO_HEADER      33066
 #define IDS_THUMBNAIL_TOO_SMALL         33067
 #define IDS_CANNOT_LOAD_SUB             33068
+#define IDS_SUBTITLE_FILES_FILTER       33069
 #define IDS_MAINFRM_68                  33075
 #define IDS_MAINFRM_69                  33076
 #define IDS_MAINFRM_70                  33077

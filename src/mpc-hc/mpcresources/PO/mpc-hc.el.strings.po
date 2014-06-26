@@ -2145,6 +2145,10 @@ msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
 msgstr "Για φόρτωση υποτίτλων πρέπει να αλλάξετε τον τύπο απόδοσης βίντεο και να ανοίξετε ξανά το αρχείο.\n- DirectShow: VMR-7/VMR-9 (χωρίς απόδοση), EVR (CP), Sync, madVR ή Haali\n- RealMedia: Ειδική απόδοση για RealMedia ή άνοιγμά του με το DirectShow\n- QuickTime : απόδοση DX7 ή DX9 για QuickTime\n- ShockWave : Μη διαθέσιμο"
 
+msgctxt "IDS_SUBTITLE_FILES_FILTER"
+msgid "Subtitle files"
+msgstr ""
+
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %d:%d"
 msgstr "Αναλογία πλευρών: %d:%d"

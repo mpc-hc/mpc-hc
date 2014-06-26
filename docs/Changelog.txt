@@ -13,6 +13,7 @@ next version - not released yet
 + Accept loading more than one subtitle file at a time using drag-and-drop
 * Text subtitles: Faster subtitle parsing (up to 4 times faster for SSA/ASS subtitles)
 * Ticket #4428, Improve the clarity of the error message when opening a subtitle file fails
+! "Load subtitle" dialog: Fix the file filters on Windows Vista+
 
 
 1.7.6 - 05 July 2014
