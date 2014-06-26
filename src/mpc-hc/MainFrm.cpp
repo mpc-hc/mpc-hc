@@ -5136,7 +5136,7 @@ void CMainFrame::OnFileLoadsubtitle()
         return;
     }
 
-    DWORD dwFlags = OFN_EXPLORER | OFN_ENABLESIZING | OFN_NOCHANGEDIR;
+    DWORD dwFlags = OFN_EXPLORER | OFN_ALLOWMULTISELECT | OFN_ENABLESIZING | OFN_NOCHANGEDIR;
     if (!AfxGetAppSettings().fKeepHistory) {
         dwFlags |= OFN_DONTADDTORECENT;
     }
@@ -5146,18 +5146,30 @@ void CMainFrame::OnFileLoadsubtitle()
 
     CFileDialog fd(TRUE, nullptr, nullptr, dwFlags, filters, GetModalParent());
 
+    OPENFILENAME& ofn = fd.GetOFN();
+    // Provide a buffer big enough to hold 16 paths (which should be more than enough)
+    const int nBufferSize = 16 * (MAX_PATH + 1) + 1;
+    CString filenames;
+    ofn.lpstrFile = filenames.GetBuffer(nBufferSize);
+    ofn.nMaxFile = nBufferSize;
+    // Set the current file directory as default folder
     CPath defaultDir(m_wndPlaylistBar.GetCurFileName());
     defaultDir.RemoveFileSpec();
     if (!defaultDir.m_strPath.IsEmpty()) {
-        fd.GetOFN().lpstrInitialDir = defaultDir;
+        ofn.lpstrInitialDir = defaultDir;
     }
 
     if (fd.DoModal() == IDOK) {
-        SubtitleInput subInput;
-        if (LoadSubtitle(fd.GetPathName(), &subInput)) {
-            // Use the subtitles file that was just added
-            AfxGetAppSettings().fEnableSubtitles = true;
-            SetSubtitle(subInput);
+        bool bFirstFile = true;
+        POSITION pos = fd.GetStartPosition();
+        while (pos) {
+            SubtitleInput subInput;
+            if (LoadSubtitle(fd.GetNextPathName(pos), &subInput) && bFirstFile) {
+                bFirstFile = false;
+                // Use the subtitles file that was just added
+                AfxGetAppSettings().fEnableSubtitles = true;
+                SetSubtitle(subInput);
+            }
         }
     }
 }
