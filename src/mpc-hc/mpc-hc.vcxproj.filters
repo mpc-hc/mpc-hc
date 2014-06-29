@@ -1093,6 +1093,9 @@
     <Image Include="res\subtitles\favicon_tvsubtitles.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="res\subtitles\favicon_titlovi.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Object Include="..\thirdparty\LAVFilters\src\bin_$(PlatformName)\ffmpeg\GCCInfo.o">
