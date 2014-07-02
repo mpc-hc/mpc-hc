@@ -49,7 +49,7 @@ CompositionObject::CompositionObject(const CompositionObject& obj)
     , m_colors(obj.m_colors)
 {
     if (obj.m_pRLEData) {
-        SetRLEData(obj.m_pRLEData, obj.m_nRLEDataSize, obj.m_nRLEDataSize);
+        SetRLEData(obj.m_pRLEData, obj.m_nRLEPos, obj.m_nRLEDataSize);
     }
 }
 
@@ -94,7 +94,7 @@ void CompositionObject::SetPalette(int nNbEntry, const HDMV_PALETTE* pPalette, b
     }
 }
 
-void CompositionObject::SetRLEData(const BYTE* pBuffer, int nSize, int nTotalSize)
+void CompositionObject::SetRLEData(const BYTE* pBuffer, size_t nSize, size_t nTotalSize)
 {
     delete [] m_pRLEData;
 
@@ -111,7 +111,7 @@ void CompositionObject::SetRLEData(const BYTE* pBuffer, int nSize, int nTotalSiz
     }
 }
 
-void CompositionObject::AppendRLEData(const BYTE* pBuffer, int nSize)
+void CompositionObject::AppendRLEData(const BYTE* pBuffer, size_t nSize)
 {
     if (m_nRLEPos + nSize <= m_nRLEDataSize) {
         memcpy(m_pRLEData + m_nRLEPos, pBuffer, nSize);
@@ -199,7 +199,7 @@ void CompositionObject::DvbRenderField(SubPicDesc& spd, CGolombBuffer& gb, short
     //return;
     short nX = nXStart;
     short nY = nYStart;
-    int nEnd = gb.GetPos() + nLength;
+    size_t nEnd = gb.GetPos() + nLength;
 
     while (gb.GetPos() < nEnd) {
         BYTE bType = gb.ReadByte();

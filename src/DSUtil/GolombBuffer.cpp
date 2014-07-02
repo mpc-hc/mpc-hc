@@ -1,5 +1,5 @@
 /*
- * (C) 2008-2013 see Authors.txt
+ * (C) 2008-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,7 +22,7 @@
 #include <algorithm>
 #include "GolombBuffer.h"
 
-CGolombBuffer::CGolombBuffer(BYTE* pBuffer, int nSize)
+CGolombBuffer::CGolombBuffer(BYTE* pBuffer, size_t nSize)
     : m_pBuffer(pBuffer)
     , m_nSize(nSize)
 {
@@ -33,7 +33,7 @@ CGolombBuffer::~CGolombBuffer()
 {
 }
 
-UINT64 CGolombBuffer::BitRead(int nBits, bool fPeek)
+UINT64 CGolombBuffer::BitRead(size_t nBits, bool fPeek)
 {
     //ASSERT(nBits >= 0 && nBits <= 64);
 
@@ -48,7 +48,7 @@ UINT64 CGolombBuffer::BitRead(int nBits, bool fPeek)
         m_bitlen += 8;
     }
 
-    int bitlen = m_bitlen - nBits;
+    size_t bitlen = m_bitlen - nBits;
 
     UINT64 ret;
     // The shift to 64 bits can give incorrect results.
@@ -87,12 +87,12 @@ void CGolombBuffer::BitByteAlign()
     m_bitlen &= ~7;
 }
 
-int CGolombBuffer::GetPos()
+size_t CGolombBuffer::GetPos()
 {
     return m_nBitPos - (m_bitlen >> 3);
 }
 
-void CGolombBuffer::ReadBuffer(BYTE* pDest, int nSize)
+void CGolombBuffer::ReadBuffer(BYTE* pDest, size_t nSize)
 {
     ASSERT(m_nBitPos + nSize <= m_nSize);
     ASSERT(m_bitlen == 0);
@@ -109,7 +109,7 @@ void CGolombBuffer::Reset()
     m_bitbuff = 0;
 }
 
-void CGolombBuffer::Reset(BYTE* pNewBuffer, int nNewSize)
+void CGolombBuffer::Reset(BYTE* pNewBuffer, size_t nNewSize)
 {
     m_pBuffer = pNewBuffer;
     m_nSize   = nNewSize;
@@ -117,7 +117,7 @@ void CGolombBuffer::Reset(BYTE* pNewBuffer, int nNewSize)
     Reset();
 }
 
-void CGolombBuffer::SkipBytes(int nCount)
+void CGolombBuffer::SkipBytes(size_t nCount)
 {
     m_nBitPos += nCount;
     m_bitlen   = 0;

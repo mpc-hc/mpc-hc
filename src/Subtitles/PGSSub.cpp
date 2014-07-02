@@ -354,7 +354,7 @@ void CPGSSub::EnqueuePresentationSegment()
                 pObject->m_height = pObjectData.m_height;
 
                 if (pObjectData.GetRLEData()) {
-                    pObject->SetRLEData(pObjectData.GetRLEData(), pObjectData.GetRLEDataSize(), pObjectData.GetRLEDataSize());
+                    pObject->SetRLEData(pObjectData.GetRLEData(), pObjectData.GetRLEPos(), pObjectData.GetRLEDataSize());
                 }
             }
 

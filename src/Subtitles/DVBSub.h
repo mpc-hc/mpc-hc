@@ -208,9 +208,9 @@ private:
         }
     };
 
-    int                    m_nBufferSize;
-    int                    m_nBufferReadPos;
-    int                    m_nBufferWritePos;
+    size_t                 m_nBufferSize;
+    size_t                 m_nBufferReadPos;
+    size_t                 m_nBufferWritePos;
     BYTE*                  m_pBuffer;
     CAutoPtrList<DVB_PAGE> m_pages;
     CAutoPtr<DVB_PAGE>     m_pCurrentPage;

@@ -1,5 +1,5 @@
 /*
- * (C) 2008-2012 see Authors.txt
+ * (C) 2008-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -23,10 +23,10 @@
 class CGolombBuffer
 {
 public:
-    CGolombBuffer(BYTE* pBuffer, int nSize);
+    CGolombBuffer(BYTE* pBuffer, size_t nSize);
     ~CGolombBuffer();
 
-    UINT64 BitRead(int nBits, bool fPeek = false);
+    UINT64 BitRead(size_t nBits, bool fPeek = false);
     UINT64 UExpGolombRead();
     INT64 SExpGolombRead();
     void BitByteAlign();
@@ -34,24 +34,24 @@ public:
     inline BYTE ReadByte() { return (BYTE)BitRead(8); };
     inline short ReadShort() { return (short)BitRead(16); };
     inline DWORD ReadDword() { return (DWORD)BitRead(32); };
-    void ReadBuffer(BYTE* pDest, int nSize);
+    void ReadBuffer(BYTE* pDest, size_t nSize);
 
     void Reset();
-    void Reset(BYTE* pNewBuffer, int nNewSize);
+    void Reset(BYTE* pNewBuffer, size_t nNewSize);
 
-    void SetSize(int nValue) { m_nSize = nValue; };
-    int GetSize() const { return m_nSize; };
-    int RemainingSize() const { return m_nSize - m_nBitPos; };
+    void SetSize(size_t nValue) { m_nSize = nValue; };
+    size_t GetSize() const { return m_nSize; };
+    size_t RemainingSize() const { return m_nSize - m_nBitPos; };
     bool IsEOF() const { return m_nBitPos >= m_nSize; };
-    int GetPos();
+    size_t GetPos();
     BYTE* GetBufferPos() { return m_pBuffer + m_nBitPos; };
 
-    void SkipBytes(int nCount);
+    void SkipBytes(size_t nCount);
 
 private:
-    BYTE* m_pBuffer;
-    int   m_nSize;
-    int   m_nBitPos;
-    int   m_bitlen;
-    INT64 m_bitbuff;
+    BYTE*  m_pBuffer;
+    size_t m_nSize;
+    size_t m_nBitPos;
+    size_t m_bitlen;
+    INT64  m_bitbuff;
 };

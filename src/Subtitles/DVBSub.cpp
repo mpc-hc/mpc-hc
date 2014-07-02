@@ -247,7 +247,7 @@ HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
     hr = AddToBuffer(pData, nSize);
     if (hr == S_OK) {
         CGolombBuffer gb(m_pBuffer + m_nBufferReadPos, m_nBufferWritePos - m_nBufferReadPos);
-        int nLastPos = 0;
+        size_t nLastPos = 0;
 
         while (gb.RemainingSize() >= 6) { // Ensure there is enough data to parse the entire segment header
             if (gb.ReadByte() == 0x0F) {
@@ -482,8 +482,8 @@ POSITION CDVBSub::FindObject(const CAutoPtr<DVB_PAGE>& pPage, short sObjectId) c
 
 HRESULT CDVBSub::ParsePage(CGolombBuffer& gb, WORD wSegLength, CAutoPtr<DVB_PAGE>& pPage)
 {
-    int nExpectedSize = 2;
-    int nEnd = gb.GetPos() + wSegLength;
+    size_t nExpectedSize = 2;
+    size_t nEnd = gb.GetPos() + wSegLength;
 
     pPage = CAutoPtr<DVB_PAGE>(DEBUG_NEW DVB_PAGE());
 
@@ -529,8 +529,8 @@ HRESULT CDVBSub::ParseRegion(CGolombBuffer& gb, WORD wSegLength)
     HRESULT hr = E_POINTER;
 
     if (m_pCurrentPage) {
-        int nExpectedSize = 10;
-        int nEnd = gb.GetPos() + wSegLength;
+        size_t nExpectedSize = 10;
+        size_t nEnd = gb.GetPos() + wSegLength;
 
         BYTE id = gb.ReadByte();
         POSITION posRegion = FindRegion(m_pCurrentPage, id);
@@ -582,8 +582,8 @@ HRESULT CDVBSub::ParseClut(CGolombBuffer& gb, WORD wSegLength)
     HRESULT hr = E_POINTER;
 
     if (m_pCurrentPage) {
-        int nExpectedSize = 2;
-        int nEnd = gb.GetPos() + wSegLength;
+        size_t nExpectedSize = 2;
+        size_t nEnd = gb.GetPos() + wSegLength;
 
         BYTE id = gb.ReadByte();
         POSITION posClut = FindClut(m_pCurrentPage, id);
@@ -642,8 +642,8 @@ HRESULT CDVBSub::ParseObject(CGolombBuffer& gb, WORD wSegLength)
     HRESULT hr = E_POINTER;
 
     if (m_pCurrentPage) {
-        int nExpectedSize = 3;
-        int nEnd = gb.GetPos() + wSegLength;
+        size_t nExpectedSize = 3;
+        size_t nEnd = gb.GetPos() + wSegLength;
 
         short id = gb.ReadShort();
         POSITION posObject = FindObject(m_pCurrentPage, id);

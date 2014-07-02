@@ -59,16 +59,17 @@ public:
     void  Init();
     void  Reset();
 
-    void  SetRLEData(const BYTE* pBuffer, int nSize, int nTotalSize);
-    void  AppendRLEData(const BYTE* pBuffer, int nSize);
+    void SetRLEData(const BYTE* pBuffer, size_t nSize, size_t nTotalSize);
+    void AppendRLEData(const BYTE* pBuffer, size_t nSize);
     const BYTE* GetRLEData() const { return m_pRLEData; };
-    int   GetRLEDataSize() const { return m_nRLEDataSize; };
-    bool  IsRLEComplete() const { return m_nRLEPos >= m_nRLEDataSize; };
-    void  RenderHdmv(SubPicDesc& spd);
-    void  RenderDvb(SubPicDesc& spd, short nX, short nY);
-    void  WriteSeg(SubPicDesc& spd, short nX, short nY, short nCount, short nPaletteIndex);
-    void  SetPalette(int nNbEntry, const HDMV_PALETTE* pPalette, bool BT709, int sourceBlackLevel, int sourceWhiteLevel, int targetBlackLevel, int targetWhiteLevel);
-    bool  HavePalette() const { return m_nColorNumber > 0; };
+    size_t GetRLEDataSize() const { return m_nRLEDataSize; };
+    size_t GetRLEPos() const { return m_nRLEPos; };
+    bool IsRLEComplete() const { return m_nRLEPos >= m_nRLEDataSize; };
+    void RenderHdmv(SubPicDesc& spd);
+    void RenderDvb(SubPicDesc& spd, short nX, short nY);
+    void WriteSeg(SubPicDesc& spd, short nX, short nY, short nCount, short nPaletteIndex);
+    void SetPalette(int nNbEntry, const HDMV_PALETTE* pPalette, bool BT709, int sourceBlackLevel, int sourceWhiteLevel, int targetBlackLevel, int targetWhiteLevel);
+    bool HavePalette() const { return m_nColorNumber > 0; };
 
     // Forbid the use of direct affectation for now, it would be dangerous because
     // of possible leaks and double frees. We could do a deep copy to be safe but
@@ -78,9 +79,9 @@ public:
 
 private:
     BYTE* m_pRLEData;
-    int   m_nRLEDataSize;
-    int   m_nRLEPos;
-    int   m_nColorNumber;
+    size_t m_nRLEDataSize;
+    size_t m_nRLEPos;
+    int m_nColorNumber;
     std::array<DWORD, 256> m_colors;
 
     void  DvbRenderField(SubPicDesc& spd, CGolombBuffer& gb, short nXStart, short nYStart, short nLength);
