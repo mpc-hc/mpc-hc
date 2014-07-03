@@ -214,29 +214,24 @@ void CMediaFormats::UpdateData(bool fSave)
         ADDFMT((_T("mkv"),         ResStr(IDS_MFMT_MKV),         _T("mkv")));
         ADDFMT((_T("webm"),        ResStr(IDS_MFMT_WEBM),        _T("webm")));
         ADDFMT((_T("mp4"),         ResStr(IDS_MFMT_MP4),         _T("mp4 m4v mp4v mpv4 hdmov")));
-        ADDFMT((_T("mov"),         ResStr(IDS_MFMT_MOV),         _T("mov"), false, _T("QuickTime or QT Lite")));
+        ADDFMT((_T("mov"),         ResStr(IDS_MFMT_MOV),         _T("mov")));
         ADDFMT((_T("3gp"),         ResStr(IDS_MFMT_3GP),         _T("3gp 3gpp 3ga")));
-#ifdef _WIN64
         ADDFMT((_T("3g2"),         ResStr(IDS_MFMT_3G2),         _T("3g2 3gp2")));
-#else
-        ADDFMT((_T("3g2"),         ResStr(IDS_MFMT_3G2),         _T("3g2 3gp2"), false, _T("QuickTime or QT Lite"), QuickTime));
-#endif
         ADDFMT((_T("flv"),         ResStr(IDS_MFMT_FLV),         _T("flv f4v")));
         ADDFMT((_T("ogm"),         ResStr(IDS_MFMT_OGM),         _T("ogm ogv")));
+        ADDFMT((_T("rm"),          ResStr(IDS_MFMT_RM),          _T("rm rmvb")));
 #ifdef _WIN64
-        ADDFMT((_T("rm"),          ResStr(IDS_MFMT_RM),          _T("rm ram rpm rmm")));
-        ADDFMT((_T("rt"),          ResStr(IDS_MFMT_RT),          _T("rt rp smi smil")));
+        ADDFMT((_T("rt"),          ResStr(IDS_MFMT_RT),          _T("rt ram rpm rmm rp smi smil")));
 #else
-        ADDFMT((_T("rm"),          ResStr(IDS_MFMT_RM),          _T("rm ram rmm"), false, _T("RealPlayer or Real Alternative"), RealMedia));
-        ADDFMT((_T("rt"),          ResStr(IDS_MFMT_RT),          _T("rt rp smil"), false, _T("RealPlayer or Real Alternative"), RealMedia));
+        ADDFMT((_T("rt"),          ResStr(IDS_MFMT_RT),          _T("rt ram rpm rmm rp smi smil"), false, _T("RealPlayer or Real Alternative"), RealMedia));
 #endif
         ADDFMT((_T("wmv"),         ResStr(IDS_MFMT_WMV),         _T("wmv wmp wm asf")));
-        ADDFMT((_T("bink"),        ResStr(IDS_MFMT_BINK),        _T("smk bik"), false, _T("smackw32/binkw32.dll in dll path")));
+        ADDFMT((_T("bink"),        ResStr(IDS_MFMT_BINK),        _T("smk bik")));
         ADDFMT((_T("flic"),        ResStr(IDS_MFMT_FLIC),        _T("fli flc flic")));
         ADDFMT((_T("dsm"),         ResStr(IDS_MFMT_DSM),         _T("dsm dsv dsa dss")));
         ADDFMT((_T("ivf"),         ResStr(IDS_MFMT_IVF),         _T("ivf")));
         ADDFMT((_T("swf"),         ResStr(IDS_MFMT_SWF),         _T("swf"), false, _T("ShockWave ActiveX control"), ShockWave));
-        ADDFMT((_T("other"),       ResStr(IDS_MFMT_OTHER),       _T("divx rmvb amv")));
+        ADDFMT((_T("other"),       ResStr(IDS_MFMT_OTHER),       _T("divx amv")));
         ADDFMT((_T("ac3dts"),      ResStr(IDS_MFMT_AC3),         _T("ac3 dts"), true));
         ADDFMT((_T("aiff"),        ResStr(IDS_MFMT_AIFF),        _T("aif aifc aiff"), true));
         ADDFMT((_T("alac"),        ResStr(IDS_MFMT_ALAC),        _T("alac"), true));
@@ -245,11 +240,7 @@ void CMediaFormats::UpdateData(bool fSave)
         ADDFMT((_T("au"),          ResStr(IDS_MFMT_AU),          _T("au snd"), true));
         ADDFMT((_T("audiocd"),     ResStr(IDS_MFMT_CDA),         _T("cda"), true));
         ADDFMT((_T("flac"),        ResStr(IDS_MFMT_FLAC),        _T("flac"), true));
-#ifdef _WIN64
         ADDFMT((_T("m4a"),         ResStr(IDS_MFMT_M4A),         _T("m4a m4b m4r aac"), true));
-#else
-        ADDFMT((_T("m4a"),         ResStr(IDS_MFMT_M4A),         _T("m4a m4b m4r aac"), true, _T(""), QuickTime));
-#endif
         ADDFMT((_T("midi"),        ResStr(IDS_MFMT_MIDI),        _T("mid midi rmi"), true));
         ADDFMT((_T("mka"),         ResStr(IDS_MFMT_MKA),         _T("mka"), true));
         ADDFMT((_T("mp3"),         ResStr(IDS_MFMT_MP3),         _T("mp3"), true));
@@ -258,11 +249,7 @@ void CMediaFormats::UpdateData(bool fSave)
         ADDFMT((_T("ofr"),         ResStr(IDS_MFMT_OFR),         _T("ofr ofs"), true));
         ADDFMT((_T("ogg"),         ResStr(IDS_MFMT_OGG),         _T("ogg oga"), true));
         ADDFMT((_T("opus"),        ResStr(IDS_MFMT_OPUS),        _T("opus"), true));
-#ifdef _WIN64
         ADDFMT((_T("ra"),          ResStr(IDS_MFMT_RA),          _T("ra"), true));
-#else
-        ADDFMT((_T("ra"),          ResStr(IDS_MFMT_RA),          _T("ra"), true, _T("RealPlayer or Real Alternative"), RealMedia));
-#endif
         ADDFMT((_T("tak"),         ResStr(IDS_MFMT_TAK),         _T("tak"), true));
         ADDFMT((_T("tta"),         ResStr(IDS_MFMT_TTA),         _T("tta"), true));
         ADDFMT((_T("wav"),         ResStr(IDS_MFMT_WAV),         _T("wav"), true));
