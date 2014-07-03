@@ -105,10 +105,8 @@ bool NEARLY_EQ(T a, T b, T tol)
     return (abs(a - b) < tol);
 }
 
-#define DEFCLIENTW 292
-#define DEFCLIENTH 200
-
-#define MENUBARBREAK 30
+#define MIN_LOGO_WIDTH 304
+#define MIN_LOGO_HEIGHT 171
 
 #define PREV_CHAP_THRESHOLD 5
 
@@ -9084,8 +9082,8 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
         GetClientRect(&clientRect);
 
         CSize logoSize = m_wndView.GetLogoSize();
-        logoSize.cx = max<LONG>(logoSize.cx, DEFCLIENTW);
-        logoSize.cy = max<LONG>(logoSize.cy, DEFCLIENTH);
+        logoSize.cx = max<LONG>(logoSize.cx, MIN_LOGO_WIDTH);
+        logoSize.cy = max<LONG>(logoSize.cy, MIN_LOGO_HEIGHT);
 
         unsigned uTop, uLeft, uRight, uBottom;
         m_controls.GetDockZones(uTop, uLeft, uRight, uBottom);
@@ -9169,8 +9167,8 @@ void CMainFrame::RestoreDefaultWindowRect()
             GetClientRect(&clientRect);
 
             CSize logoSize = m_wndView.GetLogoSize();
-            logoSize.cx = max<LONG>(logoSize.cx, DEFCLIENTW);
-            logoSize.cy = max<LONG>(logoSize.cy, DEFCLIENTH);
+            logoSize.cx = max<LONG>(logoSize.cx, MIN_LOGO_WIDTH);
+            logoSize.cy = max<LONG>(logoSize.cy, MIN_LOGO_HEIGHT);
 
             unsigned uTop, uLeft, uRight, uBottom;
             m_controls.GetDockZones(uTop, uLeft, uRight, uBottom);
