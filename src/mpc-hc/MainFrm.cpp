@@ -9061,14 +9061,22 @@ static BOOL CALLBACK MonitorEnumProc(HMONITOR hMonitor, HDC hdcMonitor, LPRECT l
 void CMainFrame::SetDefaultWindowRect(int iMonitor)
 {
     const CAppSettings& s = AfxGetAppSettings();
-    int w, h, x, y;
 
+    if (s.eCaptionMenuMode != MODE_SHOWCAPTIONMENU) {
+        if (s.eCaptionMenuMode == MODE_FRAMEONLY) {
+            ModifyStyle(WS_CAPTION, 0, SWP_NOZORDER);
+        } else if (s.eCaptionMenuMode == MODE_BORDERLESS) {
+            ModifyStyle(WS_CAPTION | WS_THICKFRAME, 0, SWP_NOZORDER);
+        }
+        SetMenuBarVisibility(AFX_MBV_DISPLAYONFOCUS | AFX_MBV_DISPLAYONF10);
+        SetWindowPos(nullptr, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOSIZE | SWP_NOMOVE | SWP_NOZORDER);
+    }
+
+    CSize windowSize;
     if (s.HasFixedWindowSize()) {
-        w = s.sizeFixedWindow.cx;
-        h = s.sizeFixedWindow.cy;
+        windowSize = s.sizeFixedWindow;
     } else if (s.fRememberWindowSize) {
-        w = s.rcLastWindowPos.Width();
-        h = s.rcLastWindowPos.Height();
+        windowSize = s.rcLastWindowPos.Size();
     } else {
         CRect windowRect;
         GetWindowRect(&windowRect);
@@ -9082,59 +9090,34 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
         unsigned uTop, uLeft, uRight, uBottom;
         m_controls.GetDockZones(uTop, uLeft, uRight, uBottom);
 
-        w = windowRect.Width() - clientRect.Width() + logoSize.cx + uLeft + uRight;
-        h = windowRect.Height() - clientRect.Height() + logoSize.cy + uTop + uBottom;
+        windowSize.cx = windowRect.Width() - clientRect.Width() + logoSize.cx + uLeft + uRight;
+        windowSize.cy = windowRect.Height() - clientRect.Height() + logoSize.cy + uTop + uBottom;
     }
 
-    bool bRestoreWindowPosition = false;
+    bool bRestoredWindowPosition = false;
     if (s.fRememberWindowPos) {
-        CRect rect(s.rcLastWindowPos.TopLeft(), CSize(w, h));
-        if (CMonitors::IsOnScreen(rect)) {
-            bRestoreWindowPosition = true;
+        CRect windowRect = s.rcLastWindowPos;
+        if (CMonitors::IsOnScreen(windowRect)) {
+            MoveWindow(windowRect);
+            bRestoredWindowPosition = true;
         }
     }
 
-    if (bRestoreWindowPosition) {
-        x = s.rcLastWindowPos.TopLeft().x;
-        y = s.rcLastWindowPos.TopLeft().y;
-    } else {
-        HMONITOR hMonitor = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
-
+    if (!bRestoredWindowPosition) {
+        CMonitors monitors;
+        CMonitor monitor;
         if (iMonitor > 0) {
-            iMonitor--;
-            CAtlArray<HMONITOR> ml;
-            EnumDisplayMonitors(nullptr, nullptr, MonitorEnumProc, (LPARAM)&ml);
-            if ((size_t)iMonitor < ml.GetCount()) {
-                hMonitor = ml[iMonitor];
-            }
+            monitor = monitors.GetMonitor(--iMonitor);
+        } else {
+            monitor.Attach(MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST));
         }
 
-        MONITORINFO mi;
-        mi.cbSize = sizeof(MONITORINFO);
-        GetMonitorInfo(hMonitor, &mi);
-
-        x = (mi.rcWork.left + mi.rcWork.right - w) / 2; // Center main window
-        y = (mi.rcWork.top + mi.rcWork.bottom - h) / 2; // no need to call CenterWindow()
-    }
-
-    UINT lastWindowType = s.nLastWindowType;
-    MoveWindow(x, y, w, h);
-
-    if (s.eCaptionMenuMode != MODE_SHOWCAPTIONMENU) {
-        if (s.eCaptionMenuMode == MODE_FRAMEONLY) {
-            ModifyStyle(WS_CAPTION, 0, SWP_NOZORDER);
-        } else if (s.eCaptionMenuMode == MODE_BORDERLESS) {
-            ModifyStyle(WS_CAPTION | WS_THICKFRAME, 0, SWP_NOZORDER);
-        }
-        SetMenuBarVisibility(AFX_MBV_DISPLAYONFOCUS | AFX_MBV_DISPLAYONF10);
-        SetWindowPos(nullptr, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOSIZE | SWP_NOMOVE | SWP_NOZORDER);
-    }
-
-    if (!s.fRememberWindowPos) {
-        CenterWindow();
+        SetWindowPos(nullptr, 0, 0, windowSize.cx, windowSize.cy, SWP_NOMOVE | SWP_NOZORDER);
+        monitor.CenterWindowToMonitor(this, TRUE);
     }
 
     if (s.fRememberWindowSize && s.fRememberWindowPos) {
+        UINT lastWindowType = s.nLastWindowType;
         if (lastWindowType == SIZE_MAXIMIZED) {
             ShowWindow(SW_MAXIMIZE);
         } else if (lastWindowType == SIZE_MINIMIZED) {
@@ -9176,18 +9159,10 @@ void CMainFrame::RestoreDefaultWindowRect()
 {
     const CAppSettings& s = AfxGetAppSettings();
 
-    WINDOWPLACEMENT wp;
-    GetWindowPlacement(&wp);
+    if (!m_fFullScreen && !IsZoomed() && !IsIconic() && !s.fRememberWindowSize && !IsAeroSnapped()) {
+        CSize windowSize = s.sizeFixedWindow;
 
-    if (!m_fFullScreen && wp.showCmd != SW_SHOWMAXIMIZED && wp.showCmd != SW_SHOWMINIMIZED
-            //&& (GetExStyle()&WS_EX_APPWINDOW)
-            && !s.fRememberWindowSize && !IsAeroSnapped()) {
-        int x, y, w, h;
-
-        if (s.HasFixedWindowSize()) {
-            w = s.sizeFixedWindow.cx;
-            h = s.sizeFixedWindow.cy;
-        } else {
+        if (!s.HasFixedWindowSize()) {
             CRect windowRect;
             GetWindowRect(&windowRect);
             CRect clientRect;
@@ -9200,24 +9175,14 @@ void CMainFrame::RestoreDefaultWindowRect()
             unsigned uTop, uLeft, uRight, uBottom;
             m_controls.GetDockZones(uTop, uLeft, uRight, uBottom);
 
-            w = windowRect.Width() - clientRect.Width() + logoSize.cx + uLeft + uRight;
-            h = windowRect.Height() - clientRect.Height() + logoSize.cy + uTop + uBottom;
+            windowSize.cx = windowRect.Width() - clientRect.Width() + logoSize.cx + uLeft + uRight;
+            windowSize.cy = windowRect.Height() - clientRect.Height() + logoSize.cy + uTop + uBottom;
         }
 
         if (s.fRememberWindowPos) {
-            x = s.rcLastWindowPos.TopLeft().x;
-            y = s.rcLastWindowPos.TopLeft().y;
+            MoveWindow(CRect(s.rcLastWindowPos.TopLeft(), windowSize));
         } else {
-            CRect r;
-            GetWindowRect(r);
-
-            x = r.CenterPoint().x - w / 2; // Center window here
-            y = r.CenterPoint().y - h / 2; // no need to call CenterWindow()
-        }
-
-        MoveWindow(x, y, w, h);
-
-        if (!s.fRememberWindowPos) {
+            SetWindowPos(nullptr, 0, 0, windowSize.cx, windowSize.cy, SWP_NOMOVE | SWP_NOZORDER);
             CenterWindow();
         }
     }

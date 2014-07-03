@@ -178,8 +178,11 @@ void CMonitor::CenterRectToMonitor(LPRECT lprc, const BOOL UseWorkAreaRect) cons
         GetMonitorRect(&rect);
     }
 
-    lprc->left = rect.left + (rect.Width() - w) / 2;
-    lprc->top = rect.top + (rect.Height() - h) / 2;
+    // MPC-HC custom code start
+    // Added rounding to get exactly the same rect as the CWnd::CenterWindow method returns.
+    lprc->left = std::lround(rect.left + (rect.Width() - w) / 2.0);
+    lprc->top = std::lround(rect.top + (rect.Height() - h) / 2.0);
+    // MPC-HC custom code end
     lprc->right = lprc->left + w;
     lprc->bottom = lprc->top + h;
 }
