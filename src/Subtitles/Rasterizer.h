@@ -66,8 +66,7 @@ struct RasterizerNfo {
     }
 };
 
-typedef std::pair<unsigned __int64, unsigned __int64> tSpan;
-typedef std::vector<tSpan> tSpanBuffer;
+using tSpanBuffer = std::vector<std::pair<unsigned __int64, unsigned __int64>>;
 
 struct COutlineData {
     int mWidth, mHeight;

@@ -31,10 +31,6 @@
 #include "SeparableFilter.h"
 #include "../DSUtil/vd.h" // For CPUID usage in Rasterizer::Draw
 
-#ifndef _MAX    /* avoid collision with common (nonconforming) macros */
-#define _MAX    (std::max)
-#endif
-
 #define MAX_DIMENSION 4000 // Maximum width or height supported
 #define SUBPIXEL_MULTIPLIER 8
 
@@ -547,7 +543,7 @@ bool Rasterizer::ScanConvert()
         // Detangle scanline into edge heap.
 
         for (size_t ptr = (mpScanBuffer[y] & (unsigned int)(-1)); ptr; ptr = mpEdgeBuffer[ptr].next) {
-            heap.push_back(mpEdgeBuffer[ptr].posandflag);
+            heap.emplace_back(mpEdgeBuffer[ptr].posandflag);
         }
 
         // Sort edge heap.  Note that we conveniently made the opening edges
@@ -582,7 +578,7 @@ bool Rasterizer::ScanConvert()
                 x2 = (x >> 1);
 
                 if (x2 > x1) {
-                    m_outlineData.mOutline.push_back(std::pair<__int64, __int64>((y << 32) + x1 + 0x4000000040000000i64, (y << 32) + x2 + 0x4000000040000000i64)); // G: damn Avery, this is evil! :)
+                    m_outlineData.mOutline.emplace_back((y << 32) + x1 + 0x4000000040000000i64, (y << 32) + x2 + 0x4000000040000000i64); // G: damn Avery, this is evil! :)
                 }
             }
         }
@@ -619,11 +615,11 @@ void Rasterizer::_OverlapRegion(tSpanBuffer& dst, const tSpanBuffer& src, int dx
     unsigned __int64 offset2 = (((__int64)dy) << 32) + dx;
 
     while (itA != itAE && itB != itBE) {
-        if ((*itB).first + offset1 < (*itA).first) {
+        if (itB->first + offset1 < itA->first) {
             // B span is earlier.  Use it.
 
-            unsigned __int64 x1 = (*itB).first + offset1;
-            unsigned __int64 x2 = (*itB).second + offset2;
+            unsigned __int64 x1 = itB->first + offset1;
+            unsigned __int64 x2 = itB->second + offset2;
 
             ++itB;
 
@@ -634,35 +630,37 @@ void Rasterizer::_OverlapRegion(tSpanBuffer& dst, const tSpanBuffer& src, int dx
                 // then the next B span can't either (because B spans don't
                 // overlap) and we exit.
 
-                if (itA == itAE || (*itA).first > x2) {
+                if (itA == itAE || itA->first > x2) {
                     break;
                 }
 
                 do {
-                    x2 = _MAX(x2, (*itA++).second);
-                } while (itA != itAE && (*itA).first <= x2);
+                    x2 = std::max(x2, itA->second);
+                    ++itA;
+                } while (itA != itAE && itA->first <= x2);
 
                 // If we run out of B spans or the B span doesn't overlap,
                 // then the next A span can't either (because A spans don't
                 // overlap) and we exit.
 
-                if (itB == itBE || (*itB).first + offset1 > x2) {
+                if (itB == itBE || itB->first + offset1 > x2) {
                     break;
                 }
 
                 do {
-                    x2 = _MAX(x2, (*itB++).second + offset2);
-                } while (itB != itBE && (*itB).first + offset1 <= x2);
+                    x2 = std::max(x2, itB->second + offset2);
+                    ++itB;
+                } while (itB != itBE && itB->first + offset1 <= x2);
             }
 
             // Flush span.
 
-            dst.push_back(tSpan(x1, x2));
+            dst.emplace_back(x1, x2);
         } else {
             // A span is earlier.  Use it.
 
-            unsigned __int64 x1 = (*itA).first;
-            unsigned __int64 x2 = (*itA).second;
+            unsigned __int64 x1 = itA->first;
+            unsigned __int64 x2 = itA->second;
 
             ++itA;
 
@@ -673,41 +671,44 @@ void Rasterizer::_OverlapRegion(tSpanBuffer& dst, const tSpanBuffer& src, int dx
                 // then the next A span can't either (because A spans don't
                 // overlap) and we exit.
 
-                if (itB == itBE || (*itB).first + offset1 > x2) {
+                if (itB == itBE || itB->first + offset1 > x2) {
                     break;
                 }
 
                 do {
-                    x2 = _MAX(x2, (*itB++).second + offset2);
-                } while (itB != itBE && (*itB).first + offset1 <= x2);
+                    x2 = std::max(x2, itB->second + offset2);
+                    ++itB;
+                } while (itB != itBE && itB->first + offset1 <= x2);
 
                 // If we run out of A spans or the A span doesn't overlap,
                 // then the next B span can't either (because B spans don't
                 // overlap) and we exit.
 
-                if (itA == itAE || (*itA).first > x2) {
+                if (itA == itAE || itA->first > x2) {
                     break;
                 }
 
                 do {
-                    x2 = _MAX(x2, (*itA++).second);
-                } while (itA != itAE && (*itA).first <= x2);
+                    x2 = std::max(x2, itA->second);
+                    ++itA;
+                } while (itA != itAE && itA->first <= x2);
             }
 
             // Flush span.
 
-            dst.push_back(tSpan(x1, x2));
+            dst.emplace_back(x1, x2);
         }
     }
 
     // Copy over leftover spans.
 
     while (itA != itAE) {
-        dst.push_back(*itA++);
+        dst.emplace_back(*itA);
+        ++itA;
     }
 
     while (itB != itBE) {
-        dst.push_back(tSpan((*itB).first + offset1, (*itB).second + offset2));
+        dst.emplace_back(itB->first + offset1, itB->second + offset2);
         ++itB;
     }
 }
@@ -831,11 +832,11 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
                     *dst += x2 - x1;
                 } else {
                     *dst += ((first + 1) << 3) - x1;
-                    dst++;
+                    ++dst;
 
                     while (++first < last) {
                         *dst += 0x08;
-                        dst++;
+                        ++dst;
                     }
 
                     *dst += x2 - (last << 3);

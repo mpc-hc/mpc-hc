@@ -21,6 +21,7 @@
 #include "stdafx.h"
 #include "PGSSub.h"
 #include "../DSUtil/GolombBuffer.h"
+#include <vector>
 #include <algorithm>
 #include "SubtitleHelpers.h"
 
