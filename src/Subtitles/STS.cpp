@@ -31,10 +31,10 @@
 #include "../DSUtil/WinAPIUtils.h"
 
 
-static struct htmlcolor{
+static struct htmlcolor {
     TCHAR* name;
     DWORD  color;
-} hmtlcolors[] = {
+} htmlcolors[] = {
     {_T("white"), 0xffffff},
     {_T("whitesmoke"), 0xf5f5f5},
     {_T("ghostwhite"), 0xf8f8ff},
@@ -183,8 +183,8 @@ static struct htmlcolor{
 
 CHtmlColorMap::CHtmlColorMap()
 {
-    for (size_t i = 0; i < _countof(hmtlcolors); i++) {
-        SetAt(hmtlcolors[i].name, hmtlcolors[i].color);
+    for (size_t i = 0; i < _countof(htmlcolors); i++) {
+        SetAt(htmlcolors[i].name, htmlcolors[i].color);
     }
 }
 
