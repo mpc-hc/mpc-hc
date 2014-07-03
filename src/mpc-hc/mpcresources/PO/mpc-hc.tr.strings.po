@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-06-04 20:22:52+0000\n"
-"PO-Revision-Date: 2014-06-05 13:21+0000\n"
+"POT-Creation-Date: 2014-06-15 01:03:51+0000\n"
+"PO-Revision-Date: 2014-06-18 19:40+0000\n"
 "Last-Translator: Sinan H.\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/mpc-hc/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -588,7 +588,7 @@ msgstr "Klip"
 
 msgctxt "IDC_DSSYSDEF"
 msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason. On Windown XP this is the same as VMR-7 (windowed)."
-msgstr "DirectShow için varsayılan video dönüştürücüsüdür. Diğerleri yüklenemezlerse bu dönüştürücüye çevrileceklerdir. Windows XP 'de VMR-7 ile aynıdır (pencerede)."
+msgstr "DirectShow için varsayılan video dönüştürücüsüdür. Diğerleri yüklenemezlerse bu dönüştürücüye çevrileceklerdir. Windows XP 'de VKI-7 ile aynıdır (pencerede)."
 
 msgctxt "IDC_DSOLD"
 msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
@@ -604,19 +604,19 @@ msgstr "Windows XP için varsayılan dönüştürücüdür. Oldukça kararlı ve
 
 msgctxt "IDC_DSVMR9WIN"
 msgid "Only available if you have DirectX 9 installed. Has the same abilities as VMR-7 (windowed), but it will never use Overlay rendering and because of this it may be a little slower than VMR-7 (windowed)."
-msgstr "Sadece DirectX 9 yüklüyse çalışır. VMR-7 (pencerede) ile aynı özelliklere sahiptir, ancak Üst süzme kipini kullanmaz ve bu yüzden VMR-7 'den (pencere) biraz daha yavaştır."
+msgstr "Sadece DirectX 9 yüklüyse çalışır. VKI-7 (pencerede) ile aynı özelliklere sahiptir, ancak Üst süzme kipini kullanmaz ve bu yüzden VKI-7 'den (pencere) biraz daha yavaştır."
 
 msgctxt "IDC_DSVMR7REN"
 msgid "Same as the VMR-7 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring WILL NOT work. \"True Color\" desktop color space recommended."
-msgstr "VMR-7 (pencerede) ile aynıdır, ancak alt yazı için MPC-HC yerleşim yöneticisi ile beraberdir. Üst süzme video yansılaması ÇALIŞMAZ. 'Gerçek Renk' masaüstü renk kalitesi önerilir."
+msgstr "VKI-7 (pencerede) ile aynıdır, ancak alt yazı için MPC-HC yerleşim yöneticisi ile beraberdir. Üst süzme video yansılaması ÇALIŞMAZ. 'Gerçek Renk' masaüstü renk kalitesi önerilir."
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
-msgstr "VMR-9 (pencerede) ile aynıdır, ancak alt yazı için MPC-HC yerleşim yöneticisi ile beraberdir. Üst süzme video yansılaması ÇALIŞIR. 'Gerçek Renk' masaüstü renk kalitesi önerilir."
+msgstr "VKI-9 (pencerede) ile aynıdır, ancak alt yazı için MPC-HC yerleşim yöneticisi ile beraberdir. Üst süzme video yansılaması ÇALIŞIR. 'Gerçek Renk' masaüstü renk kalitesi önerilir."
 
 msgctxt "IDC_DSDXR"
 msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
-msgstr "VMR-9 (çevrilmeden) gibidir, ancak gerçek çift-geçişli kübik boyutlandırıcı kullanır."
+msgstr "VKI-9 (çevrilmeden) gibidir, ancak gerçek çift-geçişli kübik boyutlandırıcı kullanır."
 
 msgctxt "IDC_DSNULL_COMP"
 msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the cpu from working unnecessarily."
@@ -648,11 +648,11 @@ msgstr "Real 'in kendi dönüştürücüsüdür. SMIL senaryoları çalışacak,
 
 msgctxt "IDC_RMDX7"
 msgid "The output of Real's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "VMR-7 'nin (çevrilmeden) DX7 tabanlı yerleşim yöneticisince çevrilen Real 'in çıktı motorudur."
+msgstr "VKI-7 'nin (çevrilmeden) DX7 tabanlı yerleşim yöneticisince çevrilen Real 'in çıktı motorudur."
 
 msgctxt "IDC_RMDX9"
 msgid "The output of Real's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
-msgstr "VMR-9 'un (çevrilmeden) DX9 tabanlı yerleşim yöneticisince çevrilen Real 'in çıktı motorudur."
+msgstr "VKI-9 'un (çevrilmeden) DX9 tabanlı yerleşim yöneticisince çevrilen Real 'in çıktı motorudur."
 
 msgctxt "IDC_QTSYSDEF"
 msgid "QuickTime's own renderer. Gets a little slow when its video area is resized or partially covered by another window. When Overlay is not available it likes to fall back to GDI."
@@ -660,11 +660,11 @@ msgstr "QuickTime 'ın kendi dönüştürücüsüdür. Video alanı boyutlandır
 
 msgctxt "IDC_QTDX7"
 msgid "The output of QuickTime's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "QuickTime motoru çıkışı DX7-tabanlı VMR-7 (çevrilmeden) Ayırıcısı-Sunucusu tarafından çevrilir."
+msgstr "QuickTime motoru çıkışı DX7-tabanlı VKI-7 (çevrilmeden) Ayırıcısı-Sunucusu tarafından çevrilir."
 
 msgctxt "IDC_QTDX9"
 msgid "The output of QuickTime's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
-msgstr "QuickTime motoru çıkışı DX9-tabanlı VMR-9 (çevrilmeden) Ayırıcısı-Sunucusu tarafından çevrilir."
+msgstr "QuickTime motoru çıkışı DX9-tabanlı VKI-9 (çevrilmeden) Ayırıcısı-Sunucusu tarafından çevrilir."
 
 msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
@@ -800,7 +800,7 @@ msgstr "Piksel Tonlama 2.0 desteği bulunmuyorsa, otomatik olarak basit çizgise
 
 msgctxt "IDC_DSVMR9LOADMIXER"
 msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
-msgstr "VMR-9 (çevrilmeden) kipini karıştırıcı olarak atar, böylece özellik sayfasındaki birçok ayar çalışacaktır ve çerçeveler ile çalışmak için ayrı bir işlem oluşturulabilinecektir."
+msgstr "VKI-9 (çevrilmeden) kipini karıştırıcı olarak atar, böylece özellik sayfasındaki birçok ayar çalışacaktır ve çerçeveler ile çalışmak için ayrı bir işlem oluşturulabilinecektir."
 
 msgctxt "IDC_DSVMR9YUVMIXER"
 msgid "Improves performance at the cost of some compatibility of the renderer."
@@ -1256,7 +1256,7 @@ msgstr "Özel biçimi kaydet"
 
 msgctxt "IDS_CONTENT_EDUCATION_SCIENCE"
 msgid "Education/Science/Factual topics"
-msgstr ""
+msgstr "Eğitim/Bilim/Gerçekçi konular"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2100,7 +2100,7 @@ msgstr " başarıyla yüklendi"
 
 msgctxt "IDS_ALL_FILES_FILTER"
 msgid "All files (*.*)|*.*||"
-msgstr "Tüm Dosyalar (*.*)|*.*||"
+msgstr "Tüm dosyalar (*.*)|*.*||"
 
 msgctxt "IDS_GETDIB_FAILED"
 msgid "GetDIB failed, hr = %08x"
@@ -2144,7 +2144,7 @@ msgstr "Küçük resim boyutları çok sınırlı olduğundan dosya yaratılamı
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "Altyazıları yüklemek için Video işleyicisini değiştirip, dosyayı yeniden açmanız gerekmektedir.\n- DirectShow: VMR-7/VMR-9 (çevrilmeden), GVI (CP), Senk., madVR veya Haali\n- RealMedia: RealMedia için özel işleyici gereklidir, veya DirectShow üzerinden oynatabilirsiniz\n- QuickTime: Quicktime için DX7 veya DX9 işleyicisi gereklidir\n- ShockWave: boş"
+msgstr "Altyazıları yüklemek için video işleyicisi biçimini değiştirip, dosyayı yeniden açmanız gerekmektedir.\n- DirectShow: VKI-7/VKI-9 (çevrilmeden), GVI (CP), Senk., madVR veya Haali\n- RealMedia: RealMedia için özel işleyici gereklidir, veya DirectShow üzerinden oynatabilirsiniz\n- QuickTime: Quicktime için DX7 veya DX9 işleyicisi gereklidir\n- ShockWave: boş"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %d:%d"

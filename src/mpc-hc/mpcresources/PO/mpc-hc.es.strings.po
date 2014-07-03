@@ -11,8 +11,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-06-04 20:22:52+0000\n"
-"PO-Revision-Date: 2014-06-06 05:40+0000\n"
+"POT-Creation-Date: 2014-06-15 01:03:51+0000\n"
+"PO-Revision-Date: 2014-06-16 18:20+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitoschido@ubuntu.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/mpc-hc/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -103,7 +103,7 @@ msgstr "Tasa de bits"
 
 msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
 msgid "(avg/cur)"
-msgstr "(promedio/actual)"
+msgstr "(prom./act.)"
 
 msgctxt "IDS_STATSBAR_SIGNAL"
 msgid "Signal"
@@ -323,7 +323,7 @@ msgstr "Lista de reproducción"
 
 msgctxt "IDS_PPAGE_FS_CLN_ON_OFF"
 msgid "On/Off"
-msgstr "Encendido/Apagado"
+msgstr "Activado/desactivado"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
 msgid "From fps"
@@ -379,19 +379,19 @@ msgstr "&Limpiar"
 
 msgctxt "IDS_PLAYLIST_COPYTOCLIPBOARD"
 msgid "&Copy to clipboard"
-msgstr "&Copiar al Portapapeles"
+msgstr "&Copiar en el portapapeles"
 
 msgctxt "IDS_PLAYLIST_SAVEAS"
 msgid "&Save As..."
-msgstr "&Guardar Como..."
+msgstr "&Guardar como…"
 
 msgctxt "IDS_PLAYLIST_SORTBYLABEL"
 msgid "Sort by &label"
-msgstr "Agrupar por E&tiquetas"
+msgstr "Ordenar por e&tiqueta"
 
 msgctxt "IDS_PLAYLIST_SORTBYPATH"
 msgid "Sort by &path"
-msgstr "Agrupar por R&utas"
+msgstr "Ordenar por &ruta"
 
 msgctxt "IDS_PLAYLIST_RANDOMIZE"
 msgid "R&andomize"
@@ -407,7 +407,7 @@ msgstr "&Separador"
 
 msgctxt "IDS_SUBRESYNC_DELETE"
 msgid "&Delete"
-msgstr "&Borrar"
+msgstr "&Eliminar"
 
 msgctxt "IDS_SUBRESYNC_DUPLICATE"
 msgid "D&uplicate"
@@ -415,7 +415,7 @@ msgstr "D&uplicar"
 
 msgctxt "IDS_SUBRESYNC_RESET"
 msgid "&Reset"
-msgstr "&Reiniciar"
+msgstr "&Restablecer"
 
 msgctxt "IDS_MPLAYERC_104"
 msgid "Subtitle Delay -"
@@ -475,7 +475,7 @@ msgstr "Nueva versión de la biblioteca de iconos"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_INSTR"
 msgid "Do you want to reassociate the icons?"
-msgstr "¿Deseas reasociar los iconos?"
+msgstr "¿Quiere reasociar los iconos?"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_CONTENT"
 msgid "This will fix the icons being incorrectly displayed after an update of the icon library.\nThe file associations will not be modified, only the corresponding icons will be refreshed."
@@ -487,7 +487,7 @@ msgstr "Renderizador viejo de vídeo"
 
 msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
-msgstr ""
+msgstr "Overlay Mixer Renderer"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
 msgid "Video Mixing Renderer 7 (windowed)"
@@ -683,7 +683,7 @@ msgstr "Renderizador de sincronización"
 
 msgctxt "IDS_MPC_BUG_REPORT_TITLE"
 msgid "MPC-HC - Reporting a bug"
-msgstr "MPC-HC - Reportando fallo"
+msgstr "MPC-HC: informe de error"
 
 msgctxt "IDS_MPC_BUG_REPORT"
 msgid "MPC-HC just crashed but this build was compiled without debug information.\nIf you want to report this bug, you should first try an official build.\n\nDo you want to visit the download page now?"
@@ -875,11 +875,11 @@ msgstr "Paso\nPaso"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "Decrease speed\nDecrease speed"
-msgstr "Decrementar velocidad\nDecrementar velocidad"
+msgstr "Reducir la velocidad\nReducir la velocidad"
 
 msgctxt "ID_PLAY_INCRATE"
 msgid "Increase speed\nIncrease speed"
-msgstr "Incrementar velocidad\nIncrementar velocidad"
+msgstr "Aumentar la velocidad\nAumentar la velocidad"
 
 msgctxt "ID_VOLUME_MUTE"
 msgid "Mute"
@@ -915,7 +915,7 @@ msgstr "&Editar"
 
 msgctxt "IDS_SUBRESYNC_YES"
 msgid "&Yes"
-msgstr "&Si"
+msgstr "&Sí"
 
 msgctxt "IDS_SUBRESYNC_NO"
 msgid "&No"
@@ -1039,7 +1039,7 @@ msgstr "Zoom a Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_PLAYLIST_HIDEFS"
 msgid "Hide on Fullscreen"
-msgstr "Ocultar en Pantalla Completa"
+msgstr "Ocultar en pantalla completa"
 
 msgctxt "IDS_CONTROLS_STOPPED"
 msgid "Stopped"
@@ -1047,7 +1047,7 @@ msgstr "Detenido"
 
 msgctxt "IDS_CONTROLS_BUFFERING"
 msgid "Buffering... (%d%%)"
-msgstr "Almacenando en Buffer... (%d%%)"
+msgstr "Almacenando en búfer… (%d %%)"
 
 msgctxt "IDS_CONTROLS_CAPTURING"
 msgid "Capturing..."
@@ -1115,7 +1115,7 @@ msgstr "Ninguno"
 
 msgctxt "IDS_AG_COMMAND"
 msgid "Command"
-msgstr "Comando"
+msgstr "Orden"
 
 msgctxt "IDS_AG_KEY"
 msgid "Key"
@@ -1151,11 +1151,11 @@ msgstr "No conocido"
 
 msgctxt "IDS_MPLAYERC_0"
 msgid "Quick Open File"
-msgstr "Abrir Archivo Rapido"
+msgstr "Abrir archivo rápido"
 
 msgctxt "IDS_AG_OPEN_FILE"
 msgid "Open File"
-msgstr "Abrir Archivo"
+msgstr "Abrir un archivo"
 
 msgctxt "IDS_AG_OPEN_DVD"
 msgid "Open DVD/BD"
@@ -1179,7 +1179,7 @@ msgstr "No se puede cargar %s. Los «pixel shaders» no funcionarán."
 
 msgctxt "IDS_SHADER_DLL_ERR_1"
 msgid "Cannot find necessary function entry points in %s, pixel shaders will not work."
-msgstr ""
+msgstr "No se pueden encontrar las funciones de entrada en %s. Los sombreadores de píxeles no funcionarán."
 
 msgctxt "IDS_OSD_SHADERS_PRESET"
 msgid "Shader preset: %s"
@@ -1187,11 +1187,11 @@ msgstr "Preajuste de «shader»: %s"
 
 msgctxt "IDS_AG_SHADERS_PRESET_NEXT"
 msgid "Next Shader Preset"
-msgstr ""
+msgstr "Preajuste siguiente"
 
 msgctxt "IDS_AG_SHADERS_PRESET_PREV"
 msgid "Prev Shader Preset"
-msgstr ""
+msgstr "Preajuste anterior"
 
 msgctxt "IDS_STRING_COLON"
 msgid "%s:"
@@ -1259,19 +1259,19 @@ msgstr "Guardar estilo personalizado"
 
 msgctxt "IDS_CONTENT_EDUCATION_SCIENCE"
 msgid "Education/Science/Factual topics"
-msgstr ""
+msgstr "Educación/ciencia/hechos"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
-msgstr "Abrir Dispositivo"
+msgstr "Abrir un dispositivo"
 
 msgctxt "IDS_AG_SAVE_AS"
 msgid "Save As"
-msgstr "Guardar Como"
+msgstr "Guardar como"
 
 msgctxt "IDS_AG_SAVE_IMAGE"
 msgid "Save Image"
-msgstr "Guardar Imagen"
+msgstr "Guardar imagen"
 
 msgctxt "IDS_MPLAYERC_6"
 msgid "Save Image (auto)"
@@ -2099,7 +2099,7 @@ msgstr "Selecciona la ruta para el DVD/BD:"
 
 msgctxt "IDS_SUB_LOADED_SUCCESS"
 msgid " loaded successfully"
-msgstr " cargado con exito"
+msgstr "cargado correctamente"
 
 msgctxt "IDS_ALL_FILES_FILTER"
 msgid "All files (*.*)|*.*||"
@@ -2115,7 +2115,7 @@ msgstr "Fallo en GetCurrentImage, hr = %08x"
 
 msgctxt "IDS_SCREENSHOT_ERROR"
 msgid "Cannot create file"
-msgstr "Imposible crear archivo"
+msgstr "No se puede crear el archivo"
 
 msgctxt "IDS_THUMBNAILS_NO_DURATION"
 msgid "Cannot create thumbnails for files with no duration"
@@ -2127,19 +2127,19 @@ msgstr "No se pudo obtener el tamaño de fotograma de vídeo"
 
 msgctxt "IDS_OUT_OF_MEMORY"
 msgid "Out of memory, go buy some more!"
-msgstr "¡Falta memoria, no seas tacaño compra más!"
+msgstr "Se agotó la memoria. Se recomienda ampliarla."
 
 msgctxt "IDS_THUMBNAILS_INVALID_FORMAT"
 msgid "Invalid image format, cannot create thumbnails out of %d bpp dibs."
-msgstr "Formato de imagen inválido, imposible crear las miniaturas de %d bpp dibs."
+msgstr "El formato de imagen no es válido. No se pueden generar miniaturas a partir de archivos de %d bpp."
 
 msgctxt "IDS_THUMBNAILS_INFO_FILESIZE"
 msgid "File Size: %s (%s bytes)\\N"
-msgstr "Tamaño del Archivo: %s (%s bytes)\\N"
+msgstr "Tamaño del archivo: %s (%s bytes)\\N"
 
 msgctxt "IDS_THUMBNAILS_INFO_HEADER"
 msgid "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: %dx%d %s\\NDuration: %02d:%02d:%02d"
-msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Nombre del Archivo: %s\\N%sResolución: %dx%d %s\\NDuración: %02d:%02d:%02d"
+msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Nombre del archivo: %s\\N%sResolución: %d × %d %s\\NDuración: %02d:%02d:%02d"
 
 msgctxt "IDS_THUMBNAIL_TOO_SMALL"
 msgid "The thumbnails would be too small, impossible to create the file.\n\nTry lowering the number of thumbnails or increasing the total size."
@@ -2147,7 +2147,7 @@ msgstr "No se puede crear el archivo. Las miniaturas serían demasiado pequeñas
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "Para cargar los subtítulos tienes que cambiar el tipo de renderizador de video y reabrir el archivo.\n- DirectShow: VMR-7/VMR-9 (sin renderizador), EVR (CP), Sync, madVR o Haali\n- RealMedia: Renderizador especial para RealMedia, o abrirlo con DirectShow\n- QuickTime: DX7 o DX9 renderizador paraQuickTime\n- ShockWave: no disponible"
+msgstr "Para cargar los subtítulos, cambie el renderizador de vídeo y abra el archivo de nuevo.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR o Haali\n- RealMedia: renderizador especial para RealMedia o ábralo mediante DirectShow\n- QuickTime: renderizador DX7 o DX9 para QuickTime\n- ShockWave: no disponible"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %d:%d"
@@ -3003,11 +3003,11 @@ msgstr "Intervalo de salida: %s"
 
 msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_ON"
 msgid "Flush GPU before VSync: On"
-msgstr ""
+msgstr "Vaciar GPU antes de sincr. v.: activado"
 
 msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_OFF"
 msgid "Flush GPU before VSync: Off"
-msgstr ""
+msgstr "Vaciar GPU antes de sincr. v.: desactivado"
 
 msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_ON"
 msgid "Flush GPU after Present: On"

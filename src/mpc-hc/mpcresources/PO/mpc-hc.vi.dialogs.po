@@ -2,14 +2,14 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Luong Anh Dat <datanhlg@gmail.com>, 2014
-# anhminhvks <anhminhvks@yahoo.com>, 2014
+# Dat Luong Anh <datanhlg@gmail.com>, 2014
+# TRẦN ANH MINH <anhminhvks@yahoo.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-05-11 19:53:40+0000\n"
-"PO-Revision-Date: 2014-05-13 01:18+0000\n"
-"Last-Translator: anhminhvks <anhminhvks@yahoo.com>\n"
+"POT-Creation-Date: 2014-06-03 21:36:02+0000\n"
+"PO-Revision-Date: 2014-06-13 00:40+0000\n"
+"Last-Translator: TRẦN ANH MINH <anhminhvks@yahoo.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/mpc-hc/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -927,7 +927,7 @@ msgstr "giây"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_CHECK1"
 msgid "Save custom style"
-msgstr ""
+msgstr "Lưu các tùy chỉnh"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "Thumbnails:"

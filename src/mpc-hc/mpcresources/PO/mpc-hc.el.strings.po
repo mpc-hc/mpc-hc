@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-05-28 21:38:03+0000\n"
-"PO-Revision-Date: 2014-05-29 15:20+0000\n"
-"Last-Translator: geogeo.gr <admin@geogeo.gr>\n"
+"POT-Creation-Date: 2014-06-15 01:03:51+0000\n"
+"PO-Revision-Date: 2014-06-25 21:11+0000\n"
+"Last-Translator: firespin <dartworldgr@hotmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/mpc-hc/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1251,11 +1251,11 @@ msgstr "Εισάγετε τα διαπιστευτήριά σας για να σ
 
 msgctxt "IDS_SUB_SAVE_EXTERNAL_STYLE_FILE"
 msgid "Save custom style"
-msgstr ""
+msgstr "Αποθήκευση προσαρμοσμένου στυλ"
 
 msgctxt "IDS_CONTENT_EDUCATION_SCIENCE"
 msgid "Education/Science/Factual topics"
-msgstr ""
+msgstr "Εκπαίδευση/Επιστήμη/Τεκμηριωμένα θέματα"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"

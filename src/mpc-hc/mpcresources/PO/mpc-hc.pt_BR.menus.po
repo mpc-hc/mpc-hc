@@ -2,8 +2,8 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Alex_Silva <alex.mooca@hotmail.com>, 2014
-# rfrfrf <lipe2000@outlook.com>, 2013-2014
+# Alex Luís Silva <alex.mooca@hotmail.com>, 2014
+# Roger Filipe <lipe2000@outlook.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"

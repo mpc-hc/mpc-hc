@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Gaugg_Markus, 2014
-# LuanMax <luanmail@gmx.net>, 2014
-# LuanMax <luanmail@gmx.net>, 2014
+# Luan <luanmail@gmx.net>, 2014
+# Luan <luanmail@gmx.net>, 2014
 # M T <michtrz@gmail.com>, 2013-2014
 # Underground78, 2013
 # Underground78, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-05-28 21:38:03+0000\n"
-"PO-Revision-Date: 2014-06-01 22:20+0000\n"
+"POT-Creation-Date: 2014-06-15 01:03:51+0000\n"
+"PO-Revision-Date: 2014-06-23 15:32+0000\n"
 "Last-Translator: M T <michtrz@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -1255,11 +1255,11 @@ msgstr "Geben Sie Ihre Zugangsdaten für die Verbindung ein"
 
 msgctxt "IDS_SUB_SAVE_EXTERNAL_STYLE_FILE"
 msgid "Save custom style"
-msgstr ""
+msgstr "Benutzerdefinierten Stil speichern"
 
 msgctxt "IDS_CONTENT_EDUCATION_SCIENCE"
 msgid "Education/Science/Factual topics"
-msgstr ""
+msgstr "Bildung/Wissenschaft/Sachthemen"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"

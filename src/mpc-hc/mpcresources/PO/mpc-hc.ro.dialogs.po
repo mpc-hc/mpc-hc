@@ -2,14 +2,14 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Danny3 <danny34ever@yahoo.com>, 2014
+# Daniel <danny34ever@yahoo.com>, 2014
 # lordkag <lord.kagula@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-05-04 16:42:23+0000\n"
-"PO-Revision-Date: 2014-05-07 08:50+0000\n"
-"Last-Translator: JellyFrog\n"
+"POT-Creation-Date: 2014-06-03 21:36:02+0000\n"
+"PO-Revision-Date: 2014-07-03 10:41+0000\n"
+"Last-Translator: Daniel <danny34ever@yahoo.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/mpc-hc/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -299,7 +299,7 @@ msgstr "Salvează setările într-un fișier .ini"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"
 msgid "Disable \"Open Disc\" menu"
-msgstr "Dezactivează meniul \"Deschide disc\""
+msgstr "Dezactivează meniul „Deschide disc”"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK9"
 msgid "Process priority above normal"
@@ -339,7 +339,7 @@ msgstr "Ține minte ultima focalizare a Pan && Scan"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
-msgstr "Acţiuni pentru meniul \"Deschide DVD/BD\""
+msgstr "Acţiuni pentru meniul „Deschide DVD/BD”"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO1"
 msgid "Prompt for location"
@@ -371,7 +371,7 @@ msgstr "Setări adiționale"
 
 msgctxt "IDD_PPAGEDVD_IDC_CHECK2"
 msgid "Allow closed captions in \"Line 21 Decoder\""
-msgstr "Permite subtitrări pentru persoane cu dizabilități în \"Line 21 Decoder\""
+msgstr "Permite subtitrări pentru persoane cu dizabilități în „Line 21 Decoder”"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Audio"
@@ -471,7 +471,7 @@ msgstr "Încarcă automat fișierele audio"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
 msgid "Use the built-in subtitle renderer"
-msgstr ""
+msgstr "Folosește randorul de subtitrări integrat"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Control"
@@ -539,11 +539,11 @@ msgstr "Rotunjește la puteri ale lui 2"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Renderer Layout"
-msgstr ""
+msgstr "Schemă randor"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SUB_AR_COMPENSATION"
 msgid "Apply aspect ratio compensation for anamorphic videos"
-msgstr ""
+msgstr "Aplică compensare raport de aspect pentru videouri anamorfice"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Warning"
@@ -679,7 +679,7 @@ msgstr "Folosește facilitățile barei de activități Windows 7"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
-msgstr "Deschide următorul/precedentul fişier din dosar la comenzile \"Sari înapoi/înainte\" când este un singur element în lista de redare"
+msgstr "Deschide următorul/precedentul fişier din dosar la comenzile „Sari înapoi/înainte” când este un singur element în lista de redare"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
 msgid "Use time tooltip:"
@@ -927,7 +927,7 @@ msgstr "ms"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_CHECK1"
 msgid "Save custom style"
-msgstr ""
+msgstr "Salvează stil personalizat"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "Thumbnails:"
@@ -1011,7 +1011,7 @@ msgstr "Umbră"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Screen Alignment && Margins"
-msgstr "Aliniere ecran && margini"
+msgstr "Aliniere ecran și margini"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Left"
@@ -1035,7 +1035,7 @@ msgstr "Poziționează subtitrările relativ la cadrul video"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Colors && Transparency"
-msgstr "Culori && transparență"
+msgstr "Culori și transparență"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "0%"
@@ -1047,11 +1047,11 @@ msgstr "100%"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Primary"
-msgstr "Primar"
+msgstr "Primară"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Secondary"
-msgstr "Secundar"
+msgstr "Secundară"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Outline"
@@ -1419,7 +1419,7 @@ msgstr "coloane"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCNEAREST"
 msgid "Present at nearest VSync"
-msgstr "Prezintă la cel mai apropiat VSync (Sincronizare Verticală)"
+msgstr "Prezintă la cel mai apropiat VSync (Sincronizare verticală)"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC5"
 msgid "Target sync offset:"

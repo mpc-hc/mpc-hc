@@ -2,14 +2,14 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Danny3 <danny34ever@yahoo.com>, 2014
+# Daniel <danny34ever@yahoo.com>, 2014
 # lordkag <lord.kagula@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-03-22 09:25:06+0000\n"
-"PO-Revision-Date: 2014-05-07 08:51+0000\n"
-"Last-Translator: JellyFrog\n"
+"POT-Creation-Date: 2014-06-15 01:03:51+0000\n"
+"PO-Revision-Date: 2014-07-03 10:41+0000\n"
+"Last-Translator: Daniel <danny34ever@yahoo.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/mpc-hc/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -87,11 +87,11 @@ msgstr "Decalaj Sync"
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET_FORMAT"
 msgid "avg: %d ms, dev: %d ms"
-msgstr "medie: %d ms, deviaţie: %d ms"
+msgstr "În medie: %d ms, deviație: %d ms"
 
 msgctxt "IDS_STATSBAR_JITTER"
 msgid "Jitter"
-msgstr "Fluctuaţii"
+msgstr "Fluctuații"
 
 msgctxt "IDS_STATSBAR_BITRATE"
 msgid "Bitrate"
@@ -271,7 +271,7 @@ msgstr "Timpul introdus este mai mare decât durata fişierului."
 
 msgctxt "IDS_MISSING_ICONS_LIB"
 msgid "The icons library \"mpciconlib.dll\" is missing.\nThe player's default icon will be used for file associations.\nPlease, reinstall MPC-HC to get \"mpciconlib.dll\"."
-msgstr "Biblioteca de pictograme \"mpciconlib.dll\" lipseşte.\nPictograma implicită a playerului va fi folosită pentru asocierile fişierelor.\nVă rugăm să reinstalaţi MPC-HC pentru a obţine \"mpciconlib.dll\"."
+msgstr "Biblioteca de pictograme „mpciconlib.dll” lipseşte.\nPictograma implicită a playerului va fi folosită pentru asocierile fişierelor.\nVă rugăm să reinstalaţi MPC-HC pentru a obţine „mpciconlib.dll”."
 
 msgctxt "IDS_SUBDL_DLG_FILENAME_COL"
 msgid "File"
@@ -331,7 +331,7 @@ msgstr "La fps"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
-msgstr "Mod afişare (Hz)"
+msgstr "Mod afișare (Hz)"
 
 msgctxt "IDS_PPAGE_FS_DEFAULT"
 msgid "Default"
@@ -475,7 +475,7 @@ msgstr "Doriţi să reasociaţi pictogramele?"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_CONTENT"
 msgid "This will fix the icons being incorrectly displayed after an update of the icon library.\nThe file associations will not be modified, only the corresponding icons will be refreshed."
-msgstr "Se va repara afişarea incorectă a pictogramelor după o actualizare a bibliotecii de pictograme. \nAsocierea fişierelor nu se va modifica, doar pictogramele corespunzătoare vor fi reîmprospătate."
+msgstr "Se va repara afișarea incorectă a pictogramelor după o actualizare a bibliotecii de pictograme. \nAsocierea fișierelor nu se va modifica, doar pictogramele corespunzătoare vor fi reîmprospătate."
 
 msgctxt "IDS_PPAGE_OUTPUT_OLDRENDERER"
 msgid "Old Video Renderer"
@@ -607,11 +607,11 @@ msgstr "Disponibil numai dacă aveți DirectX 9 instalat. Are aceleași abilită
 
 msgctxt "IDC_DSVMR7REN"
 msgid "Same as the VMR-7 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring WILL NOT work. \"True Color\" desktop color space recommended."
-msgstr "Asemănător cu VMR-7 (în fereastră), dar cu modulul Allocator-Presenter din MPC-HC pentru subtitrări. Oglindirea video în overlay NU va funcționa. Spațiul de culori recomandat pentru desktop este \"True Color\"."
+msgstr "Asemănător cu VMR-7 (în fereastră), dar cu modulul Allocator-Presenter din MPC-HC pentru subtitrări. Oglindirea video în overlay NU va funcționa. Spațiul de culori recomandat pentru desktop este „True Color”."
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
-msgstr "Asemănător cu VMR-9 (în fereastră), dar cu modulul Allocator-Presenter din MPC-HC pentru subtitrări. Oglindirea video în overlay S-AR PUTEA să funcționeze. Spațiul de culori recomandat pentru desktop este \"True Color\". Recomandat pentru Windows XP."
+msgstr "Asemănător cu VMR-9 (în fereastră), dar cu modulul Allocator-Presenter din MPC-HC pentru subtitrări. Oglindirea video în overlay S-AR PUTEA să funcționeze. Spațiul de culori recomandat pentru desktop este „True Color”. Recomandat pentru Windows XP."
 
 msgctxt "IDC_DSDXR"
 msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
@@ -639,7 +639,7 @@ msgstr "Randor de calitate înaltă, necesită o placă grafică ce suportă D3D
 
 msgctxt "IDC_DSSYNC"
 msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
-msgstr "Asemănător cu EVR (CP), dar oferă câteva opţiuni pentru a sincroniza rata cadrelor video cu rata de reîmprospătare a dispozitivului de afişare pentru a elimina cadrele video sărite sau duplicate."
+msgstr "Asemănător cu EVR (CP), dar oferă câteva opţiuni pentru a sincroniza rata cadrelor video cu rata de reîmprospătare a dispozitivului de afișare pentru a elimina cadrele video sărite sau duplicate."
 
 msgctxt "IDC_RMSYSDEF"
 msgid "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
@@ -751,7 +751,7 @@ msgstr "Tip MIME"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_INFO"
 msgid "In order to view an embedded resource in your browser you have to enable the web interface.\n\nUse the \"Save As\" button if you only want to save the information."
-msgstr "Pentru a vedea o resursă încorporată în browser-ul dumneavoastră trebuie să activaţi interfaţa web.\n\nFolosiţi butonul \"Salvează ca\" dacă doriţi doar să salvaţi infomaţia."
+msgstr "Pentru a vedea o resursă încorporată în browser-ul dumneavoastră trebuie să activaţi interfaţa web.\n\nFolosiţi butonul „Salvează ca” dacă doriţi doar să salvaţi infomaţia."
 
 msgctxt "IDS_DOWNLOAD_SUBS"
 msgid "Download subtitles"
@@ -807,7 +807,7 @@ msgstr "Îmbunătăţeste performanţa cu costul unei compatibilităţi cu rando
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."
-msgstr "Reduce efectul de rupere (tearing) dar împiedică afişarea barei de instrumente."
+msgstr "Reduce efectul de rupere (tearing), dar împiedică afișarea barei de instrumente."
 
 msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Reduces tearing by bypassing the default VSync built into D3D."
@@ -879,7 +879,7 @@ msgstr "Mărește viteză\nMărește viteză"
 
 msgctxt "ID_VOLUME_MUTE"
 msgid "Mute"
-msgstr "Silenţios"
+msgstr "Silențios"
 
 msgctxt "ID_VOLUME_MUTE_ON"
 msgid "Unmute"
@@ -1239,23 +1239,23 @@ msgstr "Rata de redare"
 
 msgctxt "IDS_FILTERS_COPY_TO_CLIPBOARD"
 msgid "&Copy filters list to clipboard"
-msgstr ""
+msgstr "&Copiază lista de filtre în clipboard"
 
 msgctxt "IDS_CREDENTIALS_SERVER"
 msgid "Enter server credentials"
-msgstr ""
+msgstr "Introduceți datele de autentificare pe server"
 
 msgctxt "IDS_CREDENTIALS_CONNECT"
 msgid "Enter your credentials to connect"
-msgstr ""
+msgstr "Introduceți datele dvs. de autentificare pentru conectare"
 
 msgctxt "IDS_SUB_SAVE_EXTERNAL_STYLE_FILE"
 msgid "Save custom style"
-msgstr ""
+msgstr "Salvează stil personalizat"
 
 msgctxt "IDS_CONTENT_EDUCATION_SCIENCE"
 msgid "Education/Science/Factual topics"
-msgstr ""
+msgstr "Educaţie/Ştiinţă/Subiecte actuale"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1659,7 +1659,7 @@ msgstr "Dublu-clic pentru a deschide dosarul fişierului"
 
 msgctxt "IDS_TOOLTIP_REMAINING_TIME"
 msgid "Toggle between elapsed and remaining time"
-msgstr "Comută între timp trecut si timp rămas"
+msgstr "Comută între timp trecut și timp rămas"
 
 msgctxt "IDS_UPDATE_DELAY_ERROR_TITLE"
 msgid "Invalid delay"
@@ -1707,7 +1707,7 @@ msgstr "PnS: Deplasare în Jos/Dreapta"
 
 msgctxt "IDS_AG_VOLUME_UP"
 msgid "Volume Up"
-msgstr "Creşte Volum"
+msgstr "Crește volum"
 
 msgctxt "IDS_AG_VOLUME_DOWN"
 msgid "Volume Down"
@@ -1715,7 +1715,7 @@ msgstr "Scade Volum"
 
 msgctxt "IDS_AG_VOLUME_MUTE"
 msgid "Volume Mute"
-msgstr "Silenţios"
+msgstr "Silențios"
 
 msgctxt "IDS_MPLAYERC_63"
 msgid "DVD Title Menu"
@@ -1799,11 +1799,11 @@ msgstr "Precedentul audio"
 
 msgctxt "IDS_AG_NEXT_SUBTITLE"
 msgid "Next Subtitle"
-msgstr "Următoarea subtitrare"
+msgstr "Subtitrarea următoare"
 
 msgctxt "IDS_AG_PREV_SUBTITLE"
 msgid "Prev Subtitle"
-msgstr "Precedenta subtitrare"
+msgstr "Subtitrarea precedentă"
 
 msgctxt "IDS_MPLAYERC_85"
 msgid "On/Off Subtitle"
@@ -1931,7 +1931,7 @@ msgstr "Rată de cadre"
 
 msgctxt "IDS_MAINFRM_6"
 msgid "drawn: %d, dropped: %d"
-msgstr "desenate: %d, pierdute: %d"
+msgstr "Desenate: %d, pierdute: %d"
 
 msgctxt "IDS_AG_FRAMES"
 msgid "Frames"
@@ -1963,7 +1963,7 @@ msgstr "Redă cu MPC-HC"
 
 msgctxt "IDS_CANNOT_CHANGE_FORMAT"
 msgid "MPC-HC has not enough privileges to change files formats associations. Please click on \"Modify\" button to get administrator rights."
-msgstr "MPC-HC nu are destule drepturi pentru a schimba asocierea cu formatele de fișiere. Dați clic pe butonul \"Modifică\" pentru a obține drepturi de administrator."
+msgstr "MPC-HC nu are destule drepturi pentru a schimba asocierea cu formatele de fișiere. Dați clic pe butonul „Modifică” pentru a obține drepturi de administrator."
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
@@ -2123,11 +2123,11 @@ msgstr "Eșuare la preluarea dimensiunii cadrului video"
 
 msgctxt "IDS_OUT_OF_MEMORY"
 msgid "Out of memory, go buy some more!"
-msgstr "Memorie insuficientă, duceți-vă și cumpărați mai multă!"
+msgstr "Memorie insuficientă, ar trebui să cumpărați mai multă!"
 
 msgctxt "IDS_THUMBNAILS_INVALID_FORMAT"
 msgid "Invalid image format, cannot create thumbnails out of %d bpp dibs."
-msgstr "Format de imagine nevalid, nu pot fi create miniaturi de %d bpp dibs."
+msgstr "Format de imagine nevalid, nu pot fi create miniaturi de %d bpp."
 
 msgctxt "IDS_THUMBNAILS_INFO_FILESIZE"
 msgid "File Size: %s (%s bytes)\\N"
@@ -2139,7 +2139,7 @@ msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Nume fișier: %s\\N%sRezolu�
 
 msgctxt "IDS_THUMBNAIL_TOO_SMALL"
 msgid "The thumbnails would be too small, impossible to create the file.\n\nTry lowering the number of thumbnails or increasing the total size."
-msgstr ""
+msgstr "Miniaturile ar fi prea mici, imposibil de creat fișierul.\n\nÎncercați să micșorați numărul de miniaturi sau să măriți dimensiunea totală."
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
@@ -2215,11 +2215,11 @@ msgstr "Curent"
 
 msgctxt "IDS_MPC_CRASH"
 msgid "MPC-HC terminated unexpectedly. To help us fix this problem, please send this file \"%s\" to our bug tracker.\n\nDo you want to open the folder containing the minidump file and visit the bug tracker now?"
-msgstr "MPC-HC s-a închis neașteptat. Pentru a ne ajuta să rezolvăm această problemă, vă rugăm să trimiteți acest fișier \"%s\" către sistemul nostru de urmărire erori (bug tracker).\n\nDoriţi să deschideţi dosarul ce conţine fişierul de imagine memorie (minidump) şi să vizitaţi acum sistemul de urmărire erori?"
+msgstr "MPC-HC s-a închis neașteptat. Pentru a ne ajuta să rezolvăm această problemă, vă rugăm să trimiteți acest fișier „%s” către sistemul nostru de urmărire erori (bug tracker).\n\nDoriţi să deschideţi dosarul ce conţine fişierul de imagine memorie (minidump) şi să vizitaţi acum sistemul de urmărire erori?"
 
 msgctxt "IDS_MPC_MINIDUMP_FAIL"
 msgid "Failed to create dump file to \"%s\" (error %d)"
-msgstr "Eșuare la crearea fișierului de depanare \"%s\" (eroare %d)"
+msgstr "Eșuare la crearea fișierului de depanare „%s” (eroare %d)"
 
 msgctxt "IDS_MAINFRM_DIR_TITLE"
 msgid "Select Directory"
@@ -2335,7 +2335,7 @@ msgstr "Necunoscut %d"
 
 msgctxt "IDS_AG_VSYNC"
 msgid "VSync"
-msgstr "Activează VSync (Sincronizare Verticală)"
+msgstr "Activează VSync (Sincronizare verticală)"
 
 msgctxt "IDS_MAINFRM_121"
 msgid " (Director Comments 1)"
@@ -2347,7 +2347,7 @@ msgstr " (Comentarii regizor 2)"
 
 msgctxt "IDS_DVD_SUBTITLES_ENABLE"
 msgid "Enable DVD subtitles"
-msgstr ""
+msgstr "Activează subtitrări DVD"
 
 msgctxt "IDS_AG_ANGLE"
 msgid "Angle %d"
@@ -2395,7 +2395,7 @@ msgstr "Amplificare volum maximă"
 
 msgctxt "IDS_USAGE"
 msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "Utilizare: mpc-hc.exe \"cale\" [comutatoare]\n\n\"adresă\"\t\tFișierul principal sau directorul ce trebuie încărcat (metacaractere\n\t\tpermise, \"-\" indică intrare standard)\n/dub \"dublaj\"\tÎncarcă un fișier audio adițional\n/dubdelay \"fișier\"\tÎncarcă un fișier audio adițional decalat cu XXms (dacă\n\t\tfișierul conține \"...DELAY XXms...\")\n/d3dfs\t\tPornește randare în mod ecran complet D3D\n/sub \"subtitrare\"\tÎncarcă o subtitrare adițională\n/filter \"nume filtru\"\tÎncarcă filtre DirectShow dintr-o librărie\n\t\tcu încărcare dinamică (metacaractere permise)\n/dvd\t\tRulează în mod DVD, \"cale\" înseamnă dosarul\n\t\tdvd-ului (opțional)\n/dvdpos T#C\tPornește redarea la titlul T, capitolul C\n/dvdpos T#hh:mm\tPornește redarea la titlul T, poziția hh:mm:ss\n/cd\t\tÎncarcă toate pistele unui CD audio sau (S)VCD,\n\t\t\"cale\" înseamnă calea unității (opțional)\n/device\t\tDeschide dispozitivul video implicit\n/open\t\tDeschide fișierul, nu porni redarea în mod automat\n/play\t\tÎncepe redarea fișierului imediat ce playerul este lansat\n/close\t\tÎnchide playerul după redare (funcționează doar când\n\t\teste folosit cu /play)\n/shutdown\tÎnchide sistemul după redare\n/fullscreen\tPornește în modul ecran complet\n/minimized\tPornește în modul minimizat\n/new\t\tFolosește o instanță nouă a playerului\n/add\t\tAdaugă \"cale\" la lista de redare, poate fi combinat\n\t\tcu /open și /play\n/regvid\t\tCreează asocieri de fișiere pentru fișiere video\n/regaud\t\tCreează asocieri de fișiere pentru fișiere audio\n/regpl\t\tCreează asocieri de fișiere pentru fișiere listă de redare\n/regall\t\tCreează asocieri de fișiere pentru toate tipurile de fișiere suportate\n/unregall\t\tElimină toate asocierile de fișiere\n/start ms\t\tPornește redarea la \"ms\" (= milisecunde)\n/startpos hh:mm:ss\tPornește redarea la poziția hh:mm:ss\n/fixedsize L,l\tSetează o dimensiune fixă (Lxl) pentru fereastră\n/monitor N\tPornește redarea pe monitorul N, unde N începe de la 1\n/audiorenderer N\tPornește folosind randorul audio N, unde N începe de la 1\n\t\t(vedeți setările \"Ieșire\")\n/shaderpreset \"Pr\"\tFolosește setarea implicită \"Pr\" pentru shader\n/reset\t\tRestaurează setări implicite\n/help /h /?\tArată ajutor pentru comutatoarele din linia de comandă\n"
+msgstr "Utilizare: mpc-hc.exe \"cale\" [comutatoare]\n\n\"cale\"\t\tFișierul principal sau directorul ce trebuie încărcat (metacaractere\n\t\tpermise, \"-\" indică intrare standard)\n/dub \"dublaj\"\tÎncarcă un fișier audio adițional\n/dubdelay \"fișier\"\tÎncarcă un fișier audio adițional decalat cu XXms (dacă\n\t\tfișierul conține \"...DELAY XXms...\")\n/d3dfs\t\tPornește randare în mod ecran complet D3D\n/sub \"subtitrare\"\tÎncarcă o subtitrare adițională\n/filter \"nume filtru\"\tÎncarcă filtre DirectShow dintr-o librărie\n\t\tcu încărcare dinamică (metacaractere permise)\n/dvd\t\tRulează în mod DVD, \"cale\" înseamnă dosarul\n\t\tdvd-ului (opțional)\n/dvdpos T#C\tPornește redarea la titlul T, capitolul C\n/dvdpos T#hh:mm\tPornește redarea la titlul T, poziția hh:mm:ss\n/cd\t\tÎncarcă toate pistele unui CD audio sau (S)VCD,\n\t\t\"cale\" înseamnă calea unității (opțional)\n/device\t\tDeschide dispozitivul video implicit\n/open\t\tDeschide fișierul, nu porni redarea în mod automat\n/play\t\tÎncepe redarea fișierului imediat ce playerul este lansat\n/close\t\tÎnchide playerul după redare (funcționează doar când\n\t\teste folosit cu /play)\n/shutdown\tÎnchide sistemul după redare\n/fullscreen\tPornește în modul ecran complet\n/minimized\tPornește în modul minimizat\n/new\t\tFolosește o instanță nouă a playerului\n/add\t\tAdaugă \"cale\" la lista de redare, poate fi combinat\n\t\tcu /open și /play\n/regvid\t\tCreează asocieri de fișiere pentru fișiere video\n/regaud\t\tCreează asocieri de fișiere pentru fișiere audio\n/regpl\t\tCreează asocieri de fișiere pentru fișiere listă de redare\n/regall\t\tCreează asocieri de fișiere pentru toate tipurile de fișiere suportate\n/unregall\t\tElimină toate asocierile de fișiere\n/start ms\t\tPornește redarea la \"ms\" (= milisecunde)\n/startpos hh:mm:ss\tPornește redarea la poziția hh:mm:ss\n/fixedsize L,l\tSetează o dimensiune fixă Lxl pentru fereastră\n/monitor N\tPornește redarea pe monitorul N, unde N începe de la 1\n/audiorenderer N\tPornește folosind randorul audio N, unde N începe de la 1\n\t\t(vedeți setările \"Ieșire\")\n/shaderpreset \"Pr\"\tFolosește setarea implicită \"Pr\" pentru shader\n/reset\t\tRestaurează setări implicite\n/help /h /?\tArată ajutor pentru comutatoarele din linia de comandă\n"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -3251,19 +3251,19 @@ msgstr "Nu se poate face deplasare cadru cu cadru, încercați un randor video d
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for RealMedia.\nSelect one of the DirectX renderers for RealMedia in MPC-HC's output options and reopen the file."
-msgstr "Funcțiile \"Salvează imagine\" și \"Salvează miniaturi\" nu funcționează cu randorul video implicit pentru RealMedia.\nSelectați unul dintre randoarele DirectX pentru RealMedia în opțiunile de ieșire ale MPC-HC și redeschideți fișierul."
+msgstr "Funcțiile „Salvează imagine” și „Salvează miniaturi” nu funcționează cu randorul video implicit pentru RealMedia.\nSelectați unul dintre randoarele DirectX pentru RealMedia în opțiunile de ieșire ale MPC-HC și redeschideți fișierul."
 
 msgctxt "IDS_SCREENSHOT_ERROR_QT"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for QuickTime.\nSelect one of the DirectX renderers for QuickTime in MPC-HC's output options and reopen the file."
-msgstr "Funcțiile \"Salvează imagine\" și \"Salvează miniaturi\" nu funcționează cu randorul video implicit pentru QuickTime.\nSelectați unul dintre randoarele DirectX pentru QuickTime în opțiunile de ieșire ale MPC-HC și redeschideți fișierul."
+msgstr "Funcțiile „Salvează imagine” și „Salvează miniaturi” nu funcționează cu randorul video implicit pentru QuickTime.\nSelectați unul dintre randoarele DirectX pentru QuickTime în opțiunile de ieșire ale MPC-HC și redeschideți fișierul."
 
 msgctxt "IDS_SCREENSHOT_ERROR_SHOCKWAVE"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work for Shockwave files."
-msgstr "Funcțiile \"Salvează imagine\" și \"Salvează miniaturi\" nu funcționează pentru fișierele Shockwave."
+msgstr "Funcțiile „Salvează imagine” și „Salvează miniaturi” nu funcționează pentru fișierele Shockwave."
 
 msgctxt "IDS_SCREENSHOT_ERROR_OVERLAY"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the Overlay Mixer video renderer.\nChange the video renderer in MPC's output options and reopen the file."
-msgstr "Funcțiile \"Salvează imagine\" și \"Salvează miniaturi\" nu funcționează cu randorul video Overlay Mixer.\nSchimbați randorul video în opțiunile de ieșire ale MPC și redeschideți fișierul."
+msgstr "Funcțiile „Salvează imagine” și „Salvează miniaturi” nu funcționează cu randorul video Overlay Mixer.\nSchimbați randorul video în opțiunile de ieșire ale MPC și redeschideți fișierul."
 
 msgctxt "IDS_SUBDL_DLG_CONNECT_ERROR"
 msgid "Cannot connect to the online subtitles database."
@@ -3403,7 +3403,7 @@ msgstr "Mărire luminozitate"
 
 msgctxt "IDS_LANG_PREF_EXAMPLE"
 msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
-msgstr "Introduceți aici limba preferată.\nDe exemplu, tastați:\"eng jap swe \""
+msgstr "Introduceți aici limba preferată.\nDe exemplu, tastați: „eng jap swe”"
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."

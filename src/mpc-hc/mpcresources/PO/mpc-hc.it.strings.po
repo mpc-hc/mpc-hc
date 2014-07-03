@@ -2,13 +2,14 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Marco Gobbo <kiba.no.michi@gmail.com>, 2014
+# Kiba_No_Ou <kiba.no.michi@gmail.com>, 2014
+# Tummarellox <tummarellox@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-05-11 20:22:10+0000\n"
-"PO-Revision-Date: 2014-05-12 08:49+0000\n"
-"Last-Translator: JellyFrog\n"
+"POT-Creation-Date: 2014-06-15 01:03:51+0000\n"
+"PO-Revision-Date: 2014-06-23 11:00+0000\n"
+"Last-Translator: Tummarellox <tummarellox@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/mpc-hc/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1242,15 +1243,15 @@ msgstr ""
 
 msgctxt "IDS_CREDENTIALS_SERVER"
 msgid "Enter server credentials"
-msgstr ""
+msgstr "Inserisci credenziali server"
 
 msgctxt "IDS_CREDENTIALS_CONNECT"
 msgid "Enter your credentials to connect"
-msgstr ""
+msgstr "Inserisci le tue credenziali per connetterti"
 
 msgctxt "IDS_SUB_SAVE_EXTERNAL_STYLE_FILE"
 msgid "Save custom style"
-msgstr ""
+msgstr "Salva stile personalizzato"
 
 msgctxt "IDS_CONTENT_EDUCATION_SCIENCE"
 msgid "Education/Science/Factual topics"
@@ -2346,7 +2347,7 @@ msgstr " (Commenti del Regista 2)"
 
 msgctxt "IDS_DVD_SUBTITLES_ENABLE"
 msgid "Enable DVD subtitles"
-msgstr ""
+msgstr "Attiva sottotitoli DVD"
 
 msgctxt "IDS_AG_ANGLE"
 msgid "Angle %d"

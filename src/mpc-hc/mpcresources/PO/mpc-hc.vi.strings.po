@@ -2,14 +2,14 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Luong Anh Dat <datanhlg@gmail.com>, 2014
-# anhminhvks <anhminhvks@yahoo.com>, 2014
+# Dat Luong Anh <datanhlg@gmail.com>, 2014
+# TRẦN ANH MINH <anhminhvks@yahoo.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-05-11 20:22:10+0000\n"
-"PO-Revision-Date: 2014-05-13 01:03+0000\n"
-"Last-Translator: anhminhvks <anhminhvks@yahoo.com>\n"
+"POT-Creation-Date: 2014-06-15 01:03:51+0000\n"
+"PO-Revision-Date: 2014-06-25 07:20+0000\n"
+"Last-Translator: TRẦN ANH MINH <anhminhvks@yahoo.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/mpc-hc/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1243,19 +1243,19 @@ msgstr "&Chép danh sách các bộ lọc vào bộ nhớ tạm"
 
 msgctxt "IDS_CREDENTIALS_SERVER"
 msgid "Enter server credentials"
-msgstr ""
+msgstr "Nhập thông tin đăng nhập máy chủ"
 
 msgctxt "IDS_CREDENTIALS_CONNECT"
 msgid "Enter your credentials to connect"
-msgstr ""
+msgstr "Nhập thông tin đăng nhập của bạn để kết nối"
 
 msgctxt "IDS_SUB_SAVE_EXTERNAL_STYLE_FILE"
 msgid "Save custom style"
-msgstr ""
+msgstr "Lưu các tùy chỉnh"
 
 msgctxt "IDS_CONTENT_EDUCATION_SCIENCE"
 msgid "Education/Science/Factual topics"
-msgstr ""
+msgstr "Chủ đề Giáo dục/Khoa học/Thực tế"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2099,27 +2099,27 @@ msgstr "đã nạp thành công"
 
 msgctxt "IDS_ALL_FILES_FILTER"
 msgid "All files (*.*)|*.*||"
-msgstr "Tất cả các tệp (*.*)|*.*||"
+msgstr "Tất cả các tập tin (*.*)|*.*||"
 
 msgctxt "IDS_GETDIB_FAILED"
 msgid "GetDIB failed, hr = %08x"
-msgstr "GetDIB thất bại, giờ = %08x"
+msgstr "Nhận DIB thất bại, giờ = %08x"
 
 msgctxt "IDS_GETCURRENTIMAGE_FAILED"
 msgid "GetCurrentImage failed, hr = %08x"
-msgstr "GetCureentImage thất bại, giờ = %08x"
+msgstr "Nhận hình ảnh hiện tại thất bại, giờ = %08x"
 
 msgctxt "IDS_SCREENSHOT_ERROR"
 msgid "Cannot create file"
-msgstr "Không thể tạo tệp"
+msgstr "Không thể tạo tập tin"
 
 msgctxt "IDS_THUMBNAILS_NO_DURATION"
 msgid "Cannot create thumbnails for files with no duration"
-msgstr "Không thể tạo hình thu nhỏ cho các tập tin không có thời gian"
+msgstr "Không thể tạo hình ảnh thu nhỏ cho các tập tin không có thời lượng"
 
 msgctxt "IDS_THUMBNAILS_NO_FRAME_SIZE"
 msgid "Failed to get video frame size"
-msgstr "Không thể có được kích thước khung hình video"
+msgstr "Không nhận được kích thước khung hình"
 
 msgctxt "IDS_OUT_OF_MEMORY"
 msgid "Out of memory, go buy some more!"
@@ -2127,23 +2127,23 @@ msgstr "Đầy bộ nhớ, hãy chuẩn bị thêm!"
 
 msgctxt "IDS_THUMBNAILS_INVALID_FORMAT"
 msgid "Invalid image format, cannot create thumbnails out of %d bpp dibs."
-msgstr "Định dạng hình ảnh không hợp lệ, không thể tạo ra hình thu nhỏ trong số %d xí bpp."
+msgstr "Định dạng hình ảnh không hợp lệ, không thể tạo hình ảnh thu nhỏ quá %d bpp."
 
 msgctxt "IDS_THUMBNAILS_INFO_FILESIZE"
 msgid "File Size: %s (%s bytes)\\N"
-msgstr "Kích thước tệp: %s (%s byte)\\N"
+msgstr "Kích thước tập tin: %s (%s bytes)\\N"
 
 msgctxt "IDS_THUMBNAILS_INFO_HEADER"
 msgid "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: %dx%d %s\\NDuration: %02d:%02d:%02d"
-msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Tên tệp: %s\\N%sĐộ phân giải: %dx%d %s\\NThời gian: %02d:%02d:%02d"
+msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Tên tập tin: %s\\N%sĐộ phân giải: %dx%d %s\\NThời lượng: %02d:%02d:%02d"
 
 msgctxt "IDS_THUMBNAIL_TOO_SMALL"
 msgid "The thumbnails would be too small, impossible to create the file.\n\nTry lowering the number of thumbnails or increasing the total size."
-msgstr ""
+msgstr "Các hình ảnh thu nhỏ sẽ quá nhỏ, không thể tạo tập tin.\n\nHãy giảm số lượng các hình ảnh thu nhỏ hoặc tăng tổng kích thước."
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "Để tải phụ đề bạn cần phải thay đổi các loại video dựng hình và mở lại tập tin.\n- DirectShow: VMR-7/VMR-9 (ít render hơn), EVR (CP), Sync, madVR hoặc Haali\n- RealMedia: dựng hình đặc biệt cho RealMedia, hoặc mở nó thông qua DirectShow\n- QuickTime: DX7 hoặc DX9 dựng hình cho QuickTime\n- ShockWave: n/a"
+msgstr "Để nạp phụ đề bạn phải thay đổi loại bộ dựng hình và mở lại tập tin.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR hoặc Haali\n- RealMedia: Bộ dựng hình dành riêng cho RealMedia, hoặc mở nó bằng DirectShow\n- QuickTime: Bộ dựng hình DX7 hoặc DX9 cho QuickTime\n- ShockWave: Không có sẵn"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %d:%d"

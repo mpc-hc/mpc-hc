@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-05-04 16:42:23+0000\n"
-"PO-Revision-Date: 2014-05-07 08:50+0000\n"
-"Last-Translator: JellyFrog\n"
+"POT-Creation-Date: 2014-06-03 21:36:02+0000\n"
+"PO-Revision-Date: 2014-06-25 12:31+0000\n"
+"Last-Translator: Apa <sakcheen@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/mpc-hc/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -91,7 +91,7 @@ msgstr "%"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK6"
 msgid "Regain volume"
-msgstr "Återvinn volym"
+msgstr "Återfå volym"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC6"
 msgid "Boost:"
@@ -103,15 +103,15 @@ msgstr "Nedsampla till 44100 Hz"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK4"
 msgid "Audio time shift (ms):"
-msgstr "Ljud tidsförskjutning (ms):"
+msgstr "Ljudtidsförskjutning (ms):"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK1"
 msgid "Enable custom channel mapping"
-msgstr "Aktivera anpassad kanal kartläggning"
+msgstr "Aktivera anpassad kanalkartläggning"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
 msgid "Speaker configuration for "
-msgstr "Högtalar konfigurationen för "
+msgstr "Högtalarkonfigurationen för "
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
 msgid "input channels:"
@@ -139,7 +139,7 @@ msgstr "Gå!"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Enter two numbers to jump to a specified frame, the first is the frame number, the second is the frame rate."
-msgstr "Ange två nummer för att gå till en viss bildruta, det första är nummret för bildrutan, det andra är bildhastighet."
+msgstr "Ange två nummer för att gå till en viss bildruta, det första är numret för bildrutan, det andra är bildhastigheten."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Frame"
@@ -155,7 +155,7 @@ msgstr "Öppna"
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Type the address of a movie or audio file (on the Internet or your computer) and the player will open it for you."
-msgstr "Skriv in adressen till en film eller ljudfil (på Internet eller på din dator) och spelaren kommer att öppna den åt dig."
+msgstr "Skriv in adressen till en film- eller ljudfil (på Internet eller på din dator) och spelaren kommer att öppna den åt dig."
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Open:"
@@ -263,11 +263,11 @@ msgstr "Visa fullständig sökväg"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO4"
 msgid "File name only"
-msgstr "Endast Filnamn"
+msgstr "Endast filnamn"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO5"
 msgid "Don't prefix anything"
-msgstr "Ingenting Visa"
+msgstr "Visa ingenting"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK13"
 msgid "Replace file name with title"
@@ -279,11 +279,11 @@ msgstr "Annat"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK3"
 msgid "Tray icon"
-msgstr "Visa ikon i systemfältet"
+msgstr "Visa ikon i meddelandefältet"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_SHOW_OSD"
 msgid "Show OSD (requires restart)"
-msgstr "Visa OSD (omstart krävs)"
+msgstr "Visa skärmmeny (omstart krävs)"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK4"
 msgid "Limit window proportions on resize"
@@ -295,11 +295,11 @@ msgstr "Fäst till skärmkanter"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK8"
 msgid "Store settings to .ini file"
-msgstr "Lagra inställningar i .ini fil"
+msgstr "Lagra inställningar i .ini-fil"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"
 msgid "Disable \"Open Disc\" menu"
-msgstr "Inaktivera \"Öppna skiva\" menyn"
+msgstr "Inaktivera \"Öppna Skiva\"-menyn"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK9"
 msgid "Process priority above normal"
@@ -307,11 +307,11 @@ msgstr "Processens prioritet högre än normal"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "History"
-msgstr "Historia"
+msgstr "Historik"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK1"
 msgid "Keep history of recently opened files"
-msgstr "Behåll historia över nyligen öppnade filer"
+msgstr "Behåll historik över nyligen öppnade filer"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK2"
 msgid "Remember last playlist"
@@ -319,11 +319,11 @@ msgstr "Kom ihåg senaste spellistan"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_FILE_POS"
 msgid "Remember File position"
-msgstr "Kom ihåg Fil positionen"
+msgstr "Kom ihåg Filpositionen"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_DVD_POS"
 msgid "Remember DVD position"
-msgstr "Kom ihåg DVD positionen"
+msgstr "Kom ihåg DVD-positionen"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK6"
 msgid "Remember last window position"
@@ -339,7 +339,7 @@ msgstr "Kom ihåg senaste Pan-n-Scan Zoom"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
-msgstr "\"Öppna DVD/BD\" beteende"
+msgstr "\"Öppna DVD/BD\"-beteende"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO1"
 msgid "Prompt for location"
@@ -371,7 +371,7 @@ msgstr "Ytterligare inställningar"
 
 msgctxt "IDD_PPAGEDVD_IDC_CHECK2"
 msgid "Allow closed captions in \"Line 21 Decoder\""
-msgstr "Tillåt dold text i \"linje 21-dekodaren\""
+msgstr "Tillåt dold text i \"linje 21-dekodern\""
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Audio"
@@ -415,7 +415,7 @@ msgstr "Upprepa oändligt"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC1"
 msgid "time(s)"
-msgstr "gånger"
+msgstr "gång(er)"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK1"
 msgid "Rewind when done playing"
@@ -455,11 +455,11 @@ msgstr "Tillåt att kringgå externa demultiplexers val"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Open settings"
-msgstr "Öppna inställningar"
+msgstr "Öppna-inställningar"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK7"
 msgid "Use worker thread to construct the filter graph"
-msgstr "Använd arbetstråden för att bygga filter-grafen"
+msgstr "Använd arbetstråden för att bygga filtergrafen"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK6"
 msgid "Report pins which fail to render"
@@ -511,7 +511,7 @@ msgstr "%"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Delay interval"
-msgstr "Fördröjnings intervall"
+msgstr "Fördröjningsintervall"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "ms"
@@ -519,15 +519,15 @@ msgstr "ms"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Texture settings (open the video again to see the changes)"
-msgstr "Textur inställningar (öppna videon igen för att se förändringarna)"
+msgstr "Texturinställningar (öppna videon igen för att se förändringarna)"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Sub pictures to buffer:"
-msgstr "Sub bilder att buffra:"
+msgstr "Undertextbilder att buffra:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Maximum texture resolution:"
-msgstr "Högsta textur-upplösningen:"
+msgstr "Högsta texturupplösning:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SPCANIMWITHBUFFER"
 msgid "Allow animation when buffering"
@@ -535,15 +535,15 @@ msgstr "Tillåt animering under buffring"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SPCPOW2TEX"
 msgid "Round up to power of two"
-msgstr "Runda upp till kraften av två"
+msgstr "Avrunda uppåt till tvåpotens"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Renderer Layout"
-msgstr ""
+msgstr "Renderarlayout"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SUB_AR_COMPENSATION"
 msgid "Apply aspect ratio compensation for anamorphic videos"
-msgstr ""
+msgstr "Använd bildformatskompensation för video med anamorfiskt format"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Warning"
@@ -551,7 +551,7 @@ msgstr "Varning"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu."
-msgstr "Om du aktivera helskärms-kantutjämning i ditt grafikkorts inställningar, kommer undertexter inte se bättre ut men det kommer säkerligen att belasta din CPU."
+msgstr "Om du aktiverar helskärmskantutjämning i ditt grafikkorts inställningar kommer undertexter inte se bättre ut, men det kommer säkerligen att belasta din processor."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
 msgid "File extensions"
@@ -559,7 +559,7 @@ msgstr "Filnamnstillägg"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON2"
 msgid "Default"
-msgstr "Standard"
+msgstr "Återställ"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON_EXT_SET"
 msgid "Set"
@@ -599,7 +599,7 @@ msgstr "&Modifiera"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Real-Time Streaming Protocol handler (for rtsp://... URLs)"
-msgstr "Real-Time Strömnings protokollhanterare (för rtsp://... URLs)"
+msgstr "Real-Time Streaming Protocol-hanterare (för rtsp://... webbadresser)"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_RADIO1"
 msgid "RealMedia"
@@ -619,7 +619,7 @@ msgstr "Titta på filnamnstillägget först"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Explorer Context Menu"
-msgstr "Explorer Kontext Menyn"
+msgstr "Explorers snabbmeny"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK6"
 msgid "Directory"
@@ -647,15 +647,15 @@ msgstr "DVD"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK3"
 msgid "Audio CD"
-msgstr "Ljud CD"
+msgstr "Ljud-CD"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "Jump distances (small, medium, large in ms)"
-msgstr "Hoppavstånd (liten, medel, stor i ms)"
+msgstr "Hoppavstånd (litet, medel, stort i ms)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_BUTTON1"
 msgid "Default"
-msgstr "Standard"
+msgstr "Återställ"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK1"
 msgid "Fast seek (on keyframe)"
@@ -667,7 +667,7 @@ msgstr "Visa kapitelmarkeringar i sökverktyget"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK4"
 msgid "Display \"Now Playing\" information in Skype's mood message"
-msgstr "Skickar \"Vad jag lyssnar på\" information till Skypes humörmeddelande"
+msgstr "Skicka \"Vad jag lyssnar på\"-information till Skypes humörmeddelande"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
@@ -675,7 +675,7 @@ msgstr "Förhindra att minimera spelaren när helskärmsläget är aktiverat på
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_WIN7"
 msgid "Use Windows 7 Taskbar features"
-msgstr "Använd Windows 7 aktivitetsfälts-funktioner"
+msgstr "Använd Windows 7 aktivitetsfältsfunktioner"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
@@ -683,15 +683,15 @@ msgstr "Gör så att \"Framåt/Tillbaka\" öppnar nästa/tidigare fil i mappen n
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
 msgid "Use time tooltip:"
-msgstr "Använd tid verktygstips:"
+msgstr "Visa tidsverktygstips:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "OSD font:"
-msgstr "OSD teckensnitt:"
+msgstr "Typsnitt för skärmmeny:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_LCD"
 msgid "Enable Logitech LCD support (experimental)"
-msgstr "Aktivera Logitech LCD stöd (experimentell)"
+msgstr "Aktivera Logitech LCD-stöd (experimentellt)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
 msgid "Auto-hide the mouse pointer during playback in windowed mode"
@@ -727,11 +727,11 @@ msgstr "Ner"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON5"
 msgid "Add Media Type..."
-msgstr "Lägg till Media Typ..."
+msgstr "Lägg till Mediatyp..."
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON6"
 msgid "Add Sub Type..."
-msgstr "Lägg till Sub Typ..."
+msgstr "Lägg till Undertyp..."
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON7"
 msgid "Delete"
@@ -927,7 +927,7 @@ msgstr "ms"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_CHECK1"
 msgid "Save custom style"
-msgstr ""
+msgstr "Spara anpassad stil"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "Thumbnails:"

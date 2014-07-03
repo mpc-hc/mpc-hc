@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-06-04 20:22:52+0000\n"
-"PO-Revision-Date: 2014-06-05 10:02+0000\n"
+"POT-Creation-Date: 2014-06-15 01:03:51+0000\n"
+"PO-Revision-Date: 2014-06-17 14:00+0000\n"
 "Last-Translator: Marián Hikaník <podnety@mojepreklady.net>\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/mpc-hc/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -99,7 +99,7 @@ msgstr "Dátový tok"
 
 msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
 msgid "(avg/cur)"
-msgstr "(priemerný/aktuálny)"
+msgstr "(priemer./akt.)"
 
 msgctxt "IDS_STATSBAR_SIGNAL"
 msgid "Signal"
@@ -1255,7 +1255,7 @@ msgstr "Uložiť používateľom nastavený štýl"
 
 msgctxt "IDS_CONTENT_EDUCATION_SCIENCE"
 msgid "Education/Science/Factual topics"
-msgstr ""
+msgstr "Vzdelávacie/Veda/Reálne témy"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2119,7 +2119,7 @@ msgstr "Nemožno vytvoriť náhľady pre súbory s nulovou dĺžkou"
 
 msgctxt "IDS_THUMBNAILS_NO_FRAME_SIZE"
 msgid "Failed to get video frame size"
-msgstr "Nepodarilo sa zistiť veľkosť snímky"
+msgstr "Nepodarilo sa zistiť veľkosť snímky videa"
 
 msgctxt "IDS_OUT_OF_MEMORY"
 msgid "Out of memory, go buy some more!"
@@ -2143,7 +2143,7 @@ msgstr "Náhľady by boli príliš malé, nie je možné vytvoriť súbor.\n\nSk
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "Pre načítanie titulkov musíte zmeniť typ vykresľovača videa a znovu otvorte súbor.\n- DirectShow: VMR-7/VMR-9 (bez vykreslenia), EVR (CP), Sync, madVR alebo Haali\n- RealMedia: Špeciálne vykresľovanie pre RealMedia, alebo otvorte prostredníctvom DirectShow\n- QuickTime: vykresľovač DX7 alebo DX9 pre QuickTime\n- ShockWave: n/a"
+msgstr "Pre načítanie titulkov musíte zmeniť typ vykresľovača videa a znovu otvoriť súbor.\n- DirectShow: VMR-7/VMR-9 (bez vykreslenia), EVR (CP), Sync, madVR alebo Haali\n- RealMedia: Špeciálne vykresľovanie pre RealMedia, alebo otvorte prostredníctvom DirectShow\n- QuickTime: vykresľovač DX7 alebo DX9 pre QuickTime\n- ShockWave: n/a"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %d:%d"

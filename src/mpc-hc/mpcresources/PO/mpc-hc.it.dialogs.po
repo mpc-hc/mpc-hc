@@ -2,13 +2,13 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Marco Gobbo <kiba.no.michi@gmail.com>, 2014
+# Kiba_No_Ou <kiba.no.michi@gmail.com>, 2014
 # Tummarellox <tummarellox@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-05-11 19:53:40+0000\n"
-"PO-Revision-Date: 2014-05-20 18:22+0000\n"
+"POT-Creation-Date: 2014-06-03 21:36:02+0000\n"
+"PO-Revision-Date: 2014-06-23 11:00+0000\n"
 "Last-Translator: Tummarellox <tummarellox@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/mpc-hc/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -539,7 +539,7 @@ msgstr "Approssima alla potenza di 2"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Renderer Layout"
-msgstr ""
+msgstr "Layout Renderer"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SUB_AR_COMPENSATION"
 msgid "Apply aspect ratio compensation for anamorphic videos"
@@ -927,7 +927,7 @@ msgstr "ms"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_CHECK1"
 msgid "Save custom style"
-msgstr ""
+msgstr "Salva stile personalizzato"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "Thumbnails:"

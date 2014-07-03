@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-06-04 20:22:52+0000\n"
-"PO-Revision-Date: 2014-06-09 11:50+0000\n"
+"POT-Creation-Date: 2014-06-15 01:03:51+0000\n"
+"PO-Revision-Date: 2014-06-22 10:21+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -114,7 +114,7 @@ msgstr "スタイル"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
-msgstr "何もしない (最速アプローチ)"
+msgstr "何もしない (最速のアプローチ)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG1"
 msgid "Only when switching different video types (default)"
@@ -186,7 +186,7 @@ msgstr "DVD をお気に入りに追加しました"
 
 msgctxt "IDS_CAPTURE_SETTINGS"
 msgid "Capture Settings"
-msgstr "キャプチャ 設定"
+msgstr "キャプチャの設定"
 
 msgctxt "IDS_NAVIGATION_BAR"
 msgid "Navigation Bar"
@@ -334,7 +334,7 @@ msgstr "ディスプレイ モード (Hz)"
 
 msgctxt "IDS_PPAGE_FS_DEFAULT"
 msgid "Default"
-msgstr "既定値"
+msgstr "既定"
 
 msgctxt "IDS_PPAGE_FS_OTHER"
 msgid "Other"
@@ -570,7 +570,7 @@ msgstr "再生::キャプチャ"
 
 msgctxt "IDD_PPAGESYNC"
 msgid "Playback::Sync Renderer Settings"
-msgstr "再生::同期レンダラ設定"
+msgstr "再生::同期レンダラの設定"
 
 msgctxt "IDD_PPAGEFULLSCREEN"
 msgid "Playback::Fullscreen"
@@ -670,7 +670,7 @@ msgstr "映像の表面を通常のオフスクリーン サーフェスとし�
 
 msgctxt "IDC_AUDRND_COMBO"
 msgid "MPC Audio Renderer is broken, do not use."
-msgstr "MPC Audio Renderer が壊れています。使用しないでください。"
+msgstr "MPC オーディオ レンダラが壊れています。使用しないでください。"
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
@@ -1254,7 +1254,7 @@ msgstr "ユーザー設定のスタイルを保存"
 
 msgctxt "IDS_CONTENT_EDUCATION_SCIENCE"
 msgid "Education/Science/Factual topics"
-msgstr ""
+msgstr "教育/科学/事実"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1342,7 +1342,7 @@ msgstr "芸術/文化"
 
 msgctxt "IDS_CONTENT_SOCIAL_POLITICAL_ECO"
 msgid "Social/Political issues/Economics"
-msgstr "社会的/政治的な問題/経済学"
+msgstr "社会/政治/経済"
 
 msgctxt "IDS_CONTENT_LEISURE"
 msgid "Leisure hobbies"
@@ -3046,11 +3046,11 @@ msgstr "代替の垂直同期: オフ"
 
 msgctxt "IDS_OSD_RS_RESET_DEFAULT"
 msgid "Renderer settings reset to default"
-msgstr "既定のレンダラ設定にリセット"
+msgstr "既定のレンダラの設定にリセット"
 
 msgctxt "IDS_OSD_RS_RESET_OPTIMAL"
 msgid "Renderer settings reset to optimal"
-msgstr "最適なレンダラ設定にリセット"
+msgstr "最適なレンダラの設定にリセット"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
 msgid "D3D Fullscreen GUI Support: On"
