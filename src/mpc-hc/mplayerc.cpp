@@ -524,6 +524,8 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
         } else if (ct == _T("audio/x-pn-realaudio")) {
             // rtsp://...
             res.emplace_back(_T("rtsp://[^\n]+"), reFlags);
+            // http://...
+            res.emplace_back(_T("http://[^\n]+"), reFlags);
         }
 
         if (!body.IsEmpty()) {
