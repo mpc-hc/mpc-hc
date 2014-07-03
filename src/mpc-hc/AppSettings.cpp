@@ -231,6 +231,9 @@ CAppSettings::CAppSettings()
 #if INTERNAL_SOURCEFILTER_MMS
     SrcFiltersKeys[SRC_MMS] = FilterKey(_T("SRC_MMS"), true);
 #endif
+#if INTERNAL_SOURCEFILTER_RTMP
+    SrcFiltersKeys[SRC_RTMP] = FilterKey(_T("SRC_RTMP"), true);
+#endif
 #if INTERNAL_SOURCEFILTER_REALMEDIA
     SrcFiltersKeys[SRC_REALMEDIA] = FilterKey(_T("SRC_REALMEDIA"), true);
 #endif

@@ -1588,6 +1588,13 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
 #endif
 
+#if INTERNAL_SOURCEFILTER_RTMP
+    if (src[SRC_RTMP]) {
+        pFGLAVSplitterSource->m_protocols.AddTail(_T("rtmp"));
+        pFGLAVSplitterSource->m_protocols.AddTail(_T("rtmpt"));
+    }
+#endif
+
     // Always register the pipe protocol to allow handling standard input
     pFGLAVSplitterSource->m_protocols.AddTail(_T("pipe"));
 
