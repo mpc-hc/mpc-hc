@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-06-03 21:36:02+0000\n"
-"PO-Revision-Date: 2014-06-25 12:31+0000\n"
+"PO-Revision-Date: 2014-07-04 20:20+0000\n"
 "Last-Translator: Apa <sakcheen@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/mpc-hc/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -775,7 +775,7 @@ msgstr "Upphovsrätt:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Rating:"
-msgstr "Betyg:"
+msgstr "Klassificering:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Location:"
@@ -835,7 +835,7 @@ msgstr "OK"
 
 msgctxt "IDD_PNSPRESET_DLG_CAPTION"
 msgid "Pan&Scan Presets"
-msgstr "Pan & Scan Förinställningar"
+msgstr "Pan & Scan-förinställningar"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"
 msgid "New"
@@ -883,7 +883,7 @@ msgstr "Markera Alla"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON2"
 msgid "Reset Selected"
-msgstr "Återställ markerade"
+msgstr "Återställ Markerade"
 
 msgctxt "IDD_MEDIATYPES_DLG_CAPTION"
 msgid "Warning"
@@ -891,7 +891,7 @@ msgstr "Varning"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC1"
 msgid "MPC-HC could not render some of the pins in the graph, you may not have the needed codecs or filters installed on the system."
-msgstr "MPC-HC kunde inte rendera några av dataströmmarna, du kanske inte har de nödvändiga codecs eller filterna installerade."
+msgstr "MPC-HC kunde inte rendera några av dataströmmarna, du kanske inte har de nödvändiga kodekarna eller filtren installerade."
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC2"
 msgid "The following pin(s) failed to find a connectable filter:"
@@ -967,11 +967,11 @@ msgstr "Avbryt"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Font"
-msgstr "Teckensnitt"
+msgstr "Typsnitt"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_BUTTON1"
 msgid "Font"
-msgstr "Teckensnitt"
+msgstr "Typsnitt"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Spacing"
@@ -979,15 +979,15 @@ msgstr "Mellanrum"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Angle (z,°)"
-msgstr "Vinkel (z,°)"
+msgstr "Vinkel (z, °)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Scale (x,%)"
-msgstr "Skala (x,%)"
+msgstr "Skala (x, %)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Scale (y,%)"
-msgstr "Skala (y,%)"
+msgstr "Skala (y, %)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Border Style"
@@ -1011,7 +1011,7 @@ msgstr "Skugga"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Screen Alignment && Margins"
-msgstr "Bildskärms Anpassning && Marginaler"
+msgstr "Bildskärmsanpassning && Marginaler"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Left"
@@ -1031,11 +1031,11 @@ msgstr "Botten"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK_RELATIVETO"
 msgid "Position subtitles relative to the video frame"
-msgstr "Positionera undertexter relativt till video bilden"
+msgstr "Placera undertexterna relativt till videobildrutan"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Colors && Transparency"
-msgstr "Färger && Genomskinlighet"
+msgstr "Färger && Transparens"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "0%"
@@ -1059,19 +1059,19 @@ msgstr "Kontur"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK1"
 msgid "Link alpha channels"
-msgstr "Länka alfa kanaler"
+msgstr "Länka alfakanaler"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "If you would like to use the stand-alone versions of these filters or another replacement, disable them here."
-msgstr "Om du vill använda en fristående version av ett filter eller ett annat externt filter, inaktivera dem här."
+msgstr "Om du vill använda en fristående version av dessa filter eller något annat externt filter, inaktivera dem här."
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Source Filters"
-msgstr "Käll-Filter"
+msgstr "Källfilter"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Transform Filters"
-msgstr "Transformerings-Filter"
+msgstr "Transformeringsfilter"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Internal LAV Filters settings"

@@ -5,6 +5,7 @@
 # Gaugg_Markus, 2014
 # Luan <luanmail@gmx.net>, 2014
 # Luan <luanmail@gmx.net>, 2014
+# Luan <luanmail@gmx.net>, 2014
 # M T <michtrz@gmail.com>, 2013-2014
 # Underground78, 2013
 # Underground78, 2013
@@ -12,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-06-15 01:03:51+0000\n"
-"PO-Revision-Date: 2014-06-23 15:32+0000\n"
-"Last-Translator: M T <michtrz@gmail.com>\n"
+"PO-Revision-Date: 2014-07-03 19:31+0000\n"
+"Last-Translator: Luan <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -67,7 +68,7 @@ msgstr "Eigenschaften"
 
 msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
 msgid "&Default Style"
-msgstr "&Standard-Darstellung"
+msgstr "Stan&dard-Style"
 
 msgctxt "IDS_FAVFILES"
 msgid "Files"
@@ -115,7 +116,7 @@ msgstr "Stärke: %d dB, Qualität: %d%%"
 
 msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
 msgid "Styles"
-msgstr "Darstellung anpassen"
+msgstr "Style anpassen"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -231,7 +232,7 @@ msgstr "Text"
 
 msgctxt "IDS_SUBRESYNC_CLN_STYLE"
 msgid "Style"
-msgstr "Stil"
+msgstr "Style"
 
 msgctxt "IDS_SUBRESYNC_CLN_FONT"
 msgid "Font"
@@ -535,7 +536,7 @@ msgstr "Programm::Tasten"
 
 msgctxt "IDD_PPAGESUBSTYLE"
 msgid "Subtitles::Default Style"
-msgstr "Untertitel::Standard-Darstellung"
+msgstr "Untertitel::Standard-Style"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS"
 msgid "Internal Filters"
@@ -1067,7 +1068,7 @@ msgstr "&Optionen..."
 
 msgctxt "IDS_SUBTITLES_STYLES"
 msgid "&Styles..."
-msgstr "&Darstellung anpassen..."
+msgstr "&Style anpassen..."
 
 msgctxt "IDS_SUBTITLES_RELOAD"
 msgid "&Reload"
@@ -1247,15 +1248,15 @@ msgstr "&Filterliste kopieren"
 
 msgctxt "IDS_CREDENTIALS_SERVER"
 msgid "Enter server credentials"
-msgstr "Geben Sie die Server-Zugangsdaten ein"
+msgstr "Server-Zugangsdaten eingeben"
 
 msgctxt "IDS_CREDENTIALS_CONNECT"
 msgid "Enter your credentials to connect"
-msgstr "Geben Sie Ihre Zugangsdaten für die Verbindung ein"
+msgstr "Geben Sie Ihre Zugangsdaten ein, um die Verbindung herzustellen"
 
 msgctxt "IDS_SUB_SAVE_EXTERNAL_STYLE_FILE"
 msgid "Save custom style"
-msgstr "Benutzerdefinierten Stil speichern"
+msgstr "Angepassten Style speichern"
 
 msgctxt "IDS_CONTENT_EDUCATION_SCIENCE"
 msgid "Education/Science/Factual topics"
@@ -2115,7 +2116,7 @@ msgstr "GetCurrentImage fehlgeschlagen, hr = %08x"
 
 msgctxt "IDS_SCREENSHOT_ERROR"
 msgid "Cannot create file"
-msgstr "Datei kann nicht angelegt werden"
+msgstr "Datei kann nicht erstellt werden"
 
 msgctxt "IDS_THUMBNAILS_NO_DURATION"
 msgid "Cannot create thumbnails for files with no duration"
@@ -2143,7 +2144,7 @@ msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Dateiname: %s\\N%sAuflösung
 
 msgctxt "IDS_THUMBNAIL_TOO_SMALL"
 msgid "The thumbnails would be too small, impossible to create the file.\n\nTry lowering the number of thumbnails or increasing the total size."
-msgstr "Die Miniaturansichten wären zu klein, die Datei kann nicht erstellt werden.\n\nVerringern Sie die Anzahl der Miniaturansichten oder heben Sie die Gesamtgröße an."
+msgstr "Die Miniaturansichten wären zu klein, die Datei kann somit nicht erstellt werden.\n\nVersuchen Sie, die Anzahl der Miniaturansichten zu verringern oder deren Gesamtgröße zu erhöhen."
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
