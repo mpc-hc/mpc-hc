@@ -1,10 +1,10 @@
 Project             Version
 ----------------------------------------
 CSizingControlBar   2.45
-LAV Filters         0.61.2-5-g7a393d4 (custom build based on 0.61.2)
-Little CMS          2.6 (git 40300b1)
+LAV Filters         0.62-5-2ec84a9  (custom build based on 0.62.0)
+Little CMS          2.6 (git 4da8703)
 Logitech SDK        3.01 (driver 8.00.100)
-MediaInfoLib        0.7.68
+MediaInfoLib        0.7.69
 Mhook               2.3 (modified)
 MultiMon            28 Aug '03 (modified)
 QuickTime SDK       7.3
@@ -13,7 +13,7 @@ RealMedia SDK       -
 ResizableLib        1.3
 SoundTouch          1.8.0
 TreePropSheet       7 Mar '03 (modified)
-UnRAR               5.1.2
+UnRAR               5.1.6
 VirtualDub          1.10.4
-ZenLib              0.4.29 r456
+ZenLib              0.4.29 r458
 zlib                1.2.8

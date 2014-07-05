@@ -8,8 +8,8 @@ Legend:
 ! Fixed
 
 
-next version - not released yet
-===============================
+1.7.6 - 05 July 2014
+====================
 + ISR: Add an option to control subtitle renderer behavior regarding anamorphic video
 + ISR: Add an option to render subtitles at the source video resolution like VSFilter.
 + VSFilter: Display more informative names for external subtitles (similar to what is done with the internal subtitle renderer)
@@ -21,22 +21,22 @@ next version - not released yet
 * Ticket #4144, Move the user interface language selection to the Options dialog and remove the "Language" menu.
   The increasing number of translations had reduced the usability of the menu
 * Ticket #3739, Make error reporting less verbose when some non-critical DVD hooks fail
+* Don't use auto-zoom feature when the window was positioned using the Aero Snap
+* Don't exit fullscreen when loosing focus to a window on the same monitor
 * Updated Little CMS to v2.6 (git 4da8703)
 * Updated Unrar to v5.1.6
 * Updated MediaInfoLib to v0.7.69
 * Updated ZenLib to v0.4.29 r458
 * Updated LAV Filters to stable version 0.62.0:
+    - LAV Video: Support VP7 video
+    - LAV Video: Use the MediaFoundation WMV decoder on Windows 7+ instead of the DMO WMV decoder
+    - Ticket #4032, LAV Video: Fix some issues with DVD subtitles (flashing, overlapping and generally all kind of timing issues)
     - Ticket #3575, LAV Splitter: Alternate audio support for HLS
     - Ticket #4326, LAV Splitter: No subtitles were displayed when using the special "Forced subtitles" track created for PGS subtitles
-    - LAV Video: Support VP7 video
-    - LAV Video: Use the MediaFondation WMV decoder on Windows 7+ instead of the DMO WMV decoder
-    - Ticket #4032, LAV Video: Fix some issues with DVD subtitles (flashing, overlapping and generally all kind of timing issues)
     - Ticket #4357, LAV Video: Fix some performance regressions introduced in v0.61 (mostly visible on old operating systems like Windows XP)
 * Updated Armenian, Basque, Belarusian, Bengali, British English, Catalan, Chinese (simplified and traditional), Croatian,
   Czech, Dutch, French, Galician, German, Greek, Hebrew, Hungarian, Italian, Japanese, Korean, Malay, Polish, Portuguese (Brazil),
   Romanian, Russian, Slovak, Slovenian, Spanish, Swedish, Tatar, Turkish, Ukrainian and Vietnamese translations
-* Don't use auto-zoom feature when the window was positioned using the Aero Snap
-* Don't exit fullscreen when loosing focus to a window on the same monitor
 ! The dockable bars were not updated when changing the UI language
 ! Statusbar: Fixed occasional flickering of text and media type icon
 ! D3D Fullscreen last state was inverted and wasn't properly restored with "Remember last window size and position" option
