@@ -17,6 +17,7 @@ next version - not released yet
 ! "Load subtitle" dialog: Fix the file filters on Windows Vista+
 ! Ticket #3930, Fix a possible crash with embedded subtitles when the subtitle queue is disabled
 ! Ticket #4505, Embedded text subtitles: Fix a possible crash related to the Subresync bar
+! Ticket #4504, ASS/SSA subtitles: Support floating point values in drawing commands
 ! Ticket #4536, ASS/SSA subtitles: Fix the parsing of \fs tags when the value was negative
 
 

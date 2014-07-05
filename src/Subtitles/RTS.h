@@ -110,8 +110,8 @@ public:
 
 class CPolygon : public CWord
 {
-    bool GetLONG(CStringW& str, LONG& ret);
-    bool GetPOINT(CStringW& str, POINT& ret);
+    static bool GetPOINT(CStringW& str, POINT& ret);
+    static bool Get6BitFixedPoint(CStringW& str, LONG& ret);
     bool ParseStr();
 
 protected:

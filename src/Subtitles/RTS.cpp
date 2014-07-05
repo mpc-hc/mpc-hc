@@ -578,22 +578,17 @@ bool CPolygon::Append(CWord* w)
     //return true;
 }
 
-bool CPolygon::GetLONG(CStringW& str, LONG& ret)
+bool CPolygon::Get6BitFixedPoint(CStringW& str, LONG& ret)
 {
-    LPCWSTR s = str;
-    LPWSTR e = nullptr;
-
-    ret = wcstol(s, &e, 10);
-
-    int nRead = int(e - s);
-    str.Delete(0, nRead);
-
-    return (nRead > 0);
+    LPWSTR s = (LPWSTR)(LPCWSTR)str, e = s;
+    ret = std::lround(wcstod(str, &e) * 64.0);
+    str.Delete(0, int(e - s));
+    return (e > s);
 }
 
 bool CPolygon::GetPOINT(CStringW& str, POINT& ret)
 {
-    return (GetLONG(str, ret.x) && GetLONG(str, ret.y));
+    return (Get6BitFixedPoint(str, ret.x) && Get6BitFixedPoint(str, ret.y));
 }
 
 bool CPolygon::ParseStr()
@@ -713,8 +708,8 @@ bool CPolygon::ParseStr()
     int minx = INT_MAX, miny = INT_MAX, maxx = -INT_MAX, maxy = -INT_MAX;
 
     for (size_t m = 0; m < m_pathTypesOrg.GetCount(); m++) {
-        m_pathPointsOrg[m].x = (int)(64 * m_scalex * m_pathPointsOrg[m].x);
-        m_pathPointsOrg[m].y = (int)(64 * m_scaley * m_pathPointsOrg[m].y);
+        m_pathPointsOrg[m].x = std::lround(m_scalex * m_pathPointsOrg[m].x);
+        m_pathPointsOrg[m].y = std::lround(m_scaley * m_pathPointsOrg[m].y);
         if (minx > m_pathPointsOrg[m].x) {
             minx = m_pathPointsOrg[m].x;
         }
@@ -732,13 +727,13 @@ bool CPolygon::ParseStr()
     m_width = std::max(maxx - minx, 0);
     m_ascent = std::max(maxy - miny, 0);
 
-    int baseline = (int)(64 * m_scaley * m_baseline);
+    int baseline = std::lround(64.0 * m_scaley * m_baseline);
     m_descent = baseline;
     m_ascent -= baseline;
 
-    m_width = ((int)(m_style.fontScaleX / 100 * m_width) + 4) >> 3;
-    m_ascent = ((int)(m_style.fontScaleY / 100 * m_ascent) + 4) >> 3;
-    m_descent = ((int)(m_style.fontScaleY / 100 * m_descent) + 4) >> 3;
+    m_width = ((int)(m_style.fontScaleX / 100.0 * m_width) + 4) >> 3;
+    m_ascent = ((int)(m_style.fontScaleY / 100.0 * m_ascent) + 4) >> 3;
+    m_descent = ((int)(m_style.fontScaleY / 100.0 * m_descent) + 4) >> 3;
 
     return true;
 }
