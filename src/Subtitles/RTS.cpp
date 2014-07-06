@@ -1920,7 +1920,6 @@ bool CRenderedTextSubtitle::ParseSSATag(SSATagsList& tagsList, const CStringW& s
                     int s = 2;
                     if (cmd[s] == L'+' || cmd[s] == L'-') {
                         tag.params.Add(cmd.Mid(s, 1));
-                        s++;
                     }
                     tag.paramsInt.Add(wcstol(cmd.Mid(s), nullptr, 10));
                 }
