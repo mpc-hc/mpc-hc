@@ -615,7 +615,8 @@ STDMETHODIMP_(bool) CSubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, CCo
         ppSubPic = pSubPic;
     } else {
         CComPtr<ISubPicProvider> pSubPicProvider;
-        if (SUCCEEDED(GetSubPicProvider(&pSubPicProvider)) && pSubPicProvider) {
+        if (SUCCEEDED(GetSubPicProvider(&pSubPicProvider)) && pSubPicProvider
+                && SUCCEEDED(pSubPicProvider->Lock())) {
             double fps = m_fps;
             POSITION pos = pSubPicProvider->GetStartPosition(rtNow, fps);
             if (pos) {
@@ -681,6 +682,8 @@ STDMETHODIMP_(bool) CSubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, CCo
                     }
                 }
             }
+
+            pSubPicProvider->Unlock();
         }
     }
 
