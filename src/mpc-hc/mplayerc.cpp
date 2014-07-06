@@ -1981,6 +1981,8 @@ int CMPlayerCApp::ExitInstance()
 
     m_s = nullptr;
 
+    CMPCPngImage::CleanUp();
+
     OleUninitialize();
 
     return CWinApp::ExitInstance();
