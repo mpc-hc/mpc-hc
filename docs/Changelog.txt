@@ -14,6 +14,7 @@ next version - not released yet
 * Text subtitles: Faster subtitle parsing (up to 4 times faster for SSA/ASS subtitles)
 * Ticket #4428, Improve the clarity of the error message when opening a subtitle file fails
 ! "Load subtitle" dialog: Fix the file filters on Windows Vista+
+! Ticket #4505, Embedded text subtitles: Fix a possible crash related to the Subresync bar
 ! Ticket #4536, ASS/SSA subtitles: Fix the parsing of \fs tags when the value was negative
 
 

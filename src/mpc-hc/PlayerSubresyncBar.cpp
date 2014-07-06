@@ -184,6 +184,7 @@ void CPlayerSubresyncBar::ReloadSubtitle()
 
         m_mode = VOBSUB;
 
+        pVSF->Lock();
         ASSERT(pVSF->m_iLang >= 0);
         CAtlArray<CVobSubFile::SubPos>& sp = pVSF->m_langs[pVSF->m_iLang].subpos;
 
@@ -192,6 +193,7 @@ void CPlayerSubresyncBar::ReloadSubtitle()
             str.Format(_T("%d,%d,%d,%Iu"), sp[i].vobid, sp[i].cellid, sp[i].fForced, i);
             m_sts.Add(TToW(str), false, (int)sp[i].start, (int)sp[i].stop);
         }
+        pVSF->Unlock();
 
         m_sts.CreateDefaultStyle(DEFAULT_CHARSET);
 
@@ -212,7 +214,9 @@ void CPlayerSubresyncBar::ReloadSubtitle()
 
         m_mode = TEXTSUB;
 
+        pRTS->Lock();
         m_sts.Copy(*pRTS);
+        pRTS->Unlock();
         m_sts.ConvertToTimeBased(m_fps);
         m_sts.Sort(true); /*!!m_fUnlink*/
 
