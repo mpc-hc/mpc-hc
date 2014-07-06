@@ -9408,7 +9408,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
             if (!s.fRememberWindowSize) {
                 CSize vsize = GetVideoSize();
                 r = CRect(r.left, r.top, r.left + vsize.cx, r.top + vsize.cy);
-                // COMMENTED OUT: it releases mouse capture, we may loose the second mouse up event in doubleclick
+                // COMMENTED OUT: it releases mouse capture, we may lose the second mouse up event in doubleclick
                 //ShowWindow(SW_HIDE);
             }
             SetWindowPos(nullptr, r.left, r.top, r.Width(), r.Height(), SWP_NOZORDER | SWP_NOSENDCHANGING);
@@ -9420,7 +9420,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
             if (m_LastWindow_HM != hm_cur) {
                 GetMonitorInfo(m_LastWindow_HM, &mi);
                 r = mi.rcMonitor;
-                // COMMENTED OUT: it releases mouse capture, we may loose the second mouse up event in doubleclick
+                // COMMENTED OUT: it releases mouse capture, we may lose the second mouse up event in doubleclick
                 //ShowWindow(SW_HIDE);
                 SetWindowPos(nullptr, r.left, r.top, r.Width(), r.Height(), SWP_NOZORDER | SWP_NOSENDCHANGING);
             }

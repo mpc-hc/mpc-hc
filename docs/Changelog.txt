@@ -35,7 +35,7 @@ next version - not released yet
   The increasing number of translations had reduced the usability of the menu
 * Ticket #3739, Make error reporting less verbose when some non-critical DVD hooks fail
 * Don't use auto-zoom feature when the window was positioned using the Aero Snap
-* Don't exit fullscreen when loosing focus to a window on the same monitor
+* Don't exit fullscreen when losing focus to a window on the same monitor
 * Updated Little CMS to v2.6 (git 4da8703)
 * Updated Unrar to v5.1.6
 * Updated MediaInfoLib to v0.7.69
