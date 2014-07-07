@@ -658,20 +658,16 @@ CRealMediaGraph::CRealMediaGraph(HWND hWndParent, HRESULT& hr)
     }
 
     if (!m_pRMP->Init()) {
-        delete m_pRMP;
         m_pRMP = nullptr;
         hr = E_FAIL;
         return;
     }
-
-    m_pRMP->AddRef();
 }
 
 CRealMediaGraph::~CRealMediaGraph()
 {
     if (m_pRMP) {
         m_pRMP->Deinit();
-        m_pRMP->Release();
         m_pRMP = nullptr;
     }
 }
