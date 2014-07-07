@@ -576,17 +576,22 @@ bool CPolygon::Append(CWord* w)
     //return true;
 }
 
-bool CPolygon::Get6BitFixedPoint(CStringW& str, LONG& ret)
+bool CPolygon::GetPOINT(CStringW& str, POINT& point)
 {
-    LPWSTR s = (LPWSTR)(LPCWSTR)str, e = s;
-    ret = std::lround(wcstod(str, &e) * 64.0);
-    str.Delete(0, int(e - s));
-    return (e > s);
-}
+    LPCWSTR s = str;
+    LPWSTR xEnd = nullptr;
+    LPWSTR yEnd = nullptr;
 
-bool CPolygon::GetPOINT(CStringW& str, POINT& ret)
-{
-    return (Get6BitFixedPoint(str, ret.x) && Get6BitFixedPoint(str, ret.y));
+    point.x = std::lround(wcstod(s, &xEnd) * m_scalex * 64.0);
+    if (xEnd <= s) {
+        return false;
+    }
+    point.y = std::lround(wcstod(xEnd, &yEnd) * m_scaley * 64.0);
+
+    bool ret = yEnd > xEnd;
+    str.Delete(0, int(yEnd - s));
+
+    return ret;
 }
 
 bool CPolygon::ParseStr()
@@ -706,8 +711,6 @@ bool CPolygon::ParseStr()
     int minx = INT_MAX, miny = INT_MAX, maxx = -INT_MAX, maxy = -INT_MAX;
 
     for (size_t m = 0; m < m_pathTypesOrg.GetCount(); m++) {
-        m_pathPointsOrg[m].x = std::lround(m_scalex * m_pathPointsOrg[m].x);
-        m_pathPointsOrg[m].y = std::lround(m_scaley * m_pathPointsOrg[m].y);
         if (minx > m_pathPointsOrg[m].x) {
             minx = m_pathPointsOrg[m].x;
         }
