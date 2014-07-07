@@ -36,7 +36,7 @@ SET "MPCHC_PYTHON=C:\Python27"
 Part C: Downloading and compiling the MPC-HC source
 
 1. Use Git to clone MPC-HC's repository to "C:\mpc-hc" (or anywhere else you like)
-    Download Git from https://github.com/msysgit/msysgit/releases/download/Git-1.9.2-preview20140411/Git-1.9.2-preview20140411.exe
+    Download Git from http://msysgit.github.io/
     Run:
       git clone --recursive https://github.com/mpc-hc/mpc-hc.git
 
