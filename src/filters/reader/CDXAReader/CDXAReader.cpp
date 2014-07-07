@@ -277,7 +277,7 @@ bool CCDXAStream::Load(const WCHAR* fnw)
     LARGE_INTEGER size = {0, 0};
     GetFileSizeEx(m_hFile, &size);
 
-    m_llLength = int((size.QuadPart - RIFFCDXA_HEADER_SIZE) / RAW_SECTOR_SIZE) * RAW_DATA_SIZE;
+    m_llLength = ((size.QuadPart - RIFFCDXA_HEADER_SIZE) / RAW_SECTOR_SIZE) * RAW_DATA_SIZE;
 
     if (!LookForMediaSubType()) {
         m_llPosition = m_llLength = 0;

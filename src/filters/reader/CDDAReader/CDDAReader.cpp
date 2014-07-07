@@ -337,7 +337,7 @@ bool CCDDAStream::Load(const WCHAR* fnw)
     m_nStartSector = MSF2UINT(m_TOC.TrackData[iTrackIndex - 1].Address) - 150; //MSF2UINT(m_TOC.TrackData[0].Address);
     m_nStopSector = MSF2UINT(m_TOC.TrackData[iTrackIndex].Address) - 150;//MSF2UINT(m_TOC.TrackData[0].Address);
 
-    m_llLength = (m_nStopSector - m_nStartSector) * RAW_SECTOR_SIZE;
+    m_llLength = LONGLONG(m_nStopSector - m_nStartSector) * RAW_SECTOR_SIZE;
 
     m_header.riff.hdr.chunkSize = (long)(m_llLength + sizeof(m_header) - 8);
     m_header.data.hdr.chunkSize = (long)(m_llLength);
