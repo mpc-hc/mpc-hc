@@ -601,7 +601,8 @@ bool CPolygon::ParseStr()
     }
 
     CPoint p;
-    int i, j, lastsplinestart = -1, firstmoveto = -1, lastmoveto = -1;
+    bool foundMove = false;
+    size_t i, j, lastSplineStart = SIZE_T_ERROR;
 
     CStringW str = m_str;
     str.SpanIncluding(L"mnlbspc 0123456789");
@@ -619,9 +620,14 @@ bool CPolygon::ParseStr()
         s.TrimLeft(L"mnlbspc ");
         switch (c) {
             case 'm':
-                lastmoveto = (int)m_pathTypesOrg.GetCount();
-                if (firstmoveto == -1) {
-                    firstmoveto = lastmoveto;
+                if (!foundMove) {
+                    if (m_pathTypesOrg.GetCount() > 0) {
+                        // move command not first so we abort
+                        m_pathTypesOrg.RemoveAll();
+                        m_pathPointsOrg.RemoveAll();
+                        return false;
+                    }
+                    foundMove = true;
                 }
                 while (GetPOINT(s, p)) {
                     m_pathTypesOrg.Add(PT_MOVETO);
@@ -644,16 +650,16 @@ bool CPolygon::ParseStr()
                 }
                 break;
             case 'b':
-                j = (int)m_pathTypesOrg.GetCount();
+                j = m_pathTypesOrg.GetCount();
                 if (j < 1) {
                     break;
                 }
                 while (GetPOINT(s, p)) {
                     m_pathTypesOrg.Add(PT_BEZIERTO);
                     m_pathPointsOrg.Add(p);
-                    j++;
+                    ++j;
                 }
-                j = (int)(m_pathTypesOrg.GetCount() - ((m_pathTypesOrg.GetCount() - j) % 3));
+                j = m_pathTypesOrg.GetCount() - ((m_pathTypesOrg.GetCount() - j) % 3);
                 m_pathTypesOrg.SetCount(j);
                 m_pathPointsOrg.SetCount(j);
                 break;
@@ -661,17 +667,17 @@ bool CPolygon::ParseStr()
                 if (m_pathPointsOrg.GetCount() < 1) {
                     break;
                 }
-                j = lastsplinestart = (int)m_pathTypesOrg.GetCount();
+                j = lastSplineStart = m_pathTypesOrg.GetCount();
                 i = 3;
                 while (i-- && GetPOINT(s, p)) {
                     m_pathTypesOrg.Add(PT_BSPLINETO);
                     m_pathPointsOrg.Add(p);
-                    j++;
+                    ++j;
                 }
-                if (m_pathTypesOrg.GetCount() - lastsplinestart < 3) {
-                    m_pathTypesOrg.SetCount(lastsplinestart);
-                    m_pathPointsOrg.SetCount(lastsplinestart);
-                    lastsplinestart = -1;
+                if (m_pathTypesOrg.GetCount() - lastSplineStart < 3) {
+                    m_pathTypesOrg.SetCount(lastSplineStart);
+                    m_pathPointsOrg.SetCount(lastSplineStart);
+                    lastSplineStart = SIZE_T_ERROR;
                 }
             // no break
             case 'p':
@@ -684,17 +690,17 @@ bool CPolygon::ParseStr()
                 }
                 break;
             case 'c':
-                if (lastsplinestart > 0) {
+                if (lastSplineStart != SIZE_T_ERROR && lastSplineStart > 0) {
                     m_pathTypesOrg.Add(PT_BSPLINEPATCHTO);
                     m_pathTypesOrg.Add(PT_BSPLINEPATCHTO);
                     m_pathTypesOrg.Add(PT_BSPLINEPATCHTO);
-                    p = m_pathPointsOrg[lastsplinestart - 1]; // we need p for temp storage, because operator [] will return a reference to CPoint and Add() may reallocate its internal buffer (this is true for MFC 7.0 but not for 6.0, hehe)
+                    p = m_pathPointsOrg[lastSplineStart - 1]; // we need p for temp storage, because operator [] will return a reference to CPoint and Add() may reallocate its internal buffer (this is true for MFC 7.0 but not for 6.0, hehe)
                     m_pathPointsOrg.Add(p);
-                    p = m_pathPointsOrg[lastsplinestart];
+                    p = m_pathPointsOrg[lastSplineStart];
                     m_pathPointsOrg.Add(p);
-                    p = m_pathPointsOrg[lastsplinestart + 1];
+                    p = m_pathPointsOrg[lastSplineStart + 1];
                     m_pathPointsOrg.Add(p);
-                    lastsplinestart = -1;
+                    lastSplineStart = SIZE_T_ERROR;
                 }
                 break;
             default:
@@ -702,13 +708,14 @@ bool CPolygon::ParseStr()
         }
     }
 
-    if (lastmoveto == -1 || firstmoveto > 0) {
+    if (!foundMove) {
+        // move command not found so we abort
         m_pathTypesOrg.RemoveAll();
         m_pathPointsOrg.RemoveAll();
         return false;
     }
 
-    int minx = INT_MAX, miny = INT_MAX, maxx = -INT_MAX, maxy = -INT_MAX;
+    int minx = INT_MAX, miny = INT_MAX, maxx = INT_MIN, maxy = INT_MIN;
 
     for (size_t m = 0; m < m_pathTypesOrg.GetCount(); m++) {
         if (minx > m_pathPointsOrg[m].x) {
