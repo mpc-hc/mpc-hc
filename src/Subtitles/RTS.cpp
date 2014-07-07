@@ -93,9 +93,7 @@ CWord::CWord(STSStyle& style, CStringW str, int ktype, int kstart, int kend, dou
 
 CWord::~CWord()
 {
-    if (m_pOpaqueBox) {
-        delete m_pOpaqueBox;
-    }
+    delete m_pOpaqueBox;
 }
 
 bool CWord::Append(CWord* w)
@@ -779,8 +777,9 @@ CClipper::CClipper(CStringW str, CSize size, double scalex, double scaley, bool 
         return;
     }
 
-    m_pAlphaMask = DEBUG_NEW BYTE[size.cx * size.cy];
-    if (!m_pAlphaMask) {
+    try {
+        m_pAlphaMask = DEBUG_NEW BYTE[size.cx * size.cy];
+    } catch (std::bad_alloc) {
         return;
     }
 
@@ -1131,11 +1130,8 @@ void CSubtitle::Empty()
 void CSubtitle::EmptyEffects()
 {
     for (ptrdiff_t i = 0; i < EF_NUMBEROFEFFECTS; i++) {
-        if (m_effects[i]) {
-            delete m_effects[i];
-        }
+        SAFE_DELETE(m_effects[i]);
     }
-    ZeroMemory(m_effects, sizeof(Effect*)*EF_NUMBEROFEFFECTS);
 }
 
 int CSubtitle::GetFullWidth()
@@ -1203,8 +1199,10 @@ CLine* CSubtitle::GetNextLine(POSITION& pos, int maxwidth)
         return nullptr;
     }
 
-    CLine* ret = DEBUG_NEW CLine();
-    if (!ret) {
+    CLine* ret;
+    try {
+        ret = DEBUG_NEW CLine();
+    } catch (std::bad_alloc) {
         return nullptr;
     }
 
@@ -1297,8 +1295,9 @@ void CSubtitle::CreateClippers(CSize size)
         if (!m_pClipper) {
             CStringW str;
             str.Format(L"m %d %d l %d %d %d %d %d %d", 0, 0, w, 0, w, h, 0, h);
-            m_pClipper = DEBUG_NEW CClipper(str, size, 1, 1, false, CPoint(0, 0), m_outlineCache, m_overlayCache);
-            if (!m_pClipper) {
+            try {
+                m_pClipper = DEBUG_NEW CClipper(str, size, 1, 1, false, CPoint(0, 0), m_outlineCache, m_overlayCache);
+            } catch (std::bad_alloc) {
                 return;
             }
         }
@@ -1334,8 +1333,9 @@ void CSubtitle::CreateClippers(CSize size)
         if (!m_pClipper) {
             CStringW str;
             str.Format(L"m %d %d l %d %d %d %d %d %d", 0, 0, w, 0, w, h, 0, h);
-            m_pClipper = DEBUG_NEW CClipper(str, size, 1, 1, false, CPoint(0, 0), m_outlineCache, m_overlayCache);
-            if (!m_pClipper) {
+            try {
+                m_pClipper = DEBUG_NEW CClipper(str, size, 1, 1, false, CPoint(0, 0), m_outlineCache, m_overlayCache);
+            } catch (std::bad_alloc) {
                 return;
             }
         }
@@ -1705,8 +1705,10 @@ void CRenderedTextSubtitle::ParseEffect(CSubtitle* sub, CString str)
             return;
         }
 
-        Effect* e = DEBUG_NEW Effect;
-        if (!e) {
+        Effect* e;
+        try {
+            e = DEBUG_NEW Effect;
+        } catch (std::bad_alloc) {
             return;
         }
 
@@ -1730,8 +1732,10 @@ void CRenderedTextSubtitle::ParseEffect(CSubtitle* sub, CString str)
             bottom = tmp;
         }
 
-        Effect* e = DEBUG_NEW Effect;
-        if (!e) {
+        Effect* e;
+        try {
+            e = DEBUG_NEW Effect;
+        } catch (std::bad_alloc) {
             return;
         }
 
