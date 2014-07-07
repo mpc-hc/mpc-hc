@@ -2166,16 +2166,16 @@ bool CRenderedTextSubtitle::CreateSubFromSSATag(CSubtitle* sub, const SSATagsLis
                                                          (sub->m_relativeTo == 1) ? CPoint(m_vidrect.left, m_vidrect.top) : CPoint(0, 0),
                                                          m_outlineCache, m_overlayCache);
                 } else if (nParamsInt == 4) {
-                    CRect r;
-
                     sub->m_clipInverse = invert;
 
-                    r.SetRect(tag.paramsInt[0], tag.paramsInt[1], tag.paramsInt[2], tag.paramsInt[3]);
+                    double dLeft   = sub->m_scalex * tag.paramsInt[0];
+                    double dTop    = sub->m_scaley * tag.paramsInt[1];
+                    double dRight  = sub->m_scalex * tag.paramsInt[2];
+                    double dBottom = sub->m_scaley * tag.paramsInt[3];
 
-                    double dLeft = sub->m_scalex * static_cast<double>(r.left), dTop = sub->m_scaley * static_cast<double>(r.top), dRight = sub->m_scalex * static_cast<double>(r.right), dBottom = sub->m_scaley * static_cast<double>(r.bottom);
                     if (sub->m_relativeTo == 1) {
-                        double dOffsetX = static_cast<double>(m_vidrect.left) * 0.125;
-                        double dOffsetY = static_cast<double>(m_vidrect.top) * 0.125;
+                        double dOffsetX = m_vidrect.left / 8.0;
+                        double dOffsetY = m_vidrect.top / 8.0;
                         dLeft += dOffsetX;
                         dTop += dOffsetY;
                         dRight += dOffsetX;
