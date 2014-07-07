@@ -1867,7 +1867,7 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
                 CString strFile = ParseFileName(cmdln.GetNext(pos));
                 int nPos = strFile.Find(_T("DELAY"));
                 if (nPos != -1) {
-                    rtShift = 10000 * _tstol(strFile.Mid(nPos + 6));
+                    rtShift = 10000i64 * _tstol(strFile.Mid(nPos + 6));
                 }
                 slDubs.AddTail(strFile);
             } else if (sw == _T("sub") && pos) {
