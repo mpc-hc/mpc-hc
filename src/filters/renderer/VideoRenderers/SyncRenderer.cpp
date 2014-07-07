@@ -602,9 +602,10 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
                 }
             }
             if (!bTryToReset) {
-                if (FAILED(hr = m_pD3DEx->CreateDeviceEx(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
-                                D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS,
-                                &pp, nullptr, &m_pD3DDevEx))) {
+                hr = m_pD3DEx->CreateDeviceEx(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
+                                              D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS,
+                                              &pp, nullptr, &m_pD3DDevEx);
+                if (FAILED(hr) && hr != D3DERR_DEVICELOST && hr != D3DERR_DEVICENOTRESET) {
                     _Error += GetWindowsErrorMessage(hr, m_hD3D9);
                     return hr;
                 }
@@ -620,9 +621,10 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
                 }
             }
             if (!bTryToReset) {
-                if (FAILED(hr = m_pD3D->CreateDevice(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
-                                                     D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED,
-                                                     &pp, &m_pD3DDev))) {
+                hr = m_pD3D->CreateDevice(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
+                                          D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED,
+                                          &pp, &m_pD3DDev);
+                if (FAILED(hr) && hr != D3DERR_DEVICELOST && hr != D3DERR_DEVICENOTRESET) {
                     _Error += GetWindowsErrorMessage(hr, m_hD3D9);
                     return hr;
                 }
