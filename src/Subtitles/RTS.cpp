@@ -114,7 +114,7 @@ bool CWord::Append(CWord* w)
     return true;
 }
 
-void CWord::Paint(CPoint p, CPoint org)
+void CWord::Paint(const CPoint& p, const CPoint& org)
 {
     if (!m_str) {
         return;
@@ -576,17 +576,17 @@ bool CPolygon::Append(CWord* w)
     //return true;
 }
 
-bool CPolygon::GetPOINT(CStringW& str, POINT& point)
+bool CPolygon::GetPOINT(CStringW& str, POINT& point) const
 {
     LPCWSTR s = str;
     LPWSTR xEnd = nullptr;
     LPWSTR yEnd = nullptr;
 
-    point.x = std::lround(wcstod(s, &xEnd) * m_scalex * 64.0);
+    point.x = std::lround(wcstod(s, &xEnd) * m_scalex) * 64;
     if (xEnd <= s) {
         return false;
     }
-    point.y = std::lround(wcstod(xEnd, &yEnd) * m_scaley * 64.0);
+    point.y = std::lround(wcstod(xEnd, &yEnd) * m_scaley) * 64;
 
     bool ret = yEnd > xEnd;
     str.Delete(0, int(yEnd - s));
@@ -735,7 +735,7 @@ bool CPolygon::ParseStr()
     m_width = std::max(maxx - minx, 0);
     m_ascent = std::max(maxy - miny, 0);
 
-    int baseline = std::lround(64.0 * m_scaley * m_baseline);
+    int baseline = std::lround(m_scaley * m_baseline) * 64;
     m_descent = baseline;
     m_ascent -= baseline;
 
@@ -775,35 +775,32 @@ bool CPolygon::CreatePath()
 
 // CClipper
 
-CClipper::CClipper(CStringW str, CSize size, double scalex, double scaley, bool inverse, CPoint cpOffset,
+CClipper::CClipper(CStringW str, const CSize& size, double scalex, double scaley, bool inverse, const CPoint& cpOffset,
                    COutlineCache& outlineCache, COverlayCache& overlayCache)
     : CPolygon(STSStyle(), str, 0, 0, 0, scalex, scaley, 0, outlineCache, overlayCache)
-    , m_inverse(false)
+    , m_size(size)
+    , m_inverse(inverse)
+    , m_cpOffset(cpOffset)
+    , m_pAlphaMask(nullptr)
 {
-    m_size.cx = m_size.cy = 0;
-    m_pAlphaMask = nullptr;
-
-    if (size.cx < 0 || size.cy < 0) {
+    if (m_size.cx <= 0 || m_size.cy <= 0) {
         return;
     }
 
+    const size_t alphaMaskSize = size_t(m_size.cx) * m_size.cy;
+
     try {
-        m_pAlphaMask = DEBUG_NEW BYTE[size.cx * size.cy];
+        m_pAlphaMask = DEBUG_NEW BYTE[alphaMaskSize];
     } catch (std::bad_alloc) {
         return;
     }
-
-    m_size = size;
-    m_inverse = inverse;
-    m_cpOffset = cpOffset;
-
-    ZeroMemory(m_pAlphaMask, size.cx * size.cy);
+    ZeroMemory(m_pAlphaMask, alphaMaskSize);
 
     Paint(CPoint(0, 0), CPoint(0, 0));
 
     int w = m_overlayData.mOverlayWidth, h = m_overlayData.mOverlayHeight;
 
-    int x = (m_overlayData.mOffsetX + cpOffset.x + 4) >> 3, y = (m_overlayData.mOffsetY + cpOffset.y + 4) >> 3;
+    int x = (m_overlayData.mOffsetX + m_cpOffset.x + 4) >> 3, y = (m_overlayData.mOffsetY + m_cpOffset.y + 4) >> 3;
     int xo = 0, yo = 0;
 
     if (x < 0) {
@@ -839,10 +836,9 @@ CClipper::CClipper(CStringW str, CSize size, double scalex, double scaley, bool 
         dst += m_size.cx;
     }
 
-    if (inverse) {
-        BYTE* inv_dst = m_pAlphaMask;
-        for (ptrdiff_t i = ptrdiff_t(size.cx) * size.cy; i > 0; --i, ++inv_dst) {
-            *inv_dst = 0x40 - *inv_dst;    // mask is 6 bit
+    if (m_inverse) {
+        for (size_t i = 0; i < alphaMaskSize; i++) {
+            m_pAlphaMask[i] = 0x40 - m_pAlphaMask[i]; // mask is 6 bit
         }
     }
 }
@@ -1723,9 +1719,9 @@ void CRenderedTextSubtitle::ParseEffect(CSubtitle* sub, CString str)
         }
 
         sub->m_effects[e->type = EF_BANNER] = e;
-        e->param[0] = (int)(std::max(1.0 * delay / sub->m_scalex, 1.0));
+        e->param[0] = std::lround(std::max(1.0 * delay / sub->m_scalex, 1.0));
         e->param[1] = lefttoright;
-        e->param[2] = (int)(sub->m_scalex * fadeawaywidth);
+        e->param[2] = std::lround(sub->m_scalex * fadeawaywidth);
 
         sub->m_wrapStyle = 2;
     } else if (!effect.CompareNoCase(_T("Scroll up;")) || !effect.CompareNoCase(_T("Scroll down;"))) {
@@ -1750,11 +1746,11 @@ void CRenderedTextSubtitle::ParseEffect(CSubtitle* sub, CString str)
         }
 
         sub->m_effects[e->type = EF_SCROLL] = e;
-        e->param[0] = lround(sub->m_scaley * top * 8.0);
-        e->param[1] = lround(sub->m_scaley * bottom * 8.0);
-        e->param[2] = lround(std::max(double(delay) / sub->m_scaley, 1.0));
+        e->param[0] = std::lround(sub->m_scaley * top * 8.0);
+        e->param[1] = std::lround(sub->m_scaley * bottom * 8.0);
+        e->param[2] = std::lround(std::max(double(delay) / sub->m_scaley, 1.0));
         e->param[3] = (effect.GetLength() == 12);
-        e->param[4] = lround(sub->m_scaley * fadeawayheight);
+        e->param[4] = std::lround(sub->m_scaley * fadeawayheight);
     }
 }
 
@@ -2358,10 +2354,10 @@ bool CRenderedTextSubtitle::CreateSubFromSSATag(CSubtitle* sub, const SSATagsLis
 
                 if (tag.paramsReal.GetCount() == 4 && !sub->m_effects[EF_MOVE]) {
                     if (Effect* e = DEBUG_NEW Effect) {
-                        e->param[0] = lround(sub->m_scalex * tag.paramsReal[0] * 8.0);
-                        e->param[1] = lround(sub->m_scaley * tag.paramsReal[1] * 8.0);
-                        e->param[2] = lround(sub->m_scalex * tag.paramsReal[2] * 8.0);
-                        e->param[3] = lround(sub->m_scaley * tag.paramsReal[3] * 8.0);
+                        e->param[0] = std::lround(sub->m_scalex * tag.paramsReal[0] * 8.0);
+                        e->param[1] = std::lround(sub->m_scaley * tag.paramsReal[1] * 8.0);
+                        e->param[2] = std::lround(sub->m_scalex * tag.paramsReal[2] * 8.0);
+                        e->param[3] = std::lround(sub->m_scaley * tag.paramsReal[3] * 8.0);
                         e->t[0] = e->t[1] = -1;
 
                         if (tag.paramsInt.GetCount() == 2) {
@@ -2377,8 +2373,8 @@ bool CRenderedTextSubtitle::CreateSubFromSSATag(CSubtitle* sub, const SSATagsLis
             case SSA_org: // {\org(x=param[0], y=param[1])}
                 if (tag.paramsReal.GetCount() == 2 && !sub->m_effects[EF_ORG]) {
                     if (Effect* e = DEBUG_NEW Effect) {
-                        e->param[0] = lround(sub->m_scalex * tag.paramsReal[0] * 8.0);
-                        e->param[1] = lround(sub->m_scaley * tag.paramsReal[1] * 8.0);
+                        e->param[0] = std::lround(sub->m_scalex * tag.paramsReal[0] * 8.0);
+                        e->param[1] = std::lround(sub->m_scaley * tag.paramsReal[1] * 8.0);
 
                         if (sub->m_relativeTo == 1) {
                             e->param[0] += m_vidrect.left;
@@ -2395,8 +2391,8 @@ bool CRenderedTextSubtitle::CreateSubFromSSATag(CSubtitle* sub, const SSATagsLis
             case SSA_pos:
                 if (tag.paramsReal.GetCount() == 2 && !sub->m_effects[EF_MOVE]) {
                     if (Effect* e = DEBUG_NEW Effect) {
-                        e->param[0] = e->param[2] = lround(sub->m_scalex * tag.paramsReal[0] * 8.0);
-                        e->param[1] = e->param[3] = lround(sub->m_scaley * tag.paramsReal[1] * 8.0);
+                        e->param[0] = e->param[2] = std::lround(sub->m_scalex * tag.paramsReal[0] * 8.0);
+                        e->param[1] = e->param[3] = std::lround(sub->m_scaley * tag.paramsReal[1] * 8.0);
                         e->t[0] = e->t[1] = 0;
 
                         sub->m_effects[EF_MOVE] = e;
@@ -2655,10 +2651,10 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
 
         stss.fontSize         *= scaleY;
         stss.fontSpacing      *= scaleX;
-        stss.marginRect.left   = lround(scaleX * stss.marginRect.left);
-        stss.marginRect.top    = lround(scaleY * stss.marginRect.top);
-        stss.marginRect.right  = lround(scaleX * stss.marginRect.right);
-        stss.marginRect.bottom = lround(scaleY * stss.marginRect.bottom);
+        stss.marginRect.left   = std::lround(scaleX * stss.marginRect.left);
+        stss.marginRect.top    = std::lround(scaleY * stss.marginRect.top);
+        stss.marginRect.right  = std::lround(scaleX * stss.marginRect.right);
+        stss.marginRect.bottom = std::lround(scaleY * stss.marginRect.bottom);
         fScaledBAS = false;
     } else {
         // find the appropriate embedded style
@@ -2716,10 +2712,10 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
         marginRect.bottom = orgstss.marginRect.bottom;
     }
 
-    marginRect.left   = lround(sub->m_scalex * marginRect.left * 8.0);
-    marginRect.top    = lround(sub->m_scaley * marginRect.top * 8.0);
-    marginRect.right  = lround(sub->m_scalex * marginRect.right * 8.0);
-    marginRect.bottom = lround(sub->m_scaley * marginRect.bottom * 8.0);
+    marginRect.left   = std::lround(sub->m_scalex * marginRect.left * 8.0);
+    marginRect.top    = std::lround(sub->m_scaley * marginRect.top * 8.0);
+    marginRect.right  = std::lround(sub->m_scalex * marginRect.right * 8.0);
+    marginRect.bottom = std::lround(sub->m_scaley * marginRect.bottom * 8.0);
 
     if (stss.relativeTo == 1) { // Don't be strict when using undefined mode (relativeTo == 2)
         // Account for the user trying to fool the renderer by setting negative margins

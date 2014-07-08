@@ -90,7 +90,7 @@ public:
     virtual CWord* Copy() = 0;
     virtual bool Append(CWord* w);
 
-    void Paint(CPoint p, CPoint org);
+    void Paint(const CPoint& p, const CPoint& org);
 
     friend class COutlineKey;
 };
@@ -110,7 +110,7 @@ public:
 
 class CPolygon : public CWord
 {
-    bool GetPOINT(CStringW& str, POINT& point);
+    bool GetPOINT(CStringW& str, POINT& point) const;
     bool ParseStr();
 
 protected:
@@ -138,13 +138,13 @@ private:
     virtual bool Append(CWord* w);
 
 public:
-    CClipper(CStringW str, CSize size, double scalex, double scaley, bool inverse, CPoint cpOffset,
+    CClipper(CStringW str, const CSize& size, double scalex, double scaley, bool inverse, const CPoint& cpOffset,
              COutlineCache& outlineCache, COverlayCache& overlayCache);
     virtual ~CClipper();
 
-    CSize m_size;
-    bool m_inverse;
-    CPoint m_cpOffset;
+    const CSize m_size;
+    const bool m_inverse;
+    const CPoint m_cpOffset;
     BYTE* m_pAlphaMask;
 };
 
