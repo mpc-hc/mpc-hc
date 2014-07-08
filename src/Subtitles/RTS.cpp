@@ -259,10 +259,8 @@ void CWord::Transform_C(const CPoint& org)
         y = yy * yzoomf / (zz + yzoomf);
 
         // round to integer
-        double xro = (x < 0.0) ? -0.5 : 0.5;
-        double yro = (y < 0.0) ? -0.5 : 0.5;
-        mpPathPoints[i].x = static_cast<LONG>(x + xro) + org.x;
-        mpPathPoints[i].y = static_cast<LONG>(y + yro) + org.y;
+        mpPathPoints[i].x = std::lround(x) + org.x;
+        mpPathPoints[i].y = std::lround(y) + org.y;
     }
 }
 
@@ -397,25 +395,22 @@ void CWord::Transform_SSE2(const CPoint& org)
         __yy     = _mm_mul_ps(__yy, __yzoomf);       // yy * yzoomf
         __pointy = _mm_div_ps(__yy, __tmpzz);        // y = (yy * yzoomf) / (zz + yzoomf);
 
-        // mpPathPoints[i].x = (LONG)(x + org.x + 0.5);
-        // mpPathPoints[i].y = (LONG)(y + org.y + 0.5);
         __pointx = _mm_add_ps(__pointx, __xorg);      // x = x + org.x
         __pointy = _mm_add_ps(__pointy, __yorg);      // y = y + org.y
 
-        __m128 __05 = _mm_set_ps1(0.5);
-
-        __pointx = _mm_add_ps(__pointx, __05);        // x = x + 0.5
-        __pointy = _mm_add_ps(__pointy, __05);        // y = y + 0.5
+        // round to integer
+        __m128i __pointxRounded = _mm_cvtps_epi32(__pointx);
+        __m128i __pointyRounded = _mm_cvtps_epi32(__pointy);
 
         if (i == mPathPointsD4) { // last cycle
             for (int k = 0; k < mPathPointsM4; k++) {
-                mpPathPoints[i * 4 + k].x = static_cast<LONG>(__pointx.m128_f32[3 - k]);
-                mpPathPoints[i * 4 + k].y = static_cast<LONG>(__pointy.m128_f32[3 - k]);
+                mpPathPoints[i * 4 + k].x = __pointxRounded.m128i_i32[3 - k];
+                mpPathPoints[i * 4 + k].y = __pointyRounded.m128i_i32[3 - k];
             }
         } else {
             for (int k = 0; k < 4; k++) {
-                mpPathPoints[i * 4 + k].x = static_cast<LONG>(__pointx.m128_f32[3 - k]);
-                mpPathPoints[i * 4 + k].y = static_cast<LONG>(__pointy.m128_f32[3 - k]);
+                mpPathPoints[i * 4 + k].x = __pointxRounded.m128i_i32[3 - k];
+                mpPathPoints[i * 4 + k].y = __pointyRounded.m128i_i32[3 - k];
             }
         }
     }
