@@ -20,12 +20,8 @@
 ; Inno Setup Unicode: http://www.jrsoftware.org/isdl.php
 
 
-#if VER < EncodeVer(5,5,4)
-  #error Update your Inno Setup version (5.5.4 or newer)
-#endif
-
-#if VER > EncodeVer(5,5,4)
-  #error Update script to use Turkish from the compiler dir and remove this check
+#if VER < EncodeVer(5,5,5)
+  #error Update your Inno Setup version (5.5.5 or newer)
 #endif
 
 #ifndef UNICODE
@@ -189,7 +185,7 @@ Name: sk;    MessagesFile: Languages\Slovak.isl
 Name: sl;    MessagesFile: compiler:Languages\Slovenian.isl
 Name: sv;    MessagesFile: Languages\Swedish.isl
 Name: tt;    MessagesFile: Languages\Tatar.isl
-Name: tr;    MessagesFile: Languages\Turkish.isl
+Name: tr;    MessagesFile: compiler:Languages\Turkish.isl
 Name: uk;    MessagesFile: compiler:Languages\Ukrainian.isl
 Name: vi;    MessagesFile: Languages\Vietnamese.isl
 Name: zh_CN; MessagesFile: Languages\ChineseSimplified.isl
