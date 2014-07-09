@@ -21,8 +21,7 @@
 
 #include "stdafx.h"
 #include <math.h>
-#include <time.h>
-#include <emmintrin.h>
+#include <intrin.h>
 #include <algorithm>
 #include "RTS.h"
 #include "../DSUtil/WinAPIUtils.h"
@@ -182,7 +181,7 @@ void CWord::Paint(const CPoint& p, const CPoint& org)
 
 void CWord::Transform(CPoint org)
 {
-    if (fSSE2) {    // SSE code
+    if (m_bUseSSE2) {    // SSE code
         Transform_SSE2(org);
     } else {        // C-code
         Transform_C(org);

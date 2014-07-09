@@ -160,7 +160,7 @@ protected:
     BYTE* mpPathTypes;
     POINT* mpPathPoints;
     int mPathPoints;
-    bool fSSE2;
+    bool m_bUseSSE2;
 
 private:
     struct Edge {
