@@ -1351,7 +1351,7 @@ void CMainFrame::OnMove(int x, int y)
 
     WINDOWPLACEMENT wp;
     GetWindowPlacement(&wp);
-    if (!m_fFirstFSAfterLaunchOnFS && !m_fFullScreen && wp.flags != WPF_RESTORETOMAXIMIZED && wp.showCmd != SW_SHOWMINIMIZED) {
+    if (!m_fFirstFSAfterLaunchOnFS && !m_fFullScreen && IsWindowVisible() && wp.flags != WPF_RESTORETOMAXIMIZED && wp.showCmd != SW_SHOWMINIMIZED) {
         GetWindowRect(AfxGetAppSettings().rcLastWindowPos);
     }
 }
