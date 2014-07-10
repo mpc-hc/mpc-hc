@@ -4,11 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-<<<<<<< HEAD
-"POT-Creation-Date: 2014-06-26 20:30:22+0000\n"
-=======
 "POT-Creation-Date: 2014-07-06 19:15:01+0000\n"
->>>>>>> Add advanced settings page.
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
