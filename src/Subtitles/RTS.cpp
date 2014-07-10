@@ -788,7 +788,6 @@ CClipper::CClipper(CStringW str, const CSize& size, double scalex, double scaley
     } catch (std::bad_alloc) {
         return;
     }
-    ZeroMemory(m_pAlphaMask, alphaMaskSize);
 
     Paint(CPoint(0, 0), CPoint(0, 0));
 
@@ -818,21 +817,25 @@ CClipper::CClipper(CStringW str, const CSize& size, double scalex, double scaley
         return;
     }
 
+    memset(m_pAlphaMask, (m_inverse ? 0x40 : 0), alphaMaskSize);
+
     const BYTE* src = m_overlayData.mpOverlayBufferBody + m_overlayData.mOverlayPitch * yo + xo;
     BYTE* dst = m_pAlphaMask + m_size.cx * y + x;
 
-    while (h--) {
-        for (ptrdiff_t wt = 0; wt < w; ++wt) {
-            dst[wt] = src[wt];
-        }
-
-        src += m_overlayData.mOverlayPitch;
-        dst += m_size.cx;
-    }
-
     if (m_inverse) {
-        for (size_t i = 0; i < alphaMaskSize; i++) {
-            m_pAlphaMask[i] = 0x40 - m_pAlphaMask[i]; // mask is 6 bit
+        for (ptrdiff_t i = 0; i < h; ++i) {
+            for (ptrdiff_t wt = 0; wt < w; ++wt) {
+                dst[wt] = 0x40 - src[wt];
+            }
+
+            src += m_overlayData.mOverlayPitch;
+            dst += m_size.cx;
+        }
+    } else {
+        for (ptrdiff_t i = 0; i < h; ++i) {
+            memcpy(dst, src, w * sizeof(BYTE));
+            src += m_overlayData.mOverlayPitch;
+            dst += m_size.cx;
         }
     }
 }
