@@ -61,10 +61,7 @@ CFocusThread::CFocusThread()
 
 CFocusThread::~CFocusThread()
 {
-    if (m_hEvtInit) {
-        CloseHandle(m_hEvtInit);
-        m_hEvtInit = nullptr;
-    }
+    SAFE_CLOSE_HANDLE(m_hEvtInit);
     UnregisterClass(_T("D3DFocusClass"), NULL);
 }
 

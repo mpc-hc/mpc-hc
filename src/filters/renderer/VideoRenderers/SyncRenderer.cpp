@@ -2571,31 +2571,18 @@ void CSyncAP::StopWorkerThreads()
             ASSERT(FALSE);
             TerminateThread(m_hRenderThread, 0xDEAD);
         }
-        if (m_hRenderThread) {
-            CloseHandle(m_hRenderThread);
-            m_hRenderThread = nullptr;
-        }
+
+        SAFE_CLOSE_HANDLE(m_hRenderThread);
+
         if (m_hMixerThread && WaitForSingleObject(m_hMixerThread, 10000) == WAIT_TIMEOUT) {
             ASSERT(FALSE);
             TerminateThread(m_hMixerThread, 0xDEAD);
         }
-        if (m_hMixerThread) {
-            CloseHandle(m_hMixerThread);
-            m_hMixerThread = nullptr;
-        }
 
-        if (m_hEvtFlush) {
-            CloseHandle(m_hEvtFlush);
-            m_hEvtFlush = nullptr;
-        }
-        if (m_hEvtQuit) {
-            CloseHandle(m_hEvtQuit);
-            m_hEvtQuit = nullptr;
-        }
-        if (m_hEvtSkip) {
-            CloseHandle(m_hEvtSkip);
-            m_hEvtSkip = nullptr;
-        }
+        SAFE_CLOSE_HANDLE(m_hMixerThread);
+        SAFE_CLOSE_HANDLE(m_hEvtFlush);
+        SAFE_CLOSE_HANDLE(m_hEvtQuit);
+        SAFE_CLOSE_HANDLE(m_hEvtSkip);
 
         m_bEvtFlush = false;
         m_bEvtQuit = false;
