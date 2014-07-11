@@ -1,5 +1,5 @@
 /*
- * (C) 2008-2013 see Authors.txt
+ * (C) 2008-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -343,7 +343,6 @@ HRESULT CHdmvClipInfo::ReadChapters(CString strPlaylistFile, CAtlList<CHdmvClipI
         REFERENCE_TIME rtSum = 0;
         int nIndex = 0;
         BYTE Buff[100];
-        bool bDuplicate = false;
 
         POSITION pos = PlaylistItems.GetHeadPosition();
         while (pos) {
@@ -393,7 +392,7 @@ HRESULT CHdmvClipInfo::ReadChapters(CString strPlaylistFile, CAtlList<CHdmvClipI
 
         CloseFile(S_OK);
         SAFE_DELETE_ARRAY(rtOffset);
-        return bDuplicate ? S_FALSE : S_OK;
+        return S_OK;
     }
 
     return AmHresultFromWin32(GetLastError());
