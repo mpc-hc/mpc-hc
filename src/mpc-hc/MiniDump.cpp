@@ -93,13 +93,12 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter(_EXCEPTION_POINTERS* lpTopLevelE
 {
     LONG    retval = EXCEPTION_CONTINUE_SEARCH;
     BOOL    bDumpCreated = FALSE;
-    HMODULE hDll = nullptr;
     TCHAR   szResult[800];
     szResult[0] = _T('\0');
     CPath   dumpPath;
 
 #if ENABLE_MINIDUMP
-    hDll = ::LoadLibrary(_T("dbghelp.dll"));
+    HMODULE hDll = ::LoadLibrary(_T("dbghelp.dll"));
 
     if (hDll != nullptr) {
         MINIDUMPWRITEDUMP pMiniDumpWriteDump = (MINIDUMPWRITEDUMP)::GetProcAddress(hDll, "MiniDumpWriteDump");

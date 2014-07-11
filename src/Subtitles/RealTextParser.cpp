@@ -144,7 +144,6 @@ bool CRealTextParser::ParseRealText(std::wstring p_szFile)
             m_RealText.m_mapLines[pairTimecodes] = szLine;
         }
 
-        bPrevEndTimeMissing = false;
     } else if (!vStartTimecodes.empty() && !vEndTimecodes.empty()) {
         std::pair<int, int> pairTimecodes(vStartTimecodes.back(), vEndTimecodes.back());
 

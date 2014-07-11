@@ -94,11 +94,9 @@ STDMETHODIMP CVMR7AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
     CheckPointer(ppRenderer, E_POINTER);
 
     *ppRenderer = nullptr;
-    HRESULT hr;
-
     CComPtr<IBaseFilter> pBF;
 
-    if (FAILED(hr = pBF.CoCreateInstance(CLSID_VideoMixingRenderer))) {
+    if (FAILED(pBF.CoCreateInstance(CLSID_VideoMixingRenderer))) {
         return E_FAIL;
     }
 
@@ -107,7 +105,7 @@ STDMETHODIMP CVMR7AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
         return E_FAIL;
     }
 
-    if (FAILED(hr = pConfig->SetRenderingMode(VMRMode_Renderless))) {
+    if (FAILED(pConfig->SetRenderingMode(VMRMode_Renderless))) {
         return E_FAIL;
     }
 
@@ -116,8 +114,8 @@ STDMETHODIMP CVMR7AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
         return E_FAIL;
     }
 
-    if (FAILED(hr = pSAN->AdviseSurfaceAllocator(MY_USER_ID, static_cast<IVMRSurfaceAllocator*>(this)))
-            || FAILED(hr = AdviseNotify(pSAN))) {
+    if (FAILED(pSAN->AdviseSurfaceAllocator(MY_USER_ID, static_cast<IVMRSurfaceAllocator*>(this)))
+            || FAILED(AdviseNotify(pSAN))) {
         return E_FAIL;
     }
 

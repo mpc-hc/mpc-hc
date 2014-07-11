@@ -371,9 +371,8 @@ IPin* AppendFilter(IPin* pPin, CString DisplayName, IGraphBuilder* pGB)
             break;
         }
 
-        HRESULT hr;
-        if (FAILED(hr = pGB->ConnectDirect(pPin, pPinTo, nullptr))) {
-            hr = pGB->Connect(pPin, pPinTo);
+        if (FAILED(pGB->ConnectDirect(pPin, pPinTo, nullptr))) {
+            pGB->Connect(pPin, pPinTo);
             pGB->RemoveFilter(pBF);
             break;
         }
@@ -461,8 +460,7 @@ IPin* InsertFilter(IPin* pPin, CString DisplayName, IGraphBuilder* pGB)
             break;
         }
 
-        HRESULT hr;
-        if (FAILED(hr = pGB->ConnectDirect(pFrom, pFromTo, nullptr))) {
+        if (FAILED(pGB->ConnectDirect(pFrom, pFromTo, nullptr))) {
             pGB->RemoveFilter(pBF);
             pGB->ConnectDirect(pFrom, pTo, nullptr);
             break;

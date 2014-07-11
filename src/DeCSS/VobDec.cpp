@@ -126,11 +126,10 @@ bool CVobDec::FindKey(BYTE* buff)
             int offset = 0x14 + (buff[0x12] << 8) + buff[0x13];
             if (0x80 <= offset && offset <= 0x7F9) {
                 BYTE plain[7] = { 0x00, 0x00, 0x01, 0xBE, 0x00, 0x00, 0xFF };
-                int count;
                 int left = 0x800 - offset - 6;
                 plain[4] = (char)(left >> 8);
                 plain[5] = (char)left;
-                if ((count = FindLfsr(buff + 0x80, offset - 0x80, plain)) == 1) {
+                if (FindLfsr(buff + 0x80, offset - 0x80, plain) == 1) {
                     Salt(buff + 0x54, m_lfsr0, m_lfsr1);
                     m_fFoundKey = true;
                 }

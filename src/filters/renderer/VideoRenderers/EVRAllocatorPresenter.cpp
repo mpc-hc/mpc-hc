@@ -1199,18 +1199,17 @@ STDMETHODIMP CEVRAllocatorPresenter::GetCurrentMediaType(__deref_out  IMFVideoMe
 // IMFTopologyServiceLookupClient
 STDMETHODIMP CEVRAllocatorPresenter::InitServicePointers(/* [in] */ __in  IMFTopologyServiceLookup* pLookup)
 {
-    HRESULT hr;
     DWORD dwObjects = 1;
 
     TRACE_EVR("EVR: CEVRAllocatorPresenter::InitServicePointers\n");
-    hr = pLookup->LookupService(MF_SERVICE_LOOKUP_GLOBAL, 0, MR_VIDEO_MIXER_SERVICE,
-                                IID_PPV_ARGS(&m_pMixer), &dwObjects);
+    pLookup->LookupService(MF_SERVICE_LOOKUP_GLOBAL, 0, MR_VIDEO_MIXER_SERVICE,
+                           IID_PPV_ARGS(&m_pMixer), &dwObjects);
 
-    hr = pLookup->LookupService(MF_SERVICE_LOOKUP_GLOBAL, 0, MR_VIDEO_RENDER_SERVICE,
-                                IID_PPV_ARGS(&m_pSink), &dwObjects);
+    pLookup->LookupService(MF_SERVICE_LOOKUP_GLOBAL, 0, MR_VIDEO_RENDER_SERVICE,
+                           IID_PPV_ARGS(&m_pSink), &dwObjects);
 
-    hr = pLookup->LookupService(MF_SERVICE_LOOKUP_GLOBAL, 0, MR_VIDEO_RENDER_SERVICE,
-                                IID_PPV_ARGS(&m_pClock), &dwObjects);
+    pLookup->LookupService(MF_SERVICE_LOOKUP_GLOBAL, 0, MR_VIDEO_RENDER_SERVICE,
+                           IID_PPV_ARGS(&m_pClock), &dwObjects);
 
 
     StartWorkerThreads();
@@ -1588,7 +1587,6 @@ void CEVRAllocatorPresenter::GetMixerThread()
     bool     bQuit = false;
     TIMECAPS tc;
     DWORD    dwResolution;
-    DWORD    dwUser = 0;
 
     // Tell Multimedia Class Scheduler we are a playback thread (increase priority)
     //HANDLE hAvrt = 0;
@@ -1602,7 +1600,7 @@ void CEVRAllocatorPresenter::GetMixerThread()
 
     timeGetDevCaps(&tc, sizeof(TIMECAPS));
     dwResolution = std::min(std::max(tc.wPeriodMin, 0u), tc.wPeriodMax);
-    dwUser = timeBeginPeriod(dwResolution);
+    timeBeginPeriod(dwResolution);
 
     while (!bQuit) {
         DWORD dwObject = WaitForMultipleObjects(_countof(hEvts), hEvts, FALSE, 1);
@@ -1906,7 +1904,6 @@ void CEVRAllocatorPresenter::OnVBlankFinished(bool bAll, LONGLONG PerformanceCou
         m_fSyncOffsetAvr = MeanOffset;
         m_bSyncStatsAvailable = true;
         m_fSyncOffsetStdDev = StdDev;
-
 
     }
 }
@@ -2355,7 +2352,6 @@ void CEVRAllocatorPresenter::VSyncThread()
     bool     bQuit = false;
     TIMECAPS tc;
     DWORD    dwResolution;
-    DWORD    dwUser = 0;
 
     // Tell Multimedia Class Scheduler we are a playback thread (increase priority)
     //HANDLE hAvrt = 0;
@@ -2369,7 +2365,7 @@ void CEVRAllocatorPresenter::VSyncThread()
 
     timeGetDevCaps(&tc, sizeof(TIMECAPS));
     dwResolution = std::min(std::max(tc.wPeriodMin, 0u), tc.wPeriodMax);
-    dwUser = timeBeginPeriod(dwResolution);
+    timeBeginPeriod(dwResolution);
     const CRenderersData* rd = GetRenderersData();
     const CRenderersSettings& r = GetRenderersSettings();
 
@@ -2527,10 +2523,8 @@ DWORD WINAPI CEVRAllocatorPresenter::VSyncThreadStatic(LPVOID lpParam)
 
 void CEVRAllocatorPresenter::OnResetDevice()
 {
-    HRESULT hr;
-
     // Reset DXVA Manager, and get new buffers
-    hr = m_pD3DManager->ResetDevice(m_pD3DDev, m_nResetToken);
+    m_pD3DManager->ResetDevice(m_pD3DDev, m_nResetToken);
 
     // Not necessary, but Microsoft documentation say Presenter should send this message...
     if (m_pSink) {

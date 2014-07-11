@@ -505,7 +505,7 @@ HRESULT CStreamSwitcherInputPin::InitializeOutputSample(IMediaSample* pInSample,
         OutProps.tStop  = m_SampleProps.tStop;
         OutProps.cbData = FIELD_OFFSET(AM_SAMPLE2_PROPERTIES, dwStreamId);
 
-        hr = pOutSample2->SetProperties(FIELD_OFFSET(AM_SAMPLE2_PROPERTIES, dwStreamId), (PBYTE)&OutProps);
+        pOutSample2->SetProperties(FIELD_OFFSET(AM_SAMPLE2_PROPERTIES, dwStreamId), (PBYTE)&OutProps);
         if (m_SampleProps.dwSampleFlags & AM_SAMPLE_DATADISCONTINUITY) {
             m_bSampleSkipped = FALSE;
         }
@@ -835,8 +835,8 @@ STDMETHODIMP CStreamSwitcherInputPin::Receive(IMediaSample* pSample)
     //
 
     ALLOCATOR_PROPERTIES props, actual;
-    hr = m_pAllocator->GetProperties(&props);
-    hr = pOut->CurrentAllocator()->GetProperties(&actual);
+    m_pAllocator->GetProperties(&props);
+    pOut->CurrentAllocator()->GetProperties(&actual);
 
     REFERENCE_TIME rtStart = 0, rtStop = 0;
     if (S_OK == pSample->GetTime(&rtStart, &rtStop)) {
@@ -855,19 +855,6 @@ STDMETHODIMP CStreamSwitcherInputPin::Receive(IMediaSample* pSample)
 
         m_SampleProps.dwSampleFlags |= AM_SAMPLE_TYPECHANGED/*|AM_SAMPLE_DATADISCONTINUITY|AM_SAMPLE_TIMEDISCONTINUITY*/;
 
-        /*
-                if (CComQIPtr<IPinConnection> pPC = pOut->CurrentPinConnection())
-                {
-                    HANDLE hEOS = CreateEvent(nullptr, FALSE, FALSE, nullptr);
-                    hr = pPC->NotifyEndOfStream(hEOS);
-                    hr = pOut->DeliverEndOfStream();
-                    WaitForSingleObject(hEOS, 3000);
-                    CloseHandle(hEOS);
-                    hr = pOut->DeliverBeginFlush();
-                    hr = pOut->DeliverEndFlush();
-                }
-        */
-
         if (props.cBuffers < 8 && mtOut.majortype == MEDIATYPE_Audio) {
             props.cBuffers = 8;
         }
@@ -878,11 +865,11 @@ STDMETHODIMP CStreamSwitcherInputPin::Receive(IMediaSample* pSample)
                 || actual.cbPrefix != props.cbPrefix
                 || actual.cBuffers < props.cBuffers
                 || actual.cbBuffer < props.cbBuffer) {
-            hr = pOut->DeliverBeginFlush();
-            hr = pOut->DeliverEndFlush();
-            hr = pOut->CurrentAllocator()->Decommit();
-            hr = pOut->CurrentAllocator()->SetProperties(&props, &actual);
-            hr = pOut->CurrentAllocator()->Commit();
+            pOut->DeliverBeginFlush();
+            pOut->DeliverEndFlush();
+            pOut->CurrentAllocator()->Decommit();
+            pOut->CurrentAllocator()->SetProperties(&props, &actual);
+            pOut->CurrentAllocator()->Commit();
         }
     }
 
@@ -909,17 +896,9 @@ STDMETHODIMP CStreamSwitcherInputPin::Receive(IMediaSample* pSample)
 
     hr = (static_cast<CStreamSwitcherFilter*>(m_pFilter))->Transform(pSample, pOutSample);
 
-    //
-
     if (S_OK == hr) {
         hr = pOut->Deliver(pOutSample);
         m_bSampleSkipped = FALSE;
-        /*
-                if (FAILED(hr))
-                {
-                    ASSERT(0);
-                }
-        */
     } else if (S_FALSE == hr) {
         hr = S_OK;
         pOutSample = nullptr;

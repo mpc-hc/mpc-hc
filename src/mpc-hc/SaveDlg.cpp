@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -135,7 +135,6 @@ BOOL CSaveDlg::OnInitDialog()
 #endif
 
     if (!pReader) {
-        hr = S_OK;
         CComPtr<IUnknown> pUnk;
         hr = pUnk.CoCreateInstance(CLSID_AsyncReader);
         if (FAILED(hr) || !(pReader = pUnk) || FAILED(pReader->Load(fnw, nullptr))) {
@@ -144,7 +143,6 @@ BOOL CSaveDlg::OnInitDialog()
     }
 
     if (!pReader) {
-        hr = S_OK;
         CComPtr<IUnknown> pUnk;
         hr = pUnk.CoCreateInstance(CLSID_URLReader);
         if (CComQIPtr<IBaseFilter> pSrc = pUnk) { // url reader has to be in the graph to load the file

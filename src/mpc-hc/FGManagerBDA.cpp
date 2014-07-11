@@ -426,7 +426,7 @@ HRESULT CFGManagerBDA::ConnectFilters(IBaseFilter* pOutFilter, IBaseFilter* pInF
 
 STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayList)
 {
-    HRESULT hr = S_OK;
+    HRESULT hr;
     const CAppSettings& s = AfxGetAppSettings();
     CComPtr<IBaseFilter> pNetwork;
     CComPtr<IBaseFilter> pTuner;
@@ -878,7 +878,7 @@ STDMETHODIMP CFGManagerBDA::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 HRESULT CFGManagerBDA::CreateMicrosoftDemux(CComPtr<IBaseFilter>& pMpeg2Demux)
 {
     CComPtr<IMpeg2Demultiplexer> pDemux;
-    HRESULT hr = S_OK;
+    HRESULT hr;
     bool bAudioMPA = false;
     bool bAudioAC3 = false;
     bool bAudioEAC3 = false;

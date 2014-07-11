@@ -280,7 +280,7 @@ BOOL CMpcAudioRenderer::ScheduleSample(IMediaSample* pMediaSample)
             return TRUE;
         }
     } else {
-        hr = DoRenderSample(pMediaSample);
+        DoRenderSample(pMediaSample);
     }
 
     // We could not schedule the next sample for rendering despite the fact
@@ -729,7 +729,7 @@ HRESULT CMpcAudioRenderer::ClearBuffer()
 
 HRESULT CMpcAudioRenderer::InitCoopLevel()
 {
-    HRESULT hr = S_OK;
+    HRESULT hr;
     IVideoWindow* pVideoWindow = nullptr;
     HWND hWnd = nullptr;
 
@@ -765,7 +765,7 @@ HRESULT CMpcAudioRenderer::InitCoopLevel()
 
 HRESULT CMpcAudioRenderer::DoRenderSampleDirectSound(IMediaSample* pMediaSample)
 {
-    HRESULT hr = S_OK;
+    HRESULT hr;
     DWORD dwStatus = 0;
     const long lSize = pMediaSample->GetActualDataLength();
     DWORD dwPlayCursor = 0;
@@ -820,7 +820,7 @@ HRESULT CMpcAudioRenderer::WriteSampleToDSBuffer(IMediaSample* pMediaSample, boo
 
     REFERENCE_TIME rtStart = 0;
     REFERENCE_TIME rtStop = 0;
-    HRESULT hr = S_OK;
+    HRESULT hr;
     bool loop = false;
     VOID* pDSLockedBuffers[2] = { nullptr, nullptr };
     DWORD dwDSLockedSize[2] = { 0, 0 };
@@ -1212,7 +1212,7 @@ HRESULT CMpcAudioRenderer::InitAudioClient(WAVEFORMATEX* pWaveFormatEx, IAudioCl
     CheckPointer(pAudioClient, E_POINTER);
     CheckPointer(ppRenderClient, E_POINTER);
 
-    HRESULT hr = S_OK;
+    HRESULT hr;
     // Initialize the stream to play at the minimum latency.
     //if (SUCCEEDED (hr)) hr = pAudioClient->GetDevicePeriod(nullptr, &hnsPeriod);
     m_hnsPeriod = 500000; //50 ms is the best according to James @Slysoft

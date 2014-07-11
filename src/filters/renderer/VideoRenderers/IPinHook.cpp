@@ -172,22 +172,21 @@ static HRESULT STDMETHODCALLTYPE ReceiveMine(IMemInputPinC* This, IMediaSample* 
 
 void UnhookNewSegmentAndReceive()
 {
-    BOOL res;
     DWORD flOldProtect = 0;
 
     // Casimir666 : unhook previous VTables
     if (g_pPinCVtbl && g_pMemInputPinCVtbl) {
-        res = VirtualProtect(g_pPinCVtbl, sizeof(IPinCVtbl), PAGE_WRITECOPY, &flOldProtect);
+        VirtualProtect(g_pPinCVtbl, sizeof(IPinCVtbl), PAGE_WRITECOPY, &flOldProtect);
         if (g_pPinCVtbl->NewSegment == NewSegmentMine) {
             g_pPinCVtbl->NewSegment = NewSegmentOrg;
         }
-        res = VirtualProtect(g_pPinCVtbl, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
+        VirtualProtect(g_pPinCVtbl, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
 
-        res = VirtualProtect(g_pMemInputPinCVtbl, sizeof(IMemInputPinCVtbl), PAGE_WRITECOPY, &flOldProtect);
+        VirtualProtect(g_pMemInputPinCVtbl, sizeof(IMemInputPinCVtbl), PAGE_WRITECOPY, &flOldProtect);
         if (g_pMemInputPinCVtbl->Receive == ReceiveMine) {
             g_pMemInputPinCVtbl->Receive = ReceiveOrg;
         }
-        res = VirtualProtect(g_pMemInputPinCVtbl, sizeof(IMemInputPinCVtbl), flOldProtect, &flOldProtect);
+        VirtualProtect(g_pMemInputPinCVtbl, sizeof(IMemInputPinCVtbl), flOldProtect, &flOldProtect);
 
         g_pPinCVtbl         = nullptr;
         g_pMemInputPinCVtbl = nullptr;
@@ -204,27 +203,25 @@ bool HookNewSegmentAndReceive(IPinC* pPinC, IMemInputPinC* pMemInputPinC)
 
     g_tSegmentStart = 0;
     g_tSampleStart = 0;
-
-    BOOL res;
     DWORD flOldProtect = 0;
 
     UnhookNewSegmentAndReceive();
 
     // Casimir666 : change sizeof(IPinC) to sizeof(IPinCVtbl) to fix crash with EVR hack on Vista!
-    res = VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), PAGE_WRITECOPY, &flOldProtect);
+    VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), PAGE_WRITECOPY, &flOldProtect);
     if (NewSegmentOrg == nullptr) {
         NewSegmentOrg = pPinC->lpVtbl->NewSegment;
     }
     pPinC->lpVtbl->NewSegment = NewSegmentMine; // Function sets global variable(s)
-    res = VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
+    VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
 
     // Casimir666 : change sizeof(IMemInputPinC) to sizeof(IMemInputPinCVtbl) to fix crash with EVR hack on Vista!
-    res = VirtualProtect(pMemInputPinC->lpVtbl, sizeof(IMemInputPinCVtbl), PAGE_WRITECOPY, &flOldProtect);
+    VirtualProtect(pMemInputPinC->lpVtbl, sizeof(IMemInputPinCVtbl), PAGE_WRITECOPY, &flOldProtect);
     if (ReceiveOrg == nullptr) {
         ReceiveOrg = pMemInputPinC->lpVtbl->Receive;
     }
     pMemInputPinC->lpVtbl->Receive = ReceiveMine; // Function sets global variable(s)
-    res = VirtualProtect(pMemInputPinC->lpVtbl, sizeof(IMemInputPinCVtbl), flOldProtect, &flOldProtect);
+    VirtualProtect(pMemInputPinC->lpVtbl, sizeof(IMemInputPinCVtbl), flOldProtect, &flOldProtect);
 
     g_pPinCVtbl = pPinC->lpVtbl;
     g_pMemInputPinCVtbl = pMemInputPinC->lpVtbl;
@@ -977,10 +974,9 @@ void HookAMVideoAccelerator(IAMVideoAcceleratorC* pAMVideoAcceleratorC)
 {
     g_guidDXVADecoder = GUID_NULL;
     g_nDXVAVersion = 0;
-
-    BOOL res;
     DWORD flOldProtect = 0;
-    res = VirtualProtect(pAMVideoAcceleratorC->lpVtbl, sizeof(IAMVideoAcceleratorC), PAGE_WRITECOPY, &flOldProtect);
+
+    VirtualProtect(pAMVideoAcceleratorC->lpVtbl, sizeof(IAMVideoAcceleratorC), PAGE_WRITECOPY, &flOldProtect);
 
 #ifdef _DEBUG
     if (GetVideoAcceleratorGUIDsOrg == nullptr) {
@@ -1037,7 +1033,7 @@ void HookAMVideoAccelerator(IAMVideoAcceleratorC* pAMVideoAcceleratorC)
     pAMVideoAcceleratorC->lpVtbl->QueryRenderStatus = QueryRenderStatusMine;
     pAMVideoAcceleratorC->lpVtbl->DisplayFrame = DisplayFrameMine;
 
-    res = VirtualProtect(pAMVideoAcceleratorC->lpVtbl, sizeof(IAMVideoAcceleratorC), PAGE_EXECUTE, &flOldProtect);
+    VirtualProtect(pAMVideoAcceleratorC->lpVtbl, sizeof(IAMVideoAcceleratorC), PAGE_EXECUTE, &flOldProtect);
 
 #if DXVA_LOGFILE_A
     ::DeleteFile(LOG_FILE_DXVA);
@@ -1479,12 +1475,11 @@ void HookDirectXVideoDecoderService(void* pIDirectXVideoDecoderService)
 {
     IDirectXVideoDecoderServiceC* pIDirectXVideoDecoderServiceC = (IDirectXVideoDecoderServiceC*) pIDirectXVideoDecoderService;
 
-    BOOL res;
     DWORD flOldProtect = 0;
 
     // Casimir666 : unhook previous VTables
     if (g_pIDirectXVideoDecoderServiceCVtbl) {
-        res = VirtualProtect(g_pIDirectXVideoDecoderServiceCVtbl, sizeof(IDirectXVideoDecoderServiceCVtbl), PAGE_WRITECOPY, &flOldProtect);
+        VirtualProtect(g_pIDirectXVideoDecoderServiceCVtbl, sizeof(IDirectXVideoDecoderServiceCVtbl), PAGE_WRITECOPY, &flOldProtect);
         if (g_pIDirectXVideoDecoderServiceCVtbl->CreateVideoDecoder == CreateVideoDecoderMine) {
             g_pIDirectXVideoDecoderServiceCVtbl->CreateVideoDecoder = CreateVideoDecoderOrg;
         }
@@ -1498,7 +1493,7 @@ void HookDirectXVideoDecoderService(void* pIDirectXVideoDecoderService)
         //  g_pIDirectXVideoDecoderServiceCVtbl->GetDecoderDeviceGuids = GetDecoderDeviceGuidsOrg;
 #endif
 
-        res = VirtualProtect(g_pIDirectXVideoDecoderServiceCVtbl, sizeof(IDirectXVideoDecoderServiceCVtbl), flOldProtect, &flOldProtect);
+        VirtualProtect(g_pIDirectXVideoDecoderServiceCVtbl, sizeof(IDirectXVideoDecoderServiceCVtbl), flOldProtect, &flOldProtect);
 
         g_pIDirectXVideoDecoderServiceCVtbl = nullptr;
         CreateVideoDecoderOrg = nullptr;
@@ -1516,7 +1511,7 @@ void HookDirectXVideoDecoderService(void* pIDirectXVideoDecoderService)
 #endif
 
     if (!g_pIDirectXVideoDecoderServiceCVtbl && pIDirectXVideoDecoderService) {
-        res = VirtualProtect(pIDirectXVideoDecoderServiceC->lpVtbl, sizeof(IDirectXVideoDecoderServiceCVtbl), PAGE_WRITECOPY, &flOldProtect);
+        VirtualProtect(pIDirectXVideoDecoderServiceC->lpVtbl, sizeof(IDirectXVideoDecoderServiceCVtbl), PAGE_WRITECOPY, &flOldProtect);
 
         CreateVideoDecoderOrg = pIDirectXVideoDecoderServiceC->lpVtbl->CreateVideoDecoder;
         pIDirectXVideoDecoderServiceC->lpVtbl->CreateVideoDecoder = CreateVideoDecoderMine;
@@ -1529,7 +1524,7 @@ void HookDirectXVideoDecoderService(void* pIDirectXVideoDecoderService)
         //pIDirectXVideoDecoderServiceC->lpVtbl->GetDecoderDeviceGuids = GetDecoderDeviceGuidsMine;
 #endif
 
-        res = VirtualProtect(pIDirectXVideoDecoderServiceC->lpVtbl, sizeof(IDirectXVideoDecoderServiceCVtbl), flOldProtect, &flOldProtect);
+        VirtualProtect(pIDirectXVideoDecoderServiceC->lpVtbl, sizeof(IDirectXVideoDecoderServiceCVtbl), flOldProtect, &flOldProtect);
 
         g_pIDirectXVideoDecoderServiceCVtbl = pIDirectXVideoDecoderServiceC->lpVtbl;
     }

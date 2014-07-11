@@ -67,8 +67,7 @@ HRESULT CRM7AllocatorPresenter::AllocSurfaces()
     ddsd.ddpfPixelFormat.dwGBitMask        = 0x0000FF00;
     ddsd.ddpfPixelFormat.dwBBitMask        = 0x000000FF;
 
-    HRESULT hr = m_pDD->CreateSurface(&ddsd, &m_pVideoSurfaceOff, nullptr);
-    if (FAILED(hr)) {
+    if (FAILED(m_pDD->CreateSurface(&ddsd, &m_pVideoSurfaceOff, nullptr))) {
         return E_FAIL;
     }
 
@@ -86,7 +85,7 @@ HRESULT CRM7AllocatorPresenter::AllocSurfaces()
     ddsd.ddpfPixelFormat.dwYUVBitCount = 16;
     ddsd.ddpfPixelFormat.dwFourCC = '2YUY';
 
-    hr = m_pDD->CreateSurface(&ddsd, &m_pVideoSurfaceYUY2, nullptr);
+    m_pDD->CreateSurface(&ddsd, &m_pVideoSurfaceYUY2, nullptr);
 
     if (FAILED(m_pVideoSurfaceOff->Blt(nullptr, m_pVideoSurfaceYUY2, nullptr, DDBLT_WAIT, nullptr))) {
         m_pVideoSurfaceYUY2 = nullptr;
@@ -220,14 +219,11 @@ STDMETHODIMP CRM7AllocatorPresenter::Blt(UCHAR* pImageData, RMABitmapInfoHeader*
         }
     }
 
-
-    HRESULT hr;
-
     if (fRGB) {
-        hr = m_pVideoSurface->Blt(dst, m_pVideoSurfaceOff, src2, DDBLT_WAIT, nullptr);
+        m_pVideoSurface->Blt(dst, m_pVideoSurfaceOff, src2, DDBLT_WAIT, nullptr);
     }
     if (fYUY2) {
-        hr = m_pVideoSurface->Blt(dst, m_pVideoSurfaceYUY2, src2, DDBLT_WAIT, nullptr);
+        m_pVideoSurface->Blt(dst, m_pVideoSurfaceYUY2, src2, DDBLT_WAIT, nullptr);
     }
 
     Paint(true);

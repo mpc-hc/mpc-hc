@@ -200,7 +200,7 @@ STDMETHODIMP CDX9SubPic::Lock(SubPicDesc& spd)
 
 STDMETHODIMP CDX9SubPic::Unlock(RECT* pDirtyRect)
 {
-    HRESULT hr = m_pSurface->UnlockRect();
+    m_pSurface->UnlockRect();
 
     if (pDirtyRect) {
         m_rcDirty = *pDirtyRect;
@@ -218,7 +218,7 @@ STDMETHODIMP CDX9SubPic::Unlock(RECT* pDirtyRect)
 
     CComPtr<IDirect3DTexture9> pTexture = (IDirect3DTexture9*)GetObject();
     if (pTexture && pDirtyRect && !((CRect*)pDirtyRect)->IsRectEmpty()) {
-        hr = pTexture->AddDirtyRect(&m_rcDirty);
+        pTexture->AddDirtyRect(&m_rcDirty);
     }
 
     return S_OK;
@@ -239,8 +239,6 @@ STDMETHODIMP CDX9SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
     if (!pTexture || FAILED(pTexture->GetDevice(&pD3DDev)) || !pD3DDev) {
         return E_NOINTERFACE;
     }
-
-    HRESULT hr;
 
     D3DSURFACE_DESC desc;
     ZeroMemory(&desc, sizeof(desc));
@@ -269,7 +267,7 @@ STDMETHODIMP CDX9SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
         pVertices[i].y -= 0.5f;
     }
 
-    hr = pD3DDev->SetTexture(0, pTexture);
+    pD3DDev->SetTexture(0, pTexture);
 
     // GetRenderState fails for devices created with D3DCREATE_PUREDEVICE
     // so we need to provide default values in case GetRenderState fails
@@ -284,52 +282,51 @@ STDMETHODIMP CDX9SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
         db = D3DBLEND_ZERO;
     }
 
-    hr = pD3DDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-    hr = pD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);
-    hr = pD3DDev->SetRenderState(D3DRS_ZENABLE, FALSE);
-    hr = pD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-    hr = pD3DDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE); // pre-multiplied src and ...
-    hr = pD3DDev->SetRenderState(D3DRS_DESTBLEND, m_bInvAlpha ? D3DBLEND_INVSRCALPHA : D3DBLEND_SRCALPHA); // ... inverse alpha channel for dst
+    pD3DDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+    pD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);
+    pD3DDev->SetRenderState(D3DRS_ZENABLE, FALSE);
+    pD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+    pD3DDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE); // pre-multiplied src and ...
+    pD3DDev->SetRenderState(D3DRS_DESTBLEND, m_bInvAlpha ? D3DBLEND_INVSRCALPHA : D3DBLEND_SRCALPHA); // ... inverse alpha channel for dst
 
-    hr = pD3DDev->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
-    hr = pD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-    hr = pD3DDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+    pD3DDev->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+    pD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+    pD3DDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
 
     if (src == dst) {
-        hr = pD3DDev->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
-        hr = pD3DDev->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
+        pD3DDev->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
+        pD3DDev->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
     } else {
-        hr = pD3DDev->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-        hr = pD3DDev->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+        pD3DDev->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+        pD3DDev->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
     }
-    hr = pD3DDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
+    pD3DDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
 
-    hr = pD3DDev->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_BORDER);
-    hr = pD3DDev->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_BORDER);
-    hr = pD3DDev->SetSamplerState(0, D3DSAMP_BORDERCOLOR, m_bInvAlpha ? 0x00000000 : 0xFF000000);
+    pD3DDev->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_BORDER);
+    pD3DDev->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_BORDER);
+    pD3DDev->SetSamplerState(0, D3DSAMP_BORDERCOLOR, m_bInvAlpha ? 0x00000000 : 0xFF000000);
 
     /*//
     D3DCAPS9 d3dcaps9;
-    hr = pD3DDev->GetDeviceCaps(&d3dcaps9);
-    if (d3dcaps9.AlphaCmpCaps & D3DPCMPCAPS_LESS)
-    {
-        hr = pD3DDev->SetRenderState(D3DRS_ALPHAREF, (DWORD)0x000000FE);
-        hr = pD3DDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-        hr = pD3DDev->SetRenderState(D3DRS_ALPHAFUNC, D3DPCMPCAPS_LESS);
+    pD3DDev->GetDeviceCaps(&d3dcaps9);
+    if (d3dcaps9.AlphaCmpCaps & D3DPCMPCAPS_LESS) {
+        pD3DDev->SetRenderState(D3DRS_ALPHAREF, (DWORD)0x000000FE);
+        pD3DDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+        pD3DDev->SetRenderState(D3DRS_ALPHAFUNC, D3DPCMPCAPS_LESS);
     }
     *///
 
-    hr = pD3DDev->SetPixelShader(nullptr);
+    pD3DDev->SetPixelShader(nullptr);
 
-    if (m_bExternalRenderer && FAILED(hr = pD3DDev->BeginScene())) {
+    if (m_bExternalRenderer && FAILED(pD3DDev->BeginScene())) {
         return E_FAIL;
     }
 
-    hr = pD3DDev->SetFVF(D3DFVF_XYZRHW | D3DFVF_TEX1);
-    hr = pD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, pVertices, sizeof(pVertices[0]));
+    pD3DDev->SetFVF(D3DFVF_XYZRHW | D3DFVF_TEX1);
+    pD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, pVertices, sizeof(pVertices[0]));
 
     if (m_bExternalRenderer) {
-        hr = pD3DDev->EndScene();
+        pD3DDev->EndScene();
     }
 
     pD3DDev->SetTexture(0, nullptr);

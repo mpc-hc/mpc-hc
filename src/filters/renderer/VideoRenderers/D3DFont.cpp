@@ -203,7 +203,7 @@ HRESULT CD3DFont::PaintAlphabet(HDC hDC, BOOL bMeasureOnly)
 //-----------------------------------------------------------------------------
 HRESULT CD3DFont::InitDeviceObjects(LPDIRECT3DDEVICE9 pd3dDevice)
 {
-    HRESULT hr = S_OK;
+    HRESULT hr;
     HFONT hFont = nullptr;
     HFONT hFontOld = nullptr;
     HDC hDC = nullptr;

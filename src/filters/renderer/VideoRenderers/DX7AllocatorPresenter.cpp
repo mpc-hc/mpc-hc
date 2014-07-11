@@ -36,10 +36,9 @@ static HRESULT TextureBlt(IDirect3DDevice7* pD3DDev, IDirectDrawSurface7* pTextu
 
     ASSERT(pD3DDev);
 
-    HRESULT hr;
     DDSURFACEDESC2 ddsd;
     INITDDSTRUCT(ddsd);
-    if (FAILED(hr = pTexture->GetSurfaceDesc(&ddsd))) {
+    if (FAILED(pTexture->GetSurfaceDesc(&ddsd))) {
         return E_FAIL;
     }
 
@@ -64,7 +63,7 @@ static HRESULT TextureBlt(IDirect3DDevice7* pD3DDev, IDirectDrawSurface7* pTextu
         pVertices[i].y -= 0.5f;
     }
 
-    hr = pD3DDev->SetTexture(0, pTexture);
+    pD3DDev->SetTexture(0, pTexture);
 
     pD3DDev->SetRenderState(D3DRENDERSTATE_CULLMODE, D3DCULL_NONE);
     pD3DDev->SetRenderState(D3DRENDERSTATE_LIGHTING, FALSE);
@@ -79,13 +78,13 @@ static HRESULT TextureBlt(IDirect3DDevice7* pD3DDev, IDirectDrawSurface7* pTextu
 
     //
 
-    if (FAILED(hr = pD3DDev->BeginScene())) {
+    if (FAILED(pD3DDev->BeginScene())) {
         return E_FAIL;
     }
 
-    hr = pD3DDev->DrawPrimitive(D3DPT_TRIANGLESTRIP,
-                                D3DFVF_XYZRHW | D3DFVF_TEX1,
-                                pVertices, 4, D3DDP_WAIT);
+    pD3DDev->DrawPrimitive(D3DPT_TRIANGLESTRIP,
+                           D3DFVF_XYZRHW | D3DFVF_TEX1,
+                           pVertices, 4, D3DDP_WAIT);
     pD3DDev->EndScene();
 
     //
@@ -305,7 +304,7 @@ HRESULT CDX7AllocatorPresenter::AllocSurfaces()
     DDBLTFX fx;
     INITDDSTRUCT(fx);
     fx.dwFillColor = 0;
-    hr = m_pVideoSurface->Blt(nullptr, nullptr, nullptr, DDBLT_WAIT | DDBLT_COLORFILL, &fx);
+    m_pVideoSurface->Blt(nullptr, nullptr, nullptr, DDBLT_WAIT | DDBLT_COLORFILL, &fx);
 
     return S_OK;
 }

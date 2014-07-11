@@ -2450,15 +2450,13 @@ STDMETHODIMP CFGManagerDVD::AddSourceFilter(LPCWSTR lpcwstrFileName, LPCWSTR lpc
     CheckPointer(lpcwstrFileName, E_POINTER);
     CheckPointer(ppFilter, E_POINTER);
 
-    HRESULT hr;
-
     CStringW fn = CStringW(lpcwstrFileName).TrimLeft();
 
     GUID clsid = CLSID_DVDNavigator;
 
     CComPtr<IBaseFilter> pBF;
-    if (FAILED(hr = pBF.CoCreateInstance(clsid))
-            || FAILED(hr = AddFilter(pBF, L"DVD Navigator"))) {
+    if (FAILED(pBF.CoCreateInstance(clsid))
+            || FAILED(AddFilter(pBF, L"DVD Navigator"))) {
         return VFW_E_CANNOT_LOAD_SOURCE_FILTER;
     }
 
@@ -2472,10 +2470,10 @@ STDMETHODIMP CFGManagerDVD::AddSourceFilter(LPCWSTR lpcwstrFileName, LPCWSTR lpc
     WCHAR buff[MAX_PATH];
     ULONG len;
     if ((!fn.IsEmpty()
-            && FAILED(hr = pDVDC->SetDVDDirectory(fn))
-            && FAILED(hr = pDVDC->SetDVDDirectory(fn + L"VIDEO_TS"))
-            && FAILED(hr = pDVDC->SetDVDDirectory(fn + L"\\VIDEO_TS")))
-            || FAILED(hr = pDVDI->GetDVDDirectory(buff, _countof(buff), &len)) || len == 0) {
+            && FAILED(pDVDC->SetDVDDirectory(fn))
+            && FAILED(pDVDC->SetDVDDirectory(fn + L"VIDEO_TS"))
+            && FAILED(pDVDC->SetDVDDirectory(fn + L"\\VIDEO_TS")))
+            || FAILED(pDVDI->GetDVDDirectory(buff, _countof(buff), &len)) || len == 0) {
         return E_INVALIDARG;
     }
 

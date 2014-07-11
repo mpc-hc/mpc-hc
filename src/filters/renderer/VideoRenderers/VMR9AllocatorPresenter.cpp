@@ -90,7 +90,6 @@ STDMETHODIMP CVMR9AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 {
     CheckPointer(ppRenderer, E_POINTER);
     *ppRenderer = nullptr;
-    HRESULT hr;
 
     CMacrovisionKicker* pMK = DEBUG_NEW CMacrovisionKicker(NAME("CMacrovisionKicker"), nullptr);
     CComPtr<IUnknown> pUnk = (IUnknown*)(INonDelegatingUnknown*)pMK;
@@ -116,7 +115,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
     const CRenderersSettings& r = GetRenderersSettings();
 
     if (r.fVMR9MixerMode) {
-        if (FAILED(hr = pConfig->SetNumberOfStreams(1))) {
+        if (FAILED(pConfig->SetNumberOfStreams(1))) {
             return E_FAIL;
         }
 
@@ -135,7 +134,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
         }
     }
 
-    if (FAILED(hr = pConfig->SetRenderingMode(VMR9Mode_Renderless))) {
+    if (FAILED(pConfig->SetRenderingMode(VMR9Mode_Renderless))) {
         return E_FAIL;
     }
 
@@ -144,8 +143,8 @@ STDMETHODIMP CVMR9AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
         return E_FAIL;
     }
 
-    if (FAILED(hr = pSAN->AdviseSurfaceAllocator(MY_USER_ID, static_cast<IVMRSurfaceAllocator9*>(this)))
-            || FAILED(hr = AdviseNotify(pSAN))) {
+    if (FAILED(pSAN->AdviseSurfaceAllocator(MY_USER_ID, static_cast<IVMRSurfaceAllocator9*>(this)))
+            || FAILED(AdviseNotify(pSAN))) {
         return E_FAIL;
     }
 

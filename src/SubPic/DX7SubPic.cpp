@@ -138,11 +138,9 @@ STDMETHODIMP CDX7SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 
     CRect src(*pSrc), dst(*pDst);
 
-    HRESULT hr;
-
     DDSURFACEDESC2 ddsd;
     INITDDSTRUCT(ddsd);
-    if (FAILED(hr = m_pSurface->GetSurfaceDesc(&ddsd))) {
+    if (FAILED(m_pSurface->GetSurfaceDesc(&ddsd))) {
         return E_FAIL;
     }
 
@@ -167,7 +165,7 @@ STDMETHODIMP CDX7SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
         pVertices[i].y -= 0.5f;
     }
 
-    hr = m_pD3DDev->SetTexture(0, m_pSurface);
+    m_pD3DDev->SetTexture(0, m_pSurface);
 
     m_pD3DDev->SetRenderState(D3DRENDERSTATE_CULLMODE, D3DCULL_NONE);
     m_pD3DDev->SetRenderState(D3DRENDERSTATE_LIGHTING, FALSE);
@@ -201,13 +199,13 @@ STDMETHODIMP CDX7SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
     }
     *///
 
-    if (FAILED(hr = m_pD3DDev->BeginScene())) {
+    if (FAILED(m_pD3DDev->BeginScene())) {
         return E_FAIL;
     }
 
-    hr = m_pD3DDev->DrawPrimitive(D3DPT_TRIANGLESTRIP,
-                                  D3DFVF_XYZRHW | D3DFVF_TEX1,
-                                  pVertices, 4, D3DDP_WAIT);
+    m_pD3DDev->DrawPrimitive(D3DPT_TRIANGLESTRIP,
+                             D3DFVF_XYZRHW | D3DFVF_TEX1,
+                             pVertices, 4, D3DDP_WAIT);
     m_pD3DDev->EndScene();
 
     m_pD3DDev->SetTexture(0, nullptr);

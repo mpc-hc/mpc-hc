@@ -3224,11 +3224,10 @@ STDMETHODIMP CSyncAP::GetCurrentMediaType(__deref_out  IMFVideoMediaType** ppMed
 // IMFTopologyServiceLookupClient
 STDMETHODIMP CSyncAP::InitServicePointers(__in IMFTopologyServiceLookup* pLookup)
 {
-    HRESULT hr;
     DWORD dwObjects = 1;
-    hr = pLookup->LookupService(MF_SERVICE_LOOKUP_GLOBAL, 0, MR_VIDEO_MIXER_SERVICE, IID_PPV_ARGS(&m_pMixer), &dwObjects);
-    hr = pLookup->LookupService(MF_SERVICE_LOOKUP_GLOBAL, 0, MR_VIDEO_RENDER_SERVICE, IID_PPV_ARGS(&m_pSink), &dwObjects);
-    hr = pLookup->LookupService(MF_SERVICE_LOOKUP_GLOBAL, 0, MR_VIDEO_RENDER_SERVICE, IID_PPV_ARGS(&m_pClock), &dwObjects);
+    pLookup->LookupService(MF_SERVICE_LOOKUP_GLOBAL, 0, MR_VIDEO_MIXER_SERVICE, IID_PPV_ARGS(&m_pMixer), &dwObjects);
+    pLookup->LookupService(MF_SERVICE_LOOKUP_GLOBAL, 0, MR_VIDEO_RENDER_SERVICE, IID_PPV_ARGS(&m_pSink), &dwObjects);
+    pLookup->LookupService(MF_SERVICE_LOOKUP_GLOBAL, 0, MR_VIDEO_RENDER_SERVICE, IID_PPV_ARGS(&m_pClock), &dwObjects);
     StartWorkerThreads();
     return S_OK;
 }
@@ -3555,11 +3554,10 @@ void CSyncAP::MixerThread()
     bool bQuit = false;
     TIMECAPS tc;
     DWORD dwResolution;
-    DWORD dwUser = 0;
 
     timeGetDevCaps(&tc, sizeof(TIMECAPS));
     dwResolution = std::min(std::max(tc.wPeriodMin, 0u), tc.wPeriodMax);
-    dwUser = timeBeginPeriod(dwResolution);
+    timeBeginPeriod(dwResolution);
 
     while (!bQuit) {
         DWORD dwObject = WaitForMultipleObjects(_countof(hEvts), hEvts, FALSE, 1);
@@ -3819,8 +3817,7 @@ STDMETHODIMP_(bool) CSyncAP::ResetDevice()
 void CSyncAP::OnResetDevice()
 {
     TRACE(_T("--> CSyncAP::OnResetDevice on thread: %lu\n"), GetCurrentThreadId());
-    HRESULT hr;
-    hr = m_pD3DManager->ResetDevice(m_pD3DDev, m_nResetToken);
+    m_pD3DManager->ResetDevice(m_pD3DDev, m_nResetToken);
     if (m_pSink) {
         m_pSink->Notify(EC_DISPLAY_CHANGED, 0, 0);
     }

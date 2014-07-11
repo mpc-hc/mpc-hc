@@ -98,35 +98,33 @@ static HRESULT TextureBlt(IDirect3DDevice9* pD3DDev, MYD3DVERTEX<texcoords> v[4]
             return E_FAIL;
     }
 
-    HRESULT hr;
-
-    hr = pD3DDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-    hr = pD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);
-    hr = pD3DDev->SetRenderState(D3DRS_ZENABLE, FALSE);
-    hr = pD3DDev->SetRenderState(D3DRS_STENCILENABLE, FALSE);
-    hr = pD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-    hr = pD3DDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-    hr = pD3DDev->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
-    hr = pD3DDev->SetRenderState(D3DRS_COLORWRITEENABLE, D3DCOLORWRITEENABLE_ALPHA | D3DCOLORWRITEENABLE_BLUE | D3DCOLORWRITEENABLE_GREEN | D3DCOLORWRITEENABLE_RED);
+    pD3DDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+    pD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);
+    pD3DDev->SetRenderState(D3DRS_ZENABLE, FALSE);
+    pD3DDev->SetRenderState(D3DRS_STENCILENABLE, FALSE);
+    pD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+    pD3DDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+    pD3DDev->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
+    pD3DDev->SetRenderState(D3DRS_COLORWRITEENABLE, D3DCOLORWRITEENABLE_ALPHA | D3DCOLORWRITEENABLE_BLUE | D3DCOLORWRITEENABLE_GREEN | D3DCOLORWRITEENABLE_RED);
 
     for (int i = 0; i < texcoords; i++) {
-        hr = pD3DDev->SetSamplerState(i, D3DSAMP_MAGFILTER, filter);
-        hr = pD3DDev->SetSamplerState(i, D3DSAMP_MINFILTER, filter);
-        hr = pD3DDev->SetSamplerState(i, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
+        pD3DDev->SetSamplerState(i, D3DSAMP_MAGFILTER, filter);
+        pD3DDev->SetSamplerState(i, D3DSAMP_MINFILTER, filter);
+        pD3DDev->SetSamplerState(i, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
 
-        hr = pD3DDev->SetSamplerState(i, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
-        hr = pD3DDev->SetSamplerState(i, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+        pD3DDev->SetSamplerState(i, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+        pD3DDev->SetSamplerState(i, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
     }
 
     //
 
-    hr = pD3DDev->SetFVF(D3DFVF_XYZRHW | FVF);
-    // hr = pD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, v, sizeof(v[0]));
+    pD3DDev->SetFVF(D3DFVF_XYZRHW | FVF);
+    //pD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, v, sizeof(v[0]));
 
     MYD3DVERTEX<texcoords> tmp = v[2];
     v[2] = v[3];
     v[3] = tmp;
-    hr = pD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, 2, v, sizeof(v[0]));
+    pD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, 2, v, sizeof(v[0]));
 
     //
 
