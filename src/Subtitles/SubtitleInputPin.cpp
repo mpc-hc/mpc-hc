@@ -54,7 +54,7 @@ CSubtitleInputPin::CSubtitleInputPin(CBaseFilter* pFilter, CCritSec* pLock, CCri
     : CBaseInputPin(NAME("CSubtitleInputPin"), pFilter, pLock, phr, L"Input")
     , m_pSubLock(pSubLock)
 {
-    m_bCanReconnectWhenActive = TRUE;
+    m_bCanReconnectWhenActive = true;
 }
 
 HRESULT CSubtitleInputPin::CheckMediaType(const CMediaType* pmt)

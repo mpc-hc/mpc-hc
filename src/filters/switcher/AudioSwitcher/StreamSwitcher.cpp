@@ -382,7 +382,7 @@ CStreamSwitcherInputPin::CStreamSwitcherInputPin(CStreamSwitcherFilter* pFilter,
     , m_fCanBlock(false)
     , m_hNotifyEvent(nullptr)
 {
-    m_bCanReconnectWhenActive = TRUE;
+    m_bCanReconnectWhenActive = true;
 }
 
 class __declspec(uuid("138130AF-A79B-45D5-B4AA-87697457BA87"))
@@ -959,7 +959,7 @@ STDMETHODIMP CStreamSwitcherInputPin::NewSegment(REFERENCE_TIME tStart, REFERENC
 CStreamSwitcherOutputPin::CStreamSwitcherOutputPin(CStreamSwitcherFilter* pFilter, HRESULT* phr)
     : CBaseOutputPin(NAME("CStreamSwitcherOutputPin"), pFilter, &pFilter->m_csState, phr, L"Out")
 {
-    //  m_bCanReconnectWhenActive = TRUE;
+    //  m_bCanReconnectWhenActive = true;
 }
 
 STDMETHODIMP CStreamSwitcherOutputPin::NonDelegatingQueryInterface(REFIID riid, void** ppv)
