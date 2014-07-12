@@ -9107,7 +9107,7 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 
     bool bRestoredWindowPosition = false;
     if (s.fRememberWindowPos) {
-        CRect windowRect = s.rcLastWindowPos;
+        CRect windowRect(s.rcLastWindowPos.TopLeft(), windowSize);
         if (CMonitors::IsOnScreen(windowRect)) {
             MoveWindow(windowRect);
             bRestoredWindowPosition = true;
@@ -9120,7 +9120,7 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
         if (iMonitor > 0) {
             monitor = monitors.GetMonitor(--iMonitor);
         } else {
-            monitor.Attach(MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST));
+            monitor = CMonitors::GetNearestMonitor(this);
         }
 
         SetWindowPos(nullptr, 0, 0, windowSize.cx, windowSize.cy, SWP_NOMOVE | SWP_NOZORDER);
