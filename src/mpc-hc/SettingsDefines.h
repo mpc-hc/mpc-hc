@@ -152,6 +152,7 @@
 #define IDS_RS_REPORTFAILEDPINS             _T("ReportFailedPins")
 #define IDS_RS_SRCFILTERS                   _T("SrcFilters")
 #define IDS_RS_KEEPHISTORY                  _T("KeepHistory")
+#define IDS_RS_RECENT_FILES_NUMBER          _T("RecentFilesNumber")
 #define IDS_RS_LOGOID                       _T("LogoID2")
 #define IDS_RS_LOGOEXT                      _T("LogoExt")
 #define IDS_RS_TRAFILTERS                   _T("TraFilters")

@@ -36,10 +36,6 @@
 #pragma warning(disable: 4351) // new behavior: elements of array 'array' will be default initialized
 CAppSettings::CAppSettings()
     : fInitialized(false)
-    , MRU(0, _T("Recent File List"), _T("File%d"), 20)
-    , MRUDub(0, _T("Recent Dub List"), _T("Dub%d"), 20)
-    , filePositions(AfxGetApp(), IDS_R_SETTINGS, MAX_FILE_POSITION)
-    , dvdPositions(AfxGetApp(), IDS_R_SETTINGS, MAX_DVD_POSITION)
     , hAccel(nullptr)
     , nCmdlnWebServerPort(-1)
     , fShowDebugInfo(false)
@@ -151,6 +147,11 @@ CAppSettings::CAppSettings()
     , iTitleBarTextStyle(1)
     , fTitleBarTextTitle(false)
     , fKeepHistory(true)
+    , iRecentFilesNumber(20)
+    , MRU(0, _T("Recent File List"), _T("File%d"), iRecentFilesNumber)
+    , MRUDub(0, _T("Recent Dub List"), _T("Dub%d"), iRecentFilesNumber)
+    , filePositions(AfxGetApp(), IDS_R_SETTINGS, iRecentFilesNumber)
+    , dvdPositions(AfxGetApp(), IDS_R_SETTINGS, iRecentFilesNumber)
     , fRememberDVDPos(false)
     , fRememberFilePos(false)
     , bRememberPlaylistItems(true)
@@ -681,6 +682,7 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ASPECTRATIO_X, sizeAspectRatio.cx);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ASPECTRATIO_Y, sizeAspectRatio.cy);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_KEEPHISTORY, fKeepHistory);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_RECENT_FILES_NUMBER, iRecentFilesNumber);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DSVIDEORENDERERTYPE, iDSVideoRendererType);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_RMVIDEORENDERERTYPE, iRMVideoRendererType);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_QTVIDEORENDERERTYPE, iQTVideoRendererType);
@@ -1284,6 +1286,11 @@ void CAppSettings::LoadSettings()
 
     fKeepHistory = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_KEEPHISTORY, TRUE);
     fileAssoc.SetNoRecentDocs(!fKeepHistory);
+    iRecentFilesNumber = std::max(0, (int)pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_RECENT_FILES_NUMBER, 20));
+    MRU.SetSize(iRecentFilesNumber);
+    MRUDub.SetSize(iRecentFilesNumber);
+    filePositions.SetMaxSize(iRecentFilesNumber);
+    dvdPositions.SetMaxSize(iRecentFilesNumber);
 
     if (pApp->GetProfileBinary(IDS_R_SETTINGS, IDS_RS_LASTWINDOWRECT, &ptr, &len)) {
         if (len == sizeof(CRect)) {
@@ -2100,6 +2107,22 @@ void CAppSettings::CRecentFileAndURLList::Add(LPCTSTR lpszPathName)
     }
     // place this one at the beginning
     m_arrNames[0] = pathName;
+}
+
+void CAppSettings::CRecentFileAndURLList::SetSize(int nSize)
+{
+    ENSURE_ARG(nSize >= 0);
+
+    if (m_nSize != nSize) {
+        CString* arrNames = new CString[nSize];
+        int nSizeToCopy = std::min(m_nSize, nSize);
+        for (int i = 0; i < nSizeToCopy; i++) {
+            arrNames[i] = m_arrNames[i];
+        }
+        delete [] m_arrNames;
+        m_arrNames = arrNames;
+        m_nSize = nSize;
+    }
 }
 
 bool CAppSettings::IsVSFilterInstalled()

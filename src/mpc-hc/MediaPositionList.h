@@ -1,5 +1,5 @@
 /*
- * (C) 2012-2013 see Authors.txt
+ * (C) 2012-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -44,6 +44,18 @@ public:
         , m_lpszSection(lpszSection)
         , m_nMaxSize(nMaxSize)
     {};
+
+    int GetMaxSize() const { m_nMaxSize; };
+    void SetMaxSize(int nMaxSize) {
+        ENSURE_ARG(nMaxSize >= 0);
+
+        if (m_nMaxSize != nMaxSize) {
+            m_nMaxSize = nMaxSize;
+            while (GetCount() > m_nMaxSize) {
+                RemoveTail();
+            }
+        }
+    };
 
     virtual void Load() = 0;
     virtual void Save() = 0;

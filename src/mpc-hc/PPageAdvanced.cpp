@@ -108,6 +108,7 @@ void CPPageAdvanced::InitSettings()
 
     addBoolItem(HIDE_WINDOWED, _T("bHideWindowedControls"), false, s.bHideWindowedControls, ResStr(IDS_PPAGEADVANCED_HIDE_WINDOWED));
     addBoolItem(BLOCK_VSFILTER, _T("fBlockVSFilter"), true, s.fBlockVSFilter, ResStr(IDS_PPAGEADVANCED_BLOCK_VSFILTER));
+    addIntItem(RECENT_FILES_NB, _T("RecentFilesNumber"), 20, s.iRecentFilesNumber, std::make_pair(0, 1000), ResStr(IDS_PPAGEADVANCED_RECENT_FILES_NUMBER));
 }
 
 BOOL CPPageAdvanced::OnApply()
@@ -116,6 +117,13 @@ BOOL CPPageAdvanced::OnApply()
         auto eSetting = static_cast<ADVANCED_SETTINGS>(m_list.GetItemData(i));
         m_hiddenOptions.at(eSetting)->Apply();
     }
+
+    auto& s = AfxGetAppSettings();
+
+    s.MRU.SetSize(s.iRecentFilesNumber);
+    s.MRUDub.SetSize(s.iRecentFilesNumber);
+    s.filePositions.SetMaxSize(s.iRecentFilesNumber);
+    s.dvdPositions.SetMaxSize(s.iRecentFilesNumber);
 
     return __super::OnApply();
 }

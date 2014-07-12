@@ -2558,6 +2558,8 @@ BEGIN
                             "Prevent external subtitle renderer to be loaded when internal is in use."
     IDS_PPAGEADVANCED_COL_NAME "Name"
     IDS_PPAGEADVANCED_COL_VALUE "Value"
+    IDS_PPAGEADVANCED_RECENT_FILES_NUMBER
+                            "Maximum number of files shown in the ""Recent files"" menu and for which the position is potentially saved."
 END
 
 STRINGTABLE

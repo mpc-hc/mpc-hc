@@ -1276,6 +1276,10 @@ msgctxt "IDS_PPAGEADVANCED_COL_VALUE"
 msgid "Value"
 msgstr ""
 
+msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
+msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
+msgstr ""
+
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
 msgstr "Адкрыць прыладу"

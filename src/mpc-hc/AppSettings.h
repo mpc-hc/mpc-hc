@@ -160,9 +160,6 @@ enum favtype {
     FAV_DEVICE
 };
 
-#define MAX_FILE_POSITION 20
-#define MAX_DVD_POSITION 20
-
 enum {
     TIME_TOOLTIP_ABOVE_SEEKBAR,
     TIME_TOOLTIP_BELOW_SEEKBAR
@@ -386,6 +383,8 @@ class CAppSettings
                               int nMaxDispLen = AFX_ABBREV_FILENAME_LEN);
 
         virtual void Add(LPCTSTR lpszPathName); // we have to override CRecentFileList::Add because the original version can't handle URLs
+
+        void SetSize(int nSize);
     };
 
 public:
@@ -424,6 +423,7 @@ public:
     int             iTitleBarTextStyle;
     bool            fTitleBarTextTitle;
     bool            fKeepHistory;
+    int             iRecentFilesNumber;
     CRecentFileAndURLList MRU;
     CRecentFileAndURLList MRUDub;
     CFilePositionList filePositions;
