@@ -559,6 +559,7 @@ STDAPI FreeBSTR(__deref_in BSTR* pstr)
 {
     if( (PVOID)*pstr == NULL ) return S_FALSE;
     SysFreeString( *pstr );
+    *pstr = NULL;
     return NOERROR;
 }
 
