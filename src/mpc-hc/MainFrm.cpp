@@ -9170,10 +9170,14 @@ void CMainFrame::RestoreDefaultWindowRect()
 {
     const CAppSettings& s = AfxGetAppSettings();
 
-    if (!m_fFullScreen && !IsZoomed() && !IsIconic() && !s.fRememberWindowSize && !IsAeroSnapped()) {
-        CSize windowSize = s.sizeFixedWindow;
+    if (!m_fFullScreen && !IsZoomed() && !IsIconic() && !IsAeroSnapped()) {
+        CSize windowSize;
 
-        if (!s.HasFixedWindowSize()) {
+        if (s.HasFixedWindowSize()) {
+            windowSize = s.sizeFixedWindow;
+        } else if (s.fRememberWindowSize) {
+            windowSize = s.rcLastWindowPos.Size();
+        } else {
             CRect windowRect;
             GetWindowRect(&windowRect);
             CRect clientRect;
