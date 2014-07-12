@@ -205,10 +205,10 @@ void CPPageAdvanced::OnNMDblclk(NMHDR* pNMHDR, LRESULT* pResult)
 {
     LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
     if (pNMItemActivate->iItem >= 0) {
-        SetRedraw(FALSE);
         auto eSetting = static_cast<ADVANCED_SETTINGS>(m_list.GetItemData(pNMItemActivate->iItem));
         auto pItem = m_hiddenOptions.at(eSetting);
         if (auto pItemBool = std::dynamic_pointer_cast<SettingsBool>(pItem)) {
+            SetRedraw(FALSE);
             pItemBool->Toggle();
             CString str = pItemBool->GetValue() ? _T("true") : _T("false");
             m_list.SetItemText(pNMItemActivate->iItem, COL_VALUE, str);
