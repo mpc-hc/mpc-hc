@@ -72,10 +72,6 @@ CBaseDispatch::GetTypeInfo(
 	return TYPE_E_ELEMENTNOTFOUND;
     }
 
-    if (NULL == pptinfo) {
-	return E_POINTER;
-    }
-
     // always look for neutral
     if (NULL == m_pti) {
 
