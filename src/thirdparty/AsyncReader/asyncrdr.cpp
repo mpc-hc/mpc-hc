@@ -29,7 +29,8 @@ CAsyncOutputPin::CAsyncOutputPin(
     L"Output",
     PINDIR_OUTPUT),
     m_pReader(pReader),
-    m_pIo(pIo)
+    m_pIo(pIo),
+    m_bQueriedForAsyncReader(FALSE)
 {
 }
 
