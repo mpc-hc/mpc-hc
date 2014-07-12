@@ -366,7 +366,7 @@ bool CDVSMainPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
                         CStyleEditorDialog dlg(_T("Default"), &m_defStyle, CWnd::FromHandle(m_hwnd));
 
                         if (dlg.DoModal() == IDOK) {
-                            m_defStyle = dlg.m_stss;
+                            dlg.GetStyle(m_defStyle);
                             CString str = m_defStyle.fontName;
                             if (str.GetLength() > 18) {
                                 str = str.Left(16).TrimRight() + _T("...");

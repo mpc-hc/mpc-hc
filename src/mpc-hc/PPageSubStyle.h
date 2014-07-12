@@ -36,6 +36,34 @@ private:
     STSStyle m_stss;
     bool m_bDefaultStyle;
 
+    CButton m_font;
+    int m_iCharset;
+    CComboBox m_cbCharset;
+    int m_spacing;
+    CSpinButtonCtrl m_spacingSpin;
+    int m_angle;
+    CSpinButtonCtrl m_angleSpin;
+    int m_scalex;
+    CSpinButtonCtrl m_scalexSpin;
+    int m_scaley;
+    CSpinButtonCtrl m_scaleySpin;
+    int m_borderStyle;
+    int m_borderWidth;
+    CSpinButtonCtrl m_borderWidthSpin;
+    int m_shadowDepth;
+    CSpinButtonCtrl m_shadowDepthSpin;
+    int m_screenAlignment;
+    CRect m_margin;
+    CSpinButtonCtrl m_marginLeftSpin;
+    CSpinButtonCtrl m_marginRightSpin;
+    CSpinButtonCtrl m_marginTopSpin;
+    CSpinButtonCtrl m_marginBottomSpin;
+    std::array<CColorButton, 4> m_color;
+    std::array<int, 4> m_alpha;
+    std::array<CSliderCtrl, 4> m_alphaSliders;
+    BOOL m_bLinkAlphaSliders;
+    int m_iRelativeTo;
+
     void AskColor(int i);
 
 public:
@@ -43,49 +71,23 @@ public:
     virtual ~CPPageSubStyle();
 
     void InitStyle(const CString& title, const STSStyle& stss);
-    void GetStyle(STSStyle& stss) { stss = m_stss; }
+    void GetStyle(STSStyle& stss) const { stss = m_stss; }
 
     // Dialog Data
     enum { IDD = IDD_PPAGESUBSTYLE };
-    CButton m_font;
-    int m_iCharset;
-    CComboBox m_charset;
-    int m_spacing;
-    CSpinButtonCtrl m_spacingspin;
-    int m_angle;
-    CSpinButtonCtrl m_anglespin;
-    int m_scalex;
-    CSpinButtonCtrl m_scalexspin;
-    int m_scaley;
-    CSpinButtonCtrl m_scaleyspin;
-    int m_borderstyle;
-    int m_borderwidth;
-    CSpinButtonCtrl m_borderwidthspin;
-    int m_shadowdepth;
-    CSpinButtonCtrl m_shadowdepthspin;
-    int m_screenalignment;
-    CRect m_margin;
-    CSpinButtonCtrl m_marginleftspin;
-    CSpinButtonCtrl m_marginrightspin;
-    CSpinButtonCtrl m_margintopspin;
-    CSpinButtonCtrl m_marginbottomspin;
-    CColorButton m_color[4];
-    int m_alpha[4];
-    CSliderCtrl m_alphasliders[4];
-    BOOL m_linkalphasliders;
-    int m_iRelativeTo;
 
 protected:
-    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    virtual void DoDataExchange(CDataExchange* pDX);
     virtual BOOL OnInitDialog();
     virtual BOOL OnApply();
 
     DECLARE_MESSAGE_MAP()
-    afx_msg void OnBnClickedButton1();
-    afx_msg void OnStnClickedColorpri();
-    afx_msg void OnStnClickedColorsec();
-    afx_msg void OnStnClickedColoroutl();
-    afx_msg void OnStnClickedColorshad();
-    afx_msg void OnBnClickedCheck1();
+
+    afx_msg void OnChooseFont();
+    afx_msg void OnChoosePrimaryColor();
+    afx_msg void OnChooseSecondaryColor();
+    afx_msg void OnChooseOutlineColor();
+    afx_msg void OnChooseShadowColor();
+    afx_msg void OnLinkAlphaSlidersChanged();
     afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 };

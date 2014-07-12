@@ -26,29 +26,24 @@
 
 // CStyleEditorDialog dialog
 
-#pragma warning(push)
-#pragma warning(disable: 4351) // new behavior: elements of array 'array' will be default initialized
 IMPLEMENT_DYNAMIC(CStyleEditorDialog, CDialog)
 CStyleEditorDialog::CStyleEditorDialog(CString title, STSStyle* pstss, CWnd* pParent /*=nullptr*/)
     : CDialog(CStyleEditorDialog::IDD, pParent)
     , m_title(title)
     , m_stss(*pstss)
-    , m_pParent(pParent)
     , m_iCharset(0)
     , m_spacing(0)
     , m_angle(0)
     , m_scalex(0)
     , m_scaley(0)
-    , m_borderstyle(0)
-    , m_borderwidth(0)
-    , m_shadowdepth(0)
-    , m_screenalignment(0)
+    , m_borderStyle(0)
+    , m_borderWidth(0)
+    , m_shadowDepth(0)
+    , m_screenAlignment(0)
     , m_margin(0, 0, 0, 0)
-    , m_linkalphasliders(FALSE)
-    , m_alpha()
+    , m_bLinkAlphaSliders(FALSE)
 {
 }
-#pragma warning(pop)
 
 CStyleEditorDialog::~CStyleEditorDialog()
 {
@@ -59,29 +54,29 @@ void CStyleEditorDialog::DoDataExchange(CDataExchange* pDX)
     CDialog::DoDataExchange(pDX);
     DDX_Control(pDX, IDC_BUTTON1, m_font);
     DDX_CBIndex(pDX, IDC_COMBO1, m_iCharset);
-    DDX_Control(pDX, IDC_COMBO1, m_charset);
+    DDX_Control(pDX, IDC_COMBO1, m_cbCharset);
     DDX_Text(pDX, IDC_EDIT3, m_spacing);
-    DDX_Control(pDX, IDC_SPIN3, m_spacingspin);
+    DDX_Control(pDX, IDC_SPIN3, m_spacingSpin);
     DDX_Text(pDX, IDC_EDIT11, m_angle);
-    DDX_Control(pDX, IDC_SPIN10, m_anglespin);
+    DDX_Control(pDX, IDC_SPIN10, m_angleSpin);
     DDX_Text(pDX, IDC_EDIT5, m_scalex);
-    DDX_Control(pDX, IDC_SPIN4, m_scalexspin);
+    DDX_Control(pDX, IDC_SPIN4, m_scalexSpin);
     DDX_Text(pDX, IDC_EDIT6, m_scaley);
-    DDX_Control(pDX, IDC_SPIN5, m_scaleyspin);
-    DDX_Radio(pDX, IDC_RADIO1, m_borderstyle);
-    DDX_Text(pDX, IDC_EDIT1, m_borderwidth);
-    DDX_Control(pDX, IDC_SPIN1, m_borderwidthspin);
-    DDX_Text(pDX, IDC_EDIT2, m_shadowdepth);
-    DDX_Control(pDX, IDC_SPIN2, m_shadowdepthspin);
-    DDX_Radio(pDX, IDC_RADIO3, m_screenalignment);
+    DDX_Control(pDX, IDC_SPIN5, m_scaleySpin);
+    DDX_Radio(pDX, IDC_RADIO1, m_borderStyle);
+    DDX_Text(pDX, IDC_EDIT1, m_borderWidth);
+    DDX_Control(pDX, IDC_SPIN1, m_borderWidthSpin);
+    DDX_Text(pDX, IDC_EDIT2, m_shadowDepth);
+    DDX_Control(pDX, IDC_SPIN2, m_shadowDepthSpin);
+    DDX_Radio(pDX, IDC_RADIO3, m_screenAlignment);
     DDX_Text(pDX, IDC_EDIT7, m_margin.left);
-    DDX_Control(pDX, IDC_SPIN6, m_marginleftspin);
+    DDX_Control(pDX, IDC_SPIN6, m_marginLeftSpin);
     DDX_Text(pDX, IDC_EDIT8, m_margin.right);
-    DDX_Control(pDX, IDC_SPIN7, m_marginrightspin);
+    DDX_Control(pDX, IDC_SPIN7, m_marginRightSpin);
     DDX_Text(pDX, IDC_EDIT9, m_margin.top);
-    DDX_Control(pDX, IDC_SPIN8, m_margintopspin);
+    DDX_Control(pDX, IDC_SPIN8, m_marginTopSpin);
     DDX_Text(pDX, IDC_EDIT10, m_margin.bottom);
-    DDX_Control(pDX, IDC_SPIN9, m_marginbottomspin);
+    DDX_Control(pDX, IDC_SPIN9, m_marginBottomSpin);
     DDX_Control(pDX, IDC_COLORPRI, m_color[0]);
     DDX_Control(pDX, IDC_COLORSEC, m_color[1]);
     DDX_Control(pDX, IDC_COLOROUTL, m_color[2]);
@@ -90,11 +85,11 @@ void CStyleEditorDialog::DoDataExchange(CDataExchange* pDX)
     DDX_Slider(pDX, IDC_SLIDER3, m_alpha[1]);
     DDX_Slider(pDX, IDC_SLIDER5, m_alpha[2]);
     DDX_Slider(pDX, IDC_SLIDER6, m_alpha[3]);
-    DDX_Control(pDX, IDC_SLIDER2, m_alphasliders[0]);
-    DDX_Control(pDX, IDC_SLIDER3, m_alphasliders[1]);
-    DDX_Control(pDX, IDC_SLIDER5, m_alphasliders[2]);
-    DDX_Control(pDX, IDC_SLIDER6, m_alphasliders[3]);
-    DDX_Check(pDX, IDC_CHECK1, m_linkalphasliders);
+    DDX_Control(pDX, IDC_SLIDER2, m_alphaSliders[0]);
+    DDX_Control(pDX, IDC_SLIDER3, m_alphaSliders[1]);
+    DDX_Control(pDX, IDC_SLIDER5, m_alphaSliders[2]);
+    DDX_Control(pDX, IDC_SLIDER6, m_alphaSliders[3]);
+    DDX_Check(pDX, IDC_CHECK1, m_bLinkAlphaSliders);
 }
 
 void CStyleEditorDialog::AskColor(int i)
@@ -108,12 +103,12 @@ void CStyleEditorDialog::AskColor(int i)
 }
 
 BEGIN_MESSAGE_MAP(CStyleEditorDialog, CDialog)
-    ON_BN_CLICKED(IDC_BUTTON1, OnBnClickedButton1)
-    ON_BN_CLICKED(IDC_COLORPRI, OnStnClickedColorpri)
-    ON_BN_CLICKED(IDC_COLORSEC, OnStnClickedColorsec)
-    ON_BN_CLICKED(IDC_COLOROUTL, OnStnClickedColoroutl)
-    ON_BN_CLICKED(IDC_COLORSHAD, OnStnClickedColorshad)
-    ON_BN_CLICKED(IDC_CHECK1, OnBnClickedCheck1)
+    ON_BN_CLICKED(IDC_BUTTON1, OnChooseFont)
+    ON_BN_CLICKED(IDC_COLORPRI, OnChoosePrimaryColor)
+    ON_BN_CLICKED(IDC_COLORSEC, OnChooseSecondaryColor)
+    ON_BN_CLICKED(IDC_COLOROUTL, OnChooseOutlineColor)
+    ON_BN_CLICKED(IDC_COLORSHAD, OnChooseShadowColor)
+    ON_BN_CLICKED(IDC_CHECK1, OnLinkAlphaSlidersChanged)
     ON_WM_HSCROLL()
 END_MESSAGE_MAP()
 
@@ -130,46 +125,47 @@ BOOL CStyleEditorDialog::OnInitDialog()
     m_iCharset = -1;
     for (int i = 0; i < CharSetLen; i++) {
         CString str;
-        str.Format(_T("%s (%d)"), CharSetNames[i], CharSetList[i]);
-        m_charset.AddString(str);
-        m_charset.SetItemData(i, CharSetList[i]);
+        str.Format(_T("%s (%u)"), CharSetNames[i], CharSetList[i]);
+        m_cbCharset.AddString(str);
+        m_cbCharset.SetItemData(i, CharSetList[i]);
         if (m_stss.charSet == CharSetList[i]) {
             m_iCharset = i;
         }
     }
+
     // TODO: allow floats in these edit boxes
     m_spacing = (int)m_stss.fontSpacing;
-    m_spacingspin.SetRange32(-10000, 10000);
+    m_spacingSpin.SetRange32(-10000, 10000);
     while (m_stss.fontAngleZ < 0) {
         m_stss.fontAngleZ += 360;
     }
-    m_angle = (int)fmod(m_stss.fontAngleZ, 360);
-    m_anglespin.SetRange32(0, 359);
+    m_angle = (int)std::fmod(m_stss.fontAngleZ, 360);
+    m_angleSpin.SetRange32(0, 359);
     m_scalex = (int)m_stss.fontScaleX;
-    m_scalexspin.SetRange32(-10000, 10000);
+    m_scalexSpin.SetRange32(-10000, 10000);
     m_scaley = (int)m_stss.fontScaleY;
-    m_scaleyspin.SetRange32(-10000, 10000);
+    m_scaleySpin.SetRange32(-10000, 10000);
 
-    m_borderstyle = m_stss.borderStyle;
-    m_borderwidth = (int)std::min(m_stss.outlineWidthX, m_stss.outlineWidthY);
-    m_borderwidthspin.SetRange32(0, 10000);
-    m_shadowdepth = (int)std::min(m_stss.shadowDepthX, m_stss.shadowDepthY);
-    m_shadowdepthspin.SetRange32(0, 10000);
+    m_borderStyle = m_stss.borderStyle;
+    m_borderWidth = (int)std::min(m_stss.outlineWidthX, m_stss.outlineWidthY);
+    m_borderWidthSpin.SetRange32(0, 10000);
+    m_shadowDepth = (int)std::min(m_stss.shadowDepthX, m_stss.shadowDepthY);
+    m_shadowDepthSpin.SetRange32(0, 10000);
 
-    m_screenalignment = m_stss.scrAlignment - 1;
+    m_screenAlignment = m_stss.scrAlignment - 1;
     m_margin = m_stss.marginRect;
-    m_marginleftspin.SetRange32(-10000, 10000);
-    m_marginrightspin.SetRange32(-10000, 10000);
-    m_margintopspin.SetRange32(-10000, 10000);
-    m_marginbottomspin.SetRange32(-10000, 10000);
+    m_marginLeftSpin.SetRange32(-10000, 10000);
+    m_marginRightSpin.SetRange32(-10000, 10000);
+    m_marginTopSpin.SetRange32(-10000, 10000);
+    m_marginBottomSpin.SetRange32(-10000, 10000);
 
-    for (int i = 0; i < 4; i++) {
+    for (size_t i = 0; i < m_color.size(); i++) {
         m_color[i].SetColor(m_stss.colors[i]);
-        m_alpha[i] = 255 - m_stss.alpha[i];
-        m_alphasliders[i].SetRange(0, 255);
+        m_alpha[i] = BYTE_MAX - m_stss.alpha[i];
+        m_alphaSliders[i].SetRange(0, BYTE_MAX);
     }
 
-    m_linkalphasliders = FALSE;
+    m_bLinkAlphaSliders = FALSE;
 
     UpdateData(FALSE);
 
@@ -182,35 +178,35 @@ void CStyleEditorDialog::OnOK()
     UpdateData();
 
     if (m_iCharset >= 0) {
-        m_stss.charSet = (int)m_charset.GetItemData(m_iCharset);
+        m_stss.charSet = (int)m_cbCharset.GetItemData(m_iCharset);
     }
     m_stss.fontSpacing = m_spacing;
     m_stss.fontAngleZ = m_angle;
     m_stss.fontScaleX = m_scalex;
     m_stss.fontScaleY = m_scaley;
 
-    m_stss.borderStyle = m_borderstyle;
-    m_stss.outlineWidthX = m_stss.outlineWidthY = m_borderwidth;
-    m_stss.shadowDepthX = m_stss.shadowDepthY = m_shadowdepth;
+    m_stss.borderStyle = m_borderStyle;
+    m_stss.outlineWidthX = m_stss.outlineWidthY = m_borderWidth;
+    m_stss.shadowDepthX = m_stss.shadowDepthY = m_shadowDepth;
 
-    m_stss.scrAlignment = m_screenalignment + 1;
+    m_stss.scrAlignment = m_screenAlignment + 1;
     m_stss.marginRect = m_margin;
 
-    for (int i = 0; i < 4; i++) {
-        m_stss.alpha[i] = 255 - m_alpha[i];
+    for (size_t i = 0; i < m_alpha.size(); i++) {
+        m_stss.alpha[i] = BYTE_MAX - m_alpha[i];
     }
 
     __super::OnOK();
 }
 
-void CStyleEditorDialog::OnBnClickedButton1()
+void CStyleEditorDialog::OnChooseFont()
 {
     UpdateData();
 
     LOGFONT lf;
     lf <<= m_stss;
     if (m_iCharset >= 0) {
-        lf.lfCharSet = (BYTE)m_charset.GetItemData(m_iCharset);
+        lf.lfCharSet = (BYTE)m_cbCharset.GetItemData(m_iCharset);
     }
 
     CFontDialog dlg(&lf, CF_SCREENFONTS | CF_INITTOLOGFONTSTRUCT | CF_FORCEFONTEXIST | CF_SCALABLEONLY);
@@ -221,9 +217,9 @@ void CStyleEditorDialog::OnBnClickedButton1()
         }
         m_font.SetWindowText(str);
 
-        for (int i = 0, j = m_charset.GetCount(); i < j; i++) {
-            if (m_charset.GetItemData(i) == lf.lfCharSet) {
-                m_charset.SetCurSel(i);
+        for (int i = 0, count = m_cbCharset.GetCount(); i < count; i++) {
+            if (m_cbCharset.GetItemData(i) == lf.lfCharSet) {
+                m_cbCharset.SetCurSel(i);
                 break;
             }
         }
@@ -232,46 +228,48 @@ void CStyleEditorDialog::OnBnClickedButton1()
     }
 }
 
-void CStyleEditorDialog::OnStnClickedColorpri()
+void CStyleEditorDialog::OnChoosePrimaryColor()
 {
     AskColor(0);
 }
 
-void CStyleEditorDialog::OnStnClickedColorsec()
+void CStyleEditorDialog::OnChooseSecondaryColor()
 {
     AskColor(1);
 }
 
-void CStyleEditorDialog::OnStnClickedColoroutl()
+void CStyleEditorDialog::OnChooseOutlineColor()
 {
     AskColor(2);
 }
 
-void CStyleEditorDialog::OnStnClickedColorshad()
+void CStyleEditorDialog::OnChooseShadowColor()
 {
     AskColor(3);
 }
 
-void CStyleEditorDialog::OnBnClickedCheck1()
+void CStyleEditorDialog::OnLinkAlphaSlidersChanged()
 {
     UpdateData();
 
-    int avg = 0;
-    for (int i = 0; i < 4; i++) {
-        avg += m_alphasliders[i].GetPos();
-    }
-    avg /= 4;
-    for (int i = 0; i < 4; i++) {
-        m_alphasliders[i].SetPos(avg);
+    if (m_bLinkAlphaSliders) {
+        int avgAlpha = 0;
+        for (const auto& alphaSlider : m_alphaSliders) {
+            avgAlpha += alphaSlider.GetPos();
+        }
+        avgAlpha /= 4;
+        for (auto& alphaSlider : m_alphaSliders) {
+            alphaSlider.SetPos(avgAlpha);
+        }
     }
 }
 
 void CStyleEditorDialog::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
-    if (m_linkalphasliders && pScrollBar) {
+    if (m_bLinkAlphaSliders && pScrollBar) {
         int pos = ((CSliderCtrl*)pScrollBar)->GetPos();
-        for (int i = 0; i < 4; i++) {
-            m_alphasliders[i].SetPos(pos);
+        for (auto& alphaSlider : m_alphaSliders) {
+            alphaSlider.SetPos(pos);
         }
     }
 
