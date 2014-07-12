@@ -53,7 +53,10 @@ typedef struct tagREFRESHPROPERTY
     RECT rcNew;
 
     // initialize with valid data
-    tagREFRESHPROPERTY() : bNeedsRefresh(TRUE) {}
+    tagREFRESHPROPERTY() : bNeedsRefresh(TRUE) {
+        ZeroMemory(&rcOld, sizeof(rcOld));
+        ZeroMemory(&rcNew, sizeof(rcNew));
+    }
 
 } REFRESHPROPERTY, *PREFRESHPROPERTY, *LPREFRESHPROPERTY;
 

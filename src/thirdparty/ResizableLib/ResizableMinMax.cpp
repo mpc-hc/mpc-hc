@@ -26,6 +26,10 @@ CResizableMinMax::CResizableMinMax()
     m_bUseMinTrack = FALSE;
     m_bUseMaxTrack = FALSE;
     m_bUseMaxRect = FALSE;
+    m_ptMinTrackSize = { 0, 0 };
+    m_ptMaxTrackSize = { 0, 0 };
+    m_ptMaxPos = { 0, 0 };
+    m_ptMaxSize = { 0, 0 };
 }
 
 CResizableMinMax::~CResizableMinMax()
