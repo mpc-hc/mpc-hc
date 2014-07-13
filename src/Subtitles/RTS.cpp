@@ -52,7 +52,7 @@ CMyFont::CMyFont(STSStyle& style)
 
     if (!CreateFontIndirect(&lf)) {
         _tcscpy_s(lf.lfFaceName, _T("Arial"));
-        CreateFontIndirect(&lf);
+        VERIFY(CreateFontIndirect(&lf));
     }
 
     HFONT hOldFont = SelectFont(g_hDC, *this);
