@@ -134,9 +134,9 @@ BOOL CPPageSubtitles::OnInitDialog()
 
     m_fOverridePlacement = s.fOverridePlacement;
     m_nHorPos = s.nHorPos;
-    m_nHorPosCtrl.SetRange32(-10, 110);
+    m_nHorPosCtrl.SetRange32(-40, 140);
     m_nVerPos = s.nVerPos;
-    m_nVerPosCtrl.SetRange32(110, -10);
+    m_nVerPosCtrl.SetRange32(140, -40);
     m_nSPCSize = s.m_RenderersSettings.nSPCSize;
     m_nSPCSizeCtrl.SetRange32(0, 60);
     m_spmaxres.AddString(_T("Desktop"));
