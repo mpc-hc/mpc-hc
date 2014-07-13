@@ -238,7 +238,7 @@ bool CVobSubFile::Copy(CVobSubFile& vsf)
     m_sub.SetLength(vsf.m_sub.GetLength());
     m_sub.SeekToBegin();
 
-    for (size_t i = 0; i < 32; i++) {
+    for (size_t i = 0; i < m_langs.size(); i++) {
         SubLang& src = vsf.m_langs[i];
         SubLang& dst = m_langs[i];
 
@@ -326,7 +326,7 @@ bool CVobSubFile::Open(CString fn)
 
         m_title = fn;
 
-        for (int i = 0; i < 32; i++) {
+        for (size_t i = 0; i < m_langs.size(); i++) {
             CAtlArray<SubPos>& sp = m_langs[i].subpos;
 
             for (size_t j = 0; j < sp.GetCount(); j++) {
@@ -398,11 +398,11 @@ void CVobSubFile::Close()
     m_sub.SetLength(0);
     m_img.Invalidate();
     m_iLang = -1;
-    for (size_t i = 0; i < 32; i++) {
-        m_langs[i].id = 0;
-        m_langs[i].name.Empty();
-        m_langs[i].alt.Empty();
-        m_langs[i].subpos.RemoveAll();
+    for (auto& sl : m_langs) {
+        sl.id = 0;
+        sl.name.Empty();
+        sl.alt.Empty();
+        sl.subpos.RemoveAll();
     }
 }
 
@@ -655,7 +655,7 @@ bool CVobSubFile::ReadIdx(CString fn, int& ver)
             }
             str = str.Mid(i + (int)_tcslen(_T("index:")));
 
-            if (_stscanf_s(str, _T("%d"), &id) != 1 || id < 0 || id >= 32) {
+            if (_stscanf_s(str, _T("%d"), &id) != 1 || id < 0 || size_t(id) >= m_langs.size()) {
                 fError = true;
                 continue;
             }
@@ -1038,7 +1038,7 @@ bool CVobSubFile::WriteIdx(CString fn, int delay)
 
     // Subs
 
-    for (size_t i = 0; i < 32; i++) {
+    for (size_t i = 0; i < m_langs.size(); i++) {
         SubLang& sl = m_langs[i];
 
         CAtlArray<SubPos>& sp = sl.subpos;
@@ -1122,7 +1122,7 @@ BYTE* CVobSubFile::GetPacket(int idx, int& packetsize, int& datasize, int iLang)
 {
     BYTE* ret = nullptr;
 
-    if (iLang < 0 || iLang >= 32) {
+    if (iLang < 0 || size_t(iLang) >= m_langs.size()) {
         iLang = m_iLang;
     }
     CAtlArray<SubPos>& sp = m_langs[iLang].subpos;
@@ -1185,7 +1185,7 @@ BYTE* CVobSubFile::GetPacket(int idx, int& packetsize, int& datasize, int iLang)
 
 const CVobSubFile::SubPos* CVobSubFile::GetFrameInfo(int idx, int iLang /*= -1*/) const
 {
-    if (iLang < 0 || iLang >= 32) {
+    if (iLang < 0 || size_t(iLang) >= m_langs.size()) {
         iLang = m_iLang;
     }
     const CAtlArray<SubPos>& sp = m_langs[iLang].subpos;
@@ -1201,7 +1201,7 @@ const CVobSubFile::SubPos* CVobSubFile::GetFrameInfo(int idx, int iLang /*= -1*/
 
 bool CVobSubFile::GetFrame(int idx, int iLang /*= -1*/, REFERENCE_TIME rt /*= -1*/)
 {
-    if (iLang < 0 || iLang >= 32) {
+    if (iLang < 0 || size_t(iLang) >= m_langs.size()) {
         iLang = m_iLang;
     }
     CAtlArray<SubPos>& sp = m_langs[iLang].subpos;
@@ -1247,7 +1247,7 @@ bool CVobSubFile::GetFrameByTimeStamp(__int64 time)
 
 int CVobSubFile::GetFrameIdxByTimeStamp(__int64 time)
 {
-    if (m_iLang < 0 || m_iLang >= 32) {
+    if (m_iLang < 0 || size_t(m_iLang) >= m_langs.size()) {
         return -1;
     }
 
@@ -1384,8 +1384,8 @@ STDMETHODIMP CVobSubFile::GetClassID(CLSID* pClassID)
 STDMETHODIMP_(int) CVobSubFile::GetStreamCount()
 {
     int iStreamCount = 0;
-    for (size_t i = 0; i < 32; i++) {
-        if (m_langs[i].subpos.GetCount()) {
+    for (const auto& sl : m_langs) {
+        if (sl.subpos.GetCount()) {
             iStreamCount++;
         }
     }
@@ -1394,9 +1394,7 @@ STDMETHODIMP_(int) CVobSubFile::GetStreamCount()
 
 STDMETHODIMP CVobSubFile::GetStreamInfo(int iStream, WCHAR** ppName, LCID* pLCID)
 {
-    for (size_t i = 0; i < 32; i++) {
-        SubLang& sl = m_langs[i];
-
+    for (const auto& sl : m_langs) {
         if (sl.subpos.IsEmpty() || iStream-- > 0) {
             continue;
         }
@@ -1435,14 +1433,14 @@ STDMETHODIMP_(int) CVobSubFile::GetStream()
 
 STDMETHODIMP CVobSubFile::SetStream(int iStream)
 {
-    for (int i = 0; i < 32; i++) {
-        CAtlArray<SubPos>& sp = m_langs[i].subpos;
+    for (size_t i = 0; i < m_langs.size(); i++) {
+        const CAtlArray<SubPos>& sp = m_langs[i].subpos;
 
         if (sp.IsEmpty() || iStream-- > 0) {
             continue;
         }
 
-        m_iLang = i;
+        m_iLang = (int)i;
 
         m_img.Invalidate();
 

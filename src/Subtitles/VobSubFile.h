@@ -121,7 +121,7 @@ protected:
 
 public:
     int m_iLang;
-    SubLang m_langs[32];
+    std::array<SubLang, 32> m_langs;
 
     CVobSubFile(CCritSec* pLock);
     virtual ~CVobSubFile();

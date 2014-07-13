@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -767,7 +767,7 @@ bool CVobSubFileRipper::Create()
     Log(LOG_INFO, _T("Indexing finished"));
     Progress(1);
 
-    for (ptrdiff_t i = 0; i < 32; i++) {
+    for (size_t i = 0; i < m_langs.size(); i++) {
         if (m_iLang == -1 && !m_langs[i].subpos.IsEmpty()) {
             m_iLang = (int)i;
         }
