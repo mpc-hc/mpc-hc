@@ -857,7 +857,7 @@ static HRESULT STDMETHODCALLTYPE ExecuteMine(IAMVideoAcceleratorC* This, DWORD d
     LOG(_T("[in] dwFunction = %08x"), dwFunction);
     if (lpPrivateInputData) {
         if (dwFunction == 0x01000000) {
-            DXVA_BufferDescription*     pBuffDesc = (DXVA_BufferDescription*)lpPrivateInputData;
+            DXVA_BufferDescription* pBuffDesc = (DXVA_BufferDescription*)lpPrivateInputData;
 
             for (DWORD i = 0; i < dwNumBuffers; i++) {
                 LOG(_T("[in] lpPrivateInputData, buffer description %d"), i);
@@ -873,7 +873,7 @@ static HRESULT STDMETHODCALLTYPE ExecuteMine(IAMVideoAcceleratorC* This, DWORD d
                 LOG(_T("     pBuffDesc->dwReservedBits      = %d"), pBuffDesc[i].dwReservedBits);
             }
         } else if ((dwFunction == 0xfffff101) || (dwFunction == 0xfffff501)) {
-            DXVA_ConfigPictureDecode*       ConfigRequested = (DXVA_ConfigPictureDecode*)lpPrivateInputData;
+            DXVA_ConfigPictureDecode* ConfigRequested = (DXVA_ConfigPictureDecode*)lpPrivateInputData;
             LOG(_T("[in] lpPrivateInputData, config requested"));
             LOG(_T("     pBuffDesc->dwTypeIndex         = %d"), ConfigRequested->bConfig4GroupedCoefs);
             LOG(_T("     ConfigRequested->bConfigBitstreamRaw           = %d"), ConfigRequested->bConfigBitstreamRaw);
@@ -902,18 +902,14 @@ static HRESULT STDMETHODCALLTYPE ExecuteMine(IAMVideoAcceleratorC* This, DWORD d
     LOG(_T("[in] lpPrivateOutputData = %08x"), lpPrivateOutputData);
     LOG(_T("[in] cbPrivateOutputData = %08x"), cbPrivateOutputData);
     LOG(_T("[in] dwNumBuffers = %08x"), dwNumBuffers);
-    if (pamvaBufferInfo) {
-        for (DWORD i = 0; i < dwNumBuffers; i++) {
-            LOG(_T("[in] pamvaBufferInfo, buffer description %d"), i);
-            LOG(_T("[in] pamvaBufferInfo->dwTypeIndex = %08x"), pamvaBufferInfo[i].dwTypeIndex);
-            LOG(_T("[in] pamvaBufferInfo->dwBufferIndex = %08x"), pamvaBufferInfo[i].dwBufferIndex);
-            LOG(_T("[in] pamvaBufferInfo->dwDataOffset = %08x"), pamvaBufferInfo[i].dwDataOffset);
-            LOG(_T("[in] pamvaBufferInfo->dwDataSize = %08x"), pamvaBufferInfo[i].dwDataSize);
-        }
-    }
-
 
     for (DWORD i = 0; i < dwNumBuffers; i++) {
+        LOG(_T("[in] pamvaBufferInfo, buffer description %d"), i);
+        LOG(_T("[in] pamvaBufferInfo->dwTypeIndex = %08x"), pamvaBufferInfo[i].dwTypeIndex);
+        LOG(_T("[in] pamvaBufferInfo->dwBufferIndex = %08x"), pamvaBufferInfo[i].dwBufferIndex);
+        LOG(_T("[in] pamvaBufferInfo->dwDataOffset = %08x"), pamvaBufferInfo[i].dwDataOffset);
+        LOG(_T("[in] pamvaBufferInfo->dwDataSize = %08x"), pamvaBufferInfo[i].dwDataSize);
+
         if (pamvaBufferInfo[i].dwTypeIndex == DXVA_PICTURE_DECODE_BUFFER) {
             if (g_guidDXVADecoder == DXVA2_ModeH264_E || g_guidDXVADecoder == DXVA_Intel_H264_ClearVideo) {
                 LogDXVA_PicParams_H264((DXVA_PicParams_H264*)g_ppBuffer[pamvaBufferInfo[i].dwTypeIndex]);
