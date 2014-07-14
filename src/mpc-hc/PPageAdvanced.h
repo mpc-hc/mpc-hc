@@ -175,7 +175,6 @@ protected:
     afx_msg void OnBnClickedRadio2();
     afx_msg void OnCbnSelchangeCombobox();
     afx_msg void OnEnChangeEdit();
-    afx_msg void OnEnKillfocusEdit();
 
     DECLARE_MESSAGE_MAP()
 };

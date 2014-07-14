@@ -144,7 +144,6 @@ BEGIN_MESSAGE_MAP(CPPageAdvanced, CPPageBase)
     ON_BN_CLICKED(IDC_RADIO2, OnBnClickedRadio2)
     ON_CBN_SELCHANGE(IDC_COMBO1, OnCbnSelchangeCombobox)
     ON_EN_CHANGE(IDC_EDIT1, OnEnChangeEdit)
-    ON_EN_KILLFOCUS(IDC_EDIT1, OnEnKillfocusEdit)
 END_MESSAGE_MAP()
 
 void CPPageAdvanced::OnBnClickedDefaultButton()
@@ -312,11 +311,11 @@ void CPPageAdvanced::OnBnClickedRadio1()
 {
     int iItem = m_list.GetSelectionMark();
     if (iItem >= 0) {
-        SetRedraw(FALSE);
         auto eSetting = static_cast<ADVANCED_SETTINGS>(m_list.GetItemData(iItem));
         auto pItem = m_hiddenOptions.at(eSetting);
 
         if (auto pItemBool = std::dynamic_pointer_cast<SettingsBool>(pItem)) {
+            SetRedraw(FALSE);
             pItemBool->SetValue(true);
             m_list.SetItemText(iItem, COL_VALUE, _T("true"));
             UpdateData(FALSE);
@@ -335,9 +334,11 @@ void CPPageAdvanced::OnBnClickedRadio2()
         auto pItem = m_hiddenOptions.at(eSetting);
 
         if (auto pItemBool = std::dynamic_pointer_cast<SettingsBool>(pItem)) {
+            SetRedraw(FALSE);
             pItemBool->SetValue(false);
             m_list.SetItemText(iItem, COL_VALUE, _T("false"));
             UpdateData(FALSE);
+            SetRedraw(TRUE);
             Invalidate();
             SetModified();
         }
@@ -367,17 +368,10 @@ void CPPageAdvanced::OnCbnSelchangeCombobox()
 
 void CPPageAdvanced::OnEnChangeEdit()
 {
-    // We don't want to mark page as modified.
-    return;
-}
-
-void CPPageAdvanced::OnEnKillfocusEdit()
-{
     UpdateData();
 
     int iItem = m_list.GetSelectionMark();
     if (iItem >= 0) {
-        SetRedraw(FALSE);
         CString str;
         auto eSetting = static_cast<ADVANCED_SETTINGS>(m_list.GetItemData(iItem));
         auto pItem = m_hiddenOptions.at(eSetting);
@@ -404,11 +398,8 @@ void CPPageAdvanced::OnEnKillfocusEdit()
             if (bChanged) {
                 pItemCString->SetValue(str);
             }
-        } else {
-            ASSERT(FALSE);
-            return;
         }
-        SetRedraw(TRUE);
+
         if (bChanged) {
             m_list.SetItemText(iItem, COL_VALUE, str);
             UpdateData(FALSE);
