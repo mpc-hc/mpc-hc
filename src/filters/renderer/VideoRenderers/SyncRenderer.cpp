@@ -4193,8 +4193,8 @@ CGenlock::CGenlock(double target, double limit, int lineD, int colD, double cloc
     , psWnd(nullptr)
     , liveSource(false)
     , powerstripTimingExists(false)
-    , syncOffsetFifo(DEBUG_NEW MovingAverage(64))
-    , frameCycleFifo(DEBUG_NEW MovingAverage(4))
+    , syncOffsetFifo(64)
+    , frameCycleFifo(4)
     , totalLines(0)
     , totalColumns(0)
     , visibleLines(0)
@@ -4218,8 +4218,6 @@ CGenlock::CGenlock(double target, double limit, int lineD, int colD, double cloc
 CGenlock::~CGenlock()
 {
     ResetTiming();
-    SAFE_DELETE(syncOffsetFifo);
-    SAFE_DELETE(frameCycleFifo);
     syncClock = nullptr;
 };
 
@@ -4435,10 +4433,10 @@ HRESULT CGenlock::ControlDisplay(double syncOffset, double frameCycle)
     lowSyncOffset = targetSyncOffset - r.m_AdvRendSets.fControlLimit;
     highSyncOffset = targetSyncOffset + r.m_AdvRendSets.fControlLimit;
 
-    syncOffsetAvg = syncOffsetFifo->Average(syncOffset);
+    syncOffsetAvg = syncOffsetFifo.Average(syncOffset);
     minSyncOffset = std::min(minSyncOffset, syncOffset);
     maxSyncOffset = std::max(maxSyncOffset, syncOffset);
-    frameCycleAvg = frameCycleFifo->Average(frameCycle);
+    frameCycleAvg = frameCycleFifo.Average(frameCycle);
     minFrameCycle = std::min(minFrameCycle, frameCycle);
     maxFrameCycle = std::max(maxFrameCycle, frameCycle);
 
@@ -4497,10 +4495,10 @@ HRESULT CGenlock::ControlClock(double syncOffset, double frameCycle)
     lowSyncOffset = targetSyncOffset - r.m_AdvRendSets.fControlLimit;
     highSyncOffset = targetSyncOffset + r.m_AdvRendSets.fControlLimit;
 
-    syncOffsetAvg = syncOffsetFifo->Average(syncOffset);
+    syncOffsetAvg = syncOffsetFifo.Average(syncOffset);
     minSyncOffset = std::min(minSyncOffset, syncOffset);
     maxSyncOffset = std::max(maxSyncOffset, syncOffset);
-    frameCycleAvg = frameCycleFifo->Average(frameCycle);
+    frameCycleAvg = frameCycleFifo.Average(frameCycle);
     minFrameCycle = std::min(minFrameCycle, frameCycle);
     maxFrameCycle = std::max(maxFrameCycle, frameCycle);
 
@@ -4537,10 +4535,10 @@ HRESULT CGenlock::ControlClock(double syncOffset, double frameCycle)
 // Don't adjust anything, just update the syncOffset stats
 HRESULT CGenlock::UpdateStats(double syncOffset, double frameCycle)
 {
-    syncOffsetAvg = syncOffsetFifo->Average(syncOffset);
+    syncOffsetAvg = syncOffsetFifo.Average(syncOffset);
     minSyncOffset = std::min(minSyncOffset, syncOffset);
     maxSyncOffset = std::max(maxSyncOffset, syncOffset);
-    frameCycleAvg = frameCycleFifo->Average(frameCycle);
+    frameCycleAvg = frameCycleFifo.Average(frameCycle);
     minFrameCycle = std::min(minFrameCycle, frameCycle);
     maxFrameCycle = std::max(maxFrameCycle, frameCycle);
     return S_OK;

@@ -67,8 +67,6 @@ class CFocusThread;
 #define PIXELCLOCK  8
 #define UNKNOWN     9
 
-#define MAX_FIFO_SIZE 1024
-
 // Guid to tag IMFSample with DirectX surface index
 static const GUID GUID_SURFACE_INDEX = { 0x30c8e9f6, 0x415, 0x4b81, { 0xa3, 0x15, 0x1, 0xa, 0xc6, 0xa9, 0xda, 0x19 } };
 
@@ -590,19 +588,11 @@ namespace GothSync
         class MovingAverage
         {
         public:
-            MovingAverage(int size)
+            MovingAverage(size_t size)
                 : fifoSize(size)
+                , fifo(fifoSize)
                 , oldestSample(0)
-                , sum(0) {
-                if (fifoSize > MAX_FIFO_SIZE) {
-                    fifoSize = MAX_FIFO_SIZE;
-                }
-                for (int i = 0; i < MAX_FIFO_SIZE; i++) {
-                    fifo[i] = 0;
-                }
-            }
-
-            ~MovingAverage() {
+                , sum(0.0) {
             }
 
             double Average(double sample) {
@@ -616,9 +606,9 @@ namespace GothSync
             }
 
         private:
-            int fifoSize;
-            double fifo[MAX_FIFO_SIZE];
-            int oldestSample;
+            size_t fifoSize;
+            std::vector<double> fifo;
+            size_t oldestSample;
             double sum;
         };
 
@@ -656,8 +646,8 @@ namespace GothSync
 
         UINT totalLines, totalColumns;      // Including the porches and sync widths
         UINT visibleLines, visibleColumns;  // The nominal resolution
-        MovingAverage* syncOffsetFifo;
-        MovingAverage* frameCycleFifo;
+        MovingAverage syncOffsetFifo;
+        MovingAverage frameCycleFifo;
         double minSyncOffset, maxSyncOffset;
         double syncOffsetAvg; // Average of the above
         double minFrameCycle, maxFrameCycle;
