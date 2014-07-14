@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-18 12:00:35+0000\n"
+"POT-Creation-Date: 2014-08-19 21:13:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -942,6 +942,10 @@ msgid "Save custom style"
 msgstr ""
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "JPEG quality:"
+msgstr ""
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "Thumbnails:"
 msgstr ""
 
@@ -1655,5 +1659,9 @@ msgstr ""
 
 msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
+msgstr ""
+
+msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
+msgid "JPEG quality:"
 msgstr ""
 

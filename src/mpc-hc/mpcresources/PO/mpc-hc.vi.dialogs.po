@@ -946,6 +946,10 @@ msgid "Save custom style"
 msgstr "Lưu các tùy chỉnh"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "JPEG quality:"
+msgstr ""
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "Thumbnails:"
 msgstr "Hình thu nhỏ:"
 
@@ -1660,4 +1664,8 @@ msgstr "Sai"
 msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
 msgstr "Mặc định"
+
+msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
+msgid "JPEG quality:"
+msgstr ""
 

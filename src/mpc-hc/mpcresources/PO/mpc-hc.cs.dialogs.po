@@ -945,6 +945,10 @@ msgid "Save custom style"
 msgstr "Uložit vlastní styl"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "JPEG quality:"
+msgstr ""
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "Thumbnails:"
 msgstr "Miniatury:"
 
@@ -1659,4 +1663,8 @@ msgstr "Nepravda"
 msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
 msgstr "Výchozí"
+
+msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
+msgid "JPEG quality:"
+msgstr ""
 

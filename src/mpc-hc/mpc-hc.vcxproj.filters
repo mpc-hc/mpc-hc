@@ -384,6 +384,9 @@
     <ClCompile Include="PPageAdvanced.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SaveImageDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h">
@@ -778,7 +781,11 @@
     </ClInclude>
     <ClInclude Include="PPageAdvanced.h">
       <Filter>Header Files</Filter>
-    </ClInclude>  </ItemGroup>
+    </ClInclude>
+    <ClInclude Include="SaveImageDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
   <ItemGroup>
     <None Include="res\ani.avi">
       <Filter>Resource Files</Filter>

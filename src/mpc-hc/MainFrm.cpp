@@ -44,6 +44,7 @@
 #include "MediaTypesDlg.h"
 #include "SaveTextFileDialog.h"
 #include "SaveSubtitlesFileDialog.h"
+#include "SaveImageDialog.h"
 #include "SaveThumbnailsDialog.h"
 #include "FavoriteAddDlg.h"
 #include "FavoriteOrganizeDlg.h"
@@ -4578,42 +4579,59 @@ void CMainFrame::SaveDIB(LPCTSTR fn, BYTE* pData, long size)
 
         Gdiplus::Bitmap* bm = new Gdiplus::Bitmap(w, h, dstpitch, PixelFormat24bppRGB, p);
 
-        UINT num;  // number of image decoders
-        UINT size; // size, in bytes, of the image decoder array
+        UINT num;  // number of image encoders
+        UINT size; // size, in bytes, of the image encoder array
 
-        // How many decoders are there?
+        // How many encoders are there?
         // How big (in bytes) is the array of all ImageCodecInfo objects?
-        Gdiplus::GetImageDecodersSize(&num, &size);
+        Gdiplus::GetImageEncodersSize(&num, &size);
 
         // Create a buffer large enough to hold the array of ImageCodecInfo
-        // objects that will be returned by GetImageDecoders.
+        // objects that will be returned by GetImageEncoders.
         Gdiplus::ImageCodecInfo* pImageCodecInfo = (Gdiplus::ImageCodecInfo*)DEBUG_NEW BYTE[size];
 
-        // GetImageDecoders creates an array of ImageCodecInfo objects
+        // GetImageEncoders creates an array of ImageCodecInfo objects
         // and copies that array into a previously allocated buffer.
         // The third argument, imageCodecInfos, is a pointer to that buffer.
-        Gdiplus::GetImageDecoders(num, size, pImageCodecInfo);
+        Gdiplus::GetImageEncoders(num, size, pImageCodecInfo);
 
-        // Find the encoder based on the extension
-        CStringW ext = _T("*") + path.GetExtension();
+        Gdiplus::EncoderParameters* pEncoderParameters = nullptr;
+
+        // Find the mime type based on the extension
+        CString ext(path.GetExtension());
+        CStringW mime;
+        if (ext == _T(".jpg")) {
+            mime = L"image/jpeg";
+
+            // Set the encoder parameter for jpeg quality
+            pEncoderParameters = new Gdiplus::EncoderParameters;
+            ULONG quality = AfxGetAppSettings().nJpegQuality;
+
+            pEncoderParameters->Count = 1;
+            pEncoderParameters->Parameter[0].Guid = Gdiplus::EncoderQuality;
+            pEncoderParameters->Parameter[0].Type = Gdiplus::EncoderParameterValueTypeLong;
+            pEncoderParameters->Parameter[0].NumberOfValues = 1;
+            pEncoderParameters->Parameter[0].Value = &quality;
+        } else if (ext == _T(".bmp")) {
+            mime = L"image/bmp";
+        } else {
+            mime = L"image/png";
+        }
+
+        // Get the encoder clsid
         CLSID encoderClsid = CLSID_NULL;
-        CAtlList<CStringW> extsList;
         for (UINT i = 0; i < num && encoderClsid == CLSID_NULL; i++) {
-            Explode(CStringW(pImageCodecInfo[i].FilenameExtension), extsList, L";");
-
-            POSITION pos = extsList.GetHeadPosition();
-            while (pos && encoderClsid == CLSID_NULL) {
-                if (extsList.GetNext(pos).CompareNoCase(ext) == 0) {
-                    encoderClsid = pImageCodecInfo[i].Clsid;
-                }
+            if (wcscmp(pImageCodecInfo[i].MimeType, mime) == 0) {
+                encoderClsid = pImageCodecInfo[i].Clsid;
             }
         }
 
-        Gdiplus::Status s = bm->Save(fn, &encoderClsid, nullptr);
+        Gdiplus::Status s = bm->Save(fn, &encoderClsid, pEncoderParameters);
 
         // All GDI+ objects must be destroyed before GdiplusShutdown is called
         delete bm;
         delete [] pImageCodecInfo;
+        delete pEncoderParameters;
         Gdiplus::GdiplusShutdown(gdiplusToken);
         delete [] p;
 
@@ -4991,9 +5009,8 @@ void CMainFrame::OnFileSaveImage()
     }
     psrc.Combine(s.strSnapshotPath, MakeSnapshotFileName(prefix));
 
-    CFileDialog fd(FALSE, 0, (LPCTSTR)psrc,
-                   OFN_EXPLORER | OFN_ENABLESIZING | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST | OFN_NOCHANGEDIR,
-                   _T("BMP - Windows Bitmap (*.bmp)|*.bmp|JPG - JPEG Image (*.jpg)|*.jpg|PNG - Portable Network Graphics (*.png)|*.png||"), GetModalParent(), 0);
+    CSaveImageDialog fd(s.nJpegQuality, nullptr, (LPCTSTR)psrc,
+                        _T("BMP - Windows Bitmap (*.bmp)|*.bmp|JPG - JPEG Image (*.jpg)|*.jpg|PNG - Portable Network Graphics (*.png)|*.png||"), GetModalParent());
 
     if (s.strSnapshotExt == _T(".bmp")) {
         fd.m_pOFN->nFilterIndex = 1;
@@ -5011,6 +5028,7 @@ void CMainFrame::OnFileSaveImage()
         s.strSnapshotExt = _T(".bmp");
     } else if (fd.m_pOFN->nFilterIndex == 2) {
         s.strSnapshotExt = _T(".jpg");
+        s.nJpegQuality = fd.m_nJpegQuality;
     } else {
         fd.m_pOFN->nFilterIndex = 3;
         s.strSnapshotExt = _T(".png");
@@ -5078,10 +5096,8 @@ void CMainFrame::OnFileSaveThumbnails()
     }
     psrc.Combine(s.strSnapshotPath, MakeSnapshotFileName(prefix));
 
-    CSaveThumbnailsDialog fd(
-        s.iThumbRows, s.iThumbCols, s.iThumbWidth,
-        0, (LPCTSTR)psrc,
-        _T("BMP - Windows Bitmap (*.bmp)|*.bmp|JPG - JPEG Image (*.jpg)|*.jpg|PNG - Portable Network Graphics (*.png)|*.png||"), GetModalParent());
+    CSaveThumbnailsDialog fd(s.nJpegQuality, s.iThumbRows, s.iThumbCols, s.iThumbWidth, nullptr, (LPCTSTR)psrc,
+                             _T("BMP - Windows Bitmap (*.bmp)|*.bmp|JPG - JPEG Image (*.jpg)|*.jpg|PNG - Portable Network Graphics (*.png)|*.png||"), GetModalParent());
 
     if (s.strSnapshotExt == _T(".bmp")) {
         fd.m_pOFN->nFilterIndex = 1;
@@ -5099,6 +5115,7 @@ void CMainFrame::OnFileSaveThumbnails()
         s.strSnapshotExt = _T(".bmp");
     } else if (fd.m_pOFN->nFilterIndex == 2) {
         s.strSnapshotExt = _T(".jpg");
+        s.nJpegQuality = fd.m_nJpegQuality;
     } else {
         fd.m_pOFN->nFilterIndex = 3;
         s.strSnapshotExt = _T(".png");

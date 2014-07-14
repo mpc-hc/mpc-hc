@@ -581,6 +581,7 @@
 #define IDF_WIN7_TOOLBAR                20012
 #define IDD_DEBUGSHADERS_DLG            20013
 #define IDD_PPAGEADVANCED               20014
+#define IDD_SAVEIMAGEDIALOGTEMPL        20015
 #define IDC_FULLSCREEN_MONITOR_CHECK    22002
 #define IDC_SLI_CONTRAST                22003
 #define IDC_RESET                       22004
@@ -1435,12 +1436,14 @@
 #define IDS_AFTER_PLAYBACK_CLOSE        57413
 #define IDS_AFTER_PLAYBACK_EXIT         57414
 #define IDS_AFTER_PLAYBACK_MONITOROFF   57415
+#define IDS_IMAGE_JPEG_QUALITY          57416
+#define IDS_IMAGE_QUALITY               57417
 
 // Next default values for new objects
 //
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        20014
+#define _APS_NEXT_RESOURCE_VALUE        20016
 #define _APS_NEXT_COMMAND_VALUE         33449
 #define _APS_NEXT_CONTROL_VALUE         22081
 #define _APS_NEXT_SYMED_VALUE           24044

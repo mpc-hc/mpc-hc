@@ -22,6 +22,7 @@ next version - not released yet
     - Add the ability to control the rate of the animation (in percentage of the movie frame rate)
     - Add the ability to control whether the subtitle queue is allowed to drop some subpictures in case
       subtitle rendering is too slow
++ Add option to set jpg quality when saving images (default quality is increased from 75% to 90%)
 + Ticket #353, Allow to control minimum file duration for remember position feature
 + Ticket #1287, Add after playback command to turn off the monitor.
 + Ticket #1531, Show cover-art while playing audio files

@@ -1285,6 +1285,14 @@ msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
 msgstr "Số lượng tối đa các tập tin được hiển thị trong trình đơn \"Các tập tin gần đây\" và khả năng lưu vị trí của chúng."
 
+msgctxt "IDS_IMAGE_JPEG_QUALITY"
+msgid "JPEG quality"
+msgstr ""
+
+msgctxt "IDS_IMAGE_QUALITY"
+msgid "Quality (%):"
+msgstr ""
+
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
 msgstr "Mở thiết bị"

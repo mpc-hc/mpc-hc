@@ -1285,6 +1285,14 @@ msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
 msgstr "Ο μέγιστος αριθμός των αρχείων που εμφανίζονται στο μενού «Πρόσφατα αρχεία» και για τα οποία δυνητικά αποθηκεύεται η θέση."
 
+msgctxt "IDS_IMAGE_JPEG_QUALITY"
+msgid "JPEG quality"
+msgstr ""
+
+msgctxt "IDS_IMAGE_QUALITY"
+msgid "Quality (%):"
+msgstr ""
+
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
 msgstr "Άνοιγμα συσκευής"

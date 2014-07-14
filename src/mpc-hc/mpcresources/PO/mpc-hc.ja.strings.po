@@ -1284,6 +1284,14 @@ msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
 msgstr "「最近使ったファイル」のメニューに表示されるファイルの最大数で、再生位置が保存できるファイルの最大数です。"
 
+msgctxt "IDS_IMAGE_JPEG_QUALITY"
+msgid "JPEG quality"
+msgstr ""
+
+msgctxt "IDS_IMAGE_QUALITY"
+msgid "Quality (%):"
+msgstr ""
+
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
 msgstr "デバイスを開く"
