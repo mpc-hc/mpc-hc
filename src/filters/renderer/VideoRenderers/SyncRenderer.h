@@ -645,8 +645,8 @@ namespace GothSync
         HRESULT ControlClock(double syncOffset, double frameCycle);   // Adjust the frequency of the clock if needed
         HRESULT UpdateStats(double syncOffset, double frameCycle);    // Don't adjust anything, just update the syncOffset stats
 
-        BOOL powerstripTimingExists;        // TRUE if display timing has been got through Powerstrip
-        BOOL liveSource;                    // TRUE if live source -> display sync is the only option
+        bool powerstripTimingExists;        // true if display timing has been got through Powerstrip
+        bool liveSource;                    // true if live source -> display sync is the only option
         int adjDelta;                       // -1 for display slower in relation to video, 0 for keep, 1 for faster
         int lineDelta;                      // The number of rows added or subtracted when adjusting display fps
         int columnDelta;                    // The number of colums added or subtracted when adjusting display fps
@@ -676,15 +676,15 @@ namespace GothSync
         HWND psWnd; // PowerStrip window
         const static int TIMING_PARAM_CNT = 10;
         const static int MAX_LOADSTRING = 100;
-        UINT displayTiming[TIMING_PARAM_CNT];       // Display timing parameters
-        UINT displayTimingSave[TIMING_PARAM_CNT];   // So that we can reset the display at exit
-        TCHAR faster[MAX_LOADSTRING];       // String corresponding to faster display frequency
-        TCHAR cruise[MAX_LOADSTRING];       // String corresponding to nominal display frequency
-        TCHAR slower[MAX_LOADSTRING];       // String corresponding to slower display frequency
-        TCHAR savedTiming[MAX_LOADSTRING];  // String version of saved timing (to be restored upon exit)
-        double lowSyncOffset;               // The closest we want to let the scheduled render time to get to the next vsync. In % of the frame time
-        double targetSyncOffset;            // Where we want the scheduled render time to be in relation to the next vsync
-        double highSyncOffset;              // The furthers we want to let the scheduled render time to get to the next vsync
+        std::array<UINT, TIMING_PARAM_CNT> displayTiming;       // Display timing parameters
+        std::array<UINT, TIMING_PARAM_CNT> displayTimingSave;   // So that we can reset the display at exit
+        TCHAR faster[MAX_LOADSTRING];                           // String corresponding to faster display frequency
+        TCHAR cruise[MAX_LOADSTRING];                           // String corresponding to nominal display frequency
+        TCHAR slower[MAX_LOADSTRING];                           // String corresponding to slower display frequency
+        TCHAR savedTiming[MAX_LOADSTRING];                      // String version of saved timing (to be restored upon exit)
+        double lowSyncOffset;       // The closest we want to let the scheduled render time to get to the next vsync. In % of the frame time
+        double targetSyncOffset;    // Where we want the scheduled render time to be in relation to the next vsync
+        double highSyncOffset;      // The furthers we want to let the scheduled render time to get to the next vsync
         CCritSec csGenlockLock;
     };
 }

@@ -4174,28 +4174,45 @@ STDMETHODIMP CSyncRenderer::NonDelegatingQueryInterface(REFIID riid, void** ppv)
     return SUCCEEDED(hr) ? hr : __super::NonDelegatingQueryInterface(riid, ppv);
 }
 
-CGenlock::CGenlock(double target, double limit, int lineD, int colD, double clockD, UINT mon):
-    targetSyncOffset(target),   // Target sync offset, typically around 10 ms
-    controlLimit(limit),        // How much sync offset is allowed to drift from target sync offset before control kicks in
-    lineDelta(lineD),           // Number of rows used in display frequency adjustment, typically 1 (one)
-    columnDelta(colD),          // Number of columns used in display frequency adjustment, typically 1 - 2
-    cycleDelta(clockD),         // Delta used in clock speed adjustment. In fractions of 1.0. Typically around 0.001
-    monitor(mon)                // The monitor to be adjusted if the display refresh rate is the controlled parameter
+CGenlock::CGenlock(double target, double limit, int lineD, int colD, double clockD, UINT mon)
+    : targetSyncOffset(target)   // Target sync offset, typically around 10 ms
+    , controlLimit(limit)        // How much sync offset is allowed to drift from target sync offset before control kicks in
+    , lineDelta(lineD)           // Number of rows used in display frequency adjustment, typically 1 (one)
+    , columnDelta(colD)          // Number of columns used in display frequency adjustment, typically 1 - 2
+    , cycleDelta(clockD)         // Delta used in clock speed adjustment. In fractions of 1.0. Typically around 0.001
+    , monitor(mon)               // The monitor to be adjusted if the display refresh rate is the controlled parameter
+    , lowSyncOffset(targetSyncOffset - controlLimit)
+    , highSyncOffset(targetSyncOffset + controlLimit)
+    , adjDelta(0)
+    , displayAdjustmentsMade(0)
+    , clockAdjustmentsMade(0)
+    , displayFreqCruise(0.0)
+    , displayFreqFaster(0.0)
+    , displayFreqSlower(0.0)
+    , curDisplayFreq(0.0)
+    , psWnd(nullptr)
+    , liveSource(false)
+    , powerstripTimingExists(false)
+    , syncOffsetFifo(DEBUG_NEW MovingAverage(64))
+    , frameCycleFifo(DEBUG_NEW MovingAverage(4))
+    , totalLines(0)
+    , totalColumns(0)
+    , visibleLines(0)
+    , visibleColumns(0)
+    , minSyncOffset(DBL_MAX)
+    , maxSyncOffset(DBL_MIN)
+    , syncOffsetAvg(0.0)
+    , minFrameCycle(DBL_MAX)
+    , maxFrameCycle(DBL_MIN)
+    , frameCycleAvg(0.0)
+    , pixelClock(0)
+    , displayTiming()
+    , displayTimingSave()
 {
-    lowSyncOffset = targetSyncOffset - controlLimit;
-    highSyncOffset = targetSyncOffset + controlLimit;
-    adjDelta = 0;
-    displayAdjustmentsMade = 0;
-    clockAdjustmentsMade = 0;
-    displayFreqCruise = 0;
-    displayFreqFaster = 0;
-    displayFreqSlower = 0;
-    curDisplayFreq = 0;
-    psWnd = nullptr;
-    liveSource = FALSE;
-    powerstripTimingExists = FALSE;
-    syncOffsetFifo = DEBUG_NEW MovingAverage(64);
-    frameCycleFifo = DEBUG_NEW MovingAverage(4);
+    ZeroMemory(faster, MAX_LOADSTRING);
+    ZeroMemory(cruise, MAX_LOADSTRING);
+    ZeroMemory(slower, MAX_LOADSTRING);
+    ZeroMemory(savedTiming, MAX_LOADSTRING);
 }
 
 CGenlock::~CGenlock()
@@ -4225,7 +4242,7 @@ HRESULT CGenlock::GetTiming()
     int i = 0;
     int j = 0;
     int params = 0;
-    TCHAR tmpStr[MAX_LOADSTRING];
+    TCHAR tmpStr[MAX_LOADSTRING] = _T("");
 
     CAutoLock lock(&csGenlockLock);
     if (!PowerstripRunning()) {
@@ -4301,7 +4318,7 @@ HRESULT CGenlock::GetTiming()
     curDisplayFreq = displayFreqCruise;
     GlobalDeleteAtom(getTiming);
     adjDelta = 0;
-    powerstripTimingExists = TRUE;
+    powerstripTimingExists = true;
     return S_OK;
 }
 
@@ -4397,10 +4414,10 @@ HRESULT CGenlock::SetMonitor(UINT mon)
 HRESULT CGenlock::ResetStats()
 {
     CAutoLock lock(&csGenlockLock);
-    minSyncOffset = 1000000.0;
-    maxSyncOffset = -1000000.0;
-    minFrameCycle = 1000000.0;
-    maxFrameCycle = -1000000.0;
+    minSyncOffset = DBL_MAX;
+    maxSyncOffset = DBL_MIN;
+    minFrameCycle = DBL_MAX;
+    maxFrameCycle = DBL_MIN;
     displayAdjustmentsMade = 0;
     clockAdjustmentsMade = 0;
     return S_OK;
