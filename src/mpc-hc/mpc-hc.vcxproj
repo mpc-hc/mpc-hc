@@ -408,6 +408,7 @@
     <ClCompile Include="RealMediaWindowlessSite.cpp" />
     <ClCompile Include="RegFilterChooserDlg.cpp" />
     <ClCompile Include="SaveDlg.cpp" />
+    <ClCompile Include="SaveImageDialog.cpp" />
     <ClCompile Include="SaveSubtitlesFileDialog.cpp" />
     <ClCompile Include="SaveTextFileDialog.cpp" />
     <ClCompile Include="SaveThumbnailsDialog.cpp" />
@@ -541,6 +542,7 @@
     <ClInclude Include="RegFilterChooserDlg.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SaveDlg.h" />
+    <ClInclude Include="SaveImageDialog.h" />
     <ClInclude Include="SaveSubtitlesFileDialog.h" />
     <ClInclude Include="SaveTextFileDialog.h" />
     <ClInclude Include="SaveThumbnailsDialog.h" />

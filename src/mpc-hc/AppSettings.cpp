@@ -195,6 +195,7 @@ CAppSettings::CAppSettings()
     , bHideFullscreenDockedPanels(true)
     , bHideWindowedControls(false)
     , bHideWindowedMousePointer(true)
+    , nJpegQuality(90)
 {
     // Internal source filter
 #if INTERNAL_SOURCEFILTER_CDDA
@@ -938,6 +939,8 @@ void CAppSettings::SaveSettings()
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_NOTIFY_SKYPE, bNotifySkype);
 
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_JPEG_QUALITY, nJpegQuality);
+
     pApp->FlushProfile();
 }
 
@@ -1629,6 +1632,11 @@ void CAppSettings::LoadSettings()
     }
 
     bNotifySkype = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_NOTIFY_SKYPE, FALSE);
+
+    nJpegQuality = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_JPEG_QUALITY, 90);
+    if (nJpegQuality < 0 || nJpegQuality > 100) {
+        nJpegQuality = 90;
+    }
 
     if (fLaunchfullscreen) {
         nCLSwitches |= CLSW_FULLSCREEN;
