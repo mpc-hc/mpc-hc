@@ -106,8 +106,8 @@ void CPPageAdvanced::InitSettings()
         m_hiddenOptions[static_cast<ADVANCED_SETTINGS>(nItem)] = pItem;
     };
 
-    addBoolItem(HIDE_WINDOWED, _T("bHideWindowedControls"), false, s.bHideWindowedControls, ResStr(IDS_PPAGEADVANCED_HIDE_WINDOWED));
-    addBoolItem(BLOCK_VSFILTER, _T("fBlockVSFilter"), true, s.fBlockVSFilter, ResStr(IDS_PPAGEADVANCED_BLOCK_VSFILTER));
+    addBoolItem(HIDE_WINDOWED, _T("HideWindowedControls"), false, s.bHideWindowedControls, ResStr(IDS_PPAGEADVANCED_HIDE_WINDOWED));
+    addBoolItem(BLOCK_VSFILTER, _T("BlockVSFilter"), true, s.fBlockVSFilter, ResStr(IDS_PPAGEADVANCED_BLOCK_VSFILTER));
     addIntItem(RECENT_FILES_NB, _T("RecentFilesNumber"), 20, s.iRecentFilesNumber, std::make_pair(0, 1000), ResStr(IDS_PPAGEADVANCED_RECENT_FILES_NUMBER));
 }
 
