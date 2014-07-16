@@ -82,16 +82,19 @@ class __declspec(uuid("998D4C9A-460F-4de6-BDCD-35AB24F94ADF"))
 {
 public:
     struct SubPos {
-        __int64 filepos;
-        __int64 start, stop;
-        bool fForced, bAnimated;
-        char vobid, cellid;
-        __int64 celltimestamp;
-        bool fValid;
+        __int64 filepos       = 0i64;
+        __int64 start         = 0i64;
+        __int64 stop          = 0i64;
+        bool fForced          = false;
+        bool bAnimated        = false;
+        char vobid            = 0;
+        char cellid           = 0;
+        __int64 celltimestamp = 0i64;
+        bool fValid           = false;
     };
 
     struct SubLang {
-        int id;
+        int id = 0;
         CString name, alt;
         CAtlArray<SubPos> subpos;
     };
