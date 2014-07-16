@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -47,16 +47,18 @@ CQuicktimeGraph::CQuicktimeGraph(HWND hWndParent, HRESULT& hr)
 
     const CAppSettings& s = AfxGetAppSettings();
 
+    CComPtr<ISubPicAllocatorPresenter> pQTAP;
     if (s.iQTVideoRendererType == VIDRNDT_QT_DX7) {
-        if (SUCCEEDED(CreateAP7(CLSID_QT7AllocatorPresenter, hWndParent, &m_pQTAP))) {
+        if (SUCCEEDED(CreateAP7(CLSID_QT7AllocatorPresenter, hWndParent, &pQTAP))) {
             dwStyle &= ~WS_VISIBLE;
         }
     } else if (s.iQTVideoRendererType == VIDRNDT_QT_DX9) {
         bool bFullscreen = (AfxGetApp()->m_pMainWnd != nullptr) && (((CMainFrame*)AfxGetApp()->m_pMainWnd)->IsD3DFullScreenMode());
-        if (SUCCEEDED(CreateAP9(CLSID_QT9AllocatorPresenter, hWndParent, bFullscreen, &m_pQTAP))) {
+        if (SUCCEEDED(CreateAP9(CLSID_QT9AllocatorPresenter, hWndParent, bFullscreen, &pQTAP))) {
             dwStyle &= ~WS_VISIBLE;
         }
     }
+    m_pQTAP = pQTAP;
 
     m_fQtInitialized = false;
     if (InitializeQTML(0) != 0) {
@@ -134,18 +136,21 @@ STDMETHODIMP CQuicktimeGraph::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPla
 STDMETHODIMP CQuicktimeGraph::Run()
 {
     m_wndDestFrame.Run();
+    m_pQTAP->SetIsRendering(true);
     return S_OK;
 }
 
 STDMETHODIMP CQuicktimeGraph::Pause()
 {
     m_wndDestFrame.Pause();
+    m_pQTAP->SetIsRendering(false);
     return S_OK;
 }
 
 STDMETHODIMP CQuicktimeGraph::Stop()
 {
     m_wndDestFrame.Stop();
+    m_pQTAP->SetIsRendering(false);
     return S_OK;
 }
 

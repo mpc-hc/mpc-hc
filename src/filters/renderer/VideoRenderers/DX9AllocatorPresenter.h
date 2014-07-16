@@ -52,6 +52,8 @@ namespace DSObjects
         bool    m_bNeedCheckSample;
         DWORD   m_MainThreadId;
 
+        bool    m_bIsRendering;
+
         CRenderersSettings::CAdvRendererSettings m_LastRendererSettings;
 
         HRESULT(__stdcall* m_pDwmIsCompositionEnabled)(__out BOOL* pfEnabled);
@@ -299,6 +301,11 @@ namespace DSObjects
         STDMETHODIMP SetPixelShader2(LPCSTR pSrcData, LPCSTR pTarget, bool bScreenSpace);
         STDMETHODIMP_(bool) ResetDevice();
         STDMETHODIMP_(bool) DisplayChange();
+
+        // ISubPicAllocatorPresenter2
+        STDMETHODIMP_(bool) IsRendering() {
+            return m_bIsRendering;
+        }
 
         // ID3DFullscreenControl
         STDMETHODIMP SetD3DFullscreen(bool fEnabled);

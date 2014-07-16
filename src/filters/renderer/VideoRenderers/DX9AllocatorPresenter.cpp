@@ -143,6 +143,7 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     , m_pDwmIsCompositionEnabled(nullptr)
     , m_pDwmEnableComposition(nullptr)
     , m_pDirect3DCreate9Ex(nullptr)
+    , m_bIsRendering(false)
 {
     ZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap));
 

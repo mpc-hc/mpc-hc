@@ -161,6 +161,8 @@ public IUnknown {
 
     STDMETHOD(GetStats)(int& nSubPics, REFERENCE_TIME & rtNow, REFERENCE_TIME & rtStart, REFERENCE_TIME& rtStop /*[out]*/) PURE;
     STDMETHOD(GetStats)(int nSubPic /*[in]*/, REFERENCE_TIME & rtStart, REFERENCE_TIME& rtStop /*[out]*/) PURE;
+
+    STDMETHOD_(bool, LookupSubPic)(REFERENCE_TIME rtNow /*[in]*/, bool bAdviseBlocking, CComPtr<ISubPic>& pSubPic /*[out]*/) PURE;
 };
 
 //
@@ -198,6 +200,9 @@ ISubPicAllocatorPresenter2 :
 public ISubPicAllocatorPresenter {
     STDMETHOD(SetPixelShader2)(LPCSTR pSrcData, LPCSTR pTarget, bool bScreenSpace) PURE;
     STDMETHOD_(SIZE, GetVisibleVideoSize)() const PURE;
+
+    STDMETHOD_(bool, IsRendering)() PURE;
+    STDMETHOD(SetIsRendering)(bool bIsRendering) PURE;
 };
 
 //

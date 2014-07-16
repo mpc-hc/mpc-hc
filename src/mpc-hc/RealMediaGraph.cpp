@@ -572,20 +572,24 @@ CRealMediaPlayerWindowless::CRealMediaPlayerWindowless(HWND hWndParent, CRealMed
 {
     const CAppSettings& s = AfxGetAppSettings();
 
+    CComPtr<ISubPicAllocatorPresenter> pRMAP;
     bool bFullscreen = (AfxGetApp()->m_pMainWnd != nullptr) && (((CMainFrame*)AfxGetApp()->m_pMainWnd)->IsD3DFullScreenMode());
     switch (s.iRMVideoRendererType) {
         default:
         case VIDRNDT_RM_DX7:
-            if (FAILED(CreateAP7(CLSID_RM7AllocatorPresenter, hWndParent, &m_pRMAP))) {
+            if (FAILED(CreateAP7(CLSID_RM7AllocatorPresenter, hWndParent, &pRMAP))) {
                 return;
             }
             break;
         case VIDRNDT_RM_DX9:
-            if (FAILED(CreateAP9(CLSID_RM9AllocatorPresenter, hWndParent, bFullscreen, &m_pRMAP))) {
+            if (FAILED(CreateAP9(CLSID_RM9AllocatorPresenter, hWndParent, bFullscreen, &pRMAP))) {
                 return;
             }
             break;
     }
+
+    m_pRMAP = pRMAP;
+    ASSERT(m_pRMAP);
 }
 
 CRealMediaPlayerWindowless::~CRealMediaPlayerWindowless()
@@ -627,6 +631,33 @@ void CRealMediaPlayerWindowless::DestroySite(IRMASite* pSite)
 {
 }
 
+STDMETHODIMP CRealMediaPlayerWindowless::OnStop()
+{
+    HRESULT hr =  __super::OnStop();
+
+    m_pRMAP->SetIsRendering(false);
+
+    return hr;
+}
+
+STDMETHODIMP CRealMediaPlayerWindowless::OnPause(UINT32 ulTime)
+{
+    HRESULT hr = __super::OnPause(ulTime);
+
+    m_pRMAP->SetIsRendering(false);
+
+    return hr;
+}
+
+STDMETHODIMP CRealMediaPlayerWindowless::OnBegin(UINT32 ulTime)
+{
+    HRESULT hr = __super::OnBegin(ulTime);
+
+    m_pRMAP->SetIsRendering(true);
+
+    return hr;
+}
+
 STDMETHODIMP CRealMediaPlayerWindowless::SizeChanged(PNxSize* size)
 {
     if (CComQIPtr<IRMAVideoSurface, &IID_IRMAVideoSurface> pRMAVS = m_pRMAP) {
@@ -639,7 +670,6 @@ STDMETHODIMP CRealMediaPlayerWindowless::SizeChanged(PNxSize* size)
 
     return __super::SizeChanged(size);
 }
-
 
 ////////////////
 

@@ -50,6 +50,8 @@ namespace DSObjects
 
         void SendResetRequest();
 
+        bool m_bIsRendering;
+
     public:
         CDX7AllocatorPresenter(HWND hWnd, HRESULT& hr);
         ~CDX7AllocatorPresenter();
@@ -60,5 +62,10 @@ namespace DSObjects
         STDMETHODIMP GetDIB(BYTE* lpDib, DWORD* size);
         STDMETHODIMP_(bool) ResetDevice();
         STDMETHODIMP_(bool) DisplayChange();
+
+        // ISubPicAllocatorPresenter2
+        STDMETHODIMP_(bool) IsRendering() {
+            return m_bIsRendering;
+        }
     };
 }

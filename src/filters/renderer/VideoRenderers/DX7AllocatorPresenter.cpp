@@ -108,6 +108,7 @@ CDX7AllocatorPresenter::CDX7AllocatorPresenter(HWND hWnd, HRESULT& hr)
     : CSubPicAllocatorPresenterImpl(hWnd, hr, nullptr)
     , m_ScreenSize(0, 0)
     , m_hDDrawLib(nullptr)
+    , m_bIsRendering(false)
 {
     if (FAILED(hr)) {
         return;

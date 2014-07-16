@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -81,7 +81,7 @@ namespace DSObjects
         CPlayerWindow m_wndWindowFrame;
         CQuicktimeWindow m_wndDestFrame;
 
-        CComPtr<ISubPicAllocatorPresenter> m_pQTAP;
+        CComPtr<ISubPicAllocatorPresenter2> m_pQTAP;
 
     public:
         CQuicktimeGraph(HWND hParent, HRESULT& hr);

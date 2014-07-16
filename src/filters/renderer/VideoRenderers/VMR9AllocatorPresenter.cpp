@@ -327,11 +327,15 @@ STDMETHODIMP CVMR9AllocatorPresenter::StartPresenting(DWORD_PTR dwUserID)
         pPin->ConnectionMediaType(&m_inputMediaType);
     }
 
+    m_bIsRendering = true;
+
     return m_pD3DDev ? S_OK : E_FAIL;
 }
 
 STDMETHODIMP CVMR9AllocatorPresenter::StopPresenting(DWORD_PTR dwUserID)
 {
+    m_bIsRendering = false;
+
     return S_OK;
 }
 

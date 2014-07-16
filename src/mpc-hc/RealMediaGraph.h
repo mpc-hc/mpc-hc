@@ -164,7 +164,7 @@ namespace DSObjects
     class CRealMediaPlayerWindowless
         : public CRealMediaPlayer
     {
-        CComPtr<ISubPicAllocatorPresenter> m_pRMAP;
+        CComPtr<ISubPicAllocatorPresenter2> m_pRMAP;
 
     public:
         CRealMediaPlayerWindowless(HWND hWndParent, CRealMediaGraph* pRMG);
@@ -174,6 +174,10 @@ namespace DSObjects
 
         bool CreateSite(IRMASite** pSite);
         void DestroySite(IRMASite* pSite);
+
+        STDMETHODIMP OnStop();
+        STDMETHODIMP OnPause(UINT32 ulTime);
+        STDMETHODIMP OnBegin(UINT32 ulTime);
 
         STDMETHODIMP SizeChanged(PNxSize* size);
     };

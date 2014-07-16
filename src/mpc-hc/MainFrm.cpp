@@ -1899,9 +1899,6 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                         ASSERT(FALSE);
                         break;
                 }
-                if (m_pCAP && !m_bDelaySetOutputRect && GetMediaState() == State_Paused) {
-                    m_pCAP->Paint(false); // TODO: Improve subpic queue and remove this call.
-                }
             }
             break;
         case TIMER_STATS: {

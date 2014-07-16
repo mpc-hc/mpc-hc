@@ -251,6 +251,12 @@ STDMETHODIMP CSubPicQueue::Invalidate(REFERENCE_TIME rtInvalidate /*= -1*/)
 
 STDMETHODIMP_(bool) CSubPicQueue::LookupSubPic(REFERENCE_TIME rtNow, CComPtr<ISubPic>& ppSubPic)
 {
+    // Old version of LookupSubPic, keep legacy behavior and never try to block
+    return LookupSubPic(rtNow, false, ppSubPic);
+}
+
+STDMETHODIMP_(bool) CSubPicQueue::LookupSubPic(REFERENCE_TIME rtNow, bool bAdviseBlocking, CComPtr<ISubPic>& ppSubPic)
+{
     bool bStopSearch = false;
 
     {
@@ -283,64 +289,99 @@ STDMETHODIMP_(bool) CSubPicQueue::LookupSubPic(REFERENCE_TIME rtNow, CComPtr<ISu
         }
     }
 
-    // Look for the subpic in the queue
-    if (!bStopSearch) {
-        std::unique_lock<std::mutex> lock(m_mutexQueue);
+    while (!bStopSearch) {
+        // Look for the subpic in the queue
+        {
+            std::unique_lock<std::mutex> lock(m_mutexQueue);
 
 #if SUBPIC_TRACE_LEVEL > 2
-        TRACE(_T("LookupSubPic: Searching the queue\n"));
+            TRACE(_T("LookupSubPic: Searching the queue\n"));
 #endif
 
-        while (!m_queue.IsEmpty() && !bStopSearch) {
-            const CComPtr<ISubPic>& pSubPic = m_queue.GetHead();
-            REFERENCE_TIME rtSegmentStart = pSubPic->GetSegmentStart();
+            while (!m_queue.IsEmpty() && !bStopSearch) {
+                const CComPtr<ISubPic>& pSubPic = m_queue.GetHead();
+                REFERENCE_TIME rtSegmentStart = pSubPic->GetSegmentStart();
 
-            if (rtSegmentStart > rtNow) {
+                if (rtSegmentStart > rtNow) {
 #if SUBPIC_TRACE_LEVEL > 2
-                TRACE(_T("rtSegmentStart > rtNow, stopping the search\n"));
+                    TRACE(_T("rtSegmentStart > rtNow, stopping the search\n"));
 #endif
-                bStopSearch = true;
-            } else { // rtSegmentStart <= rtNow
-                bool bRemoveFromQueue = true;
-                REFERENCE_TIME rtStart = pSubPic->GetStart();
-                REFERENCE_TIME rtStop = pSubPic->GetStop();
-                REFERENCE_TIME rtSegmentStop = pSubPic->GetSegmentStop();
+                    bStopSearch = true;
+                } else { // rtSegmentStart <= rtNow
+                    bool bRemoveFromQueue = true;
+                    REFERENCE_TIME rtStart = pSubPic->GetStart();
+                    REFERENCE_TIME rtStop = pSubPic->GetStop();
+                    REFERENCE_TIME rtSegmentStop = pSubPic->GetSegmentStop();
 
-                if (rtSegmentStop <= rtNow) {
+                    if (rtSegmentStop <= rtNow) {
 #if SUBPIC_TRACE_LEVEL > 2
-                    TRACE(_T("Removing old subpic (rtNow=%f): %f -> %f -> %f\n"),
-                          double(rtNow) / 10000000.0, double(rtStart) / 10000000.0,
-                          double(rtStop) / 10000000.0, double(rtSegmentStop) / 10000000.0);
+                        TRACE(_T("Removing old subpic (rtNow=%f): %f -> %f -> %f\n"),
+                              double(rtNow) / 10000000.0, double(rtStart) / 10000000.0,
+                              double(rtStop) / 10000000.0, double(rtSegmentStop) / 10000000.0);
 #endif
-                } else { // rtNow < rtSegmentStop
-                    if (rtStart <= rtNow && rtNow < rtStop) {
+                    } else { // rtNow < rtSegmentStop
+                        if (rtStart <= rtNow && rtNow < rtStop) {
 #if SUBPIC_TRACE_LEVEL > 2
-                        TRACE(_T("Exact match found in the queue\n"));
+                            TRACE(_T("Exact match found in the queue\n"));
 #endif
-                        ppSubPic = pSubPic;
-                        bStopSearch = true;
-                    } else if (rtNow >= rtStop) {
-                        // Reuse old subpic
-                        ppSubPic = pSubPic;
-                    } else { // rtNow < rtStart
-                        if (!ppSubPic) {
-                            // Should be really rare that we use a subpic in advance
                             ppSubPic = pSubPic;
-                        } else {
-                            bRemoveFromQueue = false;
+                            bStopSearch = true;
+                        } else if (rtNow >= rtStop) {
+                            // Reuse old subpic
+                            ppSubPic = pSubPic;
+                        } else { // rtNow < rtStart
+                            if (!ppSubPic) {
+                                // Should be really rare that we use a subpic in advance
+                                ppSubPic = pSubPic;
+                            } else {
+                                bRemoveFromQueue = false;
+                            }
+                            bStopSearch = true;
                         }
-                        bStopSearch = true;
+                    }
+
+                    if (bRemoveFromQueue) {
+                        m_queue.RemoveHeadNoReturn();
                     }
                 }
-
-                if (bRemoveFromQueue) {
-                    m_queue.RemoveHeadNoReturn();
-                }
             }
+
+            lock.unlock();
+            m_condQueueFull.notify_one();
         }
 
-        lock.unlock();
-        m_condQueueFull.notify_one();
+        // If we didn't get any subpic yet and blocking is advised, just try harder to get one
+        if (!ppSubPic && bAdviseBlocking) {
+            bAdviseBlocking = false;
+            bStopSearch = true;
+
+            CComPtr<ISubPicProvider> pSubPicProvider;
+            if (SUCCEEDED(GetSubPicProvider(&pSubPicProvider)) && pSubPicProvider
+                    && SUCCEEDED(pSubPicProvider->Lock())) {
+                double fps = m_fps;
+                if (POSITION pos = pSubPicProvider->GetStartPosition(rtNow, fps)) {
+                    REFERENCE_TIME rtStart = pSubPicProvider->GetStart(pos, fps);
+                    REFERENCE_TIME rtStop = pSubPicProvider->GetStop(pos, fps);
+                    if (rtStart <= rtNow && rtNow < rtStop) {
+                        bStopSearch = false;
+                    }
+                }
+                pSubPicProvider->Unlock();
+
+                if (!bStopSearch) {
+                    std::unique_lock<std::mutex> lock(m_mutexQueue);
+
+                    auto queueReady = [this, rtNow]() {
+                        return ((int)m_queue.GetCount() == m_settings.nSize)
+                               || (!m_queue.IsEmpty() && m_queue.GetTail()->GetStop() > rtNow);
+                    };
+
+                    m_condQueueReady.wait(lock, queueReady);
+                }
+            }
+        } else {
+            bStopSearch = true;
+        }
     }
 
     if (ppSubPic) {
@@ -428,6 +469,8 @@ bool CSubPicQueue::EnqueueSubPic(CComPtr<ISubPic>& pSubPic, bool bBlocking)
 #endif
         } else {
             m_queue.AddTail(pSubPic);
+            lock.unlock();
+            m_condQueueReady.notify_one();
             bAdded = true;
         }
         pSubPic.Release();
@@ -649,6 +692,14 @@ STDMETHODIMP CSubPicQueueNoThread::Invalidate(REFERENCE_TIME rtInvalidate /*= -1
 
 STDMETHODIMP_(bool) CSubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, CComPtr<ISubPic>& ppSubPic)
 {
+    // CSubPicQueueNoThread is always blocking so bAdviseBlocking doesn't matter anyway
+    return LookupSubPic(rtNow, true, ppSubPic);
+}
+
+STDMETHODIMP_(bool) CSubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, bool /*bAdviseBlocking*/, CComPtr<ISubPic>& ppSubPic)
+{
+    // CSubPicQueueNoThread is always blocking so we ignore bAdviseBlocking
+
     CComPtr<ISubPic> pSubPic;
 
     {

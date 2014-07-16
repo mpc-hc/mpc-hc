@@ -99,5 +99,10 @@ namespace DSObjects
         STDMETHODIMP GetDIB(BYTE* lpDib, DWORD* size);
         STDMETHODIMP SetPixelShader(LPCSTR pSrcData, LPCSTR pTarget);
         STDMETHODIMP SetPixelShader2(LPCSTR pSrcData, LPCSTR pTarget, bool bScreenSpace);
+
+        // ISubPicAllocatorPresenter2
+        STDMETHODIMP_(bool) IsRendering() {
+            return true; // We don't know so we always pretend to be rendering
+        }
     };
 }

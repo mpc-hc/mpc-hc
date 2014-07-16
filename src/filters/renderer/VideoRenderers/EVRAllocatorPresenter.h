@@ -73,6 +73,11 @@ namespace DSObjects
         STDMETHODIMP_(bool) ResetDevice();
         STDMETHODIMP_(bool) DisplayChange();
 
+        // ISubPicAllocatorPresenter2
+        STDMETHODIMP_(bool) IsRendering() {
+            return (m_nRenderState == Started);
+        }
+
         // IMFClockStateSink
         STDMETHODIMP OnClockStart(/* [in] */ MFTIME hnsSystemTime, /* [in] */ LONGLONG llClockStartOffset);
         STDMETHODIMP OnClockStop(/* [in] */ MFTIME hnsSystemTime);

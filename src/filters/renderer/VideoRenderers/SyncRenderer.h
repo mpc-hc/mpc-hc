@@ -359,6 +359,11 @@ namespace GothSync
         STDMETHODIMP InitializeDevice(AM_MEDIA_TYPE* pMediaType);
         STDMETHODIMP_(bool) ResetDevice();
 
+        // ISubPicAllocatorPresenter2
+        STDMETHODIMP_(bool) IsRendering() {
+            return (m_nRenderState == Started);
+        }
+
         // IMFClockStateSink
         STDMETHODIMP OnClockStart(MFTIME hnsSystemTime, LONGLONG llClockStartOffset);
         STDMETHODIMP OnClockStop(MFTIME hnsSystemTime);

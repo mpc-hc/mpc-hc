@@ -62,6 +62,7 @@ public:
     /*
     STDMETHODIMP Invalidate(REFERENCE_TIME rtInvalidate = -1) PURE;
     STDMETHODIMP_(bool) LookupSubPic(REFERENCE_TIME rtNow, ISubPic** ppSubPic) PURE;
+    STDMETHODIMP_(bool) LookupSubPic(REFERENCE_TIME rtNow, bool bAdviseBlocking, CComPtr<ISubPic>& pSubPic);
 
     STDMETHODIMP GetStats(int& nSubPics, REFERENCE_TIME& rtNow, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop) PURE;
     STDMETHODIMP GetStats(int nSubPics, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop) PURE;
@@ -79,6 +80,7 @@ protected:
     std::mutex m_mutexSubpic; // to protect m_pSubPic
     std::mutex m_mutexQueue; // to protect m_queue
     std::condition_variable m_condQueueFull;
+    std::condition_variable m_condQueueReady;
 
     CAMEvent m_runQueueEvent;
 
@@ -104,6 +106,7 @@ public:
 
     STDMETHODIMP Invalidate(REFERENCE_TIME rtInvalidate = -1);
     STDMETHODIMP_(bool) LookupSubPic(REFERENCE_TIME rtNow, CComPtr<ISubPic>& pSubPic);
+    STDMETHODIMP_(bool) LookupSubPic(REFERENCE_TIME rtNow, bool bAdviseBlocking, CComPtr<ISubPic>& pSubPic);
 
     STDMETHODIMP GetStats(int& nSubPics, REFERENCE_TIME& rtNow, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop);
     STDMETHODIMP GetStats(int nSubPic, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop);
@@ -125,6 +128,7 @@ public:
 
     STDMETHODIMP Invalidate(REFERENCE_TIME rtInvalidate = -1);
     STDMETHODIMP_(bool) LookupSubPic(REFERENCE_TIME rtNow, CComPtr<ISubPic>& pSubPic);
+    STDMETHODIMP_(bool) LookupSubPic(REFERENCE_TIME rtNow, bool bAdviseBlocking, CComPtr<ISubPic>& pSubPic);
 
     STDMETHODIMP GetStats(int& nSubPics, REFERENCE_TIME& rtNow, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop);
     STDMETHODIMP GetStats(int nSubPic, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop);

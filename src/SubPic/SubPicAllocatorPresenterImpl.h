@@ -72,8 +72,6 @@ public:
     DECLARE_IUNKNOWN;
     STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-    // ISubPicAllocatorPresenter
-
     STDMETHODIMP CreateRenderer(IUnknown** ppRenderer) PURE;
 
     STDMETHODIMP_(void) SetVideoSize(CSize szVideo, CSize szAspectRatio = CSize(0, 0));
@@ -100,12 +98,17 @@ public:
 
     STDMETHODIMP SetVideoAngle(Vector v);
     STDMETHODIMP SetPixelShader(LPCSTR pSrcData, LPCSTR pTarget) { return E_NOTIMPL; }
+
+    // ISubPicAllocatorPresenter2
+
     STDMETHODIMP SetPixelShader2(LPCSTR pSrcData, LPCSTR pTarget, bool bScreenSpace) {
         if (!bScreenSpace) {
             return SetPixelShader(pSrcData, pTarget);
         }
         return E_NOTIMPL;
     }
+
+    STDMETHODIMP SetIsRendering(bool bIsRendering) { return E_NOTIMPL; }
 
     // ISubRenderOptions
 

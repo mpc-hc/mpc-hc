@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -40,6 +40,12 @@ namespace DSObjects
 
         DECLARE_IUNKNOWN
         STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+
+        // ISubPicAllocatorPresenter2
+        STDMETHODIMP SetIsRendering(bool bIsRendering) {
+            m_bIsRendering = bIsRendering;
+            return S_OK;
+        }
 
         // IQTVideoSurface
         STDMETHODIMP BeginBlt(const BITMAP& bm);
