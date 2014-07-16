@@ -54,6 +54,7 @@ Project             License                     Website
 --------------------------------------------------------------------
 CSizingControlBar   -                           http://www.datamekanix.com/sizecbar/
 LAV Filters         GPLv2+                      http://code.google.com/p/lavfilters/
+libdivide           zlib License                http://libdivide.com/
 Little CMS          MIT License                 http://www.littlecms.com/
 Logitech SDK        -                           -
 MediaInfoLib        Simplified BSD License      http://mediaarea.net/MediaInfo

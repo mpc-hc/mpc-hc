@@ -20,8 +20,8 @@
 #include <assert.h>
 #endif
 
-#if ! LIBDIVIDE_HAS_STDINT_TYPES && ! LIBDIVIDE_VC
-/* Visual C++ still doesn't ship with stdint.h (!) */
+#if ! LIBDIVIDE_HAS_STDINT_TYPES && (! LIBDIVIDE_VC || _MSC_VER >= 1600)
+/* Only Visual C++ 2010 and later include stdint.h */
 #include <stdint.h>
 #define LIBDIVIDE_HAS_STDINT_TYPES 1
 #endif
@@ -36,10 +36,11 @@ typedef unsigned __int8 uint8_t;
 #endif
 
 #if LIBDIVIDE_USE_SSE2
-   #if LIBDIVIDE_VC
-      #include <mmintrin.h>
-   #endif
-#include <emmintrin.h>
+    #include <emmintrin.h>
+#endif
+
+#if LIBDIVIDE_VC
+    #include <intrin.h>
 #endif
 
 #ifndef __has_builtin
@@ -254,7 +255,7 @@ static inline int64_t libdivide__mullhi_s64(int64_t x, int64_t y) {
 #if LIBDIVIDE_USE_SSE2
 
 static inline __m128i libdivide__u64_to_m128(uint64_t x) {
-#if LIBDIVIDE_VC
+#if LIBDIVIDE_VC && ! _WIN64
     //64 bit windows doesn't seem to have an implementation of any of these load intrinsics, and 32 bit Visual C++ crashes
     _declspec(align(16)) uint64_t temp[2] = {x, x};
     return _mm_load_si128((const __m128i*)temp);
@@ -378,6 +379,12 @@ static inline int32_t libdivide__count_trailing_zeros32(uint32_t val) {
 #if __GNUC__ || __has_builtin(__builtin_ctz)
     /* Fast way to count trailing zeros */
     return __builtin_ctz(val);
+#elif LIBDIVIDE_VC
+    unsigned long result;
+    if (_BitScanForward(&result, val)) {
+        return result;
+    }
+    return 0;
 #else
     /* Dorky way to count trailing zeros.   Note that this hangs for val = 0! */
     int32_t result = 0;
@@ -394,6 +401,12 @@ static inline int32_t libdivide__count_trailing_zeros64(uint64_t val) {
 #if __LP64__ && (__GNUC__ || __has_builtin(__builtin_ctzll))
     /* Fast way to count trailing zeros.  Note that we disable this in 32 bit because gcc does something horrible - it calls through to a dynamically bound function. */
     return __builtin_ctzll(val);
+#elif LIBDIVIDE_VC && _WIN64
+    unsigned long result;
+    if (_BitScanForward64(&result, val)) {
+            return result;
+    }
+    return 0;
 #else
     /* Pretty good way to count trailing zeros.  Note that this hangs for val = 0! */
     uint32_t lo = val & 0xFFFFFFFF;
@@ -406,6 +419,12 @@ static inline int32_t libdivide__count_leading_zeros32(uint32_t val) {
 #if __GNUC__ || __has_builtin(__builtin_clzll)
     /* Fast way to count leading zeros */
     return __builtin_clz(val);    
+#elif LIBDIVIDE_VC
+    unsigned long result;
+    if (_BitScanReverse(&result, val)) {
+        return 31 - result;
+    }
+    return 0;
 #else
     /* Dorky way to count leading zeros.  Note that this hangs for val = 0! */
     int32_t result = 0;
@@ -421,6 +440,12 @@ static inline int32_t libdivide__count_leading_zeros64(uint64_t val) {
 #if __GNUC__ || __has_builtin(__builtin_clzll)
     /* Fast way to count leading zeros */
     return __builtin_clzll(val);
+#elif LIBDIVIDE_VC && _WIN64
+    unsigned long result;
+    if (_BitScanReverse64(&result, val)) {
+        return 63 - result;
+    }
+    return 0;
 #else
     /* Dorky way to count leading zeros.  Note that this hangs for val = 0! */
     int32_t result = 0;
@@ -484,14 +509,19 @@ static uint64_t libdivide_128_div_64_to_64(uint64_t u1, uint64_t u0, uint64_t v,
     
     /* count leading zeros */
     s = libdivide__count_leading_zeros64(v); // 0 <= s <= 63.
-    
-    v = v << s;               // Normalize divisor.
+    if (s > 0) {
+        v = v << s;           // Normalize divisor.
+        un64 = (u1 << s) | ((u0 >> (64 - s)) & (-s >> 31));
+        un10 = u0 << s;       // Shift dividend left.
+    } else {
+        // Avoid undefined behavior.
+        un64 = u1 | u0;
+        un10 = u0;
+    }
+
     vn1 = v >> 32;            // Break divisor up into
     vn0 = v & 0xFFFFFFFF;     // two 32-bit digits.
-    
-    un64 = (u1 << s) | ((u0 >> (64 - s)) & (-s >> 31));
-    un10 = u0 << s;           // Shift dividend left.
-    
+
     un1 = un10 >> 32;         // Break right half of
     un0 = un10 & 0xFFFFFFFF;  // dividend into two digits.
     
