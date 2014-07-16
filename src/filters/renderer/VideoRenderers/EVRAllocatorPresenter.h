@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -67,7 +67,7 @@ namespace DSObjects
         STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
         STDMETHODIMP CreateRenderer(IUnknown** ppRenderer);
-        STDMETHODIMP_(bool) Paint(bool fAll);
+        STDMETHODIMP_(bool) Paint(bool bAll);
         STDMETHODIMP GetNativeVideoSize(LONG* lpWidth, LONG* lpHeight, LONG* lpARWidth, LONG* lpARHeight);
         STDMETHODIMP InitializeDevice(IMFMediaType* pMediaType);
         STDMETHODIMP_(bool) ResetDevice();
@@ -155,7 +155,7 @@ namespace DSObjects
 
     protected:
         void OnResetDevice();
-        virtual void OnVBlankFinished(bool fAll, LONGLONG PerformanceCounter);
+        virtual void OnVBlankFinished(bool bAll, LONGLONG PerformanceCounter);
 
         double m_ModeratedTime;
         LONGLONG m_ModeratedTimeLast;

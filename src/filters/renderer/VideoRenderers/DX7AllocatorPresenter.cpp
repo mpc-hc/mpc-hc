@@ -324,7 +324,7 @@ STDMETHODIMP CDX7AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
     return E_NOTIMPL;
 }
 
-STDMETHODIMP_(bool) CDX7AllocatorPresenter::Paint(bool fAll)
+STDMETHODIMP_(bool) CDX7AllocatorPresenter::Paint(bool bAll)
 {
     if (m_bPendingResetDevice) {
         SendResetRequest();
@@ -347,7 +347,7 @@ STDMETHODIMP_(bool) CDX7AllocatorPresenter::Paint(bool fAll)
     CRect rSrcPri(CPoint(0, 0), m_windowRect.Size());
     CRect rDstPri(m_windowRect);
 
-    if (fAll) {
+    if (bAll) {
         // clear the backbuffer
 
         CRect rl(0, 0, rDstVid.left, rSrcPri.bottom);

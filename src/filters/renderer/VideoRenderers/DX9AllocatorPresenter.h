@@ -113,7 +113,7 @@ namespace DSObjects
         bool WaitForVBlank(bool& _Waited, bool& _bTakenLock);
         int GetVBlackPos();
         void CalculateJitter(LONGLONG PerformanceCounter);
-        virtual void OnVBlankFinished(bool fAll, LONGLONG PerformanceCounter) {}
+        virtual void OnVBlankFinished(bool bAll, LONGLONG PerformanceCounter) {}
 
         // Casimir666
         typedef HRESULT(WINAPI* D3DXLoadSurfaceFromMemoryPtr)(
@@ -293,7 +293,7 @@ namespace DSObjects
 
         // ISubPicAllocatorPresenter
         STDMETHODIMP CreateRenderer(IUnknown** ppRenderer);
-        STDMETHODIMP_(bool) Paint(bool fAll);
+        STDMETHODIMP_(bool) Paint(bool bAll);
         STDMETHODIMP GetDIB(BYTE* lpDib, DWORD* size);
         STDMETHODIMP SetPixelShader(LPCSTR pSrcData, LPCSTR pTarget);
         STDMETHODIMP SetPixelShader2(LPCSTR pSrcData, LPCSTR pTarget, bool bScreenSpace);

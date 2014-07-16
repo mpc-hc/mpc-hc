@@ -1327,7 +1327,7 @@ void CDX9AllocatorPresenter::UpdateAlphaBitmap()
     }
 }
 
-STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
+STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool bAll)
 {
     if (m_bPendingResetDevice) {
         SendResetRequest();
@@ -1486,7 +1486,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
         m_WaitForGPUTime = 0;
     }
 
-    if (fAll) {
+    if (bAll) {
         m_PaintTime = (rd->GetPerfCounter() - StartPaint);
         m_PaintTimeMin = std::min(m_PaintTimeMin, m_PaintTime);
         m_PaintTimeMax = std::max(m_PaintTimeMax, m_PaintTime);
@@ -1494,13 +1494,13 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 
     bool bWaited = false;
     bool bTakenLock = false;
-    if (fAll) {
+    if (bAll) {
         // Only sync to refresh when redrawing all
         bool bTest = WaitForVBlank(bWaited, bTakenLock);
         ASSERT(bTest == bDoVSyncInPresent);
         if (!bDoVSyncInPresent) {
             LONGLONG Time = rd->GetPerfCounter();
-            OnVBlankFinished(fAll, Time);
+            OnVBlankFinished(bAll, Time);
             if (!m_bIsEVR || m_OrderedPaint) {
                 CalculateJitter(Time);
             }
@@ -1555,7 +1555,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
         int bInVBlank;
         GetVBlank(ScanLine, bInVBlank, false);
 
-        if (fAll && (!m_bIsEVR || m_OrderedPaint)) {
+        if (bAll && (!m_bIsEVR || m_OrderedPaint)) {
             m_VBlankEndPresent = ScanLine;
         }
 
@@ -1566,7 +1566,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
         m_VBlankStartMeasureTime = rd->GetPerfCounter();
         m_VBlankStartMeasure = ScanLine;
 
-        if (fAll && bDoVSyncInPresent) {
+        if (bAll && bDoVSyncInPresent) {
             m_PresentWaitTime = (rd->GetPerfCounter() - llPerf) + PresentWaitTime;
             m_PresentWaitTimeMin = std::min(m_PresentWaitTimeMin, m_PresentWaitTime);
             m_PresentWaitTimeMax = std::max(m_PresentWaitTimeMax, m_PresentWaitTime);
@@ -1582,7 +1582,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
         if (!m_bIsEVR || m_OrderedPaint) {
             CalculateJitter(Time);
         }
-        OnVBlankFinished(fAll, Time);
+        OnVBlankFinished(bAll, Time);
     }
 
     if (bTakenLock) {
@@ -1598,7 +1598,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
         if (!bDoVSyncInPresent)
         {
             CalculateJitter();
-            OnVBlankFinished(fAll);
+            OnVBlankFinished(bAll);
         }
     }*/
 

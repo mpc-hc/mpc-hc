@@ -323,7 +323,7 @@ namespace GothSync
 
         // ISubPicAllocatorPresenter
         STDMETHODIMP CreateRenderer(IUnknown** ppRenderer);
-        STDMETHODIMP_(bool) Paint(bool fAll);
+        STDMETHODIMP_(bool) Paint(bool bAll);
         STDMETHODIMP GetDIB(BYTE* lpDib, DWORD* size);
         STDMETHODIMP SetPixelShader(LPCSTR pSrcData, LPCSTR pTarget);
         STDMETHODIMP SetPixelShader2(LPCSTR pSrcData, LPCSTR pTarget, bool bScreenSpace);
@@ -354,7 +354,7 @@ namespace GothSync
         STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
         STDMETHODIMP CreateRenderer(IUnknown** ppRenderer);
-        STDMETHODIMP_(bool) Paint(bool fAll);
+        STDMETHODIMP_(bool) Paint(bool bAll);
         STDMETHODIMP GetNativeVideoSize(LONG* lpWidth, LONG* lpHeight, LONG* lpARWidth, LONG* lpARHeight);
         STDMETHODIMP InitializeDevice(AM_MEDIA_TYPE* pMediaType);
         STDMETHODIMP_(bool) ResetDevice();

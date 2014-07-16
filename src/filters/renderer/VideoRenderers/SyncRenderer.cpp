@@ -1552,7 +1552,7 @@ void CBaseAP::UpdateAlphaBitmap()
 }
 
 // Present a sample (frame) using DirectX.
-STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
+STDMETHODIMP_(bool) CBaseAP::Paint(bool bAll)
 {
     if (m_bPendingResetDevice) {
         SendResetRequest();
@@ -2658,9 +2658,9 @@ STDMETHODIMP CSyncAP::CreateRenderer(IUnknown** ppRenderer)
     return hr;
 }
 
-STDMETHODIMP_(bool) CSyncAP::Paint(bool fAll)
+STDMETHODIMP_(bool) CSyncAP::Paint(bool bAll)
 {
-    return __super::Paint(fAll);
+    return __super::Paint(bAll);
 }
 
 STDMETHODIMP CSyncAP::NonDelegatingQueryInterface(REFIID riid, void** ppv)

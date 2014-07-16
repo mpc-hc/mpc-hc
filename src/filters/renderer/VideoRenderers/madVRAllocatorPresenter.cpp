@@ -185,11 +185,11 @@ STDMETHODIMP_(void) CmadVRAllocatorPresenter::SetPosition(RECT w, RECT v)
     }
 }
 
-STDMETHODIMP_(SIZE) CmadVRAllocatorPresenter::GetVideoSize(bool fCorrectAR)
+STDMETHODIMP_(SIZE) CmadVRAllocatorPresenter::GetVideoSize(bool bCorrectAR) const
 {
     SIZE size = {0, 0};
 
-    if (!fCorrectAR) {
+    if (!bCorrectAR) {
         if (CComQIPtr<IBasicVideo> pBV = m_pDXR) {
             pBV->GetVideoSize(&size.cx, &size.cy);
         }
@@ -202,7 +202,7 @@ STDMETHODIMP_(SIZE) CmadVRAllocatorPresenter::GetVideoSize(bool fCorrectAR)
     return size;
 }
 
-STDMETHODIMP_(bool) CmadVRAllocatorPresenter::Paint(bool fAll)
+STDMETHODIMP_(bool) CmadVRAllocatorPresenter::Paint(bool bAll)
 {
     return false; // TODO
 }

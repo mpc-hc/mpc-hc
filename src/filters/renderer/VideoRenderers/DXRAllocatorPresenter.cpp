@@ -173,11 +173,11 @@ STDMETHODIMP_(void) CDXRAllocatorPresenter::SetPosition(RECT w, RECT v)
     }
 }
 
-STDMETHODIMP_(SIZE) CDXRAllocatorPresenter::GetVideoSize(bool fCorrectAR)
+STDMETHODIMP_(SIZE) CDXRAllocatorPresenter::GetVideoSize(bool bCorrectAR) const
 {
     SIZE size = {0, 0};
 
-    if (!fCorrectAR) {
+    if (!bCorrectAR) {
         if (CComQIPtr<IBasicVideo> pBV = m_pDXR) {
             pBV->GetVideoSize(&size.cx, &size.cy);
         }
@@ -190,7 +190,7 @@ STDMETHODIMP_(SIZE) CDXRAllocatorPresenter::GetVideoSize(bool fCorrectAR)
     return size;
 }
 
-STDMETHODIMP_(bool) CDXRAllocatorPresenter::Paint(bool fAll)
+STDMETHODIMP_(bool) CDXRAllocatorPresenter::Paint(bool bAll)
 {
     return false; // TODO
 }

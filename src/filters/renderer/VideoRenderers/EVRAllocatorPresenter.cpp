@@ -370,9 +370,9 @@ STDMETHODIMP CEVRAllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
     return hr;
 }
 
-STDMETHODIMP_(bool) CEVRAllocatorPresenter::Paint(bool fAll)
+STDMETHODIMP_(bool) CEVRAllocatorPresenter::Paint(bool bAll)
 {
-    return __super::Paint(fAll);
+    return __super::Paint(bAll);
 }
 
 STDMETHODIMP CEVRAllocatorPresenter::NonDelegatingQueryInterface(REFIID riid, void** ppv)
@@ -1861,9 +1861,9 @@ LONGLONG CEVRAllocatorPresenter::GetClockTime(LONGLONG PerformanceCounter)
 #endif
 }
 
-void CEVRAllocatorPresenter::OnVBlankFinished(bool fAll, LONGLONG PerformanceCounter)
+void CEVRAllocatorPresenter::OnVBlankFinished(bool bAll, LONGLONG PerformanceCounter)
 {
-    if (!m_pCurrentDisplaydSample || !m_OrderedPaint || !fAll) {
+    if (!m_pCurrentDisplaydSample || !m_OrderedPaint || !bAll) {
         return;
     }
 
