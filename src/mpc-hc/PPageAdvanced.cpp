@@ -51,6 +51,11 @@ BOOL CPPageAdvanced::OnInitDialog()
     m_list.InsertColumn(COL_NAME, ResStr(IDS_PPAGEADVANCED_COL_NAME), LVCFMT_LEFT);
     m_list.InsertColumn(COL_VALUE, ResStr(IDS_PPAGEADVANCED_COL_VALUE), LVCFMT_RIGHT);
 
+    if (auto pToolTip = m_list.GetToolTips()) {
+        // Set topmost for tooltip window. Workaround bug https://connect.microsoft.com/VisualStudio/feedback/details/272350
+        pToolTip->SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOREDRAW | SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOCOPYBITS | SWP_NOOWNERZORDER);
+    }
+
     GetDlgItem(IDC_EDIT1)->ShowWindow(SW_HIDE);
     GetDlgItem(IDC_COMBO1)->ShowWindow(SW_HIDE);
     GetDlgItem(IDC_RADIO1)->ShowWindow(SW_HIDE);
