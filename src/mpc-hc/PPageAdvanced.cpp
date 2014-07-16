@@ -80,6 +80,12 @@ void CPPageAdvanced::InitSettings()
 
     // The range parameter defines range (inclusive) that particular option can have.
     auto addIntItem = [this](int nItem, CString name, int defaultValue, int& settingReference, std::pair<int, int> range, CString toolTipText) {
+        ASSERT(range.first <= defaultValue && defaultValue <= range.second); // Default value not in range?
+        if (range.first > settingReference || settingReference > range.second) {
+            // In case settings were corrupted, reset to default.
+            ASSERT(FALSE);
+            settingReference = defaultValue;
+        }
         auto pItem = std::make_shared<SettingsInt>(name, defaultValue, settingReference, range, toolTipText);
         int iItem = m_list.InsertItem(nItem, pItem->GetName());
         CString str;
