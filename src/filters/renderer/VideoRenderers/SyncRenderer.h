@@ -623,7 +623,10 @@ namespace GothSync
         };
 
         CGenlock(double target, double limit, int rowD, int colD, double clockD, UINT mon);
+        CGenlock(const CGenlock&) = delete;
         ~CGenlock();
+
+        CGenlock& operator=(const CGenlock&) = delete;
 
         BOOL PowerstripRunning();   // TRUE if PowerStrip is running
         HRESULT GetTiming();        // Get the string representing the display's current timing parameters
