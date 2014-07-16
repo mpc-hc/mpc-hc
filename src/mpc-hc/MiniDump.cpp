@@ -1,5 +1,5 @@
 /*
- * (C) 2008-2013 see Authors.txt
+ * (C) 2008-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -142,7 +142,7 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter(_EXCEPTION_POINTERS* lpTopLevelE
     }
 
     if (szResult[0]) {
-        switch (MessageBox(nullptr, szResult, _T("MPC-HC - Mini Dump"), bDumpCreated ? MB_YESNO : MB_OK)) {
+        switch (MessageBox(nullptr, szResult, _T("MPC-HC - Mini Dump"), (bDumpCreated ? MB_YESNO : MB_OK) | MB_TOPMOST)) {
             case IDYES:
                 ShellExecute(nullptr, _T("open"), BUGS_URL, nullptr, nullptr, SW_SHOWDEFAULT);
                 ExploreToFile(dumpPath);
@@ -153,7 +153,7 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter(_EXCEPTION_POINTERS* lpTopLevelE
         }
     }
 #else
-    if (MessageBox(nullptr, ResStr(IDS_MPC_BUG_REPORT), ResStr(IDS_MPC_BUG_REPORT_TITLE), MB_YESNO) == IDYES) {
+    if (MessageBox(nullptr, ResStr(IDS_MPC_BUG_REPORT), ResStr(IDS_MPC_BUG_REPORT_TITLE), MB_YESNO | MB_TOPMOST) == IDYES) {
         ShellExecute(nullptr, _T("open"), DOWNLOAD_URL, nullptr, nullptr, SW_SHOWDEFAULT);
     }
 #endif // DISABLE_MINIDUMP
