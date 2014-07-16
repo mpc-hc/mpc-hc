@@ -1218,19 +1218,19 @@ static int GetInt(LPCWSTR& pszBuff, int& nLength, WCHAR sep = L',')
     int nMatchLength;
     GetStrW(pszBuff, nLength, sep, pszMatch, nMatchLength);
 
-    int base;
+    LPWSTR strEnd;
+    int ret;
     if (nMatchLength > 2
             && ((pszMatch[0] == L'&' && towlower(pszMatch[1]) == L'h')
                 || (pszMatch[0] == L'0' && towlower(pszMatch[1]) == L'x'))) {
         pszMatch += 2;
         nMatchLength -= 2;
-        base = 16;
+        // Read hexadecimal integer as unsigned
+        ret = (int)wcstoul(pszMatch, &strEnd, 16);
     } else {
-        base = 10;
+        ret = wcstol(pszMatch, &strEnd, 10);
     }
 
-    LPWSTR strEnd;
-    int ret = wcstol(pszMatch, &strEnd, base);
     if (pszMatch == strEnd) { // Ensure something was parsed
         throw 1;
     }
