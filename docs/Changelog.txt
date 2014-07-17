@@ -24,6 +24,9 @@ next version - not released yet
 * Text subtitles: Much faster subtitle opening in the Subresync bar
 * Ticket #2834, Increase limit on subtitles override placement feature.
 * Ticket #4428, Improve the clarity of the error message when opening a subtitle file fails
+* Updated LAV Filters to v0.62.0.5:
+    - Ticket #4539, LAV Video: Fix a crash with DVD subtitles on 64-bit builds when using software decoding
+    - Ticket #4639, LAV Splitter: Fix incorrect colors for VobSub tracks in MP4
 ! "Load subtitle" dialog: Fix the file filters on Windows Vista+
 ! Ticket #3930, Fix a possible crash with embedded subtitles when the subtitle queue is disabled
 ! Ticket #4505, Embedded text subtitles: Fix a possible crash related to the Subresync bar
