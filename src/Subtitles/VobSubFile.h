@@ -108,11 +108,11 @@ protected:
 
     CMemFile m_sub;
 
-    BYTE* GetPacket(int idx, int& packetsize, int& datasize, int iLang = -1);
-    const SubPos* GetFrameInfo(int idx, int iLang = -1) const;
-    bool GetFrame(int idx, int iLang = -1, REFERENCE_TIME rt = -1);
+    BYTE* GetPacket(size_t idx, size_t& packetSize, size_t& dataSize, size_t nLang = SIZE_T_ERROR);
+    const SubPos* GetFrameInfo(size_t idx, size_t nLang = SIZE_T_ERROR) const;
+    bool GetFrame(size_t idx, size_t nLang = SIZE_T_ERROR, REFERENCE_TIME rt = -1);
     bool GetFrameByTimeStamp(__int64 time);
-    int GetFrameIdxByTimeStamp(__int64 time);
+    size_t GetFrameIdxByTimeStamp(__int64 time);
 
     bool SaveVobSub(CString fn, int delay);
     bool SaveWinSubMux(CString fn, int delay);
@@ -120,7 +120,7 @@ protected:
     bool SaveMaestro(CString fn, int delay);
 
 public:
-    int m_iLang;
+    size_t m_nLang;
     std::array<SubLang, 32> m_langs;
 
     CVobSubFile(CCritSec* pLock);

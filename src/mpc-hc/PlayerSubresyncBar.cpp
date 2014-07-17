@@ -190,8 +190,8 @@ void CPlayerSubresyncBar::ReloadSubtitle()
         m_mode = VOBSUB;
 
         pVSF->Lock();
-        ASSERT(pVSF->m_iLang >= 0);
-        m_vobSub.Copy(pVSF->m_langs[pVSF->m_iLang].subpos);
+        ASSERT(pVSF->m_nLang < pVSF->m_langs.size());
+        m_vobSub.Copy(pVSF->m_langs[pVSF->m_nLang].subpos);
 
         for (size_t i = 0, j = m_vobSub.GetCount(); i < j; i++) {
             CString str;
@@ -299,8 +299,8 @@ void CPlayerSubresyncBar::SaveSubtitle()
 
         CAutoLock cAutoLock(m_pSubLock);
 
-        ASSERT(pVSF->m_iLang >= 0);
-        CAtlArray<CVobSubFile::SubPos>& sp = pVSF->m_langs[pVSF->m_iLang].subpos;
+        ASSERT(pVSF->m_nLang < pVSF->m_langs.size());
+        CAtlArray<CVobSubFile::SubPos>& sp = pVSF->m_langs[pVSF->m_nLang].subpos;
 
         for (size_t i = 0, j = sp.GetCount(); i < j; i++) {
             sp[i].bValid = false;

@@ -26,8 +26,8 @@
 #include <algorithm>
 
 CVobSubImage::CVobSubImage()
-    : iLang(-1)
-    , iIdx(-1)
+    : nLang(SIZE_T_ERROR)
+    , nIdx(SIZE_T_ERROR)
     , bForced(false)
     , bAnimated(false)
     , tCurrent(-1)
@@ -95,13 +95,13 @@ void CVobSubImage::Free()
     lpPixels = nullptr;
 }
 
-bool CVobSubImage::Decode(BYTE* lpData, int packetsize, int datasize, int t,
+bool CVobSubImage::Decode(BYTE* lpData, size_t packetSize, size_t dataSize, int t,
                           bool bCustomPal,
                           int tridx,
                           RGBQUAD* orgpal /*[16]*/, RGBQUAD* cuspal /*[4]*/,
                           bool bTrim)
 {
-    GetPacketInfo(lpData, packetsize, datasize, t);
+    GetPacketInfo(lpData, packetSize, dataSize, t);
 
     if (!Alloc(rect.Width(), rect.Height())) {
         return false;
@@ -117,12 +117,11 @@ bool CVobSubImage::Decode(BYTE* lpData, int packetsize, int datasize, int t,
     this->tridx = tridx;
     this->cuspal = cuspal;
 
-    CPoint p(rect.left, rect.top);
+    CPoint p = rect.TopLeft();
 
-    int end0 = nOffset[1];
-    int end1 = datasize;
+    size_t end[] = { nOffset[1], dataSize };
 
-    while ((nPlane == 0 && nOffset[0] < end0) || (nPlane == 1 && nOffset[1] < end1)) {
+    while (nOffset[nPlane] < end[nPlane]) {
         DWORD code;
 
         if ((code = GetNibble(lpData)) >= 0x4
@@ -155,11 +154,11 @@ bool CVobSubImage::Decode(BYTE* lpData, int packetsize, int datasize, int t,
     return true;
 }
 
-void CVobSubImage::GetPacketInfo(const BYTE* lpData, int packetsize, int datasize, int t /*= INT_MAX*/)
+void CVobSubImage::GetPacketInfo(const BYTE* lpData, size_t packetSize, size_t dataSize, int t /*= INT_MAX*/)
 {
     //  delay = 0;
 
-    int i, nextctrlblk = datasize;
+    size_t i, nextctrlblk = dataSize;
     WORD pal = 0, tr = 0;
     WORD nPal = 0, nTr = 0;
 
@@ -171,7 +170,7 @@ void CVobSubImage::GetPacketInfo(const BYTE* lpData, int packetsize, int datasiz
         nextctrlblk = (lpData[i] << 8) | lpData[i + 1];
         i += 2;
 
-        if (nextctrlblk > packetsize || nextctrlblk < datasize) {
+        if (nextctrlblk > packetSize || nextctrlblk < dataSize) {
             ASSERT(0);
             return;
         }
@@ -183,7 +182,7 @@ void CVobSubImage::GetPacketInfo(const BYTE* lpData, int packetsize, int datasiz
         bool bBreak = false;
 
         while (!bBreak) {
-            int len = 0;
+            size_t len = 0;
 
             switch (lpData[i]) {
                 case 0x00:
@@ -212,7 +211,7 @@ void CVobSubImage::GetPacketInfo(const BYTE* lpData, int packetsize, int datasiz
                     break;
             }
 
-            if (i + len >= packetsize) {
+            if (i + len >= packetSize) {
                 TRACE(_T("Warning: Wrong subpicture parameter block ending\n"));
                 break;
             }
@@ -259,7 +258,7 @@ void CVobSubImage::GetPacketInfo(const BYTE* lpData, int packetsize, int datasiz
                     break;
             }
         }
-    } while (i <= nextctrlblk && i < packetsize);
+    } while (i <= nextctrlblk && i < packetSize);
 
     for (i = 0; i < 4; i++) {
         this->pal[i].pal = (pal >> (i << 2)) & 0xf;
@@ -271,7 +270,7 @@ void CVobSubImage::GetPacketInfo(const BYTE* lpData, int packetsize, int datasiz
 
 BYTE CVobSubImage::GetNibble(const BYTE* lpData)
 {
-    WORD& off = nOffset[nPlane];
+    size_t& off = nOffset[nPlane];
     BYTE ret = lpData[off];
     if (bAligned) {
         ret >>= 4;
@@ -284,7 +283,7 @@ BYTE CVobSubImage::GetNibble(const BYTE* lpData)
     return ret;
 }
 
-void CVobSubImage::DrawPixels(CPoint p, int length, int colorid)
+void CVobSubImage::DrawPixels(CPoint p, int length, size_t colorId)
 {
     if (length <= 0
             || p.x + length < rect.left
@@ -306,10 +305,10 @@ void CVobSubImage::DrawPixels(CPoint p, int length, int colorid)
     RGBQUAD c;
 
     if (!bCustomPal) {
-        c = orgpal[pal[colorid].pal];
-        c.rgbReserved = (pal[colorid].tr << 4) | pal[colorid].tr;
+        c = orgpal[pal[colorId].pal];
+        c.rgbReserved = (pal[colorId].tr << 4) | pal[colorId].tr;
     } else {
-        c = cuspal[colorid];
+        c = cuspal[colorId];
     }
 
     while (length-- > 0) {

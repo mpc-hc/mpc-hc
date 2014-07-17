@@ -768,8 +768,8 @@ bool CVobSubFileRipper::Create()
     Progress(1);
 
     for (size_t i = 0; i < m_langs.size(); i++) {
-        if (m_iLang == -1 && !m_langs[i].subpos.IsEmpty()) {
-            m_iLang = (int)i;
+        if (m_nLang == SIZE_T_ERROR && !m_langs[i].subpos.IsEmpty()) {
+            m_nLang = i;
         }
         m_langs[i].id = pgc.ids[i];
         m_langs[i].name = m_langs[i].alt = FindLangFromId(m_langs[i].id);
@@ -781,13 +781,13 @@ bool CVobSubFileRipper::Create()
             Log(LOG_INFO, _T("Searching for forced subs..."));
             Progress(0);
 
-            for (ptrdiff_t j = 0, len = sp.GetCount(); j < len; j++) {
+            for (size_t j = 0, len = sp.GetCount(); j < len; j++) {
                 Progress(1.0 * j / len);
 
                 sp[j].bValid = false;
-                int packetsize = 0, datasize = 0;
-                if (BYTE* buff = GetPacket((int)j, packetsize, datasize, (int)i)) {
-                    m_img.GetPacketInfo(buff, packetsize, datasize);
+                size_t packetSize = 0, dataSize = 0;
+                if (BYTE* buff = GetPacket(j, packetSize, dataSize, i)) {
+                    m_img.GetPacketInfo(buff, packetSize, dataSize);
                     sp[j].bValid = m_img.bForced;
                     delete [] buff;
                 }
@@ -799,7 +799,7 @@ bool CVobSubFileRipper::Create()
 
     Log(LOG_INFO, _T("Saving files..."));
 
-    if (m_iLang != -1) {
+    if (m_nLang != SIZE_T_ERROR) {
         if (!Save(m_title)) {
             Log(LOG_ERROR, _T("Could not save output files!"));
             return false;

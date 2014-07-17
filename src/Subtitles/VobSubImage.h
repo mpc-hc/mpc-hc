@@ -45,7 +45,7 @@ private:
     RGBQUAD* lpTemp1;
     RGBQUAD* lpTemp2;
 
-    WORD nOffset[2], nPlane;
+    size_t nOffset[2], nPlane;
     bool bCustomPal;
     bool bAligned;
     int tridx;
@@ -55,11 +55,11 @@ private:
     void Free();
 
     BYTE GetNibble(const BYTE* lpData);
-    void DrawPixels(CPoint p, int length, int colorid);
+    void DrawPixels(CPoint p, int length, size_t colorId);
     void TrimSubImage();
 
 public:
-    int iLang, iIdx;
+    size_t nLang, nIdx;
     bool bForced, bAnimated;
     int tCurrent;
     __int64 start, delay;
@@ -73,16 +73,14 @@ public:
     CVobSubImage();
     virtual ~CVobSubImage();
 
-    void Invalidate() { iLang = iIdx = -1; }
+    void Invalidate() { nLang = nIdx = SIZE_T_ERROR; }
 
-    void GetPacketInfo(const BYTE* lpData, int packetsize, int datasize, int t = INT_MAX);
-    bool Decode(BYTE* lpData, int packetsize, int datasize, int t,
+    void GetPacketInfo(const BYTE* lpData, size_t packetSize, size_t dataSize, int t = INT_MAX);
+    bool Decode(BYTE* lpData, size_t packetSize, size_t dataSize, int t,
                 bool bCustomPal,
                 int tridx,
                 RGBQUAD* orgpal /*[16]*/, RGBQUAD* cuspal /*[4]*/,
                 bool bTrim);
-
-    /////////
 
 private:
     CAutoPtrList<COutline>* GetOutlineList(CPoint& topleft);
