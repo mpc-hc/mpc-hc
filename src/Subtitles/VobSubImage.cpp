@@ -62,13 +62,17 @@ bool CVobSubImage::Alloc(int w, int h)
     if (lpTemp1 == nullptr || w * h > org.cx * org.cy || (w + 2) * (h + 2) > (org.cx + 2) * (org.cy + 2)) {
         Free();
 
-        lpTemp1 = DEBUG_NEW RGBQUAD[w * h];
-        if (!lpTemp1) {
+        try {
+            lpTemp1 = DEBUG_NEW RGBQUAD[w * h];
+        } catch (std::bad_alloc) {
+            ASSERT(FALSE);
             return false;
         }
 
-        lpTemp2 = DEBUG_NEW RGBQUAD[(w + 2) * (h + 2)];
-        if (!lpTemp2) {
+        try {
+            lpTemp2 = DEBUG_NEW RGBQUAD[(w + 2) * (h + 2)];
+        } catch (std::bad_alloc) {
+            ASSERT(FALSE);
             delete [] lpTemp1;
             lpTemp1 = nullptr;
             return false;
@@ -391,8 +395,11 @@ CAutoPtrList<COutline>* CVobSubImage::GetOutlineList(CPoint& topleft)
         return nullptr;
     }
 
-    CAutoPtrList<COutline>* ol = DEBUG_NEW CAutoPtrList<COutline>();
-    if (!ol) {
+    CAutoPtrList<COutline>* ol;
+    try {
+        ol = DEBUG_NEW CAutoPtrList<COutline>();
+    } catch (std::bad_alloc) {
+        ASSERT(FALSE);
         return nullptr;
     }
 
@@ -435,8 +442,11 @@ CAutoPtrList<COutline>* CVobSubImage::GetOutlineList(CPoint& topleft)
 
         int ox = x, oy = y, odir = dir;
 
-        CAutoPtr<COutline> o(DEBUG_NEW COutline);
-        if (!o) {
+        CAutoPtr<COutline> o;
+        try {
+            o.Attach(DEBUG_NEW COutline);
+        } catch (std::bad_alloc) {
+            ASSERT(FALSE);
             break;
         }
 
