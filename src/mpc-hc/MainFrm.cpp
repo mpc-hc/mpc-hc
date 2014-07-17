@@ -2207,45 +2207,72 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
     __super::OnTimer(nIDEvent);
 }
 
-bool CMainFrame::DoAfterPlaybackEvent()
+void CMainFrame::DoAfterPlaybackEvent()
 {
-    const CAppSettings& s = AfxGetAppSettings();
-    bool bExit = (s.nCLSwitches & CLSW_CLOSE) || (s.eAfterPlayback == CAppSettings::AfterPlayback::EXIT);
+    CAppSettings& s = AfxGetAppSettings();
+    bool bExitFullScreen = false;
 
-    if (s.nCLSwitches & CLSW_STANDBY) {
+    if (s.nCLSwitches & CLSW_CLOSE) {
+        SendMessage(WM_COMMAND, ID_FILE_EXIT);
+    } else if (s.nCLSwitches & CLSW_STANDBY) {
         SetPrivilege(SE_SHUTDOWN_NAME);
         SetSystemPowerState(TRUE, FALSE);
-        bExit = true; // TODO: unless the app closes, it will call standby or hibernate once again forever, how to avoid that?
+        SendMessage(WM_COMMAND, ID_FILE_EXIT); // Recheck if this is still needed after switching to new toolset and SetSuspendState()
     } else if (s.nCLSwitches & CLSW_HIBERNATE) {
         SetPrivilege(SE_SHUTDOWN_NAME);
         SetSystemPowerState(FALSE, FALSE);
-        bExit = true; // TODO: unless the app closes, it will call standby or hibernate once again forever, how to avoid that?
+        SendMessage(WM_COMMAND, ID_FILE_EXIT);
     } else if (s.nCLSwitches & CLSW_SHUTDOWN) {
         SetPrivilege(SE_SHUTDOWN_NAME);
         ExitWindowsEx(EWX_SHUTDOWN | EWX_POWEROFF | EWX_FORCEIFHUNG, 0);
-        bExit = true;
+        SendMessage(WM_COMMAND, ID_FILE_EXIT);
     } else if (s.nCLSwitches & CLSW_LOGOFF) {
         SetPrivilege(SE_SHUTDOWN_NAME);
         ExitWindowsEx(EWX_LOGOFF | EWX_FORCEIFHUNG, 0);
-        bExit = true;
-    } else if (s.nCLSwitches & CLSW_LOCK) {
-        LockWorkStation();
-    }
-
-    bool bClose = s.eAfterPlayback == CAppSettings::AfterPlayback::CLOSE;
-    if (bExit) {
         SendMessage(WM_COMMAND, ID_FILE_EXIT);
-    } else if (bClose) {
-        SendMessage(WM_COMMAND, ID_FILE_CLOSE_AND_RESTORE);
+    } else if (s.nCLSwitches & CLSW_LOCK) {
+        bExitFullScreen = true;
+        LockWorkStation();
+    } else {
+        switch (s.eAfterPlayback) {
+            case CAppSettings::AfterPlayback::PLAY_NEXT:
+                if (!SearchInDir(true)) {
+                    bExitFullScreen = true;
+                    m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_NO_MORE_MEDIA));
+                }
+                break;
+            case CAppSettings::AfterPlayback::REWIND:
+                bExitFullScreen = true;
+                if (m_wndPlaylistBar.GetCount() > 1) {
+                    s.nCLSwitches |= CLSW_OPEN;
+                    PostMessage(WM_COMMAND, ID_NAVIGATE_SKIPFORWARD);
+                } else {
+                    SendMessage(WM_COMMAND, ID_PLAY_STOP);
+                }
+                break;
+            case CAppSettings::AfterPlayback::CLOSE:
+                SendMessage(WM_COMMAND, ID_FILE_CLOSE_AND_RESTORE);
+                break;
+            case CAppSettings::AfterPlayback::EXIT:
+                SendMessage(WM_COMMAND, ID_FILE_EXIT);
+                break;
+            default:
+                m_fEndOfStream = true;
+                bExitFullScreen = true;
+                SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
+                break;
+        }
     }
 
-    return bExit || bClose;
+    if (bExitFullScreen && (m_fFullScreen || IsD3DFullScreenMode()) && s.fExitFullScreenAtTheEnd) {
+        OnViewFullscreen();
+    }
 }
 
 //
 // graph event EC_COMPLETE handler
 //
-bool CMainFrame::GraphEventComplete()
+void CMainFrame::GraphEventComplete()
 {
     CAppSettings& s = AfxGetAppSettings();
 
@@ -2258,77 +2285,29 @@ bool CMainFrame::GraphEventComplete()
         }
     }
 
-    if (m_wndPlaylistBar.GetCount() <= 1) {
-        if (DoAfterPlaybackEvent()) {
-            return false;
-        }
+    if (m_wndPlaylistBar.IsAtEnd()) {
+        ++m_nLoops;
+    }
 
-        bool bPlayNext = s.eAfterPlayback == CAppSettings::AfterPlayback::PLAY_NEXT;
-        if (bPlayNext && SearchInDir(true)) {
-            return false;
-        }
-
-        m_nLoops++;
-
-        if (s.fLoopForever || m_nLoops < s.nLoops) {
-            if (bPlayNext) {
-                SearchInDir(true, true);
-            } else if (GetMediaState() == State_Stopped) {
-                SendMessage(WM_COMMAND, ID_PLAY_PLAY);
-            } else {
-                LONGLONG pos = 0;
-                m_pMS->SetPositions(&pos, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning);
-
-                if (GetMediaState() == State_Paused) {
-                    SendMessage(WM_COMMAND, ID_PLAY_PLAY);
-                }
-            }
-        } else {
-            if (s.eAfterPlayback == CAppSettings::AfterPlayback::REWIND) {
-                SendMessage(WM_COMMAND, ID_PLAY_STOP);
-            } else {
-                m_fEndOfStream = true;
-                SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
-            }
-            m_OSD.ClearMessage();
-
-            if ((m_fFullScreen || IsD3DFullScreenMode()) && s.fExitFullScreenAtTheEnd) {
-                OnViewFullscreen();
-            }
-
-            if (bPlayNext) {
-                // Don't move this line or OSD message "Pause" will overwrite this message.
-                m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_NO_MORE_MEDIA));
-            }
-        }
-    } else if (m_wndPlaylistBar.GetCount() > 1) {
-        if (m_wndPlaylistBar.IsAtEnd()) {
-            if (DoAfterPlaybackEvent()) {
-                return false;
-            }
-
-            m_nLoops++;
-        }
-
-        if (s.fLoopForever || m_nLoops < s.nLoops) {
+    if (s.fLoopForever || m_nLoops < s.nLoops) {
+        if (m_wndPlaylistBar.GetCount() > 1) {
             int nLoops = m_nLoops;
             SendMessage(WM_COMMAND, ID_NAVIGATE_SKIPFORWARD);
             m_nLoops = nLoops;
         } else {
-            if (m_fFullScreen && s.fExitFullScreenAtTheEnd) {
-                OnViewFullscreen();
-            }
-
-            if (s.eAfterPlayback == CAppSettings::AfterPlayback::REWIND) {
-                s.nCLSwitches |= CLSW_OPEN; // HACK
-                PostMessage(WM_COMMAND, ID_NAVIGATE_SKIPFORWARD);
+            if (GetMediaState() == State_Stopped) {
+                SendMessage(WM_COMMAND, ID_PLAY_PLAY);
             } else {
-                m_fEndOfStream = true;
-                PostMessage(WM_COMMAND, ID_PLAY_PAUSE);
+                REFERENCE_TIME rtPos = 0;
+                m_pMS->SetPositions(&rtPos, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning);
+                if (GetMediaState() == State_Paused) {
+                    SendMessage(WM_COMMAND, ID_PLAY_PLAY);
+                }
             }
         }
+    } else {
+        DoAfterPlaybackEvent();
     }
-    return true;
 }
 
 //
@@ -2362,9 +2341,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 
         switch (evCode) {
             case EC_COMPLETE:
-                if (!GraphEventComplete()) {
-                    return hr;
-                }
+                GraphEventComplete();
                 break;
             case EC_ERRORABORT:
                 TRACE(_T("\thr = %08x\n"), (HRESULT)evParam1);

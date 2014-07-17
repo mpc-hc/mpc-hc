@@ -470,7 +470,7 @@ protected:
     void SetDispMode(CString displayName, const DisplayMode& dm);
     void AutoChangeMonitorMode();
 
-    bool GraphEventComplete();
+    void GraphEventComplete();
 
     friend class CGraphThread;
     CGraphThread* m_pGraphThread;
@@ -551,7 +551,7 @@ public:
     bool BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPreview, bool fACapture);
     bool DoCapture(), StartCapture(), StopCapture();
 
-    bool DoAfterPlaybackEvent();
+    void DoAfterPlaybackEvent();
     void ParseDirs(CAtlList<CString>& sl);
     bool SearchInDir(bool bDirForward, bool bLoop = false);
 
