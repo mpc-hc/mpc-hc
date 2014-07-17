@@ -33,8 +33,7 @@
 //
 
 template<class T>
-struct CFormatElem
-{
+struct CFormatElem {
     CMediaType mt;
     T caps;
 };
