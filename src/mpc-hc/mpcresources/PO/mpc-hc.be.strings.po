@@ -3464,3 +3464,11 @@ msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"
 msgstr ""
 
+msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
+msgid "Remember file position only for files longer than N minutes."
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
+msgid "Remember file position also for audio files."
+msgstr ""
+

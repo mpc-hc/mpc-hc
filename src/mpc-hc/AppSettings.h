@@ -430,6 +430,8 @@ public:
     CDVDPositionList  dvdPositions;
     bool            fRememberDVDPos;
     bool            fRememberFilePos;
+    int             iRememberPosForLongerThan;
+    bool            bRememberPosForAudioFiles;
     bool            bRememberPlaylistItems;
     bool            fRememberWindowPos;
     CRect           rcLastWindowPos;

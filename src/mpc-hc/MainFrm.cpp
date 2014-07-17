@@ -10299,7 +10299,6 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
     CAppSettings& s = AfxGetAppSettings();
 
     bool bMainFile = true;
-    REFERENCE_TIME rtPos = 0;
 
     POSITION pos = pOFD->fns.GetHeadPosition();
     while (pos) {
@@ -10311,22 +10310,6 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
         }
 
         HRESULT hr = m_pGB->RenderFile(CStringW(fn), nullptr);
-
-        if (bMainFile) {
-            // Don't try to save file position if source isn't seekable
-            REFERENCE_TIME rtDur = 0;
-            m_pMS->GetDuration(&rtDur);
-
-            m_bRememberFilePos = s.fKeepHistory && s.fRememberFilePos && rtDur > 0;
-
-            // Set start time but seek only after all files are loaded
-            if (pOFD->rtStart > 0) { // Check if an explicit start time was given
-                rtPos = pOFD->rtStart;
-            } else if (m_bRememberFilePos && !s.filePositions.AddEntry(fn)) {
-                // else check if we have a remembered position to restore
-                rtPos = s.filePositions.GetLatestEntry()->llPosition;
-            }
-        }
 
         if (FAILED(hr)) {
             if (bMainFile) {
@@ -10419,10 +10402,6 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
         if (m_fCustomGraph) {
             break;
         }
-    }
-
-    if (m_pMS && rtPos) {
-        m_pMS->SetPositions(&rtPos, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning);
     }
 
     if (s.fReportFailedPins) {
@@ -11680,6 +11659,28 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 
         OpenSetupAudio();
         checkAborted();
+
+        if (GetPlaybackMode() == PM_FILE && pFileData) {
+            const CString& fn = pFileData->fns.GetHead();
+            // Don't try to save file position if source isn't seekable
+            REFERENCE_TIME rtPos = 0;
+            REFERENCE_TIME rtDur = 0;
+            m_pMS->GetDuration(&rtDur);
+
+            m_bRememberFilePos = s.fKeepHistory && s.fRememberFilePos && rtDur > (s.iRememberPosForLongerThan * 10000000i64 * 60i64) && (s.bRememberPosForAudioFiles || !m_fAudioOnly);
+
+            // Set start time but seek only after all files are loaded
+            if (pFileData->rtStart > 0) { // Check if an explicit start time was given
+                rtPos = pFileData->rtStart;
+            } else if (m_bRememberFilePos && !s.filePositions.AddEntry(fn)) {
+                // else check if we have a remembered position to restore
+                rtPos = s.filePositions.GetLatestEntry()->llPosition;
+            }
+
+            if (rtPos) {
+                m_pMS->SetPositions(&rtPos, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning);
+            }
+        }
 
         if (m_pCAP && s.IsISRAutoLoadEnabled() && (!m_fAudioOnly || m_fRealMediaGraph)) {
             if (s.fDisableInternalSubtitles) {

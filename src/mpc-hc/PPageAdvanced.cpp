@@ -22,6 +22,7 @@
 #include <strsafe.h>
 #include "PPageAdvanced.h"
 #include "mplayerc.h"
+#include "SettingsDefines.h"
 
 CPPageAdvanced::CPPageAdvanced()
     : CPPageBase(IDD, IDD)
@@ -117,9 +118,11 @@ void CPPageAdvanced::InitSettings()
         m_hiddenOptions[static_cast<ADVANCED_SETTINGS>(nItem)] = pItem;
     };
 
-    addBoolItem(HIDE_WINDOWED, _T("HideWindowedControls"), false, s.bHideWindowedControls, ResStr(IDS_PPAGEADVANCED_HIDE_WINDOWED));
-    addBoolItem(BLOCK_VSFILTER, _T("BlockVSFilter"), true, s.fBlockVSFilter, ResStr(IDS_PPAGEADVANCED_BLOCK_VSFILTER));
-    addIntItem(RECENT_FILES_NB, _T("RecentFilesNumber"), 20, s.iRecentFilesNumber, std::make_pair(0, 1000), ResStr(IDS_PPAGEADVANCED_RECENT_FILES_NUMBER));
+    addBoolItem(HIDE_WINDOWED, IDS_RS_HIDE_WINDOWED_CONTROLS, false, s.bHideWindowedControls, ResStr(IDS_PPAGEADVANCED_HIDE_WINDOWED));
+    addBoolItem(BLOCK_VSFILTER, IDS_RS_BLOCKVSFILTER, true, s.fBlockVSFilter, ResStr(IDS_PPAGEADVANCED_BLOCK_VSFILTER));
+    addIntItem(RECENT_FILES_NB, IDS_RS_RECENT_FILES_NUMBER, 20, s.iRecentFilesNumber, std::make_pair(0, 1000), ResStr(IDS_PPAGEADVANCED_RECENT_FILES_NUMBER));
+    addIntItem(FILE_POS_LONGER, IDS_RS_FILEPOSLONGER, 0, s.iRememberPosForLongerThan, std::make_pair(0, INT_MAX), ResStr(IDS_PPAGEADVANCED_FILE_POS_LONGER));
+    addBoolItem(FILE_POS_AUDIO, IDS_RS_FILEPOSAUDIO, true, s.bRememberPosForAudioFiles, ResStr(IDS_PPAGEADVANCED_FILE_POS_AUDIO));
 }
 
 BOOL CPPageAdvanced::OnApply()

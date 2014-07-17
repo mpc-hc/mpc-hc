@@ -154,6 +154,8 @@ CAppSettings::CAppSettings()
     , dvdPositions(AfxGetApp(), IDS_R_SETTINGS, iRecentFilesNumber)
     , fRememberDVDPos(false)
     , fRememberFilePos(false)
+    , iRememberPosForLongerThan(0)
+    , bRememberPosForAudioFiles(true)
     , bRememberPlaylistItems(true)
     , fRememberWindowPos(false)
     , fRememberWindowSize(false)
@@ -809,6 +811,8 @@ void CAppSettings::SaveSettings()
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DVDPOS, (int)fRememberDVDPos);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_FILEPOS, (int)fRememberFilePos);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_FILEPOSLONGER, iRememberPosForLongerThan);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_FILEPOSAUDIO, (int)bRememberPosForAudioFiles);
     if (fKeepHistory) {
         if (fRememberFilePos) {
             filePositions.Save();
@@ -1606,6 +1610,8 @@ void CAppSettings::LoadSettings()
 
     // playback positions for last played files
     fRememberFilePos = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_FILEPOS, FALSE);
+    iRememberPosForLongerThan = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_FILEPOSLONGER, 0);
+    bRememberPosForAudioFiles = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_FILEPOSAUDIO, TRUE);
     filePositions.Load();
 
     // playback positions for last played DVDs

@@ -140,7 +140,9 @@ private:
     enum ADVANCED_SETTINGS {
         HIDE_WINDOWED,
         BLOCK_VSFILTER,
-        RECENT_FILES_NB
+        RECENT_FILES_NB,
+        FILE_POS_LONGER,
+        FILE_POS_AUDIO
     };
 
     enum {

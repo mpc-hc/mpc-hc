@@ -3340,6 +3340,14 @@ BEGIN
     IDS_FILTER_SETTINGS_CAPTION "Settings"
 END
 
+STRINGTABLE
+BEGIN
+    IDS_PPAGEADVANCED_FILE_POS_LONGER 
+                            "Remember file position only for files longer than N minutes."
+    IDS_PPAGEADVANCED_FILE_POS_AUDIO 
+                            "Remember file position also for audio files."
+END
+
 #endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
