@@ -3291,6 +3291,16 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
     OpenSetupStatusBar();
     OpenSetupCaptureBar();
 
+    // Load cover-art
+    if (m_fAudioOnly) {
+        CPath path(m_wndPlaylistBar.GetCurFileName());
+        path.RemoveFileSpec();
+
+        CString author;
+        m_wndInfoBar.GetLine(ResStr(IDS_INFOBAR_AUTHOR), author);
+        m_wndView.LoadImg(FindCoverArt(path, author));
+    }
+
     if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
         // show navigation panel when it's available and not disabled
         if (!s.fHideNavigation) {
@@ -3434,6 +3444,7 @@ void CMainFrame::OnFilePostClosemedia(bool bNextIsQueued/* = false*/)
     m_Lcd.SetMediaPos(0);
 
     if (!bNextIsQueued) {
+        m_wndView.LoadImg();
         RecalcLayout();
     }
 
@@ -6426,7 +6437,7 @@ void CMainFrame::OnViewFullscreen()
 {
     const CAppSettings& s = AfxGetAppSettings();
 
-    if (IsD3DFullScreenMode() || (s.IsD3DFullscreen() && !m_fFullScreen)) {
+    if (IsD3DFullScreenMode() || (s.IsD3DFullscreen() && !m_fFullScreen && !m_fAudioOnly)) {
         ToggleD3DFullscreen(true);
     } else {
         ToggleFullscreen(true, true);
@@ -6446,7 +6457,7 @@ void CMainFrame::OnViewFullscreenSecondary()
 
 void CMainFrame::OnUpdateViewFullscreen(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(GetLoadState() == MLS::LOADED && !m_fAudioOnly || m_fFullScreen);
+    pCmdUI->Enable(GetLoadState() == MLS::LOADED || m_fFullScreen);
     pCmdUI->SetCheck(m_fFullScreen);
 }
 
@@ -9886,7 +9897,7 @@ void CMainFrame::ZoomVideoWindow(double dScale/* = ZOOM_DEFAULT_LEVEL*/)
 {
     const auto& s = AfxGetAppSettings();
 
-    if ((GetLoadState() != MLS::LOADED) ||
+    if ((GetLoadState() != MLS::LOADED) || m_fAudioOnly ||
             (m_nLockedZoomVideoWindow > 0) || m_bLockedZoomVideoWindow) {
         if (m_nLockedZoomVideoWindow > 0) {
             m_nLockedZoomVideoWindow--;
@@ -15995,7 +16006,7 @@ void CMainFrame::UpdateControlState(UpdateControlTarget target)
             m_wndToolBar.m_volctrl.SetPageSize(s.nVolumeStep);
             break;
         case UPDATE_LOGO:
-            m_wndView.LoadLogo();
+            m_wndView.LoadImg();
             break;
         case UPDATE_SKYPE:
             UpdateSkypeHandler();

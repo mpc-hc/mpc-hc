@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -30,8 +30,6 @@ IMPLEMENT_DYNAMIC(CPPageLogo, CPPageBase)
 CPPageLogo::CPPageLogo()
     : CPPageBase(CPPageLogo::IDD, CPPageLogo::IDD)
     , m_intext(0)
-    , m_logofn(_T(""))
-    , m_author(_T(""))
 {
     m_logoids.AddTail(IDF_LOGO0);
     m_logoids.AddTail(IDF_LOGO1);
@@ -99,11 +97,15 @@ BOOL CPPageLogo::OnApply()
 
     CAppSettings& s = AfxGetAppSettings();
 
-    s.fLogoExternal = !!m_intext;
-    s.strLogoFileName = m_logofn;
-    s.nLogoId = m_logoids.GetAt(m_logoidpos);
 
-    ((CMainFrame*)AfxGetMainWnd())->m_wndView.LoadLogo();
+    if (s.fLogoExternal != !!m_intext || s.strLogoFileName != m_logofn
+            || s.nLogoId != m_logoids.GetAt(m_logoidpos)) {
+        s.fLogoExternal = !!m_intext;
+        s.strLogoFileName = m_logofn;
+        s.nLogoId = m_logoids.GetAt(m_logoidpos);
+
+        ((CMainFrame*)AfxGetMainWnd())->m_wndView.LoadImg();
+    }
 
     return __super::OnApply();
 }

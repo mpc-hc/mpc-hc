@@ -2619,3 +2619,27 @@ void CorrectComboListWidth(CComboBox& m_pComboBox)
     // Set the width of the list box so that every item is completely visible.
     m_pComboBox.SetDroppedWidth(dx);
 }
+
+CString FindCoverArt(const CString& path, const CString& author)
+{
+    if (!path.IsEmpty()) {
+        CAtlList<CString> files;
+        FindFiles(path + _T("\\*front*.png"), files);
+        FindFiles(path + _T("\\*front*.jp*g"), files);
+        FindFiles(path + _T("\\*front*.bmp"), files);
+        FindFiles(path + _T("\\*cover*.png"), files);
+        FindFiles(path + _T("\\*cover*.jp*g"), files);
+        FindFiles(path + _T("\\*cover*.bmp"), files);
+        FindFiles(path + _T("\\*folder*.png"), files);
+        FindFiles(path + _T("\\*folder*.jp*g"), files);
+        FindFiles(path + _T("\\*folder*.bmp"), files);
+        FindFiles(path + _T("\\*") + author + _T("*.png"), files);
+        FindFiles(path + _T("\\*") + author + _T("*.jp*g"), files);
+        FindFiles(path + _T("\\*") + author + _T("*.bmp"), files);
+
+        if (!files.IsEmpty()) {
+            return files.GetHead();
+        }
+    }
+    return _T("");
+}

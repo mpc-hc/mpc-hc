@@ -28,7 +28,7 @@ class CChildView : public CMouseWnd
 {
     CRect m_vrect;
 
-    CMPCPngImage m_logo;
+    CMPCPngImage m_img;
 
     CMainFrame* m_pMainFrame;
 
@@ -49,7 +49,7 @@ public:
     void SetVideoRect(const CRect& r = CRect(0, 0, 0, 0));
     CRect GetVideoRect() const { return m_vrect; }
 
-    void LoadLogo();
+    void LoadImg(const CString& imagePath = _T(""));
     CSize GetLogoSize();
 
 protected:

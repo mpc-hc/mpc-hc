@@ -31,7 +31,7 @@ CChildView::CChildView(CMainFrame* pMainFrame)
     , m_bSwitchingFullscreen(false)
     , m_bFirstMedia(true)
 {
-    LoadLogo();
+    LoadImg();
     GetEventd().Connect(m_eventc, {
         MpcEvent::SWITCHING_TO_FULLSCREEN,
         MpcEvent::SWITCHED_TO_FULLSCREEN,
@@ -114,23 +114,28 @@ void CChildView::SetVideoRect(const CRect& r)
     Invalidate();
 }
 
-void CChildView::LoadLogo()
+void CChildView::LoadImg(const CString& imagePath)
 {
     CAppSettings& s = AfxGetAppSettings();
     bool bHaveLogo = false;
+    bool bLoadedImage = false;
 
-    m_logo.DeleteObject();
+    m_img.DeleteObject();
 
-    if (s.fLogoExternal) {
-        bHaveLogo = !!m_logo.LoadFromFile(s.strLogoFileName);
+    if (!imagePath.IsEmpty()) {
+        bLoadedImage = !!m_img.LoadFromFile(imagePath);
     }
 
-    if (!bHaveLogo) {
-        s.fLogoExternal = false;                // use the built-in logo instead
-        s.strLogoFileName = "";                 // clear logo file name
+    if (!bLoadedImage && s.fLogoExternal) {
+        bHaveLogo = !!m_img.LoadFromFile(s.strLogoFileName);
+    }
 
-        if (!m_logo.Load(s.nLogoId)) {          // try the latest selected build-in logo
-            m_logo.Load(s.nLogoId = DEF_LOGO);  // if fail then use the default logo, should and must never fail
+    if (!bHaveLogo && !bLoadedImage) {
+        s.fLogoExternal = false;               // use the built-in logo instead
+        s.strLogoFileName.Empty();             // clear logo file name
+
+        if (!m_img.Load(s.nLogoId)) {          // try the latest selected build-in logo
+            m_img.Load(s.nLogoId = DEF_LOGO);  // if fail then use the default logo, should and must never fail
         }
     }
 
@@ -143,7 +148,7 @@ CSize CChildView::GetLogoSize()
 {
     BITMAP bitmap;
     ZeroMemory(&bitmap, sizeof(BITMAP));
-    m_logo.GetBitmap(&bitmap);
+    m_img.GetBitmap(&bitmap);
     return CSize(bitmap.bmWidth, bitmap.bmHeight);
 }
 
@@ -168,18 +173,29 @@ BOOL CChildView::OnEraseBkgnd(CDC* pDC)
     CRect r;
 
     CImage img;
-    img.Attach(m_logo);
+    img.Attach(m_img);
 
     if ((m_pMainFrame->GetLoadState() != MLS::CLOSED || (!m_bFirstMedia && m_pMainFrame->m_controls.DelayShowNotLoaded())) &&
-            !m_pMainFrame->IsD3DFullScreenMode()) {
+            !m_pMainFrame->IsD3DFullScreenMode() && !m_pMainFrame->m_fAudioOnly) {
         pDC->ExcludeClipRect(m_vrect);
     } else if (!img.IsNull()) {
+        const double dImageAR = double(img.GetWidth()) / img.GetHeight();
+
         GetClientRect(r);
-        int w = min(img.GetWidth(), r.Width());
-        int h = min(img.GetHeight(), r.Height());
-        int x = (r.Width() - w) / 2;
-        int y = (r.Height() - h) / 2;
-        r = CRect(CPoint(x, y), CSize(w, h));
+        double dImgWidth = r.Height() * dImageAR;
+        double dImgHeight;
+
+        if (r.Width() < dImgWidth) {
+            dImgWidth = r.Width();
+            dImgHeight = dImgWidth / dImageAR;
+        } else {
+            dImgHeight = r.Height();
+        }
+
+        int x = std::lround((r.Width() - dImgWidth) / 2.0);
+        int y = std::lround((r.Height() - dImgHeight) / 2.0);
+
+        r = CRect(CPoint(x, y), CSize(std::lround(dImgWidth), std::lround(dImgHeight)));
 
         int oldmode = pDC->SetStretchBltMode(STRETCH_HALFTONE);
         img.StretchBlt(*pDC, r, CRect(0, 0, img.GetWidth(), img.GetHeight()));
