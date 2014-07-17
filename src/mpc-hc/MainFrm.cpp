@@ -11267,15 +11267,24 @@ void CMainFrame::OpenSetupWindowTitle(bool reset /*= false*/)
                 }
             } else if (GetPlaybackMode() == PM_DVD) {
                 title = _T("DVD");
+                CString path;
+                ULONG len = 0;
+                if (m_pDVDI && SUCCEEDED(m_pDVDI->GetDVDDirectory(path.GetBufferSetLength(MAX_PATH), MAX_PATH, &len)) && len) {
+                    path.ReleaseBuffer();
+                    if (path.Find(_T("\\VIDEO_TS")) == 2) {
+                        title.AppendFormat(_T(" - %s"), GetDriveLabel(CPath(path)));
+                    }
+                }
             }
         } else { // Show full path
             if (GetPlaybackMode() == PM_FILE) {
                 title = m_wndPlaylistBar.GetCurFileName();
             } else if (GetPlaybackMode() == PM_DVD) {
-                WCHAR buff[MAX_PATH];
+                title = _T("DVD");
                 ULONG len = 0;
-                if (m_pDVDI && SUCCEEDED(m_pDVDI->GetDVDDirectory(buff, _countof(buff), &len)) && len) {
-                    title = buff;
+                if (m_pDVDI) {
+                    VERIFY(SUCCEEDED(m_pDVDI->GetDVDDirectory(title.GetBufferSetLength(MAX_PATH), MAX_PATH, &len)));
+                    title.ReleaseBuffer();
                 }
             }
         }

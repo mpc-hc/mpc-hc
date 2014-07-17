@@ -810,10 +810,17 @@ OpticalDiskType_t GetOpticalDiskType(TCHAR drive, CAtlList<CString>& files)
 
 CString GetDriveLabel(TCHAR drive)
 {
-    CString label;
-
     CString path;
     path.Format(_T("%c:\\"), drive);
+
+    return GetDriveLabel(CPath(path));
+}
+
+CString GetDriveLabel(CPath path)
+{
+    CString label;
+    path.StripToRoot();
+
     TCHAR VolumeNameBuffer[MAX_PATH], FileSystemNameBuffer[MAX_PATH];
     DWORD VolumeSerialNumber, MaximumComponentLength, FileSystemFlags;
     if (GetVolumeInformation(path,
