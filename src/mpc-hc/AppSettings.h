@@ -476,7 +476,6 @@ public:
     int             nBalance;
     int             nLoops;
     bool            fLoopForever;
-    bool            fRewind;
     bool            fRememberZoomLevel;
     int             nAutoFitFactor;
     int             iZoomLevel;
@@ -489,6 +488,15 @@ public:
     bool            fBlockVSFilter;
     UINT            nVolumeStep;
     UINT            nSpeedStep;
+
+    enum class AfterPlayback
+    {
+        DO_NOTHING,
+        PLAY_NEXT,
+        REWIND,
+        CLOSE,
+        EXIT
+    } eAfterPlayback;
 
     // DVD/OGM
     bool            fUseDVDPath;
@@ -625,9 +633,6 @@ public:
     CStringArray    m_pnspresets;
     // On top menu
     int             iOnTop;
-    // After Playback
-    bool            fExitAfterPlayback;
-    bool            fNextInDirAfterPlayback;
 
     // WINDOWS
     // Add Favorite

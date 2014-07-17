@@ -585,10 +585,6 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "Μετά την αναπαραγωγή"
 
-msgctxt "ID_AFTERPLAYBACK_ONCE"
-msgid "--------- Once ---------"
-msgstr "----------- Μόνο τώρα ----------"
-
 msgctxt "ID_AFTERPLAYBACK_CLOSE"
 msgid "&Exit"
 msgstr "Έξοδος"
@@ -612,22 +608,6 @@ msgstr "Αποσύνδεση"
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "Κλείδωμα"
-
-msgctxt "ID_AFTERPLAYBACK_EVERYTIME"
-msgid "------ Every time ------"
-msgstr "----------- Κάθε φορά -----------"
-
-msgctxt "ID_AFTERPLAYBACK_EXIT"
-msgid "E&xit"
-msgstr "Έξοδος"
-
-msgctxt "ID_AFTERPLAYBACK_DONOTHING"
-msgid "Do &Nothing"
-msgstr "Καμία ενέργεια"
-
-msgctxt "ID_AFTERPLAYBACK_NEXT"
-msgid "Play next in the &folder"
-msgstr "Αναπαραγωγή επόμενου στο φάκελο"
 
 msgctxt "POPUP"
 msgid "&Navigate"

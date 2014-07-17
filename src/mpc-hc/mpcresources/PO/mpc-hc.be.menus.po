@@ -583,10 +583,6 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "Па канчатку прайгравання"
 
-msgctxt "ID_AFTERPLAYBACK_ONCE"
-msgid "--------- Once ---------"
-msgstr "------ Аднаразова ------"
-
 msgctxt "ID_AFTERPLAYBACK_CLOSE"
 msgid "&Exit"
 msgstr "Закрыць праграму"
@@ -610,22 +606,6 @@ msgstr "Завяршыць сеанс"
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "Блакаваць"
-
-msgctxt "ID_AFTERPLAYBACK_EVERYTIME"
-msgid "------ Every time ------"
-msgstr "------ Кожны раз -------"
-
-msgctxt "ID_AFTERPLAYBACK_EXIT"
-msgid "E&xit"
-msgstr "Закрыць праграму"
-
-msgctxt "ID_AFTERPLAYBACK_DONOTHING"
-msgid "Do &Nothing"
-msgstr "Нічога не рабіць"
-
-msgctxt "ID_AFTERPLAYBACK_NEXT"
-msgid "Play next in the &folder"
-msgstr "Прайграць наступны ў тэчцы"
 
 msgctxt "POPUP"
 msgid "&Navigate"

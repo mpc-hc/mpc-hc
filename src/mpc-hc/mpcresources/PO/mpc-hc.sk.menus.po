@@ -584,10 +584,6 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "Po prehra&tí"
 
-msgctxt "ID_AFTERPLAYBACK_ONCE"
-msgid "--------- Once ---------"
-msgstr "----- Jednorazovo -----"
-
 msgctxt "ID_AFTERPLAYBACK_CLOSE"
 msgid "&Exit"
 msgstr "&Ukončiť"
@@ -611,22 +607,6 @@ msgstr "Od&hlásiť používateľa"
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "U&zamknúť"
-
-msgctxt "ID_AFTERPLAYBACK_EVERYTIME"
-msgid "------ Every time ------"
-msgstr "------ Zakaždým ------"
-
-msgctxt "ID_AFTERPLAYBACK_EXIT"
-msgid "E&xit"
-msgstr "U&končiť"
-
-msgctxt "ID_AFTERPLAYBACK_DONOTHING"
-msgid "Do &Nothing"
-msgstr "Neurobiť &nič"
-
-msgctxt "ID_AFTERPLAYBACK_NEXT"
-msgid "Play next in the &folder"
-msgstr "Prehrať ďalší v &priečinku"
 
 msgctxt "POPUP"
 msgid "&Navigate"

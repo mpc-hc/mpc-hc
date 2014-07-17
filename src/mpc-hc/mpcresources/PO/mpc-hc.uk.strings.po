@@ -3396,18 +3396,6 @@ msgctxt "IDS_AFTERPLAYBACK_LOCK"
 msgid "After Playback: Lock"
 msgstr "Наприкінці відтворення: Заблокувати ПК"
 
-msgctxt "IDS_AFTERPLAYBACK_EXIT"
-msgid "After Playback: Always exit"
-msgstr "Наприкінці відтворення: Завжди закривати програму"
-
-msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
-msgid "After Playback: Do Nothing"
-msgstr "Наприкінці відтворення: Нічого не робити"
-
-msgctxt "IDS_AFTERPLAYBACK_NEXT"
-msgid "After Playback: Play next in the folder"
-msgstr "Наприкінці відтворення: Відтворити наступний файл в теці"
-
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
 msgstr "Яскравість: %s"
@@ -3475,4 +3463,24 @@ msgstr "Запам'ятовувати позицію тільки для фай�
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
 msgid "Remember file position also for audio files."
 msgstr "Запам'ятовувати позицію і для аудіофайлів."
+
+msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
+msgid "Do Nothing"
+msgstr ""
+
+msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
+msgid "Play next file in the folder"
+msgstr ""
+
+msgctxt "IDS_AFTER_PLAYBACK_REWIND"
+msgid "Rewind current file"
+msgstr ""
+
+msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
+msgid "Close"
+msgstr ""
+
+msgctxt "IDS_AFTER_PLAYBACK_EXIT"
+msgid "Exit"
+msgstr ""
 

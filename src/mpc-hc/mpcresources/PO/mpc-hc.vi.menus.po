@@ -585,10 +585,6 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "&Sau khi phát"
 
-msgctxt "ID_AFTERPLAYBACK_ONCE"
-msgid "--------- Once ---------"
-msgstr "----- Chỉ một lần -----"
-
 msgctxt "ID_AFTERPLAYBACK_CLOSE"
 msgid "&Exit"
 msgstr "&Thoát"
@@ -612,22 +608,6 @@ msgstr "&Đăng xuất"
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "&Khoá máy"
-
-msgctxt "ID_AFTERPLAYBACK_EVERYTIME"
-msgid "------ Every time ------"
-msgstr "----- Cho mọi lần -----"
-
-msgctxt "ID_AFTERPLAYBACK_EXIT"
-msgid "E&xit"
-msgstr "&Thoát"
-
-msgctxt "ID_AFTERPLAYBACK_DONOTHING"
-msgid "Do &Nothing"
-msgstr "&Không làm gì"
-
-msgctxt "ID_AFTERPLAYBACK_NEXT"
-msgid "Play next in the &folder"
-msgstr "&Phát tập tin kế tiếp"
 
 msgctxt "POPUP"
 msgid "&Navigate"

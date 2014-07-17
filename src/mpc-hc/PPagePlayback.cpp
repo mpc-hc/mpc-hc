@@ -34,7 +34,7 @@ CPPagePlayback::CPPagePlayback()
     : CPPageBase(CPPagePlayback::IDD, CPPagePlayback::IDD)
     , m_iLoopForever(0)
     , m_nLoops(0)
-    , m_fRewind(FALSE)
+    , m_iAfterPlayback(0)
     , m_iZoomLevel(0)
     , m_iRememberZoomLevel(FALSE)
     , m_nAutoFitFactor(75)
@@ -63,12 +63,13 @@ void CPPagePlayback::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_SLIDER1, m_volumectrl);
     DDX_Control(pDX, IDC_SLIDER2, m_balancectrl);
     DDX_Control(pDX, IDC_COMBO1, m_zoomlevelctrl);
+    DDX_Control(pDX, IDC_COMBO2, m_afterPlayback);
     DDX_Slider(pDX, IDC_SLIDER1, m_nVolume);
     DDX_Slider(pDX, IDC_SLIDER2, m_nBalance);
     DDX_Radio(pDX, IDC_RADIO1, m_iLoopForever);
     DDX_Control(pDX, IDC_EDIT1, m_loopnumctrl);
     DDX_Text(pDX, IDC_EDIT1, m_nLoops);
-    DDX_Check(pDX, IDC_CHECK1, m_fRewind);
+    DDX_CBIndex(pDX, IDC_COMBO2, m_iAfterPlayback);
     DDX_CBIndex(pDX, IDC_COMBO1, m_iZoomLevel);
     DDX_Check(pDX, IDC_CHECK5, m_iRememberZoomLevel);
     DDX_Check(pDX, IDC_CHECK2, m_fAutoloadAudio);
@@ -125,7 +126,7 @@ BOOL CPPagePlayback::OnInitDialog()
     m_SpeedStepCtrl.SetRange32(0, 100);
     m_iLoopForever = s.fLoopForever ? 1 : 0;
     m_nLoops = s.nLoops;
-    m_fRewind = s.fRewind;
+    m_iAfterPlayback = static_cast<int>(s.eAfterPlayback);
     m_iZoomLevel = s.iZoomLevel;
     m_iRememberZoomLevel = s.fRememberZoomLevel;
     m_nAutoFitFactor = s.nAutoFitFactor;
@@ -145,6 +146,13 @@ BOOL CPPagePlayback::OnInitDialog()
     m_zoomlevelctrl.AddString(ResStr(IDS_ZOOM_AUTOFIT));
     m_zoomlevelctrl.AddString(ResStr(IDS_ZOOM_AUTOFIT_LARGER));
     CorrectComboListWidth(m_zoomlevelctrl);
+
+    m_afterPlayback.AddString(ResStr(IDS_AFTER_PLAYBACK_DO_NOTHING));
+    m_afterPlayback.AddString(ResStr(IDS_AFTER_PLAYBACK_PLAY_NEXT));
+    m_afterPlayback.AddString(ResStr(IDS_AFTER_PLAYBACK_REWIND));
+    m_afterPlayback.AddString(ResStr(IDS_AFTER_PLAYBACK_CLOSE));
+    m_afterPlayback.AddString(ResStr(IDS_AFTER_PLAYBACK_EXIT));
+    CorrectComboListWidth(m_afterPlayback);
 
     // set the spinner acceleration value
     UDACCEL accel = { 0, 10 };
@@ -175,7 +183,7 @@ BOOL CPPagePlayback::OnApply()
     s.nSpeedStep = m_nSpeedStep;
     s.fLoopForever = !!m_iLoopForever;
     s.nLoops = m_nLoops;
-    s.fRewind = !!m_fRewind;
+    s.eAfterPlayback = static_cast<CAppSettings::AfterPlayback>(m_iAfterPlayback);
     s.iZoomLevel = m_iZoomLevel;
     s.fRememberZoomLevel = !!m_iRememberZoomLevel;
     s.nAutoFitFactor = m_nAutoFitFactor = min(max(m_nAutoFitFactor, 25), 100);

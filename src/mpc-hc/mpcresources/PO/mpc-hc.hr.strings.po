@@ -3399,18 +3399,6 @@ msgctxt "IDS_AFTERPLAYBACK_LOCK"
 msgid "After Playback: Lock"
 msgstr "Nakon reprodukcije: Zaključaj"
 
-msgctxt "IDS_AFTERPLAYBACK_EXIT"
-msgid "After Playback: Always exit"
-msgstr "Nakon reprodukcije: Uvijek izađi"
-
-msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
-msgid "After Playback: Do Nothing"
-msgstr "Nakon reprodukcije: Nemoj učini ništa"
-
-msgctxt "IDS_AFTERPLAYBACK_NEXT"
-msgid "After Playback: Play next in the folder"
-msgstr "Nakon reprodukcije: Reproduciraj sljedeće u mapi"
-
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
 msgstr "Svjetlina: %s"
@@ -3478,4 +3466,24 @@ msgstr "Zapamti poziciju reprodukcije ukoliko je datoteka duža od N minuta.."
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
 msgid "Remember file position also for audio files."
 msgstr "Zapamti poziciju reprodukcije za audio datoteke."
+
+msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
+msgid "Do Nothing"
+msgstr ""
+
+msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
+msgid "Play next file in the folder"
+msgstr ""
+
+msgctxt "IDS_AFTER_PLAYBACK_REWIND"
+msgid "Rewind current file"
+msgstr ""
+
+msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
+msgid "Close"
+msgstr ""
+
+msgctxt "IDS_AFTER_PLAYBACK_EXIT"
+msgid "Exit"
+msgstr ""
 

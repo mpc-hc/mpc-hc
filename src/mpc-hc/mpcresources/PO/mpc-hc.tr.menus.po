@@ -588,10 +588,6 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "Oy&natmadan Sonra"
 
-msgctxt "ID_AFTERPLAYBACK_ONCE"
-msgid "--------- Once ---------"
-msgstr "-------- Bir Kez --------"
-
 msgctxt "ID_AFTERPLAYBACK_CLOSE"
 msgid "&Exit"
 msgstr "&Kapat "
@@ -615,22 +611,6 @@ msgstr "Oturumu &Kapat"
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "&Kilitle"
-
-msgctxt "ID_AFTERPLAYBACK_EVERYTIME"
-msgid "------ Every time ------"
-msgstr "------- Her zaman -------"
-
-msgctxt "ID_AFTERPLAYBACK_EXIT"
-msgid "E&xit"
-msgstr "K&apat "
-
-msgctxt "ID_AFTERPLAYBACK_DONOTHING"
-msgid "Do &Nothing"
-msgstr "Bir &İşlem Yapma"
-
-msgctxt "ID_AFTERPLAYBACK_NEXT"
-msgid "Play next in the &folder"
-msgstr "Sıradaki Dosyayı &Oynat"
 
 msgctxt "POPUP"
 msgid "&Navigate"

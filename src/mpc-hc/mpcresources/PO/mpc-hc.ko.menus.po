@@ -584,10 +584,6 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "재생이 끝나면"
 
-msgctxt "ID_AFTERPLAYBACK_ONCE"
-msgid "--------- Once ---------"
-msgstr "--------- 이번 재생시에만 ---------"
-
 msgctxt "ID_AFTERPLAYBACK_CLOSE"
 msgid "&Exit"
 msgstr "파일 닫기 "
@@ -611,22 +607,6 @@ msgstr "윈도우 로그오프"
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "잠그기"
-
-msgctxt "ID_AFTERPLAYBACK_EVERYTIME"
-msgid "------ Every time ------"
-msgstr "------ 모든 재생시에 ------"
-
-msgctxt "ID_AFTERPLAYBACK_EXIT"
-msgid "E&xit"
-msgstr "파일 닫기"
-
-msgctxt "ID_AFTERPLAYBACK_DONOTHING"
-msgid "Do &Nothing"
-msgstr "아무것도 하지않음"
-
-msgctxt "ID_AFTERPLAYBACK_NEXT"
-msgid "Play next in the &folder"
-msgstr "폴더의 다음 파일 재생"
 
 msgctxt "POPUP"
 msgid "&Navigate"

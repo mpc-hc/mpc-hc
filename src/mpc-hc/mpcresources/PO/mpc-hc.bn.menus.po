@@ -584,10 +584,6 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "প্লেব্যাকের পরে(&T)"
 
-msgctxt "ID_AFTERPLAYBACK_ONCE"
-msgid "--------- Once ---------"
-msgstr "--------- শুধু এইবার ---------"
-
 msgctxt "ID_AFTERPLAYBACK_CLOSE"
 msgid "&Exit"
 msgstr "প্রোগ্রাম বন্ধ করি(&E)"
@@ -611,22 +607,6 @@ msgstr "কম্পিউটার লগ অফ করি(&O)"
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "কম্পিউটার লক করি(&L)"
-
-msgctxt "ID_AFTERPLAYBACK_EVERYTIME"
-msgid "------ Every time ------"
-msgstr "------ সবসময় ------"
-
-msgctxt "ID_AFTERPLAYBACK_EXIT"
-msgid "E&xit"
-msgstr "প্রোগ্রাম বন্ধ করি(&X)"
-
-msgctxt "ID_AFTERPLAYBACK_DONOTHING"
-msgid "Do &Nothing"
-msgstr "কিছুই করি না(&N)"
-
-msgctxt "ID_AFTERPLAYBACK_NEXT"
-msgid "Play next in the &folder"
-msgstr "ফোল্ডারের পরবর্তী ফাইল প্লে করি(&F)"
 
 msgctxt "POPUP"
 msgid "&Navigate"

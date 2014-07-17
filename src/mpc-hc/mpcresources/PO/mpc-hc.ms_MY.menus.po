@@ -584,10 +584,6 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "Se&lepas Main Balik"
 
-msgctxt "ID_AFTERPLAYBACK_ONCE"
-msgid "--------- Once ---------"
-msgstr "--------- Sekali ---------"
-
 msgctxt "ID_AFTERPLAYBACK_CLOSE"
 msgid "&Exit"
 msgstr "&Keluar"
@@ -611,22 +607,6 @@ msgstr "Daftar &Keluar"
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "Kun&ci"
-
-msgctxt "ID_AFTERPLAYBACK_EVERYTIME"
-msgid "------ Every time ------"
-msgstr "------ Setiap masa ------"
-
-msgctxt "ID_AFTERPLAYBACK_EXIT"
-msgid "E&xit"
-msgstr "K&eluar"
-
-msgctxt "ID_AFTERPLAYBACK_DONOTHING"
-msgid "Do &Nothing"
-msgstr "&Jangan Buat Apa-apa"
-
-msgctxt "ID_AFTERPLAYBACK_NEXT"
-msgid "Play next in the &folder"
-msgstr "Main berikutnya di dalam &folder"
 
 msgctxt "POPUP"
 msgid "&Navigate"

@@ -586,10 +586,6 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "Nach Wieder&gabe"
 
-msgctxt "ID_AFTERPLAYBACK_ONCE"
-msgid "--------- Once ---------"
-msgstr "-------- Einmalige Aktion -------"
-
 msgctxt "ID_AFTERPLAYBACK_CLOSE"
 msgid "&Exit"
 msgstr "&Programm beenden"
@@ -613,22 +609,6 @@ msgstr "Benutzer &abmelden"
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "Benutzer &sperren"
-
-msgctxt "ID_AFTERPLAYBACK_EVERYTIME"
-msgid "------ Every time ------"
-msgstr "-------- Standard-Aktion --------"
-
-msgctxt "ID_AFTERPLAYBACK_EXIT"
-msgid "E&xit"
-msgstr "Programm &beenden"
-
-msgctxt "ID_AFTERPLAYBACK_DONOTHING"
-msgid "Do &Nothing"
-msgstr "&Keine Aktion"
-
-msgctxt "ID_AFTERPLAYBACK_NEXT"
-msgid "Play next in the &folder"
-msgstr "&Nächste Datei im Ordner abspielen"
 
 msgctxt "POPUP"
 msgid "&Navigate"

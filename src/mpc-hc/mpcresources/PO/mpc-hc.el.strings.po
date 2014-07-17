@@ -3397,18 +3397,6 @@ msgctxt "IDS_AFTERPLAYBACK_LOCK"
 msgid "After Playback: Lock"
 msgstr "Μετά την αναπαραγωγή: Κλείδωμα"
 
-msgctxt "IDS_AFTERPLAYBACK_EXIT"
-msgid "After Playback: Always exit"
-msgstr "Μετά την αναπαραγωγή: Πάντα έξοδος"
-
-msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
-msgid "After Playback: Do Nothing"
-msgstr "Μετά την αναπαραγωγή: Καμία ενέργεια"
-
-msgctxt "IDS_AFTERPLAYBACK_NEXT"
-msgid "After Playback: Play next in the folder"
-msgstr "Μετά την αναπαραγωγή: Αναπ/γή επόμενου στο φάκελο"
-
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
 msgstr "Φωτεινότητα : %s"
@@ -3476,4 +3464,24 @@ msgstr "Απομνημόνευση θέσης αρχείου μόνο για α�
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
 msgid "Remember file position also for audio files."
 msgstr "Απομνημόνευση θέσης αρχείου επίσης για τα αρχεία ήχου."
+
+msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
+msgid "Do Nothing"
+msgstr ""
+
+msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
+msgid "Play next file in the folder"
+msgstr ""
+
+msgctxt "IDS_AFTER_PLAYBACK_REWIND"
+msgid "Rewind current file"
+msgstr ""
+
+msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
+msgid "Close"
+msgstr ""
+
+msgctxt "IDS_AFTER_PLAYBACK_EXIT"
+msgid "Exit"
+msgstr ""
 

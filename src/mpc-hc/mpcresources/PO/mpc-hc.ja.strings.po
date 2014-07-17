@@ -3396,18 +3396,6 @@ msgctxt "IDS_AFTERPLAYBACK_LOCK"
 msgid "After Playback: Lock"
 msgstr "再生終了後: ロック"
 
-msgctxt "IDS_AFTERPLAYBACK_EXIT"
-msgid "After Playback: Always exit"
-msgstr "再生終了後: 常に終了"
-
-msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
-msgid "After Playback: Do Nothing"
-msgstr "再生終了後: 何もしない"
-
-msgctxt "IDS_AFTERPLAYBACK_NEXT"
-msgid "After Playback: Play next in the folder"
-msgstr "再生終了後: フォルダ内を順次再生"
-
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
 msgstr "明るさ: %s"
@@ -3475,4 +3463,24 @@ msgstr "N 分よりも長いファイルのみ再生位置を記憶します。 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
 msgid "Remember file position also for audio files."
 msgstr "オーディオ ファイルも再生位置を記憶します。"
+
+msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
+msgid "Do Nothing"
+msgstr ""
+
+msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
+msgid "Play next file in the folder"
+msgstr ""
+
+msgctxt "IDS_AFTER_PLAYBACK_REWIND"
+msgid "Rewind current file"
+msgstr ""
+
+msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
+msgid "Close"
+msgstr ""
+
+msgctxt "IDS_AFTER_PLAYBACK_EXIT"
+msgid "Exit"
+msgstr ""
 

@@ -586,10 +586,6 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "&Tras la reproducción"
 
-msgctxt "ID_AFTERPLAYBACK_ONCE"
-msgid "--------- Once ---------"
-msgstr "-------- Una vez -------"
-
 msgctxt "ID_AFTERPLAYBACK_CLOSE"
 msgid "&Exit"
 msgstr "&Salir "
@@ -613,22 +609,6 @@ msgstr "&Cerrar la sesión"
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "&Bloquear"
-
-msgctxt "ID_AFTERPLAYBACK_EVERYTIME"
-msgid "------ Every time ------"
-msgstr "------- Cada vez -------"
-
-msgctxt "ID_AFTERPLAYBACK_EXIT"
-msgid "E&xit"
-msgstr "Sa&lir"
-
-msgctxt "ID_AFTERPLAYBACK_DONOTHING"
-msgid "Do &Nothing"
-msgstr "&No hacer nada"
-
-msgctxt "ID_AFTERPLAYBACK_NEXT"
-msgid "Play next in the &folder"
-msgstr "&Reproducir siguiente en la carpeta"
 
 msgctxt "POPUP"
 msgid "&Navigate"

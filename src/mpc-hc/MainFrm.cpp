@@ -462,11 +462,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_COMMAND_RANGE(ID_NORMALIZE, ID_REGAIN_VOLUME, OnNormalizeRegainVolume)
     ON_UPDATE_COMMAND_UI_RANGE(ID_NORMALIZE, ID_REGAIN_VOLUME, OnUpdateNormalizeRegainVolume)
     ON_COMMAND_RANGE(ID_COLOR_BRIGHTNESS_INC, ID_COLOR_RESET, OnPlayColor)
-    ON_UPDATE_COMMAND_UI_RANGE(ID_AFTERPLAYBACK_ONCE, ID_AFTERPLAYBACK_EVERYTIME, OnUpdateAfterplayback)
-    ON_COMMAND_RANGE(ID_AFTERPLAYBACK_CLOSE, ID_AFTERPLAYBACK_DONOTHING, OnAfterplayback)
-    ON_UPDATE_COMMAND_UI_RANGE(ID_AFTERPLAYBACK_CLOSE, ID_AFTERPLAYBACK_DONOTHING, OnUpdateAfterplayback)
-    ON_COMMAND_RANGE(ID_AFTERPLAYBACK_EXIT, ID_AFTERPLAYBACK_NEXT, OnAfterplayback)
-    ON_UPDATE_COMMAND_UI_RANGE(ID_AFTERPLAYBACK_EXIT, ID_AFTERPLAYBACK_NEXT, OnUpdateAfterplayback)
+    ON_UPDATE_COMMAND_UI_RANGE(ID_AFTERPLAYBACK_CLOSE, ID_AFTERPLAYBACK_LOCK, OnUpdateAfterplayback)
+    ON_COMMAND_RANGE(ID_AFTERPLAYBACK_CLOSE, ID_AFTERPLAYBACK_LOCK, OnAfterplayback)
 
     ON_COMMAND_RANGE(ID_NAVIGATE_SKIPBACK, ID_NAVIGATE_SKIPFORWARD, OnNavigateSkip)
     ON_UPDATE_COMMAND_UI_RANGE(ID_NAVIGATE_SKIPBACK, ID_NAVIGATE_SKIPFORWARD, OnUpdateNavigateSkip)
@@ -2213,33 +2210,36 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 bool CMainFrame::DoAfterPlaybackEvent()
 {
     const CAppSettings& s = AfxGetAppSettings();
-    bool fExit = (s.nCLSwitches & CLSW_CLOSE) || s.fExitAfterPlayback;
+    bool bExit = (s.nCLSwitches & CLSW_CLOSE) || (s.eAfterPlayback == CAppSettings::AfterPlayback::EXIT);
 
     if (s.nCLSwitches & CLSW_STANDBY) {
         SetPrivilege(SE_SHUTDOWN_NAME);
         SetSystemPowerState(TRUE, FALSE);
-        fExit = true; // TODO: unless the app closes, it will call standby or hibernate once again forever, how to avoid that?
+        bExit = true; // TODO: unless the app closes, it will call standby or hibernate once again forever, how to avoid that?
     } else if (s.nCLSwitches & CLSW_HIBERNATE) {
         SetPrivilege(SE_SHUTDOWN_NAME);
         SetSystemPowerState(FALSE, FALSE);
-        fExit = true; // TODO: unless the app closes, it will call standby or hibernate once again forever, how to avoid that?
+        bExit = true; // TODO: unless the app closes, it will call standby or hibernate once again forever, how to avoid that?
     } else if (s.nCLSwitches & CLSW_SHUTDOWN) {
         SetPrivilege(SE_SHUTDOWN_NAME);
         ExitWindowsEx(EWX_SHUTDOWN | EWX_POWEROFF | EWX_FORCEIFHUNG, 0);
-        fExit = true;
+        bExit = true;
     } else if (s.nCLSwitches & CLSW_LOGOFF) {
         SetPrivilege(SE_SHUTDOWN_NAME);
         ExitWindowsEx(EWX_LOGOFF | EWX_FORCEIFHUNG, 0);
-        fExit = true;
+        bExit = true;
     } else if (s.nCLSwitches & CLSW_LOCK) {
         LockWorkStation();
     }
 
-    if (fExit) {
+    bool bClose = s.eAfterPlayback == CAppSettings::AfterPlayback::CLOSE;
+    if (bExit) {
         SendMessage(WM_COMMAND, ID_FILE_EXIT);
+    } else if (bClose) {
+        SendMessage(WM_COMMAND, ID_FILE_CLOSE_AND_RESTORE);
     }
 
-    return fExit;
+    return bExit || bClose;
 }
 
 //
@@ -2263,14 +2263,15 @@ bool CMainFrame::GraphEventComplete()
             return false;
         }
 
-        if (s.fNextInDirAfterPlayback && SearchInDir(true)) {
+        bool bPlayNext = s.eAfterPlayback == CAppSettings::AfterPlayback::PLAY_NEXT;
+        if (bPlayNext && SearchInDir(true)) {
             return false;
         }
 
         m_nLoops++;
 
         if (s.fLoopForever || m_nLoops < s.nLoops) {
-            if (s.fNextInDirAfterPlayback) {
+            if (bPlayNext) {
                 SearchInDir(true, true);
             } else if (GetMediaState() == State_Stopped) {
                 SendMessage(WM_COMMAND, ID_PLAY_PLAY);
@@ -2283,7 +2284,7 @@ bool CMainFrame::GraphEventComplete()
                 }
             }
         } else {
-            if (s.fRewind) {
+            if (s.eAfterPlayback == CAppSettings::AfterPlayback::REWIND) {
                 SendMessage(WM_COMMAND, ID_PLAY_STOP);
             } else {
                 m_fEndOfStream = true;
@@ -2295,7 +2296,7 @@ bool CMainFrame::GraphEventComplete()
                 OnViewFullscreen();
             }
 
-            if (s.fNextInDirAfterPlayback) {
+            if (bPlayNext) {
                 // Don't move this line or OSD message "Pause" will overwrite this message.
                 m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_NO_MORE_MEDIA));
             }
@@ -2318,7 +2319,7 @@ bool CMainFrame::GraphEventComplete()
                 OnViewFullscreen();
             }
 
-            if (s.fRewind) {
+            if (s.eAfterPlayback == CAppSettings::AfterPlayback::REWIND) {
                 s.nCLSwitches |= CLSW_OPEN; // HACK
                 PostMessage(WM_COMMAND, ID_NAVIGATE_SKIPFORWARD);
             } else {
@@ -8075,21 +8076,6 @@ void CMainFrame::OnAfterplayback(UINT nID)
     WORD osdMsg = 0;
 
     switch (nID) {
-        case ID_AFTERPLAYBACK_NEXT:
-            s.fNextInDirAfterPlayback = true;
-            s.fExitAfterPlayback = false;
-            osdMsg = IDS_AFTERPLAYBACK_NEXT;
-            break;
-        case ID_AFTERPLAYBACK_EXIT:
-            s.fExitAfterPlayback = true;
-            s.fNextInDirAfterPlayback = false;
-            osdMsg = IDS_AFTERPLAYBACK_EXIT;
-            break;
-        case ID_AFTERPLAYBACK_DONOTHING:
-            s.fExitAfterPlayback = false;
-            s.fNextInDirAfterPlayback = false;
-            osdMsg = IDS_AFTERPLAYBACK_DONOTHING;
-            break;
         case ID_AFTERPLAYBACK_CLOSE:
             s.nCLSwitches |= CLSW_CLOSE;
             osdMsg = IDS_AFTERPLAYBACK_CLOSE;
@@ -8125,16 +8111,6 @@ void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
     bool bEnabled = true, bChecked = false;
 
     switch (pCmdUI->m_nID) {
-        case ID_AFTERPLAYBACK_ONCE:
-        case ID_AFTERPLAYBACK_EVERYTIME:
-            bEnabled = false;
-            break;
-        case ID_AFTERPLAYBACK_EXIT:
-            bChecked = !!s.fExitAfterPlayback;
-            break;
-        case ID_AFTERPLAYBACK_NEXT:
-            bChecked = !!s.fNextInDirAfterPlayback;
-            break;
         case ID_AFTERPLAYBACK_CLOSE:
             bChecked = !!(s.nCLSwitches & CLSW_CLOSE);
             break;
@@ -8152,9 +8128,6 @@ void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
             break;
         case ID_AFTERPLAYBACK_LOCK:
             bChecked = !!(s.nCLSwitches & CLSW_LOCK);
-            break;
-        case ID_AFTERPLAYBACK_DONOTHING:
-            bChecked = (!s.fExitAfterPlayback && !s.fNextInDirAfterPlayback);
             break;
     }
 

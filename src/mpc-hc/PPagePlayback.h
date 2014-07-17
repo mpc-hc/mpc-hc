@@ -48,7 +48,7 @@ public:
     int m_iLoopForever;
     CEdit m_loopnumctrl;
     int m_nLoops;
-    BOOL m_fRewind;
+    int m_iAfterPlayback;
     int m_iZoomLevel;
     BOOL m_iRememberZoomLevel;
     int m_nAutoFitFactor;
@@ -62,6 +62,7 @@ public:
     BOOL m_fAllowOverridingExternalSplitterChoice;
 
     CComboBox m_zoomlevelctrl;
+    CComboBox m_afterPlayback;
 
     // Dialog Data
     enum { IDD = IDD_PPAGEPLAYBACK };

@@ -3398,18 +3398,6 @@ msgctxt "IDS_AFTERPLAYBACK_LOCK"
 msgid "After Playback: Lock"
 msgstr "Després de la reproducció: Bloquejar"
 
-msgctxt "IDS_AFTERPLAYBACK_EXIT"
-msgid "After Playback: Always exit"
-msgstr "Després de la reproducció: Sortir sempre"
-
-msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
-msgid "After Playback: Do Nothing"
-msgstr "Després de la reproducció: No fer res"
-
-msgctxt "IDS_AFTERPLAYBACK_NEXT"
-msgid "After Playback: Play next in the folder"
-msgstr "Després de la reproducció: Reproduir seguent al directori"
-
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
 msgstr "Brillantor: %s"
@@ -3476,5 +3464,25 @@ msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
 msgid "Remember file position also for audio files."
+msgstr ""
+
+msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
+msgid "Do Nothing"
+msgstr ""
+
+msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
+msgid "Play next file in the folder"
+msgstr ""
+
+msgctxt "IDS_AFTER_PLAYBACK_REWIND"
+msgid "Rewind current file"
+msgstr ""
+
+msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
+msgid "Close"
+msgstr ""
+
+msgctxt "IDS_AFTER_PLAYBACK_EXIT"
+msgid "Exit"
 msgstr ""
 

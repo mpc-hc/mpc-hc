@@ -585,10 +585,6 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "P&o přehrání"
 
-msgctxt "ID_AFTERPLAYBACK_ONCE"
-msgid "--------- Once ---------"
-msgstr "-------- Jednou --------"
-
 msgctxt "ID_AFTERPLAYBACK_CLOSE"
 msgid "&Exit"
 msgstr "Zavřít přehrávač"
@@ -612,22 +608,6 @@ msgstr "Odhlásit uživatele"
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "Uzamknout počítač"
-
-msgctxt "ID_AFTERPLAYBACK_EVERYTIME"
-msgid "------ Every time ------"
-msgstr "--------- Vždy ---------"
-
-msgctxt "ID_AFTERPLAYBACK_EXIT"
-msgid "E&xit"
-msgstr "Zavřít přehrávač"
-
-msgctxt "ID_AFTERPLAYBACK_DONOTHING"
-msgid "Do &Nothing"
-msgstr "Nedělat nic"
-
-msgctxt "ID_AFTERPLAYBACK_NEXT"
-msgid "Play next in the &folder"
-msgstr "Přehrát následující v adresáři"
 
 msgctxt "POPUP"
 msgid "&Navigate"

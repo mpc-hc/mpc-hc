@@ -585,10 +585,6 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "Po predvajanj&u"
 
-msgctxt "ID_AFTERPLAYBACK_ONCE"
-msgid "--------- Once ---------"
-msgstr "-------- Tokrat --------"
-
 msgctxt "ID_AFTERPLAYBACK_CLOSE"
 msgid "&Exit"
 msgstr "&Izhod"
@@ -612,22 +608,6 @@ msgstr "&Odjava"
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "&Zakleni"
-
-msgctxt "ID_AFTERPLAYBACK_EVERYTIME"
-msgid "------ Every time ------"
-msgstr "------- Vsakokrat ------"
-
-msgctxt "ID_AFTERPLAYBACK_EXIT"
-msgid "E&xit"
-msgstr "Iz&hod"
-
-msgctxt "ID_AFTERPLAYBACK_DONOTHING"
-msgid "Do &Nothing"
-msgstr "&Ne naredi ničesar"
-
-msgctxt "ID_AFTERPLAYBACK_NEXT"
-msgid "Play next in the &folder"
-msgstr "&Predvajaj naslednje v imeniku"
 
 msgctxt "POPUP"
 msgid "&Navigate"

@@ -32,6 +32,7 @@ next version - not released yet
   be rendered on the full window
 * Text subtitles: Faster subtitle parsing (up to 4 times faster for SSA/ASS subtitles)
 * Text subtitles: Much faster subtitle opening in the Subresync bar
+* Ticket #325, Move after playback commands to options and add an option to close and restore logo.
 * Ticket #2834, Increase limit on subtitles override placement feature.
 * Ticket #4428, Improve the clarity of the error message when opening a subtitle file fails
 * Updated Little CMS to v2.6 (git a41d62e)
