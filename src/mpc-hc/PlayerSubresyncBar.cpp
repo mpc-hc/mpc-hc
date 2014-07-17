@@ -195,14 +195,14 @@ void CPlayerSubresyncBar::ReloadSubtitle()
 
         for (size_t i = 0, j = m_vobSub.GetCount(); i < j; i++) {
             CString str;
-            str.Format(_T("%d,%d,%d,%Iu"), m_vobSub[i].vobid, m_vobSub[i].cellid, m_vobSub[i].fForced, i);
+            str.Format(_T("%d,%d,%d,%Iu"), m_vobSub[i].vobid, m_vobSub[i].cellid, m_vobSub[i].bForced, i);
             m_sts.Add(TToW(str), false, (int)m_vobSub[i].start, (int)m_vobSub[i].stop);
         }
         pVSF->Unlock();
 
         m_sts.CreateDefaultStyle(DEFAULT_CHARSET);
 
-        pVSF->m_fOnlyShowForcedSubs = false;
+        pVSF->m_bOnlyShowForcedSubs = false;
 
         m_list.InsertColumn(COL_START, ResStr(IDS_SUBRESYNC_CLN_TIME), LVCFMT_LEFT, 80);
         m_list.InsertColumn(COL_END, ResStr(IDS_SUBRESYNC_CLN_END), LVCFMT_LEFT, 80);
@@ -303,7 +303,7 @@ void CPlayerSubresyncBar::SaveSubtitle()
         CAtlArray<CVobSubFile::SubPos>& sp = pVSF->m_langs[pVSF->m_iLang].subpos;
 
         for (size_t i = 0, j = sp.GetCount(); i < j; i++) {
-            sp[i].fValid = false;
+            sp[i].bValid = false;
         }
 
         for (size_t i = 0, j = m_sts.GetCount(); i < j; i++) {
@@ -311,7 +311,7 @@ void CPlayerSubresyncBar::SaveSubtitle()
 
             sp[spnum].start  = m_sts[i].start;
             sp[spnum].stop   = m_sts[i].end;
-            sp[spnum].fValid = true;
+            sp[spnum].bValid = true;
         }
     } else if (clsid == __uuidof(CRenderedTextSubtitle) && m_mode == TEXTSUB) {
         CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
@@ -665,7 +665,7 @@ void CPlayerSubresyncBar::OnGetDisplayInfoVobSub(LV_ITEM* pItem)
                 _stprintf_s(pItem->pszText, pItem->cchTextMax, _T("%d"), entry.cellid);
                 break;
             case COL_FORCED:
-                pItem->pszText = (LPWSTR)(LPCWSTR)(entry.fForced ? m_strYes : m_strNo);
+                pItem->pszText = (LPWSTR)(LPCWSTR)(entry.bForced ? m_strYes : m_strNo);
                 break;
             default:
                 ASSERT(FALSE);

@@ -28,7 +28,7 @@
 CVobSubImage::CVobSubImage()
     : iLang(-1)
     , iIdx(-1)
-    , fForced(false)
+    , bForced(false)
     , bAnimated(false)
     , tCurrent(-1)
     , start(0)
@@ -39,8 +39,8 @@ CVobSubImage::CVobSubImage()
     , lpTemp2(nullptr)
     , org(CSize(0, 0))
     , nPlane(0)
-    , fCustomPal(false)
-    , fAligned(1)
+    , bCustomPal(false)
+    , bAligned(true)
     , tridx(0)
     , orgpal(nullptr)
     , cuspal(nullptr)
@@ -92,10 +92,10 @@ void CVobSubImage::Free()
 }
 
 bool CVobSubImage::Decode(BYTE* lpData, int packetsize, int datasize, int t,
-                          bool fCustomPal,
+                          bool bCustomPal,
                           int tridx,
                           RGBQUAD* orgpal /*[16]*/, RGBQUAD* cuspal /*[4]*/,
-                          bool fTrim)
+                          bool bTrim)
 {
     GetPacketInfo(lpData, packetsize, datasize, t);
 
@@ -106,9 +106,9 @@ bool CVobSubImage::Decode(BYTE* lpData, int packetsize, int datasize, int t,
     lpPixels = lpTemp1;
 
     nPlane = 0;
-    fAligned = 1;
+    bAligned = true;
 
-    this->fCustomPal = fCustomPal;
+    this->bCustomPal = bCustomPal;
     this->orgpal = orgpal;
     this->tridx = tridx;
     this->cuspal = cuspal;
@@ -133,7 +133,7 @@ bool CVobSubImage::Decode(BYTE* lpData, int packetsize, int datasize, int t,
 
         DrawPixels(p, rect.right - p.x, code & 3);
 
-        if (!fAligned) {
+        if (!bAligned) {
             GetNibble(lpData);    // align to byte
         }
 
@@ -144,7 +144,7 @@ bool CVobSubImage::Decode(BYTE* lpData, int packetsize, int datasize, int t,
 
     rect.bottom = std::min(p.y, rect.bottom);
 
-    if (fTrim) {
+    if (bTrim) {
         TrimSubImage();
     }
 
@@ -176,9 +176,9 @@ void CVobSubImage::GetPacketInfo(const BYTE* lpData, int packetsize, int datasiz
             break;
         }
 
-        bool fBreak = false;
+        bool bBreak = false;
 
-        while (!fBreak) {
+        while (!bBreak) {
             int len = 0;
 
             switch (lpData[i]) {
@@ -215,10 +215,10 @@ void CVobSubImage::GetPacketInfo(const BYTE* lpData, int packetsize, int datasiz
 
             switch (lpData[i++]) {
                 case 0x00: // forced start displaying
-                    fForced = true;
+                    bForced = true;
                     break;
                 case 0x01: // start displaying
-                    fForced = false;
+                    bForced = false;
                     break;
                 case 0x02: // stop displaying
                     delay = tCurrent;
@@ -248,10 +248,10 @@ void CVobSubImage::GetPacketInfo(const BYTE* lpData, int packetsize, int datasiz
                     i += 2;
                     break;
                 case 0xff: // end of ctrlblk
-                    fBreak = true;
+                    bBreak = true;
                     continue;
                 default: // skip this ctrlblk
-                    fBreak = true;
+                    bBreak = true;
                     break;
             }
         }
@@ -268,9 +268,15 @@ void CVobSubImage::GetPacketInfo(const BYTE* lpData, int packetsize, int datasiz
 BYTE CVobSubImage::GetNibble(const BYTE* lpData)
 {
     WORD& off = nOffset[nPlane];
-    BYTE ret = (lpData[off] >> (fAligned << 2)) & 0x0f;
-    fAligned = !fAligned;
-    off += fAligned;
+    BYTE ret = lpData[off];
+    if (bAligned) {
+        ret >>= 4;
+    }
+    ret &= 0x0f;
+    bAligned = !bAligned;
+    if (bAligned) {
+        off++;
+    }
     return ret;
 }
 
@@ -295,7 +301,7 @@ void CVobSubImage::DrawPixels(CPoint p, int length, int colorid)
 
     RGBQUAD c;
 
-    if (!fCustomPal) {
+    if (!bCustomPal) {
         c = orgpal[pal[colorid].pal];
         c.rgbReserved = (pal[colorid].tr << 4) | pal[colorid].tr;
     } else {
@@ -1145,7 +1151,7 @@ void CVobSubImage::AddSegment(COutline& o, CAtlArray<BYTE>& pathTypes, CAtlArray
     AddSegment(o2, pathTypes, pathPoints);
 }
 
-bool CVobSubImage::Polygonize(CAtlArray<BYTE>& pathTypes, CAtlArray<CPoint>& pathPoints, bool fSmooth, int scale)
+bool CVobSubImage::Polygonize(CAtlArray<BYTE>& pathTypes, CAtlArray<CPoint>& pathPoints, bool bSmooth, int scale)
 {
     CPoint topleft;
     CAutoPtr<CAutoPtrList<COutline>> ol(GetOutlineList(topleft));
@@ -1168,7 +1174,7 @@ bool CVobSubImage::Polygonize(CAtlArray<BYTE>& pathTypes, CAtlArray<CPoint>& pat
     while (pos) {
         COutline& o = *ol->GetNext(pos), o2;
 
-        if (fSmooth) {
+        if (bSmooth) {
             int i = 0, iFirst = -1;
 
             for (;;) {
@@ -1219,12 +1225,12 @@ bool CVobSubImage::Polygonize(CAtlArray<BYTE>& pathTypes, CAtlArray<CPoint>& pat
     return !pathTypes.IsEmpty();
 }
 
-bool CVobSubImage::Polygonize(CStringW& assstr, bool fSmooth, int scale)
+bool CVobSubImage::Polygonize(CStringW& assstr, bool bSmooth, int scale)
 {
     CAtlArray<BYTE> pathTypes;
     CAtlArray<CPoint> pathPoints;
 
-    if (!Polygonize(pathTypes, pathPoints, fSmooth, scale)) {
+    if (!Polygonize(pathTypes, pathPoints, bSmooth, scale)) {
         return false;
     }
 

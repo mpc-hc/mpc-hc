@@ -53,13 +53,13 @@ public:
     CPoint m_org;
     int m_scale_x, m_scale_y;   // % (don't set it to unsigned because as a side effect it will mess up negative coordinates in GetDestrect())
     int m_alpha;                // %
-    int m_fSmooth;              // 0: OFF, 1: ON, 2: OLD (means no filtering at all)
+    int m_iSmooth;              // 0: OFF, 1: ON, 2: OLD (means no filtering at all)
     int m_fadein, m_fadeout;    // ms
-    bool m_fAlign;
+    bool m_bAlign;
     int m_alignhor, m_alignver; // 0: left/top, 1: center, 2: right/bottom
     unsigned int m_toff;        // ms
-    bool m_fOnlyShowForcedSubs;
-    bool m_fCustomPal;
+    bool m_bOnlyShowForcedSubs;
+    bool m_bCustomPal;
     int m_tridx;
     RGBQUAD m_orgpal[16], m_cuspal[4];
 
@@ -74,7 +74,7 @@ public:
     void GetDestrect(CRect& r); // destrect of m_img, considering the current alignment mode
     void GetDestrect(CRect& r, int w, int h); // this will scale it to the frame size of (w, h)
 
-    void SetAlignment(bool fAlign, int x, int y, int hor = 1, int ver = 1);
+    void SetAlignment(bool bAlign, int x, int y, int hor = 1, int ver = 1);
 };
 
 class __declspec(uuid("998D4C9A-460F-4de6-BDCD-35AB24F94ADF"))
@@ -85,12 +85,12 @@ public:
         __int64 filepos       = 0i64;
         __int64 start         = 0i64;
         __int64 stop          = 0i64;
-        bool fForced          = false;
+        bool bForced          = false;
         bool bAnimated        = false;
         char vobid            = 0;
         char cellid           = 0;
         __int64 celltimestamp = 0i64;
-        bool fValid           = false;
+        bool bValid           = false;
     };
 
     struct SubLang {

@@ -32,9 +32,9 @@
 
 CVobSubFileRipper::CVobSubFileRipper()
     : CVobSubFile(nullptr)
-    , m_fThreadActive(false)
-    , m_fBreakThread(false)
-    , m_fIndexing(false)
+    , m_bThreadActive(false)
+    , m_bBreakThread(false)
+    , m_bIndexing(false)
 {
     m_rd.Reset();
     CAMThread::Create();
@@ -96,14 +96,14 @@ void CVobSubFileRipper::Progress(double progress)
     m_pCallback->OnProgress(progress);
 }
 
-void CVobSubFileRipper::Finished(bool fSucceeded)
+void CVobSubFileRipper::Finished(bool bSucceeded)
 {
     CAutoLock cAutoLock(&m_csCallback);
     if (!m_pCallback) {
         return;
     }
 
-    m_pCallback->OnFinished(fSucceeded);
+    m_pCallback->OnFinished(bSucceeded);
 }
 
 bool CVobSubFileRipper::LoadIfo(CString fn)
@@ -328,7 +328,7 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
                 if (b & 0x02) {
                     tOffset = tTotal;
                 }
-                pgc.angles[0][j].fDiscontinuity = !!(b & 0x02);
+                pgc.angles[0][j].bDiscontinuity = !!(b & 0x02);
 
                 pgc.angles[0][j].tTotal = tTotal;
                 pgc.angles[0][j].tOffset = tOffset;
@@ -347,7 +347,7 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
 
                     pgc.angles[iAngle].Add(pgc.angles[0][j]);
 
-                    if (pgc.angles[iAngle][k].fDiscontinuity) {
+                    if (pgc.angles[iAngle][k].bDiscontinuity) {
                         tOffset = tTotal;
                     }
 
@@ -424,7 +424,7 @@ DWORD CVobSubFileRipper::ThreadProc()
     for (;;) {
         DWORD cmd = GetRequest();
 
-        m_fThreadActive = true;
+        m_bThreadActive = true;
 
         switch (cmd) {
             case CMD_EXIT:
@@ -434,10 +434,10 @@ DWORD CVobSubFileRipper::ThreadProc()
             case CMD_INDEX:
                 Reply(S_OK);
                 {
-                    m_fIndexing = true;
-                    bool fSucceeded = Create();
-                    m_fIndexing = false;
-                    Finished(fSucceeded);
+                    m_bIndexing = true;
+                    bool bSucceeded = Create();
+                    m_bIndexing = false;
+                    Finished(bSucceeded);
                 }
                 break;
 
@@ -446,8 +446,8 @@ DWORD CVobSubFileRipper::ThreadProc()
                 return DWORD_ERROR;
         }
 
-        m_fBreakThread = false;
-        m_fThreadActive = false;
+        m_bBreakThread = false;
+        m_bThreadActive = false;
     }
 
     return 1;
@@ -476,7 +476,7 @@ bool CVobSubFileRipper::Create()
 
     CAtlArray<vc_t>& angle = pgc.angles[pgc.iSelAngle];
 
-    if (m_rd.selids.IsEmpty() && !m_rd.fClosedCaption) {
+    if (m_rd.selids.IsEmpty() && !m_rd.bClosedCaption) {
         Log(LOG_ERROR, _T("No valid stream set to be extacted!"));
         return false;
     }
@@ -503,11 +503,11 @@ bool CVobSubFileRipper::Create()
 
     __int64 PTS = 0, tOffset = 0, tPrevOffset = 0, tTotal = 0, tStart = 0;
     int vob = 0, cell = 0;
-    bool fDiscontinuity = false, fDiscontinuityFixApplied = false, fNavpackFound = false;
+    bool bDiscontinuity = false, bDiscontinuityFixApplied = false, bNavpackFound = false;
 
     int PTSframeoffset = 0, minPTSframeoffset = 0;
 
-    if (m_rd.fResetTime) {
+    if (m_rd.bResetTime) {
         for (size_t i = 0; i < angle.GetCount() && (UINT)((angle[i].vob << 16) | angle[i].cell) != m_rd.selvcs[0]; i++) {
             tStart += angle[i].tTime;
         }
@@ -565,12 +565,12 @@ bool CVobSubFileRipper::Create()
         sizetotal += chunks[i].end - chunks[i].start;
     }
 
-    for (size_t i = 0; !m_fBreakThread && i < chunks.GetCount(); i++) {
+    for (size_t i = 0; !m_bBreakThread && i < chunks.GetCount(); i++) {
         __int64 curpos = chunks[i].start, endpos = chunks[i].end;
 
         vcchunk curchunk = {curpos, curpos, chunks[i].vc};
 
-        for (m_vob.Seek((int)(curpos / 2048)); !m_fBreakThread && curpos < endpos; curpos += 2048, sizedone += 2048) {
+        for (m_vob.Seek((int)(curpos / 2048)); !m_bBreakThread && curpos < endpos; curpos += 2048, sizedone += 2048) {
             if (!(curpos & 0x7ffff)) {
                 Progress(1.0 * sizedone / sizetotal);
             }
@@ -591,7 +591,7 @@ bool CVobSubFileRipper::Create()
                     __int64 savepos = curpos;
 
                     m_vob.Seek(0);
-                    for (__int64 pos = 0; !m_fBreakThread && pos < endpos; pos += 2048) {
+                    for (__int64 pos = 0; !m_bBreakThread && pos < endpos; pos += 2048) {
                         if (!m_vob.Read(buff)) {
                             Log(LOG_ERROR, _T("Cannot read, either locked dvd or truncated/missing files!"));
                             return false;
@@ -602,7 +602,7 @@ bool CVobSubFileRipper::Create()
                         }
                     }
 
-                    if (m_fBreakThread) {
+                    if (m_bBreakThread) {
                         break;
                     }
 
@@ -651,7 +651,7 @@ bool CVobSubFileRipper::Create()
             }
 
             if (*((DWORD*)&buff[0x0e]) == 0xbb010000) {
-                fNavpackFound = true;
+                bNavpackFound = true;
 
                 if (vob == buff[0x420] && cell == buff[0x422]) {
                     continue;
@@ -667,8 +667,8 @@ bool CVobSubFileRipper::Create()
                         tPrevOffset = tOffset;
                         tOffset = (__int64)angle[j].tOffset;
                         tTotal = (__int64)angle[j].tTotal;
-                        fDiscontinuity = angle[j].fDiscontinuity;
-                        fDiscontinuityFixApplied = false;
+                        bDiscontinuity = angle[j].bDiscontinuity;
+                        bDiscontinuityFixApplied = false;
                         break;
                     }
                 }
@@ -687,7 +687,7 @@ bool CVobSubFileRipper::Create()
                 if (!selvcmap.Lookup(vcid, minPTSframeoffset)) {
                     str2 = _T(", skipping");
                 } else str2.Format(_T(", total=%I64dms, off=%I64dms, corr=%I64dms, discont.:%d"),
-                                       tTotal, tOffset, -tStart, (int)fDiscontinuity);
+                                       tTotal, tOffset, -tStart, (int)bDiscontinuity);
                 Log(LOG_INFO, str + str2);
             }
 
@@ -696,7 +696,7 @@ bool CVobSubFileRipper::Create()
                 continue;
             }
 
-            if (hasPTS && fDiscontinuity && !fDiscontinuityFixApplied) {
+            if (hasPTS && bDiscontinuity && !bDiscontinuityFixApplied) {
                 __int64 tDiff = tOffset - tPrevOffset;
                 if (tDiff > 0 && tDiff < (PTS / 90 + 1000)) {
                     CString str;
@@ -705,19 +705,19 @@ bool CVobSubFileRipper::Create()
 
                     tStart += tDiff;
                 }
-                fDiscontinuityFixApplied = true;
+                bDiscontinuityFixApplied = true;
             }
 
             if (*(DWORD*)&buff[0x0e] == 0xe0010000) {
-                if (fDiscontinuity) {
+                if (bDiscontinuity) {
                     if (PTS < minPTSframeoffset) {
                         selvcmap[vcid] = PTSframeoffset = (int)PTS;
                     }
 
-                    fDiscontinuity = false;
+                    bDiscontinuity = false;
                 }
 
-                if (m_rd.fClosedCaption) {
+                if (m_rd.bClosedCaption) {
                     ccdec.ExtractCC(buff, 2048, tOffset + ((PTS - PTSframeoffset) / 90) - tStart);
                 }
             } else if (*(DWORD*)&buff[0x0e] == 0xbd010000) {
@@ -731,7 +731,7 @@ bool CVobSubFileRipper::Create()
                         sb.vobid = (char)vob;
                         sb.cellid = (char)cell;
                         sb.celltimestamp = tTotal;
-                        sb.fValid = true;
+                        sb.bValid = true;
                         m_langs[iLang].subpos.Add(sb);
                     }
 
@@ -755,7 +755,7 @@ bool CVobSubFileRipper::Create()
         return false;
     }
 
-    if (!fNavpackFound) {
+    if (!bNavpackFound) {
         Log(LOG_ERROR, _T("Could not find any system header start code! (0x000001bb)"));
         if (!m_vob.IsDVD()) {
             Log(LOG_ERROR, _T("Make sure the ripper doesn't strip these packets."));
@@ -777,18 +777,18 @@ bool CVobSubFileRipper::Create()
         CAtlArray<SubPos>& sp = m_langs[i].subpos;
         qsort(sp.GetData(), sp.GetCount(), sizeof(SubPos), SubPosSortProc);
 
-        if (m_rd.fForcedOnly) {
+        if (m_rd.bForcedOnly) {
             Log(LOG_INFO, _T("Searching for forced subs..."));
             Progress(0);
 
             for (ptrdiff_t j = 0, len = sp.GetCount(); j < len; j++) {
                 Progress(1.0 * j / len);
 
-                sp[j].fValid = false;
+                sp[j].bValid = false;
                 int packetsize = 0, datasize = 0;
                 if (BYTE* buff = GetPacket((int)j, packetsize, datasize, (int)i)) {
                     m_img.GetPacketInfo(buff, packetsize, datasize);
-                    sp[j].fValid = m_img.fForced;
+                    sp[j].bValid = m_img.bForced;
                     delete [] buff;
                 }
             }
@@ -1010,7 +1010,7 @@ STDMETHODIMP CVobSubFileRipper::LoadParamFile(CString fn)
                 for (BYTE i = 0; i < 32; i++) {
                     m_rd.selids[i] = true;
                 }
-                m_rd.fClosedCaption = true;
+                m_rd.bClosedCaption = true;
                 phase = P_OPTIONS;
             } else {
                 line += ' ';
@@ -1043,7 +1043,7 @@ STDMETHODIMP CVobSubFileRipper::LoadParamFile(CString fn)
                         int id = (langid[0] << 8) + langid[1];
 
                         if (id == 'cc') {
-                            m_rd.fClosedCaption = true;
+                            m_rd.bClosedCaption = true;
                         } else {
                             m_rd.selids[id] = true;
                         }
@@ -1052,25 +1052,25 @@ STDMETHODIMP CVobSubFileRipper::LoadParamFile(CString fn)
                     }
                 }
 
-                if ((!m_rd.selids.IsEmpty() || m_rd.fClosedCaption) && line.IsEmpty()) {
+                if ((!m_rd.selids.IsEmpty() || m_rd.bClosedCaption) && line.IsEmpty()) {
                     phase = P_OPTIONS;
                 }
             }
         } else if (phase == 5 && !line.CompareNoCase(_T("CLOSE"))) {
-            m_rd.fClose = true;
+            m_rd.bClose = true;
         } else if (phase == 5 && !line.CompareNoCase(_T("BEEP"))) {
-            m_rd.fBeep = true;
+            m_rd.bBeep = true;
         } else if (phase == 5 && !line.CompareNoCase(_T("RESETTIME"))) {
-            m_rd.fResetTime = true;
+            m_rd.bResetTime = true;
         } else if (phase == 5 && !line.CompareNoCase(_T("FORCEDONLY"))) {
-            m_rd.fForcedOnly = true;
+            m_rd.bForcedOnly = true;
         } else if (phase == 5 && !line.CompareNoCase(_T("CLOSEIGNOREERRORS"))) {
-            m_rd.fCloseIgnoreError = true;
+            m_rd.bCloseIgnoreError = true;
         }
 
     }
 
-    m_rd.fAuto = true;
+    m_rd.bAuto = true;
 
     return phase == P_OPTIONS ? S_OK : E_FAIL;
 }
@@ -1113,7 +1113,7 @@ STDMETHODIMP CVobSubFileRipper::UpdateRipperData(VSFRipperData& rd)
 
 STDMETHODIMP CVobSubFileRipper::Index()
 {
-    if (m_fIndexing) {
+    if (m_bIndexing) {
         return E_FAIL;
     }
     CAMThread::CallWorker(CMD_INDEX);
@@ -1123,12 +1123,12 @@ STDMETHODIMP CVobSubFileRipper::Index()
 
 STDMETHODIMP CVobSubFileRipper::IsIndexing()
 {
-    return m_fIndexing ? S_OK : S_FALSE;
+    return m_bIndexing ? S_OK : S_FALSE;
 }
 
-STDMETHODIMP CVobSubFileRipper::Abort(bool fSavePartial)
+STDMETHODIMP CVobSubFileRipper::Abort(bool bSavePartial)
 {
-    m_fBreakThread = true;
+    m_bBreakThread = true;
     return S_OK;
 }
 
@@ -1140,10 +1140,10 @@ void VSFRipperData::Reset()
     ZeroMemory(&vidinfo, sizeof(vidinfo));
     pgcs.RemoveAll();
     iSelPGC = -1;
-    fResetTime = fClosedCaption = true;
-    fForcedOnly = false;
-    fClose = fBeep = fAuto = false;
-    fCloseIgnoreError = false;
+    bResetTime = bClosedCaption = true;
+    bForcedOnly = false;
+    bClose = bBeep = bAuto = false;
+    bCloseIgnoreError = false;
 
     selvcs.RemoveAll();
     selids.RemoveAll();
@@ -1170,13 +1170,13 @@ void VSFRipperData::Copy(VSFRipperData& rd)
         }
     }
     iSelPGC = rd.iSelPGC;
-    fResetTime = rd.fResetTime;
-    fClosedCaption = rd.fClosedCaption;
-    fForcedOnly = rd.fForcedOnly;
-    fClose = rd.fClose;
-    fBeep = rd.fBeep;
-    fAuto = rd.fAuto;
-    fCloseIgnoreError = rd.fCloseIgnoreError;
+    bResetTime = rd.bResetTime;
+    bClosedCaption = rd.bClosedCaption;
+    bForcedOnly = rd.bForcedOnly;
+    bClose = rd.bClose;
+    bBeep = rd.bBeep;
+    bAuto = rd.bAuto;
+    bCloseIgnoreError = rd.bCloseIgnoreError;
     selvcs.Copy(rd.selvcs);
     POSITION pos = rd.selids.GetStartPosition();
     while (pos) {

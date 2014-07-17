@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -45,7 +45,7 @@ struct vc_t {
     DWORD tTime, tOffset, tTotal;
     DWORD start, end;
     int iAngle;
-    bool fDiscontinuity;
+    bool bDiscontinuity;
 };
 
 struct PGC {
@@ -61,10 +61,10 @@ struct VSFRipperData {
     vidinfo vidinfo;
     CAtlArray<PGC> pgcs;
     int iSelPGC;
-    bool fResetTime, fClosedCaption, fForcedOnly;
+    bool bResetTime, bClosedCaption, bForcedOnly;
 
-    bool fClose, fBeep, fAuto; // only used by the UI externally, but may be set through the parameter file
-    bool fCloseIgnoreError;
+    bool bClose, bBeep, bAuto; // only used by the UI externally, but may be set through the parameter file
+    bool bCloseIgnoreError;
 
     CAtlArray<UINT> selvcs;
     CAtlMap<BYTE, bool> selids;
@@ -90,8 +90,8 @@ interface __declspec(uuid("9E2EBB5C-AD7C-452f-A48B-38685716AC46"))
 IVSFRipperCallback :
 public IUnknown {
     STDMETHOD(OnMessage)(LPCTSTR msg) PURE;
-    STDMETHOD(OnProgress)(double progress /*0->1*/) PURE;
-    STDMETHOD(OnFinished)(bool fSucceeded) PURE;
+    STDMETHOD(OnProgress)(double progress /*0.0 -> 1.0*/) PURE;
+    STDMETHOD(OnFinished)(bool bSucceeded) PURE;
 };
 
 // IVSFRipperCallbackImpl
@@ -108,8 +108,8 @@ protected:
 
     // IVSFRipperCallback
     STDMETHODIMP OnMessage(LPCTSTR msg) { return S_FALSE; }
-    STDMETHODIMP OnProgress(double progress /*0->1*/) { return S_FALSE; }
-    STDMETHODIMP OnFinished(bool fSucceeded) { return S_FALSE; }
+    STDMETHODIMP OnProgress(double progress /*0.0 -> 1.0*/) { return S_FALSE; }
+    STDMETHODIMP OnFinished(bool bSucceeded) { return S_FALSE; }
 
 public:
     IVSFRipperCallbackImpl() : CUnknown(NAME("IVSFRipperCallbackImpl"), nullptr) {}
@@ -130,13 +130,13 @@ public IUnknown {
     STDMETHOD(UpdateRipperData)(VSFRipperData & rd) PURE;
     STDMETHOD(Index)() PURE;
     STDMETHOD(IsIndexing)() PURE;
-    STDMETHOD(Abort)(bool fSavePartial) PURE;
+    STDMETHOD(Abort)(bool bSavePartial) PURE;
 };
 
 class CVobSubFileRipper : public CVobSubFile, protected CAMThread, public IVSFRipper
 {
 private:
-    bool m_fThreadActive, m_fBreakThread, m_fIndexing;
+    bool m_bThreadActive, m_bBreakThread, m_bIndexing;
     enum { CMD_EXIT, CMD_INDEX };
     DWORD ThreadProc();
     bool Create();
@@ -150,7 +150,7 @@ private:
     };
     void Log(log_t type, LPCTSTR lpszFormat, ...);
     void Progress(double progress);
-    void Finished(bool fSucceeded);
+    void Finished(bool bSucceeded);
 
     //
 
@@ -185,5 +185,5 @@ public:
     STDMETHODIMP UpdateRipperData(VSFRipperData& rd);
     STDMETHODIMP Index();
     STDMETHODIMP IsIndexing();
-    STDMETHODIMP Abort(bool fSavePartial);
+    STDMETHODIMP Abort(bool bSavePartial);
 };
