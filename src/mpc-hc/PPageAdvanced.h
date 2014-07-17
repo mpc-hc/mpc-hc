@@ -153,8 +153,17 @@ private:
 
     std::map<ADVANCED_SETTINGS, std::shared_ptr<SettingsBase>> m_hiddenOptions;
 
+    int m_lastSelectedItem = -1;
+
     void InitSettings();
     bool IsDefault(ADVANCED_SETTINGS) const;
+    inline const int GetListSelectionMark() const {
+        const int iItem = m_list.GetSelectionMark();
+        if (iItem != m_lastSelectedItem) {
+            return -1;
+        }
+        return iItem;
+    };
 
 protected:
     CListCtrl m_list;

@@ -161,7 +161,7 @@ void CPPageAdvanced::OnBnClickedDefaultButton()
 {
     UpdateData();
 
-    int iItem = m_list.GetSelectionMark();
+    const int iItem = GetListSelectionMark();
     if (iItem >= 0) {
         SetRedraw(FALSE);
         CString str;
@@ -202,7 +202,7 @@ void CPPageAdvanced::OnBnClickedDefaultButton()
 
 void CPPageAdvanced::OnUpdateDefaultButton(CCmdUI* pCmdUI)
 {
-    int iItem = m_list.GetSelectionMark();
+    const int iItem = GetListSelectionMark();
     bool bEnable = false;
     if (iItem >= 0) {
         auto eSetting = static_cast<ADVANCED_SETTINGS>(m_list.GetItemData(iItem));
@@ -282,6 +282,7 @@ void CPPageAdvanced::OnLvnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult)
         GetDlgItem(IDC_RADIO2)->ShowWindow(SW_HIDE);
         GetDlgItem(IDC_BUTTON1)->ShowWindow(SW_HIDE);
         if (pNMLV->iItem >= 0) {
+            m_lastSelectedItem = pNMLV->iItem;
             auto eSetting = static_cast<ADVANCED_SETTINGS>(m_list.GetItemData(pNMLV->iItem));
             auto pItem = m_hiddenOptions.at(eSetting);
             GetDlgItem(IDC_BUTTON1)->ShowWindow(SW_SHOW);
@@ -320,7 +321,7 @@ void CPPageAdvanced::OnLvnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult)
 
 void CPPageAdvanced::OnBnClickedRadio1()
 {
-    int iItem = m_list.GetSelectionMark();
+    const int iItem = GetListSelectionMark();
     if (iItem >= 0) {
         auto eSetting = static_cast<ADVANCED_SETTINGS>(m_list.GetItemData(iItem));
         auto pItem = m_hiddenOptions.at(eSetting);
@@ -339,7 +340,7 @@ void CPPageAdvanced::OnBnClickedRadio1()
 
 void CPPageAdvanced::OnBnClickedRadio2()
 {
-    int iItem = m_list.GetSelectionMark();
+    const int iItem = GetListSelectionMark();
     if (iItem >= 0) {
         auto eSetting = static_cast<ADVANCED_SETTINGS>(m_list.GetItemData(iItem));
         auto pItem = m_hiddenOptions.at(eSetting);
@@ -359,7 +360,7 @@ void CPPageAdvanced::OnBnClickedRadio2()
 void CPPageAdvanced::OnCbnSelchangeCombobox()
 {
     int iItem = m_comboBox.GetCurSel();
-    int nItem = m_list.GetSelectionMark();
+    const int nItem = GetListSelectionMark();
     if (iItem >= 0) {
         auto eSetting = static_cast<ADVANCED_SETTINGS>(m_list.GetItemData(nItem));
         auto pItem = m_hiddenOptions.at(eSetting);
@@ -381,7 +382,7 @@ void CPPageAdvanced::OnEnChangeEdit()
 {
     UpdateData();
 
-    int iItem = m_list.GetSelectionMark();
+    const int iItem = GetListSelectionMark();
     if (iItem >= 0) {
         CString str;
         auto eSetting = static_cast<ADVANCED_SETTINGS>(m_list.GetItemData(iItem));
