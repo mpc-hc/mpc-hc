@@ -8947,8 +8947,7 @@ void CMainFrame::PlayFavoriteFile(CString fav)
 
 void CMainFrame::OnUpdateFavoritesFile(CCmdUI* pCmdUI)
 {
-    UINT nID = pCmdUI->m_nID - ID_FAVORITES_FILE_START;
-    UNREFERENCED_PARAMETER(nID);
+    //UINT nID = pCmdUI->m_nID - ID_FAVORITES_FILE_START;
 }
 
 void CMainFrame::OnRecentFile(UINT nID)
@@ -8966,8 +8965,7 @@ void CMainFrame::OnRecentFile(UINT nID)
 
 void CMainFrame::OnUpdateRecentFile(CCmdUI* pCmdUI)
 {
-    UINT nID = pCmdUI->m_nID - ID_RECENT_FILE_START;
-    UNREFERENCED_PARAMETER(nID);
+    //UINT nID = pCmdUI->m_nID - ID_RECENT_FILE_START;
 }
 
 void CMainFrame::OnFavoritesDVD(UINT nID)
@@ -9014,19 +9012,17 @@ void CMainFrame::PlayFavoriteDVD(CString fav)
 
 void CMainFrame::OnUpdateFavoritesDVD(CCmdUI* pCmdUI)
 {
-    UINT nID = pCmdUI->m_nID - ID_FAVORITES_DVD_START;
-    UNREFERENCED_PARAMETER(nID);
+    //UINT nID = pCmdUI->m_nID - ID_FAVORITES_DVD_START;
 }
 
 void CMainFrame::OnFavoritesDevice(UINT nID)
 {
-    nID -= ID_FAVORITES_DEVICE_START;
+    //nID -= ID_FAVORITES_DEVICE_START;
 }
 
 void CMainFrame::OnUpdateFavoritesDevice(CCmdUI* pCmdUI)
 {
-    UINT nID = pCmdUI->m_nID - ID_FAVORITES_DEVICE_START;
-    UNREFERENCED_PARAMETER(nID);
+    //UINT nID = pCmdUI->m_nID - ID_FAVORITES_DEVICE_START;
 }
 
 // help
