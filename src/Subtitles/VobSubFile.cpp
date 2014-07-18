@@ -953,7 +953,7 @@ bool CVobSubFile::WriteIdx(CString fn, int delay)
     f.WriteString(_T("# Settings\n\n"));
 
     f.WriteString(_T("# Original frame size\n"));
-    str.Format(_T("size: %dx%d\n\n"), m_size.cx, m_size.cy);
+    str.Format(_T("size: %ldx%ld\n\n"), m_size.cx, m_size.cy);
     f.WriteString(str);
 
     f.WriteString(_T("# Origin, relative to the upper-left corner, can be overloaded by aligment\n"));

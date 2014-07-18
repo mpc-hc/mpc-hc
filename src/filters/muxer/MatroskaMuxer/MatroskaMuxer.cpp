@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -1242,7 +1242,7 @@ STDMETHODIMP CMatroskaMuxerInputPin::Receive(IMediaSample* pSample)
     //rtStart += m_tStart;
     //rtStop += m_tStart;
 
-    TRACE(_T("Received (%d): %I64d-%I64d (c=%d, co=%dms), len=%d, d%d p%d s%d\n"),
+    TRACE(_T("Received (%u): %I64d-%I64d (c=%d, co=%dms), len=%ld, d%d p%d s%d\n"),
           (static_cast<CMatroskaMuxerFilter*>(m_pFilter))->GetTrackNumber(this),
           rtStart, rtStop, (int)((rtStart / 10000) / MAXCLUSTERTIME), (int)((rtStart / 10000) % MAXCLUSTERTIME),
           len,

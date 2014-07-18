@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -478,9 +478,9 @@ void CMediaTypeEx::Dump(CAtlList<CString>& sl)
     sl.AddTail(str);
     str.Format(_T("bTemporalCompression: %d"), bTemporalCompression);
     sl.AddTail(str);
-    str.Format(_T("lSampleSize: %u"), lSampleSize);
+    str.Format(_T("lSampleSize: %lu"), lSampleSize);
     sl.AddTail(str);
-    str.Format(_T("cbFormat: %u"), cbFormat);
+    str.Format(_T("cbFormat: %lu"), cbFormat);
     sl.AddTail(str);
 
     sl.AddTail(_T(""));
@@ -498,9 +498,9 @@ void CMediaTypeEx::Dump(CAtlList<CString>& sl)
         BITMAPINFOHEADER* bih = &vih.bmiHeader;
 
         sl.AddTail(_T("VIDEOINFOHEADER:"));
-        str.Format(_T("rcSource: (%d,%d)-(%d,%d)"), vih.rcSource.left, vih.rcSource.top, vih.rcSource.right, vih.rcSource.bottom);
+        str.Format(_T("rcSource: (%ld,%ld)-(%ld,%ld)"), vih.rcSource.left, vih.rcSource.top, vih.rcSource.right, vih.rcSource.bottom);
         sl.AddTail(str);
-        str.Format(_T("rcTarget: (%d,%d)-(%d,%d)"), vih.rcTarget.left, vih.rcTarget.top, vih.rcTarget.right, vih.rcTarget.bottom);
+        str.Format(_T("rcTarget: (%ld,%ld)-(%ld,%ld)"), vih.rcTarget.left, vih.rcTarget.top, vih.rcTarget.right, vih.rcTarget.bottom);
         sl.AddTail(str);
         str.Format(_T("dwBitRate: %u"), vih.dwBitRate);
         sl.AddTail(str);
@@ -563,9 +563,9 @@ void CMediaTypeEx::Dump(CAtlList<CString>& sl)
         sl.AddTail(_T("BITMAPINFOHEADER:"));
         str.Format(_T("biSize: %u"), bih->biSize);
         sl.AddTail(str);
-        str.Format(_T("biWidth: %d"), bih->biWidth);
+        str.Format(_T("biWidth: %ld"), bih->biWidth);
         sl.AddTail(str);
-        str.Format(_T("biHeight: %d"), bih->biHeight);
+        str.Format(_T("biHeight: %ld"), bih->biHeight);
         sl.AddTail(str);
         str.Format(_T("biPlanes: %u"), bih->biPlanes);
         sl.AddTail(str);
@@ -579,9 +579,9 @@ void CMediaTypeEx::Dump(CAtlList<CString>& sl)
         sl.AddTail(str);
         str.Format(_T("biSizeImage: %u"), bih->biSizeImage);
         sl.AddTail(str);
-        str.Format(_T("biXPelsPerMeter: %d"), bih->biXPelsPerMeter);
+        str.Format(_T("biXPelsPerMeter: %ld"), bih->biXPelsPerMeter);
         sl.AddTail(str);
-        str.Format(_T("biYPelsPerMeter: %d"), bih->biYPelsPerMeter);
+        str.Format(_T("biYPelsPerMeter: %ld"), bih->biYPelsPerMeter);
         sl.AddTail(str);
         str.Format(_T("biClrUsed: %u"), bih->biClrUsed);
         sl.AddTail(str);

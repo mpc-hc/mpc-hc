@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -341,7 +341,7 @@ HRESULT CCDXAStream::Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDW
                     break;
                 }
 
-                TRACE(_T("CCDXAStream: CRC error at sector %d (fp=0x%I64x, retriesleft=%d)\n"), sector, FilePointer.QuadPart, nRetries);
+                TRACE(_T("CCDXAStream: CRC error at sector %u (fp=0x%I64x, retriesleft=%d)\n"), sector, FilePointer.QuadPart, nRetries);
             }
 
             m_nBufferedSector = sector;

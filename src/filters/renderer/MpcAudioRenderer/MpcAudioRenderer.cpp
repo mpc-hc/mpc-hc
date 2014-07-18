@@ -1115,7 +1115,7 @@ HRESULT CMpcAudioRenderer::GetAudioDevice(IMMDevice** ppMMDevice)
 
                         // Found the configured audio endpoint
                         if ((pProps->GetValue(PKEY_Device_FriendlyName, &varName) == S_OK) && (m_csSound_Device == varName.pwszVal)) {
-                            TRACE(_T("CMpcAudioRenderer::GetAudioDevice - devices->GetId OK, num: (%d), pwszVal: %s, pwszID: %s\n"), i, varName.pwszVal, pwszID);
+                            TRACE(_T("CMpcAudioRenderer::GetAudioDevice - devices->GetId OK, num: (%u), pwszVal: %s, pwszID: %s\n"), i, varName.pwszVal, pwszID);
                             enumerator->GetDevice(pwszID, ppMMDevice);
                             SAFE_RELEASE(devices);
                             *(ppMMDevice) = endpoint;

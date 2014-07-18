@@ -77,7 +77,7 @@ void CGraphThread::OnExit(WPARAM wParam, LPARAM lParam)
 
 void CGraphThread::OnOpen(WPARAM wParam, LPARAM lParam)
 {
-    TRACE(_T("--> CGraphThread::OnOpen on thread: %d\n"), GetCurrentThreadId());
+    TRACE(_T("--> CGraphThread::OnOpen on thread: %lu\n"), GetCurrentThreadId());
     ASSERT(m_pMainFrame);
     ASSERT(WaitForSingleObject(m_pMainFrame->m_evOpenPrivateFinished, 0) == WAIT_TIMEOUT);
     if (m_pMainFrame->GetLoadState() == MLS::LOADING) {

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -432,7 +432,7 @@ CFGFilterVideoRenderer::CFGFilterVideoRenderer(HWND hWnd, const CLSID& clsid, CS
 
 HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_IUnknown>& pUnks)
 {
-    TRACE(_T("--> CFGFilterVideoRenderer::Create on thread: %d\n"), GetCurrentThreadId());
+    TRACE(_T("--> CFGFilterVideoRenderer::Create on thread: %lu\n"), GetCurrentThreadId());
     CheckPointer(ppBF, E_POINTER);
 
     HRESULT hr = S_OK;

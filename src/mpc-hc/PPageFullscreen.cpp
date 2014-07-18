@@ -90,7 +90,7 @@ void CPPageFullscreen::ModesUpdate()
     // Generate the corresponding string representation
     auto formatStringFromDisplayMode = [](const DisplayMode & dm) {
         CString strDisplayMode;
-        strDisplayMode.Format(_T("[ %d ] @ %dx%d %c"),
+        strDisplayMode.Format(_T("[ %d ] @ %ldx%ld %c"),
                               dm.freq, dm.size.cx, dm.size.cy,
                               (dm.dwDisplayFlags & DM_INTERLACED) ? _T('i') : _T('p'));
         return strDisplayMode;

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -178,7 +178,7 @@ void CDirectVobSubFilter::PrintMessages(BYTE* pOut)
 
     CString msg;
 
-    msg.Format(_T("in: %dx%d %s\nout: %dx%d %s\n"),
+    msg.Format(_T("in: %dx%d %s\nout: %ldx%ld %s\n"),
                m_w, m_h,
                Subtype2String(m_pInput->CurrentMediaType().subtype),
                bihOut.biWidth, bihOut.biHeight,

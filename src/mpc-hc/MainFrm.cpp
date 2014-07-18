@@ -1601,7 +1601,7 @@ void CMainFrame::OnSysCommand(UINT nID, LPARAM lParam)
     // Only stop screensaver if video playing; allow for audio only
     if ((GetMediaState() == State_Running && !m_fAudioOnly)
             && (((nID & 0xFFF0) == SC_SCREENSAVE) || ((nID & 0xFFF0) == SC_MONITORPOWER))) {
-        TRACE(_T("SC_SCREENSAVE, nID = %d, lParam = %d\n"), nID, lParam);
+        TRACE(_T("SC_SCREENSAVE, nID = %u, lParam = %d\n"), nID, lParam);
         return;
     } else if ((nID & 0xFFF0) == SC_MINIMIZE && m_bTrayIcon) {
         ShowWindow(SW_HIDE);
@@ -2330,7 +2330,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
     LONG_PTR evParam1, evParam2;
     while (m_pME && SUCCEEDED(m_pME->GetEvent(&evCode, &evParam1, &evParam2, 0))) {
 #ifdef _DEBUG
-        TRACE(_T("--> CMainFrame::OnGraphNotify on thread: %d; event: 0x%08x (%ws)\n"), GetCurrentThreadId(), evCode, GetEventString(evCode));
+        TRACE(_T("--> CMainFrame::OnGraphNotify on thread: %lu; event: 0x%08x (%ws)\n"), GetCurrentThreadId(), evCode, GetEventString(evCode));
 #endif
         CString str;
 
@@ -2354,7 +2354,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                 TRACE(_T("\thr = %08x\n"), (HRESULT)evParam1);
                 break;
             case EC_BUFFERING_DATA:
-                TRACE(_T("\t%d, %d\n"), (HRESULT)evParam1, evParam2);
+                TRACE(_T("\t%ld, %Id\n"), (HRESULT)evParam1, evParam2);
 
                 m_fBuffering = ((HRESULT)evParam1 != S_OK);
                 break;
@@ -2419,7 +2419,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 
                         if (m_pDVDI && SUCCEEDED(m_pDVDI->GetDiscID(nullptr, &llDVDGuid))) {
                             if (s.fShowDebugInfo) {
-                                m_OSD.DebugMessage(_T("DVD Title: %d"), s.lDVDTitle);
+                                m_OSD.DebugMessage(_T("DVD Title: %lu"), s.lDVDTitle);
                             }
 
                             if (s.lDVDTitle != 0) {
@@ -2428,7 +2428,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                                 hr = m_pDVDC->PlayTitle(s.lDVDTitle, DVD_CMD_FLAG_Block | DVD_CMD_FLAG_Flush, nullptr);
                                 if (s.fShowDebugInfo) {
                                     m_OSD.DebugMessage(_T("PlayTitle: 0x%08X"), hr);
-                                    m_OSD.DebugMessage(_T("DVD Chapter: %d"), s.lDVDChapter);
+                                    m_OSD.DebugMessage(_T("DVD Chapter: %lu"), s.lDVDChapter);
                                 }
 
                                 if (s.lDVDChapter > 1) {
@@ -2591,7 +2591,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
             }
             break;
             case EC_DVD_ERROR: {
-                TRACE(_T("\t%d %d\n"), evParam1, evParam2);
+                TRACE(_T("\t%I64d %Id\n"), evParam1, evParam2);
 
                 UINT err;
 
@@ -2629,11 +2629,11 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
             }
             break;
             case EC_DVD_WARNING:
-                TRACE(_T("\t%d %d\n"), evParam1, evParam2);
+                TRACE(_T("\t%Id %Id\n"), evParam1, evParam2);
                 break;
             case EC_VIDEO_SIZE_CHANGED: {
                 CSize size((DWORD)evParam1);
-                TRACE(_T("\t%dx%d\n"), size.cx, size.cy);
+                TRACE(_T("\t%ldx%ld\n"), size.cx, size.cy);
 
                 const bool bWasAudioOnly = m_fAudioOnly;
                 m_fAudioOnly = (size.cx <= 0 || size.cy <= 0);
@@ -4903,7 +4903,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 
         CStringW ar;
         if (szAR.cx > 0 && szAR.cy > 0 && szAR.cx != szVideo.cx && szAR.cy != szVideo.cy) {
-            ar.Format(L"(%d:%d)", szAR.cx, szAR.cy);
+            ar.Format(L"(%ld:%ld)", szAR.cx, szAR.cy);
         }
 
         str.Format(IDS_THUMBNAILS_INFO_HEADER,
@@ -11098,9 +11098,9 @@ void CMainFrame::UpdateChapterInInfoBar()
             CComBSTR bstr;
             long currentChap = m_pCB->ChapLookup(&rtNow, &bstr);
             if (bstr.Length()) {
-                chapter.Format(_T("%s (%d/%lu)"), bstr.m_str, max(0l, currentChap + 1l), dwChapCount);
+                chapter.Format(_T("%s (%ld/%lu)"), bstr.m_str, max(0l, currentChap + 1l), dwChapCount);
             } else {
-                chapter.Format(_T("%d/%lu"), currentChap + 1, dwChapCount);
+                chapter.Format(_T("%ld/%lu"), currentChap + 1, dwChapCount);
             }
         }
     }
@@ -11547,7 +11547,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         UINT index = 0;
         while (pos != nullptr) {
             CString path = pFileData->fns.GetNext(pos);
-            TRACE(_T("--> CMainFrame::OpenMediaPrivate - pFileData->fns[%d]:\n"), index);
+            TRACE(_T("--> CMainFrame::OpenMediaPrivate - pFileData->fns[%u]:\n"), index);
             TRACE(_T("\t%ws\n"), path.GetString()); // %ws - wide character string always
             index++;
         }
@@ -15154,9 +15154,9 @@ void CMainFrame::SendNowPlayingToApi()
 
                     // build string
                     // DVD - xxxxx|currenttitle|numberofchapters|currentchapter|titleduration
-                    author.Format(L"%u", Location.TitleNum);
+                    author.Format(L"%lu", Location.TitleNum);
                     description.Format(L"%lu", ulNumOfChapters);
-                    label.Format(L"%u", Location.ChapterNum);
+                    label.Format(L"%lu", Location.ChapterNum);
                 }
             }
         }

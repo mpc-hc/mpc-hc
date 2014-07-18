@@ -801,7 +801,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
         hr = m_pD3DDev->Reset(&pp);
     }
 
-    TRACE(_T("CreateDevice: %d\n"), (LONG)hr);
+    TRACE(_T("CreateDevice: %ld\n"), (LONG)hr);
     ASSERT(SUCCEEDED(hr));
 
     m_MainThreadId = GetCurrentThreadId();
@@ -2011,7 +2011,7 @@ void CDX9AllocatorPresenter::DrawStats()
         OffsetRect(&rc, 0, TextHeight);
 
         if (iDetailedStats > 1) {
-            strText.Format(L"Video size   : %d x %d  (AR = %d : %d)", m_nativeVideoSize.cx, m_nativeVideoSize.cy, m_aspectRatio.cx, m_aspectRatio.cy);
+            strText.Format(L"Video size   : %ld x %ld  (AR = %ld : %ld)", m_nativeVideoSize.cx, m_nativeVideoSize.cy, m_aspectRatio.cx, m_aspectRatio.cy);
             DrawText(rc, strText, 1);
             OffsetRect(&rc, 0, TextHeight);
             if (m_pVideoTexture[0] || m_pVideoSurface[0]) {

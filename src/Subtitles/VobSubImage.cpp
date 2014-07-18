@@ -1258,26 +1258,26 @@ bool CVobSubImage::Polygonize(CStringW& assstr, bool bSmooth, int scale)
                 if (lastType != PT_MOVETO) {
                     assstr += L"m ";
                 }
-                s.Format(L"%d %d ", pathPoints[i].x, pathPoints[i].y);
+                s.Format(L"%ld %ld ", pathPoints[i].x, pathPoints[i].y);
                 break;
             case PT_MOVETONC:
                 if (lastType != PT_MOVETONC) {
                     assstr += L"n ";
                 }
-                s.Format(L"%d %d ", pathPoints[i].x, pathPoints[i].y);
+                s.Format(L"%ld %ld ", pathPoints[i].x, pathPoints[i].y);
                 break;
             case PT_LINETO:
                 if (lastType != PT_LINETO) {
                     assstr += L"l ";
                 }
-                s.Format(L"%d %d ", pathPoints[i].x, pathPoints[i].y);
+                s.Format(L"%ld %ld ", pathPoints[i].x, pathPoints[i].y);
                 break;
             case PT_BEZIERTO:
                 if (i + 2 < nPoints) {
                     if (lastType != PT_BEZIERTO) {
                         assstr += L"b ";
                     }
-                    s.Format(L"%d %d %d %d %d %d ", pathPoints[i].x, pathPoints[i].y, pathPoints[i + 1].x, pathPoints[i + 1].y, pathPoints[i + 2].x, pathPoints[i + 2].y);
+                    s.Format(L"%ld %ld %ld %ld %ld %ld ", pathPoints[i].x, pathPoints[i].y, pathPoints[i + 1].x, pathPoints[i + 1].y, pathPoints[i + 2].x, pathPoints[i + 2].y);
                     i += 2;
                 }
                 break;
@@ -1286,7 +1286,7 @@ bool CVobSubImage::Polygonize(CStringW& assstr, bool bSmooth, int scale)
                     if (lastType != PT_BSPLINETO) {
                         assstr += L"s ";
                     }
-                    s.Format(L"%d %d %d %d %d %d ", pathPoints[i].x, pathPoints[i].y, pathPoints[i + 1].x, pathPoints[i + 1].y, pathPoints[i + 2].x, pathPoints[i + 2].y);
+                    s.Format(L"%ld %ld %ld %ld %ld %ld ", pathPoints[i].x, pathPoints[i].y, pathPoints[i + 1].x, pathPoints[i + 1].y, pathPoints[i + 2].x, pathPoints[i + 2].y);
                     i += 2;
                 }
                 break;
@@ -1294,7 +1294,7 @@ bool CVobSubImage::Polygonize(CStringW& assstr, bool bSmooth, int scale)
                 if (lastType != PT_BSPLINEPATCHTO) {
                     assstr += L"p ";
                 }
-                s.Format(L"%d %d ", pathPoints[i].x, pathPoints[i].y);
+                s.Format(L"%ld %ld ", pathPoints[i].x, pathPoints[i].y);
                 break;
         }
 

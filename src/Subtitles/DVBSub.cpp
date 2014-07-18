@@ -261,7 +261,7 @@ HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
                 wSegLength = gb.ReadShort();
 
                 if (gb.RemainingSize() < wSegLength) {
-                    TRACE_DVB(_T("DVB - Full segment isn't availabled yet, delaying parsing (%d/%hu)\n"), gb.RemainingSize(), wSegLength);
+                    TRACE_DVB(_T("DVB - Full segment isn't availabled yet, delaying parsing (%Iu/%hu)\n"), gb.RemainingSize(), wSegLength);
                     hr = S_FALSE;
                     break;
                 }

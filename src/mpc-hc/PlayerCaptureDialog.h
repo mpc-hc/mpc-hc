@@ -237,7 +237,7 @@ public:
             return str;
         }
 
-        str.Format(_T("%dx%d %.2f"), bih->biWidth, bih->biHeight, 10000000.0f / ((VIDEOINFOHEADER*)pfe->mt.pbFormat)->AvgTimePerFrame);
+        str.Format(_T("%ldx%ld %.2f"), bih->biWidth, bih->biHeight, 10000000.0f / ((VIDEOINFOHEADER*)pfe->mt.pbFormat)->AvgTimePerFrame);
 
         if (pfe->mt.formattype == FORMAT_VideoInfo2) {
             VIDEOINFOHEADER2* vih2 = (VIDEOINFOHEADER2*)pfe->mt.pbFormat;

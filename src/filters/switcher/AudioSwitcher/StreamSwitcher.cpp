@@ -1319,7 +1319,7 @@ HRESULT CStreamSwitcherFilter::CompleteConnect(PIN_DIRECTION dir, CBasePin* pPin
 
         if ((size_t)nConnected == m_pInputs.GetCount()) {
             CStringW name;
-            name.Format(L"Channel %d", ++m_PinVersion);
+            name.Format(L"Channel %ld", ++m_PinVersion);
 
             HRESULT hr = S_OK;
             CStreamSwitcherInputPin* pPin = DEBUG_NEW CStreamSwitcherInputPin(this, &hr, name);

@@ -417,7 +417,7 @@ bool CBaseAP::SettingsNeedResetDevice()
 
 HRESULT CBaseAP::CreateDXDevice(CString& _Error)
 {
-    TRACE(_T("--> CBaseAP::CreateDXDevice on thread: %d\n"), GetCurrentThreadId());
+    TRACE(_T("--> CBaseAP::CreateDXDevice on thread: %lu\n"), GetCurrentThreadId());
     const CRenderersSettings& r = GetRenderersSettings();
     m_LastRendererSettings = r.m_AdvRendSets;
     HRESULT hr = E_FAIL;
@@ -642,7 +642,7 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
         hr = m_pD3DDev->Reset(&pp);
     }
 
-    TRACE(_T("CreateDevice: %d\n"), (LONG)hr);
+    TRACE(_T("CreateDevice: %ld\n"), (LONG)hr);
     ASSERT(SUCCEEDED(hr));
 
     if (m_pD3DDevEx) {
@@ -1988,7 +1988,7 @@ void CBaseAP::DrawStats()
         CString strText;
         int TextHeight = (int)(25.0 * m_TextScale + 0.5);
 
-        strText.Format(L"Frames drawn from stream start: %u | Sample time stamp: %d ms", m_pcFramesDrawn, (LONG)(m_llSampleTime / 10000));
+        strText.Format(L"Frames drawn from stream start: %u | Sample time stamp: %ld ms", m_pcFramesDrawn, (LONG)(m_llSampleTime / 10000));
         DrawText(rc, strText, 1);
         OffsetRect(&rc, 0, TextHeight);
 
@@ -2034,7 +2034,7 @@ void CBaseAP::DrawStats()
                         DrawText(rc, strText, 1);
                         OffsetRect(&rc, 0, TextHeight);
 
-                        strText.Format(L"    PresentCount %d PresentRefreshCount %d SyncRefreshCount %d",
+                        strText.Format(L"    PresentCount %u PresentRefreshCount %u SyncRefreshCount %u",
                                        stats.PresentCount, stats.PresentRefreshCount, stats.SyncRefreshCount);
                         DrawText(rc, strText, 1);
                         OffsetRect(&rc, 0, TextHeight);
@@ -2055,7 +2055,7 @@ void CBaseAP::DrawStats()
             }
 #endif
 
-            strText.Format(L"Video size   : %d x %d  (AR = %d : %d)  Display resolution %d x %d ", m_nativeVideoSize.cx, m_nativeVideoSize.cy, m_aspectRatio.cx, m_aspectRatio.cy, m_ScreenSize.cx, m_ScreenSize.cy);
+            strText.Format(L"Video size   : %ld x %ld  (AR = %ld : %ld)  Display resolution %ld x %ld ", m_nativeVideoSize.cx, m_nativeVideoSize.cy, m_aspectRatio.cx, m_aspectRatio.cy, m_ScreenSize.cx, m_ScreenSize.cy);
             DrawText(rc, strText, 1);
             OffsetRect(&rc, 0, TextHeight);
 
@@ -3822,7 +3822,7 @@ STDMETHODIMP_(bool) CSyncAP::ResetDevice()
 
 void CSyncAP::OnResetDevice()
 {
-    TRACE(_T("--> CSyncAP::OnResetDevice on thread: %d\n"), GetCurrentThreadId());
+    TRACE(_T("--> CSyncAP::OnResetDevice on thread: %lu\n"), GetCurrentThreadId());
     HRESULT hr;
     hr = m_pD3DManager->ResetDevice(m_pD3DDev, m_nResetToken);
     if (m_pSink) {

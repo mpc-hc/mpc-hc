@@ -1169,7 +1169,7 @@ bool CEVRAllocatorPresenter::GetImageFromMixer()
             m_nTearingPos = (m_nTearingPos + 7) % m_nativeVideoSize.cx;
         }
 
-        TRACE_EVR("EVR: Get from Mixer : %d  (%I64d) (%I64d)\n", dwSurface, nsSampleTime, m_rtTimePerFrame ? nsSampleTime / m_rtTimePerFrame : 0);
+        TRACE_EVR("EVR: Get from Mixer : %u  (%I64d) (%I64d)\n", dwSurface, nsSampleTime, m_rtTimePerFrame ? nsSampleTime / m_rtTimePerFrame : 0);
 
         MoveToScheduledList(pSample, false);
         bDoneSomething = true;

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -860,17 +860,17 @@ static HRESULT STDMETHODCALLTYPE ExecuteMine(IAMVideoAcceleratorC* This, DWORD d
             DXVA_BufferDescription* pBuffDesc = (DXVA_BufferDescription*)lpPrivateInputData;
 
             for (DWORD i = 0; i < dwNumBuffers; i++) {
-                LOG(_T("[in] lpPrivateInputData, buffer description %d"), i);
-                LOG(_T("     pBuffDesc->dwTypeIndex         = %d"), pBuffDesc[i].dwTypeIndex);
-                LOG(_T("     pBuffDesc->dwBufferIndex       = %d"), pBuffDesc[i].dwBufferIndex);
-                LOG(_T("     pBuffDesc->dwDataOffset        = %d"), pBuffDesc[i].dwDataOffset);
-                LOG(_T("     pBuffDesc->dwDataSize          = %d"), pBuffDesc[i].dwDataSize);
-                LOG(_T("     pBuffDesc->dwFirstMBaddress    = %d"), pBuffDesc[i].dwFirstMBaddress);
-                LOG(_T("     pBuffDesc->dwHeight            = %d"), pBuffDesc[i].dwHeight);
-                LOG(_T("     pBuffDesc->dwStride            = %d"), pBuffDesc[i].dwStride);
-                LOG(_T("     pBuffDesc->dwWidth             = %d"), pBuffDesc[i].dwWidth);
-                LOG(_T("     pBuffDesc->dwNumMBsInBuffer    = %d"), pBuffDesc[i].dwNumMBsInBuffer);
-                LOG(_T("     pBuffDesc->dwReservedBits      = %d"), pBuffDesc[i].dwReservedBits);
+                LOG(_T("[in] lpPrivateInputData, buffer description %u"), i);
+                LOG(_T("     pBuffDesc->dwTypeIndex         = %u"), pBuffDesc[i].dwTypeIndex);
+                LOG(_T("     pBuffDesc->dwBufferIndex       = %u"), pBuffDesc[i].dwBufferIndex);
+                LOG(_T("     pBuffDesc->dwDataOffset        = %u"), pBuffDesc[i].dwDataOffset);
+                LOG(_T("     pBuffDesc->dwDataSize          = %u"), pBuffDesc[i].dwDataSize);
+                LOG(_T("     pBuffDesc->dwFirstMBaddress    = %u"), pBuffDesc[i].dwFirstMBaddress);
+                LOG(_T("     pBuffDesc->dwHeight            = %u"), pBuffDesc[i].dwHeight);
+                LOG(_T("     pBuffDesc->dwStride            = %u"), pBuffDesc[i].dwStride);
+                LOG(_T("     pBuffDesc->dwWidth             = %u"), pBuffDesc[i].dwWidth);
+                LOG(_T("     pBuffDesc->dwNumMBsInBuffer    = %u"), pBuffDesc[i].dwNumMBsInBuffer);
+                LOG(_T("     pBuffDesc->dwReservedBits      = %u"), pBuffDesc[i].dwReservedBits);
             }
         } else if ((dwFunction == 0xfffff101) || (dwFunction == 0xfffff501)) {
             DXVA_ConfigPictureDecode* ConfigRequested = (DXVA_ConfigPictureDecode*)lpPrivateInputData;
@@ -904,7 +904,7 @@ static HRESULT STDMETHODCALLTYPE ExecuteMine(IAMVideoAcceleratorC* This, DWORD d
     LOG(_T("[in] dwNumBuffers = %08x"), dwNumBuffers);
 
     for (DWORD i = 0; i < dwNumBuffers; i++) {
-        LOG(_T("[in] pamvaBufferInfo, buffer description %d"), i);
+        LOG(_T("[in] pamvaBufferInfo, buffer description %u"), i);
         LOG(_T("[in] pamvaBufferInfo->dwTypeIndex = %08x"), pamvaBufferInfo[i].dwTypeIndex);
         LOG(_T("[in] pamvaBufferInfo->dwBufferIndex = %08x"), pamvaBufferInfo[i].dwBufferIndex);
         LOG(_T("[in] pamvaBufferInfo->dwDataOffset = %08x"), pamvaBufferInfo[i].dwDataOffset);
@@ -919,9 +919,9 @@ static HRESULT STDMETHODCALLTYPE ExecuteMine(IAMVideoAcceleratorC* This, DWORD d
         } else if (pamvaBufferInfo[i].dwTypeIndex == DXVA_SLICE_CONTROL_BUFFER && (pamvaBufferInfo[i].dwDataSize % sizeof(DXVA_Slice_H264_Short)) == 0) {
             for (WORD j = 0; j < pamvaBufferInfo[i].dwDataSize / sizeof(DXVA_Slice_H264_Short); j++) {
                 DXVA_Slice_H264_Short*  pSlice = &(((DXVA_Slice_H264_Short*)g_ppBuffer[pamvaBufferInfo[i].dwTypeIndex])[j]);
-                LOG(_T("    - BSNALunitDataLocation  %d"), pSlice->BSNALunitDataLocation);
-                LOG(_T("    - SliceBytesInBuffer     %d"), pSlice->SliceBytesInBuffer);
-                LOG(_T("    - wBadSliceChopping      %d"), pSlice->wBadSliceChopping);
+                LOG(_T("    - BSNALunitDataLocation  %u"), pSlice->BSNALunitDataLocation);
+                LOG(_T("    - SliceBytesInBuffer     %u"), pSlice->SliceBytesInBuffer);
+                LOG(_T("    - wBadSliceChopping      %u"), pSlice->wBadSliceChopping);
             }
         } else if (pamvaBufferInfo[i].dwTypeIndex == DXVA_BITSTREAM_DATA_BUFFER) {
 
@@ -958,14 +958,14 @@ static HRESULT STDMETHODCALLTYPE QueryRenderStatusMine(IAMVideoAcceleratorC* Thi
 {
 
     HRESULT hr = QueryRenderStatusOrg(This, dwTypeIndex, dwBufferIndex, dwFlags);
-    LOG(_T("\nQueryRenderStatus  Type=%d   Index=%d  hr = %08x"), dwTypeIndex, dwBufferIndex, hr);
+    LOG(_T("\nQueryRenderStatus  Type=%u   Index=%u  hr = %08x"), dwTypeIndex, dwBufferIndex, hr);
 
     return hr;
 }
 
 static HRESULT STDMETHODCALLTYPE DisplayFrameMine(IAMVideoAcceleratorC* This, DWORD dwFlipToIndex, IMediaSample* pMediaSample)
 {
-    LOG(_T("\nEnter DisplayFrame  : %d"), dwFlipToIndex);
+    LOG(_T("\nEnter DisplayFrame  : %u"), dwFlipToIndex);
     HRESULT hr = DisplayFrameOrg(This, dwFlipToIndex, pMediaSample);
     LOG(_T("Leave DisplayFrame  : hr = %08x"), hr);
 
@@ -1055,7 +1055,7 @@ void HookAMVideoAccelerator(IAMVideoAcceleratorC* pAMVideoAcceleratorC)
 #ifdef _DEBUG
 static void LogDecodeBufferDesc(DXVA2_DecodeBufferDesc* pDecodeBuff)
 {
-    LOG(_T("DecodeBufferDesc type : %d   Size=%d   NumMBsInBuffer=%d"), pDecodeBuff->CompressedBufferType, pDecodeBuff->DataSize, pDecodeBuff->NumMBsInBuffer);
+    LOG(_T("DecodeBufferDesc type : %u   Size=%u   NumMBsInBuffer=%u"), pDecodeBuff->CompressedBufferType, pDecodeBuff->DataSize, pDecodeBuff->NumMBsInBuffer);
     //LOG(_T("  - BufferIndex                       %d"), pDecodeBuff->BufferIndex);
     //LOG(_T("  - DataOffset                        %d"), pDecodeBuff->DataOffset);
     //LOG(_T("  - DataSize                          %d"), pDecodeBuff->DataSize);
@@ -1116,14 +1116,14 @@ public:
             m_ppBuffer[BufferType] = (BYTE*)*ppBuffer;
             m_ppBufferLen[BufferType] = *pBufferSize;
         }
-        //LOG(_T("IDirectXVideoDecoder::GetBuffer Type = %d,  hr = %08x"), BufferType, hr);
+        //LOG(_T("IDirectXVideoDecoder::GetBuffer Type = %u,  hr = %08x"), BufferType, hr);
 
         return hr;
     }
 
     virtual HRESULT STDMETHODCALLTYPE ReleaseBuffer(UINT BufferType) {
         HRESULT hr = m_pDec->ReleaseBuffer(BufferType);
-        //LOG(_T("IDirectXVideoDecoder::ReleaseBuffer Type = %d,  hr = %08x"), BufferType, hr);
+        //LOG(_T("IDirectXVideoDecoder::ReleaseBuffer Type = %u,  hr = %08x"), BufferType, hr);
         return hr;
     }
 
@@ -1222,14 +1222,14 @@ public:
 
 #ifdef _DEBUG
         if (pExecuteParams->pExtensionData) {
-            LOG(_T("IDirectXVideoDecoder::Execute  %d buffer, fct = %d  (in=%d, out=%d),  hr = %08x"),
+            LOG(_T("IDirectXVideoDecoder::Execute  %u buffer, fct = %u  (in=%u, out=%u),  hr = %08x"),
                 pExecuteParams->NumCompBuffers,
                 pExecuteParams->pExtensionData->Function,
                 pExecuteParams->pExtensionData->PrivateInputDataSize,
                 pExecuteParams->pExtensionData->PrivateOutputDataSize,
                 hr);
         } else {
-            LOG(_T("IDirectXVideoDecoder::Execute  %d buffer, hr = %08x"), pExecuteParams->NumCompBuffers, hr);
+            LOG(_T("IDirectXVideoDecoder::Execute  %u buffer, hr = %08x"), pExecuteParams->NumCompBuffers, hr);
         }
 #endif
         return hr;
@@ -1310,20 +1310,20 @@ static HRESULT(STDMETHODCALLTYPE* GetDecoderConfigurationsOrg)(IDirectXVideoDeco
 static void LogDXVA2Config(const DXVA2_ConfigPictureDecode* pConfig)
 {
     LOG(_T("Config"));
-    LOG(_T("    - Config4GroupedCoefs               %d"), pConfig->Config4GroupedCoefs);
-    LOG(_T("    - ConfigBitstreamRaw                %d"), pConfig->ConfigBitstreamRaw);
-    LOG(_T("    - ConfigDecoderSpecific             %d"), pConfig->ConfigDecoderSpecific);
-    LOG(_T("    - ConfigHostInverseScan             %d"), pConfig->ConfigHostInverseScan);
-    LOG(_T("    - ConfigIntraResidUnsigned          %d"), pConfig->ConfigIntraResidUnsigned);
-    LOG(_T("    - ConfigMBcontrolRasterOrder        %d"), pConfig->ConfigMBcontrolRasterOrder);
-    LOG(_T("    - ConfigMinRenderTargetBuffCount    %d"), pConfig->ConfigMinRenderTargetBuffCount);
-    LOG(_T("    - ConfigResid8Subtraction           %d"), pConfig->ConfigResid8Subtraction);
-    LOG(_T("    - ConfigResidDiffAccelerator        %d"), pConfig->ConfigResidDiffAccelerator);
-    LOG(_T("    - ConfigResidDiffHost               %d"), pConfig->ConfigResidDiffHost);
-    LOG(_T("    - ConfigSpatialHost8or9Clipping     %d"), pConfig->ConfigSpatialHost8or9Clipping);
-    LOG(_T("    - ConfigSpatialResid8               %d"), pConfig->ConfigSpatialResid8);
-    LOG(_T("    - ConfigSpatialResidInterleaved     %d"), pConfig->ConfigSpatialResidInterleaved);
-    LOG(_T("    - ConfigSpecificIDCT                %d"), pConfig->ConfigSpecificIDCT);
+    LOG(_T("    - Config4GroupedCoefs               %u"), pConfig->Config4GroupedCoefs);
+    LOG(_T("    - ConfigBitstreamRaw                %u"), pConfig->ConfigBitstreamRaw);
+    LOG(_T("    - ConfigDecoderSpecific             %u"), pConfig->ConfigDecoderSpecific);
+    LOG(_T("    - ConfigHostInverseScan             %u"), pConfig->ConfigHostInverseScan);
+    LOG(_T("    - ConfigIntraResidUnsigned          %u"), pConfig->ConfigIntraResidUnsigned);
+    LOG(_T("    - ConfigMBcontrolRasterOrder        %u"), pConfig->ConfigMBcontrolRasterOrder);
+    LOG(_T("    - ConfigMinRenderTargetBuffCount    %u"), pConfig->ConfigMinRenderTargetBuffCount);
+    LOG(_T("    - ConfigResid8Subtraction           %u"), pConfig->ConfigResid8Subtraction);
+    LOG(_T("    - ConfigResidDiffAccelerator        %u"), pConfig->ConfigResidDiffAccelerator);
+    LOG(_T("    - ConfigResidDiffHost               %u"), pConfig->ConfigResidDiffHost);
+    LOG(_T("    - ConfigSpatialHost8or9Clipping     %u"), pConfig->ConfigSpatialHost8or9Clipping);
+    LOG(_T("    - ConfigSpatialResid8               %u"), pConfig->ConfigSpatialResid8);
+    LOG(_T("    - ConfigSpatialResidInterleaved     %u"), pConfig->ConfigSpatialResidInterleaved);
+    LOG(_T("    - ConfigSpecificIDCT                %u"), pConfig->ConfigSpecificIDCT);
     LOG(_T("    - guidConfigBitstreamEncryption     %s"), CStringFromGUID(pConfig->guidConfigBitstreamEncryption));
     LOG(_T("    - guidConfigMBcontrolEncryption     %s"), CStringFromGUID(pConfig->guidConfigMBcontrolEncryption));
     LOG(_T("    - guidConfigResidDiffEncryption     %s"), CStringFromGUID(pConfig->guidConfigResidDiffEncryption));
@@ -1333,12 +1333,12 @@ static void LogDXVA2VideoDesc(const DXVA2_VideoDesc* pVideoDesc)
 {
     LOG(_T("VideoDesc"));
     LOG(_T("    - Format                            %s  (0x%08x)"), FindD3DFormat(pVideoDesc->Format), pVideoDesc->Format);
-    LOG(_T("    - InputSampleFreq                   %d/%d"), pVideoDesc->InputSampleFreq.Numerator, pVideoDesc->InputSampleFreq.Denominator);
-    LOG(_T("    - OutputFrameFreq                   %d/%d"), pVideoDesc->OutputFrameFreq.Numerator, pVideoDesc->OutputFrameFreq.Denominator);
-    LOG(_T("    - SampleFormat                      %d"), pVideoDesc->SampleFormat.value);
-    LOG(_T("    - SampleHeight                      %d"), pVideoDesc->SampleHeight);
-    LOG(_T("    - SampleWidth                       %d"), pVideoDesc->SampleWidth);
-    LOG(_T("    - UABProtectionLevel                %d"), pVideoDesc->UABProtectionLevel);
+    LOG(_T("    - InputSampleFreq                   %u/%u"), pVideoDesc->InputSampleFreq.Numerator, pVideoDesc->InputSampleFreq.Denominator);
+    LOG(_T("    - OutputFrameFreq                   %u/%u"), pVideoDesc->OutputFrameFreq.Numerator, pVideoDesc->OutputFrameFreq.Denominator);
+    LOG(_T("    - SampleFormat                      %u"), pVideoDesc->SampleFormat.value);
+    LOG(_T("    - SampleHeight                      %u"), pVideoDesc->SampleHeight);
+    LOG(_T("    - SampleWidth                       %u"), pVideoDesc->SampleWidth);
+    LOG(_T("    - UABProtectionLevel                %u"), pVideoDesc->UABProtectionLevel);
 }
 #endif
 
@@ -1436,14 +1436,14 @@ static HRESULT STDMETHODCALLTYPE CreateVideoDecoderMine(
         }
 
         for (DWORD i = 0; i < NumRenderTargets; i++) {
-            LOG(_T(" - Surf %d : %08x"), i, ppDecoderRenderTargets[i]);
+            LOG(_T(" - Surf %u : %08x"), i, ppDecoderRenderTargets[i]);
         }
     }
 #endif
 
     TRACE(_T("DXVA Decoder : %s\n"), GetDXVADecoderDescription());
 #ifdef _DEBUG
-    LOG(_T("IDirectXVideoDecoderService::CreateVideoDecoder  %s  (%d render targets) hr = %08x"), GetDXVAMode(&g_guidDXVADecoder), NumRenderTargets, hr);
+    LOG(_T("IDirectXVideoDecoderService::CreateVideoDecoder  %s  (%u render targets) hr = %08x"), GetDXVAMode(&g_guidDXVADecoder), NumRenderTargets, hr);
 #endif
     return hr;
 }
