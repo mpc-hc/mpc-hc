@@ -33,6 +33,9 @@ class CSubPicAllocatorPresenterImpl
     , public ISubPicAllocatorPresenter2
     , public ISubRenderConsumer2
 {
+private:
+    CCritSec m_csSubPicProvider;
+
 protected:
     HWND m_hWnd;
     REFERENCE_TIME m_rtSubtitleDelay;

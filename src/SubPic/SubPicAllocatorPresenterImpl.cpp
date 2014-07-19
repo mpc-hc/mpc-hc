@@ -213,6 +213,8 @@ STDMETHODIMP_(double) CSubPicAllocatorPresenterImpl::GetFPS() const
 
 STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetSubPicProvider(ISubPicProvider* pSubPicProvider)
 {
+    CAutoLock cAutoLock(&m_csSubPicProvider);
+
     m_pSubPicProvider = pSubPicProvider;
 
     // Reset the default state to be sure text subtitles will be displayed right.
