@@ -34,7 +34,6 @@ CPPageSubtitles::CPPageSubtitles()
     , m_nHorPos(0)
     , m_nVerPos(0)
     , m_nSPQSize(10)
-    , m_bSPQPow2Tex(TRUE)
     , m_bDisableSubtitleAnimation(FALSE)
     , m_nRenderAtWhenAnimationIsDisabled(50)
     , m_nAnimationRate(100)
@@ -59,7 +58,6 @@ void CPPageSubtitles::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_SUBPIC_TO_BUFFER, m_nSPQSize);
     DDX_Control(pDX, IDC_SPIN1, m_SPQSizeCtrl);
     DDX_Control(pDX, IDC_COMBO1, m_cbSPQMaxRes);
-    DDX_Check(pDX, IDC_CHECK_SPCPOW2TEX, m_bSPQPow2Tex);
     DDX_Check(pDX, IDC_CHECK_NO_SUB_ANIM, m_bDisableSubtitleAnimation);
     DDX_Text(pDX, IDC_EDIT5, m_nRenderAtWhenAnimationIsDisabled);
     DDX_Control(pDX, IDC_SPIN5, m_renderAtCtrl);
@@ -171,7 +169,6 @@ BOOL CPPageSubtitles::OnInitDialog()
     m_cbSPQMaxRes.AddString(_T("512x384"));
     m_cbSPQMaxRes.AddString(_T("384x288"));
     m_cbSPQMaxRes.SetCurSel(TranslateResSettingToUIPos(r.subPicQueueSettings.nMaxRes));
-    m_bSPQPow2Tex = r.subPicQueueSettings.bPow2Tex;
     m_bDisableSubtitleAnimation = r.subPicQueueSettings.bDisableSubtitleAnimation;
     m_nRenderAtWhenAnimationIsDisabled = r.subPicQueueSettings.nRenderAtWhenAnimationIsDisabled;
     m_bAllowDroppingSubpic = r.subPicQueueSettings.bAllowDroppingSubpic;
@@ -201,7 +198,6 @@ BOOL CPPageSubtitles::OnApply()
     r.subPicQueueSettings.nSize = m_nSPQSize;
     s.nSubDelayInterval = m_nSubDelayInterval;
     r.subPicQueueSettings.nMaxRes = TranslateResUIPosToSetting(m_cbSPQMaxRes.GetCurSel());
-    r.subPicQueueSettings.bPow2Tex = !!m_bSPQPow2Tex;
     r.subPicQueueSettings.bDisableSubtitleAnimation = !!m_bDisableSubtitleAnimation;
     r.subPicQueueSettings.nRenderAtWhenAnimationIsDisabled = std::max(0, std::min(m_nRenderAtWhenAnimationIsDisabled, 100));
     r.subPicQueueSettings.nAnimationRate = std::max(10, std::min(m_nAnimationRate, 100));

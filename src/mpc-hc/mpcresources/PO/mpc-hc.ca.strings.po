@@ -846,10 +846,6 @@ msgctxt "IDC_CHECK_RELATIVETO"
 msgid "If the rendering target is left undefined, it will be inherited from the default style."
 msgstr ""
 
-msgctxt "IDC_CHECK_SPCPOW2TEX"
-msgid "Unchecking this frees up a little video memory and saves bandwidth on local to video memory transfers, but it may not work with older video cards."
-msgstr "Si desmarcas això es llibera una mica de memòria de vídeo i guardes amplada de banda en transferencias de memoria local a memòria de vídeo, però no funcionar amb tarjetas gràficas antigues."
-
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
 msgstr ""

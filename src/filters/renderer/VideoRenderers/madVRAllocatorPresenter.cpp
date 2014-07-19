@@ -102,7 +102,7 @@ HRESULT CmadVRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
     if (m_pAllocator) {
         m_pAllocator->ChangeDevice(pD3DDev);
     } else {
-        m_pAllocator = DEBUG_NEW CDX9SubPicAllocator(pD3DDev, m_maxSubtitleTextureSize, r.subPicQueueSettings.bPow2Tex, true);
+        m_pAllocator = DEBUG_NEW CDX9SubPicAllocator(pD3DDev, m_maxSubtitleTextureSize, true);
     }
 
     HRESULT hr = S_OK;

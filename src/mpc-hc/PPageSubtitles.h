@@ -39,7 +39,6 @@ private:
     int m_nSPQSize;
     CSpinButtonCtrl m_SPQSizeCtrl;
     CComboBox m_cbSPQMaxRes;
-    BOOL m_bSPQPow2Tex;
     BOOL m_bDisableSubtitleAnimation;
     int m_nRenderAtWhenAnimationIsDisabled;
     CSpinButtonCtrl m_renderAtCtrl;

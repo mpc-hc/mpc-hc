@@ -529,10 +529,6 @@ msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Maximum texture resolution:"
 msgstr "সর্বোচ্চ টেক্সচার রেজ্যুলূশন:"
 
-msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SPCPOW2TEX"
-msgid "Round up to power of two"
-msgstr "দুইয়ের শক্তি(2^n) দ্বারা পূর্ণসংখ্যাকরণ"
-
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_NO_SUB_ANIM"
 msgid "Never animate the subtitles"
 msgstr ""

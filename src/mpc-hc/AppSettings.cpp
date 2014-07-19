@@ -1691,7 +1691,6 @@ void CAppSettings::UpdateRenderersData(bool fSave)
 
         pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SPCSIZE, r.subPicQueueSettings.nSize);
         pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SPCMAXRES, r.subPicQueueSettings.nMaxRes);
-        pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_POW2TEX, r.subPicQueueSettings.bPow2Tex);
         pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DISABLE_SUBTITLE_ANIMATION, r.subPicQueueSettings.bDisableSubtitleAnimation);
         pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_RENDER_AT_WHEN_ANIM_DISABLED, r.subPicQueueSettings.nRenderAtWhenAnimationIsDisabled);
         pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SUBTITLE_ANIMATION_RATE, r.subPicQueueSettings.nAnimationRate);
@@ -1756,7 +1755,6 @@ void CAppSettings::UpdateRenderersData(bool fSave)
 
         r.subPicQueueSettings.nSize = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SPCSIZE, 10);
         r.subPicQueueSettings.nMaxRes = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SPCMAXRES, 0);
-        r.subPicQueueSettings.bPow2Tex = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_POW2TEX, TRUE);
         r.subPicQueueSettings.bDisableSubtitleAnimation = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DISABLE_SUBTITLE_ANIMATION, FALSE);
         r.subPicQueueSettings.nRenderAtWhenAnimationIsDisabled = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_RENDER_AT_WHEN_ANIM_DISABLED, 50);
         r.subPicQueueSettings.nAnimationRate = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SUBTITLE_ANIMATION_RATE, 100);

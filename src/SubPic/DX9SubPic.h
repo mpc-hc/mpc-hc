@@ -68,7 +68,7 @@ public:
 
     void GetStats(int& nFree, int& nAlloc) const;
 
-    CDX9SubPicAllocator(IDirect3DDevice9* pD3DDev, SIZE maxsize, bool fPow2Textures, bool bExternalRenderer);
+    CDX9SubPicAllocator(IDirect3DDevice9* pD3DDev, SIZE maxsize, bool bExternalRenderer);
     ~CDX9SubPicAllocator();
     void ClearCache();
 

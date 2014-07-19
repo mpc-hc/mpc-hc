@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -57,7 +57,7 @@ class CDX7SubPicAllocator : public CSubPicAllocatorImpl, public CCritSec
     bool Alloc(bool fStatic, ISubPic** ppSubPic);
 
 public:
-    CDX7SubPicAllocator(IDirect3DDevice7* pD3DDev, SIZE maxsize, bool fPow2Textures);
+    CDX7SubPicAllocator(IDirect3DDevice7* pD3DDev, SIZE maxsize);
 
     // ISubPicAllocator
     STDMETHODIMP ChangeDevice(IUnknown* pDev);

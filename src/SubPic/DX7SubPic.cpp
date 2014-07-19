@@ -219,8 +219,8 @@ STDMETHODIMP CDX7SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 // CDX7SubPicAllocator
 //
 
-CDX7SubPicAllocator::CDX7SubPicAllocator(IDirect3DDevice7* pD3DDev, SIZE maxsize, bool fPow2Textures)
-    : CSubPicAllocatorImpl(maxsize, true, fPow2Textures)
+CDX7SubPicAllocator::CDX7SubPicAllocator(IDirect3DDevice7* pD3DDev, SIZE maxsize)
+    : CSubPicAllocatorImpl(maxsize, true)
     , m_pD3DDev(pD3DDev)
     , m_maxsize(maxsize)
 {
@@ -281,16 +281,6 @@ bool CDX7SubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
     ddsd.ddpfPixelFormat.dwRBitMask        = 0x00FF0000;
     ddsd.ddpfPixelFormat.dwGBitMask        = 0x0000FF00;
     ddsd.ddpfPixelFormat.dwBBitMask        = 0x000000FF;
-
-    if (m_fPow2Textures && ddsd.dwWidth < 1024 && ddsd.dwHeight < 1024) {
-        ddsd.dwWidth = ddsd.dwHeight = 1;
-        while (ddsd.dwWidth < (DWORD)m_maxsize.cx) {
-            ddsd.dwWidth <<= 1;
-        }
-        while (ddsd.dwHeight < (DWORD)m_maxsize.cy) {
-            ddsd.dwHeight <<= 1;
-        }
-    }
 
     CComPtr<IDirect3D7> pD3D;
     CComQIPtr<IDirectDraw7, &IID_IDirectDraw7> pDD;

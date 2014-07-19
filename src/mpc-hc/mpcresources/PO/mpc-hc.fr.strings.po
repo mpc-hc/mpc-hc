@@ -844,10 +844,6 @@ msgctxt "IDC_CHECK_RELATIVETO"
 msgid "If the rendering target is left undefined, it will be inherited from the default style."
 msgstr "Si la case à cocher est laissée indéfinie, la cible d'affichage sera héritée du style par défaut."
 
-msgctxt "IDC_CHECK_SPCPOW2TEX"
-msgid "Unchecking this frees up a little video memory and saves bandwidth on local to video memory transfers, but it may not work with older video cards."
-msgstr "Décocher cette case permet de libérer un peu de mémoire vidéo et d'économiser de la bande passante sur les transferts de mémoire vidéo, mais cela ne fonctionnera pas forcément avec les anciennes cartes graphiques."
-
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
 msgstr ""

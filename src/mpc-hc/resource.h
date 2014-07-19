@@ -451,7 +451,6 @@
 #define IDC_LOGOFILENAME                12016
 #define IDC_AUTHOR                      12018
 #define IDC_CHECK_RELATIVETO            12019
-#define IDC_CHECK_SPCPOW2TEX            12020
 #define IDC_CHECK_NO_SUB_ANIM           12021
 #define IDC_SUBPIC_TO_BUFFER            12022
 #define IDC_BUTTON_EXT_SET              12023

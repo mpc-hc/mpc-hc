@@ -232,7 +232,7 @@ HRESULT CDX7AllocatorPresenter::CreateDevice()
     if (m_pAllocator) {
         m_pAllocator->ChangeDevice(m_pD3DDev);
     } else {
-        m_pAllocator = DEBUG_NEW CDX7SubPicAllocator(m_pD3DDev, m_maxSubtitleTextureSize, r.subPicQueueSettings.bPow2Tex);
+        m_pAllocator = DEBUG_NEW CDX7SubPicAllocator(m_pD3DDev, m_maxSubtitleTextureSize);
     }
 
     hr = S_OK;

@@ -529,10 +529,6 @@ msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Maximum texture resolution:"
 msgstr "Maximum texture resolution:"
 
-msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SPCPOW2TEX"
-msgid "Round up to power of two"
-msgstr "Round up to power of two"
-
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_NO_SUB_ANIM"
 msgid "Never animate the subtitles"
 msgstr ""

@@ -119,7 +119,6 @@
 #define IDS_RS_SUBTITLEARCOMPENSATION       _T("SubtitleARCompensation")
 #define IDS_RS_SPCSIZE                      _T("SPCSize")
 #define IDS_RS_SPCMAXRES                    _T("SPCMaxRes")
-#define IDS_RS_POW2TEX                      _T("SPCPow2Tex")
 #define IDS_RS_DISABLE_SUBTITLE_ANIMATION   _T("DisableSubtitleAnimation")
 #define IDS_RS_RENDER_AT_WHEN_ANIM_DISABLED _T("RenderAtWhenSubtitleAnimationIsDisabled")
 #define IDS_RS_SUBTITLE_ANIMATION_RATE      _T("SubtitleAnimationRate")

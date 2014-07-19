@@ -836,7 +836,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
     if (m_pAllocator) {
         m_pAllocator->ChangeDevice(m_pD3DDev);
     } else {
-        m_pAllocator = DEBUG_NEW CDX9SubPicAllocator(m_pD3DDev, m_maxSubtitleTextureSize, r.subPicQueueSettings.bPow2Tex, false);
+        m_pAllocator = DEBUG_NEW CDX9SubPicAllocator(m_pD3DDev, m_maxSubtitleTextureSize, false);
     }
 
     hr = S_OK;
