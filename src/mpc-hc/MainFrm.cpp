@@ -462,8 +462,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_COMMAND_RANGE(ID_NORMALIZE, ID_REGAIN_VOLUME, OnNormalizeRegainVolume)
     ON_UPDATE_COMMAND_UI_RANGE(ID_NORMALIZE, ID_REGAIN_VOLUME, OnUpdateNormalizeRegainVolume)
     ON_COMMAND_RANGE(ID_COLOR_BRIGHTNESS_INC, ID_COLOR_RESET, OnPlayColor)
-    ON_UPDATE_COMMAND_UI_RANGE(ID_AFTERPLAYBACK_CLOSE, ID_AFTERPLAYBACK_LOCK, OnUpdateAfterplayback)
-    ON_COMMAND_RANGE(ID_AFTERPLAYBACK_CLOSE, ID_AFTERPLAYBACK_LOCK, OnAfterplayback)
+    ON_UPDATE_COMMAND_UI_RANGE(ID_AFTERPLAYBACK_CLOSE, ID_AFTERPLAYBACK_MONITOROFF, OnUpdateAfterplayback)
+    ON_COMMAND_RANGE(ID_AFTERPLAYBACK_CLOSE, ID_AFTERPLAYBACK_MONITOROFF, OnAfterplayback)
 
     ON_COMMAND_RANGE(ID_NAVIGATE_SKIPBACK, ID_NAVIGATE_SKIPFORWARD, OnNavigateSkip)
     ON_UPDATE_COMMAND_UI_RANGE(ID_NAVIGATE_SKIPBACK, ID_NAVIGATE_SKIPFORWARD, OnUpdateNavigateSkip)
@@ -2214,6 +2214,9 @@ void CMainFrame::DoAfterPlaybackEvent()
 
     if (s.nCLSwitches & CLSW_CLOSE) {
         SendMessage(WM_COMMAND, ID_FILE_EXIT);
+    } else if (s.nCLSwitches & CLSW_MONITOROFF) {
+        SetThreadExecutionState(ES_CONTINUOUS);
+        SendMessage(WM_SYSCOMMAND, SC_MONITORPOWER, 2);
     } else if (s.nCLSwitches & CLSW_STANDBY) {
         SetPrivilege(SE_SHUTDOWN_NAME);
         SetSystemPowerState(TRUE, FALSE);
@@ -2249,6 +2252,10 @@ void CMainFrame::DoAfterPlaybackEvent()
                 } else {
                     SendMessage(WM_COMMAND, ID_PLAY_STOP);
                 }
+                break;
+            case CAppSettings::AfterPlayback::MONITOROFF:
+                SetThreadExecutionState(ES_CONTINUOUS);
+                SendMessage(WM_SYSCOMMAND, SC_MONITORPOWER, 2);
                 break;
             case CAppSettings::AfterPlayback::CLOSE:
                 SendMessage(WM_COMMAND, ID_FILE_CLOSE_AND_RESTORE);
@@ -8077,6 +8084,10 @@ void CMainFrame::OnAfterplayback(UINT nID)
             s.nCLSwitches |= CLSW_LOCK;
             osdMsg = IDS_AFTERPLAYBACK_LOCK;
             break;
+        case ID_AFTERPLAYBACK_MONITOROFF:
+            s.nCLSwitches |= CLSW_MONITOROFF;
+            osdMsg = IDS_AFTERPLAYBACK_MONITOROFF;
+            break;
     }
 
     m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(osdMsg));
@@ -8105,6 +8116,9 @@ void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
             break;
         case ID_AFTERPLAYBACK_LOCK:
             bChecked = !!(s.nCLSwitches & CLSW_LOCK);
+            break;
+        case ID_AFTERPLAYBACK_MONITOROFF:
+            bChecked = !!(s.nCLSwitches & CLSW_MONITOROFF);
             break;
     }
 

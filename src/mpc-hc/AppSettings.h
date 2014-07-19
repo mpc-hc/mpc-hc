@@ -47,7 +47,7 @@ enum {
     CS_LAST = CS_STATUSBAR
 };
 
-enum {
+enum : UINT64 {
     CLSW_NONE = 0,
     CLSW_OPEN = 1,
     CLSW_PLAY = CLSW_OPEN << 1,
@@ -57,8 +57,9 @@ enum {
     CLSW_SHUTDOWN = CLSW_HIBERNATE << 1,
     CLSW_LOGOFF = CLSW_SHUTDOWN << 1,
     CLSW_LOCK = CLSW_LOGOFF << 1,
-    CLSW_AFTERPLAYBACK_MASK = CLSW_CLOSE | CLSW_STANDBY | CLSW_SHUTDOWN | CLSW_HIBERNATE | CLSW_LOGOFF | CLSW_LOCK,
-    CLSW_FULLSCREEN = CLSW_LOCK << 1,
+    CLSW_MONITOROFF = CLSW_LOCK << 1,
+    CLSW_AFTERPLAYBACK_MASK = CLSW_CLOSE | CLSW_STANDBY | CLSW_SHUTDOWN | CLSW_HIBERNATE | CLSW_LOGOFF | CLSW_LOCK | CLSW_MONITOROFF,
+    CLSW_FULLSCREEN = CLSW_MONITOROFF << 1,
     CLSW_NEW = CLSW_FULLSCREEN << 1,
     CLSW_HELP = CLSW_NEW << 1,
     CLSW_DVD = CLSW_HELP << 1,
@@ -66,7 +67,7 @@ enum {
     CLSW_DEVICE = CLSW_CD << 1,
     CLSW_ADD = CLSW_DEVICE << 1,
     CLSW_MINIMIZED = CLSW_ADD << 1,
-    CLSW_REGEXTVID = CLSW_MINIMIZED << 1,   // 16
+    CLSW_REGEXTVID = CLSW_MINIMIZED << 1,
     CLSW_REGEXTAUD = CLSW_REGEXTVID << 1,
     CLSW_REGEXTPL = CLSW_REGEXTAUD << 1,
     CLSW_UNREGEXT = CLSW_REGEXTPL << 1,
@@ -80,7 +81,7 @@ enum {
     CLSW_SLAVE = CLSW_ADMINOPTION << 1,
     CLSW_AUDIORENDERER = CLSW_SLAVE << 1,
     CLSW_RESET = CLSW_AUDIORENDERER << 1,
-    CLSW_UNRECOGNIZEDSWITCH = CLSW_RESET << 1 // 30
+    CLSW_UNRECOGNIZEDSWITCH = CLSW_RESET << 1, // 32
 };
 
 enum MpcCaptionState {
@@ -389,7 +390,7 @@ class CAppSettings
 
 public:
     // cmdline params
-    UINT nCLSwitches;
+    UINT64 nCLSwitches;
     CAtlList<CString>   slFiles, slDubs, slSubs, slFilters;
 
     // Initial position (used by command line flags)
@@ -494,6 +495,7 @@ public:
         DO_NOTHING,
         PLAY_NEXT,
         REWIND,
+        MONITOROFF,
         CLOSE,
         EXIT
     } eAfterPlayback;

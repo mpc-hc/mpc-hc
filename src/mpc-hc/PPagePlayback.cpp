@@ -150,6 +150,7 @@ BOOL CPPagePlayback::OnInitDialog()
     m_afterPlayback.AddString(ResStr(IDS_AFTER_PLAYBACK_DO_NOTHING));
     m_afterPlayback.AddString(ResStr(IDS_AFTER_PLAYBACK_PLAY_NEXT));
     m_afterPlayback.AddString(ResStr(IDS_AFTER_PLAYBACK_REWIND));
+    m_afterPlayback.AddString(ResStr(IDS_AFTER_PLAYBACK_MONITOROFF));
     m_afterPlayback.AddString(ResStr(IDS_AFTER_PLAYBACK_CLOSE));
     m_afterPlayback.AddString(ResStr(IDS_AFTER_PLAYBACK_EXIT));
     CorrectComboListWidth(m_afterPlayback);
