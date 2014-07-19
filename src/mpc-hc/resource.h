@@ -461,6 +461,7 @@
 #define IDC_PLAYERTIME                  12027
 #define IDC_EDITLIST                    12028
 #define IDC_CHECK_SUB_AR_COMPENSATION   12029
+#define IDC_CHECK_ALLOW_DROPPING_SUBPIC 12030
 #define IDC_DSSYSDEF                    12100
 #define IDC_DSOLD                       12101
 #define IDC_DSOVERLAYMIXER              12102

@@ -289,6 +289,7 @@ STDMETHODIMP_(bool) CSubPicQueue::LookupSubPic(REFERENCE_TIME rtNow, bool bAdvis
         }
     }
 
+    bool bTryBlocking = bAdviseBlocking || !m_settings.bAllowDroppingSubpic;
     while (!bStopSearch) {
         // Look for the subpic in the queue
         {
@@ -351,8 +352,8 @@ STDMETHODIMP_(bool) CSubPicQueue::LookupSubPic(REFERENCE_TIME rtNow, bool bAdvis
         }
 
         // If we didn't get any subpic yet and blocking is advised, just try harder to get one
-        if (!ppSubPic && bAdviseBlocking) {
-            bAdviseBlocking = false;
+        if (!ppSubPic && bTryBlocking) {
+            bTryBlocking = false;
             bStopSearch = true;
 
             auto pSubPicProviderWithSharedLock = GetSubPicProviderWithSharedLock();

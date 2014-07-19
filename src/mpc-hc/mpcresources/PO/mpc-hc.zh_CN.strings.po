@@ -862,6 +862,10 @@ msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
 msgstr "在点击此按钮后,被选中的格式组的状态将会对 MPC-HC 的实际文件关联做出更改。最新添加的扩展名通常会变灰,所以请不要忘记在关闭此对话框前再次选中此类型的文件！"
 
+msgctxt "IDC_CHECK_ALLOW_DROPPING_SUBPIC"
+msgid "Disabling this option will prevent the subtitles from blinking but it may cause the video renderer to skip some video frames."
+msgstr ""
+
 msgctxt "ID_PLAY_PLAY"
 msgid "Play\nPlay"
 msgstr "播放\n播放"
