@@ -71,7 +71,7 @@ STDMETHODIMP CSubPicQueueImpl::SetSubPicProvider(ISubPicProvider* pSubPicProvide
 {
     CAutoLock cAutoLock(&m_csSubPicProvider);
 
-    m_pSubPicProvider = pSubPicProvider;
+    m_pSubPicProviderWithSharedLock = std::make_shared<SubPicProviderWithSharedLock>(pSubPicProvider);
 
     Invalidate();
 
@@ -84,8 +84,8 @@ STDMETHODIMP CSubPicQueueImpl::GetSubPicProvider(ISubPicProvider** pSubPicProvid
 
     CAutoLock cAutoLock(&m_csSubPicProvider);
 
-    if (m_pSubPicProvider) {
-        *pSubPicProvider = m_pSubPicProvider;
+    if (m_pSubPicProviderWithSharedLock && m_pSubPicProviderWithSharedLock->pSubPicProvider) {
+        *pSubPicProvider = m_pSubPicProviderWithSharedLock->pSubPicProvider;
         (*pSubPicProvider)->AddRef();
     }
 
@@ -355,9 +355,9 @@ STDMETHODIMP_(bool) CSubPicQueue::LookupSubPic(REFERENCE_TIME rtNow, bool bAdvis
             bAdviseBlocking = false;
             bStopSearch = true;
 
-            CComPtr<ISubPicProvider> pSubPicProvider;
-            if (SUCCEEDED(GetSubPicProvider(&pSubPicProvider)) && pSubPicProvider
-                    && SUCCEEDED(pSubPicProvider->Lock())) {
+            auto pSubPicProviderWithSharedLock = GetSubPicProviderWithSharedLock();
+            if (pSubPicProviderWithSharedLock && SUCCEEDED(pSubPicProviderWithSharedLock->Lock())) {
+                auto& pSubPicProvider = pSubPicProviderWithSharedLock->pSubPicProvider;
                 double fps = m_fps;
                 if (POSITION pos = pSubPicProvider->GetStartPosition(rtNow, fps)) {
                     REFERENCE_TIME rtStart = pSubPicProvider->GetStart(pos, fps);
@@ -366,7 +366,7 @@ STDMETHODIMP_(bool) CSubPicQueue::LookupSubPic(REFERENCE_TIME rtNow, bool bAdvis
                         bStopSearch = false;
                     }
                 }
-                pSubPicProvider->Unlock();
+                pSubPicProviderWithSharedLock->Unlock();
 
                 if (!bStopSearch) {
                     std::unique_lock<std::mutex> lock(m_mutexQueue);
@@ -510,9 +510,9 @@ DWORD CSubPicQueue::ThreadProc()
             m_runQueueEvent.Wait();
         }
 
-        CComPtr<ISubPicProvider> pSubPicProvider;
-        if (SUCCEEDED(GetSubPicProvider(&pSubPicProvider)) && pSubPicProvider
-                && SUCCEEDED(pSubPicProvider->Lock())) {
+        auto pSubPicProviderWithSharedLock = GetSubPicProviderWithSharedLock();
+        if (pSubPicProviderWithSharedLock && SUCCEEDED(pSubPicProviderWithSharedLock->Lock())) {
+            auto& pSubPicProvider = pSubPicProviderWithSharedLock->pSubPicProvider;
             double fps = m_fps;
             REFERENCE_TIME rtTimePerSubFrame = m_rtTimePerSubFrame;
             m_bInvalidate = false;
@@ -629,7 +629,7 @@ DWORD CSubPicQueue::ThreadProc()
                 }
             }
 
-            pSubPicProvider->Unlock();
+            pSubPicProviderWithSharedLock->Unlock();
 
             // If we couldn't enqueue the subpic before, wait for some room in the queue
             // but unsure to unlock the subpicture provider first to avoid deadlocks

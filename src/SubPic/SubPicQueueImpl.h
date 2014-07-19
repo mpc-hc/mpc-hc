@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include <memory>
 #include <mutex>
 #include <condition_variable>
 
@@ -31,8 +32,59 @@ class CSubPicQueueImpl : public CUnknown, public ISubPicQueue
 {
     static const double DEFAULT_FPS;
 
+protected:
+    struct SubPicProviderWithSharedLock {
+    private:
+        unsigned int m_nRef = 0;
+        std::mutex m_mutex;
+
+    public:
+        const CComPtr<ISubPicProvider> pSubPicProvider;
+
+        SubPicProviderWithSharedLock(const CComPtr<ISubPicProvider>& pSubPicProvider)
+            : pSubPicProvider(pSubPicProvider) {
+        }
+
+        HRESULT Lock() {
+            HRESULT hr;
+
+            if (pSubPicProvider) {
+                std::lock_guard<std::mutex> lock(m_mutex);
+
+                hr = S_OK;
+                if ((m_nRef == 0 && SUCCEEDED(hr = pSubPicProvider->Lock()))
+                        || m_nRef > 0) {
+                    m_nRef++;
+                }
+            } else {
+                hr = E_POINTER;
+            }
+
+            return hr;
+        }
+
+        HRESULT Unlock() {
+            HRESULT hr;
+
+            if (pSubPicProvider) {
+                std::lock_guard<std::mutex> lock(m_mutex);
+
+                hr = S_OK;
+                if ((m_nRef == 1 && SUCCEEDED(hr = pSubPicProvider->Unlock()))
+                        || m_nRef > 1) {
+                    m_nRef--;
+                }
+            } else {
+                hr = E_POINTER;
+            }
+
+            return hr;
+        }
+    };
+
+private:
     CCritSec m_csSubPicProvider;
-    CComPtr<ISubPicProvider> m_pSubPicProvider;
+    std::shared_ptr<SubPicProviderWithSharedLock> m_pSubPicProviderWithSharedLock;
 
 protected:
     double m_fps;
@@ -42,6 +94,11 @@ protected:
     SubPicQueueSettings m_settings;
 
     CComPtr<ISubPicAllocator> m_pAllocator;
+
+    std::shared_ptr<SubPicProviderWithSharedLock> GetSubPicProviderWithSharedLock() {
+        CAutoLock cAutoLock(&m_csSubPicProvider);
+        return m_pSubPicProviderWithSharedLock;
+    }
 
     HRESULT RenderTo(ISubPic* pSubPic, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, double fps, BOOL bIsAnimated);
 
