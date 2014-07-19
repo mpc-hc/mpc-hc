@@ -102,7 +102,7 @@ namespace DSObjects
 
         // ISubPicAllocatorPresenter2
         STDMETHODIMP_(bool) IsRendering() {
-            return true; // We don't know so we always pretend to be rendering
+            return false; // For testing
         }
     };
 }
