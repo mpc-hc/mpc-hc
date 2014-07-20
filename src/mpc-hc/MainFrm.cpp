@@ -3459,7 +3459,6 @@ void CMainFrame::OnFilePostClosemedia(bool bNextIsQueued/* = false*/)
     if (m_controls.ControlChecked(CMainFrameControls::Panel::SUBRESYNC)) {
         m_controls.ToggleControl(CMainFrameControls::Panel::SUBRESYNC);
     }
-    SetSubtitle(SubtitleInput(nullptr));
 
     if (m_controls.ControlChecked(CMainFrameControls::Panel::CAPTURE)) {
         m_controls.ToggleControl(CMainFrameControls::Panel::CAPTURE);
@@ -11772,6 +11771,7 @@ void CMainFrame::CloseMediaPrivate()
     m_bUsingDXVA = false;
     m_pCB.Release();
 
+    SetSubtitle(SubtitleInput(nullptr));
     {
         CAutoLock cAutoLock(&m_csSubLock);
         m_pSubStreams.RemoveAll();
