@@ -134,6 +134,7 @@ STDMETHODIMP CDirectVobSubFilter::NonDelegatingQueryInterface(REFIID riid, void*
     return
         QI(IDirectVobSub)
         QI(IDirectVobSub2)
+        QI(IDirectVobSub3)
         QI(IFilterVersion)
         QI(ISpecifyPropertyPages)
         QI(IAMStreamSelect)
@@ -571,9 +572,9 @@ void CDirectVobSubFilter::InitSubPicQueue()
 
     HRESULT hr = S_OK;
 
-    m_pSubPicQueue = m_uSubPictToBuffer > 0
-                     ? (ISubPicQueue*)DEBUG_NEW CSubPicQueue(SubPicQueueSettings(m_uSubPictToBuffer, 0, !m_fAnimWhenBuffering, 50, 100, true) , pSubPicAllocator, &hr)
-                     : (ISubPicQueue*)DEBUG_NEW CSubPicQueueNoThread(SubPicQueueSettings(0, 0, false, 50, 100, false), pSubPicAllocator, &hr);
+    m_pSubPicQueue = m_subPicQueueSettings.nSize > 0
+                     ? (ISubPicQueue*)DEBUG_NEW CSubPicQueue(m_subPicQueueSettings , pSubPicAllocator, &hr)
+                     : (ISubPicQueue*)DEBUG_NEW CSubPicQueueNoThread(m_subPicQueueSettings, pSubPicAllocator, &hr);
 
     if (FAILED(hr)) {
         m_pSubPicQueue = nullptr;
@@ -896,7 +897,7 @@ STDMETHODIMP CDirectVobSubFilter::GetPages(CAUUID* pPages)
 {
     CheckPointer(pPages, E_POINTER);
 
-    pPages->cElems = 7;
+    pPages->cElems = 8;
     pPages->pElems = (GUID*)CoTaskMemAlloc(sizeof(GUID) * pPages->cElems);
 
     if (pPages->pElems == nullptr) {
@@ -906,6 +907,7 @@ STDMETHODIMP CDirectVobSubFilter::GetPages(CAUUID* pPages)
     int i = 0;
     pPages->pElems[i++] = __uuidof(CDVSMainPPage);
     pPages->pElems[i++] = __uuidof(CDVSGeneralPPage);
+    pPages->pElems[i++] = __uuidof(CDVSSubpicQueuePPage);
     pPages->pElems[i++] = __uuidof(CDVSMiscPPage);
     pPages->pElems[i++] = __uuidof(CDVSTimingPPage);
     pPages->pElems[i++] = __uuidof(CDVSColorPPage);

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -23,8 +23,9 @@
 
 #include "IDirectVobSub.h"
 #include "IFilterVersion.h"
+#include "../../../SubPic/SubPicQueueSettings.h"
 
-class CDirectVobSub : public IDirectVobSub2, public IFilterVersion
+class CDirectVobSub : public IDirectVobSub3, public IFilterVersion
 {
 protected:
     CDirectVobSub();
@@ -36,8 +37,7 @@ protected:
     CString m_FileName;
     int m_iSelectedLanguage;
     bool m_fHideSubtitles;
-    unsigned int m_uSubPictToBuffer;
-    bool m_fAnimWhenBuffering;
+    SubPicQueueSettings m_subPicQueueSettings;
     bool m_fOverridePlacement;
     int m_PlacementXperc, m_PlacementYperc;
     bool m_fBufferVobSub, m_fOnlyShowForcedVobSubs, m_fPolygonize;
@@ -124,6 +124,17 @@ public:
     STDMETHODIMP put_TextSettings(STSStyle* pDefStyle);
     STDMETHODIMP get_AspectRatioSettings(CSimpleTextSubtitle::EPARCompensationType* ePARCompensationType);
     STDMETHODIMP put_AspectRatioSettings(CSimpleTextSubtitle::EPARCompensationType* ePARCompensationType);
+
+    // IDirectVobSub3
+
+    STDMETHODIMP_(bool) get_DisableSubtitleAnimation();
+    STDMETHODIMP put_DisableSubtitleAnimation(bool bDisableSubtitleAnimation);
+    STDMETHODIMP_(int) get_RenderAtWhenAnimationIsDisabled();
+    STDMETHODIMP put_RenderAtWhenAnimationIsDisabled(int nRenderAtWhenAnimationIsDisabled);
+    STDMETHODIMP_(int) get_AnimationRate();
+    STDMETHODIMP put_AnimationRate(int nAnimationRate);
+    STDMETHODIMP_(bool) get_AllowDroppingSubpic();
+    STDMETHODIMP put_AllowDroppingSubpic(bool bAllowDroppingSubpic);
 
     // IFilterVersion
 

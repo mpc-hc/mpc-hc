@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -32,7 +32,7 @@ public:
     STDMETHODIMP Activate(HWND hwndParent, LPCRECT pRect, BOOL fModal);
 
 protected:
-    CComQIPtr<IDirectVobSub2> m_pDirectVobSub;
+    CComQIPtr<IDirectVobSub3> m_pDirectVobSub;
 
     virtual bool OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) { return false; }
     virtual void UpdateObjectData(bool fSave) {}
@@ -114,14 +114,34 @@ public:
     CDVSGeneralPPage(LPUNKNOWN lpunk, HRESULT* phr);
 };
 
+class __declspec(uuid("485CACED-6741-457A-84A2-41FD70C28E3E"))
+    CDVSSubpicQueuePPage : public CDVSBasePPage
+{
+    unsigned int m_nSubPictToBuffer;
+    bool m_bDisableSubtitleAnimation, m_bAllowDroppingSubpic;
+    int m_nRenderAtWhenAnimationIsDisabled, m_nAnimationRate;
+
+    CButton m_disableSubtitleAnimationButton, m_allowDroppingSubpicButton;
+    CSpinButtonCtrl m_subPictToBufferCtrl, m_renderAtCtrl, m_animationRateCtrl;
+
+    void UpdateEditControls(bool bDisableSubtitleAnimation);
+    void UpdateAllowDroppingSubpicControl(bool bBufferingEnabled);
+
+protected:
+    virtual bool OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
+    virtual void UpdateControlData(bool bSave);
+    virtual void UpdateObjectData(bool bSave);
+
+public:
+    CDVSSubpicQueuePPage(LPUNKNOWN lpunk, HRESULT* phr);
+};
+
 class __declspec(uuid("A8B25C0E-0894-4531-B668-AB1599FAF7F6"))
     CDVSMiscPPage : public CDVSBasePPage
 {
-    bool m_fFlipPicture, m_fFlipSubtitles, m_fHideSubtitles, m_fOSD, m_fAnimWhenBuffering, m_fReloaderDisabled, m_fSaveFullPath;
-    unsigned int m_uSubPictToBuffer;
+    bool m_fFlipPicture, m_fFlipSubtitles, m_fHideSubtitles, m_fOSD, m_fReloaderDisabled, m_fSaveFullPath;
 
-    CButton m_flippic, m_flipsub, m_hidesub, m_showosd, m_animwhenbuff, m_autoreload, m_savefullpath, m_instupd;
-    CSpinButtonCtrl m_subpicttobuff;
+    CButton m_flippic, m_flipsub, m_hidesub, m_showosd, m_autoreload, m_savefullpath, m_instupd;
 
 protected:
     virtual bool OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);

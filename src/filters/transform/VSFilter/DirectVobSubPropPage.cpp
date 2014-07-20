@@ -146,7 +146,7 @@ INT_PTR CDVSBasePPage::OnReceiveMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPA
 
                         if (!m_fDisableInstantUpdate
                                 && !(HIWORD(wParam) == BN_CLICKED && LOWORD(wParam) == IDC_INSTANTUPDATE)
-                                && LOWORD(wParam) != IDC_EDIT1 && LOWORD(wParam) != IDC_ANIMWHENBUFFERING
+                                && LOWORD(wParam) != IDC_EDIT1
                                 && !!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_INSTANTUPDATE), TRUE)) {
                             OnApplyChanges();
                         }
@@ -614,6 +614,106 @@ void CDVSGeneralPPage::UpdateControlData(bool fSave)
     }
 }
 
+/* CDVSSubpicQueuePPage */
+
+CDVSSubpicQueuePPage::CDVSSubpicQueuePPage(LPUNKNOWN pUnk, HRESULT* phr)
+    : CDVSBasePPage(NAME("VSFilter Property Page (subpicture queue settings)"), pUnk, IDD_DVSSUBPICQUEUEPAGE, IDD_DVSSUBPICQUEUEPAGE)
+{
+    m_fDisableInstantUpdate = true;
+
+    BindControl(IDC_PREBUFFERING, m_subPictToBufferCtrl);
+    BindControl(IDC_CHECK_NO_SUB_ANIM, m_disableSubtitleAnimationButton);
+    BindControl(IDC_SPIN2, m_renderAtCtrl);
+    BindControl(IDC_SPIN3, m_animationRateCtrl);
+    BindControl(IDC_CHECK_ALLOW_DROPPING_SUBPIC, m_allowDroppingSubpicButton);
+}
+
+void CDVSSubpicQueuePPage::UpdateEditControls(bool bDisableSubtitleAnimation)
+{
+    ::EnableWindow(::GetDlgItem(m_Dlg, IDC_STATIC1), bDisableSubtitleAnimation);
+    m_renderAtCtrl.EnableWindow(bDisableSubtitleAnimation);
+    ::EnableWindow(::GetDlgItem(m_Dlg, IDC_STATIC2), bDisableSubtitleAnimation);
+    ::EnableWindow(::GetDlgItem(m_Dlg, IDC_STATIC3), !bDisableSubtitleAnimation);
+    m_animationRateCtrl.EnableWindow(!bDisableSubtitleAnimation);
+    ::EnableWindow(::GetDlgItem(m_Dlg, IDC_STATIC4), !bDisableSubtitleAnimation);
+}
+
+void CDVSSubpicQueuePPage::UpdateAllowDroppingSubpicControl(bool bBufferingEnabled)
+{
+    m_allowDroppingSubpicButton.EnableWindow(bBufferingEnabled);
+}
+
+bool CDVSSubpicQueuePPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    switch (uMsg) {
+        case WM_COMMAND: {
+            switch (HIWORD(wParam)) {
+                case BN_CLICKED: {
+                    if (LOWORD(wParam) == IDC_CHECK_NO_SUB_ANIM) {
+                        AFX_MANAGE_STATE(AfxGetStaticModuleState());
+                        UpdateEditControls(!!m_disableSubtitleAnimationButton.GetCheck());
+                        return true;
+                    }
+                }
+                break;
+            }
+        }
+        break;
+        case WM_VSCROLL: {
+            if (LOWORD(wParam) == SB_THUMBPOSITION) {
+                AFX_MANAGE_STATE(AfxGetStaticModuleState());
+                UpdateAllowDroppingSubpicControl(HIWORD(wParam) > 0);
+                return true;
+            }
+        }
+        break;
+    }
+
+    return false;
+}
+
+void CDVSSubpicQueuePPage::UpdateObjectData(bool bSave)
+{
+    if (bSave) {
+        m_pDirectVobSub->put_SubPictToBuffer(m_nSubPictToBuffer);
+        m_pDirectVobSub->put_DisableSubtitleAnimation(m_bDisableSubtitleAnimation);
+        m_pDirectVobSub->put_RenderAtWhenAnimationIsDisabled(m_nRenderAtWhenAnimationIsDisabled);
+        m_pDirectVobSub->put_AnimationRate(m_nAnimationRate);
+        m_pDirectVobSub->put_AllowDroppingSubpic(m_bAllowDroppingSubpic);
+    } else {
+        m_pDirectVobSub->get_SubPictToBuffer(&m_nSubPictToBuffer);
+        m_bDisableSubtitleAnimation = m_pDirectVobSub->get_DisableSubtitleAnimation();
+        m_nRenderAtWhenAnimationIsDisabled = m_pDirectVobSub->get_RenderAtWhenAnimationIsDisabled();
+        m_nAnimationRate = m_pDirectVobSub->get_AnimationRate();
+        m_bAllowDroppingSubpic = m_pDirectVobSub->get_AllowDroppingSubpic();
+    }
+}
+
+void CDVSSubpicQueuePPage::UpdateControlData(bool bSave)
+{
+    if (bSave) {
+        m_nSubPictToBuffer = m_subPictToBufferCtrl.GetPos32();
+        m_bDisableSubtitleAnimation = !!m_disableSubtitleAnimationButton.GetCheck();
+        m_nRenderAtWhenAnimationIsDisabled = m_renderAtCtrl.GetPos32();
+        m_nAnimationRate = m_animationRateCtrl.GetPos32();
+        m_bAllowDroppingSubpic = !!m_allowDroppingSubpicButton.GetCheck();
+    } else {
+        m_subPictToBufferCtrl.SetPos32(m_nSubPictToBuffer);
+        m_subPictToBufferCtrl.SetRange32(0, 120);
+        m_disableSubtitleAnimationButton.SetCheck(m_bDisableSubtitleAnimation);
+        m_renderAtCtrl.SetPos32(m_nRenderAtWhenAnimationIsDisabled);
+        m_renderAtCtrl.SetRange32(0, 100);
+        m_animationRateCtrl.SetPos32(m_nAnimationRate);
+        m_animationRateCtrl.SetRange32(10, 100);
+        UDACCEL accels[] = { { 0, 5 }, { 2, 10 }, { 5, 20 } };
+        m_animationRateCtrl.SetAccel(_countof(accels), accels);
+        m_allowDroppingSubpicButton.SetCheck(m_bAllowDroppingSubpic);
+
+        UpdateEditControls(m_bDisableSubtitleAnimation);
+        UpdateAllowDroppingSubpicControl(m_nSubPictToBuffer > 0);
+    }
+}
+
 /* CDVSMiscPPage */
 
 CDVSMiscPPage::CDVSMiscPPage(LPUNKNOWN pUnk, HRESULT* phr)
@@ -622,17 +722,13 @@ CDVSMiscPPage::CDVSMiscPPage(LPUNKNOWN pUnk, HRESULT* phr)
     , m_fFlipSubtitles(false)
     , m_fHideSubtitles(false)
     , m_fOSD(false)
-    , m_fAnimWhenBuffering(true)
     , m_fReloaderDisabled(false)
     , m_fSaveFullPath(false)
-    , m_uSubPictToBuffer(10)
 {
     BindControl(IDC_FLIP, m_flippic);
     BindControl(IDC_FLIPSUB, m_flipsub);
     BindControl(IDC_HIDE, m_hidesub);
     BindControl(IDC_SHOWOSDSTATS, m_showosd);
-    BindControl(IDC_PREBUFFERING, m_subpicttobuff);
-    BindControl(IDC_ANIMWHENBUFFERING, m_animwhenbuff);
     BindControl(IDC_AUTORELOAD, m_autoreload);
     BindControl(IDC_SAVEFULLPATH, m_savefullpath);
     BindControl(IDC_INSTANTUPDATE, m_instupd);
@@ -665,16 +761,12 @@ void CDVSMiscPPage::UpdateObjectData(bool fSave)
         m_pDirectVobSub->put_Flip(m_fFlipPicture, m_fFlipSubtitles);
         m_pDirectVobSub->put_HideSubtitles(m_fHideSubtitles);
         m_pDirectVobSub->put_OSD(m_fOSD);
-        m_pDirectVobSub->put_SubPictToBuffer(m_uSubPictToBuffer);
-        m_pDirectVobSub->put_AnimWhenBuffering(m_fAnimWhenBuffering);
         m_pDirectVobSub->put_SubtitleReloader(m_fReloaderDisabled);
         m_pDirectVobSub->put_SaveFullPath(m_fSaveFullPath);
     } else {
         m_pDirectVobSub->get_Flip(&m_fFlipPicture, &m_fFlipSubtitles);
         m_pDirectVobSub->get_HideSubtitles(&m_fHideSubtitles);
         m_pDirectVobSub->get_OSD(&m_fOSD);
-        m_pDirectVobSub->get_SubPictToBuffer(&m_uSubPictToBuffer);
-        m_pDirectVobSub->get_AnimWhenBuffering(&m_fAnimWhenBuffering);
         m_pDirectVobSub->get_SubtitleReloader(&m_fReloaderDisabled);
         m_pDirectVobSub->get_SaveFullPath(&m_fSaveFullPath);
     }
@@ -687,8 +779,6 @@ void CDVSMiscPPage::UpdateControlData(bool fSave)
         m_fFlipSubtitles = !!m_flipsub.GetCheck();
         m_fHideSubtitles = !!m_hidesub.GetCheck();
         m_fSaveFullPath = !!m_savefullpath.GetCheck();
-        m_uSubPictToBuffer = m_subpicttobuff.GetPos();
-        m_fAnimWhenBuffering = !!m_animwhenbuff.GetCheck();
         m_fOSD = !!m_showosd.GetCheck();
         m_fReloaderDisabled = !m_autoreload.GetCheck();
     } else {
@@ -696,9 +786,6 @@ void CDVSMiscPPage::UpdateControlData(bool fSave)
         m_flipsub.SetCheck(m_fFlipSubtitles);
         m_hidesub.SetCheck(m_fHideSubtitles);
         m_savefullpath.SetCheck(m_fSaveFullPath);
-        m_subpicttobuff.SetPos32(m_uSubPictToBuffer);
-        m_subpicttobuff.SetRange32(0, 60);
-        m_animwhenbuff.SetCheck(m_fAnimWhenBuffering);
         m_showosd.SetCheck(m_fOSD);
         m_autoreload.SetCheck(!m_fReloaderDisabled);
         m_instupd.SetCheck(!!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_INSTANTUPDATE), TRUE));

@@ -32,8 +32,11 @@ CDirectVobSub::CDirectVobSub()
 
     m_iSelectedLanguage = 0;
     m_fHideSubtitles = !!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_HIDE), FALSE);
-    m_uSubPictToBuffer = theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_SUBPICTTOBUFFER), 10);
-    m_fAnimWhenBuffering = !!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_ANIMWHENBUFFERING), TRUE);
+    m_subPicQueueSettings.nSize = theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_SUBPICTTOBUFFER), 10);
+    m_subPicQueueSettings.bDisallowSubtitleAnimation = !!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_DISABLESUBANIM), FALSE);
+    m_subPicQueueSettings.nRenderAtWhenAnimationIsDisabled = theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_RENDERATWITHOUTANIM), 50);
+    m_subPicQueueSettings.nAnimationRate = theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_ANIMATIONRATE), 100);
+    m_subPicQueueSettings.bAllowDroppingSubpic = !!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_ALLOWDROPPINGSUBPIC), TRUE);
     m_fOverridePlacement = !!theApp.GetProfileInt(ResStr(IDS_R_TEXT), ResStr(IDS_RT_OVERRIDEPLACEMENT), FALSE);
     m_PlacementXperc = theApp.GetProfileInt(ResStr(IDS_R_TEXT), ResStr(IDS_RT_XPERC), 50);
     m_PlacementYperc = theApp.GetProfileInt(ResStr(IDS_R_TEXT), ResStr(IDS_RT_YPERC), 90);
@@ -165,7 +168,7 @@ STDMETHODIMP CDirectVobSub::get_PreBuffering(bool* fDoPreBuffering)
 {
     CAutoLock cAutoLock(&m_propsLock);
 
-    return fDoPreBuffering ? *fDoPreBuffering = (m_uSubPictToBuffer > 0), S_OK : E_POINTER;
+    return fDoPreBuffering ? *fDoPreBuffering = (m_subPicQueueSettings.nSize > 0), S_OK : E_POINTER;
 }
 
 // deprecated
@@ -173,11 +176,11 @@ STDMETHODIMP CDirectVobSub::put_PreBuffering(bool fDoPreBuffering)
 {
     CAutoLock cAutoLock(&m_propsLock);
 
-    if ((m_uSubPictToBuffer > 0) == fDoPreBuffering) {
+    if ((m_subPicQueueSettings.nSize > 0) == fDoPreBuffering) {
         return S_FALSE;
     }
 
-    m_uSubPictToBuffer = fDoPreBuffering ? 4 : 0; // 4 is the default value for SubPictToBuffer
+    m_subPicQueueSettings.nSize = fDoPreBuffering ? 10 : 0; // 10 is the default value for SubPictToBuffer
 
     return S_OK;
 }
@@ -186,38 +189,40 @@ STDMETHODIMP CDirectVobSub::get_SubPictToBuffer(unsigned int* uSubPictToBuffer)
 {
     CAutoLock cAutoLock(&m_propsLock);
 
-    return uSubPictToBuffer ? *uSubPictToBuffer = m_uSubPictToBuffer, S_OK : E_POINTER;
+    return uSubPictToBuffer ? *uSubPictToBuffer = (unsigned int)m_subPicQueueSettings.nSize, S_OK : E_POINTER;
 }
 
 STDMETHODIMP CDirectVobSub::put_SubPictToBuffer(unsigned int uSubPictToBuffer)
 {
     CAutoLock cAutoLock(&m_propsLock);
 
-    if (m_uSubPictToBuffer == uSubPictToBuffer) {
+    if (m_subPicQueueSettings.nSize == (int)uSubPictToBuffer) {
         return S_FALSE;
     }
 
-    m_uSubPictToBuffer = uSubPictToBuffer;
+    m_subPicQueueSettings.nSize = (int)uSubPictToBuffer;
 
     return S_OK;
 }
 
+// deprecated
 STDMETHODIMP CDirectVobSub::get_AnimWhenBuffering(bool* fAnimWhenBuffering)
 {
     CAutoLock cAutoLock(&m_propsLock);
 
-    return fAnimWhenBuffering ? *fAnimWhenBuffering = m_fAnimWhenBuffering, S_OK : E_POINTER;
+    return fAnimWhenBuffering ? *fAnimWhenBuffering = !m_subPicQueueSettings.bDisallowSubtitleAnimation, S_OK : E_POINTER;
 }
 
+// deprecated
 STDMETHODIMP CDirectVobSub::put_AnimWhenBuffering(bool fAnimWhenBuffering)
 {
     CAutoLock cAutoLock(&m_propsLock);
 
-    if (m_fAnimWhenBuffering == fAnimWhenBuffering) {
+    if (m_subPicQueueSettings.bDisallowSubtitleAnimation == !fAnimWhenBuffering) {
         return S_FALSE;
     }
 
-    m_fAnimWhenBuffering = fAnimWhenBuffering;
+    m_subPicQueueSettings.bDisallowSubtitleAnimation = !fAnimWhenBuffering;
 
     return S_OK;
 }
@@ -528,8 +533,11 @@ STDMETHODIMP CDirectVobSub::UpdateRegistry()
     CAutoLock cAutoLock(&m_propsLock);
 
     theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_HIDE), m_fHideSubtitles);
-    theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_SUBPICTTOBUFFER), m_uSubPictToBuffer);
-    theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_ANIMWHENBUFFERING), m_fAnimWhenBuffering);
+    theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_SUBPICTTOBUFFER), m_subPicQueueSettings.nSize);
+    theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_DISABLESUBANIM), m_subPicQueueSettings.bDisallowSubtitleAnimation);
+    theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_RENDERATWITHOUTANIM), m_subPicQueueSettings.nRenderAtWhenAnimationIsDisabled);
+    theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_ANIMATIONRATE), m_subPicQueueSettings.nAnimationRate);
+    theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_ALLOWDROPPINGSUBPIC), m_subPicQueueSettings.bAllowDroppingSubpic);
     theApp.WriteProfileInt(ResStr(IDS_R_TEXT), ResStr(IDS_RT_OVERRIDEPLACEMENT), m_fOverridePlacement);
     theApp.WriteProfileInt(ResStr(IDS_R_TEXT), ResStr(IDS_RT_XPERC), m_PlacementXperc);
     theApp.WriteProfileInt(ResStr(IDS_R_TEXT), ResStr(IDS_RT_YPERC), m_PlacementYperc);
@@ -782,6 +790,86 @@ STDMETHODIMP CDirectVobSub::put_AspectRatioSettings(CSimpleTextSubtitle::EPARCom
     }
 
     m_ePARCompensationType = *ePARCompensationType;
+
+    return S_OK;
+}
+
+STDMETHODIMP_(bool) CDirectVobSub::get_DisableSubtitleAnimation()
+{
+    CAutoLock cAutoLock(&m_propsLock);
+
+    return m_subPicQueueSettings.bDisallowSubtitleAnimation;
+}
+
+STDMETHODIMP CDirectVobSub::put_DisableSubtitleAnimation(bool bDisableSubtitleAnimation)
+{
+    CAutoLock cAutoLock(&m_propsLock);
+
+    if (m_subPicQueueSettings.bDisallowSubtitleAnimation == bDisableSubtitleAnimation) {
+        return S_FALSE;
+    }
+
+    m_subPicQueueSettings.bDisallowSubtitleAnimation = bDisableSubtitleAnimation;
+
+    return S_OK;
+}
+
+STDMETHODIMP_(int) CDirectVobSub::get_RenderAtWhenAnimationIsDisabled()
+{
+    CAutoLock cAutoLock(&m_propsLock);
+
+    return m_subPicQueueSettings.nRenderAtWhenAnimationIsDisabled;
+}
+
+STDMETHODIMP CDirectVobSub::put_RenderAtWhenAnimationIsDisabled(int nRenderAtWhenAnimationIsDisabled)
+{
+    CAutoLock cAutoLock(&m_propsLock);
+
+    if (m_subPicQueueSettings.nRenderAtWhenAnimationIsDisabled == nRenderAtWhenAnimationIsDisabled) {
+        return S_FALSE;
+    }
+
+    m_subPicQueueSettings.nRenderAtWhenAnimationIsDisabled = nRenderAtWhenAnimationIsDisabled;
+
+    return S_OK;
+}
+
+STDMETHODIMP_(int) CDirectVobSub::get_AnimationRate()
+{
+    CAutoLock cAutoLock(&m_propsLock);
+
+    return m_subPicQueueSettings.nAnimationRate;
+}
+
+STDMETHODIMP CDirectVobSub::put_AnimationRate(int nAnimationRate)
+{
+    CAutoLock cAutoLock(&m_propsLock);
+
+    if (m_subPicQueueSettings.nAnimationRate == nAnimationRate) {
+        return S_FALSE;
+    }
+
+    m_subPicQueueSettings.nAnimationRate = nAnimationRate;
+
+    return S_OK;
+}
+
+STDMETHODIMP_(bool) CDirectVobSub::get_AllowDroppingSubpic()
+{
+    CAutoLock cAutoLock(&m_propsLock);
+
+    return m_subPicQueueSettings.bAllowDroppingSubpic;
+}
+
+STDMETHODIMP CDirectVobSub::put_AllowDroppingSubpic(bool bAllowDroppingSubpic)
+{
+    CAutoLock cAutoLock(&m_propsLock);
+
+    if (m_subPicQueueSettings.bAllowDroppingSubpic == bAllowDroppingSubpic) {
+        return S_FALSE;
+    }
+
+    m_subPicQueueSettings.bAllowDroppingSubpic = bAllowDroppingSubpic;
 
     return S_OK;
 }

@@ -72,7 +72,7 @@ BEGIN
     CONTROL         "&Force RGB",IDC_FORCERGBCHK,"Button",BS_AUTOCHECKBOX | BS_LEFT | WS_TABSTOP,170,142,51,10
 END
 
-IDD_DVSGENERALPAGE DIALOGEX 0, 0, 247, 188
+IDD_DVSGENERALPAGE DIALOGEX 0, 0, 250, 188
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Sans Serif", 400, 0, 0x1
 BEGIN
@@ -122,6 +122,28 @@ BEGIN
     LTEXT           "PAR compensation",IDC_STATIC,15,126,62,8
 END
 
+IDD_DVSSUBPICQUEUEPAGE DIALOGEX 0, 0, 247, 188
+STYLE DS_SETFONT | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Sans Serif", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "Subpicture queue",IDC_STATIC,7,7,232,81
+    LTEXT           "Subpictures to buffer:",IDC_STATIC,16,18,73,8
+    EDITTEXT        IDC_EDIT1,97,16,32,12,ES_CENTER | ES_AUTOHSCROLL | ES_READONLY | ES_NUMBER
+    CONTROL         "",IDC_PREBUFFERING,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,129,16,12,12
+    CONTROL         "Never animate the subtitles",IDC_CHECK_NO_SUB_ANIM,
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,16,31,199,8
+    LTEXT           "Render at",IDC_STATIC1,16,44,36,8
+    EDITTEXT        IDC_EDIT2, 54, 42, 32, 12, ES_CENTER | ES_AUTOHSCROLL | ES_READONLY | ES_NUMBER
+    CONTROL         "",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,74,42,12,12
+    LTEXT           "% of the animation",IDC_STATIC2,89,44,122,8
+    LTEXT           "Animate at",IDC_STATIC3,16,59,36,8
+    EDITTEXT        IDC_EDIT3,54,57,32,12,ES_CENTER | ES_AUTOHSCROLL | ES_READONLY | ES_NUMBER
+    CONTROL         "",IDC_SPIN3,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,74,57,12,12
+    LTEXT           "% of the video frame rate",IDC_STATIC4,89,59,122,8
+    CONTROL         "Allow dropping some subpictures if the queue is running late",IDC_CHECK_ALLOW_DROPPING_SUBPIC,
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,16,73,211,8
+END
+
 IDD_DVSMISCPAGE DIALOGEX 0, 0, 247, 188
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
 FONT 8, "MS Sans Serif", 400, 0, 0x1
@@ -133,16 +155,11 @@ BEGIN
     CONTROL         "&Hide subtitles",IDC_HIDE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,46,58,10
     CONTROL         "Show &OSD statistics",IDC_SHOWOSDSTATS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,62,80,10
     LTEXT           "(don't do benchmarks on the playback while having this on ;)",IDC_STATIC,26,73,195,8
-    LTEXT           "Sub pictures to buffer:",IDC_STATIC,16,95,73,8
-    EDITTEXT        IDC_EDIT1,97,93,32,12,ES_CENTER | ES_AUTOHSCROLL | ES_READONLY | ES_NUMBER
-    CONTROL         "",IDC_PREBUFFERING,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,129,93,12,12
-    CONTROL         "Allow animation when buffering",IDC_ANIMWHENBUFFERING,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,111,120,10
     CONTROL         "&Auto-reload subtitle files after detecting modification",IDC_AUTORELOAD,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,128,185,10
-    LTEXT           " (reloading is disabled while showing the property pages)",IDC_STATIC,26,139,182,8
-    CONTROL         "&Save full path into .grf",IDC_SAVEFULLPATH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,154,91,10
-    CONTROL         "Appl&y changes immediately",IDC_INSTANTUPDATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,171,104,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,95,185,10
+    LTEXT           " (reloading is disabled while showing the property pages)",IDC_STATIC,26,106,182,8
+    CONTROL         "&Save full path into .grf",IDC_SAVEFULLPATH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,121,91,10
+    CONTROL         "Appl&y changes immediately",IDC_INSTANTUPDATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,136,104,10
 END
 
 IDD_DVSPATHSPAGE DIALOGEX 0, 0, 247, 188
@@ -349,6 +366,10 @@ BEGIN
         HORZGUIDE, 188
     END
 
+    IDD_DVSSUBPICQUEUE, DIALOG
+    BEGIN
+    END
+
     IDD_DVSMISCPAGE, DIALOG
     BEGIN
         LEFTMARGIN, 7
@@ -463,12 +484,16 @@ BEGIN
     IDS_RT_PAR_UPSCALE      "Upscale"
     IDS_RT_PAR_DOWNSCALE    "Downscale"
     IDS_RT_PAR_ACCURATE_SIZE "Accurate size"
-    IDS_RG_SUBPICTTOBUFFER  "SubPictToBuffer"
+    IDD_DVSSUBPICQUEUEPAGE  "Subpic &queue"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_RG_ANIMWHENBUFFERING "AnimWhenBuffering"
+    IDS_RG_SUBPICTTOBUFFER  "SubPictToBuffer"
+    IDS_RG_DISABLESUBANIM   "DisableSubtitleAnimation"
+    IDS_RG_RENDERATWITHOUTANIM "RenderAtWhenSubtitleAnimationIsDisabled"
+    IDS_RG_ANIMATIONRATE    "SubtitleAnimationRate"
+    IDS_RG_ALLOWDROPPINGSUBPIC "AllowDroppingSubpic"
 END
 
 STRINGTABLE

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -165,6 +165,22 @@ public IDirectVobSub {
     STDMETHOD(get_AspectRatioSettings)(THIS_ CSimpleTextSubtitle::EPARCompensationType * ePARCompensationType) PURE;
 
     STDMETHOD(put_AspectRatioSettings)(THIS_ CSimpleTextSubtitle::EPARCompensationType * ePARCompensationType) PURE;
+};
+
+interface __declspec(uuid("4484A031-713F-4893-8C24-4505C56E8915"))
+IDirectVobSub3 :
+public IDirectVobSub2 {
+    STDMETHOD_(bool, get_DisableSubtitleAnimation)(THIS_) PURE;
+    STDMETHOD(put_DisableSubtitleAnimation)(THIS_ bool bDisableSubtitleAnimation) PURE;
+
+    STDMETHOD_(int, get_RenderAtWhenAnimationIsDisabled)(THIS_) PURE;
+    STDMETHOD(put_RenderAtWhenAnimationIsDisabled)(THIS_ int nRenderAtWhenAnimationIsDisabled) PURE;
+
+    STDMETHOD_(int, get_AnimationRate)(THIS_) PURE;
+    STDMETHOD(put_AnimationRate)(THIS_ int nAnimationRate) PURE;
+
+    STDMETHOD_(bool, get_AllowDroppingSubpic)(THIS_) PURE;
+    STDMETHOD(put_AllowDroppingSubpic)(THIS_ bool bAllowDroppingSubpic) PURE;
 };
 
 
