@@ -84,7 +84,7 @@ skaarj1, VSFilterMod Team, X-Dron
 
 
 https://github.com/mpc-hc/mpc-hc/graphs/contributors
-http://www.ohloh.net/p/mpc-hc/contributors?query=&sort=commits
+http://www.openhub.net/p/mpc-hc/contributors?query=&sort=commits
 
 
 If you think you should be listed in this document and we don't do it already, please, contact us.
