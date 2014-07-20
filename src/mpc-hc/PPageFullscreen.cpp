@@ -62,6 +62,7 @@ void CPPageFullscreen::ModesUpdate()
         return;
     }
 
+    m_list.SetRedraw(FALSE);
     m_list.DeleteAllItems();
     m_displayModes.clear();
     m_displayModesString.RemoveAll();
@@ -160,6 +161,16 @@ void CPPageFullscreen::ModesUpdate()
 
         nItem++;
     }
+
+    for (int i = 0; i <= COL_DISPLAY_MODE; i++) {
+        m_list.SetColumnWidth(i, LVSCW_AUTOSIZE);
+        int nColumnWidth = m_list.GetColumnWidth(i);
+        m_list.SetColumnWidth(i, LVSCW_AUTOSIZE_USEHEADER);
+        int nHeaderWidth = m_list.GetColumnWidth(i);
+        m_list.SetColumnWidth(i, std::max(nColumnWidth, nHeaderWidth));
+    }
+
+    m_list.SetRedraw(TRUE);
 }
 
 void CPPageFullscreen::DoDataExchange(CDataExchange* pDX)
