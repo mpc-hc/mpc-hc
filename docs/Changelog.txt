@@ -14,7 +14,7 @@ next version - not released yet
 + Add advanced settings page
 + Add an arabic translation
 + Completely reworked subtitle queue:
-    - The queue should be a bit faster than the older one for a similar number of buffered subpictures.
+    - The queue should be quite faster than the older one for a similar number of buffered subpictures.
       It should also work much better when the number of subpictures becomes important
     - Subtitle animation can now be disabled even when using no buffering
     - Add the ability to choose at which state (in percentage of the full animation) an animated subtitle

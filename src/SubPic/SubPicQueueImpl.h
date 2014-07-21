@@ -88,6 +88,7 @@ private:
 
 protected:
     double m_fps;
+    REFERENCE_TIME m_rtTimePerFrame;
     REFERENCE_TIME m_rtTimePerSubFrame;
     REFERENCE_TIME m_rtNow;
 
