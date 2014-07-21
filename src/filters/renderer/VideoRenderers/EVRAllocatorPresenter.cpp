@@ -626,6 +626,7 @@ STDMETHODIMP CEVRAllocatorPresenter::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, 
 
     switch (eMessage) {
         case MFVP_MESSAGE_BEGINSTREAMING:           // The EVR switched from stopped to paused. The presenter should allocate resources
+            m_nRenderState = Paused;
             ResetStats();
             TRACE_EVR("EVR: MFVP_MESSAGE_BEGINSTREAMING\n");
             break;
@@ -641,6 +642,7 @@ STDMETHODIMP CEVRAllocatorPresenter::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, 
             break;
 
         case MFVP_MESSAGE_ENDSTREAMING:             // The EVR switched from running or paused to stopped. The presenter should free resources
+            m_nRenderState = Stopped;
             TRACE_EVR("EVR: MFVP_MESSAGE_ENDSTREAMING\n");
             break;
 

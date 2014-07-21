@@ -2911,6 +2911,7 @@ STDMETHODIMP CSyncAP::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, ULONG_PTR ulPar
         case MFVP_MESSAGE_ENDSTREAMING:
             m_pGenlock->ResetTiming();
             m_pRefClock = nullptr;
+            m_nRenderState = Stopped;
             break;
 
         case MFVP_MESSAGE_FLUSH:
@@ -3973,6 +3974,9 @@ HRESULT CSyncAP::BeginStreaming()
     if (m_dFrameCycle > 0.0) {
         m_dCycleDifference = GetCycleDifference();    // Might have moved to another display
     }
+
+    m_nRenderState = Paused;
+
     return S_OK;
 }
 
