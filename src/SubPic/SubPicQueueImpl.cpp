@@ -579,8 +579,14 @@ DWORD CSubPicQueue::ThreadProc()
                         if (bIsAnimated) {
                             REFERENCE_TIME rtEndThis = std::min(rtCurrent + rtTimePerSubFrame, rtStopReal);
                             hr = RenderTo(pStatic, rtCurrent, rtEndThis, fps, bIsAnimated);
+                            // Set the segment start and stop timings
                             pStatic->SetSegmentStart(rtStart);
-                            pStatic->SetSegmentStop(rtStopReal);
+                            // The stop timing can be moved so that the duration from the current start time
+                            // of the subpic to the segment end is always at least one video frame long. This
+                            // avoids missing subtitle frame due to rounding errors in the timings.
+                            // At worst this can cause a segment to be displayed for one more frame than expected
+                            // but it's much less annoying than having the subtitle disappearing for one frame
+                            pStatic->SetSegmentStop(std::max(rtCurrent + rtTimePerFrame, rtStopReal));
                             rtCurrent = rtEndThis;
                         } else {
                             hr = RenderTo(pStatic, rtStart, rtStopReal, fps, bIsAnimated);
