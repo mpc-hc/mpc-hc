@@ -1641,10 +1641,10 @@ CImageSample *CImageAllocator::CreateImageSample(__in_bcount(Length) LPBYTE pDat
 
 HRESULT CImageAllocator::CreateDIB(LONG InSize,DIBDATA &DibData)
 {
-    BITMAPINFO *pbmi;       // Format information for pin
-    BYTE *pBase;            // Pointer to the actual image
-    HANDLE hMapping;        // Handle to mapped object
-    HBITMAP hBitmap;        // DIB section bitmap handle
+    BITMAPINFO *pbmi = NULL;       // Format information for pin
+    BYTE *pBase = NULL;            // Pointer to the actual image
+    HANDLE hMapping;               // Handle to mapped object
+    HBITMAP hBitmap = NULL;        // DIB section bitmap handle
 
     // Create a file mapping object and map into our address space
 
@@ -1664,17 +1664,17 @@ HRESULT CImageAllocator::CreateDIB(LONG InSize,DIBDATA &DibData)
     // the target display device may contain a different palette (we may not
     // have the focus) in which case GDI will do after the palette mapping
 
-    pbmi = (BITMAPINFO *) HEADER(m_pMediaType->Format());
-    if (m_pMediaType == NULL) {
+    if (m_pMediaType) {
+        pbmi = (BITMAPINFO *)HEADER(m_pMediaType->Format());
+        hBitmap = CreateDIBSection((HDC)NULL,          // NO device context
+                                   pbmi,               // Format information
+                                   DIB_RGB_COLORS,     // Use the palette
+                                   (VOID **)&pBase,    // Pointer to image data
+                                   hMapping,           // Mapped memory handle
+                                   (DWORD)0);          // Offset into memory
+    } else {
         DbgBreak("Invalid media type");
     }
-
-    hBitmap = CreateDIBSection((HDC) NULL,          // NO device context
-                               pbmi,                // Format information
-                               DIB_RGB_COLORS,      // Use the palette
-                               (VOID **) &pBase,    // Pointer to image data
-                               hMapping,            // Mapped memory handle
-                               (DWORD) 0);          // Offset into memory
 
     if (hBitmap == NULL || pBase == NULL) {
         EXECUTE_ASSERT(CloseHandle(hMapping));
