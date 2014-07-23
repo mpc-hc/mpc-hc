@@ -16405,6 +16405,8 @@ void CMainFrame::UpdateSubAspectRatioCompensation()
 {
     const CAppSettings& s = AfxGetAppSettings();
     if (auto pRTS = dynamic_cast<CRenderedTextSubtitle*>((ISubStream*)m_pCurrentSubInput.pSubStream)) {
+        CAutoLock cAutoLock(&m_csSubtitleManagementLock);
+
         bool bInvalidate = false;
         double dPARCompensation = 1.0;
         if (m_pCAP) {
@@ -16425,16 +16427,14 @@ void CMainFrame::UpdateSubAspectRatioCompensation()
             }
         }
 
-        {
+        pRTS->m_ePARCompensationType = CSimpleTextSubtitle::EPARCompensationType::EPCTAccurateSize_ISR;
+        if (pRTS->m_dPARCompensation != dPARCompensation) {
             CAutoLock cAutoLock(&m_csSubLock);
-
-            pRTS->m_ePARCompensationType = CSimpleTextSubtitle::EPARCompensationType::EPCTAccurateSize_ISR;
-            if (pRTS->m_dPARCompensation != dPARCompensation) {
-                bInvalidate = true;
-                pRTS->m_dPARCompensation = dPARCompensation;
-                pRTS->Deinit();
-            }
+            bInvalidate = true;
+            pRTS->m_dPARCompensation = dPARCompensation;
+            pRTS->Deinit();
         }
+
         if (bInvalidate) {
             InvalidateSubtitle();
         }

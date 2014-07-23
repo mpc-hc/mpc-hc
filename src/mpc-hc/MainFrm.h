@@ -259,6 +259,7 @@ private:
     // subtitles
 
     CCritSec m_csSubLock;
+    CCritSec m_csSubtitleManagementLock;
 
     CList<SubtitleInput> m_pSubStreams;
     POSITION m_posFirstExtSub;
