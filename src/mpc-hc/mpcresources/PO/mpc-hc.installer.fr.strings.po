@@ -2,12 +2,12 @@
 # Copyright (C) 2002 - 2014 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Underground78, 2013
+# Underground78, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-21 11:15:54+0000\n"
-"PO-Revision-Date: 2013-12-21 16:30+0000\n"
+"POT-Creation-Date: 2014-06-17 15:23:34+0000\n"
+"PO-Revision-Date: 2014-07-09 08:31+0000\n"
 "Last-Translator: Underground78\n"
 "Language-Team: French (http://www.transifex.com/projects/p/mpc-hc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -50,7 +50,7 @@ msgstr "Cette version de MPC-HC nécessite un CPU avec support des instructions 
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
-msgstr ""
+msgstr "Visiter notre Wiki pour télécharger des barres d'outils personnalisées"
 
 msgctxt "CustomMessages_tsk_AllUsers"
 msgid "For all users"

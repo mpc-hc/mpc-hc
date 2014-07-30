@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-06-15 01:03:51+0000\n"
-"PO-Revision-Date: 2014-06-24 21:03+0000\n"
-"Last-Translator: kasper93\n"
+"POT-Creation-Date: 2014-07-17 20:52:12+0000\n"
+"PO-Revision-Date: 2014-07-22 14:57+0000\n"
+"Last-Translator: M T <michtrz@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/mpc-hc/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -115,7 +115,7 @@ msgstr "Style"
 
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
-msgstr ""
+msgstr "Jeśli cel renderowania nie został określony, napisy SSA/ASS będą renderowane w stosunku do klatki obrazu, natomiast wszystkie inne napisy tekstowe będą renderowane w stosunku do okna."
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -843,7 +843,7 @@ msgstr "Dokładna synchronizacja pionowa"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid "If the rendering target is left undefined, it will be inherited from the default style."
-msgstr ""
+msgstr "Jeśli cel renderowania nie został określony, zostanie on odziedziczony z domyślnego stylu."
 
 msgctxt "IDC_CHECK_SPCPOW2TEX"
 msgid "Unchecking this frees up a little video memory and saves bandwidth on local to video memory transfers, but it may not work with older video cards."
@@ -1263,23 +1263,23 @@ msgstr "Edukacja/Nauka/Fakty"
 
 msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
 msgid "Hides controls and panels also in windowed mode."
-msgstr ""
+msgstr "Ukrywa zadokowane panele oraz przyciski sterowania także w trybie okienkowym."
 
 msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
 msgid "Prevent external subtitle renderer to be loaded when internal is in use."
-msgstr ""
+msgstr "Zablokuj ładowanie zewnętrznych rendererów napisów, gdy wbudowany jest w użyciu. "
 
 msgctxt "IDS_PPAGEADVANCED_COL_NAME"
 msgid "Name"
-msgstr ""
+msgstr "Nazwa"
 
 msgctxt "IDS_PPAGEADVANCED_COL_VALUE"
 msgid "Value"
-msgstr ""
+msgstr "Wartość"
 
 msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
-msgstr ""
+msgstr "Maksymalna liczba plików pokazanych w menu \"Ostatnie pliki\" i dla których zapisana jest pozycja."
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2171,7 +2171,7 @@ msgstr "Aby wczytać napisy, należy ponownie otworzyć plik, zmieniając wcześ
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
-msgstr ""
+msgstr "Pliki z napisami"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %d:%d"
@@ -2631,7 +2631,7 @@ msgstr "Ukryj &menu"
 
 msgctxt "IDD_PPAGEADVANCED"
 msgid "Advanced"
-msgstr ""
+msgstr "Zaawansowane"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seekbar"
@@ -3467,9 +3467,9 @@ msgstr "Ustawienia"
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
-msgstr ""
+msgstr "Zapamiętaj położenie pliku tylko dla plików większych niż N minut."
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
 msgid "Remember file position also for audio files."
-msgstr ""
+msgstr "Zapamiętaj położenie pliku również dla plików audio."
 

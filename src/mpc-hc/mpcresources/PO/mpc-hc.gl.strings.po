@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-06-15 01:03:51+0000\n"
-"PO-Revision-Date: 2014-06-18 12:41+0000\n"
+"POT-Creation-Date: 2014-07-17 20:52:12+0000\n"
+"PO-Revision-Date: 2014-08-02 17:50+0000\n"
 "Last-Translator: Rubén <feiticeiro2010@hotmail.es>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/mpc-hc/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -115,7 +115,7 @@ msgstr "Estilos"
 
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
-msgstr ""
+msgstr "Se se deixa o obxectivo a renderizar sen definir, os subtítulos SSA/ASS renderizaranse en relación ao fotograma de vídeo, mentres todolos demáis subtítulos renderizaranse en relación á xanela."
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -491,19 +491,19 @@ msgstr "Renderizador Mesturador Overlay"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
 msgid "Video Mixing Renderer 7 (windowed)"
-msgstr "Renderizador mesturador de Video 7 (modo xanela)"
+msgstr "Renderizador Mestura Video 7 (xanela)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
 msgid "Video Mixing Renderer 9 (windowed)"
-msgstr "Renderizador mesturador de Video 9 (modo xanela)"
+msgstr "Renderizador Mestura Video 9 (xanela)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
 msgid "Video Mixing Renderer 7 (renderless)"
-msgstr "Renderizador mesturador de Video 7 (sen renderización)"
+msgstr "Renderizador Mestura Video 7 (sen renderizar)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
 msgid "Video Mixing Renderer 9 (renderless)"
-msgstr "Renderizador mesturador de Video 9 (sen renderización)"
+msgstr "Renderizador Mestura Video 9 (sen renderizar)"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR"
 msgid "Enhanced Video Renderer"
@@ -843,7 +843,7 @@ msgstr "VSync Precisa"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid "If the rendering target is left undefined, it will be inherited from the default style."
-msgstr ""
+msgstr "Se se deixa o obxectivo a renderizar sen definir, será herdado dende o estilo por defecto."
 
 msgctxt "IDC_CHECK_SPCPOW2TEX"
 msgid "Unchecking this frees up a little video memory and saves bandwidth on local to video memory transfers, but it may not work with older video cards."
@@ -1263,23 +1263,23 @@ msgstr "Educación/Ciencia/temas factuais"
 
 msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
 msgid "Hides controls and panels also in windowed mode."
-msgstr ""
+msgstr "Oculta controis e paneis tamén en modo xanela."
 
 msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
 msgid "Prevent external subtitle renderer to be loaded when internal is in use."
-msgstr ""
+msgstr "Evita que se cargue o renderizador externo de subtítulos cando se está usando o interno."
 
 msgctxt "IDS_PPAGEADVANCED_COL_NAME"
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 msgctxt "IDS_PPAGEADVANCED_COL_VALUE"
 msgid "Value"
-msgstr ""
+msgstr "Valor"
 
 msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
-msgstr ""
+msgstr "Número máximo de ficheiros amosados no menú \"Ficheiros recentes\" e para o que potencialmente se garda a posición."
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2171,7 +2171,7 @@ msgstr "Para cargar os subtítulos tes que cambiar o tipo de renderizador de vid
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
-msgstr ""
+msgstr "Ficheiros de subtìtulos"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %d:%d"
@@ -2631,7 +2631,7 @@ msgstr "Agochar &menú"
 
 msgctxt "IDD_PPAGEADVANCED"
 msgid "Advanced"
-msgstr ""
+msgstr "Avanzado"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seekbar"
@@ -3467,9 +3467,9 @@ msgstr "Axustes"
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
-msgstr ""
+msgstr "Lembrar posición do ficheiro só para ficheiros máis longos de N minutos"
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
 msgid "Remember file position also for audio files."
-msgstr ""
+msgstr "Lembrar a posición do Ficheiro"
 

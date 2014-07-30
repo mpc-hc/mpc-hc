@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-04-22 11:15:01+0000\n"
-"PO-Revision-Date: 2014-07-01 09:01+0000\n"
+"PO-Revision-Date: 2014-08-03 00:40+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -126,7 +126,7 @@ msgstr "ステータス(&A)"
 
 msgctxt "ID_VIEW_SUBRESYNC"
 msgid "Su&bresync"
-msgstr "字幕編集(&B)"
+msgstr "字幕の再同期(&B)"
 
 msgctxt "ID_VIEW_PLAYLIST"
 msgid "Pla&ylist"
@@ -198,7 +198,7 @@ msgstr "テアリング テスト(&T)"
 
 msgctxt "ID_VIEW_DISPLAYSTATS"
 msgid "&Display Stats"
-msgstr "統計情報の表示(&D)"
+msgstr "統計情報 (OSD) (&D)"
 
 msgctxt "ID_VIEW_REMAINING_TIME"
 msgid "&Remaining Time"
@@ -386,11 +386,11 @@ msgstr "2 倍のサイズ(&D)"
 
 msgctxt "ID_VIEW_VF_STRETCH"
 msgid "&Stretch To Window"
-msgstr "ウィンドウ サイズに変形(&S)"
+msgstr "ウィンドウに合わせる (比率無視) (&S)"
 
 msgctxt "ID_VIEW_VF_FROMINSIDE"
 msgid "Touch Window From &Inside"
-msgstr "ウィンドウ サイズに合わせる(&I)"
+msgstr "ウィンドウに合わせる (比率保持) (&I)"
 
 msgctxt "ID_VIEW_VF_ZOOM1"
 msgid "Zoom &1"
@@ -402,7 +402,7 @@ msgstr "拡大 2(&2)"
 
 msgctxt "ID_VIEW_VF_FROMOUTSIDE"
 msgid "Touch Window From &Outside"
-msgstr "縦か横に合わせてカット(&O)"
+msgstr "ウィンドウに合わせて縦か横をカット (比率保持) (&O)"
 
 msgctxt "ID_VIEW_VF_KEEPASPECTRATIO"
 msgid "&Keep Aspect Ratio"
@@ -414,7 +414,7 @@ msgstr "縦横比を調整(&A)"
 
 msgctxt "ID_ASPECTRATIO_SOURCE"
 msgid "&Default"
-msgstr "しない(&D)"
+msgstr "標準(&D)"
 
 msgctxt "ID_ASPECTRATIO_4_3"
 msgid "&4:3"
@@ -494,7 +494,7 @@ msgstr "リセット(&S)"
 
 msgctxt "POPUP"
 msgid "On &Top"
-msgstr "常に手前に表示(&T)"
+msgstr "手前に表示(&T)"
 
 msgctxt "ID_ONTOP_DEFAULT"
 msgid "&Default"
@@ -690,7 +690,7 @@ msgstr "コマンドライン スイッチ(&C)"
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"
-msgstr "ツールバー画像をダウンロード(&T)"
+msgstr "ツールバーの画像をダウンロード(&T)"
 
 msgctxt "ID_HELP_DONATE"
 msgid "&Donate"

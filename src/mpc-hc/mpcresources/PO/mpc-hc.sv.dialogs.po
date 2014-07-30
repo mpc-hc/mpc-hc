@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-06-03 21:36:02+0000\n"
-"PO-Revision-Date: 2014-07-04 20:20+0000\n"
+"POT-Creation-Date: 2014-07-06 19:15:01+0000\n"
+"PO-Revision-Date: 2014-07-23 12:00+0000\n"
 "Last-Translator: Apa <sakcheen@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/mpc-hc/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -183,7 +183,7 @@ msgstr "Avbryt"
 
 msgctxt "IDD_OPEN_DLG_IDC_CHECK1"
 msgid "Add to playlist without opening"
-msgstr "Lägg till i spellistan utan att öppna"
+msgstr "Lägg till i spelningslistan utan att öppna"
 
 msgctxt "IDD_ABOUTBOX_CAPTION"
 msgid "About"
@@ -315,7 +315,7 @@ msgstr "Behåll historik över nyligen öppnade filer"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK2"
 msgid "Remember last playlist"
-msgstr "Kom ihåg senaste spellistan"
+msgstr "Kom ihåg senaste spelningslistan"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_FILE_POS"
 msgid "Remember File position"
@@ -543,7 +543,7 @@ msgstr "Renderarlayout"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SUB_AR_COMPENSATION"
 msgid "Apply aspect ratio compensation for anamorphic videos"
-msgstr "Använd bildformatskompensation för video med anamorfiskt format"
+msgstr "Använd bildförhållandekompensation för video med anamorfiskt format"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Warning"
@@ -679,7 +679,7 @@ msgstr "Använd Windows 7 aktivitetsfältsfunktioner"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
-msgstr "Gör så att \"Framåt/Tillbaka\" öppnar nästa/tidigare fil i mappen när det bara finns en fil i spellistan"
+msgstr "Gör så att \"Framåt/Tillbaka\" öppnar nästa/tidigare fil i mappen när det bara finns en fil i spelningslistan"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
 msgid "Use time tooltip:"
@@ -1039,11 +1039,11 @@ msgstr "Färger && Transparens"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "0%"
-msgstr "0%"
+msgstr "0 %"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "100%"
-msgstr "100%"
+msgstr "100 %"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Primary"
@@ -1079,7 +1079,7 @@ msgstr "Interna LAV Filters-inställningar"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_SPLITTER_CONF"
 msgid "Splitter"
-msgstr "Splitter"
+msgstr "Demultiplexer"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_VIDEO_DEC_CONF"
 msgid "Video decoder"
@@ -1119,7 +1119,7 @@ msgstr "DirectShow Ljud"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
-msgstr "VMR-7/VMR-9 (renderless)- och EVR (CP)-inställningar"
+msgstr "VMR-7/VMR-9 (renderlös)- och EVR (CP)-inställningar"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"
@@ -1131,11 +1131,11 @@ msgstr "Storleksändrare:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_D3D9DEVICE"
 msgid "Select D3D9 Render Device"
-msgstr "Select D3D9 Render device"
+msgstr "Välj D3D9 Render-enhet"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_RESETDEVICE"
 msgid "Reinitialize when changing display"
-msgstr "Reinitialisera när skärmen förändras"
+msgstr "Ominitialisera när man växlar skärm"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "D3D Fullscreen"
@@ -1143,19 +1143,19 @@ msgstr "D3D Helskärm"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Alternative VSync"
-msgstr "Alternativ VSync"
+msgstr "Alternativ vertikalsynk"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9LOADMIXER"
 msgid "VMR-9 Mixer Mode"
-msgstr "VMR-9 bland läge"
+msgstr "VMR-9 kombinationsläge"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9YUVMIXER"
 msgid "YUV Mixing"
-msgstr "YUV blandning"
+msgstr "YUV-kombinering"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_EVR_BUFFERS_TXT"
 msgid "EVR Buffers:"
-msgstr "EVR Buffertar:"
+msgstr "EVR-buffertar:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "DXVA"
@@ -1163,11 +1163,11 @@ msgstr "DXVA"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitles *"
-msgstr "Undertexter *"
+msgstr "Undertexter*"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Screenshot"
-msgstr "Skärmbild"
+msgstr "Skärmdump"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Shaders"
@@ -1219,7 +1219,7 @@ msgstr "Standardsida:"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC"
 msgid "CGI handlers: (.ext1=path1;.ext2=path2;...)"
-msgstr "CGI hanterare: (.ext1=path1;.ext2=path2;...)"
+msgstr "CGI-hanterare: (.ext1=path1;.ext2=path2;...)"
 
 msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
 msgid "Subtitles available online"
@@ -1231,7 +1231,7 @@ msgstr "Ladda ner && Öppna"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
 msgid "Replace currently loaded subtitles"
-msgstr "Byt ut med nuvarande inladdade undertext"
+msgstr "Ersätt nuvarande inladdade undertexter"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
@@ -1255,7 +1255,7 @@ msgstr "Färgton"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Saturation"
-msgstr "Mättning"
+msgstr "Mättnad"
 
 msgctxt "IDD_PPAGEMISC_IDC_RESET"
 msgid "Reset"
@@ -1267,11 +1267,11 @@ msgstr "Uppdateringskontroll"
 
 msgctxt "IDD_PPAGEMISC_IDC_CHECK1"
 msgid "Enable automatic update check"
-msgstr "Aktivera automatiskt Uppdateringskontroll"
+msgstr "Aktivera automatiskt uppdateringskontroll"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
 msgid "Delay between each check:"
-msgstr "Tid mellan kontroll:"
+msgstr "Tid mellan varje kontroll:"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"
@@ -1291,7 +1291,7 @@ msgstr "Exportera"
 
 msgctxt "IDD_PPAGEMISC_IDC_EXPORT_KEYS"
 msgid "Export keys"
-msgstr "Exportera nycklar"
+msgstr "Exportera knappar"
 
 msgctxt "IDD_TUNER_SCAN_CAPTION"
 msgid "Tuner scan"
@@ -1375,15 +1375,15 @@ msgstr "Nätleverantör"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC5"
 msgid "Tuner"
-msgstr "Mottagare"
+msgstr "TV-mottagare"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC6"
 msgid "Receiver"
-msgstr "Mottagare"
+msgstr "Video-mottagare"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST10"
 msgid "Channel switching approach:"
-msgstr "Kanalbytarmetod"
+msgstr "Kanalbytarmetod:"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST11"
 msgid "Rebuild filter graph"
@@ -1395,7 +1395,7 @@ msgstr "Stoppa filtergraf"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCVIDEO"
 msgid "Sync video to display"
-msgstr "Synka video till skärm"
+msgstr "Synkronisera video med skärm"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC1"
 msgid "Frequency adjustment:"
@@ -1403,7 +1403,7 @@ msgstr "Frekvensjustering:"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCDISPLAY"
 msgid "Sync display to video"
-msgstr "Synka skärm till video"
+msgstr "Synkronisera skärm med video"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC2"
 msgid "Frequency adjustment:"
@@ -1423,7 +1423,7 @@ msgstr "Visa vid närmaste vertikalsynk"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC5"
 msgid "Target sync offset:"
-msgstr "Önskad synkoffset:"
+msgstr "Önskad synkförskjutning:"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC6"
 msgid "ms"
@@ -1447,7 +1447,7 @@ msgstr "Ändringarna börjar gälla efter omstart av uppspelning."
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK1"
 msgid "Launch files in fullscreen"
-msgstr "Starta filer i helskarm"
+msgstr "Starta filer i helskärmläge"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK4"
 msgid "Hide controls in fullscreen"
@@ -1467,11 +1467,11 @@ msgstr "Avsluta helskärmsläge i slutet av uppspelningen"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Fullscreen monitor"
-msgstr "Helskärms Bildskärm"
+msgstr "Bildskärm för helskärmsläge"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK2"
 msgid "Use autochange fullscreen monitor mode"
-msgstr "Ändra automatiskt bildskärmsläge för helskärm"
+msgstr "Ändra automatiskt bildskärmsläge vid helskärm"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON1"
 msgid "Add"
@@ -1479,7 +1479,7 @@ msgstr "Lägg till"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON2"
 msgid "Del"
-msgstr "Del"
+msgstr "Ta bort"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON3"
 msgid "Up"
@@ -1487,11 +1487,11 @@ msgstr "Upp"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON4"
 msgid "Down"
-msgstr "Ned"
+msgstr "Ner"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK3"
 msgid "Apply default monitor mode on fullscreen exit"
-msgstr "Använd standard bildskärmsläge när helskärmsläget avslutast"
+msgstr "Använd normalt bildskärmsläge när helskärmsläget avslutas"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_RESTORERESCHECK"
 msgid "Restore resolution on program exit"
@@ -1515,11 +1515,11 @@ msgstr "Skanna"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK1"
 msgid "Prefer forced and/or default subtitles tracks"
-msgstr "Föredra tvingade och/eller standard undertexter"
+msgstr "Föredra tvingade och/eller standardundertexter"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK2"
 msgid "Prefer external subtitles over embedded subtitles"
-msgstr "Föredra externa undertexter"
+msgstr "Föredra externa undertexter över inbäddade undertexter"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK3"
 msgid "Ignore embedded subtitles"
@@ -1527,7 +1527,7 @@ msgstr "Ignorera inbäddade undertexter"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Autoload paths"
-msgstr "Sökvägar att läsa in automatiskt ifrån"
+msgstr "Sökvägar att läsa in automatiskt från"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON1"
 msgid "Reset"
@@ -1535,11 +1535,11 @@ msgstr "Återställ"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Online database"
-msgstr "Online databas"
+msgstr "Online-databas"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Base URL of the online subtitle database:"
-msgstr "URL till databasen för undertexter:"
+msgstr "Webbadress till databasen för undertexter:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON2"
 msgid "Test"
@@ -1575,15 +1575,15 @@ msgstr "Ta bort"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON1"
 msgid "Add to pre-resize"
-msgstr "Lägg till pre-resize"
+msgstr "Lägg till i \"före storleksändring\""
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON2"
 msgid "Add to post-resize"
-msgstr "Lägg till post-resize"
+msgstr "Lägg till i \"efter storleksändring\""
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shader presets"
-msgstr "Shader förinställningar"
+msgstr "Shader-förinställningar"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON3"
 msgid "Load"
@@ -1599,11 +1599,11 @@ msgstr "Ta bort"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active pre-resize shaders"
-msgstr "Aktiva pre-resize shaders"
+msgstr "Aktiva \"före storleksändring\"-shaders"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active post-resize shaders"
-msgstr "Aktiva post-resize shaders"
+msgstr "Aktiva \"efter storleksändring\"-shaders"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_CAPTION"
 msgid "Debug Shaders"
@@ -1631,17 +1631,17 @@ msgstr "PS 3.0"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_STATIC"
 msgid "Advanced Settings, do not edit unless you know what you are doing."
-msgstr ""
+msgstr "Avancerade Inställningar, ändra inte om du inte vet vad du gör."
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO1"
 msgid "True"
-msgstr ""
+msgstr "Sant"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO2"
 msgid "False"
-msgstr ""
+msgstr "Falskt"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
-msgstr ""
+msgstr "Återställ"
 

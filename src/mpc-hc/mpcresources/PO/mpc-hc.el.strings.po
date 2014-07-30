@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-06-15 01:03:51+0000\n"
-"PO-Revision-Date: 2014-06-25 21:11+0000\n"
+"POT-Creation-Date: 2014-07-17 20:52:12+0000\n"
+"PO-Revision-Date: 2014-07-24 12:10+0000\n"
 "Last-Translator: firespin <dartworldgr@hotmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/mpc-hc/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -115,7 +115,7 @@ msgstr "Στυλ"
 
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
-msgstr ""
+msgstr "Εάν ο στόχος απόδοσης μείνει απροσδιόριστος, οι υπότιτλοι SSA/ASS θα αποδοθούν ανάλογα με το καρέ βίντεο, ενώ όλοι οι άλλοι υπότιτλοι κειμένου θα αποδοθούν ανάλογα με το παράθυρο."
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -843,7 +843,7 @@ msgstr "Ακριβής VSync"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid "If the rendering target is left undefined, it will be inherited from the default style."
-msgstr ""
+msgstr "Εάν ο στόχος απόδοσης μείνει απροσδιόριστος, αυτός θα κληρονομηθεί από το προεπιλεγμένο στυλ."
 
 msgctxt "IDC_CHECK_SPCPOW2TEX"
 msgid "Unchecking this frees up a little video memory and saves bandwidth on local to video memory transfers, but it may not work with older video cards."
@@ -1263,23 +1263,23 @@ msgstr "Εκπαίδευση/Επιστήμη/Τεκμηριωμένα θέμα�
 
 msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
 msgid "Hides controls and panels also in windowed mode."
-msgstr ""
+msgstr "Απόκρυψη κουμπιών ελέγχου και πάνελ στη λειτουργία παραθύρου."
 
 msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
 msgid "Prevent external subtitle renderer to be loaded when internal is in use."
-msgstr ""
+msgstr "Αποτροπή απόδοσης εξωτερικών υποτίτλων που πρόκειται να φορτωθούν, όταν οι εσωτερικοί είναι σε χρήση."
 
 msgctxt "IDS_PPAGEADVANCED_COL_NAME"
 msgid "Name"
-msgstr ""
+msgstr "Όνομα"
 
 msgctxt "IDS_PPAGEADVANCED_COL_VALUE"
 msgid "Value"
-msgstr ""
+msgstr "Τιμή"
 
 msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
-msgstr ""
+msgstr "Ο μέγιστος αριθμός των αρχείων που εμφανίζονται στο μενού «Πρόσφατα αρχεία» και για τα οποία δυνητικά αποθηκεύεται η θέση."
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2171,7 +2171,7 @@ msgstr "Για φόρτωση υποτίτλων πρέπει να αλλάξε�
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
-msgstr ""
+msgstr "Αρχεία υποτίτλων"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %d:%d"
@@ -2631,7 +2631,7 @@ msgstr "Απόκρυψη μενού"
 
 msgctxt "IDD_PPAGEADVANCED"
 msgid "Advanced"
-msgstr ""
+msgstr "Προηγμένες"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seekbar"
@@ -3467,9 +3467,9 @@ msgstr "Ρυθμίσεις"
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
-msgstr ""
+msgstr "Απομνημόνευση θέσης αρχείου μόνο για αρχεία μεγαλύτερα από N λεπτά."
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
 msgid "Remember file position also for audio files."
-msgstr ""
+msgstr "Απομνημόνευση θέσης αρχείου επίσης για τα αρχεία ήχου."
 

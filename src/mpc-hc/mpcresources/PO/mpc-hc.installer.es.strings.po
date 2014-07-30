@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-21 11:15:54+0000\n"
-"PO-Revision-Date: 2014-04-23 08:12+0000\n"
+"POT-Creation-Date: 2014-06-17 15:23:34+0000\n"
+"PO-Revision-Date: 2014-07-08 16:12+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitoschido@ubuntu.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/mpc-hc/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 
 msgctxt "Messages_WelcomeLabel2"
 msgid "This will install [name] on your computer.\n\nIt is recommended that you close all other applications before continuing."
-msgstr "Este programa instalará [name] en el equipo.\n\nSe recomienda que cierre todas las demás aplicaciones antes de continuar."
+msgstr "Este programa instalará [name] en el equipo.\n\nSe recomienda que cierre el resto de las aplicaciones antes de continuar."
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows XP Service Pack 3 or newer to run."
@@ -42,15 +42,15 @@ msgstr "La instalación de MPC-HC ya está en ejecución."
 
 msgctxt "CustomMessages_msg_simd_sse"
 msgid "This build of MPC-HC requires a CPU with SSE extension support.\n\nYour CPU does not have those capabilities."
-msgstr "Esta versión de MPC-HC requiere una CPU con soporte de extensiones SSE.\n\nSu CPU carece de esta característica."
+msgstr "Esta versión de MPC-HC requiere una CPU compatible con extensiones SSE.\n\nSu CPU carece de esta característica."
 
 msgctxt "CustomMessages_msg_simd_sse2"
 msgid "This build of MPC-HC requires a CPU with SSE2 extension support.\n\nYour CPU does not have those capabilities."
-msgstr "Esta versión de MPC-HC requiere una CPU con soporte de extensiones SSE2.\n\nSu CPU carece de esta característica."
+msgstr "Esta versión de MPC-HC requiere una CPU compatible con extensiones SSE2.\n\nSu CPU carece de esta característica."
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
-msgstr ""
+msgstr "Visite nuestra página de wiki para descargar imágenes de la barra de herramientas"
 
 msgctxt "CustomMessages_tsk_AllUsers"
 msgid "For all users"

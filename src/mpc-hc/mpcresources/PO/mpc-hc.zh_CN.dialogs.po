@@ -2,12 +2,13 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# bruce55 <bruce.luo+transifex@nyu.edu>, 2014
 # Ming Chen <yzonline@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-06-03 21:36:02+0000\n"
-"PO-Revision-Date: 2014-06-05 11:42+0000\n"
+"POT-Creation-Date: 2014-07-06 19:15:01+0000\n"
+"PO-Revision-Date: 2014-07-18 10:14+0000\n"
 "Last-Translator: Ming Chen <yzonline@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/mpc-hc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -534,7 +535,7 @@ msgstr "在缓冲时允许动画"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SPCPOW2TEX"
 msgid "Round up to power of two"
-msgstr "二次幂只入不舍"
+msgstr "向上取整到2的n次方"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Renderer Layout"
@@ -550,7 +551,7 @@ msgstr "警告"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu."
-msgstr "如果您使用了纹理覆盖并在您的显卡设置的某处开启了全屏抗锯齿功能的话,它将不会使字幕变得比以前好看但是却会一定大量吞噬您的 CPU 资源。"
+msgstr "如果您在显卡设置的某处开启了全屏抗锯齿功能并覆盖程序本身设置的话，字幕并不会变得比以前好看但是却会一定大量吞噬您的 CPU 资源。"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
 msgid "File extensions"
@@ -650,7 +651,7 @@ msgstr "音频 CD"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "Jump distances (small, medium, large in ms)"
-msgstr "步进距离 (小, 中, 大每毫秒)"
+msgstr "步进距离 (小, 中, 大, 单位为毫秒)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_BUTTON1"
 msgid "Default"
@@ -1270,7 +1271,7 @@ msgstr "开启自动检测更新"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
 msgid "Delay between each check:"
-msgstr "每次检测的间隔:"
+msgstr "每次检测间隔:"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"
@@ -1382,7 +1383,7 @@ msgstr "接收器"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST10"
 msgid "Channel switching approach:"
-msgstr "频道切换通道:"
+msgstr "频道切换方式:"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST11"
 msgid "Rebuild filter graph"
@@ -1574,11 +1575,11 @@ msgstr "移除"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON1"
 msgid "Add to pre-resize"
-msgstr "添加到预重绘尺寸"
+msgstr "添加到重绘尺寸前"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON2"
 msgid "Add to post-resize"
-msgstr "添加到后重绘尺寸"
+msgstr "添加到重绘尺寸后"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shader presets"
@@ -1598,11 +1599,11 @@ msgstr "删除"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active pre-resize shaders"
-msgstr "激活预重绘尺寸着色器"
+msgstr "重绘尺寸前激活的着色器"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active post-resize shaders"
-msgstr "激活后重绘尺寸着色器"
+msgstr "重绘尺寸后激活的着色器"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_CAPTION"
 msgid "Debug Shaders"
@@ -1630,17 +1631,17 @@ msgstr "PS 3.0"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_STATIC"
 msgid "Advanced Settings, do not edit unless you know what you are doing."
-msgstr ""
+msgstr "高级设置，除非您知道自己在做什么，否则请不要修改任何设置。"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO1"
 msgid "True"
-msgstr ""
+msgstr "是"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO2"
 msgid "False"
-msgstr ""
+msgstr "否"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
-msgstr ""
+msgstr "默认"
 

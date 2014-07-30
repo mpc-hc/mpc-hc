@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Alex Luís Silva <alex.mooca@hotmail.com>, 2014
+# Alex Luís Silva <alex.mooca@hotmail.com>, 2014
 # Roger Filipe <lipe2000@outlook.com>, 2013-2014
 # mvpetri <mvpetri@gmail.com>, 2014
 # Raphael Mendonça, 2014
@@ -10,9 +11,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-06-03 21:36:02+0000\n"
-"PO-Revision-Date: 2014-06-23 15:22+0000\n"
-"Last-Translator: Raphael Mendonça\n"
+"POT-Creation-Date: 2014-07-06 19:15:01+0000\n"
+"PO-Revision-Date: 2014-07-24 06:30+0000\n"
+"Last-Translator: Alex Luís Silva <alex.mooca@hotmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/mpc-hc/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -482,7 +483,7 @@ msgstr "Controle"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Volume step:"
-msgstr "Incremento do Volume:"
+msgstr "Passo do volume:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "%"
@@ -490,7 +491,7 @@ msgstr "%"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Speed step:"
-msgstr "Incremento da Velocidade:"
+msgstr "Passo da velocidade:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK3"
 msgid "Override placement"
@@ -930,7 +931,7 @@ msgstr "ms"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_CHECK1"
 msgid "Save custom style"
-msgstr "Salvar estilo customizado"
+msgstr "Salvar estilo personalizado"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "Thumbnails:"
@@ -1586,7 +1587,7 @@ msgstr "Add ao pós-redimensionamento"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shader presets"
-msgstr "Pré-definições de shader"
+msgstr "Predefinições de shader"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON3"
 msgid "Load"
@@ -1634,17 +1635,17 @@ msgstr "PS 3.0"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_STATIC"
 msgid "Advanced Settings, do not edit unless you know what you are doing."
-msgstr ""
+msgstr "Configurações avançadas, não edite a menos que você saiba o que está fazendo."
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO1"
 msgid "True"
-msgstr ""
+msgstr "Verdadeiro"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO2"
 msgid "False"
-msgstr ""
+msgstr "Falso"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
-msgstr ""
+msgstr "Padrão"
 

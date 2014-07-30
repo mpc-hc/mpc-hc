@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-06-03 21:36:02+0000\n"
-"PO-Revision-Date: 2014-06-10 23:50+0000\n"
+"POT-Creation-Date: 2014-07-06 19:15:01+0000\n"
+"PO-Revision-Date: 2014-07-08 17:11+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitoschido@ubuntu.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/mpc-hc/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -109,7 +109,7 @@ msgstr "Desplazamiento del audio (ms):"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK1"
 msgid "Enable custom channel mapping"
-msgstr "Activar mapeo de canales editable"
+msgstr "Activar asignación de canales personalizada"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
 msgid "Speaker configuration for "
@@ -353,7 +353,7 @@ msgstr "Siempre abrir la ubicación predefinida:"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "Preferred language for DVD Navigator and the external OGM Splitter"
-msgstr "Idioma favorito para menús del DVD y el \"OGM Splitter\" externo"
+msgstr "Idioma favorito para menús de DVD y el «OGM Splitter» externo"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO3"
 msgid "Menu"
@@ -381,7 +381,7 @@ msgstr "Audio"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Volume"
-msgstr "Vol."
+msgstr "Volumen"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Min"
@@ -673,7 +673,7 @@ msgstr "Mostrar la información «Reproduciendo ahora» en el mensaje de estado 
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
-msgstr "Prevenir MINIMIZAR en pantalla completa al utilizar un monitor diferente al por defecto"
+msgstr "Evitar minimizar el reproductor en modo a pantalla completa al usar otro monitor"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_WIN7"
 msgid "Use Windows 7 Taskbar features"
@@ -837,7 +837,7 @@ msgstr "Aceptar"
 
 msgctxt "IDD_PNSPRESET_DLG_CAPTION"
 msgid "Pan&Scan Presets"
-msgstr "Modos de Pan&Scan"
+msgstr "Modos de reencuadramiento"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"
 msgid "New"
@@ -897,7 +897,7 @@ msgstr "MPC-HC no pudo renderizar algunos de los conectores del esquema. Quizá 
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC2"
 msgid "The following pin(s) failed to find a connectable filter:"
-msgstr "El(los) siguientes conector(es) no encontraron un filtro conectable:"
+msgstr "Los conectores siguientes no encontraron un filtro conectable:"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDOK"
 msgid "Close"
@@ -1141,7 +1141,7 @@ msgstr "Reinicializar al cambiar pantalla"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "D3D Fullscreen"
-msgstr "Direct3D a Pantalla Completa (elimina parpadeo)"
+msgstr "D3D a pantalla completa"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Alternative VSync"
@@ -1157,7 +1157,7 @@ msgstr "Mixer YUV"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_EVR_BUFFERS_TXT"
 msgid "EVR Buffers:"
-msgstr "Buffers de EVR:"
+msgstr "Búferes de EVR:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "DXVA"
@@ -1181,7 +1181,7 @@ msgstr "Giro"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "* External filters (such as VSFilter) can display subtitles on all renderers."
-msgstr "* Filtros externos (tales como VSFilter) pueden visualizar subtítulos en todos los renderizadores."
+msgstr "* Los filtros externos (como VSFilter) pueden mostrar subtítulos en cualquier renderizador."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
@@ -1225,7 +1225,7 @@ msgstr "Tratantes de CGI: (.ext1=ruta1;.ext2=ruta2;...)"
 
 msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
 msgid "Subtitles available online"
-msgstr "Subtítulos disponibles en linea"
+msgstr "Subtítulos disponibles en línea"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
 msgid "Download && Open"
@@ -1265,15 +1265,15 @@ msgstr "Restablecer"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Update check"
-msgstr "Comprobación de actualización"
+msgstr "Búsqueda de actualizaciones"
 
 msgctxt "IDD_PPAGEMISC_IDC_CHECK1"
 msgid "Enable automatic update check"
-msgstr "Habilitar comprobación automática de actualización"
+msgstr "Activar búsqueda automática de actualizaciones"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
 msgid "Delay between each check:"
-msgstr "Retraso entre cada comprobación:"
+msgstr "Retardo entre cada comprobación:"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"
@@ -1389,15 +1389,15 @@ msgstr "Forma de conmutación de canal:"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST11"
 msgid "Rebuild filter graph"
-msgstr "Reconstruir el grafo de filtros"
+msgstr "Reconstruir gráfico de filtros"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST12"
 msgid "Stop filter graph"
-msgstr "Detener grafo de filtros"
+msgstr "Detener gráfico de filtros"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCVIDEO"
 msgid "Sync video to display"
-msgstr "Sincronizar video a pantalla"
+msgstr "Sincronizar vídeo con la pantalla"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC1"
 msgid "Frequency adjustment:"
@@ -1405,7 +1405,7 @@ msgstr "Ajuste de frecuencia:"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCDISPLAY"
 msgid "Sync display to video"
-msgstr "Sincronizar pantalla a video"
+msgstr "Sincronizar pantalla con el vídeo"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC2"
 msgid "Frequency adjustment:"
@@ -1449,7 +1449,7 @@ msgstr "Los cambios tendrán efecto tras cerrar y reiniciar la reproducción."
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK1"
 msgid "Launch files in fullscreen"
-msgstr "Ejecutar archivos en pantalla completa"
+msgstr "Abrir archivos en pantalla completa"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK4"
 msgid "Hide controls in fullscreen"
@@ -1493,7 +1493,7 @@ msgstr "Bajar"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK3"
 msgid "Apply default monitor mode on fullscreen exit"
-msgstr "Aplicar modo monitor por defecto al salir de pantalla completa"
+msgstr "Usar modo predet. del monitor al salir de pantalla completa"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_RESTORERESCHECK"
 msgid "Restore resolution on program exit"
@@ -1565,7 +1565,7 @@ msgstr "&Ignorar esta actualización"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shaders contain special effects which can be added to the video rendering process."
-msgstr "Los sombreadores contienen efectos especiales que pueden ser añadidos al proceso de renderización del vídeo."
+msgstr "Los sombreadores contienen efectos especiales que pueden añadirse al proceso de renderización del vídeo."
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON12"
 msgid "Add shader file"
@@ -1633,17 +1633,17 @@ msgstr "PS 3.0"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_STATIC"
 msgid "Advanced Settings, do not edit unless you know what you are doing."
-msgstr ""
+msgstr "Configuración avanzada. No la modifique a menos que sepa lo que hace."
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO1"
 msgid "True"
-msgstr ""
+msgstr "Verdadero"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO2"
 msgid "False"
-msgstr ""
+msgstr "Falso"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
-msgstr ""
+msgstr "Original"
 

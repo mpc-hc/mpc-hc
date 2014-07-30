@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-21 11:15:54+0000\n"
-"PO-Revision-Date: 2014-02-01 23:20+0000\n"
+"POT-Creation-Date: 2014-06-17 15:23:34+0000\n"
+"PO-Revision-Date: 2014-08-02 17:40+0000\n"
 "Last-Translator: Rubén <feiticeiro2010@hotmail.es>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/mpc-hc/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -50,7 +50,7 @@ msgstr "Esta versión de MPC-HC require unha CPU con soporte para a extensión S
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
-msgstr ""
+msgstr "Visite a nosa páxina da wiki para descargar imaxes da barra de ferramentas"
 
 msgctxt "CustomMessages_tsk_AllUsers"
 msgid "For all users"

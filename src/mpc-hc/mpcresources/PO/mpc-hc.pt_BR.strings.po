@@ -11,9 +11,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-06-15 01:03:51+0000\n"
-"PO-Revision-Date: 2014-06-23 15:22+0000\n"
-"Last-Translator: Raphael Mendonça\n"
+"POT-Creation-Date: 2014-07-17 20:52:12+0000\n"
+"PO-Revision-Date: 2014-07-24 06:30+0000\n"
+"Last-Translator: Alex Luís Silva <alex.mooca@hotmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/mpc-hc/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -87,7 +87,7 @@ msgstr "Tempo"
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET"
 msgid "Sync Offset"
-msgstr "Deslocamento de Sincronia"
+msgstr "Compensação de sincronia"
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET_FORMAT"
 msgid "avg: %d ms, dev: %d ms"
@@ -827,7 +827,7 @@ msgstr "Abre VTS_xx_0.ifo para carregar todos os arquivos VTS_xx_x.vob de uma s�
 
 msgctxt "IDS_SRC_RFS"
 msgid "Based on RARFileSource, doesn't support compressed files"
-msgstr "Baseado no RARFileSource, não suporta arquivos comprimidos"
+msgstr "Baseado no RARFileSource, não tem suporte a arquivos comprimidos"
 
 msgctxt "IDS_INTERNAL_LAVF"
 msgid "Uses LAV Filters"
@@ -1187,15 +1187,15 @@ msgstr "Não foi possível encontrar pontos de entrada de função necessários 
 
 msgctxt "IDS_OSD_SHADERS_PRESET"
 msgid "Shader preset: %s"
-msgstr "Pré-definição de shader: %s"
+msgstr "Shader predefinido: %s"
 
 msgctxt "IDS_AG_SHADERS_PRESET_NEXT"
 msgid "Next Shader Preset"
-msgstr "Próxima pré-definição de shader"
+msgstr "Próximo shader predefinido"
 
 msgctxt "IDS_AG_SHADERS_PRESET_PREV"
 msgid "Prev Shader Preset"
-msgstr "Pré-definição anterior de shader"
+msgstr "Shader predefinido anterior"
 
 msgctxt "IDS_STRING_COLON"
 msgid "%s:"
@@ -1243,7 +1243,7 @@ msgstr "Decodificação por Software"
 
 msgctxt "IDS_STATSBAR_PLAYBACK_RATE"
 msgid "Playback rate"
-msgstr "Taxa de Reprodução"
+msgstr "Velocidade de reprodução"
 
 msgctxt "IDS_FILTERS_COPY_TO_CLIPBOARD"
 msgid "&Copy filters list to clipboard"
@@ -1259,7 +1259,7 @@ msgstr "Insira as suas credenciais para conectar"
 
 msgctxt "IDS_SUB_SAVE_EXTERNAL_STYLE_FILE"
 msgid "Save custom style"
-msgstr "Salvar estilo customizado"
+msgstr "Salvar estilo personalizado"
 
 msgctxt "IDS_CONTENT_EDUCATION_SCIENCE"
 msgid "Education/Science/Factual topics"
@@ -1267,23 +1267,23 @@ msgstr "Educacional/Cientifico/Temas Factuais"
 
 msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
 msgid "Hides controls and panels also in windowed mode."
-msgstr ""
+msgstr "Ocultar controles e painéis também no modo de janela."
 
 msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
 msgid "Prevent external subtitle renderer to be loaded when internal is in use."
-msgstr ""
+msgstr "Evitar o carregamento do renderizador de legenda externa quando a interna estiver em uso."
 
 msgctxt "IDS_PPAGEADVANCED_COL_NAME"
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 msgctxt "IDS_PPAGEADVANCED_COL_VALUE"
 msgid "Value"
-msgstr ""
+msgstr "Valor"
 
 msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
-msgstr ""
+msgstr "Número máximo de arquivos mostrados no menu \"Arquivos recentes\" e cujas posições são potencialmente salvas."
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1995,7 +1995,7 @@ msgstr "MPC-HC não tem privilégios suficientes para mudar as associações de 
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
-msgstr "MPC-HC é um reprodutor de mídia de código aberto extremamente leve para Windows. Ele suporta todos os formatos comuns de arquivo disponíveis para a reprodução de áudio e vídeo. Estamos 100% livre de spyware, não há anúncios ou barras de ferramentas."
+msgstr "MPC-HC é um reprodutor de mídia de código aberto extremamente leve para Windows. Ele tem suporte a todos os formatos comuns de arquivo disponíveis para a reprodução de áudio e vídeo. Estamos 100% livre de spyware, não há anúncios ou barras de ferramentas."
 
 msgctxt "IDS_MAINFRM_12"
 msgid "channel"
@@ -2167,7 +2167,7 @@ msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Nome do Arquivo: %s\\N%sReso
 
 msgctxt "IDS_THUMBNAIL_TOO_SMALL"
 msgid "The thumbnails would be too small, impossible to create the file.\n\nTry lowering the number of thumbnails or increasing the total size."
-msgstr "As miniaturas devem ser bem pequenos, impossível criar o arquivo.\n\nTente diminuir o número de miniaturas ou aumentar o tamanho total."
+msgstr "As miniaturas seriam muito pequenas, impossível criar o arquivo.\n\nTente diminuir o número de miniaturas ou aumentar o tamanho total."
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
@@ -2175,7 +2175,7 @@ msgstr "Para carregar legendas voce deve mudar o tipo de processador de vídeo e
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
-msgstr ""
+msgstr "Arquivos de legendas"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %d:%d"
@@ -2611,7 +2611,7 @@ msgstr "Topo traseiro direito"
 
 msgctxt "IDS_AG_RESET_STATS"
 msgid "Reset Display Stats"
-msgstr "Redefinir Estatísticas de Exibição"
+msgstr "Redefinir estatísticas de exibição"
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
@@ -2635,7 +2635,7 @@ msgstr "Esconder menu"
 
 msgctxt "IDD_PPAGEADVANCED"
 msgid "Advanced"
-msgstr ""
+msgstr "Avançado"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seekbar"
@@ -2763,7 +2763,7 @@ msgstr "3G2"
 
 msgctxt "IDS_MFMT_FLV"
 msgid "Flash Video"
-msgstr "Vídeo Flash"
+msgstr "Flash Video"
 
 msgctxt "IDS_MFMT_OGM"
 msgid "Ogg Media"
@@ -2783,19 +2783,19 @@ msgstr "Windows Media Video"
 
 msgctxt "IDS_MFMT_BINK"
 msgid "Smacker/Bink Video"
-msgstr "Vídeo Smacker/Bink"
+msgstr "Smacker/Bink Video"
 
 msgctxt "IDS_MFMT_FLIC"
 msgid "FLIC Animation"
-msgstr "Animação FLIC"
+msgstr "FLIC Animation"
 
 msgctxt "IDS_MFMT_DSM"
 msgid "DirectShow Media"
-msgstr "Mídia do DirectShow"
+msgstr "DirectShow Media"
 
 msgctxt "IDS_MFMT_IVF"
 msgid "Indeo Video Format"
-msgstr "Formato Indeo Video"
+msgstr "Indeo Video Format"
 
 msgctxt "IDS_MFMT_OTHER"
 msgid "Other"
@@ -2807,7 +2807,7 @@ msgstr "Shockwave Flash"
 
 msgctxt "IDS_MFMT_OTHER_AUDIO"
 msgid "Other Audio"
-msgstr "Outro Áudio"
+msgstr "Outros Áudios"
 
 msgctxt "IDS_MFMT_AC3"
 msgid "AC-3/DTS"
@@ -2843,7 +2843,7 @@ msgstr "FLAC"
 
 msgctxt "IDS_MFMT_M4A"
 msgid "MPEG-4 Audio"
-msgstr "Áudio MPEG-4"
+msgstr "MPEG-4 Audio"
 
 msgctxt "IDS_MFMT_MIDI"
 msgid "MIDI"
@@ -2851,7 +2851,7 @@ msgstr "MIDI"
 
 msgctxt "IDS_MFMT_MKA"
 msgid "Matroska audio"
-msgstr "Áudio Matroska"
+msgstr "Matroska audio"
 
 msgctxt "IDS_MFMT_MP3"
 msgid "MP3"
@@ -2859,7 +2859,7 @@ msgstr "MP3"
 
 msgctxt "IDS_MFMT_MPA"
 msgid "MPEG audio"
-msgstr "Áudio MPEG"
+msgstr "MPEG audio"
 
 msgctxt "IDS_MFMT_MPC"
 msgid "Musepack"
@@ -2907,7 +2907,7 @@ msgstr "Lista Reprodução"
 
 msgctxt "IDS_MFMT_BDPLS"
 msgid "Blu-ray playlist"
-msgstr "Lista de reprodução do Blu-ray"
+msgstr "Lista de reprodução de Blu-ray"
 
 msgctxt "IDS_MFMT_RAR"
 msgid "RAR Archive"
@@ -3447,11 +3447,11 @@ msgstr "Splitters externos podem ter suas próprias opções de preferencia de i
 
 msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
 msgid "&Blu-Ray playlists"
-msgstr "Listas de Reprodução &Blu-Ray"
+msgstr "Listas de reprodução de &Blu-Ray"
 
 msgctxt "IDS_NAVIGATE_PLAYLIST"
 msgid "&Playlist"
-msgstr "&Lista de Reprodução"
+msgstr "&Lista de reprodução"
 
 msgctxt "IDS_NAVIGATE_CHAPTERS"
 msgid "&Chapters"
@@ -3471,9 +3471,9 @@ msgstr "Ajustes"
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
-msgstr ""
+msgstr "Lembrar da posição do arquivo somente em arquivos com mais de N minutos."
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
 msgid "Remember file position also for audio files."
-msgstr ""
+msgstr "Lembrar da posição do arquivo também em arquivos de áudio."
 

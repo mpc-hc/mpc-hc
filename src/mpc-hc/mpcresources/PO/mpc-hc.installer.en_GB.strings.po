@@ -2,12 +2,12 @@
 # Copyright (C) 2002 - 2014 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Sir_Burpalot <doctor.z01db3rg@gmail.com>, 2013
+# Sir_Burpalot <doctor.z01db3rg@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-21 11:15:54+0000\n"
-"PO-Revision-Date: 2013-12-23 19:38+0000\n"
+"POT-Creation-Date: 2014-06-17 15:23:34+0000\n"
+"PO-Revision-Date: 2014-07-23 11:51+0000\n"
 "Last-Translator: Sir_Burpalot <doctor.z01db3rg@gmail.com>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/mpc-hc/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -50,7 +50,7 @@ msgstr "This build of MPC-HC requires a CPU with SSE2 extension support.\n\nYour
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
-msgstr ""
+msgstr "Visit our Wiki page to download toolbar images"
 
 msgctxt "CustomMessages_tsk_AllUsers"
 msgid "For all users"

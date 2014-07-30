@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-06-15 01:03:51+0000\n"
-"PO-Revision-Date: 2014-06-17 14:00+0000\n"
+"POT-Creation-Date: 2014-07-17 20:52:12+0000\n"
+"PO-Revision-Date: 2014-07-20 10:50+0000\n"
 "Last-Translator: Marián Hikaník <podnety@mojepreklady.net>\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/mpc-hc/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -115,7 +115,7 @@ msgstr "Štýly"
 
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
-msgstr ""
+msgstr "Ak zostane cieľ vykresľovania nedefinovaný, titulky SSA/ASS budú vykreslené relatívne k snímke videa, zatiaľ čo všetky ostatné textové titulky budú vykreslené relatívne k oknu."
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -843,7 +843,7 @@ msgstr "Presná funkcia VSync"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid "If the rendering target is left undefined, it will be inherited from the default style."
-msgstr ""
+msgstr "Ak zostane cieľ vykresľovania nedefinovaný, bude zdedený z predvoleného štýlu."
 
 msgctxt "IDC_CHECK_SPCPOW2TEX"
 msgid "Unchecking this frees up a little video memory and saves bandwidth on local to video memory transfers, but it may not work with older video cards."
@@ -1263,23 +1263,23 @@ msgstr "Vzdelávacie/Veda/Reálne témy"
 
 msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
 msgid "Hides controls and panels also in windowed mode."
-msgstr ""
+msgstr "Skryje ovládacie prvky a panely aj v režime s oknami."
 
 msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
 msgid "Prevent external subtitle renderer to be loaded when internal is in use."
-msgstr ""
+msgstr "Zabrániť načítaniu externých vykresľovačov titulkov, ak sa používajú interné."
 
 msgctxt "IDS_PPAGEADVANCED_COL_NAME"
 msgid "Name"
-msgstr ""
+msgstr "Názov"
 
 msgctxt "IDS_PPAGEADVANCED_COL_VALUE"
 msgid "Value"
-msgstr ""
+msgstr "Hodnota"
 
 msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
-msgstr ""
+msgstr "Maximálny počet súborov zobrazovaných medzi „Naposledy otvorenými súbormi“, pri ktorých je potenciálne možné uloženie pozície."
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2171,7 +2171,7 @@ msgstr "Pre načítanie titulkov musíte zmeniť typ vykresľovača videa a znov
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
-msgstr ""
+msgstr "Súbory s titulkami"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %d:%d"
@@ -2631,7 +2631,7 @@ msgstr "Skryť &menu"
 
 msgctxt "IDD_PPAGEADVANCED"
 msgid "Advanced"
-msgstr ""
+msgstr "Pokročilé"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seekbar"
@@ -3467,9 +3467,9 @@ msgstr "Nastavenia"
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
-msgstr ""
+msgstr "Pamätať si pozíciu len pre súbory dlhšie ako N minút."
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
 msgid "Remember file position also for audio files."
-msgstr ""
+msgstr "Pamätať si pozíciu aj pre zvukové súbory."
 

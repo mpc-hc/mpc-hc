@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-06-04 20:22:52+0000\n"
-"PO-Revision-Date: 2014-06-06 09:23+0000\n"
+"POT-Creation-Date: 2014-07-17 20:52:12+0000\n"
+"PO-Revision-Date: 2014-07-18 16:01+0000\n"
 "Last-Translator: Máté <lang.mate@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/mpc-hc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -374,7 +374,7 @@ msgstr "&Eltávolítás"
 
 msgctxt "IDS_PLAYLIST_CLEAR"
 msgid "C&lear"
-msgstr ""
+msgstr "Törlés"
 
 msgctxt "IDS_PLAYLIST_COPYTOCLIPBOARD"
 msgid "&Copy to clipboard"
@@ -490,19 +490,19 @@ msgstr "Overlay Mixer Renderer"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
 msgid "Video Mixing Renderer 7 (windowed)"
-msgstr ""
+msgstr "Video Mixing Renderer 7 (windowed)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
 msgid "Video Mixing Renderer 9 (windowed)"
-msgstr ""
+msgstr "Video Mixing Renderer 9 (windowed)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
 msgid "Video Mixing Renderer 7 (renderless)"
-msgstr ""
+msgstr "Video Mixing Renderer 7 (renderless)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
 msgid "Video Mixing Renderer 9 (renderless)"
-msgstr ""
+msgstr "Video Mixing Renderer 9 (renderless)"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR"
 msgid "Enhanced Video Renderer"
@@ -1182,7 +1182,7 @@ msgstr ""
 
 msgctxt "IDS_OSD_SHADERS_PRESET"
 msgid "Shader preset: %s"
-msgstr ""
+msgstr "Árnyékoló előbeállítás: %s"
 
 msgctxt "IDS_AG_SHADERS_PRESET_NEXT"
 msgid "Next Shader Preset"
@@ -1270,11 +1270,11 @@ msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_COL_NAME"
 msgid "Name"
-msgstr ""
+msgstr "Név"
 
 msgctxt "IDS_PPAGEADVANCED_COL_VALUE"
 msgid "Value"
-msgstr ""
+msgstr "Érték"
 
 msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
@@ -1894,7 +1894,7 @@ msgstr "Gyors kedvencekhez adás"
 
 msgctxt "IDS_DVB_CHANNEL_NUMBER"
 msgid "N"
-msgstr ""
+msgstr "N"
 
 msgctxt "IDS_DVB_CHANNEL_NAME"
 msgid "Name"
@@ -2170,7 +2170,7 @@ msgstr ""
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
-msgstr ""
+msgstr "Felirat fájlok"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %d:%d"
@@ -2630,7 +2630,7 @@ msgstr "Menüsor elrejtése"
 
 msgctxt "IDD_PPAGEADVANCED"
 msgid "Advanced"
-msgstr ""
+msgstr "Haladó"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seekbar"
@@ -3466,9 +3466,9 @@ msgstr "Beállítások"
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
-msgstr ""
+msgstr "Fájlpozíció megjegyzése csak a(z) N percnél hosszabb fájlokhoz."
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
 msgid "Remember file position also for audio files."
-msgstr ""
+msgstr "Fájlpozíció megjegyzése audiofájlokhoz is."
 

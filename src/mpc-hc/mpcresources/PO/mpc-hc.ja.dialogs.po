@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-06-03 21:36:02+0000\n"
-"PO-Revision-Date: 2014-06-22 10:21+0000\n"
+"POT-Creation-Date: 2014-07-06 19:15:01+0000\n"
+"PO-Revision-Date: 2014-07-31 07:11+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -438,7 +438,7 @@ msgstr "%"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Default track preference"
-msgstr "既定のトラックでの優先言語"
+msgstr "既定のトラックでの優先順位"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Subtitles:"
@@ -762,7 +762,7 @@ msgstr "作成日:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Clip:"
-msgstr "クリップ:"
+msgstr "タイトル:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Author:"
@@ -1134,7 +1134,7 @@ msgstr "Direct3D 9 レンダラ デバイスを選択"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_RESETDEVICE"
 msgid "Reinitialize when changing display"
-msgstr "表示変更時に再初期化"
+msgstr "表示変更時に再初期化する"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "D3D Fullscreen"
@@ -1222,7 +1222,7 @@ msgstr "CGI ハンドラ: (拡張子1=パス1; 拡張子2=パス2;...)"
 
 msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
 msgid "Subtitles available online"
-msgstr "オンラインで利用可能な字幕"
+msgstr "オンラインで利用できる字幕"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
 msgid "Download && Open"
@@ -1238,7 +1238,7 @@ msgstr "名前を付けて保存..."
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Color controls (for VMR-9, EVR and madVR)"
-msgstr "カラー コントロール (VMR-9, EVR と madVR)"
+msgstr "カラー コントロール (VMR-9, EVR 及び madVR 用)"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Brightness"
@@ -1630,17 +1630,17 @@ msgstr "PS 3.0"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_STATIC"
 msgid "Advanced Settings, do not edit unless you know what you are doing."
-msgstr ""
+msgstr "あなたが何をしているのか理解できないなら、高度な設定を編集しないでください。"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO1"
 msgid "True"
-msgstr ""
+msgstr "真"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO2"
 msgid "False"
-msgstr ""
+msgstr "偽"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
-msgstr ""
+msgstr "既定"
 

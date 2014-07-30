@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-06-03 21:36:02+0000\n"
-"PO-Revision-Date: 2014-06-05 10:02+0000\n"
+"POT-Creation-Date: 2014-07-06 19:15:01+0000\n"
+"PO-Revision-Date: 2014-07-12 11:30+0000\n"
 "Last-Translator: Marián Hikaník <podnety@mojepreklady.net>\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/mpc-hc/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -1631,17 +1631,17 @@ msgstr "PS 3.0"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_STATIC"
 msgid "Advanced Settings, do not edit unless you know what you are doing."
-msgstr ""
+msgstr "Pokročilé nastavenia, neupravujte ich pokiaľ neviete čo robíte."
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO1"
 msgid "True"
-msgstr ""
+msgstr "Pravda"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO2"
 msgid "False"
-msgstr ""
+msgstr "Nepravda"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
-msgstr ""
+msgstr "Predvolené"
 

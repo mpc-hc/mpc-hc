@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-06-15 01:03:51+0000\n"
-"PO-Revision-Date: 2014-06-18 14:05+0000\n"
+"POT-Creation-Date: 2014-07-17 20:52:12+0000\n"
+"PO-Revision-Date: 2014-07-30 20:10+0000\n"
 "Last-Translator: Underground78\n"
 "Language-Team: French (http://www.transifex.com/projects/p/mpc-hc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -114,7 +114,7 @@ msgstr "Styles"
 
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
-msgstr ""
+msgstr "Si la case à cocher est laissée indéfinie, les sous-titres SSA/ASS seront affichés relativement à la trame vidéo alors que tous les autres formats de sous-titres textuels seront affichés relativement à la fenêtre."
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -842,7 +842,7 @@ msgstr "Synchronisation verticale précise"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid "If the rendering target is left undefined, it will be inherited from the default style."
-msgstr ""
+msgstr "Si la case à cocher est laissée indéfinie, la cible d'affichage sera héritée du style par défaut."
 
 msgctxt "IDC_CHECK_SPCPOW2TEX"
 msgid "Unchecking this frees up a little video memory and saves bandwidth on local to video memory transfers, but it may not work with older video cards."
@@ -1262,23 +1262,23 @@ msgstr "Éducation/Science/Sujets factuels"
 
 msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
 msgid "Hides controls and panels also in windowed mode."
-msgstr ""
+msgstr "Cacher les contrôles et les panneaux en mode fenêtré."
 
 msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
 msgid "Prevent external subtitle renderer to be loaded when internal is in use."
-msgstr ""
+msgstr "Empêcher les filtres externes d'affichage de sous-titres d'être chargés quand le moteur d'affichage interne est utilisé."
 
 msgctxt "IDS_PPAGEADVANCED_COL_NAME"
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 msgctxt "IDS_PPAGEADVANCED_COL_VALUE"
 msgid "Value"
-msgstr ""
+msgstr "Valeur"
 
 msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
-msgstr ""
+msgstr "Nombre maximal de fichiers affichés dans le menu \"Fichiers récents\" et pour lesquels la position est potentiellement sauvegardée."
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2170,7 +2170,7 @@ msgstr "Pour charger des sous-titres vous devez changer le moteur de rendu vidé
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
-msgstr ""
+msgstr "Fichiers de sous-titre"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %d:%d"
@@ -2630,7 +2630,7 @@ msgstr "Cacher le &menu"
 
 msgctxt "IDD_PPAGEADVANCED"
 msgid "Advanced"
-msgstr ""
+msgstr "Réglages avancés"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seekbar"
@@ -3466,9 +3466,9 @@ msgstr "Paramètres"
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
-msgstr ""
+msgstr "Sauvegarder la position uniquement dans les fichiers ayant une durée supérieure à N minutes."
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
 msgid "Remember file position also for audio files."
-msgstr ""
+msgstr "Sauvegarder également la position dans le fichier pour les fichiers audios."
 

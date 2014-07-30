@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-06-15 01:03:51+0000\n"
-"PO-Revision-Date: 2014-06-22 10:21+0000\n"
+"POT-Creation-Date: 2014-07-17 20:52:12+0000\n"
+"PO-Revision-Date: 2014-08-03 00:50+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -114,7 +114,7 @@ msgstr "スタイル"
 
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
-msgstr ""
+msgstr "レンダリング ターゲットが定義されていない場合、SSA/ ASS 字幕は、ビデオ フレームに対してレンダリングされますが、その他すべてのテキスト字幕は、ウィンドウに対してレンダリングされます。"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -122,7 +122,7 @@ msgstr "何もしない (最速のアプローチ)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG1"
 msgid "Only when switching different video types (default)"
-msgstr "異なるビデオ タイプに切り替えた場合にのみ (既定)"
+msgstr "異なるビデオ タイプに切り替える場合にのみ (既定)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG2"
 msgid "Always (slowest option)"
@@ -146,7 +146,7 @@ msgstr "できれば使用しない (最速だが、ほとんどのフィルタ�
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG1"
 msgid "Only when switching different video types (default)"
-msgstr "異なるビデオ タイプに切り替えた場合にのみ (既定)"
+msgstr "異なるビデオ タイプに切り替える場合にのみ (既定)"
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG2"
 msgid "Always (may be required by some devices)"
@@ -198,7 +198,7 @@ msgstr "ナビゲーション バー"
 
 msgctxt "IDS_SUBRESYNC_CAPTION"
 msgid "Subresync"
-msgstr "字幕ずれ修正"
+msgstr "字幕の再同期"
 
 msgctxt "IDS_SUBRESYNC_CLN_TIME"
 msgid "Time"
@@ -602,7 +602,7 @@ msgstr "常にオーバーレイでレンダリングします。YUV 形式の�
 
 msgctxt "IDC_DSVMR7WIN"
 msgid "The default renderer of Windows XP. Very stable and just a little slower than the Overlay mixer. Uses DirectDraw and runs in Overlay when it can."
-msgstr "Windows XP の標準レンダラです。オーバーレイ ミキサよりも少し遅いですが非常に安定しています。DirectDraw を使用して可能ならオーバーレイで動作します。"
+msgstr "Windows XP の標準レンダラです。オーバーレイ ミキサよりも少し遅いですが、非常に安定しています。 DirectDraw を使用して可能ならオーバーレイで動作します。"
 
 msgctxt "IDC_DSVMR9WIN"
 msgid "Only available if you have DirectX 9 installed. Has the same abilities as VMR-7 (windowed), but it will never use Overlay rendering and because of this it may be a little slower than VMR-7 (windowed)."
@@ -630,11 +630,11 @@ msgstr "無効 (すべて) と同じですが、こちらは無圧縮タイプ�
 
 msgctxt "IDC_DSEVR"
 msgid "Only available on Vista or later or on XP with at least .NET Framework 3.5 installed."
-msgstr "Vista 以降、もしくは少なくとも .NET Framework 3.5 をインストールした XP のみ利用可能。"
+msgstr "Vista 以降で、もしくは少なくとも .NET Framework 3.5 をインストールした XP でのみ使用できます。"
 
 msgctxt "IDC_DSEVR_CUSTOM"
 msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
-msgstr "EVR と同じですが、字幕および後処理のために MPC-HC のアロケータ プレゼンタを使用する。Windows Vista 以降が推奨されます。"
+msgstr "EVR と同じですが、字幕および後処理のために MPC-HC のアロケータ プレゼンタを使用します。Windows Vista 以降で推奨されます。"
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
@@ -646,7 +646,7 @@ msgstr "EVR (カスタム プレゼンタ) と同じですが、スキップさ�
 
 msgctxt "IDC_RMSYSDEF"
 msgid "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
-msgstr "Real 独自のレンダラです。相互作用はないですが SMIL スクリプトは機能するでしょう。 DirectDraw を使用して可能ならオーバーレイで動作します。"
+msgstr "Real 独自のレンダラです。相互作用はないですが SMIL スクリプトは機能するでしょう。DirectDraw を使用して可能ならオーバーレイで動作します。"
 
 msgctxt "IDC_RMDX7"
 msgid "The output of Real's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
@@ -658,7 +658,7 @@ msgstr "VMR-9 (レンダーレス) の DirectX 9 ベースのアロケータ プ
 
 msgctxt "IDC_QTSYSDEF"
 msgid "QuickTime's own renderer. Gets a little slow when its video area is resized or partially covered by another window. When Overlay is not available it likes to fall back to GDI."
-msgstr "QuickTime 独自のレンダラです。映像の表示領域がリサイズされたり、他のウィンドウによって部分的に隠されたりすると少し遅くなります。オーバーレイが利用できない場合は GDI が使用されます。"
+msgstr "QuickTime 独自のレンダラです。映像の表示領域がリサイズされたり、他のウィンドウによって部分的に隠されたりすると少し遅くなります。オーバーレイが使用できない場合は GDI が使用されます。"
 
 msgctxt "IDC_QTDX7"
 msgid "The output of QuickTime's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
@@ -774,7 +774,7 @@ msgstr "エクスポートするカスタマイズ キーがありません。"
 
 msgctxt "IDS_RFS_NO_FILES"
 msgid "No media files found in the archive"
-msgstr "アーカイブ内にメディア ファイルは見つかりませんでした"
+msgstr "アーカイブ内にメディア ファイルが見つかりませんでした"
 
 msgctxt "IDS_RFS_COMPRESSED"
 msgid "Compressed files are not supported"
@@ -826,11 +826,11 @@ msgstr "RARFileSource に基づいて、圧縮されたファイルをサポー�
 
 msgctxt "IDS_INTERNAL_LAVF"
 msgid "Uses LAV Filters"
-msgstr "LAV Filters を使用する"
+msgstr "LAV Filters を使用します"
 
 msgctxt "IDS_INTERNAL_LAVF_WMV"
 msgid "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
-msgstr "LAV Filters を使用する。マイクロソフトのフィルタの方がこれらのファイル形式には安定しているので、既定で無効になりました。\n内部フィルタを使用する場合、より良い再生環境を得るためにソースとデコードでこれらを有効にしてください。"
+msgstr "LAV Filters を使用します。マイクロソフトのフィルタの方がこれらのファイル形式には安定しているので、既定で無効になりました。\n内部フィルタを使用する場合、より良い再生環境を得るためにソースとデコードでこれらを有効にしてください。"
 
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
@@ -842,7 +842,7 @@ msgstr "正確な垂直同期"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid "If the rendering target is left undefined, it will be inherited from the default style."
-msgstr ""
+msgstr "レンダリング ターゲットが定義されていない場合は、既定のスタイルから引き継がれます。 "
 
 msgctxt "IDC_CHECK_SPCPOW2TEX"
 msgid "Unchecking this frees up a little video memory and saves bandwidth on local to video memory transfers, but it may not work with older video cards."
@@ -1262,23 +1262,23 @@ msgstr "教育/科学/事実"
 
 msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
 msgid "Hides controls and panels also in windowed mode."
-msgstr ""
+msgstr "ウィンドウ モードでもコントロールやパネルを隠します。"
 
 msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
 msgid "Prevent external subtitle renderer to be loaded when internal is in use."
-msgstr ""
+msgstr "内蔵の字幕レンダラを使用している時、外部の字幕レンダラを読み込みません。"
 
 msgctxt "IDS_PPAGEADVANCED_COL_NAME"
 msgid "Name"
-msgstr ""
+msgstr "名前"
 
 msgctxt "IDS_PPAGEADVANCED_COL_VALUE"
 msgid "Value"
-msgstr ""
+msgstr "値"
 
 msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
-msgstr ""
+msgstr "「最近使ったファイル」のメニューに表示されるファイルの最大数で、再生位置が保存できるファイルの最大数です。"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1558,7 +1558,7 @@ msgstr "字幕を右へ移動"
 
 msgctxt "IDS_AG_DISPLAY_STATS"
 msgid "Display Stats"
-msgstr "統計情報の表示"
+msgstr "統計情報 (OSD)"
 
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"
@@ -1642,7 +1642,7 @@ msgstr "字幕が見つかりません。"
 
 msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
 msgid " %d subtitle(s) available."
-msgstr " %d 個の字幕が利用可能です。"
+msgstr " %d 個の字幕が利用できます。"
 
 msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
@@ -2170,7 +2170,7 @@ msgstr "字幕を読み込むためにはビデオ レンダラを変更しフ�
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
-msgstr ""
+msgstr "字幕ファイル"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %d:%d"
@@ -2422,7 +2422,7 @@ msgstr "音量のブースト 最大"
 
 msgctxt "IDS_USAGE"
 msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "使用方法: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\t最初のファイルかフォルダを読み込む (ワイルドカード使用可, \"-\" が標準入力を表す)\n/dub \"dubname\"\t追加の音声ファイルを読み込む\n/dubdelay \"file\"\t追加の音声ファイルを XXms シフトして読み込む (ファイルが \"...DELAY XXms...\" を含む場合)\n/d3dfs\t\tDirect3D フルスクリーン モードで起動する\n/sub \"subname\"\t追加の字幕ファイルを読み込む\n/filter \"filtername\"\tDLL から DirectShow フィルタを読み込む (ワイルドカード使用可)\n/dvd\t\tDVD モードで起動する, \"pathname\" は DVD フォルダを表す (省略可能)\n/dvdpos T#C\tタイトル T のチャプター C から再生する\n/dvdpos T#hh:mm\tタイトル T の位置 hh:mm:ss から再生する\n/cd\t\t音楽 CD または (S)VCD の全トラックを読み込む, \"pathname\" はドライブ パスを指定する (省略可能)\n/device\t\t既定のビデオ デバイスを開く\n/open\t\t自動で再生開始せずにファイルを開く\n/play\t\tプレーヤーの起動と同時にファイルを再生する\n/close\t\t再生終了後にプレーヤーを終了する (/play 使用時のみ有効)\n/shutdown \t再生終了後に OS をシャットダウンする\n/fullscreen\t全画面表示モードで起動する\n/minimized\t最小化モードで起動する\n/new\t\t新しいプレーヤーを起動する\n/add\t\t\"pathname\" を再生リストに追加する, /open 及び /play と同時に使用可能\n/regvid\t\t動画ファイルを関連付ける\n/regaud\t\t音声ファイルを関連付ける\n/regpl\t\t再生リスト ファイルを関連付ける\n/regall\t\tサポートされているすべてのファイルの種類を関連付ける\n/unregall\t\tすべてのファイルの関連付けを解除する\n/start ms\t\t\"ms\" (ミリ秒) の位置から再生する\n/startpos hh:mm:ss\thh:mm:ss の位置から再生する\n/fixedsize w,h\tウィンドウ サイズを固定する\n/monitor N\tN 番目のモニタで起動する (N は 1 から始まる) \n/audiorenderer N\tN 番目のオーディオ レンダラを使用する (N は 1 から始まる) \n\t\t(\"出力\" 設定を参照)\n/shaderpreset \"Pr\"\t\"Pr\" シェーダ プリセットを使用する\n/reset\t\t既定の設定を復元する\n/help /h /?\tコマンドライン スイッチのヘルプを表示する\n"
+msgstr "使用方法: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\t最初のファイルかフォルダを読み込む (ワイルドカード使用可, \"-\" が標準入力を表す)\n/dub \"dubname\"\t追加の音声ファイルを読み込む\n/dubdelay \"file\"\t追加の音声ファイルを XXms シフトして読み込む (ファイルが \"...DELAY XXms...\" を含む場合)\n/d3dfs\t\tDirect3D フルスクリーン モードで起動する\n/sub \"subname\"\t追加の字幕ファイルを読み込む\n/filter \"filtername\"\tDLL から DirectShow フィルタを読み込む (ワイルドカード使用可)\n/dvd\t\tDVD モードで起動する, \"pathname\" は DVD フォルダを表す (省略可能)\n/dvdpos T#C\tタイトル T のチャプター C から再生する\n/dvdpos T#hh:mm\tタイトル T の位置 hh:mm:ss から再生する\n/cd\t\t音楽 CD または (S)VCD の全トラックを読み込む, \"pathname\" はドライブ パスを指定する (省略可能)\n/device\t\t既定のビデオ デバイスを開く\n/open\t\t自動で再生開始せずにファイルを開く\n/play\t\tプレーヤーの起動と同時にファイルを再生する\n/close\t\t再生終了後にプレーヤーを終了する (/play 使用時のみ有効)\n/shutdown \t再生終了後に OS をシャットダウンする\n/fullscreen\t全画面表示モードで起動する\n/minimized\t最小化モードで起動する\n/new\t\t新しいプレーヤーを起動する\n/add\t\t\"pathname\" を再生リストに追加する, /open 及び /play と同時に使用できる\n/regvid\t\t動画ファイルを関連付ける\n/regaud\t\t音声ファイルを関連付ける\n/regpl\t\t再生リスト ファイルを関連付ける\n/regall\t\tサポートされているすべてのファイルの種類を関連付ける\n/unregall\t\tすべてのファイルの関連付けを解除する\n/start ms\t\t\"ms\" (ミリ秒) の位置から再生する\n/startpos hh:mm:ss\thh:mm:ss の位置から再生する\n/fixedsize w,h\tウィンドウ サイズを固定する\n/monitor N\tN 番目のモニタで起動する (N は 1 から始まる) \n/audiorenderer N\tN 番目のオーディオ レンダラを使用する (N は 1 から始まる) \n\t\t(\"出力\" 設定を参照)\n/shaderpreset \"Pr\"\t\"Pr\" シェーダ プリセットを使用する\n/reset\t\t既定の設定を復元する\n/help /h /?\tコマンドライン スイッチのヘルプを表示する\n"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -2442,7 +2442,7 @@ msgstr "ステータスの表示"
 
 msgctxt "IDS_AG_TOGGLE_SUBRESYNC"
 msgid "Toggle Subresync Bar"
-msgstr "字幕ずれ修正バーの表示"
+msgstr "字幕の再同期バーの表示"
 
 msgctxt "IDS_AG_TOGGLE_PLAYLIST"
 msgid "Toggle Playlist Bar"
@@ -2474,15 +2474,15 @@ msgstr "次の縦横比のプリセット"
 
 msgctxt "IDS_AG_VIDFRM_STRETCH"
 msgid "VidFrm Stretch"
-msgstr "ビデオ フレーム: ウィンドウ サイズに変形"
+msgstr "ビデオ フレーム: ウィンドウに合わせる (比率無視)"
 
 msgctxt "IDS_AG_VIDFRM_INSIDE"
 msgid "VidFrm Inside"
-msgstr "ビデオ フレーム: ウィンドウ サイズに合わせる"
+msgstr "ビデオ フレーム: ウィンドウに合わせる (比率保持)"
 
 msgctxt "IDS_AG_VIDFRM_OUTSIDE"
 msgid "VidFrm Outside"
-msgstr "ビデオ フレーム: 縦か横に合わせてカット"
+msgstr "ビデオ フレーム: ウィンドウに合わせて縦か横をカット (比率保持)"
 
 msgctxt "IDS_AG_PNS_RESET"
 msgid "PnS Reset"
@@ -2526,11 +2526,11 @@ msgstr "現在のフォルダにはもうメディアファイルがありませ
 
 msgctxt "IDS_FIRST_IN_FOLDER"
 msgid "The first file of the folder is already loaded."
-msgstr "フォルダの最初のファイルは、すでに読み込まれています。"
+msgstr "フォルダの最初のファイルが、すでに読み込まれています。"
 
 msgctxt "IDS_LAST_IN_FOLDER"
 msgid "The last file of the folder is already loaded."
-msgstr "フォルダの最後のファイルは、すでに読み込まれています。"
+msgstr "フォルダの最後のファイルが、すでに読み込まれています。"
 
 msgctxt "IDS_FRONT_LEFT"
 msgid "Front Left"
@@ -2606,7 +2606,7 @@ msgstr "トップ リア 右"
 
 msgctxt "IDS_AG_RESET_STATS"
 msgid "Reset Display Stats"
-msgstr "統計情報の表示をリセット"
+msgstr "統計情報 (OSD) をリセット"
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
@@ -2630,7 +2630,7 @@ msgstr "メニューを隠す(&M)"
 
 msgctxt "IDD_PPAGEADVANCED"
 msgid "Advanced"
-msgstr ""
+msgstr "高度な設定"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seekbar"
@@ -2690,11 +2690,11 @@ msgstr "すべてのビデオ フィルタを無効"
 
 msgctxt "IDS_STRETCH_TO_WINDOW"
 msgid "Stretch To Window"
-msgstr "ウィンドウ サイズに変形"
+msgstr "ウィンドウに合わせる (比率無視)"
 
 msgctxt "IDS_TOUCH_WINDOW_FROM_INSIDE"
 msgid "Touch Window From Inside"
-msgstr "ウィンドウ サイズに合わせる"
+msgstr "ウィンドウに合わせる (比率保持)"
 
 msgctxt "IDS_ZOOM1"
 msgid "Zoom 1"
@@ -2706,7 +2706,7 @@ msgstr "拡大 2"
 
 msgctxt "IDS_TOUCH_WINDOW_FROM_OUTSIDE"
 msgid "Touch Window From Outside"
-msgstr "縦か横に合わせてカット"
+msgstr "ウィンドウに合わせて縦か横をカット (比率保持)"
 
 msgctxt "IDS_AUDIO_STREAM"
 msgid "Audio: %s"
@@ -3166,7 +3166,7 @@ msgstr "現在のバージョン: \t v%s.\n\n最新の安定バージョン:\t v
 
 msgctxt "IDS_NEW_UPDATE_AVAILABLE"
 msgid "MPC-HC v%s is now available. You are using v%s.\n\nDo you want to visit MPC-HC's website to download it?"
-msgstr "MPC-HC v%s が利用可能になりました。使用中のバージョンは v%s. です。\n\nMPC-HC のウェブサイトに移動してダウンロードしますか？"
+msgstr "MPC-HC v%s が使用できます。現在のバージョンは v%s. です。\n\nMPC-HC のウェブサイトに移動してダウンロードしますか？"
 
 msgctxt "IDS_UPDATE_ERROR"
 msgid "Update server not found.\n\nPlease check your internet connection or try again later."
@@ -3466,9 +3466,9 @@ msgstr "設定"
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
-msgstr ""
+msgstr "N 分よりも長いファイルのみ再生位置を記憶します。 "
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
 msgid "Remember file position also for audio files."
-msgstr ""
+msgstr "オーディオ ファイルも再生位置を記憶します。"
 

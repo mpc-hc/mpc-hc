@@ -3,11 +3,12 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Marián Hikaník <podnety@mojepreklady.net>, 2013
+# Marián Hikaník <podnety@mojepreklady.net>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-21 11:15:54+0000\n"
-"PO-Revision-Date: 2013-12-22 17:30+0000\n"
+"POT-Creation-Date: 2014-06-17 15:23:34+0000\n"
+"PO-Revision-Date: 2014-07-07 10:11+0000\n"
 "Last-Translator: Marián Hikaník <podnety@mojepreklady.net>\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/mpc-hc/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -50,7 +51,7 @@ msgstr "Toto zostavenie MPC-HC vyžaduje procesor s podporou inštrukcií SSE2.\
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
-msgstr ""
+msgstr "Pre obrázky na panel nástrojov navštívte našu stránku Wiki"
 
 msgctxt "CustomMessages_tsk_AllUsers"
 msgid "For all users"

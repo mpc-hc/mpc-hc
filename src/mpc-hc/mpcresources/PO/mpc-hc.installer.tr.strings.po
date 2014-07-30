@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-21 11:15:54+0000\n"
-"PO-Revision-Date: 2014-04-05 21:10+0000\n"
+"POT-Creation-Date: 2014-06-17 15:23:34+0000\n"
+"PO-Revision-Date: 2014-07-20 12:41+0000\n"
 "Last-Translator: Sinan H.\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/mpc-hc/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -51,7 +51,7 @@ msgstr "Bu MPC-HC sürümü, SSE2 eklentisi destekleyen bir işlemci gerektirmek
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
-msgstr ""
+msgstr "Araç çubuğu simgelerini indirmek için Wiki sayfamızı ziyaret edebilirsiniz"
 
 msgctxt "CustomMessages_tsk_AllUsers"
 msgid "For all users"

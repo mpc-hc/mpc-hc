@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-06-03 21:36:02+0000\n"
-"PO-Revision-Date: 2014-06-13 00:40+0000\n"
+"POT-Creation-Date: 2014-07-06 19:15:01+0000\n"
+"PO-Revision-Date: 2014-07-31 02:50+0000\n"
 "Last-Translator: TRẦN ANH MINH <anhminhvks@yahoo.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/mpc-hc/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -199,7 +199,7 @@ msgstr "Chương trình này là phần mềm miễn phí và phát hành theo g
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
-msgstr "Bản dịch tiếng Việt được thực hiện bởi DatSoft"
+msgstr "Được dịch bởi anhminhvks - Trần Anh Minh và datanhlg - Lương Anh Đạt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build information"
@@ -1631,17 +1631,17 @@ msgstr "PS 3.0"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_STATIC"
 msgid "Advanced Settings, do not edit unless you know what you are doing."
-msgstr ""
+msgstr "Thiết Lập Nâng Cao, không được chỉnh sửa trừ khi bạn biết những gì bạn đang làm."
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO1"
 msgid "True"
-msgstr ""
+msgstr "Đúng"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO2"
 msgid "False"
-msgstr ""
+msgstr "Sai"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
-msgstr ""
+msgstr "Mặc định"
 

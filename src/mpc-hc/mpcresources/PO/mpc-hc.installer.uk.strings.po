@@ -2,11 +2,12 @@
 # Copyright (C) 2002 - 2014 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# arestarh1986 <arestarh@ukr.net>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-21 11:15:54+0000\n"
-"PO-Revision-Date: 2014-02-01 20:50+0000\n"
+"POT-Creation-Date: 2014-06-17 15:23:34+0000\n"
+"PO-Revision-Date: 2014-07-18 10:01+0000\n"
 "Last-Translator: arestarh1986 <arestarh@ukr.net>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/mpc-hc/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -49,7 +50,7 @@ msgstr "Для використання даної версії MPC-HC необ�
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
-msgstr ""
+msgstr "Відвідати нашу сторінку Wiki і завантажити користувацькі панелі інструментів"
 
 msgctxt "CustomMessages_tsk_AllUsers"
 msgid "For all users"

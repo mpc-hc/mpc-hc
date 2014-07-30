@@ -2,13 +2,15 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# JellyFrog, 2014
+# Luan <luanmail@gmx.net>, 2014
 # Luan <luanmail@gmx.net>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-04-22 11:15:01+0000\n"
-"PO-Revision-Date: 2014-05-07 08:42+0000\n"
-"Last-Translator: JellyFrog\n"
+"PO-Revision-Date: 2014-07-20 09:41+0000\n"
+"Last-Translator: Luan <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -394,15 +396,15 @@ msgstr "Fenster von &innen berühren"
 
 msgctxt "ID_VIEW_VF_ZOOM1"
 msgid "Zoom &1"
-msgstr "Fenster von &außen berühren"
+msgstr "Zoom &1"
 
 msgctxt "ID_VIEW_VF_ZOOM2"
 msgid "Zoom &2"
-msgstr "Zoom &1"
+msgstr "Zoom &2"
 
 msgctxt "ID_VIEW_VF_FROMOUTSIDE"
 msgid "Touch Window From &Outside"
-msgstr "Zoom &2"
+msgstr "Fenster von &außen berühren"
 
 msgctxt "ID_VIEW_VF_KEEPASPECTRATIO"
 msgid "&Keep Aspect Ratio"

@@ -2,11 +2,12 @@
 # Copyright (C) 2002 - 2014 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# Xabier Aramendi <azpidatziak@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-21 11:15:54+0000\n"
-"PO-Revision-Date: 2013-12-21 16:22+0000\n"
+"POT-Creation-Date: 2014-06-17 15:23:34+0000\n"
+"PO-Revision-Date: 2014-07-07 17:12+0000\n"
 "Last-Translator: Xabier Aramendi <azpidatziak@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/mpc-hc/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -49,7 +50,7 @@ msgstr "MPC-HC erakiketa honek SSE2 hedapen sostengua duen CPU bat behar du.\n\n
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
-msgstr ""
+msgstr "Ikusi gure Wiki orrialdea tresnabarra irudiak jeisteko"
 
 msgctxt "CustomMessages_tsk_AllUsers"
 msgid "For all users"

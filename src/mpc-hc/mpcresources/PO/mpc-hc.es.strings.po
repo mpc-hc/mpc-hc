@@ -7,13 +7,15 @@
 # fdelacruz <freddy@delacruz.cl>, 2014
 # Johan Ramirez <idonthumanbeing@gmail.com>, 2014
 # Johan Ramirez <idonthumanbeing@gmail.com>, 2014
+# Alpha120 <juanhc120@gmail.com>, 2014
 # squallmx <squallmx@users.sourceforge.net>, 2014
+# strel, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-06-15 01:03:51+0000\n"
-"PO-Revision-Date: 2014-06-16 18:20+0000\n"
-"Last-Translator: Adolfo Jayme Barrientos <fitoschido@ubuntu.com>\n"
+"POT-Creation-Date: 2014-07-17 20:52:12+0000\n"
+"PO-Revision-Date: 2014-07-20 10:50+0000\n"
+"Last-Translator: Alpha120 <juanhc120@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/mpc-hc/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -67,7 +69,7 @@ msgstr "Propiedades"
 
 msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
 msgid "&Default Style"
-msgstr "Estilo pre&determinado"
+msgstr "Estilo por &Defecto"
 
 msgctxt "IDS_FAVFILES"
 msgid "Files"
@@ -111,7 +113,7 @@ msgstr "Señal"
 
 msgctxt "IDS_STATSBAR_SIGNAL_FORMAT"
 msgid "Strength: %d dB, Quality: %d%%"
-msgstr "Fuerza: %d dB, calidad: %d %%"
+msgstr "Potencia: %d dB, calidad: %d %%"
 
 msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
 msgid "Styles"
@@ -119,7 +121,7 @@ msgstr "Estilos"
 
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
-msgstr ""
+msgstr "Si el objetivo a renderizar se deja sin definir, los subtítulos SSA/ASS se renderizarán en relación al fotograma de vídeo, mientras todos los demás subtítulos se rendirazarán en relación a la ventana."
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -159,7 +161,7 @@ msgstr "Siempre (puede ser requerido por algunos dispositivos)"
 
 msgctxt "IDS_INFOBAR_PARENTAL_RATING"
 msgid "Parental rating"
-msgstr "Clasificación de los padres"
+msgstr "Clasificación parental"
 
 msgctxt "IDS_PARENTAL_RATING"
 msgid "%d+"
@@ -219,11 +221,11 @@ msgstr "Vista previa"
 
 msgctxt "IDS_SUBRESYNC_CLN_VOB_ID"
 msgid "Vob ID"
-msgstr "Vob ID"
+msgstr "Id. de VOB"
 
 msgctxt "IDS_SUBRESYNC_CLN_CELL_ID"
 msgid "Cell ID"
-msgstr "ID de la célula"
+msgstr "Id. de celda"
 
 msgctxt "IDS_SUBRESYNC_CLN_FORCED"
 msgid "Forced"
@@ -255,11 +257,11 @@ msgstr "En vivo"
 
 msgctxt "IDS_CAPTURE_ERROR_VID_FILTER"
 msgid "Can't add video capture filter to the graph"
-msgstr "No se puede añadir el filtro de captura de vídeo al grafo"
+msgstr "No se puede añadir el filtro de captura de vídeo al gráfico"
 
 msgctxt "IDS_CAPTURE_ERROR_AUD_FILTER"
 msgid "Can't add audio capture filter to the graph"
-msgstr "No se puede añadir el filtro de captura de audio al grafo"
+msgstr "No se puede añadir el filtro de captura de audio al gráfico"
 
 msgctxt "IDS_CAPTURE_ERROR_DEVICE"
 msgid "Could not open capture device."
@@ -279,7 +281,7 @@ msgstr "El tiempo insertado es mayor que la duración del archivo."
 
 msgctxt "IDS_MISSING_ICONS_LIB"
 msgid "The icons library \"mpciconlib.dll\" is missing.\nThe player's default icon will be used for file associations.\nPlease, reinstall MPC-HC to get \"mpciconlib.dll\"."
-msgstr "No se encuentra la biblioteca de iconos «mpciconlib.dll».\nEl icono predeterminado del reproductor será usado para las asociacionesde archivos.\nPor favor, reinstale MPC-HC para obtener la «mpciconlib.dll»."
+msgstr "No se encuentra la biblioteca de iconos «mpciconlib.dll».\nSe usará el icono predeterminado del reproductor en las asociaciones de archivos.\nReinstale MPC-HC para obtener «mpciconlib.dll»."
 
 msgctxt "IDS_SUBDL_DLG_FILENAME_COL"
 msgid "File"
@@ -371,15 +373,15 @@ msgstr "&Abrir"
 
 msgctxt "IDS_PLAYLIST_ADD"
 msgid "A&dd"
-msgstr "A&gregar"
+msgstr "A&ñadir"
 
 msgctxt "IDS_PLAYLIST_REMOVE"
 msgid "&Remove"
-msgstr "E&liminar"
+msgstr "&Quitar"
 
 msgctxt "IDS_PLAYLIST_CLEAR"
 msgid "C&lear"
-msgstr "&Limpiar"
+msgstr "&Vaciar"
 
 msgctxt "IDS_PLAYLIST_COPYTOCLIPBOARD"
 msgid "&Copy to clipboard"
@@ -463,7 +465,7 @@ msgstr "Filtros internos::Conmutador de audio"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS"
 msgid "External Filters"
-msgstr "Filtros Externos"
+msgstr "Filtros externos"
 
 msgctxt "IDD_PPAGESHADERS"
 msgid "Playback::Shaders"
@@ -527,7 +529,7 @@ msgstr "Nulo (cualquier cosa)"
 
 msgctxt "IDS_PPAGE_OUTPUT_NULL_UNCOMP"
 msgid "Null (uncompressed)"
-msgstr "Nul (sin compresión)"
+msgstr "Nulo (sin compresión)"
 
 msgctxt "IDS_PPAGE_OUTPUT_MADVR"
 msgid "madVR"
@@ -539,11 +541,11 @@ msgstr "Reproductor::Teclas"
 
 msgctxt "IDD_PPAGESUBSTYLE"
 msgid "Subtitles::Default Style"
-msgstr "Subtítulos::Estilo Predeterminado"
+msgstr "Subtítulos::Estilo predeterminado"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS"
 msgid "Internal Filters"
-msgstr "Filtros Internos"
+msgstr "Filtros internos"
 
 msgctxt "IDD_PPAGELOGO"
 msgid "Player::Logo"
@@ -555,11 +557,11 @@ msgstr "Reproducción::Salida"
 
 msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
-msgstr "Reproductor::Interfaz Web"
+msgstr "Reproductor::Interfaz web"
 
 msgctxt "IDD_PPAGESUBDB"
 msgid "Subtitles::Database"
-msgstr "Subtítulos::Base de Datos"
+msgstr "Subtítulos::Base de datos"
 
 msgctxt "IDD_FILEPROPRES"
 msgid "Resources"
@@ -579,7 +581,7 @@ msgstr "Reproducción::Captura"
 
 msgctxt "IDD_PPAGESYNC"
 msgid "Playback::Sync Renderer Settings"
-msgstr "Reproducción::Sync Renderer Settings"
+msgstr "Reproducción::Config. de Sync Renderer"
 
 msgctxt "IDD_PPAGEFULLSCREEN"
 msgid "Playback::Fullscreen"
@@ -743,7 +745,7 @@ msgstr "Nulo (cualquier cosa)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP"
 msgid "Null (uncompressed)"
-msgstr "Nul (sin compresión)"
+msgstr "Nulo (sin compresión)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND"
 msgid "MPC-HC Audio Renderer"
@@ -759,7 +761,7 @@ msgstr "Tipo MIME"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_INFO"
 msgid "In order to view an embedded resource in your browser you have to enable the web interface.\n\nUse the \"Save As\" button if you only want to save the information."
-msgstr "Para ver un recurso embebido en tu navegador tienes que habilitar la interfaz web.\n\nUsa el botón «Guardar como» si solo deseas guardar la información."
+msgstr "Active la interfaz web para ver recursos incorporados en el navegador.\n\nSi solo quiere guardar la información, utilice el botón «Guardar como»."
 
 msgctxt "IDS_DOWNLOAD_SUBS"
 msgid "Download subtitles"
@@ -815,7 +817,7 @@ msgstr "Mejora el rendimiento a costa de cierta compatibilidad del renderizador.
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."
-msgstr "Reduce lagrimeo pero previene que la barra de herramientas se muestre"
+msgstr "Reduce el desgarre pero evita que se muestre la barra de herramientas."
 
 msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Reduces tearing by bypassing the default VSync built into D3D."
@@ -847,7 +849,7 @@ msgstr "VSync Precisa"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid "If the rendering target is left undefined, it will be inherited from the default style."
-msgstr ""
+msgstr "Si el objetivo a renderizar se deja sin definir, será heredado desde el estilo por defecto."
 
 msgctxt "IDC_CHECK_SPCPOW2TEX"
 msgid "Unchecking this frees up a little video memory and saves bandwidth on local to video memory transfers, but it may not work with older video cards."
@@ -927,11 +929,11 @@ msgstr "&No"
 
 msgctxt "IDS_SUBRESYNC_DECREASE"
 msgid "&Decrease"
-msgstr "&Decrementar"
+msgstr "&Reducir"
 
 msgctxt "IDS_SUBRESYNC_INCREASE"
 msgid "&Increase"
-msgstr "&Incrementar"
+msgstr "A&umentar"
 
 msgctxt "IDS_OPTIONS_CAPTION"
 msgid "Options"
@@ -991,11 +993,11 @@ msgstr "Guardado de EDL"
 
 msgctxt "IDS_AG_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time Correction"
-msgstr "Activar Corrección de Tiempos en Cuadros"
+msgstr "Activar corrección de tiempos de fotogramas"
 
 msgctxt "IDS_AG_TOGGLE_EDITLISTEDITOR"
 msgid "Toggle EDL window"
-msgstr "Conmutar Ventana EDL"
+msgstr "Conmutar ventana EDL"
 
 msgctxt "IDS_AG_EDL_IN"
 msgid "EDL set In"
@@ -1215,11 +1217,11 @@ msgstr "I = D"
 
 msgctxt "IDS_BALANCE_L"
 msgid "L +%d%%"
-msgstr "I +%d%%"
+msgstr "I +%d %%"
 
 msgctxt "IDS_BALANCE_R"
 msgid "R +%d%%"
-msgstr "D +%d%%"
+msgstr "D +%d %%"
 
 msgctxt "IDS_VOLUME"
 msgid "%d%%"
@@ -1231,7 +1233,7 @@ msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
 msgid "Add containing folder"
-msgstr "Agregar carpeta contenedora"
+msgstr "Añadir carpeta contenedora"
 
 msgctxt "IDS_HW_INDICATOR"
 msgid "[H/W]"
@@ -1267,23 +1269,23 @@ msgstr "Educación/ciencia/hechos"
 
 msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
 msgid "Hides controls and panels also in windowed mode."
-msgstr ""
+msgstr "Oculta controles y paneles también en modo ventana."
 
 msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
 msgid "Prevent external subtitle renderer to be loaded when internal is in use."
-msgstr ""
+msgstr "Evita que se cargue el renderizador externo de subtítulos cuando se está usando el interno."
 
 msgctxt "IDS_PPAGEADVANCED_COL_NAME"
 msgid "Name"
-msgstr ""
+msgstr "Nombre"
 
 msgctxt "IDS_PPAGEADVANCED_COL_VALUE"
 msgid "Value"
-msgstr ""
+msgstr "Valor"
 
 msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
-msgstr ""
+msgstr "Número máximo de ficheros mostrados en el menú \"Ficheros recientes\" y para el que potencialmente se guarda la posición."
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1299,7 +1301,7 @@ msgstr "Guardar imagen"
 
 msgctxt "IDS_MPLAYERC_6"
 msgid "Save Image (auto)"
-msgstr "Guardar Imagen (Automatico)"
+msgstr "Guardar imagen (automático)"
 
 msgctxt "IDS_OSD_IMAGE_SAVED"
 msgid "Image saved successfully"
@@ -1307,11 +1309,11 @@ msgstr "Imagen guardada satisfactoriamente"
 
 msgctxt "IDS_AG_LOAD_SUBTITLE"
 msgid "Load Subtitle"
-msgstr "Cargar Subtítulo"
+msgstr "Cargar subtítulos"
 
 msgctxt "IDS_AG_SAVE_SUBTITLE"
 msgid "Save Subtitle"
-msgstr "Guardar Subtítulo"
+msgstr "Guardar subtítulos"
 
 msgctxt "IDS_AG_PROPERTIES"
 msgid "Properties"
@@ -1323,7 +1325,7 @@ msgstr "Salir"
 
 msgctxt "IDS_AG_PLAYPAUSE"
 msgid "Play/Pause"
-msgstr "Reproducir/Pausa"
+msgstr "Reproducir/pausar"
 
 msgctxt "IDS_AG_PLAY"
 msgid "Play"
@@ -1343,15 +1345,15 @@ msgstr "Retroceder un cuadro"
 
 msgctxt "IDS_AG_GO_TO"
 msgid "Go To"
-msgstr "Ir A"
+msgstr "Ir a"
 
 msgctxt "IDS_AG_INCREASE_RATE"
 msgid "Increase Rate"
-msgstr "Incrementar Velocidad"
+msgstr "Aumentar velocidad"
 
 msgctxt "IDS_CONTENT_SHOW_GAMESHOW"
 msgid "Show/Game show"
-msgstr "Mostrar Espectáculo/Juego"
+msgstr "Espectáculo/concurso"
 
 msgctxt "IDS_CONTENT_SPORTS"
 msgid "Sports"
@@ -1359,19 +1361,19 @@ msgstr "Deportes"
 
 msgctxt "IDS_CONTENT_CHILDREN_YOUTH_PROG"
 msgid "Children's/Youth programmes"
-msgstr "Programas para Niños/Jóvenes"
+msgstr "Programas infantiles/juveniles"
 
 msgctxt "IDS_CONTENT_MUSIC_BALLET_DANCE"
 msgid "Music/Ballet/Dance"
-msgstr "Música/Ballet/Baile"
+msgstr "Música/ballet/baile"
 
 msgctxt "IDS_CONTENT_MUSIC_ART_CULTURE"
 msgid "Arts/Culture"
-msgstr "Artes/Cultura"
+msgstr "Artes/cultura"
 
 msgctxt "IDS_CONTENT_SOCIAL_POLITICAL_ECO"
 msgid "Social/Political issues/Economics"
-msgstr "Sociales/Cuestiones políticas/Económicas"
+msgstr "Sociales/asuntos políticos/economía"
 
 msgctxt "IDS_CONTENT_LEISURE"
 msgid "Leisure hobbies"
@@ -1411,7 +1413,7 @@ msgstr "Mostrar al pasar por encima del control, ocultar después:"
 
 msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
 msgid "Failed to set pre-resize shaders"
-msgstr ""
+msgstr "No se pudieron establecer los «shaders» de prerredimensión"
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
 msgid "Frame Time Correction: On"
@@ -1479,11 +1481,11 @@ msgstr "Error de BDA"
 
 msgctxt "IDS_AG_DECREASE_RATE"
 msgid "Decrease Rate"
-msgstr "Decrementar Velocidad"
+msgstr "Reducir velocidad"
 
 msgctxt "IDS_AG_RESET_RATE"
 msgid "Reset Rate"
-msgstr "Reiniciar Velocidad"
+msgstr "Restablecer velocidad"
 
 msgctxt "IDS_MPLAYERC_21"
 msgid "Audio Delay +10ms"
@@ -1571,27 +1573,27 @@ msgstr "Saltar al comienzo"
 
 msgctxt "IDS_AG_VIEW_MINIMAL"
 msgid "View Minimal"
-msgstr "Modo Minimo"
+msgstr "Modo mínimo"
 
 msgctxt "IDS_AG_VIEW_COMPACT"
 msgid "View Compact"
-msgstr "Modo Compacto"
+msgstr "Modo compacto"
 
 msgctxt "IDS_AG_VIEW_NORMAL"
 msgid "View Normal"
-msgstr "Modo Normal"
+msgstr "Modo normal"
 
 msgctxt "IDS_AG_FULLSCREEN"
 msgid "Fullscreen"
-msgstr "Pantalla Completa"
+msgstr "Pantalla completa"
 
 msgctxt "IDS_MPLAYERC_39"
 msgid "Fullscreen (w/o res.change)"
-msgstr "Pantalla Completa (c/s cambio de res.)"
+msgstr "Pantalla completa (sin cambio de res.)"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT"
 msgid "Zoom Auto Fit"
-msgstr "Zoom Auto Ajustar"
+msgstr "Autoajustar ampliación"
 
 msgctxt "IDS_AG_VIDFRM_HALF"
 msgid "VidFrm Half"
@@ -1607,7 +1609,7 @@ msgstr "VidFrm Doble"
 
 msgctxt "IDS_AG_ALWAYS_ON_TOP"
 msgid "Always On Top"
-msgstr "Siempre Visibñe"
+msgstr "Siempre visible"
 
 msgctxt "IDS_AG_PNS_INC_SIZE"
 msgid "PnS Inc Size"
@@ -1651,19 +1653,19 @@ msgstr "%d subtítulos disponibles."
 
 msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
-msgstr "¿Deseas comprobar periódicamente si hay actualizaciones disponibles para MPC-HD?\n\nEsta característica puede ser inhabilitada luego desde la página de opciones Misceláneas."
+msgstr "¿Quiere que MPC-HC busque actualizaciones automáticamente?\n\nPuede desactivar esta función en la página Miscelánea de las opciones."
 
 msgctxt "IDS_ZOOM_50"
 msgid "50%"
-msgstr "50%"
+msgstr "50 %"
 
 msgctxt "IDS_ZOOM_100"
 msgid "100%"
-msgstr "100%"
+msgstr "100 %"
 
 msgctxt "IDS_ZOOM_200"
 msgid "200%"
-msgstr "200%"
+msgstr "200 %"
 
 msgctxt "IDS_ZOOM_AUTOFIT"
 msgid "Auto Fit"
@@ -1691,11 +1693,11 @@ msgstr "Conmutar entre tiempo transcurrido y restante"
 
 msgctxt "IDS_UPDATE_DELAY_ERROR_TITLE"
 msgid "Invalid delay"
-msgstr "Retraso inválido"
+msgstr "El retardo no es válido"
 
 msgctxt "IDS_UPDATE_DELAY_ERROR_MSG"
 msgid "Please enter a number between 1 and 365."
-msgstr "Por favor inserte un número entre 1 y 365."
+msgstr "Escriba un número entre 1 y 365."
 
 msgctxt "IDS_AG_PNS_CENTER"
 msgid "PnS Center"
@@ -1735,11 +1737,11 @@ msgstr "PnS Abajo/Derecha"
 
 msgctxt "IDS_AG_VOLUME_UP"
 msgid "Volume Up"
-msgstr "Subir Volumen"
+msgstr "Subir el volumen"
 
 msgctxt "IDS_AG_VOLUME_DOWN"
 msgid "Volume Down"
-msgstr "Bajar Volumen"
+msgstr "Bajar el volumen"
 
 msgctxt "IDS_AG_VOLUME_MUTE"
 msgid "Volume Mute"
@@ -1747,15 +1749,15 @@ msgstr "Silenciar"
 
 msgctxt "IDS_MPLAYERC_63"
 msgid "DVD Title Menu"
-msgstr "Menú de Titulos del DVD"
+msgstr "Menú de título del DVD"
 
 msgctxt "IDS_AG_DVD_ROOT_MENU"
 msgid "DVD Root Menu"
-msgstr "Menú Raíz del DVD"
+msgstr "Menú de la raíz del DVD"
 
 msgctxt "IDS_MPLAYERC_65"
 msgid "DVD Subtitle Menu"
-msgstr "Menú de Subtítulos del DVD"
+msgstr "Menú de subtítulos del DVD"
 
 msgctxt "IDS_MPLAYERC_66"
 msgid "DVD Audio Menu"
@@ -1763,11 +1765,11 @@ msgstr "Menú de audio del DVD"
 
 msgctxt "IDS_MPLAYERC_67"
 msgid "DVD Angle Menu"
-msgstr "DVD Menú de Angulo"
+msgstr "Menú de ángulos del DVD"
 
 msgctxt "IDS_MPLAYERC_68"
 msgid "DVD Chapter Menu"
-msgstr "DVD Menú Capítulos"
+msgstr "Menú de capítulos del DVD"
 
 msgctxt "IDS_AG_DVD_MENU_LEFT"
 msgid "DVD Menu Left"
@@ -1803,15 +1805,15 @@ msgstr "Tecla del jefe"
 
 msgctxt "IDS_MPLAYERC_77"
 msgid "Player Menu (short)"
-msgstr "Player Menu (corto)"
+msgstr "Menú del reproductor (corto)"
 
 msgctxt "IDS_MPLAYERC_78"
 msgid "Player Menu (long)"
-msgstr "Player Menu (largo)"
+msgstr "Menú del reproductor (largo)"
 
 msgctxt "IDS_AG_FILTERS_MENU"
 msgid "Filters Menu"
-msgstr "Menú de Filtros"
+msgstr "Menú de filtros"
 
 msgctxt "IDS_AG_OPTIONS"
 msgid "Options"
@@ -1827,19 +1829,19 @@ msgstr "Audio anterior"
 
 msgctxt "IDS_AG_NEXT_SUBTITLE"
 msgid "Next Subtitle"
-msgstr "Subtítulo Siguiente"
+msgstr "Subtítulos siguientes"
 
 msgctxt "IDS_AG_PREV_SUBTITLE"
 msgid "Prev Subtitle"
-msgstr "Subtítulo Previo"
+msgstr "Subtítulos anteriores"
 
 msgctxt "IDS_MPLAYERC_85"
 msgid "On/Off Subtitle"
-msgstr "Subtítulos Activados/Desactivados"
+msgstr "Activar/desactivar subtítulos"
 
 msgctxt "IDS_MPLAYERC_86"
 msgid "Reload Subtitles"
-msgstr "Recargar Subtítulos"
+msgstr "Recargar subtítulos"
 
 msgctxt "IDS_MPLAYERC_87"
 msgid "Next Audio (OGM)"
@@ -1851,19 +1853,19 @@ msgstr "Audio anterior (OGM)"
 
 msgctxt "IDS_MPLAYERC_89"
 msgid "Next Subtitle (OGM)"
-msgstr "Subtítulo Siguiente (OGM)"
+msgstr "Subtítulos siguientes (OGM)"
 
 msgctxt "IDS_MPLAYERC_90"
 msgid "Prev Subtitle (OGM)"
-msgstr "Subtítulo Previo (OGM)"
+msgstr "Subtítulos anteriores (OGM)"
 
 msgctxt "IDS_MPLAYERC_91"
 msgid "Next Angle (DVD)"
-msgstr "Angulo Siguiente (DVD)"
+msgstr "Ángulo siguiente (DVD)"
 
 msgctxt "IDS_MPLAYERC_92"
 msgid "Prev Angle (DVD)"
-msgstr "Angulo Previo (DVD)"
+msgstr "Ángulo anterior (DVD)"
 
 msgctxt "IDS_MPLAYERC_93"
 msgid "Next Audio (DVD)"
@@ -1875,27 +1877,27 @@ msgstr "Audio anterior (DVD)"
 
 msgctxt "IDS_MPLAYERC_95"
 msgid "Next Subtitle (DVD)"
-msgstr "Subtítulo Siguiente (DVD)"
+msgstr "Subtítulos siguientes (DVD)"
 
 msgctxt "IDS_MPLAYERC_96"
 msgid "Prev Subtitle (DVD)"
-msgstr "Subtítulo Previo (DVD)"
+msgstr "Subtítulos anteriores (DVD)"
 
 msgctxt "IDS_MPLAYERC_97"
 msgid "On/Off Subtitle (DVD)"
-msgstr "Subtítulos Activados/Desactivados (DVD)"
+msgstr "Activar/desactivar subtítulos (DVD)"
 
 msgctxt "IDS_MPLAYERC_98"
 msgid "Remaining Time"
-msgstr "Tiempo Restante"
+msgstr "Tiempo restante"
 
 msgctxt "IDS_PPAGEWEBSERVER_0"
 msgid "Select the directory"
-msgstr "Selecciona el Directorio"
+msgstr "Seleccione la carpeta"
 
 msgctxt "IDS_FAVORITES_QUICKADDFAVORITE"
 msgid "Quick add favorite"
-msgstr "Añadir a favoritos de forma rápida"
+msgstr "Añadir a favoritos rápidamente"
 
 msgctxt "IDS_DVB_CHANNEL_NUMBER"
 msgid "N"
@@ -1931,11 +1933,11 @@ msgstr "Detener"
 
 msgctxt "IDS_DVB_TVNAV_SEERADIO"
 msgid "Radio stations"
-msgstr "Estaciones de radio"
+msgstr "Emisoras de radio"
 
 msgctxt "IDS_DVB_TVNAV_SEETV"
 msgid "TV stations"
-msgstr "Estaciones de Televisión"
+msgstr "Emisoras de televisión"
 
 msgctxt "IDS_DVB_CHANNEL_FORMAT"
 msgid "Format"
@@ -1947,15 +1949,15 @@ msgstr "Se perdio el foco por: %s - %s"
 
 msgctxt "IDS_AG_SUBTITLES_SAVED"
 msgid "Subtitles saved"
-msgstr "subtítulos guardados"
+msgstr "Se guardaron los subtítulos"
 
 msgctxt "IDS_MAINFRM_4"
 msgid "Cannot save subtitles"
-msgstr "Imposible guardar subtítulos"
+msgstr "No se pueden guardar los subtítulos"
 
 msgctxt "IDS_AG_FRAMERATE"
 msgid "Frame rate"
-msgstr "Cuadros por segundo"
+msgstr "Tasa de fotogramas/s"
 
 msgctxt "IDS_MAINFRM_6"
 msgid "drawn: %d, dropped: %d"
@@ -1963,7 +1965,7 @@ msgstr "dibujados: %d, perdidos: %d"
 
 msgctxt "IDS_AG_FRAMES"
 msgid "Frames"
-msgstr "Cuadros"
+msgstr "Fotogramas"
 
 msgctxt "IDS_AG_BUFFERS"
 msgid "Buffers"
@@ -1971,11 +1973,11 @@ msgstr "Búferes"
 
 msgctxt "IDS_MAINFRM_9"
 msgid "Volume: %02d/%02d, Title: %02d/%02d, Chapter: %02d/%02d"
-msgstr "Volumen: %02d/%02d, Titulo: %02d/%02d, Capitulo: %02d/%02d"
+msgstr "Volumen: %02d/%02d, título: %02d/%02d, capítulo: %02d/%02d"
 
 msgctxt "IDS_MAINFRM_10"
 msgid "Angle: %02d/%02d, %dx%d %dHz %d:%d"
-msgstr "Angulo: %02d/%02d, %dx%d %dHz %d:%d"
+msgstr "Ángulo: %02d/%02d, %dx%d %dHz %d:%d"
 
 msgctxt "IDS_MAINFRM_11"
 msgid "%s, %s %dHz %dbits %d %s"
@@ -1983,7 +1985,7 @@ msgstr "%s, %s %dHz %dbits %d %s"
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
-msgstr "Agregar a la lista de reproducción de MPC-HC"
+msgstr "Añadir a la lista de reproducción de MPC-HC"
 
 msgctxt "IDS_OPEN_WITH_MPC"
 msgid "Play with MPC-HC"
@@ -1991,7 +1993,7 @@ msgstr "Reproducir con MPC-HC"
 
 msgctxt "IDS_CANNOT_CHANGE_FORMAT"
 msgid "MPC-HC has not enough privileges to change files formats associations. Please click on \"Modify\" button to get administrator rights."
-msgstr "MPC-HC no tiene suficientes privilegios para cambiar las asociaciones de tipos de atchivo. por favor de clic en el botón de \"Modificar\" para obtener derechos de administración."
+msgstr "MPC-HC no tiene los permisos suficientes para cambiar las asociaciones de los tipos de archivo. Pulse en «Modificar» para obtener permisos administrativos."
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
@@ -1999,27 +2001,27 @@ msgstr "MPC-HC es un reproductor para Windows extremadamente ligero y de código
 
 msgctxt "IDS_MAINFRM_12"
 msgid "channel"
-msgstr "Canal"
+msgstr "canal"
 
 msgctxt "IDS_MAINFRM_13"
 msgid "channels"
-msgstr "Canales"
+msgstr "canales"
 
 msgctxt "IDS_AG_TITLE"
 msgid "Title %d"
-msgstr "Titulo %d"
+msgstr "Título %d"
 
 msgctxt "IDS_MAINFRM_16"
 msgid "DVD: Unexpected error"
-msgstr "DVD: Error inesperado"
+msgstr "DVD: error inesperado"
 
 msgctxt "IDS_MAINFRM_17"
 msgid "DVD: Copy-Protect Fail"
-msgstr "DVD: Fallo por Protección Anticopia"
+msgstr "DVD: fallo en la protección anticopia"
 
 msgctxt "IDS_MAINFRM_18"
 msgid "DVD: Invalid DVD 1.x Disc"
-msgstr "DVD: DVD Invalido Disco 1.x"
+msgstr "DVD: disco DVD 1.x no válido"
 
 msgctxt "IDS_MAINFRM_19"
 msgid "DVD: Invalid Disc Region"
@@ -2027,35 +2029,35 @@ msgstr "DVD: la región del disco no es válida"
 
 msgctxt "IDS_MAINFRM_20"
 msgid "DVD: Low Parental Level"
-msgstr "DVD: Nivel Patental Bajo"
+msgstr "DVD: nivel de control parental bajo"
 
 msgctxt "IDS_MAINFRM_21"
 msgid "DVD: Macrovision Fail"
-msgstr "DVD: Fallo por Macrovision"
+msgstr "DVD: fallo en Macrovision"
 
 msgctxt "IDS_MAINFRM_22"
 msgid "DVD: Incompatible System And Decoder Regions"
-msgstr "DVD: Sistema y Decodificador de Regiones Incompatibles"
+msgstr "DVD: las regiones del sistema y el decodificador no son compatibles"
 
 msgctxt "IDS_MAINFRM_23"
 msgid "DVD: Incompatible Disc And Decoder Regions"
-msgstr "DVD: Disco y Decodificador de Regiones Incompatibles"
+msgstr "DVD: las regiones del disco y el decodificador no son compatibles"
 
 msgctxt "IDS_D3DFS_WARNING"
 msgid "This option is designed to avoid tearing. However, it will also prevent MPC-HC from displaying the context menu and any dialog box during playback.\n\nDo you really want to activate this option?"
-msgstr "This option is designed to avoid tearing. However, it will also prevent MPC-HC from displaying context menus and dialog boxes during playback.\n\nDo you really want to activate this option?"
+msgstr "Esta opción está diseñada para evitar el efecto de desgarre («tearing»). Sin embargo, evitará que se muestren el menú contextual y las ventanas durante la reproducción.\n\n¿Está seguro de que quiere activar esta opción?"
 
 msgctxt "IDS_MAINFRM_139"
 msgid "Sub delay: %ld ms"
-msgstr "Retraso de Subs: %ld ms"
+msgstr "Retardo de subs.: %ld ms"
 
 msgctxt "IDS_AG_TITLE2"
 msgid "Title: %02d/%02d"
-msgstr "Titulo: %02d/%02d"
+msgstr "Título: %02d/%02d"
 
 msgctxt "IDS_REALVIDEO_INCOMPATIBLE"
 msgid "Filename contains unsupported characters (use only A-Z, 0-9)"
-msgstr "El nombre contiene caracteres no soportados (utiliza solo A-Z, 0-9)"
+msgstr "El nombre contiene caracteres no admitidos (utilice solo A-Z, 0-9)"
 
 msgctxt "IDS_THUMB_ROWNUMBER"
 msgid "Rows:"
@@ -2071,19 +2073,19 @@ msgstr "Anchura de la imagen"
 
 msgctxt "IDS_PPSDB_URLCORRECT"
 msgid "The URL appears to be correct!"
-msgstr "¡La URL parece correcta!"
+msgstr "El URL parece correcto."
 
 msgctxt "IDS_PPSDB_PROTOCOLERR"
 msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
-msgstr "Versión del protocolo no compatible, actualiza tu reproductor o escoje otra dirección!"
+msgstr "La versión del protocolo no coincide. Actualice el reproductor o elija otra dirección."
 
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
-msgstr "Razón de Proporcionalidad"
+msgstr "Relación de aspecto"
 
 msgctxt "IDS_MAINFRM_37"
 msgid ", Total: %d, Dropped: %d"
-msgstr ", Total: %d, Perdidos: %d"
+msgstr ", Total: %d, perdidos: %d"
 
 msgctxt "IDS_MAINFRM_38"
 msgid ", Size: %I64dKB"
@@ -2103,7 +2105,7 @@ msgstr ", Libre: %I64dMB"
 
 msgctxt "IDS_MAINFRM_42"
 msgid ", Free V/A Buffers: %03d/%03d"
-msgstr ", Buffers V/A Libres: %03d/%03d"
+msgstr ", búferes V/A libres: %03d/%03d"
 
 msgctxt "IDS_AG_ERROR"
 msgid "Error"
@@ -2111,15 +2113,15 @@ msgstr "Error"
 
 msgctxt "IDS_SUBTITLE_STREAM_OFF"
 msgid "Subtitle: off"
-msgstr "Subtítulo: Apagado"
+msgstr "Subtítulos: desactivados"
 
 msgctxt "IDS_SUBTITLE_STREAM"
 msgid "Subtitle: %s"
-msgstr "Subtítulo: %s"
+msgstr "Subtítulos: %s"
 
 msgctxt "IDS_MAINFRM_46"
 msgid "Select the path for the DVD/BD:"
-msgstr "Selecciona la ruta para el DVD/BD:"
+msgstr "Seleccione la ruta del DVD/BD:"
 
 msgctxt "IDS_SUB_LOADED_SUCCESS"
 msgid " loaded successfully"
@@ -2175,15 +2177,15 @@ msgstr "Para cargar los subtítulos, cambie el renderizador de vídeo y abra el 
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
-msgstr ""
+msgstr "Archivos de subtìtulos"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %d:%d"
-msgstr "Razón de Proporcionalidad: %d:%d"
+msgstr "Relación de aspecto: %d:%d"
 
 msgctxt "IDS_MAINFRM_69"
 msgid "Aspect Ratio: Default"
-msgstr "Razón de Proporcionalidad: Original"
+msgstr "Relación de aspecto: original"
 
 msgctxt "IDS_MAINFRM_70"
 msgid "Audio Delay: %I64dms"
@@ -2247,11 +2249,11 @@ msgstr "Actual"
 
 msgctxt "IDS_MPC_CRASH"
 msgid "MPC-HC terminated unexpectedly. To help us fix this problem, please send this file \"%s\" to our bug tracker.\n\nDo you want to open the folder containing the minidump file and visit the bug tracker now?"
-msgstr "MPC-HC terminó inesperadamente. Para ayudarnos a arreglar el problema, por favor, envía este archivo «%s» a nuestro rastreador de fallos.\n\n¿Deseas abrir la carpeta que contiene el archivo y visitar el rastreador de fallos ahora?"
+msgstr "MPC-HC se cerró inesperadamente. Para ayudarnos a corregir el problema, envíe el archivo «%s» a nuestro rastreador de errores.\n\n¿Quiere abrir la carpeta que contiene el archivo y visitar el rastreador de errores ahora?"
 
 msgctxt "IDS_MPC_MINIDUMP_FAIL"
 msgid "Failed to create dump file to \"%s\" (error %d)"
-msgstr "Ha fallado la creación del archivo de volcado a '%s' (error %d)"
+msgstr "Falló la creación del archivo de volcado en «%s» (error %d)"
 
 msgctxt "IDS_MAINFRM_DIR_TITLE"
 msgid "Select Directory"
@@ -2347,7 +2349,7 @@ msgstr "No se encontro %s, por favor inserte el medio que contiene al archivo."
 
 msgctxt "IDS_AG_ABORTED"
 msgid "Aborted"
-msgstr "Abortado"
+msgstr "Interrumpido"
 
 msgctxt "IDS_MAINFRM_116"
 msgid "&Properties..."
@@ -2359,11 +2361,11 @@ msgstr " Propiedades del Pin..."
 
 msgctxt "IDS_AG_UNKNOWN_STREAM"
 msgid "Unknown Stream"
-msgstr "Pista Desconocida"
+msgstr "Transmisión desconocida"
 
 msgctxt "IDS_AG_UNKNOWN"
 msgid "Unknown %d"
-msgstr "%d Desconocida"
+msgstr "%d desconocida"
 
 msgctxt "IDS_AG_VSYNC"
 msgid "VSync"
@@ -2371,11 +2373,11 @@ msgstr "VSync (Sincronización Vertical)"
 
 msgctxt "IDS_MAINFRM_121"
 msgid " (Director Comments 1)"
-msgstr " (Comentario del Director N° 1)"
+msgstr " (Comentarios del director 1)"
 
 msgctxt "IDS_MAINFRM_122"
 msgid " (Director Comments 2)"
-msgstr " (Comentario del Director N° 2)"
+msgstr " (Comentarios del director 2)"
 
 msgctxt "IDS_DVD_SUBTITLES_ENABLE"
 msgid "Enable DVD subtitles"
@@ -2383,11 +2385,11 @@ msgstr "Activar subtítulos del DVD"
 
 msgctxt "IDS_AG_ANGLE"
 msgid "Angle %d"
-msgstr "Angulo N° %d"
+msgstr "Ángulo n.º %d"
 
 msgctxt "IDS_AG_VSYNCOFFSET_INCREASE"
 msgid "Increase VSync Offset"
-msgstr "Incrementar Compensación de Vsync"
+msgstr "Aumentar desfase de sinc. vert."
 
 msgctxt "IDS_AG_DISABLED"
 msgid "Disabled"
@@ -2395,11 +2397,11 @@ msgstr "Desactivado"
 
 msgctxt "IDS_AG_VSYNCOFFSET_DECREASE"
 msgid "Decrease VSync Offset"
-msgstr "Decrementar Compensación de Vsync"
+msgstr "Reducir desfase de sinc. vert."
 
 msgctxt "IDS_MAINFRM_136"
 msgid "MPC-HC D3D Fullscreen"
-msgstr "Pantalla Completa MPC-HC D3D"
+msgstr "MPC-HC, D3D a pantalla completa"
 
 msgctxt "IDS_MAINFRM_137"
 msgid "Unknown format"
@@ -2407,7 +2409,7 @@ msgstr "Formato desconocido"
 
 msgctxt "IDS_MAINFRM_138"
 msgid "Sub shift: %ld ms"
-msgstr "Sub Shift : %ld"
+msgstr "Compensación de subs.: %ld ms"
 
 msgctxt "IDS_VOLUME_BOOST_INC"
 msgid "Volume boost increase"
@@ -2427,7 +2429,7 @@ msgstr "Aumento de Volumen Maximo"
 
 msgctxt "IDS_USAGE"
 msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr ""
+msgstr "Uso: mpc-hc.exe \"ruta\" [parámetros]\n\n\"ruta\"\tEl fichero o directorio principal a cargarse (comodines\n\t\tpermitidos, \"-\" denota entrada estandar)\n/dub \"nombredeaudiodedoblaje\"\tCarga un fichero de audio adicional\n/dubdelay \"fichero\"\tCarga un fichero de audio adicional desplazado XXms (si\n\t\tel fichero contiene \"...DELAY XXms...\")\n/d3dfs\t\tInicia el renderizado en modo D3D a pantalla completa\n/sub \"nombredesubtítulo\"\tCarga un fichero de subtítulos adicional\n/filter \"nombredefiltro\"\tCarga filtros DirectShow desde una (.dll) biblioteca de vínculos\n\t\tdinámicos (comodines permitidos)\n/dvd\t\tEjecuta en modo DVD, \"ruta\" significa la carpeta de\n\t\tDVD (opcional)\n/dvdpos T#C\tInicia la reproducción en el título T, capítulo C\n/dvdpos T#hh:mm\tInicia la reproducción en el título T, posición hh:mm:ss\n/cd\t\tCarga todas las pistas de un CD de audio o S(VCD),\n\t\t\"ruta\" significa la ruta de la unidad (opcional)\n/device\t\tAbre el dispositivo de vídeo predeterminado\n/open\t\tAbre el fichero, no inicia automáticamente la reproducción\n/play\t\tComienza a reproducir el fichero tan pronto como el reproductor sea\n\t\tcargado\n/close\t\tCierra el reproductor después de la reproducción (sólo funciona cuando\n\t\tse usa con /play)\n/shutdown\tCierra el sistema operativo después de la reproducción\n/fullscreen\tSe inicia en modo pantalla-completa\n/minimized\tSe inicia en modo minimizado\n/new\t\tUsa una nueva instancia del reproductor\n/add\t\tAñade \"ruta\" a la lista de reproducción, puede combinarse\n\t\tcon /open y /play\n/regvid\t\tCrea asociaciones de fichero para ficheros de vídeos\n/regaud\t\tCrea asociaciones de fichero para ficheros de audio\n/regpl\t\tCrea asociaciones de fichero para ficheros de tipo lista de reproducción\n/regall\t\tCrea asociaciones de fichero para todos los tipos de fichero soportados\n/unregall\t\tElimina todas las asociaciones de fichero\n/start ms\t\tSe inicia reproduciendo desde \"ms\" (= milisegundos)\n/startpos hh:mm:ss\tSe inicia reproduciendo desde la posición hh:mm:ss\n/fixedsize w,h\tEstablece un tamaño fijo de ventana\n/monitor N\tInicia el reproductor en el monitor N, donde N comienza a contar desde 1\n/audiorenderer N\tSe inicia usando el renderizador de audio N, donde N comienza a contar desde 1\n\t\t(vea las configuraciones de \"Salida\")\n/shaderpreset \"Pr\"\tSe inicia usando los preajustes \"Pr\" del sombreador\n/reset\t\tRestablece las configuraciones por defecto\n/help /h /?\tMuestra la ayuda de parámetros de línea de comandos\n"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -2463,19 +2465,19 @@ msgstr "Conmutar sombras de depuración"
 
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
-msgstr "Zoom 50%"
+msgstr "Escala al 50 %"
 
 msgctxt "IDS_AG_ZOOM_100"
 msgid "Zoom 100%"
-msgstr "Zoom 100%"
+msgstr "Escala al 100 %"
 
 msgctxt "IDS_AG_ZOOM_200"
 msgid "Zoom 200%"
-msgstr "Zoom 200%"
+msgstr "Escala al 200 %"
 
 msgctxt "IDS_AG_NEXT_AR_PRESET"
 msgid "Next AR Preset"
-msgstr "Siguiente Preset RA"
+msgstr "Siguiente modo de RA"
 
 msgctxt "IDS_AG_VIDFRM_STRETCH"
 msgid "VidFrm Stretch"
@@ -2499,19 +2501,19 @@ msgstr "Rotar PnS X+"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "VidFrm Zoom 1"
-msgstr ""
+msgstr "VidFrm Zoom 1"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM2"
 msgid "VidFrm Zoom 2"
-msgstr ""
+msgstr "VidFrm Zoom 2"
 
 msgctxt "IDS_AG_VIDFRM_SWITCHZOOM"
 msgid "VidFrm Switch Zoom"
-msgstr ""
+msgstr "Control de zoom de VidFrm (fotograma/frame de vídeo)"
 
 msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
-msgstr "&Habilitar todos los filtros"
+msgstr "Acti&var todos los filtros"
 
 msgctxt "IDS_NAVIGATE_TUNERSCAN"
 msgid "Tuner scan"
@@ -2635,7 +2637,7 @@ msgstr "Hide Menu"
 
 msgctxt "IDD_PPAGEADVANCED"
 msgid "Advanced"
-msgstr ""
+msgstr "Avanzado"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seekbar"
@@ -2703,11 +2705,11 @@ msgstr "Tocar ventana desde interior"
 
 msgctxt "IDS_ZOOM1"
 msgid "Zoom 1"
-msgstr "Zoom 1"
+msgstr "Escala 1"
 
 msgctxt "IDS_ZOOM2"
 msgid "Zoom 2"
-msgstr "Zoom 2"
+msgstr "Escala 2"
 
 msgctxt "IDS_TOUCH_WINDOW_FROM_OUTSIDE"
 msgid "Touch Window From Outside"
@@ -2911,7 +2913,7 @@ msgstr "Lista de reproducción Blu-ray"
 
 msgctxt "IDS_MFMT_RAR"
 msgid "RAR Archive"
-msgstr "Comprimido RAR"
+msgstr "Archivador RAR"
 
 msgctxt "IDS_DVB_CHANNEL_FPS"
 msgid "FPS"
@@ -2923,7 +2925,7 @@ msgstr "Resolución"
 
 msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
 msgid "Aspect Ratio"
-msgstr "Razón de Proporcionalidad"
+msgstr "Relación de aspecto"
 
 msgctxt "IDS_ARS_WASAPI_MODE"
 msgid "Use WASAPI (restart playback)"
@@ -2971,11 +2973,11 @@ msgstr "Sincronizar pantalla a vídeo: desactivado"
 
 msgctxt "IDS_OSD_RS_PRESENT_NEAREST_ON"
 msgid "Present at Nearest VSync: On"
-msgstr ""
+msgstr "Presentación en la VSync (sincronización vertical) más próxima: Activado"
 
 msgctxt "IDS_OSD_RS_PRESENT_NEAREST_OFF"
 msgid "Present at Nearest VSync: Off"
-msgstr ""
+msgstr "Presentación en la VSync más próxima: Desactivado"
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_ON"
 msgid "Color Management: On"
@@ -3043,19 +3045,19 @@ msgstr "Vaciar GPU antes de sincr. v.: desactivado"
 
 msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_ON"
 msgid "Flush GPU after Present: On"
-msgstr ""
+msgstr "Vaciar GPU después de la presentación: Activado"
 
 msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_OFF"
 msgid "Flush GPU after Present: Off"
-msgstr ""
+msgstr "Vaciar GPU después de la presentación: Desactivado"
 
 msgctxt "IDS_OSD_RS_WAIT_ON"
 msgid "Wait for GPU Flush: On"
-msgstr ""
+msgstr "Esperar al vaciado de GPU: activado"
 
 msgctxt "IDS_OSD_RS_WAIT_OFF"
 msgid "Wait for GPU Flush: Off"
-msgstr ""
+msgstr "Esperar al vaciado de GPU: desactivado"
 
 msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_ON"
 msgid "D3D Fullscreen: On"
@@ -3135,7 +3137,7 @@ msgstr "Disminuir brillo"
 
 msgctxt "IDS_CONTRAST_INC"
 msgid "Contrast increase"
-msgstr "Incrementar contraste"
+msgstr "Aumentar contraste"
 
 msgctxt "IDS_CONTRAST_DEC"
 msgid "Contrast decrease"
@@ -3151,7 +3153,7 @@ msgstr "Disminución de tono"
 
 msgctxt "IDS_SATURATION_INC"
 msgid "Saturation increase"
-msgstr "Incrementar saturación"
+msgstr "Aumentar saturación"
 
 msgctxt "IDS_SATURATION_DEC"
 msgid "Saturation decrease"
@@ -3175,7 +3177,7 @@ msgstr "MPC-HC %s está disponible. Está utilizando %s.\n\n¿Quiere visitar el 
 
 msgctxt "IDS_UPDATE_ERROR"
 msgid "Update server not found.\n\nPlease check your internet connection or try again later."
-msgstr "Servidor de actualizaciones no encontrado.\n\nRevisa tu conexión a Internet o intenta de nuevo mas tarde."
+msgstr "No se encontró el servidor de actualizaciones.\n\nCompruebe la conexión a Internet o inténtelo de nuevo más tarde."
 
 msgctxt "IDS_UPDATE_CLOSE"
 msgid "&Close"
@@ -3375,39 +3377,39 @@ msgstr "Necesita aplicar la configuración nueva antes de probarla."
 
 msgctxt "IDS_AFTERPLAYBACK_CLOSE"
 msgid "After Playback: Exit"
-msgstr "Después de haber reproducido: Salir"
+msgstr "Después de la reproducción: salir"
 
 msgctxt "IDS_AFTERPLAYBACK_STANDBY"
 msgid "After Playback: Stand By"
-msgstr "Después de haber reproducido: Suspender"
+msgstr "Después de la reproducción: suspender"
 
 msgctxt "IDS_AFTERPLAYBACK_HIBERNATE"
 msgid "After Playback: Hibernate"
-msgstr "Después de haber reproducido: Hibernar"
+msgstr "Después de la reproducción: hibernar"
 
 msgctxt "IDS_AFTERPLAYBACK_SHUTDOWN"
 msgid "After Playback: Shutdown"
-msgstr "Después de haber reproducido: Apagar"
+msgstr "Después de la reproducción: apagar"
 
 msgctxt "IDS_AFTERPLAYBACK_LOGOFF"
 msgid "After Playback: Log Off"
-msgstr "Después de haber reproducido: Cerrar sesión"
+msgstr "Después de la reproducción: cerrar la sesión"
 
 msgctxt "IDS_AFTERPLAYBACK_LOCK"
 msgid "After Playback: Lock"
-msgstr "Después de haber reproducido: Bloquear"
+msgstr "Después de la reproducción: bloquear"
 
 msgctxt "IDS_AFTERPLAYBACK_EXIT"
 msgid "After Playback: Always exit"
-msgstr "Después de haber reproducido: Salir siempre"
+msgstr "Después de la reproducción: salir siempre"
 
 msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
 msgid "After Playback: Do Nothing"
-msgstr "Después de haber reproducido: No hacer nada"
+msgstr "Después de la reproducción: no hacer nada"
 
 msgctxt "IDS_AFTERPLAYBACK_NEXT"
 msgid "After Playback: Play next in the folder"
-msgstr "Después de haber reproducido: Reproducir siguiente en la carpeta"
+msgstr "Después de la reproducción: reproducir siguiente en la carpeta"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
@@ -3443,7 +3445,7 @@ msgstr "Proporcione los idiomas que prefiera.\nPor ejemplo, escriba: «esp ita j
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
-msgstr ""
+msgstr "Los fraccionadores (splitters) externos pueden tener sus propias opciones de preferencia de idioma, así pues el comportamiento por defecto de MPC-HC es no cambiar su elección inicial.\nHabilite esta opción si quiere que MPC-HC controle los fraccionadores externos."
 
 msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
 msgid "&Blu-Ray playlists"
@@ -3471,9 +3473,9 @@ msgstr "Configuración"
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
-msgstr ""
+msgstr "Recordar posición del archivo sólo para archivos más largos de N minutos"
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
 msgid "Remember file position also for audio files."
-msgstr ""
+msgstr "Recordar la posición del Archivo"
 

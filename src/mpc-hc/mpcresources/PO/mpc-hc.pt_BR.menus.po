@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Alex Luís Silva <alex.mooca@hotmail.com>, 2014
+# Alex Luís Silva <alex.mooca@hotmail.com>, 2014
 # Roger Filipe <lipe2000@outlook.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-04-22 11:15:01+0000\n"
-"PO-Revision-Date: 2014-05-07 08:42+0000\n"
-"Last-Translator: JellyFrog\n"
+"PO-Revision-Date: 2014-07-24 05:40+0000\n"
+"Last-Translator: Alex Luís Silva <alex.mooca@hotmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/mpc-hc/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -143,7 +144,7 @@ msgstr "Navegação"
 
 msgctxt "ID_VIEW_DEBUGSHADERS"
 msgid "&Debug Shaders"
-msgstr "&Depurar Shaders"
+msgstr "&Depurar shaders"
 
 msgctxt "POPUP"
 msgid "&Presets..."
@@ -191,7 +192,7 @@ msgstr "Autoajustar (Diminuir apenas)"
 
 msgctxt "POPUP"
 msgid "R&enderer Settings"
-msgstr "Ajustes do Renderer"
+msgstr "Ajustes do renderizador"
 
 msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
@@ -211,11 +212,11 @@ msgstr "Alcance de saída"
 
 msgctxt "ID_VIEW_EVROUTPUTRANGE_0_255"
 msgid "&0 - 255"
-msgstr "0 - 255"
+msgstr "&0 - 255"
 
 msgctxt "ID_VIEW_EVROUTPUTRANGE_16_235"
 msgid "&16 - 235"
-msgstr "16 - 235"
+msgstr "&16 - 235"
 
 msgctxt "POPUP"
 msgid "&Presentation"
@@ -251,7 +252,7 @@ msgstr "Desativar composição da área de trabalho (Aero)"
 
 msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time &Correction"
-msgstr "Ativar correção de tempos em quadros"
+msgstr "Habilitar correção de tempo em quadros"
 
 msgctxt "POPUP"
 msgid "&Color Management"
@@ -307,7 +308,7 @@ msgstr "Perceptiva"
 
 msgctxt "ID_VIEW_CM_INTENT_RELATIVECOLORIMETRIC"
 msgid "&Relative Colorimetric"
-msgstr "Colorimétrico relativo"
+msgstr "Colorimétrica relativa"
 
 msgctxt "ID_VIEW_CM_INTENT_SATURATION"
 msgid "&Saturation"
@@ -315,7 +316,7 @@ msgstr "Saturação"
 
 msgctxt "ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC"
 msgid "&Absolute Colorimetric"
-msgstr "Colorimétrico absoluto"
+msgstr "Colorimétrica absoluta"
 
 msgctxt "POPUP"
 msgid "&VSync"
@@ -439,7 +440,7 @@ msgstr "185:100"
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"
-msgstr "Corrigir diferença entre monitor/Área de Trabalho"
+msgstr "Corrigir diferença entre monitor e Área de Trabalho"
 
 msgctxt "POPUP"
 msgid "Pa&n&&Scan"
@@ -455,11 +456,11 @@ msgstr "Diminuir tamanho"
 
 msgctxt "ID_VIEW_INCWIDTH"
 msgid "I&ncrease Width"
-msgstr "Aumentar comprimento"
+msgstr "Aumentar largura"
 
 msgctxt "ID_VIEW_DECWIDTH"
 msgid "D&ecrease Width"
-msgstr "Diminuir comprimento"
+msgstr "Diminuir largura"
 
 msgctxt "ID_VIEW_INCHEIGHT"
 msgid "In&crease Height"
@@ -535,11 +536,11 @@ msgstr "Avançar um &quadro"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "&Decrease Rate"
-msgstr "Aumentar velocidade"
+msgstr "Diminuir velocidade"
 
 msgctxt "ID_PLAY_INCRATE"
 msgid "&Increase Rate"
-msgstr "&Diminuir velocidade"
+msgstr "Aumentar velocidade"
 
 msgctxt "ID_PLAY_RESETRATE"
 msgid "R&eset Rate"
@@ -579,7 +580,7 @@ msgstr "&Diminuir"
 
 msgctxt "ID_VOLUME_MUTE"
 msgid "&Mute"
-msgstr "Mudo"
+msgstr "Sem som"
 
 msgctxt "POPUP"
 msgid "Af&ter Playback"
@@ -619,7 +620,7 @@ msgstr "---- Todas as vezes ----"
 
 msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "E&xit"
-msgstr "Fechar programa"
+msgstr "Fechar o programa"
 
 msgctxt "ID_AFTERPLAYBACK_DONOTHING"
 msgid "Do &Nothing"
@@ -627,7 +628,7 @@ msgstr "Não fazer nada"
 
 msgctxt "ID_AFTERPLAYBACK_NEXT"
 msgid "Play next in the &folder"
-msgstr "Reproduzir próximo arquivo"
+msgstr "Reproduzir o próximo arquivo"
 
 msgctxt "POPUP"
 msgid "&Navigate"
@@ -659,15 +660,15 @@ msgstr "Menu de legendas"
 
 msgctxt "ID_NAVIGATE_AUDIOMENU"
 msgid "&Audio Menu"
-msgstr "Menu de &Áudio"
+msgstr "Menu de &áudio"
 
 msgctxt "ID_NAVIGATE_ANGLEMENU"
 msgid "An&gle Menu"
-msgstr "Menu de Ân&gulos"
+msgstr "Menu de ân&gulos"
 
 msgctxt "ID_NAVIGATE_CHAPTERMENU"
 msgid "&Chapter Menu"
-msgstr "Menu de &Capítulos"
+msgstr "Menu de &capítulos"
 
 msgctxt "ID_FAVORITES"
 msgid "F&avorites"
@@ -683,7 +684,7 @@ msgstr "Página do programa"
 
 msgctxt "ID_HELP_CHECKFORUPDATE"
 msgid "Check for &updates"
-msgstr "Checar por &atualizações"
+msgstr "Verificar at&ualizações"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"

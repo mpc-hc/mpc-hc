@@ -2,13 +2,14 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# bruce55 <bruce.luo+transifex@nyu.edu>, 2014
 # hkenneth <extremekeny@hotmail.com>, 2013
 # Ming Chen <yzonline@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-06-15 01:03:51+0000\n"
-"PO-Revision-Date: 2014-06-16 13:21+0000\n"
+"POT-Creation-Date: 2014-07-17 20:52:12+0000\n"
+"PO-Revision-Date: 2014-07-18 10:19+0000\n"
 "Last-Translator: Ming Chen <yzonline@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/mpc-hc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -115,7 +116,7 @@ msgstr "样式"
 
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
-msgstr ""
+msgstr "如果渲染目标没有被定义，SSA/ASS字幕会以视频帧为参照渲染，而其他文本字幕则会以窗口为参照。"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -155,7 +156,7 @@ msgstr "总是 (某些设备可能需要)"
 
 msgctxt "IDS_INFOBAR_PARENTAL_RATING"
 msgid "Parental rating"
-msgstr "父母指导"
+msgstr "父母指导评级"
 
 msgctxt "IDS_PARENTAL_RATING"
 msgid "%d+"
@@ -599,7 +600,7 @@ msgstr "这是 Windows 9x/me/2k 的默认渲染器。根据视频窗口的可见
 
 msgctxt "IDC_DSOVERLAYMIXER"
 msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
-msgstr "总是在覆盖模式渲染。通常情况下仅允许 YUV 格式,但是它们将直接使用未转换任何 RGB 的颜色输出。这是所有渲染模式中最快的并且是您可以激活将全屏幕视频镜像输出至电视功能的渲染器。"
+msgstr "总是在覆盖模式渲染。通常情况下该模式仅允许 YUV 格式, 但是它们将不被转换为RGB色彩直接输出。它是所有渲染模式中最快的，且是唯一可以确保全屏视频镜像到电视输出被激活的渲染器。"
 
 msgctxt "IDC_DSVMR7WIN"
 msgid "The default renderer of Windows XP. Very stable and just a little slower than the Overlay mixer. Uses DirectDraw and runs in Overlay when it can."
@@ -623,7 +624,7 @@ msgstr "与 VMR-9 (未渲染) 相同, 但是使用了一个真正的双三次成
 
 msgctxt "IDC_DSNULL_COMP"
 msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the cpu from working unnecessarily."
-msgstr "连接到任意视频文件类型并且会将进入的采样信息传送到任意地方。当您不需要显示视频并希望节省不必要的 cpu 工作时请使用它。"
+msgstr "连接到任意视频文件类型并且会将进入的采样信息传送到任意地方。当您不需要显示视频并希望节省不必要的 cpu 资源时请使用它。"
 
 msgctxt "IDC_DSNULL_UNCOMP"
 msgid "Same as the normal Null renderer, but this will only connect to uncompressed types."
@@ -635,7 +636,7 @@ msgstr "仅在 Vista 或更高版本或者在 XP 上安装了最新的 .NET Fram
 
 msgctxt "IDC_DSEVR_CUSTOM"
 msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
-msgstr "类似于 EVR,但是可以为字幕和后期处理使用加速呈现器。推荐在 Windows Vista 或更高的版本上使用。"
+msgstr "与EVR相同, 但是可以为字幕和后期处理使用加速呈现器。推荐在 Windows Vista 或更高的版本上使用。"
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
@@ -643,7 +644,7 @@ msgstr "高质量的渲染器,需要 GPU 支持 D3D9 或更高的版本。"
 
 msgctxt "IDC_DSSYNC"
 msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
-msgstr "与 EVR (CP) 相同,但是提供数个选项来同步视频帧率,防止跳动或重复的视频帧。"
+msgstr "与 EVR (CP) 相同, 但是提供数个选项用于将视频帧率与显示器刷新率同步, 防止跳帧或重复。"
 
 msgctxt "IDC_RMSYSDEF"
 msgid "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
@@ -671,7 +672,7 @@ msgstr "使用基于 DX9 的 VMR-9 分配转换器 (未渲染) 渲染的 QuickTi
 
 msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
-msgstr "视频表面将分配为空白离屏表面。"
+msgstr "视频层将被分配为普通的离屏层。"
 
 msgctxt "IDC_AUDRND_COMBO"
 msgid "MPC Audio Renderer is broken, do not use."
@@ -843,7 +844,7 @@ msgstr "精确垂直同步"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid "If the rendering target is left undefined, it will be inherited from the default style."
-msgstr ""
+msgstr "如果渲染目标没有被定义，则将从默认样式继承。"
 
 msgctxt "IDC_CHECK_SPCPOW2TEX"
 msgid "Unchecking this frees up a little video memory and saves bandwidth on local to video memory transfers, but it may not work with older video cards."
@@ -1263,23 +1264,23 @@ msgstr "教育/科学/事实话题"
 
 msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
 msgid "Hides controls and panels also in windowed mode."
-msgstr ""
+msgstr "在窗口模式下也可以隐藏控制栏和面板。"
 
 msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
 msgid "Prevent external subtitle renderer to be loaded when internal is in use."
-msgstr ""
+msgstr "当使用内置字幕渲染器时防止外置字幕渲染器加载。"
 
 msgctxt "IDS_PPAGEADVANCED_COL_NAME"
 msgid "Name"
-msgstr ""
+msgstr "名称"
 
 msgctxt "IDS_PPAGEADVANCED_COL_VALUE"
 msgid "Value"
-msgstr ""
+msgstr "值"
 
 msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
-msgstr ""
+msgstr "\"历史文件\" 菜单中最多保存的文件数量。它们的位置也可能被储存。"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1551,11 +1552,11 @@ msgstr "转到下一个字幕"
 
 msgctxt "IDS_MPLAYERC_102"
 msgid "Shift Subtitle Left"
-msgstr "上档字幕左移"
+msgstr "字幕左移"
 
 msgctxt "IDS_MPLAYERC_103"
 msgid "Shift Subtitle Right"
-msgstr "上档字幕右移"
+msgstr "字幕右移"
 
 msgctxt "IDS_AG_DISPLAY_STATS"
 msgid "Display Stats"
@@ -2171,7 +2172,7 @@ msgstr "要载入字幕,您需要更改视频渲染器类型然后重新打开�
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
-msgstr ""
+msgstr "字幕文件"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %d:%d"
@@ -2207,7 +2208,7 @@ msgstr "创建滤镜图表对象失败"
 
 msgctxt "IDS_MAINFRM_81"
 msgid "Invalid argument"
-msgstr "无效的变量"
+msgstr "无效的参数"
 
 msgctxt "IDS_MAINFRM_82"
 msgid "Opening aborted"
@@ -2403,7 +2404,7 @@ msgstr "未知格式"
 
 msgctxt "IDS_MAINFRM_138"
 msgid "Sub shift: %ld ms"
-msgstr "字幕上档 : %ld"
+msgstr "字幕延迟 : %ld ms"
 
 msgctxt "IDS_VOLUME_BOOST_INC"
 msgid "Volume boost increase"
@@ -2631,7 +2632,7 @@ msgstr "隐藏菜单(&M)"
 
 msgctxt "IDD_PPAGEADVANCED"
 msgid "Advanced"
-msgstr ""
+msgstr "高级"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seekbar"
@@ -2691,7 +2692,7 @@ msgstr "关闭所有视频解码器"
 
 msgctxt "IDS_STRETCH_TO_WINDOW"
 msgid "Stretch To Window"
-msgstr "伸展满窗口"
+msgstr "拉伸到窗口"
 
 msgctxt "IDS_TOUCH_WINDOW_FROM_INSIDE"
 msgid "Touch Window From Inside"
@@ -3467,9 +3468,9 @@ msgstr "设置"
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
-msgstr ""
+msgstr "仅针对长于N分钟的文件记忆播放位置。"
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
 msgid "Remember file position also for audio files."
-msgstr ""
+msgstr "对音频文件也记忆播放位置。"
 

@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-06-15 01:03:51+0000\n"
-"PO-Revision-Date: 2014-07-04 19:23+0000\n"
+"POT-Creation-Date: 2014-07-17 20:52:12+0000\n"
+"PO-Revision-Date: 2014-07-25 16:10+0000\n"
 "Last-Translator: Apa <sakcheen@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/mpc-hc/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -51,11 +51,11 @@ msgstr "Spela Musik"
 
 msgctxt "IDS_AUTOPLAY_PLAYAUDIOCD"
 msgid "Play Audio CD"
-msgstr "Spela Audio CD"
+msgstr "Spela Ljud-CD"
 
 msgctxt "IDS_AUTOPLAY_PLAYDVDMOVIE"
 msgid "Play DVD Movie"
-msgstr "Spela DVD Film"
+msgstr "Spela DVD-film"
 
 msgctxt "IDS_PROPSHEET_PROPERTIES"
 msgid "Properties"
@@ -95,7 +95,7 @@ msgstr "Jitter"
 
 msgctxt "IDS_STATSBAR_BITRATE"
 msgid "Bitrate"
-msgstr "Bitrate"
+msgstr "Bithastighet"
 
 msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
 msgid "(avg/cur)"
@@ -115,7 +115,7 @@ msgstr "Stilar"
 
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
-msgstr ""
+msgstr "Om renderingsmålet lämnas odefinierat kommer SSA/ASS-undertexter att renderas relativt till videobildrutan medans alla andra textbaserade undertexter kommer renderas relativt till fönstret."
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -163,7 +163,7 @@ msgstr "%d+"
 
 msgctxt "IDS_NO_PARENTAL_RATING"
 msgid "Not rated"
-msgstr "Ej betygsatt"
+msgstr "Ej klassificerad"
 
 msgctxt "IDS_INFOBAR_CONTENT"
 msgid "Content"
@@ -211,7 +211,7 @@ msgstr "Slut"
 
 msgctxt "IDS_SUBRESYNC_CLN_PREVIEW"
 msgid "Preview"
-msgstr "Förhandsgranska"
+msgstr "Förhandsgranskning"
 
 msgctxt "IDS_SUBRESYNC_CLN_VOB_ID"
 msgid "Vob ID"
@@ -235,11 +235,11 @@ msgstr "Stil"
 
 msgctxt "IDS_SUBRESYNC_CLN_FONT"
 msgid "Font"
-msgstr "Teckensnitt"
+msgstr "Typsnitt"
 
 msgctxt "IDS_DVD_NAV_SOME_PINS_ERROR"
 msgid "Failed to render some of the pins of the DVD Navigator filter"
-msgstr "Misslyckades att rendera några av nålarna i DVD Navigator-filtret"
+msgstr "Misslyckades att rendera några av stiften i DVD Navigator-filtret"
 
 msgctxt "IDS_DVD_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for DVD playback"
@@ -259,7 +259,7 @@ msgstr "Kan inte lägga till ljudinspelningsfilter till grafen"
 
 msgctxt "IDS_CAPTURE_ERROR_DEVICE"
 msgid "Could not open capture device."
-msgstr "Kunde inte öppna inspelningsenhet"
+msgstr "Kunde inte öppna inspelningsenhet."
 
 msgctxt "IDS_INVALID_PARAMS_ERROR"
 msgid "Can't open, invalid input parameters"
@@ -271,7 +271,7 @@ msgstr "Redigera List Editor"
 
 msgctxt "IDS_GOTO_ERROR_INVALID_TIME"
 msgid "The entered time is greater than the file duration."
-msgstr "Den angivna tidskoden är större än filens längd"
+msgstr "Den angivna tidskoden är större än filens längd."
 
 msgctxt "IDS_MISSING_ICONS_LIB"
 msgid "The icons library \"mpciconlib.dll\" is missing.\nThe player's default icon will be used for file associations.\nPlease, reinstall MPC-HC to get \"mpciconlib.dll\"."
@@ -343,11 +343,11 @@ msgstr "Standard"
 
 msgctxt "IDS_PPAGE_FS_OTHER"
 msgid "Other"
-msgstr "Annat"
+msgstr "Annan"
 
 msgctxt "IDS_PPAGE_OUTPUT_SYS_DEF"
 msgid "System Default"
-msgstr "systemstandard"
+msgstr "Systemstandard"
 
 msgctxt "IDS_GRAPH_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for playback"
@@ -359,7 +359,7 @@ msgstr "Kunde inte ställa in målfönster för grafmeddelande"
 
 msgctxt "IDS_DVD_NAV_ALL_PINS_ERROR"
 msgid "Failed to render all pins of the DVD Navigator filter"
-msgstr "Misslyckades att rendera alla av nålarna i DVD Navigator-filtret"
+msgstr "Misslyckades att rendera alla stift i DVD Navigator-filtret"
 
 msgctxt "IDS_PLAYLIST_OPEN"
 msgid "&Open"
@@ -375,7 +375,7 @@ msgstr "&Ta bort"
 
 msgctxt "IDS_PLAYLIST_CLEAR"
 msgid "C&lear"
-msgstr "R&ensa"
+msgstr "Re&nsa"
 
 msgctxt "IDS_PLAYLIST_COPYTOCLIPBOARD"
 msgid "&Copy to clipboard"
@@ -391,7 +391,7 @@ msgstr "Sortera efter &etikett"
 
 msgctxt "IDS_PLAYLIST_SORTBYPATH"
 msgid "Sort by &path"
-msgstr "Sortera efter &sökvägen"
+msgstr "Sortera efter sök&väg"
 
 msgctxt "IDS_PLAYLIST_RANDOMIZE"
 msgid "R&andomize"
@@ -399,7 +399,7 @@ msgstr "S&lumpa"
 
 msgctxt "IDS_PLAYLIST_RESTORE"
 msgid "R&estore"
-msgstr "Å&terställ"
+msgstr "&Återställ"
 
 msgctxt "IDS_SUBRESYNC_SEPARATOR"
 msgid "&Separator"
@@ -411,7 +411,7 @@ msgstr "&Ta bort"
 
 msgctxt "IDS_SUBRESYNC_DUPLICATE"
 msgid "D&uplicate"
-msgstr "D&ublett"
+msgstr "D&uplicera"
 
 msgctxt "IDS_SUBRESYNC_RESET"
 msgid "&Reset"
@@ -419,11 +419,11 @@ msgstr "&Återställ"
 
 msgctxt "IDS_MPLAYERC_104"
 msgid "Subtitle Delay -"
-msgstr "Undertext Fördröjning -"
+msgstr "Undertextfördröjning -"
 
 msgctxt "IDS_MPLAYERC_105"
 msgid "Subtitle Delay +"
-msgstr "Undertext Fördröjning +"
+msgstr "Undertextfördröjning +"
 
 msgctxt "IDS_FILE_SAVE_THUMBNAILS"
 msgid "Save thumbnails"
@@ -455,7 +455,7 @@ msgstr "Småjusteringar"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER"
 msgid "Internal Filters::Audio Switcher"
-msgstr "Interna Filter::Ljud Växlare"
+msgstr "Interna Filter::Ljudväxel"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS"
 msgid "External Filters"
@@ -467,7 +467,7 @@ msgstr "Uppspelning::Shaders"
 
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
-msgstr "Ljud Växlare"
+msgstr "Ljudväxel"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_TITLE"
 msgid "New version of the icon library"
@@ -491,19 +491,19 @@ msgstr "Overlay Mixer Renderer"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
 msgid "Video Mixing Renderer 7 (windowed)"
-msgstr "Video Mixing Renderer 7 (windowed)"
+msgstr "Video Mixing Renderer 7 (fönsterläge)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
 msgid "Video Mixing Renderer 9 (windowed)"
-msgstr "Video Mixing Renderer 9 (windowed)"
+msgstr "Video Mixing Renderer 9 (fönsterläge)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
 msgid "Video Mixing Renderer 7 (renderless)"
-msgstr "Video Mixing Renderer 7 (renderless)"
+msgstr "Video Mixing Renderer 7 (renderlös)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
 msgid "Video Mixing Renderer 9 (renderless)"
-msgstr "Video Mixing Renderer 9 (renderless)"
+msgstr "Video Mixing Renderer 9 (renderlös)"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR"
 msgid "Enhanced Video Renderer"
@@ -519,11 +519,11 @@ msgstr "Haali Video Renderer"
 
 msgctxt "IDS_PPAGE_OUTPUT_NULL_COMP"
 msgid "Null (anything)"
-msgstr "Null (anything)"
+msgstr "Null (vad som helst)"
 
 msgctxt "IDS_PPAGE_OUTPUT_NULL_UNCOMP"
 msgid "Null (uncompressed)"
-msgstr "Null (uncompressed)"
+msgstr "Null (okomprimerat)"
 
 msgctxt "IDS_PPAGE_OUTPUT_MADVR"
 msgid "madVR"
@@ -835,7 +835,7 @@ msgstr "Använder LAV Filters. Inaktiverad som standard eftersom Microsofts filt
 
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
-msgstr "Växla Navigationslist"
+msgstr "Växla Navigeringsfält"
 
 msgctxt "IDS_AG_VSYNCACCURATE"
 msgid "Accurate VSync"
@@ -843,7 +843,7 @@ msgstr "Noggrann VSync"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid "If the rendering target is left undefined, it will be inherited from the default style."
-msgstr ""
+msgstr "Om renderingsmålet lämnas odefinierat kommer det ärvas från standardstilen."
 
 msgctxt "IDC_CHECK_SPCPOW2TEX"
 msgid "Unchecking this frees up a little video memory and saves bandwidth on local to video memory transfers, but it may not work with older video cards."
@@ -1263,23 +1263,23 @@ msgstr "Utbildning/Vetenskap/Fakta"
 
 msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
 msgid "Hides controls and panels also in windowed mode."
-msgstr ""
+msgstr "Göm kontroller och paneler även i fönsterläge."
 
 msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
 msgid "Prevent external subtitle renderer to be loaded when internal is in use."
-msgstr ""
+msgstr "Förhindra att ladda externa undertextrenderare när den interna används."
 
 msgctxt "IDS_PPAGEADVANCED_COL_NAME"
 msgid "Name"
-msgstr ""
+msgstr "Namn"
 
 msgctxt "IDS_PPAGEADVANCED_COL_VALUE"
 msgid "Value"
-msgstr ""
+msgstr "Värde"
 
 msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
-msgstr ""
+msgstr "Maximalt antal filer som visas i \"Senaste Filer\"-menyn och för vilka positionen eventuellt är sparad."
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1979,7 +1979,7 @@ msgstr "%s, %s %dHz %dbits %d %s"
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
-msgstr "Lägg till MPC-HC Spellista"
+msgstr "Lägg till i MPC-HC:s Spelningslista"
 
 msgctxt "IDS_OPEN_WITH_MPC"
 msgid "Play with MPC-HC"
@@ -2171,7 +2171,7 @@ msgstr "För att ladda undertexter måste du byta videorenderartyp och öppna fi
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
-msgstr ""
+msgstr "Undertextfiler"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %d:%d"
@@ -2423,7 +2423,7 @@ msgstr "Volym boost Max"
 
 msgctxt "IDS_USAGE"
 msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "Användning: mpc-hc.exe \"sökväg\" [växlar]\n\n\"sökväg\"\t\tHuvudfilen eller katalog för att ladda (jokertecken\n\t\tstödjs, \"-\" denotes standard input)\n/dub \"fil\"\t\tLägg till ytterligare en ljudfil\n/dubdelay \"fil\"\tLägg till ytterligare en ljudfil skiftat med XXms (om\n\t\tfilen innehåller \"...DELAY XXms...\")\n/d3dfs\t\tBörja rendering i D3D helskärmsläge\n/sub \"fil\"\t\tLägg till ytterligare en undertextfil\n/filter \"filternamn\"\tLadda DirectShow filter från ett dynamiskt länk\n\t\tbibliotek (jokertecken stödjs)\n/dvd\t\tKör i DVD-läge, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStarta uppspelningen vid titel T, kapitel C\n/dvdpos T#hh:mm\tStarta uppspelningen vid titel T, tid hh:mm:ss\n/cd\t\tLadda alla spår av en ljud-CD eller (S)VCD,\n\t\t\"pathname\" innebär att enhetssökväg (valfritt)\n/device\t\tOpen the default video device\n/open\t\tÖppna filen, börja inte spela automatiskt\n/play\t\tBörja spela filen så fort spelaren\n\t\tstartar\n/close\t\tStäng spelaren efter uppspelningen (fungerar bara när\n\t\tanvänds med /play)\n/shutdown\tStänga av operativsystemet efter uppspelningen\n/fullscreen\tStarta i fullskärmsläge\n/minimerad\tStarta i minimerat läge\n/ny\t\tAnvänd en ny instans av spelaren\n/add\t\tLägg till \"pathname\" i spellista, kan kombineras\n\t\tmed /open och /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tSkapa filassociationer för ljudfiler\n/regpl\t\tSkapa filassociationer för spelningslista\n/regall\t\tSkapa filassociationer för för alla filtyper som stödjs\n/unregall\t\tTa bort alla filassociationer \n/start ms\t\tBörja spela vid \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tBörja spela vid tid hh:mm:ss\n/fixedsize w,h\tSätt fast fönsterstorlek\n/monitor N\tStart på bildskärm N, där N börjar från 1\n/ljudrenderare N\tBörja användaljudrenderare N, där N börjar från 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tÅterställ standardinställningar\n/help /h /?\tVisa hjälp för kommandoradsväxlar\n"
+msgstr "Användning: mpc-hc.exe \"sökväg\" [växlar]\n\n\"sökväg\"\t\tHuvudfilen eller katalog för att ladda (jokertecken\n\t\tstödjs, \"-\" denotes standard input)\n/dub \"fil\"\t\tLägg till ytterligare en ljudfil\n/dubdelay \"fil\"\tLägg till ytterligare en ljudfil skiftat med XXms (om\n\t\tfilen innehåller \"...DELAY XXms...\")\n/d3dfs\t\tBörja rendering i D3D helskärmsläge\n/sub \"fil\"\t\tLägg till ytterligare en undertextfil\n/filter \"filternamn\"\tLadda DirectShow filter från ett dynamiskt länk\n\t\tbibliotek (jokertecken stödjs)\n/dvd\t\tKör i DVD-läge, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStarta uppspelningen vid titel T, kapitel C\n/dvdpos T#hh:mm\tStarta uppspelningen vid titel T, tid hh:mm:ss\n/cd\t\tLadda alla spår av en ljud-CD eller (S)VCD,\n\t\t\"pathname\" innebär att enhetssökväg (valfritt)\n/device\t\tOpen the default video device\n/open\t\tÖppna filen, börja inte spela automatiskt\n/play\t\tBörja spela filen så fort spelaren\n\t\tstartar\n/close\t\tStäng spelaren efter uppspelningen (fungerar bara när\n\t\tanvänds med /play)\n/shutdown\tStänga av operativsystemet efter uppspelningen\n/fullscreen\tStarta i fullskärmsläge\n/minimerad\tStarta i minimerat läge\n/ny\t\tAnvänd en ny instans av spelaren\n/add\t\tLägg till \"pathname\" i spelningslista, kan kombineras\n\t\tmed /open och /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tSkapa filassociationer för ljudfiler\n/regpl\t\tSkapa filassociationer för spelningslista\n/regall\t\tSkapa filassociationer för för alla filtyper som stödjs\n/unregall\t\tTa bort alla filassociationer \n/start ms\t\tBörja spela vid \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tBörja spela vid tid hh:mm:ss\n/fixedsize w,h\tSätt fast fönsterstorlek\n/monitor N\tStart på bildskärm N, där N börjar från 1\n/ljudrenderare N\tBörja användaljudrenderare N, där N börjar från 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tÅterställ standardinställningar\n/help /h /?\tVisa hjälp för kommandoradsväxlar\n"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -2447,7 +2447,7 @@ msgstr "Växla Undertext resynk Bar"
 
 msgctxt "IDS_AG_TOGGLE_PLAYLIST"
 msgid "Toggle Playlist Bar"
-msgstr "Växla Spellista"
+msgstr "Växla Spelningslista"
 
 msgctxt "IDS_AG_TOGGLE_CAPTURE"
 msgid "Toggle Capture Bar"
@@ -2631,7 +2631,7 @@ msgstr "Dölj menyraden"
 
 msgctxt "IDD_PPAGEADVANCED"
 msgid "Advanced"
-msgstr ""
+msgstr "Avancerat"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seekbar"
@@ -2903,7 +2903,7 @@ msgstr "Spelningslista"
 
 msgctxt "IDS_MFMT_BDPLS"
 msgid "Blu-ray playlist"
-msgstr "Blu-ray-spellista"
+msgstr "Blu-ray-spelningslista"
 
 msgctxt "IDS_MFMT_RAR"
 msgid "RAR Archive"
@@ -3443,7 +3443,7 @@ msgstr "Externa demultiplexer kan ha sina egna språkinställningar, därför ä
 
 msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
 msgid "&Blu-Ray playlists"
-msgstr "&Blu-ray-spellistor"
+msgstr "&Blu-ray-spelningslistor"
 
 msgctxt "IDS_NAVIGATE_PLAYLIST"
 msgid "&Playlist"
@@ -3467,9 +3467,9 @@ msgstr "Inställningar"
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
-msgstr ""
+msgstr "Kom bara ihåg filposition för filer längre än N minuter."
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
 msgid "Remember file position also for audio files."
-msgstr ""
+msgstr "Kom även ihåg filposition för ljudfiler."
 

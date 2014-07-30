@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-06-15 01:03:51+0000\n"
-"PO-Revision-Date: 2014-06-17 02:00+0000\n"
+"POT-Creation-Date: 2014-07-17 20:52:12+0000\n"
+"PO-Revision-Date: 2014-07-20 04:30+0000\n"
 "Last-Translator: abuyop <abuyop@gmail.com>\n"
 "Language-Team: Malay (Malaysia) (http://www.transifex.com/projects/p/mpc-hc/language/ms_MY/)\n"
 "MIME-Version: 1.0\n"
@@ -114,7 +114,7 @@ msgstr "Gaya"
 
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
-msgstr ""
+msgstr "Jika sasaran penerapan dibiarkan tidak ditakrif, sarikata SSA/ASS akan diterap relatif dengan bingkai video manakala lain-lain sarikata teks akan diterap relatif dengan tetingkap."
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -842,7 +842,7 @@ msgstr "VSync Tepat"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid "If the rendering target is left undefined, it will be inherited from the default style."
-msgstr ""
+msgstr "Jika sasaran penerapan dibiarkan tidak ditakrif, ia akan dilaksana dengan gaya lalai."
 
 msgctxt "IDC_CHECK_SPCPOW2TEX"
 msgid "Unchecking this frees up a little video memory and saves bandwidth on local to video memory transfers, but it may not work with older video cards."
@@ -1262,23 +1262,23 @@ msgstr "Topik Pendidikan/Sains/Fakta"
 
 msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
 msgid "Hides controls and panels also in windowed mode."
-msgstr ""
+msgstr "Sembunyi juga kawalan dan panel dalam mod bertetingkap."
 
 msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
 msgid "Prevent external subtitle renderer to be loaded when internal is in use."
-msgstr ""
+msgstr "Halang penerap sarikata luaran yang dimuatkan ketika dalaman sedang digunakan."
 
 msgctxt "IDS_PPAGEADVANCED_COL_NAME"
 msgid "Name"
-msgstr ""
+msgstr "Nama"
 
 msgctxt "IDS_PPAGEADVANCED_COL_VALUE"
 msgid "Value"
-msgstr ""
+msgstr "Nilai"
 
 msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
-msgstr ""
+msgstr "Bilangan maksimum fail yang ditunjuk dalam menu \"Fail baru-baru ini\" dan kedudukan manakah ia berpotensi disimpan."
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2170,7 +2170,7 @@ msgstr "Untuk muatkan sarikata anda perlu menukar jenis penerap dan buka semula 
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
-msgstr ""
+msgstr "Fail sarikata"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %d:%d"
@@ -2630,7 +2630,7 @@ msgstr "Sembunyi &Menu"
 
 msgctxt "IDD_PPAGEADVANCED"
 msgid "Advanced"
-msgstr ""
+msgstr "Lanjutan"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seekbar"
@@ -3466,9 +3466,9 @@ msgstr "Tetapan"
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
-msgstr ""
+msgstr "Ingat kedudukan fail hanya untuk fail yang lebih panjang dari N minit."
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
 msgid "Remember file position also for audio files."
-msgstr ""
+msgstr "Juga ingat kedudukan fail untuk fail audio."
 

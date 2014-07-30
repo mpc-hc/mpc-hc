@@ -2,12 +2,13 @@
 # Copyright (C) 2002 - 2014 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# JellyFrog, 2013
+# JellyFrog, 2013-2014
+# Apa <sakcheen@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-21 11:15:54+0000\n"
-"PO-Revision-Date: 2013-12-21 17:20+0000\n"
+"POT-Creation-Date: 2014-06-17 15:23:34+0000\n"
+"PO-Revision-Date: 2014-07-31 13:51+0000\n"
 "Last-Translator: JellyFrog\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/mpc-hc/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -50,7 +51,7 @@ msgstr "Denna version av MPC-HC kräver en processor med stöd för SSE2.\n\nDin
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
-msgstr ""
+msgstr "Besök vår Wiki för att ladda ned verktygsfältsbilder"
 
 msgctxt "CustomMessages_tsk_AllUsers"
 msgid "For all users"

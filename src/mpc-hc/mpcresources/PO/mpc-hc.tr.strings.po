@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-06-15 01:03:51+0000\n"
-"PO-Revision-Date: 2014-06-18 19:40+0000\n"
+"POT-Creation-Date: 2014-07-17 20:52:12+0000\n"
+"PO-Revision-Date: 2014-07-27 19:00+0000\n"
 "Last-Translator: Sinan H.\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/mpc-hc/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -116,7 +116,7 @@ msgstr "Biçimler"
 
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
-msgstr ""
+msgstr "İşleyici seçimi tanımlanmamışsa, SSA/ASS alt yazıları video çerçevesine, diğer tüm alt yazılar ise pencere çerçevesine sığacak şekilde uyarlanacaktır."
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -844,7 +844,7 @@ msgstr "Tam Eşzamanla"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid "If the rendering target is left undefined, it will be inherited from the default style."
-msgstr ""
+msgstr "İşleyici seçimi tanımlanmamışsa, varsayılan biçim kullanılacaktır."
 
 msgctxt "IDC_CHECK_SPCPOW2TEX"
 msgid "Unchecking this frees up a little video memory and saves bandwidth on local to video memory transfers, but it may not work with older video cards."
@@ -1264,23 +1264,23 @@ msgstr "Eğitim/Bilim/Gerçekçi konular"
 
 msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
 msgid "Hides controls and panels also in windowed mode."
-msgstr ""
+msgstr "Kontroller ve düğmeler pencere kipinde de gizlenir."
 
 msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
 msgid "Prevent external subtitle renderer to be loaded when internal is in use."
-msgstr ""
+msgstr "Harici alt yazı işleyicisinin, dahili kullanılırken yüklenmesini engelle."
 
 msgctxt "IDS_PPAGEADVANCED_COL_NAME"
 msgid "Name"
-msgstr ""
+msgstr "Ad"
 
 msgctxt "IDS_PPAGEADVANCED_COL_VALUE"
 msgid "Value"
-msgstr ""
+msgstr "Değer"
 
 msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
-msgstr ""
+msgstr "\"Belgeler\" menüsünde gösterilip, dosya yerleşiminde hatırlanacak en fazla dosya sayısını belirleyin."
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2172,7 +2172,7 @@ msgstr "Altyazıları yüklemek için video işleyicisi biçimini değiştirip, 
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
-msgstr ""
+msgstr "Alt yazı dosyaları"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %d:%d"
@@ -2424,7 +2424,7 @@ msgstr "Ses yüksekliği en fazla"
 
 msgctxt "IDS_USAGE"
 msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "Kullanım: mpc-hc.exe \"konum\" [anahtarlar]\n\n\"yol_adı\"\t\tYüklenecek dosya veya klasör (özel\n\t\tkarakterler desteklenmektedir, \"-\" varsayılan girişi gösterir)\n/dub \"dublaj_adı\"\tHarici bir ses dosyası yüklemek için\n/dubdelay \"dosya\"\tXXms olarak atlanacak harici bir ses dosyası yüklemek için (eğer\n\t\tdosya \"...GECİKME_XXms...\" içeriyorsa)\n/d3dfs\t\tTam ekran D3D kipinde oynatmak için\n/sub \"alt_yazı\"\t   Harici bir alt yazı kullanmak için\n/filter \"filtre_adı\"   Değişken bir bağlantıdan DirectShow süzgeçlerini\n\t\tyüklemek için. (karakterler desteklenir)\n/dvd\t\tDVD kipinde çalıştırmak için, \"konum\" DVD klasörünü\n\t\tgösterir (seçmeli)\n/dvdpos T#C\tOynatma T başlığının, C bölümünden başlar\n/dvdpos T#ss:dd\tOynatma T başlığının, ss:dd:ss süresinden başlar\n/cd\t\tSes veya (s)vcd'den tüm parçaları yüklemek için,\n\t\t\"konum\" Sürücü yolunu gösterir (seçmeli)\n/device\t\tVarsayılan video aygıtını açar\n/open\t\tDosya açılır, ancak otomatik olarak oynatılmaz\n/play\t\tOynatıcı açılır açılmaz yürütme \n\t\tbaşlatılır\n/close\t\tYürütmeden sonra oynatıcı kapatılır (sadece /play komutuyla\n\t\tkullanılır)\n/shutdown\tOynatmadan sonra bilgisayar kapatılır\n/fullscreen\tTam ekran kipinde başlatılır\n/minimized\tSimge durumunda başlatılır\n/new\t\tYeni bir oynatıcı penceresi kullanılır\n/add\t\t\"konum\" oynatma listesine eklenir, bu komutlarla birlikte\n\t\tkullanılabilir: /open ve /play\n/regvid\t\tVideo biçimleri ilişkilendirilir\n/regaud\t\tSes biçimleri ilişkilendirilir\n/regpl\t\tOynatma listesindeki dosyalar uygulamayla ilişkilendirilir\n/regall\t\tTüm desteklenen dosya biçimleri uygulamayla ilişkilendirilir\n/unregall\t\tVideo biçimleri geri alınır\n/start ms\t\tOynatmaya \"ms\" (= mili saniye) sonra başlanır\n/startpos ss:dd:ss\tOynatmaya ss:dd:ss süresinden başlanılır\n/fixedsize w,h\tSabit pencere boyutu kullanılır\n/monitor N\tN monitöründe başlatılır; N, 1'den başlar\n/audiorenderer N\tSes çeviricisi N ile başlanılır; N, 1 ile başlar\n\t\t(\"Çıkış\" ayarlarına bakınız)\n/shaderpreset \"Pr\"\tKomut ile \"Pr\" tonlayıcı hazır ayarı kullanılır\n/reset\t\tVarsayılan ayarlara geri dönülür\n/help /h /?\tKomut satırı anahtarları hakkında yardım görüntülenir\n"
+msgstr "Kullanım: mpc-hc.exe \"konum\" [anahtarlar]\n\n\"yol_adı\"\t\tYüklenecek dosya veya klasör (özel\n\t\tkarakterler desteklenir, \"-\" varsayılan girişi gösterir)\n/dub \"dublaj_adı\"\tHarici bir ses dosyası yüklemek için\n/dubdelay \"dosya\"\tXXms olarak atlanacak harici bir ses dosyası yüklemek\n                için (eğer dosya \"...GECİKME_XXms...\" içeriyorsa)\n/d3dfs\t\tTam ekran D3D kipinde oynatmak için\n/sub \"alt_yazı\"\t  Harici bir alt yazı kullanmak için\n/filter \"filtre_adı\"      Değişken bir bağlantıdan DirectShow süzgeçlerini\n\t\tyüklemek için (karakterler desteklenir)\n/dvd\t\tDVD kipinde çalıştırmak için, \"konum\" DVD klasörünü\n                gösterir (seçmeli)\n/dvdpos T#C\tOynatma T başlığının, C bölümünden başlar\n/dvdpos T#ss:dd\t Oynatma T başlığının, ss:dd:ss süresinden başlar\n/cd\t\tSes veya (s)vcd'den tüm parçaları yüklemek için,\n\t\t\"konum\" Sürücü yolunu gösterir (seçmeli)\n/device\t\tVarsayılan video aygıtını açar\n/open\t\tDosya açılır, ancak otomatik olarak oynatılmaz\n/play \t\tOynatıcı açılır açılmaz yürütme \n\t\tbaşlatılır\n/close \t\tYürütmeden sonra oynatıcı kapatılır (sadece /play komutuyla\n\t\t kullanılır)\n/shutdown\t Oynatmadan sonra bilgisayar kapatılır\n/fullscreen \tTam ekran kipinde başlatılır\n/minimized \tSimge durumunda başlatılır\n/new \t\tYeni bir oynatıcı penceresi kullanılır\n/add \t\t\"konum\" oynatma listesine eklenir, bu komutlarla birlikte\n\t\tkullanılabilir: /open ve /play\n/regvid\t\t Video biçimleri ilişkilendirilir\n/regaud \t\tSes biçimleri ilişkilendirilir\n/regpl\t\tOynatma listesi uygulamayla ilişkilendirilir\n/regall\t\tTüm dosya biçimleri uygulamayla ilişkilendirilir\n/unregall\t\tVideo biçimleri geri alınır\n/start ms \t\tOynatmaya \"ms\" (= mili saniye) sonra başlanılır\n/startpos ss:dd:ss \tOynatmaya ss:dd:ss süresinden başlanılır\n/fixedsize w,h\t Sabit pencere boyutu kullanılır\n/monitor N\tN monitöründe başlatılır; N, 1'den başlar\n/audiorenderer N \tSes çeviricisi N ile başlanılır; N, 1 ile başlar\n\t\t(\"Çıkış\" ayarlarına bakınız)\n/shaderpreset \"Pr\" \tKomut ile \"Pr\" tonlayıcı hazır ayarı kullanılır\n/reset\t\t Varsayılan ayarlara geri dönülür\n/help /h /? \tKomut satırı anahtarları yardımı görüntülenir\n"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -2632,7 +2632,7 @@ msgstr "Menüyü &Gizle"
 
 msgctxt "IDD_PPAGEADVANCED"
 msgid "Advanced"
-msgstr ""
+msgstr "Gelişmiş"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seekbar"
@@ -3164,7 +3164,7 @@ msgstr "\nTebrikler. Bilgisayarınızda en son sürüm yüklü durumda."
 
 msgctxt "IDS_USING_NEWER_VERSION"
 msgid "Your current version is v%s.\n\nThe latest stable version is v%s."
-msgstr "Mevcut sürümünüz : v%s.\n\nSon kararlı sürüm numarası : v%s."
+msgstr "Geçerli sürüm numarası : v%s.\n\nSon kararlı sürüm numarası : v%s."
 
 msgctxt "IDS_NEW_UPDATE_AVAILABLE"
 msgid "MPC-HC v%s is now available. You are using v%s.\n\nDo you want to visit MPC-HC's website to download it?"
@@ -3468,9 +3468,9 @@ msgstr "Ayarlar"
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
-msgstr ""
+msgstr "Dosya yerleşimini sadece N dakikadan büyük dosyalar için hatırla."
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
 msgid "Remember file position also for audio files."
-msgstr ""
+msgstr "Dosya yerleşimini ses dosyaları için de hatırla."
 

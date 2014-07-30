@@ -50,7 +50,7 @@ en_GB.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommen
 en_GB.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
 
 ; Spanish
-es.WelcomeLabel2=Este programa instalará [name] en el equipo.%n%nSe recomienda que cierre todas las demás aplicaciones antes de continuar.
+es.WelcomeLabel2=Este programa instalará [name] en el equipo.%n%nSe recomienda que cierre el resto de las aplicaciones antes de continuar.
 es.WinVersionTooLowError=[name] requiere Windows XP Service Pack 3 o posterior para funcionar.
 
 ; Basque
@@ -86,7 +86,7 @@ it.WelcomeLabel2=Questo installerà [name] sul tuo computer.%nE' consigliato chi
 it.WinVersionTooLowError=[name] richiede Windows XP Service Pack 3 o successivo per funzionare.
 
 ; Japanese
-ja.WelcomeLabel2=このプログラムはあなたのコンピュータ上に [name] をインストールします。%n%nセットアップを続行する前に他のすべてのアプリを閉じることを推奨します。
+ja.WelcomeLabel2=このプログラムはあなたのコンピュータ上に [name] をインストールします。%n%nセットアップを続行する前に他のすべてのアプリケーションを閉じることを推奨します。
 ja.WinVersionTooLowError=[name] を実行する為には Windows XP Service Pack 3 以降が必要です。
 
 ; Korean
@@ -206,7 +206,7 @@ cs.msg_simd_sse=Toto sestavení MPC-HC vyžaduje procesor s podporou rozšíře
 #elif defined(sse2_required)
 cs.msg_simd_sse2=Toto sestavení MPC-HC vyžaduje procesor s podporou rozšíření SSE2.%n%nVáš procesor tato rozšíření nepodporuje.
 #endif
-cs.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
+cs.run_DownloadToolbarImages=Motivy pro tlačítkovou lištu si můžete stáhnout z našich Wiki stránek.
 cs.tsk_AllUsers=Pro všechny uživatele
 cs.tsk_CurrentUser=Jen pro právě přihlášeného uživatele
 cs.tsk_Other=Ostatní úlohy:
@@ -226,7 +226,7 @@ de.msg_simd_sse=Dieses MPC-HC-Build benötigt einen Prozessor mit SSE-Unterstüt
 #elif defined(sse2_required)
 de.msg_simd_sse2=Dieses MPC-HC-Build benötigt einen Prozessor mit SSE2-Unterstützung.%n%nIhr Prozessor besitzt nicht diese Eigenschaft.
 #endif
-de.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
+de.run_DownloadToolbarImages=Toolbar-Bilder von der Wiki-Seite herunterladen
 de.tsk_AllUsers=Für alle Benutzer
 de.tsk_CurrentUser=Nur für den aktuellen Benutzer
 de.tsk_Other=Andere Aufgaben:
@@ -246,7 +246,7 @@ el.msg_simd_sse=Αυτή η έκδοση του MPC-HC απαιτεί επεξε
 #elif defined(sse2_required)
 el.msg_simd_sse2=Αυτή η έκδοση του MPC-HC απαιτεί επεξεργαστή με υποστήριξη SSE2.%n%nΟ επεξεργαστής σας δεν έχει αυτές τις δυνατότητες.
 #endif
-el.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
+el.run_DownloadToolbarImages=Επισκεφθείτε την Βικι σελίδα μας για να κατεβάσετε εικόνες γραμμής εργαλείων
 el.tsk_AllUsers=Για όλους τους χρήστες
 el.tsk_CurrentUser=Για τον τρέχοντα χρήστη μόνο
 el.tsk_Other=Επιπλέον ενέργειες:
@@ -282,11 +282,11 @@ es.comp_mpcresources=Traducciones
 es.msg_DeleteSettings=¿Quiere eliminar también las preferencias de MPC-HC?%n%nSi planea instalar de nuevo MPC-HC no necesita eliminarlas.
 es.msg_SetupIsRunningWarning=La instalación de MPC-HC ya está en ejecución.
 #if defined(sse_required)
-es.msg_simd_sse=Esta versión de MPC-HC requiere una CPU con soporte de extensiones SSE.%n%nSu CPU carece de esta característica.
+es.msg_simd_sse=Esta versión de MPC-HC requiere una CPU compatible con extensiones SSE.%n%nSu CPU carece de esta característica.
 #elif defined(sse2_required)
-es.msg_simd_sse2=Esta versión de MPC-HC requiere una CPU con soporte de extensiones SSE2.%n%nSu CPU carece de esta característica.
+es.msg_simd_sse2=Esta versión de MPC-HC requiere una CPU compatible con extensiones SSE2.%n%nSu CPU carece de esta característica.
 #endif
-es.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
+es.run_DownloadToolbarImages=Visite nuestra página de wiki para descargar imágenes de la barra de herramientas
 es.tsk_AllUsers=Para todos los usuarios
 es.tsk_CurrentUser=Solo para el usuario actual
 es.tsk_Other=Otras tareas:
@@ -306,7 +306,7 @@ eu.msg_simd_sse=MPC-HC eraiketa honek SSE hedapen sostengua duen CPU bat behar d
 #elif defined(sse2_required)
 eu.msg_simd_sse2=MPC-HC erakiketa honek SSE2 hedapen sostengua duen CPU bat behar du.%n%nZure CPU-ak ez ditu gaitasun hauek.
 #endif
-eu.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
+eu.run_DownloadToolbarImages=Ikusi gure Wiki orrialdea tresnabarra irudiak jeisteko
 eu.tsk_AllUsers=Erabiltzaile guztientzat
 eu.tsk_CurrentUser=Oraingo erabiltzailearentzat bakarrrik
 eu.tsk_Other=Beste eginkizunak:
@@ -326,7 +326,7 @@ fr.msg_simd_sse=Cette version de MPC-HC nécessite un CPU avec support des instr
 #elif defined(sse2_required)
 fr.msg_simd_sse2=Cette version de MPC-HC nécessite un CPU avec support des instructions SSE2.%n%nVotre processeur ne supporte pas cette fonctionnalité.
 #endif
-fr.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
+fr.run_DownloadToolbarImages=Visiter notre Wiki pour télécharger des barres d'outils personnalisées
 fr.tsk_AllUsers=Pour tous les utilisateurs
 fr.tsk_CurrentUser=Pour l'utilisateur actuel uniquement
 fr.tsk_Other=Autres tâches :
@@ -346,7 +346,7 @@ gl.msg_simd_sse=Esta versión de MPC-HC require unha CPU con soporte para a exte
 #elif defined(sse2_required)
 gl.msg_simd_sse2=Esta versión de MPC-HC require unha CPU con soporte para a extensión SSE2 .%n%nO seu CPU non ten estas capacidades.
 #endif
-gl.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
+gl.run_DownloadToolbarImages=Visite a nosa páxina da wiki para descargar imaxes da barra de ferramentas
 gl.tsk_AllUsers=Para todos os usuarios
 gl.tsk_CurrentUser=Só para o usuario actual
 gl.tsk_Other=Outras tarefas:
@@ -386,7 +386,7 @@ hr.msg_simd_sse=Ova verzija MPC-HC zahtijeva procesor sa SSE podrškom.%n%nVaš 
 #elif defined(sse2_required)
 hr.msg_simd_sse2=Ova verzija MPC-HC zahtijeva procesor sa SSE2 podrškom.%n%nVaš procesor nema te mogućnosti.
 #endif
-hr.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
+hr.run_DownloadToolbarImages=Posjetite našu Wiki stranicu da biste skinuli slike za toolbar
 hr.tsk_AllUsers=Za sve korisnike
 hr.tsk_CurrentUser=Samo za trenutnog korisnika
 hr.tsk_Other=Ostali zadaci:
@@ -462,11 +462,11 @@ ja.comp_mpcresources=翻訳
 ja.msg_DeleteSettings=MPC-HC の設定を削除してもよろしいですか？%n%nMPC-HC を再度インストールする場合は、設定を削除する必要はありません。
 ja.msg_SetupIsRunningWarning=MPC-HC のセットアップは既に実行されています！
 #if defined(sse_required)
-ja.msg_simd_sse=このバージョンの MPC-HC には CPU の SSE サポートが必要です。%n%nお使いの CPU はこの条件を満たしません。
+ja.msg_simd_sse=このバージョンの MPC-HC には CPU の SSE サポートが必要です。%n%nお使いの CPU はこの条件を満たしていません。
 #elif defined(sse2_required)
-ja.msg_simd_sse2=このバージョンの MPC-HC には CPU の SSE2 サポートが必要です。%n%nお使いの CPU はこの条件を満たしません。
+ja.msg_simd_sse2=このバージョンの MPC-HC には CPU の SSE2 サポートが必要です。%n%nお使いの CPU はこの条件を満たしていません。
 #endif
-ja.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
+ja.run_DownloadToolbarImages=ツールバーの画像をダウンロードするために Wiki ページに移動する
 ja.tsk_AllUsers=全てのユーザーにインストールする
 ja.tsk_CurrentUser=現在実行しているユーザーにのみインストールする
 ja.tsk_Other=他のタスク:
@@ -506,7 +506,7 @@ ms_MY.msg_simd_sse=Binaan MPC-HC ini memerlukan CPU dengan sokongan sambungan SS
 #elif defined(sse2_required)
 ms_MY.msg_simd_sse2=Binaan MPC-HC ini memerlukan CPU dengan sokongan sambungan SSE2.%n%nCPU anda tidak mempunyai keupayaan tersebut.
 #endif
-ms_MY.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
+ms_MY.run_DownloadToolbarImages=Lawati laman Wiki kami untuk memuat turun imej palang alat
 ms_MY.tsk_AllUsers=Untuk semua pengguna
 ms_MY.tsk_CurrentUser=Untuk pengguna semasa sahaja
 ms_MY.tsk_Other=Tugas lain:
@@ -546,7 +546,7 @@ pl.msg_simd_sse=Ta kompilacja MPC-HC wymaga procesora z obsługą zestawu instru
 #elif defined(sse2_required)
 pl.msg_simd_sse2=Ta kompilacja MPC-HC wymaga procesora z obsługą zestawu instrukcji SSE2.%n%nTwój procesor ich nie obsługuje.
 #endif
-pl.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
+pl.run_DownloadToolbarImages=Odwiedź naszą stronę Wiki aby pobrać więcej skórek panelu sterowania.
 pl.tsk_AllUsers=Dla wszystkich użytkowników
 pl.tsk_CurrentUser=Tylko dla bieżącego użytkownika
 pl.tsk_Other=Inne zadania:
@@ -559,14 +559,14 @@ pl.ViewChangelog=Pokaż zmiany
 pt_BR.langid=00001046
 pt_BR.comp_mpciconlib=Biblioteca de ícones
 pt_BR.comp_mpcresources=Traduções
-pt_BR.msg_DeleteSettings=Gostaria de apagar as configurações do MPC-HC?%n%nSe você quiser instalar o MPC-HC novamente então não precisa de apagar-las.
+pt_BR.msg_DeleteSettings=Gostaria de excluir as configurações do MPC-HC?%n%nSe planeja instalar o MPC-HC novamente, você não precisa excluí-las.
 pt_BR.msg_SetupIsRunningWarning=A instalação do MPC-HC ja está sendo executada!
 #if defined(sse_required)
 pt_BR.msg_simd_sse=Esta versão do MPC-HC necessita uma CPU com suporte a extensões SSE.%n%nSua CPU não tem esse suporte.
 #elif defined(sse2_required)
 pt_BR.msg_simd_sse2=Esta versão do MPC-HC necessita uma CPU com suporte a extensões SSE2.%n%nSua CPU não tem esse suporte.
 #endif
-pt_BR.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
+pt_BR.run_DownloadToolbarImages=Visite nossa página Wiki para baixar imagens de barra de ferramentas
 pt_BR.tsk_AllUsers=Para todos os usuários
 pt_BR.tsk_CurrentUser=Para o usuário atual somente
 pt_BR.tsk_Other=Outras tarefas:
@@ -626,7 +626,7 @@ sk.msg_simd_sse=Toto zostavenie MPC-HC vyžaduje procesor s podporou inštrukci�
 #elif defined(sse2_required)
 sk.msg_simd_sse2=Toto zostavenie MPC-HC vyžaduje procesor s podporou inštrukcií SSE2.%n%nVáš procesor ich nepodporuje.
 #endif
-sk.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
+sk.run_DownloadToolbarImages=Pre obrázky na panel nástrojov navštívte našu stránku Wiki
 sk.tsk_AllUsers=Pre všetkých používateľov
 sk.tsk_CurrentUser=Len pre aktuálneho používateľa
 sk.tsk_Other=Iné úlohy:
@@ -666,7 +666,7 @@ sv.msg_simd_sse=Denna version av MPC-HC kräver en processor med stöd för SSE.
 #elif defined(sse2_required)
 sv.msg_simd_sse2=Denna version av MPC-HC kräver en processor med stöd för SSE2.%n%nDin processor saknar detta stöd.
 #endif
-sv.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
+sv.run_DownloadToolbarImages=Besök vår Wiki för att ladda ned verktygsfältsbilder
 sv.tsk_AllUsers=För alla användare
 sv.tsk_CurrentUser=Endast för den aktuella användaren
 sv.tsk_Other=Andra uppgifter:
@@ -686,7 +686,7 @@ tr.msg_simd_sse=Bu MPC-HC sürümü, SSE eklentisi destekleyen bir işlemci gere
 #elif defined(sse2_required)
 tr.msg_simd_sse2=Bu MPC-HC sürümü, SSE2 eklentisi destekleyen bir işlemci gerektirmektedir.%n%nİşlemciniz bu özelliği desteklemiyor.
 #endif
-tr.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
+tr.run_DownloadToolbarImages=Araç çubuğu simgelerini indirmek için Wiki sayfamızı ziyaret edebilirsiniz
 tr.tsk_AllUsers=Tüm kullanıcılar için
 tr.tsk_CurrentUser=Sadece geçerli kullanıcı için
 tr.tsk_Other=Diğer görevler:
@@ -726,7 +726,7 @@ uk.msg_simd_sse=Для використання даної версії MPC-HC �
 #elif defined(sse2_required)
 uk.msg_simd_sse2=Для використання даної версії MPC-HC необхідно, щоб ваш процесор підтримував SSE2 розширення.%n%nАле ваш процесор не підтримує їх.
 #endif
-uk.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
+uk.run_DownloadToolbarImages=Відвідати нашу сторінку Wiki і завантажити користувацькі панелі інструментів
 uk.tsk_AllUsers=Для всіх користувачів
 uk.tsk_CurrentUser=Лише для поточного користувача
 uk.tsk_Other=Інші завдання:
@@ -746,7 +746,7 @@ vi.msg_simd_sse=Phiên bản MPC-HC này yêu cầu CPU có hỗ trợ phần m�
 #elif defined(sse2_required)
 vi.msg_simd_sse2=Phiên bản MPC-HC này yêu cầu CPU có hỗ trợ phần mở rộng SSE2.%n%nCPU của bạn không đáp ứng được yêu cầu này.
 #endif
-vi.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
+vi.run_DownloadToolbarImages=Truy cập trang Wiki của chúng tôi để tải xuống thanh công cụ khác
 vi.tsk_AllUsers=Cho mọi người dùng
 vi.tsk_CurrentUser=Chỉ cho người dùng hiện tại
 vi.tsk_Other=Các tác vụ khác:
@@ -766,7 +766,7 @@ zh_CN.msg_simd_sse=此 MPC-HC 编译版本要求 CPU 支持 SSE 指令集。%n%n
 #elif defined(sse2_required)
 zh_CN.msg_simd_sse2=此 MPC-HC 编译版本要求 CPU 支持 SSE2 指令集。%n%n您的 CPU 不具备该能力。
 #endif
-zh_CN.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
+zh_CN.run_DownloadToolbarImages=访问我们的维基页面去下载工具栏图像
 zh_CN.tsk_AllUsers=为所有用户安装
 zh_CN.tsk_CurrentUser=仅为当前用户安装
 zh_CN.tsk_Other=其他任务:

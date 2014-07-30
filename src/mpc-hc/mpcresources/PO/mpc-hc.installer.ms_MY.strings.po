@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-21 11:15:54+0000\n"
-"PO-Revision-Date: 2014-01-31 11:42+0000\n"
+"POT-Creation-Date: 2014-06-17 15:23:34+0000\n"
+"PO-Revision-Date: 2014-07-20 04:30+0000\n"
 "Last-Translator: abuyop <abuyop@gmail.com>\n"
 "Language-Team: Malay (Malaysia) (http://www.transifex.com/projects/p/mpc-hc/language/ms_MY/)\n"
 "MIME-Version: 1.0\n"
@@ -50,7 +50,7 @@ msgstr "Binaan MPC-HC ini memerlukan CPU dengan sokongan sambungan SSE2.\n\nCPU 
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
-msgstr ""
+msgstr "Lawati laman Wiki kami untuk memuat turun imej palang alat"
 
 msgctxt "CustomMessages_tsk_AllUsers"
 msgid "For all users"
