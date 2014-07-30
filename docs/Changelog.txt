@@ -32,6 +32,7 @@ next version - not released yet
 ! Ticket #4505, Embedded text subtitles: Fix a possible crash related to the Subresync bar
 ! Ticket #4504, ASS/SSA subtitles: Support floating point values in drawing commands
 ! Ticket #4536, ASS/SSA subtitles: Fix the parsing of \fs tags when the value was negative
+! Ticket #4684, Clicking on the some parts of the volume slider had no effect
 
 
 1.7.6 - 05 July 2014

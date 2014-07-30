@@ -162,9 +162,9 @@ void CVolumeCtrl::OnLButtonDown(UINT nFlags, CPoint point)
     r.right -= 4;
 
     if (point.x < r.left) {
-        SetPos(start);
+        SetPosInternal(start);
     } else if (point.x >= r.right) {
-        SetPos(stop);
+        SetPosInternal(stop);
     } else {
         int w = r.right - r.left;
         if (start < stop) {
