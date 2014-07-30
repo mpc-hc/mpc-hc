@@ -25,6 +25,10 @@
 
 
 [Messages]
+; Arabic
+ar.WelcomeLabel2=سوف يتم تثبيت [name] على جهازك.%n%nيستحسن - قبل الاستمرار - إغلاق كافة البرامج المفتوحة 
+ar.WinVersionTooLowError=يتطلب [name] نظام تشغيل windows XP Service Pack 3 أو إصدار أحدث منه.
+
 ; Belarusian
 be.WelcomeLabel2=Зараз будзе ўстаноўлена [name].%n%nРэкамендуецца закрыць усе прыкладанні перад працягам.
 be.WinVersionTooLowError=[name] патрабуецца Windows XP Service Pack 3 або навей.
@@ -155,6 +159,26 @@ zh_TW.WinVersionTooLowError=執行 [name] 需要 Windows XP Service Pack 3 或�
 
 
 [CustomMessages]
+; Arabic
+ar.langid=00001025
+ar.comp_mpciconlib=مكتبة الأيقونات
+ar.comp_mpcresources=الترجمة
+ar.msg_DeleteSettings=هل تريد حذف إعدادات ضبظ البرنامج؟ %n%nإذا كنت تنوي تثبيت البرنامج مرة أخرى، فلا يلزمك حذفها.
+ar.msg_SetupIsRunningWarning=ملف تثبيت البرنامج يعمل حالياً!
+#if defined(sse_required)
+ar.msg_simd_sse=هذه النسخة من البرنامج تتطلب معالج يدعم خاصية SSE.%n%nمعالج جهازك لايحمل هذه المتطلبات.
+#elif defined(sse2_required)
+ar.msg_simd_sse2=هذه النسخة من البرنامج تتطلب معالج يدعم خاصية SSE2.%n%nمعالج جهازك لايحمل هذه المتطلبات.
+#endif
+ar.run_DownloadToolbarImages=زُر صفحتنا في الويكي لتحميل صور شريط الأدوات
+ar.tsk_AllUsers=لجميع المستخدمين
+ar.tsk_CurrentUser=للمستخدم الحالي فقط
+ar.tsk_Other=مهام أخرى:
+ar.tsk_ResetSettings=إعادة ضبظ الإعدادات
+ar.types_DefaultInstallation=تثبيت افتراضي
+ar.types_CustomInstallation=تثبيت مخصص
+ar.ViewChangelog=عرض سجل التغيرات
+
 ; Belarusian
 be.langid=00001059
 be.comp_mpciconlib=Бібліятэка значкоў

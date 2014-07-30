@@ -173,9 +173,9 @@ BOOL CPPagePlayer::OnApply()
     if (iLangSel != CB_ERR) {
         LANGID language = (LANGID)m_langsComboBox.GetItemData(iLangSel);
         if (s.language != language) {
-            // Show a warning when switching to Hebrew (must not be translated)
-            if (PRIMARYLANGID(language) == LANG_HEBREW) {
-                AfxMessageBox(_T("The Hebrew translation will be correctly displayed (with a right-to-left layout) after restarting the application.\n"),
+            // Show a warning when switching to Arabic or Hebrew (must not be translated)
+            if (PRIMARYLANGID(language) == LANG_ARABIC || PRIMARYLANGID(language) == LANG_HEBREW) {
+                AfxMessageBox(_T("The Arabic and Hebrew translations will be correctly displayed (with a right-to-left layout) after restarting the application.\n"),
                               MB_ICONINFORMATION | MB_OK);
             }
 

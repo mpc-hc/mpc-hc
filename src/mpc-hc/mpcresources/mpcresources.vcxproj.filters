@@ -11,6 +11,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ResourceCompile Include="mpc-hc.ar.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
     <ResourceCompile Include="mpc-hc.be.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>

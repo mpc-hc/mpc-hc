@@ -1,0 +1,83 @@
+# MPC-HC - Strings extracted from string tables
+# Copyright (C) 2002 - 2014 see Authors.txt
+# This file is distributed under the same license as the MPC-HC package.
+# Translators:
+# Ahmad Abd-Elghany <tolpa1@gmail.com>, 2014
+# Tariq <tariq-mz@hotmail.com>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: MPC-HC\n"
+"POT-Creation-Date: 2014-06-17 15:23:34+0000\n"
+"PO-Revision-Date: 2014-07-18 09:41+0000\n"
+"Last-Translator: Ahmad Abd-Elghany <tolpa1@gmail.com>\n"
+"Language-Team: Arabic (http://www.transifex.com/projects/p/mpc-hc/language/ar/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ar\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+msgctxt "Messages_WelcomeLabel2"
+msgid "This will install [name] on your computer.\n\nIt is recommended that you close all other applications before continuing."
+msgstr "سوف يتم تثبيت [name] على جهازك.\n\nيستحسن - قبل الاستمرار - إغلاق كافة البرامج المفتوحة "
+
+msgctxt "Messages_WinVersionTooLowError"
+msgid "[name] requires Windows XP Service Pack 3 or newer to run."
+msgstr "يتطلب [name] نظام تشغيل windows XP Service Pack 3 أو إصدار أحدث منه."
+
+msgctxt "CustomMessages_comp_mpciconlib"
+msgid "Icon Library"
+msgstr "مكتبة الأيقونات"
+
+msgctxt "CustomMessages_comp_mpcresources"
+msgid "Translations"
+msgstr "الترجمة"
+
+msgctxt "CustomMessages_msg_DeleteSettings"
+msgid "Do you also want to delete MPC-HC settings?\n\nIf you plan on installing MPC-HC again then you do not have to delete them."
+msgstr "هل تريد حذف إعدادات ضبظ البرنامج؟ \n\nإذا كنت تنوي تثبيت البرنامج مرة أخرى، فلا يلزمك حذفها."
+
+msgctxt "CustomMessages_msg_SetupIsRunningWarning"
+msgid "MPC-HC setup is already running!"
+msgstr "ملف تثبيت البرنامج يعمل حالياً!"
+
+msgctxt "CustomMessages_msg_simd_sse"
+msgid "This build of MPC-HC requires a CPU with SSE extension support.\n\nYour CPU does not have those capabilities."
+msgstr "هذه النسخة من البرنامج تتطلب معالج يدعم خاصية SSE.\n\nمعالج جهازك لايحمل هذه المتطلبات."
+
+msgctxt "CustomMessages_msg_simd_sse2"
+msgid "This build of MPC-HC requires a CPU with SSE2 extension support.\n\nYour CPU does not have those capabilities."
+msgstr "هذه النسخة من البرنامج تتطلب معالج يدعم خاصية SSE2.\n\nمعالج جهازك لايحمل هذه المتطلبات."
+
+msgctxt "CustomMessages_run_DownloadToolbarImages"
+msgid "Visit our Wiki page to download toolbar images"
+msgstr "زُر صفحتنا في الويكي لتحميل صور شريط الأدوات"
+
+msgctxt "CustomMessages_tsk_AllUsers"
+msgid "For all users"
+msgstr "لجميع المستخدمين"
+
+msgctxt "CustomMessages_tsk_CurrentUser"
+msgid "For the current user only"
+msgstr "للمستخدم الحالي فقط"
+
+msgctxt "CustomMessages_tsk_Other"
+msgid "Other tasks:"
+msgstr "مهام أخرى:"
+
+msgctxt "CustomMessages_tsk_ResetSettings"
+msgid "Reset settings"
+msgstr "إعادة ضبظ الإعدادات"
+
+msgctxt "CustomMessages_types_DefaultInstallation"
+msgid "Default installation"
+msgstr "تثبيت افتراضي"
+
+msgctxt "CustomMessages_types_CustomInstallation"
+msgid "Custom installation"
+msgstr "تثبيت مخصص"
+
+msgctxt "CustomMessages_ViewChangelog"
+msgid "View Changelog"
+msgstr "عرض سجل التغيرات"
+

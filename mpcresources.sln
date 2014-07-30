@@ -6,6 +6,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpcresources", "src\mpc-hc\
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Release Arabic|Win32 = Release Arabic|Win32
+		Release Arabic|x64 = Release Arabic|x64
 		Release Armenian|Win32 = Release Armenian|Win32
 		Release Armenian|x64 = Release Armenian|x64
 		Release Basque|Win32 = Release Basque|Win32
@@ -74,6 +76,10 @@ Global
 		Release Vietnamese|x64 = Release Vietnamese|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Arabic|Win32.ActiveCfg = Release Arabic|Win32
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Arabic|Win32.Build.0 = Release Arabic|Win32
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Arabic|x64.ActiveCfg = Release Arabic|x64
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Arabic|x64.Build.0 = Release Arabic|x64
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Armenian|Win32.ActiveCfg = Release Armenian|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Armenian|Win32.Build.0 = Release Armenian|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Armenian|x64.ActiveCfg = Release Armenian|x64
