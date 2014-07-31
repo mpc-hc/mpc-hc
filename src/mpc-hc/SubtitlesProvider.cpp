@@ -20,6 +20,8 @@
 
 #include "stdafx.h"
 #include "SubtitlesProvider.h"
+#include "MediaInfo/ThirdParty/tinyxml2/tinyxml2.h"
+
 
 /******************************************************************************
 ** Register providers
@@ -27,8 +29,9 @@
 void SubtitlesProviders::RegisterProviders()
 {
     Register<OpenSubtitles>();
-    Register<SubDB>();
     Register<podnapisi>();
+    Register<titlovi>();
+    Register<SubDB>();
 }
 
 #define CheckAbortAndReturn() { if (IsAborting()) return SR_ABORTED; }
@@ -340,7 +343,7 @@ SRESULT SubDB::Search(const SubtitlesInfo& pFileInfo)
                 SubtitlesInfo pSubtitlesInfo;
                 pSubtitlesInfo.id = pFileInfo.fileHash;
                 pSubtitlesInfo.fileExtension = "srt";
-                pSubtitlesInfo.fileName = pFileInfo.fileName + "." + pSubtitlesInfo.fileExtension;
+                pSubtitlesInfo.fileName = pFileInfo.fileName + " (*)." + pSubtitlesInfo.fileExtension;
                 pSubtitlesInfo.languageCode = iter;
                 pSubtitlesInfo.languageName = UTF16To8(ISO639XToLanguage(iter.c_str()));
                 pSubtitlesInfo.discNumber = 1;
@@ -419,37 +422,39 @@ SRESULT podnapisi::Login(std::string& sUserName, std::string& sPassword)
     return SR_UNDEFINED;
 }
 
-// RESULTS ------------------------------------------------
-// "/sXML/1/"  //Reply in XML format
-// "/page//"   //Return nth page of results
-// SEARCH -------------------------------------------------
-// "/sT/1/"    //Type: -1=all, 0=movies, 1=series, don't specify for auto detection
-// "/sAKA/1/"  //Include movie title aliases
-// "/sM//"     //Movie id from www.omdb.si
-// "/sK//"     //Title url encoded text
-// "/sY//"     //Year number
-// "/sTS//"    //Season number
-// "/sTE//"    //Episode number
-// "/sR//"     //Release name url encoded text
-// "/sJ/0/"    //Languages, 0=all
-// SEARCH ADDITIONAL --------------------------------------
-// "/sFT/0/"   //Subtitles Format: 0=all, 1=MicroDVD, 2=SAMI, 3=SSA, 4=SubRip, 5=SubViewer 2.0, 6=SubViewer, 7=MPSub, 8=Advanced SSA, 9=DVDSubtitle, 10=TMPlayer, 11=MPlayer2
-// "/sA/0/"    //Search subtitles by user id, 0=all
-// "/sI//"     //Search subtitles by subtitle id
-// SORTING ------------------------------------------------
-// "/sS//"     //Sorting field: movie, year, fps, language, downloads, cds, username, time, rating
-// "/sO//"     //Soring order: asc, desc
-// FILTERS ------------------------------------------------
-// "/sOE/1/"   //Subtitles for extended edition only
-// "/sOD/1/"   //Subtitles suitable for DVD only
-// "/sOH/1/"   //Subtitles for high-definition video only
-// "/sOI/1/"   //Subtitles for hearing impaired only
-// "/sOT/1/"   //Technically correct only
-// "/sOL/1/"   //Grammatically correct only
-// "/sOA/1/"   //Author subtitles only
-// "/sOCS/1/"  //Only subtitles for a complete season
-// UNKNOWN ------------------------------------------------
-// "/sH//"     //Search subtitles by video file hash ??? (not working for me)
+/*
+ RESULTS ------------------------------------------------
+ "/sXML/1/"  //Reply in XML format
+ "/page//"   //Return nth page of results
+ SEARCH -------------------------------------------------
+ "/sT/1/"    //Type: -1=all, 0=movies, 1=series, don't specify for auto detection
+ "/sAKA/1/"  //Include movie title aliases
+ "/sM//"     //Movie id from www.omdb.si
+ "/sK//"     //Title url encoded text
+ "/sY//"     //Year number
+ "/sTS//"    //Season number
+ "/sTE//"    //Episode number
+ "/sR//"     //Release name url encoded text
+ "/sJ/0/"    //Languages, 0=all
+ SEARCH ADDITIONAL --------------------------------------
+ "/sFT/0/"   //Subtitles Format: 0=all, 1=MicroDVD, 2=SAMI, 3=SSA, 4=SubRip, 5=SubViewer 2.0, 6=SubViewer, 7=MPSub, 8=Advanced SSA, 9=DVDSubtitle, 10=TMPlayer, 11=MPlayer2
+ "/sA/0/"    //Search subtitles by user id, 0=all
+ "/sI//"     //Search subtitles by subtitle id
+ SORTING ------------------------------------------------
+ "/sS//"     //Sorting field: movie, year, fps, language, downloads, cds, username, time, rating
+ "/sO//"     //Soring order: asc, desc
+ FILTERS ------------------------------------------------
+ "/sOE/1/"   //Subtitles for extended edition only
+ "/sOD/1/"   //Subtitles suitable for DVD only
+ "/sOH/1/"   //Subtitles for high-definition video only
+ "/sOI/1/"   //Subtitles for hearing impaired only
+ "/sOT/1/"   //Technically correct only
+ "/sOL/1/"   //Grammatically correct only
+ "/sOA/1/"   //Author subtitles only
+ "/sOCS/1/"  //Only subtitles for a complete season
+ UNKNOWN ------------------------------------------------
+ "/sH//"     //Search subtitles by video file hash ??? (not working for me)
+*/
 
 SRESULT podnapisi::Search(const SubtitlesInfo& pFileInfo)
 {
@@ -497,16 +502,6 @@ SRESULT podnapisi::Search(const SubtitlesInfo& pFileInfo)
             pSubtitlesInfo.url = iter1[4];
             pSubtitlesInfo.fileExtension = iter1[15] == "SubRip" ? "srt" : iter1[15];
 
-            string_array fileNames(string_tokenize(iter1[7], " "));
-            if (fileNames.empty()) {
-                fileNames.push_back(pFileInfo.fileName + "." + pSubtitlesInfo.fileExtension);
-            }
-            pSubtitlesInfo.fileName = fileNames[0] + "." + pSubtitlesInfo.fileExtension;
-            for (const auto& fileName : fileNames) {
-                if (fileName == pFileInfo.fileName) {
-                    pSubtitlesInfo.fileName = fileName + "." + pSubtitlesInfo.fileExtension;
-                }
-            }
             pSubtitlesInfo.releaseName = iter1[7];
             pSubtitlesInfo.languageCode = podnapisi_languages[atoi(iter1[8].c_str())].code;
             pSubtitlesInfo.languageName = iter1[9];
@@ -517,6 +512,22 @@ SRESULT podnapisi::Search(const SubtitlesInfo& pFileInfo)
             pSubtitlesInfo.hearingImpaired = (iter1[18].find("n") != std::string::npos) ? TRUE : FALSE;
             pSubtitlesInfo.corrected = (iter1[18].find("r") != std::string::npos) ? -1 : 0;
             pSubtitlesInfo.downloadCount = atoi(iter1[19].c_str());
+
+            string_array fileNames(string_tokenize(iter1[7], " "));
+            if (fileNames.empty()) {
+                std::string str = pSubtitlesInfo.title;
+                if (pSubtitlesInfo.year > 0) { str += " " + iter1[2]; }
+                if (pSubtitlesInfo.seasonNumber > 0) { str += string_format(" S%02d", pSubtitlesInfo.seasonNumber); }
+                if (pSubtitlesInfo.episodeNumber > 0) { str += string_format("%sE%02d", (pSubtitlesInfo.seasonNumber > 0) ? "" : " ", pSubtitlesInfo.episodeNumber); }
+                str += " (*)";
+                fileNames.push_back(str);
+            }
+            pSubtitlesInfo.fileName = fileNames[0] + "." + pSubtitlesInfo.fileExtension;
+            for (const auto& fileName : fileNames) {
+                if (fileName == pFileInfo.fileName) {
+                    pSubtitlesInfo.fileName = fileName + "." + pSubtitlesInfo.fileExtension;
+                }
+            }
             Set(pSubtitlesInfo);
         }
     } while (page++ < pages);
@@ -561,6 +572,137 @@ std::string podnapisi::GetLanguagesString()
         for (const auto& iter : podnapisi_languages) {
             if (strlen(iter.code) && languages.find(iter.code) != std::string::npos) {
                 result += (result.empty() ? "" : ",") + std::to_string(&iter - &podnapisi_languages[0]);
+            }
+        }
+    }
+    return result;
+}
+
+/******************************************************************************
+** titlovi
+******************************************************************************/
+
+/*
+ x-dev_api_id=
+ uiculture=hr,rs,si,ba,en,mk
+ language=hr,rs,sr,si,ba,en,mk
+ keyword=
+ year=
+ mt=numeric value representing type of subtitle (Movie / TV show / documentary 1, 2, 3)
+ season=numeric value representing season
+ episode=numeric value representing season episode
+ forcefilename=true (default is false) return direct download link
+*/
+
+SRESULT titlovi::Search(const SubtitlesInfo& pFileInfo)
+{
+    SRESULT searchResult = SR_UNDEFINED;
+
+    std::string languages = GetLanguagesString();
+    if (!LanguagesISO6391().empty() && languages.empty()) {
+        return searchResult;
+    }
+
+    std::string KEY = "WC1ERVYtREVTS1RPUF9maWUyYS1hMVJzYS1hSHc0UA==";
+    std::string url(string_format("http://api.titlovi.com/xml_get_api.ashx?x-dev_api_id=%s&uiculture=en&forcefilename=true", Base64::decode(KEY).c_str()));
+    url += "&mt=" + (pFileInfo.seasonNumber != -1 ? std::to_string(2) : std::to_string(1));
+    url += "&keyword=" + UrlEncode(pFileInfo.title.c_str());
+    url += (pFileInfo.seasonNumber != -1 ? "&season=" + std::to_string(pFileInfo.seasonNumber) : "");
+    url += (pFileInfo.episodeNumber != -1 ? "&episode=" + std::to_string(pFileInfo.episodeNumber) : "");
+    url += (pFileInfo.year != -1 ? "&year=" + std::to_string(pFileInfo.year) : "");
+    url += (!languages.empty() ? "&language=" + languages : "");
+
+    std::string data;
+    searchResult = Download(url, "", data);
+
+    tinyxml2::XMLDocument dxml;
+    if (dxml.Parse(data.c_str()) == tinyxml2::XMLError::XML_SUCCESS) {
+
+        auto GetChildElementText = [&](tinyxml2::XMLElement * pElement, const char* value) -> std::string {
+            std::string str;
+            auto pChildElement = pElement->FirstChildElement(value);
+            if (pChildElement != nullptr)
+            {
+                auto pText = pChildElement->GetText();
+                if (pText != nullptr) { str = pText; }
+            }
+            return str;
+        };
+
+        auto pRootElmt = dxml.FirstChildElement("subtitles");
+        if (pRootElmt) {
+            std::string name = pRootElmt->Name();
+            std::string strAttr = pRootElmt->Attribute("resultsCount");
+            int num = pRootElmt->IntAttribute("resultsCount");
+            if (num > 0/* && num < 50*/) {
+                auto pSubtitleElmt = pRootElmt->FirstChildElement();
+
+                while (pSubtitleElmt) {
+                    SubtitlesInfo pSubtitlesInfo;
+
+                    pSubtitlesInfo.title = GetChildElementText(pSubtitleElmt, "title");
+                    pSubtitlesInfo.languageCode = GetChildElementText(pSubtitleElmt, "language");
+                    for (const auto& language : titlovi_languages) { if (pSubtitlesInfo.languageCode == language.code) { pSubtitlesInfo.languageCode = language.name; } }
+                    pSubtitlesInfo.languageName = UTF16To8(ISO639XToLanguage(pSubtitlesInfo.languageCode.c_str()));
+                    pSubtitlesInfo.releaseName = GetChildElementText(pSubtitleElmt, "release");
+                    pSubtitlesInfo.imdbid = GetChildElementText(pSubtitleElmt, "imdbId");
+                    pSubtitlesInfo.frameRate = atof(GetChildElementText(pSubtitleElmt, "fps").c_str());
+                    pSubtitlesInfo.year = atoi(GetChildElementText(pSubtitleElmt, "year").c_str());
+                    pSubtitlesInfo.discNumber = atoi(GetChildElementText(pSubtitleElmt, "cd").c_str());
+                    pSubtitlesInfo.discCount = pSubtitlesInfo.discNumber;
+                    pSubtitlesInfo.downloadCount = atoi(GetChildElementText(pSubtitleElmt, "downloads").c_str());
+
+                    auto pSubtitleChildElmt = pSubtitleElmt->FirstChildElement("urls");
+                    if (pSubtitleChildElmt) {
+                        auto pURLElement = pSubtitleChildElmt->FirstChildElement("url");
+                        while (pURLElement) {
+                            if (pURLElement->Attribute("what", "download")) {
+                                pSubtitlesInfo.url = pURLElement->GetText();
+                            }
+                            if (pURLElement->Attribute("what", "direct")) {
+                                pSubtitlesInfo.id = pURLElement->GetText();
+                            }
+                            pURLElement = pURLElement->NextSiblingElement();
+                        }
+                    }
+
+                    if ((pSubtitleChildElmt = pSubtitleElmt->FirstChildElement("TVShow")) != nullptr) {
+                        pSubtitlesInfo.seasonNumber = atoi(GetChildElementText(pSubtitleChildElmt, "season").c_str());
+                        pSubtitlesInfo.episodeNumber = atoi(GetChildElementText(pSubtitleChildElmt, "episode").c_str());
+                    }
+                    pSubtitlesInfo.fileName = pSubtitlesInfo.title + " " + std::to_string(pSubtitlesInfo.year);
+                    if (pSubtitlesInfo.seasonNumber > 0) { pSubtitlesInfo.fileName += string_format(" S%02d", pSubtitlesInfo.seasonNumber); }
+                    if (pSubtitlesInfo.episodeNumber > 0) { pSubtitlesInfo.fileName += string_format("%sE%02d", (pSubtitlesInfo.seasonNumber > 0) ? "" : " ", pSubtitlesInfo.episodeNumber); }
+                    pSubtitlesInfo.fileName += " " + pSubtitlesInfo.releaseName;
+                    pSubtitlesInfo.fileName += " (*)";
+
+                    Set(pSubtitlesInfo);
+                    pSubtitleElmt = pSubtitleElmt->NextSiblingElement();
+                }
+            }
+        }
+    }
+    return searchResult;
+}
+
+SRESULT titlovi::Download(SubtitlesInfo& pSubtitlesInfo)
+{
+    return Download(pSubtitlesInfo.id.c_str(), "", pSubtitlesInfo.fileContents);
+}
+
+std::string titlovi::Languages()
+{
+    return "hr,sr,sl,bs,en,mk";
+}
+
+std::string titlovi::GetLanguagesString()
+{
+    std::string result;
+    std::string languages(LanguagesISO6391());
+    if (!languages.empty()) {
+        for (const auto& iter : titlovi_languages) {
+            if (strlen(iter.name) && languages.find(iter.name) != std::string::npos) {
+                result += (result.empty() ? "" : ",") + std::string(iter.code);
             }
         }
     }

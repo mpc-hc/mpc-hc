@@ -72,6 +72,11 @@ std::string GetLanguagesString();
 static const std::regex regex_pattern[];
 DEFINE_SUBTITLESPROVIDER_END
 
+DEFINE_SUBTITLESPROVIDER_BEGIN(titlovi, "http://www.titlovi.com", IDI_TITLOVI, SPF_SEARCH)
+std::string GetLanguagesString();
+DEFINE_SUBTITLESPROVIDER_END
+
+
 static const struct { const char* code; const char* name; } podnapisi_languages[] = {
     { /* 0*/ "",   "" },                        { /* 1*/ "sl", "Slovenian" },              { /* 2*/ "en", "English" },
     { /* 3*/ "no", "Norwegian" },               { /* 4*/ "ko", "Korean" },                 { /* 5*/ "de", "German" },
@@ -94,3 +99,8 @@ static const struct { const char* code; const char* name; } podnapisi_languages[
     { /*54*/ "id", "Indonesian" },              { /*55*/ "ms", "Malay" },                  { /*56*/ "si", "Sinhala" },
     { /*57*/ "kl", "Greenlandic" },             { /*58*/ "kk", "Kazakh" },                 { /*59*/ "bn", "Bengali" },
 };
+
+static const struct { const char* code; const char* name; } titlovi_languages[] = {
+    { "hr", "hr" }, { "sr", "sr" }, { "rs", "sr" }, { "si", "sl" }, { "ba", "bs" }, { "en", "en" }, { "mk", "mk" },
+};
+

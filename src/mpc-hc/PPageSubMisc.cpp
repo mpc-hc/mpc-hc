@@ -236,7 +236,6 @@ void CPPageSubMisc::OnAutoDownloadSubtitlesClicked()
     GetDlgItem(IDC_EDIT2)->EnableWindow(m_bAutoDownloadSubtitles);
     UpdateWindow();
 
-    UpdateData(FALSE);
     SetModified();
 }
 
