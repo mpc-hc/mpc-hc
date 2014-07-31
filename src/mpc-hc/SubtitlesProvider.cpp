@@ -348,7 +348,7 @@ SRESULT SubDB::Search(const SubtitlesInfo& pFileInfo)
                 SubtitlesInfo pSubtitlesInfo;
                 pSubtitlesInfo.id = pFileInfo.fileHash;
                 pSubtitlesInfo.fileExtension = "srt";
-                pSubtitlesInfo.fileName = pFileInfo.fileName + "." + pSubtitlesInfo.fileExtension;
+                pSubtitlesInfo.fileName = pFileInfo.fileName + " (*)." + pSubtitlesInfo.fileExtension;
                 pSubtitlesInfo.languageCode = iter;
                 pSubtitlesInfo.languageName = UTF16To8(ISO639XToLanguage(iter.c_str()));
                 pSubtitlesInfo.discNumber = 1;
@@ -417,7 +417,6 @@ std::string SubDB::Languages()
 
 const std::regex TVsubtitles::regex_pattern[] = {
     std::regex("href=\"/(tvshow-(\\d+)[.]html)\">(.*?) (?:[(]([a-z]{2})[)] )?[(](\\d{4})-(\\d{4})[)]</a>", regex_flags),
-    std::regex(),
     std::regex("<a href=\"/subtitle-(\\d+)[.]html\">[^]+?<img src=\"images/flags/([a-z]{2})[.]gif\"[^]+?</div></a>", regex_flags),
     std::regex("filename:.+?>([^<\n\t]+)[^]+?downloads:.+?>(\\d+)", regex_flags),
 };
@@ -449,7 +448,7 @@ SRESULT TVsubtitles::Search(const SubtitlesInfo& pFileInfo)
                 //too slow//string_regex(string_format("<a href=\"/subtitle-(\\d+)[.]html\">[^]+?<img src=\"images/flags/(%s)[.]gif\"[^]+?>([^<]+)[^]+?>\n\t([^<]+)[^]+?>\n\t([^<]+)[^]+?>\n\t(\\d+)</p></div></a>", GetLanguagesString().c_str()), data2, results2);
                 //TODO: test
                 //string_regex("<a href=\"/subtitle-(\\d+)[.]html\">[^]+?<img src=\"images/flags/([a-z]{2})[.]gif\"[^]+?>([^<]+)[^]+?>\n\t([^<]+)[^]+?>\n\t([^<]+)[^]+?>\n\t(\\d+)</p></div></a>", data2, results2);
-                string_regex(regex_pattern[2], data2, results2);
+                string_regex(regex_pattern[1], data2, results2);
                 for (auto& iter2 : results2) {
                     CheckAbortAndReturn();
                     for (const auto& language : tvsubtitles_languages) { if (iter2[1] == language.code) { iter2[1] = language.name; } }
@@ -460,7 +459,7 @@ SRESULT TVsubtitles::Search(const SubtitlesInfo& pFileInfo)
 
                         regex_results results3;
                         SubtitlesInfo pSubtitlesInfo;
-                        string_regex(regex_pattern[3], data3, results3);
+                        string_regex(regex_pattern[2], data3, results3);
                         for (const auto& iter3 : results3) {
                             CheckAbortAndReturn();
                             pSubtitlesInfo.fileName = iter3[0];
@@ -572,7 +571,6 @@ std::string Moviesubtitles::Languages()
 
 const std::regex addic7ed::regex_pattern[] = {
     std::regex("<a href=\"/show/(\\d+)\" >Show <i>(.*?)(?: [(](\\d{4})[)])?(?: [(]?(AU|CA|FR|JP|UK|US)[)]?)?</i></a>", regex_flags),
-    std::regex(),
 };
 
 SRESULT addic7ed::Login(std::string& sUserName, std::string& sPassword)
@@ -777,16 +775,6 @@ SRESULT podnapisi::Search(const SubtitlesInfo& pFileInfo)
             pSubtitlesInfo.url = iter1[4];
             pSubtitlesInfo.fileExtension = iter1[15] == "SubRip" ? "srt" : iter1[15];
 
-            string_array fileNames(string_tokenize(iter1[7], " "));
-            if (fileNames.empty()) {
-                fileNames.push_back(pFileInfo.fileName + "." + pSubtitlesInfo.fileExtension);
-            }
-            pSubtitlesInfo.fileName = fileNames[0] + "." + pSubtitlesInfo.fileExtension;
-            for (const auto& fileName : fileNames) {
-                if (fileName == pFileInfo.fileName) {
-                    pSubtitlesInfo.fileName = fileName + "." + pSubtitlesInfo.fileExtension;
-                }
-            }
             pSubtitlesInfo.releaseName = iter1[7];
             pSubtitlesInfo.languageCode = podnapisi_languages[atoi(iter1[8].c_str())].code;
             pSubtitlesInfo.languageName = iter1[9];
@@ -797,6 +785,22 @@ SRESULT podnapisi::Search(const SubtitlesInfo& pFileInfo)
             pSubtitlesInfo.hearingImpaired = (iter1[18].find("n") != std::string::npos) ? TRUE : FALSE;
             pSubtitlesInfo.corrected = (iter1[18].find("r") != std::string::npos) ? -1 : 0;
             pSubtitlesInfo.downloadCount = atoi(iter1[19].c_str());
+
+            string_array fileNames(string_tokenize(iter1[7], " "));
+            if (fileNames.empty()) {
+                std::string str = pSubtitlesInfo.title;
+                if (pSubtitlesInfo.year > 0) { str += " " + iter1[2]; }
+                if (pSubtitlesInfo.seasonNumber > 0) { str += string_format(" S%02d", pSubtitlesInfo.seasonNumber); }
+                if (pSubtitlesInfo.episodeNumber > 0) { str += string_format("%sE%02d", (pSubtitlesInfo.seasonNumber > 0) ? "" : " ", pSubtitlesInfo.episodeNumber); }
+                str += " (*)";
+                fileNames.push_back(str);
+            }
+            pSubtitlesInfo.fileName = fileNames[0] + "." + pSubtitlesInfo.fileExtension;
+            for (const auto& fileName : fileNames) {
+                if (fileName == pFileInfo.fileName) {
+                    pSubtitlesInfo.fileName = fileName + "." + pSubtitlesInfo.fileExtension;
+                }
+            }
             Set(pSubtitlesInfo);
         }
     } while (page++ < pages);
@@ -854,12 +858,14 @@ std::string podnapisi::GetLanguagesString()
 /*
  x-dev_api_id=
  uiculture=hr,rs,si,ba,en,mk
- language=hr,rs,si,ba,en,mk
+ language=hr,rs,sr,si,ba,en,mk
+ language=hrvatski,srpski,cirilica,slovenski,bosanski,makedonski,english
  keyword=
  year=
  mt= numeric value representing type of subtitle(Movie / TV show / documentary 1, 2, 3)
  season= numeric value representing season
  episode= numeric value representing season episode
+ forcefilename=true (default is false)
 */
 
 SRESULT titlovi::Search(const SubtitlesInfo& pFileInfo)
@@ -872,7 +878,7 @@ SRESULT titlovi::Search(const SubtitlesInfo& pFileInfo)
     }
 
     std::string KEY = "WC1ERVYtREVTS1RPUF9maWUyYS1hMVJzYS1hSHc0UA==";
-    std::string url(string_format("http://api.titlovi.com/xml_get_api.ashx?x-dev_api_id=%s&uiculture=en", Base64::decode(KEY).c_str()));
+    std::string url(string_format("http://api.titlovi.com/xml_get_api.ashx?x-dev_api_id=%s&uiculture=en&forcefilename=true", Base64::decode(KEY).c_str()));
     url += "&mt=" + (pFileInfo.seasonNumber != -1 ? std::to_string(2) : std::to_string(1));
     url += "&keyword=" + UrlEncode(pFileInfo.title.c_str());
     url += (pFileInfo.seasonNumber != -1 ? "&season=" + std::to_string(pFileInfo.seasonNumber) : "");
@@ -912,7 +918,7 @@ SRESULT titlovi::Search(const SubtitlesInfo& pFileInfo)
                     pSubtitlesInfo.languageCode = GetChildElementText(pSubtitleElmt, "language");
                     for (const auto& language : titlovi_languages) { if (pSubtitlesInfo.languageCode == language.code) { pSubtitlesInfo.languageCode = language.name; } }
                     pSubtitlesInfo.languageName = UTF16To8(ISO639XToLanguage(pSubtitlesInfo.languageCode.c_str()));
-                    pSubtitlesInfo.releaseGroup = GetChildElementText(pSubtitleElmt, "release");
+                    pSubtitlesInfo.releaseName = GetChildElementText(pSubtitleElmt, "release");
                     pSubtitlesInfo.imdbid = GetChildElementText(pSubtitleElmt, "imdbId");
                     pSubtitlesInfo.frameRate = atof(GetChildElementText(pSubtitleElmt, "fps").c_str());
                     pSubtitlesInfo.year = atoi(GetChildElementText(pSubtitleElmt, "year").c_str());
@@ -926,11 +932,9 @@ SRESULT titlovi::Search(const SubtitlesInfo& pFileInfo)
                         while (pURLElement) {
                             if (pURLElement->Attribute("what", "download")) {
                                 pSubtitlesInfo.url = pURLElement->GetText();
-                                regex_result result;
-                                if (string_regex(std::regex("-(\\d+)/", regex_flags), pSubtitlesInfo.url, result)) {
-                                    pSubtitlesInfo.id = result[0];
-                                }
-                                break;
+                            }
+                            if (pURLElement->Attribute("what", "direct")) {
+                                pSubtitlesInfo.id = pURLElement->GetText();
                             }
                             pURLElement = pURLElement->NextSiblingElement();
                         }
@@ -941,13 +945,10 @@ SRESULT titlovi::Search(const SubtitlesInfo& pFileInfo)
                         pSubtitlesInfo.episodeNumber = atoi(GetChildElementText(pSubtitleChildElmt, "episode").c_str());
                     }
                     pSubtitlesInfo.fileName = pSubtitlesInfo.title + " " + std::to_string(pSubtitlesInfo.year);
-                    if (pSubtitlesInfo.seasonNumber != -1) {
-                        pSubtitlesInfo.fileName += string_format(" S%02d", pSubtitlesInfo.seasonNumber);
-                    }
-                    if (pSubtitlesInfo.episodeNumber != -1) {
-                        pSubtitlesInfo.fileName += string_format("%sE%02d", (pSubtitlesInfo.seasonNumber != -1) ? "" : " ", pSubtitlesInfo.episodeNumber);
-                    }
-                    pSubtitlesInfo.fileName += " " + pSubtitlesInfo.releaseGroup;
+                    if (pSubtitlesInfo.seasonNumber > 0) { pSubtitlesInfo.fileName += string_format(" S%02d", pSubtitlesInfo.seasonNumber); }
+                    if (pSubtitlesInfo.episodeNumber > 0) { pSubtitlesInfo.fileName += string_format("%sE%02d", (pSubtitlesInfo.seasonNumber > 0) ? "" : " ", pSubtitlesInfo.episodeNumber); }
+                    pSubtitlesInfo.fileName += " " + pSubtitlesInfo.releaseName;
+                    pSubtitlesInfo.fileName += " (*)";
 
                     Set(pSubtitlesInfo);
                     pSubtitleElmt = pSubtitleElmt->NextSiblingElement();
@@ -960,11 +961,7 @@ SRESULT titlovi::Search(const SubtitlesInfo& pFileInfo)
 
 SRESULT titlovi::Download(SubtitlesInfo& pSubtitlesInfo)
 {
-    SRESULT searchResult = SR_UNDEFINED;
-    std::string temp;
-    searchResult = Download(string_format("http://en.titlovi.com/downloads/default.ashx?type=1&mediaid=%s", pSubtitlesInfo.id.c_str()), "", pSubtitlesInfo.fileContents);
-
-    return searchResult;
+    return Download(pSubtitlesInfo.id.c_str(), "", pSubtitlesInfo.fileContents);
 }
 
 std::string titlovi::Languages()
@@ -979,7 +976,7 @@ std::string titlovi::GetLanguagesString()
     if (!languages.empty()) {
         for (const auto& iter : titlovi_languages) {
             if (strlen(iter.name) && languages.find(iter.name) != std::string::npos) {
-                result += (result.empty() ? "" : ",") + std::string(iter.code);
+                result += (result.empty() ? "" : ",") + std::string(iter.name1);
             }
         }
     }

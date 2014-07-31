@@ -143,6 +143,6 @@ static const struct { const char* code; const char* name; } moviesubtitles_langu
     { "br", "pb" }, { "ua", "uk" }, { "gr", "el" }, { "cn", "zh" }, { "jp", "ja" }, { "cz", "cs" },
 };
 
-static const struct { const char* code; const char* name; } titlovi_languages[] = {
-    { "hr", "hr" }, { "sr", "sr" }, { "rs", "sr" }, { "si", "sl" }, { "ba", "bs" }, { "en", "en" }, { "mk", "mk" },
+static const struct { const char* code; const char* name; const char* name1; } titlovi_languages[] = {
+    { "hr", "hr", "hrvatski" }, { "sr", "sr", "cirilica" }, { "rs", "sr", "srpski" }, { "si", "sl", "slovenski" }, { "ba", "bs", "bosanski" }, { "en", "en", "english" }, { "mk", "mk", "makedonski" },
 };
