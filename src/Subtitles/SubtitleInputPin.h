@@ -21,6 +21,11 @@
 
 #pragma once
 
+#include <vector>
+#include <memory>
+#include <thread>
+#include <condition_variable>
+
 #include "../SubPic/ISubPic.h"
 
 //
@@ -34,6 +39,27 @@ class CSubtitleInputPin : public CBaseInputPin
     CCritSec* m_pSubLock;
     CComPtr<ISubStream> m_pSubStream;
 
+    struct SubtitleSample {
+        REFERENCE_TIME rtStart, rtStop;
+        std::vector<BYTE> data;
+
+        SubtitleSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE* pData, size_t len)
+            : rtStart(rtStart)
+            , rtStop(rtStop)
+            , data(pData, pData + len) {}
+    };
+
+    CAutoPtrList<SubtitleSample> m_sampleQueue;
+
+    bool m_bExitDecodingThread, m_bStopDecoding;
+    std::thread m_decodeThread;
+    std::mutex m_mutexQueue; // to protect m_sampleQueue
+    std::condition_variable m_condQueueReady;
+
+    void DecodeSamples();
+    REFERENCE_TIME DecodeSample(const CAutoPtr<SubtitleSample>& pSample);
+    void InvalidateSamples();
+
 protected:
     virtual void AddSubStream(ISubStream* pSubStream) = 0;
     virtual void RemoveSubStream(ISubStream* pSubStream) = 0;
@@ -43,6 +69,7 @@ protected:
 
 public:
     CSubtitleInputPin(CBaseFilter* pFilter, CCritSec* pLock, CCritSec* pSubLock, HRESULT* phr);
+    ~CSubtitleInputPin();
 
     HRESULT CheckMediaType(const CMediaType* pmt);
     HRESULT CompleteConnect(IPin* pReceivePin);
