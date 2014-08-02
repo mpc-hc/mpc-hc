@@ -2148,32 +2148,25 @@ STDMETHODIMP CDX9AllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
     }
     *size = required;
 
-    D3DLOCKED_RECT r;
     CComPtr<IDirect3DSurface9> pSurface;
-    if (m_bFullFloatingPointProcessing || m_bHalfFloatingPointProcessing || m_bHighColorResolution) {
-        CComPtr<IDirect3DSurface9> fSurface = m_pVideoSurface[m_nCurSurface];
-        if (FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(desc.Width, desc.Height, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &fSurface, nullptr))
-                || FAILED(hr = m_pD3DXLoadSurfaceFromSurface(fSurface, nullptr, nullptr, m_pVideoSurface[m_nCurSurface], nullptr, nullptr, D3DX_DEFAULT, 0))) {
+    // Convert to 8-bit when using 10-bit or full/half processing modes
+    if (desc.Format != D3DFMT_X8R8G8B8) {
+        if (FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(desc.Width, desc.Height, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &pSurface, nullptr))
+                || FAILED(hr = m_pD3DXLoadSurfaceFromSurface(pSurface, nullptr, nullptr, m_pVideoSurface[m_nCurSurface], nullptr, nullptr, D3DX_DEFAULT, 0))) {
             return hr;
-        }
-        pSurface = fSurface;
-        if (FAILED(hr = pSurface->LockRect(&r, nullptr, D3DLOCK_READONLY))) {
-            pSurface = nullptr;
-            if (FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(desc.Width, desc.Height, D3DFMT_A8R8G8B8, D3DPOOL_SYSTEMMEM, &pSurface, nullptr))
-                    || FAILED(hr = m_pD3DDev->GetRenderTargetData(fSurface, pSurface))
-                    || FAILED(hr = pSurface->LockRect(&r, nullptr, D3DLOCK_READONLY))) {
-                return hr;
-            }
         }
     } else {
         pSurface = m_pVideoSurface[m_nCurSurface];
-        if (FAILED(hr = pSurface->LockRect(&r, nullptr, D3DLOCK_READONLY))) {
-            pSurface = nullptr;
-            if (FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(desc.Width, desc.Height, desc.Format, D3DPOOL_SYSTEMMEM, &pSurface, nullptr))
-                    || FAILED(hr = m_pD3DDev->GetRenderTargetData(m_pVideoSurface[m_nCurSurface], pSurface))
-                    || FAILED(hr = pSurface->LockRect(&r, nullptr, D3DLOCK_READONLY))) {
-                return hr;
-            }
+    }
+    D3DLOCKED_RECT r;
+    if (FAILED(hr = pSurface->LockRect(&r, nullptr, D3DLOCK_READONLY))) {
+        // If this fails, we try to use a surface allocated from the system memory
+        CComPtr<IDirect3DSurface9> pInputSurface = pSurface;
+        pSurface = nullptr;
+        if (FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(desc.Width, desc.Height, D3DFMT_X8R8G8B8, D3DPOOL_SYSTEMMEM, &pSurface, nullptr))
+                || FAILED(hr = m_pD3DDev->GetRenderTargetData(pInputSurface, pSurface))
+                || FAILED(hr = pSurface->LockRect(&r, nullptr, D3DLOCK_READONLY))) {
+            return hr;
         }
     }
 
