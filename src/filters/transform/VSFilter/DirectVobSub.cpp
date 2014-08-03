@@ -33,7 +33,7 @@ CDirectVobSub::CDirectVobSub()
     m_iSelectedLanguage = 0;
     m_fHideSubtitles = !!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_HIDE), FALSE);
     m_subPicQueueSettings.nSize = theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_SUBPICTTOBUFFER), 10);
-    m_subPicQueueSettings.bDisallowSubtitleAnimation = !!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_DISABLESUBANIM), FALSE);
+    m_subPicQueueSettings.bDisableSubtitleAnimation = !!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_DISABLESUBANIM), FALSE);
     m_subPicQueueSettings.nRenderAtWhenAnimationIsDisabled = theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_RENDERATWITHOUTANIM), 50);
     m_subPicQueueSettings.nAnimationRate = theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_ANIMATIONRATE), 100);
     m_subPicQueueSettings.bAllowDroppingSubpic = !!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_ALLOWDROPPINGSUBPIC), TRUE);
@@ -210,7 +210,7 @@ STDMETHODIMP CDirectVobSub::get_AnimWhenBuffering(bool* fAnimWhenBuffering)
 {
     CAutoLock cAutoLock(&m_propsLock);
 
-    return fAnimWhenBuffering ? *fAnimWhenBuffering = !m_subPicQueueSettings.bDisallowSubtitleAnimation, S_OK : E_POINTER;
+    return fAnimWhenBuffering ? *fAnimWhenBuffering = !m_subPicQueueSettings.bDisableSubtitleAnimation, S_OK : E_POINTER;
 }
 
 // deprecated
@@ -218,11 +218,11 @@ STDMETHODIMP CDirectVobSub::put_AnimWhenBuffering(bool fAnimWhenBuffering)
 {
     CAutoLock cAutoLock(&m_propsLock);
 
-    if (m_subPicQueueSettings.bDisallowSubtitleAnimation == !fAnimWhenBuffering) {
+    if (m_subPicQueueSettings.bDisableSubtitleAnimation == !fAnimWhenBuffering) {
         return S_FALSE;
     }
 
-    m_subPicQueueSettings.bDisallowSubtitleAnimation = !fAnimWhenBuffering;
+    m_subPicQueueSettings.bDisableSubtitleAnimation = !fAnimWhenBuffering;
 
     return S_OK;
 }
@@ -534,7 +534,7 @@ STDMETHODIMP CDirectVobSub::UpdateRegistry()
 
     theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_HIDE), m_fHideSubtitles);
     theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_SUBPICTTOBUFFER), m_subPicQueueSettings.nSize);
-    theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_DISABLESUBANIM), m_subPicQueueSettings.bDisallowSubtitleAnimation);
+    theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_DISABLESUBANIM), m_subPicQueueSettings.bDisableSubtitleAnimation);
     theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_RENDERATWITHOUTANIM), m_subPicQueueSettings.nRenderAtWhenAnimationIsDisabled);
     theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_ANIMATIONRATE), m_subPicQueueSettings.nAnimationRate);
     theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_ALLOWDROPPINGSUBPIC), m_subPicQueueSettings.bAllowDroppingSubpic);
@@ -798,18 +798,18 @@ STDMETHODIMP_(bool) CDirectVobSub::get_DisableSubtitleAnimation()
 {
     CAutoLock cAutoLock(&m_propsLock);
 
-    return m_subPicQueueSettings.bDisallowSubtitleAnimation;
+    return m_subPicQueueSettings.bDisableSubtitleAnimation;
 }
 
 STDMETHODIMP CDirectVobSub::put_DisableSubtitleAnimation(bool bDisableSubtitleAnimation)
 {
     CAutoLock cAutoLock(&m_propsLock);
 
-    if (m_subPicQueueSettings.bDisallowSubtitleAnimation == bDisableSubtitleAnimation) {
+    if (m_subPicQueueSettings.bDisableSubtitleAnimation == bDisableSubtitleAnimation) {
         return S_FALSE;
     }
 
-    m_subPicQueueSettings.bDisallowSubtitleAnimation = bDisableSubtitleAnimation;
+    m_subPicQueueSettings.bDisableSubtitleAnimation = bDisableSubtitleAnimation;
 
     return S_OK;
 }
