@@ -77,9 +77,7 @@ STDMETHODIMP CDirectVobSub::get_FileName(WCHAR* fn)
 {
     CAutoLock cAutoLock(&m_propsLock);
 
-    if (!fn) {
-        return E_POINTER;
-    }
+    CheckPointer(fn, E_POINTER);
 
     wcscpy_s(fn, MAX_PATH, m_FileName);
 
@@ -90,9 +88,7 @@ STDMETHODIMP CDirectVobSub::put_FileName(WCHAR* fn)
 {
     CAutoLock cAutoLock(&m_propsLock);
 
-    if (!fn) {
-        return E_POINTER;
-    }
+    CheckPointer(fn, E_POINTER);
 
     CString tmp = fn;
     if (!m_FileName.Left(m_FileName.ReverseFind('.') + 1).CompareNoCase(tmp.Left(tmp.ReverseFind('.') + 1))) {
@@ -500,9 +496,7 @@ STDMETHODIMP CDirectVobSub::get_ZoomRect(NORMALIZEDRECT* rect)
 {
     CAutoLock cAutoLock(&m_propsLock);
 
-    if (!rect) {
-        return E_POINTER;
-    }
+    CheckPointer(rect, E_POINTER);
 
     *rect = m_ZoomRect;
 
@@ -513,9 +507,7 @@ STDMETHODIMP CDirectVobSub::put_ZoomRect(NORMALIZEDRECT* rect)
 {
     CAutoLock cAutoLock(&m_propsLock);
 
-    if (!rect) {
-        return E_POINTER;
-    }
+    CheckPointer(rect, E_POINTER);
 
     if (!memcmp(&m_ZoomRect, rect, sizeof(m_ZoomRect))) {
         return S_FALSE;
@@ -574,9 +566,7 @@ STDMETHODIMP CDirectVobSub::IsSubtitleReloaderLocked(bool* fLocked)
 {
     CAutoLock cAutoLock(&m_propsLock);
 
-    if (!fLocked) {
-        return E_POINTER;
-    }
+    CheckPointer(fLocked, E_POINTER);
 
     bool fDisabled;
     get_SubtitleReloader(&fDisabled);

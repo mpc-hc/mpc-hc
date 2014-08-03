@@ -65,9 +65,7 @@ static void AdjustQuad(MYD3DVERTEX<texcoords>* v, double dx, double dy)
 template<int texcoords>
 static HRESULT TextureBlt(IDirect3DDevice9* pD3DDev, MYD3DVERTEX<texcoords> v[4], D3DTEXTUREFILTERTYPE filter)
 {
-    if (!pD3DDev) {
-        return E_POINTER;
-    }
+    CheckPointer(pD3DDev, E_POINTER);
 
     DWORD FVF = 0;
 
@@ -1557,9 +1555,7 @@ bool CDX9RenderingEngine::ClipToSurface(IDirect3DSurface9* pSurface, CRect& s, C
 
 HRESULT CDX9RenderingEngine::DrawRect(DWORD _Color, DWORD _Alpha, const CRect& _Rect)
 {
-    if (!m_pD3DDev) {
-        return E_POINTER;
-    }
+    CheckPointer(m_pD3DDev, E_POINTER);
 
     DWORD Color = D3DCOLOR_ARGB(_Alpha, GetRValue(_Color), GetGValue(_Color), GetBValue(_Color));
     MYD3DVERTEX<0> v[] = {

@@ -248,9 +248,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::TerminateDevice(DWORD_PTR dwUserID)
 
 STDMETHODIMP CVMR9AllocatorPresenter::GetSurface(DWORD_PTR dwUserID, DWORD SurfaceIndex, DWORD SurfaceFlags, IDirect3DSurface9** lplpSurface)
 {
-    if (!lplpSurface) {
-        return E_POINTER;
-    }
+    CheckPointer(lplpSurface, E_POINTER);
 
     CAutoLock cAutoLock(this);
     CAutoLock cRenderLock(&m_RenderLock);

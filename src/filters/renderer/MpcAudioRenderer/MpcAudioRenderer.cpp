@@ -321,9 +321,7 @@ STDMETHODIMP CMpcAudioRenderer::NonDelegatingQueryInterface(REFIID riid, void** 
 
 HRESULT CMpcAudioRenderer::SetMediaType(const CMediaType* pmt)
 {
-    if (!pmt) {
-        return E_POINTER;
-    }
+    CheckPointer(pmt, E_POINTER);
     TRACE(_T("CMpcAudioRenderer::SetMediaType\n"));
 
     if (m_useWASAPI) {
@@ -661,9 +659,7 @@ HRESULT CMpcAudioRenderer::EndOfStream()
 
 HRESULT CMpcAudioRenderer::CreateDSBuffer()
 {
-    if (!m_pWaveFileFormat) {
-        return E_POINTER;
-    }
+    CheckPointer(m_pWaveFileFormat, E_POINTER);
 
     HRESULT hr = S_OK;
     LPDIRECTSOUNDBUFFER pDSBPrimary = nullptr;
@@ -820,9 +816,7 @@ HRESULT CMpcAudioRenderer::DoRenderSampleDirectSound(IMediaSample* pMediaSample)
 
 HRESULT CMpcAudioRenderer::WriteSampleToDSBuffer(IMediaSample* pMediaSample, bool* looped)
 {
-    if (!m_pDSBuffer) {
-        return E_POINTER;
-    }
+    CheckPointer(m_pDSBuffer, E_POINTER);
 
     REFERENCE_TIME rtStart = 0;
     REFERENCE_TIME rtStop = 0;

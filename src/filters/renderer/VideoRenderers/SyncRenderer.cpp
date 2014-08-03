@@ -259,9 +259,7 @@ void CBaseAP::AdjustQuad(MYD3DVERTEX<texcoords>* v, double dx, double dy)
 template<int texcoords>
 HRESULT CBaseAP::TextureBlt(IDirect3DDevice9* pD3DDev, MYD3DVERTEX<texcoords> v[4], D3DTEXTUREFILTERTYPE filter = D3DTEXF_LINEAR)
 {
-    if (!pD3DDev) {
-        return E_POINTER;
-    }
+    CheckPointer(pD3DDev, E_POINTER);
 
     DWORD FVF = 0;
     switch (texcoords) {
@@ -328,9 +326,7 @@ HRESULT CBaseAP::TextureBlt(IDirect3DDevice9* pD3DDev, MYD3DVERTEX<texcoords> v[
 
 HRESULT CBaseAP::DrawRectBase(IDirect3DDevice9* pD3DDev, MYD3DVERTEX<0> v[4])
 {
-    if (!pD3DDev) {
-        return E_POINTER;
-    }
+    CheckPointer(pD3DDev, E_POINTER);
 
     HRESULT hr = pD3DDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
     hr = pD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);

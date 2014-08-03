@@ -1424,9 +1424,7 @@ HRESULT CStreamSwitcherFilter::DeliverNewSegment(REFERENCE_TIME tStart, REFERENC
 
 STDMETHODIMP CStreamSwitcherFilter::Count(DWORD* pcStreams)
 {
-    if (!pcStreams) {
-        return E_POINTER;
-    }
+    CheckPointer(pcStreams, E_POINTER);
 
     CAutoLock cAutoLock(&m_csPins);
 

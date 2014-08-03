@@ -198,9 +198,7 @@ STDMETHODIMP CVMR7AllocatorPresenter::PrepareSurface(DWORD_PTR dwUserID, IDirect
 {
     SetThreadName(DWORD(-1), "CVMR7AllocatorPresenter");
 
-    if (!lpSurface) {
-        return E_POINTER;
-    }
+    CheckPointer(lpSurface, E_POINTER);
 
     // FIXME: sometimes the msmpeg4/divx3/wmv decoder wants to reuse our
     // surface (expects it to point to the same mem every time), and to avoid

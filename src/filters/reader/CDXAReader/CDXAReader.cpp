@@ -215,9 +215,7 @@ STDMETHODIMP CCDXAReader::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE* pmt)
 
 STDMETHODIMP CCDXAReader::GetCurFile(LPOLESTR* ppszFileName, AM_MEDIA_TYPE* pmt)
 {
-    if (!ppszFileName) {
-        return E_POINTER;
-    }
+    CheckPointer(ppszFileName, E_POINTER);
 
     *ppszFileName = (LPOLESTR)CoTaskMemAlloc((m_fn.GetLength() + 1) * sizeof(WCHAR));
     if (!(*ppszFileName)) {

@@ -845,9 +845,7 @@ HRESULT CEVRAllocatorPresenter::SetMediaType(IMFMediaType* pType)
 
 HRESULT CEVRAllocatorPresenter::GetMediaTypeFourCC(IMFMediaType* pType, DWORD* pFourCC)
 {
-    if (pFourCC == nullptr) {
-        return E_POINTER;
-    }
+    CheckPointer(pFourCC, E_POINTER);
 
     HRESULT hr = S_OK;
     GUID guidSubType = GUID_NULL;

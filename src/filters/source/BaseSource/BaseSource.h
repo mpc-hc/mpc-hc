@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2012, 2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -73,12 +73,9 @@ public:
     }
 
     STDMETHODIMP GetCurFile(LPOLESTR* ppszFileName, AM_MEDIA_TYPE* pmt) {
-        size_t nCount;
-        if (!ppszFileName) {
-            return E_POINTER;
-        }
+        CheckPointer(ppszFileName, E_POINTER);
 
-        nCount = m_fn.GetLength() + 1;
+        size_t nCount = m_fn.GetLength() + 1;
         *ppszFileName = (LPOLESTR)CoTaskMemAlloc(nCount * sizeof(WCHAR));
         if (!(*ppszFileName)) {
             return E_OUTOFMEMORY;

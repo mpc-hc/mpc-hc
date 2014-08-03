@@ -586,9 +586,7 @@ HRESULT CAudioSwitcherFilter::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE
 
 STDMETHODIMP CAudioSwitcherFilter::GetInputSpeakerConfig(DWORD* pdwChannelMask)
 {
-    if (!pdwChannelMask) {
-        return E_POINTER;
-    }
+    CheckPointer(pdwChannelMask, E_POINTER);
 
     *pdwChannelMask = 0;
 

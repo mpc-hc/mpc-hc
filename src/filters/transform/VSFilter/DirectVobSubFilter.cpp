@@ -653,9 +653,7 @@ bool CDirectVobSubFilter::AdjustFrameSize(CSize& s)
 
 STDMETHODIMP CDirectVobSubFilter::Count(DWORD* pcStreams)
 {
-    if (!pcStreams) {
-        return E_POINTER;
-    }
+    CheckPointer(pcStreams, E_POINTER);
 
     *pcStreams = 0;
 
@@ -886,9 +884,7 @@ STDMETHODIMP CDirectVobSubFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD*
 
 STDMETHODIMP CDirectVobSubFilter::GetClassID(CLSID* pClsid)
 {
-    if (pClsid == nullptr) {
-        return E_POINTER;
-    }
+    CheckPointer(pClsid, E_POINTER);
     *pClsid = m_clsid;
     return NOERROR;
 }
@@ -952,9 +948,7 @@ STDMETHODIMP CDirectVobSubFilter::get_LanguageName(int iLanguage, WCHAR** ppName
 {
     HRESULT hr = CDirectVobSub::get_LanguageName(iLanguage, ppName);
 
-    if (!ppName) {
-        return E_POINTER;
-    }
+    CheckPointer(ppName, E_POINTER);
 
     if (hr == NOERROR) {
         CAutoLock cAutolock(&m_csQueueLock);
