@@ -27,14 +27,12 @@
 
 // CSaveThumbnailsDialog
 
-IMPLEMENT_DYNAMIC(CSaveThumbnailsDialog, CFileDialog)
+IMPLEMENT_DYNAMIC(CSaveThumbnailsDialog, CSaveImageDialog)
 CSaveThumbnailsDialog::CSaveThumbnailsDialog(
-    int rows, int cols, int width,
+    int nJpegQuality, int rows, int cols, int width,
     LPCTSTR lpszDefExt, LPCTSTR lpszFileName,
     LPCTSTR lpszFilter, CWnd* pParentWnd) :
-    CFileDialog(FALSE, lpszDefExt, lpszFileName,
-                OFN_EXPLORER | OFN_ENABLESIZING | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST | OFN_NOCHANGEDIR,
-                lpszFilter, pParentWnd, 0),
+    CSaveImageDialog(nJpegQuality, lpszDefExt, lpszFileName, lpszFilter, pParentWnd),
     m_rows(rows),
     m_cols(cols),
     m_width(width)
@@ -44,19 +42,19 @@ CSaveThumbnailsDialog::CSaveThumbnailsDialog(
         IFileDialogCustomize* pfdc = GetIFileDialogCustomize();
         CStringW str;
 
-        pfdc->StartVisualGroup(IDS_THUMB_THUMBNAILS, ResStr(IDS_THUMB_THUMBNAILS));
-        pfdc->AddText(IDS_THUMB_ROWNUMBER, ResStr(IDS_THUMB_ROWNUMBER));
-        str.Format(L"%d", std::max(1, std::min(20, m_rows)));
-        pfdc->AddEditBox(IDC_EDIT1, str);
-
-        pfdc->AddText(IDS_THUMB_COLNUMBER, ResStr(IDS_THUMB_COLNUMBER));
-        str.Format(L"%d", std::max(1, std::min(10, m_cols)));
-        pfdc->AddEditBox(IDC_EDIT2, str);
-        pfdc->EndVisualGroup();
-
         pfdc->StartVisualGroup(IDS_THUMB_IMAGE_WIDTH, ResStr(IDS_THUMB_IMAGE_WIDTH));
         pfdc->AddText(IDS_THUMB_PIXELS, ResStr(IDS_THUMB_PIXELS));
         str.Format(L"%d", std::max(256, std::min(2560, m_width)));
+        pfdc->AddEditBox(IDC_EDIT4, str);
+        pfdc->EndVisualGroup();
+
+        pfdc->StartVisualGroup(IDS_THUMB_THUMBNAILS, ResStr(IDS_THUMB_THUMBNAILS));
+        pfdc->AddText(IDS_THUMB_ROWNUMBER, ResStr(IDS_THUMB_ROWNUMBER));
+        str.Format(L"%d", std::max(1, std::min(20, m_rows)));
+        pfdc->AddEditBox(IDC_EDIT2, str);
+
+        pfdc->AddText(IDS_THUMB_COLNUMBER, ResStr(IDS_THUMB_COLNUMBER));
+        str.Format(L"%d", std::max(1, std::min(10, m_cols)));
         pfdc->AddEditBox(IDC_EDIT3, str);
         pfdc->EndVisualGroup();
 
@@ -73,9 +71,9 @@ CSaveThumbnailsDialog::~CSaveThumbnailsDialog()
 void CSaveThumbnailsDialog::DoDataExchange(CDataExchange* pDX)
 {
     if (!SysVersion::IsVistaOrLater()) {
-        DDX_Control(pDX, IDC_SPIN1, m_rowsctrl);
-        DDX_Control(pDX, IDC_SPIN2, m_colsctrl);
-        DDX_Control(pDX, IDC_SPIN3, m_widthctrl);
+        DDX_Control(pDX, IDC_SPIN2, m_rowsctrl);
+        DDX_Control(pDX, IDC_SPIN3, m_colsctrl);
+        DDX_Control(pDX, IDC_SPIN4, m_widthctrl);
     }
     __super::DoDataExchange(pDX);
 }
@@ -108,13 +106,13 @@ BOOL CSaveThumbnailsDialog::OnFileNameOK()
         IFileDialogCustomize* pfdc = GetIFileDialogCustomize();
         WCHAR* result;
 
-        pfdc->GetEditBoxText(IDC_EDIT1, &result);
+        pfdc->GetEditBoxText(IDC_EDIT2, &result);
         m_rows = _wtoi(result);
         CoTaskMemFree(result);
-        pfdc->GetEditBoxText(IDC_EDIT2, &result);
+        pfdc->GetEditBoxText(IDC_EDIT3, &result);
         m_cols = _wtoi(result);
         CoTaskMemFree(result);
-        pfdc->GetEditBoxText(IDC_EDIT3, &result);
+        pfdc->GetEditBoxText(IDC_EDIT4, &result);
         m_width = _wtoi(result);
         CoTaskMemFree(result);
 

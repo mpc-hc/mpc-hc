@@ -665,6 +665,8 @@ public:
 
     bool            bHideWindowedControls;
 
+    int             nJpegQuality;
+
     bool            IsD3DFullscreen() const;
     CString         SelectedAudioRenderer() const;
     bool            IsISRAutoLoadEnabled() const;

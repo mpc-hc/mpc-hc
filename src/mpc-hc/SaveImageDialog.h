@@ -1,6 +1,5 @@
 /*
- * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,30 +20,26 @@
 
 #pragma once
 
-#include "SaveImageDialog.h"
-
-// CSaveThumbnailsDialog
-
-class CSaveThumbnailsDialog : public CSaveImageDialog
+class CSaveImageDialog : public CFileDialog
 {
-    DECLARE_DYNAMIC(CSaveThumbnailsDialog)
+    DECLARE_DYNAMIC(CSaveImageDialog)
 
 public:
-    CSaveThumbnailsDialog(
-        int nJpegQuality, int rows, int cols, int width,
+    CSaveImageDialog(
+        int nJpegQuality,
         LPCTSTR lpszDefExt = nullptr, LPCTSTR lpszFileName = nullptr,
         LPCTSTR lpszFilter = nullptr, CWnd* pParentWnd = nullptr);
-    virtual ~CSaveThumbnailsDialog();
+    virtual ~CSaveImageDialog();
+
+    int m_nJpegQuality;
 
 protected:
+    CSpinButtonCtrl m_jpegQualitySpin;
+    CEdit m_jpegQualityEdit;
+
     DECLARE_MESSAGE_MAP()
     virtual void DoDataExchange(CDataExchange* pDX);
     virtual BOOL OnInitDialog();
     virtual BOOL OnFileNameOK();
-
-public:
-    int m_rows, m_cols, m_width;
-    CSpinButtonCtrl m_rowsctrl;
-    CSpinButtonCtrl m_colsctrl;
-    CSpinButtonCtrl m_widthctrl;
+    virtual void OnTypeChange();
 };
