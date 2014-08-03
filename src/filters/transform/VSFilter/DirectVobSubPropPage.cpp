@@ -618,6 +618,11 @@ void CDVSGeneralPPage::UpdateControlData(bool fSave)
 
 CDVSSubpicQueuePPage::CDVSSubpicQueuePPage(LPUNKNOWN pUnk, HRESULT* phr)
     : CDVSBasePPage(NAME("VSFilter Property Page (subpicture queue settings)"), pUnk, IDD_DVSSUBPICQUEUEPAGE, IDD_DVSSUBPICQUEUEPAGE)
+    , m_nSubPictToBuffer(10)
+    , m_bDisableSubtitleAnimation(false)
+    , m_bAllowDroppingSubpic(true)
+    , m_nRenderAtWhenAnimationIsDisabled(50)
+    , m_nAnimationRate(100)
 {
     m_fDisableInstantUpdate = true;
 
