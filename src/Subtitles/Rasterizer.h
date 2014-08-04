@@ -212,7 +212,6 @@ public:
     bool PartialEndPath(HDC hdc, long dx, long dy);
     bool ScanConvert();
     bool CreateWidenedRegion(int borderX, int borderY);
-    void DeleteOutlines();
     bool Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur);
     int getOverlayWidth();
 

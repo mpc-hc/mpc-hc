@@ -741,12 +741,6 @@ bool Rasterizer::CreateWidenedRegion(int rx, int ry)
     return true;
 }
 
-void Rasterizer::DeleteOutlines()
-{
-    m_outlineData.mWideOutline.clear();
-    m_outlineData.mOutline.clear();
-}
-
 bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
 {
     _TrashOverlay();
