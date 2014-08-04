@@ -12,7 +12,7 @@ next version - not released yet
 ===============================
 + Accept loading more than one subtitle file at a time using the "Load subtitle" dialog or drag-and-drop
 + Add advanced settings page
-+ Add an arabic translation
++ Add Arabic translation
 + Completely reworked subtitle queue:
     - The queue should be quite faster than the older one for a similar number of buffered subpictures.
       It should also work much better when the number of subpictures becomes important
@@ -32,7 +32,7 @@ next version - not released yet
 + Ticket #4345, Text subtitles: Add a mode that automatically chooses the rendering target based on the
   subtitle type, ASS/SSA subtitles will be rendered on the video frame while other text subtitles will
   be rendered on the full window
-* Text subtitles: Faster subtitle parsing (up to 4 times faster for SSA/ASS subtitles)
+* Text subtitles: Faster subtitle parsing (up to 4 times faster for ASS/SSA subtitles)
 * Text subtitles: Much faster subtitle opening in the Subresync bar
 * Ticket #325, Move after playback commands to options and add an option to close and restore logo.
 * Ticket #2834, Increase limit on subtitles override placement feature.
