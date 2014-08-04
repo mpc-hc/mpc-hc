@@ -58,8 +58,9 @@ public:
             pos = posVal.pos;
             posVal.value = value;
         } else {
-            if (m_list.GetCount() > m_maxSize - 1) {
-                __super::RemoveAtPos(m_list.RemoveTail().pos);
+            if (m_list.GetCount() >= m_maxSize) {
+                __super::RemoveAtPos(m_list.GetTail().pos);
+                m_list.RemoveTailNoReturn();
             }
             pos = __super::SetAt(key, m_list.AddHead());
             CPositionValue& posVal = m_list.GetHead();
@@ -71,6 +72,7 @@ public:
     };
 
     void Clear() {
+        m_list.RemoveAll();
         __super::RemoveAll();
     }
 };
