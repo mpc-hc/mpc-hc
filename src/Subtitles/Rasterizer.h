@@ -22,6 +22,7 @@
 #pragma once
 
 #include <vector>
+#include <memory>
 #include "../SubPic/ISubPic.h"
 
 #define PT_MOVETONC         0xfe
@@ -73,7 +74,16 @@ struct COutlineData {
     int mPathOffsetX, mPathOffsetY;
     int mWideBorder;
     tSpanBuffer mOutline, mWideOutline;
+
+    COutlineData()
+        : mWidth(0)
+        , mHeight(0)
+        , mPathOffsetX(0)
+        , mPathOffsetY(0)
+        , mWideBorder(0) {}
 };
+
+typedef std::shared_ptr<COutlineData> COutlineDataSharedPtr;
 
 struct COverlayData {
     int mOffsetX, mOffsetY;
@@ -173,7 +183,7 @@ private:
     unsigned int* mpScanBuffer;
 
 protected:
-    COutlineData m_outlineData;
+    COutlineDataSharedPtr m_pOutlineData;
     COverlayData m_overlayData;
 
 private:

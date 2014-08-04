@@ -122,7 +122,7 @@ void CWord::Paint(const CPoint& p, const CPoint& org)
     COverlayKey overlayKey(this, p, org);
 
     if (m_overlayCache.Lookup(overlayKey, m_overlayData)) {
-        m_fDrawn = m_outlineCache.Lookup(overlayKey, m_outlineData);
+        m_fDrawn = m_outlineCache.Lookup(overlayKey, m_pOutlineData);
         if (m_style.borderStyle == 1) {
             if (!CreateOpaqueBox()) {
                 return;
@@ -130,7 +130,7 @@ void CWord::Paint(const CPoint& p, const CPoint& org)
         }
     } else {
         if (!m_fDrawn) {
-            if (m_outlineCache.Lookup(overlayKey, m_outlineData)) {
+            if (m_outlineCache.Lookup(overlayKey, m_pOutlineData)) {
                 if (m_style.borderStyle == 1) {
                     if (!CreateOpaqueBox()) {
                         return;
@@ -157,7 +157,7 @@ void CWord::Paint(const CPoint& p, const CPoint& org)
                     }
                 }
 
-                m_outlineCache.SetAt(overlayKey, m_outlineData);
+                m_outlineCache.SetAt(overlayKey, m_pOutlineData);
             }
 
             m_fDrawn = true;

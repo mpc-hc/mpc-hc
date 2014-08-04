@@ -33,7 +33,7 @@ typedef std::shared_ptr<CAtlList<SSATag>> SSATagsList;
 
 typedef CRenderingCache<CTextDimsKey, CTextDims, CKeyTraits<CTextDimsKey>> CTextDimsCache;
 typedef CRenderingCache<CStringW, SSATagsList, CStringElementTraits<CStringW>> CSSATagsCache;
-typedef CRenderingCache<COutlineKey, COutlineData, CKeyTraits<COutlineKey>> COutlineCache;
+typedef CRenderingCache<COutlineKey, COutlineDataSharedPtr, CKeyTraits<COutlineKey>> COutlineCache;
 typedef CRenderingCache<COverlayKey, COverlayData, CKeyTraits<COverlayKey>> COverlayCache;
 
 class CMyFont : public CFont
