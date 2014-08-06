@@ -110,7 +110,7 @@ public:
 
 class CPolygon : public CWord
 {
-    bool GetPOINT(CStringW& str, POINT& point) const;
+    bool GetPOINT(LPCWSTR& str, POINT& point) const;
     bool ParseStr();
 
 protected:

@@ -570,20 +570,19 @@ bool CPolygon::Append(CWord* w)
     //return true;
 }
 
-bool CPolygon::GetPOINT(CStringW& str, POINT& point) const
+bool CPolygon::GetPOINT(LPCWSTR& str, POINT& point) const
 {
-    LPCWSTR s = str;
     LPWSTR xEnd = nullptr;
     LPWSTR yEnd = nullptr;
 
-    point.x = std::lround(wcstod(s, &xEnd) * m_scalex) * 64;
-    if (xEnd <= s) {
+    point.x = std::lround(wcstod(str, &xEnd) * m_scalex) * 64;
+    if (xEnd <= str) {
         return false;
     }
     point.y = std::lround(wcstod(xEnd, &yEnd) * m_scaley) * 64;
 
     bool ret = yEnd > xEnd;
-    str.Delete(0, int(yEnd - s));
+    str = yEnd;
 
     return ret;
 }
@@ -595,60 +594,60 @@ bool CPolygon::ParseStr()
     }
 
     CPoint p;
-    bool foundMove = false;
+    bool bFoundMove = false;
     size_t i, j, lastSplineStart = SIZE_T_ERROR;
 
-    CStringW str = m_str;
-    str.SpanIncluding(L"mnlbspc 0123456789");
-    str.Replace(L"m", L"*m");
-    str.Replace(L"n", L"*n");
-    str.Replace(L"l", L"*l");
-    str.Replace(L"b", L"*b");
-    str.Replace(L"s", L"*s");
-    str.Replace(L"p", L"*p");
-    str.Replace(L"c", L"*c");
+    auto isValidAction = [](const WCHAR c) {
+        return c == L'm' || c == L'n' || c == L'l' || c == L'b'
+               || c == L's' || c == L'p' || c == L'c';
+    };
 
-    int k = 0;
-    for (CStringW s = str.Tokenize(L"*", k); !s.IsEmpty(); s = str.Tokenize(L"*", k)) {
-        WCHAR c = s[0];
-        s.TrimLeft(L"mnlbspc ");
+    for (LPCWSTR str = m_str; *str;) {
+        // Trim left whitespace
+        while (CStringW::StrTraits::IsSpace(*str)) {
+            str++;
+        }
+        const WCHAR c = *str;
+        do {
+            str++;
+        } while (isValidAction(*str));
         switch (c) {
-            case 'm':
-                if (!foundMove) {
+            case L'm':
+                if (!bFoundMove) {
                     if (m_pathTypesOrg.GetCount() > 0) {
                         // move command not first so we abort
                         m_pathTypesOrg.RemoveAll();
                         m_pathPointsOrg.RemoveAll();
                         return false;
                     }
-                    foundMove = true;
+                    bFoundMove = true;
                 }
-                while (GetPOINT(s, p)) {
+                while (GetPOINT(str, p)) {
                     m_pathTypesOrg.Add(PT_MOVETO);
                     m_pathPointsOrg.Add(p);
                 }
                 break;
-            case 'n':
-                while (GetPOINT(s, p)) {
+            case L'n':
+                while (GetPOINT(str, p)) {
                     m_pathTypesOrg.Add(PT_MOVETONC);
                     m_pathPointsOrg.Add(p);
                 }
                 break;
-            case 'l':
+            case L'l':
                 if (m_pathPointsOrg.GetCount() < 1) {
                     break;
                 }
-                while (GetPOINT(s, p)) {
+                while (GetPOINT(str, p)) {
                     m_pathTypesOrg.Add(PT_LINETO);
                     m_pathPointsOrg.Add(p);
                 }
                 break;
-            case 'b':
+            case L'b':
                 j = m_pathTypesOrg.GetCount();
                 if (j < 1) {
                     break;
                 }
-                while (GetPOINT(s, p)) {
+                while (GetPOINT(str, p)) {
                     m_pathTypesOrg.Add(PT_BEZIERTO);
                     m_pathPointsOrg.Add(p);
                     ++j;
@@ -657,13 +656,13 @@ bool CPolygon::ParseStr()
                 m_pathTypesOrg.SetCount(j);
                 m_pathPointsOrg.SetCount(j);
                 break;
-            case 's':
+            case L's':
                 if (m_pathPointsOrg.GetCount() < 1) {
                     break;
                 }
                 j = lastSplineStart = m_pathTypesOrg.GetCount();
                 i = 3;
-                while (i-- && GetPOINT(s, p)) {
+                while (i-- && GetPOINT(str, p)) {
                     m_pathTypesOrg.Add(PT_BSPLINETO);
                     m_pathPointsOrg.Add(p);
                     ++j;
@@ -674,16 +673,16 @@ bool CPolygon::ParseStr()
                     lastSplineStart = SIZE_T_ERROR;
                 }
             // no break
-            case 'p':
+            case L'p':
                 if (m_pathPointsOrg.GetCount() < 3) {
                     break;
                 }
-                while (GetPOINT(s, p)) {
+                while (GetPOINT(str, p)) {
                     m_pathTypesOrg.Add(PT_BSPLINEPATCHTO);
                     m_pathPointsOrg.Add(p);
                 }
                 break;
-            case 'c':
+            case L'c':
                 if (lastSplineStart != SIZE_T_ERROR && lastSplineStart > 0) {
                     m_pathTypesOrg.Add(PT_BSPLINEPATCHTO);
                     m_pathTypesOrg.Add(PT_BSPLINEPATCHTO);
@@ -702,7 +701,7 @@ bool CPolygon::ParseStr()
         }
     }
 
-    if (!foundMove) {
+    if (!bFoundMove) {
         // move command not found so we abort
         m_pathTypesOrg.RemoveAll();
         m_pathPointsOrg.RemoveAll();
