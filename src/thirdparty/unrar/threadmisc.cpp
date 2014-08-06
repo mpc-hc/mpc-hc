@@ -77,12 +77,13 @@ void DestroyThreadPool(ThreadPool *Pool)
 static THREAD_HANDLE ThreadCreate(NATIVE_THREAD_PTR Proc,void *Data)
 {
 #ifdef _UNIX
+/*
   pthread_attr_t attr;
   pthread_attr_init(&attr);
   pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
-
+*/
   pthread_t pt;
-  int Code=pthread_create(&pt,&attr,Proc,Data);
+  int Code=pthread_create(&pt,NULL/*&attr*/,Proc,Data);
   if (Code!=0)
   {
     wchar Msg[100];

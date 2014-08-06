@@ -613,7 +613,13 @@ bool CmdExtract::ExtractCurrentFile(Archive &Arc,size_t HeaderSize,bool &Repeat)
 
       Arc.SeekToNext();
 
-      bool ValidCRC=DataIO.UnpHash.Cmp(&Arc.FileHead.FileHash,Arc.FileHead.UseHashKey ? Arc.FileHead.HashKey:NULL);
+      // We check for "split after" flag to detect partially extracted files
+      // from incomplete volume sets. For them file header contains packed
+      // data hash, which must not be compared against unpacked data hash
+      // to prevent accidental match. Moreover, for -m0 volumes packed data
+      // hash would match truncated unpacked data hash and lead to fake "OK"
+      // in incomplete volume set.
+      bool ValidCRC=!Arc.FileHead.SplitAfter && DataIO.UnpHash.Cmp(&Arc.FileHead.FileHash,Arc.FileHead.UseHashKey ? Arc.FileHead.HashKey:NULL);
 
       // We set AnySolidDataUnpackedWell to true if we found at least one
       // valid non-zero solid file in preceding solid stream. If it is true

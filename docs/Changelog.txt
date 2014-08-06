@@ -38,6 +38,7 @@ next version - not released yet
 * Ticket #2834, Increase limit on subtitles override placement feature.
 * Ticket #4428, Improve the clarity of the error message when opening a subtitle file fails
 * Updated Little CMS to v2.6 (git a41d62e)
+* Updated Unrar to v5.1.7
 * Updated LAV Filters to v0.62.0.8:
     - Ticket #4539, LAV Video: Fix a crash with DVD subtitles on 64-bit builds when using software decoding
     - Ticket #4639, LAV Splitter: Fix incorrect colors for VobSub tracks in MP4

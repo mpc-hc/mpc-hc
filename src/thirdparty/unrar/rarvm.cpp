@@ -984,7 +984,7 @@ void RarVM::ExecuteStandardFilter(VM_StandardFilters FilterType)
         byte *SrcData=Mem,*DestData=SrcData+DataSize;
         const int Channels=3;
         SET_VALUE(false,&Mem[VM_GLOBALMEMADDR+0x20],DataSize);
-        if ((uint)DataSize>=VM_GLOBALMEMADDR/2 || PosR<0)
+        if ((uint)DataSize>=VM_GLOBALMEMADDR/2 || Width<0 || PosR<0)
           break;
         for (int CurChannel=0;CurChannel<Channels;CurChannel++)
         {

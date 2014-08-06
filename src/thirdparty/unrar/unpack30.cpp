@@ -798,13 +798,13 @@ bool Unpack::ReadTables30()
   }
   TablesRead=true;
   if (Inp.InAddr>ReadTop)
-    return(false);
+    return false;
   MakeDecodeTables(&Table[0],&BlockTables.LD,NC30);
   MakeDecodeTables(&Table[NC30],&BlockTables.DD,DC30);
   MakeDecodeTables(&Table[NC30+DC30],&BlockTables.LDD,LDC30);
   MakeDecodeTables(&Table[NC30+DC30+LDC30],&BlockTables.RD,RC30);
   memcpy(UnpOldTable,Table,sizeof(UnpOldTable));
-  return(true);
+  return true;
 }
 
 

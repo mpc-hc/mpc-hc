@@ -309,6 +309,7 @@ bool RecVolumes3::Restore(RAROptions *Cmd,const wchar *Name,bool Silent)
         wcscpy(LastVolName,ArcName);
 
       uiMsg(UIMSG_MISSINGVOL,ArcName);
+      uiMsg(UIEVENT_NEWARCHIVE,ArcName);
     }
     SrcFile[CurArcNum]=(File*)NewFile;
     NextVolumeName(ArcName,ASIZE(ArcName),!NewNumbering);

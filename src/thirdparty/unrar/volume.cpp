@@ -241,7 +241,7 @@ bool DllVolChange(RAROptions *Cmd,wchar *NextName,size_t NameSize)
     if (RetCode==0)
       DllVolAborted=true;
     else
-      CharToWide(NextNameA,NextName,ASIZE(NextName));
+      CharToWide(NextNameA,NextName,NameSize);
   }
 
   // We quit only on 'abort' condition, but not on 'name not changed'.

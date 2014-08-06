@@ -325,7 +325,7 @@ class Unpack:PackDef
     ModelPPM PPM;
     int PPMEscChar;
 
-    byte UnpOldTable[HUFF_TABLE_SIZE];
+    byte UnpOldTable[HUFF_TABLE_SIZE30];
     int UnpBlockType;
 
     bool TablesRead;

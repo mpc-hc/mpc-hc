@@ -58,7 +58,7 @@ wchar* VolNameToFirstName(const wchar *VolName,wchar *FirstName,size_t MaxSize,b
 wchar* GetWideName(const char *Name,const wchar *NameW,wchar *DestW,size_t DestSize);
 
 #ifndef SFX_MODULE
-void GenerateArchiveName(wchar *ArcName,size_t MaxSize,wchar *GenerateMask,bool Archiving);
+void GenerateArchiveName(wchar *ArcName,size_t MaxSize,const wchar *GenerateMask,bool Archiving);
 #endif
 
 #ifdef _WIN_ALL

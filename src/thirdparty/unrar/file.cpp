@@ -658,10 +658,26 @@ int64 File::Copy(File &Dest,int64 Length)
   {
     Wait();
     size_t SizeToRead=(!CopyAll && Length<(int64)Buffer.Size()) ? (size_t)Length:Buffer.Size();
-    int ReadSize=Read(&Buffer[0],SizeToRead);
+    char *Buf=&Buffer[0];
+    int ReadSize=Read(Buf,SizeToRead);
     if (ReadSize==0)
       break;
-    Dest.Write(&Buffer[0],ReadSize);
+    size_t WriteSize=ReadSize;
+#ifdef _WIN_ALL
+    // For FAT32 USB flash drives in Windows if first write is 4 KB or more,
+    // write caching is disabled and "write through" is enabled, resulting
+    // in bad performance, especially for many small files. It happens when
+    // we create SFX archive on USB drive, because SFX module is writetn first.
+    // So we split the first write to small 1 KB followed by rest of data.
+    if (CopySize==0 && WriteSize>=4096)
+    {
+      const size_t FirstWrite=1024;
+      Dest.Write(Buf,FirstWrite);
+      Buf+=FirstWrite;
+      WriteSize-=FirstWrite;
+    }
+#endif
+    Dest.Write(Buf,WriteSize);
     CopySize+=ReadSize;
     if (!CopyAll)
       Length-=ReadSize;

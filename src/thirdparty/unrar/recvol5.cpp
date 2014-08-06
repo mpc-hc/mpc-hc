@@ -292,6 +292,7 @@ bool RecVolumes5::Restore(RAROptions *Cmd,const wchar *Name,bool Silent)
     {
       wcsncpyz(Item->Name,FirstVolName,ASIZE(Item->Name));
       uiMsg(UIMSG_CREATING,Item->Name);
+      uiMsg(UIEVENT_NEWARCHIVE,Item->Name);
       File *NewVol=new File;
       bool UserReject;
       if (!FileCreate(Cmd,NewVol,Item->Name,ASIZE(Item->Name),&UserReject))
