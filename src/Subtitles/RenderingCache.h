@@ -112,6 +112,26 @@ public:
     bool operator==(const CTextDimsKey& textDimsKey) const;
 };
 
+class CPolygonPathKey
+{
+private:
+    ULONG m_hash;
+
+protected:
+    CString m_str;
+    double m_scalex, m_scaley;
+
+public:
+    CPolygonPathKey(const CStringW& str, double scalex, double scaley);
+    CPolygonPathKey(const CPolygonPathKey& polygonPathKey);
+
+    ULONG GetHash() const { return m_hash; };
+
+    void UpdateHash();
+
+    bool operator==(const CPolygonPathKey& polygonPathKey) const;
+};
+
 class CWord;
 
 class COutlineKey : public CTextDimsKey

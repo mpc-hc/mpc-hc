@@ -76,6 +76,38 @@ bool CTextDimsKey::operator==(const CTextDimsKey& textDimsKey) const
            && m_style->fStrikeOut == textDimsKey.m_style->fStrikeOut;
 }
 
+CPolygonPathKey::CPolygonPathKey(const CStringW& str, double scalex, double scaley)
+    : m_str(str)
+    , m_scalex(scalex)
+    , m_scaley(scaley)
+{
+    UpdateHash();
+}
+
+CPolygonPathKey::CPolygonPathKey(const CPolygonPathKey& polygonPathKey)
+    : m_str(polygonPathKey.m_str)
+    , m_scalex(polygonPathKey.m_scalex)
+    , m_scaley(polygonPathKey.m_scaley)
+    , m_hash(polygonPathKey.m_hash)
+{
+}
+
+void CPolygonPathKey::UpdateHash()
+{
+    m_hash = CStringElementTraits<CStringW>::Hash(m_str);
+    m_hash += m_hash << 5;
+    m_hash += int(m_scalex * 1e6);
+    m_hash += m_hash << 5;
+    m_hash += int(m_scaley * 1e6);
+}
+
+bool CPolygonPathKey::operator==(const CPolygonPathKey& polygonPathKey) const
+{
+    return m_str == polygonPathKey.m_str
+           && NEARLY_EQ(m_scalex, polygonPathKey.m_scalex, 1e-6)
+           && NEARLY_EQ(m_scaley, polygonPathKey.m_scaley, 1e-6);
+}
+
 COutlineKey::COutlineKey(const CWord* word, CPoint org)
     : CTextDimsKey(word->m_str, word->m_style)
     , m_scalex(word->m_scalex)
