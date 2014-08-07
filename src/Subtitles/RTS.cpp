@@ -2706,7 +2706,7 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
     sub->m_scalex = m_dstScreenSize.cx > 0 ? double((sub->m_relativeTo == STSStyle::VIDEO) ? m_vidrect.Width() : m_size.cx) / (m_dstScreenSize.cx * 8.0) : 1.0;
     sub->m_scaley = m_dstScreenSize.cy > 0 ? double((sub->m_relativeTo == STSStyle::VIDEO) ? m_vidrect.Height() : m_size.cy) / (m_dstScreenSize.cy * 8.0) : 1.0;
 
-    STSEntry stse = GetAt(entry);
+    const STSEntry& stse = GetAt(entry);
     CRect marginRect = stse.marginRect;
     if (marginRect.left == 0) {
         marginRect.left = orgstss.marginRect.left;
@@ -2759,41 +2759,38 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
     m_ktype = m_kstart = m_kend = 0;
     m_nPolygon = 0;
     m_polygonBaselineOffset = 0;
-    ParseEffect(sub, GetAt(entry).effect);
+    ParseEffect(sub, stse.effect);
 
-    while (!str.IsEmpty()) {
-        bool fParsed = false;
+    for (int iStart = 0, iEnd; iStart < str.GetLength(); iStart = iEnd) {
+        bool bParsed = false;
 
-        int i;
-
-        if (str[0] == '{' && (i = str.Find(L'}')) > 0) {
+        if (str[iStart] == L'{' && (iEnd = str.Find(L'}', iStart)) > 0) {
             SSATagsList tagsList;
-            fParsed = ParseSSATag(tagsList, str.Mid(1, i - 1));
-            if (fParsed) {
+            bParsed = ParseSSATag(tagsList, str.Mid(iStart + 1, iEnd - iStart - 1));
+            if (bParsed) {
                 CreateSubFromSSATag(sub, tagsList, stss, orgstss);
-                str = str.Mid(i + 1);
+                iStart = iEnd + 1;
             }
-        } else if (str[0] == '<' && (i = str.Find(L'>')) > 0) {
-            fParsed = ParseHtmlTag(sub, str.Mid(1, i - 1), stss, orgstss);
-            if (fParsed) {
-                str = str.Mid(i + 1);
+        } else if (str[iStart] == L'<' && (iEnd = str.Find(L'>', iStart)) > 0) {
+            bParsed = ParseHtmlTag(sub, str.Mid(iStart + 1, iEnd - iStart - 1), stss, orgstss);
+            if (bParsed) {
+                iStart = iEnd + 1;
             }
         }
 
-        if (fParsed) {
-            i = str.FindOneOf(L"{<");
-            if (i < 0) {
-                i = str.GetLength();
+        if (bParsed) {
+            iEnd = FindOneOf(str, L"{<", iStart);
+            if (iEnd < 0) {
+                iEnd = str.GetLength();
             }
-            if (i == 0) {
+            if (iEnd == iStart) {
                 continue;
             }
         } else {
-            i = str.Mid(1).FindOneOf(L"{<");
-            if (i < 0) {
-                i = str.GetLength() - 1;
+            iEnd = FindOneOf(str, L"{<", iStart + 1);
+            if (iEnd < 0) {
+                iEnd = str.GetLength();
             }
-            i++;
         }
 
         STSStyle tmp = stss;
@@ -2812,12 +2809,10 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
         }
 
         if (m_nPolygon) {
-            ParsePolygon(sub, str.Left(i), tmp);
+            ParsePolygon(sub, str.Mid(iStart, iEnd - iStart), tmp);
         } else {
-            ParseString(sub, str.Left(i), tmp);
+            ParseString(sub, str.Mid(iStart, iEnd - iStart), tmp);
         }
-
-        str = str.Mid(i);
     }
 
     // just a "work-around" solution... in most cases nobody will want to use \org together with moving but without rotating the subs
