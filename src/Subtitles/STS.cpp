@@ -2350,16 +2350,11 @@ int CSimpleTextSubtitle::TranslateSegmentEnd(int i, double fps)
 
 STSStyle* CSimpleTextSubtitle::GetStyle(int i)
 {
-    CString def = _T("Default");
-
     STSStyle* style = nullptr;
     m_styles.Lookup(GetAt(i).style, style);
 
-    STSStyle* defstyle = nullptr;
-    m_styles.Lookup(def, defstyle);
-
     if (!style) {
-        style = defstyle;
+        m_styles.Lookup(_T("Default"), style);
     }
 
     ASSERT(style);
@@ -2369,13 +2364,11 @@ STSStyle* CSimpleTextSubtitle::GetStyle(int i)
 
 bool CSimpleTextSubtitle::GetStyle(int i, STSStyle& stss)
 {
-    CString def = _T("Default");
-
     STSStyle* style = nullptr;
     m_styles.Lookup(GetAt(i).style, style);
 
     STSStyle* defstyle = nullptr;
-    m_styles.Lookup(def, defstyle);
+    m_styles.Lookup(_T("Default"), defstyle);
 
     if (!style) {
         if (!defstyle) {
@@ -2408,8 +2401,6 @@ bool CSimpleTextSubtitle::GetStyle(int i, STSStyle& stss)
 
 bool CSimpleTextSubtitle::GetStyle(CString styleName, STSStyle& stss)
 {
-    CString def = _T("Default");
-
     STSStyle* style = nullptr;
     m_styles.Lookup(styleName, style);
     if (!style) {
@@ -2419,7 +2410,7 @@ bool CSimpleTextSubtitle::GetStyle(CString styleName, STSStyle& stss)
     stss = *style;
 
     STSStyle* defstyle = nullptr;
-    m_styles.Lookup(def, defstyle);
+    m_styles.Lookup(_T("Default"), defstyle);
     if (defstyle && stss.relativeTo == STSStyle::AUTO) {
         stss.relativeTo = defstyle->relativeTo;
         // If relative to is set to "auto" even for the default style, decide based on the subtitle type
@@ -2437,9 +2428,8 @@ bool CSimpleTextSubtitle::GetStyle(CString styleName, STSStyle& stss)
 
 int CSimpleTextSubtitle::GetCharSet(int i)
 {
-    STSStyle stss;
-    GetStyle(i, stss);
-    return stss.charSet;
+    const STSStyle* stss = GetStyle(i);
+    return stss->charSet;
 }
 
 bool CSimpleTextSubtitle::IsEntryUnicode(int i)
