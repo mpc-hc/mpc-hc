@@ -661,11 +661,6 @@ public:
     bool            fLastFullScreen;
 
     bool            fIntRealMedia;
-    //bool          fRealMediaRenderless;
-    //float         dRealMediaQuickTimeFPS;
-    //int           iVideoRendererType;
-    //int           iQuickTimeRenderer;
-    //bool          fMonitorAutoRefreshRate;
     bool            fEnableEDLEditor;
 
     HWND            hMasterWnd;

@@ -42,10 +42,11 @@ CAppSettings::CAppSettings()
     , hMasterWnd(nullptr)
     , nCLSwitches(0)
     , iMonitor(0)
-    , fMute(0)
-    , fPreventMinimize(0)
+    , fMute(false)
+    , fPreventMinimize(false)
     , fUseWin7TaskBar(true)
-    , fUseSearchInFolder(0)
+    , fNextInDirAfterPlayback(false)
+    , fUseSearchInFolder(false)
     , fUseTimeTooltip(true)
     , nTimeTooltipPosition(TIME_TOOLTIP_ABOVE_SEEKBAR)
     , nOSDSize(0)
@@ -53,12 +54,12 @@ CAppSettings::CAppSettings()
     , fRemainingTime(false)
     , nUpdaterAutoCheck(-1)
     , nUpdaterDelay(7)
-    , fBDAUseOffset(0)
+    , fBDAUseOffset(false)
     , iBDABandwidth(8)
     , iBDAOffset(166)
     , iBDAScanFreqStart(474000)
     , iBDAScanFreqEnd(858000)
-    , fBDAIgnoreEncryptedChannels(0)
+    , fBDAIgnoreEncryptedChannels(false)
     , nDVBLastChannel(1)
     , nDVBStopFilterGraph(DVB_STOP_FG_WHEN_SWITCHING)
     , nDVBRebuildFilterGraph(DVB_REBUILD_FG_WHEN_SWITCHING)
@@ -66,11 +67,11 @@ CAppSettings::CAppSettings()
     , fAudioNormalize(false)
     , fAudioNormalizeRecover(true)
     , nAudioBoost(0)
-    , fDownSampleTo441(0)
-    , fAudioTimeShift(0)
+    , fDownSampleTo441(false)
+    , fAudioTimeShift(false)
     , iAudioTimeShift(0)
-    , fCustomChannelMapping(0)
-    , fOverridePlacement(0)
+    , fCustomChannelMapping(false)
+    , fOverridePlacement(false)
     , nHorPos(50)
     , nVerPos(90)
     , bSubtitleARCompensation(true)
@@ -90,7 +91,7 @@ CAppSettings::CAppSettings()
     , iHue(0)
     , iSaturation(0)
     , eCaptionMenuMode(MODE_SHOWCAPTIONMENU)
-    , fHideNavigation(0)
+    , fHideNavigation(false)
     , nCS(CS_SEEKBAR | CS_TOOLBAR | CS_STATUSBAR)
     , language(LANGID(-1))
     , fEnableSubtitles(true)
@@ -109,8 +110,8 @@ CAppSettings::CAppSettings()
     , bHidePlaylistFullScreen(false)
     , nLastWindowType(SIZE_RESTORED)
     , nLastUsedPage(0)
-    , fLastFullScreen(0)
-    , fIntRealMedia(0)
+    , fLastFullScreen(false)
+    , fIntRealMedia(false)
     , fEnableEDLEditor(false)
     , bNotifySkype(false)
     , nAudioMaxNormFactor(400)
@@ -136,7 +137,7 @@ CAppSettings::CAppSettings()
     , lDVDTitle(0)
     , lDVDChapter(0)
     , iAdminOption(0)
-    , fAllowMultipleInst(0)
+    , fAllowMultipleInst(false)
     , fTrayIcon(false)
     , fShowOSD(true)
     , fLimitWindowProportions(false)
@@ -753,7 +754,6 @@ void CAppSettings::SaveSettings()
 
     // CASIMIR666 : new settings
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_D3DFULLSCREEN, fD3DFullscreen);
-    //pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_MONITOR_AUTOREFRESHRATE, fMonitorAutoRefreshRate);
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_COLOR_BRIGHTNESS, iBrightness);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_COLOR_CONTRAST, iContrast);
@@ -820,9 +820,6 @@ void CAppSettings::SaveSettings()
     // CASIMIR666 : end of new settings
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_INTREALMEDIA, fIntRealMedia);
-    //pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_REALMEDIARENDERLESS, fRealMediaRenderless);
-    //pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_QUICKTIMERENDERER, iQuickTimeRenderer);
-    //pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_REALMEDIAFPS, *((DWORD*)&dRealMediaQuickTimeFPS));
 
     pApp->WriteProfileString(IDS_R_SETTINGS _T("\\") IDS_RS_PNSPRESETS, nullptr, nullptr);
     for (INT_PTR i = 0, j = m_pnspresets.GetCount(); i < j; i++) {
@@ -1381,12 +1378,8 @@ void CAppSettings::LoadSettings()
     LoadExternalFilters(m_filters);
 
     fIntRealMedia = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_INTREALMEDIA, FALSE);
-    //fRealMediaRenderless = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_REALMEDIARENDERLESS, FALSE);
-    //iQuickTimeRenderer = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_QUICKTIMERENDERER, 2);
-    //dRealMediaQuickTimeFPS = 25.0;
-    //*((DWORD*)&dRealMediaQuickTimeFPS) = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_REALMEDIAFPS, *((DWORD*)&dRealMediaQuickTimeFPS));
-
     m_pnspresets.RemoveAll();
+
     for (int i = 0; i < (ID_PANNSCAN_PRESETS_END - ID_PANNSCAN_PRESETS_START); i++) {
         CString str2;
         str2.Format(_T("Preset%d"), i);
@@ -1548,13 +1541,12 @@ void CAppSettings::LoadSettings()
     }
 
     // CASIMIR666 : new settings
-    fD3DFullscreen          = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_D3DFULLSCREEN, FALSE);
-    //fMonitorAutoRefreshRate = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MONITOR_AUTOREFRESHRATE, FALSE);
+    fD3DFullscreen        = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_D3DFULLSCREEN, FALSE);
 
-    iBrightness = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_COLOR_BRIGHTNESS, 0);
-    iContrast   = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_COLOR_CONTRAST, 0);
-    iHue        = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_COLOR_HUE, 0);
-    iSaturation = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_COLOR_SATURATION, 0);
+    iBrightness           = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_COLOR_BRIGHTNESS, 0);
+    iContrast             = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_COLOR_CONTRAST, 0);
+    iHue                  = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_COLOR_HUE, 0);
+    iSaturation           = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_COLOR_SATURATION, 0);
 
     fShowOSD              = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SHOWOSD, TRUE);
     fEnableEDLEditor      = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEEDLEDITOR, FALSE);
