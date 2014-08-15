@@ -66,7 +66,7 @@ public:
 
     //operators
     operator HMONITOR() const {
-        return this == NULL ? NULL : m_hMonitor;
+        return this == nullptr ? nullptr : m_hMonitor;
     }
 
     BOOL operator ==(const CMonitor& monitor) const {

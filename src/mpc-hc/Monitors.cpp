@@ -147,17 +147,17 @@ void CMonitors::GetVirtualDesktopRect(LPRECT lprc)
 // visible on any monitor
 BOOL CMonitors::IsOnScreen(const LPRECT lprc)
 {
-    return ::MonitorFromRect(lprc, MONITOR_DEFAULTTONULL) != NULL;
+    return ::MonitorFromRect(lprc, MONITOR_DEFAULTTONULL) != nullptr;
 }
 
 BOOL CMonitors::IsOnScreen(const POINT& pt)
 {
-    return ::MonitorFromPoint(pt, MONITOR_DEFAULTTONULL) != NULL;
+    return ::MonitorFromPoint(pt, MONITOR_DEFAULTTONULL) != nullptr;
 }
 
 BOOL CMonitors::IsOnScreen(const CWnd* pWnd)
 {
-    return ::MonitorFromWindow(pWnd->GetSafeHwnd(), MONITOR_DEFAULTTONULL) != NULL;
+    return ::MonitorFromWindow(pWnd->GetSafeHwnd(), MONITOR_DEFAULTTONULL) != nullptr;
 }
 
 CMonitor CMonitors::GetNearestMonitor(const LPRECT lprc)

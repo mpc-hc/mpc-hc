@@ -649,7 +649,7 @@ CString GetFilterPath(LPCTSTR clsid)
     if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, rootkey1 + clsid + _T("\\InprocServer32"), KEY_READ)
             || ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, rootkey2 + clsid + _T("\\InprocServer32"), KEY_READ)) {
         ULONG nCount = MAX_PATH;
-        key.QueryStringValue(NULL, path.GetBuffer(nCount), &nCount);
+        key.QueryStringValue(nullptr, path.GetBuffer(nCount), &nCount);
         path.ReleaseBuffer(nCount);
     }
 
@@ -660,7 +660,7 @@ CString GetFilterPath(const CLSID& clsid)
 {
     CString path;
 
-    LPOLESTR pStr = NULL;
+    LPOLESTR pStr = nullptr;
     if (S_OK == StringFromCLSID(clsid, &pStr) && pStr) {
         path = GetFilterPath(CString(pStr));
         CoTaskMemFree(pStr);

@@ -60,7 +60,7 @@ HRESULT PromptForCredentials(HWND hWnd, const CString& strCaptionText, const CSt
 
             // Call CredPackAuthenticationBufferW once to determine the size, in bytes, of the authentication buffer.
             if (strUsername.GetLength()) {
-                BOOL bResult = fnCredPackAuthenticationBufferW(0, (LPTSTR)(LPCTSTR)strUsername, (LPTSTR)(LPCTSTR)strPassword, NULL, &cbInAuthBlob);
+                BOOL bResult = fnCredPackAuthenticationBufferW(0, (LPTSTR)(LPCTSTR)strUsername, (LPTSTR)(LPCTSTR)strPassword, nullptr, &cbInAuthBlob);
                 if (!bResult && GetLastError() == ERROR_INSUFFICIENT_BUFFER) {
                     if ((pvInAuthBlob = CoTaskMemAlloc(cbInAuthBlob)) != nullptr) {
                         VERIFY(fnCredPackAuthenticationBufferW(0, (LPTSTR)(LPCTSTR)strUsername, (LPTSTR)(LPCTSTR)strPassword, (PBYTE)pvInAuthBlob, &cbInAuthBlob));
@@ -106,7 +106,7 @@ HRESULT PromptForCredentials(HWND hWnd, const CString& strCaptionText, const CSt
                 strDomain = _T("mpc-hc/") MPC_VERSION_STR;
             }
 
-            DWORD dwResult = fnCredUIPromptForCredentialsW(&info, strDomain.Left(dwDomain), NULL, dwAuthError,
+            DWORD dwResult = fnCredUIPromptForCredentialsW(&info, strDomain.Left(dwDomain), nullptr, dwAuthError,
                              strUserDomain.GetBufferSetLength(dwUsername), dwUsername, strPassword.GetBufferSetLength(dwPassword), dwPassword, bSave, dwFlags);
             strUserDomain.ReleaseBuffer();
             strPassword.ReleaseBuffer();

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -62,7 +62,7 @@ CFocusThread::CFocusThread()
 CFocusThread::~CFocusThread()
 {
     SAFE_CLOSE_HANDLE(m_hEvtInit);
-    UnregisterClass(_T("D3DFocusClass"), NULL);
+    UnregisterClass(_T("D3DFocusClass"), nullptr);
 }
 
 BOOL CFocusThread::InitInstance()

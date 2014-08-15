@@ -1458,7 +1458,7 @@ STDMETHODIMP CStreamSwitcherFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWOR
                         AM_MEDIA_TYPE* pmt = nullptr;
                         DWORD dwFlags;
                         LPWSTR pszName = nullptr;
-                        hr = pSSF->Info(i, &pmt, &dwFlags, plcid, NULL, &pszName, nullptr, nullptr);
+                        hr = pSSF->Info(i, &pmt, &dwFlags, plcid, nullptr, &pszName, nullptr, nullptr);
                         if (SUCCEEDED(hr) && pmt && pmt->majortype == MEDIATYPE_Audio) {
                             if (lIndex == 0) {
                                 bFound = true;
@@ -1564,7 +1564,7 @@ STDMETHODIMP CStreamSwitcherFilter::Enable(long lIndex, DWORD dwFlags)
                 if (SUCCEEDED(hr)) {
                     for (i = 0; i < (int)cStreams; i++) {
                         AM_MEDIA_TYPE* pmt = nullptr;
-                        hr = pSSF->Info(i, &pmt, nullptr, nullptr, NULL, nullptr, nullptr, nullptr);
+                        hr = pSSF->Info(i, &pmt, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
                         if (SUCCEEDED(hr) && pmt && pmt->majortype == MEDIATYPE_Audio) {
                             if (lIndex == 0) {
                                 bFound = true;

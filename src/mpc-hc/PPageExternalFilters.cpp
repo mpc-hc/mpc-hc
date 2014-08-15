@@ -423,7 +423,7 @@ void CPPageExternalFilters::OnUpdateFilterMerit(CCmdUI* pCmdUI)
 void CPPageExternalFilters::OnUpdateSubType(CCmdUI* pCmdUI)
 {
     HTREEITEM node = m_tree.GetSelectedItem();
-    pCmdUI->Enable(node != nullptr && m_tree.GetItemData(node) == NULL);
+    pCmdUI->Enable(node != nullptr && m_tree.GetItemData(node) == 0);
 }
 
 void CPPageExternalFilters::OnUpdateDeleteType(CCmdUI* pCmdUI)
@@ -557,7 +557,7 @@ void CPPageExternalFilters::OnAddMajorType()
         CString sub = GetMediaTypeName(GUID_NULL);
 
         HTREEITEM node = m_tree.InsertItem(major);
-        m_tree.SetItemData(node, NULL);
+        m_tree.SetItemData(node, 0);
 
         node = m_tree.InsertItem(sub, node);
         m_tree.SetItemData(node, (DWORD_PTR)pos);
@@ -722,7 +722,7 @@ void CPPageExternalFilters::OnFilterSelectionChange()
             } else {
                 map[major] = node = m_tree.InsertItem(major);
             }
-            m_tree.SetItemData(node, NULL);
+            m_tree.SetItemData(node, 0);
 
             node = m_tree.InsertItem(sub, node);
             m_tree.SetItemData(node, (DWORD_PTR)tmp);

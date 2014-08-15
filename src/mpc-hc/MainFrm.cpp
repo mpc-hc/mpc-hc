@@ -16144,7 +16144,7 @@ bool CMainFrame::OpenBD(CString Path)
     return false;
 }
 
-// Returns the the corresponding subInput or NULL in case of error.
+// Returns the the corresponding subInput or nullptr in case of error.
 // i is modified to reflect the locale index of track
 SubtitleInput* CMainFrame::GetSubtitleInput(int& i, bool bIsOffset /*= false*/)
 {

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -71,7 +71,7 @@ BOOL CPlayerWindow::OnEraseBkgnd(CDC* pDC)
 
 CBaseGraph::CBaseGraph()
     : CUnknown(NAME("CBaseGraph"), nullptr)
-    , m_hNotifyWnd(NULL)
+    , m_hNotifyWnd(0)
     , m_lNotifyMsg(0)
     , m_lNotifyInstData(0)
 {
@@ -391,7 +391,7 @@ STDMETHODIMP CBaseGraph::SetNotifyWindow(OAHWND hwnd, long lMsg, LONG_PTR lInsta
     m_lNotifyInstData = lInstanceData;
 
     if (!IsWindow((HWND)m_hNotifyWnd)) {
-        m_hNotifyWnd = NULL;
+        m_hNotifyWnd = 0;
         return E_FAIL;
     }
 

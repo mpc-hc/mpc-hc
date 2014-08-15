@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -43,7 +43,7 @@ END_MESSAGE_MAP()
 // bDeleteOnDestroy is used internally by PixieLib in CPixieDlg.
 //
 CStaticLink::CStaticLink(LPCTSTR lpText, bool bDeleteOnDestroy)
-    : m_link(lpText)                        // link text (NULL ==> window text)
+    : m_link(lpText)                        // link text (nullptr ==> window text)
     , m_color(g_colorUnvisited)             // not visited yet
     , m_bDeleteOnDestroy(bDeleteOnDestroy)  // delete object with window?
 {

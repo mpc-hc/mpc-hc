@@ -79,7 +79,7 @@ bool CALLBACK DSEnumProc2(LPGUID lpGUID,
     ASSERT(pStr);
     CString strGUID = *pStr;
 
-    if (lpGUID != nullptr) { // NULL only for "Primary Sound Driver".
+    if (lpGUID != nullptr) { // nullptr only for "Primary Sound Driver".
         if (strGUID == lpszDesc) {
             memcpy((VOID*)&lpSoundGUID, lpGUID, sizeof(GUID));
         }
@@ -951,7 +951,7 @@ HRESULT CMpcAudioRenderer::DoRenderSampleWasapi(IMediaSample* pMediaSample)
             memcpy(&pData[0], pInputBufferPointer, nBytesToWrite);
             pInputBufferPointer += nBytesToWrite;
         } else {
-            TRACE(_T("CMpcAudioRenderer::DoRenderSampleWasapi Output buffer is NULL\n"));
+            TRACE(_T("CMpcAudioRenderer::DoRenderSampleWasapi Output buffer is nullptr\n"));
         }
 
         hr = m_pRenderClient->ReleaseBuffer(numFramesAvailable, 0); // no flags

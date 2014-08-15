@@ -28,7 +28,7 @@ IMPLEMENT_DYNAMIC(CStdioFile64, CStdioFile)
 ULONGLONG CStdioFile64::GetPosition() const
 {
     ASSERT_VALID(this);
-    ASSERT(m_pStream != NULL);
+    ASSERT(m_pStream != nullptr);
 
     long long pos = _ftelli64(m_pStream);
     if (pos == -1) {
@@ -71,7 +71,7 @@ ULONGLONG CStdioFile64::Seek(LONGLONG lOff, UINT nFrom)
 {
     ASSERT_VALID(this);
     ASSERT(nFrom == begin || nFrom == end || nFrom == current);
-    ASSERT(m_pStream != NULL);
+    ASSERT(m_pStream != nullptr);
 
     if (_fseeki64(m_pStream, lOff, nFrom) != 0) {
         AfxThrowFileException(CFileException::badSeek, _doserrno, m_strFileName);

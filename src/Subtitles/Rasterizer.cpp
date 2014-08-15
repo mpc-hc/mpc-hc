@@ -453,7 +453,7 @@ bool Rasterizer::ScanConvert()
     mEdgeHeapSize = 2048;
     mpEdgeBuffer = (Edge*)malloc(sizeof(Edge) * mEdgeHeapSize);
     if (!mpEdgeBuffer) {
-        TRACE(_T("Error in Rasterizer::ScanConvert: mpEdgeBuffer is NULL"));
+        TRACE(_T("Error in Rasterizer::ScanConvert: mpEdgeBuffer is nullptr"));
         return false;
     }
 
@@ -461,7 +461,7 @@ bool Rasterizer::ScanConvert()
 
     mpScanBuffer = DEBUG_NEW unsigned int[m_outlineData.mHeight];
     if (!mpScanBuffer) {
-        TRACE(_T("Error in Rasterizer::ScanConvert: mpScanBuffer is NULL"));
+        TRACE(_T("Error in Rasterizer::ScanConvert: mpScanBuffer is nullptr"));
         return false;
     }
     ZeroMemory(mpScanBuffer, m_outlineData.mHeight * sizeof(unsigned int));
