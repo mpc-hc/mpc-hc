@@ -204,69 +204,45 @@ void Rasterizer::_EvaluateLine(int x0, int y0, int x1, int y1)
     lastp.x = x1;
     lastp.y = y1;
 
-    if (y1 > y0) {  // down
-        __int64 xacc = (__int64)x0 << 13;
+    if (y1 > y0) {
+        _EvaluateLine<LINE_UP>(x0, y0, x1, y1);
+    } else if (y1 < y0) {
+        _EvaluateLine<LINE_DOWN>(x1, y1, x0, y0);
+    }
+}
 
-        // prestep y0 down
+template<int flag>
+void Rasterizer::_EvaluateLine(int x0, int y0, int x1, int y1)
+{
+    __int64 xacc = (__int64)x0 << 13;
 
-        int dy = y1 - y0;
-        int y = ((y0 + 3) & ~7) + 4;
-        int iy = y >> 3;
+    // prestep
 
-        y1 = (y1 - 5) >> 3;
+    int dy = y1 - y0;
+    int y = ((y0 + 3) & ~7) + 4;
+    int iy = y >> 3;
 
-        if (iy <= y1) {
-            __int64 invslope = (__int64(x1 - x0) << 16) / dy;
+    y1 = (y1 - 5) >> 3;
 
-            while (mEdgeNext + y1 + 1 - iy > mEdgeHeapSize) {
-                _ReallocEdgeBuffer(mEdgeHeapSize * 2);
-            }
+    if (iy <= y1) {
+        __int64 invslope = (__int64(x1 - x0) << 16) / dy;
 
-            xacc += (invslope * (y - y0)) >> 3;
-
-            while (iy <= y1) {
-                int ix = (int)((xacc + 32768) >> 16);
-
-                mpEdgeBuffer[mEdgeNext].next = mpScanBuffer[iy];
-                mpEdgeBuffer[mEdgeNext].posandflag = ix * 2 + 1;
-
-                mpScanBuffer[iy] = mEdgeNext++;
-
-                ++iy;
-                xacc += invslope;
-            }
+        while (mEdgeNext + y1 + 1 - iy > mEdgeHeapSize) {
+            _ReallocEdgeBuffer(mEdgeHeapSize * 2);
         }
-    } else if (y1 < y0) { // up
-        __int64 xacc = (__int64)x1 << 13;
 
-        // prestep y1 down
+        xacc += (invslope * (y - y0)) >> 3;
 
-        int dy = y0 - y1;
-        int y = ((y1 + 3) & ~7) + 4;
-        int iy = y >> 3;
+        while (iy <= y1) {
+            int ix = (int)((xacc + 32768) >> 16);
 
-        y0 = (y0 - 5) >> 3;
+            mpEdgeBuffer[mEdgeNext].next = mpScanBuffer[iy];
+            mpEdgeBuffer[mEdgeNext].posandflag = (ix << 1) | flag;
 
-        if (iy <= y0) {
-            __int64 invslope = (__int64(x0 - x1) << 16) / dy;
+            mpScanBuffer[iy] = mEdgeNext++;
 
-            while (mEdgeNext + y0 + 1 - iy > mEdgeHeapSize) {
-                _ReallocEdgeBuffer(mEdgeHeapSize * 2);
-            }
-
-            xacc += (invslope * (y - y1)) >> 3;
-
-            while (iy <= y0) {
-                int ix = (int)((xacc + 32768) >> 16);
-
-                mpEdgeBuffer[mEdgeNext].next = mpScanBuffer[iy];
-                mpEdgeBuffer[mEdgeNext].posandflag = ix * 2;
-
-                mpScanBuffer[iy] = mEdgeNext++;
-
-                ++iy;
-                xacc += invslope;
-            }
+            ++iy;
+            xacc += invslope;
         }
     }
 }
@@ -552,7 +528,7 @@ bool Rasterizer::ScanConvert()
                 x1 = (x >> 1);
             }
 
-            if (x & 1) {
+            if (x & LINE_UP) {
                 ++count;
             } else {
                 --count;
