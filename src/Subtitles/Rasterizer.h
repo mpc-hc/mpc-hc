@@ -24,6 +24,7 @@
 #include <vector>
 #include <memory>
 #include "../SubPic/ISubPic.h"
+#include "Ellipse.h"
 
 #define PT_MOVETONC         0xfe
 #define PT_BSPLINETO        0xfc
@@ -180,6 +181,8 @@ private:
         LINE_UP
     };
 
+    CEllipse m_ellipse;
+
     struct Edge {
         int next;
         int posandflag;
@@ -202,6 +205,7 @@ private:
     // The following function is templated and forcingly inlined for performance sake
     template<int flag> __forceinline void _EvaluateLine(int x0, int y0, int x1, int y1);
     static void _OverlapRegion(tSpanBuffer& dst, const tSpanBuffer& src, int dx, int dy);
+    void CreateWidenedRegionFast(int borderX, int borderY);
     // helpers
     void Draw_noAlpha_spFF_Body_0(RasterizerNfo& rnfo);
     void Draw_noAlpha_spFF_noBody_0(RasterizerNfo& rnfo);

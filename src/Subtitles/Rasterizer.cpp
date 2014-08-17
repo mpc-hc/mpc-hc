@@ -681,6 +681,10 @@ void Rasterizer::_OverlapRegion(tSpanBuffer& dst, const tSpanBuffer& src, int dx
 
 bool Rasterizer::CreateWidenedRegion(int rx, int ry)
 {
+    if (m_pOutlineData->mOutline.empty()) {
+        return true;
+    }
+
     if (rx < 0) {
         rx = 0;
     }
@@ -691,18 +695,95 @@ bool Rasterizer::CreateWidenedRegion(int rx, int ry)
     m_pOutlineData->mWideBorder = std::max(rx, ry);
 
     if (ry > 0) {
-        // Do a half circle.
-        // _OverlapRegion mirrors this so both halves are done.
-        for (int dy = -ry; dy <= ry; ++dy) {
-            int dx = std::lround(sqrt(float(ry * ry - y * y)) * float(rx) / float(ry));
-
-            _OverlapRegion(m_pOutlineData->mWideOutline, m_pOutlineData->mOutline, dx, dy);
-        }
+        CreateWidenedRegionFast(rx, ry);
     } else {
         _OverlapRegion(m_pOutlineData->mWideOutline, m_pOutlineData->mOutline, rx, 0);
     }
 
     return true;
+}
+
+void Rasterizer::CreateWidenedRegionFast(int rx, int ry)
+{
+    CAtlList<CEllipseCenterGroup> centerGroups;
+    std::vector<SpanEndPoint> wideSpanEndPoints;
+
+    m_ellipse.SetDiameters(rx, ry);
+    wideSpanEndPoints.reserve(10);
+    m_pOutlineData->mWideOutline.reserve(m_pOutlineData->mOutline.size() + m_pOutlineData->mOutline.size() / 2);
+
+    auto flushLines = [&](int yStart, int yStop, tSpanBuffer & dst) {
+        for (int y = yStart; y < yStop; y++) {
+            POSITION pos = centerGroups.GetHeadPosition();
+            while (pos) {
+                POSITION curPos = pos;
+                auto& group = centerGroups.GetNext(pos);
+                group.FlushLine(y, wideSpanEndPoints);
+                if (group.IsEmpty()) {
+                    centerGroups.RemoveAt(curPos);
+                }
+            }
+
+            if (!wideSpanEndPoints.empty()) {
+                ASSERT(wideSpanEndPoints.size() % 2 == 0);
+                std::sort(wideSpanEndPoints.begin(), wideSpanEndPoints.end());
+
+                for (auto it = wideSpanEndPoints.cbegin(); it != wideSpanEndPoints.cend(); ++it) {
+                    int xLeft = it->x;
+
+                    int count = 1;
+                    do {
+                        ++it;
+                        if (it->bEnd) {
+                            count--;
+                        } else {
+                            count++;
+                        }
+                    } while (count > 0);
+
+                    int xRight = it->x;
+
+                    if (xLeft < xRight) {
+                        dst.emplace_back(unsigned __int64(y) << 32 | xLeft, unsigned __int64(y) << 32 | xRight);
+                    }
+                }
+
+                wideSpanEndPoints.clear();
+            }
+        }
+    };
+
+    int yPrec = unsigned int(m_pOutlineData->mOutline.front().first >> 32);
+    POSITION pos = centerGroups.GetHeadPosition();
+    for (const auto& span : m_pOutlineData->mOutline) {
+        int y = int(span.first >> 32);
+        int xLeft = int(span.first);
+        int xRight = int(span.second);
+
+        if (y != yPrec) {
+            flushLines(yPrec - ry, y - ry, m_pOutlineData->mWideOutline);
+            yPrec = y;
+            pos = centerGroups.GetHeadPosition();
+        }
+
+        while (pos) {
+            int position = centerGroups.GetAt(pos).GetRelativePosition(xLeft, y);
+            if (position == CEllipseCenterGroup::INSIDE) {
+                break;
+            } else if (position == CEllipseCenterGroup::BEFORE) {
+                pos = centerGroups.InsertBefore(pos, CEllipseCenterGroup(m_ellipse));
+                break;
+            } else {
+                centerGroups.GetNext(pos);
+            }
+        }
+        if (!pos) {
+            pos = centerGroups.AddTail(CEllipseCenterGroup(m_ellipse));
+        }
+        centerGroups.GetNext(pos).AddSpan(y, xLeft, xRight);
+    }
+    // Flush the remaining of the lines
+    flushLines(yPrec - ry, yPrec + ry + 1, m_pOutlineData->mWideOutline);
 }
 
 bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
