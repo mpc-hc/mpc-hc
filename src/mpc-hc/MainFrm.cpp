@@ -9068,6 +9068,7 @@ static BOOL CALLBACK MonitorEnumProc(HMONITOR hMonitor, HDC hdcMonitor, LPRECT l
 void CMainFrame::SetDefaultWindowRect(int iMonitor)
 {
     const CAppSettings& s = AfxGetAppSettings();
+    const CRect rcLastWindowPos = s.rcLastWindowPos;
 
     if (s.eCaptionMenuMode != MODE_SHOWCAPTIONMENU) {
         if (s.eCaptionMenuMode == MODE_FRAMEONLY) {
@@ -9083,7 +9084,7 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
     if (s.HasFixedWindowSize()) {
         windowSize = s.sizeFixedWindow;
     } else if (s.fRememberWindowSize) {
-        windowSize = s.rcLastWindowPos.Size();
+        windowSize = rcLastWindowPos.Size();
     } else {
         CRect windowRect;
         GetWindowRect(&windowRect);
@@ -9103,7 +9104,7 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 
     bool bRestoredWindowPosition = false;
     if (s.fRememberWindowPos) {
-        CRect windowRect(s.rcLastWindowPos.TopLeft(), windowSize);
+        CRect windowRect(rcLastWindowPos.TopLeft(), windowSize);
         if (CMonitors::IsOnScreen(windowRect)) {
             MoveWindow(windowRect);
             bRestoredWindowPosition = true;
