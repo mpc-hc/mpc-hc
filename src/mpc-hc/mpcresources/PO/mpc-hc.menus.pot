@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-18 12:00:35+0000\n"
+"POT-Creation-Date: 2014-08-19 21:10:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -603,6 +603,10 @@ msgstr ""
 
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
+msgid "Turn off the &monitor"
 msgstr ""
 
 msgctxt "POPUP"

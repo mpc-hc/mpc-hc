@@ -3401,6 +3401,10 @@ msgctxt "IDS_AFTERPLAYBACK_LOCK"
 msgid "After Playback: Lock"
 msgstr "بعد التشغيل: إقفال"
 
+msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
+msgid "After Playback: Turn off the monitor"
+msgstr ""
+
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
 msgstr "السطوع: %s"
@@ -3487,5 +3491,9 @@ msgstr ""
 
 msgctxt "IDS_AFTER_PLAYBACK_EXIT"
 msgid "Exit"
+msgstr ""
+
+msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
+msgid "Turn off the monitor"
 msgstr ""
 

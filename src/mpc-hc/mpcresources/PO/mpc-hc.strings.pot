@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-18 12:00:35+0000\n"
+"POT-Creation-Date: 2014-08-19 21:10:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3393,6 +3393,10 @@ msgctxt "IDS_AFTERPLAYBACK_LOCK"
 msgid "After Playback: Lock"
 msgstr ""
 
+msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
+msgid "After Playback: Turn off the monitor"
+msgstr ""
+
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
 msgstr ""
@@ -3479,5 +3483,9 @@ msgstr ""
 
 msgctxt "IDS_AFTER_PLAYBACK_EXIT"
 msgid "Exit"
+msgstr ""
+
+msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
+msgid "Turn off the monitor"
 msgstr ""
 

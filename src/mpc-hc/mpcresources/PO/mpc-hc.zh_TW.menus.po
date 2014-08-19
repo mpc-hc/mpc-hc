@@ -609,6 +609,10 @@ msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "鎖定"
 
+msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
+msgid "Turn off the &monitor"
+msgstr ""
+
 msgctxt "POPUP"
 msgid "&Navigate"
 msgstr "導覽(&N)"

@@ -610,6 +610,10 @@ msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "Lås"
 
+msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
+msgid "Turn off the &monitor"
+msgstr ""
+
 msgctxt "POPUP"
 msgid "&Navigate"
 msgstr "&Navigera"
