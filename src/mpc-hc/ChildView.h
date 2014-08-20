@@ -34,6 +34,7 @@ class CChildView : public CMouseWnd
 
     bool m_bSwitchingFullscreen;
     bool m_bFirstMedia;
+    bool m_bCustomImgLoaded;
 
     EventClient m_eventc;
 
@@ -45,7 +46,6 @@ public:
 
     DECLARE_DYNAMIC(CChildView)
 
-public:
     void SetVideoRect(const CRect& r = CRect(0, 0, 0, 0));
     CRect GetVideoRect() const { return m_vrect; }
 

@@ -118,19 +118,19 @@ void CChildView::LoadImg(const CString& imagePath)
 {
     CAppSettings& s = AfxGetAppSettings();
     bool bHaveLogo = false;
-    bool bLoadedImage = false;
+    m_bCustomImgLoaded = false;
 
     m_img.DeleteObject();
 
     if (!imagePath.IsEmpty()) {
-        bLoadedImage = !!m_img.LoadFromFile(imagePath);
+        m_bCustomImgLoaded = !!m_img.LoadFromFile(imagePath);
     }
 
-    if (!bLoadedImage && s.fLogoExternal) {
+    if (!m_bCustomImgLoaded && s.fLogoExternal) {
         bHaveLogo = !!m_img.LoadFromFile(s.strLogoFileName);
     }
 
-    if (!bHaveLogo && !bLoadedImage) {
+    if (!bHaveLogo && !m_bCustomImgLoaded) {
         s.fLogoExternal = false;               // use the built-in logo instead
         s.strLogoFileName.Empty();             // clear logo file name
 
@@ -182,14 +182,22 @@ BOOL CChildView::OnEraseBkgnd(CDC* pDC)
         const double dImageAR = double(img.GetWidth()) / img.GetHeight();
 
         GetClientRect(r);
-        double dImgWidth = r.Height() * dImageAR;
-        double dImgHeight;
+        int width = r.Width();
+        int height = r.Height();
+        if (!m_bCustomImgLoaded) {
+            // Limit logo size
+            // TODO: Use vector logo to preserve quality and remove limit.
+            width = std::min(img.GetWidth(), width);
+            height = std::min(img.GetHeight(), height);
+        }
 
-        if (r.Width() < dImgWidth) {
-            dImgWidth = r.Width();
+        double dImgWidth = height * dImageAR;
+        double dImgHeight;
+        if (width < dImgWidth) {
+            dImgWidth = width;
             dImgHeight = dImgWidth / dImageAR;
         } else {
-            dImgHeight = r.Height();
+            dImgHeight = height;
         }
 
         int x = std::lround((r.Width() - dImgWidth) / 2.0);
