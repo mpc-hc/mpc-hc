@@ -223,6 +223,14 @@ STDMETHODIMP CXySubPicQueueNoThread::Invalidate(REFERENCE_TIME rtInvalidate)
 
 STDMETHODIMP_(bool) CXySubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, CComPtr<ISubPic>& ppSubPic)
 {
+    // CXySubPicQueueNoThread is always blocking so bAdviseBlocking doesn't matter anyway
+    return LookupSubPic(rtNow, true, ppSubPic);
+}
+
+STDMETHODIMP_(bool) CXySubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, bool /*bAdviseBlocking*/, CComPtr<ISubPic>& ppSubPic)
+{
+    // CXySubPicQueueNoThread is always blocking so we ignore bAdviseBlocking
+
     CComPtr<ISubPic> pSubPic;
     CComPtr<ISubPicProvider> pSubPicProvider;
     GetSubPicProvider(&pSubPicProvider);
