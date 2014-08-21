@@ -161,6 +161,8 @@ struct COverlayData {
     }
 };
 
+typedef std::shared_ptr<COverlayData> COverlayDataSharedPtr;
+
 class Rasterizer
 {
     bool fFirstSet;
@@ -184,11 +186,10 @@ private:
 
 protected:
     COutlineDataSharedPtr m_pOutlineData;
-    COverlayData m_overlayData;
+    COverlayDataSharedPtr m_pOverlayData;
 
 private:
     void _TrashPath();
-    void _TrashOverlay();
     void _ReallocEdgeBuffer(int edges);
     void _EvaluateBezier(int ptbase, bool fBSpline);
     void _EvaluateLine(int pt1idx, int pt2idx);

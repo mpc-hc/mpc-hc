@@ -43,14 +43,13 @@ static __m128i zero = _mm_setzero_si128();
 
 int Rasterizer::getOverlayWidth()
 {
-    return m_overlayData.mOverlayWidth * 8;
+    return m_pOverlayData ? m_pOverlayData->mOverlayWidth * 8 : 0;
 }
 
 Rasterizer::Rasterizer()
     : mpPathTypes(nullptr)
     , mpPathPoints(nullptr)
     , mPathPoints(0)
-    , m_overlayData()
     , fFirstSet(false)
     , mpEdgeBuffer(nullptr)
     , mEdgeHeapSize(0)
@@ -65,7 +64,6 @@ Rasterizer::Rasterizer()
 Rasterizer::~Rasterizer()
 {
     _TrashPath();
-    _TrashOverlay();
 }
 
 void Rasterizer::_TrashPath()
@@ -75,11 +73,6 @@ void Rasterizer::_TrashPath()
     mpPathTypes = nullptr;
     mpPathPoints = nullptr;
     mPathPoints = 0;
-}
-
-void Rasterizer::_TrashOverlay()
-{
-    m_overlayData.DeleteOverlay();
 }
 
 void Rasterizer::_ReallocEdgeBuffer(int edges)
@@ -736,10 +729,9 @@ bool Rasterizer::CreateWidenedRegion(int rx, int ry)
 
 bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
 {
-    _TrashOverlay();
+    m_pOverlayData = std::make_shared<COverlayData>();
 
     if (!m_pOutlineData || !m_pOutlineData->mWidth || !m_pOutlineData->mHeight) {
-        m_overlayData.mOverlayWidth = m_overlayData.mOverlayHeight = 0;
         return true;
     }
 
@@ -749,8 +741,8 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
     int width =  m_pOutlineData->mWidth + xsub;
     int height = m_pOutlineData->mHeight;// + ysub
 
-    m_overlayData.mOffsetX = m_pOutlineData->mPathOffsetX - xsub;
-    m_overlayData.mOffsetY = m_pOutlineData->mPathOffsetY - ysub;
+    m_pOverlayData->mOffsetX = m_pOutlineData->mPathOffsetX - xsub;
+    m_pOverlayData->mOffsetY = m_pOutlineData->mPathOffsetY - ysub;
 
     m_pOutlineData->mWideBorder = (m_pOutlineData->mWideBorder + 7) & ~7;
 
@@ -772,24 +764,24 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
         xsub += m_pOutlineData->mWideBorder + bluradjust;
         ysub += m_pOutlineData->mWideBorder + bluradjust;
 
-        m_overlayData.mOffsetX -= m_pOutlineData->mWideBorder + bluradjust;
-        m_overlayData.mOffsetY -= m_pOutlineData->mWideBorder + bluradjust;
+        m_pOverlayData->mOffsetX -= m_pOutlineData->mWideBorder + bluradjust;
+        m_pOverlayData->mOffsetY -= m_pOutlineData->mWideBorder + bluradjust;
     }
 
-    m_overlayData.mOverlayWidth = ((width + 7) >> 3) + 1;
+    m_pOverlayData->mOverlayWidth = ((width + 7) >> 3) + 1;
     // fixed image height
-    m_overlayData.mOverlayHeight = ((height + 14) >> 3) + 1;
-    m_overlayData.mOverlayPitch = (m_overlayData.mOverlayWidth + 15) & ~15; // Round the next multiple of 16
+    m_pOverlayData->mOverlayHeight = ((height + 14) >> 3) + 1;
+    m_pOverlayData->mOverlayPitch = (m_pOverlayData->mOverlayWidth + 15) & ~15; // Round the next multiple of 16
 
-    m_overlayData.mpOverlayBufferBody = (byte*)_aligned_malloc(m_overlayData.mOverlayPitch * m_overlayData.mOverlayHeight, 16);
-    m_overlayData.mpOverlayBufferBorder = (byte*)_aligned_malloc(m_overlayData.mOverlayPitch * m_overlayData.mOverlayHeight, 16);
-    if (!m_overlayData.mpOverlayBufferBody || !m_overlayData.mpOverlayBufferBorder) {
-        m_overlayData.DeleteOverlay();
+    m_pOverlayData->mpOverlayBufferBody = (byte*)_aligned_malloc(m_pOverlayData->mOverlayPitch * m_pOverlayData->mOverlayHeight, 16);
+    m_pOverlayData->mpOverlayBufferBorder = (byte*)_aligned_malloc(m_pOverlayData->mOverlayPitch * m_pOverlayData->mOverlayHeight, 16);
+    if (!m_pOverlayData->mpOverlayBufferBody || !m_pOverlayData->mpOverlayBufferBorder) {
+        m_pOverlayData = nullptr;
         return false;
     }
 
-    ZeroMemory(m_overlayData.mpOverlayBufferBody, m_overlayData.mOverlayPitch * m_overlayData.mOverlayHeight);
-    ZeroMemory(m_overlayData.mpOverlayBufferBorder, m_overlayData.mOverlayPitch * m_overlayData.mOverlayHeight);
+    ZeroMemory(m_pOverlayData->mpOverlayBufferBody, m_pOverlayData->mOverlayPitch * m_pOverlayData->mOverlayHeight);
+    ZeroMemory(m_pOverlayData->mpOverlayBufferBorder, m_pOverlayData->mOverlayPitch * m_pOverlayData->mOverlayHeight);
 
     // Are we doing a border?
 
@@ -798,7 +790,7 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
     for (ptrdiff_t i = _countof(pOutline) - 1; i >= 0; i--) {
         auto it = pOutline[i]->cbegin();
         auto itEnd = pOutline[i]->cend();
-        byte* buffer = (i == 0) ? m_overlayData.mpOverlayBufferBody : m_overlayData.mpOverlayBufferBorder;
+        byte* buffer = (i == 0) ? m_pOverlayData->mpOverlayBufferBody : m_pOverlayData->mpOverlayBufferBorder;
 
         for (; it != itEnd; ++it) {
             unsigned __int64 f = (*it).first;
@@ -811,7 +803,7 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
             if (x2 > x1) {
                 unsigned int first = x1 >> 3;
                 unsigned int last = (x2 - 1) >> 3;
-                byte* dst = buffer + m_overlayData.mOverlayPitch * (y >> 3) + first;
+                byte* dst = buffer + m_pOverlayData->mOverlayPitch * (y >> 3) + first;
 
                 if (first == last) {
                     *dst += x2 - x1;
@@ -833,25 +825,25 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
     // Do some gaussian blur magic
     if (fGaussianBlur > 0) {
         GaussianKernel filter(fGaussianBlur);
-        if (m_overlayData.mOverlayWidth >= filter.width && m_overlayData.mOverlayHeight >= filter.width) {
-            size_t pitch = m_overlayData.mOverlayPitch;
+        if (m_pOverlayData->mOverlayWidth >= filter.width && m_pOverlayData->mOverlayHeight >= filter.width) {
+            size_t pitch = m_pOverlayData->mOverlayPitch;
 
-            byte* tmp = (byte*)_aligned_malloc(pitch * m_overlayData.mOverlayHeight * sizeof(byte), 16);
+            byte* tmp = (byte*)_aligned_malloc(pitch * m_pOverlayData->mOverlayHeight * sizeof(byte), 16);
             if (!tmp) {
                 return false;
             }
 
-            byte* src = m_pOutlineData->mWideOutline.empty() ? m_overlayData.mpOverlayBufferBody : m_overlayData.mpOverlayBufferBorder;
+            byte* src = m_pOutlineData->mWideOutline.empty() ? m_pOverlayData->mpOverlayBufferBody : m_pOverlayData->mpOverlayBufferBorder;
 
             if (m_bUseSSE2) {
-                SeparableFilterX_SSE2(src, tmp, m_overlayData.mOverlayWidth, m_overlayData.mOverlayHeight, pitch,
+                SeparableFilterX_SSE2(src, tmp, m_pOverlayData->mOverlayWidth, m_pOverlayData->mOverlayHeight, pitch,
                                       filter.kernel, filter.width, filter.divisor);
-                SeparableFilterY_SSE2(tmp, src, m_overlayData.mOverlayWidth, m_overlayData.mOverlayHeight, pitch,
+                SeparableFilterY_SSE2(tmp, src, m_pOverlayData->mOverlayWidth, m_pOverlayData->mOverlayHeight, pitch,
                                       filter.kernel, filter.width, filter.divisor);
             } else {
-                SeparableFilterX<1>(src, tmp, m_overlayData.mOverlayWidth, m_overlayData.mOverlayHeight, pitch,
+                SeparableFilterX<1>(src, tmp, m_pOverlayData->mOverlayWidth, m_pOverlayData->mOverlayHeight, pitch,
                                     filter.kernel, filter.width, filter.divisor);
-                SeparableFilterY<1>(tmp, src, m_overlayData.mOverlayWidth, m_overlayData.mOverlayHeight, pitch,
+                SeparableFilterY<1>(tmp, src, m_pOverlayData->mOverlayWidth, m_pOverlayData->mOverlayHeight, pitch,
                                     filter.kernel, filter.width, filter.divisor);
             }
 
@@ -862,23 +854,23 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
     // If we're blurring, do a 3x3 box blur
     // Can't do it on subpictures smaller than 3x3 pixels
     for (int pass = 0; pass < fBlur; pass++) {
-        if (m_overlayData.mOverlayWidth >= 3 && m_overlayData.mOverlayHeight >= 3) {
-            int pitch = m_overlayData.mOverlayPitch;
+        if (m_pOverlayData->mOverlayWidth >= 3 && m_pOverlayData->mOverlayHeight >= 3) {
+            int pitch = m_pOverlayData->mOverlayPitch;
 
-            byte* tmp = DEBUG_NEW byte[pitch * m_overlayData.mOverlayHeight];
+            byte* tmp = DEBUG_NEW byte[pitch * m_pOverlayData->mOverlayHeight];
             if (!tmp) {
                 return false;
             }
 
-            byte* buffer = m_pOutlineData->mWideOutline.empty() ? m_overlayData.mpOverlayBufferBody : m_overlayData.mpOverlayBufferBorder;
-            memcpy(tmp, buffer, pitch * m_overlayData.mOverlayHeight);
+            byte* buffer = m_pOutlineData->mWideOutline.empty() ? m_pOverlayData->mpOverlayBufferBody : m_pOverlayData->mpOverlayBufferBorder;
+            memcpy(tmp, buffer, pitch * m_pOverlayData->mOverlayHeight);
 
             // This could be done in a separated way and win some speed
-            for (ptrdiff_t j = 1; j < m_overlayData.mOverlayHeight - 1; j++) {
+            for (ptrdiff_t j = 1; j < m_pOverlayData->mOverlayHeight - 1; j++) {
                 byte* src = tmp + pitch * j + 1;
                 byte* dst = buffer + pitch * j + 1;
 
-                for (ptrdiff_t i = 1; i < m_overlayData.mOverlayWidth - 1; i++, src++, dst++) {
+                for (ptrdiff_t i = 1; i < m_pOverlayData->mOverlayWidth - 1; i++, src++, dst++) {
                     *dst = (src[-1 - pitch] + (src[-pitch] << 1) + src[+1 - pitch]
                             + (src[-1] << 1) + (src[0] << 2) + (src[+1] << 1)
                             + src[-1 + pitch] + (src[+pitch] << 1) + src[+1 + pitch]) >> 4;
@@ -1472,7 +1464,7 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 {
     CRect bbox(0, 0, 0, 0);
 
-    if (!switchpts || !fBody && !fBorder) {
+    if (!m_pOverlayData || !switchpts || (!fBody && !fBorder)) {
         return bbox;
     }
 
@@ -1483,10 +1475,10 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
     // Remember that all subtitle coordinates are specified in 1/8 pixels
     // (x+4)>>3 rounds to nearest whole pixel.
     // ??? What is xsub, ysub, mOffsetX and mOffsetY ?
-    int x = (xsub + m_overlayData.mOffsetX + 4) >> 3;
-    int y = (ysub + m_overlayData.mOffsetY + 4) >> 3;
-    int w = m_overlayData.mOverlayWidth;
-    int h = m_overlayData.mOverlayHeight;
+    int x = (xsub + m_pOverlayData->mOffsetX + 4) >> 3;
+    int y = (ysub + m_pOverlayData->mOffsetY + 4) >> 3;
+    int w = m_pOverlayData->mOverlayWidth;
+    int h = m_pOverlayData->mOverlayHeight;
     int xo = 0, yo = 0;
 
     // Again, limiting?
@@ -1516,10 +1508,10 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
     bbox &= CRect(0, 0, spd.w, spd.h);
 
     // The alpha bitmap of the subtitles?
-    byte* srcBody = m_overlayData.mpOverlayBufferBody + m_overlayData.mOverlayPitch * yo + xo;
-    byte* srcBorder = m_overlayData.mpOverlayBufferBorder + m_overlayData.mOverlayPitch * yo + xo;
+    byte* srcBody = m_pOverlayData->mpOverlayBufferBody + m_pOverlayData->mOverlayPitch * yo + xo;
+    byte* srcBorder = m_pOverlayData->mpOverlayBufferBorder + m_pOverlayData->mOverlayPitch * yo + xo;
     // fill rasterize info
-    RasterizerNfo rnfo(w, h, xo, yo, m_overlayData.mOverlayPitch, spd.w, spd.pitch,
+    RasterizerNfo rnfo(w, h, xo, yo, m_pOverlayData->mOverlayPitch, spd.w, spd.pitch,
                        // Grab the first colour
                        switchpts[0],
                        switchpts,

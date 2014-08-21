@@ -121,7 +121,7 @@ void CWord::Paint(const CPoint& p, const CPoint& org)
 
     COverlayKey overlayKey(this, p, org);
 
-    if (m_overlayCache.Lookup(overlayKey, m_overlayData)) {
+    if (m_overlayCache.Lookup(overlayKey, m_pOverlayData)) {
         m_fDrawn = m_outlineCache.Lookup(overlayKey, m_pOutlineData);
         if (m_style.borderStyle == 1) {
             if (!CreateOpaqueBox()) {
@@ -165,10 +165,10 @@ void CWord::Paint(const CPoint& p, const CPoint& org)
             if (!Rasterize(p.x & 7, p.y & 7, m_style.fBlur, m_style.fGaussianBlur)) {
                 return;
             }
-            m_overlayCache.SetAt(overlayKey, m_overlayData);
+            m_overlayCache.SetAt(overlayKey, m_pOverlayData);
         } else if ((m_p.x & 7) != (p.x & 7) || (m_p.y & 7) != (p.y & 7)) {
             Rasterize(p.x & 7, p.y & 7, m_style.fBlur, m_style.fGaussianBlur);
-            m_overlayCache.SetAt(overlayKey, m_overlayData);
+            m_overlayCache.SetAt(overlayKey, m_pOverlayData);
         }
     }
 
@@ -791,9 +791,9 @@ CClipper::CClipper(CStringW str, const CSize& size, double scalex, double scaley
 
     Paint(CPoint(0, 0), CPoint(0, 0));
 
-    int w = m_overlayData.mOverlayWidth, h = m_overlayData.mOverlayHeight;
+    int w = m_pOverlayData->mOverlayWidth, h = m_pOverlayData->mOverlayHeight;
 
-    int x = (m_overlayData.mOffsetX + m_cpOffset.x + 4) >> 3, y = (m_overlayData.mOffsetY + m_cpOffset.y + 4) >> 3;
+    int x = (m_pOverlayData->mOffsetX + m_cpOffset.x + 4) >> 3, y = (m_pOverlayData->mOffsetY + m_cpOffset.y + 4) >> 3;
     int xo = 0, yo = 0;
 
     if (x < 0) {
@@ -819,7 +819,7 @@ CClipper::CClipper(CStringW str, const CSize& size, double scalex, double scaley
 
     memset(m_pAlphaMask, (m_inverse ? 0x40 : 0), alphaMaskSize);
 
-    const BYTE* src = m_overlayData.mpOverlayBufferBody + m_overlayData.mOverlayPitch * yo + xo;
+    const BYTE* src = m_pOverlayData->mpOverlayBufferBody + m_pOverlayData->mOverlayPitch * yo + xo;
     BYTE* dst = m_pAlphaMask + m_size.cx * y + x;
 
     if (m_inverse) {
@@ -828,13 +828,13 @@ CClipper::CClipper(CStringW str, const CSize& size, double scalex, double scaley
                 dst[wt] = 0x40 - src[wt];
             }
 
-            src += m_overlayData.mOverlayPitch;
+            src += m_pOverlayData->mOverlayPitch;
             dst += m_size.cx;
         }
     } else {
         for (ptrdiff_t i = 0; i < h; ++i) {
             memcpy(dst, src, w * sizeof(BYTE));
-            src += m_overlayData.mOverlayPitch;
+            src += m_pOverlayData->mOverlayPitch;
             dst += m_size.cx;
         }
     }
