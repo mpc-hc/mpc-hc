@@ -134,30 +134,16 @@ END_MESSAGE_MAP()
 
 // CPPageFormats message handlers
 
-BOOL CPPageFormats::OnInitDialog()
+void CPPageFormats::LoadSettings()
 {
-    __super::OnInitDialog();
-
     m_bFileExtChanged = false;
     m_bHaveRegisteredCategory = false;
 
-    m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
-
-    m_list.InsertColumn(COL_CATEGORY, _T("Category"), LVCFMT_LEFT, 300);
-    m_list.InsertColumn(COL_ENGINE, _T("Engine"), LVCFMT_RIGHT, 60);
-
-    // We don't use m_onoff.Create(IDB_CHECKBOX, 12, 3, 0xffffff) since
-    // we want to load the bitmap directly from the main executable.
-    CImage onoff;
-    onoff.LoadFromResource(AfxGetInstanceHandle(), IDB_CHECKBOX);
-    m_onoff.Create(12, 12, ILC_COLOR4 | ILC_MASK, 0, 3);
-    m_onoff.Add(CBitmap::FromHandle(onoff), 0xffffff);
-    m_list.SetImageList(&m_onoff, LVSIL_SMALL);
-
     int fSetContextFiles = FALSE;
 
-    auto& s = AfxGetAppSettings();
+    const auto& s = AfxGetAppSettings();
     m_mf = s.m_Formats;
+    m_list.DeleteAllItems();
 
     for (int i = 0, cnt = (int)m_mf.GetCount(); i < cnt; i++) {
         if (!m_mf[i].IsAssociable()) {
@@ -205,6 +191,30 @@ BOOL CPPageFormats::OnInitDialog()
     m_apaudiocd.SetCheck(s.fileAssoc.IsAutoPlayRegistered(CFileAssoc::AP_AUDIOCD));
     m_apdvd.SetCheck(s.fileAssoc.IsAutoPlayRegistered(CFileAssoc::AP_DVDMOVIE));
 
+    m_fContextDir.SetCheck(s.fileAssoc.AreRegisteredFolderContextMenuEntries());
+    m_fAssociatedWithIcons.SetCheck(s.fAssociatedWithIcons);
+
+    UpdateData(FALSE);
+}
+
+BOOL CPPageFormats::OnInitDialog()
+{
+    __super::OnInitDialog();
+
+    m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
+
+    m_list.InsertColumn(COL_CATEGORY, _T("Category"), LVCFMT_LEFT, 300);
+    m_list.InsertColumn(COL_ENGINE, _T("Engine"), LVCFMT_RIGHT, 60);
+
+    // We don't use m_onoff.Create(IDB_CHECKBOX, 12, 3, 0xffffff) since
+    // we want to load the bitmap directly from the main executable.
+    CImage onoff;
+    onoff.LoadFromResource(AfxGetInstanceHandle(), IDB_CHECKBOX);
+    m_onoff.Create(12, 12, ILC_COLOR4 | ILC_MASK, 0, 3);
+    m_onoff.Add(CBitmap::FromHandle(onoff), 0xffffff);
+    m_list.SetImageList(&m_onoff, LVSIL_SMALL);
+
+    LoadSettings();
     CreateToolTip();
 
     if (SysVersion::IsVistaOrLater() && !IsUserAnAdmin()) {
@@ -261,9 +271,6 @@ BOOL CPPageFormats::OnInitDialog()
         GetDlgItem(IDC_STATIC3)->ShowWindow(SW_HIDE);
         GetDlgItem(IDC_BUTTON6)->ShowWindow(SW_HIDE);
     }
-
-    m_fContextDir.SetCheck(s.fileAssoc.AreRegisteredFolderContextMenuEntries());
-    m_fAssociatedWithIcons.SetCheck(s.fAssociatedWithIcons);
 
     UpdateData(FALSE);
 
@@ -398,7 +405,13 @@ void CPPageFormats::OnBeginEditMediaCategoryEngine(NMHDR* pNMHDR, LRESULT* pResu
     *pResult = FALSE;
 
     if (pItem->iItem >= 0 && pItem->iSubItem == COL_ENGINE) {
-        *pResult = TRUE;
+        if (m_bInsufficientPrivileges) {
+            MessageBox(ResStr(IDS_CANNOT_CHANGE_FORMAT));
+            // This isn't technically true, because we have access,
+            // but we enforce user to use elevated window for consistency
+        } else {
+            *pResult = TRUE;
+        }
     }
 }
 
@@ -503,9 +516,11 @@ void CPPageFormats::OnBnVistaModify()
 
     AfxGetMyApp()->RunAsAdministrator(strApp, strCmd, true);
 
-    for (int i = 0, cnt = m_list.GetItemCount(); i < cnt; i++) {
-        UpdateMediaCategoryState(i);
-    }
+    auto& s = AfxGetAppSettings();
+    s.m_Formats.UpdateData(false);
+    s.fAssociatedWithIcons = !!AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ASSOCIATED_WITH_ICON, TRUE);
+
+    LoadSettings();
 }
 
 void CPPageFormats::OnBnClickedResetExtensionsList()
