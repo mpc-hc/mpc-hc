@@ -2341,10 +2341,6 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
             }
         }
 
-        if (!m_fFrameSteppingActive) {
-            m_nStepForwardCount = 0;
-        }
-
         hr = m_pME->FreeEventParams(evCode, evParam1, evParam2);
 
         switch (evCode) {
@@ -6930,12 +6926,14 @@ void CMainFrame::OnPlayPlay()
         m_pMC->Run();
         SetTimersPlay();
 
-        if (m_fFrameSteppingActive) { // FIXME
+        if (m_fFrameSteppingActive) {
+            m_pFS->CancelStep();
             m_fFrameSteppingActive = false;
             m_pBA->put_Volume(m_nVolumeBeforeFrameStepping);
         } else {
             m_pBA->put_Volume(m_wndToolBar.Volume);
         }
+        m_nStepForwardCount = 0;
 
         SetAlwaysOnTop(s.iOnTop);
     }
@@ -7092,10 +7090,13 @@ void CMainFrame::OnPlayStop()
 
         m_dSpeedRate = 1.0;
 
-        if (m_fFrameSteppingActive) { // FIXME
+        if (m_fFrameSteppingActive) {
+            m_pFS->CancelStep();
             m_fFrameSteppingActive = false;
+            m_nStepForwardCount = 0;
             m_pBA->put_Volume(m_nVolumeBeforeFrameStepping);
         }
+        m_nStepForwardCount = 0;
     } else if (GetLoadState() == MLS::CLOSING) {
         if (m_pMC) {
             VERIFY(m_pMC->Stop() == S_OK);
@@ -7237,7 +7238,6 @@ void CMainFrame::OnPlayFramestep(UINT nID)
             rtCurPos = m_wndSeekBar.GetPos();
         } else {
             m_pMS->GetCurrentPosition(&rtCurPos);
-
         }
 
         rtCurPos += (nID == ID_PLAY_FRAMESTEP) ? rtAvgTimePerFrame : -rtAvgTimePerFrame;
@@ -13681,7 +13681,14 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool bShowOSD /*= true*/)
         rtPos = 0;
     }
 
+    if (m_fFrameSteppingActive) {
+        // Cancel pending frame steps
+        m_pFS->CancelStep();
+        m_fFrameSteppingActive = false;
+        m_pBA->put_Volume(m_nVolumeBeforeFrameStepping);
+    }
     m_nStepForwardCount = 0;
+
     if (!IsPlaybackCaptureMode()) {
         __int64 start, stop;
         m_wndSeekBar.GetRange(start, stop);
