@@ -4093,7 +4093,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 
             GetOpticalDiskType(dir[0], sl);
 
-            for (TCHAR drive = _T('C'); sl.IsEmpty() && drive <= _T('Z'); drive++) {
+            for (TCHAR drive = _T('A'); sl.IsEmpty() && drive <= _T('Z'); drive++) {
                 GetOpticalDiskType(drive, sl);
             }
         }
@@ -4271,7 +4271,7 @@ void CMainFrame::OnFileOpenOpticalDisk(UINT nID)
     nID -= ID_FILE_OPEN_OPTICAL_DISK_START;
 
     nID++;
-    for (TCHAR drive = _T('C'); drive <= _T('Z'); drive++) {
+    for (TCHAR drive = _T('A'); drive <= _T('Z'); drive++) {
         CAtlList<CString> sl;
 
         switch (GetOpticalDiskType(drive, sl)) {
@@ -12057,7 +12057,7 @@ void CMainFrame::SetupOpenCDSubMenu()
     }
 
     UINT id = ID_FILE_OPEN_OPTICAL_DISK_START;
-    for (TCHAR drive = _T('C'); drive <= _T('Z'); drive++) {
+    for (TCHAR drive = _T('A'); drive <= _T('Z'); drive++) {
         CAtlList<CString> files;
         OpticalDiskType_t opticalDiskType = GetOpticalDiskType(drive, files);
 
