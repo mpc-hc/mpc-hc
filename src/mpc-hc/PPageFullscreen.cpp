@@ -256,20 +256,21 @@ BOOL CPPageFullscreen::OnInitDialog()
             CString monitorName;
             monitor.GetName(monitorName);
 
+            CString str = monitorName;
+            if (monitorName == currentMonitorName) {
+                str.AppendFormat(_T(" - [%s]"), ResStr(IDS_FULLSCREENMONITOR_CURRENT));
+            }
+
             DISPLAY_DEVICE displayDevice = { sizeof(displayDevice) };
             if (EnumDisplayDevices(monitorName, 0, &displayDevice, 0)) {
-                if (monitorName == currentMonitorName) {
-                    m_fullScreenMonitorCtrl.AddString(monitorName + _T(" - [") + ResStr(IDS_FULLSCREENMONITOR_CURRENT) + _T("] - ") + displayDevice.DeviceString);
-                } else {
-                    m_fullScreenMonitorCtrl.AddString(monitorName + _T(" - ") + displayDevice.DeviceString);
-                }
-                m_monitorDisplayNames.emplace_back(monitorName);
+                str.AppendFormat(_T(" - %s"), displayDevice.DeviceString);
+            }
 
-                if (m_fullScreenMonitor == monitorName && m_iFullScreenMonitor == 0) {
-                    m_iFullScreenMonitor = m_fullScreenMonitorCtrl.GetCount() - 1;
-                }
-            } else {
-                ASSERT(FALSE);
+            m_fullScreenMonitorCtrl.AddString(str);
+            m_monitorDisplayNames.emplace_back(monitorName);
+
+            if (m_fullScreenMonitor == monitorName && m_iFullScreenMonitor == 0) {
+                m_iFullScreenMonitor = m_fullScreenMonitorCtrl.GetCount() - 1;
             }
         }
     }
@@ -315,6 +316,8 @@ BOOL CPPageFullscreen::OnInitDialog()
 
     m_delaySpinner.SetRange32(0, 9);
 
+    CorrectComboListWidth(m_fullScreenMonitorCtrl);
+    CorrectComboListWidth(m_hidePolicy);
     CorrectComboBoxHeaderWidth(GetDlgItem(IDC_CHECK2));
     CorrectComboBoxHeaderWidth(GetDlgItem(IDC_CHECK4));
 
