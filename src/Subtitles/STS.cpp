@@ -632,7 +632,7 @@ static bool OpenSubViewer(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
 
         if (c == 10) {
             CStringW str;
-            file->ReadString(str);
+            VERIFY(file->ReadString(str));
 
             str.Replace(L"[br]", L"\\N");
 

@@ -60,7 +60,7 @@ BYTE CHdmvClipInfo::ReadByte()
 {
     BYTE  bVal;
     DWORD dwRead;
-    ReadFile(m_hFile, &bVal, sizeof(bVal), &dwRead, nullptr);
+    VERIFY(ReadFile(m_hFile, &bVal, sizeof(bVal), &dwRead, nullptr));
 
     return bVal;
 }
@@ -68,7 +68,7 @@ BYTE CHdmvClipInfo::ReadByte()
 void CHdmvClipInfo::ReadBuffer(BYTE* pBuff, DWORD nLen)
 {
     DWORD dwRead;
-    ReadFile(m_hFile, pBuff, nLen, &dwRead, nullptr);
+    VERIFY(ReadFile(m_hFile, pBuff, nLen, &dwRead, nullptr));
 }
 
 HRESULT CHdmvClipInfo::ReadProgramInfo()

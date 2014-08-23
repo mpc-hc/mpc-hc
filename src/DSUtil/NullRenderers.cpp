@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -172,10 +172,10 @@ void CNullVideoRendererInputPin::CreateSurface()
     pp.BackBufferHeight = d3ddm.Height;
     pp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
 
-    m_pD3D->CreateDevice(
-        D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, m_hWnd,
-        D3DCREATE_SOFTWARE_VERTEXPROCESSING | D3DCREATE_MULTITHREADED, //| D3DCREATE_MANAGED,
-        &pp, &m_pD3DDev);
+    VERIFY(SUCCEEDED(m_pD3D->CreateDevice(
+                         D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, m_hWnd,
+                         D3DCREATE_SOFTWARE_VERTEXPROCESSING | D3DCREATE_MULTITHREADED, //| D3DCREATE_MANAGED,
+                         &pp, &m_pD3DDev)));
 }
 
 STDMETHODIMP CNullVideoRendererInputPin::NonDelegatingQueryInterface(REFIID riid, void** ppv)

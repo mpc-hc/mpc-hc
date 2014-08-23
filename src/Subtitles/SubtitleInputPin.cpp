@@ -223,17 +223,17 @@ public IUnknown {
 
 STDMETHODIMP CSubtitleInputPin::Receive(IMediaSample* pSample)
 {
-    HRESULT hr;
-
-    hr = __super::Receive(pSample);
+    HRESULT hr = __super::Receive(pSample);
     if (FAILED(hr)) {
         return hr;
     }
 
     CAutoLock cAutoLock(&m_csReceive);
-
     REFERENCE_TIME tStart, tStop;
-    pSample->GetTime(&tStart, &tStop);
+    hr = pSample->GetTime(&tStart, &tStop);
+    if (FAILED(hr)) {
+        return hr;
+    }
     tStart += m_tStart;
     tStop += m_tStart;
 
@@ -363,9 +363,7 @@ STDMETHODIMP CSubtitleInputPin::Receive(IMediaSample* pSample)
         InvalidateSubtitle(tStart, m_pSubStream);
     }
 
-    hr = S_OK;
-
-    return hr;
+    return S_OK;
 }
 
 STDMETHODIMP CSubtitleInputPin::EndOfStream(void)

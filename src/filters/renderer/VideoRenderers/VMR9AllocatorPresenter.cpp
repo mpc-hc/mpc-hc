@@ -321,7 +321,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::StartPresenting(DWORD_PTR dwUserID)
     CComPtr<IPin> pPin;
     if (SUCCEEDED(m_pIVMRSurfAllocNotify->QueryInterface(IID_PPV_ARGS(&pVMR9))) &&
             SUCCEEDED(pVMR9->FindPin(L"VMR Input0", &pPin))) {
-        pPin->ConnectionMediaType(&m_inputMediaType);
+        VERIFY(SUCCEEDED(pPin->ConnectionMediaType(&m_inputMediaType)));
     }
 
     m_bIsRendering = true;
