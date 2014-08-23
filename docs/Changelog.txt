@@ -53,5 +53,6 @@ next version - not released yet
 ! Ticket #4536, ASS/SSA subtitles: Fix the parsing of \fs tags when the value was negative
 ! Ticket #4684, Clicking on the some parts of the volume slider had no effect
 ! Ticket #4707, EVR-CP: Screenshots were corrupted when "Force 10-bit input" was used
+! Ticket #4758, Adjust width of the groupbox headers to avoid empty space
 ! Ticket #4778, Fix optical drive detection when its letter is A or B.
 ! Ticket #4782, Backward framestep led to jumping to the wrong position in certain situations

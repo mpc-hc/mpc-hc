@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -175,6 +175,8 @@ BOOL CPPageAudioSwitcher::OnInitDialog()
 
     m_tooltip.Create(GetDlgItem(IDC_SLIDER1));
     m_tooltip.Activate(TRUE);
+
+    CorrectComboBoxHeaderWidth(GetDlgItem(IDC_CHECK5));
 
     UpdateData(FALSE);
 

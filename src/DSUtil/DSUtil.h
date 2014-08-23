@@ -130,6 +130,7 @@ extern DWORD YCrCbToRGB_Rec601(BYTE A, BYTE Y, BYTE Cr, BYTE Cb, double sourceBl
 extern DWORD YCrCbToRGB_Rec709(BYTE A, BYTE Y, BYTE Cr, BYTE Cb, double sourceBlackLevel, double sourceWhiteLevel, double targetBlackLevel, double targetWhiteLevel);
 extern void SetThreadName(DWORD dwThreadID, LPCSTR szThreadName);
 extern void CorrectComboListWidth(CComboBox& m_pComboBox);
+extern void CorrectComboBoxHeaderWidth(CWnd* pComboBox);
 extern CString FindCoverArt(const CString& path, const CString& author);
 
 enum FF_FIELD_TYPE {

@@ -180,6 +180,8 @@ BOOL CPPageSubtitles::OnInitDialog()
     m_nSubDelayInterval = s.nSubDelayInterval;
     m_bSubtitleARCompensation = s.bSubtitleARCompensation;
 
+    CorrectComboBoxHeaderWidth(GetDlgItem(IDC_CHECK3));
+
     UpdateData(FALSE);
 
     CreateToolTip();

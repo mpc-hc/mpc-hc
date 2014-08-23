@@ -315,6 +315,9 @@ BOOL CPPageFullscreen::OnInitDialog()
 
     m_delaySpinner.SetRange32(0, 9);
 
+    CorrectComboBoxHeaderWidth(GetDlgItem(IDC_CHECK2));
+    CorrectComboBoxHeaderWidth(GetDlgItem(IDC_CHECK4));
+
     ModesUpdate();
     UpdateData(FALSE);
 

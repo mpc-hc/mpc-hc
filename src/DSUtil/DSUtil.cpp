@@ -2618,6 +2618,33 @@ void CorrectComboListWidth(CComboBox& m_pComboBox)
     m_pComboBox.SetDroppedWidth(dx);
 }
 
+void CorrectComboBoxHeaderWidth(CWnd* pComboBox)
+{
+    if (!pComboBox) {
+        return;
+    }
+
+    CDC*   pDC = pComboBox->GetDC();
+    CFont* pFont = pComboBox->GetFont();
+    CFont* pOldFont = pDC->SelectObject(pFont);
+
+    CString str;
+    pComboBox->GetWindowText(str);
+    CSize szText = pDC->GetTextExtent(str);
+
+    TEXTMETRIC tm;
+    pDC->GetTextMetrics(&tm);
+    pDC->SelectObject(pOldFont);
+    pComboBox->ReleaseDC(pDC);
+
+    CRect r;
+    pComboBox->GetWindowRect(r);
+    pComboBox->GetOwner()->ScreenToClient(r);
+
+    r.right = r.left + ::GetSystemMetrics(SM_CXMENUCHECK) + szText.cx + tm.tmAveCharWidth;
+    pComboBox->MoveWindow(r);
+}
+
 CString FindCoverArt(const CString& path, const CString& author)
 {
     if (!path.IsEmpty()) {
