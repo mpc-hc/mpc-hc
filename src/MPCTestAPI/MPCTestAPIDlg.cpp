@@ -1,5 +1,5 @@
 /*
- * (C) 2008-2013 see Authors.txt
+ * (C) 2008-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -153,8 +153,7 @@ BOOL CRegisterCopyDataDlg::OnInitDialog()
     CMenu* pSysMenu = GetSystemMenu(FALSE);
     if (pSysMenu != nullptr) {
         CString strAboutMenu;
-        strAboutMenu.LoadString(IDS_ABOUTBOX);
-        if (!strAboutMenu.IsEmpty()) {
+        if (strAboutMenu.LoadString(IDS_ABOUTBOX)) {
             pSysMenu->AppendMenu(MF_SEPARATOR);
             pSysMenu->AppendMenu(MF_STRING, IDM_ABOUTBOX, strAboutMenu);
         }
@@ -231,7 +230,7 @@ void CRegisterCopyDataDlg::OnPaint()
 //  the minimized window.
 HCURSOR CRegisterCopyDataDlg::OnQueryDragIcon()
 {
-    return (HCURSOR) m_hIcon;
+    return (HCURSOR)m_hIcon;
 }
 
 void CRegisterCopyDataDlg::OnButtonFindwindow()
@@ -240,7 +239,7 @@ void CRegisterCopyDataDlg::OnButtonFindwindow()
     STARTUPINFO         StartupInfo;
     PROCESS_INFORMATION ProcessInfo;
 
-    strExec.Format(_T("%s /slave %d"), m_strMPCPath, PtrToInt(GetSafeHwnd()));
+    strExec.Format(_T("%s /slave %d"), (LPCTSTR)m_strMPCPath, PtrToInt(GetSafeHwnd()));
     UpdateData(TRUE);
 
     ZeroMemory(&StartupInfo, sizeof(StartupInfo));
