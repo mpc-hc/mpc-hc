@@ -1879,6 +1879,11 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                     m_wndSubresyncBar.SetTime(rtNow);
                     m_wndSubresyncBar.SetFPS(m_pCAP->GetFPS());
                 }
+
+                const CAppSettings& s = AfxGetAppSettings();
+                if (s.bAutoUploadSubtitles && (rtNow / rtDur == 90) && !m_pSubStreams.IsEmpty() && s.fEnableSubtitles && m_pCAP && m_pCAP->GetSubtitleDelay() == 0) {
+                    m_pSubtitlesProviders->Upload();
+                }
             }
             break;
         case TIMER_STREAMPOSPOLLER2:
