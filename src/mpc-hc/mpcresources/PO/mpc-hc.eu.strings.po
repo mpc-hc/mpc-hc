@@ -1285,7 +1285,7 @@ msgid "Maximum number of files shown in the \"Recent files\" menu and for which 
 msgstr "\"Azken agiriak\" menuan erakusten diren eta kokapena potentzialki gordetzen den gehienezko agiri zenbatekoa."
 
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
-msgid "JPEG quality"
+msgid "JPEG Image"
 msgstr ""
 
 msgctxt "IDS_IMAGE_QUALITY"

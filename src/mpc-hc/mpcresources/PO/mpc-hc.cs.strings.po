@@ -1285,7 +1285,7 @@ msgid "Maximum number of files shown in the \"Recent files\" menu and for which 
 msgstr "Maximální počet souborů v nabídce \"Nedávno otevřené\" a seznamu uložených pozic."
 
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
-msgid "JPEG quality"
+msgid "JPEG Image"
 msgstr ""
 
 msgctxt "IDS_IMAGE_QUALITY"

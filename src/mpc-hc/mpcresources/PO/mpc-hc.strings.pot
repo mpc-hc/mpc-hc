@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-19 21:13:19+0000\n"
+"POT-Creation-Date: 2014-08-24 19:23:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1282,7 +1282,7 @@ msgid "Maximum number of files shown in the \"Recent files\" menu and for which 
 msgstr ""
 
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
-msgid "JPEG quality"
+msgid "JPEG Image"
 msgstr ""
 
 msgctxt "IDS_IMAGE_QUALITY"

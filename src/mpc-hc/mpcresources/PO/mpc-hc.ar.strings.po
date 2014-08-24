@@ -1290,7 +1290,7 @@ msgid "Maximum number of files shown in the \"Recent files\" menu and for which 
 msgstr "العدد الأقصى لعرض الملفات في \"الملفات الأخيرة \" في قائمة الوضع لحفظها."
 
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
-msgid "JPEG quality"
+msgid "JPEG Image"
 msgstr ""
 
 msgctxt "IDS_IMAGE_QUALITY"

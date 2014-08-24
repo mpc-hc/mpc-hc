@@ -1285,7 +1285,7 @@ msgid "Maximum number of files shown in the \"Recent files\" menu and for which 
 msgstr "Bilangan maksimum fail yang ditunjuk dalam menu \"Fail baru-baru ini\" dan kedudukan manakah ia berpotensi disimpan."
 
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
-msgid "JPEG quality"
+msgid "JPEG Image"
 msgstr ""
 
 msgctxt "IDS_IMAGE_QUALITY"

@@ -1292,7 +1292,7 @@ msgid "Maximum number of files shown in the \"Recent files\" menu and for which 
 msgstr "Número máximo de ficheros mostrados en el menú \"Ficheros recientes\" y para el que potencialmente se guarda la posición."
 
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
-msgid "JPEG quality"
+msgid "JPEG Image"
 msgstr ""
 
 msgctxt "IDS_IMAGE_QUALITY"
