@@ -586,18 +586,10 @@ void Rasterizer::_OverlapRegion(tSpanBuffer& dst, const tSpanBuffer& src, int dx
             // B spans don't overlap, so begin merge loop with A first.
 
             for (;;) {
-                // If we run out of A spans or the A span doesn't overlap,
-                // then the next B span can't either (because B spans don't
-                // overlap) and we exit.
-
-                if (itA == itAE || itA->first > x2) {
-                    break;
-                }
-
-                do {
+                while (itA != itAE && itA->first <= x2) {
                     x2 = std::max(x2, itA->second);
                     ++itA;
-                } while (itA != itAE && itA->first <= x2);
+                }
 
                 // If we run out of B spans or the B span doesn't overlap,
                 // then the next A span can't either (because A spans don't
@@ -611,6 +603,14 @@ void Rasterizer::_OverlapRegion(tSpanBuffer& dst, const tSpanBuffer& src, int dx
                     x2 = std::max(x2, itB->second + offset2);
                     ++itB;
                 } while (itB != itBE && itB->first + offset1 <= x2);
+
+                // If we run out of A spans or the A span doesn't overlap,
+                // then the next B span can't either (because B spans don't
+                // overlap) and we exit.
+
+                if (itA == itAE || itA->first > x2) {
+                    break;
+                }
             }
 
             // Flush span.
@@ -627,18 +627,10 @@ void Rasterizer::_OverlapRegion(tSpanBuffer& dst, const tSpanBuffer& src, int dx
             // A spans don't overlap, so begin merge loop with B first.
 
             for (;;) {
-                // If we run out of B spans or the B span doesn't overlap,
-                // then the next A span can't either (because A spans don't
-                // overlap) and we exit.
-
-                if (itB == itBE || itB->first + offset1 > x2) {
-                    break;
-                }
-
-                do {
+                while (itB != itBE && itB->first + offset1 <= x2) {
                     x2 = std::max(x2, itB->second + offset2);
                     ++itB;
-                } while (itB != itBE && itB->first + offset1 <= x2);
+                }
 
                 // If we run out of A spans or the A span doesn't overlap,
                 // then the next B span can't either (because B spans don't
@@ -652,6 +644,14 @@ void Rasterizer::_OverlapRegion(tSpanBuffer& dst, const tSpanBuffer& src, int dx
                     x2 = std::max(x2, itA->second);
                     ++itA;
                 } while (itA != itAE && itA->first <= x2);
+
+                // If we run out of B spans or the B span doesn't overlap,
+                // then the next A span can't either (because A spans don't
+                // overlap) and we exit.
+
+                if (itB == itBE || itB->first + offset1 > x2) {
+                    break;
+                }
             }
 
             // Flush span.
@@ -668,8 +668,14 @@ void Rasterizer::_OverlapRegion(tSpanBuffer& dst, const tSpanBuffer& src, int dx
     }
 
     while (itB != itBE) {
-        dst.emplace_back(itB->first + offset1, itB->second + offset2);
+        unsigned __int64 x1 = itB->first + offset1;
+        unsigned __int64 x2 = itB->second + offset2;
         ++itB;
+        while (itB != itBE && itB->first + offset1 <= x2) {
+            x2 = std::max(x2, itB->second + offset2);
+            ++itB;
+        }
+        dst.emplace_back(x1, x2);
     }
 }
 
@@ -687,17 +693,13 @@ bool Rasterizer::CreateWidenedRegion(int rx, int ry)
     if (ry > 0) {
         // Do a half circle.
         // _OverlapRegion mirrors this so both halves are done.
-        for (int y = -ry; y <= ry; ++y) {
-            int x = (int)(0.5 + sqrt(float(ry * ry - y * y)) * float(rx) / float(ry));
+        for (int dy = -ry; dy <= ry; ++dy) {
+            int dx = std::lround(sqrt(float(ry * ry - y * y)) * float(rx) / float(ry));
 
-            _OverlapRegion(m_pOutlineData->mWideOutline, m_pOutlineData->mOutline, x, y);
+            _OverlapRegion(m_pOutlineData->mWideOutline, m_pOutlineData->mOutline, dx, dy);
         }
-    } else if (ry == 0 && rx > 0) {
-        // There are artifacts if we don't make at least two overlaps of the line, even at same Y coord
+    } else {
         _OverlapRegion(m_pOutlineData->mWideOutline, m_pOutlineData->mOutline, rx, 0);
-        _OverlapRegion(m_pOutlineData->mWideOutline, m_pOutlineData->mOutline, rx, 0);
-    } else { // if (ry == 0 && rx == 0)
-        _OverlapRegion(m_pOutlineData->mWideOutline, m_pOutlineData->mOutline, 0, 0);
     }
 
     return true;
