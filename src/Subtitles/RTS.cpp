@@ -66,7 +66,7 @@ CMyFont::CMyFont(STSStyle& style)
 // CWord
 
 CWord::CWord(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley,
-             CPolygonCache& polygonCache, COutlineCache& outlineCache, COverlayCache& overlayCache)
+             RenderingCaches& renderingCaches)
     : m_style(style)
     , m_str(str)
     , m_width(0)
@@ -82,9 +82,7 @@ CWord::CWord(STSStyle& style, CStringW str, int ktype, int kstart, int kend, dou
     , m_pOpaqueBox(nullptr)
     , m_scalex(scalex)
     , m_scaley(scaley)
-    , m_polygonCache(polygonCache)
-    , m_outlineCache(outlineCache)
-    , m_overlayCache(overlayCache)
+    , m_renderingCaches(renderingCaches)
 {
     if (str.IsEmpty()) {
         m_fWhiteSpaceChar = m_fLineBreak = true;
@@ -122,8 +120,8 @@ void CWord::Paint(const CPoint& p, const CPoint& org)
 
     COverlayKey overlayKey(this, p, org);
 
-    if (m_overlayCache.Lookup(overlayKey, m_pOverlayData)) {
-        m_fDrawn = m_outlineCache.Lookup(overlayKey, m_pOutlineData);
+    if (m_renderingCaches.overlayCache.Lookup(overlayKey, m_pOverlayData)) {
+        m_fDrawn = m_renderingCaches.outlineCache.Lookup(overlayKey, m_pOutlineData);
         if (m_style.borderStyle == 1) {
             if (!CreateOpaqueBox()) {
                 return;
@@ -131,7 +129,7 @@ void CWord::Paint(const CPoint& p, const CPoint& org)
         }
     } else {
         if (!m_fDrawn) {
-            if (m_outlineCache.Lookup(overlayKey, m_pOutlineData)) {
+            if (m_renderingCaches.outlineCache.Lookup(overlayKey, m_pOutlineData)) {
                 if (m_style.borderStyle == 1) {
                     if (!CreateOpaqueBox()) {
                         return;
@@ -158,7 +156,7 @@ void CWord::Paint(const CPoint& p, const CPoint& org)
                     }
                 }
 
-                m_outlineCache.SetAt(overlayKey, m_pOutlineData);
+                m_renderingCaches.outlineCache.SetAt(overlayKey, m_pOutlineData);
             }
 
             m_fDrawn = true;
@@ -166,10 +164,10 @@ void CWord::Paint(const CPoint& p, const CPoint& org)
             if (!Rasterize(p.x & 7, p.y & 7, m_style.fBlur, m_style.fGaussianBlur)) {
                 return;
             }
-            m_overlayCache.SetAt(overlayKey, m_pOverlayData);
+            m_renderingCaches.overlayCache.SetAt(overlayKey, m_pOverlayData);
         } else if ((m_p.x & 7) != (p.x & 7) || (m_p.y & 7) != (p.y & 7)) {
             Rasterize(p.x & 7, p.y & 7, m_style.fBlur, m_style.fGaussianBlur);
-            m_overlayCache.SetAt(overlayKey, m_pOverlayData);
+            m_renderingCaches.overlayCache.SetAt(overlayKey, m_pOverlayData);
         }
     }
 
@@ -212,8 +210,7 @@ bool CWord::CreateOpaqueBox()
                (m_width + w + 4) / 8, (m_ascent + m_descent + h + 4) / 8,
                -(w + 4) / 8, (m_ascent + m_descent + h + 4) / 8);
 
-    m_pOpaqueBox = DEBUG_NEW CPolygon(style, str, 0, 0, 0, 1.0, 1.0, 0,
-                                      m_polygonCache, m_outlineCache, m_overlayCache);
+    m_pOpaqueBox = DEBUG_NEW CPolygon(style, str, 0, 0, 0, 1.0, 1.0, 0, m_renderingCaches);
 
     return !!m_pOpaqueBox;
 }
@@ -420,8 +417,8 @@ void CWord::Transform_SSE2(const CPoint& org)
 // CText
 
 CText::CText(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley,
-             CTextDimsCache& textDimsCache, CPolygonCache& polygonCache, COutlineCache& outlineCache, COverlayCache& overlayCache)
-    : CWord(style, str, ktype, kstart, kend, scalex, scaley, polygonCache, outlineCache, overlayCache)
+             RenderingCaches& renderingCaches)
+    : CWord(style, str, ktype, kstart, kend, scalex, scaley, renderingCaches)
 {
     if (m_str == L" ") {
         m_fWhiteSpaceChar = true;
@@ -429,7 +426,7 @@ CText::CText(STSStyle& style, CStringW str, int ktype, int kstart, int kend, dou
 
     CTextDimsKey textDimsKey(m_str, m_style);
     CTextDims textDims;
-    if (!textDimsCache.Lookup(textDimsKey, textDims)) {
+    if (!renderingCaches.textDimsCache.Lookup(textDimsKey, textDims)) {
         CMyFont font(m_style);
         m_ascent  = font.m_ascent;
         m_descent = font.m_descent;
@@ -463,7 +460,7 @@ CText::CText(STSStyle& style, CStringW str, int ktype, int kstart, int kend, dou
         textDims.descent = m_descent;
         textDims.width   = m_width;
 
-        textDimsCache.SetAt(textDimsKey, textDims);
+        renderingCaches.textDimsCache.SetAt(textDimsKey, textDims);
     } else {
         m_ascent  = textDims.ascent;
         m_descent = textDims.descent;
@@ -531,15 +528,15 @@ bool CText::CreatePath()
 // CPolygon
 
 CPolygon::CPolygon(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley, int baseline,
-                   CPolygonCache& polygonCache, COutlineCache& outlineCache, COverlayCache& overlayCache)
-    : CWord(style, str, ktype, kstart, kend, scalex, scaley, polygonCache, outlineCache, overlayCache)
+                   RenderingCaches& renderingCaches)
+    : CWord(style, str, ktype, kstart, kend, scalex, scaley, renderingCaches)
     , m_baseline(baseline)
 {
     ParseStr();
 }
 
 CPolygon::CPolygon(CPolygon& src)
-    : CWord(src.m_style, src.m_str, src.m_ktype, src.m_kstart, src.m_kend, src.m_scalex, src.m_scaley, src.m_polygonCache, src.m_outlineCache, src.m_overlayCache)
+    : CWord(src.m_style, src.m_str, src.m_ktype, src.m_kstart, src.m_kend, src.m_scalex, src.m_scaley, src.m_renderingCaches)
     , m_baseline(src.m_baseline)
     , m_pPolygonPath(src.m_pPolygonPath)
 {
@@ -594,7 +591,7 @@ bool CPolygon::ParseStr()
     }
 
     CPolygonPathKey polygonPathKey(m_str, m_scalex, m_scaley);
-    if (!m_polygonCache.Lookup(polygonPathKey, m_pPolygonPath)) {
+    if (!m_renderingCaches.polygonCache.Lookup(polygonPathKey, m_pPolygonPath)) {
         m_pPolygonPath = std::make_shared<CPolygonPath>();
         CPoint p;
         bool bFoundMove = false;
@@ -728,7 +725,7 @@ bool CPolygon::ParseStr()
 
         m_pPolygonPath->size.SetSize(std::max(maxx - minx, 0), std::max(maxy - miny, 0));
 
-        m_polygonCache.SetAt(polygonPathKey, m_pPolygonPath);
+        m_renderingCaches.polygonCache.SetAt(polygonPathKey, m_pPolygonPath);
     }
 
     m_width = m_pPolygonPath->size.cx;
@@ -775,8 +772,8 @@ bool CPolygon::CreatePath()
 // CClipper
 
 CClipper::CClipper(CStringW str, const CSize& size, double scalex, double scaley, bool inverse, const CPoint& cpOffset,
-                   CPolygonCache& polygonCache, COutlineCache& outlineCache, COverlayCache& overlayCache)
-    : CPolygon(STSStyle(), str, 0, 0, 0, scalex, scaley, 0, polygonCache, outlineCache, overlayCache)
+                   RenderingCaches& renderingCaches)
+    : CPolygon(STSStyle(), str, 0, 0, 0, scalex, scaley, 0, renderingCaches)
     , m_size(size)
     , m_inverse(inverse)
     , m_cpOffset(cpOffset)
@@ -852,7 +849,7 @@ CClipper::~CClipper()
 
 CWord* CClipper::Copy()
 {
-    return DEBUG_NEW CClipper(m_str, m_size, m_scalex, m_scaley, m_inverse, m_cpOffset, m_polygonCache, m_outlineCache, m_overlayCache);
+    return DEBUG_NEW CClipper(m_str, m_size, m_scalex, m_scaley, m_inverse, m_cpOffset, m_renderingCaches);
 }
 
 bool CClipper::Append(CWord* w)
@@ -1095,10 +1092,8 @@ CRect CLine::PaintBody(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPoin
 
 // CSubtitle
 
-CSubtitle::CSubtitle(CPolygonCache& polygonCache, COutlineCache& outlineCache, COverlayCache& overlayCache)
-    : m_polygonCache(polygonCache)
-    , m_outlineCache(outlineCache)
-    , m_overlayCache(overlayCache)
+CSubtitle::CSubtitle(RenderingCaches& renderingCaches)
+    : m_renderingCaches(renderingCaches)
     , m_pClipper(nullptr)
     , m_clipInverse(false)
     , m_scalex(1.0)
@@ -1305,8 +1300,7 @@ void CSubtitle::CreateClippers(CSize size)
             CStringW str;
             str.Format(L"m %d %d l %d %d %d %d %d %d", 0, 0, w, 0, w, h, 0, h);
             try {
-                m_pClipper = DEBUG_NEW CClipper(str, size, 1, 1, false, CPoint(0, 0),
-                                                m_polygonCache, m_outlineCache, m_overlayCache);
+                m_pClipper = DEBUG_NEW CClipper(str, size, 1, 1, false, CPoint(0, 0), m_renderingCaches);
             } catch (std::bad_alloc) {
                 return;
             }
@@ -1345,7 +1339,7 @@ void CSubtitle::CreateClippers(CSize size)
             str.Format(L"m %d %d l %d %d %d %d %d %d", 0, 0, w, 0, w, h, 0, h);
             try {
                 m_pClipper = DEBUG_NEW CClipper(str, size, 1, 1, false, CPoint(0, 0),
-                                                m_polygonCache, m_outlineCache, m_overlayCache);
+                                                m_renderingCaches);
             } catch (std::bad_alloc) {
                 return;
             }
@@ -1544,11 +1538,6 @@ CRenderedTextSubtitle::CRenderedTextSubtitle(CCritSec* pLock)
     , m_kend(0)
     , m_nPolygon(0)
     , m_polygonBaselineOffset(0)
-    , m_textDimsCache(2048)
-    , m_polygonCache(2048)
-    , m_SSATagsCache(2048)
-    , m_outlineCache(128)
-    , m_overlayCache(128)
 {
     m_size = CSize(0, 0);
 
@@ -1778,22 +1767,19 @@ void CRenderedTextSubtitle::ParseString(CSubtitle* sub, CStringW str, STSStyle& 
         }
 
         if (i < j) {
-            if (CWord* w = DEBUG_NEW CText(style, str.Mid(i, j - i), m_ktype, m_kstart, m_kend, sub->m_scalex, sub->m_scaley,
-                                           m_textDimsCache, m_polygonCache, m_outlineCache, m_overlayCache)) {
+            if (CWord* w = DEBUG_NEW CText(style, str.Mid(i, j - i), m_ktype, m_kstart, m_kend, sub->m_scalex, sub->m_scaley, m_renderingCaches)) {
                 sub->m_words.AddTail(w);
                 m_kstart = m_kend;
             }
         }
 
         if (c == L'\n') {
-            if (CWord* w = DEBUG_NEW CText(style, CStringW(), m_ktype, m_kstart, m_kend, sub->m_scalex, sub->m_scaley,
-                                           m_textDimsCache, m_polygonCache, m_outlineCache, m_overlayCache)) {
+            if (CWord* w = DEBUG_NEW CText(style, CStringW(), m_ktype, m_kstart, m_kend, sub->m_scalex, sub->m_scaley, m_renderingCaches)) {
                 sub->m_words.AddTail(w);
                 m_kstart = m_kend;
             }
         } else if (c == L' ' || c == L'\x00A0') {
-            if (CWord* w = DEBUG_NEW CText(style, CStringW(c), m_ktype, m_kstart, m_kend, sub->m_scalex, sub->m_scaley,
-                                           m_textDimsCache, m_polygonCache, m_outlineCache, m_overlayCache)) {
+            if (CWord* w = DEBUG_NEW CText(style, CStringW(c), m_ktype, m_kstart, m_kend, sub->m_scalex, sub->m_scaley, m_renderingCaches)) {
                 sub->m_words.AddTail(w);
                 m_kstart = m_kend;
             }
@@ -1814,7 +1800,7 @@ void CRenderedTextSubtitle::ParsePolygon(CSubtitle* sub, CStringW str, STSStyle&
     if (CWord* w = DEBUG_NEW CPolygon(style, str, m_ktype, m_kstart, m_kend,
                                       sub->m_scalex / (1 << (m_nPolygon - 1)), sub->m_scaley / (1 << (m_nPolygon - 1)),
                                       m_polygonBaselineOffset,
-                                      m_polygonCache, m_outlineCache, m_overlayCache)) {
+                                      m_renderingCaches)) {
         sub->m_words.AddTail(w);
         m_kstart = m_kend;
     }
@@ -1822,7 +1808,7 @@ void CRenderedTextSubtitle::ParsePolygon(CSubtitle* sub, CStringW str, STSStyle&
 
 bool CRenderedTextSubtitle::ParseSSATag(SSATagsList& tagsList, const CStringW& str)
 {
-    if (m_SSATagsCache.Lookup(str, tagsList)) {
+    if (m_renderingCaches.SSATagsCache.Lookup(str, tagsList)) {
         return true;
     }
 
@@ -2062,7 +2048,7 @@ bool CRenderedTextSubtitle::ParseSSATag(SSATagsList& tagsList, const CStringW& s
         tagsList->AddTail(tag);
     }
 
-    m_SSATagsCache.SetAt(str, tagsList);
+    m_renderingCaches.SSATagsCache.SetAt(str, tagsList);
 
     //return (nUnrecognizedTags < nTags);
     return true; // there are people keeping comments inside {}, lets make them happy now
@@ -2168,7 +2154,7 @@ bool CRenderedTextSubtitle::CreateSubFromSSATag(CSubtitle* sub, const SSATagsLis
                 if (nParams == 1 && nParamsInt == 0 && !sub->m_pClipper) {
                     sub->m_pClipper = DEBUG_NEW CClipper(tag.params[0], CSize(m_size.cx >> 3, m_size.cy >> 3), sub->m_scalex, sub->m_scaley,
                                                          invert, (sub->m_relativeTo == STSStyle::VIDEO) ? CPoint(m_vidrect.left, m_vidrect.top) : CPoint(0, 0),
-                                                         m_polygonCache, m_outlineCache, m_overlayCache);
+                                                         m_renderingCaches);
                 } else if (nParams == 1 && nParamsInt == 1 && !sub->m_pClipper) {
                     long scale = tag.paramsInt[0];
                     if (scale < 1) {
@@ -2177,7 +2163,7 @@ bool CRenderedTextSubtitle::CreateSubFromSSATag(CSubtitle* sub, const SSATagsLis
                     sub->m_pClipper = DEBUG_NEW CClipper(tag.params[0], CSize(m_size.cx >> 3, m_size.cy >> 3),
                                                          sub->m_scalex / (1 << (scale - 1)), sub->m_scaley / (1 << (scale - 1)), invert,
                                                          (sub->m_relativeTo == STSStyle::VIDEO) ? CPoint(m_vidrect.left, m_vidrect.top) : CPoint(0, 0),
-                                                         m_polygonCache, m_outlineCache, m_overlayCache);
+                                                         m_renderingCaches);
                 } else if (nParamsInt == 4) {
                     sub->m_clipInverse = invert;
 
@@ -2637,7 +2623,7 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
     }
 
     try {
-        sub = DEBUG_NEW CSubtitle(m_polygonCache, m_outlineCache, m_overlayCache);
+        sub = DEBUG_NEW CSubtitle(m_renderingCaches);
     } catch (std::bad_alloc) {
         return nullptr;
     }
