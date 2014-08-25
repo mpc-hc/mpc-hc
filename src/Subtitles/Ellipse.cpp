@@ -21,24 +21,21 @@
 #include "stdafx.h"
 #include "Ellipse.h"
 
-void CEllipse::SetDiameters(int rx, int ry)
+CEllipse::CEllipse(int rx, int ry)
+    : m_rx(rx)
+    , m_ry(ry)
+    , m_2rx(2 * m_rx)
+    , m_2ry(2 * m_ry)
+    , nIntersectCacheLineSize(2 * (m_rx - 1) + 1)
 {
-    if (m_rx != rx || m_ry != ry) {
-        m_rx = rx;
-        m_ry = ry;
-        m_2rx = 2 * m_rx;
-        m_2ry = 2 * m_ry;
-
-        m_arc.resize(m_2ry + 1);
-        m_arc[m_ry] = m_rx;
-        for (int dy = 1; dy <= m_ry; dy++) {
-            m_arc[m_ry - dy] = m_arc[m_ry + dy] = std::lround(m_rx * std::sqrt(1 - double(dy * dy) / (m_ry * m_ry)));
-        }
-
-        m_intersectCache.clear();
-        nIntersectCacheLineSize = 2 * (m_rx - 1) + 1;
-        m_intersectCache.resize(nIntersectCacheLineSize * m_2ry, NOT_CACHED);
+    m_arc.resize(m_2ry + 1);
+    m_arc[m_ry] = m_rx;
+    for (int dy = 1; dy <= m_ry; dy++) {
+        m_arc[m_ry - dy] = m_arc[m_ry + dy] = std::lround(m_rx * std::sqrt(1 - double(dy * dy) / (m_ry * m_ry)));
     }
+
+    m_intersectCache.clear();
+    m_intersectCache.resize(nIntersectCacheLineSize * m_2ry, NOT_CACHED);
 }
 
 int CEllipse::GetLeftIntersect(int dx, int dy)
@@ -89,7 +86,7 @@ void CEllipseCenterGroup::AddPoint(CAtlList<EllipseCenter>& centers, IntersectFu
 
         int dyIntersect = intersect(x - center.x, y - center.y);
         if (dyIntersect != CEllipse::NO_INTERSECT_INNER) {
-            int yIntersect = (dyIntersect == CEllipse::NO_INTERSECT_OUTER) ? (y - m_ellipse.GetYRadius() - 1) : (center.y + dyIntersect);
+            int yIntersect = (dyIntersect == CEllipse::NO_INTERSECT_OUTER) ? (y - m_pEllipse->GetYRadius() - 1) : (center.y + dyIntersect);
             if (yIntersect < center.yStopDrawing) {
                 center.yStopDrawing = yIntersect;
                 if (pos && center.yStopDrawing <= centers.GetAt(pos).yStopDrawing) {
@@ -104,13 +101,13 @@ void CEllipseCenterGroup::AddPoint(CAtlList<EllipseCenter>& centers, IntersectFu
     auto& center = centers.GetAt(centers.AddTail());
     center.x = x;
     center.y = y;
-    center.yStopDrawing = y + m_ellipse.GetYRadius();
+    center.yStopDrawing = y + m_pEllipse->GetYRadius();
 }
 
 void CEllipseCenterGroup::AddSpan(int y, int xLeft, int xRight)
 {
-    AddPoint(m_leftCenters, [this](int dx, int dy) { return m_ellipse.GetLeftIntersect(dx, dy); }, xLeft, y);
-    AddPoint(m_rightCenters, [this](int dx, int dy) { return m_ellipse.GetRightIntersect(dx, dy); }, xRight, y);
+    AddPoint(m_leftCenters, [this](int dx, int dy) { return m_pEllipse->GetLeftIntersect(dx, dy); }, xLeft, y);
+    AddPoint(m_rightCenters, [this](int dx, int dy) { return m_pEllipse->GetRightIntersect(dx, dy); }, xRight, y);
 }
 
 CEllipseCenterGroup::Position CEllipseCenterGroup::GetRelativePosition(int xLeft, int y)
@@ -121,7 +118,7 @@ CEllipseCenterGroup::Position CEllipseCenterGroup::GetRelativePosition(int xLeft
         int dx = xLeft - m_leftCenters.GetTail().x;
         int dy = y - m_leftCenters.GetTail().y;
 
-        int dyIntersect = m_ellipse.GetLeftIntersect(dx, dy);
+        int dyIntersect = m_pEllipse->GetLeftIntersect(dx, dy);
         if (dyIntersect != CEllipse::NO_INTERSECT_INNER && dyIntersect != CEllipse::NO_INTERSECT_OUTER) {
             return INSIDE;
         } else if (dx > 0) {
@@ -139,7 +136,7 @@ void CEllipseCenterGroup::FlushLine(int y, std::vector<SpanEndPoint>& wideSpanEn
         POSITION posPrec = posLeft;
         auto& leftCenter = m_leftCenters.GetNext(posLeft);
         if (y <= leftCenter.yStopDrawing) {
-            int dx = m_ellipse.GetArc(leftCenter.y - y);
+            int dx = m_pEllipse->GetArc(leftCenter.y - y);
             wideSpanEndPoints.emplace_back(leftCenter.x - dx, false);
 
             if (y == leftCenter.yStopDrawing) {
@@ -156,7 +153,7 @@ void CEllipseCenterGroup::FlushLine(int y, std::vector<SpanEndPoint>& wideSpanEn
         POSITION posPrec = posRight;
         auto& rightCenter = m_rightCenters.GetNext(posRight);
         if (y <= rightCenter.yStopDrawing) {
-            int dx = m_ellipse.GetArc(rightCenter.y - y);
+            int dx = m_pEllipse->GetArc(rightCenter.y - y);
             wideSpanEndPoints.emplace_back(rightCenter.x + dx, true);
 
             if (y == rightCenter.yStopDrawing) {

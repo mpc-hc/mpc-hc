@@ -181,7 +181,6 @@ private:
         LINE_UP
     };
 
-    CEllipse m_ellipse;
 
     struct Edge {
         int next;
@@ -193,6 +192,7 @@ private:
     unsigned int* mpScanBuffer;
 
 protected:
+    CEllipseSharedPtr m_pEllipse;
     COutlineDataSharedPtr m_pOutlineData;
     COverlayDataSharedPtr m_pOverlayData;
 

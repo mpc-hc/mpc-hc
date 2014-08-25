@@ -694,8 +694,16 @@ bool Rasterizer::CreateWidenedRegion(int rx, int ry)
 
     m_pOutlineData->mWideBorder = std::max(rx, ry);
 
-    if (ry > 0) {
+    if (m_pEllipse) {
         CreateWidenedRegionFast(rx, ry);
+    } else if (ry > 0) {
+        // Do a half circle.
+        // _OverlapRegion mirrors this so both halves are done.
+        for (int dy = -ry; dy <= ry; ++dy) {
+            int dx = std::lround(sqrt(float(ry * ry - dy * dy)) * float(rx) / float(ry));
+
+            _OverlapRegion(m_pOutlineData->mWideOutline, m_pOutlineData->mOutline, dx, dy);
+        }
     } else {
         _OverlapRegion(m_pOutlineData->mWideOutline, m_pOutlineData->mOutline, rx, 0);
     }
@@ -708,7 +716,6 @@ void Rasterizer::CreateWidenedRegionFast(int rx, int ry)
     CAtlList<CEllipseCenterGroup> centerGroups;
     std::vector<SpanEndPoint> wideSpanEndPoints;
 
-    m_ellipse.SetDiameters(rx, ry);
     wideSpanEndPoints.reserve(10);
     m_pOutlineData->mWideOutline.reserve(m_pOutlineData->mOutline.size() + m_pOutlineData->mOutline.size() / 2);
 
@@ -771,14 +778,14 @@ void Rasterizer::CreateWidenedRegionFast(int rx, int ry)
             if (position == CEllipseCenterGroup::INSIDE) {
                 break;
             } else if (position == CEllipseCenterGroup::BEFORE) {
-                pos = centerGroups.InsertBefore(pos, CEllipseCenterGroup(m_ellipse));
+                pos = centerGroups.InsertBefore(pos, CEllipseCenterGroup(m_pEllipse));
                 break;
             } else {
                 centerGroups.GetNext(pos);
             }
         }
         if (!pos) {
-            pos = centerGroups.AddTail(CEllipseCenterGroup(m_ellipse));
+            pos = centerGroups.AddTail(CEllipseCenterGroup(m_pEllipse));
         }
         centerGroups.GetNext(pos).AddSpan(y, xLeft, xRight);
     }

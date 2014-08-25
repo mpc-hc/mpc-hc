@@ -40,6 +40,7 @@ typedef std::shared_ptr<CAtlList<SSATag>> SSATagsList;
 typedef CRenderingCache<CTextDimsKey, CTextDims, CKeyTraits<CTextDimsKey>> CTextDimsCache;
 typedef CRenderingCache<CPolygonPathKey, CPolygonPathSharedPtr, CKeyTraits<CPolygonPathKey>> CPolygonCache;
 typedef CRenderingCache<CStringW, SSATagsList, CStringElementTraits<CStringW>> CSSATagsCache;
+typedef CRenderingCache<CEllipseKey, CEllipseSharedPtr, CKeyTraits<CEllipseKey>> CEllipseCache;
 typedef CRenderingCache<COutlineKey, COutlineDataSharedPtr, CKeyTraits<COutlineKey>> COutlineCache;
 typedef CRenderingCache<COverlayKey, COverlayDataSharedPtr, CKeyTraits<COverlayKey>> COverlayCache;
 
@@ -47,6 +48,7 @@ struct RenderingCaches {
     CTextDimsCache textDimsCache;
     CPolygonCache polygonCache;
     CSSATagsCache SSATagsCache;
+    CEllipseCache ellipseCache;
     COutlineCache outlineCache;
     COverlayCache overlayCache;
 
@@ -54,6 +56,7 @@ struct RenderingCaches {
         : textDimsCache(2048)
         , polygonCache(2048)
         , SSATagsCache(2048)
+        , ellipseCache(64)
         , outlineCache(128)
         , overlayCache(128) {}
 };

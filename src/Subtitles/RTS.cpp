@@ -147,7 +147,19 @@ void CWord::Paint(const CPoint& p, const CPoint& org)
                 }
 
                 if (m_style.borderStyle == 0 && (m_style.outlineWidthX + m_style.outlineWidthY > 0)) {
-                    if (!CreateWidenedRegion((int)(m_style.outlineWidthX + 0.5), (int)(m_style.outlineWidthY + 0.5))) {
+                    int rx = std::max<int>(0, std::lround(m_style.outlineWidthX));
+                    int ry = std::max<int>(0, std::lround(m_style.outlineWidthY));
+
+                    if (!m_pEllipse || m_pEllipse->GetXRadius() != rx || m_pEllipse->GetYRadius() != ry) {
+                        CEllipseKey ellipseKey(rx, ry);
+                        if (!m_renderingCaches.ellipseCache.Lookup(ellipseKey, m_pEllipse)) {
+                            m_pEllipse = std::make_shared<CEllipse>(rx, ry);
+
+                            m_renderingCaches.ellipseCache.SetAt(ellipseKey, m_pEllipse);
+                        }
+                    }
+
+                    if (!CreateWidenedRegion(rx, ry)) {
                         return;
                     }
                 } else if (m_style.borderStyle == 1) {

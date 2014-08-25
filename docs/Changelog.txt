@@ -34,6 +34,7 @@ next version - not released yet
   subtitle type, ASS/SSA subtitles will be rendered on the video frame while other text subtitles will
   be rendered on the full window
 * Text subtitles: Faster subtitle parsing (up to 4 times faster for ASS/SSA subtitles)
+* Text subtitles: Improved subtitle renderer for faster rendering of complex subtitle scripts (often twice faster or more)
 * Text subtitles: Much faster subtitle opening in the Subresync bar
 * Ticket #325, Move after playback commands to options and add an option to close and restore logo.
 * Ticket #2834, Increase limit on subtitles override placement feature.

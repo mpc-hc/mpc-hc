@@ -132,6 +132,27 @@ public:
     bool operator==(const CPolygonPathKey& polygonPathKey) const;
 };
 
+class CEllipseKey
+{
+private:
+    ULONG m_hash;
+
+protected:
+    int m_rx, m_ry;
+
+public:
+    CEllipseKey(int rx, int ry)
+        : m_rx(rx)
+        , m_ry(ry)
+        , m_hash(ULONG((rx << 16) | (ry& WORD_MAX))) {}
+
+    ULONG GetHash() const { return m_hash; };
+
+    bool operator==(const CEllipseKey& ellipseKey) const {
+        return (m_rx == ellipseKey.m_rx && m_ry == ellipseKey.m_ry);
+    }
+};
+
 class CWord;
 
 class COutlineKey : public CTextDimsKey

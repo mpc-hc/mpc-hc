@@ -21,6 +21,7 @@
 #pragma once
 
 #include <vector>
+#include <memory>
 #include <atlcoll.h>
 
 class CEllipse
@@ -43,7 +44,7 @@ private:
     size_t nIntersectCacheLineSize;
 
 public:
-    void SetDiameters(int rx, int ry);
+    CEllipse(int rx, int ry);
 
     int GetXRadius() const {
         return m_rx;
@@ -63,6 +64,8 @@ public:
         return GetLeftIntersect(-dx, dy);
     }
 };
+
+typedef std::shared_ptr<CEllipse> CEllipseSharedPtr;
 
 struct EllipseCenter {
     int x, y;
@@ -88,7 +91,7 @@ struct SpanEndPoint {
 
 class CEllipseCenterGroup
 {
-    CEllipse& m_ellipse;
+    const CEllipseSharedPtr& m_pEllipse;
     CAtlList<EllipseCenter> m_leftCenters, m_rightCenters;
 
     template<typename IntersectFunction>
@@ -101,11 +104,11 @@ public:
         AFTER
     };
 
-    CEllipseCenterGroup(CEllipse& ellipse)
-        : m_ellipse(ellipse) {}
+    CEllipseCenterGroup(const CEllipseSharedPtr& pEllipse)
+        : m_pEllipse(pEllipse) {}
 
     CEllipseCenterGroup(const CEllipseCenterGroup& ellipseGroup)
-        : m_ellipse(ellipseGroup.m_ellipse) {
+        : m_pEllipse(ellipseGroup.m_pEllipse) {
         m_leftCenters.AddHeadList(&ellipseGroup.m_leftCenters);
         m_rightCenters.AddHeadList(&ellipseGroup.m_rightCenters);
     }
