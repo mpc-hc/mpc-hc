@@ -1069,15 +1069,15 @@ void CPlayerPlaylistBar::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruc
     CDC* pDC = CDC::FromHandle(lpDrawItemStruct->hDC);
 
     if (!!m_list.GetItemState(nItem, LVIS_SELECTED)) {
-        FillRect(pDC->m_hDC, rcItem, CBrush(0xf1dacc));
-        FrameRect(pDC->m_hDC, rcItem, CBrush(0xc56a31));
+		FillRect(pDC->m_hDC, rcItem, (HBRUSH)(COLOR_HIGHLIGHT+1));
+		FrameRect(pDC->m_hDC, rcItem, (HBRUSH)(COLOR_ACTIVEBORDER + 1));
     } else {
-        FillRect(pDC->m_hDC, rcItem, CBrush(GetSysColor(COLOR_WINDOW)));
+		FillRect(pDC->m_hDC, rcItem, (HBRUSH)(COLOR_WINDOW + 1));
     }
 
-    COLORREF textcolor = fSelected ? 0xff : 0;
+	COLORREF textcolor = fSelected ? GetSysColor(COLOR_HIGHLIGHTTEXT) : GetSysColor(COLOR_WINDOWTEXT);
     if (pli.m_fInvalid) {
-        textcolor |= 0xA0A0A0;
+		textcolor = GetSysColor(COLOR_GRAYTEXT);
     }
 
     CString time = !pli.m_fInvalid ? m_list.GetItemText(nItem, COL_TIME) : _T("Invalid");
