@@ -2641,7 +2641,7 @@ void CorrectComboBoxHeaderWidth(CWnd* pComboBox)
     pComboBox->GetWindowRect(r);
     pComboBox->GetOwner()->ScreenToClient(r);
 
-    r.right = r.left + ::GetSystemMetrics(SM_CXMENUCHECK) + szText.cx + tm.tmAveCharWidth;
+    r.right = r.left + ::GetSystemMetrics(SM_CXMENUCHECK) + ::GetSystemMetrics(SM_CXEDGE) + szText.cx + tm.tmAveCharWidth;
     pComboBox->MoveWindow(r);
 }
 
