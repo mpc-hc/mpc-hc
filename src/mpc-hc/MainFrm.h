@@ -346,6 +346,7 @@ private:
     bool m_bRememberFilePos;
 
     DWORD m_dwLastRun;
+    DWORD m_dwLastRunWM;
 
     bool m_fBuffering;
 
