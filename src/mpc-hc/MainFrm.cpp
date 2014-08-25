@@ -8084,36 +8084,42 @@ void CMainFrame::OnPlayColor(UINT nID)
 void CMainFrame::OnAfterplayback(UINT nID)
 {
     CAppSettings& s = AfxGetAppSettings();
-    s.nCLSwitches &= ~CLSW_AFTERPLAYBACK_MASK;
     WORD osdMsg = 0;
 
     switch (nID) {
         case ID_AFTERPLAYBACK_CLOSE:
-            s.nCLSwitches |= CLSW_CLOSE;
+            s.nCLSwitches &= ~CLSW_AFTERPLAYBACK_MASK | CLSW_CLOSE;
+            s.nCLSwitches ^= CLSW_CLOSE;
             osdMsg = IDS_AFTERPLAYBACK_CLOSE;
             break;
         case ID_AFTERPLAYBACK_STANDBY:
-            s.nCLSwitches |= CLSW_STANDBY;
+            s.nCLSwitches &= ~CLSW_AFTERPLAYBACK_MASK | CLSW_STANDBY;
+            s.nCLSwitches ^= CLSW_STANDBY;
             osdMsg = IDS_AFTERPLAYBACK_STANDBY;
             break;
         case ID_AFTERPLAYBACK_HIBERNATE:
-            s.nCLSwitches |= CLSW_HIBERNATE;
+            s.nCLSwitches &= ~CLSW_AFTERPLAYBACK_MASK | CLSW_HIBERNATE;
+            s.nCLSwitches ^= CLSW_HIBERNATE;
             osdMsg = IDS_AFTERPLAYBACK_HIBERNATE;
             break;
         case ID_AFTERPLAYBACK_SHUTDOWN:
-            s.nCLSwitches |= CLSW_SHUTDOWN;
+            s.nCLSwitches &= ~CLSW_AFTERPLAYBACK_MASK | CLSW_SHUTDOWN;
+            s.nCLSwitches ^= CLSW_SHUTDOWN;
             osdMsg = IDS_AFTERPLAYBACK_SHUTDOWN;
             break;
         case ID_AFTERPLAYBACK_LOGOFF:
-            s.nCLSwitches |= CLSW_LOGOFF;
+            s.nCLSwitches &= ~CLSW_AFTERPLAYBACK_MASK | CLSW_LOGOFF;
+            s.nCLSwitches ^= CLSW_LOGOFF;
             osdMsg = IDS_AFTERPLAYBACK_LOGOFF;
             break;
         case ID_AFTERPLAYBACK_LOCK:
-            s.nCLSwitches |= CLSW_LOCK;
+            s.nCLSwitches &= ~CLSW_AFTERPLAYBACK_MASK | CLSW_LOCK;
+            s.nCLSwitches ^= CLSW_LOCK;
             osdMsg = IDS_AFTERPLAYBACK_LOCK;
             break;
         case ID_AFTERPLAYBACK_MONITOROFF:
-            s.nCLSwitches |= CLSW_MONITOROFF;
+            s.nCLSwitches &= ~CLSW_AFTERPLAYBACK_MASK | CLSW_MONITOROFF;
+            s.nCLSwitches ^= CLSW_MONITOROFF;
             osdMsg = IDS_AFTERPLAYBACK_MONITOROFF;
             break;
     }
@@ -8124,7 +8130,7 @@ void CMainFrame::OnAfterplayback(UINT nID)
 void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
 {
     const CAppSettings& s = AfxGetAppSettings();
-    bool bEnabled = true, bChecked = false;
+    bool bChecked = false;
 
     switch (pCmdUI->m_nID) {
         case ID_AFTERPLAYBACK_CLOSE:
@@ -8150,18 +8156,8 @@ void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
             break;
     }
 
-    pCmdUI->Enable(bEnabled);
-
-    if (bChecked) {
-        if (pCmdUI->m_pMenu) {
-            // To make things simpler we (ab)use the CheckMenuRadioItem function to set the radio bullet
-            // for the selected item and we use an extra call to SetCheck to ensure the mark is cleared
-            // from the other menu's items.
-            pCmdUI->m_pMenu->CheckMenuRadioItem(pCmdUI->m_nID, pCmdUI->m_nID, pCmdUI->m_nID, MF_BYCOMMAND);
-        }
-    } else {
-        pCmdUI->SetCheck(FALSE);
-    }
+    pCmdUI->Enable();
+    pCmdUI->SetCheck(bChecked);
 }
 
 bool CMainFrame::SeekToFileChapter(int iChapter, bool bRelative /*= false*/)
