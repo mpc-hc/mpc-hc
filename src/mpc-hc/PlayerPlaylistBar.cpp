@@ -963,7 +963,9 @@ void CPlayerPlaylistBar::OnLvnKeyDown(NMHDR* pNMHDR, LRESULT* pResult)
         while (pos) {
             int i = items.GetNext(pos);
             if (m_pl.RemoveAt(FindPos(i))) {
-                ((CMainFrame*)AfxGetMainWnd())->CloseMedia();
+				CMainFrame *mf = (CMainFrame*) AfxGetMainWnd();
+				if(mf->GetLoadState() != MLS::CLOSED)
+					mf->CloseMedia();
             }
             m_list.DeleteItem(i);
         }
