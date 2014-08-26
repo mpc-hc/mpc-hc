@@ -2,16 +2,17 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# kefir500 <kefir500@gmail.com>, 2014
-# Arkadiy Shapkin <arkadiy_s@inbox.ru>, 2014
+# Alexander Gorishnyak <kefir500@gmail.com>, 2014
+# Arkady Shapkin <arkadiy_s@inbox.ru>, 2014
 # sayanvd <sayanvd@yandex.ru>, 2014
+# stryaponoff <stryaponoff@gmail.com>, 2014
 # Underground78, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-05-11 20:22:10+0000\n"
-"PO-Revision-Date: 2014-05-26 15:22+0000\n"
-"Last-Translator: Arkadiy Shapkin <arkadiy_s@inbox.ru>\n"
+"POT-Creation-Date: 2014-08-24 19:23:17+0000\n"
+"PO-Revision-Date: 2014-08-25 15:51+0000\n"
+"Last-Translator: Alexander Gorishnyak <kefir500@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/mpc-hc/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -53,7 +54,7 @@ msgstr "Воспроизведение музыки"
 
 msgctxt "IDS_AUTOPLAY_PLAYAUDIOCD"
 msgid "Play Audio CD"
-msgstr "Воспроизведение Audio CD"
+msgstr "Воспроизведение аудиодисков"
 
 msgctxt "IDS_AUTOPLAY_PLAYDVDMOVIE"
 msgid "Play DVD Movie"
@@ -1253,15 +1254,15 @@ msgstr "&Копировать список фильтров в буфер"
 
 msgctxt "IDS_CREDENTIALS_SERVER"
 msgid "Enter server credentials"
-msgstr ""
+msgstr "Введите параметры сервера"
 
 msgctxt "IDS_CREDENTIALS_CONNECT"
 msgid "Enter your credentials to connect"
-msgstr ""
+msgstr "Введите свои данные для подключения"
 
 msgctxt "IDS_SUB_SAVE_EXTERNAL_STYLE_FILE"
 msgid "Save custom style"
-msgstr ""
+msgstr "Сохранить пользовательский стиль"
 
 msgctxt "IDS_CONTENT_EDUCATION_SCIENCE"
 msgid "Education/Science/Factual topics"
@@ -1269,19 +1270,19 @@ msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
 msgid "Hides controls and panels also in windowed mode."
-msgstr ""
+msgstr "Скрывать элементы управления и панели даже в оконном режиме."
 
 msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
 msgid "Prevent external subtitle renderer to be loaded when internal is in use."
-msgstr ""
+msgstr "Предотвратить использование внешнего рендера субтитров, когда используется встроенный."
 
 msgctxt "IDS_PPAGEADVANCED_COL_NAME"
 msgid "Name"
-msgstr ""
+msgstr "Имя"
 
 msgctxt "IDS_PPAGEADVANCED_COL_VALUE"
 msgid "Value"
-msgstr ""
+msgstr "Значение"
 
 msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
@@ -1293,7 +1294,7 @@ msgstr ""
 
 msgctxt "IDS_IMAGE_QUALITY"
 msgid "Quality (%):"
-msgstr ""
+msgstr "Качество (%):"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2177,7 +2178,7 @@ msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Имя файла: %s\\N%sР
 
 msgctxt "IDS_THUMBNAIL_TOO_SMALL"
 msgid "The thumbnails would be too small, impossible to create the file.\n\nTry lowering the number of thumbnails or increasing the total size."
-msgstr ""
+msgstr "Невозможно создать файл со столь небольшими миниатюрами.\n\nПопробуйте уменьшить количество миниатюр или увеличить общий размер."
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
@@ -2185,7 +2186,7 @@ msgstr "Для загрузки субтитров необходимо изме
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
-msgstr ""
+msgstr "Файлы субтитров"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %d:%d"
@@ -2645,7 +2646,7 @@ msgstr "Скрыть меню"
 
 msgctxt "IDD_PPAGEADVANCED"
 msgid "Advanced"
-msgstr ""
+msgstr "Расширенный"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seekbar"
@@ -3409,7 +3410,7 @@ msgstr "По окончании воспроизведения: блокиров
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
-msgstr ""
+msgstr "По окончании воспроизведения: выключить монитор"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
@@ -3481,7 +3482,7 @@ msgstr ""
 
 msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
 msgid "Do Nothing"
-msgstr ""
+msgstr "Ничего не делать"
 
 msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
 msgid "Play next file in the folder"
@@ -3493,13 +3494,13 @@ msgstr ""
 
 msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
 msgid "Close"
-msgstr ""
+msgstr "Закрыть"
 
 msgctxt "IDS_AFTER_PLAYBACK_EXIT"
 msgid "Exit"
-msgstr ""
+msgstr "Выход"
 
 msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
 msgid "Turn off the monitor"
-msgstr ""
+msgstr "Выключить монитор"
 

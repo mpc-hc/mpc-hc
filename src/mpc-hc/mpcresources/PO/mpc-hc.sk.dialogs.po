@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-07-06 19:15:01+0000\n"
-"PO-Revision-Date: 2014-07-12 11:30+0000\n"
+"POT-Creation-Date: 2014-08-19 21:13:19+0000\n"
+"PO-Revision-Date: 2014-08-20 16:31+0000\n"
 "Last-Translator: Marián Hikaník <podnety@mojepreklady.net>\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/mpc-hc/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -419,7 +419,7 @@ msgstr "krát"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
-msgstr ""
+msgstr "Po prehratí"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Output"
@@ -531,27 +531,27 @@ msgstr "Maximálne rozlíšenie textúry:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_NO_SUB_ANIM"
 msgid "Never animate the subtitles"
-msgstr ""
+msgstr "Nikdy neanimovať titulky"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC5"
 msgid "Render at"
-msgstr ""
+msgstr "Vykresľovať na"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC6"
 msgid "% of the animation"
-msgstr ""
+msgstr "% animácie"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC7"
 msgid "Animate at"
-msgstr ""
+msgstr "Animovať na"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC8"
 msgid "% of the video frame rate"
-msgstr ""
+msgstr "% rýchlosti snímkov videa"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Allow dropping some subpictures if the queue is running late"
-msgstr ""
+msgstr "Povoliť preskočenie niektorých pod-obrázkov, ak sa fronta oneskoruje"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Renderer Layout"
@@ -947,7 +947,7 @@ msgstr "Uložiť používateľom nastavený štýl"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
-msgstr ""
+msgstr "Kvalita JPEG:"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "Thumbnails:"
@@ -1667,5 +1667,5 @@ msgstr "Predvolené"
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
-msgstr ""
+msgstr "Kvalita JPEG:"
 

@@ -43,8 +43,9 @@ next version - not released yet
 * Updated LAV Filters to v0.62.0.15:
     - Ticket #4539, LAV Video: Fix a crash with DVD subtitles on 64-bit builds when using software decoding
     - Ticket #4639, LAV Splitter: Fix incorrect colors for VobSub tracks in MP4
-* Updated Basque, British English, Chinese (simplified), Croatian, Czech, French, Galician, German, Greek,
-  Hungarian, Japanese, Malay, Polish, Portuguese (Brazil), Slovak, Spanish, Swedish, Turkish, Ukrainian
+* Updated Armenian, Basque, Belarusian, Bengali, British English, Catalan, Chinese (Simplified and Traditional),
+  Croatian, Czech, Dutch, French, Galician, German, Greek, Hebrew, Hungarian, Italian, Japanese, Korean, Malay,
+  Polish, Portuguese (Brazil), Romanian, Russian, Slovak, Slovenian, Spanish, Swedish, Tatar, Turkish, Ukrainian
   and Vietnamese translations
 ! "Load subtitle" dialog: Fix the file filters on Windows Vista+
 ! Ticket #3930, Fix a possible crash with embedded subtitles when the subtitle queue is disabled

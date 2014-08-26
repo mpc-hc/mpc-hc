@@ -3,13 +3,15 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # JellyFrog, 2014
+# JellyFrog, 2014
 # Luan <luanmail@gmx.net>, 2014
 # Luan <luanmail@gmx.net>, 2014
+# M T <michtrz@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-04-22 11:15:01+0000\n"
-"PO-Revision-Date: 2014-07-20 09:41+0000\n"
+"POT-Creation-Date: 2014-08-19 21:10:25+0000\n"
+"PO-Revision-Date: 2014-08-30 16:23+0000\n"
 "Last-Translator: Luan <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -612,7 +614,7 @@ msgstr "Benutzer &sperren"
 
 msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
 msgid "Turn off the &monitor"
-msgstr ""
+msgstr "&Bildschirm ausschalten"
 
 msgctxt "POPUP"
 msgid "&Navigate"
@@ -664,15 +666,15 @@ msgstr "&Hilfe"
 
 msgctxt "ID_HELP_HOMEPAGE"
 msgid "&Home Page"
-msgstr "&MPC-HC-Homepage"
+msgstr "&Homepage"
 
 msgctxt "ID_HELP_CHECKFORUPDATE"
 msgid "Check for &updates"
-msgstr "&Auf Aktualisierung prüfen"
+msgstr "&Auf Update prüfen"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"
-msgstr "&Hilfe für Startparameter..."
+msgstr "Hilfe für &Befehlszeile"
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"
@@ -684,5 +686,5 @@ msgstr "&Spenden"
 
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
-msgstr "&Über..."
+msgstr "&Über"
 

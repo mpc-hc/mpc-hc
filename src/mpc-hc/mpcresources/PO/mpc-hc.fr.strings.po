@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-07-17 20:52:12+0000\n"
-"PO-Revision-Date: 2014-07-30 20:10+0000\n"
+"POT-Creation-Date: 2014-08-24 19:23:17+0000\n"
+"PO-Revision-Date: 2014-08-25 16:40+0000\n"
 "Last-Translator: Underground78\n"
 "Language-Team: French (http://www.transifex.com/projects/p/mpc-hc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -846,11 +846,11 @@ msgstr "Si la case à cocher est laissée indéfinie, la cible d'affichage sera 
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
-msgstr ""
+msgstr "Désactive l'animation des sous-titres. Activer cette option permet d'économiser des ressources CPU. Vous pouvez l'utiliser si vous observez des clignotements de sous-titres."
 
 msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
-msgstr ""
+msgstr "Augmenter le nombre de sous-titres mis en cache devrait en général améliorer les performances de lecture au détriment d'un usage plus important de mémoire vive vidéo sur la carte graphique."
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
@@ -858,7 +858,7 @@ msgstr "Après avoir cliqué sur ce bouton, les cases à cocher des groupes de f
 
 msgctxt "IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Disabling this option will prevent the subtitles from blinking but it may cause the video renderer to skip some video frames."
-msgstr ""
+msgstr "Désactiver cette option permet d'éviter les clignotements de sous-titres mais cela peut causer des pertes de trame."
 
 msgctxt "ID_PLAY_PLAY"
 msgid "Play\nPlay"
@@ -1286,11 +1286,11 @@ msgstr "Nombre maximal de fichiers affichés dans le menu \"Fichiers récents\" 
 
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
 msgid "JPEG Image"
-msgstr ""
+msgstr "Image JPEG"
 
 msgctxt "IDS_IMAGE_QUALITY"
 msgid "Quality (%):"
-msgstr ""
+msgstr "Qualité (%) :"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -3406,7 +3406,7 @@ msgstr "En fin de lecture : Verrouiller la session"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
-msgstr ""
+msgstr "En fin de lecture : Éteindre l'écran"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
@@ -3478,25 +3478,25 @@ msgstr "Sauvegarder également la position dans le fichier pour les fichiers aud
 
 msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
 msgid "Do Nothing"
-msgstr ""
+msgstr "Ne rien faire"
 
 msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
 msgid "Play next file in the folder"
-msgstr ""
+msgstr "Lire le fichier suivant dans le répertoire"
 
 msgctxt "IDS_AFTER_PLAYBACK_REWIND"
 msgid "Rewind current file"
-msgstr ""
+msgstr "Rembobiner le fichier"
 
 msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
 msgid "Close"
-msgstr ""
+msgstr "Fermer le fichier"
 
 msgctxt "IDS_AFTER_PLAYBACK_EXIT"
 msgid "Exit"
-msgstr ""
+msgstr "Quitter"
 
 msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
 msgid "Turn off the monitor"
-msgstr ""
+msgstr "Éteindre l'écran"
 

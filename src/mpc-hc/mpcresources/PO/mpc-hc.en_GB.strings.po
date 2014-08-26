@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-07-17 20:52:12+0000\n"
-"PO-Revision-Date: 2014-07-23 11:51+0000\n"
-"Last-Translator: Sir_Burpalot <doctor.z01db3rg@gmail.com>\n"
+"POT-Creation-Date: 2014-08-24 19:23:17+0000\n"
+"PO-Revision-Date: 2014-08-25 09:40+0000\n"
+"Last-Translator: JellyFrog\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/mpc-hc/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -846,11 +846,11 @@ msgstr "If the rendering target is left undefined, it will be inherited from the
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
-msgstr ""
+msgstr "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
 
 msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
-msgstr ""
+msgstr "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
@@ -858,7 +858,7 @@ msgstr "After clicking this button, the checked state of the format group will r
 
 msgctxt "IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Disabling this option will prevent the subtitles from blinking but it may cause the video renderer to skip some video frames."
-msgstr ""
+msgstr "Disabling this option will prevent the subtitles from blinking but it may cause the video renderer to skip some video frames."
 
 msgctxt "ID_PLAY_PLAY"
 msgid "Play\nPlay"
@@ -1290,7 +1290,7 @@ msgstr ""
 
 msgctxt "IDS_IMAGE_QUALITY"
 msgid "Quality (%):"
-msgstr ""
+msgstr "Quality (%):"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -3406,7 +3406,7 @@ msgstr "After Playback: Lock"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
-msgstr ""
+msgstr "After Playback: Turn off the monitor"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
@@ -3478,25 +3478,25 @@ msgstr "Remember file position also for audio files."
 
 msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
 msgid "Do Nothing"
-msgstr ""
+msgstr "Do Nothing"
 
 msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
 msgid "Play next file in the folder"
-msgstr ""
+msgstr "Play next file in the folder"
 
 msgctxt "IDS_AFTER_PLAYBACK_REWIND"
 msgid "Rewind current file"
-msgstr ""
+msgstr "Rewind current file"
 
 msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
 msgid "Close"
-msgstr ""
+msgstr "Close"
 
 msgctxt "IDS_AFTER_PLAYBACK_EXIT"
 msgid "Exit"
-msgstr ""
+msgstr "Exit"
 
 msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
 msgid "Turn off the monitor"
-msgstr ""
+msgstr "Turn off the monitor"
 

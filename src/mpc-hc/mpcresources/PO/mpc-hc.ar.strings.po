@@ -11,9 +11,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-07-17 20:52:12+0000\n"
-"PO-Revision-Date: 2014-07-20 22:10+0000\n"
-"Last-Translator: Ahmad Abd-Elghany <tolpa1@gmail.com>\n"
+"POT-Creation-Date: 2014-08-24 19:23:17+0000\n"
+"PO-Revision-Date: 2014-08-25 09:40+0000\n"
+"Last-Translator: JellyFrog\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/mpc-hc/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -851,11 +851,11 @@ msgstr "إذا العارض تُرك بدون هدف معروف، فهو سير�
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
-msgstr ""
+msgstr "لا تسمح بتحريك الترجمة. تفعيل هذا الخيار يقلل من إستخدام طاقة وحدة المعالجة المركزية CPU. يمكنك إستخدامها اذا ومضت الترجمة أو لمعت أكثر من اللازم."
 
 msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
-msgstr ""
+msgstr "زيادة معدل تخزين الصور الفرعية ينبغي بصفة عامة أن يُحسن أداء الريندرنج على حساب معدل استخدام وحدة التخزين في  كارت الشاشة."
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
@@ -863,7 +863,7 @@ msgstr "بعد النقر على هذا الزرّ، افحص حالة مجمو�
 
 msgctxt "IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Disabling this option will prevent the subtitles from blinking but it may cause the video renderer to skip some video frames."
-msgstr ""
+msgstr "تعطيل هذا الخيار سيمنع الترجمة من الوميض أو الرعشة ولكن ممكن أن يسمح بتخطي بعض الفريمات وقت الريندرنج"
 
 msgctxt "ID_PLAY_PLAY"
 msgid "Play\nPlay"
@@ -1295,7 +1295,7 @@ msgstr ""
 
 msgctxt "IDS_IMAGE_QUALITY"
 msgid "Quality (%):"
-msgstr ""
+msgstr "الدقة(%):"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -3411,7 +3411,7 @@ msgstr "بعد التشغيل: إقفال"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
-msgstr ""
+msgstr "بعد التشغيل: أغلق الشاشة"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
@@ -3483,25 +3483,25 @@ msgstr "تذكر مكان الملف أيضًا بالنسبة لمفات الص
 
 msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
 msgid "Do Nothing"
-msgstr ""
+msgstr "لا تفعل شيء"
 
 msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
 msgid "Play next file in the folder"
-msgstr ""
+msgstr "شغّل الملف التالي في المجلد"
 
 msgctxt "IDS_AFTER_PLAYBACK_REWIND"
 msgid "Rewind current file"
-msgstr ""
+msgstr "إرجاع الملف الحالي"
 
 msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
 msgid "Close"
-msgstr ""
+msgstr "إغلاق"
 
 msgctxt "IDS_AFTER_PLAYBACK_EXIT"
 msgid "Exit"
-msgstr ""
+msgstr "خروج"
 
 msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
 msgid "Turn off the monitor"
-msgstr ""
+msgstr "أغلق الشاشة"
 

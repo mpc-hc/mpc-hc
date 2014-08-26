@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2013-12-21 11:15:54+0000\n"
-"PO-Revision-Date: 2014-02-24 11:29+0000\n"
+"POT-Creation-Date: 2014-06-17 15:23:34+0000\n"
+"PO-Revision-Date: 2014-08-21 19:10+0000\n"
 "Last-Translator: mehzad\n"
 "Language-Team: Bengali (http://www.transifex.com/projects/p/mpc-hc/language/bn/)\n"
 "MIME-Version: 1.0\n"
@@ -51,7 +51,7 @@ msgstr "MPC-HCএর এই নির্মাণটির জন্য SSE2 এ
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
-msgstr ""
+msgstr "টুলবার এর ছবি ডাউনলোড করতে আমাদের Wiki পেইজে যেতে পারেন"
 
 msgctxt "CustomMessages_tsk_AllUsers"
 msgid "For all users"

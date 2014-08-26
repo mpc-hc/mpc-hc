@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-07-17 20:52:12+0000\n"
-"PO-Revision-Date: 2014-07-24 12:10+0000\n"
+"POT-Creation-Date: 2014-08-24 19:23:17+0000\n"
+"PO-Revision-Date: 2014-08-26 23:16+0000\n"
 "Last-Translator: firespin <dartworldgr@hotmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/mpc-hc/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -847,11 +847,11 @@ msgstr "Εάν ο στόχος απόδοσης μείνει απροσδιόρ�
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
-msgstr ""
+msgstr "Να μην επιτρέπεται η κίνηση στους υπότιτλους. Η ενεργοποίηση αυτής της επιλογής θα μειώσει τη χρήση της CPU. Μπορείτε να το χρησιμοποιήσετε εάν αντιμετωπίζετε φαινόμενο με υπότιτλους που τρεμοπαίζουν."
 
 msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
-msgstr ""
+msgstr "Η αύξηση του αριθμού των επιμέρους εικόνων στην ενδιάμεση μνήμη συμβάλει γενικά στη βελτίωση της απόδοσης, με κόστος τη χρήση περισσότερης μνήμης βίντεο RAM στην GPU."
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
@@ -859,7 +859,7 @@ msgstr "Μετά το κλικ σε αυτό το κουμπί, το επιλε�
 
 msgctxt "IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Disabling this option will prevent the subtitles from blinking but it may cause the video renderer to skip some video frames."
-msgstr ""
+msgstr "Η απενεργοποίηση αυτής της επιλογής θα αποτρέψει τους υπότιτλους από το τρεμόπαιγμα, αλλά μπορεί να αναγκάσει την απόδοση του βίντεο να παρακάμψει ορισμένα καρέ βίντεο."
 
 msgctxt "ID_PLAY_PLAY"
 msgid "Play\nPlay"
@@ -1287,11 +1287,11 @@ msgstr "Ο μέγιστος αριθμός των αρχείων που εμφα
 
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
 msgid "JPEG Image"
-msgstr ""
+msgstr "JPEG Εικόνα"
 
 msgctxt "IDS_IMAGE_QUALITY"
 msgid "Quality (%):"
-msgstr ""
+msgstr "Ποιότητα (%):"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -3407,7 +3407,7 @@ msgstr "Μετά την αναπαραγωγή: Κλείδωμα"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
-msgstr ""
+msgstr "Μετά την Αναπαραγωγή: Σβήσε την οθόνη"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
@@ -3479,25 +3479,25 @@ msgstr "Απομνημόνευση θέσης αρχείου επίσης για
 
 msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
 msgid "Do Nothing"
-msgstr ""
+msgstr "Καμία Ενέργεια"
 
 msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
 msgid "Play next file in the folder"
-msgstr ""
+msgstr "Αναπαραγωγή επόμενου αρχείου στον φάκελο"
 
 msgctxt "IDS_AFTER_PLAYBACK_REWIND"
 msgid "Rewind current file"
-msgstr ""
+msgstr "Επαναφορά τρέχοντος αρχείου"
 
 msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
 msgid "Close"
-msgstr ""
+msgstr "Κλείσιμο"
 
 msgctxt "IDS_AFTER_PLAYBACK_EXIT"
 msgid "Exit"
-msgstr ""
+msgstr "Έξοδος"
 
 msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
 msgid "Turn off the monitor"
-msgstr ""
+msgstr "Σβήσε την οθόνη"
 

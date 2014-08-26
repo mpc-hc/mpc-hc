@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-07-06 19:15:01+0000\n"
-"PO-Revision-Date: 2014-07-18 10:14+0000\n"
+"POT-Creation-Date: 2014-08-19 21:13:19+0000\n"
+"PO-Revision-Date: 2014-08-20 10:11+0000\n"
 "Last-Translator: Ming Chen <yzonline@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/mpc-hc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -419,7 +419,7 @@ msgstr "次"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
-msgstr ""
+msgstr "回放结束后"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Output"
@@ -531,27 +531,27 @@ msgstr "最大纹理分辨率:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_NO_SUB_ANIM"
 msgid "Never animate the subtitles"
-msgstr ""
+msgstr "永不播放字幕动画"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC5"
 msgid "Render at"
-msgstr ""
+msgstr "渲染到"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC6"
 msgid "% of the animation"
-msgstr ""
+msgstr "% 的动画"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC7"
 msgid "Animate at"
-msgstr ""
+msgstr "动画至"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC8"
 msgid "% of the video frame rate"
-msgstr ""
+msgstr "% 的视频帧率"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Allow dropping some subpictures if the queue is running late"
-msgstr ""
+msgstr "在队列发生延迟时允许丢弃某些子画面"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Renderer Layout"
@@ -947,7 +947,7 @@ msgstr "保存自定义样式"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
-msgstr ""
+msgstr "JPEG 质量:"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "Thumbnails:"
@@ -1291,7 +1291,7 @@ msgstr "开启自动检测更新"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
 msgid "Delay between each check:"
-msgstr "每次检测间隔:"
+msgstr "每次检测的间隔:"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"
@@ -1667,5 +1667,5 @@ msgstr "默认"
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
-msgstr ""
+msgstr "JPEG 质量:"
 

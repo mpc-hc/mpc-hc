@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-07-17 20:52:12+0000\n"
-"PO-Revision-Date: 2014-07-18 16:01+0000\n"
+"POT-Creation-Date: 2014-08-24 19:23:17+0000\n"
+"PO-Revision-Date: 2014-08-25 18:20+0000\n"
 "Last-Translator: Máté <lang.mate@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/mpc-hc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -294,7 +294,7 @@ msgstr "Lemez"
 
 msgctxt "IDS_SUBDL_DLG_TITLES_COL"
 msgid "Title(s)"
-msgstr ""
+msgstr "Cím(ek)"
 
 msgctxt "IDS_SUBRESYNC_CLN_CHARSET"
 msgid "CharSet"
@@ -1258,7 +1258,7 @@ msgstr ""
 
 msgctxt "IDS_SUB_SAVE_EXTERNAL_STYLE_FILE"
 msgid "Save custom style"
-msgstr ""
+msgstr "Egyedi stílus mentése"
 
 msgctxt "IDS_CONTENT_EDUCATION_SCIENCE"
 msgid "Education/Science/Factual topics"
@@ -1286,11 +1286,11 @@ msgstr ""
 
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
 msgid "JPEG Image"
-msgstr ""
+msgstr "JPEG kép"
 
 msgctxt "IDS_IMAGE_QUALITY"
 msgid "Quality (%):"
-msgstr ""
+msgstr "Minőség (%):"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1450,7 +1450,7 @@ msgstr "Video S&tream"
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
 msgid "Video Ang&le"
-msgstr ""
+msgstr "Videó látószög"
 
 msgctxt "IDS_RESET_SETTINGS"
 msgid "Reset settings"
@@ -3406,7 +3406,7 @@ msgstr "Lejátszás után: Zárolás"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
-msgstr ""
+msgstr "Lejátszás után: kapcsolja ki a monitort"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
@@ -3430,7 +3430,7 @@ msgstr "Színbeállítások visszaállítva"
 
 msgctxt "IDS_OSD_NO_COLORCONTROL"
 msgid "Color control is not supported"
-msgstr ""
+msgstr "Színbeállítások nem támogatottak"
 
 msgctxt "IDS_BRIGHTNESS_INC"
 msgid "Brightness increase"
@@ -3478,25 +3478,25 @@ msgstr "Fájlpozíció megjegyzése audiofájlokhoz is."
 
 msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
 msgid "Do Nothing"
-msgstr ""
+msgstr "Ne csináljon semmit"
 
 msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
 msgid "Play next file in the folder"
-msgstr ""
+msgstr "Játssza le a mappában következő fájlt"
 
 msgctxt "IDS_AFTER_PLAYBACK_REWIND"
 msgid "Rewind current file"
-msgstr ""
+msgstr "Aktuális fájl elejére ugrás"
 
 msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
 msgid "Close"
-msgstr ""
+msgstr "Bezárás"
 
 msgctxt "IDS_AFTER_PLAYBACK_EXIT"
 msgid "Exit"
-msgstr ""
+msgstr "Kilépés"
 
 msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
 msgid "Turn off the monitor"
-msgstr ""
+msgstr "Kapcsolja ki a monitort"
 

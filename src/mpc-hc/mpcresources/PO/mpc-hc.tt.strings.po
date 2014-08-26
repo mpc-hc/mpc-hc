@@ -2,16 +2,17 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# kefir500 <kefir500@gmail.com>, 2014
+# Alexander Gorishnyak <kefir500@gmail.com>, 2014
 # кери <khazirek@mail.ru>, 2014
 # sayanvd <sayanvd@yandex.ru>, 2014
+# Underground78, 2014
 # Underground78, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-05-11 20:22:10+0000\n"
-"PO-Revision-Date: 2014-05-25 17:26+0000\n"
-"Last-Translator: кери <khazirek@mail.ru>\n"
+"POT-Creation-Date: 2014-08-24 19:23:17+0000\n"
+"PO-Revision-Date: 2014-08-25 09:40+0000\n"
+"Last-Translator: JellyFrog\n"
 "Language-Team: Tatar (http://www.transifex.com/projects/p/mpc-hc/language/tt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1277,7 +1278,7 @@ msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_COL_NAME"
 msgid "Name"
-msgstr ""
+msgstr "Исеме"
 
 msgctxt "IDS_PPAGEADVANCED_COL_VALUE"
 msgid "Value"
@@ -3493,11 +3494,11 @@ msgstr ""
 
 msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
 msgid "Close"
-msgstr ""
+msgstr "Ябарга"
 
 msgctxt "IDS_AFTER_PLAYBACK_EXIT"
 msgid "Exit"
-msgstr ""
+msgstr "Чыгу"
 
 msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
 msgid "Turn off the monitor"

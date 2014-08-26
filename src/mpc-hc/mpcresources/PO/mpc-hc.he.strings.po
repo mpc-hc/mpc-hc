@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-03-22 09:25:06+0000\n"
-"PO-Revision-Date: 2014-05-07 08:51+0000\n"
+"POT-Creation-Date: 2014-08-24 19:23:17+0000\n"
+"PO-Revision-Date: 2014-08-25 09:40+0000\n"
 "Last-Translator: JellyFrog\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/mpc-hc/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -1275,7 +1275,7 @@ msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_COL_NAME"
 msgid "Name"
-msgstr ""
+msgstr "שם"
 
 msgctxt "IDS_PPAGEADVANCED_COL_VALUE"
 msgid "Value"
@@ -3491,11 +3491,11 @@ msgstr ""
 
 msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
 msgid "Close"
-msgstr ""
+msgstr "סגור"
 
 msgctxt "IDS_AFTER_PLAYBACK_EXIT"
 msgid "Exit"
-msgstr ""
+msgstr "יציאה"
 
 msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
 msgid "Turn off the monitor"

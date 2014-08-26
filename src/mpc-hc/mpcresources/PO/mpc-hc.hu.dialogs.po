@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-07-06 19:15:01+0000\n"
-"PO-Revision-Date: 2014-07-18 14:31+0000\n"
+"POT-Creation-Date: 2014-08-19 21:13:19+0000\n"
+"PO-Revision-Date: 2014-08-25 18:20+0000\n"
 "Last-Translator: Máté <lang.mate@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/mpc-hc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -418,7 +418,7 @@ msgstr "alkalommal"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
-msgstr ""
+msgstr "Lejátszás után"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Output"
@@ -530,7 +530,7 @@ msgstr "Legnagyobb textúra felbontás:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_NO_SUB_ANIM"
 msgid "Never animate the subtitles"
-msgstr ""
+msgstr "Soha ne animálja a feliratokat"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC5"
 msgid "Render at"
@@ -558,7 +558,7 @@ msgstr ""
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SUB_AR_COMPENSATION"
 msgid "Apply aspect ratio compensation for anamorphic videos"
-msgstr ""
+msgstr "Képarány kompenzáció alkalmazása anamorf videókhoz"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Warning"
@@ -942,11 +942,11 @@ msgstr "ms"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_CHECK1"
 msgid "Save custom style"
-msgstr ""
+msgstr "Egyedi stílus mentése"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
-msgstr ""
+msgstr "JPEG minőség:"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "Thumbnails:"
@@ -1198,7 +1198,7 @@ msgstr "Forgatás"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "* External filters (such as VSFilter) can display subtitles on all renderers."
-msgstr ""
+msgstr "* Külső szűrők (például a VSFilter) minden renderelőn meg tudják jeleníteni a feliratokat."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
@@ -1354,7 +1354,7 @@ msgstr "Q"
 
 msgctxt "IDD_TUNER_SCAN_IDC_CHECK_OFFSET"
 msgid "Use an offset"
-msgstr ""
+msgstr "Használjon eltolást"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Default Device"
@@ -1650,7 +1650,7 @@ msgstr "PS 3.0"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_STATIC"
 msgid "Advanced Settings, do not edit unless you know what you are doing."
-msgstr ""
+msgstr "Haladó beállítások, ne szerkessze őket, ha nem tudja mit csinál"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO1"
 msgid "True"
@@ -1666,5 +1666,5 @@ msgstr "Alapértelmezés"
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
-msgstr ""
+msgstr "JPEG minőség:"
 

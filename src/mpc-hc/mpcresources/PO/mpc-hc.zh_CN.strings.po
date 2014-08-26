@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-07-17 20:52:12+0000\n"
-"PO-Revision-Date: 2014-07-18 10:19+0000\n"
+"POT-Creation-Date: 2014-08-24 19:23:17+0000\n"
+"PO-Revision-Date: 2014-08-25 12:00+0000\n"
 "Last-Translator: Ming Chen <yzonline@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/mpc-hc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -848,11 +848,11 @@ msgstr "如果渲染目标没有被定义，则将从默认样式继承。"
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
-msgstr ""
+msgstr "禁用字幕动画。开启本选项将降低CPU占用。如果字幕闪烁可以尝试开启本项。"
 
 msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
-msgstr ""
+msgstr "增加缓冲的子画面数一般能改善回放性能，但是会增加GPU的显存占用量"
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
@@ -860,7 +860,7 @@ msgstr "在点击此按钮后,被选中的格式组的状态将会对 MPC-HC 的
 
 msgctxt "IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Disabling this option will prevent the subtitles from blinking but it may cause the video renderer to skip some video frames."
-msgstr ""
+msgstr "禁用本选项可以防止字幕闪烁，但是可能会导致视频渲染器跳过某些视频帧。"
 
 msgctxt "ID_PLAY_PLAY"
 msgid "Play\nPlay"
@@ -1168,11 +1168,11 @@ msgstr "打开 DVD/BD"
 
 msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
 msgid "Failed to set post-resize shaders"
-msgstr "设置后重绘尺寸着色器失败"
+msgstr "设置重绘尺寸着色器后失败"
 
 msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
 msgid "Failed to set both pre-resize and post-resize shaders"
-msgstr "设置预重绘尺寸和后重绘尺寸着色器失败"
+msgstr "设置重绘尺寸前和重绘尺寸后着色器失败"
 
 msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
 msgid "Shaders are recompiled automatically when the corresponding files are modified."
@@ -1288,11 +1288,11 @@ msgstr "\"历史文件\" 菜单中最多保存的文件数量。它们的位置�
 
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
 msgid "JPEG Image"
-msgstr ""
+msgstr "JPEG 图像"
 
 msgctxt "IDS_IMAGE_QUALITY"
 msgid "Quality (%):"
-msgstr ""
+msgstr "质量 (%):"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1420,7 +1420,7 @@ msgstr "光标经过控制栏区域时显示, 隐藏在:"
 
 msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
 msgid "Failed to set pre-resize shaders"
-msgstr "设置预重绘尺寸着色器失败"
+msgstr "设置重绘尺寸着色器前失败"
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
 msgid "Frame Time Correction: On"
@@ -2416,7 +2416,7 @@ msgstr "未知格式"
 
 msgctxt "IDS_MAINFRM_138"
 msgid "Sub shift: %ld ms"
-msgstr "字幕延迟 : %ld ms"
+msgstr "字幕延迟 : %ld 毫秒"
 
 msgctxt "IDS_VOLUME_BOOST_INC"
 msgid "Volume boost increase"
@@ -3024,15 +3024,15 @@ msgstr "环境光线: 黑暗 (2.4 伽玛)"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_PERCEPT"
 msgid "Rendering Intent: Perceptual"
-msgstr "渲染目的: 感性"
+msgstr "渲染意图: 可感知"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_RELATIVE"
 msgid "Rendering Intent: Relative Colorimetric"
-msgstr "渲染目的: 相对比色分析"
+msgstr "渲染意图: 相对比色"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_SATUR"
 msgid "Rendering Intent: Saturation"
-msgstr "渲染目的: 饱和"
+msgstr "渲染意图: 饱和度"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_ABSOLUTE"
 msgid "Rendering Intent: Absolute Colorimetric"
@@ -3408,7 +3408,7 @@ msgstr "回放结束后: 锁定"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
-msgstr ""
+msgstr "回放结束后: 关闭显示器"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
@@ -3480,25 +3480,25 @@ msgstr "对音频文件也记忆播放位置。"
 
 msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
 msgid "Do Nothing"
-msgstr ""
+msgstr "什么也不做"
 
 msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
 msgid "Play next file in the folder"
-msgstr ""
+msgstr "播放文件夹中的下一个文件"
 
 msgctxt "IDS_AFTER_PLAYBACK_REWIND"
 msgid "Rewind current file"
-msgstr ""
+msgstr "返回当前文件"
 
 msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
 msgid "Close"
-msgstr ""
+msgstr "关闭"
 
 msgctxt "IDS_AFTER_PLAYBACK_EXIT"
 msgid "Exit"
-msgstr ""
+msgstr "退出"
 
 msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
 msgid "Turn off the monitor"
-msgstr ""
+msgstr "关闭显示器"
 

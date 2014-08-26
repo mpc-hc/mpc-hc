@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-07-17 20:52:12+0000\n"
-"PO-Revision-Date: 2014-07-31 02:00+0000\n"
+"POT-Creation-Date: 2014-08-24 19:23:17+0000\n"
+"PO-Revision-Date: 2014-08-25 09:50+0000\n"
 "Last-Translator: Xabier Aramendi <azpidatziak@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/mpc-hc/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -622,7 +622,7 @@ msgstr "VMR-9 (aurkezgabe) bezalakoa, baina egizko bi-urratseko birneurriratzail
 
 msgctxt "IDC_DSNULL_COMP"
 msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the cpu from working unnecessarily."
-msgstr "Edozein bideo-erako multimedia motarekn elkarketatzen da eta barrurako laginak inora ez bidaliko ditu. Erabili bideo erakuspenik behar ez duzunean eta cpu-a gordetzea nahi duzunean alperrik lan egitetik."
+msgstr "Edozein bideo-erako multimedia motarekn elkartzen da eta barrurako laginak inora ez bidaliko ditu. Erabili bideo erakuspenik behar ez duzunean eta cpu-a gordetzea nahi duzunean alperrik lan egitetik."
 
 msgctxt "IDC_DSNULL_UNCOMP"
 msgid "Same as the normal Null renderer, but this will only connect to uncompressed types."
@@ -830,7 +830,7 @@ msgstr "LAV Filters erabiltzen ditu"
 
 msgctxt "IDS_INTERNAL_LAVF_WMV"
 msgid "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
-msgstr "LAV Filters erabiltzen ditu. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
+msgstr "LAV Filters erabiltzen ditu. Berez ezgaituta Microsoft iragazkiak arrunt egonkorragoak direnez hesukarri hauetarako.\nBarneko iragazkiak erabiltzea hautatzen baduzu, gaitu itzazu bietarako iturburua eta dekodeaketarako irakurketa jarduera hobeago bat izateko."
 
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
@@ -846,19 +846,19 @@ msgstr "Aurkezpen xedea oraindik zehaztugabe badago, berezko estilotik ondorengo
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
-msgstr ""
+msgstr "Ez ahalbidetu azpidatzi animazioa. Aukera hau gaituz CPU gutxiago erabiliko da. Azpidatziak etenka ikusiz gero erabili dezakezu."
 
 msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
-msgstr ""
+msgstr "Azpirudi buffer zenbatekoa handitzeak orokorrean aurkezpen egintza hobetu beharko luke GPU-an RAM erabilpen gehiagoren ordainarekin."
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
-msgstr "Botoi hau sakatu ondoren, hautatutako multzo heuskarri egoerak  MPC-HC-rentzat oraingo agiri elkarketa adieraziko du. Berriki gehitutako hedapen ba arrunt urdinabarrago ikusiko da, hortaz ez ahaztu hura berriro hautazeaz elkarrizketa hau itxitakoan!"
+msgstr "Botoi hau sakatu ondoren, hautatutako multzo heuskarri egoerak  MPC-HC-rentzat oraingo agiri elkarketa adieraziko du. Berriki gehitutako hedapen ba arrunt urdinabarrago ikusiko da, hortaz ez ahaztu hura berriro hautatzeaz elkarrizketa hau itxitakoan!"
 
 msgctxt "IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Disabling this option will prevent the subtitles from blinking but it may cause the video renderer to skip some video frames."
-msgstr ""
+msgstr "Aukera hau ezgaitzeak azpidatzien keinukatzea saihestuko du baina bideo aurkezleak zenbait frame jauzi egitea eragin dezake."
 
 msgctxt "ID_PLAY_PLAY"
 msgid "Play\nPlay"
@@ -1254,7 +1254,7 @@ msgstr "Sartu zerbitzari kredentzialak"
 
 msgctxt "IDS_CREDENTIALS_CONNECT"
 msgid "Enter your credentials to connect"
-msgstr "Sartu zure kredentzialak elkarketatzeko"
+msgstr "Sartu zure kredentzialak elkartzeko"
 
 msgctxt "IDS_SUB_SAVE_EXTERNAL_STYLE_FILE"
 msgid "Save custom style"
@@ -1286,11 +1286,11 @@ msgstr "\"Azken agiriak\" menuan erakusten diren eta kokapena potentzialki gorde
 
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
 msgid "JPEG Image"
-msgstr ""
+msgstr "JPEG Irudia"
 
 msgctxt "IDS_IMAGE_QUALITY"
 msgid "Quality (%):"
-msgstr ""
+msgstr "Ontasuna (%):"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2290,7 +2290,7 @@ msgstr "Agiri izen baliogabea"
 
 msgctxt "IDS_MAINFRM_86"
 msgid "Cannot connect the filters"
-msgstr "Ezinezkoa iragazkiak elkarketatzea"
+msgstr "Ezinezkoa iragazkiak elkartzea"
 
 msgctxt "IDS_MAINFRM_87"
 msgid "Cannot load any source filter"
@@ -3262,15 +3262,15 @@ msgstr "Ezin da sortu hargailua."
 
 msgctxt "IDS_BDA_ERROR_CONNECT_NW_TUNER"
 msgid "Could not connect the network and the tuner."
-msgstr "Ezin da elkarketatu sarea eta sintonizagailua."
+msgstr "Ezin da elkartu sarea eta sintonizagailua."
 
 msgctxt "IDS_BDA_ERROR_CONNECT_TUNER_REC"
 msgid "Could not connect the tuner and the receiver."
-msgstr "Ezin da elkarketatu sintonizagailua eta hargailua."
+msgstr "Ezin da elkartu sintonizagailua eta hargailua."
 
 msgctxt "IDS_BDA_ERROR_CONNECT_TUNER"
 msgid "Could not connect the tuner."
-msgstr "Ezin da elkarketatu sintonizagailua."
+msgstr "Ezin da elkartu sintonizagailua."
 
 msgctxt "IDS_BDA_ERROR_DEMULTIPLEXER"
 msgid "Could not create the demultiplexer."
@@ -3310,7 +3310,7 @@ msgstr "'Gorde Irudia' eta 'Gorde Txikirudiak' eginkizunek ez dute lan egiten Ga
 
 msgctxt "IDS_SUBDL_DLG_CONNECT_ERROR"
 msgid "Cannot connect to the online subtitles database."
-msgstr "Ezinezkoa onlineko azpidatzi datubasearekin elkarketatzea."
+msgstr "Ezinezkoa onlineko azpidatzi datubasearekin elkartzea."
 
 msgctxt "IDS_MB_SHOW_EDL_EDITOR"
 msgid "Do you want to activate the EDL editor?"
@@ -3334,7 +3334,7 @@ msgstr "Ezinezkoa gehitzea %s buffer iragazkia grafikara."
 
 msgctxt "IDS_CAPTURE_ERROR_CONNECT_BUFF"
 msgid "Can't connect the %s buffer filter to the graph."
-msgstr "Ezinezkoa elkarketatzea %s buffer iragazkia grafikara."
+msgstr "Ezinezkoa elkartzea %s buffer iragazkia grafikara."
 
 msgctxt "IDS_CAPTURE_ERROR_ADD_ENCODER"
 msgid "Can't add the %s encoder filter to the graph."
@@ -3342,7 +3342,7 @@ msgstr "Ezinezkoa gehitzea %s kodeatzaile iragazkia grafikara."
 
 msgctxt "IDS_CAPTURE_ERROR_CONNECT_ENC"
 msgid "Can't connect the %s encoder filter to the graph."
-msgstr "Ezinezkoa elkarketatzea %s kodeatzaile iragazkia grafikara."
+msgstr "Ezinezkoa elkartzea %s kodeatzaile iragazkia grafikara."
 
 msgctxt "IDS_CAPTURE_ERROR_COMPRESSION"
 msgid "Can't set the compression format on the %s encoder filter."
@@ -3350,7 +3350,7 @@ msgstr "Ezinezkoa ezartzea konpresio heuskarria %s kodeatzaile iragazkian."
 
 msgctxt "IDS_CAPTURE_ERROR_MULTIPLEXER"
 msgid "Can't connect the %s stream to the multiplexer filter."
-msgstr "Ezinezkoa elkarketatzea %s jarioa multiplexatzaile iragazkira"
+msgstr "Ezinezkoa elkartzea %s jarioa multiplexatzaile iragazkira"
 
 msgctxt "IDS_CAPTURE_ERROR_VID_CAPT_PIN"
 msgid "No video capture pin was found."
@@ -3406,7 +3406,7 @@ msgstr "Irakurketa Ondoren: Blokeatu"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
-msgstr ""
+msgstr "Irakurri Ondoren: Itzali monitorea"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
@@ -3478,25 +3478,25 @@ msgstr "Gogoratu agiriaren kokapena audio agirientzat ere."
 
 msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
 msgid "Do Nothing"
-msgstr ""
+msgstr "Ez Egin Ezer"
 
 msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
 msgid "Play next file in the folder"
-msgstr ""
+msgstr "Irakurri agiritegiko hurrengo agiria"
 
 msgctxt "IDS_AFTER_PLAYBACK_REWIND"
 msgid "Rewind current file"
-msgstr ""
+msgstr "Atzerabildu uneko agiria"
 
 msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
 msgid "Close"
-msgstr ""
+msgstr "Itxi"
 
 msgctxt "IDS_AFTER_PLAYBACK_EXIT"
 msgid "Exit"
-msgstr ""
+msgstr "Irten"
 
 msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
 msgid "Turn off the monitor"
-msgstr ""
+msgstr "Itzali monitorea"
 

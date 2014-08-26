@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-07-17 20:52:12+0000\n"
-"PO-Revision-Date: 2014-07-27 19:00+0000\n"
+"POT-Creation-Date: 2014-08-24 19:23:17+0000\n"
+"PO-Revision-Date: 2014-08-28 19:00+0000\n"
 "Last-Translator: Sinan H.\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/mpc-hc/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -848,11 +848,11 @@ msgstr "İşleyici seçimi tanımlanmamışsa, varsayılan biçim kullanılacakt
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
-msgstr ""
+msgstr "Alt yazı hareketlendirmelerini engeller. Bu ayar işlemci kullanımını düşürecektir. Alt yazılar parlak gösteriliyorsa kullanmanız önerilir."
 
 msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
-msgstr ""
+msgstr "Tamponlanacak çerçeve sayısını arttırmak, daha fazla video belleği kullanımına yol açsa da işleyici performansında genel bir artış sağlayacaktır."
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
@@ -860,7 +860,7 @@ msgstr "Bu tuşa tıkladıktan sonra, seçili olan grup biçimi MPC-HC 'nin geç
 
 msgctxt "IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Disabling this option will prevent the subtitles from blinking but it may cause the video renderer to skip some video frames."
-msgstr ""
+msgstr "Bu ayarı kapatmak alt yazıların parlak gösterilmesini önlemek için kullanılır, ancak video işleyicisinin bazı görüntüleri atlamasına neden olabilmektedir."
 
 msgctxt "ID_PLAY_PLAY"
 msgid "Play\nPlay"
@@ -1288,11 +1288,11 @@ msgstr "\"Belgeler\" menüsünde gösterilip, dosya yerleşiminde hatırlanacak 
 
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
 msgid "JPEG Image"
-msgstr ""
+msgstr "JPEG Görüntüsü"
 
 msgctxt "IDS_IMAGE_QUALITY"
 msgid "Quality (%):"
-msgstr ""
+msgstr "Kalite (%):"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -3408,7 +3408,7 @@ msgstr "Oynatmadan Sonra: Kilitle"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
-msgstr ""
+msgstr "Oynatmadan Sonra: Ekranı kapat"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
@@ -3480,25 +3480,25 @@ msgstr "Dosya yerleşimini ses dosyaları için de hatırla."
 
 msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
 msgid "Do Nothing"
-msgstr ""
+msgstr "Bir işlem yapma"
 
 msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
 msgid "Play next file in the folder"
-msgstr ""
+msgstr "Klasördeki sıradaki dosyayı yürüt"
 
 msgctxt "IDS_AFTER_PLAYBACK_REWIND"
 msgid "Rewind current file"
-msgstr ""
+msgstr "Geçerli dosyayı tekrar oynat"
 
 msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
 msgid "Close"
-msgstr ""
+msgstr "Kapat"
 
 msgctxt "IDS_AFTER_PLAYBACK_EXIT"
 msgid "Exit"
-msgstr ""
+msgstr "Çıkış"
 
 msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
 msgid "Turn off the monitor"
-msgstr ""
+msgstr "Ekranı kapat"
 

@@ -2,17 +2,17 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# 柏諺 黃 <s8321414@gmail.com>, 2014
+# Jeff Huang <s8321414@gmail.com>, 2014
 # kenelin <kenelin@gmail.com>, 2013
 # Peter Chen <petercpg@gmail.com>, 2014
 # roytam1 <roytam@gmail.com>, 2014
-# 冠旭 陳 <zakk0610@gmail.com>, 2014
+# Zakk <zakk0610@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-05-28 21:38:03+0000\n"
-"PO-Revision-Date: 2014-05-30 10:41+0000\n"
-"Last-Translator: 柏諺 黃 <s8321414@gmail.com>\n"
+"POT-Creation-Date: 2014-08-24 19:23:17+0000\n"
+"PO-Revision-Date: 2014-08-25 09:40+0000\n"
+"Last-Translator: JellyFrog\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/mpc-hc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1262,7 +1262,7 @@ msgstr "輸入您的憑證以連線"
 
 msgctxt "IDS_SUB_SAVE_EXTERNAL_STYLE_FILE"
 msgid "Save custom style"
-msgstr ""
+msgstr "保存自訂樣式"
 
 msgctxt "IDS_CONTENT_EDUCATION_SCIENCE"
 msgid "Education/Science/Factual topics"
@@ -1278,7 +1278,7 @@ msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_COL_NAME"
 msgid "Name"
-msgstr ""
+msgstr "名稱"
 
 msgctxt "IDS_PPAGEADVANCED_COL_VALUE"
 msgid "Value"
@@ -3494,11 +3494,11 @@ msgstr ""
 
 msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
 msgid "Close"
-msgstr ""
+msgstr "關閉"
 
 msgctxt "IDS_AFTER_PLAYBACK_EXIT"
 msgid "Exit"
-msgstr ""
+msgstr "離開"
 
 msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
 msgid "Turn off the monitor"

@@ -2,13 +2,14 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# Jan Košata <kosata6@seznam.cz>, 2014
 # khagaroth, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-07-17 20:52:12+0000\n"
-"PO-Revision-Date: 2014-07-30 13:01+0000\n"
-"Last-Translator: khagaroth\n"
+"POT-Creation-Date: 2014-08-24 19:23:17+0000\n"
+"PO-Revision-Date: 2014-08-30 12:30+0000\n"
+"Last-Translator: Jan Košata <kosata6@seznam.cz>\n"
 "Language-Team: Czech (http://www.transifex.com/projects/p/mpc-hc/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -846,11 +847,11 @@ msgstr "Pokud není určen cíl vykreslování, bude převzat z výchozího styl
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
-msgstr ""
+msgstr "Zakázat animaci titulků. Tuto volbu můžete použít ke snížení zatížení procesoru, nebo pokud máte potíže s blikajícími titulky."
 
 msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
-msgstr ""
+msgstr "Zvýšení počtu snímků ve vyrovnávací paměti obvykle zlepší výkon vykreslování titulků, ale za cenu vyššího obsazení paměti grafické karty."
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
@@ -858,7 +859,7 @@ msgstr "Stav zaškrtávacího políčka u skupin formátů určuje aktuální as
 
 msgctxt "IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Disabling this option will prevent the subtitles from blinking but it may cause the video renderer to skip some video frames."
-msgstr ""
+msgstr "Zakázáním této volby zabráníte blikání titulků, ale místo toho může docházet k přeskakování snímků videa."
 
 msgctxt "ID_PLAY_PLAY"
 msgid "Play\nPlay"
@@ -1286,11 +1287,11 @@ msgstr "Maximální počet souborů v nabídce \"Nedávno otevřené\" a seznamu
 
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
 msgid "JPEG Image"
-msgstr ""
+msgstr "JPEG obrázek"
 
 msgctxt "IDS_IMAGE_QUALITY"
 msgid "Quality (%):"
-msgstr ""
+msgstr "Kvalita (%):"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -3406,7 +3407,7 @@ msgstr "Po přehrání: Uzamknout počítač"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
-msgstr ""
+msgstr "Po přehrání: Vypnout monitor"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
@@ -3478,25 +3479,25 @@ msgstr "Pamatovat si pozici i u zvukových souborů."
 
 msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
 msgid "Do Nothing"
-msgstr ""
+msgstr "Žádná akce"
 
 msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
 msgid "Play next file in the folder"
-msgstr ""
+msgstr "Přehrát další soubor v adresáři"
 
 msgctxt "IDS_AFTER_PLAYBACK_REWIND"
 msgid "Rewind current file"
-msgstr ""
+msgstr "Na začátek aktuálního souboru"
 
 msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
 msgid "Close"
-msgstr ""
+msgstr "Zavřít"
 
 msgctxt "IDS_AFTER_PLAYBACK_EXIT"
 msgid "Exit"
-msgstr ""
+msgstr "Konec"
 
 msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
 msgid "Turn off the monitor"
-msgstr ""
+msgstr "Vypnout monitor"
 

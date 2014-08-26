@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-07-06 19:15:01+0000\n"
-"PO-Revision-Date: 2014-07-10 06:31+0000\n"
+"POT-Creation-Date: 2014-08-19 21:13:19+0000\n"
+"PO-Revision-Date: 2014-08-20 16:21+0000\n"
 "Last-Translator: kasper93\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/mpc-hc/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -419,7 +419,7 @@ msgstr "raz(y)"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
-msgstr ""
+msgstr "Po zakończeniu odtwarzania"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Output"
@@ -523,7 +523,7 @@ msgstr "Ustawienia tekstur (wymaga ponownego otworzenia pliku)"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Sub pictures to buffer:"
-msgstr "Liczba buforowanych wierszy:"
+msgstr "Liczba buforowanych klatek napisów:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Maximum texture resolution:"
@@ -531,27 +531,27 @@ msgstr "Maksymalna rozdzielczość tekstur:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_NO_SUB_ANIM"
 msgid "Never animate the subtitles"
-msgstr ""
+msgstr "Nigdy nie animuj napisów"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC5"
 msgid "Render at"
-msgstr ""
+msgstr "Renderuj z"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC6"
 msgid "% of the animation"
-msgstr ""
+msgstr "% prędkości animacji"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC7"
 msgid "Animate at"
-msgstr ""
+msgstr "Animuj z"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC8"
 msgid "% of the video frame rate"
-msgstr ""
+msgstr "% prędkości klatek obrazu"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Allow dropping some subpictures if the queue is running late"
-msgstr ""
+msgstr "Pozwól na omijanie klatek napisów, jeśli kolejka nie może nadążyć"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Renderer Layout"
@@ -947,7 +947,7 @@ msgstr "Zapisz niestandardowy styl"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
-msgstr ""
+msgstr "Jakość JPEG:"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "Thumbnails:"
@@ -1667,5 +1667,5 @@ msgstr "Domyślne"
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
-msgstr ""
+msgstr "Jakość JPEG:"
 

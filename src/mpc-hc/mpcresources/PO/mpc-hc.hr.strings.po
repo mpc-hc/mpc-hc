@@ -9,9 +9,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-07-17 20:52:12+0000\n"
-"PO-Revision-Date: 2014-07-22 22:01+0000\n"
-"Last-Translator: schop <aprcel00@fesb.hr>\n"
+"POT-Creation-Date: 2014-08-24 19:23:17+0000\n"
+"PO-Revision-Date: 2014-08-25 09:40+0000\n"
+"Last-Translator: JellyFrog\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/mpc-hc/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -861,7 +861,7 @@ msgstr "After clicking this button, the checked state of the format group will r
 
 msgctxt "IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Disabling this option will prevent the subtitles from blinking but it may cause the video renderer to skip some video frames."
-msgstr ""
+msgstr "Isključivanjem ove opcije će se spriječiti treptanje podnapisa ali može prouzročit da video render preskoči nekoliko slika."
 
 msgctxt "ID_PLAY_PLAY"
 msgid "Play\nPlay"
@@ -2085,7 +2085,7 @@ msgstr "URL adresa je tocna!"
 
 msgctxt "IDS_PPSDB_PROTOCOLERR"
 msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
-msgstr ""
+msgstr "Verzija protokola se ne podudara, molimo nadogradite vaš player ili odaberite drugu adresu!"
 
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
@@ -2297,7 +2297,7 @@ msgstr "Ne mogu povezati filtere"
 
 msgctxt "IDS_MAINFRM_87"
 msgid "Cannot load any source filter"
-msgstr ""
+msgstr "Ne može se učitati nijedna izvorišna datoteka"
 
 msgctxt "IDS_MAINFRM_88"
 msgid "Cannot render the file"
@@ -2489,15 +2489,15 @@ msgstr "Sljedeći AR profil"
 
 msgctxt "IDS_AG_VIDFRM_STRETCH"
 msgid "VidFrm Stretch"
-msgstr ""
+msgstr "VidFrm Stretch"
 
 msgctxt "IDS_AG_VIDFRM_INSIDE"
 msgid "VidFrm Inside"
-msgstr ""
+msgstr "Unutarnji VidFrm"
 
 msgctxt "IDS_AG_VIDFRM_OUTSIDE"
 msgid "VidFrm Outside"
-msgstr ""
+msgstr "Vanjski VidFrm"
 
 msgctxt "IDS_AG_PNS_RESET"
 msgid "PnS Reset"
@@ -2517,7 +2517,7 @@ msgstr "VidFrm Zoom 2"
 
 msgctxt "IDS_AG_VIDFRM_SWITCHZOOM"
 msgid "VidFrm Switch Zoom"
-msgstr ""
+msgstr "VidFrm zamjena zumiranja"
 
 msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
@@ -2957,11 +2957,11 @@ msgstr "VSync: Isklj."
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_ON"
 msgid "Accurate VSync: On"
-msgstr ""
+msgstr "Precizan VSync: Uklj."
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_OFF"
 msgid "Accurate VSync: Off"
-msgstr ""
+msgstr "Precizan VSync: Isklj."
 
 msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_ON"
 msgid "Synchronize Video to Display: On"
@@ -3217,11 +3217,11 @@ msgstr ""
 
 msgctxt "IDS_OSD_NORMALIZE_ON"
 msgid "Normalization: On"
-msgstr ""
+msgstr "Normalizacija: Uklj."
 
 msgctxt "IDS_OSD_NORMALIZE_OFF"
 msgid "Normalization: Off"
-msgstr ""
+msgstr "Normalizacija: Isklj."
 
 msgctxt "IDS_REGAIN_VOLUME"
 msgid "Toggle regain volume"
@@ -3313,11 +3313,11 @@ msgstr ""
 
 msgctxt "IDS_SUBDL_DLG_CONNECT_ERROR"
 msgid "Cannot connect to the online subtitles database."
-msgstr ""
+msgstr "Ne može se pristupiti online bazi podnapisa."
 
 msgctxt "IDS_MB_SHOW_EDL_EDITOR"
 msgid "Do you want to activate the EDL editor?"
-msgstr ""
+msgstr "Da li želite aktivirati EDL editor?"
 
 msgctxt "IDS_CAPTURE_ERROR"
 msgid "Capture Error"
@@ -3373,7 +3373,7 @@ msgstr ""
 
 msgctxt "IDS_SUBRESYNC_TIME_FORMAT"
 msgid "The correct time format is [-]hh:mm:ss.ms (e.g. 01:23:45.678)."
-msgstr ""
+msgstr "Ispravan format vremena je [-]hh:mm:ss.ms (npr. 01:23:45.678)."
 
 msgctxt "IDS_EXTERNAL_FILTERS_ERROR_MT"
 msgid "This type is already in the list!"
@@ -3381,7 +3381,7 @@ msgstr ""
 
 msgctxt "IDS_WEBSERVER_ERROR_TEST"
 msgid "You need to apply the new settings before testing them."
-msgstr ""
+msgstr "Prije testiranja morate prihvatiti nove postavke."
 
 msgctxt "IDS_AFTERPLAYBACK_CLOSE"
 msgid "After Playback: Exit"
@@ -3429,7 +3429,7 @@ msgstr "Zasićenje: %s"
 
 msgctxt "IDS_OSD_RESET_COLOR"
 msgid "Color settings restored"
-msgstr ""
+msgstr "Obnovljene su postavke boje "
 
 msgctxt "IDS_OSD_NO_COLORCONTROL"
 msgid "Color control is not supported"
@@ -3493,11 +3493,11 @@ msgstr ""
 
 msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
 msgid "Close"
-msgstr ""
+msgstr "Zatvori"
 
 msgctxt "IDS_AFTER_PLAYBACK_EXIT"
 msgid "Exit"
-msgstr ""
+msgstr "Izlaz"
 
 msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
 msgid "Turn off the monitor"

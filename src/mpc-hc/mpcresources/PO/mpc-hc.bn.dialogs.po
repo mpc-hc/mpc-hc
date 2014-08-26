@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-05-04 16:42:23+0000\n"
-"PO-Revision-Date: 2014-05-07 08:50+0000\n"
-"Last-Translator: JellyFrog\n"
+"POT-Creation-Date: 2014-08-19 21:13:19+0000\n"
+"PO-Revision-Date: 2014-08-21 19:20+0000\n"
+"Last-Translator: mehzad\n"
 "Language-Team: Bengali (http://www.transifex.com/projects/p/mpc-hc/language/bn/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -419,7 +419,7 @@ msgstr "বার"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
-msgstr ""
+msgstr "প্লেব্যাকের পরে"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Output"
@@ -471,7 +471,7 @@ msgstr "স্বয়ংক্রিয়ভাবে অডিও ফাইল ল
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
 msgid "Use the built-in subtitle renderer"
-msgstr ""
+msgstr "বিল্ট-ইন সাবটাইটেল রেনডারার ব্যবহার"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Control"
@@ -531,35 +531,35 @@ msgstr "সর্বোচ্চ টেক্সচার রেজ্যুল�
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_NO_SUB_ANIM"
 msgid "Never animate the subtitles"
-msgstr ""
+msgstr "কখনোই সাবটাইটেল অ্যানিমেট করা হবে না"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC5"
 msgid "Render at"
-msgstr ""
+msgstr "রেনডার করা হবে- অ্যানিমেশনের"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC6"
 msgid "% of the animation"
-msgstr ""
+msgstr "%"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC7"
 msgid "Animate at"
-msgstr ""
+msgstr "অ্যানিমেট করা হবে- ভিডিও ফ্রেম রেটের"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC8"
 msgid "% of the video frame rate"
-msgstr ""
+msgstr "%"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Allow dropping some subpictures if the queue is running late"
-msgstr ""
+msgstr "অপেক্ষমান কাজে বিলম্ব হলে কিছু কিছু সাবপিকচার বাদ যাওয়া অনুমোদন"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Renderer Layout"
-msgstr ""
+msgstr "রেনডারারের ধরন-প্রকৃতি"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SUB_AR_COMPENSATION"
 msgid "Apply aspect ratio compensation for anamorphic videos"
-msgstr ""
+msgstr "আনামর্ফিক ভিডিওসমূহের জন্য অ্যাসপেক্ট রেশিও সামঞ্জস্য করা কার্যকর করণ"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Warning"
@@ -943,11 +943,11 @@ msgstr "ms"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_CHECK1"
 msgid "Save custom style"
-msgstr ""
+msgstr "নির্ধারণকৃত ধরনটি সেইভ করি"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
-msgstr ""
+msgstr "JPEGএর বৈশিষ্ট্যগুণ:"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "Thumbnails:"
@@ -1651,21 +1651,21 @@ msgstr "PS 3.0"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_STATIC"
 msgid "Advanced Settings, do not edit unless you know what you are doing."
-msgstr ""
+msgstr "অ্যাডভান্সড্‌ সেটিংসমূহ, ভালভাবে না জেনে কোন সেটিং পরিবর্তন করতে নিষেধ করা যাচ্ছে।"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO1"
 msgid "True"
-msgstr ""
+msgstr "সত্য"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO2"
 msgid "False"
-msgstr ""
+msgstr "মিথ্যা"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
-msgstr ""
+msgstr "ডিফল্ট"
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
-msgstr ""
+msgstr "JPEGএর বৈশিষ্ট্যগুণ:"
 

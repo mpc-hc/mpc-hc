@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-07-17 20:52:12+0000\n"
-"PO-Revision-Date: 2014-07-20 10:50+0000\n"
-"Last-Translator: Alpha120 <juanhc120@gmail.com>\n"
+"POT-Creation-Date: 2014-08-24 19:23:17+0000\n"
+"PO-Revision-Date: 2014-08-25 11:20+0000\n"
+"Last-Translator: strel\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/mpc-hc/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -69,7 +69,7 @@ msgstr "Propiedades"
 
 msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
 msgid "&Default Style"
-msgstr "Estilo por &Defecto"
+msgstr "Estilo pre&determinado"
 
 msgctxt "IDS_FAVFILES"
 msgid "Files"
@@ -853,11 +853,11 @@ msgstr "Si el objetivo a renderizar se deja sin definir, será heredado desde el
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
-msgstr ""
+msgstr "Desactiva la animación de subtítulos. Esta opción reduce el uso de la CPU. Actívela si los subtítulos parpadean."
 
 msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
-msgstr ""
+msgstr "Al incrementar la cantidad de subimágenes en búfer se mejorará el rendimiento de representación, pero aumentará el uso de la RAM de vídeo de la GPU."
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
@@ -865,7 +865,7 @@ msgstr "Después de dar clic en este botón, el estado de comprobación del form
 
 msgctxt "IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Disabling this option will prevent the subtitles from blinking but it may cause the video renderer to skip some video frames."
-msgstr ""
+msgstr "Al desactivar esta opción se evitará el parpadeo de los subtítulos, pero es posible que el representador de vídeo se salte algunos fotogramas del vídeo."
 
 msgctxt "ID_PLAY_PLAY"
 msgid "Play\nPlay"
@@ -1273,7 +1273,7 @@ msgstr "Educación/ciencia/hechos"
 
 msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
 msgid "Hides controls and panels also in windowed mode."
-msgstr "Oculta controles y paneles también en modo ventana."
+msgstr "Oculta los controles y paneles también en modo ventana."
 
 msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
 msgid "Prevent external subtitle renderer to be loaded when internal is in use."
@@ -1289,15 +1289,15 @@ msgstr "Valor"
 
 msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
-msgstr "Número máximo de ficheros mostrados en el menú \"Ficheros recientes\" y para el que potencialmente se guarda la posición."
+msgstr "Cantidad máxima de archivos almacenados y mostrados en el menú «Archivos recientes»."
 
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
 msgid "JPEG Image"
-msgstr ""
+msgstr "Imagen JPEG"
 
 msgctxt "IDS_IMAGE_QUALITY"
 msgid "Quality (%):"
-msgstr ""
+msgstr "Calidad (%):"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -3413,7 +3413,7 @@ msgstr "Después de la reproducción: bloquear"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
-msgstr ""
+msgstr "Tras la reproducción: apagar el monitor"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
@@ -3477,33 +3477,33 @@ msgstr "Configuración"
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
-msgstr "Recordar posición del archivo sólo para archivos más largos de N minutos"
+msgstr "Recordar posición del archivo solo para archivos mayores que N minutos."
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
 msgid "Remember file position also for audio files."
-msgstr "Recordar la posición del Archivo"
+msgstr "Recordar también la posición de los archivos de audio."
 
 msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
 msgid "Do Nothing"
-msgstr ""
+msgstr "No hacer nada"
 
 msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
 msgid "Play next file in the folder"
-msgstr ""
+msgstr "Reproducir el próximo archivo de la carpeta"
 
 msgctxt "IDS_AFTER_PLAYBACK_REWIND"
 msgid "Rewind current file"
-msgstr ""
+msgstr "Rebobinar el archivo actual"
 
 msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
 msgid "Close"
-msgstr ""
+msgstr "Cerrar"
 
 msgctxt "IDS_AFTER_PLAYBACK_EXIT"
 msgid "Exit"
-msgstr ""
+msgstr "Salir"
 
 msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
 msgid "Turn off the monitor"
-msgstr ""
+msgstr "Apagar el monitor"
 

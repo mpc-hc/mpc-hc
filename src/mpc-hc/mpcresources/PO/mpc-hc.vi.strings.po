@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-07-17 20:52:12+0000\n"
-"PO-Revision-Date: 2014-07-30 07:00+0000\n"
-"Last-Translator: TRẦN ANH MINH <anhminhvks@yahoo.com>\n"
+"POT-Creation-Date: 2014-08-24 19:23:17+0000\n"
+"PO-Revision-Date: 2014-08-27 13:31+0000\n"
+"Last-Translator: Dat Luong Anh <datanhlg@gmail.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/mpc-hc/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -847,11 +847,11 @@ msgstr "Nếu loại dựng phụ đề không được xác định, thì sẽ 
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
-msgstr ""
+msgstr "Vô hiệu hóa hình động phụ đề. Cho phép tùy chọn này sẽ làm giảm hiệu suất sử dụng CPU. Bạn có thể sử dụng nó nếu bạn trải nghiệm phụ đề. "
 
 msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
-msgstr ""
+msgstr "Tăng số của vùng đệm đa ảnh nên nói chung cải thiện hiệu năng biểu hiện với giá sử dụng video dùng Ram cao trên GPU. "
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
@@ -859,7 +859,7 @@ msgstr "Sau khi nhấn vào nút này, nhà nước kiểm tra của các nhóm 
 
 msgctxt "IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Disabling this option will prevent the subtitles from blinking but it may cause the video renderer to skip some video frames."
-msgstr ""
+msgstr "Vô hiệu hóa tùy chọn này sẽ ngăn cản phụ đề nhấp nháy, nhưng nó có thể làm cho trình render video bỏ qua một số video khung. "
 
 msgctxt "ID_PLAY_PLAY"
 msgid "Play\nPlay"
@@ -1287,11 +1287,11 @@ msgstr "Số lượng tối đa các tập tin được hiển thị trong trìn
 
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
 msgid "JPEG Image"
-msgstr ""
+msgstr "Hình JPEG"
 
 msgctxt "IDS_IMAGE_QUALITY"
 msgid "Quality (%):"
-msgstr ""
+msgstr "Chất lượng (%):"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2359,7 +2359,7 @@ msgstr "Đã bỏ"
 
 msgctxt "IDS_MAINFRM_116"
 msgid "&Properties..."
-msgstr "&Thuộc tín"
+msgstr "&Thuộc tính"
 
 msgctxt "IDS_MAINFRM_117"
 msgid " (pin) properties..."
@@ -3407,7 +3407,7 @@ msgstr "Sau khi xem lại: Khóa"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
-msgstr ""
+msgstr "Sau khi phát lại: Tắt màn hình"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
@@ -3479,25 +3479,25 @@ msgstr "Cũng ghi nhớ vị trí những tập tin âm thanh."
 
 msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
 msgid "Do Nothing"
-msgstr ""
+msgstr "Không làm gì"
 
 msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
 msgid "Play next file in the folder"
-msgstr ""
+msgstr "Chạy tệp kế tiếp trong thư mục"
 
 msgctxt "IDS_AFTER_PLAYBACK_REWIND"
 msgid "Rewind current file"
-msgstr ""
+msgstr "Phát lại tệp trước"
 
 msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
 msgid "Close"
-msgstr ""
+msgstr "Hủy"
 
 msgctxt "IDS_AFTER_PLAYBACK_EXIT"
 msgid "Exit"
-msgstr ""
+msgstr "Đóng"
 
 msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
 msgid "Turn off the monitor"
-msgstr ""
+msgstr "Tắt màn hình"
 

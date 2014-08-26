@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-07-17 20:52:12+0000\n"
-"PO-Revision-Date: 2014-07-22 14:57+0000\n"
-"Last-Translator: M T <michtrz@gmail.com>\n"
+"POT-Creation-Date: 2014-08-24 19:23:17+0000\n"
+"PO-Revision-Date: 2014-08-25 13:31+0000\n"
+"Last-Translator: kasper93\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/mpc-hc/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -847,11 +847,11 @@ msgstr "Jeśli cel renderowania nie został określony, zostanie on odziedziczon
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
-msgstr ""
+msgstr "Nie zezwalaj na wyświetlanie animacji napisów. Zmniejsza w niewielkim stopniu obciążenie procesora. Opcja pomocna w przypadku migotania napisów."
 
 msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
-msgstr ""
+msgstr "Zwiększenie liczby buforowanych klatek napisów powinno poprawić wydajność renderowania kosztem użycia większej ilości pamięci karty graficznej."
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
@@ -859,7 +859,7 @@ msgstr "Zmienia ustawienia formatów obsługiwanych przez program. Po użyciu st
 
 msgctxt "IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Disabling this option will prevent the subtitles from blinking but it may cause the video renderer to skip some video frames."
-msgstr ""
+msgstr "Wyłączenie tej opcji zapobiega migotaniu napisów, ale może spowodować ominięcie niektórych klatek przez renderer obrazu."
 
 msgctxt "ID_PLAY_PLAY"
 msgid "Play\nPlay"
@@ -1283,15 +1283,15 @@ msgstr "Wartość"
 
 msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
-msgstr "Maksymalna liczba plików pokazanych w menu \"Ostatnie pliki\" i dla których zapisana jest pozycja."
+msgstr "Maksymalna liczba plików pokazanych w menu \"Ostatnio otwarte\" i dla których może być zapisane położenia."
 
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
 msgid "JPEG Image"
-msgstr ""
+msgstr "Obraz JPEG"
 
 msgctxt "IDS_IMAGE_QUALITY"
 msgid "Quality (%):"
-msgstr ""
+msgstr "Jakość (%):"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1327,7 +1327,7 @@ msgstr "Właściwości"
 
 msgctxt "IDS_AG_EXIT"
 msgid "Exit"
-msgstr "Zakończ"
+msgstr "Zamknij program"
 
 msgctxt "IDS_AG_PLAYPAUSE"
 msgid "Play/Pause"
@@ -3407,7 +3407,7 @@ msgstr "Po zakończeniu odtwarzania: Zablokowanie komputera"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
-msgstr ""
+msgstr "Po zakończeniu odtwarzania: Wyłącz monitor"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
@@ -3471,33 +3471,33 @@ msgstr "Ustawienia"
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
-msgstr "Zapamiętaj położenie pliku tylko dla plików większych niż N minut."
+msgstr "Zapamiętuj położenie pliku tylko dla plików dłuższych niż N minut."
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
 msgid "Remember file position also for audio files."
-msgstr "Zapamiętaj położenie pliku również dla plików audio."
+msgstr "Zapamiętuj położenie pliku również dla plików audio."
 
 msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
 msgid "Do Nothing"
-msgstr ""
+msgstr "Nic nie rób"
 
 msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
 msgid "Play next file in the folder"
-msgstr ""
+msgstr "Otwórz następny plik w folderze"
 
 msgctxt "IDS_AFTER_PLAYBACK_REWIND"
 msgid "Rewind current file"
-msgstr ""
+msgstr "Przewiń do początku aktualny plik"
 
 msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
 msgid "Close"
-msgstr ""
+msgstr "Zamknij "
 
 msgctxt "IDS_AFTER_PLAYBACK_EXIT"
 msgid "Exit"
-msgstr ""
+msgstr "Zamknij program"
 
 msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
 msgid "Turn off the monitor"
-msgstr ""
+msgstr "Wyłącz monitor"
 

@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-06-15 01:03:51+0000\n"
-"PO-Revision-Date: 2014-06-16 18:20+0000\n"
+"POT-Creation-Date: 2014-08-24 19:23:17+0000\n"
+"PO-Revision-Date: 2014-08-25 11:10+0000\n"
 "Last-Translator: papu <papu@openmailbox.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -116,7 +116,7 @@ msgstr "Estils"
 
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
-msgstr ""
+msgstr "Si l' objectiu del renderitzador es deixa sense definir, els subtítols SSA/ASS seran renderitzats en relació al fotograma de vídeo mentres que la resta ho seran en relació a la finestra."
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -844,15 +844,15 @@ msgstr "VSync precisa"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid "If the rendering target is left undefined, it will be inherited from the default style."
-msgstr ""
+msgstr "Si l' objectiu  del renderitzador es deixa sense definir, s' hereta l 'estil predeterminat."
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
-msgstr ""
+msgstr "No permetre l'animació dels subtítols. L'activació d'aquesta opció reduirà l'ús de CPU. Es pot utilitzar si experimenta subtítols intermitents."
 
 msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
-msgstr ""
+msgstr "En augmentar el nombre de subimatges de la memòria intermèdia s'hauria de millorar, en general, el rendiment de la renderització a costa d'un major ús de la RAM de vídeo de la GPU."
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
@@ -860,7 +860,7 @@ msgstr "Després de fer clic aquet botó, l'estat de comprobació del format del
 
 msgctxt "IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Disabling this option will prevent the subtitles from blinking but it may cause the video renderer to skip some video frames."
-msgstr ""
+msgstr "Desactivant aquesta opció evitarà als subtítols de parpellejar però pot provocar que el processador de vídeo es salti alguns fotogrames."
 
 msgctxt "ID_PLAY_PLAY"
 msgid "Play\nPlay"
@@ -984,7 +984,7 @@ msgstr "&Neteja la llista"
 
 msgctxt "IDS_RECENT_FILES_QUESTION"
 msgid "Are you sure that you want to delete recent files list?"
-msgstr "Esteu segur que voleu suprimir la llista de fitxers recents?"
+msgstr "Esteu segur que voleu suprimir la llista d' arxius recents?"
 
 msgctxt "IDS_AG_EDL_SAVE"
 msgid "EDL save"
@@ -1052,7 +1052,7 @@ msgstr "Parat"
 
 msgctxt "IDS_CONTROLS_BUFFERING"
 msgid "Buffering... (%d%%)"
-msgstr "Emmagatzemant a la Memòria intermitja... (%d%%)"
+msgstr "Emmagatzemant a la Memòria intermèdia... (%d%%)"
 
 msgctxt "IDS_CONTROLS_CAPTURING"
 msgid "Capturing..."
@@ -1248,7 +1248,7 @@ msgstr "Velocitat de reproducció"
 
 msgctxt "IDS_FILTERS_COPY_TO_CLIPBOARD"
 msgid "&Copy filters list to clipboard"
-msgstr "&Copiar la llista de filtres al portapapers"
+msgstr "&Copiar la llista de filtres al porta-retalls"
 
 msgctxt "IDS_CREDENTIALS_SERVER"
 msgid "Enter server credentials"
@@ -1268,31 +1268,31 @@ msgstr "Educació / Ciència / Fets reals"
 
 msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
 msgid "Hides controls and panels also in windowed mode."
-msgstr ""
+msgstr "Oculta els controls i panells també en mode de finestra."
 
 msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
 msgid "Prevent external subtitle renderer to be loaded when internal is in use."
-msgstr ""
+msgstr "Evitar la càrrega del renderitzador  de subtítols extern  quant l'intern està en ús."
 
 msgctxt "IDS_PPAGEADVANCED_COL_NAME"
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 msgctxt "IDS_PPAGEADVANCED_COL_VALUE"
 msgid "Value"
-msgstr ""
+msgstr "Valor"
 
 msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
-msgstr ""
+msgstr "Màxim nombre d' arxius a mostrar al menú \"Archius recents\" i per al cual es guarda potencialment la posició."
 
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
 msgid "JPEG Image"
-msgstr ""
+msgstr "Imatge JPEG"
 
 msgctxt "IDS_IMAGE_QUALITY"
 msgid "Quality (%):"
-msgstr ""
+msgstr "Qualitat (%):"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2112,7 +2112,7 @@ msgstr ", Lliure: %I64dMB"
 
 msgctxt "IDS_MAINFRM_42"
 msgid ", Free V/A Buffers: %03d/%03d"
-msgstr ", Memòries Intermitjes V/A Lliures: %03d/%03d"
+msgstr ", Memòries Intermèdies V/A Lliures: %03d/%03d"
 
 msgctxt "IDS_AG_ERROR"
 msgid "Error"
@@ -2184,7 +2184,7 @@ msgstr "Per carregar subtítols has de canviar el tipus de processador de vídeo
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
-msgstr ""
+msgstr "Arxius de subtítols"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %d:%d"
@@ -2644,7 +2644,7 @@ msgstr "Amagar Menú"
 
 msgctxt "IDD_PPAGEADVANCED"
 msgid "Advanced"
-msgstr ""
+msgstr "Avançat"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seekbar"
@@ -3332,11 +3332,11 @@ msgstr "àudio"
 
 msgctxt "IDS_CAPTURE_ERROR_ADD_BUFFER"
 msgid "Can't add the %s buffer filter to the graph."
-msgstr "No es pot afegir el filtre %s de memòria intermitja al graph."
+msgstr "No es pot afegir el filtre %s de memòria intermèdia al graph."
 
 msgctxt "IDS_CAPTURE_ERROR_CONNECT_BUFF"
 msgid "Can't connect the %s buffer filter to the graph."
-msgstr "No es pot conectar el filtre de memòria intermitja %s al graph."
+msgstr "No es pot conectar el filtre de memòria intermèdia %s al graph."
 
 msgctxt "IDS_CAPTURE_ERROR_ADD_ENCODER"
 msgid "Can't add the %s encoder filter to the graph."
@@ -3408,7 +3408,7 @@ msgstr "Després de la reproducció: Bloquejar"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
-msgstr ""
+msgstr "Després de reproducció: Apagar el monitor"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
@@ -3472,33 +3472,33 @@ msgstr "Configuració"
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
-msgstr ""
+msgstr "Recordar la posició d'arxiu només per a arxius de més de N minuts."
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
 msgid "Remember file position also for audio files."
-msgstr ""
+msgstr "Recordar la posició d'arxiu també per a arxius d'àudio."
 
 msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
 msgid "Do Nothing"
-msgstr ""
+msgstr "No fer res"
 
 msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
 msgid "Play next file in the folder"
-msgstr ""
+msgstr "Reprodueix l'arxiu següent dins la carpeta"
 
 msgctxt "IDS_AFTER_PLAYBACK_REWIND"
 msgid "Rewind current file"
-msgstr ""
+msgstr "Rebobina l'arxiu actual"
 
 msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
 msgid "Close"
-msgstr ""
+msgstr "Tanca"
 
 msgctxt "IDS_AFTER_PLAYBACK_EXIT"
 msgid "Exit"
-msgstr ""
+msgstr "Surt"
 
 msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
 msgid "Turn off the monitor"
-msgstr ""
+msgstr "Apagar el monitor"
 
