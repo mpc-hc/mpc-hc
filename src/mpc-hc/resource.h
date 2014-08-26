@@ -1438,6 +1438,7 @@
 #define IDS_AFTER_PLAYBACK_MONITOROFF   57415
 #define IDS_IMAGE_JPEG_QUALITY          57416
 #define IDS_IMAGE_QUALITY               57417
+#define IDS_PPAGEADVANCED_COVER_SIZE_LIMIT 57418
 
 // Next default values for new objects
 //

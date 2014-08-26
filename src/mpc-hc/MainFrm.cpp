@@ -6423,7 +6423,6 @@ void CMainFrame::OnViewMinimal()
 
 void CMainFrame::OnUpdateViewMinimal(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(!(GetLoadState() == MLS::LOADED && m_fAudioOnly));
 }
 
 void CMainFrame::OnViewCompact()
@@ -9804,38 +9803,50 @@ CSize CMainFrame::GetZoomWindowSize(double dScale)
     if (dScale >= 0.0 && GetLoadState() == MLS::LOADED) {
         MINMAXINFO mmi;
         OnGetMinMaxInfo(&mmi);
+        CSize videoSize;
 
-        if (!m_fAudioOnly) {
-            CSize videoSize = GetVideoSize();
-            CSize clientTargetSize(int(videoSize.cx * dScale + 0.5), int(videoSize.cy * dScale + 0.5));
+        if (m_fAudioOnly) {
+            videoSize = m_wndView.GetLogoSize();
 
-            const bool bToolbarsOnVideo = m_controls.ToolbarsCoverVideo();
-            const bool bPanelsOnVideo = m_controls.PanelsCoverVideo();
-            if (!bPanelsOnVideo) {
-                unsigned uTop, uLeft, uRight, uBottom;
-                m_controls.GetDockZones(uTop, uLeft, uRight, uBottom);
-                if (bToolbarsOnVideo) {
-                    uBottom -= m_controls.GetToolbarsHeight();
+            if (videoSize.cx > videoSize.cy) {
+                if (videoSize.cx > s.nCoverArtSizeLimit) {
+                    videoSize.cy = MulDiv(videoSize.cy, s.nCoverArtSizeLimit, videoSize.cx);
+                    videoSize.cx = s.nCoverArtSizeLimit;
                 }
-                clientTargetSize.cx += uLeft + uRight;
-                clientTargetSize.cy += uTop + uBottom;
-            } else if (!bToolbarsOnVideo) {
-                clientTargetSize.cy += m_controls.GetToolbarsHeight();
-            }
-
-            CRect rect(CPoint(0, 0), clientTargetSize);
-            if (AdjustWindowRectEx(rect, GetWindowStyle(m_hWnd), s.eCaptionMenuMode == MODE_SHOWCAPTIONMENU,
-                                   GetWindowExStyle(m_hWnd))) {
-                ret.cx = std::max<long>(rect.Width(), mmi.ptMinTrackSize.x);
-                ret.cy = std::max<long>(rect.Height(), mmi.ptMinTrackSize.y);
             } else {
-                ASSERT(FALSE);
+                if (videoSize.cy > s.nCoverArtSizeLimit) {
+                    videoSize.cx = MulDiv(videoSize.cx, s.nCoverArtSizeLimit, videoSize.cy);
+                    videoSize.cy = s.nCoverArtSizeLimit;
+                }
             }
         } else {
-            CRect windowRect;
-            GetWindowRect(windowRect);
-            ret.cx = std::max<long>(windowRect.Width(), mmi.ptMinTrackSize.x);
-            ret.cy = mmi.ptMinTrackSize.y;
+            videoSize = GetVideoSize();
+        }
+
+
+        CSize clientTargetSize(int(videoSize.cx * dScale + 0.5), int(videoSize.cy * dScale + 0.5));
+
+        const bool bToolbarsOnVideo = m_controls.ToolbarsCoverVideo();
+        const bool bPanelsOnVideo = m_controls.PanelsCoverVideo();
+        if (!bPanelsOnVideo) {
+            unsigned uTop, uLeft, uRight, uBottom;
+            m_controls.GetDockZones(uTop, uLeft, uRight, uBottom);
+            if (bToolbarsOnVideo) {
+                uBottom -= m_controls.GetToolbarsHeight();
+            }
+            clientTargetSize.cx += uLeft + uRight;
+            clientTargetSize.cy += uTop + uBottom;
+        } else if (!bToolbarsOnVideo) {
+            clientTargetSize.cy += m_controls.GetToolbarsHeight();
+        }
+
+        CRect rect(CPoint(0, 0), clientTargetSize);
+        if (AdjustWindowRectEx(rect, GetWindowStyle(m_hWnd), s.eCaptionMenuMode == MODE_SHOWCAPTIONMENU,
+                               GetWindowExStyle(m_hWnd))) {
+            ret.cx = std::max<long>(rect.Width(), mmi.ptMinTrackSize.x);
+            ret.cy = std::max<long>(rect.Height(), mmi.ptMinTrackSize.y);
+        } else {
+            ASSERT(FALSE);
         }
 
         // don't go larger than the current monitor working area
@@ -9910,7 +9921,7 @@ void CMainFrame::ZoomVideoWindow(double dScale/* = ZOOM_DEFAULT_LEVEL*/)
 {
     const auto& s = AfxGetAppSettings();
 
-    if ((GetLoadState() != MLS::LOADED) || m_fAudioOnly ||
+    if ((GetLoadState() != MLS::LOADED) ||
             (m_nLockedZoomVideoWindow > 0) || m_bLockedZoomVideoWindow) {
         if (m_nLockedZoomVideoWindow > 0) {
             m_nLockedZoomVideoWindow--;

@@ -1285,6 +1285,38 @@ msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
 msgstr "Maximalt antal filer som visas i \"Senaste Filer\"-menyn och för vilka positionen eventuellt är sparad."
 
+msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
+msgid "Remember file position only for files longer than N minutes."
+msgstr "Kom bara ihåg filposition för filer längre än N minuter."
+
+msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
+msgid "Remember file position also for audio files."
+msgstr "Kom även ihåg filposition för ljudfiler."
+
+msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
+msgid "Do Nothing"
+msgstr "Gör Ingenting"
+
+msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
+msgid "Play next file in the folder"
+msgstr "Spela nästa fil i mappen"
+
+msgctxt "IDS_AFTER_PLAYBACK_REWIND"
+msgid "Rewind current file"
+msgstr "Spola tillbaka nuvarande fil"
+
+msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
+msgid "Close"
+msgstr "Stäng"
+
+msgctxt "IDS_AFTER_PLAYBACK_EXIT"
+msgid "Exit"
+msgstr "Avsluta"
+
+msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
+msgid "Turn off the monitor"
+msgstr "Stäng av bildskärmen"
+
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
 msgid "JPEG Image"
 msgstr "JPEG-bild"
@@ -1292,6 +1324,10 @@ msgstr "JPEG-bild"
 msgctxt "IDS_IMAGE_QUALITY"
 msgid "Quality (%):"
 msgstr "Kvalitet (%):"
+
+msgctxt "IDS_PPAGEADVANCED_COVER_SIZE_LIMIT"
+msgid "Maximum size (NxNpx) of a cover-art loaded in the audio only mode."
+msgstr ""
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -3468,36 +3504,4 @@ msgstr "&Kanaler"
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"
 msgstr "Inställningar"
-
-msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
-msgid "Remember file position only for files longer than N minutes."
-msgstr "Kom bara ihåg filposition för filer längre än N minuter."
-
-msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
-msgid "Remember file position also for audio files."
-msgstr "Kom även ihåg filposition för ljudfiler."
-
-msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
-msgid "Do Nothing"
-msgstr "Gör Ingenting"
-
-msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
-msgid "Play next file in the folder"
-msgstr "Spela nästa fil i mappen"
-
-msgctxt "IDS_AFTER_PLAYBACK_REWIND"
-msgid "Rewind current file"
-msgstr "Spola tillbaka nuvarande fil"
-
-msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
-msgid "Close"
-msgstr "Stäng"
-
-msgctxt "IDS_AFTER_PLAYBACK_EXIT"
-msgid "Exit"
-msgstr "Avsluta"
-
-msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
-msgid "Turn off the monitor"
-msgstr "Stäng av bildskärmen"
 

@@ -288,3 +288,5 @@
 #define IDS_RS_DEBUG_SHADERS_LASTVERSION    _T("LastVersion")
 #define IDS_RS_DEBUG_SHADERS_LASTFILE       _T("LastFile")
 #define IDS_RS_DEBUG_SHADERS_FIRSTRUN       _T("FirstRun")
+
+#define IDS_RS_COVER_ART_SIZE_LIMIT         _T("CoverArtSizeLimit")

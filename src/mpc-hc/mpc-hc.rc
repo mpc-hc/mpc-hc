@@ -323,7 +323,7 @@ BEGIN
     LTEXT           "Volume step:",IDC_STATIC,11,67,68,8
     EDITTEXT        IDC_VOLUMESTEP,81,64,35,14,ES_CENTER | ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_VOLUMESTEP_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,106,63,11,14
-    LTEXT           "%",IDC_STATIC,119,66,8,8	
+    LTEXT           "%",IDC_STATIC,119,66,8,8
     LTEXT           "Speed step:",IDC_STATIC,11,84,68,8
     EDITTEXT        IDC_SPEEDSTEP,81,81,35,14,ES_CENTER | ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_SPEEDSTEP_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,106,81,11,14
@@ -2575,8 +2575,20 @@ END
 
 STRINGTABLE
 BEGIN
+    IDS_PPAGEADVANCED_FILE_POS_LONGER 
+                            "Remember file position only for files longer than N minutes."
+    IDS_PPAGEADVANCED_FILE_POS_AUDIO 
+                            "Remember file position also for audio files."
+    IDS_AFTER_PLAYBACK_DO_NOTHING "Do Nothing"
+    IDS_AFTER_PLAYBACK_PLAY_NEXT "Play next file in the folder"
+    IDS_AFTER_PLAYBACK_REWIND "Rewind current file"
+    IDS_AFTER_PLAYBACK_CLOSE "Close"
+    IDS_AFTER_PLAYBACK_EXIT "Exit"
+    IDS_AFTER_PLAYBACK_MONITOROFF "Turn off the monitor"
     IDS_IMAGE_JPEG_QUALITY  "JPEG Image"
     IDS_IMAGE_QUALITY       "Quality (%):"
+    IDS_PPAGEADVANCED_COVER_SIZE_LIMIT 
+                            "Maximum size (NxNpx) of a cover-art loaded in the audio only mode."
 END
 
 STRINGTABLE
@@ -3353,20 +3365,6 @@ END
 STRINGTABLE
 BEGIN
     IDS_FILTER_SETTINGS_CAPTION "Settings"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_PPAGEADVANCED_FILE_POS_LONGER 
-                            "Remember file position only for files longer than N minutes."
-    IDS_PPAGEADVANCED_FILE_POS_AUDIO 
-                            "Remember file position also for audio files."
-    IDS_AFTER_PLAYBACK_DO_NOTHING "Do Nothing"
-    IDS_AFTER_PLAYBACK_PLAY_NEXT "Play next file in the folder"
-    IDS_AFTER_PLAYBACK_REWIND "Rewind current file"
-    IDS_AFTER_PLAYBACK_CLOSE "Close"
-    IDS_AFTER_PLAYBACK_EXIT "Exit"
-    IDS_AFTER_PLAYBACK_MONITOROFF "Turn off the monitor"
 END
 
 #endif    // English (United States) resources

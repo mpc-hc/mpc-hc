@@ -1286,6 +1286,38 @@ msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
 msgstr "\"历史文件\" 菜单中最多保存的文件数量。它们的位置也可能被储存。"
 
+msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
+msgid "Remember file position only for files longer than N minutes."
+msgstr "仅针对长于N分钟的文件记忆播放位置。"
+
+msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
+msgid "Remember file position also for audio files."
+msgstr "对音频文件也记忆播放位置。"
+
+msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
+msgid "Do Nothing"
+msgstr "什么也不做"
+
+msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
+msgid "Play next file in the folder"
+msgstr "播放文件夹中的下一个文件"
+
+msgctxt "IDS_AFTER_PLAYBACK_REWIND"
+msgid "Rewind current file"
+msgstr "返回当前文件"
+
+msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
+msgid "Close"
+msgstr "关闭"
+
+msgctxt "IDS_AFTER_PLAYBACK_EXIT"
+msgid "Exit"
+msgstr "退出"
+
+msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
+msgid "Turn off the monitor"
+msgstr "关闭显示器"
+
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
 msgid "JPEG Image"
 msgstr "JPEG 图像"
@@ -1293,6 +1325,10 @@ msgstr "JPEG 图像"
 msgctxt "IDS_IMAGE_QUALITY"
 msgid "Quality (%):"
 msgstr "质量 (%):"
+
+msgctxt "IDS_PPAGEADVANCED_COVER_SIZE_LIMIT"
+msgid "Maximum size (NxNpx) of a cover-art loaded in the audio only mode."
+msgstr ""
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -3469,36 +3505,4 @@ msgstr "频道(&C)"
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"
 msgstr "设置"
-
-msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
-msgid "Remember file position only for files longer than N minutes."
-msgstr "仅针对长于N分钟的文件记忆播放位置。"
-
-msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
-msgid "Remember file position also for audio files."
-msgstr "对音频文件也记忆播放位置。"
-
-msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
-msgid "Do Nothing"
-msgstr "什么也不做"
-
-msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
-msgid "Play next file in the folder"
-msgstr "播放文件夹中的下一个文件"
-
-msgctxt "IDS_AFTER_PLAYBACK_REWIND"
-msgid "Rewind current file"
-msgstr "返回当前文件"
-
-msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
-msgid "Close"
-msgstr "关闭"
-
-msgctxt "IDS_AFTER_PLAYBACK_EXIT"
-msgid "Exit"
-msgstr "退出"
-
-msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
-msgid "Turn off the monitor"
-msgstr "关闭显示器"
 

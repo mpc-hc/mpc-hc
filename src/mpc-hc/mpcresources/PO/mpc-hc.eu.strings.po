@@ -1284,6 +1284,38 @@ msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
 msgstr "\"Azken agiriak\" menuan erakusten diren eta kokapena potentzialki gordetzen den gehienezko agiri zenbatekoa."
 
+msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
+msgid "Remember file position only for files longer than N minutes."
+msgstr "Gogoratu agiriaren kokapena N minutu baino luzeagoak diren agirientzat bakarrik."
+
+msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
+msgid "Remember file position also for audio files."
+msgstr "Gogoratu agiriaren kokapena audio agirientzat ere."
+
+msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
+msgid "Do Nothing"
+msgstr "Ez Egin Ezer"
+
+msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
+msgid "Play next file in the folder"
+msgstr "Irakurri agiritegiko hurrengo agiria"
+
+msgctxt "IDS_AFTER_PLAYBACK_REWIND"
+msgid "Rewind current file"
+msgstr "Atzerabildu uneko agiria"
+
+msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
+msgid "Close"
+msgstr "Itxi"
+
+msgctxt "IDS_AFTER_PLAYBACK_EXIT"
+msgid "Exit"
+msgstr "Irten"
+
+msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
+msgid "Turn off the monitor"
+msgstr "Itzali monitorea"
+
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
 msgid "JPEG Image"
 msgstr "JPEG Irudia"
@@ -1291,6 +1323,10 @@ msgstr "JPEG Irudia"
 msgctxt "IDS_IMAGE_QUALITY"
 msgid "Quality (%):"
 msgstr "Ontasuna (%):"
+
+msgctxt "IDS_PPAGEADVANCED_COVER_SIZE_LIMIT"
+msgid "Maximum size (NxNpx) of a cover-art loaded in the audio only mode."
+msgstr ""
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -3467,36 +3503,4 @@ msgstr "&Bideak"
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"
 msgstr "Ezarpenak"
-
-msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
-msgid "Remember file position only for files longer than N minutes."
-msgstr "Gogoratu agiriaren kokapena N minutu baino luzeagoak diren agirientzat bakarrik."
-
-msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
-msgid "Remember file position also for audio files."
-msgstr "Gogoratu agiriaren kokapena audio agirientzat ere."
-
-msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
-msgid "Do Nothing"
-msgstr "Ez Egin Ezer"
-
-msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
-msgid "Play next file in the folder"
-msgstr "Irakurri agiritegiko hurrengo agiria"
-
-msgctxt "IDS_AFTER_PLAYBACK_REWIND"
-msgid "Rewind current file"
-msgstr "Atzerabildu uneko agiria"
-
-msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
-msgid "Close"
-msgstr "Itxi"
-
-msgctxt "IDS_AFTER_PLAYBACK_EXIT"
-msgid "Exit"
-msgstr "Irten"
-
-msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
-msgid "Turn off the monitor"
-msgstr "Itzali monitorea"
 

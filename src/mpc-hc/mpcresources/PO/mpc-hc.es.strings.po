@@ -1291,6 +1291,38 @@ msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
 msgstr "Cantidad máxima de archivos almacenados y mostrados en el menú «Archivos recientes»."
 
+msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
+msgid "Remember file position only for files longer than N minutes."
+msgstr "Recordar posición del archivo solo para archivos mayores que N minutos."
+
+msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
+msgid "Remember file position also for audio files."
+msgstr "Recordar también la posición de los archivos de audio."
+
+msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
+msgid "Do Nothing"
+msgstr "No hacer nada"
+
+msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
+msgid "Play next file in the folder"
+msgstr "Reproducir el próximo archivo de la carpeta"
+
+msgctxt "IDS_AFTER_PLAYBACK_REWIND"
+msgid "Rewind current file"
+msgstr "Rebobinar el archivo actual"
+
+msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
+msgid "Close"
+msgstr "Cerrar"
+
+msgctxt "IDS_AFTER_PLAYBACK_EXIT"
+msgid "Exit"
+msgstr "Salir"
+
+msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
+msgid "Turn off the monitor"
+msgstr "Apagar el monitor"
+
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
 msgid "JPEG Image"
 msgstr "Imagen JPEG"
@@ -1298,6 +1330,10 @@ msgstr "Imagen JPEG"
 msgctxt "IDS_IMAGE_QUALITY"
 msgid "Quality (%):"
 msgstr "Calidad (%):"
+
+msgctxt "IDS_PPAGEADVANCED_COVER_SIZE_LIMIT"
+msgid "Maximum size (NxNpx) of a cover-art loaded in the audio only mode."
+msgstr ""
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -3474,36 +3510,4 @@ msgstr "&Canales"
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"
 msgstr "Configuración"
-
-msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
-msgid "Remember file position only for files longer than N minutes."
-msgstr "Recordar posición del archivo solo para archivos mayores que N minutos."
-
-msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
-msgid "Remember file position also for audio files."
-msgstr "Recordar también la posición de los archivos de audio."
-
-msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
-msgid "Do Nothing"
-msgstr "No hacer nada"
-
-msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
-msgid "Play next file in the folder"
-msgstr "Reproducir el próximo archivo de la carpeta"
-
-msgctxt "IDS_AFTER_PLAYBACK_REWIND"
-msgid "Rewind current file"
-msgstr "Rebobinar el archivo actual"
-
-msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
-msgid "Close"
-msgstr "Cerrar"
-
-msgctxt "IDS_AFTER_PLAYBACK_EXIT"
-msgid "Exit"
-msgstr "Salir"
-
-msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
-msgid "Turn off the monitor"
-msgstr "Apagar el monitor"
 

@@ -142,7 +142,8 @@ private:
         BLOCK_VSFILTER,
         RECENT_FILES_NB,
         FILE_POS_LONGER,
-        FILE_POS_AUDIO
+        FILE_POS_AUDIO,
+        COVER_SIZE_LIMIT
     };
 
     enum {

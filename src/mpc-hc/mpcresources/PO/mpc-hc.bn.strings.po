@@ -1285,6 +1285,38 @@ msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
 msgstr "\"সাম্প্রতিক ফাইলসমূহ\" মেন্যুতে সর্বোচ্চ যতটি ফাইল প্রদর্শন করা হবে এবং যেগুলোর অবস্থানকাল সম্ভাব্যরূপে স্মৃতিতে সংরক্ষিত হবে।"
 
+msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
+msgid "Remember file position only for files longer than N minutes."
+msgstr "ফাইলসমূহ N মিনিট থেকে দীর্ঘ হলেই শুধুমাত্র ফাইলের অবস্থানকাল স্মৃতিতে সংরক্ষণ।"
+
+msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
+msgid "Remember file position also for audio files."
+msgstr "অডিও ফাইলসমূহের জন্যও ফাইলের অবস্থানকাল স্মৃতিতে সংরক্ষণ।"
+
+msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
+msgid "Do Nothing"
+msgstr "কিছুই না করা"
+
+msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
+msgid "Play next file in the folder"
+msgstr "ফোল্ডারে থাকা পরবর্তী ফাইলটি চালনা"
+
+msgctxt "IDS_AFTER_PLAYBACK_REWIND"
+msgid "Rewind current file"
+msgstr "চলতি ফাইলটি পুনরায় চালনা"
+
+msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
+msgid "Close"
+msgstr "বন্ধ করি"
+
+msgctxt "IDS_AFTER_PLAYBACK_EXIT"
+msgid "Exit"
+msgstr "প্রোগ্রাম বন্ধ করি"
+
+msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
+msgid "Turn off the monitor"
+msgstr "মনিটর বন্ধ করি"
+
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
 msgid "JPEG Image"
 msgstr "JPEG ছবি"
@@ -1292,6 +1324,10 @@ msgstr "JPEG ছবি"
 msgctxt "IDS_IMAGE_QUALITY"
 msgid "Quality (%):"
 msgstr "বৈশিষ্ট্যগুণ (%):"
+
+msgctxt "IDS_PPAGEADVANCED_COVER_SIZE_LIMIT"
+msgid "Maximum size (NxNpx) of a cover-art loaded in the audio only mode."
+msgstr ""
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -3468,36 +3504,4 @@ msgstr "চ্যানেলসমূহ(&C)"
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"
 msgstr "সেটিংসমূহ"
-
-msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
-msgid "Remember file position only for files longer than N minutes."
-msgstr "ফাইলসমূহ N মিনিট থেকে দীর্ঘ হলেই শুধুমাত্র ফাইলের অবস্থানকাল স্মৃতিতে সংরক্ষণ।"
-
-msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
-msgid "Remember file position also for audio files."
-msgstr "অডিও ফাইলসমূহের জন্যও ফাইলের অবস্থানকাল স্মৃতিতে সংরক্ষণ।"
-
-msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
-msgid "Do Nothing"
-msgstr "কিছুই না করা"
-
-msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
-msgid "Play next file in the folder"
-msgstr "ফোল্ডারে থাকা পরবর্তী ফাইলটি চালনা"
-
-msgctxt "IDS_AFTER_PLAYBACK_REWIND"
-msgid "Rewind current file"
-msgstr "চলতি ফাইলটি পুনরায় চালনা"
-
-msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
-msgid "Close"
-msgstr "বন্ধ করি"
-
-msgctxt "IDS_AFTER_PLAYBACK_EXIT"
-msgid "Exit"
-msgstr "প্রোগ্রাম বন্ধ করি"
-
-msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
-msgid "Turn off the monitor"
-msgstr "মনিটর বন্ধ করি"
 

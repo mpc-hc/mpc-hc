@@ -669,6 +669,8 @@ public:
 
     int             nJpegQuality;
 
+    int             nCoverArtSizeLimit;
+
     bool            IsD3DFullscreen() const;
     CString         SelectedAudioRenderer() const;
     bool            IsISRAutoLoadEnabled() const;
