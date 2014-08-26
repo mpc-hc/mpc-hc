@@ -1065,21 +1065,22 @@ void CPlayerPlaylistBar::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruc
     int nItem = lpDrawItemStruct->itemID;
     CRect rcItem = lpDrawItemStruct->rcItem;
     POSITION pos = FindPos(nItem);
-    bool fSelected = pos == m_pl.GetPos();
     CPlaylistItem& pli = m_pl.GetAt(pos);
 
     CDC* pDC = CDC::FromHandle(lpDrawItemStruct->hDC);
 
+    COLORREF textcolor;
     if (!!m_list.GetItemState(nItem, LVIS_SELECTED)) {
-		FillRect(pDC->m_hDC, rcItem, (HBRUSH)(COLOR_HIGHLIGHT+1));
-		FrameRect(pDC->m_hDC, rcItem, (HBRUSH)(COLOR_ACTIVEBORDER + 1));
+        FillRect(pDC->m_hDC, rcItem, (HBRUSH)(COLOR_HIGHLIGHT + 1));
+        FrameRect(pDC->m_hDC, rcItem, (HBRUSH)(COLOR_ACTIVEBORDER + 1));
+        textcolor = GetSysColor(COLOR_HIGHLIGHTTEXT);
     } else {
-		FillRect(pDC->m_hDC, rcItem, (HBRUSH)(COLOR_WINDOW + 1));
+        FillRect(pDC->m_hDC, rcItem, (HBRUSH)(COLOR_WINDOW + 1));
+        textcolor = GetSysColor(COLOR_WINDOWTEXT);
     }
 
-	COLORREF textcolor = fSelected ? GetSysColor(COLOR_HIGHLIGHTTEXT) : GetSysColor(COLOR_WINDOWTEXT);
     if (pli.m_fInvalid) {
-		textcolor = GetSysColor(COLOR_GRAYTEXT);
+        textcolor = GetSysColor(COLOR_GRAYTEXT);
     }
 
     CString time = !pli.m_fInvalid ? m_list.GetItemText(nItem, COL_TIME) : _T("Invalid");
