@@ -839,7 +839,7 @@ bool CPlayerPlaylistBar::DeleteFileInPlaylist(POSITION pos, bool recycle)
         if (m_pl.GetCount() > 1) {
             pMainFrm->OnNavigateSkipFile(ID_NAVIGATE_SKIPFORWARDFILE);
         } else {
-            pMainFrm->CloseMedia();
+            pMainFrm->SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
         }
     }
 
@@ -963,7 +963,7 @@ void CPlayerPlaylistBar::OnLvnKeyDown(NMHDR* pNMHDR, LRESULT* pResult)
         while (pos) {
             int i = items.GetNext(pos);
             if (m_pl.RemoveAt(FindPos(i))) {
-                ((CMainFrame*)AfxGetMainWnd())->CloseMedia();
+                AfxGetMainWnd()->SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
             }
             m_list.DeleteItem(i);
         }
@@ -1435,7 +1435,7 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
             break;
         case M_REMOVE:
             if (m_pl.RemoveAt(pos)) {
-                pMainFrm->CloseMedia();
+                pMainFrm->SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
             }
             m_list.DeleteItem(lvhti.iItem);
             SavePlaylist();
@@ -1445,7 +1445,7 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
             break;
         case M_CLEAR:
             if (Empty()) {
-                pMainFrm->CloseMedia();
+                pMainFrm->SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
             }
             break;
         case M_SORTBYID:
