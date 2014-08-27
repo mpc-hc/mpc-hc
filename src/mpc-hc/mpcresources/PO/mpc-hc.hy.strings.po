@@ -105,8 +105,8 @@ msgid "Signal"
 msgstr "Ազդանշանը"
 
 msgctxt "IDS_STATSBAR_SIGNAL_FORMAT"
-msgid "Strength: %d dB, Quality: %d%%"
-msgstr "Հզոր-ը. %d dB, Որակը. %d%%"
+msgid "Strength: %d dB, Quality: %ld%%"
+msgstr "Հզոր-ը. %d dB, Որակը. %ld%%"
 
 msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
 msgid "Styles"
@@ -1977,15 +1977,15 @@ msgid "Buffers"
 msgstr "Բուֆերներ"
 
 msgctxt "IDS_MAINFRM_9"
-msgid "Volume: %02d/%02d, Title: %02d/%02d, Chapter: %02d/%02d"
-msgstr "Հատորը. %02d/%02d, Անունը. %02d/%02d, Գլուխը. %02d/%02d"
+msgid "Volume: %02lu/%02lu, Title: %02lu/%02lu, Chapter: %02lu/%02lu"
+msgstr "Հատորը. %02lu/%02lu, Անունը. %02lu/%02lu, Գլուխը. %02lu/%02lu"
 
 msgctxt "IDS_MAINFRM_10"
-msgid "Angle: %02d/%02d, %dx%d %dHz %d:%d"
-msgstr "Անկյունը. %02d/%02d, %dx%d %dHz %d:%d"
+msgid "Angle: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
+msgstr "Անկյունը. %02lu/%02lu, %lux%lu %luHz %lu:%lu"
 
 msgctxt "IDS_MAINFRM_11"
-msgid "%s, %s %dHz %dbits %d %s"
+msgid "%s, %s %uHz %dbits %d %s"
 msgstr ""
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
@@ -2013,8 +2013,8 @@ msgid "channels"
 msgstr "ալիքներ"
 
 msgctxt "IDS_AG_TITLE"
-msgid "Title %d"
-msgstr "%d-ի անունը"
+msgid "Title %u"
+msgstr "%u-ի անունը"
 
 msgctxt "IDS_MAINFRM_16"
 msgid "DVD: Unexpected error"
@@ -2089,8 +2089,8 @@ msgid "Aspect Ratio"
 msgstr "Համամասնություններ"
 
 msgctxt "IDS_MAINFRM_37"
-msgid ", Total: %d, Dropped: %d"
-msgstr ", Ընդամենը. %d, կորսվել է. %d"
+msgid ", Total: %ld, Dropped: %ld"
+msgstr ", Ընդամենը. %ld, կորսվել է. %ld"
 
 msgctxt "IDS_MAINFRM_38"
 msgid ", Size: %I64dKB"
@@ -2185,8 +2185,8 @@ msgid "Subtitle files"
 msgstr ""
 
 msgctxt "IDS_MAINFRM_68"
-msgid "Aspect Ratio: %d:%d"
-msgstr "Համամասնություններ. %d:%d"
+msgid "Aspect Ratio: %ld:%ld"
+msgstr "Համամասնություններ. %ld:%ld"
 
 msgctxt "IDS_MAINFRM_69"
 msgid "Aspect Ratio: Default"
@@ -2257,8 +2257,8 @@ msgid "MPC-HC terminated unexpectedly. To help us fix this problem, please send 
 msgstr "MPC-HC-ն անսպասելի փակվեց։ Այս խնդիրը լուծելու համար ուղարկեք \"%s\" ֆայլը սխալների շտեմարան։\n\nԲացե՞լ սխալի ֆայլը պարունակող թղթապանակը և այցելե՞լ սխալների շտեմարան հենց հիմա։"
 
 msgctxt "IDS_MPC_MINIDUMP_FAIL"
-msgid "Failed to create dump file to \"%s\" (error %d)"
-msgstr "Սխալ՝ '%s' dump ֆայլը ստեղծելիս (սխալ %d)"
+msgid "Failed to create dump file to \"%s\" (error %u)"
+msgstr "Սխալ՝ '%s' dump ֆայլը ստեղծելիս (սխալ %u)"
 
 msgctxt "IDS_MAINFRM_DIR_TITLE"
 msgid "Select Directory"
@@ -2369,8 +2369,8 @@ msgid "Unknown Stream"
 msgstr "Անհայտ հոսք"
 
 msgctxt "IDS_AG_UNKNOWN"
-msgid "Unknown %d"
-msgstr "Անհայտ %d"
+msgid "Unknown %u"
+msgstr "Անհայտ %u"
 
 msgctxt "IDS_AG_VSYNC"
 msgid "VSync"
@@ -2389,8 +2389,8 @@ msgid "Enable DVD subtitles"
 msgstr ""
 
 msgctxt "IDS_AG_ANGLE"
-msgid "Angle %d"
-msgstr "Անկյուն %d"
+msgid "Angle %u"
+msgstr "Անկյուն %u"
 
 msgctxt "IDS_AG_VSYNCOFFSET_INCREASE"
 msgid "Increase VSync Offset"
