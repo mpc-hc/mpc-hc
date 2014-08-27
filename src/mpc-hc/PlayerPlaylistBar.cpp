@@ -1083,22 +1083,23 @@ void CPlayerPlaylistBar::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruc
     int nItem = lpDrawItemStruct->itemID;
     CRect rcItem = lpDrawItemStruct->rcItem;
     POSITION pos = FindPos(nItem);
-    bool fSelected = pos == m_pl.GetPos();
     CPlaylistItem& pli = m_pl.GetAt(pos);
 
     CDC* pDC = CDC::FromHandle(lpDrawItemStruct->hDC);
 
+    COLORREF textcolor;
     if (!!m_list.GetItemState(nItem, LVIS_SELECTED)) {
-        FillRect(pDC->m_hDC, rcItem, CBrush(0xf1dacc));
-        FrameRect(pDC->m_hDC, rcItem, CBrush(0xc56a31));
+        FillRect(pDC->m_hDC, rcItem, (HBRUSH)(COLOR_HIGHLIGHT + 1));
+        FrameRect(pDC->m_hDC, rcItem, (HBRUSH)(COLOR_ACTIVEBORDER + 1));
+        textcolor = GetSysColor(COLOR_HIGHLIGHTTEXT);
     }
     else {
-        FillRect(pDC->m_hDC, rcItem, CBrush(GetSysColor(COLOR_WINDOW)));
+        FillRect(pDC->m_hDC, rcItem, (HBRUSH)(COLOR_WINDOW + 1));
+        textcolor = pos == m_pl.GetPos() ? GetSysColor(COLOR_HOTLIGHT) : GetSysColor(COLOR_WINDOWTEXT);
     }
 
-    COLORREF textcolor = fSelected ? 0xff : 0;
     if (pli.m_fInvalid) {
-        textcolor |= 0xA0A0A0;
+        textcolor = GetSysColor(COLOR_GRAYTEXT);
     }
 
     CString time = !pli.m_fInvalid ? m_list.GetItemText(nItem, COL_TIME) : _T("Invalid");
@@ -1127,52 +1128,6 @@ void CPlayerPlaylistBar::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruc
         pDC->SetTextColor(textcolor);
         pDC->TextOut(rcItem.left + 3, (rcItem.top + rcItem.bottom - filesize.cy) / 2, file);
     }
-}
-
-BOOL CPlayerPlaylistBar::OnPlayPlay(UINT nID)
-{
-    m_list.Invalidate();
-    return FALSE;
-}
-
-void CPlayerPlaylistBar::OnDropFiles(HDROP hDropInfo)
-{
-    SetForegroundWindow();
-    m_list.SetFocus();
-
-    CAtlList<CString> sl;
-
-    UINT nFiles = ::DragQueryFile(hDropInfo, UINT_MAX, nullptr, 0);
-    for (UINT iFile = 0; iFile < nFiles; iFile++) {
-        TCHAR szFileName[MAX_PATH];
-        ::DragQueryFile(hDropInfo, iFile, szFileName, MAX_PATH);
-        sl.AddTail(szFileName);
-    }
-    ::DragFinish(hDropInfo);
-
-    m_pMainFrame->ParseDirs(sl);
-
-    Append(sl, true);
-}
-
-void CPlayerPlaylistBar::OnBeginDrag(NMHDR* pNMHDR, LRESULT* pResult)
-{
-    ModifyStyle(WS_EX_ACCEPTFILES, 0);
-
-    m_nDragIndex = ((LPNMLISTVIEW)pNMHDR)->iItem;
-
-    CPoint p(0, 0);
-    m_pDragImage = m_list.CreateDragImageEx(&p);
-
-    CPoint p2 = ((LPNMLISTVIEW)pNMHDR)->ptAction;
-
-    m_pDragImage->BeginDrag(0, p2 - p);
-    m_pDragImage->DragEnter(GetDesktopWindow(), ((LPNMLISTVIEW)pNMHDR)->ptAction);
-
-    m_bDragging = TRUE;
-    m_nDropIndex = -1;
-
-    SetCapture();
 }
 
 void CPlayerPlaylistBar::OnMouseMove(UINT nFlags, CPoint point)
