@@ -357,9 +357,7 @@ void CVMROSD::Invalidate()
         m_pMFVMB->SetAlphaBitmap(&m_MFVideoAlphaBitmap);
     }
 
-    if (m_pMainFrame->GetMediaState() == State_Paused) {
-        m_pMainFrame->RepaintVideo();
-    }
+    m_pMainFrame->RepaintVideo();
 }
 
 void CVMROSD::UpdateSeekBarPos(CPoint point)
@@ -505,9 +503,7 @@ void CVMROSD::ClearMessage(bool hide)
         m_pMVTO->OsdClearMessage();
     }
 
-    if (m_pMainFrame->GetMediaState() == State_Paused) {
-        m_pMainFrame->RepaintVideo();
-    }
+    m_pMainFrame->RepaintVideo();
 }
 
 void CVMROSD::DisplayMessage(OSD_MESSAGEPOS nPos, LPCTSTR strMsg, int nDuration, int iFontSize, CString fontName)

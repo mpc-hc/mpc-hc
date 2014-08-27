@@ -2212,10 +2212,13 @@ void CMainFrame::DoAfterPlaybackEvent()
 {
     CAppSettings& s = AfxGetAppSettings();
     bool bExitFullScreen = false;
+    bool bNoMoreMedia = false;
 
     if (s.nCLSwitches & CLSW_CLOSE) {
         SendMessage(WM_COMMAND, ID_FILE_EXIT);
     } else if (s.nCLSwitches & CLSW_MONITOROFF) {
+        m_fEndOfStream = true;
+        bExitFullScreen = true;
         SetThreadExecutionState(ES_CONTINUOUS);
         SendMessage(WM_SYSCOMMAND, SC_MONITORPOWER, 2);
     } else if (s.nCLSwitches & CLSW_STANDBY) {
@@ -2235,14 +2238,16 @@ void CMainFrame::DoAfterPlaybackEvent()
         ExitWindowsEx(EWX_LOGOFF | EWX_FORCEIFHUNG, 0);
         SendMessage(WM_COMMAND, ID_FILE_EXIT);
     } else if (s.nCLSwitches & CLSW_LOCK) {
+        m_fEndOfStream = true;
         bExitFullScreen = true;
         LockWorkStation();
     } else {
         switch (s.eAfterPlayback) {
             case CAppSettings::AfterPlayback::PLAY_NEXT:
                 if (!SearchInDir(true)) {
+                    m_fEndOfStream = true;
                     bExitFullScreen = true;
-                    m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_NO_MORE_MEDIA));
+                    bNoMoreMedia = true;
                 }
                 break;
             case CAppSettings::AfterPlayback::REWIND:
@@ -2255,6 +2260,8 @@ void CMainFrame::DoAfterPlaybackEvent()
                 }
                 break;
             case CAppSettings::AfterPlayback::MONITOROFF:
+                m_fEndOfStream = true;
+                bExitFullScreen = true;
                 SetThreadExecutionState(ES_CONTINUOUS);
                 SendMessage(WM_SYSCOMMAND, SC_MONITORPOWER, 2);
                 break;
@@ -2267,8 +2274,16 @@ void CMainFrame::DoAfterPlaybackEvent()
             default:
                 m_fEndOfStream = true;
                 bExitFullScreen = true;
-                SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
                 break;
+        }
+    }
+
+    if (m_fEndOfStream) {
+        m_OSD.EnableShowMessage(false);
+        SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
+        m_OSD.EnableShowMessage();
+        if (bNoMoreMedia) {
+            m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_NO_MORE_MEDIA));
         }
     }
 
@@ -5398,9 +5413,7 @@ void CMainFrame::OnViewDisplayStatsSC()
         if (AfxGetMyApp()->m_Renderers.m_iDisplayStats > 3) {
             AfxGetMyApp()->m_Renderers.m_iDisplayStats = 0;
         }
-        if (GetMediaState() == State_Paused) {
-            RepaintVideo();
-        }
+        RepaintVideo();
     }
 }
 
@@ -10032,8 +10045,12 @@ double CMainFrame::GetZoomAutoFitScale(bool bLargerOnly)
 
 void CMainFrame::RepaintVideo()
 {
-    if (!m_bDelaySetOutputRect && m_pCAP) {
-        m_pCAP->Paint(false);
+    if (!m_bDelaySetOutputRect && GetMediaState() != State_Running) {
+        if (m_pCAP) {
+            m_pCAP->Paint(false);
+        } else if (m_pMFVDC) {
+            m_pMFVDC->RepaintVideo();
+        }
     }
 }
 
