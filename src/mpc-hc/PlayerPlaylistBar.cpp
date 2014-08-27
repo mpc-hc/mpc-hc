@@ -1129,6 +1129,51 @@ void CPlayerPlaylistBar::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruc
         pDC->TextOut(rcItem.left + 3, (rcItem.top + rcItem.bottom - filesize.cy) / 2, file);
     }
 }
+BOOL CPlayerPlaylistBar::OnPlayPlay(UINT nID)
+{
+    m_list.Invalidate();
+    return FALSE;
+}
+
+void CPlayerPlaylistBar::OnDropFiles(HDROP hDropInfo)
+{
+    SetForegroundWindow();
+    m_list.SetFocus();
+
+    CAtlList<CString> sl;
+
+    UINT nFiles = ::DragQueryFile(hDropInfo, UINT_MAX, nullptr, 0);
+    for (UINT iFile = 0; iFile < nFiles; iFile++) {
+        TCHAR szFileName[MAX_PATH];
+        ::DragQueryFile(hDropInfo, iFile, szFileName, MAX_PATH);
+        sl.AddTail(szFileName);
+    }
+    ::DragFinish(hDropInfo);
+
+    m_pMainFrame->ParseDirs(sl);
+
+    Append(sl, true);
+}
+
+void CPlayerPlaylistBar::OnBeginDrag(NMHDR* pNMHDR, LRESULT* pResult)
+{
+    ModifyStyle(WS_EX_ACCEPTFILES, 0);
+
+    m_nDragIndex = ((LPNMLISTVIEW)pNMHDR)->iItem;
+
+    CPoint p(0, 0);
+    m_pDragImage = m_list.CreateDragImageEx(&p);
+
+    CPoint p2 = ((LPNMLISTVIEW)pNMHDR)->ptAction;
+
+    m_pDragImage->BeginDrag(0, p2 - p);
+    m_pDragImage->DragEnter(GetDesktopWindow(), ((LPNMLISTVIEW)pNMHDR)->ptAction);
+
+    m_bDragging = TRUE;
+    m_nDropIndex = -1;
+
+    SetCapture();
+}
 
 void CPlayerPlaylistBar::OnMouseMove(UINT nFlags, CPoint point)
 {
