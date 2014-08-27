@@ -1074,7 +1074,8 @@ void CPlayerPlaylistBar::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruc
         FillRect(pDC->m_hDC, rcItem, (HBRUSH)(COLOR_HIGHLIGHT + 1));
         FrameRect(pDC->m_hDC, rcItem, (HBRUSH)(COLOR_ACTIVEBORDER + 1));
         textcolor = GetSysColor(COLOR_HIGHLIGHTTEXT);
-    } else {
+    }
+    else {
         FillRect(pDC->m_hDC, rcItem, (HBRUSH)(COLOR_WINDOW + 1));
         textcolor = pos == m_pl.GetPos() ? GetSysColor(COLOR_HOTLIGHT) : GetSysColor(COLOR_WINDOWTEXT);
     }
