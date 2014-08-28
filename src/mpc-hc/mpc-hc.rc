@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English (United States) resources
+// Anglais (États-Unis) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
@@ -323,7 +323,7 @@ BEGIN
     LTEXT           "Volume step:",IDC_STATIC,11,67,68,8
     EDITTEXT        IDC_VOLUMESTEP,81,64,35,14,ES_CENTER | ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_VOLUMESTEP_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,106,63,11,14
-    LTEXT           "%",IDC_STATIC,119,66,8,8	
+    LTEXT           "%",IDC_STATIC,119,66,8,8
     LTEXT           "Speed step:",IDC_STATIC,11,84,68,8
     EDITTEXT        IDC_SPEEDSTEP,81,81,35,14,ES_CENTER | ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_SPEEDSTEP_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,106,81,11,14
@@ -1029,7 +1029,7 @@ BEGIN
     PUSHBUTTON      "&Ignore this update",IDC_UPDATE_IGNORE_BUTTON,202,40,90,14
 END
 
-IDD_PPAGESHADERS DIALOGEX 0, 0, 296, 241
+IDD_PPAGESHADERS DIALOGEX 0, 0, 299, 279
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
@@ -1054,6 +1054,9 @@ BEGIN
     PUSHBUTTON      "",IDC_BUTTON9,274,164,14,14,BS_BITMAP | BS_FLAT
     PUSHBUTTON      "",IDC_BUTTON10,274,180,14,14,BS_BITMAP | BS_FLAT
     PUSHBUTTON      "",IDC_BUTTON11,274,196,14,14,BS_BITMAP | BS_FLAT
+    GROUPBOX        "Shaders system-wide includes directory",IDC_STATIC,4,239,288,33
+    EDITTEXT        IDC_EDIT2,10,252,223,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Browse...",IDC_BUTTON14,237,252,50,14
 END
 
 IDD_DEBUGSHADERS_DLG DIALOGEX 0, 0, 373, 290
@@ -1102,6 +1105,10 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO
 BEGIN
+    IDD_SELECTMEDIATYPE, DIALOG
+    BEGIN
+    END
+
     IDD_CAPTURE_DLG, DIALOG
     BEGIN
         VERTGUIDE, 10
@@ -1129,6 +1136,18 @@ BEGIN
     BEGIN
         VERTGUIDE, 30
         VERTGUIDE, 130
+    END
+
+    IDD_PLAYERSTATUSBAR, DIALOG
+    BEGIN
+    END
+
+    IDD_PLAYERSEEKBAR, DIALOG
+    BEGIN
+    END
+
+    IDD_PLAYERINFOBAR, DIALOG
+    BEGIN
     END
 
     IDD_PPAGEPLAYER, DIALOG
@@ -1182,6 +1201,10 @@ BEGIN
         VERTGUIDE, 62
     END
 
+    IDD_FILEMEDIAINFO, DIALOG
+    BEGIN
+    END
+
     IDD_FAVADD, DIALOG
     BEGIN
         VERTGUIDE, 10
@@ -1190,6 +1213,30 @@ BEGIN
     IDD_FAVORGANIZE, DIALOG
     BEGIN
         VERTGUIDE, 214
+    END
+
+    IDD_PNSPRESET_DLG, DIALOG
+    BEGIN
+    END
+
+    IDD_PPAGEACCELTBL, DIALOG
+    BEGIN
+    END
+
+    IDD_MEDIATYPES_DLG, DIALOG
+    BEGIN
+    END
+
+    IDD_SAVE_DLG, DIALOG
+    BEGIN
+    END
+
+    IDD_SAVETEXTFILEDIALOGTEMPL, DIALOG
+    BEGIN
+    END
+
+    IDD_SAVESUBTITLESFILEDIALOGTEMPL, DIALOG
+    BEGIN
     END
 
     IDD_SAVETHUMBSDIALOGTEMPL, DIALOG
@@ -1201,10 +1248,22 @@ BEGIN
         HORZGUIDE, 26
     END
 
+    IDD_COMPROPERTYPAGE, DIALOG
+    BEGIN
+    END
+
+    IDD_ADDREGFILTER, DIALOG
+    BEGIN
+    END
+
     IDD_PPAGESUBSTYLE, DIALOG
     BEGIN
         VERTGUIDE, 10
         VERTGUIDE, 119
+    END
+
+    IDD_PPAGEINTERNALFILTERS, DIALOG
+    BEGIN
     END
 
     IDD_PPAGELOGO, DIALOG
@@ -1224,10 +1283,22 @@ BEGIN
     BEGIN
     END
 
+    IDD_SUBTITLEDL_DLG, DIALOG
+    BEGIN
+    END
+
+    IDD_FILEPROPRES, DIALOG
+    BEGIN
+    END
+
     IDD_PPAGEMISC, DIALOG
     BEGIN
         VERTGUIDE, 10
         VERTGUIDE, 69
+    END
+
+    IDD_TUNER_SCAN, DIALOG
+    BEGIN
     END
 
     IDD_PPAGECAPTURE, DIALOG
@@ -1248,6 +1319,24 @@ BEGIN
         HORZGUIDE, 204
     END
 
+    IDD_NAVIGATION_DLG, DIALOG
+    BEGIN
+    END
+
+    IDD_UPDATE_DIALOG, DIALOG
+    BEGIN
+    END
+
+    IDD_PPAGESHADERS, DIALOG
+    BEGIN
+        RIGHTMARGIN, 296
+        BOTTOMMARGIN, 277
+    END
+
+    IDD_DEBUGSHADERS_DLG, DIALOG
+    BEGIN
+    END
+
     IDD_PPAGEADVANCED, DIALOG
     BEGIN
         VERTGUIDE, 10
@@ -1258,6 +1347,10 @@ BEGIN
         HORZGUIDE, 214
         HORZGUIDE, 218
         HORZGUIDE, 231
+    END
+
+    IDD_SAVEIMAGEDIALOGTEMPL, DIALOG
+    BEGIN
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -2575,6 +2668,16 @@ END
 
 STRINGTABLE
 BEGIN
+    IDS_PPAGEADVANCED_FILE_POS_LONGER 
+                            "Remember file position only for files longer than N minutes."
+    IDS_PPAGEADVANCED_FILE_POS_AUDIO 
+                            "Remember file position also for audio files."
+    IDS_AFTER_PLAYBACK_DO_NOTHING "Do Nothing"
+    IDS_AFTER_PLAYBACK_PLAY_NEXT "Play next file in the folder"
+    IDS_AFTER_PLAYBACK_REWIND "Rewind current file"
+    IDS_AFTER_PLAYBACK_CLOSE "Close"
+    IDS_AFTER_PLAYBACK_EXIT "Exit"
+    IDS_AFTER_PLAYBACK_MONITOROFF "Turn off the monitor"
     IDS_IMAGE_JPEG_QUALITY  "JPEG Image"
     IDS_IMAGE_QUALITY       "Quality (%):"
 END
@@ -3355,21 +3458,7 @@ BEGIN
     IDS_FILTER_SETTINGS_CAPTION "Settings"
 END
 
-STRINGTABLE
-BEGIN
-    IDS_PPAGEADVANCED_FILE_POS_LONGER 
-                            "Remember file position only for files longer than N minutes."
-    IDS_PPAGEADVANCED_FILE_POS_AUDIO 
-                            "Remember file position also for audio files."
-    IDS_AFTER_PLAYBACK_DO_NOTHING "Do Nothing"
-    IDS_AFTER_PLAYBACK_PLAY_NEXT "Play next file in the folder"
-    IDS_AFTER_PLAYBACK_REWIND "Rewind current file"
-    IDS_AFTER_PLAYBACK_CLOSE "Close"
-    IDS_AFTER_PLAYBACK_EXIT "Exit"
-    IDS_AFTER_PLAYBACK_MONITOROFF "Turn off the monitor"
-END
-
-#endif    // English (United States) resources
+#endif    // Anglais (États-Unis) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

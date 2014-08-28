@@ -920,6 +920,9 @@ void CAppSettings::SaveSettings()
         CString name;
         m_Shaders.GetCurrentPresetName(name);
         VERIFY(pApp->WriteProfileString(IDS_R_SHADERS, IDS_RS_SHADERS_LASTPRESET, name));
+
+		// Save shaders include path
+		pApp->WriteProfileString(IDS_R_SHADERS, IDS_RS_SHADERS_INCLUDEPATH, m_ShadersIncludePath);
     }
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_REMAINING_TIME, fRemainingTime);
@@ -1540,6 +1543,9 @@ void CAppSettings::LoadSettings()
         if (!name.IsEmpty()) {
             m_Shaders.SetCurrentPreset(name);
         }
+
+		// Load shaders include path
+		m_ShadersIncludePath = pApp->GetProfileString(IDS_R_SHADERS, IDS_RS_SHADERS_INCLUDEPATH);
     }
 
     // CASIMIR666 : new settings

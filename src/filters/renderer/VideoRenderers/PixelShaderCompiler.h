@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include <vector>
 #include <d3d9.h>
 #include <D3Dcompiler.h>
 
@@ -33,6 +34,8 @@ class CPixelShaderCompiler
 
     CComPtr<IDirect3DDevice9> m_pD3DDev;
 
+	CPath m_SystemWideIncludesPath;
+
     HRESULT InternalCompile(
         LPCSTR pSrcData,
         SIZE_T SrcDataSize,
@@ -42,11 +45,14 @@ class CPixelShaderCompiler
         DWORD Flags,
         IDirect3DPixelShader9** ppPixelShader,
         CString* pDisasm,
-        CString* pErrMsg);
+        CString* pErrMsg,
+		std::vector<CString>* pIncludedFiles);
 
 public:
     CPixelShaderCompiler(IDirect3DDevice9* pD3DDev, bool fStaySilent = false);
     ~CPixelShaderCompiler();
+
+	void SetSystemWideIncludesPath(const CPath& pPath);
 
     HRESULT CompileShader(
         LPCSTR pSrcData,
@@ -55,7 +61,8 @@ public:
         DWORD Flags,
         IDirect3DPixelShader9** ppPixelShader,
         CString* pDisasm = nullptr,
-        CString* pErrMsg = nullptr);
+        CString* pErrMsg = nullptr,
+		std::vector<CString>* pIncludedFiles = nullptr);
 
     HRESULT CompileShaderFromFile(
         LPCTSTR pSrcFile,
@@ -64,5 +71,6 @@ public:
         DWORD Flags,
         IDirect3DPixelShader9** ppPixelShader,
         CString* pDisasm = nullptr,
-        CString* pErrMsg = nullptr);
+        CString* pErrMsg = nullptr,
+		std::vector<CString>* pIncludedFiles = nullptr);
 };

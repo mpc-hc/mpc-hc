@@ -22,6 +22,7 @@
 #include "PPageShaders.h"
 #include "MainFrm.h"
 #include "PathUtils.h"
+#include "OpenDirHelper.h"
 
 CShaderListBox::CShaderListBox()
     : CListBox()
@@ -238,6 +239,7 @@ void CPPageShaders::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_LIST2, m_PreResize);
     DDX_Control(pDX, IDC_LIST3, m_PostResize);
     DDX_Control(pDX, IDC_COMBO1, m_PresetsBox);
+	DDX_Control(pDX, IDC_EDIT2, m_IncludeDir);
 }
 
 BOOL CPPageShaders::OnInitDialog()
@@ -264,6 +266,8 @@ BOOL CPPageShaders::OnInitDialog()
     if (s.m_Shaders.GetCurrentPresetName(preset)) {
         VERIFY(m_PresetsBox.SelectString(-1, preset) != CB_ERR);
     }
+
+	m_IncludeDir.SetWindowText(s.m_ShadersIncludePath);
 
     SetButtonIcon(IDC_BUTTON6, IDB_SHADER_UP);
     SetButtonIcon(IDC_BUTTON7, IDB_SHADER_DOWN);
@@ -305,6 +309,8 @@ BOOL CPPageShaders::OnApply()
             s.m_ShadersExtraList.push_back(shader);
         }
     }
+
+	m_IncludeDir.GetWindowText(s.m_ShadersIncludePath);
 
     m_eventc.FireEvent(MpcEvent::SHADER_LIST_CHANGED);
 
@@ -471,6 +477,44 @@ void CPPageShaders::OnRemoveShader()
     SetModified();
 }
 
+void CPPageShaders::OnBrowseIncludeDir()
+{
+	CString filter;
+	CAtlArray<CString> mask;
+	const CAppSettings& s = AfxGetAppSettings();
+	s.m_Formats.GetFilter(filter, mask);
+
+	COpenDirHelper::strLastOpenDir = s.m_ShadersIncludePath;
+
+	TCHAR _path[MAX_PATH];
+	COpenDirHelper::m_incl_subdir = FALSE;
+
+	BROWSEINFO bi;
+	bi.hwndOwner      = m_hWnd;
+	bi.pidlRoot       = nullptr;
+	bi.pszDisplayName = _path;
+	bi.lpszTitle      = _T("Shader includes directory");
+	bi.ulFlags        = BIF_BROWSEINCLUDEURLS | BIF_RETURNONLYFSDIRS | BIF_VALIDATE | BIF_STATUSTEXT;
+	bi.lpfn           = COpenDirHelper::BrowseCallbackProcDIR;
+	bi.lParam         = 0;
+	bi.iImage         = 0;
+
+	static PIDLIST_ABSOLUTE iil;
+	iil = SHBrowseForFolder(&bi);
+	if (iil)
+	{
+		SHGetPathFromIDList(iil, _path);
+	}
+	else
+	{
+		return;
+	}
+
+	m_IncludeDir.SetWindowTextW(_path);
+	
+	SetModified();
+}
+
 void CPPageShaders::OnUpdateAddToPreResize(CCmdUI* pCmdUI)
 {
     pCmdUI->Enable(m_Shaders.GetCurSel() != LB_ERR);
@@ -563,6 +607,7 @@ BEGIN_MESSAGE_MAP(CPPageShaders, CPPageBase)
     ON_BN_CLICKED(IDC_BUTTON11, OnRemovePostResize)
     ON_BN_CLICKED(IDC_BUTTON12, OnAddShaderFile)
     ON_BN_CLICKED(IDC_BUTTON13, OnRemoveShader)
+	ON_BN_CLICKED(IDC_BUTTON14, OnBrowseIncludeDir)
     ON_CBN_EDITCHANGE(IDC_COMBO1, OnChangeShaderPresetText)
     ON_UPDATE_COMMAND_UI(IDC_BUTTON1, OnUpdateAddToPreResize)
     ON_UPDATE_COMMAND_UI(IDC_BUTTON2, OnUpdateAddToPostResize)

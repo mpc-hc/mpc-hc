@@ -649,6 +649,7 @@ public:
     // Shaders
     ShaderList      m_ShadersExtraList;
     ShaderSelection m_Shaders;
+	CString			m_ShadersIncludePath;
     // Playlist (contex menu)
     bool            bShufflePlaylistItems;
     bool            bHidePlaylistFullScreen;

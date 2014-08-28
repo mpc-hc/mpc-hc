@@ -21,14 +21,21 @@
 
 #include "stdafx.h"
 #include "PixelShaderCompiler.h"
+#include "ShaderIncludeHandler.h"
 #include "../../../mpc-hc/resource.h"
 #include <share.h>
+
+void CPixelShaderCompiler::SetSystemWideIncludesPath(const CPath& pPath)
+{
+	m_SystemWideIncludesPath = pPath;
+}
 
 CPixelShaderCompiler::CPixelShaderCompiler(IDirect3DDevice9* pD3DDev, bool fStaySilent)
     : m_hDll(nullptr)
     , m_pD3DDev(pD3DDev)
     , m_pD3DCompile(nullptr)
     , m_pD3DDisassemble(nullptr)
+	, m_SystemWideIncludesPath()
 {
     m_hDll = LoadLibrary(D3DCOMPILER_DLL);
 
@@ -66,7 +73,8 @@ HRESULT CPixelShaderCompiler::InternalCompile(
     DWORD Flags,
     IDirect3DPixelShader9** ppPixelShader,
     CString* pDisasm,
-    CString* pErrMsg)
+    CString* pErrMsg,
+	std::vector<CString>* pIncludedFiles)
 {
     if (!m_pD3DCompile) {
         return E_FAIL;
@@ -123,8 +131,16 @@ HRESULT CPixelShaderCompiler::InternalCompile(
     D3D_SHADER_MACRO macros[] = { { defProfile, defProfileVal }, { 0 } };
 
     CComPtr<ID3DBlob> pShaderBlob, pErrorBlob;
-    HRESULT hr = m_pD3DCompile(pSrcData, SrcDataSize, pSourceName, macros, nullptr, pEntrypoint,
+	CShaderIncludeHandler lIncludeHandler(m_SystemWideIncludesPath, CA2T(pSourceName));
+	HRESULT hr = m_pD3DCompile(pSrcData, SrcDataSize, pSourceName, macros, &lIncludeHandler, pEntrypoint,
                                pSelProfile, Flags, 0, &pShaderBlob, &pErrorBlob);
+
+	// Copy back of the included files list
+	if (pIncludedFiles != nullptr)
+	{
+		const std::vector<CString>& lFiles = lIncludeHandler.getIncludedFiles();
+		pIncludedFiles->assign(lFiles.begin(), lFiles.end());
+	}
 
     if (pErrMsg) {
         CStringA msg;
@@ -178,10 +194,11 @@ HRESULT CPixelShaderCompiler::CompileShader(
     DWORD Flags,
     IDirect3DPixelShader9** ppPixelShader,
     CString* pDisasm,
-    CString* pErrMsg)
+    CString* pErrMsg,
+	std::vector<CString>* pIncludedFiles)
 {
     return InternalCompile(pSrcData, strlen(pSrcData), nullptr, pEntrypoint,
-                           pProfile, Flags, ppPixelShader, pDisasm, pErrMsg);
+						   pProfile, Flags, ppPixelShader, pDisasm, pErrMsg, pIncludedFiles);
 }
 
 HRESULT CPixelShaderCompiler::CompileShaderFromFile(
@@ -191,7 +208,8 @@ HRESULT CPixelShaderCompiler::CompileShaderFromFile(
     DWORD Flags,
     IDirect3DPixelShader9** ppPixelShader,
     CString* pDisasm,
-    CString* pErrMsg)
+    CString* pErrMsg,
+	std::vector<CString>* pIncludedFiles)
 {
     HRESULT ret = E_FAIL;
     if (FILE* fp = _tfsopen(pSrcFile, _T("rb"), _SH_SECURE)) {
@@ -203,7 +221,7 @@ HRESULT CPixelShaderCompiler::CompileShaderFromFile(
             if (data) {
                 if (fread(data, size, 1, fp) == 1) {
                     ret = InternalCompile(data, (size_t)size, CT2A(pSrcFile), pEntrypoint,
-                                          pProfile, Flags, ppPixelShader, pDisasm, pErrMsg);
+										  pProfile, Flags, ppPixelShader, pDisasm, pErrMsg, pIncludedFiles);
                 } else {
                     ASSERT(FALSE);
                 }

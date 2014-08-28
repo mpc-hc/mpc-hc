@@ -72,6 +72,7 @@ private:
 
 protected:
     CShaderListBox m_Shaders, m_PreResize, m_PostResize;
+	CEdit m_IncludeDir;
     CComboBox m_PresetsBox;
     ShaderSelection::ShaderPresetMap m_Presets;
     void SetButtonIcon(UINT nIDButton, UINT nIDIcon);
@@ -95,6 +96,7 @@ protected:
     void OnRemovePostResize();
     void OnAddShaderFile();
     void OnRemoveShader();
+	void OnBrowseIncludeDir();
 
     void OnUpdateLoadShaderPreset(CCmdUI* pCmdUI);
     void OnUpdateSaveShaderPreset(CCmdUI* pCmdUI);

@@ -130,6 +130,7 @@
     <ClCompile Include="RenderersSettings.cpp" />
     <ClCompile Include="RM7AllocatorPresenter.cpp" />
     <ClCompile Include="RM9AllocatorPresenter.cpp" />
+    <ClCompile Include="ShaderIncludeHandler.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
@@ -160,6 +161,7 @@
     <ClInclude Include="RenderersSettings.h" />
     <ClInclude Include="RM7AllocatorPresenter.h" />
     <ClInclude Include="RM9AllocatorPresenter.h" />
+    <ClInclude Include="ShaderIncludeHandler.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="SyncAllocatorPresenter.h" />
     <ClInclude Include="SyncRenderer.h" />

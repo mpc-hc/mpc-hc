@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Visual C++ generated include file.
-// Used by mpc-hc.rc
+// Fichier Include généré de Microsoft Visual C++.
+// Utilisé par mpc-hc.rc
 //
 #define IDR_MAINFRAME                   128
 #define IDR_POPUP                       130
@@ -286,12 +286,10 @@
 #define ID_NAVIGATE_JUMPTO_SUBITEM_START 4300
 #define ID_NAVIGATE_JUMPTO_SUBITEM_END  4499
 #define ID_VIEW_ZOOM_AUTOFIT_LARGER     4500
-// filters
 #define IDS_FILTER_SETTINGS_CAPTION     7000
 #define IDS_ARS_WASAPI_MODE             7100
 #define IDS_ARS_MUTE_FAST_FORWARD       7101
 #define IDS_ARS_SOUND_DEVICE            7102
-//
 #define IDD_OPEN_DLG                    10000
 #define IDD_MEDIATYPES_DLG              10002
 #define IDD_SAVE_DLG                    10004
@@ -416,6 +414,7 @@
 #define IDC_BUTTON13                    11132
 #define IDC_RESET_SETTINGS              11133
 #define IDC_EXPORT_SETTINGS             11134
+#define IDC_BUTTON14                    11135
 #define IDC_TREE1                       11140
 #define IDC_LIST1                       11160
 #define IDC_LIST2                       11161
@@ -1440,12 +1439,12 @@
 #define IDS_IMAGE_QUALITY               57417
 
 // Next default values for new objects
-//
+// 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        20016
+#define _APS_NEXT_RESOURCE_VALUE        20017
 #define _APS_NEXT_COMMAND_VALUE         33449
-#define _APS_NEXT_CONTROL_VALUE         22081
+#define _APS_NEXT_CONTROL_VALUE         22082
 #define _APS_NEXT_SYMED_VALUE           24044
 #endif
 #endif
