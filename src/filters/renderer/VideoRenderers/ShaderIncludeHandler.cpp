@@ -59,7 +59,7 @@ HRESULT CShaderIncludeHandler::Open(D3D_INCLUDE_TYPE IncludeType, LPCSTR pFileNa
 
 	// Open file or generate warning message (pragma)
 	CString lCIncludeFileName = lIncludeFileName;
-	std::ifstream lFile(lCIncludeFileName, std::ios_base::in);
+	std::ifstream lFile(lCIncludeFileName, std::ios_base::in | std::ios_base::binary);
 	if (lFile.is_open() == true)
 	{
 		// read full file
@@ -69,10 +69,10 @@ HRESULT CShaderIncludeHandler::Open(D3D_INCLUDE_TYPE IncludeType, LPCSTR pFileNa
 
 		*pBytes = (UINT)lSize;
 		char* lContent = new char[*pBytes+1];
+		lFile.read(lContent, *pBytes);
+
 		lContent[*pBytes] = 0x00;
 		*ppData = (LPCVOID*)lContent;
-
-		lFile.read(lContent, *pBytes);
 
 		// add the include path in the list.
 		// the file change notifier needs to have backslashes.
