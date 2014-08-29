@@ -283,7 +283,9 @@ BOOL CPPageShaders::OnInitDialog()
 
 BOOL CPPageShaders::OnApply()
 {
-    auto& s = AfxGetAppSettings();
+	auto& s = AfxGetAppSettings();
+
+	m_IncludeDir.GetWindowText(s.m_ShadersIncludePath);
 
     ShaderPreset preset;
     preset.SetLists(m_PreResize.GetList(), m_PostResize.GetList());
@@ -309,8 +311,6 @@ BOOL CPPageShaders::OnApply()
             s.m_ShadersExtraList.push_back(shader);
         }
     }
-
-	m_IncludeDir.GetWindowText(s.m_ShadersIncludePath);
 
     m_eventc.FireEvent(MpcEvent::SHADER_LIST_CHANGED);
 
