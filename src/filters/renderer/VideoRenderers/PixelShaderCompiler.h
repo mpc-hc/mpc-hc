@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -25,11 +25,14 @@
 #include <d3d9.h>
 #include <D3Dcompiler.h>
 
+class CShaderMacros;
+
 class CPixelShaderCompiler
 {
     HINSTANCE m_hDll;
 
     pD3DCompile m_pD3DCompile;
+    pD3DPreprocess m_pD3DPreprocess;
     pD3DDisassemble m_pD3DDisassemble;
 
     CComPtr<IDirect3DDevice9> m_pD3DDev;
@@ -65,6 +68,14 @@ public:
         std::vector<CString>* pIncludedFiles = nullptr,
         CString* pSrcFileName = nullptr);
 
+    HRESULT PreprocessShaderFromFile(
+        LPCTSTR pSrcFile,
+        LPCSTR pProfile,
+        IDirect3DPixelShader9** ppPixelShader,
+        CString* pFullCode = nullptr,
+        CString* pErrMsg = nullptr,
+        std::vector<CString>* pIncludedFiles = nullptr);
+
     HRESULT CompileShaderFromFile(
         LPCTSTR pSrcFile,
         LPCSTR pEntrypoint,
@@ -74,4 +85,38 @@ public:
         CString* pDisasm = nullptr,
         CString* pErrMsg = nullptr,
         std::vector<CString>* pIncludedFiles = nullptr);
+
+private:
+    CStringA FindShaderProfile(LPCSTR pProfile) const;
+    HRESULT GetShaderProfileMacro(
+        LPCSTR pProfile,
+        CShaderMacros& pMacros) const;
+
+    CStringA GetStringFromBlob(ID3DBlob* pBlob) const;
+    HRESULT ReadSourceFile(LPCTSTR pSrcFile, std::vector<char>& pOut) const;
+};
+
+// Class designed to facilitate the definition of shaders macros.
+// Returns a D3D compliant array through a temporary class that handles the alloc/release.
+class CShaderMacros : public std::vector<std::pair<CStringA, CStringA>>
+{
+public:
+    class Wrapper
+    {
+        friend CShaderMacros;
+    public:
+        ~Wrapper();
+        operator D3D_SHADER_MACRO* ();
+    private:
+        D3D_SHADER_MACRO* data;
+        Wrapper(CShaderMacros& pSrc);
+        Wrapper(Wrapper&& pFrom);
+        Wrapper(const Wrapper&) = delete;
+
+        Wrapper& operator=(Wrapper && pFrom);
+        Wrapper& operator=(const Wrapper&) = delete;
+    };
+
+    void AddMacro(const CStringA& pName, const CStringA& pDefinition);
+    Wrapper GetD3DShaderMacro();
 };

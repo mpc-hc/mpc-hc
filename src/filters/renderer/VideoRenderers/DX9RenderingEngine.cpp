@@ -404,6 +404,10 @@ HRESULT CDX9RenderingEngine::RenderVideoDrawPath(IDirect3DSurface9* pRenderTarge
 
         hr = m_pD3DDev->SetPixelShaderConstantF(0, (float*)fConstData, _countof(fConstData));
 
+        float consts2[1] = {0.25f};
+        m_pD3DDev->SetPixelShaderConstantF(1, consts2, _countof(consts2));
+
+
         int src = 1;
         int dest = 0;
         bool first = true;
