@@ -25,31 +25,32 @@
 #include <d3d9.h>
 #include <D3Dcompiler.h>
 
-class CShaderIncludeHandler : public ID3DInclude {
+class CShaderIncludeHandler : public ID3DInclude
+{
 public:
 
-	// ID3DInclude
-	STDMETHOD(Open)(THIS_ D3D_INCLUDE_TYPE IncludeType, LPCSTR pFileName, LPCVOID pParentData, LPCVOID *ppData, UINT *pBytes);
-	STDMETHOD(Close)(THIS_ LPCVOID pData);
+    // ID3DInclude
+    STDMETHOD(Open)(THIS_ D3D_INCLUDE_TYPE IncludeType, LPCSTR pFileName, LPCVOID pParentData, LPCVOID* ppData, UINT* pBytes);
+    STDMETHOD(Close)(THIS_ LPCVOID pData);
 
-	CPath GetFullFileName(const CString& pFilename, D3D_INCLUDE_TYPE IncludeType) const;
+    CPath GetFullFileName(const CString& pFilename, D3D_INCLUDE_TYPE IncludeType) const;
 
 public:
-	CShaderIncludeHandler();
-	CShaderIncludeHandler(
-		LPCTSTR pSystemDirectory,
-		LPCTSTR pSourceFilename);
-	virtual ~CShaderIncludeHandler();
+    CShaderIncludeHandler();
+    CShaderIncludeHandler(
+        LPCTSTR pSystemDirectory,
+        LPCTSTR pSourceFilename);
+    virtual ~CShaderIncludeHandler();
 
-	const std::vector<CString>& getIncludedFiles() const;
+    const std::vector<CString>& getIncludedFiles() const;
 
 private:
-	// Directory name of the original shader file
-	CString m_SourceDirectory;
+    // Directory name of the original shader file
+    CString m_SourceDirectory;
 
-	// Directory name of the "system-wide" includes
-	CString m_SystemDirectory;
+    // Directory name of the "system-wide" includes
+    CString m_SystemDirectory;
 
-	// List of the included files (full paths)
-	std::vector<CString> m_IncludedFiles;
+    // List of the included files (full paths)
+    std::vector<CString> m_IncludedFiles;
 };

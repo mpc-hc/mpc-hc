@@ -1713,17 +1713,17 @@ HRESULT CDX9RenderingEngine::SetCustomPixelShader(LPCSTR pSrcData, LPCSTR pTarge
 
     CExternalPixelShader Shader;
     Shader.m_SourceData = pSrcData;
-	Shader.m_SourceTarget = pTarget;
+    Shader.m_SourceTarget = pTarget;
 
-	// CAP3: specifies shader' parameters
-	Shader.m_SourceFileName = GetShaderSource();
-	m_pPSC->SetSystemWideIncludesPath(CPath(GetSystemIncludeDir()));
+    // CAP3: specifies shader' parameters
+    Shader.m_SourceFileName = GetShaderSource();
+    m_pPSC->SetSystemWideIncludesPath(CPath(GetSystemIncludeDir()));
 
     CComPtr<IDirect3DPixelShader9> pPixelShader;
 
     HRESULT hr = Shader.Compile(m_pPSC);
 
-	SetIncludes(Shader.m_IncludedFiles);
+    SetIncludes(Shader.m_IncludedFiles);
 
     if (FAILED(hr)) {
         return hr;

@@ -53,9 +53,9 @@ CDebugShadersDlg::CDebugShadersDlg()
     , m_Compiler(nullptr)
     , m_timerOneTime(this, TIMER_ONETIME_START, TIMER_ONETIME_END - TIMER_ONETIME_START + 1)
 {
-	// Compiler setup
-	const CAppSettings& s = AfxGetAppSettings();
-	m_Compiler.SetSystemWideIncludesPath(CPath(s.m_ShadersIncludePath));
+    // Compiler setup
+    const CAppSettings& s = AfxGetAppSettings();
+    m_Compiler.SetSystemWideIncludesPath(CPath(s.m_ShadersIncludePath));
 
     EventRouter::EventSelection receives;
     receives.insert(MpcEvent::SHADER_LIST_CHANGED);
@@ -159,9 +159,10 @@ FileChangeNotifier::FileSet CDebugShadersDlg::GetWatchedList()
         m_Shaders.GetLBText(sel, path);
         ret.insert(path);
 
-		// Inclusion of the #include files
-		for (const CString& lFilename : m_ShaderIncludeFiles)
-			ret.insert(CPath(lFilename));
+        // Inclusion of the #include files
+        for (const CString& lFilename : m_ShaderIncludeFiles) {
+            ret.insert(CPath(lFilename));
+        }
     }
     return ret;
 }
@@ -259,16 +260,15 @@ void CDebugShadersDlg::OnRecompileShader()
             }
             CString disasm, msg;
             if (SUCCEEDED(m_Compiler.CompileShaderFromFile(shader.filePath, "main", profile,
-				D3DXSHADER_DEBUG, nullptr, &disasm, &msg, &m_ShaderIncludeFiles)))
-			{
+                          D3DXSHADER_DEBUG, nullptr, &disasm, &msg, &m_ShaderIncludeFiles))) {
                 if (!msg.IsEmpty()) {
                     msg += _T("\n");
                 }
                 msg += disasm;
-			}
+            }
 
-			// We need to update the file change notifier so as to include the newly found shader includes files.
-			UpdateNotifierState();
+            // We need to update the file change notifier so as to include the newly found shader includes files.
+            UpdateNotifierState();
 
             msg.Replace(_T("\n"), _T("\r\n"));
             m_DebugInfo.SetWindowText(msg);

@@ -210,12 +210,12 @@ public ISubPicAllocatorPresenter {
 interface __declspec(uuid("212C1425-F407-4FF6-B0A0-8335FA46ABA8"))
 IPresenterIncludeHandler :
 public IUnknown {
-	STDMETHOD(SetShaderSource)(const CString& pFileName) PURE;
-	STDMETHOD_(const CString&, GetShaderSource)() PURE;
-	STDMETHOD(SetSystemIncludeDir)(const CString& pDir) PURE;
-	STDMETHOD_(const CString&, GetSystemIncludeDir)() PURE;
-	STDMETHOD(SetIncludes)(const std::vector<CString>& pIncludes) PURE;
-	STDMETHOD_(const std::vector<CString>&, GetIncludes)() PURE;
+    STDMETHOD(SetShaderSource)(const CString & pFileName) PURE;
+    STDMETHOD_(const CString&, GetShaderSource)() PURE;
+    STDMETHOD(SetSystemIncludeDir)(const CString & pDir) PURE;
+    STDMETHOD_(const CString&, GetSystemIncludeDir)() PURE;
+    STDMETHOD(SetIncludes)(const std::vector<CString>& pIncludes) PURE;
+    STDMETHOD_(const std::vector<CString>&, GetIncludes)() PURE;
 };
 
 //

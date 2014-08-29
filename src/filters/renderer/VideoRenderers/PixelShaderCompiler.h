@@ -34,7 +34,7 @@ class CPixelShaderCompiler
 
     CComPtr<IDirect3DDevice9> m_pD3DDev;
 
-	CPath m_SystemWideIncludesPath;
+    CPath m_SystemWideIncludesPath;
 
     HRESULT InternalCompile(
         LPCSTR pSrcData,
@@ -46,13 +46,13 @@ class CPixelShaderCompiler
         IDirect3DPixelShader9** ppPixelShader,
         CString* pDisasm,
         CString* pErrMsg,
-		std::vector<CString>* pIncludedFiles);
+        std::vector<CString>* pIncludedFiles);
 
 public:
     CPixelShaderCompiler(IDirect3DDevice9* pD3DDev, bool fStaySilent = false);
     ~CPixelShaderCompiler();
 
-	void SetSystemWideIncludesPath(const CPath& pPath);
+    void SetSystemWideIncludesPath(const CPath& pPath);
 
     HRESULT CompileShader(
         LPCSTR pSrcData,
@@ -62,8 +62,8 @@ public:
         IDirect3DPixelShader9** ppPixelShader,
         CString* pDisasm = nullptr,
         CString* pErrMsg = nullptr,
-		std::vector<CString>* pIncludedFiles = nullptr,
-		CString* pSrcFileName = nullptr);
+        std::vector<CString>* pIncludedFiles = nullptr,
+        CString* pSrcFileName = nullptr);
 
     HRESULT CompileShaderFromFile(
         LPCTSTR pSrcFile,
@@ -73,5 +73,5 @@ public:
         IDirect3DPixelShader9** ppPixelShader,
         CString* pDisasm = nullptr,
         CString* pErrMsg = nullptr,
-		std::vector<CString>* pIncludedFiles = nullptr);
+        std::vector<CString>* pIncludedFiles = nullptr);
 };

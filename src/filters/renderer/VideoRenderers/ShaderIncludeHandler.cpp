@@ -23,19 +23,19 @@
 #include <fstream>
 
 CShaderIncludeHandler::CShaderIncludeHandler():
-m_SourceDirectory(),
-m_SystemDirectory()
+    m_SourceDirectory(),
+    m_SystemDirectory()
 {
 }
 
 CShaderIncludeHandler::CShaderIncludeHandler(LPCTSTR pSystemDirectory, LPCTSTR pSourceFilename) :
-m_SourceDirectory(),
-m_SystemDirectory(pSystemDirectory)
+    m_SourceDirectory(),
+    m_SystemDirectory(pSystemDirectory)
 {
-	CPath cp(pSourceFilename);
-	cp.RemoveBackslash();
-	cp.RemoveFileSpec();
-	m_SourceDirectory = static_cast<CString>(cp);
+    CPath cp(pSourceFilename);
+    cp.RemoveBackslash();
+    cp.RemoveFileSpec();
+    m_SourceDirectory = static_cast<CString>(cp);
 }
 
 CShaderIncludeHandler::~CShaderIncludeHandler()
@@ -44,74 +44,72 @@ CShaderIncludeHandler::~CShaderIncludeHandler()
 
 CPath CShaderIncludeHandler::GetFullFileName(const CString& pFilename, D3D_INCLUDE_TYPE IncludeType) const
 {
-	// Find which root directory to use
-	CPath lIncludeFileName;
-	if (IncludeType == D3D10_INCLUDE_LOCAL)
-		lIncludeFileName = CPath(m_SourceDirectory);
-	else
-		lIncludeFileName = CPath(m_SystemDirectory);
+    // Find which root directory to use
+    CPath lIncludeFileName;
+    if (IncludeType == D3D10_INCLUDE_LOCAL) {
+        lIncludeFileName = CPath(m_SourceDirectory);
+    } else {
+        lIncludeFileName = CPath(m_SystemDirectory);
+    }
 
-	lIncludeFileName.Append(CPath(pFilename));
+    lIncludeFileName.Append(CPath(pFilename));
 
-	return lIncludeFileName;
+    return lIncludeFileName;
 }
 
-HRESULT CShaderIncludeHandler::Open(D3D_INCLUDE_TYPE IncludeType, LPCSTR pFileName, LPCVOID pParentData, LPCVOID *ppData, UINT *pBytes)
+HRESULT CShaderIncludeHandler::Open(D3D_INCLUDE_TYPE IncludeType, LPCSTR pFileName, LPCVOID pParentData, LPCVOID* ppData, UINT* pBytes)
 {
-	m_IncludedFiles.clear();
+    m_IncludedFiles.clear();
 
-	// Find which root directory to use
-	CPath lIncludeFileName = GetFullFileName(CString(pFileName), IncludeType);
+    // Find which root directory to use
+    CPath lIncludeFileName = GetFullFileName(CString(pFileName), IncludeType);
 
-	// Open file or generate warning message (pragma)
-	CString lCIncludeFileName = lIncludeFileName;
-	std::ifstream lFile(lCIncludeFileName, std::ios_base::in | std::ios_base::binary);
-	if (lFile.is_open() == true)
-	{
-		// read full file
-		lFile.seekg(0, std::ios_base::end);
-		std::size_t lSize = lFile.tellg();
-		lFile.seekg(0, std::ios_base::beg);
+    // Open file or generate warning message (pragma)
+    CString lCIncludeFileName = lIncludeFileName;
+    std::ifstream lFile(lCIncludeFileName, std::ios_base::in | std::ios_base::binary);
+    if (lFile.is_open() == true) {
+        // read full file
+        lFile.seekg(0, std::ios_base::end);
+        std::size_t lSize = lFile.tellg();
+        lFile.seekg(0, std::ios_base::beg);
 
-		*pBytes = (UINT)lSize;
-		char* lContent = new char[*pBytes+1];
-		lFile.read(lContent, *pBytes);
+        *pBytes = (UINT)lSize;
+        char* lContent = new char[*pBytes + 1];
+        lFile.read(lContent, *pBytes);
 
-		lContent[*pBytes] = 0x00;
-		*ppData = (LPCVOID*)lContent;
+        lContent[*pBytes] = 0x00;
+        *ppData = (LPCVOID*)lContent;
 
-		// add the include path in the list.
-		// the file change notifier needs to have backslashes.
-		lCIncludeFileName.Replace('/', '\\');
-		m_IncludedFiles.push_back(CPath(lCIncludeFileName));
-	}
-	else
-	{
-		// Création d'un warning
-		CString lCIncludeFilename = lIncludeFileName;
-		lCIncludeFilename.Replace(_T("\\"), _T("\\\\"));
-		
-		std::string lWarning = "#pragma message(\"/* warning: #include file not found '" + std::string(CT2A(lCIncludeFilename)) + "' */\")";
+        // add the include path in the list.
+        // the file change notifier needs to have backslashes.
+        lCIncludeFileName.Replace('/', '\\');
+        m_IncludedFiles.push_back(CPath(lCIncludeFileName));
+    } else {
+        // Création d'un warning
+        CString lCIncludeFilename = lIncludeFileName;
+        lCIncludeFilename.Replace(_T("\\"), _T("\\\\"));
 
-		UINT lSize = (UINT)lWarning.size();
-		*pBytes = lSize;
-		char *lContent = new char[lSize + 1];
-		std::copy(lWarning.begin(), lWarning.end(), lContent);
-		lContent[lSize] = 0x00;
+        std::string lWarning = "#pragma message(\"/* warning: #include file not found '" + std::string(CT2A(lCIncludeFilename)) + "' */\")";
 
-		*ppData = (LPCVOID*)lContent;
-	}
+        UINT lSize = (UINT)lWarning.size();
+        *pBytes = lSize;
+        char* lContent = new char[lSize + 1];
+        std::copy(lWarning.begin(), lWarning.end(), lContent);
+        lContent[lSize] = 0x00;
 
-	return S_OK;
+        *ppData = (LPCVOID*)lContent;
+    }
+
+    return S_OK;
 }
 
 HRESULT CShaderIncludeHandler::Close(LPCVOID pData)
 {
-	delete[] (char*) pData;
-	return S_OK;
+    delete[](char*) pData;
+    return S_OK;
 }
 
 const std::vector<CString>& CShaderIncludeHandler::getIncludedFiles() const
 {
-	return m_IncludedFiles;
+    return m_IncludedFiles;
 }

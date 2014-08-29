@@ -312,7 +312,7 @@ void ShaderPreset::ToStrings(CString& outPre, CString& outPost) const
 
 void ShaderPreset::SetIncludedFiles(const std::vector<CString>& pList) const
 {
-	m_IncludedFiles = pList;
+    m_IncludedFiles = pList;
 }
 
 bool ShaderPreset::operator==(const ShaderPreset& rhs) const
@@ -350,9 +350,9 @@ FileChangeNotifier::FileSet ShaderSelection::ShaderCurrentPreset::GetWatchedList
         ret.emplace(shader.filePath);
     }
     for (const auto& shader : m_PostResize) {
-		ret.emplace(shader.filePath);
+        ret.emplace(shader.filePath);
     }
-	ret.insert(m_IncludedFiles.begin(), m_IncludedFiles.end());
+    ret.insert(m_IncludedFiles.begin(), m_IncludedFiles.end());
     return ret;
 }
 
@@ -382,11 +382,11 @@ void ShaderSelection::ShaderCurrentPreset::WatchedFilesCooldownCallback()
         if (!setPost && std::find(m_PostResize.begin(), m_PostResize.end(), shader) != std::end(m_PostResize)) {
             setPost = true;
         }
-		if (std::find(m_IncludedFiles.begin(), m_IncludedFiles.end(), change) != std::end(m_IncludedFiles)) {
-			setPre = true;
-			setPost = true;
-			break;
-		}
+        if (std::find(m_IncludedFiles.begin(), m_IncludedFiles.end(), change) != std::end(m_IncludedFiles)) {
+            setPre = true;
+            setPost = true;
+            break;
+        }
     }
 
     if (setPre && setPost) {
@@ -401,8 +401,8 @@ void ShaderSelection::ShaderCurrentPreset::WatchedFilesCooldownCallback()
 
 void ShaderSelection::ShaderCurrentPreset::SetIncludedFiles(const std::vector<CString>& pList) const
 {
-	ShaderPreset::SetIncludedFiles(pList);
-	const_cast<ShaderSelection::ShaderCurrentPreset*>(this)->UpdateNotifierState();
+    ShaderPreset::SetIncludedFiles(pList);
+    const_cast<ShaderSelection::ShaderCurrentPreset*>(this)->UpdateNotifierState();
 }
 
 bool ShaderSelection::NextPreset(bool bWrap/* = true*/)

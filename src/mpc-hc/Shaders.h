@@ -97,11 +97,11 @@ public:
     const ShaderList& GetPostResize() const;
     void SetLists(const ShaderList& preResize, const ShaderList& postResize);
     void ToStrings(CString& outPre, CString& outPost) const;
-	virtual void SetIncludedFiles(const std::vector<CString>& pList) const;
+    virtual void SetIncludedFiles(const std::vector<CString>& pList) const;
 
 protected:
     ShaderList m_PreResize, m_PostResize;
-	mutable std::vector<CString> m_IncludedFiles;
+    mutable std::vector<CString> m_IncludedFiles;
 };
 
 class ShaderSelection
@@ -120,7 +120,7 @@ protected:
         virtual FileSet GetWatchedList() override;
         virtual void WatchedFilesChanged(const FileSet& changes) override;
         void WatchedFilesCooldownCallback();
-		virtual void SetIncludedFiles(const std::vector<CString>& pList) const override;
+        virtual void SetIncludedFiles(const std::vector<CString>& pList) const override;
         FileSet m_changes;
         EventClient m_eventc;
     };
