@@ -1,22 +1,22 @@
 /*
-* (C) 2010-2014 see Authors.txt
-*
-* This file is part of MPC-HC.
-*
-* MPC-HC is free software; you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation; either version 3 of the License, or
-* (at your option) any later version.
-*
-* MPC-HC is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*
-*/
+ * (C) 2010-2014 see Authors.txt
+ *
+ * This file is part of MPC-HC.
+ *
+ * MPC-HC is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * MPC-HC is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 
 #pragma once
 
@@ -100,7 +100,7 @@ namespace GothSync
     class CSyncRenderer;
 
     // Base allocator-presenter
-    class CBaseAP :
+    class CBaseAP:
         public CSubPicAllocatorPresenterImpl
     {
     protected:
@@ -226,8 +226,7 @@ namespace GothSync
 
         HRESULT AlphaBlt(RECT* pSrc, const RECT* pDst, IDirect3DTexture9* pTexture);
 
-        virtual void OnResetDevice() {
-        };
+        virtual void OnResetDevice() {};
 
         int m_nTearingPos;
         VMR9AlphaBitmap m_VMR9AlphaBitmap;
@@ -281,8 +280,8 @@ namespace GothSync
         UINT m_pcFramesDuplicated;
         UINT m_pcFramesDrawn;
 
-        LONGLONG m_pllJitter[NB_JITTER];     // Vertical sync time stats
-        LONGLONG m_pllSyncOffset[NB_JITTER]; // Sync offset time stats
+        LONGLONG m_pllJitter [NB_JITTER];     // Vertical sync time stats
+        LONGLONG m_pllSyncOffset [NB_JITTER]; // Sync offset time stats
         int m_nNextJitter;
         int m_nNextSyncOffset;
         LONGLONG m_JitterStdDev;
@@ -336,7 +335,7 @@ namespace GothSync
         STDMETHODIMP_(bool) DisplayChange();
     };
 
-    class CSyncAP :
+    class CSyncAP:
         public CBaseAP,
         public IMFGetService,
         public IMFTopologyServiceLookupClient,
@@ -463,8 +462,8 @@ namespace GothSync
         typedef HRESULT(__stdcall* PTR_MFCreateVideoMediaType)(const MFVIDEOFORMAT* pVideoFormat, IMFVideoMediaType** ppIVideoMediaType);
         // avrt.dll
         typedef HANDLE(__stdcall* PTR_AvSetMmThreadCharacteristicsW)(LPCWSTR TaskName, LPDWORD TaskIndex);
-        typedef BOOL(__stdcall* PTR_AvSetMmThreadPriority)(HANDLE AvrtHandle, AVRT_PRIORITY Priority);
-        typedef BOOL(__stdcall* PTR_AvRevertMmThreadCharacteristics)(HANDLE AvrtHandle);
+        typedef BOOL (__stdcall* PTR_AvSetMmThreadPriority)(HANDLE AvrtHandle, AVRT_PRIORITY Priority);
+        typedef BOOL (__stdcall* PTR_AvRevertMmThreadCharacteristics)(HANDLE AvrtHandle);
 
         enum RENDER_STATE {
             Started  = State_Running,
@@ -551,7 +550,7 @@ namespace GothSync
         PTR_AvRevertMmThreadCharacteristics pfAvRevertMmThreadCharacteristics;
     };
 
-    class CSyncRenderer :
+    class CSyncRenderer:
         public CUnknown,
         public IVMRffdshow9,
         public IVMRMixerBitmap9,

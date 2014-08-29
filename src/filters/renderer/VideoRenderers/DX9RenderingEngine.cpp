@@ -1,22 +1,22 @@
 /*
-* (C) 2006-2014 see Authors.txt
-*
-* This file is part of MPC-HC.
-*
-* MPC-HC is free software; you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation; either version 3 of the License, or
-* (at your option) any later version.
-*
-* MPC-HC is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*
-*/
+ * (C) 2006-2014 see Authors.txt
+ *
+ * This file is part of MPC-HC.
+ *
+ * MPC-HC is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * MPC-HC is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 
 #include "stdafx.h"
 #include <algorithm>
@@ -390,15 +390,15 @@ HRESULT CDX9RenderingEngine::RenderVideoDrawPath(IDirect3DSurface9* pRenderTarge
         m_pVideoTexture[m_nCurSurface]->GetLevelDesc(0, &desc);
 
         float fConstData[][4] = {
-            { (float)desc.Width, (float)desc.Height, (float)(counter++), (float)diff / CLOCKS_PER_SEC },
-            { 1.0f / desc.Width, 1.0f / desc.Height, 0, 0 },
+            {(float)desc.Width, (float)desc.Height, (float)(counter++), (float)diff / CLOCKS_PER_SEC},
+            {1.0f / desc.Width, 1.0f / desc.Height, 0, 0},
         };
 #else
         CSize VideoSize = GetVisibleVideoSize();
 
         float fConstData[][4] = {
-            { (float)VideoSize.cx, (float)VideoSize.cy, (float)(counter++), (float)diff / CLOCKS_PER_SEC },
-            { 1.0f / VideoSize.cx, 1.0f / VideoSize.cy, 0, 0 },
+            {(float)VideoSize.cx, (float)VideoSize.cy, (float)(counter++), (float)diff / CLOCKS_PER_SEC},
+            {1.0f / VideoSize.cx, 1.0f / VideoSize.cy, 0, 0},
         };
 #endif
 
@@ -469,8 +469,8 @@ HRESULT CDX9RenderingEngine::RenderVideoDrawPath(IDirect3DSurface9* pRenderTarge
         }
 
         float fConstData[][4] = {
-            { (float)m_TemporaryScreenSpaceTextureSize.cx, (float)m_TemporaryScreenSpaceTextureSize.cy, (float)(counter++), (float)diff / CLOCKS_PER_SEC },
-            { 1.0f / m_TemporaryScreenSpaceTextureSize.cx, 1.0f / m_TemporaryScreenSpaceTextureSize.cy, 0, 0 },
+            {(float)m_TemporaryScreenSpaceTextureSize.cx, (float)m_TemporaryScreenSpaceTextureSize.cy, (float)(counter++), (float)diff / CLOCKS_PER_SEC},
+            {1.0f / m_TemporaryScreenSpaceTextureSize.cx, 1.0f / m_TemporaryScreenSpaceTextureSize.cy, 0, 0},
         };
 
         hr = m_pD3DDev->SetPixelShaderConstantF(0, (float*)fConstData, _countof(fConstData));
@@ -681,7 +681,7 @@ HRESULT CDX9RenderingEngine::InitResizers(float bicubicA)
     A.Format("(%f)", bicubicA);
     str.Replace("_The_Value_Of_A_Is_Set_Here_", A);
 
-    LPCSTR pEntries[] = { "main_bilinear", "main_bicubic1pass", "main_bicubic2pass_pass1", "main_bicubic2pass_pass2" };
+    LPCSTR pEntries[] = {"main_bilinear", "main_bicubic1pass", "main_bicubic2pass_pass1", "main_bicubic2pass_pass2"};
 
     ASSERT(_countof(pEntries) == _countof(m_pResizerPixelShaders));
 
@@ -697,21 +697,21 @@ HRESULT CDX9RenderingEngine::InitResizers(float bicubicA)
         /*
         if (i == 2 || i == 3)
         {
-        const wchar_t *pStr = DissAssembly.GetString();
-        TRACE(_T("DisAsm: %s\n"), pEntries[i]);
-        const wchar_t *pStrStart = pStr;
-        while (*pStr)
-        {
-        while (*pStr && *pStr != '\n')
-        ++pStr;
-        if (*pStr == '\n')
-        ++pStr;
-        if (*pStr == '\r')
-        ++pStr;
-        CString Test(pStrStart, pStr - pStrStart);
-        TRACE(_T("%ws"), Test.GetString());
-        pStrStart = pStr;
-        }
+            const wchar_t *pStr = DissAssembly.GetString();
+            TRACE(_T("DisAsm: %s\n"), pEntries[i]);
+            const wchar_t *pStrStart = pStr;
+            while (*pStr)
+            {
+                while (*pStr && *pStr != '\n')
+                    ++pStr;
+                if (*pStr == '\n')
+                    ++pStr;
+                if (*pStr == '\r')
+                    ++pStr;
+                CString Test(pStrStart, pStr - pStrStart);
+                TRACE(_T("%ws"), Test.GetString());
+                pStrStart = pStr;
+            }
         }
         */
     }
@@ -735,10 +735,10 @@ HRESULT CDX9RenderingEngine::TextureResize(IDirect3DTexture9* pTexture, const Ve
     float dy2 = 1.0f / h;
 
     MYD3DVERTEX<1> v[] = {
-        { dst[0].x, dst[0].y, dst[0].z, 1.0f / dst[0].z, srcRect.left * dx2, srcRect.top * dy2 },
-        { dst[1].x, dst[1].y, dst[1].z, 1.0f / dst[1].z, srcRect.right * dx2, srcRect.top * dy2 },
-        { dst[2].x, dst[2].y, dst[2].z, 1.0f / dst[2].z, srcRect.left * dx2, srcRect.bottom * dy2 },
-        { dst[3].x, dst[3].y, dst[3].z, 1.0f / dst[3].z, srcRect.right * dx2, srcRect.bottom * dy2 },
+        {dst[0].x, dst[0].y, dst[0].z, 1.0f / dst[0].z, srcRect.left * dx2, srcRect.top * dy2},
+        {dst[1].x, dst[1].y, dst[1].z, 1.0f / dst[1].z, srcRect.right * dx2, srcRect.top * dy2},
+        {dst[2].x, dst[2].y, dst[2].z, 1.0f / dst[2].z, srcRect.left * dx2, srcRect.bottom * dy2},
+        {dst[3].x, dst[3].y, dst[3].z, 1.0f / dst[3].z, srcRect.right * dx2, srcRect.bottom * dy2},
     };
 
     AdjustQuad(v, 0, 0);
@@ -768,17 +768,17 @@ HRESULT CDX9RenderingEngine::TextureResizeBilinear(IDirect3DTexture9* pTexture, 
     const float ty1 = (float)srcRect.bottom;
 
     MYD3DVERTEX<1> v[] = {
-        { dst[0].x, dst[0].y, dst[0].z, 1.0f / dst[0].z, tx0, ty0 },
-        { dst[1].x, dst[1].y, dst[1].z, 1.0f / dst[1].z, tx1, ty0 },
-        { dst[2].x, dst[2].y, dst[2].z, 1.0f / dst[2].z, tx0, ty1 },
-        { dst[3].x, dst[3].y, dst[3].z, 1.0f / dst[3].z, tx1, ty1 },
+        {dst[0].x, dst[0].y, dst[0].z, 1.0f / dst[0].z, tx0, ty0},
+        {dst[1].x, dst[1].y, dst[1].z, 1.0f / dst[1].z, tx1, ty0},
+        {dst[2].x, dst[2].y, dst[2].z, 1.0f / dst[2].z, tx0, ty1},
+        {dst[3].x, dst[3].y, dst[3].z, 1.0f / dst[3].z, tx1, ty1},
     };
 
     AdjustQuad(v, 1.0, 1.0);
 
     hr = m_pD3DDev->SetTexture(0, pTexture);
 
-    float fConstData[][4] = { { dx * 0.5f, dy * 0.5f, 0, 0 }, { dx, dy, 0, 0 }, { dx, 0, 0, 0 }, { 0, dy, 0, 0 } };
+    float fConstData[][4] = {{dx * 0.5f, dy * 0.5f, 0, 0}, {dx, dy, 0, 0}, {dx, 0, 0, 0}, {0, dy, 0, 0}};
     hr = m_pD3DDev->SetPixelShaderConstantF(0, (float*)fConstData, _countof(fConstData));
 
     hr = m_pD3DDev->SetTexture(0, pTexture);
@@ -806,17 +806,17 @@ HRESULT CDX9RenderingEngine::TextureResizeBicubic1pass(IDirect3DTexture9* pTextu
     const float ty1 = (float)srcRect.bottom;
 
     MYD3DVERTEX<1> v[] = {
-        { dst[0].x, dst[0].y, dst[0].z, 1.0f / dst[0].z, tx0, ty0 },
-        { dst[1].x, dst[1].y, dst[1].z, 1.0f / dst[1].z, tx1, ty0 },
-        { dst[2].x, dst[2].y, dst[2].z, 1.0f / dst[2].z, tx0, ty1 },
-        { dst[3].x, dst[3].y, dst[3].z, 1.0f / dst[3].z, tx1, ty1 },
+        {dst[0].x, dst[0].y, dst[0].z, 1.0f / dst[0].z, tx0, ty0},
+        {dst[1].x, dst[1].y, dst[1].z, 1.0f / dst[1].z, tx1, ty0},
+        {dst[2].x, dst[2].y, dst[2].z, 1.0f / dst[2].z, tx0, ty1},
+        {dst[3].x, dst[3].y, dst[3].z, 1.0f / dst[3].z, tx1, ty1},
     };
 
     AdjustQuad(v, 1.0, 1.0);
 
     hr = m_pD3DDev->SetTexture(0, pTexture);
 
-    float fConstData[][4] = { { dx * 0.5f, dy * 0.5f, 0, 0 }, { dx, dy, 0, 0 }, { dx, 0, 0, 0 }, { 0, dy, 0, 0 } };
+    float fConstData[][4] = {{dx * 0.5f, dy * 0.5f, 0, 0}, {dx, dy, 0, 0}, {dx, 0, 0, 0}, {0, dy, 0, 0}};
     hr = m_pD3DDev->SetPixelShaderConstantF(0, (float*)fConstData, _countof(fConstData));
 
     hr = m_pD3DDev->SetPixelShader(m_pResizerPixelShaders[1]);
@@ -829,119 +829,119 @@ HRESULT CDX9RenderingEngine::TextureResizeBicubic1pass(IDirect3DTexture9* pTextu
 // The 2 pass sampler is incorrect in that it only does bilinear resampling in the y direction.
 HRESULT CDX9RenderingEngine::TextureResizeBicubic2pass(IDirect3DTexture9* pTexture, const Vector dst[4], const CRect &srcRect)
 {
-HRESULT hr;
+    HRESULT hr;
 
-// rotated?
-if (dst[0].z != dst[1].z || dst[2].z != dst[3].z || dst[0].z != dst[3].z
-|| dst[0].y != dst[1].y || dst[0].x != dst[2].x || dst[2].y != dst[3].y || dst[1].x != dst[3].x)
-return TextureResizeBicubic1pass(pTexture, dst, srcRect);
+    // rotated?
+    if (dst[0].z != dst[1].z || dst[2].z != dst[3].z || dst[0].z != dst[3].z
+    || dst[0].y != dst[1].y || dst[0].x != dst[2].x || dst[2].y != dst[3].y || dst[1].x != dst[3].x)
+        return TextureResizeBicubic1pass(pTexture, dst, srcRect);
 
-D3DSURFACE_DESC desc;
-if (!pTexture || FAILED(pTexture->GetLevelDesc(0, &desc)))
-return E_FAIL;
+    D3DSURFACE_DESC desc;
+    if (!pTexture || FAILED(pTexture->GetLevelDesc(0, &desc)))
+        return E_FAIL;
 
-float Tex0_Width = desc.Width;
-float Tex0_Height = desc.Height;
+    float Tex0_Width = desc.Width;
+    float Tex0_Height = desc.Height;
 
-double dx0 = 1.0/desc.Width;
-UNREFERENCED_PARAMETER(dx0);
-double dy0 = 1.0/desc.Height;
-UNREFERENCED_PARAMETER(dy0);
+    double dx0 = 1.0/desc.Width;
+    UNREFERENCED_PARAMETER(dx0);
+    double dy0 = 1.0/desc.Height;
+    UNREFERENCED_PARAMETER(dy0);
 
-CSize SrcTextSize = CSize(desc.Width, desc.Height);
-double w = (double)srcRect.Width();
-double h = (double)srcRect.Height();
-UNREFERENCED_PARAMETER(w);
+    CSize SrcTextSize = CSize(desc.Width, desc.Height);
+    double w = (double)srcRect.Width();
+    double h = (double)srcRect.Height();
+    UNREFERENCED_PARAMETER(w);
 
-CRect dst1(0, 0, (int)(dst[3].x - dst[0].x), (int)h);
+    CRect dst1(0, 0, (int)(dst[3].x - dst[0].x), (int)h);
 
-if (!m_pTemporaryScreenSpaceTextures[0] || FAILED(m_pTemporaryScreenSpaceTextures[0]->GetLevelDesc(0, &desc)))
-return TextureResizeBicubic1pass(pTexture, dst, srcRect);
+    if (!m_pTemporaryScreenSpaceTextures[0] || FAILED(m_pTemporaryScreenSpaceTextures[0]->GetLevelDesc(0, &desc)))
+        return TextureResizeBicubic1pass(pTexture, dst, srcRect);
 
-float Tex1_Width = desc.Width;
-float Tex1_Height = desc.Height;
+    float Tex1_Width = desc.Width;
+    float Tex1_Height = desc.Height;
 
-double dx1 = 1.0/desc.Width;
-UNREFERENCED_PARAMETER(dx1);
-double dy1 = 1.0/desc.Height;
-UNREFERENCED_PARAMETER(dy1);
+    double dx1 = 1.0/desc.Width;
+    UNREFERENCED_PARAMETER(dx1);
+    double dy1 = 1.0/desc.Height;
+    UNREFERENCED_PARAMETER(dy1);
 
-double dw = (double)dst1.Width() / desc.Width;
-UNREFERENCED_PARAMETER(dw);
-double dh = (double)dst1.Height() / desc.Height;
-UNREFERENCED_PARAMETER(dh);
+    double dw = (double)dst1.Width() / desc.Width;
+    UNREFERENCED_PARAMETER(dw);
+    double dh = (double)dst1.Height() / desc.Height;
+    UNREFERENCED_PARAMETER(dh);
 
-float dx2 = 1.0f/SrcTextSize.cx;
-UNREFERENCED_PARAMETER(dx2);
-float dy2 = 1.0f/SrcTextSize.cy;
-UNREFERENCED_PARAMETER(dy2);
+    float dx2 = 1.0f/SrcTextSize.cx;
+    UNREFERENCED_PARAMETER(dx2);
+    float dy2 = 1.0f/SrcTextSize.cy;
+    UNREFERENCED_PARAMETER(dy2);
 
-float tx0 = srcRect.left;
-float tx1 = srcRect.right;
-float ty0 = srcRect.top;
-float ty1 = srcRect.bottom;
+    float tx0 = srcRect.left;
+    float tx1 = srcRect.right;
+    float ty0 = srcRect.top;
+    float ty1 = srcRect.bottom;
 
-float tx0_2 = 0;
-float tx1_2 = dst1.Width();
-float ty0_2 = 0;
-float ty1_2 = h;
+    float tx0_2 = 0;
+    float tx1_2 = dst1.Width();
+    float ty0_2 = 0;
+    float ty1_2 = h;
 
-//  ASSERT(dst1.Height() == desc.Height);
+    //  ASSERT(dst1.Height() == desc.Height);
 
-if (dst1.Width() > (int)desc.Width || dst1.Height() > (int)desc.Height)
-// if (dst1.Width() != desc.Width || dst1.Height() != desc.Height)
-return TextureResizeBicubic1pass(pTexture, dst, srcRect);
+    if (dst1.Width() > (int)desc.Width || dst1.Height() > (int)desc.Height)
+        // if (dst1.Width() != desc.Width || dst1.Height() != desc.Height)
+        return TextureResizeBicubic1pass(pTexture, dst, srcRect);
 
-MYD3DVERTEX<1> vx[] =
-{
-{(float)dst1.left, (float)dst1.top,     0.5f, 2.0f, tx0, ty0},
-{(float)dst1.right, (float)dst1.top,    0.5f, 2.0f, tx1, ty0},
-{(float)dst1.left, (float)dst1.bottom,  0.5f, 2.0f, tx0, ty1},
-{(float)dst1.right, (float)dst1.bottom, 0.5f, 2.0f, tx1, ty1},
-};
+    MYD3DVERTEX<1> vx[] =
+    {
+        {(float)dst1.left, (float)dst1.top,     0.5f, 2.0f, tx0, ty0},
+        {(float)dst1.right, (float)dst1.top,    0.5f, 2.0f, tx1, ty0},
+        {(float)dst1.left, (float)dst1.bottom,  0.5f, 2.0f, tx0, ty1},
+        {(float)dst1.right, (float)dst1.bottom, 0.5f, 2.0f, tx1, ty1},
+    };
 
-AdjustQuad(vx, 1.0, 0.0);       // Casimir666 : bug here, create vertical lines ! TODO : why ??????
+    AdjustQuad(vx, 1.0, 0.0);       // Casimir666 : bug here, create vertical lines ! TODO : why ??????
 
-MYD3DVERTEX<1> vy[] =
-{
-{dst[0].x, dst[0].y, dst[0].z, 1.0/dst[0].z, tx0_2, ty0_2},
-{dst[1].x, dst[1].y, dst[1].z, 1.0/dst[1].z, tx1_2, ty0_2},
-{dst[2].x, dst[2].y, dst[2].z, 1.0/dst[2].z, tx0_2, ty1_2},
-{dst[3].x, dst[3].y, dst[3].z, 1.0/dst[3].z, tx1_2, ty1_2},
-};
+    MYD3DVERTEX<1> vy[] =
+    {
+        {dst[0].x, dst[0].y, dst[0].z, 1.0/dst[0].z, tx0_2, ty0_2},
+        {dst[1].x, dst[1].y, dst[1].z, 1.0/dst[1].z, tx1_2, ty0_2},
+        {dst[2].x, dst[2].y, dst[2].z, 1.0/dst[2].z, tx0_2, ty1_2},
+        {dst[3].x, dst[3].y, dst[3].z, 1.0/dst[3].z, tx1_2, ty1_2},
+    };
 
 
-AdjustQuad(vy, 0.0, 1.0);       // Casimir666 : bug here, create horizontal lines ! TODO : why ??????
+    AdjustQuad(vy, 0.0, 1.0);       // Casimir666 : bug here, create horizontal lines ! TODO : why ??????
 
-hr = m_pD3DDev->SetPixelShader(m_pResizerPixelShaders[2]);
-{
-float fConstData[][4] = {{0.5f / Tex0_Width, 0.5f / Tex0_Height, 0, 0}, {1.0f / Tex0_Width, 1.0f / Tex0_Height, 0, 0}, {1.0f / Tex0_Width, 0, 0, 0}, {0, 1.0f / Tex0_Height, 0, 0}, {Tex0_Width, Tex0_Height, 0, 0}};
-hr = m_pD3DDev->SetPixelShaderConstantF(0, (float*)fConstData, _countof(fConstData));
-}
+    hr = m_pD3DDev->SetPixelShader(m_pResizerPixelShaders[2]);
+    {
+        float fConstData[][4] = {{0.5f / Tex0_Width, 0.5f / Tex0_Height, 0, 0}, {1.0f / Tex0_Width, 1.0f / Tex0_Height, 0, 0}, {1.0f / Tex0_Width, 0, 0, 0}, {0, 1.0f / Tex0_Height, 0, 0}, {Tex0_Width, Tex0_Height, 0, 0}};
+        hr = m_pD3DDev->SetPixelShaderConstantF(0, (float*)fConstData, _countof(fConstData));
+    }
 
-hr = m_pD3DDev->SetTexture(0, pTexture);
+    hr = m_pD3DDev->SetTexture(0, pTexture);
 
-CComPtr<IDirect3DSurface9> pRTOld;
-hr = m_pD3DDev->GetRenderTarget(0, &pRTOld);
+    CComPtr<IDirect3DSurface9> pRTOld;
+    hr = m_pD3DDev->GetRenderTarget(0, &pRTOld);
 
-CComPtr<IDirect3DSurface9> pRT;
-hr = m_pTemporaryScreenSpaceTextures[0]->GetSurfaceLevel(0, &pRT);
-hr = m_pD3DDev->SetRenderTarget(0, pRT);
+    CComPtr<IDirect3DSurface9> pRT;
+    hr = m_pTemporaryScreenSpaceTextures[0]->GetSurfaceLevel(0, &pRT);
+    hr = m_pD3DDev->SetRenderTarget(0, pRT);
 
-hr = TextureBlt(m_pD3DDev, vx, D3DTEXF_POINT);
+    hr = TextureBlt(m_pD3DDev, vx, D3DTEXF_POINT);
 
-hr = m_pD3DDev->SetPixelShader(m_pResizerPixelShaders[3]);
-{
-float fConstData[][4] = {{0.5f / Tex1_Width, 0.5f / Tex1_Height, 0, 0}, {1.0f / Tex1_Width, 1.0f / Tex1_Height, 0, 0}, {1.0f / Tex1_Width, 0, 0, 0}, {0, 1.0f / Tex1_Height, 0, 0}, {Tex1_Width, Tex1_Height, 0, 0}};
-hr = m_pD3DDev->SetPixelShaderConstantF(0, (float*)fConstData, _countof(fConstData));
-}
+    hr = m_pD3DDev->SetPixelShader(m_pResizerPixelShaders[3]);
+    {
+        float fConstData[][4] = {{0.5f / Tex1_Width, 0.5f / Tex1_Height, 0, 0}, {1.0f / Tex1_Width, 1.0f / Tex1_Height, 0, 0}, {1.0f / Tex1_Width, 0, 0, 0}, {0, 1.0f / Tex1_Height, 0, 0}, {Tex1_Width, Tex1_Height, 0, 0}};
+        hr = m_pD3DDev->SetPixelShaderConstantF(0, (float*)fConstData, _countof(fConstData));
+    }
 
-hr = m_pD3DDev->SetTexture(0, m_pTemporaryScreenSpaceTextures[0]);
+    hr = m_pD3DDev->SetTexture(0, m_pTemporaryScreenSpaceTextures[0]);
 
-hr = m_pD3DDev->SetRenderTarget(0, pRTOld);
+    hr = m_pD3DDev->SetRenderTarget(0, pRTOld);
 
-hr = TextureBlt(m_pD3DDev, vy, D3DTEXF_POINT);
-return hr;
+    hr = TextureBlt(m_pD3DDev, vy, D3DTEXF_POINT);
+    return hr;
 }
 */
 
@@ -1055,7 +1055,7 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
             GetICMProfile(hDC, &icmProfilePathSize, nullptr);
             iccProfilePath = DEBUG_NEW TCHAR[icmProfilePathSize];
             if (!GetICMProfile(hDC, &icmProfilePathSize, iccProfilePath)) {
-                delete[] iccProfilePath;
+                delete [] iccProfilePath;
                 iccProfilePath = 0;
             }
 
@@ -1075,23 +1075,23 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
                                             nullptr);
 
         if (FAILED(hr)) {
-            delete[] iccProfilePath;
+            delete [] iccProfilePath;
             CleanupFinalPass();
             return hr;
         }
 
         float* lut3DFloat32 = DEBUG_NEW float[m_Lut3DEntryCount * 3];
         hr = CreateIccProfileLut(iccProfilePath, lut3DFloat32);
-        delete[] iccProfilePath;
+        delete [] iccProfilePath;
         if (FAILED(hr)) {
-            delete[] lut3DFloat32;
+            delete [] lut3DFloat32;
             CleanupFinalPass();
             return hr;
         }
 
         D3DXFLOAT16* lut3DFloat16 = DEBUG_NEW D3DXFLOAT16[m_Lut3DEntryCount * 3];
         m_pD3DXFloat32To16Array(lut3DFloat16, lut3DFloat32, m_Lut3DEntryCount * 3);
-        delete[] lut3DFloat32;
+        delete [] lut3DFloat32;
 
         const float oneFloat32 = 1.0f;
         D3DXFLOAT16 oneFloat16;
@@ -1100,7 +1100,7 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
         D3DLOCKED_BOX lockedBox;
         hr = m_pLut3DTexture->LockBox(0, &lockedBox, nullptr, D3DLOCK_DISCARD);
         if (FAILED(hr)) {
-            delete[] lut3DFloat16;
+            delete [] lut3DFloat16;
             CleanupFinalPass();
             return hr;
         }
@@ -1130,7 +1130,7 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
         }
 
         hr = m_pLut3DTexture->UnlockBox(0);
-        delete[] lut3DFloat16;
+        delete [] lut3DFloat16;
         if (FAILED(hr)) {
             CleanupFinalPass();
             return hr;
@@ -1194,8 +1194,8 @@ HRESULT CDX9RenderingEngine::CreateIccProfileLut(TCHAR* profilePath, float* lut3
     VideoSystem videoSystem;
 
     if (m_InputVideoSystem == VIDEO_SYSTEM_UNKNOWN) {
-        static const int ntscSizes[][2] = { { 720, 480 }, { 720, 486 }, { 704, 480 } };
-        static const int palSizes[][2] = { { 720, 576 }, { 704, 576 } };
+        static const int ntscSizes[][2] = {{720, 480}, {720, 486}, {704, 480}};
+        static const int palSizes[][2] = {{720, 576}, {704, 576}};
 
         videoSystem = VIDEO_SYSTEM_HDTV; // default
 
@@ -1392,16 +1392,16 @@ HRESULT CDX9RenderingEngine::CreateIccProfileLut(TCHAR* profilePath, float* lut3
         }
 
         // Cleanup
-        delete[] lut3DOutput;
-        delete[] lut3DInput;
+        delete [] lut3DOutput;
+        delete [] lut3DInput;
         cmsDeleteTransform(hTransform);
 
         return S_OK;
 
     } catch (...) {
         // Cleanup
-        delete[] lut3DOutput;
-        delete[] lut3DInput;
+        delete [] lut3DOutput;
+        delete [] lut3DInput;
         cmsDeleteTransform(hTransform);
 
         return E_FAIL;
@@ -1423,10 +1423,10 @@ HRESULT CDX9RenderingEngine::FinalPass(IDirect3DTexture9* pTexture)
     float h = (float)desc.Height;
 
     MYD3DVERTEX<1> v[] = {
-        { 0, 0, 0.5f, 2.0f, 0, 0 },
-        { w, 0, 0.5f, 2.0f, 1, 0 },
-        { 0, h, 0.5f, 2.0f, 0, 1 },
-        { w, h, 0.5f, 2.0f, 1, 1 },
+        {0, 0, 0.5f, 2.0f, 0, 0},
+        {w, 0, 0.5f, 2.0f, 1, 0},
+        {0, h, 0.5f, 2.0f, 0, 1},
+        {w, h, 0.5f, 2.0f, 1, 1},
     };
 
     for (int i = 0; i < _countof(v); i++) {
@@ -1469,7 +1469,7 @@ HRESULT CDX9RenderingEngine::FinalPass(IDirect3DTexture9* pTexture)
     }
 
     // Set constants
-    float fConstData[][4] = { { (float)w / DITHER_MATRIX_SIZE, (float)h / DITHER_MATRIX_SIZE, 0, 0 } };
+    float fConstData[][4] = {{(float)w / DITHER_MATRIX_SIZE, (float)h / DITHER_MATRIX_SIZE, 0, 0}};
     hr = m_pD3DDev->SetPixelShaderConstantF(0, (float*)fConstData, _countof(fConstData));
 
     hr = TextureBlt(m_pD3DDev, v, D3DTEXF_POINT);
@@ -1496,10 +1496,10 @@ HRESULT CDX9RenderingEngine::TextureCopy(IDirect3DTexture9* pTexture)
     float h = (float)desc.Height;
 
     MYD3DVERTEX<1> v[] = {
-        { 0, 0, 0.5f, 2.0f, 0, 0 },
-        { w, 0, 0.5f, 2.0f, 1, 0 },
-        { 0, h, 0.5f, 2.0f, 0, 1 },
-        { w, h, 0.5f, 2.0f, 1, 1 },
+        {0, 0, 0.5f, 2.0f, 0, 0},
+        {w, 0, 0.5f, 2.0f, 1, 0},
+        {0, h, 0.5f, 2.0f, 0, 1},
+        {w, h, 0.5f, 2.0f, 1, 1},
     };
 
     for (int i = 0; i < _countof(v); i++) {
@@ -1557,10 +1557,10 @@ HRESULT CDX9RenderingEngine::DrawRect(DWORD _Color, DWORD _Alpha, const CRect& _
 
     DWORD Color = D3DCOLOR_ARGB(_Alpha, GetRValue(_Color), GetGValue(_Color), GetBValue(_Color));
     MYD3DVERTEX<0> v[] = {
-        { float(_Rect.left), float(_Rect.top), 0.5f, 2.0f, Color },
-        { float(_Rect.right), float(_Rect.top), 0.5f, 2.0f, Color },
-        { float(_Rect.left), float(_Rect.bottom), 0.5f, 2.0f, Color },
-        { float(_Rect.right), float(_Rect.bottom), 0.5f, 2.0f, Color },
+        {float(_Rect.left), float(_Rect.top), 0.5f, 2.0f, Color},
+        {float(_Rect.right), float(_Rect.top), 0.5f, 2.0f, Color},
+        {float(_Rect.left), float(_Rect.bottom), 0.5f, 2.0f, Color},
+        {float(_Rect.right), float(_Rect.bottom), 0.5f, 2.0f, Color},
     };
 
     for (int i = 0; i < _countof(v); i++) {
@@ -1619,10 +1619,10 @@ HRESULT CDX9RenderingEngine::AlphaBlt(const RECT* pSrc, const RECT* pDst, IDirec
         float x, y, z, rhw;
         float tu, tv;
     } pVertices[] = {
-        { (float)dst.left, (float)dst.top, 0.5f, 2.0f, (float)src.left / w, (float)src.top / h },
-        { (float)dst.right, (float)dst.top, 0.5f, 2.0f, (float)src.right / w, (float)src.top / h },
-        { (float)dst.left, (float)dst.bottom, 0.5f, 2.0f, (float)src.left / w, (float)src.bottom / h },
-        { (float)dst.right, (float)dst.bottom, 0.5f, 2.0f, (float)src.right / w, (float)src.bottom / h },
+        {(float)dst.left, (float)dst.top, 0.5f, 2.0f, (float)src.left / w, (float)src.top / h},
+        {(float)dst.right, (float)dst.top, 0.5f, 2.0f, (float)src.right / w, (float)src.top / h},
+        {(float)dst.left, (float)dst.bottom, 0.5f, 2.0f, (float)src.left / w, (float)src.bottom / h},
+        {(float)dst.right, (float)dst.bottom, 0.5f, 2.0f, (float)src.right / w, (float)src.bottom / h},
     };
 
     for (size_t i = 0; i < _countof(pVertices); i++) {
