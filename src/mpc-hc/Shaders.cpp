@@ -50,82 +50,8 @@ bool Shader::IsDefault() const
     return PathUtils::IsInDir(filePath, ShaderList::GetShadersDir());
 }
 
-// CStringA Shader::GetCode(const CPath& pFilename, const CPath& pSystemDirectory, const CPath& pSourceFilename) const
-// {
-// 	CShaderIncludeHandler lHandler(pSystemDirectory, pSourceFilename);
-// 
-// 	// look for every #includes and accumulate the corresponding source code
-// 	std::regex lPattern("^\\s*#include\\s*([\\\"][^\\\"]*[\\\"]|[<][^>]*[>])[^$]*$");
-// 	
-// 	std::ifstream lInput(CT2A(pFilename), std::ios_base::in | std::ios_base::binary);
-// 
-// 	// resulting code
-// 	CStringA lCode;
-// 
-// 	std::string lLine;
-// 	while (std::getline(lInput, lLine))
-// 	{
-// 		std::smatch base_match;
-// 		if (std::regex_match(lLine, base_match, lPattern) == false)
-// 		{
-// 			// just add the line to the overall code
-// 			lCode.Append(CStringA(lLine.c_str()));
-// 			lCode.AppendChar('\n');
-// 			continue;
-// 		}
-// 
-// 		if (base_match.size() < 2)
-// 			continue; // shouldn't happen
-// 
-// 		std::string lName = base_match[1].str();
-// 		if (lName.size() < 3)
-// 			continue; // strange illformed #include
-// 
-// 		// Finding the include type
-// 		D3D_INCLUDE_TYPE lType;
-// 		char lChar = lName.at(0);
-// 		if (lChar == '"')
-// 			lType = D3D_INCLUDE_LOCAL;
-// 		else if (lChar == '<')
-// 			lType = D3D_INCLUDE_SYSTEM;
-// 		else
-// 			continue; // strange illformed #include
-// 
-// 		// Extracting the file name
-// 		std::string lFilename(std::next(lName.begin()), std::next(lName.begin(), lName.size() - 1));
-// 		CPath lIncludeFileName = lHandler.GetFullFileName(CString(lFilename.c_str()), lType);
-// 
-// 		// Remember that we need to watch this file for changes
-// 		includesPath.push_back(lIncludeFileName);
-// 
-// 		// Read the file
-// 		CStringA lIncludeContent = GetCode(lIncludeFileName, pSystemDirectory, pSourceFilename);
-// 
-// 		// Accumulate the content
-// 		lCode.Append(lIncludeContent);
-// 		lCode.AppendChar('\n');
-// 	}
-// 
-// 	return lCode;
-// }
-
 CStringA Shader::GetCode() const
 {
-	// includesPath.clear();
-	// 
-	// const CAppSettings& s = AfxGetAppSettings();
-	// CStringA code = GetCode(CPath(filePath), CPath(s.m_ShadersIncludePath), CPath(filePath));
-	// 
-	// if (code.GetLength() > SHADER_MAX_FILE_SIZE)
-	// {
-	// 	// reject shader code that is larger than SHADER_MAX_FILE_SIZE bytes,
-	// 	// we need to limit it to some sane value in case the user tries to feed MPC-HC
-	// 	// something large and bogus
-	// 	ASSERT(FALSE);
-	// }
-	
-	// return code;
-
     CStringA code;
     if (FILE* fp = _tfsopen(filePath, _T("rb"), _SH_SECURE)) {
         fseek(fp, 0, SEEK_END);

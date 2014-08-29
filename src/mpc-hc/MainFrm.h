@@ -231,7 +231,6 @@ private:
 
     CComPtr<ISubPicAllocatorPresenter> m_pCAP;
     CComPtr<ISubPicAllocatorPresenter2> m_pCAP2;
-	CComPtr<ISubPicAllocatorPresenter3> m_pCAP3;
 
     CComPtr<IMadVRSettings> m_pMVRS;
 

@@ -3231,7 +3231,7 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
     }
 
     // set shader selection
-    if (m_pCAP || m_pCAP2 || m_pCAP3) {
+    if (m_pCAP || m_pCAP2) {
         SetShaders();
     }
 
@@ -10042,7 +10042,7 @@ void CMainFrame::SetShaders(bool bSetPreResize/* = true*/, bool bSetPostResize/*
     // When pTarget parameter of ISubPicAllocatorPresenter2::SetPixelShader2() is nullptr,
     // internal video renderers select maximum available profile and madVR (the only external renderer that
     // supports shader part of ISubPicAllocatorPresenter2 interface) seems to ignore it altogether.
-    if ((m_pCAP2 != nullptr) || (m_pCAP3 != nullptr)) {
+    if (m_pCAP2) {
 
 		std::vector<CString> lIncludedFiles;
 
@@ -10052,10 +10052,13 @@ void CMainFrame::SetShaders(bool bSetPreResize/* = true*/, bool bSetPostResize/*
 			for (const auto& shader : pList)
 			{
 				// we need to set the shader parameters (to allow #include for instance)
-				if (m_pCAP3 != nullptr)
+				IPresenterIncludeHandler* lIncludeHandler = nullptr;
+				m_pCAP2.QueryInterface<IPresenterIncludeHandler>(&lIncludeHandler);
+				
+				if (lIncludeHandler != nullptr)
 				{
-					m_pCAP3->SetShaderSource(shader.filePath);
-					m_pCAP3->SetSystemIncludeDir(AfxGetAppSettings().m_ShadersIncludePath);
+					lIncludeHandler->SetShaderSource(shader.filePath);
+					lIncludeHandler->SetSystemIncludeDir(AfxGetAppSettings().m_ShadersIncludePath);
 				}
 
 				// shader compilation
@@ -10066,8 +10069,11 @@ void CMainFrame::SetShaders(bool bSetPreResize/* = true*/, bool bSetPostResize/*
 				}
 
 				// extraction of the #included files, to watch for changes later
-				const auto& lIncludedFiles = m_pCAP3->GetIncludes();
-				pIncludedFiles.insert(pIncludedFiles.end(), lIncludedFiles.begin(), lIncludedFiles.end());
+				if (lIncludeHandler != nullptr)
+				{
+					const auto& lIncludedFiles = lIncludeHandler->GetIncludes();
+					pIncludedFiles.insert(pIncludedFiles.end(), lIncludedFiles.begin(), lIncludedFiles.end());
+				}
 			}
 
 			return true;
@@ -11620,7 +11626,6 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
             throw (UINT)IDS_INVALID_PARAMS_ERROR;
         }
 
-		m_pCAP3 = nullptr;
         m_pCAP2 = nullptr;
         m_pCAP = nullptr;
 
@@ -11630,7 +11635,6 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 
         m_pGB->FindInterface(IID_PPV_ARGS(&m_pCAP), TRUE);
 		m_pGB->FindInterface(IID_PPV_ARGS(&m_pCAP2), TRUE);
-		m_pGB->FindInterface(IID_PPV_ARGS(&m_pCAP3), TRUE);
         m_pGB->FindInterface(IID_PPV_ARGS(&m_pVMRWC), FALSE); // might have IVMRMixerBitmap9, but not IVMRWindowlessControl9
         m_pGB->FindInterface(IID_PPV_ARGS(&m_pVMRMC), TRUE);
         m_pGB->FindInterface(IID_PPV_ARGS(&pVMB), TRUE);
@@ -11796,7 +11800,6 @@ void CMainFrame::CloseMediaPrivate()
     m_OSD.Stop();
     m_pMVRS.Release();
 	m_pCAP2.Release();
-	m_pCAP3.Release();
     m_pCAP.Release();
     m_pVMRWC.Release();
     m_pVMRMC.Release();
@@ -14054,7 +14057,6 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
             m_pMVRS.Release();
 
 			m_OSD.Stop();
-			m_pCAP3.Release();
             m_pCAP2.Release();
             m_pCAP.Release();
             m_pVMRWC.Release();
@@ -14067,7 +14069,6 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
 
             m_pGB->FindInterface(IID_PPV_ARGS(&m_pCAP), TRUE);
 			m_pGB->FindInterface(IID_PPV_ARGS(&m_pCAP2), TRUE);
-			m_pGB->FindInterface(IID_PPV_ARGS(&m_pCAP3), TRUE);
             m_pGB->FindInterface(IID_PPV_ARGS(&m_pVMRWC), FALSE);
             m_pGB->FindInterface(IID_PPV_ARGS(&m_pVMRMC), TRUE);
             m_pGB->FindInterface(IID_PPV_ARGS(&pVMB), TRUE);

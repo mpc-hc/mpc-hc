@@ -30,8 +30,9 @@
 class CSubPicAllocatorPresenterImpl
     : public CUnknown
     , public CCritSec
-    , public ISubPicAllocatorPresenter3
+    , public ISubPicAllocatorPresenter2
     , public ISubRenderConsumer2
+	, public IPresenterIncludeHandler
 {
 private:
     CCritSec m_csSubPicProvider;
@@ -117,7 +118,7 @@ public:
 
     STDMETHODIMP SetIsRendering(bool bIsRendering) { return E_NOTIMPL; }
 
-	// ISubPicAllocatorPresenter3
+	// IPresenterIncludeHandler
 
 	STDMETHODIMP SetShaderSource(const CString& pFileName) {
 		m_ShaderFileName = pFileName;

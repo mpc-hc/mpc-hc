@@ -206,10 +206,10 @@ public ISubPicAllocatorPresenter {
     STDMETHOD(SetIsRendering)(bool bIsRendering) PURE;
 };
 
-interface __declspec(uuid("9DC78F1A-C362-4715-BF20-0992ADC9B5EE"))
-ISubPicAllocatorPresenter3 :
-public ISubPicAllocatorPresenter2 {
-public:
+// Interface that must be implemented by presenters in order to allow #inclusions
+interface __declspec(uuid("212C1425-F407-4FF6-B0A0-8335FA46ABA8"))
+IPresenterIncludeHandler :
+public IUnknown {
 	STDMETHOD(SetShaderSource)(const CString& pFileName) PURE;
 	STDMETHOD_(const CString&, GetShaderSource)() PURE;
 	STDMETHOD(SetSystemIncludeDir)(const CString& pDir) PURE;
