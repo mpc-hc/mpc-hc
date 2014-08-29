@@ -62,7 +62,8 @@ public:
         IDirect3DPixelShader9** ppPixelShader,
         CString* pDisasm = nullptr,
         CString* pErrMsg = nullptr,
-		std::vector<CString>* pIncludedFiles = nullptr);
+		std::vector<CString>* pIncludedFiles = nullptr,
+		CString* pSrcFileName = nullptr);
 
     HRESULT CompileShaderFromFile(
         LPCTSTR pSrcFile,

@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include <vector>
 #include <atlbase.h>
 #include <atlcoll.h>
 #include "CoordGeom.h"
@@ -203,6 +204,18 @@ public ISubPicAllocatorPresenter {
 
     STDMETHOD_(bool, IsRendering)() PURE;
     STDMETHOD(SetIsRendering)(bool bIsRendering) PURE;
+};
+
+interface __declspec(uuid("9DC78F1A-C362-4715-BF20-0992ADC9B5EE"))
+ISubPicAllocatorPresenter3 :
+public ISubPicAllocatorPresenter2 {
+public:
+	STDMETHOD(SetShaderSource)(const CString& pFileName) PURE;
+	STDMETHOD_(const CString&, GetShaderSource)() PURE;
+	STDMETHOD(SetSystemIncludeDir)(const CString& pDir) PURE;
+	STDMETHOD_(const CString&, GetSystemIncludeDir)() PURE;
+	STDMETHOD(SetIncludes)(const std::vector<CString>& pIncludes) PURE;
+	STDMETHOD_(const std::vector<CString>&, GetIncludes)() PURE;
 };
 
 //

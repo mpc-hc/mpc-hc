@@ -195,9 +195,14 @@ HRESULT CPixelShaderCompiler::CompileShader(
     IDirect3DPixelShader9** ppPixelShader,
     CString* pDisasm,
     CString* pErrMsg,
-	std::vector<CString>* pIncludedFiles)
+	std::vector<CString>* pIncludedFiles,
+	CString* pSrcFileName)
 {
-    return InternalCompile(pSrcData, strlen(pSrcData), nullptr, pEntrypoint,
+	CString lSrcFileName;
+	if (pSrcFileName != nullptr)
+		lSrcFileName = *pSrcFileName;
+
+	return InternalCompile(pSrcData, strlen(pSrcData), CT2A(lSrcFileName), pEntrypoint,
 						   pProfile, Flags, ppPixelShader, pDisasm, pErrMsg, pIncludedFiles);
 }
 

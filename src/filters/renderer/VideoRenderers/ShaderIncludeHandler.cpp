@@ -42,12 +42,8 @@ CShaderIncludeHandler::~CShaderIncludeHandler()
 {
 }
 
-HRESULT CShaderIncludeHandler::Open(D3D_INCLUDE_TYPE IncludeType, LPCSTR pFileName, LPCVOID pParentData, LPCVOID *ppData, UINT *pBytes)
+CPath CShaderIncludeHandler::GetFullFileName(const CString& pFilename, D3D_INCLUDE_TYPE IncludeType) const
 {
-	m_IncludedFiles.clear();
-
-	CA2T lTFilename(pFileName);
-	
 	// Find which root directory to use
 	CPath lIncludeFileName;
 	if (IncludeType == D3D10_INCLUDE_LOCAL)
@@ -55,7 +51,17 @@ HRESULT CShaderIncludeHandler::Open(D3D_INCLUDE_TYPE IncludeType, LPCSTR pFileNa
 	else
 		lIncludeFileName = CPath(m_SystemDirectory);
 
-	lIncludeFileName.Append(CPath(lTFilename));
+	lIncludeFileName.Append(CPath(pFilename));
+
+	return lIncludeFileName;
+}
+
+HRESULT CShaderIncludeHandler::Open(D3D_INCLUDE_TYPE IncludeType, LPCSTR pFileName, LPCVOID pParentData, LPCVOID *ppData, UINT *pBytes)
+{
+	m_IncludedFiles.clear();
+
+	// Find which root directory to use
+	CPath lIncludeFileName = GetFullFileName(CString(pFileName), IncludeType);
 
 	// Open file or generate warning message (pragma)
 	CString lCIncludeFileName = lIncludeFileName;

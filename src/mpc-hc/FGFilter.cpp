@@ -453,8 +453,10 @@ HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnkno
             CComPtr<IUnknown> pRenderer;
             if (SUCCEEDED(hr = pCAP->CreateRenderer(&pRenderer))) {
                 *ppBF = CComQIPtr<IBaseFilter>(pRenderer).Detach();
-                pUnks.AddTail(pCAP);
-                if (CComQIPtr<ISubPicAllocatorPresenter2> pCAP2 = pCAP) {
+				pUnks.AddTail(pCAP);
+				if (CComQIPtr<ISubPicAllocatorPresenter3> pCAP3 = pCAP) {
+					pUnks.AddTail(pCAP3);
+				} else if (CComQIPtr<ISubPicAllocatorPresenter2> pCAP2 = pCAP) {
                     pUnks.AddTail(pCAP2);
                 }
                 // madVR supports calling IVideoWindow::put_Owner before the pins are connected

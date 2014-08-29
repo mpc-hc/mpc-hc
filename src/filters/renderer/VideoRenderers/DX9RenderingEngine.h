@@ -91,8 +91,12 @@ namespace DSObjects
             CComPtr<IDirect3DPixelShader9> m_pPixelShader;
             CStringA m_SourceData;
             CStringA m_SourceTarget;
+
+			CString m_SourceFileName;
+			std::vector<CString> m_IncludedFiles;
+
             HRESULT Compile(CPixelShaderCompiler* pCompiler) {
-                HRESULT hr = pCompiler->CompileShader(m_SourceData, "main", m_SourceTarget, 0, &m_pPixelShader);
+				HRESULT hr = pCompiler->CompileShader(m_SourceData, "main", m_SourceTarget, 0, &m_pPixelShader, nullptr, nullptr, &m_IncludedFiles, &m_SourceFileName);
                 if (FAILED(hr)) {
                     return hr;
                 }
@@ -147,7 +151,6 @@ namespace DSObjects
 
         // D3DX function pointers
         D3DXFloat32To16ArrayPtr          m_pD3DXFloat32To16Array;
-
 
         // Video rendering paths
         HRESULT RenderVideoDrawPath(IDirect3DSurface9* pRenderTarget, const CRect& srcRect, const CRect& destRect);

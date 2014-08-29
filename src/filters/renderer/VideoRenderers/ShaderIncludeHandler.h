@@ -32,6 +32,8 @@ public:
 	STDMETHOD(Open)(THIS_ D3D_INCLUDE_TYPE IncludeType, LPCSTR pFileName, LPCVOID pParentData, LPCVOID *ppData, UINT *pBytes);
 	STDMETHOD(Close)(THIS_ LPCVOID pData);
 
+	CPath GetFullFileName(const CString& pFilename, D3D_INCLUDE_TYPE IncludeType) const;
+
 public:
 	CShaderIncludeHandler();
 	CShaderIncludeHandler(

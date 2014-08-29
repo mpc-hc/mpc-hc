@@ -3231,7 +3231,7 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
     }
 
     // set shader selection
-    if (m_pCAP || m_pCAP2) {
+    if (m_pCAP || m_pCAP2 || m_pCAP3) {
         SetShaders();
     }
 
@@ -10042,27 +10042,46 @@ void CMainFrame::SetShaders(bool bSetPreResize/* = true*/, bool bSetPostResize/*
     // When pTarget parameter of ISubPicAllocatorPresenter2::SetPixelShader2() is nullptr,
     // internal video renderers select maximum available profile and madVR (the only external renderer that
     // supports shader part of ISubPicAllocatorPresenter2 interface) seems to ignore it altogether.
-    if (m_pCAP2) {
+    if ((m_pCAP2 != nullptr) || (m_pCAP3 != nullptr)) {
+
+		std::vector<CString> lIncludedFiles;
+
+		auto CompileShaderList = [this](const ShaderList& pList, std::vector<CString>& pIncludedFiles, bool pScreenSpace) -> bool
+		{
+			m_pCAP2->SetPixelShader2(nullptr, nullptr, pScreenSpace);
+			for (const auto& shader : pList)
+			{
+				// we need to set the shader parameters (to allow #include for instance)
+				if (m_pCAP3 != nullptr)
+				{
+					m_pCAP3->SetShaderSource(shader.filePath);
+					m_pCAP3->SetSystemIncludeDir(AfxGetAppSettings().m_ShadersIncludePath);
+				}
+
+				// shader compilation
+				if (FAILED(m_pCAP2->SetPixelShader2(shader.GetCode(), nullptr, pScreenSpace)))
+				{
+					m_pCAP2->SetPixelShader2(nullptr, nullptr, pScreenSpace);
+					return false;
+				}
+
+				// extraction of the #included files, to watch for changes later
+				const auto& lIncludedFiles = m_pCAP3->GetIncludes();
+				pIncludedFiles.insert(pIncludedFiles.end(), lIncludedFiles.begin(), lIncludedFiles.end());
+			}
+
+			return true;
+		};
+
         if (bSetPreResize) {
-            m_pCAP2->SetPixelShader2(nullptr, nullptr, false);
-            for (const auto& shader : s.m_Shaders.GetCurrentPreset().GetPreResize()) {
-                if (FAILED(m_pCAP2->SetPixelShader2(shader.GetCode(), nullptr, false))) {
-                    preFailed = true;
-                    m_pCAP2->SetPixelShader2(nullptr, nullptr, false);
-                    break;
-                }
-            }
+			preFailed = !CompileShaderList(s.m_Shaders.GetCurrentPreset().GetPreResize(), lIncludedFiles, false);
         }
         if (bSetPostResize) {
-            m_pCAP2->SetPixelShader2(nullptr, nullptr, true);
-            for (const auto& shader : s.m_Shaders.GetCurrentPreset().GetPostResize()) {
-                if (FAILED(m_pCAP2->SetPixelShader2(shader.GetCode(), nullptr, true))) {
-                    postFailed = true;
-                    m_pCAP2->SetPixelShader2(nullptr, nullptr, true);
-                    break;
-                }
-            }
+			postFailed = !CompileShaderList(s.m_Shaders.GetCurrentPreset().GetPostResize(), lIncludedFiles, true);
         }
+
+		s.m_Shaders.GetCurrentPreset().SetIncludedFiles(lIncludedFiles);
+
     } else if (m_pCAP) {
         // shouldn't happen, all knows renderers that support ISubPicAllocatorPresenter interface
         // support ISubPicAllocatorPresenter2 as well, and it takes priority
@@ -11601,6 +11620,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
             throw (UINT)IDS_INVALID_PARAMS_ERROR;
         }
 
+		m_pCAP3 = nullptr;
         m_pCAP2 = nullptr;
         m_pCAP = nullptr;
 
@@ -11609,7 +11629,8 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         CComPtr<IMadVRTextOsd>       pMVTO;
 
         m_pGB->FindInterface(IID_PPV_ARGS(&m_pCAP), TRUE);
-        m_pGB->FindInterface(IID_PPV_ARGS(&m_pCAP2), TRUE);
+		m_pGB->FindInterface(IID_PPV_ARGS(&m_pCAP2), TRUE);
+		m_pGB->FindInterface(IID_PPV_ARGS(&m_pCAP3), TRUE);
         m_pGB->FindInterface(IID_PPV_ARGS(&m_pVMRWC), FALSE); // might have IVMRMixerBitmap9, but not IVMRWindowlessControl9
         m_pGB->FindInterface(IID_PPV_ARGS(&m_pVMRMC), TRUE);
         m_pGB->FindInterface(IID_PPV_ARGS(&pVMB), TRUE);
@@ -11774,7 +11795,8 @@ void CMainFrame::CloseMediaPrivate()
     // IMPORTANT: IVMRSurfaceAllocatorNotify/IVMRSurfaceAllocatorNotify9 has to be released before the VMR/VMR9, otherwise it will crash in Release()
     m_OSD.Stop();
     m_pMVRS.Release();
-    m_pCAP2.Release();
+	m_pCAP2.Release();
+	m_pCAP3.Release();
     m_pCAP.Release();
     m_pVMRWC.Release();
     m_pVMRMC.Release();
@@ -14031,7 +14053,8 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
 
             m_pMVRS.Release();
 
-            m_OSD.Stop();
+			m_OSD.Stop();
+			m_pCAP3.Release();
             m_pCAP2.Release();
             m_pCAP.Release();
             m_pVMRWC.Release();
@@ -14043,7 +14066,8 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
             m_pGB->Render(pVidPrevPin);
 
             m_pGB->FindInterface(IID_PPV_ARGS(&m_pCAP), TRUE);
-            m_pGB->FindInterface(IID_PPV_ARGS(&m_pCAP2), TRUE);
+			m_pGB->FindInterface(IID_PPV_ARGS(&m_pCAP2), TRUE);
+			m_pGB->FindInterface(IID_PPV_ARGS(&m_pCAP3), TRUE);
             m_pGB->FindInterface(IID_PPV_ARGS(&m_pVMRWC), FALSE);
             m_pGB->FindInterface(IID_PPV_ARGS(&m_pVMRMC), TRUE);
             m_pGB->FindInterface(IID_PPV_ARGS(&pVMB), TRUE);
