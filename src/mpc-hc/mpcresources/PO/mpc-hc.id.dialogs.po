@@ -1,0 +1,1693 @@
+# MPC-HC - Strings extracted from dialogs
+# Copyright (C) 2002 - 2013 see Authors.txt
+# This file is distributed under the same license as the MPC-HC package.
+# Translators:
+# Hatta.z, 2014
+# yoga.mardia <made.yoga12@gmail.com>, 2014
+# Reza Septyan .R. <ainofuyuumI@outlook.com>, 2014
+# Zamani Karmana <zamani.karmana@gmail.com>, 2015
+msgid ""
+msgstr ""
+"Project-Id-Version: MPC-HC\n"
+"POT-Creation-Date: 2015-05-17 20:47:27+0000\n"
+"PO-Revision-Date: 2015-06-04 11:30+0000\n"
+"Last-Translator: Zamani Karmana <zamani.karmana@gmail.com>\n"
+"Language-Team: Indonesian (http://www.transifex.com/projects/p/mpc-hc/language/id/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: id\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgctxt "IDD_SELECTMEDIATYPE_CAPTION"
+msgid "Select Media Type"
+msgstr "Pilih Jenis Media"
+
+msgctxt "IDD_SELECTMEDIATYPE_IDOK"
+msgid "OK"
+msgstr "OK"
+
+msgctxt "IDD_SELECTMEDIATYPE_IDCANCEL"
+msgid "Cancel"
+msgstr "Batal"
+
+msgctxt "IDD_CAPTURE_DLG_IDC_STATIC1"
+msgid "Video"
+msgstr "Video"
+
+msgctxt "IDD_CAPTURE_DLG_IDC_BUTTON1"
+msgid "Set"
+msgstr "Tetapkan"
+
+msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
+msgid "Audio"
+msgstr "Audio"
+
+msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
+msgid "Output"
+msgstr "Keluaran"
+
+msgctxt "IDD_CAPTURE_DLG_IDC_CHECK1"
+msgid "Record Video"
+msgstr "Rekam Video"
+
+msgctxt "IDD_CAPTURE_DLG_IDC_CHECK2"
+msgid "Preview"
+msgstr "Pratinjau"
+
+msgctxt "IDD_CAPTURE_DLG_IDC_CHECK3"
+msgid "Record Audio"
+msgstr "Rekam Audio"
+
+msgctxt "IDD_CAPTURE_DLG_IDC_CHECK4"
+msgid "Preview"
+msgstr "Pratinjau"
+
+msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
+msgid "V/A Buffers:"
+msgstr "Bufer V/A:"
+
+msgctxt "IDD_CAPTURE_DLG_IDC_CHECK5"
+msgid "Audio to wav"
+msgstr "Audio ke wav"
+
+msgctxt "IDD_CAPTURE_DLG_IDC_BUTTON2"
+msgid "Record"
+msgstr "Rekam"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK2"
+msgid "Enable built-in audio switcher filter (requires restart)"
+msgstr "Fungsikan filter pengubah suara bawaan (wajib memulai ulang)"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK5"
+msgid "Normalize"
+msgstr "Normalkan"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC4"
+msgid "Max amplification:"
+msgstr "Amplifikasi Maks:"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC5"
+msgid "%"
+msgstr "%"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK6"
+msgid "Regain volume"
+msgstr "Perkeras volume"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC6"
+msgid "Boost:"
+msgstr "Galak:"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK3"
+msgid "Down-sample to 44100 Hz"
+msgstr "Turunkan sampel ke 44100 Hz"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK4"
+msgid "Audio time shift (ms):"
+msgstr "Waktu ingsut audio (ms):"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK1"
+msgid "Enable custom channel mapping"
+msgstr "Fungsikan pemetaan saluran khusus"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
+msgid "Speaker configuration for"
+msgstr "Konfigurasi pengeras suara untuk"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
+msgid "input channels:"
+msgstr "saluran masukan:"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
+msgid "Hold shift for immediate changes when clicking something"
+msgstr "Tahan shift untuk perubahan langsung ketika mengklik sesuatu"
+
+msgctxt "IDD_GOTO_DLG_CAPTION"
+msgid "Go To..."
+msgstr "Ke..."
+
+msgctxt "IDD_GOTO_DLG_IDC_STATIC"
+msgid "Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time. You do not need to enter the separators explicitly."
+msgstr "Masukkan kode waktu menggunakan format [hh:]mm:ss.ms untuk melompat ke waktu yang ditentukan. Anda tidak perlu memasukkan karakter pemisah secara eksplisit."
+
+msgctxt "IDD_GOTO_DLG_IDC_STATIC"
+msgid "Time"
+msgstr "Waktu"
+
+msgctxt "IDD_GOTO_DLG_IDC_OK1"
+msgid "Go!"
+msgstr "Jalankan!"
+
+msgctxt "IDD_GOTO_DLG_IDC_STATIC"
+msgid "Enter two numbers to jump to a specified frame, the first is the frame number, the second is the frame rate."
+msgstr "Masukkan dua angka untuk melompat ke frame tertentu, yang pertama adalah nomor frame, yang kedua adalah laju frame."
+
+msgctxt "IDD_GOTO_DLG_IDC_STATIC"
+msgid "Frame"
+msgstr "Frame"
+
+msgctxt "IDD_GOTO_DLG_IDC_OK2"
+msgid "Go!"
+msgstr "Jalankan!"
+
+msgctxt "IDD_OPEN_DLG_CAPTION"
+msgid "Open"
+msgstr "Buka"
+
+msgctxt "IDD_OPEN_DLG_IDC_STATIC"
+msgid "Type the address of a movie or audio file (on the Internet or your computer) and the player will open it for you."
+msgstr "Ketik alamat berkas film atau audio (di Internet atau komputer anda) dan pemutar akan membukanya untuk anda."
+
+msgctxt "IDD_OPEN_DLG_IDC_STATIC"
+msgid "Open:"
+msgstr "Buka:"
+
+msgctxt "IDD_OPEN_DLG_IDC_BUTTON1"
+msgid "Browse..."
+msgstr "Ramban..."
+
+msgctxt "IDD_OPEN_DLG_IDC_STATIC1"
+msgid "Dub:"
+msgstr "Dub:"
+
+msgctxt "IDD_OPEN_DLG_IDC_BUTTON2"
+msgid "Browse..."
+msgstr "Ramban..."
+
+msgctxt "IDD_OPEN_DLG_IDOK"
+msgid "OK"
+msgstr "OK"
+
+msgctxt "IDD_OPEN_DLG_IDCANCEL"
+msgid "Cancel"
+msgstr "Batal"
+
+msgctxt "IDD_OPEN_DLG_IDC_CHECK1"
+msgid "Add to playlist without opening"
+msgstr "Tambahkan ke daftar putar tanpa membuka"
+
+msgctxt "IDD_ABOUTBOX_CAPTION"
+msgid "About"
+msgstr "Tentang"
+
+msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
+msgid "Copyright © 2002-2015 see Authors.txt"
+msgstr "Hak Cipta 2002-2015 lihat Authors.txt"
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "This program is freeware and released under the GNU General Public License."
+msgstr "Program ini adalah perangkat lunak gratis dan dirilis di bawah Lisensi Publik Umum GNU."
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "English translation made by MPC-HC Team"
+msgstr "Terjemahan Bahasa Inggris dibuat oleh Tim MPC-HC"
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "Build information"
+msgstr "Informasi versi"
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "Version:"
+msgstr "Versi:"
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "Compiler:"
+msgstr "Pengompilasi:"
+
+msgctxt "IDD_ABOUTBOX_IDC_LAVFILTERS_VERSION"
+msgid "Not used"
+msgstr "Tidak digunakan"
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "Build date:"
+msgstr "Tanggal Pembuatan:"
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "Operating system"
+msgstr "Sistem Operasi"
+
+msgctxt "IDD_ABOUTBOX_IDC_STATIC"
+msgid "Name:"
+msgstr "Nama:"
+
+msgctxt "IDD_ABOUTBOX_IDC_BUTTON1"
+msgid "Copy to clipboard"
+msgstr "Salin ke papan klip"
+
+msgctxt "IDD_ABOUTBOX_IDOK"
+msgid "OK"
+msgstr "OK"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
+msgid "Open options"
+msgstr "Buka opsi"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_RADIO1"
+msgid "Use the same player for each media file"
+msgstr "Gunakan pemutar yang sama untuk setiap berkas media"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_RADIO2"
+msgid "Open a new player for each media file played"
+msgstr "Buka pemutar baru untuk setiap berkas media yang diputar"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
+msgid "Language"
+msgstr "Bahasa"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
+msgid "Title bar"
+msgstr "Bilah judul"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_RADIO3"
+msgid "Display full path"
+msgstr "Tampilkan jalur penuh"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_RADIO4"
+msgid "File name only"
+msgstr "Hanya nama berkas"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_RADIO5"
+msgid "Don't prefix anything"
+msgstr "Jangan prefiks apapun"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK13"
+msgid "Replace file name with title"
+msgstr "Ganti nama berkas dengan judul"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
+msgid "Other"
+msgstr "Lainnya"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK3"
+msgid "Tray icon"
+msgstr "Ikon baki"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_SHOW_OSD"
+msgid "Show OSD (requires restart)"
+msgstr "Tampilkan OSD (wajib memulai ulang)"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK4"
+msgid "Limit window proportions on resize"
+msgstr "Batasi proporsi jendela saat mengubah ukuran"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK12"
+msgid "Snap to desktop edges"
+msgstr "Lengket ke tepi destop"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK8"
+msgid "Store settings in .ini file"
+msgstr "Simpan pengaturan ke berkas .ini"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"
+msgid "Disable \"Open Disc\" menu"
+msgstr "Nonfungsikan menu \"Buka Penggerak Cakram\""
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK9"
+msgid "Process priority above normal"
+msgstr "Prioritas proses di atas normal"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK14"
+msgid "Enable cover-art support"
+msgstr "Fungsikan dukungan kover album"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
+msgid "History"
+msgstr "Riwayat"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK1"
+msgid "Keep history of recently opened files"
+msgstr "Simpan riwayat berkas yang baru terbuka"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK2"
+msgid "Remember last playlist"
+msgstr "Ingat daftar putar terakhir"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_FILE_POS"
+msgid "Remember File position"
+msgstr "Ingat posisi Berkas"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_DVD_POS"
+msgid "Remember DVD position"
+msgstr "Ingat posisi DVD"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK6"
+msgid "Remember last window position"
+msgstr "Ingat posisi jendela terakhir"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK7"
+msgid "Remember last window size"
+msgstr "Ingat ukuran jendela terakhir"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
+msgid "Remember last Pan-n-Scan Zoom"
+msgstr "Ingat Zum Pan-n-Scan terakhir"
+
+msgctxt "IDD_PPAGEDVD_IDC_STATIC"
+msgid "\"Open DVD/BD\" behavior"
+msgstr "Perilaku \"Buka DVD/BD\""
+
+msgctxt "IDD_PPAGEDVD_IDC_RADIO1"
+msgid "Prompt for location"
+msgstr "Anjurkan lokasi"
+
+msgctxt "IDD_PPAGEDVD_IDC_RADIO2"
+msgid "Always open the default location:"
+msgstr "Selalu buka lokasi bawaan:"
+
+msgctxt "IDD_PPAGEDVD_IDC_STATIC"
+msgid "Preferred language for DVD Navigator and the external OGM Splitter"
+msgstr "Bahasa yang diinginkan untuk Navigator DVD dan Splitter OGM eksternal"
+
+msgctxt "IDD_PPAGEDVD_IDC_RADIO3"
+msgid "Menu"
+msgstr "Menu"
+
+msgctxt "IDD_PPAGEDVD_IDC_RADIO4"
+msgid "Audio"
+msgstr "Audio"
+
+msgctxt "IDD_PPAGEDVD_IDC_RADIO5"
+msgid "Subtitles"
+msgstr "Subtitel"
+
+msgctxt "IDD_PPAGEDVD_IDC_STATIC"
+msgid "Additional settings"
+msgstr "Pengaturan tambahan"
+
+msgctxt "IDD_PPAGEDVD_IDC_CHECK2"
+msgid "Allow closed captions in \"Line 21 Decoder\""
+msgstr "Izinkan takarir saling tindih di \"Dekoder Line 21\""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Audio"
+msgstr "Audio"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Volume"
+msgstr "Volume"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Min"
+msgstr "Min"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Max"
+msgstr "Maks"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC_BALANCE"
+msgid "Balance"
+msgstr "Seimbang"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "L"
+msgstr "L"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "R"
+msgstr "R"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Playback"
+msgstr "Pemutaran"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_RADIO1"
+msgid "Play"
+msgstr "Putar"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_RADIO2"
+msgid "Repeat forever"
+msgstr "Ulangi selamanya"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC1"
+msgid "time(s)"
+msgstr "waktu"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "After Playback"
+msgstr "Setelah Pemutaran"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Output"
+msgstr "Keluaran"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
+msgid "Auto-zoom:"
+msgstr "Oto-zum:"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC2"
+msgid "Auto fit factor:"
+msgstr "Faktor oto suai:"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC3"
+msgid "%"
+msgstr "%"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Default track preference"
+msgstr "Preferensi trek bawaan"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Subtitles:"
+msgstr "Subtitel:"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Audio:"
+msgstr "Audio:"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK4"
+msgid "Allow overriding external splitter choice"
+msgstr "Izinkan menimpa pilihan splitter eksternal"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Open settings"
+msgstr "Buka pengaturan"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK7"
+msgid "Use worker thread to construct the filter graph"
+msgstr "Gunakan worker thread untuk membangun grafik filter"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK6"
+msgid "Report pins which fail to render"
+msgstr "Laporkan pin yang gagal merender"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
+msgid "Auto-load audio files"
+msgstr "Oto-muat berkas audio"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
+msgid "Use the built-in subtitle renderer"
+msgstr "Gunakan perender subtitel bawaan"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Control"
+msgstr "Pengendali"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Volume step:"
+msgstr "Tahapan volume:"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "%"
+msgstr "%"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Speed step:"
+msgstr "Tahapan kecepatan:"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK3"
+msgid "Override placement"
+msgstr "Menimpa penempatan"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC1"
+msgid "Horizontal:"
+msgstr "Horisontal:"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC2"
+msgid "%"
+msgstr "%"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC3"
+msgid "Vertical:"
+msgstr "Vertikal:"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC4"
+msgid "%"
+msgstr "%"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "Delay step"
+msgstr "Tahap tundaan"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "ms"
+msgstr "ms"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "Texture settings (open the video again to see the changes)"
+msgstr "Pengaturan tekstur (buka kembali video untuk melihat perubahan)"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "Sub pictures to buffer:"
+msgstr "Bufer sub gambar:"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "Maximum texture resolution:"
+msgstr "Resolusi tekstur maksimum:"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_NO_SUB_ANIM"
+msgid "Never animate the subtitles"
+msgstr "Jangan pernah animasikan subtitel"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC5"
+msgid "Render at"
+msgstr "Render pada"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC6"
+msgid "% of the animation"
+msgstr "% dari animasi"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC7"
+msgid "Animate at"
+msgstr "Animasi pada"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC8"
+msgid "% of the video frame rate"
+msgstr "% dari laju frame video"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_ALLOW_DROPPING_SUBPIC"
+msgid "Allow dropping some subpictures if the queue is running late"
+msgstr "Izinkan membuang beberapa sub gambar jika antrean berjalan terlambat"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "Renderer Layout"
+msgstr "Tata Letak Perender"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SUB_AR_COMPENSATION"
+msgid "Apply aspect ratio compensation for anamorphic videos"
+msgstr "Terapkan kompensasi nisbah bidang untuk video anamorfik"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "Warning"
+msgstr "Peringatan"
+
+msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
+msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
+msgstr "Jika anda menimpa dan memfungsikan anti-alias layar penuh pada pengaturan kartu video anda, subtitel tidak akan nampak lebih baik tetapi pastinya akan meningkatkan kinerja CPU anda."
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
+msgid "File extensions"
+msgstr "Berkas ekstensi"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON2"
+msgid "Default"
+msgstr "Bawaan"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON_EXT_SET"
+msgid "Set"
+msgstr "Tetapkan"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC3"
+msgid "Association"
+msgstr "Asosiasi"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK8"
+msgid "Use the format-specific icons"
+msgstr "Gunakan ikon berformat spesifik"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON1"
+msgid "Run as &administrator"
+msgstr "Jalankan sebagai &administrator"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON7"
+msgid "Set as &default program"
+msgstr "Tetapkan sebagai program &baku"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
+msgid "Real-Time Streaming Protocol handler (for rtsp://... URLs)"
+msgstr "Penangan Protokol Real-Time Streaming (untuk URL rtsp://...)"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_RADIO1"
+msgid "RealMedia"
+msgstr "RealMedia"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_RADIO2"
+msgid "QuickTime"
+msgstr "QuickTime"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_RADIO3"
+msgid "DirectShow"
+msgstr "DirectShow"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK5"
+msgid "Check file extension first"
+msgstr "Periksa dulu berkas ekstensi"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
+msgid "Explorer Context Menu"
+msgstr "Menu Konteks Explorer"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK6"
+msgid "Directory"
+msgstr "Direktori"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK7"
+msgid "File(s)"
+msgstr "Berkas"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_STATIC1"
+msgid "Autoplay"
+msgstr "Otoputar"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK1"
+msgid "Video"
+msgstr "Video"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK2"
+msgid "Music"
+msgstr "Musik"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK4"
+msgid "DVD"
+msgstr "DVD"
+
+msgctxt "IDD_PPAGEFORMATS_IDC_CHECK3"
+msgid "Audio CD"
+msgstr "CD Audio"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
+msgid "Jump distances (small, medium, large in ms)"
+msgstr "Jarak lompatan (kecil, menengah, besar dalam ms)"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_BUTTON1"
+msgid "Default"
+msgstr "Bawaan"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_FASTSEEK_CHECK"
+msgid "Fast seek (on keyframe)"
+msgstr "Jangkau cepat (pada keyframe)"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK2"
+msgid "Show chapter marks in seek bar"
+msgstr "Tampilkan tanda bab pada bilah jangkau"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK4"
+msgid "Display \"Now Playing\" information in Skype's mood message"
+msgstr "Tampilkan informasi \"Diputar Sekarang\" dalam pesan mood Skype"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
+msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
+msgstr "Cegah meminimalkan pemutar ketika dalam mode layar penuh pada monitor bukan baku"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_WIN7"
+msgid "Use Windows 7 Taskbar features"
+msgstr "Gunakan fitur Bilah Tugas Windows 7"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
+msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgstr "Buka berkas sebelum/selanjutnya di dalam folder pada \"Lewati mundur/maju\" ketika hanya ada satu item di dalam daftar putar"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
+msgid "Show time tooltip:"
+msgstr "Gunakan tip alat waktu:"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
+msgid "OSD font:"
+msgstr "Fon OSD:"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_LCD"
+msgid "Enable Logitech LCD support (experimental)"
+msgstr "Fungsikan dukungan LCD Logitech (eksperimental)"
+
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
+msgid "Auto-hide the mouse pointer during playback in windowed mode"
+msgstr "Oto-sembunyi penunjuk tetikus sepanjang pemutaran di mode windowed"
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
+msgid "Add Filter..."
+msgstr "Tambah Filter..."
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON2"
+msgid "Remove"
+msgstr "Buang"
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO1"
+msgid "Prefer"
+msgstr "DIutamakan"
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO2"
+msgid "Block"
+msgstr "Blok"
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO3"
+msgid "Set merit:"
+msgstr "Tetapkan merit:"
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON3"
+msgid "Up"
+msgstr "Naik"
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON4"
+msgid "Down"
+msgstr "Turun"
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON5"
+msgid "Add Media Type..."
+msgstr "Tambah Jenis Media..."
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON6"
+msgid "Add Sub Type..."
+msgstr "Tambah Jenis Subtitel..."
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON7"
+msgid "Delete"
+msgstr "Hapus"
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON8"
+msgid "Reset List"
+msgstr "Setel Ulang Daftar"
+
+msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
+msgid "Type:"
+msgstr "Jenis:"
+
+msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
+msgid "Size:"
+msgstr "Ukuran:"
+
+msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
+msgid "Media length:"
+msgstr "Panjang media:"
+
+msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
+msgid "Video size:"
+msgstr "Ukuran video:"
+
+msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
+msgid "Created:"
+msgstr "Dibuat:"
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "Clip:"
+msgstr "Klip:"
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "Author:"
+msgstr "Penulis:"
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "Copyright:"
+msgstr "Hak cipta:"
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "Rating:"
+msgstr "Penilaian:"
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "Location:"
+msgstr "Lokasi:"
+
+msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
+msgid "Description:"
+msgstr "Deskripsi:"
+
+msgctxt "IDD_FAVADD_CAPTION"
+msgid "Add Favorite"
+msgstr "Tambah favorit"
+
+msgctxt "IDD_FAVADD_IDC_STATIC"
+msgid "Choose a name for your shortcut:"
+msgstr "Pilih nama untuk pintasan anda:"
+
+msgctxt "IDD_FAVADD_IDC_CHECK1"
+msgid "Remember position"
+msgstr "Ingat posisi"
+
+msgctxt "IDD_FAVADD_IDCANCEL"
+msgid "Cancel"
+msgstr "Batal"
+
+msgctxt "IDD_FAVADD_IDOK"
+msgid "OK"
+msgstr "OK"
+
+msgctxt "IDD_FAVADD_IDC_CHECK2"
+msgid "Relative drive"
+msgstr "Penggerak relatif"
+
+msgctxt "IDD_FAVORGANIZE_CAPTION"
+msgid "Organize Favorites"
+msgstr "Kelola Favorit"
+
+msgctxt "IDD_FAVORGANIZE_IDC_BUTTON1"
+msgid "Rename"
+msgstr "Ubah Nama"
+
+msgctxt "IDD_FAVORGANIZE_IDC_BUTTON3"
+msgid "Move Up"
+msgstr "Pindah ke Atas"
+
+msgctxt "IDD_FAVORGANIZE_IDC_BUTTON4"
+msgid "Move Down"
+msgstr "Pindah ke Bawah"
+
+msgctxt "IDD_FAVORGANIZE_IDC_BUTTON2"
+msgid "Delete"
+msgstr "Hapus"
+
+msgctxt "IDD_FAVORGANIZE_IDOK"
+msgid "OK"
+msgstr "OK"
+
+msgctxt "IDD_PNSPRESET_DLG_CAPTION"
+msgid "Pan&Scan Presets"
+msgstr "Prasetel Pan&Scan"
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"
+msgid "New"
+msgstr "Baru"
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON3"
+msgid "Delete"
+msgstr "Hapus"
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON4"
+msgid "Up"
+msgstr "Naik"
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON5"
+msgid "Down"
+msgstr "Turun"
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON1"
+msgid "&Set"
+msgstr "&Setel"
+
+msgctxt "IDD_PNSPRESET_DLG_IDCANCEL"
+msgid "&Cancel"
+msgstr "&Batal"
+
+msgctxt "IDD_PNSPRESET_DLG_IDOK"
+msgid "&Save"
+msgstr "&Simpan"
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
+msgid "Pos: 0.0 -> 1.0"
+msgstr "Posisi: 0.0 -> 1.0"
+
+msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
+msgid "Zoom: 0.2 -> 3.0"
+msgstr "Zum: 0.2 -> 3.0"
+
+msgctxt "IDD_PPAGEACCELTBL_IDC_CHECK2"
+msgid "Global Media Keys"
+msgstr "Tombol Media Global"
+
+msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON1"
+msgid "Select All"
+msgstr "Pilih Semua"
+
+msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON2"
+msgid "Reset Selected"
+msgstr "Setel Ulang Pilihan"
+
+msgctxt "IDD_MEDIATYPES_DLG_CAPTION"
+msgid "Warning"
+msgstr "Peringatan"
+
+msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC1"
+msgid "MPC-HC could not render some of the pins in the graph, you may not have the needed codecs or filters installed on the system."
+msgstr "MPC-HC tidak bisa merender beberapa pin pada grafik, anda mungkin tidak memiliki kodek atau filter yang diperlukan terpasang pada sistem."
+
+msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC2"
+msgid "The following pin(s) failed to find a connectable filter:"
+msgstr "Pin berikut gagal untuk menemukan filter yang dapat sambung:"
+
+msgctxt "IDD_MEDIATYPES_DLG_IDOK"
+msgid "Close"
+msgstr "Tutup"
+
+msgctxt "IDD_SAVE_DLG_CAPTION"
+msgid "Saving..."
+msgstr "Menyimpan..."
+
+msgctxt "IDD_SAVE_DLG_IDCANCEL"
+msgid "Cancel"
+msgstr "Batal"
+
+msgctxt "IDD_SAVETEXTFILEDIALOGTEMPL_IDC_STATIC1"
+msgid "Encoding:"
+msgstr "Encoding:"
+
+msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC1"
+msgid "Encoding:"
+msgstr "Encoding:"
+
+msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC"
+msgid "Delay:"
+msgstr "Tundaan:"
+
+msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC"
+msgid "ms"
+msgstr "ms"
+
+msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_CHECK1"
+msgid "Save custom style"
+msgstr "Simpan gaya ubahsuai"
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "JPEG quality:"
+msgstr "Kualitas JPEG:"
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "Thumbnails:"
+msgstr "Gambar mini:"
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "rows"
+msgstr "baris"
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "columns"
+msgstr "kolom"
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "Image width:"
+msgstr "Lebar gambar:"
+
+msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
+msgid "pixels"
+msgstr "piksel"
+
+msgctxt "IDD_ADDREGFILTER_CAPTION"
+msgid "Select Filter"
+msgstr "Pilih Filter"
+
+msgctxt "IDD_ADDREGFILTER_IDC_BUTTON1"
+msgid "Browse..."
+msgstr "Ramban..."
+
+msgctxt "IDD_ADDREGFILTER_IDOK"
+msgid "OK"
+msgstr "OK"
+
+msgctxt "IDD_ADDREGFILTER_IDCANCEL"
+msgid "Cancel"
+msgstr "Batal"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Font"
+msgstr "Fon"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_BUTTON1"
+msgid "Font"
+msgstr "Fon"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Spacing"
+msgstr "Spasi"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Angle (z,°)"
+msgstr "Sudut (z, °)"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Scale (x,%)"
+msgstr "Skala (x,%)"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Scale (y,%)"
+msgstr "Skala (y,%)"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Border Style"
+msgstr "Gaya Tepi"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO1"
+msgid "Outline"
+msgstr "Garis luar"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO2"
+msgid "Opaque box"
+msgstr "Kotak legap"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Width"
+msgstr "Lebar"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Shadow"
+msgstr "Bayang"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Screen Alignment && Margins"
+msgstr "Perataan Layar && Jarak"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Left"
+msgstr "Kiri"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Right"
+msgstr "Kanan"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Top"
+msgstr "Atas"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Bottom"
+msgstr "Bawah"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK_RELATIVETO"
+msgid "Position subtitles relative to the video frame"
+msgstr "Posisi subtitel relatif pada gambar video"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Colors && Transparency"
+msgstr "Warna && Transparansi"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "0%"
+msgstr "0%"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "100%"
+msgstr "100%"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Primary"
+msgstr "Utama"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Secondary"
+msgstr "Sekunder"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
+msgid "Outline"
+msgstr "Kerangka"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK1"
+msgid "Link alpha channels"
+msgstr "Tautan saluran alfa"
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
+msgid "If you would like to use the stand-alone versions of these filters or another replacement, disable them here."
+msgstr "Jika anda ingin menggunakan versi mandiri dari filter ini atau pengganti yang lain, nonfungsikan filter tersebut di sini."
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
+msgid "Source Filters"
+msgstr "Sumber Filter"
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
+msgid "Transform Filters"
+msgstr "Filter Transformasi"
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
+msgid "Internal LAV Filters settings"
+msgstr "Pengaturan Internal LAV Filters"
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_SPLITTER_CONF"
+msgid "Splitter"
+msgstr "Splitter"
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_VIDEO_DEC_CONF"
+msgid "Video decoder"
+msgstr "Dekoder video"
+
+msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_AUDIO_DEC_CONF"
+msgid "Audio decoder"
+msgstr "Dekoder audio"
+
+msgctxt "IDD_PPAGELOGO_IDC_RADIO1"
+msgid "Internal:"
+msgstr "Internal:"
+
+msgctxt "IDD_PPAGELOGO_IDC_RADIO2"
+msgid "External:"
+msgstr "Eksternal:"
+
+msgctxt "IDD_PPAGELOGO_IDC_BUTTON2"
+msgid "Browse..."
+msgstr "Ramban..."
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "DirectShow Video"
+msgstr "Video DirectShow"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "RealMedia Video"
+msgstr "Video RealMedia"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "QuickTime Video"
+msgstr "Video QuickTime"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Audio Renderer"
+msgstr "Perender Audio"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
+msgstr "Pengaturan VMR-7/VMR-9 (renderless) dan EVR (CP)"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Surface:"
+msgstr "Permukaan:"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Resizer:"
+msgstr "Pengubah Ukuran:"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_D3D9DEVICE"
+msgid "Select D3D9 Render Device"
+msgstr "Pilih Perangkat Render D3D9"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_RESETDEVICE"
+msgid "Reinitialize when changing display"
+msgstr "Inisialisasi ulang ketika mengubah layar"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_FULLSCREEN_MONITOR_CHECK"
+msgid "D3D Fullscreen"
+msgstr "Layar Penuh D3D"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9ALTERNATIVEVSYNC"
+msgid "Alternative VSync"
+msgstr "VSync Alternatif"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9LOADMIXER"
+msgid "VMR-9 Mixer Mode"
+msgstr "Mode Pengadon VMR-9"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9YUVMIXER"
+msgid "YUV Mixing"
+msgstr "YUV Mixing"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_EVR_BUFFERS_TXT"
+msgid "EVR Buffers:"
+msgstr "Bufer EVR:"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "DXVA"
+msgstr "DXVA"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Subtitles *"
+msgstr "Subtitel *"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Screenshot"
+msgstr "Cuplikan layar"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Shaders"
+msgstr "Shader"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "Rotation"
+msgstr "Rotasi"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
+msgid "* External filters (such as VSFilter) can display subtitles on all renderers."
+msgstr "* Filter eksternal (seperti VSFilter) dapat menampilkan subtitel pada semua perender."
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
+msgid "Listen on port:"
+msgstr "Dengarkan di port:"
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC1"
+msgid "Launch in web browser..."
+msgstr "Luncurkan di peramban web..."
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK3"
+msgid "Enable compression"
+msgstr "Fungsikan kompresi"
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK5"
+msgid "Allow access from localhost only"
+msgstr "Izinkan akses hanya dari localhost saja"
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
+msgid "Print debug information"
+msgstr "Cetak informasi awakutu"
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK4"
+msgid "Serve pages from:"
+msgstr "Layani halaman dari:"
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_BUTTON1"
+msgid "Browse..."
+msgstr "Ramban..."
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_BUTTON2"
+msgid "Deploy..."
+msgstr "Terapkan..."
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC"
+msgid "Default page:"
+msgstr "Halaman baku:"
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC"
+msgid "CGI handlers: (.ext1=path1;.ext2=path2;...)"
+msgstr "Penangan CGI: (.ext1=path1;.ext2=path2;...)"
+
+msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
+msgid "Subtitles available online"
+msgstr "Subtitel tersedia secara daring"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
+msgid "Download && Open"
+msgstr "Unduh && Buka"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
+msgid "Replace currently loaded subtitles"
+msgstr "Ganti subtitel yang sedang dimuat"
+
+msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
+msgid "Save As..."
+msgstr "Simpan Sebagai..."
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "Color controls (for VMR-9, EVR and madVR)"
+msgstr "Pengendali warna (untuk VMR-9, EVR dan madVR)"
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "Brightness"
+msgstr "Kecerahan"
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "Contrast"
+msgstr "Kontras"
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "Hue"
+msgstr "Rona"
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "Saturation"
+msgstr "Kejenuhan"
+
+msgctxt "IDD_PPAGEMISC_IDC_RESET"
+msgid "Reset"
+msgstr "Setel Ulang"
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "Update check"
+msgstr "Perika pemutakhiran"
+
+msgctxt "IDD_PPAGEMISC_IDC_CHECK1"
+msgid "Enable automatic update check"
+msgstr "Fungsikan pemeriksaan pemutakhiran otomatis"
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
+msgid "Check every:"
+msgstr "Periksa setiap:"
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
+msgid "day(s)"
+msgstr "hari"
+
+msgctxt "IDD_PPAGEMISC_IDC_STATIC"
+msgid "Settings management"
+msgstr "Pengelolaan pengaturan"
+
+msgctxt "IDD_PPAGEMISC_IDC_RESET_SETTINGS"
+msgid "Reset"
+msgstr "Setel Ulang"
+
+msgctxt "IDD_PPAGEMISC_IDC_EXPORT_SETTINGS"
+msgid "Export"
+msgstr "Ekspor"
+
+msgctxt "IDD_PPAGEMISC_IDC_EXPORT_KEYS"
+msgid "Export keys"
+msgstr "Ekspor kunci"
+
+msgctxt "IDD_TUNER_SCAN_CAPTION"
+msgid "Tuner scan"
+msgstr "Pindaian pelaras"
+
+msgctxt "IDD_TUNER_SCAN_ID_START"
+msgid "Start"
+msgstr "Awal"
+
+msgctxt "IDD_TUNER_SCAN_IDCANCEL"
+msgid "Cancel"
+msgstr "Batal"
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "Freq. Start"
+msgstr "Frek. Awal"
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "Bandwidth"
+msgstr "Lebar gelombang"
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "Freq. End"
+msgstr "Frek. Akhir"
+
+msgctxt "IDD_TUNER_SCAN_IDC_CHECK_IGNORE_ENCRYPTED"
+msgid "Ignore encrypted channels"
+msgstr "Abaikan saluran yang terenkripsi"
+
+msgctxt "IDD_TUNER_SCAN_ID_SAVE"
+msgid "Save"
+msgstr "Simpan"
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "S"
+msgstr "S"
+
+msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
+msgid "Q"
+msgstr "Q"
+
+msgctxt "IDD_TUNER_SCAN_IDC_CHECK_OFFSET"
+msgid "Use an offset"
+msgstr "Gunakan ofset"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
+msgid "Default Device"
+msgstr "Perangkat Bawaan"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_RADIO1"
+msgid "Analog"
+msgstr "Analog"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_RADIO2"
+msgid "Digital"
+msgstr "Digital"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
+msgid "Analog settings"
+msgstr "Pengaturan analog"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC1"
+msgid "Video"
+msgstr "Video"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC2"
+msgid "Audio"
+msgstr "Audio"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC3"
+msgid "Country"
+msgstr "Negara"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
+msgid "Digital settings (BDA)"
+msgstr "Pengaturan digital (BDA)"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC4"
+msgid "Network Provider"
+msgstr "Penyedia Jaringan"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC5"
+msgid "Tuner"
+msgstr "Penala"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_STATIC6"
+msgid "Receiver"
+msgstr "Penerima"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST10"
+msgid "Channel switching approach:"
+msgstr "Pendekatan pengalihan saluran:"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST11"
+msgid "Rebuild filter graph"
+msgstr "Buat ulang grafik filter"
+
+msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST12"
+msgid "Stop filter graph"
+msgstr "Hentikan grafik filter"
+
+msgctxt "IDD_PPAGESYNC_IDC_SYNCVIDEO"
+msgid "Sync video to display"
+msgstr "Laras video ke tampilan"
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC1"
+msgid "Frequency adjustment:"
+msgstr "Penyesuaian frekuensi:"
+
+msgctxt "IDD_PPAGESYNC_IDC_SYNCDISPLAY"
+msgid "Sync display to video"
+msgstr "Laras tampilan ke video"
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC2"
+msgid "Frequency adjustment:"
+msgstr "Penyesuaian frekuensi:"
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC3"
+msgid "lines"
+msgstr "baris"
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC4"
+msgid "columns"
+msgstr "kolom"
+
+msgctxt "IDD_PPAGESYNC_IDC_SYNCNEAREST"
+msgid "Present at nearest VSync"
+msgstr "Sajikan pada VSync terdekat"
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC5"
+msgid "Target sync offset:"
+msgstr "Ofset target laras:"
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC6"
+msgid "ms"
+msgstr "ms"
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC7"
+msgid "Control limits:"
+msgstr "Batas kendali:"
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC8"
+msgid "+/-"
+msgstr "+/-"
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC9"
+msgid "ms"
+msgstr "ms"
+
+msgctxt "IDD_PPAGESYNC_IDC_STATIC10"
+msgid "Changes take effect after the playback has been closed and restarted."
+msgstr "Perubahan terdampak setelah pemutaran ditutup dan dimulai ulang."
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK1"
+msgid "Launch files in fullscreen"
+msgstr "Luncurkan berkas di layar penuh"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK4"
+msgid "Hide controls in fullscreen"
+msgstr "Sembunyikan pengendali di layar penuh"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC1"
+msgid "ms"
+msgstr "ms"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK6"
+msgid "Hide docked panels"
+msgstr "Sembunyikan panel tersemat"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK5"
+msgid "Exit fullscreen at the end of playback"
+msgstr "Keluar dari layar penuh diakhir pemutaran"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
+msgid "Fullscreen monitor"
+msgstr "Monitor layar penuh"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK2"
+msgid "Use autochange fullscreen monitor mode"
+msgstr "Gunakan oto-ubah mode monitor layar penuh"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON1"
+msgid "Add"
+msgstr "Tambah"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON2"
+msgid "Del"
+msgstr "Hapus"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON3"
+msgid "Up"
+msgstr "Atas"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON4"
+msgid "Down"
+msgstr "Turun"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK3"
+msgid "Apply default monitor mode on fullscreen exit"
+msgstr "Terapkan mode monitor bawaan saat keluar dari layar penuh"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_RESTORERESCHECK"
+msgid "Restore resolution on program exit"
+msgstr "Kembalikan resolusi saat keluar dari program"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
+msgid "Delay"
+msgstr "Jeda"
+
+msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC2"
+msgid "s"
+msgstr "s"
+
+msgctxt "IDD_NAVIGATION_DLG_IDC_NAVIGATION_INFO"
+msgid "Info"
+msgstr "Info"
+
+msgctxt "IDD_NAVIGATION_DLG_IDC_NAVIGATION_SCAN"
+msgid "Scan"
+msgstr "Pindai"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK1"
+msgid "Prefer forced and/or default subtitles tracks"
+msgstr "Lebih memilih trek subtitel yang dipaksakan dan/atau subtitel bawaan"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK2"
+msgid "Prefer external subtitles over embedded subtitles"
+msgstr "Lebih memilih subtitel eksternal daripada subtitel tertanam"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK3"
+msgid "Ignore embedded subtitles"
+msgstr "Abaikan subtitel tertanam"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
+msgid "Autoload paths"
+msgstr "Otomuat jalur"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON1"
+msgid "Reset"
+msgstr "Setel Ulang"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
+msgid "Online database"
+msgstr "Basis Data Daring"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
+msgid "Base URL of the online subtitle database:"
+msgstr "URL dari basis data subtitel daring:"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON2"
+msgid "Test"
+msgstr "Uji Coba"
+
+msgctxt "IDD_UPDATE_DIALOG_CAPTION"
+msgid "Update Checker"
+msgstr "Pemeriksa Pemutakhiran"
+
+msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_DL_BUTTON"
+msgid "&Download now"
+msgstr "Un&duh sekarang"
+
+msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_LATER_BUTTON"
+msgid "Remind me &later"
+msgstr "Ingatkan saya &lagi"
+
+msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_IGNORE_BUTTON"
+msgid "&Ignore this update"
+msgstr "Aba&ikan pemutakhiran ini"
+
+msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
+msgid "Shaders contain special effects which can be added to the video rendering process."
+msgstr "Shader mengandung efek spesial yang dapat ditambahkan ke proses perenderan video."
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON12"
+msgid "Add shader file"
+msgstr "Tambah berkas shader"
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON13"
+msgid "Remove"
+msgstr "Buang"
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON1"
+msgid "Add to pre-resize"
+msgstr "Tambah ke pra-ubah ukuran"
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON2"
+msgid "Add to post-resize"
+msgstr "Tambah ke paska ubah ukuran"
+
+msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
+msgid "Shader presets"
+msgstr "Prasetel Shader"
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON3"
+msgid "Load"
+msgstr "Muat"
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON4"
+msgid "Save"
+msgstr "Simpan"
+
+msgctxt "IDD_PPAGESHADERS_IDC_BUTTON5"
+msgid "Delete"
+msgstr "Hapus"
+
+msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
+msgid "Active pre-resize shaders"
+msgstr "Aktifkan shader pra ubah ukuran"
+
+msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
+msgid "Active post-resize shaders"
+msgstr "Atifkan shader paska ubah ukuran"
+
+msgctxt "IDD_DEBUGSHADERS_DLG_CAPTION"
+msgid "Debug Shaders"
+msgstr "Awakutu Shader"
+
+msgctxt "IDD_DEBUGSHADERS_DLG_IDC_STATIC"
+msgid "Debug Information"
+msgstr "Infomasi Awakutu"
+
+msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO1"
+msgid "PS 2.0"
+msgstr "PS 2.0"
+
+msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO2"
+msgid "PS 2.0b"
+msgstr "PS 2.0b"
+
+msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO3"
+msgid "PS 2.0a"
+msgstr "PS 2.0a"
+
+msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO4"
+msgid "PS 3.0"
+msgstr "PS 3.0"
+
+msgctxt "IDD_PPAGEADVANCED_IDC_STATIC"
+msgid "Advanced Settings, do not edit unless you know what you are doing."
+msgstr "Pengaturan Tingkat Lanjut, jangan sunting kecuali anda tahu apa yang anda lakukan."
+
+msgctxt "IDD_PPAGEADVANCED_IDC_RADIO1"
+msgid "True"
+msgstr "Benar"
+
+msgctxt "IDD_PPAGEADVANCED_IDC_RADIO2"
+msgid "False"
+msgstr "Salah"
+
+msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
+msgid "Default"
+msgstr "Bawaan"
+
+msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
+msgid "JPEG quality:"
+msgstr "Kualitas JPEG:"
+
+msgctxt "IDD_CMD_LINE_HELP_CAPTION"
+msgid "Command line help"
+msgstr "Bantuan perintah baris"
+
+msgctxt "IDD_CMD_LINE_HELP_IDOK"
+msgid "OK"
+msgstr "OK"
+
+msgctxt "IDD_CRASH_REPORTER_CAPTION"
+msgid "Crash reporter"
+msgstr "Pelapor tumbukan"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
+msgid "We are sorry, it seems MPC-HC just crashed. :(\n\nTo help us diagnose and fix the problem, a bug report will be sent. You can provide additional information if you want."
+msgstr "Kami mohon maaf, sepertinya MPC-HC baru saja tertumbuk. :(\n\nUntuk membantu kami mendiagnosa dan memperbaiki masalah, laporan kutu akan dikirimkan. Jika anda mau, anda bisa memberikan informasi tambahan."
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
+msgid "Email:"
+msgstr "Surel:"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC3"
+msgid "Your email address is optional and will only be used if the developers need to contact you for more information."
+msgstr "Alamat surel anda opsional dan hanya akan digunakan jika pengembang perlu untuk menghubungi anda untuk informasi lebih lanjut."
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
+msgid "Problem description (use English only):"
+msgstr "Deskripsi masalah (hanya gunakan Bahasa Inggris):"
+
+msgctxt "IDD_CRASH_REPORTER_IDOK"
+msgid "OK"
+msgstr "OK"
+

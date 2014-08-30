@@ -97,6 +97,10 @@ hu.WinVersionTooLowError=Windows XP Service Pack 3 vagy újabb szükséges a(z) 
 hy.WelcomeLabel2=[name]-ը կտեղադրվի ձեր համակարգչում։%n%nԽորհուրդ ենք տալիս փակել մյուս բոլոր ծրագրերը։
 hy.WinVersionTooLowError=[name]-ը պահանջում է Windows XP Service Pack 3 կամ ավելի բարձր։
 
+; Indonesian
+id.WelcomeLabel2=Ini akan memasang [name] di komputer anda.%n%nSangat disarankan untuk menutup semua aplikasi sebelum melanjutkan.
+id.WinVersionTooLowError=[name] membutuhkan Windows XP Service Pack 3 atau yang lebih baru agar bisa dijalankan.
+
 ; Italian
 it.WelcomeLabel2=Questo installerà [name] sul tuo computer.%n%nE' consigliato chiudere tutte le altre applicazioni prima di continuare.
 it.WinVersionTooLowError=[name] richiede Windows XP Service Pack 3 o successivo per funzionare.
@@ -538,6 +542,26 @@ hy.tsk_ResetSettings=Վերակայել կարգավորումները
 hy.types_DefaultInstallation=Տեղադրել ըստ լռելյայն
 hy.types_CustomInstallation=Հարմարեցված տեղակայում
 hy.ViewChangelog=Փոփոխությունների ցանկը
+
+; Indonesian
+id.langid=00001057
+id.comp_mpciconlib=Pustaka Ikon
+id.comp_mpcresources=Terjemahan
+id.msg_DeleteSettings=Apakah anda juga ingin menghapus pengaturan MPC-HC?%n%nJika anda berencana untuk memasang MPC-HC lagi maka anda tidak perlu menghapusnya.
+id.msg_SetupIsRunningWarning=Pemasangan MPC-HC sudah berjalan!
+#if defined(sse_required)
+id.msg_simd_sse=Versi MPC-HC ini membutuhkan CPU dengan dukungan ekstensi SSE.%n%nCPU anda tidak memiliki kemampuan tersebut.
+#elif defined(sse2_required)
+id.msg_simd_sse2=Versi MPC-HC ini membutuhkan CPU dengan dukungan ekstensi SSE2.%n%nCPU anda tidak memiliki kemampuan tersebut.
+#endif
+id.run_DownloadToolbarImages=Kunjungi halaman Wiki kami untuk mengunduh gambar bilah alat
+id.tsk_AllUsers=Untuk semua pengguna
+id.tsk_CurrentUser=Hanya untuk pengguna saat ini
+id.tsk_Other=Tugas lain:
+id.tsk_ResetSettings=Setel ulang pengaturan
+id.types_DefaultInstallation=Pemasangan bawaan
+id.types_CustomInstallation=Pemasangan ubahsuai
+id.ViewChangelog=Lihat Log Perubahan
 
 ; Italian
 it.langid=00001040
