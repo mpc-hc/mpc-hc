@@ -282,10 +282,10 @@ IF %ERRORLEVEL% NEQ 0 EXIT /B
 
 FOR %%G IN (
  "Arabic" "Armenian" "Basque" "Belarusian" "Bengali" "Catalan" "Chinese Simplified"
- "Chinese Traditional" "Croatian" "Czech" "Dutch" "English (British)" "French"
- "Galician" "German" "Greek" "Hebrew" "Hungarian" "Italian" "Japanese" "Korean"
- "Malay" "Polish" "Portuguese (Brazil)" "Romanian" "Russian" "Slovak" "Slovenian"
- "Spanish" "Swedish" "Tatar" "Thai" "Turkish" "Ukrainian" "Vietnamese"
+ "Chinese Traditional" "Croatian" "Czech" "Dutch" "English (British)" "Finnish"
+ "French" "Galician" "German" "Greek" "Hebrew" "Hungarian" "Italian" "Japanese"
+ "Korean" "Malay" "Polish" "Portuguese (Brazil)" "Romanian" "Russian" "Slovak"
+ "Slovenian" "Spanish" "Swedish" "Tatar" "Thai" "Turkish" "Ukrainian" "Vietnamese"
 ) DO (
  TITLE Compiling mpcresources %COMPILER% - %%~G^|%1...
  MSBuild.exe mpcresources.sln %MSBUILD_SWITCHES%^

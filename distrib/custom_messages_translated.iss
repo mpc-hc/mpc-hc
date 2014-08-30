@@ -65,6 +65,10 @@ es.WinVersionTooLowError=[name] necesita Windows XP Service Pack 3 o posterior p
 eu.WelcomeLabel2=Honek [name] zure ordenagailuan ezarriko du.%n%nGomendatzen da beste aplikazio guztiak istea jarraitu aurretik.
 eu.WinVersionTooLowError=[name] Windows XP Service Pack 3 edo berriagoa behar du lan egiteko.
 
+; Finnish
+fi.WelcomeLabel2=Tämä asentaa [name] tietokoneellesi.%n%n On suositeltavaa, että suljet kaikki muut ohjelmat ennenkuin jatkat.
+fi.WinVersionTooLowError=[name] vaatii toimiakseen Windows XP Service Pack 3 tai uudempaa 
+
 ; French (France)
 fr.WelcomeLabel2=Vous allez installer [name] sur votre ordinateur.%n%nIl est recommandé de fermer toutes les autres applications avant de continuer.
 fr.WinVersionTooLowError=[name] nécessite Windows XP Service Pack 3 ou plus récent pour fonctionner.
@@ -366,6 +370,26 @@ eu.tsk_ResetSettings=Berrezarri ezarpenak
 eu.types_DefaultInstallation=Berezko ezarpena
 eu.types_CustomInstallation=Norbere ezarpena
 eu.ViewChangelog=Ikusi Aldaketa-oharra
+
+; Finnish
+fi.langid=00001035
+fi.comp_mpciconlib=Ikonikirjasto
+fi.comp_mpcresources=Käännökset
+fi.msg_DeleteSettings=Haluatko poistaa myöskin MPC-HC:n asetukset?%n%nJos aiot asentaa MPC-HC:n uudelleen, niitä ei tarvitse poistaa.
+fi.msg_SetupIsRunningWarning=MPC-HC:n asennus on jo käynnissä!
+#if defined(sse_required)
+fi.msg_simd_sse=MPC-HC:n tämä versio edellyttää CPU:lta SSE-laajennusten tukea.%n%nProsessorissasi ei ole niitä ominaisuuksia.
+#elif defined(sse2_required)
+fi.msg_simd_sse2=MPC-HC:n tämä versio edellyttää CPU:lta SSE2-laajennusten tukea.%n%nProsessorissasi ei ole niitä ominaisuuksia.
+#endif
+fi.run_DownloadToolbarImages=Vieraile Wiki-sivustollamme imuroidaksesi työkalupalkin kuvat
+fi.tsk_AllUsers=Kaikille käyttäjille
+fi.tsk_CurrentUser=Vain nykyiselle käyttäjälle
+fi.tsk_Other=Muut tehtävät:
+fi.tsk_ResetSettings=Nollaa asetukset
+fi.types_DefaultInstallation=Oletusasennus
+fi.types_CustomInstallation=Yksilöllinen asennus
+fi.ViewChangelog=Näytä muutosloki
 
 ; French (France)
 fr.langid=00001036
