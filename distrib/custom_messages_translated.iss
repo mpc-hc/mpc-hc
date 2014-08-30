@@ -133,6 +133,10 @@ sl.WinVersionTooLowError=[name] zahteva za delovanje Windows XP Service Pack 3 a
 sv.WelcomeLabel2=Detta kommer att installera [name] på din dator.%n%nDet rekommenderas att du stänger alla andra program innan du fortsätter.
 sv.WinVersionTooLowError=[name] kräver Windows XP Service Pack 3 eller senare.
 
+; Thai (Thailand)
+th_TH.WelcomeLabel2=สิ่งนี้จะติดตั้ง [name] บนคอมพิวเตอร์ของคุณ%n%nขอแนะนำให้คุณปิดโปรแกรมอื่นๆ ก่อนทำขั้นตอนต่อไป
+th_TH.WinVersionTooLowError=[name] ต้องการ Windows XP Service Pack 3 หรือรุ่นที่ใหม่กว่าเพื่อปฏิบัติการ
+
 ; Turkish
 tr.WelcomeLabel2=[name] medya oynatıcısı programı bilgisayarınıza kurulacaktır.%n%nKuruluma geçmeden önce tüm açık uygulamaları kapatmanızı öneriyoruz.
 tr.WinVersionTooLowError=[name] kurulumu, Windows XP Servis Paketi 3 veya daha yenisi ile çalışabilir.
@@ -698,6 +702,26 @@ sv.tsk_ResetSettings=Återställ inställningar
 sv.types_DefaultInstallation=Standardinstallation
 sv.types_CustomInstallation=Anpassad installation
 sv.ViewChangelog=Visa ändringslogg
+
+; Thai (Thailand)
+th_TH.langid=00001054
+th_TH.comp_mpciconlib=คลังไอคอน
+th_TH.comp_mpcresources=การแปลภาษา
+th_TH.msg_DeleteSettings=คุณต้องการลบการตั้งค่า MPC-HC ด้วยหรือไม่?%n%nหากคุณวางแผนจะติดตั้ง MPC-HC อีกครั้ง คุณไม่จำเป็นต้องลบมันออก
+th_TH.msg_SetupIsRunningWarning=การติดตั้ง MPC-HC กำลังดำเนินการ!
+#if defined(sse_required)
+th_TH.msg_simd_sse=MPC-HC รุ่นนี้ ต้องการ CPU ที่สนับสนุนส่วนเสริม SSE%n%nCPU ของคุณไม่มีความสามารถนั้น
+#elif defined(sse2_required)
+th_TH.msg_simd_sse2=MPC-HC รุ่นนี้ ต้องการ CPU ที่สนับสนุนส่วนเสริม SSE2%n%nCPU ของคุณไม่มีความสามารถนั้น
+#endif
+th_TH.run_DownloadToolbarImages=เยี่ยมชมหน้าวิกิของเรา เพื่อดาวน์โหลดรูปแถบเครื่องมือ
+th_TH.tsk_AllUsers=สำหรับผู้ใช้ทุกราย
+th_TH.tsk_CurrentUser=สำหรับผู้ใช้ปัจจุบันเท่านั้น
+th_TH.tsk_Other=งานอื่น:
+th_TH.tsk_ResetSettings=คืนค่าการตั้งค่า
+th_TH.types_DefaultInstallation=การติดตั้งตามค่าตั้งต้น
+th_TH.types_CustomInstallation=การติดตั้งที่กำหนดเอง
+th_TH.ViewChangelog=ดูบันทึกการเปลี่ยนแปลง
 
 ; Turkish
 tr.langid=00001055

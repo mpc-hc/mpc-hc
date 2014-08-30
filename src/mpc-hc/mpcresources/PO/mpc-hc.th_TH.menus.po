@@ -1,0 +1,686 @@
+# MPC-HC - Strings extracted from menus
+# Copyright (C) 2002 - 2013 see Authors.txt
+# This file is distributed under the same license as the MPC-HC package.
+# Translators:
+# Xyteton <xyteton@hotmail.com>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: MPC-HC\n"
+"POT-Creation-Date: 2014-08-19 21:10:25+0000\n"
+"PO-Revision-Date: 2014-08-31 14:52+0000\n"
+"Last-Translator: Xyteton <xyteton@hotmail.com>\n"
+"Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/mpc-hc/language/th_TH/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: th_TH\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgctxt "POPUP"
+msgid "&File"
+msgstr "ไ&ฟล์"
+
+msgctxt "ID_FILE_OPENQUICK"
+msgid "&Quick Open File..."
+msgstr "เปิดไ&ฟล์ด่วน..."
+
+msgctxt "ID_FILE_OPENMEDIA"
+msgid "&Open File..."
+msgstr "เ&ปิดไฟล์..."
+
+msgctxt "ID_FILE_OPENDVDBD"
+msgid "Open &DVD/BD..."
+msgstr "เปิด&ดีวีดี/บลูเรย์..."
+
+msgctxt "ID_FILE_OPENDEVICE"
+msgid "Open De&vice..."
+msgstr "เปิด&อุปกรณ์"
+
+msgctxt "ID_FILE_OPENDIRECTORY"
+msgid "Open Dir&ectory..."
+msgstr "เปิดเส้น&ทาง..."
+
+msgctxt "ID_FILE_OPENDISC"
+msgid "O&pen Disc"
+msgstr "เปิดแ&ผ่นดิสก์"
+
+msgctxt "ID_RECENT_FILES"
+msgid "Recent &Files"
+msgstr "ไฟล์เมื่อเ&ร็วๆนี้"
+
+msgctxt "ID_FILE_CLOSE_AND_RESTORE"
+msgid "&Close"
+msgstr "&ปิด"
+
+msgctxt "ID_FILE_SAVE_COPY"
+msgid "&Save a Copy..."
+msgstr "บันทึกสำเ&นา..."
+
+msgctxt "ID_FILE_SAVE_IMAGE"
+msgid "Save &Image..."
+msgstr "บันทึก&ภาพ..."
+
+msgctxt "ID_FILE_SAVE_THUMBNAILS"
+msgid "Save &Thumbnails..."
+msgstr "บันทึกรูป&ย่อ..."
+
+msgctxt "ID_FILE_LOAD_SUBTITLE"
+msgid "&Load Subtitle..."
+msgstr "โห&ลดศัพท์บรรยาย..."
+
+msgctxt "ID_FILE_SAVE_SUBTITLE"
+msgid "Save S&ubtitle..."
+msgstr "บันทึกศัพท์&บรรยาย..."
+
+msgctxt "POPUP"
+msgid "Subtitle Data&base"
+msgstr "ฐาน&ข้อมูลศัพท์บรรยาย"
+
+msgctxt "ID_FILE_ISDB_SEARCH"
+msgid "&Search..."
+msgstr "&ค้นหา..."
+
+msgctxt "ID_FILE_ISDB_UPLOAD"
+msgid "&Upload..."
+msgstr "&อัพโหลด..."
+
+msgctxt "ID_FILE_ISDB_DOWNLOAD"
+msgid "&Download..."
+msgstr "&ดาวน์โหลด..."
+
+msgctxt "ID_FILE_PROPERTIES"
+msgid "P&roperties"
+msgstr "คุณ&สมบัติ"
+
+msgctxt "ID_FILE_EXIT"
+msgid "E&xit"
+msgstr "&ออก"
+
+msgctxt "POPUP"
+msgid "&View"
+msgstr "&มุมมอง"
+
+msgctxt "ID_VIEW_CAPTIONMENU"
+msgid "Caption&&Menu"
+msgstr "ข้อความ และ เมนู"
+
+msgctxt "ID_VIEW_SEEKER"
+msgid "See&k Bar"
+msgstr "แถบเลื่อน&หา"
+
+msgctxt "ID_VIEW_CONTROLS"
+msgid "&Controls"
+msgstr "ตัว&ควบคุม"
+
+msgctxt "ID_VIEW_INFORMATION"
+msgid "&Information"
+msgstr "&ข้อมูล"
+
+msgctxt "ID_VIEW_STATISTICS"
+msgid "&Statistics"
+msgstr "ส&ถิติ"
+
+msgctxt "ID_VIEW_STATUS"
+msgid "St&atus"
+msgstr "สถ&านะ"
+
+msgctxt "ID_VIEW_SUBRESYNC"
+msgid "Su&bresync"
+msgstr "ซิ&งค์ศัพท์บรรยายใหม่"
+
+msgctxt "ID_VIEW_PLAYLIST"
+msgid "Pla&ylist"
+msgstr "&บัญชีการเล่น"
+
+msgctxt "ID_VIEW_CAPTURE"
+msgid "Captu&re"
+msgstr "การ&จับข้อมูล"
+
+msgctxt "ID_VIEW_NAVIGATION"
+msgid "Na&vigation"
+msgstr "การ&นำทาง"
+
+msgctxt "ID_VIEW_DEBUGSHADERS"
+msgid "&Debug Shaders"
+msgstr "&ดีบักเฉดเดอร์"
+
+msgctxt "POPUP"
+msgid "&Presets..."
+msgstr "&ค่าสำเร็จรูป..."
+
+msgctxt "ID_VIEW_PRESETS_MINIMAL"
+msgid "&Minimal"
+msgstr "&น้อยที่สุด"
+
+msgctxt "ID_VIEW_PRESETS_COMPACT"
+msgid "&Compact"
+msgstr "&กะทัดรัด"
+
+msgctxt "ID_VIEW_PRESETS_NORMAL"
+msgid "&Normal"
+msgstr "&ปกติ"
+
+msgctxt "ID_VIEW_FULLSCREEN"
+msgid "F&ull Screen"
+msgstr "เ&ต็มจอ"
+
+msgctxt "POPUP"
+msgid "&Zoom"
+msgstr "ซู&ม"
+
+msgctxt "ID_VIEW_ZOOM_50"
+msgid "&50%"
+msgstr "&50%"
+
+msgctxt "ID_VIEW_ZOOM_100"
+msgid "&100%"
+msgstr "&100%"
+
+msgctxt "ID_VIEW_ZOOM_200"
+msgid "&200%"
+msgstr "&200%"
+
+msgctxt "ID_VIEW_ZOOM_AUTOFIT"
+msgid "Auto &Fit"
+msgstr "&พอดีอัตโนมัติ"
+
+msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
+msgid "Auto Fit (&Larger Only)"
+msgstr "พอดีอัตโนมัติ (ใ&หญ่กว่าเท่านั้น)"
+
+msgctxt "POPUP"
+msgid "R&enderer Settings"
+msgstr "การตั้งค่าตัวแ&ปลผล"
+
+msgctxt "ID_VIEW_TEARING_TEST"
+msgid "&Tearing Test"
+msgstr "การทดสอบภาพแ&ตก"
+
+msgctxt "ID_VIEW_DISPLAYSTATS"
+msgid "&Display Stats"
+msgstr "แสดงส&ถิติ"
+
+msgctxt "ID_VIEW_REMAINING_TIME"
+msgid "&Remaining Time"
+msgstr "เ&วลาที่เหลือ"
+
+msgctxt "POPUP"
+msgid "&Output Range"
+msgstr "ช่วงขา&ออก"
+
+msgctxt "ID_VIEW_EVROUTPUTRANGE_0_255"
+msgid "&0 - 255"
+msgstr "&0 - 255"
+
+msgctxt "ID_VIEW_EVROUTPUTRANGE_16_235"
+msgid "&16 - 235"
+msgstr "&16 - 235"
+
+msgctxt "POPUP"
+msgid "&Presentation"
+msgstr "การ&นำเสนอ"
+
+msgctxt "ID_VIEW_D3DFULLSCREEN"
+msgid "D3D Fullscreen &Mode"
+msgstr "โหมดเต็ม&จอ D3D"
+
+msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
+msgid "D3D Fullscreen &GUI Support"
+msgstr ""
+
+msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
+msgid "10-bit &RGB Output"
+msgstr "ขาออก 10-bit &RGB"
+
+msgctxt "ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION"
+msgid "Force 10-bit RGB &Input"
+msgstr "บังคับขาเ&ข้า 10-bit RGB"
+
+msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
+msgid "&Full Floating Point Processing"
+msgstr "ประมวลผลจุดลอยตัวแบบเ&ต็ม"
+
+msgctxt "ID_VIEW_HALFFLOATINGPOINTPROCESSING"
+msgid "&Half Floating Point Processing"
+msgstr "ประมวลผลจุดลอยตัว&ครึ่งเดียว"
+
+msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
+msgid "Disable desktop composition (&Aero)"
+msgstr "ไม่ใช้งานองค์ประกอบ desktop (&Aero)"
+
+msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
+msgid "Enable Frame Time &Correction"
+msgstr "ใช้งานการแ&ก้ปัญหาเวลาเฟรม"
+
+msgctxt "POPUP"
+msgid "&Color Management"
+msgstr "การจัดการ&สี"
+
+msgctxt "ID_VIEW_CM_ENABLE"
+msgid "&Enable"
+msgstr "ใ&ช้งาน"
+
+msgctxt "POPUP"
+msgid "&Input Type"
+msgstr "ชนิด&ขาเข้า"
+
+msgctxt "ID_VIEW_CM_INPUT_AUTO"
+msgid "&Auto-Detect"
+msgstr "&ตรวจสอบอัตโนมัติ"
+
+msgctxt "ID_VIEW_CM_INPUT_HDTV"
+msgid "&HDTV"
+msgstr "&HDTV"
+
+msgctxt "ID_VIEW_CM_INPUT_SDTV_NTSC"
+msgid "SDTV &NTSC"
+msgstr "SDTV &NTSC"
+
+msgctxt "ID_VIEW_CM_INPUT_SDTV_PAL"
+msgid "SDTV &PAL"
+msgstr "SDTV &PAL"
+
+msgctxt "POPUP"
+msgid "Ambient &Light"
+msgstr "แ&สงเรือง"
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
+msgid "&Bright (2.2 Gamma)"
+msgstr "&สว่าง (2.2 Gamma)"
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DIM"
+msgid "&Dim (2.35 Gamma)"
+msgstr "ส&ลัว (2.35 Gamma)"
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DARK"
+msgid "D&ark (2.4 Gamma)"
+msgstr "&มืด (2.4 Gamma)"
+
+msgctxt "POPUP"
+msgid "&Rendering Intent"
+msgstr "เจตนาการแปลผล"
+
+msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
+msgid "&Perceptual"
+msgstr "&รับรู้ได้"
+
+msgctxt "ID_VIEW_CM_INTENT_RELATIVECOLORIMETRIC"
+msgid "&Relative Colorimetric"
+msgstr "เมตริกสีสัม&พัทธ์"
+
+msgctxt "ID_VIEW_CM_INTENT_SATURATION"
+msgid "&Saturation"
+msgstr "ความ&อิ่มตัว"
+
+msgctxt "ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC"
+msgid "&Absolute Colorimetric"
+msgstr "เมตริกสีสัม&บูรณ์"
+
+msgctxt "POPUP"
+msgid "&VSync"
+msgstr "&VSync"
+
+msgctxt "ID_VIEW_VSYNC"
+msgid "&VSync"
+msgstr "&VSync"
+
+msgctxt "ID_VIEW_VSYNCACCURATE"
+msgid "&Accurate VSync"
+msgstr "&VSync ที่ถูกต้อง"
+
+msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
+msgid "A&lternative VSync"
+msgstr "VSync ทางเ&ลือก"
+
+msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
+msgid "&Decrease VSync Offset"
+msgstr "&ลดการชดเชย VSync"
+
+msgctxt "ID_VIEW_VSYNCOFFSET_INCREASE"
+msgid "&Increase VSync Offset"
+msgstr "เ&พิ่มการชดเชย VSync"
+
+msgctxt "POPUP"
+msgid "&GPU Control"
+msgstr "&ควบคุม GPU"
+
+msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
+msgid "Flush GPU &before VSync"
+msgstr "ล้าง GPU &ก่อน VSync"
+
+msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
+msgid "Flush GPU &after Present"
+msgstr "ล้าง GPU &หลังจากปัจจุบัน"
+
+msgctxt "ID_VIEW_FLUSHGPU_WAIT"
+msgid "&Wait for flushes"
+msgstr "&รอเพื่อล้าง"
+
+msgctxt "POPUP"
+msgid "R&eset"
+msgstr "&คืนค่า"
+
+msgctxt "ID_VIEW_RESET_DEFAULT"
+msgid "Reset to &default renderer settings"
+msgstr "คืนสู่ค่า&ตั้งต้นของตัวแปลผล"
+
+msgctxt "ID_VIEW_RESET_OPTIMAL"
+msgid "Reset to &optimal renderer settings"
+msgstr "คืนสู่ค่าที่เห&มาะสมของตัวแปลผล"
+
+msgctxt "POPUP"
+msgid "Video &Frame"
+msgstr "เ&ฟรมวิดีโอ"
+
+msgctxt "ID_VIEW_VF_HALF"
+msgid "&Half Size"
+msgstr "ขนาด&ครึ่งเดียว"
+
+msgctxt "ID_VIEW_VF_NORMAL"
+msgid "&Normal Size"
+msgstr "ขนาด&ปกติ"
+
+msgctxt "ID_VIEW_VF_DOUBLE"
+msgid "&Double Size"
+msgstr "ขนาด&สองเท่า"
+
+msgctxt "ID_VIEW_VF_STRETCH"
+msgid "&Stretch To Window"
+msgstr "&ยืดสู่หน้าต่าง"
+
+msgctxt "ID_VIEW_VF_FROMINSIDE"
+msgid "Touch Window From &Inside"
+msgstr "สัมผัสหน้าต่างจากด้านใ&น"
+
+msgctxt "ID_VIEW_VF_ZOOM1"
+msgid "Zoom &1"
+msgstr "ซูม &1"
+
+msgctxt "ID_VIEW_VF_ZOOM2"
+msgid "Zoom &2"
+msgstr "ซูม &2"
+
+msgctxt "ID_VIEW_VF_FROMOUTSIDE"
+msgid "Touch Window From &Outside"
+msgstr "สัมผัสหน้าต่างจากด้านนอ&ก"
+
+msgctxt "ID_VIEW_VF_KEEPASPECTRATIO"
+msgid "&Keep Aspect Ratio"
+msgstr "&คงอัตราส่วนภาพ"
+
+msgctxt "POPUP"
+msgid "Override &Aspect Ratio"
+msgstr "&ฝืนอัตราส่วนภาพ"
+
+msgctxt "ID_ASPECTRATIO_SOURCE"
+msgid "&Default"
+msgstr "ค่า&ตั้งต้น"
+
+msgctxt "ID_ASPECTRATIO_4_3"
+msgid "&4:3"
+msgstr "&4:3"
+
+msgctxt "ID_ASPECTRATIO_5_4"
+msgid "&5:4"
+msgstr "&5:4"
+
+msgctxt "ID_ASPECTRATIO_16_9"
+msgid "&16:9"
+msgstr "&16:9"
+
+msgctxt "ID_ASPECTRATIO_235_100"
+msgid "&235:100"
+msgstr "&235:100"
+
+msgctxt "ID_ASPECTRATIO_185_100"
+msgid "1&85:100"
+msgstr "1&85:100"
+
+msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
+msgid "&Correct Monitor/Desktop AR Diff"
+msgstr "แ&ก้ปัญหาความต่างอัตราส่วนฯ จอภาพ/เดสก์ท็อป"
+
+msgctxt "POPUP"
+msgid "Pa&n&&Scan"
+msgstr "&ส่องและกวาด"
+
+msgctxt "ID_VIEW_INCSIZE"
+msgid "&Increase Size"
+msgstr "เ&พิ่มขนาด"
+
+msgctxt "ID_VIEW_DECSIZE"
+msgid "&Decrease Size"
+msgstr "&ลดขนาด"
+
+msgctxt "ID_VIEW_INCWIDTH"
+msgid "I&ncrease Width"
+msgstr "เพิ่มความ&กว้าง"
+
+msgctxt "ID_VIEW_DECWIDTH"
+msgid "D&ecrease Width"
+msgstr "ลดความก&ว้าง"
+
+msgctxt "ID_VIEW_INCHEIGHT"
+msgid "In&crease Height"
+msgstr "เพิ่มความ&สูง"
+
+msgctxt "ID_VIEW_DECHEIGHT"
+msgid "Decre&ase Height"
+msgstr "ลดความสู&ง"
+
+msgctxt "ID_PANSCAN_MOVERIGHT"
+msgid "Move &Right"
+msgstr "เลื่อน&ขวา"
+
+msgctxt "ID_PANSCAN_MOVELEFT"
+msgid "Move &Left"
+msgstr "เลื่อนซ้า&ย"
+
+msgctxt "ID_PANSCAN_MOVEUP"
+msgid "Move &Up"
+msgstr "เลื่อน&ขึ้น"
+
+msgctxt "ID_PANSCAN_MOVEDOWN"
+msgid "Move &Down"
+msgstr "เลื่อน&ลง"
+
+msgctxt "ID_PANSCAN_CENTER"
+msgid "Cen&ter"
+msgstr "&กลาง"
+
+msgctxt "ID_VIEW_RESET"
+msgid "Re&set"
+msgstr "&คืนค่า"
+
+msgctxt "POPUP"
+msgid "On &Top"
+msgstr "อยู่&บน"
+
+msgctxt "ID_ONTOP_DEFAULT"
+msgid "&Default"
+msgstr "ค่า&ตั้งต้น"
+
+msgctxt "ID_ONTOP_ALWAYS"
+msgid "&Always"
+msgstr "เ&สมอ"
+
+msgctxt "ID_ONTOP_WHILEPLAYING"
+msgid "While &Playing"
+msgstr "ขณะเ&ล่น"
+
+msgctxt "ID_ONTOP_WHILEPLAYINGVIDEO"
+msgid "While Playing &Video"
+msgstr "ขณะเล่น&วิดีโอ"
+
+msgctxt "ID_VIEW_OPTIONS"
+msgid "&Options..."
+msgstr "&ตัวเลือก..."
+
+msgctxt "POPUP"
+msgid "&Play"
+msgstr "เ&ล่น"
+
+msgctxt "ID_PLAY_PLAYPAUSE"
+msgid "&Play/Pause"
+msgstr "เ&ล่น/พัก"
+
+msgctxt "ID_PLAY_STOP"
+msgid "&Stop"
+msgstr "ห&ยุด"
+
+msgctxt "ID_PLAY_FRAMESTEP"
+msgid "F&rame Step"
+msgstr "เดินเ&ฟรม"
+
+msgctxt "ID_PLAY_DECRATE"
+msgid "&Decrease Rate"
+msgstr "&ลดอัตรา"
+
+msgctxt "ID_PLAY_INCRATE"
+msgid "&Increase Rate"
+msgstr "เ&พิ่มอัตรา"
+
+msgctxt "ID_PLAY_RESETRATE"
+msgid "R&eset Rate"
+msgstr "&คืนค่าอัตรา"
+
+msgctxt "ID_FILTERS"
+msgid "&Filters"
+msgstr "ตัว&กรอง"
+
+msgctxt "ID_SHADERS"
+msgid "S&haders"
+msgstr "เฉดเ&ดอร์"
+
+msgctxt "ID_AUDIOS"
+msgid "&Audio"
+msgstr "เ&สียง"
+
+msgctxt "ID_SUBTITLES"
+msgid "Su&btitles"
+msgstr "ศัพท์&บรรยาย"
+
+msgctxt "ID_VIDEO_STREAMS"
+msgid "&Video Stream"
+msgstr "กระแส&วิดีโอ"
+
+msgctxt "POPUP"
+msgid "&Volume"
+msgstr "ความ&ดัง"
+
+msgctxt "ID_VOLUME_UP"
+msgid "&Up"
+msgstr "&ขึ้น"
+
+msgctxt "ID_VOLUME_DOWN"
+msgid "&Down"
+msgstr "&ลง"
+
+msgctxt "ID_VOLUME_MUTE"
+msgid "&Mute"
+msgstr "เ&งียบเสียง"
+
+msgctxt "POPUP"
+msgid "Af&ter Playback"
+msgstr "หลังจากเล่น&จบ"
+
+msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgid "&Exit"
+msgstr "&ออก"
+
+msgctxt "ID_AFTERPLAYBACK_STANDBY"
+msgid "&Stand By"
+msgstr "&สแตนด์บาย"
+
+msgctxt "ID_AFTERPLAYBACK_HIBERNATE"
+msgid "&Hibernate"
+msgstr "&ไฮเบอร์เนต"
+
+msgctxt "ID_AFTERPLAYBACK_SHUTDOWN"
+msgid "Shut&down"
+msgstr "&ปิดเครื่อง"
+
+msgctxt "ID_AFTERPLAYBACK_LOGOFF"
+msgid "Log &Off"
+msgstr "ลง&ชื่่อออก"
+
+msgctxt "ID_AFTERPLAYBACK_LOCK"
+msgid "&Lock"
+msgstr "&ล็อค"
+
+msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
+msgid "Turn off the &monitor"
+msgstr "ปิด&จอภาพ"
+
+msgctxt "POPUP"
+msgid "&Navigate"
+msgstr "&นำทาง"
+
+msgctxt "ID_NAVIGATE_SKIPBACK"
+msgid "&Previous"
+msgstr "&ก่อนหน้า"
+
+msgctxt "ID_NAVIGATE_SKIPFORWARD"
+msgid "&Next"
+msgstr "&ถัดไป"
+
+msgctxt "ID_NAVIGATE_GOTO"
+msgid "&Go To..."
+msgstr "ไ&ปยัง..."
+
+msgctxt "ID_NAVIGATE_TITLEMENU"
+msgid "&Title Menu"
+msgstr "เมนู&หัวเรื่อง"
+
+msgctxt "ID_NAVIGATE_ROOTMENU"
+msgid "&Root Menu"
+msgstr "เมนู&รากฐาน"
+
+msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
+msgid "&Subtitle Menu"
+msgstr "เมนูศัพท์&บรรยาย"
+
+msgctxt "ID_NAVIGATE_AUDIOMENU"
+msgid "&Audio Menu"
+msgstr "เมนูเ&สียง"
+
+msgctxt "ID_NAVIGATE_ANGLEMENU"
+msgid "An&gle Menu"
+msgstr "เมนู&มุมกล้อง"
+
+msgctxt "ID_NAVIGATE_CHAPTERMENU"
+msgid "&Chapter Menu"
+msgstr "เมนู&ตอน"
+
+msgctxt "ID_FAVORITES"
+msgid "F&avorites"
+msgstr "&รายการโปรด"
+
+msgctxt "POPUP"
+msgid "&Help"
+msgstr "&ช่วยเหลือ"
+
+msgctxt "ID_HELP_HOMEPAGE"
+msgid "&Home Page"
+msgstr "&หน้าหลักเว็บ"
+
+msgctxt "ID_HELP_CHECKFORUPDATE"
+msgid "Check for &updates"
+msgstr "&ตรวจสอบการอัพเดต"
+
+msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
+msgid "&Command Line Switches"
+msgstr "&สวิตช์ Command Line"
+
+msgctxt "ID_HELP_TOOLBARIMAGES"
+msgid "Download &Toolbar Images"
+msgstr "ดาวน์โหลด&รูปแถบเครื่องมือ"
+
+msgctxt "ID_HELP_DONATE"
+msgid "&Donate"
+msgstr "&บริจาค"
+
+msgctxt "ID_HELP_ABOUT"
+msgid "&About..."
+msgstr "&เกี่ยวกับ..."
+

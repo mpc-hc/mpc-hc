@@ -1,0 +1,82 @@
+# MPC-HC - Strings extracted from string tables
+# Copyright (C) 2002 - 2014 see Authors.txt
+# This file is distributed under the same license as the MPC-HC package.
+# Translators:
+# Xyteton <xyteton@hotmail.com>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: MPC-HC\n"
+"POT-Creation-Date: 2014-06-17 15:23:34+0000\n"
+"PO-Revision-Date: 2014-08-26 11:31+0000\n"
+"Last-Translator: Xyteton <xyteton@hotmail.com>\n"
+"Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/mpc-hc/language/th_TH/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: th_TH\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgctxt "Messages_WelcomeLabel2"
+msgid "This will install [name] on your computer.\n\nIt is recommended that you close all other applications before continuing."
+msgstr "สิ่งนี้จะติดตั้ง [name] บนคอมพิวเตอร์ของคุณ\n\nขอแนะนำให้คุณปิดโปรแกรมอื่นๆ ก่อนทำขั้นตอนต่อไป"
+
+msgctxt "Messages_WinVersionTooLowError"
+msgid "[name] requires Windows XP Service Pack 3 or newer to run."
+msgstr "[name] ต้องการ Windows XP Service Pack 3 หรือรุ่นที่ใหม่กว่าเพื่อปฏิบัติการ"
+
+msgctxt "CustomMessages_comp_mpciconlib"
+msgid "Icon Library"
+msgstr "คลังไอคอน"
+
+msgctxt "CustomMessages_comp_mpcresources"
+msgid "Translations"
+msgstr "การแปลภาษา"
+
+msgctxt "CustomMessages_msg_DeleteSettings"
+msgid "Do you also want to delete MPC-HC settings?\n\nIf you plan on installing MPC-HC again then you do not have to delete them."
+msgstr "คุณต้องการลบการตั้งค่า MPC-HC ด้วยหรือไม่?\n\nหากคุณวางแผนจะติดตั้ง MPC-HC อีกครั้ง คุณไม่จำเป็นต้องลบมันออก"
+
+msgctxt "CustomMessages_msg_SetupIsRunningWarning"
+msgid "MPC-HC setup is already running!"
+msgstr "การติดตั้ง MPC-HC กำลังดำเนินการ!"
+
+msgctxt "CustomMessages_msg_simd_sse"
+msgid "This build of MPC-HC requires a CPU with SSE extension support.\n\nYour CPU does not have those capabilities."
+msgstr "MPC-HC รุ่นนี้ ต้องการ CPU ที่สนับสนุนส่วนเสริม SSE\n\nCPU ของคุณไม่มีความสามารถนั้น"
+
+msgctxt "CustomMessages_msg_simd_sse2"
+msgid "This build of MPC-HC requires a CPU with SSE2 extension support.\n\nYour CPU does not have those capabilities."
+msgstr "MPC-HC รุ่นนี้ ต้องการ CPU ที่สนับสนุนส่วนเสริม SSE2\n\nCPU ของคุณไม่มีความสามารถนั้น"
+
+msgctxt "CustomMessages_run_DownloadToolbarImages"
+msgid "Visit our Wiki page to download toolbar images"
+msgstr "เยี่ยมชมหน้าวิกิของเรา เพื่อดาวน์โหลดรูปแถบเครื่องมือ"
+
+msgctxt "CustomMessages_tsk_AllUsers"
+msgid "For all users"
+msgstr "สำหรับผู้ใช้ทุกราย"
+
+msgctxt "CustomMessages_tsk_CurrentUser"
+msgid "For the current user only"
+msgstr "สำหรับผู้ใช้ปัจจุบันเท่านั้น"
+
+msgctxt "CustomMessages_tsk_Other"
+msgid "Other tasks:"
+msgstr "งานอื่น:"
+
+msgctxt "CustomMessages_tsk_ResetSettings"
+msgid "Reset settings"
+msgstr "คืนค่าการตั้งค่า"
+
+msgctxt "CustomMessages_types_DefaultInstallation"
+msgid "Default installation"
+msgstr "การติดตั้งตามค่าตั้งต้น"
+
+msgctxt "CustomMessages_types_CustomInstallation"
+msgid "Custom installation"
+msgstr "การติดตั้งที่กำหนดเอง"
+
+msgctxt "CustomMessages_ViewChangelog"
+msgid "View Changelog"
+msgstr "ดูบันทึกการเปลี่ยนแปลง"
+

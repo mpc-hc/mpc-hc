@@ -57,6 +57,7 @@ static const std::vector<const Translations::LanguageResource> languageResources
     { 1053,   _T("Swedish"),                  _T("Lang\\mpcresources.sv.dll") },
     { 3082,   _T("Spanish"),                  _T("Lang\\mpcresources.es.dll") },
     { 1092,   _T("Tatar"),                    _T("Lang\\mpcresources.tt.dll") },
+    { 1054,   _T("Thai"),                     _T("Lang\\mpcresources.th_TH.dll") },
     { 1055,   _T("Turkish"),                  _T("Lang\\mpcresources.tr.dll") },
     { 1058,   _T("Ukrainian"),                _T("Lang\\mpcresources.uk.dll") },
     { 1066,   _T("Vietnamese"),               _T("Lang\\mpcresources.vi.dll") }

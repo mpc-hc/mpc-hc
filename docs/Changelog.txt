@@ -12,7 +12,7 @@ next version - not released yet
 ===============================
 + Accept loading more than one subtitle file at a time using the "Load subtitle" dialog or drag-and-drop
 + Add advanced settings page
-+ Add Arabic translation
++ Add Arabic and Thai translations
 + Completely reworked subtitle queue:
     - The queue should be quite faster than the older one for a similar number of buffered subpictures.
       It should also work much better when the number of subpictures becomes important
