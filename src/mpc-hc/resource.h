@@ -391,6 +391,7 @@
 #define IDC_CHECK11                     11090
 #define IDC_CHECK12                     11091
 #define IDC_CHECK13                     11092
+#define IDC_CHECK14                     11093
 #define IDC_SPIN1                       11100
 #define IDC_SPIN2                       11101
 #define IDC_SPIN3                       11102

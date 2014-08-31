@@ -669,6 +669,7 @@ public:
 
     int             nJpegQuality;
 
+    bool            bEnableCoverArt;
     int             nCoverArtSizeLimit;
 
     bool            IsD3DFullscreen() const;

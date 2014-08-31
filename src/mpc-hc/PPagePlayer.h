@@ -52,6 +52,7 @@ public:
     BOOL m_fRememberDVDPos;
     BOOL m_fRememberFilePos;
     BOOL m_bRememberPlaylistItems;
+    BOOL m_bEnableCoverArt;
 
     DWORD m_dwCheckIniLastTick;
 

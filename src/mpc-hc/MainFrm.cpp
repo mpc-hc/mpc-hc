@@ -3305,12 +3305,7 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
 
     // Load cover-art
     if (m_fAudioOnly) {
-        CPath path(m_wndPlaylistBar.GetCurFileName());
-        path.RemoveFileSpec();
-
-        CString author;
-        m_wndInfoBar.GetLine(ResStr(IDS_INFOBAR_AUTHOR), author);
-        m_wndView.LoadImg(FindCoverArt(path, author));
+        UpdateControlState(CMainFrame::UPDATE_LOGO);
     }
 
     if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
@@ -16049,7 +16044,16 @@ void CMainFrame::UpdateControlState(UpdateControlTarget target)
             m_wndToolBar.m_volctrl.SetPageSize(s.nVolumeStep);
             break;
         case UPDATE_LOGO:
-            m_wndView.LoadImg();
+            if (GetLoadState() == MLS::LOADED && m_fAudioOnly && s.bEnableCoverArt) {
+                CPath path(m_wndPlaylistBar.GetCurFileName());
+                path.RemoveFileSpec();
+
+                CString author;
+                m_wndInfoBar.GetLine(ResStr(IDS_INFOBAR_AUTHOR), author);
+                m_wndView.LoadImg(FindCoverArt(path, author));
+            } else {
+                m_wndView.LoadImg();
+            }
             break;
         case UPDATE_SKYPE:
             UpdateSkypeHandler();

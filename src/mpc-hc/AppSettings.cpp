@@ -194,6 +194,7 @@ CAppSettings::CAppSettings()
     , bHideWindowedControls(false)
     , bHideWindowedMousePointer(true)
     , nJpegQuality(90)
+    , bEnableCoverArt(true)
     , nCoverArtSizeLimit(600)
 {
     // Internal source filter
@@ -932,6 +933,7 @@ void CAppSettings::SaveSettings()
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_JPEG_QUALITY, nJpegQuality);
 
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_COVER_ART, bEnableCoverArt);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_COVER_ART_SIZE_LIMIT, nCoverArtSizeLimit);
 
     pApp->FlushProfile();
@@ -1624,6 +1626,7 @@ void CAppSettings::LoadSettings()
         nJpegQuality = 90;
     }
 
+    bEnableCoverArt = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_COVER_ART, TRUE);
     nCoverArtSizeLimit = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_COVER_ART_SIZE_LIMIT, 600);
 
     if (fLaunchfullscreen) {

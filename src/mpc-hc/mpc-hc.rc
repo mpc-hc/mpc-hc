@@ -249,6 +249,7 @@ BEGIN
     CONTROL         "Store settings to .ini file",IDC_CHECK8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,69,160,8
     CONTROL         "Disable ""Open Disc"" menu",IDC_CHECK10,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,82,160,8
     CONTROL         "Process priority above normal",IDC_CHECK9,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,95,160,8
+    CONTROL         "Enable cover-art support",IDC_CHECK14,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,108,160,8
     GROUPBOX        "History",IDC_STATIC,124,129,167,103
     CONTROL         "Keep history of recently opened files",IDC_CHECK1,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,141,160,8
