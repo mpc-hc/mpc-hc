@@ -7373,7 +7373,7 @@ void CMainFrame::OnUpdatePlaySeek(CCmdUI* pCmdUI)
 
     if (GetLoadState() == MLS::LOADED) {
         fEnable = true;
-        if (GetPlaybackMode() == PM_DVD && (m_iDVDDomain != DVD_DOMAIN_Title || fs != State_Running)) {
+        if (GetPlaybackMode() == PM_DVD && m_iDVDDomain != DVD_DOMAIN_Title) {
             fEnable = false;
         } else if (IsPlaybackCaptureMode()) {
             fEnable = false;
