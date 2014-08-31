@@ -3451,7 +3451,7 @@ void CMainFrame::OnFilePostClosemedia(bool bNextIsQueued/* = false*/)
     m_Lcd.SetMediaPos(0);
 
     if (!bNextIsQueued) {
-        m_wndView.LoadImg();
+        UpdateControlState(CMainFrame::UPDATE_LOGO);
         RecalcLayout();
     }
 
@@ -16050,8 +16050,15 @@ void CMainFrame::UpdateControlState(UpdateControlTarget target)
 
                 CString author;
                 m_wndInfoBar.GetLine(ResStr(IDS_INFOBAR_AUTHOR), author);
-                m_wndView.LoadImg(FindCoverArt(path, author));
+                CString strPath = path;
+                if (m_currentCoverPath != strPath || m_currentCoverAuthor != author) {
+                    m_wndView.LoadImg(FindCoverArt(strPath, author));
+                    m_currentCoverPath = strPath;
+                    m_currentCoverAuthor = author;
+                }
             } else {
+                m_currentCoverPath.Empty();
+                m_currentCoverAuthor.Empty();
                 m_wndView.LoadImg();
             }
             break;
