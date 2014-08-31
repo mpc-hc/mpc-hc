@@ -230,10 +230,10 @@ BEGIN
     GROUPBOX        "Open options",IDC_STATIC,5,5,115,120
     CONTROL         "Use the same player for each media file",IDC_RADIO1,
                     "Button",BS_AUTORADIOBUTTON | BS_TOP | BS_MULTILINE | WS_GROUP,10,17,105,27
-    ICON            "",IDI_SINGLE,51,48,32,32
+    ICON            "",IDI_SINGLE,51,44,32,32
     CONTROL         "Open a new player for each media file played",IDC_RADIO2,
                     "Button",BS_AUTORADIOBUTTON | BS_TOP | BS_MULTILINE,10,72,105,27
-    ICON            "",IDI_MULTI,51,103,32,32
+    ICON            "",IDI_MULTI,51,99,32,32
     GROUPBOX        "Language",IDC_STATIC,5,129,115,30
     COMBOBOX        IDC_COMBO1,10,141,105,47,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "Title bar",IDC_STATIC,5,164,115,68
