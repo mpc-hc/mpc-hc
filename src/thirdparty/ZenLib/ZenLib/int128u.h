@@ -51,7 +51,7 @@ class uint128 {
 
     public:
         // Constructors
-        inline uint128 () throw () {};
+        inline uint128 () throw () : lo(0), hi(0) {};
         inline uint128 (const uint128 & a) throw () : lo (a.lo), hi (a.hi) {};
 
         inline uint128 (const int & a) throw () : lo (a), hi (0ull) {};

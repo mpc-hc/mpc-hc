@@ -11,12 +11,6 @@
 
 //---------------------------------------------------------------------------
 #include "ZenLib/Ztring.h"
-#ifdef WINDOWS
-#ifndef ZENLIB_NO_WIN9X_SUPPORT
-    #undef __TEXT
-    #include "windows.h"
-#endif //ZENLIB_NO_WIN9X_SUPPORT
-#endif //WINDOWS
 //---------------------------------------------------------------------------
 
 namespace ZenLib
@@ -28,16 +22,6 @@ namespace ZenLib
 
 //---------------------------------------------------------------------------
 bool IsWin9X ();
-#ifdef WINDOWS
-#ifndef ZENLIB_NO_WIN9X_SUPPORT
-inline bool IsWin9X_Fast ()
-{
-    return GetVersion()>=0x80000000;
-}
-#endif //ZENLIB_NO_WIN9X_SUPPORT
-#endif //WINDOWS
-
-//***************************************************************************
 // Execute
 //***************************************************************************
 

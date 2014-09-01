@@ -90,6 +90,12 @@ bool Request::Http_Begin(std::istream &In, std::ostream &Out)
         Out << "\r\n";
         return false; //Problem
     }
+    if (Http->Path.size()>8096) //Browsers/Servers have a 2K-8K limit, we do same
+    {
+        Out << "HTTP/1.0 414\r\n";
+        Out << "\r\n";
+        return false; //Problem
+    }
     if (Http->Path.find("%")!=string::npos)
         Http->Path=Format::Http::URL_Encoded_Decode(Http->Path);
     //-Norm
