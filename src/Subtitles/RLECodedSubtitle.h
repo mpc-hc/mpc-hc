@@ -59,7 +59,6 @@ protected:
 
     CString         m_name;
     LCID            m_lcid;
-    REFERENCE_TIME  m_rtCurrentSegmentStart;
 
     enum SOURCE_MATRIX {
         NONE,

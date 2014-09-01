@@ -58,9 +58,6 @@ STDMETHODIMP_(POSITION) CDVBSub::GetStartPosition(REFERENCE_TIME rt, double fps)
 {
     CAutoLock cAutoLock(&m_csCritSec);
 
-    // Make sure the timing are relative to the current segment start
-    rt -= m_rtCurrentSegmentStart;
-
     POSITION pos = m_pages.GetHeadPosition();
     while (pos) {
         const auto& pPage = m_pages.GetAt(pos);
@@ -84,13 +81,13 @@ STDMETHODIMP_(POSITION) CDVBSub::GetNext(POSITION pos)
 STDMETHODIMP_(REFERENCE_TIME) CDVBSub::GetStart(POSITION pos, double fps)
 {
     const auto& pPage = m_pages.GetAt(pos);
-    return pPage ? (pPage->rtStart + m_rtCurrentSegmentStart) : INVALID_TIME;
+    return pPage ? pPage->rtStart : INVALID_TIME;
 }
 
 STDMETHODIMP_(REFERENCE_TIME) CDVBSub::GetStop(POSITION pos, double fps)
 {
     const auto& pPage = m_pages.GetAt(pos);
-    return pPage ? (pPage->rtStop + m_rtCurrentSegmentStart) : INVALID_TIME;
+    return pPage ? pPage->rtStop : INVALID_TIME;
 }
 
 STDMETHODIMP_(bool) CDVBSub::IsAnimated(POSITION pos)
@@ -102,7 +99,6 @@ STDMETHODIMP CDVBSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, REC
 {
     CAutoLock cAutoLock(&m_csCritSec);
 
-    rt -= m_rtCurrentSegmentStart; // Make sure the timing are relative to the current segment start
     RemoveOldPages(rt);
 
     if (POSITION posPage = FindPage(rt)) {
@@ -110,8 +106,7 @@ STDMETHODIMP CDVBSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, REC
         bool BT709 = m_infoSourceTarget.sourceMatrix == BT_709 ? true : m_infoSourceTarget.sourceMatrix == NONE ? (m_displayInfo.width > 720) : false;
 
         pPage->rendered = true;
-        TRACE_DVB(_T("DVB - Renderer - %s - %s\n"),
-                  ReftimeToString(pPage->rtStart + m_rtCurrentSegmentStart), ReftimeToString(pPage->rtStop + m_rtCurrentSegmentStart));
+        TRACE_DVB(_T("DVB - Renderer - %s - %s\n"), ReftimeToString(pPage->rtStart), ReftimeToString(pPage->rtStop));
 
         int nRegion = 1, nObject = 1;
         for (POSITION pos = pPage->regionsPos.GetHeadPosition(); pos; nRegion++) {
@@ -277,7 +272,7 @@ HRESULT CDVBSub::ParseSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE
                             m_pCurrentPage = pPage;
 
                             TRACE_DVB(_T("DVB - Page started [pageState = %d] %s, TimeOut = %ds\n"), m_pCurrentPage->pageState,
-                                      ReftimeToString(m_rtStart + m_rtCurrentSegmentStart), m_pCurrentPage->pageTimeOut);
+                                      ReftimeToString(m_rtStart), m_pCurrentPage->pageTimeOut);
                         } else if (pPage->pageState == DPS_NORMAL && !m_pages.IsEmpty()) {
                             m_pCurrentPage = pPage;
 
@@ -297,9 +292,9 @@ HRESULT CDVBSub::ParseSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE
                             }
 
                             TRACE_DVB(_T("DVB - Page started [update] %s, TimeOut = %ds\n"),
-                                      ReftimeToString(m_rtStart + m_rtCurrentSegmentStart), m_pCurrentPage->pageTimeOut);
+                                      ReftimeToString(m_rtStart), m_pCurrentPage->pageTimeOut);
                         } else {
-                            TRACE_DVB(_T("DVB - Page update ignored %s\n"), ReftimeToString(m_rtStart + m_rtCurrentSegmentStart));
+                            TRACE_DVB(_T("DVB - Page update ignored %s\n"), ReftimeToString(m_rtStart));
                         }
                     }
                     break;
@@ -321,12 +316,12 @@ HRESULT CDVBSub::ParseSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE
                         break;
                     case END_OF_DISPLAY:
                         if (m_pCurrentPage == nullptr) {
-                            TRACE_DVB(_T("DVB - Ignored End display %s: no current page\n"), ReftimeToString(m_rtStart + m_rtCurrentSegmentStart));
+                            TRACE_DVB(_T("DVB - Ignored End display %s: no current page\n"), ReftimeToString(m_rtStart));
                         } else if (m_pCurrentPage->rtStart < m_rtStart) {
                             TRACE_DVB(_T("DVB - End display\n"));
                             EnqueuePage(m_rtStart);
                         } else {
-                            TRACE_DVB(_T("DVB - Ignored End display %s: no information on page duration\n"), ReftimeToString(m_rtStart + m_rtCurrentSegmentStart));
+                            TRACE_DVB(_T("DVB - Ignored End display %s: no information on page duration\n"), ReftimeToString(m_rtStart));
                         }
                         break;
                     default:
@@ -706,7 +701,7 @@ void CDVBSub::RemoveOldPages(REFERENCE_TIME rt)
         auto pPage = m_pages.RemoveHead();
         if (!pPage->rendered) {
             TRACE_DVB(_T("DVB - remove unrendered object, %s - %s\n"),
-                      ReftimeToString(pPage->rtStart + m_rtCurrentSegmentStart), ReftimeToString(pPage->rtStop + m_rtCurrentSegmentStart));
+                      ReftimeToString(pPage->rtStart), ReftimeToString(pPage->rtStop));
         }
     }
 }
