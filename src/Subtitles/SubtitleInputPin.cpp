@@ -391,7 +391,7 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const CAutoPtr<SubtitleSample>& p
 
                 ptr += size;
             }
-        } else if (pData != nullptr && pSample->data.size() > 1 && *pData != '\0') {
+        } else if (pSample->data.size() > 1 && *pData != '\0') {
             CStringA str(pData, (int)pSample->data.size());
 
             str.Replace("\r\n", "\n");
