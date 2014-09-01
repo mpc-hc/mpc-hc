@@ -40,7 +40,7 @@ public:
     STDMETHODIMP                  Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox);
     STDMETHODIMP                  GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VirtualSize, POINT& VirtualTopLeft);
 
-    virtual HRESULT ParseSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE* pData, int nLen);
+    virtual HRESULT ParseSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE* pData, size_t nLen);
     virtual void    EndOfStream();
     virtual void    Reset();
 
@@ -216,7 +216,7 @@ private:
     CAutoPtr<DVB_PAGE>     m_pCurrentPage;
     DVB_DISPLAY            m_displayInfo;
 
-    HRESULT  AddToBuffer(BYTE* pData, int nSize);
+    HRESULT  AddToBuffer(BYTE* pData, size_t nSize);
 
     POSITION FindPage(REFERENCE_TIME rt) const;
     POSITION FindRegion(const CAutoPtr<DVB_PAGE>& pPage, BYTE bRegionId) const;

@@ -48,7 +48,7 @@ public:
     STDMETHODIMP SetStream(int iStream);
     STDMETHODIMP Reload();
 
-    virtual HRESULT ParseSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE* pData, int len) PURE;
+    virtual HRESULT ParseSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE* pData, size_t nLen) PURE;
     HRESULT NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
     virtual void EndOfStream() PURE;
     virtual void Reset() PURE;

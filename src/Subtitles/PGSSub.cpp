@@ -120,7 +120,7 @@ STDMETHODIMP CPGSSub::GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& V
     return E_INVALIDARG;
 }
 
-HRESULT CPGSSub::ParseSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE* pData, int nLen)
+HRESULT CPGSSub::ParseSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE* pData, size_t nLen)
 {
     CheckPointer(pData, E_POINTER);
 
@@ -157,7 +157,7 @@ HRESULT CPGSSub::ParseSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE
 
         if (m_nCurSegment != NO_SEGMENT) {
             if (m_nSegBufferPos < m_nSegSize) {
-                int nSize = std::min(m_nSegSize - m_nSegBufferPos, nLen);
+                size_t nSize = std::min(m_nSegSize - m_nSegBufferPos, nLen);
                 sampleBuffer.ReadBuffer(m_pSegBuffer + m_nSegBufferPos, nSize);
                 m_nSegBufferPos += nSize;
             }
@@ -217,7 +217,7 @@ void CPGSSub::Reset()
     }
 }
 
-void CPGSSub::AllocSegment(int nSize)
+void CPGSSub::AllocSegment(size_t nSize)
 {
     if (nSize > m_nTotalSegBuffer) {
         delete[] m_pSegBuffer;
@@ -356,7 +356,7 @@ void CPGSSub::UpdateTimeStamp(REFERENCE_TIME rtStop)
     }
 }
 
-void CPGSSub::ParsePalette(CGolombBuffer* pGBuffer, unsigned short nSize)  // #497
+void CPGSSub::ParsePalette(CGolombBuffer* pGBuffer, size_t nSize)  // #497
 {
     BYTE palette_id = pGBuffer->ReadByte();
     HDMV_CLUT& CLUT = m_CLUTs[palette_id];
@@ -377,7 +377,7 @@ void CPGSSub::ParsePalette(CGolombBuffer* pGBuffer, unsigned short nSize)  // #4
     }
 }
 
-void CPGSSub::ParseObject(CGolombBuffer* pGBuffer, unsigned short nUnitSize)   // #498
+void CPGSSub::ParseObject(CGolombBuffer* pGBuffer, size_t nUnitSize)   // #498
 {
     short object_id = pGBuffer->ReadShort();
     ASSERT(object_id < _countof(m_compositionObjects));

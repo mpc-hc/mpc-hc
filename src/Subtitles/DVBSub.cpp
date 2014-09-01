@@ -163,7 +163,7 @@ HRESULT CDVBSub::GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VideoS
         return E_FAIL;        \
     }
 
-HRESULT CDVBSub::ParseSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE* pData, int nLen)
+HRESULT CDVBSub::ParseSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE* pData, size_t nLen)
 {
     CheckPointer(pData, E_POINTER);
 
@@ -365,7 +365,7 @@ void CDVBSub::Reset()
     m_pages.RemoveAll();
 }
 
-HRESULT CDVBSub::AddToBuffer(BYTE* pData, int nSize)
+HRESULT CDVBSub::AddToBuffer(BYTE* pData, size_t nSize)
 {
     bool bFirstChunk = (*((LONG*)pData) & 0x00FFFFFF) == 0x000f0020; // DVB sub start with 0x20 0x00 0x0F ...
 
