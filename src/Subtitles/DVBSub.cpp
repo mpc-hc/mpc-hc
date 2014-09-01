@@ -222,18 +222,18 @@ HRESULT CDVBSub::ParseSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE
             MARKER; // 14..0
             pts = 10000 * pts / 90;
 
-            m_rtStart = pts;
-            m_rtStop = pts + 1;
+            rtStart = pts;
+            rtStop = pts + 1;
         } else {
-            m_rtStart = INVALID_TIME;
-            m_rtStop = INVALID_TIME;
+            rtStart = INVALID_TIME;
+            rtStop = INVALID_TIME;
         }
 
         nLen  -= 14;
         pData += 14;
     }
     m_rtStart = rtStart;
-    m_rtStop = m_rtStop;
+    m_rtStop = rtStop;
 
     hr = AddToBuffer(pData, nLen);
     if (hr == S_OK) {
