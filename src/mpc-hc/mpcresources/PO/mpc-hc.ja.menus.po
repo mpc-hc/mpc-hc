@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-04-22 11:15:01+0000\n"
-"PO-Revision-Date: 2014-08-03 00:40+0000\n"
+"POT-Creation-Date: 2014-08-19 21:10:25+0000\n"
+"PO-Revision-Date: 2014-08-27 11:57+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -198,7 +198,7 @@ msgstr "テアリング テスト(&T)"
 
 msgctxt "ID_VIEW_DISPLAYSTATS"
 msgid "&Display Stats"
-msgstr "統計情報 (OSD) (&D)"
+msgstr "レンダラ統計情報(&D)"
 
 msgctxt "ID_VIEW_REMAINING_TIME"
 msgid "&Remaining Time"
@@ -386,11 +386,11 @@ msgstr "2 倍のサイズ(&D)"
 
 msgctxt "ID_VIEW_VF_STRETCH"
 msgid "&Stretch To Window"
-msgstr "ウィンドウに合わせる (比率無視) (&S)"
+msgstr "ウィンドウ サイズに変形(&S)"
 
 msgctxt "ID_VIEW_VF_FROMINSIDE"
 msgid "Touch Window From &Inside"
-msgstr "ウィンドウに合わせる (比率保持) (&I)"
+msgstr "ウィンドウ サイズに合わせる(&I)"
 
 msgctxt "ID_VIEW_VF_ZOOM1"
 msgid "Zoom &1"
@@ -402,7 +402,7 @@ msgstr "拡大 2(&2)"
 
 msgctxt "ID_VIEW_VF_FROMOUTSIDE"
 msgid "Touch Window From &Outside"
-msgstr "ウィンドウに合わせて縦か横をカット (比率保持) (&O)"
+msgstr "縦か横に合わせてカット(&O)"
 
 msgctxt "ID_VIEW_VF_KEEPASPECTRATIO"
 msgid "&Keep Aspect Ratio"
@@ -610,7 +610,7 @@ msgstr "ロック(&L)"
 
 msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
 msgid "Turn off the &monitor"
-msgstr ""
+msgstr "モニタの電源を切る(&M)"
 
 msgctxt "POPUP"
 msgid "&Navigate"
@@ -670,7 +670,7 @@ msgstr "更新を確認する(&U)"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"
-msgstr "コマンドライン スイッチ(&C)"
+msgstr "コマンド ライン スイッチ(&C)"
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"

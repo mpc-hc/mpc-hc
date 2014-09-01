@@ -28,13 +28,38 @@
 #include "RenderingCache.h"
 
 struct CTextDims;
+struct CPolygonPath {
+    CAtlArray<BYTE> typesOrg;
+    CAtlArray<CPoint> pointsOrg;
+    CSize size;
+};
+typedef std::shared_ptr<CPolygonPath> CPolygonPathSharedPtr;
 struct SSATag;
 typedef std::shared_ptr<CAtlList<SSATag>> SSATagsList;
 
 typedef CRenderingCache<CTextDimsKey, CTextDims, CKeyTraits<CTextDimsKey>> CTextDimsCache;
+typedef CRenderingCache<CPolygonPathKey, CPolygonPathSharedPtr, CKeyTraits<CPolygonPathKey>> CPolygonCache;
 typedef CRenderingCache<CStringW, SSATagsList, CStringElementTraits<CStringW>> CSSATagsCache;
-typedef CRenderingCache<COutlineKey, COutlineData, CKeyTraits<COutlineKey>> COutlineCache;
-typedef CRenderingCache<COverlayKey, COverlayData, CKeyTraits<COverlayKey>> COverlayCache;
+typedef CRenderingCache<CEllipseKey, CEllipseSharedPtr, CKeyTraits<CEllipseKey>> CEllipseCache;
+typedef CRenderingCache<COutlineKey, COutlineDataSharedPtr, CKeyTraits<COutlineKey>> COutlineCache;
+typedef CRenderingCache<COverlayKey, COverlayDataSharedPtr, CKeyTraits<COverlayKey>> COverlayCache;
+
+struct RenderingCaches {
+    CTextDimsCache textDimsCache;
+    CPolygonCache polygonCache;
+    CSSATagsCache SSATagsCache;
+    CEllipseCache ellipseCache;
+    COutlineCache outlineCache;
+    COverlayCache overlayCache;
+
+    RenderingCaches()
+        : textDimsCache(2048)
+        , polygonCache(2048)
+        , SSATagsCache(2048)
+        , ellipseCache(64)
+        , outlineCache(128)
+        , overlayCache(128) {}
+};
 
 class CMyFont : public CFont
 {
@@ -63,8 +88,7 @@ class CWord : public Rasterizer
     bool CreateOpaqueBox();
 
 protected:
-    COutlineCache& m_outlineCache;
-    COverlayCache& m_overlayCache;
+    RenderingCaches& m_renderingCaches;
 
     double m_scalex, m_scaley;
     CStringW m_str;
@@ -84,7 +108,7 @@ public:
 
     // str[0] = 0 -> m_fLineBreak = true (in this case we only need and use the height of m_font from the whole class)
     CWord(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley,
-          COutlineCache& outlineCache, COverlayCache& overlayCache);
+          RenderingCaches& renderingCaches);
     virtual ~CWord();
 
     virtual CWord* Copy() = 0;
@@ -102,7 +126,7 @@ protected:
 
 public:
     CText(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley,
-          CTextDimsCache& textDimsCache, COutlineCache& outlineCache, COverlayCache& overlayCache);
+          RenderingCaches& renderingCaches);
 
     virtual CWord* Copy();
     virtual bool Append(CWord* w);
@@ -110,20 +134,19 @@ public:
 
 class CPolygon : public CWord
 {
-    bool GetPOINT(CStringW& str, POINT& point) const;
+    bool GetPOINT(LPCWSTR& str, POINT& point) const;
     bool ParseStr();
 
 protected:
     int m_baseline;
 
-    CAtlArray<BYTE> m_pathTypesOrg;
-    CAtlArray<CPoint> m_pathPointsOrg;
+    CPolygonPathSharedPtr m_pPolygonPath;
 
     virtual bool CreatePath();
 
 public:
     CPolygon(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley, int baseline,
-             COutlineCache& outlineCache, COverlayCache& overlayCache);
+             RenderingCaches& renderingCaches);
     CPolygon(CPolygon&); // can't use a const reference because we need to use CAtlArray::Copy which expects a non-const reference
     virtual ~CPolygon();
 
@@ -139,7 +162,7 @@ private:
 
 public:
     CClipper(CStringW str, const CSize& size, double scalex, double scaley, bool inverse, const CPoint& cpOffset,
-             COutlineCache& outlineCache, COverlayCache& overlayCache);
+             RenderingCaches& renderingCaches);
     virtual ~CClipper();
 
     const CSize m_size;
@@ -265,8 +288,7 @@ public:
 
 class CSubtitle : public CAtlList<CLine*>
 {
-    COutlineCache& m_outlineCache;
-    COverlayCache& m_overlayCache;
+    RenderingCaches& m_renderingCaches;
 
     int GetFullWidth();
     int GetFullLineWidth(POSITION pos);
@@ -293,7 +315,7 @@ public:
     double m_scalex, m_scaley;
 
 public:
-    CSubtitle(COutlineCache& outlineCache, COverlayCache& overlayCache);
+    CSubtitle(RenderingCaches& renderingCaches);
     virtual ~CSubtitle();
     virtual void Empty();
     void EmptyEffects();
@@ -326,10 +348,7 @@ class __declspec(uuid("537DCACA-2812-4a4f-B2C6-1A34C17ADEB0"))
     static CAtlMap<CStringW, SSATagCmd, CStringElementTraits<CStringW>> s_SSATagCmds;
     CAtlMap<int, CSubtitle*> m_subtitleCache;
 
-    CTextDimsCache m_textDimsCache;
-    CSSATagsCache m_SSATagsCache;
-    COutlineCache m_outlineCache;
-    COverlayCache m_overlayCache;
+    RenderingCaches m_renderingCaches;
 
     CScreenLayoutAllocator m_sla;
 

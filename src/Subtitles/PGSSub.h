@@ -41,12 +41,11 @@ public:
     STDMETHODIMP                  Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox);
     STDMETHODIMP                  GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VirtualSize, POINT& VirtualTopLeft);
 
-    virtual HRESULT ParseSample(IMediaSample* pSample);
+    virtual HRESULT ParseSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE* pData, int len);
     virtual void    EndOfStream() { /* Nothing to do */ };
     virtual void    Reset();
 
 protected:
-    HRESULT ParseSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE* pData, int len);
     HRESULT Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox, bool bRemoveOldSegments);
 
 private:

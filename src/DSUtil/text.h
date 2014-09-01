@@ -165,3 +165,17 @@ T& FastTrim(T& str)
 {
     return FastTrimRight(str).TrimLeft();
 }
+
+template<class T>
+int FindOneOf(const T& str, typename T::PCXSTR pszCharSet, int iStart) throw()
+{
+    ATLASSERT(AtlIsValidString(pszCharSet));
+    ATLASSERT(iStart >= 0);
+
+    if (iStart < 0 || iStart >= str.GetLength()) {
+        return -1;
+    }
+
+    T::PCXSTR psz = T::StrTraits::StringScanSet(str.GetString() + iStart, pszCharSet);
+    return ((psz == NULL) ? -1 : int(psz - str.GetString()));
+}

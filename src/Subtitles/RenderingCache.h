@@ -58,8 +58,9 @@ public:
             pos = posVal.pos;
             posVal.value = value;
         } else {
-            if (m_list.GetCount() > m_maxSize - 1) {
-                __super::RemoveAtPos(m_list.RemoveTail().pos);
+            if (m_list.GetCount() >= m_maxSize) {
+                __super::RemoveAtPos(m_list.GetTail().pos);
+                m_list.RemoveTailNoReturn();
             }
             pos = __super::SetAt(key, m_list.AddHead());
             CPositionValue& posVal = m_list.GetHead();
@@ -71,6 +72,7 @@ public:
     };
 
     void Clear() {
+        m_list.RemoveAll();
         __super::RemoveAll();
     }
 };
@@ -108,6 +110,47 @@ public:
     void UpdateHash();
 
     bool operator==(const CTextDimsKey& textDimsKey) const;
+};
+
+class CPolygonPathKey
+{
+private:
+    ULONG m_hash;
+
+protected:
+    CString m_str;
+    double m_scalex, m_scaley;
+
+public:
+    CPolygonPathKey(const CStringW& str, double scalex, double scaley);
+    CPolygonPathKey(const CPolygonPathKey& polygonPathKey);
+
+    ULONG GetHash() const { return m_hash; };
+
+    void UpdateHash();
+
+    bool operator==(const CPolygonPathKey& polygonPathKey) const;
+};
+
+class CEllipseKey
+{
+private:
+    ULONG m_hash;
+
+protected:
+    int m_rx, m_ry;
+
+public:
+    CEllipseKey(int rx, int ry)
+        : m_rx(rx)
+        , m_ry(ry)
+        , m_hash(ULONG((rx << 16) | (ry& WORD_MAX))) {}
+
+    ULONG GetHash() const { return m_hash; };
+
+    bool operator==(const CEllipseKey& ellipseKey) const {
+        return (m_rx == ellipseKey.m_rx && m_ry == ellipseKey.m_ry);
+    }
 };
 
 class CWord;

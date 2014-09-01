@@ -2,12 +2,12 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# HrantOhanyan <h.ohanyan@haysoft.org>, 2014
+# Hrant Ohanyan <h.ohanyan@haysoft.org>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-05-04 16:42:23+0000\n"
-"PO-Revision-Date: 2014-05-07 08:50+0000\n"
+"POT-Creation-Date: 2014-08-19 21:13:19+0000\n"
+"PO-Revision-Date: 2014-08-20 10:02+0000\n"
 "Last-Translator: JellyFrog\n"
 "Language-Team: Armenian (http://www.transifex.com/projects/p/mpc-hc/language/hy/)\n"
 "MIME-Version: 1.0\n"
@@ -303,6 +303,10 @@ msgstr "Անջատել 'Բացել սկավառակը' ընտրացանկը"
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK9"
 msgid "Process priority above normal"
 msgstr "Գործողության բարձր առաջնայնություն"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK14"
+msgid "Enable cover-art support"
+msgstr ""
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "History"
@@ -1662,7 +1666,7 @@ msgstr ""
 
 msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
-msgstr ""
+msgstr "Ծրագրային"
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"

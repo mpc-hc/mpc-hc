@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-07-17 20:52:12+0000\n"
-"PO-Revision-Date: 2014-07-18 16:01+0000\n"
+"POT-Creation-Date: 2014-08-24 19:23:17+0000\n"
+"PO-Revision-Date: 2014-08-25 18:20+0000\n"
 "Last-Translator: Máté <lang.mate@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/mpc-hc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -105,8 +105,8 @@ msgid "Signal"
 msgstr "Jel"
 
 msgctxt "IDS_STATSBAR_SIGNAL_FORMAT"
-msgid "Strength: %d dB, Quality: %d%%"
-msgstr "Erősség: %d dB, Minőség: %d%%"
+msgid "Strength: %d dB, Quality: %ld%%"
+msgstr "Erősség: %d dB, Minőség: %ld%%"
 
 msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
 msgid "Styles"
@@ -294,7 +294,7 @@ msgstr "Lemez"
 
 msgctxt "IDS_SUBDL_DLG_TITLES_COL"
 msgid "Title(s)"
-msgstr ""
+msgstr "Cím(ek)"
 
 msgctxt "IDS_SUBRESYNC_CLN_CHARSET"
 msgid "CharSet"
@@ -1258,7 +1258,7 @@ msgstr ""
 
 msgctxt "IDS_SUB_SAVE_EXTERNAL_STYLE_FILE"
 msgid "Save custom style"
-msgstr ""
+msgstr "Egyedi stílus mentése"
 
 msgctxt "IDS_CONTENT_EDUCATION_SCIENCE"
 msgid "Education/Science/Factual topics"
@@ -1284,12 +1284,48 @@ msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
 msgstr ""
 
+msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
+msgid "Remember file position only for files longer than N minutes."
+msgstr "Fájlpozíció megjegyzése csak a(z) N percnél hosszabb fájlokhoz."
+
+msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
+msgid "Remember file position also for audio files."
+msgstr "Fájlpozíció megjegyzése audiofájlokhoz is."
+
+msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
+msgid "Do Nothing"
+msgstr "Ne csináljon semmit"
+
+msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
+msgid "Play next file in the folder"
+msgstr "Játssza le a mappában következő fájlt"
+
+msgctxt "IDS_AFTER_PLAYBACK_REWIND"
+msgid "Rewind current file"
+msgstr "Aktuális fájl elejére ugrás"
+
+msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
+msgid "Close"
+msgstr "Bezárás"
+
+msgctxt "IDS_AFTER_PLAYBACK_EXIT"
+msgid "Exit"
+msgstr "Kilépés"
+
+msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
+msgid "Turn off the monitor"
+msgstr "Kapcsolja ki a monitort"
+
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
 msgid "JPEG Image"
-msgstr ""
+msgstr "JPEG kép"
 
 msgctxt "IDS_IMAGE_QUALITY"
 msgid "Quality (%):"
+msgstr "Minőség (%):"
+
+msgctxt "IDS_PPAGEADVANCED_COVER_SIZE_LIMIT"
+msgid "Maximum size (NxNpx) of a cover-art loaded in the audio only mode."
 msgstr ""
 
 msgctxt "IDS_AG_OPEN_DEVICE"
@@ -1450,7 +1486,7 @@ msgstr "Video S&tream"
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
 msgid "Video Ang&le"
-msgstr ""
+msgstr "Videó látószög"
 
 msgctxt "IDS_RESET_SETTINGS"
 msgid "Reset settings"
@@ -1977,16 +2013,16 @@ msgid "Buffers"
 msgstr "Pufferek"
 
 msgctxt "IDS_MAINFRM_9"
-msgid "Volume: %02d/%02d, Title: %02d/%02d, Chapter: %02d/%02d"
-msgstr "Kötet: %02d/%02d, Cím: %02d/%02d, Fejezet: %02d/%02d"
+msgid "Volume: %02lu/%02lu, Title: %02lu/%02lu, Chapter: %02lu/%02lu"
+msgstr "Kötet: %02lu/%02lu, Cím: %02lu/%02lu, Fejezet: %02lu/%02lu"
 
 msgctxt "IDS_MAINFRM_10"
-msgid "Angle: %02d/%02d, %dx%d %dHz %d:%d"
-msgstr "Látószög: %02d/%02d, %dx%d %dHz %d:%d"
+msgid "Angle: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
+msgstr "Látószög: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
 
 msgctxt "IDS_MAINFRM_11"
-msgid "%s, %s %dHz %dbits %d %s"
-msgstr "%s, %s %dHz %dbit %d %s"
+msgid "%s, %s %uHz %dbits %d %s"
+msgstr "%s, %s %uHz %dbit %d %s"
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
@@ -2013,8 +2049,8 @@ msgid "channels"
 msgstr "csatorna"
 
 msgctxt "IDS_AG_TITLE"
-msgid "Title %d"
-msgstr "Cím %d"
+msgid "Title %u"
+msgstr "Cím %u"
 
 msgctxt "IDS_MAINFRM_16"
 msgid "DVD: Unexpected error"
@@ -2089,8 +2125,8 @@ msgid "Aspect Ratio"
 msgstr "Képméretarány"
 
 msgctxt "IDS_MAINFRM_37"
-msgid ", Total: %d, Dropped: %d"
-msgstr ", Összes: %d, Elejtett: %d"
+msgid ", Total: %ld, Dropped: %ld"
+msgstr ", Összes: %ld, Elejtett: %ld"
 
 msgctxt "IDS_MAINFRM_38"
 msgid ", Size: %I64dKB"
@@ -2185,8 +2221,8 @@ msgid "Subtitle files"
 msgstr "Felirat fájlok"
 
 msgctxt "IDS_MAINFRM_68"
-msgid "Aspect Ratio: %d:%d"
-msgstr "Képméretarány: %d:%d"
+msgid "Aspect Ratio: %ld:%ld"
+msgstr "Képméretarány: %ld:%ld"
 
 msgctxt "IDS_MAINFRM_69"
 msgid "Aspect Ratio: Default"
@@ -2257,8 +2293,8 @@ msgid "MPC-HC terminated unexpectedly. To help us fix this problem, please send 
 msgstr ""
 
 msgctxt "IDS_MPC_MINIDUMP_FAIL"
-msgid "Failed to create dump file to \"%s\" (error %d)"
-msgstr "A memóriakiíratás (dump) fájl nem hozható létre az adott helyen: '%s' (hiba %d)"
+msgid "Failed to create dump file to \"%s\" (error %u)"
+msgstr "A memóriakiíratás (dump) fájl nem hozható létre az adott helyen: '%s' (hiba %u)"
 
 msgctxt "IDS_MAINFRM_DIR_TITLE"
 msgid "Select Directory"
@@ -2369,8 +2405,8 @@ msgid "Unknown Stream"
 msgstr "Ismeretlen adatfolyam"
 
 msgctxt "IDS_AG_UNKNOWN"
-msgid "Unknown %d"
-msgstr "Ismeretlen %d"
+msgid "Unknown %u"
+msgstr "Ismeretlen %u"
 
 msgctxt "IDS_AG_VSYNC"
 msgid "VSync"
@@ -2389,8 +2425,8 @@ msgid "Enable DVD subtitles"
 msgstr "DVD feliratok engedélyezése"
 
 msgctxt "IDS_AG_ANGLE"
-msgid "Angle %d"
-msgstr "Látószög %d"
+msgid "Angle %u"
+msgstr "Látószög %u"
 
 msgctxt "IDS_AG_VSYNCOFFSET_INCREASE"
 msgid "Increase VSync Offset"
@@ -3406,7 +3442,7 @@ msgstr "Lejátszás után: Zárolás"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
-msgstr ""
+msgstr "Lejátszás után: kapcsolja ki a monitort"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
@@ -3430,7 +3466,7 @@ msgstr "Színbeállítások visszaállítva"
 
 msgctxt "IDS_OSD_NO_COLORCONTROL"
 msgid "Color control is not supported"
-msgstr ""
+msgstr "Színbeállítások nem támogatottak"
 
 msgctxt "IDS_BRIGHTNESS_INC"
 msgid "Brightness increase"
@@ -3467,36 +3503,4 @@ msgstr "&Csatornák"
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"
 msgstr "Beállítások"
-
-msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
-msgid "Remember file position only for files longer than N minutes."
-msgstr "Fájlpozíció megjegyzése csak a(z) N percnél hosszabb fájlokhoz."
-
-msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
-msgid "Remember file position also for audio files."
-msgstr "Fájlpozíció megjegyzése audiofájlokhoz is."
-
-msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
-msgid "Do Nothing"
-msgstr ""
-
-msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
-msgid "Play next file in the folder"
-msgstr ""
-
-msgctxt "IDS_AFTER_PLAYBACK_REWIND"
-msgid "Rewind current file"
-msgstr ""
-
-msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
-msgid "Close"
-msgstr ""
-
-msgctxt "IDS_AFTER_PLAYBACK_EXIT"
-msgid "Exit"
-msgstr ""
-
-msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
-msgid "Turn off the monitor"
-msgstr ""
 

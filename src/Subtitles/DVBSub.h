@@ -40,7 +40,7 @@ public:
     STDMETHODIMP                  Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox);
     STDMETHODIMP                  GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VirtualSize, POINT& VirtualTopLeft);
 
-    virtual HRESULT ParseSample(IMediaSample* pSample);
+    virtual HRESULT ParseSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE* pData, int nLen);
     virtual void    EndOfStream();
     virtual void    Reset();
 

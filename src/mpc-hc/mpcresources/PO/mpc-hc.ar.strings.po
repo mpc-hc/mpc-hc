@@ -11,9 +11,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-07-17 20:52:12+0000\n"
-"PO-Revision-Date: 2014-07-20 22:10+0000\n"
-"Last-Translator: Ahmad Abd-Elghany <tolpa1@gmail.com>\n"
+"POT-Creation-Date: 2014-08-24 19:23:17+0000\n"
+"PO-Revision-Date: 2014-08-25 09:40+0000\n"
+"Last-Translator: JellyFrog\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/mpc-hc/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -110,8 +110,8 @@ msgid "Signal"
 msgstr "إشارة"
 
 msgctxt "IDS_STATSBAR_SIGNAL_FORMAT"
-msgid "Strength: %d dB, Quality: %d%%"
-msgstr "القوة: %d ديسيبل،الجودة: %d%%"
+msgid "Strength: %d dB, Quality: %ld%%"
+msgstr "القوة: %d ديسيبل،الجودة: %ld%%"
 
 msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
 msgid "Styles"
@@ -851,11 +851,11 @@ msgstr "إذا العارض تُرك بدون هدف معروف، فهو سير�
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
-msgstr ""
+msgstr "لا تسمح بتحريك الترجمة. تفعيل هذا الخيار يقلل من إستخدام طاقة وحدة المعالجة المركزية CPU. يمكنك إستخدامها اذا ومضت الترجمة أو لمعت أكثر من اللازم."
 
 msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
-msgstr ""
+msgstr "زيادة معدل تخزين الصور الفرعية ينبغي بصفة عامة أن يُحسن أداء الريندرنج على حساب معدل استخدام وحدة التخزين في  كارت الشاشة."
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
@@ -863,7 +863,7 @@ msgstr "بعد النقر على هذا الزرّ، افحص حالة مجمو�
 
 msgctxt "IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Disabling this option will prevent the subtitles from blinking but it may cause the video renderer to skip some video frames."
-msgstr ""
+msgstr "تعطيل هذا الخيار سيمنع الترجمة من الوميض أو الرعشة ولكن ممكن أن يسمح بتخطي بعض الفريمات وقت الريندرنج"
 
 msgctxt "ID_PLAY_PLAY"
 msgid "Play\nPlay"
@@ -1289,12 +1289,48 @@ msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
 msgstr "العدد الأقصى لعرض الملفات في \"الملفات الأخيرة \" في قائمة الوضع لحفظها."
 
+msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
+msgid "Remember file position only for files longer than N minutes."
+msgstr "تذكر موقع الملف فقط للملفات أكبر من N دقائق"
+
+msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
+msgid "Remember file position also for audio files."
+msgstr "تذكر مكان الملف أيضًا بالنسبة لمفات الصوت"
+
+msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
+msgid "Do Nothing"
+msgstr "لا تفعل شيء"
+
+msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
+msgid "Play next file in the folder"
+msgstr "شغّل الملف التالي في المجلد"
+
+msgctxt "IDS_AFTER_PLAYBACK_REWIND"
+msgid "Rewind current file"
+msgstr "إرجاع الملف الحالي"
+
+msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
+msgid "Close"
+msgstr "إغلاق"
+
+msgctxt "IDS_AFTER_PLAYBACK_EXIT"
+msgid "Exit"
+msgstr "خروج"
+
+msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
+msgid "Turn off the monitor"
+msgstr "أغلق الشاشة"
+
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
 msgid "JPEG Image"
 msgstr ""
 
 msgctxt "IDS_IMAGE_QUALITY"
 msgid "Quality (%):"
+msgstr "الدقة(%):"
+
+msgctxt "IDS_PPAGEADVANCED_COVER_SIZE_LIMIT"
+msgid "Maximum size (NxNpx) of a cover-art loaded in the audio only mode."
 msgstr ""
 
 msgctxt "IDS_AG_OPEN_DEVICE"
@@ -1982,16 +2018,16 @@ msgid "Buffers"
 msgstr "المخزن المؤقت"
 
 msgctxt "IDS_MAINFRM_9"
-msgid "Volume: %02d/%02d, Title: %02d/%02d, Chapter: %02d/%02d"
-msgstr "الصوت: %02d/%02d، العنوان: %02d/%02d، الفصل: %02d/%02d"
+msgid "Volume: %02lu/%02lu, Title: %02lu/%02lu, Chapter: %02lu/%02lu"
+msgstr "الصوت: %02lu/%02lu، العنوان: %02lu/%02lu، الفصل: %02lu/%02lu"
 
 msgctxt "IDS_MAINFRM_10"
-msgid "Angle: %02d/%02d, %dx%d %dHz %d:%d"
-msgstr "الزاوية: %02d/%02d, %dx%d %dHz %d:%d"
+msgid "Angle: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
+msgstr "الزاوية: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
 
 msgctxt "IDS_MAINFRM_11"
-msgid "%s, %s %dHz %dbits %d %s"
-msgstr "%s, %s %dHz %dbits %d %s"
+msgid "%s, %s %uHz %dbits %d %s"
+msgstr "%s, %s %uHz %dbits %d %s"
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
@@ -2018,8 +2054,8 @@ msgid "channels"
 msgstr "القنوات"
 
 msgctxt "IDS_AG_TITLE"
-msgid "Title %d"
-msgstr "العنوان: %d"
+msgid "Title %u"
+msgstr "العنوان: %u"
 
 msgctxt "IDS_MAINFRM_16"
 msgid "DVD: Unexpected error"
@@ -2094,8 +2130,8 @@ msgid "Aspect Ratio"
 msgstr "نسبة الطول للعرض"
 
 msgctxt "IDS_MAINFRM_37"
-msgid ", Total: %d, Dropped: %d"
-msgstr ", الإجمالي: %d، المسقطة: %d"
+msgid ", Total: %ld, Dropped: %ld"
+msgstr ", الإجمالي: %ld، المسقطة: %ld"
 
 msgctxt "IDS_MAINFRM_38"
 msgid ", Size: %I64dKB"
@@ -2190,8 +2226,8 @@ msgid "Subtitle files"
 msgstr "ملفات الترجمة"
 
 msgctxt "IDS_MAINFRM_68"
-msgid "Aspect Ratio: %d:%d"
-msgstr "النسبة الباعية: %d:%d"
+msgid "Aspect Ratio: %ld:%ld"
+msgstr "النسبة الباعية: %ld:%ld"
 
 msgctxt "IDS_MAINFRM_69"
 msgid "Aspect Ratio: Default"
@@ -2262,8 +2298,8 @@ msgid "MPC-HC terminated unexpectedly. To help us fix this problem, please send 
 msgstr "تم إنهاء MPC-HC بشكل غير متوقع. لمساعدتنا في حل هذه المشكلة، الرجاء ارسال هذا الملف \"%s\" الى متتبع الأخطاء.\n\nهل تريد فتح المجلد الذي يحتوي على ملف التفريغ المصغر وزيارة متتبع الأخطاء الآن؟"
 
 msgctxt "IDS_MPC_MINIDUMP_FAIL"
-msgid "Failed to create dump file to \"%s\" (error %d)"
-msgstr "فشل في إنشاء ملف التفريغ الى \"%s\" ( خطأ %d)"
+msgid "Failed to create dump file to \"%s\" (error %u)"
+msgstr "فشل في إنشاء ملف التفريغ الى \"%s\" ( خطأ %u)"
 
 msgctxt "IDS_MAINFRM_DIR_TITLE"
 msgid "Select Directory"
@@ -2374,8 +2410,8 @@ msgid "Unknown Stream"
 msgstr "دفق مجهول"
 
 msgctxt "IDS_AG_UNKNOWN"
-msgid "Unknown %d"
-msgstr "مجهول %d"
+msgid "Unknown %u"
+msgstr "مجهول %u"
 
 msgctxt "IDS_AG_VSYNC"
 msgid "VSync"
@@ -2394,8 +2430,8 @@ msgid "Enable DVD subtitles"
 msgstr "DVD تمكين ترجمات الـ"
 
 msgctxt "IDS_AG_ANGLE"
-msgid "Angle %d"
-msgstr "الزاوية %d"
+msgid "Angle %u"
+msgstr "الزاوية %u"
 
 msgctxt "IDS_AG_VSYNCOFFSET_INCREASE"
 msgid "Increase VSync Offset"
@@ -3411,7 +3447,7 @@ msgstr "بعد التشغيل: إقفال"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
-msgstr ""
+msgstr "بعد التشغيل: أغلق الشاشة"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
@@ -3472,36 +3508,4 @@ msgstr "القنوات"
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"
 msgstr "الضبط"
-
-msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
-msgid "Remember file position only for files longer than N minutes."
-msgstr "تذكر موقع الملف فقط للملفات أكبر من N دقائق"
-
-msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
-msgid "Remember file position also for audio files."
-msgstr "تذكر مكان الملف أيضًا بالنسبة لمفات الصوت"
-
-msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
-msgid "Do Nothing"
-msgstr ""
-
-msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
-msgid "Play next file in the folder"
-msgstr ""
-
-msgctxt "IDS_AFTER_PLAYBACK_REWIND"
-msgid "Rewind current file"
-msgstr ""
-
-msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
-msgid "Close"
-msgstr ""
-
-msgctxt "IDS_AFTER_PLAYBACK_EXIT"
-msgid "Exit"
-msgstr ""
-
-msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
-msgid "Turn off the monitor"
-msgstr ""
 

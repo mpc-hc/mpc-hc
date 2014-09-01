@@ -2212,10 +2212,13 @@ void CMainFrame::DoAfterPlaybackEvent()
 {
     CAppSettings& s = AfxGetAppSettings();
     bool bExitFullScreen = false;
+    bool bNoMoreMedia = false;
 
     if (s.nCLSwitches & CLSW_CLOSE) {
         SendMessage(WM_COMMAND, ID_FILE_EXIT);
     } else if (s.nCLSwitches & CLSW_MONITOROFF) {
+        m_fEndOfStream = true;
+        bExitFullScreen = true;
         SetThreadExecutionState(ES_CONTINUOUS);
         SendMessage(WM_SYSCOMMAND, SC_MONITORPOWER, 2);
     } else if (s.nCLSwitches & CLSW_STANDBY) {
@@ -2235,14 +2238,16 @@ void CMainFrame::DoAfterPlaybackEvent()
         ExitWindowsEx(EWX_LOGOFF | EWX_FORCEIFHUNG, 0);
         SendMessage(WM_COMMAND, ID_FILE_EXIT);
     } else if (s.nCLSwitches & CLSW_LOCK) {
+        m_fEndOfStream = true;
         bExitFullScreen = true;
         LockWorkStation();
     } else {
         switch (s.eAfterPlayback) {
             case CAppSettings::AfterPlayback::PLAY_NEXT:
                 if (!SearchInDir(true)) {
+                    m_fEndOfStream = true;
                     bExitFullScreen = true;
-                    m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_NO_MORE_MEDIA));
+                    bNoMoreMedia = true;
                 }
                 break;
             case CAppSettings::AfterPlayback::REWIND:
@@ -2255,6 +2260,8 @@ void CMainFrame::DoAfterPlaybackEvent()
                 }
                 break;
             case CAppSettings::AfterPlayback::MONITOROFF:
+                m_fEndOfStream = true;
+                bExitFullScreen = true;
                 SetThreadExecutionState(ES_CONTINUOUS);
                 SendMessage(WM_SYSCOMMAND, SC_MONITORPOWER, 2);
                 break;
@@ -2267,8 +2274,16 @@ void CMainFrame::DoAfterPlaybackEvent()
             default:
                 m_fEndOfStream = true;
                 bExitFullScreen = true;
-                SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
                 break;
+        }
+    }
+
+    if (m_fEndOfStream) {
+        m_OSD.EnableShowMessage(false);
+        SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
+        m_OSD.EnableShowMessage();
+        if (bNoMoreMedia) {
+            m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_NO_MORE_MEDIA));
         }
     }
 
@@ -3290,12 +3305,7 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
 
     // Load cover-art
     if (m_fAudioOnly) {
-        CPath path(m_wndPlaylistBar.GetCurFileName());
-        path.RemoveFileSpec();
-
-        CString author;
-        m_wndInfoBar.GetLine(ResStr(IDS_INFOBAR_AUTHOR), author);
-        m_wndView.LoadImg(FindCoverArt(path, author));
+        UpdateControlState(CMainFrame::UPDATE_LOGO);
     }
 
     if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
@@ -3441,7 +3451,7 @@ void CMainFrame::OnFilePostClosemedia(bool bNextIsQueued/* = false*/)
     m_Lcd.SetMediaPos(0);
 
     if (!bNextIsQueued) {
-        m_wndView.LoadImg();
+        UpdateControlState(CMainFrame::UPDATE_LOGO);
         RecalcLayout();
     }
 
@@ -5398,9 +5408,7 @@ void CMainFrame::OnViewDisplayStatsSC()
         if (AfxGetMyApp()->m_Renderers.m_iDisplayStats > 3) {
             AfxGetMyApp()->m_Renderers.m_iDisplayStats = 0;
         }
-        if (GetMediaState() == State_Paused) {
-            RepaintVideo();
-        }
+        RepaintVideo();
     }
 }
 
@@ -6423,7 +6431,6 @@ void CMainFrame::OnViewMinimal()
 
 void CMainFrame::OnUpdateViewMinimal(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(!(GetLoadState() == MLS::LOADED && m_fAudioOnly));
 }
 
 void CMainFrame::OnViewCompact()
@@ -7361,7 +7368,7 @@ void CMainFrame::OnUpdatePlaySeek(CCmdUI* pCmdUI)
 
     if (GetLoadState() == MLS::LOADED) {
         fEnable = true;
-        if (GetPlaybackMode() == PM_DVD && (m_iDVDDomain != DVD_DOMAIN_Title || fs != State_Running)) {
+        if (GetPlaybackMode() == PM_DVD && m_iDVDDomain != DVD_DOMAIN_Title) {
             fEnable = false;
         } else if (IsPlaybackCaptureMode()) {
             fEnable = false;
@@ -8084,36 +8091,42 @@ void CMainFrame::OnPlayColor(UINT nID)
 void CMainFrame::OnAfterplayback(UINT nID)
 {
     CAppSettings& s = AfxGetAppSettings();
-    s.nCLSwitches &= ~CLSW_AFTERPLAYBACK_MASK;
     WORD osdMsg = 0;
 
     switch (nID) {
         case ID_AFTERPLAYBACK_CLOSE:
-            s.nCLSwitches |= CLSW_CLOSE;
+            s.nCLSwitches &= ~CLSW_AFTERPLAYBACK_MASK | CLSW_CLOSE;
+            s.nCLSwitches ^= CLSW_CLOSE;
             osdMsg = IDS_AFTERPLAYBACK_CLOSE;
             break;
         case ID_AFTERPLAYBACK_STANDBY:
-            s.nCLSwitches |= CLSW_STANDBY;
+            s.nCLSwitches &= ~CLSW_AFTERPLAYBACK_MASK | CLSW_STANDBY;
+            s.nCLSwitches ^= CLSW_STANDBY;
             osdMsg = IDS_AFTERPLAYBACK_STANDBY;
             break;
         case ID_AFTERPLAYBACK_HIBERNATE:
-            s.nCLSwitches |= CLSW_HIBERNATE;
+            s.nCLSwitches &= ~CLSW_AFTERPLAYBACK_MASK | CLSW_HIBERNATE;
+            s.nCLSwitches ^= CLSW_HIBERNATE;
             osdMsg = IDS_AFTERPLAYBACK_HIBERNATE;
             break;
         case ID_AFTERPLAYBACK_SHUTDOWN:
-            s.nCLSwitches |= CLSW_SHUTDOWN;
+            s.nCLSwitches &= ~CLSW_AFTERPLAYBACK_MASK | CLSW_SHUTDOWN;
+            s.nCLSwitches ^= CLSW_SHUTDOWN;
             osdMsg = IDS_AFTERPLAYBACK_SHUTDOWN;
             break;
         case ID_AFTERPLAYBACK_LOGOFF:
-            s.nCLSwitches |= CLSW_LOGOFF;
+            s.nCLSwitches &= ~CLSW_AFTERPLAYBACK_MASK | CLSW_LOGOFF;
+            s.nCLSwitches ^= CLSW_LOGOFF;
             osdMsg = IDS_AFTERPLAYBACK_LOGOFF;
             break;
         case ID_AFTERPLAYBACK_LOCK:
-            s.nCLSwitches |= CLSW_LOCK;
+            s.nCLSwitches &= ~CLSW_AFTERPLAYBACK_MASK | CLSW_LOCK;
+            s.nCLSwitches ^= CLSW_LOCK;
             osdMsg = IDS_AFTERPLAYBACK_LOCK;
             break;
         case ID_AFTERPLAYBACK_MONITOROFF:
-            s.nCLSwitches |= CLSW_MONITOROFF;
+            s.nCLSwitches &= ~CLSW_AFTERPLAYBACK_MASK | CLSW_MONITOROFF;
+            s.nCLSwitches ^= CLSW_MONITOROFF;
             osdMsg = IDS_AFTERPLAYBACK_MONITOROFF;
             break;
     }
@@ -8124,7 +8137,7 @@ void CMainFrame::OnAfterplayback(UINT nID)
 void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
 {
     const CAppSettings& s = AfxGetAppSettings();
-    bool bEnabled = true, bChecked = false;
+    bool bChecked = false;
 
     switch (pCmdUI->m_nID) {
         case ID_AFTERPLAYBACK_CLOSE:
@@ -8150,18 +8163,8 @@ void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
             break;
     }
 
-    pCmdUI->Enable(bEnabled);
-
-    if (bChecked) {
-        if (pCmdUI->m_pMenu) {
-            // To make things simpler we (ab)use the CheckMenuRadioItem function to set the radio bullet
-            // for the selected item and we use an extra call to SetCheck to ensure the mark is cleared
-            // from the other menu's items.
-            pCmdUI->m_pMenu->CheckMenuRadioItem(pCmdUI->m_nID, pCmdUI->m_nID, pCmdUI->m_nID, MF_BYCOMMAND);
-        }
-    } else {
-        pCmdUI->SetCheck(FALSE);
-    }
+    pCmdUI->Enable();
+    pCmdUI->SetCheck(bChecked);
 }
 
 bool CMainFrame::SeekToFileChapter(int iChapter, bool bRelative /*= false*/)
@@ -8944,8 +8947,7 @@ void CMainFrame::PlayFavoriteFile(CString fav)
 
 void CMainFrame::OnUpdateFavoritesFile(CCmdUI* pCmdUI)
 {
-    UINT nID = pCmdUI->m_nID - ID_FAVORITES_FILE_START;
-    UNREFERENCED_PARAMETER(nID);
+    //UINT nID = pCmdUI->m_nID - ID_FAVORITES_FILE_START;
 }
 
 void CMainFrame::OnRecentFile(UINT nID)
@@ -8963,8 +8965,7 @@ void CMainFrame::OnRecentFile(UINT nID)
 
 void CMainFrame::OnUpdateRecentFile(CCmdUI* pCmdUI)
 {
-    UINT nID = pCmdUI->m_nID - ID_RECENT_FILE_START;
-    UNREFERENCED_PARAMETER(nID);
+    //UINT nID = pCmdUI->m_nID - ID_RECENT_FILE_START;
 }
 
 void CMainFrame::OnFavoritesDVD(UINT nID)
@@ -9011,19 +9012,17 @@ void CMainFrame::PlayFavoriteDVD(CString fav)
 
 void CMainFrame::OnUpdateFavoritesDVD(CCmdUI* pCmdUI)
 {
-    UINT nID = pCmdUI->m_nID - ID_FAVORITES_DVD_START;
-    UNREFERENCED_PARAMETER(nID);
+    //UINT nID = pCmdUI->m_nID - ID_FAVORITES_DVD_START;
 }
 
 void CMainFrame::OnFavoritesDevice(UINT nID)
 {
-    nID -= ID_FAVORITES_DEVICE_START;
+    //nID -= ID_FAVORITES_DEVICE_START;
 }
 
 void CMainFrame::OnUpdateFavoritesDevice(CCmdUI* pCmdUI)
 {
-    UINT nID = pCmdUI->m_nID - ID_FAVORITES_DEVICE_START;
-    UNREFERENCED_PARAMETER(nID);
+    //UINT nID = pCmdUI->m_nID - ID_FAVORITES_DEVICE_START;
 }
 
 // help
@@ -9808,38 +9807,50 @@ CSize CMainFrame::GetZoomWindowSize(double dScale)
     if (dScale >= 0.0 && GetLoadState() == MLS::LOADED) {
         MINMAXINFO mmi;
         OnGetMinMaxInfo(&mmi);
+        CSize videoSize;
 
-        if (!m_fAudioOnly) {
-            CSize videoSize = GetVideoSize();
-            CSize clientTargetSize(int(videoSize.cx * dScale + 0.5), int(videoSize.cy * dScale + 0.5));
+        if (m_fAudioOnly) {
+            videoSize = m_wndView.GetLogoSize();
 
-            const bool bToolbarsOnVideo = m_controls.ToolbarsCoverVideo();
-            const bool bPanelsOnVideo = m_controls.PanelsCoverVideo();
-            if (!bPanelsOnVideo) {
-                unsigned uTop, uLeft, uRight, uBottom;
-                m_controls.GetDockZones(uTop, uLeft, uRight, uBottom);
-                if (bToolbarsOnVideo) {
-                    uBottom -= m_controls.GetToolbarsHeight();
+            if (videoSize.cx > videoSize.cy) {
+                if (videoSize.cx > s.nCoverArtSizeLimit) {
+                    videoSize.cy = MulDiv(videoSize.cy, s.nCoverArtSizeLimit, videoSize.cx);
+                    videoSize.cx = s.nCoverArtSizeLimit;
                 }
-                clientTargetSize.cx += uLeft + uRight;
-                clientTargetSize.cy += uTop + uBottom;
-            } else if (!bToolbarsOnVideo) {
-                clientTargetSize.cy += m_controls.GetToolbarsHeight();
-            }
-
-            CRect rect(CPoint(0, 0), clientTargetSize);
-            if (AdjustWindowRectEx(rect, GetWindowStyle(m_hWnd), s.eCaptionMenuMode == MODE_SHOWCAPTIONMENU,
-                                   GetWindowExStyle(m_hWnd))) {
-                ret.cx = std::max<long>(rect.Width(), mmi.ptMinTrackSize.x);
-                ret.cy = std::max<long>(rect.Height(), mmi.ptMinTrackSize.y);
             } else {
-                ASSERT(FALSE);
+                if (videoSize.cy > s.nCoverArtSizeLimit) {
+                    videoSize.cx = MulDiv(videoSize.cx, s.nCoverArtSizeLimit, videoSize.cy);
+                    videoSize.cy = s.nCoverArtSizeLimit;
+                }
             }
         } else {
-            CRect windowRect;
-            GetWindowRect(windowRect);
-            ret.cx = std::max<long>(windowRect.Width(), mmi.ptMinTrackSize.x);
-            ret.cy = mmi.ptMinTrackSize.y;
+            videoSize = GetVideoSize();
+        }
+
+
+        CSize clientTargetSize(int(videoSize.cx * dScale + 0.5), int(videoSize.cy * dScale + 0.5));
+
+        const bool bToolbarsOnVideo = m_controls.ToolbarsCoverVideo();
+        const bool bPanelsOnVideo = m_controls.PanelsCoverVideo();
+        if (!bPanelsOnVideo) {
+            unsigned uTop, uLeft, uRight, uBottom;
+            m_controls.GetDockZones(uTop, uLeft, uRight, uBottom);
+            if (bToolbarsOnVideo) {
+                uBottom -= m_controls.GetToolbarsHeight();
+            }
+            clientTargetSize.cx += uLeft + uRight;
+            clientTargetSize.cy += uTop + uBottom;
+        } else if (!bToolbarsOnVideo) {
+            clientTargetSize.cy += m_controls.GetToolbarsHeight();
+        }
+
+        CRect rect(CPoint(0, 0), clientTargetSize);
+        if (AdjustWindowRectEx(rect, GetWindowStyle(m_hWnd), s.eCaptionMenuMode == MODE_SHOWCAPTIONMENU,
+                               GetWindowExStyle(m_hWnd))) {
+            ret.cx = std::max<long>(rect.Width(), mmi.ptMinTrackSize.x);
+            ret.cy = std::max<long>(rect.Height(), mmi.ptMinTrackSize.y);
+        } else {
+            ASSERT(FALSE);
         }
 
         // don't go larger than the current monitor working area
@@ -9914,7 +9925,7 @@ void CMainFrame::ZoomVideoWindow(double dScale/* = ZOOM_DEFAULT_LEVEL*/)
 {
     const auto& s = AfxGetAppSettings();
 
-    if ((GetLoadState() != MLS::LOADED) || m_fAudioOnly ||
+    if ((GetLoadState() != MLS::LOADED) ||
             (m_nLockedZoomVideoWindow > 0) || m_bLockedZoomVideoWindow) {
         if (m_nLockedZoomVideoWindow > 0) {
             m_nLockedZoomVideoWindow--;
@@ -10025,8 +10036,12 @@ double CMainFrame::GetZoomAutoFitScale(bool bLargerOnly)
 
 void CMainFrame::RepaintVideo()
 {
-    if (!m_bDelaySetOutputRect && m_pCAP) {
-        m_pCAP->Paint(false);
+    if (!m_bDelaySetOutputRect && GetMediaState() != State_Running) {
+        if (m_pCAP) {
+            m_pCAP->Paint(false);
+        } else if (m_pMFVDC) {
+            m_pMFVDC->RepaintVideo();
+        }
     }
 }
 
@@ -16046,7 +16061,23 @@ void CMainFrame::UpdateControlState(UpdateControlTarget target)
             m_wndToolBar.m_volctrl.SetPageSize(s.nVolumeStep);
             break;
         case UPDATE_LOGO:
-            m_wndView.LoadImg();
+            if (GetLoadState() == MLS::LOADED && m_fAudioOnly && s.bEnableCoverArt) {
+                CPath path(m_wndPlaylistBar.GetCurFileName());
+                path.RemoveFileSpec();
+
+                CString author;
+                m_wndInfoBar.GetLine(ResStr(IDS_INFOBAR_AUTHOR), author);
+                CString strPath = path;
+                if (m_currentCoverPath != strPath || m_currentCoverAuthor != author) {
+                    m_wndView.LoadImg(FindCoverArt(strPath, author));
+                    m_currentCoverPath = strPath;
+                    m_currentCoverAuthor = author;
+                }
+            } else {
+                m_currentCoverPath.Empty();
+                m_currentCoverAuthor.Empty();
+                m_wndView.LoadImg();
+            }
             break;
         case UPDATE_SKYPE:
             UpdateSkypeHandler();

@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-07-17 20:52:12+0000\n"
-"PO-Revision-Date: 2014-07-22 14:57+0000\n"
-"Last-Translator: M T <michtrz@gmail.com>\n"
+"POT-Creation-Date: 2014-08-24 19:23:17+0000\n"
+"PO-Revision-Date: 2014-08-25 13:31+0000\n"
+"Last-Translator: kasper93\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/mpc-hc/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -106,8 +106,8 @@ msgid "Signal"
 msgstr "Sygnał"
 
 msgctxt "IDS_STATSBAR_SIGNAL_FORMAT"
-msgid "Strength: %d dB, Quality: %d%%"
-msgstr "Siła: %d dB, Jakość: %d%%"
+msgid "Strength: %d dB, Quality: %ld%%"
+msgstr "Siła: %d dB, Jakość: %ld%%"
 
 msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
 msgid "Styles"
@@ -847,11 +847,11 @@ msgstr "Jeśli cel renderowania nie został określony, zostanie on odziedziczon
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
-msgstr ""
+msgstr "Nie zezwalaj na wyświetlanie animacji napisów. Zmniejsza w niewielkim stopniu obciążenie procesora. Opcja pomocna w przypadku migotania napisów."
 
 msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
-msgstr ""
+msgstr "Zwiększenie liczby buforowanych klatek napisów powinno poprawić wydajność renderowania kosztem użycia większej ilości pamięci karty graficznej."
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
@@ -859,7 +859,7 @@ msgstr "Zmienia ustawienia formatów obsługiwanych przez program. Po użyciu st
 
 msgctxt "IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Disabling this option will prevent the subtitles from blinking but it may cause the video renderer to skip some video frames."
-msgstr ""
+msgstr "Wyłączenie tej opcji zapobiega migotaniu napisów, ale może spowodować ominięcie niektórych klatek przez renderer obrazu."
 
 msgctxt "ID_PLAY_PLAY"
 msgid "Play\nPlay"
@@ -1283,14 +1283,50 @@ msgstr "Wartość"
 
 msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
-msgstr "Maksymalna liczba plików pokazanych w menu \"Ostatnie pliki\" i dla których zapisana jest pozycja."
+msgstr "Maksymalna liczba plików pokazanych w menu \"Ostatnio otwarte\" i dla których może być zapisane położenia."
+
+msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
+msgid "Remember file position only for files longer than N minutes."
+msgstr "Zapamiętuj położenie pliku tylko dla plików dłuższych niż N minut."
+
+msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
+msgid "Remember file position also for audio files."
+msgstr "Zapamiętuj położenie pliku również dla plików audio."
+
+msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
+msgid "Do Nothing"
+msgstr "Nic nie rób"
+
+msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
+msgid "Play next file in the folder"
+msgstr "Otwórz następny plik w folderze"
+
+msgctxt "IDS_AFTER_PLAYBACK_REWIND"
+msgid "Rewind current file"
+msgstr "Przewiń do początku aktualny plik"
+
+msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
+msgid "Close"
+msgstr "Zamknij "
+
+msgctxt "IDS_AFTER_PLAYBACK_EXIT"
+msgid "Exit"
+msgstr "Zamknij program"
+
+msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
+msgid "Turn off the monitor"
+msgstr "Wyłącz monitor"
 
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
 msgid "JPEG Image"
-msgstr ""
+msgstr "Obraz JPEG"
 
 msgctxt "IDS_IMAGE_QUALITY"
 msgid "Quality (%):"
+msgstr "Jakość (%):"
+
+msgctxt "IDS_PPAGEADVANCED_COVER_SIZE_LIMIT"
+msgid "Maximum size (NxNpx) of a cover-art loaded in the audio only mode."
 msgstr ""
 
 msgctxt "IDS_AG_OPEN_DEVICE"
@@ -1327,7 +1363,7 @@ msgstr "Właściwości"
 
 msgctxt "IDS_AG_EXIT"
 msgid "Exit"
-msgstr "Zakończ"
+msgstr "Zamknij program"
 
 msgctxt "IDS_AG_PLAYPAUSE"
 msgid "Play/Pause"
@@ -1978,16 +2014,16 @@ msgid "Buffers"
 msgstr "Bufory"
 
 msgctxt "IDS_MAINFRM_9"
-msgid "Volume: %02d/%02d, Title: %02d/%02d, Chapter: %02d/%02d"
-msgstr "Nośnik: %02d/%02d, tytuł: %02d/%02d, rozdział: %02d/%02d"
+msgid "Volume: %02lu/%02lu, Title: %02lu/%02lu, Chapter: %02lu/%02lu"
+msgstr "Nośnik: %02lu/%02lu, tytuł: %02lu/%02lu, rozdział: %02lu/%02lu"
 
 msgctxt "IDS_MAINFRM_10"
-msgid "Angle: %02d/%02d, %dx%d %dHz %d:%d"
-msgstr "Kamera: %02d/%02d, %dx%d %d Hz %d:%d"
+msgid "Angle: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
+msgstr "Kamera: %02lu/%02lu, %lux%lu %lu Hz %lu:%lu"
 
 msgctxt "IDS_MAINFRM_11"
-msgid "%s, %s %dHz %dbits %d %s"
-msgstr "%s, %s %d Hz %d bitów %d %s"
+msgid "%s, %s %uHz %dbits %d %s"
+msgstr "%s, %s %u Hz %d bitów %d %s"
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
@@ -2014,8 +2050,8 @@ msgid "channels"
 msgstr "kanały/ów"
 
 msgctxt "IDS_AG_TITLE"
-msgid "Title %d"
-msgstr "Tytuł %d"
+msgid "Title %u"
+msgstr "Tytuł %u"
 
 msgctxt "IDS_MAINFRM_16"
 msgid "DVD: Unexpected error"
@@ -2090,8 +2126,8 @@ msgid "Aspect Ratio"
 msgstr "Proporcje obrazu"
 
 msgctxt "IDS_MAINFRM_37"
-msgid ", Total: %d, Dropped: %d"
-msgstr ", wszystkich: %d, porzuconych: %d"
+msgid ", Total: %ld, Dropped: %ld"
+msgstr ", wszystkich: %ld, porzuconych: %ld"
 
 msgctxt "IDS_MAINFRM_38"
 msgid ", Size: %I64dKB"
@@ -2186,8 +2222,8 @@ msgid "Subtitle files"
 msgstr "Pliki z napisami"
 
 msgctxt "IDS_MAINFRM_68"
-msgid "Aspect Ratio: %d:%d"
-msgstr "Proporcje obrazu: %d:%d"
+msgid "Aspect Ratio: %ld:%ld"
+msgstr "Proporcje obrazu: %ld:%ld"
 
 msgctxt "IDS_MAINFRM_69"
 msgid "Aspect Ratio: Default"
@@ -2258,8 +2294,8 @@ msgid "MPC-HC terminated unexpectedly. To help us fix this problem, please send 
 msgstr "Program nieoczekiwanie zakończył pracę. Aby pomóc naprawić ten problem, proszę wysłać plik „%s” na platformę zgłaszania błędów.\n\nChcesz otworzyć folder zawierający zrzut pamięci oraz odwiedzić teraz stronę, aby zgłosić błąd?"
 
 msgctxt "IDS_MPC_MINIDUMP_FAIL"
-msgid "Failed to create dump file to \"%s\" (error %d)"
-msgstr "Nie udało się zapisać informacji o debugowaniu do pliku „%s” (błąd %d)"
+msgid "Failed to create dump file to \"%s\" (error %u)"
+msgstr "Nie udało się zapisać informacji o debugowaniu do pliku „%s” (błąd %u)"
 
 msgctxt "IDS_MAINFRM_DIR_TITLE"
 msgid "Select Directory"
@@ -2370,8 +2406,8 @@ msgid "Unknown Stream"
 msgstr "Nieznany strumień"
 
 msgctxt "IDS_AG_UNKNOWN"
-msgid "Unknown %d"
-msgstr "Nieznany %d"
+msgid "Unknown %u"
+msgstr "Nieznany %u"
 
 msgctxt "IDS_AG_VSYNC"
 msgid "VSync"
@@ -2390,8 +2426,8 @@ msgid "Enable DVD subtitles"
 msgstr "Wyświetlaj napisy DVD"
 
 msgctxt "IDS_AG_ANGLE"
-msgid "Angle %d"
-msgstr "Kamera %d"
+msgid "Angle %u"
+msgstr "Kamera %u"
 
 msgctxt "IDS_AG_VSYNCOFFSET_INCREASE"
 msgid "Increase VSync Offset"
@@ -3407,7 +3443,7 @@ msgstr "Po zakończeniu odtwarzania: Zablokowanie komputera"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
-msgstr ""
+msgstr "Po zakończeniu odtwarzania: Wyłącz monitor"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
@@ -3468,36 +3504,4 @@ msgstr "&Kanały"
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"
 msgstr "Ustawienia"
-
-msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
-msgid "Remember file position only for files longer than N minutes."
-msgstr "Zapamiętaj położenie pliku tylko dla plików większych niż N minut."
-
-msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
-msgid "Remember file position also for audio files."
-msgstr "Zapamiętaj położenie pliku również dla plików audio."
-
-msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
-msgid "Do Nothing"
-msgstr ""
-
-msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
-msgid "Play next file in the folder"
-msgstr ""
-
-msgctxt "IDS_AFTER_PLAYBACK_REWIND"
-msgid "Rewind current file"
-msgstr ""
-
-msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
-msgid "Close"
-msgstr ""
-
-msgctxt "IDS_AFTER_PLAYBACK_EXIT"
-msgid "Exit"
-msgstr ""
-
-msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
-msgid "Turn off the monitor"
-msgstr ""
 

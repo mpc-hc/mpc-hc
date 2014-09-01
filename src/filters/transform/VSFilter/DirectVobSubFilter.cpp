@@ -338,7 +338,7 @@ CBasePin* CDirectVobSubFilter::GetPin(int n)
         return m_pTextInput[n];
     }
 
-    n -= (int)m_pTextInput.GetCount();
+    //n -= (int)m_pTextInput.GetCount();
 
     return nullptr;
 }

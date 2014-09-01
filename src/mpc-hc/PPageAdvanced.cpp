@@ -123,6 +123,7 @@ void CPPageAdvanced::InitSettings()
     addIntItem(RECENT_FILES_NB, IDS_RS_RECENT_FILES_NUMBER, 20, s.iRecentFilesNumber, std::make_pair(0, 1000), ResStr(IDS_PPAGEADVANCED_RECENT_FILES_NUMBER));
     addIntItem(FILE_POS_LONGER, IDS_RS_FILEPOSLONGER, 0, s.iRememberPosForLongerThan, std::make_pair(0, INT_MAX), ResStr(IDS_PPAGEADVANCED_FILE_POS_LONGER));
     addBoolItem(FILE_POS_AUDIO, IDS_RS_FILEPOSAUDIO, true, s.bRememberPosForAudioFiles, ResStr(IDS_PPAGEADVANCED_FILE_POS_AUDIO));
+    addIntItem(COVER_SIZE_LIMIT, IDS_RS_COVER_ART_SIZE_LIMIT, 600, s.nCoverArtSizeLimit, std::make_pair(0, INT_MAX), ResStr(IDS_PPAGEADVANCED_COVER_SIZE_LIMIT));
 }
 
 BOOL CPPageAdvanced::OnApply()

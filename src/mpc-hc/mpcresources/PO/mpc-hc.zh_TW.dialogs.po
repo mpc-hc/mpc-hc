@@ -2,17 +2,17 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# 柏諺 黃 <s8321414@gmail.com>, 2014
+# Jeff Huang <s8321414@gmail.com>, 2014
 # kenelin <kenelin@gmail.com>, 2013
 # Peter Chen <petercpg@gmail.com>, 2014
 # roytam1 <roytam@gmail.com>, 2014
-# 冠旭 陳 <zakk0610@gmail.com>, 2014
+# Zakk <zakk0610@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-05-28 21:39:34+0000\n"
-"PO-Revision-Date: 2014-05-30 10:31+0000\n"
-"Last-Translator: 柏諺 黃 <s8321414@gmail.com>\n"
+"POT-Creation-Date: 2014-08-19 21:13:19+0000\n"
+"PO-Revision-Date: 2014-08-20 10:02+0000\n"
+"Last-Translator: JellyFrog\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/mpc-hc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -307,6 +307,10 @@ msgstr "停用 \"開啟光碟\" 選單"
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK9"
 msgid "Process priority above normal"
 msgstr "程式優先權調成高於一般"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK14"
+msgid "Enable cover-art support"
+msgstr ""
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "History"
@@ -946,7 +950,7 @@ msgstr "毫秒"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_CHECK1"
 msgid "Save custom style"
-msgstr ""
+msgstr "保存自訂樣式"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
@@ -1666,7 +1670,7 @@ msgstr ""
 
 msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
-msgstr ""
+msgstr "預設"
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"

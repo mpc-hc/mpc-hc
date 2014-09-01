@@ -1,0 +1,3507 @@
+# MPC-HC - Strings extracted from string tables
+# Copyright (C) 2002 - 2013 see Authors.txt
+# This file is distributed under the same license as the MPC-HC package.
+# Translators:
+# Xyteton <xyteton@hotmail.com>, 2014
+# Xyteton <xyteton@hotmail.com>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: MPC-HC\n"
+"POT-Creation-Date: 2014-08-24 19:23:17+0000\n"
+"PO-Revision-Date: 2014-08-31 14:52+0000\n"
+"Last-Translator: Xyteton <xyteton@hotmail.com>\n"
+"Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/mpc-hc/language/th_TH/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: th_TH\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgctxt "IDS_INFOBAR_LOCATION"
+msgid "Location"
+msgstr "ที่ตั้ง"
+
+msgctxt "IDS_INFOBAR_VIDEO"
+msgid "Video"
+msgstr "วิดีโอ"
+
+msgctxt "IDS_INFOBAR_AUDIO"
+msgid "Audio"
+msgstr "เสียง"
+
+msgctxt "IDS_INFOBAR_SUBTITLES"
+msgid "Subtitles"
+msgstr "ศัพท์บรรยาย"
+
+msgctxt "IDS_INFOBAR_CHAPTER"
+msgid "Chapter"
+msgstr "ตอน"
+
+msgctxt "IDS_CONTROLS_COMPLETING"
+msgid "Completing..."
+msgstr "กำลังดำเนินการ..."
+
+msgctxt "IDS_AUTOPLAY_PLAYVIDEO"
+msgid "Play Video"
+msgstr "เล่นวิดีโอ"
+
+msgctxt "IDS_AUTOPLAY_PLAYMUSIC"
+msgid "Play Music"
+msgstr "เล่นดนตรี"
+
+msgctxt "IDS_AUTOPLAY_PLAYAUDIOCD"
+msgid "Play Audio CD"
+msgstr "เล่นซีดีเสียง"
+
+msgctxt "IDS_AUTOPLAY_PLAYDVDMOVIE"
+msgid "Play DVD Movie"
+msgstr "เล่นภาพยนตร์ดีวีดี"
+
+msgctxt "IDS_PROPSHEET_PROPERTIES"
+msgid "Properties"
+msgstr "คุณสมบัติ"
+
+msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
+msgid "&Default Style"
+msgstr "&รูปแบบตั้งต้น"
+
+msgctxt "IDS_FAVFILES"
+msgid "Files"
+msgstr "ไฟล์"
+
+msgctxt "IDS_FAVDVDS"
+msgid "DVDs"
+msgstr "ดีวีดี"
+
+msgctxt "IDS_INFOBAR_CHANNEL"
+msgid "Channel"
+msgstr "ช่อง"
+
+msgctxt "IDS_INFOBAR_TIME"
+msgid "Time"
+msgstr "เวลา"
+
+msgctxt "IDS_STATSBAR_SYNC_OFFSET"
+msgid "Sync Offset"
+msgstr "ค่าชดเชยซิงค์"
+
+msgctxt "IDS_STATSBAR_SYNC_OFFSET_FORMAT"
+msgid "avg: %d ms, dev: %d ms"
+msgstr "เฉลี่ย: %d มว., เบี่ยงเบน: %d มว."
+
+msgctxt "IDS_STATSBAR_JITTER"
+msgid "Jitter"
+msgstr "สั่นไหว"
+
+msgctxt "IDS_STATSBAR_BITRATE"
+msgid "Bitrate"
+msgstr "อัตราบิท"
+
+msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
+msgid "(avg/cur)"
+msgstr "(เฉลี่ย/ปัจจุบัน)"
+
+msgctxt "IDS_STATSBAR_SIGNAL"
+msgid "Signal"
+msgstr "สัญญาณ"
+
+msgctxt "IDS_STATSBAR_SIGNAL_FORMAT"
+msgid "Strength: %d dB, Quality: %ld%%"
+msgstr "ความแรง: %d dB, คุณภาพ: %ld%%"
+
+msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
+msgid "Styles"
+msgstr "รูปแบบ"
+
+msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
+msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
+msgstr "ถ้าเป้าหมายการแปลผลไม่ถูกระบุ, ศัพท์บรรยาย SSA/ASS จะถูกแปลผลสัมพันธ์กับเฟรมวิดีโอ ในขณะที่ศัพท์ฯข้อความอื่นๆ จะถูกแปลผลสัมพันธ์กับหน้าต่าง  "
+
+msgctxt "IDS_PPAGE_CAPTURE_FG0"
+msgid "Never (fastest approach)"
+msgstr "ไม่ต้อง (วิธีที่เร็วสุด)"
+
+msgctxt "IDS_PPAGE_CAPTURE_FG1"
+msgid "Only when switching different video types (default)"
+msgstr "เฉพาะเมื่อกำลังสลับชนิดวิดีโอที่ต่างกัน (ค่าตั้งต้น)"
+
+msgctxt "IDS_PPAGE_CAPTURE_FG2"
+msgid "Always (slowest option)"
+msgstr "เสมอ (ตัวเลือกที่ช้าสุด)"
+
+msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
+msgid "Not supported by some devices. Two video decoders always present in the filter graph."
+msgstr "ไม่รองรับกับบางอุปกรณ์ ตัวถอดรหัสวิดีโอ2 ตัวจะปรากฏในกราฟตัวกรองเสมอ"
+
+msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
+msgid "Fast except when switching between different video streams. Only one video decoder present in the filter graph."
+msgstr "เร็ว, ยกเว้นเมื่อกำลังสลับกระแสวิดีโอที่ต่างกัน หนึ่งตัวถอดรหัสวิดีโอเท่านั้นที่ปรากฏในกราฟตัวกรอง"
+
+msgctxt "IDS_PPAGE_CAPTURE_FGDESC2"
+msgid "Not recommended. Only for testing purposes."
+msgstr "ไม่แนะนำ มีวัตถุประสงค์เพื่อการทดสอบเท่านั้น"
+
+msgctxt "IDS_PPAGE_CAPTURE_SFG0"
+msgid "Never if possible (fastest, but not supported by most filters)"
+msgstr "ไม่ต้อง ถ้าเป็นไปได้ (เร็วสุด แต่ตัวกรองส่วนใหญ่ไม่สนับสนุน)"
+
+msgctxt "IDS_PPAGE_CAPTURE_SFG1"
+msgid "Only when switching different video types (default)"
+msgstr "เฉพาะเมื่อกำลังสลับชนิดวิดีโอที่ต่างกัน (ค่าตั้งต้น)"
+
+msgctxt "IDS_PPAGE_CAPTURE_SFG2"
+msgid "Always (may be required by some devices)"
+msgstr "เสมอ (บางอุปกรณ์อาจต้องการ)"
+
+msgctxt "IDS_INFOBAR_PARENTAL_RATING"
+msgid "Parental rating"
+msgstr "คะแนนผู้ปกครอง"
+
+msgctxt "IDS_PARENTAL_RATING"
+msgid "%d+"
+msgstr "%d+"
+
+msgctxt "IDS_NO_PARENTAL_RATING"
+msgid "Not rated"
+msgstr "ไม่ระบุคะแนน"
+
+msgctxt "IDS_INFOBAR_CONTENT"
+msgid "Content"
+msgstr "เนื้อหา"
+
+msgctxt "IDS_CONTENT_MOVIE_DRAMA"
+msgid "Movie/Drama"
+msgstr "ภาพยนตร์/ละคร"
+
+msgctxt "IDS_CONTENT_NEWS_CURRENTAFFAIRS"
+msgid "News/Current affairs"
+msgstr "ข่าว/เหตุการณ์ปัจจุบัน"
+
+msgctxt "IDS_SPEED_UNIT_G"
+msgid "GB/s"
+msgstr "GB/s"
+
+msgctxt "IDS_FILE_FAV_ADDED"
+msgid "File added to favorites"
+msgstr "ไฟล์ถูกเพิ่มสู่รายการโปรด"
+
+msgctxt "IDS_DVD_FAV_ADDED"
+msgid "DVD added to favorites"
+msgstr "ดีวีดีถูกเพิ่มสู่รายการโปรด"
+
+msgctxt "IDS_CAPTURE_SETTINGS"
+msgid "Capture Settings"
+msgstr "การตั้งค่าจับข้อมูล"
+
+msgctxt "IDS_NAVIGATION_BAR"
+msgid "Navigation Bar"
+msgstr "แถบการนำทาง"
+
+msgctxt "IDS_SUBRESYNC_CAPTION"
+msgid "Subresync"
+msgstr "ซิงค์ศัพท์บรรยายใหม่"
+
+msgctxt "IDS_SUBRESYNC_CLN_TIME"
+msgid "Time"
+msgstr "เวลา"
+
+msgctxt "IDS_SUBRESYNC_CLN_END"
+msgid "End"
+msgstr "สิ้นสุด"
+
+msgctxt "IDS_SUBRESYNC_CLN_PREVIEW"
+msgid "Preview"
+msgstr "ตัวอย่าง"
+
+msgctxt "IDS_SUBRESYNC_CLN_VOB_ID"
+msgid "Vob ID"
+msgstr "Vob ID"
+
+msgctxt "IDS_SUBRESYNC_CLN_CELL_ID"
+msgid "Cell ID"
+msgstr "Cell ID"
+
+msgctxt "IDS_SUBRESYNC_CLN_FORCED"
+msgid "Forced"
+msgstr "ถูกบังคับ"
+
+msgctxt "IDS_SUBRESYNC_CLN_TEXT"
+msgid "Text"
+msgstr "ข้อความอักษร"
+
+msgctxt "IDS_SUBRESYNC_CLN_STYLE"
+msgid "Style"
+msgstr "รูปแบบ"
+
+msgctxt "IDS_SUBRESYNC_CLN_FONT"
+msgid "Font"
+msgstr "แบบอักษร"
+
+msgctxt "IDS_DVD_NAV_SOME_PINS_ERROR"
+msgid "Failed to render some of the pins of the DVD Navigator filter"
+msgstr "ล้มเหลวในการแปลผลบางพินของตัวกรองตัวนำทางดีวีดี"
+
+msgctxt "IDS_DVD_INTERFACES_ERROR"
+msgid "Failed to query the needed interfaces for DVD playback"
+msgstr "ล้มเหลวในการสอบหาแบบประสานที่จำเป็นสำหรับการเล่นดีวีดี"
+
+msgctxt "IDS_CAPTURE_LIVE"
+msgid "Live"
+msgstr "สด"
+
+msgctxt "IDS_CAPTURE_ERROR_VID_FILTER"
+msgid "Can't add video capture filter to the graph"
+msgstr "ไม่สามารถเพิ่มตัวกรองการจับข้อมูลวิดีโอสู่กราฟได้"
+
+msgctxt "IDS_CAPTURE_ERROR_AUD_FILTER"
+msgid "Can't add audio capture filter to the graph"
+msgstr "ไม่สามารถเพิ่มตัวกรองการจับข้อมูลเสียงสู่กราฟได้"
+
+msgctxt "IDS_CAPTURE_ERROR_DEVICE"
+msgid "Could not open capture device."
+msgstr "ไม่สามารถเปิดอุปกรณ์จับข้อมูล"
+
+msgctxt "IDS_INVALID_PARAMS_ERROR"
+msgid "Can't open, invalid input parameters"
+msgstr "ไม่สามารถเปิดได้ พารามิเตอร์ที่นำเข้าไม่ถูกต้อง"
+
+msgctxt "IDS_EDIT_LIST_EDITOR"
+msgid "Edit List Editor"
+msgstr "แก้ไข ตัวแก้ไขรายการ"
+
+msgctxt "IDS_GOTO_ERROR_INVALID_TIME"
+msgid "The entered time is greater than the file duration."
+msgstr "เวลาที่ใส่มีค่ามากกว่าระยะเวลาของไฟล์"
+
+msgctxt "IDS_MISSING_ICONS_LIB"
+msgid "The icons library \"mpciconlib.dll\" is missing.\nThe player's default icon will be used for file associations.\nPlease, reinstall MPC-HC to get \"mpciconlib.dll\"."
+msgstr "คลังไอคอน \"mpciconlib.dll\" ได้หายไป\nไอคอนตั้งต้นของเครื่องเล่นจะถูกใช้เพื่อทำการสัมพันธ์ไฟล์\nโปรดติดตั้ง MPC-HC อีกครั้ง เพื่อให้ได้รับ \"mpciconlib.dll\""
+
+msgctxt "IDS_SUBDL_DLG_FILENAME_COL"
+msgid "File"
+msgstr "ไฟล์"
+
+msgctxt "IDS_SUBDL_DLG_LANGUAGE_COL"
+msgid "Language"
+msgstr "ภาษา"
+
+msgctxt "IDS_SUBDL_DLG_FORMAT_COL"
+msgid "Format"
+msgstr "รูปแบบ"
+
+msgctxt "IDS_SUBDL_DLG_DISC_COL"
+msgid "Disc"
+msgstr "ดิสก์"
+
+msgctxt "IDS_SUBDL_DLG_TITLES_COL"
+msgid "Title(s)"
+msgstr "ชื่อเรียก"
+
+msgctxt "IDS_SUBRESYNC_CLN_CHARSET"
+msgid "CharSet"
+msgstr "ชุดอักขระ"
+
+msgctxt "IDS_SUBRESYNC_CLN_UNICODE"
+msgid "Unicode"
+msgstr "Unicode"
+
+msgctxt "IDS_SUBRESYNC_CLN_LAYER"
+msgid "Layer"
+msgstr "ชั้น"
+
+msgctxt "IDS_SUBRESYNC_CLN_ACTOR"
+msgid "Actor"
+msgstr "ตัวกระทำ"
+
+msgctxt "IDS_SUBRESYNC_CLN_EFFECT"
+msgid "Effect"
+msgstr "เอฟเฟกต์"
+
+msgctxt "IDS_PLAYLIST_CAPTION"
+msgid "Playlist"
+msgstr "บัญชีการเล่น"
+
+msgctxt "IDS_PPAGE_FS_CLN_ON_OFF"
+msgid "On/Off"
+msgstr "เปิด/ปิด"
+
+msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
+msgid "From fps"
+msgstr "จาก fps"
+
+msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
+msgid "To fps"
+msgstr "สู่ fps"
+
+msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
+msgid "Display mode (Hz)"
+msgstr "โหมดแสดงผล (Hz)"
+
+msgctxt "IDS_PPAGE_FS_DEFAULT"
+msgid "Default"
+msgstr "ค่าตั้งต้น"
+
+msgctxt "IDS_PPAGE_FS_OTHER"
+msgid "Other"
+msgstr "อื่นๆ"
+
+msgctxt "IDS_PPAGE_OUTPUT_SYS_DEF"
+msgid "System Default"
+msgstr "ค่าตั้งต้นระบบ"
+
+msgctxt "IDS_GRAPH_INTERFACES_ERROR"
+msgid "Failed to query the needed interfaces for playback"
+msgstr "ล้มเหลวในการสอบหาแบบประสานที่จำเป็นสำหรับการเล่น"
+
+msgctxt "IDS_GRAPH_TARGET_WND_ERROR"
+msgid "Could not set target window for graph notification"
+msgstr "ไม่สามารถตั้งค่าหน้าต่างเป้าหมายเพื่อการแจ้งกราฟ"
+
+msgctxt "IDS_DVD_NAV_ALL_PINS_ERROR"
+msgid "Failed to render all pins of the DVD Navigator filter"
+msgstr "ล้มเหลวในการแปลผลพินทั้งหมดของตัวกรองตัวนำทางดีวีดี"
+
+msgctxt "IDS_PLAYLIST_OPEN"
+msgid "&Open"
+msgstr "&เปิด"
+
+msgctxt "IDS_PLAYLIST_ADD"
+msgid "A&dd"
+msgstr "เ&พิ่ม"
+
+msgctxt "IDS_PLAYLIST_REMOVE"
+msgid "&Remove"
+msgstr "เ&อาออก"
+
+msgctxt "IDS_PLAYLIST_CLEAR"
+msgid "C&lear"
+msgstr "ล้า&ง"
+
+msgctxt "IDS_PLAYLIST_COPYTOCLIPBOARD"
+msgid "&Copy to clipboard"
+msgstr "&คัดลอกสู่หน่วยความจำ"
+
+msgctxt "IDS_PLAYLIST_SAVEAS"
+msgid "&Save As..."
+msgstr "&บันทึกเป็น..."
+
+msgctxt "IDS_PLAYLIST_SORTBYLABEL"
+msgid "Sort by &label"
+msgstr "เรียงตาม&ป้ายกำกับ"
+
+msgctxt "IDS_PLAYLIST_SORTBYPATH"
+msgid "Sort by &path"
+msgstr "เรียงตามเส้น&ทาง"
+
+msgctxt "IDS_PLAYLIST_RANDOMIZE"
+msgid "R&andomize"
+msgstr "เรียง&สุ่ม"
+
+msgctxt "IDS_PLAYLIST_RESTORE"
+msgid "R&estore"
+msgstr "&คืนค่าเดิม"
+
+msgctxt "IDS_SUBRESYNC_SEPARATOR"
+msgid "&Separator"
+msgstr "&ตัวคั่น"
+
+msgctxt "IDS_SUBRESYNC_DELETE"
+msgid "&Delete"
+msgstr "&ลบ"
+
+msgctxt "IDS_SUBRESYNC_DUPLICATE"
+msgid "D&uplicate"
+msgstr "&ทำซ้ำ"
+
+msgctxt "IDS_SUBRESYNC_RESET"
+msgid "&Reset"
+msgstr "&คืนค่า"
+
+msgctxt "IDS_MPLAYERC_104"
+msgid "Subtitle Delay -"
+msgstr "ศัพท์บรรยาย หน่วง -"
+
+msgctxt "IDS_MPLAYERC_105"
+msgid "Subtitle Delay +"
+msgstr "ศัพท์บรรยาย หน่วง +"
+
+msgctxt "IDS_FILE_SAVE_THUMBNAILS"
+msgid "Save thumbnails"
+msgstr "บันทึกรูปย่อ"
+
+msgctxt "IDD_PPAGEPLAYBACK"
+msgid "Playback"
+msgstr "การเล่น"
+
+msgctxt "IDD_PPAGEPLAYER"
+msgid "Player"
+msgstr "เครื่องเล่น"
+
+msgctxt "IDD_PPAGEDVD"
+msgid "Playback::DVD/OGM"
+msgstr "การเล่น::DVD/OGM"
+
+msgctxt "IDD_PPAGESUBTITLES"
+msgid "Subtitles"
+msgstr "ศัพท์บรรยาย"
+
+msgctxt "IDD_PPAGEFORMATS"
+msgid "Player::Formats"
+msgstr "เครื่องเล่น::รูปแบบ"
+
+msgctxt "IDD_PPAGETWEAKS"
+msgid "Tweaks"
+msgstr "ปรับแต่ง"
+
+msgctxt "IDD_PPAGEAUDIOSWITCHER"
+msgid "Internal Filters::Audio Switcher"
+msgstr "ตัวกรองภายใน::ตัวสลับเสียง"
+
+msgctxt "IDD_PPAGEEXTERNALFILTERS"
+msgid "External Filters"
+msgstr "ตัวกรองภายนอก"
+
+msgctxt "IDD_PPAGESHADERS"
+msgid "Playback::Shaders"
+msgstr "การเล่น::เฉดเดอร์"
+
+msgctxt "IDS_AUDIOSWITCHER"
+msgid "Audio Switcher"
+msgstr "ตัวสลับเสียง"
+
+msgctxt "IDS_ICONS_REASSOC_DLG_TITLE"
+msgid "New version of the icon library"
+msgstr "เวอร์ชันใหม่ของคลังไอคอน"
+
+msgctxt "IDS_ICONS_REASSOC_DLG_INSTR"
+msgid "Do you want to reassociate the icons?"
+msgstr "คุณต้องการสร้างความสัมพันธ์ไอคอนใหม่หรือไม่?"
+
+msgctxt "IDS_ICONS_REASSOC_DLG_CONTENT"
+msgid "This will fix the icons being incorrectly displayed after an update of the icon library.\nThe file associations will not be modified, only the corresponding icons will be refreshed."
+msgstr "สิ่งนี้จะซ่อมแซมไอคอนที่แสดงผลไม่ถูกต้องหลังจากอัพเดตคลังไอคอน \nความสัมพันธ์ไฟล์จะไม่เปลี่ยนแปลง ไอคอนที่สอดคล้องเท่านั้นที่จะเรียกใช้ใหม่"
+
+msgctxt "IDS_PPAGE_OUTPUT_OLDRENDERER"
+msgid "Old Video Renderer"
+msgstr "ตัวแปลผลวิดีโอรุ่นเก่า"
+
+msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
+msgid "Overlay Mixer Renderer"
+msgstr "ตัวแปลผล Overlay Mixer"
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
+msgid "Video Mixing Renderer 7 (windowed)"
+msgstr "Video Mixing Renderer 7 (windowed)"
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
+msgid "Video Mixing Renderer 9 (windowed)"
+msgstr "Video Mixing Renderer 9 (windowed)"
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
+msgid "Video Mixing Renderer 7 (renderless)"
+msgstr "Video Mixing Renderer 7 (renderless)"
+
+msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
+msgid "Video Mixing Renderer 9 (renderless)"
+msgstr "Video Mixing Renderer 9 (renderless)"
+
+msgctxt "IDS_PPAGE_OUTPUT_EVR"
+msgid "Enhanced Video Renderer"
+msgstr "Enhanced Video Renderer"
+
+msgctxt "IDS_PPAGE_OUTPUT_EVR_CUSTOM"
+msgid "Enhanced Video Renderer (custom presenter)"
+msgstr "Enhanced Video Renderer (custom presenter)"
+
+msgctxt "IDS_PPAGE_OUTPUT_DXR"
+msgid "Haali Video Renderer"
+msgstr "Haali Video Renderer"
+
+msgctxt "IDS_PPAGE_OUTPUT_NULL_COMP"
+msgid "Null (anything)"
+msgstr "Null (ใดๆ ก็ตาม)"
+
+msgctxt "IDS_PPAGE_OUTPUT_NULL_UNCOMP"
+msgid "Null (uncompressed)"
+msgstr "Null (ไม่บีบอัด)"
+
+msgctxt "IDS_PPAGE_OUTPUT_MADVR"
+msgid "madVR"
+msgstr "madVR"
+
+msgctxt "IDD_PPAGEACCELTBL"
+msgid "Player::Keys"
+msgstr "เครื่องเล่น::ปุ่มคีย์"
+
+msgctxt "IDD_PPAGESUBSTYLE"
+msgid "Subtitles::Default Style"
+msgstr "ศัพท์บรรยาย::รูปแบบตั้งต้น"
+
+msgctxt "IDD_PPAGEINTERNALFILTERS"
+msgid "Internal Filters"
+msgstr "ตัวกรองภายใน"
+
+msgctxt "IDD_PPAGELOGO"
+msgid "Player::Logo"
+msgstr "เครื่องเล่น::โลโก้"
+
+msgctxt "IDD_PPAGEOUTPUT"
+msgid "Playback::Output"
+msgstr "การเล่น::ขาออก"
+
+msgctxt "IDD_PPAGEWEBSERVER"
+msgid "Player::Web Interface"
+msgstr "เครื่องเล่น::แบบประสานเว็บ"
+
+msgctxt "IDD_PPAGESUBDB"
+msgid "Subtitles::Database"
+msgstr "ศัพท์บรรยาย::ฐานข้อมูล"
+
+msgctxt "IDD_FILEPROPRES"
+msgid "Resources"
+msgstr "ทรัพยากร"
+
+msgctxt "IDD_PPAGEMISC"
+msgid "Miscellaneous"
+msgstr "เบ็ดเตล็ด"
+
+msgctxt "IDD_FILEMEDIAINFO"
+msgid "MediaInfo"
+msgstr "ข้อมูลสื่อ"
+
+msgctxt "IDD_PPAGECAPTURE"
+msgid "Playback::Capture"
+msgstr "การเล่น::จับข้อมูล"
+
+msgctxt "IDD_PPAGESYNC"
+msgid "Playback::Sync Renderer Settings"
+msgstr "การเล่น::การตั้งค่าตัวแปลผลซิงค์"
+
+msgctxt "IDD_PPAGEFULLSCREEN"
+msgid "Playback::Fullscreen"
+msgstr "การเล่น::เต็มจอ"
+
+msgctxt "IDD_FILEPROPDETAILS"
+msgid "Details"
+msgstr "รายละเอียด"
+
+msgctxt "IDD_FILEPROPCLIP"
+msgid "Clip"
+msgstr "คลิป"
+
+msgctxt "IDC_DSSYSDEF"
+msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason. On Windown XP this is the same as VMR-7 (windowed)."
+msgstr "ตัวกรองวิดีโอตั้งต้นสำหรับ DirectShow โดยที่ตัวอื่นจะตามมาทีหลังเมื่อมันไม่สามารถโหลดด้วยเหตุผลบางอย่าง, บน Windown XP สิ่งนี้คือสิ่งเดียวกับ VMR-7 (windowed)."
+
+msgctxt "IDC_DSOLD"
+msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
+msgstr "นี่คือตัวแปลผลตั้งต้นของ Windows 9x/me/2k  ขึ้นกับการมองเห็นหน้าต่างวิดีโอและความสามารถของการ์ดจอของคุณ, มันจะสลับอย่างแปรเปลี่ยนได้ระหว่างการแปลผล GDI, DirectDraw, Overlay"
+
+msgctxt "IDC_DSOVERLAYMIXER"
+msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
+msgstr "แปลผลใน overlay เสมอ โดยทั่วไปรูปแบบ YUV เท่านั้นที่ได้รับอนุญาต, แต่พวกมันจะถูกนำเสนอโดยตรงปราศจากการแปลงสีใดๆเป็น RGB นี่คือวิธีการแปลผลทั้งหมดที่เร็วที่สุด และเป็นที่เดียวที่คุณสามารถมั่นใจการทำภาพกระจกวิดีโอแบบเต็มจอสู่การกระตุ้นโทรทัศน์ขาออก"
+
+msgctxt "IDC_DSVMR7WIN"
+msgid "The default renderer of Windows XP. Very stable and just a little slower than the Overlay mixer. Uses DirectDraw and runs in Overlay when it can."
+msgstr "ตัวแปลผลตั้งต้นสำหรับ Windows XP เสถียรมากและช้ากว่า Overlay mixer เล็กน้อยเท่านั้น ใช้ DirectDraw และรันใน Overlay เมื่อมันสามารถ"
+
+msgctxt "IDC_DSVMR9WIN"
+msgid "Only available if you have DirectX 9 installed. Has the same abilities as VMR-7 (windowed), but it will never use Overlay rendering and because of this it may be a little slower than VMR-7 (windowed)."
+msgstr "เฉพาะถ้าคุณมีการติดตั้ง DirectX 9 ไว้แล้ว มีความสามารถเหมือน VMR-7 (windowed), แต่จะไม่ใช้การแปลผล Overlay ด้วยเหตุนี้มันจึงอาจช้ากว่า VMR-7 (windowed)"
+
+msgctxt "IDC_DSVMR7REN"
+msgid "Same as the VMR-7 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring WILL NOT work. \"True Color\" desktop color space recommended."
+msgstr "เหมือนกับ VMR-7 (windowed) เว้นแต่ปลั๊กอิน Allocator-Presenter ของ MPC-HC สำหรับการทำศัพท์บรรยาย, ส่วนการทำภาพกระจกวิดีโอ Overlay จะใช้งานไม่ได้ พิกัดสีเดสก์ท็อปแบบ \"สีจริง\" ถูกแนะนำ"
+
+msgctxt "IDC_DSVMR9REN"
+msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
+msgstr "เหมือนกับ VMR-9 (windowed) เว้นแต่ปลั๊กอิน Allocator-Presenter ของ MPC-HC สำหรับการทำศัพท์บรรยาย ส่วนการทำภาพกระจกวิดีโอ Overlay อาจใช้งานได้ พิกัดสีเดสก์ท็อปแบบ \"สีจริง\" ถูกแนะนำ และแนะนำสำหรับ Windows XP"
+
+msgctxt "IDC_DSDXR"
+msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
+msgstr "เหมือนกับ VMR-9 (renderless) เว้นแต่ใช้ตัวปรับขนาด true two-pass bicubic"
+
+msgctxt "IDC_DSNULL_COMP"
+msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the cpu from working unnecessarily."
+msgstr "เชื่อมต่อกับชนิดสื่อที่คล้ายวิดีโอใดๆก็ตาม และจะไม่ส่งตัวอย่างที่เข้ามาไปยังที่ใด ใช้มันถ้าคุณไม่ต้องการแสดงผลวิดีโอและต้องการประหยัดกำลัง cpu จากการทำงานที่ไม่จำเป็น"
+
+msgctxt "IDC_DSNULL_UNCOMP"
+msgid "Same as the normal Null renderer, but this will only connect to uncompressed types."
+msgstr "เหมือนกับตัวแปลผล Null ปกติ, แต่สิ่งนี้จะเชื่อมต่อกับชนิดที่ไม่ถูกบีบอัดเท่านั้น"
+
+msgctxt "IDC_DSEVR"
+msgid "Only available on Vista or later or on XP with at least .NET Framework 3.5 installed."
+msgstr "เฉพาะใน Vista หรือสูงกว่า หรือบน XP ที่มี .NET Framework 3.5 ถูกติดตั้งไว้เป็นอย่างน้อย"
+
+msgctxt "IDC_DSEVR_CUSTOM"
+msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
+msgstr "เหมือนกับ EVR เว้นแต่ Allocator-Presenter ของ MPC-HC สำหรับทำศัพท์บรรยายและ postprocessing, แนะนำสำหรับ Windows Vista หรือใหม่กว่า"
+
+msgctxt "IDC_DSMADVR"
+msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
+msgstr "ตัวแปลผลคุณภาพสูง ต้องการการ์ดจอที่รองรับ D3D9 หรือสูงกว่า"
+
+msgctxt "IDC_DSSYNC"
+msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
+msgstr "เหมือนกับ EVR (CP), แต่เสนอตัวเลือกอีกเล็กน้อยเพื่อที่จะซิงค์อัตราเฟรมวิดีโอกับอัตรารีเฟรชการแสดงผล เพื่อขจัดเฟรมวิดีโอที่ถูกข้ามหรือซ้ำซ้อน"
+
+msgctxt "IDC_RMSYSDEF"
+msgid "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
+msgstr "ตัวแปลผลของ Real เอง สคริปต์ SMIL จะใช้งานได้ แต่ปฏิกิริยาไม่น่าใช่, ใช้ DirectDraw และรันใน Overlay เมื่อมันสามารถ"
+
+msgctxt "IDC_RMDX7"
+msgid "The output of Real's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
+msgstr "ขาออกของ Real's engine ถูกแปลผลโดย DX7-based Allocator-Presenter ของ VMR-7 (renderless)"
+
+msgctxt "IDC_RMDX9"
+msgid "The output of Real's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
+msgstr "ขาออกของ Real's engine ถูกแปลผลโดย DX9-based Allocator-Presenter ของ VMR-9 (renderless)"
+
+msgctxt "IDC_QTSYSDEF"
+msgid "QuickTime's own renderer. Gets a little slow when its video area is resized or partially covered by another window. When Overlay is not available it likes to fall back to GDI."
+msgstr "ตัวแปลผลของ QuickTime เอง ช้ากว่าเล็กน้อยเมื่อพื้นที่วิดีโอของมันถูกปรับขนาดหรือบางส่วนถูกทับโดยหน้าต่างอื่น, เมื่อไม่มี Overlay มันมักจะมาทีหลัง GDI"
+
+msgctxt "IDC_QTDX7"
+msgid "The output of QuickTime's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
+msgstr "ขาออกของ QuickTime's engine ถูกแปลผลโดย DX7-based Allocator-Presenter ของ VMR-7 (renderless)"
+
+msgctxt "IDC_QTDX9"
+msgid "The output of QuickTime's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
+msgstr "ขาออกของ QuickTime's engine ถูกแปลผลโดย DX9-based Allocator-Presenter ของ VMR-9 (renderless)"
+
+msgctxt "IDC_REGULARSURF"
+msgid "Video surface will be allocated as a regular offscreen surface."
+msgstr "ผิวหน้าวิดีโอจะถูกจัดสรรเป็นผิวหน้า offscreen ปกติ"
+
+msgctxt "IDC_AUDRND_COMBO"
+msgid "MPC Audio Renderer is broken, do not use."
+msgstr "ตัวแปลผลเสียง MPC เสียหาย, จงอย่าใช้"
+
+msgctxt "IDS_PPAGE_OUTPUT_SYNC"
+msgid "Sync Renderer"
+msgstr "ตัวแปลผลซิงค์"
+
+msgctxt "IDS_MPC_BUG_REPORT_TITLE"
+msgid "MPC-HC - Reporting a bug"
+msgstr "MPC-HC -กำลังรายงานบัก"
+
+msgctxt "IDS_MPC_BUG_REPORT"
+msgid "MPC-HC just crashed but this build was compiled without debug information.\nIf you want to report this bug, you should first try an official build.\n\nDo you want to visit the download page now?"
+msgstr "MPC-HC เพิ่งเกิดความบกพร่อง แต่รุ่นนี้ถูกคอมไพล์โดยปราศจากข้อมูลดีบัก\nถ้าคุณต้องการรายงานปัญหานี้, คุณควรลองใช้รุ่นที่เป็นทางการก่อน\n\nคุณต้องการไปที่หน้าดาวน์โหลดตอนนี้หรือไม่?"
+
+msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
+msgid "Regular offscreen plain surface"
+msgstr "ผิวหน้าธรรมดา offscreen ปกติ"
+
+msgctxt "IDS_PPAGE_OUTPUT_SURF_2D"
+msgid "2D surfaces"
+msgstr "ผิวหน้า 2D "
+
+msgctxt "IDS_PPAGE_OUTPUT_SURF_3D"
+msgid "3D surfaces (recommended)"
+msgstr "ผิวหน้า 3D (แนะนำ)"
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZE_NN"
+msgid "Nearest neighbor"
+msgstr "Nearest neighbor"
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BILIN"
+msgid "Bilinear"
+msgstr "Bilinear"
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BIL_PS"
+msgid "Bilinear (PS 2.0)"
+msgstr "Bilinear (PS 2.0)"
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB1"
+msgid "Bicubic A=-0.60 (PS 2.0)"
+msgstr "Bicubic A=-0.60 (PS 2.0)"
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB2"
+msgid "Bicubic A=-0.75 (PS 2.0)"
+msgstr "Bicubic A=-0.75 (PS 2.0)"
+
+msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB3"
+msgid "Bicubic A=-1.00 (PS 2.0)"
+msgstr "Bicubic A=-1.00 (PS 2.0)"
+
+msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLE"
+msgid "**unavailable**"
+msgstr "**ไม่มีอยู่**"
+
+msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLEMSG"
+msgid "The selected renderer is not installed."
+msgstr "ตัวแปลผลที่เลือกไม่ได้ถูกติดตั้งไว้"
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_COMP"
+msgid "Null (anything)"
+msgstr "Null (ใดๆ ก็ตาม)"
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP"
+msgid "Null (uncompressed)"
+msgstr "Null (ไม่มีบีบอัด)"
+
+msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND"
+msgid "MPC-HC Audio Renderer"
+msgstr "ตัวแปลผลเสียง MPC-HC"
+
+msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
+msgid "Name"
+msgstr "ชื่อ"
+
+msgctxt "IDS_EMB_RESOURCES_VIEWER_TYPE"
+msgid "MIME Type"
+msgstr "ชนิด MIME"
+
+msgctxt "IDS_EMB_RESOURCES_VIEWER_INFO"
+msgid "In order to view an embedded resource in your browser you have to enable the web interface.\n\nUse the \"Save As\" button if you only want to save the information."
+msgstr "เพื่อที่จะดูทรัพยากรที่ฝังไว้ในเบราว์เซอร์ของคุณ คุณต้องเลือกใช้งานแบบประสานเว็บ\n\nใช้ปุ่ม \"บันทึกเป็น\" ถ้าคุณเพียงต้องการบันทึกข้อมูลเท่านั้น"
+
+msgctxt "IDS_DOWNLOAD_SUBS"
+msgid "Download subtitles"
+msgstr "ดาวน์โหลดศัพท์บรรยาย"
+
+msgctxt "IDS_SUBFILE_DELAY"
+msgid "Delay (ms):"
+msgstr "หน่วง (มว.):"
+
+msgctxt "IDS_SPEEDSTEP_AUTO"
+msgid "Auto"
+msgstr "อัตโนมัติ"
+
+msgctxt "IDS_EXPORT_SETTINGS_NO_KEYS"
+msgid "There are no customized keys to export."
+msgstr "ไม่มีคีย์ที่ปรับแต่งเพื่อส่งออก"
+
+msgctxt "IDS_RFS_NO_FILES"
+msgid "No media files found in the archive"
+msgstr "ไม่พบไฟล์สื่อในเอกสาร"
+
+msgctxt "IDS_RFS_COMPRESSED"
+msgid "Compressed files are not supported"
+msgstr "ไม่รองรับไฟล์ที่ถูกบีบอัด"
+
+msgctxt "IDS_RFS_ENCRYPTED"
+msgid "Encrypted files are not supported"
+msgstr "ไม่รองรับไฟล์ที่ถูกใส่รหัส"
+
+msgctxt "IDS_RFS_MISSING_VOLS"
+msgid "Couldn't find all archive volumes"
+msgstr "ไม่สามารถหาเอกสารได้ครบทุกภาคส่วน"
+
+msgctxt "IDC_TEXTURESURF2D"
+msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
+msgstr "ผิวหน้าวิดีโอจะถูกจัดสรรเป็นพื้นผิว แต่ฟังก์ชัน 2d ยังคงถูกใช้เพื่อคัดลอกและยืดมันไปยังบัฟเฟอร์เบื้องหลัง ต้องการการ์ดจอที่สามารถแบ่ง 32bit, RGBA, non-power-of-two sized textures และอย่างน้อยในความละเอียดของวิดีโอ"
+
+msgctxt "IDC_TEXTURESURF3D"
+msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
+msgstr "ผิวหน้าวิดีโอจะถูกจัดสรรเป็นพื้นผิวและวาดเป็นสามเหลี่ยม 2 ชิ้นใน 3d การเปิดการลดรอยหยักที่การตั้งค่าแสดงผล อาจทำให้เกิดผลเสียต่อความเร็วการแปลผล"
+
+msgctxt "IDC_DX9RESIZER_COMBO"
+msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
+msgstr "ถ้าไม่มีพิกเซลเฉดเดอร์ 2.0, bilinear อย่างง่ายจะถูกใช้อัตโนมัติ"
+
+msgctxt "IDC_DSVMR9LOADMIXER"
+msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
+msgstr "วาง VMR-9 (renderless) ไปยังโหมด mixer, วิธีนี้ตัวควบคุมบนหน้าคุณสมบัติของมันส่วนใหญ่จะทำงานได้ และมันจะใช้สายงานแยกกันเพื่อแปลผลเฟรม"
+
+msgctxt "IDC_DSVMR9YUVMIXER"
+msgid "Improves performance at the cost of some compatibility of the renderer."
+msgstr "เพิ่มสมรรถนะ แต่ต้องเสียความเข้ากันได้บางอย่างของตัวแปลผล"
+
+msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
+msgid "Reduces tearing but prevents the toolbar from being shown."
+msgstr "ลดการแตก แต่ป้องกันไม่ให้แถบเครื่องมือแสดง"
+
+msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
+msgid "Reduces tearing by bypassing the default VSync built into D3D."
+msgstr "ลดการแตกโดยลัด VSync ตั้งต้นที่สร้างไปยัง D3D"
+
+msgctxt "IDS_SRC_VTS"
+msgid "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"
+msgstr "เปิด VTS_xx_0.ifo เพื่อโหลดไฟล์ VTS_xx_x.vob เป็นชิ้นเดียว"
+
+msgctxt "IDS_SRC_RFS"
+msgid "Based on RARFileSource, doesn't support compressed files"
+msgstr "อิงตาม RARFileSource, ไม่รองรับไฟล์ที่ถูกบีบอัด"
+
+msgctxt "IDS_INTERNAL_LAVF"
+msgid "Uses LAV Filters"
+msgstr "ใช้ตัวกรอง LAV"
+
+msgctxt "IDS_INTERNAL_LAVF_WMV"
+msgid "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
+msgstr "ใช้ตัวกรอง LAV, ไม่ถูกใช้งานโดยตั้งต้นนับแต่ตัวกรอง Microsoft เสถียรกว่าสำหรับรูปแบบเหล่านั้น\nถ้าคุณเลือกใช้ตัวกรองภายใน, ให้เปิดใช้งานพวกมันทั้งที่แหล่งและการถอดรหัส เพื่อให้ผลการเล่นที่ดีกว่า"
+
+msgctxt "IDS_AG_TOGGLE_NAVIGATION"
+msgid "Toggle Navigation Bar"
+msgstr "เปิดปิด แถบการนำทาง"
+
+msgctxt "IDS_AG_VSYNCACCURATE"
+msgid "Accurate VSync"
+msgstr "VSync ที่ถูกต้อง"
+
+msgctxt "IDC_CHECK_RELATIVETO"
+msgid "If the rendering target is left undefined, it will be inherited from the default style."
+msgstr "ถ้าเป้าหมายการแปลผลไม่ถูกระบุ มันจะสืบทอดรูปแบบจากค่าตั้งต้น"
+
+msgctxt "IDC_CHECK_NO_SUB_ANIM"
+msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
+msgstr "ไม่อนุญาตลูกเล่นศัพท์บรรยาย การใช้งานตัวเลือกนี้จะลดการใช้ CPU ลง คุณสามารถใช้มันได้ถ้าคุณเคยประสบปัญหาศัพท์ฯกระพริบ"
+
+msgctxt "IDC_SUBPIC_TO_BUFFER"
+msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
+msgstr "การเพิ่มจำนวนศัพท์ภาพที่ถูกบัฟเฟอร์ โดยทั่วไปจะเพิ่มสมรรถนะการแปลผล แต่จะใช้ความจำแรมวิดีโอสูงขึ้นบน GPU"
+
+msgctxt "IDC_BUTTON_EXT_SET"
+msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
+msgstr "หลังจากคลิกปุ่มนี้ สถานภาพที่กาเลือกของกลุ่มรูปแบบ จะสะท้อนความสัมพันธ์ไฟล์อย่างแท้จริงสำหรับ MPC-HC, สกุลไฟล์ที่ถูกเพิ่มใหม่มักทำให้มันเป็นสีเทา ดังนั้นอย่าลืมตรวจสอบมันอีกครั้งก่อนปิดกล่องข้อมูลนี้!"
+
+msgctxt "IDC_CHECK_ALLOW_DROPPING_SUBPIC"
+msgid "Disabling this option will prevent the subtitles from blinking but it may cause the video renderer to skip some video frames."
+msgstr "การไม่ใช้งานตัวเลือกนี้จะป้องกันศัพท์บรรยายกระพริบ แต่อาจทำให้ตัวแปลผลวิดีโอทำการข้ามวิดีโอบางเฟรม"
+
+msgctxt "ID_PLAY_PLAY"
+msgid "Play\nPlay"
+msgstr "เล่น\nเล่น"
+
+msgctxt "ID_PLAY_PAUSE"
+msgid "Pause\nPause"
+msgstr "พัก\nพัก"
+
+msgctxt "ID_PLAY_STOP"
+msgid "Stop\nStop"
+msgstr "หยุด\nหยุด"
+
+msgctxt "ID_PLAY_FRAMESTEP"
+msgid "Step\nStep"
+msgstr "เดิน\nเดิน"
+
+msgctxt "ID_PLAY_DECRATE"
+msgid "Decrease speed\nDecrease speed"
+msgstr "ลดความเร็ว\nลดความเร็ว"
+
+msgctxt "ID_PLAY_INCRATE"
+msgid "Increase speed\nIncrease speed"
+msgstr "เพิ่มความเร็ว\nเพิ่มความเร็ว"
+
+msgctxt "ID_VOLUME_MUTE"
+msgid "Mute"
+msgstr "เงียบเสียง"
+
+msgctxt "ID_VOLUME_MUTE_ON"
+msgid "Unmute"
+msgstr "เปิดเสียง"
+
+msgctxt "ID_VOLUME_MUTE_DISABLED"
+msgid "No audio"
+msgstr "ไม่มีเสียง"
+
+msgctxt "ID_NAVIGATE_SKIPBACK"
+msgid "Skip back\nSkip back"
+msgstr "ข้ามไปหลัง\nข้ามไปหลัง"
+
+msgctxt "ID_NAVIGATE_SKIPFORWARD"
+msgid "Skip forward\nSkip forward"
+msgstr "ข้ามไปหน้า\nข้ามไปหน้า"
+
+msgctxt "IDS_SUBRESYNC_ORIGINAL"
+msgid "&Original"
+msgstr "&ต้นฉบับ"
+
+msgctxt "IDS_SUBRESYNC_CURRENT"
+msgid "&Current"
+msgstr "&ปัจจุบัน"
+
+msgctxt "IDS_SUBRESYNC_EDIT"
+msgid "&Edit"
+msgstr "แ&ก้ไข"
+
+msgctxt "IDS_SUBRESYNC_YES"
+msgid "&Yes"
+msgstr "ใ&ช่"
+
+msgctxt "IDS_SUBRESYNC_NO"
+msgid "&No"
+msgstr "ไ&ม่"
+
+msgctxt "IDS_SUBRESYNC_DECREASE"
+msgid "&Decrease"
+msgstr "&ลด"
+
+msgctxt "IDS_SUBRESYNC_INCREASE"
+msgid "&Increase"
+msgstr "เ&พิ่ม"
+
+msgctxt "IDS_OPTIONS_CAPTION"
+msgid "Options"
+msgstr "ตัวเลือก"
+
+msgctxt "IDS_SHADERS_SELECT"
+msgid "&Select Shaders..."
+msgstr "เลือกเ&ฉดเดอร์..."
+
+msgctxt "IDS_SHADERS_DEBUG"
+msgid "&Debug Shaders..."
+msgstr "&ดีบักเฉดเดอร์..."
+
+msgctxt "IDS_FAVORITES_ADD"
+msgid "&Add to Favorites..."
+msgstr "เ&พิ่มสู่รายการโปรด..."
+
+msgctxt "IDS_FAVORITES_ORGANIZE"
+msgid "&Organize Favorites..."
+msgstr "&จัดระเบียบรายการโปรด..."
+
+msgctxt "IDS_PLAYLIST_SHUFFLE"
+msgid "Shuffle"
+msgstr "เล่นสุ่ม"
+
+msgctxt "IDS_PLAYLIST_SHOWFOLDER"
+msgid "Open file location"
+msgstr "เปิดที่ตั้งไฟล์"
+
+msgctxt "IDS_CONTROLS_CLOSING"
+msgid "Closing..."
+msgstr "กำลังปิด..."
+
+msgctxt "IDS_CONTROLS_PLAYING"
+msgid "Playing"
+msgstr "กำลังเล่น"
+
+msgctxt "IDS_CONTROLS_PAUSED"
+msgid "Paused"
+msgstr "ถูกพัก"
+
+msgctxt "IDS_AG_EDL_NEW_CLIP"
+msgid "EDL new clip"
+msgstr "คลิปใหม่ EDL"
+
+msgctxt "IDS_RECENT_FILES_CLEAR"
+msgid "&Clear list"
+msgstr "&ล้างรายการ"
+
+msgctxt "IDS_RECENT_FILES_QUESTION"
+msgid "Are you sure that you want to delete recent files list?"
+msgstr "คุณต้องการลบประวัติไฟล์เมื่อเร็วๆ นี้หรือไม่?"
+
+msgctxt "IDS_AG_EDL_SAVE"
+msgid "EDL save"
+msgstr "บันทึก EDL"
+
+msgctxt "IDS_AG_ENABLEFRAMETIMECORRECTION"
+msgid "Enable Frame Time Correction"
+msgstr "ใช้การแก้ปัญหาเวลาเฟรม"
+
+msgctxt "IDS_AG_TOGGLE_EDITLISTEDITOR"
+msgid "Toggle EDL window"
+msgstr "เปิดปิด หน้าต่าง EDL"
+
+msgctxt "IDS_AG_EDL_IN"
+msgid "EDL set In"
+msgstr ""
+
+msgctxt "IDS_AG_EDL_OUT"
+msgid "EDL set Out"
+msgstr ""
+
+msgctxt "IDS_AG_PNS_ROTATEX_M"
+msgid "PnS Rotate X-"
+msgstr "ส่องกวาด หมุน X-"
+
+msgctxt "IDS_AG_PNS_ROTATEY_P"
+msgid "PnS Rotate Y+"
+msgstr "ส่องกวาด หมุน Y+"
+
+msgctxt "IDS_AG_PNS_ROTATEY_M"
+msgid "PnS Rotate Y-"
+msgstr "ส่องกวาด หมุน Y-"
+
+msgctxt "IDS_AG_PNS_ROTATEZ_P"
+msgid "PnS Rotate Z+"
+msgstr "ส่องกวาด หมุน Z+"
+
+msgctxt "IDS_AG_PNS_ROTATEZ_M"
+msgid "PnS Rotate Z-"
+msgstr "ส่องกวาด หมุน Z-"
+
+msgctxt "IDS_AG_TEARING_TEST"
+msgid "Tearing Test"
+msgstr "ทดสอบภาพแตก"
+
+msgctxt "IDS_SCALE_16_9"
+msgid "Scale to 16:9 TV,%.3f,%.3f,%.3f,%.3f"
+msgstr "สเกลเป็น 16:9 TV,%.3f,%.3f,%.3f,%.3f"
+
+msgctxt "IDS_SCALE_WIDESCREEN"
+msgid "Zoom To Widescreen,%.3f,%.3f,%.3f,%.3f"
+msgstr "ซูมเป็นจอกว้าง,%.3f,%.3f,%.3f,%.3f"
+
+msgctxt "IDS_SCALE_ULTRAWIDE"
+msgid "Zoom To Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
+msgstr "ซูมเป็นจอกว้างพิเศษ,%.3f,%.3f,%.3f,%.3f"
+
+msgctxt "IDS_PLAYLIST_HIDEFS"
+msgid "Hide on Fullscreen"
+msgstr "ซ่อนเมื่อเต็มจอ"
+
+msgctxt "IDS_CONTROLS_STOPPED"
+msgid "Stopped"
+msgstr "ถูกหยุด"
+
+msgctxt "IDS_CONTROLS_BUFFERING"
+msgid "Buffering... (%d%%)"
+msgstr "กำลังบัฟเฟอร์... (%d%%)"
+
+msgctxt "IDS_CONTROLS_CAPTURING"
+msgid "Capturing..."
+msgstr "กำลังจับข้อมูล..."
+
+msgctxt "IDS_CONTROLS_OPENING"
+msgid "Opening..."
+msgstr "กำลังเปิด..."
+
+msgctxt "IDS_CONTROLS_CLOSED"
+msgid "Closed"
+msgstr "ถูกปิด"
+
+msgctxt "IDS_SUBTITLES_OPTIONS"
+msgid "&Options..."
+msgstr "&ตัวเลือก..."
+
+msgctxt "IDS_SUBTITLES_STYLES"
+msgid "&Styles..."
+msgstr "&รูปแบบ..."
+
+msgctxt "IDS_SUBTITLES_RELOAD"
+msgid "&Reload"
+msgstr "โ&หลดอีกครั้ง"
+
+msgctxt "IDS_SUBTITLES_ENABLE"
+msgid "&Enable"
+msgstr "ใ&ช้งาน"
+
+msgctxt "IDS_PANSCAN_EDIT"
+msgid "&Edit..."
+msgstr "แ&ก้ไข..."
+
+msgctxt "IDS_INFOBAR_TITLE"
+msgid "Title"
+msgstr "ชื่อเรียก"
+
+msgctxt "IDS_INFOBAR_AUTHOR"
+msgid "Author"
+msgstr "ผู้สร้าง"
+
+msgctxt "IDS_INFOBAR_COPYRIGHT"
+msgid "Copyright"
+msgstr "ลิขสิทธิ์"
+
+msgctxt "IDS_INFOBAR_RATING"
+msgid "Rating"
+msgstr "เรตติ้ง"
+
+msgctxt "IDS_INFOBAR_DESCRIPTION"
+msgid "Description"
+msgstr "คำอธิบาย"
+
+msgctxt "IDS_INFOBAR_DOMAIN"
+msgid "Domain"
+msgstr "โดเมน"
+
+msgctxt "IDS_AG_CLOSE"
+msgid "Close"
+msgstr "ปิด"
+
+msgctxt "IDS_AG_NONE"
+msgid "None"
+msgstr "ไม่มี"
+
+msgctxt "IDS_AG_COMMAND"
+msgid "Command"
+msgstr "คำสั่ง"
+
+msgctxt "IDS_AG_KEY"
+msgid "Key"
+msgstr "ปุ่มคีย์"
+
+msgctxt "IDS_AG_MOUSE"
+msgid "Mouse Windowed"
+msgstr "เม้าส์ หน้าต่าง"
+
+msgctxt "IDS_AG_MOUSE_FS"
+msgid "Mouse Fullscreen"
+msgstr "เม้าส์ เต็มจอ"
+
+msgctxt "IDS_AG_APP_COMMAND"
+msgid "App Command"
+msgstr "คำสั่งแอพพ์"
+
+msgctxt "IDS_AG_MEDIAFILES"
+msgid "Media files (all types)"
+msgstr "ไฟล์สื่อ (ทุกชนิด)"
+
+msgctxt "IDS_AG_ALLFILES"
+msgid "All files (*.*)|*.*|"
+msgstr "ไฟล์ทั้งหมด (*.*)|*.*|"
+
+msgctxt "IDS_AG_AUDIOFILES"
+msgid "Audio files (all types)"
+msgstr "ไฟล์เสียง (ทุกชนิด)"
+
+msgctxt "IDS_AG_NOT_KNOWN"
+msgid "Not known"
+msgstr "ไม่รู้จัก"
+
+msgctxt "IDS_MPLAYERC_0"
+msgid "Quick Open File"
+msgstr "เปิดไฟล์ด่วน"
+
+msgctxt "IDS_AG_OPEN_FILE"
+msgid "Open File"
+msgstr "เปิดไฟล์"
+
+msgctxt "IDS_AG_OPEN_DVD"
+msgid "Open DVD/BD"
+msgstr "เปิดดีวีดี/บลูเรย์"
+
+msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
+msgid "Failed to set post-resize shaders"
+msgstr "ล้มเหลวในการตั้งค่าเฉดเดอร์ปรับขนาดภายหลัง"
+
+msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
+msgid "Failed to set both pre-resize and post-resize shaders"
+msgstr "ล้มเหลวในการตั้งค่าเฉดเดอร์ปรับขนาดทั้งชนิดล่วงหน้าและภายหลัง"
+
+msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
+msgid "Shaders are recompiled automatically when the corresponding files are modified."
+msgstr "เฉดเดอร์จะถูกรีคอมไพล์อัตโนมัติ เมื่อไฟล์ที่สอดคล้องถูกปรับเปลี่ยน"
+
+msgctxt "IDS_SHADER_DLL_ERR_0"
+msgid "Cannot load %s, pixel shaders will not work."
+msgstr "ไม่สามารถโหลด %s, พิกเซลเฉดเดอร์อาจใช้ไม่ได้"
+
+msgctxt "IDS_SHADER_DLL_ERR_1"
+msgid "Cannot find necessary function entry points in %s, pixel shaders will not work."
+msgstr "ไม่พบจุดเข้าฟังก์ชันที่จำเป็นใน %s, พิกเซลเฉดเดอร์จะใช้การไม่ได้"
+
+msgctxt "IDS_OSD_SHADERS_PRESET"
+msgid "Shader preset: %s"
+msgstr "ค่าสำเร็จรูปเฉดเดอร์: %s"
+
+msgctxt "IDS_AG_SHADERS_PRESET_NEXT"
+msgid "Next Shader Preset"
+msgstr "ค่าสำเร็จรูปเฉดเดอร์ ถัดไป"
+
+msgctxt "IDS_AG_SHADERS_PRESET_PREV"
+msgid "Prev Shader Preset"
+msgstr "ค่าสำเร็จรูปเฉดเดอร์ ก่อนหน้า"
+
+msgctxt "IDS_STRING_COLON"
+msgid "%s:"
+msgstr "%s:"
+
+msgctxt "IDS_RECORD_START"
+msgid "Record"
+msgstr "บันทึก"
+
+msgctxt "IDS_RECORD_STOP"
+msgid "Stop"
+msgstr "หยุด"
+
+msgctxt "IDS_BALANCE"
+msgid "L = R"
+msgstr "ซ = ว"
+
+msgctxt "IDS_BALANCE_L"
+msgid "L +%d%%"
+msgstr "ซ +%d%%"
+
+msgctxt "IDS_BALANCE_R"
+msgid "R +%d%%"
+msgstr "ข +%d%%"
+
+msgctxt "IDS_VOLUME"
+msgid "%d%%"
+msgstr "%d%%"
+
+msgctxt "IDS_BOOST"
+msgid "+%d%%"
+msgstr "+%d%%"
+
+msgctxt "IDS_PLAYLIST_ADDFOLDER"
+msgid "Add containing folder"
+msgstr "เพิ่มโฟลเดอร์ที่บรรจุอยู่"
+
+msgctxt "IDS_HW_INDICATOR"
+msgid "[H/W]"
+msgstr "[H/W]"
+
+msgctxt "IDS_TOOLTIP_SOFTWARE_DECODING"
+msgid "Software Decoding"
+msgstr "การถอดรหัสซอฟต์แวร์"
+
+msgctxt "IDS_STATSBAR_PLAYBACK_RATE"
+msgid "Playback rate"
+msgstr "อัตราการเล่น"
+
+msgctxt "IDS_FILTERS_COPY_TO_CLIPBOARD"
+msgid "&Copy filters list to clipboard"
+msgstr "&คัดลอกรายชื่อตัวกรองสู่หน่วยความจำ"
+
+msgctxt "IDS_CREDENTIALS_SERVER"
+msgid "Enter server credentials"
+msgstr "ใส่ credentials เซิร์ฟเวอร์"
+
+msgctxt "IDS_CREDENTIALS_CONNECT"
+msgid "Enter your credentials to connect"
+msgstr "ใส่ credentials ของคุณเพื่อเชื่อมต่อ"
+
+msgctxt "IDS_SUB_SAVE_EXTERNAL_STYLE_FILE"
+msgid "Save custom style"
+msgstr "บันทึกรูปแบบที่ปรับแต่ง"
+
+msgctxt "IDS_CONTENT_EDUCATION_SCIENCE"
+msgid "Education/Science/Factual topics"
+msgstr "การศึกษา/วิทยาศาสตร์/ข้อเท็จจริง"
+
+msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
+msgid "Hides controls and panels also in windowed mode."
+msgstr "ซ่อนตัวควบคุมและผัง รวมถึงในโหมดหน้าต่างด้วย"
+
+msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
+msgid "Prevent external subtitle renderer to be loaded when internal is in use."
+msgstr "ป้องกันตัวแปลผลศัพท์บรรยายภายนอกถูกโหลด เมื่อกำลังใช้ตัวภายใน"
+
+msgctxt "IDS_PPAGEADVANCED_COL_NAME"
+msgid "Name"
+msgstr "ชื่อ"
+
+msgctxt "IDS_PPAGEADVANCED_COL_VALUE"
+msgid "Value"
+msgstr "ค่า"
+
+msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
+msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
+msgstr "จำนวนไฟล์สูงสุดที่แสดงในเมนู \"ไฟล์เมื่อเร็วๆ นี้\" และสำหรับตำแหน่งที่จะถูกบันทึกได้"
+
+msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
+msgid "Remember file position only for files longer than N minutes."
+msgstr "จดจำตำแหน่งไฟล์เฉพาะไฟล์ที่ยาวกว่า N นาที"
+
+msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
+msgid "Remember file position also for audio files."
+msgstr "จดจำตำแหน่งไฟล์ รวมถึงไฟล์เสียงด้วย"
+
+msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
+msgid "Do Nothing"
+msgstr "ไม่ต้องทำอะไร"
+
+msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
+msgid "Play next file in the folder"
+msgstr "เล่นไฟล์ถัดไปในโฟลเดอร์"
+
+msgctxt "IDS_AFTER_PLAYBACK_REWIND"
+msgid "Rewind current file"
+msgstr "วนซ้ำไฟล์ปัจจุบัน"
+
+msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
+msgid "Close"
+msgstr "ปิด"
+
+msgctxt "IDS_AFTER_PLAYBACK_EXIT"
+msgid "Exit"
+msgstr "ออก"
+
+msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
+msgid "Turn off the monitor"
+msgstr "ปิดจอภาพ"
+
+msgctxt "IDS_IMAGE_JPEG_QUALITY"
+msgid "JPEG Image"
+msgstr "ภาพ JPEG"
+
+msgctxt "IDS_IMAGE_QUALITY"
+msgid "Quality (%):"
+msgstr "คุณภาพ (%):"
+
+msgctxt "IDS_PPAGEADVANCED_COVER_SIZE_LIMIT"
+msgid "Maximum size (NxNpx) of a cover-art loaded in the audio only mode."
+msgstr ""
+
+msgctxt "IDS_AG_OPEN_DEVICE"
+msgid "Open Device"
+msgstr "เปิดอุปกรณ์"
+
+msgctxt "IDS_AG_SAVE_AS"
+msgid "Save As"
+msgstr "บันทึกเป็น"
+
+msgctxt "IDS_AG_SAVE_IMAGE"
+msgid "Save Image"
+msgstr "บันทึกภาพ"
+
+msgctxt "IDS_MPLAYERC_6"
+msgid "Save Image (auto)"
+msgstr "บันทึกภาพ (อัตโนมัติ)"
+
+msgctxt "IDS_OSD_IMAGE_SAVED"
+msgid "Image saved successfully"
+msgstr "ภาพถูกบันทึกสำเร็จ"
+
+msgctxt "IDS_AG_LOAD_SUBTITLE"
+msgid "Load Subtitle"
+msgstr "โหลดศัพท์บรรยาย"
+
+msgctxt "IDS_AG_SAVE_SUBTITLE"
+msgid "Save Subtitle"
+msgstr "บันทึกศัพท์บรรยาย"
+
+msgctxt "IDS_AG_PROPERTIES"
+msgid "Properties"
+msgstr "คุณสมบัติ"
+
+msgctxt "IDS_AG_EXIT"
+msgid "Exit"
+msgstr "ออก"
+
+msgctxt "IDS_AG_PLAYPAUSE"
+msgid "Play/Pause"
+msgstr "เล่น/พัก"
+
+msgctxt "IDS_AG_PLAY"
+msgid "Play"
+msgstr "เล่น"
+
+msgctxt "IDS_AG_STOP"
+msgid "Stop"
+msgstr "หยุด"
+
+msgctxt "IDS_AG_FRAMESTEP"
+msgid "Framestep"
+msgstr "เดินเฟรม"
+
+msgctxt "IDS_MPLAYERC_16"
+msgid "Framestep back"
+msgstr "ถอยเฟรม"
+
+msgctxt "IDS_AG_GO_TO"
+msgid "Go To"
+msgstr "ไปยัง"
+
+msgctxt "IDS_AG_INCREASE_RATE"
+msgid "Increase Rate"
+msgstr "เพิ่มอัตรา"
+
+msgctxt "IDS_CONTENT_SHOW_GAMESHOW"
+msgid "Show/Game show"
+msgstr "การแสดง/เกมโชว์"
+
+msgctxt "IDS_CONTENT_SPORTS"
+msgid "Sports"
+msgstr "กีฬา"
+
+msgctxt "IDS_CONTENT_CHILDREN_YOUTH_PROG"
+msgid "Children's/Youth programmes"
+msgstr "รายการเด็ก/เยาวชน"
+
+msgctxt "IDS_CONTENT_MUSIC_BALLET_DANCE"
+msgid "Music/Ballet/Dance"
+msgstr "ดนตรี/นาฏศิลป์/การเต้นรำ"
+
+msgctxt "IDS_CONTENT_MUSIC_ART_CULTURE"
+msgid "Arts/Culture"
+msgstr "ศิลปะ/วัฒนธรรม"
+
+msgctxt "IDS_CONTENT_SOCIAL_POLITICAL_ECO"
+msgid "Social/Political issues/Economics"
+msgstr "สังคม/การเมือง/เศรษฐกิจ"
+
+msgctxt "IDS_CONTENT_LEISURE"
+msgid "Leisure hobbies"
+msgstr "งานอดิเรก"
+
+msgctxt "IDS_FILE_RECYCLE"
+msgid "Move to Recycle Bin"
+msgstr "ย้ายไปสู่ถังขยะ"
+
+msgctxt "IDS_AG_SAVE_COPY"
+msgid "Save a Copy"
+msgstr "บันทึกสำเนา"
+
+msgctxt "IDS_FASTSEEK_LATEST"
+msgid "Latest keyframe"
+msgstr "เฟรมสำคัญล่าสุด"
+
+msgctxt "IDS_FASTSEEK_NEAREST"
+msgid "Nearest keyframe"
+msgstr "เฟรมสำคัญที่ใกล้ที่สุด"
+
+msgctxt "IDS_HOOKS_FAILED"
+msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
+msgstr "MPC-HC ประสบปัญหาระหว่างการเริ่มต้น การเล่นดีวีดีอาจทำงานได้ไม่ถูกต้อง สิ่งนี้อาจเป็นเพราะความไม่เข้ากันบางอย่างกับเครื่องมือความปลอดภัยบางตัว\n\nคุณต้องการรายงานปัญหานี้หรือไม่?"
+
+msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
+msgid "Never show"
+msgstr "ไม่ต้องแสดง"
+
+msgctxt "IDS_PPAGEFULLSCREEN_SHOWMOVED"
+msgid "Show when moving the cursor, hide after:"
+msgstr "แสดงเมื่อย้ายเคอร์เซอร์ แต่ซ่อนหลังจาก:"
+
+msgctxt "IDS_PPAGEFULLSCREEN_SHOHHOVERED"
+msgid "Show when hovering control, hide after:"
+msgstr "แสดงเมื่ออยู่บนตัวควบคุม แต่ซ่อนหลังจาก:"
+
+msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
+msgid "Failed to set pre-resize shaders"
+msgstr "ล้มเหลวในการตั้งค่าเฉดเดอร์ปรับขนาดล่วงหน้า"
+
+msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
+msgid "Frame Time Correction: On"
+msgstr "การแก้ปัญหาเวลาเฟรม: เปิด"
+
+msgctxt "IDS_OSD_RS_FT_CORRECTION_OFF"
+msgid "Frame Time Correction: Off"
+msgstr "การแก้ปัญหาเวลาเฟรม: ปิด"
+
+msgctxt "IDS_OSD_RS_TARGET_VSYNC_OFFSET"
+msgid "Target VSync Offset: %.1f"
+msgstr "ชดเชย VSync เป้าหมาย: %.1f"
+
+msgctxt "IDS_OSD_RS_VSYNC_OFFSET"
+msgid "VSync Offset: %d"
+msgstr "ชดเชย VSync: %d"
+
+msgctxt "IDS_OSD_SPEED"
+msgid "Speed: %.2lfx"
+msgstr "ความเร็ว: %.2lfx"
+
+msgctxt "IDS_OSD_THUMBS_SAVED"
+msgid "Thumbnails saved successfully"
+msgstr "รูปย่อถูกบันทึกสำเร็จ"
+
+msgctxt "IDS_MENU_VIDEO_STREAM"
+msgid "&Video Stream"
+msgstr "กระแส&วิดีโอ"
+
+msgctxt "IDS_MENU_VIDEO_ANGLE"
+msgid "Video Ang&le"
+msgstr "มุมกล้อง&วิดีโอ"
+
+msgctxt "IDS_RESET_SETTINGS"
+msgid "Reset settings"
+msgstr "คืนค่าการตั้งค่า"
+
+msgctxt "IDS_RESET_SETTINGS_WARNING"
+msgid "Are you sure you want to restore MPC-HC to its default settings?\nBe warned that ALL your current settings will be lost!"
+msgstr "คุณแน่ใจหรือไม่ว่าจะคืนค่าการตั้งค่า MPC-HC สู่ค่าตั้งต้นของมัน?\nโปรดทราบว่าการตั้งค่าปัจจุบันทั้งหมดจะหายไป!"
+
+msgctxt "IDS_RESET_SETTINGS_MUTEX"
+msgid "Please close all instances of MPC-HC so that the default settings can be restored."
+msgstr "โปรดปิดทุกรายการของ MPC-HC ก่อน เพื่อให้การตั้งค่าตั้งต้นสามารถถูกคืนค่าได้"
+
+msgctxt "IDS_EXPORT_SETTINGS"
+msgid "Export settings"
+msgstr "ส่งออกการตั้งค่า"
+
+msgctxt "IDS_EXPORT_SETTINGS_WARNING"
+msgid "Some changes have not been saved yet.\nDo you want to save them before exporting?"
+msgstr "บางการเปลี่ยนแปลงยังไม่ถูกบันทึก\nคุณต้องการบันทึกพวกมันก่อนส่งออกหรือไม่?"
+
+msgctxt "IDS_EXPORT_SETTINGS_SUCCESS"
+msgid "The settings have been successfully exported."
+msgstr "การตั้งค่าถูกส่งออกสำเร็จแล้ว"
+
+msgctxt "IDS_EXPORT_SETTINGS_FAILED"
+msgid "The export failed! This can happen when you don't have the correct rights."
+msgstr "การส่งออกล้มเหลว! สิ่งนี้สามารถเกิดขึ้นได้เมื่อคุณไม่มีสิทธิ์ที่ถูกต้อง"
+
+msgctxt "IDS_BDA_ERROR"
+msgid "BDA Error"
+msgstr "BDA ผิดพลาด"
+
+msgctxt "IDS_AG_DECREASE_RATE"
+msgid "Decrease Rate"
+msgstr "ลดอัตรา"
+
+msgctxt "IDS_AG_RESET_RATE"
+msgid "Reset Rate"
+msgstr "คืนค่าอัตรา"
+
+msgctxt "IDS_MPLAYERC_21"
+msgid "Audio Delay +10ms"
+msgstr "เสียงหน่วง +10 มว."
+
+msgctxt "IDS_MPLAYERC_22"
+msgid "Audio Delay -10ms"
+msgstr "เสียงหน่วง -10 มว."
+
+msgctxt "IDS_MPLAYERC_23"
+msgid "Jump Forward (small)"
+msgstr "ก้าวเดินหน้า (น้อย)"
+
+msgctxt "IDS_MPLAYERC_24"
+msgid "Jump Backward (small)"
+msgstr "ก้าวถอยหลัง (น้อย)"
+
+msgctxt "IDS_MPLAYERC_25"
+msgid "Jump Forward (medium)"
+msgstr "ก้าวเดินหน้า (ปานกลาง)"
+
+msgctxt "IDS_MPLAYERC_26"
+msgid "Jump Backward (medium)"
+msgstr "ก้าวถอยหลัง (ปานกลาง)"
+
+msgctxt "IDS_MPLAYERC_27"
+msgid "Jump Forward (large)"
+msgstr "ก้าวเดินหน้า (มาก)"
+
+msgctxt "IDS_MPLAYERC_28"
+msgid "Jump Backward (large)"
+msgstr "ก้าวถอยหลัง (มาก)"
+
+msgctxt "IDS_MPLAYERC_29"
+msgid "Jump Forward (keyframe)"
+msgstr "ก้าวเดินหน้า (เฟรมสำคัญ)"
+
+msgctxt "IDS_MPLAYERC_30"
+msgid "Jump Backward (keyframe)"
+msgstr "ก้าวถอยหลัง (เฟรมสำคัญ)"
+
+msgctxt "IDS_AG_NEXT"
+msgid "Next"
+msgstr "ถัดไป"
+
+msgctxt "IDS_AG_PREVIOUS"
+msgid "Previous"
+msgstr "ก่อนหน้า"
+
+msgctxt "IDS_AG_NEXT_FILE"
+msgid "Next File"
+msgstr "ไฟล์ถัดไป"
+
+msgctxt "IDS_AG_PREVIOUS_FILE"
+msgid "Previous File"
+msgstr "ไฟล์ก่อนหน้า"
+
+msgctxt "IDS_MPLAYERC_99"
+msgid "Toggle Direct3D fullscreen"
+msgstr "เปิดปิด แบบเต็มจอ Direct3D"
+
+msgctxt "IDS_MPLAYERC_100"
+msgid "Goto Prev Subtitle"
+msgstr "ไปยังศัพท์บรรยายก่อนหน้า"
+
+msgctxt "IDS_MPLAYERC_101"
+msgid "Goto Next Subtitle"
+msgstr "ไปยังศัพท์บรรยายถัดไป"
+
+msgctxt "IDS_MPLAYERC_102"
+msgid "Shift Subtitle Left"
+msgstr "ขยับศัพท์บรรยายไปซ้าย"
+
+msgctxt "IDS_MPLAYERC_103"
+msgid "Shift Subtitle Right"
+msgstr "ขยับศัพท์บรรยายไปขวา"
+
+msgctxt "IDS_AG_DISPLAY_STATS"
+msgid "Display Stats"
+msgstr "แสดงสถิติ"
+
+msgctxt "IDS_AG_SEEKSET"
+msgid "Jump to Beginning"
+msgstr "ก้าวไปจุดเริ่มต้น"
+
+msgctxt "IDS_AG_VIEW_MINIMAL"
+msgid "View Minimal"
+msgstr "มุมมองน้อยที่สุด"
+
+msgctxt "IDS_AG_VIEW_COMPACT"
+msgid "View Compact"
+msgstr "มุมมองกะทัดรัด"
+
+msgctxt "IDS_AG_VIEW_NORMAL"
+msgid "View Normal"
+msgstr "มุมมองปกติ"
+
+msgctxt "IDS_AG_FULLSCREEN"
+msgid "Fullscreen"
+msgstr "เต็มจอ"
+
+msgctxt "IDS_MPLAYERC_39"
+msgid "Fullscreen (w/o res.change)"
+msgstr "เต็มจอ (ไม่เปลี่ยนความละเอียด)"
+
+msgctxt "IDS_AG_ZOOM_AUTO_FIT"
+msgid "Zoom Auto Fit"
+msgstr "ซูมพอดีอัตโนมัติ"
+
+msgctxt "IDS_AG_VIDFRM_HALF"
+msgid "VidFrm Half"
+msgstr "ขนาดเฟรม ครึ่งเดียว"
+
+msgctxt "IDS_AG_VIDFRM_NORMAL"
+msgid "VidFrm Normal"
+msgstr "ขนาดเฟรม ปกติ"
+
+msgctxt "IDS_AG_VIDFRM_DOUBLE"
+msgid "VidFrm Double"
+msgstr "ขนาดเฟรม สองเท่า"
+
+msgctxt "IDS_AG_ALWAYS_ON_TOP"
+msgid "Always On Top"
+msgstr "อยู่บนเสมอ"
+
+msgctxt "IDS_AG_PNS_INC_SIZE"
+msgid "PnS Inc Size"
+msgstr "ส่องกวาด เพิ่มขนาด"
+
+msgctxt "IDS_AG_PNS_INC_WIDTH"
+msgid "PnS Inc Width"
+msgstr "ส่องกวาด เพิ่มกว้าง"
+
+msgctxt "IDS_MPLAYERC_47"
+msgid "PnS Inc Height"
+msgstr "ส่องกวาด เพิ่มสูง"
+
+msgctxt "IDS_AG_PNS_DEC_SIZE"
+msgid "PnS Dec Size"
+msgstr "ส่องกวาด ลดขนาด"
+
+msgctxt "IDS_AG_PNS_DEC_WIDTH"
+msgid "PnS Dec Width"
+msgstr "ส่องกวาด ลดกว้าง"
+
+msgctxt "IDS_MPLAYERC_50"
+msgid "PnS Dec Height"
+msgstr "ส่องกวาด ลดสูง"
+
+msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
+msgid "Downloading subtitle(s), please wait."
+msgstr "กำลังดาวน์โหลดศัพท์บรรยาย, โปรดรอ"
+
+msgctxt "IDS_SUBDL_DLG_PARSING"
+msgid "Parsing list..."
+msgstr "กำลังกระจายรายการ..."
+
+msgctxt "IDS_SUBDL_DLG_NOT_FOUND"
+msgid "No subtitles found."
+msgstr "ไม่พบศัพท์บรรยาย"
+
+msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
+msgid " %d subtitle(s) available."
+msgstr " %d ศัพท์บรรยายที่มี"
+
+msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
+msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
+msgstr "คุณต้องการตรวจหาการอัพเดต MPC-HC เป็นระยะหรือไม่?\n\nคุณลักษณะนี้สามารถเลิกใช้งานภายหลังได้ จากหน้าตัวเลือกเบ็ดเตล็ด"
+
+msgctxt "IDS_ZOOM_50"
+msgid "50%"
+msgstr "50%"
+
+msgctxt "IDS_ZOOM_100"
+msgid "100%"
+msgstr "100%"
+
+msgctxt "IDS_ZOOM_200"
+msgid "200%"
+msgstr "200%"
+
+msgctxt "IDS_ZOOM_AUTOFIT"
+msgid "Auto Fit"
+msgstr "พอดีอัตโนมัติ"
+
+msgctxt "IDS_ZOOM_AUTOFIT_LARGER"
+msgid "Auto Fit (Larger Only)"
+msgstr "พอดีอัตโนมัติ (ใหญ่กว่าเท่านั้น)"
+
+msgctxt "IDS_AG_ZOOM_AUTO_FIT_LARGER"
+msgid "Zoom Auto Fit (Larger Only)"
+msgstr "ซูมพอดีอัตโนมัติ (ใหญ่กว่าเท่านั้น)"
+
+msgctxt "IDS_OSD_ZOOM_AUTO_LARGER"
+msgid "Zoom: Auto (Larger Only)"
+msgstr "ซูม: อัตโนมัติ (ใหญ่กว่าเท่านั้น)"
+
+msgctxt "IDS_TOOLTIP_EXPLORE_TO_FILE"
+msgid "Double click to open file location"
+msgstr "คลิกสองครั้งเพื่อเปิดที่ตั้งไฟล์"
+
+msgctxt "IDS_TOOLTIP_REMAINING_TIME"
+msgid "Toggle between elapsed and remaining time"
+msgstr "สลับระหว่างเวลาที่เล่นผ่าน กับเวลาที่เหลือ"
+
+msgctxt "IDS_UPDATE_DELAY_ERROR_TITLE"
+msgid "Invalid delay"
+msgstr "ค่าหน่วงไม่ถูกต้อง"
+
+msgctxt "IDS_UPDATE_DELAY_ERROR_MSG"
+msgid "Please enter a number between 1 and 365."
+msgstr "โปรดใส่ตัวเลขระหว่าง 1 ถึง 365"
+
+msgctxt "IDS_AG_PNS_CENTER"
+msgid "PnS Center"
+msgstr "ส่องกวาด ตรงกลาง"
+
+msgctxt "IDS_AG_PNS_LEFT"
+msgid "PnS Left"
+msgstr "ส่องกวาด ซ้าย"
+
+msgctxt "IDS_AG_PNS_RIGHT"
+msgid "PnS Right"
+msgstr "ส่องกวาด ขวา"
+
+msgctxt "IDS_AG_PNS_UP"
+msgid "PnS Up"
+msgstr "ส่องกวาด บน"
+
+msgctxt "IDS_AG_PNS_DOWN"
+msgid "PnS Down"
+msgstr "ส่องกวาด ล่าง"
+
+msgctxt "IDS_AG_PNS_UPLEFT"
+msgid "PnS Up/Left"
+msgstr "ส่องกวาด บน/ซ้าย"
+
+msgctxt "IDS_AG_PNS_UPRIGHT"
+msgid "PnS Up/Right"
+msgstr "ส่องกวาด บน/ขวา"
+
+msgctxt "IDS_AG_PNS_DOWNLEFT"
+msgid "PnS Down/Left"
+msgstr "ส่องกวาด ล่าง/ซ้าย"
+
+msgctxt "IDS_MPLAYERC_59"
+msgid "PnS Down/Right"
+msgstr "ส่องกวาด ล่าง/ขวา"
+
+msgctxt "IDS_AG_VOLUME_UP"
+msgid "Volume Up"
+msgstr "ความดัง เพิ่ม"
+
+msgctxt "IDS_AG_VOLUME_DOWN"
+msgid "Volume Down"
+msgstr "ความดัง ลด"
+
+msgctxt "IDS_AG_VOLUME_MUTE"
+msgid "Volume Mute"
+msgstr "เงียบเสียง"
+
+msgctxt "IDS_MPLAYERC_63"
+msgid "DVD Title Menu"
+msgstr "เมนูหัวเรื่อง ดีวีดี"
+
+msgctxt "IDS_AG_DVD_ROOT_MENU"
+msgid "DVD Root Menu"
+msgstr "เมนูรากฐาน ดีวีดี"
+
+msgctxt "IDS_MPLAYERC_65"
+msgid "DVD Subtitle Menu"
+msgstr "เมนูศัพท์บรรยาย ดีวีดี"
+
+msgctxt "IDS_MPLAYERC_66"
+msgid "DVD Audio Menu"
+msgstr "เมนูเสียง ดีวีดี"
+
+msgctxt "IDS_MPLAYERC_67"
+msgid "DVD Angle Menu"
+msgstr "เมนูมุมกล้อง ดีวีดี"
+
+msgctxt "IDS_MPLAYERC_68"
+msgid "DVD Chapter Menu"
+msgstr "เมนูตอน ดีวีดี"
+
+msgctxt "IDS_AG_DVD_MENU_LEFT"
+msgid "DVD Menu Left"
+msgstr "เมนูดีวีดี ซ้าย"
+
+msgctxt "IDS_MPLAYERC_70"
+msgid "DVD Menu Right"
+msgstr "เมนูดีวีดี ขวา"
+
+msgctxt "IDS_AG_DVD_MENU_UP"
+msgid "DVD Menu Up"
+msgstr "เมนูดีวีดี บน"
+
+msgctxt "IDS_AG_DVD_MENU_DOWN"
+msgid "DVD Menu Down"
+msgstr "เมนูดีวีดี ล่าง"
+
+msgctxt "IDS_MPLAYERC_73"
+msgid "DVD Menu Activate"
+msgstr "เมนูดีวีดี กระตุ้น"
+
+msgctxt "IDS_AG_DVD_MENU_BACK"
+msgid "DVD Menu Back"
+msgstr "เมนูดีวีดี กลับ"
+
+msgctxt "IDS_MPLAYERC_75"
+msgid "DVD Menu Leave"
+msgstr "เมนูดีวีดี ออก"
+
+msgctxt "IDS_AG_BOSS_KEY"
+msgid "Boss key"
+msgstr "ปุ่มหลบเจ้านาย"
+
+msgctxt "IDS_MPLAYERC_77"
+msgid "Player Menu (short)"
+msgstr "เมนูเครื่องเล่น (สั้น)"
+
+msgctxt "IDS_MPLAYERC_78"
+msgid "Player Menu (long)"
+msgstr "เมนูเครื่องเล่น (ยาว)"
+
+msgctxt "IDS_AG_FILTERS_MENU"
+msgid "Filters Menu"
+msgstr "เมนูตัวกรอง"
+
+msgctxt "IDS_AG_OPTIONS"
+msgid "Options"
+msgstr "ตัวเลือก"
+
+msgctxt "IDS_AG_NEXT_AUDIO"
+msgid "Next Audio"
+msgstr "เสียงถัดไป"
+
+msgctxt "IDS_AG_PREV_AUDIO"
+msgid "Prev Audio"
+msgstr "เสียงก่อนหน้า"
+
+msgctxt "IDS_AG_NEXT_SUBTITLE"
+msgid "Next Subtitle"
+msgstr "ศัพท์บรรยายถัดไป"
+
+msgctxt "IDS_AG_PREV_SUBTITLE"
+msgid "Prev Subtitle"
+msgstr "ศัพท์บรรยายก่อนหน้า"
+
+msgctxt "IDS_MPLAYERC_85"
+msgid "On/Off Subtitle"
+msgstr "เปิด/ปิด ศัพท์บรรยาย"
+
+msgctxt "IDS_MPLAYERC_86"
+msgid "Reload Subtitles"
+msgstr "โหลดศัพท์บรรยายอีกครั้ง"
+
+msgctxt "IDS_MPLAYERC_87"
+msgid "Next Audio (OGM)"
+msgstr "เสียงถัดไป (OGM)"
+
+msgctxt "IDS_MPLAYERC_88"
+msgid "Prev Audio (OGM)"
+msgstr "เสียงก่อนหน้า (OGM)"
+
+msgctxt "IDS_MPLAYERC_89"
+msgid "Next Subtitle (OGM)"
+msgstr "ศัพท์บรรยายถัดไป  (OGM)"
+
+msgctxt "IDS_MPLAYERC_90"
+msgid "Prev Subtitle (OGM)"
+msgstr "ศัพท์บรรยายก่อนหน้า (OGM)"
+
+msgctxt "IDS_MPLAYERC_91"
+msgid "Next Angle (DVD)"
+msgstr "มุมกล้องถัดไป (DVD)"
+
+msgctxt "IDS_MPLAYERC_92"
+msgid "Prev Angle (DVD)"
+msgstr "มุมกล้องก่อนหน้า (DVD)"
+
+msgctxt "IDS_MPLAYERC_93"
+msgid "Next Audio (DVD)"
+msgstr "เสียงถัดไป (DVD)"
+
+msgctxt "IDS_MPLAYERC_94"
+msgid "Prev Audio (DVD)"
+msgstr "เสียงก่อนหน้า (DVD)"
+
+msgctxt "IDS_MPLAYERC_95"
+msgid "Next Subtitle (DVD)"
+msgstr "ศัพท์บรรยายถัดไป (DVD)"
+
+msgctxt "IDS_MPLAYERC_96"
+msgid "Prev Subtitle (DVD)"
+msgstr "ศัพท์บรรยายก่อนหน้า (DVD)"
+
+msgctxt "IDS_MPLAYERC_97"
+msgid "On/Off Subtitle (DVD)"
+msgstr "เปิด/ปิด ศัพท์บรรยาย (ดีวีดี)"
+
+msgctxt "IDS_MPLAYERC_98"
+msgid "Remaining Time"
+msgstr "เวลาที่เหลือ"
+
+msgctxt "IDS_PPAGEWEBSERVER_0"
+msgid "Select the directory"
+msgstr "เลือกเส้นทาง"
+
+msgctxt "IDS_FAVORITES_QUICKADDFAVORITE"
+msgid "Quick add favorite"
+msgstr "เพิ่มรายการโปรดด่วน"
+
+msgctxt "IDS_DVB_CHANNEL_NUMBER"
+msgid "N"
+msgstr "ช"
+
+msgctxt "IDS_DVB_CHANNEL_NAME"
+msgid "Name"
+msgstr "ชื่อ"
+
+msgctxt "IDS_DVB_CHANNEL_FREQUENCY"
+msgid "Frequency"
+msgstr "ความถี่"
+
+msgctxt "IDS_DVB_CHANNEL_ENCRYPTION"
+msgid "Encrypted"
+msgstr "ถูกใส่รหัส"
+
+msgctxt "IDS_DVB_CHANNEL_ENCRYPTED"
+msgid "Yes"
+msgstr "ใช่"
+
+msgctxt "IDS_DVB_CHANNEL_NOT_ENCRYPTED"
+msgid "No"
+msgstr "ไม่"
+
+msgctxt "IDS_DVB_CHANNEL_START_SCAN"
+msgid "Start"
+msgstr "เริ่ม"
+
+msgctxt "IDS_DVB_CHANNEL_STOP_SCAN"
+msgid "Stop"
+msgstr "หยุด"
+
+msgctxt "IDS_DVB_TVNAV_SEERADIO"
+msgid "Radio stations"
+msgstr "สถานีวิทยุ"
+
+msgctxt "IDS_DVB_TVNAV_SEETV"
+msgid "TV stations"
+msgstr "สถานีโทรทัศน์"
+
+msgctxt "IDS_DVB_CHANNEL_FORMAT"
+msgid "Format"
+msgstr "รูปแบบ"
+
+msgctxt "IDS_MAINFRM_2"
+msgid "Focus lost to: %s - %s"
+msgstr "สูญเสียโฟกัสสู่: %s - %s"
+
+msgctxt "IDS_AG_SUBTITLES_SAVED"
+msgid "Subtitles saved"
+msgstr "ศัพท์บรรยายถูกบันทึกแล้ว"
+
+msgctxt "IDS_MAINFRM_4"
+msgid "Cannot save subtitles"
+msgstr "ไม่สามารถบันทึกศัพท์บรรยาย"
+
+msgctxt "IDS_AG_FRAMERATE"
+msgid "Frame rate"
+msgstr "อัตราเฟรม"
+
+msgctxt "IDS_MAINFRM_6"
+msgid "drawn: %d, dropped: %d"
+msgstr "วาดแล้ว: %d, ตกหล่น: %d"
+
+msgctxt "IDS_AG_FRAMES"
+msgid "Frames"
+msgstr "เฟรม"
+
+msgctxt "IDS_AG_BUFFERS"
+msgid "Buffers"
+msgstr "บัฟเฟอร์"
+
+msgctxt "IDS_MAINFRM_9"
+msgid "Volume: %02lu/%02lu, Title: %02lu/%02lu, Chapter: %02lu/%02lu"
+msgstr "ฉบับ: %02lu/%02lu, หัวเรื่อง: %02lu/%02lu, ตอน: %02lu/%02lu"
+
+msgctxt "IDS_MAINFRM_10"
+msgid "Angle: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
+msgstr "มุมกล้อง: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
+
+msgctxt "IDS_MAINFRM_11"
+msgid "%s, %s %uHz %dbits %d %s"
+msgstr "%s, %s %uHz %dbits %d %s"
+
+msgctxt "IDS_ADD_TO_PLAYLIST"
+msgid "Add to MPC-HC Playlist"
+msgstr "เพิ่มสู่บัญชีการเล่นของ MPC-HC"
+
+msgctxt "IDS_OPEN_WITH_MPC"
+msgid "Play with MPC-HC"
+msgstr "เล่นด้วย MPC-HC"
+
+msgctxt "IDS_CANNOT_CHANGE_FORMAT"
+msgid "MPC-HC has not enough privileges to change files formats associations. Please click on \"Modify\" button to get administrator rights."
+msgstr "MPC-HC มีสิทธิ์ไม่เพียงพอในการเปลี่ยนความสัมพันธ์รูปแบบไฟล์ โปรดคลิกที่ปุ่ม \"ปรับเปลี่ยน\" เพื่อใช้สิทธิ์ของ administrator"
+
+msgctxt "IDS_APP_DESCRIPTION"
+msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
+msgstr "MPC-HC เป็นเครื่องเล่นสื่อแบบแหล่งเปิดที่มีขนาดกะทัดรัดสำหรับ Windows มันรองรับการเล่นไฟล์วิดีโอและไฟล์เสียงทั่วไปทั้งหมด เราไม่มีสปายแวร์ 100%, ไม่มีโฆษณาหรือแถบเครื่องมือใดๆ"
+
+msgctxt "IDS_MAINFRM_12"
+msgid "channel"
+msgstr "ช่อง"
+
+msgctxt "IDS_MAINFRM_13"
+msgid "channels"
+msgstr "ช่อง"
+
+msgctxt "IDS_AG_TITLE"
+msgid "Title %u"
+msgstr "ชื่อเรียก %u"
+
+msgctxt "IDS_MAINFRM_16"
+msgid "DVD: Unexpected error"
+msgstr "DVD: ข้อผิดพลาดไม่พึงปรารถนา"
+
+msgctxt "IDS_MAINFRM_17"
+msgid "DVD: Copy-Protect Fail"
+msgstr "DVD: ป้องกันการคัดลอกล้มเหลว"
+
+msgctxt "IDS_MAINFRM_18"
+msgid "DVD: Invalid DVD 1.x Disc"
+msgstr "DVD: ดิสก์ DVD 1.x ไม่ถูกต้อง"
+
+msgctxt "IDS_MAINFRM_19"
+msgid "DVD: Invalid Disc Region"
+msgstr "DVD: ภูมิภาคแผ่นดิสก์ไม่ถูกต้อง"
+
+msgctxt "IDS_MAINFRM_20"
+msgid "DVD: Low Parental Level"
+msgstr "ดีวีดี: ระดับผู้ปกครองต่ำ"
+
+msgctxt "IDS_MAINFRM_21"
+msgid "DVD: Macrovision Fail"
+msgstr "DVD: Macrovision ล้มเหลว"
+
+msgctxt "IDS_MAINFRM_22"
+msgid "DVD: Incompatible System And Decoder Regions"
+msgstr "DVD: ระบบและเขตตัวถอดรหัสที่ไม่เข้ากัน"
+
+msgctxt "IDS_MAINFRM_23"
+msgid "DVD: Incompatible Disc And Decoder Regions"
+msgstr "DVD: ดิสก์และเขตตัวถอดรหัสที่ไม่เข้ากัน"
+
+msgctxt "IDS_D3DFS_WARNING"
+msgid "This option is designed to avoid tearing. However, it will also prevent MPC-HC from displaying the context menu and any dialog box during playback.\n\nDo you really want to activate this option?"
+msgstr "ตัวเลือกนี้ถูกออกแบบมาเพื่อหลีกเลี่ยงภาพแตก อย่างไรก็ตาม มันอาจป้องกันไม่ให้ MPC-HC แสดงเมนูบริบทและกล่องข้อมูลใดๆ ระหว่างการเล่น\n\nคุณต้องการใช้ตัวเลือกนี้หรือไม่?"
+
+msgctxt "IDS_MAINFRM_139"
+msgid "Sub delay: %ld ms"
+msgstr "ศัพท์ฯหน่วง: %ld มว."
+
+msgctxt "IDS_AG_TITLE2"
+msgid "Title: %02d/%02d"
+msgstr "ชื่อเรียก: %02d/%02d"
+
+msgctxt "IDS_REALVIDEO_INCOMPATIBLE"
+msgid "Filename contains unsupported characters (use only A-Z, 0-9)"
+msgstr "ชื่อไฟล์ประกอบด้วยอักขระที่ไม่รองรับ (ใช้ A-Z, 0-9 เท่านั้น)"
+
+msgctxt "IDS_THUMB_ROWNUMBER"
+msgid "Rows:"
+msgstr "แถว:"
+
+msgctxt "IDS_THUMB_COLNUMBER"
+msgid "Columns:"
+msgstr "คอลัมน์:"
+
+msgctxt "IDS_THUMB_IMAGE_WIDTH"
+msgid "Image width"
+msgstr "ความกว้างภาพ"
+
+msgctxt "IDS_PPSDB_URLCORRECT"
+msgid "The URL appears to be correct!"
+msgstr "URL ดูเหมือนจะถูกต้อง!"
+
+msgctxt "IDS_PPSDB_PROTOCOLERR"
+msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
+msgstr "เวอร์ชันโปรโตคอลไม่ตรงกัน โปรดปรับรุ่นเครื่องเล่นของคุณ หรือเลือกที่อยู่อื่น!"
+
+msgctxt "IDS_AG_ASPECT_RATIO"
+msgid "Aspect Ratio"
+msgstr "อัตราส่วนภาพ"
+
+msgctxt "IDS_MAINFRM_37"
+msgid ", Total: %ld, Dropped: %ld"
+msgstr ", ทั้งหมด: %ld, ตกหล่น: %ld"
+
+msgctxt "IDS_MAINFRM_38"
+msgid ", Size: %I64dKB"
+msgstr ", ขนาด: %I64dKB"
+
+msgctxt "IDS_MAINFRM_39"
+msgid ", Size: %I64dMB"
+msgstr ", ขนาด: %I64dMB"
+
+msgctxt "IDS_MAINFRM_40"
+msgid ", Free: %I64dKB"
+msgstr ", ว่าง: %I64dKB"
+
+msgctxt "IDS_MAINFRM_41"
+msgid ", Free: %I64dMB"
+msgstr ", ว่าง: %I64dMB"
+
+msgctxt "IDS_MAINFRM_42"
+msgid ", Free V/A Buffers: %03d/%03d"
+msgstr ", บัฟเฟอร์ V/A ว่าง: %03d/%03d"
+
+msgctxt "IDS_AG_ERROR"
+msgid "Error"
+msgstr "ผิดพลาด"
+
+msgctxt "IDS_SUBTITLE_STREAM_OFF"
+msgid "Subtitle: off"
+msgstr "ศัพท์บรรยาย: ปิด"
+
+msgctxt "IDS_SUBTITLE_STREAM"
+msgid "Subtitle: %s"
+msgstr "ศัพท์บรรยาย: %s"
+
+msgctxt "IDS_MAINFRM_46"
+msgid "Select the path for the DVD/BD:"
+msgstr "เลือกเส้นทางสำหรับดีวีดี/บลูเรย์:"
+
+msgctxt "IDS_SUB_LOADED_SUCCESS"
+msgid " loaded successfully"
+msgstr "โหลดสำเร็จแล้ว"
+
+msgctxt "IDS_ALL_FILES_FILTER"
+msgid "All files (*.*)|*.*||"
+msgstr "ไฟล์ทั้งหมด (*.*)|*.*||"
+
+msgctxt "IDS_GETDIB_FAILED"
+msgid "GetDIB failed, hr = %08x"
+msgstr "GetDIB ล้มเหลว, hr = %08x"
+
+msgctxt "IDS_GETCURRENTIMAGE_FAILED"
+msgid "GetCurrentImage failed, hr = %08x"
+msgstr "GetCurrentImage ล้มเหลว, hr = %08x"
+
+msgctxt "IDS_SCREENSHOT_ERROR"
+msgid "Cannot create file"
+msgstr "ไม่สามารถสร้างไฟล์ได้"
+
+msgctxt "IDS_THUMBNAILS_NO_DURATION"
+msgid "Cannot create thumbnails for files with no duration"
+msgstr "ไม่สามารถสร้างรูปย่อสำหรับไฟล์ที่ไม่มีระยะเวลา"
+
+msgctxt "IDS_THUMBNAILS_NO_FRAME_SIZE"
+msgid "Failed to get video frame size"
+msgstr "การรับข้อมูลเฟรมวิดีโอล้มเหลว"
+
+msgctxt "IDS_OUT_OF_MEMORY"
+msgid "Out of memory, go buy some more!"
+msgstr "หน่วยความจำไม่เพียงพอ, ควรซื้อมาเพิ่มอีก!"
+
+msgctxt "IDS_THUMBNAILS_INVALID_FORMAT"
+msgid "Invalid image format, cannot create thumbnails out of %d bpp dibs."
+msgstr "รูปแบบภาพไม่ถูกต้อง, ไม่สามารถสร้างรูปย่อออกจาก %d bpp dibs."
+
+msgctxt "IDS_THUMBNAILS_INFO_FILESIZE"
+msgid "File Size: %s (%s bytes)\\N"
+msgstr "ขนาดไฟล์: %s (%s ไบต์)\\N"
+
+msgctxt "IDS_THUMBNAILS_INFO_HEADER"
+msgid "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: %dx%d %s\\NDuration: %02d:%02d:%02d"
+msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}ชื่อไฟล์: %s\\N%sความละเอียด: %dx%d %s\\Nระยะเวลา: %02d:%02d:%02d"
+
+msgctxt "IDS_THUMBNAIL_TOO_SMALL"
+msgid "The thumbnails would be too small, impossible to create the file.\n\nTry lowering the number of thumbnails or increasing the total size."
+msgstr "รูปย่ออาจจะเล็กมาก จึงเป็นไปไม่ได้ที่จะสร้างไฟล์\n\nลองลดจำนวนของรูปย่อ หรือเพิ่มขนาดโดยรวม"
+
+msgctxt "IDS_CANNOT_LOAD_SUB"
+msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+msgstr "เพื่อโหลดศัพท์บรรยาย คุณต้องเปลี่ยนชนิดตัวแปลผลวิดีโอและเปิดไฟล์อีกครั้ง\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+
+msgctxt "IDS_SUBTITLE_FILES_FILTER"
+msgid "Subtitle files"
+msgstr "ไฟล์ศัพท์บรรยาย"
+
+msgctxt "IDS_MAINFRM_68"
+msgid "Aspect Ratio: %ld:%ld"
+msgstr "อัตราส่วนภาพ: %ld:%ld"
+
+msgctxt "IDS_MAINFRM_69"
+msgid "Aspect Ratio: Default"
+msgstr "อัตราส่วนภาพ: ตั้งต้น"
+
+msgctxt "IDS_MAINFRM_70"
+msgid "Audio Delay: %I64dms"
+msgstr "เสียงหน่วง: %I64dms"
+
+msgctxt "IDS_AG_CHAPTER"
+msgid "Chapter %d"
+msgstr "ตอน %d"
+
+msgctxt "IDS_AG_OUT_OF_MEMORY"
+msgid "Out of memory"
+msgstr "หน่วยความจำไม่เพียงพอ"
+
+msgctxt "IDS_MAINFRM_77"
+msgid "Error: Flash player for IE is required"
+msgstr "ผิดพลาด: ต้องการตัวเล่นแฟลชสำหรับ IE"
+
+msgctxt "IDS_MAINFRM_78"
+msgid "QuickTime not yet supported for X64 (apple library not available)"
+msgstr "QuickTime ยังไม่รองรับสำหรับ X64 (apple library ไม่มีอยู่)"
+
+msgctxt "IDS_MAINFRM_80"
+msgid "Failed to create the filter graph object"
+msgstr "ล้มเหลวในการสร้างวัตถุกราฟตัวกรอง"
+
+msgctxt "IDS_MAINFRM_81"
+msgid "Invalid argument"
+msgstr "อาร์กิวเมนต์ไม่ถูกต้อง"
+
+msgctxt "IDS_MAINFRM_82"
+msgid "Opening aborted"
+msgstr "การเปิดถูกยกเลิก"
+
+msgctxt "IDS_MAINFRM_83"
+msgid "Failed to render the file"
+msgstr "ล้มเหลวในการแปลผลไฟล์"
+
+msgctxt "IDS_PPSDB_BADURL"
+msgid "Bad URL, could not locate subtitle database there!"
+msgstr "URL ที่แย่, ไม่สามารถหาที่ตั้งฐานข้อมูลศัพท์บรรยายที่นั่นได้!"
+
+msgctxt "IDS_AG_CHAPTER2"
+msgid "Chapter: "
+msgstr "ตอน:"
+
+msgctxt "IDS_VOLUME_OSD"
+msgid "Vol: %d%%"
+msgstr "ดัง: %d%%"
+
+msgctxt "IDS_BOOST_OSD"
+msgid "Boost: +%u%%"
+msgstr "เสริม: +%u%%"
+
+msgctxt "IDS_BALANCE_OSD"
+msgid "Balance: %s"
+msgstr "สมดุลย์: %s"
+
+msgctxt "IDS_FULLSCREENMONITOR_CURRENT"
+msgid "Current"
+msgstr "ปัจจุบัน"
+
+msgctxt "IDS_MPC_CRASH"
+msgid "MPC-HC terminated unexpectedly. To help us fix this problem, please send this file \"%s\" to our bug tracker.\n\nDo you want to open the folder containing the minidump file and visit the bug tracker now?"
+msgstr "MPC-HC ได้จบการทำงานอย่างไม่พึงปรารถนา เพื่อช่วยเราแก้ไขปัญหานี้ โปรดส่งไฟล์นี้ \"%s\" ไปยังตัวติดตามบักของเรา\n\nคุณต้องการเปิดโฟลเดอร์ที่เก็บไฟล์ minidump ไว้ และไปยังตัวติดตามบัก เดี๋ยวนี้หรือไม่?"
+
+msgctxt "IDS_MPC_MINIDUMP_FAIL"
+msgid "Failed to create dump file to \"%s\" (error %u)"
+msgstr "ล้มเหลวในการสร้างไฟล์ดัมพ์สู่ \"%s\" (ผิดพลาด %u)"
+
+msgctxt "IDS_MAINFRM_DIR_TITLE"
+msgid "Select Directory"
+msgstr "เลือกเส้นทาง"
+
+msgctxt "IDS_MAINFRM_DIR_CHECK"
+msgid "Include subdirectories"
+msgstr "รวมทั้งเส้นทางย่อย"
+
+msgctxt "IDS_AG_PAUSE"
+msgid "Pause"
+msgstr "พัก"
+
+msgctxt "IDS_AG_TOGGLE_CAPTION"
+msgid "Toggle Caption&Menu"
+msgstr "เปิดปิด ข้อความและเมนู"
+
+msgctxt "IDS_AG_TOGGLE_SEEKER"
+msgid "Toggle Seeker"
+msgstr "เปิดปิด ตัวเลื่อนหา"
+
+msgctxt "IDS_AG_TOGGLE_CONTROLS"
+msgid "Toggle Controls"
+msgstr "เปิดปิด ตัวควบคุม"
+
+msgctxt "IDS_MAINFRM_84"
+msgid "Invalid file name"
+msgstr "ชื่อไฟล์ไม่ถูกต้อง"
+
+msgctxt "IDS_MAINFRM_86"
+msgid "Cannot connect the filters"
+msgstr "ไม่สามารถเชื่อมต่อตัวกรอง"
+
+msgctxt "IDS_MAINFRM_87"
+msgid "Cannot load any source filter"
+msgstr "ไม่สามารถโหลดตัวกรองแหล่งใดๆ ได้"
+
+msgctxt "IDS_MAINFRM_88"
+msgid "Cannot render the file"
+msgstr "ไม่สามารถแปลผลไฟล์ได้"
+
+msgctxt "IDS_MAINFRM_89"
+msgid "Invalid file format"
+msgstr "รูปแบบไฟล์ไม่ถูกต้อง"
+
+msgctxt "IDS_MAINFRM_90"
+msgid "File not found"
+msgstr "ไม่พบไฟล์"
+
+msgctxt "IDS_MAINFRM_91"
+msgid "Unknown file type"
+msgstr "ไม่รู้จักชนิดไฟล์"
+
+msgctxt "IDS_MAINFRM_92"
+msgid "Unsupported stream"
+msgstr "กระแสที่ไม่รองรับ"
+
+msgctxt "IDS_MAINFRM_93"
+msgid "Cannot find DVD directory"
+msgstr "ไม่พบเส้นทางดีวีดี"
+
+msgctxt "IDS_MAINFRM_94"
+msgid "Can't create the DVD Navigator filter"
+msgstr "ไม่สามารถสร้างตัวกรองตันำทางดีวีดี"
+
+msgctxt "IDS_AG_FAILED"
+msgid "Failed"
+msgstr "ล้มเหลว"
+
+msgctxt "IDS_MAINFRM_96"
+msgid "Can't create video capture filter"
+msgstr "ไม่สามารถสร้างตัวกรองวิดีโอ"
+
+msgctxt "IDS_MAINFRM_98"
+msgid "No capture filters"
+msgstr "ไม่มีตัวกรองการจับข้อมูล"
+
+msgctxt "IDS_MAINFRM_99"
+msgid "Can't create capture graph builder object"
+msgstr "ไม่สามารถสร้างวัตถุตัวสร้างกราฟการจับข้อมูล"
+
+msgctxt "IDS_MAINFRM_108"
+msgid "Couldn't open any device"
+msgstr "ไม่สามารถเปิดอุปกรณ์ใดๆ ได้"
+
+msgctxt "IDS_AG_SOUND"
+msgid "Sound"
+msgstr "เสียง"
+
+msgctxt "IDS_MAINFRM_114"
+msgid "%s was not found, please insert media containing this file."
+msgstr "ไม่พบ %s , โปรดใส่สื่อที่ประกอบด้วยไฟล์นี้"
+
+msgctxt "IDS_AG_ABORTED"
+msgid "Aborted"
+msgstr "ถูกยกเลิก"
+
+msgctxt "IDS_MAINFRM_116"
+msgid "&Properties..."
+msgstr "คุณ&สมบัติ"
+
+msgctxt "IDS_MAINFRM_117"
+msgid " (pin) properties..."
+msgstr " (พิน) คุณสมบัติ..."
+
+msgctxt "IDS_AG_UNKNOWN_STREAM"
+msgid "Unknown Stream"
+msgstr "กระแสที่ไม่รู้จัก"
+
+msgctxt "IDS_AG_UNKNOWN"
+msgid "Unknown %u"
+msgstr "%u ที่ไม่รู้จัก"
+
+msgctxt "IDS_AG_VSYNC"
+msgid "VSync"
+msgstr "VSync"
+
+msgctxt "IDS_MAINFRM_121"
+msgid " (Director Comments 1)"
+msgstr " (ความคิดเห็นผู้กำกับ 1)"
+
+msgctxt "IDS_MAINFRM_122"
+msgid " (Director Comments 2)"
+msgstr " (ความคิดเห็นผู้กำกับ 2)"
+
+msgctxt "IDS_DVD_SUBTITLES_ENABLE"
+msgid "Enable DVD subtitles"
+msgstr "ใช้งานศัพท์บรรยายดีวีดี"
+
+msgctxt "IDS_AG_ANGLE"
+msgid "Angle %u"
+msgstr "มุมกล้อง %u"
+
+msgctxt "IDS_AG_VSYNCOFFSET_INCREASE"
+msgid "Increase VSync Offset"
+msgstr "เพิ่มค่าชดเชย VSync"
+
+msgctxt "IDS_AG_DISABLED"
+msgid "Disabled"
+msgstr "ไม่ถูกใช้งาน"
+
+msgctxt "IDS_AG_VSYNCOFFSET_DECREASE"
+msgid "Decrease VSync Offset"
+msgstr "ลดค่าชดเชย VSync"
+
+msgctxt "IDS_MAINFRM_136"
+msgid "MPC-HC D3D Fullscreen"
+msgstr "เต็มจอ D3D MPC-HC "
+
+msgctxt "IDS_MAINFRM_137"
+msgid "Unknown format"
+msgstr "รูปแบบที่ไม่รู้จัก"
+
+msgctxt "IDS_MAINFRM_138"
+msgid "Sub shift: %ld ms"
+msgstr "ขยับศัพท์ฯ: %ld มว."
+
+msgctxt "IDS_VOLUME_BOOST_INC"
+msgid "Volume boost increase"
+msgstr "เสริมความดัง เพิ่ม"
+
+msgctxt "IDS_VOLUME_BOOST_DEC"
+msgid "Volume boost decrease"
+msgstr "เสริมความดัง ลด"
+
+msgctxt "IDS_VOLUME_BOOST_MIN"
+msgid "Volume boost Min"
+msgstr "เสริมความดัง ต่ำสุด"
+
+msgctxt "IDS_VOLUME_BOOST_MAX"
+msgid "Volume boost Max"
+msgstr "เสริมความดัง สูงสุด"
+
+msgctxt "IDS_USAGE"
+msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
+msgstr "วิธีใช้: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
+
+msgctxt "IDS_UNKNOWN_SWITCH"
+msgid "Unrecognized switch(es) found in command line string: \n\n"
+msgstr "พบสวิตช์ที่ไม่รู้จักในสตริง command line: \n\n"
+
+msgctxt "IDS_AG_TOGGLE_INFO"
+msgid "Toggle Information"
+msgstr "เปิดปิด ข้อมูล"
+
+msgctxt "IDS_AG_TOGGLE_STATS"
+msgid "Toggle Statistics"
+msgstr "เปิดปิด สถิติ"
+
+msgctxt "IDS_AG_TOGGLE_STATUS"
+msgid "Toggle Status"
+msgstr "เปิดปิด สถานะ"
+
+msgctxt "IDS_AG_TOGGLE_SUBRESYNC"
+msgid "Toggle Subresync Bar"
+msgstr "เปิดปิด แถบซิงค์ศัพท์ฯใหม่"
+
+msgctxt "IDS_AG_TOGGLE_PLAYLIST"
+msgid "Toggle Playlist Bar"
+msgstr "เปิดปิด แถบบัญชีการเล่น"
+
+msgctxt "IDS_AG_TOGGLE_CAPTURE"
+msgid "Toggle Capture Bar"
+msgstr "เปิดปิด แถบการจับข้อมูล"
+
+msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
+msgid "Toggle Debug Shaders"
+msgstr "เปิดปิด ดีบักเฉดเดอร์"
+
+msgctxt "IDS_AG_ZOOM_50"
+msgid "Zoom 50%"
+msgstr "ซูม 50%"
+
+msgctxt "IDS_AG_ZOOM_100"
+msgid "Zoom 100%"
+msgstr "ซูม 100%"
+
+msgctxt "IDS_AG_ZOOM_200"
+msgid "Zoom 200%"
+msgstr "ซูม 200%"
+
+msgctxt "IDS_AG_NEXT_AR_PRESET"
+msgid "Next AR Preset"
+msgstr "ค่าสำเร็จรูปอัตราส่วนภาพถัดไป"
+
+msgctxt "IDS_AG_VIDFRM_STRETCH"
+msgid "VidFrm Stretch"
+msgstr "เฟรมวิดีโอ ยืด"
+
+msgctxt "IDS_AG_VIDFRM_INSIDE"
+msgid "VidFrm Inside"
+msgstr "เฟรมวิดีโอ ภายใน"
+
+msgctxt "IDS_AG_VIDFRM_OUTSIDE"
+msgid "VidFrm Outside"
+msgstr "เฟรมวิดีโอ ภายนอก"
+
+msgctxt "IDS_AG_PNS_RESET"
+msgid "PnS Reset"
+msgstr "ส่องกวาด คืนค่า"
+
+msgctxt "IDS_AG_PNS_ROTATEX_P"
+msgid "PnS Rotate X+"
+msgstr "ส่องกวาด หมุน X+"
+
+msgctxt "IDS_AG_VIDFRM_ZOOM1"
+msgid "VidFrm Zoom 1"
+msgstr "เฟรมวิดีโอ ซูม 1"
+
+msgctxt "IDS_AG_VIDFRM_ZOOM2"
+msgid "VidFrm Zoom 2"
+msgstr "เฟรมวิดีโอ ซูม 2"
+
+msgctxt "IDS_AG_VIDFRM_SWITCHZOOM"
+msgid "VidFrm Switch Zoom"
+msgstr "เฟรมวิดีโอ สลับซูม"
+
+msgctxt "IDS_ENABLE_ALL_FILTERS"
+msgid "&Enable all filters"
+msgstr "ใ&ช้งานตัวกรองทั้งหมด"
+
+msgctxt "IDS_NAVIGATE_TUNERSCAN"
+msgid "Tuner scan"
+msgstr "สแกนตัวจูน"
+
+msgctxt "IDS_SUBTITLES_ERROR"
+msgid "Subtitles are not loaded or unsupported renderer."
+msgstr "ศัพท์บรรยายไม่ถูกโหลด หรือตัวแปลผลไม่ถูกรองรับ"
+
+msgctxt "IDS_LOGO_AUTHOR"
+msgid "Author unknown. Contact us if you made this logo!"
+msgstr "ไม่ทราบผู้สร้างสรรค์ ติดต่อเราหากคุณทำโลโก้นี้!"
+
+msgctxt "IDS_NO_MORE_MEDIA"
+msgid "No more media in the current folder."
+msgstr "ไม่มีสื่ออีกแล้วในโฟลเดอร์ปัจจุบัน"
+
+msgctxt "IDS_FIRST_IN_FOLDER"
+msgid "The first file of the folder is already loaded."
+msgstr "ไฟล์แรกในโฟลเดอร์ถูกโหลดแล้ว"
+
+msgctxt "IDS_LAST_IN_FOLDER"
+msgid "The last file of the folder is already loaded."
+msgstr "ไฟล์สุดท้ายในโฟลเดอร์ถูกโหลดแล้ว"
+
+msgctxt "IDS_FRONT_LEFT"
+msgid "Front Left"
+msgstr "หน้า ซ้าย"
+
+msgctxt "IDS_FRONT_RIGHT"
+msgid "Front Right"
+msgstr "หน้า ขวา"
+
+msgctxt "IDS_FRONT_CENTER"
+msgid "Front Center"
+msgstr "หน้า กลาง"
+
+msgctxt "IDS_LOW_FREQUENCY"
+msgid "Low Frequency"
+msgstr "ความถี่ต่ำ"
+
+msgctxt "IDS_BACK_LEFT"
+msgid "Back Left"
+msgstr "หลัง ซ้าย"
+
+msgctxt "IDS_BACK_RIGHT"
+msgid "Back Right"
+msgstr "หลัง ขวา"
+
+msgctxt "IDS_FRONT_LEFT_OF_CENTER"
+msgid "Front Left of Center"
+msgstr "หน้าซ้ายของศูนย์กลาง"
+
+msgctxt "IDS_FRONT_RIGHT_OF_CENTER"
+msgid "Front Right of Center"
+msgstr "หน้าขวาของศูนย์กลาง"
+
+msgctxt "IDS_BACK_CENTER"
+msgid "Back Center"
+msgstr "หลัง กลาง"
+
+msgctxt "IDS_SIDE_LEFT"
+msgid "Side Left"
+msgstr "ซ้าย ข้าง"
+
+msgctxt "IDS_SIDE_RIGHT"
+msgid "Side Right"
+msgstr "ขวา ข้าง"
+
+msgctxt "IDS_TOP_CENTER"
+msgid "Top Center"
+msgstr "บน กลาง"
+
+msgctxt "IDS_TOP_FRONT_LEFT"
+msgid "Top Front Left"
+msgstr "บน หน้า ซ้าย"
+
+msgctxt "IDS_TOP_FRONT_CENTER"
+msgid "Top Front Center"
+msgstr "บน หน้า กลาง"
+
+msgctxt "IDS_TOP_FRONT_RIGHT"
+msgid "Top Front Right"
+msgstr "บน หน้า ขวา"
+
+msgctxt "IDS_TOP_BACK_LEFT"
+msgid "Top Back Left"
+msgstr "บน หลัง ซ้าย"
+
+msgctxt "IDS_TOP_BACK_CENTER"
+msgid "Top Back Center"
+msgstr "บน หลัง กลาง"
+
+msgctxt "IDS_TOP_BACK_RIGHT"
+msgid "Top Back Right"
+msgstr "บน หลัง ขวา"
+
+msgctxt "IDS_AG_RESET_STATS"
+msgid "Reset Display Stats"
+msgstr "คืนค่าสถิติแสดงผล"
+
+msgctxt "IDD_PPAGESUBMISC"
+msgid "Subtitles::Misc"
+msgstr "ศัพท์บรรยาย::จิปาถะ"
+
+msgctxt "IDS_VIEW_BORDERLESS"
+msgid "Hide &borders"
+msgstr "ซ่อน&ขอบ"
+
+msgctxt "IDS_VIEW_FRAMEONLY"
+msgid "Frame Only"
+msgstr "เฟรมเท่านั้น"
+
+msgctxt "IDS_VIEW_CAPTIONMENU"
+msgid "Sho&w Caption&&Menu"
+msgstr "แ&สดงข้อความและเมนู"
+
+msgctxt "IDS_VIEW_HIDEMENU"
+msgid "Hide &Menu"
+msgstr "ซ่อ&นเมนู"
+
+msgctxt "IDD_PPAGEADVANCED"
+msgid "Advanced"
+msgstr "ขั้นสูง"
+
+msgctxt "IDS_TIME_TOOLTIP_ABOVE"
+msgid "Above seekbar"
+msgstr "เหนือแถบเลื่อนหา"
+
+msgctxt "IDS_TIME_TOOLTIP_BELOW"
+msgid "Below seekbar"
+msgstr "ล่างแถบเลื่อนหา"
+
+msgctxt "IDS_VIDEO_STREAM"
+msgid "Video: %s"
+msgstr "วิดีโอ: %s"
+
+msgctxt "IDS_APPLY"
+msgid "Apply"
+msgstr "ใช้งาน"
+
+msgctxt "IDS_CLEAR"
+msgid "Clear"
+msgstr "ล้าง"
+
+msgctxt "IDS_CANCEL"
+msgid "Cancel"
+msgstr "ยกเลิก"
+
+msgctxt "IDS_THUMB_THUMBNAILS"
+msgid "Layout"
+msgstr "โครงร่าง"
+
+msgctxt "IDS_THUMB_PIXELS"
+msgid "Pixels:"
+msgstr "พิกเซล:"
+
+msgctxt "IDS_TEXTFILE_ENC"
+msgid "Encoding:"
+msgstr "การเข้ารหัส:"
+
+msgctxt "IDS_DISABLE_ALL_FILTERS"
+msgid "&Disable all filters"
+msgstr "ไ&ม่ใช้งานตัวกรองทั้งหมด"
+
+msgctxt "IDS_ENABLE_AUDIO_FILTERS"
+msgid "Enable all audio decoders"
+msgstr "ใช้ตัวถอดรหัสเสียงทั้งหมด"
+
+msgctxt "IDS_DISABLE_AUDIO_FILTERS"
+msgid "Disable all audio decoders"
+msgstr "ไม่ใช้ตัวถอดรหัสเสียงทั้งหมด"
+
+msgctxt "IDS_ENABLE_VIDEO_FILTERS"
+msgid "Enable all video decoders"
+msgstr "ใช้ตัวถอดรหัสวิดีโอทั้งหมด"
+
+msgctxt "IDS_DISABLE_VIDEO_FILTERS"
+msgid "Disable all video decoders"
+msgstr "ไม่ใช้ตัวถอดรหัสวิดีโอทั้งหมด"
+
+msgctxt "IDS_STRETCH_TO_WINDOW"
+msgid "Stretch To Window"
+msgstr "ยืดสู่หน้าต่าง"
+
+msgctxt "IDS_TOUCH_WINDOW_FROM_INSIDE"
+msgid "Touch Window From Inside"
+msgstr "สัมผัสหน้าต่างจากด้านใน"
+
+msgctxt "IDS_ZOOM1"
+msgid "Zoom 1"
+msgstr "ซูม 1"
+
+msgctxt "IDS_ZOOM2"
+msgid "Zoom 2"
+msgstr "ซูม 2"
+
+msgctxt "IDS_TOUCH_WINDOW_FROM_OUTSIDE"
+msgid "Touch Window From Outside"
+msgstr "สัมผัสหน้าต่างจากด้านนอก"
+
+msgctxt "IDS_AUDIO_STREAM"
+msgid "Audio: %s"
+msgstr "เสียง: %s"
+
+msgctxt "IDS_AG_REOPEN"
+msgid "Reopen File"
+msgstr "เปิดไฟล์อีกครั้ง"
+
+msgctxt "IDS_MFMT_AVI"
+msgid "AVI"
+msgstr "AVI"
+
+msgctxt "IDS_MFMT_MPEG"
+msgid "MPEG"
+msgstr "MPEG"
+
+msgctxt "IDS_MFMT_MPEGTS"
+msgid "MPEG-TS"
+msgstr "MPEG-TS"
+
+msgctxt "IDS_MFMT_DVDVIDEO"
+msgid "DVD-Video"
+msgstr "วิดีโอดีวีดี"
+
+msgctxt "IDS_MFMT_MKV"
+msgid "Matroska"
+msgstr "Matroska"
+
+msgctxt "IDS_MFMT_WEBM"
+msgid "WebM"
+msgstr "WebM"
+
+msgctxt "IDS_MFMT_MP4"
+msgid "MP4"
+msgstr "MP4"
+
+msgctxt "IDS_MFMT_MOV"
+msgid "QuickTime Movie"
+msgstr "QuickTime Movie"
+
+msgctxt "IDS_MFMT_3GP"
+msgid "3GP"
+msgstr "3GP"
+
+msgctxt "IDS_MFMT_3G2"
+msgid "3G2"
+msgstr "3G2"
+
+msgctxt "IDS_MFMT_FLV"
+msgid "Flash Video"
+msgstr "Flash Video"
+
+msgctxt "IDS_MFMT_OGM"
+msgid "Ogg Media"
+msgstr "Ogg Media"
+
+msgctxt "IDS_MFMT_RM"
+msgid "Real Media"
+msgstr "Real Media"
+
+msgctxt "IDS_MFMT_RT"
+msgid "Real Script"
+msgstr "Real Script"
+
+msgctxt "IDS_MFMT_WMV"
+msgid "Windows Media Video"
+msgstr "Windows Media Video"
+
+msgctxt "IDS_MFMT_BINK"
+msgid "Smacker/Bink Video"
+msgstr "Smacker/Bink Video"
+
+msgctxt "IDS_MFMT_FLIC"
+msgid "FLIC Animation"
+msgstr "FLIC Animation"
+
+msgctxt "IDS_MFMT_DSM"
+msgid "DirectShow Media"
+msgstr "DirectShow Media"
+
+msgctxt "IDS_MFMT_IVF"
+msgid "Indeo Video Format"
+msgstr "Indeo Video Format"
+
+msgctxt "IDS_MFMT_OTHER"
+msgid "Other"
+msgstr "อื่นๆ"
+
+msgctxt "IDS_MFMT_SWF"
+msgid "Shockwave Flash"
+msgstr "Shockwave Flash"
+
+msgctxt "IDS_MFMT_OTHER_AUDIO"
+msgid "Other Audio"
+msgstr "เสียงอื่นๆ"
+
+msgctxt "IDS_MFMT_AC3"
+msgid "AC-3/DTS"
+msgstr "AC-3/DTS"
+
+msgctxt "IDS_MFMT_AIFF"
+msgid "AIFF"
+msgstr "AIFF"
+
+msgctxt "IDS_MFMT_ALAC"
+msgid "Apple Lossless"
+msgstr "Apple Lossless"
+
+msgctxt "IDS_MFMT_AMR"
+msgid "AMR"
+msgstr "AMR"
+
+msgctxt "IDS_MFMT_APE"
+msgid "Monkey's Audio"
+msgstr "Monkey's Audio"
+
+msgctxt "IDS_MFMT_AU"
+msgid "AU/SND"
+msgstr "AU/SND"
+
+msgctxt "IDS_MFMT_CDA"
+msgid "Audio CD track"
+msgstr "Audio CD track"
+
+msgctxt "IDS_MFMT_FLAC"
+msgid "FLAC"
+msgstr "FLAC"
+
+msgctxt "IDS_MFMT_M4A"
+msgid "MPEG-4 Audio"
+msgstr "MPEG-4 Audio"
+
+msgctxt "IDS_MFMT_MIDI"
+msgid "MIDI"
+msgstr "MIDI"
+
+msgctxt "IDS_MFMT_MKA"
+msgid "Matroska audio"
+msgstr "Matroska audio"
+
+msgctxt "IDS_MFMT_MP3"
+msgid "MP3"
+msgstr "MP3"
+
+msgctxt "IDS_MFMT_MPA"
+msgid "MPEG audio"
+msgstr "MPEG audio"
+
+msgctxt "IDS_MFMT_MPC"
+msgid "Musepack"
+msgstr "Musepack"
+
+msgctxt "IDS_MFMT_OFR"
+msgid "OptimFROG"
+msgstr "OptimFROG"
+
+msgctxt "IDS_MFMT_OGG"
+msgid "Ogg Vorbis"
+msgstr "Ogg Vorbis"
+
+msgctxt "IDS_MFMT_RA"
+msgid "Real Audio"
+msgstr "Real Audio"
+
+msgctxt "IDS_MFMT_TAK"
+msgid "TAK"
+msgstr "TAK"
+
+msgctxt "IDS_MFMT_TTA"
+msgid "True Audio"
+msgstr "True Audio"
+
+msgctxt "IDS_MFMT_WAV"
+msgid "WAV"
+msgstr "WAV"
+
+msgctxt "IDS_MFMT_WMA"
+msgid "Windows Media Audio"
+msgstr "Windows Media Audio"
+
+msgctxt "IDS_MFMT_WV"
+msgid "WavPack"
+msgstr "WavPack"
+
+msgctxt "IDS_MFMT_OPUS"
+msgid "Opus Audio Codec"
+msgstr "Opus Audio Codec"
+
+msgctxt "IDS_MFMT_PLS"
+msgid "Playlist"
+msgstr "บัญชีการเล่น"
+
+msgctxt "IDS_MFMT_BDPLS"
+msgid "Blu-ray playlist"
+msgstr "บัญชีการเล่นบลูเรย์"
+
+msgctxt "IDS_MFMT_RAR"
+msgid "RAR Archive"
+msgstr "เอกสาร RAR"
+
+msgctxt "IDS_DVB_CHANNEL_FPS"
+msgid "FPS"
+msgstr "FPS"
+
+msgctxt "IDS_DVB_CHANNEL_RESOLUTION"
+msgid "Resolution"
+msgstr "ความละเอียด"
+
+msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
+msgid "Aspect Ratio"
+msgstr "อัตราส่วนภาพ"
+
+msgctxt "IDS_ARS_WASAPI_MODE"
+msgid "Use WASAPI (restart playback)"
+msgstr "ใช้ WASAPI (เริ่มเล่นอีกครั้ง)"
+
+msgctxt "IDS_ARS_MUTE_FAST_FORWARD"
+msgid "Mute on fast forward"
+msgstr "เงียบเสียงเมื่อเดินหน้าอย่างเร็ว"
+
+msgctxt "IDS_ARS_SOUND_DEVICE"
+msgid "Sound Device:"
+msgstr "อุปกรณ์เสียง:"
+
+msgctxt "IDS_OSD_RS_VSYNC_ON"
+msgid "VSync: On"
+msgstr "VSync: เปิด"
+
+msgctxt "IDS_OSD_RS_VSYNC_OFF"
+msgid "VSync: Off"
+msgstr "VSync: ปิด"
+
+msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_ON"
+msgid "Accurate VSync: On"
+msgstr "VSync ที่ถูกต้อง: เปิด"
+
+msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_OFF"
+msgid "Accurate VSync: Off"
+msgstr "VSync ที่ถูกต้อง: ปิด"
+
+msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_ON"
+msgid "Synchronize Video to Display: On"
+msgstr "ซิงค์วิดีโอสู่การแสดงผล: เปิด"
+
+msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_OFF"
+msgid "Synchronize Video to Display: Off"
+msgstr "ซิงค์วิดีโอสู่การแสดงผล: ปิด"
+
+msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_ON"
+msgid "Synchronize Display to Video: On"
+msgstr "ซิงค์การแสดงผลสู่วิดีโอ: เปิด"
+
+msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_OFF"
+msgid "Synchronize Display to Video: Off"
+msgstr "ซิงค์การแสดงผลสู่วิดีโอ: ปิด"
+
+msgctxt "IDS_OSD_RS_PRESENT_NEAREST_ON"
+msgid "Present at Nearest VSync: On"
+msgstr "นำเสนอที่ VSync ใกล้เคียงที่สุด: เปิด"
+
+msgctxt "IDS_OSD_RS_PRESENT_NEAREST_OFF"
+msgid "Present at Nearest VSync: Off"
+msgstr "นำเสนอที่ VSync ใกล้เคียงที่สุด: ปิด"
+
+msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_ON"
+msgid "Color Management: On"
+msgstr "การจัดการสี: เปิด"
+
+msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_OFF"
+msgid "Color Management: Off"
+msgstr "การจัดการสี: ปิด"
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_AUTO"
+msgid "Input Type: Auto-Detect"
+msgstr "ชนิดขาเข้า: ตรวจสอบอัตโนมัติ"
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_HDTV"
+msgid "Input Type: HDTV"
+msgstr "ชนิดขาเข้า: HDTV"
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_SD_NTSC"
+msgid "Input Type: SDTV NTSC"
+msgstr "ชนิดขาเข้า: SDTV NTSC"
+
+msgctxt "IDS_OSD_RS_INPUT_TYPE_SD_PAL"
+msgid "Input Type: SDTV PAL"
+msgstr "ชนิดขาเข้า: SDTV PAL"
+
+msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_BRIGHT"
+msgid "Ambient Light: Bright (2.2 Gamma)"
+msgstr "แสงเรือง: สว่าง (2.2 Gamma)"
+
+msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DIM"
+msgid "Ambient Light: Dim (2.35 Gamma)"
+msgstr "แสงเรือง: สลัว (2.35 Gamma)"
+
+msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DARK"
+msgid "Ambient Light: Dark (2.4 Gamma)"
+msgstr "แสงเรือง: มืด (2.4 Gamma)"
+
+msgctxt "IDS_OSD_RS_REND_INTENT_PERCEPT"
+msgid "Rendering Intent: Perceptual"
+msgstr "เจตนาการแปลผล: รับรู้ได้"
+
+msgctxt "IDS_OSD_RS_REND_INTENT_RELATIVE"
+msgid "Rendering Intent: Relative Colorimetric"
+msgstr "เจตนาการแปลผล: เมตริกสีสัมพัทธ์"
+
+msgctxt "IDS_OSD_RS_REND_INTENT_SATUR"
+msgid "Rendering Intent: Saturation"
+msgstr "เจตนาการแปลผล: ความอิ่มตัว"
+
+msgctxt "IDS_OSD_RS_REND_INTENT_ABSOLUTE"
+msgid "Rendering Intent: Absolute Colorimetric"
+msgstr "เจตนาการแปลผล: เมตริกสีสัมบูรณ์"
+
+msgctxt "IDS_OSD_RS_OUTPUT_RANGE"
+msgid "Output Range: %s"
+msgstr "ช่วงขาออก: %s"
+
+msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_ON"
+msgid "Flush GPU before VSync: On"
+msgstr "ล้าง GPU ก่อน VSync: เปิด"
+
+msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_OFF"
+msgid "Flush GPU before VSync: Off"
+msgstr "ล้าง GPU ก่อน VSync: ปิด"
+
+msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_ON"
+msgid "Flush GPU after Present: On"
+msgstr "ล้าง GPU หลังจากปัจจุบัน: เปิด"
+
+msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_OFF"
+msgid "Flush GPU after Present: Off"
+msgstr "ล้าง GPU หลังจากปัจจุบัน: ปิด"
+
+msgctxt "IDS_OSD_RS_WAIT_ON"
+msgid "Wait for GPU Flush: On"
+msgstr "รอเพื่อล้าง GPU: เปิด"
+
+msgctxt "IDS_OSD_RS_WAIT_OFF"
+msgid "Wait for GPU Flush: Off"
+msgstr "รอเพื่อล้าง GPU: ปิด"
+
+msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_ON"
+msgid "D3D Fullscreen: On"
+msgstr "เต็มจอ D3D: เปิด"
+
+msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_OFF"
+msgid "D3D Fullscreen: Off"
+msgstr "เต็มจอ D3D: ปิด"
+
+msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_ON"
+msgid "Disable desktop composition: On"
+msgstr "ไม่ใช้งานองค์ประกอบเดสก์ท็อป: เปิด"
+
+msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_OFF"
+msgid "Disable desktop composition: Off"
+msgstr "ไม่ใช้งานองค์ประกอบเดสก์ท็อป: ปิด"
+
+msgctxt "IDS_OSD_RS_ALT_VSYNC_ON"
+msgid "Alternative VSync: On"
+msgstr "VSync ทางเลือก: เปิด"
+
+msgctxt "IDS_OSD_RS_ALT_VSYNC_OFF"
+msgid "Alternative VSync: Off"
+msgstr "VSync ทางเลือก: ปิด"
+
+msgctxt "IDS_OSD_RS_RESET_DEFAULT"
+msgid "Renderer settings reset to default"
+msgstr "การตั้งค่าการแปลผล คืนสู่ค่าตั้งต้น"
+
+msgctxt "IDS_OSD_RS_RESET_OPTIMAL"
+msgid "Renderer settings reset to optimal"
+msgstr "การตั้งค่าการแปลผล คืนสู่ค่าที่เหมาะสม"
+
+msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
+msgid "D3D Fullscreen GUI Support: On"
+msgstr "D3D Fullscreen GUI Support: เปิด"
+
+msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF"
+msgid "D3D Fullscreen GUI Support: Off"
+msgstr "D3D Fullscreen GUI Support: ปิด"
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_ON"
+msgid "10-bit RGB Output: On"
+msgstr "ขาออก 10-bit RGB: เปิด"
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_OFF"
+msgid "10-bit RGB Output: Off"
+msgstr "ขาออก 10-bit RGB: ปิด"
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_IN_ON"
+msgid "Force 10-bit RGB Input: On"
+msgstr "บังคับขาเข้า 10-bit RGB: เปิด"
+
+msgctxt "IDS_OSD_RS_10BIT_RBG_IN_OFF"
+msgid "Force 10-bit RGB Input: Off"
+msgstr "บังคับขาเข้า 10-bit RGB: ปิด"
+
+msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_ON"
+msgid "Full Floating Point Processing: On"
+msgstr "ประมวลผลจุดลอยตัวแบบเต็ม: เปิด"
+
+msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_OFF"
+msgid "Full Floating Point Processing: Off"
+msgstr "ประมวลผลจุดลอยตัวแบบเต็ม: ปิด"
+
+msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_ON"
+msgid "Half Floating Point Processing: On"
+msgstr "ประมวลผลจุดลอยตัวครึ่งเดียว: เปิด"
+
+msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_OFF"
+msgid "Half Floating Point Processing: Off"
+msgstr "ประมวลผลจุดลอยตัวครึ่งเดียว: ปิด"
+
+msgctxt "IDS_BRIGHTNESS_DEC"
+msgid "Brightness decrease"
+msgstr "ความสว่าง ลด"
+
+msgctxt "IDS_CONTRAST_INC"
+msgid "Contrast increase"
+msgstr "ความตัดกัน เพิ่ม"
+
+msgctxt "IDS_CONTRAST_DEC"
+msgid "Contrast decrease"
+msgstr "ความตัดกัน ลด"
+
+msgctxt "IDS_HUE_INC"
+msgid "Hue increase"
+msgstr "สีสีน เพิ่ม"
+
+msgctxt "IDS_HUE_DEC"
+msgid "Hue decrease"
+msgstr "สีสัน ลด"
+
+msgctxt "IDS_SATURATION_INC"
+msgid "Saturation increase"
+msgstr "ความอิ่มตัว เพิ่ม"
+
+msgctxt "IDS_SATURATION_DEC"
+msgid "Saturation decrease"
+msgstr "ความอิ่มตัว ลด"
+
+msgctxt "IDS_RESET_COLOR"
+msgid "Reset color settings"
+msgstr "คืนค่าการตั้งค่าสี"
+
+msgctxt "IDS_USING_LATEST_STABLE"
+msgid "\nYou are already using the latest stable version."
+msgstr "\nคุณกำลังใช้เวอร์ชันเสถียรอยู่"
+
+msgctxt "IDS_USING_NEWER_VERSION"
+msgid "Your current version is v%s.\n\nThe latest stable version is v%s."
+msgstr "เวอร์ชันปัจจุบันของคุณคือ v%s.\n\nเวอร์ชันเสถียรล่าสุดคือ v%s"
+
+msgctxt "IDS_NEW_UPDATE_AVAILABLE"
+msgid "MPC-HC v%s is now available. You are using v%s.\n\nDo you want to visit MPC-HC's website to download it?"
+msgstr "MPC-HC v%s มีพร้อมใช้งานแล้ว คุณกำลังใช้ v%s.\n\nคุณต้องการไปที่เว็บไซต์ MPC-HC เพื่อดาวน์โหลดมันหรือไม่?"
+
+msgctxt "IDS_UPDATE_ERROR"
+msgid "Update server not found.\n\nPlease check your internet connection or try again later."
+msgstr "ไม่พบเซิร์ฟเวอร์อัพเดต\n\nโปรดตรวจสอบการเชื่อมต่ออินเตอร์เน็ตของคุณ หรือลองอีกครั้งภายหลัง"
+
+msgctxt "IDS_UPDATE_CLOSE"
+msgid "&Close"
+msgstr "&ปิด"
+
+msgctxt "IDS_OSD_ZOOM"
+msgid "Zoom: %.0lf%%"
+msgstr "ซูม: %.0lf%%"
+
+msgctxt "IDS_OSD_ZOOM_AUTO"
+msgid "Zoom: Auto"
+msgstr "ซูม: อัตโนมัติ"
+
+msgctxt "IDS_CUSTOM_CHANNEL_MAPPING"
+msgid "Toggle custom channel mapping"
+msgstr "เปิดปิด การแม็ปปิงช่องขาออก"
+
+msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_ON"
+msgid "Custom channel mapping: On"
+msgstr "การแม็ปปิงช่องที่ปรับแต่ง: เปิด"
+
+msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_OFF"
+msgid "Custom channel mapping: Off"
+msgstr "การแม็ปปิงช่องที่ปรับแต่ง: ปิด"
+
+msgctxt "IDS_NORMALIZE"
+msgid "Toggle normalization"
+msgstr "เปิดปิด การปรับความดังให้ปกติ"
+
+msgctxt "IDS_OSD_NORMALIZE_ON"
+msgid "Normalization: On"
+msgstr "การปรับความดังให้ปกติ: เปิด"
+
+msgctxt "IDS_OSD_NORMALIZE_OFF"
+msgid "Normalization: Off"
+msgstr "การปรับความดังให้ปกติ: ปิด"
+
+msgctxt "IDS_REGAIN_VOLUME"
+msgid "Toggle regain volume"
+msgstr "เปิดปิด การฟื้นค่าความดัง"
+
+msgctxt "IDS_OSD_REGAIN_VOLUME_ON"
+msgid "Regain volume: On"
+msgstr "ฟื้นค่าความดัง: เปิด"
+
+msgctxt "IDS_OSD_REGAIN_VOLUME_OFF"
+msgid "Regain volume: Off"
+msgstr "ฟื้นค่าความดัง: ปิด"
+
+msgctxt "IDS_SIZE_UNIT_K"
+msgid "KB"
+msgstr "KB"
+
+msgctxt "IDS_SIZE_UNIT_M"
+msgid "MB"
+msgstr "MB"
+
+msgctxt "IDS_SIZE_UNIT_G"
+msgid "GB"
+msgstr "GB"
+
+msgctxt "IDS_SPEED_UNIT_K"
+msgid "KB/s"
+msgstr "KB/s"
+
+msgctxt "IDS_SPEED_UNIT_M"
+msgid "MB/s"
+msgstr "MB/s"
+
+msgctxt "IDS_BDA_ERROR_CREATE_TUNER"
+msgid "Could not create the tuner."
+msgstr "ไม่สามารถสร้างตัวจูน"
+
+msgctxt "IDS_BDA_ERROR_CREATE_RECEIVER"
+msgid "Could not create the receiver."
+msgstr "ไม่สามารถสร้างตัวรับ"
+
+msgctxt "IDS_BDA_ERROR_CONNECT_NW_TUNER"
+msgid "Could not connect the network and the tuner."
+msgstr "ไม่สามารถเชื่อมต่อเครือข่ายและตัวจูน"
+
+msgctxt "IDS_BDA_ERROR_CONNECT_TUNER_REC"
+msgid "Could not connect the tuner and the receiver."
+msgstr "ไม่สามารถเชื่อมต่อตัวจูนและตัวรับ"
+
+msgctxt "IDS_BDA_ERROR_CONNECT_TUNER"
+msgid "Could not connect the tuner."
+msgstr "ไม่สามารถเชื่อมต่อตัวจูน"
+
+msgctxt "IDS_BDA_ERROR_DEMULTIPLEXER"
+msgid "Could not create the demultiplexer."
+msgstr "ไม่สามารถสร้าง demultiplexer"
+
+msgctxt "IDS_GOTO_ERROR_PARSING_TIME"
+msgid "Error parsing the entered time!"
+msgstr "ผิดพลาดในการกระจายเวลาที่ใส่!"
+
+msgctxt "IDS_GOTO_ERROR_PARSING_TEXT"
+msgid "Error parsing the entered text!"
+msgstr "ผิดพลาดในการกระจายข้อความอักษรที่ใส่!"
+
+msgctxt "IDS_GOTO_ERROR_PARSING_FPS"
+msgid "Error parsing the entered frame rate!"
+msgstr "ผิดพลาดในการกระจายอัตราเฟรมที่ใส่!"
+
+msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
+msgid "Cannot frame step, try a different video renderer."
+msgstr "ไม่สามารถเดินเฟรม โปรดลองตัวแปลผลวิดีโอชนิดอื่น"
+
+msgctxt "IDS_SCREENSHOT_ERROR_REAL"
+msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for RealMedia.\nSelect one of the DirectX renderers for RealMedia in MPC-HC's output options and reopen the file."
+msgstr "ฟังก์ชัน \"บันทึกภาพ\" และ \"บันทึกรูปย่อ\" ไม่ทำงานกับตัวแปลผลวิดีโอตั้งต้นสำหรับ RealMedia\nเลือกหนึ่งตัวแปลผล DirectX สำหรับ RealMedia ในตัวเลือกขาออกของ MPC-HC แล้วเปิดไฟล์อีกครั้ง"
+
+msgctxt "IDS_SCREENSHOT_ERROR_QT"
+msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for QuickTime.\nSelect one of the DirectX renderers for QuickTime in MPC-HC's output options and reopen the file."
+msgstr "ฟังก์ชัน \"บันทึกภาพ\" และ \"บันทึกรูปย่อ\" ไม่ทำงานกับตัวแปลผลวิดีโอตั้งต้นสำหรับ QuickTime\nเลือกหนึ่งตัวแปลผล DirectX สำหรับ QuickTime ในตัวเลือกขาออกของ MPC-HC แล้วเปิดไฟล์อีกครั้ง"
+
+msgctxt "IDS_SCREENSHOT_ERROR_SHOCKWAVE"
+msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work for Shockwave files."
+msgstr "ฟังก์ชัน \"บันทึกภาพ\" และ \"บันทึกรูปย่อ\" ไม่ทำงานกับไฟล์ Shockwave"
+
+msgctxt "IDS_SCREENSHOT_ERROR_OVERLAY"
+msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the Overlay Mixer video renderer.\nChange the video renderer in MPC's output options and reopen the file."
+msgstr "ฟังก์ชัน \"บันทึกภาพ\" และ \"บันทึกรูปย่อ\" ไม่ทำงานกับตัวแปลผลวิดีโอ Overlay Mixer\nเปลี่ยนตัวแปลผลวิดีโอในตัวเลือกขาออกของ MPC และเปิดไฟล์อีกครั้ง"
+
+msgctxt "IDS_SUBDL_DLG_CONNECT_ERROR"
+msgid "Cannot connect to the online subtitles database."
+msgstr "ไม่สามารถเชื่อมต่อฐานข้อมูลศัพท์บรรยายออนไลน์"
+
+msgctxt "IDS_MB_SHOW_EDL_EDITOR"
+msgid "Do you want to activate the EDL editor?"
+msgstr "คุณต้องการกระตุ้นตัวแก้ไข EDL หรือไม่?"
+
+msgctxt "IDS_CAPTURE_ERROR"
+msgid "Capture Error"
+msgstr "การจับข้อมูลล้มเหลว"
+
+msgctxt "IDS_CAPTURE_ERROR_VIDEO"
+msgid "video"
+msgstr "วิดีโอ"
+
+msgctxt "IDS_CAPTURE_ERROR_AUDIO"
+msgid "audio"
+msgstr "เสียง"
+
+msgctxt "IDS_CAPTURE_ERROR_ADD_BUFFER"
+msgid "Can't add the %s buffer filter to the graph."
+msgstr "ไม่สามารถเพิ่มตัวกรองบัฟเฟอร์ %s สู่กราฟได้"
+
+msgctxt "IDS_CAPTURE_ERROR_CONNECT_BUFF"
+msgid "Can't connect the %s buffer filter to the graph."
+msgstr "ไม่สามารถเชื่อมต่อตัวกรองบัฟเฟอร์ %s สู่กราฟได้"
+
+msgctxt "IDS_CAPTURE_ERROR_ADD_ENCODER"
+msgid "Can't add the %s encoder filter to the graph."
+msgstr "ไม่สามารถเพิ่มตัวกรองตัวเข้ารหัส %s สู่กราฟได้"
+
+msgctxt "IDS_CAPTURE_ERROR_CONNECT_ENC"
+msgid "Can't connect the %s encoder filter to the graph."
+msgstr "ไม่สามารถเชื่อมต่อตัวกรองตัวเข้ารหัส %s สู่กราฟได้"
+
+msgctxt "IDS_CAPTURE_ERROR_COMPRESSION"
+msgid "Can't set the compression format on the %s encoder filter."
+msgstr "ไม่สามารถตั้งค่ารูปแบบบีบอัดบนตัวกรองตัวเข้ารหัส %s ได้"
+
+msgctxt "IDS_CAPTURE_ERROR_MULTIPLEXER"
+msgid "Can't connect the %s stream to the multiplexer filter."
+msgstr "ไม่สามารถเชื่อมต่อกระแส %s สู่ตัวกรอง multiplexer"
+
+msgctxt "IDS_CAPTURE_ERROR_VID_CAPT_PIN"
+msgid "No video capture pin was found."
+msgstr "ไม่พบพินจับข้อมูลวิดีโอ"
+
+msgctxt "IDS_CAPTURE_ERROR_AUD_CAPT_PIN"
+msgid "No audio capture pin was found."
+msgstr "ไม่พบพินจับข้อมูลเสียง"
+
+msgctxt "IDS_CAPTURE_ERROR_OUT_FILE"
+msgid "Error initializing the output file."
+msgstr "ผิดพลาดในการเริ่มไฟล์ขาออก"
+
+msgctxt "IDS_CAPTURE_ERROR_AUD_OUT_FILE"
+msgid "Error initializing the audio output file."
+msgstr "ผิดพลาดในการเริ่มไฟล์ขาออกของเสียง"
+
+msgctxt "IDS_SUBRESYNC_TIME_FORMAT"
+msgid "The correct time format is [-]hh:mm:ss.ms (e.g. 01:23:45.678)."
+msgstr "รูปแบบเวลาที่ถูกต้องคือ [-]ชช:นน:วว.มว (เช่น 01:23:45.678)"
+
+msgctxt "IDS_EXTERNAL_FILTERS_ERROR_MT"
+msgid "This type is already in the list!"
+msgstr "ชนิดนี้อยู่ในบัญชีรายการแล้ว!"
+
+msgctxt "IDS_WEBSERVER_ERROR_TEST"
+msgid "You need to apply the new settings before testing them."
+msgstr "คุณจำเป็นต้องใช้งานการตั้งค่าใหม่ก่อนจะทดสอบพวกมัน"
+
+msgctxt "IDS_AFTERPLAYBACK_CLOSE"
+msgid "After Playback: Exit"
+msgstr "หลังเล่นจบ: ออก"
+
+msgctxt "IDS_AFTERPLAYBACK_STANDBY"
+msgid "After Playback: Stand By"
+msgstr "หลังเล่นจบ: สแตนด์บาย"
+
+msgctxt "IDS_AFTERPLAYBACK_HIBERNATE"
+msgid "After Playback: Hibernate"
+msgstr "หลังเล่นจบ: ไฮเบอร์เนต"
+
+msgctxt "IDS_AFTERPLAYBACK_SHUTDOWN"
+msgid "After Playback: Shutdown"
+msgstr "หลังเล่นจบ: ปิดเครื่อง"
+
+msgctxt "IDS_AFTERPLAYBACK_LOGOFF"
+msgid "After Playback: Log Off"
+msgstr "หลังเล่นจบ: ลงชื่อออก"
+
+msgctxt "IDS_AFTERPLAYBACK_LOCK"
+msgid "After Playback: Lock"
+msgstr "หลังเล่นจบ: ล็อค"
+
+msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
+msgid "After Playback: Turn off the monitor"
+msgstr "หลังเล่นจบ: ปิดจอภาพ"
+
+msgctxt "IDS_OSD_BRIGHTNESS"
+msgid "Brightness: %s"
+msgstr "ความสว่าง: %s"
+
+msgctxt "IDS_OSD_CONTRAST"
+msgid "Contrast: %s"
+msgstr "ความตัดกัน: %s"
+
+msgctxt "IDS_OSD_HUE"
+msgid "Hue: %s°"
+msgstr "สีสัน: %s°"
+
+msgctxt "IDS_OSD_SATURATION"
+msgid "Saturation: %s"
+msgstr "ความอิ่มตัว: %s"
+
+msgctxt "IDS_OSD_RESET_COLOR"
+msgid "Color settings restored"
+msgstr "การตั้งค่าสีถูกคืนค่าแล้ว"
+
+msgctxt "IDS_OSD_NO_COLORCONTROL"
+msgid "Color control is not supported"
+msgstr "ไม่รองรับการควบคุมสี"
+
+msgctxt "IDS_BRIGHTNESS_INC"
+msgid "Brightness increase"
+msgstr "ความสว่าง เพิ่ม"
+
+msgctxt "IDS_LANG_PREF_EXAMPLE"
+msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
+msgstr "ใส่ภาษาที่คุณชอบที่นี่\nตัวอย่าง, พิมพ์: \"tha eng jap\""
+
+msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
+msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
+msgstr "ตัวแยกภายนอกสามารถมีตัวเลือกภาษาที่ชอบของมันเอง ดังนั้นพฤติกรรม MPC-HC โดยตั้งต้นก็จะไม่เปลี่ยนตัวเลือกเริ่มต้นของพวกมัน\nใช้งานตัวเลิอกนี้ถ้าคุณต้องการให้ MPC-HC ควบคุมตัวแยกภายนอก"
+
+msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
+msgid "&Blu-Ray playlists"
+msgstr "บัญชีการเล่นบลูเ&รย์"
+
+msgctxt "IDS_NAVIGATE_PLAYLIST"
+msgid "&Playlist"
+msgstr "&บัญชีการเล่น"
+
+msgctxt "IDS_NAVIGATE_CHAPTERS"
+msgid "&Chapters"
+msgstr "&ตอน"
+
+msgctxt "IDS_NAVIGATE_TITLES"
+msgid "&Titles"
+msgstr "&หัวเรื่อง"
+
+msgctxt "IDS_NAVIGATE_CHANNELS"
+msgid "&Channels"
+msgstr "&ช่อง"
+
+msgctxt "IDS_FILTER_SETTINGS_CAPTION"
+msgid "Settings"
+msgstr "การตั้งค่า"
+

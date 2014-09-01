@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-07-06 19:15:01+0000\n"
-"PO-Revision-Date: 2014-07-31 07:11+0000\n"
+"POT-Creation-Date: 2014-08-19 21:13:19+0000\n"
+"PO-Revision-Date: 2014-08-31 14:52+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -90,7 +90,7 @@ msgstr "%"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK6"
 msgid "Regain volume"
-msgstr "音量の回復"
+msgstr "音量を回復する"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC6"
 msgid "Boost:"
@@ -118,7 +118,7 @@ msgstr "チャンネル"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
 msgid "Hold shift for immediate changes when clicking something "
-msgstr "Shift を押したままクリックすると即座に変更されます"
+msgstr "Shift キーを押したままクリックすると、即座に変更されます"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."
@@ -298,11 +298,15 @@ msgstr "設定を .ini ファイルに保存する"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"
 msgid "Disable \"Open Disc\" menu"
-msgstr "「ディスクを開く」 のメニューを隠す"
+msgstr "「ディスクを開く」 のメニューを無効にする"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK9"
 msgid "Process priority above normal"
 msgstr "プロセスの優先度を 通常以上 にする"
+
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK14"
+msgid "Enable cover-art support"
+msgstr ""
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "History"
@@ -418,7 +422,7 @@ msgstr "回"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
-msgstr ""
+msgstr "再生終了後の動作"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Output"
@@ -462,7 +466,7 @@ msgstr "フィルタ グラフの構築にワーカー スレッドを使用す�
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK6"
 msgid "Report pins which fail to render"
-msgstr "再生に失敗したピンを報告する"
+msgstr "表示できないピンを報告する"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
@@ -530,27 +534,27 @@ msgstr "テクスチャの最大解像度:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_NO_SUB_ANIM"
 msgid "Never animate the subtitles"
-msgstr ""
+msgstr "字幕をアニメーション化しない"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC5"
 msgid "Render at"
-msgstr ""
+msgstr "アニメーションの"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC6"
 msgid "% of the animation"
-msgstr ""
+msgstr "% で表示する"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC7"
 msgid "Animate at"
-msgstr ""
+msgstr "ビデオのフレーム レートの"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC8"
 msgid "% of the video frame rate"
-msgstr ""
+msgstr "% でアニメーション化する"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Allow dropping some subpictures if the queue is running late"
-msgstr ""
+msgstr "キューが遅れて実行されている場合、サブピクチャのドロップを許可する"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Renderer Layout"
@@ -566,7 +570,7 @@ msgstr "警告"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu."
-msgstr "ビデオカードの設定で全画面表示のアンチエイリアシングを有効にした場合、CPU 負荷が大きくなるのみで字幕は少しも綺麗にならないでしょう。"
+msgstr "ビデオカードの設定で全画面表示のアンチエイリアスを有効にした場合、CPU を消費するのみで字幕は少しも綺麗になりません。"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
 msgid "File extensions"
@@ -630,7 +634,7 @@ msgstr "DirectShow"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK5"
 msgid "Check file extension first"
-msgstr "最初に拡張子で判別する"
+msgstr "最初に拡張子を判別する"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Explorer Context Menu"
@@ -650,7 +654,7 @@ msgstr "自動再生"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK1"
 msgid "Video"
-msgstr "映像"
+msgstr "ビデオ"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK2"
 msgid "Music"
@@ -662,7 +666,7 @@ msgstr "DVD"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK3"
 msgid "Audio CD"
-msgstr "音楽 CD"
+msgstr "オーディオ CD"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "Jump distances (small, medium, large in ms)"
@@ -686,7 +690,7 @@ msgstr "「現在再生中」 のファイル情報を Skype のムード メッ
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
-msgstr "既定のモニタ以外で全画面表示している時はプレーヤーを最小化しない"
+msgstr "既定のモニタ以外で全画面表示している場合、プレーヤーを最小化しない"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_WIN7"
 msgid "Use Windows 7 Taskbar features"
@@ -698,7 +702,7 @@ msgstr "一つの項目のみが再生リストに残っている場合、 「�
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
 msgid "Use time tooltip:"
-msgstr "時間ツールチップを使用する:"
+msgstr "タイム ツールチップを使用する:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "OSD font:"
@@ -810,7 +814,7 @@ msgstr "ショートカットの名前を選択してください:"
 
 msgctxt "IDD_FAVADD_IDC_CHECK1"
 msgid "Remember position"
-msgstr "再生の開始位置を保存する"
+msgstr "再生位置を記憶する"
 
 msgctxt "IDD_FAVADD_IDCANCEL"
 msgid "Cancel"
@@ -906,7 +910,7 @@ msgstr "警告"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC1"
 msgid "MPC-HC could not render some of the pins in the graph, you may not have the needed codecs or filters installed on the system."
-msgstr "MPC-HC はグラフの中のピンのいくつかを再生できませんでした。必要なコーデックかフィルタがインストールされていない可能性があります。"
+msgstr "MPC-HC はグラフ中の一部のピンを表示できませんでした。必要なコーデックかフィルタがインストールされていない可能性があります。"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC2"
 msgid "The following pin(s) failed to find a connectable filter:"
@@ -946,7 +950,7 @@ msgstr "ユーザー設定のスタイルを保存"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
-msgstr ""
+msgstr "JPEG の品質:"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "Thumbnails:"
@@ -1082,7 +1086,7 @@ msgstr "アルファ チャンネルを連動させる"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "If you would like to use the stand-alone versions of these filters or another replacement, disable them here."
-msgstr "スタンドアロン版や代替フィルタを使用する場合は、該当する箇所を無効にしてください。"
+msgstr "スタンドアロン版や代替フィルタを使用する場合、該当する箇所を無効にしてください。"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Source Filters"
@@ -1490,7 +1494,7 @@ msgstr "全画面表示モニタ"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK2"
 msgid "Use autochange fullscreen monitor mode"
-msgstr "全画面表示でモニタ モードの自動変更を使用する"
+msgstr "全画面表示モニタ モードの自動変更を使用する"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON1"
 msgid "Add"
@@ -1650,15 +1654,15 @@ msgstr "PS 3.0"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_STATIC"
 msgid "Advanced Settings, do not edit unless you know what you are doing."
-msgstr "あなたが何をしているのか理解できないなら、高度な設定を編集しないでください。"
+msgstr "高度な設定は何をしているのか理解できない場合、編集しないでください。"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO1"
 msgid "True"
-msgstr "真"
+msgstr "有効"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO2"
 msgid "False"
-msgstr "偽"
+msgstr "無効"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
@@ -1666,5 +1670,5 @@ msgstr "既定"
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
-msgstr ""
+msgstr "JPEG の品質:"
 

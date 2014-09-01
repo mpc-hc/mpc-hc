@@ -3,11 +3,12 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # mehzad, 2014
+# mehzad, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-03-22 09:25:06+0000\n"
-"PO-Revision-Date: 2014-05-07 08:51+0000\n"
+"POT-Creation-Date: 2014-08-24 19:23:17+0000\n"
+"PO-Revision-Date: 2014-08-28 21:51+0000\n"
 "Last-Translator: mehzad\n"
 "Language-Team: Bengali (http://www.transifex.com/projects/p/mpc-hc/language/bn/)\n"
 "MIME-Version: 1.0\n"
@@ -105,8 +106,8 @@ msgid "Signal"
 msgstr "সিগন্যাল"
 
 msgctxt "IDS_STATSBAR_SIGNAL_FORMAT"
-msgid "Strength: %d dB, Quality: %d%%"
-msgstr "ক্ষমতা: %d dB, বৈশিষ্ট্যগুণ: %d%%"
+msgid "Strength: %d dB, Quality: %ld%%"
+msgstr "ক্ষমতা: %d dB, বৈশিষ্ট্যগুণ: %ld%%"
 
 msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
 msgid "Styles"
@@ -114,7 +115,7 @@ msgstr "ধরনসমূহ"
 
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
-msgstr ""
+msgstr "যদি রেনডার করার জন্য কোন নির্দিষ্ট ধরন নির্ধারণ করা না থাকে, তাহলে SSA/ASS সাবটাইটেলসমূহ ভিডিও ফ্রেম সাপেক্ষে রেনডার করা হবে যেখানে অন্যান্য সকল টেক্সট্‌ সাবটাইটেল উইন্ডো সাপেক্ষে রেনডার করা হবে।"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -842,15 +843,15 @@ msgstr "যথোপযোগী VSync"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid "If the rendering target is left undefined, it will be inherited from the default style."
-msgstr ""
+msgstr "রেনডার করার জন্য কোন নির্দিষ্ট ধরন নির্ধারণ করা না থাকলে, তা ডিফল্ট ধরন থেকে গ্রহণ করা হবে।"
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
-msgstr ""
+msgstr "সাবটাইটেলের অ্যানিমেশন অননুমোদন। এই অপশনটি সক্রিয়করণে CPUর ব্যবহার কম হবে। সাবটাইটেল বার বার চমকাতে দেখলে এ অপশনটি ব্যবহার করতে পারেন।"
 
 msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
-msgstr ""
+msgstr "সাধারণভাবে, বাফারকৃত সাবপিকচারসমূহের সংখ্যা বৃদ্ধি করলে তা GPUতে উচ্চমাত্রায় ভিডিও RAM ব্যবহারের বিনিময়ে রেনডারিং কার্য-সম্পাদনের উন্নতিসাধন করে।"
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
@@ -858,7 +859,7 @@ msgstr "এই বাটনটি ক্লিক করার পরে, নি
 
 msgctxt "IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Disabling this option will prevent the subtitles from blinking but it may cause the video renderer to skip some video frames."
-msgstr ""
+msgstr "এই অপশনটি নিষ্ক্রিয়করণে সাবটাইটেলের বার বার চমকানো বন্ধ হবে কিন্তু এর জন্য ভিডিও রেনডারার কিছু ভিডিও ফ্রেম স্কিপ করতে পারে।"
 
 msgctxt "ID_PLAY_PLAY"
 msgid "Play\nPlay"
@@ -1242,54 +1243,90 @@ msgstr "সফট্‌ওয়্যার ডিকোডিং"
 
 msgctxt "IDS_STATSBAR_PLAYBACK_RATE"
 msgid "Playback rate"
-msgstr ""
+msgstr "প্লেব্যাক রেট"
 
 msgctxt "IDS_FILTERS_COPY_TO_CLIPBOARD"
 msgid "&Copy filters list to clipboard"
-msgstr ""
+msgstr "ফিল্টারসমূহের তালিকা ক্লিপবোর্ডে কপি করি(&C)"
 
 msgctxt "IDS_CREDENTIALS_SERVER"
 msgid "Enter server credentials"
-msgstr ""
+msgstr "সার্ভার এর বিস্তারিত বিবরণসমূহ প্রবেশ করুন"
 
 msgctxt "IDS_CREDENTIALS_CONNECT"
 msgid "Enter your credentials to connect"
-msgstr ""
+msgstr "সংযুক্ত হতে আপনার বিস্তারিত বিবরণসমূহ প্রবেশ করুন"
 
 msgctxt "IDS_SUB_SAVE_EXTERNAL_STYLE_FILE"
 msgid "Save custom style"
-msgstr ""
+msgstr "নির্ধারণকৃত ধরনটি সেইভ করি"
 
 msgctxt "IDS_CONTENT_EDUCATION_SCIENCE"
 msgid "Education/Science/Factual topics"
-msgstr ""
+msgstr "শিক্ষা/বিজ্ঞান/তথ্যমূলক বিষয়সমূহ"
 
 msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
 msgid "Hides controls and panels also in windowed mode."
-msgstr ""
+msgstr "কন্ট্রোল এবং প্যানেলসমূহ উইন্ডো'ড মুডেও লুকিয়ে যাওয়া সক্রিয়করণ।"
 
 msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
 msgid "Prevent external subtitle renderer to be loaded when internal is in use."
-msgstr ""
+msgstr "আভ্যন্তরীণ সাবটাইটেল ফিল্টার ব্যবহার হতে থাকলে বাহিরস্থ সাবটাইটেল রেনডারার লোড করা বিরত করণ।"
 
 msgctxt "IDS_PPAGEADVANCED_COL_NAME"
 msgid "Name"
-msgstr ""
+msgstr "নাম"
 
 msgctxt "IDS_PPAGEADVANCED_COL_VALUE"
 msgid "Value"
-msgstr ""
+msgstr "মান"
 
 msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
-msgstr ""
+msgstr "\"সাম্প্রতিক ফাইলসমূহ\" মেন্যুতে সর্বোচ্চ যতটি ফাইল প্রদর্শন করা হবে এবং যেগুলোর অবস্থানকাল সম্ভাব্যরূপে স্মৃতিতে সংরক্ষিত হবে।"
+
+msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
+msgid "Remember file position only for files longer than N minutes."
+msgstr "ফাইলসমূহ N মিনিট থেকে দীর্ঘ হলেই শুধুমাত্র ফাইলের অবস্থানকাল স্মৃতিতে সংরক্ষণ।"
+
+msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
+msgid "Remember file position also for audio files."
+msgstr "অডিও ফাইলসমূহের জন্যও ফাইলের অবস্থানকাল স্মৃতিতে সংরক্ষণ।"
+
+msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
+msgid "Do Nothing"
+msgstr "কিছুই না করা"
+
+msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
+msgid "Play next file in the folder"
+msgstr "ফোল্ডারে থাকা পরবর্তী ফাইলটি চালনা"
+
+msgctxt "IDS_AFTER_PLAYBACK_REWIND"
+msgid "Rewind current file"
+msgstr "চলতি ফাইলটি পুনরায় চালনা"
+
+msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
+msgid "Close"
+msgstr "বন্ধ করি"
+
+msgctxt "IDS_AFTER_PLAYBACK_EXIT"
+msgid "Exit"
+msgstr "প্রোগ্রাম বন্ধ করি"
+
+msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
+msgid "Turn off the monitor"
+msgstr "মনিটর বন্ধ করি"
 
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
 msgid "JPEG Image"
-msgstr ""
+msgstr "JPEG ছবি"
 
 msgctxt "IDS_IMAGE_QUALITY"
 msgid "Quality (%):"
+msgstr "বৈশিষ্ট্যগুণ (%):"
+
+msgctxt "IDS_PPAGEADVANCED_COVER_SIZE_LIMIT"
+msgid "Maximum size (NxNpx) of a cover-art loaded in the audio only mode."
 msgstr ""
 
 msgctxt "IDS_AG_OPEN_DEVICE"
@@ -1562,11 +1599,11 @@ msgstr "পরবর্তী সাবটাইটেলে যাই"
 
 msgctxt "IDS_MPLAYERC_102"
 msgid "Shift Subtitle Left"
-msgstr ""
+msgstr "সাবটাইটেলের অবস্থান বামে সরাই"
 
 msgctxt "IDS_MPLAYERC_103"
 msgid "Shift Subtitle Right"
-msgstr ""
+msgstr "সাবটাইটেলের অবস্থান ডানে সরাই"
 
 msgctxt "IDS_AG_DISPLAY_STATS"
 msgid "Display Stats"
@@ -1977,16 +2014,16 @@ msgid "Buffers"
 msgstr "বাফার"
 
 msgctxt "IDS_MAINFRM_9"
-msgid "Volume: %02d/%02d, Title: %02d/%02d, Chapter: %02d/%02d"
-msgstr "ভলিউম: %02d/%02d, টাইটেল: %02d/%02d, পরিচ্ছেদ: %02d/%02d"
+msgid "Volume: %02lu/%02lu, Title: %02lu/%02lu, Chapter: %02lu/%02lu"
+msgstr "ভলিউম: %02lu/%02lu, টাইটেল: %02lu/%02lu, পরিচ্ছেদ: %02lu/%02lu"
 
 msgctxt "IDS_MAINFRM_10"
-msgid "Angle: %02d/%02d, %dx%d %dHz %d:%d"
-msgstr "ক্যামেরা অ্যাঙ্গেল: %02d/%02d, %dx%d %dHz %d:%d"
+msgid "Angle: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
+msgstr "ক্যামেরা অ্যাঙ্গেল: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
 
 msgctxt "IDS_MAINFRM_11"
-msgid "%s, %s %dHz %dbits %d %s"
-msgstr "%s, %s %dHz %dbits %d %s"
+msgid "%s, %s %uHz %dbits %d %s"
+msgstr "%s, %s %uHz %dbits %d %s"
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
@@ -2013,8 +2050,8 @@ msgid "channels"
 msgstr "চ্যানেলসমূহ"
 
 msgctxt "IDS_AG_TITLE"
-msgid "Title %d"
-msgstr "টাইটেল %d"
+msgid "Title %u"
+msgstr "টাইটেল %u"
 
 msgctxt "IDS_MAINFRM_16"
 msgid "DVD: Unexpected error"
@@ -2089,8 +2126,8 @@ msgid "Aspect Ratio"
 msgstr "অ্যাসপেক্ট রেশিও"
 
 msgctxt "IDS_MAINFRM_37"
-msgid ", Total: %d, Dropped: %d"
-msgstr ", মোট: %d, বাদ গেছে: %d"
+msgid ", Total: %ld, Dropped: %ld"
+msgstr ", মোট: %ld, বাদ গেছে: %ld"
 
 msgctxt "IDS_MAINFRM_38"
 msgid ", Size: %I64dKB"
@@ -2174,7 +2211,7 @@ msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}ফাইলের সাই
 
 msgctxt "IDS_THUMBNAIL_TOO_SMALL"
 msgid "The thumbnails would be too small, impossible to create the file.\n\nTry lowering the number of thumbnails or increasing the total size."
-msgstr ""
+msgstr "থাম্ব্‌নেইলসমূহ আকারে খুব ছোট হবে, ফাইলটি তৈরি করা যাচ্ছে না।\n\nথাম্ব্‌নেইলসমূহের সংখ্যা কমিয়ে অথবা সম্পূর্ণ সাইজ বাড়িয়ে চেষ্টা করুন।"
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
@@ -2182,11 +2219,11 @@ msgstr "সাবটাইটেল লোড করার জন্য আপ�
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
-msgstr ""
+msgstr "সাবটাইটেল ফাইলসমূহ"
 
 msgctxt "IDS_MAINFRM_68"
-msgid "Aspect Ratio: %d:%d"
-msgstr "অ্যাসপেক্ট রেশিও: %d:%d"
+msgid "Aspect Ratio: %ld:%ld"
+msgstr "অ্যাসপেক্ট রেশিও: %ld:%ld"
 
 msgctxt "IDS_MAINFRM_69"
 msgid "Aspect Ratio: Default"
@@ -2257,8 +2294,8 @@ msgid "MPC-HC terminated unexpectedly. To help us fix this problem, please send 
 msgstr "MPC-HC অপ্রত্যাশিতভাবে বন্ধ হয়ে গেয়ে ছিল। এই সমস্যাটি সমাধানে আমাদের সাহায্য করতে চাইলে, অনুগ্রহপূর্বক এই ফাইলটি \"%s\" আমাদের বাগ ট্র্যাকারএ পাঠিয়ে দিন।\n\nআপনি কি এই মুহূর্তেই মিনিডাম্প ধারণকারী ফোল্ডারটি খুলতে চান এবং বাগ ট্র্যাকারএর ওয়েবপেইজটিতে যেতে চান?"
 
 msgctxt "IDS_MPC_MINIDUMP_FAIL"
-msgid "Failed to create dump file to \"%s\" (error %d)"
-msgstr "\"%s\" এ ডাম্প ফাইল তৈরি করতে ব্যর্থ হয়েছে (সমস্যা %d)"
+msgid "Failed to create dump file to \"%s\" (error %u)"
+msgstr "\"%s\" এ ডাম্প ফাইল তৈরি করতে ব্যর্থ হয়েছে (সমস্যা %u)"
 
 msgctxt "IDS_MAINFRM_DIR_TITLE"
 msgid "Select Directory"
@@ -2369,8 +2406,8 @@ msgid "Unknown Stream"
 msgstr "স্ত্রিমটি অপরিচিত"
 
 msgctxt "IDS_AG_UNKNOWN"
-msgid "Unknown %d"
-msgstr "অপরিচিত %d"
+msgid "Unknown %u"
+msgstr "অপরিচিত %u"
 
 msgctxt "IDS_AG_VSYNC"
 msgid "VSync"
@@ -2386,11 +2423,11 @@ msgstr " (পরিচালকের মন্তব্যসমূহ ২)"
 
 msgctxt "IDS_DVD_SUBTITLES_ENABLE"
 msgid "Enable DVD subtitles"
-msgstr ""
+msgstr "DVD সাবটাইটেল সক্রিয়করণ"
 
 msgctxt "IDS_AG_ANGLE"
-msgid "Angle %d"
-msgstr "ক্যামেরা অ্যাঙ্গেল %d"
+msgid "Angle %u"
+msgstr "ক্যামেরা অ্যাঙ্গেল %u"
 
 msgctxt "IDS_AG_VSYNCOFFSET_INCREASE"
 msgid "Increase VSync Offset"
@@ -2518,7 +2555,7 @@ msgstr "ভিডিও ফ্রেম জূম পরিবর্তন"
 
 msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
-msgstr "সবগুলো ফিল্টার সক্রিয় করণ(&E)"
+msgstr "সবগুলো ফিল্টার সক্রিয়করণ(&E)"
 
 msgctxt "IDS_NAVIGATE_TUNERSCAN"
 msgid "Tuner scan"
@@ -2642,7 +2679,7 @@ msgstr "মেন্যু লুকিয়ে রাখি(&M)"
 
 msgctxt "IDD_PPAGEADVANCED"
 msgid "Advanced"
-msgstr ""
+msgstr "অ্যাডভান্সড্‌"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seekbar"
@@ -2682,23 +2719,23 @@ msgstr "এনকোডিং:"
 
 msgctxt "IDS_DISABLE_ALL_FILTERS"
 msgid "&Disable all filters"
-msgstr "সবগুলো ফিল্টার নিষ্ক্রিয় করণ(&D)"
+msgstr "সবগুলো ফিল্টার নিষ্ক্রিয়করণ(&D)"
 
 msgctxt "IDS_ENABLE_AUDIO_FILTERS"
 msgid "Enable all audio decoders"
-msgstr "সবগুলো অডিও ডিকোডার সক্রিয় করণ"
+msgstr "সবগুলো অডিও ডিকোডার সক্রিয়করণ"
 
 msgctxt "IDS_DISABLE_AUDIO_FILTERS"
 msgid "Disable all audio decoders"
-msgstr "সবগুলো অডিও ডিকোডার নিষ্ক্রিয় করণ"
+msgstr "সবগুলো অডিও ডিকোডার নিষ্ক্রিয়করণ"
 
 msgctxt "IDS_ENABLE_VIDEO_FILTERS"
 msgid "Enable all video decoders"
-msgstr "সবগুলো ভিডিও ডিকোডার সক্রিয় করণ"
+msgstr "সবগুলো ভিডিও ডিকোডার সক্রিয়করণ"
 
 msgctxt "IDS_DISABLE_VIDEO_FILTERS"
 msgid "Disable all video decoders"
-msgstr "সবগুলো ভিডিও ডিকোডার নিষ্ক্রিয় করণ"
+msgstr "সবগুলো ভিডিও ডিকোডার নিষ্ক্রিয়করণ"
 
 msgctxt "IDS_STRETCH_TO_WINDOW"
 msgid "Stretch To Window"
@@ -3406,7 +3443,7 @@ msgstr "প্লেব্যাকের পরে: কম্পিউটার
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
-msgstr ""
+msgstr "প্লেব্যাকের পরে: মনিটর বন্ধ করি"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
@@ -3446,57 +3483,25 @@ msgstr "বাহিরস্থ স্প্লিটারসমূহের �
 
 msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
 msgid "&Blu-Ray playlists"
-msgstr ""
+msgstr "&Blu-Ray প্লেলিস্টসমূহ"
 
 msgctxt "IDS_NAVIGATE_PLAYLIST"
 msgid "&Playlist"
-msgstr ""
+msgstr "প্লেলিস্ট(&P)"
 
 msgctxt "IDS_NAVIGATE_CHAPTERS"
 msgid "&Chapters"
-msgstr ""
+msgstr "পরিচ্ছেদসমূহ(&C)"
 
 msgctxt "IDS_NAVIGATE_TITLES"
 msgid "&Titles"
-msgstr ""
+msgstr "টাইটেলসমূহ(&T)"
 
 msgctxt "IDS_NAVIGATE_CHANNELS"
 msgid "&Channels"
-msgstr ""
+msgstr "চ্যানেলসমূহ(&C)"
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"
 msgstr "সেটিংসমূহ"
-
-msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
-msgid "Remember file position only for files longer than N minutes."
-msgstr ""
-
-msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
-msgid "Remember file position also for audio files."
-msgstr ""
-
-msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
-msgid "Do Nothing"
-msgstr ""
-
-msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
-msgid "Play next file in the folder"
-msgstr ""
-
-msgctxt "IDS_AFTER_PLAYBACK_REWIND"
-msgid "Rewind current file"
-msgstr ""
-
-msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
-msgid "Close"
-msgstr ""
-
-msgctxt "IDS_AFTER_PLAYBACK_EXIT"
-msgid "Exit"
-msgstr ""
-
-msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
-msgid "Turn off the monitor"
-msgstr ""
 

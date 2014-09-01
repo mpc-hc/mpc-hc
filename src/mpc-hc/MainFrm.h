@@ -375,6 +375,9 @@ private:
     ULONG m_lCurrentChapter;
     ULONG m_lChapterStartTime;
 
+    CString m_currentCoverAuthor;
+    CString m_currentCoverPath;
+
     CAutoPtr<SkypeMoodMsgHandler> m_pSkypeMoodMsgHandler;
     void SendNowPlayingToSkype();
 

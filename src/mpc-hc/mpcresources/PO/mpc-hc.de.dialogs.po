@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Gaugg_Markus, 2014
+# Gaugg_Markus, 2014
 # Luan <luanmail@gmx.net>, 2014
 # Luan <luanmail@gmx.net>, 2014
 # Luan <luanmail@gmx.net>, 2014
@@ -10,8 +11,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-07-06 19:15:01+0000\n"
-"PO-Revision-Date: 2014-07-11 20:40+0000\n"
+"POT-Creation-Date: 2014-08-19 21:13:19+0000\n"
+"PO-Revision-Date: 2014-08-30 16:23+0000\n"
 "Last-Translator: Luan <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -242,7 +243,7 @@ msgstr "OK"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Open options"
-msgstr "Verhalten bei Aufruf"
+msgstr "Dateiaufruf"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO1"
 msgid "Use the same player for each media file"
@@ -308,6 +309,10 @@ msgctxt "IDD_PPAGEPLAYER_IDC_CHECK9"
 msgid "Process priority above normal"
 msgstr "Prozesspriorität höher als \"normal\""
 
+msgctxt "IDD_PPAGEPLAYER_IDC_CHECK14"
+msgid "Enable cover-art support"
+msgstr ""
+
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "History"
 msgstr "Verlauf und Privatsphäre"
@@ -342,7 +347,7 @@ msgstr "Letzten Pan&&Scan-Zoom merken"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
-msgstr "Verhalten bei \"DVD/BD öffnen\""
+msgstr "DVD/BD öffnen"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO1"
 msgid "Prompt for location"
@@ -422,7 +427,7 @@ msgstr "Mal ab"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
-msgstr ""
+msgstr "Nach Wiedergabe"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Output"
@@ -522,11 +527,11 @@ msgstr "ms"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Texture settings (open the video again to see the changes)"
-msgstr "Untertiteltextur (Neuladen des Videos notwendig)"
+msgstr "Textur-Einstellungen (Neuladen des Videos notwendig)"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Sub pictures to buffer:"
-msgstr "Bilderanzahl im Pufferspeicher:"
+msgstr "Anzahl der Untertitelbilder im Puffer:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Maximum texture resolution:"
@@ -534,27 +539,27 @@ msgstr "Maximale Texturauflösung:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_NO_SUB_ANIM"
 msgid "Never animate the subtitles"
-msgstr ""
+msgstr "Untertitel nicht animieren"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC5"
 msgid "Render at"
-msgstr ""
+msgstr "Rendering bei:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC6"
 msgid "% of the animation"
-msgstr ""
+msgstr "% der Animation"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC7"
 msgid "Animate at"
-msgstr ""
+msgstr "Animation mit:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC8"
 msgid "% of the video frame rate"
-msgstr ""
+msgstr "% der Videobildrate"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Allow dropping some subpictures if the queue is running late"
-msgstr ""
+msgstr "Untertitelbilder bei verzögerter Warteschlange verwerfen"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Renderer Layout"
@@ -562,7 +567,7 @@ msgstr "Renderer-Layout"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SUB_AR_COMPENSATION"
 msgid "Apply aspect ratio compensation for anamorphic videos"
-msgstr "Seitenverhältnis bei anamorphen Videos ausgleichen"
+msgstr "Seitenverhältnis bei anamorphem Video ausgleichen"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Warning"
@@ -570,7 +575,7 @@ msgstr "Hinweis"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu."
-msgstr "Wird hier \"Untertitelposition anpassen\" zusammen mit Vollbild-Antialiasing in den Einstellungen der Grafikkarte aktiviert, bleibt die Bildqualität unverändert. Dabei steigt die CPU-Belastung aber deutlich an."
+msgstr "Wird hier \"Untertitelposition anpassen\" zusammen mit Vollbild-Antialiasing in den Einstellungen der Grafikkarte aktiviert, bleibt die Bildqualität unverändert. Dabei steigt die CPU-Auslastung aber deutlich an."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
 msgid "File extensions"
@@ -698,7 +703,7 @@ msgstr "Windows-Taskbarfunktionen verwenden (ab Windows 7)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
-msgstr "Nächste Datei im Ordner bei nur einer Datei in der Wiedergabeliste durch\n\"Vorwärts/Rückwärts springen\" öffnen"
+msgstr "Nächste Mediendatei im Ordner bei nur einem Eintrag in der Wiedergabeliste durch\n\"Vorwärts/Rückwärts springen\" öffnen"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
 msgid "Use time tooltip:"
@@ -930,11 +935,11 @@ msgstr "Abbrechen"
 
 msgctxt "IDD_SAVETEXTFILEDIALOGTEMPL_IDC_STATIC1"
 msgid "Encoding:"
-msgstr "Kodierung:"
+msgstr "Encoding:"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC1"
 msgid "Encoding:"
-msgstr "Kodierung:"
+msgstr "Encoding:"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC"
 msgid "Delay:"
@@ -950,7 +955,7 @@ msgstr "Angepassten Style speichern"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
-msgstr ""
+msgstr "JPEG-Qualität:"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "Thumbnails:"
@@ -1222,11 +1227,11 @@ msgstr "Nur lokalen Zugriff erlauben"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
 msgid "Print debug information"
-msgstr "Debug-Informationen ausgeben"
+msgstr "Debug-Information ausgeben"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK4"
 msgid "Serve pages from:"
-msgstr "Webseiten-Stammverzeichnis verwenden:"
+msgstr "Stammverzeichnis verwenden:"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_BUTTON1"
 msgid "Browse..."
@@ -1286,15 +1291,15 @@ msgstr "&Standard"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Update check"
-msgstr "Programmaktualisierung"
+msgstr "Programm-Update"
 
 msgctxt "IDD_PPAGEMISC_IDC_CHECK1"
 msgid "Enable automatic update check"
-msgstr "Automatische Aktualisierungsprüfung aktivieren"
+msgstr "Automatische Update-Prüfung aktivieren"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
 msgid "Delay between each check:"
-msgstr "Tagesintervall bis zur Prüfung:"
+msgstr "Tagesintervall:"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"
@@ -1486,7 +1491,7 @@ msgstr "Zusatzfenster ausblenden"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK5"
 msgid "Exit fullscreen at the end of playback"
-msgstr "Vollbild bei Beenden der Wiedergabe verlassen"
+msgstr "Vollbild bei Beendigung der Wiedergabe verlassen"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Fullscreen monitor"
@@ -1542,7 +1547,7 @@ msgstr "Vorgegebene Untertitelspuren bevorzugen"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK2"
 msgid "Prefer external subtitles over embedded subtitles"
-msgstr "Externe Untertitel bevorzugen (falls verfügbar)"
+msgstr "Externe Untertitel bevorzugen"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK3"
 msgid "Ignore embedded subtitles"
@@ -1562,7 +1567,7 @@ msgstr "Untertiteldatenbank"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Base URL of the online subtitle database:"
-msgstr "URL zur Untertiteldatenbank:"
+msgstr "Basis-URL:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON2"
 msgid "Test"
@@ -1570,7 +1575,7 @@ msgstr "&Testen"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
-msgstr "Auf Aktualisierung prüfen"
+msgstr "Auf Update prüfen"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_DL_BUTTON"
 msgid "&Download now"
@@ -1582,7 +1587,7 @@ msgstr "&Später erinnern"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_IGNORE_BUTTON"
 msgid "&Ignore this update"
-msgstr "&Aktualisierung ignorieren"
+msgstr "&Update ignorieren"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shaders contain special effects which can be added to the video rendering process."
@@ -1670,5 +1675,5 @@ msgstr "Standard"
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
-msgstr ""
+msgstr "JPEG-Qualität:"
 

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -104,10 +104,11 @@ BOOL CPPageFileInfoRes::OnInitDialog()
     m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
     m_list.InsertColumn(0, ResStr(IDS_EMB_RESOURCES_VIEWER_NAME), LVCFMT_LEFT, 187);
     m_list.InsertColumn(1, ResStr(IDS_EMB_RESOURCES_VIEWER_TYPE), LVCFMT_LEFT, 127);
-    for (auto it = m_res.cbegin(); it != m_res.cend(); ++it) {
-        int nItem = m_list.InsertItem(m_list.GetItemCount(), it->name);
-        m_list.SetItemText(nItem, 1, it->mime);
-        m_list.SetItemData(nItem, nItem);
+    for (size_t i = 0, count = m_res.size(); i < count; i++) {
+        const auto& r = m_res[i];
+        int nItem = m_list.InsertItem(m_list.GetItemCount(), r.name);
+        m_list.SetItemText(nItem, 1, r.mime);
+        m_list.SetItemData(nItem, i);
     }
 
     UpdateData(FALSE);

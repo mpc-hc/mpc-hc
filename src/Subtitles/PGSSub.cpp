@@ -123,42 +123,6 @@ STDMETHODIMP CPGSSub::GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& V
     return E_INVALIDARG;
 }
 
-HRESULT CPGSSub::ParseSample(IMediaSample* pSample)
-{
-    CheckPointer(pSample, E_POINTER);
-
-    BYTE* pData = nullptr;
-    HRESULT hr = pSample->GetPointer(&pData);
-    if (FAILED(hr) || !pData) {
-        return hr;
-    }
-    int lSampleLen = pSample->GetActualDataLength();
-
-    REFERENCE_TIME rtStart = INVALID_TIME, rtStop = INVALID_TIME;
-    hr = pSample->GetTime(&rtStart, &rtStop);
-    if (FAILED(hr)) {
-        return hr;
-    }
-
-    TRACE_PGSSUB(_T("--------- CPGSSub::ParseSample rtStart=%s, rtStop=%s, len=%d ---------\n"),
-                 ReftimeToString(rtStart + m_rtCurrentSegmentStart), ReftimeToString(rtStop + m_rtCurrentSegmentStart), lSampleLen);
-
-    return ParseSample(rtStart, rtStop, pData, lSampleLen);
-}
-
-void CPGSSub::Reset()
-{
-    CAutoLock cAutoLock(&m_csCritSec);
-
-    m_nSegBufferPos = m_nSegSize = 0;
-    m_nCurSegment = NO_SEGMENT;
-    m_pCurrentPresentationSegment.Free();
-    m_pPresentationSegments.RemoveAll();
-    for (int i = 0; i < _countof(m_compositionObjects); i++) {
-        m_compositionObjects[i].Reset();
-    }
-}
-
 HRESULT CPGSSub::ParseSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE* pData, int nLen)
 {
     CheckPointer(pData, E_POINTER);
@@ -241,6 +205,19 @@ HRESULT CPGSSub::ParseSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE
     }
 
     return S_OK;
+}
+
+void CPGSSub::Reset()
+{
+    CAutoLock cAutoLock(&m_csCritSec);
+
+    m_nSegBufferPos = m_nSegSize = 0;
+    m_nCurSegment = NO_SEGMENT;
+    m_pCurrentPresentationSegment.Free();
+    m_pPresentationSegments.RemoveAll();
+    for (int i = 0; i < _countof(m_compositionObjects); i++) {
+        m_compositionObjects[i].Reset();
+    }
 }
 
 void CPGSSub::AllocSegment(int nSize)

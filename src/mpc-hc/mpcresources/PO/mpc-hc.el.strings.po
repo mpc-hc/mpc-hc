@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-07-17 20:52:12+0000\n"
-"PO-Revision-Date: 2014-07-24 12:10+0000\n"
+"POT-Creation-Date: 2014-08-24 19:23:17+0000\n"
+"PO-Revision-Date: 2014-08-26 23:16+0000\n"
 "Last-Translator: firespin <dartworldgr@hotmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/mpc-hc/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -106,8 +106,8 @@ msgid "Signal"
 msgstr "Σήμα"
 
 msgctxt "IDS_STATSBAR_SIGNAL_FORMAT"
-msgid "Strength: %d dB, Quality: %d%%"
-msgstr "Ένταση: %d dB, Ποιότητα: %d%%"
+msgid "Strength: %d dB, Quality: %ld%%"
+msgstr "Ένταση: %d dB, Ποιότητα: %ld%%"
 
 msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
 msgid "Styles"
@@ -847,11 +847,11 @@ msgstr "Εάν ο στόχος απόδοσης μείνει απροσδιόρ�
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
-msgstr ""
+msgstr "Να μην επιτρέπεται η κίνηση στους υπότιτλους. Η ενεργοποίηση αυτής της επιλογής θα μειώσει τη χρήση της CPU. Μπορείτε να το χρησιμοποιήσετε εάν αντιμετωπίζετε φαινόμενο με υπότιτλους που τρεμοπαίζουν."
 
 msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
-msgstr ""
+msgstr "Η αύξηση του αριθμού των επιμέρους εικόνων στην ενδιάμεση μνήμη συμβάλει γενικά στη βελτίωση της απόδοσης, με κόστος τη χρήση περισσότερης μνήμης βίντεο RAM στην GPU."
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
@@ -859,7 +859,7 @@ msgstr "Μετά το κλικ σε αυτό το κουμπί, το επιλε�
 
 msgctxt "IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Disabling this option will prevent the subtitles from blinking but it may cause the video renderer to skip some video frames."
-msgstr ""
+msgstr "Η απενεργοποίηση αυτής της επιλογής θα αποτρέψει τους υπότιτλους από το τρεμόπαιγμα, αλλά μπορεί να αναγκάσει την απόδοση του βίντεο να παρακάμψει ορισμένα καρέ βίντεο."
 
 msgctxt "ID_PLAY_PLAY"
 msgid "Play\nPlay"
@@ -1285,12 +1285,48 @@ msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
 msgstr "Ο μέγιστος αριθμός των αρχείων που εμφανίζονται στο μενού «Πρόσφατα αρχεία» και για τα οποία δυνητικά αποθηκεύεται η θέση."
 
+msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
+msgid "Remember file position only for files longer than N minutes."
+msgstr "Απομνημόνευση θέσης αρχείου μόνο για αρχεία μεγαλύτερα από N λεπτά."
+
+msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
+msgid "Remember file position also for audio files."
+msgstr "Απομνημόνευση θέσης αρχείου επίσης για τα αρχεία ήχου."
+
+msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
+msgid "Do Nothing"
+msgstr "Καμία Ενέργεια"
+
+msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
+msgid "Play next file in the folder"
+msgstr "Αναπαραγωγή επόμενου αρχείου στον φάκελο"
+
+msgctxt "IDS_AFTER_PLAYBACK_REWIND"
+msgid "Rewind current file"
+msgstr "Επαναφορά τρέχοντος αρχείου"
+
+msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
+msgid "Close"
+msgstr "Κλείσιμο"
+
+msgctxt "IDS_AFTER_PLAYBACK_EXIT"
+msgid "Exit"
+msgstr "Έξοδος"
+
+msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
+msgid "Turn off the monitor"
+msgstr "Σβήσε την οθόνη"
+
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
 msgid "JPEG Image"
-msgstr ""
+msgstr "JPEG Εικόνα"
 
 msgctxt "IDS_IMAGE_QUALITY"
 msgid "Quality (%):"
+msgstr "Ποιότητα (%):"
+
+msgctxt "IDS_PPAGEADVANCED_COVER_SIZE_LIMIT"
+msgid "Maximum size (NxNpx) of a cover-art loaded in the audio only mode."
 msgstr ""
 
 msgctxt "IDS_AG_OPEN_DEVICE"
@@ -1978,16 +2014,16 @@ msgid "Buffers"
 msgstr "Προσωρινές μνήμες"
 
 msgctxt "IDS_MAINFRM_9"
-msgid "Volume: %02d/%02d, Title: %02d/%02d, Chapter: %02d/%02d"
-msgstr "Τόμος: %02d/%02d, Τίτλος: %02d/%02d, Κεφάλαιο: %02d/%02d"
+msgid "Volume: %02lu/%02lu, Title: %02lu/%02lu, Chapter: %02lu/%02lu"
+msgstr "Τόμος: %02lu/%02lu, Τίτλος: %02lu/%02lu, Κεφάλαιο: %02lu/%02lu"
 
 msgctxt "IDS_MAINFRM_10"
-msgid "Angle: %02d/%02d, %dx%d %dHz %d:%d"
-msgstr "Γωνία: %02d/%02d, %dx%d %dHz %d:%d"
+msgid "Angle: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
+msgstr "Γωνία: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
 
 msgctxt "IDS_MAINFRM_11"
-msgid "%s, %s %dHz %dbits %d %s"
-msgstr "%s, %s %dHz %dbits %d %s"
+msgid "%s, %s %uHz %dbits %d %s"
+msgstr "%s, %s %uHz %dbits %d %s"
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
@@ -2014,8 +2050,8 @@ msgid "channels"
 msgstr "κανάλια"
 
 msgctxt "IDS_AG_TITLE"
-msgid "Title %d"
-msgstr "Τίτλος %d"
+msgid "Title %u"
+msgstr "Τίτλος %u"
 
 msgctxt "IDS_MAINFRM_16"
 msgid "DVD: Unexpected error"
@@ -2090,8 +2126,8 @@ msgid "Aspect Ratio"
 msgstr "Αναλογία πλευρών"
 
 msgctxt "IDS_MAINFRM_37"
-msgid ", Total: %d, Dropped: %d"
-msgstr ", Σύνολο: %d, Απορρίφθηκαν: %d"
+msgid ", Total: %ld, Dropped: %ld"
+msgstr ", Σύνολο: %ld, Απορρίφθηκαν: %ld"
 
 msgctxt "IDS_MAINFRM_38"
 msgid ", Size: %I64dKB"
@@ -2186,8 +2222,8 @@ msgid "Subtitle files"
 msgstr "Αρχεία υποτίτλων"
 
 msgctxt "IDS_MAINFRM_68"
-msgid "Aspect Ratio: %d:%d"
-msgstr "Αναλογία πλευρών: %d:%d"
+msgid "Aspect Ratio: %ld:%ld"
+msgstr "Αναλογία πλευρών: %ld:%ld"
 
 msgctxt "IDS_MAINFRM_69"
 msgid "Aspect Ratio: Default"
@@ -2258,8 +2294,8 @@ msgid "MPC-HC terminated unexpectedly. To help us fix this problem, please send 
 msgstr "Το MPC-HC τερματίστηκε απροσδόκητα. Για να βοηθήσετε να διορθωθεί αυτό το πρόβλημα, παρακαλούμε να στείλετε το αρχείο \"%s\" στην κονσόλα παρακολούθησης σφαλμάτων μας.\n\nΘέλετε να ανοίξετε το φάκελο που περιέχει το αρχείο ένδειξης σφαλμάτων και να επισκεφθείτε την κονσόλα παρακολούθησης σφαλμάτων τώρα;"
 
 msgctxt "IDS_MPC_MINIDUMP_FAIL"
-msgid "Failed to create dump file to \"%s\" (error %d)"
-msgstr "Απέτυχε η δημιουργία αρχείου ένδειξης σφαλμάτων σε \"%s\" (σφάλμα %d)"
+msgid "Failed to create dump file to \"%s\" (error %u)"
+msgstr "Απέτυχε η δημιουργία αρχείου ένδειξης σφαλμάτων σε \"%s\" (σφάλμα %u)"
 
 msgctxt "IDS_MAINFRM_DIR_TITLE"
 msgid "Select Directory"
@@ -2370,8 +2406,8 @@ msgid "Unknown Stream"
 msgstr "Άγνωστη ροή"
 
 msgctxt "IDS_AG_UNKNOWN"
-msgid "Unknown %d"
-msgstr "Άγνωστη %d"
+msgid "Unknown %u"
+msgstr "Άγνωστη %u"
 
 msgctxt "IDS_AG_VSYNC"
 msgid "VSync"
@@ -2390,8 +2426,8 @@ msgid "Enable DVD subtitles"
 msgstr "Ενεργοποίηση υποτίτλων DVD"
 
 msgctxt "IDS_AG_ANGLE"
-msgid "Angle %d"
-msgstr "Γωνία %d"
+msgid "Angle %u"
+msgstr "Γωνία %u"
 
 msgctxt "IDS_AG_VSYNCOFFSET_INCREASE"
 msgid "Increase VSync Offset"
@@ -3407,7 +3443,7 @@ msgstr "Μετά την αναπαραγωγή: Κλείδωμα"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
-msgstr ""
+msgstr "Μετά την Αναπαραγωγή: Σβήσε την οθόνη"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
@@ -3468,36 +3504,4 @@ msgstr "&Κανάλια"
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"
 msgstr "Ρυθμίσεις"
-
-msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
-msgid "Remember file position only for files longer than N minutes."
-msgstr "Απομνημόνευση θέσης αρχείου μόνο για αρχεία μεγαλύτερα από N λεπτά."
-
-msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
-msgid "Remember file position also for audio files."
-msgstr "Απομνημόνευση θέσης αρχείου επίσης για τα αρχεία ήχου."
-
-msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
-msgid "Do Nothing"
-msgstr ""
-
-msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
-msgid "Play next file in the folder"
-msgstr ""
-
-msgctxt "IDS_AFTER_PLAYBACK_REWIND"
-msgid "Rewind current file"
-msgstr ""
-
-msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
-msgid "Close"
-msgstr ""
-
-msgctxt "IDS_AFTER_PLAYBACK_EXIT"
-msgid "Exit"
-msgstr ""
-
-msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
-msgid "Turn off the monitor"
-msgstr ""
 

@@ -12,7 +12,7 @@ next version - not released yet
 ===============================
 + Accept loading more than one subtitle file at a time using the "Load subtitle" dialog or drag-and-drop
 + Add advanced settings page
-+ Add Arabic translation
++ Add Arabic and Thai translations
 + Completely reworked subtitle queue:
     - The queue should be quite faster than the older one for a similar number of buffered subpictures.
       It should also work much better when the number of subpictures becomes important
@@ -34,25 +34,29 @@ next version - not released yet
   subtitle type, ASS/SSA subtitles will be rendered on the video frame while other text subtitles will
   be rendered on the full window
 * Text subtitles: Faster subtitle parsing (up to 4 times faster for ASS/SSA subtitles)
+* Text subtitles: Improved subtitle renderer for faster rendering of complex subtitle scripts (often twice faster or more)
 * Text subtitles: Much faster subtitle opening in the Subresync bar
 * Ticket #325, Move after playback commands to options and add an option to close and restore logo.
 * Ticket #2834, Increase limit on subtitles override placement feature.
 * Ticket #4428, Improve the clarity of the error message when opening a subtitle file fails
 * Updated Little CMS to v2.6 (git 9c075b3)
 * Updated Unrar to v5.1.7
-* Updated LAV Filters to v0.62.0.8:
+* Updated LAV Filters to v0.62.0.15:
     - Ticket #4539, LAV Video: Fix a crash with DVD subtitles on 64-bit builds when using software decoding
     - Ticket #4639, LAV Splitter: Fix incorrect colors for VobSub tracks in MP4
-* Updated Basque, British English, Chinese (simplified), Croatian, Czech, French, Galician, German, Greek,
-  Hungarian, Japanese, Malay, Polish, Portuguese (Brazil), Slovak, Spanish, Swedish, Turkish, Ukrainian
+* Updated Armenian, Basque, Belarusian, Bengali, British English, Catalan, Chinese (Simplified and Traditional),
+  Croatian, Czech, Dutch, French, Galician, German, Greek, Hebrew, Hungarian, Italian, Japanese, Korean, Malay,
+  Polish, Portuguese (Brazil), Romanian, Russian, Slovak, Slovenian, Spanish, Swedish, Tatar, Turkish, Ukrainian
   and Vietnamese translations
 ! "Load subtitle" dialog: Fix the file filters on Windows Vista+
+! "Resources" tab: The resource saved wasn't always matching the selection
 ! Ticket #3930, Fix a possible crash with embedded subtitles when the subtitle queue is disabled
 ! Ticket #4505, Embedded text subtitles: Fix a possible crash related to the Subresync bar
 ! Ticket #4504, ASS/SSA subtitles: Support floating point values in drawing commands
 ! Ticket #4536, ASS/SSA subtitles: Fix the parsing of \fs tags when the value was negative
 ! Ticket #4684, Clicking on the some parts of the volume slider had no effect
 ! Ticket #4707, EVR-CP: Screenshots were corrupted when "Force 10-bit input" was used
+! Ticket #4744, Some subtitles could cause a crash or produce artifacts
 ! Ticket #4752, Monitors connected to secondary graphic card were not detected
 ! Ticket #4758, Adjust width of the groupbox headers to avoid empty space
 ! Ticket #4778, Fix optical drive detection when its letter is A or B.

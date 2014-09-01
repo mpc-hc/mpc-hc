@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-07-17 20:52:12+0000\n"
-"PO-Revision-Date: 2014-07-27 19:00+0000\n"
+"POT-Creation-Date: 2014-08-24 19:23:17+0000\n"
+"PO-Revision-Date: 2014-08-28 19:00+0000\n"
 "Last-Translator: Sinan H.\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/mpc-hc/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -107,8 +107,8 @@ msgid "Signal"
 msgstr "Sinyal"
 
 msgctxt "IDS_STATSBAR_SIGNAL_FORMAT"
-msgid "Strength: %d dB, Quality: %d%%"
-msgstr "Etki: %d dB, Kalite: %d%%"
+msgid "Strength: %d dB, Quality: %ld%%"
+msgstr "Etki: %d dB, Kalite: %ld%%"
 
 msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
 msgid "Styles"
@@ -848,11 +848,11 @@ msgstr "İşleyici seçimi tanımlanmamışsa, varsayılan biçim kullanılacakt
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
-msgstr ""
+msgstr "Alt yazı hareketlendirmelerini engeller. Bu ayar işlemci kullanımını düşürecektir. Alt yazılar parlak gösteriliyorsa kullanmanız önerilir."
 
 msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
-msgstr ""
+msgstr "Tamponlanacak çerçeve sayısını arttırmak, daha fazla video belleği kullanımına yol açsa da işleyici performansında genel bir artış sağlayacaktır."
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
@@ -860,7 +860,7 @@ msgstr "Bu tuşa tıkladıktan sonra, seçili olan grup biçimi MPC-HC 'nin geç
 
 msgctxt "IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Disabling this option will prevent the subtitles from blinking but it may cause the video renderer to skip some video frames."
-msgstr ""
+msgstr "Bu ayarı kapatmak alt yazıların parlak gösterilmesini önlemek için kullanılır, ancak video işleyicisinin bazı görüntüleri atlamasına neden olabilmektedir."
 
 msgctxt "ID_PLAY_PLAY"
 msgid "Play\nPlay"
@@ -1286,12 +1286,48 @@ msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
 msgstr "\"Belgeler\" menüsünde gösterilip, dosya yerleşiminde hatırlanacak en fazla dosya sayısını belirleyin."
 
+msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
+msgid "Remember file position only for files longer than N minutes."
+msgstr "Dosya yerleşimini sadece N dakikadan büyük dosyalar için hatırla."
+
+msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
+msgid "Remember file position also for audio files."
+msgstr "Dosya yerleşimini ses dosyaları için de hatırla."
+
+msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
+msgid "Do Nothing"
+msgstr "Bir işlem yapma"
+
+msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
+msgid "Play next file in the folder"
+msgstr "Klasördeki sıradaki dosyayı yürüt"
+
+msgctxt "IDS_AFTER_PLAYBACK_REWIND"
+msgid "Rewind current file"
+msgstr "Geçerli dosyayı tekrar oynat"
+
+msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
+msgid "Close"
+msgstr "Kapat"
+
+msgctxt "IDS_AFTER_PLAYBACK_EXIT"
+msgid "Exit"
+msgstr "Çıkış"
+
+msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
+msgid "Turn off the monitor"
+msgstr "Ekranı kapat"
+
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
 msgid "JPEG Image"
-msgstr ""
+msgstr "JPEG Görüntüsü"
 
 msgctxt "IDS_IMAGE_QUALITY"
 msgid "Quality (%):"
+msgstr "Kalite (%):"
+
+msgctxt "IDS_PPAGEADVANCED_COVER_SIZE_LIMIT"
+msgid "Maximum size (NxNpx) of a cover-art loaded in the audio only mode."
 msgstr ""
 
 msgctxt "IDS_AG_OPEN_DEVICE"
@@ -1979,16 +2015,16 @@ msgid "Buffers"
 msgstr "Tamponlar"
 
 msgctxt "IDS_MAINFRM_9"
-msgid "Volume: %02d/%02d, Title: %02d/%02d, Chapter: %02d/%02d"
-msgstr "Ses: %02d/%02d, Başlık: %02d/%02d, Bölüm: %02d/%02d"
+msgid "Volume: %02lu/%02lu, Title: %02lu/%02lu, Chapter: %02lu/%02lu"
+msgstr "Ses: %02lu/%02lu, Başlık: %02lu/%02lu, Bölüm: %02lu/%02lu"
 
 msgctxt "IDS_MAINFRM_10"
-msgid "Angle: %02d/%02d, %dx%d %dHz %d:%d"
-msgstr "Açı: %02d/%02d, %dx%d %dHz %d:%d"
+msgid "Angle: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
+msgstr "Açı: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
 
 msgctxt "IDS_MAINFRM_11"
-msgid "%s, %s %dHz %dbits %d %s"
-msgstr "%s, %s %dHz %dbit %d %s"
+msgid "%s, %s %uHz %dbits %d %s"
+msgstr "%s, %s %uHz %dbit %d %s"
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
@@ -2015,8 +2051,8 @@ msgid "channels"
 msgstr "kanal"
 
 msgctxt "IDS_AG_TITLE"
-msgid "Title %d"
-msgstr "Başlık %d"
+msgid "Title %u"
+msgstr "Başlık %u"
 
 msgctxt "IDS_MAINFRM_16"
 msgid "DVD: Unexpected error"
@@ -2091,8 +2127,8 @@ msgid "Aspect Ratio"
 msgstr "Taraf Oranı"
 
 msgctxt "IDS_MAINFRM_37"
-msgid ", Total: %d, Dropped: %d"
-msgstr ", Toplam: %d, Atlanan: %d"
+msgid ", Total: %ld, Dropped: %ld"
+msgstr ", Toplam: %ld, Atlanan: %ld"
 
 msgctxt "IDS_MAINFRM_38"
 msgid ", Size: %I64dKB"
@@ -2187,8 +2223,8 @@ msgid "Subtitle files"
 msgstr "Alt yazı dosyaları"
 
 msgctxt "IDS_MAINFRM_68"
-msgid "Aspect Ratio: %d:%d"
-msgstr "Taraf Oranı: %d:%d"
+msgid "Aspect Ratio: %ld:%ld"
+msgstr "Taraf Oranı: %ld:%ld"
 
 msgctxt "IDS_MAINFRM_69"
 msgid "Aspect Ratio: Default"
@@ -2259,8 +2295,8 @@ msgid "MPC-HC terminated unexpectedly. To help us fix this problem, please send 
 msgstr "MPC-HC beklenmeyen bir şekilde sonlandırıldı. Bu sorunu giderebilmemiz için lütfen \"%s\" dosyasını hata izleyici adresimize gönderiniz.\n\nDöküm dosyasının kaydedildiği klasörü açıp, hata izleyicisi sayfamızı ziyaret etmek istiyor musunuz?"
 
 msgctxt "IDS_MPC_MINIDUMP_FAIL"
-msgid "Failed to create dump file to \"%s\" (error %d)"
-msgstr "%d hatası yüzünden '%s' döküm dosyası oluşturulamadı"
+msgid "Failed to create dump file to \"%s\" (error %u)"
+msgstr "%u hatası yüzünden '%s' döküm dosyası oluşturulamadı"
 
 msgctxt "IDS_MAINFRM_DIR_TITLE"
 msgid "Select Directory"
@@ -2371,8 +2407,8 @@ msgid "Unknown Stream"
 msgstr "Bilinmeyen Akış"
 
 msgctxt "IDS_AG_UNKNOWN"
-msgid "Unknown %d"
-msgstr "Bilinmeyen %d"
+msgid "Unknown %u"
+msgstr "Bilinmeyen %u"
 
 msgctxt "IDS_AG_VSYNC"
 msgid "VSync"
@@ -2391,8 +2427,8 @@ msgid "Enable DVD subtitles"
 msgstr "DVD alt yazılarını kullan"
 
 msgctxt "IDS_AG_ANGLE"
-msgid "Angle %d"
-msgstr "Açı %d"
+msgid "Angle %u"
+msgstr "Açı %u"
 
 msgctxt "IDS_AG_VSYNCOFFSET_INCREASE"
 msgid "Increase VSync Offset"
@@ -3408,7 +3444,7 @@ msgstr "Oynatmadan Sonra: Kilitle"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
-msgstr ""
+msgstr "Oynatmadan Sonra: Ekranı kapat"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
@@ -3469,36 +3505,4 @@ msgstr "&Kanallar"
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"
 msgstr "Ayarlar"
-
-msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
-msgid "Remember file position only for files longer than N minutes."
-msgstr "Dosya yerleşimini sadece N dakikadan büyük dosyalar için hatırla."
-
-msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
-msgid "Remember file position also for audio files."
-msgstr "Dosya yerleşimini ses dosyaları için de hatırla."
-
-msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
-msgid "Do Nothing"
-msgstr ""
-
-msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
-msgid "Play next file in the folder"
-msgstr ""
-
-msgctxt "IDS_AFTER_PLAYBACK_REWIND"
-msgid "Rewind current file"
-msgstr ""
-
-msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
-msgid "Close"
-msgstr ""
-
-msgctxt "IDS_AFTER_PLAYBACK_EXIT"
-msgid "Exit"
-msgstr ""
-
-msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
-msgid "Turn off the monitor"
-msgstr ""
 

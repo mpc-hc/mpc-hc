@@ -170,25 +170,18 @@ HRESULT CDVBSub::GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VideoS
         return E_FAIL;        \
     }
 
-HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
+HRESULT CDVBSub::ParseSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE* pData, int nLen)
 {
-    CheckPointer(pSample, E_POINTER);
+    CheckPointer(pData, E_POINTER);
 
     CAutoLock cAutoLock(&m_csCritSec);
 
     HRESULT hr;
-    BYTE* pData = nullptr;
-    int nSize;
     DVB_SEGMENT_TYPE nCurSegment;
 
-    hr = pSample->GetPointer(&pData);
-    if (FAILED(hr) || pData == nullptr) {
-        return hr;
-    }
-    nSize = pSample->GetActualDataLength();
 
     if (*((LONG*)pData) == 0xBD010000) {
-        CGolombBuffer gb(pData, nSize);
+        CGolombBuffer gb(pData, nLen);
 
         gb.SkipBytes(4);
         WORD wLength = (WORD)gb.BitRead(16);
@@ -236,15 +229,13 @@ HRESULT CDVBSub::ParseSample(IMediaSample* pSample)
             m_rtStop = INVALID_TIME;
         }
 
-        nSize -= 14;
+        nLen  -= 14;
         pData += 14;
-        pSample->GetTime(&m_rtStart, &m_rtStop);
-        pSample->GetMediaTime(&m_rtStart, &m_rtStop);
-    } else if (SUCCEEDED(pSample->GetTime(&m_rtStart, &m_rtStop))) {
-        pSample->SetTime(&m_rtStart, &m_rtStop);
     }
+    m_rtStart = rtStart;
+    m_rtStop = m_rtStop;
 
-    hr = AddToBuffer(pData, nSize);
+    hr = AddToBuffer(pData, nLen);
     if (hr == S_OK) {
         CGolombBuffer gb(m_pBuffer + m_nBufferReadPos, m_nBufferWritePos - m_nBufferReadPos);
         size_t nLastPos = 0;

@@ -4,12 +4,12 @@
 # Translators:
 # bruce55 <bruce.luo+transifex@nyu.edu>, 2014
 # kasper93, 2013
-# Ming Chen <yzonline@gmail.com>, 2013
+# Ming Chen <yzonline@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-04-22 11:15:01+0000\n"
-"PO-Revision-Date: 2014-07-18 10:22+0000\n"
+"POT-Creation-Date: 2014-08-19 21:10:25+0000\n"
+"PO-Revision-Date: 2014-08-20 10:11+0000\n"
 "Last-Translator: Ming Chen <yzonline@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/mpc-hc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -612,7 +612,7 @@ msgstr "锁定(&L)"
 
 msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
 msgid "Turn off the &monitor"
-msgstr ""
+msgstr "关闭显示器(&m)"
 
 msgctxt "POPUP"
 msgid "&Navigate"
