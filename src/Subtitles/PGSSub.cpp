@@ -311,9 +311,7 @@ int CPGSSub::ParsePresentationSegment(REFERENCE_TIME rt, CGolombBuffer* pGBuffer
 void CPGSSub::EnqueuePresentationSegment()
 {
     if (m_pCurrentPresentationSegment) {
-        // TODO: improve the handling of subtitles without known end time in the queue
-        //       so that empty segments can be ignored again safely
-        /*if (m_pCurrentPresentationSegment->objectCount > 0) */{
+        if (m_pCurrentPresentationSegment->objectCount > 0) {
             m_pCurrentPresentationSegment->CLUT = m_CLUTs[m_pCurrentPresentationSegment->CLUT.id];
 
             // Get the objects' data
@@ -334,10 +332,10 @@ void CPGSSub::EnqueuePresentationSegment()
             TRACE_PGSSUB(_T("CPGSSub: Enqueue Presentation Segment %d - %s => ?\n"), m_pCurrentPresentationSegment->composition_descriptor.nNumber,
                          ReftimeToString(m_pCurrentPresentationSegment->rtStart));
             m_pPresentationSegments.AddTail(m_pCurrentPresentationSegment);
-        }/* else {
+        } else {
             TRACE_PGSSUB(_T("CPGSSub: Delete empty Presentation Segment %d\n"), m_pCurrentPresentationSegment->composition_descriptor.nNumber);
             m_pCurrentPresentationSegment.Free();
-        }*/
+        }
     }
 }
 
