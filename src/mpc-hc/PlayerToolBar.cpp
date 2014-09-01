@@ -54,7 +54,16 @@ bool CPlayerToolBar::LoadExternalToolBar(CImage* image)
     if (FAILED(image->Load(path + _T("toolbar.png")))) {
         // If it fails, try to load an external BMP toolbar
         if (FAILED(image->Load(path + _T("toolbar.bmp")))) {
-            success = false;
+            if (AfxGetMyApp()->GetAppDataPath(path)) {
+                // Try to load logo from AppData path
+                if (FAILED(image->Load(path + _T("\\toolbar.png")))) {
+                    if (FAILED(image->Load(path + _T("\\toolbar.bmp")))) {
+                        success = false;
+                    }
+                }
+            } else {
+                success = false;
+            }
         }
     }
 

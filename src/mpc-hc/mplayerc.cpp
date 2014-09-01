@@ -741,20 +741,27 @@ bool CMPlayerCApp::IsIniValid() const
 
 bool CMPlayerCApp::GetAppSavePath(CString& path)
 {
-    path.Empty();
-
     if (IsIniValid()) { // If settings ini file found, store stuff in the same folder as the exe file
         path = GetProgramPath();
     } else {
-        HRESULT hr = SHGetFolderPath(nullptr, CSIDL_APPDATA, nullptr, 0, path.GetBuffer(MAX_PATH));
-        path.ReleaseBuffer();
-        if (FAILED(hr)) {
-            return false;
-        }
-        CPath p;
-        p.Combine(path, _T("MPC-HC"));
-        path = (LPCTSTR)p;
+        return GetAppDataPath(path);
     }
+
+    return true;
+}
+
+bool CMPlayerCApp::GetAppDataPath(CString& path)
+{
+    path.Empty();
+
+    HRESULT hr = SHGetFolderPath(nullptr, CSIDL_APPDATA, nullptr, 0, path.GetBuffer(MAX_PATH));
+    path.ReleaseBuffer();
+    if (FAILED(hr)) {
+        return false;
+    }
+    CPath p;
+    p.Combine(path, _T("MPC-HC"));
+    path = (LPCTSTR)p;
 
     return true;
 }
