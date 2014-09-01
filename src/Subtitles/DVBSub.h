@@ -215,8 +215,6 @@ private:
     CAutoPtrList<DVB_PAGE> m_pages;
     CAutoPtr<DVB_PAGE>     m_pCurrentPage;
     DVB_DISPLAY            m_displayInfo;
-    REFERENCE_TIME         m_rtStart;
-    REFERENCE_TIME         m_rtStop;
 
     HRESULT  AddToBuffer(BYTE* pData, int nSize);
 

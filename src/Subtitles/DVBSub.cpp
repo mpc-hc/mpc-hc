@@ -38,8 +38,6 @@ CDVBSub::CDVBSub(CCritSec* pLock, const CString& name, LCID lcid)
     , m_nBufferWritePos(0)
     , m_nBufferSize(0)
     , m_pBuffer(nullptr)
-    , m_rtStart(0)
-    , m_rtStop(0)
 {
     if (m_name.IsEmpty() || m_name == _T("Unknown")) {
         m_name = "DVB Embedded Subtitle";
@@ -178,6 +176,8 @@ HRESULT CDVBSub::ParseSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE
     if (*((LONG*)pData) == 0xBD010000) {
         CGolombBuffer gb(pData, nLen);
 
+        size_t headerSize = 9;
+
         gb.SkipBytes(4);
         WORD wLength = (WORD)gb.BitRead(16);
         UNREFERENCED_PARAMETER(wLength);
@@ -217,18 +217,19 @@ HRESULT CDVBSub::ParseSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE
             MARKER; // 14..0
             pts = 10000 * pts / 90;
 
-            m_rtStart = pts;
-            m_rtStop = pts + 1;
-        } else {
-            m_rtStart = INVALID_TIME;
-            m_rtStop = INVALID_TIME;
+            TRACE_DVB(_T("DVB - ParseSample: Received a packet with a presentation timestamp PTS=%s\n"), ReftimeToString(pts));
+            if (pts != rtStart) {
+                TRACE_DVB(_T("DVB - ParseSample: WARNING: The parsed PTS doesn't match the sample start time (%s)\n"), ReftimeToString(rtStart));
+                ASSERT(FALSE);
+                rtStart = pts;
+            }
+
+            headerSize += 5;
         }
 
-        nLen  -= 14;
-        pData += 14;
+        nLen  -= headerSize;
+        pData += headerSize;
     }
-    m_rtStart = rtStart;
-    m_rtStop = m_rtStop;
 
     hr = AddToBuffer(pData, nLen);
     if (hr == S_OK) {
@@ -257,13 +258,13 @@ HRESULT CDVBSub::ParseSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE
                     case PAGE: {
                         if (m_pCurrentPage != nullptr) {
                             TRACE_DVB(_T("DVB - Force End display\n"));
-                            EnqueuePage(m_rtStart);
+                            EnqueuePage(rtStart);
                         }
-                        UpdateTimeStamp(m_rtStart);
+                        UpdateTimeStamp(rtStart);
 
                         CAutoPtr<DVB_PAGE> pPage;
                         hr = ParsePage(gb, wSegLength, pPage);
-                        pPage->rtStart = m_rtStart;
+                        pPage->rtStart = rtStart;
                         pPage->rtStop = pPage->rtStart + pPage->pageTimeOut * 10000000;
 
                         if (FAILED(hr)) {
@@ -272,7 +273,7 @@ HRESULT CDVBSub::ParseSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE
                             m_pCurrentPage = pPage;
 
                             TRACE_DVB(_T("DVB - Page started [pageState = %d] %s, TimeOut = %ds\n"), m_pCurrentPage->pageState,
-                                      ReftimeToString(m_rtStart), m_pCurrentPage->pageTimeOut);
+                                      ReftimeToString(rtStart), m_pCurrentPage->pageTimeOut);
                         } else if (pPage->pageState == DPS_NORMAL && !m_pages.IsEmpty()) {
                             m_pCurrentPage = pPage;
 
@@ -292,9 +293,9 @@ HRESULT CDVBSub::ParseSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE
                             }
 
                             TRACE_DVB(_T("DVB - Page started [update] %s, TimeOut = %ds\n"),
-                                      ReftimeToString(m_rtStart), m_pCurrentPage->pageTimeOut);
+                                      ReftimeToString(rtStart), m_pCurrentPage->pageTimeOut);
                         } else {
-                            TRACE_DVB(_T("DVB - Page update ignored %s\n"), ReftimeToString(m_rtStart));
+                            TRACE_DVB(_T("DVB - Page update ignored %s\n"), ReftimeToString(rtStart));
                         }
                     }
                     break;
@@ -316,12 +317,12 @@ HRESULT CDVBSub::ParseSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE
                         break;
                     case END_OF_DISPLAY:
                         if (m_pCurrentPage == nullptr) {
-                            TRACE_DVB(_T("DVB - Ignored End display %s: no current page\n"), ReftimeToString(m_rtStart));
-                        } else if (m_pCurrentPage->rtStart < m_rtStart) {
+                            TRACE_DVB(_T("DVB - Ignored End display %s: no current page\n"), ReftimeToString(rtStart));
+                        } else if (m_pCurrentPage->rtStart < rtStart) {
                             TRACE_DVB(_T("DVB - End display\n"));
-                            EnqueuePage(m_rtStart);
+                            EnqueuePage(rtStart);
                         } else {
-                            TRACE_DVB(_T("DVB - Ignored End display %s: no information on page duration\n"), ReftimeToString(m_rtStart));
+                            TRACE_DVB(_T("DVB - Ignored End display %s: no information on page duration\n"), ReftimeToString(rtStart));
                         }
                         break;
                     default:
