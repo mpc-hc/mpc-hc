@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2014 see Authors.txt
+ * (C) 2009-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -101,7 +101,7 @@ STDMETHODIMP CDVBSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, REC
 
     if (POSITION posPage = FindPage(rt)) {
         const auto& pPage = m_pages.GetAt(posPage);
-        bool BT709 = m_infoSourceTarget.sourceMatrix == BT_709 ? true : m_infoSourceTarget.sourceMatrix == NONE ? (m_displayInfo.width > 720) : false;
+        m_eSourceMatrix = ColorConvTable::NONE ? (m_displayInfo.width > 720) ? ColorConvTable::BT709 : ColorConvTable::BT601 : m_eSourceMatrix;
 
         pPage->rendered = true;
         TRACE_DVB(_T("DVB - Renderer - %s - %s\n"), ReftimeToString(pPage->rtStart), ReftimeToString(pPage->rtStop));
@@ -126,8 +126,7 @@ STDMETHODIMP CDVBSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, REC
                             short nY = regionPos.vertAddr + objectPos.object_vertical_position;
                             pObject->m_width = pRegion->width;
                             pObject->m_height = pRegion->height;
-                            pObject->SetPalette(pCLUT->size, pCLUT->palette, BT709,
-                                                m_infoSourceTarget.sourceBlackLevel, m_infoSourceTarget.sourceWhiteLevel, m_infoSourceTarget.targetBlackLevel, m_infoSourceTarget.targetWhiteLevel);
+                            pObject->SetPalette(pCLUT->size, pCLUT->palette, m_eSourceMatrix);
                             pObject->RenderDvb(spd, nX, nY);
 
                             TRACE_DVB(_T(" --> %d/%d - %d/%d\n"), nRegion, pPage->regionsPos.GetCount(), nObject, pRegion->objects.GetCount());

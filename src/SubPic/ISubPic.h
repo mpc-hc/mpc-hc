@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -219,6 +219,7 @@ public IPersist {
     STDMETHOD_(int, GetStream)() PURE;
     STDMETHOD(SetStream)(int iStream) PURE;
     STDMETHOD(Reload)() PURE;
+    STDMETHOD(SetSourceTargetInfo)(CString yuvMatrix, int targetBlackLevel, int targetWhiteLevel) PURE;
 
     // TODO: get rid of IPersist to identify type and use only
     // interface functions to modify the settings of the substream

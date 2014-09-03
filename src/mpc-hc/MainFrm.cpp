@@ -13572,36 +13572,34 @@ void CMainFrame::SetSubtitle(const SubtitleInput& subInput)
                 pRTS->SetOverride(s.fUseDefaultSubtitlesStyle, s.subtitlesDefStyle);
                 pRTS->SetAlignment(s.fOverridePlacement, s.nHorPos, s.nVerPos);
                 pRTS->Deinit();
-            } else if (clsid == __uuidof(CRLECodedSubtitle)) {
-                CRLECodedSubtitle* pRHS = (CRLECodedSubtitle*)(ISubStream*)subInput.pSubStream;
-
-                CComQIPtr<ISubRenderOptions> pSRO = m_pCAP;
-                CComQIPtr<IMadVRInfo> pMVRI = m_pCAP;
-
-                LPWSTR yuvMatrix = nullptr;
-                int nLen;
-                if (pMVRI) {
-                    pMVRI->GetString("yuvMatrix", &yuvMatrix, &nLen);
-                } else if (pSRO) {
-                    pSRO->GetString("yuvMatrix", &yuvMatrix, &nLen);
-                }
-
-                int targetBlackLevel = 0, targetWhiteLevel = 255;
-                if (m_pMVRS) {
-                    m_pMVRS->SettingsGetInteger(L"Black", &targetBlackLevel);
-                    m_pMVRS->SettingsGetInteger(L"White", &targetWhiteLevel);
-                } else if (pSRO) {
-                    int range = 0;
-                    pSRO->GetInt("supportedLevels", &range);
-                    if (range == 3) {
-                        targetBlackLevel = 16;
-                        targetWhiteLevel = 235;
-                    }
-                }
-
-                pRHS->SetSourceTargetInfo(yuvMatrix, targetBlackLevel, targetWhiteLevel);
-                LocalFree(yuvMatrix);
             }
+
+            CComQIPtr<ISubRenderOptions> pSRO = m_pCAP;
+            CComQIPtr<IMadVRInfo> pMVRI = m_pCAP;
+
+            LPWSTR yuvMatrix = nullptr;
+            int nLen;
+            if (pMVRI) {
+                pMVRI->GetString("yuvMatrix", &yuvMatrix, &nLen);
+            } else if (pSRO) {
+                pSRO->GetString("yuvMatrix", &yuvMatrix, &nLen);
+            }
+
+            int targetBlackLevel = 0, targetWhiteLevel = 255;
+            if (m_pMVRS) {
+                m_pMVRS->SettingsGetInteger(L"Black", &targetBlackLevel);
+                m_pMVRS->SettingsGetInteger(L"White", &targetWhiteLevel);
+            } else if (pSRO) {
+                int range = 0;
+                pSRO->GetInt("supportedLevels", &range);
+                if (range == 3) {
+                    targetBlackLevel = 16;
+                    targetWhiteLevel = 235;
+                }
+            }
+
+            subInput.pSubStream->SetSourceTargetInfo(yuvMatrix, targetBlackLevel, targetWhiteLevel);
+            LocalFree(yuvMatrix);
         }
 
         m_pCurrentSubInput = subInput;

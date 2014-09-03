@@ -33,7 +33,7 @@ struct ColorConvTable {
         RANGE_PC
     };
 
-    static void SetDefaultConvType(YuvMatrixType yuv_type, YuvRangeType range);
+    static void SetDefaultConvType(YuvMatrixType yuv_type, YuvRangeType range, bool bOutputTVRange, bool bVSFilterCorrection);
 
     static YuvMatrixType GetDefaultYUVType();
     static YuvRangeType GetDefaultRangeType();
@@ -57,20 +57,13 @@ struct ColorConvTable {
     static DWORD A8Y8U8V8_TV_To_PC(int a8, int y8, int u8, int v8);
 
     //should not past NONE into it
-    static DWORD A8Y8U8V8_TO_AYUV(
-        int a8, int y8, int u8, int v8,
-        YuvRangeType in_range, YuvMatrixType in_type,
-        YuvRangeType out_range, YuvMatrixType out_type);
-    static DWORD A8Y8U8V8_TO_CUR_AYUV(int a8, int y8, int u8, int v8,
-                                      YuvRangeType in_range, YuvMatrixType in_type);
-    static DWORD A8Y8U8V8_TO_ARGB(
-        int a8, int y8, int u8, int v8,
-        YuvRangeType in_range, YuvMatrixType in_type,
-        bool output_tv_level);
+    static DWORD A8Y8U8V8_TO_AYUV(int a8, int y8, int u8, int v8, YuvRangeType in_range, YuvMatrixType in_type, YuvRangeType out_range, YuvMatrixType out_type);
+    static DWORD A8Y8U8V8_TO_CUR_AYUV(int a8, int y8, int u8, int v8, YuvRangeType in_range, YuvMatrixType in_type);
+    static DWORD A8Y8U8V8_TO_ARGB(int a8, int y8, int u8, int v8, YuvMatrixType in_type);
 
     static DWORD RGB_PC_TO_TV(DWORD argb);
 
-    static DWORD ColorCorrection(DWORD argb, bool output_tv_level);
+    static DWORD ColorCorrection(DWORD argb);
 
     ColorConvTable() = delete;
 };

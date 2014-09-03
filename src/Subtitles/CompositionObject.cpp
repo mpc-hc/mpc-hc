@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2014 see Authors.txt
+ * (C) 2009-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,6 +20,7 @@
 
 #include "stdafx.h"
 #include "CompositionObject.h"
+#include "ColorConvTable.h"
 #include "../DSUtil/GolombBuffer.h"
 
 
@@ -82,15 +83,11 @@ void CompositionObject::Reset()
     Init();
 }
 
-void CompositionObject::SetPalette(int nNbEntry, const HDMV_PALETTE* pPalette, bool BT709, int sourceBlackLevel, int sourceWhiteLevel, int targetBlackLevel, int targetWhiteLevel)
+void CompositionObject::SetPalette(int nNbEntry, const HDMV_PALETTE* pPalette, ColorConvTable::YuvMatrixType currentMatrix)
 {
     m_nColorNumber = nNbEntry;
     for (int i = 0; i < nNbEntry; i++) {
-        if (BT709) {
-            m_colors[pPalette[i].entry_id] = YCrCbToRGB_Rec709(pPalette[i].T, pPalette[i].Y, pPalette[i].Cr, pPalette[i].Cb, sourceBlackLevel, sourceWhiteLevel, targetBlackLevel, targetWhiteLevel);
-        } else {
-            m_colors[pPalette[i].entry_id] = YCrCbToRGB_Rec601(pPalette[i].T, pPalette[i].Y, pPalette[i].Cr, pPalette[i].Cb, sourceBlackLevel, sourceWhiteLevel, targetBlackLevel, targetWhiteLevel);
-        }
+        m_colors[pPalette[i].entry_id] = ColorConvTable::A8Y8U8V8_TO_ARGB(pPalette[i].T, pPalette[i].Y, pPalette[i].Cb, pPalette[i].Cr, currentMatrix);
     }
 }
 
