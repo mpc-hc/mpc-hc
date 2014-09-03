@@ -38,6 +38,9 @@ public :
     #if MEDIAINFO_SEEK
     size_t  Open_Buffer_Seek        (size_t Method, int64u Value, int64u ID);
     #endif //MEDIAINFO_SEEK
+    #if MEDIAINFO_ADVANCED2
+    void    Open_Buffer_SegmentChange();
+    #endif //MEDIAINFO_ADVANCED2
     void    Open_Buffer_Unsynch     ();
     void    Open_Buffer_Update      ();
     void    Open_Buffer_Update      (File__Analyze* Sub);
@@ -94,9 +97,30 @@ public :
     int8u*              OriginalBuffer;
     size_t              OriginalBuffer_Size;
     size_t              OriginalBuffer_Capacity;
+    #if defined(MEDIAINFO_EIA608_YES) || defined(MEDIAINFO_EIA708_YES)
+        struct servicedescriptor
+        {
+            string language;
+        };
+        typedef std::map<int8u, servicedescriptor> servicedescriptors608;
+        typedef std::map<int8u, servicedescriptor> servicedescriptors708;
+        struct servicedescriptors
+        {
+            #if defined(MEDIAINFO_EIA608_YES)
+                std::map<int8u, servicedescriptor> ServiceDescriptors608;
+            #endif
+            #if defined(MEDIAINFO_EIA708_YES)
+                std::map<int8u, servicedescriptor> ServiceDescriptors708;
+            #endif
+        };
+        servicedescriptors* ServiceDescriptors;
+    #endif
 
     //Out
     int64u PTS_Begin;                  //In nanoseconds
+    #if MEDIAINFO_ADVANCED2
+    int64u PTS_Begin_Segment;          //In nanoseconds
+    #endif //MEDIAINFO_ADVANCED2
     int64u PTS_End;                    //In nanoseconds
     int64u DTS_Begin;                  //In nanoseconds
     int64u DTS_End;                    //In nanoseconds
@@ -144,6 +168,9 @@ protected :
     virtual size_t Read_Buffer_Seek (size_t, int64u, int64u); //Temp, should be in File__Base caller
     size_t Read_Buffer_Seek_OneFramePerFile (size_t, int64u, int64u);
     #endif //MEDIAINFO_SEEK
+    #if MEDIAINFO_ADVANCED2
+    virtual void Read_Buffer_SegmentChange () {}; //Temp, should be in File__Base caller
+    #endif //MEDIAINFO_ADVANCED2
     virtual void Read_Buffer_Unsynched ()     {}; //Temp, should be in File__Base caller
     void Read_Buffer_Unsynched_OneFramePerFile ();
     virtual void Read_Buffer_Finalize ()      {}; //Temp, should be in File__Base caller
@@ -649,7 +676,7 @@ public :
     void Get_UTF16B (int64u Bytes, Ztring      &Info);
     void Get_UTF16L (int64u Bytes, Ztring      &Info);
     inline void Get_Local  (int64u Bytes, Ztring      &Info, const char*) {Get_Local(Bytes, Info);}
-    inline void Get_ISO_6937_2 (int64u Bytes, Ztring  &Info, const char*) {Get_ISO_8859_1(Bytes, Info);}
+    inline void Get_ISO_6937_2 (int64u Bytes, Ztring  &Info, const char*) {Get_ISO_6937_2(Bytes, Info);}
     inline void Get_ISO_8859_1 (int64u Bytes, Ztring  &Info, const char*) {Get_ISO_8859_1(Bytes, Info);}
     inline void Get_ISO_8859_2 (int64u Bytes, Ztring  &Info, const char*) {Get_ISO_8859_2(Bytes, Info);}
     inline void Get_ISO_8859_5 (int64u Bytes, Ztring  &Info, const char*) {Get_ISO_8859_5(Bytes, Info);}
@@ -1268,6 +1295,14 @@ public :
     bool    PES_FirstByte_Value;
 
     int64u  Unsynch_Frame_Count;
+
+    //AES
+    #if MEDIAINFO_AES
+        AESdecrypt* AES;
+        int8u*      AES_IV;
+        int8u*      AES_Decrypted;
+        size_t      AES_Decrypted_Size;
+    #endif //MEDIAINFO_AES
 
     //MD5
     #if MEDIAINFO_MD5

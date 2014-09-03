@@ -111,20 +111,24 @@ void File_Bmp::Read_Buffer_Continue()
         Peek_L4 (DIB_Size);
         switch (DIB_Size)
         {
-            case  12 : Skip_XX(DIB_Size-4,                      "OS/2 v1 header"); break;
-            case  40 : BitmapInfoHeader(); break;
-            case  52 : Skip_XX(DIB_Size-4,                      "BitmapV2Header"); break;
-            case  56 : Skip_XX(DIB_Size-4,                      "BitmapV3Header"); break;
-            case  64 : Skip_XX(DIB_Size-4,                      "OS/2 v2 header"); break;
-            case 108 : BitmapV4Header(); break;
-            case 124 : Skip_XX(DIB_Size-4,                      "BitmapV5Header"); break;
-            default  : Skip_XX(DIB_Size-4,                      "Unknown header");
-            ;
+            case  12 : BitmapCoreHeader(1); break;
+            case  40 : BitmapInfoHeader(1); break;
+            case  52 : BitmapInfoHeader(2); break;
+            case  56 : BitmapInfoHeader(3); break;
+            case  64 : BitmapCoreHeader(2); break;
+            case 108 : BitmapInfoHeader(4); break;
+            case 124 : BitmapInfoHeader(5); break;
+            default  : if (DIB_Size>124)
+                       {
+                           BitmapInfoHeader((int8u)-1); //Future versions of BitmapInfoHeader (OS/2 is abandonned)
+                           Skip_XX(14+124-Element_Offset,       "Unknown");
+                       }
         }
     Element_End0();
 
-    Skip_XX(Offset-Element_Offset,                              "Color palette");
-    Skip_XX(Element_Size-Offset,                                "Bitmap data");
+    if (Element_Offset<Offset)
+        Skip_XX(Offset-Element_Offset,                          "Other header data");
+    Skip_XX(File_Size-Offset,                                   "Image data");
 
     //No need of more
     Finish("BMP");
@@ -134,11 +138,69 @@ void File_Bmp::Read_Buffer_Continue()
 // Buffer - Elements
 //***************************************************************************
 
-//---------------------------------------------------------------------------
-void File_Bmp::BitmapInfoHeader()
+void File_Bmp::BitmapCoreHeader(int8u Version)
 {
+    #if MEDIAINFO_TRACE
+        switch (Version)
+        {
+            case 1 : Element_Info1("OS/2 1.x BITMAPCOREHEADER"); break;
+            case 2 : Element_Info1("OS/2 2.x BITMAPCOREHEADER"); break;
+            default: Element_Info1("OS/2 ? BITMAPCOREHEADER");
+        }
+    #endif //MEDIAINFO_TRACE
+
     //Parsing
-    Element_Begin1("Bitmap Info header");
+    int16u Width, Height, BitsPerPixel;
+    Skip_L4(                                                    "Size");
+    Get_L2 (Width,                                              "Width");
+    Get_L2 (Height,                                             "Height");
+    Skip_L2(                                                    "Color planes");
+    Get_L2 (BitsPerPixel,                                       "Bits per pixel");
+
+    FILLING_BEGIN();
+        if (BitsPerPixel<8)
+            BitsPerPixel=8; //It is a palette
+
+        Fill(Stream_Image, 0, Image_Width, Width);
+        Fill(Stream_Image, 0, Image_Height, Height);
+        Fill(Stream_Image, 0, Image_BitDepth, BitsPerPixel);
+        Fill(Stream_Image, 0, Image_ColorSpace, "RGB");
+    FILLING_END();
+
+    if (Version>1) //V2 additional fields for information only
+    {
+        Skip_L4(                                                "Compression");
+        Skip_L4(                                                "ImageDataSize");
+        Skip_L4(                                                "XResolution");
+        Skip_L4(                                                "YResolution");
+        Skip_L4(                                                "ColorsUsed");
+        Skip_L4(                                                "ColorsImportant");
+        Skip_L2(                                                "Units");
+        Skip_L2(                                                "Reserved");
+        Skip_L2(                                                "Recording");
+        Skip_L2(                                                "Rendering");
+        Skip_L4(                                                "Size1");
+        Skip_L4(                                                "Size2");
+        Skip_L4(                                                "ColorEncoding");
+        Skip_L4(                                                "Identifier");
+    }
+}
+
+void File_Bmp::BitmapInfoHeader(int8u Version)
+{
+    #if MEDIAINFO_TRACE
+        switch (Version)
+        {
+            case 1 : Element_Info1("BITMAPINFOHEADER"); break;
+            case 2 : Element_Info1("BITMAPV2INFOHEADER"); break;
+            case 3 : Element_Info1("BITMAPV3INFOHEADER"); break;
+            case 4 : Element_Info1("BITMAPV4HEADER"); break;
+            case 5 : Element_Info1("BITMAPV5HEADER"); break;
+            default: Element_Info1("BITMAPV?HEADER");
+        }
+    #endif //MEDIAINFO_TRACE
+
+    //Parsing
     int32u Width, Height, CompressionMethod;
     int16u BitsPerPixel;
     Skip_L4(                                                    "Size");
@@ -152,59 +214,51 @@ void File_Bmp::BitmapInfoHeader()
     Skip_L4(                                                    "Vertical resolution");
     Skip_L4(                                                    "Number of colors in the color palette");
     Skip_L4(                                                    "Number of important colors used");
-    Element_End0();
 
     FILLING_BEGIN();
+        if (BitsPerPixel<8)
+            BitsPerPixel=8; //It is a palette
+
         Fill(Stream_Image, 0, Image_Width, Width);
         Fill(Stream_Image, 0, Image_Height, Height);
         Fill(Stream_Image, 0, Image_BitDepth, BitsPerPixel);
         Fill(Stream_Image, 0, Image_Format, Bmp_CompressionMethod(CompressionMethod));
         Fill(Stream_Image, 0, Image_Codec, Bmp_CompressionMethod(CompressionMethod));
+        Fill(Stream_Image, 0, Image_ColorSpace, "RGB");
     FILLING_END();
+
+    if (Version>1)
+    {
+        Skip_L4(                                                "Red Channel bit mask");
+        Skip_L4(                                                "Green Channel bit mask");
+        Skip_L4(                                                "Blue Channel bit mask");
+        if (Version>2)
+        {
+            Skip_L4(                                            "Alpha Channel bit mask");
+            if (Version>3)
+            {
+                Skip_L4(                                        "Color Space endpoints");
+                Skip_L4(                                        "Color Space endpoints");
+                Skip_L4(                                        "Color Space endpoints");
+                Skip_L4(                                        "Color Space endpoints");
+                Skip_L4(                                        "Color Space endpoints");
+                Skip_L4(                                        "Color Space endpoints");
+                Skip_L4(                                        "Color Space endpoints");
+                Skip_L4(                                        "Red Gamma");
+                Skip_L4(                                        "Green Gamma");
+                Skip_L4(                                        "Blue Gamma");
+                if (Version>4)
+                {
+                    Skip_L4(                                    "Intent");
+                    Skip_L4(                                    "ProfileData");
+                    Skip_L4(                                    "ProfileSize");
+                    Skip_L4(                                    "Reserved");
+                }
+            }
+        }
+    }
 }
 
-
-void File_Bmp::BitmapV4Header()
-{
-    //Parsing
-    Element_Begin1("Bitmap V4 header");
-    int32u Width, Height, CompressionMethod;
-    int16u BitsPerPixel;
-    Skip_L4(                                                    "Size");
-    Get_L4 (Width,                                              "Width");
-    Get_L4 (Height,                                             "Height");
-    Skip_L2(                                                    "Color planes");
-    Get_L2 (BitsPerPixel,                                       "Bits per pixel");
-    Get_L4 (CompressionMethod,                                  "Compression method"); Param_Info1(Bmp_CompressionMethod(CompressionMethod));
-    Skip_L4(                                                    "Image size");
-    Skip_L4(                                                    "Horizontal resolution");
-    Skip_L4(                                                    "Vertical resolution");
-    Skip_L4(                                                    "Number of colors in the color palette");
-    Skip_L4(                                                    "Number of important colors used");
-    Skip_L4(                                                    "Red Channel bit mask");
-    Skip_L4(                                                    "Green Channel bit mask");
-    Skip_L4(                                                    "Blue Channel bit mask");
-    Skip_L4(                                                    "Alpha Channel bit mask");
-    Skip_L4(                                                    "Color Space endpoints");
-    Skip_L4(                                                    "Color Space endpoints");
-    Skip_L4(                                                    "Color Space endpoints");
-    Skip_L4(                                                    "Color Space endpoints");
-    Skip_L4(                                                    "Color Space endpoints");
-    Skip_L4(                                                    "Color Space endpoints");
-    Skip_L4(                                                    "Color Space endpoints");
-    Skip_L4(                                                    "Red Gamma");
-    Skip_L4(                                                    "Green Gamma");
-    Skip_L4(                                                    "Blue Gamma");
-    Element_End0();
-
-    FILLING_BEGIN();
-        Fill(Stream_Image, 0, Image_Width, Width);
-        Fill(Stream_Image, 0, Image_Height, Height);
-        Fill(Stream_Image, 0, Image_BitDepth, BitsPerPixel);
-        Fill(Stream_Image, 0, Image_Format, Bmp_CompressionMethod(CompressionMethod));
-        Fill(Stream_Image, 0, Image_Codec, Bmp_CompressionMethod(CompressionMethod));
-    FILLING_END();
-}
 } //NameSpace
 
 #endif

@@ -122,6 +122,9 @@ void File_DtvccTransport::Streams_Update_PerStream(size_t Pos)
         Ztring LawRating=Streams[Pos]->Parser->Retrieve(Stream_General, 0, General_LawRating);
         if (!LawRating.empty())
             Fill(Stream_General, 0, General_LawRating, LawRating, true);
+        Ztring Title=Streams[Pos]->Parser->Retrieve(Stream_General, 0, General_Title);
+        if (!Title.empty() && Retrieve(Stream_General, 0, General_Title).empty())
+            Fill(Stream_General, 0, General_Title, Title);
     }
 }
 
@@ -129,6 +132,16 @@ void File_DtvccTransport::Streams_Update_PerStream(size_t Pos)
 void File_DtvccTransport::Streams_Finish()
 {
     Clear(Stream_Text);
+
+    if (ServiceDescriptors)
+    {
+        if (ServiceDescriptors->ServiceDescriptors608.find(0)!=ServiceDescriptors->ServiceDescriptors608.end())
+            CreateStream(0);
+        if (ServiceDescriptors->ServiceDescriptors608.find(1)!=ServiceDescriptors->ServiceDescriptors608.end())
+            CreateStream(1);
+        if (!ServiceDescriptors->ServiceDescriptors708.empty())
+            CreateStream(2);
+    }
 
     //Per stream
     for (size_t Pos=0; Pos<Streams.size(); Pos++)
@@ -187,6 +200,9 @@ void File_DtvccTransport::Read_Buffer_Continue()
     {
         for (int8u Pos=0; Pos<cc_count; Pos++)
         {
+            if (Element_Offset+3>Element_Size)
+                break; //Found one stream with bad cc_count, we discard cc_count without flagging the stream as untrusted for the moment
+
             Element_Begin1("cc");
             int8u cc_type;
             bool  cc_valid;
@@ -217,38 +233,15 @@ void File_DtvccTransport::Read_Buffer_Continue()
                     //Calculating the parser position
                     int8u Parser_Pos=cc_type==3?2:cc_type; //cc_type 2 and 3 are for the same text
 
+                    //Stream creation
+                    if (Streams[Parser_Pos]==NULL)
+                        CreateStream(Parser_Pos);
+
                     //Parsing
                     #if MEDIAINFO_DEMUX
                         Element_Code=Parser_Pos;
+                        Demux(Buffer+(size_t)(Buffer_Offset+Element_Offset), 2, ContentType_MainStream);
                     #endif //MEDIAINFO_DEMUX
-                    if (Streams[Parser_Pos]==NULL)
-                        Streams[Parser_Pos]=new stream;
-                    if (Streams[Parser_Pos]->Parser==NULL)
-                    {
-                        #if defined(MEDIAINFO_EIA608_YES) || defined(MEDIAINFO_EIA708_YES)
-                            if (cc_type<2)
-                            {
-                                #if defined(MEDIAINFO_EIA608_YES)
-                                    Streams[Parser_Pos]->Parser=new File_Eia608();
-                                    ((File_Eia608*)Streams[Parser_Pos]->Parser)->cc_type=cc_type;
-                                #else //defined(MEDIAINFO_EIA608_YES)
-                                    Streams[Parser_Pos]->Parser=new File__Analyze();
-                                #endif //defined(MEDIAINFO_EIA608_YES)
-                            }
-                            else
-                            {
-                                #if defined(MEDIAINFO_EIA708_YES)
-                                    Streams[Parser_Pos]->Parser=new File_Eia708();
-                                #else //defined(MEDIAINFO_EIA708_YES)
-                                    Streams[Parser_Pos]->Parser=new File__Analyze();
-                                #endif //defined(MEDIAINFO_EIA708_YES)
-                            }
-                        #else //defined(MEDIAINFO_EIA608_YES) || defined(MEDIAINFO_EIA708_YES)
-                            Streams[Parser_Pos]->Parser=new File__Analyze();
-                        #endif //defined(MEDIAINFO_EIA608_YES) || defined(MEDIAINFO_EIA708_YES)
-                        Open_Buffer_Init(Streams[Parser_Pos]->Parser);
-                    }
-                    Demux(Buffer+(size_t)(Buffer_Offset+Element_Offset), 2, ContentType_MainStream);
                     if (!Streams[Parser_Pos]->Parser->Status[IsFinished])
                     {
                         //Parsing
@@ -275,13 +268,12 @@ void File_DtvccTransport::Read_Buffer_Continue()
                         else
                         {
                         }
+                        #if defined(MEDIAINFO_EIA608_YES) || defined(MEDIAINFO_EIA708_YES)
+                            Streams[Parser_Pos]->Parser->ServiceDescriptors=ServiceDescriptors;
+                        #endif
                         Open_Buffer_Continue(Streams[Parser_Pos]->Parser, Buffer+(size_t)(Buffer_Offset+Element_Offset), 2);
                         Element_Show();
                         Element_Offset+=2;
-
-                        //Filled
-                        if (!Status[IsAccepted])
-                            Accept("DTVCC Transport");
                     }
                     else
                         Skip_XX(2,                                  "Data");
@@ -291,6 +283,11 @@ void File_DtvccTransport::Read_Buffer_Continue()
                 Skip_XX(2,                                          "Junk");
             Element_End0();
         }
+
+        FILLING_BEGIN();
+            if (!Status[IsAccepted])
+                Accept("DTVCC Transport");
+        FILLING_END();
     }
     else
         Skip_XX(cc_count*2,                                         "Junk");
@@ -321,6 +318,51 @@ void File_DtvccTransport::Read_Buffer_Continue()
     }
 
     Element_End0();
+}
+
+//***************************************************************************
+// Helpers
+//***************************************************************************
+
+//---------------------------------------------------------------------------
+void File_DtvccTransport::CreateStream(int8u Parser_Pos)
+{
+    if (Streams[Parser_Pos])
+        return; //Already done
+
+    //Parsing
+    #if MEDIAINFO_DEMUX
+        Element_Code=Parser_Pos;
+    #endif //MEDIAINFO_DEMUX
+
+    //Creation of the parser
+    Streams[Parser_Pos]=new stream;
+    #if defined(MEDIAINFO_EIA608_YES) || defined(MEDIAINFO_EIA708_YES)
+        if (Parser_Pos<2)
+        {
+            #if defined(MEDIAINFO_EIA608_YES)
+                Streams[Parser_Pos]->Parser=new File_Eia608();
+                ((File_Eia608*)Streams[Parser_Pos]->Parser)->cc_type=Parser_Pos;
+            #else //defined(MEDIAINFO_EIA608_YES)
+                Streams[Parser_Pos]->Parser=new File__Analyze();
+            #endif //defined(MEDIAINFO_EIA608_YES)
+        }
+        else
+        {
+            #if defined(MEDIAINFO_EIA708_YES)
+                Streams[Parser_Pos]->Parser=new File_Eia708();
+            #else //defined(MEDIAINFO_EIA708_YES)
+                Streams[Parser_Pos]->Parser=new File__Analyze();
+            #endif //defined(MEDIAINFO_EIA708_YES)
+        }
+    #else //defined(MEDIAINFO_EIA608_YES) || defined(MEDIAINFO_EIA708_YES)
+        Streams[Parser_Pos]->Parser=new File__Analyze();
+    #endif //defined(MEDIAINFO_EIA608_YES) || defined(MEDIAINFO_EIA708_YES)
+
+    //Init
+    Streams[Parser_Pos]->Parser->ServiceDescriptors=ServiceDescriptors;
+    Open_Buffer_Init(Streams[Parser_Pos]->Parser);
+    Streams[Parser_Pos]->Parser->Accept();
 }
 
 //***************************************************************************

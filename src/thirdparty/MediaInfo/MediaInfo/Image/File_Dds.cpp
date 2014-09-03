@@ -58,7 +58,7 @@ File_Dds::File_Dds()
 void File_Dds::Streams_Accept()
 {
     Fill(Stream_General, 0, General_Format, "DDS");
-    
+
     if (!IsSub)
     {
         TestContinuousFileNames();
@@ -104,7 +104,7 @@ bool File_Dds::FileHeader_Begin()
         Reject();
         return false;
     }
-    
+
     //All should be OK...
     return true;
 }

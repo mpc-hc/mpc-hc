@@ -6,24 +6,18 @@
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //
-// Information about TTML files
+// Information about XMP files
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 //---------------------------------------------------------------------------
-#ifndef MediaInfo_File_TtmlH
-#define MediaInfo_File_TtmlH
+#ifndef MediaInfo_File_XmpH
+#define MediaInfo_File_XmpH
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
 #include "MediaInfo/File__Analyze.h"
 //---------------------------------------------------------------------------
-
-namespace tinyxml2
-{
-    class XMLDocument;
-    class XMLElement;
-}
 
 namespace MediaInfoLib
 {
@@ -32,27 +26,11 @@ namespace MediaInfoLib
 // Class File_Sami
 //***************************************************************************
 
-class File_Ttml : public File__Analyze
+class File_Xmp : public File__Analyze
 {
-public :
-    File_Ttml();
-
-    #if MEDIAINFO_EVENTS
-        int8u   MuxingMode;
-    #endif MEDIAINFO_EVENTS
-
 private :
-    //Streams management
-    void Streams_Accept();
-
     //Buffer - File header
     bool FileHeader_Begin();
-
-    //Buffer - Global
-    #if MEDIAINFO_SEEK
-    size_t Read_Buffer_Seek (size_t Method, int64u Value, int64u ID);
-    #endif //MEDIAINFO_SEEK
-    void Read_Buffer_Continue();
 };
 
 } //NameSpace

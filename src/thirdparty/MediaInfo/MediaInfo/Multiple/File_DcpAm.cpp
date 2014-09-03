@@ -107,8 +107,6 @@ bool File_DcpAm::FileHeader_Begin()
     if (!FileHeader_Begin_XML(document))
        return false;
 
-    bool IsDcp=false, IsImf=false;
-
     std::string NameSpace;
     XMLElement* AssetMap=document.FirstChildElement("AssetMap");
     if (AssetMap==NULL)
@@ -129,26 +127,16 @@ bool File_DcpAm::FileHeader_Begin()
         return false;
     }
 
-    if (!strcmp(Attribute, "http://www.digicine.com/PROTO-ASDCP-AM-20040311#"))
-        IsDcp=true;
-    if (!strcmp(Attribute, "http://www.smpte-ra.org/schemas/429-9/2007/AM"))
-    {
-        if (NameSpace.empty())
-            IsImf=true;
-        else
-            IsDcp=true;
-    }
-
-    if (!IsDcp && !IsImf)
+    if (strcmp(Attribute, "http://www.digicine.com/PROTO-ASDCP-AM-20040311#")
+     && strcmp(Attribute, "http://www.smpte-ra.org/schemas/429-9/2007/AM"))
     {
         Reject("DcpAm");
         return false;
     }
 
     Accept("DcpAm");
-    Fill(Stream_General, 0, General_Format, IsDcp?"DCP AM":"IMF AM");
-    if (IsDcp)
-        Fill(Stream_General, 0, General_Format_Version, NameSpace=="am:"?"SMPTE":"Interop");
+    Fill(Stream_General, 0, General_Format, "DCP AM");
+    Fill(Stream_General, 0, General_Format_Version, NameSpace=="am:"?"SMPTE":"Interop");
     Config->File_ID_OnlyRoot_Set(false);
 
     ReferenceFiles=new File__ReferenceFilesHelper(this, Config);
@@ -165,6 +153,7 @@ bool File_DcpAm::FileHeader_Begin()
                 if (!strcmp(AssetList_Item->Value(), (NameSpace+"Asset").c_str()))
                 {
                     File__ReferenceFilesHelper::reference ReferenceFile;
+                    bool IsPKL=false;
                     bool IsCPL=false;
 
                     for (XMLElement* Asset_Item=AssetList_Item->FirstChildElement(); Asset_Item; Asset_Item=Asset_Item->NextSiblingElement())
@@ -189,6 +178,10 @@ bool File_DcpAm::FileHeader_Begin()
                                             ReferenceFile.FileNames.push_back(Ztring().From_UTF8(Chunk_Item->GetText()));
                                             string Text=Chunk_Item->GetText();
                                             if (Text.size()>=8
+                                             && (Text.find("_pkl.xml")==Text.size()-8)
+                                              || (Text.find("PKL_")==0 && Text.find(".xml")==Text.size()-4))
+                                                IsPKL=true;
+                                            if (Text.size()>=8
                                              && (Text.find("_cpl.xml")==Text.size()-8)
                                               || (Text.find("CPL_")==0 && Text.find(".xml")==Text.size()-4))
                                                 IsCPL=true;
@@ -201,15 +194,14 @@ bool File_DcpAm::FileHeader_Begin()
 
                     if (IsCPL)
                     {
-                        for (size_t Pos=0; Pos<ReferenceFile.FileNames.size(); Pos++)
-                        {
-                            if (CPL_FileName.empty())
-                                CPL_FileName=ReferenceFile.FileNames[Pos]; //Using only the first CPL file meet
-                        }
+                        if (CPL_FileName.empty() && !ReferenceFile.FileNames.empty())
+                            CPL_FileName=ReferenceFile.FileNames[0]; //Using only the first CPL file meet
                     }
-
-                    ReferenceFile.StreamID=ReferenceFiles->References.size()+1;
-                    ReferenceFiles->References.push_back(ReferenceFile);
+                    else if (!IsPKL)
+                    {
+                        ReferenceFile.StreamID=ReferenceFiles->References.size()+1;
+                        ReferenceFiles->References.push_back(ReferenceFile);
+                    }
                 }
             }
         }
@@ -246,11 +238,22 @@ bool File_DcpAm::FileHeader_Begin()
         MI.Option(__T("ParseSpeed"), ParseSpeed_Save); //This is a global value, need to reset it. TODO: local value
         MI.Option(__T("Demux"), Demux_Save); //This is a global value, need to reset it. TODO: local value
         if (MiOpenResult
-            && ((IsDcp && MI.Get(Stream_General, 0, General_Format)==__T("DCP CPL"))
-            || (IsImf && MI.Get(Stream_General, 0, General_Format)==__T("IMF CPL"))))
+            && (MI.Get(Stream_General, 0, General_Format)==__T("DCP CPL")
+            ||  MI.Get(Stream_General, 0, General_Format)==__T("IMF CPL")))
         {
             DcpCpl_MergeFromPkl(((File_DcpCpl*)MI.Info)->ReferenceFiles, ReferenceFiles);
             ReferenceFiles->References=((File_DcpCpl*)MI.Info)->ReferenceFiles->References;
+            if (MI.Get(Stream_General, 0, General_Format)==__T("IMF CPL"))
+            {
+                Fill(Stream_General, 0, General_Format, "IMF AM", Unlimited, true, true);
+                Clear(Stream_General, 0, General_Format_Version);
+            }
+
+            for (size_t Pos=0; Pos<MI.Count_Get(Stream_Other); ++Pos)
+            {
+                Stream_Prepare(Stream_Other);
+                Merge(*MI.Info, Stream_Other, Pos, StreamPos_Last);
+            }
         }
     }
 

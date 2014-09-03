@@ -40,6 +40,29 @@ namespace MediaInfoLib
     class MediaInfo_Config_PerPackage;
 #endif //MEDIAINFO_EVENTS
 
+#if MEDIAINFO_AES
+enum encryption_format
+{
+    Encryption_Format_None,
+    Encryption_Format_Aes,
+};
+enum encryption_method
+{
+     Encryption_Method_None,
+     Encryption_Method_Segment,
+};
+enum encryption_mode
+{
+     Encryption_Mode_None,
+     Encryption_Mode_Cbc,
+};
+enum encryption_padding
+{
+     Encryption_Padding_None,
+     Encryption_Padding_Pkcs7,
+};
+#endif //MEDIAINFO_AES
+
 //***************************************************************************
 // Class MediaInfo_Config_MediaInfo
 //***************************************************************************
@@ -149,6 +172,33 @@ public :
     void          File_Buffer_Size_Hint_Pointer_Set (size_t* NewValue);
     size_t*       File_Buffer_Size_Hint_Pointer_Get ();
 
+    void          File_Buffer_Read_Size_Set (size_t NewValue);
+    size_t        File_Buffer_Read_Size_Get ();
+
+    #if MEDIAINFO_AES
+    void          Encryption_Format_Set (const Ztring &Value);
+    void          Encryption_Format_Set (encryption_format Value);
+    string        Encryption_Format_GetS ();
+    encryption_format Encryption_Format_Get ();
+    void          Encryption_Key_Set (const Ztring &Value);
+    void          Encryption_Key_Set (const int8u* Value, size_t Value_Size);
+    string        Encryption_Key_Get ();
+    void          Encryption_Method_Set (const Ztring &Value);
+    void          Encryption_Method_Set (encryption_method Value);
+    string        Encryption_Method_GetS ();
+    encryption_method Encryption_Method_Get ();
+    void          Encryption_Mode_Set (const Ztring &Value);
+    void          Encryption_Mode_Set (encryption_mode Value);
+    string        Encryption_Mode_GetS ();
+    encryption_mode Encryption_Mode_Get ();
+    void          Encryption_Padding_Set (const Ztring &Value);
+    void          Encryption_Padding_Set (encryption_padding Value);
+    string        Encryption_Padding_GetS ();
+    encryption_padding  Encryption_Padding_Get ();
+    void          Encryption_InitializationVector_Set (const Ztring &Value);
+    string        Encryption_InitializationVector_Get ();
+    #endif //MEDIAINFO_AES
+
     #if MEDIAINFO_NEXTPACKET
     void          NextPacket_Set (bool NewValue);
     bool          NextPacket_Get ();
@@ -205,6 +255,8 @@ public :
     bool          Demux_PCM_20bitTo24bit_Get ();
     void          Demux_Avc_Transcode_Iso14496_15_to_Iso14496_10_Set (bool NewValue);
     bool          Demux_Avc_Transcode_Iso14496_15_to_Iso14496_10_Get ();
+    void          Demux_Hevc_Transcode_Iso14496_15_to_AnnexB_Set (bool NewValue);
+    bool          Demux_Hevc_Transcode_Iso14496_15_to_AnnexB_Get ();
     void          Demux_Unpacketize_Set (bool NewValue);
     bool          Demux_Unpacketize_Get ();
     void          Demux_Rate_Set (float64 NewValue);
@@ -308,6 +360,9 @@ public :
         bool      Demux_IsSeeking;
         #endif //MEDIAINFO_SEEK
     #endif //MEDIAINFO_DEMUX
+    #if MEDIAINFO_SEEK
+    bool      File_GoTo_IsFrameOffset;
+    #endif //MEDIAINFO_SEEK
 
 private :
     bool                    FileIsSeekable;
@@ -344,8 +399,18 @@ private :
     Ztring                  File_Partial_End;
     Ztring                  File_ForceParser;
     size_t*                 File_Buffer_Size_Hint_Pointer;
+    size_t                  File_Buffer_Read_Size;
 
     //Extra
+    #if MEDIAINFO_AES
+    encryption_format       Encryption_Format;
+    string                  Encryption_Key;
+    encryption_method       Encryption_Method;
+    encryption_mode         Encryption_Mode;
+    encryption_padding      Encryption_Padding;
+    string                  Encryption_InitializationVector;
+    #endif //MEDIAINFO_AES
+
     #if MEDIAINFO_NEXTPACKET
     bool                    NextPacket;
     #endif //MEDIAINFO_NEXTPACKET
@@ -397,6 +462,7 @@ private :
     bool                    Demux_PCM_20bitTo16bit;
     bool                    Demux_PCM_20bitTo24bit;
     bool                    Demux_Avc_Transcode_Iso14496_15_to_Iso14496_10;
+    bool                    Demux_Hevc_Transcode_Iso14496_15_to_AnnexB;
     bool                    Demux_Unpacketize;
     float64                 Demux_Rate;
     int64u                  Demux_FirstDts;
@@ -420,7 +486,7 @@ private :
     bool                    File_DvDif_DisableAudioIfIsInContainer;
     bool                    File_DvDif_IgnoreTransmittingFlags;
     #endif //defined(MEDIAINFO_DVDIF_ANALYZE_YES)
-    #if defined(MEDIAINFO_DVDIF_YES)
+    #if defined(MEDIAINFO_DVDIF_ANALYZE_YES)
     bool                    File_DvDif_Analysis;
     #endif //defined(MEDIAINFO_DVDIF_ANALYZE_YES)
     #if MEDIAINFO_MACROBLOCKS

@@ -72,6 +72,9 @@ private :
         }
     };
     std::vector<stream*> Streams;
+
+    //Helpers
+    void  CreateStream(int8u Parser_Pos);
 };
 
 } //NameSpace

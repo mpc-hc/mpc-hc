@@ -39,6 +39,7 @@ public :
         int64u              FileSize;
         bool                IsCircular;
         bool                IsMain;
+        bool                FileSize_IsPresent; //TODO: merge with FileSize after regression tests
         #if MEDIAINFO_ADVANCED || MEDIAINFO_MD5
             bool            List_Compute_Done;
         #endif //MEDIAINFO_ADVANCED || MEDIAINFO_MD5
@@ -100,6 +101,7 @@ public :
             FileSize=(int64u)-1;
             IsCircular=false;
             IsMain=false;
+            FileSize_IsPresent=false;
             #if MEDIAINFO_ADVANCED || MEDIAINFO_MD5
                 List_Compute_Done=false;
             #endif //MEDIAINFO_ADVANCED || MEDIAINFO_MD5
@@ -149,6 +151,7 @@ private :
     bool                            Init_Done;
     bool                            Demux_Interleave;
     size_t                          CountOfReferencesToParse;
+    size_t                          CountOfReferences_ForReadSize;
     float64                         FrameRate;
     float64                         Duration;
     stream_t                        StreamKind_Last;
@@ -162,6 +165,7 @@ private :
     //Helpers
     size_t Stream_Prepare(stream_t StreamKind, size_t StreamPos=(size_t)-1);
     void   FileSize_Compute();
+    void   CountOfReferences_ForReadSize_Run();
     MediaInfo_Internal* MI_Create();
     #if MEDIAINFO_ADVANCED || MEDIAINFO_MD5
         void   List_Compute();

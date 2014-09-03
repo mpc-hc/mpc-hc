@@ -134,9 +134,9 @@ void File_SmpteSt0331::Read_Buffer_Continue()
     Skip_L2(                                                "Audio Sample Count");
     Get_B1 (Channels_valid,                                 "Channels valid");
 
-    if (QuantizationBits)
+    if (QuantizationBits && Element_Offset<Element_Size)
     {
-        int8u* Info=new int8u[(size_t)(Element_Size*((QuantizationBits==16)?2:3)/4)];
+        int8u* Info = new int8u[(size_t)((Element_Size - Element_Offset)*((QuantizationBits == 16) ? 2 : 3) / 4)];
         size_t Info_Offset=0;
 
         while (Element_Offset+8*4<=Element_Size)

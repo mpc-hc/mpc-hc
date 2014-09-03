@@ -84,7 +84,7 @@ File_Aaf::~File_Aaf()
 {
     for (size_t Pos=0; Pos<Streams.size(); Pos++)
         delete Streams[Pos];
-    
+
     delete ReferenceFiles; //ReferenceFiles=NULL;
 }
 
@@ -182,7 +182,7 @@ void File_Aaf::Read_Buffer_Continue()
 {
     if (File_Offset || Buffer_Offset)
         return;
-        
+
     //Parsing
     Element_Begin1("Header");
         int32u csectFat;
@@ -240,16 +240,16 @@ void File_Aaf::Header_Parse()
     switch (Step)
     {
         case Step_Fat           : Header_Fill_Code(0, "FAT");
-                                  Header_Fill_Size(1<<SectorShift);
+                                  Header_Fill_Size(((int64u)1) << SectorShift);
                                   break;
         case Step_MiniFat       : Header_Fill_Code(0, "MiniFAT");
-                                  Header_Fill_Size(1<<SectorShift);
+                                  Header_Fill_Size(((int64u)1) << SectorShift);
                                   break;
         case Step_Directory     : Header_Fill_Code(0, "Directory");
-                                  Header_Fill_Size(1<<SectorShift);
+                                  Header_Fill_Size(((int64u)1) << SectorShift);
                                   break;
         case Step_Stream        : Header_Fill_Code(0, "Stream");
-                                  Header_Fill_Size(1<<(Streams[0]->Size<MiniSectorCutoff?MiniSectorShift:SectorShift));
+                                  Header_Fill_Size(((int64u)1) << (Streams[0]->Size<MiniSectorCutoff ? MiniSectorShift : SectorShift));
                                   break;
         default                 : ;
     }
@@ -393,10 +393,11 @@ void File_Aaf::Directory_Entry()
     else if (mse==2 && Size) //If stream
     {
         Param_Info1("StreamOffset");
-        stream* Stream=new stream;
-        Stream->Directory_Pos=Directory_Pos;
-        Stream->Size=Size;
-        Stream->Name=ab;
+        stream* Stream = new stream(
+                                    ab,
+                                    Directory_Pos,
+                                    Size
+                                   );
         if (Size<MiniSectorCutoff) //MiniFAT
         {
             int32u Pointers_Pos=SectStart;
@@ -441,7 +442,7 @@ void File_Aaf::StreamElement()
             Streams[Streams_Pos]->Buffer=new int8u[(size_t)((1+(Streams[Streams_Pos]->Size>>Shift))<<Shift)];
         memcpy(Streams[Streams_Pos]->Buffer+Streams_Pos2*(((int64u)1)<<Shift), Buffer+Buffer_Offset, (size_t)Element_Size);
     }
-    
+
     //Next Element
     Streams_Pos2++;
     if (Streams_Pos2>=Streams[Streams_Pos]->StreamOffsets.size())
@@ -492,7 +493,7 @@ void File_Aaf::StreamElement_Parse()
         Sizes.push_back(Size);
         Keys.push_back(Key);
     }
-    
+
     #define ELEMENT(_ELEMENT, _NAME) \
 
     for (int16u Pos=0; Pos<Count; Pos++)

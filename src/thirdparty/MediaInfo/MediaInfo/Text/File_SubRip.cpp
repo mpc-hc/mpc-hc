@@ -97,7 +97,7 @@ File_SubRip::File_SubRip()
 
     //Init
     Frame_Count=0;
-    
+
     //Temp
     IsVTT=false;
     HasBOM=false;
@@ -138,7 +138,7 @@ bool File_SubRip::FileHeader_Begin()
 
     if (List(0, 0)==__T("WEBVTT FILE") || List(0, 0)==__T("WEBVTT"))
         IsVTT=true;
-        
+
     if (!IsVTT)
     {
         size_t IsOk=0;
@@ -231,6 +231,7 @@ bool File_SubRip::FileHeader_Begin()
 #if MEDIAINFO_SEEK
 size_t File_SubRip::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
 {
+    GoTo(0);
     Open_Buffer_Unsynch();
     return 1;
 }
@@ -239,7 +240,11 @@ size_t File_SubRip::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
 //---------------------------------------------------------------------------
 void File_SubRip::Read_Buffer_Continue()
 {
-    Element_Offset=File_Size;
+    #if MEDIAINFO_DEMUX
+        Demux(Buffer+(HasBOM?3:0), Buffer_Size-((HasBOM && Buffer_Size>=3)?3:0), ContentType_MainStream);
+    #endif //MEDIAINFO_DEMUX
+
+    Buffer_Offset=Buffer_Size;
 }
 
 //***************************************************************************

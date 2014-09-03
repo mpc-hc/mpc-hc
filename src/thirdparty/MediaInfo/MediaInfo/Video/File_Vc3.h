@@ -31,8 +31,8 @@ class File_Vc3 : public File__Analyze
 {
 public :
     //In
-    int64u Frame_Count_Valid;
-    float  FrameRate;
+    int64u  Frame_Count_Valid;
+    float64 FrameRate;
 
     //constructor/Destructor
     File_Vc3();

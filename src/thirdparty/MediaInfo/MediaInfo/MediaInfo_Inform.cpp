@@ -344,8 +344,6 @@ Ztring MediaInfo_Internal::Inform (stream_t StreamKind, size_t StreamPos, bool I
     Ztring Retour=MediaInfoLib::Config.Inform_Get(Get(StreamKind, 0, __T("StreamKind"), Info_Text));
     ZtringList Info;
 
-    if (StreamKind>=Stream_Max)
-        return Ztring();
     Info=Stream[StreamKind][StreamPos];
 
     //Special characters
@@ -368,6 +366,8 @@ Ztring MediaInfo_Internal::Inform (stream_t StreamKind, size_t StreamPos, bool I
             Ztring RemplacerPar=MediaInfoLib::Config.Language_Get(Retour.SubString(__T("$"), __T("$"), PosX)); //TODO : case sensitive
             Retour.FindAndReplace(ARemplacer, RemplacerPar);
         }
+        else if (PosX == (size_t)-1)
+            break;
         else
             PosX++;
     }
@@ -439,15 +439,17 @@ Ztring MediaInfo_Internal::Inform (stream_t StreamKind, size_t StreamPos, bool I
     while (Retour.find(__T("%"), PosX)!=(size_t)-1)
     {
         PosX=Retour.find(__T("%"), PosX);
-        if (Retour.size()>PosX+2 && Retour[PosX+1]>=__T('A') && Retour[PosX+1]<=__T('Z')) //To keep out "%" without any signification
+        if (Retour.size() > PosX + 2 && Retour[PosX + 1] >= __T('A') && Retour[PosX + 1] <= __T('Z')) //To keep out "%" without any signification
         {
-            Ztring ARemplacer=Ztring(__T("%")+Retour.SubString(__T("%"), __T("%"), PosX))+__T("%");
-            Ztring RemplacerPar=Get(StreamKind, StreamPos, Retour.SubString(__T("%"), __T("%"), PosX));
+            Ztring ARemplacer = Ztring(__T("%") + Retour.SubString(__T("%"), __T("%"), PosX)) + __T("%");
+            Ztring RemplacerPar = Get(StreamKind, StreamPos, Retour.SubString(__T("%"), __T("%"), PosX));
             RemplacerPar.FindAndReplace(__T("\\"), __T("|SC1|"), 0, Ztring_Recursive);
             RemplacerPar.FindAndReplace(__T("),"), __T("|SC9|"), 0, Ztring_Recursive);
             RemplacerPar.FindAndReplace(__T(")"), __T("|SC8|"), 0, Ztring_Recursive);
             Retour.FindAndReplace(ARemplacer, RemplacerPar);
         }
+        else if (PosX == (size_t)-1)
+            break;
         else
             PosX++;
     }

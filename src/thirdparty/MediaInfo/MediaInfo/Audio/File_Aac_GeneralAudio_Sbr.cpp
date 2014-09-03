@@ -112,6 +112,8 @@ bool Aac_f_master_Compute_0(int8u &num_env_bands_Master, int8u* f_Master, sbr_ha
 
         while (k2Diff)
         {
+            if (k >= 64)
+                break;
             vDk[k]-=incr;
             k+=incr;
             k2Diff+=incr;
@@ -152,7 +154,7 @@ bool Aac_f_master_Compute(int8u &num_env_bands_Master, int8u* f_Master, sbr_hand
     }
 
     int8u numBands0=2*Aac_bands_Compute(false, bands, k0, k1);
-    if (numBands0>=64)
+    if (numBands0 == 0 || numBands0 >= 64)
         return false;
 
     int8u vDk0[64];
@@ -189,7 +191,7 @@ bool Aac_f_master_Compute(int8u &num_env_bands_Master, int8u* f_Master, sbr_hand
     int8u vDk1[64] = { 0 };
     int8u vk1[64];
     numBands1=2*Aac_bands_Compute(true, bands, k1, k2);
-    if (numBands0+numBands1>=64)
+    if (numBands1 == 0 || numBands0 + numBands1 >= 64)
         return false;
 
     Power=(float)pow((float)k2/(float)k1, (float)1/(float)numBands1);
@@ -208,7 +210,7 @@ bool Aac_f_master_Compute(int8u &num_env_bands_Master, int8u* f_Master, sbr_hand
         qsort(vDk1, numBands1+1, sizeof(int8u), int8u_cmp);
         int8u change=vDk0[numBands0-1]-vDk1[0];
         vDk1[0]=vDk0[numBands0-1];
-        vDk1[numBands1-1]=vDk1[numBands1-1]-change;
+        vDk1[numBands1 - 1] = vDk1[numBands1 - 1] - change;
     }
 
     qsort(vDk1, numBands1, sizeof(int8u), int8u_cmp);
@@ -372,10 +374,8 @@ void File_Aac::sbr_extension_data(size_t End, int8u id_aac, bool crc_flag)
             if (MediaInfoLib::Config.ParseSpeed_Get()<0.3)
             {
                 Frame_Count_Valid=Frame_Count+1;
-                #if MEDIAINFO_ADVANCED
-                    if (aac_frame_lengths.size()<8)
-                        Frame_Count_Valid+=8-aac_frame_lengths.size();
-                #endif //MEDIAINFO_ADVANCED
+                if (Frame_Count<8)
+                    Frame_Count_Valid+=8-Frame_Count;
             }
         FILLING_END();
     }

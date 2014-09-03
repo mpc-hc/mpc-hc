@@ -87,6 +87,9 @@ struct Reader_libcurl::curl_data
         int64u          Debug_BytesRead;
         int64u          Debug_Count;
     #endif // MEDIAINFO_DEBUG
+    #if MEDIAINFO_EVENTS
+        int64u          Stream_Offset;
+    #endif //MEDIAINFO_EVENTS
 
     curl_data()
     {
@@ -110,6 +113,9 @@ struct Reader_libcurl::curl_data
             Debug_BytesRead=0;
             Debug_Count=1;
         #endif // MEDIAINFO_DEBUG
+        #if MEDIAINFO_EVENTS
+            Stream_Offset=(int64u)-1;
+        #endif //MEDIAINFO_EVENTS
     }
 };
 
@@ -137,8 +143,27 @@ size_t libcurl_WriteData_CallBack(void *ptr, size_t size, size_t nmemb, void *da
         }
         else
             ((Reader_libcurl::curl_data*)data)->MI->Open_Buffer_Init((int64u)-1, ((Reader_libcurl::curl_data*)data)->File_Name);
+        #if MEDIAINFO_EVENTS
+            ((Reader_libcurl::curl_data*)data)->Stream_Offset=0;
+        #endif //MEDIAINFO_EVENTS
         ((Reader_libcurl::curl_data*)data)->Init_AlreadyDone=true;
     }
+
+    #if MEDIAINFO_EVENTS
+        if (size*nmemb)
+        {
+            struct MediaInfo_Event_Global_BytesRead_0 Event;
+            memset(&Event, 0xFF, sizeof(struct MediaInfo_Event_Generic));
+            Event.EventCode=MediaInfo_EventCode_Create(MediaInfo_Parser_None, MediaInfo_Event_Global_BytesRead, 0);
+            Event.EventSize=sizeof(struct MediaInfo_Event_Global_BytesRead_0);
+            Event.StreamIDs_Size=0;
+            Event.StreamOffset=((Reader_libcurl::curl_data*)data)->Stream_Offset;
+            Event.Content_Size=size*nmemb;
+            Event.Content=(int8u*)ptr;
+            ((Reader_libcurl::curl_data*)data)->MI->Config.Event_Send(NULL, (const int8u*)&Event, sizeof(MediaInfo_Event_Global_BytesRead_0));
+            ((Reader_libcurl::curl_data*)data)->Stream_Offset+=size*nmemb;
+        }
+    #endif //MEDIAINFO_EVENTS
 
     //Continue
     ((Reader_libcurl::curl_data*)data)->Status=((Reader_libcurl::curl_data*)data)->MI->Open_Buffer_Continue((int8u*)ptr, size*nmemb);
@@ -291,13 +316,15 @@ size_t Reader_libcurl::Format_Test(MediaInfo_Internal* MI, String File_Name)
 
     #if MEDIAINFO_EVENTS
         {
+            string File_Name_Local=Ztring(File_Name).To_Local();
+            wstring File_Name_Unicode=Ztring(File_Name).To_Unicode();
             struct MediaInfo_Event_General_Start_0 Event;
             memset(&Event, 0xFF, sizeof(struct MediaInfo_Event_General_Start_0));
             Event.StreamIDs_Size=0;
             Event.EventCode=MediaInfo_EventCode_Create(MediaInfo_Parser_None, MediaInfo_Event_General_Start, 0);
             Event.Stream_Size=(int64u)-1;
-            Event.FileName=NULL;
-            Event.FileName_Unicode=NULL;
+            Event.FileName=File_Name_Local.c_str();
+            Event.FileName_Unicode=File_Name_Unicode.c_str();
             MI->Config.Event_Send(NULL, (const int8u*)&Event, sizeof(MediaInfo_Event_General_Start_0));
         }
     #endif //MEDIAINFO_EVENTS
@@ -350,10 +377,11 @@ size_t Reader_libcurl::Format_Test_PerParser(MediaInfo_Internal* MI, const Strin
         else
         {
             if (File::Exists(__T("id_rsa")))
-                Curl_Data->Ssh_PublicKeyFileName="id_rsa";
+                Curl_Data->Ssh_PrivateKeyFileName = "id_rsa";
         }
     }
-    Curl_Data->Ssh_KnownHostsFileName=Reader_libcurl_ExpandFileName(MediaInfoLib::Config.Ssh_KnownHostsFileName_Get()).To_Local();    if (Curl_Data->Ssh_KnownHostsFileName.empty())
+    Curl_Data->Ssh_KnownHostsFileName=Reader_libcurl_ExpandFileName(MediaInfoLib::Config.Ssh_KnownHostsFileName_Get()).To_Local();
+    if (Curl_Data->Ssh_KnownHostsFileName.empty())
     {
         if (Reader_libcurl_HomeIsSet())
             Curl_Data->Ssh_KnownHostsFileName=Reader_libcurl_ExpandFileName(__T("$HOME/.ssh/known_hosts")).To_Local();
@@ -698,7 +726,12 @@ size_t Reader_libcurl::Format_Test_PerParser_Continue (MediaInfo_Internal* MI)
                     Code=curl_easy_setopt(Curl_Data->Curl, CURLOPT_RESUME_FROM_LARGE, File_GoTo_Off);
                 }
                 if (Code==CURLE_OK)
+                {
+                    #if MEDIAINFO_EVENTS
+                        Curl_Data->Stream_Offset=Curl_Data->MI->Open_Buffer_Continue_GoTo_Get();
+                    #endif //MEDIAINFO_EVENTS
                     MI->Open_Buffer_Init((int64u)-1, Curl_Data->MI->Open_Buffer_Continue_GoTo_Get());
+                }
             }
 
             //Parsing

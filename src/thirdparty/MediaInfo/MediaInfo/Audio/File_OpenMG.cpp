@@ -224,7 +224,7 @@ void File_OpenMG::Read_Buffer_Continue()
 {
     //Parsing
     Skip_XX(File_Size-Buffer_Offset,                            "Data");
-    
+
     File__Analyze::Finish();
 }
 

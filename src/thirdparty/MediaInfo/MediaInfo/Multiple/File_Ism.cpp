@@ -130,14 +130,17 @@ bool File_Ism::FileHeader_Begin()
                             XMLElement* Stream=Switch->FirstChildElement();
                             while (Stream)
                             {
-                                if (string(Stream->Value())=="video" || string(Stream->Value())=="audio")
+                                string Value(Stream->Value());
+                                if (Value=="video" || Value=="videostream" || Value=="audio" || Value=="audiostream" || Value=="text" || Value=="textstream")
                                 {
                                     File__ReferenceFilesHelper::reference ReferenceFile;
 
-                                    if (string(Stream->Value())=="video")
+                                    if (Value=="video" || Value=="videostream")
                                         ReferenceFile.StreamKind=Stream_Video;
-                                    if (string(Stream->Value())=="audio")
+                                    if (Value=="audio" || Value=="audiostream")
                                         ReferenceFile.StreamKind=Stream_Audio;
+                                    if (Value=="text"  || Value=="textstream" )
+                                        ReferenceFile.StreamKind=Stream_Text;
 
                                     const char* Attribute=Stream->Attribute("src");
                                     if (Attribute)

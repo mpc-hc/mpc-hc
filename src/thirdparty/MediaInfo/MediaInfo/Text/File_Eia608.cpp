@@ -97,8 +97,15 @@ void File_Eia608::Streams_Fill()
     if (Config->File_Eia608_DisplayEmptyStream_Get() && Streams.size()<2)
         Streams.resize(2);
 
-    for (size_t StreamPos=0; StreamPos<Streams.size(); StreamPos++)
-        if (Streams[StreamPos] || (StreamPos<2 && Config->File_Eia608_DisplayEmptyStream_Get()))
+    if (!HasContent && ServiceDescriptors && ServiceDescriptors->ServiceDescriptors608.find(cc_type)!=ServiceDescriptors->ServiceDescriptors608.end())
+    {
+        TextMode=0;
+        DataChannelMode=0;
+        Special_14(0x20); //CC1/CC3 fake RCL - Resume Caption Loading
+    }
+
+    for (size_t Pos=0; Pos<Streams.size(); Pos++)
+        if (Streams[Pos] || (Pos<2 && Config->File_Eia608_DisplayEmptyStream_Get()))
         {
             Stream_Prepare(Stream_Text);
             Fill(Stream_Text, StreamPos_Last, Text_Format, "EIA-608");
@@ -106,11 +113,32 @@ void File_Eia608::Streams_Fill()
             Fill(Stream_Text, StreamPos_Last, Text_BitRate_Mode, "CBR");
             if (cc_type!=(int8u)-1)
             {
-                string ID=StreamPos<2?"CC":"T";
-                ID+='1'+(cc_type*2)+(StreamPos%2);
+                string ID=Pos<2?"CC":"T";
+                ID+='1'+(cc_type*2)+(Pos%2);
                 Fill(Stream_Text, StreamPos_Last, Text_ID, ID);
-                Fill(Stream_Text, StreamPos_Last, "ServiceName", ID);
-                (*Stream_More)[StreamKind_Last][StreamPos_Last](Ztring().From_Local("ServiceName"), Info_Options)=__T("N NT");
+                Fill(Stream_Text, StreamPos_Last, "CaptionServiceName", ID);
+                (*Stream_More)[StreamKind_Last][StreamPos_Last](Ztring().From_Local("CaptionServiceName"), Info_Options)=__T("N NT");
+            }
+            if (Config->ParseSpeed>=1.0)
+            {
+                Fill(Stream_Text, StreamPos_Last, "CaptionServiceContent_IsPresent", DataDetected[Pos+1]?"Yes":"No", Unlimited, true, true); //1 bit per service, starting at 1
+                (*Stream_More)[Stream_Text][StreamPos_Last](Ztring().From_Local("CaptionServiceContent_IsPresent"), Info_Options)=__T("N NT");
+            }
+            if (ServiceDescriptors)
+            {
+                servicedescriptors608::iterator ServiceDescriptor=ServiceDescriptors->ServiceDescriptors608.find(cc_type);
+                if (ServiceDescriptor!=ServiceDescriptors->ServiceDescriptors608.end())
+                {
+                    if (Pos==0 && Retrieve(Stream_Text, StreamPos_Last, Text_Language).empty()) //Only CC1/CC3
+                        Fill(Stream_Text, StreamPos_Last, Text_Language, ServiceDescriptor->second.language, true);
+                    Fill(Stream_Text, StreamPos_Last, "CaptionServiceDescriptor_IsPresent", "Yes", Unlimited, true, true);
+                    (*Stream_More)[Stream_Text][StreamPos_Last](Ztring().From_Local("CaptionServiceDescriptor_IsPresent"), Info_Options)=__T("N NT");
+                }
+                else //ServiceDescriptors pointer is for the support by the transport layer of the info
+                {
+                    Fill(Stream_Text, StreamPos_Last, "CaptionServiceDescriptor_IsPresent", "No", Unlimited, true, true);
+                    (*Stream_More)[Stream_Text][StreamPos_Last](Ztring().From_Local("CaptionServiceDescriptor_IsPresent"), Info_Options)=__T("N NT");
+                }
             }
         }
 }
@@ -319,6 +347,8 @@ void File_Eia608::XDS()
 
     XDS_Data.erase(XDS_Data.begin()+XDS_Level);
     XDS_Level=(size_t)-1;
+
+    DataDetected[5]=true; //bit 5=XDS
 }
 
 //---------------------------------------------------------------------------
@@ -373,6 +403,7 @@ void File_Eia608::XDS_Current_ContentAdvisory()
                     case 5 : ContentAdvisory="TV-14"; break;
                     case 6 : ContentAdvisory="TV-MA"; break;
                     case 7 : ContentAdvisory="None"; break;
+                    default: ;
                 }
                 if (XDS_Data[XDS_Level][2]&0x20) //Suggestive dialogue
                     ContentDescriptors+='D';
@@ -420,6 +451,7 @@ void File_Eia608::XDS_Current_ContentAdvisory()
                         }
                 }
                 break;
+        default: ;
     }
 
     if (ContentAdvisory)
@@ -440,6 +472,8 @@ void File_Eia608::XDS_Current_ProgramName()
     Ztring Value;
     Value.From_UTF8(ValueS.c_str());
     Element_Info1(__T("Program Name=")+Value);
+    if (Retrieve(Stream_General, 0, General_Title).empty())
+        Fill(Stream_General, 0, General_Title, Value);
 }
 
 //---------------------------------------------------------------------------
@@ -546,7 +580,7 @@ void File_Eia608::PreambleAddressCode(int8u cc_data_1, int8u cc_data_2)
     //Horizontal position
     if (!TextMode)
     {
-        Streams[StreamPos]->y=Eia608_PAC_Row[cc_data_1&0x0F]+((cc_data_2&0x20)?1:0);
+        Streams[StreamPos]->y=Eia608_PAC_Row[cc_data_1&0x07]+((cc_data_2&0x20)?1:0);
         if (Streams[StreamPos]->y>=Eia608_Rows)
         {
             Streams[StreamPos]->y=Eia608_Rows-1;
@@ -556,7 +590,7 @@ void File_Eia608::PreambleAddressCode(int8u cc_data_1, int8u cc_data_2)
     //Attributes (except Underline)
     if (cc_data_2&0x10) //0x5x and 0x7x
     {
-        Streams[StreamPos]->x=(cc_data_2&0x0E)<<1;
+        Streams[StreamPos]->x=(((size_t)cc_data_2)&0x0E)<<1;
         Streams[StreamPos]->Attribute_Current=Attribute_Color_White;
     }
     else if ((cc_data_2&0x0E)==0x0E) //0x4E, 0x4F, 0x6E, 0x6F
@@ -767,7 +801,8 @@ void File_Eia608::Special_14(int8u cc_data_2)
         case 0x29 : //RDC - Resume Direct Captioning
         case 0x2A : //TR  - Text Restart
         case 0x2B : //RTD - Resume Text Display
-                    TextMode=cc_data_2>=0x2A;
+        case 0x2C : //EDM - Erase Displayed Memory
+                    TextMode=(cc_data_2&0xFE)==0x2A;
                     XDS_Level=(size_t)-1; // No more XDS
                     StreamPos=TextMode*2+DataChannelMode;
 
@@ -1045,6 +1080,7 @@ void File_Eia608::Character_Fill(wchar_t Character)
 
     if (!HasContent)
         HasContent=true;
+    DataDetected[1+StreamPos]=true;
 }
 
 //---------------------------------------------------------------------------

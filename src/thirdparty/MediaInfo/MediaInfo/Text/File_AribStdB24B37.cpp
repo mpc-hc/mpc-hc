@@ -782,13 +782,13 @@ void File_AribStdB24B37::JIS (int8u Row, int8u Column)
         else
             ShiftJIS[1]=Column+126;
 
-        wchar_t Temp[5];
-        int CharSize=MultiByteToWideChar(932, 0, ShiftJIS, 2, Temp, 500); //932 = Shift-JIS (Windows-31J)
+        wchar_t Temp[2];
+        int CharSize=MultiByteToWideChar(932, 0, ShiftJIS, 2, Temp, 2); //932 = Shift-JIS (Windows-31J)
         if (CharSize>0)
         {
             Temp[CharSize]=__T('\0');
-            Param_Info1(Temp);
-            Add (Temp[0]);
+            Param_Info1(Ztring().From_Unicode(Temp));
+            Add (Ztring().From_Unicode(Temp));
         }
     #else // __WINDOWS__
         //TODO
@@ -1479,5 +1479,5 @@ void File_AribStdB24B37::TIME()
 
 } //NameSpace
 
-#endif //MEDIAINFO_DVBSUBTITLE_YES
+#endif //MEDIAINFO_ARIBSTDB24B37_YES
 

@@ -126,7 +126,11 @@
 #elif defined(__APPLE__) && defined(__MACH__)
     #define MEDIAINFODLL_NAME "libmediainfo.0.dylib"
     #define __stdcall
-    #include <new> //for size_t
+    #ifdef __cplusplus
+        #include <new> //for size_t
+    #else /* __cplusplus */
+        #include <stddef.h> //for size_t
+    #endif /* __cplusplus */
 #else
     #define MEDIAINFODLL_NAME "libmediainfo.so.0"
     #define __stdcall
@@ -539,13 +543,13 @@ namespace MediaInfoDLL
 
     const String Unable_Load_DLL = __T("Unable to load ")MEDIAINFODLL_NAME;
 #define MEDIAINFO_TEST_VOID \
-    if (!IsReady()) return
+    if (!MediaInfo_Module) {MediaInfoDLL_Load(); if (!MediaInfo_Module) return;}
 #define MEDIAINFO_TEST_INT \
-    if (!IsReady()) return 0
+    if (!MediaInfo_Module) {MediaInfoDLL_Load(); if (!MediaInfo_Module) return 0;}
 #define MEDIAINFO_TEST_STRING \
-    if (!IsReady()) return Unable_Load_DLL
+    if (!MediaInfo_Module) {MediaInfoDLL_Load(); if (!MediaInfo_Module) return Unable_Load_DLL;}
 #define MEDIAINFO_TEST_STRING_STATIC \
-    if (!MediaInfo_Module) return Unable_Load_DLL
+    if (!MediaInfo_Module) {MediaInfoDLL_Load(); if (!MediaInfo_Module) return Unable_Load_DLL;}
 
     //---------------------------------------------------------------------------
     class MediaInfo

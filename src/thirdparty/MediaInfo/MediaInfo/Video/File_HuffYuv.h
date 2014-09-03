@@ -6,53 +6,46 @@
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //
-// Information about TTML files
+// Information about HUFFYUV files
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 //---------------------------------------------------------------------------
-#ifndef MediaInfo_File_TtmlH
-#define MediaInfo_File_TtmlH
+#ifndef MediaInfo_HuffYUVH
+#define MediaInfo_HuffYUVH
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
 #include "MediaInfo/File__Analyze.h"
 //---------------------------------------------------------------------------
 
-namespace tinyxml2
-{
-    class XMLDocument;
-    class XMLElement;
-}
-
 namespace MediaInfoLib
 {
 
 //***************************************************************************
-// Class File_Sami
+// Class File_HuffYuv
 //***************************************************************************
 
-class File_Ttml : public File__Analyze
+class File_HuffYuv : public File__Analyze
 {
 public :
-    File_Ttml();
+    //In
+    bool    IsOutOfBandData;
+    int16u  BitCount;
+    int32u  Height;
 
-    #if MEDIAINFO_EVENTS
-        int8u   MuxingMode;
-    #endif MEDIAINFO_EVENTS
+    //Constructor/Destructor
+    File_HuffYuv();
 
 private :
     //Streams management
     void Streams_Accept();
 
-    //Buffer - File header
-    bool FileHeader_Begin();
-
     //Buffer - Global
-    #if MEDIAINFO_SEEK
-    size_t Read_Buffer_Seek (size_t Method, int64u Value, int64u ID);
-    #endif //MEDIAINFO_SEEK
     void Read_Buffer_Continue();
+
+    //Elements
+    void FrameHeader();
 };
 
 } //NameSpace

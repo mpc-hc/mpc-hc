@@ -34,6 +34,7 @@ public :
     ZenLib::Ztring  Codec;
     int32u          SamplingRate;
     int8u           BitDepth;
+    int8u           BitDepth_Significant;
     int8u           Channels;
     int8u           Endianness;
     int8u           Sign;

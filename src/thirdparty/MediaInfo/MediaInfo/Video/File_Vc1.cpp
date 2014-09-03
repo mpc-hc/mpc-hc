@@ -539,7 +539,7 @@ bool File_Vc1::Demux_UnpacketizeContainer_Test()
 
         //Demux
         #if MEDIAINFO_DEMUX
-            if (InitData_Buffer_Size!=(size_t)-1 && Buffer[Buffer_Offset+3]==0x0F) //First SequenceHeader
+            if (InitData_Buffer_Size && Buffer[Buffer_Offset+3]==0x0F) //First SequenceHeader
             {
                 //Searching begin of frame (after SequenceHeader/EntryPointHeader)
                 size_t Header_End=4;
@@ -566,7 +566,7 @@ bool File_Vc1::Demux_UnpacketizeContainer_Test()
                 }
 
                 delete[] InitData_Buffer; InitData_Buffer=NULL;
-                InitData_Buffer_Size=(size_t)-1;
+                InitData_Buffer_Size=0;
             }
         #endif //MEDIAINFO_DEMUX
 
@@ -1016,7 +1016,7 @@ void File_Vc1::EntryPointHeader()
             Accept("VC-1");
 
         #if MEDIAINFO_DEMUX
-            if (InitData_Buffer_Size && InitData_Buffer_Size!=(size_t)-1)
+            if (InitData_Buffer_Size)
             {
                 size_t InitData_Buffer_Temp_Size=InitData_Buffer_Size+(size_t)(Header_Size+Element_Size);
                 int8u* InitData_Buffer_Temp=new int8u[InitData_Buffer_Temp_Size];
@@ -1039,7 +1039,8 @@ void File_Vc1::EntryPointHeader()
                 }
 
                 delete[] InitData_Buffer; InitData_Buffer=NULL;
-                InitData_Buffer_Size=(size_t)-1;
+                delete[] InitData_Buffer_Temp; //InitData_Buffer_Temp=NULL;
+                InitData_Buffer_Size=0;
             }
         #endif //MEDIAINFO_DEMUX
     FILLING_END();
@@ -1170,7 +1171,7 @@ void File_Vc1::SequenceHeader()
         }
 
         #if MEDIAINFO_DEMUX
-            if (InitData_Buffer_Size!=(size_t)-1)
+            if (InitData_Buffer_Size)
             {
                 InitData_Buffer_Size=(size_t)(Header_Size+Element_Size);
                 InitData_Buffer=new int8u[InitData_Buffer_Size];

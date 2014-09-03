@@ -265,7 +265,7 @@ void File_DvbSubtitle::Header_Parse()
                     MustFindDvbHeader=true;
 
                     //Filling
-                    Header_Fill_Code(0xFF, "end_of_PES_data_field_marker");
+                    Header_Fill_Code(0xFF, "end of PES data field marker");
                     Header_Fill_Size(1);
                     return;
         default   : ; //Normal (0x0F)
@@ -289,16 +289,17 @@ void File_DvbSubtitle::Data_Parse()
     {
         case 0x10 : page_composition_segment(); break;
         case 0x11 : region_composition_segment(); break;
-        case 0xFF : //end_of_PES_data_field_marker
-                    Frame_Count++;
-                    if (!Status[IsFilled] && Frame_Count>Frame_Count_Valid)
-                    {
-                        Fill();
-                        Finish();
-                    }
-                    return;
+        case 0x12 : CLUT_definition_segment(); break;
+        case 0x13 : object_data_segment(); break;
+        case 0x14 : display_definition_segment(); break;
+        case 0x80 : end_of_display_set_segment(); break;
+        case 0xFF : end_of_PES_data_field_marker(); return;
         default   :
-                    if (Element_Size)
+                    if (Element_Code>=0x40 && Element_Code<=0x7F)
+                        reserved_for_future_use();
+                    else if (Element_Code>=0x81 && Element_Code<=0xEF)
+                        private_data();
+                    else if (Element_Size)
                         Skip_XX(Element_Size,                   "Unknown");
     }
 }
@@ -310,7 +311,7 @@ void File_DvbSubtitle::Data_Parse()
 //---------------------------------------------------------------------------
 void File_DvbSubtitle::page_composition_segment()
 {
-    Element_Name("page_composition_segment");
+    Element_Name("page composition segment");
 
     //Parsing
     Skip_B1(                                                    "page_time_out");
@@ -341,7 +342,7 @@ void File_DvbSubtitle::page_composition_segment()
 //---------------------------------------------------------------------------
 void File_DvbSubtitle::region_composition_segment()
 {
-    Element_Name("region_composition_segment");
+    Element_Name("region composition segment");
 
     //Parsing
     int16u region_width, region_height;
@@ -396,6 +397,65 @@ void File_DvbSubtitle::region_composition_segment()
         subtitle_streams[subtitle_stream_id].pages[page_id].regions[region_id].region_height=region_height;
         subtitle_streams[subtitle_stream_id].pages[page_id].regions[region_id].region_depth=region_depth;
     FILLING_END();
+}
+
+//---------------------------------------------------------------------------
+void File_DvbSubtitle::CLUT_definition_segment()
+{
+    Element_Name("CLUT definition segment");
+
+    Skip_XX(Element_Size,                                       "Data");
+}
+
+//---------------------------------------------------------------------------
+void File_DvbSubtitle::object_data_segment()
+{
+    Element_Name("object data segment");
+
+    Skip_XX(Element_Size,                                       "Data");
+}
+
+//---------------------------------------------------------------------------
+void File_DvbSubtitle::display_definition_segment()
+{
+    Element_Name("display definition segment");
+
+    Skip_XX(Element_Size,                                       "Data");
+}
+
+//---------------------------------------------------------------------------
+void File_DvbSubtitle::reserved_for_future_use()
+{
+    Element_Name("reserved for future use");
+
+    Skip_XX(Element_Size,                                       "Data");
+}
+
+//---------------------------------------------------------------------------
+void File_DvbSubtitle::end_of_display_set_segment()
+{
+    Element_Name("end of display set segment");
+
+    Skip_XX(Element_Size,                                       "Data");
+}
+
+//---------------------------------------------------------------------------
+void File_DvbSubtitle::private_data()
+{
+    Element_Name("private data");
+
+    Skip_XX(Element_Size,                                       "Data");
+}
+
+//---------------------------------------------------------------------------
+void File_DvbSubtitle::end_of_PES_data_field_marker()
+{
+    Frame_Count++;
+    if (!Status[IsFilled] && Frame_Count>Frame_Count_Valid)
+    {
+        Fill();
+        Finish();
+    }
 }
 
 //***************************************************************************

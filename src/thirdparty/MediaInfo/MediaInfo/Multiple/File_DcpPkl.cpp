@@ -108,8 +108,6 @@ bool File_DcpPkl::FileHeader_Begin()
     if (!FileHeader_Begin_XML(document))
        return false;
 
-    bool IsDcp=false, IsImf=false;
-
     XMLElement* PackingList=document.FirstChildElement("PackingList");
     if (!PackingList)
     {
@@ -124,19 +122,15 @@ bool File_DcpPkl::FileHeader_Begin()
         return false;
     }
 
-    if (!strcmp(Attribute, "http://www.digicine.com/PROTO-ASDCP-PKL-20040311#"))
-        IsDcp=true;
-    if (!strcmp(Attribute, "http://www.smpte-ra.org/schemas/429-8/2007/PKL"))
-        IsImf=true;
-
-    if (!IsDcp && !IsImf)
+    if (strcmp(Attribute, "http://www.digicine.com/PROTO-ASDCP-PKL-20040311#")
+     && strcmp(Attribute, "http://www.smpte-ra.org/schemas/429-8/2007/PKL"))
     {
         Reject("DcpPkl");
         return false;
     }
 
     Accept("DcpPkl");
-    Fill(Stream_General, 0, General_Format, IsDcp?"DCP PKL":"IMF PKL");
+    Fill(Stream_General, 0, General_Format, "DCP PKL");
     Config->File_ID_OnlyRoot_Set(false);
 
     ReferenceFiles=new File__ReferenceFilesHelper(this, Config);
@@ -198,15 +192,16 @@ bool File_DcpPkl::FileHeader_Begin()
                         }
                     }
 
-                    if (IsCPL && CPL_FileName.empty())
-                        for (size_t Pos=0; Pos<ReferenceFile.FileNames.size(); Pos++)
-                        {
-                            CPL_FileName=ReferenceFile.FileNames[Pos]; //Using only the first CPL file meet
-                            break;
-                        }
-
-                    ReferenceFile.StreamID=ReferenceFiles->References.size()+1;
-                    ReferenceFiles->References.push_back(ReferenceFile);
+                    if (IsCPL)
+                    {
+                        if (CPL_FileName.empty() && !ReferenceFile.FileNames.empty())
+                            CPL_FileName=ReferenceFile.FileNames[0]; //Using only the first CPL file meet
+                    }
+                    else
+                    {
+                        ReferenceFile.StreamID=ReferenceFiles->References.size()+1;
+                        ReferenceFiles->References.push_back(ReferenceFile);
+                    }
                 }
             }
         }
@@ -231,11 +226,19 @@ bool File_DcpPkl::FileHeader_Begin()
         MI.Option(__T("ParseSpeed"), ParseSpeed_Save); //This is a global value, need to reset it. TODO: local value
         MI.Option(__T("Demux"), Demux_Save); //This is a global value, need to reset it. TODO: local value
         if (MiOpenResult
-            && ((IsDcp && MI.Get(Stream_General, 0, General_Format)==__T("DCP CPL"))
-            || (IsImf && MI.Get(Stream_General, 0, General_Format)==__T("IMF CPL"))))
+            && (MI.Get(Stream_General, 0, General_Format)==__T("DCP CPL")
+            ||  MI.Get(Stream_General, 0, General_Format)==__T("IMF CPL")))
         {
             DcpCpl_MergeFromPkl(((File_DcpCpl*)MI.Info)->ReferenceFiles, ReferenceFiles);
             ReferenceFiles->References=((File_DcpCpl*)MI.Info)->ReferenceFiles->References;
+            if (MI.Get(Stream_General, 0, General_Format)==__T("IMF CPL"))
+                Fill(Stream_General, 0, General_Format, "IMF PKL", Unlimited, true, true);
+
+            for (size_t Pos=0; Pos<MI.Count_Get(Stream_Other); ++Pos)
+            {
+                Stream_Prepare(Stream_Other);
+                Merge(*MI.Info, Stream_Other, Pos, StreamPos_Last);
+            }
         }
     }
 

@@ -317,14 +317,14 @@ private :
     float32                                 moov_trak_tkhd_Rotation;
     std::vector<std::string>                moov_udta_meta_keys_List;
     size_t                                  moov_udta_meta_keys_ilst_Pos;
-    int32u                                  TimeScale;
+    int32u                                  moov_mvhd_TimeScale;
     int32u                                  Vendor;
     Ztring                                  Vendor_Version;
     int64u                                  FirstMdatPos;
     int64u                                  LastMdatPos; //This is the position of the byte after the last byte of mdat
     int64u                                  FirstMoovPos;
     int64u                                  moof_base_data_offset;
-    int64u                                  FrameCount_MaxPerStream;
+    int32u                                  FrameCount_MaxPerStream;
     bool                                    data_offset_present;
     int64u                                  moof_traf_base_data_offset;
     int32u                                  moof_traf_default_sample_duration;
@@ -447,6 +447,7 @@ private :
             stts_Duration=0;
             stts_Duration_FirstFrame=0;
             stts_Duration_LastFrame=0;
+            stts_SampleDuration = 0;
             mvex_trex_default_sample_duration=0;
             mvex_trex_default_sample_size=0;
             TimeCode_TrackID=(int32u)-1;

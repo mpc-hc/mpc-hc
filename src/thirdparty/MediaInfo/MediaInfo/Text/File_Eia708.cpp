@@ -51,6 +51,7 @@ File_Eia708::File_Eia708()
     //Temp
     StandAloneCommand=false;
     HasContent=false;
+    DataDetected=0x0000000000000000LL;
 }
 
 //---------------------------------------------------------------------------
@@ -70,6 +71,16 @@ void File_Eia708::Streams_Fill()
     if (Config->File_Eia708_DisplayEmptyStream_Get() && Streams.size()<2)
         Streams.resize(2);
 
+    if (ServiceDescriptors)
+    {
+        for (servicedescriptors708::iterator ServiceDescriptor=ServiceDescriptors->ServiceDescriptors708.begin(); ServiceDescriptor!=ServiceDescriptors->ServiceDescriptors708.end(); ++ServiceDescriptor)
+        {
+            service_number=ServiceDescriptor->first;
+            block_size=0;
+            Service();
+        }
+    }
+
     for (size_t Pos=0; Pos<Streams.size(); Pos++)
         if (Streams[Pos] || (Pos && Pos<2 && Config->File_Eia708_DisplayEmptyStream_Get()))
         {
@@ -80,6 +91,26 @@ void File_Eia708::Streams_Fill()
             Fill(Stream_Text, StreamPos_Last, Text_Format, "EIA-708");
             Fill(Stream_Text, StreamPos_Last, Text_StreamSize, 0);
             Fill(Stream_Text, StreamPos_Last, Text_BitRate_Mode, "CBR");
+            if (Config->ParseSpeed>=1.0)
+            {
+                Fill(Stream_Text, StreamPos_Last, "CaptionServiceContent_IsPresent", (DataDetected&((int64u)1)<<Pos)?"Yes":"No", Unlimited, true, true); //1 bit per service
+                (*Stream_More)[Stream_Text][StreamPos_Last](Ztring().From_Local("CaptionServiceContent_IsPresent"), Info_Options)=__T("N NT");
+            }
+            if (ServiceDescriptors)
+            {
+                servicedescriptors708::iterator ServiceDescriptor=ServiceDescriptors->ServiceDescriptors708.find((int8u)Pos);
+                if (ServiceDescriptor!=ServiceDescriptors->ServiceDescriptors708.end())
+                {
+                    Fill(Stream_Text, StreamPos_Last, Text_Language, ServiceDescriptor->second.language, true);
+                    Fill(Stream_Text, StreamPos_Last, "CaptionServiceDescriptor_IsPresent", "Yes", Unlimited, true, true);
+                    (*Stream_More)[Stream_Text][StreamPos_Last](Ztring().From_Local("CaptionServiceDescriptor_IsPresent"), Info_Options)=__T("N NT");
+                }
+                else //ServiceDescriptors pointer is for the support by the transport layer of the info
+                {
+                    Fill(Stream_Text, StreamPos_Last, "CaptionServiceDescriptor_IsPresent", "No", Unlimited, true, true);
+                    (*Stream_More)[Stream_Text][StreamPos_Last](Ztring().From_Local("CaptionServiceDescriptor_IsPresent"), Info_Options)=__T("N NT");
+                }
+            }
         }
 }
 
@@ -1321,7 +1352,7 @@ void File_Eia708::DFx(int8u WindowID)
 //---------------------------------------------------------------------------
 void File_Eia708::Character_Fill(wchar_t Character)
 {
-    Param_Info1(Ztring(1, Character));
+    Param_Info1(Ztring().From_Unicode(&Character, 1)); //(Character) after new ZenLib release
 
     int8u WindowID=Streams[service_number]->WindowID;
     if (WindowID==(int8u)-1)
@@ -1357,6 +1388,7 @@ void File_Eia708::Character_Fill(wchar_t Character)
 
     if (!HasContent)
         HasContent=true;
+    DataDetected|=((int64u)1)<<service_number; //1 bit per service
 }
 
 //---------------------------------------------------------------------------

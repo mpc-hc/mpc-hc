@@ -67,6 +67,10 @@ File_Aac::File_Aac()
     aacScalefactorDataResilienceFlag=false;
     FrameSize_Min=(int64u)-1;
     FrameSize_Max=0;
+    adts_buffer_fullness_Is7FF=false;
+    #if MEDIAINFO_ADVANCED
+        aac_frame_length_Total=0;
+    #endif //MEDIAINFO_ADVANCED
 
     //Temp - Main
     muxConfigPresent=true;
@@ -128,29 +132,27 @@ void File_Aac::Streams_Fill()
 //---------------------------------------------------------------------------
 void File_Aac::Streams_Update()
 {
-    bool ComputeBitRate=false;
-
-    switch(Mode)
+    if (Frame_Count)
     {
+        if (Mode==Mode_ADTS)
+            Infos["BitRate_Mode"].From_Local(adts_buffer_fullness_Is7FF?"VBR":"CBR");
+
         #if MEDIAINFO_ADVANCED
-        case Mode_LATM    : if (Config->File_RiskyBitRateEstimation_Get())
-                                ComputeBitRate=true;
-                            break;
+            switch(Mode)
+            {
+                case Mode_ADTS    :
+                case Mode_LATM    : if (Config->File_RiskyBitRateEstimation_Get() && !adts_buffer_fullness_Is7FF)
+                                    {
+                                        int64u BitRate=(sampling_frequency/1024);
+                                        BitRate*=aac_frame_length_Total*8;
+                                        BitRate/=Frame_Count;
+
+                                        Fill(Stream_Audio, 0, Audio_BitRate, BitRate, 10, true);
+                                    }
+                                    break;
+                default           : ;
+            }
         #endif //MEDIAINFO_ADVANCED
-        default           : ;
-    }
-
-    if (ComputeBitRate)
-    {
-        int64u aac_frame_length_Total=0;
-        for (size_t Pos=0; Pos<aac_frame_lengths.size(); Pos++)
-            aac_frame_length_Total+=aac_frame_lengths[Pos];
-
-        int64u BitRate=(sampling_frequency/1024);
-        BitRate*=aac_frame_length_Total*8;
-        BitRate/=aac_frame_lengths.size();
-
-        Fill(Stream_Audio, 0, Audio_BitRate, BitRate, 10, true);
     }
 }
 
@@ -364,6 +366,8 @@ bool File_Aac::Synchronize_ADTS()
                 while (Buffer_Offset+aac_frame_length+2<=Buffer_Size && Buffer[Buffer_Offset+aac_frame_length]==0x00)
                     aac_frame_length++;
 
+                if (IsSub && Buffer_Offset+aac_frame_length==Buffer_Size)
+                    break; //while()
                 if (Buffer_Offset+aac_frame_length+2>Buffer_Size)
                     return false; //Need more data
 
@@ -373,6 +377,8 @@ bool File_Aac::Synchronize_ADTS()
                 else
                 {
                     //Testing next start, to be sure
+                    if (Buffer_Offset+aac_frame_length+3+3>Buffer_Size)
+                        return false; //Need more data
                     int16u aac_frame_length2=(CC3(Buffer+Buffer_Offset+aac_frame_length+3)>>5)&0x1FFF;
                     if (File_Offset+Buffer_Offset+aac_frame_length+aac_frame_length2!=File_Size-File_EndTagSize)
                     {
@@ -380,6 +386,8 @@ bool File_Aac::Synchronize_ADTS()
                         while (Buffer_Offset+aac_frame_length+aac_frame_length2+2<=Buffer_Size && Buffer[Buffer_Offset+aac_frame_length+aac_frame_length2]==0x00)
                             aac_frame_length2++;
 
+                        if (IsSub && Buffer_Offset+aac_frame_length+aac_frame_length2==Buffer_Size)
+                            break; //while()
                         if (Buffer_Offset+aac_frame_length+aac_frame_length2+2>Buffer_Size)
                             return false; //Need more data
 
@@ -389,6 +397,8 @@ bool File_Aac::Synchronize_ADTS()
                         else
                         {
                             //Testing next start, to be sure
+                            if (Buffer_Offset+aac_frame_length+aac_frame_length2+3+3>Buffer_Size)
+                                return false; //Need more data
                             int16u aac_frame_length3=(CC3(Buffer+Buffer_Offset+aac_frame_length+aac_frame_length2+3)>>5)&0x1FFF;
                             if (File_Offset+Buffer_Offset+aac_frame_length+aac_frame_length2+aac_frame_length3!=File_Size-File_EndTagSize)
                             {
@@ -396,6 +406,8 @@ bool File_Aac::Synchronize_ADTS()
                                 while (Buffer_Offset+aac_frame_length+aac_frame_length2+aac_frame_length3+2<=Buffer_Size && Buffer[Buffer_Offset+aac_frame_length+aac_frame_length2+aac_frame_length3]==0x00)
                                     aac_frame_length3++;
 
+                                if (IsSub && Buffer_Offset+aac_frame_length+aac_frame_length2+aac_frame_length3==Buffer_Size)
+                                    break; //while()
                                 if (Buffer_Offset+aac_frame_length+aac_frame_length2+aac_frame_length3+2>Buffer_Size)
                                     return false; //Need more data
 
@@ -667,13 +679,6 @@ void File_Aac::Data_Parse()
         FrameSize_Min=Header_Size+Element_Size;
     if (FrameSize_Max<Header_Size+Element_Size)
         FrameSize_Max=Header_Size+Element_Size;
-    switch(Mode)
-    {
-        case Mode_LATM    :
-                            if (aac_frame_lengths.size()<1000) //TODO: find a way to detect properly when the container has finished to analyze
-                                aac_frame_lengths.push_back((int16u)Element_Size); break;
-        default           : ;
-    }
 
     if (Frame_Count>Frame_Count_Valid)
     {
@@ -701,6 +706,16 @@ void File_Aac::Data_Parse()
                 Frame_Count_NotParsedIncluded++;
             Element_Info1(Ztring::ToZtring(Frame_Count));
         }
+
+        #if MEDIAINFO_ADVANCED
+            switch(Mode)
+            {
+                case Mode_LATM    :
+                                    aac_frame_length_Total+=Element_Size;
+                                    break;
+                default           : ;
+            }
+        #endif //MEDIAINFO_ADVANCED
 
         if (!Status[IsAccepted])
             File__Analyze::Accept();

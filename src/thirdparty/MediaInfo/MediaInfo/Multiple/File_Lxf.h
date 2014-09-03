@@ -112,7 +112,8 @@ protected :
             TimeStamp_Begin=TimeStamp_Begin_;
             TimeStamp_End=TimeStamp_End_;
             Duration=Duration_;
-            PictureType=PictureType_;
+            Duration_First = (int64u)-1;
+            PictureType = PictureType_;
         }
     };
     stream_header Videos_Header;

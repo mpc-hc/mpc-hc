@@ -163,6 +163,9 @@ File_Jpeg::File_Jpeg()
     //In
     StreamKind=Stream_Image;
     Interlaced=false;
+    #if MEDIAINFO_DEMUX
+    FrameRate=0;
+    #endif //MEDIAINFO_DEMUX
 }
 
 //***************************************************************************
@@ -177,7 +180,8 @@ void File_Jpeg::Streams_Accept()
         TestContinuousFileNames();
 
         Stream_Prepare(Config->File_Names.size()>1?Stream_Video:StreamKind);
-        Fill(StreamKind_Last, StreamPos_Last, "StreamSize", File_Size);
+        if (File_Size!=(int64u)-1)
+            Fill(StreamKind_Last, StreamPos_Last, Fill_Parameter(StreamKind_Last, Generic_StreamSize), File_Size);
         if (StreamKind_Last==Stream_Video)
             Fill(Stream_Video, StreamPos_Last, Video_FrameCount, Config->File_Names.size());
     }
@@ -272,6 +276,96 @@ void File_Jpeg::Synched_Init()
 }
 
 //***************************************************************************
+// Buffer - Demux
+//***************************************************************************
+
+//---------------------------------------------------------------------------
+#if MEDIAINFO_DEMUX
+bool File_Jpeg::Demux_UnpacketizeContainer_Test()
+{
+    if (!IsSub)
+    {
+        if (!Status[IsAccepted])
+            Accept();
+        if (Config->File_Names.size()>1)
+            return Demux_UnpacketizeContainer_Test_OneFramePerFile();
+    }
+
+    if (Interlaced && Buffer_Offset==0)
+    {
+        bool StartIsFound=false;
+        while (Demux_Offset+2<=Buffer_Size)
+        {
+            int16u code=BigEndian2int16u(Buffer+Demux_Offset);
+            Demux_Offset+=2;
+            switch (code)
+            {
+                case Elements::SOD  :   //JPEG-2000 start
+                                        StartIsFound=true;
+                case Elements::TEM  :
+                case Elements::RST0 :
+                case Elements::RST1 :
+                case Elements::RST2 :
+                case Elements::RST3 :
+                case Elements::RST4 :
+                case Elements::RST5 :
+                case Elements::RST6 :
+                case Elements::RST7 :
+                case Elements::SOC  :
+                case Elements::SOI  :
+                case Elements::EOI  :
+                             break;
+                default   :
+                            if (Demux_Offset+2>Buffer_Size)
+                                break;
+                            {
+                            int16u size=BigEndian2int16u(Buffer+Demux_Offset);
+                            if (Demux_Offset+2+size>Buffer_Size)
+                                break;
+                            Demux_Offset+=size;
+                            if (code==Elements::SOS) //JPEG start
+                                StartIsFound=true;
+                            }
+            }
+            if (StartIsFound)
+                break;
+        }
+
+        while (Demux_Offset+2<=Buffer_Size)
+        {
+            while (Demux_Offset<Buffer_Size && Buffer[Demux_Offset]!=0xFF)
+                Demux_Offset++;
+            if (Demux_Offset+2<=Buffer_Size && Buffer[Demux_Offset+1]==0xD9) //EOI (JPEG 2000)
+                break;
+            Demux_Offset++;
+        }
+        if (Demux_Offset+2<=Buffer_Size)
+            Demux_Offset+=2;
+    }
+    else
+        Demux_Offset=Buffer_Size;
+
+    if (Interlaced)
+    {
+        if (Field_Count==0 && FrameRate && Demux_Offset!=Buffer_Size)
+            FrameRate*=2; //Now field rate
+        if (FrameRate)
+            FrameInfo.DUR=float64_int64s(1000000000/FrameRate); //Actually, field or frame rate
+    }
+
+    Demux_UnpacketizeContainer_Demux();
+
+    if (Interlaced)
+    {
+        if (FrameInfo.DTS!=(int64u)-1 && FrameInfo.DUR!=(int64u)-1)
+            FrameInfo.DTS+=FrameInfo.DUR;
+    }
+
+    return true;
+}
+#endif //MEDIAINFO_DEMUX
+
+//***************************************************************************
 // Buffer - Global
 //***************************************************************************
 
@@ -281,6 +375,46 @@ void File_Jpeg::Read_Buffer_Unsynched()
     SOS_SOD_Parsed=false;
 
     Read_Buffer_Unsynched_OneFramePerFile();
+}
+
+//---------------------------------------------------------------------------
+void File_Jpeg::Read_Buffer_Continue()
+{
+    if (Config->ParseSpeed>=1.0 && IsSub && Status[IsFilled])
+    {
+        #if MEDIAINFO_DEMUX
+            if (Buffer_TotalBytes<Demux_TotalBytes)
+            {
+                Skip_XX(Demux_TotalBytes-Buffer_TotalBytes,     "Data"); //We currently don't want to parse data during demux
+                Param_Info1(Frame_Count);
+                if (Interlaced)
+                {
+                    Field_Count++;
+                    Field_Count_InThisBlock++;
+                }
+                if (!Interlaced || Field_Count%2==0)
+                {
+                    Frame_Count++;
+                    if (Frame_Count_NotParsedIncluded!=(int64u)-1)
+                        Frame_Count_NotParsedIncluded++;
+                }
+                return;
+            }
+        #endif //MEDIAINFO_DEMUX
+
+        #if MEDIAINFO_DEMUX
+        if (!Demux_UnpacketizeContainer)
+        #endif //MEDIAINFO_DEMUX
+        {
+            Skip_XX(Buffer_Size,                                    "Data"); //We currently don't want to parse data during demux
+            Param_Info1(Frame_Count);
+            if (Interlaced)
+                Field_Count+=2;
+            Frame_Count++;
+            if (Frame_Count_NotParsedIncluded!=(int64u)-1)
+                Frame_Count_NotParsedIncluded++;
+        }
+    }
 }
 
 //***************************************************************************
@@ -334,9 +468,20 @@ bool File_Jpeg::Header_Parser_Fill_Size()
     //Look for next Sync word
     if (Buffer_Offset_Temp==0) //Buffer_Offset_Temp is not 0 if Header_Parse_Fill_Size() has already parsed first frames
         Buffer_Offset_Temp=Buffer_Offset;
-    while (Buffer_Offset_Temp+2<=Buffer_Size
-        && CC2(Buffer+Buffer_Offset_Temp)!=Elements::EOI)
+
+    #if MEDIAINFO_DEMUX
+        if (Buffer_TotalBytes+2<Demux_TotalBytes)
+            Buffer_Offset_Temp=(size_t)(Demux_TotalBytes-(Buffer_TotalBytes+2));
+    #endif //MEDIAINFO_DEMUX
+
+    while (Buffer_Offset_Temp+2<=Buffer_Size)
+    {
+        while (Buffer_Offset_Temp<Buffer_Size && Buffer[Buffer_Offset_Temp]!=0xFF)
+            Buffer_Offset_Temp++;
+        if (Buffer_Offset_Temp+2<=Buffer_Size && Buffer[Buffer_Offset_Temp+1]==0xD9) //EOI
+            break;
         Buffer_Offset_Temp++;
+    }
 
     //Must wait more data?
     if (Buffer_Offset_Temp+2>Buffer_Size)
@@ -536,6 +681,15 @@ void File_Jpeg::SIZ()
             {
                 ChromaSubsampling.resize(ChromaSubsampling.size()-1);
                 Fill(StreamKind_Last, 0, "ChromaSubsampling", ChromaSubsampling);
+
+                //Not for sure
+                if (!IsSub)
+                {
+                    if (ChromaSubsampling==__T("4:2:0") || ChromaSubsampling==__T("4:2:2"))
+                        Fill(StreamKind_Last, 0, "ColorSpace", "YUV");
+                    else if (ChromaSubsampling==__T("4:4:4"))
+                        Fill(StreamKind_Last, 0, "ColorSpace", "RGB");
+                }
             }
         }
     FILLING_END();
@@ -676,6 +830,7 @@ void File_Jpeg::SOF_()
                 case 0x01 :
                             if (Count==3)
                                 Fill(StreamKind_Last, 0, "ColorSpace", "YUV");
+                            break;
                 case 0x02 :
                             if (Count==4)
                                 Fill(StreamKind_Last, 0, "ColorSpace", "YCCB");
@@ -744,6 +899,7 @@ void File_Jpeg::SOF_()
                             switch (SamplingFactors[0].Vi)
                             {
                                 case 1 : ChromaSubsampling="4:1:1"; break;
+                                case 2 : ChromaSubsampling="4:1:0"; break;
                                 default: ;
                             }
                             break;

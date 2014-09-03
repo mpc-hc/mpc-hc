@@ -41,6 +41,7 @@ next version - not released yet
 * Ticket #4428, Improve the clarity of the error message when opening a subtitle file fails
 * Updated Little CMS to v2.6 (git 9c075b3)
 * Updated Unrar to v5.1.7
+* Updated MediaInfoLib to v0.7.70
 * Updated ZenLib to v0.4.29 r481
 * Updated LAV Filters to v0.62.0.15:
     - Ticket #4539, LAV Video: Fix a crash with DVD subtitles on 64-bit builds when using software decoding

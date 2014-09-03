@@ -116,7 +116,7 @@ void File_La::FileHeader_Parse()
         Duration=((int64u)Samples/Channels)*1000/SampleRate; // Seems that it's samples per channels otherwise Duration is doubled ??!!
         if (Duration==0)
             return;
-        UncompressedSize=(Samples)*Channels*(BitsPerSample/8);
+        UncompressedSize=((int64u)Samples)*Channels*(BitsPerSample/8);
         if (UncompressedSize==0)
             return;
 

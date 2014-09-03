@@ -237,6 +237,8 @@ private :
     size_t progressive_frame_Count;
     size_t Interlaced_Top;
     size_t Interlaced_Bottom;
+    size_t PictureStructure_Field;
+    size_t PictureStructure_Frame;
     size_t Time_Current_Seconds;
     size_t Time_Begin_Seconds;
     size_t Time_End_Seconds;

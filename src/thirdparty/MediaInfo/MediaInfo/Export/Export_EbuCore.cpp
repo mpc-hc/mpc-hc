@@ -1042,7 +1042,7 @@ Ztring Export_EbuCore::Transform(MediaInfo_Internal &MI)
         EbuCore_Transform_Text(ToReturn, MI, Pos);
 
     //format - start
-    bool startCount=0;
+    bool startCount=false;
     for (size_t StreamPos=0; StreamPos<MI.Count_Get(Stream_Other); ++StreamPos)
     {
         if (MI.Get(Stream_Other, StreamPos, Other_Type)==__T("Time code"))
@@ -1084,10 +1084,10 @@ Ztring Export_EbuCore::Transform(MediaInfo_Internal &MI)
             ToReturn+=__T("\t\t\t</ebucore:start>\n");
             if (startCount)
                 ToReturn+=__T("\t\t\t-->\n");
-            startCount++;
+            startCount=true;
         }
     }
-    
+
     //format - duration
     if (!MI.Get(Stream_General, 0, General_Duration).empty())
     {

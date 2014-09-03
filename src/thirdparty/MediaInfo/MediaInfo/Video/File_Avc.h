@@ -12,6 +12,7 @@
 //---------------------------------------------------------------------------
 #include "MediaInfo/File__Analyze.h"
 #include "MediaInfo/File__Duplicate.h"
+#include <cmath>
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib
@@ -52,35 +53,86 @@ private :
                 struct xxl_data
                 {
                     //HRD configuration
-                    int32u bit_rate_value;
-                    int32u cpb_size_value;
+                    int64u bit_rate_value;
+                    int64u cpb_size_value;
                     bool   cbr_flag;
 
                     //sei_message_buffering_period
-                    int32u initial_cpb_removal_delay;
-                    int32u initial_cpb_removal_delay_offset;
+                    //int32u initial_cpb_removal_delay;
+                    //int32u initial_cpb_removal_delay_offset;
 
-                    xxl_data()
+                    xxl_data(int64u bit_rate_value_, int64u cpb_size_value_, bool cbr_flag_) //int32u initial_cpb_removal_delay_, int32u initial_cpb_removal_delay_offset_)
+                        :
+                        bit_rate_value(bit_rate_value_),
+                        cpb_size_value(cpb_size_value_),
+                        cbr_flag(cbr_flag_)
+                        //initial_cpb_removal_delay(initial_cpb_removal_delay_),
+                        //initial_cpb_removal_delay_offset(initial_cpb_removal_delay_offset_)
                     {
-                        //HRD configuration
-                        bit_rate_value=(int32u)-1;
-                        cpb_size_value=(int32u)-1;
-                        cbr_flag=true;
-
-                        //sei_message_buffering_period
-                        initial_cpb_removal_delay=(int32u)-1;
-                        initial_cpb_removal_delay_offset=(int32u)-1;
                     }
+
+                    xxl_data &operator=(const xxl_data &x)
+                    {
+                        bit_rate_value=x.bit_rate_value;
+                        cpb_size_value=x.cpb_size_value;
+                        cbr_flag=x.cbr_flag;
+                        //initial_cpb_removal_delay=x.initial_cpb_removal_delay;
+                        //initial_cpb_removal_delay_offset=x.initial_cpb_removal_delay_offset;
+                        return *this;
+                    }
+
+                private:
+                    xxl_data();
                 };
                 vector<xxl_data> SchedSel;
                 int8u   initial_cpb_removal_delay_length_minus1;
                 int8u   cpb_removal_delay_length_minus1;
                 int8u   dpb_output_delay_length_minus1;
                 int8u   time_offset_length;
+
+                xxl(const vector<xxl_data> &SchedSel_, int8u initial_cpb_removal_delay_length_minus1_, int8u cpb_removal_delay_length_minus1_, int8u dpb_output_delay_length_minus1_, int8u time_offset_length_)
+                    :
+                    SchedSel(SchedSel_),
+                    initial_cpb_removal_delay_length_minus1(initial_cpb_removal_delay_length_minus1_),
+                    cpb_removal_delay_length_minus1(cpb_removal_delay_length_minus1_),
+                    dpb_output_delay_length_minus1(dpb_output_delay_length_minus1_),
+                    time_offset_length(time_offset_length_)
+                {
+                }
+
+                xxl &operator=(const xxl &x)
+                {
+                    SchedSel=x.SchedSel;
+                    initial_cpb_removal_delay_length_minus1=x.initial_cpb_removal_delay_length_minus1;
+                    cpb_removal_delay_length_minus1=x.cpb_removal_delay_length_minus1;
+                    dpb_output_delay_length_minus1=x.dpb_output_delay_length_minus1;
+                    time_offset_length=x.time_offset_length;
+
+                    return *this;
+                }
+
+            private:
+                xxl();
             };
             struct bitstream_restriction_struct
             {
-                int8u   num_reorder_frames;
+                int8u  max_num_reorder_frames;
+
+                bitstream_restriction_struct(int8u max_num_reorder_frames_)
+                    :
+                    max_num_reorder_frames(max_num_reorder_frames_)
+                {
+                }
+
+                bitstream_restriction_struct &operator=(const bitstream_restriction_struct &b)
+                {
+                    max_num_reorder_frames=b.max_num_reorder_frames;
+
+                    return *this;
+                }
+
+            private:
+                bitstream_restriction_struct();
             };
             xxl*    NAL;
             xxl*    VCL;
@@ -101,17 +153,27 @@ private :
             bool    fixed_frame_rate_flag;
             bool    pic_struct_present_flag;
 
-            vui_parameters_struct()
+            vui_parameters_struct(xxl* NAL_, xxl* VCL_, bitstream_restriction_struct* bitstream_restriction_, int32u num_units_in_tick_, int32u time_scale_, int16u  sar_width_, int16u  sar_height_, int8u aspect_ratio_idc_, int8u video_format_, int8u colour_primaries_, int8u transfer_characteristics_, int8u matrix_coefficients_, bool aspect_ratio_info_present_flag_, bool video_signal_type_present_flag_, bool colour_description_present_flag_, bool timing_info_present_flag_, bool fixed_frame_rate_flag_, bool pic_struct_present_flag_)
+                :
+                NAL(NAL_),
+                VCL(VCL_),
+                bitstream_restriction(bitstream_restriction_),
+                num_units_in_tick(num_units_in_tick_),
+                time_scale(time_scale_),
+                sar_width(sar_width_),
+                sar_height(sar_height_),
+                aspect_ratio_idc(aspect_ratio_idc_),
+                video_format(video_format_),
+                colour_primaries(colour_primaries_),
+                transfer_characteristics(transfer_characteristics_),
+                matrix_coefficients(matrix_coefficients_),
+                aspect_ratio_info_present_flag(aspect_ratio_info_present_flag_),
+                video_signal_type_present_flag(video_signal_type_present_flag_),
+                colour_description_present_flag(colour_description_present_flag_),
+                timing_info_present_flag(timing_info_present_flag_),
+                fixed_frame_rate_flag(fixed_frame_rate_flag_),
+                pic_struct_present_flag(pic_struct_present_flag_)
             {
-                NAL=NULL;
-                VCL=NULL;
-                bitstream_restriction=NULL;
-                aspect_ratio_info_present_flag=false;
-                video_signal_type_present_flag=false;
-                colour_description_present_flag=false;
-                timing_info_present_flag=false;
-                fixed_frame_rate_flag=false;
-                pic_struct_present_flag=false;
             }
 
             ~vui_parameters_struct()
@@ -120,8 +182,16 @@ private :
                 delete VCL; //VCL=NULL;
                 delete bitstream_restriction; //bitstream_restriction=NULL;
             }
+
+        private:
+            vui_parameters_struct &operator=(const vui_parameters_struct &v);
+            vui_parameters_struct();
         };
         vui_parameters_struct* vui_parameters;
+        #if MEDIAINFO_DEMUX
+        int8u*  Iso14496_10_Buffer;
+        size_t  Iso14496_10_Buffer_Size;
+        #endif //MEDIAINFO_DEMUX
         int32u  pic_width_in_mbs_minus1;
         int32u  pic_height_in_map_units_minus1;
         int32u  frame_crop_left_offset;
@@ -141,13 +211,11 @@ private :
         int8u   log2_max_pic_order_cnt_lsb_minus4;
         int8u   max_num_ref_frames;
         int8u   pic_struct_FirstDetected; //For stats only
-        int8u   log2_max_slice_group_change_cycle_minus4;
         bool    constraint_set3_flag;
         bool    separate_colour_plane_flag;
         bool    delta_pic_order_always_zero_flag;
         bool    frame_mbs_only_flag;
         bool    mb_adaptive_frame_field_flag;
-        bool    IsSynched; //Computed value
 
         //Computed values
         bool    NalHrdBpPresentFlag() {return vui_parameters && vui_parameters->NAL;}
@@ -155,19 +223,54 @@ private :
         bool    CpbDpbDelaysPresentFlag() {return vui_parameters && (vui_parameters->NAL || vui_parameters->VCL);}
         int8u   ChromaArrayType() {return separate_colour_plane_flag?0:chroma_format_idc;}
 
-        #if MEDIAINFO_DEMUX
-        int8u*  Iso14496_10_Buffer;
-        size_t  Iso14496_10_Buffer_Size;
-        #endif //MEDIAINFO_DEMUX
-
         //Constructor/Destructor
-        #if MEDIAINFO_DEMUX
-        seq_parameter_set_struct()
+        seq_parameter_set_struct(vui_parameters_struct* vui_parameters_, int32u pic_width_in_mbs_minus1_, int32u pic_height_in_map_units_minus1_, int32u frame_crop_left_offset_, int32u frame_crop_right_offset_, int32u frame_crop_top_offset_, int32u frame_crop_bottom_offset_, int8u chroma_format_idc_, int8u profile_idc_, int8u level_idc_, int8u bit_depth_luma_minus8_, int8u bit_depth_chroma_minus8_, int8u log2_max_frame_num_minus4_, int8u pic_order_cnt_type_, int8u log2_max_pic_order_cnt_lsb_minus4_, int8u max_num_ref_frames_, bool constraint_set3_flag_, bool separate_colour_plane_flag_, bool delta_pic_order_always_zero_flag_, bool frame_mbs_only_flag_, bool mb_adaptive_frame_field_flag_)
+            :
+            vui_parameters(vui_parameters_),
+            #if MEDIAINFO_DEMUX
+            Iso14496_10_Buffer(NULL),
+            Iso14496_10_Buffer_Size(0),
+            #endif //MEDIAINFO_DEMUX
+            pic_width_in_mbs_minus1(pic_width_in_mbs_minus1_),
+            pic_height_in_map_units_minus1(pic_height_in_map_units_minus1_),
+            frame_crop_left_offset(frame_crop_left_offset_),
+            frame_crop_right_offset(frame_crop_right_offset_),
+            frame_crop_top_offset(frame_crop_top_offset_),
+            frame_crop_bottom_offset(frame_crop_bottom_offset_),
+            num_views_minus1(0),
+            chroma_format_idc(chroma_format_idc_),
+            profile_idc(profile_idc_),
+            level_idc(level_idc_),
+            bit_depth_luma_minus8(bit_depth_luma_minus8_),
+            bit_depth_chroma_minus8(bit_depth_chroma_minus8_),
+            log2_max_frame_num_minus4(log2_max_frame_num_minus4_),
+            pic_order_cnt_type(pic_order_cnt_type_),
+            log2_max_pic_order_cnt_lsb_minus4(log2_max_pic_order_cnt_lsb_minus4_),
+            max_num_ref_frames(max_num_ref_frames_),
+            pic_struct_FirstDetected((int8u)-1), //For stats only, init
+            constraint_set3_flag(constraint_set3_flag_),
+            separate_colour_plane_flag(separate_colour_plane_flag_),
+            delta_pic_order_always_zero_flag(delta_pic_order_always_zero_flag_),
+            frame_mbs_only_flag(frame_mbs_only_flag_),
+            mb_adaptive_frame_field_flag(mb_adaptive_frame_field_flag_)
         {
-            Iso14496_10_Buffer=NULL;
-            Iso14496_10_Buffer_Size=0;
+            switch (pic_order_cnt_type)
+            {
+                case 0 :
+                            MaxPicOrderCntLsb = (int32u)std::pow(2.0, (int)(log2_max_pic_order_cnt_lsb_minus4 + 4));
+                            MaxFrameNum = (int32u)-1; //Unused
+                            break;
+                case 1 :
+                case 2 :
+                            MaxPicOrderCntLsb = (int32u)-1; //Unused
+                            MaxFrameNum = (int32u)std::pow(2.0, (int)(log2_max_frame_num_minus4 + 4));
+                            break;
+                default:
+                            MaxFrameNum = (int32u)-1; //Unused
+                            MaxPicOrderCntLsb = (int32u)-1; //Unused
+            }
         }
-        #endif //MEDIAINFO_DEMUX
+
         ~seq_parameter_set_struct()
         {
             delete vui_parameters; //vui_parameters=NULL;
@@ -175,12 +278,20 @@ private :
                 delete[] Iso14496_10_Buffer;
             #endif //MEDIAINFO_DEMUX
         }
+
+    private:
+        seq_parameter_set_struct &operator=(const seq_parameter_set_struct &v);
+        seq_parameter_set_struct();
     };
     typedef vector<seq_parameter_set_struct*> seq_parameter_set_structs;
 
     //Structures - pic_parameter_set
     struct pic_parameter_set_struct
     {
+        #if MEDIAINFO_DEMUX
+        int8u*  Iso14496_10_Buffer;
+        size_t  Iso14496_10_Buffer_Size;
+        #endif //MEDIAINFO_DEMUX
         int8u   seq_parameter_set_id;
         int8u   num_ref_idx_l0_default_active_minus1;
         int8u   num_ref_idx_l1_default_active_minus1;
@@ -191,28 +302,39 @@ private :
         bool    bottom_field_pic_order_in_frame_present_flag;
         bool    weighted_pred_flag;
         bool    redundant_pic_cnt_present_flag;
-        bool    IsSynched; //Computed value
         bool    deblocking_filter_control_present_flag;
 
-        #if MEDIAINFO_DEMUX
-        int8u*  Iso14496_10_Buffer;
-        size_t  Iso14496_10_Buffer_Size;
-        #endif //MEDIAINFO_DEMUX
-
         //Constructor/Destructor
-        #if MEDIAINFO_DEMUX
-        pic_parameter_set_struct()
+        pic_parameter_set_struct(int8u seq_parameter_set_id_, int8u num_ref_idx_l0_default_active_minus1_, int8u num_ref_idx_l1_default_active_minus1_, int8u weighted_bipred_idc_, int32u num_slice_groups_minus1_, int32u slice_group_map_type_, bool entropy_coding_mode_flag_, bool bottom_field_pic_order_in_frame_present_flag_, bool weighted_pred_flag_, bool redundant_pic_cnt_present_flag_, bool deblocking_filter_control_present_flag_)
+            :
+            #if MEDIAINFO_DEMUX
+            Iso14496_10_Buffer(NULL),
+            Iso14496_10_Buffer_Size(0),
+            #endif //MEDIAINFO_DEMUX
+            seq_parameter_set_id(seq_parameter_set_id_),
+            num_ref_idx_l0_default_active_minus1(num_ref_idx_l0_default_active_minus1_),
+            num_ref_idx_l1_default_active_minus1(num_ref_idx_l1_default_active_minus1_),
+            weighted_bipred_idc(weighted_bipred_idc_),
+            num_slice_groups_minus1(num_slice_groups_minus1_),
+            slice_group_map_type(slice_group_map_type_),
+            entropy_coding_mode_flag(entropy_coding_mode_flag_),
+            bottom_field_pic_order_in_frame_present_flag(bottom_field_pic_order_in_frame_present_flag_),
+            weighted_pred_flag(weighted_pred_flag_),
+            redundant_pic_cnt_present_flag(redundant_pic_cnt_present_flag_),
+            deblocking_filter_control_present_flag(deblocking_filter_control_present_flag_)
         {
-            Iso14496_10_Buffer=NULL;
-            Iso14496_10_Buffer_Size=0;
         }
-        #endif //MEDIAINFO_DEMUX
-        ~pic_parameter_set_struct()
+
+            ~pic_parameter_set_struct()
         {
             #if MEDIAINFO_DEMUX
                 delete[] Iso14496_10_Buffer;
             #endif //MEDIAINFO_DEMUX
         }
+
+    private:
+        pic_parameter_set_struct &operator=(const pic_parameter_set_struct &v);
+        pic_parameter_set_struct();
     };
     typedef vector<pic_parameter_set_struct*> pic_parameter_set_structs;
 
@@ -237,6 +359,9 @@ private :
     #endif //MEDIAINFO_DEMUX
 
     //Buffer - Global
+    #if MEDIAINFO_ADVANCED2
+    void Read_Buffer_SegmentChange();
+    #endif //MEDIAINFO_ADVANCED2
     void Read_Buffer_Unsynched();
 
     //Buffer - Per element
@@ -264,7 +389,7 @@ private :
     void sei();
     void sei_message(int32u &seq_parameter_set_id);
     void sei_message_buffering_period(int32u &seq_parameter_set_id);
-    void sei_message_buffering_period_xxl(void* xxl);
+    void sei_message_buffering_period_xxl(seq_parameter_set_struct::vui_parameters_struct::xxl* xxl);
     void sei_message_pic_timing(int32u payloadSize, int32u seq_parameter_set_id);
     void sei_message_user_data_registered_itu_t_t35();
     void sei_message_user_data_registered_itu_t_t35_DTG1();
@@ -274,6 +399,7 @@ private :
     void sei_message_user_data_registered_itu_t_t35_GA94_06();
     void sei_message_user_data_unregistered(int32u payloadSize);
     void sei_message_user_data_unregistered_x264(int32u payloadSize);
+    void sei_message_user_data_unregistered_bluray(int32u payloadSize);
     void sei_message_recovery_point();
     void sei_message_mainconcept(int32u payloadSize);
     void access_unit_delimiter();
@@ -287,10 +413,10 @@ private :
     void seq_parameter_set_svc_extension();
     void seq_parameter_set_mvc_extension(int32u subset_seq_parameter_sets_id);
     void scaling_list(int32u ScalingList_Size);
-    void vui_parameters(void* &vui_parameters_Item);
+    void vui_parameters(seq_parameter_set_struct::vui_parameters_struct* &vui_parameters_Item);
     void svc_vui_parameters_extension();
     void mvc_vui_parameters_extension();
-    void hrd_parameters(void* &hrd_parameters_Item);
+    void hrd_parameters(seq_parameter_set_struct::vui_parameters_struct::xxl* &hrd_parameters_Item);
     void nal_unit_header_svc_extension();
     void nal_unit_header_mvc_extension();
     void ref_pic_list_modification(int32u slice_type, bool mvc);
@@ -307,9 +433,10 @@ private :
         bool   ShouldDuplicate;
 
         stream()
+            :
+            Searching_Payload(false),
+            ShouldDuplicate(false)
         {
-            Searching_Payload=false;
-            ShouldDuplicate=false;
         }
     };
     vector<stream> Streams;

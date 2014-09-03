@@ -110,6 +110,12 @@
     #if !defined (MEDIAINFO_READTHREAD_NO) && !defined (MEDIAINFO_READTHREAD_YES)
         #define MEDIAINFO_READTHREAD_NO
     #endif
+    #if !defined (MEDIAINFO_MD5_NO) && !defined (MEDIAINFO_MD5_YES)
+        #define MEDIAINFO_MD5_NO
+    #endif
+    #if !defined (MEDIAINFO_AES_NO) && !defined (MEDIAINFO_AES_YES)
+        #define MEDIAINFO_AES_NO
+    #endif
 #endif
 
 //---------------------------------------------------------------------------
@@ -154,6 +160,16 @@
         #define MEDIAINFO_MACROBLOCKS 1
     #endif
 #endif
+#if !defined(MEDIAINFO_AES)
+    #if defined(MEDIAINFO_AES_NO) && defined(MEDIAINFO_AES_YES)
+        #undef MEDIAINFO_AES_NO //MEDIAINFO_AES_YES has priority
+    #endif
+    #if defined(MEDIAINFO_AES_NO)
+        #define MEDIAINFO_AES 0
+    #else
+        #define MEDIAINFO_AES 1
+    #endif
+#endif
 #if !defined(MEDIAINFO_NEXTPACKET)
     #if defined(MEDIAINFO_NEXTPACKET_NO) && defined(MEDIAINFO_NEXTPACKET_YES)
         #undef MEDIAINFO_NEXTPACKET_NO //MEDIAINFO_NEXTPACKET_YES has priority
@@ -192,6 +208,16 @@
         #define MEDIAINFO_ADVANCED 0
     #else
         #define MEDIAINFO_ADVANCED 1
+    #endif
+#endif
+#if !defined(MEDIAINFO_ADVANCED2) //ADVANCED2 is for optional build during defualt build
+    #if defined(MEDIAINFO_ADVANCED2_NO) && defined(MEDIAINFO_ADVANCED2_YES)
+        #undef MEDIAINFO_ADVANCED2_NO //MEDIAINFO_ADVANCED2_YES has priority
+    #endif
+    #if defined(MEDIAINFO_ADVANCED2_YES)
+        #define MEDIAINFO_ADVANCED2 1
+    #else
+        #define MEDIAINFO_ADVANCED2 0
     #endif
 #endif
 #if !defined(MEDIAINFO_MD5)
@@ -438,6 +464,9 @@
 #if !defined(MEDIAINFO_VIDEO_NO) && !defined(MEDIAINFO_DIRAC_NO) && !defined(MEDIAINFO_DIRAC_YES)
     #define MEDIAINFO_DIRAC_YES
 #endif
+#if !defined(MEDIAINFO_VIDEO_NO) && !defined(MEDIAINFO_FFV1_NO) && !defined(MEDIAINFO_FFV1_YES)
+    #define MEDIAINFO_FFV1_YES
+#endif
 #if !defined(MEDIAINFO_VIDEO_NO) && !defined(MEDIAINFO_FLIC_NO) && !defined(MEDIAINFO_FLIC_YES)
     #define MEDIAINFO_FLIC_YES
 #endif
@@ -449,6 +478,9 @@
 #endif
 #if !defined(MEDIAINFO_VIDEO_NO) && !defined(MEDIAINFO_HEVC_NO) && !defined(MEDIAINFO_HEVC_YES)
     #define MEDIAINFO_HEVC_YES
+#endif
+#if !defined(MEDIAINFO_VIDEO_NO) && !defined(MEDIAINFO_HUFFYUV_NO) && !defined(MEDIAINFO_HUFFYUV_YES)
+    #define MEDIAINFO_HUFFYUV_YES
 #endif
 #if !defined(MEDIAINFO_VIDEO_NO) && !defined(MEDIAINFO_LAGARITH_NO) && !defined(MEDIAINFO_LAGARITH_YES)
     #define MEDIAINFO_LAGARITH_YES
@@ -626,6 +658,9 @@
 #endif
 #if !defined(MEDIAINFO_TEXT_NO) && !defined(MEDIAINFO_KATE_NO) && !defined(MEDIAINFO_KATE_YES)
     #define MEDIAINFO_KATE_YES
+#endif
+#if !defined(MEDIAINFO_TEXT_NO) && !defined(MEDIAINFO_PDF_NO) && !defined(MEDIAINFO_PDF_YES)
+    #define MEDIAINFO_PDF_YES
 #endif
 #if !defined(MEDIAINFO_TEXT_NO) && !defined(MEDIAINFO_PGS_NO) && !defined(MEDIAINFO_PGS_YES)
     #define MEDIAINFO_PGS_YES

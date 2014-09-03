@@ -409,7 +409,7 @@ void File_AvsV::Data_Parse()
         case 0xB4:
         case 0xB8: reserved(); break;
         default:
-            if (Element_Code>=0x00 && Element_Code<=0xAF)
+            if (Element_Code<=0xAF)
                 slice();
             else
             {
@@ -578,7 +578,8 @@ void File_AvsV::extension_start()
 
     switch (extension_start_code_identifier)
     {
-        case 2  :{ //sequence_display
+        case 2  : //sequence_display
+                {
                     //Parsing
                     Get_S1 ( 3, video_format,                   "video_format"); Param_Info1(AvsV_video_format[video_format]);
                     Skip_SB(                                    "sample_range");
@@ -595,7 +596,8 @@ void File_AvsV::extension_start()
                     BS_End();
                 }
                 break;
-        case 4  :{ //copyright
+        case 4  : //copyright
+                {
                     //Parsing
                     Skip_SB(                                    "copyright_flag");
                     Skip_S1( 8,                                 "copyright_id");
@@ -610,7 +612,8 @@ void File_AvsV::extension_start()
                     BS_End();
                 }
                 break;
-        case 11 :{ //camera_parameters
+        case 11 : //camera_parameters
+                {
                     //Parsing
                     Skip_SB(                                    "reserved");
                     Skip_S1( 7,                                 "camera_id");
@@ -651,7 +654,8 @@ void File_AvsV::extension_start()
                     BS_End();
                 }
                 break;
-        default:{
+        default :
+                {
                     //Parsing
                     Skip_S1(4,                                  "data");
                     BS_End();

@@ -110,10 +110,14 @@
     <ClInclude Include="MediaInfo\Multiple\File_HdsF4m.h" />
     <ClInclude Include="MediaInfo\Multiple\File_Pmp.h" />
     <ClInclude Include="MediaInfo\Multiple\File_Ptx.h" />
+    <ClInclude Include="MediaInfo\Tag\File_Xmp.h" />
+    <ClInclude Include="MediaInfo\Text\File_Pdf.h" />
     <ClInclude Include="MediaInfo\Text\File_SubRip.h" />
     <ClInclude Include="MediaInfo\Text\File_TimedText.h" />
     <ClInclude Include="MediaInfo\Text\File_Ttml.h" />
+    <ClInclude Include="MediaInfo\Video\File_Ffv1.h" />
     <ClInclude Include="MediaInfo\Video\File_Hevc.h" />
+    <ClInclude Include="MediaInfo\Video\File_HuffYuv.h" />
     <ClInclude Include="ThirdParty\base64\base64.h" />
     <ClInclude Include="ThirdParty\tinyxml2\tinyxml2.h" />
     <ClInclude Include="MediaInfo\Archive\File_7z.h" />
@@ -400,6 +404,8 @@
     <ClCompile Include="MediaInfo\PreComp.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="MediaInfo\Tag\File_Xmp.cpp" />
+    <ClCompile Include="MediaInfo\Text\File_Pdf.cpp" />
     <ClCompile Include="MediaInfo\Text\File_SubRip.cpp" />
     <ClCompile Include="MediaInfo\Text\File_TimedText.cpp" />
     <ClCompile Include="MediaInfo\Text\File_Ttml.cpp" />
@@ -478,10 +484,12 @@
     <ClCompile Include="MediaInfo\Video\File_AvsV.cpp" />
     <ClCompile Include="MediaInfo\Video\File_Canopus.cpp" />
     <ClCompile Include="MediaInfo\Video\File_Dirac.cpp" />
+    <ClCompile Include="MediaInfo\Video\File_Ffv1.cpp" />
     <ClCompile Include="MediaInfo\Video\File_Flic.cpp" />
     <ClCompile Include="MediaInfo\Video\File_Fraps.cpp" />
     <ClCompile Include="MediaInfo\Video\File_H263.cpp" />
     <ClCompile Include="MediaInfo\Video\File_Hevc.cpp" />
+    <ClCompile Include="MediaInfo\Video\File_HuffYuv.cpp" />
     <ClCompile Include="MediaInfo\Video\File_Lagarith.cpp" />
     <ClCompile Include="MediaInfo\Video\File_Mpeg4v.cpp" />
     <ClCompile Include="MediaInfo\Video\File_Mpegv.cpp" />

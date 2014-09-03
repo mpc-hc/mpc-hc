@@ -107,6 +107,7 @@ bool File_Zip::FileHeader_Begin()
 
     //This is OK, ZIP detected
     Accept();
+    Fill(Stream_General, 0, General_Format, "ZIP");
 
     //Init
     signature=0x00000000;
@@ -180,15 +181,18 @@ bool File_Zip::local_file()
                     if (!local_file_header())
                         return false;
                     local_file_Step=1; //local_file_header parsed
+                    break;
         case 1 :
                     local_file_Step=2; //file_data is always parsed
                     if (!file_data())
                         return false;
-        case 2 :
+                    break;
+        case 2:
                     if (!data_descriptor())
                         return false;
                     local_file_Step=0; //data_descriptor is parsed, back to begin
-        default :   ; //Should never happen
+                    break;
+        default:    ; //Should never happen
     }
 
     return true;

@@ -315,11 +315,11 @@ bool File_Id3v2::Static_Synchronize_Tags(const int8u* Buffer, size_t Buffer_Offs
         return false;
 
     //ID
-    if ((Buffer[Buffer_Offset  ]==0x45 // "ID3"
-      && Buffer[Buffer_Offset+1]==0x41
+    if ((Buffer[Buffer_Offset  ]==0x49 // "ID3"
+      && Buffer[Buffer_Offset+1]==0x44
       && Buffer[Buffer_Offset+2]==0x33)
-     || (Buffer[Buffer_Offset  ]==0x45 // "ea3", found in OpenMG
-      && Buffer[Buffer_Offset+1]==0x41
+     || (Buffer[Buffer_Offset  ]==0x65 // "ea3", found in OpenMG
+      && Buffer[Buffer_Offset+1]==0x61
       && Buffer[Buffer_Offset+2]==0x33))
         Tag_Found=true;
     else
@@ -1021,8 +1021,11 @@ void File_Id3v2::RGAD()
             {
                 case 1 : if (Retrieve(Stream_Audio, 0, Audio_ReplayGain_Gain).empty()) //this tag is not precise, we prefer other RG tags
                             Fill(Stream_Audio, 0, Audio_ReplayGain_Gain, (Sign_bit?-1:1)*(float)Replay_Gain_Adjustment/10, 1);
+                         break;
                 case 2 : if (Retrieve(Stream_General, 0, General_Album_ReplayGain_Gain).empty()) //this tag is not precise, we prefer other RG tags
                             Fill(Stream_General, 0, General_Album_ReplayGain_Gain, (Sign_bit?-1:1)*(float)Replay_Gain_Adjustment/10, 1);
+                         break;
+                default: ;
             }
         FILLING_END();
     }
@@ -1037,10 +1040,37 @@ void File_Id3v2::RGAD()
 void File_Id3v2::PRIV()
 {
     //Parsing
-    Ztring Owner;
-    Get_ISO_8859_1(Element_Size, Owner,                         "Owner identifier");
-    Element_Offset=Owner.size()+1;
-    Skip_XX(Element_Size-Element_Offset,                        "Data");
+    //Ztring Owner;
+    //Get_ISO_8859_1(Element_Size, Owner,                         "Owner identifier");
+    string Owner;
+    size_t Owner_Size=0;
+    while (Element_Offset+Owner_Size<Element_Size && Buffer[Buffer_Offset+(size_t)Element_Offset+Owner_Size]!='\0')
+        Owner_Size++;
+    if (Owner_Size==0 || Element_Offset+Owner_Size>=Element_Size)
+    {
+        Skip_XX(Element_Size-Element_Offset,                    "Unknown");
+        return;
+    }
+    Get_String(Owner_Size, Owner,                               "Owner identifier");
+    Skip_B1(                                                    "Null");
+    if (Owner=="com.apple.streaming.transportStreamTimestamp")
+    {
+        //http://tools.ietf.org/html/draft-pantos-http-live-streaming-13
+        int64u DTS;
+        Get_B8 (DTS,                                            "DTS");
+
+        FILLING_BEGIN();
+            if (DTS>=0x200000000LL) //33 bits
+            {
+                Fill(Stream_Audio, 0, Audio_Delay, DTS/90);
+                FrameInfo.DTS=DTS*1000000/90;
+            }
+        FILLING_END();
+    }
+    else
+    {
+        Skip_XX(Element_Size-Element_Offset,                    "Data");
+    }
 }
 
 //---------------------------------------------------------------------------

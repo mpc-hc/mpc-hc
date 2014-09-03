@@ -105,7 +105,7 @@ void File_Tta::FileHeader_Parse()
         Duration=((int64u)Samples)*1000/SampleRate;
         if (Duration==0)
             return;
-        UncompressedSize=Samples*Channels*(BitsPerSample/8);
+        UncompressedSize=((int64u)Samples)*Channels*(BitsPerSample/8);
         if (UncompressedSize==0)
             return;
 
