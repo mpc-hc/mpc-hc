@@ -63,3 +63,4 @@ next version - not released yet
 ! Ticket #4758, Adjust width of the groupbox headers to avoid empty space
 ! Ticket #4778, Fix optical drive detection when its letter is A or B.
 ! Ticket #4782, Backward framestep led to jumping to the wrong position in certain situations
+! Ticket #4825, Tracks matching a preferred language weren't always selected correctly
