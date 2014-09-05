@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-24 19:23:17+0000\n"
-"PO-Revision-Date: 2014-08-31 14:52+0000\n"
+"POT-Creation-Date: 2014-08-31 21:05:52+0000\n"
+"PO-Revision-Date: 2014-09-06 00:30+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -1126,11 +1126,11 @@ msgstr "キー"
 
 msgctxt "IDS_AG_MOUSE"
 msgid "Mouse Windowed"
-msgstr "ウィンドウ表示のマウス "
+msgstr "マウス ウィンドウ"
 
 msgctxt "IDS_AG_MOUSE_FS"
 msgid "Mouse Fullscreen"
-msgstr "全画面表示のマウス"
+msgstr "マウス フルスクリーン"
 
 msgctxt "IDS_AG_APP_COMMAND"
 msgid "App Command"
@@ -1326,7 +1326,7 @@ msgstr "品質 (%):"
 
 msgctxt "IDS_PPAGEADVANCED_COVER_SIZE_LIMIT"
 msgid "Maximum size (NxNpx) of a cover-art loaded in the audio only mode."
-msgstr ""
+msgstr "オーディオ専用モードで読み込まれたカバーアートの最大サイズ (NxNpx) です。 "
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"

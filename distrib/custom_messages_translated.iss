@@ -414,7 +414,7 @@ hr.msg_simd_sse=Ova verzija MPC-HC zahtijeva procesor sa SSE podrškom.%n%nVaš 
 #elif defined(sse2_required)
 hr.msg_simd_sse2=Ova verzija MPC-HC zahtijeva procesor sa SSE2 podrškom.%n%nVaš procesor nema te mogućnosti.
 #endif
-hr.run_DownloadToolbarImages=Posjetite našu Wiki stranicu da biste skinuli slike za toolbar
+hr.run_DownloadToolbarImages=Posjetite našu Wiki stranicu da biste skinuli slike za alatnu traku
 hr.tsk_AllUsers=Za sve korisnike
 hr.tsk_CurrentUser=Samo za trenutnog korisnika
 hr.tsk_Other=Ostali zadaci:
@@ -465,16 +465,16 @@ hy.ViewChangelog=Փոփոխությունների ցանկը
 
 ; Italian
 it.langid=00001040
-it.comp_mpciconlib=Libreria icone
+it.comp_mpciconlib=Icona Libreria
 it.comp_mpcresources=Traduzioni
-it.msg_DeleteSettings=Vou eliminare anche le impostazioni di MPC-HC?%n%nSe pensi di reinstallare MPC-HC in seguito non dovresti eliminarle.
+it.msg_DeleteSettings=Vuoi eliminare anche le impostazioni di MPC-HC?%n%nSe pensi di reinstallare MPC-HC in seguito non dovresti eliminarle.
 it.msg_SetupIsRunningWarning=L'installazione di MPC-HC è già in corso!
 #if defined(sse_required)
 it.msg_simd_sse=Questa build di MPC-HC richiede una CPU con il supporto alle estensioni SSE.%n%nLa tua CPU non dispone di questa caratteristica.
 #elif defined(sse2_required)
 it.msg_simd_sse2=Questa build di MPC-HC richiede una CPU con il supporto alle estensioni SSE2.%n%nLa tua CPU non dispone di questa caratteristica.
 #endif
-it.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
+it.run_DownloadToolbarImages=Visita la nostra pagina Wiki per scaricare le immagini della barra degli strumenti
 it.tsk_AllUsers=Per tutti gli utenti
 it.tsk_CurrentUser=Solo per l'utente corrente
 it.tsk_Other=Altre operazioni:
@@ -674,7 +674,7 @@ sl.msg_simd_sse=Ta različica MPC-HC zahteva procesor s podporo SSE razširitvam
 #elif defined(sse2_required)
 sl.msg_simd_sse2=Ta različica MPC-HC zahteva procesor s podporo SSE2 razširitvam.%n%nVaš procesor nima teh zmožnosti.
 #endif
-sl.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
+sl.run_DownloadToolbarImages=Obiščite našo Wiki stran za slike orodne vrstice
 sl.tsk_AllUsers=Za vse uporabnike
 sl.tsk_CurrentUser=Samo za trenutnega uporabnika
 sl.tsk_Other=Ostala opravila:
@@ -708,13 +708,13 @@ th_TH.langid=00001054
 th_TH.comp_mpciconlib=คลังไอคอน
 th_TH.comp_mpcresources=การแปลภาษา
 th_TH.msg_DeleteSettings=คุณต้องการลบการตั้งค่า MPC-HC ด้วยหรือไม่?%n%nหากคุณวางแผนจะติดตั้ง MPC-HC อีกครั้ง คุณไม่จำเป็นต้องลบมันออก
-th_TH.msg_SetupIsRunningWarning=การติดตั้ง MPC-HC กำลังดำเนินการ!
+th_TH.msg_SetupIsRunningWarning=การติดตั้ง MPC-HC กำลังดำเนินการอยู่!
 #if defined(sse_required)
 th_TH.msg_simd_sse=MPC-HC รุ่นนี้ ต้องการ CPU ที่สนับสนุนส่วนเสริม SSE%n%nCPU ของคุณไม่มีความสามารถนั้น
 #elif defined(sse2_required)
 th_TH.msg_simd_sse2=MPC-HC รุ่นนี้ ต้องการ CPU ที่สนับสนุนส่วนเสริม SSE2%n%nCPU ของคุณไม่มีความสามารถนั้น
 #endif
-th_TH.run_DownloadToolbarImages=เยี่ยมชมหน้าวิกิของเรา เพื่อดาวน์โหลดรูปแถบเครื่องมือ
+th_TH.run_DownloadToolbarImages=เยี่ยมชมหน้า Wiki ของเรา เพื่อดาวน์โหลดรูปแถบเครื่องมือ
 th_TH.tsk_AllUsers=สำหรับผู้ใช้ทุกราย
 th_TH.tsk_CurrentUser=สำหรับผู้ใช้ปัจจุบันเท่านั้น
 th_TH.tsk_Other=งานอื่น:

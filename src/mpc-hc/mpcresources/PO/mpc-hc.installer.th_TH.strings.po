@@ -2,13 +2,13 @@
 # Copyright (C) 2002 - 2014 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Xyteton <xyteton@hotmail.com>, 2014
+# M. Somsak, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-06-17 15:23:34+0000\n"
-"PO-Revision-Date: 2014-08-26 11:31+0000\n"
-"Last-Translator: Xyteton <xyteton@hotmail.com>\n"
+"PO-Revision-Date: 2014-09-01 04:50+0000\n"
+"Last-Translator: M. Somsak\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/mpc-hc/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -38,7 +38,7 @@ msgstr "คุณต้องการลบการตั้งค่า MPC-H
 
 msgctxt "CustomMessages_msg_SetupIsRunningWarning"
 msgid "MPC-HC setup is already running!"
-msgstr "การติดตั้ง MPC-HC กำลังดำเนินการ!"
+msgstr "การติดตั้ง MPC-HC กำลังดำเนินการอยู่!"
 
 msgctxt "CustomMessages_msg_simd_sse"
 msgid "This build of MPC-HC requires a CPU with SSE extension support.\n\nYour CPU does not have those capabilities."
@@ -50,7 +50,7 @@ msgstr "MPC-HC รุ่นนี้ ต้องการ CPU ที่สน�
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
-msgstr "เยี่ยมชมหน้าวิกิของเรา เพื่อดาวน์โหลดรูปแถบเครื่องมือ"
+msgstr "เยี่ยมชมหน้า Wiki ของเรา เพื่อดาวน์โหลดรูปแถบเครื่องมือ"
 
 msgctxt "CustomMessages_tsk_AllUsers"
 msgid "For all users"

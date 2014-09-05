@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-19 21:13:19+0000\n"
-"PO-Revision-Date: 2014-08-25 18:20+0000\n"
+"POT-Creation-Date: 2014-08-31 21:07:30+0000\n"
+"PO-Revision-Date: 2014-09-11 17:01+0000\n"
 "Last-Translator: Máté <lang.mate@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/mpc-hc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -306,7 +306,7 @@ msgstr "A lejátszó prioritása normál érték felett"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK14"
 msgid "Enable cover-art support"
-msgstr ""
+msgstr "Album borító támogatás engedélyezése"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "History"
@@ -538,19 +538,19 @@ msgstr "Soha ne animálja a feliratokat"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC5"
 msgid "Render at"
-msgstr ""
+msgstr "Az animáció"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC6"
 msgid "% of the animation"
-msgstr ""
+msgstr "-án renderelje"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC7"
 msgid "Animate at"
-msgstr ""
+msgstr "A képkockasebesség"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC8"
 msgid "% of the video frame rate"
-msgstr ""
+msgstr "-án animálja"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Allow dropping some subpictures if the queue is running late"
@@ -622,15 +622,15 @@ msgstr "Real-Time Streaming Protokoll kezelő (rtsp://... URL-ekhez)"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_RADIO1"
 msgid "RealMedia"
-msgstr "RealMedia Videó"
+msgstr "RealMedia"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_RADIO2"
 msgid "QuickTime"
-msgstr "QuickTime Videó"
+msgstr "QuickTime"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_RADIO3"
 msgid "DirectShow"
-msgstr "DirectShow Videó"
+msgstr "DirectShow"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK5"
 msgid "Check file extension first"
@@ -686,7 +686,7 @@ msgstr "Mutassa a fejezeteket a keresősávon"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK4"
 msgid "Display \"Now Playing\" information in Skype's mood message"
-msgstr ""
+msgstr "\"Most játszott\" információ megjelenítése Skype hangulatüzenetként"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
@@ -698,7 +698,7 @@ msgstr "Windows 7 Tálcafunkciók használata"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
-msgstr ""
+msgstr "Az \"Ugrás előre/vissza\" nyissa meg a mappában a következő/az előző fájlt, ha csak 1 fájl van a lejátszási listában."
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
 msgid "Use time tooltip:"
@@ -1126,15 +1126,15 @@ msgstr "Tallózás..."
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "DirectShow Video"
-msgstr "DirectShow Videó"
+msgstr "DirectShow Video"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "RealMedia Video"
-msgstr "RealMedia Videó"
+msgstr "RealMedia Video"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "QuickTime Video"
-msgstr "QuickTime Videó"
+msgstr "QuickTime Video"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Audio Renderer"
@@ -1398,7 +1398,7 @@ msgstr "Kábelszolgáltató"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC5"
 msgid "Tuner"
-msgstr ""
+msgstr "Tuner"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC6"
 msgid "Receiver"
@@ -1410,11 +1410,11 @@ msgstr ""
 
 msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST11"
 msgid "Rebuild filter graph"
-msgstr ""
+msgstr "Szűrő gráf újraépítése"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST12"
 msgid "Stop filter graph"
-msgstr ""
+msgstr "Szűrő gráf megállítása"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCVIDEO"
 msgid "Sync video to display"
@@ -1494,7 +1494,7 @@ msgstr "Teljes képernyős monitor"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK2"
 msgid "Use autochange fullscreen monitor mode"
-msgstr ""
+msgstr "Automatikus teljes képernyős mód használata"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON1"
 msgid "Add"

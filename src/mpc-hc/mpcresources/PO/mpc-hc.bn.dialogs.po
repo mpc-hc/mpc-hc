@@ -4,12 +4,13 @@
 # Translators:
 # mehzad, 2014
 # mehzad, 2014
+# Tapu Afrad (তপু আফ্রাদ) <tapu_afrad@hotmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-19 21:13:19+0000\n"
-"PO-Revision-Date: 2014-08-21 19:20+0000\n"
-"Last-Translator: mehzad\n"
+"POT-Creation-Date: 2014-08-31 21:07:30+0000\n"
+"PO-Revision-Date: 2014-09-07 10:10+0000\n"
+"Last-Translator: Tapu Afrad (তপু আফ্রাদ) <tapu_afrad@hotmail.com>\n"
 "Language-Team: Bengali (http://www.transifex.com/projects/p/mpc-hc/language/bn/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -307,7 +308,7 @@ msgstr "প্রক্রিয়াকরণে স্বাভাবিকে�
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK14"
 msgid "Enable cover-art support"
-msgstr ""
+msgstr "কভার আর্ট সাপোর্ট সক্রিয়"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "History"

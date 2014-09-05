@@ -2,14 +2,15 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Xyteton <xyteton@hotmail.com>, 2014
-# Xyteton <xyteton@hotmail.com>, 2014
+# M. Somsak, 2014
+# M. Somsak, 2014
+# M. Somsak, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-24 19:23:17+0000\n"
-"PO-Revision-Date: 2014-08-31 14:52+0000\n"
-"Last-Translator: Xyteton <xyteton@hotmail.com>\n"
+"POT-Creation-Date: 2014-08-31 21:05:52+0000\n"
+"PO-Revision-Date: 2014-09-12 00:33+0000\n"
+"Last-Translator: M. Somsak\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/mpc-hc/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -131,7 +132,7 @@ msgstr "เสมอ (ตัวเลือกที่ช้าสุด)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
 msgid "Not supported by some devices. Two video decoders always present in the filter graph."
-msgstr "ไม่รองรับกับบางอุปกรณ์ ตัวถอดรหัสวิดีโอ2 ตัวจะปรากฏในกราฟตัวกรองเสมอ"
+msgstr "ไม่รองรับกับบางอุปกรณ์ ตัวถอดรหัสวิดีโอ 2 ตัวจะปรากฏในกราฟตัวกรองเสมอ"
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
 msgid "Fast except when switching between different video streams. Only one video decoder present in the filter graph."
@@ -155,7 +156,7 @@ msgstr "เสมอ (บางอุปกรณ์อาจต้องกา�
 
 msgctxt "IDS_INFOBAR_PARENTAL_RATING"
 msgid "Parental rating"
-msgstr "คะแนนผู้ปกครอง"
+msgstr "ระดับผู้ปกครอง"
 
 msgctxt "IDS_PARENTAL_RATING"
 msgid "%d+"
@@ -259,7 +260,7 @@ msgstr "ไม่สามารถเพิ่มตัวกรองการ
 
 msgctxt "IDS_CAPTURE_ERROR_DEVICE"
 msgid "Could not open capture device."
-msgstr "ไม่สามารถเปิดอุปกรณ์จับข้อมูล"
+msgstr "ไม่สามารถเปิดอุปกรณ์จับข้อมูลได้"
 
 msgctxt "IDS_INVALID_PARAMS_ERROR"
 msgid "Can't open, invalid input parameters"
@@ -267,7 +268,7 @@ msgstr "ไม่สามารถเปิดได้ พารามิเ�
 
 msgctxt "IDS_EDIT_LIST_EDITOR"
 msgid "Edit List Editor"
-msgstr "แก้ไข ตัวแก้ไขรายการ"
+msgstr "แก้ไขตัวแก้ไขรายการ"
 
 msgctxt "IDS_GOTO_ERROR_INVALID_TIME"
 msgid "The entered time is greater than the file duration."
@@ -295,7 +296,7 @@ msgstr "ดิสก์"
 
 msgctxt "IDS_SUBDL_DLG_TITLES_COL"
 msgid "Title(s)"
-msgstr "ชื่อเรียก"
+msgstr "หัวเรื่อง"
 
 msgctxt "IDS_SUBRESYNC_CLN_CHARSET"
 msgid "CharSet"
@@ -363,7 +364,7 @@ msgstr "ล้มเหลวในการแปลผลพินทั้ง
 
 msgctxt "IDS_PLAYLIST_OPEN"
 msgid "&Open"
-msgstr "&เปิด"
+msgstr "เ&ปิด"
 
 msgctxt "IDS_PLAYLIST_ADD"
 msgid "A&dd"
@@ -399,7 +400,7 @@ msgstr "เรียง&สุ่ม"
 
 msgctxt "IDS_PLAYLIST_RESTORE"
 msgid "R&estore"
-msgstr "&คืนค่าเดิม"
+msgstr "คืนค่าเ&ดิม"
 
 msgctxt "IDS_SUBRESYNC_SEPARATOR"
 msgid "&Separator"
@@ -475,11 +476,11 @@ msgstr "เวอร์ชันใหม่ของคลังไอคอน
 
 msgctxt "IDS_ICONS_REASSOC_DLG_INSTR"
 msgid "Do you want to reassociate the icons?"
-msgstr "คุณต้องการสร้างความสัมพันธ์ไอคอนใหม่หรือไม่?"
+msgstr "คุณต้องการสร้างความสัมพันธ์ไอคอนอีกครั้งหรือไม่?"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_CONTENT"
 msgid "This will fix the icons being incorrectly displayed after an update of the icon library.\nThe file associations will not be modified, only the corresponding icons will be refreshed."
-msgstr "สิ่งนี้จะซ่อมแซมไอคอนที่แสดงผลไม่ถูกต้องหลังจากอัพเดตคลังไอคอน \nความสัมพันธ์ไฟล์จะไม่เปลี่ยนแปลง ไอคอนที่สอดคล้องเท่านั้นที่จะเรียกใช้ใหม่"
+msgstr "สิ่งนี้จะซ่อมแซมไอคอนที่แสดงผลไม่ถูกต้องหลังจากอัพเดตคลังไอคอน \nความสัมพันธ์ไฟล์จะไม่เปลี่ยนแปลง ไอคอนที่สอดคล้องเท่านั้นที่จะถูกฟื้นฟูใหม่"
 
 msgctxt "IDS_PPAGE_OUTPUT_OLDRENDERER"
 msgid "Old Video Renderer"
@@ -487,7 +488,7 @@ msgstr "ตัวแปลผลวิดีโอรุ่นเก่า"
 
 msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
-msgstr "ตัวแปลผล Overlay Mixer"
+msgstr "Overlay Mixer Renderer"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
 msgid "Video Mixing Renderer 7 (windowed)"
@@ -591,15 +592,15 @@ msgstr "คลิป"
 
 msgctxt "IDC_DSSYSDEF"
 msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason. On Windown XP this is the same as VMR-7 (windowed)."
-msgstr "ตัวกรองวิดีโอตั้งต้นสำหรับ DirectShow โดยที่ตัวอื่นจะตามมาทีหลังเมื่อมันไม่สามารถโหลดด้วยเหตุผลบางอย่าง, บน Windown XP สิ่งนี้คือสิ่งเดียวกับ VMR-7 (windowed)."
+msgstr "ตัวกรองวิดีโอตั้งต้นสำหรับ DirectShow โดยที่ตัวอื่นจะกลับมาที่ตัวนี้เมื่อพวกมันไม่สามารถโหลดด้วยเหตุผลบางอย่าง, บน Windown XP สิ่งนี้คือสิ่งเดียวกับ VMR-7 (windowed)"
 
 msgctxt "IDC_DSOLD"
 msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
-msgstr "นี่คือตัวแปลผลตั้งต้นของ Windows 9x/me/2k  ขึ้นกับการมองเห็นหน้าต่างวิดีโอและความสามารถของการ์ดจอของคุณ, มันจะสลับอย่างแปรเปลี่ยนได้ระหว่างการแปลผล GDI, DirectDraw, Overlay"
+msgstr "นี่คือตัวแปลผลตั้งต้นของ Windows 9x/me/2k  ขึ้นกับทัศนวิสัยหน้าต่างวิดีโอและความสามารถของการ์ดจอของคุณ, มันจะสลับอย่างแปรเปลี่ยนได้ระหว่างการแปลผล GDI, DirectDraw, Overlay"
 
 msgctxt "IDC_DSOVERLAYMIXER"
 msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
-msgstr "แปลผลใน overlay เสมอ โดยทั่วไปรูปแบบ YUV เท่านั้นที่ได้รับอนุญาต, แต่พวกมันจะถูกนำเสนอโดยตรงปราศจากการแปลงสีใดๆเป็น RGB นี่คือวิธีการแปลผลทั้งหมดที่เร็วที่สุด และเป็นที่เดียวที่คุณสามารถมั่นใจการทำภาพกระจกวิดีโอแบบเต็มจอสู่การกระตุ้นโทรทัศน์ขาออก"
+msgstr "แปลผลใน overlay เสมอ โดยทั่วไปรูปแบบ YUV เท่านั้นที่ได้รับอนุญาต, แต่พวกมันจะถูกนำเสนอโดยตรงปราศจากการแปลงสีใดๆเป็น RGB นี่คือวิธีการแปลผลทั้งหมดที่เร็วที่สุด และเป็นที่เดียวที่คุณสามารถมั่นใจการทำภาพกระจกวิดีโอแบบเต็มจอ สู่การกระตุ้นโทรทัศน์ขาออก"
 
 msgctxt "IDC_DSVMR7WIN"
 msgid "The default renderer of Windows XP. Very stable and just a little slower than the Overlay mixer. Uses DirectDraw and runs in Overlay when it can."
@@ -607,11 +608,11 @@ msgstr "ตัวแปลผลตั้งต้นสำหรับ Windows 
 
 msgctxt "IDC_DSVMR9WIN"
 msgid "Only available if you have DirectX 9 installed. Has the same abilities as VMR-7 (windowed), but it will never use Overlay rendering and because of this it may be a little slower than VMR-7 (windowed)."
-msgstr "เฉพาะถ้าคุณมีการติดตั้ง DirectX 9 ไว้แล้ว มีความสามารถเหมือน VMR-7 (windowed), แต่จะไม่ใช้การแปลผล Overlay ด้วยเหตุนี้มันจึงอาจช้ากว่า VMR-7 (windowed)"
+msgstr "ใช้ได้เฉพาะถ้าคุณมีการติดตั้ง DirectX 9 ไว้แล้ว มีความสามารถเหมือน VMR-7 (windowed), แต่จะไม่ใช้การแปลผล Overlay ด้วยเหตุนี้มันจึงอาจช้ากว่า VMR-7 (windowed)"
 
 msgctxt "IDC_DSVMR7REN"
 msgid "Same as the VMR-7 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring WILL NOT work. \"True Color\" desktop color space recommended."
-msgstr "เหมือนกับ VMR-7 (windowed) เว้นแต่ปลั๊กอิน Allocator-Presenter ของ MPC-HC สำหรับการทำศัพท์บรรยาย, ส่วนการทำภาพกระจกวิดีโอ Overlay จะใช้งานไม่ได้ พิกัดสีเดสก์ท็อปแบบ \"สีจริง\" ถูกแนะนำ"
+msgstr "เหมือนกับ VMR-7 (windowed) เว้นแต่ปลั๊กอิน Allocator-Presenter ของ MPC-HC สำหรับการทำศัพท์บรรยาย, ส่วนการทำภาพกระจกวิดีโอ Overlay จะใช้งานไม่ได้, พิกัดสีเดสก์ท็อปแบบ \"สีจริง\" ถูกแนะนำ"
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
@@ -639,11 +640,11 @@ msgstr "เหมือนกับ EVR เว้นแต่ Allocator-Presente
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
-msgstr "ตัวแปลผลคุณภาพสูง ต้องการการ์ดจอที่รองรับ D3D9 หรือสูงกว่า"
+msgstr "ตัวแปลผลคุณภาพสูง ต้องการการ์ดจอที่รองรับ D3D9 หรือใหม่กว่า"
 
 msgctxt "IDC_DSSYNC"
 msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
-msgstr "เหมือนกับ EVR (CP), แต่เสนอตัวเลือกอีกเล็กน้อยเพื่อที่จะซิงค์อัตราเฟรมวิดีโอกับอัตรารีเฟรชการแสดงผล เพื่อขจัดเฟรมวิดีโอที่ถูกข้ามหรือซ้ำซ้อน"
+msgstr "เหมือนกับ EVR (CP), แต่เสนอตัวเลือกอีกเล็กน้อยเพื่อที่จะซิงค์อัตราเฟรมวิดีโอกับอัตราฟื้นฟูการแสดงผล เพื่อขจัดเฟรมวิดีโอที่ถูกข้ามหรือซ้ำซ้อน"
 
 msgctxt "IDC_RMSYSDEF"
 msgid "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
@@ -659,7 +660,7 @@ msgstr "ขาออกของ Real's engine ถูกแปลผลโดย
 
 msgctxt "IDC_QTSYSDEF"
 msgid "QuickTime's own renderer. Gets a little slow when its video area is resized or partially covered by another window. When Overlay is not available it likes to fall back to GDI."
-msgstr "ตัวแปลผลของ QuickTime เอง ช้ากว่าเล็กน้อยเมื่อพื้นที่วิดีโอของมันถูกปรับขนาดหรือบางส่วนถูกทับโดยหน้าต่างอื่น, เมื่อไม่มี Overlay มันมักจะมาทีหลัง GDI"
+msgstr "ตัวแปลผลของ QuickTime เอง ช้ากว่าเล็กน้อยเมื่อพื้นที่วิดีโอของมันถูกปรับขนาดหรือบางส่วนถูกทับโดยหน้าต่างอื่น, เมื่อไม่มี Overlay มันมักจะกลับไปที่ GDI"
 
 msgctxt "IDC_QTDX7"
 msgid "The output of QuickTime's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
@@ -683,7 +684,7 @@ msgstr "ตัวแปลผลซิงค์"
 
 msgctxt "IDS_MPC_BUG_REPORT_TITLE"
 msgid "MPC-HC - Reporting a bug"
-msgstr "MPC-HC -กำลังรายงานบัก"
+msgstr "MPC-HC - กำลังรายงานบัก"
 
 msgctxt "IDS_MPC_BUG_REPORT"
 msgid "MPC-HC just crashed but this build was compiled without debug information.\nIf you want to report this bug, you should first try an official build.\n\nDo you want to visit the download page now?"
@@ -795,11 +796,11 @@ msgstr "ผิวหน้าวิดีโอจะถูกจัดสรร
 
 msgctxt "IDC_TEXTURESURF3D"
 msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
-msgstr "ผิวหน้าวิดีโอจะถูกจัดสรรเป็นพื้นผิวและวาดเป็นสามเหลี่ยม 2 ชิ้นใน 3d การเปิดการลดรอยหยักที่การตั้งค่าแสดงผล อาจทำให้เกิดผลเสียต่อความเร็วการแปลผล"
+msgstr "ผิวหน้าวิดีโอจะถูกจัดสรรเป็นพื้นผิวและวาดเป็นสามเหลี่ยมสองชิ้นใน 3d การเปิดการลดรอยหยักที่การตั้งค่าแสดงผล อาจทำให้เกิดผลเสียต่อความเร็วการแปลผล"
 
 msgctxt "IDC_DX9RESIZER_COMBO"
 msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
-msgstr "ถ้าไม่มีพิกเซลเฉดเดอร์ 2.0, bilinear อย่างง่ายจะถูกใช้อัตโนมัติ"
+msgstr "ถ้าไม่มีพิกเซลเฉดเดอร์ 2.0 แล้ว bilinear อย่างง่ายจะถูกใช้อัตโนมัติ"
 
 msgctxt "IDC_DSVMR9LOADMIXER"
 msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
@@ -811,11 +812,11 @@ msgstr "เพิ่มสมรรถนะ แต่ต้องเสีย�
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."
-msgstr "ลดการแตก แต่ป้องกันไม่ให้แถบเครื่องมือแสดง"
+msgstr "ลดการฉีกของภาพ แต่ป้องกันไม่ให้แถบเครื่องมือแสดง"
 
 msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Reduces tearing by bypassing the default VSync built into D3D."
-msgstr "ลดการแตกโดยลัด VSync ตั้งต้นที่สร้างไปยัง D3D"
+msgstr "ลดการฉีกของภาพโดยลัด VSync ตั้งต้นที่สร้างไปยัง D3D"
 
 msgctxt "IDS_SRC_VTS"
 msgid "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"
@@ -1027,11 +1028,11 @@ msgstr "ส่องกวาด หมุน Z-"
 
 msgctxt "IDS_AG_TEARING_TEST"
 msgid "Tearing Test"
-msgstr "ทดสอบภาพแตก"
+msgstr "ทดสอบการฉีกของภาพ"
 
 msgctxt "IDS_SCALE_16_9"
 msgid "Scale to 16:9 TV,%.3f,%.3f,%.3f,%.3f"
-msgstr "สเกลเป็น 16:9 TV,%.3f,%.3f,%.3f,%.3f"
+msgstr "ปรับสเกลเป็น 16:9 TV,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_SCALE_WIDESCREEN"
 msgid "Zoom To Widescreen,%.3f,%.3f,%.3f,%.3f"
@@ -1071,7 +1072,7 @@ msgstr "&ตัวเลือก..."
 
 msgctxt "IDS_SUBTITLES_STYLES"
 msgid "&Styles..."
-msgstr "&รูปแบบ..."
+msgstr "&ลักษณะ..."
 
 msgctxt "IDS_SUBTITLES_RELOAD"
 msgid "&Reload"
@@ -1087,11 +1088,11 @@ msgstr "แ&ก้ไข..."
 
 msgctxt "IDS_INFOBAR_TITLE"
 msgid "Title"
-msgstr "ชื่อเรียก"
+msgstr "หัวเรื่อง"
 
 msgctxt "IDS_INFOBAR_AUTHOR"
 msgid "Author"
-msgstr "ผู้สร้าง"
+msgstr "ผู้สร้างสรรค์"
 
 msgctxt "IDS_INFOBAR_COPYRIGHT"
 msgid "Copyright"
@@ -1099,7 +1100,7 @@ msgstr "ลิขสิทธิ์"
 
 msgctxt "IDS_INFOBAR_RATING"
 msgid "Rating"
-msgstr "เรตติ้ง"
+msgstr "ระดับคะแนน"
 
 msgctxt "IDS_INFOBAR_DESCRIPTION"
 msgid "Description"
@@ -1167,11 +1168,11 @@ msgstr "เปิดดีวีดี/บลูเรย์"
 
 msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
 msgid "Failed to set post-resize shaders"
-msgstr "ล้มเหลวในการตั้งค่าเฉดเดอร์ปรับขนาดภายหลัง"
+msgstr "ล้มเหลวในการตั้งค่าเฉดเดอร์หลังการปรับขนาด"
 
 msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
 msgid "Failed to set both pre-resize and post-resize shaders"
-msgstr "ล้มเหลวในการตั้งค่าเฉดเดอร์ปรับขนาดทั้งชนิดล่วงหน้าและภายหลัง"
+msgstr "ล้มเหลวในการตั้งค่าเฉดเดอร์ทั้งก่อนและหลังการปรับขนาด"
 
 msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
 msgid "Shaders are recompiled automatically when the corresponding files are modified."
@@ -1259,7 +1260,7 @@ msgstr "ใส่ credentials ของคุณเพื่อเชื่อ�
 
 msgctxt "IDS_SUB_SAVE_EXTERNAL_STYLE_FILE"
 msgid "Save custom style"
-msgstr "บันทึกรูปแบบที่ปรับแต่ง"
+msgstr "บันทึกลักษณะที่ปรับแต่ง"
 
 msgctxt "IDS_CONTENT_EDUCATION_SCIENCE"
 msgid "Education/Science/Factual topics"
@@ -1327,7 +1328,7 @@ msgstr "คุณภาพ (%):"
 
 msgctxt "IDS_PPAGEADVANCED_COVER_SIZE_LIMIT"
 msgid "Maximum size (NxNpx) of a cover-art loaded in the audio only mode."
-msgstr ""
+msgstr "ขนาดสูงสุด (NxNpx) ของภาพปก ที่โหลดเฉพาะในโหมดเสียง"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1455,7 +1456,7 @@ msgstr "แสดงเมื่ออยู่บนตัวควบคุม
 
 msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
 msgid "Failed to set pre-resize shaders"
-msgstr "ล้มเหลวในการตั้งค่าเฉดเดอร์ปรับขนาดล่วงหน้า"
+msgstr "ล้มเหลวในการตั้งค่าเฉดเดอร์ก่อนการปรับขนาด"
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
 msgid "Frame Time Correction: On"
@@ -1683,7 +1684,7 @@ msgstr "กำลังดาวน์โหลดศัพท์บรรยา
 
 msgctxt "IDS_SUBDL_DLG_PARSING"
 msgid "Parsing list..."
-msgstr "กำลังกระจายรายการ..."
+msgstr "กำลังวิเคราะห์รายการ..."
 
 msgctxt "IDS_SUBDL_DLG_NOT_FOUND"
 msgid "No subtitles found."
@@ -2051,7 +2052,7 @@ msgstr "ช่อง"
 
 msgctxt "IDS_AG_TITLE"
 msgid "Title %u"
-msgstr "ชื่อเรียก %u"
+msgstr "หัวเรื่อง %u"
 
 msgctxt "IDS_MAINFRM_16"
 msgid "DVD: Unexpected error"
@@ -2071,7 +2072,7 @@ msgstr "DVD: ภูมิภาคแผ่นดิสก์ไม่ถูก�
 
 msgctxt "IDS_MAINFRM_20"
 msgid "DVD: Low Parental Level"
-msgstr "ดีวีดี: ระดับผู้ปกครองต่ำ"
+msgstr "DVD: ระดับผู้ปกครองต่ำ"
 
 msgctxt "IDS_MAINFRM_21"
 msgid "DVD: Macrovision Fail"
@@ -2087,7 +2088,7 @@ msgstr "DVD: ดิสก์และเขตตัวถอดรหัสท�
 
 msgctxt "IDS_D3DFS_WARNING"
 msgid "This option is designed to avoid tearing. However, it will also prevent MPC-HC from displaying the context menu and any dialog box during playback.\n\nDo you really want to activate this option?"
-msgstr "ตัวเลือกนี้ถูกออกแบบมาเพื่อหลีกเลี่ยงภาพแตก อย่างไรก็ตาม มันอาจป้องกันไม่ให้ MPC-HC แสดงเมนูบริบทและกล่องข้อมูลใดๆ ระหว่างการเล่น\n\nคุณต้องการใช้ตัวเลือกนี้หรือไม่?"
+msgstr "ตัวเลือกนี้ถูกออกแบบมาเพื่อหลีกเลี่ยงการฉีกของภาพ อย่างไรก็ตาม มันอาจป้องกันไม่ให้ MPC-HC แสดงเมนูบริบทและกล่องข้อมูลใดๆ ระหว่างการเล่น\n\nคุณต้องการใช้ตัวเลือกนี้หรือไม่?"
 
 msgctxt "IDS_MAINFRM_139"
 msgid "Sub delay: %ld ms"
@@ -2095,7 +2096,7 @@ msgstr "ศัพท์ฯหน่วง: %ld มว."
 
 msgctxt "IDS_AG_TITLE2"
 msgid "Title: %02d/%02d"
-msgstr "ชื่อเรียก: %02d/%02d"
+msgstr "หัวเรื่อง: %02d/%02d"
 
 msgctxt "IDS_REALVIDEO_INCOMPATIBLE"
 msgid "Filename contains unsupported characters (use only A-Z, 0-9)"
@@ -2119,7 +2120,7 @@ msgstr "URL ดูเหมือนจะถูกต้อง!"
 
 msgctxt "IDS_PPSDB_PROTOCOLERR"
 msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
-msgstr "เวอร์ชันโปรโตคอลไม่ตรงกัน โปรดปรับรุ่นเครื่องเล่นของคุณ หรือเลือกที่อยู่อื่น!"
+msgstr "เวอร์ชันโปรโตคอลไม่ตรงกัน โปรดปรับปรุงรุ่นเครื่องเล่นของคุณ หรือเลือกที่อยู่อื่น!"
 
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
@@ -2215,7 +2216,7 @@ msgstr "รูปย่ออาจจะเล็กมาก จึงเป�
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "เพื่อโหลดศัพท์บรรยาย คุณต้องเปลี่ยนชนิดตัวแปลผลวิดีโอและเปิดไฟล์อีกครั้ง\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+msgstr "เพื่อโหลดศัพท์บรรยาย คุณต้องเปลี่ยนชนิดตัวแปลผลวิดีโอและเปิดไฟล์อีกครั้ง\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR หรือ Haali\n- RealMedia: ตัวแปลผลพิเศษสำหรับr RealMedia, หรือเปิดมันผ่าน DirectShow\n- QuickTime: ตัวแปลผล DX7 หรือ DX9 สำหรับ QuickTime\n- ShockWave: ไม่มีข้อมูล"
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
@@ -2359,7 +2360,7 @@ msgstr "ไม่พบเส้นทางดีวีดี"
 
 msgctxt "IDS_MAINFRM_94"
 msgid "Can't create the DVD Navigator filter"
-msgstr "ไม่สามารถสร้างตัวกรองตันำทางดีวีดี"
+msgstr "ไม่สามารถสร้างตัวกรองตัวนำทางดีวีดี"
 
 msgctxt "IDS_AG_FAILED"
 msgid "Failed"
@@ -2619,11 +2620,11 @@ msgstr "หลัง กลาง"
 
 msgctxt "IDS_SIDE_LEFT"
 msgid "Side Left"
-msgstr "ซ้าย ข้าง"
+msgstr "ข้าง ซ้าย"
 
 msgctxt "IDS_SIDE_RIGHT"
 msgid "Side Right"
-msgstr "ขวา ข้าง"
+msgstr "ข้าง ขวา"
 
 msgctxt "IDS_TOP_CENTER"
 msgid "Top Center"
@@ -2723,19 +2724,19 @@ msgstr "ไ&ม่ใช้งานตัวกรองทั้งหมด"
 
 msgctxt "IDS_ENABLE_AUDIO_FILTERS"
 msgid "Enable all audio decoders"
-msgstr "ใช้ตัวถอดรหัสเสียงทั้งหมด"
+msgstr "ใช้งานตัวถอดรหัสเสียงทั้งหมด"
 
 msgctxt "IDS_DISABLE_AUDIO_FILTERS"
 msgid "Disable all audio decoders"
-msgstr "ไม่ใช้ตัวถอดรหัสเสียงทั้งหมด"
+msgstr "ไม่ใช้งานตัวถอดรหัสเสียงทั้งหมด"
 
 msgctxt "IDS_ENABLE_VIDEO_FILTERS"
 msgid "Enable all video decoders"
-msgstr "ใช้ตัวถอดรหัสวิดีโอทั้งหมด"
+msgstr "ใช้งานตัวถอดรหัสวิดีโอทั้งหมด"
 
 msgctxt "IDS_DISABLE_VIDEO_FILTERS"
 msgid "Disable all video decoders"
-msgstr "ไม่ใช้ตัวถอดรหัสวิดีโอทั้งหมด"
+msgstr "ไม่ใช้งานตัวถอดรหัสวิดีโอทั้งหมด"
 
 msgctxt "IDS_STRETCH_TO_WINDOW"
 msgid "Stretch To Window"
@@ -2779,7 +2780,7 @@ msgstr "MPEG-TS"
 
 msgctxt "IDS_MFMT_DVDVIDEO"
 msgid "DVD-Video"
-msgstr "วิดีโอดีวีดี"
+msgstr "DVD-Video"
 
 msgctxt "IDS_MFMT_MKV"
 msgid "Matroska"
@@ -3047,19 +3048,19 @@ msgstr "ชนิดขาเข้า: SDTV PAL"
 
 msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_BRIGHT"
 msgid "Ambient Light: Bright (2.2 Gamma)"
-msgstr "แสงเรือง: สว่าง (2.2 Gamma)"
+msgstr "แสงแวดล้อม: สว่าง (2.2 Gamma)"
 
 msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DIM"
 msgid "Ambient Light: Dim (2.35 Gamma)"
-msgstr "แสงเรือง: สลัว (2.35 Gamma)"
+msgstr "แสงแวดล้อม: สลัว (2.35 Gamma)"
 
 msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DARK"
 msgid "Ambient Light: Dark (2.4 Gamma)"
-msgstr "แสงเรือง: มืด (2.4 Gamma)"
+msgstr "แสงแวดล้อม: มืด (2.4 Gamma)"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_PERCEPT"
 msgid "Rendering Intent: Perceptual"
-msgstr "เจตนาการแปลผล: รับรู้ได้"
+msgstr "เจตนาการแปลผล: ให้รับรู้ได้"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_RELATIVE"
 msgid "Rendering Intent: Relative Colorimetric"
@@ -3135,11 +3136,11 @@ msgstr "การตั้งค่าการแปลผล คืนสู�
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
 msgid "D3D Fullscreen GUI Support: On"
-msgstr "D3D Fullscreen GUI Support: เปิด"
+msgstr "เต็มจอ D3D รองรับ GUI: เปิด"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF"
 msgid "D3D Fullscreen GUI Support: Off"
-msgstr "D3D Fullscreen GUI Support: ปิด"
+msgstr "เต็มจอ D3D รองรับ GUI: ปิด"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_ON"
 msgid "10-bit RGB Output: On"
@@ -3187,7 +3188,7 @@ msgstr "ความตัดกัน ลด"
 
 msgctxt "IDS_HUE_INC"
 msgid "Hue increase"
-msgstr "สีสีน เพิ่ม"
+msgstr "สีสัน เพิ่ม"
 
 msgctxt "IDS_HUE_DEC"
 msgid "Hue decrease"
@@ -3235,15 +3236,15 @@ msgstr "ซูม: อัตโนมัติ"
 
 msgctxt "IDS_CUSTOM_CHANNEL_MAPPING"
 msgid "Toggle custom channel mapping"
-msgstr "เปิดปิด การแม็ปปิงช่องขาออก"
+msgstr "เปิดปิด การวางตำแหน่งช่องที่กำหนดเอง"
 
 msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_ON"
 msgid "Custom channel mapping: On"
-msgstr "การแม็ปปิงช่องที่ปรับแต่ง: เปิด"
+msgstr "การวางตำแหน่งช่องที่กำหนดเอง: เปิด"
 
 msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_OFF"
 msgid "Custom channel mapping: Off"
-msgstr "การแม็ปปิงช่องที่ปรับแต่ง: ปิด"
+msgstr "การวางตำแหน่งช่องที่กำหนดเอง: ปิด"
 
 msgctxt "IDS_NORMALIZE"
 msgid "Toggle normalization"
@@ -3315,15 +3316,15 @@ msgstr "ไม่สามารถสร้าง demultiplexer"
 
 msgctxt "IDS_GOTO_ERROR_PARSING_TIME"
 msgid "Error parsing the entered time!"
-msgstr "ผิดพลาดในการกระจายเวลาที่ใส่!"
+msgstr "ผิดพลาดในการวิเคราะห์ค่าเวลาที่ใส่!"
 
 msgctxt "IDS_GOTO_ERROR_PARSING_TEXT"
 msgid "Error parsing the entered text!"
-msgstr "ผิดพลาดในการกระจายข้อความอักษรที่ใส่!"
+msgstr "ผิดพลาดในการวิเคราะห์ข้อความอักษรที่ใส่!"
 
 msgctxt "IDS_GOTO_ERROR_PARSING_FPS"
 msgid "Error parsing the entered frame rate!"
-msgstr "ผิดพลาดในการกระจายอัตราเฟรมที่ใส่!"
+msgstr "ผิดพลาดในการวิเคราะห์อัตราเฟรมที่ใส่!"
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
 msgid "Cannot frame step, try a different video renderer."
@@ -3331,7 +3332,7 @@ msgstr "ไม่สามารถเดินเฟรม โปรดลอ�
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for RealMedia.\nSelect one of the DirectX renderers for RealMedia in MPC-HC's output options and reopen the file."
-msgstr "ฟังก์ชัน \"บันทึกภาพ\" และ \"บันทึกรูปย่อ\" ไม่ทำงานกับตัวแปลผลวิดีโอตั้งต้นสำหรับ RealMedia\nเลือกหนึ่งตัวแปลผล DirectX สำหรับ RealMedia ในตัวเลือกขาออกของ MPC-HC แล้วเปิดไฟล์อีกครั้ง"
+msgstr "ฟังก์ชัน \"บันทึกภาพ\" และ \"บันทึกรูปย่อ\" ไม่ทำงานกับตัวแปลผลวิดีโอตั้งต้นสำหรับ RealMedia\nจงเลือกหนึ่งตัวแปลผล DirectX สำหรับ RealMedia ในตัวเลือกขาออกของ MPC-HC แล้วเปิดไฟล์อีกครั้ง"
 
 msgctxt "IDS_SCREENSHOT_ERROR_QT"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for QuickTime.\nSelect one of the DirectX renderers for QuickTime in MPC-HC's output options and reopen the file."
@@ -3343,7 +3344,7 @@ msgstr "ฟังก์ชัน \"บันทึกภาพ\" และ \"บ
 
 msgctxt "IDS_SCREENSHOT_ERROR_OVERLAY"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the Overlay Mixer video renderer.\nChange the video renderer in MPC's output options and reopen the file."
-msgstr "ฟังก์ชัน \"บันทึกภาพ\" และ \"บันทึกรูปย่อ\" ไม่ทำงานกับตัวแปลผลวิดีโอ Overlay Mixer\nเปลี่ยนตัวแปลผลวิดีโอในตัวเลือกขาออกของ MPC และเปิดไฟล์อีกครั้ง"
+msgstr "ฟังก์ชัน \"บันทึกภาพ\" และ \"บันทึกรูปย่อ\" ไม่ทำงานกับตัวแปลผลวิดีโอ Overlay Mixer\nจงเปลี่ยนตัวแปลผลวิดีโอในตัวเลือกขาออกของ MPC และเปิดไฟล์อีกครั้ง"
 
 msgctxt "IDS_SUBDL_DLG_CONNECT_ERROR"
 msgid "Cannot connect to the online subtitles database."
@@ -3415,7 +3416,7 @@ msgstr "ชนิดนี้อยู่ในบัญชีรายการ
 
 msgctxt "IDS_WEBSERVER_ERROR_TEST"
 msgid "You need to apply the new settings before testing them."
-msgstr "คุณจำเป็นต้องใช้งานการตั้งค่าใหม่ก่อนจะทดสอบพวกมัน"
+msgstr "คุณจำเป็นต้องใช้งานการตั้งค่าใหม่ ก่อนจะทดสอบพวกมัน"
 
 msgctxt "IDS_AFTERPLAYBACK_CLOSE"
 msgid "After Playback: Exit"
@@ -3475,7 +3476,7 @@ msgstr "ความสว่าง เพิ่ม"
 
 msgctxt "IDS_LANG_PREF_EXAMPLE"
 msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
-msgstr "ใส่ภาษาที่คุณชอบที่นี่\nตัวอย่าง, พิมพ์: \"tha eng jap\""
+msgstr "ใส่ภาษาที่คุณชอบที่นี่\nเช่นพิมพ์: \"tha eng jap\""
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."

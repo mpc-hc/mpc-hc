@@ -11,8 +11,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-19 21:13:19+0000\n"
-"PO-Revision-Date: 2014-08-30 16:23+0000\n"
+"POT-Creation-Date: 2014-08-31 21:07:30+0000\n"
+"PO-Revision-Date: 2014-09-04 17:40+0000\n"
 "Last-Translator: Luan <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -311,7 +311,7 @@ msgstr "Prozesspriorität höher als \"normal\""
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK14"
 msgid "Enable cover-art support"
-msgstr ""
+msgstr "Audio-Cover anzeigen"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "History"
@@ -1367,15 +1367,15 @@ msgstr "Kanal-Offset:"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Default Device"
-msgstr "Standard-Videogerät"
+msgstr "Standard-Gerät"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_RADIO1"
 msgid "Analog"
-msgstr "Analoggerät"
+msgstr "Analog"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_RADIO2"
 msgid "Digital"
-msgstr "Digitalgerät"
+msgstr "Digital"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Analog settings"
