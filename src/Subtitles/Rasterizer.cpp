@@ -28,9 +28,6 @@
 #include "Rasterizer.h"
 #include "SeparableFilter.h"
 
-#define MAX_DIMENSION 4000 // Maximum width or height supported
-#define SUBPIXEL_MULTIPLIER 8
-
 // Statics constants for use by alpha_blend_sse2
 static __m128i low_mask = _mm_set1_epi16(0xFF);
 static __m128i red_mask = _mm_set1_epi32(0xFF);
@@ -81,8 +78,8 @@ void Rasterizer::_ReallocEdgeBuffer(unsigned int edges)
     if (pNewEdgeBuffer) {
         mpEdgeBuffer = pNewEdgeBuffer;
         mEdgeHeapSize = edges;
-    } else { // TODO: Improve error handling...
-        DebugBreak();
+    } else {
+        AfxThrowMemoryException();
     }
 }
 
@@ -347,217 +344,209 @@ bool Rasterizer::PartialEndPath(HDC hdc, long dx, long dy)
 
 bool Rasterizer::ScanConvert()
 {
-    int lastmoveto = INT_MAX;
-    int i;
+    try {
+        int lastmoveto = INT_MAX;
+        int i;
 
-    // Drop any outlines we may have.
+        // Drop any outlines we may have.
 
-    m_pOutlineData = std::make_shared<COutlineData>();
+        m_pOutlineData = std::make_shared<COutlineData>();
 
-    // Determine bounding box
+        // Determine bounding box
 
-    if (!mPathPoints) {
-        return false;
-    }
-
-    int minx = INT_MAX;
-    int miny = INT_MAX;
-    int maxx = INT_MIN;
-    int maxy = INT_MIN;
-
-    for (i = 0; i < mPathPoints; ++i) {
-        int ix = mpPathPoints[i].x;
-        int iy = mpPathPoints[i].y;
-
-        if (ix < minx) {
-            minx = ix;
+        if (!mPathPoints) {
+            return false;
         }
-        if (ix > maxx) {
-            maxx = ix;
-        }
-        if (iy < miny) {
-            miny = iy;
-        }
-        if (iy > maxy) {
-            maxy = iy;
-        }
-    }
 
-    minx = (minx >> 3) & ~7;
-    miny = (miny >> 3) & ~7;
-    maxx = (maxx + 7) >> 3;
-    maxy = (maxy + 7) >> 3;
+        int minx = INT_MAX;
+        int miny = INT_MAX;
+        int maxx = INT_MIN;
+        int maxy = INT_MIN;
 
-    for (i = 0; i < mPathPoints; ++i) {
-        mpPathPoints[i].x -= minx * 8;
-        mpPathPoints[i].y -= miny * 8;
-    }
+        for (i = 0; i < mPathPoints; ++i) {
+            int ix = mpPathPoints[i].x;
+            int iy = mpPathPoints[i].y;
 
-    if (minx > maxx || miny > maxy) {
+            if (ix < minx) {
+                minx = ix;
+            }
+            if (ix > maxx) {
+                maxx = ix;
+            }
+            if (iy < miny) {
+                miny = iy;
+            }
+            if (iy > maxy) {
+                maxy = iy;
+            }
+        }
+
+        minx = (minx >> 3) & ~7;
+        miny = (miny >> 3) & ~7;
+        maxx = (maxx + 7) >> 3;
+        maxy = (maxy + 7) >> 3;
+
+        for (i = 0; i < mPathPoints; ++i) {
+            mpPathPoints[i].x -= minx * 8;
+            mpPathPoints[i].y -= miny * 8;
+        }
+
+        if (minx > maxx || miny > maxy) {
+            _TrashPath();
+            return true;
+        }
+
+        m_pOutlineData->mWidth = maxx + 1 - minx;
+        m_pOutlineData->mHeight = maxy + 1 - miny;
+        m_pOutlineData->mPathOffsetX = minx;
+        m_pOutlineData->mPathOffsetY = miny;
+
+        // Initialize edge buffer.  We use edge 0 as a sentinel.
+
+        mEdgeNext = 1;
+        mEdgeHeapSize = 2048;
+        mpEdgeBuffer = (Edge*)malloc(sizeof(Edge) * mEdgeHeapSize);
+        if (!mpEdgeBuffer) {
+            TRACE(_T("Rasterizer::ScanConvert: Failed to allocate mpEdgeBuffer\n"));
+            return false;
+        }
+
+        // Initialize scanline list.
+        mpScanBuffer = DEBUG_NEW unsigned int[m_pOutlineData->mHeight];
+        ZeroMemory(mpScanBuffer, m_pOutlineData->mHeight * sizeof(unsigned int));
+
+        // Scan convert the outline.  Yuck, Bezier curves....
+
+        // Unfortunately, Windows 95/98 GDI has a bad habit of giving us text
+        // paths with all but the first figure left open, so we can't rely
+        // on the PT_CLOSEFIGURE flag being used appropriately.
+
+        fFirstSet = false;
+        firstp.x = firstp.y = 0;
+        lastp.x = lastp.y = 0;
+
+        for (i = 0; i < mPathPoints; ++i) {
+            BYTE t = mpPathTypes[i] & ~PT_CLOSEFIGURE;
+
+            switch (t) {
+                case PT_MOVETO:
+                    if (lastmoveto >= 0 && firstp != lastp) {
+                        _EvaluateLine(lastp.x, lastp.y, firstp.x, firstp.y);
+                    }
+                    lastmoveto = i;
+                    fFirstSet = false;
+                    lastp = mpPathPoints[i];
+                    break;
+                case PT_MOVETONC:
+                    break;
+                case PT_LINETO:
+                    if (mPathPoints - (i - 1) >= 2) {
+                        _EvaluateLine(i - 1, i);
+                    }
+                    break;
+                case PT_BEZIERTO:
+                    if (mPathPoints - (i - 1) >= 4) {
+                        _EvaluateBezier(i - 1, false);
+                    }
+                    i += 2;
+                    break;
+                case PT_BSPLINETO:
+                    if (mPathPoints - (i - 1) >= 4) {
+                        _EvaluateBezier(i - 1, true);
+                    }
+                    i += 2;
+                    break;
+                case PT_BSPLINEPATCHTO:
+                    if (mPathPoints - (i - 3) >= 4) {
+                        _EvaluateBezier(i - 3, true);
+                    }
+                    break;
+            }
+
+        }
+
+        if (lastmoveto >= 0 && firstp != lastp) {
+            _EvaluateLine(lastp.x, lastp.y, firstp.x, firstp.y);
+        }
+
+        // Free the path since we don't need it anymore.
+
         _TrashPath();
+
+        // Convert the edges to spans.  We couldn't do this before because some of
+        // the regions may have winding numbers >+1 and it would have been a pain
+        // to try to adjust the spans on the fly.  We use one heap to detangle
+        // a scanline's worth of edges from the singly-linked lists, and another
+        // to collect the actual scans.
+
+        std::vector<int> heap;
+
+        m_pOutlineData->mOutline.reserve(mEdgeNext / 2);
+
+        __int64 y = 0;
+
+        for (y = 0; y < m_pOutlineData->mHeight; ++y) {
+            int count = 0;
+
+            // Detangle scanline into edge heap.
+
+            for (size_t ptr = (mpScanBuffer[y] & (unsigned int)(-1)); ptr; ptr = mpEdgeBuffer[ptr].next) {
+                heap.emplace_back(mpEdgeBuffer[ptr].posandflag);
+            }
+
+            // Sort edge heap.  Note that we conveniently made the opening edges
+            // one more than closing edges at the same spot, so we won't have any
+            // problems with abutting spans.
+
+            std::sort(heap.begin(), heap.end()/*begin() + heap.size()*/);
+
+            // Process edges and add spans.  Since we only check for a non-zero
+            // winding number, it doesn't matter which way the outlines go!
+
+            auto itX1 = heap.cbegin();
+            auto itX2 = heap.cend(); // begin() + heap.size();
+
+            size_t x1 = 0;
+            size_t x2;
+
+            for (; itX1 != itX2; ++itX1) {
+                size_t x = *itX1;
+
+                if (!count) {
+                    x1 = (x >> 1);
+                }
+
+                if (x & LINE_UP) {
+                    ++count;
+                } else {
+                    --count;
+                }
+
+                if (!count) {
+                    x2 = (x >> 1);
+
+                    if (x2 > x1) {
+                        m_pOutlineData->mOutline.emplace_back((y << 32) + x1 + 0x4000000040000000i64, (y << 32) + x2 + 0x4000000040000000i64); // G: damn Avery, this is evil! :)
+                    }
+                }
+            }
+
+            heap.clear();
+        }
+
+        // Dump the edge and scan buffers, since we no longer need them.
+        free(mpEdgeBuffer);
+        delete[] mpScanBuffer;
+
+        // All done!
         return true;
-    }
-
-    m_pOutlineData->mWidth  = maxx + 1 - minx;
-    m_pOutlineData->mHeight = maxy + 1 - miny;
-
-    // Check that the size isn't completely crazy.
-    // Note that mWidth and mHeight are in 1/8 pixels.
-    if (m_pOutlineData->mWidth > MAX_DIMENSION * SUBPIXEL_MULTIPLIER
-            || m_pOutlineData->mHeight > MAX_DIMENSION * SUBPIXEL_MULTIPLIER) {
-        TRACE(_T("Error in Rasterizer::ScanConvert: size (%dx%d) is too big"),
-              m_pOutlineData->mWidth / SUBPIXEL_MULTIPLIER, m_pOutlineData->mHeight / SUBPIXEL_MULTIPLIER);
+    } catch (CMemoryException* e) {
+        TRACE(_T("Rasterizer::ScanConvert: Memory allocation failed\n"));
+        free(mpEdgeBuffer);
+        delete[] mpScanBuffer;
+        e->Delete();
         return false;
     }
-
-    m_pOutlineData->mPathOffsetX = minx;
-    m_pOutlineData->mPathOffsetY = miny;
-
-    // Initialize edge buffer.  We use edge 0 as a sentinel.
-
-    mEdgeNext = 1;
-    mEdgeHeapSize = 2048;
-    mpEdgeBuffer = (Edge*)malloc(sizeof(Edge) * mEdgeHeapSize);
-    if (!mpEdgeBuffer) {
-        TRACE(_T("Error in Rasterizer::ScanConvert: mpEdgeBuffer is nullptr"));
-        return false;
-    }
-
-    // Initialize scanline list.
-
-    mpScanBuffer = DEBUG_NEW unsigned int[m_pOutlineData->mHeight];
-    if (!mpScanBuffer) {
-        TRACE(_T("Error in Rasterizer::ScanConvert: mpScanBuffer is nullptr"));
-        return false;
-    }
-    ZeroMemory(mpScanBuffer, m_pOutlineData->mHeight * sizeof(unsigned int));
-
-    // Scan convert the outline.  Yuck, Bezier curves....
-
-    // Unfortunately, Windows 95/98 GDI has a bad habit of giving us text
-    // paths with all but the first figure left open, so we can't rely
-    // on the PT_CLOSEFIGURE flag being used appropriately.
-
-    fFirstSet = false;
-    firstp.x = firstp.y = 0;
-    lastp.x = lastp.y = 0;
-
-    for (i = 0; i < mPathPoints; ++i) {
-        BYTE t = mpPathTypes[i] & ~PT_CLOSEFIGURE;
-
-        switch (t) {
-            case PT_MOVETO:
-                if (lastmoveto >= 0 && firstp != lastp) {
-                    _EvaluateLine(lastp.x, lastp.y, firstp.x, firstp.y);
-                }
-                lastmoveto = i;
-                fFirstSet = false;
-                lastp = mpPathPoints[i];
-                break;
-            case PT_MOVETONC:
-                break;
-            case PT_LINETO:
-                if (mPathPoints - (i - 1) >= 2) {
-                    _EvaluateLine(i - 1, i);
-                }
-                break;
-            case PT_BEZIERTO:
-                if (mPathPoints - (i - 1) >= 4) {
-                    _EvaluateBezier(i - 1, false);
-                }
-                i += 2;
-                break;
-            case PT_BSPLINETO:
-                if (mPathPoints - (i - 1) >= 4) {
-                    _EvaluateBezier(i - 1, true);
-                }
-                i += 2;
-                break;
-            case PT_BSPLINEPATCHTO:
-                if (mPathPoints - (i - 3) >= 4) {
-                    _EvaluateBezier(i - 3, true);
-                }
-                break;
-        }
-    }
-
-    if (lastmoveto >= 0 && firstp != lastp) {
-        _EvaluateLine(lastp.x, lastp.y, firstp.x, firstp.y);
-    }
-
-    // Free the path since we don't need it anymore.
-
-    _TrashPath();
-
-    // Convert the edges to spans.  We couldn't do this before because some of
-    // the regions may have winding numbers >+1 and it would have been a pain
-    // to try to adjust the spans on the fly.  We use one heap to detangle
-    // a scanline's worth of edges from the singly-linked lists, and another
-    // to collect the actual scans.
-
-    std::vector<int> heap;
-
-    m_pOutlineData->mOutline.reserve(mEdgeNext / 2);
-
-    __int64 y = 0;
-
-    for (y = 0; y < m_pOutlineData->mHeight; ++y) {
-        int count = 0;
-
-        // Detangle scanline into edge heap.
-
-        for (size_t ptr = (mpScanBuffer[y] & (unsigned int)(-1)); ptr; ptr = mpEdgeBuffer[ptr].next) {
-            heap.emplace_back(mpEdgeBuffer[ptr].posandflag);
-        }
-
-        // Sort edge heap.  Note that we conveniently made the opening edges
-        // one more than closing edges at the same spot, so we won't have any
-        // problems with abutting spans.
-
-        std::sort(heap.begin(), heap.end()/*begin() + heap.size()*/);
-
-        // Process edges and add spans.  Since we only check for a non-zero
-        // winding number, it doesn't matter which way the outlines go!
-
-        auto itX1 = heap.cbegin();
-        auto itX2 = heap.cend(); // begin() + heap.size();
-
-        size_t x1 = 0;
-        size_t x2;
-
-        for (; itX1 != itX2; ++itX1) {
-            size_t x = *itX1;
-
-            if (!count) {
-                x1 = (x >> 1);
-            }
-
-            if (x & LINE_UP) {
-                ++count;
-            } else {
-                --count;
-            }
-
-            if (!count) {
-                x2 = (x >> 1);
-
-                if (x2 > x1) {
-                    m_pOutlineData->mOutline.emplace_back((y << 32) + x1 + 0x4000000040000000i64, (y << 32) + x2 + 0x4000000040000000i64); // G: damn Avery, this is evil! :)
-                }
-            }
-        }
-
-        heap.clear();
-    }
-
-    // Dump the edge and scan buffers, since we no longer need them.
-
-    free(mpEdgeBuffer);
-    delete [] mpScanBuffer;
-
-    // All done!
-
-    return true;
 }
 
 void Rasterizer::_OverlapRegion(tSpanBuffer& dst, const tSpanBuffer& src, int dx, int dy)
