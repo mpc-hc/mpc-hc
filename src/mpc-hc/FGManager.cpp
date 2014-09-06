@@ -1556,6 +1556,11 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 #if INTERNAL_SOURCEFILTER_RTSP
     if (src[SRC_RTSP]) {
         pFGLAVSplitterSource->m_protocols.AddTail(_T("rtsp"));
+        // Add transport protocol specific RTSP URL handlers
+        pFGLAVSplitterSource->m_protocols.AddTail(_T("rtspu")); // UDP
+        pFGLAVSplitterSource->m_protocols.AddTail(_T("rtspm")); // UDP multicast
+        pFGLAVSplitterSource->m_protocols.AddTail(_T("rtspt")); // TCP
+        pFGLAVSplitterSource->m_protocols.AddTail(_T("rtsph")); // HTTP
         pFGLAVSplitterSource->AddEnabledFormat("rtsp");
     }
 #endif
