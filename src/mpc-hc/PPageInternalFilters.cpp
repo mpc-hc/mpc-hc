@@ -588,6 +588,11 @@ void CPPageInternalFilters::InitFiltersList()
         m_filters.Add(filter_t(_T("FLIC"), VIDEO_DECODER, TRA_FLIC, IDS_INTERNAL_LAVF));
     }
 #endif
+#if INTERNAL_DECODER_V210_V410
+    if (bLAVVideoIsAvailable) {
+        m_filters.Add(filter_t(_T("v210/v410"), VIDEO_DECODER, TRA_V210_V410, IDS_INTERNAL_LAVF));
+    }
+#endif
 }
 
 BOOL CPPageInternalFilters::OnApply()

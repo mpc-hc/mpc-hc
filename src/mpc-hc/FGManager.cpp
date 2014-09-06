@@ -2059,6 +2059,11 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     pFGF = tra[TRA_FLIC] ? pFGLAVVideo : pFGLAVVideoLM;
     pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_FLIC);
 #endif
+#if INTERNAL_DECODER_V210_V410
+    pFGF = tra[TRA_V210_V410] ? pFGLAVVideo : pFGLAVVideoLM;
+    pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_v210);
+    pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_v410);
+#endif
 #endif /* #if HAS_VIDEO_DECODERS */
 
 #if INTERNAL_DECODER_MPEG2

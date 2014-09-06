@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -1014,6 +1014,10 @@ DEFINE_GUID(MEDIASUBTYPE_MPG2,
 // {434C4641-0000-0010-8000-00AA00389B71}
 DEFINE_GUID(MEDIASUBTYPE_FLIC,
             0x434C4641, 0x0000, 0x0010, 0x80, 0x00, 0x00, 0xAA, 0x00, 0x38, 0x9B, 0x71);
+
+// {30313476-0000-0010-8000-00AA00389B71}
+DEFINE_GUID(MEDIASUBTYPE_v410,
+            MAKEFOURCC('v', '4', '1', '0'), 0x0000, 0x0010, 0x80, 0x00, 0x00, 0xAA, 0x00, 0x38, 0x9B, 0x71);
 
 // Audio codecs
 
