@@ -602,13 +602,15 @@ bool CMemSubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
     spd.type = m_type;
     try {
         spd.bits = DEBUG_NEW BYTE[spd.pitch * spd.h];
-    } catch (std::bad_alloc) {
+    } catch (CMemoryException* e) {
+        e->Delete();
         return false;
     }
 
     try {
         *ppSubPic = DEBUG_NEW CMemSubPic(spd);
-    } catch (std::bad_alloc) {
+    } catch (CMemoryException* e) {
+        e->Delete();
         delete [] spd.bits;
         return false;
     }

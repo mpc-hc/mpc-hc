@@ -1158,8 +1158,9 @@ BYTE* CVobSubFile::GetPacket(size_t idx, size_t& packetSize, size_t& dataSize, s
 
         try {
             ret = DEBUG_NEW BYTE[packetSize];
-        } catch (std::bad_alloc) {
+        } catch (CMemoryException* e) {
             ASSERT(FALSE);
+            e->Delete();
             break;
         }
 

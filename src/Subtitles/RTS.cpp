@@ -788,7 +788,8 @@ CClipper::CClipper(CStringW str, const CSize& size, double scalex, double scaley
 
     try {
         m_pAlphaMask = DEBUG_NEW BYTE[alphaMaskSize];
-    } catch (std::bad_alloc) {
+    } catch (CMemoryException* e) {
+        e->Delete();
         return;
     }
 
@@ -1207,7 +1208,8 @@ CLine* CSubtitle::GetNextLine(POSITION& pos, int maxwidth)
     CLine* ret;
     try {
         ret = DEBUG_NEW CLine();
-    } catch (std::bad_alloc) {
+    } catch (CMemoryException* e) {
+        e->Delete();
         return nullptr;
     }
 
@@ -1302,7 +1304,8 @@ void CSubtitle::CreateClippers(CSize size)
             str.Format(L"m %d %d l %d %d %d %d %d %d", 0, 0, w, 0, w, h, 0, h);
             try {
                 m_pClipper = DEBUG_NEW CClipper(str, size, 1, 1, false, CPoint(0, 0), m_renderingCaches);
-            } catch (std::bad_alloc) {
+            } catch (CMemoryException* e) {
+                e->Delete();
                 return;
             }
         }
@@ -1341,7 +1344,8 @@ void CSubtitle::CreateClippers(CSize size)
             try {
                 m_pClipper = DEBUG_NEW CClipper(str, size, 1, 1, false, CPoint(0, 0),
                                                 m_renderingCaches);
-            } catch (std::bad_alloc) {
+            } catch (CMemoryException* e) {
+                e->Delete();
                 return;
             }
         }
@@ -1710,7 +1714,8 @@ void CRenderedTextSubtitle::ParseEffect(CSubtitle* sub, CString str)
         Effect* e;
         try {
             e = DEBUG_NEW Effect;
-        } catch (std::bad_alloc) {
+        } catch (CMemoryException* e) {
+            e->Delete();
             return;
         }
 
@@ -1737,7 +1742,8 @@ void CRenderedTextSubtitle::ParseEffect(CSubtitle* sub, CString str)
         Effect* e;
         try {
             e = DEBUG_NEW Effect;
-        } catch (std::bad_alloc) {
+        } catch (CMemoryException* e) {
+            e->Delete();
             return;
         }
 
@@ -2625,7 +2631,8 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
 
     try {
         sub = DEBUG_NEW CSubtitle(m_renderingCaches);
-    } catch (std::bad_alloc) {
+    } catch (CMemoryException* e) {
+        e->Delete();
         return nullptr;
     }
 

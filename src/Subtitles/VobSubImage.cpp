@@ -64,15 +64,17 @@ bool CVobSubImage::Alloc(int w, int h)
 
         try {
             lpTemp1 = DEBUG_NEW RGBQUAD[w * h];
-        } catch (std::bad_alloc) {
+        } catch (CMemoryException* e) {
             ASSERT(FALSE);
+            e->Delete();
             return false;
         }
 
         try {
             lpTemp2 = DEBUG_NEW RGBQUAD[(w + 2) * (h + 2)];
-        } catch (std::bad_alloc) {
+        } catch (CMemoryException* e) {
             ASSERT(FALSE);
+            e->Delete();
             delete [] lpTemp1;
             lpTemp1 = nullptr;
             return false;
@@ -397,8 +399,9 @@ CAutoPtrList<COutline>* CVobSubImage::GetOutlineList(CPoint& topleft)
     CAutoPtrList<COutline>* ol;
     try {
         ol = DEBUG_NEW CAutoPtrList<COutline>();
-    } catch (std::bad_alloc) {
+    } catch (CMemoryException* e) {
         ASSERT(FALSE);
+        e->Delete();
         return nullptr;
     }
 
@@ -444,8 +447,9 @@ CAutoPtrList<COutline>* CVobSubImage::GetOutlineList(CPoint& topleft)
         CAutoPtr<COutline> o;
         try {
             o.Attach(DEBUG_NEW COutline);
-        } catch (std::bad_alloc) {
+        } catch (CMemoryException* e) {
             ASSERT(FALSE);
+            e->Delete();
             break;
         }
 

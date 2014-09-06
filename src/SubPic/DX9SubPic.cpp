@@ -445,7 +445,8 @@ bool CDX9SubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
 
     try {
         *ppSubPic = DEBUG_NEW CDX9SubPic(pSurface, fStatic ? nullptr : this, m_bExternalRenderer);
-    } catch (std::bad_alloc) {
+    } catch (CMemoryException* e) {
+        e->Delete();
         return false;
     }
 

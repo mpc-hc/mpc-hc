@@ -293,7 +293,8 @@ bool CDX7SubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
 
     try {
         *ppSubPic = DEBUG_NEW CDX7SubPic(m_pD3DDev, pSurface);
-    } catch (std::bad_alloc) {
+    } catch (CMemoryException* e) {
+        e->Delete();
         return false;
     }
 
