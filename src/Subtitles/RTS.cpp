@@ -23,6 +23,7 @@
 #include <math.h>
 #include <intrin.h>
 #include <algorithm>
+#include "ColorConvTable.h"
 #include "RTS.h"
 #include "../DSUtil/PathUtils.h"
 
@@ -961,6 +962,7 @@ CRect CLine::PaintShadow(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPo
             }
             COLORREF shadow = revcolor(w->m_style.colors[3]) | (a << 24);
             DWORD sw[6] = {shadow, DWORD_MAX};
+            sw[0] = ColorConvTable::ColorCorrection(sw[0]);
 
             w->Paint(CPoint(x, y), org);
 
@@ -1000,6 +1002,7 @@ CRect CLine::PaintOutline(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CP
             }
             COLORREF outline = revcolor(w->m_style.colors[2]) | ((0xff - aoutline) << 24);
             DWORD sw[6] = {outline, DWORD_MAX};
+            sw[0] = ColorConvTable::ColorCorrection(sw[0]);
 
             w->Paint(CPoint(x, y), org);
 
@@ -1079,14 +1082,14 @@ CRect CLine::PaintBody(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPoin
         if (w->m_style.fBlur) {
             bluradjust += 8;
         }
-        double tx = w->m_style.fontAngleZ;
-        UNREFERENCED_PARAMETER(tx);
-        sw[4] = sw[2];
-        sw[5] = 0x00ffffff;
 
         w->Paint(CPoint(x, y), org);
 
+        sw[0] = ColorConvTable::ColorCorrection(sw[0]);
+        sw[2] = ColorConvTable::ColorCorrection(sw[2]);
         sw[3] = (int)(w->m_style.outlineWidthX + t * w->getOverlayWidth() + t * bluradjust) >> 3;
+        sw[4] = sw[2];
+        sw[5] = 0x00ffffff;
 
         bbox |= w->Draw(spd, clipRect, pAlphaMask, x, y, sw, true, false);
         p.x += w->m_width;
@@ -3248,4 +3251,43 @@ STDMETHODIMP CRenderedTextSubtitle::Reload()
         return E_FAIL;
     }
     return !m_path.IsEmpty() && Open(m_path, DEFAULT_CHARSET, m_name) ? S_OK : E_FAIL;
+}
+
+STDMETHODIMP CRenderedTextSubtitle::SetSourceTargetInfo(CString yuvVideoMatrix, int targetBlackLevel, int targetWhiteLevel)
+{
+    bool bIsVSFilter = !!yuvVideoMatrix.Replace(_T(".VSFilter"), _T(""));
+    ColorConvTable::YuvMatrixType yuvMatrix = ColorConvTable::BT601;
+    ColorConvTable::YuvRangeType  yuvRange = ColorConvTable::RANGE_TV;
+
+    auto parseMatrixString = [&](const CString & sYuvMatrix) {
+        int nPos = 0;
+        CString range = sYuvMatrix.Tokenize(_T("."), nPos);
+        CString matrix = sYuvMatrix.Mid(nPos);
+
+        yuvRange = ColorConvTable::RANGE_TV;
+        if (range == _T("PC")) {
+            yuvRange = ColorConvTable::RANGE_PC;
+        }
+
+        if (matrix == _T("709")) {
+            yuvMatrix = ColorConvTable::BT709;
+        } else if (matrix == _T("240M")) {
+            yuvMatrix = ColorConvTable::BT709;
+        } else if (matrix == _T("601")) {
+            yuvMatrix = ColorConvTable::BT601;
+        } else {
+            yuvMatrix = ColorConvTable::NONE;
+        }
+    };
+
+    if (!m_sYCbCrMatrix.IsEmpty()) {
+        parseMatrixString(m_sYCbCrMatrix);
+    } else {
+        parseMatrixString(yuvVideoMatrix);
+    }
+
+    bool bTransformColors = !bIsVSFilter && !m_sYCbCrMatrix.IsEmpty();
+    ColorConvTable::SetDefaultConvType(yuvMatrix, yuvRange, (targetWhiteLevel < 245), bTransformColors);
+
+    return S_OK;
 }

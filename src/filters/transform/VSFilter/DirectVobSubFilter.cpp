@@ -1643,6 +1643,7 @@ void CDirectVobSubFilter::SetSubtitle(ISubStream* pSubStream)
                 break;
         }
 
+        yuvMatrix.Append(_T(".VSFilter"));
         // Actually VSFilter expect full range (A)RGB frames to work with.
         pSubStream->SetSourceTargetInfo(yuvMatrix, 0, 255);
     }

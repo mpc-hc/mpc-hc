@@ -423,5 +423,5 @@ public:
     STDMETHODIMP_(int) GetStream();
     STDMETHODIMP SetStream(int iStream);
     STDMETHODIMP Reload();
-    STDMETHODIMP SetSourceTargetInfo(CString yuvMatrix, int targetBlackLevel, int targetWhiteLevel) { return E_NOTIMPL; }
+    STDMETHODIMP SetSourceTargetInfo(CString yuvMatrix, int targetBlackLevel, int targetWhiteLevel);
 };

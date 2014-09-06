@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -1580,6 +1580,8 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
             fRet = true;
         } else if (entry == L"fontname") {
             LoadUUEFont(file);
+        } else if (entry == L"ycbcr matrix") {
+            ret.m_sYCbCrMatrix = GetStrW(pszBuff, nBuffLength);
         }
     }
 
