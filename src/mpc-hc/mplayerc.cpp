@@ -44,6 +44,7 @@
 #include <share.h>
 #include "mpc-hc_config.h"
 #include "../MathLibFix/MathLibFix.h"
+#include "CmdLineHelpDlg.h"
 
 
 #define HOOKS_BUGS_URL _T("https://trac.mpc-hc.org/ticket/3739")
@@ -683,19 +684,17 @@ BOOL CMPlayerCApp::PumpMessage()
 
 void CMPlayerCApp::ShowCmdlnSwitches() const
 {
-    CString s;
+    CString cmdLine;
 
-    if (m_s->nCLSwitches & CLSW_UNRECOGNIZEDSWITCH) {
-        CAtlList<CString> sl;
-        for (int i = 0; i < __argc; i++) {
-            sl.AddTail(__targv[i]);
+    if ((m_s->nCLSwitches & CLSW_UNRECOGNIZEDSWITCH) && __argc > 0) {
+        cmdLine = __targv[0];
+        for (int i = 1; i < __argc; i++) {
+            cmdLine.AppendFormat(_T(" %s"), __targv[i]);
         }
-        s += ResStr(IDS_UNKNOWN_SWITCH) + Implode(sl, ' ') + _T("\n\n");
     }
 
-    s += ResStr(IDS_USAGE);
-
-    AfxMessageBox(s, MB_ICONINFORMATION | MB_OK);
+    CmdLineHelpDlg dlg(cmdLine);
+    dlg.DoModal();
 }
 
 CMPlayerCApp theApp; // The one and only CMPlayerCApp object

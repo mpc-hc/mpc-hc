@@ -38,6 +38,7 @@ next version - not released yet
 * Text subtitles: Improved subtitle renderer for faster rendering of complex subtitle scripts (often twice faster or more)
 * Text subtitles: Much faster subtitle opening in the Subresync bar
 * Ticket #325, Move after playback commands to options and add an option to close and restore logo.
+* Ticket #1663, Improved command line help dialog
 * Ticket #2834, Increase limit on subtitles override placement feature.
 * Ticket #4428, Improve the clarity of the error message when opening a subtitle file fails
 * Updated Little CMS to v2.6 (git 9c075b3)
