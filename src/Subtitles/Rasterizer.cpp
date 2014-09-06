@@ -75,7 +75,7 @@ void Rasterizer::_TrashPath()
     mPathPoints = 0;
 }
 
-void Rasterizer::_ReallocEdgeBuffer(int edges)
+void Rasterizer::_ReallocEdgeBuffer(unsigned int edges)
 {
     Edge* pNewEdgeBuffer = (Edge*)realloc(mpEdgeBuffer, sizeof(Edge) * edges);
     if (pNewEdgeBuffer) {
@@ -227,8 +227,12 @@ void Rasterizer::_EvaluateLine(int x0, int y0, int x1, int y1)
     if (iy <= y1) {
         __int64 invslope = (__int64(x1 - x0) << 16) / dy;
 
-        while (mEdgeNext + y1 + 1 - iy > mEdgeHeapSize) {
-            _ReallocEdgeBuffer(mEdgeHeapSize * 2);
+        if (mEdgeNext + y1 + 1 - iy > mEdgeHeapSize) {
+            unsigned int nSize = mEdgeHeapSize * 2;
+            while (mEdgeNext + y1 + 1 - iy > nSize) {
+                nSize *= 2;
+            }
+            _ReallocEdgeBuffer(nSize);
         }
 
         xacc += (invslope * (y - y0)) >> 3;
