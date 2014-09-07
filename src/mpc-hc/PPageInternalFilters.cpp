@@ -64,7 +64,7 @@ INT_PTR CPPageInternalFiltersListBox::OnToolHitTest(CPoint point, TOOLINFO* pTI)
 
 BEGIN_MESSAGE_MAP(CPPageInternalFiltersListBox, CCheckListBox)
     ON_NOTIFY_EX_RANGE(TTN_NEEDTEXT, 0, 0xFFFF, OnToolTipNotify)
-    ON_WM_RBUTTONDOWN()
+    ON_WM_CONTEXTMENU()
 END_MESSAGE_MAP()
 
 BOOL CPPageInternalFiltersListBox::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
@@ -114,9 +114,29 @@ void CPPageInternalFiltersListBox::UpdateCheckState()
     }
 }
 
-void CPPageInternalFiltersListBox::OnRButtonDown(UINT nFlags, CPoint point)
+void CPPageInternalFiltersListBox::OnContextMenu(CWnd* pWnd, CPoint point)
 {
-    CCheckListBox::OnRButtonDown(nFlags, point);
+    if (point.x == -1 && point.y == -1) {
+        // The context menu was triggered using the keyboard,
+        // get the coordinates of the currently selected item.
+        int iSel = GetCurSel();
+        CRect r;
+        if (iSel != LB_ERR && GetItemRect(iSel, &r) != LB_ERR) {
+            point = r.TopLeft();
+        }
+    } else {
+        ScreenToClient(&point);
+    }
+
+    // Check that we really inside the list
+    BOOL bOutside = TRUE;
+    ItemFromPoint(point, bOutside);
+    if (bOutside) {
+        // Trigger the default behavior
+        ClientToScreen(&point);
+        __super::OnContextMenu(pWnd, point);
+        return;
+    }
 
     CMenu m;
     m.CreatePopupMenu();
@@ -155,10 +175,8 @@ void CPPageInternalFiltersListBox::OnRButtonDown(UINT nFlags, CPoint point)
         m.AppendMenu(MF_STRING | state, DISABLE_VIDEO, ResStr(IDS_DISABLE_VIDEO_FILTERS));
     }
 
-    CPoint p = point;
-    ::MapWindowPoints(m_hWnd, HWND_DESKTOP, &p, 1);
-
-    UINT id = m.TrackPopupMenu(TPM_LEFTBUTTON | TPM_RETURNCMD, p.x, p.y, this);
+    ClientToScreen(&point);
+    UINT id = m.TrackPopupMenu(TPM_LEFTBUTTON | TPM_RETURNCMD, point.x, point.y, this);
 
     if (id == 0) {
         return;

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -70,7 +70,7 @@ protected:
 public:
     virtual int AddFilter(filter_t* filter, bool checked);
     virtual void UpdateCheckState();
-    afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
+    afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
 };
 
 // CPPageInternalFilters dialog
