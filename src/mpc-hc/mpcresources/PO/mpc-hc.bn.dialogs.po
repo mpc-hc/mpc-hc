@@ -587,36 +587,20 @@ msgid "Set"
 msgstr "সেট করি"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC3"
-msgid "Windows 8 or later"
-msgstr "Windows 8 বা পরবর্তী"
-
-msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON6"
-msgid "&Set default programs"
-msgstr "ডিফল্ট প্রোগ্রাম সমূহ নির্ধারণ করি(&S)"
-
-msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Association"
-msgstr "সংশ্লিষ্টতা"
-
-msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON4"
-msgid "&Video"
-msgstr "ভিডিও(&V)"
-
-msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON3"
-msgid "A&udio"
-msgstr "অডিও(&U)"
-
-msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON1"
-msgid "A&ll"
-msgstr "সব(&L)"
+msgstr ""
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK8"
-msgid "With icons"
-msgstr "আইকন সহ"
+msgid "Use the format-specific icons"
+msgstr ""
 
-msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON5"
-msgid "&Modify"
-msgstr "পরিবর্তন করি(&M)"
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON1"
+msgid "Run as &administrator"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON7"
+msgid "Set as &default program"
+msgstr ""
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Real-Time Streaming Protocol handler (for rtsp://... URLs)"

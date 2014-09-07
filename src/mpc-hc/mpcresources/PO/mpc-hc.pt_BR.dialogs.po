@@ -591,36 +591,20 @@ msgid "Set"
 msgstr "Gravar"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC3"
-msgid "Windows 8 or later"
-msgstr "Windows 8 ou mais recente"
-
-msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON6"
-msgid "&Set default programs"
-msgstr "&Selecionar programas padrão"
-
-msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Association"
-msgstr "Associação"
-
-msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON4"
-msgid "&Video"
-msgstr "&Vídeo"
-
-msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON3"
-msgid "A&udio"
-msgstr "Á&udio"
-
-msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON1"
-msgid "A&ll"
-msgstr "&Todos"
+msgstr ""
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK8"
-msgid "With icons"
-msgstr "Com ícones"
+msgid "Use the format-specific icons"
+msgstr ""
 
-msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON5"
-msgid "&Modify"
-msgstr "&Modificar"
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON1"
+msgid "Run as &administrator"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON7"
+msgid "Set as &default program"
+msgstr ""
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Real-Time Streaming Protocol handler (for rtsp://... URLs)"

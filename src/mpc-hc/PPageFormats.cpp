@@ -37,7 +37,6 @@ IMPLEMENT_DYNAMIC(CPPageFormats, CPPageBase)
 CPPageFormats::CPPageFormats()
     : CPPageBase(CPPageFormats::IDD, CPPageFormats::IDD)
     , m_list(0)
-    , m_exts(_T(""))
     , m_iRtspHandler(0)
     , m_fRtspFileExtFirst(FALSE)
     , m_bInsufficientPrivileges(false)
@@ -118,18 +117,19 @@ BEGIN_MESSAGE_MAP(CPPageFormats, CPPageBase)
     ON_NOTIFY(LVN_BEGINLABELEDIT, IDC_LIST1, OnBeginEditMediaCategoryEngine)
     ON_NOTIFY(LVN_DOLABELEDIT, IDC_LIST1, OnEditMediaCategoryEngine)
     ON_NOTIFY(LVN_ENDLABELEDIT, IDC_LIST1, OnEndEditMediaCategoryEngine)
-    ON_BN_CLICKED(IDC_BUTTON1, OnBnClickedSelectAllFormats)
     ON_BN_CLICKED(IDC_BUTTON2, OnBnClickedResetExtensionsList)
     ON_BN_CLICKED(IDC_BUTTON_EXT_SET, OnBnClickedSetExtensionsList)
-    ON_BN_CLICKED(IDC_BUTTON4, OnBnClickedSelectVideoFormats)
-    ON_BN_CLICKED(IDC_BUTTON3, OnBnClickedSelectAudioFormats)
-    ON_BN_CLICKED(IDC_BUTTON5, OnBnVistaModify)
-    ON_BN_CLICKED(IDC_BUTTON6, OnBnWin8SetDefProg)
+    ON_BN_CLICKED(IDC_BUTTON1, OnBnVistaModify)
+    ON_BN_CLICKED(IDC_BUTTON7, OnBnWin8SetDefProg)
+    ON_BN_CLICKED(IDC_ASSOCIATE_ALL_FORMATS, OnAssociateAllFormats)
+    ON_BN_CLICKED(IDC_ASSOCIATE_AUDIO_FORMATS, OnAssociateAudioFormatsOnly)
+    ON_BN_CLICKED(IDC_ASSOCIATE_VIDEO_FORMATS, OnAssociateVideoFormatsOnly)
+    ON_BN_CLICKED(IDC_CLEAR_ALL_ASSOCIATIONS, OnClearAllAssociations)
     ON_BN_CLICKED(IDC_CHECK7, OnFilesAssocModified)
     ON_BN_CLICKED(IDC_CHECK8, OnFilesAssocModified)
     ON_UPDATE_COMMAND_UI(IDC_BUTTON2, OnUpdateButtonDefault)
     ON_UPDATE_COMMAND_UI(IDC_BUTTON_EXT_SET, OnUpdateButtonSet)
-    ON_UPDATE_COMMAND_UI(IDC_BUTTON6, OnUpdateBnWin8SetDefProg)
+    ON_UPDATE_COMMAND_UI(IDC_BUTTON7, OnUpdateBnWin8SetDefProg)
 END_MESSAGE_MAP()
 
 // CPPageFormats message handlers
@@ -203,8 +203,8 @@ BOOL CPPageFormats::OnInitDialog()
 
     m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
 
-    m_list.InsertColumn(COL_CATEGORY, _T("Category"), LVCFMT_LEFT, 300);
-    m_list.InsertColumn(COL_ENGINE, _T("Engine"), LVCFMT_RIGHT, 60);
+    m_list.InsertColumn(COL_CATEGORY, _T("Category"), LVCFMT_LEFT, 290);
+    m_list.InsertColumn(COL_ENGINE, _T("Engine"), LVCFMT_RIGHT, 50);
 
     // We don't use m_onoff.Create(IDB_CHECKBOX, 12, 3, 0xffffff) since
     // we want to load the bitmap directly from the main executable.
@@ -217,12 +217,17 @@ BOOL CPPageFormats::OnInitDialog()
     LoadSettings();
     CreateToolTip();
 
-    if (SysVersion::IsVistaOrLater() && !IsUserAnAdmin()) {
-        GetDlgItem(IDC_BUTTON1)->ShowWindow(SW_HIDE);
-        GetDlgItem(IDC_BUTTON3)->ShowWindow(SW_HIDE);
-        GetDlgItem(IDC_BUTTON4)->ShowWindow(SW_HIDE);
+    SetButtonIcon(IDC_ASSOCIATE_ALL_FORMATS,   IDB_CHECK_ALL);
+    SetButtonIcon(IDC_ASSOCIATE_AUDIO_FORMATS, IDB_CHECK_AUDIO);
+    SetButtonIcon(IDC_ASSOCIATE_VIDEO_FORMATS, IDB_CHECK_VIDEO);
+    SetButtonIcon(IDC_CLEAR_ALL_ASSOCIATIONS,  IDB_UNCHECK_ALL);
 
+    if (SysVersion::IsVistaOrLater() && !IsUserAnAdmin()) {
         GetDlgItem(IDC_EDIT1)->EnableWindow(FALSE);
+        GetDlgItem(IDC_ASSOCIATE_ALL_FORMATS)->EnableWindow(FALSE);
+        GetDlgItem(IDC_ASSOCIATE_AUDIO_FORMATS)->EnableWindow(FALSE);
+        GetDlgItem(IDC_ASSOCIATE_VIDEO_FORMATS)->EnableWindow(FALSE);
+        GetDlgItem(IDC_CLEAR_ALL_ASSOCIATIONS)->EnableWindow(FALSE);
 
         GetDlgItem(IDC_CHECK1)->EnableWindow(FALSE);
         GetDlgItem(IDC_CHECK2)->EnableWindow(FALSE);
@@ -231,45 +236,57 @@ BOOL CPPageFormats::OnInitDialog()
         GetDlgItem(IDC_CHECK5)->EnableWindow(FALSE);
         GetDlgItem(IDC_CHECK6)->EnableWindow(FALSE);
         GetDlgItem(IDC_CHECK7)->EnableWindow(FALSE);
-        GetDlgItem(IDC_CHECK8)->EnableWindow(FALSE);
+        GetDlgItem(IDC_CHECK8)->ShowWindow(SW_HIDE);
 
         GetDlgItem(IDC_RADIO1)->EnableWindow(FALSE);
         GetDlgItem(IDC_RADIO2)->EnableWindow(FALSE);
         GetDlgItem(IDC_RADIO3)->EnableWindow(FALSE);
 
-        GetDlgItem(IDC_BUTTON5)->ShowWindow(SW_SHOW);
-        GetDlgItem(IDC_BUTTON5)->SendMessage(BCM_SETSHIELD, 0, 1);
+        GetDlgItem(IDC_BUTTON1)->SendMessage(BCM_SETSHIELD, 0, TRUE);
+        GetDlgItem(IDC_BUTTON1)->ShowWindow(SW_SHOW);
 
         m_bInsufficientPrivileges = true;
     } else {
-        GetDlgItem(IDC_BUTTON5)->ShowWindow(SW_HIDE);
+        GetDlgItem(IDC_BUTTON1)->ShowWindow(SW_HIDE);
     }
 
-    if (SysVersion::Is8OrLater()) {
+    if (!m_bInsufficientPrivileges && SysVersion::Is8OrLater()) {
+        GetDlgItem(IDC_BUTTON7)->ShowWindow(SW_SHOW);
+
+        auto offsetControlBottomRight = [this](int nID, int dx, int dy) {
+            CRect r;
+            GetDlgItem(nID)->GetWindowRect(r);
+            ScreenToClient(r);
+            r.BottomRight().Offset(dx, dy);
+            GetDlgItem(nID)->MoveWindow(r);
+        };
+
+        auto moveControl = [this](int nID, int dx, int dy) {
+            CRect r;
+            GetDlgItem(nID)->GetWindowRect(r);
+            ScreenToClient(r);
+            r.OffsetRect(dx, dy);
+            GetDlgItem(nID)->MoveWindow(r);
+        };
+
+        const int dy = -5;
+
+        offsetControlBottomRight(IDC_STATIC2, 0, dy);
+        offsetControlBottomRight(IDC_LIST1, 0, dy);
+
+        moveControl(IDC_EDIT1, 0, dy);
+        moveControl(IDC_BUTTON2, 0, dy);
+        moveControl(IDC_BUTTON_EXT_SET, 0, dy);
+
         CRect r;
-        GetDlgItem(IDC_STATIC2)->GetWindowRect(r);
+        GetDlgItem(IDC_STATIC3)->GetWindowRect(r);
         ScreenToClient(r);
-        r.BottomRight().Offset(0, -50);
-        GetDlgItem(IDC_STATIC2)->MoveWindow(r);
-        GetDlgItem(IDC_LIST1)->GetWindowRect(r);
-        ScreenToClient(r);
-        r.BottomRight().Offset(0, -50);
-        GetDlgItem(IDC_LIST1)->MoveWindow(r);
-        GetDlgItem(IDC_EDIT1)->GetWindowRect(r);
-        ScreenToClient(r);
-        r.OffsetRect(0, -50);
-        GetDlgItem(IDC_EDIT1)->MoveWindow(r);
-        GetDlgItem(IDC_BUTTON2)->GetWindowRect(r);
-        ScreenToClient(r);
-        r.OffsetRect(0, -50);
-        GetDlgItem(IDC_BUTTON2)->MoveWindow(r);
-        GetDlgItem(IDC_BUTTON_EXT_SET)->GetWindowRect(r);
-        ScreenToClient(r);
-        r.OffsetRect(0, -50);
-        GetDlgItem(IDC_BUTTON_EXT_SET)->MoveWindow(r);
+        r.TopLeft().Offset(0, dy);
+        GetDlgItem(IDC_STATIC3)->MoveWindow(r);
+
+        moveControl(IDC_CHECK8, 0, dy);
     } else {
-        GetDlgItem(IDC_STATIC3)->ShowWindow(SW_HIDE);
-        GetDlgItem(IDC_BUTTON6)->ShowWindow(SW_HIDE);
+        GetDlgItem(IDC_BUTTON7)->ShowWindow(SW_HIDE);
     }
 
     UpdateData(FALSE);
@@ -457,22 +474,28 @@ void CPPageFormats::OnEndEditMediaCategoryEngine(NMHDR* pNMHDR, LRESULT* pResult
     }
 }
 
-void CPPageFormats::OnBnClickedSelectAllFormats()
+void CPPageFormats::SetSelectionAllFormats(bool bSelect)
 {
     for (int i = 0, cnt = m_list.GetItemCount(); i < cnt; i++) {
-        SetCheckedMediaCategory(i, 1);
+        SetCheckedMediaCategory(i, bSelect);
     }
 
-    m_apvideo.SetCheck(BST_CHECKED);
-    m_apmusic.SetCheck(BST_CHECKED);
-    m_apaudiocd.SetCheck(BST_CHECKED);
-    m_apdvd.SetCheck(BST_CHECKED);
+    const int nCheck = bSelect ? BST_CHECKED : BST_UNCHECKED;
+    m_apvideo.SetCheck(nCheck);
+    m_apmusic.SetCheck(nCheck);
+    m_apaudiocd.SetCheck(nCheck);
+    m_apdvd.SetCheck(nCheck);
 
     m_bFileExtChanged = true;
     SetModified();
 }
 
-void CPPageFormats::OnBnClickedSelectVideoFormats()
+void CPPageFormats::OnAssociateAllFormats()
+{
+    SetSelectionAllFormats(true);
+}
+
+void CPPageFormats::OnAssociateVideoFormatsOnly()
 {
     for (int i = 0, cnt = m_list.GetItemCount(); i < cnt; i++) {
         if (!m_mf[m_list.GetItemData(i)].GetLabel().CompareNoCase(_T("pls"))) {
@@ -491,7 +514,7 @@ void CPPageFormats::OnBnClickedSelectVideoFormats()
     SetModified();
 }
 
-void CPPageFormats::OnBnClickedSelectAudioFormats()
+void CPPageFormats::OnAssociateAudioFormatsOnly()
 {
     for (int i = 0, cnt = m_list.GetItemCount(); i < cnt; i++) {
         SetCheckedMediaCategory(i, m_mf[m_list.GetItemData(i)].IsAudioOnly());
@@ -504,6 +527,11 @@ void CPPageFormats::OnBnClickedSelectAudioFormats()
 
     m_bFileExtChanged = true;
     SetModified();
+}
+
+void CPPageFormats::OnClearAllAssociations()
+{
+    SetSelectionAllFormats(false);
 }
 
 void CPPageFormats::OnBnVistaModify()

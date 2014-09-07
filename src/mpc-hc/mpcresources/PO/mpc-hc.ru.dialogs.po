@@ -587,36 +587,20 @@ msgid "Set"
 msgstr "Установить"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC3"
-msgid "Windows 8 or later"
-msgstr "Windows 8 или новее"
-
-msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON6"
-msgid "&Set default programs"
-msgstr "&Установка программ по умолчанию"
-
-msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Association"
-msgstr "Ассоциации"
-
-msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON4"
-msgid "&Video"
-msgstr "&Видео"
-
-msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON3"
-msgid "A&udio"
-msgstr "&Аудио"
-
-msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON1"
-msgid "A&ll"
-msgstr "В&се"
+msgstr ""
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK8"
-msgid "With icons"
-msgstr "Со значками"
+msgid "Use the format-specific icons"
+msgstr ""
 
-msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON5"
-msgid "&Modify"
-msgstr "&Изменить"
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON1"
+msgid "Run as &administrator"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON7"
+msgid "Set as &default program"
+msgstr ""
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Real-Time Streaming Protocol handler (for rtsp://... URLs)"

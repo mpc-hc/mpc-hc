@@ -19,6 +19,10 @@
 #define IDB_SHADER_UP                   216
 #define IDB_SHADER_DOWN                 217
 #define IDB_SHADER_DEL                  218
+#define IDB_CHECK_ALL                   219
+#define IDB_UNCHECK_ALL                 220
+#define IDB_CHECK_AUDIO                 221
+#define IDB_CHECK_VIDEO                 222
 #define IDI_SINGLE                      300
 #define IDI_MULTI                       301
 #define IDI_DVD                         302
@@ -651,6 +655,10 @@
 #define IDC_PPAGECAPTURE_ST11           22079
 #define IDC_PPAGECAPTURE_ST12           22080
 #define IDC_FASTSEEK_CHECK              22081
+#define IDC_ASSOCIATE_ALL_FORMATS       22082
+#define IDC_ASSOCIATE_VIDEO_FORMATS     22083
+#define IDC_ASSOCIATE_AUDIO_FORMATS     22084
+#define IDC_CLEAR_ALL_ASSOCIATIONS      22085
 #define ID_SUB_DELAY_DOWN               24000
 #define ID_SUB_DELAY_UP                 24001
 #define IDS_MPLAYERC_104                24002

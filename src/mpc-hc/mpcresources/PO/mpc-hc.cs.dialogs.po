@@ -585,36 +585,20 @@ msgid "Set"
 msgstr "Nastavit"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC3"
-msgid "Windows 8 or later"
-msgstr "Windows 8 nebo novější"
-
-msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON6"
-msgid "&Set default programs"
-msgstr "&Nastavení výchozích programů"
-
-msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Association"
-msgstr "Asociace"
-
-msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON4"
-msgid "&Video"
-msgstr "&Video"
-
-msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON3"
-msgid "A&udio"
-msgstr "A&udio"
-
-msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON1"
-msgid "A&ll"
-msgstr "Vše"
+msgstr ""
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK8"
-msgid "With icons"
-msgstr "Přiřadit ikony"
+msgid "Use the format-specific icons"
+msgstr ""
 
-msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON5"
-msgid "&Modify"
-msgstr "Upravit"
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON1"
+msgid "Run as &administrator"
+msgstr ""
+
+msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON7"
+msgid "Set as &default program"
+msgstr ""
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Real-Time Streaming Protocol handler (for rtsp://... URLs)"

@@ -41,6 +41,7 @@ next version - not released yet
 * Ticket #1663, Improved command line help dialog
 * Ticket #2834, Increase limit on subtitles override placement feature.
 * Ticket #4428, Improve the clarity of the error message when opening a subtitle file fails
+* Ticket #4687, Reworked "Formats" option page. It is now possible to clear all associations
 * Updated Little CMS to v2.6 (git 9c075b3)
 * Updated Unrar to v5.1.7
 * Updated MediaInfoLib to v0.7.70

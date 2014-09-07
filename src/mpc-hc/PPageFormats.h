@@ -62,6 +62,8 @@ private:
 
     bool IsNeededIconsLib();
 
+    void SetSelectionAllFormats(bool bSelect);
+
 public:
     CPPageFormats();
     virtual ~CPPageFormats();
@@ -83,11 +85,12 @@ protected:
     afx_msg void OnBeginEditMediaCategoryEngine(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnEditMediaCategoryEngine(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnEndEditMediaCategoryEngine(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnAssociateAllFormats();
+    afx_msg void OnAssociateVideoFormatsOnly();
+    afx_msg void OnAssociateAudioFormatsOnly();
+    afx_msg void OnClearAllAssociations();
     afx_msg void OnBnVistaModify();
     afx_msg void OnBnWin8SetDefProg();
-    afx_msg void OnBnClickedSelectAllFormats();
-    afx_msg void OnBnClickedSelectVideoFormats();
-    afx_msg void OnBnClickedSelectAudioFormats();
     afx_msg void OnBnClickedResetExtensionsList();
     afx_msg void OnBnClickedSetExtensionsList();
     afx_msg void OnFilesAssocModified();

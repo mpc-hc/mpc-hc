@@ -31,10 +31,13 @@ class CPPageBase : public CCmdUIPropertyPage
 
 protected:
     CToolTipCtrl m_wndToolTip;
+    std::map<UINT, CImageList> m_buttonIcons;
 
     static bool FillComboToolTip(CComboBox& comboBox, TOOLTIPTEXT* pTTT);
 
     void CreateToolTip();
+
+    void SetButtonIcon(UINT nIDButton, UINT nIDIcon);
 
 public:
     CPPageBase(UINT nIDTemplate, UINT nIDCaption = 0);

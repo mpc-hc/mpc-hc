@@ -214,23 +214,6 @@ CPPageShaders::CPPageShaders()
     GetEventd().Connect(m_eventc, fires);
 }
 
-void CPPageShaders::SetButtonIcon(UINT nIDButton, UINT nIDIcon)
-{
-    if (!m_buttonIcons.count(nIDIcon)) {
-        CImage img;
-        img.LoadFromResource(AfxGetInstanceHandle(), nIDIcon);
-        CImageList& imageList = m_buttonIcons[nIDIcon];
-        imageList.Create(img.GetWidth(), img.GetHeight(), ILC_COLOR32, 1, 0);
-        imageList.Add(CBitmap::FromHandle(img), nullptr);
-    }
-
-    BUTTON_IMAGELIST buttonImageList;
-    buttonImageList.himl = m_buttonIcons[nIDIcon];
-    buttonImageList.margin = { 0, 0, 0, 0 };
-    buttonImageList.uAlign = BUTTON_IMAGELIST_ALIGN_CENTER;
-    static_cast<CButton*>(GetDlgItem(nIDButton))->SetImageList(&buttonImageList);
-}
-
 void CPPageShaders::DoDataExchange(CDataExchange* pDX)
 {
     CPPageBase::DoDataExchange(pDX);

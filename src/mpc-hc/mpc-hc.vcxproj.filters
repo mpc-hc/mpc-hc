@@ -1084,4 +1084,18 @@
       <Filter>Source Files</Filter>
     </Object>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\check_all.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\check_audio.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\check_video.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\uncheck_all.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

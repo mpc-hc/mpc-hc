@@ -838,6 +838,12 @@
       <Project>{ab494732-ef6d-44d0-bcf8-80ff04858d10}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\check_all.bmp" />
+    <Image Include="res\check_audio.bmp" />
+    <Image Include="res\check_video.bmp" />
+    <Image Include="res\uncheck_all.bmp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

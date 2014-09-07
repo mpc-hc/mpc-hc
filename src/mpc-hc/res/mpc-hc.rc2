@@ -45,11 +45,15 @@ IDR_AVI_FILECOPY                 AVI                     "res\\ani.avi"
 IDB_AUDIOTYPE_MONO               BITMAP                  "res\\mono.bmp"
 IDB_AUDIOTYPE_NOAUDIO            BITMAP                  "res\\noaudio.bmp"
 IDB_AUDIOTYPE_STEREO             BITMAP                  "res\\stereo.bmp"
+IDB_CHECK_ALL                    BITMAP                  "res\\check_all.bmp"
+IDB_CHECK_AUDIO                  BITMAP                  "res\\check_audio.bmp"
+IDB_CHECK_VIDEO                  BITMAP                  "res\\check_video.bmp"
 IDB_CHECKBOX                     BITMAP                  "res\\onoff.bmp"
 IDB_STREAMTYPES                  BITMAP                  "res\\streamtypes.bmp"
 IDB_SHADER_UP                    BITMAP                  "res\\shader_up.bmp"
 IDB_SHADER_DOWN                  BITMAP                  "res\\shader_down.bmp"
 IDB_SHADER_DEL                   BITMAP                  "res\\shader_del.bmp"
+IDB_UNCHECK_ALL                  BITMAP                  "res\\uncheck_all.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //

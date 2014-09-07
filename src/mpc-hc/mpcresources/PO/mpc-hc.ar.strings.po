@@ -2039,8 +2039,8 @@ msgid "Play with MPC-HC"
 msgstr "تشغيل مع MPC-HC"
 
 msgctxt "IDS_CANNOT_CHANGE_FORMAT"
-msgid "MPC-HC has not enough privileges to change files formats associations. Please click on \"Modify\" button to get administrator rights."
-msgstr "MPC-HC لايحمل امتيازات كافية لتغيير ربط صيغ الملفات . يرجى النقر على زر \"عدّل\" للحصول على حقوق المسؤول."
+msgid "MPC-HC has not enough privileges to change files formats associations. Please click on the \"Run as administrator\" button."
+msgstr ""
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
@@ -3509,6 +3509,22 @@ msgstr "القنوات"
 msgctxt "IDC_FASTSEEK_CHECK"
 msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."
 msgstr "إذا تم إختيار \"الإطار المفتاحي الأحدث\"، إبحث  عن الإطار المفتاحي الأول قبل نقطة البحث الحالية\nإذا تم إختيار \"الإطار المفتاحي الأقرب\"، إبحث  عن الإطار المفتاحي الأول قبل نقطة البحث الحالية إعتماداً علي أيها الأقرب"
+
+msgctxt "IDC_ASSOCIATE_ALL_FORMATS"
+msgid "Associate with all formats"
+msgstr ""
+
+msgctxt "IDC_ASSOCIATE_VIDEO_FORMATS"
+msgid "Associate with video formats only"
+msgstr ""
+
+msgctxt "IDC_ASSOCIATE_AUDIO_FORMATS"
+msgid "Associate with audio formats only"
+msgstr ""
+
+msgctxt "IDC_CLEAR_ALL_ASSOCIATIONS"
+msgid "Clear all associations"
+msgstr ""
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"

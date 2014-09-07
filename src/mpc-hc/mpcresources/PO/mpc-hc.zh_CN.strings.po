@@ -2035,8 +2035,8 @@ msgid "Play with MPC-HC"
 msgstr "使用 MPC-HC 播放"
 
 msgctxt "IDS_CANNOT_CHANGE_FORMAT"
-msgid "MPC-HC has not enough privileges to change files formats associations. Please click on \"Modify\" button to get administrator rights."
-msgstr "MPC-HC 没有足够的权限更改文件格式关联。请单击 \"修改\" 按钮获取管理员权限。"
+msgid "MPC-HC has not enough privileges to change files formats associations. Please click on the \"Run as administrator\" button."
+msgstr ""
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
@@ -3505,6 +3505,22 @@ msgstr "频道(&C)"
 msgctxt "IDC_FASTSEEK_CHECK"
 msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."
 msgstr "若选择 \"最近的关键帧\" , 在搜索时会选择实际搜索时间点前最近的关键帧。\n若选择 \"最接近的关键帧\" , 在搜索时会根据前后关键帧选择最近的。"
+
+msgctxt "IDC_ASSOCIATE_ALL_FORMATS"
+msgid "Associate with all formats"
+msgstr ""
+
+msgctxt "IDC_ASSOCIATE_VIDEO_FORMATS"
+msgid "Associate with video formats only"
+msgstr ""
+
+msgctxt "IDC_ASSOCIATE_AUDIO_FORMATS"
+msgid "Associate with audio formats only"
+msgstr ""
+
+msgctxt "IDC_CLEAR_ALL_ASSOCIATIONS"
+msgid "Clear all associations"
+msgstr ""
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"

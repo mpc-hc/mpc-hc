@@ -65,8 +65,6 @@ public:
 private:
     enum { IDD = IDD_PPAGESHADERS };
 
-    std::map<UINT, CImageList> m_buttonIcons;
-
     EventClient m_eventc;
     bool m_bCurrentPresetChanged;
 
@@ -74,7 +72,6 @@ protected:
     CShaderListBox m_Shaders, m_PreResize, m_PostResize;
     CComboBox m_PresetsBox;
     ShaderSelection::ShaderPresetMap m_Presets;
-    void SetButtonIcon(UINT nIDButton, UINT nIDIcon);
 
     virtual void DoDataExchange(CDataExchange* pDX) override;
     virtual BOOL OnInitDialog() override;
