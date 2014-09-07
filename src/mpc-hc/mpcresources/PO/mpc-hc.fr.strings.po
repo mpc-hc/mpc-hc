@@ -2678,7 +2678,7 @@ msgstr "Cacher le &menu"
 
 msgctxt "IDD_PPAGEADVANCED"
 msgid "Advanced"
-msgstr "Réglages avancés"
+msgstr "Réglages expert"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seekbar"
