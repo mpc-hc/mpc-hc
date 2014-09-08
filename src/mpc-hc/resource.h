@@ -650,6 +650,7 @@
 #define IDC_PPAGECAPTURE_ST10           22078
 #define IDC_PPAGECAPTURE_ST11           22079
 #define IDC_PPAGECAPTURE_ST12           22080
+#define IDC_FASTSEEK_CHECK              22081
 #define ID_SUB_DELAY_DOWN               24000
 #define ID_SUB_DELAY_UP                 24001
 #define IDS_MPLAYERC_104                24002

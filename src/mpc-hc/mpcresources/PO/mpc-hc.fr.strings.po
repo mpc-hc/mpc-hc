@@ -3500,6 +3500,10 @@ msgctxt "IDS_NAVIGATE_CHANNELS"
 msgid "&Channels"
 msgstr "&Chaînes"
 
+msgctxt "IDC_FASTSEEK_CHECK"
+msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."
+msgstr ""
+
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"
 msgstr "Paramètres"

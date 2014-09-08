@@ -66,7 +66,7 @@ void CPPageTweaks::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_COMBO1, m_FontType);
     DDX_Control(pDX, IDC_COMBO2, m_FontSize);
     DDX_Control(pDX, IDC_COMBO4, m_FastSeekMethod);
-    DDX_Check(pDX, IDC_CHECK1, m_fFastSeek);
+    DDX_Check(pDX, IDC_FASTSEEK_CHECK, m_fFastSeek);
     DDX_Check(pDX, IDC_CHECK2, m_fShowChapters);
     DDX_Check(pDX, IDC_CHECK_LCD, m_fLCDSupport);
     DDX_Check(pDX, IDC_CHECK3, m_bHideWindowedMousePointer);
@@ -152,6 +152,7 @@ BOOL CPPageTweaks::OnInitDialog()
     }
     m_FontSize.SetCurSel(iSel - 10);
 
+    CreateToolTip();
     EnableToolTips(TRUE);
 
     UpdateData(FALSE);
@@ -217,7 +218,7 @@ END_MESSAGE_MAP()
 
 void CPPageTweaks::OnUpdateFastSeek(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(IsDlgButtonChecked(IDC_CHECK1));
+    pCmdUI->Enable(IsDlgButtonChecked(IDC_FASTSEEK_CHECK));
 }
 
 void CPPageTweaks::OnBnClickedButton1()
