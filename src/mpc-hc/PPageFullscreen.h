@@ -100,4 +100,5 @@ protected:
     afx_msg void OnListDoEdit(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnListEndEdit(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnListCustomDraw(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMH, LRESULT* pResult);
 };

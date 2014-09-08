@@ -276,34 +276,32 @@ BOOL CPPagePlayback::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
         nID = ::GetDlgCtrlID((HWND)nID);
     }
 
-    if (nID == 0) {
-        return FALSE;
-    }
+    BOOL bRet = FALSE;
 
-    CString strTipText;
+    if (nID == IDC_SLIDER1 || nID == IDC_SLIDER2) {
+        bRet = TRUE;
 
-    if (nID == IDC_SLIDER1) {
-        strTipText.Format(ResStr(IDS_VOLUME), m_nVolume);
-    } else if (nID == IDC_SLIDER2) {
-        if (m_nBalance > 0) {
-            strTipText.Format(ResStr(IDS_BALANCE_R), m_nBalance);
-        } else if (m_nBalance < 0) {
-            strTipText.Format(ResStr(IDS_BALANCE_L), -m_nBalance);
-        } else { //if (m_nBalance == 0)
-            strTipText = ResStr(IDS_BALANCE);
+        CString strTipText;
+        if (nID == IDC_SLIDER1) {
+            strTipText.Format(ResStr(IDS_VOLUME), m_nVolume);
+        } else if (nID == IDC_SLIDER2) {
+            if (m_nBalance > 0) {
+                strTipText.Format(ResStr(IDS_BALANCE_R), m_nBalance);
+            } else if (m_nBalance < 0) {
+                strTipText.Format(ResStr(IDS_BALANCE_L), -m_nBalance);
+            } else { //if (m_nBalance == 0)
+                strTipText = ResStr(IDS_BALANCE);
+            }
         }
+
+        _tcscpy_s(pTTT->szText, strTipText.Left(_countof(pTTT->szText) - 1));
     } else if (nID == IDC_COMBO1) {
-        int i = m_zoomlevelctrl.GetCurSel();
-        m_zoomlevelctrl.GetLBText(i, strTipText);
-    } else {
-        return FALSE;
+        bRet = FillComboToolTip(m_zoomlevelctrl, pTTT);
+    } else if (nID == IDC_COMBO2) {
+        bRet = FillComboToolTip(m_afterPlayback, pTTT);
     }
 
-    _tcscpy_s(pTTT->szText, strTipText.Left(_countof(pTTT->szText)));
-
-    *pResult = 0;
-
-    return TRUE;    // message was handled
+    return bRet;
 }
 
 void CPPagePlayback::OnCancel()

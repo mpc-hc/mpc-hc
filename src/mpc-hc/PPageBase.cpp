@@ -42,6 +42,42 @@ void CPPageBase::DoDataExchange(CDataExchange* pDX)
     __super::DoDataExchange(pDX);
 }
 
+bool CPPageBase::FillComboToolTip(CComboBox& comboBox, TOOLTIPTEXT* pTTT)
+{
+    bool bNeedTooltip = false;
+
+    CDC* pDC = comboBox.GetDC();
+    CFont* pFont = comboBox.GetFont();
+    CFont* pOldFont = pDC->SelectObject(pFont);
+
+    TEXTMETRIC tm;
+    pDC->GetTextMetrics(&tm);
+
+    CRect comboBoxRect;
+    comboBox.GetWindowRect(comboBoxRect);
+    comboBoxRect.right -= GetSystemMetrics(SM_CXVSCROLL) + 2 * GetSystemMetrics(SM_CXEDGE);
+
+    int i = comboBox.GetCurSel();
+    CString str;
+    comboBox.GetLBText(i, str);
+    CSize textSize;
+    textSize = pDC->GetTextExtent(str);
+    pDC->SelectObject(pOldFont);
+    comboBox.ReleaseDC(pDC);
+    textSize.cx += tm.tmAveCharWidth;
+
+    if (textSize.cx > comboBoxRect.Width()) {
+        bNeedTooltip = true;
+        if (str.GetLength() > _countof(pTTT->szText) - 1) {
+            str.Truncate(_countof(pTTT->szText) - 1);
+        }
+        _tcscpy_s(pTTT->szText, str);
+        pTTT->hinst = nullptr;
+    }
+
+    return bNeedTooltip;
+}
+
 void CPPageBase::CreateToolTip()
 {
     m_wndToolTip.Create(this, TTS_NOPREFIX);

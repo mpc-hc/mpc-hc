@@ -67,4 +67,5 @@ protected:
     afx_msg void OnUpdateDigitalStopFilterGraph(CCmdUI* pCmdUI);
     afx_msg void OnSelChangeRebuildFilterGraph();
     afx_msg void OnSelChangeStopFilterGraph();
+    afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMH, LRESULT* pResult);
 };

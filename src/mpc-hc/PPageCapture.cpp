@@ -336,6 +336,7 @@ BEGIN_MESSAGE_MAP(CPPageCapture, CPPageBase)
     ON_UPDATE_COMMAND_UI(IDC_PPAGECAPTURE_DESC1, OnUpdateDigital)
     ON_CBN_SELCHANGE(IDC_COMBO6, OnSelChangeRebuildFilterGraph)
     ON_CBN_SELCHANGE(IDC_COMBO7, OnSelChangeStopFilterGraph)
+    ON_NOTIFY_EX_RANGE(TTN_NEEDTEXT, 0, 0xFFFF, OnToolTipNotify)
 END_MESSAGE_MAP()
 
 // CPPageCapture message handlers
@@ -383,6 +384,8 @@ BOOL CPPageCapture::OnInitDialog()
     UpdateData(FALSE);
 
     SaveFoundDevices(); // Save (new) devices to ensure that comboboxes reflect actual settings.
+
+    EnableToolTips(TRUE);
 
     return TRUE;
 }
@@ -434,6 +437,48 @@ void CPPageCapture::OnSelChangeStopFilterGraph()
 {
     SetModified();
 }
+
+BOOL CPPageCapture::OnToolTipNotify(UINT id, NMHDR* pNMH, LRESULT* pResult)
+{
+    LPTOOLTIPTEXT pTTT = reinterpret_cast<LPTOOLTIPTEXT>(pNMH);
+
+    UINT_PTR nID = pNMH->idFrom;
+    if (pTTT->uFlags & TTF_IDISHWND) {
+        nID = ::GetDlgCtrlID((HWND)nID);
+    }
+
+    BOOL bRet = FALSE;
+
+    switch (nID) {
+        case IDC_COMBO1:
+            bRet = FillComboToolTip(m_cbAnalogVideo, pTTT);
+            break;
+        case IDC_COMBO2:
+            bRet = FillComboToolTip(m_cbAnalogAudio, pTTT);
+            break;
+        case IDC_COMBO9:
+            bRet = FillComboToolTip(m_cbAnalogCountry, pTTT);
+            break;
+        case IDC_COMBO4:
+            bRet = FillComboToolTip(m_cbDigitalNetworkProvider, pTTT);
+            break;
+        case IDC_COMBO5:
+            bRet = FillComboToolTip(m_cbDigitalTuner, pTTT);
+            break;
+        case IDC_COMBO3:
+            bRet = FillComboToolTip(m_cbDigitalReceiver, pTTT);
+            break;
+        case IDC_COMBO6:
+            bRet = FillComboToolTip(m_cbRebuildFilterGraph, pTTT);
+            break;
+        case IDC_COMBO7:
+            bRet = FillComboToolTip(m_cbStopFilterGraph, pTTT);
+            break;
+    }
+
+    return bRet;
+}
+
 
 void CPPageCapture::FindAnalogDevices()
 {

@@ -218,6 +218,7 @@ BEGIN_MESSAGE_MAP(CPPageFullscreen, CPPageBase)
     ON_NOTIFY(LVN_DOLABELEDIT, IDC_LIST1, OnListDoEdit)
     ON_NOTIFY(LVN_ENDLABELEDIT, IDC_LIST1, OnListEndEdit)
     ON_NOTIFY(NM_CUSTOMDRAW, IDC_LIST1, OnListCustomDraw)
+    ON_NOTIFY_EX_RANGE(TTN_NEEDTEXT, 0, 0xFFFF, OnToolTipNotify)
 END_MESSAGE_MAP()
 
 // CPPagePlayer message handlers
@@ -322,6 +323,9 @@ BOOL CPPageFullscreen::OnInitDialog()
     CorrectComboBoxHeaderWidth(GetDlgItem(IDC_CHECK4));
 
     ModesUpdate();
+
+    EnableToolTips(TRUE);
+
     UpdateData(FALSE);
 
     return TRUE;  // return TRUE unless you set the focus to a control
@@ -673,4 +677,24 @@ void CPPageFullscreen::OnListCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
         pLVCD->clrText = crText;
         *pResult = CDRF_DODEFAULT;
     }
+}
+
+BOOL CPPageFullscreen::OnToolTipNotify(UINT id, NMHDR* pNMH, LRESULT* pResult)
+{
+    LPTOOLTIPTEXT pTTT = reinterpret_cast<LPTOOLTIPTEXT>(pNMH);
+
+    UINT_PTR nID = pNMH->idFrom;
+    if (pTTT->uFlags & TTF_IDISHWND) {
+        nID = ::GetDlgCtrlID((HWND)nID);
+    }
+
+    BOOL bRet = FALSE;
+
+    switch (nID) {
+        case IDC_COMBO2:
+            bRet = FillComboToolTip(m_hidePolicy, pTTT);
+            break;
+    }
+
+    return bRet;
 }
