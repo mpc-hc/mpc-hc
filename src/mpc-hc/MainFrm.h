@@ -176,6 +176,7 @@ public:
         DVBINFO_UPDATE,
         STATUS_ERASE,
         PLACE_FULLSCREEN_UNDER_ACTIVE_WINDOW,
+        AUTOFIT_TIMEOUT
     };
     OneTimeTimerPool<TimerOneTimeSubscriber> m_timerOneTime;
 
@@ -1026,6 +1027,7 @@ protected:
     CPoint m_snapStartPoint;
     CRect m_snapStartRect;
 
+    bool m_bAllowWindowZoom;
     double m_dLastVideoScaleFactor;
     int m_nLastVideoWidth;
 

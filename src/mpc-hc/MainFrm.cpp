@@ -760,6 +760,7 @@ CMainFrame::CMainFrame()
     , m_rtCurSubPos(0)
     , m_bStopTunerScan(false)
     , m_fSetChannelActive(false)
+    , m_bAllowWindowZoom(false)
     , m_dLastVideoScaleFactor(0)
     , m_nLastVideoWidth(0)
     , m_bExtOnTop(false)
@@ -2651,10 +2652,10 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                 m_fAudioOnly = (size.cx <= 0 || size.cy <= 0);
 
                 if (GetLoadState() == MLS::LOADED &&
-                        ((s.fRememberZoomLevel && s.fLimitWindowProportions) || m_fAudioOnly || bWasAudioOnly) &&
+                        ((s.fRememberZoomLevel && (s.fLimitWindowProportions || m_bAllowWindowZoom)) || m_fAudioOnly || bWasAudioOnly) &&
                         !(m_fFullScreen || IsD3DFullScreenMode() || IsZoomed() || IsIconic() || IsAeroSnapped())) {
-                    CSize videoSize(0, 0);
-                    if (!m_fAudioOnly) {
+                    CSize videoSize;
+                    if (!m_fAudioOnly && !m_bAllowWindowZoom) {
                         videoSize = GetVideoSize();
                     }
                     if (videoSize.cx) {
@@ -3336,6 +3337,12 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
             !m_fFullScreen && !IsD3DFullScreenMode() && !IsZoomed() && !IsIconic() && !IsAeroSnapped()) {
         ZoomVideoWindow();
     }
+
+    // Add temporary flag to allow EC_VIDEO_SIZE_CHANGED event to stabilize window size
+    // for 5 seconds since playback starts
+    m_bAllowWindowZoom = true;
+    m_timerOneTime.Subscribe(TimerOneTimeSubscriber::AUTOFIT_TIMEOUT, [this]
+    { m_bAllowWindowZoom = false; }, 5000);
 
     // update control bar areas and paint bypassing the message queue
     RecalcLayout();
@@ -14622,6 +14629,12 @@ HRESULT CMainFrame::SetChannel(int nChannel)
                 ZoomVideoWindow();
             }
             MoveVideoWindow();
+
+            // Add temporary flag to allow EC_VIDEO_SIZE_CHANGED event to stabilize window size
+            // for 5 seconds since playback starts
+            m_bAllowWindowZoom = true;
+            m_timerOneTime.Subscribe(TimerOneTimeSubscriber::AUTOFIT_TIMEOUT, [this]
+            { m_bAllowWindowZoom = false; }, 5000);
         }
         m_fSetChannelActive = false;
     }
