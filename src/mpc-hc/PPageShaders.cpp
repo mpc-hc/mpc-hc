@@ -202,7 +202,7 @@ BOOL CShaderListBox::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 }
 
 BEGIN_MESSAGE_MAP(CShaderListBox, CListBox)
-    ON_NOTIFY_EX_RANGE(TTN_NEEDTEXT, 0, 0xFFFF, OnToolTipNotify)
+    ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify)
 END_MESSAGE_MAP()
 
 CPPageShaders::CPPageShaders()

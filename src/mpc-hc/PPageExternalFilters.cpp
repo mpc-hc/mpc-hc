@@ -62,7 +62,7 @@ INT_PTR CPPageExternalFiltersListBox::OnToolHitTest(CPoint point, TOOLINFO* pTI)
 }
 
 BEGIN_MESSAGE_MAP(CPPageExternalFiltersListBox, CCheckListBox)
-    ON_NOTIFY_EX_RANGE(TTN_NEEDTEXT, 0, 0xFFFF, OnToolTipNotify)
+    ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify)
 END_MESSAGE_MAP()
 
 BOOL CPPageExternalFiltersListBox::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
@@ -326,7 +326,7 @@ BEGIN_MESSAGE_MAP(CPPageExternalFilters, CPPageBase)
     ON_NOTIFY(NM_DBLCLK, IDC_TREE1, OnDoubleClickType)
     ON_NOTIFY(TVN_KEYDOWN, IDC_TREE1, OnKeyDownType)
     ON_WM_DROPFILES()
-    ON_NOTIFY_EX_RANGE(TTN_NEEDTEXT, 0, 0xFFFF, OnToolTipNotify)
+    ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify)
 END_MESSAGE_MAP()
 
 

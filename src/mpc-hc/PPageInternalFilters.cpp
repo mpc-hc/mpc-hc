@@ -63,7 +63,7 @@ INT_PTR CPPageInternalFiltersListBox::OnToolHitTest(CPoint point, TOOLINFO* pTI)
 }
 
 BEGIN_MESSAGE_MAP(CPPageInternalFiltersListBox, CCheckListBox)
-    ON_NOTIFY_EX_RANGE(TTN_NEEDTEXT, 0, 0xFFFF, OnToolTipNotify)
+    ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify)
     ON_WM_CONTEXTMENU()
 END_MESSAGE_MAP()
 

@@ -336,7 +336,7 @@ BEGIN_MESSAGE_MAP(CPPageCapture, CPPageBase)
     ON_UPDATE_COMMAND_UI(IDC_PPAGECAPTURE_DESC1, OnUpdateDigital)
     ON_CBN_SELCHANGE(IDC_COMBO6, OnSelChangeRebuildFilterGraph)
     ON_CBN_SELCHANGE(IDC_COMBO7, OnSelChangeStopFilterGraph)
-    ON_NOTIFY_EX_RANGE(TTN_NEEDTEXT, 0, 0xFFFF, OnToolTipNotify)
+    ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify)
 END_MESSAGE_MAP()
 
 // CPPageCapture message handlers
