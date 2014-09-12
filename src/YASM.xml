@@ -25,6 +25,11 @@
         </Category.DisplayName>
       </Category>
     </Rule.Categories>
+    <StringProperty
+      Name="Platform"
+      DisplayName="Platform"
+      Description="Specify the yasm object format"
+      Switch="-f [value]" />
     <BoolProperty
       Name="Debug"
       DisplayName="Debug Information"

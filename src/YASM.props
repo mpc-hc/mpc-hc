@@ -11,10 +11,20 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <YASM>
-      <CommandLineTemplate>"$(SolutionDir)src\YASM.bat" -X vc -f $(Platform) [Debug] [Defines] [IncludePaths] -o "$(IntDir)%(Filename).obj" "%(FullPath)"</CommandLineTemplate>
+      <CommandLineTemplate>"$(SolutionDir)src\YASM.bat" -X vc [Platform] [Debug] [Defines] [IncludePaths] -o "$(IntDir)%(Filename).obj" "%(FullPath)"</CommandLineTemplate>
       <Outputs>$(IntDir)%(Filename).obj</Outputs>
       <ExecutionDescription>YASM: Assembling %(Filename)%(Extension)</ExecutionDescription>
       <Debug>False</Debug>
+    </YASM>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Platform)'=='Win32'">
+    <YASM>
+      <Platform>win32</Platform>
+    </YASM>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Platform)'=='x64'">
+    <YASM>
+      <Platform>win64</Platform>
     </YASM>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug' Or '$(Configuration)'=='Debug Filter'">
