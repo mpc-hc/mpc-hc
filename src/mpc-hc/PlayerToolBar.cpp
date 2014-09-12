@@ -125,7 +125,7 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
             m_pButtonsImages = DEBUG_NEW CImageList();
             if (bpp == 32) {
                 m_pButtonsImages->Create(height, height, ILC_COLOR32 | ILC_MASK, 1, 0);
-                m_pButtonsImages->Add(bmp, static_cast<CBitmap*>(0)); // alpha is the mask
+                m_pButtonsImages->Add(bmp, nullptr); // alpha is the mask
             } else {
                 m_pButtonsImages->Create(height, height, ILC_COLOR24 | ILC_MASK, 1, 0);
                 m_pButtonsImages->Add(bmp, RGB(255, 0, 255));
