@@ -45,7 +45,7 @@ next version - not released yet
 * Updated Unrar to v5.1.7
 * Updated MediaInfoLib to v0.7.70
 * Updated ZenLib to v0.4.29 r481
-* Updated LAV Filters to v0.62.0.26:
+* Updated LAV Filters to v0.62.0.31:
     - LAV Video: HEVC decoding is up to 100% faster
     - LAV Video: Fix potential artifacts when decoding x264 lossless streams
     - LAV Splitter: Support for playing AES encrypted HLS streams
