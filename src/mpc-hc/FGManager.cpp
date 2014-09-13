@@ -1455,6 +1455,13 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
 #endif
 
+#if INTERNAL_SOURCEFILTER_GIF
+    if (src[SRC_GIF]) {
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".gif"));
+        pFGLAVSplitterSource->AddEnabledFormat("gif");
+    }
+#endif
+
 #if INTERNAL_SOURCEFILTER_ASF
     if (src[SRC_ASF]) {
         pFGLAVSplitterSource->m_extensions.AddTail(_T(".wmv"));

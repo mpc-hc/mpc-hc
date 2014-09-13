@@ -362,6 +362,11 @@ void CPPageInternalFilters::InitFiltersList()
         m_filters.Add(filter_t(_T("FLV"), SOURCE_FILTER, SRC_FLV, IDS_INTERNAL_LAVF));
     }
 #endif
+#if INTERNAL_SOURCEFILTER_GIF
+    if (bLAVSplitterIsAvailable) {
+        m_filters.Add(filter_t(_T("GIF"), SOURCE_FILTER, SRC_RTMP, IDS_INTERNAL_LAVF));
+    }
+#endif
 #if INTERNAL_SOURCEFILTER_MATROSKA
     if (bLAVSplitterIsAvailable) {
         m_filters.Add(filter_t(_T("Matroska"), SOURCE_FILTER, SRC_MATROSKA, IDS_INTERNAL_LAVF));
