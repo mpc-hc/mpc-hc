@@ -295,7 +295,8 @@ namespace GothSync
         LONG m_lShiftToNearest, m_lShiftToNearestPrev;
         bool m_bVideoSlowerThanDisplay;
 
-        int m_bInterlaced;
+        REFERENCE_TIME m_rtTimePerFrame;
+        bool m_bInterlaced;
         double m_TextScale;
         CString  m_strStatsMsg[10];
 

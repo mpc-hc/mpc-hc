@@ -64,7 +64,8 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
     , m_iVMR9Surface(0)
     , m_nCurSurface(0)
     , m_bSnapToVSync(false)
-    , m_bInterlaced(0)
+    , m_rtTimePerFrame(0)
+    , m_bInterlaced(false)
     , m_nUsedBuffer(0)
     , m_TextScale(1.0)
     , m_dMainThreadId(0)
@@ -1847,9 +1848,6 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool bAll)
     }
 
     m_dFrameCycle = m_pGenlock->frameCycleAvg;
-    if (m_dFrameCycle > 0.0) {
-        m_fps = 1000.0 / m_dFrameCycle;
-    }
     m_dCycleDifference = GetCycleDifference();
     if (abs(m_dCycleDifference) < 0.05) { // If less than 5% speed difference
         m_bSnapToVSync = true;
@@ -1997,7 +1995,7 @@ void CBaseAP::DrawStats()
             DrawText(rc, strText, 1);
             OffsetRect(&rc, 0, TextHeight);
 
-            strText.Format(L"Frame rate   : %.3f fps   Actual frame rate: %.3f fps", m_fps, 10000000.0 / m_fJitterMean);
+            strText.Format(L"Frame rate   : %.3f fps   Actual frame rate: %.3f fps", 1000.0 / m_dFrameCycle, 10000000.0 / m_fJitterMean);
             DrawText(rc, strText, 1);
             OffsetRect(&rc, 0, TextHeight);
 
@@ -3566,12 +3564,31 @@ void CSyncAP::MixerThread()
                 bQuit = true;
                 break;
             case WAIT_TIMEOUT: {
+                bool bNewSample;
                 {
                     CAutoLock AutoLock(&m_ImageProcessingLock);
-                    GetSampleFromMixer();
+                    bNewSample = GetSampleFromMixer();
                 }
-                if (m_bUseInternalTimer && m_pSubPicQueue) {
-                    m_pSubPicQueue->SetFPS(m_fps);
+
+                if (m_rtTimePerFrame == 0 && bNewSample) {
+                    // Use the code from VMR9 to get the movie fps, as this method is reliable.
+                    CComPtr<IPin> pPin;
+                    CMediaType    mt;
+                    if (SUCCEEDED(m_pOuterEVR->FindPin(L"EVR Input0", &pPin)) &&
+                            SUCCEEDED(pPin->ConnectionMediaType(&mt))) {
+                        ExtractAvgTimePerFrame(&mt, m_rtTimePerFrame);
+
+                        m_bInterlaced = ExtractInterlaced(&mt);
+
+                        if (m_rtTimePerFrame > 0) {
+                            m_fps = 10000000.0 / m_rtTimePerFrame;
+                        }
+                    }
+
+                    // Update internal subtitle clock
+                    if (m_bUseInternalTimer && m_pSubPicQueue) {
+                        m_pSubPicQueue->SetFPS(m_fps);
+                    }
                 }
             }
             break;
