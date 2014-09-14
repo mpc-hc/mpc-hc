@@ -2510,7 +2510,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                                 // if the playback is reinitialized so we clear the saved state
                                 pDVDData->pDvdState.Release();
                             } else if (s.fKeepHistory && s.fRememberDVDPos && !s.dvdPositions.AddEntry(llDVDGuid)) {
-                                // Set last remembered position (if founded...)
+                                // Set last remembered position (if found...)
                                 DVD_POSITION* dvdPosition = s.dvdPositions.GetLatestEntry();
 
                                 m_pDVDC->PlayTitle(dvdPosition->lTitle, DVD_CMD_FLAG_Block | DVD_CMD_FLAG_Flush, nullptr);
