@@ -74,7 +74,7 @@ DEFINE_SUBTITLESPROVIDER_BEGIN(Moviesubtitles, "http://www.moviesubtitles.org", 
 static const std::regex regex_pattern[];
 DEFINE_SUBTITLESPROVIDER_END
 
-DEFINE_SUBTITLESPROVIDER_BEGIN(addic7ed, "http://www.addic7ted.com", IDI_ADDIC7ED, SPF_LOGIN)
+DEFINE_SUBTITLESPROVIDER_BEGIN(addic7ed, "http://www.addic7ed.com", IDI_ADDIC7ED, SPF_LOGIN)
 virtual SRESULT Login(std::string& sUserName, std::string& sPassword);
 std::string GetLanguagesString();
 static const std::regex regex_pattern[];
