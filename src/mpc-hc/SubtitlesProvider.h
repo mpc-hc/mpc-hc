@@ -76,6 +76,9 @@ DEFINE_SUBTITLESPROVIDER_BEGIN(titlovi, "http://www.titlovi.com", IDI_TITLOVI, S
 std::string GetLanguagesString();
 DEFINE_SUBTITLESPROVIDER_END
 
+DEFINE_SUBTITLESPROVIDER_BEGIN(ysubs, "http://www.yifysubtitles.com", IDI_YSUBS, SPF_SEARCH)
+DEFINE_SUBTITLESPROVIDER_END
+
 
 static const struct { const char* code; const char* name; } podnapisi_languages[] = {
     { /* 0*/ "",   "" },                        { /* 1*/ "sl", "Slovenian" },              { /* 2*/ "en", "English" },
@@ -104,3 +107,18 @@ static const struct { const char* code; const char* name; } titlovi_languages[] 
     { "hr", "hr" }, { "sr", "sr" }, { "rs", "sr" }, { "si", "sl" }, { "ba", "bs" }, { "en", "en" }, { "mk", "mk" },
 };
 
+static const struct { const char* code; const char* name; } ysubs_languages[] = {
+    { "sq", "albanian" },                       { "ar", "arabic" },                        { "bn", "bengali" },
+    { "pb", "brazilian-portuguese" },           { "bg", "bulgarian" },                     { "zh", "chinese" },
+    { "hr", "croatian" },                       { "cs", "czech" },                         { "da", "danish" },
+    { "nl", "dutch" },                          { "en", "english" },                       { "fa", "farsi-persian" },
+    { "fi", "finnish" },                        { "fr", "french" },                        { "de", "german" },
+    { "el", "greek" },                          { "he", "hebrew" },                        { "hu", "hungarian" },
+    { "id", "indonesian" },                     { "it", "italian" },                       { "ja", "japanese" },
+    { "ko", "korean" },                         { "lt", "lithuanian" },                    { "mk", "macedonian" },
+    { "ms", "malay" },                          { "no", "norwegian" },                     { "pl", "polish" },
+    { "pt", "portuguese" },                     { "ro", "romanian" },                      { "ru", "russian" },
+    { "sr", "serbian" },                        { "sl", "slovenian" },                     { "es", "spanish" },
+    { "sv", "swedish" },                        { "th", "thai" },                          { "tr", "turkish" },
+    { "ur", "urdu" },                           { "vi", "vietnamese" },
+};
