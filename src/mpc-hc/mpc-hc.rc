@@ -3477,6 +3477,7 @@ IDI_PODNAPISI           ICON                    "res\\subtitles\\favicon_podnapi
 IDI_SUBDB               ICON                    "res\\subtitles\\favicon_subdb.ico"
 IDI_MOVIESUBTITLES      ICON                    "res\\subtitles\\favicon_tvsubtitles.ico"
 IDI_TITLOVI             ICON                    "res\\subtitles\\favicon_titlovi.ico"
+IDI_YSUBS               ICON                    "res\\subtitles\\favicon_ysubs.ico"
 #endif    // English (United Kingdom) resources
 /////////////////////////////////////////////////////////////////////////////
 

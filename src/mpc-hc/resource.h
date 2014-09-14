@@ -596,6 +596,7 @@
 #define IDI_MOVIESUBTITLES              21005
 #define IDI_ADDIC7ED                    21006
 #define IDI_TITLOVI                     21007
+#define IDI_YSUBS                       21008
 #define IDC_FULLSCREEN_MONITOR_CHECK    22002
 #define IDC_SLI_CONTRAST                22003
 #define IDC_RESET                       22004

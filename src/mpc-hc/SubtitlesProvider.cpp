@@ -23,6 +23,9 @@
 #include "MediaInfo/ThirdParty/tinyxml2/tinyxml2.h"
 using namespace tinyxml2;
 
+#include "rapidjson/include/rapidjson/rapidjson.h"
+#include "rapidjson/include/rapidjson/document.h"
+
 /******************************************************************************
 ** Register providers
 ******************************************************************************/
@@ -33,6 +36,7 @@ void SubtitlesProviders::RegisterProviders()
     Register<addic7ed>();
     Register<titlovi>();
     Register<SubDB>();
+    Register<ysubs>();
     Register<TVsubtitles>();
     Register<Moviesubtitles>();
 }
@@ -966,7 +970,16 @@ SRESULT titlovi::Download(SubtitlesInfo& pSubtitlesInfo)
 
 std::string titlovi::Languages()
 {
-    return "hr,sr,sl,bs,en,mk";
+    static std::string result;
+    if (result.empty()) {
+        for (const auto& iter : titlovi_languages) {
+            if (strlen(iter.name) && result.find(iter.name) == std::string::npos) {
+                result += (result.empty() ? "" : ",");
+                result += iter.name;
+            }
+        }
+    }
+    return result; // "hr,sr,sl,bs,en,mk";
 }
 
 std::string titlovi::GetLanguagesString()
@@ -977,6 +990,107 @@ std::string titlovi::GetLanguagesString()
         for (const auto& iter : titlovi_languages) {
             if (strlen(iter.name) && languages.find(iter.name) != std::string::npos) {
                 result += (result.empty() ? "" : ",") + std::string(iter.name1);
+            }
+        }
+    }
+    return result;
+}
+
+/******************************************************************************
+** ysubs
+******************************************************************************/
+
+SRESULT ysubs::Search(const SubtitlesInfo& pFileInfo)
+{
+    SRESULT searchResult = SR_UNDEFINED;
+    using namespace rapidjson;
+
+    if (pFileInfo.year) {
+        std::string url(string_format("https://yts.re/api/list.json?keywords=%s+%d", UrlEncode(string_replace(pFileInfo.title, " ", "+").c_str()), pFileInfo.year));
+        std::string data;
+        searchResult = Download(url, "", data);
+
+        Document d;
+        if (d.ParseInsitu(&data[0]).HasParseError()) {
+            return SR_FAILED;
+        }
+
+        auto iter = d.FindMember("MovieCount");
+        if (iter != d.MemberEnd()) {
+            iter = d.FindMember("MovieList");
+            if ((iter != d.MemberEnd()) && (iter->value.IsArray())) {
+                std::set<std::string> imdb_ids;
+                for (auto elem = iter->value.Begin(); elem != iter->value.End(); ++elem) {
+                    std::string imdb = elem->FindMember("ImdbCode")->value.GetString();
+                    if (imdb_ids.find(imdb) == imdb_ids.end()) {
+                        imdb_ids.insert(imdb);
+
+                        std::string url(string_format("http://api.ysubs.com/subs/%s", imdb.c_str()));
+                        std::string data1;
+                        searchResult = Download(url, "", data1);
+                        Document d1;
+                        if (d1.ParseInsitu(&data1[0]).HasParseError()) {
+                            return SR_FAILED;
+                        }
+
+                        auto iter1 = d1.FindMember("subs");
+                        if (iter1 != d1.MemberEnd()) {
+                            iter1 = iter1->value.FindMember(imdb.c_str());
+                            if (iter1 != d1.MemberEnd()) {
+                                for (auto elem1 = iter1->value.MemberBegin(); elem1 != iter1->value.MemberEnd(); ++elem1) {
+                                    std::string lang = elem1->name.GetString();
+                                    std::string lang_code;
+                                    for (const auto& language : ysubs_languages) { if (lang == language.name) { lang_code = language.code; } }
+                                    if (CheckLanguage(lang_code)) {
+                                        for (auto elem2 = elem1->value.Begin(); elem2 != elem1->value.End(); ++elem2) {
+                                            SubtitlesInfo pSubtitlesInfo;
+
+                                            pSubtitlesInfo.title = elem->FindMember("MovieTitleClean")->value.GetString();
+                                            pSubtitlesInfo.languageCode = lang_code;
+                                            pSubtitlesInfo.languageName = UTF16To8(ISO639XToLanguage(pSubtitlesInfo.languageCode.c_str()));
+                                            pSubtitlesInfo.releaseName = "YIFY";
+                                            pSubtitlesInfo.imdbid = imdb;
+                                            pSubtitlesInfo.year = atoi(elem->FindMember("MovieYear")->value.GetString());
+                                            pSubtitlesInfo.discNumber = 1;
+                                            pSubtitlesInfo.discCount = 1;
+
+                                            pSubtitlesInfo.url = "http://www.yifysubtitles.com/movie-imdb/" + imdb;
+                                            std::string str = elem2->FindMember("url")->value.GetString();
+                                            pSubtitlesInfo.id = "http://www.yifysubtitles.com" + str;
+                                            pSubtitlesInfo.hearingImpaired = elem2->FindMember("hi")->value.GetInt();
+                                            pSubtitlesInfo.corrected = elem2->FindMember("rating")->value.GetInt();
+
+                                            pSubtitlesInfo.fileName = pFileInfo.fileName;
+                                            pSubtitlesInfo.fileName += " (*)";
+
+                                            Set(pSubtitlesInfo);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return searchResult;
+}
+
+SRESULT ysubs::Download(SubtitlesInfo& pSubtitlesInfo)
+{
+    return Download(pSubtitlesInfo.id.c_str(), "", pSubtitlesInfo.fileContents);
+}
+
+std::string ysubs::Languages()
+{
+    static std::string result;
+    if (result.empty()) {
+        for (const auto& iter : ysubs_languages) {
+            if (strlen(iter.code) && result.find(iter.code) == std::string::npos) {
+                result += (result.empty() ? "" : ",");
+                result += iter.code;
             }
         }
     }
