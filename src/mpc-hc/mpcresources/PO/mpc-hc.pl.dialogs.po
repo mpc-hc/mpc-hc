@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-31 21:07:30+0000\n"
-"PO-Revision-Date: 2014-09-01 17:30+0000\n"
+"POT-Creation-Date: 2014-09-11 20:39:09+0000\n"
+"PO-Revision-Date: 2014-09-16 00:21+0000\n"
 "Last-Translator: kasper93\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/mpc-hc/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -1675,9 +1675,9 @@ msgstr "Jakość JPEG:"
 
 msgctxt "IDD_CMD_LINE_HELP_CAPTION"
 msgid "Command line help"
-msgstr ""
+msgstr "Pomoc wiersza poleceń"
 
 msgctxt "IDD_CMD_LINE_HELP_IDOK"
 msgid "OK"
-msgstr ""
+msgstr "OK"
 

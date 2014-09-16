@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-31 21:05:52+0000\n"
-"PO-Revision-Date: 2014-09-12 00:33+0000\n"
+"POT-Creation-Date: 2014-09-11 20:43:36+0000\n"
+"PO-Revision-Date: 2014-09-18 09:21+0000\n"
 "Last-Translator: M. Somsak\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/mpc-hc/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -64,7 +64,7 @@ msgstr "คุณสมบัติ"
 
 msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
 msgid "&Default Style"
-msgstr "&รูปแบบตั้งต้น"
+msgstr "&ลักษณะตั้งต้น"
 
 msgctxt "IDS_FAVFILES"
 msgid "Files"
@@ -112,7 +112,7 @@ msgstr "ความแรง: %d dB, คุณภาพ: %ld%%"
 
 msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
 msgid "Styles"
-msgstr "รูปแบบ"
+msgstr "ลักษณะ"
 
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
@@ -232,7 +232,7 @@ msgstr "ข้อความอักษร"
 
 msgctxt "IDS_SUBRESYNC_CLN_STYLE"
 msgid "Style"
-msgstr "รูปแบบ"
+msgstr "ลักษณะ"
 
 msgctxt "IDS_SUBRESYNC_CLN_FONT"
 msgid "Font"
@@ -536,7 +536,7 @@ msgstr "เครื่องเล่น::ปุ่มคีย์"
 
 msgctxt "IDD_PPAGESUBSTYLE"
 msgid "Subtitles::Default Style"
-msgstr "ศัพท์บรรยาย::รูปแบบตั้งต้น"
+msgstr "ศัพท์บรรยาย::ลักษณะตั้งต้น"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS"
 msgid "Internal Filters"
@@ -844,7 +844,7 @@ msgstr "VSync ที่ถูกต้อง"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid "If the rendering target is left undefined, it will be inherited from the default style."
-msgstr "ถ้าเป้าหมายการแปลผลไม่ถูกระบุ มันจะสืบทอดรูปแบบจากค่าตั้งต้น"
+msgstr "ถ้าเป้าหมายการแปลผลไม่ถูกระบุ มันจะสืบทอดลักษณะจากค่าตั้งต้น"
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
@@ -1152,7 +1152,7 @@ msgstr "ไฟล์เสียง (ทุกชนิด)"
 
 msgctxt "IDS_AG_NOT_KNOWN"
 msgid "Not known"
-msgstr "ไม่รู้จัก"
+msgstr "ไม่ทราบ"
 
 msgctxt "IDS_MPLAYERC_0"
 msgid "Quick Open File"
@@ -2348,7 +2348,7 @@ msgstr "ไม่พบไฟล์"
 
 msgctxt "IDS_MAINFRM_91"
 msgid "Unknown file type"
-msgstr "ไม่รู้จักชนิดไฟล์"
+msgstr "ชนิดไฟล์ที่ไม่รู้จัก"
 
 msgctxt "IDS_MAINFRM_92"
 msgid "Unsupported stream"
@@ -3504,7 +3504,7 @@ msgstr "&ช่อง"
 
 msgctxt "IDC_FASTSEEK_CHECK"
 msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."
-msgstr ""
+msgstr "ถ้าเลือก \"เฟรมสำคัญล่าสุด\", จะหาเฟรมสำคัญแรกก่อนจะหาจุดหาที่แท้จริง\nถ้าเลือก \"เฟรมสำคัญที่ใกล้ที่สุด\", จะหาเฟรมสำคัญแรกก่อนหรือหลังจุดหา โดยขึ้นอยู่กับว่าสิ่งไหนใกล้ที่สุด"
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"

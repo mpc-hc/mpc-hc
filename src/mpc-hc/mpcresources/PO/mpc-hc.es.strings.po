@@ -2,7 +2,8 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Adolfo Jayme Barrientos <fitoschido@ubuntu.com>, 2014
+# Adolfo Jayme Barrientos <fito@libreoffice.org>, 2014
+# Adolfo Jayme Barrientos <fito@libreoffice.org>, 2014
 # Ernesto Avilés Vzqz <whippiii@gmail.com>, 2013
 # fdelacruz <freddy@delacruz.cl>, 2014
 # Johan Ramirez <idonthumanbeing@gmail.com>, 2014
@@ -13,9 +14,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-31 21:05:52+0000\n"
-"PO-Revision-Date: 2014-09-01 14:51+0000\n"
-"Last-Translator: strel\n"
+"POT-Creation-Date: 2014-09-11 20:43:36+0000\n"
+"PO-Revision-Date: 2014-09-16 16:41+0000\n"
+"Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/mpc-hc/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -121,7 +122,7 @@ msgstr "Estilos"
 
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
-msgstr "Si el objetivo a renderizar se deja sin definir, los subtítulos SSA/ASS se renderizarán en relación al fotograma de vídeo, mientras todos los demás subtítulos se rendirazarán en relación a la ventana."
+msgstr "Si se deja sin definir el objetivo de representación, los subtítulos SSA/ASS se mostrarán en relación al fotograma de vídeo y el resto se mostrará en relación a la ventana."
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -149,7 +150,7 @@ msgstr "No recomendado. Solo para propósitos de prueba."
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG0"
 msgid "Never if possible (fastest, but not supported by most filters)"
-msgstr "Nunca si es posible (más rápido, pero no soportado por la mayoría de los filtros)"
+msgstr "Nunca si es posible (más rápido, pero no admitido por la mayoría de los filtros)"
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG1"
 msgid "Only when switching different video types (default)"
@@ -645,7 +646,7 @@ msgstr "Lo mismo que EVR, pero con el complemento «Allocator-Presenter» de MPC
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
-msgstr "Renderizador de alta calidad, requiere un GPU que soporte D3D9 o superior."
+msgstr "Representador de alta calidad, requiere una GPU que admita D3D9 o superior."
 
 msgctxt "IDC_DSSYNC"
 msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
@@ -805,7 +806,7 @@ msgstr "La superficie del video será distribuida como una textura y dibujada co
 
 msgctxt "IDC_DX9RESIZER_COMBO"
 msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
-msgstr "Si no hay soporte para Pixel Shader 2.0, se usara automáticamente el redimensionamiento bilinear sencillo."
+msgstr "Si no se admite Pixel Shader 2.0, se usará automáticamente el redimensionamiento bilinear sencillo."
 
 msgctxt "IDC_DSVMR9LOADMIXER"
 msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
@@ -829,7 +830,7 @@ msgstr "Abre VTS_xx_0.ifo para cargar todos los archivos VTS_xx_x.vob de golpe"
 
 msgctxt "IDS_SRC_RFS"
 msgid "Based on RARFileSource, doesn't support compressed files"
-msgstr "Basado en RARFileSource, no soporta archivos comprimidos"
+msgstr "Basado en RARFileSource, no admite archivos comprimidos"
 
 msgctxt "IDS_INTERNAL_LAVF"
 msgid "Uses LAV Filters"
@@ -849,7 +850,7 @@ msgstr "VSync Precisa"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid "If the rendering target is left undefined, it will be inherited from the default style."
-msgstr "Si el objetivo a renderizar se deja sin definir, será heredado desde el estilo por defecto."
+msgstr "Si se deja sin definir el objetivo de representación, se heredará a partir del estilo predeterminado."
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
@@ -2269,7 +2270,7 @@ msgstr "Apertura interrumpida"
 
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
-msgstr "Imposible renderizar el archivo"
+msgstr "No se pudo mostrar el archivo"
 
 msgctxt "IDS_PPSDB_BADURL"
 msgid "Bad URL, could not locate subtitle database there!"
@@ -2769,7 +2770,7 @@ msgstr "Audio: %s"
 
 msgctxt "IDS_AG_REOPEN"
 msgid "Reopen File"
-msgstr "Reabrir fichero"
+msgstr "Reabrir archivo"
 
 msgctxt "IDS_MFMT_AVI"
 msgid "AVI"
@@ -3133,7 +3134,7 @@ msgstr "VSync alternativo: Apagado"
 
 msgctxt "IDS_OSD_RS_RESET_DEFAULT"
 msgid "Renderer settings reset to default"
-msgstr "Restablecer configuraciónes de renderizado por defecto"
+msgstr "Restablecer configuración de representador predeterminadas"
 
 msgctxt "IDS_OSD_RS_RESET_OPTIMAL"
 msgid "Renderer settings reset to optimal"
@@ -3337,11 +3338,11 @@ msgstr "No se puede enmarcar paso, pruebe con un render de vídeo diferente."
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for RealMedia.\nSelect one of the DirectX renderers for RealMedia in MPC-HC's output options and reopen the file."
-msgstr "Las funciones \"Guardar imagen\" y \"Guardar miniaturas\" no funcionan con el renderizado de vídeo por defecto para RealMedia.\nSeleccione uno de los renderizados DirectX para RealMedia en las opciones de salida de MPC-HC y abra de nuevo el archivo."
+msgstr "Las funciones «Guardar imagen» y «Guardar miniaturas» no funcionan con el representador de vídeo predeterminado para RealMedia.\nSeleccione uno de los representadores de DirectX para RealMedia en las opciones de salida de MPC-HC y abra el archivo de nuevo."
 
 msgctxt "IDS_SCREENSHOT_ERROR_QT"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for QuickTime.\nSelect one of the DirectX renderers for QuickTime in MPC-HC's output options and reopen the file."
-msgstr "Las funciones \"Guardar imagen\" y \"Guardar miniaturas\" no funcionan con el renderizado de vídeo por defecto para QuickTime.\nSeleccione uno de los renderizados DirectX para QuickTime en las opciones de salida de MPC-HC y abra de nuevo el archivo."
+msgstr "Las funciones «Guardar imagen» y «Guardar miniaturas» no funcionan con el representador de vídeo predeterminado para QuickTime.\nSeleccione uno de los representadores de DirectX para QuickTime en las opciones de salida de MPC-HC y abra el archivo de nuevo."
 
 msgctxt "IDS_SCREENSHOT_ERROR_SHOCKWAVE"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work for Shockwave files."
@@ -3509,7 +3510,7 @@ msgstr "&Canales"
 
 msgctxt "IDC_FASTSEEK_CHECK"
 msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."
-msgstr ""
+msgstr "Si «Último fotograma clave» está seleccionado, se buscará el primer fotograma clave («keyframe») anterior al punto de búsqueda actual.\nSi «Fotograma clave más cercano» está seleccionado, se buscará el primer fotograma clave anterior o posterior al punto de búsqueda dependiendo de cuál sea el más cercano."
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"

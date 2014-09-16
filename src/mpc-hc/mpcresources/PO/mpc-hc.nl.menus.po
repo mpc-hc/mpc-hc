@@ -2,6 +2,7 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# Dennis Gerritsen <frostflame@hotmail.com>, 2014
 # Devrim Yolo <devrim.extra@gmail.com>, 2013-2014
 # kasper93, 2013
 # rjongejan <ruben.jongejan@gmail.com>, 2014
@@ -9,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-08-19 21:10:25+0000\n"
-"PO-Revision-Date: 2014-08-20 10:01+0000\n"
-"Last-Translator: JellyFrog\n"
+"PO-Revision-Date: 2014-09-13 22:09+0000\n"
+"Last-Translator: Dennis Gerritsen <frostflame@hotmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/mpc-hc/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -144,7 +145,7 @@ msgstr "Navigation"
 
 msgctxt "ID_VIEW_DEBUGSHADERS"
 msgid "&Debug Shaders"
-msgstr ""
+msgstr "&Foutopsporing Shaders"
 
 msgctxt "POPUP"
 msgid "&Presets..."
@@ -196,7 +197,7 @@ msgstr "Renderer Instellingen"
 
 msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
-msgstr ""
+msgstr "&Tearing Test"
 
 msgctxt "ID_VIEW_DISPLAYSTATS"
 msgid "&Display Stats"
@@ -612,7 +613,7 @@ msgstr "Lock"
 
 msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
 msgid "Turn off the &monitor"
-msgstr ""
+msgstr "Schakel de &monitor uit"
 
 msgctxt "POPUP"
 msgid "&Navigate"

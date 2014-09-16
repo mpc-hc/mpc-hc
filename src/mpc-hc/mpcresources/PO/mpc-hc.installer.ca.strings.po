@@ -2,15 +2,16 @@
 # Copyright (C) 2002 - 2014 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Adolfo Jayme Barrientos <fitoschido@ubuntu.com>, 2014
+# Adolfo Jayme Barrientos <fito@libreoffice.org>, 2014
+# Adolfo Jayme Barrientos <fito@libreoffice.org>, 2014
 # papu <papu@openmailbox.org>, 2014
 # papu <papu@openmailbox.org>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-06-17 15:23:34+0000\n"
-"PO-Revision-Date: 2014-07-14 12:20+0000\n"
-"Last-Translator: papu <papu@openmailbox.org>\n"
+"PO-Revision-Date: 2014-09-14 21:20+0000\n"
+"Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +21,7 @@ msgstr ""
 
 msgctxt "Messages_WelcomeLabel2"
 msgid "This will install [name] on your computer.\n\nIt is recommended that you close all other applications before continuing."
-msgstr "Això instal·larà [name] al vostre ordinador\n\nEs recomana tancar totes les aplicacions abans de continuar."
+msgstr "Aquest auxiliar instal·larà el [name] al vostre ordinador\n\nEs recomana tancar totes les aplicacions abans de continuar."
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows XP Service Pack 3 or newer to run."
@@ -36,11 +37,11 @@ msgstr "Traduccions"
 
 msgctxt "CustomMessages_msg_DeleteSettings"
 msgid "Do you also want to delete MPC-HC settings?\n\nIf you plan on installing MPC-HC again then you do not have to delete them."
-msgstr "Vols eliminar les preferències del MPC-HC?\n\nSi planeges instal.lar altre cop el MPC-HC no necessites eliminar-les."
+msgstr "Voleu suprimir les preferències del MPC-HC?\n\nSi planegeu instal·lar-ho un altre cop no cal eliminar-les."
 
 msgctxt "CustomMessages_msg_SetupIsRunningWarning"
 msgid "MPC-HC setup is already running!"
-msgstr "La instal.lació del MPC-HC ja se està executant!"
+msgstr "La instal·lació del MPC-HC ja s’està executant."
 
 msgctxt "CustomMessages_msg_simd_sse"
 msgid "This build of MPC-HC requires a CPU with SSE extension support.\n\nYour CPU does not have those capabilities."

@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-31 21:05:52+0000\n"
-"PO-Revision-Date: 2014-09-05 11:10+0000\n"
+"POT-Creation-Date: 2014-09-11 20:43:36+0000\n"
+"PO-Revision-Date: 2014-09-15 08:43+0000\n"
 "Last-Translator: Máté <lang.mate@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/mpc-hc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -470,7 +470,7 @@ msgstr "Audió-váltó"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_TITLE"
 msgid "New version of the icon library"
-msgstr ""
+msgstr "Az ikonkönyvtár új verziója"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_INSTR"
 msgid "Do you want to reassociate the icons?"
@@ -674,7 +674,7 @@ msgstr "A videó-felület normál képernyőn-kívüli (offscreen) felületként
 
 msgctxt "IDC_AUDRND_COMBO"
 msgid "MPC Audio Renderer is broken, do not use."
-msgstr ""
+msgstr "Az MPC Audio Renderer hibás, ne használja."
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
@@ -1426,7 +1426,7 @@ msgstr "Áthelyezés a Lomtárba"
 
 msgctxt "IDS_AG_SAVE_COPY"
 msgid "Save a Copy"
-msgstr "&Másolat mentése"
+msgstr "Másolat mentése"
 
 msgctxt "IDS_FASTSEEK_LATEST"
 msgid "Latest keyframe"
@@ -1494,11 +1494,11 @@ msgstr "Beállítások alaphelyzetbe állítása"
 
 msgctxt "IDS_RESET_SETTINGS_WARNING"
 msgid "Are you sure you want to restore MPC-HC to its default settings?\nBe warned that ALL your current settings will be lost!"
-msgstr ""
+msgstr "Biztos, hogy vissza akarja állítani az MPC-HC-t az alapbeállításokra?\nAz ÖSSZES jelenlegi beállítása el fog veszni!"
 
 msgctxt "IDS_RESET_SETTINGS_MUTEX"
 msgid "Please close all instances of MPC-HC so that the default settings can be restored."
-msgstr ""
+msgstr "Zárja be az összes MPC-HC ablakot, hogy az alapbeállítások visszaálljanak."
 
 msgctxt "IDS_EXPORT_SETTINGS"
 msgid "Export settings"
@@ -1506,7 +1506,7 @@ msgstr "Beállítások exportálása"
 
 msgctxt "IDS_EXPORT_SETTINGS_WARNING"
 msgid "Some changes have not been saved yet.\nDo you want to save them before exporting?"
-msgstr ""
+msgstr "Néhány beállítás nem lett még elmentve.\nEl akarja menteni őket exportálás előtt?"
 
 msgctxt "IDS_EXPORT_SETTINGS_SUCCESS"
 msgid "The settings have been successfully exported."
@@ -2310,7 +2310,7 @@ msgstr "Szünet"
 
 msgctxt "IDS_AG_TOGGLE_CAPTION"
 msgid "Toggle Caption&Menu"
-msgstr "Cím&Menü be- és kikapcsolása"
+msgstr "Címsor és Menüsor be- és kikapcsolása"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
 msgid "Toggle Seeker"

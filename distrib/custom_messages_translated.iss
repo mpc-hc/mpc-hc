@@ -38,7 +38,7 @@ bn.WelcomeLabel2=এর মাধ্যমে আপনার কম্পিউ
 bn.WinVersionTooLowError=[name] চালানোর জন্য Windows XP Service Pack 3 অথবা ঊর্ধ্বতন সংস্করণ প্রয়োজন।
 
 ; Catalan
-ca.WelcomeLabel2=Això instal·larà [name] al vostre ordinador%n%nEs recomana tancar totes les aplicacions abans de continuar.
+ca.WelcomeLabel2=Aquest auxiliar instal·larà el [name] al vostre ordinador%n%nEs recomana tancar totes les aplicacions abans de continuar.
 ca.WinVersionTooLowError=[name] requereix Windows XP Service Pack 3 o superior per funcionar.
 
 ; Czech
@@ -231,8 +231,8 @@ bn.ViewChangelog=পরিবর্তনতালিকা দেখুন
 ca.langid=00001027
 ca.comp_mpciconlib=Col·lecció d’icones
 ca.comp_mpcresources=Traduccions
-ca.msg_DeleteSettings=Vols eliminar les preferències del MPC-HC?%n%nSi planeges instal.lar altre cop el MPC-HC no necessites eliminar-les.
-ca.msg_SetupIsRunningWarning=La instal.lació del MPC-HC ja se està executant!
+ca.msg_DeleteSettings=Voleu suprimir les preferències del MPC-HC?%n%nSi planegeu instal·lar-ho un altre cop no cal eliminar-les.
+ca.msg_SetupIsRunningWarning=La instal·lació del MPC-HC ja s’està executant.
 #if defined(sse_required)
 ca.msg_simd_sse=Aquesta versió de MPC-HC requereix una CPU amb suport d'extensions SSE.%n%nLa teva CPU no cumpleix aquestes característiques.
 #elif defined(sse2_required)

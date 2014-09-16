@@ -2,14 +2,14 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Adolfo Jayme Barrientos <fitoschido@ubuntu.com>, 2014
+# Adolfo Jayme Barrientos <fito@libreoffice.org>, 2014
 # papu <papu@openmailbox.org>, 2014
 # papu <papu@openmailbox.org>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-24 19:23:17+0000\n"
-"PO-Revision-Date: 2014-08-25 11:10+0000\n"
+"POT-Creation-Date: 2014-09-11 20:43:36+0000\n"
+"PO-Revision-Date: 2014-09-14 13:49+0000\n"
 "Last-Translator: papu <papu@openmailbox.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -1328,7 +1328,7 @@ msgstr "Qualitat (%):"
 
 msgctxt "IDS_PPAGEADVANCED_COVER_SIZE_LIMIT"
 msgid "Maximum size (NxNpx) of a cover-art loaded in the audio only mode."
-msgstr ""
+msgstr "Mida màxima (NxNpx) de l'art de les portades carregada només en el mode d'àudio."
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -3504,7 +3504,7 @@ msgstr "&Canals"
 
 msgctxt "IDC_FASTSEEK_CHECK"
 msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."
-msgstr ""
+msgstr "Si \"últim fotograma clau\" està seleccionat, anar al primer fotograma clau anterior al actual punt de cerca.\nSi \"fotograma clau més proper\" està seleccionat, anar al primer fotograma clau abans o després del punt de cerca depenent de quin sigui el més proper."
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"

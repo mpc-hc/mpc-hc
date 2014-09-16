@@ -6,14 +6,15 @@
 # Alex Luís Silva <alex.mooca@hotmail.com>, 2014
 # brunoarmanelli <brunoarmanelli@me.com>, 2014
 # Roger Filipe <lipe2000@outlook.com>, 2013-2014
+# Luis Henrique <henriqlh@gmail.com>, 2014
 # mvpetri <mvpetri@gmail.com>, 2014
 # Raphael Mendonça, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-24 19:23:17+0000\n"
-"PO-Revision-Date: 2014-08-30 23:40+0000\n"
-"Last-Translator: Alex Luís Silva <alex.mooca@hotmail.com>\n"
+"POT-Creation-Date: 2014-09-11 20:43:36+0000\n"
+"PO-Revision-Date: 2014-09-14 20:10+0000\n"
+"Last-Translator: Luis Henrique <henriqlh@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/mpc-hc/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -119,7 +120,7 @@ msgstr "Estilos"
 
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
-msgstr ""
+msgstr "Se o alvo de renderização é deixado indefinido, as legendas SSA / ASS serão renderizadas em relação ao quadro de vídeo, enquanto todas as outras legendas de texto será processado em relação à janela."
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -847,15 +848,15 @@ msgstr "VSync com precisão"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid "If the rendering target is left undefined, it will be inherited from the default style."
-msgstr ""
+msgstr "Se o alvo de renderização não é definida, ela será herdada do estilo padrão."
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
-msgstr ""
+msgstr "Não permitir animação da legenda. Ativando esta opção irá reduzir o uso da CPU. Você pode usá-lo se você verificar que as legendas estão piscando."
 
 msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
-msgstr ""
+msgstr "Aumentando o número de subpictures em buffer deve em geral, melhorar o desempenho de renderização a custo de um uso de vídeo RAM mais elevada na GPU."
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
@@ -863,7 +864,7 @@ msgstr "Depois de clicar neste botão, o estado de comprovação do formato do g
 
 msgctxt "IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Disabling this option will prevent the subtitles from blinking but it may cause the video renderer to skip some video frames."
-msgstr ""
+msgstr "Desativando essa opção irá previnir que as legendas pisquem mas poderá causar alguns pulos de quadro no vídeo."
 
 msgctxt "ID_PLAY_PLAY"
 msgid "Play\nPlay"
@@ -1331,7 +1332,7 @@ msgstr "Qualidade (%):"
 
 msgctxt "IDS_PPAGEADVANCED_COVER_SIZE_LIMIT"
 msgid "Maximum size (NxNpx) of a cover-art loaded in the audio only mode."
-msgstr ""
+msgstr "Tamanho máximo (NxNpx) de uma arte de capa carregado no modo áudio somente."
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -3507,7 +3508,7 @@ msgstr "&Canais"
 
 msgctxt "IDC_FASTSEEK_CHECK"
 msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."
-msgstr ""
+msgstr "Se o \"último keyfame\" está selecionado, procure o primeiro keyframe antes do atual ponto de procura.\nSe o \"quadro-chave mais próximo\" está selecionado, procure o primeiro keyframe antes ou depois do ponto de procura, dependendo de qual é o mais próximo."
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"

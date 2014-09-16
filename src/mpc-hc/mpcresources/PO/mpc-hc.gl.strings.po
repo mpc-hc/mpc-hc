@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-31 21:05:52+0000\n"
-"PO-Revision-Date: 2014-09-06 00:40+0000\n"
+"POT-Creation-Date: 2014-09-11 20:43:36+0000\n"
+"PO-Revision-Date: 2014-09-15 05:10+0000\n"
 "Last-Translator: Rubén <feiticeiro2010@hotmail.es>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/mpc-hc/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -463,7 +463,7 @@ msgstr "Filtros Externos"
 
 msgctxt "IDD_PPAGESHADERS"
 msgid "Playback::Shaders"
-msgstr "Reprodución::Shaders"
+msgstr "Reprodución::Sombras"
 
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
@@ -491,19 +491,19 @@ msgstr "Renderizador Mesturador Overlay"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
 msgid "Video Mixing Renderer 7 (windowed)"
-msgstr "Renderizador Mestura Video 7 (xanela)"
+msgstr "Renderizador mesturador de Video 7 (modo xanela)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
 msgid "Video Mixing Renderer 9 (windowed)"
-msgstr "Renderizador Mestura Video 9 (xanela)"
+msgstr "Renderizador mesturador de Video 9 (modo xanela)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
 msgid "Video Mixing Renderer 7 (renderless)"
-msgstr "Renderizador Mestura Video 7 (sen renderizar)"
+msgstr "Renderizador mesturador de Video 7 (sen renderización)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
 msgid "Video Mixing Renderer 9 (renderless)"
-msgstr "Renderizador Mestura Video 9 (sen renderizar)"
+msgstr "Renderizador mesturador de Video 9 (sen renderización)"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR"
 msgid "Enhanced Video Renderer"
@@ -3503,7 +3503,7 @@ msgstr "&Canles"
 
 msgctxt "IDC_FASTSEEK_CHECK"
 msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."
-msgstr ""
+msgstr "Se  \"O último fotograma clave\" está seleccionado, buscarase o primeiro fotograma clave (\"keyframe\") anterior ao punto de búsqueda actual.\nSe \"O fotograma clave que está máis preto\" está seleccionado, buscarase o primeiro fotograma clave anterior ou posterior ao punto de búsqueda dependendo de cal sexa o que está máis preto. "
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"

@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-24 19:23:17+0000\n"
-"PO-Revision-Date: 2014-08-30 22:30+0000\n"
+"POT-Creation-Date: 2014-09-11 20:43:36+0000\n"
+"PO-Revision-Date: 2014-09-15 18:41+0000\n"
 "Last-Translator: Apa <sakcheen@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/mpc-hc/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -1327,7 +1327,7 @@ msgstr "Kvalitet (%):"
 
 msgctxt "IDS_PPAGEADVANCED_COVER_SIZE_LIMIT"
 msgid "Maximum size (NxNpx) of a cover-art loaded in the audio only mode."
-msgstr ""
+msgstr "Maximal storlek (N x N px) på omslagsbilderna som läses in i \"enbart ljud\"-läget."
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -3503,7 +3503,7 @@ msgstr "&Kanaler"
 
 msgctxt "IDC_FASTSEEK_CHECK"
 msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."
-msgstr ""
+msgstr "Om \"senaste nyckelbild\" är valt, sök till den första nyckelbilden före den faktiska sökpunkten.\nOm \"närmaste nyckelbild\" är valt, sök till den första nyckelbilden antingen före eller efter sökpunkten, beroende på vilken som är närmast."
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"
