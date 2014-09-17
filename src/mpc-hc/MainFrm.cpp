@@ -11579,6 +11579,17 @@ int CMainFrame::SetupSubtitleStreams()
     return -1;
 }
 
+HRESULT CMainFrame::GetMediaSeek(LONGLONG* pPosition, LONGLONG* pDuration)
+{
+	if (m_pMS == nullptr)
+		return E_FAIL;
+	
+	m_pMS->GetCurrentPosition(pPosition);
+	m_pMS->GetDuration(pDuration);
+
+	return S_OK;
+}
+
 bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 {
     ASSERT(GetLoadState() == MLS::LOADING);
@@ -11652,6 +11663,19 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         m_pGB->FindInterface(IID_PPV_ARGS(&pMFVMB), TRUE);
         m_pMVRS = m_pCAP;
         pMVTO = m_pCAP;
+
+		if (m_pCAP2 != nullptr)
+		{
+			CComPtr<IPresenterMediaAccessor> pMediaSeeking;
+			HRESULT hr2 = m_pCAP2.QueryInterface<IPresenterMediaAccessor>(&pMediaSeeking);
+			if (SUCCEEDED(hr2))
+			{
+				pMediaSeeking->SetInformationRetriever(this);
+			}
+		}
+
+		CComPtr<IGraphBuilder2> tmp;
+		HRESULT hr2 = m_pCAP2->QueryInterface(&tmp);
 
         if (s.fShowOSD || s.fShowDebugInfo) { // Force OSD on when the debug switch is used
             if (pVMB) {

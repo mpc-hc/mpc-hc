@@ -218,6 +218,20 @@ public IUnknown {
     STDMETHOD_(const std::vector<CString>&, GetIncludes)() PURE;
 };
 
+interface __declspec(uuid("AB8FC39A-FBA7-4A36-B265-8A3592581870"))
+IMediaInformationRetriever :
+public IUnknown {
+	STDMETHOD(GetMediaSeek)(LONGLONG* pPosition, LONGLONG* pDuration) PURE;
+};
+
+// Interface that gives access to information about the media being played
+interface __declspec(uuid("EAC6251D-471B-498D-9E33-750761D69FAA"))
+IPresenterMediaAccessor :
+public IUnknown {
+	STDMETHOD(GetInformationRetriever)(IMediaInformationRetriever** pObj) PURE;
+	STDMETHOD(SetInformationRetriever)(IMediaInformationRetriever* pObj) PURE;
+};
+
 //
 // ISubStream
 //

@@ -33,6 +33,7 @@ class CSubPicAllocatorPresenterImpl
     , public ISubPicAllocatorPresenter2
     , public ISubRenderConsumer2
     , public IPresenterIncludeHandler
+	, public IPresenterMediaAccessor
 {
 private:
     CCritSec m_csSubPicProvider;
@@ -61,6 +62,8 @@ protected:
     std::vector<CString> m_ShaderIncludes;
     CString m_ShaderFileName;
     CString m_SystemIncludeDir;
+
+	CComPtr<IMediaInformationRetriever> pMediaInfos;
 
     enum SubtitleTextureLimit {
         STATIC, VIDEO, DESKTOP
@@ -180,4 +183,17 @@ public:
     // ISubRenderConsumer2
 
     STDMETHODIMP Clear(REFERENCE_TIME clearNewerThan = 0);
+
+	// IPresenterMediaAccessor
+	STDMETHODIMP GetInformationRetriever(IMediaInformationRetriever** pObj)
+	{
+		*pObj = pMediaInfos;
+		return S_OK;
+	}
+
+	STDMETHODIMP SetInformationRetriever(IMediaInformationRetriever* pObj)
+	{
+		pMediaInfos = pObj;
+		return S_OK;
+	}
 };

@@ -54,7 +54,8 @@ CPixelShaderCompiler::CPixelShaderCompiler(IDirect3DDevice9* pD3DDev, bool fStay
             CString msg;
             msg.Format(IDS_SHADER_DLL_ERR_0, D3DCOMPILER_DLL);
             AfxMessageBox(msg, MB_ICONWARNING | MB_OK);
-        } else if (!m_pD3DCompile || !m_pD3DDisassemble) {
+		} else if (!m_pD3DCompile || !m_pD3DDisassemble)
+		{
             CString msg;
             msg.Format(IDS_SHADER_DLL_ERR_1, D3DCOMPILER_DLL);
             AfxMessageBox(msg, MB_ICONWARNING | MB_OK);
@@ -388,7 +389,7 @@ CShaderMacros::Wrapper::Wrapper(CShaderMacros& pSrc):
     // Wrapper is supposed to be temporary, and to be created only by CShaderMacros::GetD3DShaderMacro
 
     std::size_t lCount = pSrc.size();
-    data = new(std::nothrow) D3D_SHADER_MACRO[lCount + 1];
+    data = new D3D_SHADER_MACRO[lCount + 1];
 
     int i = 0;
     for (std::pair<CStringA, CStringA>& lPair : pSrc) {

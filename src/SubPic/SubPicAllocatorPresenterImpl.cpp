@@ -64,11 +64,11 @@ CSubPicAllocatorPresenterImpl::~CSubPicAllocatorPresenterImpl()
 
 STDMETHODIMP CSubPicAllocatorPresenterImpl::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
-
     return
         QI(ISubPicAllocatorPresenter)
         QI(ISubPicAllocatorPresenter2)
         QI(IPresenterIncludeHandler)
+		QI(IPresenterMediaAccessor)
         QI(ISubRenderOptions)
         QI(ISubRenderConsumer)
         __super::NonDelegatingQueryInterface(riid, ppv);

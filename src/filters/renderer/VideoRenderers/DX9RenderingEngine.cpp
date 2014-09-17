@@ -389,23 +389,37 @@ HRESULT CDX9RenderingEngine::RenderVideoDrawPath(IDirect3DSurface9* pRenderTarge
         D3DSURFACE_DESC desc;
         m_pVideoTexture[m_nCurSurface]->GetLevelDesc(0, &desc);
 
+		LONGLONG lCurrentPosition = 0;
+		LONGLONG lDuration = 0;
+
+		CComPtr<IMediaInformationRetriever> pInfos;
+		if (SUCCEEDED(GetInformationRetriever(&pInfos)))
+		{
+			pInfos->GetMediaSeek(&lCurrentPosition, &lDuration);
+		}
+
+		const float clTickToSeconds = 1.0f / 10000000.0f;
+
         float fConstData[][4] = {
-            {(float)desc.Width, (float)desc.Height, (float)(counter++), (float)diff / CLOCKS_PER_SEC},
-            {1.0f / desc.Width, 1.0f / desc.Height, 0, 0},
+			{ (float)desc.Width, (float)desc.Height, (float)(counter++), (float)diff / CLOCKS_PER_SEC },
+            { 1.0f / desc.Width, 1.0f / desc.Height, 0, 0 },
+			{ clTickToSeconds * (float)lCurrentPosition, clTickToSeconds * (float)lDuration, 0.0f, 0.0f }
         };
+
 #else
         CSize VideoSize = GetVisibleVideoSize();
 
         float fConstData[][4] = {
             {(float)VideoSize.cx, (float)VideoSize.cy, (float)(counter++), (float)diff / CLOCKS_PER_SEC},
             {1.0f / VideoSize.cx, 1.0f / VideoSize.cy, 0, 0},
+			{0.0f, 0.0f, 0.0f, 0.0f}
         };
 #endif
 
         hr = m_pD3DDev->SetPixelShaderConstantF(0, (float*)fConstData, _countof(fConstData));
 
-        float consts2[1] = {0.25f};
-        m_pD3DDev->SetPixelShaderConstantF(1, consts2, _countof(consts2));
+        //float consts2[] = {0.25f};
+        //m_pD3DDev->SetPixelShaderConstantF(1, consts2, _countof(consts2));
 
 
         int src = 1;
