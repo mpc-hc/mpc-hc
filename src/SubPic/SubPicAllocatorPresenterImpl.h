@@ -185,14 +185,12 @@ public:
     STDMETHODIMP Clear(REFERENCE_TIME clearNewerThan = 0);
 
 	// IPresenterMediaAccessor
-	STDMETHODIMP GetInformationRetriever(IMediaInformationRetriever** pObj)
-	{
+	STDMETHODIMP GetInformationRetriever(IMediaInformationRetriever** pObj) {
 		*pObj = pMediaInfos;
 		return S_OK;
 	}
 
-	STDMETHODIMP SetInformationRetriever(IMediaInformationRetriever* pObj)
-	{
+	STDMETHODIMP SetInformationRetriever(IMediaInformationRetriever* pObj) {
 		pMediaInfos = pObj;
 		return S_OK;
 	}

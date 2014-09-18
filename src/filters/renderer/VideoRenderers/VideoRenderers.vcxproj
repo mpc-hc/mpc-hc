@@ -125,6 +125,7 @@
     <ClCompile Include="OuterEVR.cpp" />
     <ClCompile Include="OuterVMR.cpp" />
     <ClCompile Include="PixelShaderCompiler.cpp" />
+    <ClCompile Include="PixelShaderParameters.cpp" />
     <ClCompile Include="QT7AllocatorPresenter.cpp" />
     <ClCompile Include="QT9AllocatorPresenter.cpp" />
     <ClCompile Include="RenderersSettings.cpp" />
@@ -156,6 +157,7 @@
     <ClInclude Include="OuterEVR.h" />
     <ClInclude Include="OuterVMR.h" />
     <ClInclude Include="PixelShaderCompiler.h" />
+    <ClInclude Include="PixelShaderParameters.h" />
     <ClInclude Include="QT7AllocatorPresenter.h" />
     <ClInclude Include="QT9AllocatorPresenter.h" />
     <ClInclude Include="RenderersSettings.h" />

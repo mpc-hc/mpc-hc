@@ -25,6 +25,7 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 #include "../SubPic/SubPicAllocatorPresenterImpl.h"
+#include "PixelShaderParameters.h"
 
 
 namespace DSObjects
@@ -84,25 +85,70 @@ namespace DSObjects
         HRESULT SetCustomPixelShader(LPCSTR pSrcData, LPCSTR pTarget, bool bScreenSpace);
 
 
-    private:
-        class CExternalPixelShader
+	private:
+
+		struct CShaderAdditionnalTexture {
+			int m_SamplerID;
+			CComPtr<IDirect3DTexture9>	m_pTexture;
+		};
+
+		class CExternalPixelShader
         {
         public:
             CComPtr<IDirect3DPixelShader9> m_pPixelShader;
+			CPixelShaderParameters m_Parameters;
+
             CStringA m_SourceData;
             CStringA m_SourceTarget;
 
             CString m_SourceFileName;
             std::vector<CString> m_IncludedFiles;
 
+			CExternalPixelShader():
+				m_pPixelShader(nullptr),
+				m_Parameters(),
+				m_SourceData(),
+				m_SourceTarget(),
+				m_SourceFileName(),
+				m_IncludedFiles()
+			{
+			}
+
+			CExternalPixelShader(const CExternalPixelShader& pFrom):
+				m_pPixelShader(pFrom.m_pPixelShader),
+				m_Parameters(pFrom.m_Parameters),
+				m_SourceData(pFrom.m_SourceData),
+				m_SourceTarget(pFrom.m_SourceTarget),
+				m_SourceFileName(pFrom.m_SourceFileName),
+				m_IncludedFiles(pFrom.m_IncludedFiles)
+			{
+			}
+
             HRESULT Compile(CPixelShaderCompiler* pCompiler) {
+
+				// Compilation of the shader
                 HRESULT hr = pCompiler->CompileShader(m_SourceData, "main", m_SourceTarget, 0, &m_pPixelShader, nullptr, nullptr, &m_IncludedFiles, &m_SourceFileName);
                 if (FAILED(hr)) {
                     return hr;
                 }
 
+				// Initialization of the shader parameters
+				CPath lParamFileName(m_SourceFileName);
+				lParamFileName.RenameExtension(CString(".json"));
+				m_Parameters = CPixelShaderParameters(lParamFileName);
+
                 return S_OK;
             }
+
+			// Additionnal textures
+			HRESULT ApplyAdditionnalTextures(IDirect3DDevice9* pDevice);
+
+		private:
+			// Additionnal textures
+			std::vector<CShaderAdditionnalTexture> m_AdditionnalTextures;
+
+			HRESULT LoadAdditionnalTextures(IDirect3DDevice9* pDevice);
+			HRESULT ClearAdditionnalTextures();
         };
 
         // D3DX functions
