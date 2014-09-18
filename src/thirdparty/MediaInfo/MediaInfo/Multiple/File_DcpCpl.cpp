@@ -74,6 +74,7 @@ extern void DcpCpl_MergeFromPkl(File__ReferenceFilesHelper* FromCpl, File__Refer
             if (Map_Item!=Map.end())
             {
                 FromCpl->References[References_Pos].FileNames[Pos]=Map_Item->second.FileName;
+                FromCpl->References[References_Pos].Infos=Map_Item->second.Reference->Infos;
                 for (list<File__ReferenceFilesHelper::references::iterator>::iterator Reference2=List.begin(); Reference2!=List.end(); ++Reference2)
                     if (*Reference2==Map_Item->second.Reference)
                     {
@@ -93,6 +94,7 @@ extern void DcpCpl_MergeFromPkl(File__ReferenceFilesHelper* FromCpl, File__Refer
             if (Map_Item!=Map.end())
             {
                 FromCpl->References[References_Pos].CompleteDuration[Pos].FileName=Map_Item->second.FileName;
+                FromCpl->References[References_Pos].Infos=Map_Item->second.Reference->Infos;
                 for (list<File__ReferenceFilesHelper::references::iterator>::iterator Reference2=List.begin(); Reference2!=List.end(); ++Reference2)
                     if (*Reference2==Map_Item->second.Reference)
                     {
@@ -195,7 +197,8 @@ bool File_DcpCpl::FileHeader_Begin()
         return false;
     }
 
-    if (!strcmp(Attribute, "http://www.digicine.com/PROTO-ASDCP-CPL-20040511#"))
+    if (!strcmp(Attribute, "http://www.digicine.com/PROTO-ASDCP-CPL-20040511#")
+     ||!strcmp(Attribute, "http://www.smpte-ra.org/schemas/429-7/2006/CPL"))
         IsDcp=true;
     if (!strcmp(Attribute, "http://www.smpte-ra.org/schemas/2067-3/XXXX") //Some muxers use XXXX instead of year
      || !strcmp(Attribute, "http://www.smpte-ra.org/schemas/2067-3/2013"))
@@ -214,13 +217,59 @@ bool File_DcpCpl::FileHeader_Begin()
     ReferenceFiles=new File__ReferenceFilesHelper(this, Config);
 
     //Parsing main elements
-    for (XMLElement* Root_Item=Root->FirstChildElement(); Root_Item; Root_Item=Root_Item->NextSiblingElement())
+    for (XMLElement* CompositionPlaylist_Item=Root->FirstChildElement(); CompositionPlaylist_Item; CompositionPlaylist_Item=CompositionPlaylist_Item->NextSiblingElement())
     {
-        //ReelList / SegmentList
-        if ((IsDcp && !strcmp(Root_Item->Value(), "ReelList"))
-         || (IsImf && !strcmp(Root_Item->Value(), "SegmentList")))
+        //CompositionTimecode
+        if (IsImf && (!strcmp(CompositionPlaylist_Item->Value(), "CompositionTimecode") || !strcmp(CompositionPlaylist_Item->Value(), "cpl:CompositionTimecode")))
         {
-            for (XMLElement* ReelList_Item=Root_Item->FirstChildElement(); ReelList_Item; ReelList_Item=ReelList_Item->NextSiblingElement())
+            File__ReferenceFilesHelper::reference ReferenceFile;
+            ReferenceFile.StreamKind=Stream_Other;
+            ReferenceFile.Infos["Type"]=__T("Time code");
+            ReferenceFile.Infos["Format"]=__T("CPL TC");
+            ReferenceFile.Infos["TimeCode_Settings"]=__T("Striped");
+            bool IsDropFrame=false;
+
+            for (XMLElement* CompositionTimecode_Item=CompositionPlaylist_Item->FirstChildElement(); CompositionTimecode_Item; CompositionTimecode_Item=CompositionTimecode_Item->NextSiblingElement())
+            {
+                //TimecodeDropFrame
+                if (!strcmp(CompositionTimecode_Item->Value(), "TimecodeDropFrame") || !strcmp(CompositionTimecode_Item->Value(), "cpl:TimecodeDropFrame"))
+                {
+                    if (strcmp(CompositionTimecode_Item->GetText(), "") && strcmp(CompositionTimecode_Item->GetText(), "0"))
+                        IsDropFrame=true;
+                }
+
+                //TimecodeRate
+                if (!strcmp(CompositionTimecode_Item->Value(), "TimecodeRate") || !strcmp(CompositionTimecode_Item->Value(), "cpl:TimecodeRate"))
+                    ReferenceFile.Infos["FrameRate"].From_UTF8(CompositionTimecode_Item->GetText());
+
+                //TimecodeStartAddress
+                if (!strcmp(CompositionTimecode_Item->Value(), "TimecodeStartAddress") || !strcmp(CompositionTimecode_Item->Value(), "cpl:TimecodeStartAddress"))
+                    ReferenceFile.Infos["TimeCode_FirstFrame"].From_UTF8(CompositionTimecode_Item->GetText());
+            }
+
+            //Adaptation
+            if (IsDropFrame)
+            {
+                std::map<string, Ztring>::iterator Info=ReferenceFile.Infos.find("TimeCode_FirstFrame");
+                if (Info!=ReferenceFile.Infos.end() && Info->second.size()>=11 && Info->second[8]!=__T(';'))
+                    Info->second[8]=__T(';');
+            }
+
+            ReferenceFile.StreamID=ReferenceFiles->References.size()+1;
+            ReferenceFiles->References.push_back(ReferenceFile);
+
+            //TODO: put this code in File__ReferenceFilesHelper so we can demux time code with the other streams
+            Stream_Prepare(Stream_Other);
+            Fill(Stream_Other, StreamPos_Last, Other_ID, ReferenceFile.StreamID);
+            for (std::map<string, Ztring>::iterator Info=ReferenceFile.Infos.begin(); Info!=ReferenceFile.Infos.end(); ++Info)
+                Fill(Stream_Other, StreamPos_Last, Info->first.c_str(), Info->second);
+        }
+
+        //ReelList / SegmentList
+        if ((IsDcp && !strcmp(CompositionPlaylist_Item->Value(), "ReelList"))
+         || (IsImf && !strcmp(CompositionPlaylist_Item->Value(), "SegmentList")))
+        {
+            for (XMLElement* ReelList_Item=CompositionPlaylist_Item->FirstChildElement(); ReelList_Item; ReelList_Item=ReelList_Item->NextSiblingElement())
             {
                 //Reel
                 if ((IsDcp && !strcmp(ReelList_Item->Value(), "Reel"))
@@ -347,8 +396,8 @@ bool File_DcpCpl::FileHeader_Begin()
             MI.Option(__T("ParseSpeed"), ParseSpeed_Save); //This is a global value, need to reset it. TODO: local value
             MI.Option(__T("Demux"), Demux_Save); //This is a global value, need to reset it. TODO: local value
             if (MiOpenResult
-             && ((IsDcp && MI.Get(Stream_General, 0, General_Format)==__T("DCP PKL"))
-              || (IsImf && MI.Get(Stream_General, 0, General_Format)==__T("IMF PKL"))))
+             && (MI.Get(Stream_General, 0, General_Format)==__T("DCP PKL")
+              || MI.Get(Stream_General, 0, General_Format)==__T("IMF PKL")))
             {
                 DcpCpl_MergeFromPkl(ReferenceFiles, ((File_DcpCpl*)MI.Info)->ReferenceFiles);
             }

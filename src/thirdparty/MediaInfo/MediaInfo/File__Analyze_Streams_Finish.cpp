@@ -141,8 +141,8 @@ void File__Analyze::TestContinuousFileNames(size_t CountOfFiles, Ztring FileExte
         //Detecting with a smarter algo (but missing frames are not detected)
         Ztring FileToTest_Name_Begin=FileToTest.Path_Get()+PathSeparator+FileToTest_Name;
         Ztring FileToTest_Name_End=FileToTest_Name_After+__T('.')+(FileExtension.empty()?FileToTest.Extension_Get():FileExtension);
-        int64u Pos_Base=Pos;
-        int64u Pos_Add_Max=1;
+        size_t Pos_Base = (size_t)Pos;
+        size_t Pos_Add_Max = 1;
         #if MEDIAINFO_ADVANCED
             bool File_IgnoreSequenceFileSize=Config->File_IgnoreSequenceFilesCount_Get();
         #endif //MEDIAINFO_ADVANCED
@@ -160,10 +160,10 @@ void File__Analyze::TestContinuousFileNames(size_t CountOfFiles, Ztring FileExte
                     break;
             #endif //MEDIAINFO_ADVANCED
         }
-        int64u Pos_Add_Min=Pos_Add_Max>>1;
+        size_t Pos_Add_Min = Pos_Add_Max >> 1;
         while (Pos_Add_Min+1<Pos_Add_Max)
         {
-            int64u Pos_Add_Middle=Pos_Add_Min+((Pos_Add_Max-Pos_Add_Min)>>1);
+            size_t Pos_Add_Middle = Pos_Add_Min + ((Pos_Add_Max - Pos_Add_Min) >> 1);
             Ztring Pos_Ztring; Pos_Ztring.From_Number(Pos_Base+Pos_Add_Middle);
             if (Numbers_Size>Pos_Ztring.size())
                 Pos_Ztring.insert(0, Numbers_Size-Pos_Ztring.size(), __T('0'));
@@ -174,7 +174,7 @@ void File__Analyze::TestContinuousFileNames(size_t CountOfFiles, Ztring FileExte
                 Pos_Add_Max=Pos_Add_Middle;
         }
 
-        int64u Pos_Max=Pos_Base+Pos_Add_Max;
+        size_t Pos_Max = Pos_Base + Pos_Add_Max;
         Config->File_Names.reserve(Pos_Add_Max);
         for (Pos=Pos_Base+1; Pos<Pos_Max; ++Pos)
         {
@@ -207,6 +207,7 @@ void File__Analyze::TestContinuousFileNames(size_t CountOfFiles, Ztring FileExte
         {
             Config->File_Size=(int64u)-1;
             File_Size=(int64u)-1;
+            Clear(Stream_General, 0, General_FileSize);
         }
     #endif //MEDIAINFO_ADVANCED
 
@@ -397,6 +398,133 @@ void File__Analyze::Streams_Finish_StreamOnly_Video(size_t Pos)
       || Retrieve(Stream_Video, Pos, Video_Format)==__T("DPX")
       || Retrieve(Stream_Video, Pos, Video_Format)==__T("EXR")))
             Fill(Stream_Video, Pos, Video_ScanType, "Progressive");
+
+    //Commercial name
+    #if defined(MEDIAINFO_VC3_YES)
+        if (Retrieve(Stream_Video, Pos, Video_Format_Commercial_IfAny).empty() && Retrieve(Stream_Video, Pos, Video_Format)==__T("VC-3"))
+        {
+            //http://www.avid.com/static/resources/US/documents/dnxhd.pdf
+            int64u Height=Retrieve(Stream_Video, Pos, Video_Height).To_int64u();
+            int64u BitRate=float64_int64s(Retrieve(Stream_Video, Pos, Video_BitRate).To_float64()/1000000);
+            int64u FrameRate=float64_int64s(Retrieve(Stream_Video, Pos, Video_FrameRate).To_float64());
+            int64u BitRate_Final=0;
+            if (Height>=900 && Height<=1300)
+            {
+                if (FrameRate==60)
+                {
+                    if (BitRate>=420 && BitRate<440) //440
+                        BitRate_Final=440;
+                    if (BitRate>=271 && BitRate<311) //291
+                        BitRate_Final=290;
+                    if (BitRate>=80 && BitRate<100) //90
+                        BitRate_Final=90;
+                }
+                if (FrameRate==50)
+                {
+                    if (BitRate>=347 && BitRate<387) //367
+                        BitRate_Final=365;
+                    if (BitRate>=222 && BitRate<262) //242
+                        BitRate_Final=240;
+                    if (BitRate>=65 && BitRate<85) //75
+                        BitRate_Final=75;
+                }
+                if (FrameRate==30)
+                {
+                    if (BitRate>=420 && BitRate<440) //440
+                        BitRate_Final=440;
+                    if (BitRate>=200 && BitRate<240) //220
+                        BitRate_Final=220;
+                    if (BitRate>=130 && BitRate<160) //145
+                        BitRate_Final=145;
+                    if (BitRate>=90 && BitRate<110) //100
+                        BitRate_Final=100;
+                    if (BitRate>=40 && BitRate<50) //45
+                        BitRate_Final=45;
+                }
+                if (FrameRate==25)
+                {
+                    if (BitRate>=347 && BitRate<387) //367
+                        BitRate_Final=365;
+                    if (BitRate>=164 && BitRate<204) //184
+                        BitRate_Final=185;
+                    if (BitRate>=111 && BitRate<131) //121
+                        BitRate_Final=120;
+                    if (BitRate>=74 && BitRate<94) //84
+                        BitRate_Final=85;
+                    if (BitRate>=31 && BitRate<41) //36
+                        BitRate_Final=36;
+                }
+                if (FrameRate==24)
+                {
+                    if (BitRate>=332 && BitRate<372) //352
+                        BitRate_Final=350;
+                    if (BitRate>=156 && BitRate<196) //176
+                        BitRate_Final=175;
+                    if (BitRate>=105 && BitRate<125) //116
+                        BitRate_Final=116;
+                    if (BitRate>=70 && BitRate<90) //80
+                        BitRate_Final=80;
+                    if (BitRate>=31 && BitRate<41) //36
+                        BitRate_Final=36;
+                }
+            }
+            if (Height>=600 && Height<=800)
+            {
+                if (FrameRate==60)
+                {
+                    if (BitRate>=200 && BitRate<240) //220
+                        BitRate_Final=220;
+                    if (BitRate>=130 && BitRate<160) //145
+                        BitRate_Final=145;
+                    if (BitRate>=90 && BitRate<110) //110
+                        BitRate_Final=100;
+                }
+                if (FrameRate==50)
+                {
+                    if (BitRate>=155 && BitRate<195) //175
+                        BitRate_Final=175;
+                    if (BitRate>=105 && BitRate<125) //115
+                        BitRate_Final=115;
+                    if (BitRate>=75 && BitRate<95) //85
+                        BitRate_Final=85;
+                }
+                if (FrameRate==30)
+                {
+                    if (BitRate>=100 && BitRate<120) //110
+                        BitRate_Final=110;
+                    if (BitRate>=62 && BitRate<82) //72
+                        BitRate_Final=75;
+                    if (BitRate>=44 && BitRate<56) //51
+                        BitRate_Final=50;
+                }
+                if (FrameRate==25)
+                {
+                    if (BitRate>=82 && BitRate<102) //92
+                        BitRate_Final=90;
+                    if (BitRate>=55 && BitRate<65) //60
+                        BitRate_Final=60;
+                    if (BitRate>=38 && BitRate<48) //43
+                        BitRate_Final=45;
+                }
+                if (FrameRate==24)
+                {
+                    if (BitRate>=78 && BitRate<98) //88
+                        BitRate_Final=90;
+                    if (BitRate>=53 && BitRate<63) //58
+                        BitRate_Final=60;
+                    if (BitRate>=36 && BitRate<46) //41
+                        BitRate_Final=41;
+                }
+            }
+
+            if (BitRate_Final)
+            {
+                int64u BitDepth=Retrieve(Stream_Video, Pos, Video_BitDepth).To_int64u();
+                if (BitDepth==8 || BitDepth==10)
+                    Fill(Stream_Video, Pos, Video_Format_Commercial_IfAny, __T("DNxHD ")+Ztring::ToZtring(BitRate_Final)+(BitDepth==10?__T("x"):__T(""))); //"x"=10-bit
+            }
+        }
+    #endif //defined(MEDIAINFO_VC3_YES)
 }
 
 //---------------------------------------------------------------------------

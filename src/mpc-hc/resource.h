@@ -582,6 +582,7 @@
 #define IDD_DEBUGSHADERS_DLG            20013
 #define IDD_PPAGEADVANCED               20014
 #define IDD_SAVEIMAGEDIALOGTEMPL        20015
+#define IDD_CMD_LINE_HELP               20016
 #define IDC_FULLSCREEN_MONITOR_CHECK    22002
 #define IDC_SLI_CONTRAST                22003
 #define IDC_RESET                       22004
@@ -648,6 +649,7 @@
 #define IDC_PPAGECAPTURE_ST10           22078
 #define IDC_PPAGECAPTURE_ST11           22079
 #define IDC_PPAGECAPTURE_ST12           22080
+#define IDC_FASTSEEK_CHECK              22081
 #define ID_SUB_DELAY_DOWN               24000
 #define ID_SUB_DELAY_UP                 24001
 #define IDS_MPLAYERC_104                24002

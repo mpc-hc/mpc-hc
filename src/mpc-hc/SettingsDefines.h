@@ -278,6 +278,8 @@
 
 #define IDS_R_DLG_ORGANIZE_FAV              _T("Dialogs\\OrganizeFavorites")
 
+#define IDS_R_DLG_CMD_LINE_HELP             _T("Dialogs\\CmdLineHelp")
+
 #define IDS_R_SHADERS                       _T("Shaders")
 #define IDS_RS_SHADERS_EXTRA                _T("Extra")
 #define IDS_RS_SHADERS_PRERESIZE            _T("PreResize")

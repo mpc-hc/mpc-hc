@@ -341,7 +341,19 @@ void File_Tiff::Data_Parse_Fill()
     //BitsPerSample
     Info=Infos.find(Tiff_Tag::BitsPerSample);
     if (Info!=Infos.end())
+    {
+        if (Info->second.size()>1)
+        {
+            bool IsOk=true;
+            for (size_t Pos=1; Pos<Info->second.size(); ++Pos)
+                if (Info->second[Pos]!=Info->second[0])
+                    IsOk=false;
+            if (IsOk)
+                Info->second.resize(1); //They are all same, we display 1 piece of information
+        }
+
         Fill(Stream_Image, StreamPos_Last, Image_BitDepth, Info->second.Read());
+    }
 
     //Compression
     Info=Infos.find(Tiff_Tag::Compression);
@@ -527,9 +539,9 @@ void File_Tiff::GetValueOffsetu(ifditem &IfdItem)
                             break;
                         }
                         if (LittleEndian)
-                            Ret32=LittleEndian2int16u(Buffer+Buffer_Offset+(size_t)Element_Offset);
+                            Ret32=LittleEndian2int32u(Buffer+Buffer_Offset+(size_t)Element_Offset);
                         else
-                            Ret32=BigEndian2int16u(Buffer+Buffer_Offset+(size_t)Element_Offset);
+                            Ret32=BigEndian2int32u(Buffer+Buffer_Offset+(size_t)Element_Offset);
                         Element_Offset+=4;
                     #endif //MEDIAINFO_TRACE
                     Info.push_back(Ztring::ToZtring(Ret32));

@@ -27,7 +27,6 @@ CRLECodedSubtitle::CRLECodedSubtitle(CCritSec* pLock, const CString& name, LCID 
     : CSubPicProviderImpl(pLock)
     , m_name(name)
     , m_lcid(lcid)
-    , m_rtCurrentSegmentStart(0)
 {
 
 }
@@ -108,7 +107,7 @@ HRESULT CRLECodedSubtitle::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tSto
     CAutoLock cAutoLock(&m_csCritSec);
 
     Reset();
-    m_rtCurrentSegmentStart = tStart;
+
     return S_OK;
 }
 

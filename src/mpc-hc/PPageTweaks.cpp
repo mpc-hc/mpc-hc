@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -66,7 +66,7 @@ void CPPageTweaks::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_COMBO1, m_FontType);
     DDX_Control(pDX, IDC_COMBO2, m_FontSize);
     DDX_Control(pDX, IDC_COMBO4, m_FastSeekMethod);
-    DDX_Check(pDX, IDC_CHECK1, m_fFastSeek);
+    DDX_Check(pDX, IDC_FASTSEEK_CHECK, m_fFastSeek);
     DDX_Check(pDX, IDC_CHECK2, m_fShowChapters);
     DDX_Check(pDX, IDC_CHECK_LCD, m_fLCDSupport);
     DDX_Check(pDX, IDC_CHECK3, m_bHideWindowedMousePointer);
@@ -152,6 +152,7 @@ BOOL CPPageTweaks::OnInitDialog()
     }
     m_FontSize.SetCurSel(iSel - 10);
 
+    CreateToolTip();
     EnableToolTips(TRUE);
 
     UpdateData(FALSE);
@@ -209,7 +210,7 @@ BEGIN_MESSAGE_MAP(CPPageTweaks, CPPageBase)
     ON_BN_CLICKED(IDC_CHECK8, OnUseTimeTooltipClicked)
     ON_CBN_SELCHANGE(IDC_COMBO1, OnChngOSDCombo)
     ON_CBN_SELCHANGE(IDC_COMBO2, OnChngOSDCombo)
-    ON_NOTIFY_EX_RANGE(TTN_NEEDTEXT, 0, 0xFFFF, OnToolTipNotify)
+    ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify)
 END_MESSAGE_MAP()
 
 
@@ -217,7 +218,7 @@ END_MESSAGE_MAP()
 
 void CPPageTweaks::OnUpdateFastSeek(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(IsDlgButtonChecked(IDC_CHECK1));
+    pCmdUI->Enable(IsDlgButtonChecked(IDC_FASTSEEK_CHECK));
 }
 
 void CPPageTweaks::OnBnClickedButton1()
@@ -248,34 +249,26 @@ void CPPageTweaks::OnUseTimeTooltipClicked()
 
 BOOL CPPageTweaks::OnToolTipNotify(UINT id, NMHDR* pNMH, LRESULT* pResult)
 {
-    TOOLTIPTEXT* pTTT = reinterpret_cast<LPTOOLTIPTEXT>(pNMH);
-    int cid = ::GetDlgCtrlID((HWND)pNMH->idFrom);
-    if (cid == IDC_COMBO1) {
-        CDC* pDC = m_FontType.GetDC();
-        CFont* pFont = m_FontType.GetFont();
-        CFont* pOldFont = pDC->SelectObject(pFont);
-        TEXTMETRIC tm;
-        pDC->GetTextMetrics(&tm);
-        CRect rc;
-        m_FontType.GetWindowRect(rc);
-        rc.right -= GetSystemMetrics(SM_CXVSCROLL) * GetSystemMetrics(SM_CXEDGE);
-        int i = m_FontType.GetCurSel();
-        CString str;
-        m_FontType.GetLBText(i, str);
-        CSize sz;
-        sz = pDC->GetTextExtent(str);
-        pDC->SelectObject(pOldFont);
-        m_FontType.ReleaseDC(pDC);
-        sz.cx += tm.tmAveCharWidth;
-        str = str.Left(_countof(pTTT->szText));
-        if (sz.cx > rc.Width()) {
-            _tcscpy_s(pTTT->szText, str);
-            pTTT->hinst = nullptr;
-        }
+    LPTOOLTIPTEXT pTTT = reinterpret_cast<LPTOOLTIPTEXT>(pNMH);
 
-        return TRUE;
+    UINT_PTR nID = pNMH->idFrom;
+    if (pTTT->uFlags & TTF_IDISHWND) {
+        nID = ::GetDlgCtrlID((HWND)nID);
     }
 
-    return FALSE;
-}
+    BOOL bRet = FALSE;
 
+    switch (nID) {
+        case IDC_COMBO1:
+            bRet = FillComboToolTip(m_FontType, pTTT);
+            break;
+        case IDC_COMBO3:
+            bRet = FillComboToolTip(m_TimeTooltipPosition, pTTT);
+            break;
+        case IDC_COMBO4:
+            bRet = FillComboToolTip(m_FastSeekMethod, pTTT);
+            break;
+    }
+
+    return bRet;
+}

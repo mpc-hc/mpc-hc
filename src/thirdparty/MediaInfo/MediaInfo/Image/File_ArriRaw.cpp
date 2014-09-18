@@ -58,7 +58,7 @@ File_ArriRaw::File_ArriRaw()
 void File_ArriRaw::Streams_Accept()
 {
     Fill(Stream_General, 0, General_Format, "Arri Raw");
-    
+
     if (!IsSub)
     {
         TestContinuousFileNames();
@@ -99,9 +99,9 @@ bool File_ArriRaw::FileHeader_Begin()
         Reject("Arri Raw");
         return false;
     }
- 
+
     Accept();
-    
+
     //All should be OK...
     return true;
 }

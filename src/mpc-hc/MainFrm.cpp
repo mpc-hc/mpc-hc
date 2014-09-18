@@ -11355,7 +11355,13 @@ int CMainFrame::SetupAudioStreams()
         int tPos = 0;
         CString lang = s.strAudiosLanguageOrder.Tokenize(_T(",; "), tPos);
         while (tPos != -1) {
-            langs.Add(lang.MakeLower());
+            lang.MakeLower();
+            langs.Add(lang);
+            // Try to match the full language if possible
+            lang = ISO639XToLanguage(CStringA(lang)).MakeLower();
+            if (!lang.IsEmpty()) {
+                langs.Add(lang);
+            }
             lang = s.strAudiosLanguageOrder.Tokenize(_T(",; "), tPos);
         }
 
@@ -11462,7 +11468,13 @@ int CMainFrame::SetupSubtitleStreams()
         int tPos = 0;
         CString lang = s.strSubtitlesLanguageOrder.Tokenize(_T(",; "), tPos);
         while (tPos != -1) {
-            langs.Add(lang.MakeLower());
+            lang.MakeLower();
+            langs.Add(lang);
+            // Try to match the full language if possible
+            lang = ISO639XToLanguage(CStringA(lang)).MakeLower();
+            if (!lang.IsEmpty()) {
+                langs.Add(lang);
+            }
             lang = s.strSubtitlesLanguageOrder.Tokenize(_T(",; "), tPos);
         }
 

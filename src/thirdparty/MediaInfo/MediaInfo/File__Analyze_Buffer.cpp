@@ -1682,79 +1682,79 @@ void File__Analyze::Get_ISO_6937_2(int64u Bytes, Ztring &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_STRING(Bytes);
     Info.clear();
-    size_t End=Buffer_Offset+(size_t)Element_Offset+Bytes;
+    size_t End = Buffer_Offset + (size_t)Element_Offset + (size_t)Bytes;
     for (size_t Pos=Buffer_Offset+(size_t)Element_Offset; Pos<End; ++Pos)
     {
-        wchar_t EscapeChar=__T('\x0000');
-        wchar_t NewChar=__T('\x0000');
+        wchar_t EscapeChar=L'\x0000';
+        wchar_t NewChar=L'\x0000';
         switch (Buffer[Pos])
         {
-            case 0xA9 :    NewChar=__T('\x2018'); break;
-            case 0xAA :    NewChar=__T('\x201C'); break;
-            case 0xAC :    NewChar=__T('\x2190'); break;
-            case 0xAD :    NewChar=__T('\x2191'); break;
-            case 0xAE :    NewChar=__T('\x2192'); break;
-            case 0xAF :    NewChar=__T('\x2193'); break;
-            case 0xB4 :    NewChar=__T('\x00D7'); break;
-            case 0xB8 :    NewChar=__T('\x00F7'); break;
-            case 0xB9 :    NewChar=__T('\x2019'); break;
-            case 0xBA :    NewChar=__T('\x201D'); break;
-            case 0xC1 : EscapeChar=__T('\x0300'); break;
-            case 0xC2 : EscapeChar=__T('\x0301'); break;
-            case 0xC3 : EscapeChar=__T('\x0302'); break;
-            case 0xC4 : EscapeChar=__T('\x0303'); break;
-            case 0xC5 : EscapeChar=__T('\x0304'); break;
-            case 0xC6 : EscapeChar=__T('\x0306'); break;
-            case 0xC7 : EscapeChar=__T('\x0307'); break;
-            case 0xC8 : EscapeChar=__T('\x0308'); break;
-            case 0xCA : EscapeChar=__T('\x030A'); break;
-            case 0xCB : EscapeChar=__T('\x0327'); break;
-            case 0xCD : EscapeChar=__T('\x030B'); break;
-            case 0xCE : EscapeChar=__T('\x0328'); break;
-            case 0xCF : EscapeChar=__T('\x030C'); break;
-            case 0xD0 :    NewChar=__T('\x2015'); break;
-            case 0xD1 :    NewChar=__T('\x00B9'); break;
-            case 0xD2 :    NewChar=__T('\x00AE'); break;
-            case 0xD3 :    NewChar=__T('\x00A9'); break;
-            case 0xD4 :    NewChar=__T('\x2122'); break;
-            case 0xD5 :    NewChar=__T('\x266A'); break;
-            case 0xD6 :    NewChar=__T('\x00AC'); break;
-            case 0xD7 :    NewChar=__T('\x00A6'); break;
-            case 0xDC :    NewChar=__T('\x215B'); break;
-            case 0xDD :    NewChar=__T('\x215C'); break;
-            case 0xDE :    NewChar=__T('\x215D'); break;
-            case 0xDF :    NewChar=__T('\x215E'); break;
-            case 0xE0 :    NewChar=__T('\x2126'); break;
-            case 0xE1 :    NewChar=__T('\x00C6'); break;
-            case 0xE2 :    NewChar=__T('\x0110'); break;
-            case 0xE3 :    NewChar=__T('\x00AA'); break;
-            case 0xE4 :    NewChar=__T('\x0126'); break;
-            case 0xE6 :    NewChar=__T('\x0132'); break;
-            case 0xE7 :    NewChar=__T('\x013F'); break;
-            case 0xE8 :    NewChar=__T('\x0141'); break;
-            case 0xE9 :    NewChar=__T('\x00D8'); break;
-            case 0xEA :    NewChar=__T('\x0152'); break;
-            case 0xEB :    NewChar=__T('\x00BA'); break;
-            case 0xEC :    NewChar=__T('\x00DE'); break;
-            case 0xED :    NewChar=__T('\x0166'); break;
-            case 0xEE :    NewChar=__T('\x014A'); break;
-            case 0xEF :    NewChar=__T('\x0149'); break;
-            case 0xF0 :    NewChar=__T('\x0138'); break;
-            case 0xF1 :    NewChar=__T('\x00E6'); break;
-            case 0xF2 :    NewChar=__T('\x0111'); break;
-            case 0xF3 :    NewChar=__T('\x00F0'); break;
-            case 0xF4 :    NewChar=__T('\x0127'); break;
-            case 0xF5 :    NewChar=__T('\x0131'); break;
-            case 0xF6 :    NewChar=__T('\x0133'); break;
-            case 0xF7 :    NewChar=__T('\x0140'); break;
-            case 0xF8 :    NewChar=__T('\x0142'); break;
-            case 0xF9 :    NewChar=__T('\x00F8'); break;
-            case 0xFA :    NewChar=__T('\x0153'); break;
-            case 0xFB :    NewChar=__T('\x0153'); break;
-            case 0xFC :    NewChar=__T('\x00FE'); break;
-            case 0xFD :    NewChar=__T('\x00FE'); break;
-            case 0xFE :    NewChar=__T('\x014B'); break;
-            case 0xFF :    NewChar=__T('\x00AD'); break;
+            case 0xA9 :    NewChar=L'\x2018'; break;
+            case 0xAA :    NewChar=L'\x201C'; break;
+            case 0xAC :    NewChar=L'\x2190'; break;
+            case 0xAD :    NewChar=L'\x2191'; break;
+            case 0xAE :    NewChar=L'\x2192'; break;
+            case 0xAF :    NewChar=L'\x2193'; break;
+            case 0xB4 :    NewChar=L'\x00D7'; break;
+            case 0xB8 :    NewChar=L'\x00F7'; break;
+            case 0xB9 :    NewChar=L'\x2019'; break;
+            case 0xBA :    NewChar=L'\x201D'; break;
+            case 0xC1 : EscapeChar=L'\x0300'; break;
+            case 0xC2 : EscapeChar=L'\x0301'; break;
+            case 0xC3 : EscapeChar=L'\x0302'; break;
+            case 0xC4 : EscapeChar=L'\x0303'; break;
+            case 0xC5 : EscapeChar=L'\x0304'; break;
+            case 0xC6 : EscapeChar=L'\x0306'; break;
+            case 0xC7 : EscapeChar=L'\x0307'; break;
+            case 0xC8 : EscapeChar=L'\x0308'; break;
+            case 0xCA : EscapeChar=L'\x030A'; break;
+            case 0xCB : EscapeChar=L'\x0327'; break;
+            case 0xCD : EscapeChar=L'\x030B'; break;
+            case 0xCE : EscapeChar=L'\x0328'; break;
+            case 0xCF : EscapeChar=L'\x030C'; break;
+            case 0xD0 :    NewChar=L'\x2015'; break;
+            case 0xD1 :    NewChar=L'\x00B9'; break;
+            case 0xD2 :    NewChar=L'\x00AE'; break;
+            case 0xD3 :    NewChar=L'\x00A9'; break;
+            case 0xD4 :    NewChar=L'\x2122'; break;
+            case 0xD5 :    NewChar=L'\x266A'; break;
+            case 0xD6 :    NewChar=L'\x00AC'; break;
+            case 0xD7 :    NewChar=L'\x00A6'; break;
+            case 0xDC :    NewChar=L'\x215B'; break;
+            case 0xDD :    NewChar=L'\x215C'; break;
+            case 0xDE :    NewChar=L'\x215D'; break;
+            case 0xDF :    NewChar=L'\x215E'; break;
+            case 0xE0 :    NewChar=L'\x2126'; break;
+            case 0xE1 :    NewChar=L'\x00C6'; break;
+            case 0xE2 :    NewChar=L'\x0110'; break;
+            case 0xE3 :    NewChar=L'\x00AA'; break;
+            case 0xE4 :    NewChar=L'\x0126'; break;
+            case 0xE6 :    NewChar=L'\x0132'; break;
+            case 0xE7 :    NewChar=L'\x013F'; break;
+            case 0xE8 :    NewChar=L'\x0141'; break;
+            case 0xE9 :    NewChar=L'\x00D8'; break;
+            case 0xEA :    NewChar=L'\x0152'; break;
+            case 0xEB :    NewChar=L'\x00BA'; break;
+            case 0xEC :    NewChar=L'\x00DE'; break;
+            case 0xED :    NewChar=L'\x0166'; break;
+            case 0xEE :    NewChar=L'\x014A'; break;
+            case 0xEF :    NewChar=L'\x0149'; break;
+            case 0xF0 :    NewChar=L'\x0138'; break;
+            case 0xF1 :    NewChar=L'\x00E6'; break;
+            case 0xF2 :    NewChar=L'\x0111'; break;
+            case 0xF3 :    NewChar=L'\x00F0'; break;
+            case 0xF4 :    NewChar=L'\x0127'; break;
+            case 0xF5 :    NewChar=L'\x0131'; break;
+            case 0xF6 :    NewChar=L'\x0133'; break;
+            case 0xF7 :    NewChar=L'\x0140'; break;
+            case 0xF8 :    NewChar=L'\x0142'; break;
+            case 0xF9 :    NewChar=L'\x00F8'; break;
+            case 0xFA :    NewChar=L'\x0153'; break;
+            case 0xFB :    NewChar=L'\x0153'; break;
+            case 0xFC :    NewChar=L'\x00FE'; break;
+            case 0xFD :    NewChar=L'\x00FE'; break;
+            case 0xFE :    NewChar=L'\x014B'; break;
+            case 0xFF :    NewChar=L'\x00AD'; break;
             case 0xC0 :
             case 0xC9 :
             case 0xCC :
@@ -1764,21 +1764,21 @@ void File__Analyze::Get_ISO_6937_2(int64u Bytes, Ztring &Info, const char* Name)
             case 0xDB :
             case 0xE5 :
                                                  break;
-            default  : NewChar=(wchar_t)(Buffer[Pos]);
+            default  : NewChar=(Char)(Buffer[Pos]);
         }
-        
+
         if (EscapeChar)
         {
             if (Pos+1<End)
             {
-                Info+=(wchar_t)(Buffer[Pos+1]);
-                Info+=EscapeChar;
-                EscapeChar=__T('\x0000');
+                Info+=(Char)(Buffer[Pos+1]);
+                Info+=Ztring().From_Unicode(&EscapeChar, 1); //(EscapeChar) after new ZenLib release
+                EscapeChar=L'\x0000';
                 Pos++;
             }
         }
         else if (NewChar)
-            Info+=NewChar;
+            Info+=Ztring().From_Unicode(&NewChar, 1); //(NewChar) after new ZenLib release
     }
     if (Trace_Activated && Bytes) Param(Name, Info);
     Element_Offset+=Bytes;
@@ -1807,15 +1807,19 @@ void File__Analyze::Get_ISO_8859_5(int64u Bytes, Ztring &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_STRING(Bytes);
     Info.clear();
-    size_t End=Buffer_Offset+(size_t)Element_Offset+Bytes;
+    size_t End = Buffer_Offset + (size_t)Element_Offset + (size_t)Bytes;
     for (size_t Pos=Buffer_Offset+(size_t)Element_Offset; Pos<End; ++Pos)
     {
         switch (Buffer[Pos])
         {
-            case 0xAD : Info+=__T('\x00AD'); break;
-            case 0xF0 : Info+=__T('\x2116'); break;
-            case 0xFD : Info+=__T('\x00A7'); break;
-            default   : Info+=(Buffer[Pos]<=0xA0?0x0000:0x0360)+Buffer[Pos];
+            case 0xAD : Info+=Ztring().From_Unicode(L"\xAD"); break; //L'\xAD' after new ZenLib release
+            case 0xF0 : Info+=Ztring().From_Unicode(L"\x2116"); break; //L'\x2116' after new ZenLib release
+            case 0xFD : Info+=Ztring().From_Unicode(L"\xA7"); break; //L'\xA7' after new ZenLib release
+            default   :
+                        {
+                        wchar_t NewChar=(Buffer[Pos]<=0xA0?0x0000:0x0360)+Buffer[Pos];
+                        Info+=Ztring().From_Unicode(&NewChar, 1); //(NewChar) after new ZenLib release
+                        }
         }
     }
     if (Trace_Activated && Bytes) Param(Name, Info);

@@ -153,6 +153,7 @@ public:
     bool HasProfileEntry(LPCTSTR lpszSection, LPCTSTR lpszEntry);
 
     bool GetAppSavePath(CString& path);
+    bool GetAppDataPath(CString& path);
 
     bool m_fClosingState;
     CRenderersData m_Renderers;

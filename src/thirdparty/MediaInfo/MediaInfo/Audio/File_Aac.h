@@ -187,11 +187,14 @@ protected :
     bool    aacScalefactorDataResilienceFlag;
     bool    aacSectionDataResilienceFlag;
     bool    aacSpectralDataResilienceFlag;
-    std::vector<int16u> aac_frame_lengths;
     int8u   num_raw_data_blocks;
     bool    protection_absent;
     int64u  FrameSize_Min;
     int64u  FrameSize_Max;
+    bool    adts_buffer_fullness_Is7FF;
+    #if MEDIAINFO_ADVANCED
+        int64u  aac_frame_length_Total;
+    #endif //MEDIAINFO_ADVANCED
 
     //***********************************************************************
     // Elements - Speech coding (HVXC)

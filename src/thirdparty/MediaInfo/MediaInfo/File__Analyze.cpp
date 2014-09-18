@@ -32,6 +32,15 @@ using namespace tinyxml2;
 #if MEDIAINFO_EVENTS
     #include "MediaInfo/MediaInfo_Events_Internal.h"
 #endif //MEDIAINFO_EVENTS
+#ifdef MEDIAINFO_SSE2_YES
+    #ifndef ZENLIB_MEMUTILS_SSE2
+        #define ZENLIB_MEMUTILS_SSE2
+    #endif //ZENLIB_MEMUTILS_SSE2
+    #include "ZenLib/MemoryUtils.h"
+#else //MEDIAINFO_SSE2_YES
+    #define memcpy_Unaligned_Unaligned std::memcpy
+    #define memcpy_Unaligned_Unaligned_Once1024 std::memcpy
+#endif //MEDIAINFO_SSE2_YES
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib
@@ -82,6 +91,9 @@ File__Analyze::File__Analyze ()
     #endif //MEDIAINFO_DEMUX
     PTS_DTS_Needed=false;
     PTS_Begin=(int64u)-1;
+    #if MEDIAINFO_ADVANCED2
+        PTS_Begin_Segment=(int64u)-1;
+    #endif //MEDIAINFO_ADVANCED2
     PTS_End=0;
     DTS_Begin=(int64u)-1;
     DTS_End=0;
@@ -89,6 +101,9 @@ File__Analyze::File__Analyze ()
     OriginalBuffer=NULL;
     OriginalBuffer_Size=0;
     OriginalBuffer_Capacity=0;
+    #if defined(MEDIAINFO_EIA608_YES) || defined(MEDIAINFO_EIA708_YES)
+        ServiceDescriptors=NULL;
+    #endif
 
     //Out
     Frame_Count=0;
@@ -186,6 +201,14 @@ File__Analyze::File__Analyze ()
     //Events data
     PES_FirstByte_IsAvailable=false;
 
+    //AES
+    #if MEDIAINFO_AES
+        AES=NULL;
+        AES_IV=NULL;
+        AES_Decrypted=NULL;
+        AES_Decrypted_Size=0;
+    #endif //MEDIAINFO_AES
+
     //MD5
     #if MEDIAINFO_MD5
         MD5=NULL;
@@ -211,6 +234,18 @@ File__Analyze::~File__Analyze ()
     //BitStream
     delete BS; //BS=NULL;
     delete BT; //BS=NULL;
+
+    //AES
+    #if MEDIAINFO_AES
+        delete AES; //AES=NULL;
+        delete AES_IV; //AES_IV=NULL;
+        delete AES_Decrypted; //AES_Decrypted=NULL;
+    #endif //MEDIAINFO_AES
+
+    //MD5
+    #if MEDIAINFO_MD5
+        delete MD5; //MD5=NULL;
+    #endif //MEDIAINFO_MD5
 
     #if MEDIAINFO_IBI
         if (!IsSub)
@@ -359,6 +394,44 @@ void File__Analyze::Open_Buffer_Continue (const int8u* ToAdd, size_t ToAdd_Size)
         }
     #endif //MEDIAINFO_MD5
 
+    //AES
+    #if MEDIAINFO_AES
+        if (ToAdd_Size)
+        {
+            if (!IsSub && !Buffer_Temp_Size && File_Offset==Config->File_Current_Offset
+             && Config->Encryption_Format_Get()==Encryption_Format_Aes
+             && Config->Encryption_Key_Get().size()==16
+             && Config->Encryption_Method_Get()==Encryption_Method_Segment
+             && Config->Encryption_Mode_Get()==Encryption_Mode_Cbc
+             && Config->Encryption_Padding_Get()==Encryption_Padding_Pkcs7
+             && Config->Encryption_InitializationVector_Get()=="Sequence number")
+            {
+                delete AES; AES=new AESdecrypt;
+                AES->key128((const unsigned char*)Config->Encryption_Key_Get().c_str());
+                AES_IV=new int8u[16];
+                int128u2BigEndian(AES_IV, int128u((int64u)Config->File_Names_Pos-1));
+            }
+            if (AES)
+            {
+                if (AES_Decrypted_Size<ToAdd_Size)
+                {
+                    delete AES_Decrypted; AES_Decrypted=new int8u[ToAdd_Size*2];
+                    AES_Decrypted_Size=ToAdd_Size*2;
+                }
+                AES->cbc_decrypt(ToAdd, AES_Decrypted, ToAdd_Size, AES_IV);
+                if (File_Offset+Buffer_Size+ToAdd_Size>=Config->File_Current_Size && ToAdd_Size)
+                {
+                    int8u LastByte=AES_Decrypted[ToAdd_Size-1];
+                    ToAdd_Size-=LastByte;
+                    if (Config->File_Names_Pos && Config->File_Names_Pos-1<Config->File_Sizes.size())
+                        Config->File_Sizes[Config->File_Names_Pos-1]-=LastByte;
+                    Config->File_Current_Size-=LastByte;
+                }
+                ToAdd=AES_Decrypted;
+            }
+        }
+    #endif //MEDIAINFO_AES
+
     //Integrity
     if (Status[IsFinished])
         return;
@@ -400,14 +473,14 @@ void File__Analyze::Open_Buffer_Continue (const int8u* ToAdd, size_t ToAdd_Size)
             if (Buffer_Temp_Size_Max_ToAdd<Buffer_Temp_Size_Max) Buffer_Temp_Size_Max_ToAdd=Buffer_Temp_Size_Max;
             Buffer_Temp_Size_Max+=Buffer_Temp_Size_Max_ToAdd;
             Buffer_Temp=new int8u[Buffer_Temp_Size_Max];
-            std::memcpy(Buffer_Temp, Old, Buffer_Temp_Size);
+            memcpy_Unaligned_Unaligned(Buffer_Temp, Old, Buffer_Temp_Size);
             delete[] Old; //Old=NULL;
         }
 
         //Copying buffer
         if (ToAdd_Size>0)
         {
-            std::memcpy(Buffer_Temp+Buffer_Size, ToAdd, ToAdd_Size);
+            memcpy_Unaligned_Unaligned(Buffer_Temp+Buffer_Size, ToAdd, ToAdd_Size);
             Buffer_Temp_Size+=ToAdd_Size;
         }
 
@@ -585,7 +658,7 @@ void File__Analyze::Open_Buffer_Continue (const int8u* ToAdd, size_t ToAdd_Size)
                     Buffer_Temp=new int8u[Buffer_Temp_Size_Max];
                 }
                 Buffer_Temp_Size=ToAdd_Size-Buffer_Offset;
-                std::memcpy(Buffer_Temp, ToAdd+Buffer_Offset, Buffer_Temp_Size);
+                memcpy_Unaligned_Unaligned(Buffer_Temp, ToAdd+Buffer_Offset, Buffer_Temp_Size);
             }
         }
         else if (Buffer_Offset) //Already a copy, just moving it
@@ -785,10 +858,10 @@ void File__Analyze::Open_Buffer_Continue (File__Analyze* Sub, const int8u* ToAdd
             int8u* Temp=Sub->OriginalBuffer;
             Sub->OriginalBuffer_Capacity=(size_t)(Sub->OriginalBuffer_Size+Element_Size-Element_Offset);
             Sub->OriginalBuffer=new int8u[Sub->OriginalBuffer_Capacity];
-            std::memcpy(Sub->OriginalBuffer, Temp, Sub->OriginalBuffer_Size);
+            memcpy_Unaligned_Unaligned(Sub->OriginalBuffer, Temp, Sub->OriginalBuffer_Size);
             delete[] Temp;
         }
-        std::memcpy(Sub->OriginalBuffer+Sub->OriginalBuffer_Size, Buffer+Buffer_Offset+(size_t)Element_Offset, (size_t)(Element_Size-Element_Offset));
+        memcpy_Unaligned_Unaligned(Sub->OriginalBuffer+Sub->OriginalBuffer_Size, Buffer+Buffer_Offset+(size_t)Element_Offset, (size_t)(Element_Size-Element_Offset));
         Sub->OriginalBuffer_Size+=(size_t)(Element_Size-Element_Offset);
     }
 
@@ -905,7 +978,7 @@ bool File__Analyze::Open_Buffer_Continue_Loop ()
                 Buffer_Temp_Size_Max=Buffer_Temp_Size_Max_ToAdd;
                 Buffer_Temp=new int8u[Buffer_Temp_Size_Max];
             }
-            std::memcpy(Buffer_Temp, Buffer+Buffer_Size-Buffer_Temp_Size, Buffer_Temp_Size);
+            memcpy_Unaligned_Unaligned(Buffer_Temp, Buffer+Buffer_Size-Buffer_Temp_Size, Buffer_Temp_Size);
         }
         else //Already a copy, just moving it
         {
@@ -977,6 +1050,14 @@ void File__Analyze::Open_Buffer_Position_Set (int64u File_Offset_)
 }
 
 //---------------------------------------------------------------------------
+#if MEDIAINFO_ADVANCED2
+void File__Analyze::Open_Buffer_SegmentChange ()
+{
+    Read_Buffer_SegmentChange();
+}
+#endif //MEDIAINFO_ADVANCED2
+
+//---------------------------------------------------------------------------
 void File__Analyze::Open_Buffer_Unsynch ()
 {
     Status[IsFinished]=false;
@@ -1014,6 +1095,13 @@ void File__Analyze::Open_Buffer_Unsynch ()
         Ibi_Read_Buffer_Unsynched();
     }
     Buffer_Clear();
+
+    //Some default values
+    if (IsRawStream && File_GoTo==0)
+    {
+        FrameInfo.DTS=0;
+        Frame_Count_NotParsedIncluded=0;
+    }
 }
 
 //---------------------------------------------------------------------------
@@ -1174,7 +1262,10 @@ size_t File__Analyze::Read_Buffer_Seek_OneFramePerFile (size_t Method, int64u Va
                         return 2; //Invalid value
                     int64u Offset=0;
                     if (Config->File_Sizes.size()!=Config->File_Names.size())
-                        Offset=Value; //Offset is used as a file offset
+                    {
+                        Offset=Value; //File_GoTo is the frame offset in that case
+                        Config->File_GoTo_IsFrameOffset=true;
+                    }
                     else
                         for (size_t Pos=0; Pos<Value; Pos++)
                             Offset+=Config->File_Sizes[Pos];
@@ -1419,15 +1510,18 @@ bool File__Analyze::FileHeader_Begin_0x000001()
 bool File__Analyze::FileHeader_Begin_XML(XMLDocument &Document)
 {
     //Element_Size
-    if (File_Size<32 || File_Size>16*1024*1024)
+    if (!IsSub && (File_Size<32 || File_Size>16*1024*1024))
     {
         Reject();
         return false; //XML files are not expected to be so big
     }
 
     //Element_Size
-    if (Buffer_Size<File_Size)
+    if (!IsSub && Buffer_Size<File_Size)
+    {
+        Element_WaitForMoreData();
         return false; //Must wait for more data
+    }
 
     //XML header
     Ztring Data;
@@ -1498,7 +1592,7 @@ bool File__Analyze::Synchro_Manage()
         {
             if (Status[IsFinished])
                 Finish(); //Finish
-            if (File_Offset_FirstSynched==(int64u)-1 && Buffer_TotalBytes+Buffer_Offset>=Buffer_TotalBytes_FirstSynched_Max)
+            if (!IsSub && File_Offset_FirstSynched==(int64u)-1 && Buffer_TotalBytes+Buffer_Offset>=Buffer_TotalBytes_FirstSynched_Max)
             {
                 Open_Buffer_Unsynch();
                 GoToFromEnd(0);
@@ -1576,7 +1670,7 @@ bool File__Analyze::Synchro_Manage_Test()
         {
             if (Status[IsFinished])
                 Finish(); //Finish
-            if (File_Offset_FirstSynched==(int64u)-1 && Buffer_TotalBytes+Buffer_Offset>=Buffer_TotalBytes_FirstSynched_Max)
+            if (!IsSub && File_Offset_FirstSynched==(int64u)-1 && Buffer_TotalBytes+Buffer_Offset>=Buffer_TotalBytes_FirstSynched_Max)
                 Reject();
             return false; //Wait for more data
         }
@@ -3015,6 +3109,22 @@ void File__Analyze::GoToFromEnd (int64u GoToFromEnd, const char* ParserName)
         return;
     }
 
+    if (File_Size==(int64u)-1)
+    {
+        #if MEDIAINFO_SEEK
+            if (Config->File_IgnoreSequenceFileSize_Get() && GoToFromEnd)
+            {
+                File_GoTo=Config->File_Names.size()-1;
+                File_Offset=(int64u)-1;
+                Config->File_Current_Offset=(int64u)-1;
+                Config->File_GoTo_IsFrameOffset=true;
+            }
+            else
+        #endif //MEDIAINFO_SEEK
+                ForceFinish(); //We can not jump
+        return;
+    }
+
     GoTo(File_Size-GoToFromEnd, ParserName);
 }
 #else //MEDIAINFO_TRACE
@@ -3022,6 +3132,22 @@ void File__Analyze::GoToFromEnd (int64u GoToFromEnd)
 {
     if (GoToFromEnd>File_Size)
         return;
+
+    if (File_Size==(int64u)-1)
+    {
+        #if MEDIAINFO_SEEK
+            if (Config->File_IgnoreSequenceFileSize_Get() && GoToFromEnd)
+            {
+                File_GoTo=Config->File_Names.size()-1;
+                File_Offset=(int64u)-1;
+                Config->File_Current_Offset=(int64u)-1;
+                Config->File_GoTo_IsFrameOffset=true;
+            }
+            else
+        #endif //MEDIAINFO_SEEK
+                ForceFinish(); //We can not jump
+        return;
+    }
 
     GoTo(File_Size-GoToFromEnd);
 }
@@ -3220,7 +3346,7 @@ void File__Analyze::Event_Prepare(struct MediaInfo_Event_Generic* Event)
 {
     memset(Event, 0xFF, sizeof(struct MediaInfo_Event_Generic));
     Event->StreamIDs_Size=StreamIDs_Size;
-    memcpy(Event->StreamIDs, StreamIDs, sizeof(StreamIDs));
+    memcpy_Unaligned_Unaligned_Once1024(Event->StreamIDs, StreamIDs, 128);
     memcpy(Event->StreamIDs_Width, StreamIDs_Width, sizeof(StreamIDs_Width));
     memcpy(Event->ParserIDs, ParserIDs, sizeof(ParserIDs));
     Event->StreamOffset=File_Offset+Buffer_Offset+Element_Offset;
@@ -3360,7 +3486,7 @@ bool File__Analyze::Demux_UnpacketizeContainer_Test_OneFramePerFile ()
     {
         size_t* File_Buffer_Size_Hint_Pointer=Config->File_Buffer_Size_Hint_Pointer_Get();
         if (File_Buffer_Size_Hint_Pointer)
-            (*File_Buffer_Size_Hint_Pointer)=Config->File_Current_Size-Config->File_Current_Offset-Buffer_Size;
+            (*File_Buffer_Size_Hint_Pointer) = (size_t)(Config->File_Current_Size - Config->File_Current_Offset - Buffer_Size);
         return false;
     }
 

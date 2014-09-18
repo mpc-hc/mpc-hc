@@ -1556,6 +1556,11 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 #if INTERNAL_SOURCEFILTER_RTSP
     if (src[SRC_RTSP]) {
         pFGLAVSplitterSource->m_protocols.AddTail(_T("rtsp"));
+        // Add transport protocol specific RTSP URL handlers
+        pFGLAVSplitterSource->m_protocols.AddTail(_T("rtspu")); // UDP
+        pFGLAVSplitterSource->m_protocols.AddTail(_T("rtspm")); // UDP multicast
+        pFGLAVSplitterSource->m_protocols.AddTail(_T("rtspt")); // TCP
+        pFGLAVSplitterSource->m_protocols.AddTail(_T("rtsph")); // HTTP
         pFGLAVSplitterSource->AddEnabledFormat("rtsp");
     }
 #endif
@@ -2053,11 +2058,17 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 #if INTERNAL_DECODER_SCREEN
     pFGF = tra[TRA_SCREEN] ? pFGLAVVideo : pFGLAVVideoLM;
     pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_TSCC);
+    pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_TSC2);
     pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VMnc);
 #endif
 #if INTERNAL_DECODER_FLIC
     pFGF = tra[TRA_FLIC] ? pFGLAVVideo : pFGLAVVideoLM;
     pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_FLIC);
+#endif
+#if INTERNAL_DECODER_V210_V410
+    pFGF = tra[TRA_V210_V410] ? pFGLAVVideo : pFGLAVVideoLM;
+    pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_v210);
+    pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_v410);
 #endif
 #endif /* #if HAS_VIDEO_DECODERS */
 

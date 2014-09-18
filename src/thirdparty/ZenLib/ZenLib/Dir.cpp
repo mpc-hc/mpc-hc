@@ -101,44 +101,16 @@ ZtringList Dir::GetAllFileNames(const Ztring &Dir_Name_, dirlist_t Options)
             Ztring Path=FileName::Path_Get(Dir_Name);
             if (Path.empty())
             {
-                #ifdef UNICODE
-                    #ifndef ZENLIB_NO_WIN9X_SUPPORT
-                    if (IsWin9X_Fast())
-                    {
-                        DWORD Path_Size=GetFullPathNameA(Dir_Name.To_Local().c_str(), 0, NULL, NULL);
-                        char* PathTemp=new char[Path_Size+1];
-                        if (GetFullPathNameA(Dir_Name.To_Local().c_str(), Path_Size+1, PathTemp, NULL))
-                            Path=FileName::Path_Get(PathTemp);
-                        delete [] PathTemp; //PathTemp=NULL;
-                    }
-                    else
-                    #endif //ZENLIB_NO_WIN9X_SUPPORT
-                    {
-                        DWORD Path_Size=GetFullPathName(Dir_Name.c_str(), 0, NULL, NULL);
-                        Char* PathTemp=new Char[Path_Size+1];
-                        if (GetFullPathNameW(Dir_Name.c_str(), Path_Size+1, PathTemp, NULL))
-                            Path=FileName::Path_Get(PathTemp);
-                        delete [] PathTemp; //PathTemp=NULL;
-                    }
-                #else
-                    DWORD Path_Size=GetFullPathName(Dir_Name.c_str(), 0, NULL, NULL);
-                    Char* PathTemp=new Char[Path_Size+1];
-                    if (GetFullPathName(Dir_Name.c_str(), Path_Size+1, PathTemp, NULL))
-                        Path=FileName::Path_Get(PathTemp);
-                    delete [] PathTemp; //PathTemp=NULL;
-                #endif //UNICODE
+                DWORD Path_Size=GetFullPathName(Dir_Name.c_str(), 0, NULL, NULL);
+                Char* PathTemp=new Char[Path_Size+1];
+                if (GetFullPathName(Dir_Name.c_str(), Path_Size+1, PathTemp, NULL))
+                    Path=FileName::Path_Get(PathTemp);
+                delete [] PathTemp;
             }
 
             #ifdef UNICODE
                 WIN32_FIND_DATAW FindFileDataW;
-                HANDLE hFind;
-                #ifndef ZENLIB_NO_WIN9X_SUPPORT
-                WIN32_FIND_DATAA FindFileDataA;
-                if (IsWin9X_Fast())
-                    hFind=FindFirstFileA(Dir_Name.To_Local().c_str(), &FindFileDataA);
-                else
-                #endif //ZENLIB_NO_WIN9X_SUPPORT
-                    hFind=FindFirstFileW(Dir_Name.c_str(), &FindFileDataW);
+                HANDLE hFind=FindFirstFileW(Dir_Name.c_str(), &FindFileDataW);
             #else
                 WIN32_FIND_DATA FindFileData;
                 HANDLE hFind=FindFirstFile(Dir_Name.c_str(), &FindFileData);
@@ -151,13 +123,7 @@ ZtringList Dir::GetAllFileNames(const Ztring &Dir_Name_, dirlist_t Options)
             do
             {
                 #ifdef UNICODE
-                    Ztring File_Name;
-                    #ifndef ZENLIB_NO_WIN9X_SUPPORT
-                    if (IsWin9X_Fast())
-                        File_Name=FindFileDataA.cFileName;
-                    else
-                    #endif //ZENLIB_NO_WIN9X_SUPPORT
-                        File_Name=FindFileDataW.cFileName;
+                    Ztring File_Name(FindFileDataW.cFileName);
                 #else
                     Ztring File_Name(FindFileData.cFileName);
                 #endif //UNICODE
@@ -175,12 +141,7 @@ ZtringList Dir::GetAllFileNames(const Ztring &Dir_Name_, dirlist_t Options)
                         ToReturn.push_back(File_Name_Complete); //A file
                 }
                 #ifdef UNICODE
-                    #ifndef ZENLIB_NO_WIN9X_SUPPORT
-                    if (IsWin9X_Fast())
-                        ReturnValue=FindNextFileA(hFind, &FindFileDataA);
-                    else
-                    #endif //ZENLIB_NO_WIN9X_SUPPORT
-                        ReturnValue=FindNextFileW(hFind, &FindFileDataW);
+                    ReturnValue=FindNextFileW(hFind, &FindFileDataW);
                 #else
                     ReturnValue=FindNextFile(hFind, &FindFileData);
                 #endif //UNICODE
@@ -265,13 +226,7 @@ bool Dir::Exists(const Ztring &File_Name)
     #else //ZENLIB_USEWX
        #ifdef WINDOWS
             #ifdef UNICODE
-                DWORD FileAttributes;
-                #ifndef ZENLIB_NO_WIN9X_SUPPORT
-                if (IsWin9X_Fast())
-                    FileAttributes=GetFileAttributesA(File_Name.To_Local().c_str());
-                else
-                #endif //ZENLIB_NO_WIN9X_SUPPORT
-                    FileAttributes=GetFileAttributesW(File_Name.c_str());
+                DWORD FileAttributes=GetFileAttributesW(File_Name.c_str());
             #else
                 DWORD FileAttributes=GetFileAttributes(File_Name.c_str());
             #endif //UNICODE
@@ -297,12 +252,7 @@ bool Dir::Create(const Ztring &File_Name)
     #else //ZENLIB_USEWX
         #ifdef WINDOWS
             #ifdef UNICODE
-                #ifndef ZENLIB_NO_WIN9X_SUPPORT
-                if (IsWin9X_Fast())
-                    return CreateDirectoryA(File_Name.To_Local().c_str(), NULL)!=0;
-                else
-                #endif //ZENLIB_NO_WIN9X_SUPPORT
-                    return CreateDirectoryW(File_Name.c_str(), NULL)!=0;
+                return CreateDirectoryW(File_Name.c_str(), NULL)!=0;
             #else
                 return CreateDirectory(File_Name.c_str(), NULL)!=0;
             #endif //UNICODE

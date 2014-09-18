@@ -37,6 +37,12 @@
 #if defined(MEDIAINFO_HEVC_YES)
     #include "MediaInfo/Video/File_Hevc.h"
 #endif
+#if defined(MEDIAINFO_FFV1_YES)
+    #include "MediaInfo/Video/File_Ffv1.h"
+#endif
+#if defined(MEDIAINFO_HUFFYUV_YES)
+    #include "MediaInfo/Video/File_HuffYuv.h"
+#endif
 #if defined(MEDIAINFO_VC1_YES)
     #include "MediaInfo/Video/File_Vc1.h"
 #endif
@@ -45,6 +51,9 @@
 #endif
 #if defined(MEDIAINFO_MPEGV_YES)
     #include "MediaInfo/Video/File_Mpegv.h"
+#endif
+#if defined(MEDIAINFO_PRORES_YES)
+    #include "MediaInfo/Video/File_ProRes.h"
 #endif
 #if defined(MEDIAINFO_VP8_YES)
     #include "MediaInfo/Video/File_Vp8.h"
@@ -262,7 +271,8 @@ void File_Mk::Streams_Finish()
                 std::sort(FrameRate_Between.begin(), FrameRate_Between.end());
                 if (!FrameRate_Between.empty()
                  && FrameRate_Between[0]*0.9<FrameRate_Between[FrameRate_Between.size()-1]
-                 && FrameRate_Between[0]*1.1>FrameRate_Between[FrameRate_Between.size()-1])
+                 && FrameRate_Between[0]*1.1>FrameRate_Between[FrameRate_Between.size()-1]
+                 && TimecodeScale)
                 {
                     float Time=0;
                     if (Temp->second.TimeCodes.size()>30+FramesToAdd)
@@ -312,10 +322,14 @@ void File_Mk::Streams_Finish()
                         ;
                     else if (Temp->second.AvgBytesPerSec!=0)
                         Delay+=((float64)Temp->second.Parser->Buffer_TotalBytes_FirstSynched)*1000/Temp->second.AvgBytesPerSec;
-                    else if (Temp->second.Parser->Retrieve(Stream_Audio, 0, Audio_BitRate).To_int64u()!=0)
-                        Delay+=((float64)Temp->second.Parser->Buffer_TotalBytes_FirstSynched)*1000/Temp->second.Parser->Retrieve(Stream_Audio, 0, Audio_BitRate).To_int64u();
-                    else if (Temp->second.Parser->Retrieve(Stream_Audio, 0, Audio_BitRate_Nominal).To_int64u()!=0)
-                        Delay+=((float64)Temp->second.Parser->Buffer_TotalBytes_FirstSynched)*1000/Temp->second.Parser->Retrieve(Stream_Audio, 0, Audio_BitRate_Nominal).To_int64u();
+                    else
+                    {
+                        int64u BitRate = Temp->second.Parser->Retrieve(Stream_Audio, 0, Audio_BitRate).To_int64u();
+                        if (BitRate == 0)
+                            BitRate = Temp->second.Parser->Retrieve(Stream_Audio, 0, Audio_BitRate_Nominal).To_int64u();
+                        if (BitRate)
+                            Delay += ((float64)Temp->second.Parser->Buffer_TotalBytes_FirstSynched) * 1000 / BitRate;
+                    }
                 }
 
                 //Filling
@@ -400,10 +414,7 @@ void File_Mk::Streams_Finish()
     //Attachments
     for (size_t Pos=0; Pos<AttachedFiles.size(); Pos++)
     {
-        if (Ztring(AttachedFiles[Pos]).MakeLowerCase().find(__T("cover"))==string::npos)
-            Fill(Stream_General, 0, "Attachment", __T("Yes"));
-        else
-            Fill(Stream_General, 0, "Cover", __T("Yes"));
+        Segment_Attachements_AttachedFile_FileName();
     }
 
     //Purge what is not needed anymore
@@ -1127,11 +1138,8 @@ void File_Mk::Segment_Attachements_AttachedFile_FileName()
 
     //Parsing
     Ztring Data=UTF8_Get();
-    
-    FILLING_BEGIN();
-        if (!Data.empty())
-            AttachedFiles[AttachedFiles.size()-1]=Data;
-    FILLING_END();
+
+    Fill(Stream_General, 0, "Attachements", Data);
 }
 
 //---------------------------------------------------------------------------
@@ -2644,7 +2652,17 @@ void File_Mk::Segment_Tracks_TrackEntry_CodecPrivate_vids()
     {
         Element_Begin1("Private data");
         if (Stream[TrackNumber].Parser)
+        {
+            #if defined(MEDIAINFO_FFV1_YES)
+                if (Compression==0x46465631) //FFV1
+                    ((File_Ffv1*)Stream[TrackNumber].Parser)->IsOutOfBandData=true; //TODO: implement ISOutOfBandData in a generic maner
+            #endif
+            #if defined(MEDIAINFO_FFV1_YES)
+                if (Compression==0x46465648) //FFVH
+                    ((File_HuffYuv*)Stream[TrackNumber].Parser)->IsOutOfBandData=true; //TODO: implement ISOutOfBandData in a generic maner
+            #endif
             Open_Buffer_Continue(Stream[TrackNumber].Parser);
+        }
         else
             Skip_XX(Data_Remain(),                                  "Unknown");
         Element_End0();
@@ -3364,13 +3382,25 @@ void File_Mk::CodecID_Manage()
             ((File_Hevc*)Stream[TrackNumber].Parser)->MustParse_VPS_SPS_PPS_FromMatroska=true;
             ((File_Hevc*)Stream[TrackNumber].Parser)->SizedBlocks=true;
             #if MEDIAINFO_DEMUX
-                if (Config->Demux_Avc_Transcode_Iso14496_15_to_Iso14496_10_Get())
+                if (Config->Demux_Hevc_Transcode_Iso14496_15_to_AnnexB_Get())
                 {
                     Stream[TrackNumber].Parser->Demux_Level=2; //Container
                     Stream[TrackNumber].Parser->Demux_UnpacketizeContainer=true;
                 }
             #endif //MEDIAINFO_DEMUX
         }
+    }
+    #endif
+    #if defined(MEDIAINFO_FFV1_YES)
+    else if (Format==__T("FFV1"))
+    {
+        Stream[TrackNumber].Parser=new File_Ffv1;
+    }
+    #endif
+    #if defined(MEDIAINFO_HUFFYUV_YES)
+    else if (Format==__T("HuffYUV"))
+    {
+        Stream[TrackNumber].Parser=new File_HuffYuv;
     }
     #endif
     #if defined(MEDIAINFO_VC1_YES)
@@ -3394,6 +3424,12 @@ void File_Mk::CodecID_Manage()
         Stream[TrackNumber].Parser=new File_Mpegv;
         ((File_Mpegv*)Stream[TrackNumber].Parser)->FrameIsAlwaysComplete=true;
         ((File_Mpegv*)Stream[TrackNumber].Parser)->Frame_Count_Valid=1;
+    }
+    #endif
+    #if defined(MEDIAINFO_PRORES_YES)
+    else if (Format==__T("ProRes"))
+    {
+        Stream[TrackNumber].Parser=new File_ProRes;
     }
     #endif
     #if defined(MEDIAINFO_VP8_YES)

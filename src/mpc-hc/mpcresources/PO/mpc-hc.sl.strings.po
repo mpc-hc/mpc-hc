@@ -2,14 +2,15 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# fubuzz <knedlc@gmail.com>, 2014
 # shvala <simon.hvala@hotmail.com>, 2013-2014
 # Underground78, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-24 19:23:17+0000\n"
-"PO-Revision-Date: 2014-08-25 09:40+0000\n"
-"Last-Translator: JellyFrog\n"
+"POT-Creation-Date: 2014-08-31 21:05:52+0000\n"
+"PO-Revision-Date: 2014-09-03 08:26+0000\n"
+"Last-Translator: shvala <simon.hvala@hotmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/mpc-hc/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -115,7 +116,7 @@ msgstr "Slogi"
 
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
-msgstr ""
+msgstr "Če izrisovalni cilj ni določen, bodo SSA/ASS podnapisi izrisani relativno video sliki. Vsi ostali besedilni podnapisi bodo izrisani relativno oknu."
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -843,15 +844,15 @@ msgstr "Natančni VSync"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid "If the rendering target is left undefined, it will be inherited from the default style."
-msgstr ""
+msgstr "Če izrisovalni cilj ni določen, bo prevzet iz privzetega sloga."
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
-msgstr ""
+msgstr "Ne dovoli animacije podnapisov. S tem zmanjšate uporabo CPU-ja. Lahko uporabite, če naletite na utripajoče podnapise."
 
 msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
-msgstr ""
+msgstr "Povečanje števila medpomnjenih podslik, naj bi v splošnem izboljšalo izrisovalno učinkovitost na račun višje uporabe video RAM-a grafične kartice."
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
@@ -859,7 +860,7 @@ msgstr "Ko kliknete ta gumb bodo označene vrste datotek predstavljale dejansko 
 
 msgctxt "IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Disabling this option will prevent the subtitles from blinking but it may cause the video renderer to skip some video frames."
-msgstr ""
+msgstr "Onemogočanje te možnosti bo preprečilo utripanje podnapisov, vendar lahko izpusti nekatere video sličice."
 
 msgctxt "ID_PLAY_PLAY"
 msgid "Play\nPlay"
@@ -1243,35 +1244,35 @@ msgstr "Programsko dekodiranje"
 
 msgctxt "IDS_STATSBAR_PLAYBACK_RATE"
 msgid "Playback rate"
-msgstr ""
+msgstr "Hitrost predvajanja"
 
 msgctxt "IDS_FILTERS_COPY_TO_CLIPBOARD"
 msgid "&Copy filters list to clipboard"
-msgstr ""
+msgstr "&Kopiraj filtre na odložišče"
 
 msgctxt "IDS_CREDENTIALS_SERVER"
 msgid "Enter server credentials"
-msgstr ""
+msgstr "Vnesi poverilnice strežnika"
 
 msgctxt "IDS_CREDENTIALS_CONNECT"
 msgid "Enter your credentials to connect"
-msgstr ""
+msgstr "Vnesi svoje poverilnice za povezavo"
 
 msgctxt "IDS_SUB_SAVE_EXTERNAL_STYLE_FILE"
 msgid "Save custom style"
-msgstr ""
+msgstr "Shrani stil po meri"
 
 msgctxt "IDS_CONTENT_EDUCATION_SCIENCE"
 msgid "Education/Science/Factual topics"
-msgstr ""
+msgstr "Izobraževanje/Znanost/Dejstva"
 
 msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
 msgid "Hides controls and panels also in windowed mode."
-msgstr ""
+msgstr "Skrije kontrolne površine tudi v okenskem načinu."
 
 msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
 msgid "Prevent external subtitle renderer to be loaded when internal is in use."
-msgstr ""
+msgstr "Prepreči nalaganje zunanjega izrisovalnika podnapisov ko je v uporabi notranji."
 
 msgctxt "IDS_PPAGEADVANCED_COL_NAME"
 msgid "Name"
@@ -1279,31 +1280,31 @@ msgstr "Ime"
 
 msgctxt "IDS_PPAGEADVANCED_COL_VALUE"
 msgid "Value"
-msgstr ""
+msgstr "Vrednost"
 
 msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
-msgstr ""
+msgstr "Največje število datotek prikazanih v meniju \"Nedavne datoteke\", za katere je položaj potencialno shranjen.  "
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
-msgstr ""
+msgstr "Zapomni si pozicijo samo za datoteke daljše od N minut."
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
 msgid "Remember file position also for audio files."
-msgstr ""
+msgstr "Zapomni si pozicijo tudi za zvočne datoteke."
 
 msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
 msgid "Do Nothing"
-msgstr ""
+msgstr "Ne naredi ničesar"
 
 msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
 msgid "Play next file in the folder"
-msgstr ""
+msgstr "Predvajaj naslednjo datoteko v imeniku"
 
 msgctxt "IDS_AFTER_PLAYBACK_REWIND"
 msgid "Rewind current file"
-msgstr ""
+msgstr "Prevrti trenutno datoteko"
 
 msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
 msgid "Close"
@@ -1315,19 +1316,19 @@ msgstr "Izhod"
 
 msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
 msgid "Turn off the monitor"
-msgstr ""
+msgstr "Izključi monitor"
 
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
 msgid "JPEG Image"
-msgstr ""
+msgstr "JPEG Slika"
 
 msgctxt "IDS_IMAGE_QUALITY"
 msgid "Quality (%):"
-msgstr ""
+msgstr "Kvaliteta (%)."
 
 msgctxt "IDS_PPAGEADVANCED_COVER_SIZE_LIMIT"
 msgid "Maximum size (NxNpx) of a cover-art loaded in the audio only mode."
-msgstr ""
+msgstr "Največja velikost (NxNpx) naslovnice, ki se naloži v zvočnem načinu."
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2211,7 +2212,7 @@ msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Ime datoteke: %s\\N%sLočlji
 
 msgctxt "IDS_THUMBNAIL_TOO_SMALL"
 msgid "The thumbnails would be too small, impossible to create the file.\n\nTry lowering the number of thumbnails or increasing the total size."
-msgstr ""
+msgstr "Predogledne sličice bi bile premajhne, nemogoče je izdelati datoteko.\n\nPoskušaj zmanjšati število sličic ali povečati skupno velikost."
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
@@ -2219,7 +2220,7 @@ msgstr "Da bi naložili podnapise morate spremeniti vrsto video izrisovalnika in
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
-msgstr ""
+msgstr "Datoteke podnapisov"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %ld:%ld"
@@ -2423,7 +2424,7 @@ msgstr " (Komentar režiserja 2)"
 
 msgctxt "IDS_DVD_SUBTITLES_ENABLE"
 msgid "Enable DVD subtitles"
-msgstr ""
+msgstr "Omogoči DVD podnapise"
 
 msgctxt "IDS_AG_ANGLE"
 msgid "Angle %u"
@@ -2679,7 +2680,7 @@ msgstr "&Skrij meni"
 
 msgctxt "IDD_PPAGEADVANCED"
 msgid "Advanced"
-msgstr ""
+msgstr "Napredno"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seekbar"
@@ -3443,7 +3444,7 @@ msgstr "Po predvajanju: Zakleni"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
-msgstr ""
+msgstr "Po predvajanju: Izključi monitor"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
@@ -3483,22 +3484,26 @@ msgstr "Zunanji razdelilniki lahko imajo lastne nastavitve želenega jezika, zat
 
 msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
 msgid "&Blu-Ray playlists"
-msgstr ""
+msgstr "&Blu-Ray seznam predvajanja"
 
 msgctxt "IDS_NAVIGATE_PLAYLIST"
 msgid "&Playlist"
-msgstr ""
+msgstr "&Seznam predvajanja"
 
 msgctxt "IDS_NAVIGATE_CHAPTERS"
 msgid "&Chapters"
-msgstr ""
+msgstr "&Poglavja"
 
 msgctxt "IDS_NAVIGATE_TITLES"
 msgid "&Titles"
-msgstr ""
+msgstr "&Naslovi"
 
 msgctxt "IDS_NAVIGATE_CHANNELS"
 msgid "&Channels"
+msgstr "&Kanali"
+
+msgctxt "IDC_FASTSEEK_CHECK"
+msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."
 msgstr ""
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"

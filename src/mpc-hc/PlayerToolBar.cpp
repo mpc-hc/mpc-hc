@@ -54,7 +54,16 @@ bool CPlayerToolBar::LoadExternalToolBar(CImage* image)
     if (FAILED(image->Load(path + _T("toolbar.png")))) {
         // If it fails, try to load an external BMP toolbar
         if (FAILED(image->Load(path + _T("toolbar.bmp")))) {
-            success = false;
+            if (AfxGetMyApp()->GetAppDataPath(path)) {
+                // Try to load logo from AppData path
+                if (FAILED(image->Load(path + _T("\\toolbar.png")))) {
+                    if (FAILED(image->Load(path + _T("\\toolbar.bmp")))) {
+                        success = false;
+                    }
+                }
+            } else {
+                success = false;
+            }
         }
     }
 
@@ -216,7 +225,7 @@ BEGIN_MESSAGE_MAP(CPlayerToolBar, CToolBar)
     ON_WM_NCPAINT()
     ON_WM_LBUTTONDOWN()
     ON_WM_SETCURSOR()
-    ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTW, 0, 0xFFFF, OnToolTipNotify)
+    ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify)
 END_MESSAGE_MAP()
 
 // CPlayerToolBar message handlers

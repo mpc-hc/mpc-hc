@@ -493,7 +493,7 @@ void File_Mpega::Streams_Finish()
     if (FrameInfo.PTS!=(int64u)-1 && FrameInfo.PTS>PTS_Begin)
     {
         Fill(Stream_Audio, 0, Audio_Duration, float64_int64s(((float64)(FrameInfo.PTS-PTS_Begin))/1000000));
-        if (Retrieve(Stream_Audio, 0, Audio_BitRate_Mode)==__T("CBR"))
+        if (Retrieve(Stream_Audio, 0, Audio_BitRate_Mode)==__T("CBR") && ID<4 && sampling_frequency<4)
         {
             int16u Samples;
             if (ID==3 && layer==3) //MPEG 1 layer 1
@@ -508,7 +508,7 @@ void File_Mpega::Streams_Finish()
         }
     }
 
-    if (FrameCount==0 && VBR_FileSize && Retrieve(Stream_Audio, 0, Audio_BitRate_Mode)==__T("CBR") && Mpega_SamplingRate[ID][sampling_frequency])
+    if (FrameCount==0 && VBR_FileSize && Retrieve(Stream_Audio, 0, Audio_BitRate_Mode)==__T("CBR") && ID<4 && layer<4 && sampling_frequency<4 && bitrate_index<16 && Mpega_SamplingRate[ID][sampling_frequency])
     {
         size_t Size=(Mpega_Coefficient[ID][layer]*Mpega_BitRate[ID][layer][bitrate_index]*1000/Mpega_SamplingRate[ID][sampling_frequency])*Mpega_SlotSize[layer];
         if (Size)
@@ -840,7 +840,7 @@ bool File_Mpega::Demux_UnpacketizeContainer_Test()
         if (Frame_Count && File_Demux_Unpacketize_StreamLayoutChange_Skip)
         {
             int8u mode0              =CC1(Buffer+Buffer_Offset+3)>>6;
-            if (sampling_frequency0!=sampling_frequency_Frame0 || mode0!=mode_Frame0)
+            if (sampling_frequency0!=sampling_frequency_Frame0 || Mpega_Channels[mode0]!=Mpega_Channels[mode_Frame0])
             {
                 return true;
             }
@@ -893,7 +893,7 @@ void File_Mpega::Header_Parse()
     }
 
     //Filling
-    int64u Size=(Mpega_Coefficient[ID][layer]*Mpega_BitRate[ID][layer][bitrate_index]*1000/Mpega_SamplingRate[ID][sampling_frequency]+(padding_bit?1:0))*Mpega_SlotSize[layer];
+    int64u Size = ((int64u)Mpega_Coefficient[ID][layer] * (int64u)Mpega_BitRate[ID][layer][bitrate_index] * 1000 / (int64u)Mpega_SamplingRate[ID][sampling_frequency] + (padding_bit ? 1 : 0)) * (int64u)Mpega_SlotSize[layer];
 
     //Special case: tags is inside the last frame
     if (File_Offset+Buffer_Offset+Size>=File_Size-File_EndTagSize)
@@ -938,7 +938,7 @@ void File_Mpega::Data_Parse()
     }
 
     //Partial frame
-    if (Header_Size+Element_Size<(int64u)((Mpega_Coefficient[ID][layer]*Mpega_BitRate[ID][layer][bitrate_index]*1000/Mpega_SamplingRate[ID][sampling_frequency]+(padding_bit?1:0))*Mpega_SlotSize[layer]))
+    if (Header_Size + Element_Size<((int64u)Mpega_Coefficient[ID][layer] * (int64u)Mpega_BitRate[ID][layer][bitrate_index] * 1000 / (int64u)Mpega_SamplingRate[ID][sampling_frequency] + (padding_bit ? 1 : 0)) * (int64u)Mpega_SlotSize[layer])
     {
         Element_Name("Partial frame");
         Skip_XX(Element_Size,                                   "Data");

@@ -72,6 +72,9 @@ private :
     //Buffer - Global
     void Read_Buffer_Continue();
     void Read_Buffer_AfterParsing ();
+    #if MEDIAINFO_ADVANCED2
+    void Read_Buffer_SegmentChange();
+    #endif //MEDIAINFO_ADVANCED2
     void Read_Buffer_Unsynched();
     #if MEDIAINFO_SEEK
     size_t Read_Buffer_Seek (size_t Method, int64u Value, int64u ID);

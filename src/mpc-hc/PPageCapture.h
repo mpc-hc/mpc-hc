@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2013 see Authors.txt
+ * (C) 2009-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -30,26 +30,9 @@ class CPPageCapture : public CPPageBase
 {
     DECLARE_DYNAMIC(CPPageCapture)
 
+private:
     CAtlArray<CString> m_vidnames, m_audnames, m_providernames, m_tunernames, m_receivernames;
 
-public:
-    CPPageCapture();   // standard constructor
-    virtual ~CPPageCapture();
-
-    // Dialog Data
-    enum { IDD = IDD_PPAGECAPTURE };
-
-protected:
-    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-    virtual BOOL OnInitDialog();
-    virtual BOOL OnApply();
-
-    void FindAnalogDevices();
-    void FindDigitalDevices();
-    void SaveFoundDevices();
-
-    DECLARE_MESSAGE_MAP()
-public:
     CComboBox m_cbAnalogVideo;
     CComboBox m_cbAnalogAudio;
     CComboBox m_cbAnalogCountry;
@@ -60,10 +43,29 @@ public:
     CComboBox m_cbRebuildFilterGraph;
     CComboBox m_cbStopFilterGraph;
 
+    void FindAnalogDevices();
+    void FindDigitalDevices();
+    void SaveFoundDevices();
+
+public:
+    CPPageCapture();
+    virtual ~CPPageCapture();
+
+    // Dialog Data
+    enum { IDD = IDD_PPAGECAPTURE };
+
+protected:
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    virtual BOOL OnInitDialog();
+    virtual BOOL OnApply();
+
+    DECLARE_MESSAGE_MAP()
+
     afx_msg void OnUpdateAnalog(CCmdUI* pCmdUI);
     afx_msg void OnUpdateDigital(CCmdUI* pCmdUI);
     afx_msg void OnUpdateDigitalReciver(CCmdUI* pCmdUI);
     afx_msg void OnUpdateDigitalStopFilterGraph(CCmdUI* pCmdUI);
-    afx_msg void OnCbnSelchangeRebuildFilterGraph();
-    afx_msg void OnCbnSelchangeStopFilterGraph();
+    afx_msg void OnSelChangeRebuildFilterGraph();
+    afx_msg void OnSelChangeStopFilterGraph();
+    afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMH, LRESULT* pResult);
 };

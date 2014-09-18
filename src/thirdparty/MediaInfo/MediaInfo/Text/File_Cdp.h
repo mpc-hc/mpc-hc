@@ -17,6 +17,12 @@
 
 //---------------------------------------------------------------------------
 #include "MediaInfo/File__Analyze.h"
+#if defined(MEDIAINFO_EIA608_YES)
+    #include "MediaInfo/Text/File_Eia608.h"
+#endif
+#if defined(MEDIAINFO_EIA708_YES)
+    #include "MediaInfo/Text/File_Eia708.h"
+#endif
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib
@@ -79,6 +85,16 @@ private :
     };
     std::vector<stream*> Streams;
     size_t               Streams_Count;
+
+    //Temp
+    int8u cdp_frame_rate;
+
+    //Helpers
+    void  CreateStream(int8u Parser_Pos);
+
+    //Tests
+    int8u cdp_length_Min;
+    int8u cdp_length_Max;
 };
 
 } //NameSpace

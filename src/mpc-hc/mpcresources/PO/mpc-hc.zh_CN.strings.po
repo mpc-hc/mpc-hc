@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-24 19:23:17+0000\n"
-"PO-Revision-Date: 2014-08-25 12:00+0000\n"
+"POT-Creation-Date: 2014-08-31 21:05:52+0000\n"
+"PO-Revision-Date: 2014-09-01 09:20+0000\n"
 "Last-Translator: Ming Chen <yzonline@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/mpc-hc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -852,7 +852,7 @@ msgstr "禁用字幕动画。开启本选项将降低CPU占用。如果字幕闪
 
 msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
-msgstr "增加缓冲的子画面数一般能改善回放性能，但是会增加GPU的显存占用量"
+msgstr "增加缓冲的子画面数一般能改善回放性能，但是会增加GPU的显存占用量。"
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
@@ -1168,7 +1168,7 @@ msgstr "打开 DVD/BD"
 
 msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
 msgid "Failed to set post-resize shaders"
-msgstr "设置重绘尺寸着色器后失败"
+msgstr "设置重绘尺寸后着色器失败"
 
 msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
 msgid "Failed to set both pre-resize and post-resize shaders"
@@ -1328,7 +1328,7 @@ msgstr "质量 (%):"
 
 msgctxt "IDS_PPAGEADVANCED_COVER_SIZE_LIMIT"
 msgid "Maximum size (NxNpx) of a cover-art loaded in the audio only mode."
-msgstr ""
+msgstr "音频播放模式下，最大可加载的封面图片尺寸 (NxN像素)。"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2092,7 +2092,7 @@ msgstr "此选项被设计用于减少撕裂。但是也会导致 MPC-HC 在播�
 
 msgctxt "IDS_MAINFRM_139"
 msgid "Sub delay: %ld ms"
-msgstr "字幕延迟: %ld ms"
+msgstr "字幕延迟: %ld 毫秒"
 
 msgctxt "IDS_AG_TITLE2"
 msgid "Title: %02d/%02d"
@@ -3072,7 +3072,7 @@ msgstr "渲染意图: 饱和度"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_ABSOLUTE"
 msgid "Rendering Intent: Absolute Colorimetric"
-msgstr "渲染目的: 绝对比色分析"
+msgstr "渲染意图: 绝对比色"
 
 msgctxt "IDS_OSD_RS_OUTPUT_RANGE"
 msgid "Output Range: %s"
@@ -3501,6 +3501,10 @@ msgstr "标题(&T)"
 msgctxt "IDS_NAVIGATE_CHANNELS"
 msgid "&Channels"
 msgstr "频道(&C)"
+
+msgctxt "IDC_FASTSEEK_CHECK"
+msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."
+msgstr ""
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"

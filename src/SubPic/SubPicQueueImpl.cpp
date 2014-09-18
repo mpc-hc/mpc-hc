@@ -244,6 +244,11 @@ STDMETHODIMP CSubPicQueue::Invalidate(REFERENCE_TIME rtInvalidate /*= -1*/)
         m_queue.RemoveTailNoReturn();
     }
 
+    // If we invalidate in the past, always give the queue a chance to re-render the modified subtitles
+    if (rtInvalidate >= 0 && rtInvalidate < m_rtNow) {
+        m_rtNow = rtInvalidate;
+    }
+
     lock.unlock();
     m_condQueueFull.notify_one();
     m_runQueueEvent.Set();

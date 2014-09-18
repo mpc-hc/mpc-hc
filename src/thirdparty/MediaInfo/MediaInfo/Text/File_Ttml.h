@@ -36,9 +36,15 @@ class File_Ttml : public File__Analyze
 {
 public :
     File_Ttml();
-    ~File_Ttml();
+
+    #if MEDIAINFO_EVENTS
+        int8u   MuxingMode;
+    #endif MEDIAINFO_EVENTS
 
 private :
+    //Streams management
+    void Streams_Accept();
+
     //Buffer - File header
     bool FileHeader_Begin();
 
@@ -47,11 +53,6 @@ private :
     size_t Read_Buffer_Seek (size_t Method, int64u Value, int64u ID);
     #endif //MEDIAINFO_SEEK
     void Read_Buffer_Continue();
-
-    //Temp
-    tinyxml2::XMLDocument*      document;
-    tinyxml2::XMLElement*       div;
-    tinyxml2::XMLElement*       p;
 };
 
 } //NameSpace

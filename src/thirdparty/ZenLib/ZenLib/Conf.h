@@ -54,9 +54,6 @@
         #define __WINDOWS__ 1
     #endif
 #endif
-#if !defined(ZENLIB_NO_WIN9X_SUPPORT) && (defined(_M_X64) || defined(_M_IA64))
-    #define ZENLIB_NO_WIN9X_SUPPORT
-#endif
 
 //---------------------------------------------------------------------------
 //Unix (Linux, HP, Sun, BeOS...)

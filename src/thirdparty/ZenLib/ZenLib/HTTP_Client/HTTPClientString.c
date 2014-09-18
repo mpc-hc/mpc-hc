@@ -237,7 +237,7 @@ CHAR* HTTPStrGetToken (CHAR *pSrc, UINT32 nSrcLength, CHAR *pDest, UINT32 *nDest
 {
 
     // Get text between the ":" and \r\n or end of string.
-    CHAR    *pStart   = pSrc;
+    CHAR    *pStart; //   = pSrc; //Jerome: is reassigned few lines later
     CHAR    *pEnd;
     UINT32  nTokenLength = 0;
     UINT32  nPosition    = 0;

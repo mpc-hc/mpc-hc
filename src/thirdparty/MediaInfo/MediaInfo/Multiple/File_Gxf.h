@@ -120,7 +120,9 @@ private :
             FirstFrameDuration=0;
             StreamKind=Stream_Max;
             StreamPos=(size_t)-1;
-            Searching_Payload=false;
+            TimeStamp_Start = (int32u)-1;
+            TimeStamp_End = (int32u)-1;
+            Searching_Payload = false;
             Searching_TimeStamp_Start=false;
             Searching_TimeStamp_End=false;
             FrameRate_Code=(int32u)-1;

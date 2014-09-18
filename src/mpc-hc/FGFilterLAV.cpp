@@ -784,8 +784,9 @@ bool CFGFilterLAVVideo::Settings::SetSettings(CComQIPtr<ILAVVideoSettings> pLAVF
 
     pLAVFSettings->SetHWAccelDeintHQ(bHWDeintHQ);
 
-    // Force RV1/2 enabled, the user can control it from our own options
+    // Force RV1/2 and v210/v410 enabled, the user can control it from our own options
     pLAVFSettings->SetFormatConfiguration(Codec_RV12, TRUE);
+    pLAVFSettings->SetFormatConfiguration(Codec_v210, TRUE);
 
     // Custom interface available only in patched build, will be removed after it's upstreamed
     if (CComQIPtr<ILAVVideoSettingsMPCHCCustom> pLAVFSettingsMPCHCCustom = pLAVFSettings) {

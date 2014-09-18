@@ -41,7 +41,7 @@ public:
     STDMETHODIMP                  Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox);
     STDMETHODIMP                  GetTextureSize(POSITION pos, SIZE& MaxTextureSize, SIZE& VirtualSize, POINT& VirtualTopLeft);
 
-    virtual HRESULT ParseSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE* pData, int len);
+    virtual HRESULT ParseSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE* pData, size_t nLen);
     virtual void    EndOfStream() { /* Nothing to do */ };
     virtual void    Reset();
 
@@ -111,9 +111,9 @@ private:
 
     HDMV_SEGMENT_TYPE m_nCurSegment;
     BYTE*             m_pSegBuffer;
-    int               m_nTotalSegBuffer;
-    int               m_nSegBufferPos;
-    int               m_nSegSize;
+    size_t            m_nTotalSegBuffer;
+    size_t            m_nSegBufferPos;
+    size_t            m_nSegSize;
 
     CAutoPtr<HDMV_PRESENTATION_SEGMENT>     m_pCurrentPresentationSegment;
     CAutoPtrList<HDMV_PRESENTATION_SEGMENT> m_pPresentationSegments;
@@ -121,13 +121,13 @@ private:
     HDMV_CLUT m_CLUTs[256];
     CompositionObject m_compositionObjects[64];
 
-    void AllocSegment(int nSize);
+    void AllocSegment(size_t nSize);
     int  ParsePresentationSegment(REFERENCE_TIME rt, CGolombBuffer* pGBuffer);
     void EnqueuePresentationSegment();
     void UpdateTimeStamp(REFERENCE_TIME rtStop);
 
-    void ParsePalette(CGolombBuffer* pGBuffer, unsigned short nSize);
-    void ParseObject(CGolombBuffer* pGBuffer, unsigned short nUnitSize);
+    void ParsePalette(CGolombBuffer* pGBuffer, size_t nSize);
+    void ParseObject(CGolombBuffer* pGBuffer, size_t nUnitSize);
     void ParseVideoDescriptor(CGolombBuffer* pGBuffer, VIDEO_DESCRIPTOR* pVideoDescriptor);
     void ParseCompositionDescriptor(CGolombBuffer* pGBuffer, COMPOSITION_DESCRIPTOR* pCompositionDescriptor);
     void ParseCompositionObject(CGolombBuffer* pGBuffer, const CAutoPtr<CompositionObject>& pCompositionObject);

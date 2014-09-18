@@ -623,17 +623,18 @@ void File_Swf::DefineVideoStream()
     Skip_BS(3,                                                  "VideoFlagsDeblocking");
     Skip_BS(1,                                                  "VideoFlagsSmoothing");
     BS_End();
-    Get_L1 (CodecID,                                            "CodecID"); Param_Info1(Swf_Format_Video[CodecID]);
-    if (CodecID>=16)
-        CodecID=0; //Should never happen (FLV is only 4-bit sized)
+    Get_L1 (CodecID,                                            "CodecID"); Param_Info1C((CodecID<16), Swf_Format_Video[CodecID]);
 
     Stream_Prepare(Stream_Video);
     Fill(Stream_Video, StreamPos_Last, Video_ID, CharacterID);
     Fill(Stream_Video, StreamPos_Last, Video_Width, Width);
     Fill(Stream_Video, StreamPos_Last, Video_Height, Height);
-    Fill(Stream_Video, StreamPos_Last, Video_Format, Swf_Format_Video[CodecID]);
-    Fill(Stream_Video, StreamPos_Last, Video_Format_Profile, Swf_Format_Profile_Video[CodecID]);
-    Fill(Stream_Video, StreamPos_Last, Video_Codec, Swf_Codec_Video[CodecID]);
+    if (CodecID<16)
+    {
+        Fill(Stream_Video, StreamPos_Last, Video_Format, Swf_Format_Video[CodecID]);
+        Fill(Stream_Video, StreamPos_Last, Video_Format_Profile, Swf_Format_Profile_Video[CodecID]);
+        Fill(Stream_Video, StreamPos_Last, Video_Codec, Swf_Codec_Video[CodecID]);
+    }
     Fill(Stream_Video, StreamPos_Last, Video_FrameCount, NumFrames);
 }
 

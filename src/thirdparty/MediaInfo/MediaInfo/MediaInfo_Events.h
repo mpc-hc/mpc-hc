@@ -292,6 +292,16 @@ struct MediaInfo_Event_Global_Demux_4
 };
 
 /*-------------------------------------------------------------------------*/
+/* BytesRead                                                               */
+#define MediaInfo_Event_Global_BytesRead 0xAF02
+struct MediaInfo_Event_Global_BytesRead_0
+{
+    MEDIAINFO_EVENT_GENERIC
+    size_t                  Content_Size;
+    const MediaInfo_int8u*  Content;
+};
+
+/*-------------------------------------------------------------------------*/
 /* MediaInfo_Event_Video_SliceInfo_0                                       */
 #define MediaInfo_Event_Video_SliceInfo 0x7801
 struct MediaInfo_Event_Video_SliceInfo_0
@@ -311,6 +321,18 @@ struct MediaInfo_Event_Video_SliceInfo_0
 #define MediaInfo_Parser_General        0x00
 #define MediaInfo_Parser_Global         0x00
 #define MediaInfo_Parser_Video          0x01
+
+/*-------------------------------------------------------------------------*/
+/* SubFile_Missing                                                         */
+#define MediaInfo_Event_General_SubFile_Missing 0x1F01
+struct MediaInfo_Event_General_SubFile_Missing_0
+{
+    MEDIAINFO_EVENT_GENERIC
+    const char*             FileName_Relative;
+    const wchar_t*          FileName_Relative_Unicode;
+    const char*             FileName_Absolute;
+    const wchar_t*          FileName_Absolute_Unicode;
+};
 
 /*-------------------------------------------------------------------------*/
 /* Start                                                                   */

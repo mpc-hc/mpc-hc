@@ -490,7 +490,7 @@ UINT32 HTTPClientSendRequest (HTTP_SESSION_HANDLE pSession,
     UINT32          nUrlLength;             // Length of the given Url
     P_HTTP_SESSION  pHTTPSession = NULL;    // Session pointer
     CHAR            ContentLength[32];
-    CHAR            *pPtr;                  // Content length (string conversion)
+    //CHAR            *pPtr;                  // Content length (string conversion) //Jerome/cppcheck: Variable 'pPtr' is assigned a value that is never used.
     do
     {
 
@@ -597,7 +597,7 @@ UINT32 HTTPClientSendRequest (HTTP_SESSION_HANDLE pSession,
             // set the total content length header
             pHTTPSession->HttpHeadersInfo.nHTTPPostContentLength = nDataLength; // Store for later usage
             memset(ContentLength,0,32);
-            pPtr = IToA(ContentLength,nDataLength); // Convert the buffer length to a string value
+            //pPtr = IToA(ContentLength,nDataLength); // Convert the buffer length to a string value //Jerome/cppcheck: Variable 'pPtr' is assigned a value that is never used.
             if((nRetCode = HTTPIntrnHeadersAdd(pHTTPSession,"Content-Length",14,ContentLength,strlen(ContentLength)))!= HTTP_CLIENT_SUCCESS)
             {
                 break;
@@ -777,7 +777,7 @@ UINT32 HTTPClientWriteData (HTTP_SESSION_HANDLE pSession,
     UINT32          nRetCode     = HTTP_CLIENT_SUCCESS;
     UINT32          nBytes;
     CHAR            Chunk[HTTP_CLIENT_MAX_CHUNK_HEADER];
-    CHAR            *pChunkHeaderPtr;
+    //CHAR            *pChunkHeaderPtr; //Jerome/cppcheck: Variable 'pChunkHeaderPtr' is assigned a value that is never used.
 
     P_HTTP_SESSION  pHTTPSession = NULL;
 
@@ -801,7 +801,7 @@ UINT32 HTTPClientWriteData (HTTP_SESSION_HANDLE pSession,
         {
             // Prep the chunk Header and send it
             memset(Chunk,0x00,HTTP_CLIENT_MAX_CHUNK_HEADER);
-            pChunkHeaderPtr = HTTPStrLToH(Chunk,nBufferLength);
+            HTTPStrLToH(Chunk,nBufferLength); //pChunkHeaderPtr =  //Jerome/cppcheck: Variable 'pChunkHeaderPtr' is assigned a value that is never used.
             strcat(Chunk,HTTP_CLIENT_CRLF);
 
             // Send the leading CrLf (only after the first chunk)
@@ -1534,7 +1534,7 @@ static UINT32 HTTPIntrnHeadersAdd (P_HTTP_SESSION pHTTPSession,
     memcpy(pPtr,pHeaderData,nDataLength);
     pPtr += nDataLength;
     memcpy(pPtr,HTTP_CLIENT_CRLF,2);
-    pPtr += 2;
+    //pPtr += 2; //Jerome/cppcheck: Variable 'pPtr' is assigned a value that is never used.
 
     // Set the new length
     pHTTPSession->HttpHeaders.HeadersOut.nLength += nProjectedHeaderLength;
@@ -1884,7 +1884,7 @@ static UINT32 HTTPIntrnSend (P_HTTP_SESSION pHTTPSession,
                 }
                 if(nRetCode == SOCKET_ERROR)
                 {
-                    nRetCode = SocketGetErr(pHTTPSession->HttpConnection.HttpSocket);
+                    //nRetCode = SocketGetErr(pHTTPSession->HttpConnection.HttpSocket); //Jerome: is reassigned in the next line
                     nRetCode = HTTP_CLIENT_ERROR_SOCKET_SEND;
                     break;
                 }
@@ -2741,7 +2741,7 @@ static UINT32 HTTPIntrnHeadersSend(P_HTTP_SESSION pHTTPSession,
     CHAR            ContentLength[32];
     BOOL            RestoreHeadersFlag = FALSE;
     HTTP_VERB       HttpCachedVerb;
-    CHAR            *pPtr;          // Content length conversion
+    //CHAR            *pPtr;          // Content length conversion //Jerome/cppcheck: Variable 'pPtr' is assigned a value that is never used.
 
     if(!pHTTPSession)
     {
@@ -2832,7 +2832,7 @@ static UINT32 HTTPIntrnHeadersSend(P_HTTP_SESSION pHTTPSession,
             pHTTPSession->HttpCounters.nSentHeaderBytes += nBytes;
         }
         // Request HTTP Version
-        memset(RequestCmd,0x00,16);
+        //memset(RequestCmd+1,0x00,15); //Jerome: memory is overwritten in the next line
         strcpy(RequestCmd," ");
         strcat(RequestCmd,HTTP_CLIENT_DEFAULT_VER);
         strcat(RequestCmd,HTTP_CLIENT_CRLF);
@@ -2895,7 +2895,7 @@ static UINT32 HTTPIntrnHeadersSend(P_HTTP_SESSION pHTTPSession,
             // Restore the content length
             if(pHTTPSession->HttpHeadersInfo.nHTTPPostContentLength > 0) // Attempt to remove only if it was previusly set
             {
-                pPtr = IToA(ContentLength,pHTTPSession->HttpHeadersInfo.nHTTPPostContentLength); // Convert the buffer length to a string value
+                IToA(ContentLength,pHTTPSession->HttpHeadersInfo.nHTTPPostContentLength); // Convert the buffer length to a string value //pPtr =  //Jerome/cppcheck: Variable 'pPtr' is assigned a value that is never used.
                 if((nRetCode = HTTPIntrnHeadersAdd(pHTTPSession,"Content-Length",14,ContentLength,strlen(ContentLength)))!= HTTP_CLIENT_SUCCESS)
                 {
                     return nRetCode;
@@ -3065,7 +3065,7 @@ static UINT32 HTTPIntrnAuthSendBasic (P_HTTP_SESSION pHTTPSession)
                 strcat(Cred,":");
                 strcat(Cred,pHTTPSession->HttpProxy.ProxyPassword);
                 nSrcLength  = strlen(Cred);
-                nDestLength = HTTP_CLIENT_MAX_64_ENCODED_CRED;
+                //nDestLength = HTTP_CLIENT_MAX_64_ENCODED_CRED; //Jerome: is reassigned few lines later
 
                 // Convert to base 64
                 HTTPBase64Encoder((unsigned char *)Cred64,(unsigned char *)Cred,nSrcLength);

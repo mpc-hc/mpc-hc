@@ -414,7 +414,7 @@ BEGIN
     EDITTEXT        IDC_EDIT2,54,17,40,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     EDITTEXT        IDC_EDIT3,98,17,40,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     PUSHBUTTON      "Default",IDC_BUTTON1,150,17,54,14
-    CONTROL         "Fast seek (on keyframe)",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,42,162,8
+    CONTROL         "Fast seek (on keyframe)",IDC_FASTSEEK_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,42,162,8
     COMBOBOX        IDC_COMBO4,169,40,89,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Show chapter marks in seek bar",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,54,286,8
     CONTROL         "Display ""Now Playing"" information in Skype's mood message",IDC_CHECK4,
@@ -1097,6 +1097,16 @@ BEGIN
     CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,154,5,12,13
 END
 
+IDD_CMD_LINE_HELP DIALOGEX 0, 0, 309, 177
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Command line help"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    ICON            "",IDC_STATIC1,7,7,20,20
+    EDITTEXT        IDC_EDIT1,35,7,265,146,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_READONLY | WS_VSCROLL | WS_HSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,252,156,50,14
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1350,8 +1360,12 @@ BEGIN
         HORZGUIDE, 231
     END
 
-    IDD_SAVEIMAGEDIALOGTEMPL, DIALOG
+    IDD_CMD_LINE_HELP, DIALOG
     BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 302
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 170
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -3454,6 +3468,11 @@ BEGIN
     IDS_NAVIGATE_CHAPTERS   "&Chapters"
     IDS_NAVIGATE_TITLES     "&Titles"
     IDS_NAVIGATE_CHANNELS   "&Channels"
+END
+
+STRINGTABLE
+BEGIN
+    IDC_FASTSEEK_CHECK      "If ""latest keyframe"" is selected, seek to the first keyframe before the actual seek point.\nIf ""nearest keyframe"" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."
 END
 
 STRINGTABLE

@@ -18,6 +18,9 @@
 //---------------------------------------------------------------------------
 #include "MediaInfo/Multiple/File_Mpeg4_Descriptors.h"
 #include "MediaInfo/Duplicate/File__Duplicate_MpegTs.h"
+#if defined(MEDIAINFO_EIA608_YES) || defined(MEDIAINFO_EIA708_YES)
+    #include "MediaInfo/File__Analyze.h"
+#endif
 #include <cfloat>
 //---------------------------------------------------------------------------
 
@@ -47,8 +50,10 @@ struct complete_stream
         std::map<std::string, Ztring> Infos;
         struct program
         {
+            #if defined(MEDIAINFO_EIA608_YES) || defined(MEDIAINFO_EIA708_YES)
+                File__Analyze::servicedescriptors* ServiceDescriptors;
+            #endif
             bool HasChanged;
-            std::map<int8u, string> Eia708_Languages; //Sometimes, it is in program descriptors instead of inside the video stream descriptors //Key is caption_service_number
             std::map<std::string, Ztring> Infos;
             std::map<std::string, Ztring> ExtraInfos_Content;
             std::map<std::string, Ztring> ExtraInfos_Option;
@@ -67,7 +72,6 @@ struct complete_stream
             bool   Update_Needed_StreamCount;
             bool   Update_Needed_StreamPos;
             bool   Update_Needed_Info;
-            bool   Eia608_IsPresent;
 
             //DVB
             struct dvb_epg_block
@@ -126,24 +130,104 @@ struct complete_stream
 
             //Constructor/Destructor
             program()
+            :
+                #if defined(MEDIAINFO_EIA608_YES) || defined(MEDIAINFO_EIA708_YES)
+                    ServiceDescriptors(NULL),
+                #endif
+                HasChanged(false),
+                StreamPos((size_t)-1),
+                registration_format_identifier(0x00000000),
+                pid(0x00000),
+                PCR_PID(0x0000),
+                source_id((int16u)-1),
+                source_id_IsValid(false),
+                IsParsed(false),
+                IsRegistered(false),
+                HasNotDisplayableStreams(false),
+                Update_Needed_IsRegistered(false),
+                Update_Needed_StreamCount(false),
+                Update_Needed_StreamPos(false),
+                Update_Needed_Info(false),
+                DVB_EPG_Blocks_IsUpdated(false),
+                Scte35(NULL)
+            {}
+
+            program(const program& p)
+            :
+                HasChanged(p.HasChanged),
+                Infos(p.Infos),
+                ExtraInfos_Content(p.ExtraInfos_Content),
+                ExtraInfos_Option(p.ExtraInfos_Option),
+                EPGs(p.EPGs),
+                elementary_PIDs(p.elementary_PIDs),
+                StreamPos(p.StreamPos),
+                registration_format_identifier(p.registration_format_identifier),
+                pid(p.pid),
+                PCR_PID(p.PCR_PID),
+                source_id(p.source_id),
+                source_id_IsValid(p.source_id_IsValid),
+                IsParsed(p.IsParsed),
+                IsRegistered(p.IsRegistered),
+                HasNotDisplayableStreams(p.HasNotDisplayableStreams),
+                Update_Needed_IsRegistered(p.Update_Needed_IsRegistered),
+                Update_Needed_StreamCount(p.Update_Needed_StreamCount),
+                Update_Needed_StreamPos(p.Update_Needed_StreamPos),
+                Update_Needed_Info(p.Update_Needed_Info),
+                DVB_EPG_Blocks_IsUpdated(p.DVB_EPG_Blocks_IsUpdated),
+                Scte35(p.Scte35)
             {
-                HasChanged=false;
-                StreamPos=(size_t)-1;
-                registration_format_identifier=0x00000000;
-                pid=0x00000;
-                PCR_PID=0x0000;
-                source_id=(int16u)-1;
-                source_id_IsValid=false;
-                IsParsed=false;
-                IsRegistered=false;
-                HasNotDisplayableStreams=false;
-                Update_Needed_IsRegistered=false;
-                Update_Needed_StreamCount=false;
-                Update_Needed_StreamPos=false;
-                Update_Needed_Info=false;
-                DVB_EPG_Blocks_IsUpdated=false;
-                Eia608_IsPresent=false;
-                Scte35=NULL;
+                #if defined(MEDIAINFO_EIA608_YES) || defined(MEDIAINFO_EIA708_YES)
+                    if (p.ServiceDescriptors)
+                    {
+                        ServiceDescriptors=new File__Analyze::servicedescriptors;
+                        *ServiceDescriptors=*p.ServiceDescriptors;
+                    }
+                    else
+                        ServiceDescriptors=NULL;
+                #endif
+            }
+
+            program& operator=(const program& p)
+            {
+                #if defined(MEDIAINFO_EIA608_YES) || defined(MEDIAINFO_EIA708_YES)
+                    if (p.ServiceDescriptors)
+                    {
+                        ServiceDescriptors=new File__Analyze::servicedescriptors;
+                        *ServiceDescriptors=*p.ServiceDescriptors;
+                    }
+                    else
+                        ServiceDescriptors=NULL;
+                #endif
+                HasChanged=p.HasChanged;
+                Infos=p.Infos;
+                ExtraInfos_Content=p.ExtraInfos_Content;
+                ExtraInfos_Option=p.ExtraInfos_Option;
+                EPGs=p.EPGs;
+                elementary_PIDs=p.elementary_PIDs;
+                StreamPos=p.StreamPos;
+                registration_format_identifier=p.registration_format_identifier;
+                pid=p.pid;
+                PCR_PID=p.PCR_PID;
+                source_id=p.source_id;
+                source_id_IsValid=p.source_id_IsValid;
+                IsParsed=p.IsParsed;
+                IsRegistered=p.IsRegistered;
+                HasNotDisplayableStreams=p.HasNotDisplayableStreams;
+                Update_Needed_IsRegistered=p.Update_Needed_IsRegistered;
+                Update_Needed_StreamCount=p.Update_Needed_StreamCount;
+                Update_Needed_StreamPos=p.Update_Needed_StreamPos;
+                Update_Needed_Info=p.Update_Needed_Info;
+                DVB_EPG_Blocks_IsUpdated=p.DVB_EPG_Blocks_IsUpdated;
+                Scte35=p.Scte35;
+
+                return *this;
+            }
+
+            ~program()
+            {
+                #if defined(MEDIAINFO_EIA608_YES) || defined(MEDIAINFO_EIA708_YES)
+                    delete ServiceDescriptors;
+                #endif
             }
         };
         typedef std::map<int16u, program> programs; //Key is program_number
@@ -229,7 +313,6 @@ struct complete_stream
         table_ids                                   Table_IDs; //Key is table_id
         std::map<std::string, Ztring>               Infos;
         std::map<std::string, Ztring>               Infos_Option;
-        std::map<int8u, string>                     Eia708_Languages; //Key is caption_service_number
         struct teletext
         {
             std::map<std::string, Ztring>           Infos;
@@ -273,6 +356,7 @@ struct complete_stream
         int16u                                      table_type; //ATSC
         int8u                                       stream_type;
         int8u                                       descriptor_tag;
+        int8u                                       DtsNeural_config_id;
         bool                                        FMC_ES_ID_IsValid;
         bool                                        Searching;
         bool                                        Searching_Payload_Start;
@@ -291,7 +375,6 @@ struct complete_stream
         bool                                        IsUpdated_IsRegistered;
         bool                                        IsUpdated_Info;
         bool                                        CA_system_ID_MustSkipSlices;
-        bool                                        Eia608_IsPresent;
         bool                                        EBP_IsPresent;
         size_t                                      IsScrambled;
         int16u                                      CA_system_ID;
@@ -299,6 +382,10 @@ struct complete_stream
         #if MEDIAINFO_IBI
             int64u                                  Ibi_SynchronizationOffset_BeginOfFrame;
         #endif //MEDIAINFO_IBI
+        #if defined(MEDIAINFO_EIA608_YES) || defined(MEDIAINFO_EIA708_YES)
+            File__Analyze::servicedescriptors ServiceDescriptors;
+            bool                              ServiceDescriptors_IsPresent;
+        #endif
 
         //Constructor/Destructor
         stream()
@@ -338,6 +425,7 @@ struct complete_stream
             table_type=0x0000;
             stream_type=(int8u)-1;
             descriptor_tag=(int8u)-1;
+            DtsNeural_config_id=(int8u)-1;
             FMC_ES_ID_IsValid=false;
             Searching=false;
             Searching_Payload_Start=false;
@@ -358,12 +446,14 @@ struct complete_stream
             IsScrambled=false;
             CA_system_ID_MustSkipSlices=false;
             CA_system_ID=0x0000;
-            Eia608_IsPresent=false;
             EBP_IsPresent=false;
             SubStream_pid=0x0000;
             #if MEDIAINFO_IBI
                 Ibi_SynchronizationOffset_BeginOfFrame=(int64u)-1;
             #endif //MEDIAINFO_IBI
+            #if defined(MEDIAINFO_EIA608_YES) || defined(MEDIAINFO_EIA708_YES)
+                ServiceDescriptors_IsPresent=false;
+            #endif
         }
 
         ~stream()
@@ -438,17 +528,58 @@ struct complete_stream
         {
             struct event
             {
+                #if defined(MEDIAINFO_EIA608_YES) || defined(MEDIAINFO_EIA708_YES)
+                    File__Analyze::servicedescriptors* ServiceDescriptors;
+                #endif
                 int32u  start_time;
                 Ztring  duration;
                 Ztring  title;
-                std::map<int8u, string>  Eia708_Languages; //Key is caption_service_number
                 std::map<int16u, Ztring> texts;
-                bool                     Eia608_IsPresent;
 
                 event()
+                :
+                    #if defined(MEDIAINFO_EIA608_YES) || defined(MEDIAINFO_EIA708_YES)
+                        ServiceDescriptors(NULL),
+                    #endif
+                    start_time((int32u)-1)
+                {}
+
+                event(const event& e)
+                :
+                    start_time(e.start_time)
                 {
-                    start_time=(int32u)-1;
-                    Eia608_IsPresent=false;
+                    #if defined(MEDIAINFO_EIA608_YES) || defined(MEDIAINFO_EIA708_YES)
+                        if (e.ServiceDescriptors)
+                        {
+                            ServiceDescriptors=new File__Analyze::servicedescriptors;
+                            *ServiceDescriptors=*e.ServiceDescriptors;
+                        }
+                        else
+                            ServiceDescriptors=NULL;
+                    #endif
+                }
+
+                event& operator=(const event& e)
+                {
+                    #if defined(MEDIAINFO_EIA608_YES) || defined(MEDIAINFO_EIA708_YES)
+                        if (e.ServiceDescriptors)
+                        {
+                            ServiceDescriptors=new File__Analyze::servicedescriptors;
+                            *ServiceDescriptors=*e.ServiceDescriptors;
+                        }
+                        else
+                            ServiceDescriptors=NULL;
+                    #endif
+                    start_time=e.start_time;
+
+                    return *this;
+                }
+
+                ~event()
+                {
+                    #if defined(MEDIAINFO_EIA608_YES) || defined(MEDIAINFO_EIA708_YES)
+                        delete ServiceDescriptors;
+                    #endif
                 }
             };
 
@@ -503,6 +634,8 @@ struct complete_stream
         Programs_IsUpdated=false;
         NoPatPmt=false;
         StreamPos_ToRemove.resize(Stream_Max);
+        File__Duplicate_HasChanged_ = false;
+        Config_File_Duplicate_Get_AlwaysNeeded_Count = 0;
     }
 
     ~complete_stream()
@@ -682,7 +815,8 @@ private :
     void Descriptor_7C();
     void Descriptor_7D() {Skip_XX(Element_Size, "Data");};
     void Descriptor_7E() {Skip_XX(Element_Size, "Data");};
-    void Descriptor_7F() {Skip_XX(Element_Size, "Data");};
+    void Descriptor_7F();
+    void Descriptor_7F_0F();
     void Descriptor_80() {Skip_XX(Element_Size, "Data");};
     void Descriptor_81();
     void Descriptor_86();

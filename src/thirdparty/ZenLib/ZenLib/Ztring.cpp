@@ -41,6 +41,7 @@
 #include <algorithm>
 #include <iomanip>
 #include <cmath>
+#include <ctime>
 #include "ZenLib/OS_Utils.h"
 #include "ZenLib/File.h"
 using namespace std;
@@ -221,6 +222,16 @@ bool Ztring::Assign_FromFile (const Ztring &FileName)
 // Conversions
 //***************************************************************************
 
+Ztring& Ztring::From_Unicode (const wchar_t S)
+{
+    #ifdef _UNICODE
+        append(1, S);
+    #else
+        From_Unicode(&S, 1);
+    #endif
+    return *this;
+}
+
 Ztring& Ztring::From_Unicode (const wchar_t* S)
 {
     if (S==NULL)
@@ -235,11 +246,6 @@ Ztring& Ztring::From_Unicode (const wchar_t* S)
                 assign(wxConvCurrent->cWC2MB(S));
         #else //ZENLIB_USEWX
             #ifdef WINDOWS
-                if (IsWin9X())
-                {
-                    clear();
-                    return *this; //Is not possible, UTF-8 is not supported by Win9X
-                }
                 int Size=WideCharToMultiByte(CP_UTF8, 0, S, -1, NULL, 0, NULL, NULL);
                 if (Size!=0)
                 {
@@ -1372,7 +1378,7 @@ Ztring& Ztring::Date_From_String (const char* Value, size_t Value_Size)
             ToReturn+=__T(" ");
             ToReturn+=Date.FormatISOTime();
         }
-        else if (ToReturn.size()<5)
+        else
             ToReturn+=DateS;
 
         assign (ToReturn.c_str());

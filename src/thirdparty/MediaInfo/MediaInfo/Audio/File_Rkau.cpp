@@ -112,7 +112,7 @@ void File_Rkau::FileHeader_Parse()
         Duration=(((int64u)source_bytes*1000)/4)/SampleRate;
         if (Duration==0)
             return;
-        UncompressedSize=Channels*(BitsPerSample/8);
+        UncompressedSize = ((int64u)Channels) * ((int64u)BitsPerSample / 8);
         if (UncompressedSize==0)
             return;
 

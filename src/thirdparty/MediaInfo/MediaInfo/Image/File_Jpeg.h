@@ -32,6 +32,9 @@ public :
     //In
     stream_t StreamKind;
     bool     Interlaced;
+    #if MEDIAINFO_DEMUX
+    float64  FrameRate;
+    #endif //MEDIAINFO_DEMUX
 
     //Constructor/Destructor
     File_Jpeg();
@@ -51,11 +54,12 @@ private :
 
     //Buffer - Demux
     #if MEDIAINFO_DEMUX
-    bool Demux_UnpacketizeContainer_Test() {return Demux_UnpacketizeContainer_Test_OneFramePerFile();}
+    bool Demux_UnpacketizeContainer_Test();
     #endif //MEDIAINFO_DEMUX
 
     //Buffer - Global
     void Read_Buffer_Unsynched();
+    void Read_Buffer_Continue();
     #if MEDIAINFO_SEEK
     size_t Read_Buffer_Seek (size_t Method, int64u Value, int64u ID) {return Read_Buffer_Seek_OneFramePerFile(Method, Value, ID);}
     #endif //MEDIAINFO_SEEK

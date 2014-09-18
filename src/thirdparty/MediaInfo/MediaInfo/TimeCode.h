@@ -26,7 +26,7 @@ public:
     //constructor/Destructor
     TimeCode ();
     TimeCode (int8u Hours, int8u Minutes, int8u Seconds, int8u Frames, int8u FramesPerSecond, bool DropFrame, bool MustUseSecondField=false, bool IsSecondField=false);
-    TimeCode (int64u Frames, int8u FramesPerSecond, bool DropFrame, bool MustUseSecondField=false, bool IsSecondField_=false);
+    TimeCode (int64s Frames, int8u FramesPerSecond, bool DropFrame, bool MustUseSecondField=false, bool IsSecondField_=false);
 
     //Operators
     TimeCode &operator ++()
@@ -80,7 +80,7 @@ public:
     void PlusOne();
     void MinusOne();
     string ToString();
-    int32u ToFrames();
+    int64s ToFrames();
 
 public:
     int8u Hours;
@@ -91,6 +91,7 @@ public:
     bool  DropFrame;
     bool  MustUseSecondField;
     bool  IsSecondField;
+    bool  IsNegative;
 };
 
 } //NameSpace

@@ -231,7 +231,7 @@ bool File__Duplicate_MpegTs::Manage_PMT (const int8u* ToAdd, size_t ToAdd_Size)
 
     //Testing program_number
     if (Wanted_program_numbers.find(StreamID)==Wanted_program_numbers.end()
-     && Wanted_program_map_PIDs.find(elementary_PIDs_program_map_PIDs[StreamID])==Wanted_program_numbers.end())
+     && Wanted_program_map_PIDs.find(elementary_PIDs_program_map_PIDs[StreamID]) == Wanted_program_map_PIDs.end())
     {
         delete[] PMT[StreamID].Buffer; PMT[StreamID].Buffer=NULL;
         return false;

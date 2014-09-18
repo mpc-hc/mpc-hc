@@ -164,6 +164,9 @@ void File_Riff::Streams_Finish ()
             Ztring LawRating=(*Ancillary)->Retrieve(Stream_General, 0, General_LawRating);
             if (!LawRating.empty())
                 Fill(Stream_General, 0, General_LawRating, LawRating, true);
+            Ztring Title=(*Ancillary)->Retrieve(Stream_General, 0, General_Title);
+            if (!Title.empty() && Retrieve(Stream_General, 0, General_Title).empty())
+                Fill(Stream_General, 0, General_Title, Title);
             return;
         }
     #endif //defined(MEDIAINFO_ANCILLARY_YES)
@@ -415,13 +418,13 @@ void File_Riff::Streams_Finish ()
                         Ztring Version=Retrieve(Stream_Audio, StreamPos_Last, Audio_Format_Version);
                         Ztring Layer=Retrieve(Stream_Audio, StreamPos_Last, Audio_Format_Profile);
                         if (Version==__T("Version 1") && Layer==__T("Layer 1"))
-                            SamplingCount=Temp->second.PacketCount*384;  //MPEG-1 Layer 1
+                            SamplingCount = (int64u)Temp->second.PacketCount * 384;  //MPEG-1 Layer 1
                         else if ((Version==__T("Version 2") || Version==__T("Version 2.5")) && Layer==__T("Layer 1"))
-                            SamplingCount=Temp->second.PacketCount*192;  //MPEG-2 or 2.5 Layer 1
+                            SamplingCount = (int64u)Temp->second.PacketCount * 192;  //MPEG-2 or 2.5 Layer 1
                         else if ((Version==__T("Version 2") || Version==__T("Version 2.5")) && Layer==__T("Layer 3"))
-                            SamplingCount=Temp->second.PacketCount*576;  //MPEG-2 or 2.5 Layer 3
+                            SamplingCount = (int64u)Temp->second.PacketCount * 576;  //MPEG-2 or 2.5 Layer 3
                         else
-                            SamplingCount=Temp->second.PacketCount*1152;
+                            SamplingCount = (int64u)Temp->second.PacketCount * 1152;
                     }
                 }
                 #endif
@@ -829,6 +832,17 @@ void File_Riff::Header_Parse()
         {
             Get_C4 (Name,                                       "Real Name");
             Skip_XX(12,                                         "Real Name (GUID)");
+        }
+
+        //Special case: we don't need the full data
+        if (Name==Elements::WAVE_data)
+        {
+            Buffer_DataToParse_Begin=File_Offset+Buffer_Offset;
+            if (Size_Complete)
+                Buffer_DataToParse_End=File_Offset+Buffer_Offset+Size_Complete;
+            else
+                Buffer_DataToParse_End=File_Size; //Found one file with 0 as size of data part
+            Size_Complete=Element_Offset;
         }
 
         //Filling

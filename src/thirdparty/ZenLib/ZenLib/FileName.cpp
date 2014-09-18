@@ -209,13 +209,7 @@ Ztring FileName::TempFileName_Create(const Ztring &Prefix)
 #ifdef __WINDOWS__
     const Char* FileName_PathSeparator=__T("\\");
 #endif
-#ifdef UNIX
-    const Char* FileName_PathSeparator=__T("/");
-#endif
-#ifdef MACOS
-    const Char* FileName_PathSeparator=__T("/");
-#endif
-#ifdef MACOSX
+#if defined(UNIX) || defined(MACOS) || defined(MACOSX)
     const Char* FileName_PathSeparator=__T("/");
 #endif
 

@@ -37,11 +37,20 @@
     #include "MediaInfo/Multiple/File_Ogg.h"
     #include "MediaInfo/Multiple/File_Ogg_SubElement.h"
 #endif
+#if defined(MEDIAINFO_FFV1_YES)
+    #include "MediaInfo/Video/File_Ffv1.h"
+#endif
+#if defined(MEDIAINFO_HUFFYUV_YES)
+    #include "MediaInfo/Video/File_HuffYuv.h"
+#endif
 #if defined(MEDIAINFO_MPEG4V_YES)
     #include "MediaInfo/Video/File_Mpeg4v.h"
 #endif
 #if defined(MEDIAINFO_MPEGV_YES)
     #include "MediaInfo/Video/File_Mpegv.h"
+#endif
+#if defined(MEDIAINFO_PRORES_YES)
+    #include "MediaInfo/Video/File_ProRes.h"
 #endif
 #if defined(MEDIAINFO_AVC_YES)
     #include "MediaInfo/Video/File_Avc.h"
@@ -703,7 +712,7 @@ void File_Riff::AIFF_COMM()
         Parser->BitDepth=(int8u)sampleSize;
         #if MEDIAINFO_DEMUX
             if (Demux_Rate)
-                Parser->Frame_Count_Valid=Demux_Rate;
+                Parser->Frame_Count_Valid = float64_int64s(Demux_Rate);
             if (Config->Demux_Unpacketize_Get())
             {
                 Parser->Demux_Level=2; //Container
@@ -1320,7 +1329,7 @@ void File_Riff::AVI__hdlr_strl_strf_auds()
         Parser->BitDepth=(int8u)BitsPerSample;
         #if MEDIAINFO_DEMUX
             if (Demux_Rate)
-                Parser->Frame_Count_Valid=Demux_Rate;
+                Parser->Frame_Count_Valid = float64_int64s(Demux_Rate);
             if (Config->Demux_Unpacketize_Get() && Retrieve(Stream_General, 0, General_Format)==__T("Wave"))
             {
                 Parser->Demux_Level=2; //Container
@@ -1719,7 +1728,7 @@ void File_Riff::AVI__hdlr_strl_strf_vids()
     Fill(StreamKind_Last, StreamPos_Last, Fill_Parameter(StreamKind_Last, Generic_Codec), Ztring().From_CC4(Compression).To_Local().c_str()); //FormatTag, may be replaced by codec parser
     Fill(StreamKind_Last, StreamPos_Last, Fill_Parameter(StreamKind_Last, Generic_Codec_CC), Ztring().From_CC4(Compression).To_Local().c_str()); //FormatTag
     Fill(StreamKind_Last, StreamPos_Last, "Width", Width, 10, true);
-    Fill(StreamKind_Last, StreamPos_Last, "Height", Height>=0x80000000?(-Height):Height, 10, true); // AVI can use negative height for raw to signal that it's coded top-down, not bottom-up
+    Fill(StreamKind_Last, StreamPos_Last, "Height", Height>=0x80000000?(-((int32s)Height)):Height, 10, true); // AVI can use negative height for raw to signal that it's coded top-down, not bottom-up
     if (Resolution==32 && Compression==0x74736363) //tscc
         Fill(StreamKind_Last, StreamPos_Last, "BitDepth", 8);
     else if (Compression==0x44495633) //DIV3
@@ -1749,6 +1758,20 @@ void File_Riff::AVI__hdlr_strl_strf_vids()
 
     //Creating the parser
          if (0);
+    #if defined(MEDIAINFO_FFV1_YES)
+    else if (MediaInfoLib::Config.CodecID_Get(Stream_Video, InfoCodecID_Format_Riff, Ztring().From_CC4(Compression), InfoCodecID_Format)==__T("FFV1"))
+    {
+        File_Ffv1* Parser=new File_Ffv1;
+        Stream[Stream_ID].Parsers.push_back(Parser);
+    }
+    #endif
+    #if defined(MEDIAINFO_HUFFYUV_YES)
+    else if (MediaInfoLib::Config.CodecID_Get(Stream_Video, InfoCodecID_Format_Riff, Ztring().From_CC4(Compression), InfoCodecID_Format)==__T("HuffYUV"))
+    {
+        File_HuffYuv* Parser=new File_HuffYuv;
+        Stream[Stream_ID].Parsers.push_back(Parser);
+    }
+    #endif
     #if defined(MEDIAINFO_MPEGV_YES)
     else if (MediaInfoLib::Config.CodecID_Get(Stream_Video, InfoCodecID_Format_Riff, Ztring().From_CC4(Compression), InfoCodecID_Format)==__T("MPEG Video"))
     {
@@ -1766,6 +1789,13 @@ void File_Riff::AVI__hdlr_strl_strf_vids()
         Parser->FrameIsAlwaysComplete=true;
         if (MediaInfoLib::Config.ParseSpeed_Get()>=0.5)
             Parser->ShouldContinueParsing=true;
+        Stream[Stream_ID].Parsers.push_back(Parser);
+    }
+    #endif
+    #if defined(MEDIAINFO_PRORES_YES)
+    else if (MediaInfoLib::Config.CodecID_Get(Stream_Video, InfoCodecID_Format_Riff, Ztring().From_CC4(Compression), InfoCodecID_Format)==__T("ProRes"))
+    {
+        File_ProRes* Parser=new File_ProRes;
         Stream[Stream_ID].Parsers.push_back(Parser);
     }
     #endif
@@ -1835,6 +1865,10 @@ void File_Riff::AVI__hdlr_strl_strf_vids()
          if (0);
     else if (MediaInfoLib::Config.CodecID_Get(Stream_Video, InfoCodecID_Format_Riff, Ztring().From_CC4(Compression))==__T("AVC"))
         AVI__hdlr_strl_strf_vids_Avc();
+    else if (MediaInfoLib::Config.CodecID_Get(Stream_Video, InfoCodecID_Format_Riff, Ztring().From_CC4(Compression))==__T("FFV1"))
+        AVI__hdlr_strl_strf_vids_Ffv1();
+    else if (MediaInfoLib::Config.CodecID_Get(Stream_Video, InfoCodecID_Format_Riff, Ztring().From_CC4(Compression))==__T("HuffYUV"))
+        AVI__hdlr_strl_strf_vids_HuffYUV(Resolution, Height);
     else Skip_XX(Element_Size-Element_Offset,                   "Unknown");
 }
 
@@ -1866,6 +1900,38 @@ void File_Riff::AVI__hdlr_strl_strf_vids_Avc()
         }
     #else //MEDIAINFO_AVC_YES
         Skip_XX(Element_Size-Element_Offset,                    "(AVC headers)");
+    #endif
+    Element_End0();
+}
+
+//---------------------------------------------------------------------------
+void File_Riff::AVI__hdlr_strl_strf_vids_Ffv1()
+{
+    //Parsing
+    Element_Begin1("FFV1 options");
+    #if defined(MEDIAINFO_FFV1_YES)
+        File_Ffv1* Parser=(File_Ffv1*)Stream[Stream_ID].Parsers[0];
+        Parser->IsOutOfBandData=true;
+        Open_Buffer_Continue(Parser);
+    #else //MEDIAINFO_FFV1_YES
+        Skip_XX(Element_Size-Element_Offset,                    "(FFV1 headers)");
+    #endif
+    Element_End0();
+}
+
+//---------------------------------------------------------------------------
+void File_Riff::AVI__hdlr_strl_strf_vids_HuffYUV(int16u BitCount, int32u Height)
+{
+    //Parsing
+    Element_Begin1("HuffYUV options");
+    #if defined(MEDIAINFO_HUFFYUV_YES)
+        File_HuffYuv* Parser=(File_HuffYuv*)Stream[Stream_ID].Parsers[0];
+        Parser->IsOutOfBandData=true;
+        Parser->BitCount=BitCount;
+        Parser->Height=Height;
+        Open_Buffer_Continue(Parser);
+    #else //MEDIAINFO_HUFFYUV_YES
+        Skip_XX(Element_Size-Element_Offset,                    "(HuffYUV headers)");
     #endif
     Element_End0();
 }
@@ -2407,7 +2473,6 @@ void File_Riff::AVI__movi_xxxx()
             Element_Code=((Element_Code_Old>>24)&0xF)*10+((Element_Code_Old>>16)&0xF);
             Frame_Count_NotParsedIncluded=Stream[Stream_ID].PacketPos;
             FrameInfo.DTS=Frame_Count_NotParsedIncluded*1000000000*Stream[Stream_ID].Scale/Stream[Stream_ID].Rate;
-            Element_Code=Stream_ID;
             Demux(Buffer+Buffer_Offset, (size_t)Element_Size, ContentType_MainStream);
             Element_Code=Element_Code_Old;
             Frame_Count_NotParsedIncluded=(int64u)-1;
@@ -2614,7 +2679,10 @@ void File_Riff::AVI__movi_StreamJump()
             while (Temp!=Stream.end())
             {
                 for (size_t Pos=0; Pos<Temp->second.Parsers.size(); ++Pos)
+                {
+                    Temp->second.Parsers[Pos]->Fill();
                     Temp->second.Parsers[Pos]->Open_Buffer_Unsynch();
+                }
                 ++Temp;
             }
             Finish("AVI"); //The rest is already parsed
@@ -3589,9 +3657,12 @@ void File_Riff::WAVE_fact()
             if (File_Size!=(int64u)-1)
             {
                 int64u BitRate=Retrieve(Stream_Audio, 0, Audio_BitRate).To_int64u();
-                int64u Duration_FromBitRate=File_Size*8*1000/BitRate;
-                if (Duration_FromBitRate>Duration*1.10 || Duration_FromBitRate<Duration*0.9)
-                    IsOK=false;
+                if (BitRate)
+                {
+                    int64u Duration_FromBitRate = File_Size * 8 * 1000 / BitRate;
+                    if (Duration_FromBitRate > Duration*1.10 || Duration_FromBitRate < Duration*0.9)
+                        IsOK = false;
+                }
             }
 
             //Filling

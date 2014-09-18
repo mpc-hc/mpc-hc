@@ -45,6 +45,7 @@
     <YASM
       Condition="'@(YASM)' != '' and '%(YASM.ExcludedFromBuild)' != 'true'"
       CommandLineTemplate="%(YASM.CommandLineTemplate)"
+      Platform="%(YASM.Platform)"
       Debug="%(YASM.Debug)"
       Defines="%(YASM.Defines)"
       AdditionalOptions="%(YASM.AdditionalOptions)"

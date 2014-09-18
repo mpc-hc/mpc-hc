@@ -88,10 +88,13 @@ private :
         bool   dynrnge;  //This is only the first occurence of aufblk
 
         dolby()
+            :
+            dialnorm(0),
+            compr(0),
+            dynrng(0),
+            compre(false),
+            dynrnge(false)
         {
-            dialnorm=0;
-            compre=false;
-            dynrnge=false;
         }
     };
     dolby  FirstFrame_Dolby;

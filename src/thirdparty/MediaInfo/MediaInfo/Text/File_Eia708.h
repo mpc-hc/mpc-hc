@@ -64,8 +64,10 @@ private :
         int8u   Attribute;
 
         character()
+            :
+            Value(L' '),
+            Attribute(0x00)
         {
-            Value=L' ';
         }
     };
     struct window
@@ -140,6 +142,7 @@ private :
     int8u service_number;
     int8u block_size;
     bool   HasContent;
+    int64u DataDetected; //1 service per bit
 
     //Elements
     void NUL();                 //NUL

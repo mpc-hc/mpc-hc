@@ -1163,7 +1163,7 @@ void File_Flv::video_HEVC()
                         ((File_Hevc*)Stream[Stream_Video].Parser)->MustSynchronize=false;
                         ((File_Hevc*)Stream[Stream_Video].Parser)->SizedBlocks=true;
                         #if MEDIAINFO_DEMUX
-                            if (Config->Demux_Avc_Transcode_Iso14496_15_to_Iso14496_10_Get())
+                            if (Config->Demux_Hevc_Transcode_Iso14496_15_to_AnnexB_Get())
                             {
                                 Stream[Stream_Video].Parser->Demux_Level=2; //Container
                                 Stream[Stream_Video].Parser->Demux_UnpacketizeContainer=true;
@@ -1334,7 +1334,7 @@ void File_Flv::audio_AAC()
     switch (AACPacketType)
     {
         case 0 :
-                #if defined(MEDIAINFO_MPEG4_YES)
+                #if defined(MEDIAINFO_AAC_YES)
                     if (Stream[Stream_Audio].Parser==NULL)
                     {
                         Stream[Stream_Audio].Parser=new File_Aac;

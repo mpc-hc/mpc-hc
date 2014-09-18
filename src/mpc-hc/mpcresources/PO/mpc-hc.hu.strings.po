@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-24 19:23:17+0000\n"
-"PO-Revision-Date: 2014-08-25 18:20+0000\n"
+"POT-Creation-Date: 2014-08-31 21:05:52+0000\n"
+"PO-Revision-Date: 2014-09-05 11:10+0000\n"
 "Last-Translator: Máté <lang.mate@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/mpc-hc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -270,7 +270,7 @@ msgstr ""
 
 msgctxt "IDS_GOTO_ERROR_INVALID_TIME"
 msgid "The entered time is greater than the file duration."
-msgstr ""
+msgstr "A megadott idő nagyobb, mint a fájl hossza."
 
 msgctxt "IDS_MISSING_ICONS_LIB"
 msgid "The icons library \"mpciconlib.dll\" is missing.\nThe player's default icon will be used for file associations.\nPlease, reinstall MPC-HC to get \"mpciconlib.dll\"."
@@ -834,7 +834,7 @@ msgstr ""
 
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
-msgstr ""
+msgstr "Navigációs sáv be- és kikapcsolása"
 
 msgctxt "IDS_AG_VSYNCACCURATE"
 msgid "Accurate VSync"
@@ -846,7 +846,7 @@ msgstr ""
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
-msgstr ""
+msgstr "Felirat animálás letiltása, engedélyezésé csökkenti a CPU használatot. Használja, ha villogó feliratokat lát."
 
 msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
@@ -994,7 +994,7 @@ msgstr "Képkocka időzítés-javítás engedélyezése"
 
 msgctxt "IDS_AG_TOGGLE_EDITLISTEDITOR"
 msgid "Toggle EDL window"
-msgstr "EDL ablak Ki-Bekapcsolása"
+msgstr "EDL ablak be- és kikapcsolása"
 
 msgctxt "IDS_AG_EDL_IN"
 msgid "EDL set In"
@@ -1586,7 +1586,7 @@ msgstr "Előző fájl"
 
 msgctxt "IDS_MPLAYERC_99"
 msgid "Toggle Direct3D fullscreen"
-msgstr "Direct3D teljes képernyős mód Ki-Bekapcsolása"
+msgstr "Direct3D teljes képernyős mód be- és kikapcsolása"
 
 msgctxt "IDS_MPLAYERC_100"
 msgid "Goto Prev Subtitle"
@@ -1634,7 +1634,7 @@ msgstr "Teljes képernyő (felbontás módosítása nélkül)"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT"
 msgid "Zoom Auto Fit"
-msgstr "Nagyítás automatikus illeszkedés"
+msgstr "Nagyítás automatikus illesztés"
 
 msgctxt "IDS_AG_VIDFRM_HALF"
 msgid "VidFrm Half"
@@ -1714,15 +1714,15 @@ msgstr "Automatikus illesztés"
 
 msgctxt "IDS_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (Larger Only)"
-msgstr ""
+msgstr "Automatikus illesztés (csak nagyobbnál)"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT_LARGER"
 msgid "Zoom Auto Fit (Larger Only)"
-msgstr "Nagyítás automatikus illeszkedés (csak nagyobbra)"
+msgstr "Nagyítás automatikus illesztés (csak nagyobbnál)"
 
 msgctxt "IDS_OSD_ZOOM_AUTO_LARGER"
 msgid "Zoom: Auto (Larger Only)"
-msgstr "Nagyítás: Automatikus illeszkedés (csak nagyobbra)"
+msgstr "Nagyítás: Automatikus illesztés (csak nagyobbnál)"
 
 msgctxt "IDS_TOOLTIP_EXPLORE_TO_FILE"
 msgid "Double click to open file location"
@@ -2310,15 +2310,15 @@ msgstr "Szünet"
 
 msgctxt "IDS_AG_TOGGLE_CAPTION"
 msgid "Toggle Caption&Menu"
-msgstr "Cím&Menü Ki-Bekapcsolása"
+msgstr "Cím&Menü be- és kikapcsolása"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
 msgid "Toggle Seeker"
-msgstr "Keresősáv Ki-Bekapcsolása"
+msgstr "Keresősáv be- és kikapcsolása"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
 msgid "Toggle Controls"
-msgstr "Vezérlők Ki-Bekapcsolása"
+msgstr "Vezérlők be- és kikapcsolása"
 
 msgctxt "IDS_MAINFRM_84"
 msgid "Invalid file name"
@@ -2478,27 +2478,27 @@ msgstr "Nem felismerhető kapcsoló(k) találhatóak a parancssortól kapott sz�
 
 msgctxt "IDS_AG_TOGGLE_INFO"
 msgid "Toggle Information"
-msgstr "Információ Ki-Bekapcsolása"
+msgstr "Információ be- és kikapcsolása"
 
 msgctxt "IDS_AG_TOGGLE_STATS"
 msgid "Toggle Statistics"
-msgstr "Statisztika Ki-Bekapcsolása"
+msgstr "Statisztika be- és kikapcsolása"
 
 msgctxt "IDS_AG_TOGGLE_STATUS"
 msgid "Toggle Status"
-msgstr "Állapotsor Ki-Bekapcsolása"
+msgstr "Állapotsor be- és kikapcsolása"
 
 msgctxt "IDS_AG_TOGGLE_SUBRESYNC"
 msgid "Toggle Subresync Bar"
-msgstr "Felirat időzítő Ki-Bekapcsolása"
+msgstr "Felirat időzítő be- és kikapcsolása"
 
 msgctxt "IDS_AG_TOGGLE_PLAYLIST"
 msgid "Toggle Playlist Bar"
-msgstr "Lejátszási lista Ki-Bekapcsolása"
+msgstr "Lejátszási lista be- és kikapcsolása"
 
 msgctxt "IDS_AG_TOGGLE_CAPTURE"
 msgid "Toggle Capture Bar"
-msgstr "Rögzítés oszlop Ki-Bekapcsolása"
+msgstr "Rögzítés oszlop be- és kikapcsolása"
 
 msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
 msgid "Toggle Debug Shaders"
@@ -2582,11 +2582,11 @@ msgstr "A mappa utolsó fájlja már be van töltve."
 
 msgctxt "IDS_FRONT_LEFT"
 msgid "Front Left"
-msgstr "Front Bal"
+msgstr "Bal első"
 
 msgctxt "IDS_FRONT_RIGHT"
 msgid "Front Right"
-msgstr "Front Jobb"
+msgstr "Jobb első"
 
 msgctxt "IDS_FRONT_CENTER"
 msgid "Front Center"
@@ -2598,19 +2598,19 @@ msgstr "Alacsony Frekvencia"
 
 msgctxt "IDS_BACK_LEFT"
 msgid "Back Left"
-msgstr "Hátsó Bal"
+msgstr "Bal hátsó"
 
 msgctxt "IDS_BACK_RIGHT"
 msgid "Back Right"
-msgstr "Hátsó Jobb"
+msgstr "Jobb hátsó"
 
 msgctxt "IDS_FRONT_LEFT_OF_CENTER"
 msgid "Front Left of Center"
-msgstr "Center Front Bal"
+msgstr "Front Bal középső"
 
 msgctxt "IDS_FRONT_RIGHT_OF_CENTER"
 msgid "Front Right of Center"
-msgstr "Center Front Jobb"
+msgstr "Front Jobb középső"
 
 msgctxt "IDS_BACK_CENTER"
 msgid "Back Center"
@@ -2830,15 +2830,15 @@ msgstr "Smacker/Bink Video"
 
 msgctxt "IDS_MFMT_FLIC"
 msgid "FLIC Animation"
-msgstr ""
+msgstr "FLIC Animation"
 
 msgctxt "IDS_MFMT_DSM"
 msgid "DirectShow Media"
-msgstr ""
+msgstr "DirectShow Media"
 
 msgctxt "IDS_MFMT_IVF"
 msgid "Indeo Video Format"
-msgstr ""
+msgstr "Indeo Video Format"
 
 msgctxt "IDS_MFMT_OTHER"
 msgid "Other"
@@ -3234,7 +3234,7 @@ msgstr "Nagyítás: Automatikus"
 
 msgctxt "IDS_CUSTOM_CHANNEL_MAPPING"
 msgid "Toggle custom channel mapping"
-msgstr ""
+msgstr "Egyedi csatornaleképezés be- és kikapcsolása"
 
 msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_ON"
 msgid "Custom channel mapping: On"
@@ -3414,7 +3414,7 @@ msgstr "Ez a típus már a listában van!"
 
 msgctxt "IDS_WEBSERVER_ERROR_TEST"
 msgid "You need to apply the new settings before testing them."
-msgstr ""
+msgstr "Alkalmaznia kell az új beállításokat a tesztelésük előtt."
 
 msgctxt "IDS_AFTERPLAYBACK_CLOSE"
 msgid "After Playback: Exit"
@@ -3499,6 +3499,10 @@ msgstr "&Címek"
 msgctxt "IDS_NAVIGATE_CHANNELS"
 msgid "&Channels"
 msgstr "&Csatornák"
+
+msgctxt "IDC_FASTSEEK_CHECK"
+msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."
+msgstr ""
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"

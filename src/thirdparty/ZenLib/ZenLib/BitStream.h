@@ -95,15 +95,15 @@ public:
             switch ((NewBits-1)/8)
             {
                 case 3 :    NewBits-=8;
-                            ToReturn|=*Buffer<<NewBits;
+                            ToReturn |= ((size_t)*Buffer) << NewBits;
                             Buffer++;
                             Buffer_Size-=8;
                 case 2 :    NewBits-=8;
-                            ToReturn|=*Buffer<<NewBits;
+                            ToReturn |= ((size_t)*Buffer) << NewBits;
                             Buffer++;
                             Buffer_Size-=8;
                 case 1 :    NewBits-=8;
-                            ToReturn|=*Buffer<<NewBits;
+                            ToReturn |= ((size_t)*Buffer) << NewBits;
                             Buffer++;
                             Buffer_Size-=8;
                 case 0 :

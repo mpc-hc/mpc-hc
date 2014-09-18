@@ -72,7 +72,8 @@ void File_Exr::Streams_Accept()
         TestContinuousFileNames();
 
         Stream_Prepare((Config->File_Names.size()>1 || Config->File_IsReferenced_Get())?Stream_Video:Stream_Image);
-        Fill(StreamKind_Last, StreamPos_Last, "StreamSize", File_Size);
+        if (File_Size!=(int64u)-1)
+            Fill(StreamKind_Last, StreamPos_Last, Fill_Parameter(StreamKind_Last, Generic_StreamSize), File_Size);
         if (StreamKind_Last==Stream_Video)
             Fill(Stream_Video, StreamPos_Last, Video_FrameCount, Config->File_Names.size());
     }
@@ -201,9 +202,10 @@ void File_Exr::Header_Parse()
 //---------------------------------------------------------------------------
 void File_Exr::Data_Parse()
 {
-
     if (CC4(Buffer+Buffer_Offset)==0x762F3101) //"v/1"+1 //Header
         Header();
+    else if (name_End==0)
+        ImageData();
     else if (name=="comments" && type=="string")
         comments();
     else if (name=="compression" && type=="compression" && Element_Size==1)
@@ -239,7 +241,7 @@ void File_Exr::Header()
     Frame_Count++;
     if (Frame_Count_NotParsedIncluded!=(int64u)-1)
         Frame_Count_NotParsedIncluded++;
-    ImageData_End=File_Offset+Buffer_Offset+Config->File_Sizes[Config->File_Names_Pos-1];
+    ImageData_End=Config->File_Current_Size;
 }
 
 //---------------------------------------------------------------------------

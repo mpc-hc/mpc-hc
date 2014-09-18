@@ -2,13 +2,13 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Xyteton <xyteton@hotmail.com>, 2014
+# M. Somsak, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-08-19 21:10:25+0000\n"
-"PO-Revision-Date: 2014-08-31 14:52+0000\n"
-"Last-Translator: Xyteton <xyteton@hotmail.com>\n"
+"PO-Revision-Date: 2014-09-03 08:26+0000\n"
+"Last-Translator: M. Somsak\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/mpc-hc/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -194,7 +194,7 @@ msgstr "การตั้งค่าตัวแ&ปลผล"
 
 msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
-msgstr "การทดสอบภาพแ&ตก"
+msgstr "ทดสอบการฉีกของ&ภาพ"
 
 msgctxt "ID_VIEW_DISPLAYSTATS"
 msgid "&Display Stats"
@@ -226,7 +226,7 @@ msgstr "โหมดเต็ม&จอ D3D"
 
 msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
 msgid "D3D Fullscreen &GUI Support"
-msgstr ""
+msgstr "เต็มจอ D3D &รองรับ GUI "
 
 msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
 msgid "10-bit &RGB Output"
@@ -246,11 +246,11 @@ msgstr "ประมวลผลจุดลอยตัว&ครึ่งเ�
 
 msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
 msgid "Disable desktop composition (&Aero)"
-msgstr "ไม่ใช้งานองค์ประกอบ desktop (&Aero)"
+msgstr "ไม่ใช้งาน&องค์ประกอบ Desktop (Aero)"
 
 msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time &Correction"
-msgstr "ใช้งานการแ&ก้ปัญหาเวลาเฟรม"
+msgstr "ใช้การแ&ก้ปัญหาเวลาเฟรม"
 
 msgctxt "POPUP"
 msgid "&Color Management"
@@ -282,7 +282,7 @@ msgstr "SDTV &PAL"
 
 msgctxt "POPUP"
 msgid "Ambient &Light"
-msgstr "แ&สงเรือง"
+msgstr "แ&สงแวดล้อม"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
 msgid "&Bright (2.2 Gamma)"
@@ -302,7 +302,7 @@ msgstr "เจตนาการแปลผล"
 
 msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
 msgid "&Perceptual"
-msgstr "&รับรู้ได้"
+msgstr "ให้&รับรู้ได้"
 
 msgctxt "ID_VIEW_CM_INTENT_RELATIVECOLORIMETRIC"
 msgid "&Relative Colorimetric"
@@ -438,7 +438,7 @@ msgstr "1&85:100"
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"
-msgstr "แ&ก้ปัญหาความต่างอัตราส่วนฯ จอภาพ/เดสก์ท็อป"
+msgstr "แ&ก้ไขค่าต่างอัตราส่วนฯ จอภาพ/เดสก์ท็อป"
 
 msgctxt "POPUP"
 msgid "Pa&n&&Scan"
@@ -470,7 +470,7 @@ msgstr "ลดความสู&ง"
 
 msgctxt "ID_PANSCAN_MOVERIGHT"
 msgid "Move &Right"
-msgstr "เลื่อน&ขวา"
+msgstr "เลื่อนข&วา"
 
 msgctxt "ID_PANSCAN_MOVELEFT"
 msgid "Move &Left"
@@ -486,7 +486,7 @@ msgstr "เลื่อน&ลง"
 
 msgctxt "ID_PANSCAN_CENTER"
 msgid "Cen&ter"
-msgstr "&กลาง"
+msgstr "&ตรงกลาง"
 
 msgctxt "ID_VIEW_RESET"
 msgid "Re&set"

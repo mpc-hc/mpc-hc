@@ -35,6 +35,7 @@ protected :
 public :
     File_Mk();
     ~File_Mk();
+    void Segment_Attachements_AttachedFile_FileName();
 
 private :
     //Buffer
@@ -58,7 +59,6 @@ private :
     void Segment_Attachements_AttachedFile();
     void Segment_Attachements_AttachedFile_FileData();
     void Segment_Attachements_AttachedFile_FileDescription();
-    void Segment_Attachements_AttachedFile_FileName();
     void Segment_Attachements_AttachedFile_FileMimeType();
     void Segment_Attachements_AttachedFile_FileReferral();
     void Segment_Attachements_AttachedFile_FileUID();

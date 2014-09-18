@@ -2,14 +2,15 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# Gabrix <gabrixs@outlook.com>, 2014
 # Kiba_No_Ou <kiba.no.michi@gmail.com>, 2014
 # Tummarellox <tummarellox@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-24 19:23:17+0000\n"
-"PO-Revision-Date: 2014-08-25 09:40+0000\n"
-"Last-Translator: JellyFrog\n"
+"POT-Creation-Date: 2014-08-31 21:05:52+0000\n"
+"PO-Revision-Date: 2014-09-12 13:43+0000\n"
+"Last-Translator: Gabrix <gabrixs@outlook.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/mpc-hc/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,7 +32,7 @@ msgstr "Audio"
 
 msgctxt "IDS_INFOBAR_SUBTITLES"
 msgid "Subtitles"
-msgstr "Subtitles"
+msgstr "Sottotitoli"
 
 msgctxt "IDS_INFOBAR_CHAPTER"
 msgid "Chapter"
@@ -115,7 +116,7 @@ msgstr "Stili"
 
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
-msgstr ""
+msgstr "Se il rendering viene lasciato indefinito, i sottotitoli SSA/ASS saranno resi relativamente al frame video mentre tutti gli altri sottotitoli testuali saranno resi relativamente alla finestra."
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -843,15 +844,15 @@ msgstr "VSync accurato"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid "If the rendering target is left undefined, it will be inherited from the default style."
-msgstr ""
+msgstr "Se il rendering viene lasciato indefinito, verrà ereditato dallo stile predefinito."
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
-msgstr ""
+msgstr "Non consentire l'animazione dei sottotitoli. Abilitando questa opzione si abbasserà l'utilizzo della CPU. Si può usare se si verificano salti tra i sottotitoli."
 
 msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
-msgstr ""
+msgstr "Aumentando il numero di buffer delle immagini secondarie dovrebbe in generale migliorare le prestazioni di rendering a costo di un utilizzo superiore della RAM video sulla GPU."
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
@@ -859,7 +860,7 @@ msgstr "Cliccando questo pulsante, lo stato selezionato del gruppo rifletterà l
 
 msgctxt "IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Disabling this option will prevent the subtitles from blinking but it may cause the video renderer to skip some video frames."
-msgstr ""
+msgstr "La disattivazione di questa opzione previene il salto di alcuni sottotitoli ma può influire sul rendimento video saltando alcuni frame video."
 
 msgctxt "ID_PLAY_PLAY"
 msgid "Play\nPlay"
@@ -1247,7 +1248,7 @@ msgstr "Velocità di riproduzione"
 
 msgctxt "IDS_FILTERS_COPY_TO_CLIPBOARD"
 msgid "&Copy filters list to clipboard"
-msgstr ""
+msgstr "&Copia lista filtri negli appunti"
 
 msgctxt "IDS_CREDENTIALS_SERVER"
 msgid "Enter server credentials"
@@ -1263,15 +1264,15 @@ msgstr "Salva stile personalizzato"
 
 msgctxt "IDS_CONTENT_EDUCATION_SCIENCE"
 msgid "Education/Science/Factual topics"
-msgstr ""
+msgstr "Argomenti Educazione/Scienza/Attualità"
 
 msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
 msgid "Hides controls and panels also in windowed mode."
-msgstr ""
+msgstr "Nasconde i controlli e i pannelli anche in modalità finestra."
 
 msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
 msgid "Prevent external subtitle renderer to be loaded when internal is in use."
-msgstr ""
+msgstr "Impedire il caricamento dei sottotitoli esterni quando sono in uso quelli interni."
 
 msgctxt "IDS_PPAGEADVANCED_COL_NAME"
 msgid "Name"
@@ -1279,31 +1280,31 @@ msgstr "Nome"
 
 msgctxt "IDS_PPAGEADVANCED_COL_VALUE"
 msgid "Value"
-msgstr ""
+msgstr "Valore"
 
 msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
-msgstr ""
+msgstr "Numero massimo di file da mostrare nel menu \"File recenti\" e per i quali sarà salvata la posizione."
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
-msgstr ""
+msgstr "Ricorda la posizione del file solo per i file con durata maggiore di N minuti."
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
 msgid "Remember file position also for audio files."
-msgstr ""
+msgstr "Ricorda la posizione del file anche per i file audio."
 
 msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
 msgid "Do Nothing"
-msgstr ""
+msgstr "Non fare nulla"
 
 msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
 msgid "Play next file in the folder"
-msgstr ""
+msgstr "Riprodurre il file successivo nella cartella"
 
 msgctxt "IDS_AFTER_PLAYBACK_REWIND"
 msgid "Rewind current file"
-msgstr ""
+msgstr "Riavvolgi il file attuale"
 
 msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
 msgid "Close"
@@ -1315,19 +1316,19 @@ msgstr "Esci"
 
 msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
 msgid "Turn off the monitor"
-msgstr ""
+msgstr "Spegnere il monitor"
 
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
 msgid "JPEG Image"
-msgstr ""
+msgstr "Immagine JPEG"
 
 msgctxt "IDS_IMAGE_QUALITY"
 msgid "Quality (%):"
-msgstr ""
+msgstr "Qualità (%):"
 
 msgctxt "IDS_PPAGEADVANCED_COVER_SIZE_LIMIT"
 msgid "Maximum size (NxNpx) of a cover-art loaded in the audio only mode."
-msgstr ""
+msgstr "Dimensione massima (NxNpx) di una cover-art caricata in modalità solo audio."
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2211,7 +2212,7 @@ msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Nome file: %s\\N%sRisoluzion
 
 msgctxt "IDS_THUMBNAIL_TOO_SMALL"
 msgid "The thumbnails would be too small, impossible to create the file.\n\nTry lowering the number of thumbnails or increasing the total size."
-msgstr ""
+msgstr "Le miniature sarebbero troppo piccole, impossibile creare il file.\n\nProvare a ridurre il numero di miniature o aumentare la dimensione totale."
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
@@ -2219,7 +2220,7 @@ msgstr "Per caricare i sottotitoli devi cambiare il tipo di render video e riapr
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
-msgstr ""
+msgstr "I file dei sottotitoli"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %ld:%ld"
@@ -2679,7 +2680,7 @@ msgstr "Nascondi menù"
 
 msgctxt "IDD_PPAGEADVANCED"
 msgid "Advanced"
-msgstr ""
+msgstr "Avanzate"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seekbar"
@@ -3443,7 +3444,7 @@ msgstr "Dopo la riproduzione: Blocca"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
-msgstr ""
+msgstr "Dopo la riproduzione: Spegnere il monitor"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
@@ -3500,6 +3501,10 @@ msgstr "&Titoli"
 msgctxt "IDS_NAVIGATE_CHANNELS"
 msgid "&Channels"
 msgstr "&Canali"
+
+msgctxt "IDC_FASTSEEK_CHECK"
+msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."
+msgstr ""
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"

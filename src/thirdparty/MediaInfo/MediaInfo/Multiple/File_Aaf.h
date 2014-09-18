@@ -109,12 +109,19 @@ private :
         int8u* Buffer;
         vector<int32u> StreamOffsets;
 
-        stream()
+        stream(const Ztring Name_, size_t Directory_Pos_, int64u Size_)
+            :
+            Name(Name_),
+            Directory_Pos(Directory_Pos_),
+            ChildSID((int32u)-1),
+            Size(Size_),
+            Buffer(NULL)
         {
-            Directory_Pos=(size_t)-1;
-            ChildSID=(int32u)-1;
-            Buffer=NULL;
         }
+
+    private:
+        stream &operator=(const stream &v);
+        stream();
     } stream;
     vector<stream*> Streams;
     size_t sectsFat_Pos;

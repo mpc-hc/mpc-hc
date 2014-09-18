@@ -33,15 +33,23 @@ next version - not released yet
 + Ticket #4345, Text subtitles: Add a mode that automatically chooses the rendering target based on the
   subtitle type, ASS/SSA subtitles will be rendered on the video frame while other text subtitles will
   be rendered on the full window
++ Ticket #4690, Internal filters: Support v210/v410 raw video formats
 * Text subtitles: Faster subtitle parsing (up to 4 times faster for ASS/SSA subtitles)
 * Text subtitles: Improved subtitle renderer for faster rendering of complex subtitle scripts (often twice faster or more)
 * Text subtitles: Much faster subtitle opening in the Subresync bar
 * Ticket #325, Move after playback commands to options and add an option to close and restore logo.
+* Ticket #1663, Improved command line help dialog
 * Ticket #2834, Increase limit on subtitles override placement feature.
 * Ticket #4428, Improve the clarity of the error message when opening a subtitle file fails
 * Updated Little CMS to v2.6 (git 9c075b3)
 * Updated Unrar to v5.1.7
-* Updated LAV Filters to v0.62.0.15:
+* Updated MediaInfoLib to v0.7.70
+* Updated ZenLib to v0.4.29 r481
+* Updated LAV Filters to v0.62.0.26:
+    - LAV Video: HEVC decoding is up to 100% faster
+    - LAV Video: Fix potential artifacts when decoding x264 lossless streams
+    - LAV Splitter: Support for playing AES encrypted HLS streams
+    - Ticket #4322, LAV Audio: Improve the estimated duration for some MP3 files
     - Ticket #4539, LAV Video: Fix a crash with DVD subtitles on 64-bit builds when using software decoding
     - Ticket #4639, LAV Splitter: Fix incorrect colors for VobSub tracks in MP4
 * Updated Armenian, Basque, Belarusian, Bengali, British English, Catalan, Chinese (Simplified and Traditional),
@@ -61,3 +69,4 @@ next version - not released yet
 ! Ticket #4758, Adjust width of the groupbox headers to avoid empty space
 ! Ticket #4778, Fix optical drive detection when its letter is A or B.
 ! Ticket #4782, Backward framestep led to jumping to the wrong position in certain situations
+! Ticket #4825, Tracks matching a preferred language weren't always selected correctly

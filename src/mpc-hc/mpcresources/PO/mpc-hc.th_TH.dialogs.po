@@ -2,13 +2,14 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Xyteton <xyteton@hotmail.com>, 2014
+# M. Somsak, 2014
+# M. Somsak, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-19 21:13:19+0000\n"
-"PO-Revision-Date: 2014-08-31 14:52+0000\n"
-"Last-Translator: Xyteton <xyteton@hotmail.com>\n"
+"POT-Creation-Date: 2014-08-31 21:07:30+0000\n"
+"PO-Revision-Date: 2014-09-12 00:34+0000\n"
+"Last-Translator: M. Somsak\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/mpc-hc/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -74,7 +75,7 @@ msgstr "บันทึก"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK2"
 msgid "Enable built-in audio switcher filter (requires restart)"
-msgstr "ใช้งานตัวกรองตัวสลับเสียงที่มีมาให้ (ต้องเปิดโปรแกรมใหม่)"
+msgstr "ใช้ตัวกรองตัวสลับเสียงที่มีมาให้ (ต้องเปิดโปรแกรมใหม่)"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK5"
 msgid "Normalize"
@@ -106,7 +107,7 @@ msgstr "ขยับเวลาของเสียง (มว.):"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK1"
 msgid "Enable custom channel mapping"
-msgstr "ใช้งานการแม็ปปิงช่องที่ปรับแต่ง"
+msgstr "ใช้การวางตำแหน่งช่อง ที่กำหนดเอง"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
 msgid "Speaker configuration for "
@@ -118,7 +119,7 @@ msgstr "ช่องขาเข้า:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
 msgid "Hold shift for immediate changes when clicking something "
-msgstr "เมื่อคลิกบางอย่าง กดปุ่ม Shift ค้างไว้จะเปลี่ยนแปลงโดยทันที"
+msgstr "เมื่อคลิกบางอย่าง กดปุ่ม Shift ค้างไว้ด้วยจะเปลี่ยนแปลงโดยทันที"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."
@@ -154,7 +155,7 @@ msgstr "เปิด"
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Type the address of a movie or audio file (on the Internet or your computer) and the player will open it for you."
-msgstr "พิมพ์ที่อยู่ไฟล์ภาพยนตร์หรือไฟล์เสียง (บนอินเตอร์เน็ตหรือคอมพิวเตอร์ของคุณ) แล้วตัวเล่นจะเปิดมันให้คุณ"
+msgstr "พิมพ์ที่อยู่ไฟล์ภาพยนตร์หรือไฟล์เสียง (บนอินเตอร์เน็ตหรือคอมพิวเตอร์ของคุณ) แล้วเครื่องเล่นจะเปิดมันให้คุณ"
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Open:"
@@ -166,7 +167,7 @@ msgstr "เรียกดู..."
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC1"
 msgid "Dub:"
-msgstr ""
+msgstr "เสียงประกอบ:"
 
 msgctxt "IDD_OPEN_DLG_IDC_BUTTON2"
 msgid "Browse..."
@@ -242,7 +243,7 @@ msgstr "ตัวเลือกการเปิด"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO1"
 msgid "Use the same player for each media file"
-msgstr "ใช้เครื่องเล่นเดียวกัน สำหรับแต่ละไฟล์สื่อ"
+msgstr "ใช้เครื่องเล่นตัวเดียวกัน สำหรับแต่ละไฟล์สื่อ"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO2"
 msgid "Open a new player for each media file played"
@@ -254,7 +255,7 @@ msgstr "ภาษา"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Title bar"
-msgstr "แถบชื่อเรียก"
+msgstr "แถบชื่อหัวเรื่อง"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO3"
 msgid "Display full path"
@@ -270,7 +271,7 @@ msgstr "ไม่ต้องใส่คำนำหน้าใดๆ"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK13"
 msgid "Replace file name with title"
-msgstr "แทนที่ชื่อไฟล์ด้วยชื่อเรียก"
+msgstr "แทนที่ชื่อไฟล์ด้วยชื่อหัวเรื่อง"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Other"
@@ -290,7 +291,7 @@ msgstr "จำกัดสัดส่วนหน้าต่าง เมื�
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK12"
 msgid "Snap to desktop edges"
-msgstr "ชิดขอบเดสก์ท็อป"
+msgstr "ชิดขอบ Desktop"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK8"
 msgid "Store settings to .ini file"
@@ -306,7 +307,7 @@ msgstr "ลำดับความสำคัญของงานสูงก
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK14"
 msgid "Enable cover-art support"
-msgstr ""
+msgstr "ใช้งานการรองรับภาพปก"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "History"
@@ -494,7 +495,7 @@ msgstr "ช่วงการปรับความเร็ว:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK3"
 msgid "Override placement"
-msgstr "ฝืนค่าจัดวาง"
+msgstr "ฝืนค่าการจัดวาง"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC1"
 msgid "Horizontal:"
@@ -570,7 +571,7 @@ msgstr "คำเตือน"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu."
-msgstr "ถ้าคุณฝืนและใช้งานการลดรอยหยักบางแห่งในโหมดเต็มจอที่การตั้งค่าการ์ดจอของคุณ ศัพท์บรรยายจะไม่ได้ดูดีขึ้นแต่จะเปลือง cpu ของคุณ"
+msgstr "ถ้าคุณฝืนและใช้งานการลดรอยหยักในโหมดเต็มจอบางที่ที่การตั้งค่าการ์ดจอของคุณ ศัพท์บรรยายจะไม่ได้ดูดีขึ้นแต่จะเปลือง cpu ของคุณ"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
 msgid "File extensions"
@@ -590,7 +591,7 @@ msgstr "Windows 8 หรือใหม่กว่า"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON6"
 msgid "&Set default programs"
-msgstr "&ตั้งเป็นโปรแกรมตั้งต้น"
+msgstr "&ตั้งค่าโปรแกรมตั้งต้น"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Association"
@@ -676,7 +677,7 @@ msgctxt "IDD_PPAGETWEAKS_IDC_BUTTON1"
 msgid "Default"
 msgstr "ค่าตั้งต้น"
 
-msgctxt "IDD_PPAGETWEAKS_IDC_CHECK1"
+msgctxt "IDD_PPAGETWEAKS_IDC_FASTSEEK_CHECK"
 msgid "Fast seek (on keyframe)"
 msgstr "หาอย่างเร็ว (ตามเฟรมสำคัญ)"
 
@@ -690,7 +691,7 @@ msgstr "แสดงข้อมูล \"กำลังเล่นตอนน
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
-msgstr "ป้องกันไม่ให้ตัวเล่นย่อลง เมื่ออยู่ในแบบเต็มจอบนจอภาพที่ไม่ใช่จอตั้งต้น"
+msgstr "ป้องกันไม่ให้เครื่องเล่นย่อลง เมื่ออยู่ในแบบเต็มจอบนจอภาพที่ไม่ใช่จอตั้งต้น"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_WIN7"
 msgid "Use Windows 7 Taskbar features"
@@ -714,7 +715,7 @@ msgstr "ใช้งานการรองรับ Logitech LCD (ระยะ
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
 msgid "Auto-hide the mouse pointer during playback in windowed mode"
-msgstr "ซ่อนเครื่องหมายของเม้าส์ระหว่างเล่นในโหมดหน้าต่าง"
+msgstr "ซ่อนเครื่องหมายของเม้าส์อัตโนมัติ ระหว่างเล่นในโหมดหน้าต่าง"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
 msgid "Add Filter..."
@@ -758,7 +759,7 @@ msgstr "ลบ"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON8"
 msgid "Reset List"
-msgstr "คืนค่ารายชื่อ"
+msgstr "คืนค่ารายการ"
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Type:"
@@ -786,7 +787,7 @@ msgstr "คลิป:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Author:"
-msgstr "ผู้สร้าง:"
+msgstr "ผู้สร้างสรรค์:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Copyright:"
@@ -794,7 +795,7 @@ msgstr "ลิขสิทธิ์:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Rating:"
-msgstr "เรตติ้ง:"
+msgstr "ระดับคะแนน:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Location:"
@@ -854,7 +855,7 @@ msgstr "ตกลง"
 
 msgctxt "IDD_PNSPRESET_DLG_CAPTION"
 msgid "Pan&Scan Presets"
-msgstr "ค่าสำเร็จรูป การ&ส่องและกวาด"
+msgstr "ค่าสำเร็จรูป การส่องและกวาด"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"
 msgid "New"
@@ -886,7 +887,7 @@ msgstr "&บันทึก"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
 msgid "Pos: 0.0 -> 1.0"
-msgstr "Pos: 0.0 -> 1.0"
+msgstr "ส่องฯ: 0.0 -> 1.0"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
 msgid "Zoom: 0.2 -> 3.0"
@@ -946,7 +947,7 @@ msgstr "มว."
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_CHECK1"
 msgid "Save custom style"
-msgstr "บันทึกรูปแบบที่ปรับแต่ง"
+msgstr "บันทึกลักษณะที่ปรับแต่ง"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
@@ -1014,7 +1015,7 @@ msgstr "สเกล (y,%)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Border Style"
-msgstr "แบบขอบ"
+msgstr "ลักษณะขอบ"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO1"
 msgid "Outline"
@@ -1234,7 +1235,7 @@ msgstr "เรียกดู..."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_BUTTON2"
 msgid "Deploy..."
-msgstr ""
+msgstr "ใช้สอย..."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC"
 msgid "Default page:"
@@ -1254,7 +1255,7 @@ msgstr "ดาวน์โหลด และเปิด"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
 msgid "Replace currently loaded subtitles"
-msgstr "แทนที่ศัพท์บรรยายที่โหลดปัจจุบัน"
+msgstr "แทนที่ศัพท์บรรยายที่โหลดอยู่ปัจจุบัน"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
@@ -1518,7 +1519,7 @@ msgstr "ใช้โหมดตั้งต้นของจอภาพ เ�
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_RESTORERESCHECK"
 msgid "Restore resolution on program exit"
-msgstr "คืนค่าความละเอียดเมื่อออกจากโปรแกรม"
+msgstr "คืนค่าความละเอียด เมื่อออกจากโปรแกรม"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Delay"
@@ -1538,7 +1539,7 @@ msgstr "สแกน"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK1"
 msgid "Prefer forced and/or default subtitles tracks"
-msgstr "ชอบแทร็คศัพท์บรรยายตั้งต้น และ/หรือศัพท์ฯที่ถูกบังคับ"
+msgstr "ชอบแทร็คศัพท์บรรยายตั้งต้น และ/หรือศัพท์บรรยายที่ถูกบังคับ"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK2"
 msgid "Prefer external subtitles over embedded subtitles"
@@ -1598,11 +1599,11 @@ msgstr "เอาออก"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON1"
 msgid "Add to pre-resize"
-msgstr "เพิ่มสู่การปรับขนาดล่วงหน้า"
+msgstr "เพิ่มสู่ก่อนการปรับขนาด"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON2"
 msgid "Add to post-resize"
-msgstr "เพิ่มสู่การปรับขนาดภายหลัง"
+msgstr "เพิ่มสู่หลังการปรับขนาด"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shader presets"
@@ -1622,11 +1623,11 @@ msgstr "ลบ"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active pre-resize shaders"
-msgstr "เฉดเดอร์ปรับขนาดล่วงหน้าที่แอ็คทีฟ"
+msgstr "เฉดเดอร์ก่อนการปรับขนาดที่พร้อม"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active post-resize shaders"
-msgstr "เฉดเดอร์ปรับขนาดภายหลังที่แอ็คทีฟ"
+msgstr "เฉดเดอร์หลังการปรับขนาดที่พร้อม"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_CAPTION"
 msgid "Debug Shaders"
@@ -1671,4 +1672,12 @@ msgstr "ค่าตั้งต้น"
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
 msgstr "คุณภาพ JPEG:"
+
+msgctxt "IDD_CMD_LINE_HELP_CAPTION"
+msgid "Command line help"
+msgstr ""
+
+msgctxt "IDD_CMD_LINE_HELP_IDOK"
+msgid "OK"
+msgstr ""
 

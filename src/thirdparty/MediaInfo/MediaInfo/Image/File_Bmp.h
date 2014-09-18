@@ -36,8 +36,8 @@ protected :
     void Read_Buffer_Continue ();
 
     //Elements
-    void BitmapInfoHeader();
-    void BitmapV4Header();
+    void BitmapCoreHeader(int8u Version); //OS/2
+    void BitmapInfoHeader(int8u Version); //Windows
 };
 
 } //NameSpace

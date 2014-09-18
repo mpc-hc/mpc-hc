@@ -125,7 +125,20 @@ bool File_Xdcam_Clip::FileHeader_Begin()
             //Device
             Element=Root->FirstChildElement("Device");
             if (Element)
-                Fill(Stream_General, 0, General_Encoded_Application, string(Element->Attribute("manufacturer"))+" "+Element->Attribute("modelName"), true, true);
+            {
+                const char* manufacturer=Element->Attribute("manufacturer");
+                if (manufacturer)
+                {
+                    string manufacturer_modelName(manufacturer);
+                    const char* modelName=Element->Attribute("modelName");
+                    if (modelName)
+                    {
+                        manufacturer_modelName+=' ';
+                        manufacturer_modelName+=modelName;
+                    }
+                    Fill(Stream_General, 0, General_Encoded_Application, manufacturer_modelName, true, true);
+                }
+            }
 
             if (File_Size_Total!=File_Size)
                 Fill(Stream_General, 0, General_FileSize, File_Size_Total, 10, true);

@@ -245,6 +245,9 @@ void File_Lxf::Streams_Fill_PerStream(File__Analyze* Parser, stream_t Container_
         Ztring LawRating=Parser->Retrieve(Stream_General, 0, General_LawRating);
         if (!LawRating.empty())
             Fill(Stream_General, 0, General_LawRating, LawRating, true);
+        Ztring Title=Parser->Retrieve(Stream_General, 0, General_Title);
+        if (!Title.empty() && Retrieve(Stream_General, 0, General_Title).empty())
+            Fill(Stream_General, 0, General_Title, Title);
 
         #if MEDIAINFO_DEMUX
             if (Config->Demux_ForceIds_Get())
@@ -284,6 +287,9 @@ void File_Lxf::Streams_Finish()
         Ztring LawRating=Videos[2].Parsers[0]->Retrieve(Stream_General, 0, General_LawRating);
         if (!LawRating.empty())
             Fill(Stream_General, 0, General_LawRating, LawRating, true);
+        Ztring Title=Videos[2].Parsers[0]->Retrieve(Stream_General, 0, General_Title);
+        if (!Title.empty() && Retrieve(Stream_General, 0, General_Title).empty())
+            Fill(Stream_General, 0, General_Title, Title);
     }
 
     if (Audios_Header.TimeStamp_End!=(int64u)-1 && Audios_Header.TimeStamp_Begin!=(int64u)-1 && Audios_Header.Duration_First!=(int64u)-1)

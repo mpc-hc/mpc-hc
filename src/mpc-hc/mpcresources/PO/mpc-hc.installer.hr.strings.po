@@ -4,12 +4,13 @@
 # Translators:
 # schop <aprcel00@fesb.hr>, 2014
 # iivana24 <iivana24@gmail.com>, 2014
+# streger <stjepan.treger@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-06-17 15:23:34+0000\n"
-"PO-Revision-Date: 2014-07-07 09:20+0000\n"
-"Last-Translator: schop <aprcel00@fesb.hr>\n"
+"PO-Revision-Date: 2014-09-08 12:31+0000\n"
+"Last-Translator: streger <stjepan.treger@gmail.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/mpc-hc/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,7 +52,7 @@ msgstr "Ova verzija MPC-HC zahtijeva procesor sa SSE2 podrškom.\n\nVaš proceso
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
-msgstr "Posjetite našu Wiki stranicu da biste skinuli slike za toolbar"
+msgstr "Posjetite našu Wiki stranicu da biste skinuli slike za alatnu traku"
 
 msgctxt "CustomMessages_tsk_AllUsers"
 msgid "For all users"
