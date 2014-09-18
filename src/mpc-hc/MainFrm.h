@@ -155,7 +155,7 @@ struct SubtitleInput {
 
 interface ISubClock;
 
-class CMainFrame : public CFrameWnd, public CDropTarget
+class CMainFrame : public CFrameWnd, public CDropTarget, public IMediaInformationRetriever
 {
 public:
     enum class Timer32HzSubscriber
@@ -394,6 +394,13 @@ public:
     void SetPlaybackMode(int iNewStatus);
     bool IsMuted() { return m_wndToolBar.GetVolume() == -10000; }
     int GetVolume() { return m_wndToolBar.m_volctrl.GetPos(); }
+
+	// IMediaInformationRetriever
+	STDMETHODIMP GetMediaSeek(LONGLONG* pPosition, LONGLONG* pDuration);
+
+	HRESULT QueryInterface(const IID &, void **) { return E_FAIL; }
+	ULONG AddRef() { return 1; }
+	ULONG Release() { return 1; }
 
 public:
     CMainFrame();

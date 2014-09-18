@@ -32,6 +32,8 @@ class CSubPicAllocatorPresenterImpl
     , public CCritSec
     , public ISubPicAllocatorPresenter2
     , public ISubRenderConsumer2
+    , public IPresenterIncludeHandler
+	, public IPresenterMediaAccessor
 {
 private:
     CCritSec m_csSubPicProvider;
@@ -56,6 +58,12 @@ protected:
 
     bool m_bDeviceResetRequested;
     bool m_bPendingResetDevice;
+
+    std::vector<CString> m_ShaderIncludes;
+    CString m_ShaderFileName;
+    CString m_SystemIncludeDir;
+
+	CComPtr<IMediaInformationRetriever> pMediaInfos;
 
     enum SubtitleTextureLimit {
         STATIC, VIDEO, DESKTOP
@@ -113,6 +121,35 @@ public:
 
     STDMETHODIMP SetIsRendering(bool bIsRendering) { return E_NOTIMPL; }
 
+    // IPresenterIncludeHandler
+
+    STDMETHODIMP SetShaderSource(const CString& pFileName) {
+        m_ShaderFileName = pFileName;
+        return S_OK;
+    }
+
+    STDMETHODIMP_(const CString&) GetShaderSource() {
+        return m_ShaderFileName;
+    }
+
+    STDMETHODIMP SetSystemIncludeDir(const CString& pDir) {
+        m_SystemIncludeDir = pDir;
+        return S_OK;
+    }
+
+    STDMETHODIMP_(const CString&) GetSystemIncludeDir() {
+        return m_SystemIncludeDir;
+    }
+
+    STDMETHODIMP SetIncludes(const std::vector<CString>& pIncludes) {
+        m_ShaderIncludes = pIncludes;
+        return S_OK;
+    }
+
+    STDMETHODIMP_(const std::vector<CString>&) GetIncludes() {
+        return m_ShaderIncludes;
+    }
+
     // ISubRenderOptions
 
     STDMETHODIMP GetBool(LPCSTR field, bool* value);
@@ -146,4 +183,15 @@ public:
     // ISubRenderConsumer2
 
     STDMETHODIMP Clear(REFERENCE_TIME clearNewerThan = 0);
+
+	// IPresenterMediaAccessor
+	STDMETHODIMP GetInformationRetriever(IMediaInformationRetriever** pObj) {
+		*pObj = pMediaInfos;
+		return S_OK;
+	}
+
+	STDMETHODIMP SetInformationRetriever(IMediaInformationRetriever* pObj) {
+		pMediaInfos = pObj;
+		return S_OK;
+	}
 };

@@ -23,6 +23,9 @@
 #include "MainFrm.h"
 #include "mplayerc.h"
 #include "PathUtils.h"
+#include "ShaderIncludeHandler.h"
+#include <regex>
+#include <fstream>
 
 #define SHADER_MAX_FILE_SIZE (4 * 1024 * 1024)
 
@@ -307,6 +310,11 @@ void ShaderPreset::ToStrings(CString& outPre, CString& outPost) const
     outPost = m_PostResize.ToString();
 }
 
+void ShaderPreset::SetIncludedFiles(const std::vector<CString>& pList) const
+{
+    m_IncludedFiles = pList;
+}
+
 bool ShaderPreset::operator==(const ShaderPreset& rhs) const
 {
     return (m_PreResize == rhs.m_PreResize) && (m_PostResize == rhs.m_PostResize);
@@ -344,6 +352,7 @@ FileChangeNotifier::FileSet ShaderSelection::ShaderCurrentPreset::GetWatchedList
     for (const auto& shader : m_PostResize) {
         ret.emplace(shader.filePath);
     }
+    ret.insert(m_IncludedFiles.begin(), m_IncludedFiles.end());
     return ret;
 }
 
@@ -373,7 +382,13 @@ void ShaderSelection::ShaderCurrentPreset::WatchedFilesCooldownCallback()
         if (!setPost && std::find(m_PostResize.begin(), m_PostResize.end(), shader) != std::end(m_PostResize)) {
             setPost = true;
         }
+        if (std::find(m_IncludedFiles.begin(), m_IncludedFiles.end(), change) != std::end(m_IncludedFiles)) {
+            setPre = true;
+            setPost = true;
+            break;
+        }
     }
+
     if (setPre && setPost) {
         m_eventc.FireEvent(MpcEvent::SHADER_SELECTION_CHANGED);
     } else if (setPre) {
@@ -382,6 +397,12 @@ void ShaderSelection::ShaderCurrentPreset::WatchedFilesCooldownCallback()
         m_eventc.FireEvent(MpcEvent::SHADER_POSTRESIZE_SELECTION_CHANGED);
     }
     m_changes.clear();
+}
+
+void ShaderSelection::ShaderCurrentPreset::SetIncludedFiles(const std::vector<CString>& pList) const
+{
+    ShaderPreset::SetIncludedFiles(pList);
+    const_cast<ShaderSelection::ShaderCurrentPreset*>(this)->UpdateNotifierState();
 }
 
 bool ShaderSelection::NextPreset(bool bWrap/* = true*/)

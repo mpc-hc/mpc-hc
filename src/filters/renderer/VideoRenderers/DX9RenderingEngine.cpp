@@ -293,6 +293,56 @@ HRESULT CDX9RenderingEngine::RenderVideo(IDirect3DSurface9* pRenderTarget, const
     }
 }
 
+HRESULT CDX9RenderingEngine::CExternalPixelShader::LoadAdditionnalTextures(IDirect3DDevice9* pDevice)
+{
+	HRESULT hr = S_OK;
+
+	ClearAdditionnalTextures();
+
+	const int clCount = m_Parameters.GetTextureCount();
+	m_AdditionnalTextures.reserve(clCount);
+	for (int i = 0; i < clCount; ++i)
+	{
+		const CPixelShaderTexture& lTexture = m_Parameters.GetTexture(i);
+
+		const CString& lFilename = lTexture.GetFilename();
+
+		CShaderAdditionnalTexture lLoadedTexture;
+		lLoadedTexture.m_SamplerID = lTexture.GetSamplerID();
+		if (FAILED(D3DXCreateTextureFromFileA(pDevice, CT2A(lFilename), &lLoadedTexture.m_pTexture)))
+		{
+			hr = E_FAIL;
+			break;
+		}
+
+		m_AdditionnalTextures.push_back(lLoadedTexture);
+	}
+
+	return hr;
+}
+
+HRESULT CDX9RenderingEngine::CExternalPixelShader::ClearAdditionnalTextures()
+{
+	m_AdditionnalTextures.clear();
+	return S_OK;
+}
+
+HRESULT CDX9RenderingEngine::CExternalPixelShader::ApplyAdditionnalTextures(IDirect3DDevice9* pDevice)
+{
+	if (m_Parameters.IsInvalidated() == true)
+	{
+		if (FAILED(LoadAdditionnalTextures(pDevice)))
+			return E_FAIL;
+
+		m_Parameters.Validate();
+	}
+
+	for (auto& lTexture : m_AdditionnalTextures)
+		pDevice->SetTexture(lTexture.m_SamplerID, lTexture.m_pTexture);
+
+	return S_OK;
+}
+
 HRESULT CDX9RenderingEngine::RenderVideoDrawPath(IDirect3DSurface9* pRenderTarget, const CRect& srcRect, const CRect& destRect)
 {
     HRESULT hr;
@@ -389,10 +439,22 @@ HRESULT CDX9RenderingEngine::RenderVideoDrawPath(IDirect3DSurface9* pRenderTarge
         D3DSURFACE_DESC desc;
         m_pVideoTexture[m_nCurSurface]->GetLevelDesc(0, &desc);
 
+		LONGLONG lCurrentPosition = 0;
+		LONGLONG lDuration = 0;
+
+		CComPtr<IMediaInformationRetriever> pInfos;
+		if (SUCCEEDED(GetInformationRetriever(&pInfos)))
+		{
+			pInfos->GetMediaSeek(&lCurrentPosition, &lDuration);
+		}
+
+		const float clTickToSeconds = 1.0f / 10000000.0f;
+
         float fConstData[][4] = {
-            {(float)desc.Width, (float)desc.Height, (float)(counter++), (float)diff / CLOCKS_PER_SEC},
-            {1.0f / desc.Width, 1.0f / desc.Height, 0, 0},
+			{ (float)desc.Width, (float)desc.Height, (float)(counter++), (float)diff / CLOCKS_PER_SEC },
+			{ 1.0f / desc.Width, 1.0f / desc.Height, clTickToSeconds * (float)lCurrentPosition, clTickToSeconds * (float)lDuration },
         };
+
 #else
         CSize VideoSize = GetVisibleVideoSize();
 
@@ -418,6 +480,7 @@ HRESULT CDX9RenderingEngine::RenderVideoDrawPath(IDirect3DSurface9* pRenderTarge
             if (!Shader.m_pPixelShader) {
                 Shader.Compile(m_pPSC);
             }
+			Shader.ApplyAdditionnalTextures(m_pD3DDev);
             hr = m_pD3DDev->SetPixelShader(Shader.m_pPixelShader);
 
             if (first) {
@@ -1715,16 +1778,19 @@ HRESULT CDX9RenderingEngine::SetCustomPixelShader(LPCSTR pSrcData, LPCSTR pTarge
     Shader.m_SourceData = pSrcData;
     Shader.m_SourceTarget = pTarget;
 
-    CComPtr<IDirect3DPixelShader9> pPixelShader;
+    // push shader params
+    Shader.m_SourceFileName = GetShaderSource();
+    m_pPSC->SetSystemWideIncludesPath(CPath(GetSystemIncludeDir()));
 
+    CComPtr<IDirect3DPixelShader9> pPixelShader;
     HRESULT hr = Shader.Compile(m_pPSC);
+    SetIncludes(Shader.m_IncludedFiles);
+
     if (FAILED(hr)) {
         return hr;
     }
 
     pPixelShaders->AddTail(Shader);
-
     Paint(false);
-
     return S_OK;
 }

@@ -133,8 +133,12 @@ namespace GothSync
             CComPtr<IDirect3DPixelShader9> m_pPixelShader;
             CStringA m_SourceData;
             CStringA m_SourceTarget;
+
+            CString m_SourceFileName;
+            std::vector<CString> m_IncludedFiles;
+
             HRESULT Compile(CPixelShaderCompiler* pCompiler) {
-                HRESULT hr = pCompiler->CompileShader(m_SourceData, "main", m_SourceTarget, 0, &m_pPixelShader);
+                HRESULT hr = pCompiler->CompileShader(m_SourceData, "main", m_SourceTarget, 0, &m_pPixelShader, nullptr, nullptr, &m_IncludedFiles, &m_SourceFileName);
                 if (FAILED(hr)) {
                     return hr;
                 }

@@ -125,11 +125,13 @@
     <ClCompile Include="OuterEVR.cpp" />
     <ClCompile Include="OuterVMR.cpp" />
     <ClCompile Include="PixelShaderCompiler.cpp" />
+    <ClCompile Include="PixelShaderParameters.cpp" />
     <ClCompile Include="QT7AllocatorPresenter.cpp" />
     <ClCompile Include="QT9AllocatorPresenter.cpp" />
     <ClCompile Include="RenderersSettings.cpp" />
     <ClCompile Include="RM7AllocatorPresenter.cpp" />
     <ClCompile Include="RM9AllocatorPresenter.cpp" />
+    <ClCompile Include="ShaderIncludeHandler.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
@@ -155,11 +157,13 @@
     <ClInclude Include="OuterEVR.h" />
     <ClInclude Include="OuterVMR.h" />
     <ClInclude Include="PixelShaderCompiler.h" />
+    <ClInclude Include="PixelShaderParameters.h" />
     <ClInclude Include="QT7AllocatorPresenter.h" />
     <ClInclude Include="QT9AllocatorPresenter.h" />
     <ClInclude Include="RenderersSettings.h" />
     <ClInclude Include="RM7AllocatorPresenter.h" />
     <ClInclude Include="RM9AllocatorPresenter.h" />
+    <ClInclude Include="ShaderIncludeHandler.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="SyncAllocatorPresenter.h" />
     <ClInclude Include="SyncRenderer.h" />

@@ -10058,26 +10058,47 @@ void CMainFrame::SetShaders(bool bSetPreResize/* = true*/, bool bSetPostResize/*
     // internal video renderers select maximum available profile and madVR (the only external renderer that
     // supports shader part of ISubPicAllocatorPresenter2 interface) seems to ignore it altogether.
     if (m_pCAP2) {
-        if (bSetPreResize) {
-            m_pCAP2->SetPixelShader2(nullptr, nullptr, false);
-            for (const auto& shader : s.m_Shaders.GetCurrentPreset().GetPreResize()) {
-                if (FAILED(m_pCAP2->SetPixelShader2(shader.GetCode(), nullptr, false))) {
-                    preFailed = true;
-                    m_pCAP2->SetPixelShader2(nullptr, nullptr, false);
-                    break;
+
+        std::vector<CString> lIncludedFiles;
+
+        auto CompileShaderList = [this](const ShaderList & pList, std::vector<CString>& pIncludedFiles, bool pScreenSpace) -> bool {
+            m_pCAP2->SetPixelShader2(nullptr, nullptr, pScreenSpace);
+            for (const auto& shader : pList)
+            {
+                // we need to set the shader parameters (to allow #include for instance)
+                IPresenterIncludeHandler* lIncludeHandler = nullptr;
+                m_pCAP2.QueryInterface<IPresenterIncludeHandler>(&lIncludeHandler);
+
+                if (lIncludeHandler != nullptr) {
+                    lIncludeHandler->SetShaderSource(shader.filePath);
+                    lIncludeHandler->SetSystemIncludeDir(AfxGetAppSettings().m_ShadersIncludePath);
+                }
+
+                // shader compilation
+                if (FAILED(m_pCAP2->SetPixelShader2(shader.GetCode(), nullptr, pScreenSpace))) {
+                    m_pCAP2->SetPixelShader2(nullptr, nullptr, pScreenSpace);
+                    return false;
+                }
+
+                // extraction of the #included files, to watch for changes later
+                if (lIncludeHandler != nullptr) {
+                    const auto& lIncludedFiles = lIncludeHandler->GetIncludes();
+                    pIncludedFiles.insert(pIncludedFiles.end(), lIncludedFiles.begin(), lIncludedFiles.end());
                 }
             }
+
+            return true;
+        };
+
+        if (bSetPreResize) {
+            preFailed = !CompileShaderList(s.m_Shaders.GetCurrentPreset().GetPreResize(), lIncludedFiles, false);
         }
         if (bSetPostResize) {
-            m_pCAP2->SetPixelShader2(nullptr, nullptr, true);
-            for (const auto& shader : s.m_Shaders.GetCurrentPreset().GetPostResize()) {
-                if (FAILED(m_pCAP2->SetPixelShader2(shader.GetCode(), nullptr, true))) {
-                    postFailed = true;
-                    m_pCAP2->SetPixelShader2(nullptr, nullptr, true);
-                    break;
-                }
-            }
+            postFailed = !CompileShaderList(s.m_Shaders.GetCurrentPreset().GetPostResize(), lIncludedFiles, true);
         }
+
+        s.m_Shaders.GetCurrentPreset().SetIncludedFiles(lIncludedFiles);
+
     } else if (m_pCAP) {
         // shouldn't happen, all knows renderers that support ISubPicAllocatorPresenter interface
         // support ISubPicAllocatorPresenter2 as well, and it takes priority
@@ -11570,6 +11591,17 @@ int CMainFrame::SetupSubtitleStreams()
     return -1;
 }
 
+HRESULT CMainFrame::GetMediaSeek(LONGLONG* pPosition, LONGLONG* pDuration)
+{
+	if (m_pMS == nullptr)
+		return E_FAIL;
+	
+	m_pMS->GetCurrentPosition(pPosition);
+	m_pMS->GetDuration(pDuration);
+
+	return S_OK;
+}
+
 bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 {
     ASSERT(GetLoadState() == MLS::LOADING);
@@ -11643,6 +11675,19 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         m_pGB->FindInterface(IID_PPV_ARGS(&pMFVMB), TRUE);
         m_pMVRS = m_pCAP;
         pMVTO = m_pCAP;
+
+		if (m_pCAP2 != nullptr)
+		{
+			CComPtr<IPresenterMediaAccessor> pMediaSeeking;
+			HRESULT hr2 = m_pCAP2.QueryInterface<IPresenterMediaAccessor>(&pMediaSeeking);
+			if (SUCCEEDED(hr2))
+			{
+				pMediaSeeking->SetInformationRetriever(this);
+			}
+		}
+
+		CComPtr<IGraphBuilder2> tmp;
+		HRESULT hr2 = m_pCAP2->QueryInterface(&tmp);
 
         if (s.fShowOSD || s.fShowDebugInfo) { // Force OSD on when the debug switch is used
             if (pVMB) {

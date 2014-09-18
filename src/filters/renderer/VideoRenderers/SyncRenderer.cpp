@@ -2386,9 +2386,13 @@ STDMETHODIMP CBaseAP::SetPixelShader2(LPCSTR pSrcData, LPCSTR pTarget, bool bScr
     Shader.m_SourceData = pSrcData;
     Shader.m_SourceTarget = pTarget;
 
-    CComPtr<IDirect3DPixelShader9> pPixelShader;
+    // push shader params
+    Shader.m_SourceFileName = GetShaderSource();
+    m_pPSC->SetSystemWideIncludesPath(CPath(GetSystemIncludeDir()));
 
+    CComPtr<IDirect3DPixelShader9> pPixelShader;
     HRESULT hr = Shader.Compile(m_pPSC);
+    SetIncludes(Shader.m_IncludedFiles);
     if (FAILED(hr)) {
         return hr;
     }

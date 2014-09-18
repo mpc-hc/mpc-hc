@@ -60,6 +60,10 @@ private:
         TIMER_ONETIME_END = TIMER_ONETIME_START + 16,
     };
 
+    // List of the files included through #include directives for the currently selected shader
+    // (used to look for changes)
+    std::vector<CString> m_ShaderIncludeFiles;
+
 protected:
     int m_iVersion;
     CComboBox m_Shaders;

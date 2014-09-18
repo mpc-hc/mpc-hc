@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include <vector>
 #include <atlbase.h>
 #include <atlcoll.h>
 #include "CoordGeom.h"
@@ -203,6 +204,32 @@ public ISubPicAllocatorPresenter {
 
     STDMETHOD_(bool, IsRendering)() PURE;
     STDMETHOD(SetIsRendering)(bool bIsRendering) PURE;
+};
+
+// Interface that must be implemented by presenters in order to allow #inclusions
+interface __declspec(uuid("212C1425-F407-4FF6-B0A0-8335FA46ABA8"))
+IPresenterIncludeHandler :
+public IUnknown {
+    STDMETHOD(SetShaderSource)(const CString & pFileName) PURE;
+    STDMETHOD_(const CString&, GetShaderSource)() PURE;
+    STDMETHOD(SetSystemIncludeDir)(const CString & pDir) PURE;
+    STDMETHOD_(const CString&, GetSystemIncludeDir)() PURE;
+    STDMETHOD(SetIncludes)(const std::vector<CString>& pIncludes) PURE;
+    STDMETHOD_(const std::vector<CString>&, GetIncludes)() PURE;
+};
+
+interface __declspec(uuid("AB8FC39A-FBA7-4A36-B265-8A3592581870"))
+IMediaInformationRetriever :
+public IUnknown {
+	STDMETHOD(GetMediaSeek)(LONGLONG* pPosition, LONGLONG* pDuration) PURE;
+};
+
+// Interface that gives access to information about the media being played
+interface __declspec(uuid("EAC6251D-471B-498D-9E33-750761D69FAA"))
+IPresenterMediaAccessor :
+public IUnknown {
+	STDMETHOD(GetInformationRetriever)(IMediaInformationRetriever** pObj) PURE;
+	STDMETHOD(SetInformationRetriever)(IMediaInformationRetriever* pObj) PURE;
 };
 
 //
