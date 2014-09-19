@@ -576,7 +576,7 @@ public:
     bool            fOverridePlacement;
     int             nHorPos, nVerPos;
     bool            bSubtitleARCompensation;
-    int             nSubDelayInterval;
+    int             nSubDelayStep;
 
     // Default Style
     STSStyle        subtitlesDefStyle;

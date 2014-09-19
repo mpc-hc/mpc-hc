@@ -345,7 +345,7 @@ BEGIN
     EDITTEXT        IDC_EDIT3,160,17,32,12,ES_CENTER | ES_AUTOHSCROLL | ES_READONLY | ES_NUMBER
     CONTROL         "",IDC_SPIN3,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,180,17,12,12
     LTEXT           "%",IDC_STATIC4,196,19,8,8
-    GROUPBOX        "Delay interval",IDC_STATIC,212,5,79,28
+    GROUPBOX        "Delay step",IDC_STATIC,212,5,79,28
     EDITTEXT        IDC_EDIT4,217,17,40,13,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "ms",IDC_STATIC,261,19,25,11
     GROUPBOX        "Texture settings (open the video again to see the changes)",IDC_STATIC,5,37,286,96
@@ -2609,6 +2609,8 @@ BEGIN
     IDS_IMAGE_QUALITY       "Quality (%):"
     IDS_PPAGEADVANCED_COVER_SIZE_LIMIT 
                             "Maximum size (NxNpx) of a cover-art loaded in the audio only mode."
+    IDS_SUBTITLE_DELAY_STEP_TOOLTIP
+                            "The subtitle delay will be decreased/increased by this value each time the corresponding hotkeys are used (%s/%s)."
 END
 
 STRINGTABLE

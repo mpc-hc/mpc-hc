@@ -45,7 +45,7 @@ private:
     int m_nAnimationRate;
     CSpinButtonCtrl m_animationRateCtrl;
     BOOL m_bAllowDroppingSubpic;
-    int m_nSubDelayInterval;
+    int m_nSubDelayStep;
     BOOL m_bSubtitleARCompensation;
 
 public:
@@ -66,5 +66,6 @@ protected:
     afx_msg void OnUpdateRenderAtWhenAnimationIsDisabled(CCmdUI* pCmdUI);
     afx_msg void OnUpdateAnimationRate(CCmdUI* pCmdUI);
     afx_msg void OnUpdateAllowDroppingSubpic(CCmdUI* pCmdUI);
-    afx_msg void OnSubDelayInterval();
+    afx_msg void OnSubDelayStep();
+    afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
 };

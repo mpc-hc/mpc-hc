@@ -14983,7 +14983,7 @@ afx_msg void CMainFrame::OnSubtitleDelay(UINT nID)
 
         int newDelay;
         int oldDelay = m_pCAP->GetSubtitleDelay();
-        int nDelayStep = AfxGetAppSettings().nSubDelayInterval;
+        int nDelayStep = AfxGetAppSettings().nSubDelayStep;
 
         if (nID == ID_SUB_DELAY_DOWN) {
             newDelay = oldDelay - nDelayStep;

@@ -38,7 +38,7 @@ CPPageSubtitles::CPPageSubtitles()
     , m_nRenderAtWhenAnimationIsDisabled(50)
     , m_nAnimationRate(100)
     , m_bAllowDroppingSubpic(TRUE)
-    , m_nSubDelayInterval(500)
+    , m_nSubDelayStep(500)
     , m_bSubtitleARCompensation(TRUE)
 {
 }
@@ -64,7 +64,7 @@ void CPPageSubtitles::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDIT6, m_nAnimationRate);
     DDX_Control(pDX, IDC_SPIN6, m_animationRateCtrl);
     DDX_Check(pDX, IDC_CHECK_ALLOW_DROPPING_SUBPIC, m_bAllowDroppingSubpic);
-    DDX_Text(pDX, IDC_EDIT4, m_nSubDelayInterval);
+    DDX_Text(pDX, IDC_EDIT4, m_nSubDelayStep);
     DDX_Check(pDX, IDC_CHECK_SUB_AR_COMPENSATION, m_bSubtitleARCompensation);
 }
 
@@ -78,7 +78,7 @@ BEGIN_MESSAGE_MAP(CPPageSubtitles, CPPageBase)
     ON_UPDATE_COMMAND_UI(IDC_STATIC2, OnUpdatePosOverride)
     ON_UPDATE_COMMAND_UI(IDC_STATIC3, OnUpdatePosOverride)
     ON_UPDATE_COMMAND_UI(IDC_STATIC4, OnUpdatePosOverride)
-    ON_EN_CHANGE(IDC_EDIT4, OnSubDelayInterval)
+    ON_EN_CHANGE(IDC_EDIT4, OnSubDelayStep)
     ON_UPDATE_COMMAND_UI(IDC_STATIC5, OnUpdateRenderAtWhenAnimationIsDisabled)
     ON_UPDATE_COMMAND_UI(IDC_EDIT5, OnUpdateRenderAtWhenAnimationIsDisabled)
     ON_UPDATE_COMMAND_UI(IDC_SPIN5, OnUpdateRenderAtWhenAnimationIsDisabled)
@@ -88,6 +88,7 @@ BEGIN_MESSAGE_MAP(CPPageSubtitles, CPPageBase)
     ON_UPDATE_COMMAND_UI(IDC_SPIN6, OnUpdateAnimationRate)
     ON_UPDATE_COMMAND_UI(IDC_STATIC8, OnUpdateAnimationRate)
     ON_UPDATE_COMMAND_UI(IDC_CHECK_ALLOW_DROPPING_SUBPIC, OnUpdateAllowDroppingSubpic)
+    ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify)
 END_MESSAGE_MAP()
 
 
@@ -177,13 +178,14 @@ BOOL CPPageSubtitles::OnInitDialog()
     m_animationRateCtrl.SetRange32(10, 100);
     UDACCEL accels[] = { { 0, 5 }, { 2, 10 }, { 5, 20 } };
     m_animationRateCtrl.SetAccel(_countof(accels), accels);
-    m_nSubDelayInterval = s.nSubDelayInterval;
+    m_nSubDelayStep = s.nSubDelayStep;
     m_bSubtitleARCompensation = s.bSubtitleARCompensation;
 
     CorrectComboBoxHeaderWidth(GetDlgItem(IDC_CHECK3));
 
     UpdateData(FALSE);
 
+    EnableToolTips(TRUE);
     CreateToolTip();
 
     return TRUE;  // return TRUE unless you set the focus to a control
@@ -198,7 +200,7 @@ BOOL CPPageSubtitles::OnApply()
     CRenderersSettings& r = GetRenderersSettings();
 
     r.subPicQueueSettings.nSize = m_nSPQSize;
-    s.nSubDelayInterval = m_nSubDelayInterval;
+    s.nSubDelayStep = m_nSubDelayStep;
     r.subPicQueueSettings.nMaxRes = TranslateResUIPosToSetting(m_cbSPQMaxRes.GetCurSel());
     r.subPicQueueSettings.bDisableSubtitleAnimation = !!m_bDisableSubtitleAnimation;
     r.subPicQueueSettings.nRenderAtWhenAnimationIsDisabled = std::max(0, std::min(m_nRenderAtWhenAnimationIsDisabled, 100));
@@ -232,7 +234,7 @@ void CPPageSubtitles::OnUpdatePosOverride(CCmdUI* pCmdUI)
     pCmdUI->Enable(m_bOverridePlacement);
 }
 
-void CPPageSubtitles::OnSubDelayInterval()
+void CPPageSubtitles::OnSubDelayStep()
 {
     // If incorrect number, revert modifications
     if (!UpdateData()) {
@@ -255,4 +257,30 @@ void CPPageSubtitles::OnUpdateAnimationRate(CCmdUI* pCmdUI)
 void CPPageSubtitles::OnUpdateAllowDroppingSubpic(CCmdUI* pCmdUI)
 {
     pCmdUI->Enable(GetDlgItemInt(IDC_SUBPIC_TO_BUFFER));
+}
+
+BOOL CPPageSubtitles::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
+{
+    LPTOOLTIPTEXT pTTT = reinterpret_cast<LPTOOLTIPTEXT>(pNMHDR);
+
+    UINT_PTR nID = pNMHDR->idFrom;
+    if (pTTT->uFlags & TTF_IDISHWND) {
+        nID = ::GetDlgCtrlID((HWND)nID);
+    }
+
+    BOOL bRet = FALSE;
+
+    static CString m_strToolTip;
+
+    switch (nID) {
+        case IDC_EDIT4:
+            m_strToolTip.Format(IDS_SUBTITLE_DELAY_STEP_TOOLTIP,
+                                CPPageAccelTbl::MakeAccelShortcutLabel(ID_SUB_DELAY_DOWN),
+                                CPPageAccelTbl::MakeAccelShortcutLabel(ID_SUB_DELAY_UP));
+            pTTT->lpszText = (LPTSTR)(LPCTSTR)m_strToolTip;
+            bRet = true;
+            break;
+    }
+
+    return bRet;
 }

@@ -1450,6 +1450,7 @@
 #define IDS_IMAGE_JPEG_QUALITY          57416
 #define IDS_IMAGE_QUALITY               57417
 #define IDS_PPAGEADVANCED_COVER_SIZE_LIMIT 57418
+#define IDS_SUBTITLE_DELAY_STEP_TOOLTIP 57419
 
 // Next default values for new objects
 //
