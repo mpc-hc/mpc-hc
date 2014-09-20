@@ -148,6 +148,19 @@ static HRESULT STDMETHODCALLTYPE NewSegmentMine(IPinC* This, /* [in] */ REFERENC
     return NewSegmentOrg(This, tStart, tStop, dRate);
 }
 
+static HRESULT(STDMETHODCALLTYPE* ReceiveConnectionOrg)(IPinC* This, /* [in] */ IPinC* pConnector, /* [in] */ const AM_MEDIA_TYPE* pmt) = nullptr;
+
+static HRESULT STDMETHODCALLTYPE ReceiveConnectionMine(IPinC* This, /* [in] */ IPinC* pConnector, /* [in] */ const AM_MEDIA_TYPE* pmt)
+{
+    // Force the renderer to always reject the P010 pixel format
+    if (pmt && pmt->subtype == MEDIASUBTYPE_P010) {
+        return VFW_E_TYPE_NOT_ACCEPTED;
+    } else {
+        return ReceiveConnectionOrg(This, pConnector, pmt);
+    }
+}
+
+
 static HRESULT(STDMETHODCALLTYPE* ReceiveOrg)(IMemInputPinC* This, IMediaSample* pSample) = nullptr;
 
 static HRESULT STDMETHODCALLTYPE ReceiveMineI(IMemInputPinC* This, IMediaSample* pSample)
@@ -170,6 +183,49 @@ static HRESULT STDMETHODCALLTYPE ReceiveMine(IMemInputPinC* This, IMediaSample* 
     return ReceiveMineI(This, pSample);
 }
 
+void HookWorkAroundNVIDIADriverBug(IPinC* pPinC)
+{
+    // Work-around a bug in NVIDIA drivers v344.11: this driver mistakenly
+    // accepts P010 pixel format as input for EVR so use the pin hook to
+    // add our own level of verification
+#if MPC_VERSION_MAJOR > 1 || MPC_VERSION_MINOR > 7 || MPC_VERSION_PATCH > 6
+#pragma message("WARNING: Check if this bug is fixed in currently distributed driver")
+#endif
+    if (ReceiveConnectionOrg == nullptr) {
+        ReceiveConnectionOrg = pPinC->lpVtbl->ReceiveConnection;
+    }
+    pPinC->lpVtbl->ReceiveConnection = ReceiveConnectionMine;
+}
+
+void UnhookWorkAroundNVIDIADriverBug()
+{
+    if (g_pPinCVtbl->ReceiveConnection == ReceiveConnectionMine) {
+        g_pPinCVtbl->ReceiveConnection = ReceiveConnectionOrg;
+    }
+    ReceiveConnectionOrg = nullptr;
+}
+
+void HookWorkAroundNVIDIADriverBug(IBaseFilter* pBF)
+{
+    DWORD flOldProtect = 0;
+
+    if (g_pPinCVtbl) {
+        VirtualProtect(g_pPinCVtbl, sizeof(IPinCVtbl), PAGE_WRITECOPY, &flOldProtect);
+        UnhookWorkAroundNVIDIADriverBug();
+        VirtualProtect(g_pPinCVtbl, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
+    }
+
+    if (CComPtr<IPin> pPin = GetFirstPin(pBF)) {
+        IPinC* pPinC = (IPinC*)(IPin*)pPin;
+
+        VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), PAGE_WRITECOPY, &flOldProtect);
+        HookWorkAroundNVIDIADriverBug(pPinC);
+        VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
+
+        g_pPinCVtbl = pPinC->lpVtbl;
+    }
+}
+
 void UnhookNewSegmentAndReceive()
 {
     DWORD flOldProtect = 0;
@@ -180,6 +236,7 @@ void UnhookNewSegmentAndReceive()
         if (g_pPinCVtbl->NewSegment == NewSegmentMine) {
             g_pPinCVtbl->NewSegment = NewSegmentOrg;
         }
+        UnhookWorkAroundNVIDIADriverBug();
         VirtualProtect(g_pPinCVtbl, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
 
         VirtualProtect(g_pMemInputPinCVtbl, sizeof(IMemInputPinCVtbl), PAGE_WRITECOPY, &flOldProtect);
@@ -213,6 +270,7 @@ bool HookNewSegmentAndReceive(IPinC* pPinC, IMemInputPinC* pMemInputPinC)
         NewSegmentOrg = pPinC->lpVtbl->NewSegment;
     }
     pPinC->lpVtbl->NewSegment = NewSegmentMine; // Function sets global variable(s)
+    HookWorkAroundNVIDIADriverBug(pPinC);
     VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
 
     // Casimir666 : change sizeof(IMemInputPinC) to sizeof(IMemInputPinCVtbl) to fix crash with EVR hack on Vista!

@@ -27,6 +27,7 @@
 #include "AllocatorCommon7.h"
 #include "AllocatorCommon.h"
 #include "SyncAllocatorPresenter.h"
+#include "IPinHook.h" // For the NVIDIA driver bug work-around
 #include "moreuuids.h"
 
 
@@ -471,6 +472,8 @@ HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnkno
             if (m_clsid == CLSID_EnhancedVideoRenderer) {
                 CComQIPtr<IEVRFilterConfig> pConfig = pBF;
                 pConfig->SetNumberOfStreams(3);
+
+                HookWorkAroundNVIDIADriverBug(pBF);
             }
 
             BeginEnumPins(pBF, pEP, pPin) {
