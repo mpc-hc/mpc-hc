@@ -219,6 +219,10 @@ CString CPPageAccelTbl::MakeAccelShortcutLabel(UINT id)
 
 CString CPPageAccelTbl::MakeAccelShortcutLabel(const ACCEL& a)
 {
+    if (!a.key) {
+        return _T("");
+    }
+
     // Reference page for Virtual-Key Codes: http://msdn.microsoft.com/en-us/library/windows/desktop/dd375731%28v=vs.100%29.aspx
     CString str;
 
@@ -767,7 +771,6 @@ CString CPPageAccelTbl::MakeAccelShortcutLabel(const ACCEL& a)
             str = _T("Multimedia keys");
             break;
         default:
-            //  if ('0' <= a.key && a.key <= '9' || 'A' <= a.key && a.key <= 'Z')
             str.Format(_T("%c"), (TCHAR)a.key);
             break;
     }
