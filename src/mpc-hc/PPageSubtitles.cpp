@@ -274,9 +274,15 @@ BOOL CPPageSubtitles::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 
     switch (nID) {
         case IDC_EDIT4:
+            auto& substituteEmpty = [](CString & hotkey) {
+                if (hotkey.IsEmpty()) {
+                    hotkey.LoadString(IDS_HOTKEY_NOT_DEFINED);
+                }
+                return hotkey;
+            };
             m_strToolTip.Format(IDS_SUBTITLE_DELAY_STEP_TOOLTIP,
-                                CPPageAccelTbl::MakeAccelShortcutLabel(ID_SUB_DELAY_DOWN),
-                                CPPageAccelTbl::MakeAccelShortcutLabel(ID_SUB_DELAY_UP));
+                                substituteEmpty(CPPageAccelTbl::MakeAccelShortcutLabel(ID_SUB_DELAY_DOWN)),
+                                substituteEmpty(CPPageAccelTbl::MakeAccelShortcutLabel(ID_SUB_DELAY_UP)));
             pTTT->lpszText = (LPTSTR)(LPCTSTR)m_strToolTip;
             bRet = true;
             break;

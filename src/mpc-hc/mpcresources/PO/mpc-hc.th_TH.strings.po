@@ -1334,6 +1334,10 @@ msgctxt "IDS_SUBTITLE_DELAY_STEP_TOOLTIP"
 msgid "The subtitle delay will be decreased/increased by this value each time the corresponding hotkeys are used (%s/%s)."
 msgstr "การหน่วงศัพท์บรรยายจะถูกลด/ถูกเพิ่มโดยใช้ค่านี้ ในแต่ละครั้งที่ปุ่มคีย์ลัดที่กำหนดไว้ถูกใช้ (%s/%s)"
 
+msgctxt "IDS_HOTKEY_NOT_DEFINED"
+msgid "<not defined>"
+msgstr ""
+
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
 msgstr "เปิดอุปกรณ์"

@@ -1332,6 +1332,10 @@ msgctxt "IDS_SUBTITLE_DELAY_STEP_TOOLTIP"
 msgid "The subtitle delay will be decreased/increased by this value each time the corresponding hotkeys are used (%s/%s)."
 msgstr "Azpidatziaren atzerapena balio hau gutxitu/handituko da dagozkien lasterteklak erabiltzen diren bakoitzean (%s/%s)."
 
+msgctxt "IDS_HOTKEY_NOT_DEFINED"
+msgid "<not defined>"
+msgstr ""
+
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
 msgstr "Ireki Gailua"

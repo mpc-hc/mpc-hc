@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
+"POT-Creation-Date: 2014-09-29 21:09:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1327,6 +1327,10 @@ msgstr ""
 
 msgctxt "IDS_SUBTITLE_DELAY_STEP_TOOLTIP"
 msgid "The subtitle delay will be decreased/increased by this value each time the corresponding hotkeys are used (%s/%s)."
+msgstr ""
+
+msgctxt "IDS_HOTKEY_NOT_DEFINED"
+msgid "<not defined>"
 msgstr ""
 
 msgctxt "IDS_AG_OPEN_DEVICE"
