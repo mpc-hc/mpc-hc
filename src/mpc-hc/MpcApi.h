@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -19,29 +19,31 @@
  */
 
 
-// This file defines commands used for "MPC-HC" API. To send commands
-// to MPC-HC and receive playback notifications, first launch MPC-HC with the /slave command line
-// argument followed by a HWnd handle used to receive notification:
-//
-// ..\bin\mpc-hc /slave 125421
-//
-// After startup, MPC-HC sends a WM_COPYDATA message to host with COPYDATASTRUCT struct filled with:
-//      - dwData :  CMD_CONNECT
-//      - lpData :  Unicode string containing MPC-HC's main window handle
-//
-// To control MPC-HC, send WM_COPYDATA messages to Hwnd provided on connection. All messages should be
-// formatted as null-terminated Unicode strings. For commands or notifications with multiple parameters,
-// values are separated by |.
-// If a string contains a |, it will be escaped with a \ so a \| is not a separator.
-//
-// Ex: When a file is opened, MPC-HC sends to host the "now playing" notification:
-//      - dwData :  CMD_NOWPLAYING
-//      - lpData :  title|author|description|filename|duration
-//
-// Ex: When a DVD is playing, use CMD_GETNOWPLAYING to get:
-//      - dwData :  CMD_NOWPLAYING
-//      - lpData :  dvddomain|titlenumber|numberofchapters|currentchapter|titleduration
-//                  dvddomains: DVD - Stopped, DVD - FirstPlay, DVD - RootMenu, DVD - TitleMenu, DVD - Title
+/*
+This file defines commands used for "MPC-HC" API. To send commands
+to MPC-HC and receive playback notifications, first launch MPC-HC with the /slave command line
+argument followed by a HWnd handle used to receive notification:
+
+..\bin\mpc-hc /slave 125421
+
+After startup, MPC-HC sends a WM_COPYDATA message to host with COPYDATASTRUCT struct filled with:
+     - dwData :  CMD_CONNECT
+     - lpData :  Unicode string containing MPC-HC's main window handle
+
+To control MPC-HC, send WM_COPYDATA messages to Hwnd provided on connection. All messages should be
+formatted as null-terminated Unicode strings. For commands or notifications with multiple parameters,
+values are separated by |.
+If a string contains a |, it will be escaped with a \ so a \| is not a separator.
+
+Ex: When a file is opened, MPC-HC sends to host the "now playing" notification:
+     - dwData :  CMD_NOWPLAYING
+     - lpData :  title|author|description|filename|duration
+
+Ex: When a DVD is playing, use CMD_GETNOWPLAYING to get:
+     - dwData :  CMD_NOWPLAYING
+     - lpData :  dvddomain|titlenumber|numberofchapters|currentchapter|titleduration
+                 dvddomains: DVD - Stopped, DVD - FirstPlay, DVD - RootMenu, DVD - TitleMenu, DVD - Title
+*/
 
 #pragma once
 
@@ -68,20 +70,22 @@ struct MPC_OSDDATA {
     TCHAR strMsg[128]; // message to display in OSD
 };
 
-//// MPC_OSDDATA.nMsgPos constants (for host side programming):
-/*typedef enum {
+// MPC_OSDDATA. nMsgPos constants (for host side programming):
+/*
+typedef enum {
     OSD_NOMESSAGE,
     OSD_TOPLEFT,
     OSD_TOPRIGHT
-} OSD_MESSAGEPOS;*/
+} OSD_MESSAGEPOS;
+*/
 
 
 typedef enum MPCAPI_COMMAND :
 unsigned int {
-    // ==== Commands from MPC to host
+    // ==== Commands from MPC-HC to host
 
     // Send after connection
-    // Parameter 1: MPC window handle (command should be sent to this HWnd)
+    // Parameter 1: MPC-HC window handle (command should be sent to this HWnd)
     CMD_CONNECT             = 0x50000000,
 
     // Send when opening or closing file
@@ -120,7 +124,7 @@ unsigned int {
     // if no file is loaded, returns -2
     CMD_LISTAUDIOTRACKS     = 0x50000005,
 
-    // Send current playback position in responce
+    // Send current playback position in response
     // of CMD_GETCURRENTPOSITION.
     // Parameter 1: current position in seconds
     CMD_CURRENTPOSITION     = 0x50000007,
@@ -146,10 +150,10 @@ unsigned int {
     // Parameter n: active file, -1 if no active file
     CMD_PLAYLIST            = 0x50000006,
 
-    // Send information about mpc-hc closing
+    // Send information about MPC-HC closing
     CMD_DISCONNECT          = 0x5000000B,
 
-    // ==== Commands from host to mpc-hc
+    // ==== Commands from host to MPC-HC
 
     // Open new file
     // Parameter 1: file path
@@ -165,10 +169,10 @@ unsigned int {
     CMD_PLAYPAUSE           = 0xA0000003,
 
     // Unpause playback
-    CMD_PLAY = 0xA0000004,
+    CMD_PLAY                = 0xA0000004,
 
     // Pause playback
-    CMD_PAUSE = 0xA0000005,
+    CMD_PAUSE               = 0xA0000005,
 
     // Add a new file to playlist (did not start playing)
     // Parameter 1: file path
