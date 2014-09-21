@@ -47,13 +47,15 @@ next version - not released yet
 * Updated Unrar to v5.1.7
 * Updated MediaInfoLib to v0.7.70
 * Updated ZenLib to v0.4.29 r481
-* Updated LAV Filters to v0.62.0.31:
+* Updated LAV Filters to v0.62.0.58:
     - LAV Video: HEVC decoding is up to 100% faster
     - LAV Video: Fix potential artifacts when decoding x264 lossless streams
     - LAV Splitter: Support for playing AES encrypted HLS streams
     - Ticket #4322, LAV Audio: Improve the estimated duration for some MP3 files
     - Ticket #4539, LAV Video: Fix a crash with DVD subtitles on 64-bit builds when using software decoding
     - Ticket #4639, LAV Splitter: Fix incorrect colors for VobSub tracks in MP4
+    - Ticket #4783, LAV Video: Experimental support for hardware (CUVID and DXVA2) assisted decoding of HEVC streams (disabled by default)
+    - Ticket #4879, LAV Audio and LAV Splitter: Fix TrueHD streams with a Dolby Atmos sub-stream
 * Updated Armenian, Basque, Belarusian, Bengali, British English, Catalan, Chinese (Simplified and Traditional),
   Croatian, Czech, Dutch, French, Galician, German, Greek, Hebrew, Hungarian, Italian, Japanese, Korean, Malay,
   Polish, Portuguese (Brazil), Romanian, Russian, Slovak, Slovenian, Spanish, Swedish, Tatar, Turkish, Ukrainian
