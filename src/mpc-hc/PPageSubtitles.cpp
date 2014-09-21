@@ -280,6 +280,7 @@ BOOL CPPageSubtitles::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
                 }
                 return hotkey;
             };
+            ::SendMessage(pNMHDR->hwndFrom, TTM_SETMAXTIPWIDTH, 0, 320);
             m_strToolTip.Format(IDS_SUBTITLE_DELAY_STEP_TOOLTIP,
                                 substituteEmpty(CPPageAccelTbl::MakeAccelShortcutLabel(ID_SUB_DELAY_DOWN)),
                                 substituteEmpty(CPPageAccelTbl::MakeAccelShortcutLabel(ID_SUB_DELAY_UP)));
