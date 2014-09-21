@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-31 21:05:52+0000\n"
-"PO-Revision-Date: 2014-09-03 17:50+0000\n"
+"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
+"PO-Revision-Date: 2014-09-20 18:10+0000\n"
 "Last-Translator: lordkag <lord.kagula@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/mpc-hc/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -1283,7 +1283,7 @@ msgstr "Valoare"
 
 msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
-msgstr "Numărul maxim de fişiere afişate în meniul \"Fişiere recente\" şi a căror poziţie este posibil să fie salvată."
+msgstr "Numărul maxim de fişiere afişate în meniul „Fişiere recente” şi a căror poziţie este posibil să fie salvată."
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
@@ -1331,7 +1331,7 @@ msgstr "Mărimea maximă (NxN px) a unei coperți de album în timpul redării u
 
 msgctxt "IDS_SUBTITLE_DELAY_STEP_TOOLTIP"
 msgid "The subtitle delay will be decreased/increased by this value each time the corresponding hotkeys are used (%s/%s)."
-msgstr ""
+msgstr "Întârzierea subtitrării va scade/crește cu această valoare de fiecare dată când tastele rapide corespunzătoare vor fi utilizate (%s/%s)."
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2039,7 +2039,7 @@ msgstr "Redă cu MPC-HC"
 
 msgctxt "IDS_CANNOT_CHANGE_FORMAT"
 msgid "MPC-HC has not enough privileges to change files formats associations. Please click on the \"Run as administrator\" button."
-msgstr ""
+msgstr "MPC-HC nu are destule drepturi pentru a schimba asocierea cu formatele de fișiere. Dați clic pe butonul „Rulează ca administrator”."
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
@@ -3507,23 +3507,23 @@ msgstr "&Canale"
 
 msgctxt "IDC_FASTSEEK_CHECK"
 msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."
-msgstr ""
+msgstr "Dacă „ultimul cadru-cheie” este selectat, se va derula la primul cadru-cheie dinaintea punctului de căutare rapidă.\nDacă „cel mai apropiat cadru-cheie” este selectat, se va derula la primul cadru-cheie dinaintea sau dinapoia punctului de căutare rapidă, în funcție de care este mai apropiat."
 
 msgctxt "IDC_ASSOCIATE_ALL_FORMATS"
 msgid "Associate with all formats"
-msgstr ""
+msgstr "Asociază cu toate formatele"
 
 msgctxt "IDC_ASSOCIATE_VIDEO_FORMATS"
 msgid "Associate with video formats only"
-msgstr ""
+msgstr "Asociază doar cu formatele video"
 
 msgctxt "IDC_ASSOCIATE_AUDIO_FORMATS"
 msgid "Associate with audio formats only"
-msgstr ""
+msgstr "Asociază doar cu formatele audio"
 
 msgctxt "IDC_CLEAR_ALL_ASSOCIATIONS"
 msgid "Clear all associations"
-msgstr ""
+msgstr "Anulează toate asocierile"
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"

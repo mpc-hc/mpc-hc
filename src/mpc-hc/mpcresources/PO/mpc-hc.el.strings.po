@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-31 21:05:52+0000\n"
-"PO-Revision-Date: 2014-09-05 20:50+0000\n"
+"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
+"PO-Revision-Date: 2014-09-22 01:10+0000\n"
 "Last-Translator: firespin <dartworldgr@hotmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/mpc-hc/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -2039,7 +2039,7 @@ msgstr "Αναπαραγωγή με το MPC-HC"
 
 msgctxt "IDS_CANNOT_CHANGE_FORMAT"
 msgid "MPC-HC has not enough privileges to change files formats associations. Please click on the \"Run as administrator\" button."
-msgstr ""
+msgstr "Ο MPC-HC δεν έχει δεν έχει επαρκή δικαιώματα για να αλλάξει τις συσχετίσεις των μορφών αρχείων. Παρακαλώ κάντε κλικ στο \"Χρήση ως διαχειριστής\" κουμπί."
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
@@ -3511,19 +3511,19 @@ msgstr ""
 
 msgctxt "IDC_ASSOCIATE_ALL_FORMATS"
 msgid "Associate with all formats"
-msgstr ""
+msgstr "Συσχέτιση με όλες τις μορφές"
 
 msgctxt "IDC_ASSOCIATE_VIDEO_FORMATS"
 msgid "Associate with video formats only"
-msgstr ""
+msgstr "Συσχέτιση με μορφές βίντεο μόνο"
 
 msgctxt "IDC_ASSOCIATE_AUDIO_FORMATS"
 msgid "Associate with audio formats only"
-msgstr ""
+msgstr "Συσχέτιση με μορφές ήχου μόνο"
 
 msgctxt "IDC_CLEAR_ALL_ASSOCIATIONS"
 msgid "Clear all associations"
-msgstr ""
+msgstr "Καθαρισμός όλων των συσχετίσεων"
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"

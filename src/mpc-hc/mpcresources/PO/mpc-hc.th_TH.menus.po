@@ -3,11 +3,12 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # M. Somsak, 2014
+# M. Somsak, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-08-19 21:10:25+0000\n"
-"PO-Revision-Date: 2014-09-03 08:26+0000\n"
+"PO-Revision-Date: 2014-09-27 01:40+0000\n"
 "Last-Translator: M. Somsak\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/mpc-hc/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -494,7 +495,7 @@ msgstr "&คืนค่า"
 
 msgctxt "POPUP"
 msgid "On &Top"
-msgstr "อยู่&บน"
+msgstr "อยู่&บนสุด"
 
 msgctxt "ID_ONTOP_DEFAULT"
 msgid "&Default"

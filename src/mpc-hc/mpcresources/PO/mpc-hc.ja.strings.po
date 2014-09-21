@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-11 20:43:36+0000\n"
-"PO-Revision-Date: 2014-09-17 21:20+0000\n"
+"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
+"PO-Revision-Date: 2014-09-26 10:40+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -138,7 +138,7 @@ msgstr "異なるビデオ ストリームに切り替える場合を除いて�
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC2"
 msgid "Not recommended. Only for testing purposes."
-msgstr "推奨されない。テスト目的のみ。"
+msgstr "推奨されない。テスト目的にのみ。"
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG0"
 msgid "Never if possible (fastest, but not supported by most filters)"
@@ -610,11 +610,11 @@ msgstr "DirectX 9 がインストールされている場合にのみ使用で�
 
 msgctxt "IDC_DSVMR7REN"
 msgid "Same as the VMR-7 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring WILL NOT work. \"True Color\" desktop color space recommended."
-msgstr "VMR-7 (ウィンドウ) と同じですが、字幕用の MPC-HC のアロケータ プレゼンタ プラグインを持っています。オーバーレイのビデオ ミラーリングは動作しません。デスクトップの色数を 「True Color」 にする事を推奨します。"
+msgstr "VMR-7 (ウィンドウ) と同じですが、字幕用の MPC-HC のアロケータ プレゼンタ プラグインを備えています。オーバーレイのビデオ ミラーリングは動作しません。デスクトップの色数を 「True Color」 にする事が推奨されます。"
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
-msgstr "VMR-9 (ウィンドウ) と同じですが、字幕用の MPC-HC のアロケータ プレゼンタ プラグインを持っています。オーバーレイのビデオ ミラーリングは動作することがあります。デスクトップの色数を 「True Color」 にする事を推奨します。Windows XP で推奨します。"
+msgstr "VMR-9 (ウィンドウ) と同じですが、字幕用の MPC-HC のアロケータ プレゼンタ プラグインを備えています。オーバーレイのビデオ ミラーリングは動作することがあります。デスクトップの色数を 「True Color」 にする事が推奨されます。Windows XP を推奨します。"
 
 msgctxt "IDC_DSDXR"
 msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
@@ -630,11 +630,11 @@ msgstr "無効 (すべて) と同じですが、こちらは無圧縮タイプ�
 
 msgctxt "IDC_DSEVR"
 msgid "Only available on Vista or later or on XP with at least .NET Framework 3.5 installed."
-msgstr "Vista 以降で、もしくは少なくとも .NET Framework 3.5 をインストールした XP でのみ使用できます。"
+msgstr "Vista 以降で、または少なくとも .NET Framework 3.5 をインストールした XP でのみ使用できます。"
 
 msgctxt "IDC_DSEVR_CUSTOM"
 msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
-msgstr "EVR と同じですが、字幕および後処理用の MPC-HC のアロケータ プレゼンタを持っています。Windows Vista 以降で推奨されます。"
+msgstr "EVR と同じですが、字幕および後処理用の MPC-HC のアロケータ プレゼンタを備えています。Windows Vista 以降を推奨します。"
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
@@ -642,7 +642,7 @@ msgstr "高品質のレンダラで Direct3D 9 以降をサポートする GPU �
 
 msgctxt "IDC_DSSYNC"
 msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
-msgstr "EVR (カスタム プレゼンタ) と同じですが、スキップされたもしくは重複したビデオ フレームを排除するためにディスプレイのリフレッシュ レートとビデオのフレーム レートを同期させるためのいくつかのオプションを提供します。"
+msgstr "EVR (カスタム プレゼンタ) と同じですが、スキップされた、または重複したビデオ フレームを除去するためにビデオのフレーム レートをディスプレイのリフレッシュ レートに同期させるいくつかのオプションを提供します。"
 
 msgctxt "IDC_RMSYSDEF"
 msgid "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
@@ -726,7 +726,7 @@ msgstr "バイキュビック A=-1.00 (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLE"
 msgid "**unavailable**"
-msgstr "**無効**"
+msgstr "**利用不可**"
 
 msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLEMSG"
 msgid "The selected renderer is not installed."
@@ -1254,7 +1254,7 @@ msgstr "サーバーの資格情報を入力してください"
 
 msgctxt "IDS_CREDENTIALS_CONNECT"
 msgid "Enter your credentials to connect"
-msgstr "接続するための資格情報を入力してください"
+msgstr "接続するために資格情報を入力してください"
 
 msgctxt "IDS_SUB_SAVE_EXTERNAL_STYLE_FILE"
 msgid "Save custom style"
@@ -1330,7 +1330,7 @@ msgstr "オーディオ専用モードで読み込まれたカバーアートの
 
 msgctxt "IDS_SUBTITLE_DELAY_STEP_TOOLTIP"
 msgid "The subtitle delay will be decreased/increased by this value each time the corresponding hotkeys are used (%s/%s)."
-msgstr ""
+msgstr "字幕の遅延がこの値で、対応するホットキー (%s/%s) が使用されるたびに減少/増加されます。"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1518,7 +1518,7 @@ msgstr "設定は正常にエクスポートされました。"
 
 msgctxt "IDS_EXPORT_SETTINGS_FAILED"
 msgid "The export failed! This can happen when you don't have the correct rights."
-msgstr "エクスポートできませんでした！あなたが適切な権限を持っていない場合に発生します。"
+msgstr "エクスポートできませんでした！あなたが適切な権限をもっていない場合に発生します。"
 
 msgctxt "IDS_BDA_ERROR"
 msgid "BDA Error"
@@ -2038,7 +2038,7 @@ msgstr "MPC-HC で再生する"
 
 msgctxt "IDS_CANNOT_CHANGE_FORMAT"
 msgid "MPC-HC has not enough privileges to change files formats associations. Please click on the \"Run as administrator\" button."
-msgstr ""
+msgstr "MPC-HC はファイル形式の関連付けを変更する十分な権限をもっていません。 「管理者として実行」ボタンをクリックしてください。"
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
@@ -2558,7 +2558,7 @@ msgstr "VidFrm: 拡大設定の切り替え"
 
 msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
-msgstr "すべてのフィルタを有効(&E)"
+msgstr "すべてのフィルタを有効にする(&E)"
 
 msgctxt "IDS_NAVIGATE_TUNERSCAN"
 msgid "Tuner scan"
@@ -2722,23 +2722,23 @@ msgstr "エンコーディング:"
 
 msgctxt "IDS_DISABLE_ALL_FILTERS"
 msgid "&Disable all filters"
-msgstr "すべてのフィルタを無効(&D)"
+msgstr "すべてのフィルタを無効にする(&D)"
 
 msgctxt "IDS_ENABLE_AUDIO_FILTERS"
 msgid "Enable all audio decoders"
-msgstr "すべてのオーディオ フィルタを有効"
+msgstr "すべてのオーディオ フィルタを有効にする"
 
 msgctxt "IDS_DISABLE_AUDIO_FILTERS"
 msgid "Disable all audio decoders"
-msgstr "すべてのオーディオ フィルタを無効"
+msgstr "すべてのオーディオ フィルタを無効にする"
 
 msgctxt "IDS_ENABLE_VIDEO_FILTERS"
 msgid "Enable all video decoders"
-msgstr "すべてのビデオ フィルタを有効"
+msgstr "すべてのビデオ フィルタを有効にする"
 
 msgctxt "IDS_DISABLE_VIDEO_FILTERS"
 msgid "Disable all video decoders"
-msgstr "すべてのビデオ フィルタを無効"
+msgstr "すべてのビデオ フィルタを無効にする"
 
 msgctxt "IDS_STRETCH_TO_WINDOW"
 msgid "Stretch To Window"
@@ -3482,7 +3482,7 @@ msgstr "ここに優先言語を入力してください。\n例: \"eng jap swe\
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
-msgstr "外部スプリッタは独自の優先言語オプションを持つことができるので、MPC-HC の既定の動作ではこれらの初期選択を変更できません。\nMPC-HC で外部スプリッタを制御したい場合、このオプションを有効にしてください。"
+msgstr "外部スプリッタは独自の優先言語オプションをもつことができるので、MPC-HC の既定の動作ではこれらの初期選択を変更できません。\nMPC-HC で外部スプリッタを制御したい場合、このオプションを有効にしてください。"
 
 msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
 msgid "&Blu-Ray playlists"
@@ -3506,23 +3506,23 @@ msgstr "チャンネル(&C)"
 
 msgctxt "IDC_FASTSEEK_CHECK"
 msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."
-msgstr "「直前のキーフレーム」を選択すると、実際のシーク ポイントより前にある最初のキーフレームをシークします。\n「最も近いキーフレーム」を選択すると、実際のシーク ポイントにどちらが最も近いのかによって前または後にある最初のキーフレームをシークします。"
+msgstr "「直前のキーフレーム」を選択すると、実際のシーク ポイントより前にある最初のキーフレームをシークします。\n「最も近いキーフレーム」を選択すると、実際のシーク ポイントにどちらが最も近いかによって前または後にある最初のキーフレームをシークします。"
 
 msgctxt "IDC_ASSOCIATE_ALL_FORMATS"
 msgid "Associate with all formats"
-msgstr ""
+msgstr "すべてのファイル形式に関連付けます"
 
 msgctxt "IDC_ASSOCIATE_VIDEO_FORMATS"
 msgid "Associate with video formats only"
-msgstr ""
+msgstr "動画ファイル形式のみに関連付けます"
 
 msgctxt "IDC_ASSOCIATE_AUDIO_FORMATS"
 msgid "Associate with audio formats only"
-msgstr ""
+msgstr "音声ファイル形式のみに関連付けます"
 
 msgctxt "IDC_CLEAR_ALL_ASSOCIATIONS"
 msgid "Clear all associations"
-msgstr ""
+msgstr "すべての関連付けを解除します"
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"

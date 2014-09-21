@@ -94,7 +94,7 @@ it.WelcomeLabel2=Questo installerà [name] sul tuo computer.%nE' consigliato chi
 it.WinVersionTooLowError=[name] richiede Windows XP Service Pack 3 o successivo per funzionare.
 
 ; Japanese
-ja.WelcomeLabel2=このプログラムはあなたのコンピュータ上に [name] をインストールします。%n%nセットアップを続行する前に他のすべてのアプリケーションを閉じることを推奨します。
+ja.WelcomeLabel2=このプログラムはあなたのコンピュータ上に [name] をインストールします。%n%nセットアップを続行する前に他のすべてのアプリケーションを閉じることが推奨されます。
 ja.WinVersionTooLowError=[name] を実行する為には Windows XP Service Pack 3 以降が必要です。
 
 ; Korean
@@ -519,7 +519,7 @@ ja.msg_simd_sse=このバージョンの MPC-HC には CPU の SSE 拡張サポ�
 ja.msg_simd_sse2=このバージョンの MPC-HC には CPU の SSE2 拡張サポートが必要です。%n%nお使いの CPU はこれらの機能を満たしていません。
 #endif
 ja.run_DownloadToolbarImages=Wiki ページに移動してツールバーの画像をダウンロードする
-ja.tsk_AllUsers=全てのユーザーにインストールする
+ja.tsk_AllUsers=すべてのユーザーにインストールする
 ja.tsk_CurrentUser=現在実行しているユーザーにのみインストールする
 ja.tsk_Other=他のタスク:
 ja.tsk_ResetSettings=設定をリセットする

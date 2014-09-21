@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-11 20:43:36+0000\n"
-"PO-Revision-Date: 2014-09-18 09:21+0000\n"
+"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
+"PO-Revision-Date: 2014-09-27 01:40+0000\n"
 "Last-Translator: M. Somsak\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/mpc-hc/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -1332,7 +1332,7 @@ msgstr "ขนาดสูงสุด (NxNpx) ของภาพปก ที�
 
 msgctxt "IDS_SUBTITLE_DELAY_STEP_TOOLTIP"
 msgid "The subtitle delay will be decreased/increased by this value each time the corresponding hotkeys are used (%s/%s)."
-msgstr ""
+msgstr "การหน่วงศัพท์บรรยายจะถูกลด/ถูกเพิ่มโดยใช้ค่านี้ ในแต่ละครั้งที่ปุ่มคีย์ลัดที่กำหนดไว้ถูกใช้ (%s/%s)"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1656,7 +1656,7 @@ msgstr "ขนาดเฟรม สองเท่า"
 
 msgctxt "IDS_AG_ALWAYS_ON_TOP"
 msgid "Always On Top"
-msgstr "อยู่บนเสมอ"
+msgstr "อยู่บนสุดเสมอ"
 
 msgctxt "IDS_AG_PNS_INC_SIZE"
 msgid "PnS Inc Size"
@@ -2040,7 +2040,7 @@ msgstr "เล่นด้วย MPC-HC"
 
 msgctxt "IDS_CANNOT_CHANGE_FORMAT"
 msgid "MPC-HC has not enough privileges to change files formats associations. Please click on the \"Run as administrator\" button."
-msgstr ""
+msgstr "MPC-HC ไม่มีสิทธิ์ที่เพียงพอในการเปลี่ยนความสัมพันธ์รูปแบบไฟล์ โปรดคลิกที่ปุ่ม \"รันเป็นผู้ดูแลระบบ\""
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
@@ -3512,19 +3512,19 @@ msgstr "ถ้าเลือก \"เฟรมสำคัญล่าสุด
 
 msgctxt "IDC_ASSOCIATE_ALL_FORMATS"
 msgid "Associate with all formats"
-msgstr ""
+msgstr "สัมพันธ์กับทุกรูปแบบ"
 
 msgctxt "IDC_ASSOCIATE_VIDEO_FORMATS"
 msgid "Associate with video formats only"
-msgstr ""
+msgstr "สัมพันธ์กับรูปแบบวิดีโอเท่านั้น"
 
 msgctxt "IDC_ASSOCIATE_AUDIO_FORMATS"
 msgid "Associate with audio formats only"
-msgstr ""
+msgstr "สัมพันธ์กับรูปแบบเสียงเท่านั้น"
 
 msgctxt "IDC_CLEAR_ALL_ASSOCIATIONS"
 msgid "Clear all associations"
-msgstr ""
+msgstr "ล้างความสัมพันธ์ทั้งหมด"
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"

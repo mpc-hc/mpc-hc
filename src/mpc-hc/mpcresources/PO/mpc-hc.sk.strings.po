@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-11 20:43:36+0000\n"
-"PO-Revision-Date: 2014-09-13 22:09+0000\n"
+"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
+"PO-Revision-Date: 2014-09-20 12:21+0000\n"
 "Last-Translator: Marián Hikaník <podnety@mojepreklady.net>\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/mpc-hc/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -1331,7 +1331,7 @@ msgstr "Maximálna veľkosť (NxNpx) obalu načítaná v režime len pre zvuk."
 
 msgctxt "IDS_SUBTITLE_DELAY_STEP_TOOLTIP"
 msgid "The subtitle delay will be decreased/increased by this value each time the corresponding hotkeys are used (%s/%s)."
-msgstr ""
+msgstr "Oneskorenie titulkov sa zníži/zvýši o túto hodnotu vždy pri stlačení príslušných klávesových skratiek (%s/%s)."
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2039,7 +2039,7 @@ msgstr "Prehrať programom MPC-HC"
 
 msgctxt "IDS_CANNOT_CHANGE_FORMAT"
 msgid "MPC-HC has not enough privileges to change files formats associations. Please click on the \"Run as administrator\" button."
-msgstr ""
+msgstr "Program MPC-HC nemá dostatok oprávnení na zmenu asociácií pre formáty súborov. Prosím kliknite na tlačidlo „Spustiť ako administrátor“."
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
@@ -3511,19 +3511,19 @@ msgstr "Ak je vybraná „posledná kľúč. snímka“, vyhľadávanie prebieha
 
 msgctxt "IDC_ASSOCIATE_ALL_FORMATS"
 msgid "Associate with all formats"
-msgstr ""
+msgstr "Asociovať so všetkými formátmi"
 
 msgctxt "IDC_ASSOCIATE_VIDEO_FORMATS"
 msgid "Associate with video formats only"
-msgstr ""
+msgstr "Asociovať len s formátmi videa"
 
 msgctxt "IDC_ASSOCIATE_AUDIO_FORMATS"
 msgid "Associate with audio formats only"
-msgstr ""
+msgstr "Asociovať len so zvukovými formátmi"
 
 msgctxt "IDC_CLEAR_ALL_ASSOCIATIONS"
 msgid "Clear all associations"
-msgstr ""
+msgstr "Zrušiť všetky asociácie"
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"

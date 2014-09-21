@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-11 20:43:36+0000\n"
-"PO-Revision-Date: 2014-09-16 00:30+0000\n"
+"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
+"PO-Revision-Date: 2014-09-20 16:10+0000\n"
 "Last-Translator: kasper93\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/mpc-hc/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -1331,7 +1331,7 @@ msgstr "Maksymalny rozmiar (NxNpx) załadowanej okładki w trybie dźwiękowym."
 
 msgctxt "IDS_SUBTITLE_DELAY_STEP_TOOLTIP"
 msgid "The subtitle delay will be decreased/increased by this value each time the corresponding hotkeys are used (%s/%s)."
-msgstr ""
+msgstr "Opóźnienie napisów zostanie zwiększone lub zmniejszone o wartość skoku przy każdym użyciu powiązanych skrótów klawiszowych (%s/%s)."
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2039,7 +2039,7 @@ msgstr "Odtwórz w MPC-HC"
 
 msgctxt "IDS_CANNOT_CHANGE_FORMAT"
 msgid "MPC-HC has not enough privileges to change files formats associations. Please click on the \"Run as administrator\" button."
-msgstr ""
+msgstr "Program nie ma wystarczających uprawnień, aby zmienić skojarzenia plików. Proszę kliknąć przycisk „Uruchom jako administrator”, aby uzyskać uprawnienia administratora."
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
@@ -3511,19 +3511,19 @@ msgstr "Gdy \"Poprzednia klatka klucz.\" jest wybrane, skok zostanie wykonany do
 
 msgctxt "IDC_ASSOCIATE_ALL_FORMATS"
 msgid "Associate with all formats"
-msgstr ""
+msgstr "Skojarz ze wszystkimi formatami"
 
 msgctxt "IDC_ASSOCIATE_VIDEO_FORMATS"
 msgid "Associate with video formats only"
-msgstr ""
+msgstr "Skojarz tylko z formatami wideo."
 
 msgctxt "IDC_ASSOCIATE_AUDIO_FORMATS"
 msgid "Associate with audio formats only"
-msgstr ""
+msgstr "Skojarz tylko z formatami audio."
 
 msgctxt "IDC_CLEAR_ALL_ASSOCIATIONS"
 msgid "Clear all associations"
-msgstr ""
+msgstr "Wyczyść powiązania"
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"

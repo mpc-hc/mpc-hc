@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-11 20:43:36+0000\n"
-"PO-Revision-Date: 2014-09-15 15:51+0000\n"
+"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
+"PO-Revision-Date: 2014-09-29 18:50+0000\n"
 "Last-Translator: Luan <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -281,7 +281,7 @@ msgstr "Die angegebene Zeit überschreitet die Laufzeit der Mediendatei."
 
 msgctxt "IDS_MISSING_ICONS_LIB"
 msgid "The icons library \"mpciconlib.dll\" is missing.\nThe player's default icon will be used for file associations.\nPlease, reinstall MPC-HC to get \"mpciconlib.dll\"."
-msgstr "Icon-Bibliothek \"mpciconlib.dll\" nicht gefunden. Diese wird für die Darstellung der Dateiverknüpfungen benötigt. Um die Datei wiederherzustellen, kann der MPC-HC neu installiert werden."
+msgstr "Icon-Bibliothek \"mpciconlib.dll\" nicht gefunden. Diese wird für die Darstellung der Dateizuordnung benötigt. Um die Datei wiederherzustellen, kann der MPC-HC neu installiert werden."
 
 msgctxt "IDS_SUBDL_DLG_FILENAME_COL"
 msgid "File"
@@ -385,7 +385,7 @@ msgstr "Wiedergabeliste &leeren"
 
 msgctxt "IDS_PLAYLIST_COPYTOCLIPBOARD"
 msgid "&Copy to clipboard"
-msgstr "&Pfadname kopieren"
+msgstr "&Pfadnamen kopieren"
 
 msgctxt "IDS_PLAYLIST_SAVEAS"
 msgid "&Save As..."
@@ -397,7 +397,7 @@ msgstr "Nach E&intrag sortieren"
 
 msgctxt "IDS_PLAYLIST_SORTBYPATH"
 msgid "Sort by &path"
-msgstr "Nach P&fadname sortieren"
+msgstr "Nach P&fadnamen sortieren"
 
 msgctxt "IDS_PLAYLIST_RANDOMIZE"
 msgid "R&andomize"
@@ -425,11 +425,11 @@ msgstr "&Zurücksetzen"
 
 msgctxt "IDS_MPLAYERC_104"
 msgid "Subtitle Delay -"
-msgstr "Untertitelverzögerung (-500ms)"
+msgstr "Untertitelverzögerung verringern"
 
 msgctxt "IDS_MPLAYERC_105"
 msgid "Subtitle Delay +"
-msgstr "Untertitelverzögerung (+500ms)"
+msgstr "Untertitelverzögerung erhöhen"
 
 msgctxt "IDS_FILE_SAVE_THUMBNAILS"
 msgid "Save thumbnails"
@@ -485,7 +485,7 @@ msgstr "Icons neu zuordnen?"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_CONTENT"
 msgid "This will fix the icons being incorrectly displayed after an update of the icon library.\nThe file associations will not be modified, only the corresponding icons will be refreshed."
-msgstr "Diese Neuzuordnung behebt Darstellungsfehler der Icons, deren Bibliothek aktualisiert wurde. Dabei bleiben zuvor festgelegte Dateiverknüpfungen aber unverändert."
+msgstr "Diese Neuzuordnung behebt Darstellungsfehler der Icons, deren Bibliothek aktualisiert wurde. Dabei bleibt die zuvor festgelegte Dateizuordnung aber unverändert."
 
 msgctxt "IDS_PPAGE_OUTPUT_OLDRENDERER"
 msgid "Old Video Renderer"
@@ -681,7 +681,7 @@ msgstr "Die Video-Oberfläche ist eine gleichmäßige Offscreen-Oberfläche."
 
 msgctxt "IDC_AUDRND_COMBO"
 msgid "MPC Audio Renderer is broken, do not use."
-msgstr "Stellt die verschiedenen Audio-Renderer bereit. Den MPC-HC Audio Renderer bitte vorerst nicht verwenden."
+msgstr "Stellt die verschiedenen Audio-Renderer bereit. Bitte den MPC-HC Audio Renderer vorerst nicht verwenden."
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
@@ -693,7 +693,7 @@ msgstr "Fehler melden"
 
 msgctxt "IDS_MPC_BUG_REPORT"
 msgid "MPC-HC just crashed but this build was compiled without debug information.\nIf you want to report this bug, you should first try an official build.\n\nDo you want to visit the download page now?"
-msgstr "MPC-HC unerwartet beendet. Falls dieser Fehler gemeldet werden soll, bitte eine offizielle Programmversion mit Debug-Information verwenden.\n\nDiese Version jetzt herunterladen?"
+msgstr "MPC-HC unerwartet beendet. Zur Meldung des Problems bitte eine offizielle Programmversion mit Debug-Information verwenden.\n\nDiese Version jetzt herunterladen?"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
 msgid "Regular offscreen plain surface"
@@ -761,7 +761,7 @@ msgstr "MIME-Typ"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_INFO"
 msgid "In order to view an embedded resource in your browser you have to enable the web interface.\n\nUse the \"Save As\" button if you only want to save the information."
-msgstr "Um eingebettete Ressourcen im Browser anzuzeigen, muss das Web-Interface aktiviert werden. Zum Speichern der Information bitte den Button \"Speichern unter\" betätigen."
+msgstr "Um eingebettete Ressourcen im Browser anzuzeigen, muss das Web-Interface aktiviert werden. Zum Speichern der Information bitte den Button \"Speichern unter\" verwenden."
 
 msgctxt "IDS_DOWNLOAD_SUBS"
 msgid "Download subtitles"
@@ -861,7 +861,7 @@ msgstr "Wird die Bilderanzahl im Puffer erhöht, wächst in der Regel auch die R
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
-msgstr "Zeigt nach Betätigung die aktuellen Dateiverknüpfungen an. Dabei sind Einträge mit neuen Dateiendungen meist mit einem grauen Haken versehen. Solche Haken bitte erneut anwählen, bevor dieses Fenster geschlossen wird."
+msgstr "Zeigt nach Betätigung die aktuelle Dateizuordnung an. Dabei sind Einträge mit neuen Dateiendungen meist mit einem grauen Haken versehen. Bitte solche Haken erneut anwählen, bevor dieses Fenster geschlossen wird."
 
 msgctxt "IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Disabling this option will prevent the subtitles from blinking but it may cause the video renderer to skip some video frames."
@@ -965,7 +965,7 @@ msgstr "&Zufallswiedergabe"
 
 msgctxt "IDS_PLAYLIST_SHOWFOLDER"
 msgid "Open file location"
-msgstr "Ordner ö&ffnen"
+msgstr "&Dateiordner öffnen"
 
 msgctxt "IDS_CONTROLS_CLOSING"
 msgid "Closing..."
@@ -1237,7 +1237,7 @@ msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
 msgid "Add containing folder"
-msgstr "Ordner &hinzufügen"
+msgstr "&Ordnerdateien hinzufügen"
 
 msgctxt "IDS_HW_INDICATOR"
 msgid "[H/W]"
@@ -1337,7 +1337,7 @@ msgstr "Beschränkt die Anzeige des Audio-Covers auf NxN Pixel."
 
 msgctxt "IDS_SUBTITLE_DELAY_STEP_TOOLTIP"
 msgid "The subtitle delay will be decreased/increased by this value each time the corresponding hotkeys are used (%s/%s)."
-msgstr ""
+msgstr "Bestimmt die stufenweise Anpassung der Untertitelverzögerung während der Wiedergabe durch die Tastenbefehle %s und %s."
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1433,7 +1433,7 @@ msgstr "Freizeit/Hobbies"
 
 msgctxt "IDS_FILE_RECYCLE"
 msgid "Move to Recycle Bin"
-msgstr "Mediendatei löschen"
+msgstr "Datei lös&chen"
 
 msgctxt "IDS_AG_SAVE_COPY"
 msgid "Save a Copy"
@@ -1737,7 +1737,7 @@ msgstr "Zoom: Auto-Verkleinerung"
 
 msgctxt "IDS_TOOLTIP_EXPLORE_TO_FILE"
 msgid "Double click to open file location"
-msgstr "Zugehörigen Ordner mit Doppelklick öffnen."
+msgstr "Dateiordner mit Doppelklick öffnen."
 
 msgctxt "IDS_TOOLTIP_REMAINING_TIME"
 msgid "Toggle between elapsed and remaining time"
@@ -2045,7 +2045,7 @@ msgstr "Wiedergabe mit MPC-HC"
 
 msgctxt "IDS_CANNOT_CHANGE_FORMAT"
 msgid "MPC-HC has not enough privileges to change files formats associations. Please click on the \"Run as administrator\" button."
-msgstr ""
+msgstr "Um die Dateizuordnung zu ändern, werden weitere Zugriffsrechte benötigt. Bitte den Button \"Als Administrator ausführen\" verwenden."
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
@@ -2301,7 +2301,7 @@ msgstr "Aktueller Monitor"
 
 msgctxt "IDS_MPC_CRASH"
 msgid "MPC-HC terminated unexpectedly. To help us fix this problem, please send this file \"%s\" to our bug tracker.\n\nDo you want to open the folder containing the minidump file and visit the bug tracker now?"
-msgstr "MPC-HC unerwartet beendet. Damit dieses Problem behoben werden kann, bitte die Datei \"%s\" an den Bugtracker senden.\n\nOrdner mit der Minidump-Datei öffnen und den Bugtracker aufrufen?"
+msgstr "MPC-HC unerwartet beendet. Zur Lösung des Problems bitte die Datei \"%s\" an den Bugtracker senden.\n\nDateiordner jetzt öffnen und den Bugtracker aufrufen?"
 
 msgctxt "IDS_MPC_MINIDUMP_FAIL"
 msgid "Failed to create dump file to \"%s\" (error %u)"
@@ -3425,7 +3425,7 @@ msgstr "Typ in der Liste bereits vermerkt."
 
 msgctxt "IDS_WEBSERVER_ERROR_TEST"
 msgid "You need to apply the new settings before testing them."
-msgstr "Neue Einstellungen vor ihrem Test bitte übernehmen."
+msgstr "Bitte bisher nicht gespeicherte Einstellungen übernehmen."
 
 msgctxt "IDS_AFTERPLAYBACK_CLOSE"
 msgid "After Playback: Exit"
@@ -3517,19 +3517,19 @@ msgstr "Verwendet bei \"Mit näherem Keyframe\" richtungsunabhängig den nächst
 
 msgctxt "IDC_ASSOCIATE_ALL_FORMATS"
 msgid "Associate with all formats"
-msgstr ""
+msgstr "Auswahl aller Medienformate"
 
 msgctxt "IDC_ASSOCIATE_VIDEO_FORMATS"
 msgid "Associate with video formats only"
-msgstr ""
+msgstr "Auswahl aller Videoformate"
 
 msgctxt "IDC_ASSOCIATE_AUDIO_FORMATS"
 msgid "Associate with audio formats only"
-msgstr ""
+msgstr "Auswahl aller Audioformate"
 
 msgctxt "IDC_CLEAR_ALL_ASSOCIATIONS"
 msgid "Clear all associations"
-msgstr ""
+msgstr "Abwahl aller Medienformate"
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"
