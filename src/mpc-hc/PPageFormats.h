@@ -89,7 +89,7 @@ protected:
     afx_msg void OnAssociateVideoFormatsOnly();
     afx_msg void OnAssociateAudioFormatsOnly();
     afx_msg void OnClearAllAssociations();
-    afx_msg void OnBnVistaModify();
+    afx_msg void OnBnRunAsAdmin();
     afx_msg void OnBnWin8SetDefProg();
     afx_msg void OnBnClickedResetExtensionsList();
     afx_msg void OnBnClickedSetExtensionsList();

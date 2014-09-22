@@ -119,7 +119,7 @@ BEGIN_MESSAGE_MAP(CPPageFormats, CPPageBase)
     ON_NOTIFY(LVN_ENDLABELEDIT, IDC_LIST1, OnEndEditMediaCategoryEngine)
     ON_BN_CLICKED(IDC_BUTTON2, OnBnClickedResetExtensionsList)
     ON_BN_CLICKED(IDC_BUTTON_EXT_SET, OnBnClickedSetExtensionsList)
-    ON_BN_CLICKED(IDC_BUTTON1, OnBnVistaModify)
+    ON_BN_CLICKED(IDC_BUTTON1, OnBnRunAsAdmin)
     ON_BN_CLICKED(IDC_BUTTON7, OnBnWin8SetDefProg)
     ON_BN_CLICKED(IDC_ASSOCIATE_ALL_FORMATS, OnAssociateAllFormats)
     ON_BN_CLICKED(IDC_ASSOCIATE_AUDIO_FORMATS, OnAssociateAudioFormatsOnly)
@@ -250,7 +250,7 @@ BOOL CPPageFormats::OnInitDialog()
         GetDlgItem(IDC_BUTTON1)->ShowWindow(SW_HIDE);
     }
 
-    if (!m_bInsufficientPrivileges && SysVersion::Is8OrLater()) {
+    if (SysVersion::Is8OrLater()) {
         GetDlgItem(IDC_BUTTON7)->ShowWindow(SW_SHOW);
 
         auto offsetControlBottomRight = [this](int nID, int dx, int dy) {
@@ -269,7 +269,7 @@ BOOL CPPageFormats::OnInitDialog()
             GetDlgItem(nID)->MoveWindow(r);
         };
 
-        const int dy = -5;
+        const int dy = DPI().ScaleY(-5);
 
         offsetControlBottomRight(IDC_STATIC2, 0, dy);
         offsetControlBottomRight(IDC_LIST1, 0, dy);
@@ -285,6 +285,7 @@ BOOL CPPageFormats::OnInitDialog()
         GetDlgItem(IDC_STATIC3)->MoveWindow(r);
 
         moveControl(IDC_CHECK8, 0, dy);
+        moveControl(IDC_BUTTON1, 0, dy);
     } else {
         GetDlgItem(IDC_BUTTON7)->ShowWindow(SW_HIDE);
     }
@@ -534,7 +535,7 @@ void CPPageFormats::OnClearAllAssociations()
     SetSelectionAllFormats(false);
 }
 
-void CPPageFormats::OnBnVistaModify()
+void CPPageFormats::OnBnRunAsAdmin()
 {
     TCHAR   strApp[MAX_PATH];
     CString strCmd;
