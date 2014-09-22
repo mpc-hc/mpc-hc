@@ -25,6 +25,7 @@
 #include "FGFilter.h"
 #include "FileAssoc.h"
 #include "MiniDump.h"
+#include "VersionInfo.h"
 #include "SysVersion.h"
 #include "WinAPIUtils.h"
 #include "Translations.h"
@@ -617,6 +618,24 @@ bool CAppSettings::IsISRAutoLoadEnabled() const
     return fAutoloadSubtitles && IsISRAvailable();
 }
 
+bool CAppSettings::IsVideoRendererAvailable(int iVideoRendererType)
+{
+    switch (iVideoRendererType) {
+        case VIDRNDT_DS_VMR7RENDERLESS:
+            return !VersionInfo::Is64Bit();
+        case VIDRNDT_DS_DXR:
+            return IsCLSIDRegistered(CLSID_DXR);
+        case VIDRNDT_DS_EVR:
+        case VIDRNDT_DS_EVR_CUSTOM:
+        case VIDRNDT_DS_SYNC:
+            return IsCLSIDRegistered(CLSID_EnhancedVideoRenderer);
+        case VIDRNDT_DS_MADVR:
+            return IsCLSIDRegistered(CLSID_madVR);
+        default:
+            return true;
+    }
+}
+
 CString CAppSettings::SelectedAudioRenderer() const
 {
     CString strResult;
@@ -1190,7 +1209,8 @@ void CAppSettings::LoadSettings()
     nLoops = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LOOPNUM, 1);
     fLoopForever = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LOOP, FALSE);
     iZoomLevel = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ZOOM, 1);
-    iDSVideoRendererType = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DSVIDEORENDERERTYPE, (SysVersion::IsVistaOrLater() ? (HasEVR() ? VIDRNDT_DS_EVR_CUSTOM : VIDRNDT_DS_DEFAULT) : VIDRNDT_DS_VMR7WINDOWED));
+    iDSVideoRendererType = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DSVIDEORENDERERTYPE,
+                           SysVersion::IsVistaOrLater() ? (IsVideoRendererAvailable(VIDRNDT_DS_EVR_CUSTOM) ? VIDRNDT_DS_EVR_CUSTOM : VIDRNDT_DS_VMR9RENDERLESS) : VIDRNDT_DS_VMR7RENDERLESS);
     iRMVideoRendererType = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_RMVIDEORENDERERTYPE, VIDRNDT_RM_DEFAULT);
     iQTVideoRendererType = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_QTVIDEORENDERERTYPE, VIDRNDT_QT_DEFAULT);
     nVolumeStep = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_VOLUMESTEP, 5);
@@ -2148,11 +2168,6 @@ void CAppSettings::CRecentFileAndURLList::SetSize(int nSize)
 bool CAppSettings::IsVSFilterInstalled()
 {
     return IsCLSIDRegistered(CLSID_VSFilter);
-}
-
-bool CAppSettings::HasEVR()
-{
-    return IsCLSIDRegistered(CLSID_EnhancedVideoRenderer);
 }
 
 void CAppSettings::UpdateSettings()

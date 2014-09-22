@@ -256,44 +256,80 @@ BOOL CPPageOutput::OnInitDialog()
     }
     CorrectComboListWidth(m_iD3D9RenderDeviceCtrl);
 
+    auto addRenderer = [&](int nID) {
+        CString sName;
+
+        switch (nID) {
+            case VIDRNDT_DS_DEFAULT:
+                sName = ResStr(IDS_PPAGE_OUTPUT_SYS_DEF);
+                break;
+            case VIDRNDT_DS_OLDRENDERER:
+                sName = ResStr(IDS_PPAGE_OUTPUT_OLDRENDERER);
+                break;
+            case VIDRNDT_DS_OVERLAYMIXER:
+                sName = ResStr(IDS_PPAGE_OUTPUT_OVERLAYMIXER);
+                break;
+            case VIDRNDT_DS_VMR7WINDOWED:
+                sName = ResStr(IDS_PPAGE_OUTPUT_VMR7WINDOWED);
+                break;
+            case VIDRNDT_DS_VMR9WINDOWED:
+                sName = ResStr(IDS_PPAGE_OUTPUT_VMR9WINDOWED);
+                break;
+            case VIDRNDT_DS_VMR7RENDERLESS:
+                sName = ResStr(IDS_PPAGE_OUTPUT_VMR7RENDERLESS);
+                break;
+            case VIDRNDT_DS_VMR9RENDERLESS:
+                sName = ResStr(IDS_PPAGE_OUTPUT_VMR9RENDERLESS);
+                break;
+            case VIDRNDT_DS_DXR:
+                sName = ResStr(IDS_PPAGE_OUTPUT_DXR);
+                break;
+            case VIDRNDT_DS_NULL_COMP:
+                sName = ResStr(IDS_PPAGE_OUTPUT_NULL_COMP);
+                break;
+            case VIDRNDT_DS_NULL_UNCOMP:
+                sName = ResStr(IDS_PPAGE_OUTPUT_NULL_UNCOMP);
+                break;
+            case VIDRNDT_DS_EVR:
+                sName = ResStr(IDS_PPAGE_OUTPUT_EVR);
+                break;
+            case VIDRNDT_DS_EVR_CUSTOM:
+                sName = ResStr(IDS_PPAGE_OUTPUT_EVR_CUSTOM);
+                break;
+            case VIDRNDT_DS_MADVR:
+                sName = ResStr(IDS_PPAGE_OUTPUT_MADVR);
+                break;
+            case VIDRNDT_DS_SYNC:
+                sName = ResStr(IDS_PPAGE_OUTPUT_SYNC);
+                break;
+            default:
+                ASSERT(FALSE);
+                return;
+        }
+
+        if (!s.IsVideoRendererAvailable(nID)) {
+            sName.AppendFormat(_T(" %s"), ResStr(IDS_PPAGE_OUTPUT_UNAVAILABLE));
+        }
+
+        m_iDSVideoRendererTypeCtrl.SetItemData(m_iDSVideoRendererTypeCtrl.AddString(sName), nID);
+    };
+
     CComboBox& m_iDSVRTC = m_iDSVideoRendererTypeCtrl;
     m_iDSVRTC.SetRedraw(FALSE); // Do not draw the control while we are filling it with items
-    m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_SYS_DEF)), VIDRNDT_DS_DEFAULT);
-    m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_OLDRENDERER)), VIDRNDT_DS_OLDRENDERER);
-    m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_OVERLAYMIXER)), VIDRNDT_DS_OVERLAYMIXER);
-    m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_VMR7WINDOWED)), VIDRNDT_DS_VMR7WINDOWED);
-    m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_VMR9WINDOWED)), VIDRNDT_DS_VMR9WINDOWED);
-    m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_VMR7RENDERLESS)), VIDRNDT_DS_VMR7RENDERLESS);
-    m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_VMR9RENDERLESS)), VIDRNDT_DS_VMR9RENDERLESS);
-    if (IsCLSIDRegistered(CLSID_EnhancedVideoRenderer)) {
-        m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_EVR)), VIDRNDT_DS_EVR);
-        m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_EVR_CUSTOM)), VIDRNDT_DS_EVR_CUSTOM);
-        m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_SYNC)), VIDRNDT_DS_SYNC);
-    } else {
-        CString str;
-        str.Format(_T("%s %s"), ResStr(IDS_PPAGE_OUTPUT_EVR), ResStr(IDS_PPAGE_OUTPUT_UNAVAILABLE));
-        m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(str), VIDRNDT_DS_EVR);
-        str.Format(_T("%s %s"), ResStr(IDS_PPAGE_OUTPUT_EVR_CUSTOM), ResStr(IDS_PPAGE_OUTPUT_UNAVAILABLE));
-        m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(str), VIDRNDT_DS_EVR_CUSTOM);
-        str.Format(_T("%s %s"), ResStr(IDS_PPAGE_OUTPUT_SYNC), ResStr(IDS_PPAGE_OUTPUT_UNAVAILABLE));
-        m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(str), VIDRNDT_DS_SYNC);
-    }
-    if (IsCLSIDRegistered(CLSID_DXR)) {
-        m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_DXR)), VIDRNDT_DS_DXR);
-    } else {
-        CString str;
-        str.Format(_T("%s %s"), ResStr(IDS_PPAGE_OUTPUT_DXR), ResStr(IDS_PPAGE_OUTPUT_UNAVAILABLE));
-        m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(str), VIDRNDT_DS_DXR);
-    }
-    m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_NULL_COMP)), VIDRNDT_DS_NULL_COMP);
-    m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_NULL_UNCOMP)), VIDRNDT_DS_NULL_UNCOMP);
-    if (IsCLSIDRegistered(CLSID_madVR)) {
-        m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_MADVR)), VIDRNDT_DS_MADVR);
-    } else {
-        CString str;
-        str.Format(_T("%s %s"), ResStr(IDS_PPAGE_OUTPUT_MADVR), ResStr(IDS_PPAGE_OUTPUT_UNAVAILABLE));
-        m_iDSVRTC.SetItemData(m_iDSVRTC.AddString(str), VIDRNDT_DS_MADVR);
-    }
+    addRenderer(VIDRNDT_DS_DEFAULT);
+    addRenderer(VIDRNDT_DS_OLDRENDERER);
+    addRenderer(VIDRNDT_DS_OVERLAYMIXER);
+    addRenderer(VIDRNDT_DS_VMR7WINDOWED);
+    addRenderer(VIDRNDT_DS_VMR9WINDOWED);
+    addRenderer(VIDRNDT_DS_VMR7RENDERLESS);
+    addRenderer(VIDRNDT_DS_VMR9RENDERLESS);
+    addRenderer(VIDRNDT_DS_EVR);
+    addRenderer(VIDRNDT_DS_EVR_CUSTOM);
+    addRenderer(VIDRNDT_DS_SYNC);
+    addRenderer(VIDRNDT_DS_DXR);
+    addRenderer(VIDRNDT_DS_MADVR);
+    addRenderer(VIDRNDT_DS_NULL_COMP);
+    addRenderer(VIDRNDT_DS_NULL_UNCOMP);
 
     for (int j = 0; j < m_iDSVRTC.GetCount(); ++j) {
         if (m_iDSVideoRendererType == m_iDSVRTC.GetItemData(j)) {
@@ -377,7 +413,7 @@ BOOL CPPageOutput::OnApply()
 
     CAppSettings& s = AfxGetAppSettings();
 
-    if (!IsRenderTypeAvailable(m_iDSVideoRendererType)) {
+    if (!s.IsVideoRendererAvailable(m_iDSVideoRendererType)) {
         ((CPropertySheet*)GetParent())->SetActivePage(this);
         AfxMessageBox(IDS_PPAGE_OUTPUT_UNAVAILABLEMSG, MB_ICONEXCLAMATION | MB_OK, 0);
 
@@ -703,20 +739,4 @@ void CPPageOutput::OnD3D9DeviceCheck()
     UpdateData();
     GetDlgItem(IDC_D3D9DEVICE_COMBO)->EnableWindow(m_fD3D9RenderDevice);
     SetModified();
-}
-
-bool CPPageOutput::IsRenderTypeAvailable(int VideoRendererType)
-{
-    switch (m_iDSVideoRendererType) {
-        case VIDRNDT_DS_EVR:
-        case VIDRNDT_DS_EVR_CUSTOM:
-        case VIDRNDT_DS_SYNC:
-            return IsCLSIDRegistered(CLSID_EnhancedVideoRenderer);
-        case VIDRNDT_DS_DXR:
-            return IsCLSIDRegistered(CLSID_DXR);
-        case VIDRNDT_DS_MADVR:
-            return IsCLSIDRegistered(CLSID_madVR);
-        default:
-            return true;
-    }
 }

@@ -676,6 +676,7 @@ public:
     CString         SelectedAudioRenderer() const;
     bool            IsISRAutoLoadEnabled() const;
     bool            IsISRAvailable() const;
+    static bool     IsVideoRendererAvailable(int iVideoRendererType);
 
     CFileAssoc      fileAssoc;
 
@@ -733,5 +734,4 @@ public:
     bool            GetAllowMultiInst() const;
 
     static bool     IsVSFilterInstalled();
-    static bool     HasEVR();
 };

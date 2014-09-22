@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2012, 2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -33,8 +33,6 @@ class CPPageOutput : public CPPageBase
     DECLARE_DYNAMIC(CPPageOutput)
 
 private:
-    bool IsRenderTypeAvailable(int VideoRendererType);
-
     CStringArray m_AudioRendererDisplayNames;
     CStringArray m_D3D9GUIDNames;
     CImageList m_tickcross;
