@@ -67,6 +67,8 @@ next version - not released yet
 ! Ticket #4505, Embedded text subtitles: Fix a possible crash related to the Subresync bar
 ! Ticket #4504, ASS/SSA subtitles: Support floating point values in drawing commands
 ! Ticket #4536, ASS/SSA subtitles: Fix the parsing of \fs tags when the value was negative
+! Ticket #4665, Ensure that the icon shown in the status bar and the property dialog
+  matches the icon currently associated to the format
 ! Ticket #4678/#4856, Use internal filters for GIF format
 ! Ticket #4684, Clicking on the some parts of the volume slider had no effect
 ! Ticket #4707, EVR-CP: Screenshots were corrupted when "Force 10-bit input" was used

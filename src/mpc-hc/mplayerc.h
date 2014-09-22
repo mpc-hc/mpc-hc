@@ -43,7 +43,7 @@
 // define the default logo we use
 #define DEF_LOGO IDF_LOGO3
 
-extern HICON LoadIcon(CString fn, bool fSmall);
+extern HICON LoadIcon(CString fn, bool bSmallIcon);
 extern bool LoadType(CString fn, CString& type);
 extern bool LoadResource(UINT resid, CStringA& str, LPCTSTR restype);
 extern CStringA GetContentType(CString fn, CAtlList<CString>* redir = nullptr);

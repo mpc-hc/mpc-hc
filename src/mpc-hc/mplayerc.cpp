@@ -49,7 +49,7 @@
 
 #define HOOKS_BUGS_URL _T("https://trac.mpc-hc.org/ticket/3739")
 
-HICON LoadIcon(CString fn, bool fSmall)
+HICON LoadIcon(CString fn, bool bSmallIcon)
 {
     if (fn.IsEmpty()) {
         return nullptr;
@@ -60,8 +60,8 @@ HICON LoadIcon(CString fn, bool fSmall)
         ext = _T(".") + fn.Mid(fn.ReverseFind('.') + 1);
     }
 
-    CSize size(fSmall ? GetSystemMetrics(SM_CXSMICON) : GetSystemMetrics(SM_CXICON),
-               fSmall ? GetSystemMetrics(SM_CYSMICON) : GetSystemMetrics(SM_CYICON));
+    CSize size(bSmallIcon ? GetSystemMetrics(SM_CXSMICON) : GetSystemMetrics(SM_CXICON),
+               bSmallIcon ? GetSystemMetrics(SM_CYSMICON) : GetSystemMetrics(SM_CYICON));
 
     typedef HRESULT(WINAPI * LIWSD)(HINSTANCE, PCWSTR, int, int, HICON*);
     auto loadIcon = [&size](PCWSTR pszName) {
@@ -92,24 +92,26 @@ HICON LoadIcon(CString fn, bool fSmall)
         TCHAR buff[256];
         ULONG len;
 
-        if (ERROR_SUCCESS != key.Open(HKEY_CLASSES_ROOT, ext + _T("\\DefaultIcon"), KEY_READ)) {
-            if (ERROR_SUCCESS != key.Open(HKEY_CLASSES_ROOT, ext, KEY_READ)) {
-                break;
-            }
+        auto openRegKey = [&](HKEY hKeyParent, LPCTSTR lpszKeyName, LPCTSTR lpszValueName) {
+            if (ERROR_SUCCESS == key.Open(hKeyParent, lpszKeyName, KEY_READ)) {
+                len = _countof(buff);
+                ZeroMemory(buff, sizeof(buff));
+                CString progId;
 
-            len = _countof(buff);
-            ZeroMemory(buff, sizeof(buff));
-            if (ERROR_SUCCESS != key.QueryStringValue(nullptr, buff, &len) || (ext = buff).Trim().IsEmpty()) {
-                break;
+                if (ERROR_SUCCESS == key.QueryStringValue(lpszValueName, buff, &len) && !(progId = buff).Trim().IsEmpty()) {
+                    return (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, progId + _T("\\DefaultIcon"), KEY_READ));
+                }
             }
+            return false;
+        };
 
-            if (ERROR_SUCCESS != key.Open(HKEY_CLASSES_ROOT, ext + _T("\\DefaultIcon"), KEY_READ)) {
-                break;
-            }
+        if (!openRegKey(HKEY_CURRENT_USER, _T("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\") + ext + _T("\\UserChoice"), _T("Progid"))
+                && !openRegKey(HKEY_CLASSES_ROOT, ext, nullptr)
+                && ERROR_SUCCESS != key.Open(HKEY_CLASSES_ROOT, ext + _T("\\DefaultIcon"), KEY_READ)) {
+            break;
         }
 
         CString icon;
-
         len = _countof(buff);
         ZeroMemory(buff, sizeof(buff));
         if (ERROR_SUCCESS != key.QueryStringValue(nullptr, buff, &len) || (icon = buff).Trim().IsEmpty()) {
@@ -127,13 +129,13 @@ HICON LoadIcon(CString fn, bool fSmall)
         }
 
         icon = icon.Left(i);
+        icon.Trim(_T(" \\\""));
 
         HICON hIcon = nullptr;
-        UINT cnt = fSmall
+        UINT cnt = bSmallIcon
                    ? ExtractIconEx(icon, id, nullptr, &hIcon, 1)
                    : ExtractIconEx(icon, id, &hIcon, nullptr, 1);
-        UNREFERENCED_PARAMETER(cnt);
-        if (hIcon) {
+        if (hIcon && cnt == 1) {
             return hIcon;
         }
     } while (0);
