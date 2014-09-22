@@ -364,7 +364,7 @@ void CPPageInternalFilters::InitFiltersList()
 #endif
 #if INTERNAL_SOURCEFILTER_GIF
     if (bLAVSplitterIsAvailable) {
-        m_filters.Add(filter_t(_T("GIF"), SOURCE_FILTER, SRC_RTMP, IDS_INTERNAL_LAVF));
+        m_filters.Add(filter_t(_T("GIF"), SOURCE_FILTER, SRC_GIF, IDS_INTERNAL_LAVF));
     }
 #endif
 #if INTERNAL_SOURCEFILTER_MATROSKA
