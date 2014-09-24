@@ -863,13 +863,12 @@ std::string podnapisi::GetLanguagesString()
  x-dev_api_id=
  uiculture=hr,rs,si,ba,en,mk
  language=hr,rs,sr,si,ba,en,mk
- language=hrvatski,srpski,cirilica,slovenski,bosanski,makedonski,english
  keyword=
  year=
- mt= numeric value representing type of subtitle(Movie / TV show / documentary 1, 2, 3)
- season= numeric value representing season
- episode= numeric value representing season episode
- forcefilename=true (default is false)
+ mt=numeric value representing type of subtitle (Movie / TV show / documentary 1, 2, 3)
+ season=numeric value representing season
+ episode=numeric value representing season episode
+ forcefilename=true (default is false) return direct download link
 */
 
 SRESULT titlovi::Search(const SubtitlesInfo& pFileInfo)
@@ -989,7 +988,7 @@ std::string titlovi::GetLanguagesString()
     if (!languages.empty()) {
         for (const auto& iter : titlovi_languages) {
             if (strlen(iter.name) && languages.find(iter.name) != std::string::npos) {
-                result += (result.empty() ? "" : ",") + std::string(iter.name1);
+                result += (result.empty() ? "" : ",") + std::string(iter.code);
             }
         }
     }
