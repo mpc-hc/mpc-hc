@@ -9,7 +9,7 @@ Legend:
 + ISR: Add an option to control subtitle renderer behavior regarding anamorphic video
 + ISR: Add an option to render subtitles at the source video resolution like VSFilter.
 + VSFilter: Display more informative names for external subtitles (similar to what is done with the internal subtitle renderer)
-+ Add a "Copy to clipboard" feature to the "Play > Filters" menu so that the list of currently loaded filters can be copied easily
++ Add a "Copy to clipboard" feature to the "Play -> Filters" menu so that the list of currently loaded filters can be copied easily
 + Add an option in the "Save Subtitle" dialog to control the export of the default style as an external ".style" file
 + Ticket #1411, Internal Subtitle Renderer/VSFilter: Support loading external PGS subtitles
 * Text subtitles: When rendering to the video frame, clip subtitles that go out of the frame
@@ -280,7 +280,7 @@ Legend:
 + Windows 8.1 support
 * All track selection sub-menus are now centralized in the Play menu, the similar sub-menus
   have been removed from the Navigate menu
-* The naming of external subtitles item in Play -> Subtitles menu has been improved to get rid
+* The naming of external subtitles item in "Play -> Subtitles" menu has been improved to get rid
   of the uninformative "Undetermined" name
 * When "Prefer external subtitles over embedded subtitles" is enabled, an external track is
   always selected by default even if an embedded track matches a preferred language
@@ -392,7 +392,7 @@ Legend:
 + Miscellaneous: Add button to export key bindings
 + Add the ability to choose the scale factor (relative to the screen size) for
   the auto-fit zoom
-+ Internal Subtitles Renderer: Show all subtitles tracks in the Play -> Subtitles menu.
++ Internal Subtitles Renderer: Show all subtitles tracks in the "Play -> Subtitles" menu.
   That includes all the embedded tracks exhibited by the source filter and the external tracks.
 + Add a new shader that over brightens with gradient from the bottom to the top of the screen.
   It needs LCD monitors with low viewing angle (~170/160).
@@ -480,7 +480,7 @@ Legend:
 + Web server: various performance improvements
 + VobSub subtitles can now also be loaded by selecting or draging and dropping the .sub file
 + FLACSource: Basic support for embedded metadata
-+ Take currently applied delay into account when saving subtitles using File > Save subtitle
++ Take currently applied delay into account when saving subtitles using "File -> Save" subtitle
 + The volume steps can now be changed on the playback options page
 + Ticket #439, External subtitles: support UTF-8 without BOM
 + Ticket #728, Show tooltips in the information panel so that truncated lines can be read completely
@@ -780,7 +780,7 @@ v1.6.1.4235 - 1 April 2012
 + Support for ALAC
 + MatroskaSplitter: support for QDesign Music, Sorenson and Cinepak video
 + Ticket #552, Add the ability to check if a newer stable version is available
-  using Help --> Check for updates
+  using "Help --> Check for updates"
 + Ticket #1668, A keyboard shortcut can now be assigned to toggle custom channel mapping on/off
 + Ticket #1738, Support for decoding FLV SWF ADPCM
 + Ticket #2065, CMD_GETCURRENTPOSITION command gives the position with an accuracy of 1 ms
@@ -946,7 +946,7 @@ v1.5.2.3456 - 22 July 2011
   playing an audio-only file
 + Ticket #1216, Added a "Clear" option to the playlist context menu
 + Ticket #1224, Added OSD messages when changing the audio boost and the audio balance
-+ Ticket #1311, Added an "After Playback" => "Lock" option
++ Ticket #1311, Added an "After Playback -> Lock" option
 + Ticket #1350, Added a time tooltip for the seek bar whose position can be specified
   (above or below the seekbar)
 + Ticket #1377, Keep the same playback speed for all the items of the playlist
@@ -1055,7 +1055,7 @@ v1.5.0.2827 - 31 January 2011
 ! Ticket #564, EVR Sync enabled when it shouldn't be
 ! Ticket #627, Don't create the "AppData\Roaming\Media Player Classic"
   folder if the "Remember items" in playlist is disabled
-! Ticket #628, Enable ctrl+A in Player-->Keys page
+! Ticket #628, Enable ctrl+A in "Player --> Keys" page
 ! Ticket #647, Weird "keys" listed
 ! Ticket #650, Non-media entry in playlist halts playback
 ! Ticket #651, Make EVR CP stats graph smaller
@@ -1122,7 +1122,7 @@ v1.4.2499.0 - 7 September 2010
 + Always Exit after playback option
 + Support for SRM7500 remote control
 + New panel for switching DVB channels, audio and tuner scan
-  accessible through View-->Navigation menu when in Capture mode
+  accessible through "View --> Navigation" menu when in Capture mode
 + Automatically play next files in a folder
 + Implemented 'Quick add favorite' shortcut (default: Shift+Q)
   will use current settings from 'Add Favorite' dialog
@@ -1176,7 +1176,7 @@ v1.4.2499.0 - 7 September 2010
   and Hungarian translations
 * Updated FFmpeg
 * Updated installer script
-* "DirectShow Audio" label on playback->output now says "Audio Renderer"
+* "DirectShow Audio" label on "Playback -> Output" now says "Audio Renderer"
 * Ticket #27: Allow screensaver to activate when audio only
   (sleep is still stopped)
 * Add open file to Recent Document only if "Keep history of recently
@@ -1235,9 +1235,9 @@ v1.4.2499.0 - 7 September 2010
 ! Ticket #578, VSFilter crash fix with certain malformed drawing lines
 ! Ticket #599, ignores /audiorender option
 ! Ticket #601, BD movie length detect wrong
-! Ticket #660, Pressing left arrow under Options->Logo causes right
+! Ticket #660, Pressing left arrow under "Options -> Logo" causes right
   arrow to disappear
-! Ticket #661, Ctrl+C / File->Close form size discrepancy
+! Ticket #661, Ctrl+C / "File -> Close" form size discrepancy
 ! Ticket #672, DVB-T - image problems after changing from TV channel
   to radio & back
 ! Ticket #677, Wrong colors using Color Management
@@ -1387,8 +1387,8 @@ v1.2.908.0 - 30 November 2008
 * Updated liba52 & libdts libraries
 * The x64 version of MPCVideodec is now built using GCC/MinGW64
   (improves performance)
-* GUI option for Explorer Context menu->Files (see Formats Page)
-* GUI option for Explorer Context menu->Directory (see Formats Page)
+* GUI option for Explorer Context menu -> Files (see Formats Page)
+* GUI option for Explorer Context menu -> Directory (see Formats Page)
 * Open directory (shell context menu or MPC-HC menu) -
   load only enqueues audio/video files, those with file extensions
   from the Formats page in MPC-HC options
