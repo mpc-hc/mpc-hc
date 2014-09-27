@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2013 see Authors.txt
+ * (C) 2009-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -84,25 +84,31 @@ CPPageFileMediaInfo::CPPageFileMediaInfo(CString path, IFileSourceFilter* pFSF)
     if (pAR && SUCCEEDED(pAR->Length(&llSize, &llAvailable))) {
         size_t ret = MI.Open_Buffer_Init((MediaInfo_int64u)llSize);
 
-        size_t szLength = (size_t)std::min<LONGLONG>(llSize, MEDIAINFO_BUFFER_SIZE);
-        BYTE* pBuffer = DEBUG_NEW BYTE[szLength];
+        std::vector<BYTE> buffer(MEDIAINFO_BUFFER_SIZE);
         LONGLONG llPosition = 0;
-        while ((ret & 0x1) && !(ret & 0x2)) { // While accepted and not filled
-            if (pAR->SyncRead(llPosition, (LONG)szLength, pBuffer) != S_OK) {
+        while ((ret & 0x1) && !(ret & 0x8) && llPosition < llAvailable) { // While accepted and not finished
+            size_t szLength = (size_t)std::min<LONGLONG>(llAvailable - llPosition, MEDIAINFO_BUFFER_SIZE);
+            if (pAR->SyncRead(llPosition, (LONG)szLength, buffer.data()) != S_OK) {
                 break;
             }
-            ret = MI.Open_Buffer_Continue(pBuffer, szLength);
+
+            ret = MI.Open_Buffer_Continue(buffer.data(), szLength);
 
             // Seek to a different position if needed
             MediaInfo_int64u uiNeeded = MI.Open_Buffer_Continue_GoTo_Get();
-            if (uiNeeded != (MediaInfo_int64u) - 1 && (ULONGLONG)llPosition < uiNeeded) {
+            if (uiNeeded != MediaInfo_int64u(-1)) {
                 llPosition = (LONGLONG)uiNeeded;
+                // Inform MediaInfo of the seek
+                MI.Open_Buffer_Init((MediaInfo_int64u)llSize, (MediaInfo_int64u)llPosition);
             } else {
-                llPosition += szLength;
+                llPosition += (LONGLONG)szLength;
+            }
+
+            if (FAILED(pAR->Length(&llSize, &llAvailable))) {
+                break;
             }
         }
         MI.Open_Buffer_Finalize();
-        delete [] pBuffer;
 
         MI_Text = MI.Inform().c_str();
     } else {
