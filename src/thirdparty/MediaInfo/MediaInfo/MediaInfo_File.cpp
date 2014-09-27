@@ -242,9 +242,6 @@
 #if defined(MEDIAINFO_SMPTEST0337_YES)
     #include "MediaInfo/Audio/File_SmpteSt0337.h"
 #endif
-#if defined(MEDIAINFO_RKAU_YES)
-    #include "MediaInfo/Audio/File_Rkau.h"
-#endif
 #if defined(MEDIAINFO_TAK_YES)
     #include "MediaInfo/Audio/File_Tak.h"
 #endif
@@ -416,6 +413,9 @@ bool MediaInfo_Internal::SelectFromExtension (const String &Parser)
     #if defined(MEDIAINFO_DCP_YES)
         else if (Parser==__T("DcpPkg"))      Info=new File_DcpPkl();
     #endif
+    #if defined(MEDIAINFO_DPG_YES)
+        else if (Parser==__T("Dpg"))         Info=new File_Dpg();
+    #endif
     #if defined(MEDIAINFO_DVDIF_YES)
         else if (Parser==__T("DvDif"))        Info=new File_DvDif();
     #endif
@@ -437,11 +437,11 @@ bool MediaInfo_Internal::SelectFromExtension (const String &Parser)
     #if defined(MEDIAINFO_HLS_YES)
         else if (Parser==__T("Hls"))         Info=new File_Hls();
     #endif
-    #if defined(MEDIAINFO_IVF_YES)
-        else if (Parser==__T("Ivf"))         Info=new File_Ivf();
-    #endif
     #if defined(MEDIAINFO_ISM_YES)
         else if (Parser==__T("Ism"))         Info=new File_Ism();
+    #endif
+    #if defined(MEDIAINFO_IVF_YES)
+        else if (Parser==__T("Ivf"))         Info=new File_Ivf();
     #endif
     #if defined(MEDIAINFO_LXF_YES)
         else if (Parser==__T("Lxf"))         Info=new File_Lxf();
@@ -496,9 +496,6 @@ bool MediaInfo_Internal::SelectFromExtension (const String &Parser)
     #endif
     #if defined(MEDIAINFO_XDCAM_YES)
         else if (Parser==__T("Xdcam_Clip"))   Info=new File_Xdcam_Clip();
-    #endif
-    #if defined(MEDIAINFO_DPG_YES)
-        else if (Parser==__T("Dpg"))         Info=new File_Dpg();
     #endif
 
     // Video
@@ -594,11 +591,8 @@ bool MediaInfo_Internal::SelectFromExtension (const String &Parser)
     #if defined(MEDIAINFO_OPENMG_YES)
         else if (Parser==__T("OpenMG"))      Info=new File_OpenMG();
     #endif
-    #if defined(MEDIAINFO_AU_YES)
-        else if (Parser==__T("Au"))          Info=new File_Au();
-    #endif
     #if defined(MEDIAINFO_RKAU_YES)
-        else if (Parser==__T("Rkau"))         Info=new File_Rkau();
+        else if (Parser==__T("Rkau"))        Info=new File_Rkau();
     #endif
     #if defined(MEDIAINFO_S3M_YES)
         else if (Parser==__T("S3m"))         Info=new File_ScreamTracker3();
@@ -645,9 +639,6 @@ bool MediaInfo_Internal::SelectFromExtension (const String &Parser)
     #endif
 
     // Image
-    #if defined(MEDIAINFO_GIF_YES)
-        else if (Parser==__T("Gif"))         Info=new File_Gif();
-    #endif
     #if defined(MEDIAINFO_ARRIRAW_YES)
         else if (Parser==__T("Arri Raw"))    Info=new File_ArriRaw();
     #endif
@@ -662,6 +653,9 @@ bool MediaInfo_Internal::SelectFromExtension (const String &Parser)
     #endif
     #if defined(MEDIAINFO_EXR_YES)
         else if (Parser==__T("Exr"))         Info=new File_Exr();
+    #endif
+    #if defined(MEDIAINFO_GIF_YES)
+        else if (Parser==__T("Gif"))         Info=new File_Gif();
     #endif
     #if defined(MEDIAINFO_ICO_YES)
         else if (Parser==__T("Ico"))         Info=new File_Ico();

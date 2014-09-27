@@ -23,6 +23,9 @@
 #if defined(MEDIAINFO_AAF_YES)
     #include "MediaInfo/Multiple/File_Aaf.h"
 #endif
+#if defined(MEDIAINFO_BDMV_YES)
+    #include "MediaInfo/Multiple/File_Bdmv.h"
+#endif
 #if defined(MEDIAINFO_CDXA_YES)
     #include "MediaInfo/Multiple/File_Cdxa.h"
 #endif
@@ -62,8 +65,14 @@
 #if defined(MEDIAINFO_HLS_YES)
     #include "MediaInfo/Multiple/File_Hls.h"
 #endif
+#if defined(MEDIAINFO_IBI_YES)
+    #include "MediaInfo/Multiple/File_Ibi.h"
+#endif
 #if defined(MEDIAINFO_ISM_YES)
     #include "MediaInfo/Multiple/File_Ism.h"
+#endif
+#if defined(MEDIAINFO_IMF_YES)
+    #include "MediaInfo/Multiple/File_ImfCpl.h"
 #endif
 #if defined(MEDIAINFO_IVF_YES)
     #include "MediaInfo/Multiple/File_Ivf.h"
@@ -140,6 +149,9 @@
 #if defined(MEDIAINFO_H263_YES)
     #include "MediaInfo/Video/File_H263.h"
 #endif
+#if defined(MEDIAINFO_HEVC_YES)
+    #include "MediaInfo/Video/File_Hevc.h"
+#endif
 #if defined(MEDIAINFO_MPEG4V_YES)
     #include "MediaInfo/Video/File_Mpeg4v.h"
 #endif
@@ -164,9 +176,6 @@
 #if defined(MEDIAINFO_AC3_YES)
     #include "MediaInfo/Audio/File_Ac3.h"
 #endif
-#if defined(MEDIAINFO_SMPTEST0337_YES)
-    #include "MediaInfo/Audio/File_SmpteSt0337.h"
-#endif
 #if defined(MEDIAINFO_ALS_YES)
     #include "MediaInfo/Audio/File_Als.h"
 #endif
@@ -185,8 +194,8 @@
 #if defined(MEDIAINFO_DTS_YES)
     #include "MediaInfo/Audio/File_Dts.h"
 #endif
-#if defined(MEDIAINFO_XM_YES)
-    #include "MediaInfo/Audio/File_ExtendedModule.h"
+#if defined(MEDIAINFO_DOLBYE_YES)
+    #include "MediaInfo/Audio/File_DolbyE.h"
 #endif
 #if defined(MEDIAINFO_FLAC_YES)
     #include "MediaInfo/Audio/File_Flac.h"
@@ -215,14 +224,14 @@
 #if defined(MEDIAINFO_OPENMG_YES)
     #include "MediaInfo/Audio/File_OpenMG.h"
 #endif
-#if defined(MEDIAINFO_PCM_YES)
-    #include "MediaInfo/Audio/File_Pcm.h"
-#endif
 #if defined(MEDIAINFO_RKAU_YES)
     #include "MediaInfo/Audio/File_Rkau.h"
 #endif
 #if defined(MEDIAINFO_S3M_YES)
     #include "MediaInfo/Audio/File_ScreamTracker3.h"
+#endif
+#if defined(MEDIAINFO_SMPTEST0337_YES)
+    #include "MediaInfo/Audio/File_SmpteSt0337.h"
 #endif
 #if defined(MEDIAINFO_TAK_YES)
     #include "MediaInfo/Audio/File_Tak.h"
@@ -236,17 +245,23 @@
 #if defined(MEDIAINFO_WVPK_YES)
     #include "MediaInfo/Audio/File_Wvpk.h"
 #endif
+#if defined(MEDIAINFO_XM_YES)
+    #include "MediaInfo/Audio/File_ExtendedModule.h"
+#endif
 
 //---------------------------------------------------------------------------
 // Text
+#if defined(MEDIAINFO_EIA608_YES)
+    #include "MediaInfo/Text/File_Eia608.h"
+#endif
 #if defined(MEDIAINFO_N19_YES)
     #include "MediaInfo/Text/File_N19.h"
 #endif
-#if defined(MEDIAINFO_SCC_YES)
-    #include "MediaInfo/Text/File_Scc.h"
-#endif
 #if defined(MEDIAINFO_PDF_YES)
     #include "MediaInfo/Text/File_Pdf.h"
+#endif
+#if defined(MEDIAINFO_SCC_YES)
+    #include "MediaInfo/Text/File_Scc.h"
 #endif
 #if defined(MEDIAINFO_SUBRIP_YES)
     #include "MediaInfo/Text/File_SubRip.h"
@@ -269,6 +284,12 @@
 #if defined(MEDIAINFO_DDS_YES)
     #include "MediaInfo/Image/File_Dds.h"
 #endif
+#if defined(MEDIAINFO_DPX_YES)
+    #include "MediaInfo/Image/File_Dpx.h"
+#endif
+#if defined(MEDIAINFO_EXR_YES)
+    #include "MediaInfo/Image/File_Exr.h"
+#endif
 #if defined(MEDIAINFO_GIF_YES)
     #include "MediaInfo/Image/File_Gif.h"
 #endif
@@ -290,7 +311,7 @@
 #if defined(MEDIAINFO_TIFF_YES)
     #include "MediaInfo/Image/File_Tiff.h"
 #endif
-#if defined(MEDIAINFO_TIFF_YES)
+#if defined(MEDIAINFO_TGA_YES)
     #include "MediaInfo/Image/File_Tga.h"
 #endif
 
@@ -374,6 +395,10 @@ File__MultipleParsing::File__MultipleParsing()
     #if defined(MEDIAINFO_BDAV_YES)
         {File_MpegTs* Temp=new File_MpegTs(); Temp->BDAV_Size=4; Parser.push_back(Temp);}
     #endif
+//    Only with directories, no By Buffer interface
+//    #if defined(MEDIAINFO_BDMV_YES)
+//        Parser.push_back(new File_Bdmv());
+//    #endif
     #if defined(MEDIAINFO_CDXA_YES)
         Parser.push_back(new File_Cdxa());
     #endif
@@ -452,6 +477,9 @@ File__MultipleParsing::File__MultipleParsing()
     #if defined(MEDIAINFO_PMP_YES)
         Parser.push_back(new File_Pmp());
     #endif
+    #if defined(MEDIAINFO_PTX_YES)
+        Parser.push_back(new File_Ptx());
+    #endif
     #if defined(MEDIAINFO_RIFF_YES)
         Parser.push_back(new File_Riff());
     #endif
@@ -478,6 +506,9 @@ File__MultipleParsing::File__MultipleParsing()
     #if defined(MEDIAINFO_AVC_YES)
         Parser.push_back(new File_Avc());
     #endif
+    #if defined(MEDIAINFO_HEVC_YES)
+        Parser.push_back(new File_Hevc());
+    #endif
     #if defined(MEDIAINFO_AVSV_YES)
         Parser.push_back(new File_AvsV());
     #endif
@@ -498,6 +529,9 @@ File__MultipleParsing::File__MultipleParsing()
     #endif
     #if defined(MEDIAINFO_VC1_YES)
         Parser.push_back(new File_Vc1());
+    #endif
+    #if defined(MEDIAINFO_VC3_YES)
+        Parser.push_back(new File_Vc3());
     #endif
     #if defined(MEDIAINFO_Y4M_YES)
         Parser.push_back(new File_Y4m());
@@ -534,6 +568,10 @@ File__MultipleParsing::File__MultipleParsing()
     #if defined(MEDIAINFO_DTS_YES)
         Parser.push_back(new File_Dts());
     #endif
+//    Too many false-positives
+//    #if defined(MEDIAINFO_DOLBYE_YES)
+//        Parser.push_back(new File_DolbyE());
+//    #endif
     #if defined(MEDIAINFO_FLAC_YES)
         Parser.push_back(new File_Flac());
     #endif
@@ -584,6 +622,10 @@ File__MultipleParsing::File__MultipleParsing()
     #endif
 
     // Text
+//    Too many false-positives
+//    #if defined(MEDIAINFO_EIA608_YES)
+//        Parser.push_back(new File_Eia608());
+//    #endif
     #if defined(MEDIAINFO_N19_YES)
         Parser.push_back(new File_N19());
     #endif
@@ -612,6 +654,12 @@ File__MultipleParsing::File__MultipleParsing()
     #endif
     #if defined(MEDIAINFO_DDS_YES)
         Parser.push_back(new File_Dds());
+    #endif
+    #if defined(MEDIAINFO_DPX_YES)
+        Parser.push_back(new File_Dpx());
+    #endif
+    #if defined(MEDIAINFO_EXR_YES)
+        Parser.push_back(new File_Exr());
     #endif
     #if defined(MEDIAINFO_GIF_YES)
         Parser.push_back(new File_Gif());
@@ -670,6 +718,7 @@ File__MultipleParsing::File__MultipleParsing()
         Parser.push_back(new File_Zip());
     #endif
 
+    // Other
     #if defined(MEDIAINFO_OTHER_YES)
         Parser.push_back(new File_Other());
     #endif
