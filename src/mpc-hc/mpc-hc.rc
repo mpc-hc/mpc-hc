@@ -387,9 +387,8 @@ BEGIN
     PUSHBUTTON      "Default",IDC_BUTTON2,179,136,54,14
     PUSHBUTTON      "Set",IDC_BUTTON_EXT_SET,237,136,49,14
     GROUPBOX        "Association",IDC_STATIC3,5,157,286,26
-    CONTROL         "Use the format-specific icons",IDC_CHECK8,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,169,190,8
-    PUSHBUTTON      "Run as &administrator",IDC_BUTTON1,10,166,135,14 
+    CONTROL         "Use the format-specific icons",IDC_CHECK8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,169,190,8
+    PUSHBUTTON      "Run as &administrator",IDC_BUTTON1,10,166,135,14
     PUSHBUTTON      "Set as &default program",IDC_BUTTON7,202,160,85,20,BS_MULTILINE
     GROUPBOX        "Real-Time Streaming Protocol handler (for rtsp://... URLs)",IDC_STATIC,5,186,286,24
     CONTROL         "RealMedia",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,10,198,50,8
@@ -2609,7 +2608,7 @@ BEGIN
     IDS_IMAGE_QUALITY       "Quality (%):"
     IDS_PPAGEADVANCED_COVER_SIZE_LIMIT 
                             "Maximum size (NxNpx) of a cover-art loaded in the audio only mode."
-    IDS_SUBTITLE_DELAY_STEP_TOOLTIP
+    IDS_SUBTITLE_DELAY_STEP_TOOLTIP 
                             "The subtitle delay will be decreased/increased by this value each time the corresponding hotkeys are used (%s/%s)."
 END
 
