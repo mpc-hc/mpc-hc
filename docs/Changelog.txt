@@ -72,6 +72,7 @@ next version - not released yet
 ! Ticket #4678/#4856, Use internal filters for GIF format
 ! Ticket #4684, Clicking on the some parts of the volume slider had no effect
 ! Ticket #4707, EVR-CP: Screenshots were corrupted when "Force 10-bit input" was used
+* Ticket #4730, MediaInfo: Ensure the MediaInfo tab gives the same information as the official GUI
 ! Ticket #4744, Some subtitles could cause a crash or produce artifacts
 ! Ticket #4752, Monitors connected to secondary graphic card were not detected
 ! Ticket #4758, Adjust width of the groupbox headers to avoid empty space

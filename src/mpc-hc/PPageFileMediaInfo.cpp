@@ -76,7 +76,7 @@ CPPageFileMediaInfo::CPPageFileMediaInfo(CString path, IFileSourceFilter* pFSF)
     MediaInfo MI;
 #endif
 
-    MI.Option(_T("ParseSpeed"), _T("0"));
+    MI.Option(_T("ParseSpeed"), _T("0.5"));
     MI.Option(_T("Complete"));
     MI.Option(_T("Language"), _T("  Config_Text_ColumnSize;30"));
 
