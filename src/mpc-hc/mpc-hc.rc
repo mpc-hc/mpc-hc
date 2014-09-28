@@ -2617,6 +2617,8 @@ BEGIN
     IDS_SUBTITLE_DELAY_STEP_TOOLTIP 
                             "The subtitle delay will be decreased/increased by this value each time the corresponding hotkeys are used (%s/%s)."
     IDS_HOTKEY_NOT_DEFINED  "<not defined>"
+    IDS_MEDIAINFO_NO_INFO_AVAILABLE "No information available"
+    IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS "Please wait, analysis in progress..."
 END
 
 STRINGTABLE

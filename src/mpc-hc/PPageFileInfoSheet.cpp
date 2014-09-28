@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -52,9 +52,7 @@ CPPageFileInfoSheet::CPPageFileInfoSheet(CString path, CMainFrame* pMainFrame, C
 #if !USE_STATIC_MEDIAINFO
     if (CPPageFileMediaInfo::HasMediaInfo())
 #endif
-        if (m_mi.HasInfo()) {
-            AddPage(&m_mi);
-        }
+        AddPage(&m_mi);
 }
 
 CPPageFileInfoSheet::~CPPageFileInfoSheet()
@@ -112,7 +110,7 @@ void CPPageFileInfoSheet::OnSaveAs()
         CFile mFile;
         if (mFile.Open(filedlg.GetPathName(), CFile::modeCreate | CFile::modeWrite)) {
             mFile.Write(&bom, sizeof(TCHAR));
-            mFile.Write(LPCTSTR(m_mi.MI_Text), m_mi.MI_Text.GetLength()*sizeof(TCHAR));
+            mFile.Write(LPCTSTR(m_mi.m_futureMIText.get()), m_mi.m_futureMIText.get().GetLength()*sizeof(TCHAR));
             mFile.Close();
         }
     }

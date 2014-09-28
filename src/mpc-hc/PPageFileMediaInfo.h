@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2013 see Authors.txt
+ * (C) 2009-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,6 +20,8 @@
 
 #pragma once
 
+#include <future>
+
 // CPPageFileMediaInfo dialog
 
 class CPPageFileMediaInfo : public CPropertyPage
@@ -36,19 +38,24 @@ public:
     CEdit m_mediainfo;
     CString m_fn, m_path;
     CFont* m_pCFont;
-    CString MI_Text;
+    std::shared_future<CString> m_futureMIText;
+    std::thread m_threadSetText;
 
 #if !USE_STATIC_MEDIAINFO
     static bool HasMediaInfo();
 #endif
+
 protected:
+    enum {
+        WM_REFRESH_TEXT = WM_APP + 1
+    };
+
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
     virtual BOOL OnInitDialog();
 
     DECLARE_MESSAGE_MAP()
 
-public:
     afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
-
-    bool HasInfo() const { return !MI_Text.IsEmpty(); };
+    afx_msg void OnDestroy();
+    afx_msg void OnRefreshText();
 };
