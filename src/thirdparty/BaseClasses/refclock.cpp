@@ -397,6 +397,6 @@ HRESULT CBaseReferenceClock::GetDefaultTimerResolution(
         return E_POINTER;
     }
     CAutoLock cObjectLock(this);
-    *pTimerResolution = m_TimerResolution * 10000;
+    *pTimerResolution = m_TimerResolution * 10000i64;
     return S_OK;
 }
