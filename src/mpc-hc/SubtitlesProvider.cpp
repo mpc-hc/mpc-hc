@@ -1004,7 +1004,7 @@ SRESULT ysubs::Search(const SubtitlesInfo& pFileInfo)
     SRESULT searchResult = SR_UNDEFINED;
     using namespace rapidjson;
 
-    if (pFileInfo.year) {
+    if (pFileInfo.year && pFileInfo.seasonNumber == -1 && pFileInfo.episodeNumber == -1) {
         std::string url(string_format("https://yts.re/api/list.json?keywords=%s+%d", UrlEncode(string_replace(pFileInfo.title, " ", "+").c_str()), pFileInfo.year));
         std::string data;
         searchResult = Download(url, "", data);

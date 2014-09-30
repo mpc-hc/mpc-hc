@@ -691,7 +691,7 @@ void SubtitlesThread::Search()
 
 void SubtitlesThread::Download()
 {
-    CAutoLock cAutoLock(&m_pTask->m_csThreads);
+    CAutoLock cAutoLock(&m_pTask->m_csDownload);
     CheckAbortAndThrow();
     for (auto& iter : m_pSubtitlesList) {
         CheckAbortAndThrow();

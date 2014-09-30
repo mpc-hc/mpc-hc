@@ -256,6 +256,7 @@ private:
     CMainFrame* m_pMainFrame;
     std::list<SubtitlesThread*> m_pThreads;
     CCritSec m_csThreads;
+    CCritSec m_csDownload;
 
     SubtitlesInfo m_pFileInfo;
     BOOL m_bActivate;
