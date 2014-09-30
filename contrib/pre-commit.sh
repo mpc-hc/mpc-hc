@@ -1,5 +1,5 @@
 #!/bin/bash
-# (C) 2013 see Authors.txt
+# (C) 2013-2014 see Authors.txt
 #
 # This file is part of MPC-HC.
 #
@@ -41,9 +41,9 @@ astyle_config=contrib/astyle.ini
 astyle_extensions=(cpp h)
 astyle_version='Artistic Style Version 2.04'
 checkyear_extensions=(bat cpp h hlsl iss py sh)
-checkyear_pattern1='\(C\) ([0-9][0-9][0-9][0-9]-)?[0-9][0-9][0-9][0-9] see Authors.txt'
+checkyear_pattern1='\(C\) (([0-9][0-9][0-9][0-9]-)?[0-9][0-9][0-9][0-9](, )?)+ see Authors.txt'
 year=$(date +%Y)
-checkyear_pattern2='\(C\) ([0-9][0-9][0-9][0-9]-)?'"$year"' see Authors.txt'
+checkyear_pattern2=''"$year"' see Authors.txt'
 
 if [[ "$OSTYPE" == 'cygwin' ]]; then
   set -o igncr
@@ -88,10 +88,10 @@ filepath_contains() {
 check_copyright_year() {
   return_code=0
   for file in "$@"; do
-    # only verify year if it already has an mpc-hc style copyright entry
-    if grep -q -E "$checkyear_pattern1" "$file"; then
+    result=$(grep -E "$checkyear_pattern1" "$file");
+    if [[ -n $result ]]; then
       # check if the year is outdated
-      if ! grep -q -E "$checkyear_pattern2" "$file"; then
+      if [[ $result != *$checkyear_pattern2 ]]; then
         echo "Invalid copyright year in $file"
         return_code=1
       fi
