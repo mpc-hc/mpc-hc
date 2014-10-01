@@ -15869,20 +15869,17 @@ HRESULT CMainFrame::UpdateThumbnailClip()
 
     const CAppSettings& s = AfxGetAppSettings();
 
-    if (!s.fUseWin7TaskBar || (GetLoadState() != MLS::LOADED) || m_fAudioOnly || m_fFullScreen) {
+    CRect r;
+    m_wndView.GetClientRect(&r);
+    if (s.eCaptionMenuMode == MODE_SHOWCAPTIONMENU) {
+        r.OffsetRect(0, GetSystemMetrics(SM_CYMENU));
+    }
+
+    if (!s.fUseWin7TaskBar || (GetLoadState() != MLS::LOADED) || m_fFullScreen || IsD3DFullScreenMode() || r.Width() <= 0 || r.Height() <= 0) {
         return m_pTaskbarList->SetThumbnailClip(m_hWnd, nullptr);
     }
 
-    RECT vid_rect, result_rect;
-    m_wndView.GetClientRect(&vid_rect);
-
-    // Remove the menu from thumbnail clip preview if it displayed
-    result_rect.left = 2;
-    result_rect.right = result_rect.left + (vid_rect.right - vid_rect.left) - 4;
-    result_rect.top = (s.eCaptionMenuMode == MODE_SHOWCAPTIONMENU) ? 22 : 2;
-    result_rect.bottom = result_rect.top + (vid_rect.bottom - vid_rect.top) - 4;
-
-    return m_pTaskbarList->SetThumbnailClip(m_hWnd, &result_rect);
+    return m_pTaskbarList->SetThumbnailClip(m_hWnd, &r);
 }
 
 LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)

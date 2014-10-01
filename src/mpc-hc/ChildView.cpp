@@ -224,6 +224,7 @@ void CChildView::OnSize(UINT nType, int cx, int cy)
     if (!m_bSwitchingFullscreen) {
         m_pMainFrame->MoveVideoWindow();
     }
+    m_pMainFrame->UpdateThumbnailClip();
 }
 
 LRESULT CChildView::OnNcHitTest(CPoint point)
