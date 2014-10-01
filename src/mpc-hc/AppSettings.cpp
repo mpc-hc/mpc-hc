@@ -622,7 +622,7 @@ bool CAppSettings::IsVideoRendererAvailable(int iVideoRendererType)
 {
     switch (iVideoRendererType) {
         case VIDRNDT_DS_VMR7RENDERLESS:
-            return !VersionInfo::Is64Bit();
+            return !VersionInfo::Is64Bit() && GetSystemMetrics(SM_CXVIRTUALSCREEN) < 2048 && GetSystemMetrics(SM_CYVIRTUALSCREEN) < 2048;
         case VIDRNDT_DS_DXR:
             return IsCLSIDRegistered(CLSID_DXR);
         case VIDRNDT_DS_EVR:
