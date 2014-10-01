@@ -81,5 +81,6 @@ next version - not released yet
 ! Ticket #4782, Backward framestep led to jumping to the wrong position in certain situations
 ! Ticket #4825, Tracks matching a preferred language weren't always selected correctly
 ! Ticket #4827, Initial window size could be wrong for anamorphic video
+! Ticket #4831, Fix a rare issue with animated subtitles starting at timecode 0
 ! Ticket #4857, The timings of some subtitles could be wrong when using Sync Renderer
 ! Ticket #4863, MPC-HC could crash when opening a file through the QuickTime engine
