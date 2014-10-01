@@ -87,7 +87,7 @@ CPPageFileMediaInfo::CPPageFileMediaInfo(CString path, IFileSourceFilter* pFSF)
         std::vector<BYTE> buffer(MEDIAINFO_BUFFER_SIZE);
         LONGLONG llPosition = 0;
         while ((ret & 0x1) && !(ret & 0x8) && llPosition < llAvailable) { // While accepted and not finished
-            size_t szLength = std::min<size_t>(llAvailable - llPosition, buffer.size());
+            size_t szLength = (size_t)std::min(llAvailable - llPosition, (LONGLONG)buffer.size());
             if (pAR->SyncRead(llPosition, (LONG)szLength, buffer.data()) != S_OK) {
                 break;
             }
