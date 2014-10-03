@@ -256,7 +256,12 @@ HRESULT CDVBSub::ParseSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE
                 hr = S_OK;
                 switch (nCurSegment) {
                     case PAGE: {
-                        if (m_pCurrentPage != nullptr) {
+                        if (rtStart == INVALID_TIME) {
+                            TRACE_DVB(_T("DVB - Page update ignored, %s\n"), ReftimeToString(rtStart));
+                            break;
+                        }
+
+                        if (m_pCurrentPage) {
                             TRACE_DVB(_T("DVB - Force End display\n"));
                             EnqueuePage(rtStart);
                         }
@@ -265,7 +270,7 @@ HRESULT CDVBSub::ParseSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE
                         CAutoPtr<DVB_PAGE> pPage;
                         hr = ParsePage(gb, wSegLength, pPage);
                         pPage->rtStart = rtStart;
-                        pPage->rtStop = pPage->rtStart + pPage->pageTimeOut * 10000000;
+                        pPage->rtStop = pPage->rtStart + pPage->pageTimeOut * 10000000i64;
 
                         if (FAILED(hr)) {
                             pPage.Free();
@@ -273,7 +278,7 @@ HRESULT CDVBSub::ParseSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE
                             m_pCurrentPage = pPage;
 
                             TRACE_DVB(_T("DVB - Page started [pageState = %d] %s, TimeOut = %ds\n"), m_pCurrentPage->pageState,
-                                      ReftimeToString(rtStart), m_pCurrentPage->pageTimeOut);
+                                      ReftimeToString(m_pCurrentPage->rtStart), m_pCurrentPage->pageTimeOut);
                         } else if (pPage->pageState == DPS_NORMAL && !m_pages.IsEmpty()) {
                             m_pCurrentPage = pPage;
 
@@ -293,7 +298,7 @@ HRESULT CDVBSub::ParseSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE
                             }
 
                             TRACE_DVB(_T("DVB - Page started [update] %s, TimeOut = %ds\n"),
-                                      ReftimeToString(rtStart), m_pCurrentPage->pageTimeOut);
+                                      ReftimeToString(m_pCurrentPage->rtStart), m_pCurrentPage->pageTimeOut);
                         } else {
                             TRACE_DVB(_T("DVB - Page update ignored %s\n"), ReftimeToString(rtStart));
                         }

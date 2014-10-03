@@ -245,24 +245,40 @@ STDMETHODIMP CSubtitleInputPin::Receive(IMediaSample* pSample)
 
     REFERENCE_TIME tStart, tStop;
     hr = pSample->GetTime(&tStart, &tStop);
-    if (FAILED(hr)) {
-        return hr;
-    }
-    tStart += m_tStart;
-    tStop += m_tStart;
 
-    BYTE* pData = nullptr;
-    hr = pSample->GetPointer(&pData);
-    long len = pSample->GetActualDataLength();
-    if (FAILED(hr) || pData == nullptr || len <= 0) {
-        return hr;
+    switch (hr) {
+        case S_OK:
+            tStart += m_tStart;
+            tStop += m_tStart;
+            break;
+        case VFW_S_NO_STOP_TIME:
+            tStart += m_tStart;
+            tStop = INVALID_TIME;
+            break;
+        case VFW_E_SAMPLE_TIME_NOT_SET:
+            tStart = tStop = INVALID_TIME;
+            break;
+        default:
+            ASSERT(FALSE);
+            return hr;
     }
 
-    {
-        std::unique_lock<std::mutex> lock(m_mutexQueue);
-        m_sampleQueue.AddTail(CAutoPtr<SubtitleSample>(DEBUG_NEW SubtitleSample(tStart, tStop, pData, size_t(len))));
-        lock.unlock();
-        m_condQueueReady.notify_one();
+    if ((tStart == INVALID_TIME || tStop == INVALID_TIME) && !IsRLECodedSub(&m_mt)) {
+        ASSERT(FALSE);
+    } else {
+        BYTE* pData = nullptr;
+        hr = pSample->GetPointer(&pData);
+        long len = pSample->GetActualDataLength();
+        if (FAILED(hr) || pData == nullptr || len <= 0) {
+            return hr;
+        }
+
+        {
+            std::unique_lock<std::mutex> lock(m_mutexQueue);
+            m_sampleQueue.AddTail(CAutoPtr<SubtitleSample>(DEBUG_NEW SubtitleSample(tStart, tStop, pData, size_t(len))));
+            lock.unlock();
+            m_condQueueReady.notify_one();
+        }
     }
 
     return S_OK;

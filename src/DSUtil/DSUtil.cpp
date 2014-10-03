@@ -2370,6 +2370,10 @@ LPCTSTR GetDXVAMode(const GUID* guidDecoder)
 // hour, minute, second, millisec
 CString ReftimeToString(const REFERENCE_TIME& rtVal)
 {
+    if (rtVal == _I64_MIN) {
+        return _T("INVALID TIME");
+    }
+
     CString strTemp;
     LONGLONG llTotalMs = ConvertToMilliseconds(rtVal);
     int lHour     = (int)(llTotalMs / (1000 * 60 * 60));

@@ -34,6 +34,8 @@
 
 class CSubtitleInputPin : public CBaseInputPin
 {
+    static const REFERENCE_TIME INVALID_TIME = _I64_MIN;
+
     CCritSec m_csReceive;
 
     CCritSec* m_pSubLock;

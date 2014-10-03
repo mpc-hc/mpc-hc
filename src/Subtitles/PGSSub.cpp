@@ -177,6 +177,10 @@ HRESULT CPGSSub::ParseSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE
                     case PRESENTATION_SEG:
                         TRACE_PGSSUB(_T("CPGSSub:PRESENTATION_SEG   %s (size=%d)\n"), ReftimeToString(rtStart), m_nSegSize);
 
+                        if (rtStart == INVALID_TIME) {
+                            break;
+                        }
+
                         // Update the timestamp for the previous segment
                         UpdateTimeStamp(rtStart);
 
