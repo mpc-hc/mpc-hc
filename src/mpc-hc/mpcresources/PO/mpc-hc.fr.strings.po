@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-09-20 10:40+0000\n"
+"POT-Creation-Date: 2014-09-29 21:09:08+0000\n"
+"PO-Revision-Date: 2014-09-30 15:01+0000\n"
 "Last-Translator: Underground78\n"
 "Language-Team: French (http://www.transifex.com/projects/p/mpc-hc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -1334,7 +1334,7 @@ msgstr "Le décalage des sous-titres sera décrémenté/incrémenté de cette va
 
 msgctxt "IDS_HOTKEY_NOT_DEFINED"
 msgid "<not defined>"
-msgstr ""
+msgstr "<non défini>"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"

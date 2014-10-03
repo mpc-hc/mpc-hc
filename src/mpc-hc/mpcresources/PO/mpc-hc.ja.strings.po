@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-09-26 10:40+0000\n"
+"POT-Creation-Date: 2014-09-29 21:09:08+0000\n"
+"PO-Revision-Date: 2014-10-02 11:31+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -1334,7 +1334,7 @@ msgstr "字幕の遅延がこの値で、対応するホットキー (%s/%s) が
 
 msgctxt "IDS_HOTKEY_NOT_DEFINED"
 msgid "<not defined>"
-msgstr ""
+msgstr "<未定義>"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2478,7 +2478,7 @@ msgstr "音量のブースト 最大"
 
 msgctxt "IDS_USAGE"
 msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "使用方法: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\t最初のファイルかフォルダが読み込まれる (ワイルドカード使用可, \"-\" が標準入力を表す)\n/dub \"dubname\"\t追加の音声ファイルを読み込む\n/dubdelay \"file\"\t追加の音声ファイルを XXms シフトして読み込む (ファイルが \"...DELAY XXms...\" を含む場合)\n/d3dfs\t\tDirect3D フルスクリーン モードで起動する\n/sub \"subname\"\t追加の字幕ファイルを読み込む\n/filter \"filtername\"\tDLL から DirectShow フィルタを読み込む (ワイルドカード使用可)\n/dvd\t\tDVD モードで起動する, \"pathname\" は DVD フォルダを表す (省略可能)\n/dvdpos T#C\tタイトル T のチャプター C から再生する\n/dvdpos T#hh:mm\tタイトル T の位置 hh:mm:ss から再生する\n/cd\t\tオーディオ CD または (S)VCD の全トラックを読み込む, \"pathname\" はドライブ パスを指定する (省略可能)\n/device\t\t既定のビデオ デバイスを開く\n/open\t\t自動で再生を開始せずにファイルを開く\n/play\t\tプレーヤーの起動と同時にファイルを再生する\n/close\t\t再生終了後にプレーヤーを終了する (/play 使用時のみ有効)\n/shutdown \t再生終了後に OS をシャットダウンする\n/fullscreen\t全画面表示モードで起動する\n/minimized\t最小化モードで起動する\n/new\t\t新しいプレーヤーを起動する\n/add\t\t\"pathname\" を再生リストに追加する, /open 及び /play と同時に使用できる\n/regvid\t\t動画ファイルを関連付ける\n/regaud\t\t音声ファイルを関連付ける\n/regpl\t\t再生リスト ファイルを関連付ける\n/regall\t\tサポートされているすべてのファイルの種類を関連付ける\n/unregall\t\tすべてのファイルの関連付けを解除する\n/start ms\t\t\"ms\" (ミリ秒) の位置から再生する\n/startpos hh:mm:ss\thh:mm:ss の位置から再生する\n/fixedsize w,h\tウィンドウ サイズを固定する\n/monitor N\tN 番目のモニタで起動する (N は 1 から始まる) \n/audiorenderer N\tN 番目のオーディオ レンダラを使用する (N は 1 から始まる) \n\t\t(\"出力\" 設定を参照)\n/shaderpreset \"Pr\"\t\"Pr\" シェーダ プリセットを使用する\n/reset\t\t既定の設定を復元する\n/help /h /?\tコマンド ライン スイッチのヘルプを表示する\n"
+msgstr "使用方法: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\t最初のファイルかフォルダが読み込まれる (ワイルドカードの使用可, \"-\" が標準入力を表す)\n/dub \"dubname\"\t追加の音声ファイルを読み込む\n/dubdelay \"file\"\t追加の音声ファイルを XXms シフトして読み込む (ファイルが \"...DELAY XXms...\" を含む場合)\n/d3dfs\t\tDirect3D フルスクリーン モードで起動する\n/sub \"subname\"\t追加の字幕ファイルを読み込む\n/filter \"filtername\"\tDLL から DirectShow フィルタを読み込む (ワイルドカードの使用可)\n/dvd\t\tDVD モードで起動する, \"pathname\" は DVD フォルダを表す (省略可能)\n/dvdpos T#C\tタイトル T のチャプター C から再生する\n/dvdpos T#hh:mm\tタイトル T の位置 hh:mm:ss から再生する\n/cd\t\tオーディオ CD または (S)VCD の全トラックを読み込む, \"pathname\" はドライブ パスを指定する (省略可能)\n/device\t\t既定のビデオ デバイスを開く\n/open\t\t自動で再生を開始せずにファイルを開く\n/play\t\tプレーヤーの起動と同時にファイルを再生する\n/close\t\t再生終了後にプレーヤーを終了する (/play 使用時のみ有効)\n/shutdown \t再生終了後に OS をシャットダウンする\n/fullscreen\t全画面表示モードで起動する\n/minimized\t最小化モードで起動する\n/new\t\t新しいプレーヤーを起動する\n/add\t\t\"pathname\" を再生リストに追加する, /open 及び /play と同時に使用できる\n/regvid\t\t動画ファイルを関連付ける\n/regaud\t\t音声ファイルを関連付ける\n/regpl\t\t再生リスト ファイルを関連付ける\n/regall\t\tサポートされているすべてのファイルの種類を関連付ける\n/unregall\t\tすべてのファイルの関連付けを解除する\n/start ms\t\t\"ms\" (ミリ秒) の位置から再生する\n/startpos hh:mm:ss\thh:mm:ss の位置から再生する\n/fixedsize w,h\tウィンドウ サイズを固定する\n/monitor N\tN 番目のモニタで起動する (N は 1 から始まる) \n/audiorenderer N\tN 番目のオーディオ レンダラを使用する (N は 1 から始まる) \n\t\t(\"出力\" 設定を参照)\n/shaderpreset \"Pr\"\t\"Pr\" シェーダ プリセットを使用する\n/reset\t\t既定の設定を復元する\n/help /h /?\tコマンド ライン スイッチのヘルプを表示する\n"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -3518,11 +3518,11 @@ msgstr "すべてのファイル形式に関連付けます"
 
 msgctxt "IDC_ASSOCIATE_VIDEO_FORMATS"
 msgid "Associate with video formats only"
-msgstr "動画ファイル形式のみに関連付けます"
+msgstr "動画ファイル形式にのみ関連付けます"
 
 msgctxt "IDC_ASSOCIATE_AUDIO_FORMATS"
 msgid "Associate with audio formats only"
-msgstr "音声ファイル形式のみに関連付けます"
+msgstr "音声ファイル形式にのみ関連付けます"
 
 msgctxt "IDC_CLEAR_ALL_ASSOCIATIONS"
 msgid "Clear all associations"

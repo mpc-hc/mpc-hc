@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-09-27 01:40+0000\n"
+"POT-Creation-Date: 2014-09-29 21:09:08+0000\n"
+"PO-Revision-Date: 2014-10-01 18:03+0000\n"
 "Last-Translator: M. Somsak\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/mpc-hc/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -244,7 +244,7 @@ msgstr "ล้มเหลวในการแปลผลบางพินข
 
 msgctxt "IDS_DVD_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for DVD playback"
-msgstr "ล้มเหลวในการสอบหาแบบประสานที่จำเป็นสำหรับการเล่นดีวีดี"
+msgstr "ล้มเหลวในการสอบหาส่วนประสานที่จำเป็นสำหรับการเล่นดีวีดี"
 
 msgctxt "IDS_CAPTURE_LIVE"
 msgid "Live"
@@ -352,7 +352,7 @@ msgstr "ค่าตั้งต้นระบบ"
 
 msgctxt "IDS_GRAPH_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for playback"
-msgstr "ล้มเหลวในการสอบหาแบบประสานที่จำเป็นสำหรับการเล่น"
+msgstr "ล้มเหลวในการสอบหาส่วนประสานที่จำเป็นสำหรับการเล่น"
 
 msgctxt "IDS_GRAPH_TARGET_WND_ERROR"
 msgid "Could not set target window for graph notification"
@@ -552,7 +552,7 @@ msgstr "การเล่น::ขาออก"
 
 msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
-msgstr "เครื่องเล่น::แบบประสานเว็บ"
+msgstr "เครื่องเล่น::ส่วนประสานเว็บ"
 
 msgctxt "IDD_PPAGESUBDB"
 msgid "Subtitles::Database"
@@ -756,7 +756,7 @@ msgstr "ชนิด MIME"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_INFO"
 msgid "In order to view an embedded resource in your browser you have to enable the web interface.\n\nUse the \"Save As\" button if you only want to save the information."
-msgstr "เพื่อที่จะดูทรัพยากรที่ฝังไว้ในเบราว์เซอร์ของคุณ คุณต้องเลือกใช้งานแบบประสานเว็บ\n\nใช้ปุ่ม \"บันทึกเป็น\" ถ้าคุณเพียงต้องการบันทึกข้อมูลเท่านั้น"
+msgstr "เพื่อที่จะดูทรัพยากรที่ฝังไว้ในเบราว์เซอร์ของคุณ คุณต้องเลือกใช้งานส่วนประสานเว็บ\n\nใช้ปุ่ม \"บันทึกเป็น\" ถ้าคุณเพียงต้องการบันทึกข้อมูลเท่านั้น"
 
 msgctxt "IDS_DOWNLOAD_SUBS"
 msgid "Download subtitles"
@@ -1320,7 +1320,7 @@ msgstr "ปิดจอภาพ"
 
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
 msgid "JPEG Image"
-msgstr "ภาพ JPEG"
+msgstr "รูปภาพ JPEG"
 
 msgctxt "IDS_IMAGE_QUALITY"
 msgid "Quality (%):"
@@ -1336,7 +1336,7 @@ msgstr "การหน่วงศัพท์บรรยายจะถูก
 
 msgctxt "IDS_HOTKEY_NOT_DEFINED"
 msgid "<not defined>"
-msgstr ""
+msgstr "<ไม่ได้กำหนด>"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1348,15 +1348,15 @@ msgstr "บันทึกเป็น"
 
 msgctxt "IDS_AG_SAVE_IMAGE"
 msgid "Save Image"
-msgstr "บันทึกภาพ"
+msgstr "บันทึกรูปภาพ"
 
 msgctxt "IDS_MPLAYERC_6"
 msgid "Save Image (auto)"
-msgstr "บันทึกภาพ (อัตโนมัติ)"
+msgstr "บันทึกรูปภาพ (อัตโนมัติ)"
 
 msgctxt "IDS_OSD_IMAGE_SAVED"
 msgid "Image saved successfully"
-msgstr "ภาพถูกบันทึกสำเร็จ"
+msgstr "รูปภาพถูกบันทึกสำเร็จ"
 
 msgctxt "IDS_AG_LOAD_SUBTITLE"
 msgid "Load Subtitle"
@@ -2088,11 +2088,11 @@ msgstr "DVD: Macrovision ล้มเหลว"
 
 msgctxt "IDS_MAINFRM_22"
 msgid "DVD: Incompatible System And Decoder Regions"
-msgstr "DVD: ระบบและเขตตัวถอดรหัสที่ไม่เข้ากัน"
+msgstr "DVD: ระบบและภูมิภาคตัวถอดรหัสที่ไม่เข้ากัน"
 
 msgctxt "IDS_MAINFRM_23"
 msgid "DVD: Incompatible Disc And Decoder Regions"
-msgstr "DVD: ดิสก์และเขตตัวถอดรหัสที่ไม่เข้ากัน"
+msgstr "DVD: ดิสก์และภูมิภาคตัวถอดรหัสที่ไม่เข้ากัน"
 
 msgctxt "IDS_D3DFS_WARNING"
 msgid "This option is designed to avoid tearing. However, it will also prevent MPC-HC from displaying the context menu and any dialog box during playback.\n\nDo you really want to activate this option?"
@@ -2120,7 +2120,7 @@ msgstr "คอลัมน์:"
 
 msgctxt "IDS_THUMB_IMAGE_WIDTH"
 msgid "Image width"
-msgstr "ความกว้างภาพ"
+msgstr "ความกว้างรูปภาพ"
 
 msgctxt "IDS_PPSDB_URLCORRECT"
 msgid "The URL appears to be correct!"
@@ -2208,7 +2208,7 @@ msgstr "หน่วยความจำไม่เพียงพอ, คว�
 
 msgctxt "IDS_THUMBNAILS_INVALID_FORMAT"
 msgid "Invalid image format, cannot create thumbnails out of %d bpp dibs."
-msgstr "รูปแบบภาพไม่ถูกต้อง, ไม่สามารถสร้างรูปย่อออกจาก %d bpp dibs."
+msgstr "รูปแบบรูปภาพไม่ถูกต้อง, ไม่สามารถสร้างรูปย่อออกจาก %d bpp dibs"
 
 msgctxt "IDS_THUMBNAILS_INFO_FILESIZE"
 msgid "File Size: %s (%s bytes)\\N"
@@ -3340,19 +3340,19 @@ msgstr "ไม่สามารถเดินเฟรม โปรดลอ�
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for RealMedia.\nSelect one of the DirectX renderers for RealMedia in MPC-HC's output options and reopen the file."
-msgstr "ฟังก์ชัน \"บันทึกภาพ\" และ \"บันทึกรูปย่อ\" ไม่ทำงานกับตัวแปลผลวิดีโอตั้งต้นสำหรับ RealMedia\nจงเลือกหนึ่งตัวแปลผล DirectX สำหรับ RealMedia ในตัวเลือกขาออกของ MPC-HC แล้วเปิดไฟล์อีกครั้ง"
+msgstr "ฟังก์ชัน \"บันทึกรูปภาพ\" และ \"บันทึกรูปย่อ\" ไม่ทำงานกับตัวแปลผลวิดีโอตั้งต้นสำหรับ RealMedia\nจงเลือกหนึ่งตัวแปลผล DirectX สำหรับ RealMedia ในตัวเลือกขาออกของ MPC-HC แล้วเปิดไฟล์อีกครั้ง"
 
 msgctxt "IDS_SCREENSHOT_ERROR_QT"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for QuickTime.\nSelect one of the DirectX renderers for QuickTime in MPC-HC's output options and reopen the file."
-msgstr "ฟังก์ชัน \"บันทึกภาพ\" และ \"บันทึกรูปย่อ\" ไม่ทำงานกับตัวแปลผลวิดีโอตั้งต้นสำหรับ QuickTime\nเลือกหนึ่งตัวแปลผล DirectX สำหรับ QuickTime ในตัวเลือกขาออกของ MPC-HC แล้วเปิดไฟล์อีกครั้ง"
+msgstr "ฟังก์ชัน \"บันทึกรูปภาพ\" และ \"บันทึกรูปย่อ\" ไม่ทำงานกับตัวแปลผลวิดีโอตั้งต้นสำหรับ QuickTime\nเลือกหนึ่งตัวแปลผล DirectX สำหรับ QuickTime ในตัวเลือกขาออกของ MPC-HC แล้วเปิดไฟล์อีกครั้ง"
 
 msgctxt "IDS_SCREENSHOT_ERROR_SHOCKWAVE"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work for Shockwave files."
-msgstr "ฟังก์ชัน \"บันทึกภาพ\" และ \"บันทึกรูปย่อ\" ไม่ทำงานกับไฟล์ Shockwave"
+msgstr "ฟังก์ชัน \"บันทึกรูปภาพ\" และ \"บันทึกรูปย่อ\" ไม่ทำงานกับไฟล์ Shockwave"
 
 msgctxt "IDS_SCREENSHOT_ERROR_OVERLAY"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the Overlay Mixer video renderer.\nChange the video renderer in MPC's output options and reopen the file."
-msgstr "ฟังก์ชัน \"บันทึกภาพ\" และ \"บันทึกรูปย่อ\" ไม่ทำงานกับตัวแปลผลวิดีโอ Overlay Mixer\nจงเปลี่ยนตัวแปลผลวิดีโอในตัวเลือกขาออกของ MPC และเปิดไฟล์อีกครั้ง"
+msgstr "ฟังก์ชัน \"บันทึกรูปภาพ\" และ \"บันทึกรูปย่อ\" ไม่ทำงานกับตัวแปลผลวิดีโอ Overlay Mixer\nจงเปลี่ยนตัวแปลผลวิดีโอในตัวเลือกขาออกของ MPC และเปิดไฟล์อีกครั้ง"
 
 msgctxt "IDS_SUBDL_DLG_CONNECT_ERROR"
 msgid "Cannot connect to the online subtitles database."

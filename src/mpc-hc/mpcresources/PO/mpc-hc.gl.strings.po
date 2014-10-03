@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-09-20 09:58+0000\n"
-"Last-Translator: JellyFrog\n"
+"POT-Creation-Date: 2014-09-29 21:09:08+0000\n"
+"PO-Revision-Date: 2014-10-02 00:20+0000\n"
+"Last-Translator: Toño Calo <enfeitizador@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/mpc-hc/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,11 +19,11 @@ msgstr ""
 
 msgctxt "IDS_INFOBAR_LOCATION"
 msgid "Location"
-msgstr "Ubicación"
+msgstr "Localización"
 
 msgctxt "IDS_INFOBAR_VIDEO"
 msgid "Video"
-msgstr "Video"
+msgstr "Vídeo"
 
 msgctxt "IDS_INFOBAR_AUDIO"
 msgid "Audio"
@@ -39,23 +39,23 @@ msgstr "Capítulo"
 
 msgctxt "IDS_CONTROLS_COMPLETING"
 msgid "Completing..."
-msgstr "Completando..."
+msgstr "Concluíndo..."
 
 msgctxt "IDS_AUTOPLAY_PLAYVIDEO"
 msgid "Play Video"
-msgstr "Reproducir VÍdeo"
+msgstr "Reproducir vídeo"
 
 msgctxt "IDS_AUTOPLAY_PLAYMUSIC"
 msgid "Play Music"
-msgstr "Reproducir Música"
+msgstr "Reproducir música"
 
 msgctxt "IDS_AUTOPLAY_PLAYAUDIOCD"
 msgid "Play Audio CD"
-msgstr "Reproducir CD de Audio"
+msgstr "Reproducir CD de audio"
 
 msgctxt "IDS_AUTOPLAY_PLAYDVDMOVIE"
 msgid "Play DVD Movie"
-msgstr "Reproducir Pelicua en DVD"
+msgstr "Reproducir filme en DVD"
 
 msgctxt "IDS_PROPSHEET_PROPERTIES"
 msgid "Properties"
@@ -95,7 +95,7 @@ msgstr "Fluctuación"
 
 msgctxt "IDS_STATSBAR_BITRATE"
 msgid "Bitrate"
-msgstr "Taxa de bits"
+msgstr "Velocidade de bits"
 
 msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
 msgid "(avg/cur)"
@@ -879,7 +879,7 @@ msgstr "Paso\nPaso"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "Decrease speed\nDecrease speed"
-msgstr "Disminuir velocidade\nDisminuir velocidade"
+msgstr "Diminuír velocidade\nDiminuír velocidade"
 
 msgctxt "ID_PLAY_INCRATE"
 msgid "Increase speed\nIncrease speed"
@@ -1331,11 +1331,11 @@ msgstr "Tamaño máximo (NxN px) da portada cargada no modo só audio."
 
 msgctxt "IDS_SUBTITLE_DELAY_STEP_TOOLTIP"
 msgid "The subtitle delay will be decreased/increased by this value each time the corresponding hotkeys are used (%s/%s)."
-msgstr ""
+msgstr "O atraso do subtítulo será diminuído/aumentado por este valor cada vez que o correspondente atallo de teclado se use (%s/%s)."
 
 msgctxt "IDS_HOTKEY_NOT_DEFINED"
 msgid "<not defined>"
-msgstr ""
+msgstr "<Non definido>"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1531,7 +1531,7 @@ msgstr "Erro de BDA"
 
 msgctxt "IDS_AG_DECREASE_RATE"
 msgid "Decrease Rate"
-msgstr "Disminuir Velocidade"
+msgstr "Diminuír taxa"
 
 msgctxt "IDS_AG_RESET_RATE"
 msgid "Reset Rate"
@@ -2043,7 +2043,7 @@ msgstr "Reproducir con MPC-HC"
 
 msgctxt "IDS_CANNOT_CHANGE_FORMAT"
 msgid "MPC-HC has not enough privileges to change files formats associations. Please click on the \"Run as administrator\" button."
-msgstr ""
+msgstr "MPC-HC non ten suficientes privilexios para cambiar as asociacións de formatos dos ficheiros. Prema no botón \"Executar como administrador\"."
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
@@ -2447,7 +2447,7 @@ msgstr "Desactivado"
 
 msgctxt "IDS_AG_VSYNCOFFSET_DECREASE"
 msgid "Decrease VSync Offset"
-msgstr "Disminuir Compensación de Vsync"
+msgstr "Diminuír desprazamento VSync"
 
 msgctxt "IDS_MAINFRM_136"
 msgid "MPC-HC D3D Fullscreen"
@@ -2467,7 +2467,7 @@ msgstr "Incremento do Aumento de Volume"
 
 msgctxt "IDS_VOLUME_BOOST_DEC"
 msgid "Volume boost decrease"
-msgstr "Disminución do Aumento de Volume"
+msgstr "Diminución do aumento de volume"
 
 msgctxt "IDS_VOLUME_BOOST_MIN"
 msgid "Volume boost Min"
@@ -3183,7 +3183,7 @@ msgstr "Procesamento en punto flotante de 16-bit: Apagado"
 
 msgctxt "IDS_BRIGHTNESS_DEC"
 msgid "Brightness decrease"
-msgstr "Disminuir brillo"
+msgstr "Diminuír luminosidade"
 
 msgctxt "IDS_CONTRAST_INC"
 msgid "Contrast increase"
@@ -3191,7 +3191,7 @@ msgstr "Aumentar contraste"
 
 msgctxt "IDS_CONTRAST_DEC"
 msgid "Contrast decrease"
-msgstr "Disminuir contraste"
+msgstr "Diminuír contraste"
 
 msgctxt "IDS_HUE_INC"
 msgid "Hue increase"
@@ -3199,7 +3199,7 @@ msgstr "Incrementar Matiz"
 
 msgctxt "IDS_HUE_DEC"
 msgid "Hue decrease"
-msgstr "Disminuir Matiz"
+msgstr "Diminuír matiz"
 
 msgctxt "IDS_SATURATION_INC"
 msgid "Saturation increase"
@@ -3207,7 +3207,7 @@ msgstr "Aumentar saturación"
 
 msgctxt "IDS_SATURATION_DEC"
 msgid "Saturation decrease"
-msgstr "Disminuir saturación"
+msgstr "Diminuír saturación"
 
 msgctxt "IDS_RESET_COLOR"
 msgid "Reset color settings"
@@ -3515,19 +3515,19 @@ msgstr "Se  \"O último fotograma clave\" está seleccionado, buscarase o primei
 
 msgctxt "IDC_ASSOCIATE_ALL_FORMATS"
 msgid "Associate with all formats"
-msgstr ""
+msgstr "Asociar con todos os formatos"
 
 msgctxt "IDC_ASSOCIATE_VIDEO_FORMATS"
 msgid "Associate with video formats only"
-msgstr ""
+msgstr "Asociar só con formatos de vídeo"
 
 msgctxt "IDC_ASSOCIATE_AUDIO_FORMATS"
 msgid "Associate with audio formats only"
-msgstr ""
+msgstr "Asociar só con formatos de audio"
 
 msgctxt "IDC_CLEAR_ALL_ASSOCIATIONS"
 msgid "Clear all associations"
-msgstr ""
+msgstr "Limpar todas as asociacións"
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"

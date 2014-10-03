@@ -14,8 +14,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-09-22 08:00+0000\n"
+"POT-Creation-Date: 2014-09-29 21:09:08+0000\n"
+"PO-Revision-Date: 2014-10-01 18:03+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/mpc-hc/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -1342,7 +1342,7 @@ msgstr "El retardo del subtítulo será reducido/aumentado por este valor cada v
 
 msgctxt "IDS_HOTKEY_NOT_DEFINED"
 msgid "<not defined>"
-msgstr ""
+msgstr "<sin definir>"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -3354,11 +3354,11 @@ msgstr "Las funciones «Guardar imagen» y «Guardar miniaturas» no funcionan c
 
 msgctxt "IDS_SCREENSHOT_ERROR_SHOCKWAVE"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work for Shockwave files."
-msgstr "Las funciones \"Guardar imagen\" y \"Guardar miniaturas\" no funcionan para archivos Shockwave."
+msgstr "Las funciones «Guardar imagen» y «Guardar miniaturas» no funcionan para los archivos Shockwave."
 
 msgctxt "IDS_SCREENSHOT_ERROR_OVERLAY"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the Overlay Mixer video renderer.\nChange the video renderer in MPC's output options and reopen the file."
-msgstr "Las funciones \"Guardar imagen\" y \"Guardar miniaturas\" no funcionan en el renderizado de vídeo con Overlay Mixer.\nCambia el renderizado de vídeo en las opciones de salida de MPC y abra el archivo de nuevo."
+msgstr "Las funciones «Guardar imagen» y «Guardar miniaturas» no funcionan con el representador de vídeo Overlay Mixer.\nCambie el representador de vídeo en las opciones de salida de MPC y abra el archivo de nuevo."
 
 msgctxt "IDS_SUBDL_DLG_CONNECT_ERROR"
 msgid "Cannot connect to the online subtitles database."

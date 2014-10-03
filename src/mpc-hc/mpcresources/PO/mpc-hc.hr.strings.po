@@ -10,9 +10,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-09-20 09:58+0000\n"
-"Last-Translator: JellyFrog\n"
+"POT-Creation-Date: 2014-09-29 21:09:08+0000\n"
+"PO-Revision-Date: 2014-10-01 18:03+0000\n"
+"Last-Translator: schop <aprcel00@fesb.hr>\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/mpc-hc/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1334,11 +1334,11 @@ msgstr "Maksimalna veličina (NxNpx) naslovnice pokrenute u načinu samo za zvuk
 
 msgctxt "IDS_SUBTITLE_DELAY_STEP_TOOLTIP"
 msgid "The subtitle delay will be decreased/increased by this value each time the corresponding hotkeys are used (%s/%s)."
-msgstr ""
+msgstr "Podnaslovi će biti povećani/umanjeni s ovom vrijednošću prilikom svakog pritiskanja određenih tipki koje su podešene (%s/%s)."
 
 msgctxt "IDS_HOTKEY_NOT_DEFINED"
 msgid "<not defined>"
-msgstr ""
+msgstr "<nije definirano>"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2046,7 +2046,7 @@ msgstr "otvori sa MPC-HC"
 
 msgctxt "IDS_CANNOT_CHANGE_FORMAT"
 msgid "MPC-HC has not enough privileges to change files formats associations. Please click on the \"Run as administrator\" button."
-msgstr ""
+msgstr "MPC-HC nema dovoljno privilegija da bi promijenio asocijacije formata. Molimo pritisnite na botun \"Pokreni kao administrator\"."
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
@@ -3518,19 +3518,19 @@ msgstr "Ako je odabran \"posljednji keyframe\", skoči na prvi prethodni keyfram
 
 msgctxt "IDC_ASSOCIATE_ALL_FORMATS"
 msgid "Associate with all formats"
-msgstr ""
+msgstr "Asociraj sa svim formatima"
 
 msgctxt "IDC_ASSOCIATE_VIDEO_FORMATS"
 msgid "Associate with video formats only"
-msgstr ""
+msgstr "Asociraj samo s video formatima"
 
 msgctxt "IDC_ASSOCIATE_AUDIO_FORMATS"
 msgid "Associate with audio formats only"
-msgstr ""
+msgstr "Asociraj samo s audio formatima"
 
 msgctxt "IDC_CLEAR_ALL_ASSOCIATIONS"
 msgid "Clear all associations"
-msgstr ""
+msgstr "Počisti sve asocijacije"
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"

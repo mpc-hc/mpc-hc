@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-09-24 01:10+0000\n"
+"PO-Revision-Date: 2014-10-01 18:03+0000\n"
 "Last-Translator: M. Somsak\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/mpc-hc/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -839,7 +839,7 @@ msgstr "ตกลง"
 
 msgctxt "IDD_PNSPRESET_DLG_CAPTION"
 msgid "Pan&Scan Presets"
-msgstr "ค่าสำเร็จรูป การส่องและกวาด"
+msgstr "ค่าสำเร็จรูปการส่องและกวาด"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"
 msgid "New"
@@ -1527,7 +1527,7 @@ msgstr "ชอบแทร็คศัพท์บรรยายตั้งต
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK2"
 msgid "Prefer external subtitles over embedded subtitles"
-msgstr "ชอบศัพท์บรรยายภายนอกมากกว่าศัพท์บรรยายที่ถูกฝังไว้"
+msgstr "ชอบศัพท์บรรยายภายนอก มากกว่าศัพท์บรรยายที่ถูกฝังไว้"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK3"
 msgid "Ignore embedded subtitles"

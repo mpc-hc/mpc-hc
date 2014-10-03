@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-09-29 18:50+0000\n"
+"POT-Creation-Date: 2014-09-29 21:09:08+0000\n"
+"PO-Revision-Date: 2014-10-03 13:10+0000\n"
 "Last-Translator: Luan <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -1337,11 +1337,11 @@ msgstr "Beschränkt die Anzeige des Audio-Covers auf NxN Pixel."
 
 msgctxt "IDS_SUBTITLE_DELAY_STEP_TOOLTIP"
 msgid "The subtitle delay will be decreased/increased by this value each time the corresponding hotkeys are used (%s/%s)."
-msgstr "Bestimmt die stufenweise Anpassung der Untertitelverzögerung während der Wiedergabe durch die Tastenbefehle %s und %s."
+msgstr "Bestimmt die Schrittweite der Untertitelverzögerung bei Druck der Tasten %s und %s. Kleinere Werte erlauben zwar eine feinere Abstimmung, erschweren aber die Einstellung größerer Verzögerungen."
 
 msgctxt "IDS_HOTKEY_NOT_DEFINED"
 msgid "<not defined>"
-msgstr ""
+msgstr "<nicht definiert>"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1437,7 +1437,7 @@ msgstr "Freizeit/Hobbies"
 
 msgctxt "IDS_FILE_RECYCLE"
 msgid "Move to Recycle Bin"
-msgstr "Datei lös&chen"
+msgstr "Datei löschen"
 
 msgctxt "IDS_AG_SAVE_COPY"
 msgid "Save a Copy"

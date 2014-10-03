@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Rubén <feiticeiro2010@hotmail.es>, 2014
+# Toño Calo <enfeitizador@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-06-17 15:23:34+0000\n"
-"PO-Revision-Date: 2014-08-02 17:40+0000\n"
-"Last-Translator: Rubén <feiticeiro2010@hotmail.es>\n"
+"PO-Revision-Date: 2014-10-02 00:20+0000\n"
+"Last-Translator: Toño Calo <enfeitizador@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/mpc-hc/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,7 +27,7 @@ msgstr "[name] require Windows XP Service Pack 3 ou posterior."
 
 msgctxt "CustomMessages_comp_mpciconlib"
 msgid "Icon Library"
-msgstr "Libraría de iconas"
+msgstr "Biblioteca de iconas"
 
 msgctxt "CustomMessages_comp_mpcresources"
 msgid "Translations"
@@ -50,7 +51,7 @@ msgstr "Esta versión de MPC-HC require unha CPU con soporte para a extensión S
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
-msgstr "Visite a nosa páxina da wiki para descargar imaxes da barra de ferramentas"
+msgstr "Visite a nosa Wiki para descargar imaxes da barra de ferramentas"
 
 msgctxt "CustomMessages_tsk_AllUsers"
 msgid "For all users"
@@ -70,7 +71,7 @@ msgstr "Reiniciar axustes"
 
 msgctxt "CustomMessages_types_DefaultInstallation"
 msgid "Default installation"
-msgstr "Instalación por defecto"
+msgstr "Instalación predefinida"
 
 msgctxt "CustomMessages_types_CustomInstallation"
 msgid "Custom installation"
@@ -78,5 +79,5 @@ msgstr "Instalación personalizada"
 
 msgctxt "CustomMessages_ViewChangelog"
 msgid "View Changelog"
-msgstr "Ver rexistro de cambios"
+msgstr "Ver rexistro de modificacións"
 
