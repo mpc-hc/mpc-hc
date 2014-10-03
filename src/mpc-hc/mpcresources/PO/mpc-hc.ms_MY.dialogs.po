@@ -293,7 +293,7 @@ msgid "Snap to desktop edges"
 msgstr "Lekap ke pinggir dekstop"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK8"
-msgid "Store settings to .ini file"
+msgid "Store settings in .ini file"
 msgstr "Simpan tetapan ke fail .ini"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"

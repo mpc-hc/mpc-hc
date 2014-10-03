@@ -295,7 +295,7 @@ msgid "Snap to desktop edges"
 msgstr "Aan bureaubladrand aanpassen"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK8"
-msgid "Store settings to .ini file"
+msgid "Store settings in .ini file"
 msgstr "Instellingen in .ini bestand opslaan"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"

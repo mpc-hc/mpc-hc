@@ -293,7 +293,7 @@ msgid "Snap to desktop edges"
 msgstr "Finkatu mahigain hertzetara"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK8"
-msgid "Store settings to .ini file"
+msgid "Store settings in .ini file"
 msgstr "Biltegiratu ezarpenak .ini agirira"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"

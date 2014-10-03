@@ -246,7 +246,7 @@ BEGIN
     CONTROL         "Show OSD (requires restart)",IDC_SHOW_OSD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,30,160,8
     CONTROL         "Limit window proportions on resize",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,43,160,8
     CONTROL         "Snap to desktop edges",IDC_CHECK12,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,56,160,8
-    CONTROL         "Store settings to .ini file",IDC_CHECK8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,69,160,8
+    CONTROL         "Store settings in .ini file",IDC_CHECK8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,69,160,8
     CONTROL         "Disable ""Open Disc"" menu",IDC_CHECK10,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,82,160,8
     CONTROL         "Process priority above normal",IDC_CHECK9,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,95,160,8
     CONTROL         "Enable cover-art support",IDC_CHECK14,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,108,160,8

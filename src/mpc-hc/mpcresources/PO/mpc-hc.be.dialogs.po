@@ -292,7 +292,7 @@ msgid "Snap to desktop edges"
 msgstr "Прыліпаць да межаў экрана"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK8"
-msgid "Store settings to .ini file"
+msgid "Store settings in .ini file"
 msgstr "Захоўваць налады ў .ini файле"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"

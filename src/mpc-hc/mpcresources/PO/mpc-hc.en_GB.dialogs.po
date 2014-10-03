@@ -294,8 +294,8 @@ msgid "Snap to desktop edges"
 msgstr "Snap to desktop edges"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK8"
-msgid "Store settings to .ini file"
-msgstr "Store settings to .ini file"
+msgid "Store settings in .ini file"
+msgstr "Store settings in .ini file"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"
 msgid "Disable \"Open Disc\" menu"

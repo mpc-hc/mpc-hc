@@ -295,7 +295,7 @@ msgid "Snap to desktop edges"
 msgstr "ডেস্কটপের সীমানাপ্রান্ত পর্যন্ত বিস্তার"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK8"
-msgid "Store settings to .ini file"
+msgid "Store settings in .ini file"
 msgstr "সেটিংসমূহ .ini ফাইলে সংরক্ষণ"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"

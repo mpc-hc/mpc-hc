@@ -294,7 +294,7 @@ msgid "Snap to desktop edges"
 msgstr "Prichytiť k okrajom plochy"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK8"
-msgid "Store settings to .ini file"
+msgid "Store settings in .ini file"
 msgstr "Ukladať nastavenia do súboru .ini"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"

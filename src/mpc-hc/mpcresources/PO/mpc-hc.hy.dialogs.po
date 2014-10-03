@@ -293,7 +293,7 @@ msgid "Snap to desktop edges"
 msgstr "Ամրացնել էկրանի սահմաններին"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK8"
-msgid "Store settings to .ini file"
+msgid "Store settings in .ini file"
 msgstr "Պահպանել կարգավորումները .ini ֆայլում"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"

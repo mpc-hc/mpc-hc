@@ -294,7 +294,7 @@ msgid "Snap to desktop edges"
 msgstr "Chụp để cạnh máy tính để bàn"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK8"
-msgid "Store settings to .ini file"
+msgid "Store settings in .ini file"
 msgstr "Lưu thiết lập ra tệp .ini"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"

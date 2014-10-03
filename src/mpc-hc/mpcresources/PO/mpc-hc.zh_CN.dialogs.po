@@ -294,7 +294,7 @@ msgid "Snap to desktop edges"
 msgstr "吸附到桌面边缘"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK8"
-msgid "Store settings to .ini file"
+msgid "Store settings in .ini file"
 msgstr "保存设置到 .ini 文件中"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"

@@ -298,7 +298,7 @@ msgid "Snap to desktop edges"
 msgstr "Fenster an Desktoprand andocken"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK8"
-msgid "Store settings to .ini file"
+msgid "Store settings in .ini file"
 msgstr "Einstellungen als Datei (.ini) speichern"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"
