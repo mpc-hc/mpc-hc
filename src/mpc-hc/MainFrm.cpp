@@ -14295,8 +14295,8 @@ void CMainFrame::ShowOptions(int idPage/* = 0*/)
         CPPageSheet options(ResStr(IDS_OPTIONS_CAPTION), m_pGB, GetModalParent(), idPage);
         iRes = options.DoModal();
         idPage = 0; // If we are to show the dialog again, always show the latest page
-    } while (iRes == IDRETRY); // IDRETRY means we quited the dialog so that the language change is applied
-    ASSERT(iRes > 0 && iRes != IDABORT);
+    } while (iRes == CPPageSheet::APPLY_LANGUAGE_CHANGE); // check if we exited the dialog so that the language change can be applied
+    ASSERT(iRes > 0 && iRes != CPPageSheet::APPLY_LANGUAGE_CHANGE);
 }
 
 void CMainFrame::StartWebServer(int nPort)

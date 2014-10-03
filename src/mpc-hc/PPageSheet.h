@@ -67,6 +67,11 @@ class CPPageSheet : public TreePropSheet::CTreePropSheet
 {
     DECLARE_DYNAMIC(CPPageSheet)
 
+public:
+    enum {
+        APPLY_LANGUAGE_CHANGE = 100 // 100 is a magic number than won't collide with WinAPI constants
+    };
+
 private:
     bool m_bLockPage;
     bool m_bLanguageChanged;

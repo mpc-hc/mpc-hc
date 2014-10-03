@@ -132,10 +132,10 @@ void CPPageSheet::OnApply()
     // Execute the default actions first
     Default();
 
-    // If the language was changed, we quit the dialog and return IDRETRY code
+    // If the language was changed, we quit the dialog and inform the caller about it
     if (m_bLanguageChanged) {
         m_bLanguageChanged = false;
-        EndDialog(IDRETRY);
+        EndDialog(APPLY_LANGUAGE_CHANGE);
     }
 }
 
