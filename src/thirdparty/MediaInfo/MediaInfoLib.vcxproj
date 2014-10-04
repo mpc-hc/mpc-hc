@@ -66,8 +66,6 @@
     <Import Project="..\..\common-3rd-party.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup>
-  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <AdditionalIncludeDirectories>.;ThirdParty\base64;ThirdParty\tinyxml2;..\ZenLib;..\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
