@@ -52,6 +52,7 @@ next version - not released yet
     - LAV Video: Fix potential artifacts when decoding x264 lossless streams
     - LAV Splitter: Support for playing AES encrypted HLS streams
     - LAV Splitter: Advanced Subtitle selection allows selecting subtitles by a string match on the stream title
+    - Ticket #3608, LAV Splitter: Fix stuttering with some (m2)ts files
     - Ticket #4322, LAV Audio: Improve the estimated duration for some MP3 files
     - Ticket #4539, LAV Video: Fix a crash with DVD subtitles on 64-bit builds when using software decoding
     - Ticket #4639, LAV Splitter: Fix incorrect colors for VobSub tracks in MP4
