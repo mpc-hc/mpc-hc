@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-09-29 21:09:08+0000\n"
-"PO-Revision-Date: 2014-10-03 13:10+0000\n"
+"PO-Revision-Date: 2014-10-19 09:22+0000\n"
 "Last-Translator: Luan <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -1329,7 +1329,7 @@ msgstr "Keine Aktion"
 
 msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
 msgid "Play next file in the folder"
-msgstr "Nächste Mediendatei öffnen"
+msgstr "Nächste Ordnerdatei öffnen"
 
 msgctxt "IDS_AFTER_PLAYBACK_REWIND"
 msgid "Rewind current file"
@@ -1617,11 +1617,11 @@ msgstr "Rückwärts (springen)"
 
 msgctxt "IDS_AG_NEXT_FILE"
 msgid "Next File"
-msgstr "Nächste Mediendatei öffnen"
+msgstr "Mediendatei vor"
 
 msgctxt "IDS_AG_PREVIOUS_FILE"
 msgid "Previous File"
-msgstr "Vorherige Mediendatei öffnen"
+msgstr "Mediendatei zurück"
 
 msgctxt "IDS_MPLAYERC_99"
 msgid "Toggle Direct3D fullscreen"
@@ -1629,11 +1629,11 @@ msgstr "Direct3D-Vollbildmodus (ein/aus)"
 
 msgctxt "IDS_MPLAYERC_100"
 msgid "Goto Prev Subtitle"
-msgstr "Untertitel rückwärts springen"
+msgstr "Untertitel-Item zurück"
 
 msgctxt "IDS_MPLAYERC_101"
 msgid "Goto Next Subtitle"
-msgstr "Untertitel vorwärts springen"
+msgstr "Untertitel-Item vor"
 
 msgctxt "IDS_MPLAYERC_102"
 msgid "Shift Subtitle Left"
@@ -1901,19 +1901,19 @@ msgstr "Optionen"
 
 msgctxt "IDS_AG_NEXT_AUDIO"
 msgid "Next Audio"
-msgstr "Audio vor"
+msgstr "Audiospur vor"
 
 msgctxt "IDS_AG_PREV_AUDIO"
 msgid "Prev Audio"
-msgstr "Audio zurück"
+msgstr "Audiospur zurück"
 
 msgctxt "IDS_AG_NEXT_SUBTITLE"
 msgid "Next Subtitle"
-msgstr "Untertitel vor"
+msgstr "Untertitelspur vor"
 
 msgctxt "IDS_AG_PREV_SUBTITLE"
 msgid "Prev Subtitle"
-msgstr "Untertitel zurück"
+msgstr "Untertitelspur zurück"
 
 msgctxt "IDS_MPLAYERC_85"
 msgid "On/Off Subtitle"
@@ -1925,19 +1925,19 @@ msgstr "Untertitel neu laden"
 
 msgctxt "IDS_MPLAYERC_87"
 msgid "Next Audio (OGM)"
-msgstr "OGM-Spur: Audio vor"
+msgstr "OGM-Spur: Audiospur vor"
 
 msgctxt "IDS_MPLAYERC_88"
 msgid "Prev Audio (OGM)"
-msgstr "OGM-Spur: Audio zurück"
+msgstr "OGM-Spur: Audiospur zurück"
 
 msgctxt "IDS_MPLAYERC_89"
 msgid "Next Subtitle (OGM)"
-msgstr "OGM-Spur: Untertitel vor"
+msgstr "OGM-Spur: Untertitelspur vor"
 
 msgctxt "IDS_MPLAYERC_90"
 msgid "Prev Subtitle (OGM)"
-msgstr "OGM-Spur: Untertitel zurück"
+msgstr "OGM-Spur: Untertitelspur zurück"
 
 msgctxt "IDS_MPLAYERC_91"
 msgid "Next Angle (DVD)"
@@ -1949,19 +1949,19 @@ msgstr "DVD-Spur: Blickwinkel zurück"
 
 msgctxt "IDS_MPLAYERC_93"
 msgid "Next Audio (DVD)"
-msgstr "DVD-Spur: Audio vor"
+msgstr "DVD-Spur: Audiospur vor"
 
 msgctxt "IDS_MPLAYERC_94"
 msgid "Prev Audio (DVD)"
-msgstr "DVD-Spur: Audio zurück"
+msgstr "DVD-Spur: Audiospur zurück"
 
 msgctxt "IDS_MPLAYERC_95"
 msgid "Next Subtitle (DVD)"
-msgstr "DVD-Spur: Untertitel vor"
+msgstr "DVD-Spur: Untertitelspur vor"
 
 msgctxt "IDS_MPLAYERC_96"
 msgid "Prev Subtitle (DVD)"
-msgstr "DVD-Spur: Untertitel zurück"
+msgstr "DVD-Spur: Untertitelspur zurück"
 
 msgctxt "IDS_MPLAYERC_97"
 msgid "On/Off Subtitle (DVD)"
@@ -2197,7 +2197,7 @@ msgstr "Untertitel: Aus"
 
 msgctxt "IDS_SUBTITLE_STREAM"
 msgid "Subtitle: %s"
-msgstr "Untertitel: %s"
+msgstr "Untertitelspur: %s"
 
 msgctxt "IDS_MAINFRM_46"
 msgid "Select the path for the DVD/BD:"
@@ -2797,7 +2797,7 @@ msgstr "Fenster von außen berühren"
 
 msgctxt "IDS_AUDIO_STREAM"
 msgid "Audio: %s"
-msgstr "Audio: %s"
+msgstr "Audiospur: %s"
 
 msgctxt "IDS_AG_REOPEN"
 msgid "Reopen File"

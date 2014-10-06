@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-09-22 08:00+0000\n"
+"PO-Revision-Date: 2014-10-05 19:20+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/mpc-hc/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -167,7 +167,7 @@ msgstr "Abrir:"
 
 msgctxt "IDD_OPEN_DLG_IDC_BUTTON1"
 msgid "Browse..."
-msgstr "Examinar..."
+msgstr "Examinar…"
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC1"
 msgid "Dub:"
@@ -175,7 +175,7 @@ msgstr "Doblaje:"
 
 msgctxt "IDD_OPEN_DLG_IDC_BUTTON2"
 msgid "Browse..."
-msgstr "Examinar..."
+msgstr "Examinar…"
 
 msgctxt "IDD_OPEN_DLG_IDOK"
 msgid "OK"
@@ -203,7 +203,7 @@ msgstr "Este programa es gratuito y está publicado bajo la Licencia Pública Ge
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
-msgstr "Traducción al español: SquallMX, XPC y Fitoschido."
+msgstr "Traducción: SquallMX, XPC, Fitoschido."
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build information"
@@ -275,7 +275,7 @@ msgstr "No mostrar nada"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK13"
 msgid "Replace file name with title"
-msgstr "Usar titulo como nombre"
+msgstr "Usar título como nombre de archivo"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Other"
@@ -343,7 +343,7 @@ msgstr "Recordar tamaño de la ventana"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
 msgid "Remember last Pan-n-Scan Zoom"
-msgstr "Recordar el último zoom Pan & scan"
+msgstr "Recordar el último reencuadramiento"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
@@ -707,7 +707,7 @@ msgstr "Ocultar automáticamente el ratón durante la reproducción en modo vent
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
 msgid "Add Filter..."
-msgstr "Agregar filtro..."
+msgstr "Añadir filtro…"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON2"
 msgid "Remove"
@@ -879,7 +879,7 @@ msgstr "Posición: 0.0 -> 1.0"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
 msgid "Zoom: 0.2 -> 3.0"
-msgstr "Zoom: 0.2 -> 3.0"
+msgstr "Escala: 0.2 -> 3.0"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_CHECK2"
 msgid "Global Media Keys"
@@ -1111,7 +1111,7 @@ msgstr "Externo:"
 
 msgctxt "IDD_PPAGELOGO_IDC_BUTTON2"
 msgid "Browse..."
-msgstr "Examinar..."
+msgstr "Examinar…"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "DirectShow Video"
@@ -1199,7 +1199,7 @@ msgstr "Escuchar el puerto:"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC1"
 msgid "Launch in web browser..."
-msgstr "Abrir en navegador web..."
+msgstr "Abrir en navegador web…"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK3"
 msgid "Enable compression"
@@ -1219,11 +1219,11 @@ msgstr "Servir páginas desde:"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_BUTTON1"
 msgid "Browse..."
-msgstr "Examinar..."
+msgstr "Examinar…"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_BUTTON2"
 msgid "Deploy..."
-msgstr "Desplegar..."
+msgstr "Desplegar…"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC"
 msgid "Default page:"
@@ -1231,7 +1231,7 @@ msgstr "Página predeterminada:"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC"
 msgid "CGI handlers: (.ext1=path1;.ext2=path2;...)"
-msgstr "Tratantes de CGI: (.ext1=ruta1;.ext2=ruta2;...)"
+msgstr "Tratantes de CGI: (.ext1=ruta1;.ext2=ruta2;…)"
 
 msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
 msgid "Subtitles available online"
@@ -1247,7 +1247,7 @@ msgstr "Remplazar los subtítulos cargados actualmente"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
-msgstr "Guardar como..."
+msgstr "Guardar como…"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Color controls (for VMR-9, EVR and madVR)"

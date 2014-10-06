@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-09-20 19:20+0000\n"
+"PO-Revision-Date: 2014-10-07 17:35+0000\n"
 "Last-Translator: Sinan H.\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/mpc-hc/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -300,7 +300,7 @@ msgstr "Ayarları .ini dosyasında sakla"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"
 msgid "Disable \"Open Disc\" menu"
-msgstr "CD-ROM Açma özelliğini kapat"
+msgstr "\"CD-ROM aç\" menüsünü kapat"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK9"
 msgid "Process priority above normal"
@@ -592,7 +592,7 @@ msgstr "İlişkilendirme"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK8"
 msgid "Use the format-specific icons"
-msgstr "Her dosya biçimi için ayrı simge kullan"
+msgstr "Her dosya biçimi için ayrı bir simge kullan"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON1"
 msgid "Run as &administrator"
@@ -1152,7 +1152,7 @@ msgstr "Tam Ekran Direct3D (kopuklukları sil)"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Alternative VSync"
-msgstr "Değişken Eşzam."
+msgstr "Değişken Eşzamanlama"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9LOADMIXER"
 msgid "VMR-9 Mixer Mode"
@@ -1192,7 +1192,7 @@ msgstr "* VSFilter gibi harici süzgeçler alt yazıları tüm çeviricilerde g�
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
-msgstr "B. Noktası dinle:"
+msgstr "Bağlantı noktasını dinle:"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC1"
 msgid "Launch in web browser..."
@@ -1428,7 +1428,7 @@ msgstr "sütun"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCNEAREST"
 msgid "Present at nearest VSync"
-msgstr "En yakın eşzamanlılık örneği"
+msgstr "En yakın eşzamanlılık örneğini kullan"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC5"
 msgid "Target sync offset:"

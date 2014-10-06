@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-09-20 18:10+0000\n"
+"POT-Creation-Date: 2014-09-29 21:09:08+0000\n"
+"PO-Revision-Date: 2014-10-11 09:11+0000\n"
 "Last-Translator: lordkag <lord.kagula@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/mpc-hc/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -1359,7 +1359,7 @@ msgstr "Întârzierea subtitrării va scade/crește cu această valoare de fieca
 
 msgctxt "IDS_HOTKEY_NOT_DEFINED"
 msgid "<not defined>"
-msgstr ""
+msgstr "<nedefinit>"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"

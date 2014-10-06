@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-09-20 12:21+0000\n"
+"POT-Creation-Date: 2014-09-29 21:09:08+0000\n"
+"PO-Revision-Date: 2014-10-06 19:20+0000\n"
 "Last-Translator: Marián Hikaník <podnety@mojepreklady.net>\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/mpc-hc/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -1359,7 +1359,7 @@ msgstr "Oneskorenie titulkov sa zníži/zvýši o túto hodnotu vždy pri stlač
 
 msgctxt "IDS_HOTKEY_NOT_DEFINED"
 msgid "<not defined>"
-msgstr ""
+msgstr "<nedefinované>"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"

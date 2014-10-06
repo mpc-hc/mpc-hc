@@ -2,13 +2,14 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# Level ASMer <zx132435@naver.com>, 2014
 # limeburst <me@limeburst.net>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-09-20 09:58+0000\n"
-"Last-Translator: JellyFrog\n"
+"POT-Creation-Date: 2014-09-29 21:09:08+0000\n"
+"PO-Revision-Date: 2014-10-17 11:10+0000\n"
+"Last-Translator: Level ASMer <zx132435@naver.com>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/mpc-hc/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -50,15 +51,15 @@ msgstr "음악 재생"
 
 msgctxt "IDS_AUTOPLAY_PLAYAUDIOCD"
 msgid "Play Audio CD"
-msgstr "오디오CD 재생"
+msgstr "오디오 CD 재생"
 
 msgctxt "IDS_AUTOPLAY_PLAYDVDMOVIE"
 msgid "Play DVD Movie"
-msgstr "DVD 재생"
+msgstr "DVD 영화 재생"
 
 msgctxt "IDS_PROPSHEET_PROPERTIES"
 msgid "Properties"
-msgstr "등록정보"
+msgstr "등록 정보"
 
 msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
 msgid "&Default Style"
@@ -126,7 +127,7 @@ msgstr ""
 
 msgctxt "IDS_PPAGE_CAPTURE_FG2"
 msgid "Always (slowest option)"
-msgstr ""
+msgstr "항상 (느린 옵션)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
 msgid "Not supported by some devices. Two video decoders always present in the filter graph."
@@ -170,7 +171,7 @@ msgstr ""
 
 msgctxt "IDS_CONTENT_MOVIE_DRAMA"
 msgid "Movie/Drama"
-msgstr ""
+msgstr "영화/드라마"
 
 msgctxt "IDS_CONTENT_NEWS_CURRENTAFFAIRS"
 msgid "News/Current affairs"
@@ -190,7 +191,7 @@ msgstr ""
 
 msgctxt "IDS_CAPTURE_SETTINGS"
 msgid "Capture Settings"
-msgstr ""
+msgstr "캡쳐 설정"
 
 msgctxt "IDS_NAVIGATION_BAR"
 msgid "Navigation Bar"
@@ -322,7 +323,7 @@ msgstr "재생목록"
 
 msgctxt "IDS_PPAGE_FS_CLN_ON_OFF"
 msgid "On/Off"
-msgstr "온/오프"
+msgstr "켬/끔"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
 msgid "From fps"
@@ -346,7 +347,7 @@ msgstr "그외"
 
 msgctxt "IDS_PPAGE_OUTPUT_SYS_DEF"
 msgid "System Default"
-msgstr ""
+msgstr "시스템 기본값"
 
 msgctxt "IDS_GRAPH_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for playback"
@@ -450,7 +451,7 @@ msgstr "플레이어::형식"
 
 msgctxt "IDD_PPAGETWEAKS"
 msgid "Tweaks"
-msgstr "최적화"
+msgstr "시스템 설정"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER"
 msgid "Internal Filters::Audio Switcher"
@@ -566,7 +567,7 @@ msgstr "기타"
 
 msgctxt "IDD_FILEMEDIAINFO"
 msgid "MediaInfo"
-msgstr ""
+msgstr "미디어 정보"
 
 msgctxt "IDD_PPAGECAPTURE"
 msgid "Playback::Capture"
@@ -682,7 +683,7 @@ msgstr ""
 
 msgctxt "IDS_MPC_BUG_REPORT_TITLE"
 msgid "MPC-HC - Reporting a bug"
-msgstr ""
+msgstr "MPC-HC - 버그 신고"
 
 msgctxt "IDS_MPC_BUG_REPORT"
 msgid "MPC-HC just crashed but this build was compiled without debug information.\nIf you want to report this bug, you should first try an official build.\n\nDo you want to visit the download page now?"
@@ -742,7 +743,7 @@ msgstr ""
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND"
 msgid "MPC-HC Audio Renderer"
-msgstr ""
+msgstr "MPC-HC 오디오 렌더러"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
@@ -758,7 +759,7 @@ msgstr ""
 
 msgctxt "IDS_DOWNLOAD_SUBS"
 msgid "Download subtitles"
-msgstr ""
+msgstr "자막 다운로드"
 
 msgctxt "IDS_SUBFILE_DELAY"
 msgid "Delay (ms):"
@@ -766,7 +767,7 @@ msgstr ""
 
 msgctxt "IDS_SPEEDSTEP_AUTO"
 msgid "Auto"
-msgstr ""
+msgstr "자동"
 
 msgctxt "IDS_EXPORT_SETTINGS_NO_KEYS"
 msgid "There are no customized keys to export."
@@ -826,7 +827,7 @@ msgstr ""
 
 msgctxt "IDS_INTERNAL_LAVF"
 msgid "Uses LAV Filters"
-msgstr ""
+msgstr "LAV 필터 사용"
 
 msgctxt "IDS_INTERNAL_LAVF_WMV"
 msgid "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
@@ -1258,7 +1259,7 @@ msgstr ""
 
 msgctxt "IDS_SUB_SAVE_EXTERNAL_STYLE_FILE"
 msgid "Save custom style"
-msgstr ""
+msgstr "사용자 정의 스타일 저장"
 
 msgctxt "IDS_CONTENT_EDUCATION_SCIENCE"
 msgid "Education/Science/Factual topics"
@@ -1278,7 +1279,7 @@ msgstr "이름"
 
 msgctxt "IDS_PPAGEADVANCED_COL_VALUE"
 msgid "Value"
-msgstr ""
+msgstr "값"
 
 msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
@@ -1318,7 +1319,7 @@ msgstr ""
 
 msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
 msgid "Do Nothing"
-msgstr ""
+msgstr "아무것도 하지않음"
 
 msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
 msgid "Play next file in the folder"
@@ -1338,15 +1339,15 @@ msgstr "종료"
 
 msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
 msgid "Turn off the monitor"
-msgstr ""
+msgstr "모니터를 끄기"
 
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
 msgid "JPEG Image"
-msgstr ""
+msgstr "JPEG 이미지"
 
 msgctxt "IDS_IMAGE_QUALITY"
 msgid "Quality (%):"
-msgstr ""
+msgstr "품질 (%):"
 
 msgctxt "IDS_PPAGEADVANCED_COVER_SIZE_LIMIT"
 msgid "Maximum size (NxNpx) of a cover-art loaded in the audio only mode."
@@ -1430,7 +1431,7 @@ msgstr ""
 
 msgctxt "IDS_CONTENT_SPORTS"
 msgid "Sports"
-msgstr ""
+msgstr "스포츠"
 
 msgctxt "IDS_CONTENT_CHILDREN_YOUTH_PROG"
 msgid "Children's/Youth programmes"
@@ -1454,11 +1455,11 @@ msgstr ""
 
 msgctxt "IDS_FILE_RECYCLE"
 msgid "Move to Recycle Bin"
-msgstr ""
+msgstr "휴지통으로 이동"
 
 msgctxt "IDS_AG_SAVE_COPY"
 msgid "Save a Copy"
-msgstr ""
+msgstr "다른 이름으로 저장"
 
 msgctxt "IDS_FASTSEEK_LATEST"
 msgid "Latest keyframe"
@@ -1474,7 +1475,7 @@ msgstr ""
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
 msgid "Never show"
-msgstr ""
+msgstr "보여주지 않음"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWMOVED"
 msgid "Show when moving the cursor, hide after:"
@@ -1550,7 +1551,7 @@ msgstr "내보내기 실패! 올바른 권한을 가지고 있는지 확인하�
 
 msgctxt "IDS_BDA_ERROR"
 msgid "BDA Error"
-msgstr ""
+msgstr "BDA 오류"
 
 msgctxt "IDS_AG_DECREASE_RATE"
 msgid "Decrease Rate"
@@ -2154,7 +2155,7 @@ msgstr "프로토콜 버전이 다릅니다. 플레이어를 업그레이드하�
 
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
-msgstr "화면비율"
+msgstr "화면 비율"
 
 msgctxt "IDS_MAINFRM_37"
 msgid ", Total: %ld, Dropped: %ld"
@@ -2182,7 +2183,7 @@ msgstr ", 여유 V/A 버퍼: %03d/%03d"
 
 msgctxt "IDS_AG_ERROR"
 msgid "Error"
-msgstr "에러"
+msgstr "오류"
 
 msgctxt "IDS_SUBTITLE_STREAM_OFF"
 msgid "Subtitle: off"
@@ -2250,7 +2251,7 @@ msgstr ""
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
-msgstr ""
+msgstr "자막 파일"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %ld:%ld"
@@ -2330,7 +2331,7 @@ msgstr "덤프파일을 만드는데 실패 '%s' (error %u)"
 
 msgctxt "IDS_MAINFRM_DIR_TITLE"
 msgid "Select Directory"
-msgstr "디렉토리 선택"
+msgstr "폴더 선택"
 
 msgctxt "IDS_MAINFRM_DIR_CHECK"
 msgid "Include subdirectories"
@@ -2454,7 +2455,7 @@ msgstr " (음성 해설 2)"
 
 msgctxt "IDS_DVD_SUBTITLES_ENABLE"
 msgid "Enable DVD subtitles"
-msgstr ""
+msgstr "DVD 자막 활성화"
 
 msgctxt "IDS_AG_ANGLE"
 msgid "Angle %u"
@@ -2478,7 +2479,7 @@ msgstr "MPC-HC D3D 전체화면"
 
 msgctxt "IDS_MAINFRM_137"
 msgid "Unknown format"
-msgstr "알려지지않은 형식"
+msgstr "알 수 없는 형식"
 
 msgctxt "IDS_MAINFRM_138"
 msgid "Sub shift: %ld ms"
@@ -2506,11 +2507,11 @@ msgstr "사용법: mpc-hc.exe \"경로이름\" [스위치]\n\n\"경로이름\"\t
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
-msgstr "인식불가능한 스위치가 사용됨: \n\n"
+msgstr "인식 불가능한 스위치가 사용됨: \n\n"
 
 msgctxt "IDS_AG_TOGGLE_INFO"
 msgid "Toggle Information"
-msgstr "파일정보 토글"
+msgstr "파일 정보 토글"
 
 msgctxt "IDS_AG_TOGGLE_STATS"
 msgid "Toggle Statistics"
@@ -2534,7 +2535,7 @@ msgstr "캡쳐 토글"
 
 msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
 msgid "Toggle Debug Shaders"
-msgstr ""
+msgstr "셰이더 디버그 토글"
 
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
@@ -2710,7 +2711,7 @@ msgstr "메뉴 숨기기"
 
 msgctxt "IDD_PPAGEADVANCED"
 msgid "Advanced"
-msgstr ""
+msgstr "고급"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seekbar"
@@ -2726,7 +2727,7 @@ msgstr "비디오: %s"
 
 msgctxt "IDS_APPLY"
 msgid "Apply"
-msgstr ""
+msgstr "적용"
 
 msgctxt "IDS_CLEAR"
 msgid "Clear"
@@ -2754,19 +2755,19 @@ msgstr "모든 필터 사용안함(&D)"
 
 msgctxt "IDS_ENABLE_AUDIO_FILTERS"
 msgid "Enable all audio decoders"
-msgstr ""
+msgstr "모든 오디오 디코더 사용"
 
 msgctxt "IDS_DISABLE_AUDIO_FILTERS"
 msgid "Disable all audio decoders"
-msgstr ""
+msgstr "모든  디코더 사용안함"
 
 msgctxt "IDS_ENABLE_VIDEO_FILTERS"
 msgid "Enable all video decoders"
-msgstr ""
+msgstr "모든 비디오 디코더 사용"
 
 msgctxt "IDS_DISABLE_VIDEO_FILTERS"
 msgid "Disable all video decoders"
-msgstr ""
+msgstr "모든 비디오 디코더 사용안함"
 
 msgctxt "IDS_STRETCH_TO_WINDOW"
 msgid "Stretch To Window"
@@ -2978,11 +2979,11 @@ msgstr "Opus Audio Codec"
 
 msgctxt "IDS_MFMT_PLS"
 msgid "Playlist"
-msgstr "재생목록"
+msgstr "재생 목록"
 
 msgctxt "IDS_MFMT_BDPLS"
 msgid "Blu-ray playlist"
-msgstr ""
+msgstr "블루레이 재생 목록"
 
 msgctxt "IDS_MFMT_RAR"
 msgid "RAR Archive"
@@ -2994,7 +2995,7 @@ msgstr "FPS"
 
 msgctxt "IDS_DVB_CHANNEL_RESOLUTION"
 msgid "Resolution"
-msgstr ""
+msgstr "해상도"
 
 msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
 msgid "Aspect Ratio"
@@ -3262,7 +3263,7 @@ msgstr ""
 
 msgctxt "IDS_OSD_ZOOM_AUTO"
 msgid "Zoom: Auto"
-msgstr ""
+msgstr "확대: 자동"
 
 msgctxt "IDS_CUSTOM_CHANNEL_MAPPING"
 msgid "Toggle custom channel mapping"
@@ -3474,7 +3475,7 @@ msgstr "재생이 끝나면: 컴퓨터 잠금모드"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
-msgstr ""
+msgstr "재생이 끝나면: 모니터를 끄기"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"

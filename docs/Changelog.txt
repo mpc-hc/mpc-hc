@@ -13,6 +13,8 @@ next version - not released yet
 + DVB: Show current event time in the status bar
 + DVB: Add context menu to the navigation dialog
 * DVB: Improve channel switching speed
+* Updated Arabic, Basque, Catalan, French, Galician, Japanese, Korean, Romanian, Slovak, Spanish, Turkish
+  and Ukrainian translations
 ! Ticket #2953, DVB: Fix crash when closing window right after switching channel
 ! Ticket #3666, DVB: Don't clear the channel list on saving new scan result
 ! Ticket #4436, DVB: Improve compatibility with certain tuners

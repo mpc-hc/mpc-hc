@@ -59,7 +59,7 @@ en_GB.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer t
 
 ; Spanish
 es.WelcomeLabel2=Este programa instalará [name] en el equipo.%n%nSe recomienda que cierre el resto de las aplicaciones antes de continuar.
-es.WinVersionTooLowError=[name] requiere Windows XP Service Pack 3 o posterior para funcionar.
+es.WinVersionTooLowError=[name] necesita Windows XP Service Pack 3 o posterior para funcionar.
 
 ; Basque
 eu.WelcomeLabel2=Honek [name] zure ordenagailuan ezarriko du.%n%nGomendatzen da beste aplikazio guztiak istea jarraitu aurretik.
@@ -98,7 +98,7 @@ ja.WelcomeLabel2=このプログラムはあなたのコンピュータ上に [n
 ja.WinVersionTooLowError=[name] を実行する為には Windows XP Service Pack 3 以降が必要です。
 
 ; Korean
-ko.WelcomeLabel2=이 설치프로그램은 [name] 를(을) 당신의 컴퓨터에 설치합니다.%n%n설치를 계속하기 전에 다른 모든 프로그램을 종료하는 것을 권장합니다.
+ko.WelcomeLabel2=이것은 [name] 를(을) 당신의 컴퓨터에 설치합니다.%n%n설치를 계속하기 전에 다른 모든 프로그램을 종료하는 것을 권장합니다.
 ko.WinVersionTooLowError=[name] 는(은) Windows XP Service Pack 3  또는 그 이상의 버전에서만 설치할 수 있습니다.
 
 ; Malay (Malaysia)
@@ -531,20 +531,20 @@ ja.ViewChangelog=変更履歴を表示する
 ko.langid=00001042
 ko.comp_mpciconlib=아이콘 라이브러리
 ko.comp_mpcresources=번역
-ko.msg_DeleteSettings=MPC-HC 의 설정도 삭제하시겠습니까?%n%nMPC-HC 를 다시 설치할 계획이라면 설정들을 삭제할 필요가 없습니다.
-ko.msg_SetupIsRunningWarning=MPC-HC 설치프로그램이 이미 실행중입니다!
+ko.msg_DeleteSettings=MPC-HC 의 설정도 삭제 하시겠습니까?%n%nMPC-HC 를 다시 설치할 계획이라면 설정들을 삭제할 필요가 없습니다.
+ko.msg_SetupIsRunningWarning=MPC-HC 설치 프로그램이 이미 실행 중입니다!
 #if defined(sse_required)
 ko.msg_simd_sse=이 버전의 MPC-HC 는 SSE 기술을 지원하는 CPU가 필요합니다.%n%n이 컴퓨터의 CPU는 이 기술을 지원하지않습니다.
 #elif defined(sse2_required)
 ko.msg_simd_sse2=이 버전의 MPC-HC 는 SSE2 기술을 지원하는 CPU가 필요합니다.%n%n이 컴퓨터의 CPU는 이 기술을 지원하지않습니다.
 #endif
-ko.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
+ko.run_DownloadToolbarImages=툴바 이미지들을 다운로드하기 위해 위키 페이지로 방문.
 ko.tsk_AllUsers=모든 사용자
 ko.tsk_CurrentUser=현재 사용자만
 ko.tsk_Other=다른 작업:
 ko.tsk_ResetSettings=설정 초기화
 ko.types_DefaultInstallation=기본 설치
-ko.types_CustomInstallation=사용자정의 설치
+ko.types_CustomInstallation=사용자 정의 설치
 ko.ViewChangelog=버전 변경사항 보기
 
 ; Malay (Malaysia)

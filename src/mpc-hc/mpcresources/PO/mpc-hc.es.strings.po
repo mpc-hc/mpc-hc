@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-09-29 21:09:08+0000\n"
-"PO-Revision-Date: 2014-10-01 18:03+0000\n"
+"PO-Revision-Date: 2014-10-05 19:20+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/mpc-hc/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -426,15 +426,15 @@ msgstr "&Restablecer"
 
 msgctxt "IDS_MPLAYERC_104"
 msgid "Subtitle Delay -"
-msgstr "Retraso de Subs -"
+msgstr "Reducir retardo de subtítulos"
 
 msgctxt "IDS_MPLAYERC_105"
 msgid "Subtitle Delay +"
-msgstr "Retraso de Subs +"
+msgstr "Aumentar retardo de subtítulos"
 
 msgctxt "IDS_FILE_SAVE_THUMBNAILS"
 msgid "Save thumbnails"
-msgstr "Guardar vistas previas"
+msgstr "Guardar miniaturas"
 
 msgctxt "IDD_PPAGEPLAYBACK"
 msgid "Playback"
@@ -982,7 +982,7 @@ msgstr "En pausa"
 
 msgctxt "IDS_AG_EDL_NEW_CLIP"
 msgid "EDL new clip"
-msgstr "EDL Nuevo Clip"
+msgstr "Clip nuevo EDL"
 
 msgctxt "IDS_RECENT_FILES_CLEAR"
 msgid "&Clear list"
@@ -1034,7 +1034,7 @@ msgstr "Rotar PnS Z-"
 
 msgctxt "IDS_AG_TEARING_TEST"
 msgid "Tearing Test"
-msgstr "Prueba de Parpadeo"
+msgstr "Prueba de parpadeo"
 
 msgctxt "IDS_SCALE_16_9"
 msgid "Scale to 16:9 TV,%.3f,%.3f,%.3f,%.3f"
@@ -1174,7 +1174,7 @@ msgstr "Abrir DVD/BD"
 
 msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
 msgid "Failed to set post-resize shaders"
-msgstr "Fallido al configurar sombras post-redimensionadas"
+msgstr "Falló la configuración de los «shaders» posredimensionamiento"
 
 msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
 msgid "Failed to set both pre-resize and post-resize shaders"
@@ -1630,11 +1630,11 @@ msgstr "Interruptor de Direct3D en Pantalla Completa"
 
 msgctxt "IDS_MPLAYERC_100"
 msgid "Goto Prev Subtitle"
-msgstr "Ir a Sub Previo"
+msgstr "Ir al subtítulo anterior"
 
 msgctxt "IDS_MPLAYERC_101"
 msgid "Goto Next Subtitle"
-msgstr "Ir a Sub Siguiente"
+msgstr "Ir al subtítulo siguiente"
 
 msgctxt "IDS_MPLAYERC_102"
 msgid "Shift Subtitle Left"
