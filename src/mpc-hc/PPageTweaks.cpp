@@ -236,7 +236,9 @@ void CPPageTweaks::OnChngOSDCombo()
     CString str;
     m_nOSDSize = m_FontSize.GetCurSel() + 10;
     m_FontType.GetLBText(m_FontType.GetCurSel(), str);
-    ((CMainFrame*)AfxGetMainWnd())->m_OSD.DisplayMessage(OSD_TOPLEFT, _T("Test"), 2000, m_nOSDSize, str);
+    if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
+        pMainFrame->m_OSD.DisplayMessage(OSD_TOPLEFT, _T("Test"), 2000, m_nOSDSize, str);
+    }
     SetModified();
 }
 

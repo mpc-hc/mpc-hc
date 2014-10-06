@@ -1059,7 +1059,6 @@ HRESULT CFGManagerBDA::SetChannelInternal(CDVBChannel* pChannel)
         }
     } else {
         m_fHideWindow = true;
-        ((CMainFrame*)AfxGetMainWnd())->HideVideoWindow(m_fHideWindow);
     }
 
     if (m_nCurAudioType != pChannel->GetDefaultAudioType()) {
@@ -1095,7 +1094,10 @@ HRESULT CFGManagerBDA::SetChannelInternal(CDVBChannel* pChannel)
     if (bRadioToTV) {
         m_fHideWindow = false;
         Sleep(1800);
-        ((CMainFrame*)AfxGetMainWnd())->HideVideoWindow(m_fHideWindow);
+    }
+
+    if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
+        pMainFrame->HideVideoWindow(m_fHideWindow);
     }
 
     return hr;
@@ -1270,10 +1272,11 @@ HRESULT CFGManagerBDA::ChangeState(FILTER_STATE nRequested)
     QueryInterface(IID_PPV_ARGS(&pMC));
     pMC->GetState(500, &nState);
     if (nState != nRequested) {
+        CMainFrame* pMainFrame = AfxGetMainFrame();
         switch (nRequested) {
             case State_Stopped: {
-                if (SUCCEEDED(hr = pMC->Stop())) {
-                    ((CMainFrame*)AfxGetMainWnd())->KillTimersStop();
+                if (SUCCEEDED(hr = pMC->Stop()) && pMainFrame) {
+                    pMainFrame->KillTimersStop();
                 }
                 LOG(_T("IMediaControl stop: 0x%08x."), hr);
                 return hr;
@@ -1283,8 +1286,8 @@ HRESULT CFGManagerBDA::ChangeState(FILTER_STATE nRequested)
                 return pMC->Pause();
             }
             case State_Running: {
-                if (SUCCEEDED(hr = pMC->Run()) && SUCCEEDED(hr = pMC->GetState(500, &nState)) && nState == State_Running) {
-                    ((CMainFrame*)AfxGetMainWnd())->SetTimersPlay();
+                if (SUCCEEDED(hr = pMC->Run()) && SUCCEEDED(hr = pMC->GetState(500, &nState)) && nState == State_Running && pMainFrame) {
+                    pMainFrame->SetTimersPlay();
                 }
                 LOG(_T("IMediaControl play: 0x%08x."), hr);
                 return hr;

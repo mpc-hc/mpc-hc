@@ -286,44 +286,41 @@ void CPlayerSubresyncBar::ResetSubtitle()
 
 void CPlayerSubresyncBar::SaveSubtitle()
 {
-    CMainFrame* pFrame = ((CMainFrame*)AfxGetMainWnd());
-    if (!pFrame) {
-        return;
-    }
+    if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
+        CLSID clsid;
+        m_pSubStream->GetClassID(&clsid);
 
-    CLSID clsid;
-    m_pSubStream->GetClassID(&clsid);
+        if (clsid == __uuidof(CVobSubFile) && m_mode == VOBSUB) {
+            CVobSubFile* pVSF = (CVobSubFile*)(ISubStream*)m_pSubStream;
 
-    if (clsid == __uuidof(CVobSubFile) && m_mode == VOBSUB) {
-        CVobSubFile* pVSF = (CVobSubFile*)(ISubStream*)m_pSubStream;
+            CAutoLock cAutoLock(m_pSubLock);
 
-        CAutoLock cAutoLock(m_pSubLock);
+            ASSERT(pVSF->m_nLang < pVSF->m_langs.size());
+            CAtlArray<CVobSubFile::SubPos>& sp = pVSF->m_langs[pVSF->m_nLang].subpos;
 
-        ASSERT(pVSF->m_nLang < pVSF->m_langs.size());
-        CAtlArray<CVobSubFile::SubPos>& sp = pVSF->m_langs[pVSF->m_nLang].subpos;
+            for (size_t i = 0, j = sp.GetCount(); i < j; i++) {
+                sp[i].bValid = false;
+            }
 
-        for (size_t i = 0, j = sp.GetCount(); i < j; i++) {
-            sp[i].bValid = false;
+            for (size_t i = 0, j = m_sts.GetCount(); i < j; i++) {
+                int spnum = m_sts[i].readorder;
+
+                sp[spnum].start  = m_sts[i].start;
+                sp[spnum].stop   = m_sts[i].end;
+                sp[spnum].bValid = true;
+            }
+        } else if (clsid == __uuidof(CRenderedTextSubtitle) && m_mode == TEXTSUB) {
+            CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
+
+            CAutoLock cAutoLock(m_pSubLock);
+
+            pRTS->Copy(m_sts);
+        } else {
+            return;
         }
 
-        for (size_t i = 0, j = m_sts.GetCount(); i < j; i++) {
-            int spnum = m_sts[i].readorder;
-
-            sp[spnum].start  = m_sts[i].start;
-            sp[spnum].stop   = m_sts[i].end;
-            sp[spnum].bValid = true;
-        }
-    } else if (clsid == __uuidof(CRenderedTextSubtitle) && m_mode == TEXTSUB) {
-        CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
-
-        CAutoLock cAutoLock(m_pSubLock);
-
-        pRTS->Copy(m_sts);
-    } else {
-        return;
+        pMainFrame->InvalidateSubtitle();
     }
-
-    pFrame->InvalidateSubtitle();
 }
 
 void CPlayerSubresyncBar::UpdatePreview()
@@ -1167,7 +1164,7 @@ void CPlayerSubresyncBar::OnNMDblclkList(NMHDR* pNMHDR, LRESULT* pResult)
     LPNMLISTVIEW lpnmlv = (LPNMLISTVIEW)pNMHDR;
 
     if (lpnmlv->iItem >= 0 && lpnmlv->iSubItem >= 0 && (m_mode == VOBSUB || m_mode == TEXTSUB)) {
-        if (CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd()) {
+        if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
             int t = 0;
             if (lpnmlv->iSubItem > COL_PREVEND || !ParseTime(m_list.GetItemText(lpnmlv->iItem, lpnmlv->iSubItem), t, false)) {
                 t = m_sts[lpnmlv->iItem].start;
@@ -1175,7 +1172,7 @@ void CPlayerSubresyncBar::OnNMDblclkList(NMHDR* pNMHDR, LRESULT* pResult)
 
             REFERENCE_TIME rt = (REFERENCE_TIME)t * 10000;
 
-            pFrame->SeekTo(rt);
+            pMainFrame->SeekTo(rt);
         }
     }
 

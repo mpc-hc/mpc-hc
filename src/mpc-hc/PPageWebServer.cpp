@@ -71,14 +71,10 @@ BOOL CPPageWebServer::PreTranslateMessage(MSG* pMsg)
     if (pMsg->message == WM_LBUTTONDOWN && pMsg->hwnd == m_launch.m_hWnd) {
         UpdateData();
 
-        const CAppSettings& s = AfxGetAppSettings();
-
-        if (CMainFrame* pWnd = (CMainFrame*)AfxGetMainWnd()) {
-            if (m_fEnableWebServer) {
-                if (s.nWebServerPort != m_nWebServerPort) {
-                    AfxMessageBox(IDS_WEBSERVER_ERROR_TEST, MB_ICONEXCLAMATION | MB_OK, 0);
-                    return TRUE;
-                }
+        if (m_fEnableWebServer) {
+            if (AfxGetAppSettings().nWebServerPort != m_nWebServerPort) {
+                AfxMessageBox(IDS_WEBSERVER_ERROR_TEST, MB_ICONEXCLAMATION | MB_OK, 0);
+                return TRUE;
             }
         }
     }
@@ -136,14 +132,14 @@ BOOL CPPageWebServer::OnApply()
     s.strWebDefIndex = m_WebDefIndex;
     s.strWebServerCGI = m_WebServerCGI;
 
-    if (CMainFrame* pWnd = (CMainFrame*)AfxGetMainWnd()) {
+    if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
         if (m_fEnableWebServer) {
             if (fRestart) {
-                pWnd->StopWebServer();
+                pMainFrame->StopWebServer();
             }
-            pWnd->StartWebServer(m_nWebServerPort);
+            pMainFrame->StartWebServer(m_nWebServerPort);
         } else {
-            pWnd->StopWebServer();
+            pMainFrame->StopWebServer();
         }
     }
 

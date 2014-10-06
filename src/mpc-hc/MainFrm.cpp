@@ -748,6 +748,7 @@ CMainFrame::CMainFrame()
     , m_bOpeningInAutochangedMonitorMode(false)
     , m_bPausedForAutochangeMonitorMode(false)
     , m_wndPlaylistBar(this)
+    , m_wndCaptureBar(this)
     , m_wndInfoBar(this)
     , m_wndStatsBar(this)
     , m_wndStatusBar(this)
@@ -8609,7 +8610,7 @@ void CMainFrame::OnUpdateNavigateMenuItem(CCmdUI* pCmdUI)
 
 void CMainFrame::OnTunerScan()
 {
-    CTunerScanDlg Dlg;
+    CTunerScanDlg Dlg(this);
     Dlg.DoModal();
 }
 

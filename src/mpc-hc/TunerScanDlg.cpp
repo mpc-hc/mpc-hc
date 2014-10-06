@@ -44,8 +44,9 @@ enum TSC_COLUMN {
 
 IMPLEMENT_DYNAMIC(CTunerScanDlg, CDialog)
 
-CTunerScanDlg::CTunerScanDlg(CWnd* pParent /*=nullptr*/)
-    : CDialog(CTunerScanDlg::IDD, pParent)
+CTunerScanDlg::CTunerScanDlg(CMainFrame* pMainFrame)
+    : CDialog(CTunerScanDlg::IDD, pMainFrame)
+    , m_pMainFrame(pMainFrame)
     , m_bInProgress(false)
 {
     const CAppSettings& s = AfxGetAppSettings();
@@ -151,7 +152,7 @@ void CTunerScanDlg::OnBnClickedSave()
             e->Delete();
         }
     }
-    ((CMainFrame*)AfxGetMainWnd())->SetChannel(0);
+    m_pMainFrame->SetChannel(0);
 
     OnOK();
 }
@@ -169,20 +170,20 @@ void CTunerScanDlg::OnBnClickedStart()
         SaveScanSettings();
 
         m_ChannelList.DeleteAllItems();
-        ((CMainFrame*)AfxGetMainWnd())->StartTunerScan(pTSD);
+        m_pMainFrame->StartTunerScan(pTSD);
 
         SetProgress(true);
     } else {
-        ((CMainFrame*)AfxGetMainWnd())->StopTunerScan();
+        m_pMainFrame->StopTunerScan();
     }
 }
 
 void CTunerScanDlg::OnBnClickedCancel()
 {
     if (m_bInProgress) {
-        ((CMainFrame*)AfxGetMainWnd())->StopTunerScan();
+        m_pMainFrame->StopTunerScan();
     }
-    ((CMainFrame*)AfxGetMainWnd())->SetChannel(AfxGetAppSettings().nDVBLastChannel);
+    m_pMainFrame->SetChannel(AfxGetAppSettings().nDVBLastChannel);
 
     OnCancel();
 }
