@@ -24,9 +24,9 @@
 CEllipse::CEllipse(int rx, int ry)
     : m_rx(rx)
     , m_ry(ry)
-    , m_2rx(2 * m_rx)
-    , m_2ry(2 * m_ry)
-    , nIntersectCacheLineSize(2 * (m_rx - 1) + 1)
+    , m_2rx(2 * rx)
+    , m_2ry(2 * ry)
+    , nIntersectCacheLineSize(rx > 0 ? 2 * (rx - 1) + 1 : 0)
 {
     m_arc.resize(m_2ry + 1);
     m_arc[m_ry] = m_rx;

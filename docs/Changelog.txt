@@ -19,6 +19,7 @@ next version - not released yet
 ! Ticket #2953, DVB: Fix crash when closing window right after switching channel
 ! Ticket #3666, DVB: Don't clear the channel list on saving new scan result
 ! Ticket #4436, DVB: Improve compatibility with certain tuners
+! Ticket #4933, ASS/SSA subtitles: Fix a crash for elements with no horizontal border but a vertical one
 ! Ticket #4937, Prevent showing black bars when window size after scale exceed current work area
 
 
