@@ -49,6 +49,9 @@ Part C: Downloading and compiling the MPC-HC source
       git submodule foreach --recursive git fetch --tags
     then run the update again
       git submodule update --init --recursive
+
+    Note that you can add `-b master` to the `git clone` command if you want to get the latest stable version
+    instead of the latest development version
 2. Open the solution file "C:\mpc-hc\mpc-hc.sln"
     Change the solution's configuration to "Release" (in the toolbar).
 3. Press F7 to build the solution.
