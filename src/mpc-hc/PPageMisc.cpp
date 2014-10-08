@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -216,9 +216,10 @@ void CPPageMisc::OnUpdateDelayEditBox(CCmdUI* pCmdUI)
 void CPPageMisc::OnResetSettings()
 {
     if (MessageBox(ResStr(IDS_RESET_SETTINGS_WARNING), ResStr(IDS_RESET_SETTINGS), MB_ICONEXCLAMATION | MB_YESNO | MB_DEFBUTTON2) == IDYES) {
-        ((CMainFrame*)AfxGetMyApp()->GetMainWnd())->SendMessage(WM_CLOSE);
+        AfxGetAppSettings().SetAsUninitialized(); // Consider the settings as initialized
 
-        ShellExecute(nullptr, _T("open"), GetProgramPath(true), _T("/reset"), nullptr, SW_SHOWNORMAL);
+        // Exit the Options dialog and inform the caller that we want to reset the settings
+        EndDialog(CPPageSheet::RESET_SETTINGS);
     }
 }
 

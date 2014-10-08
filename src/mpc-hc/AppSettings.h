@@ -374,7 +374,7 @@ public:
 
 class CAppSettings
 {
-    bool fInitialized;
+    bool bInitialized;
 
     class CRecentFileAndURLList : public CRecentFileList
     {
@@ -722,8 +722,10 @@ public:
 
     void            SaveSettings();
     void            LoadSettings();
-    void            SaveExternalFilters() { if (fInitialized) { SaveExternalFilters(m_filters); } };
+    void            SaveExternalFilters() { if (bInitialized) { SaveExternalFilters(m_filters); } };
     void            UpdateSettings();
+
+    void            SetAsUninitialized() { bInitialized = false; };
 
     void            GetFav(favtype ft, CAtlList<CString>& sl) const;
     void            SetFav(favtype ft, CAtlList<CString>& sl);

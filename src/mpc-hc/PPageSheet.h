@@ -69,7 +69,8 @@ class CPPageSheet : public TreePropSheet::CTreePropSheet
 
 public:
     enum {
-        APPLY_LANGUAGE_CHANGE = 100 // 100 is a magic number than won't collide with WinAPI constants
+        APPLY_LANGUAGE_CHANGE = 100, // 100 is a magic number than won't collide with WinAPI constants
+        RESET_SETTINGS
     };
 
 private:

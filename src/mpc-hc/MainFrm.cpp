@@ -14296,7 +14296,18 @@ void CMainFrame::ShowOptions(int idPage/* = 0*/)
         iRes = options.DoModal();
         idPage = 0; // If we are to show the dialog again, always show the latest page
     } while (iRes == CPPageSheet::APPLY_LANGUAGE_CHANGE); // check if we exited the dialog so that the language change can be applied
-    ASSERT(iRes > 0 && iRes != CPPageSheet::APPLY_LANGUAGE_CHANGE);
+
+    switch (iRes) {
+        case CPPageSheet::RESET_SETTINGS:
+            // Request MPC-HC to close itself
+            SendMessage(WM_CLOSE);
+            // and immediately reopen
+            ShellExecute(nullptr, _T("open"), GetProgramPath(true), _T("/reset"), nullptr, SW_SHOWNORMAL);
+            break;
+        default:
+            ASSERT(iRes > 0 && iRes != CPPageSheet::APPLY_LANGUAGE_CHANGE);
+            break;
+    }
 }
 
 void CMainFrame::StartWebServer(int nPort)

@@ -36,7 +36,7 @@
 #pragma warning(push)
 #pragma warning(disable: 4351) // new behavior: elements of array 'array' will be default initialized
 CAppSettings::CAppSettings()
-    : fInitialized(false)
+    : bInitialized(false)
     , hAccel(nullptr)
     , nCmdlnWebServerPort(-1)
     , fShowDebugInfo(false)
@@ -653,7 +653,7 @@ void CAppSettings::SaveSettings()
     CMPlayerCApp* pApp = AfxGetMyApp();
     ASSERT(pApp);
 
-    if (!fInitialized) {
+    if (!bInitialized) {
         return;
     }
 
@@ -1173,7 +1173,7 @@ void CAppSettings::LoadSettings()
     UINT  len;
     BYTE* ptr = nullptr;
 
-    if (fInitialized) {
+    if (bInitialized) {
         return;
     }
 
@@ -1661,7 +1661,7 @@ void CAppSettings::LoadSettings()
         nCLSwitches |= CLSW_FULLSCREEN;
     }
 
-    fInitialized = true;
+    bInitialized = true;
 }
 
 bool CAppSettings::GetAllowMultiInst() const
