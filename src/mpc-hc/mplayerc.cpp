@@ -45,6 +45,7 @@
 #include "mpc-hc_config.h"
 #include "../MathLibFix/MathLibFix.h"
 #include "CmdLineHelpDlg.h"
+#include "MiniDump.h"
 
 
 #define HOOKS_BUGS_URL _T("https://trac.mpc-hc.org/ticket/3739")
@@ -1447,6 +1448,7 @@ BOOL CMPlayerCApp::InitInstance()
     // Remove the working directory from the search path to work around the DLL preloading vulnerability
     SetDllDirectory(_T(""));
 
+    CMiniDump::Enable();
     WorkAroundMathLibraryBug();
 
     if (!HeapSetInformation(nullptr, HeapEnableTerminationOnCorruption, nullptr, 0)) {
