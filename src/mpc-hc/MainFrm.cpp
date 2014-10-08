@@ -9830,7 +9830,7 @@ void CMainFrame::HideVideoWindow(bool fHide)
 CSize CMainFrame::GetZoomWindowSize(double dScale)
 {
     const auto& s = AfxGetAppSettings();
-    CSize ret(0, 0);
+    CSize ret;
 
     if (dScale >= 0.0 && GetLoadState() == MLS::LOADED) {
         MINMAXINFO mmi;
@@ -9856,8 +9856,9 @@ CSize CMainFrame::GetZoomWindowSize(double dScale)
         }
 
 
-        CSize clientTargetSize(int(videoSize.cx * dScale + 0.5), int(videoSize.cy * dScale + 0.5));
+        CSize videoTargetSize(int(videoSize.cx * dScale + 0.5), int(videoSize.cy * dScale + 0.5));
 
+        CSize controlsSize;
         const bool bToolbarsOnVideo = m_controls.ToolbarsCoverVideo();
         const bool bPanelsOnVideo = m_controls.PanelsCoverVideo();
         if (!bPanelsOnVideo) {
@@ -9866,29 +9867,39 @@ CSize CMainFrame::GetZoomWindowSize(double dScale)
             if (bToolbarsOnVideo) {
                 uBottom -= m_controls.GetToolbarsHeight();
             }
-            clientTargetSize.cx += uLeft + uRight;
-            clientTargetSize.cy += uTop + uBottom;
+            controlsSize.cx = uLeft + uRight;
+            controlsSize.cy = uTop + uBottom;
         } else if (!bToolbarsOnVideo) {
-            clientTargetSize.cy += m_controls.GetToolbarsHeight();
+            controlsSize.cy = m_controls.GetToolbarsHeight();
         }
 
-        CRect rect(CPoint(0, 0), clientTargetSize);
-        if (AdjustWindowRectEx(rect, GetWindowStyle(m_hWnd), s.eCaptionMenuMode == MODE_SHOWCAPTIONMENU,
-                               GetWindowExStyle(m_hWnd))) {
-            ret.cx = std::max<long>(rect.Width(), mmi.ptMinTrackSize.x);
-            ret.cy = std::max<long>(rect.Height(), mmi.ptMinTrackSize.y);
+        CRect decorationsRect;
+        VERIFY(AdjustWindowRectEx(decorationsRect, GetWindowStyle(m_hWnd), s.eCaptionMenuMode == MODE_SHOWCAPTIONMENU,
+                                  GetWindowExStyle(m_hWnd)));
+
+        CRect workRect;
+        CMonitors::GetNearestMonitor(this).GetWorkAreaRect(workRect);
+
+        if (workRect.Width() && workRect.Height()) {
+            // don't go larger than the current monitor working area and prevent black bars in this case
+            CSize videoSpaceSize = workRect.Size() - controlsSize - decorationsRect.Size();
+
+            if (videoTargetSize.cx > videoSpaceSize.cx) {
+                videoTargetSize.cx = videoSpaceSize.cx;
+                videoTargetSize.cy = std::lround(videoSpaceSize.cx * videoSize.cy / (double)videoSize.cx);
+            }
+
+            if (videoTargetSize.cy > videoSpaceSize.cy) {
+                videoTargetSize.cy = videoSpaceSize.cy;
+                videoTargetSize.cx = std::lround(videoSpaceSize.cy * videoSize.cx / (double)videoSize.cy);
+            }
         } else {
             ASSERT(FALSE);
         }
 
-        // don't go larger than the current monitor working area
-        MONITORINFO mi = { sizeof(mi) };
-        if (GetMonitorInfo(MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST), &mi)) {
-            ret.cx = std::min<long>(ret.cx, (mi.rcWork.right - mi.rcWork.left));
-            ret.cy = std::min<long>(ret.cy, (mi.rcWork.bottom - mi.rcWork.top));
-        } else {
-            ASSERT(FALSE);
-        }
+        ret = videoTargetSize + controlsSize + decorationsRect.Size();
+        ret.cx = std::max(ret.cx, mmi.ptMinTrackSize.x);
+        ret.cy = std::max(ret.cy, mmi.ptMinTrackSize.y);
     } else {
         ASSERT(FALSE);
     }
