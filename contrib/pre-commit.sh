@@ -35,7 +35,7 @@ astyle_ignore_excluded=y
 astyle_ignore_stashed=n
 
 # internal variables
-versioncheck_version=4
+versioncheck_version=5
 versioncheck_path=contrib/pre-commit.sh
 astyle_config=contrib/astyle.ini
 astyle_extensions=(cpp h)
