@@ -50,8 +50,8 @@ void CModelessDialog::OnOK()
 
 CDebugShadersDlg::CDebugShadersDlg()
     : CModelessDialog(IDD)
-    , m_Compiler(nullptr)
     , m_timerOneTime(this, TIMER_ONETIME_START, TIMER_ONETIME_END - TIMER_ONETIME_START + 1)
+    , m_Compiler(nullptr)
 {
     EventRouter::EventSelection receives;
     receives.insert(MpcEvent::SHADER_LIST_CHANGED);

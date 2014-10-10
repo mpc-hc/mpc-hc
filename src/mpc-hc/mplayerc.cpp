@@ -606,11 +606,11 @@ void SetHandCursor(HWND m_hWnd, UINT nID)
 
 CMPlayerCApp::CMPlayerCApp()
     : m_hNTDLL(nullptr)
-    , m_fClosingState(false)
+    , m_bDelayingIdle(false)
     , m_bProfileInitialized(false)
     , m_bQueuedProfileFlush(false)
     , m_dwProfileLastAccessTick(0)
-    , m_bDelayingIdle(false)
+    , m_fClosingState(false)
 {
     TCHAR strApp[MAX_PATH];
 

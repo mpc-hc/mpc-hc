@@ -32,12 +32,12 @@ UINT CPlaylistItem::m_globalid = 0;
 
 CPlaylistItem::CPlaylistItem()
     : m_type(file)
-    , m_fInvalid(false)
     , m_duration(0)
     , m_vinput(-1)
     , m_vchannel(-1)
     , m_ainput(-1)
     , m_country(0)
+    , m_fInvalid(false)
 {
     m_id = m_globalid++;
 }

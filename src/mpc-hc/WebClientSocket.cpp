@@ -34,8 +34,8 @@ CWebClientSocket::CWebClientSocket(CWebServer* pWebServer, CMainFrame* pMainFram
     : m_pWebServer(pWebServer)
     , m_pMainFrame(pMainFrame)
     , m_buffLen(0)
-    , m_buffLenProcessed(0)
     , m_buffMaxLen(2048)
+    , m_buffLenProcessed(0)
     , m_parsingState(PARSING_HEADER)
     , m_dataLen(0)
 {

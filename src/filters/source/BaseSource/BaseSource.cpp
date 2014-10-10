@@ -34,11 +34,11 @@
 CBaseStream::CBaseStream(TCHAR* name, CSource* pParent, HRESULT* phr)
     : CSourceStream(name, phr, pParent, L"Output")
     , CSourceSeeking(name, (IPin*)this, phr, &m_cSharedState)
-    , m_bDiscontinuity(FALSE)
-    , m_bFlushing(FALSE)
     , m_AvgTimePerFrame(0)
     , m_rtSampleTime(0)
     , m_rtPosition(0)
+    , m_bDiscontinuity(FALSE)
+    , m_bFlushing(FALSE)
 {
     CAutoLock cAutoLock(&m_cSharedState);
     m_rtDuration = m_rtStop = 0;

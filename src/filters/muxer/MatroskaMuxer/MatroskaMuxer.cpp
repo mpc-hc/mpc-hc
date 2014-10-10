@@ -718,10 +718,10 @@ DWORD CMatroskaMuxerFilter::ThreadProc()
 CMatroskaMuxerInputPin::CMatroskaMuxerInputPin(LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr)
     : CBaseInputPin(NAME("CMatroskaMuxerInputPin"), pFilter, pLock, phr, pName)
     , m_fActive(false)
-    , m_fEndOfStreamReceived(false)
-    , m_rtDur(0)
     , m_rtLastStart(0)
     , m_rtLastStop(0)
+    , m_rtDur(0)
+    , m_fEndOfStreamReceived(false)
 {
 }
 

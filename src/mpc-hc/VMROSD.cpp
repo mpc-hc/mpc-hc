@@ -34,22 +34,22 @@
 
 
 CVMROSD::CVMROSD(CMainFrame* pMainFrame)
-    : m_pMainFrame(pMainFrame)
+    : m_pVMB(nullptr)
+    , m_pMFVMB(nullptr)
+    , m_pMVTO(nullptr)
+    , m_pCB(nullptr)
+    , m_pMainFrame(pMainFrame)
     , m_pWnd(nullptr)
+    , m_iFontSize(0)
+    , m_fontName(_T(""))
+    , m_bCursorMoving(false)
+    , m_bShowSeekBar(false)
+    , m_bSeekBarVisible(false)
     , m_llSeekMin(0)
     , m_llSeekMax(0)
     , m_llSeekPos(0)
-    , m_nMessagePos(OSD_NOMESSAGE)
-    , m_bShowSeekBar(false)
-    , m_bSeekBarVisible(false)
-    , m_bCursorMoving(false)
-    , m_pMFVMB(nullptr)
-    , m_pVMB(nullptr)
-    , m_pMVTO(nullptr)
-    , m_iFontSize(0)
-    , m_fontName(_T(""))
     , m_bShowMessage(true)
-    , m_pCB(nullptr)
+    , m_nMessagePos(OSD_NOMESSAGE)
 {
     m_colors[OSD_TRANSPARENT] = RGB(0,     0,   0);
     m_colors[OSD_BACKGROUND]  = RGB(32,   40,  48);

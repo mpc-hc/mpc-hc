@@ -37,10 +37,10 @@ IMPLEMENT_DYNAMIC(CPPageFormats, CPPageBase)
 CPPageFormats::CPPageFormats()
     : CPPageBase(CPPageFormats::IDD, CPPageFormats::IDD)
     , m_list(0)
-    , m_iRtspHandler(0)
-    , m_fRtspFileExtFirst(FALSE)
     , m_bInsufficientPrivileges(false)
     , m_bFileExtChanged(false)
+    , m_iRtspHandler(0)
+    , m_fRtspFileExtFirst(FALSE)
     , m_bHaveRegisteredCategory(false)
 {
 }

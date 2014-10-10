@@ -36,12 +36,12 @@ const double CSubPicQueueImpl::DEFAULT_FPS = 25.0;
 
 CSubPicQueueImpl::CSubPicQueueImpl(SubPicQueueSettings settings, ISubPicAllocator* pAllocator, HRESULT* phr)
     : CUnknown(NAME("CSubPicQueueImpl"), nullptr)
-    , m_settings(settings)
-    , m_pAllocator(pAllocator)
-    , m_rtNow(0)
     , m_fps(DEFAULT_FPS)
     , m_rtTimePerFrame(std::llround(10000000.0 / DEFAULT_FPS))
     , m_rtTimePerSubFrame(std::llround(10000000.0 / (DEFAULT_FPS* settings.nAnimationRate / 100.0)))
+    , m_rtNow(0)
+    , m_settings(settings)
+    , m_pAllocator(pAllocator)
 {
     if (phr) {
         *phr = S_OK;

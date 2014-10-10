@@ -24,9 +24,9 @@
 
 IMPLEMENT_DYNAMIC(CPlayerBar, CSizingControlBarG)
 CPlayerBar::CPlayerBar()
-    : m_defDockBarID(0)
-    , m_bAutohidden(false)
+    : m_bAutohidden(false)
     , m_bHasActivePopup(false)
+    , m_defDockBarID(0)
 {
     EventRouter::EventSelection receives;
     receives.insert(MpcEvent::CHANGING_UI_LANGUAGE);

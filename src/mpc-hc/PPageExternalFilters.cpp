@@ -81,8 +81,8 @@ BOOL CPPageExternalFiltersListBox::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESU
 IMPLEMENT_DYNAMIC(CPPageExternalFilters, CPPageBase)
 CPPageExternalFilters::CPPageExternalFilters()
     : CPPageBase(CPPageExternalFilters::IDD, CPPageExternalFilters::IDD)
-    , m_iLoadType(FilterOverride::PREFERRED)
     , m_pLastSelFilter(nullptr)
+    , m_iLoadType(FilterOverride::PREFERRED)
 {
 }
 

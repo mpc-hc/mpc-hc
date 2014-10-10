@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -29,15 +29,15 @@
 
 CBaseSplitterFile::CBaseSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, int cachelen, bool fRandomAccess, bool fStreaming)
     : m_pAsyncReader(pAsyncReader)
+    , m_cachepos(0)
+    , m_cachelen(0)
+    , m_cachetotal(0)
     , m_fStreaming(false)
     , m_fRandomAccess(false)
     , m_pos(0)
     , m_len(0)
     , m_bitbuff(0)
     , m_bitlen(0)
-    , m_cachepos(0)
-    , m_cachelen(0)
-    , m_cachetotal(0)
 {
     if (!m_pAsyncReader) {
         hr = E_UNEXPECTED;

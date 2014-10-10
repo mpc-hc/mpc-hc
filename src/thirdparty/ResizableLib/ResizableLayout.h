@@ -72,9 +72,10 @@ protected:
         LayoutInfo(HWND hwnd, SIZE tl_t, SIZE tl_m,
             SIZE br_t, SIZE br_m, CString classname)
             : hWnd(hwnd), nCallbackID(0),
-            sWndClass(classname), bMsgSupport(FALSE),
+            sWndClass(classname),
             sizeTypeTL(tl_t), sizeMarginTL(tl_m),
-            sizeTypeBR(br_t), sizeMarginBR(br_m)
+            sizeTypeBR(br_t), sizeMarginBR(br_m),
+            bMsgSupport(FALSE)
         {
             memset(&properties, 0, sizeof properties);
         }

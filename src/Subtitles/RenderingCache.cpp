@@ -36,9 +36,9 @@ CTextDimsKey::CTextDimsKey(const CStringW& str, const STSStyle& style)
 }
 
 CTextDimsKey::CTextDimsKey(const CTextDimsKey& textDimsKey)
-    : m_str(textDimsKey.m_str)
+    : m_hash(textDimsKey.m_hash)
+    , m_str(textDimsKey.m_str)
     , m_style(DEBUG_NEW STSStyle(*textDimsKey.m_style))
-    , m_hash(textDimsKey.m_hash)
 {
 }
 
@@ -85,10 +85,10 @@ CPolygonPathKey::CPolygonPathKey(const CStringW& str, double scalex, double scal
 }
 
 CPolygonPathKey::CPolygonPathKey(const CPolygonPathKey& polygonPathKey)
-    : m_str(polygonPathKey.m_str)
+    : m_hash(polygonPathKey.m_hash)
+    , m_str(polygonPathKey.m_str)
     , m_scalex(polygonPathKey.m_scalex)
     , m_scaley(polygonPathKey.m_scaley)
-    , m_hash(polygonPathKey.m_hash)
 {
 }
 
@@ -119,10 +119,10 @@ COutlineKey::COutlineKey(const CWord* word, CPoint org)
 
 COutlineKey::COutlineKey(const COutlineKey& outLineKey)
     : CTextDimsKey(outLineKey.m_str, *outLineKey.m_style)
+    , m_hash(outLineKey.m_hash)
     , m_scalex(outLineKey.m_scalex)
     , m_scaley(outLineKey.m_scaley)
     , m_org(outLineKey.m_org)
-    , m_hash(outLineKey.m_hash)
 {
 }
 

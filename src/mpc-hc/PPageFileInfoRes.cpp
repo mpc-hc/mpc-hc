@@ -29,8 +29,8 @@
 IMPLEMENT_DYNAMIC(CPPageFileInfoRes, CPPageBase)
 CPPageFileInfoRes::CPPageFileInfoRes(CString path, IFilterGraph* pFG, IFileSourceFilter* pFSF)
     : CPPageBase(CPPageFileInfoRes::IDD, CPPageFileInfoRes::IDD)
-    , m_fn(path)
     , m_hIcon(nullptr)
+    , m_fn(path)
 {
     if (pFSF) {
         LPOLESTR pFN = nullptr;

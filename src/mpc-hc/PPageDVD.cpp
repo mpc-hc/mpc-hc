@@ -180,12 +180,12 @@ LCIDNameList[] = {
 IMPLEMENT_DYNAMIC(CPPageDVD, CPPageBase)
 CPPageDVD::CPPageDVD()
     : CPPageBase(CPPageDVD::IDD, CPPageDVD::IDD)
+    , m_dvdpath(_T(""))
     , m_iDVDLocation(0)
     , m_iDVDLangType(0)
     , m_idMenuLang(0)
     , m_idAudioLang(0)
     , m_idSubtitlesLang(0)
-    , m_dvdpath(_T(""))
     , m_fClosedCaptions(FALSE)
 {
 }

@@ -67,22 +67,22 @@ CMyFont::CMyFont(STSStyle& style)
 
 CWord::CWord(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley,
              RenderingCaches& renderingCaches)
-    : m_style(style)
+    : m_fDrawn(false)
+    , m_p(INT_MAX, INT_MAX)
+    , m_renderingCaches(renderingCaches)
+    , m_scalex(scalex)
+    , m_scaley(scaley)
     , m_str(str)
-    , m_width(0)
-    , m_ascent(0)
-    , m_descent(0)
+    , m_fWhiteSpaceChar(false)
+    , m_fLineBreak(false)
+    , m_style(style)
+    , m_pOpaqueBox(nullptr)
     , m_ktype(ktype)
     , m_kstart(kstart)
     , m_kend(kend)
-    , m_fDrawn(false)
-    , m_p(INT_MAX, INT_MAX)
-    , m_fLineBreak(false)
-    , m_fWhiteSpaceChar(false)
-    , m_pOpaqueBox(nullptr)
-    , m_scalex(scalex)
-    , m_scaley(scaley)
-    , m_renderingCaches(renderingCaches)
+    , m_width(0)
+    , m_ascent(0)
+    , m_descent(0)
 {
     if (str.IsEmpty()) {
         m_fWhiteSpaceChar = m_fLineBreak = true;
@@ -1096,19 +1096,19 @@ CRect CLine::PaintBody(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPoin
 
 CSubtitle::CSubtitle(RenderingCaches& renderingCaches)
     : m_renderingCaches(renderingCaches)
-    , m_pClipper(nullptr)
-    , m_clipInverse(false)
-    , m_scalex(1.0)
-    , m_scaley(1.0)
     , m_scrAlignment(0)
     , m_wrapStyle(0)
     , m_fAnimated(false)
+    , m_bIsAnimated(false)
     , m_relativeTo(STSStyle::AUTO)
+    , m_pClipper(nullptr)
     , m_topborder(0)
     , m_bottomborder(0)
+    , m_clipInverse(false)
+    , m_scalex(1.0)
+    , m_scaley(1.0)
 {
     ZeroMemory(m_effects, sizeof(Effect*)*EF_NUMBEROFEFFECTS);
-    m_bIsAnimated = false;
 }
 
 CSubtitle::~CSubtitle()
@@ -1530,9 +1530,6 @@ CAtlMap<CStringW, SSATagCmd, CStringElementTraits<CStringW>> CRenderedTextSubtit
 
 CRenderedTextSubtitle::CRenderedTextSubtitle(CCritSec* pLock)
     : CSubPicProviderImpl(pLock)
-    , m_bOverrideStyle(false)
-    , m_bOverridePlacement(false)
-    , m_overridePlacement(50, 90)
     , m_time(0)
     , m_delay(0)
     , m_animStart(0)
@@ -1543,6 +1540,9 @@ CRenderedTextSubtitle::CRenderedTextSubtitle(CCritSec* pLock)
     , m_kend(0)
     , m_nPolygon(0)
     , m_polygonBaselineOffset(0)
+    , m_bOverrideStyle(false)
+    , m_bOverridePlacement(false)
+    , m_overridePlacement(50, 90)
 {
     m_size = CSize(0, 0);
 

@@ -35,18 +35,18 @@
 IMPLEMENT_DYNAMIC(CPPageFullscreen, CPPageBase)
 CPPageFullscreen::CPPageFullscreen()
     : CPPageBase(CPPageFullscreen::IDD, CPPageFullscreen::IDD)
+    , m_iFullScreenMonitor(0)
     , m_bLaunchFullscreen(FALSE)
+    , m_fExitFullScreenAtTheEnd(FALSE)
     , m_bHideFullscreenControls(FALSE)
     , m_uHideFullscreenControlsDelay(0)
     , m_bHideFullscreenDockedPanels(FALSE)
-    , m_fExitFullScreenAtTheEnd(FALSE)
+    , m_nCurrentDisplayModeIndex(0)
     , m_bAutoChangeFSModeEnabled(FALSE)
     , m_bAutoChangeFSModeApplyDefModeAtFSExist(TRUE)
     , m_bAutoChangeFSModeRestoreResAfterProgExit(TRUE)
     , m_uAutoChangeFullscrResDelay(0)
-    , m_iFullScreenMonitor(0)
     , m_list(0)
-    , m_nCurrentDisplayModeIndex(0)
 {
 }
 

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -26,9 +26,9 @@
 
 CPixelShaderCompiler::CPixelShaderCompiler(IDirect3DDevice9* pD3DDev, bool fStaySilent)
     : m_hDll(nullptr)
-    , m_pD3DDev(pD3DDev)
     , m_pD3DCompile(nullptr)
     , m_pD3DDisassemble(nullptr)
+    , m_pD3DDev(pD3DDev)
 {
     m_hDll = LoadLibrary(D3DCOMPILER_DLL);
 

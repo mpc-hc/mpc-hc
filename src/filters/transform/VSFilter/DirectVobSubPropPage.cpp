@@ -122,9 +122,9 @@ STDMETHODIMP CDVSBasePPage::Activate(HWND hwndParent, LPCRECT pRect, BOOL fModal
 
 CDVSBasePPage::CDVSBasePPage(TCHAR* pName, LPUNKNOWN lpunk, int DialogId, int TitleId)
     : CBasePropertyPage(pName, lpunk, DialogId, TitleId)
+    , m_fDisableInstantUpdate(false)
     , m_bIsInitialized(FALSE)
     , m_fAttached(false)
-    , m_fDisableInstantUpdate(false)
 {
 }
 
@@ -297,9 +297,9 @@ void CDVSBasePPage::BindControl(UINT id, CWnd& control)
 CDVSMainPPage::CDVSMainPPage(LPUNKNOWN pUnk, HRESULT* phr)
     : CDVSBasePPage(NAME("VSFilter Property Page (main)"), pUnk, IDD_DVSMAINPAGE, IDD_DVSMAINPAGE)
     , m_fn()
+    , m_iSelectedLanguage(0)
     , m_nLangs(0)
     , m_ppLangs(nullptr)
-    , m_iSelectedLanguage(0)
     , m_fOverridePlacement(false)
     , m_PlacementXperc(50)
     , m_PlacementYperc(90)

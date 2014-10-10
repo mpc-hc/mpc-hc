@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -72,8 +72,8 @@ CFilterApp theApp;
 
 CWavDestFilter::CWavDestFilter(LPUNKNOWN pUnk, HRESULT* phr)
     : CTransformFilter(NAME("WavDest filter"), pUnk, __uuidof(this))
-    , m_cbHeader(0)
     , m_cbWavData(0)
+    , m_cbHeader(0)
 {
     if (CWavDestOutputPin* pOut = DEBUG_NEW CWavDestOutputPin(this, phr)) {
         if (SUCCEEDED(*phr)) {

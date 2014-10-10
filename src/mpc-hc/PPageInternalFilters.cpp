@@ -29,8 +29,8 @@
 IMPLEMENT_DYNAMIC(CPPageInternalFiltersListBox, CCheckListBox)
 CPPageInternalFiltersListBox::CPPageInternalFiltersListBox(int n, const CArray<filter_t>& filters)
     : CCheckListBox()
-    , m_n(n)
     , m_filters(filters)
+    , m_n(n)
 {
     for (int i = 0; i < FILTER_TYPE_NB; i++) {
         m_nbFiltersPerType[i] = m_nbChecked[i] = 0;

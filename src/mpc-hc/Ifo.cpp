@@ -1,5 +1,5 @@
 /*
- * (C) 2008-2013 see Authors.txt
+ * (C) 2008-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -86,9 +86,9 @@ uint32_t get4bytes(const BYTE* buf)
 
 CIfo::CIfo()
     : m_pBuffer(nullptr)
+    , m_dwSize(0)
     , m_pPGCI(nullptr)
     , m_pPGCIT(nullptr)
-    , m_dwSize(0)
 {
 }
 

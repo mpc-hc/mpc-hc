@@ -31,10 +31,10 @@ IMPLEMENT_DYNAMIC(CPlayerSubresyncBar, CPlayerBar)
 CPlayerSubresyncBar::CPlayerSubresyncBar()
     : m_pSubLock(nullptr)
     , m_fps(0.0)
-    , m_mode(NONE)
-    , m_rt(0)
-    //, m_bUnlink(false)
     , m_lastSegment(-1)
+    , m_rt(0)
+    , m_mode(NONE)
+    //, m_bUnlink(false)
 {
 }
 

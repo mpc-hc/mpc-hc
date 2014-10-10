@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -33,6 +33,7 @@
 IMPLEMENT_DYNAMIC(CPPageFileInfoClip, CPropertyPage)
 CPPageFileInfoClip::CPPageFileInfoClip(CString path, IFilterGraph* pFG, IFileSourceFilter* pFSF)
     : CPropertyPage(CPPageFileInfoClip::IDD, CPPageFileInfoClip::IDD)
+    , m_hIcon(nullptr)
     , m_fn(path)
     , m_path(path)
     , m_clip(ResStr(IDS_AG_NONE))
@@ -40,7 +41,6 @@ CPPageFileInfoClip::CPPageFileInfoClip(CString path, IFilterGraph* pFG, IFileSou
     , m_copyright(ResStr(IDS_AG_NONE))
     , m_rating(ResStr(IDS_AG_NONE))
     , m_location_str(ResStr(IDS_AG_NONE))
-    , m_hIcon(nullptr)
 {
     if (pFSF) {
         LPOLESTR pFN;

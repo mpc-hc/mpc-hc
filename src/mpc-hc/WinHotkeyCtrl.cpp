@@ -1,5 +1,5 @@
 /*
- * (C) 2011-2013 see Authors.txt
+ * (C) 2011-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -34,9 +34,9 @@ CWinHotkeyCtrl* CWinHotkeyCtrl::sm_pwhcFocus = nullptr;
 IMPLEMENT_DYNAMIC(CWinHotkeyCtrl, CEdit)
 CWinHotkeyCtrl::CWinHotkeyCtrl()
     : m_vkCode(0)
+    , m_vkCode_def(0)
     , m_fModSet(0)
     , m_fModRel(0)
-    , m_vkCode_def(0)
     , m_fModSet_def(0)
     , m_fIsPressed(FALSE)
 {
