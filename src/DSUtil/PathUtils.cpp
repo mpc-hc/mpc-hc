@@ -127,6 +127,11 @@ namespace PathUtils
         return ret;
     }
 
+    CString Unquote(LPCTSTR path)
+    {
+        return CString(path).Trim(_T("\""));
+    }
+
     bool IsInDir(LPCTSTR path, LPCTSTR dir)
     {
         return !!CPath(path).IsPrefix(dir);

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,6 +22,7 @@
 #include "stdafx.h"
 #include <atlpath.h>
 #include "mplayerc.h"
+#include "PathUtils.h"
 #include "OpenDlg.h"
 #include "OpenFileDlg.h"
 
@@ -208,9 +209,9 @@ void COpenDlg::OnBnClickedOk()
     UpdateData();
 
     m_fns.RemoveAll();
-    m_fns.AddTail(m_path);
+    m_fns.AddTail(PathUtils::Unquote(m_path));
     if (m_mrucombo2.IsWindowEnabled()) {
-        m_fns.AddTail(m_path2);
+        m_fns.AddTail(PathUtils::Unquote(m_path2));
     }
 
     m_fMultipleFiles = false;
