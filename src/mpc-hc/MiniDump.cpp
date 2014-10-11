@@ -53,9 +53,7 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter(EXCEPTION_POINTERS* pExceptionPo
     CPath   dumpPath;
     bool    bDumpCreated = false;
 
-    const WinapiFunc<BOOL(HANDLE, DWORD, HANDLE, MINIDUMP_TYPE, PMINIDUMP_EXCEPTION_INFORMATION,
-                          PMINIDUMP_USER_STREAM_INFORMATION, PMINIDUMP_CALLBACK_INFORMATION)>
-    fnMiniDumpWriteDump = { "DbgHelp.dll", "MiniDumpWriteDump" };
+    const WinapiFunc<decltype(MiniDumpWriteDump)> fnMiniDumpWriteDump = { "DbgHelp.dll", "MiniDumpWriteDump" };
 
     if (fnMiniDumpWriteDump && AfxGetMyApp()->GetAppSavePath(dumpPath) && FileExists(dumpPath) || CreateDirectory(dumpPath, nullptr)) {
         dumpPath.Append(CString(AfxGetApp()->m_pszExeName) + _T(".exe.") + VersionInfo::GetVersionString() + _T(".dmp"));

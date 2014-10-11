@@ -807,7 +807,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
         return -1;
     }
 
-    const WinapiFunc<BOOL(HWND, UINT, DWORD, PCHANGEFILTERSTRUCT)>
+    const WinapiFunc<decltype(ChangeWindowMessageFilterEx)>
     fnChangeWindowMessageFilterEx = { "user32.dll", "ChangeWindowMessageFilterEx" };
 
     // allow taskbar messages through UIPI
@@ -16060,7 +16060,7 @@ void CMainFrame::OnSessionChange(UINT nSessionState, UINT nId)
 
 void CMainFrame::WTSRegisterSessionNotification()
 {
-    const WinapiFunc<BOOL(HWND, DWORD)>
+    const WinapiFunc<BOOL WINAPI(HWND, DWORD)>
     fnWtsRegisterSessionNotification = { "wtsapi32.dll", "WTSRegisterSessionNotification" };
 
     if (fnWtsRegisterSessionNotification) {
@@ -16070,7 +16070,7 @@ void CMainFrame::WTSRegisterSessionNotification()
 
 void CMainFrame::WTSUnRegisterSessionNotification()
 {
-    const WinapiFunc<BOOL(HWND)>
+    const WinapiFunc<BOOL WINAPI(HWND)>
     fnWtsUnRegisterSessionNotification = { "wtsapi32.dll", "WTSUnRegisterSessionNotification" };
 
     if (fnWtsUnRegisterSessionNotification) {
