@@ -3973,31 +3973,33 @@ void CMainFrame::OnFileOpenmedia()
         dlg.SetForegroundWindow();
         return;
     }
-    if (dlg.DoModal() != IDOK || dlg.m_fns.IsEmpty()) {
+    if (dlg.DoModal() != IDOK || dlg.GetFileNames().IsEmpty()) {
         return;
     }
 
-    if (!dlg.m_fAppendPlaylist) {
+    if (!dlg.GetAppendToPlaylist()) {
         SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
     }
 
     ShowWindow(SW_SHOW);
     SetForegroundWindow();
 
-    if (!dlg.m_fMultipleFiles) {
-        if (OpenBD(dlg.m_fns.GetHead())) {
+    CAtlList<CString> filenames;
+    filenames.AddHeadList(&dlg.GetFileNames());
+
+    if (!dlg.HasMultipleFiles()) {
+        if (OpenBD(filenames.GetHead())) {
             return;
         }
     }
 
-    if (dlg.m_fAppendPlaylist) {
-        m_wndPlaylistBar.Append(dlg.m_fns, dlg.m_fMultipleFiles);
-        return;
+    if (dlg.GetAppendToPlaylist()) {
+        m_wndPlaylistBar.Append(filenames, dlg.HasMultipleFiles());
+    } else {
+        m_wndPlaylistBar.Open(filenames, dlg.HasMultipleFiles());
+
+        OpenCurPlaylistItem();
     }
-
-    m_wndPlaylistBar.Open(dlg.m_fns, dlg.m_fMultipleFiles);
-
-    OpenCurPlaylistItem();
 }
 
 void CMainFrame::OnUpdateFileOpen(CCmdUI* pCmdUI)
