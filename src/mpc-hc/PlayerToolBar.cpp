@@ -94,8 +94,8 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
         TBBS_BUTTON, TBBS_BUTTON, TBBS_BUTTON, TBBS_BUTTON,
         TBBS_SEPARATOR,
         TBBS_BUTTON,
-		TBBS_SEPARATOR,
-		TBBS_BUTTON,
+        TBBS_SEPARATOR,
+        TBBS_BUTTON,
         TBBS_SEPARATOR,
         TBBS_SEPARATOR,
         TBBS_CHECKBOX,
@@ -168,8 +168,8 @@ void CPlayerToolBar::ArrangeControls()
     UINT nID;
     UINT nStyle;
     int iImage;
-	GetButtonInfo(m_nVolumeOnImageIndex, nID, nStyle, iImage);
-	SetButtonInfo(m_nVolumeSeparatorIndex, GetItemID(m_nVolumeSeparatorIndex), TBBS_SEPARATOR, vr.left - iImage - r10.right - (r10.bottom - r10.top) + 11);
+    GetButtonInfo(m_nVolumeOnImageIndex, nID, nStyle, iImage);
+    SetButtonInfo(m_nVolumeSeparatorIndex, GetItemID(m_nVolumeSeparatorIndex), TBBS_SEPARATOR, vr.left - iImage - r10.right - (r10.bottom - r10.top) + 11);
 }
 
 void CPlayerToolBar::SetMute(bool fMute)
@@ -178,7 +178,7 @@ void CPlayerToolBar::SetMute(bool fMute)
     TBBUTTONINFO bi;
     bi.cbSize = sizeof(bi);
     bi.dwMask = TBIF_IMAGE;
-	bi.iImage = fMute ? m_nVolumeOffImageIndex : m_nVolumeOnImageIndex;
+    bi.iImage = fMute ? m_nVolumeOffImageIndex : m_nVolumeOnImageIndex;
     tb.SetButtonInfo(ID_VOLUME_MUTE, &bi);
 
     AfxGetAppSettings().fMute = fMute;
@@ -208,7 +208,7 @@ int CPlayerToolBar::GetVolume() const
 
 int CPlayerToolBar::GetMinWidth() const
 {
-	return m_nButtonHeight * (m_nVolumeSeparatorIndex - 2) + 155 + m_volumeMinSizeInc;
+    return m_nButtonHeight * (m_nVolumeSeparatorIndex - 2) + 155 + m_volumeMinSizeInc;
 }
 
 void CPlayerToolBar::SetVolume(int volume)
@@ -262,7 +262,7 @@ void CPlayerToolBar::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
             CDC dc;
             dc.Attach(pTBCD->nmcd.hdc);
             RECT r;
-			GetItemRect(m_nVolumeSeparatorIndex, &r);
+            GetItemRect(m_nVolumeSeparatorIndex, &r);
             dc.FillSolidRect(&r, GetSysColor(COLOR_BTNFACE));
             dc.Detach();
             lr |= CDRF_SKIPDEFAULT;
@@ -393,12 +393,12 @@ BOOL CPlayerToolBar::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
     tb.GetButtonInfo(ID_VOLUME_MUTE, &bi);
 
     static CString strTipText;
-	if (bi.iImage == m_nVolumeOnImageIndex) {
+    if (bi.iImage == m_nVolumeOnImageIndex) {
         strTipText.LoadString(ID_VOLUME_MUTE);
     } else if (bi.iImage == m_nVolumeOffImageIndex) {
         strTipText.LoadString(ID_VOLUME_MUTE_ON);
-	}
-	else if (bi.iImage == m_nVolumeDisabledImageIndex) {
+    }
+    else if (bi.iImage == m_nVolumeDisabledImageIndex) {
         strTipText.LoadString(ID_VOLUME_MUTE_DISABLED);
     } else {
         return FALSE;

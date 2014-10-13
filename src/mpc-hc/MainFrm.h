@@ -870,8 +870,8 @@ public:
     afx_msg void OnUpdatePlayPauseStop(CCmdUI* pCmdUI);
     afx_msg void OnPlayFramestep(UINT nID);
     afx_msg void OnUpdatePlayFramestep(CCmdUI* pCmdUI);
-	afx_msg void OnPlayClose();
-	afx_msg void OnUpdatePlayClose(CCmdUI* pCmdUI);	
+    afx_msg void OnPlayClose();
+    afx_msg void OnUpdatePlayClose(CCmdUI* pCmdUI);	
     afx_msg void OnPlaySeek(UINT nID);
     afx_msg void OnPlaySeekSet();
     afx_msg void OnPlaySeekKey(UINT nID); // no menu item

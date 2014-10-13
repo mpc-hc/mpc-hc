@@ -1284,8 +1284,8 @@ bool CMPlayerCApp::SendCommandLine(HWND hWnd)
 
 void CMPlayerCApp::Exit()
 {
-	m_fClosingState = true;
-	OnAppExit();
+    m_fClosingState = true;
+    OnAppExit();
 }
 
 // CMPlayerCApp initialization
@@ -2018,7 +2018,7 @@ void CMPlayerCApp::OnAppAbout()
 
 void CMPlayerCApp::OnFileExit()
 {
-	Exit();
+    Exit();
 }
 
 void CMPlayerCApp::OnHelpShowcommandlineswitches()
