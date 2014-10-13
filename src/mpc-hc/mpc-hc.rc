@@ -1306,6 +1306,8 @@ BEGIN
     BUTTON      ID_NAVIGATE_SKIPFORWARD
     BUTTON      ID_BUTTONSEP
     BUTTON      ID_PLAY_FRAMESTEP
+	BUTTON      ID_BUTTONSEP
+	BUTTON		ID_PLAY_CLOSE
     BUTTON      ID_BUTTONSEP
     BUTTON      ID_DUMMYSEPARATOR
     BUTTON      ID_VOLUME_MUTE
@@ -2430,6 +2432,7 @@ BEGIN
     ID_PLAY_PAUSE           "Pause\nPause"
     ID_PLAY_STOP            "Stop\nStop"
     ID_PLAY_FRAMESTEP       "Step\nStep"
+	ID_PLAY_CLOSE			"Close\nClose"
     ID_PLAY_DECRATE         "Decrease speed\nDecrease speed"
     ID_PLAY_INCRATE         "Increase speed\nIncrease speed"
 END

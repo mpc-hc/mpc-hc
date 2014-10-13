@@ -133,6 +133,7 @@ public:
     bool IsIniValid() const;
     bool ChangeSettingsLocation(bool useIni);
     bool ExportSettings(CString savePath, CString subKey = _T(""));
+	void Exit();
 
 private:
     std::map<CString, std::map<CString, CString, CStringUtils::IgnoreCaseLess>, CStringUtils::IgnoreCaseLess> m_ProfileMap;
