@@ -32,11 +32,11 @@ class CPlayerToolBar : public CToolBar
     DECLARE_DYNAMIC(CPlayerToolBar)
 
 private:
-	const int VOLUME_SEPARATOR_INDEX = 13;
-	const int VOLUME_ON_IMAGE_INDEX = 14;
-	const int VOLUME_OFF_IMAGE_INDEX = 15;
-	const int VOLUME_DISABLED_IMAGE_INDEX = 16;
-
+	const int m_nVolumeSeparatorIndex = 13;
+	const int m_nVolumeOnImageIndex = 14;
+	const int m_nVolumeOffImageIndex = 15;
+	const int m_nVolumeDisabledImageIndex = 16;
+	
     CMainFrame* m_pMainFrame;
 
     bool IsMuted() const;
