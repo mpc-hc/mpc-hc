@@ -18,6 +18,9 @@ void ListArchive(CommandData *Cmd)
   wchar ArcName[NM];
   while (Cmd->GetArcName(ArcName,ASIZE(ArcName)))
   {
+    if (Cmd->ManualPassword)
+      Cmd->Password.Clean(); // Clean user entered password before processing next archive.
+
     Archive Arc(Cmd);
 #ifdef _WIN_ALL
     Arc.RemoveSequentialFlag();

@@ -9,7 +9,6 @@ CmdExtract::CmdExtract(CommandData *Cmd)
   *DestFileName=0;
 
   TotalFileCount=0;
-  Password.Set(L"");
   Unp=new Unpack(&DataIO);
 #ifdef RAR_SMP
   Unp->SetThreads(Cmd->Threads);
@@ -25,6 +24,9 @@ CmdExtract::~CmdExtract()
 
 void CmdExtract::DoExtract()
 {
+#if defined(_WIN_ALL) && !defined(SFX_MODULE) && !defined(SILENT)
+  Fat32=NotFat32=false;
+#endif
   PasswordCancelled=false;
   DataIO.SetCurrentCommand(Cmd->Command[0]);
 
@@ -36,17 +38,11 @@ void CmdExtract::DoExtract()
   Cmd->ArcNames.Rewind();
   while (Cmd->GetArcName(ArcName,ASIZE(ArcName)))
   {
+    if (Cmd->ManualPassword)
+      Cmd->Password.Clean(); // Clean user entered password before processing next archive.
     while (true)
     {
-      SecPassword PrevCmdPassword;
-      PrevCmdPassword=Cmd->Password;
-
       EXTRACT_ARC_CODE Code=ExtractArchive();
-
-      // Restore Cmd->Password, which could be changed in IsArchive() call
-      // for next header encrypted archive.
-      Cmd->Password=PrevCmdPassword;
-
       if (Code!=EXTRACT_ARC_REPEAT)
         break;
     }
@@ -86,8 +82,6 @@ void CmdExtract::ExtractArchiveInit(Archive &Arc)
 #endif
 
   PasswordAll=(Cmd->Password.IsSet());
-  if (PasswordAll)
-    Password=Cmd->Password;
 
   DataIO.UnpVolume=false;
 
@@ -262,7 +256,7 @@ bool CmdExtract::ExtractCurrentFile(Archive &Arc,size_t HeaderSize,bool &Repeat)
   int MatchNumber=Cmd->IsProcessFile(Arc.FileHead,&EqualNames,MatchType);
   bool ExactMatch=MatchNumber!=0;
 #ifndef SFX_MODULE
-  if (Cmd->ExclPath==EXCL_BASEPATH)
+  if (*Cmd->ArcPath==0 && Cmd->ExclPath==EXCL_BASEPATH)
   {
     *Cmd->ArcPath=0;
     if (ExactMatch)
@@ -400,7 +394,7 @@ bool CmdExtract::ExtractCurrentFile(Archive &Arc,size_t HeaderSize,bool &Repeat)
       }
 #endif
       // Skip only the current encrypted file if empty password is entered.
-      if (!Password.IsSet())
+      if (!Cmd->Password.IsSet())
       {
         ErrHandler.SetErrorCode(RARX_WARNING);
 #ifdef RARDLL
@@ -430,7 +424,6 @@ bool CmdExtract::ExtractCurrentFile(Archive &Arc,size_t HeaderSize,bool &Repeat)
 #endif
     }
 
-    
     File CurFile;
 
     bool LinkEntry=Arc.FileHead.RedirType!=FSREDIR_NONE;
@@ -510,7 +503,7 @@ bool CmdExtract::ExtractCurrentFile(Archive &Arc,size_t HeaderSize,bool &Repeat)
         mprintf(L"     ");
 #endif
 
-      SecPassword FilePassword=Password;
+      SecPassword FilePassword=Cmd->Password;
 #if defined(_WIN_ALL) && !defined(SFX_MODULE)
       ConvertDosPassword(Arc,FilePassword);
 #endif
@@ -540,6 +533,18 @@ bool CmdExtract::ExtractCurrentFile(Archive &Arc,size_t HeaderSize,bool &Repeat)
       DataIO.SetFiles(&Arc,&CurFile);
       DataIO.SetTestMode(TestMode);
       DataIO.SetSkipUnpCRC(SkipSolid);
+
+#if defined(_WIN_ALL) && !defined(SFX_MODULE) && !defined(SILENT)
+      if (!TestMode && !WrongPassword && !Arc.BrokenHeader &&
+          Arc.FileHead.UnpSize>0xffffffff && (Fat32 || !NotFat32))
+      {
+        if (!Fat32) // Not detected yet.
+          NotFat32=!(Fat32=IsFAT(Cmd->ExtrPath));
+        if (Fat32)
+          uiMsg(UIMSG_FAT32SIZE); // Inform user about FAT32 size limit.
+      }
+#endif
+
       if (!TestMode && !WrongPassword && !Arc.BrokenHeader &&
           (Arc.FileHead.PackSize<<11)>Arc.FileHead.UnpSize &&
           (Arc.FileHead.UnpSize<100000000 || Arc.FileLength()>Arc.FileHead.PackSize))
@@ -862,11 +867,11 @@ bool CmdExtract::ExtrDllGetPassword()
       }
       Cmd->Password.Set(PasswordW);
       cleandata(PasswordW,sizeof(PasswordW));
+      Cmd->ManualPassword=true;
     }
     if (!Cmd->Password.IsSet())
       return false;
   }
-  Password=Cmd->Password;
   return true;
 }
 #endif
@@ -875,14 +880,15 @@ bool CmdExtract::ExtrDllGetPassword()
 #ifndef RARDLL
 bool CmdExtract::ExtrGetPassword(Archive &Arc,const wchar *ArcFileName)
 {
-  if (!Password.IsSet())
+  if (!Cmd->Password.IsSet())
   {
-    if (!uiGetPassword(UIPASSWORD_FILE,ArcFileName,&Password))
+    if (!uiGetPassword(UIPASSWORD_FILE,ArcFileName,&Cmd->Password))
     {
       uiMsg(UIERROR_INCERRCOUNT);
 
       return false;
     }
+    Cmd->ManualPassword=true;
   }
 #if !defined(GUI) && !defined(SILENT)
   else
@@ -894,7 +900,7 @@ bool CmdExtract::ExtrGetPassword(Archive &Arc,const wchar *ArcFileName)
         case -1:
           ErrHandler.Exit(RARX_USERBREAK);
         case 2:
-          if (!uiGetPassword(UIPASSWORD_FILE,ArcFileName,&Password))
+          if (!uiGetPassword(UIPASSWORD_FILE,ArcFileName,&Cmd->Password))
             return false;
           break;
         case 3:
@@ -916,7 +922,7 @@ void CmdExtract::ConvertDosPassword(Archive &Arc,SecPassword &DestPwd)
     // We need the password in OEM encoding if file was encrypted by
     // native RAR/DOS (not extender based). Let's make the conversion.
     wchar PlainPsw[MAXPASSWORD];
-    Password.Get(PlainPsw,ASIZE(PlainPsw));
+    Cmd->Password.Get(PlainPsw,ASIZE(PlainPsw));
     char PswA[MAXPASSWORD];
     CharToOemBuffW(PlainPsw,PswA,ASIZE(PswA));
     PswA[ASIZE(PswA)-1]=0;
@@ -957,6 +963,18 @@ void CmdExtract::ExtrCreateDir(Archive &Arc,const wchar *ArcFileName)
     {
       CreatePath(DestFileName,true);
       MDCode=MakeDir(DestFileName,!Cmd->IgnoreGeneralAttr,Arc.FileHead.FileAttr);
+      if (MDCode!=MKDIR_SUCCESS)
+      {
+        wchar OrigName[ASIZE(DestFileName)];
+        wcsncpyz(OrigName,DestFileName,ASIZE(OrigName));
+        MakeNameUsable(DestFileName,true);
+        CreatePath(DestFileName,true);
+        MDCode=MakeDir(DestFileName,!Cmd->IgnoreGeneralAttr,Arc.FileHead.FileAttr);
+#ifndef SFX_MODULE
+        if (MDCode==MKDIR_SUCCESS)
+          uiMsg(UIERROR_RENAMING,Arc.FileName,OrigName,DestFileName);
+#endif
+      }
     }
   }
   if (MDCode==MKDIR_SUCCESS)

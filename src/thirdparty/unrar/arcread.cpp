@@ -893,6 +893,7 @@ void Archive::RequestArcPassword()
       ErrHandler.Exit(RARX_USERBREAK);
     }
 #endif
+    Cmd->ManualPassword=true;
   }
 }
 #endif

@@ -52,7 +52,7 @@ bool File::Open(const wchar *Name,uint Mode)
   uint Access=WriteMode ? GENERIC_WRITE:GENERIC_READ;
   if (UpdateMode)
     Access|=GENERIC_WRITE;
-  uint ShareMode=FILE_SHARE_READ;
+  uint ShareMode=(Mode & FMF_OPENEXCLUSIVE) ? 0 : FILE_SHARE_READ;
   if (OpenShared)
     ShareMode|=FILE_SHARE_WRITE;
   uint Flags=NoSequentialRead ? 0:FILE_FLAG_SEQUENTIAL_SCAN;
@@ -167,7 +167,16 @@ bool File::Create(const wchar *Name,uint Mode)
   CreateMode=Mode;
   uint Access=WriteMode ? GENERIC_WRITE:GENERIC_READ|GENERIC_WRITE;
   DWORD ShareMode=ShareRead ? FILE_SHARE_READ:0;
-  hFile=CreateFile(Name,Access,ShareMode,NULL,CREATE_ALWAYS,0,NULL);
+
+  // Windows automatically removes dots and spaces in the end of file name,
+  // So we detect such names and process them with \\?\ prefix.
+  wchar *LastChar=PointToLastChar(Name);
+  bool Special=*LastChar=='.' || *LastChar==' ';
+  
+  if (Special)
+    hFile=BAD_HANDLE;
+  else
+    hFile=CreateFile(Name,Access,ShareMode,NULL,CREATE_ALWAYS,0,NULL);
 
   if (hFile==BAD_HANDLE)
   {
@@ -390,8 +399,8 @@ int File::DirectRead(void *Data,size_t Size)
   if (HandleType==FILE_HANDLESTD)
   {
 #ifdef _WIN_ALL
-    if (Size>MaxDeviceRead)
-      Size=MaxDeviceRead;
+//    if (Size>MaxDeviceRead)
+//      Size=MaxDeviceRead;
     hFile=GetStdHandle(STD_INPUT_HANDLE);
 #else
 #ifdef FILE_USE_OPEN
@@ -402,6 +411,8 @@ int File::DirectRead(void *Data,size_t Size)
 #endif
   }
 #ifdef _WIN_ALL
+  // For pipes like 'type file.txt | rar -si arcname' ReadFile may return
+  // data in small ~4KB blocks. It may slightly reduce the compression ratio.
   DWORD Read;
   if (!ReadFile(hFile,Data,(DWORD)Size,&Read,NULL))
   {
@@ -650,7 +661,7 @@ bool File::IsDevice()
 #ifndef SFX_MODULE
 int64 File::Copy(File &Dest,int64 Length)
 {
-  Array<char> Buffer(0x10000);
+  Array<char> Buffer(0x40000);
   int64 CopySize=0;
   bool CopyAll=(Length==INT64NDF);
 
@@ -667,7 +678,7 @@ int64 File::Copy(File &Dest,int64 Length)
     // For FAT32 USB flash drives in Windows if first write is 4 KB or more,
     // write caching is disabled and "write through" is enabled, resulting
     // in bad performance, especially for many small files. It happens when
-    // we create SFX archive on USB drive, because SFX module is writetn first.
+    // we create SFX archive on USB drive, because SFX module is written first.
     // So we split the first write to small 1 KB followed by rest of data.
     if (CopySize==0 && WriteSize>=4096)
     {

@@ -3,7 +3,11 @@
 MKDIR_CODE MakeDir(const wchar *Name,bool SetAttr,uint Attr)
 {
 #ifdef _WIN_ALL
-  BOOL RetCode=CreateDirectory(Name,NULL);
+  // Windows automatically removes dots and spaces in the end of directory
+  // name. So we detect such names and process them with \\?\ prefix.
+  wchar *LastChar=PointToLastChar(Name);
+  bool Special=*LastChar=='.' || *LastChar==' ';
+  BOOL RetCode=Special ? FALSE : CreateDirectory(Name,NULL);
   if (RetCode==0 && !FileExist(Name))
   {
     wchar LongName[NM];
@@ -169,6 +173,19 @@ int64 GetFreeDisk(const wchar *Name)
 #endif
 
 
+#if defined(_WIN_ALL) && !defined(SFX_MODULE) && !defined(SILENT)
+// Return 'true' for FAT and FAT32, so we can adjust the maximum supported
+// file size to 4 GB for these file systems.
+bool IsFAT(const wchar *Name)
+{
+  wchar Root[NM];
+  GetPathRoot(Name,Root,ASIZE(Root));
+  wchar FileSystem[MAX_PATH+1];
+  if (GetVolumeInformation(Root,NULL,0,NULL,NULL,NULL,FileSystem,ASIZE(FileSystem)))
+    return wcscmp(FileSystem,L"FAT")==0 || wcscmp(FileSystem,L"FAT32")==0;
+  return false;
+}
+#endif
 
 
 bool FileExist(const wchar *Name)

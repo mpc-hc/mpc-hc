@@ -22,8 +22,8 @@ wchar* wcsupper(wchar *s);
 #endif
 int toupperw(int ch);
 int tolowerw(int ch);
-uint atoiw(const wchar *s);
-uint64 atoilw(const wchar *s);
+int atoiw(const wchar *s);
+int64 atoilw(const wchar *s);
 
 #ifdef DBCS_SUPPORTED
 class SupportDBCS

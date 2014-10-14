@@ -482,21 +482,27 @@ int tolowerw(int ch)
 }
 
 
-uint atoiw(const wchar *s)
+int atoiw(const wchar *s)
 {
-  return (uint)atoilw(s);
+  return (int)atoilw(s);
 }
 
 
-uint64 atoilw(const wchar *s)
+int64 atoilw(const wchar *s)
 {
-  uint64 n=0;
+  int sign=1;
+  if (*s=='-')
+  {
+    s++;
+    sign=-1;
+  }
+  int64 n=0;
   while (*s>='0' && *s<='9')
   {
     n=n*10+(*s-'0');
     s++;
   }
-  return n;
+  return sign*n;
 }
 
 

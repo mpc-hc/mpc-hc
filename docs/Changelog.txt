@@ -16,6 +16,7 @@ next version - not released yet
 + Ticket #4941, Support embedded cover-art
 * DVB: Improve channel switching speed
 * The "Properties" dialog should open faster being that the MediaInfo analysis is now done asynchronously
+* Updated Unrar to v5.2.1
 * Updated Arabic, Basque, Catalan, French, Galician, Japanese, Korean, Romanian, Slovak, Spanish, Turkish
   and Ukrainian translations
 ! Ticket #2953, DVB: Fix crash when closing window right after switching channel

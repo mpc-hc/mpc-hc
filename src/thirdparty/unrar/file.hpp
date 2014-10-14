@@ -35,8 +35,11 @@ enum FILE_MODE_FLAGS {
   // Open files which are already opened for write by other programs.
   FMF_OPENSHARED=4,
 
+  // Open files only if no other program is opened it even in shared mode.
+  FMF_OPENEXCLUSIVE=8,
+
   // Provide read access to created file for other programs.
-  FMF_SHAREREAD=8,
+  FMF_SHAREREAD=16,
 
   // Mode flags are not defined yet.
   FMF_UNDEFINED=256
