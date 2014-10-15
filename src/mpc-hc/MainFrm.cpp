@@ -94,6 +94,7 @@
 #include <comdef.h>
 #include "MPCPngImage.h"
 #include "DSMPropertyBag.h"
+#include "CoverArt.h"
 
 #include "../Subtitles/RTS.h"
 #include "../Subtitles/STS.h"
@@ -16142,8 +16143,15 @@ void CMainFrame::UpdateControlState(UpdateControlTarget target)
                 CString author;
                 m_wndInfoBar.GetLine(ResStr(IDS_INFOBAR_AUTHOR), author);
                 CString strPath = path;
-                if (m_currentCoverPath != strPath || m_currentCoverAuthor != author) {
-                    m_wndView.LoadImg(FindCoverArt(strPath, author));
+
+                CComQIPtr<IFilterGraph> pFilterGraph = m_pGB;
+                std::vector<BYTE> internalCover;
+                if (CoverArt::FindEmbedded(pFilterGraph, internalCover)) {
+                    m_wndView.LoadImg(internalCover);
+                    m_currentCoverPath = m_wndPlaylistBar.GetCurFileName();
+                    m_currentCoverAuthor = author;
+                } else if (m_currentCoverPath != strPath || m_currentCoverAuthor != author) {
+                    m_wndView.LoadImg(CoverArt::FindExternal(strPath, author));
                     m_currentCoverPath = strPath;
                     m_currentCoverAuthor = author;
                 }

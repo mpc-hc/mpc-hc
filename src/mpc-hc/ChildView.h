@@ -40,6 +40,8 @@ class CChildView : public CMouseWnd
 
     void EventCallback(MpcEvent ev);
 
+    void LoadImgInternal(HGDIOBJ hImg);
+
 public:
     CChildView(CMainFrame* pMainFrm);
     virtual ~CChildView();
@@ -50,6 +52,7 @@ public:
     CRect GetVideoRect() const { return m_vrect; }
 
     void LoadImg(const CString& imagePath = _T(""));
+    void LoadImg(std::vector<BYTE> buffer);
     CSize GetLogoSize();
 
 protected:

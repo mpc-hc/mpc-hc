@@ -721,7 +721,7 @@ CString BinToCString(const BYTE* ptr, size_t len)
     return ret;
 }
 
-static void FindFiles(CString fn, CAtlList<CString>& files)
+void FindFiles(CString fn, CAtlList<CString>& files)
 {
     CString path = fn;
     path.Replace('/', '\\');
@@ -2647,28 +2647,4 @@ void CorrectComboBoxHeaderWidth(CWnd* pComboBox)
 
     r.right = r.left + ::GetSystemMetrics(SM_CXMENUCHECK) + ::GetSystemMetrics(SM_CXEDGE) + szText.cx + tm.tmAveCharWidth;
     pComboBox->MoveWindow(r);
-}
-
-CString FindCoverArt(const CString& path, const CString& author)
-{
-    if (!path.IsEmpty()) {
-        CAtlList<CString> files;
-        FindFiles(path + _T("\\*front*.png"), files);
-        FindFiles(path + _T("\\*front*.jp*g"), files);
-        FindFiles(path + _T("\\*front*.bmp"), files);
-        FindFiles(path + _T("\\*cover*.png"), files);
-        FindFiles(path + _T("\\*cover*.jp*g"), files);
-        FindFiles(path + _T("\\*cover*.bmp"), files);
-        FindFiles(path + _T("\\*folder*.png"), files);
-        FindFiles(path + _T("\\*folder*.jp*g"), files);
-        FindFiles(path + _T("\\*folder*.bmp"), files);
-        FindFiles(path + _T("\\*") + author + _T("*.png"), files);
-        FindFiles(path + _T("\\*") + author + _T("*.jp*g"), files);
-        FindFiles(path + _T("\\*") + author + _T("*.bmp"), files);
-
-        if (!files.IsEmpty()) {
-            return files.GetHead();
-        }
-    }
-    return _T("");
 }

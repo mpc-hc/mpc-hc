@@ -116,15 +116,33 @@ void CChildView::SetVideoRect(const CRect& r)
 
 void CChildView::LoadImg(const CString& imagePath)
 {
-    CAppSettings& s = AfxGetAppSettings();
-    bool bHaveLogo = false;
-    m_bCustomImgLoaded = false;
-
-    m_img.DeleteObject();
+    CMPCPngImage img;
 
     if (!imagePath.IsEmpty()) {
-        m_bCustomImgLoaded = !!m_img.LoadFromFile(imagePath);
+        img.LoadFromFile(imagePath);
     }
+
+    LoadImgInternal(img.Detach());
+}
+
+void CChildView::LoadImg(std::vector<BYTE> buffer)
+{
+    CMPCPngImage img;
+
+    if (!buffer.empty()) {
+        img.LoadFromBuffer(buffer.data(), (UINT)buffer.size());
+    }
+
+    LoadImgInternal(img.Detach());
+}
+
+void CChildView::LoadImgInternal(HGDIOBJ hImg)
+{
+    CAppSettings& s = AfxGetAppSettings();
+    bool bHaveLogo = false;
+
+    m_img.DeleteObject();
+    m_bCustomImgLoaded = !!m_img.Attach(hImg);
 
     if (!m_bCustomImgLoaded && s.fLogoExternal) {
         bHaveLogo = !!m_img.LoadFromFile(s.strLogoFileName);
