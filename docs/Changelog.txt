@@ -25,6 +25,8 @@ next version - not released yet
 ! Ticket #4938, Fix resetting the settings from the "Options" dialog: some settings were (randomly) not
   restored to their default value
 ! Ticket #4954, Open dialog: Support quoted paths
+! Ticket #4975, Unrelated images could be loaded as cover-art when no author information was available
+  in the audio file
 
 
 1.7.7 - 05 October 2014

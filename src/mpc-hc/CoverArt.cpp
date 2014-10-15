@@ -36,9 +36,11 @@ CString CoverArt::FindExternal(const CString& path, const CString& author)
         FindFiles(path + _T("\\*folder*.png"), files);
         FindFiles(path + _T("\\*folder*.jp*g"), files);
         FindFiles(path + _T("\\*folder*.bmp"), files);
-        FindFiles(path + _T("\\*") + author + _T("*.png"), files);
-        FindFiles(path + _T("\\*") + author + _T("*.jp*g"), files);
-        FindFiles(path + _T("\\*") + author + _T("*.bmp"), files);
+        if (!author.IsEmpty()) {
+            FindFiles(path + _T("\\*") + author + _T("*.png"), files);
+            FindFiles(path + _T("\\*") + author + _T("*.jp*g"), files);
+            FindFiles(path + _T("\\*") + author + _T("*.bmp"), files);
+        }
 
         if (!files.IsEmpty()) {
             return files.GetHead();
