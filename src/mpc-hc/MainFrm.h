@@ -349,7 +349,7 @@ private:
 
     DWORD m_dwLastRun;
 
-    bool m_fBuffering;
+    bool m_bBuffering;
 
     bool m_fLiveWM;
 

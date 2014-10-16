@@ -711,7 +711,7 @@ CMainFrame::CMainFrame()
     , m_fCapturing(false)
     , m_fLiveWM(false)
     , m_fOpeningAborted(false)
-    , m_fBuffering(false)
+    , m_bBuffering(false)
     , m_bUsingDXVA(false)
     , m_fileDropTarget(this)
     , m_bTrayIcon(false)
@@ -2384,9 +2384,9 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                 TRACE(_T("\thr = %08x\n"), (HRESULT)evParam1);
                 break;
             case EC_BUFFERING_DATA:
-                TRACE(_T("\t%ld, %Id\n"), (HRESULT)evParam1, evParam2);
+                TRACE(_T("\tBuffering data = %s\n"), evParam1 ? _T("true") : _T("false"));
 
-                m_fBuffering = ((HRESULT)evParam1 != S_OK);
+                m_bBuffering = !!evParam1;
                 break;
             case EC_STEP_COMPLETE:
                 if (m_fFrameSteppingActive) {
@@ -3193,7 +3193,7 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
                     msg.AppendFormat(IDS_MAINFRM_42, nFreeVidBuffers, nFreeAudBuffers);
                 }
             }
-        } else if (m_fBuffering) {
+        } else if (m_bBuffering) {
             BeginEnumFilters(m_pGB, pEF, pBF) {
                 if (CComQIPtr<IAMNetworkStatus, &IID_IAMNetworkStatus> pAMNS = pBF) {
                     long BufferingProgress = 0;
@@ -11830,6 +11830,7 @@ void CMainFrame::CloseMediaPrivate()
     }
     m_fLiveWM = false;
     m_fEndOfStream = false;
+    m_bBuffering = false;
     m_rtDurationOverride = -1;
     m_bUsingDXVA = false;
     m_pDVBState = nullptr;
