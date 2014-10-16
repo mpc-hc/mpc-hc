@@ -37,13 +37,6 @@ extern "C" char g_Gcc_Compiler[];
 // CAboutDlg dialog used for App About
 
 CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD)
-    , m_appname(_T(""))
-    , m_strBuildNumber(_T(""))
-    , m_MPCCompiler(_T(""))
-    , m_LAVFilters(_T(""))
-#ifndef MPCHC_LITE
-    , m_LAVFiltersVersion(_T(""))
-#endif
 {
     //{{AFX_DATA_INIT(CAboutDlg)
     //}}AFX_DATA_INIT

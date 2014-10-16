@@ -102,8 +102,6 @@ CRegisterCopyDataDlg::CRegisterCopyDataDlg(CWnd* pParent /*=nullptr*/)
     : CDialog(CRegisterCopyDataDlg::IDD, pParent)
     , m_RemoteWindow(nullptr)
     , m_hWndMPC(nullptr)
-    , m_strMPCPath(_T(""))
-    , m_txtCommand(_T(""))
     , m_nCommandType(0)
 {
     //{{AFX_DATA_INIT(CRegisterCopyDataDlg)

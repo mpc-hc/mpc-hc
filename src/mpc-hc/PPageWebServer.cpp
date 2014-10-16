@@ -40,9 +40,6 @@ CPPageWebServer::CPPageWebServer()
     , m_fWebServerUseCompression(FALSE)
     , m_fWebServerLocalhostOnly(FALSE)
     , m_fWebRoot(FALSE)
-    , m_WebRoot(_T(""))
-    , m_WebServerCGI(_T(""))
-    , m_WebDefIndex(_T(""))
 {
 }
 

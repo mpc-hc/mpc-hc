@@ -280,7 +280,6 @@ public:
         , mouseorg(NONE)
         , mouseFS(NONE)
         , mouseFSorg(NONE)
-        , rmcmd("")
         , rmrepcnt(0) {
         this->cmd = cmd;
         this->key = 0;

@@ -47,8 +47,6 @@ CPPagePlayback::CPPagePlayback()
     , m_fAutoloadSubtitles(FALSE)
     , m_fEnableWorkerThreadForOpening(FALSE)
     , m_fReportFailedPins(FALSE)
-    , m_subtitlesLanguageOrder(_T(""))
-    , m_audiosLanguageOrder(_T(""))
     , m_fAllowOverridingExternalSplitterChoice(FALSE)
 {
 }

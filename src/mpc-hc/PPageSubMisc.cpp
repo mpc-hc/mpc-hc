@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -32,8 +32,6 @@ CPPageSubMisc::CPPageSubMisc()
     , m_fPreferDefaultForcedSubtitles(TRUE)
     , m_fPrioritizeExternalSubtitles(TRUE)
     , m_fDisableInternalSubtitles(FALSE)
-    , m_szAutoloadPaths("")
-    , m_ISDb(_T(""))
 {
 }
 
