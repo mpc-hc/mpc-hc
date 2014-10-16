@@ -174,14 +174,14 @@ private:
     HRESULT SearchIBDATopology(const CComPtr<IBaseFilter>& pTuner, REFIID iid, CComPtr<IUnknown>& pUnk);
 };
 
-#define LOG_FILE _T("bda.log")
-
 #ifdef _DEBUG
 #include <sys/types.h>
 #include <sys/timeb.h>
 
 #define CheckAndLogBDA(x, msg)  hr = ##x; if (FAILED(hr)) { LOG(msg _T(": 0x%08x\n"), hr); return hr; }
 #define CheckAndLogBDANoRet(x, msg)  hr = ##x; if (FAILED(hr)) { LOG(msg _T(": 0x%08x\n"), hr); }
+
+#define LOG_FILE _T("bda.log")
 
 static void LOG(LPCTSTR fmt, ...)
 {
