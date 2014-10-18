@@ -37,8 +37,9 @@ private:
 public:
     CPlayerNavigationDialog m_navdlg;
 
-    CPlayerNavigationBar(CMainFrame* pMainFrame);
-    virtual ~CPlayerNavigationBar();
+    CPlayerNavigationBar() = delete;
+    explicit CPlayerNavigationBar(CMainFrame* pMainFrame);
+    virtual ~CPlayerNavigationBar() = default;
 
     BOOL Create(CWnd* pParentWnd, UINT defDockBarID);
     virtual void ReloadTranslatableResources();

@@ -823,14 +823,10 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_DVB, IDS_RS_DVB_REBUILD_FG, nDVBRebuildFilterGraph);
     pApp->WriteProfileInt(IDS_R_DVB, IDS_RS_DVB_STOP_FG, nDVBStopFilterGraph);
 
-    int iChannel = 0;
-    POSITION pos = m_DVBChannels.GetHeadPosition();
-    while (pos) {
-        CString strTemp2;
-        CDVBChannel& Channel = m_DVBChannels.GetNext(pos);
-        strTemp2.Format(_T("%d"), iChannel);
-        pApp->WriteProfileString(IDS_R_DVB, strTemp2, Channel.ToString());
-        iChannel++;
+    for (size_t i = 0; i < m_DVBChannels.size(); i++) {
+        CString numChannel;
+        numChannel.Format(_T("%d"), i);
+        pApp->WriteProfileString(IDS_R_DVB, numChannel, m_DVBChannels[i].ToString());
     }
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DVDPOS, fRememberDVDPos);
@@ -859,7 +855,7 @@ void CAppSettings::SaveSettings()
     }
 
     pApp->WriteProfileString(IDS_R_COMMANDS, nullptr, nullptr);
-    pos = wmcmds.GetHeadPosition();
+    POSITION pos = wmcmds.GetHeadPosition();
     for (int i = 0; pos;) {
         wmcmd& wc = wmcmds.GetNext(pos);
         if (wc.IsModified()) {
@@ -1616,15 +1612,18 @@ void CAppSettings::LoadSettings()
 
     for (int iChannel = 0; ; iChannel++) {
         CString strTemp;
-        CString strChannel;
-        CDVBChannel channel;
         strTemp.Format(_T("%d"), iChannel);
-        strChannel = pApp->GetProfileString(IDS_R_DVB, strTemp);
+        CString strChannel = pApp->GetProfileString(IDS_R_DVB, strTemp);
         if (strChannel.IsEmpty()) {
             break;
         }
-        if (channel.FromString(strChannel)) {
-            m_DVBChannels.AddTail(channel);
+        try {
+            m_DVBChannels.emplace_back(strChannel);
+        } catch (CException* e) {
+            // The tokenisation can fail if the input string was invalid
+            TRACE(_T("Failed to parse a DVB channel from string \"%s\""), strChannel);
+            ASSERT(FALSE);
+            e->Delete();
         }
     }
 
@@ -2091,15 +2090,11 @@ void CAppSettings::AddFav(favtype ft, CString s)
 
 CDVBChannel* CAppSettings::FindChannelByPref(int nPrefNumber)
 {
-    POSITION pos = m_DVBChannels.GetHeadPosition();
-    while (pos) {
-        CDVBChannel& Channel = m_DVBChannels.GetNext(pos);
-        if (Channel.GetPrefNumber() == nPrefNumber) {
-            return &Channel;
-        }
-    }
+    auto it = find_if(m_DVBChannels.begin(), m_DVBChannels.end(), [&](CDVBChannel const & channel) {
+        return channel.GetPrefNumber() == nPrefNumber;
+    });
 
-    return nullptr;
+    return it != m_DVBChannels.end() ? &(*it) : nullptr;
 }
 
 // Settings::CRecentFileAndURLList
