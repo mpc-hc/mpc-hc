@@ -473,7 +473,8 @@ bool CMouse::TestDrag(const CPoint& screenPoint)
         ASSERT(!IsOnFullscreenWindow());
         bool bUpAssigned = !!AssignedToCmd(wmcmd::LUP, false);
         if ((!bUpAssigned && screenPoint != m_beginDragPoint) ||
-                (bUpAssigned && !PointEqualsImprecise(screenPoint, m_beginDragPoint))) {
+                (bUpAssigned && !PointEqualsImprecise(screenPoint, m_beginDragPoint,
+                        GetSystemMetrics(SM_CXDRAG), GetSystemMetrics(SM_CYDRAG)))) {
             VERIFY(ReleaseCapture());
             m_pMainFrame->PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(m_beginDragPoint.x, m_beginDragPoint.y));
             m_drag = Drag::DRAGGED;
