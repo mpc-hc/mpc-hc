@@ -825,7 +825,7 @@ void CAppSettings::SaveSettings()
 
     for (size_t i = 0; i < m_DVBChannels.size(); i++) {
         CString numChannel;
-        numChannel.Format(_T("%d"), i);
+        numChannel.Format(_T("%Iu"), i);
         pApp->WriteProfileString(IDS_R_DVB, numChannel, m_DVBChannels[i].ToString());
     }
 
