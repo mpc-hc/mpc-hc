@@ -29,7 +29,6 @@
 // IMPLEMENT_DYNAMIC(CPlayerNavigationDialog, CResizableDialog)
 CPlayerNavigationDialog::CPlayerNavigationDialog(CMainFrame* pMainFrame)
     : CResizableDialog(CPlayerNavigationDialog::IDD, nullptr)
-    , p_nItems()
     , m_bTVStations(true)
     , m_pMainFrame(pMainFrame)
 {
