@@ -108,6 +108,14 @@ public:
     CComPtr<IDvdState> pDvdState;
 };
 
+class OpenNetworkData : public OpenMediaData
+{
+public:
+    // OpenNetworkData() {}
+    CString address;
+    int err = 0;
+};
+
 class OpenDeviceData : public OpenMediaData
 {
 public:
@@ -441,6 +449,7 @@ protected:
     void OpenCreateGraphObject(OpenMediaData* pOMD);
     void OpenFile(OpenFileData* pOFD);
     void OpenDVD(OpenDVDData* pODD);
+    void OpenNetwork(OpenNetworkData* pOND);
     void OpenCapture(OpenDeviceData* pODD);
     HRESULT OpenBDAGraph();
     void OpenCustomizeGraph();
@@ -730,6 +739,7 @@ public:
     afx_msg BOOL OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct);
     afx_msg void OnFileOpendvd();
     afx_msg void OnFileOpendevice();
+    afx_msg void OnFileOpendigitalTV();
     afx_msg void OnFileOpenOpticalDisk(UINT nID);
     afx_msg void OnFileReopen();
     afx_msg void OnFileRecycle();

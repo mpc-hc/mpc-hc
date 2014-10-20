@@ -240,6 +240,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_UPDATE_COMMAND_UI(ID_FILE_OPENDVDBD, OnUpdateFileOpen)
     ON_COMMAND(ID_FILE_OPENDEVICE, OnFileOpendevice)
     ON_UPDATE_COMMAND_UI(ID_FILE_OPENDEVICE, OnUpdateFileOpen)
+    ON_COMMAND(ID_FILE_OPENDIGITALTV, OnFileOpendigitalTV)
+    ON_UPDATE_COMMAND_UI(ID_FILE_OPENDIGITALTV, OnUpdateFileOpen)
     ON_COMMAND_RANGE(ID_FILE_OPEN_OPTICAL_DISK_START, ID_FILE_OPEN_OPTICAL_DISK_END, OnFileOpenOpticalDisk)
     ON_UPDATE_COMMAND_UI_RANGE(ID_FILE_OPEN_OPTICAL_DISK_START, ID_FILE_OPEN_OPTICAL_DISK_END, OnUpdateFileOpen)
     ON_COMMAND(ID_FILE_REOPEN, OnFileReopen)
@@ -1866,18 +1868,20 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                         }
                         break;
                     case PM_DIGITAL_CAPTURE: {
-                        EventDescriptor& NowNext = m_pDVBState->NowNext;
-                        time_t tNow;
-                        time(&tNow);
-                        if (NowNext.duration > 0 && tNow >= NowNext.startTime && tNow <= NowNext.startTime + NowNext.duration) {
-                            REFERENCE_TIME rtNow = REFERENCE_TIME(tNow - NowNext.startTime) * 10000000;
-                            REFERENCE_TIME rtDur = REFERENCE_TIME(NowNext.duration) * 10000000;
-                            m_wndStatusBar.SetStatusTimer(rtNow, rtDur, false, TIME_FORMAT_MEDIA_TIME);
-                            if (m_bOSDDisplayTime) {
-                                m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer());
+                        if (m_pDVBState) {
+                            EventDescriptor& NowNext = m_pDVBState->NowNext;
+                            time_t tNow;
+                            time(&tNow);
+                            if (NowNext.duration > 0 && tNow >= NowNext.startTime && tNow <= NowNext.startTime + NowNext.duration) {
+                                REFERENCE_TIME rtNow = REFERENCE_TIME(tNow - NowNext.startTime) * 10000000;
+                                REFERENCE_TIME rtDur = REFERENCE_TIME(NowNext.duration) * 10000000;
+                                m_wndStatusBar.SetStatusTimer(rtNow, rtDur, false, TIME_FORMAT_MEDIA_TIME);
+                                if (m_bOSDDisplayTime) {
+                                    m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer());
+                                }
+                            } else {
+                                m_wndStatusBar.SetStatusTimer(ResStr(IDS_CAPTURE_LIVE));
                             }
-                        } else {
-                            m_wndStatusBar.SetStatusTimer(ResStr(IDS_CAPTURE_LIVE));
                         }
                     }
                     break;
@@ -2147,14 +2151,16 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                 m_wndInfoBar.SetLine(StrRes(IDS_INFOBAR_SUBTITLES), Subtitles);
             } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
                 if (m_pDVBState->bActive) {
-                    CComQIPtr<IBDATuner> pTun = m_pGB;
-                    BOOLEAN bPresent, bLocked;
-                    LONG lDbStrength, lPercentQuality;
-                    CString Signal;
+                    if (m_pDVBState->pChannel->IsDVB()) {
+                        CComQIPtr<IBDATuner> pTun = m_pGB;
+                        BOOLEAN bPresent, bLocked;
+                        LONG lDbStrength, lPercentQuality;
+                        CString Signal;
 
-                    if (SUCCEEDED(pTun->GetStats(bPresent, bLocked, lDbStrength, lPercentQuality)) && bPresent) {
+                        if (SUCCEEDED(pTun->GetStats(bPresent, bLocked, lDbStrength, lPercentQuality)) && bPresent) {
                         Signal.Format(IDS_STATSBAR_SIGNAL_FORMAT, (int)lDbStrength, lPercentQuality);
                         m_wndStatsBar.SetLine(StrRes(IDS_STATSBAR_SIGNAL), Signal);
+                        }
                     }
                 } else {
                     m_wndStatsBar.SetLine(StrRes(IDS_STATSBAR_SIGNAL), _T("-"));
@@ -2746,10 +2752,8 @@ LRESULT CMainFrame::OnResetDevice(WPARAM wParam, LPARAM lParam)
 
         // When restarting DVB capture, we need to set again the channel.
         if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-            CComQIPtr<IBDATuner> pTun = m_pGB;
-            if (pTun) {
-                SetChannel(AfxGetAppSettings().nDVBLastChannel);
-            }
+            m_pDVBState->bSetChannelActive = false;
+            SetChannel(AfxGetAppSettings().nDVBLastChannel);
         }
     }
 
@@ -3374,23 +3378,34 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
     // OnPlayPlay()/OnPlayPause() will take care of that
     m_bDelaySetOutputRect = false;
 
+    // For IPTV: check whether the stream could be finally opened. Otherwise status to remain stopped.
+    int iError = 0;
+    if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
+        OpenNetworkData* pNw = dynamic_cast<OpenNetworkData*>(m_lastOMD.m_p);
+        if (pNw) {
+            iError = pNw->err;
+        }
+    }
+
     // start playback if requested
     m_bFirstPlay = true;
     const auto uModeChangeDelay = s.autoChangeFSMode.uDelay * 1000;
-    if (!(s.nCLSwitches & CLSW_OPEN) && (s.nLoops > 0)) {
-        if (m_bOpeningInAutochangedMonitorMode && uModeChangeDelay) {
-            m_timerOneTime.Subscribe(TimerOneTimeSubscriber::DELAY_PLAYPAUSE_AFTER_AUTOCHANGE_MODE,
-                                     std::bind(&CMainFrame::OnPlayPlay, this), uModeChangeDelay);
+    if (!iError) {
+        if (!(s.nCLSwitches & CLSW_OPEN) && (s.nLoops > 0)) {
+            if (m_bOpeningInAutochangedMonitorMode && uModeChangeDelay) {
+                m_timerOneTime.Subscribe(TimerOneTimeSubscriber::DELAY_PLAYPAUSE_AFTER_AUTOCHANGE_MODE,
+                                         std::bind(&CMainFrame::OnPlayPlay, this), uModeChangeDelay);
+            } else {
+                OnPlayPlay();
+            }
         } else {
-            OnPlayPlay();
-        }
-    } else {
-        // OnUpdatePlayPauseStop() will decide if we can pause the media
-        if (m_bOpeningInAutochangedMonitorMode && uModeChangeDelay) {
-            m_timerOneTime.Subscribe(TimerOneTimeSubscriber::DELAY_PLAYPAUSE_AFTER_AUTOCHANGE_MODE,
-                                     [this] { OnCommand(ID_PLAY_PAUSE, 0); }, uModeChangeDelay);
-        } else {
-            OnCommand(ID_PLAY_PAUSE, 0);
+            // OnUpdatePlayPauseStop() will decide if we can pause the media
+            if (m_bOpeningInAutochangedMonitorMode && uModeChangeDelay) {
+                m_timerOneTime.Subscribe(TimerOneTimeSubscriber::DELAY_PLAYPAUSE_AFTER_AUTOCHANGE_MODE,
+                                         [this] { OnCommand(ID_PLAY_PAUSE, 0); }, uModeChangeDelay);
+            } else {
+                OnCommand(ID_PLAY_PAUSE, 0);
+            }
         }
     }
     s.nCLSwitches &= ~CLSW_OPEN;
@@ -4148,6 +4163,47 @@ void CMainFrame::OnFileOpendevice()
     }
     OpenMedia(p);
 }
+
+void CMainFrame::OnFileOpendigitalTV()
+{
+    CAppSettings& s = AfxGetAppSettings();
+
+    if (GetLoadState() == MLS::LOADING) {
+        return;
+    }
+
+    SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
+    SetForegroundWindow();
+
+    ShowWindow(SW_SHOW);
+
+    m_wndPlaylistBar.Empty();
+    CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
+
+    if (pChannel) {
+        if (pChannel->IsDVB()) {
+            CAutoPtr<OpenDeviceData> p(DEBUG_NEW OpenDeviceData());
+            if (p) {
+                p->DisplayName[0] = s.strAnalogVideo;
+                p->DisplayName[1] = s.strAnalogAudio;
+            }
+            OpenMedia(p);
+        } else {
+            CAutoPtr<OpenNetworkData> p(DEBUG_NEW OpenNetworkData());
+            p->address = pChannel->GetUrl();
+            p->err = 0;
+            OpenMedia(p);
+        }
+    } else {
+        CAutoPtr<OpenDeviceData> p(DEBUG_NEW OpenDeviceData());
+        if (p) {
+            p->DisplayName[0] = s.strAnalogVideo;
+            p->DisplayName[1] = s.strAnalogAudio;
+        }
+        OpenMedia(p);
+    }
+}
+
 
 void CMainFrame::OnFileOpenOpticalDisk(UINT nID)
 {
@@ -6883,13 +6939,9 @@ void CMainFrame::OnPlayPlay()
         } else if (GetPlaybackMode() == PM_ANALOG_CAPTURE) {
             m_pMC->Stop(); // audio preview won't be in sync if we run it from paused state
         } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-            CComQIPtr<IBDATuner> pTun = m_pGB;
-            if (pTun) {
-                bVideoWndNeedReset = false; // SetChannel deals with MoveVideoWindow
-                SetChannel(s.nDVBLastChannel);
-            } else {
-                ASSERT(FALSE);
-            }
+            bVideoWndNeedReset = false; // SetChannel deals with MoveVideoWindow
+            m_pDVBState->bSetChannelActive = false;
+            SetChannel(s.nDVBLastChannel);
         } else {
             ASSERT(FALSE);
         }
@@ -8422,21 +8474,18 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 
         SeekToDVDChapter((nID == ID_NAVIGATE_SKIPBACK) ? -1 : 1, true);
     } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-        CComQIPtr<IBDATuner> pTun = m_pGB;
-        if (pTun) {
-            int nCurrentChannel = s.nDVBLastChannel;
+        int nCurrentChannel = s.nDVBLastChannel;
 
-            if (nID == ID_NAVIGATE_SKIPBACK) {
-                if (SUCCEEDED(SetChannel(nCurrentChannel - 1))) {
-                    if (m_controls.ControlChecked(CMainFrameControls::Panel::NAVIGATION)) {
-                        m_wndNavigationBar.m_navdlg.UpdatePos(nCurrentChannel - 1);
-                    }
+        if (nID == ID_NAVIGATE_SKIPBACK) {
+            if (SUCCEEDED(SetChannel(nCurrentChannel - 1))) {
+                if (m_controls.ControlChecked(CMainFrameControls::Panel::NAVIGATION)) {
+                    m_wndNavigationBar.m_navdlg.UpdatePos(nCurrentChannel - 1);
                 }
-            } else if (nID == ID_NAVIGATE_SKIPFORWARD) {
-                if (SUCCEEDED(SetChannel(nCurrentChannel + 1))) {
-                    if (m_controls.ControlChecked(CMainFrameControls::Panel::NAVIGATION)) {
-                        m_wndNavigationBar.m_navdlg.UpdatePos(nCurrentChannel + 1);
-                    }
+            }
+        } else if (nID == ID_NAVIGATE_SKIPFORWARD) {
+            if (SUCCEEDED(SetChannel(nCurrentChannel + 1))) {
+                if (m_controls.ControlChecked(CMainFrameControls::Panel::NAVIGATION)) {
+                    m_wndNavigationBar.m_navdlg.UpdatePos(nCurrentChannel + 1);
                 }
             }
         }
@@ -8606,15 +8655,12 @@ void CMainFrame::OnNavigateJumpTo(UINT nID)
     } else if (GetPlaybackMode() == PM_DVD) {
         SeekToDVDChapter(nID - ID_NAVIGATE_JUMPTO_SUBITEM_START + 1);
     } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-        CComQIPtr<IBDATuner> pTun = m_pGB;
-        if (pTun) {
-            int nChannel = nID - ID_NAVIGATE_JUMPTO_SUBITEM_START;
+        int nChannel = nID - ID_NAVIGATE_JUMPTO_SUBITEM_START;
 
-            if (s.nDVBLastChannel != nChannel) {
-                if (SUCCEEDED(SetChannel(nChannel))) {
-                    if (m_controls.ControlChecked(CMainFrameControls::Panel::NAVIGATION)) {
-                        m_wndNavigationBar.m_navdlg.UpdatePos(nChannel);
-                    }
+        if (s.nDVBLastChannel != nChannel) {
+            if (SUCCEEDED(SetChannel(nChannel))) {
+                if (m_controls.ControlChecked(CMainFrameControls::Panel::NAVIGATION)) {
+                    m_wndNavigationBar.m_navdlg.UpdatePos(nChannel);
                 }
             }
         }
@@ -10428,6 +10474,8 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
         if (!m_fCustomGraph) {
             m_pGB = DEBUG_NEW CFGManagerPlayer(_T("CFGManagerPlayer"), nullptr, m_pVideoWnd->m_hWnd);
         }
+    } else if (auto pOpenNetworkData = dynamic_cast<OpenNetworkData*>(pOMD)) {
+        m_pGB = DEBUG_NEW CFGManagerPlayer(_T("CFGManagerPlayer"), nullptr, m_pVideoWnd->m_hWnd);
     } else if (auto pOpenDVDData = dynamic_cast<OpenDVDData*>(pOMD)) {
         m_pGB = DEBUG_NEW CFGManagerDVD(_T("CFGManagerDVD"), nullptr, m_pVideoWnd->m_hWnd);
     } else if (auto pOpenDeviceData = dynamic_cast<OpenDeviceData*>(pOMD)) {
@@ -10617,6 +10665,114 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
     SetupChapters();
 
     SetPlaybackMode(PM_FILE);
+}
+
+// Called from GraphThread
+void CMainFrame::OpenNetwork(OpenNetworkData* pOND)
+{
+    if (pOND->address.IsEmpty()) {
+        throw (UINT)IDS_MAINFRM_81;
+    }
+
+    CAppSettings& s = AfxGetAppSettings();
+    CString UI_Text = _T("Opening stream...");  // ResStr(err);
+    m_wndStatusBar.SetStatusMessage(UI_Text);
+
+    HRESULT hr = m_pGB->RenderFile(CStringW(pOND->address), nullptr);
+
+    if (FAILED(hr)) {
+        if (s.fReportFailedPins) {
+            CComQIPtr<IGraphBuilderDeadEnd> pGBDE = m_pGB;
+            if (pGBDE && pGBDE->GetCount()) {
+                CMediaTypesDlg(pGBDE, GetModalParent()).DoModal();
+            }
+
+            UINT err;
+
+            switch (hr) {
+                case E_ABORT:
+                case RFS_E_ABORT:
+                    err = IDS_MAINFRM_82;
+                    break;
+                case E_FAIL:
+                case E_POINTER:
+                default:
+                    err = IDS_MAINFRM_83;
+                    break;
+                case E_INVALIDARG:
+                    err = IDS_MAINFRM_84;
+                    break;
+                case E_OUTOFMEMORY:
+                    err = IDS_AG_OUT_OF_MEMORY;
+                    break;
+                case VFW_E_CANNOT_CONNECT:
+                    err = IDS_MAINFRM_86;
+                    break;
+                case VFW_E_CANNOT_LOAD_SOURCE_FILTER:
+                    err = IDS_MAINFRM_87;
+                    break;
+                case VFW_E_CANNOT_RENDER:
+                    err = IDS_MAINFRM_88;
+                    break;
+                case VFW_E_INVALID_FILE_FORMAT:
+                    err = IDS_MAINFRM_89;
+                    break;
+                case VFW_E_NOT_FOUND:
+                    err = IDS_MAINFRM_90;
+                    break;
+                case VFW_E_UNKNOWN_FILE_TYPE:
+                    err = IDS_MAINFRM_91;
+                    break;
+                case VFW_E_UNSUPPORTED_STREAM:
+                    err = IDS_MAINFRM_92;
+                    break;
+                case RFS_E_NO_FILES:
+                    err = IDS_RFS_NO_FILES;
+                    break;
+                case RFS_E_COMPRESSED:
+                    err = IDS_RFS_COMPRESSED;
+                    break;
+                case RFS_E_ENCRYPTED:
+                    err = IDS_RFS_ENCRYPTED;
+                    break;
+                case RFS_E_MISSING_VOLS:
+                    err = IDS_RFS_MISSING_VOLS;
+                    break;
+            }
+
+            if (err == IDS_MAINFRM_83) {
+                // Send error message
+                CString UI_Text = ResStr(err);
+                m_wndStatusBar.SetStatusMessage(UI_Text);
+                pOND->err = err;
+            } else {
+                throw err;
+            }
+        }
+
+        if (!(m_pFSF = m_pGB)) {
+            BeginEnumFilters(m_pGB, pEF, pBF);
+            if (m_pFSF = pBF) {
+                break;
+            }
+            EndEnumFilters;
+        }
+    }
+    if (s.fReportFailedPins) {
+        CComQIPtr<IGraphBuilderDeadEnd> pGBDE = m_pGB;
+        if (pGBDE && pGBDE->GetCount()) {
+            CMediaTypesDlg(pGBDE, GetModalParent()).DoModal();
+        }
+    }
+    if (!(m_pAMOP = m_pGB)) {
+        BeginEnumFilters(m_pGB, pEF, pBF);
+        if (m_pAMOP = pBF) {
+            break;
+        }
+        EndEnumFilters;
+    }
+    SetPlaybackMode(PM_DIGITAL_CAPTURE);
+    m_pDVBState = std::make_unique<DVBState>();
 }
 
 void CMainFrame::SetupChapters()
@@ -11799,7 +11955,8 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
     OpenFileData* pFileData = dynamic_cast<OpenFileData*>(pOMD.m_p);
     OpenDVDData* pDVDData = dynamic_cast<OpenDVDData*>(pOMD.m_p);
     OpenDeviceData* pDeviceData = dynamic_cast<OpenDeviceData*>(pOMD.m_p);
-    ASSERT(pFileData || pDVDData || pDeviceData);
+    OpenNetworkData* pNetworkData = dynamic_cast<OpenNetworkData*>(pOMD.m_p);
+    ASSERT(pFileData || pDVDData || pDeviceData || pNetworkData);
 
     // Clear DXVA state ...
     ClearDXVAState();
@@ -11836,6 +11993,8 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
             OpenFile(pFileData);
         } else if (pDVDData) {
             OpenDVD(pDVDData);
+        } else if (pNetworkData) {
+            OpenNetwork(pNetworkData);
         } else if (pDeviceData) {
             if (s.iDefaultCaptureDevice == 1) {
                 HRESULT hr = OpenBDAGraph();
@@ -11993,7 +12152,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
     m_closingmsg = err;
 
     auto getMessageArgs = [&]() {
-        WPARAM wp = pFileData ? PM_FILE : pDVDData ? PM_DVD : pDeviceData ? (s.iDefaultCaptureDevice == 1 ? PM_DIGITAL_CAPTURE : PM_ANALOG_CAPTURE) : PM_NONE;
+        WPARAM wp = pFileData ? PM_FILE : pNetworkData ? PM_DIGITAL_CAPTURE : pDVDData ? PM_DVD : pDeviceData ? (s.iDefaultCaptureDevice == 1 ? PM_DIGITAL_CAPTURE : PM_ANALOG_CAPTURE) : PM_NONE;
         ASSERT(wp != PM_NONE);
         LPARAM lp = (LPARAM)pOMD.Detach();
         ASSERT(lp);
@@ -14619,6 +14778,7 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
     auto pFileData = dynamic_cast<const OpenFileData*>(pOMD.m_p);
     auto pDVDData = dynamic_cast<const OpenDVDData*>(pOMD.m_p);
     auto pDeviceData = dynamic_cast<const OpenDeviceData*>(pOMD.m_p);
+    auto pNetworkData = dynamic_cast<const OpenNetworkData*>(pOMD.m_p);
 
     // if the tuner graph is already loaded, we just change its channel
     if (pDeviceData) {
@@ -14877,12 +15037,10 @@ HRESULT CMainFrame::SetChannel(int nChannel)
 {
     CAppSettings& s = AfxGetAppSettings();
     HRESULT hr = S_OK;
-    CComQIPtr<IBDATuner> pTun = m_pGB;
-    CDVBChannel* pChannel = s.FindChannelByPref(nChannel);
 
     if (s.m_DVBChannels.empty() && nChannel == INT_ERROR) {
         hr = S_FALSE; // All channels have been cleared or it is the first start
-    } else if (pTun && pChannel && !m_pDVBState->bSetChannelActive) {
+    } else if (!m_pDVBState->bSetChannelActive) {
         m_pDVBState->Reset();
         m_wndInfoBar.RemoveAllLines();
         m_wndNavigationBar.m_navdlg.SetChannelInfoAvailable(false);
@@ -14904,39 +15062,58 @@ HRESULT CMainFrame::SetChannel(int nChannel)
             default:
                 m_nLockedZoomVideoWindow = 0;
         }
-        if (SUCCEEDED(hr = pTun->SetChannel(nChannel))) {
-            if (hr == S_FALSE) {
-                // Re-create all
+
+        CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
+        if (!pChannel) {
+            m_pDVBState->bSetChannelActive = false;
+            return E_ABORT;
+        }
+
+        if (pChannel->IsDVB()) {
+            CComQIPtr<IBDATuner> pTun = m_pGB;
+            if (pTun) {
+                if (SUCCEEDED(hr = pTun->SetChannel(nChannel))) {
+                    if (hr == S_FALSE) { // Re-create all
+                        m_nLockedZoomVideoWindow = 0;
+                        m_wndNavigationBar.m_navdlg.SetChannelInfoAvailable(FALSE);
+                        PostMessage(WM_COMMAND, ID_FILE_OPENDIGITALTV);
+                        return hr;
+                    }
+                }
+            }
+        } else { // IsIPTV()
+            if (pChannel != s.FindChannelByPref(nChannel)) {
+                hr = S_FALSE;   // Force rebuilding graph
+                pChannel = s.FindChannelByPref(nChannel);
                 m_nLockedZoomVideoWindow = 0;
-                PostMessage(WM_COMMAND, ID_FILE_OPENDEVICE);
+                s.nDVBLastChannel = nChannel;
+                m_wndNavigationBar.m_navdlg.SetChannelInfoAvailable(FALSE);
+                PostMessage(WM_COMMAND, ID_FILE_OPENDIGITALTV);
                 return hr;
             }
-
-            m_pDVBState->bActive = true;
-            m_pDVBState->pChannel = pChannel;
-            m_pDVBState->sChannelName = pChannel->GetName();
-
-            m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_CHANNEL), m_pDVBState->sChannelName);
-            RecalcLayout();
-
-            if (s.fRememberZoomLevel && !(m_fFullScreen || IsZoomed() || IsIconic())) {
-                ZoomVideoWindow();
-            }
-            MoveVideoWindow();
-
-            // Add temporary flag to allow EC_VIDEO_SIZE_CHANGED event to stabilize window size
-            // for 5 seconds since playback starts
-            m_bAllowWindowZoom = true;
-            m_timerOneTime.Subscribe(TimerOneTimeSubscriber::AUTOFIT_TIMEOUT, [this]
-            { m_bAllowWindowZoom = false; }, 5000);
-
-            UpdateCurrentChannelInfo();
         }
-        m_pDVBState->bSetChannelActive = false;
-    } else {
-        hr = E_FAIL;
-        ASSERT(FALSE);
+
+        m_pDVBState->bActive = true;
+        m_pDVBState->pChannel = pChannel;
+        m_pDVBState->sChannelName = pChannel->GetName();
+
+        m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_CHANNEL), m_pDVBState->sChannelName);
+        RecalcLayout();
+
+        if (s.fRememberZoomLevel && !(m_fFullScreen || IsZoomed() || IsIconic())) {
+            ZoomVideoWindow();
+        }
+        MoveVideoWindow();
+
+        // Add temporary flag to allow EC_VIDEO_SIZE_CHANGED event to stabilize window size
+        // for 5 seconds since playback starts
+        m_bAllowWindowZoom = true;
+        m_timerOneTime.Subscribe(TimerOneTimeSubscriber::AUTOFIT_TIMEOUT, [this]
+        { m_bAllowWindowZoom = false; }, 5000);
+
+        UpdateCurrentChannelInfo();
     }
+    m_pDVBState->bSetChannelActive = false;
 
     return hr;
 }
@@ -14946,7 +15123,7 @@ void CMainFrame::UpdateCurrentChannelInfo(bool bShowOSD /*= true*/, bool bShowIn
     const CDVBChannel* pChannel = m_pDVBState->pChannel;
     CComQIPtr<IBDATuner> pTun = m_pGB;
 
-    if (!m_pDVBState->bInfoActive && pChannel && pTun) {
+    if (!m_pDVBState->bInfoActive && pChannel && pTun && !pChannel->IsIPTV()) {
         if (m_pDVBState->infoData.valid()) {
             m_pDVBState->bAbortInfo = true;
             m_pDVBState->infoData.get();
@@ -16680,7 +16857,7 @@ CString CMainFrame::GetCaptureTitle()
                 title.AppendFormat(_T(" - %s"), eventName.GetString());
             }
         } else {
-            title += _T(" | DVB");
+            title += _T(" | DTV");
         }
     }
     return title;

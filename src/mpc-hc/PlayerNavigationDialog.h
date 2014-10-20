@@ -40,7 +40,7 @@ class CPlayerNavigationDialog : public CResizableDialog
 private:
     CNavListBox m_channelList;
     CButton m_buttonInfo;
-    CButton m_buttonFilterStations;
+    CButton m_buttonTools;
 
     CMainFrame* m_pMainFrame;
     bool m_bChannelInfoAvailable;
@@ -60,6 +60,7 @@ public:
     void UpdatePos(int nID);
 
     void SetChannelInfoAvailable(bool bAvailable);
+    CTabCtrl m_tabSelChannelList;
 
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);
@@ -73,6 +74,6 @@ protected:
     afx_msg void OnTunerScan();
     afx_msg void OnShowChannelInfo();
     afx_msg void OnUpdateShowChannelInfoButton(CCmdUI* pCmdUI);
-    afx_msg void OnTvRadioStations();
+    afx_msg void OnTcnSelchangeTab1(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
 };

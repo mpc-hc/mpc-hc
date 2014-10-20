@@ -25,7 +25,6 @@
 #include "mplayerc.h"
 #include "MainFrm.h"
 #include "TunerScanDlg.h"
-#include "DVBChannel.h"
 
 
 enum TSC_COLUMN {

@@ -599,6 +599,10 @@ STDMETHODIMP CFGManagerBDA::SetChannel(int nChannelPrefNumber)
     CDVBChannel* pChannel = s.FindChannelByPref(nChannelPrefNumber);
     LOG(_T("Start SetChannel %d."), nChannelPrefNumber);
     if (pChannel) {
+        if (pChannel->IsIPTV()) {
+            s.nDVBLastChannel = nChannelPrefNumber;
+            return S_FALSE;
+        }
         if (!((m_nCurAudioType == DVB_UNKNOWN) ^ (pChannel->GetDefaultAudioType() == DVB_UNKNOWN)) &&
                 ((m_nDVBRebuildFilterGraph == DVB_REBUILD_FG_NEVER) ||
                  ((m_nDVBRebuildFilterGraph == DVB_REBUILD_FG_WHEN_SWITCHING) && (m_nCurVideoType == pChannel->GetVideoType())) ||

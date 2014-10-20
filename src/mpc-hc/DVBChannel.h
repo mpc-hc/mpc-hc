@@ -99,6 +99,27 @@ struct DVBStreamInfo {
     LCID GetLCID() const;
 };
 
+// A list should be used here!!
+static bool IsValidUrl(CString strUrl)
+{
+    bool bResult = false;
+    if ((strUrl.Find(_T("rtp://")) == 0) ||
+            (strUrl.Find(_T("udp://")) == 0) ||
+            (strUrl.Find(_T("rtsp://")) == 0) ||
+            (strUrl.Find(_T("mms://")) == 0) ||
+            (strUrl.Find(_T("http://")) == 0) ||
+            (strUrl.Find(_T("http://")) == 0) ||
+            (strUrl.Find(_T("rtspu://")) == 0) ||
+            (strUrl.Find(_T("rtspm://")) == 0) ||
+            (strUrl.Find(_T("rtspt://")) == 0) ||
+            (strUrl.Find(_T("rtsph://")) == 0)) {
+
+        bResult = true;
+
+    }
+    return bResult;
+}
+
 class CDVBChannel
 {
 public:
@@ -117,6 +138,7 @@ public:
     CStringA ToJSON() const;
 
     LPCTSTR GetName() const { return m_strName; };
+    LPCTSTR GetUrl()  const { return m_strUrl; };
     ULONG GetFrequency() const { return m_ulFrequency; };
     ULONG GetBandwidth() const { return m_ulBandwidth; }
     int GetPrefNumber() const { return m_nPrefNumber; };
@@ -151,8 +173,11 @@ public:
     bool IsEncrypted() const { return m_bEncrypted; };
     bool GetNowNextFlag() const { return m_bNowNextFlag; };
     REFERENCE_TIME GetAvgTimePerFrame();
+    bool IsIPTV() const { return (!m_strUrl.IsEmpty()); };
+    bool IsDVB() const { return (m_strUrl.IsEmpty()); };
 
     void SetName(LPCTSTR Value) { m_strName = Value; };
+    void SetUrl(LPCTSTR Value) { m_strUrl = Value; };
     void SetFrequency(ULONG Value) { m_ulFrequency = Value; };
     void SetBandwidth(ULONG ulBandwidth) { m_ulBandwidth = ulBandwidth; }
     void SetPrefNumber(int Value) { m_nPrefNumber = Value; };
@@ -188,6 +213,7 @@ public:
 
 private:
     CString m_strName;
+    CString m_strUrl;
     ULONG m_ulFrequency             = 0;
     ULONG m_ulBandwidth             = 0;
     int m_nPrefNumber               = 0;
@@ -214,4 +240,14 @@ private:
     std::array<DVBStreamInfo, DVB_MAX_SUBTITLE> m_Subtitles;
 
     void FromString(CString strValue);
+};
+
+static bool IsChannelIPTV(const CDVBChannel channel)
+{
+    return channel.IsIPTV();
+};
+
+static bool IsChannelDVB(const CDVBChannel channel)
+{
+    return channel.IsDVB();
 };

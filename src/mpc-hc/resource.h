@@ -261,6 +261,7 @@
 #define ID_NORMALIZE                    994
 #define ID_REGAIN_VOLUME                995
 #define ID_PLAY_SEEKSET                 996
+#define ID_FILE_OPENDIGITALTV           997
 #define ID_FILTERS_COPY_TO_CLIPBOARD    1999
 #define ID_FILTERS_SUBITEM_START        2000
 #define ID_FILTERS_SUBITEM_END          2099
@@ -1121,6 +1122,13 @@
 #define IDS_DVB_CHANNEL_FPS             41120
 #define IDS_DVB_CHANNEL_RESOLUTION      41121
 #define IDS_DVB_CHANNEL_ASPECT_RATIO    41122
+#define IDS_DVB_CHANNEL_URL             41123
+#define IDS_DTV_TAB_DVBT                41124
+#define IDS_DTV_TAB_IPTV                41125
+#define IDS_DTV_TAB_RADIO               41126
+#define IDS_DTV_ERRORPARSING            41130
+#define IDS_DTV_DVB_SCAN                41135
+#define IDS_DTV_IPTV_SCAN               41136
 #define IDS_OSD_RS_VSYNC_ON             41200
 #define IDS_OSD_RS_VSYNC_OFF            41201
 #define IDS_OSD_RS_ACCURATE_VSYNC_ON    41202
