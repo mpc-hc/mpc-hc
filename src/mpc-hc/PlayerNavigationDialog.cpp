@@ -200,8 +200,6 @@ void CPlayerNavigationDialog::OnContextMenu(CWnd* pWnd, CPoint point)
         return find_if(c.begin(), c.end(), [&](CDVBChannel const & channel) {
             return channel.GetPrefNumber() == nPrefNumber;
         });
-        ASSERT(FALSE);
-        return c.end();
     };
 
     if (!bOutside) {
