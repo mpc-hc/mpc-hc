@@ -664,7 +664,7 @@ bool CWebServer::CallCGI(CWebClientSocket* pClient, CStringA& hdr, CStringA& bod
                     envstr.GetLength() ? (LPVOID)(LPCSTR)envstr : nullptr,
                     dir, &siStartInfo, &piProcInfo)) {
             DWORD ThreadId;
-            CreateThread(nullptr, 0, KillCGI, (LPVOID)piProcInfo.hProcess, 0, &ThreadId);
+            VERIFY(CreateThread(nullptr, 0, KillCGI, (LPVOID)piProcInfo.hProcess, 0, &ThreadId));
 
             static const int BUFFSIZE = 1024;
             DWORD dwRead, dwWritten = 0;
