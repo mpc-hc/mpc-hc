@@ -136,7 +136,7 @@ void CTunerScanDlg::OnBnClickedSave()
                 // add new channel to the end
                 const size_t size = DVBChannels.size();
                 if (size < maxChannelsNum) {
-                    channel.SetPrefNumber(size);
+                    channel.SetPrefNumber((int)size);
                     DVBChannels.push_back(channel);
                 } else {
                     // Just to be safe. We have 600 channels limit, but we never know what user might load there.

@@ -180,7 +180,7 @@ void CPlayerNavigationDialog::OnContextMenu(CWnd* pWnd, CPoint point)
     CPoint clientPoint = point;
     m_channelList.ScreenToClient(&clientPoint);
     BOOL bOutside;
-    const UINT nItem = m_channelList.ItemFromPoint(clientPoint, bOutside);
+    const int nItem = (int)m_channelList.ItemFromPoint(clientPoint, bOutside);
     const int curSel = m_channelList.GetCurSel();
     const int channelCount = m_channelList.GetCount();
     CMenu m;
@@ -196,7 +196,7 @@ void CPlayerNavigationDialog::OnContextMenu(CWnd* pWnd, CPoint point)
     };
 
     auto findChannelByItemNumber = [this](std::vector<CDVBChannel>& c, int nItem) {
-        int nPrefNumber = m_channelList.GetItemData(nItem);
+        int nPrefNumber = (int)m_channelList.GetItemData(nItem);
         return find_if(c.begin(), c.end(), [&](CDVBChannel const & channel) {
             return channel.GetPrefNumber() == nPrefNumber;
         });
@@ -252,7 +252,7 @@ void CPlayerNavigationDialog::OnContextMenu(CWnd* pWnd, CPoint point)
                 }
                 UpdateElementList();
 
-                UINT newCurSel = (UINT)curSel;
+                int newCurSel = curSel;
                 if ((newCurSel >= nItem) && (channelCount - 1 == nItem || newCurSel > nItem)) {
                     --newCurSel;
                 }
