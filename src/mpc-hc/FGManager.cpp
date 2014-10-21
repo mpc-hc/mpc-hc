@@ -219,9 +219,6 @@ HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl
         fl.Insert(LookupFilterRegistry(CLSID_StreamBufferSource, m_override, MERIT64_PREFERRED), 0);
     }
 
-    TCHAR buff[256];
-    ULONG len;
-
     if (hFile == INVALID_HANDLE_VALUE) {
         // internal / protocol
 
@@ -272,6 +269,9 @@ HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl
             }
         }
     }
+
+    TCHAR buff[256];
+    ULONG len;
 
     if (hFile == INVALID_HANDLE_VALUE) {
         // protocol
