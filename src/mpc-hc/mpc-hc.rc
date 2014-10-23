@@ -2381,7 +2381,7 @@ END
 
 STRINGTABLE
 BEGIN
-    IDC_TEXTURESURF2D       "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
+    IDC_TEXTURESURF2D       "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
     IDC_TEXTURESURF3D       "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
     IDC_DX9RESIZER_COMBO    "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
     IDC_DSVMR9LOADMIXER     "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
@@ -2690,8 +2690,8 @@ STRINGTABLE
 BEGIN
     IDS_AG_DECREASE_RATE    "Decrease Rate"
     IDS_AG_RESET_RATE       "Reset Rate"
-    IDS_MPLAYERC_21         "Audio Delay +10ms"
-    IDS_MPLAYERC_22         "Audio Delay -10ms"
+    IDS_MPLAYERC_21         "Audio Delay +10 ms"
+    IDS_MPLAYERC_22         "Audio Delay -10 ms"
     IDS_MPLAYERC_23         "Jump Forward (small)"
     IDS_MPLAYERC_24         "Jump Backward (small)"
     IDS_MPLAYERC_25         "Jump Forward (medium)"
@@ -2849,8 +2849,8 @@ BEGIN
     IDS_AG_FRAMES           "Frames"
     IDS_AG_BUFFERS          "Buffers"
     IDS_MAINFRM_9           "Volume: %02lu/%02lu, Title: %02lu/%02lu, Chapter: %02lu/%02lu"
-    IDS_MAINFRM_10          "Angle: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
-    IDS_MAINFRM_11          "%s, %s %uHz %dbits %d %s"
+    IDS_MAINFRM_10          "Angle: %02lu/%02lu, %lux%lu %lu Hz %lu:%lu"
+    IDS_MAINFRM_11          "%s, %s %u Hz %d bits %d %s"
 END
 
 STRINGTABLE
@@ -2895,10 +2895,10 @@ STRINGTABLE
 BEGIN
     IDS_AG_ASPECT_RATIO     "Aspect Ratio"
     IDS_MAINFRM_37          ", Total: %ld, Dropped: %ld"
-    IDS_MAINFRM_38          ", Size: %I64dKB"
-    IDS_MAINFRM_39          ", Size: %I64dMB"
-    IDS_MAINFRM_40          ", Free: %I64dKB"
-    IDS_MAINFRM_41          ", Free: %I64dMB"
+    IDS_MAINFRM_38          ", Size: %I64d KB"
+    IDS_MAINFRM_39          ", Size: %I64d MB"
+    IDS_MAINFRM_40          ", Free: %I64d KB"
+    IDS_MAINFRM_41          ", Free: %I64d MB"
     IDS_MAINFRM_42          ", Free V/A Buffers: %03d/%03d"
     IDS_AG_ERROR            "Error"
     IDS_SUBTITLE_STREAM_OFF "Subtitle: off"

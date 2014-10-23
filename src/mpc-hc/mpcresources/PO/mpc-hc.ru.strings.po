@@ -793,7 +793,7 @@ msgid "Couldn't find all archive volumes"
 msgstr "Не могу найти все архивные тома"
 
 msgctxt "IDC_TEXTURESURF2D"
-msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
+msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
 msgstr "Поверхность для видео выделяется как текстура, но для копирования и растяжения видео в буфер используются функции 2D. Требует наличия видеокарты, которая может выделять 32bit RGBA текстуры, с размерами не кратными 2, хотя бы в разрешении видео."
 
 msgctxt "IDC_TEXTURESURF3D"
@@ -1573,11 +1573,11 @@ msgid "Reset Rate"
 msgstr "Сбросить скорость в 100%"
 
 msgctxt "IDS_MPLAYERC_21"
-msgid "Audio Delay +10ms"
+msgid "Audio Delay +10 ms"
 msgstr "Задержка аудио +10мс"
 
 msgctxt "IDS_MPLAYERC_22"
-msgid "Audio Delay -10ms"
+msgid "Audio Delay -10 ms"
 msgstr "Задержка аудио -10мс"
 
 msgctxt "IDS_MPLAYERC_23"
@@ -2061,11 +2061,11 @@ msgid "Volume: %02lu/%02lu, Title: %02lu/%02lu, Chapter: %02lu/%02lu"
 msgstr "Том: %02lu/%02lu, Раздел: %02lu/%02lu, Глава: %02lu/%02lu"
 
 msgctxt "IDS_MAINFRM_10"
-msgid "Angle: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
+msgid "Angle: %02lu/%02lu, %lux%lu %lu Hz %lu:%lu"
 msgstr "Угол: %02lu/%02lu, %lux%lu %luГц %lu:%lu"
 
 msgctxt "IDS_MAINFRM_11"
-msgid "%s, %s %uHz %dbits %d %s"
+msgid "%s, %s %u Hz %d bits %d %s"
 msgstr "%s, %s %u Гц %d бит %d %s"
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
@@ -2173,19 +2173,19 @@ msgid ", Total: %ld, Dropped: %ld"
 msgstr ", Всего: %ld, Потеряно: %ld"
 
 msgctxt "IDS_MAINFRM_38"
-msgid ", Size: %I64dKB"
+msgid ", Size: %I64d KB"
 msgstr ", Размер: %I64dКб"
 
 msgctxt "IDS_MAINFRM_39"
-msgid ", Size: %I64dMB"
+msgid ", Size: %I64d MB"
 msgstr ", Размер: %I64dМб"
 
 msgctxt "IDS_MAINFRM_40"
-msgid ", Free: %I64dKB"
+msgid ", Free: %I64d KB"
 msgstr ", Свободно: %I64dКб"
 
 msgctxt "IDS_MAINFRM_41"
-msgid ", Free: %I64dMB"
+msgid ", Free: %I64d MB"
 msgstr ", Свободно: %I64dМб"
 
 msgctxt "IDS_MAINFRM_42"

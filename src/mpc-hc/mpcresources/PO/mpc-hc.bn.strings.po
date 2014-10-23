@@ -790,7 +790,7 @@ msgid "Couldn't find all archive volumes"
 msgstr "সবগুলো আর্কাইভ খন্ড পাওয়া যাচ্ছে না"
 
 msgctxt "IDC_TEXTURESURF2D"
-msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
+msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
 msgstr "ভিডিও উপরিতলটি একটি টেক্সচার হিসেবে নির্দেশিত হবে কিন্তু তারপরও দ্বিমাত্রিক ফাংশনসমূহ সেটা পিছনবাফারে কপি এবং বিস্তৃতি করণে ব্যবহৃত হবে। এমন ভিডিও কার্ড লাগবে যেটা 32bit, RGBA, দুইয়ের-শক্তিতে-নয় এমন সাইজকৃত টেক্সচারসমূহ এবং অন্তত ভিডিওর রেজ্যুলূশন নির্দেশিত করতে পারে।"
 
 msgctxt "IDC_TEXTURESURF3D"
@@ -1570,11 +1570,11 @@ msgid "Reset Rate"
 msgstr "গতি পুনর্বিন্যাস করি"
 
 msgctxt "IDS_MPLAYERC_21"
-msgid "Audio Delay +10ms"
+msgid "Audio Delay +10 ms"
 msgstr "অডিও বিলম্বন +10ms"
 
 msgctxt "IDS_MPLAYERC_22"
-msgid "Audio Delay -10ms"
+msgid "Audio Delay -10 ms"
 msgstr "অডিও বিলম্বন -10ms"
 
 msgctxt "IDS_MPLAYERC_23"
@@ -2058,12 +2058,12 @@ msgid "Volume: %02lu/%02lu, Title: %02lu/%02lu, Chapter: %02lu/%02lu"
 msgstr "ভলিউম: %02lu/%02lu, টাইটেল: %02lu/%02lu, পরিচ্ছেদ: %02lu/%02lu"
 
 msgctxt "IDS_MAINFRM_10"
-msgid "Angle: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
+msgid "Angle: %02lu/%02lu, %lux%lu %lu Hz %lu:%lu"
 msgstr "ক্যামেরা অ্যাঙ্গেল: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
 
 msgctxt "IDS_MAINFRM_11"
-msgid "%s, %s %uHz %dbits %d %s"
-msgstr "%s, %s %uHz %dbits %d %s"
+msgid "%s, %s %u Hz %d bits %d %s"
+msgstr ""
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
@@ -2170,19 +2170,19 @@ msgid ", Total: %ld, Dropped: %ld"
 msgstr ", মোট: %ld, বাদ গেছে: %ld"
 
 msgctxt "IDS_MAINFRM_38"
-msgid ", Size: %I64dKB"
+msgid ", Size: %I64d KB"
 msgstr ", সাইজ: %I64dKB"
 
 msgctxt "IDS_MAINFRM_39"
-msgid ", Size: %I64dMB"
+msgid ", Size: %I64d MB"
 msgstr ", সাইজ: %I64dMB"
 
 msgctxt "IDS_MAINFRM_40"
-msgid ", Free: %I64dKB"
+msgid ", Free: %I64d KB"
 msgstr ", খালি রয়েছে: %I64dKB"
 
 msgctxt "IDS_MAINFRM_41"
-msgid ", Free: %I64dMB"
+msgid ", Free: %I64d MB"
 msgstr ", খালি রয়েছে: %I64dMB"
 
 msgctxt "IDS_MAINFRM_42"

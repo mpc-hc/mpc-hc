@@ -791,7 +791,7 @@ msgid "Couldn't find all archive volumes"
 msgstr "ไม่สามารถหาเอกสารได้ครบทุกภาคส่วน"
 
 msgctxt "IDC_TEXTURESURF2D"
-msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
+msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
 msgstr "ผิวหน้าวิดีโอจะถูกจัดสรรเป็นพื้นผิว แต่ฟังก์ชัน 2d ยังคงถูกใช้เพื่อคัดลอกและยืดมันไปยังบัฟเฟอร์เบื้องหลัง ต้องการการ์ดจอที่สามารถแบ่ง 32bit, RGBA, non-power-of-two sized textures และอย่างน้อยในความละเอียดของวิดีโอ"
 
 msgctxt "IDC_TEXTURESURF3D"
@@ -1571,11 +1571,11 @@ msgid "Reset Rate"
 msgstr "คืนค่าอัตรา"
 
 msgctxt "IDS_MPLAYERC_21"
-msgid "Audio Delay +10ms"
+msgid "Audio Delay +10 ms"
 msgstr "เสียงหน่วง +10 มว."
 
 msgctxt "IDS_MPLAYERC_22"
-msgid "Audio Delay -10ms"
+msgid "Audio Delay -10 ms"
 msgstr "เสียงหน่วง -10 มว."
 
 msgctxt "IDS_MPLAYERC_23"
@@ -2059,12 +2059,12 @@ msgid "Volume: %02lu/%02lu, Title: %02lu/%02lu, Chapter: %02lu/%02lu"
 msgstr "ฉบับ: %02lu/%02lu, หัวเรื่อง: %02lu/%02lu, ตอน: %02lu/%02lu"
 
 msgctxt "IDS_MAINFRM_10"
-msgid "Angle: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
+msgid "Angle: %02lu/%02lu, %lux%lu %lu Hz %lu:%lu"
 msgstr "มุมกล้อง: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
 
 msgctxt "IDS_MAINFRM_11"
-msgid "%s, %s %uHz %dbits %d %s"
-msgstr "%s, %s %uHz %dbits %d %s"
+msgid "%s, %s %u Hz %d bits %d %s"
+msgstr ""
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
@@ -2171,19 +2171,19 @@ msgid ", Total: %ld, Dropped: %ld"
 msgstr ", ทั้งหมด: %ld, ตกหล่น: %ld"
 
 msgctxt "IDS_MAINFRM_38"
-msgid ", Size: %I64dKB"
+msgid ", Size: %I64d KB"
 msgstr ", ขนาด: %I64dKB"
 
 msgctxt "IDS_MAINFRM_39"
-msgid ", Size: %I64dMB"
+msgid ", Size: %I64d MB"
 msgstr ", ขนาด: %I64dMB"
 
 msgctxt "IDS_MAINFRM_40"
-msgid ", Free: %I64dKB"
+msgid ", Free: %I64d KB"
 msgstr ", ว่าง: %I64dKB"
 
 msgctxt "IDS_MAINFRM_41"
-msgid ", Free: %I64dMB"
+msgid ", Free: %I64d MB"
 msgstr ", ว่าง: %I64dMB"
 
 msgctxt "IDS_MAINFRM_42"

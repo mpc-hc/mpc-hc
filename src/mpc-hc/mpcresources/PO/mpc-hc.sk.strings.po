@@ -790,7 +790,7 @@ msgid "Couldn't find all archive volumes"
 msgstr "Nemožno nájsť všetky archívne jednotky"
 
 msgctxt "IDC_TEXTURESURF2D"
-msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
+msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
 msgstr "Plocha videa sa vymedzí ako textúra ale na kopírovanie a presúvanie do spätnej pamäte sa budú stále používať 2D funkcie. Táto funkcia vyžaduje grafickú kartu s podporou 32-bitovej alokácie, RGBA, textúr s neumocňovanou veľkosťou a minimálne v rozlíšení videa."
 
 msgctxt "IDC_TEXTURESURF3D"
@@ -1570,11 +1570,11 @@ msgid "Reset Rate"
 msgstr "Obnoviť pôvodnú rýchlosť"
 
 msgctxt "IDS_MPLAYERC_21"
-msgid "Audio Delay +10ms"
+msgid "Audio Delay +10 ms"
 msgstr "Oneskorenie zvuku +10 ms"
 
 msgctxt "IDS_MPLAYERC_22"
-msgid "Audio Delay -10ms"
+msgid "Audio Delay -10 ms"
 msgstr "Oneskorenie zvuku -10 ms"
 
 msgctxt "IDS_MPLAYERC_23"
@@ -2058,11 +2058,11 @@ msgid "Volume: %02lu/%02lu, Title: %02lu/%02lu, Chapter: %02lu/%02lu"
 msgstr "Hlasitosť: %02lu/%02lu, titul: %02lu/%02lu, kapitola: %02lu/%02lu"
 
 msgctxt "IDS_MAINFRM_10"
-msgid "Angle: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
+msgid "Angle: %02lu/%02lu, %lux%lu %lu Hz %lu:%lu"
 msgstr "Uhol: %02lu/%02lu, %lux%lu %lu Hz %lu:%lu"
 
 msgctxt "IDS_MAINFRM_11"
-msgid "%s, %s %uHz %dbits %d %s"
+msgid "%s, %s %u Hz %d bits %d %s"
 msgstr "%s, %s %u Hz %d bitov %d %s"
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
@@ -2170,19 +2170,19 @@ msgid ", Total: %ld, Dropped: %ld"
 msgstr ", spolu: %ld, preskočené: %ld"
 
 msgctxt "IDS_MAINFRM_38"
-msgid ", Size: %I64dKB"
+msgid ", Size: %I64d KB"
 msgstr ", veľkosť: %I64dKB"
 
 msgctxt "IDS_MAINFRM_39"
-msgid ", Size: %I64dMB"
+msgid ", Size: %I64d MB"
 msgstr ", veľkosť: %I64dMB"
 
 msgctxt "IDS_MAINFRM_40"
-msgid ", Free: %I64dKB"
+msgid ", Free: %I64d KB"
 msgstr ", voľné: %I64dKB"
 
 msgctxt "IDS_MAINFRM_41"
-msgid ", Free: %I64dMB"
+msgid ", Free: %I64d MB"
 msgstr ", voľné: %I64dMB"
 
 msgctxt "IDS_MAINFRM_42"

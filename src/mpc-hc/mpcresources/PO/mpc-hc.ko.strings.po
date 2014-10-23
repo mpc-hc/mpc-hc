@@ -790,7 +790,7 @@ msgid "Couldn't find all archive volumes"
 msgstr ""
 
 msgctxt "IDC_TEXTURESURF2D"
-msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
+msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
 msgstr "비디오 표면을 텍스쳐처럼 처리하고 2D모드의 버퍼가 가득찰때까지 복사/늘이기를 반복합니다. 이 모드를 사용하기 위해서는 그래픽카드에서 \"32비트, RGBA, 비디오 해상도 크기의 텍스쳐\" 를 2가지 이상 동시에 처리할수 있어야 합니다."
 
 msgctxt "IDC_TEXTURESURF3D"
@@ -1570,11 +1570,11 @@ msgid "Reset Rate"
 msgstr "초기화"
 
 msgctxt "IDS_MPLAYERC_21"
-msgid "Audio Delay +10ms"
+msgid "Audio Delay +10 ms"
 msgstr "오디오 딜레이 +10ms"
 
 msgctxt "IDS_MPLAYERC_22"
-msgid "Audio Delay -10ms"
+msgid "Audio Delay -10 ms"
 msgstr "오디오 딜레이 -10ms"
 
 msgctxt "IDS_MPLAYERC_23"
@@ -2058,11 +2058,11 @@ msgid "Volume: %02lu/%02lu, Title: %02lu/%02lu, Chapter: %02lu/%02lu"
 msgstr "볼륨: %02lu/%02lu, 타이틀: %02lu/%02lu, 챕터: %02lu/%02lu"
 
 msgctxt "IDS_MAINFRM_10"
-msgid "Angle: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
+msgid "Angle: %02lu/%02lu, %lux%lu %lu Hz %lu:%lu"
 msgstr "앵글: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
 
 msgctxt "IDS_MAINFRM_11"
-msgid "%s, %s %uHz %dbits %d %s"
+msgid "%s, %s %u Hz %d bits %d %s"
 msgstr ""
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
@@ -2170,19 +2170,19 @@ msgid ", Total: %ld, Dropped: %ld"
 msgstr ", 총: %ld, 실패: %ld"
 
 msgctxt "IDS_MAINFRM_38"
-msgid ", Size: %I64dKB"
+msgid ", Size: %I64d KB"
 msgstr ", 크기: %I64dKB"
 
 msgctxt "IDS_MAINFRM_39"
-msgid ", Size: %I64dMB"
+msgid ", Size: %I64d MB"
 msgstr ", 크기: %I64dMB"
 
 msgctxt "IDS_MAINFRM_40"
-msgid ", Free: %I64dKB"
+msgid ", Free: %I64d KB"
 msgstr ", 여유: %I64dKB"
 
 msgctxt "IDS_MAINFRM_41"
-msgid ", Free: %I64dMB"
+msgid ", Free: %I64d MB"
 msgstr ", 여유: %I64dMB"
 
 msgctxt "IDS_MAINFRM_42"
