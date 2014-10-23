@@ -2270,7 +2270,7 @@ msgid "Aspect Ratio: Default"
 msgstr "Stranový pomer: Predvolený"
 
 msgctxt "IDS_MAINFRM_70"
-msgid "Audio Delay: %I64dms"
+msgid "Audio delay: %I64d ms"
 msgstr "Oneskorenie zvuku: %I64dms"
 
 msgctxt "IDS_AG_CHAPTER"

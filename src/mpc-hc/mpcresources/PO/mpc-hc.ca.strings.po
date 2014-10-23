@@ -2272,7 +2272,7 @@ msgid "Aspect Ratio: Default"
 msgstr "Relació d'Aspecte: Original"
 
 msgctxt "IDS_MAINFRM_70"
-msgid "Audio Delay: %I64dms"
+msgid "Audio delay: %I64d ms"
 msgstr "Diferència entre Vídeo i Àudio: %I64dms"
 
 msgctxt "IDS_AG_CHAPTER"

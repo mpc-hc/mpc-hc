@@ -2931,7 +2931,7 @@ STRINGTABLE
 BEGIN
     IDS_MAINFRM_68          "Aspect Ratio: %ld:%ld"
     IDS_MAINFRM_69          "Aspect Ratio: Default"
-    IDS_MAINFRM_70          "Audio Delay: %I64dms"
+    IDS_MAINFRM_70          "Audio delay: %I64d ms"
     IDS_AG_CHAPTER          "Chapter %d"
     IDS_AG_OUT_OF_MEMORY    "Out of memory"
     IDS_MAINFRM_77          "Error: Flash player for IE is required"

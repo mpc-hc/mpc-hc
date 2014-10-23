@@ -2271,7 +2271,7 @@ msgid "Aspect Ratio: Default"
 msgstr "高宽比: 默认"
 
 msgctxt "IDS_MAINFRM_70"
-msgid "Audio Delay: %I64dms"
+msgid "Audio delay: %I64d ms"
 msgstr "音频延迟: %I64dms"
 
 msgctxt "IDS_AG_CHAPTER"

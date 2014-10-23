@@ -2270,7 +2270,7 @@ msgid "Aspect Ratio: Default"
 msgstr "Tỉ lệ khung hình: Mặc định"
 
 msgctxt "IDS_MAINFRM_70"
-msgid "Audio Delay: %I64dms"
+msgid "Audio delay: %I64d ms"
 msgstr "Độ trễ âm: %I64dgiây"
 
 msgctxt "IDS_AG_CHAPTER"

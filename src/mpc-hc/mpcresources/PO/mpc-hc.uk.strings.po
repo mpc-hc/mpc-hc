@@ -2269,7 +2269,7 @@ msgid "Aspect Ratio: Default"
 msgstr "Пропорції: стандартні"
 
 msgctxt "IDS_MAINFRM_70"
-msgid "Audio Delay: %I64dms"
+msgid "Audio delay: %I64d ms"
 msgstr "Затримка аудіо: %I64dмс"
 
 msgctxt "IDS_AG_CHAPTER"

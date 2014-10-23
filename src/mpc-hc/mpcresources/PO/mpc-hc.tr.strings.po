@@ -2271,7 +2271,7 @@ msgid "Aspect Ratio: Default"
 msgstr "Taraf Oranı: Varsayılan"
 
 msgctxt "IDS_MAINFRM_70"
-msgid "Audio Delay: %I64dms"
+msgid "Audio delay: %I64d ms"
 msgstr "Ses Gecikmesi: %I64dms"
 
 msgctxt "IDS_AG_CHAPTER"

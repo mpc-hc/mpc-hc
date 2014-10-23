@@ -2270,7 +2270,7 @@ msgid "Aspect Ratio: Default"
 msgstr "Raport de aspect: Implicit"
 
 msgctxt "IDS_MAINFRM_70"
-msgid "Audio Delay: %I64dms"
+msgid "Audio delay: %I64d ms"
 msgstr "Întârziere audio: %I64dms"
 
 msgctxt "IDS_AG_CHAPTER"
