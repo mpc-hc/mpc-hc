@@ -54,6 +54,7 @@ public:
     void LoadImg(const CString& imagePath = _T(""));
     void LoadImg(std::vector<BYTE> buffer);
     CSize GetLogoSize();
+    bool IsCustomImgLoaded() const { return m_bCustomImgLoaded; };
 
 protected:
     virtual BOOL PreCreateWindow(CREATESTRUCT& cs);

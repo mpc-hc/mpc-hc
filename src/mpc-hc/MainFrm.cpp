@@ -16156,6 +16156,8 @@ void CMainFrame::UpdateControlState(UpdateControlTarget target)
                     m_wndView.LoadImg(CoverArt::FindExternal(strPath, author));
                     m_currentCoverPath = strPath;
                     m_currentCoverAuthor = author;
+                } else if (!m_wndView.IsCustomImgLoaded()) {
+                    m_wndView.LoadImg();
                 }
             } else {
                 m_currentCoverPath.Empty();
