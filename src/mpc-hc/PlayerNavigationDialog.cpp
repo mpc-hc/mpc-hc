@@ -203,6 +203,23 @@ void CPlayerNavigationDialog::OnContextMenu(CWnd* pWnd, CPoint point)
         });
     };
 
+    auto swapChannels = [&](int n1, int n2) {
+        auto it1 = findChannelByItemNumber(s.m_DVBChannels, n1);
+        auto it2 = findChannelByItemNumber(s.m_DVBChannels, n2);
+        int nPrefNumber1 = it1->GetPrefNumber(), nPrefNumber2 = it2->GetPrefNumber();
+        // Make sure the current channel number is updated if swapping the channel is going to change it
+        if (nPrefNumber1 == s.nDVBLastChannel) {
+            s.nDVBLastChannel = nPrefNumber2;
+        } else if (nPrefNumber2 == s.nDVBLastChannel) {
+            s.nDVBLastChannel = nPrefNumber1;
+        }
+        // The preferred number shouldn't be swapped so we swap it twice for no-op
+        it1->SetPrefNumber(nPrefNumber2);
+        it2->SetPrefNumber(nPrefNumber1);
+        // Actually swap the channels
+        iter_swap(it1, it2);
+    };
+
     if (!bOutside) {
         m_channelList.SetCurSel(nItem);
 
@@ -226,17 +243,29 @@ void CPlayerNavigationDialog::OnContextMenu(CWnd* pWnd, CPoint point)
                 OnChangeChannel();
                 break;
             case M_MOVE_UP:
-                iter_swap(findChannelByItemNumber(s.m_DVBChannels, nItem), findChannelByItemNumber(s.m_DVBChannels, nItem - 1));
+                swapChannels(nItem, nItem - 1);
                 UpdateElementList();
                 break;
             case M_MOVE_DOWN:
-                iter_swap(findChannelByItemNumber(s.m_DVBChannels, nItem), findChannelByItemNumber(s.m_DVBChannels, nItem + 1));
+                swapChannels(nItem, nItem + 1);
                 UpdateElementList();
                 break;
-            case M_SORT:
+            case M_SORT: {
                 sort(s.m_DVBChannels.begin(), s.m_DVBChannels.end());
+                // Update the preferred numbers
+                int nPrefNumber = 0;
+                int nDVBLastChannel = s.nDVBLastChannel;
+                for (auto& channel : s.m_DVBChannels) {
+                    // Make sure the current channel number will be updated
+                    if (channel.GetPrefNumber() == s.nDVBLastChannel) {
+                        nDVBLastChannel = nPrefNumber;
+                    }
+                    channel.SetPrefNumber(nPrefNumber++);
+                }
+                s.nDVBLastChannel = nDVBLastChannel;
                 UpdateElementList();
                 break;
+            }
             case M_REMOVE: {
                 const auto it = findChannelByItemNumber(s.m_DVBChannels, nItem);
                 const int nRemovedPrefNumber = it->GetPrefNumber();
