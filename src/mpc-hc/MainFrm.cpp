@@ -9853,6 +9853,15 @@ CSize CMainFrame::GetZoomWindowSize(double dScale)
                     videoSize.cy = s.nCoverArtSizeLimit;
                 }
             }
+
+            if (videoSize.cx <= 1 || videoSize.cy <= 1) {
+                // Do not adjust window width if blank logo is used (1x1px) or cover-art size is limited
+                // to avoid shrinking window width too much and give ability to revert pre 94dc87c behavior
+                videoSize.SetSize(0, 0);
+                CRect windowRect;
+                GetWindowRect(windowRect);
+                mmi.ptMinTrackSize.x = std::max<long>(windowRect.Width(), mmi.ptMinTrackSize.x);
+            }
         } else {
             videoSize = GetVideoSize();
         }
