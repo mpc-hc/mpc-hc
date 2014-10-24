@@ -8551,14 +8551,14 @@ void CMainFrame::OnNavigateJumpTo(UINT nID)
     } else if (GetPlaybackMode() == PM_DVD) {
         SeekToDVDChapter(nID - ID_NAVIGATE_JUMPTO_SUBITEM_START + 1);
     } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-        nID -= ID_NAVIGATE_JUMPTO_SUBITEM_START;
-
         CComQIPtr<IBDATuner> pTun = m_pGB;
         if (pTun) {
-            if (s.nDVBLastChannel != nID) {
-                if (SUCCEEDED(SetChannel(nID))) {
+            int nChannel = nID - ID_NAVIGATE_JUMPTO_SUBITEM_START;
+
+            if (s.nDVBLastChannel != nChannel) {
+                if (SUCCEEDED(SetChannel(nChannel))) {
                     if (m_controls.ControlChecked(CMainFrameControls::Panel::NAVIGATION)) {
-                        m_wndNavigationBar.m_navdlg.UpdatePos(nID);
+                        m_wndNavigationBar.m_navdlg.UpdatePos(nChannel);
                     }
                 }
             }
@@ -12928,7 +12928,7 @@ void CMainFrame::SetupJumpToSubMenus(CMenu* parentMenu /*= nullptr*/, int iInser
         for (const auto& channel : s.m_DVBChannels) {
             UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
 
-            if ((UINT)channel.GetPrefNumber() == s.nDVBLastChannel) {
+            if (channel.GetPrefNumber() == s.nDVBLastChannel) {
                 idSelected = id;
             }
             VERIFY(m_channelsMenu.AppendMenu(flags, ID_NAVIGATE_JUMPTO_SUBITEM_START + channel.GetPrefNumber(), channel.GetName()));
@@ -14631,7 +14631,9 @@ HRESULT CMainFrame::SetChannel(int nChannel)
     CComQIPtr<IBDATuner> pTun = m_pGB;
     CDVBChannel* pChannel = s.FindChannelByPref(nChannel);
 
-    if (pTun && pChannel && !m_pDVBState->bSetChannelActive) {
+    if (s.m_DVBChannels.empty() && nChannel == INT_ERROR) {
+        hr = S_FALSE; // All channels have been cleared or it is the first start
+    } else if (pTun && pChannel && !m_pDVBState->bSetChannelActive) {
         m_pDVBState->Reset();
         m_wndInfoBar.RemoveAllLines();
         m_wndNavigationBar.m_navdlg.SetChannelInfoAvailable(false);
@@ -14686,6 +14688,7 @@ HRESULT CMainFrame::SetChannel(int nChannel)
         hr = E_FAIL;
         ASSERT(FALSE);
     }
+
     return hr;
 }
 

@@ -256,21 +256,24 @@ void CPlayerNavigationDialog::OnContextMenu(CWnd* pWnd, CPoint point)
                     --newCurSel;
                 }
 
-                const auto NewChanIt = findChannelByItemNumber(s.m_DVBChannels, newCurSel);
-                if (NewChanIt != s.m_DVBChannels.end()) {
+                const auto newChannelIt = findChannelByItemNumber(s.m_DVBChannels, newCurSel);
+                if (newChannelIt != s.m_DVBChannels.end()) {
                     // Update pref number of the current channel
-                    s.nDVBLastChannel = NewChanIt->GetPrefNumber();
+                    s.nDVBLastChannel = newChannelIt->GetPrefNumber();
                     m_channelList.SetCurSel(newCurSel);
                     if (curSel == nItem) {
                         // Set closest channel on list after removing current channel
                         m_pMainFrame->SetChannel(s.nDVBLastChannel);
                     }
+                } else { // The last channel was removed
+                    s.nDVBLastChannel = INT_ERROR;
                 }
             }
             break;
             case M_REMOVE_ALL:
                 if (IDYES == AfxMessageBox(IDS_REMOVE_CHANNELS_QUESTION, MB_ICONQUESTION | MB_YESNO, 0)) {
                     s.m_DVBChannels.clear();
+                    s.nDVBLastChannel = INT_ERROR;
                     UpdateElementList();
                 }
                 break;

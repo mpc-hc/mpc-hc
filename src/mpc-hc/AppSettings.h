@@ -546,7 +546,7 @@ public:
     bool            fBDAUseOffset;
     int             iBDAOffset;
     bool            fBDAIgnoreEncryptedChannels;
-    UINT            nDVBLastChannel;
+    int             nDVBLastChannel;
     std::vector<CDVBChannel> m_DVBChannels;
     DVB_RebuildFilterGraph nDVBRebuildFilterGraph;
     DVB_StopFilterGraph nDVBStopFilterGraph;
