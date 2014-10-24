@@ -31,6 +31,7 @@ next version - not released yet
 ! Ticket #4954, Open dialog: Support quoted paths
 ! Ticket #4975, Unrelated images could be loaded as cover-art when no author information was available
   in the audio file
+! Ticket #4993, DVB: The content of the "Information" panel was lost when changing the UI language
 ! Ticket #4994, The "Channels" sub-menu was not translated
 
 

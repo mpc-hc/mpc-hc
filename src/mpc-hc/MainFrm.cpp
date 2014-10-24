@@ -16218,6 +16218,9 @@ void CMainFrame::UpdateUILanguage()
 
     // Reload the static bars
     OpenSetupInfoBar();
+    if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
+        UpdateCurrentChannelInfo(false, false);
+    }
     OpenSetupStatsBar();
 
     // Reload the debug shaders dialog if need be
