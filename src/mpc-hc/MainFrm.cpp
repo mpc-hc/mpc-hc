@@ -14783,9 +14783,8 @@ LRESULT CMainFrame::OnCurrentChannelInfoUpdated(WPARAM wParam, LPARAM lParam)
                 m_wndInfoBar.SetLine(item.first, item.second);
             }
 
-            if (infoData.bShowInfoBar) {
-                AfxGetAppSettings().nCS |= CS_INFOBAR;
-                UpdateControlState(UPDATE_CONTROLS_VISIBILITY);
+            if (infoData.bShowInfoBar && !m_controls.ControlChecked(CMainFrameControls::Toolbar::INFO)) {
+                m_controls.ToggleControl(CMainFrameControls::Toolbar::INFO);
             }
         }
 
