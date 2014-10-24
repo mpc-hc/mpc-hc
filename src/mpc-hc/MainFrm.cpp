@@ -12935,7 +12935,7 @@ void CMainFrame::SetupJumpToSubMenus(CMenu* parentMenu /*= nullptr*/, int iInser
             id++;
         }
         menuEndRadioSection(m_channelsMenu);
-        addSubMenuIfPossible(_T("Channels"), m_channelsMenu);
+        addSubMenuIfPossible(ResStr(IDS_NAVIGATE_CHANNELS), m_channelsMenu);
     }
 }
 
