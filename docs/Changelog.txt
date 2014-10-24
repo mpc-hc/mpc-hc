@@ -18,6 +18,7 @@ next version - not released yet
 * The "Properties" dialog should open faster being that the MediaInfo analysis is now done asynchronously
 * Ticket #4991, Text subtitles: "opaque box" outlines will now always be drawn even if the border width is set to 0.
   The size of the text is independent of the border width so there is no reason not to draw that part
+* Updated Little CMS to v2.7 (git 8174681)
 * Updated Unrar to v5.2.1
 * Updated LAV Filters to v0.63.0.2
 * Updated Arabic, Armenian, Basque, Belarusian, Bengali, British English, Catalan, Chinese (Simplified and Traditional),
