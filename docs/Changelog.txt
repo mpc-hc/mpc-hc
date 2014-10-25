@@ -16,6 +16,8 @@ next version - not released yet
 + Ticket #4941, Support embedded cover-art
 * DVB: Improve channel switching speed
 * The "Properties" dialog should open faster being that the MediaInfo analysis is now done asynchronously
+* Ticket #4991, Text subtitles: "opaque box" outlines will now always be drawn even if the border width is set to 0.
+  The size of the text is independent of the border width so there is no reason not to draw that part
 * Updated Unrar to v5.2.1
 * Updated Arabic, Armenian, Basque, Belarusian, Bengali, British English, Catalan, Chinese (Simplified and Traditional),
   Croatian, Czech, Dutch, French, Galician, German, Greek, Hebrew, Hungarian, Italian, Japanese, Korean, Malay,
