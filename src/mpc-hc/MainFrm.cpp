@@ -2325,12 +2325,16 @@ void CMainFrame::GraphEventComplete()
         }
     }
 
+    bool bBreak = false;
     if (m_wndPlaylistBar.IsAtEnd()) {
         ++m_nLoops;
+        bBreak = !!(s.nCLSwitches & CLSW_AFTERPLAYBACK_MASK);
     }
 
     if (s.fLoopForever || m_nLoops < s.nLoops) {
-        if (m_wndPlaylistBar.GetCount() > 1) {
+        if (bBreak) {
+            DoAfterPlaybackEvent();
+        } else if (m_wndPlaylistBar.GetCount() > 1) {
             int nLoops = m_nLoops;
             SendMessage(WM_COMMAND, ID_NAVIGATE_SKIPFORWARD);
             m_nLoops = nLoops;
