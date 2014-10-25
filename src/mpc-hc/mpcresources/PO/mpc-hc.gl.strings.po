@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-29 21:09:08+0000\n"
-"PO-Revision-Date: 2014-10-10 02:10+0000\n"
+"POT-Creation-Date: 2014-10-19 22:15:16+0000\n"
+"PO-Revision-Date: 2014-10-22 09:16+0000\n"
 "Last-Translator: Rubén <feiticeiro2010@hotmail.es>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/mpc-hc/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -1291,23 +1291,23 @@ msgstr ""
 
 msgctxt "IDS_NAVIGATION_MOVE_UP"
 msgid "Move Up"
-msgstr ""
+msgstr "Subir"
 
 msgctxt "IDS_NAVIGATION_MOVE_DOWN"
 msgid "Move Down"
-msgstr ""
+msgstr "Baixar"
 
 msgctxt "IDS_NAVIGATION_SORT"
 msgid "Sort by LCN"
-msgstr ""
+msgstr "Agrupar por LCN"
 
 msgctxt "IDS_NAVIGATION_REMOVE_ALL"
 msgid "Remove all"
-msgstr ""
+msgstr "Eliminar todos"
 
 msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
 msgid "Are you sure you want to remove all channels from the list?"
-msgstr ""
+msgstr "Estas seguro de que desexas eliminar todas as canles da lista?"
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
@@ -1363,11 +1363,11 @@ msgstr "<Non definido>"
 
 msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"
 msgid "No information available"
-msgstr ""
+msgstr "Non hai información dispoñible"
 
 msgctxt "IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS"
 msgid "Please wait, analysis in progress..."
-msgstr ""
+msgstr "Por favor, agarde. Análise en progreso..."
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"

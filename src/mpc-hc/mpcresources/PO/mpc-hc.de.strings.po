@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-29 21:09:08+0000\n"
-"PO-Revision-Date: 2014-10-19 09:22+0000\n"
+"POT-Creation-Date: 2014-10-19 22:15:16+0000\n"
+"PO-Revision-Date: 2014-10-25 12:31+0000\n"
 "Last-Translator: Luan <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -81,7 +81,7 @@ msgstr "DVDs"
 
 msgctxt "IDS_INFOBAR_CHANNEL"
 msgid "Channel"
-msgstr "Kanal"
+msgstr "Sender"
 
 msgctxt "IDS_INFOBAR_TIME"
 msgid "Time"
@@ -417,7 +417,7 @@ msgstr "&Löschen"
 
 msgctxt "IDS_SUBRESYNC_DUPLICATE"
 msgid "D&uplicate"
-msgstr "D&uplizieren"
+msgstr "&Duplizieren"
 
 msgctxt "IDS_SUBRESYNC_RESET"
 msgid "&Reset"
@@ -913,11 +913,11 @@ msgstr "Vorwärts springen\nVorwärts springen"
 
 msgctxt "IDS_SUBRESYNC_ORIGINAL"
 msgid "&Original"
-msgstr "&Original"
+msgstr "&Originalzeit"
 
 msgctxt "IDS_SUBRESYNC_CURRENT"
 msgid "&Current"
-msgstr "&Aktuell"
+msgstr "&Wiedergabezeit"
 
 msgctxt "IDS_SUBRESYNC_EDIT"
 msgid "&Edit"
@@ -1293,27 +1293,27 @@ msgstr "Bestimmt die Maximalanzahl gespeicherter Einträge der zuletzt geöffnet
 
 msgctxt "IDS_NAVIGATION_WATCH"
 msgid "Watch"
-msgstr ""
+msgstr "Öffnen"
 
 msgctxt "IDS_NAVIGATION_MOVE_UP"
 msgid "Move Up"
-msgstr ""
+msgstr "Nach oben"
 
 msgctxt "IDS_NAVIGATION_MOVE_DOWN"
 msgid "Move Down"
-msgstr ""
+msgstr "Nach unten"
 
 msgctxt "IDS_NAVIGATION_SORT"
 msgid "Sort by LCN"
-msgstr ""
+msgstr "Nach LCN sortieren"
 
 msgctxt "IDS_NAVIGATION_REMOVE_ALL"
 msgid "Remove all"
-msgstr ""
+msgstr "Alle entfernen"
 
 msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
 msgid "Are you sure you want to remove all channels from the list?"
-msgstr ""
+msgstr "Wirklich alle Einträge von der Senderliste entfernen?"
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
@@ -1369,11 +1369,11 @@ msgstr "<nicht definiert>"
 
 msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"
 msgid "No information available"
-msgstr ""
+msgstr "Keine Informationen verfügbar"
 
 msgctxt "IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS"
 msgid "Please wait, analysis in progress..."
-msgstr ""
+msgstr "Analysiere..."
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1725,11 +1725,11 @@ msgstr "Pan&Scan: Höhe verringern"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
 msgid "Downloading subtitle(s), please wait."
-msgstr "Untertitel werden heruntergeladen..."
+msgstr "Lade Untertitel herunter..."
 
 msgctxt "IDS_SUBDL_DLG_PARSING"
 msgid "Parsing list..."
-msgstr "Analyse..."
+msgstr "Analysiere..."
 
 msgctxt "IDS_SUBDL_DLG_NOT_FOUND"
 msgid "No subtitles found."
@@ -1837,55 +1837,55 @@ msgstr "Stummschaltung (ein/aus)"
 
 msgctxt "IDS_MPLAYERC_63"
 msgid "DVD Title Menu"
-msgstr "DVD-Menü: Titelmenü"
+msgstr "DVD: Titelmenü"
 
 msgctxt "IDS_AG_DVD_ROOT_MENU"
 msgid "DVD Root Menu"
-msgstr "DVD-Menü: Hauptmenü"
+msgstr "DVD: Hauptmenü"
 
 msgctxt "IDS_MPLAYERC_65"
 msgid "DVD Subtitle Menu"
-msgstr "DVD-Menü: Untertitelmenü"
+msgstr "DVD: Untertitelmenü"
 
 msgctxt "IDS_MPLAYERC_66"
 msgid "DVD Audio Menu"
-msgstr "DVD-Menü: Audiomenü"
+msgstr "DVD: Audiomenü"
 
 msgctxt "IDS_MPLAYERC_67"
 msgid "DVD Angle Menu"
-msgstr "DVD-Menü: Blickwinkelmenü"
+msgstr "DVD: Blickwinkelmenü"
 
 msgctxt "IDS_MPLAYERC_68"
 msgid "DVD Chapter Menu"
-msgstr "DVD-Menü: Kapitelmenü"
+msgstr "DVD: Kapitelmenü"
 
 msgctxt "IDS_AG_DVD_MENU_LEFT"
 msgid "DVD Menu Left"
-msgstr "DVD-Menü: Nach links bewegen"
+msgstr "DVD: Menü nach links"
 
 msgctxt "IDS_MPLAYERC_70"
 msgid "DVD Menu Right"
-msgstr "DVD-Menü: Nach rechts bewegen"
+msgstr "DVD: Menü nach rechts"
 
 msgctxt "IDS_AG_DVD_MENU_UP"
 msgid "DVD Menu Up"
-msgstr "DVD-Menü: Nach oben bewegen"
+msgstr "DVD: Menü nach oben"
 
 msgctxt "IDS_AG_DVD_MENU_DOWN"
 msgid "DVD Menu Down"
-msgstr "DVD-Menü: Nach unten bewegen"
+msgstr "DVD: Menü nach unten"
 
 msgctxt "IDS_MPLAYERC_73"
 msgid "DVD Menu Activate"
-msgstr "DVD-Menü: Aktivieren"
+msgstr "DVD: Menü aktivieren"
 
 msgctxt "IDS_AG_DVD_MENU_BACK"
 msgid "DVD Menu Back"
-msgstr "DVD-Menü: Zurück"
+msgstr "DVD: Menü zurück"
 
 msgctxt "IDS_MPLAYERC_75"
 msgid "DVD Menu Leave"
-msgstr "DVD-Menü: Verlassen"
+msgstr "DVD: Menü verlassen"
 
 msgctxt "IDS_AG_BOSS_KEY"
 msgid "Boss key"
@@ -1933,47 +1933,47 @@ msgstr "Untertitel neu laden"
 
 msgctxt "IDS_MPLAYERC_87"
 msgid "Next Audio (OGM)"
-msgstr "OGM-Spur: Audiospur vor"
+msgstr "OGM: Audiospur vor"
 
 msgctxt "IDS_MPLAYERC_88"
 msgid "Prev Audio (OGM)"
-msgstr "OGM-Spur: Audiospur zurück"
+msgstr "OGM: Audiospur zurück"
 
 msgctxt "IDS_MPLAYERC_89"
 msgid "Next Subtitle (OGM)"
-msgstr "OGM-Spur: Untertitelspur vor"
+msgstr "OGM: Untertitelspur vor"
 
 msgctxt "IDS_MPLAYERC_90"
 msgid "Prev Subtitle (OGM)"
-msgstr "OGM-Spur: Untertitelspur zurück"
+msgstr "OGM: Untertitelspur zurück"
 
 msgctxt "IDS_MPLAYERC_91"
 msgid "Next Angle (DVD)"
-msgstr "DVD-Spur: Blickwinkel vor"
+msgstr "DVD: Blickwinkel vor"
 
 msgctxt "IDS_MPLAYERC_92"
 msgid "Prev Angle (DVD)"
-msgstr "DVD-Spur: Blickwinkel zurück"
+msgstr "DVD: Blickwinkel zurück"
 
 msgctxt "IDS_MPLAYERC_93"
 msgid "Next Audio (DVD)"
-msgstr "DVD-Spur: Audiospur vor"
+msgstr "DVD: Audiospur vor"
 
 msgctxt "IDS_MPLAYERC_94"
 msgid "Prev Audio (DVD)"
-msgstr "DVD-Spur: Audiospur zurück"
+msgstr "DVD: Audiospur zurück"
 
 msgctxt "IDS_MPLAYERC_95"
 msgid "Next Subtitle (DVD)"
-msgstr "DVD-Spur: Untertitelspur vor"
+msgstr "DVD: Untertitelspur vor"
 
 msgctxt "IDS_MPLAYERC_96"
 msgid "Prev Subtitle (DVD)"
-msgstr "DVD-Spur: Untertitelspur zurück"
+msgstr "DVD: Untertitelspur zurück"
 
 msgctxt "IDS_MPLAYERC_97"
 msgid "On/Off Subtitle (DVD)"
-msgstr "DVD-Spur: Untertitel (ein/aus)"
+msgstr "DVD: Untertitel (ein/aus)"
 
 msgctxt "IDS_MPLAYERC_98"
 msgid "Remaining Time"
@@ -1989,7 +1989,7 @@ msgstr "Zu Favoriten schnell hinzufügen"
 
 msgctxt "IDS_DVB_CHANNEL_NUMBER"
 msgid "N"
-msgstr "Nr."
+msgstr "Nummer"
 
 msgctxt "IDS_DVB_CHANNEL_NAME"
 msgid "Name"
@@ -2017,7 +2017,7 @@ msgstr "&Start"
 
 msgctxt "IDS_DVB_CHANNEL_STOP_SCAN"
 msgid "Stop"
-msgstr "Stopp"
+msgstr "&Stopp"
 
 msgctxt "IDS_DVB_TVNAV_SEERADIO"
 msgid "Radio stations"
@@ -2213,7 +2213,7 @@ msgstr "DVD/BD öffnen"
 
 msgctxt "IDS_SUB_LOADED_SUCCESS"
 msgid " loaded successfully"
-msgstr " erfolgreich geladen."
+msgstr " erfolgreich geladen"
 
 msgctxt "IDS_ALL_FILES_FILTER"
 msgid "All files (*.*)|*.*||"
@@ -3545,7 +3545,7 @@ msgstr "&Titel"
 
 msgctxt "IDS_NAVIGATE_CHANNELS"
 msgid "&Channels"
-msgstr "&Kanäle"
+msgstr "&Senderliste"
 
 msgctxt "IDC_FASTSEEK_CHECK"
 msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."

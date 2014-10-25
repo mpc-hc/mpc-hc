@@ -12,8 +12,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-29 21:09:08+0000\n"
-"PO-Revision-Date: 2014-10-10 19:10+0000\n"
+"POT-Creation-Date: 2014-10-19 22:15:16+0000\n"
+"PO-Revision-Date: 2014-10-21 17:31+0000\n"
 "Last-Translator: manxx55 <w6txz2@gmail.com>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/mpc-hc/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -1292,27 +1292,27 @@ msgstr "العدد الأقصى لعرض الملفات في \"الملفات ا
 
 msgctxt "IDS_NAVIGATION_WATCH"
 msgid "Watch"
-msgstr ""
+msgstr "الساعة"
 
 msgctxt "IDS_NAVIGATION_MOVE_UP"
 msgid "Move Up"
-msgstr ""
+msgstr "تحريك لإعلى"
 
 msgctxt "IDS_NAVIGATION_MOVE_DOWN"
 msgid "Move Down"
-msgstr ""
+msgstr "تحريك لإسفل"
 
 msgctxt "IDS_NAVIGATION_SORT"
 msgid "Sort by LCN"
-msgstr ""
+msgstr "الترتيب بـLCN"
 
 msgctxt "IDS_NAVIGATION_REMOVE_ALL"
 msgid "Remove all"
-msgstr ""
+msgstr "إزالة الكل"
 
 msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
 msgid "Are you sure you want to remove all channels from the list?"
-msgstr ""
+msgstr "هل أنت متأكد بأنك تريد إزالة جميع القنوات من القائمة؟"
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
@@ -1368,11 +1368,11 @@ msgstr "<غير معرّف>"
 
 msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"
 msgid "No information available"
-msgstr ""
+msgstr "لا توجد معلومات متاحة"
 
 msgctxt "IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS"
 msgid "Please wait, analysis in progress..."
-msgstr ""
+msgstr "الرجاء الإنتظار، التحليل مستمرّ.."
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"

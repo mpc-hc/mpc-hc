@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-29 21:09:08+0000\n"
-"PO-Revision-Date: 2014-10-09 17:01+0000\n"
+"POT-Creation-Date: 2014-10-19 22:15:16+0000\n"
+"PO-Revision-Date: 2014-10-23 23:50+0000\n"
 "Last-Translator: Sir_Burpalot <doctor.z01db3rg@gmail.com>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/mpc-hc/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -1286,27 +1286,27 @@ msgstr "Maximum number of files shown in the \"Recent files\" menu and for which
 
 msgctxt "IDS_NAVIGATION_WATCH"
 msgid "Watch"
-msgstr ""
+msgstr "Watch"
 
 msgctxt "IDS_NAVIGATION_MOVE_UP"
 msgid "Move Up"
-msgstr ""
+msgstr "Move Up"
 
 msgctxt "IDS_NAVIGATION_MOVE_DOWN"
 msgid "Move Down"
-msgstr ""
+msgstr "Move Down"
 
 msgctxt "IDS_NAVIGATION_SORT"
 msgid "Sort by LCN"
-msgstr ""
+msgstr "Sort by LCN"
 
 msgctxt "IDS_NAVIGATION_REMOVE_ALL"
 msgid "Remove all"
-msgstr ""
+msgstr "Remove all"
 
 msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
 msgid "Are you sure you want to remove all channels from the list?"
-msgstr ""
+msgstr "Are you sure you want to remove all channels from the list?"
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
@@ -1362,11 +1362,11 @@ msgstr "<not defined>"
 
 msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"
 msgid "No information available"
-msgstr ""
+msgstr "No information available"
 
 msgctxt "IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS"
 msgid "Please wait, analysis in progress..."
-msgstr ""
+msgstr "Please wait, analysis in progress..."
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"

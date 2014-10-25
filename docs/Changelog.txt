@@ -17,8 +17,10 @@ next version - not released yet
 * DVB: Improve channel switching speed
 * The "Properties" dialog should open faster being that the MediaInfo analysis is now done asynchronously
 * Updated Unrar to v5.2.1
-* Updated Arabic, Basque, Catalan, French, Galician, Japanese, Korean, Romanian, Slovak, Spanish, Turkish
-  and Ukrainian translations
+* Updated Arabic, Armenian, Basque, Belarusian, Bengali, British English, Catalan, Chinese (Simplified and Traditional),
+  Croatian, Czech, Dutch, French, Galician, German, Greek, Hebrew, Hungarian, Italian, Japanese, Korean, Malay,
+  Polish, Portuguese (Brazil), Romanian, Russian, Slovak, Slovenian, Spanish, Swedish, Tatar, Thai, Turkish,
+  Ukrainian and Vietnamese translations
 ! Ticket #2953, DVB: Fix crash when closing window right after switching channel
 ! Ticket #3666, DVB: Don't clear the channel list on saving new scan result
 ! Ticket #4436, DVB: Improve compatibility with certain tuners
