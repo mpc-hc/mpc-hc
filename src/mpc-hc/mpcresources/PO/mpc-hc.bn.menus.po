@@ -612,6 +612,10 @@ msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
 msgid "Turn off the &monitor"
 msgstr "মনিটর বন্ধ করি(&M)"
 
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr ""
+
 msgctxt "POPUP"
 msgid "&Navigate"
 msgstr "ন্যাভিগেট(&N)"

@@ -37,6 +37,7 @@ next version - not released yet
 ! Ticket #4956, Improve Play/Pause mouse click responsiveness
 ! Ticket #4957/#4982, Do not adjust window width in audio mode if no cover-art/logo is loaded or its size 
   is limited to zero
+! Ticket #4971, Bring back "Play next file in the folder" event in single time events menu 
 ! Ticket #4975, Unrelated images could be loaded as cover-art when no author information was available
   in the audio file
 ! Ticket #4991, Text subtitles: "opaque box" outlines were scaled twice

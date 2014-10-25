@@ -614,6 +614,10 @@ msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
 msgid "Turn off the &monitor"
 msgstr "Σβήσε την &οθόνη"
 
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr ""
+
 msgctxt "POPUP"
 msgid "&Navigate"
 msgstr "Πε&ριήγηση"

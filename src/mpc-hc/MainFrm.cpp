@@ -465,8 +465,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_COMMAND_RANGE(ID_NORMALIZE, ID_REGAIN_VOLUME, OnNormalizeRegainVolume)
     ON_UPDATE_COMMAND_UI_RANGE(ID_NORMALIZE, ID_REGAIN_VOLUME, OnUpdateNormalizeRegainVolume)
     ON_COMMAND_RANGE(ID_COLOR_BRIGHTNESS_INC, ID_COLOR_RESET, OnPlayColor)
-    ON_UPDATE_COMMAND_UI_RANGE(ID_AFTERPLAYBACK_CLOSE, ID_AFTERPLAYBACK_MONITOROFF, OnUpdateAfterplayback)
-    ON_COMMAND_RANGE(ID_AFTERPLAYBACK_CLOSE, ID_AFTERPLAYBACK_MONITOROFF, OnAfterplayback)
+    ON_UPDATE_COMMAND_UI_RANGE(ID_AFTERPLAYBACK_CLOSE, ID_AFTERPLAYBACK_PLAYNEXT, OnUpdateAfterplayback)
+    ON_COMMAND_RANGE(ID_AFTERPLAYBACK_CLOSE, ID_AFTERPLAYBACK_PLAYNEXT, OnAfterplayback)
 
     ON_COMMAND_RANGE(ID_NAVIGATE_SKIPBACK, ID_NAVIGATE_SKIPFORWARD, OnNavigateSkip)
     ON_UPDATE_COMMAND_UI_RANGE(ID_NAVIGATE_SKIPBACK, ID_NAVIGATE_SKIPFORWARD, OnUpdateNavigateSkip)
@@ -2258,6 +2258,12 @@ void CMainFrame::DoAfterPlaybackEvent()
         m_fEndOfStream = true;
         bExitFullScreen = true;
         LockWorkStation();
+    } else if (s.nCLSwitches & CLSW_PLAYNEXT) {
+        if (!SearchInDir(true, (s.fLoopForever || m_nLoops < s.nLoops))) {
+            m_fEndOfStream = true;
+            bExitFullScreen = true;
+            bNoMoreMedia = true;
+        }
     } else {
         switch (s.eAfterPlayback) {
             case CAppSettings::AfterPlayback::PLAY_NEXT:
@@ -8163,6 +8169,11 @@ void CMainFrame::OnAfterplayback(UINT nID)
             s.nCLSwitches ^= CLSW_MONITOROFF;
             osdMsg = IDS_AFTERPLAYBACK_MONITOROFF;
             break;
+        case ID_AFTERPLAYBACK_PLAYNEXT:
+            s.nCLSwitches &= ~CLSW_AFTERPLAYBACK_MASK | CLSW_PLAYNEXT;
+            s.nCLSwitches ^= CLSW_PLAYNEXT;
+            osdMsg = IDS_AFTERPLAYBACK_PLAYNEXT;
+            break;
     }
 
     m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(osdMsg));
@@ -8194,6 +8205,9 @@ void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
             break;
         case ID_AFTERPLAYBACK_MONITOROFF:
             bChecked = !!(s.nCLSwitches & CLSW_MONITOROFF);
+            break;
+        case ID_AFTERPLAYBACK_PLAYNEXT:
+            bChecked = !!(s.nCLSwitches & CLSW_PLAYNEXT);
             break;
     }
 

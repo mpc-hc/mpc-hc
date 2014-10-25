@@ -1529,6 +1529,7 @@ BEGIN
             MENUITEM "Log &Off",                    ID_AFTERPLAYBACK_LOGOFF
             MENUITEM "&Lock",                       ID_AFTERPLAYBACK_LOCK
             MENUITEM "Turn off the &monitor",       ID_AFTERPLAYBACK_MONITOROFF
+            MENUITEM "Play &next file in the folder", ID_AFTERPLAYBACK_PLAYNEXT
         END
     END
     POPUP "&Navigate"
@@ -1682,6 +1683,7 @@ BEGIN
             MENUITEM "Log &Off",                    ID_AFTERPLAYBACK_LOGOFF
             MENUITEM "&Lock",                       ID_AFTERPLAYBACK_LOCK
             MENUITEM "Turn off the &monitor",       ID_AFTERPLAYBACK_MONITOROFF
+            MENUITEM "Play &next file in the folder", ID_AFTERPLAYBACK_PLAYNEXT
         END
         MENUITEM SEPARATOR
         POPUP "&View"
@@ -2021,6 +2023,7 @@ BEGIN
             MENUITEM "Log &Off",                    ID_AFTERPLAYBACK_LOGOFF
             MENUITEM "&Lock",                       ID_AFTERPLAYBACK_LOCK
             MENUITEM "Turn off the &monitor",       ID_AFTERPLAYBACK_MONITOROFF
+            MENUITEM "Play &next file in the folder", ID_AFTERPLAYBACK_PLAYNEXT
         END
         MENUITEM SEPARATOR
         POPUP "R&enderer Settings"
@@ -3376,6 +3379,7 @@ BEGIN
     IDS_AFTERPLAYBACK_LOGOFF "After Playback: Log Off"
     IDS_AFTERPLAYBACK_LOCK  "After Playback: Lock"
     IDS_AFTERPLAYBACK_MONITOROFF "After Playback: Turn off the monitor"
+    IDS_AFTERPLAYBACK_PLAYNEXT "After Playback: Play next file in the folder"
     IDS_OSD_BRIGHTNESS      "Brightness: %s"
     IDS_OSD_CONTRAST        "Contrast: %s"
     IDS_OSD_HUE             "Hue: %s°"
