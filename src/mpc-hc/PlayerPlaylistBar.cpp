@@ -1356,17 +1356,36 @@ BOOL CPlayerPlaylistBar::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResul
 void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
 {
     LVHITTESTINFO lvhti;
-    lvhti.pt = p;
-    m_list.ScreenToClient(&lvhti.pt);
-    m_list.SubItemHitTest(&lvhti);
+
+    bool bOnItem;
+    if (p.x == -1 && p.y == -1) {
+        lvhti.iItem = m_list.GetSelectionMark();
+
+        if (lvhti.iItem == -1 && m_pl.GetSize() == 1) {
+            lvhti.iItem = 0;
+        }
+
+        CRect r;
+        if (!!m_list.GetItemRect(lvhti.iItem, r, LVIR_BOUNDS)) {
+            p.SetPoint(r.left, r.bottom);
+            bOnItem = true;
+        } else {
+            p.SetPoint(0, 0);
+        }
+        m_list.ClientToScreen(&p);
+        bOnItem = lvhti.iItem != -1;
+    } else {
+        lvhti.pt = p;
+        m_list.ScreenToClient(&lvhti.pt);
+        m_list.SubItemHitTest(&lvhti);
+        bOnItem = !!(lvhti.flags & LVHT_ONITEM);
+        if (!bOnItem && m_pl.GetSize() == 1) {
+            bOnItem = true;
+            lvhti.iItem = 0;
+        }
+    }
 
     POSITION pos = FindPos(lvhti.iItem);
-    bool bOnItem = !!(lvhti.flags & LVHT_ONITEM);
-    if (!bOnItem && m_pl.GetSize() == 1) {
-        bOnItem = true;
-        pos = m_pl.GetHeadPosition();
-        lvhti.iItem = 0;
-    }
     bool bIsLocalFile = bOnItem ? FileExists(m_pl.GetAt(pos).m_fns.GetHead()) : false;
 
     CMenu m;

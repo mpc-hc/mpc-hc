@@ -178,12 +178,27 @@ void CPlayerNavigationDialog::OnTvRadioStations()
 void CPlayerNavigationDialog::OnContextMenu(CWnd* pWnd, CPoint point)
 {
     auto& s = AfxGetAppSettings();
-    CPoint clientPoint = point;
-    m_channelList.ScreenToClient(&clientPoint);
     BOOL bOutside;
-    const int nItem = (int)m_channelList.ItemFromPoint(clientPoint, bOutside);
+    int nItem;
     const int curSel = m_channelList.GetCurSel();
     const int channelCount = m_channelList.GetCount();
+
+    if (point.x == -1 && point.y == -1) {
+        CRect r;
+        if (m_channelList.GetItemRect(curSel, r) != LB_ERR) {
+            point.SetPoint(r.left, r.bottom);
+        } else {
+            point.SetPoint(0, 0);
+        }
+        m_channelList.ClientToScreen(&point);
+        nItem = curSel;
+        bOutside = nItem == LB_ERR;
+    } else {
+        CPoint clientPoint = point;
+        m_channelList.ScreenToClient(&clientPoint);
+        nItem = (int)m_channelList.ItemFromPoint(clientPoint, bOutside);
+    }
+
     CMenu m;
     m.CreatePopupMenu();
 

@@ -45,6 +45,7 @@ next version - not released yet
   would reduce the size of the main window when hiding the panel from the "View" menu
 ! Ticket #4993, DVB: The content of the "Information" panel was lost when changing the UI language
 ! Ticket #4994, The "Channels" sub-menu was not translated
+! Ticket #4995, Some context menus weren't properly positioned when opened by App key
 
 
 1.7.7 - 05 October 2014
