@@ -3380,6 +3380,7 @@ BEGIN
     IDS_AFTERPLAYBACK_LOCK  "After Playback: Lock"
     IDS_AFTERPLAYBACK_MONITOROFF "After Playback: Turn off the monitor"
     IDS_AFTERPLAYBACK_PLAYNEXT "After Playback: Play next file in the folder"
+    IDS_AFTERPLAYBACK_DONOTHING "After Playback: Do nothing"
     IDS_OSD_BRIGHTNESS      "Brightness: %s"
     IDS_OSD_CONTRAST        "Contrast: %s"
     IDS_OSD_HUE             "Hue: %s°"

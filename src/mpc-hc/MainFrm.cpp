@@ -8132,51 +8132,50 @@ void CMainFrame::OnAfterplayback(UINT nID)
 {
     CAppSettings& s = AfxGetAppSettings();
     WORD osdMsg = 0;
+    bool bDisable = false;
+
+    auto toogleOption = [&](UINT64 nID) {
+        bDisable = !!(s.nCLSwitches & nID);
+        s.nCLSwitches &= ~CLSW_AFTERPLAYBACK_MASK | nID;
+        s.nCLSwitches ^= nID;
+    };
 
     switch (nID) {
         case ID_AFTERPLAYBACK_CLOSE:
-            s.nCLSwitches &= ~CLSW_AFTERPLAYBACK_MASK | CLSW_CLOSE;
-            s.nCLSwitches ^= CLSW_CLOSE;
+            toogleOption(CLSW_CLOSE);
             osdMsg = IDS_AFTERPLAYBACK_CLOSE;
             break;
         case ID_AFTERPLAYBACK_STANDBY:
-            s.nCLSwitches &= ~CLSW_AFTERPLAYBACK_MASK | CLSW_STANDBY;
-            s.nCLSwitches ^= CLSW_STANDBY;
+            toogleOption(CLSW_STANDBY);
             osdMsg = IDS_AFTERPLAYBACK_STANDBY;
             break;
         case ID_AFTERPLAYBACK_HIBERNATE:
-            s.nCLSwitches &= ~CLSW_AFTERPLAYBACK_MASK | CLSW_HIBERNATE;
-            s.nCLSwitches ^= CLSW_HIBERNATE;
+            toogleOption(CLSW_HIBERNATE);
             osdMsg = IDS_AFTERPLAYBACK_HIBERNATE;
             break;
         case ID_AFTERPLAYBACK_SHUTDOWN:
-            s.nCLSwitches &= ~CLSW_AFTERPLAYBACK_MASK | CLSW_SHUTDOWN;
-            s.nCLSwitches ^= CLSW_SHUTDOWN;
+            toogleOption(CLSW_SHUTDOWN);
             osdMsg = IDS_AFTERPLAYBACK_SHUTDOWN;
             break;
         case ID_AFTERPLAYBACK_LOGOFF:
-            s.nCLSwitches &= ~CLSW_AFTERPLAYBACK_MASK | CLSW_LOGOFF;
-            s.nCLSwitches ^= CLSW_LOGOFF;
+            toogleOption(CLSW_LOGOFF);
             osdMsg = IDS_AFTERPLAYBACK_LOGOFF;
             break;
         case ID_AFTERPLAYBACK_LOCK:
-            s.nCLSwitches &= ~CLSW_AFTERPLAYBACK_MASK | CLSW_LOCK;
-            s.nCLSwitches ^= CLSW_LOCK;
+            toogleOption(CLSW_LOCK);
             osdMsg = IDS_AFTERPLAYBACK_LOCK;
             break;
         case ID_AFTERPLAYBACK_MONITOROFF:
-            s.nCLSwitches &= ~CLSW_AFTERPLAYBACK_MASK | CLSW_MONITOROFF;
-            s.nCLSwitches ^= CLSW_MONITOROFF;
+            toogleOption(CLSW_MONITOROFF);
             osdMsg = IDS_AFTERPLAYBACK_MONITOROFF;
             break;
         case ID_AFTERPLAYBACK_PLAYNEXT:
-            s.nCLSwitches &= ~CLSW_AFTERPLAYBACK_MASK | CLSW_PLAYNEXT;
-            s.nCLSwitches ^= CLSW_PLAYNEXT;
+            toogleOption(CLSW_PLAYNEXT);
             osdMsg = IDS_AFTERPLAYBACK_PLAYNEXT;
             break;
     }
 
-    m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(osdMsg));
+    m_OSD.DisplayMessage(OSD_TOPLEFT, bDisable ? ResStr(IDS_AFTERPLAYBACK_DONOTHING) : ResStr(osdMsg));
 }
 
 void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
