@@ -31,6 +31,7 @@ next version - not released yet
 ! Ticket #4954, Open dialog: Support quoted paths
 ! Ticket #4975, Unrelated images could be loaded as cover-art when no author information was available
   in the audio file
+! Ticket #4991, Text subtitles: "opaque box" outlines were scaled twice
 ! Ticket #4992, DVB: Enabling the "Information" panel using the "Info" button on the "Navigation" dialog
   would reduce the size of the main window when hiding the panel from the "View" menu
 ! Ticket #4993, DVB: The content of the "Information" panel was lost when changing the UI language

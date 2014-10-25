@@ -207,12 +207,14 @@ bool CWord::CreateOpaqueBox()
 
     STSStyle style = m_style;
     style.borderStyle = 0;
-    style.outlineWidthX = style.outlineWidthY = 0;
+    // We don't want to apply the outline and the scaling twice
+    style.outlineWidthX = style.outlineWidthY = 0.0;
+    style.fontScaleX = style.fontScaleY = 100.0;
     style.colors[0] = m_style.colors[2];
     style.alpha[0] = m_style.alpha[2];
 
-    int w = (int)(m_style.outlineWidthX + 0.5);
-    int h = (int)(m_style.outlineWidthY + 0.5);
+    int w = std::lround(m_style.outlineWidthX);
+    int h = std::lround(m_style.outlineWidthY);
 
     // Convert to pixels rounding to nearest
     CStringW str;
