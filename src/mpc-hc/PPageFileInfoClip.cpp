@@ -40,7 +40,7 @@ CPPageFileInfoClip::CPPageFileInfoClip(CString path, IFilterGraph* pFG, IFileSou
     , m_author(ResStr(IDS_AG_NONE))
     , m_copyright(ResStr(IDS_AG_NONE))
     , m_rating(ResStr(IDS_AG_NONE))
-    , m_location_str(ResStr(IDS_AG_NONE))
+    , m_location(ResStr(IDS_AG_NONE))
 {
     if (pFSF) {
         LPOLESTR pFN;
@@ -50,36 +50,36 @@ CPPageFileInfoClip::CPPageFileInfoClip(CString path, IFilterGraph* pFG, IFileSou
         }
     }
 
-    bool fEmpty = true;
+    bool bFound = false;
     BeginEnumFilters(pFG, pEF, pBF) {
         if (CComQIPtr<IAMMediaContent, &IID_IAMMediaContent> pAMMC = pBF) {
             CComBSTR bstr;
             if (SUCCEEDED(pAMMC->get_Title(&bstr)) && bstr.Length()) {
                 m_clip = bstr.m_str;
-                fEmpty = false;
+                bFound = true;
             }
             bstr.Empty();
             if (SUCCEEDED(pAMMC->get_AuthorName(&bstr)) && bstr.Length()) {
                 m_author = bstr.m_str;
-                fEmpty = false;
+                bFound = true;
             }
             bstr.Empty();
             if (SUCCEEDED(pAMMC->get_Copyright(&bstr)) && bstr.Length()) {
                 m_copyright = bstr.m_str;
-                fEmpty = false;
+                bFound = true;
             }
             bstr.Empty();
             if (SUCCEEDED(pAMMC->get_Rating(&bstr)) && bstr.Length()) {
                 m_rating = bstr.m_str;
-                fEmpty = false;
+                bFound = true;
             }
             bstr.Empty();
             if (SUCCEEDED(pAMMC->get_Description(&bstr)) && bstr.Length()) {
-                m_desctext = bstr.m_str;
-                fEmpty = false;
+                m_desc = bstr.m_str;
+                bFound = true;
             }
             bstr.Empty();
-            if (!fEmpty) {
+            if (bFound) {
                 break;
             }
         }
@@ -94,26 +94,6 @@ CPPageFileInfoClip::~CPPageFileInfoClip()
     }
 }
 
-BOOL CPPageFileInfoClip::PreTranslateMessage(MSG* pMsg)
-{
-    if (pMsg->message == WM_LBUTTONDBLCLK && pMsg->hwnd == m_location.m_hWnd && !m_location_str.IsEmpty()) {
-        CString path = m_location_str;
-        if (path[path.GetLength() - 1] != '\\') {
-            path += _T("\\");
-        }
-        path += m_fn;
-
-        if (ExploreToFile(path)) {
-            return TRUE;
-        }
-    }
-
-    m_tooltip.RelayEvent(pMsg);
-
-    return __super::PreTranslateMessage(pMsg);
-}
-
-
 void CPPageFileInfoClip::DoDataExchange(CDataExchange* pDX)
 {
     __super::DoDataExchange(pDX);
@@ -123,16 +103,26 @@ void CPPageFileInfoClip::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDIT3, m_author);
     DDX_Text(pDX, IDC_EDIT2, m_copyright);
     DDX_Text(pDX, IDC_EDIT5, m_rating);
-    DDX_Control(pDX, IDC_EDIT6, m_location);
-    DDX_Control(pDX, IDC_EDIT7, m_desc);
+    DDX_Text(pDX, IDC_EDIT6, m_location);
+    DDX_Control(pDX, IDC_EDIT6, m_locationCtrl);
+    DDX_Text(pDX, IDC_EDIT7, m_desc);
 }
 
-#define SETPAGEFOCUS (WM_APP + 252) // arbitrary number, can be changed if necessary
+BOOL CPPageFileInfoClip::PreTranslateMessage(MSG* pMsg)
+{
+    if (pMsg->message == WM_LBUTTONDBLCLK && pMsg->hwnd == m_locationCtrl && !m_location.IsEmpty()) {
+        if (OnDoubleClickLocation()) {
+            return TRUE;
+        }
+    }
+
+    m_tooltip.RelayEvent(pMsg);
+
+    return __super::PreTranslateMessage(pMsg);
+}
 
 BEGIN_MESSAGE_MAP(CPPageFileInfoClip, CPropertyPage)
-    ON_MESSAGE(SETPAGEFOCUS, OnSetPageFocus)
 END_MESSAGE_MAP()
-
 
 // CPPageFileInfoClip message handlers
 
@@ -147,11 +137,11 @@ BOOL CPPageFileInfoClip::OnInitDialog()
     m_fn.TrimRight('/');
     int i = std::max(m_fn.ReverseFind('\\'), m_fn.ReverseFind('/'));
     if (i >= 0 && i < m_fn.GetLength() - 1) {
-        m_location_str = m_fn.Left(i);
+        m_location = m_fn.Left(i);
         m_fn = m_fn.Mid(i + 1);
 
-        if (m_location_str.GetLength() == 2 && m_location_str[1] == ':') {
-            m_location_str += '\\';
+        if (m_location.GetLength() == 2 && m_location[1] == ':') {
+            m_location += '\\';
         }
     }
 
@@ -160,8 +150,6 @@ BOOL CPPageFileInfoClip::OnInitDialog()
         m_icon.SetIcon(m_hIcon);
     }
 
-    m_location.SetWindowText(m_location_str);
-
     m_tooltip.Create(this, TTS_NOPREFIX | TTS_ALWAYSTIP);
 
     m_tooltip.SetDelayTime(TTDT_INITIAL, 0);
@@ -169,10 +157,8 @@ BOOL CPPageFileInfoClip::OnInitDialog()
     m_tooltip.SetDelayTime(TTDT_RESHOW, 0);
 
     if (FileExists(m_path)) {
-        m_tooltip.AddTool(&m_location, IDS_TOOLTIP_EXPLORE_TO_FILE);
+        m_tooltip.AddTool(&m_locationCtrl, IDS_TOOLTIP_EXPLORE_TO_FILE);
     }
-
-    m_desc.SetWindowText(m_desctext);
 
     UpdateData(FALSE);
 
@@ -184,15 +170,18 @@ BOOL CPPageFileInfoClip::OnSetActive()
 {
     BOOL ret = __super::OnSetActive();
 
-    PostMessage(SETPAGEFOCUS, 0, 0L);
+    PostMessage(WM_NEXTDLGCTL, (WPARAM)GetParentSheet()->GetTabControl()->GetSafeHwnd(), TRUE);
 
     return ret;
 }
 
-LRESULT CPPageFileInfoClip::OnSetPageFocus(WPARAM wParam, LPARAM lParam)
+bool CPPageFileInfoClip::OnDoubleClickLocation()
 {
-    CPropertySheet* psheet = (CPropertySheet*) GetParent();
-    psheet->GetTabControl()->SetFocus();
+    CString path = m_location;
+    if (path[path.GetLength() - 1] != _T('\\')) {
+        path += _T('\\');
+    }
+    path += m_fn;
 
-    return 0;
+    return ExploreToFile(path);
 }
