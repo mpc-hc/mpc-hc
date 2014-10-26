@@ -66,19 +66,20 @@ CPPageFileInfoDetails::CPPageFileInfoDetails(CString path, IFilterGraph* pFG, IS
     };
 
     auto formatDateTime = [](FILETIME tm) {
-        SYSTEMTIME st;
-        FileTimeToSystemTime(&tm, &st);
+        SYSTEMTIME st, stLocal;
+        VERIFY(FileTimeToSystemTime(&tm, &st));
+        VERIFY(SystemTimeToTzSpecificLocalTime(nullptr, &st, &stLocal));
 
         CString formatedDateTime;
         // Compute the size need to hold the formated date and time
-        int nLenght = GetDateFormat(LOCALE_USER_DEFAULT, DATE_LONGDATE, &st, nullptr, nullptr, 0);
-        nLenght += GetTimeFormat(LOCALE_USER_DEFAULT, 0, &st, nullptr, nullptr, 0);
+        int nLenght = GetDateFormat(LOCALE_USER_DEFAULT, DATE_LONGDATE, &stLocal, nullptr, nullptr, 0);
+        nLenght += GetTimeFormat(LOCALE_USER_DEFAULT, 0, &stLocal, nullptr, nullptr, 0);
 
         LPTSTR szFormatedDateTime = formatedDateTime.GetBuffer(nLenght);
-        int nDateLenght = GetDateFormat(LOCALE_USER_DEFAULT, DATE_LONGDATE, &st, nullptr, szFormatedDateTime, nLenght);
+        int nDateLenght = GetDateFormat(LOCALE_USER_DEFAULT, DATE_LONGDATE, &stLocal, nullptr, szFormatedDateTime, nLenght);
         if (nDateLenght > 0) {
             szFormatedDateTime[nDateLenght - 1] = _T(' '); // Replace the end of string character by a space
-            GetTimeFormat(LOCALE_USER_DEFAULT, 0, &st, nullptr, &szFormatedDateTime[nDateLenght], nLenght - nDateLenght);
+            GetTimeFormat(LOCALE_USER_DEFAULT, 0, &stLocal, nullptr, &szFormatedDateTime[nDateLenght], nLenght - nDateLenght);
         }
         formatedDateTime.ReleaseBuffer();
 
