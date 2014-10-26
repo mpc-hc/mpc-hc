@@ -1285,30 +1285,6 @@ msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
 msgstr "\"সাম্প্রতিক ফাইলসমূহ\" মেন্যুতে সর্বোচ্চ যতটি ফাইল প্রদর্শন করা হবে এবং যেগুলোর অবস্থানকাল সম্ভাব্যরূপে স্মৃতিতে সংরক্ষিত হবে।"
 
-msgctxt "IDS_NAVIGATION_WATCH"
-msgid "Watch"
-msgstr ""
-
-msgctxt "IDS_NAVIGATION_MOVE_UP"
-msgid "Move Up"
-msgstr "উপরে উঠাই"
-
-msgctxt "IDS_NAVIGATION_MOVE_DOWN"
-msgid "Move Down"
-msgstr "নিচে নামাই"
-
-msgctxt "IDS_NAVIGATION_SORT"
-msgid "Sort by LCN"
-msgstr ""
-
-msgctxt "IDS_NAVIGATION_REMOVE_ALL"
-msgid "Remove all"
-msgstr ""
-
-msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
-msgid "Are you sure you want to remove all channels from the list?"
-msgstr ""
-
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
 msgstr "ফাইলসমূহ N মিনিট থেকে দীর্ঘ হলেই শুধুমাত্র ফাইলের অবস্থানকাল স্মৃতিতে সংরক্ষণ।"
@@ -1359,6 +1335,30 @@ msgstr ""
 
 msgctxt "IDS_HOTKEY_NOT_DEFINED"
 msgid "<not defined>"
+msgstr ""
+
+msgctxt "IDS_NAVIGATION_WATCH"
+msgid "Watch"
+msgstr ""
+
+msgctxt "IDS_NAVIGATION_MOVE_UP"
+msgid "Move Up"
+msgstr "উপরে উঠাই"
+
+msgctxt "IDS_NAVIGATION_MOVE_DOWN"
+msgid "Move Down"
+msgstr "নিচে নামাই"
+
+msgctxt "IDS_NAVIGATION_SORT"
+msgid "Sort by LCN"
+msgstr ""
+
+msgctxt "IDS_NAVIGATION_REMOVE_ALL"
+msgid "Remove all"
+msgstr ""
+
+msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
+msgid "Are you sure you want to remove all channels from the list?"
 msgstr ""
 
 msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"

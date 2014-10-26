@@ -1286,30 +1286,6 @@ msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
 msgstr "\"历史文件\" 菜单中最多保存的文件数量。它们的位置也可能被储存。"
 
-msgctxt "IDS_NAVIGATION_WATCH"
-msgid "Watch"
-msgstr "观看"
-
-msgctxt "IDS_NAVIGATION_MOVE_UP"
-msgid "Move Up"
-msgstr "向上移动"
-
-msgctxt "IDS_NAVIGATION_MOVE_DOWN"
-msgid "Move Down"
-msgstr "向下移动"
-
-msgctxt "IDS_NAVIGATION_SORT"
-msgid "Sort by LCN"
-msgstr "LCN 正序"
-
-msgctxt "IDS_NAVIGATION_REMOVE_ALL"
-msgid "Remove all"
-msgstr "移除所有"
-
-msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
-msgid "Are you sure you want to remove all channels from the list?"
-msgstr "您是否确认要从列表中移除所有频道？"
-
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
 msgstr "仅针对长于N分钟的文件记忆播放位置。"
@@ -1361,6 +1337,30 @@ msgstr "按下相应快捷键时字幕延迟值将减小/增大 (%s/%s)。"
 msgctxt "IDS_HOTKEY_NOT_DEFINED"
 msgid "<not defined>"
 msgstr "<没有定义>"
+
+msgctxt "IDS_NAVIGATION_WATCH"
+msgid "Watch"
+msgstr "观看"
+
+msgctxt "IDS_NAVIGATION_MOVE_UP"
+msgid "Move Up"
+msgstr "向上移动"
+
+msgctxt "IDS_NAVIGATION_MOVE_DOWN"
+msgid "Move Down"
+msgstr "向下移动"
+
+msgctxt "IDS_NAVIGATION_SORT"
+msgid "Sort by LCN"
+msgstr "LCN 正序"
+
+msgctxt "IDS_NAVIGATION_REMOVE_ALL"
+msgid "Remove all"
+msgstr "移除所有"
+
+msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
+msgid "Are you sure you want to remove all channels from the list?"
+msgstr "您是否确认要从列表中移除所有频道？"
 
 msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"
 msgid "No information available"

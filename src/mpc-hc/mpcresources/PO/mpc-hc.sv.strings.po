@@ -1285,30 +1285,6 @@ msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
 msgstr "Maximalt antal filer som visas i \"Senaste Filer\"-menyn och för vilka positionen eventuellt är sparad."
 
-msgctxt "IDS_NAVIGATION_WATCH"
-msgid "Watch"
-msgstr "Kolla"
-
-msgctxt "IDS_NAVIGATION_MOVE_UP"
-msgid "Move Up"
-msgstr "Flytta Upp"
-
-msgctxt "IDS_NAVIGATION_MOVE_DOWN"
-msgid "Move Down"
-msgstr "Flytta Ner"
-
-msgctxt "IDS_NAVIGATION_SORT"
-msgid "Sort by LCN"
-msgstr "Sortera efter LCN"
-
-msgctxt "IDS_NAVIGATION_REMOVE_ALL"
-msgid "Remove all"
-msgstr "Ta bort alla"
-
-msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
-msgid "Are you sure you want to remove all channels from the list?"
-msgstr "Är du säker på att du vill ta bort alla kanaler från listan?"
-
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
 msgstr "Kom bara ihåg filposition för filer längre än N minuter."
@@ -1360,6 +1336,30 @@ msgstr "Undertextfördröjningen kommer att minskas/ökas med detta värde varje
 msgctxt "IDS_HOTKEY_NOT_DEFINED"
 msgid "<not defined>"
 msgstr "<inte definierad>"
+
+msgctxt "IDS_NAVIGATION_WATCH"
+msgid "Watch"
+msgstr "Kolla"
+
+msgctxt "IDS_NAVIGATION_MOVE_UP"
+msgid "Move Up"
+msgstr "Flytta Upp"
+
+msgctxt "IDS_NAVIGATION_MOVE_DOWN"
+msgid "Move Down"
+msgstr "Flytta Ner"
+
+msgctxt "IDS_NAVIGATION_SORT"
+msgid "Sort by LCN"
+msgstr "Sortera efter LCN"
+
+msgctxt "IDS_NAVIGATION_REMOVE_ALL"
+msgid "Remove all"
+msgstr "Ta bort alla"
+
+msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
+msgid "Are you sure you want to remove all channels from the list?"
+msgstr "Är du säker på att du vill ta bort alla kanaler från listan?"
 
 msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"
 msgid "No information available"

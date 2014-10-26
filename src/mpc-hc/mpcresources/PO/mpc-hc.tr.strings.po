@@ -1286,30 +1286,6 @@ msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
 msgstr "\"Belgeler\" menüsünde gösterilip, dosya yerleşiminde hatırlanacak en fazla dosya sayısını belirleyin."
 
-msgctxt "IDS_NAVIGATION_WATCH"
-msgid "Watch"
-msgstr ""
-
-msgctxt "IDS_NAVIGATION_MOVE_UP"
-msgid "Move Up"
-msgstr "Yukarı Taşı"
-
-msgctxt "IDS_NAVIGATION_MOVE_DOWN"
-msgid "Move Down"
-msgstr "Aşağı Taşı"
-
-msgctxt "IDS_NAVIGATION_SORT"
-msgid "Sort by LCN"
-msgstr ""
-
-msgctxt "IDS_NAVIGATION_REMOVE_ALL"
-msgid "Remove all"
-msgstr ""
-
-msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
-msgid "Are you sure you want to remove all channels from the list?"
-msgstr ""
-
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
 msgstr "Dosya yerleşimini sadece N dakikadan büyük dosyalar için hatırla."
@@ -1361,6 +1337,30 @@ msgstr "Alt yazı gecikmesi belirtilen tuşlara basıldığında, ayarlanmış d
 msgctxt "IDS_HOTKEY_NOT_DEFINED"
 msgid "<not defined>"
 msgstr "<tanımlanmamış>"
+
+msgctxt "IDS_NAVIGATION_WATCH"
+msgid "Watch"
+msgstr ""
+
+msgctxt "IDS_NAVIGATION_MOVE_UP"
+msgid "Move Up"
+msgstr "Yukarı Taşı"
+
+msgctxt "IDS_NAVIGATION_MOVE_DOWN"
+msgid "Move Down"
+msgstr "Aşağı Taşı"
+
+msgctxt "IDS_NAVIGATION_SORT"
+msgid "Sort by LCN"
+msgstr ""
+
+msgctxt "IDS_NAVIGATION_REMOVE_ALL"
+msgid "Remove all"
+msgstr ""
+
+msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
+msgid "Are you sure you want to remove all channels from the list?"
+msgstr ""
 
 msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"
 msgid "No information available"

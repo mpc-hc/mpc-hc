@@ -1285,30 +1285,6 @@ msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
 msgstr "Số lượng tối đa các tập tin được hiển thị trong trình đơn \"Các tập tin gần đây\" và khả năng lưu vị trí của chúng."
 
-msgctxt "IDS_NAVIGATION_WATCH"
-msgid "Watch"
-msgstr ""
-
-msgctxt "IDS_NAVIGATION_MOVE_UP"
-msgid "Move Up"
-msgstr "Lên trên"
-
-msgctxt "IDS_NAVIGATION_MOVE_DOWN"
-msgid "Move Down"
-msgstr "Xuống dưới"
-
-msgctxt "IDS_NAVIGATION_SORT"
-msgid "Sort by LCN"
-msgstr ""
-
-msgctxt "IDS_NAVIGATION_REMOVE_ALL"
-msgid "Remove all"
-msgstr ""
-
-msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
-msgid "Are you sure you want to remove all channels from the list?"
-msgstr ""
-
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
 msgstr "Chỉ ghi nhớ vị trí những tập tin có thời lượng hơn N phút."
@@ -1360,6 +1336,30 @@ msgstr "Sự chậm trễ phụ đề sẽ được giảm / tăng giá trị n�
 msgctxt "IDS_HOTKEY_NOT_DEFINED"
 msgid "<not defined>"
 msgstr "<không xác định>"
+
+msgctxt "IDS_NAVIGATION_WATCH"
+msgid "Watch"
+msgstr ""
+
+msgctxt "IDS_NAVIGATION_MOVE_UP"
+msgid "Move Up"
+msgstr "Lên trên"
+
+msgctxt "IDS_NAVIGATION_MOVE_DOWN"
+msgid "Move Down"
+msgstr "Xuống dưới"
+
+msgctxt "IDS_NAVIGATION_SORT"
+msgid "Sort by LCN"
+msgstr ""
+
+msgctxt "IDS_NAVIGATION_REMOVE_ALL"
+msgid "Remove all"
+msgstr ""
+
+msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
+msgid "Are you sure you want to remove all channels from the list?"
+msgstr ""
 
 msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"
 msgid "No information available"

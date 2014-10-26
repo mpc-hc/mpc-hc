@@ -1286,30 +1286,6 @@ msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
 msgstr "จำนวนไฟล์สูงสุดที่แสดงในเมนู \"ไฟล์เมื่อเร็วๆ นี้\" และสำหรับตำแหน่งที่จะถูกบันทึกได้"
 
-msgctxt "IDS_NAVIGATION_WATCH"
-msgid "Watch"
-msgstr "รับชม"
-
-msgctxt "IDS_NAVIGATION_MOVE_UP"
-msgid "Move Up"
-msgstr "ย้ายขึ้น"
-
-msgctxt "IDS_NAVIGATION_MOVE_DOWN"
-msgid "Move Down"
-msgstr "ย้ายลง"
-
-msgctxt "IDS_NAVIGATION_SORT"
-msgid "Sort by LCN"
-msgstr "เรียงตาม LCN"
-
-msgctxt "IDS_NAVIGATION_REMOVE_ALL"
-msgid "Remove all"
-msgstr "ลบออกทั้งหมด"
-
-msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
-msgid "Are you sure you want to remove all channels from the list?"
-msgstr "คุณต้องการลบช่องทั้งหมด ออกจากรายการหรือไม่?"
-
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
 msgstr "จดจำตำแหน่งไฟล์เฉพาะไฟล์ที่ยาวกว่า N นาที"
@@ -1361,6 +1337,30 @@ msgstr "การหน่วงศัพท์บรรยายจะถูก
 msgctxt "IDS_HOTKEY_NOT_DEFINED"
 msgid "<not defined>"
 msgstr "<ไม่ได้กำหนด>"
+
+msgctxt "IDS_NAVIGATION_WATCH"
+msgid "Watch"
+msgstr "รับชม"
+
+msgctxt "IDS_NAVIGATION_MOVE_UP"
+msgid "Move Up"
+msgstr "ย้ายขึ้น"
+
+msgctxt "IDS_NAVIGATION_MOVE_DOWN"
+msgid "Move Down"
+msgstr "ย้ายลง"
+
+msgctxt "IDS_NAVIGATION_SORT"
+msgid "Sort by LCN"
+msgstr "เรียงตาม LCN"
+
+msgctxt "IDS_NAVIGATION_REMOVE_ALL"
+msgid "Remove all"
+msgstr "ลบออกทั้งหมด"
+
+msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
+msgid "Are you sure you want to remove all channels from the list?"
+msgstr "คุณต้องการลบช่องทั้งหมด ออกจากรายการหรือไม่?"
 
 msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"
 msgid "No information available"

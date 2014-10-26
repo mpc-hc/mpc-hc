@@ -2590,12 +2590,6 @@ BEGIN
     IDS_PPAGEADVANCED_COL_VALUE "Value"
     IDS_PPAGEADVANCED_RECENT_FILES_NUMBER 
                             "Maximum number of files shown in the ""Recent files"" menu and for which the position is potentially saved."
-    IDS_NAVIGATION_WATCH    "Watch"
-    IDS_NAVIGATION_MOVE_UP  "Move Up"
-    IDS_NAVIGATION_MOVE_DOWN "Move Down"
-    IDS_NAVIGATION_SORT     "Sort by LCN"
-    IDS_NAVIGATION_REMOVE_ALL "Remove all"
-    IDS_REMOVE_CHANNELS_QUESTION "Are you sure you want to remove all channels from the list?"
 END
 
 STRINGTABLE
@@ -2617,6 +2611,17 @@ BEGIN
     IDS_SUBTITLE_DELAY_STEP_TOOLTIP 
                             "The subtitle delay will be decreased/increased by this value each time the corresponding hotkeys are used (%s/%s)."
     IDS_HOTKEY_NOT_DEFINED  "<not defined>"
+    IDS_NAVIGATION_WATCH    "Watch"
+    IDS_NAVIGATION_MOVE_UP  "Move Up"
+    IDS_NAVIGATION_MOVE_DOWN "Move Down"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_NAVIGATION_SORT     "Sort by LCN"
+    IDS_NAVIGATION_REMOVE_ALL "Remove all"
+    IDS_REMOVE_CHANNELS_QUESTION 
+                            "Are you sure you want to remove all channels from the list?"
     IDS_MEDIAINFO_NO_INFO_AVAILABLE "No information available"
     IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS "Please wait, analysis in progress..."
 END
