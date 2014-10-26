@@ -68,7 +68,7 @@ CPPageFileMediaInfo::CPPageFileMediaInfo(CString path, IFileSourceFilter* pFSF)
         m_path = m_fn;
     }
 
-    m_futureMIText = std::async(std::launch::async, [=]() {
+    m_futureMIText = std::async(std::launch::async, [ = ]() {
 #if USE_STATIC_MEDIAINFO
         MediaInfoLib::String filename = m_path;
         MediaInfoLib::MediaInfo MI;
