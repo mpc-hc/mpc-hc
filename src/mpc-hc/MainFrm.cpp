@@ -9912,14 +9912,22 @@ CSize CMainFrame::GetZoomWindowSize(double dScale)
             // don't go larger than the current monitor working area and prevent black bars in this case
             CSize videoSpaceSize = workRect.Size() - controlsSize - decorationsRect.Size();
 
+            // Do not adjust window size for video frame aspect ratio when video size is independent from window size
+            const bool bAdjustWindowAR = !(s.iDefaultVideoSize == DVS_HALF || s.iDefaultVideoSize == DVS_NORMAL || s.iDefaultVideoSize == DVS_DOUBLE);
+            const double videoAR = videoSize.cx / (double)videoSize.cy;
+
             if (videoTargetSize.cx > videoSpaceSize.cx) {
                 videoTargetSize.cx = videoSpaceSize.cx;
-                videoTargetSize.cy = std::lround(videoSpaceSize.cx * videoSize.cy / (double)videoSize.cx);
+                if (bAdjustWindowAR) {
+                    videoTargetSize.cy = std::lround(videoSpaceSize.cx / videoAR);
+                }
             }
 
             if (videoTargetSize.cy > videoSpaceSize.cy) {
                 videoTargetSize.cy = videoSpaceSize.cy;
-                videoTargetSize.cx = std::lround(videoSpaceSize.cy * videoSize.cx / (double)videoSize.cy);
+                if (bAdjustWindowAR) {
+                    videoTargetSize.cx = std::lround(videoSpaceSize.cy * videoAR);
+                }
             }
         } else {
             ASSERT(FALSE);
