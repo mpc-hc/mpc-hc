@@ -1257,6 +1257,7 @@
 #define IDS_REGAIN_VOLUME               41335
 #define IDS_OSD_REGAIN_VOLUME_ON        41336
 #define IDS_OSD_REGAIN_VOLUME_OFF       41337
+#define IDS_SIZE_UNIT_BYTES             41338
 #define IDS_SIZE_UNIT_K                 41339
 #define IDS_SIZE_UNIT_M                 41340
 #define IDS_SIZE_UNIT_G                 41341
@@ -1463,6 +1464,7 @@
 #define IDS_REMOVE_CHANNELS_QUESTION    57426
 #define IDS_MEDIAINFO_NO_INFO_AVAILABLE 57427
 #define IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS 57428
+#define IDS_ASPECT_RATIO_FMT            57429
 
 // Next default values for new objects
 //

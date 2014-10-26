@@ -134,7 +134,7 @@ CPPageFileInfoDetails::CPPageFileInfoDetails(CString path, IFilterGraph* pFG, IS
         StrFormatByteSizeW(size, szFileSize, MAX_FILE_SIZE_BUFFER);
         CString szByteSize;
         szByteSize.Format(_T("%I64d"), size);
-        m_size.Format(_T("%s (%s bytes)"), szFileSize, FormatNumber(szByteSize));
+        m_size.Format(_T("%s (%s %s)"), szFileSize, FormatNumber(szByteSize), ResStr(IDS_SIZE_UNIT_BYTES));
     }
 
     if (!creationDate.IsEmpty()) {
@@ -193,7 +193,7 @@ CPPageFileInfoDetails::CPPageFileInfoDetails(CString path, IFilterGraph* pFG, IS
         }
 
         if (arxy.cx > 0 && arxy.cy > 0 && arxy.cx * wh.cy != arxy.cy * wh.cx) {
-            m_resolution.AppendFormat(_T(" (AR %d:%d)"), arxy.cx, arxy.cy);
+            m_resolution.AppendFormat(_T(" (") + ResStr(IDS_ASPECT_RATIO_FMT) + _T(")"), arxy.cx, arxy.cy);
         }
     }
 

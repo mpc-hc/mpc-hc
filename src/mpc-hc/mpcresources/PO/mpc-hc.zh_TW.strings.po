@@ -1372,6 +1372,10 @@ msgctxt "IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS"
 msgid "Please wait, analysis in progress..."
 msgstr ""
 
+msgctxt "IDS_ASPECT_RATIO_FMT"
+msgid "AR %d:%d"
+msgstr ""
+
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
 msgstr "開啟裝置"
@@ -3311,6 +3315,10 @@ msgstr "回復音量: 開啟"
 msgctxt "IDS_OSD_REGAIN_VOLUME_OFF"
 msgid "Regain volume: Off"
 msgstr "回復音量: 關閉"
+
+msgctxt "IDS_SIZE_UNIT_BYTES"
+msgid "bytes"
+msgstr ""
 
 msgctxt "IDS_SIZE_UNIT_K"
 msgid "KB"
