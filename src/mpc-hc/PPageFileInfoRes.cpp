@@ -54,14 +54,8 @@ CPPageFileInfoRes::CPPageFileInfoRes(CString path, IFilterGraph* pFG, IFileSourc
                     BYTE* pData = nullptr;
                     DWORD len = 0;
                     if (SUCCEEDED(pRB->ResGet(j, &name, &desc, &mime, &pData, &len, nullptr))) {
-                        CDSMResource r;
-                        r.name = name;
-                        r.desc = desc;
-                        r.mime = mime;
-                        r.data.SetCount(len);
-                        memcpy(r.data.GetData(), pData, r.data.GetCount());
+                        m_res.emplace_back(name, desc, mime, pData, len);
                         CoTaskMemFree(pData);
-                        m_res.push_back(std::move(r));
                     }
                 }
             }
@@ -120,20 +114,19 @@ BOOL CPPageFileInfoRes::OnInitDialog()
 void CPPageFileInfoRes::OnSaveAs()
 {
     int i = m_list.GetSelectionMark();
-    if (i < 0) {
-        return;
-    }
+    if (i >= 0) {
+        const auto& r = m_res[m_list.GetItemData(i)];
 
-    CDSMResource& r = m_res[m_list.GetItemData(i)];
+        CFileDialog fd(FALSE, nullptr, r.name,
+                       OFN_EXPLORER | OFN_ENABLESIZING | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_NOCHANGEDIR,
+                       _T("All files|*.*||"), this, 0);
 
-    CFileDialog fd(FALSE, nullptr, CString(r.name),
-                   OFN_EXPLORER | OFN_ENABLESIZING | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_NOCHANGEDIR,
-                   _T("All files|*.*||"), this, 0);
-    if (fd.DoModal() == IDOK) {
-        FILE* f = nullptr;
-        if (!_tfopen_s(&f, fd.GetPathName(), _T("wb"))) {
-            fwrite(r.data.GetData(), 1, r.data.GetCount(), f);
-            fclose(f);
+        if (fd.DoModal() == IDOK) {
+            CFile file;
+            if (file.Open(fd.GetPathName(), CFile::modeCreate | CFile::modeWrite)) {
+                file.Write(r.data.GetData(), (UINT)r.data.GetCount());
+                file.Close();
+            }
         }
     }
 }
@@ -146,21 +139,17 @@ void CPPageFileInfoRes::OnUpdateSaveAs(CCmdUI* pCmdUI)
 void CPPageFileInfoRes::OnOpenEmbeddedResInBrowser(NMHDR* pNMHDR, LRESULT* pResult)
 {
     int i = m_list.GetSelectionMark();
-    if (i < 0) {
-        return;
+    if (i >= 0) {
+        const CAppSettings& s = AfxGetAppSettings();
+
+        if (s.fEnableWebServer) {
+            const auto& r = m_res[m_list.GetItemData(i)];
+
+            CString url;
+            url.Format(_T("http://localhost:%d/viewres.html?id=%Ix"), s.nWebServerPort, reinterpret_cast<uintptr_t>(&r));
+            ShellExecute(nullptr, _T("open"), url, nullptr, nullptr, SW_SHOWDEFAULT);
+        } else {
+            AfxMessageBox(IDS_EMB_RESOURCES_VIEWER_INFO, MB_ICONINFORMATION);
+        }
     }
-
-    const CAppSettings& s = AfxGetAppSettings();
-
-    if (s.fEnableWebServer) {
-        CDSMResource& r = m_res[m_list.GetItemData(i)];
-
-        CString url;
-        url.Format(_T("http://localhost:%d/viewres.html?id=%Ix"), s.nWebServerPort, reinterpret_cast<uintptr_t>(&r));
-        ShellExecute(nullptr, _T("open"), url, nullptr, nullptr, SW_SHOWDEFAULT);
-    } else {
-        AfxMessageBox(IDS_EMB_RESOURCES_VIEWER_INFO, MB_ICONINFORMATION);
-    }
-
-    *pResult = 0;
 }
