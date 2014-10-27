@@ -1368,7 +1368,6 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
         CRect r;
         if (!!m_list.GetItemRect(lvhti.iItem, r, LVIR_BOUNDS)) {
             p.SetPoint(r.left, r.bottom);
-            bOnItem = true;
         } else {
             p.SetPoint(0, 0);
         }
