@@ -48,6 +48,8 @@ public:
     // Dialog Data
     enum { IDD = IDD_FILEPROPRES };
 
+    bool HasResources() const { return !m_res.empty(); };
+
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
     virtual BOOL OnInitDialog();

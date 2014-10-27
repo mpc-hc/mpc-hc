@@ -40,14 +40,9 @@ CPPageFileInfoSheet::CPPageFileInfoSheet(CString path, CMainFrame* pMainFrame, C
     AddPage(&m_details);
     AddPage(&m_clip);
 
-    BeginEnumFilters(pMainFrame->m_pGB, pEF, pBF) {
-        if (CComQIPtr<IDSMResourceBag> pRB = pBF)
-            if (pRB && pRB->ResGetCount() > 0) {
-                AddPage(&m_res);
-                break;
-            }
+    if (m_res.HasResources()) {
+        AddPage(&m_res);
     }
-    EndEnumFilters;
 
 #if !USE_STATIC_MEDIAINFO
     if (CPPageFileMediaInfo::HasMediaInfo())
