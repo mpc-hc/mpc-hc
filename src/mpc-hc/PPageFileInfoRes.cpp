@@ -111,6 +111,15 @@ BOOL CPPageFileInfoRes::OnInitDialog()
     // EXCEPTION: OCX Property Pages should return FALSE
 }
 
+BOOL CPPageFileInfoRes::OnSetActive()
+{
+    BOOL ret = __super::OnSetActive();
+
+    PostMessage(WM_NEXTDLGCTL, (WPARAM)GetParentSheet()->GetTabControl()->GetSafeHwnd(), TRUE);
+
+    return ret;
+}
+
 void CPPageFileInfoRes::OnSaveAs()
 {
     int i = m_list.GetSelectionMark();
