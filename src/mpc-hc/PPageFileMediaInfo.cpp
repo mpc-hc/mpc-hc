@@ -44,7 +44,6 @@ CPPageFileMediaInfo::CPPageFileMediaInfo(CString path, IFileSourceFilter* pFSF)
     : CPropertyPage(CPPageFileMediaInfo::IDD, CPPageFileMediaInfo::IDD)
     , m_fn(path)
     , m_path(path)
-    , m_pCFont(nullptr)
 {
     CComQIPtr<IAsyncReader> pAR;
     if (pFSF) {
@@ -126,8 +125,6 @@ CPPageFileMediaInfo::CPPageFileMediaInfo(CString path, IFileSourceFilter* pFSF)
 
 CPPageFileMediaInfo::~CPPageFileMediaInfo()
 {
-    delete m_pCFont;
-    m_pCFont = nullptr;
 }
 
 void CPPageFileMediaInfo::DoDataExchange(CDataExchange* pDX)
@@ -136,6 +133,16 @@ void CPPageFileMediaInfo::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_MIEDIT, m_mediainfo);
 }
 
+BOOL CPPageFileMediaInfo::PreTranslateMessage(MSG* pMsg)
+{
+    if (pMsg->message == WM_KEYDOWN && pMsg->hwnd == m_mediainfo) {
+        if (OnKeyDownInEdit(pMsg)) {
+            return TRUE;
+        }
+    }
+
+    return __super::PreTranslateMessage(pMsg);
+}
 
 BEGIN_MESSAGE_MAP(CPPageFileMediaInfo, CPropertyPage)
     ON_WM_SHOWWINDOW()
@@ -144,57 +151,33 @@ BEGIN_MESSAGE_MAP(CPPageFileMediaInfo, CPropertyPage)
 END_MESSAGE_MAP()
 
 // CPPageFileMediaInfo message handlers
-static WNDPROC OldControlProc;
-
-static LRESULT CALLBACK ControlProc(HWND control, UINT message, WPARAM wParam, LPARAM lParam)
-{
-    if (message == WM_KEYDOWN) {
-        if ((LOWORD(wParam) == 'A' || LOWORD(wParam) == 'a')
-                && (GetKeyState(VK_CONTROL) < 0)) {
-            CEdit* pEdit = (CEdit*)CWnd::FromHandle(control);
-            pEdit->SetSel(0, pEdit->GetWindowTextLength(), TRUE);
-            return 0;
-        }
-    }
-
-    return CallWindowProc(OldControlProc, control, message, wParam, lParam); // call edit control's own windowproc
-}
 
 BOOL CPPageFileMediaInfo::OnInitDialog()
 {
     __super::OnInitDialog();
 
-    if (!m_pCFont) {
-        m_pCFont = DEBUG_NEW CFont;
-    }
-    if (!m_pCFont) {
-        return TRUE;
-    }
-
     LOGFONT lf;
     ZeroMemory(&lf, sizeof(lf));
     lf.lfPitchAndFamily = DEFAULT_PITCH | FF_MODERN;
-    // The empty string will fallback to the first font that matches the other specified attributes.
+    // The empty string will fall back to the first font that matches the other specified attributes.
     LPCTSTR fonts[] = { _T("Lucida Console"), _T("Courier New"), _T("") };
     // Use a negative value to match the character height instead of the cell height.
     int fonts_size[] = { -10, -11, -11 };
-    UINT i = 0;
-    BOOL success;
+    size_t i = 0;
+    bool bSuccess;
     do {
         _tcscpy_s(lf.lfFaceName, fonts[i]);
         lf.lfHeight = fonts_size[i];
-        success = IsFontInstalled(fonts[i]) && m_pCFont->CreateFontIndirect(&lf);
+        bSuccess = IsFontInstalled(fonts[i]) && m_font.CreateFontIndirect(&lf);
         i++;
-    } while (!success && i < _countof(fonts));
-    m_mediainfo.SetFont(m_pCFont);
+    } while (!bSuccess && i < _countof(fonts));
+    m_mediainfo.SetFont(&m_font);
+
     m_mediainfo.SetWindowText(ResStr(IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS));
     m_threadSetText = std::thread([this]() {
         m_futureMIText.wait(); // Wait for the info to be ready
         PostMessage(WM_REFRESH_TEXT); // then notify the window to set the text
     });
-
-    // subclass the edit control
-    OldControlProc = (WNDPROC)SetWindowLongPtr(m_mediainfo.m_hWnd, GWLP_WNDPROC, (LONG_PTR)ControlProc);
 
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
@@ -203,11 +186,8 @@ BOOL CPPageFileMediaInfo::OnInitDialog()
 void CPPageFileMediaInfo::OnShowWindow(BOOL bShow, UINT nStatus)
 {
     __super::OnShowWindow(bShow, nStatus);
-    if (bShow) {
-        GetParent()->GetDlgItem(IDC_BUTTON_MI)->ShowWindow(SW_SHOW);
-    } else {
-        GetParent()->GetDlgItem(IDC_BUTTON_MI)->ShowWindow(SW_HIDE);
-    }
+
+    GetParent()->GetDlgItem(IDC_BUTTON_MI)->ShowWindow(bShow ? SW_SHOW : SW_HIDE);
 }
 
 void CPPageFileMediaInfo::OnDestroy()
@@ -222,10 +202,41 @@ void CPPageFileMediaInfo::OnRefreshText()
     m_mediainfo.SetWindowText(m_futureMIText.get());
 }
 
-#if !USE_STATIC_MEDIAINFO
-bool CPPageFileMediaInfo::HasMediaInfo()
+bool CPPageFileMediaInfo::OnKeyDownInEdit(MSG* pMsg)
 {
-    MediaInfo MI;
-    return MI.IsReady();
+    bool bHandled = false;
+
+    if ((LOWORD(pMsg->wParam) == _T('A') || LOWORD(pMsg->wParam) == _T('a'))
+            && (GetKeyState(VK_CONTROL) < 0)) {
+        m_mediainfo.SetSel(0, -1, TRUE);
+        bHandled = true;
+    }
+
+    return bHandled;
 }
-#endif
+
+void CPPageFileMediaInfo::OnSaveAs()
+{
+    CString fn = m_fn;
+
+    fn.TrimRight(_T('/'));
+    int i = std::max(fn.ReverseFind(_T('\\')), fn.ReverseFind(_T('/')));
+    if (i >= 0 && i < fn.GetLength() - 1) {
+        fn = fn.Mid(i + 1);
+    }
+    fn.Append(_T(".MediaInfo.txt"));
+
+    CFileDialog fileDlg(FALSE, _T("*.txt"), fn,
+                        OFN_EXPLORER | OFN_ENABLESIZING | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST | OFN_NOCHANGEDIR,
+                        _T("Text Files (*.txt)|*.txt|All Files (*.*)|*.*||"), this, 0);
+
+    if (fileDlg.DoModal() == IDOK) { // user has chosen a file
+        CFile file;
+        if (file.Open(fileDlg.GetPathName(), CFile::modeCreate | CFile::modeWrite)) {
+            TCHAR bom = (TCHAR)0xFEFF;
+            file.Write(&bom, sizeof(TCHAR));
+            file.Write(LPCTSTR(m_futureMIText.get()), m_futureMIText.get().GetLength() * sizeof(TCHAR));
+            file.Close();
+        }
+    }
+}

@@ -21,12 +21,21 @@
 #pragma once
 
 #include <future>
+#include "mpc-hc_config.h"
 
 // CPPageFileMediaInfo dialog
 
 class CPPageFileMediaInfo : public CPropertyPage
 {
     DECLARE_DYNAMIC(CPPageFileMediaInfo)
+
+private:
+    CEdit m_mediainfo;
+    CFont m_font;
+
+    CString m_fn, m_path;
+    std::shared_future<CString> m_futureMIText;
+    std::thread m_threadSetText;
 
 public:
     CPPageFileMediaInfo(CString path, IFileSourceFilter* pFSF);
@@ -35,15 +44,14 @@ public:
     // Dialog Data
     enum { IDD = IDD_FILEMEDIAINFO };
 
-    CEdit m_mediainfo;
-    CString m_fn, m_path;
-    CFont* m_pCFont;
-    std::shared_future<CString> m_futureMIText;
-    std::thread m_threadSetText;
-
 #if !USE_STATIC_MEDIAINFO
-    static bool HasMediaInfo();
+    static bool HasMediaInfo() {
+        MediaInfo MI;
+        return MI.IsReady();
+    };
 #endif
+
+    void OnSaveAs();
 
 protected:
     enum {
@@ -51,6 +59,7 @@ protected:
     };
 
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    virtual BOOL PreTranslateMessage(MSG* pMsg);
     virtual BOOL OnInitDialog();
 
     DECLARE_MESSAGE_MAP()
@@ -58,4 +67,6 @@ protected:
     afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
     afx_msg void OnDestroy();
     afx_msg void OnRefreshText();
+
+    bool OnKeyDownInEdit(MSG* pMsg);
 };

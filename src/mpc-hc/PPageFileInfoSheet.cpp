@@ -92,26 +92,5 @@ BOOL CPPageFileInfoSheet::OnInitDialog()
 
 void CPPageFileInfoSheet::OnSaveAs()
 {
-    CString fn = m_mi.m_fn;
-
-    fn.TrimRight('/');
-    int i = max(fn.ReverseFind('\\'), fn.ReverseFind('/'));
-    if (i >= 0 && i < fn.GetLength() - 1) {
-        fn = fn.Mid(i + 1);
-    }
-    fn.Append(_T(".MediaInfo.txt"));
-
-    CFileDialog filedlg(FALSE, _T("*.txt"), fn,
-                        OFN_EXPLORER | OFN_ENABLESIZING | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST | OFN_NOCHANGEDIR,
-                        _T("Text Files (*.txt)|*.txt|All Files (*.*)|*.*||"), this, 0);
-
-    if (filedlg.DoModal() == IDOK) { // user has chosen a file, so
-        TCHAR bom = (TCHAR)0xFEFF;
-        CFile mFile;
-        if (mFile.Open(filedlg.GetPathName(), CFile::modeCreate | CFile::modeWrite)) {
-            mFile.Write(&bom, sizeof(TCHAR));
-            mFile.Write(LPCTSTR(m_mi.m_futureMIText.get()), m_mi.m_futureMIText.get().GetLength()*sizeof(TCHAR));
-            mFile.Close();
-        }
-    }
+    m_mi.OnSaveAs();
 }
