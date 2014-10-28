@@ -28,13 +28,12 @@
 
 class CTunerScanDlg : public CDialog
 {
-    CMainFrame* m_pMainFrame;
-
     DECLARE_DYNAMIC(CTunerScanDlg)
 
 public:
-    CTunerScanDlg(CMainFrame* pMainFrame);   // standard constructor
+    CTunerScanDlg(CWnd* pParent = nullptr);   // standard constructor
     virtual ~CTunerScanDlg();
+    virtual BOOL OnInitDialog();
 
     // Dialog Data
     enum { IDD = IDD_TUNER_SCAN };
@@ -58,6 +57,10 @@ public:
     CProgressCtrl m_Quality;
     CListCtrl m_ChannelList;
     bool m_bInProgress;
+    CButton m_btnStart;
+    CButton m_btnSave;
+    CButton m_btnCancel;
+    BOOL m_bRemoveChannels;
 
     afx_msg LRESULT OnScanProgress(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT OnScanEnd(WPARAM wParam, LPARAM lParam);
@@ -68,8 +71,4 @@ public:
     afx_msg void OnBnClickedSave();
     afx_msg void OnBnClickedStart();
     afx_msg void OnBnClickedCancel();
-    virtual BOOL OnInitDialog();
-    CButton m_btnStart;
-    CButton m_btnSave;
-    CButton m_btnCancel;
 };

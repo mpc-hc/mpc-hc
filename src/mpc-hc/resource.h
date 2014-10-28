@@ -586,6 +586,9 @@
 #define IDD_SAVEIMAGEDIALOGTEMPL        20015
 #define IDD_CMD_LINE_HELP               20016
 #define IDD_CRASH_REPORTER              20017
+#define IDD_SCAN                        20018
+#define IDD_IPTV_SCAN                   20019
+#define IDD_ADD_IPTVCHANNEL             20020
 #define IDI_OPENSUBTITLES               21001
 #define IDI_PODNAPISI                   21002
 #define IDI_SUBDB                       21003
@@ -612,6 +615,7 @@
 #define IDC_FREQ_END                    22023
 #define IDC_CHANNEL_LIST                22024
 #define ID_START                        22025
+#define IDC_CHECK_REMOVE_CHANNELS       22029
 #define ID_SAVE                         22030
 #define IDC_STRENGTH                    22031
 #define IDC_SYNCVIDEO                   22032
@@ -663,6 +667,10 @@
 #define IDC_ASSOCIATE_VIDEO_FORMATS     22083
 #define IDC_ASSOCIATE_AUDIO_FORMATS     22084
 #define IDC_CLEAR_ALL_ASSOCIATIONS      22085
+#define IDC_NEW_CHANNEL                 22086
+#define IDC_IMPORT_LIST                 22087
+#define IDC_CHANNELNAME                 22088
+#define IDC_IPADDRESS                   22089
 #define ID_SUB_DELAY_DOWN               24000
 #define ID_SUB_DELAY_UP                 24001
 #define IDS_MPLAYERC_104                24002
@@ -1580,12 +1588,13 @@
 #define IDS_CMD_VIEWPRESET              57536
 #define IDS_CMD_MUTE                    57537
 #define IDS_CMD_VOLUME                  57538
+#define IDS_AG_OPEN_DIGITALTV           57539
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        20018
+#define _APS_NEXT_RESOURCE_VALUE        20021
 #define _APS_NEXT_COMMAND_VALUE         33452
 #define _APS_NEXT_CONTROL_VALUE         22086
 #define _APS_NEXT_SYMED_VALUE           24044

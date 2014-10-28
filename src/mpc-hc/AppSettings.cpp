@@ -430,6 +430,7 @@ static constexpr wmcmd_base default_wmcmds[] = {
     { ID_FILE_OPENDVDBD,                  'D', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_OPEN_DVD },
     { ID_FILE_OPENDEVICE,                 'V', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_OPEN_DEVICE },
     { ID_FILE_REOPEN,                     'E', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_REOPEN },
+    { ID_FILE_OPENDIGITALTV,              'B', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_OPEN_DIGITALTV},
     { ID_FILE_RECYCLE,                      0, FVIRTKEY | FNOINVERT,                    IDS_FILE_RECYCLE },
 
     { ID_FILE_SAVE_COPY,                    0, FVIRTKEY | FNOINVERT,                    IDS_AG_SAVE_COPY },
@@ -929,6 +930,7 @@ void CAppSettings::SaveSettings()
         numChannel.Format(_T("%Iu"), i);
         pApp->WriteProfileString(IDS_R_DVB, numChannel, m_DVBChannels[i].ToString());
     }
+    pApp->WriteProfileInt(IDS_R_DVB, IDS_RS_DVB_NEXTCHANNELCOUNT, nNextChannelCount);
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DVDPOS, fRememberDVDPos);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_FILEPOS, fRememberFilePos);
@@ -1752,6 +1754,7 @@ void CAppSettings::LoadSettings()
     nDVBRebuildFilterGraph = (DVB_RebuildFilterGraph) pApp->GetProfileInt(IDS_R_DVB, IDS_RS_DVB_REBUILD_FG, DVB_REBUILD_FG_WHEN_SWITCHING);
     nDVBStopFilterGraph = (DVB_StopFilterGraph) pApp->GetProfileInt(IDS_R_DVB, IDS_RS_DVB_STOP_FG, DVB_STOP_FG_WHEN_SWITCHING);
 
+    nNextChannelCount = pApp->GetProfileInt(IDS_R_DVB, IDS_RS_DVB_NEXTCHANNELCOUNT, 0);
     for (int iChannel = 0; ; iChannel++) {
         CString strTemp;
         strTemp.Format(_T("%d"), iChannel);

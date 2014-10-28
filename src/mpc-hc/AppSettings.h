@@ -560,7 +560,6 @@ public:
     CString         strBDANetworkProvider;
     CString         strBDATuner;
     CString         strBDAReceiver;
-    //CString           strBDAStandard;
     int             iBDAScanFreqStart;
     int             iBDAScanFreqEnd;
     int             iBDABandwidth;
@@ -569,6 +568,7 @@ public:
     bool            fBDAIgnoreEncryptedChannels;
     int             nDVBLastChannel;
     std::vector<CDVBChannel> m_DVBChannels;
+    UINT            nNextChannelCount;
     DVB_RebuildFilterGraph nDVBRebuildFilterGraph;
     DVB_StopFilterGraph nDVBStopFilterGraph;
 

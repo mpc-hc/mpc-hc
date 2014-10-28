@@ -258,6 +258,7 @@
 #define IDS_RS_BDA_OFFSET                   _T("BDAOffset")
 #define IDS_RS_BDA_IGNORE_ENCRYPTED_CHANNELS _T("BDAIgnoreEncryptedChannels")
 #define IDS_RS_DVB_LAST_CHANNEL             _T("LastChannel")
+#define IDS_RS_DVB_NEXTCHANNELCOUNT         _T("NextChannelCount")
 #define IDS_RS_DVB_REBUILD_FG               _T("RebuildFilterGraph")
 #define IDS_RS_DVB_STOP_FG                  _T("StopFilterGraph")
 

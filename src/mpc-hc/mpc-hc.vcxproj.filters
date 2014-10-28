@@ -468,6 +468,12 @@
     <ClCompile Include="ImageGrayer.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
+    <ClCompile Include="TVToolsDlg.cpp">
+      <Filter>Modal Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="IPTVScanDlg.cpp">
+      <Filter>Modal Dialogs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h">
@@ -853,6 +859,12 @@
     </ClInclude>
     <ClInclude Include="DropTarget.h">
       <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="TVToolsDlg.h">
+      <Filter>Modal Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="IPTVScanDlg.h">
+      <Filter>Modal Dialogs</Filter>
     </ClInclude>
     <ClInclude Include="Logger.h">
       <Filter>Helpers</Filter>

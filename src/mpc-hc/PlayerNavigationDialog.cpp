@@ -196,6 +196,12 @@ void CPlayerNavigationDialog::OnUpdateShowChannelInfoButton(CCmdUI* pCmdUI)
 
 void CPlayerNavigationDialog::OnTcnSelchangeTab1(NMHDR* pNMHDR, LRESULT* pResult)
 {
+    const CAppSettings& s = AfxGetAppSettings();
+
+    if (s.strBDATuner == _T("") &&
+        (m_tabSelChannelList.GetCurSel() == 0 || m_tabSelChannelList.GetCurSel() == 2)) {
+        m_tabSelChannelList.SetCurSel(1);
+    }
 
     UpdateElementList();
     *pResult = 0;

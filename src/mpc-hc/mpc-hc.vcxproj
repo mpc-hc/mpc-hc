@@ -166,6 +166,7 @@
     <ClCompile Include="DropTarget.cpp" />
     <ClCompile Include="FreeviewEPGDecode.cpp" />
     <ClCompile Include="ImageGrayer.cpp" />
+    <ClCompile Include="IPTVScanDlg.cpp" />
     <ClCompile Include="MainFrmControls.cpp" />
     <ClCompile Include="MediaPositionList.cpp" />
     <ClCompile Include="FloatEdit.cpp" />
@@ -259,6 +260,7 @@
     <ClCompile Include="SubtitleUpDlg.cpp" />
     <ClCompile Include="TextPassThruFilter.cpp" />
     <ClCompile Include="TunerScanDlg.cpp" />
+    <ClCompile Include="TVToolsDlg.cpp" />
     <ClCompile Include="UpdateChecker.cpp" />
     <ClCompile Include="UpdateCheckerDlg.cpp" />
     <ClCompile Include="VersionInfo.cpp" />
@@ -313,6 +315,7 @@
     <ClInclude Include="IGraphBuilder2.h" />
     <ClInclude Include="ImageGrayer.h" />
     <ClInclude Include="InternalFiltersConfig.h" />
+    <ClInclude Include="IPTVScanDlg.h" />
     <ClInclude Include="KeyProvider.h" />
     <ClInclude Include="LcdSupport.h" />
     <ClInclude Include="Logger.h" />
@@ -406,6 +409,7 @@
     <ClInclude Include="Translations.h" />
     <ClInclude Include="TunerScanDlg.h" />
     <ClInclude Include="..\..\include\version.h" />
+    <ClInclude Include="TVToolsDlg.h" />
     <ClInclude Include="UpdateChecker.h" />
     <ClInclude Include="UpdateCheckerDlg.h" />
     <ClInclude Include="VersionInfo.h" />

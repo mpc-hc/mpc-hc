@@ -1111,7 +1111,9 @@ HRESULT CFGManagerBDA::SetChannelInternal(CDVBChannel* pChannel)
         CheckNoLog(ChangeState(State_Running));
     }
 
-    CheckNoLog(SetFrequency(pChannel->GetFrequency(), pChannel->GetBandwidth()));
+    if (pChannel->GetFrequency()) {
+        CheckNoLog(SetFrequency(pChannel->GetFrequency(), pChannel->GetBandwidth()));
+    }
 
     CheckNoLog(Flush(pChannel->GetVideoType(), pChannel->GetDefaultAudioType()));
 

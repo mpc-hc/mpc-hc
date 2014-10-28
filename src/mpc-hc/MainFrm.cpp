@@ -43,6 +43,7 @@
 #include "SaveImageDialog.h"
 #include "SaveSubtitlesFileDialog.h"
 #include "SaveThumbnailsDialog.h"
+#include "TvToolsDlg.h"
 #include "OpenDirHelper.h"
 #include "OpenDlg.h"
 #include "TunerScanDlg.h"
@@ -4183,10 +4184,6 @@ void CMainFrame::OnFileOpendigitalTV()
     if (pChannel) {
         if (pChannel->IsDVB()) {
             CAutoPtr<OpenDeviceData> p(DEBUG_NEW OpenDeviceData());
-            if (p) {
-                p->DisplayName[0] = s.strAnalogVideo;
-                p->DisplayName[1] = s.strAnalogAudio;
-            }
             OpenMedia(p);
         } else {
             CAutoPtr<OpenNetworkData> p(DEBUG_NEW OpenNetworkData());
@@ -4195,12 +4192,16 @@ void CMainFrame::OnFileOpendigitalTV()
             OpenMedia(p);
         }
     } else {
-        CAutoPtr<OpenDeviceData> p(DEBUG_NEW OpenDeviceData());
-        if (p) {
-            p->DisplayName[0] = s.strAnalogVideo;
-            p->DisplayName[1] = s.strAnalogAudio;
+        if (s.strBDATuner != _T("")) {
+            CAutoPtr<OpenDeviceData> p(DEBUG_NEW OpenDeviceData());
+            OpenMedia(p);
+        } else {
+            CAutoPtr<OpenNetworkData> p(DEBUG_NEW OpenNetworkData());
+            // sets a default url address and raises error flag
+            p->address = _T("rtp://0.0.0.0");
+            p->err = 1;
+            OpenMedia(p);
         }
-        OpenMedia(p);
     }
 }
 
@@ -8714,7 +8715,7 @@ void CMainFrame::OnUpdateNavigateMenuItem(CCmdUI* pCmdUI)
 void CMainFrame::OnTunerScan()
 {
     m_bScanDlgOpened = true;
-    CTunerScanDlg dlg(this);
+    CTVToolsDlg dlg(this);
     dlg.DoModal();
     m_bScanDlgOpened = false;
 }
@@ -14778,7 +14779,6 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
     auto pFileData = dynamic_cast<const OpenFileData*>(pOMD.m_p);
     auto pDVDData = dynamic_cast<const OpenDVDData*>(pOMD.m_p);
     auto pDeviceData = dynamic_cast<const OpenDeviceData*>(pOMD.m_p);
-    auto pNetworkData = dynamic_cast<const OpenNetworkData*>(pOMD.m_p);
 
     // if the tuner graph is already loaded, we just change its channel
     if (pDeviceData) {
