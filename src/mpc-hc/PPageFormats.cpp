@@ -23,6 +23,7 @@
 #include "mplayerc.h"
 #include "PPageFormats.h"
 #include "FileAssoc.h"
+#include "PathUtils.h"
 #include "SysVersion.h"
 #include <psapi.h>
 #include <string>
@@ -536,13 +537,10 @@ void CPPageFormats::OnClearAllAssociations()
 
 void CPPageFormats::OnBnRunAsAdmin()
 {
-    TCHAR   strApp[MAX_PATH];
     CString strCmd;
-
-    GetModuleFileNameEx(GetCurrentProcess(), AfxGetMyApp()->m_hInstance, strApp, MAX_PATH);
     strCmd.Format(_T("/adminoption %d"), IDD);
 
-    AfxGetMyApp()->RunAsAdministrator(strApp, strCmd, true);
+    AfxGetMyApp()->RunAsAdministrator(PathUtils::GetProgramPath(true), strCmd, true);
 
     auto& s = AfxGetAppSettings();
     s.m_Formats.UpdateData(false);

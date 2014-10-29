@@ -613,10 +613,7 @@ CMPlayerCApp::CMPlayerCApp()
     , m_dwProfileLastAccessTick(0)
     , m_fClosingState(false)
 {
-    TCHAR strApp[MAX_PATH];
-
-    GetModuleFileNameEx(GetCurrentProcess(), m_hInstance, strApp, MAX_PATH);
-    m_strVersion = FileVersionInfo::GetFileVersionStr(strApp);
+    m_strVersion = FileVersionInfo::GetFileVersionStr(PathUtils::GetProgramPath(true));
 
     ZeroMemory(&m_ColorControl, sizeof(m_ColorControl));
     ResetColorControlRange();
