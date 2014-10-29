@@ -40,8 +40,6 @@ bool ExploreToFile(LPCTSTR path);
 
 HRESULT FileDelete(CString file, HWND hWnd, bool recycle = true);
 
-CString GetProgramPath(bool bWithExecutableName = false);
-
 class CoInitializeHelper
 {
 public:

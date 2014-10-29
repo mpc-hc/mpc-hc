@@ -86,7 +86,7 @@ std::list<const Translations::LanguageResource> Translations::GetAvailableLangua
     CString appPath = PathUtils::GetProgramPath();
 
     for (auto& lr : languageResources) {
-        if (0 == lr.localeID || PathUtils::Exists(appPath + lr.dllPath)) {
+        if (0 == lr.localeID || PathUtils::Exists(PathUtils::CombinePaths(appPath, lr.dllPath))) {
             availableResources.emplace_back(lr);
         }
     }

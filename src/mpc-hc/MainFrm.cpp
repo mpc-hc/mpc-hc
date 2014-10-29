@@ -8958,7 +8958,7 @@ void CMainFrame::PlayFavoriteFile(CString fav)
     //       All you have to do then is plug in your 500 gb drive, full with movies and/or music, start MPC-HC (from the 500 gb drive) with a preloaded playlist and press play.
     if (bRelativeDrive) {
         // Get the drive MPC-HC is on and apply it to the path list
-        CString exePath = GetProgramPath(true);
+        CString exePath = PathUtils::GetProgramPath(true);
 
         CPath exeDrive(exePath);
 
@@ -14332,7 +14332,7 @@ void CMainFrame::ShowOptions(int idPage/* = 0*/)
             // Request MPC-HC to close itself
             SendMessage(WM_CLOSE);
             // and immediately reopen
-            ShellExecute(nullptr, _T("open"), GetProgramPath(true), _T("/reset"), nullptr, SW_SHOWNORMAL);
+            ShellExecute(nullptr, _T("open"), PathUtils::GetProgramPath(true), _T("/reset"), nullptr, SW_SHOWNORMAL);
             break;
         default:
             ASSERT(iRes > 0 && iRes != CPPageSheet::APPLY_LANGUAGE_CHANGE);

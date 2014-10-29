@@ -24,7 +24,7 @@
 #include "MainFrm.h"
 #include "DSUtil.h"
 #include "FileVersionInfo.h"
-#include "WinAPIUtils.h"
+#include "PathUtils.h"
 #include "SysVersion.h"
 #include "AllocatorCommon7.h"
 #include "AllocatorCommon.h"
@@ -65,21 +65,21 @@ CFGFilterLAV::CFGFilterLAV(const CLSID& clsid, CString path, CStringW name, bool
 CString CFGFilterLAV::GetFilterPath(LAVFILTER_TYPE filterType)
 {
     // Default path
-    CString filterPath = GetProgramPath() + LAVFILTERS_DIR;
+    CString filterPath = PathUtils::CombinePaths(PathUtils::GetProgramPath(), LAVFILTERS_DIR);
     CLSID filterCLSID;
 
     switch (filterType) {
         case SPLITTER:
         case SPLITTER_SOURCE:
-            filterPath += CFGFilterLAVSplitterBase::filename;
+            filterPath  = PathUtils::CombinePaths(filterPath, CFGFilterLAVSplitterBase::filename);
             filterCLSID = GUID_LAVSplitter;
             break;
         case VIDEO_DECODER:
-            filterPath += CFGFilterLAVVideo::filename;
+            filterPath  = PathUtils::CombinePaths(filterPath, CFGFilterLAVVideo::filename);
             filterCLSID = GUID_LAVVideo;
             break;
         case AUDIO_DECODER:
-            filterPath += CFGFilterLAVAudio::filename;
+            filterPath  = PathUtils::CombinePaths(filterPath, CFGFilterLAVAudio::filename);
             filterCLSID = GUID_LAVAudio;
             break;
         default:

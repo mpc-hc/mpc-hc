@@ -28,7 +28,6 @@
 #include "FileVersionInfo.h"
 #include "VersionInfo.h"
 #include "SysVersion.h"
-#include "WinAPIUtils.h"
 #include "PathUtils.h"
 #include <afxole.h>
 
@@ -78,7 +77,7 @@ BOOL CAboutDlg::OnInitDialog()
 #endif
 
     // Build the path to Authors.txt
-    m_AuthorsPath = GetProgramPath() + _T("Authors.txt");
+    m_AuthorsPath = PathUtils::CombinePaths(PathUtils::GetProgramPath(), _T("Authors.txt"));
     // Check if the file exists
     if (PathUtils::Exists(m_AuthorsPath)) {
         // If it does, we make the filename clickable

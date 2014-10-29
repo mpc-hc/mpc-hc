@@ -268,20 +268,6 @@ bool ExploreToFile(LPCTSTR path)
     return success;
 }
 
-CString GetProgramPath(bool bWithExecutableName /*= false*/)
-{
-    CString path;
-
-    DWORD dwLength = ::GetModuleFileName(nullptr, path.GetBuffer(MAX_PATH), MAX_PATH);
-    path.ReleaseBuffer((int)dwLength);
-
-    if (!bWithExecutableName) {
-        path = path.Left(path.ReverseFind(_T('\\')) + 1);
-    }
-
-    return path;
-}
-
 CoInitializeHelper::CoInitializeHelper()
 {
     HRESULT res = CoInitializeEx(nullptr, COINIT_MULTITHREADED);

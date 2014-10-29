@@ -29,7 +29,7 @@
 #include "WebClientSocket.h"
 #include "WebServer.h"
 #include "VersionInfo.h"
-#include "WinAPIUtils.h"
+#include "PathUtils.h"
 
 
 CAtlStringMap<CWebServer::RequestHandler, CStringA> CWebServer::m_internalpages;
@@ -40,7 +40,7 @@ CWebServer::CWebServer(CMainFrame* pMainFrame, int nPort)
     : m_pMainFrame(pMainFrame)
     , m_nPort(nPort)
 {
-    m_webroot = CPath(GetProgramPath());
+    m_webroot = CPath(PathUtils::GetProgramPath());
     const CAppSettings& s = AfxGetAppSettings();
 
     CString WebRoot = s.strWebRoot;

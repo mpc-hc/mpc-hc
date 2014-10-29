@@ -27,7 +27,7 @@
 #include "MPCPngImage.h"
 #include "PlayerToolBar.h"
 #include "MainFrm.h"
-#include "WinAPIUtils.h"
+#include "PathUtils.h"
 
 // CPlayerToolBar
 
@@ -48,12 +48,12 @@ CPlayerToolBar::~CPlayerToolBar()
 bool CPlayerToolBar::LoadExternalToolBar(CImage* image)
 {
     bool success = true;
-    CString path = GetProgramPath();
+    CString path = PathUtils::GetProgramPath();
 
     // Try to load an external PNG toolbar first
-    if (FAILED(image->Load(path + _T("toolbar.png")))) {
+    if (FAILED(image->Load(PathUtils::CombinePaths(path, _T("toolbar.png"))))) {
         // If it fails, try to load an external BMP toolbar
-        if (FAILED(image->Load(path + _T("toolbar.bmp")))) {
+        if (FAILED(image->Load(PathUtils::CombinePaths(path, _T("toolbar.bmp"))))) {
             if (AfxGetMyApp()->GetAppDataPath(path)) {
                 // Try to load logo from AppData path
                 if (FAILED(image->Load(path + _T("\\toolbar.png")))) {
