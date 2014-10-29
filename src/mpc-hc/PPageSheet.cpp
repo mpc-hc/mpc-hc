@@ -51,6 +51,7 @@ CPPageSheet::CPPageSheet(LPCTSTR pszCaption, IFilterGraph* pFG, CWnd* pParentWnd
     AddPage(&m_fullscreen);
     AddPage(&m_sync);
     AddPage(&m_tuner);
+    AddPage(&m_digitalTV);
 #ifndef MPCHC_LITE
     AddPage(&m_internalfilters);
 #endif

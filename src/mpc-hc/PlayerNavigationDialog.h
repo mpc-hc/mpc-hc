@@ -45,6 +45,9 @@ private:
     CMainFrame* m_pMainFrame;
     bool m_bChannelInfoAvailable;
     bool m_bTVStations;
+    int m_tabDVB;
+    int m_tabIPTV;
+    int m_tabRadio;
 
 public:
     CPlayerNavigationDialog() = delete;
@@ -58,6 +61,7 @@ public:
 
     void UpdateElementList();
     void UpdatePos(int nID);
+    void ResetTabs();
 
     void SetChannelInfoAvailable(bool bAvailable);
     CTabCtrl m_tabSelChannelList;

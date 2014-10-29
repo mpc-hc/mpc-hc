@@ -36,12 +36,6 @@ private:
     CComboBox m_cbAnalogVideo;
     CComboBox m_cbAnalogAudio;
     CComboBox m_cbAnalogCountry;
-    CComboBox m_cbDigitalNetworkProvider;
-    CComboBox m_cbDigitalTuner;
-    CComboBox m_cbDigitalReceiver;
-    int m_iDefaultDevice;
-    CComboBox m_cbRebuildFilterGraph;
-    CComboBox m_cbStopFilterGraph;
 
     void FindAnalogDevices();
     void FindDigitalDevices();
@@ -60,12 +54,8 @@ protected:
     virtual BOOL OnApply();
 
     DECLARE_MESSAGE_MAP()
+    BOOL m_bEnableAnalog;
 
     afx_msg void OnUpdateAnalog(CCmdUI* pCmdUI);
-    afx_msg void OnUpdateDigital(CCmdUI* pCmdUI);
-    afx_msg void OnUpdateDigitalReciver(CCmdUI* pCmdUI);
-    afx_msg void OnUpdateDigitalStopFilterGraph(CCmdUI* pCmdUI);
-    afx_msg void OnSelChangeRebuildFilterGraph();
-    afx_msg void OnSelChangeStopFilterGraph();
     afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMH, LRESULT* pResult);
 };

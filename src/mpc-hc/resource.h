@@ -335,6 +335,7 @@
 #define IDD_PPAGEFULLSCREEN             10056
 #define IDD_RFS_FILELIST_EXT            10057
 #define IDD_PPAGEAUDIORENDERER          10058
+#define IDD_PPAGEDIGITALTV              10059
 #define IDC_COMBO1                      11000
 #define IDC_COMBO2                      11001
 #define IDC_COMBO3                      11002
@@ -1124,8 +1125,6 @@
 #define IDS_NO                          41114
 #define IDS_DVB_CHANNEL_START_SCAN      41115
 #define IDS_DVB_CHANNEL_STOP_SCAN       41116
-#define IDS_DVB_TVNAV_SEERADIO          41117
-#define IDS_DVB_TVNAV_SEETV             41118
 #define IDS_DVB_CHANNEL_FORMAT          41119
 #define IDS_DVB_CHANNEL_FPS             41120
 #define IDS_DVB_CHANNEL_RESOLUTION      41121
@@ -1137,6 +1136,8 @@
 #define IDS_DTV_ERRORPARSING            41130
 #define IDS_DTV_DVB_SCAN                41135
 #define IDS_DTV_IPTV_SCAN               41136
+#define IDS_DTV_IPTV_OPEN_STREAM        41137
+#define IDS_DTV_IPTV_OPEN_ERR           41138
 #define IDS_OSD_RS_VSYNC_ON             41200
 #define IDS_OSD_RS_VSYNC_OFF            41201
 #define IDS_OSD_RS_ACCURATE_VSYNC_ON    41202

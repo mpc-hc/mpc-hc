@@ -37,6 +37,7 @@
 #include "PlayerPlaylistBar.h"
 #include "PlayerSeekBar.h"
 #include "PlayerStatusBar.h"
+#include "IPTVMcastTools.h"
 #include "PlayerSubresyncBar.h"
 #include "PlayerToolBar.h"
 #include "SubtitleDlDlg.h"
@@ -80,7 +81,7 @@ enum {
     PM_FILE,
     PM_DVD,
     PM_ANALOG_CAPTURE,
-    PM_DIGITAL_CAPTURE
+    PM_DIGITAL_TV
 };
 
 class OpenMediaData
@@ -111,15 +112,24 @@ public:
 class OpenNetworkData : public OpenMediaData
 {
 public:
-    // OpenNetworkData() {}
+    OpenNetworkData() : address(IPTV_NULL_ADDRESS), err(0) {}
     CString address;
-    int err = 0;
+    int err;
 };
 
-class OpenDeviceData : public OpenMediaData
+class OpenDeviceDigitalData : public OpenMediaData
 {
 public:
-    OpenDeviceData() {
+    OpenDeviceDigitalData() : nDVBChannel(-1), err(0) {}
+    CStringW DisplayName[2];
+    int nDVBChannel;
+    int err;
+};
+
+class OpenDeviceAnalogData : public OpenMediaData
+{
+public:
+    OpenDeviceAnalogData() {
         vinput = vchannel = ainput = -1;
     }
     CStringW DisplayName[2];
@@ -396,7 +406,7 @@ public:
     void StopWebServer();
 
     int GetPlaybackMode() const { return m_iPlaybackMode; }
-    bool IsPlaybackCaptureMode() const { return GetPlaybackMode() == PM_ANALOG_CAPTURE || GetPlaybackMode() == PM_DIGITAL_CAPTURE; }
+    bool IsPlaybackCaptureMode() const { return GetPlaybackMode() == PM_ANALOG_CAPTURE || GetPlaybackMode() == PM_DIGITAL_TV; }
     void SetPlaybackMode(int iNewStatus);
     bool IsMuted() { return m_wndToolBar.GetVolume() == -10000; }
     int GetVolume() { return m_wndToolBar.m_volctrl.GetPos(); }
@@ -450,7 +460,7 @@ protected:
     void OpenFile(OpenFileData* pOFD);
     void OpenDVD(OpenDVDData* pODD);
     void OpenNetwork(OpenNetworkData* pOND);
-    void OpenCapture(OpenDeviceData* pODD);
+    void OpenCapture(OpenDeviceAnalogData* pODD);
     HRESULT OpenBDAGraph();
     void OpenCustomizeGraph();
     void OpenSetupVideo();
@@ -552,6 +562,7 @@ public:
 
     CString GetFileName();
     CString GetCaptureTitle();
+    CString GetDigitalTVTitle();
 
     // shaders
     void SetShaders(bool bSetPreResize = true, bool bSetPostResize = true);
@@ -984,6 +995,7 @@ public:
     afx_msg void OnHelpDonate();
 
     afx_msg void OnClose();
+    afx_msg void OnRefreshPlayerSettings();
 
     CMPC_Lcd m_Lcd;
 
@@ -1104,4 +1116,8 @@ public:
     bool OpenBD(CString Path);
 
     bool GetDecoderType(CString& type) const;
+
+private:
+    std::unique_ptr<CIPTVMcastTools> m_pMulticastMembership;
+    void ReportFailedPins(HRESULT hr, OpenNetworkData* pOND = nullptr);
 };

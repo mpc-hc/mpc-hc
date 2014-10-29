@@ -66,7 +66,7 @@ public:
     afx_msg LRESULT OnScanEnd(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT OnStats(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT OnNewChannel(WPARAM wParam, LPARAM lParam);
-
+    afx_msg void OnUpdateData();
     afx_msg void OnBnClickedCheckOffset();
     afx_msg void OnBnClickedSave();
     afx_msg void OnBnClickedStart();

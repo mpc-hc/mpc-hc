@@ -1,5 +1,5 @@
 /*
-* (C) 2009-2014 see Authors.txt
+* (C) 2014 see Authors.txt
 *
 * This file is part of MPC-HC.
 *
@@ -28,18 +28,6 @@
 #include "OpenFileDlg.h"
 
 
-enum TSC_COLUMN {
-    TSCC_NUMBER,
-    TSCC_NAME,
-    TSCC_FREQUENCY,
-    TSCC_ENCRYPTED,
-    TSCC_VIDEO_FORMAT,
-    TSCC_VIDEO_FPS,
-    TSCC_VIDEO_RES,
-    TSCC_VIDEO_AR,
-    TSCC_CHANNEL
-};
-
 // CIPTVScanDlg dialog
 
 IMPLEMENT_DYNAMIC(CIPTVScanDlg, CDialog)
@@ -47,6 +35,7 @@ IMPLEMENT_DYNAMIC(CIPTVScanDlg, CDialog)
 CIPTVScanDlg::CIPTVScanDlg(CWnd* pParent /*=nullptr*/)
     : CDialog(CIPTVScanDlg::IDD, pParent)
     , m_iChannelAdditionMethod(0)
+    , m_bRemoveChannels(FALSE)
 {
 
 }
@@ -61,12 +50,9 @@ BOOL CIPTVScanDlg::OnInitDialog()
 
     m_ChannelList.InsertColumn(TSCC_NUMBER, ResStr(IDS_DVB_CHANNEL_NUMBER), LVCFMT_LEFT, 35);
     m_ChannelList.InsertColumn(TSCC_NAME, ResStr(IDS_DVB_CHANNEL_NAME), LVCFMT_LEFT, 190);
-    m_ChannelList.InsertColumn(TSCC_FREQUENCY, ResStr(IDS_DVB_CHANNEL_URL), LVCFMT_LEFT, 150);
-    m_ChannelList.InsertColumn(TSCC_ENCRYPTED, ResStr(IDS_DVB_CHANNEL_ENCRYPTION), LVCFMT_LEFT, 55);
-    m_ChannelList.InsertColumn(TSCC_VIDEO_FORMAT, ResStr(IDS_DVB_CHANNEL_FORMAT), LVCFMT_LEFT, 55);
-    m_ChannelList.InsertColumn(TSCC_VIDEO_FPS, ResStr(IDS_DVB_CHANNEL_FPS), LVCFMT_LEFT, 50);
-    m_ChannelList.InsertColumn(TSCC_VIDEO_RES, ResStr(IDS_DVB_CHANNEL_RESOLUTION), LVCFMT_LEFT, 70);
-    m_ChannelList.InsertColumn(TSCC_VIDEO_AR, ResStr(IDS_DVB_CHANNEL_ASPECT_RATIO), LVCFMT_LEFT, 50);
+    m_ChannelList.InsertColumn(TSCC_ADDRESS, _T("URL"), LVCFMT_LEFT, 150);
+    m_ChannelList.InsertColumn(TSCC_PREFNUM, _T("Channel number"), LVCFMT_LEFT, 85);
+    m_ChannelList.InsertColumn(TSCC_VALIDATED, _T("Validated"), LVCFMT_LEFT, 60);
     m_ChannelList.InsertColumn(TSCC_CHANNEL, _T("Channel"), LVCFMT_LEFT, 0);
 
     m_btnSave.EnableWindow(FALSE);
@@ -93,15 +79,22 @@ void CIPTVScanDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CIPTVScanDlg, CDialog)
-    ON_BN_CLICKED(ID_SAVE, OnBnClickedSave)
-    ON_BN_CLICKED(IDCANCEL, OnBnClickedCancel)
-    ON_BN_CLICKED(IDC_NEW_CHANNEL, OnBnClickedNewChannel)
-    ON_BN_CLICKED(IDC_IMPORT_LIST, OnBnClickedImportList)
+    ON_BN_CLICKED(ID_SAVE, OnClickedSave)
+    ON_BN_CLICKED(IDCANCEL, OnClickedCancel)
+    ON_BN_CLICKED(IDC_NEW_CHANNEL, OnClickedNewChannel)
+    ON_BN_CLICKED(IDC_IMPORT_LIST, OnClickedImportList)
+    ON_BN_CLICKED(IDC_CHECK_REMOVE_CHANNELS, OnUpdateData)
     ON_CONTROL_RANGE(BN_CLICKED, IDC_RADIO1, IDC_RADIO4, OnUpdateAddChannelMethod)
 END_MESSAGE_MAP()
 
 
 // CIPTVScanDlg message handlers
+
+void CIPTVScanDlg::OnUpdateData()
+{
+    UpdateData(true);
+}
+
 
 void CIPTVScanDlg::OnUpdateAddChannelMethod(UINT nId)
 {
@@ -141,17 +134,18 @@ void CIPTVScanDlg::OnUpdateAddChannelMethod(UINT nId)
     }
 }
 
-void CIPTVScanDlg::OnBnClickedSave()
+void CIPTVScanDlg::OnClickedSave()
 {
     auto& DVBChannels = AfxGetAppSettings().m_DVBChannels;
     const int maxChannelsNum = ID_NAVIGATE_JUMPTO_SUBITEM_END - ID_NAVIGATE_JUMPTO_SUBITEM_START + 1;
     CAppSettings& s = AfxGetAppSettings();
     int iChannel = 0;
 
-    UpdateData();
     if (m_bRemoveChannels) {
         // Remove only IPTV Channels
-        auto it = std::remove_if(std::begin(DVBChannels), std::end(DVBChannels), IsChannelIPTV);
+        auto new_end = std::remove_if(std::begin(DVBChannels), std::end(DVBChannels), [](const CDVBChannel & c) { return c.IsIPTV(); });
+        DVBChannels.erase(new_end, DVBChannels.end());
+        s.uNextChannelCount = 0;
     }
 
     for (int i = 0; i < m_ChannelList.GetItemCount(); i++) {
@@ -161,7 +155,7 @@ void CIPTVScanDlg::OnBnClickedSave()
             auto it = DVBChannels.begin();
             while (it != DVBChannels.end() && !bItemUpdated) {
                 if (channel.IsIPTV()) {
-                    if (it->GetUrl() == channel.GetUrl()) {
+                    if (((CString)it->GetUrl()).Compare(channel.GetUrl()) == 0) {
                         // Update existing channel
                         channel.SetPrefNumber(it->GetPrefNumber());
                         *it = channel;
@@ -177,12 +171,12 @@ void CIPTVScanDlg::OnBnClickedSave()
                 // Add new channel to the end
                 const size_t size = DVBChannels.size();
                 if (size < maxChannelsNum) {
-                    UINT nNextChannelID = s.nNextChannelCount;
+                    UINT nNextChannelID = s.uNextChannelCount;
                     while (s.FindChannelByPref(nNextChannelID)) {
                         nNextChannelID++;
                     }
                     channel.SetPrefNumber(nNextChannelID);
-                    s.nNextChannelCount = nNextChannelID + 1;
+                    s.uNextChannelCount = nNextChannelID + 1;
                     DVBChannels.push_back(channel);
                     iChannel = channel.GetPrefNumber();
                 } else {
@@ -199,6 +193,18 @@ void CIPTVScanDlg::OnBnClickedSave()
             e->Delete();
         }
     }
+    // Update the preferred numbers
+    int nPrefNumber = 0;
+    int nDVBLastChannel = s.nDVBLastChannel;
+    for (auto& channel : s.m_DVBChannels) {
+        // Make sure the current channel number will be updated
+        if (channel.GetPrefNumber() == s.nDVBLastChannel) {
+            nDVBLastChannel = nPrefNumber;
+        }
+        channel.SetPrefNumber(nPrefNumber++);
+    }
+    s.nDVBLastChannel = nDVBLastChannel;
+
     // Set the new channel and close the dialog
     GetParent()->SendMessage(WM_DTV_SETCHANNEL, (WPARAM)iChannel);
     GetParent()->SendMessage(WM_CLOSE);
@@ -206,7 +212,7 @@ void CIPTVScanDlg::OnBnClickedSave()
 }
 
 
-void CIPTVScanDlg::OnBnClickedCancel()
+void CIPTVScanDlg::OnClickedCancel()
 {
     // Set the current channel and close the dialog
     GetParent()->SendMessage(WM_DTV_SETCHANNEL, (WPARAM)AfxGetAppSettings().nDVBLastChannel);
@@ -214,7 +220,7 @@ void CIPTVScanDlg::OnBnClickedCancel()
 }
 
 
-void CIPTVScanDlg::OnBnClickedNewChannel()
+void CIPTVScanDlg::OnClickedNewChannel()
 {
     CString strChannelName;
     CString strURL;
@@ -229,7 +235,7 @@ void CIPTVScanDlg::OnBnClickedNewChannel()
 }
 
 
-void CIPTVScanDlg::OnBnClickedImportList()
+void CIPTVScanDlg::OnClickedImportList()
 {
     CString sFilename;
     // Call file selection (currently m3u format only)
@@ -248,7 +254,7 @@ void CIPTVScanDlg::OnBnClickedImportList()
 }
 
 
-HRESULT CIPTVScanDlg::ImportFile(CString strFilePath)
+HRESULT CIPTVScanDlg::ImportFile(LPCTSTR strFilePath)
 {
     HRESULT hr = S_OK;
     CStdioFile readFile;
@@ -281,19 +287,15 @@ HRESULT CIPTVScanDlg::ImportFile(CString strFilePath)
                         ResStr(IDS_DTV_ERRORPARSING);
                     }
                 } else {
-                    if ((strLine.Find(_T("rtp")) != -1) || (strLine.Find(_T("RTP")) != -1) ||
-                            (strLine.Find(_T("udp")) != -1) || (strLine.Find(_T("UDP")) != -1) ||
-                            (strLine.Find(_T("html")) != -1) || (strLine.Find(_T("HTML")) != -1) ||
-                            (strLine.Find(_T("rtsp")) != -1) || (strLine.Find(_T("RTSP")) != -1) ||
-                            (strLine.Find(_T("mms")) != -1) || (strLine.Find(_T("MMS")) != -1)) {
+                    if (IsValidUrl(strLine)) {
                         strURL = strLine;
                     } else {
                         strURL = ResStr(IDS_DTV_ERRORPARSING);
                     }
                     if (strChannelName && strURL) {
                         AddToList(strChannelName, strURL, nChannelNumber);
-                        strChannelName = _T("");
-                        strURL = _T("");
+                        strChannelName.Empty();
+                        strURL.Empty();
                     }
                 }
             }
@@ -310,12 +312,12 @@ HRESULT CIPTVScanDlg::ImportFile(CString strFilePath)
 
 
 
-void CIPTVScanDlg::AddToList(CString strChannelName, CString strURL, int nChannelNumber)
+void CIPTVScanDlg::AddToList(LPCTSTR strChannelName, LPCTSTR strURL, int nChannelNumber)
 {
     CDVBChannel channel;
     CString strTemp;
 
-    if (!strChannelName.IsEmpty() && !strURL.IsEmpty()) {
+    if (!((CString)strChannelName).IsEmpty() && !((CString)strURL).IsEmpty()) {
         int nItem;
 
         channel.SetName(strChannelName);
@@ -345,27 +347,10 @@ void CIPTVScanDlg::AddToList(CString strChannelName, CString strURL, int nChanne
 
         m_ChannelList.SetItemText(nItem, TSCC_NAME, channel.GetName());
 
-        m_ChannelList.SetItemText(nItem, TSCC_FREQUENCY, channel.GetUrl());
+        m_ChannelList.SetItemText(nItem, TSCC_ADDRESS, channel.GetUrl());
 
-        m_ChannelList.SetItemText(nItem, TSCC_ENCRYPTED, ResStr(channel.IsEncrypted() ? IDS_YES : IDS_NO));
-        if (channel.GetVideoType() == DVB_H264) {
-            strTemp = _T(" H.264");
-        } else if (channel.GetVideoPID()) {
-            strTemp = _T("MPEG-2");
-        } else {
-            strTemp = _T("   -  ");
-        }
-        m_ChannelList.SetItemText(nItem, TSCC_VIDEO_FORMAT, strTemp);
-        strTemp = channel.GetVideoFpsDesc();
-        m_ChannelList.SetItemText(nItem, TSCC_VIDEO_FPS, strTemp);
-        if (channel.GetVideoWidth() || channel.GetVideoHeight()) {
-            strTemp.Format(_T("%lux%lu"), channel.GetVideoWidth(), channel.GetVideoHeight());
-        } else {
-            strTemp = _T("   -   ");
-        }
-        m_ChannelList.SetItemText(nItem, TSCC_VIDEO_RES, strTemp);
-        strTemp.Format(_T("%lu/%lu"), channel.GetVideoARy(), channel.GetVideoARx());
-        m_ChannelList.SetItemText(nItem, TSCC_VIDEO_AR, strTemp);
+        m_ChannelList.SetItemText(nItem, TSCC_PREFNUM, _T("0"));
+        m_ChannelList.SetItemText(nItem, TSCC_VALIDATED, _T(" - "));
         strTemp = channel.ToString();
         m_ChannelList.SetItemText(nItem, TSCC_CHANNEL, strTemp);
         m_btnSave.EnableWindow(TRUE);

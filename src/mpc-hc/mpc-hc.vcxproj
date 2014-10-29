@@ -166,6 +166,7 @@
     <ClCompile Include="DropTarget.cpp" />
     <ClCompile Include="FreeviewEPGDecode.cpp" />
     <ClCompile Include="ImageGrayer.cpp" />
+    <ClCompile Include="IPTVMcastTools.cpp" />
     <ClCompile Include="IPTVScanDlg.cpp" />
     <ClCompile Include="MainFrmControls.cpp" />
     <ClCompile Include="MediaPositionList.cpp" />
@@ -208,6 +209,7 @@
     <ClCompile Include="PPageAudioSwitcher.cpp" />
     <ClCompile Include="PPageBase.cpp" />
     <ClCompile Include="PPageCapture.cpp" />
+    <ClCompile Include="PPageDigitalTV.cpp" />
     <ClCompile Include="PPageDVD.cpp" />
     <ClCompile Include="PPageExternalFilters.cpp" />
     <ClCompile Include="PPageFileInfoClip.cpp" />
@@ -315,6 +317,7 @@
     <ClInclude Include="IGraphBuilder2.h" />
     <ClInclude Include="ImageGrayer.h" />
     <ClInclude Include="InternalFiltersConfig.h" />
+    <ClInclude Include="IPTVMcastTools.h" />
     <ClInclude Include="IPTVScanDlg.h" />
     <ClInclude Include="KeyProvider.h" />
     <ClInclude Include="LcdSupport.h" />
@@ -354,6 +357,7 @@
     <ClInclude Include="PPageAudioSwitcher.h" />
     <ClInclude Include="PPageBase.h" />
     <ClInclude Include="PPageCapture.h" />
+    <ClInclude Include="PPageDigitalTV.h" />
     <ClInclude Include="PPageDVD.h" />
     <ClInclude Include="PPageExternalFilters.h" />
     <ClInclude Include="PPageFileInfoClip.h" />

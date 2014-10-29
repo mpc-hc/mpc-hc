@@ -46,6 +46,7 @@ IMPLEMENT_DYNAMIC(CTunerScanDlg, CDialog)
 CTunerScanDlg::CTunerScanDlg(CWnd* pParent /*=nullptr*/)
     : CDialog(CTunerScanDlg::IDD, pParent)
     , m_bInProgress(false)
+    , m_bRemoveChannels(false)
 {
     const CAppSettings& s = AfxGetAppSettings();
 
@@ -114,10 +115,16 @@ BEGIN_MESSAGE_MAP(CTunerScanDlg, CDialog)
     ON_BN_CLICKED(ID_SAVE, &CTunerScanDlg::OnBnClickedSave)
     ON_BN_CLICKED(ID_START, &CTunerScanDlg::OnBnClickedStart)
     ON_BN_CLICKED(IDCANCEL, &CTunerScanDlg::OnBnClickedCancel)
+    ON_BN_CLICKED(IDC_CHECK_REMOVE_CHANNELS, OnUpdateData)
     ON_BN_CLICKED(IDC_CHECK_OFFSET, &CTunerScanDlg::OnBnClickedCheckOffset)
 END_MESSAGE_MAP()
 
 // CTunerScanDlg message handlers
+
+void CTunerScanDlg::OnUpdateData()
+{
+    UpdateData(true);
+}
 
 void CTunerScanDlg::OnBnClickedSave()
 {
@@ -126,10 +133,11 @@ void CTunerScanDlg::OnBnClickedSave()
     CAppSettings& s = AfxGetAppSettings();
     int iChannel = 0;
 
-    UpdateData();
     if (m_bRemoveChannels) {
         // Remove only DVB Channels
-        auto it = std::remove_if(std::begin(DVBChannels), std::end(DVBChannels), IsChannelDVB);
+        auto new_end = std::remove_if(std::begin(DVBChannels), std::end(DVBChannels), [](const CDVBChannel & c) { return c.IsDVB(); });
+        DVBChannels.erase(new_end, DVBChannels.end());
+        s.uNextChannelCount = 0;
     }
 
     for (int i = 0; i < m_ChannelList.GetItemCount(); i++) {
@@ -156,12 +164,12 @@ void CTunerScanDlg::OnBnClickedSave()
                 // Add new channel to the end
                 const size_t size = DVBChannels.size();
                 if (size < maxChannelsNum) {
-                    UINT nNextChannelID = s.nNextChannelCount;
+                    UINT nNextChannelID = s.uNextChannelCount;
                     while (s.FindChannelByPref(nNextChannelID)) {
                         nNextChannelID++;
                     }
                     channel.SetPrefNumber(nNextChannelID);
-                    s.nNextChannelCount = nNextChannelID + 1;
+                    s.uNextChannelCount = nNextChannelID + 1;
                     DVBChannels.push_back(channel);
                     iChannel = channel.GetPrefNumber();
                 } else {
@@ -178,6 +186,18 @@ void CTunerScanDlg::OnBnClickedSave()
             e->Delete();
         }
     }
+
+    // Update the preferred numbers
+    int nPrefNumber = 0;
+    int nDVBLastChannel = s.nDVBLastChannel;
+    for (auto& channel : s.m_DVBChannels) {
+        // Make sure the current channel number will be updated
+        if (channel.GetPrefNumber() == s.nDVBLastChannel) {
+            nDVBLastChannel = nPrefNumber;
+        }
+        channel.SetPrefNumber(nPrefNumber++);
+    }
+    s.nDVBLastChannel = nDVBLastChannel;
 
     GetParent()->SendMessage(WM_DTV_SETCHANNEL, (WPARAM)iChannel);
     GetParent()->SendMessage(WM_CLOSE);

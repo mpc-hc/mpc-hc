@@ -35,20 +35,28 @@ CTVToolsDlg::CTVToolsDlg(CWnd* pParent /*=nullptr*/)
     , m_TunerScanDlg(this)
     , m_IPTVScanDlg(this)
 {
-
-}
-
-CTVToolsDlg::~CTVToolsDlg()
-{
-
 }
 
 BOOL CTVToolsDlg::OnInitDialog()
 {
+    const auto& s = AfxGetAppSettings();
     CDialog::OnInitDialog();
 
-    m_TabCtrl.InsertItem(0, ResStr(IDS_DTV_DVB_SCAN));
-    m_TabCtrl.InsertItem(1, ResStr(IDS_DTV_IPTV_SCAN));
+    m_Tab_scan[0] = SC_NONE;
+    m_Tab_scan[1] = SC_NONE;
+    int i = 0;
+
+    if (s.bEnabledDVB && !s.strBDATuner.IsEmpty()) {
+        m_TabCtrl.InsertItem(i, ResStr(IDS_DTV_DVB_SCAN));
+        m_Tab_scan[i] = SC_DVB;
+        i++;
+    }
+
+    if (s.bEnabledIPTV) {
+        m_TabCtrl.InsertItem(i, ResStr(IDS_DTV_IPTV_SCAN));
+        m_Tab_scan[i] = SC_IPTV;
+        i++;
+    }
 
     SetTab(0);
     return TRUE;
@@ -86,32 +94,54 @@ HRESULT CTVToolsDlg::SetTab(int iTabNumber)
     m_TabCtrl.GetClientRect(m_ClientRect);
     m_TabCtrl.GetItemRect(0, m_ItemRect);
 
-    int iPosX0 = m_ItemRect.left + 10;
-    int iPosY0 = m_ItemRect.bottom + 12;
-    int iPosX1 = m_ClientRect.right - iPosX0;
-    int iPosY1 = m_ClientRect.bottom - iPosY0;
+    CRect tabRect;
+    m_TabCtrl.GetWindowRect(tabRect);
+    m_TabCtrl.AdjustRect(FALSE, tabRect);
+    ScreenToClient(tabRect);
 
     switch (iTabNumber) {
         case 0:
-            if (m_IPTVScanDlg) {
-                m_IPTVScanDlg.ShowWindow(SW_HIDE);
+            if (m_Tab_scan[iTabNumber] == SC_DVB) {
+                if (m_IPTVScanDlg) {
+                    m_IPTVScanDlg.ShowWindow(SW_HIDE);
+                }
+                if (!m_TunerScanDlg) {
+                    m_TunerScanDlg.Create(IDD_TUNER_SCAN, this);
+                }
+                m_TunerScanDlg.ShowWindow(SW_SHOWNORMAL);
+                m_TunerScanDlg.MoveWindow(tabRect);
+            } else if (m_Tab_scan[iTabNumber] == SC_IPTV) {
+                if (m_TunerScanDlg) {
+                    m_TunerScanDlg.ShowWindow(SW_HIDE);
+                }
+                if (!m_IPTVScanDlg) {
+                    m_IPTVScanDlg.Create(IDD_IPTV_SCAN, this);
+                }
+                m_IPTVScanDlg.ShowWindow(SW_SHOWNORMAL);
+                m_IPTVScanDlg.MoveWindow(tabRect);
             }
-            if (!m_TunerScanDlg) {
-                m_TunerScanDlg.Create(IDD_TUNER_SCAN, this);
-            }
-            m_TunerScanDlg.ShowWindow(SW_SHOWNORMAL);
-            m_TunerScanDlg.MoveWindow(iPosX0, iPosY0, iPosX1, iPosY1);
 
             break;
         case 1:
-            if (m_TunerScanDlg) {
-                m_TunerScanDlg.ShowWindow(SW_HIDE);
+            if (m_Tab_scan[iTabNumber] == SC_IPTV) {
+                if (m_TunerScanDlg) {
+                    m_TunerScanDlg.ShowWindow(SW_HIDE);
+                }
+                if (!m_IPTVScanDlg) {
+                    m_IPTVScanDlg.Create(IDD_IPTV_SCAN, this);
+                }
+                m_IPTVScanDlg.ShowWindow(SW_SHOWNORMAL);
+                m_IPTVScanDlg.MoveWindow(tabRect);
+            } else if (m_Tab_scan[iTabNumber] == SC_DVB) {
+                if (m_IPTVScanDlg) {
+                    m_IPTVScanDlg.ShowWindow(SW_HIDE);
+                }
+                if (!m_TunerScanDlg) {
+                    m_TunerScanDlg.Create(IDD_TUNER_SCAN, this);
+                }
+                m_TunerScanDlg.ShowWindow(SW_SHOWNORMAL);
+                m_TunerScanDlg.MoveWindow(tabRect);
             }
-            if (!m_IPTVScanDlg) {
-                m_IPTVScanDlg.Create(IDD_IPTV_SCAN, this);
-            }
-            m_IPTVScanDlg.ShowWindow(SW_SHOWNORMAL);
-            m_IPTVScanDlg.MoveWindow(iPosX0, iPosY0, iPosX1, iPosY1);
 
             break;
 
@@ -133,7 +163,10 @@ LRESULT CTVToolsDlg::OnSetChannel(WPARAM wParam, LPARAM lParam)
     // In the future, this should send a message to CMainFrame
     // instead of calling the SetChannel function directly
     LRESULT hr = E_ABORT;
+    auto pMFrm = dynamic_cast<CMainFrame*>(GetParent());
 
-    hr = ((CMainFrame*)GetParent())->SetChannel((int) wParam);
+    if (pMFrm) {
+        hr = pMFrm->SetChannel((int)wParam);
+    }
     return hr;
 }

@@ -1,5 +1,5 @@
 /*
-* (C) 2009-2013 see Authors.txt
+* (C) 2014 see Authors.txt
 *
 * This file is part of MPC-HC.
 *
@@ -23,6 +23,15 @@
 #include <afxcmn.h>
 #include <afxwin.h>
 
+enum TSC_COLUMN {
+    TSCC_NUMBER,
+    TSCC_NAME,
+    TSCC_ADDRESS,
+    TSCC_PREFNUM,
+    TSCC_VALIDATED,
+    TSCC_CHANNEL,
+    TSCC_SERVICEID
+};
 
 // CIPTVScanDlg dialog
 
@@ -46,8 +55,8 @@ protected:
     DECLARE_MESSAGE_MAP()
 
 private:
-    HRESULT ImportFile(CString sFileName);
-    void AddToList(CString strChannelName, CString strURL, int nChannelNumber);
+    HRESULT ImportFile(LPCTSTR sFileName);
+    void AddToList(LPCTSTR strChannelName, LPCTSTR strURL, int nChannelNumber);
 
 
 public:
@@ -65,10 +74,10 @@ public:
     int m_iChannelAdditionMethod;
 
     afx_msg LRESULT OnNewChannel(WPARAM wParam, LPARAM lParam);
-
-    afx_msg void OnBnClickedSave();
-    afx_msg void OnBnClickedCancel();
-    afx_msg void OnBnClickedNewChannel();
-    afx_msg void OnBnClickedImportList();
+    afx_msg void OnUpdateData();
+    afx_msg void OnClickedSave();
+    afx_msg void OnClickedCancel();
+    afx_msg void OnClickedNewChannel();
+    afx_msg void OnClickedImportList();
     afx_msg void OnUpdateAddChannelMethod(UINT nID);
 };

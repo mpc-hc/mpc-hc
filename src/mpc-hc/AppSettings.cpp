@@ -41,6 +41,10 @@
 CAppSettings::CAppSettings()
     : bInitialized(false)
     , nCLSwitches(0)
+    , bEnabledAnalogCapture(false)
+    , bEnabledDVB(false)
+    , bEnabledIPTV(false)
+    , bUseIGMPMembership(false)
     , rtShift(0)
     , rtStart(0)
     , lDVDTitle(0)
@@ -119,7 +123,6 @@ CAppSettings::CAppSettings()
     , uHideFullscreenControlsDelay(0)
     , bHideFullscreenDockedPanels(true)
     , fExitFullScreenAtTheEnd(true)
-    , iDefaultCaptureDevice(0)
     , iAnalogCountry(1)
     , iBDAScanFreqStart(474000)
     , iBDAScanFreqEnd(858000)
@@ -903,7 +906,7 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LCD_SUPPORT, fLCDSupport);
 
     // Save analog capture settings
-    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DEFAULT_CAPTURE, iDefaultCaptureDevice);
+    pApp->WriteProfileInt(IDS_R_CAPTURE, IDS_RS_ENABLE_ANALOGCAPTURE, bEnabledAnalogCapture);
     pApp->WriteProfileString(IDS_R_CAPTURE, IDS_RS_VIDEO_DISP_NAME, strAnalogVideo);
     pApp->WriteProfileString(IDS_R_CAPTURE, IDS_RS_AUDIO_DISP_NAME, strAnalogAudio);
     pApp->WriteProfileInt(IDS_R_CAPTURE, IDS_RS_COUNTRY, iAnalogCountry);
@@ -911,6 +914,7 @@ void CAppSettings::SaveSettings()
     // Save digital capture settings (BDA)
     pApp->WriteProfileString(IDS_R_DVB, nullptr, nullptr); // Ensure the section is cleared before saving the new settings
 
+    pApp->WriteProfileInt(IDS_R_DVB, IDS_RS_ENABLE_DVB, bEnabledDVB);
     pApp->WriteProfileString(IDS_R_DVB, IDS_RS_BDA_NETWORKPROVIDER, strBDANetworkProvider);
     pApp->WriteProfileString(IDS_R_DVB, IDS_RS_BDA_TUNER, strBDATuner);
     pApp->WriteProfileString(IDS_R_DVB, IDS_RS_BDA_RECEIVER, strBDAReceiver);
@@ -924,13 +928,15 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_DVB, IDS_RS_DVB_LAST_CHANNEL, nDVBLastChannel);
     pApp->WriteProfileInt(IDS_R_DVB, IDS_RS_DVB_REBUILD_FG, nDVBRebuildFilterGraph);
     pApp->WriteProfileInt(IDS_R_DVB, IDS_RS_DVB_STOP_FG, nDVBStopFilterGraph);
+    pApp->WriteProfileInt(IDS_R_DVB, IDS_RS_ENABLE_IPTV, bEnabledIPTV);
+    pApp->WriteProfileInt(IDS_R_DVB, IDS_RS_USE_IGMPMEMBERSHIP, bUseIGMPMembership);
 
     for (size_t i = 0; i < m_DVBChannels.size(); i++) {
         CString numChannel;
         numChannel.Format(_T("%Iu"), i);
         pApp->WriteProfileString(IDS_R_DVB, numChannel, m_DVBChannels[i].ToString());
     }
-    pApp->WriteProfileInt(IDS_R_DVB, IDS_RS_DVB_NEXTCHANNELCOUNT, nNextChannelCount);
+    pApp->WriteProfileInt(IDS_R_DVB, IDS_RS_DVB_NEXTCHANNELCOUNT, uNextChannelCount);
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DVDPOS, fRememberDVDPos);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_FILEPOS, fRememberFilePos);
@@ -1734,16 +1740,17 @@ void CAppSettings::LoadSettings()
 
     fLCDSupport = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LCD_SUPPORT, FALSE);
 
-    // Save analog capture settings
-    iDefaultCaptureDevice = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DEFAULT_CAPTURE, 0);
+    // Load analog capture settings
+    bEnabledAnalogCapture = !!pApp->GetProfileInt(IDS_R_CAPTURE, IDS_RS_ENABLE_ANALOGCAPTURE, FALSE);
     strAnalogVideo        = pApp->GetProfileString(IDS_R_CAPTURE, IDS_RS_VIDEO_DISP_NAME, _T("dummy"));
     strAnalogAudio        = pApp->GetProfileString(IDS_R_CAPTURE, IDS_RS_AUDIO_DISP_NAME, _T("dummy"));
     iAnalogCountry        = pApp->GetProfileInt(IDS_R_CAPTURE, IDS_RS_COUNTRY, 1);
 
+    // Load digital TV settings
+    bEnabledDVB           = !!pApp->GetProfileInt(IDS_R_DVB, IDS_RS_ENABLE_DVB, FALSE);
     strBDANetworkProvider = pApp->GetProfileString(IDS_R_DVB, IDS_RS_BDA_NETWORKPROVIDER);
     strBDATuner           = pApp->GetProfileString(IDS_R_DVB, IDS_RS_BDA_TUNER);
     strBDAReceiver        = pApp->GetProfileString(IDS_R_DVB, IDS_RS_BDA_RECEIVER);
-    //sBDAStandard        = pApp->GetProfileString(IDS_R_DVB, IDS_RS_BDA_STANDARD);
     iBDAScanFreqStart     = pApp->GetProfileInt(IDS_R_DVB, IDS_RS_BDA_SCAN_FREQ_START, 474000);
     iBDAScanFreqEnd       = pApp->GetProfileInt(IDS_R_DVB, IDS_RS_BDA_SCAN_FREQ_END, 858000);
     iBDABandwidth         = pApp->GetProfileInt(IDS_R_DVB, IDS_RS_BDA_BANDWIDTH, 8);
@@ -1754,7 +1761,9 @@ void CAppSettings::LoadSettings()
     nDVBRebuildFilterGraph = (DVB_RebuildFilterGraph) pApp->GetProfileInt(IDS_R_DVB, IDS_RS_DVB_REBUILD_FG, DVB_REBUILD_FG_WHEN_SWITCHING);
     nDVBStopFilterGraph = (DVB_StopFilterGraph) pApp->GetProfileInt(IDS_R_DVB, IDS_RS_DVB_STOP_FG, DVB_STOP_FG_WHEN_SWITCHING);
 
-    nNextChannelCount = pApp->GetProfileInt(IDS_R_DVB, IDS_RS_DVB_NEXTCHANNELCOUNT, 0);
+    uNextChannelCount     = pApp->GetProfileInt(IDS_R_DVB, IDS_RS_DVB_NEXTCHANNELCOUNT, 0);
+    bEnabledIPTV          = !!pApp->GetProfileInt(IDS_R_DVB, IDS_RS_ENABLE_IPTV, FALSE);
+    bUseIGMPMembership    = !!pApp->GetProfileInt(IDS_R_DVB, IDS_RS_USE_IGMPMEMBERSHIP, FALSE);
     for (int iChannel = 0; ; iChannel++) {
         CString strTemp;
         strTemp.Format(_T("%d"), iChannel);

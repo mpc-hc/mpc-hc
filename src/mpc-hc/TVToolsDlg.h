@@ -22,6 +22,7 @@
 
 #include <afxcmn.h>
 #include <afxwin.h>
+#include "resource.h"
 #include "TunerScanDlg.h"
 #include "IPTVScanDlg.h"
 
@@ -34,7 +35,7 @@ class CTVToolsDlg : public CDialog
 
 public:
     CTVToolsDlg(CWnd* pParent = nullptr);   // standard constructor
-    virtual ~CTVToolsDlg();
+    virtual ~CTVToolsDlg() = default;
 
     // Dialog Data
     enum { IDD = IDD_SCAN };

@@ -552,11 +552,14 @@ public:
 
     // Sync Renderer Settings
 
-    // Capture (BDA configuration)
-    int             iDefaultCaptureDevice;      // Default capture device (analog=0, 1=digital)
+    // Capture (Analog configuration)
+    bool            bEnabledAnalogCapture;
     CString         strAnalogVideo;
     CString         strAnalogAudio;
     int             iAnalogCountry;
+
+    // Digital TV configuration
+    bool            bEnabledDVB;
     CString         strBDANetworkProvider;
     CString         strBDATuner;
     CString         strBDAReceiver;
@@ -568,9 +571,11 @@ public:
     bool            fBDAIgnoreEncryptedChannels;
     int             nDVBLastChannel;
     std::vector<CDVBChannel> m_DVBChannels;
-    UINT            nNextChannelCount;
+    UINT            uNextChannelCount;
     DVB_RebuildFilterGraph nDVBRebuildFilterGraph;
     DVB_StopFilterGraph nDVBStopFilterGraph;
+    bool            bEnabledIPTV;
+    bool            bUseIGMPMembership;
 
     // Internal Filters
     bool            SrcFilters[SRC_LAST + !SRC_LAST];

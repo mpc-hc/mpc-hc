@@ -22,6 +22,7 @@
 
 #include <vector>
 #include <array>
+// #include "../DSUtil/ArrayUtils.h"
 
 #define FORMAT_VERSION_0       0
 #define FORMAT_VERSION_1       1
@@ -99,25 +100,28 @@ struct DVBStreamInfo {
     LCID GetLCID() const;
 };
 
-// A list should be used here!!
+
 static bool IsValidUrl(CString strUrl)
 {
-    bool bResult = false;
-    if ((strUrl.Find(_T("rtp://")) == 0) ||
-            (strUrl.Find(_T("udp://")) == 0) ||
-            (strUrl.Find(_T("rtsp://")) == 0) ||
-            (strUrl.Find(_T("mms://")) == 0) ||
-            (strUrl.Find(_T("http://")) == 0) ||
-            (strUrl.Find(_T("http://")) == 0) ||
-            (strUrl.Find(_T("rtspu://")) == 0) ||
-            (strUrl.Find(_T("rtspm://")) == 0) ||
-            (strUrl.Find(_T("rtspt://")) == 0) ||
-            (strUrl.Find(_T("rtsph://")) == 0)) {
+	constexpr std::array<LPCTSTR, 12> supportedProtocols = {
+								  _T("rtp://"),
+								  _T("udp://"),
+								  _T("rtsp://"),
+								  _T("mms://"),
+								  _T("http://"),
+								  _T("https://"),
+								  _T("rtspu://"),
+								  _T("rtspm://"),
+								  _T("rtspt://"),
+								  _T("rtsph://"),
+								  _T("rtmp://"),
+								  _T("rtmpt://")
+							  };
+    auto it = find_if(supportedProtocols.cbegin(), supportedProtocols.cend(), [&](LPCTSTR protocol) {
+        return strUrl.MakeLower().Find(protocol) == 0;
+    });
 
-        bResult = true;
-
-    }
-    return bResult;
+    return it != supportedProtocols.cend();
 }
 
 class CDVBChannel
@@ -240,14 +244,4 @@ private:
     std::array<DVBStreamInfo, DVB_MAX_SUBTITLE> m_Subtitles;
 
     void FromString(CString strValue);
-};
-
-static bool IsChannelIPTV(const CDVBChannel channel)
-{
-    return channel.IsIPTV();
-};
-
-static bool IsChannelDVB(const CDVBChannel channel)
-{
-    return channel.IsDVB();
 };
