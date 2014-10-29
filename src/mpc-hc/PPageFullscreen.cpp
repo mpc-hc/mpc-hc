@@ -23,7 +23,6 @@
 #include "MainFrm.h"
 #include "mplayerc.h"
 #include "PPageFullscreen.h"
-#include "WinAPIUtils.h"
 
 #include "Monitors.h"
 #include "MultiMonitor.h"

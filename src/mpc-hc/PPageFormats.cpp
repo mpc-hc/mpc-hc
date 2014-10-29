@@ -24,7 +24,6 @@
 #include "PPageFormats.h"
 #include "FileAssoc.h"
 #include "SysVersion.h"
-#include "WinAPIUtils.h"
 #include <psapi.h>
 #include <string>
 #include <atlimage.h>

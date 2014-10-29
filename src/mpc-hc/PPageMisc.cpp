@@ -25,7 +25,6 @@
 #include "moreuuids.h"
 #include "PPageMisc.h"
 #include <psapi.h>
-#include "WinAPIUtils.h"
 
 
 // CPPageMisc dialog
