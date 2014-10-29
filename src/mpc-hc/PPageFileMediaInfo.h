@@ -55,7 +55,7 @@ public:
 
 protected:
     enum {
-        WM_REFRESH_TEXT = WM_APP + 1
+        WM_MEDIAINFO_READY = WM_APP + 1
     };
 
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
@@ -66,7 +66,7 @@ protected:
 
     afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
     afx_msg void OnDestroy();
-    afx_msg void OnRefreshText();
+    afx_msg void OnMediaInfoReady();
 
     bool OnKeyDownInEdit(MSG* pMsg);
 };

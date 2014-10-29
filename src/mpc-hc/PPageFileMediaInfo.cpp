@@ -147,7 +147,7 @@ BOOL CPPageFileMediaInfo::PreTranslateMessage(MSG* pMsg)
 BEGIN_MESSAGE_MAP(CPPageFileMediaInfo, CPropertyPage)
     ON_WM_SHOWWINDOW()
     ON_WM_DESTROY()
-    ON_MESSAGE_VOID(WM_REFRESH_TEXT, OnRefreshText)
+    ON_MESSAGE_VOID(WM_MEDIAINFO_READY, OnMediaInfoReady)
 END_MESSAGE_MAP()
 
 // CPPageFileMediaInfo message handlers
@@ -174,9 +174,10 @@ BOOL CPPageFileMediaInfo::OnInitDialog()
     m_mediainfo.SetFont(&m_font);
 
     m_mediainfo.SetWindowText(ResStr(IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS));
+    GetParent()->GetDlgItem(IDC_BUTTON_MI)->EnableWindow(FALSE); // Initially disable the "Save As" button
     m_threadSetText = std::thread([this]() {
         m_futureMIText.wait(); // Wait for the info to be ready
-        PostMessage(WM_REFRESH_TEXT); // then notify the window to set the text
+        PostMessage(WM_MEDIAINFO_READY); // then notify the window that MediaInfo analysis finished
     });
 
     return TRUE;  // return TRUE unless you set the focus to a control
@@ -197,8 +198,11 @@ void CPPageFileMediaInfo::OnDestroy()
     }
 }
 
-void CPPageFileMediaInfo::OnRefreshText()
+void CPPageFileMediaInfo::OnMediaInfoReady()
 {
+    if (m_futureMIText.get() != ResStr(IDS_MEDIAINFO_NO_INFO_AVAILABLE)) {
+        GetParent()->GetDlgItem(IDC_BUTTON_MI)->EnableWindow(TRUE);
+    }
     m_mediainfo.SetWindowText(m_futureMIText.get());
 }
 
