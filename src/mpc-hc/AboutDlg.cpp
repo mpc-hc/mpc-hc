@@ -29,6 +29,7 @@
 #include "VersionInfo.h"
 #include "SysVersion.h"
 #include "WinAPIUtils.h"
+#include "PathUtils.h"
 #include <afxole.h>
 
 extern "C" char g_Gcc_Compiler[];
@@ -79,7 +80,7 @@ BOOL CAboutDlg::OnInitDialog()
     // Build the path to Authors.txt
     m_AuthorsPath = GetProgramPath() + _T("Authors.txt");
     // Check if the file exists
-    if (FileExists(m_AuthorsPath)) {
+    if (PathUtils::Exists(m_AuthorsPath)) {
         // If it does, we make the filename clickable
         m_credits.Replace(_T("Authors.txt"), _T("<a>Authors.txt</a>"));
     }

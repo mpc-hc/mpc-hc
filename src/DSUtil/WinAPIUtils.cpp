@@ -23,6 +23,7 @@
 #include <Shlobj.h>
 #include "WinAPIUtils.h"
 #include "SysVersion.h"
+#include "PathUtils.h"
 
 
 bool SetPrivilege(LPCTSTR privilege, bool bEnable)
@@ -259,17 +260,12 @@ bool ExploreToFile(LPCTSTR path)
     bool success = false;
     PIDLIST_ABSOLUTE pidl;
 
-    if (FileExists(path) && SHParseDisplayName(path, nullptr, &pidl, 0, nullptr) == S_OK) {
+    if (PathUtils::Exists(path) && SHParseDisplayName(path, nullptr, &pidl, 0, nullptr) == S_OK) {
         success = SUCCEEDED(SHOpenFolderAndSelectItems(pidl, 0, nullptr, 0));
         CoTaskMemFree(pidl);
     }
 
     return success;
-}
-
-bool FileExists(LPCTSTR fileName)
-{
-    return (INVALID_FILE_ATTRIBUTES != ::GetFileAttributes(fileName));
 }
 
 CString GetProgramPath(bool bWithExecutableName /*= false*/)

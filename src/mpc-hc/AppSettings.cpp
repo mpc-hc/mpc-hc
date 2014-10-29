@@ -28,6 +28,7 @@
 #include "VersionInfo.h"
 #include "SysVersion.h"
 #include "WinAPIUtils.h"
+#include "PathUtils.h"
 #include "Translations.h"
 #include "UpdateChecker.h"
 #include "moreuuids.h"
@@ -1860,7 +1861,7 @@ CString CAppSettings::ParseFileName(CString const& param)
     if (param.Find(_T(":")) < 0) {
         fullPathName.ReleaseBuffer(GetFullPathName(param, MAX_PATH, fullPathName.GetBuffer(MAX_PATH), nullptr));
 
-        if (!fullPathName.IsEmpty() && FileExists(fullPathName)) {
+        if (!fullPathName.IsEmpty() && PathUtils::Exists(fullPathName)) {
             return fullPathName;
         }
     }

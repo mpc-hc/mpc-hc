@@ -880,7 +880,7 @@ void CPlayerPlaylistBar::SavePlaylist()
 
         if (AfxGetAppSettings().bRememberPlaylistItems) {
             // Only create this folder when needed
-            if (!::PathFileExists(base)) {
+            if (!PathUtils::Exists(base)) {
                 ::CreateDirectory(base, nullptr);
             }
 
@@ -1385,7 +1385,7 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
     }
 
     POSITION pos = FindPos(lvhti.iItem);
-    bool bIsLocalFile = bOnItem ? FileExists(m_pl.GetAt(pos).m_fns.GetHead()) : false;
+    bool bIsLocalFile = bOnItem ? PathUtils::Exists(m_pl.GetAt(pos).m_fns.GetHead()) : false;
 
     CMenu m;
     m.CreatePopupMenu();

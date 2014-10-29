@@ -23,6 +23,7 @@
 #include <atlpath.h>
 #include <InitGuid.h>
 #include <dmoreg.h>
+#include "PathUtils.h"
 #include "mplayerc.h"
 #include "PPageExternalFilters.h"
 #include "ComPropertySheet.h"
@@ -358,7 +359,7 @@ BOOL CPPageExternalFilters::OnInitDialog()
             if (f->fTemporary) {
                 name += _T(" <temporary>");
             }
-            if (!CPath(MakeFullPath(f->path)).FileExists()) {
+            if (!PathUtils::Exists(MakeFullPath(f->path))) {
                 name += _T(" <not found!>");
             }
         }
@@ -442,7 +443,7 @@ void CPPageExternalFilters::OnAddRegistered()
                 CString name = f->name;
 
                 if (f->type == FilterOverride::EXTERNAL) {
-                    if (!CPath(MakeFullPath(f->path)).FileExists()) {
+                    if (!PathUtils::Exists(MakeFullPath(f->path))) {
                         name += _T(" <not found!>");
                     }
                 }

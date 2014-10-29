@@ -22,7 +22,7 @@
 #include "Translations.h"
 #include "FileVersionInfo.h"
 #include "VersionInfo.h"
-#include "WinAPIUtils.h"
+#include "PathUtils.h"
 
 static const std::vector<const Translations::LanguageResource> languageResources = {
     { 1025,   _T("Arabic"),                   _T("Lang\\mpcresources.ar.dll") },
@@ -83,10 +83,10 @@ std::list<const Translations::LanguageResource> Translations::GetAvailableLangua
 {
     std::list<const Translations::LanguageResource> availableResources;
 
-    CString appPath = GetProgramPath();
+    CString appPath = PathUtils::GetProgramPath();
 
     for (auto& lr : languageResources) {
-        if (0 == lr.localeID || FileExists(appPath + lr.dllPath)) {
+        if (0 == lr.localeID || PathUtils::Exists(appPath + lr.dllPath)) {
             availableResources.emplace_back(lr);
         }
     }

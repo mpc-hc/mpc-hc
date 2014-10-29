@@ -24,6 +24,7 @@
 #include "mplayerc.h"
 #include "resource.h"
 #include "WinAPIUtils.h"
+#include "PathUtils.h"
 #include "WinApiFunc.h"
 #include "VersionInfo.h"
 #include "mpc-hc_config.h"
@@ -55,7 +56,7 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter(EXCEPTION_POINTERS* pExceptionPo
 
     const WinapiFunc<decltype(MiniDumpWriteDump)> fnMiniDumpWriteDump = { "DbgHelp.dll", "MiniDumpWriteDump" };
 
-    if (fnMiniDumpWriteDump && AfxGetMyApp()->GetAppSavePath(dumpPath) && FileExists(dumpPath) || CreateDirectory(dumpPath, nullptr)) {
+    if (fnMiniDumpWriteDump && AfxGetMyApp()->GetAppSavePath(dumpPath) && (PathUtils::Exists(dumpPath) || CreateDirectory(dumpPath, nullptr))) {
         dumpPath.Append(CString(AfxGetApp()->m_pszExeName) + _T(".exe.") + VersionInfo::GetVersionString() + _T(".dmp"));
 
         HANDLE hFile = ::CreateFile(dumpPath, GENERIC_WRITE, FILE_SHARE_WRITE, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);

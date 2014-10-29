@@ -33,6 +33,7 @@
 #include "Ifo.h"
 #include "Monitors.h"
 #include "WinAPIUtils.h"
+#include "PathUtils.h"
 #include "FileAssoc.h"
 #include "UpdateChecker.h"
 #include "winddk/ntddcdvd.h"
@@ -731,20 +732,20 @@ bool CMPlayerCApp::StoreSettingsToRegistry()
 
 CString CMPlayerCApp::GetIniPath() const
 {
-    CString path = GetProgramPath(true);
+    CString path = PathUtils::GetProgramPath(true);
     path = path.Left(path.ReverseFind('.') + 1) + _T("ini");
     return path;
 }
 
 bool CMPlayerCApp::IsIniValid() const
 {
-    return FileExists(GetIniPath());
+    return PathUtils::Exists(GetIniPath());
 }
 
 bool CMPlayerCApp::GetAppSavePath(CString& path)
 {
     if (IsIniValid()) { // If settings ini file found, store stuff in the same folder as the exe file
-        path = GetProgramPath();
+        path = PathUtils::GetProgramPath();
     } else {
         return GetAppDataPath(path);
     }
@@ -849,7 +850,7 @@ void CMPlayerCApp::InitProfile()
         m_dwProfileLastAccessTick = GetTickCount();
 
         ASSERT(m_pszProfileName);
-        if (!FileExists(m_pszProfileName)) {
+        if (!PathUtils::Exists(m_pszProfileName)) {
             return;
         }
 
@@ -1532,7 +1533,7 @@ BOOL CMPlayerCApp::InitInstance()
 
     m_s->ParseCommandLine(m_cmdln);
 
-    VERIFY(SetCurrentDirectory(GetProgramPath()));
+    VERIFY(SetCurrentDirectory(PathUtils::GetProgramPath()));
 
     if (m_s->nCLSwitches & (CLSW_HELP | CLSW_UNRECOGNIZEDSWITCH)) { // show commandline help window
         m_s->LoadSettings();
@@ -1581,7 +1582,7 @@ BOOL CMPlayerCApp::InitInstance()
             VERIFY(key.Close() == ERROR_SUCCESS);
             // Set ExePath value to prevent settings migration
             key.Attach(GetAppRegistryKey());
-            VERIFY(key.SetStringValue(_T("ExePath"), GetProgramPath(true)) == ERROR_SUCCESS);
+            VERIFY(key.SetStringValue(_T("ExePath"), PathUtils::GetProgramPath(true)) == ERROR_SUCCESS);
             VERIFY(key.Close() == ERROR_SUCCESS);
         }
 
@@ -1591,7 +1592,7 @@ BOOL CMPlayerCApp::InitInstance()
             CPath playlistPath;
             playlistPath.Combine(strSavePath, _T("default.mpcpl"));
 
-            if (FileExists(playlistPath)) {
+            if (playlistPath.FileExists()) {
                 CFile::Remove(playlistPath);
             }
         }
@@ -1717,7 +1718,7 @@ BOOL CMPlayerCApp::InitInstance()
                 }
             }
 
-            key.SetStringValue(_T("ExePath"), GetProgramPath(true));
+            key.SetStringValue(_T("ExePath"), PathUtils::GetProgramPath(true));
         }
     }
 

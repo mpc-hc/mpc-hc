@@ -25,6 +25,7 @@
 #include <atlbase.h>
 #include <qnetwork.h>
 #include "DSUtil.h"
+#include "PathUtils.h"
 #include "WinAPIUtils.h"
 
 
@@ -156,7 +157,7 @@ BOOL CPPageFileInfoClip::OnInitDialog()
     m_tooltip.SetDelayTime(TTDT_AUTOPOP, 2500);
     m_tooltip.SetDelayTime(TTDT_RESHOW, 0);
 
-    if (FileExists(m_path)) {
+    if (PathUtils::Exists(m_path)) {
         m_tooltip.AddTool(&m_locationCtrl, IDS_TOOLTIP_EXPLORE_TO_FILE);
     }
 

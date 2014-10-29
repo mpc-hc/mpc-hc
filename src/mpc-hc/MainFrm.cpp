@@ -4275,7 +4275,7 @@ void CMainFrame::OnFileOpendvd()
         if (!OpenBD(path)) {
             CAutoPtr<OpenDVDData> p(DEBUG_NEW OpenDVDData());
             p->path = path;
-            p->path.Replace('/', '\\');
+            p->path.Replace(_T('/'), _T('\\'));
             if (p->path[p->path.GetLength() - 1] != '\\') {
                 p->path += '\\';
             }

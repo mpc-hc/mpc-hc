@@ -24,7 +24,7 @@
 #include <intrin.h>
 #include <algorithm>
 #include "RTS.h"
-#include "../DSUtil/WinAPIUtils.h"
+#include "../DSUtil/PathUtils.h"
 
 // WARNING: this isn't very thread safe, use only one RTS a time. We should use TLS in future.
 static HDC g_hDC;
@@ -3244,7 +3244,7 @@ STDMETHODIMP CRenderedTextSubtitle::SetStream(int iStream)
 
 STDMETHODIMP CRenderedTextSubtitle::Reload()
 {
-    if (!FileExists(m_path)) {
+    if (!PathUtils::Exists(m_path)) {
         return E_FAIL;
     }
     return !m_path.IsEmpty() && Open(m_path, DEFAULT_CHARSET, m_name) ? S_OK : E_FAIL;

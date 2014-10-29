@@ -38,7 +38,6 @@ bool IsFontInstalled(LPCTSTR lpszFont);
 
 bool ExploreToFile(LPCTSTR path);
 
-bool FileExists(LPCTSTR fileName);
 HRESULT FileDelete(CString file, HWND hWnd, bool recycle = true);
 
 CString GetProgramPath(bool bWithExecutableName = false);

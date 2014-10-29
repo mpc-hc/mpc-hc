@@ -28,7 +28,7 @@
 #include <fstream>
 #include "USFSubtitles.h"
 
-#include "../DSUtil/WinAPIUtils.h"
+#include "../DSUtil/PathUtils.h"
 
 
 static struct htmlcolor {
@@ -1311,7 +1311,7 @@ static bool LoadFont(const CString& font)
         CString fn;
         fn.Format(_T("%sfont%08lx.ttf"), path, chksum);
 
-        if (!FileExists(fn)) {
+        if (!PathUtils::Exists(fn)) {
             CFile f;
             if (f.Open(fn, CFile::modeCreate | CFile::modeWrite | CFile::typeBinary | CFile::shareDenyNone)) {
                 f.Write(pData, datalen);
