@@ -132,6 +132,16 @@ namespace PathUtils
         return CString(path).Trim(_T("\""));
     }
 
+    CString StripPathOrUrl(LPCTSTR path)
+    {
+        // Replacement for CPath::StripPath which works fine also for URLs
+        CString p = path;
+        p.Replace('\\', '/');
+        p.TrimRight('/');
+        p = p.Mid(p.ReverseFind('/') + 1);
+        return (p.IsEmpty() ? path : p);
+    }
+
     bool IsInDir(LPCTSTR path, LPCTSTR dir)
     {
         return !!CPath(path).IsPrefix(dir);

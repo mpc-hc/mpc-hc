@@ -12790,15 +12790,6 @@ void CMainFrame::SetupVideoStreamsSubMenu()
     }
 }
 
-static CString StripPath(CString path)
-{
-    CString p = path;
-    p.Replace('\\', '/');
-    p.TrimRight('/');
-    p = p.Mid(p.ReverseFind('/') + 1);
-    return (p.IsEmpty() ? path : p);
-}
-
 void CMainFrame::SetupJumpToSubMenus(CMenu* parentMenu /*= nullptr*/, int iInsertPos /*= -1*/)
 {
     auto emptyMenu = [&](CMenu & menu) {
@@ -12853,7 +12844,7 @@ void CMainFrame::SetupJumpToSubMenus(CMenu* parentMenu /*= nullptr*/, int iInser
                 UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
                 CHdmvClipInfo::PlaylistItem Item = m_MPLSPlaylist.GetNext(pos);
                 CString time = _T("[") + ReftimeToString2(Item.Duration()) + _T("]");
-                CString name = StripPath(Item.m_strFileName);
+                CString name = PathUtils::StripPathOrUrl(Item.m_strFileName);
 
                 if (name == m_wndPlaylistBar.m_pl.GetHead().GetLabel()) {
                     idSelected = id;
@@ -16460,7 +16451,7 @@ CString CMainFrame::GetFileName()
         }
     }
 
-    return StripPath(path);
+    return PathUtils::StripPathOrUrl(path);
 }
 
 CString CMainFrame::GetCaptureTitle()
