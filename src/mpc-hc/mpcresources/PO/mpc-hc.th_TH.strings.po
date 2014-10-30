@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-19 22:15:16+0000\n"
-"PO-Revision-Date: 2014-10-26 04:52+0000\n"
+"POT-Creation-Date: 2014-10-26 21:31:55+0000\n"
+"PO-Revision-Date: 2014-10-27 01:20+0000\n"
 "Last-Translator: M. Somsak\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/mpc-hc/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -2064,7 +2064,7 @@ msgstr "มุมกล้อง: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
 
 msgctxt "IDS_MAINFRM_11"
 msgid "%s, %s %u Hz %d bits %d %s"
-msgstr ""
+msgstr "%s, %s %u Hz %d bits %d %s"
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
@@ -3488,11 +3488,11 @@ msgstr "หลังเล่นจบ: ปิดจอภาพ"
 
 msgctxt "IDS_AFTERPLAYBACK_PLAYNEXT"
 msgid "After Playback: Play next file in the folder"
-msgstr ""
+msgstr "หลังการเล่น: เล่นไฟล์ถัดไปในโฟลเดอร์"
 
 msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
 msgid "After Playback: Do nothing"
-msgstr ""
+msgstr "หลังการเล่น: ไม่ต้องทำอะไร"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"

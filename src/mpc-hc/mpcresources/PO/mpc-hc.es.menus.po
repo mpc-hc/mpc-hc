@@ -6,11 +6,12 @@
 # Adolfo Jayme Barrientos <fito@libreoffice.org>, 2014
 # JellyFrog, 2013
 # squallmx <squallmx@users.sourceforge.net>, 2014
+# strel, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-19 21:10:25+0000\n"
-"PO-Revision-Date: 2014-10-05 19:20+0000\n"
+"POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
+"PO-Revision-Date: 2014-10-27 16:10+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/mpc-hc/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -617,7 +618,7 @@ msgstr "Apagar el &monitor"
 
 msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
 msgid "Play &next file in the folder"
-msgstr ""
+msgstr "Reproducir &siguiente archivo en la carpeta"
 
 msgctxt "POPUP"
 msgid "&Navigate"

@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-19 22:15:16+0000\n"
-"PO-Revision-Date: 2014-10-20 10:21+0000\n"
-"Last-Translator: JellyFrog\n"
+"POT-Creation-Date: 2014-10-26 21:31:55+0000\n"
+"PO-Revision-Date: 2014-10-27 06:20+0000\n"
+"Last-Translator: geogeo.gr <admin@geogeo.gr>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/mpc-hc/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1315,7 +1315,7 @@ msgstr "Έξοδος"
 
 msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
 msgid "Turn off the monitor"
-msgstr "Σβήσε την οθόνη"
+msgstr "Απενεργοποίηση οθόνης"
 
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
 msgid "JPEG Image"
@@ -1339,7 +1339,7 @@ msgstr "<not defined>"
 
 msgctxt "IDS_NAVIGATION_WATCH"
 msgid "Watch"
-msgstr ""
+msgstr "Παρακολούθηση"
 
 msgctxt "IDS_NAVIGATION_MOVE_UP"
 msgid "Move Up"
@@ -1351,23 +1351,23 @@ msgstr "Μετακίν. κάτω"
 
 msgctxt "IDS_NAVIGATION_SORT"
 msgid "Sort by LCN"
-msgstr ""
+msgstr "Ταξινόμηση κατά LCN"
 
 msgctxt "IDS_NAVIGATION_REMOVE_ALL"
 msgid "Remove all"
-msgstr ""
+msgstr "Κατάργηση όλων"
 
 msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
 msgid "Are you sure you want to remove all channels from the list?"
-msgstr ""
+msgstr "Είστε βέβαιος ότι θέλετε να καταργήσετε όλα τα κανάλια από τη λίστα;"
 
 msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"
 msgid "No information available"
-msgstr ""
+msgstr "Δεν υπάρχουν διαθέσιμες πληροφορίες"
 
 msgctxt "IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS"
 msgid "Please wait, analysis in progress..."
-msgstr ""
+msgstr "Παρακαλώ περιμένετε. Ανάλυση σε εξέλιξη..."
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2063,7 +2063,7 @@ msgstr "Γωνία: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
 
 msgctxt "IDS_MAINFRM_11"
 msgid "%s, %s %u Hz %d bits %d %s"
-msgstr ""
+msgstr "%s, %s %u Hz %d bits %d %s"
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
@@ -3483,15 +3483,15 @@ msgstr "Μετά την αναπαραγωγή: Κλείδωμα"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
-msgstr "Μετά την Αναπαραγωγή: Σβήσε την οθόνη"
+msgstr "Μετά την Αναπαραγωγή: Απενεργοποίηση οθόνης"
 
 msgctxt "IDS_AFTERPLAYBACK_PLAYNEXT"
 msgid "After Playback: Play next file in the folder"
-msgstr ""
+msgstr "Μετά την αναπαραγωγή: Αναπ/γωγή επόμενου αρχείου στο φάκελο"
 
 msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
 msgid "After Playback: Do nothing"
-msgstr ""
+msgstr "Μετά την αναπαραγωγή: Καμία ενέργεια"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
