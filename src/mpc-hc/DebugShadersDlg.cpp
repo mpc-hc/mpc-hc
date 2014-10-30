@@ -251,7 +251,7 @@ void CDebugShadersDlg::OnRecompileShader()
             }
             CString disasm, msg;
             if (SUCCEEDED(m_Compiler.CompileShaderFromFile(shader.filePath, "main", profile,
-                          D3DXSHADER_DEBUG, nullptr, &disasm, &msg))) {
+                                                           D3DXSHADER_DEBUG, nullptr, &disasm, &msg))) {
                 if (!msg.IsEmpty()) {
                     msg += _T("\n");
                 }

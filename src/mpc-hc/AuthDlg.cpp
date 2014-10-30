@@ -107,7 +107,7 @@ HRESULT PromptForCredentials(HWND hWnd, const CString& strCaptionText, const CSt
             }
 
             DWORD dwResult = fnCredUIPromptForCredentialsW(&info, strDomain.Left(dwDomain), nullptr, dwAuthError,
-                             strUserDomain.GetBufferSetLength(dwUsername), dwUsername, strPassword.GetBufferSetLength(dwPassword), dwPassword, bSave, dwFlags);
+                                                           strUserDomain.GetBufferSetLength(dwUsername), dwUsername, strPassword.GetBufferSetLength(dwPassword), dwPassword, bSave, dwFlags);
             strUserDomain.ReleaseBuffer();
             strPassword.ReleaseBuffer();
 

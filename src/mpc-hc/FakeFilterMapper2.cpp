@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -29,10 +29,10 @@
 
 
 HRESULT(__stdcall* Real_CoCreateInstance)(CONST IID& a0,
-        LPUNKNOWN a1,
-        DWORD a2,
-        CONST IID& a3,
-        LPVOID* a4)
+                                          LPUNKNOWN a1,
+                                          DWORD a2,
+                                          CONST IID& a3,
+                                          LPVOID* a4)
     = CoCreateInstance;
 
 LONG(WINAPI* Real_RegCreateKeyExA)(HKEY a0,
@@ -705,8 +705,8 @@ STDMETHODIMP CFilterMapper2::RegisterFilter(REFCLSID clsidFilter, LPCWSTR Name, 
 }
 
 STDMETHODIMP CFilterMapper2::EnumMatchingFilters(IEnumMoniker** ppEnum, DWORD dwFlags, BOOL bExactMatch, DWORD dwMerit,
-        BOOL bInputNeeded, DWORD cInputTypes, const GUID* pInputTypes, const REGPINMEDIUM* pMedIn, const CLSID* pPinCategoryIn, BOOL bRender,
-        BOOL bOutputNeeded, DWORD cOutputTypes, const GUID* pOutputTypes, const REGPINMEDIUM* pMedOut, const CLSID* pPinCategoryOut)
+                                                 BOOL bInputNeeded, DWORD cInputTypes, const GUID* pInputTypes, const REGPINMEDIUM* pMedIn, const CLSID* pPinCategoryIn, BOOL bRender,
+                                                 BOOL bOutputNeeded, DWORD cOutputTypes, const GUID* pOutputTypes, const REGPINMEDIUM* pMedOut, const CLSID* pPinCategoryOut)
 {
     if (CComQIPtr<IFilterMapper2> pFM2 = m_pFM2) {
         return pFM2->EnumMatchingFilters(ppEnum, dwFlags, bExactMatch, dwMerit,

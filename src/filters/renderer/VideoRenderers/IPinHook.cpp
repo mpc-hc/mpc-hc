@@ -905,7 +905,7 @@ static HRESULT STDMETHODCALLTYPE ReleaseBufferMine(IAMVideoAcceleratorC* This, D
 }
 
 static HRESULT STDMETHODCALLTYPE ExecuteMine(IAMVideoAcceleratorC* This, DWORD dwFunction, LPVOID lpPrivateInputData, DWORD cbPrivateInputData,
-        LPVOID lpPrivateOutputData, DWORD cbPrivateOutputData, DWORD dwNumBuffers, const AMVABUFFERINFO* pamvaBufferInfo)
+                                             LPVOID lpPrivateOutputData, DWORD cbPrivateOutputData, DWORD dwNumBuffers, const AMVABUFFERINFO* pamvaBufferInfo)
 {
 #ifdef _DEBUG
     LOG(_T("\nExecute"));
@@ -1350,11 +1350,11 @@ interface IDirectXVideoDecoderServiceC {
 
 IDirectXVideoDecoderServiceCVtbl* g_pIDirectXVideoDecoderServiceCVtbl = nullptr;
 static HRESULT(STDMETHODCALLTYPE* CreateVideoDecoderOrg)(IDirectXVideoDecoderServiceC* pThis,
-        __in REFGUID Guid,
-        __in const DXVA2_VideoDesc* pVideoDesc,
-        __in const DXVA2_ConfigPictureDecode* pConfig,
-        __in_ecount(NumRenderTargets)
-        IDirect3DSurface9** ppDecoderRenderTargets, __in  UINT NumRenderTargets, __deref_out  IDirectXVideoDecoder** ppDecode) = nullptr;
+                                                         __in REFGUID Guid,
+                                                         __in const DXVA2_VideoDesc* pVideoDesc,
+                                                         __in const DXVA2_ConfigPictureDecode* pConfig,
+                                                         __in_ecount(NumRenderTargets)
+                                                         IDirect3DSurface9** ppDecoderRenderTargets, __in  UINT NumRenderTargets, __deref_out  IDirectXVideoDecoder** ppDecode) = nullptr;
 #ifdef _DEBUG
 static HRESULT(STDMETHODCALLTYPE* GetDecoderDeviceGuidsOrg)(IDirectXVideoDecoderServiceC* pThis, __out  UINT* pCount, __deref_out_ecount_opt(*pCount)  GUID** pGuids) = nullptr;
 static HRESULT(STDMETHODCALLTYPE* GetDecoderConfigurationsOrg)(IDirectXVideoDecoderServiceC* pThis, __in  REFGUID Guid, __in const DXVA2_VideoDesc* pVideoDesc, __reserved void* pReserved, __out UINT* pCount, __deref_out_ecount_opt(*pCount)  DXVA2_ConfigPictureDecode** ppConfigs) = nullptr;
@@ -1504,8 +1504,8 @@ static HRESULT STDMETHODCALLTYPE CreateVideoDecoderMine(
 
 #ifdef _DEBUG
 static HRESULT STDMETHODCALLTYPE GetDecoderDeviceGuidsMine(IDirectXVideoDecoderServiceC* pThis,
-        __out  UINT* pCount,
-        __deref_out_ecount_opt(*pCount) GUID** pGuids)
+                                                           __out  UINT* pCount,
+                                                           __deref_out_ecount_opt(*pCount) GUID** pGuids)
 {
     HRESULT hr = GetDecoderDeviceGuidsOrg(pThis, pCount, pGuids);
     LOG(_T("IDirectXVideoDecoderService::GetDecoderDeviceGuids  hr = %08x\n"), hr);
@@ -1514,11 +1514,11 @@ static HRESULT STDMETHODCALLTYPE GetDecoderDeviceGuidsMine(IDirectXVideoDecoderS
 }
 
 static HRESULT STDMETHODCALLTYPE GetDecoderConfigurationsMine(IDirectXVideoDecoderServiceC* pThis,
-        __in REFGUID Guid,
-        __in const DXVA2_VideoDesc* pVideoDesc,
-        __reserved void* pReserved,
-        __out UINT* pCount,
-        __deref_out_ecount_opt(*pCount) DXVA2_ConfigPictureDecode** ppConfigs)
+                                                              __in REFGUID Guid,
+                                                              __in const DXVA2_VideoDesc* pVideoDesc,
+                                                              __reserved void* pReserved,
+                                                              __out UINT* pCount,
+                                                              __deref_out_ecount_opt(*pCount) DXVA2_ConfigPictureDecode** ppConfigs)
 {
     HRESULT hr = GetDecoderConfigurationsOrg(pThis, Guid, pVideoDesc, pReserved, pCount, ppConfigs);
 

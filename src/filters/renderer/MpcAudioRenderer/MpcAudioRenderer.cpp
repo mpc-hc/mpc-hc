@@ -1194,9 +1194,8 @@ HRESULT CMpcAudioRenderer::GetBufferSize(WAVEFORMATEX* pWaveFormatEx, REFERENCE_
             return S_OK;
         }
 
-    *pHnsBufferPeriod = (REFERENCE_TIME)((REFERENCE_TIME)m_bufferSize * 10000 * 8 / ((REFERENCE_TIME)pWaveFormatEx->nChannels * pWaveFormatEx->wBitsPerSample *
-                                         1.0 * pWaveFormatEx->nSamplesPerSec) /*+ 0.5*/);
-    *pHnsBufferPeriod *= 1000;
+    const double dBitrate = (double)pWaveFormatEx->nChannels * pWaveFormatEx->wBitsPerSample * pWaveFormatEx->nSamplesPerSec;
+    *pHnsBufferPeriod = REFERENCE_TIME(m_bufferSize * 10000000i64 * 8 / dBitrate);
 
     TRACE(_T("CMpcAudioRenderer::GetBufferSize set a %I64d period for a %ld buffer size\n"), *pHnsBufferPeriod, m_bufferSize);
 

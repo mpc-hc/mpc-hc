@@ -530,8 +530,8 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
             }
             if (!bTryToReset) {
                 if (FAILED(hr = m_pD3DEx->CreateDeviceEx(m_CurrentAdapter, D3DDEVTYPE_HAL, m_FocusThread->GetFocusWindow(),
-                                D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS | D3DCREATE_NOWINDOWCHANGES,
-                                &pp, &DisplayMode, &m_pD3DDevEx))) {
+                                                         D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS | D3DCREATE_NOWINDOWCHANGES,
+                                                         &pp, &DisplayMode, &m_pD3DDevEx))) {
                     _Error += GetWindowsErrorMessage(hr, m_hD3D9);
                     return hr;
                 }

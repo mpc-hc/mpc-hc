@@ -416,10 +416,10 @@ int CRealTextParser::GetTimecode(const std::wstring& p_crszTimecode)
 }
 
 std::wstring CRealTextParser::FormatTimecode(int iTimecode,
-        int iMillisecondPrecision/* = 3*/,
-        bool p_bPadZeroes/* = true*/,
-        const std::wstring& p_crszSeparator/* = ":"*/,
-        const std::wstring& p_crszMillisecondSeparator/* = "."*/)
+                                             int iMillisecondPrecision/* = 3*/,
+                                             bool p_bPadZeroes/* = true*/,
+                                             const std::wstring& p_crszSeparator/* = ":"*/,
+                                             const std::wstring& p_crszMillisecondSeparator/* = "."*/)
 {
     std::wostringstream ossTimecode;
 

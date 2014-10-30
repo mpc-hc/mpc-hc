@@ -740,7 +740,7 @@ STDMETHODIMP CMatroskaMuxerInputPin::NonDelegatingQueryInterface(REFIID riid, vo
 HRESULT CMatroskaMuxerInputPin::CheckMediaType(const CMediaType* pmt)
 {
     return pmt->majortype == MEDIATYPE_Video && (pmt->formattype == FORMAT_VideoInfo
-            || pmt->formattype == FORMAT_VideoInfo2)
+                                                 || pmt->formattype == FORMAT_VideoInfo2)
            //       || pmt->majortype == MEDIATYPE_Video && pmt->subtype == MEDIASUBTYPE_MPEG1Payload && pmt->formattype == FORMAT_MPEGVideo
            //       || pmt->majortype == MEDIATYPE_Video && pmt->subtype == MEDIASUBTYPE_MPEG2_VIDEO && pmt->formattype == FORMAT_MPEG2_VIDEO
            || pmt->majortype == MEDIATYPE_Video && pmt->subtype == MEDIASUBTYPE_DiracVideo && pmt->formattype == FORMAT_DiracVideoInfo
@@ -748,11 +748,11 @@ HRESULT CMatroskaMuxerInputPin::CheckMediaType(const CMediaType* pmt)
            || pmt->majortype == MEDIATYPE_Audio && pmt->subtype == MEDIASUBTYPE_Vorbis && pmt->formattype == FORMAT_VorbisFormat
            || pmt->majortype == MEDIATYPE_Audio && pmt->subtype == MEDIASUBTYPE_Vorbis2 && pmt->formattype == FORMAT_VorbisFormat2
            || pmt->majortype == MEDIATYPE_Audio && (pmt->subtype == MEDIASUBTYPE_14_4
-                   || pmt->subtype == MEDIASUBTYPE_28_8
-                   || pmt->subtype == MEDIASUBTYPE_ATRC
-                   || pmt->subtype == MEDIASUBTYPE_COOK
-                   || pmt->subtype == MEDIASUBTYPE_DNET
-                   || pmt->subtype == MEDIASUBTYPE_SIPR) && pmt->formattype == FORMAT_WaveFormatEx
+                                                    || pmt->subtype == MEDIASUBTYPE_28_8
+                                                    || pmt->subtype == MEDIASUBTYPE_ATRC
+                                                    || pmt->subtype == MEDIASUBTYPE_COOK
+                                                    || pmt->subtype == MEDIASUBTYPE_DNET
+                                                    || pmt->subtype == MEDIASUBTYPE_SIPR) && pmt->formattype == FORMAT_WaveFormatEx
            || pmt->majortype == MEDIATYPE_Text && pmt->subtype == MEDIASUBTYPE_NULL && pmt->formattype == FORMAT_None
            || pmt->majortype == MEDIATYPE_Subtitle && pmt->formattype == FORMAT_SubtitleInfo
            ? S_OK

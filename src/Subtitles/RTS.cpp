@@ -2064,7 +2064,7 @@ bool CRenderedTextSubtitle::ParseSSATag(SSATagsList& tagsList, const CStringW& s
 }
 
 bool CRenderedTextSubtitle::CreateSubFromSSATag(CSubtitle* sub, const SSATagsList& tagsList,
-        STSStyle& style, STSStyle& org, bool fAnimate /*= false*/)
+                                                STSStyle& style, STSStyle& org, bool fAnimate /*= false*/)
 {
     if (!sub || !tagsList) {
         return false;

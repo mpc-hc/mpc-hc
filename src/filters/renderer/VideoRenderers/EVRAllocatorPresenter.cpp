@@ -1236,8 +1236,8 @@ STDMETHODIMP CEVRAllocatorPresenter::GetDeviceID(/* [out] */ __out  IID* pDevice
 
 // IMFGetService
 STDMETHODIMP CEVRAllocatorPresenter::GetService(/* [in] */ __RPC__in REFGUID guidService,
-        /* [in] */ __RPC__in REFIID riid,
-        /* [iid_is][out] */ __RPC__deref_out_opt LPVOID* ppvObject)
+                                                           /* [in] */ __RPC__in REFIID riid,
+                                                           /* [iid_is][out] */ __RPC__deref_out_opt LPVOID* ppvObject)
 {
     if (guidService == MR_VIDEO_RENDER_SERVICE) {
         return NonDelegatingQueryInterface(riid, ppvObject);
