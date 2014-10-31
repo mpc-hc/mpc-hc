@@ -256,6 +256,7 @@ void CPPageFileInfoDetails::InitTrackInfoText(IFilterGraph* pFG)
                             str.AppendFormat(_T(" [%s]"), pszName);
                         }
                         addStream(mt, str);
+                        bUsePins = false;
                     }
                 }
                 DeleteMediaType(pmt);
