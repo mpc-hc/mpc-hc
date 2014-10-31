@@ -20,6 +20,9 @@
  */
 
 #include "stdafx.h"
+
+#ifndef _WIN64
+
 #include <math.h>
 #include "QuicktimeGraph.h"
 #include "IQTVideoSurface.h"
@@ -710,3 +713,5 @@ void CQuicktimeWindow::OnTimer(UINT_PTR nIDEvent)
 
     __super::OnTimer(nIDEvent);
 }
+
+#endif
