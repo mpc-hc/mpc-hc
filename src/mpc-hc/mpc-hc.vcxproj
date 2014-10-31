@@ -439,9 +439,6 @@
     <ClCompile Include="WinHotkeyCtrl.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\thirdparty\LAVFilters\LAVAudioSettings.h" />
-    <ClInclude Include="..\thirdparty\LAVFilters\LAVSplitterSettings.h" />
-    <ClInclude Include="..\thirdparty\LAVFilters\LAVVideoSettings.h" />
     <ClInclude Include="AboutDlg.h" />
     <ClInclude Include="AppSettings.h" />
     <ClInclude Include="AuthDlg.h" />
