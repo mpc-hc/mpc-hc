@@ -45,10 +45,7 @@ public:
     enum { IDD = IDD_FILEMEDIAINFO };
 
 #if !USE_STATIC_MEDIAINFO
-    static bool HasMediaInfo() {
-        MediaInfo MI;
-        return MI.IsReady();
-    };
+    static bool HasMediaInfo();
 #endif
 
     void OnSaveAs();

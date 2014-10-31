@@ -219,6 +219,14 @@ bool CPPageFileMediaInfo::OnKeyDownInEdit(MSG* pMsg)
     return bHandled;
 }
 
+#if !USE_STATIC_MEDIAINFO
+bool CPPageFileMediaInfo::HasMediaInfo()
+{
+    MediaInfo MI;
+    return MI.IsReady();
+}
+#endif
+
 void CPPageFileMediaInfo::OnSaveAs()
 {
     CString fn = m_fn;
