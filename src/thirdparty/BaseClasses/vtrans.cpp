@@ -21,6 +21,7 @@ CVideoTransformFilter::CVideoTransformFilter
     , m_tDecodeStart(0)
     , m_itrAvgDecode(300000)    // 30mSec - probably allows skipping
     , m_bQualityChanged(FALSE)
+    , m_nWaitForKey(0)
 {
 #ifdef PERF
     RegisterPerfId();
