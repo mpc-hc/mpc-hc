@@ -577,13 +577,13 @@ public:
             bool bShowInfoBar = false;
         };
 
-        CString         sChannelName;
-        CDVBChannel*    pChannel          = nullptr;
-        EventDescriptor NowNext;
-        bool            bActive           = false;
-        bool            bSetChannelActive = false;
-        bool            bInfoActive       = false;
-        bool            bAbortInfo        = true;
+        CString         sChannelName;                // Current channel name
+        CDVBChannel*    pChannel          = nullptr; // Pointer to current channel object
+        EventDescriptor NowNext;                     // Current channel EIT
+        bool            bActive           = false;   // True when channel is active
+        bool            bSetChannelActive = false;   // True when channel change is in progress
+        bool            bInfoActive       = false;   // True when EIT data update is in progress
+        bool            bAbortInfo        = true;    // True when aborting current EIT update
         std::future<DVBState::EITData> infoData;
 
         void Reset() {
