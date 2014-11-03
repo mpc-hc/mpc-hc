@@ -794,8 +794,13 @@ CClipper::CClipper(CStringW str, const CSize& size, double scalex, double scaley
         e->Delete();
         return;
     }
+    memset(m_pAlphaMask, (m_inverse ? 0x40 : 0), alphaMaskSize);
 
     Paint(CPoint(0, 0), CPoint(0, 0));
+
+    if (!m_pOverlayData) {
+        return;
+    }
 
     int w = m_pOverlayData->mOverlayWidth, h = m_pOverlayData->mOverlayHeight;
 
@@ -822,8 +827,6 @@ CClipper::CClipper(CStringW str, const CSize& size, double scalex, double scaley
     if (w <= 0 || h <= 0) {
         return;
     }
-
-    memset(m_pAlphaMask, (m_inverse ? 0x40 : 0), alphaMaskSize);
 
     const BYTE* src = m_pOverlayData->mpOverlayBufferBody + m_pOverlayData->mOverlayPitch * yo + xo;
     BYTE* dst = m_pAlphaMask + m_size.cx * y + x;
@@ -1296,22 +1299,30 @@ void CSubtitle::CreateClippers(CSize size)
     size.cx >>= 3;
     size.cy >>= 3;
 
-    if (m_effects[EF_BANNER] && m_effects[EF_BANNER]->param[2]) {
-        int width = m_effects[EF_BANNER]->param[2];
+    auto createClipper = [this](const CSize & size) {
+        ASSERT(!m_pClipper);
+        CStringW str;
+        str.Format(L"m %d %d l %d %d %d %d %d %d", 0, 0, size.cx, 0, size.cx, size.cy, 0, size.cy);
 
-        int w = size.cx, h = size.cy;
-
-        if (!m_pClipper) {
-            CStringW str;
-            str.Format(L"m %d %d l %d %d %d %d %d %d", 0, 0, w, 0, w, h, 0, h);
-            try {
-                m_pClipper = DEBUG_NEW CClipper(str, size, 1, 1, false, CPoint(0, 0), m_renderingCaches);
-            } catch (CMemoryException* e) {
-                e->Delete();
-                return;
+        try {
+            m_pClipper = DEBUG_NEW CClipper(str, size, 1.0, 1.0, false, CPoint(0, 0), m_renderingCaches);
+            if (!m_pClipper->m_pAlphaMask) {
+                SAFE_DELETE(m_pClipper);
             }
+        } catch (CMemoryException* e) {
+            e->Delete();
         }
 
+        return !!m_pClipper;
+    };
+
+    if (m_effects[EF_BANNER] && m_effects[EF_BANNER]->param[2]) {
+        if (!m_pClipper && !createClipper(size)) {
+            return;
+        }
+
+        int width = m_effects[EF_BANNER]->param[2];
+        int w = size.cx, h = size.cy;
         int da = (64 << 8) / width;
         BYTE* am = m_pClipper->m_pAlphaMask;
 
@@ -1336,22 +1347,12 @@ void CSubtitle::CreateClippers(CSize size)
             }
         }
     } else if (m_effects[EF_SCROLL] && m_effects[EF_SCROLL]->param[4]) {
-        int height = m_effects[EF_SCROLL]->param[4];
-
-        int w = size.cx, h = size.cy;
-
-        if (!m_pClipper) {
-            CStringW str;
-            str.Format(L"m %d %d l %d %d %d %d %d %d", 0, 0, w, 0, w, h, 0, h);
-            try {
-                m_pClipper = DEBUG_NEW CClipper(str, size, 1, 1, false, CPoint(0, 0),
-                                                m_renderingCaches);
-            } catch (CMemoryException* e) {
-                e->Delete();
-                return;
-            }
+        if (!m_pClipper && !createClipper(size)) {
+            return;
         }
 
+        int height = m_effects[EF_SCROLL]->param[4];
+        int w = size.cx, h = size.cy;
         int da = (64 << 8) / height;
         int a = 0;
         int k = m_effects[EF_SCROLL]->param[0] >> 3;

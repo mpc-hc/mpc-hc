@@ -55,4 +55,5 @@ next version - not released yet
 ! Ticket #4993, DVB: The content of the "Information" panel was lost when changing the UI language
 ! Ticket #4994, The "Channels" sub-menu was not translated
 ! Ticket #4995, Some context menus weren't properly positioned when opened by App key
+! Ticket #5010, Text subtitles: Fix a crash in case of memory allocation failure
 ! Ticket #5055, True/False strings were not translated in value column on advanced page
