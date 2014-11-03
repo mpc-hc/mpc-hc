@@ -50,6 +50,10 @@ void CmdExtract::DoExtract()
       DataIO.ProcessedArcSize+=FD.Size;
   }
 
+  // Clean user entered password. Not really required, just for extra safety.
+  if (Cmd->ManualPassword)
+    Cmd->Password.Clean();
+
   if (TotalFileCount==0 && Cmd->Command[0]!='I' && 
       ErrHandler.GetErrorCode()!=RARX_BADPWD) // Not in case of wrong archive password.
   {
@@ -256,15 +260,11 @@ bool CmdExtract::ExtractCurrentFile(Archive &Arc,size_t HeaderSize,bool &Repeat)
   int MatchNumber=Cmd->IsProcessFile(Arc.FileHead,&EqualNames,MatchType);
   bool ExactMatch=MatchNumber!=0;
 #ifndef SFX_MODULE
-  if (*Cmd->ArcPath==0 && Cmd->ExclPath==EXCL_BASEPATH)
+  if (*Cmd->ArcPath==0 && Cmd->ExclPath==EXCL_BASEPATH && ExactMatch)
   {
-    *Cmd->ArcPath=0;
-    if (ExactMatch)
-    {
-      Cmd->FileArgs.Rewind();
-      if (Cmd->FileArgs.GetString(Cmd->ArcPath,ASIZE(Cmd->ArcPath),MatchNumber-1))
-        *PointToName(Cmd->ArcPath)=0;
-    }
+    Cmd->FileArgs.Rewind();
+    if (Cmd->FileArgs.GetString(Cmd->ArcPath,ASIZE(Cmd->ArcPath),MatchNumber-1))
+      *PointToName(Cmd->ArcPath)=0;
   }
 #endif
   if (ExactMatch && !EqualNames)

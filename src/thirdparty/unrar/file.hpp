@@ -7,13 +7,13 @@
 
 #ifdef _WIN_ALL
   typedef HANDLE FileHandle;
-  #define BAD_HANDLE INVALID_HANDLE_VALUE
+  #define FILE_BAD_HANDLE INVALID_HANDLE_VALUE
 #elif defined(FILE_USE_OPEN)
   typedef off_t FileHandle;
-  #define BAD_HANDLE -1
+  #define FILE_BAD_HANDLE -1
 #else
   typedef FILE* FileHandle;
-  #define BAD_HANDLE NULL
+  #define FILE_BAD_HANDLE NULL
 #endif
 
 class RAROptions;
@@ -94,7 +94,7 @@ class File
     void SetCloseFileTime(RarTime *ftm,RarTime *fta=NULL);
     static void SetCloseFileTimeByName(const wchar *Name,RarTime *ftm,RarTime *fta);
     void GetOpenFileTime(RarTime *ft);
-    bool IsOpened() {return hFile!=BAD_HANDLE;};
+    bool IsOpened() {return hFile!=FILE_BAD_HANDLE;};
     int64 FileLength();
     void SetHandleType(FILE_HANDLETYPE Type) {HandleType=Type;}
     FILE_HANDLETYPE GetHandleType() {return HandleType;}

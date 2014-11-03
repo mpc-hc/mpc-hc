@@ -21,7 +21,7 @@ next version - not released yet
 * Ticket #4991, Text subtitles: "opaque box" outlines will now always be drawn even if the border width is set to 0.
   The size of the text is independent of the border width so there is no reason not to draw that part
 * Updated Little CMS to v2.7 (git 8174681)
-* Updated Unrar to v5.2.1
+* Updated Unrar to v5.2.2
 * Updated LAV Filters to v0.63.0.2
 * Updated Arabic, Armenian, Basque, Belarusian, Bengali, British English, Catalan, Chinese (Simplified and Traditional),
   Croatian, Czech, Dutch, French, Galician, German, Greek, Hebrew, Hungarian, Italian, Japanese, Korean, Malay,

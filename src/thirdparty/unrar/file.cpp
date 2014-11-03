@@ -2,7 +2,7 @@
 
 File::File()
 {
-  hFile=BAD_HANDLE;
+  hFile=FILE_BAD_HANDLE;
   *FileName=0;
   NewFile=false;
   LastWrite=false;
@@ -22,7 +22,7 @@ File::File()
 
 File::~File()
 {
-  if (hFile!=BAD_HANDLE && !SkipClose)
+  if (hFile!=FILE_BAD_HANDLE && !SkipClose)
     if (NewFile)
       Delete();
     else
@@ -59,7 +59,7 @@ bool File::Open(const wchar *Name,uint Mode)
   hNewFile=CreateFile(Name,Access,ShareMode,NULL,OPEN_EXISTING,Flags,NULL);
 
   DWORD LastError;
-  if (hNewFile==BAD_HANDLE)
+  if (hNewFile==FILE_BAD_HANDLE)
   {
     LastError=GetLastError();
 
@@ -85,7 +85,7 @@ bool File::Open(const wchar *Name,uint Mode)
     }
   }
 
-  if (hNewFile==BAD_HANDLE && LastError==ERROR_FILE_NOT_FOUND)
+  if (hNewFile==FILE_BAD_HANDLE && LastError==ERROR_FILE_NOT_FOUND)
     ErrorType=FILE_NOTFOUND;
 #else
   int flags=UpdateMode ? O_RDWR:(WriteMode ? O_WRONLY:O_RDONLY);
@@ -112,7 +112,7 @@ bool File::Open(const wchar *Name,uint Mode)
   }
 #endif
   if (handle==-1)
-    hNewFile=BAD_HANDLE;
+    hNewFile=FILE_BAD_HANDLE;
   else
   {
 #ifdef FILE_USE_OPEN
@@ -121,13 +121,13 @@ bool File::Open(const wchar *Name,uint Mode)
     hNewFile=fdopen(handle,UpdateMode ? UPDATEBINARY:READBINARY);
 #endif
   }
-  if (hNewFile==BAD_HANDLE && errno==ENOENT)
+  if (hNewFile==FILE_BAD_HANDLE && errno==ENOENT)
     ErrorType=FILE_NOTFOUND;
 #endif
   NewFile=false;
   HandleType=FILE_HANDLENORMAL;
   SkipClose=false;
-  bool Success=hNewFile!=BAD_HANDLE;
+  bool Success=hNewFile!=FILE_BAD_HANDLE;
   if (Success)
   {
     hFile=hNewFile;
@@ -174,11 +174,11 @@ bool File::Create(const wchar *Name,uint Mode)
   bool Special=*LastChar=='.' || *LastChar==' ';
   
   if (Special)
-    hFile=BAD_HANDLE;
+    hFile=FILE_BAD_HANDLE;
   else
     hFile=CreateFile(Name,Access,ShareMode,NULL,CREATE_ALWAYS,0,NULL);
 
-  if (hFile==BAD_HANDLE)
+  if (hFile==FILE_BAD_HANDLE)
   {
     wchar LongName[NM];
     if (GetWinLongPath(Name,LongName,ASIZE(LongName)))
@@ -190,6 +190,10 @@ bool File::Create(const wchar *Name,uint Mode)
   WideToChar(Name,NameA,ASIZE(NameA));
 #ifdef FILE_USE_OPEN
   hFile=open(NameA,(O_CREAT|O_TRUNC) | (WriteMode ? O_WRONLY : O_RDWR));
+#ifdef _ANDROID
+  if (hFile==FILE_BAD_HANDLE)
+    hFile=JniCreateFile(Name); // If external card is read-only for usual file API.
+#endif
 #else
   hFile=fopen(NameA,WriteMode ? WRITEBINARY:CREATEBINARY);
 #endif
@@ -198,7 +202,7 @@ bool File::Create(const wchar *Name,uint Mode)
   HandleType=FILE_HANDLENORMAL;
   SkipClose=false;
   wcsncpyz(FileName,Name,ASIZE(FileName));
-  return hFile!=BAD_HANDLE;
+  return hFile!=FILE_BAD_HANDLE;
 }
 
 
@@ -224,7 +228,7 @@ bool File::Close()
 {
   bool Success=true;
 
-  if (hFile!=BAD_HANDLE)
+  if (hFile!=FILE_BAD_HANDLE)
   {
     if (!SkipClose)
     {
@@ -241,7 +245,7 @@ bool File::Close()
 #endif
 #endif
     }
-    hFile=BAD_HANDLE;
+    hFile=FILE_BAD_HANDLE;
   }
   HandleType=FILE_HANDLENORMAL;
   if (!Success && AllowExceptions)
@@ -254,7 +258,7 @@ bool File::Delete()
 {
   if (HandleType!=FILE_HANDLENORMAL)
     return false;
-  if (hFile!=BAD_HANDLE)
+  if (hFile!=FILE_BAD_HANDLE)
     Close();
   if (!AllowDelete)
     return false;
@@ -287,7 +291,7 @@ void File::Write(const void *Data,size_t Size)
     hFile=GetStdHandle(STD_OUTPUT_HANDLE);
 #else
     // Cannot use the standard stdout here, because it already has wide orientation.
-    if (hFile==BAD_HANDLE)
+    if (hFile==FILE_BAD_HANDLE)
     {
 #ifdef FILE_USE_OPEN
       hFile=dup(STDOUT_FILENO); // Open new stdout stream.
@@ -465,7 +469,7 @@ void File::Seek(int64 Offset,int Method)
 
 bool File::RawSeek(int64 Offset,int Method)
 {
-  if (hFile==BAD_HANDLE)
+  if (hFile==FILE_BAD_HANDLE)
     return true;
   if (Offset<0 && Method!=SEEK_SET)
   {
@@ -496,7 +500,7 @@ bool File::RawSeek(int64 Offset,int Method)
 
 int64 File::Tell()
 {
-  if (hFile==BAD_HANDLE)
+  if (hFile==FILE_BAD_HANDLE)
     if (AllowExceptions)
       ErrHandler.SeekError(FileName);
     else
@@ -647,7 +651,7 @@ int64 File::FileLength()
 
 bool File::IsDevice()
 {
-  if (hFile==BAD_HANDLE)
+  if (hFile==FILE_BAD_HANDLE)
     return false;
 #ifdef _WIN_ALL
   uint Type=GetFileType(hFile);

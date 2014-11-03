@@ -165,6 +165,10 @@ void ListArchive(CommandData *Cmd)
     }
   }
 
+  // Clean user entered password. Not really required, just for extra safety.
+  if (Cmd->ManualPassword)
+    Cmd->Password.Clean();
+
   if (ArcCount>1 && !Bare && !Technical)
   {
     wchar UnpSizeText[20],PackSizeText[20];
