@@ -24,7 +24,7 @@
 #include "VersionInfo.h"
 #include "PathUtils.h"
 
-static const std::vector<const Translations::LanguageResource> languageResources = {
+static const std::vector<Translations::LanguageResource> languageResources = {
     { 1025,   _T("Arabic"),                   _T("Lang\\mpcresources.ar.dll") },
     { 1067,   _T("Armenian"),                 _T("Lang\\mpcresources.hy.dll") },
     { 1069,   _T("Basque"),                   _T("Lang\\mpcresources.eu.dll") },
@@ -79,9 +79,9 @@ Translations::LanguageResource Translations::GetLanguageResourceByLocaleID(LANGI
     return defaultResource;
 }
 
-std::list<const Translations::LanguageResource> Translations::GetAvailableLanguageResources()
+std::list<Translations::LanguageResource> Translations::GetAvailableLanguageResources()
 {
-    std::list<const Translations::LanguageResource> availableResources;
+    std::list<Translations::LanguageResource> availableResources;
 
     CString appPath = PathUtils::GetProgramPath();
 
