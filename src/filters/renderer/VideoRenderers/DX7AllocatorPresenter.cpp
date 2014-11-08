@@ -428,11 +428,20 @@ STDMETHODIMP CDX7AllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
 {
     CheckPointer(size, E_POINTER);
 
+    // Keep a reference so that we can safely work on the surface
+    // without having to lock everything
+    CComPtr<IDirectDrawSurface7> pVideoSurface;
+    {
+        CAutoLock cAutoLock(this);
+        CheckPointer(m_pVideoSurface, E_FAIL);
+        pVideoSurface = m_pVideoSurface;
+    }
+
     HRESULT hr;
 
     DDSURFACEDESC2 ddsd;
     INITDDSTRUCT(ddsd);
-    if (FAILED(m_pVideoSurface->GetSurfaceDesc(&ddsd))) {
+    if (FAILED(pVideoSurface->GetSurfaceDesc(&ddsd))) {
         return E_FAIL;
     }
 
@@ -451,8 +460,7 @@ STDMETHODIMP CDX7AllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
     *size = required;
 
     INITDDSTRUCT(ddsd);
-    if (FAILED(hr = m_pVideoSurface->Lock(nullptr, &ddsd, DDLOCK_WAIT | DDLOCK_SURFACEMEMORYPTR | DDLOCK_READONLY | DDLOCK_NOSYSLOCK, nullptr))) {
-        // TODO
+    if (FAILED(hr = pVideoSurface->Lock(nullptr, &ddsd, DDLOCK_WAIT | DDLOCK_SURFACEMEMORYPTR | DDLOCK_READONLY | DDLOCK_NOSYSLOCK, nullptr))) {
         return hr;
     }
 
@@ -465,22 +473,11 @@ STDMETHODIMP CDX7AllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
     bih->biPlanes = 1;
     bih->biSizeImage = bih->biWidth * bih->biHeight * bih->biBitCount >> 3;
 
-    BitBltFromRGBToRGB(
-        bih->biWidth, bih->biHeight,
-        (BYTE*)(bih + 1), bih->biWidth * bih->biBitCount >> 3, bih->biBitCount,
-        (BYTE*)ddsd.lpSurface + ddsd.lPitch * (ddsd.dwHeight - 1), -(int)ddsd.lPitch, ddsd.ddpfPixelFormat.dwRGBBitCount);
+    BitBltFromRGBToRGB(bih->biWidth, bih->biHeight,
+                       (BYTE*)(bih + 1), bih->biWidth * bih->biBitCount >> 3, bih->biBitCount,
+                       (BYTE*)ddsd.lpSurface + ddsd.lPitch * (ddsd.dwHeight - 1), -(int)ddsd.lPitch, ddsd.ddpfPixelFormat.dwRGBBitCount);
 
-    m_pVideoSurface->Unlock(nullptr);
-
-    /*
-     BitBltFromRGBToRGB(
-        w, h,
-        (BYTE*)ddsd.lpSurface, ddsd.lPitch, ddsd.ddpfPixelFormat.dwRGBBitCount,
-        (BYTE*)bm.bmBits, bm.bmWidthBytes, bm.bmBitsPixel);
-    m_pVideoSurfaceOff->Unlock(nullptr);
-    fOk = true;
-    }
-    */
+    pVideoSurface->Unlock(nullptr);
 
     return S_OK;
 }
