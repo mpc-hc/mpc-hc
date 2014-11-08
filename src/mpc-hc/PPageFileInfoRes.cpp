@@ -116,6 +116,7 @@ BOOL CPPageFileInfoRes::OnSetActive()
     BOOL ret = __super::OnSetActive();
 
     PostMessage(WM_NEXTDLGCTL, (WPARAM)GetParentSheet()->GetTabControl()->GetSafeHwnd(), TRUE);
+    GetDlgItem(IDC_EDIT1)->PostMessage(WM_KEYDOWN, VK_HOME);
 
     return ret;
 }
