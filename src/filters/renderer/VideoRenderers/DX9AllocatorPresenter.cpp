@@ -841,7 +841,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
 
     hr = S_OK;
     if (!m_pSubPicQueue) {
-        CAutoLock(this);
+        CAutoLock cAutoLock(this);
         m_pSubPicQueue = r.subPicQueueSettings.nSize > 0
                          ? (ISubPicQueue*)DEBUG_NEW CSubPicQueue(r.subPicQueueSettings, m_pAllocator, &hr)
                          : (ISubPicQueue*)DEBUG_NEW CSubPicQueueNoThread(r.subPicQueueSettings, m_pAllocator, &hr);
