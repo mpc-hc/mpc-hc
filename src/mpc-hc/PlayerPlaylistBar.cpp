@@ -1377,7 +1377,7 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
         lvhti.pt = p;
         m_list.ScreenToClient(&lvhti.pt);
         m_list.SubItemHitTest(&lvhti);
-        bOnItem = !!(lvhti.flags & LVHT_ONITEM);
+        bOnItem = lvhti.iItem >= 0 && !!(lvhti.flags & LVHT_ONITEM);
         if (!bOnItem && m_pl.GetSize() == 1) {
             bOnItem = true;
             lvhti.iItem = 0;
