@@ -35,6 +35,7 @@ next version - not released yet
 ! XySubFilter: Always preserve subtitle frame aspect ratio
 ! Properties dialog: The creation time did not account for the local timezone
 ! Properties dialog: More consistent UI for the "Resources" tab
+! Ticket #2420, Improve the reliability of the DirectShow hooks
 ! Ticket #2953, DVB: Fix crash when closing window right after switching channel
 ! Ticket #3666, DVB: Don't clear the channel list on saving new scan result
 ! Ticket #4029, Fix a rare crash when right-clicking on the playlist panel
