@@ -21,6 +21,7 @@ next version - not released yet
 * Ticket #4978, Execute "once" after playback event when playlist ends, regardless of the loop count
 * Ticket #4991, Text subtitles: "opaque box" outlines will now always be drawn even if the border width is set to 0.
   The size of the text is independent of the border width so there is no reason not to draw that part
+* Ticket #5056, Position the text subtitles relative to the video frame by default
 * Updated MediaInfoLib to v0.7.71
 * Updated ZenLib to v0.4.29 r498
 * Updated Little CMS to v2.7 (git 8174681)
