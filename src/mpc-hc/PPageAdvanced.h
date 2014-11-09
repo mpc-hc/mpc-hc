@@ -158,6 +158,9 @@ private:
 
     int m_lastSelectedItem = -1;
 
+    CString m_strTrue;
+    CString m_strFalse;
+
     void InitSettings();
     bool IsDefault(ADVANCED_SETTINGS) const;
     inline const int GetListSelectionMark() const {
