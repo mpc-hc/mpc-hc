@@ -13,6 +13,7 @@ next version - not released yet
 + DVB: Show current event time in the status bar
 + DVB: Add context menu to the navigation dialog
 + Add Finnish translation
++ Ticket #1494, Add tooltip in the "Organize Favorites" dialog with path of the item
 + Ticket #4941, Support embedded cover-art
 * DVB: Improve channel switching speed
 * The "Properties" dialog should open faster being that the MediaInfo analysis is now done asynchronously
