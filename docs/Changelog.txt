@@ -39,6 +39,7 @@ next version - not released yet
 ! Ticket #2420, Improve the reliability of the DirectShow hooks
 ! Ticket #2953, DVB: Fix crash when closing window right after switching channel
 ! Ticket #3666, DVB: Don't clear the channel list on saving new scan result
+! Ticket #3864, Video renderers: Fix a possible crash caused by a race condition
 ! Ticket #4029, Fix a rare crash when right-clicking on the playlist panel
 ! Ticket #4436, DVB: Improve compatibility with certain tuners
 ! Ticket #4551, Fix a possible crash when saving the current frame

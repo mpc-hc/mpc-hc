@@ -183,7 +183,7 @@ STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetPosition(RECT w, RECT v)
     }
 
     if (bWindowPosChanged || bVideoRectChanged) {
-        Paint(bWindowSizeChanged || bVideoRectChanged);
+        Paint(false);
     }
 }
 
@@ -264,7 +264,7 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::SetVideoAngle(Vector v)
     XForm xform(Ray(Vector(), v), Vector(1, 1, 1), false);
     if (m_xform != xform) {
         m_xform = xform;
-        Paint(true);
+        Paint(false);
         return S_OK;
     }
     return S_FALSE;
