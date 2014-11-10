@@ -123,17 +123,13 @@ void CWord::Paint(const CPoint& p, const CPoint& org)
     if (m_renderingCaches.overlayCache.Lookup(overlayKey, m_pOverlayData)) {
         m_fDrawn = m_renderingCaches.outlineCache.Lookup(overlayKey, m_pOutlineData);
         if (m_style.borderStyle == 1) {
-            if (!CreateOpaqueBox()) {
-                return;
-            }
+            VERIFY(CreateOpaqueBox());
         }
     } else {
         if (!m_fDrawn) {
             if (m_renderingCaches.outlineCache.Lookup(overlayKey, m_pOutlineData)) {
                 if (m_style.borderStyle == 1) {
-                    if (!CreateOpaqueBox()) {
-                        return;
-                    }
+                    VERIFY(CreateOpaqueBox());
                 }
             } else {
                 if (!CreatePath()) {
@@ -163,9 +159,7 @@ void CWord::Paint(const CPoint& p, const CPoint& org)
                         return;
                     }
                 } else if (m_style.borderStyle == 1) {
-                    if (!CreateOpaqueBox()) {
-                        return;
-                    }
+                    VERIFY(CreateOpaqueBox());
                 }
 
                 m_renderingCaches.outlineCache.SetAt(overlayKey, m_pOutlineData);
@@ -224,7 +218,12 @@ bool CWord::CreateOpaqueBox()
                (m_width + w + 4) / 8, (m_ascent + m_descent + h + 4) / 8,
                -(w + 4) / 8, (m_ascent + m_descent + h + 4) / 8);
 
-    m_pOpaqueBox = DEBUG_NEW CPolygon(style, str, 0, 0, 0, 1.0, 1.0, 0, m_renderingCaches);
+    try {
+        m_pOpaqueBox = DEBUG_NEW CPolygon(style, str, 0, 0, 0, 1.0, 1.0, 0, m_renderingCaches);
+    } catch (CMemoryException* e) {
+        e->Delete();
+        m_pOpaqueBox = nullptr;
+    }
 
     return !!m_pOpaqueBox;
 }
