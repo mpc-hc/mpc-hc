@@ -20,6 +20,7 @@ next version - not released yet
 * Ticket #4978, Execute "once" after playback event when playlist ends, regardless of the loop count
 * Ticket #4991, Text subtitles: "opaque box" outlines will now always be drawn even if the border width is set to 0.
   The size of the text is independent of the border width so there is no reason not to draw that part
+* Updated ZenLib to v0.4.29 r498
 * Updated Little CMS to v2.7 (git 8174681)
 * Updated Unrar to v5.2.2
 * Updated LAV Filters to v0.63.0.2
