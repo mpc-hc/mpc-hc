@@ -347,42 +347,37 @@ STDMETHODIMP_(bool) CDX7AllocatorPresenter::Paint(bool bAll)
     CRect rSrcPri(CPoint(0, 0), m_windowRect.Size());
     CRect rDstPri(m_windowRect);
 
-    if (bAll) {
-        // clear the backbuffer
+    // clear the backbuffer
+    CRect rl(0, 0, rDstVid.left, rSrcPri.bottom);
+    CRect rr(rDstVid.right, 0, rSrcPri.right, rSrcPri.bottom);
+    CRect rt(0, 0, rSrcPri.right, rDstVid.top);
+    CRect rb(0, rDstVid.bottom, rSrcPri.right, rSrcPri.bottom);
 
-        CRect rl(0, 0, rDstVid.left, rSrcPri.bottom);
-        CRect rr(rDstVid.right, 0, rSrcPri.right, rSrcPri.bottom);
-        CRect rt(0, 0, rSrcPri.right, rDstVid.top);
-        CRect rb(0, rDstVid.bottom, rSrcPri.right, rSrcPri.bottom);
+    DDBLTFX fx;
+    INITDDSTRUCT(fx);
+    fx.dwFillColor = 0;
+    hr = m_pBackBuffer->Blt(nullptr, nullptr, nullptr, DDBLT_WAIT | DDBLT_COLORFILL, &fx);
 
-        DDBLTFX fx;
-        INITDDSTRUCT(fx);
-        fx.dwFillColor = 0;
-        hr = m_pBackBuffer->Blt(nullptr, nullptr, nullptr, DDBLT_WAIT | DDBLT_COLORFILL, &fx);
-
-        // paint the video on the backbuffer
-
-        if (!rDstVid.IsRectEmpty()) {
-            if (m_pVideoTexture) {
-                Vector v[4];
-                Transform(rDstVid, v);
-                hr = TextureBlt(m_pD3DDev, m_pVideoTexture, v, rSrcVid);
-            } else {
-                hr = m_pBackBuffer->Blt(rDstVid, m_pVideoSurface, rSrcVid, DDBLT_WAIT, nullptr);
-            }
+    // paint the video on the backbuffer
+    if (!rDstVid.IsRectEmpty()) {
+        if (m_pVideoTexture) {
+            Vector v[4];
+            Transform(rDstVid, v);
+            hr = TextureBlt(m_pD3DDev, m_pVideoTexture, v, rSrcVid);
+        } else {
+            hr = m_pBackBuffer->Blt(rDstVid, m_pVideoSurface, rSrcVid, DDBLT_WAIT, nullptr);
         }
-
-        // paint the text on the backbuffer
-
-        AlphaBltSubPic(rDstPri, rDstVid);
     }
 
-    // wait vsync
+    // paint the text on the backbuffer
+    AlphaBltSubPic(rDstPri, rDstVid);
 
-    m_pDD->WaitForVerticalBlank(DDWAITVB_BLOCKBEGIN, nullptr);
+    // wait vsync
+    if (bAll) {
+        m_pDD->WaitForVerticalBlank(DDWAITVB_BLOCKBEGIN, nullptr);
+    }
 
     // blt to the primary surface
-
     MapWindowRect(m_hWnd, HWND_DESKTOP, &rDstPri);
     hr = m_pPrimary->Blt(rDstPri, m_pBackBuffer, rSrcPri, DDBLT_WAIT, nullptr);
 
