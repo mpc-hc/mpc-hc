@@ -23,7 +23,6 @@
 //---------------------------------------------------------------------------
 #include "MediaInfo/Multiple/File_P2_Clip.h"
 #include "MediaInfo/MediaInfo.h"
-#include "MediaInfo/MediaInfo_Internal.h"
 #include "MediaInfo/Multiple/File__ReferenceFilesHelper.h"
 #include "ZenLib/Dir.h"
 #include "ZenLib/FileName.h"

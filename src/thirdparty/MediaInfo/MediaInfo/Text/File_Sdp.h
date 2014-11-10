@@ -6,60 +6,66 @@
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //
-// Information about DCP AssetMap files
+// Information about SDP streams
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 //---------------------------------------------------------------------------
-#ifndef MediaInfo_File_DcpAmH
-#define MediaInfo_File_DcpAmH
+#ifndef MediaInfo_File_SdpH
+#define MediaInfo_File_SdpH
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
 #include "MediaInfo/File__Analyze.h"
-#include "MediaInfo/Multiple/File_DcpPkl.h"
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib
 {
 
-class File__ReferenceFilesHelper;
-
 //***************************************************************************
-// Class File_DcpAm
+// Class File_Sdp
 //***************************************************************************
 
-class File_DcpAm : public File__Analyze
+class File_Teletext;
+
+class File_Sdp : public File__Analyze
 {
 public :
-    //Constructor/Destructor
-    File_DcpAm();
-    ~File_DcpAm();
-
-    //Streams
-    File_DcpPkl::streams Streams;
+    File_Sdp();
+    ~File_Sdp();
 
 private :
     //Streams management
-    void Streams_Finish ();
+    void Streams_Fill();
+    void Streams_Finish();
+
+    //Buffer - Synchro
+    bool Synchronize();
+    bool Synched_Test();
 
     //Buffer - Global
-    #if MEDIAINFO_SEEK
-    size_t Read_Buffer_Seek (size_t Method, int64u Value, int64u ID);
-    #endif //MEDIAINFO_SEEK
+    void Read_Buffer_Unsynched();
 
-    //Buffer - File header
-    bool FileHeader_Begin();
-
-    //PKL
-    size_t PKL_Pos;
-    void MergeFromPkl (File_DcpPkl::streams &StreamsToMerge);
+    //Buffer - Per element
+    void Header_Parse();
+    void Data_Parse();
 
     //Temp
-    File__ReferenceFilesHelper*     ReferenceFiles;
+    struct stream
+    {
+        File_Teletext*  Parser;
+
+        stream()
+            :
+            Parser(NULL)
+        {
+        }
+    };
+    typedef std::map<int8u, stream> streams;
+    streams Streams;
+    int8u FieldLines[5];
 };
 
 } //NameSpace
 
 #endif
-

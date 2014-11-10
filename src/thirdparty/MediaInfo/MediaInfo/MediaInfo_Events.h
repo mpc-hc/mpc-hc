@@ -749,4 +749,10 @@ struct MediaInfo_Event_DvDif_Analysis_Frame_0
 
 #define MediaInfo_Parser_N19            0xFC
 
+/***************************************************************************/
+/* SDP                                                                     */
+/***************************************************************************/
+
+#define MediaInfo_Parser_Sdp            0xFD
+
 #endif //MediaInfo_EventsH

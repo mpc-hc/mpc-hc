@@ -250,17 +250,26 @@ void File_Pcm::Streams_Finish()
 //***************************************************************************
 
 //---------------------------------------------------------------------------
-#if MEDIAINFO_DEMUX
 void File_Pcm::Read_Buffer_Continue()
 {
-    if (Demux_UnpacketizeContainer && !Status[IsAccepted])
+    //Testing if we get enough data
+    if (SamplingRate && BitDepth && Channels)
     {
-        Frame_Count_Valid_Demux++;
-        if (Frame_Count_Valid_Demux<Frame_Count_Valid)
-            Element_WaitForMoreData();
+        int64u BitRate=SamplingRate*BitDepth*Channels;
+        int64u ByteRate=BitRate/8;
+        if (Buffer_Size>=ByteRate/4) // 1/4 of second is enough for detection
+            Frame_Count_Valid=2;
     }
+
+    #if MEDIAINFO_DEMUX
+        if (Demux_UnpacketizeContainer && !Status[IsAccepted])
+        {
+            Frame_Count_Valid_Demux++;
+            if (Frame_Count_Valid_Demux<Frame_Count_Valid)
+                Element_WaitForMoreData();
+        }
+    #endif //MEDIAINFO_DEMUX
 }
-#endif //MEDIAINFO_DEMUX
 
 //***************************************************************************
 // Buffer - File header

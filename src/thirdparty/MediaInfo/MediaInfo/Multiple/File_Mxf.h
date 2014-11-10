@@ -65,13 +65,22 @@ protected :
     void Streams_Fill ();
     void Streams_Finish ();
     void Streams_Finish_Preface (const int128u PrefaceUID);
+    void Streams_Finish_Preface_ForTimeCode (const int128u PrefaceUID);
     void Streams_Finish_ContentStorage (const int128u ContentStorageUID);
+    void Streams_Finish_ContentStorage_ForTimeCode (const int128u ContentStorageUID);
+    void Streams_Finish_ContentStorage_ForAS11 (const int128u ContentStorageUID);
     void Streams_Finish_Package (const int128u PackageUID);
+    void Streams_Finish_Package_ForTimeCode (const int128u PackageUID);
+    void Streams_Finish_Package_ForAS11 (const int128u PackageUID);
     void Streams_Finish_Track (const int128u TrackUID);
+    void Streams_Finish_Track_ForTimeCode (const int128u TrackUID, bool IsSourcePackage);
+    void Streams_Finish_Track_ForAS11 (const int128u TrackUID);
     void Streams_Finish_Essence (int32u EssenceUID, int128u TrackUID);
     void Streams_Finish_Descriptor (const int128u DescriptorUID, const int128u PackageUID);
     void Streams_Finish_Locator (const int128u DescriptorUID, const int128u LocatorUID);
     void Streams_Finish_Component (const int128u ComponentUID, float64 EditRate, int32u TrackID, int64u Origin);
+    void Streams_Finish_Component_ForTimeCode (const int128u ComponentUID, float64 EditRate, int32u TrackID, int64u Origin, bool IsSourcePackage);
+    void Streams_Finish_Component_ForAS11 (const int128u ComponentUID, float64 EditRate, int32u TrackID, int64u Origin);
     void Streams_Finish_Identification (const int128u IdentificationUID);
     void Streams_Finish_CommercialNames ();
 
@@ -112,12 +121,16 @@ protected :
     void MCAEpisode();
     void MCAAudioContentKind();
     void MCAAudioElementKind();
+    void ResourceID();
+    void NamespaceURI();
+    void UCSEncoding();
     void Filler();
     void Filler01() {Filler();}
     void Filler02() {Filler();}
     void TerminatingFiller();
     void XmlDocumentText();
     void SubDescriptors();
+    void Filler53();
     void Sequence();
     void SourceClip();
     void TimecodeComponent();
@@ -134,7 +147,7 @@ protected :
     void SourcePackage();
     void EventTrack();
     void StaticTrack();
-    void Track();
+    void TimelineTrack();
     void DMSegment();
     void GenericSoundEssenceDescriptor();
     void GenericDataEssenceDescriptor();
@@ -150,6 +163,8 @@ protected :
     void ApplicationPlugInObject();
     void ApplicationReferencedObject();
     void MCALabelSubDescriptor();
+    void TimedTextDescriptor();
+    void TimedTextResourceSubDescriptor();
     void AudioChannelLabelSubDescriptor();
     void SoundfieldGroupLabelSubDescriptor();
     void GroupOfSoundfieldGroupsLabelSubDescriptor();
@@ -176,6 +191,9 @@ protected :
     void SDTI_ControlMetadataSet();
     void SystemScheme1();
     void DMScheme1();
+    void AS11_AAF_Core();
+    void AS11_AAF_Segmentation();
+    void AS11_AAF_UKDPP();
     void Omneon_010201010100();
     void Omneon_010201020100();
 
@@ -210,6 +228,7 @@ protected :
     void CDCIEssenceDescriptor_ReversedByteOrder();             //330B
     void ContentStorage_Packages();                             //1901
     void ContentStorage_EssenceContainerData();                 //1902
+    void DMSegment_Duration();                                  //0202 (copy of StructuralComponent_Duration) //TODO: merge with StructuralComponent_Duration
     void DMSegment_DMFramework();                               //6101
     void DMSegment_TrackIDs();                                  //6102
     void EssenceContainerData_LinkedPackageUID();               //2701
@@ -372,6 +391,55 @@ protected :
     void WaveAudioDescriptor_PeakEnvelopeTimestamp();           //3D30
     void WaveAudioDescriptor_PeakEnvelopeData();                //3D31
     void WaveAudioDescriptor_ChannelAssignment();               //3D31
+    void AS11_Core_SerieTitle();
+    void AS11_Core_ProgrammeTitle();
+    void AS11_Core_EpisodeTitleNumber();
+    void AS11_Core_ShimName();
+    void AS11_Core_AudioTrackLayout();
+    void AS11_Core_PrimaryAudioLanguage();
+    void AS11_Core_ClosedCaptionsPresent();
+    void AS11_Core_ClosedCaptionsType();
+    void AS11_Core_ClosedCaptionsLanguage();
+    void AS11_Core_ShimVersion();
+    void AS11_Segment_PartNumber();
+    void AS11_Segment_PartTotal();
+    void AS11_UKDPP_ProductionNumber();
+    void AS11_UKDPP_Synopsis();
+    void AS11_UKDPP_Originator();
+    void AS11_UKDPP_CopyrightYear();
+    void AS11_UKDPP_OtherIdentifier();
+    void AS11_UKDPP_OtherIdentifierType();
+    void AS11_UKDPP_Genre();
+    void AS11_UKDPP_Distributor();
+    void AS11_UKDPP_PictureRatio();
+    void AS11_UKDPP_3D();
+    void AS11_UKDPP_3DType();
+    void AS11_UKDPP_ProductPlacement();
+    void AS11_UKDPP_FpaPass();
+    void AS11_UKDPP_FpaManufacturer();
+    void AS11_UKDPP_FpaVersion();
+    void AS11_UKDPP_VideoComments();
+    void AS11_UKDPP_SecondaryAudioLanguage();
+    void AS11_UKDPP_TertiaryAudioLanguage();
+    void AS11_UKDPP_AudioLoudnessStandard();
+    void AS11_UKDPP_AudioComments();
+    void AS11_UKDPP_LineUpStart();
+    void AS11_UKDPP_IdentClockStart();
+    void AS11_UKDPP_TotalNumberOfParts();
+    void AS11_UKDPP_TotalProgrammeDuration();
+    void AS11_UKDPP_AudioDescriptionPresent();
+    void AS11_UKDPP_AudioDescriptionType();
+    void AS11_UKDPP_OpenCaptionsPresent();
+    void AS11_UKDPP_OpenCaptionsType();
+    void AS11_UKDPP_OpenCaptionsLanguage();
+    void AS11_UKDPP_SigningPresent();
+    void AS11_UKDPP_SignLanguage();
+    void AS11_UKDPP_CompletionDate();
+    void AS11_UKDPP_TextlessElementsExist();
+    void AS11_UKDPP_ProgrammeHasText();
+    void AS11_UKDPP_ProgrammeTextLanguage();
+    void AS11_UKDPP_ContactEmail();
+    void AS11_UKDPP_ContactTelephoneNumber();
     void Omneon_010201010100_8001();                            //8001
     void Omneon_010201010100_8003();                            //8003
     void Omneon_010201020100_8002();                            //8002
@@ -767,9 +835,15 @@ protected :
     {
         int128u     Framework;
         std::vector<int32u> TrackIDs;
+        int64u Duration;
+        bool    IsAs11SegmentFiller;
 
         dmsegment()
         {
+            Framework.lo=(int64u)-1;
+            Framework.hi=(int64u)-1;
+            Duration=(int64u)-1;
+            IsAs11SegmentFiller=false;
         }
 
         ~dmsegment()
@@ -795,6 +869,108 @@ protected :
     typedef std::map<int128u, dmscheme1> dmscheme1s; //Key is InstanceUID of the DMScheme1
     dmscheme1s DMScheme1s;
 
+    //Descriptive Metadata - AS11
+    struct as11
+    {
+        enum as11_type
+        {
+            Type_Unknown,
+            Type_Core,
+            Type_Segmentation,
+            Type_UKDPP,
+        };
+        as11_type Type;
+        Ztring SerieTitle;
+        Ztring ProgrammeTitle;
+        Ztring EpisodeTitleNumber;
+        Ztring ShimName;
+        int8u  AudioTrackLayout;
+        Ztring PrimaryAudioLanguage;
+        int8u  ClosedCaptionsPresent;
+        int8u  ClosedCaptionsType;
+        Ztring ClosedCaptionsLanguage;
+        int8u  ShimVersion_Major;
+        int8u  ShimVersion_Minor;
+        int16u PartNumber;
+        int16u PartTotal;
+        Ztring ProductionNumber;
+        Ztring Synopsis;
+        Ztring Originator;
+        int16u CopyrightYear;
+        Ztring OtherIdentifier;
+        Ztring OtherIdentifierType;
+        Ztring Genre;
+        Ztring Distributor;
+        int32u PictureRatio_N;
+        int32u PictureRatio_D;
+        int8u  ThreeD;
+        int8u  ThreeDType;
+        int8u  ProductPlacement;
+        int8u  FpaPass;
+        Ztring FpaManufacturer;
+        Ztring FpaVersion;
+        Ztring VideoComments;
+        Ztring SecondaryAudioLanguage;
+        Ztring TertiaryAudioLanguage;
+        int8u  AudioLoudnessStandard;
+        Ztring AudioComments;
+        int64u LineUpStart;
+        int64u IdentClockStart;
+        int16u TotalNumberOfParts;
+        int64u TotalProgrammeDuration;
+        int8u  AudioDescriptionPresent;
+        int8u  AudioDescriptionType;
+        int8u  OpenCaptionsPresent;
+        int8u  OpenCaptionsType;
+        Ztring OpenCaptionsLanguage;
+        int8u  SigningPresent;
+        int8u  SignLanguage;
+        int64u CompletionDate;
+        int8u  TextlessElementsExist;
+        int8u  ProgrammeHasText;
+        Ztring ProgrammeTextLanguage;
+        Ztring ContactEmail;
+        Ztring ContactTelephoneNumber;
+
+        as11()
+        {
+            Type=Type_Unknown;
+            AudioTrackLayout=(int8u)-1;
+            ClosedCaptionsPresent=(int8u)-1;
+            ClosedCaptionsType=(int8u)-1;
+            ShimVersion_Major=(int8u)-1;
+            ShimVersion_Minor=(int8u)-1;
+            PartNumber=(int16u)-1;
+            PartTotal=(int16u)-1;
+            CopyrightYear=(int16u)-1;
+            PictureRatio_N=(int32u)-1;
+            PictureRatio_D=(int32u)-1;
+            ThreeD=(int8u)-1;
+            ThreeDType=(int8u)-1;
+            ProductPlacement=(int8u)-1;
+            AudioLoudnessStandard=(int8u)-1;
+            LineUpStart=(int64u)-1;
+            IdentClockStart=(int64u)-1;
+            TotalNumberOfParts=(int16u)-1;
+            TotalProgrammeDuration=(int64u)-1;
+            AudioDescriptionPresent=(int8u)-1;
+            AudioDescriptionType=(int8u)-1;
+            OpenCaptionsPresent=(int8u)-1;
+            OpenCaptionsType=(int8u)-1;
+            SigningPresent=(int8u)-1;
+            SignLanguage=(int8u)-1;
+            CompletionDate=(int64u)-1;
+            TextlessElementsExist=(int8u)-1;
+            ProgrammeHasText=(int8u)-1;
+        }
+
+        ~as11()
+        {
+        }
+    };
+    typedef std::map<int128u, as11> as11s; //Key is InstanceUID of the DMScheme1
+    as11s AS11s;
+
     //Parsers
     void           ChooseParser__FromEssence(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
     void           ChooseParser__Aaf(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
@@ -819,6 +995,7 @@ protected :
     void           ChooseParser_Raw(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
     void           ChooseParser_RV24(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
     void           ChooseParser_Vc3(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
+    void           ChooseParser_TimedText(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
     void           ChooseParser_Aac(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
     void           ChooseParser_Ac3(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
     void           ChooseParser_Alaw(const essences::iterator &Essence, const descriptors::iterator &Descriptor);
@@ -910,6 +1087,9 @@ protected :
     bool                            Partitions_IsCalculatingHeaderByteCount;
     bool                            Partitions_IsCalculatingSdtiByteCount;
     bool                            Partitions_IsFooter;
+
+    //Config
+    bool                            TimeCodeFromMaterialPackage;
 
     //Demux
     #if MEDIAINFO_DEMUX

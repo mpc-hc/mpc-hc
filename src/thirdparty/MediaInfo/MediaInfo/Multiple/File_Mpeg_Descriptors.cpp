@@ -106,6 +106,17 @@ const char* Mpeg_Descriptors_teletext_type(int8u teletext_type)
     }
 }
 
+const char* Mpeg_Descriptors_teletext_type_more(int8u teletext_type)
+{
+    switch (teletext_type)
+    {
+        case 0x03 : return "Additional information page";
+        case 0x04 : return "Programme schedule page";
+        case 0x05 : return "For hearing impaired people";
+        default   : return "";
+    }
+}
+
 const char* Mpeg_Descriptors_content_nibble_level_1(int8u content_nibble_level_1)
 {
     switch (content_nibble_level_1)
@@ -2251,6 +2262,7 @@ void File_Mpeg_Descriptors::Descriptor_56()
                                 int16u ID=(teletext_magazine_number==0?8:teletext_magazine_number)*100+teletext_page_number_1*10+teletext_page_number_2;
                                 Complete_Stream->Streams[elementary_PID]->descriptor_tag=0x56;
                                 Complete_Stream->Streams[elementary_PID]->Teletexts[ID].Infos["Language"]=MediaInfoLib::Config.Iso639_1_Get(ISO_639_language_code);
+                                Complete_Stream->Streams[elementary_PID]->Teletexts[ID].Infos["Language_More"]=Mpeg_Descriptors_teletext_type_more(teletext_type);
                                 Complete_Stream->Streams[elementary_PID]->Teletexts[ID].Infos["Format"]=Mpeg_Descriptors_teletext_type(teletext_type);
                                 Complete_Stream->Streams[elementary_PID]->Teletexts[ID].Infos["Codec"]=Mpeg_Descriptors_teletext_type(teletext_type);
                             }

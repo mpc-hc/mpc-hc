@@ -23,7 +23,6 @@
 //---------------------------------------------------------------------------
 #include "MediaInfo/Multiple/File_Dxw.h"
 #include "MediaInfo/MediaInfo.h"
-#include "MediaInfo/MediaInfo_Internal.h"
 #include "MediaInfo/Multiple/File__ReferenceFilesHelper.h"
 #include "ZenLib/Dir.h"
 #include "ZenLib/FileName.h"
@@ -195,8 +194,6 @@ bool File_Dxw::FileHeader_Begin()
             return false;
         }
     }
-
-    Element_Offset=File_Size;
 
     Element_Offset=File_Size;
 

@@ -6,60 +6,33 @@
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //
-// Information about DCP AssetMap files
+// Information about PropertyList files
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 //---------------------------------------------------------------------------
-#ifndef MediaInfo_File_DcpAmH
-#define MediaInfo_File_DcpAmH
+#ifndef MediaInfo_File_PropertyListH
+#define MediaInfo_File_PropertyListH
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
 #include "MediaInfo/File__Analyze.h"
-#include "MediaInfo/Multiple/File_DcpPkl.h"
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib
 {
 
-class File__ReferenceFilesHelper;
-
 //***************************************************************************
-// Class File_DcpAm
+// Class File_PropertyList
 //***************************************************************************
 
-class File_DcpAm : public File__Analyze
+class File_PropertyList : public File__Analyze
 {
-public :
-    //Constructor/Destructor
-    File_DcpAm();
-    ~File_DcpAm();
-
-    //Streams
-    File_DcpPkl::streams Streams;
-
 private :
-    //Streams management
-    void Streams_Finish ();
-
-    //Buffer - Global
-    #if MEDIAINFO_SEEK
-    size_t Read_Buffer_Seek (size_t Method, int64u Value, int64u ID);
-    #endif //MEDIAINFO_SEEK
-
     //Buffer - File header
     bool FileHeader_Begin();
-
-    //PKL
-    size_t PKL_Pos;
-    void MergeFromPkl (File_DcpPkl::streams &StreamsToMerge);
-
-    //Temp
-    File__ReferenceFilesHelper*     ReferenceFiles;
 };
 
 } //NameSpace
 
 #endif
-

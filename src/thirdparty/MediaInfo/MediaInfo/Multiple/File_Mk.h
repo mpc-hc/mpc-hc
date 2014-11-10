@@ -296,7 +296,6 @@ private :
     int64u   TrackType;
 
     //Temp
-    std::vector<Ztring> AttachedFiles;
     int64u  Format_Version;
     int64u  TimecodeScale;
     float64 Duration;

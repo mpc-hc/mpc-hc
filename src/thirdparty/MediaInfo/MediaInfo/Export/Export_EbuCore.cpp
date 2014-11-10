@@ -1143,7 +1143,7 @@ Ztring Export_EbuCore::Transform(MediaInfo_Internal &MI)
     //format - technicalAttributeString - overallBitRate
     if (!MI.Get(Stream_General, 0, General_OverallBitRate).empty())
     {
-        ToReturn+=__T("\t\t\t<ebucore:technicalAttributeString typeLabel=\"overallBitRate\">\">")+MI.Get(Stream_General, 0, General_OverallBitRate)+__T("</ebucore:technicalAttributeString>\n");
+        ToReturn+=__T("\t\t\t<ebucore:technicalAttributeString typeLabel=\"overallBitRate\">")+MI.Get(Stream_General, 0, General_OverallBitRate)+__T("</ebucore:technicalAttributeString>\n");
     }
 
     //format - dateCreated

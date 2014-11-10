@@ -659,6 +659,15 @@
     <ClInclude Include="MediaInfo\Video\File_HuffYuv.h">
       <Filter>Header Files\Video</Filter>
     </ClInclude>
+    <ClInclude Include="MediaInfo\Export\Export_PBCore2.h">
+      <Filter>Header Files\Export</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Tag\File_PropertyList.h">
+      <Filter>Header Files\Tag</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Text\File_Sdp.h">
+      <Filter>Header Files\Text</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ThirdParty\tinyxml2\tinyxml2.cpp">
@@ -1260,6 +1269,15 @@
     </ClCompile>
     <ClCompile Include="MediaInfo\Video\File_HuffYuv.cpp">
       <Filter>Source Files\Video</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Text\File_Sdp.cpp">
+      <Filter>Source Files\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Tag\File_PropertyList.cpp">
+      <Filter>Source Files\Tag</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Export\Export_PBCore2.cpp">
+      <Filter>Source Files\Export</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

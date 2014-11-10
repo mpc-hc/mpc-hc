@@ -175,6 +175,7 @@ private :
             int16u  sar_height;
             int8u   aspect_ratio_idc;
             int8u   video_format;
+            int8u   video_full_range_flag;
             int8u   colour_primaries;
             int8u   transfer_characteristics;
             int8u   matrix_coefficients;
@@ -184,7 +185,7 @@ private :
             bool    colour_description_present_flag;
             bool    timing_info_present_flag;
 
-            vui_parameters_struct(xxl* NAL_, xxl* VCL_, xxl_common* xxL_Common_, int32u num_units_in_tick_, int32u time_scale_, int16u sar_width_, int16u sar_height_, int8u aspect_ratio_idc_, int8u video_format_, int8u colour_primaries_, int8u transfer_characteristics_, int8u matrix_coefficients_, bool aspect_ratio_info_present_flag_, bool video_signal_type_present_flag_, bool frame_field_info_present_flag_, bool colour_description_present_flag_, bool timing_info_present_flag_)
+            vui_parameters_struct(xxl* NAL_, xxl* VCL_, xxl_common* xxL_Common_, int32u num_units_in_tick_, int32u time_scale_, int16u sar_width_, int16u sar_height_, int8u aspect_ratio_idc_, int8u video_format_, int8u video_full_range_flag_, int8u colour_primaries_, int8u transfer_characteristics_, int8u matrix_coefficients_, bool aspect_ratio_info_present_flag_, bool video_signal_type_present_flag_, bool frame_field_info_present_flag_, bool colour_description_present_flag_, bool timing_info_present_flag_)
                 :
                 NAL(NAL_),
                 VCL(VCL_),
@@ -195,6 +196,7 @@ private :
                 sar_height(sar_height_),
                 aspect_ratio_idc(aspect_ratio_idc_),
                 video_format(video_format_),
+                video_full_range_flag(video_full_range_flag_),
                 colour_primaries(colour_primaries_),
                 transfer_characteristics(transfer_characteristics_),
                 matrix_coefficients(matrix_coefficients_),

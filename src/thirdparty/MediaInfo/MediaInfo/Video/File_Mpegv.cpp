@@ -1386,6 +1386,23 @@ void File_Mpegv::Streams_Fill()
         Fill(Stream_Video, 0, Video_Delay_Source, "Stream");
         Fill(Stream_Video, 0, Video_Delay_DropFrame, group_start_drop_frame_flag?"Yes":"No");
 
+        if (group_start_closed_gop_Closed+group_start_closed_gop_Open>=4
+         && ((group_start_closed_gop && group_start_closed_gop_Closed==1)
+          || group_start_closed_gop_Closed==0
+          || group_start_closed_gop_Open==0)) // Testing a couple of GOPs, and coherant
+        {
+            if (group_start_closed_gop_Open)
+            {
+                Fill(Stream_Video, 0, "Gop_OpenClosed", "Open");
+                if (group_start_closed_gop)
+                    Fill(Stream_Video, 0, "Gop_OpenClosed_FirstFrame", "Closed");
+            }
+            else
+            {
+                Fill(Stream_Video, 0, "Gop_OpenClosed", "Closed");
+            }
+        }
+
         Fill(Stream_Video, 0, Video_TimeCode_FirstFrame, TimeCode_FirstFrame.c_str());
         if (IsSub)
             Fill(Stream_Video, 0, Video_TimeCode_Source, "Group of pictures header");
@@ -1842,7 +1859,7 @@ bool File_Mpegv::Demux_UnpacketizeContainer_Test()
             Demux_Offset=Buffer_Offset;
             Demux_IntermediateItemFound=false;
         }
-        if (ParserIDs[0]==MediaInfo_Parser_Mxf)
+        if (IsSub && ParserIDs[0]==MediaInfo_Parser_Mxf) //TODO: find a better way to demux, currently implemeted this way because we need I-frame status info from MXF
         {
             Demux_Offset=Buffer_Size;
             Demux_IntermediateItemFound=true;
@@ -4014,7 +4031,15 @@ void File_Mpegv::group_start()
             TimeCode_FirstFrame+=drop_frame_flag?';':':';
             TimeCode_FirstFrame+=('0'+Frames/10);
             TimeCode_FirstFrame+=('0'+Frames%10);
+
+            group_start_closed_gop_Closed=0;
+            group_start_closed_gop_Open=0;
         }
+
+        if (closed_gop)
+            group_start_closed_gop_Closed++;
+        else
+            group_start_closed_gop_Open++;
 
         RefFramesCount=0;
 

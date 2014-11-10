@@ -96,6 +96,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="MediaInfo\Export\Export_EbuCore.h" />
+    <ClInclude Include="MediaInfo\Export\Export_PBCore2.h" />
     <ClInclude Include="MediaInfo\Multiple\File_Aaf.h" />
     <ClInclude Include="MediaInfo\Multiple\File_DashMpd.h" />
     <ClInclude Include="MediaInfo\Multiple\File_DcpAm.h" />
@@ -104,8 +105,10 @@
     <ClInclude Include="MediaInfo\Multiple\File_HdsF4m.h" />
     <ClInclude Include="MediaInfo\Multiple\File_Pmp.h" />
     <ClInclude Include="MediaInfo\Multiple\File_Ptx.h" />
+    <ClInclude Include="MediaInfo\Tag\File_PropertyList.h" />
     <ClInclude Include="MediaInfo\Tag\File_Xmp.h" />
     <ClInclude Include="MediaInfo\Text\File_Pdf.h" />
+    <ClInclude Include="MediaInfo\Text\File_Sdp.h" />
     <ClInclude Include="MediaInfo\Text\File_SubRip.h" />
     <ClInclude Include="MediaInfo\Text\File_TimedText.h" />
     <ClInclude Include="MediaInfo\Text\File_Ttml.h" />
@@ -351,6 +354,7 @@
     <ClCompile Include="MediaInfo\Export\Export_EbuCore.cpp" />
     <ClCompile Include="MediaInfo\Export\Export_Mpeg7.cpp" />
     <ClCompile Include="MediaInfo\Export\Export_PBCore.cpp" />
+    <ClCompile Include="MediaInfo\Export\Export_PBCore2.cpp" />
     <ClCompile Include="MediaInfo\File_Dummy.cpp" />
     <ClCompile Include="MediaInfo\File_Other.cpp" />
     <ClCompile Include="MediaInfo\File_Unknown.cpp" />
@@ -398,8 +402,10 @@
     <ClCompile Include="MediaInfo\PreComp.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="MediaInfo\Tag\File_PropertyList.cpp" />
     <ClCompile Include="MediaInfo\Tag\File_Xmp.cpp" />
     <ClCompile Include="MediaInfo\Text\File_Pdf.cpp" />
+    <ClCompile Include="MediaInfo\Text\File_Sdp.cpp" />
     <ClCompile Include="MediaInfo\Text\File_SubRip.cpp" />
     <ClCompile Include="MediaInfo\Text\File_TimedText.cpp" />
     <ClCompile Include="MediaInfo\Text\File_Ttml.cpp" />

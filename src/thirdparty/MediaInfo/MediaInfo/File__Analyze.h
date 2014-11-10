@@ -1070,6 +1070,8 @@ protected :
     void Streams_Finish_Cosmetic_Chapters(size_t StreamPos);
     void Streams_Finish_Cosmetic_Image(size_t StreamPos);
     void Streams_Finish_Cosmetic_Menu(size_t StreamPos);
+    void Streams_Finish_HumanReadable();
+    void Streams_Finish_HumanReadable_PerStream(stream_t StreamKind, size_t StreamPos, size_t Parameter);
 
     void Tags ();
     void Video_FrameRate_Rounding (size_t Pos, video Parameter);

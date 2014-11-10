@@ -875,12 +875,16 @@ void File_Wm::Header_HeaderExtension_IndexParameters()
 //---------------------------------------------------------------------------
 void File_Wm::Header_HeaderExtension_MediaIndexParameters()
 {
+    Header_HeaderExtension_IndexParameters();
+
     Element_Name("MediaIndex Parameters");
 }
 
 //---------------------------------------------------------------------------
 void File_Wm::Header_HeaderExtension_TimecodeIndexParameters()
 {
+    Header_HeaderExtension_IndexParameters();
+
     Element_Name("Timecode Index Parameters");
 }
 
@@ -1487,14 +1491,7 @@ void File_Wm::Data_Packet()
                 std::map<int16u, stream>::iterator Strea=Stream.find(Stream_Number);
                 if (Strea!=Stream.end() && Strea->second.StreamKind==Stream_Video)
                 {
-                    if (Strea->second.PresentationTime_Old==0)
-                        Strea->second.PresentationTime_Old=FileProperties_Preroll;
-                    if (PresentationTime!=Strea->second.PresentationTime_Old)
-                    {
-                        Strea->second.PresentationTime_Deltas[PresentationTime-Strea->second.PresentationTime_Old]++;
-                        Strea->second.PresentationTime_Old=PresentationTime;
-                        Strea->second.PresentationTime_Count++;
-                    }
+                    Strea->second.PresentationTimes.insert(PresentationTime);
                 }
             }
             else if (ReplicatedDataLength==1)
@@ -1523,66 +1520,66 @@ void File_Wm::Data_Packet()
         else
         {
             Trusted_IsNot("Padding size problem");
-            return; //Problem
         }
         if (Element_Offset+PayloadLength+Data_Parse_Padding>Element_Size)
         {
             Trusted_IsNot("Payload Length problem");
-            return; //problem
-        }
-
-        //Demux
-        Element_Code=Stream_Number;
-        Demux(Buffer+(size_t)Element_Offset, (size_t)PayloadLength, ContentType_MainStream);
-
-        //Analyzing
-        if (Stream[Stream_Number].Parser && Stream[Stream_Number].SearchingPayload)
-        {
-            //Handling of spanned on multiple chunks
-            #if defined(MEDIAINFO_VC1_YES)
-                bool FrameIsAlwaysComplete=true;
-            #endif
-            if (PayloadLength!=SizeOfMediaObject)
-            {
-                if (SizeOfMediaObject_BytesAlreadyParsed==0)
-                    SizeOfMediaObject_BytesAlreadyParsed=SizeOfMediaObject-PayloadLength;
-                else
-                    SizeOfMediaObject_BytesAlreadyParsed-=PayloadLength;
-                if (SizeOfMediaObject_BytesAlreadyParsed==0)
-                    Element_Show_Count++;
-                #if defined(MEDIAINFO_VC1_YES)
-                else
-                    FrameIsAlwaysComplete=false;
-                #endif
-            }
-            else
-                Element_Show_Count++;
-
-            //Codec specific
-            #if defined(MEDIAINFO_VC1_YES)
-            if (Retrieve(Stream[Stream_Number].StreamKind, Stream[Stream_Number].StreamPos, Fill_Parameter(Stream[Stream_Number].StreamKind, Generic_Format))==__T("VC-1"))
-                ((File_Vc1*)Stream[Stream_Number].Parser)->FrameIsAlwaysComplete=FrameIsAlwaysComplete;
-            #endif
-
-            Open_Buffer_Continue(Stream[Stream_Number].Parser, (size_t)PayloadLength);
-            if (Stream[Stream_Number].Parser->Status[IsFinished]
-             || (Stream[Stream_Number].PresentationTime_Count>=300 && MediaInfoLib::Config.ParseSpeed_Get()<1))
-            {
-                Stream[Stream_Number].Parser->Open_Buffer_Unsynch();
-                Stream[Stream_Number].SearchingPayload=false;
-                Streams_Count--;
-            }
-
-            Element_Show();
         }
         else
         {
-            Skip_XX(PayloadLength,                              "Data");
-            if (Stream[Stream_Number].SearchingPayload
-             && (Stream[Stream_Number].StreamKind==Stream_Video && Stream[Stream_Number].PresentationTime_Count>=300))
+            //Demux
+            Element_Code=Stream_Number;
+            Demux(Buffer+(size_t)Element_Offset, (size_t)PayloadLength, ContentType_MainStream);
+
+            //Analyzing
+            if (Stream[Stream_Number].Parser && Stream[Stream_Number].SearchingPayload)
             {
-                Stream[Stream_Number].SearchingPayload=false;
-                Streams_Count--;
+                //Handling of spanned on multiple chunks
+                #if defined(MEDIAINFO_VC1_YES)
+                    bool FrameIsAlwaysComplete=true;
+                #endif
+                if (PayloadLength!=SizeOfMediaObject)
+                {
+                    if (SizeOfMediaObject_BytesAlreadyParsed==0)
+                        SizeOfMediaObject_BytesAlreadyParsed=SizeOfMediaObject-PayloadLength;
+                    else
+                        SizeOfMediaObject_BytesAlreadyParsed-=PayloadLength;
+                    if (SizeOfMediaObject_BytesAlreadyParsed==0)
+                        Element_Show_Count++;
+                    #if defined(MEDIAINFO_VC1_YES)
+                    else
+                        FrameIsAlwaysComplete=false;
+                    #endif
+                }
+                else
+                    Element_Show_Count++;
+
+                //Codec specific
+                #if defined(MEDIAINFO_VC1_YES)
+                if (Retrieve(Stream[Stream_Number].StreamKind, Stream[Stream_Number].StreamPos, Fill_Parameter(Stream[Stream_Number].StreamKind, Generic_Format))==__T("VC-1"))
+                    ((File_Vc1*)Stream[Stream_Number].Parser)->FrameIsAlwaysComplete=FrameIsAlwaysComplete;
+                #endif
+
+                Open_Buffer_Continue(Stream[Stream_Number].Parser, (size_t)PayloadLength);
+                if (Stream[Stream_Number].Parser->Status[IsFinished]
+                 || (Stream[Stream_Number].PresentationTimes.size()>=300 && MediaInfoLib::Config.ParseSpeed_Get()<1))
+                {
+                    Stream[Stream_Number].Parser->Open_Buffer_Unsynch();
+                    Stream[Stream_Number].SearchingPayload=false;
+                    Streams_Count--;
+                }
+
+                Element_Show();
+            }
+            else
+            {
+                Skip_XX(PayloadLength,                              "Data");
+                if (Stream[Stream_Number].SearchingPayload
+                 && (Stream[Stream_Number].StreamKind==Stream_Video && Stream[Stream_Number].PresentationTimes.size()>=300))
+                {
+                    Stream[Stream_Number].SearchingPayload=false;
+                    Streams_Count--;
+                }
             }
         }
         Element_End0();
@@ -1736,7 +1733,85 @@ void File_Wm::MediaIndex()
 //---------------------------------------------------------------------------
 void File_Wm::TimecodeIndex()
 {
-    Element_Name("TimecodeIndex");
+    Element_Name("Timecode Index");
+
+    //Parsing
+    int32u TimeCode_First=(int32u)-1;
+    int32u IndexBlocksCount;
+    int16u IndexSpecifiersCount;
+    Skip_L4(                                                    "Reserved");
+    Get_L2 (IndexSpecifiersCount,                               "Index Specifiers Count");
+    Get_L4 (IndexBlocksCount,                                   "Index Blocks Count");
+    Element_Begin1("Index Specifiers");
+        for (int16u Pos=0; Pos<IndexSpecifiersCount; ++Pos)
+        {
+            Element_Begin1("Index Specifier");
+            Skip_L2(                                                "Stream Number");
+            Info_L2(IndexType,                                      "Index Type");
+            Element_Info1(IndexType);
+            Element_End0();
+        }
+    Element_End0();
+    Element_Begin1("Index Blocks");
+        for (int16u Pos=0; Pos<IndexBlocksCount; ++Pos)
+        {
+            Element_Begin1("Index Block");
+            int32u IndexEntryCount;
+            Get_L4 (IndexEntryCount,                                "Index Entry Count");
+            Skip_L2(                                                "Timecode Range");
+            Element_Begin1("Block Positions");
+                for (int16u Pos=0; Pos<IndexSpecifiersCount; ++Pos)
+                    Skip_L8(                                        "Block Position");
+            Element_End0();
+            Element_Begin1("Index Entries");
+                for (int32u Pos=0; Pos<IndexEntryCount; ++Pos)
+                {
+                    Element_Begin1("Index Entry");
+                    if (TimeCode_First==(int32u)-1)
+                        Get_L4 (TimeCode_First,                     "Timecode");
+                    else
+                        Skip_L4(                                    "Timecode");
+                    for (int16u Pos=0; Pos<IndexSpecifiersCount; ++Pos)
+                        Skip_L4(                                    "Offsets");
+                    Element_End0();
+                }
+            Element_End0();
+            Element_End0();
+        }
+    Element_End0();
+
+    FILLING_BEGIN();
+        Stream_Prepare(Stream_Other);
+        Fill(Stream_Other, StreamPos_Last, Other_Type, "Time code");
+        Fill(Stream_Other, StreamPos_Last, Other_Format, "WM TC");
+        if (TimeCode_First!=(int32u)-1)
+        {
+            int8u H1= TimeCode_First>>28;
+            int8u H2=(TimeCode_First>>24)&0xF;
+            int8u M1=(TimeCode_First>>20)&0xF;
+            int8u M2=(TimeCode_First>>16)&0xF;
+            int8u S1=(TimeCode_First>>12)&0xF;
+            int8u S2=(TimeCode_First>> 8)&0xF;
+            int8u F1=(TimeCode_First>> 4)&0xF;
+            int8u F2= TimeCode_First     &0xF;
+            if (H1<10 && H2<10 && M1<10 && M2<10 && S1<10 && S2<10 && F1<10 && F2<10)
+            {
+                string TC;
+                TC+='0'+H1;
+                TC+='0'+H2;
+                TC+=':';
+                TC+='0'+M1;
+                TC+='0'+M2;
+                TC+=':';
+                TC+='0'+S1;
+                TC+='0'+S2;
+                TC+=':';
+                TC+='0'+F1;
+                TC+='0'+F2;
+                Fill(Stream_Other, StreamPos_Last, Other_TimeCode_FirstFrame, TC.c_str());
+            }
+        }
+    FILLING_END();
 }
 
 //***************************************************************************

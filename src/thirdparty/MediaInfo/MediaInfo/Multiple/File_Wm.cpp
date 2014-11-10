@@ -115,33 +115,43 @@ void File_Wm::Streams_Finish()
         if (Temp->second.StreamKind==Stream_Video)
         {
             //Some tests about the frame rate
-            std::map<int32u, int32u> PresentationTime_Deltas_Problem;
-            std::map<int32u, int32u> PresentationTime_Deltas_Most;
-            for (std::map<ZenLib::int32u, ZenLib::int32u>::iterator PresentationTime_Delta=Temp->second.PresentationTime_Deltas.begin(); PresentationTime_Delta!=Temp->second.PresentationTime_Deltas.end(); ++PresentationTime_Delta)
+            int32u PresentationTime_Previous=(int32u)-1;
+            size_t TimeDiffs_Sum=0;
+            std::map<int32u, size_t> TimeDiffs;
+            for (std::set<int32u>::iterator PresentationTime=Temp->second.PresentationTimes.begin(); PresentationTime!=Temp->second.PresentationTimes.end(); ++PresentationTime)
             {
-                if (PresentationTime_Delta->second>=5)
-                    PresentationTime_Deltas_Problem[PresentationTime_Delta->first]=PresentationTime_Delta->second;
-                if (PresentationTime_Delta->second>=30)
-                    PresentationTime_Deltas_Most[PresentationTime_Delta->first]=PresentationTime_Delta->second;
+               if (PresentationTime_Previous!=(int32u)-1)
+                   TimeDiffs[*PresentationTime-PresentationTime_Previous]++;
+               PresentationTime_Previous=*PresentationTime;
+            }
+            for (std::map<int32u, size_t>::iterator TimeDiff=TimeDiffs.begin(); TimeDiff!=TimeDiffs.end();)
+            {
+                if (TimeDiff->second<=2)
+                    TimeDiffs.erase(TimeDiff++);
+                else
+                {
+                    TimeDiffs_Sum+=TimeDiff->second;
+                    ++TimeDiff;
+                }
             }
 
-            if (PresentationTime_Deltas_Most.empty()
-             || (PresentationTime_Deltas_Most.size()==1 && PresentationTime_Deltas_Problem.size()>1)
-             || (PresentationTime_Deltas_Most.size()==2 && PresentationTime_Deltas_Problem.size()>2))
+            if (TimeDiffs.empty()
+             || (TimeDiffs.size()==1 && TimeDiffs_Sum<16)
+             || (TimeDiffs.size()==2 && TimeDiffs_Sum<32)
+             || TimeDiffs.begin()->first==1)
             {
                 if (Temp->second.AverageTimePerFrame>0)
-                    Fill(Stream_Video, Temp->second.StreamPos, Video_FrameRate, ((float)10000000)/Temp->second.AverageTimePerFrame, 3, true);
+                    Fill(Stream_Video, Temp->second.StreamPos, Video_FrameRate, ((float)10000000)/(Temp->second.AverageTimePerFrame*(Temp->second.Parser && Temp->second.Parser->Retrieve(Stream_Video, 0, Video_ScanType)==__T("Interlaced")?2:1)), 3, true);
             }
-            else if (PresentationTime_Deltas_Most.size()==1)
+            else if (TimeDiffs.size()==1)
             {
-                if (PresentationTime_Deltas_Most.begin()->first>1) //Not 0, we want to remove Delta incremented 1 per 1
-                    Fill(Stream_Video, Temp->second.StreamPos, Video_FrameRate, 1000/((float64)PresentationTime_Deltas_Most.begin()->first), 3, true);
+                Fill(Stream_Video, Temp->second.StreamPos, Video_FrameRate, 1000/((float64)TimeDiffs.begin()->first), 3, true);
                 if (Temp->second.AverageTimePerFrame>0)
-                    Fill(Stream_Video, Temp->second.StreamPos, Video_FrameRate_Nominal, ((float)10000000)/Temp->second.AverageTimePerFrame, 3, true);
+                    Fill(Stream_Video, Temp->second.StreamPos, Video_FrameRate_Nominal, ((float)10000000)/(Temp->second.AverageTimePerFrame*(Temp->second.Parser && Temp->second.Parser->Retrieve(Stream_Video, 0, Video_ScanType)==__T("Interlaced")?2:1)), 3, true);
             }
-            else if (PresentationTime_Deltas_Most.size()==2)
+            else if (TimeDiffs.size()==2)
             {
-                std::map<int32u, int32u>::iterator PresentationTime_Delta_Most=PresentationTime_Deltas_Most.begin();
+                std::map<int32u, size_t>::iterator PresentationTime_Delta_Most=TimeDiffs.begin();
                 float64 PresentationTime_Deltas_1_Value=(float64)PresentationTime_Delta_Most->first;
                 float64 PresentationTime_Deltas_1_Count=(float64)PresentationTime_Delta_Most->second;
                 ++PresentationTime_Delta_Most;
@@ -150,13 +160,13 @@ void File_Wm::Streams_Finish()
                 float64 FrameRate_Real=1000/(((PresentationTime_Deltas_1_Value*PresentationTime_Deltas_1_Count)+(PresentationTime_Deltas_2_Value*PresentationTime_Deltas_2_Count))/(PresentationTime_Deltas_1_Count+PresentationTime_Deltas_2_Count));
                 Fill(Temp->second.StreamKind, Temp->second.StreamPos, Video_FrameRate, FrameRate_Real, 3, true);
                 if (Temp->second.AverageTimePerFrame>0)
-                    Fill(Stream_Video, Temp->second.StreamPos, Video_FrameRate_Nominal, ((float)10000000)/Temp->second.AverageTimePerFrame, 3, true);
+                    Fill(Stream_Video, Temp->second.StreamPos, Video_FrameRate_Nominal, ((float)10000000)/(Temp->second.AverageTimePerFrame*(Temp->second.Parser && Temp->second.Parser->Retrieve(Stream_Video, 0, Video_ScanType)==__T("Interlaced")?2:1)), 3, true);
             }
             else
             {
                 Fill(Stream_Video, Temp->second.StreamPos, Video_FrameRate_Mode, "VFR");
                 if (Temp->second.AverageTimePerFrame>0)
-                    Fill(Stream_Video, Temp->second.StreamPos, Video_FrameRate_Nominal, ((float)10000000)/Temp->second.AverageTimePerFrame, 3, true);
+                    Fill(Stream_Video, Temp->second.StreamPos, Video_FrameRate_Nominal, ((float)10000000)/(Temp->second.AverageTimePerFrame*(Temp->second.Parser && Temp->second.Parser->Retrieve(Stream_Video, 0, Video_ScanType)==__T("Interlaced")?2:1)), 3, true);
             }
         }
         if (Temp->second.AverageBitRate>0)
