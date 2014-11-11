@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-26 21:31:55+0000\n"
-"PO-Revision-Date: 2014-10-27 16:00+0000\n"
+"POT-Creation-Date: 2014-10-30 22:04:38+0000\n"
+"PO-Revision-Date: 2014-11-01 16:30+0000\n"
 "Last-Translator: Xabier Aramendi <azpidatziak@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/mpc-hc/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -1370,7 +1370,7 @@ msgstr "Mesedez itxaron, azterketa garatzen..."
 
 msgctxt "IDS_ASPECT_RATIO_FMT"
 msgid "AR %d:%d"
-msgstr ""
+msgstr "IM %d:%d"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -3314,7 +3314,7 @@ msgstr "Berrirabazi bolumena: Etenda"
 
 msgctxt "IDS_SIZE_UNIT_BYTES"
 msgid "bytes"
-msgstr ""
+msgstr "byte"
 
 msgctxt "IDS_SIZE_UNIT_K"
 msgid "KB"

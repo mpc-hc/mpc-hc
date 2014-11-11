@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-19 22:15:16+0000\n"
-"PO-Revision-Date: 2014-10-20 10:21+0000\n"
-"Last-Translator: JellyFrog\n"
+"POT-Creation-Date: 2014-10-30 22:04:38+0000\n"
+"PO-Revision-Date: 2014-10-31 14:31+0000\n"
+"Last-Translator: Máté <lang.mate@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/mpc-hc/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1270,7 +1270,7 @@ msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
 msgid "Prevent external subtitle renderer to be loaded when internal is in use."
-msgstr ""
+msgstr "Külső felirat renderelő használatának megakadályozása, amikor a belső van használatban."
 
 msgctxt "IDS_PPAGEADVANCED_COL_NAME"
 msgid "Name"
@@ -1350,11 +1350,11 @@ msgstr "Mozgatás le"
 
 msgctxt "IDS_NAVIGATION_SORT"
 msgid "Sort by LCN"
-msgstr ""
+msgstr "Rendezés LCN szerint"
 
 msgctxt "IDS_NAVIGATION_REMOVE_ALL"
 msgid "Remove all"
-msgstr ""
+msgstr "Mindegyik eltávolítása"
 
 msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
 msgid "Are you sure you want to remove all channels from the list?"
@@ -1362,15 +1362,15 @@ msgstr ""
 
 msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"
 msgid "No information available"
-msgstr ""
+msgstr "Nem áll rendelkezésre információ"
 
 msgctxt "IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS"
 msgid "Please wait, analysis in progress..."
-msgstr ""
+msgstr "Kérem várjon, analízis folyamatban..."
 
 msgctxt "IDS_ASPECT_RATIO_FMT"
 msgid "AR %d:%d"
-msgstr ""
+msgstr "AR %d:%d"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1770,7 +1770,7 @@ msgstr "Nagyítás: Automatikus illesztés (csak nagyobbnál)"
 
 msgctxt "IDS_TOOLTIP_EXPLORE_TO_FILE"
 msgid "Double click to open file location"
-msgstr ""
+msgstr "Klikkeljen duplán a fájl mappa megnyitásához"
 
 msgctxt "IDS_TOOLTIP_REMAINING_TIME"
 msgid "Toggle between elapsed and remaining time"
@@ -3314,7 +3314,7 @@ msgstr "Hangerő visszanyerés: Kikapcsolva"
 
 msgctxt "IDS_SIZE_UNIT_BYTES"
 msgid "bytes"
-msgstr ""
+msgstr "bájt"
 
 msgctxt "IDS_SIZE_UNIT_K"
 msgid "KB"
@@ -3494,11 +3494,11 @@ msgstr "Lejátszás után: kapcsolja ki a monitort"
 
 msgctxt "IDS_AFTERPLAYBACK_PLAYNEXT"
 msgid "After Playback: Play next file in the folder"
-msgstr ""
+msgstr "Lejátszás után: A mappában következő fájl lejátszása"
 
 msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
 msgid "After Playback: Do nothing"
-msgstr ""
+msgstr "Lejátszás után: Ne csináljon semmit"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"

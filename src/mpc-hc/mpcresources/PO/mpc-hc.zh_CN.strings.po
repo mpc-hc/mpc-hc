@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-26 21:31:55+0000\n"
-"PO-Revision-Date: 2014-10-27 13:21+0000\n"
+"POT-Creation-Date: 2014-10-30 22:04:38+0000\n"
+"PO-Revision-Date: 2014-10-31 12:00+0000\n"
 "Last-Translator: Ming Chen <yzonline@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/mpc-hc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -1296,7 +1296,7 @@ msgstr "对音频文件也记忆播放位置。"
 
 msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
 msgid "Do Nothing"
-msgstr "什么也不做"
+msgstr "什么都不做"
 
 msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
 msgid "Play next file in the folder"
@@ -1372,7 +1372,7 @@ msgstr "请稍等，分析正在进行中..."
 
 msgctxt "IDS_ASPECT_RATIO_FMT"
 msgid "AR %d:%d"
-msgstr ""
+msgstr "高宽比 %d:%d"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -3316,7 +3316,7 @@ msgstr "增益音量: 关"
 
 msgctxt "IDS_SIZE_UNIT_BYTES"
 msgid "bytes"
-msgstr ""
+msgstr "bytes"
 
 msgctxt "IDS_SIZE_UNIT_K"
 msgid "KB"

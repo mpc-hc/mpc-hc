@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-26 21:31:55+0000\n"
-"PO-Revision-Date: 2014-10-27 17:20+0000\n"
+"POT-Creation-Date: 2014-10-30 22:04:38+0000\n"
+"PO-Revision-Date: 2014-11-01 11:03+0000\n"
 "Last-Translator: lordkag <lord.kagula@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/mpc-hc/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -1371,7 +1371,7 @@ msgstr "Vă rugăm să așteptați, analiza este în curs..."
 
 msgctxt "IDS_ASPECT_RATIO_FMT"
 msgid "AR %d:%d"
-msgstr ""
+msgstr "RA %d:%d"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2247,7 +2247,7 @@ msgstr "Format de imagine nevalid, nu pot fi create miniaturi de %d bpp."
 
 msgctxt "IDS_THUMBNAILS_INFO_FILESIZE"
 msgid "File Size: %s (%s bytes)\\N"
-msgstr "Dimensiune fișier: %s (%s bytes)\\N"
+msgstr "Dimensiune fișier: %s (%s octeți)\\N"
 
 msgctxt "IDS_THUMBNAILS_INFO_HEADER"
 msgid "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: %dx%d %s\\NDuration: %02d:%02d:%02d"
@@ -3315,7 +3315,7 @@ msgstr "Restabilire volum: Dezactivată"
 
 msgctxt "IDS_SIZE_UNIT_BYTES"
 msgid "bytes"
-msgstr ""
+msgstr "octeți"
 
 msgctxt "IDS_SIZE_UNIT_K"
 msgid "KB"

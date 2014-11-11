@@ -12,8 +12,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-26 21:31:55+0000\n"
-"PO-Revision-Date: 2014-10-27 15:00+0000\n"
+"POT-Creation-Date: 2014-10-30 22:04:38+0000\n"
+"PO-Revision-Date: 2014-11-10 07:10+0000\n"
 "Last-Translator: Alex Luís Silva <alex.mooca@hotmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/mpc-hc/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -1376,7 +1376,7 @@ msgstr "Por favor, aguarde. Análise em andamento..."
 
 msgctxt "IDS_ASPECT_RATIO_FMT"
 msgid "AR %d:%d"
-msgstr ""
+msgstr "RA %d:%d"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2272,11 +2272,11 @@ msgstr "Arquivos de legendas"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %ld:%ld"
-msgstr "Aspecto proporcional: %ld:%ld"
+msgstr "Razão de aspecto: %ld:%ld"
 
 msgctxt "IDS_MAINFRM_69"
 msgid "Aspect Ratio: Default"
-msgstr "Aspecto proporcional de vídeo: Original"
+msgstr "Proporção de vídeo: Original"
 
 msgctxt "IDS_MAINFRM_70"
 msgid "Audio delay: %I64d ms"
@@ -3320,7 +3320,7 @@ msgstr "Recuperar volume: Não"
 
 msgctxt "IDS_SIZE_UNIT_BYTES"
 msgid "bytes"
-msgstr ""
+msgstr "bytes"
 
 msgctxt "IDS_SIZE_UNIT_K"
 msgid "KB"

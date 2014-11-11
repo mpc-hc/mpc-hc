@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-19 22:15:16+0000\n"
-"PO-Revision-Date: 2014-10-23 23:50+0000\n"
+"POT-Creation-Date: 2014-10-30 22:04:38+0000\n"
+"PO-Revision-Date: 2014-11-08 03:47+0000\n"
 "Last-Translator: Sir_Burpalot <doctor.z01db3rg@gmail.com>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/mpc-hc/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -1370,7 +1370,7 @@ msgstr "Please wait, analysis in progress..."
 
 msgctxt "IDS_ASPECT_RATIO_FMT"
 msgid "AR %d:%d"
-msgstr ""
+msgstr "AR %d:%d"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1574,11 +1574,11 @@ msgstr "Reset Rate"
 
 msgctxt "IDS_MPLAYERC_21"
 msgid "Audio Delay +10 ms"
-msgstr ""
+msgstr "Audio Delay +10 ms"
 
 msgctxt "IDS_MPLAYERC_22"
 msgid "Audio Delay -10 ms"
-msgstr ""
+msgstr "Audio Delay -10 ms"
 
 msgctxt "IDS_MPLAYERC_23"
 msgid "Jump Forward (small)"
@@ -2062,11 +2062,11 @@ msgstr "Volume: %02lu/%02lu, Title: %02lu/%02lu, Chapter: %02lu/%02lu"
 
 msgctxt "IDS_MAINFRM_10"
 msgid "Angle: %02lu/%02lu, %lux%lu %lu Hz %lu:%lu"
-msgstr ""
+msgstr "Angle: %02lu/%02lu, %lux%lu %lu Hz %lu:%lu"
 
 msgctxt "IDS_MAINFRM_11"
 msgid "%s, %s %u Hz %d bits %d %s"
-msgstr ""
+msgstr "%s, %s %u Hz %d bits %d %s"
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
@@ -2174,19 +2174,19 @@ msgstr ", Total: %ld, Dropped: %ld"
 
 msgctxt "IDS_MAINFRM_38"
 msgid ", Size: %I64d KB"
-msgstr ""
+msgstr ", Size: %I64d KB"
 
 msgctxt "IDS_MAINFRM_39"
 msgid ", Size: %I64d MB"
-msgstr ""
+msgstr ", Size: %I64d MB"
 
 msgctxt "IDS_MAINFRM_40"
 msgid ", Free: %I64d KB"
-msgstr ""
+msgstr ", Free: %I64d KB"
 
 msgctxt "IDS_MAINFRM_41"
 msgid ", Free: %I64d MB"
-msgstr ""
+msgstr ", Free: %I64d MB"
 
 msgctxt "IDS_MAINFRM_42"
 msgid ", Free V/A Buffers: %03d/%03d"
@@ -3314,7 +3314,7 @@ msgstr "Regain volume: Off"
 
 msgctxt "IDS_SIZE_UNIT_BYTES"
 msgid "bytes"
-msgstr ""
+msgstr "bytes"
 
 msgctxt "IDS_SIZE_UNIT_K"
 msgid "KB"
@@ -3494,11 +3494,11 @@ msgstr "After Playback: Turn off the monitor"
 
 msgctxt "IDS_AFTERPLAYBACK_PLAYNEXT"
 msgid "After Playback: Play next file in the folder"
-msgstr ""
+msgstr "After Playback: Play next file in the folder"
 
 msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
 msgid "After Playback: Do nothing"
-msgstr ""
+msgstr "After Playback: Do nothing"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"

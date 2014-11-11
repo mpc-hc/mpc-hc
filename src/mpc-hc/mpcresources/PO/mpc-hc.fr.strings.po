@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-26 21:31:55+0000\n"
-"PO-Revision-Date: 2014-10-26 23:40+0000\n"
+"POT-Creation-Date: 2014-10-30 22:04:38+0000\n"
+"PO-Revision-Date: 2014-11-11 11:31+0000\n"
 "Last-Translator: Underground78\n"
 "Language-Team: French (http://www.transifex.com/projects/p/mpc-hc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -1370,7 +1370,7 @@ msgstr "Veuillez patienter, l'analyse est en cours..."
 
 msgctxt "IDS_ASPECT_RATIO_FMT"
 msgid "AR %d:%d"
-msgstr ""
+msgstr "AR %d:%d"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -3086,7 +3086,7 @@ msgstr "Type d'entrée : Définition standard NTSC"
 
 msgctxt "IDS_OSD_RS_INPUT_TYPE_SD_PAL"
 msgid "Input Type: SDTV PAL"
-msgstr "Type d'entrée :  Définition standard PAL"
+msgstr "Type d'entrée : Définition standard PAL"
 
 msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_BRIGHT"
 msgid "Ambient Light: Bright (2.2 Gamma)"
@@ -3314,7 +3314,7 @@ msgstr "Restauration adaptative de l'amplification : Désactivée"
 
 msgctxt "IDS_SIZE_UNIT_BYTES"
 msgid "bytes"
-msgstr ""
+msgstr "octets"
 
 msgctxt "IDS_SIZE_UNIT_K"
 msgid "KB"

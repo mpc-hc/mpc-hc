@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-10-30 16:51+0000\n"
+"PO-Revision-Date: 2014-11-11 17:20+0000\n"
 "Last-Translator: Luan <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -111,7 +111,7 @@ msgstr "Audioverzögerung (ms):"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK1"
 msgid "Enable custom channel mapping"
-msgstr "Benutzerdefinierte Kanalzuweisung aktivieren"
+msgstr "Benutzerdefinierte Kanalzuordnung aktivieren"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
 msgid "Speaker configuration for "
@@ -1647,11 +1647,11 @@ msgstr "Folgende Werte bitte nur bei genauer Kenntnis der jeweiligen Einstellung
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO1"
 msgid "True"
-msgstr "true"
+msgstr "wahr"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO2"
 msgid "False"
-msgstr "false"
+msgstr "falsch"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"

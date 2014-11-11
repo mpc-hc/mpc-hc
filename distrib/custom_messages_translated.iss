@@ -602,7 +602,7 @@ nl.msg_simd_sse=Deze versie van MPC-HC heeft een processor nodig die SSE onderst
 #elif defined(sse2_required)
 nl.msg_simd_sse2=Deze versie van MPC-HC heeft een processor nodig die SSE2 ondersteunt.%n%nUw processor ondersteund dit niet.
 #endif
-nl.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
+nl.run_DownloadToolbarImages=Bezoek onze Wiki pagina om de werkbalk afbeeldingen te downloaden
 nl.tsk_AllUsers=Voor alle gebruikers
 nl.tsk_CurrentUser=Allen voor de huidige gebruiker
 nl.tsk_Other=Andere taken:

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-10-20 10:21+0000\n"
+"PO-Revision-Date: 2014-11-02 09:10+0000\n"
 "Last-Translator: Level ASMer <zx132435@naver.com>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/mpc-hc/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -319,7 +319,7 @@ msgstr "최근에 열었던 파일목록 기억"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK2"
 msgid "Remember last playlist"
-msgstr ""
+msgstr "마지막 재생 목록를 기억"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_FILE_POS"
 msgid "Remember File position"
@@ -1167,7 +1167,7 @@ msgstr "EVR 버퍼:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "DXVA"
-msgstr ""
+msgstr "DXVA"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitles *"
@@ -1175,7 +1175,7 @@ msgstr "자막 *"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Screenshot"
-msgstr ""
+msgstr "스크린샷"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Shaders"
@@ -1283,7 +1283,7 @@ msgstr ""
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"
-msgstr ""
+msgstr "일"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Settings management"
@@ -1623,19 +1623,19 @@ msgstr "디버그 정보"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO1"
 msgid "PS 2.0"
-msgstr ""
+msgstr "PS 2.0"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO2"
 msgid "PS 2.0b"
-msgstr ""
+msgstr "PS 2.0b"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO3"
 msgid "PS 2.0a"
-msgstr ""
+msgstr "PS 2.0a"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO4"
 msgid "PS 3.0"
-msgstr ""
+msgstr "PS 3.0"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_STATIC"
 msgid "Advanced Settings, do not edit unless you know what you are doing."

@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-26 21:31:55+0000\n"
-"PO-Revision-Date: 2014-10-30 20:11+0000\n"
+"POT-Creation-Date: 2014-10-30 22:04:38+0000\n"
+"PO-Revision-Date: 2014-11-09 00:14+0000\n"
 "Last-Translator: Luan <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -425,11 +425,11 @@ msgstr "&Zurücksetzen"
 
 msgctxt "IDS_MPLAYERC_104"
 msgid "Subtitle Delay -"
-msgstr "Untertitelverzögerung verringern"
+msgstr "Untertitelverzögerung (-)"
 
 msgctxt "IDS_MPLAYERC_105"
 msgid "Subtitle Delay +"
-msgstr "Untertitelverzögerung erhöhen"
+msgstr "Untertitelverzögerung (+)"
 
 msgctxt "IDS_FILE_SAVE_THUMBNAILS"
 msgid "Save thumbnails"
@@ -1377,11 +1377,11 @@ msgstr "Analysiere..."
 
 msgctxt "IDS_ASPECT_RATIO_FMT"
 msgid "AR %d:%d"
-msgstr ""
+msgstr "AR %d:%d"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
-msgstr "Videogerät öffnen"
+msgstr "Gerät öffnen"
 
 msgctxt "IDS_AG_SAVE_AS"
 msgid "Save As"
@@ -1525,7 +1525,7 @@ msgstr "VSync-Offset: %d"
 
 msgctxt "IDS_OSD_SPEED"
 msgid "Speed: %.2lfx"
-msgstr "Tempo: x%.2lf"
+msgstr "Tempo: %.2lfx"
 
 msgctxt "IDS_OSD_THUMBS_SAVED"
 msgid "Thumbnails saved successfully"
@@ -1649,11 +1649,11 @@ msgstr "Untertitel-Item vor"
 
 msgctxt "IDS_MPLAYERC_102"
 msgid "Shift Subtitle Left"
-msgstr "Untertitelverschiebung (links)"
+msgstr "Untertitelverschiebung (-100 ms)"
 
 msgctxt "IDS_MPLAYERC_103"
 msgid "Shift Subtitle Right"
-msgstr "Untertitelverschiebung (rechts)"
+msgstr "Untertitelverschiebung (+100 ms)"
 
 msgctxt "IDS_AG_DISPLAY_STATS"
 msgid "Display Stats"
@@ -2513,11 +2513,11 @@ msgstr "Tonverstärkung verringern"
 
 msgctxt "IDS_VOLUME_BOOST_MIN"
 msgid "Volume boost Min"
-msgstr "Tonverstärkung (+0 %)"
+msgstr "Tonverstärkung: +0 % (min)"
 
 msgctxt "IDS_VOLUME_BOOST_MAX"
 msgid "Volume boost Max"
-msgstr "Tonverstärkung (+300 %)"
+msgstr "Tonverstärkung: +300 % (max)"
 
 msgctxt "IDS_USAGE"
 msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nominidump\tDisable minidump creation\n/slave \"hWnd\"\tUse MPC-HC as slave\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
@@ -3321,7 +3321,7 @@ msgstr "Lautstärke zurücksetzen: Aus"
 
 msgctxt "IDS_SIZE_UNIT_BYTES"
 msgid "bytes"
-msgstr ""
+msgstr "Bytes"
 
 msgctxt "IDS_SIZE_UNIT_K"
 msgid "KB"

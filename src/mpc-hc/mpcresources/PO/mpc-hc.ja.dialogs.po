@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-10-30 21:31+0000\n"
+"PO-Revision-Date: 2014-11-09 03:32+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -470,7 +470,7 @@ msgstr "表示できないピンを報告する"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
-msgstr "音声ファイルを自動で読み込む"
+msgstr "オーディオ ファイルを自動で読み込む"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
 msgid "Use the built-in subtitle renderer"
@@ -554,7 +554,7 @@ msgstr "% でアニメーション化する"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Allow dropping some subpictures if the queue is running late"
-msgstr "キューが遅れて実行されている場合、サブピクチャのドロップを許可する"
+msgstr "キューが遅れて実行されている場合、サブピクチャの脱落を許可する"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Renderer Layout"
@@ -570,7 +570,7 @@ msgstr "警告"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu."
-msgstr "ビデオカードの設定で全画面表示のアンチエイリアスを有効にした場合、CPU を消費するのみで字幕は少しも綺麗になりません。"
+msgstr "字幕の配置を強制的に指定し、ビデオカードの設定で全画面表示のアンチエイリアスを有効にした場合、CPU を消費するのみで字幕は少しも綺麗になりません。"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
 msgid "File extensions"
@@ -650,7 +650,7 @@ msgstr "DVD"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK3"
 msgid "Audio CD"
-msgstr "オーディオ CD"
+msgstr "音楽 CD"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "Jump distances (small, medium, large in ms)"
@@ -1606,11 +1606,11 @@ msgstr "削除"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active pre-resize shaders"
-msgstr "アクティブなリサイズ前のシェーダ"
+msgstr "有効なリサイズ前のシェーダ"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active post-resize shaders"
-msgstr "アクティブなリサイズ後のシェーダ"
+msgstr "有効なリサイズ後のシェーダ"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_CAPTION"
 msgid "Debug Shaders"
