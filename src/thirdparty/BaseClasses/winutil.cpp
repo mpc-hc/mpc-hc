@@ -39,8 +39,7 @@ CBaseWindow::CBaseWindow(BOOL bDoGetDC, bool bDoPostToDestroy) :
     m_bDoGetDC(bDoGetDC),
     m_Width(0),
     m_Height(0),
-    m_RealizePalette(0),
-    m_bRealizing(0)
+    m_RealizePalette(0)
 {
 }
 

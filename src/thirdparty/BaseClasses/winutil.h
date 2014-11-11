@@ -54,7 +54,9 @@ protected:
     HPALETTE m_hPalette;            // Handle to any palette we may have
     BYTE m_bNoRealize;              // Don't realize palette now
     BYTE m_bBackground;             // Should we realise in background
-    BYTE m_bRealizing;              // already realizing the palette
+#ifdef _DEBUG
+    BOOL m_bRealizing;              // already realizing the palette
+#endif
     CCritSec m_WindowLock;          // Serialise window object access
     BOOL m_bDoGetDC;                // Should this window get a DC
     bool m_bDoPostToDestroy;        // Use PostMessage to destroy
