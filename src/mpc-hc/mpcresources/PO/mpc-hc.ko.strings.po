@@ -99,7 +99,7 @@ msgstr "비트레이트"
 
 msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
 msgid "(avg/cur)"
-msgstr "(avg/cur)"
+msgstr ""
 
 msgctxt "IDS_STATSBAR_SIGNAL"
 msgid "Signal"

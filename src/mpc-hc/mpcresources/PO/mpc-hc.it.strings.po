@@ -88,7 +88,7 @@ msgstr "Compensazione Sincronia"
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET_FORMAT"
 msgid "avg: %d ms, dev: %d ms"
-msgstr "avg: %d ms, dev: %d ms"
+msgstr ""
 
 msgctxt "IDS_STATSBAR_JITTER"
 msgid "Jitter"
@@ -96,11 +96,11 @@ msgstr "Jitter"
 
 msgctxt "IDS_STATSBAR_BITRATE"
 msgid "Bitrate"
-msgstr "Bitrate"
+msgstr ""
 
 msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
 msgid "(avg/cur)"
-msgstr "(avg/cur)"
+msgstr ""
 
 msgctxt "IDS_STATSBAR_SIGNAL"
 msgid "Signal"
@@ -944,7 +944,7 @@ msgstr "&Seleziona shaders..."
 
 msgctxt "IDS_SHADERS_DEBUG"
 msgid "&Debug Shaders..."
-msgstr "&Debug Shaders..."
+msgstr ""
 
 msgctxt "IDS_FAVORITES_ADD"
 msgid "&Add to Favorites..."
@@ -1000,11 +1000,11 @@ msgstr "Mostra finestra EDL"
 
 msgctxt "IDS_AG_EDL_IN"
 msgid "EDL set In"
-msgstr "EDL set In"
+msgstr ""
 
 msgctxt "IDS_AG_EDL_OUT"
 msgid "EDL set Out"
-msgstr "EDL set Out"
+msgstr ""
 
 msgctxt "IDS_AG_PNS_ROTATEX_M"
 msgid "PnS Rotate X-"

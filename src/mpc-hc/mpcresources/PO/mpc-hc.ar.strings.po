@@ -96,7 +96,7 @@ msgstr "المتوسط​​: %d مللي ثانية, المتوسط​​: %d �
 
 msgctxt "IDS_STATSBAR_JITTER"
 msgid "Jitter"
-msgstr "Jitter"
+msgstr ""
 
 msgctxt "IDS_STATSBAR_BITRATE"
 msgid "Bitrate"
@@ -104,7 +104,7 @@ msgstr "معدل البايت"
 
 msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
 msgid "(avg/cur)"
-msgstr "(avg/cur)"
+msgstr ""
 
 msgctxt "IDS_STATSBAR_SIGNAL"
 msgid "Signal"
@@ -1220,11 +1220,11 @@ msgstr "L = R"
 
 msgctxt "IDS_BALANCE_L"
 msgid "L +%d%%"
-msgstr "L +%d%%"
+msgstr ""
 
 msgctxt "IDS_BALANCE_R"
 msgid "R +%d%%"
-msgstr "R +%d%%"
+msgstr ""
 
 msgctxt "IDS_VOLUME"
 msgid "%d%%"

@@ -1334,7 +1334,7 @@ msgstr "Lengahan sarikata akan dikurangkan/ditingkatkan dengan nilai ini setiap 
 
 msgctxt "IDS_HOTKEY_NOT_DEFINED"
 msgid "<not defined>"
-msgstr "<not defined>"
+msgstr ""
 
 msgctxt "IDS_NAVIGATION_WATCH"
 msgid "Watch"
@@ -2318,7 +2318,7 @@ msgstr "Bab:"
 
 msgctxt "IDS_VOLUME_OSD"
 msgid "Vol: %d%%"
-msgstr "Vol: %d%%"
+msgstr ""
 
 msgctxt "IDS_BOOST_OSD"
 msgid "Boost: +%u%%"

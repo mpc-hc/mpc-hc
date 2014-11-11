@@ -89,7 +89,7 @@ msgstr "Synchronisatie compensatie"
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET_FORMAT"
 msgid "avg: %d ms, dev: %d ms"
-msgstr "avg: %d ms, dev: %d ms"
+msgstr ""
 
 msgctxt "IDS_STATSBAR_JITTER"
 msgid "Jitter"
@@ -101,7 +101,7 @@ msgstr "Bitrate"
 
 msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
 msgid "(avg/cur)"
-msgstr "(avg/cur)"
+msgstr ""
 
 msgctxt "IDS_STATSBAR_SIGNAL"
 msgid "Signal"

@@ -92,7 +92,7 @@ msgstr "Compensação de sincronia"
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET_FORMAT"
 msgid "avg: %d ms, dev: %d ms"
-msgstr "avg: %d ms, dev: %d ms"
+msgstr ""
 
 msgctxt "IDS_STATSBAR_JITTER"
 msgid "Jitter"
@@ -1444,7 +1444,7 @@ msgstr "Aumentar velocidade"
 
 msgctxt "IDS_CONTENT_SHOW_GAMESHOW"
 msgid "Show/Game show"
-msgstr "Show/Game show"
+msgstr ""
 
 msgctxt "IDS_CONTENT_SPORTS"
 msgid "Sports"
