@@ -27,6 +27,7 @@ next version - not released yet
 * Updated Little CMS to v2.7 (git 8174681)
 * Updated Unrar to v5.2.2
 * Updated LAV Filters to v0.63.0.2:
+    - LAV Video Decoder: Fix a crash when the video height is not a multiple of 2
     - Ticket #5030, LAV Video Decoder: The video timestamps could be wrong in some cases when using H264 DXVA decoding.
       This could lead to synchronization issue with the audio
 * Updated Arabic, Armenian, Basque, Belarusian, Bengali, British English, Catalan, Chinese (Simplified and Traditional),
