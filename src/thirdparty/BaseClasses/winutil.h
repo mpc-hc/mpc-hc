@@ -55,7 +55,7 @@ protected:
     BYTE m_bNoRealize;              // Don't realize palette now
     BYTE m_bBackground;             // Should we realise in background
 #ifdef _DEBUG
-    BOOL m_bRealizing;              // already realizing the palette
+    BYTE m_bRealizing;              // already realizing the palette
 #endif
     CCritSec m_WindowLock;          // Serialise window object access
     BOOL m_bDoGetDC;                // Should this window get a DC
