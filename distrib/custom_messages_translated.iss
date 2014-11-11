@@ -86,7 +86,7 @@ hr.WelcomeLabel2=Ovo će instalirati [name] na vaše računalo.%n%nPreporučeno 
 hr.WinVersionTooLowError=Da bi se pokrenuo [name] potrebno je imati Windows XP Service Pack 3 ili novije.
 
 ; Hungarian
-hu.WelcomeLabel2=Ez telepíteni fogja a(z) [name]-t a számítógépére.%nAjánlott, hogy minden más alkalmazást zárjon be a folytatás előtt.
+hu.WelcomeLabel2=Ez telepíteni fogja a(z) [name]-t a számítógépére.%n%nAjánlott, hogy minden más alkalmazást zárjon be a folytatás előtt.
 hu.WinVersionTooLowError=Windows XP Service Pack 3 vagy újabb szükséges a(z) [name] futtatásához.
 
 ; Armenian (Armenia)
@@ -94,7 +94,7 @@ hy.WelcomeLabel2=[name]-ը կտեղադրվի ձեր համակարգչում։%
 hy.WinVersionTooLowError=[name]-ը պահանջում է Windows XP Service Pack 3 կամ ավելի բարձր։
 
 ; Italian
-it.WelcomeLabel2=Questo installerà [name] sul tuo computer.%nE' consigliato chiudere tutte le altre applicazioni prima di continuare.
+it.WelcomeLabel2=Questo installerà [name] sul tuo computer.%n%nE' consigliato chiudere tutte le altre applicazioni prima di continuare.
 it.WinVersionTooLowError=[name] richiede Windows XP Service Pack 3 o successivo per funzionare.
 
 ; Japanese

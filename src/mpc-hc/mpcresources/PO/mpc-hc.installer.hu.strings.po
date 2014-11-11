@@ -18,7 +18,7 @@ msgstr ""
 
 msgctxt "Messages_WelcomeLabel2"
 msgid "This will install [name] on your computer.\n\nIt is recommended that you close all other applications before continuing."
-msgstr "Ez telepíteni fogja a(z) [name]-t a számítógépére.\nAjánlott, hogy minden más alkalmazást zárjon be a folytatás előtt."
+msgstr "Ez telepíteni fogja a(z) [name]-t a számítógépére.\n\nAjánlott, hogy minden más alkalmazást zárjon be a folytatás előtt."
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows XP Service Pack 3 or newer to run."

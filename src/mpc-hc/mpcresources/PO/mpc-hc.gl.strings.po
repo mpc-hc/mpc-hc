@@ -2519,7 +2519,7 @@ msgstr "Uso: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tO ficheiro prin
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
-msgstr "Atopouse opción(s) descoñecida(s) na liña de Comandos:\n"
+msgstr "Atopouse opción(s) descoñecida(s) na liña de Comandos:\n\n"
 
 msgctxt "IDS_AG_TOGGLE_INFO"
 msgid "Toggle Information"
@@ -3531,7 +3531,7 @@ msgstr "Aumentar brillo"
 
 msgctxt "IDS_LANG_PREF_EXAMPLE"
 msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
-msgstr "Insira o seu idioma preferido aqui.\nPor exemplo, tipo: \"eng jap swe\"\n                     "
+msgstr "Insira o seu idioma preferido aqui.\nPor exemplo, tipo: \"eng jap swe\""
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."

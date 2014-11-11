@@ -154,7 +154,7 @@ msgstr "Відкрити"
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Type the address of a movie or audio file (on the Internet or your computer) and the player will open it for you."
-msgstr "Введіть шлях до фільму або аудіофайлу\n(в мережі або на вашому комп'ютері)"
+msgstr "Введіть шлях до фільму або аудіофайлу (в мережі або на вашому комп'ютері)"
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Open:"

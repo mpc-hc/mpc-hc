@@ -153,7 +153,7 @@ msgstr "Адкрыць"
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Type the address of a movie or audio file (on the Internet or your computer) and the player will open it for you."
-msgstr "Увядзіце адрас фільма або аўдыёфайла\n(у Інтэрнэт або на вашым кампутары)"
+msgstr "Увядзіце адрас фільма або аўдыёфайла (у Інтэрнэт або на вашым кампутары)"
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Open:"

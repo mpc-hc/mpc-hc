@@ -1744,7 +1744,7 @@ msgstr "%d ترجمة متوفرة"
 
 msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
-msgstr "هل تريد الفحص بشكل دوري على تحديثات MPC-HC؟\nيمكن تعطيل هذه الخاصية في وقت لاحق من صفحة الخيارات المتنوعة."
+msgstr "هل تريد الفحص بشكل دوري على تحديثات MPC-HC؟\n\nيمكن تعطيل هذه الخاصية في وقت لاحق من صفحة الخيارات المتنوعة."
 
 msgctxt "IDS_ZOOM_50"
 msgid "50%"

@@ -687,7 +687,7 @@ msgstr "Windows-Taskbarfunktionen verwenden (ab Windows 7)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
-msgstr "Nächste Ordnerdatei bei nur einem Eintrag in der Wiedergabeliste durch\n\"Vorwärts/Rückwärts springen\" öffnen"
+msgstr "Nächste Ordnerdatei bei nur einem Eintrag in der Wiedergabeliste durch \"Vorwärts/Rückwärts springen\" öffnen"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
 msgid "Use time tooltip:"

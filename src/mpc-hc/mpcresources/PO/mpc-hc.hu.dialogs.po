@@ -102,7 +102,7 @@ msgstr "Mintavételezés csökkentése 44100 Hz-re"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK4"
 msgid "Audio time shift (ms):"
-msgstr "Audió időzítés-eltolása:\n(ezredmásodpercben)"
+msgstr ""
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK1"
 msgid "Enable custom channel mapping"

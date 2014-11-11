@@ -156,7 +156,7 @@ msgstr "Ачарга"
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Type the address of a movie or audio file (on the Internet or your computer) and the player will open it for you."
-msgstr "Фильм яки аудиофайл адресын кертегез\n(Интернетта яки сезнең санакта)"
+msgstr "Фильм яки аудиофайл адресын кертегез (Интернетта яки сезнең санакта)"
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Open:"

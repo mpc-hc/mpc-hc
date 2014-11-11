@@ -3259,7 +3259,7 @@ msgstr "Η τρέχουσα έκδοσή σας είναι η v%s.\n\nΗ νεώ�
 
 msgctxt "IDS_NEW_UPDATE_AVAILABLE"
 msgid "MPC-HC v%s is now available. You are using v%s.\n\nDo you want to visit MPC-HC's website to download it?"
-msgstr "Η έκδοση MPC-HC v%s είναι τώρα διαθέσιμη.\nΧρησιμοποιείτε την v%s.\n\nΘέλετε να επισκεφθείτε τον ιστότοπο του MPC-HC για λήψη;"
+msgstr "Η έκδοση MPC-HC v%s είναι τώρα διαθέσιμη.\n\nΧρησιμοποιείτε την v%s.\n\nΘέλετε να επισκεφθείτε τον ιστότοπο του MPC-HC για λήψη;"
 
 msgctxt "IDS_UPDATE_ERROR"
 msgid "Update server not found.\n\nPlease check your internet connection or try again later."

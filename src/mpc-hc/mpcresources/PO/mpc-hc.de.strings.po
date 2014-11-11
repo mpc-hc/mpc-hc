@@ -281,7 +281,7 @@ msgstr "Die angegebene Zeit überschreitet die Laufzeit der Mediendatei."
 
 msgctxt "IDS_MISSING_ICONS_LIB"
 msgid "The icons library \"mpciconlib.dll\" is missing.\nThe player's default icon will be used for file associations.\nPlease, reinstall MPC-HC to get \"mpciconlib.dll\"."
-msgstr "Icon-Bibliothek \"mpciconlib.dll\" nicht gefunden. Diese wird für die Darstellung der Dateizuordnung benötigt. Um die Datei wiederherzustellen, kann der MPC-HC neu installiert werden."
+msgstr "Icon-Bibliothek \"mpciconlib.dll\" nicht gefunden.\nDiese wird für die Darstellung der Dateizuordnung benötigt.\nUm die Datei wiederherzustellen, kann der MPC-HC neu installiert werden."
 
 msgctxt "IDS_SUBDL_DLG_FILENAME_COL"
 msgid "File"
@@ -485,7 +485,7 @@ msgstr "Icons neu zuordnen?"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_CONTENT"
 msgid "This will fix the icons being incorrectly displayed after an update of the icon library.\nThe file associations will not be modified, only the corresponding icons will be refreshed."
-msgstr "Diese Neuzuordnung behebt Darstellungsfehler der Icons, deren Bibliothek aktualisiert wurde. Dabei bleibt die zuvor festgelegte Dateizuordnung aber unverändert."
+msgstr "Diese Neuzuordnung behebt Darstellungsfehler der Icons, deren Bibliothek aktualisiert wurde.\nDabei bleibt die zuvor festgelegte Dateizuordnung aber unverändert."
 
 msgctxt "IDS_PPAGE_OUTPUT_OLDRENDERER"
 msgid "Old Video Renderer"
@@ -761,7 +761,7 @@ msgstr "MIME-Typ"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_INFO"
 msgid "In order to view an embedded resource in your browser you have to enable the web interface.\n\nUse the \"Save As\" button if you only want to save the information."
-msgstr "Um eingebettete Ressourcen im Browser anzuzeigen, muss das Web-Interface aktiviert werden. Zum Speichern der Information bitte den Button \"Speichern unter\" verwenden."
+msgstr "Um eingebettete Ressourcen im Browser anzuzeigen, muss das Web-Interface aktiviert werden.\n\nZum Speichern der Information bitte den Button \"Speichern unter\" verwenden."
 
 msgctxt "IDS_DOWNLOAD_SUBS"
 msgid "Download subtitles"
@@ -1545,7 +1545,7 @@ msgstr "Programm-Einstellungen zurücksetzen"
 
 msgctxt "IDS_RESET_SETTINGS_WARNING"
 msgid "Are you sure you want to restore MPC-HC to its default settings?\nBe warned that ALL your current settings will be lost!"
-msgstr "Alle aktuellen Einstellungen gehen verloren!\n\nEinstellungen wirklich auf Standard-Einstellungen zurücksetzen?"
+msgstr "Alle aktuellen Einstellungen gehen verloren!\nEinstellungen wirklich auf Standard-Einstellungen zurücksetzen?"
 
 msgctxt "IDS_RESET_SETTINGS_MUTEX"
 msgid "Please close all instances of MPC-HC so that the default settings can be restored."
@@ -2261,7 +2261,7 @@ msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Dateiname: %s\\N%sAuflösung
 
 msgctxt "IDS_THUMBNAIL_TOO_SMALL"
 msgid "The thumbnails would be too small, impossible to create the file.\n\nTry lowering the number of thumbnails or increasing the total size."
-msgstr "Miniaturansichten können in dieser geringen Größe nicht erstellt werden. Bitte die Anzahl der Miniaturansichten verringern oder deren Gesamtgröße erhöhen."
+msgstr "Miniaturansichten können in dieser geringen Größe nicht erstellt werden.\n\nBitte die Anzahl der Miniaturansichten verringern oder deren Gesamtgröße erhöhen."
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
@@ -2525,7 +2525,7 @@ msgstr "Aufruf: mpc-hc.exe \"Pfadname\" [Optionen]\n\n\"Pfadname\"\tGibt Mediend
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
-msgstr "Unbekannte Option in der Befehlszeile:\n"
+msgstr "Unbekannte Option in der Befehlszeile:\n\n"
 
 msgctxt "IDS_AG_TOGGLE_INFO"
 msgid "Toggle Information"
@@ -3269,7 +3269,7 @@ msgstr "MPC-HC %s ist verfügbar. Zurzeit wird noch Version %s verwendet.\n\nAkt
 
 msgctxt "IDS_UPDATE_ERROR"
 msgid "Update server not found.\n\nPlease check your internet connection or try again later."
-msgstr "Update-Server nicht gefunden. Bitte die Internetverbindung prüfen oder später erneut versuchen."
+msgstr "Update-Server nicht gefunden.\n\nBitte die Internetverbindung prüfen oder später erneut versuchen."
 
 msgctxt "IDS_UPDATE_CLOSE"
 msgid "&Close"
@@ -3385,11 +3385,11 @@ msgstr "Einzelbildschaltung nicht möglich. Bitte einen anderen Video-Renderer v
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for RealMedia.\nSelect one of the DirectX renderers for RealMedia in MPC-HC's output options and reopen the file."
-msgstr "Die Funktionen \"Bild speichern\" und \"Miniaturansichten speichern\" können mit dem Standard-Renderer von RealMedia nicht verwendet werden. Bitte einen VMR-Renderer für RealMedia-Video in den Ausgabe-Optionen wählen und die Mediendatei erneut öffnen."
+msgstr "Die Funktionen \"Bild speichern\" und \"Miniaturansichten speichern\" können mit dem Standard-Renderer von RealMedia nicht verwendet werden.\nBitte einen VMR-Renderer für RealMedia-Video in den Ausgabe-Optionen wählen und die Mediendatei erneut öffnen."
 
 msgctxt "IDS_SCREENSHOT_ERROR_QT"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for QuickTime.\nSelect one of the DirectX renderers for QuickTime in MPC-HC's output options and reopen the file."
-msgstr "Die Funktionen \"Bild speichern\" und \"Miniaturansichten speichern\" können mit dem Standard-Renderer von QuickTime nicht verwendet werden. Bitte einen VMR-Renderer für QuickTime-Video in den Ausgabe-Optionen wählen und die Mediendatei erneut öffnen."
+msgstr "Die Funktionen \"Bild speichern\" und \"Miniaturansichten speichern\" können mit dem Standard-Renderer von QuickTime nicht verwendet werden.\nBitte einen VMR-Renderer für QuickTime-Video in den Ausgabe-Optionen wählen und die Mediendatei erneut öffnen."
 
 msgctxt "IDS_SCREENSHOT_ERROR_SHOCKWAVE"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work for Shockwave files."
@@ -3397,7 +3397,7 @@ msgstr "Die Funktionen \"Bild speichern\" und \"Miniaturansichten speichern\" k�
 
 msgctxt "IDS_SCREENSHOT_ERROR_OVERLAY"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the Overlay Mixer video renderer.\nChange the video renderer in MPC's output options and reopen the file."
-msgstr "Die Funktionen \"Bild speichern\" und \"Miniaturansichten speichern\" können mit dem Overlay-Mixer nicht verwendet werden. Bitte einen geeigneten Video-Renderer in den Ausgabe-Optionen wählen und die Mediendatei erneut öffnen."
+msgstr "Die Funktionen \"Bild speichern\" und \"Miniaturansichten speichern\" können mit dem Overlay-Mixer nicht verwendet werden.\nBitte einen geeigneten Video-Renderer in den Ausgabe-Optionen wählen und die Mediendatei erneut öffnen."
 
 msgctxt "IDS_SUBDL_DLG_CONNECT_ERROR"
 msgid "Cannot connect to the online subtitles database."
@@ -3565,7 +3565,7 @@ msgstr "&Sender"
 
 msgctxt "IDC_FASTSEEK_CHECK"
 msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."
-msgstr "Verwendet bei \"Mit näherem Keyframe\" richtungsunabhängig den nächstgelegenen Keyframe. Alternativ springt der Suchlauf bei \"Mit letztem Keyframe\" immer zum vorherigen Keyframe zurück."
+msgstr "Verwendet bei \"Mit näherem Keyframe\" richtungsunabhängig den nächstgelegenen Keyframe.\nAlternativ springt der Suchlauf bei \"Mit letztem Keyframe\" immer zum vorherigen Keyframe zurück."
 
 msgctxt "IDC_ASSOCIATE_ALL_FORMATS"
 msgid "Associate with all formats"

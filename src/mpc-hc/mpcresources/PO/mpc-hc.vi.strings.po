@@ -687,7 +687,7 @@ msgstr "MPC-HC - Báo cáo lỗi"
 
 msgctxt "IDS_MPC_BUG_REPORT"
 msgid "MPC-HC just crashed but this build was compiled without debug information.\nIf you want to report this bug, you should first try an official build.\n\nDo you want to visit the download page now?"
-msgstr "MPC-HC đã hỏng nhưng xây dựng này đã được biên soạn không có thông tin gỡ lỗi.\nNếu bạn muốn báo cáo lỗi này, trước tiên bạn nên thử một bản dựng tốt.\nBạn có muốn truy cập vào trang tải bây giờ?"
+msgstr "MPC-HC đã hỏng nhưng xây dựng này đã được biên soạn không có thông tin gỡ lỗi.\nNếu bạn muốn báo cáo lỗi này, trước tiên bạn nên thử một bản dựng tốt.\n\nBạn có muốn truy cập vào trang tải bây giờ?"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
 msgid "Regular offscreen plain surface"
@@ -755,7 +755,7 @@ msgstr "Loại MIME"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_INFO"
 msgid "In order to view an embedded resource in your browser you have to enable the web interface.\n\nUse the \"Save As\" button if you only want to save the information."
-msgstr "Để xem một nguồn tài nguyên nhúng trong trình duyệt của bạn, bạn phải kích hoạt giao diện web.\nSử dụng \"Lưu dạng nút nếu bạn chỉ muốn để lưu thông tin."
+msgstr "Để xem một nguồn tài nguyên nhúng trong trình duyệt của bạn, bạn phải kích hoạt giao diện web.\n\nSử dụng \"Lưu dạng nút nếu bạn chỉ muốn để lưu thông tin."
 
 msgctxt "IDS_DOWNLOAD_SUBS"
 msgid "Download subtitles"
@@ -1483,7 +1483,7 @@ msgstr "Khung hình gần nhất"
 
 msgctxt "IDS_HOOKS_FAILED"
 msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
-msgstr "MPC-HC gặp một vấn đề trong quá trình khởi tạo. Phát lại DVD có thể không hoạt động chính xác. Điều này có thể được gây ra bởi một số không tương thích với các công cụ bảo mật nhất định.\nBạn có muốn báo cáo vấn đề này?"
+msgstr "MPC-HC gặp một vấn đề trong quá trình khởi tạo. Phát lại DVD có thể không hoạt động chính xác. Điều này có thể được gây ra bởi một số không tương thích với các công cụ bảo mật nhất định.\n\nBạn có muốn báo cáo vấn đề này?"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
 msgid "Never show"
@@ -1739,7 +1739,7 @@ msgstr "%d phụ đề(s) có sẵn."
 
 msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
-msgstr "Bạn có muốn kiểm tra định kỳ cho cập nhật MPC-HC?\nTính năng này có thể bị vô hiệu hóa sau từ trang tùy chọn khác."
+msgstr "Bạn có muốn kiểm tra định kỳ cho cập nhật MPC-HC?\n\nTính năng này có thể bị vô hiệu hóa sau từ trang tùy chọn khác."
 
 msgctxt "IDS_ZOOM_50"
 msgid "50%"
@@ -2335,7 +2335,7 @@ msgstr "Hiện tại"
 
 msgctxt "IDS_MPC_CRASH"
 msgid "MPC-HC terminated unexpectedly. To help us fix this problem, please send this file \"%s\" to our bug tracker.\n\nDo you want to open the folder containing the minidump file and visit the bug tracker now?"
-msgstr "MPC-HC chấm dứt đột ngột. Để giúp chúng tôi khắc phục vấn đề này, xin vui lòng gửi tập tin này \"%s\" về theo dõi lỗi của chúng tôi.\nBạn có muốn mở thư mục chứa các tập tin minidump và truy cập vào theo dõi lỗi bây giờ?"
+msgstr "MPC-HC chấm dứt đột ngột. Để giúp chúng tôi khắc phục vấn đề này, xin vui lòng gửi tập tin này \"%s\" về theo dõi lỗi của chúng tôi.\n\nBạn có muốn mở thư mục chứa các tập tin minidump và truy cập vào theo dõi lỗi bây giờ?"
 
 msgctxt "IDS_MPC_MINIDUMP_FAIL"
 msgid "Failed to create dump file to \"%s\" (error %u)"
@@ -3259,7 +3259,7 @@ msgstr "Phiên bản hiện tại của bạn là v%s.\n\nPhiên bản ổn đ�
 
 msgctxt "IDS_NEW_UPDATE_AVAILABLE"
 msgid "MPC-HC v%s is now available. You are using v%s.\n\nDo you want to visit MPC-HC's website to download it?"
-msgstr "MPC-HC v%s bây giờ đã có. Bạn đang sử dụng v%s."
+msgstr ""
 
 msgctxt "IDS_UPDATE_ERROR"
 msgid "Update server not found.\n\nPlease check your internet connection or try again later."

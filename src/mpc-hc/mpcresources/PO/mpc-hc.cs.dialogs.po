@@ -194,7 +194,7 @@ msgstr "Copyright © 2002-2014, viz soubor Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
-msgstr "Tento program je freeware vydaný pod\nGNU General Public License."
+msgstr "Tento program je freeware vydaný pod GNU General Public License."
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
