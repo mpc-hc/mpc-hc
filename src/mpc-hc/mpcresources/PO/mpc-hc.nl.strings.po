@@ -2193,7 +2193,7 @@ msgstr ", Beschikbaar: %I64dMB"
 
 msgctxt "IDS_MAINFRM_42"
 msgid ", Free V/A Buffers: %03d/%03d"
-msgstr ",Beschikbare V/A Buffers: %03d/%03d"
+msgstr ", Beschikbare V/A Buffers: %03d/%03d"
 
 msgctxt "IDS_AG_ERROR"
 msgid "Error"
