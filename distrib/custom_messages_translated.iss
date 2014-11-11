@@ -103,7 +103,7 @@ ja.WinVersionTooLowError=[name] を実行する為には Windows XP Service Pack
 
 ; Korean
 ko.WelcomeLabel2=이것은 [name] 를(을) 당신의 컴퓨터에 설치합니다.%n%n설치를 계속하기 전에 다른 모든 프로그램을 종료하는 것을 권장합니다.
-ko.WinVersionTooLowError=[name] 는(은) Windows XP Service Pack 3  또는 그 이상의 버전에서만 설치할 수 있습니다.
+ko.WinVersionTooLowError=[name] 는(은) Windows XP Service Pack 3 또는 그 이상의 버전에서만 설치할 수 있습니다.
 
 ; Malay (Malaysia)
 ms_MY.WelcomeLabel2=Ini akan memasang [name] ke dalam komputer anda.%n%nDisarankan anda tutup semua aplikasi lain sebelum diteruskan.

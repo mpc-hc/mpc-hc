@@ -22,7 +22,7 @@ msgstr "이것은 [name] 를(을) 당신의 컴퓨터에 설치합니다.\n\n설
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows XP Service Pack 3 or newer to run."
-msgstr "[name] 는(은) Windows XP Service Pack 3  또는 그 이상의 버전에서만 설치할 수 있습니다."
+msgstr "[name] 는(은) Windows XP Service Pack 3 또는 그 이상의 버전에서만 설치할 수 있습니다."
 
 msgctxt "CustomMessages_comp_mpciconlib"
 msgid "Icon Library"

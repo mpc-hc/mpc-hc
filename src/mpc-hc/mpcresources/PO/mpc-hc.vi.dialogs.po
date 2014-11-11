@@ -1323,7 +1323,7 @@ msgstr "Băng thông"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Freq. End"
-msgstr "Tần số  kết thúc "
+msgstr "Tần số kết thúc "
 
 msgctxt "IDD_TUNER_SCAN_IDC_CHECK_IGNORE_ENCRYPTED"
 msgid "Ignore encrypted channels"

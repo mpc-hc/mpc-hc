@@ -222,11 +222,11 @@ msgstr "&Ներկայացում"
 
 msgctxt "ID_VIEW_D3DFULLSCREEN"
 msgid "D3D Fullscreen &Mode"
-msgstr "Ամբողջ էկրանով  D3D"
+msgstr "Ամբողջ էկրանով D3D"
 
 msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
 msgid "D3D Fullscreen &GUI Support"
-msgstr "Ամբողջ էկրանով  D3D՝ GUI-ի աջակցմամբ"
+msgstr "Ամբողջ էկրանով D3D՝ GUI-ի աջակցմամբ"
 
 msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
 msgid "10-bit &RGB Output"

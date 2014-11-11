@@ -689,7 +689,7 @@ msgstr "Паказваць час:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "OSD font:"
-msgstr "OSD  Шрыфт"
+msgstr "OSD Шрыфт"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_LCD"
 msgid "Enable Logitech LCD support (experimental)"
@@ -1497,7 +1497,7 @@ msgstr "Уніз"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK3"
 msgid "Apply default monitor mode on fullscreen exit"
-msgstr "Устал. стандарт. налады пры выхадзе з  поўнаэкр. рэжыму"
+msgstr "Устал. стандарт. налады пры выхадзе з поўнаэкр. рэжыму"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_RESTORERESCHECK"
 msgid "Restore resolution on program exit"

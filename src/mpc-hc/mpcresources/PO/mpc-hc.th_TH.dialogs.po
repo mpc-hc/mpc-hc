@@ -375,7 +375,7 @@ msgstr "การตั้งค่าเพิ่มเติม"
 
 msgctxt "IDD_PPAGEDVD_IDC_CHECK2"
 msgid "Allow closed captions in \"Line 21 Decoder\""
-msgstr "อนุญาตศัพท์บรรยายเหตุการณ์  ใน \"Line 21 Decoder\""
+msgstr "อนุญาตศัพท์บรรยายเหตุการณ์ ใน \"Line 21 Decoder\""
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Audio"

@@ -3339,7 +3339,7 @@ msgstr "MB/s"
 
 msgctxt "IDS_BDA_ERROR_CREATE_TUNER"
 msgid "Could not create the tuner."
-msgstr "Tunerul nu  poate fi creat."
+msgstr "Tunerul nu poate fi creat."
 
 msgctxt "IDS_BDA_ERROR_CREATE_RECEIVER"
 msgid "Could not create the receiver."

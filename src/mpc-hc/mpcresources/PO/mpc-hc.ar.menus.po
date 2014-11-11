@@ -233,11 +233,11 @@ msgstr "وضع ملء الشاشة D3D مع دعم واجهة المستخدم �
 
 msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
 msgid "10-bit &RGB Output"
-msgstr "إخراج  RGB 10-bit"
+msgstr "إخراج RGB 10-bit"
 
 msgctxt "ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION"
 msgid "Force 10-bit RGB &Input"
-msgstr "فرض إدخال  RGB 10-bit"
+msgstr "فرض إدخال RGB 10-bit"
 
 msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
 msgid "&Full Floating Point Processing"

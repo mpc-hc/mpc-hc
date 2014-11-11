@@ -1284,7 +1284,7 @@ msgstr "Vrednost"
 
 msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
-msgstr "Največje število datotek prikazanih v meniju \"Nedavne datoteke\", za katere je položaj potencialno shranjen.  "
+msgstr "Največje število datotek prikazanih v meniju \"Nedavne datoteke\", za katere je položaj potencialno shranjen."
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."

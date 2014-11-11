@@ -116,7 +116,7 @@ msgstr "ลักษณะ"
 
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
-msgstr "ถ้าเป้าหมายการแปลผลไม่ถูกระบุ, ศัพท์บรรยาย SSA/ASS จะถูกแปลผลสัมพันธ์กับเฟรมวิดีโอ ในขณะที่ศัพท์ฯข้อความอื่นๆ จะถูกแปลผลสัมพันธ์กับหน้าต่าง  "
+msgstr "ถ้าเป้าหมายการแปลผลไม่ถูกระบุ, ศัพท์บรรยาย SSA/ASS จะถูกแปลผลสัมพันธ์กับเฟรมวิดีโอ ในขณะที่ศัพท์ฯข้อความอื่นๆ จะถูกแปลผลสัมพันธ์กับหน้าต่าง"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -596,7 +596,7 @@ msgstr "ตัวกรองวิดีโอตั้งต้นสำหร
 
 msgctxt "IDC_DSOLD"
 msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
-msgstr "นี่คือตัวแปลผลตั้งต้นของ Windows 9x/me/2k  ขึ้นกับทัศนวิสัยหน้าต่างวิดีโอและความสามารถของการ์ดจอของคุณ, มันจะสลับอย่างแปรเปลี่ยนได้ระหว่างการแปลผล GDI, DirectDraw, Overlay"
+msgstr "นี่คือตัวแปลผลตั้งต้นของ Windows 9x/me/2k ขึ้นกับทัศนวิสัยหน้าต่างวิดีโอและความสามารถของการ์ดจอของคุณ, มันจะสลับอย่างแปรเปลี่ยนได้ระหว่างการแปลผล GDI, DirectDraw, Overlay"
 
 msgctxt "IDC_DSOVERLAYMIXER"
 msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
@@ -1940,7 +1940,7 @@ msgstr "เสียงก่อนหน้า (OGM)"
 
 msgctxt "IDS_MPLAYERC_89"
 msgid "Next Subtitle (OGM)"
-msgstr "ศัพท์บรรยายถัดไป  (OGM)"
+msgstr "ศัพท์บรรยายถัดไป (OGM)"
 
 msgctxt "IDS_MPLAYERC_90"
 msgid "Prev Subtitle (OGM)"

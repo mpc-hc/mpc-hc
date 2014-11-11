@@ -791,7 +791,7 @@ msgstr "לא ניתן היה למצוא את כל חלקי הארכיון"
 
 msgctxt "IDC_TEXTURESURF2D"
 msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
-msgstr "משטח הוידאו יוקצה כמרקם, אך פונקציות ה-2D עדיין ישמשו להעתיק ולמתוח אותו אל החוצץ האחורי. דורש כרטיס גרפי המסוגל להקצות מרקמי  32ביט, RGBA, ללא כפולות של 2 ולפחות ברזולוצייה של הוידאו."
+msgstr "משטח הוידאו יוקצה כמרקם, אך פונקציות ה-2D עדיין ישמשו להעתיק ולמתוח אותו אל החוצץ האחורי. דורש כרטיס גרפי המסוגל להקצות מרקמי 32ביט, RGBA, ללא כפולות של 2 ולפחות ברזולוצייה של הוידאו."
 
 msgctxt "IDC_TEXTURESURF3D"
 msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."

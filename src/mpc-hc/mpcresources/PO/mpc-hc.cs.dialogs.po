@@ -654,7 +654,7 @@ msgstr "Audio CD"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "Jump distances (small, medium, large in ms)"
-msgstr "Velikosti skoků  [malý | střední | velký]  (ms)"
+msgstr "Velikosti skoků [malý | střední | velký] (ms)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_BUTTON1"
 msgid "Default"

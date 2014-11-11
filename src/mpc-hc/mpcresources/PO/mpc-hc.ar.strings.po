@@ -120,7 +120,7 @@ msgstr "الأستايلات"
 
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
-msgstr "إذا ترك الـ  rendering targeh غير معروف، سيتم إخراج ترجمات SSA / ASS بالنسبة لإطار الفيديو في حين سيتم إخراج جميع الترجمات الأخرى بالنسبة للنافذة."
+msgstr "إذا ترك الـ rendering targeh غير معروف، سيتم إخراج ترجمات SSA / ASS بالنسبة لإطار الفيديو في حين سيتم إخراج جميع الترجمات الأخرى بالنسبة للنافذة."
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -628,7 +628,7 @@ msgstr "نفس الـ VMR-9 ولكنه (عارض أقل)، لكن إستعمال
 
 msgctxt "IDC_DSNULL_COMP"
 msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the cpu from working unnecessarily."
-msgstr "الإتصال بأيّ فيديو مثل نوع الوسائط  وسيرسل العينات ليفحصها ليس في أي مكان. إستعمله إذا كنت لست بحاجة إلى عرض الفيديو وأردت توفير وحدة المعالجة المركزية من عمل غير ضروري."
+msgstr "الإتصال بأيّ فيديو مثل نوع الوسائط وسيرسل العينات ليفحصها ليس في أي مكان. إستعمله إذا كنت لست بحاجة إلى عرض الفيديو وأردت توفير وحدة المعالجة المركزية من عمل غير ضروري."
 
 msgctxt "IDC_DSNULL_UNCOMP"
 msgid "Same as the normal Null renderer, but this will only connect to uncompressed types."
@@ -656,11 +656,11 @@ msgstr "العارض الخاص لـ Real's. مخطوطات SMIL ستعمل، ل
 
 msgctxt "IDC_RMDX7"
 msgid "The output of Real's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "ناتج عارض محرّك لـ Real's من قبل DX7 ويستند على خصائص متقدّمة من VMR-7  (عارض أقل)."
+msgstr "ناتج عارض محرّك لـ Real's من قبل DX7 ويستند على خصائص متقدّمة من VMR-7 (عارض أقل)."
 
 msgctxt "IDC_RMDX9"
 msgid "The output of Real's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
-msgstr "ناتج عارض محرّك لـ Real's من قبل DX9 ويستند على خصائص متقدّمة من VMR-9  (عارض أقل)."
+msgstr "ناتج عارض محرّك لـ Real's من قبل DX9 ويستند على خصائص متقدّمة من VMR-9 (عارض أقل)."
 
 msgctxt "IDC_QTSYSDEF"
 msgid "QuickTime's own renderer. Gets a little slow when its video area is resized or partially covered by another window. When Overlay is not available it likes to fall back to GDI."
@@ -668,11 +668,11 @@ msgstr "عارض QuickTime's الخاص. يصبح بطيئاً إلى حدّ م�
 
 msgctxt "IDC_QTDX7"
 msgid "The output of QuickTime's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "ناتج عارض محرّك لـ QuickTime's من قبل DX7 ويستند على خصائص متقدّمة من VMR-7  (عارض أقل)."
+msgstr "ناتج عارض محرّك لـ QuickTime's من قبل DX7 ويستند على خصائص متقدّمة من VMR-7 (عارض أقل)."
 
 msgctxt "IDC_QTDX9"
 msgid "The output of QuickTime's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
-msgstr "ناتج عارض محرّك لـ QuickTime's من قبل DX9 ويستند على خصائص متقدّمة من VMR-9  (عارض أقل)."
+msgstr "ناتج عارض محرّك لـ QuickTime's من قبل DX9 ويستند على خصائص متقدّمة من VMR-9 (عارض أقل)."
 
 msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
@@ -856,7 +856,7 @@ msgstr "لا تسمح بتحريك الترجمة. تفعيل هذا الخيا�
 
 msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
-msgstr "زيادة معدل تخزين الصور الفرعية ينبغي بصفة عامة أن يُحسن أداء الريندرنج على حساب معدل استخدام وحدة التخزين في  كارت الشاشة."
+msgstr "زيادة معدل تخزين الصور الفرعية ينبغي بصفة عامة أن يُحسن أداء الريندرنج على حساب معدل استخدام وحدة التخزين في كارت الشاشة."
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
@@ -1544,7 +1544,7 @@ msgstr "إعادة ضبظ الإعدادات"
 
 msgctxt "IDS_RESET_SETTINGS_WARNING"
 msgid "Are you sure you want to restore MPC-HC to its default settings?\nBe warned that ALL your current settings will be lost!"
-msgstr "هل أنت متأكّد بأنك تريد إعادة MPC-HC إلى الضبط الأفتراضي؟\nكن حذراً فكلّ الضبط الحالي  ستفقدة!"
+msgstr "هل أنت متأكّد بأنك تريد إعادة MPC-HC إلى الضبط الأفتراضي؟\nكن حذراً فكلّ الضبط الحالي ستفقدة!"
 
 msgctxt "IDS_RESET_SETTINGS_MUTEX"
 msgid "Please close all instances of MPC-HC so that the default settings can be restored."
@@ -1636,7 +1636,7 @@ msgstr "الملف السابق"
 
 msgctxt "IDS_MPLAYERC_99"
 msgid "Toggle Direct3D fullscreen"
-msgstr "تبديل  D3D ملء الشاشة"
+msgstr "تبديل D3D ملء الشاشة"
 
 msgctxt "IDS_MPLAYERC_100"
 msgid "Goto Prev Subtitle"
@@ -3564,7 +3564,7 @@ msgstr "القنوات"
 
 msgctxt "IDC_FASTSEEK_CHECK"
 msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."
-msgstr "إذا تم إختيار \"الإطار المفتاحي الأحدث\"، إبحث  عن الإطار المفتاحي الأول قبل نقطة البحث الحالية\nإذا تم إختيار \"الإطار المفتاحي الأقرب\"، إبحث  عن الإطار المفتاحي الأول قبل نقطة البحث الحالية إعتماداً علي أيها الأقرب"
+msgstr "إذا تم إختيار \"الإطار المفتاحي الأحدث\"، إبحث عن الإطار المفتاحي الأول قبل نقطة البحث الحالية\nإذا تم إختيار \"الإطار المفتاحي الأقرب\"، إبحث عن الإطار المفتاحي الأول قبل نقطة البحث الحالية إعتماداً علي أيها الأقرب"
 
 msgctxt "IDC_ASSOCIATE_ALL_FORMATS"
 msgid "Associate with all formats"

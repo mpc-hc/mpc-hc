@@ -878,7 +878,7 @@ msgstr "Крок\nКрок"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "Decrease speed\nDecrease speed"
-msgstr "Паменшыць хуткасць\nПаменшыць  хуткасць"
+msgstr "Паменшыць хуткасць\nПаменшыць хуткасць"
 
 msgctxt "ID_PLAY_INCRATE"
 msgid "Increase speed\nIncrease speed"

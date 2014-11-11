@@ -599,7 +599,7 @@ msgstr "이것은 윈도우 9x/ME/2000 에서 사용하는 렌더러입니다. �
 
 msgctxt "IDC_DSOVERLAYMIXER"
 msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
-msgstr "항상 비디오를 오버레이상태로 렌더링합니다. 일반적으로 YUV의 색공간만을 허용하고,  RGB색상변환을 하지않고 그대로 표현하게 됩니다. 다른 모드들과 비교해서 가장 빠른속도를 가졌지만 TV-OUT 기능을 활성화했을때만 전체화면 미러링이 작동합니다."
+msgstr "항상 비디오를 오버레이상태로 렌더링합니다. 일반적으로 YUV의 색공간만을 허용하고, RGB색상변환을 하지않고 그대로 표현하게 됩니다. 다른 모드들과 비교해서 가장 빠른속도를 가졌지만 TV-OUT 기능을 활성화했을때만 전체화면 미러링이 작동합니다."
 
 msgctxt "IDC_DSVMR7WIN"
 msgid "The default renderer of Windows XP. Very stable and just a little slower than the Overlay mixer. Uses DirectDraw and runs in Overlay when it can."
@@ -2771,7 +2771,7 @@ msgstr "모든 오디오 디코더 사용"
 
 msgctxt "IDS_DISABLE_AUDIO_FILTERS"
 msgid "Disable all audio decoders"
-msgstr "모든  디코더 사용안함"
+msgstr "모든 디코더 사용안함"
 
 msgctxt "IDS_ENABLE_VIDEO_FILTERS"
 msgid "Enable all video decoders"

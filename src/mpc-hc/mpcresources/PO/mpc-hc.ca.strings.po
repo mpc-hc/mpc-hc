@@ -137,7 +137,7 @@ msgstr "No és compatible amb alguns dispositius. Dos descodificadors de vídeo 
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
 msgid "Fast except when switching between different video streams. Only one video decoder present in the filter graph."
-msgstr "Ràpid  excepte en canviar entre diferents fluxos de vídeo. Només un descodificador de vídeo present en el filter graph."
+msgstr "Ràpid excepte en canviar entre diferents fluxos de vídeo. Només un descodificador de vídeo present en el filter graph."
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC2"
 msgid "Not recommended. Only for testing purposes."
@@ -265,7 +265,7 @@ msgstr "No es pot obrir el controlador de captació."
 
 msgctxt "IDS_INVALID_PARAMS_ERROR"
 msgid "Can't open, invalid input parameters"
-msgstr "No es pot obrir, paràmetres  d'entrada no vàlids"
+msgstr "No es pot obrir, paràmetres d'entrada no vàlids"
 
 msgctxt "IDS_EDIT_LIST_EDITOR"
 msgid "Edit List Editor"
@@ -601,7 +601,7 @@ msgstr "Aquet es el renderitzador predeterminat per Windows 9x/Me/2K. Depenent d
 
 msgctxt "IDC_DSOVERLAYMIXER"
 msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
-msgstr "Sempre renderitzador amb Overlay. Generalment només es permeten els formats YUV, però es presenten directament sense cap conversió de color a RGB. Aquesta manera de renderitzat  es el més ràpid i l'únic on pots estar segur sobre el Video Mirroring a pantalla completa quant actives la sortida de TV."
+msgstr "Sempre renderitzador amb Overlay. Generalment només es permeten els formats YUV, però es presenten directament sense cap conversió de color a RGB. Aquesta manera de renderitzat es el més ràpid i l'únic on pots estar segur sobre el Video Mirroring a pantalla completa quant actives la sortida de TV."
 
 msgctxt "IDC_DSVMR7WIN"
 msgid "The default renderer of Windows XP. Very stable and just a little slower than the Overlay mixer. Uses DirectDraw and runs in Overlay when it can."
@@ -609,7 +609,7 @@ msgstr "El renderitzat predeterminat de XP. Molt estable i només es una mica m�
 
 msgctxt "IDC_DSVMR9WIN"
 msgid "Only available if you have DirectX 9 installed. Has the same abilities as VMR-7 (windowed), but it will never use Overlay rendering and because of this it may be a little slower than VMR-7 (windowed)."
-msgstr "Només disponible si tens instal·lat DirectX 9. Té les mateixes habilitats que VMR-7 (de finestra), pero  mai usarà el renderitzat Overlay i per aquesta raó podria ser una mica més lent que VMR-7 (de finestra)."
+msgstr "Només disponible si tens instal·lat DirectX 9. Té les mateixes habilitats que VMR-7 (de finestra), pero mai usarà el renderitzat Overlay i per aquesta raó podria ser una mica més lent que VMR-7 (de finestra)."
 
 msgctxt "IDC_DSVMR7REN"
 msgid "Same as the VMR-7 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring WILL NOT work. \"True Color\" desktop color space recommended."
@@ -625,7 +625,7 @@ msgstr "Igual que VMR-9 (sense res), pero usa un redimensionador real de dues pa
 
 msgctxt "IDC_DSNULL_COMP"
 msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the cpu from working unnecessarily."
-msgstr "Conecta a cualsevol tipus de mitjà de vídeo i manda les mostres a cap lloc. Utilitza'l quant no necesitis veure el vídeo, i vulguis  evitar l'ús no necessari de la cpu."
+msgstr "Conecta a cualsevol tipus de mitjà de vídeo i manda les mostres a cap lloc. Utilitza'l quant no necesitis veure el vídeo, i vulguis evitar l'ús no necessari de la cpu."
 
 msgctxt "IDC_DSNULL_UNCOMP"
 msgid "Same as the normal Null renderer, but this will only connect to uncompressed types."
@@ -845,7 +845,7 @@ msgstr "VSync precisa"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid "If the rendering target is left undefined, it will be inherited from the default style."
-msgstr "Si l' objectiu  del renderitzador es deixa sense definir, s' hereta l 'estil predeterminat."
+msgstr "Si l' objectiu del renderitzador es deixa sense definir, s' hereta l 'estil predeterminat."
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
@@ -1273,7 +1273,7 @@ msgstr "Oculta els controls i panells també en mode de finestra."
 
 msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
 msgid "Prevent external subtitle renderer to be loaded when internal is in use."
-msgstr "Evitar la càrrega del renderitzador  de subtítols extern  quant l'intern està en ús."
+msgstr "Evitar la càrrega del renderitzador de subtítols extern quant l'intern està en ús."
 
 msgctxt "IDS_PPAGEADVANCED_COL_NAME"
 msgid "Name"
@@ -1437,7 +1437,7 @@ msgstr "Vés a"
 
 msgctxt "IDS_AG_INCREASE_RATE"
 msgid "Increase Rate"
-msgstr "Augmentar  Velocitat"
+msgstr "Augmentar Velocitat"
 
 msgctxt "IDS_CONTENT_SHOW_GAMESHOW"
 msgid "Show/Game show"
@@ -1637,7 +1637,7 @@ msgstr "Commutar el Direct3D a Pantalla completa"
 
 msgctxt "IDS_MPLAYERC_100"
 msgid "Goto Prev Subtitle"
-msgstr "Anar a  Subtítol Previ"
+msgstr "Anar a Subtítol Previ"
 
 msgctxt "IDS_MPLAYERC_101"
 msgid "Goto Next Subtitle"
@@ -1741,7 +1741,7 @@ msgstr " %d subtítols disponibles."
 
 msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
-msgstr "Vols comprovar periòdicament si hi ha actualitzacions del MPC-HC?\n\nAquesta funció pot ser desactivada més tard a  Miscel.lània en menú d'opcions."
+msgstr "Vols comprovar periòdicament si hi ha actualitzacions del MPC-HC?\n\nAquesta funció pot ser desactivada més tard a Miscel.lània en menú d'opcions."
 
 msgctxt "IDS_ZOOM_50"
 msgid "50%"
@@ -2477,7 +2477,7 @@ msgstr "Angle N° %u"
 
 msgctxt "IDS_AG_VSYNCOFFSET_INCREASE"
 msgid "Increase VSync Offset"
-msgstr "Augmentar  desajustament del Vsync"
+msgstr "Augmentar desajustament del Vsync"
 
 msgctxt "IDS_AG_DISABLED"
 msgid "Disabled"
@@ -3537,7 +3537,7 @@ msgstr "Introdueixi els seves idiomes preferits aquí.\nPer exemple, escriu: \"e
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
-msgstr "Els splitters externs poden tenir les seves pròpies opcions de preferències d'idioma per tant el comportament predeterminat MPC-HC no és per canviar la seva elecció inicial.\nActiveu aquesta opció si voleu MPC-HC  controli els splitters externs."
+msgstr "Els splitters externs poden tenir les seves pròpies opcions de preferències d'idioma per tant el comportament predeterminat MPC-HC no és per canviar la seva elecció inicial.\nActiveu aquesta opció si voleu MPC-HC controli els splitters externs."
 
 msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
 msgid "&Blu-Ray playlists"
@@ -3569,11 +3569,11 @@ msgstr "Associar amb tots els formats"
 
 msgctxt "IDC_ASSOCIATE_VIDEO_FORMATS"
 msgid "Associate with video formats only"
-msgstr "Associat  només amb formats de vídeo"
+msgstr "Associat només amb formats de vídeo"
 
 msgctxt "IDC_ASSOCIATE_AUDIO_FORMATS"
 msgid "Associate with audio formats only"
-msgstr "Associatnomés  amb formats d'àudio"
+msgstr "Associatnomés amb formats d'àudio"
 
 msgctxt "IDC_CLEAR_ALL_ASSOCIATIONS"
 msgid "Clear all associations"

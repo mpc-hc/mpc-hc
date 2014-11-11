@@ -340,7 +340,7 @@ msgstr "&Disminuir compensació de vsync"
 
 msgctxt "ID_VIEW_VSYNCOFFSET_INCREASE"
 msgid "&Increase VSync Offset"
-msgstr "&Augmentar  compensació de vsync"
+msgstr "&Augmentar compensació de vsync"
 
 msgctxt "POPUP"
 msgid "&GPU Control"
@@ -536,7 +536,7 @@ msgstr "Avançar un &Fotograma"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "&Decrease Rate"
-msgstr "Au&gmentar  Velocitat"
+msgstr "Au&gmentar Velocitat"
 
 msgctxt "ID_PLAY_INCRATE"
 msgid "&Increase Rate"

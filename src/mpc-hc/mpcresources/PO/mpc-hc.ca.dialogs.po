@@ -1280,7 +1280,7 @@ msgstr "Activar comprovació automàtica d'actualitzacions"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
 msgid "Delay between each check:"
-msgstr "Comprovar cada:  "
+msgstr "Comprovar cada:"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"

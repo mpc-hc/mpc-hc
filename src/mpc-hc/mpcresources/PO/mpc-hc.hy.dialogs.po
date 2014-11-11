@@ -454,7 +454,7 @@ msgstr "Ձայնի"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK4"
 msgid "Allow overriding external splitter choice"
-msgstr "Թույլատրել արտաքին բաժանիչների  վերակարգավորումը"
+msgstr "Թույլատրել արտաքին բաժանիչների վերակարգավորումը"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Open settings"

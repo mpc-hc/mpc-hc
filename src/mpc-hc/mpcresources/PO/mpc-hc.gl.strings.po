@@ -615,7 +615,7 @@ msgstr "O mesmo que VMR-7 (xanela), pero co complemento \"Allocator-Presenter\" 
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
-msgstr "O mesmo que VMR-9 (xanela), pero co complemento \"Allocator-Presenter\" de MPC-HC para o subtitulado. O espelo de Overlay TALVEZ funcionara. Recomendase a profundidade de cor do  escritorio \"Cor Verdadeiro\"."
+msgstr "O mesmo que VMR-9 (xanela), pero co complemento \"Allocator-Presenter\" de MPC-HC para o subtitulado. O espelo de Overlay TALVEZ funcionara. Recomendase a profundidade de cor do escritorio \"Cor Verdadeiro\"."
 
 msgctxt "IDC_DSDXR"
 msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
@@ -635,7 +635,7 @@ msgstr "Só dispoñible en Vista ou superior ou en XP tendo polo menos o Marco d
 
 msgctxt "IDC_DSEVR_CUSTOM"
 msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
-msgstr "Igual que EVR, pero con Asignación-Presentación do MPC-HC por subtitulado e  postprocesamento. Recomendado para Windows Vista ou posterior."
+msgstr "Igual que EVR, pero con Asignación-Presentación do MPC-HC por subtitulado e postprocesamento. Recomendado para Windows Vista ou posterior."
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
@@ -643,7 +643,7 @@ msgstr "Renderizador de alta calidade, require un GPU que soporte D3D9 ou superi
 
 msgctxt "IDC_DSSYNC"
 msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
-msgstr "O mesmo que EVR (CP), pero ofrece bastantes opcións para sincronizar a taxa de marcos do  vídeo coa taxa de actualización de visualización para eliminar marcos de vídeo saltados ou duplicados."
+msgstr "O mesmo que EVR (CP), pero ofrece bastantes opcións para sincronizar a taxa de marcos do vídeo coa taxa de actualización de visualización para eliminar marcos de vídeo saltados ou duplicados."
 
 msgctxt "IDC_RMSYSDEF"
 msgid "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
@@ -803,7 +803,7 @@ msgstr "Se non hai soporte para Pixel Shader 2.0, usarase automáticamente o red
 
 msgctxt "IDC_DSVMR9LOADMIXER"
 msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
-msgstr "Pon a VMR-9 (sen renderizador) no modo do mesturador, isto significa que a maioría dos controis da páxina de propiedades funcionaran e usara un proceso de traballo separado  para renderizar cadros."
+msgstr "Pon a VMR-9 (sen renderizador) no modo do mesturador, isto significa que a maioría dos controis da páxina de propiedades funcionaran e usara un proceso de traballo separado para renderizar cadros."
 
 msgctxt "IDC_DSVMR9YUVMIXER"
 msgid "Improves performance at the cost of some compatibility of the renderer."
@@ -1483,7 +1483,7 @@ msgstr "Fotograma clave máis preto"
 
 msgctxt "IDS_HOOKS_FAILED"
 msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
-msgstr "MPC-HC atopou o problema durante o inicio. A reprodución do DVD podería funcionar incorrectamente. Isto pode ser causado por algúnhas incompatibilidades con certas  ferramentas de seguridade.\n\nDesexas reportar este problema?"
+msgstr "MPC-HC atopou o problema durante o inicio. A reprodución do DVD podería funcionar incorrectamente. Isto pode ser causado por algúnhas incompatibilidades con certas ferramentas de seguridade.\n\nDesexas reportar este problema?"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
 msgid "Never show"
@@ -1543,7 +1543,7 @@ msgstr "Estás seguro de que desexas restaurar MPC-HC ás súas configuracións 
 
 msgctxt "IDS_RESET_SETTINGS_MUTEX"
 msgid "Please close all instances of MPC-HC so that the default settings can be restored."
-msgstr "Por favor pecha todas as instancias de MPC-HC para que as configuracións predefinidas  poidan ser restauradas."
+msgstr "Por favor pecha todas as instancias de MPC-HC para que as configuracións predefinidas poidan ser restauradas."
 
 msgctxt "IDS_EXPORT_SETTINGS"
 msgid "Export settings"
@@ -2083,7 +2083,7 @@ msgstr "MPC-HC non ten suficientes privilexios para cambiar as asociacións de f
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
-msgstr "MPC-HC é un reproductor de medios de código aberto extremamente lixeiro para Windows. É   compatible con todos os formatos comúns de ficheiros de audio e vídeo dispoñibles para a súa reprodución. Estamos 100% libre de spyware, no hai anuncios ou barras de ferramentas."
+msgstr "MPC-HC é un reproductor de medios de código aberto extremamente lixeiro para Windows. É  compatible con todos os formatos comúns de ficheiros de audio e vídeo dispoñibles para a súa reprodución. Estamos 100% libre de spyware, no hai anuncios ou barras de ferramentas."
 
 msgctxt "IDS_MAINFRM_12"
 msgid "channel"
@@ -3559,7 +3559,7 @@ msgstr "&Canles"
 
 msgctxt "IDC_FASTSEEK_CHECK"
 msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."
-msgstr "Se  \"O último fotograma clave\" está seleccionado, buscarase o primeiro fotograma clave (\"keyframe\") anterior ao punto de búsqueda actual.\nSe \"O fotograma clave que está máis preto\" está seleccionado, buscarase o primeiro fotograma clave anterior ou posterior ao punto de búsqueda dependendo de cal sexa o que está máis preto. "
+msgstr "Se \"O último fotograma clave\" está seleccionado, buscarase o primeiro fotograma clave (\"keyframe\") anterior ao punto de búsqueda actual.\nSe \"O fotograma clave que está máis preto\" está seleccionado, buscarase o primeiro fotograma clave anterior ou posterior ao punto de búsqueda dependendo de cal sexa o que está máis preto. "
 
 msgctxt "IDC_ASSOCIATE_ALL_FORMATS"
 msgid "Associate with all formats"

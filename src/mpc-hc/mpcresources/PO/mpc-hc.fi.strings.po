@@ -131,7 +131,7 @@ msgstr "Aina (hitain vaihtoehto)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
 msgid "Not supported by some devices. Two video decoders always present in the filter graph."
-msgstr "Jotkin laitteet eivät tue. Kaksi videodekooderia aina käytössä  grafiikkasuotimessa."
+msgstr "Jotkin laitteet eivät tue. Kaksi videodekooderia aina käytössä grafiikkasuotimessa."
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
 msgid "Fast except when switching between different video streams. Only one video decoder present in the filter graph."
@@ -2131,7 +2131,7 @@ msgstr "DVD: Väärät levy- ja dekooderialueet"
 
 msgctxt "IDS_D3DFS_WARNING"
 msgid "This option is designed to avoid tearing. However, it will also prevent MPC-HC from displaying the context menu and any dialog box during playback.\n\nDo you really want to activate this option?"
-msgstr "Tämä vaihtoehto on suunniteltu hajoamisen välttämiseen. Kuitenkin se estää toistettaessa myöskin MPC-HC:ta näyttämästä  pikavalikkoa ja mitään muutakaan valintaikkunaa.\n\nHaluatko tosiaan käyttää tätä vaihtoehtoa?"
+msgstr "Tämä vaihtoehto on suunniteltu hajoamisen välttämiseen. Kuitenkin se estää toistettaessa myöskin MPC-HC:ta näyttämästä pikavalikkoa ja mitään muutakaan valintaikkunaa.\n\nHaluatko tosiaan käyttää tätä vaihtoehtoa?"
 
 msgctxt "IDS_MAINFRM_139"
 msgid "Sub delay: %ld ms"
@@ -2259,7 +2259,7 @@ msgstr "Pienoiskuvista tulisi liian pieniä, tiedostoa ei voi luoda .\n\nYritä 
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "Tekstityksien latausta varten on vaihdettava videomuunnintyyppiä ja avattava tiedosto uudelleen.\n- DirectShow: VMR-7/VMR-9 (muuntamaton), EVR (CP), Sync, madVR tai Haali\n- RealMedia:  RealMedian erikoismuunnin, tai avaus DirectShow'n kautta.\n- QuickTime: QuickTimen DX7- tai DX9-muunnin\n - ShockWave: n/a"
+msgstr "Tekstityksien latausta varten on vaihdettava videomuunnintyyppiä ja avattava tiedosto uudelleen.\n- DirectShow: VMR-7/VMR-9 (muuntamaton), EVR (CP), Sync, madVR tai Haali\n- RealMedia: RealMedian erikoismuunnin, tai avaus DirectShow'n kautta.\n- QuickTime: QuickTimen DX7- tai DX9-muunnin\n - ShockWave: n/a"
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
@@ -3371,7 +3371,7 @@ msgstr "Virhe jäsennettäessä annettua tekstiä!"
 
 msgctxt "IDS_GOTO_ERROR_PARSING_FPS"
 msgid "Error parsing the entered frame rate!"
-msgstr "Virhe  jäsennettäessä annettua kehysnopeutta!"
+msgstr "Virhe jäsennettäessä annettua kehysnopeutta!"
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
 msgid "Cannot frame step, try a different video renderer."
@@ -3475,7 +3475,7 @@ msgstr "Toiston jälkeen: Horrostila"
 
 msgctxt "IDS_AFTERPLAYBACK_HIBERNATE"
 msgid "After Playback: Hibernate"
-msgstr "Toiston jälkeen:  Lepotila"
+msgstr "Toiston jälkeen: Lepotila"
 
 msgctxt "IDS_AFTERPLAYBACK_SHUTDOWN"
 msgid "After Playback: Shutdown"

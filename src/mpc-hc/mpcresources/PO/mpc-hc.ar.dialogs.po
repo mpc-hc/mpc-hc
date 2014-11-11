@@ -688,7 +688,7 @@ msgstr "إستعمال مميزّات شريط المهام لويندوز 7"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
-msgstr "فتح (التالي / السابق) (رجوع خلفي/ أمامي) في الحافظة عندما تكون هناك مادة وحيدة  في قائمة التشغيل"
+msgstr "فتح (التالي / السابق) (رجوع خلفي/ أمامي) في الحافظة عندما تكون هناك مادة وحيدة في قائمة التشغيل"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
 msgid "Use time tooltip:"
@@ -900,7 +900,7 @@ msgstr "تحذير"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC1"
 msgid "MPC-HC could not render some of the pins in the graph, you may not have the needed codecs or filters installed on the system."
-msgstr "مشغل الوسائط الكلاسيكي - هوم سينما لا يستطيع أن يعيد البعض من التثبيت في الرسم البياني، يحتمل أنه لا يوجد عندك الكودك  المطلوب أو أن الفلاتر غير مثبته على النظام"
+msgstr "مشغل الوسائط الكلاسيكي - هوم سينما لا يستطيع أن يعيد البعض من التثبيت في الرسم البياني، يحتمل أنه لا يوجد عندك الكودك المطلوب أو أن الفلاتر غير مثبته على النظام"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC2"
 msgid "The following pin(s) failed to find a connectable filter:"
@@ -992,11 +992,11 @@ msgstr "المساحات"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Angle (z,°)"
-msgstr "الزاوية  (z,°)"
+msgstr "الزاوية (z,°)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Scale (x,%)"
-msgstr "المقياس  (x,%)"
+msgstr "المقياس (x,%)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Scale (y,%)"

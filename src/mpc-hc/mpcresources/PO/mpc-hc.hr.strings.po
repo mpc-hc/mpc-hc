@@ -1958,7 +1958,7 @@ msgstr "prethodni kut (DVD)"
 
 msgctxt "IDS_MPLAYERC_93"
 msgid "Next Audio (DVD)"
-msgstr "iduci  audio (DVD)"
+msgstr "iduci audio (DVD)"
 
 msgctxt "IDS_MPLAYERC_94"
 msgid "Prev Audio (DVD)"
@@ -3342,7 +3342,7 @@ msgstr "MB/s"
 
 msgctxt "IDS_BDA_ERROR_CREATE_TUNER"
 msgid "Could not create the tuner."
-msgstr "Nemoguće stvoriti  pretvarač."
+msgstr "Nemoguće stvoriti pretvarač."
 
 msgctxt "IDS_BDA_ERROR_CREATE_RECEIVER"
 msgid "Could not create the receiver."
@@ -3394,7 +3394,7 @@ msgstr "Funkcije \"Spremi sliku\" i \"Spremi minijature\" ne rade sa Shockwave d
 
 msgctxt "IDS_SCREENSHOT_ERROR_OVERLAY"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the Overlay Mixer video renderer.\nChange the video renderer in MPC's output options and reopen the file."
-msgstr "Funkcije \"Spremi sliku\" i \"Spremi minijature\" ne rade sa  sa Overlay Mixer video izvođačem. \nPromijenite video izvođač u MPC-HC-ovim opcijama i ponovno otvorite datoteku."
+msgstr "Funkcije \"Spremi sliku\" i \"Spremi minijature\" ne rade sa sa Overlay Mixer video izvođačem. \nPromijenite video izvođač u MPC-HC-ovim opcijama i ponovno otvorite datoteku."
 
 msgctxt "IDS_SUBDL_DLG_CONNECT_ERROR"
 msgid "Cannot connect to the online subtitles database."
