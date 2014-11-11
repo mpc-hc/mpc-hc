@@ -2142,7 +2142,7 @@ msgstr "Kasnjenje titla: %ld ms"
 
 msgctxt "IDS_AG_TITLE2"
 msgid "Title: %02d/%02d"
-msgstr "Naslov: %02d/%o2d"
+msgstr "Naslov: %02d/%02d"
 
 msgctxt "IDS_REALVIDEO_INCOMPATIBLE"
 msgid "Filename contains unsupported characters (use only A-Z, 0-9)"
