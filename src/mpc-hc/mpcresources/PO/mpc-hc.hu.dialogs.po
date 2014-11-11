@@ -1146,7 +1146,7 @@ msgstr "Újrainicializálás képernyők közötti váltáskor"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "D3D Fullscreen"
-msgstr "Direct3D Teljes képernyő\n(megszünteti a képszétválást - page tearing)"
+msgstr ""
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Alternative VSync"

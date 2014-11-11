@@ -2334,7 +2334,7 @@ msgstr "Бягучы"
 
 msgctxt "IDS_MPC_CRASH"
 msgid "MPC-HC terminated unexpectedly. To help us fix this problem, please send this file \"%s\" to our bug tracker.\n\nDo you want to open the folder containing the minidump file and visit the bug tracker now?"
-msgstr "Праца MPC-HC нечакана была спынена. Каб дапамагчы нам выправіць гэтую памылку, калі ласка, дашліце файл '%s' на mpchomecinema@gmail.com."
+msgstr ""
 
 msgctxt "IDS_MPC_MINIDUMP_FAIL"
 msgid "Failed to create dump file to \"%s\" (error %u)"

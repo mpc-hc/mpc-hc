@@ -2132,7 +2132,7 @@ msgstr "DVD: Nezdružljive regije diska in dekoderja"
 
 msgctxt "IDS_D3DFS_WARNING"
 msgid "This option is designed to avoid tearing. However, it will also prevent MPC-HC from displaying the context menu and any dialog box during playback.\n\nDo you really want to activate this option?"
-msgstr "Ta možnost je načrtovana v izogib trganju. Bo pa poleg tega preprečila MPC-HC, da prikaže priročni meni ali katerokoli drugo pogovorno okno med predvajanjem.\n\nZa izhod iz Direct3D celozaslonsko in zaustavitev predvajanja je potrebno pritisniti: Ctrl + C.\n\nRes želiš aktivirati to možnost?"
+msgstr ""
 
 msgctxt "IDS_MAINFRM_139"
 msgid "Sub delay: %ld ms"
