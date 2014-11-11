@@ -1387,7 +1387,7 @@ msgstr "이미지 저장"
 
 msgctxt "IDS_MPLAYERC_6"
 msgid "Save Image (auto)"
-msgstr " (자동)"
+msgstr ""
 
 msgctxt "IDS_OSD_IMAGE_SAVED"
 msgid "Image saved successfully"
