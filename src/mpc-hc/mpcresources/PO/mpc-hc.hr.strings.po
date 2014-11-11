@@ -2214,7 +2214,7 @@ msgstr "odaberi putanju za DVD/BD:"
 
 msgctxt "IDS_SUB_LOADED_SUCCESS"
 msgid " loaded successfully"
-msgstr "uspjesno ucitano"
+msgstr " uspjesno ucitano"
 
 msgctxt "IDS_ALL_FILES_FILTER"
 msgid "All files (*.*)|*.*||"
@@ -2446,7 +2446,7 @@ msgstr "&Svojstva..."
 
 msgctxt "IDS_MAINFRM_117"
 msgid " (pin) properties..."
-msgstr "(pin) svojstva..."
+msgstr " (pin) svojstva..."
 
 msgctxt "IDS_AG_UNKNOWN_STREAM"
 msgid "Unknown Stream"
@@ -2462,11 +2462,11 @@ msgstr "VSync"
 
 msgctxt "IDS_MAINFRM_121"
 msgid " (Director Comments 1)"
-msgstr "(Komentari redatelja 1)"
+msgstr " (Komentari redatelja 1)"
 
 msgctxt "IDS_MAINFRM_122"
 msgid " (Director Comments 2)"
-msgstr "(Komentari redatelja 2)"
+msgstr " (Komentari redatelja 2)"
 
 msgctxt "IDS_DVD_SUBTITLES_ENABLE"
 msgid "Enable DVD subtitles"

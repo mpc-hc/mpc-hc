@@ -2459,7 +2459,7 @@ msgstr "VSync"
 
 msgctxt "IDS_MAINFRM_121"
 msgid " (Director Comments 1)"
-msgstr "(পরিচালকের মন্তব্যসমূহ ১)"
+msgstr " (পরিচালকের মন্তব্যসমূহ ১)"
 
 msgctxt "IDS_MAINFRM_122"
 msgid " (Director Comments 2)"

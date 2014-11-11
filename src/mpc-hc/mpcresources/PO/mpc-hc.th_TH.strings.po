@@ -2212,7 +2212,7 @@ msgstr "เลือกเส้นทางสำหรับดีวีดี
 
 msgctxt "IDS_SUB_LOADED_SUCCESS"
 msgid " loaded successfully"
-msgstr "โหลดสำเร็จแล้ว"
+msgstr " โหลดสำเร็จแล้ว"
 
 msgctxt "IDS_ALL_FILES_FILTER"
 msgid "All files (*.*)|*.*||"

@@ -415,7 +415,7 @@ fr.ViewChangelog=Voir la liste des changements
 gl.langid=00001110
 gl.comp_mpciconlib=Biblioteca de iconas
 gl.comp_mpcresources=Traducións
-gl.msg_DeleteSettings= Tamén queres eliminar os axustes de MPC-HC?%n%nSe te plantexas instalar MPC-HC outra vez entón non o tes que eliminar.
+gl.msg_DeleteSettings=Tamén queres eliminar os axustes de MPC-HC?%n%nSe te plantexas instalar MPC-HC outra vez entón non o tes que eliminar.
 gl.msg_SetupIsRunningWarning=O instalador de MPC-HC xa está correndo!
 #if defined(sse_required)
 gl.msg_simd_sse=Esta versión de MPC-HC require unha CPU con soporte para a extensión SSE .%n%nO seu CPU non ten estas capacidades.

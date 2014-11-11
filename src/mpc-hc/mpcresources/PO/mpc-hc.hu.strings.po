@@ -2442,7 +2442,7 @@ msgstr "&Tulajdonságok..."
 
 msgctxt "IDS_MAINFRM_117"
 msgid " (pin) properties..."
-msgstr "Csatlakozó tulajdonságok..."
+msgstr ""
 
 msgctxt "IDS_AG_UNKNOWN_STREAM"
 msgid "Unknown Stream"

@@ -2211,7 +2211,7 @@ msgstr "Valitse DVD/BD:n polku:"
 
 msgctxt "IDS_SUB_LOADED_SUCCESS"
 msgid " loaded successfully"
-msgstr "lataus onnistui"
+msgstr " lataus onnistui"
 
 msgctxt "IDS_ALL_FILES_FILTER"
 msgid "All files (*.*)|*.*||"
@@ -2443,7 +2443,7 @@ msgstr "&Ominaisuudet..."
 
 msgctxt "IDS_MAINFRM_117"
 msgid " (pin) properties..."
-msgstr "(nasta) ominaisuudet..."
+msgstr " (nasta) ominaisuudet..."
 
 msgctxt "IDS_AG_UNKNOWN_STREAM"
 msgid "Unknown Stream"
@@ -2459,11 +2459,11 @@ msgstr "VSync"
 
 msgctxt "IDS_MAINFRM_121"
 msgid " (Director Comments 1)"
-msgstr "(Ohjaajan kommentit 1)"
+msgstr " (Ohjaajan kommentit 1)"
 
 msgctxt "IDS_MAINFRM_122"
 msgid " (Director Comments 2)"
-msgstr "(Ohjaajan kommentit 2)"
+msgstr " (Ohjaajan kommentit 2)"
 
 msgctxt "IDS_DVD_SUBTITLES_ENABLE"
 msgid "Enable DVD subtitles"

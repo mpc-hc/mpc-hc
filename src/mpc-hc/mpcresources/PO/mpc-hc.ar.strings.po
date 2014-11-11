@@ -424,7 +424,7 @@ msgstr "&اعادة تعيين"
 
 msgctxt "IDS_MPLAYERC_104"
 msgid "Subtitle Delay -"
-msgstr " تأخير الترجمة -"
+msgstr "تأخير الترجمة -"
 
 msgctxt "IDS_MPLAYERC_105"
 msgid "Subtitle Delay +"
@@ -1580,11 +1580,11 @@ msgstr "إعادة ضبط المعدل"
 
 msgctxt "IDS_MPLAYERC_21"
 msgid "Audio Delay +10 ms"
-msgstr " تأخير الصوت +10ms "
+msgstr "تأخير الصوت +10ms "
 
 msgctxt "IDS_MPLAYERC_22"
 msgid "Audio Delay -10 ms"
-msgstr " تأخير الصوت -10ms "
+msgstr "تأخير الصوت -10ms "
 
 msgctxt "IDS_MPLAYERC_23"
 msgid "Jump Forward (small)"
@@ -2216,7 +2216,7 @@ msgstr "حدد المسار لـلـDVD/BD:"
 
 msgctxt "IDS_SUB_LOADED_SUCCESS"
 msgid " loaded successfully"
-msgstr "تم التحميل بنجاح"
+msgstr " تم التحميل بنجاح"
 
 msgctxt "IDS_ALL_FILES_FILTER"
 msgid "All files (*.*)|*.*||"
@@ -2448,7 +2448,7 @@ msgstr "&الخصائص"
 
 msgctxt "IDS_MAINFRM_117"
 msgid " (pin) properties..."
-msgstr "(دبوس) خصائص..."
+msgstr " (دبوس) خصائص..."
 
 msgctxt "IDS_AG_UNKNOWN_STREAM"
 msgid "Unknown Stream"
@@ -2464,11 +2464,11 @@ msgstr "VSync"
 
 msgctxt "IDS_MAINFRM_121"
 msgid " (Director Comments 1)"
-msgstr "(تعليقات المخرج 1)"
+msgstr " (تعليقات المخرج 1)"
 
 msgctxt "IDS_MAINFRM_122"
 msgid " (Director Comments 2)"
-msgstr "(تعليقات المخرج 2)"
+msgstr " (تعليقات المخرج 2)"
 
 msgctxt "IDS_DVD_SUBTITLES_ENABLE"
 msgid "Enable DVD subtitles"
@@ -3384,11 +3384,11 @@ msgstr "لا يستطيع تأطير الخطوة، حاول بعارض فيدي
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for RealMedia.\nSelect one of the DirectX renderers for RealMedia in MPC-HC's output options and reopen the file."
-msgstr " \"حفظ الصورة\" و \"حفظ المصغرات\" هذه الوظائف لاتعمل بعارض الفيديو الإفتراضي لـ RealMedia.\nاختر احدى عارض DirectX لـ RealMedia في MPC-HC's لخيارات الناتج واعد فتح الملف."
+msgstr "\"حفظ الصورة\" و \"حفظ المصغرات\" هذه الوظائف لاتعمل بعارض الفيديو الإفتراضي لـ RealMedia.\nاختر احدى عارض DirectX لـ RealMedia في MPC-HC's لخيارات الناتج واعد فتح الملف."
 
 msgctxt "IDS_SCREENSHOT_ERROR_QT"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for QuickTime.\nSelect one of the DirectX renderers for QuickTime in MPC-HC's output options and reopen the file."
-msgstr " \"حفظ الصورة\" و \"حفظ المصغرات\" هذه الوظائف لاتعمل بعارض الفيديو الإفتراضي لـ QuickTime.\nاختر احدى عارض DirectX لـ QuickTime في MPC-HC's لخيارات الناتج واعد فتح الملف."
+msgstr "\"حفظ الصورة\" و \"حفظ المصغرات\" هذه الوظائف لاتعمل بعارض الفيديو الإفتراضي لـ QuickTime.\nاختر احدى عارض DirectX لـ QuickTime في MPC-HC's لخيارات الناتج واعد فتح الملف."
 
 msgctxt "IDS_SCREENSHOT_ERROR_SHOCKWAVE"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work for Shockwave files."

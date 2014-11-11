@@ -2444,7 +2444,7 @@ msgstr "&Özellikler..."
 
 msgctxt "IDS_MAINFRM_117"
 msgid " (pin) properties..."
-msgstr "(süzgeç) özellikleri..."
+msgstr " (süzgeç) özellikleri..."
 
 msgctxt "IDS_AG_UNKNOWN_STREAM"
 msgid "Unknown Stream"

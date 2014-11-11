@@ -200,7 +200,7 @@ msgstr "Authors.txt حقوق طبع © 2002-2014 انظر"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
-msgstr " هذا البرنامج مجاني وأصدر تحت رخصة GNU رخصة جنو العمومية."
+msgstr "هذا البرنامج مجاني وأصدر تحت رخصة GNU رخصة جنو العمومية."
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"

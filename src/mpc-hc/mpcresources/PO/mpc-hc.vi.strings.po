@@ -2211,7 +2211,7 @@ msgstr "Chọn đường dẫn cho DVD/BD:"
 
 msgctxt "IDS_SUB_LOADED_SUCCESS"
 msgid " loaded successfully"
-msgstr "đã nạp thành công"
+msgstr " đã nạp thành công"
 
 msgctxt "IDS_ALL_FILES_FILTER"
 msgid "All files (*.*)|*.*||"
@@ -2443,7 +2443,7 @@ msgstr "&Thuộc tính"
 
 msgctxt "IDS_MAINFRM_117"
 msgid " (pin) properties..."
-msgstr "thuộc tính (pin)..."
+msgstr " thuộc tính (pin)..."
 
 msgctxt "IDS_AG_UNKNOWN_STREAM"
 msgid "Unknown Stream"
@@ -2459,11 +2459,11 @@ msgstr "VSync"
 
 msgctxt "IDS_MAINFRM_121"
 msgid " (Director Comments 1)"
-msgstr "(Giám đốc bình luận 1)"
+msgstr " (Giám đốc bình luận 1)"
 
 msgctxt "IDS_MAINFRM_122"
 msgid " (Director Comments 2)"
-msgstr "(Giám đốc bình luận 2)"
+msgstr " (Giám đốc bình luận 2)"
 
 msgctxt "IDS_DVD_SUBTITLES_ENABLE"
 msgid "Enable DVD subtitles"

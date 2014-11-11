@@ -2459,11 +2459,11 @@ msgstr "VSync"
 
 msgctxt "IDS_MAINFRM_121"
 msgid " (Director Comments 1)"
-msgstr "(Regissörens kommentarer 1)"
+msgstr " (Regissörens kommentarer 1)"
 
 msgctxt "IDS_MAINFRM_122"
 msgid " (Director Comments 2)"
-msgstr "(Regissörens kommentarer 2)"
+msgstr " (Regissörens kommentarer 2)"
 
 msgctxt "IDS_DVD_SUBTITLES_ENABLE"
 msgid "Enable DVD subtitles"
@@ -3075,7 +3075,7 @@ msgstr "&Färghantering: Av"
 
 msgctxt "IDS_OSD_RS_INPUT_TYPE_AUTO"
 msgid "Input Type: Auto-Detect"
-msgstr " Inmatningstyp: Automatiskt"
+msgstr "Inmatningstyp: Automatiskt"
 
 msgctxt "IDS_OSD_RS_INPUT_TYPE_HDTV"
 msgid "Input Type: HDTV"

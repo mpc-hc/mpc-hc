@@ -2443,7 +2443,7 @@ msgstr "&Propiedades..."
 
 msgctxt "IDS_MAINFRM_117"
 msgid " (pin) properties..."
-msgstr "Propiedades (do pin)..."
+msgstr ""
 
 msgctxt "IDS_AG_UNKNOWN_STREAM"
 msgid "Unknown Stream"
@@ -2459,11 +2459,11 @@ msgstr "VSync (Sincronia Vertical)"
 
 msgctxt "IDS_MAINFRM_121"
 msgid " (Director Comments 1)"
-msgstr "(Comentario do Director N° 1)"
+msgstr " (Comentario do Director N° 1)"
 
 msgctxt "IDS_MAINFRM_122"
 msgid " (Director Comments 2)"
-msgstr "(Comentario do Director N° 2)"
+msgstr " (Comentario do Director N° 2)"
 
 msgctxt "IDS_DVD_SUBTITLES_ENABLE"
 msgid "Enable DVD subtitles"

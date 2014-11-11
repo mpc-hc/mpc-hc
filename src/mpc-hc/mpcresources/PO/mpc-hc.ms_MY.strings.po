@@ -2210,7 +2210,7 @@ msgstr "Pilih laluan untuk DVD/BD:"
 
 msgctxt "IDS_SUB_LOADED_SUCCESS"
 msgid " loaded successfully"
-msgstr "berjaya dimuatkan"
+msgstr " berjaya dimuatkan"
 
 msgctxt "IDS_ALL_FILES_FILTER"
 msgid "All files (*.*)|*.*||"
@@ -2442,7 +2442,7 @@ msgstr "Si&fat..."
 
 msgctxt "IDS_MAINFRM_117"
 msgid " (pin) properties..."
-msgstr "(cemat) sifat..."
+msgstr " (cemat) sifat..."
 
 msgctxt "IDS_AG_UNKNOWN_STREAM"
 msgid "Unknown Stream"
@@ -2458,11 +2458,11 @@ msgstr "VSync"
 
 msgctxt "IDS_MAINFRM_121"
 msgid " (Director Comments 1)"
-msgstr "(Ulasan Pengarah 1)"
+msgstr " (Ulasan Pengarah 1)"
 
 msgctxt "IDS_MAINFRM_122"
 msgid " (Director Comments 2)"
-msgstr "(Ulasan Pengarah 2)"
+msgstr " (Ulasan Pengarah 2)"
 
 msgctxt "IDS_DVD_SUBTITLES_ENABLE"
 msgid "Enable DVD subtitles"

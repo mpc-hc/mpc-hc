@@ -2170,27 +2170,27 @@ msgstr "Прапорцыі"
 
 msgctxt "IDS_MAINFRM_37"
 msgid ", Total: %ld, Dropped: %ld"
-msgstr " Усяго: %ld Страчана: %ld"
+msgstr ", Усяго: %ld Страчана: %ld"
 
 msgctxt "IDS_MAINFRM_38"
 msgid ", Size: %I64d KB"
-msgstr " Памер: %I64dКб"
+msgstr ", Памер: %I64dКб"
 
 msgctxt "IDS_MAINFRM_39"
 msgid ", Size: %I64d MB"
-msgstr " Памер: %I64dМб"
+msgstr ", Памер: %I64dМб"
 
 msgctxt "IDS_MAINFRM_40"
 msgid ", Free: %I64d KB"
-msgstr " Вольна: %I64dКб"
+msgstr ", Вольна: %I64dКб"
 
 msgctxt "IDS_MAINFRM_41"
 msgid ", Free: %I64d MB"
-msgstr " Вольна: %I64dМб"
+msgstr ", Вольна: %I64dМб"
 
 msgctxt "IDS_MAINFRM_42"
 msgid ", Free V/A Buffers: %03d/%03d"
-msgstr " Вольна буфераў: %03d/%03d"
+msgstr ", Вольна буфераў: %03d/%03d"
 
 msgctxt "IDS_AG_ERROR"
 msgid "Error"

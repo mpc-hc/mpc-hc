@@ -2459,11 +2459,11 @@ msgstr "Κατακόρυφος συγχρονισμός (VSync)"
 
 msgctxt "IDS_MAINFRM_121"
 msgid " (Director Comments 1)"
-msgstr "(Σχόλια σκηνοθέτη 1)"
+msgstr " (Σχόλια σκηνοθέτη 1)"
 
 msgctxt "IDS_MAINFRM_122"
 msgid " (Director Comments 2)"
-msgstr "(Σχόλια σκηνοθέτη 2)"
+msgstr " (Σχόλια σκηνοθέτη 2)"
 
 msgctxt "IDS_DVD_SUBTITLES_ENABLE"
 msgid "Enable DVD subtitles"

@@ -2218,7 +2218,7 @@ msgstr "Seleccione la ruta del DVD/BD:"
 
 msgctxt "IDS_SUB_LOADED_SUCCESS"
 msgid " loaded successfully"
-msgstr "cargado correctamente"
+msgstr " cargado correctamente"
 
 msgctxt "IDS_ALL_FILES_FILTER"
 msgid "All files (*.*)|*.*||"

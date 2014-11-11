@@ -2213,7 +2213,7 @@ msgstr "Seleccioneu la ruta d'accés del DVD/BD:"
 
 msgctxt "IDS_SUB_LOADED_SUCCESS"
 msgid " loaded successfully"
-msgstr "Carregat amb èxit"
+msgstr ""
 
 msgctxt "IDS_ALL_FILES_FILTER"
 msgid "All files (*.*)|*.*||"
