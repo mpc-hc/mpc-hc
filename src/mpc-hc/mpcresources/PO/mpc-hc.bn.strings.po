@@ -1734,8 +1734,8 @@ msgid "No subtitles found."
 msgstr "কোনো সাবটাইটেল পাওয়া যায় নি।"
 
 msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
-msgid " %d subtitle(s) available."
-msgstr " %d টি সাবটাইটেল(সমূহ) পাওয়া গেছে"
+msgid "%d subtitle(s) available."
+msgstr "%d টি সাবটাইটেল(সমূহ) পাওয়া গেছে"
 
 msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."

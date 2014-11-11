@@ -1736,7 +1736,7 @@ msgid "No subtitles found."
 msgstr "Geen ondertitels gevonden."
 
 msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
-msgid " %d subtitle(s) available."
+msgid "%d subtitle(s) available."
 msgstr "%d ondertitel(s) beschikbaar."
 
 msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"

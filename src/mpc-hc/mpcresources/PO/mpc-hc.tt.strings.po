@@ -1737,8 +1737,8 @@ msgid "No subtitles found."
 msgstr "Субтитрлар табылмады."
 
 msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
-msgid " %d subtitle(s) available."
-msgstr " %d субтитр бар."
+msgid "%d subtitle(s) available."
+msgstr "%d субтитр бар."
 
 msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."

@@ -1734,7 +1734,7 @@ msgid "No subtitles found."
 msgstr "Nenašli sa žiadne titulky."
 
 msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
-msgid " %d subtitle(s) available."
+msgid "%d subtitle(s) available."
 msgstr "Je dostupných %d titulkov."
 
 msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"

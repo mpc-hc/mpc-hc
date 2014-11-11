@@ -1733,8 +1733,8 @@ msgid "No subtitles found."
 msgstr "Субтытры ня знойдзены."
 
 msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
-msgid " %d subtitle(s) available."
-msgstr " %d субтытраў даступна."
+msgid "%d subtitle(s) available."
+msgstr "%d субтытраў даступна."
 
 msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."

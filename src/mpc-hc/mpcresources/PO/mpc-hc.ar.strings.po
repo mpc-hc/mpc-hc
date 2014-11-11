@@ -1739,7 +1739,7 @@ msgid "No subtitles found."
 msgstr "لم يجد ترجمة"
 
 msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
-msgid " %d subtitle(s) available."
+msgid "%d subtitle(s) available."
 msgstr "%d ترجمة متوفرة"
 
 msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"

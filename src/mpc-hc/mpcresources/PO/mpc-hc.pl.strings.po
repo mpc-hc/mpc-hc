@@ -1734,7 +1734,7 @@ msgid "No subtitles found."
 msgstr "Nie znaleziono napisów."
 
 msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
-msgid " %d subtitle(s) available."
+msgid "%d subtitle(s) available."
 msgstr "Dostępnych napisów: %d"
 
 msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"

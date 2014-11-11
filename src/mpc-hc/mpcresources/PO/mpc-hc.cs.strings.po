@@ -1734,8 +1734,8 @@ msgid "No subtitles found."
 msgstr "Titulky nenalezeny."
 
 msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
-msgid " %d subtitle(s) available."
-msgstr " k dispozici je %d titulků."
+msgid "%d subtitle(s) available."
+msgstr "k dispozici je %d titulků."
 
 msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
