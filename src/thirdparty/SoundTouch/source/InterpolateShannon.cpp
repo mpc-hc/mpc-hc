@@ -13,7 +13,7 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// $Id: InterpolateShannon.cpp 179 2014-01-06 18:41:42Z oparviai $
+// $Id: InterpolateShannon.cpp 195 2014-04-06 15:57:21Z oparviai $
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -181,6 +181,6 @@ int InterpolateShannon::transposeMulti(SAMPLETYPE *pdest,
                     int &srcSamples)
 {
     // not implemented
-    assert(FALSE);
+    assert(false);
     return 0;
 }

@@ -11,10 +11,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2013-06-12 15:24:44 +0000 (Wed, 12 Jun 2013) $
+// Last changed  : $Date: 2014-10-08 15:26:57 +0000 (Wed, 08 Oct 2014) $
 // File revision : $Revision: 4 $
 //
-// $Id: FIRFilter.cpp 171 2013-06-12 15:24:44Z oparviai $
+// $Id: FIRFilter.cpp 201 2014-10-08 15:26:57Z oparviai $
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -61,12 +61,15 @@ FIRFilter::FIRFilter()
     length = 0;
     lengthDiv8 = 0;
     filterCoeffs = NULL;
+    sum = NULL;
+    sumsize = 0;
 }
 
 
 FIRFilter::~FIRFilter()
 {
     delete[] filterCoeffs;
+    delete[] sum;
 }
 
 // Usual C-version of the filter routine for stereo sound
@@ -167,10 +170,18 @@ uint FIRFilter::evaluateFilterMono(SAMPLETYPE *dest, const SAMPLETYPE *src, uint
 }
 
 
-uint FIRFilter::evaluateFilterMulti(SAMPLETYPE *dest, const SAMPLETYPE *src, uint numSamples, uint numChannels) const
+uint FIRFilter::evaluateFilterMulti(SAMPLETYPE *dest, const SAMPLETYPE *src, uint numSamples, uint numChannels)
 {
     uint i, j, end, c;
-    LONG_SAMPLETYPE *sum=(LONG_SAMPLETYPE*)alloca(numChannels*sizeof(*sum));
+
+    if (sumsize < numChannels)
+    {
+        // allocate large enough array for keeping sums
+        sumsize = numChannels;
+        delete[] sum;
+        sum = new LONG_SAMPLETYPE[numChannels];
+    }
+
 #ifdef SOUNDTOUCH_FLOAT_SAMPLES
     // when using floating point samples, use a scaler instead of a divider
     // because division is much slower operation than multiplying.
@@ -253,7 +264,7 @@ uint FIRFilter::getLength() const
 //
 // Note : The amount of outputted samples is by value of 'filter_length' 
 // smaller than the amount of input samples.
-uint FIRFilter::evaluate(SAMPLETYPE *dest, const SAMPLETYPE *src, uint numSamples, uint numChannels) const
+uint FIRFilter::evaluate(SAMPLETYPE *dest, const SAMPLETYPE *src, uint numSamples, uint numChannels) 
 {
     assert(length > 0);
     assert(lengthDiv8 * 8 == length);

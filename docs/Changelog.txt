@@ -28,6 +28,7 @@ next version - not released yet
 * Ticket #5056, Position the text subtitles relative to the video frame by default
 * Updated MediaInfoLib to v0.7.71
 * Updated ZenLib to v0.4.29 r498
+* Updated SoundTouch to v1.8.0 r201
 * Updated Little CMS to v2.7 (git 8174681)
 * Updated Unrar to v5.2.2
 * Updated LAV Filters to v0.63.0.12:
