@@ -38,7 +38,6 @@ enum {
 CSubtitleDlDlg::CSubtitleDlDlg(CWnd* pParentWnd)
     : CResizableDialog(CSubtitleDlDlg::IDD, pParentWnd)
     , m_ps(nullptr, 0, 0)
-    , m_url(url)
     , m_fReplaceSubs(false)
     , m_pMainFrame(*(CMainFrame*)(pParentWnd))
 {

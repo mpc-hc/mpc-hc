@@ -169,7 +169,6 @@
     <ClCompile Include="Ifo.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="KeyProvider.cpp">
     <ClCompile Include="LcdSupport.cpp">
       <Filter>Integration\Logitech LCD</Filter>
     </ClCompile>
@@ -537,7 +536,6 @@
     <ClInclude Include="InternalFiltersConfig.h">
       <Filter>Player Config</Filter>
     </ClInclude>
-    <ClInclude Include="KeyProvider.h">
     <ClInclude Include="LcdSupport.h">
       <Filter>Integration\Logitech LCD</Filter>
     </ClInclude>
