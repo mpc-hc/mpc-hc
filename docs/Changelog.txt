@@ -67,3 +67,4 @@ next version - not released yet
 ! Ticket #4995, Some context menus weren't properly positioned when opened by App key
 ! Ticket #5010, Text subtitles: Fix a crash in case of memory allocation failure
 ! Ticket #5055, True/False strings were not translated in value column on advanced page
+! Ticket #5067, Fix RealText subtitle parsing: the parser did not work at all and could even crash

@@ -3143,7 +3143,12 @@ static bool OpenRealText(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
             continue;
         }
 
-        szFile += CStringW(_T("\n")) + buff.GetBuffer();
+        // Make sure that the subtitle file starts with a <window> tag
+        if (szFile.empty() && buff.CompareNoCase(_T("<window")) < 0) {
+            return false;
+        }
+
+        szFile += _T("\n") + buff;
     }
 
     CRealTextParser RealTextParser;
