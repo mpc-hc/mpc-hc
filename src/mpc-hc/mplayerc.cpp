@@ -596,7 +596,7 @@ void SetAudioRenderer(int AudioDevNo)
 
     m_AudioRendererDisplayNames.Add(AUDRNDT_NULL_COMP);
     m_AudioRendererDisplayNames.Add(AUDRNDT_NULL_UNCOMP);
-    m_AudioRendererDisplayNames.Add(AUDRNDT_MPC);
+    m_AudioRendererDisplayNames.Add(AUDRNDT_INTERNAL);
     i += 3;
     if (AudioDevNo >= 1 && AudioDevNo <= i) {
         AfxGetMyApp()->m_AudioRendererDisplayName_CL = m_AudioRendererDisplayNames[AudioDevNo - 1];

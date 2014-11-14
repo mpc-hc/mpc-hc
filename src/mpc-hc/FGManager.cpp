@@ -2434,7 +2434,7 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
         pFGF = DEBUG_NEW CFGFilterInternal<CNullUAudioRenderer>(AUDRNDT_NULL_UNCOMP, MERIT64_ABOVE_DSHOW + 2);
         pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_NULL);
         m_transform.AddTail(pFGF);
-    } else if (SelAudioRenderer == AUDRNDT_MPC) {
+    } else if (SelAudioRenderer == AUDRNDT_INTERNAL) {
         struct SaneAudioRendererFilter : CFGFilter {
             SaneAudioRendererFilter(CStringW name, UINT64 merit) :
                 CFGFilter(SaneAudioRenderer::Factory::GetFilterGuid(), name, merit) {}
@@ -2443,7 +2443,7 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
                 return SaneAudioRenderer::Factory::CreateFilter(AfxGetAppSettings().sanear, ppBF);
             }
         };
-        pFGF = DEBUG_NEW SaneAudioRendererFilter(AUDRNDT_MPC, m_armerit + 0x99);
+        pFGF = DEBUG_NEW SaneAudioRendererFilter(AUDRNDT_INTERNAL, m_armerit + 0x99);
         pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_NULL);
         m_transform.AddTail(pFGF);
     } else if (!SelAudioRenderer.IsEmpty()) {

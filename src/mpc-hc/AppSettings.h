@@ -140,7 +140,7 @@ enum MCE_RAW_INPUT {
 
 #define AUDRNDT_NULL_COMP       _T("Null Audio Renderer (Any)")
 #define AUDRNDT_NULL_UNCOMP     _T("Null Audio Renderer (Uncompressed)")
-#define AUDRNDT_MPC             _T("MPC-HC Audio Renderer")
+#define AUDRNDT_INTERNAL        _T("Internal Audio Renderer")
 
 #define DEFAULT_SUBTITLE_PATHS  _T(".;.\\subtitles;.\\subs")
 #define DEFAULT_JUMPDISTANCE_1  1000
