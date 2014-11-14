@@ -33,7 +33,7 @@
 #include "UpdateChecker.h"
 #include "moreuuids.h"
 #include <mvrInterfaces.h>
-
+#include "../thirdparty/sanear/sanear/src/Factory.h"
 
 #pragma warning(push)
 #pragma warning(disable: 4351) // new behavior: elements of array 'array' will be default initialized
@@ -403,6 +403,8 @@ CAppSettings::CAppSettings()
 #endif
 
     ZeroMemory(&DVDPosition, sizeof(DVDPosition));
+
+    ENSURE(SUCCEEDED(SaneAudioRenderer::Factory::CreateSettings(&sanear)));
 }
 #pragma warning(pop)
 
@@ -979,6 +981,30 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_COVER_ART_SIZE_LIMIT, nCoverArtSizeLimit);
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LOGGING, bEnableLogging);
+
+    {
+        CComHeapPtr<WCHAR> pDeviceId;
+        BOOL bExclusive;
+        UINT32 uBufferDuration;
+        if (SUCCEEDED(sanear->GetOuputDevice(&pDeviceId, &bExclusive, &uBufferDuration))) {
+            pApp->WriteProfileString(IDS_R_SANEAR, IDS_RS_SANEAR_DEVICE_ID, pDeviceId);
+            pApp->WriteProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_DEVICE_EXCLUSIVE, bExclusive);
+            pApp->WriteProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_DEVICE_BUFFER, uBufferDuration);
+        }
+
+        BOOL bAllowBitstreaming;
+        sanear->GetAllowBitstreaming(&bAllowBitstreaming);
+        pApp->WriteProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_ALLOW_BITSTREAMING, bAllowBitstreaming);
+
+        BOOL bCrossfeedEnabled;
+        sanear->GetCrossfeedEnabled(&bCrossfeedEnabled);
+        pApp->WriteProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_CROSSFEED_ENABLED, bCrossfeedEnabled);
+
+        UINT32 uCutoffFrequency, uCrossfeedLevel;
+        sanear->GetCrossfeedSettings(&uCutoffFrequency, &uCrossfeedLevel);
+        pApp->WriteProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_CROSSFEED_CUTOFF_FREQ, uCutoffFrequency);
+        pApp->WriteProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_CROSSFEED_LEVEL, uCrossfeedLevel);
+    }
 
     pApp->FlushProfile();
 }
@@ -1692,6 +1718,20 @@ void CAppSettings::LoadSettings()
     if (fLaunchfullscreen) {
         nCLSwitches |= CLSW_FULLSCREEN;
     }
+
+    sanear->SetOuputDevice(pApp->GetProfileString(IDS_R_SANEAR, IDS_RS_SANEAR_DEVICE_ID),
+                           pApp->GetProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_DEVICE_EXCLUSIVE, FALSE),
+                           pApp->GetProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_DEVICE_BUFFER,
+                                               SaneAudioRenderer::ISettings::OUTPUT_DEVICE_BUFFER_DEFAULT_MS));
+
+    sanear->SetAllowBitstreaming(pApp->GetProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_ALLOW_BITSTREAMING, TRUE));
+
+    sanear->SetCrossfeedEnabled(pApp->GetProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_CROSSFEED_ENABLED, FALSE));
+
+    sanear->SetCrossfeedSettings(pApp->GetProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_CROSSFEED_CUTOFF_FREQ,
+                                                     SaneAudioRenderer::ISettings::CROSSFEED_CUTOFF_FREQ_CMOY),
+                                 pApp->GetProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_CROSSFEED_LEVEL,
+                                                     SaneAudioRenderer::ISettings::CROSSFEED_LEVEL_CMOY));
 
     bInitialized = true;
 }

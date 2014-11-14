@@ -760,6 +760,14 @@
     <ProjectReference Include="..\thirdparty\DoctorDump\DoctorDump.vcxproj">
       <Project>{beceaff9-cdca-45ec-a1cf-658fa51818e6}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\thirdparty\bs2b\bs2b.vcxproj">
+      <Project>{0fd9bf8f-2397-4e23-b41e-e4624f35d646}</Project>
+      <Private>false</Private>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
     <ProjectReference Include="..\thirdparty\LAVFilters\LAVFilters.vcxproj">
       <Project>{ed257874-e12e-4143-af0a-0676da3bb18c}</Project>
     </ProjectReference>
@@ -775,6 +783,30 @@
     <ProjectReference Include="..\thirdparty\RARFileSource\RARFileSource.vcxproj">
       <Project>{2b7f22d7-1750-47c5-8709-1a3688b62499}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\thirdparty\sanear\sanear\sanear.vcxproj">
+      <Project>{bb2b61af-734a-4dad-9326-07f4f9ea088f}</Project>
+      <Private>false</Private>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <ProjectReference Include="..\thirdparty\SoundTouch\SoundTouch.vcxproj">
+      <Project>{4c7a1953-cbc4-42d5-a12f-bb512c64b547}</Project>
+      <Private>false</Private>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <ProjectReference Include="..\thirdparty\soxr\soxr.vcxproj">
+      <Project>{7cbde5a1-9cbb-4139-93f5-09d8dba4427f}</Project>
+      <Private>false</Private>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
     <ProjectReference Include="..\thirdparty\unrar\unrar.vcxproj">
       <Project>{da8461c4-7683-4360-9372-2a9e0f1795c2}</Project>
     </ProjectReference>
@@ -786,6 +818,14 @@
     </ProjectReference>
     <ProjectReference Include="..\thirdparty\ZenLib\ZenLib.vcxproj">
       <Project>{0da1da7d-f393-4e7c-a7ce-cb5c6a67bc94}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\thirdparty\zita-resampler\zita-resampler.vcxproj">
+      <Project>{f3d02050-f39a-4103-8343-09285359a495}</Project>
+      <Private>false</Private>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
     <ProjectReference Include="..\thirdparty\zlib\zlib.vcxproj">
       <Project>{2fcd4b66-9cf9-4c8f-bc70-37cd20002d49}</Project>

@@ -35,6 +35,7 @@
 #include <dxva.h>
 #include <dxva2api.h>
 #include <intrin.h>
+#include "../thirdparty/sanear/sanear/src/Factory.h"
 
 int CountPins(IBaseFilter* pBF, int& nIn, int& nOut, int& nInC, int& nOutC)
 {
@@ -152,8 +153,12 @@ bool IsAudioWaveRenderer(IBaseFilter* pBF)
     memcpy(&clsid, &GUID_NULL, sizeof(clsid));
     pBF->GetClassID(&clsid);
 
-    return (clsid == CLSID_DSoundRender || clsid == CLSID_AudioRender || clsid == CLSID_ReClock
-            || clsid == __uuidof(CNullAudioRenderer) || clsid == __uuidof(CNullUAudioRenderer));
+    return clsid == CLSID_DSoundRender ||
+           clsid == CLSID_AudioRender ||
+           clsid == CLSID_ReClock ||
+           clsid == __uuidof(CNullAudioRenderer) ||
+           clsid == __uuidof(CNullUAudioRenderer) ||
+           clsid == SaneAudioRenderer::Factory::GetFilterGuid();
 }
 
 IBaseFilter* GetUpStreamFilter(IBaseFilter* pBF, IPin* pInputPin)

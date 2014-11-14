@@ -32,6 +32,7 @@
 #include "Shaders.h"
 #include "FileAssoc.h"
 #include "FakeFilterMapper2.h"
+#include "../thirdparty/sanear/sanear/src/Interfaces.h"
 
 #include <afxadv.h>
 #include <afxsock.h>
@@ -679,6 +680,8 @@ public:
     static bool     IsVideoRendererAvailable(int iVideoRendererType);
 
     CFileAssoc      fileAssoc;
+
+    CComPtr<SaneAudioRenderer::ISettings> sanear;
 
 private:
     struct FilterKey {

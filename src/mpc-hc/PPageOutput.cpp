@@ -205,11 +205,13 @@ BOOL CPPageOutput::OnInitDialog()
         m_iAudioRendererType = m_iAudioRendererTypeCtrl.GetCount() - 1;
     }
 
-    Cbstr.Format(_T("%d: %s"), i++, ResStr(IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND));
-    m_AudioRendererDisplayNames.Add(AUDRNDT_MPC);
-    m_iAudioRendererTypeCtrl.AddString(Cbstr);
-    if (s.strAudioRendererDisplayName == AUDRNDT_MPC && m_iAudioRendererType == 0) {
-        m_iAudioRendererType = m_iAudioRendererTypeCtrl.GetCount() - 1;
+    if (SysVersion::IsVistaOrLater()) {
+        Cbstr.Format(_T("%d: %s"), i++, ResStr(IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND));
+        m_AudioRendererDisplayNames.Add(AUDRNDT_MPC);
+        m_iAudioRendererTypeCtrl.AddString(Cbstr);
+        if (s.strAudioRendererDisplayName == AUDRNDT_MPC && m_iAudioRendererType == 0) {
+            m_iAudioRendererType = m_iAudioRendererTypeCtrl.GetCount() - 1;
+        }
     }
 
     CorrectComboListWidth(m_iAudioRendererTypeCtrl);

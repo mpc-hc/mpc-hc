@@ -42,6 +42,7 @@
 #include "IPinHook.h"
 #include "moreuuids.h"
 #include <mvrInterfaces.h>
+#include "../thirdparty/sanear/sanear/src/Factory.h"
 
 //
 // CFGManager
@@ -2434,6 +2435,17 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
         pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_NULL);
         m_transform.AddTail(pFGF);
     } else if (SelAudioRenderer == AUDRNDT_MPC) {
+        struct SaneAudioRendererFilter : CFGFilter {
+            SaneAudioRendererFilter(CStringW name, UINT64 merit) :
+                CFGFilter(SaneAudioRenderer::Factory::GetFilterGuid(), name, merit) {}
+
+            HRESULT Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_IUnknown>&) override {
+                return SaneAudioRenderer::Factory::CreateFilter(AfxGetAppSettings().sanear, ppBF);
+            }
+        };
+        pFGF = DEBUG_NEW SaneAudioRendererFilter(AUDRNDT_MPC, m_armerit + 0x99);
+        pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_NULL);
+        m_transform.AddTail(pFGF);
     } else if (!SelAudioRenderer.IsEmpty()) {
         pFGF = DEBUG_NEW CFGFilterRegistry(SelAudioRenderer, m_armerit);
         pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_NULL);
