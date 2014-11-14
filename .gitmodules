@@ -13,3 +13,6 @@
 [submodule "ZenLib"]
     path = src/thirdparty/ZenLib/library
     url = https://github.com/MediaArea/ZenLib.git
+[submodule "soxr"]
+    path = src/thirdparty/soxr/libsoxr
+    url = git://github.com/alexmarsev/soxr.git
