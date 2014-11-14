@@ -22,3 +22,7 @@
 [submodule "soundtouch"]
     path = src/thirdparty/SoundTouch/soundtouch
     url = git://github.com/alexmarsev/soundtouch.git
+[submodule "sanear"]
+    path = src/thirdparty/sanear/sanear
+    url = git://github.com/alexmarsev/sanear.git
+    branch = core
