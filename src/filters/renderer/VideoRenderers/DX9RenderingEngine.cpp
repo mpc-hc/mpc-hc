@@ -227,6 +227,8 @@ HRESULT CDX9RenderingEngine::CreateVideoSurfaces()
         m_pTemporaryVideoTextures[i] = nullptr;
     }
 
+    CheckPointer(m_pD3DDev, E_POINTER);
+
     if (r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE2D || r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) {
         int nTexturesNeeded = r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D ? m_nNbDXSurface : 1;
 

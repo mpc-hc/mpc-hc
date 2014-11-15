@@ -253,6 +253,8 @@ HRESULT CDX7AllocatorPresenter::AllocSurfaces()
 {
     CAutoLock cAutoLock(this);
 
+    CheckPointer(m_pDD, E_POINTER);
+
     const CRenderersSettings& r = GetRenderersSettings();
 
     m_pVideoTexture = nullptr;

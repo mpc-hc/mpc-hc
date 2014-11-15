@@ -937,6 +937,8 @@ HRESULT CBaseAP::AllocSurfaces(D3DFORMAT Format)
     CAutoLock cAutoLock(this);
     CAutoLock cRenderLock(&m_allocatorLock);
 
+    CheckPointer(m_pD3DDev, E_POINTER);
+
     const CRenderersSettings& r = GetRenderersSettings();
 
     for (int i = 0; i < m_nDXSurface + 2; i++) {
