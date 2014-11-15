@@ -529,12 +529,9 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
                 }
             }
             if (!bTryToReset) {
-                if (FAILED(hr = m_pD3DEx->CreateDeviceEx(m_CurrentAdapter, D3DDEVTYPE_HAL, m_FocusThread->GetFocusWindow(),
-                                                         D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS | D3DCREATE_NOWINDOWCHANGES,
-                                                         &pp, &DisplayMode, &m_pD3DDevEx))) {
-                    _Error += GetWindowsErrorMessage(hr, m_hD3D9);
-                    return hr;
-                }
+                hr = m_pD3DEx->CreateDeviceEx(m_CurrentAdapter, D3DDEVTYPE_HAL, m_FocusThread->GetFocusWindow(),
+                                              D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS | D3DCREATE_NOWINDOWCHANGES,
+                                              &pp, &DisplayMode, &m_pD3DDevEx);
             }
 
             if (m_pD3DDevEx) {
@@ -549,12 +546,9 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
                 }
             }
             if (!bTryToReset) {
-                if (FAILED(hr = m_pD3D->CreateDevice(m_CurrentAdapter, D3DDEVTYPE_HAL, m_FocusThread->GetFocusWindow(),
-                                                     D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_NOWINDOWCHANGES,
-                                                     &pp, &m_pD3DDev))) {
-                    _Error += GetWindowsErrorMessage(hr, m_hD3D9);
-                    return hr;
-                }
+                hr = m_pD3D->CreateDevice(m_CurrentAdapter, D3DDEVTYPE_HAL, m_FocusThread->GetFocusWindow(),
+                                          D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_NOWINDOWCHANGES,
+                                          &pp, &m_pD3DDev);
             }
             TRACE(_T("Created full-screen device\n"));
             if (m_pD3DDev) {
@@ -602,10 +596,6 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
                 hr = m_pD3DEx->CreateDeviceEx(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
                                               D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS,
                                               &pp, nullptr, &m_pD3DDevEx);
-                if (FAILED(hr) && hr != D3DERR_DEVICELOST && hr != D3DERR_DEVICENOTRESET) {
-                    _Error += GetWindowsErrorMessage(hr, m_hD3D9);
-                    return hr;
-                }
             }
 
             if (m_pD3DDevEx) {
@@ -621,29 +611,30 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
                 hr = m_pD3D->CreateDevice(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
                                           D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED,
                                           &pp, &m_pD3DDev);
-                if (FAILED(hr) && hr != D3DERR_DEVICELOST && hr != D3DERR_DEVICENOTRESET) {
-                    _Error += GetWindowsErrorMessage(hr, m_hD3D9);
-                    return hr;
-                }
             }
             TRACE(_T("Created windowed device\n"));
         }
     }
 
-    while (hr == D3DERR_DEVICELOST) {
-        TRACE(_T("D3DERR_DEVICELOST. Trying to Reset.\n"));
-        hr = m_pD3DDev->TestCooperativeLevel();
-    }
-    if (hr == D3DERR_DEVICENOTRESET) {
-        TRACE(_T("D3DERR_DEVICENOTRESET\n"));
-        hr = m_pD3DDev->Reset(&pp);
+    if (m_pD3DDev) {
+        while (hr == D3DERR_DEVICELOST) {
+            TRACE(_T("D3DERR_DEVICELOST. Trying to Reset.\n"));
+            hr = m_pD3DDev->TestCooperativeLevel();
+        }
+        if (hr == D3DERR_DEVICENOTRESET) {
+            TRACE(_T("D3DERR_DEVICENOTRESET\n"));
+            hr = m_pD3DDev->Reset(&pp);
+        }
+
+        if (m_pD3DDevEx) {
+            m_pD3DDevEx->SetGPUThreadPriority(7);
+        }
     }
 
-    TRACE(_T("CreateDevice: %ld\n"), (LONG)hr);
-    ASSERT(SUCCEEDED(hr));
+    if (FAILED(hr)) {
+        _Error.AppendFormat(_T("CreateDevice failed: %s\n"), GetWindowsErrorMessage(hr, m_hD3D9));
 
-    if (m_pD3DDevEx) {
-        m_pD3DDevEx->SetGPUThreadPriority(7);
+        return hr;
     }
 
     m_pPSC.Attach(DEBUG_NEW CPixelShaderCompiler(m_pD3DDev, true));

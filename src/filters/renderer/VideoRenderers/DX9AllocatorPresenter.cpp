@@ -792,22 +792,19 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
         m_BackbufferType = pp.BackBufferFormat;
     }
 
-    while (hr == D3DERR_DEVICELOST) {
-        TRACE(_T("D3DERR_DEVICELOST. Trying to Reset.\n"));
-        hr = m_pD3DDev->TestCooperativeLevel();
-    }
-    if (hr == D3DERR_DEVICENOTRESET) {
-        TRACE(_T("D3DERR_DEVICENOTRESET\n"));
-        hr = m_pD3DDev->Reset(&pp);
-    }
+    if (m_pD3DDev) {
+        while (hr == D3DERR_DEVICELOST) {
+            TRACE(_T("D3DERR_DEVICELOST. Trying to Reset.\n"));
+            hr = m_pD3DDev->TestCooperativeLevel();
+        }
+        if (hr == D3DERR_DEVICENOTRESET) {
+            TRACE(_T("D3DERR_DEVICENOTRESET\n"));
+            hr = m_pD3DDev->Reset(&pp);
+        }
 
-    TRACE(_T("CreateDevice: %ld\n"), (LONG)hr);
-    ASSERT(SUCCEEDED(hr));
-
-    m_MainThreadId = GetCurrentThreadId();
-
-    if (m_pD3DDevEx) {
-        m_pD3DDevEx->SetGPUThreadPriority(7);
+        if (m_pD3DDevEx) {
+            m_pD3DDevEx->SetGPUThreadPriority(7);
+        }
     }
 
     if (FAILED(hr)) {
@@ -818,6 +815,10 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
 
         return hr;
     }
+
+    ASSERT(m_pD3DDev);
+
+    m_MainThreadId = GetCurrentThreadId();
 
     // Get the device caps
     ZeroMemory(&m_Caps, sizeof(m_Caps));
