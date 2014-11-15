@@ -19,3 +19,6 @@
 [submodule "bs2b"]
     path = src/thirdparty/bs2b/libbs2b
     url = git://github.com/alexmarsev/libbs2b.git
+[submodule "soundtouch"]
+    path = src/thirdparty/SoundTouch/soundtouch
+    url = git://github.com/alexmarsev/soundtouch.git
