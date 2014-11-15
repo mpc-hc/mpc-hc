@@ -16,3 +16,6 @@
 [submodule "soxr"]
     path = src/thirdparty/soxr/libsoxr
     url = git://github.com/alexmarsev/soxr.git
+[submodule "bs2b"]
+    path = src/thirdparty/bs2b/libbs2b
+    url = git://github.com/alexmarsev/libbs2b.git
