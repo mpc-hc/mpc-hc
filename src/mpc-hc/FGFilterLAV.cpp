@@ -791,6 +791,9 @@ bool CFGFilterLAVVideo::Settings::SetSettings(CComQIPtr<ILAVVideoSettings> pLAVF
     // Force RV1/2 and v210/v410 enabled, the user can control it from our own options
     pLAVFSettings->SetFormatConfiguration(Codec_RV12, TRUE);
     pLAVFSettings->SetFormatConfiguration(Codec_v210, TRUE);
+    // Enable Cinepack and QPEG so that they can be used in low-merit mode
+    pLAVFSettings->SetFormatConfiguration(Codec_Cinepak, TRUE);
+    pLAVFSettings->SetFormatConfiguration(Codec_QPEG, TRUE);
 
     // Custom interface available only in patched build, will be removed after it's upstreamed
     if (CComQIPtr<ILAVVideoSettingsMPCHCCustom> pLAVFSettingsMPCHCCustom = pLAVFSettings) {
