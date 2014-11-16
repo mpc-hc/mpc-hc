@@ -10941,25 +10941,24 @@ void CMainFrame::OpenCustomizeGraph()
     const CAppSettings& s = AfxGetAppSettings();
     const CRenderersSettings& r = s.m_RenderersSettings;
     if (r.m_AdvRendSets.bSynchronizeVideo && s.iDSVideoRendererType == VIDRNDT_DS_SYNC) {
-        HRESULT hr;
+        HRESULT hr = S_OK;
         m_pRefClock = DEBUG_NEW CSyncClockFilter(nullptr, &hr);
-        CStringW name;
-        name = L"SyncClock Filter";
-        m_pGB->AddFilter(m_pRefClock, name);
 
-        CComPtr<IReferenceClock> refClock;
-        m_pRefClock->QueryInterface(IID_PPV_ARGS(&refClock));
-        CComPtr<IMediaFilter> mediaFilter;
-        m_pGB->QueryInterface(IID_PPV_ARGS(&mediaFilter));
-        mediaFilter->SetSyncSource(refClock);
-        mediaFilter = nullptr;
-        refClock = nullptr;
+        if (SUCCEEDED(hr) && SUCCEEDED(m_pGB->AddFilter(m_pRefClock, L"SyncClock Filter"))) {
+            CComQIPtr<IReferenceClock> refClock = m_pRefClock;
+            CComQIPtr<IMediaFilter> mediaFilter = m_pGB;
 
-        m_pRefClock->QueryInterface(IID_PPV_ARGS(&m_pSyncClock));
+            if (refClock && mediaFilter) {
+                VERIFY(SUCCEEDED(mediaFilter->SetSyncSource(refClock)));
+                mediaFilter = nullptr;
+                refClock = nullptr;
 
-        CComQIPtr<ISyncClockAdviser> pAdviser = m_pCAP;
-        if (pAdviser) {
-            pAdviser->AdviseSyncClock(m_pSyncClock);
+                VERIFY(SUCCEEDED(m_pRefClock->QueryInterface(IID_PPV_ARGS(&m_pSyncClock))));
+                CComQIPtr<ISyncClockAdviser> pAdviser = m_pCAP;
+                if (pAdviser) {
+                    VERIFY(SUCCEEDED(pAdviser->AdviseSyncClock(m_pSyncClock)));
+                }
+            }
         }
     }
 
