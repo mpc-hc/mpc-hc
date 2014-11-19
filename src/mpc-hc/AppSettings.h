@@ -490,8 +490,7 @@ public:
     UINT            nVolumeStep;
     UINT            nSpeedStep;
 
-    enum class AfterPlayback
-    {
+    enum class AfterPlayback {
         DO_NOTHING,
         PLAY_NEXT,
         REWIND,
@@ -518,8 +517,7 @@ public:
     // Fullscreen
     bool            fLaunchfullscreen;
     bool            bHideFullscreenControls;
-    enum class HideFullscreenControlsPolicy
-    {
+    enum class HideFullscreenControlsPolicy {
         SHOW_NEVER,
         SHOW_WHEN_HOVERED,
         SHOW_WHEN_CURSOR_MOVED,

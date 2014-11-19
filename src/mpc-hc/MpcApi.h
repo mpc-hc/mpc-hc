@@ -81,7 +81,7 @@ typedef enum {
 
 
 typedef enum MPCAPI_COMMAND :
-unsigned int {
+    unsigned int {
     // ==== Commands from MPC-HC to host
 
     // Send after connection

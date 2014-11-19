@@ -353,8 +353,8 @@ void CPlayerSubresyncBar::UpdatePreview()
                 for (; start < end; start++) {
                     m_sts[start].start = m_subtimes[start].orgStart + dt;
                     m_sts[start].end = (m_displayData[start].flags & TEMOD)
-                                        ? m_subtimes[start].newEnd
-                                        : (m_subtimes[start].orgEnd + dt);
+                                       ? m_subtimes[start].newEnd
+                                       : (m_subtimes[start].orgEnd + dt);
                 }
             } else if (schk.GetCount() >= 2) {
                 int i0 = 0;

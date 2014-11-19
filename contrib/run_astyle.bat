@@ -21,7 +21,7 @@ SETLOCAL
 
 PUSHD %~dp0
 
-SET "AStyleVerReq=2.04"
+SET "AStyleVerReq=2.05.1"
 astyle --version 2>NUL || (ECHO. & ECHO ERROR: AStyle not found & GOTO End)
 CALL :SubCheckVer || GOTO End
 

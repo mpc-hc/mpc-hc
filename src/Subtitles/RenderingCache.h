@@ -142,7 +142,7 @@ protected:
 
 public:
     CEllipseKey(int rx, int ry)
-        : m_hash(ULONG((rx << 16) | (ry& WORD_MAX)))
+        : m_hash(ULONG((rx << 16) | (ry & WORD_MAX)))
         , m_rx(rx)
         , m_ry(ry) {}
 

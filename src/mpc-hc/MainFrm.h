@@ -78,8 +78,7 @@
 
 class CFullscreenWnd;
 
-enum class MLS
-{
+enum class MLS {
     CLOSED,
     LOADING,
     LOADED,
@@ -159,16 +158,14 @@ interface ISubClock;
 class CMainFrame : public CFrameWnd, public CDropTarget
 {
 public:
-    enum class Timer32HzSubscriber
-    {
+    enum class Timer32HzSubscriber {
         TOOLBARS_HIDER,
         CURSOR_HIDER,
         CURSOR_HIDER_D3DFS,
     };
     OnDemandTimer<Timer32HzSubscriber> m_timer32Hz;
 
-    enum class TimerOneTimeSubscriber
-    {
+    enum class TimerOneTimeSubscriber {
         TOOLBARS_DELAY_NOTLOADED,
         CHILDVIEW_CURSOR_HACK,
         DELAY_IDLE,

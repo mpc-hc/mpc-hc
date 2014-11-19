@@ -38,7 +38,7 @@ CSubPicQueueImpl::CSubPicQueueImpl(SubPicQueueSettings settings, ISubPicAllocato
     : CUnknown(NAME("CSubPicQueueImpl"), nullptr)
     , m_fps(DEFAULT_FPS)
     , m_rtTimePerFrame(std::llround(10000000.0 / DEFAULT_FPS))
-    , m_rtTimePerSubFrame(std::llround(10000000.0 / (DEFAULT_FPS* settings.nAnimationRate / 100.0)))
+    , m_rtTimePerSubFrame(std::llround(10000000.0 / (DEFAULT_FPS * settings.nAnimationRate / 100.0)))
     , m_rtNow(0)
     , m_settings(settings)
     , m_pAllocator(pAllocator)
