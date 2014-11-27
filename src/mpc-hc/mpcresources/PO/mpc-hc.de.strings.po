@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-10-30 22:04:38+0000\n"
-"PO-Revision-Date: 2014-11-09 00:14+0000\n"
+"PO-Revision-Date: 2014-11-16 15:51+0000\n"
 "Last-Translator: Luan <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -461,7 +461,7 @@ msgstr "Optimierungen"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER"
 msgid "Internal Filters::Audio Switcher"
-msgstr "Interne Filter::Audio-Umschalter"
+msgstr "Interne Filter::Audio-Switcher"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS"
 msgid "External Filters"
@@ -473,7 +473,7 @@ msgstr "Wiedergabe::Shader"
 
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
-msgstr "Audio-Umschalter"
+msgstr "Audio-Switcher"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_TITLE"
 msgid "New version of the icon library"
@@ -997,7 +997,7 @@ msgstr "EDL-Clip speichern"
 
 msgctxt "IDS_AG_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time Correction"
-msgstr "Bildzeit-Korrektur (ein/aus)"
+msgstr "Bildzeitkorrektur (ein/aus)"
 
 msgctxt "IDS_AG_TOGGLE_EDITLISTEDITOR"
 msgid "Toggle EDL window"
@@ -1509,11 +1509,11 @@ msgstr "Shader-Einrichtung für Pre-Resize fehlgeschlagen"
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
 msgid "Frame Time Correction: On"
-msgstr "Bildzeit-Korrektur: Ein"
+msgstr "Bildzeitkorrektur: Ein"
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_OFF"
 msgid "Frame Time Correction: Off"
-msgstr "Bildzeit-Korrektur: Aus"
+msgstr "Bildzeitkorrektur: Aus"
 
 msgctxt "IDS_OSD_RS_TARGET_VSYNC_OFFSET"
 msgid "Target VSync Offset: %.1f"
@@ -3545,7 +3545,7 @@ msgstr "Übergeht die Auswahl der Sprachspur externer Splitter und verwendet die
 
 msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
 msgid "&Blu-Ray playlists"
-msgstr "&Wiedergabelisten"
+msgstr "&Wiedergabeliste"
 
 msgctxt "IDS_NAVIGATE_PLAYLIST"
 msgid "&Playlist"

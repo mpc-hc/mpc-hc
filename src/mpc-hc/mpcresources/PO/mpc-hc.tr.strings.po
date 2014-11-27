@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-26 21:31:55+0000\n"
-"PO-Revision-Date: 2014-10-28 06:40+0000\n"
+"POT-Creation-Date: 2014-10-30 22:04:38+0000\n"
+"PO-Revision-Date: 2014-11-26 20:00+0000\n"
 "Last-Translator: Sinan H.\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/mpc-hc/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -792,7 +792,7 @@ msgstr "Tüm arşiv parçaları bulunamadı"
 
 msgctxt "IDC_TEXTURESURF2D"
 msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
-msgstr "Video yüzeyi bir doku olarak ayrılacaktır, ancak hala 2d özellikleri arka tamponlamaya kopyalamak ve uzatılmakta kullanılacaktır. 32bit, RGBA, çift boyutlu doku ayırabilen ve en az, geçerli video çözünürlüğünü destekleyebilen bir ekran kartı gerektirir."
+msgstr "Video yüzeyi bir doku olarak ayrılacaktır, ancak 2d özellikleri hala arka tamponlamaya kopyalamak ve uzatılmakta kullanılacaktır. 32bit, RGBA, çift boyutlu doku ayırabilen ve en az, geçerli video çözünürlüğünü destekleyebilen bir ekran kartı gerektirir."
 
 msgctxt "IDC_TEXTURESURF3D"
 msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
@@ -1352,7 +1352,7 @@ msgstr "Aşağı Taşı"
 
 msgctxt "IDS_NAVIGATION_SORT"
 msgid "Sort by LCN"
-msgstr ""
+msgstr "LCN'ye göre sırala - Mantıksal kanal sayısı"
 
 msgctxt "IDS_NAVIGATION_REMOVE_ALL"
 msgid "Remove all"
@@ -1360,7 +1360,7 @@ msgstr "Tümünü sil"
 
 msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
 msgid "Are you sure you want to remove all channels from the list?"
-msgstr ""
+msgstr "Tüm kanal listesini temizlemek istediğinizden emin misiniz?"
 
 msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"
 msgid "No information available"
@@ -1368,11 +1368,11 @@ msgstr "Bir bilgi bulunmuyor"
 
 msgctxt "IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS"
 msgid "Please wait, analysis in progress..."
-msgstr ""
+msgstr "Lütfen bekleyiniz, inceleme devam ediyor..."
 
 msgctxt "IDS_ASPECT_RATIO_FMT"
 msgid "AR %d:%d"
-msgstr ""
+msgstr "AR %d:%d"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2064,11 +2064,11 @@ msgstr "Ses: %02lu/%02lu, Başlık: %02lu/%02lu, Bölüm: %02lu/%02lu"
 
 msgctxt "IDS_MAINFRM_10"
 msgid "Angle: %02lu/%02lu, %lux%lu %lu Hz %lu:%lu"
-msgstr "Açı: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
+msgstr "Açı: %02lu/%02lu, %lux%lu %lu Hz %lu:%lu"
 
 msgctxt "IDS_MAINFRM_11"
 msgid "%s, %s %u Hz %d bits %d %s"
-msgstr "%s, %s %uHz %dbit %d %s"
+msgstr "%s, %s %u Hz %d bit %d %s"
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
@@ -2176,19 +2176,19 @@ msgstr ", Toplam: %ld, Atlanan: %ld"
 
 msgctxt "IDS_MAINFRM_38"
 msgid ", Size: %I64d KB"
-msgstr ", Boyut: %I64dKB"
+msgstr ", Boyut: %I64d KB"
 
 msgctxt "IDS_MAINFRM_39"
 msgid ", Size: %I64d MB"
-msgstr ", Boyut: %I64dMB"
+msgstr ", Boyut: %I64d MB"
 
 msgctxt "IDS_MAINFRM_40"
 msgid ", Free: %I64d KB"
-msgstr ", Boş: %I64dKB"
+msgstr ", Boş: %I64d KB"
 
 msgctxt "IDS_MAINFRM_41"
 msgid ", Free: %I64d MB"
-msgstr ", Boş: %I64dMB"
+msgstr ", Boş: %I64d MB"
 
 msgctxt "IDS_MAINFRM_42"
 msgid ", Free V/A Buffers: %03d/%03d"
@@ -2276,7 +2276,7 @@ msgstr "Taraf Oranı: Varsayılan"
 
 msgctxt "IDS_MAINFRM_70"
 msgid "Audio delay: %I64d ms"
-msgstr "Ses Gecikmesi: %I64dms"
+msgstr "Ses Gecikmesi: %I64d ms"
 
 msgctxt "IDS_AG_CHAPTER"
 msgid "Chapter %d"
@@ -3316,7 +3316,7 @@ msgstr "Ses yükseltmesi: Kapalı"
 
 msgctxt "IDS_SIZE_UNIT_BYTES"
 msgid "bytes"
-msgstr ""
+msgstr "bayt"
 
 msgctxt "IDS_SIZE_UNIT_K"
 msgid "KB"
