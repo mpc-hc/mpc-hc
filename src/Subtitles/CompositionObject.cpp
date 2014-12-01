@@ -73,7 +73,7 @@ void CompositionObject::Init()
     m_cropping_horizontal_position = m_cropping_vertical_position = 0;
     m_cropping_width = m_cropping_height = 0;
 
-    m_colors.fill(0xff000000);
+    m_colors.fill(0);
 }
 
 void CompositionObject::Reset()
