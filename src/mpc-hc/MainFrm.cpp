@@ -10704,7 +10704,7 @@ void CMainFrame::OpenDVD(OpenDVDData* pODD)
 {
     HRESULT hr = m_pGB->RenderFile(CStringW(pODD->path), nullptr);
 
-    const CAppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     if (s.fReportFailedPins) {
         CComQIPtr<IGraphBuilderDeadEnd> pGBDE = m_pGB;
@@ -10737,7 +10737,15 @@ void CMainFrame::OpenDVD(OpenDVDData* pODD)
     WCHAR buff[MAX_PATH];
     ULONG len = 0;
     if (SUCCEEDED(hr = m_pDVDI->GetDVDDirectory(buff, _countof(buff), &len))) {
-        pODD->title = CString(CStringW(buff));
+        pODD->title = CString(CStringW(buff)).Trim(_T("\\"));
+    }
+
+    if (s.fKeepHistory) {
+        CRecentFileList* pMRU = &s.MRU;
+        pMRU->ReadList();
+        pMRU->Add(pODD->title);
+        pMRU->WriteList();
+        SHAddToRecentDocs(SHARD_PATH, pODD->title);
     }
 
     // TODO: resetdvd

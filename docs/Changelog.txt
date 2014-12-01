@@ -16,6 +16,7 @@ next version - not released yet
 + Ticket #907, Enable "Properties" dialog for DVD and DVB playback modes
 + Ticket #1091, Support MediaInfo analyse for DVD
 + Ticket #1494, Add tooltip in the "Organize Favorites" dialog with path of the item
++ Ticket #2438, Keep history of recently opened DVD directories
 + Ticket #4941, Support embedded cover-art
 * DVB: Improve channel switching speed
 * The "Properties" dialog should open faster being that the MediaInfo analysis is now done asynchronously
