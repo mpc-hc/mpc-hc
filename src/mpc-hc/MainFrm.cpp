@@ -14510,6 +14510,9 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
         m_wndStatusBar.SetStatusTypeIcon(LoadIcon(ext, true));
     } else if (pDVDData) {
         m_wndStatusBar.SetStatusTypeIcon(LoadIcon(_T(".ifo"), true));
+    } else {
+        // TODO: Create icons for pDeviceData
+        m_wndStatusBar.SetStatusTypeIcon(LoadIcon(_T(".unknown"), true));
     }
 
     // initiate graph creation, OpenMediaPrivate() will call OnFilePostOpenmedia()

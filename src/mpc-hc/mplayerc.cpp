@@ -89,6 +89,12 @@ HICON LoadIcon(CString fn, bool bSmallIcon)
         }
     }
 
+    if (!ext.CompareNoCase(_T(".unknown"))) {
+        if (HICON hIcon = loadIcon(MAKEINTRESOURCE(IDI_UNKNOWN))) {
+            return hIcon;
+        }
+    }
+
     do {
         CRegKey key;
         TCHAR buff[256];
