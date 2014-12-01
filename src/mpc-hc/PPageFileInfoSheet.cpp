@@ -31,10 +31,10 @@
 IMPLEMENT_DYNAMIC(CPPageFileInfoSheet, CPropertySheet)
 CPPageFileInfoSheet::CPPageFileInfoSheet(CString path, CMainFrame* pMainFrame, CWnd* pParentWnd)
     : CPropertySheet(ResStr(IDS_PROPSHEET_PROPERTIES), pParentWnd, 0)
-    , m_clip(path, pMainFrame->m_pGB, pMainFrame->m_pFSF)
-    , m_details(path, pMainFrame->m_pGB, pMainFrame->m_pCAP, pMainFrame->m_pFSF)
+    , m_clip(path, pMainFrame->m_pGB, pMainFrame->m_pFSF, pMainFrame->m_pDVDI)
+    , m_details(path, pMainFrame->m_pGB, pMainFrame->m_pCAP, pMainFrame->m_pFSF, pMainFrame->m_pDVDI)
     , m_res(path, pMainFrame->m_pGB, pMainFrame->m_pFSF)
-    , m_mi(path, pMainFrame->m_pFSF)
+    , m_mi(path, pMainFrame->m_pFSF, pMainFrame->m_pDVDI)
     , m_path(path)
 {
     AddPage(&m_details);

@@ -5385,13 +5385,13 @@ void CMainFrame::OnUpdateFileISDBDownload(CCmdUI* pCmdUI)
 
 void CMainFrame::OnFileProperties()
 {
-    CPPageFileInfoSheet fileinfo(m_wndPlaylistBar.GetCurFileName(), this, GetModalParent());
+    CPPageFileInfoSheet fileinfo(m_pDVBState ? m_pDVBState->sChannelName : m_wndPlaylistBar.GetCurFileName(), this, GetModalParent());
     fileinfo.DoModal();
 }
 
 void CMainFrame::OnUpdateFileProperties(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(GetLoadState() == MLS::LOADED && GetPlaybackMode() == PM_FILE);
+    pCmdUI->Enable(GetLoadState() == MLS::LOADED && GetPlaybackMode() != PM_ANALOG_CAPTURE);
 }
 
 void CMainFrame::OnFileCloseMedia()

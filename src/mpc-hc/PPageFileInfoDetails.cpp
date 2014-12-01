@@ -34,7 +34,7 @@
 // CPPageFileInfoDetails dialog
 
 IMPLEMENT_DYNAMIC(CPPageFileInfoDetails, CPropertyPage)
-CPPageFileInfoDetails::CPPageFileInfoDetails(CString path, IFilterGraph* pFG, ISubPicAllocatorPresenter* pCAP, IFileSourceFilter* pFSF)
+CPPageFileInfoDetails::CPPageFileInfoDetails(CString path, IFilterGraph* pFG, ISubPicAllocatorPresenter* pCAP, IFileSourceFilter* pFSF, IDvdInfo2* pDVDI)
     : CPropertyPage(CPPageFileInfoDetails::IDD, CPPageFileInfoDetails::IDD)
     , m_hIcon(nullptr)
     , m_fn(path)
@@ -50,6 +50,12 @@ CPPageFileInfoDetails::CPPageFileInfoDetails(CString path, IFilterGraph* pFG, IS
         if (SUCCEEDED(pFSF->GetCurFile(&pFN, nullptr))) {
             m_fn = pFN;
             CoTaskMemFree(pFN);
+        }
+    } else if (pDVDI) {
+        ULONG len = 0;
+        if (SUCCEEDED(pDVDI->GetDVDDirectory(m_path.GetBufferSetLength(MAX_PATH), MAX_PATH, &len)) && len) {
+            m_path.ReleaseBuffer();
+            m_fn = m_path += _T("\\VIDEO_TS.IFO");
         }
     }
 

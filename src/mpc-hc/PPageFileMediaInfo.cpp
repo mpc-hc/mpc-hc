@@ -40,7 +40,7 @@ using namespace MediaInfoDLL;
 // CPPageFileMediaInfo dialog
 
 IMPLEMENT_DYNAMIC(CPPageFileMediaInfo, CPropertyPage)
-CPPageFileMediaInfo::CPPageFileMediaInfo(CString path, IFileSourceFilter* pFSF)
+CPPageFileMediaInfo::CPPageFileMediaInfo(CString path, IFileSourceFilter* pFSF, IDvdInfo2* pDVDI)
     : CPropertyPage(CPPageFileMediaInfo::IDD, CPPageFileMediaInfo::IDD)
     , m_fn(path)
     , m_path(path)
@@ -60,6 +60,12 @@ CPPageFileMediaInfo::CPPageFileMediaInfo(CString path, IFileSourceFilter* pFSF)
                 }
             }
             EndEnumPins;
+        }
+    } else if (pDVDI) {
+        ULONG len = 0;
+        if (SUCCEEDED(pDVDI->GetDVDDirectory(m_path.GetBufferSetLength(MAX_PATH), MAX_PATH, &len)) && len) {
+            m_path.ReleaseBuffer();
+            m_fn = m_path += _T("\\VIDEO_TS.IFO");
         }
     }
 

@@ -45,7 +45,7 @@ private:
     CString m_desc;
 
 public:
-    CPPageFileInfoClip(CString path, IFilterGraph* pFG, IFileSourceFilter* pFSF);
+    CPPageFileInfoClip(CString path, IFilterGraph* pFG, IFileSourceFilter* pFSF, IDvdInfo2* pDVDI);
     virtual ~CPPageFileInfoClip();
 
     // Dialog Data

@@ -38,7 +38,7 @@ private:
     std::thread m_threadSetText;
 
 public:
-    CPPageFileMediaInfo(CString path, IFileSourceFilter* pFSF);
+    CPPageFileMediaInfo(CString path, IFileSourceFilter* pFSF, IDvdInfo2* pDVDI);
     virtual ~CPPageFileMediaInfo();
 
     // Dialog Data

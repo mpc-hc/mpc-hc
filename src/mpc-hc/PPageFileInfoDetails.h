@@ -45,7 +45,7 @@ private:
     void InitTrackInfoText(IFilterGraph* pFG);
 
 public:
-    CPPageFileInfoDetails(CString path, IFilterGraph* pFG, ISubPicAllocatorPresenter* pCAP, IFileSourceFilter* pFSF);
+    CPPageFileInfoDetails(CString path, IFilterGraph* pFG, ISubPicAllocatorPresenter* pCAP, IFileSourceFilter* pFSF, IDvdInfo2* pDVDI);
     virtual ~CPPageFileInfoDetails();
 
     // Dialog Data
