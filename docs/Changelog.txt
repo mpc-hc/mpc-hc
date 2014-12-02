@@ -30,7 +30,7 @@ next version - not released yet
 * Updated ZenLib to v0.4.29 r498
 * Updated SoundTouch to v1.8.0 r201
 * Updated Little CMS to v2.7 (git 8174681)
-* Updated Unrar to v5.2.2
+* Updated Unrar to v5.2.3
 * Updated LAV Filters to v0.63.0.12:
     - LAV Video Decoder: Fix a crash when the video height is not a multiple of 2
     - Ticket #3144, LAV Splitter: Support librtmp parameters for RTMP streams

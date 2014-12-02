@@ -433,7 +433,7 @@ const wchar_t* wcscasestr(const wchar_t *str, const wchar_t *search)
     {
       if (search[j]==0)
         return str+i;
-      if (towlower(str[i+j])!=towlower(search[j]))
+      if (tolowerw(str[i+j])!=tolowerw(search[j]))
         break;
     }
   return NULL;
@@ -472,13 +472,26 @@ wchar* wcsupper(wchar *s)
 
 int toupperw(int ch)
 {
+#ifdef _WIN_ALL
+  // CharUpper is more reliable than towupper in Windows, which seems to be
+  // C locale dependent even in Unicode version. For example, towupper failed
+  // to convert lowercase Russian characters.
+  return (int)CharUpper((wchar *)ch);
+#else
   return towupper(ch);
+#endif
 }
 
 
 int tolowerw(int ch)
 {
+#ifdef _WIN_ALL
+  // CharLower is more reliable than towlower in Windows.
+  // See comment for towupper above.
+  return (int)CharLower((wchar *)ch);
+#else
   return towlower(ch);
+#endif
 }
 
 
