@@ -179,3 +179,10 @@ int FindOneOf(const T& str, typename T::PCXSTR pszCharSet, int iStart) throw()
     T::PCXSTR psz = T::StrTraits::StringScanSet(str.GetString() + iStart, pszCharSet);
     return ((psz == NULL) ? -1 : int(psz - str.GetString()));
 }
+
+template<typename T>
+CString NumToCString(T num)
+{
+    static_assert(std::numeric_limits<T>::is_specialized, "NumToCString can be used only for numeric types.");
+    return std::to_string(num).c_str();
+}
