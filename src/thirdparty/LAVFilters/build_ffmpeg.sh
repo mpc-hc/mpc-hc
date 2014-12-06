@@ -47,8 +47,6 @@ configure() {
     --enable-version3               \
     --enable-w32threads             \
     --disable-demuxer=matroska      \
-    --disable-decoder=opus          \
-    --disable-parser=opus           \
     --disable-filters               \
     --enable-filter=yadif           \
     --enable-filter=scale           \
@@ -73,7 +71,6 @@ configure() {
     --enable-libspeex               \
     --enable-libopencore-amrnb      \
     --enable-libopencore-amrwb      \
-    --enable-libopus                \
     --enable-avresample             \
     --enable-avisynth               \
     --disable-avdevice              \
