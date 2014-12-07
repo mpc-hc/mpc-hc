@@ -76,3 +76,6 @@ next version - not released yet
 ! Ticket #5010, Text subtitles: Fix a crash in case of memory allocation failure
 ! Ticket #5055, True/False strings were not translated in value column on advanced page
 ! Ticket #5067, Fix RealText subtitle parsing: the parser did not work at all and could even crash
+! Ticket #5127, Improve the behavior of MPC-HC when doing the MediaInfo analysis when playing from
+  an optical drive. Playback will now be paused during the analysis to avoid concurrent accesses to
+  the disk that might hang playback

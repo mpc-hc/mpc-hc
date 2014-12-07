@@ -34,11 +34,12 @@ private:
     CFont m_font;
 
     CString m_fn, m_path;
+    bool m_bSyncAnalysis;
     std::shared_future<CString> m_futureMIText;
     std::thread m_threadSetText;
 
 public:
-    CPPageFileMediaInfo(CString path, IFileSourceFilter* pFSF, IDvdInfo2* pDVDI);
+    CPPageFileMediaInfo(CString path, IFileSourceFilter* pFSF, IDvdInfo2* pDVDI, CMainFrame* pMainFrame);
     virtual ~CPPageFileMediaInfo();
 
     // Dialog Data

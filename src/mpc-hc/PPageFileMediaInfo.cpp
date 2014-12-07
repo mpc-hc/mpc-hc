@@ -23,6 +23,7 @@
 
 #include "stdafx.h"
 #include "mplayerc.h"
+#include "MainFrm.h"
 #include "PPageFileMediaInfo.h"
 #include "WinAPIUtils.h"
 
@@ -40,10 +41,11 @@ using namespace MediaInfoDLL;
 // CPPageFileMediaInfo dialog
 
 IMPLEMENT_DYNAMIC(CPPageFileMediaInfo, CPropertyPage)
-CPPageFileMediaInfo::CPPageFileMediaInfo(CString path, IFileSourceFilter* pFSF, IDvdInfo2* pDVDI)
+CPPageFileMediaInfo::CPPageFileMediaInfo(CString path, IFileSourceFilter* pFSF, IDvdInfo2* pDVDI, CMainFrame* pMainFrame)
     : CPropertyPage(CPPageFileMediaInfo::IDD, CPPageFileMediaInfo::IDD)
     , m_fn(path)
     , m_path(path)
+    , m_bSyncAnalysis(false)
 {
     CComQIPtr<IAsyncReader> pAR;
     if (pFSF) {
@@ -73,7 +75,16 @@ CPPageFileMediaInfo::CPPageFileMediaInfo(CString path, IFileSourceFilter* pFSF, 
         m_path = m_fn;
     }
 
-    m_futureMIText = std::async(std::launch::async, [ = ]() {
+    if (m_path.GetLength() > 1 && m_path[1] == _T(':')
+            && GetDriveType(m_path.Left(2) + _T('\\')) == DRIVE_CDROM) {
+        // If we are playing from an optical drive, we do the analysis synchronously
+        // when the user chooses to display the MediaInfo tab. We keep a reference
+        // on the async reader filter but it will not cause any issue even if the
+        // filter graph is destroyed before the analysis.
+        m_bSyncAnalysis = true;
+    }
+
+    m_futureMIText = std::async(m_bSyncAnalysis ? std::launch::deferred : std::launch::async, [ = ]() {
 #if USE_STATIC_MEDIAINFO
         MediaInfoLib::String filename = m_path;
         MediaInfoLib::MediaInfo MI;
@@ -81,6 +92,15 @@ CPPageFileMediaInfo::CPPageFileMediaInfo(CString path, IFileSourceFilter* pFSF, 
         MediaInfoDLL::String filename = m_path;
         MediaInfo MI;
 #endif
+        // If we do a synchronous analysis on an optical drive, we pause the video during
+        // the analysis to avoid concurrent accesses to the drive. Note that due to the
+        // synchronous nature of the analysis, we are sure that the graph state will not
+        // change during the analysis.
+        bool bUnpause = false;
+        if (m_bSyncAnalysis && pMainFrame->GetMediaState() == State_Running) {
+            pMainFrame->SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
+            bUnpause = true;
+        }
 
         MI.Option(_T("ParseSpeed"), _T("0.5"));
         MI.Option(_T("Complete"));
@@ -117,6 +137,10 @@ CPPageFileMediaInfo::CPPageFileMediaInfo(CString path, IFileSourceFilter* pFSF, 
             MI.Open_Buffer_Finalize();
         } else {
             MI.Open(filename);
+        }
+
+        if (bUnpause) {
+            pMainFrame->SendMessage(WM_COMMAND, ID_PLAY_PLAY);
         }
 
         CString info = MI.Inform().c_str();
@@ -179,12 +203,17 @@ BOOL CPPageFileMediaInfo::OnInitDialog()
     } while (!bSuccess && i < _countof(fonts));
     m_mediainfo.SetFont(&m_font);
 
-    m_mediainfo.SetWindowText(ResStr(IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS));
     GetParent()->GetDlgItem(IDC_BUTTON_MI)->EnableWindow(FALSE); // Initially disable the "Save As" button
-    m_threadSetText = std::thread([this]() {
-        m_futureMIText.wait(); // Wait for the info to be ready
-        PostMessage(WM_MEDIAINFO_READY); // then notify the window that MediaInfo analysis finished
-    });
+
+    if (m_bSyncAnalysis) { // Wait until the analysis is finished
+        OnMediaInfoReady();
+    } else { // Spawn a thread that will asynchronously update the window
+        m_mediainfo.SetWindowText(ResStr(IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS));
+        m_threadSetText = std::thread([this]() {
+            m_futureMIText.wait(); // Wait for the info to be ready
+            PostMessage(WM_MEDIAINFO_READY); // then notify the window that MediaInfo analysis finished
+        });
+    }
 
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
