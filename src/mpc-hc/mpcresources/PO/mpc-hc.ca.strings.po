@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-10-30 22:04:38+0000\n"
-"PO-Revision-Date: 2014-11-17 14:41+0000\n"
-"Last-Translator: papu <papu@openmailbox.org>\n"
+"PO-Revision-Date: 2014-12-03 11:31+0000\n"
+"Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -221,7 +221,7 @@ msgstr "ID del VOB"
 
 msgctxt "IDS_SUBRESYNC_CLN_CELL_ID"
 msgid "Cell ID"
-msgstr "ID de la cèl·lula"
+msgstr "Id. de la cel·la"
 
 msgctxt "IDS_SUBRESYNC_CLN_FORCED"
 msgid "Forced"
@@ -2213,7 +2213,7 @@ msgstr "Seleccioneu la ruta d'accés del DVD/BD:"
 
 msgctxt "IDS_SUB_LOADED_SUCCESS"
 msgid " loaded successfully"
-msgstr ""
+msgstr " carregat amb èxit"
 
 msgctxt "IDS_ALL_FILES_FILTER"
 msgid "All files (*.*)|*.*||"
@@ -2329,7 +2329,7 @@ msgstr "Augmentar : +%u%%"
 
 msgctxt "IDS_BALANCE_OSD"
 msgid "Balance: %s"
-msgstr ""
+msgstr "Balanç: %s"
 
 msgctxt "IDS_FULLSCREENMONITOR_CURRENT"
 msgid "Current"
@@ -3521,11 +3521,11 @@ msgstr "Saturació: %s"
 
 msgctxt "IDS_OSD_RESET_COLOR"
 msgid "Color settings restored"
-msgstr "Configuarció de color restaurat"
+msgstr "S’han restaurat els paràmetres de color"
 
 msgctxt "IDS_OSD_NO_COLORCONTROL"
 msgid "Color control is not supported"
-msgstr "Control de color no està suportat"
+msgstr "El control de color no és compatible"
 
 msgctxt "IDS_BRIGHTNESS_INC"
 msgid "Brightness increase"
@@ -3541,11 +3541,11 @@ msgstr "Els splitters externs poden tenir les seves pròpies opcions de preferè
 
 msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
 msgid "&Blu-Ray playlists"
-msgstr "Listes de Reproducció &Blu-Ray"
+msgstr "Llistes de reproducció &Blu-Ray"
 
 msgctxt "IDS_NAVIGATE_PLAYLIST"
 msgid "&Playlist"
-msgstr "&Llista de Reproducció"
+msgstr "&Llista de reproducció"
 
 msgctxt "IDS_NAVIGATE_CHAPTERS"
 msgid "&Chapters"
@@ -3565,21 +3565,21 @@ msgstr "Si \"últim fotograma clau\" està seleccionat, anar al primer fotograma
 
 msgctxt "IDC_ASSOCIATE_ALL_FORMATS"
 msgid "Associate with all formats"
-msgstr "Associar amb tots els formats"
+msgstr "Associa’t amb tots els formats"
 
 msgctxt "IDC_ASSOCIATE_VIDEO_FORMATS"
 msgid "Associate with video formats only"
-msgstr "Associat només amb formats de vídeo"
+msgstr "Associa’t només amb formats de vídeo"
 
 msgctxt "IDC_ASSOCIATE_AUDIO_FORMATS"
 msgid "Associate with audio formats only"
-msgstr "Associatnomés amb formats d'àudio"
+msgstr "Associa’t només amb formats d’àudio"
 
 msgctxt "IDC_CLEAR_ALL_ASSOCIATIONS"
 msgid "Clear all associations"
-msgstr "Netejar totes les associacions"
+msgstr "Neteja totes les associacions"
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"
-msgstr "Configuració"
+msgstr "Paràmetres"
 

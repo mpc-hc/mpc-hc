@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-19 22:15:16+0000\n"
-"PO-Revision-Date: 2014-10-23 19:30+0000\n"
-"Last-Translator: Apa <sakcheen@gmail.com>\n"
+"POT-Creation-Date: 2014-10-30 22:04:38+0000\n"
+"PO-Revision-Date: 2014-12-05 00:20+0000\n"
+"Last-Translator: JellyFrog\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/mpc-hc/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -39,7 +39,7 @@ msgstr "Kapitel"
 
 msgctxt "IDS_CONTROLS_COMPLETING"
 msgid "Completing..."
-msgstr "Kompletterar..."
+msgstr "Slutför..."
 
 msgctxt "IDS_AUTOPLAY_PLAYVIDEO"
 msgid "Play Video"
@@ -163,7 +163,7 @@ msgstr "%d+"
 
 msgctxt "IDS_NO_PARENTAL_RATING"
 msgid "Not rated"
-msgstr "Ej klassificerad"
+msgstr "Ingen klassificering"
 
 msgctxt "IDS_INFOBAR_CONTENT"
 msgid "Content"
@@ -175,7 +175,7 @@ msgstr "Film/Drama"
 
 msgctxt "IDS_CONTENT_NEWS_CURRENTAFFAIRS"
 msgid "News/Current affairs"
-msgstr "Nyheter"
+msgstr "Nyheter/Aktuellt"
 
 msgctxt "IDS_SPEED_UNIT_G"
 msgid "GB/s"
@@ -235,11 +235,11 @@ msgstr "Stil"
 
 msgctxt "IDS_SUBRESYNC_CLN_FONT"
 msgid "Font"
-msgstr "Typsnitt"
+msgstr "Teckensnitt"
 
 msgctxt "IDS_DVD_NAV_SOME_PINS_ERROR"
 msgid "Failed to render some of the pins of the DVD Navigator filter"
-msgstr "Misslyckades att rendera några av stiften i DVD Navigator-filtret"
+msgstr ""
 
 msgctxt "IDS_DVD_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for DVD playback"
@@ -323,15 +323,15 @@ msgstr "Spelningslista"
 
 msgctxt "IDS_PPAGE_FS_CLN_ON_OFF"
 msgid "On/Off"
-msgstr "På/Av"
+msgstr "Aktiverat"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
 msgid "From fps"
-msgstr "Från fps"
+msgstr "Från FPS"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
 msgid "To fps"
-msgstr "Till fps"
+msgstr "Till FPS"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
@@ -359,7 +359,7 @@ msgstr "Kunde inte ställa in målfönster för grafmeddelande"
 
 msgctxt "IDS_DVD_NAV_ALL_PINS_ERROR"
 msgid "Failed to render all pins of the DVD Navigator filter"
-msgstr "Misslyckades att rendera alla stift i DVD Navigator-filtret"
+msgstr ""
 
 msgctxt "IDS_PLAYLIST_OPEN"
 msgid "&Open"
@@ -455,7 +455,7 @@ msgstr "Småjusteringar"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER"
 msgid "Internal Filters::Audio Switcher"
-msgstr "Interna Filter::Ljudväxel"
+msgstr "Interna Filter:: Ljudomkopplare"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS"
 msgid "External Filters"
@@ -467,7 +467,7 @@ msgstr "Uppspelning::Shaders"
 
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
-msgstr "Ljudväxel"
+msgstr "Ljudomkopplare"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_TITLE"
 msgid "New version of the icon library"
@@ -531,7 +531,7 @@ msgstr "madVR"
 
 msgctxt "IDD_PPAGEACCELTBL"
 msgid "Player::Keys"
-msgstr "Spelare::Knappar"
+msgstr "Spelare::Kortkommandon"
 
 msgctxt "IDD_PPAGESUBSTYLE"
 msgid "Subtitles::Default Style"
@@ -703,7 +703,7 @@ msgstr "3D-ytor (rekommenderas)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZE_NN"
 msgid "Nearest neighbor"
-msgstr "Närmast intilliggande"
+msgstr "Angränsande"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BILIN"
 msgid "Bilinear"
@@ -771,7 +771,7 @@ msgstr "Auto"
 
 msgctxt "IDS_EXPORT_SETTINGS_NO_KEYS"
 msgid "There are no customized keys to export."
-msgstr "Det finns inga anpassade knappar att exportera."
+msgstr "Det finns inga anpassade kortkommandon att exportera."
 
 msgctxt "IDS_RFS_NO_FILES"
 msgid "No media files found in the archive"
@@ -891,7 +891,7 @@ msgstr "Ljud av"
 
 msgctxt "ID_VOLUME_MUTE_ON"
 msgid "Unmute"
-msgstr "Ljud av"
+msgstr "Ljud på"
 
 msgctxt "ID_VOLUME_MUTE_DISABLED"
 msgid "No audio"
@@ -975,7 +975,7 @@ msgstr "Pausad"
 
 msgctxt "IDS_AG_EDL_NEW_CLIP"
 msgid "EDL new clip"
-msgstr "EDL ny klip"
+msgstr ""
 
 msgctxt "IDS_RECENT_FILES_CLEAR"
 msgid "&Clear list"
@@ -1027,7 +1027,7 @@ msgstr "PnS Rotera Z-"
 
 msgctxt "IDS_AG_TEARING_TEST"
 msgid "Tearing Test"
-msgstr "&Tearingtest"
+msgstr "Tearingtest"
 
 msgctxt "IDS_SCALE_16_9"
 msgid "Scale to 16:9 TV,%.3f,%.3f,%.3f,%.3f"
@@ -1055,7 +1055,7 @@ msgstr "Buffrar... (%d%%)"
 
 msgctxt "IDS_CONTROLS_CAPTURING"
 msgid "Capturing..."
-msgstr "Fångar..."
+msgstr "Spelar in..."
 
 msgctxt "IDS_CONTROLS_OPENING"
 msgid "Opening..."
@@ -1139,7 +1139,7 @@ msgstr "App-kommando"
 
 msgctxt "IDS_AG_MEDIAFILES"
 msgid "Media files (all types)"
-msgstr "Media filer (alla typer)"
+msgstr "Mediefiler (alla typer)"
 
 msgctxt "IDS_AG_ALLFILES"
 msgid "All files (*.*)|*.*|"
@@ -1147,7 +1147,7 @@ msgstr "All filer (*.*)|*.*|"
 
 msgctxt "IDS_AG_AUDIOFILES"
 msgid "Audio files (all types)"
-msgstr "Ljud filer (alla typer)"
+msgstr "Ljudfiler (alla typer)"
 
 msgctxt "IDS_AG_NOT_KNOWN"
 msgid "Not known"
@@ -1155,7 +1155,7 @@ msgstr "Ej känt"
 
 msgctxt "IDS_MPLAYERC_0"
 msgid "Quick Open File"
-msgstr "Snabb Öppna fil"
+msgstr "Snabböppna fil"
 
 msgctxt "IDS_AG_OPEN_FILE"
 msgid "Open File"
@@ -1331,7 +1331,7 @@ msgstr "Maximal storlek (N x N px) på omslagsbilderna som läses in i \"enbart 
 
 msgctxt "IDS_SUBTITLE_DELAY_STEP_TOOLTIP"
 msgid "The subtitle delay will be decreased/increased by this value each time the corresponding hotkeys are used (%s/%s)."
-msgstr "Undertextfördröjningen kommer att minskas/ökas med detta värde varje gång motsvarande snabbkommando används (%s/%s)."
+msgstr "Undertextfördröjningen kommer att minskas/ökas med detta värde varje gång motsvarande kortkommando används (%s/%s)."
 
 msgctxt "IDS_HOTKEY_NOT_DEFINED"
 msgid "<not defined>"
@@ -1395,11 +1395,11 @@ msgstr "Bilden sparades framgångsrikt"
 
 msgctxt "IDS_AG_LOAD_SUBTITLE"
 msgid "Load Subtitle"
-msgstr "Load Undertext"
+msgstr "Läs in Undertext"
 
 msgctxt "IDS_AG_SAVE_SUBTITLE"
 msgid "Save Subtitle"
-msgstr "Save Undertext"
+msgstr "Spara Undertext"
 
 msgctxt "IDS_AG_PROPERTIES"
 msgid "Properties"
@@ -1651,7 +1651,7 @@ msgstr "Shift Undertext Höger"
 
 msgctxt "IDS_AG_DISPLAY_STATS"
 msgid "Display Stats"
-msgstr "Visa Stats"
+msgstr "Visa Statistik"
 
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"
@@ -1735,7 +1735,7 @@ msgstr "Inga undertexter hittades."
 
 msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
 msgid "%d subtitle(s) available."
-msgstr "%d undertext(er) tillgänglig."
+msgstr "%d undertext(er) tillgängliga."
 
 msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
@@ -1839,7 +1839,7 @@ msgstr "DVD Titel Meny"
 
 msgctxt "IDS_AG_DVD_ROOT_MENU"
 msgid "DVD Root Menu"
-msgstr "DVD Root Meny"
+msgstr "DVD Rot Meny"
 
 msgctxt "IDS_MPLAYERC_65"
 msgid "DVD Subtitle Menu"
@@ -1851,7 +1851,7 @@ msgstr "DVD Ljud Meny"
 
 msgctxt "IDS_MPLAYERC_67"
 msgid "DVD Angle Menu"
-msgstr "DVD Angle Meny"
+msgstr "DVD Vinkel Meny"
 
 msgctxt "IDS_MPLAYERC_68"
 msgid "DVD Chapter Menu"
@@ -1887,19 +1887,19 @@ msgstr "DVD Meny Lämna"
 
 msgctxt "IDS_AG_BOSS_KEY"
 msgid "Boss key"
-msgstr "Boss knappen"
+msgstr "Boss-knapp"
 
 msgctxt "IDS_MPLAYERC_77"
 msgid "Player Menu (short)"
-msgstr "Player Meny (short)"
+msgstr ""
 
 msgctxt "IDS_MPLAYERC_78"
 msgid "Player Menu (long)"
-msgstr "Player Meny (long)"
+msgstr ""
 
 msgctxt "IDS_AG_FILTERS_MENU"
 msgid "Filters Menu"
-msgstr "Filter Meny"
+msgstr "Filtermeny"
 
 msgctxt "IDS_AG_OPTIONS"
 msgid "Options"
@@ -1983,7 +1983,7 @@ msgstr "Välj mapp"
 
 msgctxt "IDS_FAVORITES_QUICKADDFAVORITE"
 msgid "Quick add favorite"
-msgstr "Snabb lägg till favorit"
+msgstr ""
 
 msgctxt "IDS_DVB_CHANNEL_NUMBER"
 msgid "N"
@@ -2043,7 +2043,7 @@ msgstr "Kan inte spara Undertexter"
 
 msgctxt "IDS_AG_FRAMERATE"
 msgid "Frame rate"
-msgstr "Bild-hastighet"
+msgstr "Bildfrekvens"
 
 msgctxt "IDS_MAINFRM_6"
 msgid "drawn: %d, dropped: %d"
@@ -2067,7 +2067,7 @@ msgstr "Vinkel: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
 
 msgctxt "IDS_MAINFRM_11"
 msgid "%s, %s %u Hz %d bits %d %s"
-msgstr ""
+msgstr "%s, %s %u Hz %d bitar %d %s"
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
@@ -2247,7 +2247,7 @@ msgstr "Ogiltigt bildformat, kan inte skapa miniatyrer ut av %d bpp dibs."
 
 msgctxt "IDS_THUMBNAILS_INFO_FILESIZE"
 msgid "File Size: %s (%s bytes)\\N"
-msgstr "Fil Storlek: %s (%s bytes)\\N"
+msgstr "Filstorlek: %s (%s bytes)\\N"
 
 msgctxt "IDS_THUMBNAILS_INFO_HEADER"
 msgid "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: %dx%d %s\\NDuration: %02d:%02d:%02d"
@@ -2267,15 +2267,15 @@ msgstr "Undertextfiler"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %ld:%ld"
-msgstr "Aspekt Förhålland: %ld:%ld"
+msgstr "Bildförhållande: %ld:%ld"
 
 msgctxt "IDS_MAINFRM_69"
 msgid "Aspect Ratio: Default"
-msgstr "Aspekt Förhålland: Standard"
+msgstr "Bildförhållande: Standard"
 
 msgctxt "IDS_MAINFRM_70"
 msgid "Audio delay: %I64d ms"
-msgstr "Ljud Fördröjning: %I64dms"
+msgstr "Ljudfördröjning: %I64dms"
 
 msgctxt "IDS_AG_CHAPTER"
 msgid "Chapter %d"
@@ -2355,7 +2355,7 @@ msgstr "Pausa"
 
 msgctxt "IDS_AG_TOGGLE_CAPTION"
 msgid "Toggle Caption&Menu"
-msgstr "Växla Rubrik && Meny"
+msgstr ""
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
 msgid "Toggle Seeker"
@@ -2395,7 +2395,7 @@ msgstr "Okänd filtyp"
 
 msgctxt "IDS_MAINFRM_92"
 msgid "Unsupported stream"
-msgstr "Strömen stöds ej"
+msgstr "Strömmen stöds inte"
 
 msgctxt "IDS_MAINFRM_93"
 msgid "Cannot find DVD directory"
@@ -2499,19 +2499,19 @@ msgstr "Undertextförskjutning: %ld ms"
 
 msgctxt "IDS_VOLUME_BOOST_INC"
 msgid "Volume boost increase"
-msgstr "Volym boost ökning"
+msgstr ""
 
 msgctxt "IDS_VOLUME_BOOST_DEC"
 msgid "Volume boost decrease"
-msgstr "Volym boost minskning"
+msgstr ""
 
 msgctxt "IDS_VOLUME_BOOST_MIN"
 msgid "Volume boost Min"
-msgstr "Volym boost Min"
+msgstr ""
 
 msgctxt "IDS_VOLUME_BOOST_MAX"
 msgid "Volume boost Max"
-msgstr "Volym boost Max"
+msgstr ""
 
 msgctxt "IDS_USAGE"
 msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nominidump\tDisable minidump creation\n/slave \"hWnd\"\tUse MPC-HC as slave\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
@@ -2551,15 +2551,15 @@ msgstr "Växla Felsöknings-shaders"
 
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
-msgstr "Zoom 50 %"
+msgstr "Zoom 50%"
 
 msgctxt "IDS_AG_ZOOM_100"
 msgid "Zoom 100%"
-msgstr "Zoom 100 %"
+msgstr "Zoom 100%"
 
 msgctxt "IDS_AG_ZOOM_200"
 msgid "Zoom 200%"
-msgstr "Zoom 200 %"
+msgstr "Zoom 200%"
 
 msgctxt "IDS_AG_NEXT_AR_PRESET"
 msgid "Next AR Preset"
@@ -2615,7 +2615,7 @@ msgstr "Författare okänd. Kontakta oss om du har gjort den här loggan!"
 
 msgctxt "IDS_NO_MORE_MEDIA"
 msgid "No more media in the current folder."
-msgstr "Inga fler medierfiler i den aktuella mappen."
+msgstr "Inga fler mediafiler i den aktuella mappen."
 
 msgctxt "IDS_FIRST_IN_FOLDER"
 msgid "The first file of the folder is already loaded."
@@ -2703,7 +2703,7 @@ msgstr "Återställ visningsstatistik"
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
-msgstr "Undertexter::Misc"
+msgstr "Undertexter::Div"
 
 msgctxt "IDS_VIEW_BORDERLESS"
 msgid "Hide &borders"
@@ -2715,7 +2715,7 @@ msgstr "Endast Ram"
 
 msgctxt "IDS_VIEW_CAPTIONMENU"
 msgid "Sho&w Caption&&Menu"
-msgstr "Visa Bildtext&&Meny"
+msgstr ""
 
 msgctxt "IDS_VIEW_HIDEMENU"
 msgid "Hide &Menu"
@@ -3315,7 +3315,7 @@ msgstr "Återfå volym: Av"
 
 msgctxt "IDS_SIZE_UNIT_BYTES"
 msgid "bytes"
-msgstr ""
+msgstr "bytes"
 
 msgctxt "IDS_SIZE_UNIT_K"
 msgid "KB"
@@ -3495,11 +3495,11 @@ msgstr "Efter Uppspelning: Stäng av bildskärmen"
 
 msgctxt "IDS_AFTERPLAYBACK_PLAYNEXT"
 msgid "After Playback: Play next file in the folder"
-msgstr ""
+msgstr "Efter Uppspelning: Spela nästa fil i mappen"
 
 msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
 msgid "After Playback: Do nothing"
-msgstr ""
+msgstr "Efter Uppspelning: Gör inget"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
@@ -3531,7 +3531,7 @@ msgstr "Öka Ljusstyrka"
 
 msgctxt "IDS_LANG_PREF_EXAMPLE"
 msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
-msgstr "Skriv in dina föredragna språk här.\nTill exempel, skriv: \"eng jap swe\""
+msgstr "Skriv in dina föredragna språk här.\nTill exempel: \"eng jap swe\""
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."

@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-10-30 22:04:38+0000\n"
-"PO-Revision-Date: 2014-11-21 14:51+0000\n"
-"Last-Translator: SmilyCarrot <twisted-transistor@yandex.ru>\n"
+"PO-Revision-Date: 2014-12-03 11:31+0000\n"
+"Last-Translator: sayanvd <sayanvd@yandex.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/mpc-hc/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -119,7 +119,7 @@ msgstr "Стили"
 
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
-msgstr ""
+msgstr "Если цель рендеринга не определена, SSA/ASS субтитры будут отрендерены относительно видео кадра, а все другие текстовые субтитры будут отрендерены относительно окна."
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -847,7 +847,7 @@ msgstr "Аккуратный VSync"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid "If the rendering target is left undefined, it will be inherited from the default style."
-msgstr ""
+msgstr "Если цель рендеринга не определена, то она будет взята из стиля по умолчанию."
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
@@ -855,7 +855,7 @@ msgstr "Отключить анимацию субтитров. Включени
 
 msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
-msgstr ""
+msgstr "Увеличение числа буферных фрагментов изображения обычно увеличивает скорость рендеринга за счет более высокого использования видеопамяти на GPU."
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
@@ -863,7 +863,7 @@ msgstr "После нажатия этой кнопки, выбранное со
 
 msgctxt "IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Disabling this option will prevent the subtitles from blinking but it may cause the video renderer to skip some video frames."
-msgstr ""
+msgstr "Отключение этой опции предотвратит мигание субтитров, но это может привести к пропуску некоторых видеокадров при рендеренге."
 
 msgctxt "ID_PLAY_PLAY"
 msgid "Play\nPlay"
@@ -1335,7 +1335,7 @@ msgstr "Максимальный размер (NxNpx) обложки загру�
 
 msgctxt "IDS_SUBTITLE_DELAY_STEP_TOOLTIP"
 msgid "The subtitle delay will be decreased/increased by this value each time the corresponding hotkeys are used (%s/%s)."
-msgstr ""
+msgstr "Задержка субтитров будет уменьшаться/увеличивается на это значение при каждом нажатии горячих клавиш (%s/%s)."
 
 msgctxt "IDS_HOTKEY_NOT_DEFINED"
 msgid "<not defined>"
@@ -1355,7 +1355,7 @@ msgstr "Ниже"
 
 msgctxt "IDS_NAVIGATION_SORT"
 msgid "Sort by LCN"
-msgstr ""
+msgstr "Упорядочить по LCN"
 
 msgctxt "IDS_NAVIGATION_REMOVE_ALL"
 msgid "Remove all"
@@ -3563,7 +3563,7 @@ msgstr "&Каналы"
 
 msgctxt "IDC_FASTSEEK_CHECK"
 msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."
-msgstr ""
+msgstr "Если выбран \"последний ключевой кадр\", то ищется первый ключевой кадр перед поисковой точкой.\nЕсли выбран \"ближайший ключевой кадр\", то ищется ключевой кадр до или после точки поиска которых ближе всего."
 
 msgctxt "IDC_ASSOCIATE_ALL_FORMATS"
 msgid "Associate with all formats"

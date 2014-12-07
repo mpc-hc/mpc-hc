@@ -736,7 +736,7 @@ sv.langid=00001053
 sv.comp_mpciconlib=Ikonbibliotek
 sv.comp_mpcresources=Översättningar
 sv.msg_DeleteSettings=Vill du också ta bort inställningarna för MPC-HC?%n%nOm du planerar att installera MPC-HC igen så behöver du inte ta bort dem.
-sv.msg_SetupIsRunningWarning=Konfigurering av MPC-HC pågår redan!
+sv.msg_SetupIsRunningWarning=Installation av MPC-HC pågår redan!
 #if defined(sse_required)
 sv.msg_simd_sse=Denna version av MPC-HC kräver en processor med stöd för SSE.%n%nDin processor saknar detta stöd.
 #elif defined(sse2_required)

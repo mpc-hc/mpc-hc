@@ -2,14 +2,14 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# JellyFrog, 2013
+# JellyFrog, 2013-2014
 # Apa <sakcheen@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-10-20 10:21+0000\n"
-"Last-Translator: Underground78\n"
+"PO-Revision-Date: 2014-12-05 00:10+0000\n"
+"Last-Translator: JellyFrog\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/mpc-hc/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -75,7 +75,7 @@ msgstr "Spela in"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK2"
 msgid "Enable built-in audio switcher filter (requires restart)"
-msgstr "Aktivera inbyggt ljudväxelfilter (omstart krävs)"
+msgstr "Aktivera inbyggt ljudomkopplings-filter (omstart krävs)"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK5"
 msgid "Normalize"
@@ -107,7 +107,7 @@ msgstr "Ljudtidsförskjutning (ms):"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK1"
 msgid "Enable custom channel mapping"
-msgstr "Aktivera anpassad kanalkartläggning"
+msgstr "Aktivera anpassad kanalmappning"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
 msgid "Speaker configuration for "
@@ -139,7 +139,7 @@ msgstr "Gå!"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Enter two numbers to jump to a specified frame, the first is the frame number, the second is the frame rate."
-msgstr "Ange två nummer för att gå till en viss bildruta, det första är numret för bildrutan, det andra är bildhastigheten."
+msgstr "Ange två nummer för att gå till en viss bildruta, det första är numret för bildrutan, det andra är bildfrekvensen."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Frame"
@@ -303,7 +303,7 @@ msgstr "Inaktivera \"Öppna Skiva\"-menyn"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK9"
 msgid "Process priority above normal"
-msgstr "Processens prioritet högre än normal"
+msgstr "Spelarens prioritet högre än normal"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK14"
 msgid "Enable cover-art support"
@@ -347,11 +347,11 @@ msgstr "\"Öppna DVD/BD\"-beteende"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO1"
 msgid "Prompt for location"
-msgstr "Fråga efter plats"
+msgstr "Fråga efter sökväg"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO2"
 msgid "Always open the default location:"
-msgstr "Öppna alltid standardplatsen: "
+msgstr "Öppna alltid standard-sökvägen: "
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "Preferred language for DVD Navigator and the external OGM Splitter"
@@ -375,7 +375,7 @@ msgstr "Ytterligare inställningar"
 
 msgctxt "IDD_PPAGEDVD_IDC_CHECK2"
 msgid "Allow closed captions in \"Line 21 Decoder\""
-msgstr "Tillåt dold text i \"linje 21-dekodern\""
+msgstr "Tillåt dold text i \"Line 21 Decoder\""
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Audio"
@@ -443,7 +443,7 @@ msgstr "%"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Default track preference"
-msgstr "Föredraget språkval"
+msgstr "Föredraget språk"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Subtitles:"
@@ -455,7 +455,7 @@ msgstr "Ljud:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK4"
 msgid "Allow overriding external splitter choice"
-msgstr "Tillåt att kringgå externa demultiplexers val"
+msgstr "Åsidosätt externa demultiplexers inställningar"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Open settings"
@@ -463,11 +463,11 @@ msgstr "Öppna-inställningar"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK7"
 msgid "Use worker thread to construct the filter graph"
-msgstr "Använd arbetstråden för att bygga filtergrafen"
+msgstr ""
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK6"
 msgid "Report pins which fail to render"
-msgstr "Rapportera stift som misslyckas att rendera"
+msgstr ""
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
@@ -495,7 +495,7 @@ msgstr "Hastighetssteg:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK3"
 msgid "Override placement"
-msgstr "Åsidosätt placering"
+msgstr "Tvingad placering"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC1"
 msgid "Horizontal:"
@@ -523,7 +523,7 @@ msgstr "ms"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Texture settings (open the video again to see the changes)"
-msgstr "Texturinställningar (öppna videon igen för att se förändringarna)"
+msgstr "Texturinställningar (ladda om videon för att se förändringarna)"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Sub pictures to buffer:"
@@ -551,11 +551,11 @@ msgstr "Animera vid"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC8"
 msgid "% of the video frame rate"
-msgstr "% av videons bildhastighet"
+msgstr "% av videons bildfrekvens"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Allow dropping some subpictures if the queue is running late"
-msgstr "Tillåt att skippa några undertextbilder om kön ligger efter"
+msgstr "Hoppa över undertextbilder om kön ligger efter"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Renderer Layout"
@@ -563,7 +563,7 @@ msgstr "Renderarlayout"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SUB_AR_COMPENSATION"
 msgid "Apply aspect ratio compensation for anamorphic videos"
-msgstr "Använd bildförhållandekompensation för video med anamorfiskt format"
+msgstr "Använd bildförhållande-kompensering för videos med anamorfiskt format"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Warning"
@@ -571,7 +571,7 @@ msgstr "Varning"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu."
-msgstr "Om du aktiverar helskärmskantutjämning i ditt grafikkorts inställningar kommer undertexter inte se bättre ut, men det kommer säkerligen att belasta din processor."
+msgstr "Om du aktiverar helskärmskantutjämning i ditt grafikkorts inställningar kommer undertexter inte se bättre ut, men det kommer troligen att belasta din processor."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
 msgid "File extensions"
@@ -603,7 +603,7 @@ msgstr "Ange som stan&dardprogram"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Real-Time Streaming Protocol handler (for rtsp://... URLs)"
-msgstr "Real-Time Streaming Protocol-hanterare (för rtsp://... webbadresser)"
+msgstr "Real-Time Streaming Protocol-hanterare (för rtsp://... URLer)"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_RADIO1"
 msgid "RealMedia"
@@ -619,7 +619,7 @@ msgstr "DirectShow"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK5"
 msgid "Check file extension first"
-msgstr "Titta på filnamnstillägget först"
+msgstr "Kolla filnamnstillägget först"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Explorer Context Menu"
@@ -1047,11 +1047,11 @@ msgstr "Färger && Transparens"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "0%"
-msgstr "0 %"
+msgstr "0%"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "100%"
-msgstr "100 %"
+msgstr "100%"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Primary"
@@ -1099,7 +1099,7 @@ msgstr "Ljuddekoder"
 
 msgctxt "IDD_PPAGELOGO_IDC_RADIO1"
 msgid "Internal:"
-msgstr "Intern:"
+msgstr "Inbyggd:"
 
 msgctxt "IDD_PPAGELOGO_IDC_RADIO2"
 msgid "External:"
@@ -1123,7 +1123,7 @@ msgstr "QuickTime Video"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Audio Renderer"
-msgstr "DirectShow Ljud"
+msgstr ""
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
@@ -1143,7 +1143,7 @@ msgstr "Välj D3D9 Render-enhet"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_RESETDEVICE"
 msgid "Reinitialize when changing display"
-msgstr "Ominitialisera när man växlar skärm"
+msgstr "Initiera om vid byte av skärm"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "D3D Fullscreen"
@@ -1195,7 +1195,7 @@ msgstr "Lyssna på port:"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC1"
 msgid "Launch in web browser..."
-msgstr "Starta i webbläsare..."
+msgstr "Öppna i webbläsaren..."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK3"
 msgid "Enable compression"
@@ -1211,7 +1211,7 @@ msgstr "Skriv ut felsökningsinformation"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK4"
 msgid "Serve pages from:"
-msgstr "Leverera sidor från:"
+msgstr "Visa sidor från:"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_BUTTON1"
 msgid "Browse..."
@@ -1219,7 +1219,7 @@ msgstr "Bläddra..."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_BUTTON2"
 msgid "Deploy..."
-msgstr "Distribuera..."
+msgstr "Exportera..."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC"
 msgid "Default page:"
@@ -1299,7 +1299,7 @@ msgstr "Exportera"
 
 msgctxt "IDD_PPAGEMISC_IDC_EXPORT_KEYS"
 msgid "Export keys"
-msgstr "Exportera knappar"
+msgstr "Exportera kortkommandon"
 
 msgctxt "IDD_TUNER_SCAN_CAPTION"
 msgid "Tuner scan"
@@ -1467,11 +1467,11 @@ msgstr "ms"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK6"
 msgid "Hide docked panels"
-msgstr "Göm förankrade paneler"
+msgstr "Göm dockade paneler"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK5"
 msgid "Exit fullscreen at the end of playback"
-msgstr "Avsluta helskärmsläge i slutet av uppspelningen"
+msgstr "Avsluta helskärmsläget efter uppspelningen"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Fullscreen monitor"
