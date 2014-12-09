@@ -1,5 +1,5 @@
 @ECHO OFF
-REM (C) 2009-2014 see Authors.txt
+REM (C) 2009-2015 see Authors.txt
 REM
 REM This file is part of MPC-HC.
 REM
@@ -284,8 +284,9 @@ FOR %%G IN (
  "Arabic" "Armenian" "Basque" "Belarusian" "Bengali" "Catalan" "Chinese Simplified"
  "Chinese Traditional" "Croatian" "Czech" "Dutch" "English (British)" "Finnish"
  "French" "Galician" "German" "Greek" "Hebrew" "Hungarian" "Italian" "Japanese"
- "Korean" "Malay" "Polish" "Portuguese (Brazil)" "Romanian" "Russian" "Slovak"
- "Slovenian" "Spanish" "Swedish" "Tatar" "Thai" "Turkish" "Ukrainian" "Vietnamese"
+ "Korean" "Malay" "Polish" "Portuguese (Brazil)" "Romanian" "Russian" "Serbian"
+ "Slovak" "Slovenian" "Spanish" "Swedish" "Tatar" "Thai" "Turkish" "Ukrainian"
+ "Vietnamese"
 ) DO (
  TITLE Compiling mpcresources %COMPILER% - %%~G^|%1...
  MSBuild.exe mpcresources.sln %MSBUILD_SWITCHES%^

@@ -1,5 +1,5 @@
 /*
-* (C) 2014 see Authors.txt
+* (C) 2014-2015 see Authors.txt
 *
 * This file is part of MPC-HC.
 *
@@ -53,6 +53,7 @@ static const std::vector<Translations::LanguageResource> languageResources = {
     { 1046,   _T("Portuguese (Brazil)"),      _T("Lang\\mpcresources.pt_BR.dll") },
     { 1048,   _T("Romanian"),                 _T("Lang\\mpcresources.ro.dll") },
     { 1049,   _T("Russian"),                  _T("Lang\\mpcresources.ru.dll") },
+    { 3098,   _T("Serbian"),                  _T("Lang\\mpcresources.sr.dll") },
     { 1051,   _T("Slovak"),                   _T("Lang\\mpcresources.sk.dll") },
     { 1060,   _T("Slovenian"),                _T("Lang\\mpcresources.sl.dll") },
     { 1053,   _T("Swedish"),                  _T("Lang\\mpcresources.sv.dll") },

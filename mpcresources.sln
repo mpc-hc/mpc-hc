@@ -60,6 +60,8 @@ Global
 		Release Romanian|x64 = Release Romanian|x64
 		Release Russian|Win32 = Release Russian|Win32
 		Release Russian|x64 = Release Russian|x64
+		Release Serbian|Win32 = Release Serbian|Win32
+		Release Serbian|x64 = Release Serbian|x64
 		Release Slovak|Win32 = Release Slovak|Win32
 		Release Slovak|x64 = Release Slovak|x64
 		Release Slovenian|Win32 = Release Slovenian|Win32
@@ -188,6 +190,10 @@ Global
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Russian|Win32.Build.0 = Release Russian|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Russian|x64.ActiveCfg = Release Russian|x64
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Russian|x64.Build.0 = Release Russian|x64
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Serbian|Win32.ActiveCfg = Release Serbian|Win32
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Serbian|Win32.Build.0 = Release Serbian|Win32
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Serbian|x64.ActiveCfg = Release Serbian|x64
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Serbian|x64.Build.0 = Release Serbian|x64
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Slovak|Win32.ActiveCfg = Release Slovak|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Slovak|Win32.Build.0 = Release Slovak|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Slovak|x64.ActiveCfg = Release Slovak|x64

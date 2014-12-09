@@ -137,6 +137,10 @@ sk.WinVersionTooLowError=[name] vyžaduje pre svoje fungovanie systém Windows X
 sl.WelcomeLabel2=[name] bo nameščen na tem računalniku.%n%nPriporočamo, da zaprete vse ostale programa pred nadaljevanjem.
 sl.WinVersionTooLowError=[name] zahteva za delovanje Windows XP Service Pack 3 ali novejše
 
+; Serbian (Cyrillic)
+sr.WelcomeLabel2=Овим ћете инсталирати [name] на ваш рачунар.%n%nПрепоручује се да затворите све друге програме пре него што наставите.
+sr.WinVersionTooLowError=[name] захтева Windows XP Service Pack 3 или новији за покретање.
+
 ; Swedish
 sv.WelcomeLabel2=Detta kommer att installera [name] på din dator.%n%nDet rekommenderas att du stänger alla andra program innan du fortsätter.
 sv.WinVersionTooLowError=[name] kräver Windows XP Service Pack 3 eller senare.
@@ -730,6 +734,26 @@ sl.tsk_ResetSettings=Ponastavi nastavitve
 sl.types_DefaultInstallation=Privzeta namestitev
 sl.types_CustomInstallation=Namestitev po meri
 sl.ViewChangelog=Poglej dnevnik sprememb
+
+; Serbian (Cyrillic)
+sr.langid=00003098
+sr.comp_mpciconlib=Библиотека са иконама
+sr.comp_mpcresources=Преводи
+sr.msg_DeleteSettings=Желите ли да обришете и поставке MPC-HC-а?%n%nНе морате их брисати ако планирате поново да инсталирате MPC-HC.
+sr.msg_SetupIsRunningWarning=Инсталација MPC-HC-а је већ покренута!
+#if defined(sse_required)
+sr.msg_simd_sse=Ова верзија MPC-HC-а захтева процесор са подршком за SSE проширења.%n%nВаш процесор нема те могућности.
+#elif defined(sse2_required)
+sr.msg_simd_sse2=Ова верзија MPC-HC-а захтева процесор са подршком за SSE2 проширења.%n%nВаш процесор нема те могућности.
+#endif
+sr.run_DownloadToolbarImages=Посети вики страницу ради преузимања слика траке са алаткама
+sr.tsk_AllUsers=За све кориснике
+sr.tsk_CurrentUser=Само за тренутног корисника
+sr.tsk_Other=Остали задаци:
+sr.tsk_ResetSettings=Врати подразумеване поставке
+sr.types_DefaultInstallation=Уобичајена инсталација
+sr.types_CustomInstallation=Прилагођена инсталација
+sr.ViewChangelog=Погледај евиденцију промена
 
 ; Swedish
 sv.langid=00001053
