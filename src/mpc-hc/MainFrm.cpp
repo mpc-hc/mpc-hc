@@ -106,6 +106,8 @@
 #include <mvrInterfaces.h>
 #include <SubRenderIntf.h>
 
+#include <strsafe.h>
+
 template<typename T>
 bool NEARLY_EQ(T a, T b, T tol)
 {
