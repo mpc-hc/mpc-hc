@@ -34,6 +34,7 @@
 #include "PPageWebServer.h"
 #include "PPageInternalFilters.h"
 #include "PPageAudioSwitcher.h"
+#include "PPageAudioRenderer.h"
 #include "PPageExternalFilters.h"
 #include "PPageSubtitles.h"
 #include "PPageSubStyle.h"
@@ -93,6 +94,7 @@ private:
     CPPageInternalFilters m_internalfilters;
 #endif
     CPPageAudioSwitcher m_audioswitcher;
+    CPPageAudioRenderer m_audiorenderer;
     CPPageExternalFilters m_externalfilters;
     CPPageSubtitles m_subtitles;
     CPPageSubStyle m_substyle;

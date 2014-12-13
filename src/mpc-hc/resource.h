@@ -340,6 +340,7 @@
 #define IDD_PPAGESYNC                   10055
 #define IDD_PPAGEFULLSCREEN             10056
 #define IDD_RFS_FILELIST_EXT            10057
+#define IDD_PPAGEAUDIORENDERER          10058
 #define IDC_COMBO1                      11000
 #define IDC_COMBO2                      11001
 #define IDC_COMBO3                      11002

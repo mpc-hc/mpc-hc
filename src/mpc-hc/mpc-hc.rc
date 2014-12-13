@@ -1085,6 +1085,30 @@ BEGIN
     PUSHBUTTON      "Default",IDC_BUTTON1,232,218,54,13
 END
 
+IDD_PPAGEAUDIORENDERER DIALOGEX 0, 0, 296, 241
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "Device",IDC_STATIC,7,7,282,54
+    COMBOBOX        IDC_COMBO1,20,20,262,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Exclusive mode",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,40,41,105,10
+    CONTROL         "Allow bitstreaming",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,41,125,10
+    GROUPBOX        "Options",IDC_STATIC,7,67,282,69
+    GROUPBOX        "",IDC_STATIC,13,76,269,52
+    CONTROL         "Enable stereo crossfeed (for headphones)",IDC_CHECK3,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,86,262,10
+    PUSHBUTTON      "C. Moy",IDC_BUTTON1,20,103,54,14
+    PUSHBUTTON      "J. Meier",IDC_BUTTON2,79,103,56,14
+    LTEXT           "Cut-off:",IDC_STATIC1,157,97,47,8,0,WS_EX_RIGHT
+    CONTROL         "",IDC_SLIDER1,"msctls_trackbar32",TBS_NOTICKS | WS_TABSTOP,208,96,42,12
+    LTEXT           "",IDC_STATIC2,250,97,32,8
+    LTEXT           "Level:",IDC_STATIC3,157,113,47,8,0,WS_EX_RIGHT
+    CONTROL         "",IDC_SLIDER2,"msctls_trackbar32",TBS_NOTICKS | WS_TABSTOP,208,111,42,12
+    LTEXT           "",IDC_STATIC4,250,113,32,8
+    GROUPBOX        "",IDC_STATIC,7,141,282,48
+    LTEXT           "To minimize sound distortion, it is recommended to keep player volume at around 85% when playing loud lossy-encoded content.",IDC_STATIC,20,152,262,33
+END
+
 IDD_SAVEIMAGEDIALOGTEMPL DIALOGEX 0, 0, 304, 20
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_CLIPSIBLINGS | WS_CLIPCHILDREN
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
@@ -1288,6 +1312,23 @@ BEGIN
         HORZGUIDE, 214
         HORZGUIDE, 218
         HORZGUIDE, 231
+    END
+
+    IDD_PPAGEAUDIORENDERER, DIALOG
+    BEGIN
+        VERTGUIDE, 7
+        VERTGUIDE, 13
+        VERTGUIDE, 20
+        VERTGUIDE, 154
+        VERTGUIDE, 157
+        VERTGUIDE, 204
+        VERTGUIDE, 208
+        VERTGUIDE, 250
+        VERTGUIDE, 282
+        VERTGUIDE, 289
+        HORZGUIDE, 46
+        HORZGUIDE, 67
+        HORZGUIDE, 136
     END
 
     IDD_CMD_LINE_HELP, DIALOG
@@ -2296,6 +2337,17 @@ END
 
 STRINGTABLE
 BEGIN
+    IDD_FILEPROPRES         "Resources"
+    IDD_PPAGEMISC           "Miscellaneous"
+    IDD_FILEMEDIAINFO       "MediaInfo"
+    IDD_PPAGECAPTURE        "Playback::Capture"
+    IDD_PPAGESYNC           "Playback::Sync Renderer Settings"
+    IDD_PPAGEFULLSCREEN     "Playback::Fullscreen"
+    IDD_PPAGEAUDIORENDERER  "Internal Filters::Audio Renderer"
+END
+
+STRINGTABLE
+BEGIN
     IDS_AUDIOSWITCHER       "Audio Switcher"
     IDS_ICONS_REASSOC_DLG_TITLE "New version of the icon library"
     IDS_ICONS_REASSOC_DLG_INSTR "Do you want to reassociate the icons?"
@@ -2324,16 +2376,6 @@ BEGIN
     IDD_PPAGEOUTPUT         "Playback::Output"
     IDD_PPAGEWEBSERVER      "Player::Web Interface"
     IDD_PPAGESUBDB          "Subtitles::Database"
-END
-
-STRINGTABLE
-BEGIN
-    IDD_FILEPROPRES         "Resources"
-    IDD_PPAGEMISC           "Miscellaneous"
-    IDD_FILEMEDIAINFO       "MediaInfo"
-    IDD_PPAGECAPTURE        "Playback::Capture"
-    IDD_PPAGESYNC           "Playback::Sync Renderer Settings"
-    IDD_PPAGEFULLSCREEN     "Playback::Fullscreen"
 END
 
 STRINGTABLE

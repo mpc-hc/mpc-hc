@@ -49,6 +49,15 @@ bool VersionInfo::Is64Bit()
 #endif
 }
 
+bool VersionInfo::IsLite()
+{
+#ifdef MPCHC_LITE
+    return true;
+#else
+    return false;
+#endif
+}
+
 CString VersionInfo::GetVersionString()
 {
     return MPC_VERSION_STR;

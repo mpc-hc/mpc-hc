@@ -440,6 +440,9 @@
     <ClCompile Include="CrashReporter.cpp">
       <Filter>Crash Reporter</Filter>
     </ClCompile>
+    <ClCompile Include="PPageAudioRenderer.cpp">
+      <Filter>Property Dialogs\Player Options\Pages</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h">
@@ -821,6 +824,9 @@
     </ClInclude>
     <ClInclude Include="CrashReporter.h">
       <Filter>Crash Reporter</Filter>
+    </ClInclude>
+    <ClInclude Include="PPageAudioRenderer.h">
+      <Filter>Property Dialogs\Player Options\Pages</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
