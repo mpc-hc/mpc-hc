@@ -58,7 +58,10 @@
 #define INTERNAL_SOURCEFILTER_RTSP      INTERNAL_FILTERS_ENABLED
 #define INTERNAL_SOURCEFILTER_MMS       INTERNAL_FILTERS_ENABLED
 #define INTERNAL_SOURCEFILTER_RTMP      INTERNAL_FILTERS_ENABLED
-#define INTERNAL_SOURCEFILTER_AVI2AC3   INTERNAL_FILTERS_ENABLED
+// This filter is broken (wrong timestamps after seeking, maybe more).
+// Additionally, it's not present on "Internal Filters" configuration page.
+// Disabling it for now to see if anyone needs it.
+//#define INTERNAL_SOURCEFILTER_AVI2AC3   INTERNAL_FILTERS_ENABLED
 #define INTERNAL_SOURCEFILTER_RFS       INTERNAL_FILTERS_ENABLED
 
 // Internal audio decoders
