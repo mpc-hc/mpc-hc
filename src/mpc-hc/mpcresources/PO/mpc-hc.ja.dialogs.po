@@ -2,12 +2,12 @@
 # Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# ever_green, 2014
+# ever_green, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-12-01 08:10+0000\n"
+"PO-Revision-Date: 2015-01-03 11:40+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -122,7 +122,7 @@ msgstr "Shift キーを押したままクリックすると、即座に変更さ
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."
-msgstr "再生位置を移動..."
+msgstr "指定位置に移動..."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time. You do not need to enter the separators explicitly."
@@ -1274,7 +1274,7 @@ msgstr "更新の確認"
 
 msgctxt "IDD_PPAGEMISC_IDC_CHECK1"
 msgid "Enable automatic update check"
-msgstr "自動更新の確認を有効にする"
+msgstr "更新の自動確認を有効にする"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
 msgid "Delay between each check:"

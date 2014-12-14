@@ -2,6 +2,7 @@
 # Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# Adolfo Jayme Barrientos <fito@libreoffice.org>, 2015
 # Adolfo Jayme Barrientos <fito@libreoffice.org>, 2014
 # papu <papu@openmailbox.org>, 2014
 # papu <papu@openmailbox.org>, 2014
@@ -9,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
-"PO-Revision-Date: 2014-12-01 22:50+0000\n"
-"Last-Translator: Underground78\n"
+"PO-Revision-Date: 2015-01-10 11:00+0000\n"
+"Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,15 +25,15 @@ msgstr "&Fitxer"
 
 msgctxt "ID_FILE_OPENQUICK"
 msgid "&Quick Open File..."
-msgstr "Obrir Arxiu &Ràpid..."
+msgstr "Obre un fitxer &ràpid…"
 
 msgctxt "ID_FILE_OPENMEDIA"
 msgid "&Open File..."
-msgstr "&Obrir Arxiu..."
+msgstr "&Obre un fitxer…"
 
 msgctxt "ID_FILE_OPENDVDBD"
 msgid "Open &DVD/BD..."
-msgstr "Obrir &DVD/BD..."
+msgstr "Obre un &DVD/BD…"
 
 msgctxt "ID_FILE_OPENDEVICE"
 msgid "Open De&vice..."
@@ -48,7 +49,7 @@ msgstr "Obrir Di&sc"
 
 msgctxt "ID_RECENT_FILES"
 msgid "Recent &Files"
-msgstr "&Arxius recents"
+msgstr "&Fitxers recents"
 
 msgctxt "ID_FILE_CLOSE_AND_RESTORE"
 msgid "&Close"

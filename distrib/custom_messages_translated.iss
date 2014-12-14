@@ -488,7 +488,7 @@ hu.tsk_CurrentUser=Csak a jelenlegi felhasználónak
 hu.tsk_Other=Egyéb feladatok:
 hu.tsk_ResetSettings=Beállítások alaphelyzetbe állítása
 hu.types_DefaultInstallation=Szokásos telepítés
-hu.types_CustomInstallation=Egyedi telepítés
+hu.types_CustomInstallation=Egyéni telepítés
 hu.ViewChangelog=Verziótörténet megtekintése
 
 ; Armenian (Armenia)

@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-10-30 22:04:38+0000\n"
-"PO-Revision-Date: 2014-11-08 20:24+0000\n"
-"Last-Translator: Tom <tom@boksma.com>\n"
+"PO-Revision-Date: 2014-12-12 11:11+0000\n"
+"Last-Translator: DennisW\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/mpc-hc/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -89,7 +89,7 @@ msgstr "Synchronisatie compensatie"
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET_FORMAT"
 msgid "avg: %d ms, dev: %d ms"
-msgstr ""
+msgstr "gem.: %d ms, afw.: %d ms"
 
 msgctxt "IDS_STATSBAR_JITTER"
 msgid "Jitter"
@@ -637,7 +637,7 @@ msgstr "Alleen beschikbaar op Vista of later, of op XP met minstens .NET Framewo
 
 msgctxt "IDC_DSEVR_CUSTOM"
 msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
-msgstr ""
+msgstr "Zelfde als de EVR, maar met de Allocator-Presenter van MPC-HC voor ondertiteling and postprocessing. Aanbevolen voor Windows Vista of later."
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
@@ -645,7 +645,7 @@ msgstr "Hoge kwaliteit renderer, een GPU dat D3D9 of later ondersteund is vereis
 
 msgctxt "IDC_DSSYNC"
 msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
-msgstr ""
+msgstr "Zelfde als de EVER (CP), maar biedt verscheidende opties om video framerate te synchroniseren met display refresh rate om dubbele of overgeslagen frames tegen te gaan."
 
 msgctxt "IDC_RMSYSDEF"
 msgid "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
@@ -681,7 +681,7 @@ msgstr "MPC Audio renderer is defect, niet gebruiken."
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
-msgstr ""
+msgstr "Sync Renderer"
 
 msgctxt "IDS_MPC_BUG_REPORT_TITLE"
 msgid "MPC-HC - Reporting a bug"
@@ -689,7 +689,7 @@ msgstr "MPC-HC - Raporteer een bug"
 
 msgctxt "IDS_MPC_BUG_REPORT"
 msgid "MPC-HC just crashed but this build was compiled without debug information.\nIf you want to report this bug, you should first try an official build.\n\nDo you want to visit the download page now?"
-msgstr ""
+msgstr "MPC-HC is gecrasht, maar deze build is gecompileerd zonder debug informatie.\nAls U deze bug wilt rapporteren, raden we aan om eerst een officiële build te proberen.\n\nWilt U de download pagina nu bezoeken?"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
 msgid "Regular offscreen plain surface"
@@ -705,7 +705,7 @@ msgstr "3D oppervlaktes (aanbevolen)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZE_NN"
 msgid "Nearest neighbor"
-msgstr ""
+msgstr "Naaste buur"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BILIN"
 msgid "Bilinear"
@@ -737,11 +737,11 @@ msgstr "The geselecteerde renderer is niet geïnstalleerd "
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_COMP"
 msgid "Null (anything)"
-msgstr ""
+msgstr "Ontbrekend (alles)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP"
 msgid "Null (uncompressed)"
-msgstr ""
+msgstr "Ontbrekend (ongecomprimeerd)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND"
 msgid "MPC-HC Audio Renderer"
@@ -833,7 +833,7 @@ msgstr "Gebruikt LAV Filters"
 
 msgctxt "IDS_INTERNAL_LAVF_WMV"
 msgid "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
-msgstr ""
+msgstr "Gebruik LAV Filters. Standaard uitgeschakeld aangezien Microsoft filters stabieler zijn voor dit formaat.\nAls u interne filters wilt gebruiken, schakel deze dan voor zowel de bron als decoding in voor een betere afspeel ervaring."
 
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
@@ -1561,7 +1561,7 @@ msgstr ""
 
 msgctxt "IDS_EXPORT_SETTINGS_FAILED"
 msgid "The export failed! This can happen when you don't have the correct rights."
-msgstr ""
+msgstr "Export gefaald! Dit kan gebeuren als U niet de correcte rechten heeft."
 
 msgctxt "IDS_BDA_ERROR"
 msgid "BDA Error"
@@ -2081,7 +2081,7 @@ msgstr "Afspelen met MPC-HC"
 
 msgctxt "IDS_CANNOT_CHANGE_FORMAT"
 msgid "MPC-HC has not enough privileges to change files formats associations. Please click on the \"Run as administrator\" button."
-msgstr ""
+msgstr "MPC-HC heeft niet genoeg rechten om bestand associaties te veranderen. Klik op \"Uitvoeren als Administrator\"."
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
@@ -2617,15 +2617,15 @@ msgstr "Auteur onbekend. Neem contact op als je dit logo hebt gemaakt!"
 
 msgctxt "IDS_NO_MORE_MEDIA"
 msgid "No more media in the current folder."
-msgstr ""
+msgstr "Geen media meer in de huidige folder."
 
 msgctxt "IDS_FIRST_IN_FOLDER"
 msgid "The first file of the folder is already loaded."
-msgstr ""
+msgstr "Het eerste bestand in de folder is al geladen."
 
 msgctxt "IDS_LAST_IN_FOLDER"
 msgid "The last file of the folder is already loaded."
-msgstr ""
+msgstr "Het laatste bestand in de folder is al geladen."
 
 msgctxt "IDS_FRONT_LEFT"
 msgid "Front Left"
