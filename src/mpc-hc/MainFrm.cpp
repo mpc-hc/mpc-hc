@@ -762,6 +762,7 @@ CMainFrame::CMainFrame()
     , m_iDVDDomain(DVD_DOMAIN_Stop)
     , m_iDVDTitle(0)
     , m_rtCurSubPos(0)
+    , m_bScanDlgOpened(false)
     , m_bStopTunerScan(false)
     , m_bAllowWindowZoom(false)
     , m_dLastVideoScaleFactor(0)
@@ -4038,10 +4039,9 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
         }
     }
 
-    /*
-    if (m_iMediaLoadState == MLS::LOADING || !IsWindow(m_wndPlaylistBar))
+    if (m_bScanDlgOpened) {
         return FALSE;
-    */
+    }
 
     DWORD len = *((DWORD*)pCDS->lpData);
     TCHAR* pBuff = (TCHAR*)((DWORD*)pCDS->lpData + 1);
@@ -8631,8 +8631,10 @@ void CMainFrame::OnUpdateNavigateMenuItem(CCmdUI* pCmdUI)
 
 void CMainFrame::OnTunerScan()
 {
-    CTunerScanDlg Dlg(this);
-    Dlg.DoModal();
+    m_bScanDlgOpened = true;
+    CTunerScanDlg dlg(this);
+    dlg.DoModal();
+    m_bScanDlgOpened = false;
 }
 
 void CMainFrame::OnUpdateTunerScan(CCmdUI* pCmdUI)
