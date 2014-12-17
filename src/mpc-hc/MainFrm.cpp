@@ -14651,6 +14651,14 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
 
 void CMainFrame::StartTunerScan(CAutoPtr<TunerScanData> pTSD)
 {
+    // Remove the old info during the scan
+    m_pDVBState->Reset();
+    m_wndInfoBar.RemoveAllLines();
+    m_wndNavigationBar.m_navdlg.SetChannelInfoAvailable(false);
+    RecalcLayout();
+    OpenSetupWindowTitle();
+    SendNowPlayingToSkype();
+
     if (m_pGraphThread) {
         m_pGraphThread->PostThreadMessage(CGraphThread::TM_TUNER_SCAN, 0, (LPARAM)pTSD.Detach());
     } else {

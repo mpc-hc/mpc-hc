@@ -82,3 +82,4 @@ next version - not released yet
 ! Ticket #5130, Lock the player when the scan dialog is opened. Double-clicking on a media file will
   always open a new instance of MPC-HC in this case. This avoids interrupting the scan accidentally
   and fixes the issues which used to arise when doing that
+! Ticket #5130, Remove the information corresponding to the previously playing channel during the DVB scan
