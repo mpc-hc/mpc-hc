@@ -8,6 +8,11 @@ Legend:
 ! Fixed
 
 
+next version - not released yet
+===============================
+* Updated Little CMS to v2.7 (git d11d276)
+
+
 1.7.8 - 25 January 2015
 =======================
 + DVB: Show current event time in the status bar
