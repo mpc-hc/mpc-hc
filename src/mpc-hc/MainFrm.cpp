@@ -10676,7 +10676,7 @@ void CMainFrame::SetupDVDChapters()
             CAtlList<CString> files;
 
             CVobFile vob;
-            if (vob.Open(path, files, TTN)) {
+            if (vob.Open(path, files, TTN, false)) {
                 int iChaptersCount = vob.GetChaptersCount();
                 if (ulNumOfChapters == (ULONG)iChaptersCount) {
                     for (int i = 0; i < iChaptersCount; i++) {

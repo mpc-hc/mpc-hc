@@ -456,7 +456,7 @@ bool CVobFile::GetTitleInfo(LPCTSTR fn, ULONG nTitleNum, ULONG& VTSN, ULONG& TTN
     return true;
 }
 
-bool CVobFile::Open(CString fn, CAtlList<CString>& vobs, ULONG nProgNum /*= 1*/)
+bool CVobFile::Open(CString fn, CAtlList<CString>& vobs, ULONG nProgNum /*= 1*/, bool bAuthenticate /*= true*/)
 {
     if (!m_ifoFile.Open(fn, CFile::modeRead | CFile::typeBinary | CFile::shareDenyNone)) {
         return false;
@@ -613,10 +613,10 @@ bool CVobFile::Open(CString fn, CAtlList<CString>& vobs, ULONG nProgNum /*= 1*/)
         }
     }
 
-    return Open(vobs, offset);
+    return Open(vobs, offset, bAuthenticate);
 }
 
-bool CVobFile::Open(const CAtlList<CString>& vobs, int offset)
+bool CVobFile::Open(const CAtlList<CString>& vobs, int offset /*= -1*/, bool bAuthenticate /*= true*/)
 {
     Close();
 
@@ -624,11 +624,11 @@ bool CVobFile::Open(const CAtlList<CString>& vobs, int offset)
         return false;
     }
 
+    m_offsetAuth = offset;
     if (vobs.GetCount() == 1) {
-        offset = -1;
+        m_offsetAuth = -1;
     }
-
-    m_offset = offset;
+    m_offset = std::max(m_offsetAuth, 0);
 
     POSITION pos = vobs.GetHeadPosition();
     while (pos) {
@@ -650,11 +650,18 @@ bool CVobFile::Open(const CAtlList<CString>& vobs, int offset)
         m_size += f.size;
     }
 
+    return bAuthenticate ? Authenticate() : true;
+}
+
+bool CVobFile::Authenticate()
+{
+    m_fDVD = m_fHasDiscKey = m_fHasTitleKey = false;
+
     if (!m_files.IsEmpty() && CDVDSession::Open(m_files[0].fn)) {
         for (size_t i = 0; !m_fHasTitleKey && i < m_files.GetCount(); i++) {
             if (BeginSession()) {
                 m_fDVD = true;
-                Authenticate();
+                CDVDSession::Authenticate();
                 m_fHasDiscKey = GetDiscKey();
                 EndSession();
             } else {
@@ -672,7 +679,7 @@ bool CVobFile::Open(const CAtlList<CString>& vobs, int offset)
                 DWORD start, end;
                 if (udf_get_lba(m_hDrive, f, &start, &end)) {
                     if (BeginSession()) {
-                        Authenticate();
+                        CDVDSession::Authenticate();
                         m_fHasTitleKey = GetTitleKey(start + f->partition_lba, m_TitleKey);
                         EndSession();
                     }
@@ -682,12 +689,12 @@ bool CVobFile::Open(const CAtlList<CString>& vobs, int offset)
             }
 
             BYTE key[5];
-            if (HasTitleKey(key) && i == 0 && offset >= 0) {
+            if (HasTitleKey(key) && i == 0 && m_offsetAuth >= 0) {
                 i++;
 
                 if (BeginSession()) {
                     m_fDVD = true;
-                    Authenticate();
+                    CDVDSession::Authenticate();
                     m_fHasDiscKey = GetDiscKey();
                     EndSession();
                 } else {
@@ -698,7 +705,7 @@ bool CVobFile::Open(const CAtlList<CString>& vobs, int offset)
                     DWORD start, end;
                     if (udf_get_lba(m_hDrive, f, &start, &end)) {
                         if (BeginSession()) {
-                            Authenticate();
+                            CDVDSession::Authenticate();
                             m_fHasTitleKey = GetTitleKey(start + f->partition_lba, m_TitleKey);
                             EndSession();
                         }
@@ -714,19 +721,16 @@ bool CVobFile::Open(const CAtlList<CString>& vobs, int offset)
             }
         }
     }
-    /*
-        if(!m_files.IsEmpty() && !m_fDVD)
-        {
-            CString fn = m_files[0].fn;
-            fn.MakeLower();
 
-            if(fn.Find(_T(":\\video_ts")) == 1 && GetDriveType(fn.Left(3)) == DRIVE_CDROM)
-            {
-                m_fDVD = true;
-            }
+    /*if(!m_files.IsEmpty() && !m_fDVD) {
+        CString fn = m_files[0].fn;
+        fn.MakeLower();
+
+        if(fn.Find(_T(":\\video_ts")) == 1 && GetDriveType(fn.Left(3)) == DRIVE_CDROM)
+        {
+        m_fDVD = true;
         }
-    */
-    m_offset = std::max(offset, 0);
+    }*/
 
     return true;
 }
@@ -736,7 +740,7 @@ void CVobFile::Close()
     CDVDSession::Close();
     m_files.RemoveAll();
     m_iFile = -1;
-    m_pos = m_size = m_offset = 0;
+    m_pos = m_size = m_offset = m_offsetAuth = 0;
     m_file.Close();
     m_fDVD = m_fHasDiscKey = m_fHasTitleKey = false;
 }

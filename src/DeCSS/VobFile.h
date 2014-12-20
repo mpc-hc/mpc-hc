@@ -61,7 +61,7 @@ class CVobFile : public CDVDSession
 
     CAtlArray<file_t> m_files;
     int m_iFile;
-    int m_pos, m_size, m_offset;
+    int m_pos, m_size, m_offset, m_offsetAuth;
 
     // currently opened file
     CLBAFile m_file;
@@ -83,8 +83,9 @@ public:
     bool HasDiscKey(BYTE* key) const;
     bool HasTitleKey(BYTE* key) const;
 
-    bool Open(CString fn, CAtlList<CString>& files /* out */, ULONG nProgNum = 1); // vts ifo
-    bool Open(const CAtlList<CString>& files, int offset = -1); // vts vobs, video vob offset in lba
+    bool Open(CString fn, CAtlList<CString>& files /* out */, ULONG nProgNum = 1, bool bAuthenticate = true); // vts ifo
+    bool Open(const CAtlList<CString>& files, int offset = -1, bool bAuthenticate = true); // vts vobs, video vob offset in lba
+    bool Authenticate();
     void Close();
 
     int GetLength() const;
