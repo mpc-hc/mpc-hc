@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -770,6 +770,13 @@ void CPlayerPlaylistBar::SetCurTime(REFERENCE_TIME rt)
     }
 }
 
+void CPlayerPlaylistBar::Randomize()
+{
+    m_pl.Randomize();
+    SetupList();
+    SavePlaylist();
+}
+
 OpenMediaData* CPlayerPlaylistBar::GetCurOMD(REFERENCE_TIME rtStart)
 {
     CPlaylistItem* pli = GetCur();
@@ -1476,9 +1483,7 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
             SavePlaylist();
             break;
         case M_RANDOMIZE:
-            m_pl.Randomize();
-            SetupList();
-            SavePlaylist();
+            Randomize();
             break;
         case M_CLIPBOARD:
             if (OpenClipboard() && EmptyClipboard()) {

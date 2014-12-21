@@ -1930,6 +1930,8 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
                 nCLSwitches |= CLSW_DEVICE;
             } else if (sw == _T("add")) {
                 nCLSwitches |= CLSW_ADD;
+            } else if (sw == _T("randomize")) {
+                nCLSwitches |= CLSW_RANDOMIZE;
             } else if (sw == _T("regvid")) {
                 nCLSwitches |= CLSW_REGEXTVID;
             } else if (sw == _T("regaud")) {

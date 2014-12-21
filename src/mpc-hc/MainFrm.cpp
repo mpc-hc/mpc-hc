@@ -4115,6 +4115,13 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 
     bool fSetForegroundWindow = false;
 
+    auto applyRandomizeSwitch = [&]() {
+        if (s.nCLSwitches & CLSW_RANDOMIZE) {
+            m_wndPlaylistBar.Randomize();
+            s.nCLSwitches &= ~CLSW_RANDOMIZE;
+        }
+    };
+
     if ((s.nCLSwitches & CLSW_DVD) && !s.slFiles.IsEmpty()) {
         SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
         fSetForegroundWindow = true;
@@ -4145,6 +4152,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
         }
 
         m_wndPlaylistBar.Open(sl, true);
+        applyRandomizeSwitch();
         OpenCurPlaylistItem();
     } else if (s.nCLSwitches & CLSW_DEVICE) {
         SendMessage(WM_COMMAND, ID_FILE_OPENDEVICE);
@@ -4180,6 +4188,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 
             if ((s.nCLSwitches & CLSW_ADD) && !IsPlaylistEmpty()) {
                 m_wndPlaylistBar.Append(sl, fMulti, &s.slSubs);
+                applyRandomizeSwitch();
 
                 if (s.nCLSwitches & (CLSW_OPEN | CLSW_PLAY)) {
                     m_wndPlaylistBar.SetLast();
@@ -4190,6 +4199,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
                 fSetForegroundWindow = true;
 
                 m_wndPlaylistBar.Open(sl, fMulti, &s.slSubs);
+                applyRandomizeSwitch();
                 OpenCurPlaylistItem((s.nCLSwitches & CLSW_STARTVALID) ? s.rtStart : 0);
 
                 s.nCLSwitches &= ~CLSW_STARTVALID;
@@ -4197,6 +4207,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
             }
         }
     } else {
+        applyRandomizeSwitch();
         s.nCLSwitches = CLSW_NONE;
     }
 

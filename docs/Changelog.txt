@@ -10,6 +10,7 @@ Legend:
 
 next version - not released yet
 ===============================
++ Ticket #5147, Add /randomize command-line switch for playlist randomization
 + Internal Subtitle Renderer: Convert colorspace of subtitles to match video.
 * Updated Little CMS to v2.7 (git d11d276)
 * Updated Unrar to v5.2.4
