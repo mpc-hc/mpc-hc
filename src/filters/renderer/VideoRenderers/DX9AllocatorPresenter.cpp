@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -1909,7 +1909,12 @@ void CDX9AllocatorPresenter::DrawStats()
             OffsetRect(&rc, 0, TextHeight);
 
             if (m_bIsEVR) {
-                strText.Format(L"Refresh rate : %.05f Hz    SL: %4d     (%3u Hz)      Last Duration: %10.6f      Corrected Frame Time: %s", m_DetectedRefreshRate, int(m_DetectedScanlinesPerFrame + 0.5), m_refreshRate, double(m_LastFrameDuration) / 10000.0, m_bCorrectedFrameTime ? L"Yes" : L"No");
+                if (r.m_AdvRendSets.bVMR9VSync) {
+                    strText.Format(L"Refresh rate : %.05f Hz    SL: %4d     (%3u Hz)      ", m_DetectedRefreshRate, int(m_DetectedScanlinesPerFrame + 0.5), m_refreshRate);
+                } else {
+                    strText.Format(L"Refresh rate : %3u Hz      ", m_refreshRate);
+                }
+                strText.AppendFormat(L"Last Duration: %10.6f      Corrected Frame Time: %s", double(m_LastFrameDuration) / 10000.0, m_bCorrectedFrameTime ? L"Yes" : L"No");
                 DrawText(rc, strText, 1);
                 OffsetRect(&rc, 0, TextHeight);
             }
