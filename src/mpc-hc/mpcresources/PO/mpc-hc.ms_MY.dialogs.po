@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # abuyop <abuyop@gmail.com>, 2014
@@ -189,8 +189,8 @@ msgid "About"
 msgstr "Perihal"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2014 see Authors.txt"
-msgstr "Hakcipta © 2002-2014 sila rujuk Authors.txt"
+msgid "Copyright © 2002-2015 see Authors.txt"
+msgstr "Hakcipta © 2002-2015 sila rujuk Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
