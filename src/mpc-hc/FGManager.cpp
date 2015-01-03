@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -208,7 +208,9 @@ HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl
     if (protocol.GetLength() <= 1 || protocol == L"file") {
         hFile = CreateFile(CString(fn), GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, (HANDLE)nullptr);
 
-        if (hFile == INVALID_HANDLE_VALUE) {
+        // In case of audio CDs with extra content, the audio tracks
+        // cannot be accessed directly so we have to try opening it
+        if (hFile == INVALID_HANDLE_VALUE && ext != L".cda") {
             return VFW_E_NOT_FOUND;
         }
     }

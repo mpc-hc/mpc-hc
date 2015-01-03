@@ -46,6 +46,7 @@ next version - not released yet
 ! Properties dialog: The creation time did not account for the local timezone
 ! Properties dialog: More consistent UI for the "Resources" tab
 ! PGSSub: Subtitles could have opaque background instead of transparent one
+! Audio CDROMs with extra content could not be played
 ! Ticket #2420, Improve the reliability of the DirectShow hooks
 ! Ticket #2626, Fix some rare crashes when another application prevents MPC-HC from rendering the video
 ! Ticket #2953, DVB: Fix crash when closing window right after switching channel
