@@ -66,14 +66,16 @@ private :
     void MacroblockScanIndices();
 
     //Temp
-    int64u  Data_ToParse;
     int32u  CID;
     bool    CRCF;
     int16u  ALPF;
     int16u  SPL;
     int8u   SBD;
     int8u   FFC_FirstFrame;
+    int8u   HVN;
+    int8u   CLR;
     bool    SST;
+    bool    SSC;
 };
 
 } //NameSpace

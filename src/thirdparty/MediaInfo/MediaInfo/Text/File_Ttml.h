@@ -39,7 +39,7 @@ public :
 
     #if MEDIAINFO_EVENTS
         int8u   MuxingMode;
-    #endif MEDIAINFO_EVENTS
+    #endif //MEDIAINFO_EVENTS
 
 private :
     //Streams management

@@ -14,9 +14,9 @@
 #include "MediaInfo/File__Analyse_Automatic.h"
 #include "ZenLib/BitStream_Fast.h"
 #include "ZenLib/BitStream_LE.h"
-#if MEDIAINFO_IBI
+#if MEDIAINFO_IBIUSAGE
     #include "MediaInfo/Multiple/File_Ibi_Creation.h"
-#endif //MEDIAINFO_IBI
+#endif //MEDIAINFO_IBIUSAGE
 #include "tinyxml2.h"
 #if MEDIAINFO_AES
     #include <aescpp.h>
@@ -425,6 +425,7 @@ public :
     void Get_B7   (int64u  &Info, const char* Name);
     void Get_B8   (int64u  &Info, const char* Name);
     void Get_B16  (int128u &Info, const char* Name);
+    void Get_BF2  (float32 &Info, const char* Name);
     void Get_BF4  (float32 &Info, const char* Name);
     void Get_BF8  (float64 &Info, const char* Name);
     void Get_BF10 (float80 &Info, const char* Name);
@@ -464,6 +465,7 @@ public :
     #define Info_B7(_INFO, _NAME)   int64u  _INFO; Get_B7  (_INFO, _NAME)
     #define Info_B8(_INFO, _NAME)   int64u  _INFO; Get_B8  (_INFO, _NAME)
     #define Info_B16(_INFO, _NAME)  int128u _INFO; Get_B16 (_INFO, _NAME)
+    #define Info_BF2(_INFO, _NAME)  float32 _INFO; Get_BF2 (_INFO, _NAME)
     #define Info_BF4(_INFO, _NAME)  float32 _INFO; Get_BF4 (_INFO, _NAME)
     #define Info_BF8(_INFO, _NAME)  float64 _INFO; Get_BF8 (_INFO, _NAME)
     #define Info_BF10(_INFO, _NAME) float80 _INFO; Get_BF10(_INFO, _NAME)
@@ -982,7 +984,7 @@ public :
     #endif //SIZE_T_IS_LONG
     ZtringListList Fill_Temp;
     void Fill_Flush ();
-    size_t Fill_Parameter(stream_t StreamKind, generic StreamPos);
+    static size_t Fill_Parameter(stream_t StreamKind, generic StreamPos);
 
     const Ztring &Retrieve_Const (stream_t StreamKind, size_t StreamPos, size_t Parameter, info_t KindOfInfo=Info_Text);
     Ztring Retrieve (stream_t StreamKind, size_t StreamPos, size_t Parameter, info_t KindOfInfo=Info_Text);
@@ -1042,6 +1044,8 @@ public :
     size_t Merge(File__Analyze &ToAdd, stream_t StreamKind, size_t StreamPos_From, size_t StreamPos_To, bool Erase=true); //Merge 2 streams
 
     void CodecID_Fill           (const Ztring &Value, stream_t StreamKind, size_t StreamPos, infocodecid_format_t Format, stream_t StreamKind_CodecID=Stream_Max);
+    void PixelAspectRatio_Fill  (const Ztring &Value, stream_t StreamKind, size_t StreamPos, size_t Parameter_Width, size_t Parameter_Height, size_t Parameter_PixelAspectRatio, size_t Parameter_DisplayAspectRatio);
+    void DisplayAspectRatio_Fill(const Ztring &Value, stream_t StreamKind, size_t StreamPos, size_t Parameter_Width, size_t Parameter_Height, size_t Parameter_PixelAspectRatio, size_t Parameter_DisplayAspectRatio);
 
     //***************************************************************************
     // Finalize
@@ -1306,11 +1310,14 @@ public :
         bool Seek_Duration_Detected;
     #endif //MEDIAINFO_SEEK
 
-    #if MEDIAINFO_IBI
+    #if MEDIAINFO_IBIUSAGE
     public:
-        bool    Config_Ibi_Create;
         int64u  Ibi_SynchronizationOffset_Current;
         int64u  Ibi_SynchronizationOffset_BeginOfFrame;
+    #endif //MEDIAINFO_IBIUSAGE
+    #if MEDIAINFO_IBIUSAGE
+    public:
+        bool    Config_Ibi_Create;
         ibi     Ibi; //If Main only
         ibi::stream* IbiStream; //If sub only
         size_t  Ibi_Read_Buffer_Seek        (size_t Method, int64u Value, int64u ID);
@@ -1318,13 +1325,13 @@ public :
         void    Ibi_Stream_Finish           ();
         void    Ibi_Stream_Finish           (int64u Numerator, int64u Denominator); //Partial
         void    Ibi_Add                     ();
-    #else //MEDIAINFO_IBI
+    #else //MEDIAINFO_IBIUSAGE
         size_t  Ibi_Read_Buffer_Seek        (size_t, int64u, int64u)            {return (size_t)-1;}
         void    Ibi_Read_Buffer_Unsynched   ()                                  {}
         void    Ibi_Stream_Finish           ()                                  {}
         void    Ibi_Stream_Finish           (int64u, int64u)                    {}
         void    Ibi_Add                     ()                                  {}
-    #endif //MEDIAINFO_IBI
+    #endif //MEDIAINFO_IBIUSAGE
 };
 
 //Helpers

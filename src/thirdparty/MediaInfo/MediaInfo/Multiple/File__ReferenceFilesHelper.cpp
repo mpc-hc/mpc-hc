@@ -50,35 +50,56 @@ namespace MediaInfoLib
 //---------------------------------------------------------------------------
 File__ReferenceFilesHelper::File__ReferenceFilesHelper(File__Analyze* MI_, MediaInfo_Config_MediaInfo* Config_)
 {
-    //Temp
+    //In
+    TestContinuousFileNames=false;
+    ContainerHasNoId=false;
+    ID_Max=0;
+
+    //Private
+    Sequences_Current=0;
     MI=MI_;
     Config=Config_;
-    Reference=References.end();
     Init_Done=false;
-    TestContinuousFileNames=false;
-    FilesForStorage=false;
-    ContainerHasNoId=false;
-    HasMainFile=false;
-    HasMainFile_Filled=false;
-    ID_Max=0;
     FrameRate=0;
     Duration=0;
-    #if MEDIAINFO_NEXTPACKET
-        DTS_Interval=(int64u)-1;
-    #endif //MEDIAINFO_NEXTPACKET
+    #if MEDIAINFO_DEMUX
+        Demux_Interleave=false;
+        DTS_Minimal=(int64u)-1;
+    #endif //MEDIAINFO_DEMUX
     #if MEDIAINFO_EVENTS
         StreamID_Previous=(int64u)-1;
     #endif //MEDIAINFO_EVENTS
     #if MEDIAINFO_DEMUX
         Offset_Video_DTS=0;
     #endif //MEDIAINFO_DEMUX
+
+    //Private
+    #if MEDIAINFO_DEMUX
+        Common=new rfh_common(&Demux_Interleave, &DTS_Minimal);
+    #else //MEDIAINFO_DEMUX
+        Common=new rfh_common();
+    #endif //MEDIAINFO_DEMUX
+    Common->ReferenceFilesHelper=this;
+    Common->MI=MI;
+    Common->Config=Config;
+
+
+
+    //Temp
+    FilesForStorage=false;
+    HasMainFile=false;
+    HasMainFile_Filled=false;
+    #if MEDIAINFO_NEXTPACKET
+        DTS_Interval=(int64u)-1;
+    #endif //MEDIAINFO_NEXTPACKET
 }
 
 //---------------------------------------------------------------------------
 File__ReferenceFilesHelper::~File__ReferenceFilesHelper()
 {
-    for (references::iterator ReferenceTemp=References.begin(); ReferenceTemp!=References.end(); ++ReferenceTemp)
-        delete ReferenceTemp->MI; //ReferenceTemp->MI=NULL;
+    size_t Sequences_Size=Sequences.size();
+    for (size_t Sequences_Pos=0; Sequences_Pos<Sequences_Size; ++Sequences_Pos)
+        delete Sequences[Sequences_Pos];
 }
 
 //***************************************************************************
@@ -86,21 +107,21 @@ File__ReferenceFilesHelper::~File__ReferenceFilesHelper()
 //***************************************************************************
 
 //---------------------------------------------------------------------------
-bool File__ReferenceFilesHelper_Algo1 (const File__ReferenceFilesHelper::reference &Ref1, const File__ReferenceFilesHelper::reference &Ref2) { return (Ref1.StreamID<Ref2.StreamID);}
-bool File__ReferenceFilesHelper_Algo2 (const File__ReferenceFilesHelper::reference &Ref1, const File__ReferenceFilesHelper::reference &Ref2) { return (Ref1.StreamPos<Ref2.StreamPos);}
-bool File__ReferenceFilesHelper_Algo3 (const File__ReferenceFilesHelper::reference &Ref1, const File__ReferenceFilesHelper::reference &Ref2) { return (Ref1.StreamKind<Ref2.StreamKind);}
-void File__ReferenceFilesHelper_InfoFromFileName (File__ReferenceFilesHelper::references &References)
+bool File__ReferenceFilesHelper_Algo1 (const sequence* Ref1, const sequence* Ref2) { return (Ref1->StreamID<Ref2->StreamID);}
+bool File__ReferenceFilesHelper_Algo2 (const sequence* Ref1, const sequence* Ref2) { return (Ref1->StreamPos<Ref2->StreamPos);}
+bool File__ReferenceFilesHelper_Algo3 (const sequence* Ref1, const sequence* Ref2) { return (Ref1->StreamKind<Ref2->StreamKind);}
+void File__ReferenceFilesHelper_InfoFromFileName (sequences &Sequences)
 {
     ZtringListList List;
-    vector<File__ReferenceFilesHelper::references::iterator> Iterators;
+    vector<size_t> Iterators;
 
-    for (File__ReferenceFilesHelper::references::iterator Reference=References.begin(); Reference<References.end(); ++Reference)
+    for (size_t Sequences_Pos=0; Sequences_Pos<Sequences.size(); Sequences_Pos++)
     {
         ZtringList List2;
         List2.Separator_Set(0, __T(" "));
-        if ((*Reference).StreamKind==Stream_Audio && !(*Reference).FileNames.empty())
+        if (Sequences[Sequences_Pos]->StreamKind==Stream_Audio && !Sequences[Sequences_Pos]->FileNames.empty())
         {
-            Ztring Name=(*Reference).FileNames[0];
+            Ztring Name=Sequences[Sequences_Pos]->FileNames[0];
             while (Name.FindAndReplace(__T("51 "), Ztring()));
             while (Name.FindAndReplace(__T("_"), __T(" ")));
             while (Name.FindAndReplace(__T("."), __T(" ")));
@@ -117,7 +138,7 @@ void File__ReferenceFilesHelper_InfoFromFileName (File__ReferenceFilesHelper::re
             for (size_t Pos=0; Pos<List2.size(); Pos++)
                 List2[Pos].MakeLowerCase();
             List.push_back(List2);
-            Iterators.push_back(Reference);
+            Iterators.push_back(Sequences_Pos);
         }
     }
 
@@ -234,9 +255,9 @@ void File__ReferenceFilesHelper_InfoFromFileName (File__ReferenceFilesHelper::re
                 ChannelLayout=__T("Cs");
             }
 
-            (*Iterators[Pos]).Infos["ChannelPositions"]=ChannelPositions;
-            (*Iterators[Pos]).Infos["ChannelPositions/String2"]=ChannelPositions2;
-            (*Iterators[Pos]).Infos["ChannelLayout"]=ChannelLayout;
+            Sequences[Iterators[Pos]]->Infos["ChannelPositions"]=ChannelPositions;
+            Sequences[Iterators[Pos]]->Infos["ChannelPositions/String2"]=ChannelPositions2;
+            Sequences[Iterators[Pos]]->Infos["ChannelLayout"]=ChannelLayout;
         }
 
     //Language
@@ -263,9 +284,41 @@ void File__ReferenceFilesHelper_InfoFromFileName (File__ReferenceFilesHelper::re
                     Language=__T("es");
 
                 if (!Language.empty())
-                    (*Iterators[Pos]).Infos["Language"]=Language;
+                    Sequences[Iterators[Pos]]->Infos["Language"]=Language;
             }
 }
+
+//***************************************************************************
+// In
+//***************************************************************************
+
+//---------------------------------------------------------------------------
+void File__ReferenceFilesHelper::AddSequence(sequence* NewSequence)
+{
+    Common->HasMultipleSequences=!Sequences.empty(); //If not empty, there will be more than 1 sequence just after
+
+    NewSequence->Package=Common;
+    NewSequence->Common->Package=Common;
+
+    Sequences.push_back(NewSequence);
+}
+
+//---------------------------------------------------------------------------
+void File__ReferenceFilesHelper::UpdateFileName(const Ztring& OldFileName, const Ztring& NewFileName)
+{
+    size_t Sequences_Size=Sequences.size();
+    for (size_t Sequences_Pos=0; Sequences_Pos<Sequences_Size; ++Sequences_Pos)
+    {
+        sequence* Sequence=Sequences[Sequences_Pos];
+
+        Sequence->UpdateFileName(OldFileName, NewFileName);
+    }
+}
+
+//***************************************************************************
+// Streams management
+//***************************************************************************
+
 void File__ReferenceFilesHelper::ParseReferences()
 {
     if (!Init_Done)
@@ -273,102 +326,103 @@ void File__ReferenceFilesHelper::ParseReferences()
         #if MEDIAINFO_FILTER
             if (MI->Config->File_Filter_Audio_Get())
             {
-                for (size_t Pos=0; Pos<References.size(); Pos++)
-                    if (References[Pos].StreamKind!=Stream_Audio)
+                for (size_t Pos=0; Pos<Sequences.size(); Pos++)
+                    if (Sequences[Pos]->StreamKind!=Stream_Audio)
                     {
-                        References.erase(References.begin()+Pos);
+                        Sequences.erase(Sequences.begin()+Pos);
                         Pos--;
                     }
-                CountOfReferencesToParse=References.size();
+                CountOfReferencesToParse=Sequences.size();
             }
         #endif //MEDIAINFO_FILTER
 
         //Filling Filenames from the more complete version and Edit rates
         float64 EditRate=DBL_MAX;
         size_t  EditRate_Count=0;
-        for (Reference=References.begin(); Reference!=References.end(); Reference++)
-            if (Reference->FileNames.empty())
-                for (size_t Pos=0; Pos<Reference->CompleteDuration.size(); Pos++)
+        for (Sequences_Current=0; Sequences_Current<Sequences.size(); Sequences_Current++)
+            if (Sequences[Sequences_Current]->FileNames.empty())
+                for (size_t Pos=0; Pos<Sequences[Sequences_Current]->Resources.size(); Pos++)
                 {
-                    Reference->FileNames.push_back(Reference->CompleteDuration[Pos].FileName);
-                    if (Reference->CompleteDuration[Pos].IgnoreFramesRate && EditRate!=Reference->CompleteDuration[Pos].IgnoreFramesRate)
+                    for (size_t Resource_FileNames_Pos=0; Resource_FileNames_Pos<Sequences[Sequences_Current]->Resources[Pos]->FileNames.size(); Resource_FileNames_Pos++)
+                        Sequences[Sequences_Current]->FileNames.push_back(Sequences[Sequences_Current]->Resources[Pos]->FileNames[Resource_FileNames_Pos]);
+                    if (Sequences[Sequences_Current]->Resources[Pos]->EditRate && EditRate!=Sequences[Sequences_Current]->Resources[Pos]->EditRate)
                     {
-                        if (EditRate>Reference->CompleteDuration[Pos].IgnoreFramesRate)
-                            EditRate=Reference->CompleteDuration[Pos].IgnoreFramesRate;
+                        if (EditRate>Sequences[Sequences_Current]->Resources[Pos]->EditRate)
+                            EditRate=Sequences[Sequences_Current]->Resources[Pos]->EditRate;
                         EditRate_Count++;
                     }
                 }
         if (EditRate_Count>1)
             //Multiple rates, using only one rate
-            for (Reference=References.begin(); Reference!=References.end(); Reference++)
-                for (size_t Pos=0; Pos<Reference->CompleteDuration.size(); Pos++)
-                    if (Reference->CompleteDuration[Pos].IgnoreFramesRate && EditRate!=Reference->CompleteDuration[Pos].IgnoreFramesRate)
+            for (Sequences_Current=0; Sequences_Current<Sequences.size(); Sequences_Current++)
+                for (size_t Pos=0; Pos<Sequences[Sequences_Current]->Resources.size(); Pos++)
+                    if (Sequences[Sequences_Current]->Resources[Pos]->EditRate && EditRate!=Sequences[Sequences_Current]->Resources[Pos]->EditRate)
                     {
-                        if (Reference->CompleteDuration[Pos].IgnoreFramesBefore)
+                        if (Sequences[Sequences_Current]->Resources[Pos]->IgnoreEditsBefore)
                         {
-                            float64 Temp=(float64)Reference->CompleteDuration[Pos].IgnoreFramesBefore;
-                            Temp/=Reference->CompleteDuration[Pos].IgnoreFramesRate;
+                            float64 Temp=(float64)Sequences[Sequences_Current]->Resources[Pos]->IgnoreEditsBefore;
+                            Temp/=Sequences[Sequences_Current]->Resources[Pos]->EditRate;
                             Temp*=EditRate;
-                            Reference->CompleteDuration[Pos].IgnoreFramesBefore=float64_int64s(Temp);
+                            Sequences[Sequences_Current]->Resources[Pos]->IgnoreEditsBefore=float64_int64s(Temp);
                         }
-                        if (Reference->CompleteDuration[Pos].IgnoreFramesAfter!=(int64u)-1)
+                        if (Sequences[Sequences_Current]->Resources[Pos]->IgnoreEditsAfter!=(int64u)-1)
                         {
-                            float64 Temp=(float64)Reference->CompleteDuration[Pos].IgnoreFramesAfter;
-                            Temp/=Reference->CompleteDuration[Pos].IgnoreFramesRate;
+                            float64 Temp=(float64)Sequences[Sequences_Current]->Resources[Pos]->IgnoreEditsAfter;
+                            Temp/=Sequences[Sequences_Current]->Resources[Pos]->EditRate;
                             Temp*=EditRate;
-                            Reference->CompleteDuration[Pos].IgnoreFramesAfter=float64_int64s(Temp);
+                            Sequences[Sequences_Current]->Resources[Pos]->IgnoreEditsAfter=float64_int64s(Temp);
                         }
-                        if (Reference->CompleteDuration[Pos].IgnoreFramesAfterDuration!=(int64u)-1)
+                        if (Sequences[Sequences_Current]->Resources[Pos]->IgnoreEditsAfterDuration!=(int64u)-1)
                         {
-                            float64 Temp=(float64)Reference->CompleteDuration[Pos].IgnoreFramesAfterDuration;
-                            Temp/=Reference->CompleteDuration[Pos].IgnoreFramesRate;
+                            float64 Temp=(float64)Sequences[Sequences_Current]->Resources[Pos]->IgnoreEditsAfterDuration;
+                            Temp/=Sequences[Sequences_Current]->Resources[Pos]->EditRate;
                             Temp*=EditRate;
-                            Reference->CompleteDuration[Pos].IgnoreFramesAfterDuration=float64_int64s(Temp);
+                            Sequences[Sequences_Current]->Resources[Pos]->IgnoreEditsAfterDuration=float64_int64s(Temp);
                         }
-                        Reference->CompleteDuration[Pos].IgnoreFramesRate=EditRate;
+                        Sequences[Sequences_Current]->Resources[Pos]->EditRate=EditRate;
                     }
 
         //Testing IDs
         std::set<int64u> StreamList;
         bool StreamList_DuplicatedIds=false;
-        for (Reference=References.begin(); Reference<References.end(); ++Reference)
-            if (StreamList.find((*Reference).StreamID)==StreamList.end())
-                StreamList.insert((*Reference).StreamID);
+        for (Sequences_Current=0; Sequences_Current<Sequences.size(); Sequences_Current++)
+            if (StreamList.find(Sequences[Sequences_Current]->StreamID)==StreamList.end())
+                StreamList.insert(Sequences[Sequences_Current]->StreamID);
             else
             {
                 StreamList_DuplicatedIds=true;
                 break;
             }
         if (StreamList_DuplicatedIds)
-            for (Reference=References.begin(); Reference<References.end(); ++Reference)
-                (*Reference).StreamID=Reference-References.begin()+1;
-        if (References.size()==1 && References.begin()->StreamID==(int64u)-1)
+            for (Sequences_Current=0; Sequences_Current<Sequences.size(); Sequences_Current++)
+                Sequences[Sequences_Current]->StreamID=Sequences_Current+1;
+        if (Sequences.size()==1 && (*Sequences.begin())->StreamID==(int64u)-1)
         {
             ContainerHasNoId=true;
             #if MEDIAINFO_EVENTS
                 MI->StreamIDs_Width[MI->StreamIDs_Size-1]=0;
             #endif //MEDIAINFO_EVENTS
         }
-        std::sort(References.begin(), References.end(), File__ReferenceFilesHelper_Algo1);
-        std::sort(References.begin(), References.end(), File__ReferenceFilesHelper_Algo2);
-        std::sort(References.begin(), References.end(), File__ReferenceFilesHelper_Algo3);
+        std::sort(Sequences.begin(), Sequences.end(), File__ReferenceFilesHelper_Algo1);
+        std::sort(Sequences.begin(), Sequences.end(), File__ReferenceFilesHelper_Algo2);
+        std::sort(Sequences.begin(), Sequences.end(), File__ReferenceFilesHelper_Algo3);
 
         //InfoFromFileName
-        File__ReferenceFilesHelper_InfoFromFileName(References);
+        File__ReferenceFilesHelper_InfoFromFileName(Sequences);
 
         #if MEDIAINFO_EVENTS
             if (MI->Config->Config_PerPackage==NULL)
             {
                 MI->Config->Config_PerPackage=new MediaInfo_Config_PerPackage;
-                MI->Config->Config_PerPackage->CountOfPackages=References.size();
+                MI->Config->Config_PerPackage->CountOfPackages=Sequences.size();
             }
         #endif //MEDIAINFO_EVENTS
 
         //Configuring file names
-        Reference=References.begin();
-        while (Reference!=References.end())
+        Sequences_Current=0;
+        while (Sequences_Current<Sequences.size())
         {
-            ZtringList Names=Reference->FileNames;
+            ZtringList Names=Sequences[Sequences_Current]->FileNames;
             ZtringList AbsoluteNames; AbsoluteNames.Separator_Set(0, ",");
             for (size_t Pos=0; Pos<Names.size(); Pos++)
             {
@@ -442,7 +496,7 @@ void File__ReferenceFilesHelper::ParseReferences()
                 if (AbsoluteNames.empty() || !File::Exists(AbsoluteNames[0]))
                 {
                     AbsoluteNames.clear();
-                    Names=Reference->FileNames;
+                    Names=Sequences[Sequences_Current]->FileNames;
 
                     //Configuring file name (this time, we try to test local files)
                     size_t PathSeparator_Pos=Names.empty()?string::npos:Names[0].find_last_of(__T("\\/"));
@@ -485,7 +539,7 @@ void File__ReferenceFilesHelper::ParseReferences()
                             if (!File::Exists(AbsoluteNames[0]))
                             {
                                 AbsoluteNames.clear();
-                                Names=Reference->FileNames;
+                                Names=Sequences[Sequences_Current]->FileNames;
 
                                 //Configuring file name (this time, we try to test local files)
                                 size_t PathSeparator_Pos=Names[0].find_last_of(__T("\\/"));
@@ -531,54 +585,55 @@ void File__ReferenceFilesHelper::ParseReferences()
                     }
                 }
             }
-            Reference->Source=Reference->FileNames.Read(0);
-            if (Reference->StreamKind!=Stream_Max && !Reference->Source.empty())
+            Sequences[Sequences_Current]->Source=Sequences[Sequences_Current]->FileNames.Read(0);
+            if (Sequences[Sequences_Current]->StreamKind!=Stream_Max && !Sequences[Sequences_Current]->Source.empty())
             {
-                if (Reference->StreamPos==(size_t)-1)
-                    Reference->StreamPos=Stream_Prepare(Reference->StreamKind);
-                MI->Fill(Reference->StreamKind, Reference->StreamPos, "Source", Reference->Source);
+                if (Sequences[Sequences_Current]->StreamPos==(size_t)-1)
+                    Sequences[Sequences_Current]->StreamPos=Stream_Prepare(Sequences[Sequences_Current]->StreamKind);
+                MI->Fill(Sequences[Sequences_Current]->StreamKind, Sequences[Sequences_Current]->StreamPos, "Source", Sequences[Sequences_Current]->Source);
             }
             if (!AbsoluteNames.empty())
-                Reference->FileNames=AbsoluteNames;
+                Sequences[Sequences_Current]->FileNames=AbsoluteNames;
 
             if (!AbsoluteNames.empty() && AbsoluteNames[0]==MI->File_Name)
             {
-                Reference->IsCircular=true;
-                Reference->FileNames.clear();
-                Reference->Status.set(File__Analyze::IsFinished);
+                Sequences[Sequences_Current]->IsCircular=true;
+                Sequences[Sequences_Current]->FileNames.clear();
+                Sequences[Sequences_Current]->Status.set(File__Analyze::IsFinished);
             }
             else if (!AbsoluteNames.empty())
-                Reference->FileNames=AbsoluteNames;
+                Sequences[Sequences_Current]->FileNames=AbsoluteNames;
             else
             {
-                Reference->Status.set(File__Analyze::IsFinished);
-                if (Reference->StreamKind!=Stream_Max && !Reference->Source.empty())
+                Sequences[Sequences_Current]->Status.set(File__Analyze::IsFinished);
+                if (Sequences[Sequences_Current]->StreamKind!=Stream_Max && !Sequences[Sequences_Current]->Source.empty())
                 {
-                    MI->Fill(Reference->StreamKind, Reference->StreamPos, "Source_Info", "Missing");
-                    if (MI->Retrieve(Reference->StreamKind, Reference->StreamPos, General_ID).empty() && Reference->StreamID!=(int64u)-1)
-                        MI->Fill(Reference->StreamKind, Reference->StreamPos, General_ID, Reference->StreamID);
-                    for (std::map<string, Ztring>::iterator Info=Reference->Infos.begin(); Info!=Reference->Infos.end(); ++Info)
+                    MI->Fill(Sequences[Sequences_Current]->StreamKind, Sequences[Sequences_Current]->StreamPos, "Source_Info", "Missing");
+                    if (MI->Retrieve(Sequences[Sequences_Current]->StreamKind, Sequences[Sequences_Current]->StreamPos, General_ID).empty() && Sequences[Sequences_Current]->StreamID!=(int64u)-1)
+                        MI->Fill(Sequences[Sequences_Current]->StreamKind, Sequences[Sequences_Current]->StreamPos, General_ID, Sequences[Sequences_Current]->StreamID);
+                    for (std::map<string, Ztring>::iterator Info=Sequences[Sequences_Current]->Infos.begin(); Info!=Sequences[Sequences_Current]->Infos.end(); ++Info)
                     {
                         if (Info->first=="CodecID")
-                            MI->CodecID_Fill(Info->second, Reference->StreamKind, Reference->StreamPos, InfoCodecID_Format_Mpeg4);
+                            MI->CodecID_Fill(Info->second, Sequences[Sequences_Current]->StreamKind, Sequences[Sequences_Current]->StreamPos, InfoCodecID_Format_Mpeg4);
                         else
-                            MI->Fill(Reference->StreamKind, Reference->StreamPos, Info->first.c_str(), Info->second);
+                            MI->Fill(Sequences[Sequences_Current]->StreamKind, Sequences[Sequences_Current]->StreamPos, Info->first.c_str(), Info->second);
                     }
                 }
             }
 
             if (FilesForStorage)
             {
-                for (size_t Pos=0; Pos<Reference->FileNames.size(); Pos++)
+                for (size_t Pos=0; Pos<Sequences[Sequences_Current]->FileNames.size(); Pos++)
                 {
-                    if (Pos>=Reference->CompleteDuration.size())
-                        Reference->CompleteDuration.resize(Pos+1);
-                    Reference->CompleteDuration[Pos].FileName=Reference->FileNames[Pos];
+                    if (Pos==Sequences[Sequences_Current]->Resources.size())
+                        Sequences[Sequences_Current]->Resources.push_back(new resource);
+                    Sequences[Sequences_Current]->Resources[Pos]->FileNames.clear();
+                    Sequences[Sequences_Current]->Resources[Pos]->FileNames.push_back(Sequences[Sequences_Current]->FileNames[Pos]);
                 }
-                Reference->FileNames.resize(1);
+                Sequences[Sequences_Current]->FileNames.resize(1);
             }
 
-            ++Reference;
+            Sequences_Current++;
         }
 
         #if MEDIAINFO_DEMUX && MEDIAINFO_NEXTPACKET
@@ -587,9 +642,9 @@ void File__ReferenceFilesHelper::ParseReferences()
                 Demux_Interleave=Config->File_Demux_Interleave_Get();
                 if (Demux_Interleave)
                 {
-                    CountOfReferencesToParse=References.size();
-                    for (references::iterator ReferenceSource=References.begin(); ReferenceSource!=References.end(); ++ReferenceSource)
-                        if (ReferenceSource->FileNames.empty())
+                    CountOfReferencesToParse=Sequences.size();
+                    for (sequences::iterator ReferenceSource=Sequences.begin(); ReferenceSource!=Sequences.end(); ++ReferenceSource)
+                        if ((*ReferenceSource)->FileNames.empty())
                             CountOfReferencesToParse--;
                     DTS_Interval=250000000LL; // 250 milliseconds
                 }
@@ -599,31 +654,31 @@ void File__ReferenceFilesHelper::ParseReferences()
 
             //Using the frame rate from the first stream having a frame rate
             if (!FrameRate)
-                for (references::iterator ReferenceFrameRate=References.begin(); ReferenceFrameRate!=References.end(); ++ReferenceFrameRate)
-                    if (ReferenceFrameRate->FrameRate)
+                for (sequences::iterator ReferenceFrameRate=Sequences.begin(); ReferenceFrameRate!=Sequences.end(); ++ReferenceFrameRate)
+                    if ((*ReferenceFrameRate)->FrameRate)
                     {
-                        FrameRate=ReferenceFrameRate->FrameRate;
+                        FrameRate=(*ReferenceFrameRate)->FrameRate;
                         break;
                     }
 
             if (Config->NextPacket_Get())
             {
-                Reference=References.begin();
-                while (Reference!=References.end())
+                Sequences_Current=0;
+                while (Sequences_Current<Sequences.size())
                 {
                     ParseReference(); //Init
-                    Reference++;
+                    Sequences_Current++;
                 }
 
                 //Cleanup
-                for (size_t Pos=0; Pos<References.size(); Pos++)
-                    if (References[Pos].Status[File__Analyze::IsFinished])
+                for (size_t Pos=0; Pos<Sequences.size(); Pos++)
+                    if (Sequences[Pos]->Status[File__Analyze::IsFinished])
                     {
-                        References.erase(References.begin()+Pos);
+                        Sequences.erase(Sequences.begin()+Pos);
                         Pos--;
                     }
-                CountOfReferencesToParse=References.size();
-                if (References.empty())
+                CountOfReferencesToParse=Sequences.size();
+                if (Sequences.empty())
                     return;
 
                 //File size handling
@@ -637,8 +692,8 @@ void File__ReferenceFilesHelper::ParseReferences()
         #endif //MEDIAINFO_DEMUX && MEDIAINFO_NEXTPACKET
 
         FileSize_Compute();
-        Reference=References.begin();
-        CountOfReferences_ForReadSize=References.size();
+        Sequences_Current=0;
+        CountOfReferences_ForReadSize=Sequences.size();
         Init_Done=true;
 
         #if MEDIAINFO_DEMUX && MEDIAINFO_NEXTPACKET
@@ -650,10 +705,10 @@ void File__ReferenceFilesHelper::ParseReferences()
         #endif //MEDIAINFO_DEMUX && MEDIAINFO_NEXTPACKET
     }
 
-    while (Reference!=References.end())
+    while (Sequences_Current<Sequences.size())
     {
         #if MEDIAINFO_NEXTPACKET
-        if (!Reference->Status[File__Analyze::IsFinished])
+        if (!Sequences[Sequences_Current]->Status[File__Analyze::IsFinished])
         #endif //MEDIAINFO_NEXTPACKET
             ParseReference();
 
@@ -662,47 +717,47 @@ void File__ReferenceFilesHelper::ParseReferences()
         #if MEDIAINFO_NEXTPACKET
             DTS_Minimal=(int64u)-1;
         #endif //MEDIAINFO_NEXTPACKET
-        for (references::iterator ReferenceTemp=References.begin(); ReferenceTemp!=References.end(); ++ReferenceTemp)
+        for (sequences::iterator ReferenceTemp=Sequences.begin(); ReferenceTemp!=Sequences.end(); ++ReferenceTemp)
         {
-            if (ReferenceTemp->MI)
+            if ((*ReferenceTemp)->MI)
             {
-                if (ReferenceTemp->State<10000)
+                if ((*ReferenceTemp)->State<10000)
                 {
-                    if (ReferenceTemp->MI)
-                        ReferenceTemp->State=ReferenceTemp->MI->State_Get();
-                    if (ReferenceTemp->State && ReferenceTemp->MI->Config.File_Size!=(int64u)-1)
-                        FileSize_Parsed+=(int64u)(ReferenceTemp->MI->Config.File_Size*(((float)ReferenceTemp->State)/10000));
+                    if ((*ReferenceTemp)->MI)
+                        (*ReferenceTemp)->State=(*ReferenceTemp)->MI->State_Get();
+                    if ((*ReferenceTemp)->State && (*ReferenceTemp)->MI->Config.File_Size!=(int64u)-1)
+                        FileSize_Parsed+=(int64u)((*ReferenceTemp)->MI->Config.File_Size*(((float)(*ReferenceTemp)->State)/10000));
                 }
                 else
-                    FileSize_Parsed+=ReferenceTemp->MI->Config.File_Size;
+                    FileSize_Parsed+=(*ReferenceTemp)->MI->Config.File_Size;
 
                 #if MEDIAINFO_NEXTPACKET
                     //Minimal DTS
-                    if (DTS_Interval!=(int64u)-1 && !Reference->Status[File__Analyze::IsFinished] && (ReferenceTemp->CompleteDuration.empty() || ReferenceTemp->CompleteDuration_Pos<ReferenceTemp->CompleteDuration.size()))
+                    if (DTS_Interval!=(int64u)-1 && !Sequences[Sequences_Current]->Status[File__Analyze::IsFinished] && ((*ReferenceTemp)->Resources.empty() || (*ReferenceTemp)->Resources_Current<(*ReferenceTemp)->Resources.size()))
                     {
                         int64u DTS_Temp;
-                        if (!ReferenceTemp->CompleteDuration.empty() && ReferenceTemp->CompleteDuration_Pos)
+                        if (!(*ReferenceTemp)->Resources.empty() && (*ReferenceTemp)->Resources_Current)
                         {
-                            if (ReferenceTemp->CompleteDuration[ReferenceTemp->CompleteDuration_Pos].MI->Info->FrameInfo.DTS!=(int64u)-1)
-                                DTS_Temp=ReferenceTemp->CompleteDuration[ReferenceTemp->CompleteDuration_Pos].MI->Info->FrameInfo.DTS-ReferenceTemp->CompleteDuration[ReferenceTemp->CompleteDuration_Pos].MI->Info->Config->Demux_Offset_DTS_FromStream;
+                            if ((*ReferenceTemp)->Resources[(*ReferenceTemp)->Resources_Current]->MI->Info->FrameInfo.DTS!=(int64u)-1)
+                                DTS_Temp=(*ReferenceTemp)->Resources[(*ReferenceTemp)->Resources_Current]->MI->Info->FrameInfo.DTS-(*ReferenceTemp)->Resources[(*ReferenceTemp)->Resources_Current]->MI->Info->Config->Demux_Offset_DTS_FromStream;
                             else
                                 DTS_Temp=0;
                         }
                         else
                         {
-                            if (ReferenceTemp->MI->Info->FrameInfo.DTS!=(int64u)-1)
-                                DTS_Temp=ReferenceTemp->MI->Info->FrameInfo.DTS-ReferenceTemp->MI->Info->Config->Demux_Offset_DTS_FromStream;
+                            if ((*ReferenceTemp)->MI->Info->FrameInfo.DTS!=(int64u)-1)
+                                DTS_Temp=(*ReferenceTemp)->MI->Info->FrameInfo.DTS-(*ReferenceTemp)->MI->Info->Config->Demux_Offset_DTS_FromStream;
                             else
                                 DTS_Temp=0;
                         }
-                        DTS_Temp+=ReferenceTemp->CompleteDuration[ReferenceTemp->CompleteDuration_Pos].Demux_Offset_DTS;
+                        DTS_Temp+=(*ReferenceTemp)->Resources[(*ReferenceTemp)->Resources_Current]->Demux_Offset_DTS;
                         if (DTS_Minimal>DTS_Temp)
                             DTS_Minimal=DTS_Temp;
                     }
                 #endif //MEDIAINFO_NEXTPACKET
             }
             else
-                FileSize_Parsed+=ReferenceTemp->FileSize;
+                FileSize_Parsed+=(*ReferenceTemp)->FileSize;
         }
         Config->State_Set(((float)FileSize_Parsed)/MI->Config->File_Size);
 
@@ -716,14 +771,14 @@ void File__ReferenceFilesHelper::ParseReferences()
         #endif //MEDIAINFO_EVENTS
 
         #if MEDIAINFO_DEMUX && MEDIAINFO_NEXTPACKET
-            if (Demux_Interleave && (Reference->MI==NULL || Reference->MI->Info==NULL || Reference->MI->Info->Demux_CurrentParser==NULL || Reference->MI->Info->Demux_CurrentParser->Demux_TotalBytes>=Reference->MI->Info->Demux_CurrentParser->Buffer_TotalBytes+Reference->MI->Info->Demux_CurrentParser->Buffer_Size))
+            if (Demux_Interleave && (Sequences[Sequences_Current]->MI==NULL || Sequences[Sequences_Current]->MI->Info==NULL || Sequences[Sequences_Current]->MI->Info->Demux_CurrentParser==NULL || Sequences[Sequences_Current]->MI->Info->Demux_CurrentParser->Demux_TotalBytes>=Sequences[Sequences_Current]->MI->Info->Demux_CurrentParser->Buffer_TotalBytes+Sequences[Sequences_Current]->MI->Info->Demux_CurrentParser->Buffer_Size))
             {
-                references::iterator Reference_Next=Reference; ++Reference_Next;
+                size_t Reference_Next=Sequences_Current; ++Reference_Next;
 
-                if (Reference_Next==References.end() && Config->NextPacket_Get() && CountOfReferencesToParse)
-                    Reference=References.begin();
+                if (Reference_Next==Sequences.size() && Config->NextPacket_Get() && CountOfReferencesToParse)
+                    Sequences_Current=0;
                 else
-                    Reference=Reference_Next;
+                    Sequences_Current=Reference_Next;
 
                 if (Config->Demux_EventWasSent)
                     return;
@@ -733,10 +788,10 @@ void File__ReferenceFilesHelper::ParseReferences()
                 if (Config->Demux_EventWasSent)
                     return;
 
-                Reference++;
+                Sequences_Current++;
             }
         #else //MEDIAINFO_DEMUX && MEDIAINFO_NEXTPACKET
-            ++Reference;
+            Sequences_Current++;
         #endif //MEDIAINFO_DEMUX
     }
 
@@ -761,23 +816,23 @@ void File__ReferenceFilesHelper::ParseReferences()
 bool File__ReferenceFilesHelper::ParseReference_Init()
 {
     //Configuration
-    Reference->MI=MI_Create();
+    Sequences[Sequences_Current]->MI=MI_Create();
     if (Config->ParseSpeed>=1)
     {
-        for (size_t Pos=0; Pos<Reference->CompleteDuration.size(); Pos++)
+        for (size_t Pos=0; Pos<Sequences[Sequences_Current]->Resources.size(); Pos++)
         {
-            if (Reference->CompleteDuration[0].IgnoreFramesRate)
+            if (Sequences[Sequences_Current]->Resources[0]->EditRate)
             {
                 #if MEDIAINFO_DEMUX
                     if (Pos==0)
                     {
-                        Reference->CompleteDuration[0].Demux_Offset_DTS=0;
-                        Reference->CompleteDuration[0].Demux_Offset_Frame=0;
+                        Sequences[Sequences_Current]->Resources[0]->Demux_Offset_DTS=0;
+                        Sequences[Sequences_Current]->Resources[0]->Demux_Offset_Frame=0;
                     }
-                    if (Pos+1<Reference->CompleteDuration.size())
+                    if (Pos+1<Sequences[Sequences_Current]->Resources.size())
                     {
-                        Reference->CompleteDuration[Pos+1].Demux_Offset_DTS=float64_int64s(Reference->CompleteDuration[Pos].Demux_Offset_DTS+(Reference->CompleteDuration[Pos].IgnoreFramesAfter-Reference->CompleteDuration[Pos].IgnoreFramesBefore)/Reference->CompleteDuration[0].IgnoreFramesRate*1000000000);
-                        Reference->CompleteDuration[Pos+1].Demux_Offset_Frame=Reference->CompleteDuration[Pos].Demux_Offset_Frame+Reference->CompleteDuration[Pos].IgnoreFramesAfter-Reference->CompleteDuration[Pos].IgnoreFramesBefore;
+                        Sequences[Sequences_Current]->Resources[Pos+1]->Demux_Offset_DTS=float64_int64s(Sequences[Sequences_Current]->Resources[Pos]->Demux_Offset_DTS+(Sequences[Sequences_Current]->Resources[Pos]->IgnoreEditsAfter-Sequences[Sequences_Current]->Resources[Pos]->IgnoreEditsBefore)/Sequences[Sequences_Current]->Resources[0]->EditRate*1000000000);
+                        Sequences[Sequences_Current]->Resources[Pos+1]->Demux_Offset_Frame=Sequences[Sequences_Current]->Resources[Pos]->Demux_Offset_Frame+Sequences[Sequences_Current]->Resources[Pos]->IgnoreEditsAfter-Sequences[Sequences_Current]->Resources[Pos]->IgnoreEditsBefore;
                     }
                 #endif //MEDIAINFO_DEMUX
             }
@@ -789,79 +844,80 @@ bool File__ReferenceFilesHelper::ParseReference_Init()
                 Ztring Demux_Save=MI2.Option(__T("Demux_Get"), __T(""));
                 MI2.Option(__T("ParseSpeed"), __T("0"));
                 MI2.Option(__T("Demux"), Ztring());
-                size_t MiOpenResult=MI2.Open(Reference->CompleteDuration[Pos].FileName);
+                Sequences[Sequences_Current]->Resources[Pos]->FileNames.Separator_Set(0, ",");
+                size_t MiOpenResult=MI2.Open(Sequences[Sequences_Current]->Resources[Pos]->FileNames.Read());
                 MI2.Option(__T("ParseSpeed"), ParseSpeed_Save); //This is a global value, need to reset it. TODO: local value
                 MI2.Option(__T("Demux"), Demux_Save); //This is a global value, need to reset it. TODO: local value
                 if (MiOpenResult)
                 {
                     #if MEDIAINFO_DEMUX
-                        int64u Duration=MI2.Get(Reference->StreamKind, 0, __T("Duration")).To_int64u()*1000000;
-                        int64u FrameCount=MI2.Get(Reference->StreamKind, 0, __T("FrameCount")).To_int64u();
+                        int64u Duration=MI2.Get(Sequences[Sequences_Current]->StreamKind, 0, __T("Duration")).To_int64u()*1000000;
+                        int64u FrameCount=MI2.Get(Sequences[Sequences_Current]->StreamKind, 0, __T("FrameCount")).To_int64u();
                         if (Pos==0)
                         {
                             int64u Delay=MI2.Get(Stream_Video, 0, Video_Delay).To_int64u()*1000000;
-                            if (Reference->StreamKind==Stream_Video && Offset_Video_DTS==0)
+                            if (Sequences[Sequences_Current]->StreamKind==Stream_Video && Offset_Video_DTS==0)
                                 Offset_Video_DTS=Delay;
-                            Reference->CompleteDuration[0].Demux_Offset_DTS=Offset_Video_DTS;
-                            Reference->CompleteDuration[0].Demux_Offset_Frame=0;
+                            Sequences[Sequences_Current]->Resources[0]->Demux_Offset_DTS=Offset_Video_DTS;
+                            Sequences[Sequences_Current]->Resources[0]->Demux_Offset_Frame=0;
                         }
-                        if (Pos+1<Reference->CompleteDuration.size())
+                        if (Pos+1<Sequences[Sequences_Current]->Resources.size())
                         {
-                            Reference->CompleteDuration[Pos+1].Demux_Offset_DTS=Reference->CompleteDuration[Pos].Demux_Offset_DTS+Duration;
-                            Reference->CompleteDuration[Pos+1].Demux_Offset_Frame=Reference->CompleteDuration[Pos].Demux_Offset_Frame+FrameCount;
+                            Sequences[Sequences_Current]->Resources[Pos+1]->Demux_Offset_DTS=Sequences[Sequences_Current]->Resources[Pos]->Demux_Offset_DTS+Duration;
+                            Sequences[Sequences_Current]->Resources[Pos+1]->Demux_Offset_Frame=Sequences[Sequences_Current]->Resources[Pos]->Demux_Offset_Frame+FrameCount;
                         }
                         else
-                            Duration=Reference->CompleteDuration[Pos].Demux_Offset_DTS+Duration-Reference->CompleteDuration[0].Demux_Offset_DTS;
+                            Duration=Sequences[Sequences_Current]->Resources[Pos]->Demux_Offset_DTS+Duration-Sequences[Sequences_Current]->Resources[0]->Demux_Offset_DTS;
                     #endif //MEDIAINFO_DEMUX
                 }
             }
 
             if (Pos)
             {
-                Reference->CompleteDuration[Pos].MI=MI_Create();
-                Reference->CompleteDuration[Pos].MI->Config.File_IgnoreFramesBefore=Reference->CompleteDuration[Pos].IgnoreFramesBefore;
-                if (Reference->CompleteDuration[Pos].IgnoreFramesAfter==(int64u)-1 && Reference->CompleteDuration[Pos].IgnoreFramesAfterDuration!=(int64u)-1)
-                    Reference->CompleteDuration[Pos].MI->Config.File_IgnoreFramesAfter=Reference->CompleteDuration[Pos].IgnoreFramesBefore+Reference->CompleteDuration[Pos].IgnoreFramesAfterDuration;
+                Sequences[Sequences_Current]->Resources[Pos]->MI=MI_Create();
+                Sequences[Sequences_Current]->Resources[Pos]->MI->Config.File_IgnoreEditsBefore=Sequences[Sequences_Current]->Resources[Pos]->IgnoreEditsBefore;
+                if (Sequences[Sequences_Current]->Resources[Pos]->IgnoreEditsAfter==(int64u)-1 && Sequences[Sequences_Current]->Resources[Pos]->IgnoreEditsAfterDuration!=(int64u)-1)
+                    Sequences[Sequences_Current]->Resources[Pos]->MI->Config.File_IgnoreEditsAfter=Sequences[Sequences_Current]->Resources[Pos]->IgnoreEditsBefore+Sequences[Sequences_Current]->Resources[Pos]->IgnoreEditsAfterDuration;
                 else
-                    Reference->CompleteDuration[Pos].MI->Config.File_IgnoreFramesAfter=Reference->CompleteDuration[Pos].IgnoreFramesAfter;
-                Reference->CompleteDuration[Pos].MI->Config.File_IgnoreFramesRate=Reference->CompleteDuration[Pos].IgnoreFramesRate;
+                    Sequences[Sequences_Current]->Resources[Pos]->MI->Config.File_IgnoreEditsAfter=Sequences[Sequences_Current]->Resources[Pos]->IgnoreEditsAfter;
+                Sequences[Sequences_Current]->Resources[Pos]->MI->Config.File_EditRate=Sequences[Sequences_Current]->Resources[Pos]->EditRate;
                 #if MEDIAINFO_DEMUX
-                    Reference->CompleteDuration[Pos].MI->Config.Demux_Offset_Frame=Reference->CompleteDuration[Pos].Demux_Offset_Frame;
-                    Reference->CompleteDuration[Pos].MI->Config.Demux_Offset_DTS=Reference->CompleteDuration[Pos].Demux_Offset_DTS;
+                    Sequences[Sequences_Current]->Resources[Pos]->MI->Config.Demux_Offset_Frame=Sequences[Sequences_Current]->Resources[Pos]->Demux_Offset_Frame;
+                    Sequences[Sequences_Current]->Resources[Pos]->MI->Config.Demux_Offset_DTS=Sequences[Sequences_Current]->Resources[Pos]->Demux_Offset_DTS;
                 #endif //MEDIAINFO_DEMUX
             }
         }
-        if (!Reference->CompleteDuration.empty())
+        if (!Sequences[Sequences_Current]->Resources.empty())
         {
-            Reference->MI->Config.File_IgnoreFramesBefore=Reference->CompleteDuration[0].IgnoreFramesBefore;
-            if (Reference->CompleteDuration[0].IgnoreFramesAfter==(int64u)-1 && Reference->CompleteDuration[0].IgnoreFramesAfterDuration!=(int64u)-1)
-                Reference->MI->Config.File_IgnoreFramesAfter=Reference->CompleteDuration[0].IgnoreFramesBefore+Reference->CompleteDuration[0].IgnoreFramesAfterDuration;
+            Sequences[Sequences_Current]->MI->Config.File_IgnoreEditsBefore=Sequences[Sequences_Current]->Resources[0]->IgnoreEditsBefore;
+            if (Sequences[Sequences_Current]->Resources[0]->IgnoreEditsAfter==(int64u)-1 && Sequences[Sequences_Current]->Resources[0]->IgnoreEditsAfterDuration!=(int64u)-1)
+                Sequences[Sequences_Current]->MI->Config.File_IgnoreEditsAfter=Sequences[Sequences_Current]->Resources[0]->IgnoreEditsBefore+Sequences[Sequences_Current]->Resources[0]->IgnoreEditsAfterDuration;
             else
-                Reference->MI->Config.File_IgnoreFramesAfter=Reference->CompleteDuration[0].IgnoreFramesAfter;
-            Reference->MI->Config.File_IgnoreFramesRate=Reference->CompleteDuration[0].IgnoreFramesRate;
+                Sequences[Sequences_Current]->MI->Config.File_IgnoreEditsAfter=Sequences[Sequences_Current]->Resources[0]->IgnoreEditsAfter;
+            Sequences[Sequences_Current]->MI->Config.File_EditRate=Sequences[Sequences_Current]->Resources[0]->EditRate;
             #if MEDIAINFO_DEMUX
-                Reference->MI->Config.Demux_Offset_Frame=Reference->CompleteDuration[0].Demux_Offset_Frame;
-                Reference->MI->Config.Demux_Offset_DTS=Reference->CompleteDuration[0].Demux_Offset_DTS;
+                Sequences[Sequences_Current]->MI->Config.Demux_Offset_Frame=Sequences[Sequences_Current]->Resources[0]->Demux_Offset_Frame;
+                Sequences[Sequences_Current]->MI->Config.Demux_Offset_DTS=Sequences[Sequences_Current]->Resources[0]->Demux_Offset_DTS;
             #endif //MEDIAINFO_DEMUX
         }
     }
 
-    if (Reference->IsCircular)
+    if (Sequences[Sequences_Current]->IsCircular)
     {
-        MI->Fill(Reference->StreamKind, Reference->StreamPos, "Source_Info", "Circular");
+        MI->Fill(Sequences[Sequences_Current]->StreamKind, Sequences[Sequences_Current]->StreamPos, "Source_Info", "Circular");
         if (!Config->File_KeepInfo_Get())
         {
             #if MEDIAINFO_DEMUX
                 if (CountOfReferencesToParse)
                     CountOfReferencesToParse--;
             #endif //MEDIAINFO_DEMUX
-            Reference->StreamKind=Stream_Max;
-            Reference->StreamPos=(size_t)-1;
-            Reference->FileSize=Reference->MI->Config.File_Size;
-            delete Reference->MI; Reference->MI=NULL;
+            Sequences[Sequences_Current]->StreamKind=Stream_Max;
+            Sequences[Sequences_Current]->StreamPos=(size_t)-1;
+            Sequences[Sequences_Current]->FileSize=Sequences[Sequences_Current]->MI->Config.File_Size;
+            delete Sequences[Sequences_Current]->MI; Sequences[Sequences_Current]->MI=NULL;
         }
-        Reference->FileNames.clear();
-        Reference->Status.set(File__Analyze::IsFinished);
+        Sequences[Sequences_Current]->FileNames.clear();
+        Sequences[Sequences_Current]->Status.set(File__Analyze::IsFinished);
     }
     else
     {
@@ -869,27 +925,30 @@ bool File__ReferenceFilesHelper::ParseReference_Init()
         #if MEDIAINFO_EVENTS
             SubFile_Start();
         #endif //MEDIAINFO_EVENTS
-        if (!Reference->MI->Open(Reference->FileNames.Read()))
+        if (!Sequences[Sequences_Current]->MI->Open(Sequences[Sequences_Current]->FileNames.Read()))
         {
-            if (Reference->StreamKind!=Stream_Max)
-                MI->Fill(Reference->StreamKind, Reference->StreamPos, "Source_Info", "Missing");
+            if (Sequences[Sequences_Current]->StreamKind!=Stream_Max)
+                MI->Fill(Sequences[Sequences_Current]->StreamKind, Sequences[Sequences_Current]->StreamPos, "Source_Info", "Missing", Unlimited, true, true);
             if (!Config->File_KeepInfo_Get())
             {
                 #if MEDIAINFO_DEMUX
                     if (CountOfReferencesToParse)
                         CountOfReferencesToParse--;
                 #endif //MEDIAINFO_DEMUX
-                Reference->StreamKind=Stream_Max;
-                Reference->StreamPos=(size_t)-1;
-                Reference->FileSize=Reference->MI->Config.File_Size;
-                delete Reference->MI; Reference->MI=NULL;
+                Sequences[Sequences_Current]->StreamKind=Stream_Max;
+                Sequences[Sequences_Current]->StreamPos=(size_t)-1;
+                Sequences[Sequences_Current]->FileSize=Sequences[Sequences_Current]->MI->Config.File_Size;
+                delete Sequences[Sequences_Current]->MI; Sequences[Sequences_Current]->MI=NULL;
             }
-            Reference->Status.set(File__Analyze::IsFinished);
+            Sequences[Sequences_Current]->Status.set(File__Analyze::IsFinished);
         }
 
         if (Config->ParseSpeed>=1)
-            for (size_t Pos=1; Pos<Reference->CompleteDuration.size(); Pos++)
-                Reference->CompleteDuration[Pos].MI->Open(Reference->CompleteDuration[Pos].FileName);
+            for (size_t Pos=1; Pos<Sequences[Sequences_Current]->Resources.size(); Pos++)
+            {
+                Sequences[Sequences_Current]->Resources[Pos]->FileNames.Separator_Set(0, ",");
+                Sequences[Sequences_Current]->Resources[Pos]->MI->Open(Sequences[Sequences_Current]->Resources[Pos]->FileNames.Read());
+            }
 
         #if MEDIAINFO_NEXTPACKET && MEDIAINFO_DEMUX
             if (Config->NextPacket_Get())
@@ -903,36 +962,36 @@ bool File__ReferenceFilesHelper::ParseReference_Init()
 //---------------------------------------------------------------------------
 void File__ReferenceFilesHelper::ParseReference()
 {
-    if (Reference->MI==NULL && !Reference->FileNames.empty())
+    if (Sequences[Sequences_Current]->MI==NULL && !Sequences[Sequences_Current]->FileNames.empty())
     {
         if (!ParseReference_Init())
             return;
     }
 
-    if (Reference->MI)
+    if (Sequences[Sequences_Current]->MI)
     {
         #if MEDIAINFO_EVENTS && MEDIAINFO_NEXTPACKET
-            if (DTS_Interval!=(int64u)-1 && !Reference->Status[File__Analyze::IsFinished] && Reference->MI->Info->FrameInfo.DTS!=(int64u)-1 && DTS_Minimal!=(int64u)-1 && (Reference->CompleteDuration.empty() || Reference->CompleteDuration_Pos<Reference->CompleteDuration.size()))
+            if (DTS_Interval!=(int64u)-1 && !Sequences[Sequences_Current]->Status[File__Analyze::IsFinished] && Sequences[Sequences_Current]->MI->Info->FrameInfo.DTS!=(int64u)-1 && DTS_Minimal!=(int64u)-1 && (Sequences[Sequences_Current]->Resources.empty() || Sequences[Sequences_Current]->Resources_Current<Sequences[Sequences_Current]->Resources.size()))
             {
                 int64u DTS_Temp;
-                if (!Reference->CompleteDuration.empty() && Reference->CompleteDuration_Pos)
+                if (!Sequences[Sequences_Current]->Resources.empty() && Sequences[Sequences_Current]->Resources_Current)
                 {
-                    if (Reference->CompleteDuration[Reference->CompleteDuration_Pos].MI->Info->FrameInfo.DTS!=(int64u)-1)
-                        DTS_Temp=Reference->CompleteDuration[Reference->CompleteDuration_Pos].MI->Info->FrameInfo.DTS-Reference->CompleteDuration[Reference->CompleteDuration_Pos].MI->Info->Config->Demux_Offset_DTS_FromStream;
+                    if (Sequences[Sequences_Current]->Resources[Sequences[Sequences_Current]->Resources_Current]->MI->Info->FrameInfo.DTS!=(int64u)-1)
+                        DTS_Temp=Sequences[Sequences_Current]->Resources[Sequences[Sequences_Current]->Resources_Current]->MI->Info->FrameInfo.DTS-Sequences[Sequences_Current]->Resources[Sequences[Sequences_Current]->Resources_Current]->MI->Info->Config->Demux_Offset_DTS_FromStream;
                     else
                         DTS_Temp=0;
                 }
                 else
                 {
-                    if (Reference->MI->Info->FrameInfo.DTS!=(int64u)-1)
-                        DTS_Temp=Reference->MI->Info->FrameInfo.DTS-Reference->MI->Info->Config->Demux_Offset_DTS_FromStream;
+                    if (Sequences[Sequences_Current]->MI->Info->FrameInfo.DTS!=(int64u)-1)
+                        DTS_Temp=Sequences[Sequences_Current]->MI->Info->FrameInfo.DTS-Sequences[Sequences_Current]->MI->Info->Config->Demux_Offset_DTS_FromStream;
                     else
                         DTS_Temp=0;
                 }
-                DTS_Temp+=Reference->CompleteDuration[Reference->CompleteDuration_Pos].Demux_Offset_DTS;
-                if (!Reference->CompleteDuration.empty() && Reference->CompleteDuration_Pos<Reference->CompleteDuration.size() && Reference->CompleteDuration[Reference->CompleteDuration_Pos].IgnoreFramesRate && Reference->CompleteDuration[Reference->CompleteDuration_Pos].IgnoreFramesBefore)
+                DTS_Temp+=Sequences[Sequences_Current]->Resources[Sequences[Sequences_Current]->Resources_Current]->Demux_Offset_DTS;
+                if (!Sequences[Sequences_Current]->Resources.empty() && Sequences[Sequences_Current]->Resources_Current<Sequences[Sequences_Current]->Resources.size() && Sequences[Sequences_Current]->Resources[Sequences[Sequences_Current]->Resources_Current]->EditRate && Sequences[Sequences_Current]->Resources[Sequences[Sequences_Current]->Resources_Current]->IgnoreEditsBefore)
                 {
-                    int64u TimeOffset=float64_int64s(((float64)Reference->CompleteDuration[Reference->CompleteDuration_Pos].IgnoreFramesBefore)/Reference->CompleteDuration[Reference->CompleteDuration_Pos].IgnoreFramesRate*1000000000);
+                    int64u TimeOffset=float64_int64s(((float64)Sequences[Sequences_Current]->Resources[Sequences[Sequences_Current]->Resources_Current]->IgnoreEditsBefore)/Sequences[Sequences_Current]->Resources[Sequences[Sequences_Current]->Resources_Current]->EditRate*1000000000);
                     if (DTS_Temp>TimeOffset)
                         DTS_Temp-=TimeOffset;
                     else
@@ -941,17 +1000,17 @@ void File__ReferenceFilesHelper::ParseReference()
                 if (DTS_Temp>DTS_Minimal+DTS_Interval)
                     return;
             }
-            if (Config->Event_CallBackFunction_IsSet() && !Reference->Status[File__Analyze::IsFinished])
+            if (Config->Event_CallBackFunction_IsSet() && !Sequences[Sequences_Current]->Status[File__Analyze::IsFinished])
             {
                 #if MEDIAINFO_DEMUX
                     SubFile_Start();
-                    if (Reference->CompleteDuration_Pos==0)
+                    if (Sequences[Sequences_Current]->Resources_Current==0)
                     {
-                        while ((Reference->Status=Reference->MI->Open_NextPacket())[8])
+                        while ((Sequences[Sequences_Current]->Status=Sequences[Sequences_Current]->MI->Open_NextPacket())[8])
                         {
-                                if (!Reference->FileSize_IsPresent && Reference->MI->Config.File_Size!=(int64u)-1)
+                                if (!Sequences[Sequences_Current]->FileSize_IsPresent && Sequences[Sequences_Current]->MI->Config.File_Size!=(int64u)-1)
                                 {
-                                    Reference->FileSize_IsPresent=true;
+                                    Sequences[Sequences_Current]->FileSize_IsPresent=true;
                                     if (CountOfReferences_ForReadSize)
                                     {
                                         CountOfReferences_ForReadSize--;
@@ -966,23 +1025,23 @@ void File__ReferenceFilesHelper::ParseReference()
                                     return;
                                 }
                         }
-                        Reference->CompleteDuration_Pos++;
-                        if (Reference->CompleteDuration_Pos<Reference->CompleteDuration.size() && Reference->CompleteDuration[Reference->CompleteDuration_Pos].MI)
-                            Reference->CompleteDuration[Reference->CompleteDuration_Pos].MI->Open_Buffer_Seek(0, 0, (int64u)-1);
+                        Sequences[Sequences_Current]->Resources_Current++;
+                        if (Sequences[Sequences_Current]->Resources_Current<Sequences[Sequences_Current]->Resources.size() && Sequences[Sequences_Current]->Resources[Sequences[Sequences_Current]->Resources_Current]->MI)
+                            Sequences[Sequences_Current]->Resources[Sequences[Sequences_Current]->Resources_Current]->MI->Open_Buffer_Seek(0, 0, (int64u)-1);
                     }
 
                     #if MEDIAINFO_NEXTPACKET && MEDIAINFO_DEMUX
                         if (Config->ParseSpeed<1.0)
-                            Reference->CompleteDuration_Pos=Reference->CompleteDuration.size(); //No need to parse all files
+                            Sequences[Sequences_Current]->Resources_Current=Sequences[Sequences_Current]->Resources.size(); //No need to parse all files
                     #endif //MEDIAINFO_NEXTPACKET
 
-                    while (Reference->CompleteDuration_Pos<Reference->CompleteDuration.size())
+                    while (Sequences[Sequences_Current]->Resources_Current<Sequences[Sequences_Current]->Resources.size())
                     {
-                        while ((Reference->Status=Reference->CompleteDuration[Reference->CompleteDuration_Pos].MI->Open_NextPacket())[8])
+                        while ((Sequences[Sequences_Current]->Status=Sequences[Sequences_Current]->Resources[Sequences[Sequences_Current]->Resources_Current]->MI->Open_NextPacket())[8])
                         {
-                                if (!Reference->FileSize_IsPresent && Reference->MI->Config.File_Size!=(int64u)-1)
+                                if (!Sequences[Sequences_Current]->FileSize_IsPresent && Sequences[Sequences_Current]->MI->Config.File_Size!=(int64u)-1)
                                 {
-                                    Reference->FileSize_IsPresent=true;
+                                    Sequences[Sequences_Current]->FileSize_IsPresent=true;
                                     if (CountOfReferences_ForReadSize)
                                     {
                                         CountOfReferences_ForReadSize--;
@@ -997,9 +1056,9 @@ void File__ReferenceFilesHelper::ParseReference()
                                     return;
                                 }
                         }
-                        Reference->CompleteDuration_Pos++;
-                        if (Reference->CompleteDuration_Pos<Reference->CompleteDuration.size() && Reference->CompleteDuration[Reference->CompleteDuration_Pos].MI)
-                            Reference->CompleteDuration[Reference->CompleteDuration_Pos].MI->Open_Buffer_Seek(0, 0, (int64u)-1);
+                        Sequences[Sequences_Current]->Resources_Current++;
+                        if (Sequences[Sequences_Current]->Resources_Current<Sequences[Sequences_Current]->Resources.size() && Sequences[Sequences_Current]->Resources[Sequences[Sequences_Current]->Resources_Current]->MI)
+                            Sequences[Sequences_Current]->Resources[Sequences[Sequences_Current]->Resources_Current]->MI->Open_Buffer_Seek(0, 0, (int64u)-1);
                     }
                 if (CountOfReferencesToParse)
                     CountOfReferencesToParse--;
@@ -1009,18 +1068,19 @@ void File__ReferenceFilesHelper::ParseReference()
         ParseReference_Finalize();
         if (!Config->File_KeepInfo_Get())
         {
-            Reference->StreamKind=Stream_Max;
-            Reference->StreamPos=(size_t)-1;
-            Reference->State=10000;
-            if (Reference->CompleteDuration.empty())
-                Reference->FileSize=Reference->MI->Config.File_Size;
-            else if (Reference->FileSize==(int64u)-1)
+            Sequences[Sequences_Current]->StreamKind=Stream_Max;
+            Sequences[Sequences_Current]->StreamPos=(size_t)-1;
+            Sequences[Sequences_Current]->State=10000;
+            if (Sequences[Sequences_Current]->Resources.empty())
+                Sequences[Sequences_Current]->FileSize=Sequences[Sequences_Current]->MI->Config.File_Size;
+            else if (Sequences[Sequences_Current]->FileSize==(int64u)-1)
             {
-                Reference->FileSize=0;
-                for (size_t Pos=0; Pos<Reference->CompleteDuration.size(); Pos++)
-                    Reference->FileSize+=File::Size_Get(Reference->CompleteDuration[Pos].FileName);
+                Sequences[Sequences_Current]->FileSize=0;
+                for (size_t Pos=0; Pos<Sequences[Sequences_Current]->Resources.size(); Pos++)
+                    for (size_t Resource_FileNames_Pos=0; Resource_FileNames_Pos<Sequences[Sequences_Current]->Resources[Pos]->FileNames.size(); Resource_FileNames_Pos++)
+                        Sequences[Sequences_Current]->FileSize+=File::Size_Get(Sequences[Sequences_Current]->Resources[Pos]->FileNames[Resource_FileNames_Pos]);
             }
-            delete Reference->MI; Reference->MI=NULL;
+            delete Sequences[Sequences_Current]->MI; Sequences[Sequences_Current]->MI=NULL;
         }
     }
 }
@@ -1029,33 +1089,33 @@ void File__ReferenceFilesHelper::ParseReference()
 void File__ReferenceFilesHelper::ParseReference_Finalize ()
 {
     //Removing wrong initial value
-    if (Reference->MI->Count_Get(Reference->StreamKind)==0 && Reference->StreamPos!=(size_t)-1
-     && Reference->MI->Count_Get(Stream_Video)+Reference->MI->Count_Get(Stream_Audio)+Reference->MI->Count_Get(Stream_Image)+Reference->MI->Count_Get(Stream_Text)+Reference->MI->Count_Get(Stream_Other))
+    if (Sequences[Sequences_Current]->MI->Count_Get(Sequences[Sequences_Current]->StreamKind)==0 && Sequences[Sequences_Current]->StreamPos!=(size_t)-1
+     && Sequences[Sequences_Current]->MI->Count_Get(Stream_Video)+Sequences[Sequences_Current]->MI->Count_Get(Stream_Audio)+Sequences[Sequences_Current]->MI->Count_Get(Stream_Image)+Sequences[Sequences_Current]->MI->Count_Get(Stream_Text)+Sequences[Sequences_Current]->MI->Count_Get(Stream_Other))
     {
-        MI->Stream_Erase(Reference->StreamKind, Reference->StreamPos);
-        for (references::iterator ReferenceTemp=References.begin(); ReferenceTemp!=References.end(); ++ReferenceTemp)
-            if (ReferenceTemp->StreamKind==Reference->StreamKind && ReferenceTemp->StreamPos!=(size_t)-1 && ReferenceTemp->StreamPos>Reference->StreamPos)
-                ReferenceTemp->StreamPos--;
-        Reference->StreamPos=(size_t)-1;
+        MI->Stream_Erase(Sequences[Sequences_Current]->StreamKind, Sequences[Sequences_Current]->StreamPos);
+        for (sequences::iterator ReferenceTemp=Sequences.begin(); ReferenceTemp!=Sequences.end(); ++ReferenceTemp)
+            if ((*ReferenceTemp)->StreamKind==Sequences[Sequences_Current]->StreamKind && (*ReferenceTemp)->StreamPos!=(size_t)-1 && (*ReferenceTemp)->StreamPos>Sequences[Sequences_Current]->StreamPos)
+                (*ReferenceTemp)->StreamPos--;
+        Sequences[Sequences_Current]->StreamPos=(size_t)-1;
     }
 
     bool StreamFound=false;
     for (size_t StreamKind=Stream_General+1; StreamKind<Stream_Max; StreamKind++)
-        for (size_t StreamPos=0; StreamPos<Reference->MI->Count_Get((stream_t)StreamKind); StreamPos++)
+        for (size_t StreamPos=0; StreamPos<Sequences[Sequences_Current]->MI->Count_Get((stream_t)StreamKind); StreamPos++)
         {
             StreamKind_Last=(stream_t)StreamKind;
-            if (Reference->StreamPos!=(size_t)-1 && StreamKind_Last==Reference->StreamKind && StreamPos==0)
+            if (Sequences[Sequences_Current]->StreamPos!=(size_t)-1 && StreamKind_Last==Sequences[Sequences_Current]->StreamKind && StreamPos==0)
             {
-                StreamPos_To=Reference->StreamPos;
+                StreamPos_To=Sequences[Sequences_Current]->StreamPos;
                 StreamFound=true;
             }
             else
             {
                 size_t ToInsert=(size_t)-1;
-                for (references::iterator ReferencePos=References.begin(); ReferencePos!=References.end(); ++ReferencePos)
-                    if (ReferencePos->StreamKind==StreamKind_Last && Reference->StreamID<ReferencePos->StreamID)
+                for (sequences::iterator ReferencePos=Sequences.begin(); ReferencePos!=Sequences.end(); ++ReferencePos)
+                    if ((*ReferencePos)->StreamKind==StreamKind_Last && Sequences[Sequences_Current]->StreamID<(*ReferencePos)->StreamID)
                     {
-                        ToInsert=ReferencePos->StreamPos;
+                        ToInsert=(*ReferencePos)->StreamPos;
                         break;
                     }
 
@@ -1066,12 +1126,12 @@ void File__ReferenceFilesHelper::ParseReference_Finalize ()
             ParseReference_Finalize_PerStream();
         }
 
-    if (!StreamFound && Reference->StreamKind!=Stream_Max && Reference->StreamPos!=(size_t)-1)
+    if (!StreamFound && Sequences[Sequences_Current]->StreamKind!=Stream_Max && Sequences[Sequences_Current]->StreamPos!=(size_t)-1 && Sequences[Sequences_Current]->MI->Info)
     {
-        Ztring MuxingMode=MI->Retrieve(Reference->StreamKind, Reference->StreamPos, "MuxingMode");
+        Ztring MuxingMode=MI->Retrieve(Sequences[Sequences_Current]->StreamKind, Sequences[Sequences_Current]->StreamPos, "MuxingMode");
         if (!MuxingMode.empty())
             MuxingMode.insert(0, __T(" / "));
-        MI->Fill(Reference->StreamKind, Reference->StreamPos, "MuxingMode", Reference->MI->Info->Get(Stream_General, 0, General_Format)+MuxingMode, true);
+        MI->Fill(Sequences[Sequences_Current]->StreamKind, Sequences[Sequences_Current]->StreamPos, "MuxingMode", Sequences[Sequences_Current]->MI->Info->Get(Stream_General, 0, General_Format)+MuxingMode, true);
     }
 }
 
@@ -1081,39 +1141,39 @@ void File__ReferenceFilesHelper::ParseReference_Finalize_PerStream ()
     //Hacks - Before
     Ztring CodecID=MI->Retrieve(StreamKind_Last, StreamPos_To, MI->Fill_Parameter(StreamKind_Last, Generic_CodecID));
     Ztring ID_Base;
-    if (HasMainFile_Filled && !Reference->IsMain)
+    if (HasMainFile_Filled && !Sequences[Sequences_Current]->IsMain)
     {
-        ID_Base=Ztring::ToZtring(ID_Max+Reference->StreamID-1);
-        MI->Fill(StreamKind_Last, StreamPos_To, "SideCar_FilePos", Reference->StreamID-1);
+        ID_Base=Ztring::ToZtring(ID_Max+Sequences[Sequences_Current]->StreamID-1);
+        MI->Fill(StreamKind_Last, StreamPos_To, "SideCar_FilePos", Sequences[Sequences_Current]->StreamID-1);
         (*MI->Stream_More)[StreamKind_Last][StreamPos_To](Ztring().From_Local("SideCar_FilePos"), Info_Options)=__T("N NT");
     }
-    else if (Reference->StreamID!=(int64u)-1)
-        ID_Base=Ztring::ToZtring(Reference->StreamID);
+    else if (Sequences[Sequences_Current]->StreamID!=(int64u)-1)
+        ID_Base=Ztring::ToZtring(Sequences[Sequences_Current]->StreamID);
     Ztring ID=ID_Base;
     Ztring ID_String=ID_Base;
     Ztring MenuID;
     Ztring MenuID_String;
 
-    if (!HasMainFile_Filled && Reference->IsMain)
+    if (!HasMainFile_Filled && Sequences[Sequences_Current]->IsMain)
     {
-        MI->Fill(Stream_General, 0, General_Format, Reference->MI->Get(Stream_General, 0, General_Format) , true);
-        MI->Fill(Stream_General, 0, General_CompleteName, Reference->MI->Get(Stream_General, 0, General_CompleteName) , true);
-        MI->Fill(Stream_General, 0, General_FileExtension, Reference->MI->Get(Stream_General, 0, General_FileExtension) , true);
+        MI->Fill(Stream_General, 0, General_Format, Sequences[Sequences_Current]->MI->Get(Stream_General, 0, General_Format) , true);
+        MI->Fill(Stream_General, 0, General_CompleteName, Sequences[Sequences_Current]->MI->Get(Stream_General, 0, General_CompleteName) , true);
+        MI->Fill(Stream_General, 0, General_FileExtension, Sequences[Sequences_Current]->MI->Get(Stream_General, 0, General_FileExtension) , true);
         HasMainFile=true;
         HasMainFile_Filled=true;
     }
-    if (Reference->IsMain)
+    if (Sequences[Sequences_Current]->IsMain)
     {
-        int64u ID_New=Reference->MI->Get(StreamKind_Last, StreamPos_From, General_ID).To_int64u();
+        int64u ID_New=Sequences[Sequences_Current]->MI->Get(StreamKind_Last, StreamPos_From, General_ID).To_int64u();
         if (ID_Max<ID_New)
             ID_Max=ID_New;
     }
 
     MI->Clear(StreamKind_Last, StreamPos_To, General_ID);
 
-    MI->Merge(*Reference->MI->Info, StreamKind_Last, StreamPos_From, StreamPos_To);
+    MI->Merge(*Sequences[Sequences_Current]->MI->Info, StreamKind_Last, StreamPos_From, StreamPos_To);
 
-    if (!Reference->CompleteDuration.empty())
+    if (!Sequences[Sequences_Current]->Resources.empty())
     {
         MI->Clear(StreamKind_Last, StreamPos_To, MI->Fill_Parameter(StreamKind_Last, Generic_BitRate));
         MI->Clear(StreamKind_Last, StreamPos_To, MI->Fill_Parameter(StreamKind_Last, Generic_Duration));
@@ -1125,7 +1185,7 @@ void File__ReferenceFilesHelper::ParseReference_Finalize_PerStream ()
         int64u FrameCount_Temp=0;
         int64u StreamSize_Temp=0;
         int64u FileSize_Temp=0;
-        for (size_t Pos=0; Pos<Reference->CompleteDuration.size(); Pos++)
+        for (size_t Pos=0; Pos<Sequences[Sequences_Current]->Resources.size(); Pos++)
         {
             MediaInfo_Internal MI2;
             MI2.Option(__T("File_KeepInfo"), __T("1"));
@@ -1133,13 +1193,14 @@ void File__ReferenceFilesHelper::ParseReference_Finalize_PerStream ()
             Ztring Demux_Save=MI2.Option(__T("Demux_Get"), __T(""));
             MI2.Option(__T("ParseSpeed"), __T("0"));
             MI2.Option(__T("Demux"), Ztring());
-            MI2.Config.File_IgnoreFramesBefore=Reference->CompleteDuration[Pos].IgnoreFramesBefore;
-            if (Reference->CompleteDuration[Pos].IgnoreFramesAfter==(int64u)-1 && Reference->CompleteDuration[Pos].IgnoreFramesAfterDuration!=(int64u)-1)
-                MI2.Config.File_IgnoreFramesAfter=Reference->CompleteDuration[Pos].IgnoreFramesBefore+Reference->CompleteDuration[Pos].IgnoreFramesAfterDuration;
+            MI2.Config.File_IgnoreEditsBefore=Sequences[Sequences_Current]->Resources[Pos]->IgnoreEditsBefore;
+            if (Sequences[Sequences_Current]->Resources[Pos]->IgnoreEditsAfter==(int64u)-1 && Sequences[Sequences_Current]->Resources[Pos]->IgnoreEditsAfterDuration!=(int64u)-1)
+                MI2.Config.File_IgnoreEditsAfter=Sequences[Sequences_Current]->Resources[Pos]->IgnoreEditsBefore+Sequences[Sequences_Current]->Resources[Pos]->IgnoreEditsAfterDuration;
             else
-                MI2.Config.File_IgnoreFramesAfter=Reference->CompleteDuration[Pos].IgnoreFramesAfter;
-            MI2.Config.File_IgnoreFramesRate=Reference->CompleteDuration[Pos].IgnoreFramesRate;
-            size_t MiOpenResult=MI2.Open(Reference->CompleteDuration[Pos].FileName);
+                MI2.Config.File_IgnoreEditsAfter=Sequences[Sequences_Current]->Resources[Pos]->IgnoreEditsAfter;
+            MI2.Config.File_EditRate=Sequences[Sequences_Current]->Resources[Pos]->EditRate;
+            Sequences[Sequences_Current]->Resources[Pos]->FileNames.Separator_Set(0, ",");
+            size_t MiOpenResult=MI2.Open(Sequences[Sequences_Current]->Resources[Pos]->FileNames.Read());
             MI2.Option(__T("ParseSpeed"), ParseSpeed_Save); //This is a global value, need to reset it. TODO: local value
             MI2.Option(__T("Demux"), Demux_Save); //This is a global value, need to reset it. TODO: local value
             if (MiOpenResult)
@@ -1183,7 +1244,7 @@ void File__ReferenceFilesHelper::ParseReference_Finalize_PerStream ()
         if (StreamSize_Temp!=(int64u)-1)
             MI->Fill(StreamKind_Last, StreamPos_To, MI->Fill_Parameter(StreamKind_Last, Generic_StreamSize), StreamSize_Temp, 10, true);
         if (FileSize_Temp!=(int64u)-1)
-            Reference->FileSize=FileSize_Temp;
+            Sequences[Sequences_Current]->FileSize=FileSize_Temp;
         if (BitRate_Before && Duration_Temp)
         {
             float64 BitRate_After=((float64)StreamSize_Temp)*8000/Duration_Temp;
@@ -1193,18 +1254,18 @@ void File__ReferenceFilesHelper::ParseReference_Finalize_PerStream ()
     }
 
     //Frame rate if available from container
-    if (StreamKind_Last==Stream_Video && Reference->FrameRate)
-        MI->Fill(Stream_Video, StreamPos_To, Video_FrameRate, Reference->FrameRate, 3 , true);
+    if (StreamKind_Last==Stream_Video && Sequences[Sequences_Current]->FrameRate)
+        MI->Fill(Stream_Video, StreamPos_To, Video_FrameRate, Sequences[Sequences_Current]->FrameRate, 3 , true);
 
     //Hacks - After
-    if (!Reference->IsMain && CodecID!=MI->Retrieve(StreamKind_Last, StreamPos_To, MI->Fill_Parameter(StreamKind_Last, Generic_CodecID)))
+    if (!Sequences[Sequences_Current]->IsMain && CodecID!=MI->Retrieve(StreamKind_Last, StreamPos_To, MI->Fill_Parameter(StreamKind_Last, Generic_CodecID)))
     {
         if (!CodecID.empty())
             CodecID+=__T(" / ");
         CodecID+=MI->Retrieve(StreamKind_Last, StreamPos_To, MI->Fill_Parameter(StreamKind_Last, Generic_CodecID));
         MI->Fill(StreamKind_Last, StreamPos_To, MI->Fill_Parameter(StreamKind_Last, Generic_CodecID), CodecID, true);
     }
-    if (!Reference->IsMain && Reference->MI->Count_Get(Stream_Video)+Reference->MI->Count_Get(Stream_Audio)>1 && Reference->MI->Get(Stream_Video, 0, Video_Format)!=__T("DV"))
+    if (!Sequences[Sequences_Current]->IsMain && Sequences[Sequences_Current]->MI->Count_Get(Stream_Video)+Sequences[Sequences_Current]->MI->Count_Get(Stream_Audio)>1 && Sequences[Sequences_Current]->MI->Get(Stream_Video, 0, Video_Format)!=__T("DV"))
     {
         if (StreamKind_Last==Stream_Menu)
         {
@@ -1219,26 +1280,26 @@ void File__ReferenceFilesHelper::ParseReference_Finalize_PerStream ()
             MI->Fill(Stream_Menu, StreamPos_To, Menu_List, List.Read(), true);
             MI->Fill(Stream_Menu, StreamPos_To, Menu_List_String, List_String.Read(), true);
         }
-        else if (References.size()>1 && Reference->MI->Count_Get(Stream_Menu)==0)
+        else if (Sequences.size()>1 && Sequences[Sequences_Current]->MI->Count_Get(Stream_Menu)==0)
         {
-            if (Reference->MenuPos==(size_t)-1)
+            if (Sequences[Sequences_Current]->MenuPos==(size_t)-1)
             {
-                Reference->MenuPos=MI->Stream_Prepare(Stream_Menu);
-                MI->Fill(Stream_Menu, Reference->MenuPos, General_ID, ID_Base);
-                MI->Fill(Stream_Menu, Reference->StreamPos, "Source", Reference->Source);
+                Sequences[Sequences_Current]->MenuPos=MI->Stream_Prepare(Stream_Menu);
+                MI->Fill(Stream_Menu, Sequences[Sequences_Current]->MenuPos, General_ID, ID_Base);
+                MI->Fill(Stream_Menu, Sequences[Sequences_Current]->StreamPos, "Source", Sequences[Sequences_Current]->Source);
             }
-            Ztring List=Reference->MI->Get(StreamKind_Last, StreamPos_From, General_ID);
-            Ztring List_String=Reference->MI->Get(StreamKind_Last, StreamPos_From, General_ID_String);
+            Ztring List=Sequences[Sequences_Current]->MI->Get(StreamKind_Last, StreamPos_From, General_ID);
+            Ztring List_String=Sequences[Sequences_Current]->MI->Get(StreamKind_Last, StreamPos_From, General_ID_String);
             if (!ID_Base.empty())
             {
                 List.insert(0, ID_Base+__T("-"));
                 List_String.insert(0, ID_Base+__T("-"));
             }
-            MI->Fill(Stream_Menu, Reference->MenuPos, Menu_List, List);
-            MI->Fill(Stream_Menu, Reference->MenuPos, Menu_List_String, List_String);
+            MI->Fill(Stream_Menu, Sequences[Sequences_Current]->MenuPos, Menu_List, List);
+            MI->Fill(Stream_Menu, Sequences[Sequences_Current]->MenuPos, Menu_List_String, List_String);
         }
     }
-    if (!Reference->IsMain && (ContainerHasNoId || !Config->File_ID_OnlyRoot_Get() || Reference->MI->Get(Stream_General, 0, General_Format)==__T("SCC") || Reference->MI->Count_Get(Stream_Video)+Reference->MI->Count_Get(Stream_Audio)>1) && !MI->Retrieve(StreamKind_Last, StreamPos_To, General_ID).empty())
+    if (!Sequences[Sequences_Current]->IsMain && (ContainerHasNoId || !Config->File_ID_OnlyRoot_Get() || Sequences[Sequences_Current]->MI->Get(Stream_General, 0, General_Format)==__T("SCC") || Sequences[Sequences_Current]->MI->Count_Get(Stream_Video)+Sequences[Sequences_Current]->MI->Count_Get(Stream_Audio)>1) && !MI->Retrieve(StreamKind_Last, StreamPos_To, General_ID).empty())
     {
         if (!ID.empty())
             ID+=__T('-');
@@ -1255,13 +1316,13 @@ void File__ReferenceFilesHelper::ParseReference_Finalize_PerStream ()
                 MenuID_String=ID_Base+__T('-');
             MenuID_String+=MI->Retrieve(StreamKind_Last, StreamPos_To, "MenuID/String");
         }
-        else if (Reference->MenuPos!=(size_t)-1)
+        else if (Sequences[Sequences_Current]->MenuPos!=(size_t)-1)
         {
             MenuID=ID_Base;
             MenuID_String=ID_Base;
         }
     }
-    if (!Reference->IsMain)
+    if (!Sequences[Sequences_Current]->IsMain)
     {
         MI->Fill(StreamKind_Last, StreamPos_To, General_ID, ID, true);
         MI->Fill(StreamKind_Last, StreamPos_To, General_ID_String, ID_String, true);
@@ -1269,7 +1330,7 @@ void File__ReferenceFilesHelper::ParseReference_Finalize_PerStream ()
         MI->Fill(StreamKind_Last, StreamPos_To, "MenuID/String", MenuID_String, true);
         if (!MI->Retrieve(StreamKind_Last, StreamPos_To, "Source").empty())
         {
-            if (MI->Retrieve(StreamKind_Last, StreamPos_To, "Source_Original").empty() && Reference->Source!=MI->Retrieve(StreamKind_Last, StreamPos_To, "Source")) // TODO: better handling
+            if (MI->Retrieve(StreamKind_Last, StreamPos_To, "Source_Original").empty() && Sequences[Sequences_Current]->Source!=MI->Retrieve(StreamKind_Last, StreamPos_To, "Source")) // TODO: better handling
             {
                 MI->Fill(StreamKind_Last, StreamPos_To, "Source_Original", MI->Retrieve(StreamKind_Last, StreamPos_To, "Source"));
                 MI->Fill(StreamKind_Last, StreamPos_To, "Source_Original_Kind", MI->Retrieve(StreamKind_Last, StreamPos_To, "Source_Kind"));
@@ -1279,27 +1340,27 @@ void File__ReferenceFilesHelper::ParseReference_Finalize_PerStream ()
             MI->Clear(StreamKind_Last, StreamPos_To, "Source_Kind");
             MI->Clear(StreamKind_Last, StreamPos_To, "Source_Info");
         }
-        MI->Fill(StreamKind_Last, StreamPos_To, "Source", Reference->Source);
+        MI->Fill(StreamKind_Last, StreamPos_To, "Source", Sequences[Sequences_Current]->Source);
     }
-    for (std::map<string, Ztring>::iterator Info=Reference->Infos.begin(); Info!=Reference->Infos.end(); ++Info)
+    for (std::map<string, Ztring>::iterator Info=Sequences[Sequences_Current]->Infos.begin(); Info!=Sequences[Sequences_Current]->Infos.end(); ++Info)
         if (MI->Retrieve(StreamKind_Last, StreamPos_To, Info->first.c_str()).empty())
             MI->Fill(StreamKind_Last, StreamPos_To, Info->first.c_str(), Info->second);
 
     //Others
-    if (!Reference->IsMain && Reference->MI->Info && MI->Retrieve(StreamKind_Last, StreamPos_To, Reference->MI->Info->Fill_Parameter(StreamKind_Last, Generic_Format))!=Reference->MI->Info->Get(Stream_General, 0, General_Format))
+    if (!Sequences[Sequences_Current]->IsMain && Sequences[Sequences_Current]->MI->Info && MI->Retrieve(StreamKind_Last, StreamPos_To, Sequences[Sequences_Current]->MI->Info->Fill_Parameter(StreamKind_Last, Generic_Format))!=Sequences[Sequences_Current]->MI->Info->Get(Stream_General, 0, General_Format))
     {
         Ztring MuxingMode=MI->Retrieve(StreamKind_Last, StreamPos_To, "MuxingMode");
         if (!MuxingMode.empty())
             MuxingMode.insert(0, __T(" / "));
-        MI->Fill(StreamKind_Last, StreamPos_To, "MuxingMode", Reference->MI->Info->Get(Stream_General, 0, General_Format)+MuxingMode, true);
+        MI->Fill(StreamKind_Last, StreamPos_To, "MuxingMode", Sequences[Sequences_Current]->MI->Info->Get(Stream_General, 0, General_Format)+MuxingMode, true);
     }
 
     //Lists
     #if MEDIAINFO_ADVANCED || MEDIAINFO_MD5
-        if (!Reference->List_Compute_Done && (Reference->MI->Count_Get(Stream_Menu)==0 || StreamKind_Last==Stream_Menu))
+        if (!Sequences[Sequences_Current]->List_Compute_Done && (Sequences[Sequences_Current]->MI->Count_Get(Stream_Menu)==0 || StreamKind_Last==Stream_Menu))
         {
             List_Compute();
-            Reference->List_Compute_Done=true;
+            Sequences[Sequences_Current]->List_Compute_Done=true;
         }
     #endif //MEDIAINFO_ADVANCED || MEDIAINFO_MD5
 }
@@ -1308,19 +1369,19 @@ void File__ReferenceFilesHelper::ParseReference_Finalize_PerStream ()
 #if MEDIAINFO_ADVANCED || MEDIAINFO_MD5
 void File__ReferenceFilesHelper::List_Compute()
 {
-    stream_t StreamKind=References.size()>1?StreamKind_Last:Stream_General;
-    size_t   StreamPos=References.size()>1?StreamPos_To:0;
+    stream_t StreamKind=Sequences.size()>1?StreamKind_Last:Stream_General;
+    size_t   StreamPos=Sequences.size()>1?StreamPos_To:0;
 
-    stream_t StreamKind_Target=Reference->MenuPos==(size_t)-1?StreamKind:Stream_Menu;
-    size_t   StreamPos_Target=Reference->MenuPos==(size_t)-1?StreamPos:Reference->MenuPos;
+    stream_t StreamKind_Target=Sequences[Sequences_Current]->MenuPos==(size_t)-1?StreamKind:Stream_Menu;
+    size_t   StreamPos_Target=Sequences[Sequences_Current]->MenuPos==(size_t)-1?StreamPos:Sequences[Sequences_Current]->MenuPos;
 
     //MD5
     #if MEDIAINFO_MD5
         if (!HasMainFile && Config->File_Md5_Get())
         {
-            if (!Reference->MI->Get(Stream_General, 0, __T("MD5_Generated")).empty())
+            if (!Sequences[Sequences_Current]->MI->Get(Stream_General, 0, __T("MD5_Generated")).empty())
             {
-                if (Reference->MI->Config.File_Names.size()==1)
+                if (Sequences[Sequences_Current]->MI->Config.File_Names.size()==1)
                 {
                     if (MI->Retrieve(StreamKind_Target, StreamPos_Target, "Source").empty())
                     {
@@ -1335,25 +1396,25 @@ void File__ReferenceFilesHelper::List_Compute()
                                 SourcePath=SourceName.substr(0, Pos_Path);
                         }
                         size_t SourcePath_Size=SourcePath.size()+1; //Path size + path separator size
-                        Ztring Temp=Reference->MI->Config.File_Names[0];
+                        Ztring Temp=Sequences[Sequences_Current]->MI->Config.File_Names[0];
                         if (!Config->File_IsReferenced_Get())
                             Temp.erase(0, SourcePath_Size);
                         MI->Fill(StreamKind_Target, StreamPos_Target, "Source", Temp);
                     }
-                    MI->Fill(StreamKind_Target, StreamPos_Target, "Source_MD5_Generated", Reference->MI->Get(Stream_General, 0, __T("MD5_Generated")));
+                    MI->Fill(StreamKind_Target, StreamPos_Target, "Source_MD5_Generated", Sequences[Sequences_Current]->MI->Get(Stream_General, 0, __T("MD5_Generated")));
                     (*MI->Stream_More)[StreamKind_Target][StreamPos_Target](Ztring().From_Local("Source_MD5_Generated"), Info_Options)=__T("N NT");
                 }
-                MI->Fill(StreamKind_Target, StreamPos_Target, "Source_List_MD5_Generated", Reference->MI->Get(Stream_General, 0, __T("MD5_Generated")));
+                MI->Fill(StreamKind_Target, StreamPos_Target, "Source_List_MD5_Generated", Sequences[Sequences_Current]->MI->Get(Stream_General, 0, __T("MD5_Generated")));
                 (*MI->Stream_More)[StreamKind_Target][StreamPos_Target](Ztring().From_Local("Source_List_MD5_Generated"), Info_Options)=__T("N NT");
             }
-            if (!Reference->MI->Get(Stream_General, 0, __T("Source_List_MD5_Generated")).empty())
+            if (!Sequences[Sequences_Current]->MI->Get(Stream_General, 0, __T("Source_List_MD5_Generated")).empty())
             {
-                MI->Fill(StreamKind_Target, StreamPos_Target, "Source_List_MD5_Generated", Reference->MI->Get(Stream_General, 0, __T("Source_List_MD5_Generated")));
+                MI->Fill(StreamKind_Target, StreamPos_Target, "Source_List_MD5_Generated", Sequences[Sequences_Current]->MI->Get(Stream_General, 0, __T("Source_List_MD5_Generated")));
                 (*MI->Stream_More)[StreamKind_Target][StreamPos_Target](Ztring().From_Local("Source_List_MD5_Generated"), Info_Options)=__T("N NT");
             }
-            else if (!Reference->MI->Get(StreamKind, StreamPos, __T("Source_List_MD5_Generated")).empty())
+            else if (!Sequences[Sequences_Current]->MI->Get(StreamKind, StreamPos, __T("Source_List_MD5_Generated")).empty())
             {
-                MI->Fill(StreamKind_Target, StreamPos_Target, "Source_List_MD5_Generated", Reference->MI->Get(StreamKind, StreamPos, __T("Source_List_MD5_Generated")));
+                MI->Fill(StreamKind_Target, StreamPos_Target, "Source_List_MD5_Generated", Sequences[Sequences_Current]->MI->Get(StreamKind, StreamPos, __T("Source_List_MD5_Generated")));
                 (*MI->Stream_More)[StreamKind_Target][StreamPos_Target](Ztring().From_Local("Source_List_MD5_Generated"), Info_Options)=__T("N NT");
             }
         }
@@ -1374,18 +1435,18 @@ void File__ReferenceFilesHelper::List_Compute()
                     SourcePath=SourceName.substr(0, Pos_Path);
             }
             size_t SourcePath_Size=SourcePath.size()+1; //Path size + path separator size
-            for (size_t Pos=0; Pos<Reference->FileNames.size(); Pos++)
+            for (size_t Pos=0; Pos<Sequences[Sequences_Current]->FileNames.size(); Pos++)
             {
-                Ztring Temp=Reference->FileNames[Pos];
+                Ztring Temp=Sequences[Sequences_Current]->FileNames[Pos];
                 if (!Config->File_IsReferenced_Get())
                     Temp.erase(0, SourcePath_Size);
                 MI->Fill(StreamKind_Target, StreamPos_Target, "Source_List", Temp);
             }
-            if (!Reference->MI->Get(Stream_General, 0, __T("Source_List")).empty())
+            if (!Sequences[Sequences_Current]->MI->Get(Stream_General, 0, __T("Source_List")).empty())
             {
                 ZtringList List;
                 List.Separator_Set(0, __T(" / "));
-                List.Write(Reference->MI->Get(Stream_General, 0, __T("Source_List")));
+                List.Write(Sequences[Sequences_Current]->MI->Get(Stream_General, 0, __T("Source_List")));
                 for (size_t Pos=0; Pos<List.size(); Pos++)
                 {
                     Ztring Temp=List[Pos];
@@ -1410,7 +1471,7 @@ MediaInfo_Internal* File__ReferenceFilesHelper::MI_Create()
     MI_Temp->Option(__T("File_KeepInfo"), __T("1"));
     MI_Temp->Option(__T("File_ID_OnlyRoot"), Config->File_ID_OnlyRoot_Get()?__T("1"):__T("0"));
     MI_Temp->Option(__T("File_DvDif_DisableAudioIfIsInContainer"), Config->File_DvDif_DisableAudioIfIsInContainer_Get()?__T("1"):__T("0"));
-    if ((References.size()>1 || Config->File_MpegTs_ForceMenu_Get()) && !Reference->IsMain && !HasMainFile)
+    if ((Sequences.size()>1 || Config->File_MpegTs_ForceMenu_Get()) && !Sequences[Sequences_Current]->IsMain && !HasMainFile)
         MI_Temp->Option(__T("File_MpegTs_ForceMenu"), __T("1"));
     #if MEDIAINFO_AES
         MI_Temp->Option(__T("File_Encryption_Format"), MI->Retrieve(Stream_General, 0, "Encryption_Format"));
@@ -1423,6 +1484,8 @@ MediaInfo_Internal* File__ReferenceFilesHelper::MI_Create()
     #if MEDIAINFO_NEXTPACKET
         if (Config->NextPacket_Get())
             MI_Temp->Option(__T("File_NextPacket"), __T("1"));
+        if (Config->File_Demux_Interleave_Get())
+            MI_Temp->Option(__T("File_Demux_Interleave"), __T("1"));
     #endif //MEDIAINFO_NEXTPACKET
     #if MEDIAINFO_ADVANCED
         if (Config->File_IgnoreSequenceFileSize_Get())
@@ -1444,27 +1507,27 @@ MediaInfo_Internal* File__ReferenceFilesHelper::MI_Create()
             MI_Temp->Config.Config_PerPackage->Event_CallBackFunction_Set(Config->Event_CallBackFunction_Get());
         }
         MI_Temp->Config.File_Names_RootDirectory=FileName(MI->File_Name).Path_Get();
-        if (Reference->FileNames.size()>1)
+        if (Sequences[Sequences_Current]->FileNames.size()>1)
             MI_Temp->Option(__T("File_TestContinuousFileNames"), __T("0"));
         ZtringListList SubFile_IDs;
-        if (Reference->IsMain)
+        if (Sequences[Sequences_Current]->IsMain)
             HasMainFile=true;
-        if (HasMainFile && !Reference->IsMain)
+        if (HasMainFile && !Sequences[Sequences_Current]->IsMain)
         {
             ZtringList ID;
-            ID.push_back(Ztring::ToZtring((((int64u)MediaInfo_Parser_SideCar)<<56)|Reference->StreamID-1));
+            ID.push_back(Ztring::ToZtring((((int64u)MediaInfo_Parser_SideCar)<<56)|Sequences[Sequences_Current]->StreamID-1));
             ID.push_back(Ztring::ToZtring(16));
             ID.push_back(Ztring::ToZtring(MediaInfo_Parser_SideCar));
             SubFile_IDs.push_back(ID);
         }
-        else if (!Reference->IsMain)
+        else if (!Sequences[Sequences_Current]->IsMain)
             for (size_t Pos=0; Pos<MI->StreamIDs_Size; Pos++)
             {
                 ZtringList ID;
                 if (MI->StreamIDs_Width[Pos]==0)
                     ID.push_back(Ztring::ToZtring(-1));
                 else if (Pos+1==MI->StreamIDs_Size)
-                    ID.push_back(Ztring::ToZtring(Reference->StreamID));
+                    ID.push_back(Ztring::ToZtring(Sequences[Sequences_Current]->StreamID));
                 else
                     ID.push_back(Ztring::ToZtring(MI->StreamIDs[Pos]));
                 ID.push_back(Ztring::ToZtring(MI->StreamIDs_Width[Pos]));
@@ -1487,8 +1550,8 @@ MediaInfo_Internal* File__ReferenceFilesHelper::MI_Create()
             MI_Temp->Option(__T("File_Demux_Hevc_Transcode_Iso14496_15_to_AnnexB"), __T("1"));
         if (FrameRate)
             MI_Temp->Option(__T("File_Demux_Rate"), Ztring::ToZtring(FrameRate));
-        else if (!Reference->CompleteDuration.empty() && Reference->CompleteDuration[0].IgnoreFramesRate) //TODO: per Pos
-            MI_Temp->Option(__T("File_Demux_Rate"), Ztring::ToZtring(Reference->CompleteDuration[0].IgnoreFramesRate));
+        else if (!Sequences[Sequences_Current]->Resources.empty() && Sequences[Sequences_Current]->Resources[0]->EditRate) //TODO: per Pos
+            MI_Temp->Option(__T("File_Demux_Rate"), Ztring::ToZtring(Sequences[Sequences_Current]->Resources[0]->EditRate));
         switch (Config->Demux_InitData_Get())
         {
             case 0 : MI_Temp->Option(__T("File_Demux_InitData"), __T("Event")); break;
@@ -1496,11 +1559,11 @@ MediaInfo_Internal* File__ReferenceFilesHelper::MI_Create()
             default: ;
         }
     #endif //MEDIAINFO_DEMUX
-    #if MEDIAINFO_IBI
-        if (!Reference->IbiStream.Infos.empty())
+    #if MEDIAINFO_IBIUSAGE
+        if (!Sequences[Sequences_Current]->IbiStream.Infos.empty())
         {
             ibi Ibi;
-            Ibi.Streams[(int64u)-1]=new ibi::stream(Reference->IbiStream);
+            Ibi.Streams[(int64u)-1]=new ibi::stream(Sequences[Sequences_Current]->IbiStream);
 
             //IBI Creation
             File_Ibi_Creation IbiCreation(Ibi);
@@ -1508,7 +1571,7 @@ MediaInfo_Internal* File__ReferenceFilesHelper::MI_Create()
             if (!IbiText.empty())
                 MI_Temp->Option(__T("File_Ibi"), IbiText);
         }
-    #endif //MEDIAINFO_IBI
+    #endif //MEDIAINFO_IBIUSAGE
 
     return MI_Temp;
 }
@@ -1517,9 +1580,9 @@ MediaInfo_Internal* File__ReferenceFilesHelper::MI_Create()
 void File__ReferenceFilesHelper::Read_Buffer_Unsynched()
 {
     MI->Open_Buffer_Unsynch();
-    for (references::iterator Reference=References.begin(); Reference!=References.end(); ++Reference)
-        if (Reference->MI)
-            Reference->MI->Open_Buffer_Unsynch();
+    for (size_t Sequences_Pos=0; Sequences_Pos<Sequences.size(); Sequences_Pos++)
+        if (Sequences[Sequences_Pos]->MI)
+            Sequences[Sequences_Pos]->MI->Open_Buffer_Unsynch();
 
     #if MEDIAINFO_DEMUX
         DTS_Minimal=(int64u)-1;
@@ -1529,10 +1592,10 @@ void File__ReferenceFilesHelper::Read_Buffer_Unsynched()
 
 //---------------------------------------------------------------------------
 #if MEDIAINFO_SEEK
-size_t File__ReferenceFilesHelper::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
+size_t File__ReferenceFilesHelper::Seek (size_t Method, int64u Value, int64u ID)
 {
-    for (Reference=References.begin(); Reference!=References.end(); Reference++)
-        if (Reference->MI==NULL && !Reference->FileNames.empty())
+    for (Sequences_Current=0; Sequences_Current<Sequences.size(); Sequences_Current++)
+        if (Sequences[Sequences_Current]->MI==NULL && !Sequences[Sequences_Current]->FileNames.empty())
             ParseReference_Init();
 
     //Parsing
@@ -1582,52 +1645,52 @@ size_t File__ReferenceFilesHelper::Read_Buffer_Seek (size_t Method, int64u Value
                             DurationS+=L'0'+(Char)(DurationM/(           10)); DurationM%=           10;
                             DurationS+=L'0'+(Char)(DurationM);
 
-                            CountOfReferencesToParse=References.size();
+                            CountOfReferencesToParse=Sequences.size();
                             bool HasProblem=false;
-                            for (Reference=References.begin(); Reference!=References.end(); Reference++)
+                            for (Sequences_Current=0; Sequences_Current<Sequences.size(); Sequences_Current++)
                             {
-                                if (Reference->MI)
+                                if (Sequences[Sequences_Current]->MI)
                                 {
                                     Ztring Result;
-                                    if (Reference->CompleteDuration.size()<=1 || DurationM<Reference->CompleteDuration[1].Demux_Offset_DTS)
+                                    if (Sequences[Sequences_Current]->Resources.size()<=1 || DurationM<Sequences[Sequences_Current]->Resources[1]->Demux_Offset_DTS)
                                     {
-                                        Reference->CompleteDuration_Pos=0;
-                                        Result=Reference->MI->Option(__T("File_Seek"), DurationS);
+                                        Sequences[Sequences_Current]->Resources_Current=0;
+                                        Result=Sequences[Sequences_Current]->MI->Option(__T("File_Seek"), DurationS);
                                     }
                                     else
                                     {
-                                        size_t CompleteDuration_Pos_Temp=1;
-                                        while (CompleteDuration_Pos_Temp<Reference->CompleteDuration.size() && DurationM>=Reference->CompleteDuration[CompleteDuration_Pos_Temp].Demux_Offset_DTS)
-                                            CompleteDuration_Pos_Temp++;
-                                        CompleteDuration_Pos_Temp--;
-                                        Result=Reference->CompleteDuration[CompleteDuration_Pos_Temp].MI->Option(__T("File_Seek"), DurationS);
+                                        size_t Resources_Current_Temp=1;
+                                        while (Resources_Current_Temp<Sequences[Sequences_Current]->Resources.size() && DurationM>=Sequences[Sequences_Current]->Resources[Resources_Current_Temp]->Demux_Offset_DTS)
+                                            Resources_Current_Temp++;
+                                        Resources_Current_Temp--;
+                                        Result=Sequences[Sequences_Current]->Resources[Resources_Current_Temp]->MI->Option(__T("File_Seek"), DurationS);
                                         if (Result.empty())
-                                            Reference->CompleteDuration_Pos=CompleteDuration_Pos_Temp;
+                                            Sequences[Sequences_Current]->Resources_Current=Resources_Current_Temp;
                                     }
                                     if (!Result.empty())
                                         HasProblem=true;
                                 }
-                                Reference->Status.reset();
+                                Sequences[Sequences_Current]->Status.reset();
                             }
-                            Reference=References.begin();
+                            Sequences_Current=0;
                             Open_Buffer_Unsynch();
                             return HasProblem?(size_t)-1:1; //Not supported value if there is a problem (TODO: better info)
                         }
 
-                        CountOfReferencesToParse=References.size();
+                        CountOfReferencesToParse=Sequences.size();
                         bool HasProblem=false;
-                        for (Reference=References.begin(); Reference!=References.end(); Reference++)
+                        for (Sequences_Current=0; Sequences_Current<Sequences.size(); Sequences_Current++)
                         {
-                            if (Reference->MI)
+                            if (Sequences[Sequences_Current]->MI)
                             {
-                                Reference->CompleteDuration_Pos=0;
-                                Ztring Result=Reference->MI->Option(__T("File_Seek"), Ztring::ToZtring(Value));
+                                Sequences[Sequences_Current]->Resources_Current=0;
+                                Ztring Result=Sequences[Sequences_Current]->MI->Option(__T("File_Seek"), Ztring::ToZtring(Value));
                                 if (!Result.empty())
                                     HasProblem=true;
                             }
-                            Reference->Status.reset();
+                            Sequences[Sequences_Current]->Status.reset();
                         }
-                        Reference=References.begin();
+                        Sequences_Current=0;
                         Open_Buffer_Unsynch();
                         return HasProblem?(size_t)-1:1; //Not supported value if there is a problem (TODO: better info)
                         }
@@ -1660,34 +1723,34 @@ size_t File__ReferenceFilesHelper::Read_Buffer_Seek (size_t Method, int64u Value
                         else
                             DurationS=Ztring::ToZtring(((float64)Value)/100)+__T('%');
 
-                        CountOfReferencesToParse=References.size();
+                        CountOfReferencesToParse=Sequences.size();
                         bool HasProblem=false;
-                        for (Reference=References.begin(); Reference!=References.end(); Reference++)
+                        for (Sequences_Current=0; Sequences_Current<Sequences.size(); Sequences_Current++)
                         {
-                            if (Reference->MI)
+                            if (Sequences[Sequences_Current]->MI)
                             {
                                 Ztring Result;
-                                if (Reference->CompleteDuration.empty() || Duration<Reference->CompleteDuration[1].Demux_Offset_DTS)
+                                if (Sequences[Sequences_Current]->Resources.empty() || Duration<Sequences[Sequences_Current]->Resources[1]->Demux_Offset_DTS)
                                 {
-                                    Reference->CompleteDuration_Pos=0;
-                                    Result=Reference->MI->Option(__T("File_Seek"), DurationS);
+                                    Sequences[Sequences_Current]->Resources_Current=0;
+                                    Result=Sequences[Sequences_Current]->MI->Option(__T("File_Seek"), DurationS);
                                 }
                                 else
                                 {
-                                    size_t CompleteDuration_Pos_Temp=1;
-                                    while (CompleteDuration_Pos_Temp<Reference->CompleteDuration.size() && Duration>=Reference->CompleteDuration[CompleteDuration_Pos_Temp].Demux_Offset_DTS)
-                                        CompleteDuration_Pos_Temp++;
-                                    CompleteDuration_Pos_Temp--;
-                                    Result=Reference->CompleteDuration[CompleteDuration_Pos_Temp].MI->Option(__T("File_Seek"), DurationS);
+                                    size_t Resources_Current_Temp=1;
+                                    while (Resources_Current_Temp<Sequences[Sequences_Current]->Resources.size() && Duration>=Sequences[Sequences_Current]->Resources[Resources_Current_Temp]->Demux_Offset_DTS)
+                                        Resources_Current_Temp++;
+                                    Resources_Current_Temp--;
+                                    Result=Sequences[Sequences_Current]->Resources[Resources_Current_Temp]->MI->Option(__T("File_Seek"), DurationS);
                                     if (Result.empty())
-                                        Reference->CompleteDuration_Pos=CompleteDuration_Pos_Temp;
+                                        Sequences[Sequences_Current]->Resources_Current=Resources_Current_Temp;
                                 }
                                 if (!Result.empty())
                                     HasProblem=true;
                             }
-                            Reference->Status.reset();
+                            Sequences[Sequences_Current]->Status.reset();
                         }
-                        Reference=References.begin();
+                        Sequences_Current=0;
                         Open_Buffer_Unsynch();
                         return HasProblem?2:1; //Invalid value if there is a problem (TODO: better info)
                     }
@@ -1697,40 +1760,40 @@ size_t File__ReferenceFilesHelper::Read_Buffer_Seek (size_t Method, int64u Value
         case 2  :   //Timestamp
                     #if MEDIAINFO_DEMUX && MEDIAINFO_NEXTPACKET
                     {
-                        CountOfReferencesToParse=References.size();
+                        CountOfReferencesToParse=Sequences.size();
                         Ztring Time; Time.Duration_From_Milliseconds(Value/1000000);
-                        for (Reference=References.begin(); Reference!=References.end(); Reference++)
+                        for (Sequences_Current=0; Sequences_Current<Sequences.size(); Sequences_Current++)
                         {
-                            if (Reference->MI)
+                            if (Sequences[Sequences_Current]->MI)
                             {
                                 Ztring Result;
-                                if (Reference->CompleteDuration.size()<2 || Value<Reference->CompleteDuration[1].Demux_Offset_DTS)
+                                if (Sequences[Sequences_Current]->Resources.size()<2 || Value<Sequences[Sequences_Current]->Resources[1]->Demux_Offset_DTS)
                                 {
-                                    Reference->CompleteDuration_Pos=0;
-                                    Result=Reference->MI->Option(__T("File_Seek"), Time);
+                                    Sequences[Sequences_Current]->Resources_Current=0;
+                                    Result=Sequences[Sequences_Current]->MI->Option(__T("File_Seek"), Time);
                                 }
                                 else
                                 {
-                                    size_t CompleteDuration_Pos_Temp=1;
-                                    while (CompleteDuration_Pos_Temp<Reference->CompleteDuration.size() && Value>=Reference->CompleteDuration[CompleteDuration_Pos_Temp].Demux_Offset_DTS)
-                                        CompleteDuration_Pos_Temp++;
-                                    CompleteDuration_Pos_Temp--;
-                                    Result=Reference->CompleteDuration[CompleteDuration_Pos_Temp].MI->Option(__T("File_Seek"), Time);
+                                    size_t Resources_Current_Temp=1;
+                                    while (Resources_Current_Temp<Sequences[Sequences_Current]->Resources.size() && Value>=Sequences[Sequences_Current]->Resources[Resources_Current_Temp]->Demux_Offset_DTS)
+                                        Resources_Current_Temp++;
+                                    Resources_Current_Temp--;
+                                    Result=Sequences[Sequences_Current]->Resources[Resources_Current_Temp]->MI->Option(__T("File_Seek"), Time);
                                     if (Result.empty())
-                                        Reference->CompleteDuration_Pos=CompleteDuration_Pos_Temp;
+                                        Sequences[Sequences_Current]->Resources_Current=Resources_Current_Temp;
                                 }
                                 if (!Result.empty())
                                     return 2; //Invalid value
                             }
                             else
                             {
-                                //There was a problem, removing Reference
-                                References.clear();
-                                return Read_Buffer_Seek(Method, Value, ID);
+                                //There was a problem, removing Sequence
+                                Sequences.clear();
+                                return Seek(Method, Value, ID);
                             }
-                            Reference->Status.reset();
+                            Sequences[Sequences_Current]->Status.reset();
                         }
-                        Reference=References.begin();
+                        Sequences_Current=0;
                         Open_Buffer_Unsynch();
                         return 1;
                     }
@@ -1739,33 +1802,33 @@ size_t File__ReferenceFilesHelper::Read_Buffer_Seek (size_t Method, int64u Value
                     #endif //MEDIAINFO_DEMUX && MEDIAINFO_NEXTPACKET
         case 3  :   //FrameNumber
                     #if MEDIAINFO_DEMUX && MEDIAINFO_NEXTPACKET
-                        CountOfReferencesToParse=References.size();
-                        for (Reference=References.begin(); Reference!=References.end(); Reference++)
+                        CountOfReferencesToParse=Sequences.size();
+                        for (Sequences_Current=0; Sequences_Current<Sequences.size(); Sequences_Current++)
                         {
-                            if (Reference->MI)
+                            if (Sequences[Sequences_Current]->MI)
                             {
                                     Ztring Result;
-                                    if (Reference->CompleteDuration.size()<2 || Value<Reference->CompleteDuration[1].Demux_Offset_Frame)
+                                    if (Sequences[Sequences_Current]->Resources.size()<2 || Value<Sequences[Sequences_Current]->Resources[1]->Demux_Offset_Frame)
                                     {
-                                        Reference->CompleteDuration_Pos=0;
-                                        Result=Reference->MI->Option(__T("File_Seek"), __T("Frame=")+Ztring::ToZtring(Value));
+                                        Sequences[Sequences_Current]->Resources_Current=0;
+                                        Result=Sequences[Sequences_Current]->MI->Option(__T("File_Seek"), __T("Frame=")+Ztring::ToZtring(Value));
                                     }
                                     else
                                     {
-                                        size_t CompleteDuration_Pos_Temp=1;
-                                        while (CompleteDuration_Pos_Temp<Reference->CompleteDuration.size() && Value>=Reference->CompleteDuration[CompleteDuration_Pos_Temp].Demux_Offset_Frame)
-                                            CompleteDuration_Pos_Temp++;
-                                        CompleteDuration_Pos_Temp--;
-                                        Result=Reference->CompleteDuration[CompleteDuration_Pos_Temp].MI->Option(__T("File_Seek"), __T("Frame=")+Ztring::ToZtring(Value-Reference->CompleteDuration[CompleteDuration_Pos_Temp].Demux_Offset_Frame));
+                                        size_t Resources_Current_Temp=1;
+                                        while (Resources_Current_Temp<Sequences[Sequences_Current]->Resources.size() && Value>=Sequences[Sequences_Current]->Resources[Resources_Current_Temp]->Demux_Offset_Frame)
+                                            Resources_Current_Temp++;
+                                        Resources_Current_Temp--;
+                                        Result=Sequences[Sequences_Current]->Resources[Resources_Current_Temp]->MI->Option(__T("File_Seek"), __T("Frame=")+Ztring::ToZtring(Value-Sequences[Sequences_Current]->Resources[Resources_Current_Temp]->Demux_Offset_Frame));
                                         if (Result.empty())
-                                            Reference->CompleteDuration_Pos=CompleteDuration_Pos_Temp;
+                                            Sequences[Sequences_Current]->Resources_Current=Resources_Current_Temp;
                                     }
                                 if (!Result.empty())
                                     return 2; //Invalid value
                             }
-                            Reference->Status.reset();
+                            Sequences[Sequences_Current]->Status.reset();
                         }
-                        Reference=References.begin();
+                        Sequences_Current=0;
                         Open_Buffer_Unsynch();
                         return 1;
                     #else //MEDIAINFO_DEMUX && MEDIAINFO_NEXTPACKET
@@ -1785,10 +1848,10 @@ size_t File__ReferenceFilesHelper::Stream_Prepare (stream_t StreamKind, size_t S
 {
     size_t StreamPos_Last=MI->Stream_Prepare(StreamKind, StreamPos);
 
-    for (references::iterator ReferencePos=References.begin(); ReferencePos!=References.end(); ++ReferencePos)
-        if (ReferencePos->StreamKind==StreamKind && ReferencePos->StreamPos>=StreamPos_Last)
-            if (ReferencePos->StreamPos!=(size_t)-1)
-                ReferencePos->StreamPos++;
+    for (sequences::iterator ReferencePos=Sequences.begin(); ReferencePos!=Sequences.end(); ++ReferencePos)
+        if ((*ReferencePos)->StreamKind==StreamKind && (*ReferencePos)->StreamPos>=StreamPos_Last)
+            if ((*ReferencePos)->StreamPos!=(size_t)-1)
+                (*ReferencePos)->StreamPos++;
 
     return StreamPos_Last;
 }
@@ -1801,20 +1864,21 @@ void File__ReferenceFilesHelper::FileSize_Compute ()
 
     MI->Config->File_Size=MI->File_Size;
 
-    for (references::iterator Reference=References.begin(); Reference!=References.end(); ++Reference)
+    for (size_t Sequences_Pos=0; Sequences_Pos<Sequences.size(); Sequences_Pos++)
     {
-        if (Reference->FileSize!=(int64u)-1)
-            MI->Config->File_Size+=Reference->FileSize;
-        else if (Reference->MI && Reference->MI->Config.File_Size!=(int64u)-1)
+        if (Sequences[Sequences_Pos]->FileSize!=(int64u)-1)
+            MI->Config->File_Size+=Sequences[Sequences_Pos]->FileSize;
+        else if (Sequences[Sequences_Pos]->MI && Sequences[Sequences_Pos]->MI->Config.File_Size!=(int64u)-1)
         {
-            MI->Config->File_Size+=Reference->MI->Config.File_Size;
+            MI->Config->File_Size+=Sequences[Sequences_Pos]->MI->Config.File_Size;
             #if MEDIAINFO_ADVANCED
                 if (!Config->File_IgnoreSequenceFileSize_Get())
             #endif //MEDIAINFO_ADVANCED
                 {
-                    if (!Reference->CompleteDuration.empty())
-                        for (size_t Pos=1; Pos<Reference->CompleteDuration.size(); Pos++)
-                            MI->Config->File_Size+=File::Size_Get(Reference->CompleteDuration[Pos].FileName);
+                    if (!Sequences[Sequences_Pos]->Resources.empty())
+                        for (size_t Pos=1; Pos<Sequences[Sequences_Pos]->Resources.size(); Pos++)
+                            for (size_t Resource_FileNames_Pos=0; Resource_FileNames_Pos<Sequences[Sequences_Pos]->Resources[Pos]->FileNames.size(); Resource_FileNames_Pos++)
+                                MI->Config->File_Size+=File::Size_Get(Sequences[Sequences_Pos]->Resources[Pos]->FileNames[Resource_FileNames_Pos]);
                 }
         }
         else
@@ -1823,12 +1887,13 @@ void File__ReferenceFilesHelper::FileSize_Compute ()
                 if (!Config->File_IgnoreSequenceFileSize_Get())
             #endif //MEDIAINFO_ADVANCED
                 {
-                    if (Reference->CompleteDuration.empty())
-                        for (size_t Pos=0; Pos<Reference->FileNames.size(); Pos++)
-                            MI->Config->File_Size+=File::Size_Get(Reference->FileNames[Pos]);
+                    if (Sequences[Sequences_Pos]->Resources.empty())
+                        for (size_t Pos=0; Pos<Sequences[Sequences_Pos]->FileNames.size(); Pos++)
+                            MI->Config->File_Size+=File::Size_Get(Sequences[Sequences_Pos]->FileNames[Pos]);
                     else
-                        for (size_t Pos=0; Pos<Reference->CompleteDuration.size(); Pos++)
-                            MI->Config->File_Size+=File::Size_Get(Reference->CompleteDuration[Pos].FileName);
+                        for (size_t Pos=0; Pos<Sequences[Sequences_Pos]->Resources.size(); Pos++)
+                            for (size_t Resource_FileNames_Pos=0; Resource_FileNames_Pos<Sequences[Sequences_Pos]->Resources[Pos]->FileNames.size(); Resource_FileNames_Pos++)
+                                MI->Config->File_Size+=File::Size_Get(Sequences[Sequences_Pos]->Resources[Pos]->FileNames[Resource_FileNames_Pos]);
                 }
         }
     }
@@ -1840,18 +1905,18 @@ void File__ReferenceFilesHelper::CountOfReferences_ForReadSize_Run ()
     //Computing read buffer size
     int64u  File_Size_Total=0;
     int64u  Buffer_Read_Size_Total=MI->Config->File_Buffer_Read_Size_Get();
-    for (references::iterator Reference_Temp=References.begin(); Reference_Temp!=References.end(); ++Reference_Temp)
-        if (Reference_Temp->MI && Reference_Temp->MI->Config.File_Size!=(int64u)-1)
-            File_Size_Total+=Reference_Temp->MI->Config.File_Size;
+    for (sequences::iterator Reference_Temp=Sequences.begin(); Reference_Temp!=Sequences.end(); ++Reference_Temp)
+        if ((*Reference_Temp)->MI && (*Reference_Temp)->MI->Config.File_Size!=(int64u)-1)
+            File_Size_Total+=(*Reference_Temp)->MI->Config.File_Size;
     if (File_Size_Total)
-        for (references::iterator Reference_Temp=References.begin(); Reference_Temp!=References.end(); ++Reference_Temp)
-            if (Reference_Temp->MI)
+        for (sequences::iterator Reference_Temp=Sequences.begin(); Reference_Temp!=Sequences.end(); ++Reference_Temp)
+            if ((*Reference_Temp)->MI)
             {
-                int64u  Buffer_Read_Size_Temp=float64_int64s(((float64)Reference_Temp->MI->Config.File_Size)/File_Size_Total*Buffer_Read_Size_Total);
+                int64u  Buffer_Read_Size_Temp=float64_int64s(((float64)(*Reference_Temp)->MI->Config.File_Size)/File_Size_Total*Buffer_Read_Size_Total);
                 int64u  Buffer_Read_Size=1;
                 while (Buffer_Read_Size<Buffer_Read_Size_Temp)
                     Buffer_Read_Size<<=1;
-                Reference_Temp->MI->Config.File_Buffer_Read_Size_Set((size_t)Buffer_Read_Size);
+                (*Reference_Temp)->MI->Config.File_Buffer_Read_Size_Set((size_t)Buffer_Read_Size);
             }
 }
 
@@ -1859,18 +1924,18 @@ void File__ReferenceFilesHelper::CountOfReferences_ForReadSize_Run ()
 #if MEDIAINFO_EVENTS
 void File__ReferenceFilesHelper::SubFile_Start()
 {
-    if (Reference->StreamID!=StreamID_Previous)
+    if (Sequences[Sequences_Current]->StreamID!=StreamID_Previous)
     {
         Ztring FileName_Absolute, FileName_Relative;
-        if (Reference->MI && Reference->MI->Config.File_Names_Pos && Reference->MI->Config.File_Names_Pos<Reference->MI->Config.File_Names.size())
-            FileName_Absolute=Reference->MI->Config.File_Names[Reference->MI->Config.File_Names_Pos-1];
-        else if (!Reference->FileNames.empty())
-            FileName_Absolute=Reference->FileNames[0];
+        if (Sequences[Sequences_Current]->MI && Sequences[Sequences_Current]->MI->Config.File_Names_Pos && Sequences[Sequences_Current]->MI->Config.File_Names_Pos<Sequences[Sequences_Current]->MI->Config.File_Names.size())
+            FileName_Absolute=Sequences[Sequences_Current]->MI->Config.File_Names[Sequences[Sequences_Current]->MI->Config.File_Names_Pos-1];
+        else if (!Sequences[Sequences_Current]->FileNames.empty())
+            FileName_Absolute=Sequences[Sequences_Current]->FileNames[0];
         else
-            FileName_Absolute=Reference->Source.c_str();
+            FileName_Absolute=Sequences[Sequences_Current]->Source.c_str();
 
-        Reference->MI->Config.Event_SubFile_Start(FileName_Absolute);
-        StreamID_Previous=Reference->StreamID;
+        Sequences[Sequences_Current]->MI->Config.Event_SubFile_Start(FileName_Absolute);
+        StreamID_Previous=Sequences[Sequences_Current]->StreamID;
     }
 }
 #endif //MEDIAINFO_EVENTS

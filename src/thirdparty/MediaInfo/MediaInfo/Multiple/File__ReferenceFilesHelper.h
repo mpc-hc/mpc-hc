@@ -12,6 +12,8 @@
 //---------------------------------------------------------------------------
 #include "MediaInfo/File__Analyze.h"
 #include "MediaInfo/MediaInfo_Internal.h"
+#include "MediaInfo/Multiple/File__ReferenceFilesHelper_Sequence.h"
+#include "MediaInfo/Multiple/File__ReferenceFilesHelper_Common.h"
 #include <vector>
 //---------------------------------------------------------------------------
 
@@ -25,113 +27,41 @@ namespace MediaInfoLib
 class File__ReferenceFilesHelper
 {
 public :
+    //Constructor / Destructor
+                                    File__ReferenceFilesHelper(File__Analyze* MI, MediaInfo_Config_MediaInfo* Config);
+                                    ~File__ReferenceFilesHelper();
+
     //In
-    struct reference
-    {
-        ZtringList          FileNames;
-        Ztring              Source; //Source file name (relative path)
-        stream_t            StreamKind;
-        size_t              StreamPos;
-        size_t              MenuPos;
-        int64u              StreamID;
-        float64             FrameRate;
-        int64u              Delay;
-        int64u              FileSize;
-        bool                IsCircular;
-        bool                IsMain;
-        bool                FileSize_IsPresent; //TODO: merge with FileSize after regression tests
-        #if MEDIAINFO_ADVANCED || MEDIAINFO_MD5
-            bool            List_Compute_Done;
-        #endif //MEDIAINFO_ADVANCED || MEDIAINFO_MD5
-        size_t              State;
-        std::map<std::string, Ztring> Infos;
-        MediaInfo_Internal* MI;
-        struct completeduration
-        {
-            Ztring FileName;
-            MediaInfo_Internal* MI;
-            int64u  IgnoreFramesBefore;
-            int64u  IgnoreFramesAfterDuration; //temporary value, some formats have duration instead of frame position
-            int64u  IgnoreFramesAfter;
-            float64 IgnoreFramesRate;
-            #if MEDIAINFO_DEMUX
-                int64u Demux_Offset_Frame;
-                int64u Demux_Offset_DTS;
-                int64u Demux_Offset_FileSize;
-            #endif //MEDIAINFO_DEMUX
-
-            completeduration()
-            {
-                MI=NULL;
-                IgnoreFramesBefore=0;
-                IgnoreFramesAfterDuration=(int64u)-1;
-                IgnoreFramesAfter=(int64u)-1;
-                IgnoreFramesRate=0;
-                #if MEDIAINFO_DEMUX
-                    Demux_Offset_Frame=0;
-                    Demux_Offset_DTS=0;
-                    Demux_Offset_FileSize=0;
-                #endif //MEDIAINFO_DEMUX
-            }
-
-            ~completeduration()
-            {
-                delete MI;
-            }
-        };
-        vector<completeduration>    CompleteDuration;
-        size_t                      CompleteDuration_Pos;
-        #if MEDIAINFO_FILTER
-            int64u          Enabled;
-        #endif //MEDIAINFO_FILTER
-        std::bitset<32> Status;
-        #if MEDIAINFO_NEXTPACKET && MEDIAINFO_IBI
-            ibi::stream IbiStream;
-        #endif //MEDIAINFO_NEXTPACKET && MEDIAINFO_IBI
-
-        reference()
-        {
-            FileNames.Separator_Set(0, __T(","));
-            StreamKind=Stream_Max;
-            StreamPos=(size_t)-1;
-            MenuPos=(size_t)-1;
-            StreamID=(int64u)-1;
-            FrameRate=0;
-            Delay=0;
-            FileSize=(int64u)-1;
-            IsCircular=false;
-            IsMain=false;
-            FileSize_IsPresent=false;
-            #if MEDIAINFO_ADVANCED || MEDIAINFO_MD5
-                List_Compute_Done=false;
-            #endif //MEDIAINFO_ADVANCED || MEDIAINFO_MD5
-            State=0;
-            MI=NULL;
-            CompleteDuration_Pos=0;
-            #if MEDIAINFO_FILTER
-                Enabled=true;
-            #endif //MEDIAINFO_FILTER
-        }
-    };
-    typedef std::vector<reference>  references;
-    references                      References;
+    void                            AddSequence(sequence* NewSequence);
+    void                            UpdateFileName(const Ztring& OldFileName, const Ztring& NewFileName);
     bool                            TestContinuousFileNames;
-    bool                            FilesForStorage;
     bool                            ContainerHasNoId;
-    bool                            HasMainFile;
-    bool                            HasMainFile_Filled;
     int64u                          ID_Max;
 
     //Streams management
-    bool ParseReference_Init();
     void ParseReferences();
 
-    //Constructor / Destructor
-    File__ReferenceFilesHelper(File__Analyze* MI, MediaInfo_Config_MediaInfo* Config);
-    ~File__ReferenceFilesHelper();
+private :
+    sequences                       Sequences;
+    size_t                          Sequences_Current;
+
+    //Temp
+    rfh_common*                     Common;
+
+
+
+public:
+    size_t                          Sequences_Size() {return Sequences.size();}
+    void                            Clear() {Sequences.clear();}
+    bool                            FilesForStorage;
+    bool                            HasMainFile;
+    bool                            HasMainFile_Filled;
+
+    //Streams management
+    bool ParseReference_Init();
 
     #if MEDIAINFO_SEEK
-    size_t Read_Buffer_Seek (size_t Method, int64u Value, int64u ID);
+    size_t Seek (size_t Method, int64u Value, int64u ID);
     #endif //MEDIAINFO_SEEK
 
 private :
@@ -147,7 +77,6 @@ private :
     //temp
     File__Analyze*                  MI;
     MediaInfo_Config_MediaInfo*     Config;
-    references::iterator            Reference;
     bool                            Init_Done;
     bool                            Demux_Interleave;
     size_t                          CountOfReferencesToParse;

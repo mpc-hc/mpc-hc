@@ -2285,6 +2285,8 @@ bool File_Ac3::FrameSynchPoint_Test()
         {
             int16u frmsiz=LittleEndian2int16u(Buffer+Buffer_Offset+2)&0x07FF;
             Size=2+frmsiz*2;
+
+            //TODO: case with multiple substreams
         }
         if (Size>=6)
         {
@@ -2451,15 +2453,21 @@ size_t File_Ac3::Core_Size_Get()
             if (substreamid!=substreams_Count_Dependant)
                 break; //Problem
 
+            int8u strmtyp = Buffer[Buffer_Offset + Size + 2] >> 6;
+            if (substreamid==0 && strmtyp==0)
+                break; //Next block
+
             frmsiz    =((int16u)(Buffer[(size_t)(Buffer_Offset+Size+2)]&0x07)<<8)
                      | (         Buffer[(size_t)(Buffer_Offset+Size+3)]         );
 
             //Filling
             Size+=2+frmsiz*2;
 
-            int8u strmtyp = Buffer[Buffer_Offset + Size + 2] >> 6;
             if (strmtyp == 0)
+            {
                 substreams_Count_Independant++;
+                substreams_Count_Dependant=0;
+            }
             else
                 substreams_Count_Dependant++;
             substreams_Count++;

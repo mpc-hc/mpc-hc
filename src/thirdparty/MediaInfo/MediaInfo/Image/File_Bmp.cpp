@@ -94,7 +94,7 @@ void File_Bmp::Read_Buffer_Continue()
     Element_End0();
 
     FILLING_BEGIN();
-        if (Size!=File_Size)
+        if (Size!=(int32u)-1 && Size!=File_Size)
         {
             Reject("BMP");
             return;

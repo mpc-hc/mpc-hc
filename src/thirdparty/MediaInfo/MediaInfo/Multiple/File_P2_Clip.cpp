@@ -83,7 +83,7 @@ size_t File_P2_Clip::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
     if (ReferenceFiles==NULL)
         return 0;
 
-    return ReferenceFiles->Read_Buffer_Seek(Method, Value, ID);
+    return ReferenceFiles->Seek(Method, Value, ID);
 }
 #endif //MEDIAINFO_SEEK
 
@@ -144,7 +144,8 @@ bool File_P2_Clip::FileHeader_Begin()
                         string Field=Track->Value();
                         if (Field=="Video")
                         {
-                            File__ReferenceFilesHelper::reference ReferenceFile;
+                            sequence* Sequence=new sequence;
+                            float64 FrameRate=0;
 
                             //FrameRate
                             ChildElement=Track->FirstChildElement("FrameRate");
@@ -152,18 +153,19 @@ bool File_P2_Clip::FileHeader_Begin()
                             {
                                 Ztring FrameRateS=Ztring(ChildElement->GetText());
                                         if (FrameRateS.find(__T("23.97"))==0)
-                                    ReferenceFile.FrameRate=((float64)24)*1000/1001;
+                                    FrameRate=((float64)24)*1000/1001;
                                 else if (FrameRateS.find(__T("29.97"))==0)
-                                    ReferenceFile.FrameRate=((float64)30)*1000/1001;
+                                    FrameRate=((float64)30)*1000/1001;
                                 else if (FrameRateS.find(__T("59.94"))==0)
-                                    ReferenceFile.FrameRate=((float64)60)*1000/1001;
+                                    FrameRate=((float64)60)*1000/1001;
                                 else
-                                    ReferenceFile.FrameRate=FrameRateS.To_float64();
+                                    FrameRate=FrameRateS.To_float64();
                                 if (FrameRateS.find('i')!=string::npos)
-                                    ReferenceFile.FrameRate/=2;
+                                    FrameRate/=2;
+                                Sequence->FrameRate_Set(FrameRate);
                             }
 
-                            //CreationDate
+                            //StartTimecode
                             ChildElement=Track->FirstChildElement("StartTimecode");
                             if (ChildElement)
                             {
@@ -176,8 +178,8 @@ bool File_P2_Clip::FileHeader_Begin()
                                                 + (Text[4]-'0')      *60*1000
                                                 + (Text[6]-'0')      *10*1000
                                                 + (Text[7]-'0')         *1000;
-                                        if (ReferenceFile.FrameRate)
-                                            ToFill+=float64_int64s(((Text[9]-'0')*10+(Text[10]-'0'))*1000/ReferenceFile.FrameRate);
+                                        if (FrameRate)
+                                            ToFill+=float64_int64s(((Text[9]-'0')*10+(Text[10]-'0'))*1000/FrameRate);
                                     //Fill(Stream_Video, StreamPos_Last, Video_Delay, ToFill);
                                     //Fill(Stream_Video, StreamPos_Last, Video_Delay_Source, "P2 Clip");
                                 }
@@ -234,10 +236,10 @@ bool File_P2_Clip::FileHeader_Begin()
                                     if (!Exists)
                                         MXF_File+=__T(".MXF");
 
-                                    ReferenceFile.FileNames.push_back(MXF_File);
-                                    ReferenceFile.StreamKind=Stream_Video;
-                                    ReferenceFile.StreamID=ReferenceFiles->References.size()+1;
-                                    ReferenceFiles->References.push_back(ReferenceFile);
+                                    Sequence->AddFileName(MXF_File);
+                                    Sequence->StreamKind=Stream_Video;
+                                    Sequence->StreamID=ReferenceFiles->Sequences_Size()+1;
+                                    ReferenceFiles->AddSequence(Sequence);
                                 }
                             #endif //defined(MEDIAINFO_MXF_YES)
                         }
@@ -298,11 +300,11 @@ bool File_P2_Clip::FileHeader_Begin()
                                     if (!Exists)
                                         MXF_File+=__T(".MXF");
 
-                                    File__ReferenceFilesHelper::reference ReferenceFile;
-                                    ReferenceFile.FileNames.push_back(MXF_File);
-                                    ReferenceFile.StreamKind=Stream_Audio;
-                                    ReferenceFile.StreamID=ReferenceFiles->References.size()+1;
-                                    ReferenceFiles->References.push_back(ReferenceFile);
+                                    sequence* Sequence=new sequence;
+                                    Sequence->AddFileName(MXF_File);
+                                    Sequence->StreamKind=Stream_Audio;
+                                    Sequence->StreamID=ReferenceFiles->Sequences_Size()+1;
+                                    ReferenceFiles->AddSequence(Sequence);
 
                                     Audio_Count++;
                                 }

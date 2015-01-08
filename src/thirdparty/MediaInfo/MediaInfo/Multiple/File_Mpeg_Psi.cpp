@@ -135,6 +135,8 @@ const char* Mpeg_Psi_stream_type_Format(int8u stream_type, int32u format_identif
                             case 0x85 : return "DTS"; //" (HD-HRA)"
                             case 0x86 : return "DTS"; //" (HD-MA)"
                             case 0x90 : return "PGS";
+                            case 0x91 : return "PGS";
+                            case 0x92 : return "TEXTST"; //Blu-ray subtitle text
                             case 0xA1 : return "AC-3";
                             case 0xA2 : return "DTS";
                             case 0xEA : return "VC-1";
@@ -200,6 +202,8 @@ const char* Mpeg_Psi_stream_type_Codec(int8u stream_type, int32u format_identifi
                             case 0x83 : return "AC3+";
                             case 0x86 : return "DTS";
                             case 0x90 : return "PGS";
+                            case 0x91 : return "PGS";
+                            case 0x92 : return "TEXTST"; //Blu-ray Subtitle Text
                             case 0xEA : return "VC1";
                             default   : return "";
                         }
@@ -268,6 +272,8 @@ stream_t Mpeg_Psi_stream_type_StreamKind(int32u stream_type, int32u format_ident
                             case 0x85 : return Stream_Audio;
                             case 0x86 : return Stream_Audio;
                             case 0x90 : return Stream_Text;
+                            case 0x91 : return Stream_Text;
+                            case 0x92 : return Stream_Text;
                             case 0xA1 : return Stream_Audio;
                             case 0xA2 : return Stream_Audio;
                             case 0xEA : return Stream_Video;
@@ -370,6 +376,8 @@ const char* Mpeg_Psi_stream_type_Info(int8u stream_type, int32u format_identifie
                             case 0x85 : return "BluRay - DTS (HD-HRA)";
                             case 0x86 : return "BluRay - DTS (HD-MA)";
                             case 0x90 : return "BluRay - PGS";
+                            case 0x91 : return "BluRay - PGS";
+                            case 0x92 : return "BluRay - TEXTST";
                             case 0xA1 : return "BluRay - AC-3";
                             case 0xA2 : return "BluRay - DTS";
                             case 0xEA : return "BluRay - VC-1";

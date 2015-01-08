@@ -43,18 +43,22 @@ File_Ibi::File_Ibi()
     #endif //MEDIAINFO_DEMUX
     DataMustAlwaysBeComplete=false;
 
-    //In
-    Ibi=NULL;
+    #if MEDIAINFO_IBIUSAGE
+        //In
+        Ibi=NULL;
 
-    //Temp
-    Ibi_MustDelete=false;
+        //Temp
+        Ibi_MustDelete=false;
+    #endif //MEDIAINFO_IBIUSAGE
 }
 
 //---------------------------------------------------------------------------
 File_Ibi::~File_Ibi()
 {
-    if (Ibi_MustDelete)
-        delete Ibi; //Ibi=NULL;
+    #if MEDIAINFO_IBIUSAGE
+        if (Ibi_MustDelete)
+            delete Ibi; //Ibi=NULL;
+    #endif //MEDIAINFO_IBIUSAGE
 }
 
 //***************************************************************************
@@ -62,6 +66,7 @@ File_Ibi::~File_Ibi()
 //***************************************************************************
 
 //---------------------------------------------------------------------------
+#if MEDIAINFO_IBIUSAGE
 const Ztring &File_Ibi::Get (stream_t /*StreamKind*/, size_t /*StreamNumber*/, const Ztring &Parameter, info_t /*KindOfInfo*/, info_t /*KindOfSearch*/)
 {
     ibi::streams::iterator IbiStream_Temp=Ibi->Streams.begin(); //TODO: management of multiple streams
@@ -83,6 +88,7 @@ const Ztring &File_Ibi::Get (stream_t /*StreamKind*/, size_t /*StreamNumber*/, c
     Get_Temp.clear();
     return Get_Temp;
 }
+#endif //MEDIAINFO_IBIUSAGE
 
 //***************************************************************************
 // Streams management
@@ -93,14 +99,17 @@ void File_Ibi::Streams_Accept()
 {
     Fill(Stream_General, 0, General_Format, "Ibi");
 
-    if (Ibi==NULL)
-    {
-        Ibi=new ibi();
-        Ibi_MustDelete=true;
-    }
+    #if MEDIAINFO_IBIUSAGE
+        if (Ibi==NULL)
+        {
+            Ibi=new ibi();
+            Ibi_MustDelete=true;
+        }
+    #endif //MEDIAINFO_IBIUSAGE
 }
 
 //---------------------------------------------------------------------------
+#if MEDIAINFO_IBIUSAGE
 void File_Ibi::Streams_Finish()
 {
     Config->File_KeepInfo_Set(true); //In order to let Get() available
@@ -112,6 +121,7 @@ void File_Ibi::Streams_Finish()
             Fill(Stream_Video, StreamPos_Last, General_ID, IbiStream_Temp->first);
         }
 }
+#endif //MEDIAINFO_IBIUSAGE
 
 //***************************************************************************
 // Buffer
@@ -386,6 +396,7 @@ void File_Ibi::Stream_Header()
     Get_EB (ID_Current,                                         "ID");
 
     FILLING_BEGIN();
+        #if MEDIAINFO_IBIUSAGE
         if (Ibi)
         {
             //Filling information for ID after data
@@ -396,6 +407,10 @@ void File_Ibi::Stream_Header()
                 Ibi->Streams.erase(IbiStream_Temp);
             }
         }
+        #else //MEDIAINFO_IBIUSAGE
+            Stream_Prepare(Stream_Video);
+            Fill(Stream_Video, StreamPos_Last, General_ID, ID_Current);
+        #endif //MEDIAINFO_IBIUSAGE
     FILLING_END();
 }
 
@@ -404,16 +419,21 @@ void File_Ibi::Stream_ByteOffset()
     Element_Name("Byte Offset");
 
     //Parsing
+    #if MEDIAINFO_IBIUSAGE
     size_t Pos=0;
+    #endif //MEDIAINFO_IBIUSAGE
     int64u Offset=0;
     while (Element_Offset<Element_Size)
     {
         int64u Item;
         Get_EB (Item,                                           "Item");
         Offset+=Item;
+        #if MEDIAINFO_IBIUSAGE
         Param_Info1(Pos);
+        #endif //MEDIAINFO_IBIUSAGE
         Param_Info1(Ztring::ToZtring(Offset)+__T(" (0x")+Ztring::ToZtring(Offset, 16)+__T(')'));
 
+        #if MEDIAINFO_IBIUSAGE
         FILLING_BEGIN();
             if (Ibi)
             {
@@ -429,6 +449,7 @@ void File_Ibi::Stream_ByteOffset()
                 Pos++;
             }
         FILLING_END();
+        #endif //MEDIAINFO_IBIUSAGE
     }
 }
 
@@ -437,16 +458,21 @@ void File_Ibi::Stream_FrameNumber()
     Element_Name("Frame Number");
 
     //Parsing
+    #if MEDIAINFO_IBIUSAGE
     size_t Pos=0;
+    #endif //MEDIAINFO_IBIUSAGE
     int64u Offset=0;
     while (Element_Offset<Element_Size)
     {
         int64u Item;
         Get_EB (Item,                                           "Item");
         Offset+=Item;
+        #if MEDIAINFO_IBIUSAGE
         Param_Info1(Pos);
+        #endif //MEDIAINFO_IBIUSAGE
         Param_Info1(Ztring::ToZtring(Offset)+__T(" (0x")+Ztring::ToZtring(Offset, 16)+__T(')'));
 
+        #if MEDIAINFO_IBIUSAGE
         FILLING_BEGIN();
             if (Ibi)
             {
@@ -462,6 +488,7 @@ void File_Ibi::Stream_FrameNumber()
                 Pos++;
             }
         FILLING_END();
+        #endif //MEDIAINFO_IBIUSAGE
     }
 }
 
@@ -472,11 +499,14 @@ void File_Ibi::Stream_Dts()
     //Parsing
     int64u Item;
     Get_EB (Item,                                               "DtsFrequencyNumerator");
+    #if MEDIAINFO_IBIUSAGE
     FILLING_BEGIN();
         if (Ibi)
             Ibi->Streams[ID_Current]->DtsFrequencyNumerator=Item;
     FILLING_END();
+    #endif //MEDIAINFO_IBIUSAGE
     Get_EB (Item,                                               "DtsFrequencyDenominator");
+    #if MEDIAINFO_IBIUSAGE
     FILLING_BEGIN();
         if (Ibi)
         {
@@ -487,17 +517,23 @@ void File_Ibi::Stream_Dts()
                 std::swap(Ibi->Streams[ID_Current]->DtsFrequencyNumerator, Ibi->Streams[ID_Current]->DtsFrequencyDenominator);
         }
     FILLING_END();
+    #endif //MEDIAINFO_IBIUSAGE
 
+    #if MEDIAINFO_IBIUSAGE
     size_t Pos=0;
+    #endif //MEDIAINFO_IBIUSAGE
     int64u Offset=0;
     while (Element_Offset<Element_Size)
     {
         int64u Item;
         Get_EB (Item,                                           "Item");
         Offset+=Item;
+        #if MEDIAINFO_IBIUSAGE
         Param_Info1(Pos);
+        #endif //MEDIAINFO_IBIUSAGE
         Param_Info1(Ztring::ToZtring(Offset)+__T(" (0x")+Ztring::ToZtring(Offset, 16)+__T(')'));
 
+        #if MEDIAINFO_IBIUSAGE
         FILLING_BEGIN();
             if (Ibi)
             {
@@ -513,6 +549,7 @@ void File_Ibi::Stream_Dts()
                 Pos++;
             }
         FILLING_END();
+        #endif //MEDIAINFO_IBIUSAGE
     }
 }
 
@@ -684,9 +721,10 @@ void File_Ibi::InformData()
     Get_UTF8 (Element_Size, InformData_FromFile,                "Data");
 
     //Filling
-    ZtringListList Fields(InformData_FromFile);
+    #if MEDIAINFO_IBIUSAGE
     if (Config->Ibi_UseIbiInfoIfAvailable_Get())
     {
+        ZtringListList Fields(InformData_FromFile);
         for (size_t Pos=0; Pos<Fields.size(); Pos++)
         {
             if (Pos==0 || Fields[Pos].size()<2)
@@ -720,6 +758,7 @@ void File_Ibi::InformData()
                 (*Stream_More)[StreamKind_Last][StreamPos_Last](Fields[Pos][0].To_UTF8().c_str(), Info_Options)=Fields[Pos][Info_Options];
         }
     }
+    #endif //MEDIAINFO_IBIUSAGE
 }
 
 //***************************************************************************
@@ -904,4 +943,4 @@ int128u File_Ibi::UInteger16_Get()
 
 } //NameSpace
 
-#endif //MEDIAINFO_IBI_YES
+#endif //MEDIAINFO_IBI

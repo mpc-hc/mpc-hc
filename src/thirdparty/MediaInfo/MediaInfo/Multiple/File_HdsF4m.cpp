@@ -81,7 +81,7 @@ size_t File_HdsF4m::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
     if (ReferenceFiles==NULL)
         return 0;
 
-    return ReferenceFiles->Read_Buffer_Seek(Method, Value, ID);
+    return ReferenceFiles->Seek(Method, Value, ID);
 }
 #endif //MEDIAINFO_SEEK
 
@@ -128,16 +128,16 @@ bool File_HdsF4m::FileHeader_Begin()
                 //Period
                 if (string(Root_Item->Value())=="media")
                 {
-                    File__ReferenceFilesHelper::reference ReferenceFile;
+                    sequence* Sequence=new sequence;
                     const char* Attribute;
 
                     //Attributes - mineType
                     Attribute=Root_Item->Attribute("url");
                     if (Attribute)
-                        ReferenceFile.FileNames.push_back(Ztring().From_UTF8(Attribute)+__T("Seg1.f4f"));
+                        Sequence->AddFileName(Ztring().From_UTF8(Attribute)+__T("Seg1.f4f"));
 
-                    ReferenceFile.StreamID=ReferenceFiles->References.size()+1;
-                    ReferenceFiles->References.push_back(ReferenceFile);
+                    Sequence->StreamID=ReferenceFiles->Sequences_Size()+1;
+                    ReferenceFiles->AddSequence(Sequence);
                 }
             }
         }

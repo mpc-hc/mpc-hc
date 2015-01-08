@@ -84,7 +84,7 @@ size_t File_Dxw::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
     if (ReferenceFiles==NULL)
         return 0;
 
-    return ReferenceFiles->Read_Buffer_Seek(Method, Value, ID);
+    return ReferenceFiles->Seek(Method, Value, ID);
 }
 #endif //MEDIAINFO_SEEK
 
@@ -120,23 +120,23 @@ bool File_Dxw::FileHeader_Begin()
             {
                 if (string(Track->Value())=="clip")
                 {
-                    File__ReferenceFilesHelper::reference ReferenceFile;
+                    sequence* Sequence=new sequence;
 
                     Attribute=Track->Attribute("file");
                     if (Attribute)
                     {
-                        ReferenceFile.FileNames.push_back(Ztring().From_UTF8(Attribute));
+                        Sequence->AddFileName(Ztring().From_UTF8(Attribute));
 
                         Attribute=Track->Attribute("type");
                         if (Attribute)
                         {
                             Ztring StreamKind; StreamKind.From_UTF8(Attribute);
                             if (StreamKind==__T("video"))
-                                 ReferenceFile.StreamKind=Stream_Video;
+                                 Sequence->StreamKind=Stream_Video;
                             if (StreamKind==__T("audio"))
-                                 ReferenceFile.StreamKind=Stream_Audio;
+                                 Sequence->StreamKind=Stream_Audio;
                             if (StreamKind==__T("data"))
-                                 ReferenceFile.StreamKind=Stream_Text; //Not sure this is a right mapping, but this is only used when file is missing
+                                 Sequence->StreamKind=Stream_Text; //Not sure this is a right mapping, but this is only used when file is missing
                         }
 
                         Attribute=Track->Attribute("source");
@@ -144,27 +144,27 @@ bool File_Dxw::FileHeader_Begin()
                         {
                             Ztring StreamKind; StreamKind.From_UTF8(Attribute);
                             if (StreamKind==__T("main"))
-                                 ReferenceFile.IsMain=true;
+                                 Sequence->IsMain=true;
                         }
 
-                        ReferenceFile.StreamID=ReferenceFiles->References.size()+1;
+                        Sequence->StreamID=ReferenceFiles->Sequences_Size()+1;
                     }
 
                     Attribute=Track->Attribute("framerate");
                     if (Attribute)
                     {
-                        ReferenceFile.FrameRate=Ztring().From_UTF8(Attribute).To_float64();
+                        Sequence->FrameRate_Set(Ztring().From_UTF8(Attribute).To_float64());
 
                         Attribute=Track->Attribute("type");
                         if (Attribute)
                         {
                             Ztring StreamKind; StreamKind.From_UTF8(Attribute);
                             if (StreamKind==__T("video"))
-                                 ReferenceFile.StreamKind=Stream_Video;
+                                 Sequence->StreamKind=Stream_Video;
                             if (StreamKind==__T("audio"))
-                                 ReferenceFile.StreamKind=Stream_Audio;
+                                 Sequence->StreamKind=Stream_Audio;
                             if (StreamKind==__T("data"))
-                                 ReferenceFile.StreamKind=Stream_Text; //Not sure this is a right mapping, but this is only used when file is missing
+                                 Sequence->StreamKind=Stream_Text; //Not sure this is a right mapping, but this is only used when file is missing
                         }
 
                         XMLElement* Frame=Track->FirstChildElement();
@@ -174,15 +174,15 @@ bool File_Dxw::FileHeader_Begin()
                             {
                                 Attribute=Frame->Attribute("file");
                                 if (Attribute)
-                                    ReferenceFile.FileNames.push_back(Ztring().From_UTF8(Attribute));
+                                    Sequence->AddFileName(Ztring().From_UTF8(Attribute));
                             }
 
                             Frame=Frame->NextSiblingElement();
                         }
                     }
 
-                    ReferenceFile.StreamID=ReferenceFiles->References.size()+1;
-                    ReferenceFiles->References.push_back(ReferenceFile);
+                    Sequence->StreamID=ReferenceFiles->Sequences_Size()+1;
+                    ReferenceFiles->AddSequence(Sequence);
                 }
 
                 Track=Track->NextSiblingElement();

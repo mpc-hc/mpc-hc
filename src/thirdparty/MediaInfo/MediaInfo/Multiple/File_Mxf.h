@@ -130,6 +130,9 @@ protected :
     void TerminatingFiller();
     void XmlDocumentText();
     void SubDescriptors();
+    void LensUnitMetadata();
+    void CameraUnitMetadata();
+    void UserDefinedAcquisitionMetadata();
     void Filler53();
     void Sequence();
     void SourceClip();
@@ -159,12 +162,15 @@ protected :
     void JPEG2000PictureSubDescriptor();
     void VbiPacketsDescriptor();
     void AncPacketsDescriptor();
+    void MpegAudioDescriptor();
     void PackageMarkerObject();
     void ApplicationPlugInObject();
     void ApplicationReferencedObject();
     void MCALabelSubDescriptor();
     void TimedTextDescriptor();
     void TimedTextResourceSubDescriptor();
+    void Unknown67SubDescriptor();
+    void Mpeg4VisualSubDescriptor();
     void AudioChannelLabelSubDescriptor();
     void SoundfieldGroupLabelSubDescriptor();
     void GroupOfSoundfieldGroupsLabelSubDescriptor();
@@ -321,6 +327,7 @@ protected :
     void JPEG2000PictureSubDescriptor_PictureComponentSizing(); //800B
     void JPEG2000PictureSubDescriptor_CodingStyleDefault();     //
     void JPEG2000PictureSubDescriptor_QuantizationDefault();    //
+    void MpegAudioDescriptor_BitRate();                         //
     void MultipleDescriptor_SubDescriptorUIDs();                //3F01
     void PrimaryExtendedSpokenLanguage();                       //
     void SecondaryExtendedSpokenLanguage();                     //
@@ -337,6 +344,16 @@ protected :
     void MPEG2VideoDescriptor_BPictureCount();                  //
     void MPEG2VideoDescriptor_ProfileAndLevel();                //
     void MPEG2VideoDescriptor_BitRate();                        //
+    void Mpeg4VisualDescriptor_SingleSequence() {MPEG2VideoDescriptor_SingleSequence();}
+    void Mpeg4VisualDescriptor_ConstantBFrames() {MPEG2VideoDescriptor_ConstantBFrames();}
+    void Mpeg4VisualDescriptor_CodedContentType() {MPEG2VideoDescriptor_CodedContentType();}
+    void Mpeg4VisualDescriptor_LowDelay() {MPEG2VideoDescriptor_LowDelay();}
+    void Mpeg4VisualDescriptor_ClosedGOP() {MPEG2VideoDescriptor_ClosedGOP();}
+    void Mpeg4VisualDescriptor_IdenticalGOP() {MPEG2VideoDescriptor_IdenticalGOP();}
+    void Mpeg4VisualDescriptor_MaxGOP() {MPEG2VideoDescriptor_MaxGOP();}
+    void Mpeg4VisualDescriptor_BPictureCount() {MPEG2VideoDescriptor_BPictureCount();}
+    void Mpeg4VisualDescriptor_ProfileAndLevel();               //
+    void Mpeg4VisualDescriptor_BitRate() {MPEG2VideoDescriptor_BitRate();}
     void NetworkLocator_URLString();                            //4001
     void Preface_LastModifiedDate();                            //3B02
     void Preface_ContentStorage();                              //3B03
@@ -391,7 +408,29 @@ protected :
     void WaveAudioDescriptor_PeakEnvelopeTimestamp();           //3D30
     void WaveAudioDescriptor_PeakEnvelopeData();                //3D31
     void WaveAudioDescriptor_ChannelAssignment();               //3D31
-    void AS11_Core_SerieTitle();
+    void CameraUnitMetadata_CaptureGammaEquation();             //3210
+    void CameraUnitMetadata_NeutralDensityFilterWheelSetting(); //8103
+    void CameraUnitMetadata_CaptureFrameRate();                 //8106
+    void CameraUnitMetadata_ImageSensorReadoutMode();           //8107
+    void CameraUnitMetadata_ShutterSpeed_Angle();               //8108
+    void CameraUnitMetadata_ISOSensitivity();                   //810B
+    void CameraUnitMetadata_WhiteBalance();                     //800E
+    void CameraUnitMetadata_CameraAttributes();                 //8114
+    void CameraUnitMetadata_ExposureIndexofPhotoMeter();        //8115
+    void CameraUnitMetadata_GammaforCDL();                      //8116
+    void CameraUnitMetadata_ASCCDLV1_2();                       //8117
+    void UserDefinedAcquisitionMetadata_UdamSetIdentifier();    //E000
+    void UserDefinedAcquisitionMetadata_Sony_8007();
+    void UserDefinedAcquisitionMetadata_Sony_E101();
+    void UserDefinedAcquisitionMetadata_Sony_E102();
+    void UserDefinedAcquisitionMetadata_Sony_E103();
+    void UserDefinedAcquisitionMetadata_Sony_E104();
+    void UserDefinedAcquisitionMetadata_Sony_E109();
+    void UserDefinedAcquisitionMetadata_Sony_E10B();
+    void UserDefinedAcquisitionMetadata_Sony_E201();
+    void UserDefinedAcquisitionMetadata_Sony_E202();
+    void UserDefinedAcquisitionMetadata_Sony_E203();
+    void AS11_Core_SeriesTitle();
     void AS11_Core_ProgrammeTitle();
     void AS11_Core_EpisodeTitleNumber();
     void AS11_Core_ShimName();
@@ -473,6 +512,29 @@ protected :
     #define Info_UL(_INFO, _NAME, _PARAM) int128u _INFO;
     #endif //MEDIAINFO_TRACE
 
+    //TimeCode
+    struct mxftimecode
+    {
+        int16u  RoundedTimecodeBase;
+        int64u  StartTimecode;
+        bool    DropFrame;
+
+        mxftimecode()
+            : RoundedTimecodeBase(0)
+            , StartTimecode((int64u)-1)
+            , DropFrame(false)
+        {
+        }
+
+        mxftimecode(int16u RoundedTimecodeBase_, int64u StartTimecode_, bool DropFrame_)
+            : RoundedTimecodeBase(RoundedTimecodeBase_)
+            , StartTimecode(StartTimecode_)
+            , DropFrame(DropFrame_)
+        {
+        }
+    };
+
+    // Temp
     struct randomindexmetadata
     {
         int64u ByteOffset;
@@ -530,6 +592,8 @@ protected :
         Ztring ProductName;
         Ztring ProductVersion;
         Ztring VersionString;
+        Ztring ToolkitVersion;
+        Ztring Platform;
         std::map<std::string, Ztring> Infos;
     };
     typedef std::map<int128u, identification> identifications; //Key is InstanceUID of identification
@@ -791,21 +855,12 @@ protected :
         int256u SourcePackageID; //Sequence from SourcePackage only
         int32u  SourceTrackID;
         std::vector<int128u> StructuralComponents; //Sequence from MaterialPackage only
-
-        //Time code component
-        int16u  TimeCode_RoundedTimecodeBase;
-        int64u  TimeCode_StartTimecode;
-        bool    TimeCode_DropFrame;
+        mxftimecode MxfTimeCode;
 
         component()
         {
             Duration=(int64u)-1;
             SourceTrackID=(int32u)-1;
-
-            //Time code component
-            TimeCode_RoundedTimecodeBase=(int16u)-1;
-            TimeCode_StartTimecode=(int64u)-1;
-            TimeCode_DropFrame=false;
         }
 
         void Update (struct component &New)
@@ -818,12 +873,12 @@ protected :
                 SourceTrackID=New.SourceTrackID;
             if (!New.StructuralComponents.empty())
                 StructuralComponents=New.StructuralComponents;
-            if (New.TimeCode_StartTimecode!=(int64u)-1)
-                TimeCode_StartTimecode=New.TimeCode_StartTimecode;
-            if (New.TimeCode_RoundedTimecodeBase!=(int16u)-1)
+            if (New.MxfTimeCode.StartTimecode!=(int64u)-1)
+                MxfTimeCode.StartTimecode=New.MxfTimeCode.StartTimecode;
+            if (New.MxfTimeCode.RoundedTimecodeBase)
             {
-                TimeCode_RoundedTimecodeBase=New.TimeCode_RoundedTimecodeBase;
-                TimeCode_DropFrame=New.TimeCode_DropFrame;
+                MxfTimeCode.RoundedTimecodeBase=New.MxfTimeCode.RoundedTimecodeBase;
+                MxfTimeCode.DropFrame=New.MxfTimeCode.DropFrame;
             }
         }
     };
@@ -880,7 +935,7 @@ protected :
             Type_UKDPP,
         };
         as11_type Type;
-        Ztring SerieTitle;
+        Ztring SeriesTitle;
         Ztring ProgrammeTitle;
         Ztring EpisodeTitleNumber;
         Ztring ShimName;
@@ -1008,17 +1063,21 @@ protected :
 
     //Helpers
     void Subsampling_Compute(descriptors::iterator Descriptor);
-    void Locators_CleanUp();
-    void Locators_Test();
+    #if defined(MEDIAINFO_REFERENCES_YES)
+        void Locators_CleanUp();
+        void Locators_Test();
+    #else //defined(MEDIAINFO_REFERENCES_YES)
+        inline void Locators_CleanUp() {}
+        inline void Locators_Test() {}
+    #endif //defined(MEDIAINFO_REFERENCES_YES)
     void TryToFinish();
 
     //Temp
     int128u EssenceContainer_FromPartitionMetadata;
     int64u PartitionMetadata_PreviousPartition;
     int64u PartitionMetadata_FooterPartition;
-    int64u TimeCode_StartTimecode;
-    int16u TimeCode_RoundedTimecodeBase;
-    bool   TimeCode_DropFrame;
+    mxftimecode MxfTimeCodeForDelay;
+    mxftimecode MxfTimeCodeMaterial;
     float64 DTS_Delay; //In seconds
     bool   StreamPos_StartAtOne; //information about the base of StreamPos (0 or 1, 1 is found in 1 file)
     string SDTI_TimeCode_StartTimecode;
@@ -1031,6 +1090,7 @@ protected :
     int64u SystemScheme1_FrameRateFromDescriptor;
     bool   Essences_FirstEssence_Parsed;
     bool   StereoscopicPictureSubDescriptor_IsPresent;
+    bool   UserDefinedAcquisitionMetadata_UdamSetIdentifier_IsSony;
     int32u Essences_UsedForFrameCount;
     int32u IndexTable_NSL;
     int32u IndexTable_NPE;
@@ -1142,6 +1202,10 @@ protected :
         int64u  OverallBitrate_IsCbrForSure;
         bool    Duration_Detected;
         bool    DetectDuration();
+        int64u  DemuxedSampleCount_Total;
+        int64u  DemuxedSampleCount_Current;
+        int64u  DemuxedSampleCount_AddedToFirstFrame;
+        int64u  DemuxedElementSize_AddedToFirstFrame;
     #endif //MEDIAINFO_DEMUX || MEDIAINFO_SEEK
 };
 

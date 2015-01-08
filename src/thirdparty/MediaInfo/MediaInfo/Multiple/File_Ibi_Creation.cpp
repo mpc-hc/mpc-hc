@@ -17,7 +17,7 @@
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
-#if MEDIAINFO_IBI
+#if MEDIAINFO_IBIUSAGE
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -539,9 +539,9 @@ Ztring File_Ibi_Creation::Finish()
         else
         {
             //Filling
-            Buffer.Size = Main_Offset;
+            Buffer.Size = Size;
             Buffer.Content = new int8u[Buffer.Size];
-            std::memcpy(Buffer.Content, Main, Main_Offset);
+            std::memcpy(Buffer.Content, Main, Size);
         }
 
         std::string Data_Raw((const char*)Buffer.Content, Buffer.Size);
@@ -561,5 +561,5 @@ Ztring File_Ibi_Creation::Finish()
 
 } //NameSpace
 
-#endif //MEDIAINFO_IBI_YES
+#endif //MEDIAINFO_IBIUSAGE
 

@@ -70,7 +70,7 @@ void File_Ptx::Streams_Finish()
 #if MEDIAINFO_SEEK
 size_t File_Ptx::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
 {
-    return ReferenceFiles->Read_Buffer_Seek(Method, Value, ID);
+    return ReferenceFiles->Seek(Method, Value, ID);
 }
 #endif //MEDIAINFO_SEEK
 
@@ -508,21 +508,21 @@ void File_Ptx::Read_Buffer_Continue()
                  && FileNamesLowerCase[Pos].find(Names[Pos-Pos_Offset]+__T(".wav"))!=string::npos
                  && FileNamesLowerCase[Pos].find(Names[Pos-Pos_Offset]+__T(".wav"))+Names[Pos-Pos_Offset].size()+4==FileNames[Pos].size())
                 {
-                    File__ReferenceFilesHelper::reference ReferenceFile;
-                    ReferenceFile.StreamKind=Stream_Audio;
-                    ReferenceFile.FileNames.push_back(Directory+PathSeparator+FileNames[Pos]);
-                    ReferenceFiles->References.push_back(ReferenceFile);
+                    sequence* Sequence=new sequence;
+                    Sequence->StreamKind=Stream_Audio;
+                    Sequence->AddFileName(Directory+PathSeparator+FileNames[Pos]);
+                    ReferenceFiles->AddSequence(Sequence);
                 }
-                else if (ReferenceFiles->References.empty())
+                else if (!ReferenceFiles->Sequences_Size())
                     Pos_Offset++;
             }
 
-            if (Names.size()!=ReferenceFiles->References.size())
-                ReferenceFiles->References.clear(); //Failed to detect correctly
+            if (Names.size()!=ReferenceFiles->Sequences_Size())
+                ReferenceFiles->Clear(); //Failed to detect correctly
         }
 
         // Role==2 + listed
-        if (ReferenceFiles->References.empty() && (Names.size()>1 || FileNames.size()==1))
+        if (!ReferenceFiles->Sequences_Size() && (Names.size()>1 || FileNames.size()==1))
         {
             size_t Pos_Offset=0;
             for (int32u Pos=0; Pos<FileName_Count; Pos++)
@@ -544,24 +544,24 @@ void File_Ptx::Read_Buffer_Continue()
                      if (FileName.find(Name)==0
                         || FileName.find(Name+__T(".wav"))+5==Name.size())
                     {
-                        File__ReferenceFilesHelper::reference ReferenceFile;
-                        ReferenceFile.StreamKind=Stream_Audio;
-                        ReferenceFile.FileNames.push_back(Directory+PathSeparator+FileNames[Pos]);
-                        ReferenceFiles->References.push_back(ReferenceFile);
+                        sequence* Sequence=new sequence;
+                        Sequence->StreamKind=Stream_Audio;
+                        Sequence->AddFileName(Directory+PathSeparator+FileNames[Pos]);
+                        ReferenceFiles->AddSequence(Sequence);
                     }
-                    else if (ReferenceFiles->References.empty())
+                    else if (!ReferenceFiles->Sequences_Size())
                         Pos_Offset++;
                 }
-                else if (ReferenceFiles->References.empty())
+                else if (!ReferenceFiles->Sequences_Size())
                     Pos_Offset++;
             }
 
-            if (Names.size()!=ReferenceFiles->References.size())
-                ReferenceFiles->References.clear(); //Failed to detect correctly
+            if (Names.size()!=ReferenceFiles->Sequences_Size())
+                ReferenceFiles->Clear(); //Failed to detect correctly
         }
 
         // Role==2 + Purpose==EWAV + listed, special case with specific file names
-        if (ReferenceFiles->References.empty() && (Names.size()>1 || FileNames.size()==1))
+        if (!ReferenceFiles->Sequences_Size() && (Names.size()>1 || FileNames.size()==1))
         {
             for (int32u Pos=0; Pos<FileName_Count; Pos++)
             {
@@ -578,10 +578,10 @@ void File_Ptx::Read_Buffer_Continue()
                     for (int32u Pos2=0; Pos2<Names.size(); Pos2++)
                         if (FileNamesLowerCase[Pos].find(Names[Pos2])==0)
                         {
-                            File__ReferenceFilesHelper::reference ReferenceFile;
-                            ReferenceFile.StreamKind=Stream_Audio;
-                            ReferenceFile.FileNames.push_back(Directory+PathSeparator+FileNames[Pos]);
-                            ReferenceFiles->References.push_back(ReferenceFile);
+                            sequence* Sequence=new sequence;
+                            Sequence->StreamKind=Stream_Audio;
+                            Sequence->AddFileName(Directory+PathSeparator+FileNames[Pos]);
+                            ReferenceFiles->AddSequence(Sequence);
                             break;
                         }
                 }
@@ -589,7 +589,7 @@ void File_Ptx::Read_Buffer_Continue()
         }
 
         // Role==2 + Purpose==EWAV
-        if (ReferenceFiles->References.empty())
+        if (!ReferenceFiles->Sequences_Size())
         {
             for (int32u Pos=0; Pos<FileName_Count; Pos++)
             {
@@ -603,16 +603,16 @@ void File_Ptx::Read_Buffer_Continue()
                  && FileNames[Pos].find(__T(".1Khz.wav"))==string::npos //Exception?
                  && FileNames[Pos].find(__T("_1KTONE_"))==string::npos) //Exception?
                 {
-                    File__ReferenceFilesHelper::reference ReferenceFile;
-                    ReferenceFile.StreamKind=Stream_Audio;
-                    ReferenceFile.FileNames.push_back(Directory+PathSeparator+FileNames[Pos]);
-                    ReferenceFiles->References.push_back(ReferenceFile);
+                    sequence* Sequence=new sequence;
+                    Sequence->StreamKind=Stream_Audio;
+                    Sequence->AddFileName(Directory+PathSeparator+FileNames[Pos]);
+                    ReferenceFiles->AddSequence(Sequence);
                 }
             }
         }
 
         // Role==2
-        if (ReferenceFiles->References.empty())
+        if (!ReferenceFiles->Sequences_Size())
         {
             for (int32u Pos=0; Pos<FileName_Count; Pos++)
             {
@@ -625,10 +625,10 @@ void File_Ptx::Read_Buffer_Continue()
                  && FileNames[Pos].find(__T(".1Khz.wav"))==string::npos //Exception?
                  && FileNames[Pos].find(__T("_1KTONE_"))==string::npos) //Exception?
                 {
-                    File__ReferenceFilesHelper::reference ReferenceFile;
-                    ReferenceFile.StreamKind=Stream_Audio;
-                    ReferenceFile.FileNames.push_back(Directory+PathSeparator+FileNames[Pos]);
-                    ReferenceFiles->References.push_back(ReferenceFile);
+                    sequence* Sequence=new sequence;
+                    Sequence->StreamKind=Stream_Audio;
+                    Sequence->AddFileName(Directory+PathSeparator+FileNames[Pos]);
+                    ReferenceFiles->AddSequence(Sequence);
                 }
             }
         }

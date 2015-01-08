@@ -81,6 +81,7 @@ private :
     void QCD ();
     void QCC () {Skip_XX(Element_Size, "Data");}
     void RGN () {Skip_XX(Element_Size, "Data");}
+    void POC () {Skip_XX(Element_Size, "Data");}
     void PPM () {Skip_XX(Element_Size, "Data");}
     void PPT () {Skip_XX(Element_Size, "Data");}
     void CME () {Skip_XX(Element_Size, "Data");}

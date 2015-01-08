@@ -3643,7 +3643,7 @@ void File_Riff::WAVE_fact()
     Get_L4 (SamplesCount,                                       "SamplesCount");
     SamplesCount64=SamplesCount;
     if (SamplesCount64==0xFFFFFFFF)
-        SamplesCount64=SamplesCount64;
+        SamplesCount64=WAVE_fact_samplesCount;
 
     FILLING_BEGIN();
         int32u SamplingRate=Retrieve(Stream_Audio, 0, Audio_SamplingRate).To_int32u();

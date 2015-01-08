@@ -60,7 +60,7 @@ void File__Analyze::Streams_Finish_Global()
             Fill(Stream_Video, 0, Video_FrameCount, Frame_Count_NotParsedIncluded);
         else if (Config->File_Names.size()>1)
             Fill(Stream_Video, 0, Video_FrameCount, Config->File_Names.size());
-        #if MEDIAINFO_IBI
+        #if MEDIAINFO_IBIUSAGE
         else
         {
             //External IBI
@@ -83,7 +83,7 @@ void File__Analyze::Streams_Finish_Global()
             if (IbiStream && !IbiStream->Infos.empty() && IbiStream->Infos[IbiStream->Infos.size()-1].IsContinuous && IbiStream->Infos[IbiStream->Infos.size()-1].FrameNumber!=(int64u)-1)
                 Fill(Stream_Video, 0, Video_FrameCount, IbiStream->Infos[IbiStream->Infos.size()-1].FrameNumber);
         }
-        #endif //MEDIAINFO_IBI
+        #endif //MEDIAINFO_IBIUSAGE
     }
 
     Streams_Finish_StreamOnly();
@@ -110,6 +110,7 @@ void File__Analyze::TestContinuousFileNames(size_t CountOfFiles, Ztring FileExte
         return;
 
     //Trying to detect continuous file names (e.g. video stream as an image or HLS)
+    size_t Pos_Base = (size_t)-1;
     bool AlreadyPresent=Config->File_Names.size()==1?true:false;
     FileName FileToTest(Config->File_Names.Read(Config->File_Names.size()-1));
     Ztring FileToTest_Name=FileToTest.Name_Get();
@@ -144,10 +145,35 @@ void File__Analyze::TestContinuousFileNames(size_t CountOfFiles, Ztring FileExte
         //Detecting with a smarter algo (but missing frames are not detected)
         Ztring FileToTest_Name_Begin=FileToTest.Path_Get()+PathSeparator+FileToTest_Name;
         Ztring FileToTest_Name_End=FileToTest_Name_After+__T('.')+(FileExtension.empty()?FileToTest.Extension_Get():FileExtension);
-        size_t Pos_Base = (size_t)Pos;
+        Pos_Base = (size_t)Pos;
         size_t Pos_Add_Max = 1;
         #if MEDIAINFO_ADVANCED
             bool File_IgnoreSequenceFileSize=Config->File_IgnoreSequenceFilesCount_Get(); //TODO: double check if it is expected
+
+            size_t SequenceFileSkipFrames=Config->File_SequenceFilesSkipFrames_Get();
+            if (SequenceFileSkipFrames)
+            {
+                for (;;)
+                {
+                    size_t Pos_Add_Max_Old=Pos_Add_Max;
+                    for (size_t TempPos=Pos_Add_Max; TempPos<=Pos_Add_Max+SequenceFileSkipFrames; TempPos++)
+                    {
+                        Ztring Pos_Ztring; Pos_Ztring.From_Number(Pos_Base+TempPos);
+                        if (Numbers_Size>Pos_Ztring.size())
+                            Pos_Ztring.insert(0, Numbers_Size-Pos_Ztring.size(), __T('0'));
+                        Ztring Next=FileToTest_Name_Begin+Pos_Ztring+FileToTest_Name_End;
+                        if (File::Exists(Next))
+                        {
+                            Pos_Add_Max=TempPos+1;
+                            break;
+                        }
+                    }
+                    if (Pos_Add_Max==Pos_Add_Max_Old)
+                        break;
+                }
+            }
+            else
+            {
         #endif //MEDIAINFO_ADVANCED
         for (;;)
         {
@@ -177,6 +203,10 @@ void File__Analyze::TestContinuousFileNames(size_t CountOfFiles, Ztring FileExte
                 Pos_Add_Max=Pos_Add_Middle;
         }
 
+        #if MEDIAINFO_ADVANCED
+            } //SequenceFileSkipFrames
+        #endif //MEDIAINFO_ADVANCED
+
         size_t Pos_Max = Pos_Base + Pos_Add_Max;
         Config->File_Names.reserve(Pos_Add_Max);
         for (Pos=Pos_Base+1; Pos<Pos_Max; ++Pos)
@@ -193,6 +223,15 @@ void File__Analyze::TestContinuousFileNames(size_t CountOfFiles, Ztring FileExte
 
     if (Config->File_Names.size()==Pos)
         return;
+
+    Config->File_IsImageSequence=true;
+    Frame_Count_NotParsedIncluded=Pos_Base;
+    #if MEDIAINFO_DEMUX
+        float64 Demux_Rate=Config->Demux_Rate_Get();
+        if (!Demux_Rate)
+            Demux_Rate=24;
+        Fill(Stream_Video, 0, Video_Delay, float64_int64s(Frame_Count_NotParsedIncluded*1000/Demux_Rate));
+    #endif //MEDIAINFO_DEMUX
 
     #if MEDIAINFO_ADVANCED
         if (!Config->File_IgnoreSequenceFileSize_Get() || Config->File_Names.size()<=1)
@@ -952,19 +991,65 @@ void File__Analyze::Streams_Finish_HumanReadable_PerStream(stream_t StreamKind, 
         Fill(StreamKind, StreamPos, StreamKind==Stream_General?"OverallBitRate_Mode/String":"BitRate_Mode/String", Translated.find(__T("BitRate_Mode_"))?Translated:Value);
     }
 
-    //Encoded_Library
-    if ((ParameterName==__T("Encoded_Library")
-         || ParameterName==__T("Encoded_Library/Name")
-         || ParameterName==__T("Encoded_Library/Version")
-         || ParameterName==__T("Encoded_Library/Date"))
-        && Retrieve(StreamKind, StreamPos, "Encoded_Library/String").empty())
+    //Encoded_Application
+    if ((   ParameterName==__T("Encoded_Application")
+         || ParameterName==__T("Encoded_Application_CompanyName")
+         || ParameterName==__T("Encoded_Application_Name")
+         || ParameterName==__T("Encoded_Application_Version")
+         || ParameterName==__T("Encoded_Application_Date"))
+        && Retrieve(StreamKind, StreamPos, "Encoded_Application/String").empty())
     {
-        Ztring Name=Retrieve(StreamKind, StreamPos, "Encoded_Library/Name");
-        Ztring Version=Retrieve(StreamKind, StreamPos, "Encoded_Library/Version");
-        Ztring Date=Retrieve(StreamKind, StreamPos, "Encoded_Library/Date");
+        Ztring CompanyName=Retrieve(StreamKind, StreamPos, "Encoded_Application_CompanyName");
+        Ztring Name=Retrieve(StreamKind, StreamPos, "Encoded_Application_Name");
+        Ztring Version=Retrieve(StreamKind, StreamPos, "Encoded_Application_Version");
+        Ztring Date=Retrieve(StreamKind, StreamPos, "Encoded_Application_Date");
         if (!Name.empty())
         {
-            Ztring String=Name;
+            Ztring String;
+            if (!CompanyName.empty())
+            {
+                String+=CompanyName;
+                String+=__T(" ");
+            }
+            String+=Name;
+            if (!Version.empty())
+            {
+                String+=__T(" ");
+                String+=Version;
+            }
+            if (!Date.empty())
+            {
+                String+=__T(" (");
+                String+=Date;
+                String+=__T(")");
+            }
+            Fill(StreamKind, StreamPos, "Encoded_Application/String", String, true);
+        }
+        else
+            Fill(StreamKind, StreamPos, "Encoded_Application/String", Retrieve(StreamKind, StreamPos, "Encoded_Application"), true);
+    }
+
+    //Encoded_Library
+    if ((   ParameterName==__T("Encoded_Library")
+         || ParameterName==__T("Encoded_Library_CompanyName")
+         || ParameterName==__T("Encoded_Library_Name")
+         || ParameterName==__T("Encoded_Library_Version")
+         || ParameterName==__T("Encoded_Library_Date"))
+        && Retrieve(StreamKind, StreamPos, "Encoded_Library/String").empty())
+    {
+        Ztring CompanyName=Retrieve(StreamKind, StreamPos, "Encoded_Library_CompanyName");
+        Ztring Name=Retrieve(StreamKind, StreamPos, "Encoded_Library_Name");
+        Ztring Version=Retrieve(StreamKind, StreamPos, "Encoded_Library_Version");
+        Ztring Date=Retrieve(StreamKind, StreamPos, "Encoded_Library_Date");
+        if (!Name.empty())
+        {
+            Ztring String;
+            if (!CompanyName.empty())
+            {
+                String+=CompanyName;
+                String+=__T(" ");
+            }
+            String+=Name;
             if (!Version.empty())
             {
                 String+=__T(" ");

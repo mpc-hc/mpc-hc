@@ -327,7 +327,7 @@ size_t MediaInfo_Internal::Open(const String &File_Name_)
     Close();
 
     //External IBI
-    #if defined(MEDIAINFO_IBI_YES)
+    #if MEDIAINFO_IBIUSAGE
         if (Config.Ibi_UseIbiInfoIfAvailable_Get())
         {
             std::string IbiFile=Config.Ibi_Get();
@@ -345,7 +345,7 @@ size_t MediaInfo_Internal::Open(const String &File_Name_)
                 Close();
             }
         }
-    #endif //MEDIAINFO_IBI_YES
+    #endif //MEDIAINFO_IBIUSAGE
 
     CS.Enter();
     MEDIAINFO_DEBUG_CONFIG_TEXT(Debug+=__T("Open, File=");Debug+=Ztring(File_Name_).c_str();)
@@ -472,6 +472,12 @@ void MediaInfo_Internal::Entry()
                     Ztring FileExtension=Test.Extension_Get();
                     FileExtension.MakeLowerCase();
 
+                    if (FileExtension!=__T("cap"))
+                    {
+                        Test.Extension_Set(__T("cap"));
+                        if (File::Exists(Test))
+                            Dxw+=" <clip file=\""+Test.Name_Get().To_UTF8()+".cap\" />\r\n";
+                    }
                     if (FileExtension!=__T("dfxp"))
                     {
                         Test.Extension_Set(__T("dfxp"));
@@ -702,21 +708,22 @@ size_t MediaInfo_Internal::Open_Buffer_Init (int64u File_Size_, const String &Fi
         Info->File_Name=File_Name;
     Info->Open_Buffer_Init(File_Size_);
 
-    #if MEDIAINFO_EVENTS
-        {
-            string File_Name_Local=Ztring(File_Name).To_Local();
-            wstring File_Name_Unicode=Ztring(File_Name).To_Unicode();
-            struct MediaInfo_Event_General_Start_0 Event;
-            memset(&Event, 0xFF, sizeof(struct MediaInfo_Event_Generic));
-            Event.EventCode=MediaInfo_EventCode_Create(MediaInfo_Parser_None, MediaInfo_Event_General_Start, 0);
-            Event.EventSize=sizeof(struct MediaInfo_Event_General_Start_0);
-            Event.StreamIDs_Size=0;
-            Event.Stream_Size=File_Size_;
-            Event.FileName=File_Name_Local.c_str();
-            Event.FileName_Unicode=File_Name_Unicode.c_str();
-            Config.Event_Send(NULL, (const int8u*)&Event, sizeof(MediaInfo_Event_General_Start_0));
-        }
-    #endif //MEDIAINFO_EVENTS
+    if (File_Name.empty())
+    {
+        #if MEDIAINFO_EVENTS
+            {
+                struct MediaInfo_Event_General_Start_0 Event;
+                memset(&Event, 0xFF, sizeof(struct MediaInfo_Event_Generic));
+                Event.EventCode=MediaInfo_EventCode_Create(MediaInfo_Parser_None, MediaInfo_Event_General_Start, 0);
+                Event.EventSize=sizeof(struct MediaInfo_Event_General_Start_0);
+                Event.StreamIDs_Size=0;
+                Event.Stream_Size=File_Size_;
+                Event.FileName=NULL;
+                Event.FileName_Unicode=NULL;
+                Config.Event_Send(NULL, (const int8u*)&Event, sizeof(MediaInfo_Event_General_Start_0));
+            }
+        #endif //MEDIAINFO_EVENTS
+    }
 
     return 1;
 }
@@ -1076,6 +1083,10 @@ Ztring MediaInfo_Internal::Get(stream_t StreamKind, size_t StreamPos, const Stri
         return Get(Stream_General, StreamPos, __T("OverallBitRate_Maximum/String"), KindOfInfo, KindOfSearch);
     if (Parameter==__T("AFD"))
         return Get(StreamKind, StreamPos, __T("ActiveFormatDescription"), KindOfInfo, KindOfSearch);
+    if (Parameter==__T("Encoded_Application") && Info && !Info->Retrieve(StreamKind, StreamPos, "Encoded_Application/String").empty())
+        return Get(StreamKind, StreamPos, __T("Encoded_Application/String"), KindOfInfo, KindOfSearch);
+    if (Parameter==__T("Encoded_Library") && Info && !Info->Retrieve(StreamKind, StreamPos, "Encoded_Library/String").empty())
+        return Get(StreamKind, StreamPos, __T("Encoded_Library/String"), KindOfInfo, KindOfSearch);
 
     CS.Enter();
     MEDIAINFO_DEBUG_CONFIG_TEXT(Debug+=__T("Get, StreamKind=");Debug+=Ztring::ToZtring((size_t)StreamKind);Debug+=__T(", StreamKind=");Debug+=Ztring::ToZtring(StreamPos);Debug+=__T(", Parameter=");Debug+=Ztring(Parameter);)
@@ -1297,15 +1308,15 @@ String MediaInfo_Internal::Option (const String &Option, const String &Value)
             {
                 case 1  : return __T("");
                 case 2  : return __T("Invalid value");
-                #if MEDIAINFO_IBI
+                #if MEDIAINFO_IBIUSAGE
                 case 3  : return __T("Feature not supported / IBI file not provided");
                 case 4  : return __T("Problem during IBI file parsing");
-                #endif //MEDIAINFO_IBI
+                #endif //MEDIAINFO_IBIUSAGE
                 case 5  : return __T("Invalid ID");
                 case 6  : return __T("Internal error");
-                #if !MEDIAINFO_IBI
+                #if !MEDIAINFO_IBIUSAGE
                 case (size_t)-2 : return __T("Feature not supported / IBI support disabled due to compilation options");
-                #endif //MEDIAINFO_IBI
+                #endif //MEDIAINFO_IBIUSAGE
                 case (size_t)-1 : return __T("Feature not supported");
                 default : return __T("Unknown error");
             }

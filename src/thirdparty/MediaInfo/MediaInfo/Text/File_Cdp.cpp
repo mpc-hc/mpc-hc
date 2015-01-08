@@ -25,6 +25,9 @@
 #if defined(MEDIAINFO_EIA608_YES)
     #include "MediaInfo/Text/File_Eia608.h"
 #endif
+#if MEDIAINFO_ADVANCED
+    #include "MediaInfo/MediaInfo_Config_MediaInfo.h"
+#endif //MEDIAINFO_ADVANCED
 #if MEDIAINFO_EVENTS
     #include "MediaInfo/MediaInfo_Events.h"
 #endif //MEDIAINFO_EVENTS
@@ -363,6 +366,12 @@ void File_Cdp::ccdata_section()
         Get_SB (   cc_valid,                                    "cc_valid");
         Get_S1 (2, cc_type,                                     "cc_type"); Param_Info1(Cdp_cc_type(cc_type));
         BS_End();
+
+        #if MEDIAINFO_ADVANCED
+            if (cc_type>=2 && !Streams[2] && Config->File_Eia708_DisplayEmptyStream_Get())
+                CreateStream(2);
+        #endif //MEDIAINFO_ADVANCED
+
         if (cc_valid)
         {
             Element_Begin1("cc_data");

@@ -61,6 +61,7 @@ namespace Elements
     const int16u QCD =0xFF5C; //JPEG 2000
     const int16u QCC =0xFF5D; //JPEG 2000
     const int16u RGN =0xFF5E; //JPEG 2000
+    const int16u POC =0xFF5F; //JPEG 2000
     const int16u PPM =0xFF60; //JPEG 2000
     const int16u PPT =0xFF61; //JPEG 2000
     const int16u CME =0xFF64; //JPEG 2000
@@ -142,6 +143,31 @@ struct Jpeg_samplingfactor
     int8u Vi;
 };
 
+//---------------------------------------------------------------------------
+string Jpeg2000_Rsiz(int16u Rsiz)
+{
+    switch (Rsiz)
+    {
+        case 0x0000: return "No restrictions";
+        case 0x0001: return "Profile-0";
+        case 0x0002: return "Profile-1";
+        case 0x0003: return "D-Cinema 2k";
+        case 0x0004: return "D-Cinema 4k";
+        case 0x0005: return "D-Cinema 2k Scalable";
+        case 0x0006: return "D-Cinema 4k Scalable";
+        case 0x0007: return "Long-term storage";
+        case 0x0101: return "BCS@L1"; //Broadcast Contribution Single Tile
+        case 0x0102: return "BCS@L2"; //Broadcast Contribution Single Tile
+        case 0x0103: return "BCS@L3"; //Broadcast Contribution Single Tile
+        case 0x0104: return "BCS@L4"; //Broadcast Contribution Single Tile
+        case 0x0105: return "BCS@L5"; //Broadcast Contribution Single Tile
+        case 0x0205: return "BCM@L5"; //Broadcast Contribution Multi-tile
+        case 0x0306: return "BCMR@L6"; //Broadcast Contribution Multi-tile Reversible
+        case 0x0307: return "BCMR@L7"; //Broadcast Contribution Multi-tile Reversible
+        default: return Ztring::ToZtring(Rsiz, 16).To_UTF8();
+    }
+}
+
 //***************************************************************************
 // Constructor/Destructor
 //***************************************************************************
@@ -190,7 +216,6 @@ void File_Jpeg::Streams_Accept()
 
     //Configuration
     Buffer_MaximumSize=64*1024*1024; //Some big frames are possible (e.g YUV 4:2:2 10 bits 1080p)
-    Frame_Count_NotParsedIncluded=0;
 }
 
 //---------------------------------------------------------------------------
@@ -524,6 +549,7 @@ void File_Jpeg::Data_Parse()
         CASE_INFO(QCD ,                                         "Quantization default"); //JPEG 2000
         CASE_INFO(QCC ,                                         "Quantization component "); //JPEG 2000
         CASE_INFO(RGN ,                                         "Region-of-interest"); //JPEG 2000
+        CASE_INFO(POC ,                                         "Progression order change"); //JPEG 2000
         CASE_INFO(PPM ,                                         "Packed packet headers, main header"); //JPEG 2000
         CASE_INFO(PPT ,                                         "Packed packet headers, tile-part header"); //JPEG 2000
         CASE_INFO(CME ,                                         "Comment and extension"); //JPEG 2000
@@ -611,8 +637,8 @@ void File_Jpeg::SIZ()
     vector<int8u> BitDepths;
     int8u SamplingFactors_Max=0;
     int32u Xsiz, Ysiz;
-    int16u Count;
-    Skip_B2(                                                    "Rsiz - Capability of the codestream");
+    int16u Rsiz, Count;
+    Get_B2 (Rsiz,                                               "Rsiz - Capability of the codestream");
     Get_B4 (Xsiz,                                               "Xsiz - Image size X");
     Get_B4 (Ysiz,                                               "Ysiz - Image size Y");
     Skip_B4(                                                    "XOsiz - Image offset X");
@@ -656,6 +682,7 @@ void File_Jpeg::SIZ()
                 Stream_Prepare(StreamKind_Last);
             Fill(StreamKind_Last, 0, Fill_Parameter(StreamKind_Last, Generic_Format), "JPEG 2000");
             Fill(StreamKind_Last, 0, Fill_Parameter(StreamKind_Last, Generic_Codec), "JPEG 2000");
+            Fill(StreamKind_Last, 0, "Format_Profile", Jpeg2000_Rsiz(Rsiz));
             if (StreamKind_Last==Stream_Image)
                 Fill(Stream_Image, 0, Image_Codec_String, "JPEG 2000", Unlimited, true, true); //To Avoid automatic filling
             Fill(StreamKind_Last, 0, StreamKind_Last==Stream_Image?(size_t)Image_Width:(size_t)Video_Width, Xsiz);
@@ -683,7 +710,9 @@ void File_Jpeg::SIZ()
                 Fill(StreamKind_Last, 0, "ChromaSubsampling", ChromaSubsampling);
 
                 //Not for sure
-                if (!IsSub)
+                if (ChromaSubsampling==__T("4:4:4") && (Retrieve(StreamKind_Last, 0, "Format_Profile")==__T("D-Cinema 2k") || Retrieve(StreamKind_Last, 0, "Format_Profile")==__T("D-Cinema 4k")))
+                    Fill(StreamKind_Last, 0, "ColorSpace", "XYZ");
+                else if (!IsSub)
                 {
                     if (ChromaSubsampling==__T("4:2:0") || ChromaSubsampling==__T("4:2:2"))
                         Fill(StreamKind_Last, 0, "ColorSpace", "YUV");

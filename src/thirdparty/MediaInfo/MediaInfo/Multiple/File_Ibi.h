@@ -33,15 +33,21 @@ public :
     ~File_Ibi();
 
     //In
-    ibi* Ibi;
+    #if MEDIAINFO_IBIUSAGE
+        ibi* Ibi;
+    #endif //MEDIAINFO_IBIUSAGE
 
 private :
-    //Get information
-    const Ztring &Get (stream_t StreamKind, size_t StreamNumber, const Ztring &Parameter, info_t KindOfInfo=Info_Text, info_t KindOfSearch=Info_Name);
+    #if MEDIAINFO_IBIUSAGE
+        //Get information
+        const Ztring &Get (stream_t StreamKind, size_t StreamNumber, const Ztring &Parameter, info_t KindOfInfo=Info_Text, info_t KindOfSearch=Info_Name);
+    #endif //MEDIAINFO_IBIUSAGE
 
     //Streams management
     void Streams_Accept();
+    #if MEDIAINFO_IBIUSAGE
     void Streams_Finish();
+    #endif //MEDIAINFO_IBIUSAGE
 
     //Buffer - Element
     void Header_Parse();
@@ -82,7 +88,9 @@ private :
     //Temp
     Ztring  Get_Temp;
     int64u  ID_Current;
-    bool    Ibi_MustDelete;
+    #if MEDIAINFO_IBIUSAGE
+        bool    Ibi_MustDelete;
+    #endif //MEDIAINFO_IBIUSAGE
 };
 
 } //NameSpace

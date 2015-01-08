@@ -4,37 +4,38 @@
  *  be found in the License.html file in the root of the source tree.
  */
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//
+// Information about BPG files
+//
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 //---------------------------------------------------------------------------
-#ifndef Export_EbuCoreH
-#define Export_EbuCoreH
+#ifndef MediaInfo_File_BpgH
+#define MediaInfo_File_BpgH
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
-#include "MediaInfo/MediaInfo_Internal.h"
+#include "MediaInfo/File__Analyze.h"
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib
 {
 
 //***************************************************************************
-/// @brief Export_EbuCore
+// Class File_Bpg
 //***************************************************************************
 
-class Export_EbuCore
+class File_Bpg : public File__Analyze
 {
-public :
-    //Constructeur/Destructeur
-    Export_EbuCore ();
-    ~Export_EbuCore ();
+protected :
+    //Buffer - File header
+    bool FileHeader_Begin();
 
-    //Input
-    enum version
-    {
-        Version_1_5,
-        Version_1_6,
-    };
-    Ztring Transform(MediaInfo_Internal &MI, version Version=Version_1_5);
+    //Buffer - Global
+    void Read_Buffer_Continue ();
 };
 
 } //NameSpace
+
 #endif

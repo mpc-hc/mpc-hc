@@ -91,7 +91,7 @@ size_t File_Ism::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
     if (ReferenceFiles==NULL)
         return 0;
 
-    return ReferenceFiles->Read_Buffer_Seek(Method, Value, ID);
+    return ReferenceFiles->Seek(Method, Value, ID);
 }
 #endif //MEDIAINFO_SEEK
 
@@ -132,18 +132,18 @@ bool File_Ism::FileHeader_Begin()
                                 string Value(Stream->Value());
                                 if (Value=="video" || Value=="videostream" || Value=="audio" || Value=="audiostream" || Value=="text" || Value=="textstream")
                                 {
-                                    File__ReferenceFilesHelper::reference ReferenceFile;
+                                    sequence* Sequence=new sequence;
 
                                     if (Value=="video" || Value=="videostream")
-                                        ReferenceFile.StreamKind=Stream_Video;
+                                        Sequence->StreamKind=Stream_Video;
                                     if (Value=="audio" || Value=="audiostream")
-                                        ReferenceFile.StreamKind=Stream_Audio;
+                                        Sequence->StreamKind=Stream_Audio;
                                     if (Value=="text"  || Value=="textstream" )
-                                        ReferenceFile.StreamKind=Stream_Text;
+                                        Sequence->StreamKind=Stream_Text;
 
                                     const char* Attribute=Stream->Attribute("src");
                                     if (Attribute)
-                                        ReferenceFile.FileNames.push_back(Ztring().From_UTF8(Attribute));
+                                        Sequence->AddFileName(Ztring().From_UTF8(Attribute));
 
                                     XMLElement* Param=Stream->FirstChildElement();
                                     while (Param)
@@ -155,16 +155,16 @@ bool File_Ism::FileHeader_Begin()
                                             {
                                                 Attribute=Param->Attribute("value");
                                                 if (Attribute)
-                                                    ReferenceFile.StreamID=Ztring().From_UTF8(Attribute).To_int64u();
+                                                    Sequence->StreamID=Ztring().From_UTF8(Attribute).To_int64u();
                                             }
                                         }
                                         Param=Param->NextSiblingElement();
                                     }
 
-                                    if (!ReferenceFile.FileNames.empty() && !ReferenceFile.FileNames[0].empty() && FileNames.find(ReferenceFile.FileNames[0])==FileNames.end())
+                                    if (!Sequence->FileNames.empty() && !Sequence->FileNames[0].empty() && FileNames.find(Sequence->FileNames[0])==FileNames.end())
                                     {
-                                        ReferenceFiles->References.push_back(ReferenceFile);
-                                        FileNames.insert(ReferenceFile.FileNames[0]);
+                                        ReferenceFiles->AddSequence(Sequence);
+                                        FileNames.insert(Sequence->FileNames[0]);
                                     }
                                 }
 

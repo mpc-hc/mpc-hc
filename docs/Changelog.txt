@@ -20,6 +20,7 @@ next version - not released yet
 * Ticket #5294, Use internal LAV Splitter for demuxing WTV files
 * Updated Little CMS to v2.7 (git dd0074b)
 * Updated Unrar to v5.2.6
+* Updated MediaInfoLib to v0.7.73
 * Updated SoundTouch to v1.8.0 r208
 * Updated LAV Filters to v0.64.0.50:
     - LAV Video Decoder: Faster DXVA decoding in copy-back mode (direct output mode)

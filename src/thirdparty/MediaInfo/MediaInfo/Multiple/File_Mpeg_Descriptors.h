@@ -379,9 +379,9 @@ struct complete_stream
         size_t                                      IsScrambled;
         int16u                                      CA_system_ID;
         int16u                                      SubStream_pid;
-        #if MEDIAINFO_IBI
+        #if MEDIAINFO_IBIUSAGE
             int64u                                  Ibi_SynchronizationOffset_BeginOfFrame;
-        #endif //MEDIAINFO_IBI
+        #endif //MEDIAINFO_IBIUSAGE
         #if defined(MEDIAINFO_EIA608_YES) || defined(MEDIAINFO_EIA708_YES)
             File__Analyze::servicedescriptors ServiceDescriptors;
             bool                              ServiceDescriptors_IsPresent;
@@ -448,9 +448,9 @@ struct complete_stream
             CA_system_ID=0x0000;
             EBP_IsPresent=false;
             SubStream_pid=0x0000;
-            #if MEDIAINFO_IBI
+            #if MEDIAINFO_IBIUSAGE
                 Ibi_SynchronizationOffset_BeginOfFrame=(int64u)-1;
-            #endif //MEDIAINFO_IBI
+            #endif //MEDIAINFO_IBIUSAGE
             #if defined(MEDIAINFO_EIA608_YES) || defined(MEDIAINFO_EIA708_YES)
                 ServiceDescriptors_IsPresent=false;
             #endif

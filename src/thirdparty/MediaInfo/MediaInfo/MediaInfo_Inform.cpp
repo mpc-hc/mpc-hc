@@ -24,11 +24,20 @@
 
 //---------------------------------------------------------------------------
 #include "ZenLib/Utils.h"
-#include "MediaInfo/Export/Export_EbuCore.h"
-#include "MediaInfo/Export/Export_Mpeg7.h"
-#include "MediaInfo/Export/Export_reVTMD.h"
-#include "MediaInfo/Export/Export_PBCore.h"
-#include "MediaInfo/Export/Export_PBCore2.h"
+#if defined(MEDIAINFO_EBUCORE_YES)
+    #include "MediaInfo/Export/Export_EbuCore.h"
+#endif //defined(MEDIAINFO_EBUCORE_YES)
+#if defined(MEDIAINFO_MPEG7_YES)
+    #include "MediaInfo/Export/Export_Mpeg7.h"
+#endif //defined(MEDIAINFO_MPEG7_YES)
+#if defined(MEDIAINFO_REVTMD_YES)
+    #include "MediaInfo/Export/Export_reVTMD.h"
+#endif //defined(MEDIAINFO_REVTMD_YES)
+#if defined(MEDIAINFO_PBCORE_YES)
+    #include "MediaInfo/Export/Export_PBCore.h"
+    #include "MediaInfo/Export/Export_PBCore2.h"
+#endif //defined(MEDIAINFO_PBCORE_YES)
+#include "MediaInfo/MediaInfo_Internal.h"
 #include "MediaInfo/File__Analyze.h"
 #include "base64.h"
 //---------------------------------------------------------------------------
@@ -62,16 +71,28 @@ Ztring MediaInfo_Internal::Inform()
         }
     #endif //MEDIAINFO_TRACE
 
-    if (MediaInfoLib::Config.Inform_Get()==__T("EBUCore") || MediaInfoLib::Config.Inform_Get()==__T("EBUCore_1.5"))
-        return Export_EbuCore().Transform(*this);
-    if (MediaInfoLib::Config.Inform_Get()==__T("MPEG-7"))
-        return Export_Mpeg7().Transform(*this);
-    if (MediaInfoLib::Config.Inform_Get()==__T("PBCore") || MediaInfoLib::Config.Inform_Get()==__T("PBCore_1.2"))
-        return Export_PBCore().Transform(*this);
-    if (MediaInfoLib::Config.Inform_Get()==__T("PBCore2") || MediaInfoLib::Config.Inform_Get()==__T("PBCore_2.0"))
-        return Export_PBCore2().Transform(*this);
-    if (MediaInfoLib::Config.Inform_Get()==__T("reVTMD"))
-        return __T("reVTMD is disabled due to its non-free licensing."); //return Export_reVTMD().Transform(*this);
+    #if defined(MEDIAINFO_EBUCORE_YES)
+        if (MediaInfoLib::Config.Inform_Get()==__T("EBUCore_1.6"))
+            return Export_EbuCore().Transform(*this, Export_EbuCore::Version_1_6);
+        if (MediaInfoLib::Config.Inform_Get()==__T("EBUCore") || MediaInfoLib::Config.Inform_Get()==__T("EBUCore_1.5"))
+            return Export_EbuCore().Transform(*this);
+    #endif //defined(MEDIAINFO_EBUCORE_YES)
+    #if defined(MEDIAINFO_MPEG7_YES)
+        if (MediaInfoLib::Config.Inform_Get()==__T("MPEG-7"))
+            return Export_Mpeg7().Transform(*this);
+    #endif //defined(MEDIAINFO_MPEG7_YES)
+    #if defined(MEDIAINFO_PBCORE_YES)
+        if (MediaInfoLib::Config.Inform_Get()==__T("PBCore") || MediaInfoLib::Config.Inform_Get()==__T("PBCore_1.2"))
+            return Export_PBCore().Transform(*this);
+        if (MediaInfoLib::Config.Inform_Get()==__T("PBCore2") || MediaInfoLib::Config.Inform_Get()==__T("PBCore_2.0"))
+            return Export_PBCore2().Transform(*this);
+    #endif //defined(MEDIAINFO_PBCORE_YES)
+    #if defined(MEDIAINFO_REVTMD_YES)
+        if (MediaInfoLib::Config.Inform_Get()==__T("reVTMD"))
+            return __T("reVTMD is disabled due to its non-free licensing."); //return Export_reVTMD().Transform(*this);
+    #endif //defined(MEDIAINFO_REVTMD_YES)
+
+    #if defined(MEDIAINFO_CUSTOM_YES)
 
     if (!(
         MediaInfoLib::Config.Inform_Get(__T("General")).empty()
@@ -170,6 +191,9 @@ Ztring MediaInfo_Internal::Inform()
 
         return Retour;
     }
+    #endif //defined(MEDIAINFO_CUSTOM_YES)
+
+    #if defined(MEDIAINFO_TEXT_YES) || defined(MEDIAINFO_HTML_YES) || defined(MEDIAINFO_XML_YES) || defined(MEDIAINFO_CSV_YES)
 
     //Informations
     Ztring Retour;
@@ -248,9 +272,16 @@ Ztring MediaInfo_Internal::Inform()
     Retour.FindAndReplace(__T("|SC9|"), __T("),"), 0, Ztring_Recursive);
 
     return Retour;
+
+    #else //defined(MEDIAINFO_TEXT_YES) || defined(MEDIAINFO_HTML_YES) || defined(MEDIAINFO_XML_YES) || defined(MEDIAINFO_CSV_YES)
+
+    return Ztring(); //Disabled
+
+    #endif //defined(MEDIAINFO_TEXT_YES) || defined(MEDIAINFO_HTML_YES) || defined(MEDIAINFO_XML_YES) || defined(MEDIAINFO_CSV_YES)
 }
 
 //---------------------------------------------------------------------------
+#if defined(MEDIAINFO_TEXT_YES) || defined(MEDIAINFO_HTML_YES) || defined(MEDIAINFO_XML_YES) || defined(MEDIAINFO_CSV_YES) || defined(MEDIAINFO_CUSTOM_YES)
 Ztring MediaInfo_Internal::Inform (stream_t StreamKind, size_t StreamPos, bool IsDirect)
 {
     //Integrity
@@ -266,15 +297,30 @@ Ztring MediaInfo_Internal::Inform (stream_t StreamKind, size_t StreamPos, bool I
      && MediaInfoLib::Config.Inform_Get(__T("Menu")).empty())
     {
         Ztring Retour;
-        bool HTML=false;
-        bool XML=false;
-        bool CSV=false;
-        if (MediaInfoLib::Config.Inform_Get()==__T("HTML"))
-            HTML=true;
-        if (MediaInfoLib::Config.Inform_Get()==__T("XML"))
-            XML=true;
-        if (MediaInfoLib::Config.Inform_Get()==__T("CSV"))
-            CSV=true;
+        #if defined(MEDIAINFO_HTML_YES)
+        bool HTML=MediaInfoLib::Config.Inform_Get()==__T("HTML")?true:false;
+        #endif //defined(MEDIAINFO_HTML_YES)
+        #if defined(MEDIAINFO_XML_YES)
+        bool XML=MediaInfoLib::Config.Inform_Get()==__T("XML")?true:false;
+        #endif //defined(MEDIAINFO_XML_YES)
+        #if defined(MEDIAINFO_CSV_YES)
+        bool CSV=MediaInfoLib::Config.Inform_Get()==__T("CSV")?true:false;
+        #endif //defined(MEDIAINFO_CSV_YES)
+        #if defined(MEDIAINFO_TEXT_YES) && (defined(MEDIAINFO_HTML_YES) || defined(MEDIAINFO_XML_YES) || defined(MEDIAINFO_CSV_YES))
+        bool Text=true;
+        #if defined(MEDIAINFO_HTML_YES)
+         if (HTML)
+             Text=false;
+        #endif //defined(MEDIAINFO_HTML_YES)
+        #if defined(MEDIAINFO_XML_YES)
+         if (XML)
+             Text=false;
+        #endif //defined(MEDIAINFO_XML_YES)
+        #if defined(MEDIAINFO_CSV_YES)
+         if (CSV)
+             Text=false;
+        #endif //defined(MEDIAINFO_CSV_YES)
+        #endif //defined(MEDIAINFO_TEXT_YES) && (defined(MEDIAINFO_HTML_YES) || defined(MEDIAINFO_XML_YES) || defined(MEDIAINFO_CSV_YES))
         size_t Size=Count_Get(StreamKind, StreamPos);
         for (size_t Champ_Pos=0; Champ_Pos<Size; Champ_Pos++)
         {
@@ -286,7 +332,9 @@ Ztring MediaInfo_Internal::Inform (stream_t StreamKind, size_t StreamPos, bool I
                 Ztring Nom=Get((stream_t)StreamKind, StreamPos, Champ_Pos, Info_Name_Text);
                 if (Nom.empty())
                     Nom=Get((stream_t)StreamKind, StreamPos, Champ_Pos, Info_Name); //Texte n'existe pas
-                if (!HTML && !XML && !CSV)
+                #if defined(MEDIAINFO_TEXT_YES) && (defined(MEDIAINFO_HTML_YES) || defined(MEDIAINFO_XML_YES) || defined(MEDIAINFO_CSV_YES))
+                if (Text)
+                #endif //defined(MEDIAINFO_TEXT_YES) && (defined(MEDIAINFO_HTML_YES) || defined(MEDIAINFO_XML_YES) || defined(MEDIAINFO_CSV_YES))
                 {
                      int8u Nom_Size=MediaInfoLib::Config.Language_Get(__T("  Config_Text_ColumnSize")).To_int8u();
                      if (Nom_Size==0)
@@ -295,6 +343,7 @@ Ztring MediaInfo_Internal::Inform (stream_t StreamKind, size_t StreamPos, bool I
                 }
                 Ztring Valeur=Get((stream_t)StreamKind, StreamPos, Champ_Pos, Info_Text);
                 Valeur.FindAndReplace(__T("\\"), __T("|SC1|"), 0, Ztring_Recursive);
+                #if defined(MEDIAINFO_HTML_YES)
                 if (HTML)
                 {
                     Retour+=__T("  <tr>\n    <td><i>");
@@ -303,7 +352,9 @@ Ztring MediaInfo_Internal::Inform (stream_t StreamKind, size_t StreamPos, bool I
                     Retour+=Valeur;
                     Retour+=__T("</td>\n  </tr>");
                 }
-                else if (XML)
+                #endif //defined(MEDIAINFO_HTML_YES)
+                #if defined(MEDIAINFO_XML_YES)
+                if (XML)
                 {
                     Nom=Xml_Name_Escape(Nom);
                     size_t Modified;
@@ -322,13 +373,18 @@ Ztring MediaInfo_Internal::Inform (stream_t StreamKind, size_t StreamPos, bool I
                     Retour+=Nom;
                     Retour+=__T(">");
                 }
-                else if (CSV)
+                #endif //defined(MEDIAINFO_XML_YES)
+                #if defined(MEDIAINFO_CSV_YES)
+                if (CSV)
                 {
                     Retour+=Nom;
                     Retour+=__T(",");
                     Retour+=Valeur;
                 }
-                else
+                #endif //defined(MEDIAINFO_CSV_YES)
+                #if defined(MEDIAINFO_TEXT_YES) && (defined(MEDIAINFO_HTML_YES) || defined(MEDIAINFO_XML_YES) || defined(MEDIAINFO_CSV_YES))
+                if (Text)
+                #endif //defined(MEDIAINFO_TEXT_YES) && (defined(MEDIAINFO_HTML_YES) || defined(MEDIAINFO_XML_YES) || defined(MEDIAINFO_CSV_YES))
                     Retour+=Nom + MediaInfoLib::Config.Language_Get(__T("  Config_Text_Separator")) + Valeur;
                 Retour+=MediaInfoLib::Config.LineSeparator_Get();
             }
@@ -481,8 +537,10 @@ Ztring MediaInfo_Internal::Inform (stream_t StreamKind, size_t StreamPos, bool I
 
     return Retour;
 }
+#endif //defined(MEDIAINFO_TEXT_YES) || defined(MEDIAINFO_HTML_YES) || defined(MEDIAINFO_XML_YES) || defined(MEDIAINFO_CSV_YES) || defined(MEDIAINFO_CUSTOM_YES)
 
 //---------------------------------------------------------------------------
+#if defined(MEDIAINFO_CUSTOM_YES)
 void MediaInfo_Internal::Traiter(Ztring &C)
 {
     //$if(%a%,zezeze%a%,rrere)
@@ -509,8 +567,10 @@ void MediaInfo_Internal::Traiter(Ztring &C)
     C.FindAndReplace(__T("|SC9|"), __T("),"), 0, Ztring_Recursive);
     //C.FindAndReplace(__T("\\r\\n"), __T("\n"), 0, Ztring_Recursive);
 }
+#endif //defined(MEDIAINFO_CUSTOM_YES)
 
 //---------------------------------------------------------------------------
+#if defined(MEDIAINFO_XML_YES)
 Ztring MediaInfo_Internal::Xml_Name_Escape (const Ztring &Name)
 {
     Ztring ToReturn(Name);
@@ -541,15 +601,19 @@ Ztring MediaInfo_Internal::Xml_Name_Escape (const Ztring &Name)
 
     return ToReturn;
 }
+#endif //defined(MEDIAINFO_XML_YES)
 
 //---------------------------------------------------------------------------
+#if defined(MEDIAINFO_XML_YES)
 Ztring MediaInfo_Internal::Xml_Content_Escape (const Ztring &Content, size_t &Modified)
 {
     Ztring ToReturn(Content);
     return Xml_Content_Escape_Modifying(ToReturn, Modified);
 }
+#endif //defined(MEDIAINFO_XML_YES)
 
 //---------------------------------------------------------------------------
+#if defined(MEDIAINFO_XML_YES)
 size_t Xml_Content_Escape_MustEscape(const Ztring &Content)
 {
     size_t Pos=0;
@@ -629,5 +693,6 @@ Ztring &MediaInfo_Internal::Xml_Content_Escape_Modifying (Ztring &Content, size_
 
     return Content;
 }
+#endif //defined(MEDIAINFO_XML_YES)
 
 } //NameSpace

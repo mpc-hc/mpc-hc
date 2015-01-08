@@ -464,6 +464,8 @@ void File_Id3v2::Header_Parse()
     {
         int16u Flags;
         Get_C4 (Frame_ID,                                       "Frame ID");
+        if (!(Frame_ID&0xFF))
+            Frame_ID>>=8;
         Get_B4 (Size,                                           "Size");
         if (Id3v2_Version!=3)
         {

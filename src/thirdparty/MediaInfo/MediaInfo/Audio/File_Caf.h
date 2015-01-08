@@ -4,37 +4,52 @@
  *  be found in the License.html file in the root of the source tree.
  */
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//
+// Information about Core Audio Format files
+//
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 //---------------------------------------------------------------------------
-#ifndef Export_EbuCoreH
-#define Export_EbuCoreH
+#ifndef MediaInfo_File_CafH
+#define MediaInfo_File_CafH
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
-#include "MediaInfo/MediaInfo_Internal.h"
+#include "MediaInfo/File__Analyze.h"
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib
 {
 
 //***************************************************************************
-/// @brief Export_EbuCore
+// Class File_Au
 //***************************************************************************
 
-class Export_EbuCore
+class File_Caf : public File__Analyze
 {
 public :
-    //Constructeur/Destructeur
-    Export_EbuCore ();
-    ~Export_EbuCore ();
+    File_Caf();
 
-    //Input
-    enum version
-    {
-        Version_1_5,
-        Version_1_6,
-    };
-    Ztring Transform(MediaInfo_Internal &MI, version Version=Version_1_5);
+protected :
+    //Buffer - File header
+    bool FileHeader_Begin();
+    void FileHeader_Parse ();
+
+    //Buffer
+    void Header_Parse();
+    void Data_Parse();
+
+    //Elements
+    void data();
+    void desc();
+    void free();
+    void info();
+    void kuki();
+    void pakt();
+    void uuid();
 };
 
 } //NameSpace
+
 #endif

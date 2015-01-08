@@ -70,6 +70,9 @@ public :
     #if defined(MEDIAINFO_SDP_YES)
         File__Analyze*  Sdp_Parser;
     #endif //defined(MEDIAINFO_ARIBSTDB24B37_YES)
+    #if defined(MEDIAINFO_MXF_YES)
+        File__Analyze*  Rdd18_Parser;
+    #endif //defined(MEDIAINFO_MXF_YES)
 
     //Constructor/Destructor
     File_Ancillary();

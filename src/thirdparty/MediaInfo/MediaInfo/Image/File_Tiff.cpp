@@ -70,7 +70,7 @@ const char* Tiff_Tag_Name(int32u Tag)
         case Tiff_Tag::ImageDescription             : return "ImageDescription";
         case Tiff_Tag::SamplesPerPixel              : return "SamplesPerPixel";
         case Tiff_Tag::ExtraSamples                 : return "ExtraSamples";
-        default                                     : return "Unknown";
+        default                                     : return "";
     }
 }
 

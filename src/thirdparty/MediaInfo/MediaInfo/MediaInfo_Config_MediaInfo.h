@@ -121,6 +121,11 @@ public :
     #endif //MEDIAINFO_ADVANCED
 
     #if MEDIAINFO_ADVANCED
+        void          File_SequenceFilesSkipFrames_Set (int64u NewValue);
+        int64u        File_SequenceFilesSkipFrames_Get ();
+    #endif //MEDIAINFO_ADVANCED
+
+    #if MEDIAINFO_ADVANCED
         void          File_DefaultFrameRate_Set (float64 NewValue);
         float64       File_DefaultFrameRate_Get ();
     #endif //MEDIAINFO_ADVANCED
@@ -133,6 +138,8 @@ public :
     #if MEDIAINFO_ADVANCED
         void          File_RiskyBitRateEstimation_Set (bool NewValue);
         bool          File_RiskyBitRateEstimation_Get ();
+        void          File_MergeBitRateInfo_Set (bool NewValue);
+        bool          File_MergeBitRateInfo_Get ();
     #endif //MEDIAINFO_ADVANCED
 
     #if MEDIAINFO_DEMUX
@@ -269,14 +276,16 @@ public :
     int8u         Demux_InitData_Get ();
     #endif //MEDIAINFO_DEMUX
 
-    #if MEDIAINFO_IBI
+    #if MEDIAINFO_IBIUSAGE
     void          Ibi_Set (const Ztring &NewValue);
     std::string   Ibi_Get ();
-    void          Ibi_Create_Set (bool NewValue);
-    bool          Ibi_Create_Get ();
     void          Ibi_UseIbiInfoIfAvailable_Set (bool NewValue);
     bool          Ibi_UseIbiInfoIfAvailable_Get ();
-    #endif //MEDIAINFO_IBI
+    #endif //MEDIAINFO_IBIUSAGE
+    #if MEDIAINFO_IBIUSAGE
+    void          Ibi_Create_Set (bool NewValue);
+    bool          Ibi_Create_Get ();
+    #endif //MEDIAINFO_IBIUSAGE
 
     //Specific
     void          File_MpegTs_ForceMenu_Set (bool NewValue);
@@ -341,11 +350,12 @@ public :
     bool          File_Buffer_Repeat_IsSupported;
     bool          File_IsGrowing;
     bool          File_IsNotGrowingAnymore;
+    bool          File_IsImageSequence;
     int64u        File_Current_Offset;
     int64u        File_Current_Size;
-    int64u        File_IgnoreFramesBefore;
-    int64u        File_IgnoreFramesAfter;
-    float64       File_IgnoreFramesRate;
+    int64u        File_IgnoreEditsBefore;
+    int64u        File_IgnoreEditsAfter;
+    float64       File_EditRate;
     int64u        File_Size;
     float32       ParseSpeed;
     #if MEDIAINFO_EVENTS
@@ -381,9 +391,11 @@ private :
     #if MEDIAINFO_ADVANCED
         bool                File_IgnoreSequenceFileSize;
         bool                File_IgnoreSequenceFilesCount;
+        int64u              File_SequenceFilesSkipFrames;
         float64             File_DefaultFrameRate;
         bool                File_Source_List;
         bool                File_RiskyBitRateEstimation;
+        bool                File_MergeBitRateInfo;
         #if MEDIAINFO_DEMUX
             bool                File_Demux_Unpacketize_StreamLayoutChange_Skip;
         #endif //MEDIAINFO_DEMUX
@@ -472,11 +484,13 @@ private :
     int8u                   Demux_InitData;
     #endif //MEDIAINFO_DEMUX
 
-    #if MEDIAINFO_IBI
+    #if MEDIAINFO_IBIUSAGE
     std::string             Ibi;
-    bool                    Ibi_Create;
     bool                    Ibi_UseIbiInfoIfAvailable;
-    #endif //MEDIAINFO_IBI
+    #endif //MEDIAINFO_IBIUSAGE
+    #if MEDIAINFO_IBIUSAGE
+    bool                    Ibi_Create;
+    #endif //MEDIAINFO_IBIUSAGE
 
     //Specific
     bool                    File_MpegTs_ForceMenu;

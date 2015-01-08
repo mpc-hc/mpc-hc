@@ -425,15 +425,21 @@ size_t Reader_File::Format_Test_PerParser_Continue (MediaInfo_Internal* MI)
                         else
                     #endif //MEDIAINFO_SEEK
                     {
-                        for (Pos=0; Pos<MI->Config.File_Sizes.size(); Pos++)
+                        for (Pos=0; Pos<MI->Config.File_Names.size(); Pos++)
                         {
-                            if (GoTo>=MI->Config.File_Sizes[Pos])
-                            {
-                                GoTo-=MI->Config.File_Sizes[Pos];
-                                MI->Config.File_Current_Offset+=MI->Config.File_Sizes[Pos];
-                            }
-                            else
+                            if (Pos==MI->Config.File_Sizes.size())
+                                MI->Config.File_Sizes.push_back(F.Size_Get());
+                            else if (MI->Config.File_Sizes[Pos]==(int64u)-1)
+                                MI->Config.File_Sizes[Pos]=F.Size_Get();
+
+                            if (Pos>=MI->Config.File_Sizes.size() || MI->Config.File_Sizes[Pos]==(int64u)-1)
                                 break;
+
+                            if (GoTo<MI->Config.File_Sizes[Pos])
+                                break;
+
+                            GoTo-=MI->Config.File_Sizes[Pos];
+                            MI->Config.File_Current_Offset+=MI->Config.File_Sizes[Pos];
                         }
                         if (Pos>=MI->Config.File_Sizes.size())
                             break;
@@ -525,9 +531,17 @@ size_t Reader_File::Format_Test_PerParser_Continue (MediaInfo_Internal* MI)
                         MI->Config.Event_SubFile_Start(MI->Config.File_Names[MI->Config.File_Names_Pos]);
                     #endif //MEDIAINFO_EVENTS
                     F.Open(MI->Config.File_Names[MI->Config.File_Names_Pos]);
+                    while (!F.Opened_Get())
+                    {
+                        if (MI->Config.File_Names_Pos+1<MI->Config.File_Names.size())
+                        {
+                            MI->Config.File_Names_Pos++;
+                            F.Open(MI->Config.File_Names[MI->Config.File_Names_Pos]);
+                        }
+                    }
                     if (MI->Config.File_Names_Pos>=MI->Config.File_Sizes.size())
                     {
-                        MI->Config.File_Sizes.resize(MI->Config.File_Names_Pos, (int64u)-1);
+                        MI->Config.File_Sizes.resize(MI->Config.File_Names_Pos, 0);
                         MI->Config.File_Sizes.push_back(F.Size_Get());
                     }
                     MI->Config.File_Names_Pos++;

@@ -1132,7 +1132,10 @@ void File_Flv::video_AVC()
 
                     //Disabling this stream
                     if (Stream[Stream_Video].Parser->File_GoTo!=(int64u)-1 || Stream[Stream_Video].Parser->Count_Get(Stream_Video)>0 || (Config->ParseSpeed<1.0 && Stream[Stream_Video].PacketCount>=300))
-                         video_stream_Count=false;
+                    {
+                        Stream[Stream_Video].Parser->Open_Buffer_Unsynch();
+                        video_stream_Count=false;
+                    }
                 #else
                     Skip_XX(Element_Size-Element_Offset,        "AVC Data");
                     video_stream_Count=false; //Unable to parse it
@@ -1212,7 +1215,10 @@ void File_Flv::video_HEVC()
 
                     //Disabling this stream
                     if (Stream[Stream_Video].Parser->File_GoTo!=(int64u)-1 || Stream[Stream_Video].Parser->Count_Get(Stream_Video)>0 || (Config->ParseSpeed<1.0 && Stream[Stream_Video].PacketCount>=300))
-                         video_stream_Count=false;
+                    {
+                        Stream[Stream_Video].Parser->Open_Buffer_Unsynch();
+                        video_stream_Count=false;
+                    }
                 #else
                     Skip_XX(Element_Size-Element_Offset,        "HEVC Data");
                     video_stream_Count=false; //Unable to parse it
@@ -1321,7 +1327,10 @@ void File_Flv::audio_MPEG()
 
         //Disabling this stream
         if (Stream[Stream_Audio].Parser->File_GoTo!=(int64u)-1 || Stream[Stream_Audio].Parser->Count_Get(Stream_Audio)>0)
-             audio_stream_Count=false;
+        {
+            Stream[Stream_Audio].Parser->Open_Buffer_Unsynch();
+            audio_stream_Count=false;
+        }
     #endif
 }
 
@@ -1374,6 +1383,7 @@ void File_Flv::audio_AAC()
                 Demux(Buffer+Buffer_Offset+(size_t)Element_Offset, (size_t)(Element_Size-Element_Offset), ContentType_MainStream);
                 Open_Buffer_Continue(Stream[Stream_Audio].Parser);
 
+                Stream[Stream_Audio].Parser->Open_Buffer_Unsynch();
                 audio_stream_Count=false; //No need of more
                 break;
         default: Skip_XX(Element_Size-Element_Offset,           "Unknown");
