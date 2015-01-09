@@ -26,6 +26,7 @@
 #include "IPinHook.h"
 #include "MacrovisionKicker.h"
 #include "IMPCVideoDecFilter.h"
+#include "../../../DSUtil/ArrayUtils.h"
 
 #if (0)     // Set to 1 to activate EVR traces
 #define TRACE_EVR   TRACE
@@ -105,7 +106,7 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     , fnDXVA2CreateDirect3DDeviceManager9("dxva2.dll", "DXVA2CreateDirect3DDeviceManager9")
     , fnMFCreateDXSurfaceBuffer("evr.dll", "MFCreateDXSurfaceBuffer")
     , fnMFCreateVideoSampleFromSurface("evr.dll", "MFCreateVideoSampleFromSurface")
-    , fnMFCreateVideoMediaType("evr.dll", "MFCreateVideoMediaType")
+    , fnMFCreateMediaType("mfplat.dll", "MFCreateMediaType")
     , fnAvSetMmThreadCharacteristicsW("avrt.dll", "AvSetMmThreadCharacteristicsW")
     , fnAvSetMmThreadPriority("avrt.dll", "AvSetMmThreadPriority")
     , fnAvRevertMmThreadCharacteristics("avrt.dll", "AvRevertMmThreadCharacteristics")
@@ -120,7 +121,7 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
         return;
     }
 
-    if (!fnDXVA2CreateDirect3DDeviceManager9 || !fnMFCreateDXSurfaceBuffer || !fnMFCreateVideoSampleFromSurface || !fnMFCreateVideoMediaType) {
+    if (!fnDXVA2CreateDirect3DDeviceManager9 || !fnMFCreateDXSurfaceBuffer || !fnMFCreateVideoSampleFromSurface || !fnMFCreateMediaType) {
         if (!fnDXVA2CreateDirect3DDeviceManager9) {
             _Error += L"Could not find DXVA2CreateDirect3DDeviceManager9 (dxva2.dll)\n";
         }
@@ -130,8 +131,8 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
         if (!fnMFCreateVideoSampleFromSurface) {
             _Error += L"Could not find MFCreateVideoSampleFromSurface (evr.dll)\n";
         }
-        if (!fnMFCreateVideoMediaType) {
-            _Error += L"Could not find MFCreateVideoMediaType (evr.dll)\n";
+        if (!fnMFCreateMediaType) {
+            _Error += L"Could not find MFCreateMediaType (mfplat.dll)\n";
         }
         hr = E_FAIL;
         return;
@@ -149,7 +150,7 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
         HANDLE hDevice;
         if (SUCCEEDED(m_pD3DManager->OpenDeviceHandle(&hDevice)) &&
                 SUCCEEDED(m_pD3DManager->GetVideoService(hDevice, IID_PPV_ARGS(&pDecoderService)))) {
-            TRACE_EVR("EVR: DXVA2 : device handle = 0x%08x", hDevice);
+            TRACE_EVR("EVR: DXVA2 : device handle = 0x%08x\n", hDevice);
             HookDirectXVideoDecoderService(pDecoderService);
 
             m_pD3DManager->CloseDeviceHandle(hDevice);
@@ -663,95 +664,72 @@ HRESULT CEVRAllocatorPresenter::IsMediaTypeSupported(IMFMediaType* pMixerType)
     return hr;
 }
 
-HRESULT CEVRAllocatorPresenter::CreateProposedOutputType(IMFMediaType* pMixerType, IMFMediaType** ppType)
+HRESULT CEVRAllocatorPresenter::CreateOptimalOutputType(IMFMediaType* pMixerProposedType, IMFMediaType* pMixerInputType, IMFMediaType** ppType)
 {
     HRESULT hr;
-    AM_MEDIA_TYPE* pAMMedia = nullptr;
-    LARGE_INTEGER  i64Size;
-    MFVIDEOFORMAT* VideoFormat;
+    IMFMediaType* pOptimalMediaType;
 
-    CHECK_HR(pMixerType->GetRepresentation(FORMAT_MFVideoFormat, (void**)&pAMMedia));
+    CHECK_HR(fnMFCreateMediaType(&pOptimalMediaType));
+    CHECK_HR(pMixerProposedType->CopyAllItems(pOptimalMediaType));
 
-    VideoFormat = (MFVIDEOFORMAT*)pAMMedia->pbFormat;
+    auto colorAttributes = make_array(
+                               MF_MT_VIDEO_LIGHTING,
+                               MF_MT_VIDEO_PRIMARIES,
+                               MF_MT_TRANSFER_FUNCTION,
+                               MF_MT_YUV_MATRIX,
+                               MF_MT_VIDEO_CHROMA_SITING
+                           );
 
-    IMFVideoMediaType* pMediaType;
-    hr = pfMFCreateVideoMediaType(VideoFormat, &pMediaType);
+    auto copyAttribute = [](IMFAttributes * pFrom, IMFAttributes * pTo, REFGUID guidKey) {
+        PROPVARIANT val;
+        HRESULT hr = pFrom->GetItem(guidKey, &val);
 
-#if 0
-    // This code doesn't work, use same method as VMR9 instead
-    if (VideoFormat->videoInfo.FramesPerSecond.Numerator != 0) {
-        switch (VideoFormat->videoInfo.InterlaceMode) {
-            case MFVideoInterlace_Progressive:
-            case MFVideoInterlace_MixedInterlaceOrProgressive:
-            default: {
-                m_rtTimePerFrame = (10000000I64 * VideoFormat->videoInfo.FramesPerSecond.Denominator) / VideoFormat->videoInfo.FramesPerSecond.Numerator;
-                m_bInterlaced = false;
-            }
-            break;
-            case MFVideoInterlace_FieldSingleUpper:
-            case MFVideoInterlace_FieldSingleLower:
-            case MFVideoInterlace_FieldInterleavedUpperFirst:
-            case MFVideoInterlace_FieldInterleavedLowerFirst: {
-                m_rtTimePerFrame = (20000000I64 * VideoFormat->videoInfo.FramesPerSecond.Denominator) / VideoFormat->videoInfo.FramesPerSecond.Numerator;
-                m_bInterlaced = true;
-            }
-            break;
+        if (SUCCEEDED(hr)) {
+            hr = pTo->SetItem(guidKey, val);
+            PropVariantClear(&val);
+        } else if (hr == MF_E_ATTRIBUTENOTFOUND) {
+            hr = pTo->DeleteItem(guidKey);
+        }
+        return hr;
+    };
+
+    for (REFGUID guidKey : colorAttributes) {
+        if (FAILED(hr = copyAttribute(pMixerInputType, pOptimalMediaType, guidKey))) {
+            TRACE_EVR(_T("Copying color attribute %s failed: 0x%08x\n"), CComBSTR(guidKey), hr);
         }
     }
-#endif
 
-    CSize videoSize;
-    videoSize.cx = VideoFormat->videoInfo.dwWidth;
-    videoSize.cy = VideoFormat->videoInfo.dwHeight;
+    pOptimalMediaType->SetUINT32(MF_MT_PAN_SCAN_ENABLED, 0);
 
-    if (SUCCEEDED(hr)) {
-        i64Size.HighPart = videoSize.cx;
-        i64Size.LowPart  = videoSize.cy;
-        pMediaType->SetUINT64(MF_MT_FRAME_SIZE, i64Size.QuadPart);
+    const CRenderersSettings& r = GetRenderersSettings();
 
-        pMediaType->SetUINT32(MF_MT_PAN_SCAN_ENABLED, 0);
-
-        const CRenderersSettings& r = GetRenderersSettings();
-
-#if 1
-        if (r.m_AdvRendSets.iEVROutputRange == 1) {
-            pMediaType->SetUINT32(MF_MT_VIDEO_NOMINAL_RANGE, MFNominalRange_16_235);
-        } else {
-            pMediaType->SetUINT32(MF_MT_VIDEO_NOMINAL_RANGE, MFNominalRange_0_255);
-        }
-
-        //      m_pMediaType->SetUINT32 (MF_MT_TRANSFER_FUNCTION, MFVideoTransFunc_10);
-#else
-
-        pMediaType->SetUINT32(MF_MT_VIDEO_NOMINAL_RANGE, MFNominalRange_0_255);
-        if (r.iEVROutputRange == 1) {
-            pMediaType->SetUINT32(MF_MT_YUV_MATRIX, MFVideoTransferMatrix_BT601);
-        } else {
-            pMediaType->SetUINT32(MF_MT_YUV_MATRIX, MFVideoTransferMatrix_BT709);
-        }
-#endif
-
-
-        m_LastSetOutputRange = r.m_AdvRendSets.iEVROutputRange;
-
-        i64Size.HighPart = VideoFormat->videoInfo.PixelAspectRatio.Numerator;
-        i64Size.LowPart = VideoFormat->videoInfo.PixelAspectRatio.Denominator;
-        pMediaType->SetUINT64(MF_MT_PIXEL_ASPECT_RATIO, i64Size.QuadPart);
-
-        MFVideoArea Area = MakeArea(0, 0, videoSize.cx, videoSize.cy);
-        pMediaType->SetBlob(MF_MT_GEOMETRIC_APERTURE, (UINT8*)&Area, sizeof(MFVideoArea));
-
+    if (r.m_AdvRendSets.iEVROutputRange == 1) {
+        pOptimalMediaType->SetUINT32(MF_MT_VIDEO_NOMINAL_RANGE, MFNominalRange_16_235);
+    } else {
+        pOptimalMediaType->SetUINT32(MF_MT_VIDEO_NOMINAL_RANGE, MFNominalRange_0_255);
     }
 
-    UINT64 dwARx = UINT64(VideoFormat->videoInfo.PixelAspectRatio.Numerator)   * videoSize.cx;
-    UINT64 dwARy = UINT64(VideoFormat->videoInfo.PixelAspectRatio.Denominator) * videoSize.cy;
-    UINT64 gcd = GCD(dwARx, dwARy);
+    m_LastSetOutputRange = r.m_AdvRendSets.iEVROutputRange;
+
+    ULARGE_INTEGER ui64Size;
+    pOptimalMediaType->GetUINT64(MF_MT_FRAME_SIZE, &ui64Size.QuadPart);
+
+    CSize videoSize((LONG)ui64Size.HighPart, (LONG)ui64Size.LowPart);
+    MFVideoArea Area = MakeArea(0, 0, videoSize.cx, videoSize.cy);
+    pOptimalMediaType->SetBlob(MF_MT_GEOMETRIC_APERTURE, (UINT8*)&Area, sizeof(MFVideoArea));
+
+    ULARGE_INTEGER ui64AspectRatio;
+    pOptimalMediaType->GetUINT64(MF_MT_PIXEL_ASPECT_RATIO, &ui64AspectRatio.QuadPart);
+
+    UINT64 ui64ARx = UINT64(ui64AspectRatio.HighPart) * ui64Size.HighPart;
+    UINT64 ui64ARy = UINT64(ui64AspectRatio.LowPart)  * ui64Size.LowPart;
+    UINT64 gcd = GCD(ui64ARx, ui64ARy);
     if (gcd > 1) {
-        dwARx /= gcd;
-        dwARy /= gcd;
+        ui64ARx /= gcd;
+        ui64ARy /= gcd;
     }
-    CSize aspectRatio((LONG)dwARx, (LONG)dwARy);
 
+    CSize aspectRatio((LONG)ui64ARx, (LONG)ui64ARy);
     if (videoSize != m_nativeVideoSize || aspectRatio != m_aspectRatio) {
         SetVideoSize(videoSize, aspectRatio);
 
@@ -761,8 +739,8 @@ HRESULT CEVRAllocatorPresenter::CreateProposedOutputType(IMFMediaType* pMixerTyp
         }
     }
 
-    pMixerType->FreeRepresentation(FORMAT_MFVideoFormat, (void*)pAMMedia);
-    pMediaType->QueryInterface(IID_PPV_ARGS(ppType));
+    *ppType = pOptimalMediaType;
+    (*ppType)->AddRef();
 
     return hr;
 }
@@ -950,6 +928,7 @@ HRESULT CEVRAllocatorPresenter::RenegotiateMediaType()
     HRESULT hr = S_OK;
 
     CComPtr<IMFMediaType> pMixerType;
+    CComPtr<IMFMediaType> pMixerInputType;
     CComPtr<IMFMediaType> pType;
 
     if (!m_pMixer) {
@@ -959,13 +938,13 @@ HRESULT CEVRAllocatorPresenter::RenegotiateMediaType()
     CInterfaceArray<IMFMediaType> ValidMixerTypes;
 
     // Get the mixer's input type
-    hr = m_pMixer->GetInputCurrentType(0, &pType);
+    hr = m_pMixer->GetInputCurrentType(0, &pMixerInputType);
     if (SUCCEEDED(hr)) {
         AM_MEDIA_TYPE* pMT;
-        hr = pType->GetRepresentation(FORMAT_VideoInfo2, (void**)&pMT);
+        hr = pMixerInputType->GetRepresentation(FORMAT_VideoInfo2, (void**)&pMT);
         if (SUCCEEDED(hr)) {
             m_inputMediaType = *pMT;
-            pType->FreeRepresentation(FORMAT_VideoInfo2, pMT);
+            pMixerInputType->FreeRepresentation(FORMAT_VideoInfo2, pMT);
         }
     }
 
@@ -987,7 +966,7 @@ HRESULT CEVRAllocatorPresenter::RenegotiateMediaType()
         }
 
         if (SUCCEEDED(hr)) {
-            hr = CreateProposedOutputType(pMixerType, &pType);
+            hr = CreateOptimalOutputType(pMixerType, pMixerInputType, &pType);
         }
 
         // Step 4. Check if the mixer will accept this media type.

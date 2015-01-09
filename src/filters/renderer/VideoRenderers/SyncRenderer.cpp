@@ -45,6 +45,7 @@
 #include "SyncRenderer.h"
 #include "version.h"
 #include "FocusThread.h"
+#include "../../../DSUtil/ArrayUtils.h"
 
 // only for debugging
 //#define DISABLE_USING_D3D9EX
@@ -2426,7 +2427,7 @@ CSyncAP::CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
     , fnDXVA2CreateDirect3DDeviceManager9("dxva2.dll", "DXVA2CreateDirect3DDeviceManager9")
     , fnMFCreateDXSurfaceBuffer("evr.dll", "MFCreateDXSurfaceBuffer")
     , fnMFCreateVideoSampleFromSurface("evr.dll", "MFCreateVideoSampleFromSurface")
-    , fnMFCreateVideoMediaType("evr.dll", "MFCreateVideoMediaType")
+    , fnMFCreateMediaType("mfplat.dll", "MFCreateMediaType")
     , fnAvSetMmThreadCharacteristicsW("avrt.dll", "AvSetMmThreadCharacteristicsW")
     , fnAvSetMmThreadPriority("avrt.dll", "AvSetMmThreadPriority")
     , fnAvRevertMmThreadCharacteristics("avrt.dll", "AvRevertMmThreadCharacteristics")
@@ -2438,7 +2439,7 @@ CSyncAP::CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
         return;
     }
 
-    if (!fnDXVA2CreateDirect3DDeviceManager9 || !fnMFCreateDXSurfaceBuffer || !fnMFCreateVideoSampleFromSurface || !fnMFCreateVideoMediaType) {
+    if (!fnDXVA2CreateDirect3DDeviceManager9 || !fnMFCreateDXSurfaceBuffer || !fnMFCreateVideoSampleFromSurface || !fnMFCreateMediaType) {
         if (!fnDXVA2CreateDirect3DDeviceManager9) {
             _Error += L"Could not find DXVA2CreateDirect3DDeviceManager9 (dxva2.dll)\n";
         }
@@ -2448,8 +2449,8 @@ CSyncAP::CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
         if (!fnMFCreateVideoSampleFromSurface) {
             _Error += L"Could not find MFCreateVideoSampleFromSurface (evr.dll)\n";
         }
-        if (!fnMFCreateVideoMediaType) {
-            _Error += L"Could not find MFCreateVideoMediaType (evr.dll)\n";
+        if (!fnMFCreateMediaType) {
+            _Error += L"Could not find MFCreateMediaType (mfplat.dll)\n";
         }
         hr = E_FAIL;
         return;
@@ -2905,52 +2906,71 @@ HRESULT CSyncAP::IsMediaTypeSupported(IMFMediaType* pMixerType)
     return hr;
 }
 
-HRESULT CSyncAP::CreateProposedOutputType(IMFMediaType* pMixerType, IMFMediaType** ppType)
+HRESULT CSyncAP::CreateOptimalOutputType(IMFMediaType* pMixerProposedType, IMFMediaType* pMixerInputType, IMFMediaType** ppType)
 {
     HRESULT hr;
-    AM_MEDIA_TYPE* pAMMedia = nullptr;
-    LARGE_INTEGER i64Size;
-    MFVIDEOFORMAT* VideoFormat;
+    IMFMediaType* pOptimalMediaType;
 
-    CHECK_HR(pMixerType->GetRepresentation(FORMAT_MFVideoFormat, (void**)&pAMMedia));
+    CHECK_HR(fnMFCreateMediaType(&pOptimalMediaType));
+    CHECK_HR(pMixerProposedType->CopyAllItems(pOptimalMediaType));
 
-    VideoFormat = (MFVIDEOFORMAT*)pAMMedia->pbFormat;
-    hr = fnMFCreateVideoMediaType(VideoFormat, &m_pMediaType);
+    auto colorAttributes = make_array(
+                               MF_MT_VIDEO_LIGHTING,
+                               MF_MT_VIDEO_PRIMARIES,
+                               MF_MT_TRANSFER_FUNCTION,
+                               MF_MT_YUV_MATRIX,
+                               MF_MT_VIDEO_CHROMA_SITING
+                           );
 
-    CSize videoSize;
-    videoSize.cx = VideoFormat->videoInfo.dwWidth;
-    videoSize.cy = VideoFormat->videoInfo.dwHeight;
+    auto copyAttribute = [](IMFAttributes * pFrom, IMFAttributes * pTo, REFGUID guidKey) {
+        PROPVARIANT val;
+        HRESULT hr = pFrom->GetItem(guidKey, &val);
 
-    if (SUCCEEDED(hr)) {
-        i64Size.HighPart = videoSize.cx;
-        i64Size.LowPart  = videoSize.cy;
-        m_pMediaType->SetUINT64(MF_MT_FRAME_SIZE, i64Size.QuadPart);
-        m_pMediaType->SetUINT32(MF_MT_PAN_SCAN_ENABLED, 0);
-        const CRenderersSettings& r = GetRenderersSettings();
-
-        if (r.m_AdvRendSets.iEVROutputRange == 1) {
-            m_pMediaType->SetUINT32(MF_MT_VIDEO_NOMINAL_RANGE, MFNominalRange_16_235);
-        } else {
-            m_pMediaType->SetUINT32(MF_MT_VIDEO_NOMINAL_RANGE, MFNominalRange_0_255);
+        if (SUCCEEDED(hr)) {
+            hr = pTo->SetItem(guidKey, val);
+            PropVariantClear(&val);
+        } else if (hr == MF_E_ATTRIBUTENOTFOUND) {
+            hr = pTo->DeleteItem(guidKey);
         }
+        return hr;
+    };
 
-        m_LastSetOutputRange = r.m_AdvRendSets.iEVROutputRange;
-        i64Size.HighPart = VideoFormat->videoInfo.PixelAspectRatio.Numerator;
-        i64Size.LowPart = VideoFormat->videoInfo.PixelAspectRatio.Denominator;
-        m_pMediaType->SetUINT64(MF_MT_PIXEL_ASPECT_RATIO, i64Size.QuadPart);
-
-        MFVideoArea Area = GetArea(0, 0, videoSize.cx, videoSize.cy);
-        m_pMediaType->SetBlob(MF_MT_GEOMETRIC_APERTURE, (UINT8*)&Area, sizeof(MFVideoArea));
+    for (REFGUID guidKey : colorAttributes) {
+        if (FAILED(hr = copyAttribute(pMixerInputType, pOptimalMediaType, guidKey))) {
+            TRACE(_T("Copying color attribute %s failed: 0x%08x\n"), CComBSTR(guidKey), hr);
+        }
     }
 
-    UINT64 dwARx = UINT64(VideoFormat->videoInfo.PixelAspectRatio.Numerator)   * videoSize.cx;
-    UINT64 dwARy = UINT64(VideoFormat->videoInfo.PixelAspectRatio.Denominator) * videoSize.cy;
-    UINT64 gcd = GCD(dwARx, dwARy);
+    pOptimalMediaType->SetUINT32(MF_MT_PAN_SCAN_ENABLED, 0);
+
+    const CRenderersSettings& r = GetRenderersSettings();
+
+    if (r.m_AdvRendSets.iEVROutputRange == 1) {
+        pOptimalMediaType->SetUINT32(MF_MT_VIDEO_NOMINAL_RANGE, MFNominalRange_16_235);
+    } else {
+        pOptimalMediaType->SetUINT32(MF_MT_VIDEO_NOMINAL_RANGE, MFNominalRange_0_255);
+    }
+
+    m_LastSetOutputRange = r.m_AdvRendSets.iEVROutputRange;
+
+    ULARGE_INTEGER ui64Size;
+    pOptimalMediaType->GetUINT64(MF_MT_FRAME_SIZE, &ui64Size.QuadPart);
+
+    CSize videoSize((LONG)ui64Size.HighPart, (LONG)ui64Size.LowPart);
+    MFVideoArea Area = GetArea(0, 0, videoSize.cx, videoSize.cy);
+    pOptimalMediaType->SetBlob(MF_MT_GEOMETRIC_APERTURE, (UINT8*)&Area, sizeof(MFVideoArea));
+
+    ULARGE_INTEGER ui64AspectRatio;
+    pOptimalMediaType->GetUINT64(MF_MT_PIXEL_ASPECT_RATIO, &ui64AspectRatio.QuadPart);
+
+    UINT64 ui64ARx = UINT64(ui64AspectRatio.HighPart) * ui64Size.HighPart;
+    UINT64 ui64ARy = UINT64(ui64AspectRatio.LowPart)  * ui64Size.LowPart;
+    UINT64 gcd = GCD(ui64ARx, ui64ARy);
     if (gcd > 1) {
-        dwARx /= gcd;
-        dwARy /= gcd;
+        ui64ARx /= gcd;
+        ui64ARy /= gcd;
     }
-    CSize aspectRatio((LONG)dwARx, (LONG)dwARy);
+    CSize aspectRatio((LONG)ui64ARx, (LONG)ui64ARy);
 
     if (videoSize != m_nativeVideoSize || aspectRatio != m_aspectRatio) {
         SetVideoSize(videoSize, aspectRatio);
@@ -2961,8 +2981,8 @@ HRESULT CSyncAP::CreateProposedOutputType(IMFMediaType* pMixerType, IMFMediaType
         }
     }
 
-    pMixerType->FreeRepresentation(FORMAT_MFVideoFormat, (void*)pAMMedia);
-    m_pMediaType->QueryInterface(IID_PPV_ARGS(ppType));
+    *ppType = pOptimalMediaType;
+    (*ppType)->AddRef();
 
     return hr;
 }
@@ -2978,6 +2998,9 @@ HRESULT CSyncAP::SetMediaType(IMFMediaType* pType)
 
     hr = InitializeDevice(pAMMedia);
     if (SUCCEEDED(hr)) {
+        CAutoLock lock(this);
+        m_pMediaType = pType;
+
         strTemp = GetMediaTypeName(pAMMedia->subtype);
         strTemp.Replace(L"MEDIASUBTYPE_", L"");
         m_strStatsMsg[MSG_MIXEROUT].Format(L"Mixer output : %s", strTemp);
@@ -3031,6 +3054,7 @@ HRESULT CSyncAP::RenegotiateMediaType()
     HRESULT hr = S_OK;
 
     CComPtr<IMFMediaType> pMixerType;
+    CComPtr<IMFMediaType> pMixerInputType;
     CComPtr<IMFMediaType> pType;
 
     if (!m_pMixer) {
@@ -3038,13 +3062,13 @@ HRESULT CSyncAP::RenegotiateMediaType()
     }
 
     // Get the mixer's input type
-    hr = m_pMixer->GetInputCurrentType(0, &pType);
+    hr = m_pMixer->GetInputCurrentType(0, &pMixerInputType);
     if (SUCCEEDED(hr)) {
         AM_MEDIA_TYPE* pMT;
-        hr = pType->GetRepresentation(FORMAT_VideoInfo2, (void**)&pMT);
+        hr = pMixerInputType->GetRepresentation(FORMAT_VideoInfo2, (void**)&pMT);
         if (SUCCEEDED(hr)) {
             m_inputMediaType = *pMT;
-            pType->FreeRepresentation(FORMAT_VideoInfo2, pMT);
+            pMixerInputType->FreeRepresentation(FORMAT_VideoInfo2, pMT);
         }
     }
 
@@ -3066,7 +3090,7 @@ HRESULT CSyncAP::RenegotiateMediaType()
             hr = IsMediaTypeSupported(pMixerType);
         }
         if (SUCCEEDED(hr)) {
-            hr = CreateProposedOutputType(pMixerType, &pType);
+            hr = CreateOptimalOutputType(pMixerType, pMixerInputType, &pType);
         }
         // Step 4. Check if the mixer will accept this media type.
         if (SUCCEEDED(hr)) {

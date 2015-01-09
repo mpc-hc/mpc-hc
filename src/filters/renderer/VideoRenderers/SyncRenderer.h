@@ -461,7 +461,7 @@ namespace GothSync
         CComPtr<IDirect3DDeviceManager9> m_pD3DManager;
         CComPtr<IMFTransform> m_pMixer;
         CComPtr<IMediaEventSink> m_pSink;
-        CComPtr<IMFVideoMediaType> m_pMediaType;
+        CComPtr<IMFMediaType> m_pMediaType;
         MFVideoAspectRatioMode m_dwVideoAspectRatioMode;
         MFVideoRenderPrefs m_dwVideoRenderPrefs;
         COLORREF m_BorderColor;
@@ -517,13 +517,13 @@ namespace GothSync
         LONGLONG GetMediaTypeMerit(IMFMediaType* pMediaType);
         HRESULT RenegotiateMediaType();
         HRESULT IsMediaTypeSupported(IMFMediaType* pMixerType);
-        HRESULT CreateProposedOutputType(IMFMediaType* pMixerType, IMFMediaType** pType);
+        HRESULT CreateOptimalOutputType(IMFMediaType* pMixerProposedType, IMFMediaType* pMixerInputType, IMFMediaType** ppType);
         HRESULT SetMediaType(IMFMediaType* pType);
 
         const WinapiFunc<decltype(DXVA2CreateDirect3DDeviceManager9)> fnDXVA2CreateDirect3DDeviceManager9;
         const WinapiFunc<decltype(MFCreateDXSurfaceBuffer)> fnMFCreateDXSurfaceBuffer;
         const WinapiFunc<decltype(MFCreateVideoSampleFromSurface)> fnMFCreateVideoSampleFromSurface;
-        const WinapiFunc<decltype(MFCreateVideoMediaType)> fnMFCreateVideoMediaType;
+        const WinapiFunc<decltype(MFCreateMediaType)> fnMFCreateMediaType;
 
         const WinapiFunc<decltype(AvSetMmThreadCharacteristicsW)> fnAvSetMmThreadCharacteristicsW;
         const WinapiFunc<decltype(AvSetMmThreadPriority)> fnAvSetMmThreadPriority;

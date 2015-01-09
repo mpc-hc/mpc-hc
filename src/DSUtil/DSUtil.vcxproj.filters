@@ -133,5 +133,8 @@
     <ClInclude Include="WinapiFunc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ArrayUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

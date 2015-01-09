@@ -247,7 +247,7 @@ namespace DSObjects
         // === Media type negotiation functions
         HRESULT                          RenegotiateMediaType();
         HRESULT                          IsMediaTypeSupported(IMFMediaType* pMixerType);
-        HRESULT                          CreateProposedOutputType(IMFMediaType* pMixerType, IMFMediaType** pType);
+        HRESULT                          CreateOptimalOutputType(IMFMediaType* pMixerProposedType, IMFMediaType* pMixerInputType, IMFMediaType** pType);
         HRESULT                          SetMediaType(IMFMediaType* pType);
         HRESULT                          GetMediaTypeFourCC(IMFMediaType* pType, DWORD* pFourCC);
         HRESULT                          GetMediaTypeMerit(IMFMediaType* pType, int* pMerit);
@@ -256,7 +256,7 @@ namespace DSObjects
         const WinapiFunc<decltype(DXVA2CreateDirect3DDeviceManager9)> fnDXVA2CreateDirect3DDeviceManager9;
         const WinapiFunc<decltype(MFCreateDXSurfaceBuffer)> fnMFCreateDXSurfaceBuffer;
         const WinapiFunc<decltype(MFCreateVideoSampleFromSurface)> fnMFCreateVideoSampleFromSurface;
-        const WinapiFunc<decltype(MFCreateVideoMediaType)> fnMFCreateVideoMediaType;
+        const WinapiFunc<decltype(MFCreateMediaType)> fnMFCreateMediaType;
 
         const WinapiFunc<decltype(AvSetMmThreadCharacteristicsW)> fnAvSetMmThreadCharacteristicsW;
         const WinapiFunc<decltype(AvSetMmThreadPriority)> fnAvSetMmThreadPriority;
