@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -23,25 +23,10 @@
 #include "DX9AllocatorPresenter.h"
 #include <mfapi.h>  // API Media Foundation
 #include <evr9.h>
+#include "../../../DSUtil/WinapiFunc.h"
 
 namespace DSObjects
 {
-    // dxva.dll
-    typedef HRESULT(__stdcall* PTR_DXVA2CreateDirect3DDeviceManager9)(UINT* pResetToken, IDirect3DDeviceManager9** ppDeviceManager);
-
-    // mf.dll
-    typedef HRESULT(__stdcall* PTR_MFCreatePresentationClock)(IMFPresentationClock** ppPresentationClock);
-
-    // evr.dll
-    typedef HRESULT(__stdcall* PTR_MFCreateDXSurfaceBuffer)(REFIID riid, IUnknown* punkSurface, BOOL fBottomUpWhenLinear, IMFMediaBuffer** ppBuffer);
-    typedef HRESULT(__stdcall* PTR_MFCreateVideoSampleFromSurface)(IUnknown* pUnkSurface, IMFSample** ppSample);
-    typedef HRESULT(__stdcall* PTR_MFCreateVideoMediaType)(const MFVIDEOFORMAT* pVideoFormat, IMFVideoMediaType** ppIVideoMediaType);
-
-    // avrt.dll
-    typedef HANDLE(__stdcall* PTR_AvSetMmThreadCharacteristicsW)(LPCWSTR TaskName, LPDWORD TaskIndex);
-    typedef BOOL (__stdcall* PTR_AvSetMmThreadPriority)(HANDLE AvrtHandle, AVRT_PRIORITY Priority);
-    typedef BOOL (__stdcall* PTR_AvRevertMmThreadCharacteristics)(HANDLE AvrtHandle);
-
     class COuterEVR;
 
     class CEVRAllocatorPresenter :
@@ -268,25 +253,14 @@ namespace DSObjects
         HRESULT                          GetMediaTypeMerit(IMFMediaType* pType, int* pMerit);
         LPCTSTR                          GetMediaTypeFormatDesc(IMFMediaType* pMediaType);
 
-        // === Functions pointers on Vista+ / .NET Framework 3.5 specific library
-        HMODULE m_hDXVA2Lib;
-        HMODULE m_hEVRLib;
-        HMODULE m_hAVRTLib;
+        const WinapiFunc<decltype(DXVA2CreateDirect3DDeviceManager9)> fnDXVA2CreateDirect3DDeviceManager9;
+        const WinapiFunc<decltype(MFCreateDXSurfaceBuffer)> fnMFCreateDXSurfaceBuffer;
+        const WinapiFunc<decltype(MFCreateVideoSampleFromSurface)> fnMFCreateVideoSampleFromSurface;
+        const WinapiFunc<decltype(MFCreateVideoMediaType)> fnMFCreateVideoMediaType;
 
-        PTR_DXVA2CreateDirect3DDeviceManager9 pfDXVA2CreateDirect3DDeviceManager9;
-        PTR_MFCreateDXSurfaceBuffer           pfMFCreateDXSurfaceBuffer;
-        PTR_MFCreateVideoSampleFromSurface    pfMFCreateVideoSampleFromSurface;
-        PTR_MFCreateVideoMediaType            pfMFCreateVideoMediaType;
-
-#if 0
-        HRESULT(__stdcall* pMFCreateMediaType)(__deref_out IMFMediaType**  ppMFType);
-        HRESULT(__stdcall* pMFInitMediaTypeFromAMMediaType)(__in IMFMediaType* pMFType, __in const AM_MEDIA_TYPE* pAMType);
-        HRESULT(__stdcall* pMFInitAMMediaTypeFromMFMediaType)(__in IMFMediaType* pMFType, __in GUID guidFormatBlockType, __inout AM_MEDIA_TYPE* pAMType);
-#endif
-
-        PTR_AvSetMmThreadCharacteristicsW     pfAvSetMmThreadCharacteristicsW;
-        PTR_AvSetMmThreadPriority             pfAvSetMmThreadPriority;
-        PTR_AvRevertMmThreadCharacteristics   pfAvRevertMmThreadCharacteristics;
+        const WinapiFunc<decltype(AvSetMmThreadCharacteristicsW)> fnAvSetMmThreadCharacteristicsW;
+        const WinapiFunc<decltype(AvSetMmThreadPriority)> fnAvSetMmThreadPriority;
+        const WinapiFunc<decltype(AvRevertMmThreadCharacteristics)> fnAvRevertMmThreadCharacteristics;
     };
 
 }

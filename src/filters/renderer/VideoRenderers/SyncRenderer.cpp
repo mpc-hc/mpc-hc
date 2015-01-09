@@ -1,5 +1,5 @@
 /*
- * (C) 2010-2014 see Authors.txt
+ * (C) 2010-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -2401,9 +2401,6 @@ STDMETHODIMP CBaseAP::SetPixelShader2(LPCSTR pSrcData, LPCSTR pTarget, bool bScr
 
 CSyncAP::CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
     : CBaseAP(hWnd, bFullscreen, hr, _Error)
-    , m_hDXVA2Lib(nullptr)
-    , m_hEVRLib(nullptr)
-    , m_hAVRTLib(nullptr)
     , m_nResetToken(0)
     , m_hRenderThread(nullptr)
     , m_hMixerThread(nullptr)
@@ -2426,13 +2423,13 @@ CSyncAP::CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
     , m_bPrerolled(false)
     , m_LastClockState(MFCLOCK_STATE_INVALID)
     , m_bEvtSkip(false)
-    , pfDXVA2CreateDirect3DDeviceManager9(nullptr)
-    , pfMFCreateDXSurfaceBuffer(nullptr)
-    , pfMFCreateVideoSampleFromSurface(nullptr)
-    , pfMFCreateVideoMediaType(nullptr)
-    , pfAvSetMmThreadCharacteristicsW(nullptr)
-    , pfAvSetMmThreadPriority(nullptr)
-    , pfAvRevertMmThreadCharacteristics(nullptr)
+    , fnDXVA2CreateDirect3DDeviceManager9("dxva2.dll", "DXVA2CreateDirect3DDeviceManager9")
+    , fnMFCreateDXSurfaceBuffer("evr.dll", "MFCreateDXSurfaceBuffer")
+    , fnMFCreateVideoSampleFromSurface("evr.dll", "MFCreateVideoSampleFromSurface")
+    , fnMFCreateVideoMediaType("evr.dll", "MFCreateVideoMediaType")
+    , fnAvSetMmThreadCharacteristicsW("avrt.dll", "AvSetMmThreadCharacteristicsW")
+    , fnAvSetMmThreadPriority("avrt.dll", "AvSetMmThreadPriority")
+    , fnAvRevertMmThreadCharacteristics("avrt.dll", "AvRevertMmThreadCharacteristics")
 {
     const CRenderersSettings& r = GetRenderersSettings();
 
@@ -2441,47 +2438,25 @@ CSyncAP::CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
         return;
     }
 
-    // Load EVR specific DLLs
-    m_hDXVA2Lib = LoadLibrary(L"dxva2.dll");
-    if (m_hDXVA2Lib) {
-        pfDXVA2CreateDirect3DDeviceManager9 = (PTR_DXVA2CreateDirect3DDeviceManager9) GetProcAddress(m_hDXVA2Lib, "DXVA2CreateDirect3DDeviceManager9");
-    }
-
-    // Load EVR functions
-    m_hEVRLib = LoadLibrary(L"evr.dll");
-    if (m_hEVRLib) {
-        pfMFCreateDXSurfaceBuffer = (PTR_MFCreateDXSurfaceBuffer)GetProcAddress(m_hEVRLib, "MFCreateDXSurfaceBuffer");
-        pfMFCreateVideoSampleFromSurface = (PTR_MFCreateVideoSampleFromSurface)GetProcAddress(m_hEVRLib, "MFCreateVideoSampleFromSurface");
-        pfMFCreateVideoMediaType = (PTR_MFCreateVideoMediaType)GetProcAddress(m_hEVRLib, "MFCreateVideoMediaType");
-    }
-
-    if (!pfDXVA2CreateDirect3DDeviceManager9 || !pfMFCreateDXSurfaceBuffer || !pfMFCreateVideoSampleFromSurface || !pfMFCreateVideoMediaType) {
-        if (!pfDXVA2CreateDirect3DDeviceManager9) {
+    if (!fnDXVA2CreateDirect3DDeviceManager9 || !fnMFCreateDXSurfaceBuffer || !fnMFCreateVideoSampleFromSurface || !fnMFCreateVideoMediaType) {
+        if (!fnDXVA2CreateDirect3DDeviceManager9) {
             _Error += L"Could not find DXVA2CreateDirect3DDeviceManager9 (dxva2.dll)\n";
         }
-        if (!pfMFCreateDXSurfaceBuffer) {
+        if (!fnMFCreateDXSurfaceBuffer) {
             _Error += L"Could not find MFCreateDXSurfaceBuffer (evr.dll)\n";
         }
-        if (!pfMFCreateVideoSampleFromSurface) {
+        if (!fnMFCreateVideoSampleFromSurface) {
             _Error += L"Could not find MFCreateVideoSampleFromSurface (evr.dll)\n";
         }
-        if (!pfMFCreateVideoMediaType) {
+        if (!fnMFCreateVideoMediaType) {
             _Error += L"Could not find MFCreateVideoMediaType (evr.dll)\n";
         }
         hr = E_FAIL;
         return;
     }
 
-    // Load Vista+ specific DLLs
-    m_hAVRTLib = LoadLibrary(L"avrt.dll");
-    if (m_hAVRTLib) {
-        pfAvSetMmThreadCharacteristicsW = (PTR_AvSetMmThreadCharacteristicsW) GetProcAddress(m_hAVRTLib, "AvSetMmThreadCharacteristicsW");
-        pfAvSetMmThreadPriority = (PTR_AvSetMmThreadPriority) GetProcAddress(m_hAVRTLib, "AvSetMmThreadPriority");
-        pfAvRevertMmThreadCharacteristics = (PTR_AvRevertMmThreadCharacteristics) GetProcAddress(m_hAVRTLib, "AvRevertMmThreadCharacteristics");
-    }
-
     // Init DXVA manager
-    hr = pfDXVA2CreateDirect3DDeviceManager9(&m_nResetToken, &m_pD3DManager);
+    hr = fnDXVA2CreateDirect3DDeviceManager9(&m_nResetToken, &m_pD3DManager);
     if (SUCCEEDED(hr) && m_pD3DManager) {
         hr = m_pD3DManager->ResetDevice(m_pD3DDev, m_nResetToken);
         if (FAILED(hr)) {
@@ -2515,16 +2490,6 @@ CSyncAP::~CSyncAP()
     m_pMediaType = nullptr;
     m_pClock = nullptr;
     m_pD3DManager = nullptr;
-
-    if (m_hDXVA2Lib) {
-        FreeLibrary(m_hDXVA2Lib);
-    }
-    if (m_hEVRLib) {
-        FreeLibrary(m_hEVRLib);
-    }
-    if (m_hAVRTLib) {
-        FreeLibrary(m_hAVRTLib);
-    }
 }
 
 HRESULT CSyncAP::CheckShutdown() const
@@ -2950,7 +2915,7 @@ HRESULT CSyncAP::CreateProposedOutputType(IMFMediaType* pMixerType, IMFMediaType
     CHECK_HR(pMixerType->GetRepresentation(FORMAT_MFVideoFormat, (void**)&pAMMedia));
 
     VideoFormat = (MFVIDEOFORMAT*)pAMMedia->pbFormat;
-    hr = pfMFCreateVideoMediaType(VideoFormat, &m_pMediaType);
+    hr = fnMFCreateVideoMediaType(VideoFormat, &m_pMediaType);
 
     CSize videoSize;
     videoSize.cx = VideoFormat->videoInfo.dwWidth;
@@ -3532,7 +3497,7 @@ STDMETHODIMP CSyncAP::InitializeDevice(AM_MEDIA_TYPE* pMediaType)
 
     for (int i = 0; i < m_nDXSurface; i++) {
         CComPtr<IMFSample> pMFSample;
-        hr = pfMFCreateVideoSampleFromSurface(m_pVideoSurface[i], &pMFSample);
+        hr = fnMFCreateVideoSampleFromSurface(m_pVideoSurface[i], &pMFSample);
         if (SUCCEEDED(hr)) {
             pMFSample->SetUINT32(GUID_SURFACE_INDEX, i);
             m_FreeSamples.AddTail(pMFSample);
@@ -3617,11 +3582,11 @@ void CSyncAP::RenderThread()
 
     // Tell Multimedia Class Scheduler we are doing threaded playback (increase priority)
     HANDLE hAvrt = 0;
-    if (pfAvSetMmThreadCharacteristicsW) {
+    if (fnAvSetMmThreadCharacteristicsW) {
         DWORD dwTaskIndex = 0;
-        hAvrt = pfAvSetMmThreadCharacteristicsW(L"Playback", &dwTaskIndex);
-        if (pfAvSetMmThreadPriority) {
-            pfAvSetMmThreadPriority(hAvrt, AVRT_PRIORITY_HIGH);
+        hAvrt = fnAvSetMmThreadCharacteristicsW(L"Playback", &dwTaskIndex);
+        if (fnAvSetMmThreadPriority) {
+            fnAvSetMmThreadPriority(hAvrt, AVRT_PRIORITY_HIGH);
         }
     }
 
@@ -3808,8 +3773,8 @@ void CSyncAP::RenderThread()
         pNewSample = nullptr;
     }
     timeEndPeriod(dwResolution);
-    if (pfAvRevertMmThreadCharacteristics) {
-        pfAvRevertMmThreadCharacteristics(hAvrt);
+    if (fnAvRevertMmThreadCharacteristics) {
+        fnAvRevertMmThreadCharacteristics(hAvrt);
     }
 }
 
@@ -3824,7 +3789,7 @@ STDMETHODIMP_(bool) CSyncAP::ResetDevice()
 
     for (int i = 0; i < m_nDXSurface; i++) {
         CComPtr<IMFSample> pMFSample;
-        HRESULT hr = pfMFCreateVideoSampleFromSurface(m_pVideoSurface[i], &pMFSample);
+        HRESULT hr = fnMFCreateVideoSampleFromSurface(m_pVideoSurface[i], &pMFSample);
         if (SUCCEEDED(hr)) {
             pMFSample->SetUINT32(GUID_SURFACE_INDEX, i);
             m_FreeSamples.AddTail(pMFSample);
