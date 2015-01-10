@@ -3000,6 +3000,7 @@ HRESULT CSyncAP::SetMediaType(IMFMediaType* pType)
     if (SUCCEEDED(hr)) {
         CAutoLock lock(this);
         m_pMediaType = pType;
+        m_VIH2MediaType = *pAMMedia;
 
         strTemp = GetMediaTypeName(pAMMedia->subtype);
         strTemp.Replace(L"MEDIASUBTYPE_", L"");
@@ -3063,14 +3064,6 @@ HRESULT CSyncAP::RenegotiateMediaType()
 
     // Get the mixer's input type
     hr = m_pMixer->GetInputCurrentType(0, &pMixerInputType);
-    if (SUCCEEDED(hr)) {
-        AM_MEDIA_TYPE* pMT;
-        hr = pMixerInputType->GetRepresentation(FORMAT_VideoInfo2, (void**)&pMT);
-        if (SUCCEEDED(hr)) {
-            m_inputMediaType = *pMT;
-            pMixerInputType->FreeRepresentation(FORMAT_VideoInfo2, pMT);
-        }
-    }
 
     CInterfaceArray<IMFMediaType> ValidMixerTypes;
     // Loop through all of the mixer's proposed output types.
@@ -3078,7 +3071,6 @@ HRESULT CSyncAP::RenegotiateMediaType()
     while ((hr != MF_E_NO_MORE_TYPES)) {
         pMixerType  = nullptr;
         pType = nullptr;
-        m_pMediaType = nullptr;
 
         // Step 1. Get the next media type supported by mixer.
         hr = m_pMixer->GetOutputAvailableType(0, iTypeIndex++, &pMixerType);

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -48,7 +48,7 @@ protected:
     double m_fps;
     UINT m_refreshRate;
 
-    CMediaType m_inputMediaType;
+    CMediaType m_VIH2MediaType;
 
     CComPtr<ISubPicProvider> m_pSubPicProvider;
     CComPtr<ISubPicAllocator> m_pAllocator;
