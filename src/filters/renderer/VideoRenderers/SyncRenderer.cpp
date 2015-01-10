@@ -80,7 +80,7 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
     , m_pAudioStats(nullptr)
     , m_nNextJitter(0)
     , m_nNextSyncOffset(0)
-    , m_llLastSyncTime(0)
+    , m_llLastSyncTime(LONGLONG_ERROR)
     , m_fAvrFps(0.0)
     , m_fJitterStdDev(0.0)
     , m_fSyncOffsetStdDev(0.0)
@@ -382,6 +382,7 @@ void CBaseAP::ResetStats()
     m_MaxSyncOffset = MINLONG64;
     m_uSyncGlitches = 0;
     m_pcFramesDropped = 0;
+    m_llLastSyncTime = LONGLONG_ERROR;
 }
 
 bool CBaseAP::SettingsNeedResetDevice()
@@ -1462,6 +1463,10 @@ HRESULT CBaseAP::AlphaBlt(RECT* pSrc, const RECT* pDst, IDirect3DTexture9* pText
 // Update the array m_pllJitter with a new vsync period. Calculate min, max and stddev.
 void CBaseAP::SyncStats(LONGLONG syncTime)
 {
+    if (m_llLastSyncTime == LONGLONG_ERROR) {
+        m_llLastSyncTime = syncTime;
+    }
+
     m_nNextJitter = (m_nNextJitter + 1) % NB_JITTER;
     LONGLONG jitter = syncTime - m_llLastSyncTime;
     m_pllJitter[m_nNextJitter] = jitter;
