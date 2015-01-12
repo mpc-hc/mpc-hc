@@ -1,5 +1,5 @@
 @ECHO OFF
-REM (C) 2013-2014 see Authors.txt
+REM (C) 2013-2015 see Authors.txt
 REM
 REM This file is part of MPC-HC.
 REM
@@ -57,6 +57,11 @@ CALL "..\build.bat" clean Api Both Release silent
 :tar
 tar --version 1>&2 2>NUL || (ECHO. & ECHO ERROR: tar not found & GOTO SevenZip)
 tar caf "MPC-HC.lzma" "cov-int"
+
+
+:Upload
+IF EXIST ..\build.user.bat" CALL "..\build.user.bat"
+%CURL% --form project=MPC-HC --form token=%COV_TOKEN% --form email=%COV_EMAIL% --form file=@MPC-HC.lzma --form version=%SHORT_HASH% http://scan5.coverity.com/cgi-bin/upload.py
 GOTO End
 
 
@@ -83,6 +88,14 @@ IF EXIST "%SEVENZIP_PATH%" (SET "SEVENZIP=%SEVENZIP_PATH%" & EXIT /B)
 FOR /F "tokens=2*" %%A IN (
   'REG QUERY "HKLM\SOFTWARE\7-Zip" /v "Path" 2^>NUL ^| FIND "REG_SZ" ^|^|
    REG QUERY "HKLM\SOFTWARE\Wow6432Node\7-Zip" /v "Path" 2^>NUL ^| FIND "REG_SZ"') DO SET "SEVENZIP=%%B\7z.exe"
+EXIT /B
+
+
+:SubDetectCurl
+IF EXIST curl.exe (SET "CURL=curl.exe" & EXIT /B)
+IF EXIST "%CURL_PATH%\curl.exe" (SET "CURL=CURL_PATH%\curl.exe" & EXIT /B)
+FOR %%G IN (curl.exe) DO (SET "CURL_PATH=%%~$PATH:G")
+IF EXIST "%CURL_PATH%" (SET "CURL=%CURL_PATH%" & EXIT /B)
 EXIT /B
 
 
