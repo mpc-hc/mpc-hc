@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -29,6 +29,7 @@ class CChildView : public CMouseWnd
     CRect m_vrect;
 
     CMPCPngImage m_img;
+    CImage m_resizedImg;
 
     CMainFrame* m_pMainFrame;
 

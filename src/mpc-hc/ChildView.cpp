@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -223,9 +223,17 @@ BOOL CChildView::OnEraseBkgnd(CDC* pDC)
 
         r = CRect(CPoint(x, y), CSize(std::lround(dImgWidth), std::lround(dImgHeight)));
 
-        int oldmode = pDC->SetStretchBltMode(STRETCH_HALFTONE);
-        img.StretchBlt(*pDC, r, CRect(0, 0, img.GetWidth(), img.GetHeight()));
-        pDC->SetStretchBltMode(oldmode);
+        if (m_resizedImg.IsNull() || r.Width() != m_resizedImg.GetWidth() || r.Height() != m_resizedImg.GetHeight() || img.GetBPP() != m_resizedImg.GetBPP()) {
+            m_resizedImg.Destroy();
+            m_resizedImg.Create(r.Width(), r.Height(), img.GetBPP());
+
+            HDC hDC = m_resizedImg.GetDC();
+            SetStretchBltMode(hDC, STRETCH_HALFTONE);
+            img.StretchBlt(hDC, 0, 0, r.Width(), r.Height(), SRCCOPY);
+            m_resizedImg.ReleaseDC();
+        }
+
+        m_resizedImg.BitBlt(*pDC, r.TopLeft());
         pDC->ExcludeClipRect(r);
     }
     img.Detach();
