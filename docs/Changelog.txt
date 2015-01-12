@@ -50,6 +50,8 @@ next version - not released yet
 ! Ticket #2420, Improve the reliability of the DirectShow hooks
 ! Ticket #2626, Fix some rare crashes when another application prevents MPC-HC from rendering the video
 ! Ticket #2953, DVB: Fix crash when closing window right after switching channel
+! Ticket #3324, Some applications could interfere with Skype API and prevent MPC-HC from running
+  when "Display "Now Playing" information in Skype's mood message" was enabled
 ! Ticket #3666, DVB: Don't clear the channel list on saving new scan result
 ! Ticket #3742, Sync Renderer: Fix rare crashes when using Sync Renderer with "synchronize video to display" option enabled
 ! Ticket #3864, Video renderers: Fix a possible crash caused by a race condition
