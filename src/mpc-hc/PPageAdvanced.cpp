@@ -1,5 +1,5 @@
 /*
-* (C) 2014 see Authors.txt
+* (C) 2014-2015 see Authors.txt
 *
 * This file is part of MPC-HC.
 *
@@ -22,6 +22,7 @@
 #include <strsafe.h>
 #include "PPageAdvanced.h"
 #include "mplayerc.h"
+#include "MainFrm.h"
 #include "SettingsDefines.h"
 
 CPPageAdvanced::CPPageAdvanced()
@@ -142,6 +143,11 @@ BOOL CPPageAdvanced::OnApply()
     s.MRUDub.SetSize(s.iRecentFilesNumber);
     s.filePositions.SetMaxSize(s.iRecentFilesNumber);
     s.dvdPositions.SetMaxSize(s.iRecentFilesNumber);
+
+    // There is no main frame when the option dialog is displayed stand-alone
+    if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
+        pMainFrame->UpdateControlState(CMainFrame::UPDATE_CONTROLS_VISIBILITY);
+    }
 
     return __super::OnApply();
 }
