@@ -57,12 +57,7 @@ CALL "..\build.bat" clean Api Both Release silent
 :tar
 tar --version 1>&2 2>NUL || (ECHO. & ECHO ERROR: tar not found & GOTO SevenZip)
 tar caf "MPC-HC.lzma" "cov-int"
-
-
-:Upload
-IF EXIST ..\build.user.bat" CALL "..\build.user.bat"
-%CURL% --form project=MPC-HC --form token=%COV_TOKEN% --form email=%COV_EMAIL% --form file=@MPC-HC.lzma --form version=%SHORT_HASH% http://scan5.coverity.com/cgi-bin/upload.py
-GOTO End
+GOTO Upload
 
 
 :SevenZip
@@ -74,8 +69,15 @@ IF EXIST "%SEVENZIP%" (
   "%SEVENZIP%" a -ttar "MPC-HC.tar" "cov-int"
   "%SEVENZIP%" a -tgzip "MPC-HC.tgz" "MPC-HC.tar"
   IF EXIST "MPC-HC.tar" DEL "MPC-HC.tar"
-  GOTO End
+  GOTO Upload
 )
+
+
+:Upload
+CALL "..\build.bat" GetVersion
+CALL :SubDetectCurl
+%CURL% --form project=MPC-HC --form token=%COV_TOKEN% --form email=%COV_EMAIL% --form file=@MPC-HC.lzma --form version=%MPCHC_HASH% http://scan5.coverity.com/cgi-bin/upload.py
+GOTO End
 
 
 :SubDetectSevenzipPath
@@ -92,8 +94,10 @@ EXIT /B
 
 
 :SubDetectCurl
+IF EXIST "..\build.user.bat" CALL "..\build.user.bat"
+
 IF EXIST curl.exe (SET "CURL=curl.exe" & EXIT /B)
-IF EXIST "%CURL_PATH%\curl.exe" (SET "CURL=CURL_PATH%\curl.exe" & EXIT /B)
+IF EXIST "%CURL_PATH%\curl.exe" (SET "CURL=%CURL_PATH%\curl.exe" & EXIT /B)
 FOR %%G IN (curl.exe) DO (SET "CURL_PATH=%%~$PATH:G")
 IF EXIST "%CURL_PATH%" (SET "CURL=%CURL_PATH%" & EXIT /B)
 EXIT /B
