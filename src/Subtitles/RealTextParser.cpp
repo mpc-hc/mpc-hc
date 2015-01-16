@@ -1,5 +1,5 @@
 /*
- * (C) 2008-2014 see Authors.txt
+ * (C) 2008-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -330,9 +330,11 @@ bool CRealTextParser::GetAttributes(std::wstring& p_rszLine, unsigned int& p_riP
 
         if (p_rszLine.at(p_riPos) != '=') {
             if (m_bTryToIgnoreErrors) {
-                p_riPos = (unsigned int)p_rszLine.find_first_of('=', p_riPos);
-                if (p_riPos == std::wstring::npos) {
+                size_t pos = p_rszLine.find_first_of('=', p_riPos);
+                if (pos == std::wstring::npos) {
                     return false;
+                } else {
+                    p_riPos = (unsigned int)pos;
                 }
             } else {
                 return false;
