@@ -162,7 +162,7 @@ uk.WelcomeLabel2=На ваш комп'ютер буде встановлено [
 uk.WinVersionTooLowError=[name] вимагає використання ОС Windows XP Service Pack 3 або пізнішої версії.
 
 ; Vietnamese
-vi.WelcomeLabel2=Chuẩn bị cài [name] vào máy tính của bạn.%n%nĐề nghị bạn đóng tất cả các ứng dụng khác trước khi tiếp tục.
+vi.WelcomeLabel2=Chuẩn bị cài đặt [name] vào máy tính của bạn.%n%nĐề nghị bạn đóng tất cả các ứng dụng khác trước khi tiếp tục.
 vi.WinVersionTooLowError=Để cài đặt, [name] yêu cầu Windows XP Service Pack 3 hoặc mới hơn.
 
 ; Chinese (P.R.C.)
