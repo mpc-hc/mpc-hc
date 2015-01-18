@@ -31,13 +31,14 @@ next version - not released yet
 * Updated SoundTouch to v1.8.0 r201
 * Updated Little CMS to v2.7 (git 8174681)
 * Updated Unrar to v5.2.3
-* Updated LAV Filters to v0.63.0.41:
+* Updated LAV Filters to v0.63.0.48:
     - LAV Video Decoder: Fix a crash when the video height is not a multiple of 2
     - Ticket #3144, LAV Splitter: Support librtmp parameters for RTMP streams
     - Ticket #4407, LAV Video Decoder: Fix a rare crash when checking the compatibility with hardware decoding
     - Ticket #5030, LAV Video Decoder: The video timestamps could be wrong in some cases when using H264 DXVA decoding.
       This could lead to synchronization issue with the audio
     - Ticket #5047, LAV Splitter: Fix missing tracks in (m2)ts files
+    - Ticket #5116, LAV Video Decoder: Fix aspect ratio for some MPEG2 streams
 * Updated Arabic, Armenian, Basque, Belarusian, Bengali, British English, Catalan, Chinese (Simplified and Traditional),
   Croatian, Czech, Dutch, French, Galician, German, Greek, Hebrew, Hungarian, Italian, Japanese, Korean, Malay,
   Polish, Portuguese (Brazil), Romanian, Russian, Slovak, Slovenian, Spanish, Swedish, Tatar, Thai, Turkish,
