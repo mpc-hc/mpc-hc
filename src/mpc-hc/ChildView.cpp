@@ -142,6 +142,7 @@ void CChildView::LoadImgInternal(HGDIOBJ hImg)
     bool bHaveLogo = false;
 
     m_img.DeleteObject();
+    m_resizedImg.Destroy();
     m_bCustomImgLoaded = !!m_img.Attach(hImg);
 
     if (!m_bCustomImgLoaded && s.fLogoExternal) {
