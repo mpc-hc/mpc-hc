@@ -16,10 +16,10 @@
 /build.user.bat
 /contrib/[Aa][Ss]tyle.exe
 /contrib/cov-int
-/contrib/MPC-HC.lzma
+/contrib/cov_upload.log
+/contrib/MPC-HC.tar.xz
 /contrib/MPC-HC.tar
 /contrib/MPC-HC.tgz
-/contrib/warn-about-64-bit-msbuild.txt
 /distrib/*.exe
 /include/version_rev.h
 /signinfo.txt
