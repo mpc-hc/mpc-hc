@@ -1,5 +1,5 @@
 @ECHO OFF
-REM (C) 2012-2013 see Authors.txt
+REM (C) 2012-2013, 2015 see Authors.txt
 REM
 REM This file is part of MPC-HC.
 REM
@@ -17,11 +17,10 @@ REM You should have received a copy of the GNU General Public License
 REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-IF EXIST "%~dp0..\build.user.bat" (
-  CALL "%~dp0..\build.user.bat"
-) ELSE (
-  IF DEFINED MSYS SET MPCHC_MSYS=%MSYS%
-)
+IF EXIST "%~dp0..\build.user.bat" CALL "%~dp0..\build.user.bat"
+
+IF NOT DEFINED MPCHC_MSYS IF DEFINED MSYS SET MPCHC_MSYS=%MSYS%
+IF NOT EXIST "%MPCHC_MSYS%" EXIT /B 1
 
 SET PATH=%PATH%;%MPCHC_MSYS%\bin
 
