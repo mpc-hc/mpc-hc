@@ -205,74 +205,94 @@ static void Reverse(BYTE* d, BYTE* s, int len)
 
 bool CDVDSession::SendKey(DVD_KEY_TYPE KeyType, BYTE* pKeyData)
 {
-    CAutoPtr<DVD_COPY_PROTECT_KEY> key;
+    CAutoVectorPtr<BYTE> key;
+    DVD_COPY_PROTECT_KEY* pKey = nullptr;
+
+    auto allocateKey = [&](ULONG len) {
+        bool bSuccess = key.Allocate(len);
+        if (bSuccess) {
+            pKey = (DVD_COPY_PROTECT_KEY*)(BYTE*)key;
+            pKey->KeyLength = len;
+        }
+        return bSuccess;
+    };
 
     switch (KeyType) {
         case DvdChallengeKey:
-            key.Attach((DVD_COPY_PROTECT_KEY*)DEBUG_NEW BYTE[DVD_CHALLENGE_KEY_LENGTH]);
-            key->KeyLength = DVD_CHALLENGE_KEY_LENGTH;
-            Reverse(key->KeyData, pKeyData, 10);
+            if (allocateKey(DVD_CHALLENGE_KEY_LENGTH)) {
+                Reverse(pKey->KeyData, pKeyData, 10);
+            }
             break;
         case DvdBusKey2:
-            key.Attach((DVD_COPY_PROTECT_KEY*)DEBUG_NEW BYTE[DVD_BUS_KEY_LENGTH]);
-            key->KeyLength = DVD_BUS_KEY_LENGTH;
-            Reverse(key->KeyData, pKeyData, 5);
+            if (allocateKey(DVD_BUS_KEY_LENGTH)) {
+                Reverse(pKey->KeyData, pKeyData, 5);
+            }
             break;
         default:
             break;
     }
 
-    if (!key) {
+    if (!pKey) {
         return false;
     }
 
-    key->SessionId = m_session;
-    key->KeyType = KeyType;
-    key->KeyFlags = 0;
+    pKey->SessionId = m_session;
+    pKey->KeyType = KeyType;
+    pKey->KeyFlags = 0;
 
-    DWORD BytesReturned;
-    return !!DeviceIoControl(m_hDrive, IOCTL_DVD_SEND_KEY, key, key->KeyLength, nullptr, 0, &BytesReturned, nullptr);
+    DWORD dwBytesReturned;
+    return !!DeviceIoControl(m_hDrive, IOCTL_DVD_SEND_KEY, pKey, pKey->KeyLength, nullptr, 0, &dwBytesReturned, nullptr);
 }
 
 bool CDVDSession::ReadKey(DVD_KEY_TYPE KeyType, BYTE* pKeyData, int lba)
 {
-    CAutoPtr<DVD_COPY_PROTECT_KEY> key;
+    CAutoVectorPtr<BYTE> key;
+    DVD_COPY_PROTECT_KEY* pKey = nullptr;
+
+    auto allocateKey = [&](size_t len) {
+        bool bSuccess = key.Allocate(len);
+        if (bSuccess) {
+            pKey = (DVD_COPY_PROTECT_KEY*)(BYTE*)key;
+            pKey->KeyLength = len;
+        }
+        return bSuccess;
+    };
 
     switch (KeyType) {
         case DvdChallengeKey:
-            key.Attach((DVD_COPY_PROTECT_KEY*)DEBUG_NEW BYTE[DVD_CHALLENGE_KEY_LENGTH]);
-            key->KeyLength = DVD_CHALLENGE_KEY_LENGTH;
-            key->Parameters.TitleOffset.QuadPart = 0;
+            if (allocateKey(DVD_CHALLENGE_KEY_LENGTH)) {
+                pKey->Parameters.TitleOffset.QuadPart = 0;
+            }
             break;
         case DvdBusKey1:
-            key.Attach((DVD_COPY_PROTECT_KEY*)DEBUG_NEW BYTE[DVD_BUS_KEY_LENGTH]);
-            key->KeyLength = DVD_BUS_KEY_LENGTH;
-            key->Parameters.TitleOffset.QuadPart = 0;
+            if (allocateKey(DVD_BUS_KEY_LENGTH)) {
+                pKey->Parameters.TitleOffset.QuadPart = 0;
+            }
             break;
         case DvdDiskKey:
-            key.Attach((DVD_COPY_PROTECT_KEY*)DEBUG_NEW BYTE[DVD_DISK_KEY_LENGTH]);
-            key->KeyLength = DVD_DISK_KEY_LENGTH;
-            key->Parameters.TitleOffset.QuadPart = 0;
+            if (allocateKey(DVD_DISK_KEY_LENGTH)) {
+                pKey->Parameters.TitleOffset.QuadPart = 0;
+            }
             break;
         case DvdTitleKey:
-            key.Attach((DVD_COPY_PROTECT_KEY*)DEBUG_NEW BYTE[DVD_TITLE_KEY_LENGTH]);
-            key->KeyLength = DVD_TITLE_KEY_LENGTH;
-            key->Parameters.TitleOffset.QuadPart = 2048i64 * lba;
+            if (allocateKey(DVD_TITLE_KEY_LENGTH)) {
+                pKey->Parameters.TitleOffset.QuadPart = 2048i64 * lba;
+            }
             break;
         default:
             break;
     }
 
-    if (!key) {
+    if (!pKey) {
         return false;
     }
 
-    key->SessionId = m_session;
-    key->KeyType = KeyType;
-    key->KeyFlags = 0;
+    pKey->SessionId = m_session;
+    pKey->KeyType = KeyType;
+    pKey->KeyFlags = 0;
 
-    DWORD BytesReturned;
-    if (!DeviceIoControl(m_hDrive, IOCTL_DVD_READ_KEY, key, key->KeyLength, key, key->KeyLength, &BytesReturned, nullptr)) {
+    DWORD dwBytesReturned;
+    if (!DeviceIoControl(m_hDrive, IOCTL_DVD_READ_KEY, pKey, pKey->KeyLength, pKey, pKey->KeyLength, &dwBytesReturned, nullptr)) {
         DWORD err = GetLastError();
         UNREFERENCED_PARAMETER(err);
         return false;
@@ -280,19 +300,19 @@ bool CDVDSession::ReadKey(DVD_KEY_TYPE KeyType, BYTE* pKeyData, int lba)
 
     switch (KeyType) {
         case DvdChallengeKey:
-            Reverse(pKeyData, key->KeyData, 10);
+            Reverse(pKeyData, pKey->KeyData, 10);
             break;
         case DvdBusKey1:
-            Reverse(pKeyData, key->KeyData, 5);
+            Reverse(pKeyData, pKey->KeyData, 5);
             break;
         case DvdDiskKey:
-            memcpy(pKeyData, key->KeyData, 2048);
+            memcpy(pKeyData, pKey->KeyData, 2048);
             for (int i = 0; i < 2048 / 5; i++) {
                 pKeyData[i] ^= m_SessionKey[4 - (i % 5)];
             }
             break;
         case DvdTitleKey:
-            memcpy(pKeyData, key->KeyData, 5);
+            memcpy(pKeyData, pKey->KeyData, 5);
             for (int i = 0; i < 5; i++) {
                 pKeyData[i] ^= m_SessionKey[4 - (i % 5)];
             }
