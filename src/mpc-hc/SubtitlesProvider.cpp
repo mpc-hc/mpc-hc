@@ -100,7 +100,9 @@ SRESULT OpenSubtitles::Search(const SubtitlesInfo& pFileInfo)
     args[0] = token;
     args[1][0]["sublanguageid"] = !languages.empty() ? languages : "all";
     args[1][0]["moviehash"] = pFileInfo.fileHash;
-    args[1][0]["moviebytesize"] = (int)pFileInfo.fileSize;
+    args[1][0]["moviebytesize"] = (double)pFileInfo.fileSize;
+    //args[1][1]["sublanguageid"] = !languages.empty() ? languages : "all";
+    //args[1][1]["tag"] = pFileInfo.fileName + "." + pFileInfo.fileExtension;
     args[2]["limit"] = 500;
 
     if (!xmlrpc->execute("SearchSubtitles", args, result)) { return SR_FAILED; }
