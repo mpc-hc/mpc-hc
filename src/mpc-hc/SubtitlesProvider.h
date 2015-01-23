@@ -1,5 +1,5 @@
 ﻿/*
- * (C) 2014 see Authors.txt
+ * (C) 2014-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -66,20 +66,6 @@ virtual SRESULT Upload(const SubtitlesInfo& pSubtitlesInfo);
 virtual std::string UserAgent() { return string_format("SubDB/1.0 (mpc-hc/%S; http://mpc-hc.org)", MPC_VERSION_STR); }
 DEFINE_SUBTITLESPROVIDER_END
 
-DEFINE_SUBTITLESPROVIDER_BEGIN(TVsubtitles, "http://www.tvsubtitles.net", IDI_TVSUBTITLES, SPF_SEARCH)
-static const std::regex regex_pattern[];
-DEFINE_SUBTITLESPROVIDER_END
-
-DEFINE_SUBTITLESPROVIDER_BEGIN(Moviesubtitles, "http://www.moviesubtitles.org", IDI_MOVIESUBTITLES, SPF_SEARCH)
-static const std::regex regex_pattern[];
-DEFINE_SUBTITLESPROVIDER_END
-
-DEFINE_SUBTITLESPROVIDER_BEGIN(addic7ed, "http://www.addic7ed.com", IDI_ADDIC7ED, SPF_LOGIN)
-virtual SRESULT Login(std::string& sUserName, std::string& sPassword);
-std::string GetLanguagesString();
-static const std::regex regex_pattern[];
-DEFINE_SUBTITLESPROVIDER_END
-
 DEFINE_SUBTITLESPROVIDER_BEGIN(podnapisi, "http://www.podnapisi.net", IDI_PODNAPISI, SPF_SEARCH)
 virtual SRESULT Login(std::string& sUserName, std::string& sPassword);
 std::string GetLanguagesString();
@@ -93,27 +79,6 @@ DEFINE_SUBTITLESPROVIDER_END
 DEFINE_SUBTITLESPROVIDER_BEGIN(ysubs, "http://www.yifysubtitles.com", IDI_YSUBS, SPF_SEARCH)
 DEFINE_SUBTITLESPROVIDER_END
 
-
-static const struct { const char* code; const char* name; } addic7ed_languages[] = {
-    { /* 0*/ "",   "" },                        { /* 1*/ "en", "English" },                { /* 2*/ "",   "" },
-    { /* 3*/ "",   "" },                        { /* 4*/ "es", "Spanish" },                { /* 5*/ "es", "Spanish (Spain)" },
-    { /* 6*/ "es", "Spanish (Latin America)" }, { /* 7*/ "it", "Italian" },                { /* 8*/ "fr", "French" },
-    { /* 9*/ "pt", "Portuguese" },              { /*10*/ "pb", "Portuguese (Brazilian)" }, { /*11*/ "de", "German" },
-    { /*12*/ "ca", UTF16To8(_T("Català")) },    { /*13*/ "eu", "Euskera" },                { /*14*/ "cs", "Czech" },
-    { /*15*/ "gl", "Galego" },                  { /*16*/ "tr", "Turkish" },                { /*17*/ "nl", "Dutch" },
-    { /*18*/ "sv", "Swedish" },                 { /*19*/ "ru", "Russian" },                { /*20*/ "hu", "Hungarian" },
-    { /*21*/ "pl", "Polish" },                  { /*22*/ "sl", "Slovenian" },              { /*23*/ "he", "Hebrew" },
-    { /*24*/ "zh", "Chinese (Traditional)" },   { /*25*/ "sk", "Slovak" },                 { /*26*/ "ro", "Romanian" },
-    { /*27*/ "el", "Greek" },                   { /*28*/ "fi", "Finnish" },                { /*29*/ "no", "Norwegian" },
-    { /*30*/ "da", "Danish" },                  { /*31*/ "hr", "Croatian" },               { /*32*/ "ja", "Japanese" },
-    { /*33*/ "",   "" },                        { /*34*/ "",   "" },                       { /*35*/ "bg", "Bulgarian" },
-    { /*36*/ "sr", "Serbian (Latin)" },         { /*37*/ "id", "Indonesian" },             { /*38*/ "ar", "Arabic" },
-    { /*39*/ "sr", "Serbian (Cyrillic)" },      { /*40*/ "ms", "Malay" },                  { /*41*/ "zh", "Chinese (Simplified)" },
-    { /*42*/ "ko", "Korean" },                  { /*43*/ "fa", "Persian" },                { /*44*/ "bs", "Bosnian" },
-    { /*45*/ "vi", "Vietnamese" },              { /*46*/ "th", "Thai" },                   { /*47*/ "bn", "Bengali" },
-    { /*48*/ "az", "Azerbaijani" },             { /*49*/ "mk", "Macedonian" },             { /*50*/ "hy", "Armenian" },
-    { /*51*/ "uk", "Ukrainian" },               { /*52*/ "sq", "Albanian" },
-};
 
 static const struct { const char* code; const char* name; } podnapisi_languages[] = {
     { /* 0*/ "",   "" },                        { /* 1*/ "sl", "Slovenian" },              { /* 2*/ "en", "English" },
@@ -136,14 +101,6 @@ static const struct { const char* code; const char* name; } podnapisi_languages[
     { /*51*/ "vi", "Vietnamese" },              { /*52*/ "fa", "Farsi" },                  { /*53*/ "ca", "Catalan" },
     { /*54*/ "id", "Indonesian" },              { /*55*/ "ms", "Malay" },                  { /*56*/ "si", "Sinhala" },
     { /*57*/ "kl", "Greenlandic" },             { /*58*/ "kk", "Kazakh" },                 { /*59*/ "bn", "Bengali" },
-};
-
-static const struct { const char* code; const char* name; } tvsubtitles_languages[] = {
-    { "br", "pb" }, { "ua", "uk" }, { "gr", "el" }, { "cn", "zh" }, { "jp", "ja" }, { "cz", "cs" },
-};
-
-static const struct { const char* code; const char* name; } moviesubtitles_languages[] = {
-    { "br", "pb" }, { "ua", "uk" }, { "gr", "el" }, { "cn", "zh" }, { "jp", "ja" }, { "cz", "cs" },
 };
 
 static const struct { const char* code; const char* name; } titlovi_languages[] = {
