@@ -1346,7 +1346,7 @@ namespace {
         }
 
         topbuf[wr+16] = topbuf[wr+17] = topbuf[wr+18] = topbuf[wr+15];
-        topbuf[wr+16] = topbuf[wr+17] = botbuf[wr+18] = botbuf[wr+15];
+        botbuf[wr+16] = botbuf[wr+17] = botbuf[wr+18] = botbuf[wr+15];
 
         ela_L8_scalar(elabuf, topbuf, botbuf, w16);
         nela_L8_scalar((uint8 *)dst, elabuf, w16);
