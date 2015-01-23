@@ -947,7 +947,7 @@ void XmlRpcValue::doubleFromXml(const char* &s)
 
 void XmlRpcValue::doubleToXml(std::ostringstream &ostr) const
 {
-	ostr << VALUE_TAG << DOUBLE_TAG << u.asDouble << DOUBLE_ETAG << VALUE_ETAG;
+	ostr << VALUE_TAG << DOUBLE_TAG << std::fixed << u.asDouble << DOUBLE_ETAG << VALUE_ETAG;
 	// This will use the default ostream::precision() to display the double.  To display
 	// values with greater accuracy, call e.g.  'ostr.precision(12)' at the top level.
 }
