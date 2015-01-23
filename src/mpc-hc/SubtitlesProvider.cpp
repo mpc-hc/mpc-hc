@@ -686,8 +686,6 @@ std::string addic7ed::GetLanguagesString()
 ******************************************************************************/
 
 const std::regex podnapisi::regex_pattern[] = {
-    std::regex("<pagination>[^<]+<current>(\\d+)</current>[^<]+<count>(\\d+)</count>[^<]+<results>(\\d+)</results>[^<]+</pagination>", regex_flags),
-    std::regex("<subtitle>[^<]+<id>(\\d*)</id>[^<]+<title>(.*?)</title>[^<]+<year>(\\d*)</year>[^<]+<movieId>(\\d*)</movieId>[^<]+<url>(.*?)</url>[^<]+<uploaderId>(\\d*)</uploaderId>[^<]+<uploaderName>(.*?)</uploaderName>[^<]+<release>(.*?)</release>[^<]+<languageId>(\\d*)</languageId>[^<]+<languageName>(.*?)</languageName>[^<]+<time>(\\d*)</time>[^<]+<tvSeason>(\\d*)</tvSeason>[^<]+<tvEpisode>(\\d*)</tvEpisode>[^<]+<tvSpecial>(\\d*)</tvSpecial>[^<]+<cds>(\\d*)</cds>[^<]+<format>(.*?)</format>[^<]+<fps>(.*?)</fps>[^<]+<rating>(\\d*)</rating>[^<]+<flags/?>(?:(.*?)</flags>)?[^<]+<downloads>(\\d*)</downloads>[^<]+</subtitle>", regex_flags),
     std::regex("<a href=\"(/en/ppodnapisi/download/i/\\d+/k/[^\"]+)\">", regex_flags),
 };
 
@@ -734,7 +732,7 @@ SRESULT podnapisi::Login(std::string& sUserName, std::string& sPassword)
 SRESULT podnapisi::Search(const SubtitlesInfo& pFileInfo)
 {
     SRESULT searchResult = SR_UNDEFINED;
-    int page = 1, pages = 1;
+    int page = 1, pages = 1, results = 0;
     do {
         CheckAbortAndReturn();
         std::string data;
@@ -756,54 +754,84 @@ SRESULT podnapisi::Search(const SubtitlesInfo& pFileInfo)
         url += "/page/" + std::to_string(page);
         searchResult = Download(url, "", data);
 
-        regex_results results;
-        string_regex(regex_pattern[0], data, results);
-        for (const auto& iter : results) {
-            page = atoi(iter[0].c_str());
-            pages = atoi(iter[1].c_str());;
-        }
-        // 30 results per page
-        if (pages > 3) { return SR_TOOMANY; }
+        tinyxml2::XMLDocument dxml;
+        if (dxml.Parse(data.c_str()) == XMLError::XML_SUCCESS) {
 
-        regex_results results1;
-        string_regex(regex_pattern[1], data, results1);
-        for (const auto& iter1 : results1) {
-            if (pFileInfo.seasonNumber > 0 && pFileInfo.episodeNumber <= 0 && atoi(iter1[12].c_str()) != 0) { continue; }
-            CheckAbortAndReturn();
-            SubtitlesInfo pSubtitlesInfo;
-            pSubtitlesInfo.id = iter1[0];
-            pSubtitlesInfo.title =  HtmlSpecialCharsDecode(iter1[1].c_str());
-            pSubtitlesInfo.year = iter1[2].empty() ? -1 : atoi(iter1[2].c_str());
-            pSubtitlesInfo.url = iter1[4];
-            pSubtitlesInfo.fileExtension = iter1[15] == "SubRip" ? "srt" : iter1[15];
+            auto GetChildElementText = [&](XMLElement * pElement, const char* value) -> std::string {
+                std::string str;
+                XMLElement* pChildElement = pElement->FirstChildElement(value);
+                if (pChildElement != nullptr)
+                {
+                    auto pText = pChildElement->GetText();
+                    if (pText != nullptr) { str = pText; }
+                }
+                return str;
+            };
 
-            pSubtitlesInfo.releaseName = iter1[7];
-            pSubtitlesInfo.languageCode = podnapisi_languages[atoi(iter1[8].c_str())].code;
-            pSubtitlesInfo.languageName = iter1[9];
-            pSubtitlesInfo.seasonNumber = atoi(iter1[11].c_str());
-            pSubtitlesInfo.episodeNumber = atoi(iter1[12].c_str());
-            pSubtitlesInfo.discNumber = atoi(iter1[14].c_str());
-            pSubtitlesInfo.discCount = atoi(iter1[14].c_str());
-            pSubtitlesInfo.hearingImpaired = (iter1[18].find("n") != std::string::npos) ? TRUE : FALSE;
-            pSubtitlesInfo.corrected = (iter1[18].find("r") != std::string::npos) ? -1 : 0;
-            pSubtitlesInfo.downloadCount = atoi(iter1[19].c_str());
+            XMLElement* pRootElmt = dxml.FirstChildElement("results");
+            if (pRootElmt) {
+                XMLElement* pPaginationElmt = pRootElmt->FirstChildElement("pagination");
+                if (pPaginationElmt) {
+                    page = atoi(GetChildElementText(pPaginationElmt, "current").c_str());
+                    pages = atoi(GetChildElementText(pPaginationElmt, "count").c_str());
+                    results = atoi(GetChildElementText(pPaginationElmt, "results").c_str());
+                }
+                // 30 results per page
+                if (pages > 3) { return SR_TOOMANY; }
 
-            string_array fileNames(string_tokenize(iter1[7], " "));
-            if (fileNames.empty()) {
-                std::string str = pSubtitlesInfo.title;
-                if (pSubtitlesInfo.year > 0) { str += " " + iter1[2]; }
-                if (pSubtitlesInfo.seasonNumber > 0) { str += string_format(" S%02d", pSubtitlesInfo.seasonNumber); }
-                if (pSubtitlesInfo.episodeNumber > 0) { str += string_format("%sE%02d", (pSubtitlesInfo.seasonNumber > 0) ? "" : " ", pSubtitlesInfo.episodeNumber); }
-                str += " (*)";
-                fileNames.push_back(str);
-            }
-            pSubtitlesInfo.fileName = fileNames[0] + "." + pSubtitlesInfo.fileExtension;
-            for (const auto& fileName : fileNames) {
-                if (fileName == pFileInfo.fileName) {
-                    pSubtitlesInfo.fileName = fileName + "." + pSubtitlesInfo.fileExtension;
+                if (results > 0) {
+                    XMLElement* pSubtitleElmt = pRootElmt->FirstChildElement("subtitle");
+
+                    while (pSubtitleElmt) {
+                        CheckAbortAndReturn();
+
+                        SubtitlesInfo pSubtitlesInfo;
+
+                        pSubtitlesInfo.id = GetChildElementText(pSubtitleElmt, "id");
+                        pSubtitlesInfo.title = HtmlSpecialCharsDecode(GetChildElementText(pSubtitleElmt, "title").c_str());
+
+                        std::string year = GetChildElementText(pSubtitleElmt, "year");
+                        pSubtitlesInfo.year =  year.empty() ? -1 : atoi(year.c_str());
+
+                        pSubtitlesInfo.url = GetChildElementText(pSubtitleElmt, "url");
+                        std::string format = GetChildElementText(pSubtitleElmt, "format");
+                        pSubtitlesInfo.fileExtension = format == "SubRip" ? "srt" : format;
+
+                        pSubtitlesInfo.releaseName = GetChildElementText(pSubtitleElmt, "release");
+                        pSubtitlesInfo.languageCode = podnapisi_languages[atoi(GetChildElementText(pSubtitleElmt, "languageId").c_str())].code;
+                        pSubtitlesInfo.languageName = GetChildElementText(pSubtitleElmt, "languageName");
+                        pSubtitlesInfo.seasonNumber = atoi(GetChildElementText(pSubtitleElmt, "tvSeason").c_str());
+                        pSubtitlesInfo.episodeNumber = atoi(GetChildElementText(pSubtitleElmt, "tvEpisode").c_str());
+                        pSubtitlesInfo.discCount = atoi(GetChildElementText(pSubtitleElmt, "cds").c_str());
+                        pSubtitlesInfo.discNumber = pSubtitlesInfo.discCount;
+
+                        std::string flags = GetChildElementText(pSubtitleElmt, "flags");
+                        pSubtitlesInfo.hearingImpaired = (flags.find("n") != std::string::npos) ? TRUE : FALSE;
+                        pSubtitlesInfo.corrected = (flags.find("r") != std::string::npos) ? -1 : 0;
+                        pSubtitlesInfo.downloadCount = atoi(GetChildElementText(pSubtitleElmt, "downloads").c_str());
+                        pSubtitlesInfo.imdbid = GetChildElementText(pSubtitleElmt, "movieId");
+                        pSubtitlesInfo.frameRate = atof(GetChildElementText(pSubtitleElmt, "fps").c_str());
+
+                        string_array fileNames(string_tokenize(pSubtitlesInfo.releaseName, " "));
+                        if (fileNames.empty()) {
+                            std::string str = pSubtitlesInfo.title;
+                            if (!year.empty()) { str += " " + year; }
+                            if (pSubtitlesInfo.seasonNumber > 0) { str += string_format(" S%02d", pSubtitlesInfo.seasonNumber); }
+                            if (pSubtitlesInfo.episodeNumber > 0) { str += string_format("%sE%02d", (pSubtitlesInfo.seasonNumber > 0) ? "" : " ", pSubtitlesInfo.episodeNumber); }
+                            str += " (*)";
+                            fileNames.push_back(str);
+                        }
+                        pSubtitlesInfo.fileName = fileNames[0] + "." + pSubtitlesInfo.fileExtension;
+                        for (const auto& fileName : fileNames) {
+                            if (fileName == pFileInfo.fileName) {
+                                pSubtitlesInfo.fileName = fileName + "." + pSubtitlesInfo.fileExtension;
+                            }
+                        }
+                        Set(pSubtitlesInfo);
+                        pSubtitleElmt = pSubtitleElmt->NextSiblingElement();
+                    }
                 }
             }
-            Set(pSubtitlesInfo);
         }
     } while (page++ < pages);
 
@@ -817,7 +845,7 @@ SRESULT podnapisi::Download(SubtitlesInfo& pSubtitlesInfo)
     searchResult = Download(pSubtitlesInfo.url, "", temp);
 
     regex_results results;
-    string_regex(regex_pattern[2], temp, results);
+    string_regex(regex_pattern[0], temp, results);
     for (const auto& iter : results) {
         CheckAbortAndReturn();
         searchResult = Download("http://simple.podnapisi.net" + iter[0], "", pSubtitlesInfo.fileContents);
