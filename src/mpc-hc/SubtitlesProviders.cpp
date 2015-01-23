@@ -1,5 +1,5 @@
 ﻿/*
- * (C) 2014 see Authors.txt
+ * (C) 2014-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -80,6 +80,7 @@ void SubtitlesInfo::OpenUrl() const
     "|E\\d{1,2}"RE_ONCG(RE_O(_RE_DEAD)"E\\d{1,2}")                            \
     "|\\d{1,2}[x#]\\d{1,2}"                                                   \
     "|\\d{3}"                                                                 \
+    "|Part"_RE_DEAD"*\\d{1,2}"                                                 \
     "|"RE_ONCG("Season|Series"RE_O(_RE_DEAD)"\\d{1,2}"_RE_DEAD)"\\d{1,2}of\\d{1,2}"
 
 #define _RE_CAPTURE_SEASONEPISODE                                             \
@@ -87,6 +88,7 @@ void SubtitlesInfo::OpenUrl() const
     "|E(\\d{1,2})"RE_ONCG(RE_O(_RE_DEAD)"E\\d{1,2}")                          \
     "|(\\d{1,2})[x#](\\d{1,2})"                                               \
     "|(\\d)(\\d{2})"                                                          \
+    "|Part"_RE_DEAD"*()(\\d{1,2})"                                             \
     "|"RE_ONCG("Season|Series"RE_O(_RE_DEAD)"(\\d{1,2})"_RE_DEAD)"(\\d{1,2})of\\d{1,2}"
 
 #define _RE_CAPTURE_TITLE2                                                    \
