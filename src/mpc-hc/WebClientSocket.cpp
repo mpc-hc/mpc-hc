@@ -34,8 +34,8 @@ CWebClientSocket::CWebClientSocket(CWebServer* pWebServer, CMainFrame* pMainFram
     : m_pWebServer(pWebServer)
     , m_pMainFrame(pMainFrame)
     , m_buffLen(0)
-    , m_buffLenProcessed(0)
     , m_buffMaxLen(2048)
+    , m_buffLenProcessed(0)
     , m_parsingState(PARSING_HEADER)
     , m_dataLen(0)
 {
@@ -958,18 +958,18 @@ bool CWebClientSocket::OnViewRes(CStringA& hdr, CStringA& body, CStringA& mime)
     return true;
 }
 
-static CStringA GetChannelsJSON(const CAtlList<CDVBChannel>& channels)
+static CStringA GetChannelsJSON(const std::vector<CDVBChannel>& channels)
 {
     // begin the JSON object with the "channels" array inside
     CStringA jsonChannels = "{ \"channels\" : [";
 
-    POSITION channelPos = channels.GetHeadPosition();
-    while (channelPos) {
+    for (auto it = channels.begin(); it != channels.end();) {
         // fill the array with individual channel objects
-        jsonChannels += channels.GetNext(channelPos).ToJSON();
-        if (channelPos) {
-            jsonChannels += ",";
+        jsonChannels += it->ToJSON();
+        if (++it == channels.end()) {
+            break;
         }
+        jsonChannels += ",";
     }
 
     // terminate the array and the object, and return.

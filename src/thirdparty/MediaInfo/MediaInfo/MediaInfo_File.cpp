@@ -272,8 +272,14 @@
 #if defined(MEDIAINFO_SCC_YES)
     #include "MediaInfo/Text/File_Scc.h"
 #endif
+#if defined(MEDIAINFO_SDP_YES)
+    #include "MediaInfo/Text/File_Sdp.h"
+#endif
 #if defined(MEDIAINFO_SUBRIP_YES)
     #include "MediaInfo/Text/File_SubRip.h"
+#endif
+#if defined(MEDIAINFO_TELETEXT_YES)
+    #include "MediaInfo/Text/File_Teletext.h"
 #endif
 #if defined(MEDIAINFO_TTML_YES)
     #include "MediaInfo/Text/File_Ttml.h"
@@ -627,9 +633,15 @@ bool MediaInfo_Internal::SelectFromExtension (const String &Parser)
     #if defined(MEDIAINFO_SCC_YES)
         else if (Parser==__T("SCC"))         Info=new File_Scc();
     #endif
+    #if defined(MEDIAINFO_SDP_YES)
+        else if (Parser==__T("SDP"))         Info=new File_Sdp();
+    #endif
     #if defined(MEDIAINFO_SUBRIP_YES)
         else if (Parser==__T("SubRip"))      Info=new File_SubRip();
         else if (Parser==__T("WebVTT"))      Info=new File_SubRip();
+    #endif
+    #if defined(MEDIAINFO_TELETEXT_YES)
+        else if (Parser==__T("Teletext"))    Info=new File_Teletext();
     #endif
     #if defined(MEDIAINFO_TTML_YES)
         else if (Parser==__T("TTML"))        Info=new File_Ttml();
@@ -972,8 +984,14 @@ int MediaInfo_Internal::ListFormats(const String &File_Name)
     #if defined(MEDIAINFO_SCC_YES)
         delete Info; Info=new File_Scc();                if (((Reader_File*)Reader)->Format_Test_PerParser(this, File_Name)>0) return 1;
     #endif
+    #if defined(MEDIAINFO_SDP_YES)
+        delete Info; Info=new File_Sdp();                if (((Reader_File*)Reader)->Format_Test_PerParser(this, File_Name)>0) return 1;
+    #endif
     #if defined(MEDIAINFO_SUBRIP_YES)
         delete Info; Info=new File_SubRip();             if (((Reader_File*)Reader)->Format_Test_PerParser(this, File_Name)>0) return 1;
+    #endif
+    #if defined(MEDIAINFO_TELETEXT_YES)
+        delete Info; Info=new File_Teletext();           if (((Reader_File*)Reader)->Format_Test_PerParser(this, File_Name)>0) return 1;
     #endif
     #if defined(MEDIAINFO_TTML_YES)
         delete Info; Info=new File_Ttml();               if (((Reader_File*)Reader)->Format_Test_PerParser(this, File_Name)>0) return 1;

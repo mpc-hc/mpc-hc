@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -35,11 +35,11 @@
 
 CBaseMuxerInputPin::CBaseMuxerInputPin(LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr)
     : CBaseInputPin(NAME("CBaseMuxerInputPin"), pFilter, pLock, phr, pName)
-    , m_rtDuration(0)
-    , m_evAcceptPacket(TRUE)
-    , m_iPacketIndex(0)
-    , m_fEOS(false)
     , m_rtMaxStart(_I64_MIN)
+    , m_rtDuration(0)
+    , m_fEOS(false)
+    , m_iPacketIndex(0)
+    , m_evAcceptPacket(TRUE)
 {
     static int s_iID = 0;
     m_iID = s_iID++;

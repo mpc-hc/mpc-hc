@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Underground78, 2013-2014
@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-09-20 10:30+0000\n"
+"PO-Revision-Date: 2014-11-11 11:21+0000\n"
 "Last-Translator: Underground78\n"
 "Language-Team: French (http://www.transifex.com/projects/p/mpc-hc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -189,8 +189,8 @@ msgid "About"
 msgstr "A propos"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2014 see Authors.txt"
-msgstr "Copyright © 2002-2014 voir le fichier Authors.txt"
+msgid "Copyright © 2002-2015 see Authors.txt"
+msgstr "Copyright © 2002-2015 voir le fichier Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -294,7 +294,7 @@ msgstr "Aimanter sur les bords du bureau"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK8"
 msgid "Store settings in .ini file"
-msgstr "Configuration stockée dans un fichier .ini"
+msgstr "Stocker la configuration dans un fichier .ini"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"
 msgid "Disable \"Open Disc\" menu"
@@ -630,7 +630,7 @@ msgstr "Répertoires"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK7"
 msgid "File(s)"
-msgstr "Fichiers"
+msgstr "Fichier(s)"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC1"
 msgid "Autoplay"

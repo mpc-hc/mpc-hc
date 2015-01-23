@@ -34,17 +34,17 @@
 CSubPicAllocatorPresenterImpl::CSubPicAllocatorPresenterImpl(HWND hWnd, HRESULT& hr, CString* _pError)
     : CUnknown(NAME("CSubPicAllocatorPresenterImpl"), nullptr)
     , m_hWnd(hWnd)
+    , m_rtSubtitleDelay(0)
     , m_maxSubtitleTextureSize(0, 0)
     , m_nativeVideoSize(0, 0)
     , m_aspectRatio(0, 0)
     , m_videoRect(0, 0, 0, 0)
     , m_windowRect(0, 0, 0, 0)
+    , m_rtNow(0)
     , m_fps(25.0)
     , m_refreshRate(0)
-    , m_rtSubtitleDelay(0)
     , m_bDeviceResetRequested(false)
     , m_bPendingResetDevice(false)
-    , m_rtNow(0)
     , m_SubtitleTextureLimit(STATIC)
 {
     if (!IsWindow(m_hWnd)) {
@@ -183,7 +183,7 @@ STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetPosition(RECT w, RECT v)
     }
 
     if (bWindowPosChanged || bVideoRectChanged) {
-        Paint(bWindowSizeChanged || bVideoRectChanged);
+        Paint(false);
     }
 }
 
@@ -264,7 +264,7 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::SetVideoAngle(Vector v)
     XForm xform(Ray(Vector(), v), Vector(1, 1, 1), false);
     if (m_xform != xform) {
         m_xform = xform;
-        Paint(true);
+        Paint(false);
         return S_OK;
     }
     return S_FALSE;
@@ -486,7 +486,7 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::Connect(ISubRenderProvider* subtitle
         CComPtr<ISubPicQueue> pSubPicQueue = (ISubPicQueue*)DEBUG_NEW CXySubPicQueueNoThread(m_pAllocator, &hr);
 
         if (SUCCEEDED(hr)) {
-            CAutoLock(this);
+            CAutoLock cAutoLock(this);
             pSubPicQueue->SetSubPicProvider(pSubPicProvider);
             m_pSubPicProvider = pSubPicProvider;
             m_pSubPicQueue = pSubPicQueue;

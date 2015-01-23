@@ -32,24 +32,22 @@
 IMPLEMENT_DYNAMIC(CPPagePlayback, CPPageBase)
 CPPagePlayback::CPPagePlayback()
     : CPPageBase(CPPagePlayback::IDD, CPPagePlayback::IDD)
+    , m_oldVolume(0)
+    , m_nVolume(0)
+    , m_nBalance(0)
+    , m_nVolumeStep(0)
+    , m_nSpeedStep(0)
     , m_iLoopForever(0)
     , m_nLoops(0)
     , m_iAfterPlayback(0)
     , m_iZoomLevel(0)
     , m_iRememberZoomLevel(FALSE)
     , m_nAutoFitFactor(75)
-    , m_nVolume(0)
-    , m_oldVolume(0)
-    , m_nBalance(0)
     , m_fAutoloadAudio(FALSE)
     , m_fAutoloadSubtitles(FALSE)
     , m_fEnableWorkerThreadForOpening(FALSE)
     , m_fReportFailedPins(FALSE)
-    , m_subtitlesLanguageOrder(_T(""))
-    , m_audiosLanguageOrder(_T(""))
     , m_fAllowOverridingExternalSplitterChoice(FALSE)
-    , m_nSpeedStep(0)
-    , m_nVolumeStep(0)
 {
 }
 
@@ -92,6 +90,7 @@ BEGIN_MESSAGE_MAP(CPPagePlayback, CPPageBase)
     ON_UPDATE_COMMAND_UI(IDC_EDIT1, OnUpdateLoopNum)
     ON_UPDATE_COMMAND_UI(IDC_STATIC1, OnUpdateLoopNum)
     ON_UPDATE_COMMAND_UI(IDC_COMBO1, OnUpdateAutoZoomCombo)
+    ON_UPDATE_COMMAND_UI(IDC_COMBO2, OnUpdateAfterPlayback)
     ON_UPDATE_COMMAND_UI(IDC_SPEEDSTEP_SPIN, OnUpdateSpeedStep)
     ON_UPDATE_COMMAND_UI(IDC_EDIT4, OnUpdateAutoZoomFactor)
     ON_UPDATE_COMMAND_UI(IDC_STATIC2, OnUpdateAutoZoomFactor)
@@ -232,6 +231,11 @@ void CPPagePlayback::OnUpdateLoopNum(CCmdUI* pCmdUI)
 void CPPagePlayback::OnUpdateAutoZoomCombo(CCmdUI* pCmdUI)
 {
     pCmdUI->Enable(!!IsDlgButtonChecked(IDC_CHECK5));
+}
+
+void CPPagePlayback::OnUpdateAfterPlayback(CCmdUI* pCmdUI)
+{
+    pCmdUI->Enable(!IsDlgButtonChecked(IDC_RADIO2));
 }
 
 void CPPagePlayback::OnUpdateAutoZoomFactor(CCmdUI* pCmdUI)

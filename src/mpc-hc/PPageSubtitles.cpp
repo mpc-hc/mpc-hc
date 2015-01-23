@@ -209,7 +209,7 @@ BOOL CPPageSubtitles::OnApply()
 
     if (s.bSubtitleARCompensation != !!m_bSubtitleARCompensation) {
         s.bSubtitleARCompensation = !!m_bSubtitleARCompensation;
-        if (auto pMainFrame = dynamic_cast<CMainFrame*>(AfxGetMainWnd())) {
+        if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
             pMainFrame->UpdateSubAspectRatioCompensation();
         }
     }
@@ -220,7 +220,7 @@ BOOL CPPageSubtitles::OnApply()
         s.fOverridePlacement = !!m_bOverridePlacement;
         s.nHorPos = m_nHorPos;
         s.nVerPos = m_nVerPos;
-        if (auto pMainFrame = dynamic_cast<CMainFrame*>(AfxGetMainWnd())) {
+        if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
             pMainFrame->UpdateSubOverridePlacement();
         }
     }

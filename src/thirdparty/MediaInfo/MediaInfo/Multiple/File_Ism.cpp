@@ -24,7 +24,6 @@
 #include "MediaInfo/Multiple/File_Ism.h"
 #include <set>
 #include "MediaInfo/MediaInfo.h"
-#include "MediaInfo/MediaInfo_Internal.h"
 #include "MediaInfo/Multiple/File__ReferenceFilesHelper.h"
 #include "ZenLib/Dir.h"
 #include "ZenLib/FileName.h"

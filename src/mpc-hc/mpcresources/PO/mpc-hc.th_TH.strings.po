@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # M. Somsak, 2014
@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-29 21:09:08+0000\n"
-"PO-Revision-Date: 2014-10-01 18:03+0000\n"
+"POT-Creation-Date: 2014-10-26 21:31:55+0000\n"
+"PO-Revision-Date: 2014-10-27 01:20+0000\n"
 "Last-Translator: M. Somsak\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/mpc-hc/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -116,7 +116,7 @@ msgstr "ลักษณะ"
 
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
-msgstr "ถ้าเป้าหมายการแปลผลไม่ถูกระบุ, ศัพท์บรรยาย SSA/ASS จะถูกแปลผลสัมพันธ์กับเฟรมวิดีโอ ในขณะที่ศัพท์ฯข้อความอื่นๆ จะถูกแปลผลสัมพันธ์กับหน้าต่าง  "
+msgstr "ถ้าเป้าหมายการแปลผลไม่ถูกระบุ, ศัพท์บรรยาย SSA/ASS จะถูกแปลผลสัมพันธ์กับเฟรมวิดีโอ ในขณะที่ศัพท์ฯข้อความอื่นๆ จะถูกแปลผลสัมพันธ์กับหน้าต่าง"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -596,7 +596,7 @@ msgstr "ตัวกรองวิดีโอตั้งต้นสำหร
 
 msgctxt "IDC_DSOLD"
 msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
-msgstr "นี่คือตัวแปลผลตั้งต้นของ Windows 9x/me/2k  ขึ้นกับทัศนวิสัยหน้าต่างวิดีโอและความสามารถของการ์ดจอของคุณ, มันจะสลับอย่างแปรเปลี่ยนได้ระหว่างการแปลผล GDI, DirectDraw, Overlay"
+msgstr "นี่คือตัวแปลผลตั้งต้นของ Windows 9x/me/2k ขึ้นกับทัศนวิสัยหน้าต่างวิดีโอและความสามารถของการ์ดจอของคุณ, มันจะสลับอย่างแปรเปลี่ยนได้ระหว่างการแปลผล GDI, DirectDraw, Overlay"
 
 msgctxt "IDC_DSOVERLAYMIXER"
 msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
@@ -791,7 +791,7 @@ msgid "Couldn't find all archive volumes"
 msgstr "ไม่สามารถหาเอกสารได้ครบทุกภาคส่วน"
 
 msgctxt "IDC_TEXTURESURF2D"
-msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
+msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
 msgstr "ผิวหน้าวิดีโอจะถูกจัดสรรเป็นพื้นผิว แต่ฟังก์ชัน 2d ยังคงถูกใช้เพื่อคัดลอกและยืดมันไปยังบัฟเฟอร์เบื้องหลัง ต้องการการ์ดจอที่สามารถแบ่ง 32bit, RGBA, non-power-of-two sized textures และอย่างน้อยในความละเอียดของวิดีโอ"
 
 msgctxt "IDC_TEXTURESURF3D"
@@ -1338,6 +1338,42 @@ msgctxt "IDS_HOTKEY_NOT_DEFINED"
 msgid "<not defined>"
 msgstr "<ไม่ได้กำหนด>"
 
+msgctxt "IDS_NAVIGATION_WATCH"
+msgid "Watch"
+msgstr "รับชม"
+
+msgctxt "IDS_NAVIGATION_MOVE_UP"
+msgid "Move Up"
+msgstr "ย้ายขึ้น"
+
+msgctxt "IDS_NAVIGATION_MOVE_DOWN"
+msgid "Move Down"
+msgstr "ย้ายลง"
+
+msgctxt "IDS_NAVIGATION_SORT"
+msgid "Sort by LCN"
+msgstr "เรียงตาม LCN"
+
+msgctxt "IDS_NAVIGATION_REMOVE_ALL"
+msgid "Remove all"
+msgstr "ลบออกทั้งหมด"
+
+msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
+msgid "Are you sure you want to remove all channels from the list?"
+msgstr "คุณต้องการลบช่องทั้งหมด ออกจากรายการหรือไม่?"
+
+msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"
+msgid "No information available"
+msgstr "ไม่มีข้อมูล"
+
+msgctxt "IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS"
+msgid "Please wait, analysis in progress..."
+msgstr "โปรดรอ, การวิเคราะห์กำลังดำเนิน..."
+
+msgctxt "IDS_ASPECT_RATIO_FMT"
+msgid "AR %d:%d"
+msgstr ""
+
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
 msgstr "เปิดอุปกรณ์"
@@ -1539,11 +1575,11 @@ msgid "Reset Rate"
 msgstr "คืนค่าอัตรา"
 
 msgctxt "IDS_MPLAYERC_21"
-msgid "Audio Delay +10ms"
+msgid "Audio Delay +10 ms"
 msgstr "เสียงหน่วง +10 มว."
 
 msgctxt "IDS_MPLAYERC_22"
-msgid "Audio Delay -10ms"
+msgid "Audio Delay -10 ms"
 msgstr "เสียงหน่วง -10 มว."
 
 msgctxt "IDS_MPLAYERC_23"
@@ -1699,8 +1735,8 @@ msgid "No subtitles found."
 msgstr "ไม่พบศัพท์บรรยาย"
 
 msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
-msgid " %d subtitle(s) available."
-msgstr " %d ศัพท์บรรยายที่มี"
+msgid "%d subtitle(s) available."
+msgstr "%d ศัพท์บรรยายที่มี"
 
 msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
@@ -1904,7 +1940,7 @@ msgstr "เสียงก่อนหน้า (OGM)"
 
 msgctxt "IDS_MPLAYERC_89"
 msgid "Next Subtitle (OGM)"
-msgstr "ศัพท์บรรยายถัดไป  (OGM)"
+msgstr "ศัพท์บรรยายถัดไป (OGM)"
 
 msgctxt "IDS_MPLAYERC_90"
 msgid "Prev Subtitle (OGM)"
@@ -2027,12 +2063,12 @@ msgid "Volume: %02lu/%02lu, Title: %02lu/%02lu, Chapter: %02lu/%02lu"
 msgstr "ฉบับ: %02lu/%02lu, หัวเรื่อง: %02lu/%02lu, ตอน: %02lu/%02lu"
 
 msgctxt "IDS_MAINFRM_10"
-msgid "Angle: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
+msgid "Angle: %02lu/%02lu, %lux%lu %lu Hz %lu:%lu"
 msgstr "มุมกล้อง: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
 
 msgctxt "IDS_MAINFRM_11"
-msgid "%s, %s %uHz %dbits %d %s"
-msgstr "%s, %s %uHz %dbits %d %s"
+msgid "%s, %s %u Hz %d bits %d %s"
+msgstr "%s, %s %u Hz %d bits %d %s"
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
@@ -2139,19 +2175,19 @@ msgid ", Total: %ld, Dropped: %ld"
 msgstr ", ทั้งหมด: %ld, ตกหล่น: %ld"
 
 msgctxt "IDS_MAINFRM_38"
-msgid ", Size: %I64dKB"
+msgid ", Size: %I64d KB"
 msgstr ", ขนาด: %I64dKB"
 
 msgctxt "IDS_MAINFRM_39"
-msgid ", Size: %I64dMB"
+msgid ", Size: %I64d MB"
 msgstr ", ขนาด: %I64dMB"
 
 msgctxt "IDS_MAINFRM_40"
-msgid ", Free: %I64dKB"
+msgid ", Free: %I64d KB"
 msgstr ", ว่าง: %I64dKB"
 
 msgctxt "IDS_MAINFRM_41"
-msgid ", Free: %I64dMB"
+msgid ", Free: %I64d MB"
 msgstr ", ว่าง: %I64dMB"
 
 msgctxt "IDS_MAINFRM_42"
@@ -2176,7 +2212,7 @@ msgstr "เลือกเส้นทางสำหรับดีวีดี
 
 msgctxt "IDS_SUB_LOADED_SUCCESS"
 msgid " loaded successfully"
-msgstr "โหลดสำเร็จแล้ว"
+msgstr " โหลดสำเร็จแล้ว"
 
 msgctxt "IDS_ALL_FILES_FILTER"
 msgid "All files (*.*)|*.*||"
@@ -2239,7 +2275,7 @@ msgid "Aspect Ratio: Default"
 msgstr "อัตราส่วนภาพ: ตั้งต้น"
 
 msgctxt "IDS_MAINFRM_70"
-msgid "Audio Delay: %I64dms"
+msgid "Audio delay: %I64d ms"
 msgstr "เสียงหน่วง: %I64dms"
 
 msgctxt "IDS_AG_CHAPTER"
@@ -2479,8 +2515,8 @@ msgid "Volume boost Max"
 msgstr "เสริมความดัง สูงสุด"
 
 msgctxt "IDS_USAGE"
-msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "วิธีใช้: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
+msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nominidump\tDisable minidump creation\n/slave \"hWnd\"\tUse MPC-HC as slave\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
+msgstr "วิธีใช้: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nominidump\tDisable minidump creation\n/slave \"hWnd\"\tUse MPC-HC as slave\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -3278,6 +3314,10 @@ msgctxt "IDS_OSD_REGAIN_VOLUME_OFF"
 msgid "Regain volume: Off"
 msgstr "ฟื้นค่าความดัง: ปิด"
 
+msgctxt "IDS_SIZE_UNIT_BYTES"
+msgid "bytes"
+msgstr ""
+
 msgctxt "IDS_SIZE_UNIT_K"
 msgid "KB"
 msgstr "KB"
@@ -3453,6 +3493,14 @@ msgstr "หลังเล่นจบ: ล็อค"
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
 msgstr "หลังเล่นจบ: ปิดจอภาพ"
+
+msgctxt "IDS_AFTERPLAYBACK_PLAYNEXT"
+msgid "After Playback: Play next file in the folder"
+msgstr "หลังการเล่น: เล่นไฟล์ถัดไปในโฟลเดอร์"
+
+msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
+msgid "After Playback: Do nothing"
+msgstr "หลังการเล่น: ไม่ต้องทำอะไร"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"

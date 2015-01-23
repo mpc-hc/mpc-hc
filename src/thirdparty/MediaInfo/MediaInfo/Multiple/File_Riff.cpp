@@ -300,9 +300,9 @@ void File_Riff::Streams_Finish ()
                 const Ztring &FrameRate=Retrieve(Stream_Video, StreamPos_Last, Video_FrameRate);
                 if (FrameRate.To_int32u()==120)
                 {
-                    Fill(Stream_Video, StreamPos_Last, Video_FrameRate_String, MediaInfoLib::Config.Language_Get(FrameRate+__T(" (24/30)"), __T(" fps")), true);
-                    Fill(Stream_Video, StreamPos_Last, Video_FrameRate_Minimum, 24, 10, true);
-                    Fill(Stream_Video, StreamPos_Last, Video_FrameRate_Maximum, 30, 10, true);
+                    float32 FrameRateF=FrameRate.To_float32();
+                    Fill(Stream_Video, StreamPos_Last, Video_FrameRate_Minimum, FrameRateF/5, 3, true);
+                    Fill(Stream_Video, StreamPos_Last, Video_FrameRate_Maximum, FrameRateF/4, 3, true);
                     Fill(Stream_Video, StreamPos_Last, Video_FrameRate_Mode, "VFR");
                 }
             }

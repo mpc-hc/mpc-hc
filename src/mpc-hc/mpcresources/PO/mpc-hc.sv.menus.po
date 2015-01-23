@@ -1,15 +1,15 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # kasper93, 2013
-# JellyFrog, 2013
+# JellyFrog, 2013-2014
 # Apa <sakcheen@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-19 21:10:25+0000\n"
-"PO-Revision-Date: 2014-08-20 21:10+0000\n"
+"POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
+"PO-Revision-Date: 2014-12-09 03:30+0000\n"
 "Last-Translator: Apa <sakcheen@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/mpc-hc/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -172,15 +172,15 @@ msgstr "&Zoom"
 
 msgctxt "ID_VIEW_ZOOM_50"
 msgid "&50%"
-msgstr "&50 %"
+msgstr "&50%"
 
 msgctxt "ID_VIEW_ZOOM_100"
 msgid "&100%"
-msgstr "&100 %"
+msgstr "&100%"
 
 msgctxt "ID_VIEW_ZOOM_200"
 msgid "&200%"
-msgstr "&200 %"
+msgstr "&200%"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT"
 msgid "Auto &Fit"
@@ -212,11 +212,11 @@ msgstr "Utmatningsomfång"
 
 msgctxt "ID_VIEW_EVROUTPUTRANGE_0_255"
 msgid "&0 - 255"
-msgstr "0 - 255"
+msgstr "&0 - 255"
 
 msgctxt "ID_VIEW_EVROUTPUTRANGE_16_235"
 msgid "&16 - 235"
-msgstr "16 - 235"
+msgstr "&16 - 235"
 
 msgctxt "POPUP"
 msgid "&Presentation"
@@ -420,23 +420,23 @@ msgstr "Standard"
 
 msgctxt "ID_ASPECTRATIO_4_3"
 msgid "&4:3"
-msgstr "4:3"
+msgstr "&4:3"
 
 msgctxt "ID_ASPECTRATIO_5_4"
 msgid "&5:4"
-msgstr "5:4"
+msgstr "&5:4"
 
 msgctxt "ID_ASPECTRATIO_16_9"
 msgid "&16:9"
-msgstr "16:9"
+msgstr "&16:9"
 
 msgctxt "ID_ASPECTRATIO_235_100"
 msgid "&235:100"
-msgstr "235:100"
+msgstr "&235:100"
 
 msgctxt "ID_ASPECTRATIO_185_100"
 msgid "1&85:100"
-msgstr "185:100"
+msgstr "1&85:100"
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"
@@ -613,6 +613,10 @@ msgstr "&Lås"
 msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
 msgid "Turn off the &monitor"
 msgstr "Stäng av &bildskärmen"
+
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "Spela &nästa fil i mappen"
 
 msgctxt "POPUP"
 msgid "&Navigate"

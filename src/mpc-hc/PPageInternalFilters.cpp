@@ -29,8 +29,8 @@
 IMPLEMENT_DYNAMIC(CPPageInternalFiltersListBox, CCheckListBox)
 CPPageInternalFiltersListBox::CPPageInternalFiltersListBox(int n, const CArray<filter_t>& filters)
     : CCheckListBox()
-    , m_n(n)
     , m_filters(filters)
+    , m_n(n)
 {
     for (int i = 0; i < FILTER_TYPE_NB; i++) {
         m_nbFiltersPerType[i] = m_nbChecked[i] = 0;
@@ -116,21 +116,25 @@ void CPPageInternalFiltersListBox::UpdateCheckState()
 
 void CPPageInternalFiltersListBox::OnContextMenu(CWnd* pWnd, CPoint point)
 {
+    BOOL bOutside;
+
     if (point.x == -1 && point.y == -1) {
         // The context menu was triggered using the keyboard,
         // get the coordinates of the currently selected item.
         int iSel = GetCurSel();
         CRect r;
-        if (iSel != LB_ERR && GetItemRect(iSel, &r) != LB_ERR) {
-            point = r.TopLeft();
+        if (GetItemRect(iSel, &r) != LB_ERR) {
+            point.SetPoint(r.left, r.bottom);
+        } else {
+            point.SetPoint(0, 0);
         }
+        bOutside = iSel == LB_ERR;
     } else {
         ScreenToClient(&point);
+        ItemFromPoint(point, bOutside);
     }
 
     // Check that we really inside the list
-    BOOL bOutside = TRUE;
-    ItemFromPoint(point, bOutside);
     if (bOutside) {
         // Trigger the default behavior
         ClientToScreen(&point);

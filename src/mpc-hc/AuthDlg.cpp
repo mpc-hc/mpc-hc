@@ -42,13 +42,13 @@ HRESULT PromptForCredentials(HWND hWnd, const CString& strCaptionText, const CSt
 
     if (SysVersion::IsVistaOrLater()) {
         // Define CredUI.dll functions for Windows Vista+
-        const WinapiFunc<BOOL(DWORD, LPWSTR, LPWSTR, PBYTE, DWORD*)>
+        const WinapiFunc<decltype(CredPackAuthenticationBufferW)>
         fnCredPackAuthenticationBufferW = { "CREDUI.DLL", "CredPackAuthenticationBufferW" };
 
-        const WinapiFunc<DWORD(PCREDUI_INFOW, DWORD, ULONG*, LPCVOID, ULONG, LPVOID*, ULONG*, BOOL*, DWORD)>
+        const WinapiFunc<decltype(CredUIPromptForWindowsCredentialsW)>
         fnCredUIPromptForWindowsCredentialsW = { "CREDUI.DLL", "CredUIPromptForWindowsCredentialsW" };
 
-        const WinapiFunc<BOOL(DWORD, PVOID, DWORD, LPWSTR, DWORD*, LPWSTR, DWORD*, LPWSTR, DWORD*)>
+        const WinapiFunc<decltype(CredUnPackAuthenticationBufferW)>
         fnCredUnPackAuthenticationBufferW = { "CREDUI.DLL", "CredUnPackAuthenticationBufferW" };
 
         if (fnCredPackAuthenticationBufferW && fnCredUIPromptForWindowsCredentialsW && fnCredUnPackAuthenticationBufferW) {
@@ -92,10 +92,10 @@ HRESULT PromptForCredentials(HWND hWnd, const CString& strCaptionText, const CSt
         }
     } else if (SysVersion::IsXPOrLater()) {
         // Define CredUI.dll functions for Windows XP
-        const WinapiFunc<DWORD(PCREDUI_INFOW, PCWSTR, PCtxtHandle, DWORD, PCWSTR, ULONG, PCWSTR, ULONG, PBOOL, DWORD)>
+        const WinapiFunc<decltype(CredUIPromptForCredentialsW)>
         fnCredUIPromptForCredentialsW = { "CREDUI.DLL", "CredUIPromptForCredentialsW" };
 
-        const WinapiFunc<DWORD(PCWSTR, PWSTR, ULONG, PWSTR, ULONG)>
+        const WinapiFunc<decltype(CredUIParseUserNameW)>
         fnCredUIParseUserNameW = { "CREDUI.DLL", "CredUIParseUserNameW" };
 
         if (fnCredUIPromptForCredentialsW && fnCredUIParseUserNameW) {
@@ -107,7 +107,7 @@ HRESULT PromptForCredentials(HWND hWnd, const CString& strCaptionText, const CSt
             }
 
             DWORD dwResult = fnCredUIPromptForCredentialsW(&info, strDomain.Left(dwDomain), nullptr, dwAuthError,
-                             strUserDomain.GetBufferSetLength(dwUsername), dwUsername, strPassword.GetBufferSetLength(dwPassword), dwPassword, bSave, dwFlags);
+                                                           strUserDomain.GetBufferSetLength(dwUsername), dwUsername, strPassword.GetBufferSetLength(dwPassword), dwPassword, bSave, dwFlags);
             strUserDomain.ReleaseBuffer();
             strPassword.ReleaseBuffer();
 

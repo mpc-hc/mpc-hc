@@ -227,6 +227,8 @@ private :
     void moov_trak_tref_ssrc();
     void moov_trak_tref_sync();
     void moov_trak_tref_tmcd();
+    void moov_trak_udta();
+    void moov_trak_udta_xxxx();
     void moov_udta();
     void moov_udta_AllF();
     void moov_udta_chpl();
@@ -333,12 +335,14 @@ private :
     bool                                    IsSecondPass;
     bool                                    IsParsing_mdat;
     bool                                    IsFragmented;
+    size_t                                  StreamOrder;
 
     //Data
     struct stream
     {
         Ztring                  File_Name;
         std::vector<File__Analyze*> Parsers;
+        std::map<string, Ztring> Infos;
         MediaInfo_Internal*     MI;
         struct timecode
         {

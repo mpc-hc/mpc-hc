@@ -1,16 +1,17 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Alexander Gorishnyak <kefir500@gmail.com>, 2014
 # sayanvd <sayanvd@yandex.ru>, 2014
 # stryaponoff <stryaponoff@gmail.com>, 2014
+# SmilyCarrot <twisted-transistor@yandex.ru>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-09-20 10:20+0000\n"
-"Last-Translator: Alexander Gorishnyak <kefir500@gmail.com>\n"
+"PO-Revision-Date: 2014-12-01 22:46+0000\n"
+"Last-Translator: Underground78\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/mpc-hc/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -156,7 +157,7 @@ msgstr "Открыть"
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Type the address of a movie or audio file (on the Internet or your computer) and the player will open it for you."
-msgstr "Введите адрес фильма или аудиофайла\n(в Интернете или на вашем компьютере)"
+msgstr "Введите адрес фильма или аудиофайла (в Интернете или на вашем компьютере)"
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Open:"
@@ -191,8 +192,8 @@ msgid "About"
 msgstr "О программе"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2014 see Authors.txt"
-msgstr "Copyright © 2002-2014, смотрите файл Authors.txt"
+msgid "Copyright © 2002-2015 see Authors.txt"
+msgstr "Copyright © 2002-2015, смотрите файл Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -308,7 +309,7 @@ msgstr "Повышенный приоритет процесса"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK14"
 msgid "Enable cover-art support"
-msgstr ""
+msgstr "Включить поддержку обложки"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "History"
@@ -536,27 +537,27 @@ msgstr "Максимальный размер текстуры:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_NO_SUB_ANIM"
 msgid "Never animate the subtitles"
-msgstr ""
+msgstr "Никогда не анимировать субтитры"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC5"
 msgid "Render at"
-msgstr ""
+msgstr "Рендерить"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC6"
 msgid "% of the animation"
-msgstr ""
+msgstr "% анимации"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC7"
 msgid "Animate at"
-msgstr ""
+msgstr "Анимировать"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC8"
 msgid "% of the video frame rate"
-msgstr ""
+msgstr "% кадра видео"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Allow dropping some subpictures if the queue is running late"
-msgstr ""
+msgstr "Включить выпадение некоторых кадров, при запазывании."
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Renderer Layout"
@@ -592,15 +593,15 @@ msgstr "Ассоциации"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK8"
 msgid "Use the format-specific icons"
-msgstr ""
+msgstr "Использовать специальные иконки"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON1"
 msgid "Run as &administrator"
-msgstr ""
+msgstr "Запуск от имени &Администратора"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON7"
 msgid "Set as &default program"
-msgstr ""
+msgstr "Установить как программу &по умолчанию"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Real-Time Streaming Protocol handler (for rtsp://... URLs)"
@@ -1644,11 +1645,11 @@ msgstr "Расширенные настройки. Убедитесь, в том
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO1"
 msgid "True"
-msgstr ""
+msgstr "Верно"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO2"
 msgid "False"
-msgstr ""
+msgstr "Не верно"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"

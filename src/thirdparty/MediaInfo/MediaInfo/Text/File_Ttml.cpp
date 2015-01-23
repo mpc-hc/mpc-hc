@@ -120,10 +120,15 @@ void File_Ttml::Streams_Accept()
 //***************************************************************************
 
 //---------------------------------------------------------------------------
+void File_Ttml::Read_Buffer_Unsynched()
+{
+    GoTo(0);
+}
+
+//---------------------------------------------------------------------------
 #if MEDIAINFO_SEEK
 size_t File_Ttml::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
 {
-    GoTo(0);
     Open_Buffer_Unsynch();
     return 1;
 }
@@ -163,6 +168,8 @@ void File_Ttml::Read_Buffer_Continue()
             MuxingMode=(int8u)-1;
             if (StreamIDs_Size>=2 && ParserIDs[StreamIDs_Size-2]==MediaInfo_Parser_Mpeg4)
                 MuxingMode=11; //MPEG-4
+            if (StreamIDs_Size>2 && ParserIDs[StreamIDs_Size-2]==MediaInfo_Parser_Mxf) //Only if referenced MXF
+                MuxingMode=13; //MXF
         #endif MEDIAINFO_EVENTS
     }
 
@@ -224,8 +231,13 @@ void File_Ttml::Read_Buffer_Continue()
                 Attribute=p->Attribute("end");
                 if (Attribute)
                     DTS_End=Ttml_str2timecode(Attribute);
+                string ContentUtf8;
+                XMLPrinter printer;
+                p->Accept(&printer);
+                ContentUtf8+=printer.CStr();
+                while (!ContentUtf8.empty() && (ContentUtf8[ContentUtf8.size()-1]=='\r' || ContentUtf8[ContentUtf8.size()-1]=='\n'))
+                    ContentUtf8.resize(ContentUtf8.size()-1);
                 Ztring Content; if (p->FirstChild()) Content.From_UTF8(p->FirstChild()->Value());
-
                 Frame_Count++;
             }
         }

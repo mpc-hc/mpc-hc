@@ -721,7 +721,7 @@ CString BinToCString(const BYTE* ptr, size_t len)
     return ret;
 }
 
-static void FindFiles(CString fn, CAtlList<CString>& files)
+void FindFiles(CString fn, CAtlList<CString>& files)
 {
     CString path = fn;
     path.Replace('/', '\\');
@@ -1665,9 +1665,9 @@ static struct {
     {"Gorontalo", "gor", ""},
     {"Gothic", "got", ""},
     {"Grebo", "grb", ""},
+    {"Greek", "ell", "el",                      MAKELCID(MAKELANGID(LANG_GREEK, SUBLANG_DEFAULT), SORT_DEFAULT)},
+    {"Greek", "gre", "el",                      MAKELCID(MAKELANGID(LANG_GREEK, SUBLANG_DEFAULT), SORT_DEFAULT)},
     {"Greek, Ancient (to 1453)", "grc", "",     MAKELCID(MAKELANGID(LANG_GREEK, SUBLANG_DEFAULT), SORT_DEFAULT)},
-    {"Greek, Modern (1453-)", "gre", "el",      MAKELCID(MAKELANGID(LANG_GREEK, SUBLANG_DEFAULT), SORT_DEFAULT)},
-    {"Greek, Modern (1453-)", "ell", "el",      MAKELCID(MAKELANGID(LANG_GREEK, SUBLANG_DEFAULT), SORT_DEFAULT)},
     {"Greenlandic; Kalaallisut", "kal", "kl",   MAKELCID(MAKELANGID(LANG_GREENLANDIC, SUBLANG_DEFAULT), SORT_DEFAULT)},
     {"Guarani", "grn", "gn"},
     {"Gujarati", "guj", "gu",                   MAKELCID(MAKELANGID(LANG_GUJARATI, SUBLANG_DEFAULT), SORT_DEFAULT)},
@@ -2128,7 +2128,7 @@ LCID ISO6392ToLcid(LPCSTR code)
     return 0;
 }
 
-CString ISO6391To6392(LPCSTR code)
+CStringA ISO6391To6392(LPCSTR code)
 {
     CHAR tmp[2 + 1];
     strncpy_s(tmp, code, 2);
@@ -2136,10 +2136,10 @@ CString ISO6391To6392(LPCSTR code)
     _strlwr_s(tmp);
     for (size_t i = 0, cnt = _countof(s_isolangs); i < cnt; i++) {
         if (!strcmp(s_isolangs[i].iso6391, tmp)) {
-            return CString(CStringA(s_isolangs[i].iso6392));
+            return CStringA(s_isolangs[i].iso6392);
         }
     }
-    return _T("");
+    return "";
 }
 
 CString ISO6392To6391(LPCSTR code)
@@ -2150,7 +2150,7 @@ CString ISO6392To6391(LPCSTR code)
     _strlwr_s(tmp);
     for (size_t i = 0, cnt = _countof(s_isolangs); i < cnt; i++) {
         if (!strcmp(s_isolangs[i].iso6392, tmp)) {
-            return CString(CStringA(s_isolangs[i].iso6391));
+            return CString(s_isolangs[i].iso6391);
         }
     }
     return _T("");
@@ -2647,28 +2647,4 @@ void CorrectComboBoxHeaderWidth(CWnd* pComboBox)
 
     r.right = r.left + ::GetSystemMetrics(SM_CXMENUCHECK) + ::GetSystemMetrics(SM_CXEDGE) + szText.cx + tm.tmAveCharWidth;
     pComboBox->MoveWindow(r);
-}
-
-CString FindCoverArt(const CString& path, const CString& author)
-{
-    if (!path.IsEmpty()) {
-        CAtlList<CString> files;
-        FindFiles(path + _T("\\*front*.png"), files);
-        FindFiles(path + _T("\\*front*.jp*g"), files);
-        FindFiles(path + _T("\\*front*.bmp"), files);
-        FindFiles(path + _T("\\*cover*.png"), files);
-        FindFiles(path + _T("\\*cover*.jp*g"), files);
-        FindFiles(path + _T("\\*cover*.bmp"), files);
-        FindFiles(path + _T("\\*folder*.png"), files);
-        FindFiles(path + _T("\\*folder*.jp*g"), files);
-        FindFiles(path + _T("\\*folder*.bmp"), files);
-        FindFiles(path + _T("\\*") + author + _T("*.png"), files);
-        FindFiles(path + _T("\\*") + author + _T("*.jp*g"), files);
-        FindFiles(path + _T("\\*") + author + _T("*.bmp"), files);
-
-        if (!files.IsEmpty()) {
-            return files.GetHead();
-        }
-    }
-    return _T("");
 }

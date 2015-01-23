@@ -130,7 +130,7 @@ class CVideoTransformFilter : public CTransformFilter
     int m_tDecodeStart;         // timeGetTime when decode started.
     int m_itrAvgDecode;         // Average decode time in reference units.
 
-    BOOL m_bNoSkip;             // debug - no skipping.
+    //BOOL m_bNoSkip;             // debug - no skipping.
 
     // We send an EC_QUALITY_CHANGE notification to the app if we have to degrade.
     // We send one when we start degrading, not one for every frame, this means

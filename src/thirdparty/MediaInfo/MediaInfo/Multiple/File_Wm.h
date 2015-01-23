@@ -11,6 +11,7 @@
 
 //---------------------------------------------------------------------------
 #include "MediaInfo/File__Analyze.h"
+#include <set>
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib
@@ -104,9 +105,7 @@ private :
         std::map<std::string, ZenLib::Ztring> Info;
         bool                    IsCreated; //if Stream_Prepare() is done
         bool                    SearchingPayload;
-        int32u                  PresentationTime_Old;
-        int32u                  PresentationTime_Count;
-        std::map<int32u, int32u> PresentationTime_Deltas;
+        std::set<int32u>        PresentationTimes;
         std::vector<payload_extension_system> Payload_Extension_Systems;
         int64u                  TimeCode_First;
 
@@ -123,8 +122,6 @@ private :
             LanguageID=(int16u)-1;
             IsCreated=false;
             SearchingPayload=false;
-            PresentationTime_Old=0;
-            PresentationTime_Count=0;
             TimeCode_First=(int64u)-1;
         }
 

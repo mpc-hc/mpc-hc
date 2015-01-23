@@ -48,6 +48,8 @@ HRESULT CRM7AllocatorPresenter::AllocSurfaces()
 {
     CAutoLock cAutoLock(this);
 
+    CheckPointer(m_pDD, E_POINTER);
+
     m_pVideoSurfaceOff  = nullptr;
     m_pVideoSurfaceYUY2 = nullptr;
 

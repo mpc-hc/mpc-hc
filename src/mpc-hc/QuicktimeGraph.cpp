@@ -20,6 +20,9 @@
  */
 
 #include "stdafx.h"
+
+#ifndef _WIN64
+
 #include <math.h>
 #include "QuicktimeGraph.h"
 #include "IQTVideoSurface.h"
@@ -38,8 +41,8 @@ using namespace QT;
 
 CQuicktimeGraph::CQuicktimeGraph(HWND hWndParent, HRESULT& hr)
     : CBaseGraph()
-    , m_wndDestFrame(this)
     , m_fQtInitialized(false)
+    , m_wndDestFrame(this)
 {
     hr = S_OK;
 
@@ -396,13 +399,13 @@ STDMETHODIMP_(engine_t) CQuicktimeGraph::GetEngine()
 //
 
 CQuicktimeWindow::CQuicktimeWindow(CQuicktimeGraph* pGraph)
-    : m_pGraph(pGraph)
+    : m_offscreenGWorld(nullptr)
+    , m_pGraph(pGraph)
+    , m_fs(State_Stopped)
+    , m_idEndPoller(0)
     , theMovie(nullptr)
     , theMC(nullptr)
     , m_size(0, 0)
-    , m_idEndPoller(0)
-    , m_fs(State_Stopped)
-    , m_offscreenGWorld(nullptr)
 {
 }
 
@@ -710,3 +713,5 @@ void CQuicktimeWindow::OnTimer(UINT_PTR nIDEvent)
 
     __super::OnTimer(nIDEvent);
 }
+
+#endif

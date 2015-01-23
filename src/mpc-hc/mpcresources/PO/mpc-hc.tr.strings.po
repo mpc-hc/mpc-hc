@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Burak <burakgarci@gmail.com>, 2013
@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-29 21:09:08+0000\n"
-"PO-Revision-Date: 2014-10-02 19:20+0000\n"
+"POT-Creation-Date: 2014-10-30 22:04:38+0000\n"
+"PO-Revision-Date: 2014-12-08 16:40+0000\n"
 "Last-Translator: Sinan H.\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/mpc-hc/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -791,8 +791,8 @@ msgid "Couldn't find all archive volumes"
 msgstr "Tüm arşiv parçaları bulunamadı"
 
 msgctxt "IDC_TEXTURESURF2D"
-msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
-msgstr "Video yüzeyi bir doku olarak ayrılacaktır, ancak hala 2d özellikleri arka tamponlamaya kopyalamak ve uzatılmakta kullanılacaktır. 32bit, RGBA, çift boyutlu doku ayırabilen ve en az, geçerli video çözünürlüğünü destekleyebilen bir ekran kartı gerektirir."
+msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
+msgstr "Video yüzeyi bir doku olarak ayrılacaktır, ancak 2d özellikleri hala arka tamponlamaya kopyalamak ve uzatılmakta kullanılacaktır. 32bit, RGBA, çift boyutlu doku ayırabilen ve en az, geçerli video çözünürlüğünü destekleyebilen bir ekran kartı gerektirir."
 
 msgctxt "IDC_TEXTURESURF3D"
 msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
@@ -1316,7 +1316,7 @@ msgstr "Çıkış"
 
 msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
 msgid "Turn off the monitor"
-msgstr "Ekranı kapat"
+msgstr "Ekranı Kapat"
 
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
 msgid "JPEG Image"
@@ -1337,6 +1337,42 @@ msgstr "Alt yazı gecikmesi belirtilen tuşlara basıldığında, ayarlanmış d
 msgctxt "IDS_HOTKEY_NOT_DEFINED"
 msgid "<not defined>"
 msgstr "<tanımlanmamış>"
+
+msgctxt "IDS_NAVIGATION_WATCH"
+msgid "Watch"
+msgstr "İzle"
+
+msgctxt "IDS_NAVIGATION_MOVE_UP"
+msgid "Move Up"
+msgstr "Yukarı Taşı"
+
+msgctxt "IDS_NAVIGATION_MOVE_DOWN"
+msgid "Move Down"
+msgstr "Aşağı Taşı"
+
+msgctxt "IDS_NAVIGATION_SORT"
+msgid "Sort by LCN"
+msgstr "LCN'ye göre sırala - Mantıksal kanal sayısı"
+
+msgctxt "IDS_NAVIGATION_REMOVE_ALL"
+msgid "Remove all"
+msgstr "Tümünü sil"
+
+msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
+msgid "Are you sure you want to remove all channels from the list?"
+msgstr "Tüm kanal listesini temizlemek istediğinizden emin misiniz?"
+
+msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"
+msgid "No information available"
+msgstr "Bir bilgi bulunmuyor"
+
+msgctxt "IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS"
+msgid "Please wait, analysis in progress..."
+msgstr "Lütfen bekleyiniz, inceleme devam ediyor..."
+
+msgctxt "IDS_ASPECT_RATIO_FMT"
+msgid "AR %d:%d"
+msgstr "AR %d:%d"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1539,11 +1575,11 @@ msgid "Reset Rate"
 msgstr "Oranı Sıfırla"
 
 msgctxt "IDS_MPLAYERC_21"
-msgid "Audio Delay +10ms"
+msgid "Audio Delay +10 ms"
 msgstr "Ses Gecikmesi +10ms"
 
 msgctxt "IDS_MPLAYERC_22"
-msgid "Audio Delay -10ms"
+msgid "Audio Delay -10 ms"
 msgstr "Ses Gecikmesi -10ms"
 
 msgctxt "IDS_MPLAYERC_23"
@@ -1699,8 +1735,8 @@ msgid "No subtitles found."
 msgstr "Bir alt yazı bulunamadı."
 
 msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
-msgid " %d subtitle(s) available."
-msgstr " %d alt yazı bulundu."
+msgid "%d subtitle(s) available."
+msgstr "%d adet alt yazı bulundu."
 
 msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
@@ -2027,12 +2063,12 @@ msgid "Volume: %02lu/%02lu, Title: %02lu/%02lu, Chapter: %02lu/%02lu"
 msgstr "Ses: %02lu/%02lu, Başlık: %02lu/%02lu, Bölüm: %02lu/%02lu"
 
 msgctxt "IDS_MAINFRM_10"
-msgid "Angle: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
-msgstr "Açı: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
+msgid "Angle: %02lu/%02lu, %lux%lu %lu Hz %lu:%lu"
+msgstr "Açı: %02lu/%02lu, %lux%lu %lu Hz %lu:%lu"
 
 msgctxt "IDS_MAINFRM_11"
-msgid "%s, %s %uHz %dbits %d %s"
-msgstr "%s, %s %uHz %dbit %d %s"
+msgid "%s, %s %u Hz %d bits %d %s"
+msgstr "%s, %s %u Hz %d bit %d %s"
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
@@ -2139,20 +2175,20 @@ msgid ", Total: %ld, Dropped: %ld"
 msgstr ", Toplam: %ld, Atlanan: %ld"
 
 msgctxt "IDS_MAINFRM_38"
-msgid ", Size: %I64dKB"
-msgstr ", Boyut: %I64dKB"
+msgid ", Size: %I64d KB"
+msgstr ", Boyut: %I64d KB"
 
 msgctxt "IDS_MAINFRM_39"
-msgid ", Size: %I64dMB"
-msgstr ", Boyut: %I64dMB"
+msgid ", Size: %I64d MB"
+msgstr ", Boyut: %I64d MB"
 
 msgctxt "IDS_MAINFRM_40"
-msgid ", Free: %I64dKB"
-msgstr ", Boş: %I64dKB"
+msgid ", Free: %I64d KB"
+msgstr ", Boş: %I64d KB"
 
 msgctxt "IDS_MAINFRM_41"
-msgid ", Free: %I64dMB"
-msgstr ", Boş: %I64dMB"
+msgid ", Free: %I64d MB"
+msgstr ", Boş: %I64d MB"
 
 msgctxt "IDS_MAINFRM_42"
 msgid ", Free V/A Buffers: %03d/%03d"
@@ -2239,8 +2275,8 @@ msgid "Aspect Ratio: Default"
 msgstr "Taraf Oranı: Varsayılan"
 
 msgctxt "IDS_MAINFRM_70"
-msgid "Audio Delay: %I64dms"
-msgstr "Ses Gecikmesi: %I64dms"
+msgid "Audio delay: %I64d ms"
+msgstr "Ses Gecikmesi: %I64d ms"
 
 msgctxt "IDS_AG_CHAPTER"
 msgid "Chapter %d"
@@ -2408,7 +2444,7 @@ msgstr "&Özellikler..."
 
 msgctxt "IDS_MAINFRM_117"
 msgid " (pin) properties..."
-msgstr "(süzgeç) özellikleri..."
+msgstr " (süzgeç) özellikleri..."
 
 msgctxt "IDS_AG_UNKNOWN_STREAM"
 msgid "Unknown Stream"
@@ -2479,8 +2515,8 @@ msgid "Volume boost Max"
 msgstr "Ses yüksekliği en fazla"
 
 msgctxt "IDS_USAGE"
-msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "Kullanım: mpc-hc.exe \"konum\" [anahtarlar]\n\n\"yol_adı\"\t\tYüklenecek dosya veya klasör (özel\n\t\tkarakterler desteklenir, \"-\" varsayılan girişi gösterir)\n/dub \"dublaj_adı\"\tHarici bir ses dosyası yüklemek için\n/dubdelay \"dosya\"\tXXms olarak atlanacak harici bir ses dosyası yüklemek\n                için (eğer dosya \"...GECİKME_XXms...\" içeriyorsa)\n/d3dfs\t\tTam ekran D3D kipinde oynatmak için\n/sub \"alt_yazı\"\t  Harici bir alt yazı kullanmak için\n/filter \"filtre_adı\"      Değişken bir bağlantıdan DirectShow süzgeçlerini\n\t\tyüklemek için (karakterler desteklenir)\n/dvd\t\tDVD kipinde çalıştırmak için, \"konum\" DVD klasörünü\n                gösterir (seçmeli)\n/dvdpos T#C\tOynatma T başlığının, C bölümünden başlar\n/dvdpos T#ss:dd\t Oynatma T başlığının, ss:dd:ss süresinden başlar\n/cd\t\tSes veya (s)vcd'den tüm parçaları yüklemek için,\n\t\t\"konum\" Sürücü yolunu gösterir (seçmeli)\n/device\t\tVarsayılan video aygıtını açar\n/open\t\tDosya açılır, ancak otomatik olarak oynatılmaz\n/play \t\tOynatıcı açılır açılmaz yürütme \n\t\tbaşlatılır\n/close \t\tYürütmeden sonra oynatıcı kapatılır (sadece /play komutuyla\n\t\t kullanılır)\n/shutdown\t Oynatmadan sonra bilgisayar kapatılır\n/fullscreen \tTam ekran kipinde başlatılır\n/minimized \tSimge durumunda başlatılır\n/new \t\tYeni bir oynatıcı penceresi kullanılır\n/add \t\t\"konum\" oynatma listesine eklenir, bu komutlarla birlikte\n\t\tkullanılabilir: /open ve /play\n/regvid\t\t Video biçimleri ilişkilendirilir\n/regaud \t\tSes biçimleri ilişkilendirilir\n/regpl\t\tOynatma listesi uygulamayla ilişkilendirilir\n/regall\t\tTüm dosya biçimleri uygulamayla ilişkilendirilir\n/unregall\t\tVideo biçimleri geri alınır\n/start ms \t\tOynatmaya \"ms\" (= mili saniye) sonra başlanılır\n/startpos ss:dd:ss \tOynatmaya ss:dd:ss süresinden başlanılır\n/fixedsize w,h\t Sabit pencere boyutu kullanılır\n/monitor N\tN monitöründe başlatılır; N, 1'den başlar\n/audiorenderer N \tSes çeviricisi N ile başlanılır; N, 1 ile başlar\n\t\t(\"Çıkış\" ayarlarına bakınız)\n/shaderpreset \"Pr\" \tKomut ile \"Pr\" tonlayıcı hazır ayarı kullanılır\n/reset\t\t Varsayılan ayarlara geri dönülür\n/help /h /? \tKomut satırı anahtarları yardımı görüntülenir\n"
+msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nominidump\tDisable minidump creation\n/slave \"hWnd\"\tUse MPC-HC as slave\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
+msgstr "Kullanım: mpc-hc.exe \"konum\" [anahtarlar]\n\n\"yol_adı\"\t\tYüklenecek dosya veya klasör (özel\n\t\tkarakterler desteklenir, \"-\" varsayılan girişi gösterir)\n/dub \"dublaj_adı\"\tHarici bir ses dosyası yüklemek için\n/dubdelay \"dosya\"\tXXms olarak atlanacak harici bir ses dosyası yüklemek\n                için (eğer dosya \"...GECİKME_XXms...\" içeriyorsa)\n/d3dfs\t\tTam ekran D3D kipinde oynatmak için\n/sub \"alt_yazı\"\t  Harici bir alt yazı kullanmak için\n/filter \"filtre_adı\"      Değişken bir bağlantıdan DirectShow süzgeçlerini\n\t\tyüklemek için (karakterler desteklenir)\n/dvd\t\tDVD kipinde çalıştırmak için, \"konum\" DVD klasörünü\n                gösterir (seçmeli)\n/dvdpos T#C\tOynatma T başlığının, C bölümünden başlar\n/dvdpos T#ss:dd\t Oynatma T başlığının, ss:dd:ss süresinden başlar\n/cd\t\tSes veya (s)vcd'den tüm parçaları yüklemek için,\n\t\t\"konum\" Sürücü yolunu gösterir (seçmeli)\n/device\t\tVarsayılan video aygıtını açar\n/open\t\tDosya açılır, ancak otomatik olarak oynatılmaz\n/play \t\tOynatıcı açılır açılmaz yürütme \n\t\tbaşlatılır\n/close \t\tYürütmeden sonra oynatıcı kapatılır (sadece /play komutuyla\n\t\t kullanılır)\n/shutdown\t Oynatmadan sonra bilgisayar kapatılır\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen \tTam ekran kipinde başlatılır\n/minimized \tSimge durumunda başlatılır\n/new \t\tYeni bir oynatıcı penceresi kullanılır\n/add \t\t\"konum\" oynatma listesine eklenir, bu komutlarla birlikte\n\t\tkullanılabilir: /open ve /play\n/regvid\t\t Video biçimleri ilişkilendirilir\n/regaud \t\tSes biçimleri ilişkilendirilir\n/regpl\t\tOynatma listesi uygulamayla ilişkilendirilir\n/regall\t\tTüm dosya biçimleri uygulamayla ilişkilendirilir\n/unregall\t\tVideo biçimleri geri alınır\n/start ms \t\tOynatmaya \"ms\" (= mili saniye) sonra başlanılır\n/startpos ss:dd:ss \tOynatmaya ss:dd:ss süresinden başlanılır\n/fixedsize w,h\t Sabit pencere boyutu kullanılır\n/monitor N\tN monitöründe başlatılır; N, 1'den başlar\n/audiorenderer N \tSes çeviricisi N ile başlanılır; N, 1 ile başlar\n\t\t(\"Çıkış\" ayarlarına bakınız)\n/shaderpreset \"Pr\" \tKomut ile \"Pr\" tonlayıcı hazır ayarı kullanılır\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nominidump\tDisable minidump creation\n/slave \"hWnd\"\tUse MPC-HC as slave\n/reset\t\t Varsayılan ayarlara geri dönülür\n/help /h /? \tKomut satırı anahtarları yardımı görüntülenir\n"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -3278,6 +3314,10 @@ msgctxt "IDS_OSD_REGAIN_VOLUME_OFF"
 msgid "Regain volume: Off"
 msgstr "Ses yükseltmesi: Kapalı"
 
+msgctxt "IDS_SIZE_UNIT_BYTES"
+msgid "bytes"
+msgstr "bayt"
+
 msgctxt "IDS_SIZE_UNIT_K"
 msgid "KB"
 msgstr "KB"
@@ -3453,6 +3493,14 @@ msgstr "Oynatmadan Sonra: Kilitle"
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
 msgstr "Oynatmadan Sonra: Ekranı kapat"
+
+msgctxt "IDS_AFTERPLAYBACK_PLAYNEXT"
+msgid "After Playback: Play next file in the folder"
+msgstr "Oynatmadan Sonra: Sıradaki Dosyayı Oynat"
+
+msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
+msgid "After Playback: Do nothing"
+msgstr "Oynatmadan Sonra: Bir İşlem Yapma"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"

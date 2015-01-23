@@ -1,4 +1,4 @@
-; (C) 2009-2014 see Authors.txt
+; (C) 2009-2015 see Authors.txt
 ;
 ; This file is part of MPC-HC.
 ;
@@ -168,6 +168,7 @@ Name: el;    MessagesFile: compiler:Languages\Greek.isl
 Name: en_GB; MessagesFile: Languages\EnglishBritish.isl
 Name: es;    MessagesFile: compiler:Languages\Spanish.isl
 Name: eu;    MessagesFile: Languages\Basque.isl
+Name: fi;    MessagesFile: compiler:Languages\Finnish.isl
 Name: fr;    MessagesFile: compiler:Languages\French.isl
 Name: gl;    MessagesFile: Languages\Galician.isl
 Name: he;    MessagesFile: compiler:Languages\Hebrew.isl
@@ -185,6 +186,7 @@ Name: ro;    MessagesFile: Languages\Romanian.isl
 Name: ru;    MessagesFile: compiler:Languages\Russian.isl
 Name: sk;    MessagesFile: Languages\Slovak.isl
 Name: sl;    MessagesFile: compiler:Languages\Slovenian.isl
+Name: sr;    MessagesFile: compiler:Languages\SerbianCyrillic.isl
 Name: sv;    MessagesFile: Languages\Swedish.isl
 Name: th_TH; MessagesFile: Languages\Thai.isl
 Name: tt;    MessagesFile: Languages\Tatar.isl

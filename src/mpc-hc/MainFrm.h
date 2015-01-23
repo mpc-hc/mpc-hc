@@ -71,14 +71,16 @@
 #include "sizecbar/scbarg.h"
 #include "DSMPropertyBag.h"
 #include "SkypeMoodMsgHandler.h"
+#include "SubtitleDlDlg.h"
+#include "SubtitleUpDlg.h"
 
 #include <memory>
+#include <future>
 
 
 class CFullscreenWnd;
 
-enum class MLS
-{
+enum class MLS {
     CLOSED,
     LOADING,
     LOADED,
@@ -158,16 +160,14 @@ interface ISubClock;
 class CMainFrame : public CFrameWnd, public CDropTarget
 {
 public:
-    enum class Timer32HzSubscriber
-    {
+    enum class Timer32HzSubscriber {
         TOOLBARS_HIDER,
         CURSOR_HIDER,
         CURSOR_HIDER_D3DFS,
     };
     OnDemandTimer<Timer32HzSubscriber> m_timer32Hz;
 
-    enum class TimerOneTimeSubscriber
-    {
+    enum class TimerOneTimeSubscriber {
         TOOLBARS_DELAY_NOTLOADED,
         CHILDVIEW_CURSOR_HACK,
         DELAY_IDLE,
@@ -206,10 +206,10 @@ private:
 
     friend class CPPageFileInfoSheet;
     friend class CPPageLogo;
-    friend class CSubtitleDlDlg;
     friend class CMouse;
     friend class CPlayerSeekBar; // for accessing m_controls.ControlChecked()
     friend class CChildView; // for accessing m_controls.DelayShowNotLoaded()
+    friend class SubtitlesProvider;
 
     // TODO: wrap these graph objects into a class to make it look cleaner
 
@@ -348,7 +348,7 @@ private:
 
     DWORD m_dwLastRun;
 
-    bool m_fBuffering;
+    bool m_bBuffering;
 
     bool m_fLiveWM;
 
@@ -488,6 +488,19 @@ protected:
     bool m_fOpeningAborted;
     bool m_bWasSnapped;
 
+protected:
+    friend class CSubtitleDlDlg;
+    CSubtitleDlDlg m_wndSubtitlesDownloadDialog;
+    friend class CSubtitleUpDlg;
+    CSubtitleUpDlg m_wndSubtitlesUploadDialog;
+    friend class CPPageSubMisc;
+
+    friend class SubtitlesProviders;
+    SubtitlesProviders* m_pSubtitlesProviders;
+    friend struct SubtitlesInfo;
+    friend class SubtitlesTask;
+    friend class SubtitlesThread;
+
 public:
     void OpenCurPlaylistItem(REFERENCE_TIME rtStart = 0);
     void OpenMedia(CAutoPtr<OpenMediaData> pOMD);
@@ -565,7 +578,42 @@ public:
     virtual void RecalcLayout(BOOL bNotify = TRUE);
 
     // DVB capture
-    void ShowCurrentChannelInfo(bool fShowOSD = true, bool fShowInfoBar = false);
+    void UpdateCurrentChannelInfo(bool bShowOSD = true, bool bShowInfoBar = false);
+    LRESULT OnCurrentChannelInfoUpdated(WPARAM wParam, LPARAM lParam);
+
+    struct DVBState {
+        struct EITData {
+            HRESULT hr        = E_FAIL;
+            EventDescriptor NowNext;
+            bool bShowOSD     = true;
+            bool bShowInfoBar = false;
+        };
+
+        CString         sChannelName;                // Current channel name
+        CDVBChannel*    pChannel          = nullptr; // Pointer to current channel object
+        EventDescriptor NowNext;                     // Current channel EIT
+        bool            bActive           = false;   // True when channel is active
+        bool            bSetChannelActive = false;   // True when channel change is in progress
+        bool            bInfoActive       = false;   // True when EIT data update is in progress
+        bool            bAbortInfo        = true;    // True when aborting current EIT update
+        std::future<DVBState::EITData> infoData;
+
+        void Reset() {
+            sChannelName.Empty();
+            pChannel          = nullptr;
+            NowNext           = EventDescriptor();
+            bActive           = false;
+            bSetChannelActive = false;
+            bInfoActive       = false;
+            bAbortInfo        = true;
+        }
+
+        ~DVBState() {
+            bAbortInfo = true;
+        }
+    };
+
+    std::unique_ptr<DVBState> m_pDVBState = nullptr;
 
     // Implementation
 public:
@@ -706,16 +754,14 @@ public:
     afx_msg void OnUpdateFileSaveImage(CCmdUI* pCmdUI);
     afx_msg void OnFileSaveThumbnails();
     afx_msg void OnUpdateFileSaveThumbnails(CCmdUI* pCmdUI);
-    afx_msg void OnFileLoadsubtitle();
-    afx_msg void OnUpdateFileLoadsubtitle(CCmdUI* pCmdUI);
-    afx_msg void OnFileSavesubtitle();
-    afx_msg void OnUpdateFileSavesubtitle(CCmdUI* pCmdUI);
-    afx_msg void OnFileISDBSearch();
-    afx_msg void OnUpdateFileISDBSearch(CCmdUI* pCmdUI);
-    afx_msg void OnFileISDBUpload();
-    afx_msg void OnUpdateFileISDBUpload(CCmdUI* pCmdUI);
-    afx_msg void OnFileISDBDownload();
-    afx_msg void OnUpdateFileISDBDownload(CCmdUI* pCmdUI);
+    afx_msg void OnFileSubtitlesLoad();
+    afx_msg void OnUpdateFileSubtitlesLoad(CCmdUI* pCmdUI);
+    afx_msg void OnFileSubtitlesSave();
+    afx_msg void OnUpdateFileSubtitlesSave(CCmdUI* pCmdUI);
+    afx_msg void OnFileSubtitlesUpload();
+    afx_msg void OnUpdateFileSubtitlesUpload(CCmdUI* pCmdUI);
+    afx_msg void OnFileSubtitlesDownload();
+    afx_msg void OnUpdateFileSubtitlesDownload(CCmdUI* pCmdUI);
     afx_msg void OnFileProperties();
     afx_msg void OnUpdateFileProperties(CCmdUI* pCmdUI);
     afx_msg void OnFileCloseAndRestore();
@@ -949,10 +995,10 @@ public:
     int         m_nCurSubtitle;
     long        m_lSubtitleShift;
     REFERENCE_TIME m_rtCurSubPos;
+    bool        m_bScanDlgOpened;
     bool        m_bStopTunerScan;
     bool        m_bLockedZoomVideoWindow;
     int         m_nLockedZoomVideoWindow;
-    bool        m_fSetChannelActive;
 
     void        SetLoadState(MLS eState);
     MLS         GetLoadState() const;
@@ -1060,4 +1106,7 @@ public:
     bool GetDecoderType(CString& type) const;
 
     DPI m_dpi;
+protected:
+    afx_msg LRESULT OnLoadSubtitles(WPARAM wParam, LPARAM lParam);
+    afx_msg LRESULT OnGetSubtitles(WPARAM wParam, LPARAM lParam);
 };

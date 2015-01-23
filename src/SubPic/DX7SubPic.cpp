@@ -28,8 +28,8 @@
 //
 
 CDX7SubPic::CDX7SubPic(IDirect3DDevice7* pD3DDev, IDirectDrawSurface7* pSurface)
-    : m_pSurface(pSurface)
-    , m_pD3DDev(pD3DDev)
+    : m_pD3DDev(pD3DDev)
+    , m_pSurface(pSurface)
 {
     DDSURFACEDESC2 ddsd;
     INITDDSTRUCT(ddsd);

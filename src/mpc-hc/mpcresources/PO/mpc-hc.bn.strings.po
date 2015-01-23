@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # mehzad, 2014
@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-09-20 09:58+0000\n"
+"POT-Creation-Date: 2014-10-19 22:15:16+0000\n"
+"PO-Revision-Date: 2014-10-20 10:21+0000\n"
 "Last-Translator: JellyFrog\n"
 "Language-Team: Bengali (http://www.transifex.com/projects/p/mpc-hc/language/bn/)\n"
 "MIME-Version: 1.0\n"
@@ -790,7 +790,7 @@ msgid "Couldn't find all archive volumes"
 msgstr "সবগুলো আর্কাইভ খন্ড পাওয়া যাচ্ছে না"
 
 msgctxt "IDC_TEXTURESURF2D"
-msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
+msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
 msgstr "ভিডিও উপরিতলটি একটি টেক্সচার হিসেবে নির্দেশিত হবে কিন্তু তারপরও দ্বিমাত্রিক ফাংশনসমূহ সেটা পিছনবাফারে কপি এবং বিস্তৃতি করণে ব্যবহৃত হবে। এমন ভিডিও কার্ড লাগবে যেটা 32bit, RGBA, দুইয়ের-শক্তিতে-নয় এমন সাইজকৃত টেক্সচারসমূহ এবং অন্তত ভিডিওর রেজ্যুলূশন নির্দেশিত করতে পারে।"
 
 msgctxt "IDC_TEXTURESURF3D"
@@ -1337,6 +1337,42 @@ msgctxt "IDS_HOTKEY_NOT_DEFINED"
 msgid "<not defined>"
 msgstr ""
 
+msgctxt "IDS_NAVIGATION_WATCH"
+msgid "Watch"
+msgstr ""
+
+msgctxt "IDS_NAVIGATION_MOVE_UP"
+msgid "Move Up"
+msgstr "উপরে উঠাই"
+
+msgctxt "IDS_NAVIGATION_MOVE_DOWN"
+msgid "Move Down"
+msgstr "নিচে নামাই"
+
+msgctxt "IDS_NAVIGATION_SORT"
+msgid "Sort by LCN"
+msgstr ""
+
+msgctxt "IDS_NAVIGATION_REMOVE_ALL"
+msgid "Remove all"
+msgstr ""
+
+msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
+msgid "Are you sure you want to remove all channels from the list?"
+msgstr ""
+
+msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"
+msgid "No information available"
+msgstr ""
+
+msgctxt "IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS"
+msgid "Please wait, analysis in progress..."
+msgstr ""
+
+msgctxt "IDS_ASPECT_RATIO_FMT"
+msgid "AR %d:%d"
+msgstr ""
+
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
 msgstr "ডিভাইস খুলি"
@@ -1538,11 +1574,11 @@ msgid "Reset Rate"
 msgstr "গতি পুনর্বিন্যাস করি"
 
 msgctxt "IDS_MPLAYERC_21"
-msgid "Audio Delay +10ms"
+msgid "Audio Delay +10 ms"
 msgstr "অডিও বিলম্বন +10ms"
 
 msgctxt "IDS_MPLAYERC_22"
-msgid "Audio Delay -10ms"
+msgid "Audio Delay -10 ms"
 msgstr "অডিও বিলম্বন -10ms"
 
 msgctxt "IDS_MPLAYERC_23"
@@ -1698,8 +1734,8 @@ msgid "No subtitles found."
 msgstr "কোনো সাবটাইটেল পাওয়া যায় নি।"
 
 msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
-msgid " %d subtitle(s) available."
-msgstr " %d টি সাবটাইটেল(সমূহ) পাওয়া গেছে"
+msgid "%d subtitle(s) available."
+msgstr "%d টি সাবটাইটেল(সমূহ) পাওয়া গেছে"
 
 msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
@@ -2026,12 +2062,12 @@ msgid "Volume: %02lu/%02lu, Title: %02lu/%02lu, Chapter: %02lu/%02lu"
 msgstr "ভলিউম: %02lu/%02lu, টাইটেল: %02lu/%02lu, পরিচ্ছেদ: %02lu/%02lu"
 
 msgctxt "IDS_MAINFRM_10"
-msgid "Angle: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
+msgid "Angle: %02lu/%02lu, %lux%lu %lu Hz %lu:%lu"
 msgstr "ক্যামেরা অ্যাঙ্গেল: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
 
 msgctxt "IDS_MAINFRM_11"
-msgid "%s, %s %uHz %dbits %d %s"
-msgstr "%s, %s %uHz %dbits %d %s"
+msgid "%s, %s %u Hz %d bits %d %s"
+msgstr ""
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
@@ -2138,19 +2174,19 @@ msgid ", Total: %ld, Dropped: %ld"
 msgstr ", মোট: %ld, বাদ গেছে: %ld"
 
 msgctxt "IDS_MAINFRM_38"
-msgid ", Size: %I64dKB"
+msgid ", Size: %I64d KB"
 msgstr ", সাইজ: %I64dKB"
 
 msgctxt "IDS_MAINFRM_39"
-msgid ", Size: %I64dMB"
+msgid ", Size: %I64d MB"
 msgstr ", সাইজ: %I64dMB"
 
 msgctxt "IDS_MAINFRM_40"
-msgid ", Free: %I64dKB"
+msgid ", Free: %I64d KB"
 msgstr ", খালি রয়েছে: %I64dKB"
 
 msgctxt "IDS_MAINFRM_41"
-msgid ", Free: %I64dMB"
+msgid ", Free: %I64d MB"
 msgstr ", খালি রয়েছে: %I64dMB"
 
 msgctxt "IDS_MAINFRM_42"
@@ -2238,7 +2274,7 @@ msgid "Aspect Ratio: Default"
 msgstr "অ্যাসপেক্ট রেশিও: ডিফল্ট"
 
 msgctxt "IDS_MAINFRM_70"
-msgid "Audio Delay: %I64dms"
+msgid "Audio delay: %I64d ms"
 msgstr "অডিও বিলম্বন: %I64dms"
 
 msgctxt "IDS_AG_CHAPTER"
@@ -2423,7 +2459,7 @@ msgstr "VSync"
 
 msgctxt "IDS_MAINFRM_121"
 msgid " (Director Comments 1)"
-msgstr "(পরিচালকের মন্তব্যসমূহ ১)"
+msgstr " (পরিচালকের মন্তব্যসমূহ ১)"
 
 msgctxt "IDS_MAINFRM_122"
 msgid " (Director Comments 2)"
@@ -2478,8 +2514,8 @@ msgid "Volume boost Max"
 msgstr "ভলিউমের উন্নতিসাধন সর্বোচ্চ"
 
 msgctxt "IDS_USAGE"
-msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "ব্যবহারবিধি: mpc-hc.exe \"pathname\" [নির্দেশনাসমূহ]\n\n\"pathname\"\tযে মূল ফাইল বা ডিরেক্টরি লোড করা হবে (ওয়াইল্ডকার্ড ক্যারেক্টারসমূহ\n\t\tব্যবহার করা যাবে, সাধারণ ইনপুটটি \"-\" চিহ্ন দ্বারা সূচিত করুন)\n/dub \"dubname\"\tঅতিরিক্ত অডিও ফাইল লোড করণ\n/dubdelay \"file\"\tঅতিরিক্ত অডিও ফাইল XXms সময়ের স্থানান্তর করে লোড করণ\n\t\t(যদি ফাইলটিতে \"...DELAY XXms...\" থেকে থাকে)\n/d3dfs\t\tD3D ফুলস্ক্রীন মুডে রেনডার করা শুরু করণ\n/sub \"subname\"\tঅতিরিক্ত সাবটাইটেল ফাইল লোড করণ\n/filter \"filtername\"\tডাইনামিক লিঙ্ক লাইব্রেরি থেকে DirectShow ফিল্টারসমূহ লোড\n\t\tকরণ (ওয়াইল্ডকার্ড ক্যারেক্টারসমূহ ব্যবহার করা যাবে)\n/dvd\t\tDVD মুডে চালনা করণ, \"pathname\" হবে dvd ফোল্ডারটি (ঐচ্ছিক)\n/dvdpos T#C\tটাইটেল T এর পরিচ্ছেদ C থেকে প্লেব্যাক শুরু করণ\n/dvdpos T#hh:mm\tটাইটেল T এর অবস্থানকাল hh:mm:ss থেকে প্লেব্যাক শুরু করণ\n/cd\t\tcd বা (s)vcd এর সকল ট্র্যাকসমূহ লোড করণ, \"pathname\" হবে ড্রাইভের\n\t\tঠিকানাটি (ঐচ্ছিক)\n/device\t\tডিফল্ট ভিডিও ডিভাইসটি চালনা করণ\n/open\t\tফাইলটি চালনা করণ, স্বয়ংক্রিয়ভাবে প্লেব্যাক শুরু করবে না\n/play\t\tপ্লেয়ারটি চালনার সাথে সাথেই ফাইলটি প্লে করা শুরু করণ\n/close\t\tপ্লেব্যাক শেষে প্লেয়ারটি বন্ধ করণ (শুধুমাত্র কাজ করবে যখন /play\n\t\tনির্দেশনাটির সাথে ব্যবহার করা হবে)\n/shutdown\tপ্লেব্যাক শেষে অপারেটিং সিস্টেমটি শাটডাউন করণ\n/fullscreen\tফুল-স্ক্রীন মুডে চালনা করণ\n/minimized\tমিনিমাইজড্‌ মুডে চালনা করণ\n/new\t\tনতুন আরেকটি প্লেয়ার ব্যবহার\n/add\t\t\"pathname\" প্লেলিস্টে যোগ করণ, /open আর /play এর সাথে একত্রে\n\t\tব্যবহার করা যাবে\n/regvid\t\tভিডিও ফাইলসমূহের সাথে সংশ্লিষ্টতা স্থাপন\n/regaud\t\tঅডিও ফাইলসমূহের সাথে সংশ্লিষ্টতা স্থাপন\n/regpl\t\tপ্লেলিস্ট ফাইলসমূহের সাথে সংশ্লিষ্টতা স্থাপন\n/regall\t\tসমর্থন করে এমন সকল ফাইলসমূহের সাথে সংশ্লিষ্টতা স্থাপন\n/unregall\t\tসকল ফাইলসমূহের সাথে সংশ্লিষ্টতা অপসারণ\n/start ms\t\t\"ms\" (= মিলিসেকেন্ড) থেকে প্লে শুরু করণ\n/startpos hh:mm:ss\thh:mm:ss অবস্থানকাল থেকে প্লে শুরু করণ\n/fixedsize w,h\tউইন্ডোর সাইজ নির্দিষ্টকরণSet a fixed window size\n/monitor N\tমনিটর Nএ প্লেয়ার চালনা করণ, যেখানে Nএর মান ১ থেকে শুরু হয়\n/audiorenderer N\tঅডিও রেনডারার N ব্যবহার শুরু করণ, যেখানে Nএর মান ১\n\t\tথেকে শুরু হয় (বিস্তারিত দেখুন \"Output\" সেটিংসমূহে)\n/shaderpreset \"Pr\"\t\"Pr\" শেইডার প্রিসেট ব্যবহার শুরু করণ\n/reset\t\tডিফল্ট সেটিংসমূহে পুনর্বিন্যাস করণ\n/help /h /?\tকমান্ড লাইনের নির্দেশনাসমূহ সম্পর্কে সহায়িকা প্রদর্শন\n"
+msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nominidump\tDisable minidump creation\n/slave \"hWnd\"\tUse MPC-HC as slave\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
+msgstr "ব্যবহারবিধি: mpc-hc.exe \"pathname\" [নির্দেশনাসমূহ]\n\n\"pathname\"\tযে মূল ফাইল বা ডিরেক্টরি লোড করা হবে (ওয়াইল্ডকার্ড ক্যারেক্টারসমূহ\n\t\tব্যবহার করা যাবে, সাধারণ ইনপুটটি \"-\" চিহ্ন দ্বারা সূচিত করুন)\n/dub \"dubname\"\tঅতিরিক্ত অডিও ফাইল লোড করণ\n/dubdelay \"file\"\tঅতিরিক্ত অডিও ফাইল XXms সময়ের স্থানান্তর করে লোড করণ\n\t\t(যদি ফাইলটিতে \"...DELAY XXms...\" থেকে থাকে)\n/d3dfs\t\tD3D ফুলস্ক্রীন মুডে রেনডার করা শুরু করণ\n/sub \"subname\"\tঅতিরিক্ত সাবটাইটেল ফাইল লোড করণ\n/filter \"filtername\"\tডাইনামিক লিঙ্ক লাইব্রেরি থেকে DirectShow ফিল্টারসমূহ লোড\n\t\tকরণ (ওয়াইল্ডকার্ড ক্যারেক্টারসমূহ ব্যবহার করা যাবে)\n/dvd\t\tDVD মুডে চালনা করণ, \"pathname\" হবে dvd ফোল্ডারটি (ঐচ্ছিক)\n/dvdpos T#C\tটাইটেল T এর পরিচ্ছেদ C থেকে প্লেব্যাক শুরু করণ\n/dvdpos T#hh:mm\tটাইটেল T এর অবস্থানকাল hh:mm:ss থেকে প্লেব্যাক শুরু করণ\n/cd\t\tcd বা (s)vcd এর সকল ট্র্যাকসমূহ লোড করণ, \"pathname\" হবে ড্রাইভের\n\t\tঠিকানাটি (ঐচ্ছিক)\n/device\t\tডিফল্ট ভিডিও ডিভাইসটি চালনা করণ\n/open\t\tফাইলটি চালনা করণ, স্বয়ংক্রিয়ভাবে প্লেব্যাক শুরু করবে না\n/play\t\tপ্লেয়ারটি চালনার সাথে সাথেই ফাইলটি প্লে করা শুরু করণ\n/close\t\tপ্লেব্যাক শেষে প্লেয়ারটি বন্ধ করণ (শুধুমাত্র কাজ করবে যখন /play\n\t\tনির্দেশনাটির সাথে ব্যবহার করা হবে)\n/shutdown\tপ্লেব্যাক শেষে অপারেটিং সিস্টেমটি শাটডাউন করণ\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tফুল-স্ক্রীন মুডে চালনা করণ\n/minimized\tমিনিমাইজড্‌ মুডে চালনা করণ\n/new\t\tনতুন আরেকটি প্লেয়ার ব্যবহার\n/add\t\t\"pathname\" প্লেলিস্টে যোগ করণ, /open আর /play এর সাথে একত্রে\n\t\tব্যবহার করা যাবে\n/regvid\t\tভিডিও ফাইলসমূহের সাথে সংশ্লিষ্টতা স্থাপন\n/regaud\t\tঅডিও ফাইলসমূহের সাথে সংশ্লিষ্টতা স্থাপন\n/regpl\t\tপ্লেলিস্ট ফাইলসমূহের সাথে সংশ্লিষ্টতা স্থাপন\n/regall\t\tসমর্থন করে এমন সকল ফাইলসমূহের সাথে সংশ্লিষ্টতা স্থাপন\n/unregall\t\tসকল ফাইলসমূহের সাথে সংশ্লিষ্টতা অপসারণ\n/start ms\t\t\"ms\" (= মিলিসেকেন্ড) থেকে প্লে শুরু করণ\n/startpos hh:mm:ss\thh:mm:ss অবস্থানকাল থেকে প্লে শুরু করণ\n/fixedsize w,h\tউইন্ডোর সাইজ নির্দিষ্টকরণSet a fixed window size\n/monitor N\tমনিটর Nএ প্লেয়ার চালনা করণ, যেখানে Nএর মান ১ থেকে শুরু হয়\n/audiorenderer N\tঅডিও রেনডারার N ব্যবহার শুরু করণ, যেখানে Nএর মান ১\n\t\tথেকে শুরু হয় (বিস্তারিত দেখুন \"Output\" সেটিংসমূহে)\n/shaderpreset \"Pr\"\t\"Pr\" শেইডার প্রিসেট ব্যবহার শুরু করণ\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nominidump\tDisable minidump creation\n/slave \"hWnd\"\tUse MPC-HC as slave\n/reset\t\tডিফল্ট সেটিংসমূহে পুনর্বিন্যাস করণ\n/help /h /?\tকমান্ড লাইনের নির্দেশনাসমূহ সম্পর্কে সহায়িকা প্রদর্শন\n"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -3277,6 +3313,10 @@ msgctxt "IDS_OSD_REGAIN_VOLUME_OFF"
 msgid "Regain volume: Off"
 msgstr "ভলিউম পুনর্বৃদ্ধি: বন্ধ করা হল"
 
+msgctxt "IDS_SIZE_UNIT_BYTES"
+msgid "bytes"
+msgstr ""
+
 msgctxt "IDS_SIZE_UNIT_K"
 msgid "KB"
 msgstr "KB"
@@ -3452,6 +3492,14 @@ msgstr "প্লেব্যাকের পরে: কম্পিউটার
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
 msgstr "প্লেব্যাকের পরে: মনিটর বন্ধ করি"
+
+msgctxt "IDS_AFTERPLAYBACK_PLAYNEXT"
+msgid "After Playback: Play next file in the folder"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
+msgid "After Playback: Do nothing"
+msgstr ""
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"

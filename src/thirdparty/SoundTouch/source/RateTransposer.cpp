@@ -10,10 +10,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2014-01-06 19:19:38 +0000 (Mon, 06 Jan 2014) $
+// Last changed  : $Date: 2014-04-06 15:57:21 +0000 (Sun, 06 Apr 2014) $
 // File revision : $Revision: 4 $
 //
-// $Id: RateTransposer.cpp 181 2014-01-06 19:19:38Z oparviai $
+// $Id: RateTransposer.cpp 195 2014-04-06 15:57:21Z oparviai $
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -57,7 +57,7 @@ TransposerBase::ALGORITHM TransposerBase::algorithm = TransposerBase::CUBIC;
 // Constructor
 RateTransposer::RateTransposer() : FIFOProcessor(&outputBuffer)
 {
-    bUseAAFilter = TRUE;
+    bUseAAFilter = true;
 
     // Instantiates the anti-alias filter
     pAAFilter = new AAFilter(64);
@@ -75,14 +75,14 @@ RateTransposer::~RateTransposer()
 
 
 /// Enables/disables the anti-alias filter. Zero to disable, nonzero to enable
-void RateTransposer::enableAAFilter(BOOL newMode)
+void RateTransposer::enableAAFilter(bool newMode)
 {
     bUseAAFilter = newMode;
 }
 
 
 /// Returns nonzero if anti-alias filter is enabled.
-BOOL RateTransposer::isAAFilterEnabled() const
+bool RateTransposer::isAAFilterEnabled() const
 {
     return bUseAAFilter;
 }
@@ -139,7 +139,7 @@ void RateTransposer::processSamples(const SAMPLETYPE *src, uint nSamples)
 
     // If anti-alias filter is turned off, simply transpose without applying
     // the filter
-    if (bUseAAFilter == FALSE) 
+    if (bUseAAFilter == false) 
     {
         count = pTransposer->transpose(outputBuffer, inputBuffer);
         return;

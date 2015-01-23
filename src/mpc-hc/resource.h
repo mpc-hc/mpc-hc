@@ -81,11 +81,10 @@
 #define ID_FILE_SAVE_IMAGE              806
 #define ID_FILE_SAVE_IMAGE_AUTO         807
 #define ID_FILE_SAVE_THUMBNAILS         808
-#define ID_FILE_LOAD_SUBTITLE           809
-#define ID_FILE_SAVE_SUBTITLE           810
-#define ID_FILE_ISDB_UPLOAD             811
-#define ID_FILE_ISDB_DOWNLOAD           812
-#define ID_FILE_ISDB_SEARCH             813
+#define ID_FILE_SUBTITLES_LOAD          809
+#define ID_FILE_SUBTITLES_SAVE          810
+#define ID_FILE_SUBTITLES_UPLOAD        811
+#define ID_FILE_SUBTITLES_DOWNLOAD      812
 #define ID_FILE_PROPERTIES              814
 #define ID_VIEW_OPTIONS                 815
 #define ID_FILE_EXIT                    816
@@ -218,6 +217,7 @@
 #define ID_BOSS                         944
 #define ID_DUMMYSEPARATOR               945
 #define ID_BUTTONSEP                    946
+#define ID_AFTERPLAYBACK_PLAYNEXT       947
 #define ID_MENU_PLAYER_SHORT            949
 #define ID_MENU_PLAYER_LONG             950
 #define ID_MENU_FILTERS                 951
@@ -288,8 +288,8 @@
 #define ID_SHADERS_PRESETS_START        4201
 #define ID_SHADERS_PRESETS_END          4299
 #define ID_NAVIGATE_JUMPTO_SUBITEM_START 4300
-#define ID_NAVIGATE_JUMPTO_SUBITEM_END  4499
-#define ID_VIEW_ZOOM_AUTOFIT_LARGER     4500
+#define ID_NAVIGATE_JUMPTO_SUBITEM_END  4899
+#define ID_VIEW_ZOOM_AUTOFIT_LARGER     4900
 // filters
 #define IDS_FILTER_SETTINGS_CAPTION     7000
 #define IDS_ARS_WASAPI_MODE             7100
@@ -300,6 +300,7 @@
 #define IDD_MEDIATYPES_DLG              10002
 #define IDD_SAVE_DLG                    10004
 #define IDD_SUBTITLEDL_DLG              10005
+#define IDD_SUBTITLEUP_DLG              10006
 #define IDD_FILEPROPDETAILS             10010
 #define IDD_FILEPROPCLIP                10011
 #define IDD_PNSPRESET_DLG               10015
@@ -588,6 +589,11 @@
 #define IDD_PPAGEADVANCED               20014
 #define IDD_SAVEIMAGEDIALOGTEMPL        20015
 #define IDD_CMD_LINE_HELP               20016
+#define IDI_OPENSUBTITLES               21001
+#define IDI_PODNAPISI                   21002
+#define IDI_SUBDB                       21003
+#define IDI_TITLOVI                     21004
+#define IDI_YSUBS                       21005
 #define IDC_FULLSCREEN_MONITOR_CHECK    22002
 #define IDC_SLI_CONTRAST                22003
 #define IDC_RESET                       22004
@@ -1222,6 +1228,8 @@
 #define IDS_AFTERPLAYBACK_LOGOFF        41300
 #define IDS_AFTERPLAYBACK_LOCK          41301
 #define IDS_AFTERPLAYBACK_MONITOROFF    41302
+#define IDS_AFTERPLAYBACK_PLAYNEXT      41303
+#define IDS_AFTERPLAYBACK_DONOTHING     41304
 #define IDS_OSD_BRIGHTNESS              41305
 #define IDS_OSD_CONTRAST                41306
 #define IDS_OSD_HUE                     41307
@@ -1254,6 +1262,7 @@
 #define IDS_REGAIN_VOLUME               41335
 #define IDS_OSD_REGAIN_VOLUME_ON        41336
 #define IDS_OSD_REGAIN_VOLUME_OFF       41337
+#define IDS_SIZE_UNIT_BYTES             41338
 #define IDS_SIZE_UNIT_K                 41339
 #define IDS_SIZE_UNIT_M                 41340
 #define IDS_SIZE_UNIT_G                 41341
@@ -1357,7 +1366,8 @@
 #define IDS_EMB_RESOURCES_VIEWER_NAME   41441
 #define IDS_EMB_RESOURCES_VIEWER_TYPE   41442
 #define IDS_EMB_RESOURCES_VIEWER_INFO   41443
-#define IDS_DOWNLOAD_SUBS               41444
+#define IDS_SUBTITLES_DOWNLOAD          41444
+#define IDS_SUBTITLES_UPLOAD            41445
 #define IDS_SUBFILE_DELAY               41448
 #define IDS_SPEEDSTEP_AUTO              41449
 #define IDS_EXPORT_SETTINGS_NO_KEYS     41450
@@ -1452,6 +1462,15 @@
 #define IDS_PPAGEADVANCED_COVER_SIZE_LIMIT 57418
 #define IDS_SUBTITLE_DELAY_STEP_TOOLTIP 57419
 #define IDS_HOTKEY_NOT_DEFINED          57420
+#define IDS_NAVIGATION_WATCH            57421
+#define IDS_NAVIGATION_MOVE_UP          57422
+#define IDS_NAVIGATION_MOVE_DOWN        57423
+#define IDS_NAVIGATION_SORT             57424
+#define IDS_NAVIGATION_REMOVE_ALL       57425
+#define IDS_REMOVE_CHANNELS_QUESTION    57426
+#define IDS_MEDIAINFO_NO_INFO_AVAILABLE 57427
+#define IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS 57428
+#define IDS_ASPECT_RATIO_FMT            57429
 
 // Next default values for new objects
 //

@@ -1,14 +1,15 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # sayanvd <sayanvd@yandex.ru>, 2014
+# SmilyCarrot <twisted-transistor@yandex.ru>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-19 21:10:25+0000\n"
-"PO-Revision-Date: 2014-08-20 10:01+0000\n"
-"Last-Translator: JellyFrog\n"
+"POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
+"PO-Revision-Date: 2014-11-21 14:11+0000\n"
+"Last-Translator: SmilyCarrot <twisted-transistor@yandex.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/mpc-hc/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -610,7 +611,11 @@ msgstr "Блокировать компьютер"
 
 msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
 msgid "Turn off the &monitor"
-msgstr ""
+msgstr "Выключить &монитор"
+
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "Воспроизвести &следующий файл в папке"
 
 msgctxt "POPUP"
 msgid "&Navigate"

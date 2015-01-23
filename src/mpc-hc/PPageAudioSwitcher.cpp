@@ -37,18 +37,18 @@ CPPageAudioSwitcher::CPPageAudioSwitcher(IFilterGraph* pFG)
 #else
     : CPPageBase(CPPageAudioSwitcher::IDD, CPPageAudioSwitcher::IDD)
 #endif
+    , m_pSpeakerToChannelMap()
+    , m_dwChannelMask(0)
+    , m_fEnableAudioSwitcher(FALSE)
     , m_fAudioNormalize(FALSE)
+    , m_nAudioMaxNormFactor(400)
     , m_fAudioNormalizeRecover(FALSE)
+    , m_AudioBoostPos(0)
     , m_fDownSampleTo441(FALSE)
     , m_fCustomChannelMapping(FALSE)
     , m_nChannels(0)
-    , m_fEnableAudioSwitcher(FALSE)
-    , m_dwChannelMask(0)
     , m_tAudioTimeShift(0)
     , m_fAudioTimeShift(FALSE)
-    , m_AudioBoostPos(0)
-    , m_nAudioMaxNormFactor(400)
-    , m_pSpeakerToChannelMap()
 {
     CComQIPtr<IAudioSwitcherFilter> pASF = FindFilter(__uuidof(CAudioSwitcherFilter), pFG);
 

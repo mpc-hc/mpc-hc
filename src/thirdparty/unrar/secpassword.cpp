@@ -7,6 +7,7 @@ typedef BOOL (WINAPI *CRYPTUNPROTECTMEMORY)(LPVOID pData,DWORD cbData,DWORD dwFl
 #ifndef CRYPTPROTECTMEMORY_BLOCK_SIZE
 #define CRYPTPROTECTMEMORY_BLOCK_SIZE           16
 #define CRYPTPROTECTMEMORY_SAME_PROCESS         0x00
+#define CRYPTPROTECTMEMORY_CROSS_PROCESS        0x01
 #endif
 
 class CryptLoader
@@ -48,12 +49,13 @@ class CryptLoader
     CRYPTUNPROTECTMEMORY pCryptUnprotectMemory;
 };
 
-// We want to call FreeLibrary when RAR is exiting.
+// We need to call FreeLibrary when RAR is exiting.
 CryptLoader GlobalCryptLoader;
 #endif
 
 SecPassword::SecPassword()
 {
+  CrossProcess=false;
   Set(L"");
 }
 
@@ -99,7 +101,7 @@ void SecPassword::Process(const wchar *Src,size_t SrcSize,wchar *Dst,size_t DstS
   // Source string can be shorter than destination as in case when we process
   // -p<pwd> parameter, so we need to take into account both sizes.
   memcpy(Dst,Src,Min(SrcSize,DstSize)*sizeof(*Dst));
-  SecHideData(Dst,DstSize*sizeof(*Dst),Encode);
+  SecHideData(Dst,DstSize*sizeof(*Dst),Encode,CrossProcess);
 }
 
 
@@ -156,18 +158,19 @@ bool SecPassword::operator == (SecPassword &psw)
 }
 
 
-void SecHideData(void *Data,size_t DataSize,bool Encode)
+void SecHideData(void *Data,size_t DataSize,bool Encode,bool CrossProcess)
 {
 #ifdef _WIN_ALL
   // Try to utilize the secure Crypt[Un]ProtectMemory if possible.
   if (GlobalCryptLoader.pCryptProtectMemory==NULL)
     GlobalCryptLoader.Load();
   size_t Aligned=DataSize-DataSize%CRYPTPROTECTMEMORY_BLOCK_SIZE;
+  DWORD Flags=CrossProcess ? CRYPTPROTECTMEMORY_CROSS_PROCESS : CRYPTPROTECTMEMORY_SAME_PROCESS;
   if (Encode)
   {
     if (GlobalCryptLoader.pCryptProtectMemory!=NULL)
     {
-      if (!GlobalCryptLoader.pCryptProtectMemory(Data,DWORD(Aligned),CRYPTPROTECTMEMORY_SAME_PROCESS))
+      if (!GlobalCryptLoader.pCryptProtectMemory(Data,DWORD(Aligned),Flags))
       {
         ErrHandler.GeneralErrMsg(L"CryptProtectMemory failed");
         ErrHandler.SysErrMsg();
@@ -180,7 +183,7 @@ void SecHideData(void *Data,size_t DataSize,bool Encode)
   {
     if (GlobalCryptLoader.pCryptUnprotectMemory!=NULL)
     {
-      if (!GlobalCryptLoader.pCryptUnprotectMemory(Data,DWORD(Aligned),CRYPTPROTECTMEMORY_SAME_PROCESS))
+      if (!GlobalCryptLoader.pCryptUnprotectMemory(Data,DWORD(Aligned),Flags))
       {
         ErrHandler.GeneralErrMsg(L"CryptUnprotectMemory failed");
         ErrHandler.SysErrMsg();

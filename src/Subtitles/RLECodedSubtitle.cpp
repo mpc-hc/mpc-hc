@@ -28,7 +28,6 @@ CRLECodedSubtitle::CRLECodedSubtitle(CCritSec* pLock, const CString& name, LCID 
     , m_name(name)
     , m_lcid(lcid)
 {
-
 }
 
 STDMETHODIMP CRLECodedSubtitle::NonDelegatingQueryInterface(REFIID riid, void** ppv)

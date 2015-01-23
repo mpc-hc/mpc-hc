@@ -17,7 +17,7 @@
 
 //---------------------------------------------------------------------------
 #include "MediaInfo/File__Analyze.h"
-#include <vector>
+#include "MediaInfo/Multiple/File_DcpPkl.h"
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib
@@ -36,6 +36,9 @@ public :
     File_DcpAm();
     ~File_DcpAm();
 
+    //Streams
+    File_DcpPkl::streams Streams;
+
 private :
     //Streams management
     void Streams_Finish ();
@@ -47,6 +50,10 @@ private :
 
     //Buffer - File header
     bool FileHeader_Begin();
+
+    //PKL
+    size_t PKL_Pos;
+    void MergeFromPkl (File_DcpPkl::streams &StreamsToMerge);
 
     //Temp
     File__ReferenceFilesHelper*     ReferenceFiles;

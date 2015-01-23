@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2013 see Authors.txt
+ * (C) 2009-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -26,10 +26,10 @@
 IMPLEMENT_DYNAMIC(CMultiFiles, CObject)
 
 CMultiFiles::CMultiFiles()
-    : m_hFile(INVALID_HANDLE_VALUE)
-    , m_llTotalLength(0)
+    : m_pCurrentPTSOffset(nullptr)
+    , m_hFile(INVALID_HANDLE_VALUE)
     , m_nCurPart(-1)
-    , m_pCurrentPTSOffset(nullptr)
+    , m_llTotalLength(0)
 {
 }
 

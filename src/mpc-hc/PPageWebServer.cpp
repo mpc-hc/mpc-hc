@@ -24,7 +24,7 @@
 #include "MainFrm.h"
 #include "PPageWebServer.h"
 #include "SysVersion.h"
-#include "WinAPIUtils.h"
+#include "PathUtils.h"
 #include <afxglobals.h>
 
 
@@ -38,11 +38,8 @@ CPPageWebServer::CPPageWebServer()
     , m_launch(_T("http://localhost:13579/"))
     , m_fWebServerPrintDebugInfo(FALSE)
     , m_fWebServerUseCompression(FALSE)
-    , m_fWebRoot(FALSE)
-    , m_WebRoot(_T(""))
     , m_fWebServerLocalhostOnly(FALSE)
-    , m_WebServerCGI(_T(""))
-    , m_WebDefIndex(_T(""))
+    , m_fWebRoot(FALSE)
 {
 }
 
@@ -71,14 +68,10 @@ BOOL CPPageWebServer::PreTranslateMessage(MSG* pMsg)
     if (pMsg->message == WM_LBUTTONDOWN && pMsg->hwnd == m_launch.m_hWnd) {
         UpdateData();
 
-        const CAppSettings& s = AfxGetAppSettings();
-
-        if (CMainFrame* pWnd = (CMainFrame*)AfxGetMainWnd()) {
-            if (m_fEnableWebServer) {
-                if (s.nWebServerPort != m_nWebServerPort) {
-                    AfxMessageBox(IDS_WEBSERVER_ERROR_TEST, MB_ICONEXCLAMATION | MB_OK, 0);
-                    return TRUE;
-                }
+        if (m_fEnableWebServer) {
+            if (AfxGetAppSettings().nWebServerPort != m_nWebServerPort) {
+                AfxMessageBox(IDS_WEBSERVER_ERROR_TEST, MB_ICONEXCLAMATION | MB_OK, 0);
+                return TRUE;
             }
         }
     }
@@ -136,14 +129,14 @@ BOOL CPPageWebServer::OnApply()
     s.strWebDefIndex = m_WebDefIndex;
     s.strWebServerCGI = m_WebServerCGI;
 
-    if (CMainFrame* pWnd = (CMainFrame*)AfxGetMainWnd()) {
+    if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
         if (m_fEnableWebServer) {
             if (fRestart) {
-                pWnd->StopWebServer();
+                pMainFrame->StopWebServer();
             }
-            pWnd->StartWebServer(m_nWebServerPort);
+            pMainFrame->StartWebServer(m_nWebServerPort);
         } else {
-            pWnd->StopWebServer();
+            pMainFrame->StopWebServer();
         }
     }
 
@@ -159,7 +152,7 @@ CString CPPageWebServer::GetCurWebRoot()
     WebRoot.Replace('/', '\\');
 
     CPath path;
-    path.Combine(GetProgramPath(), WebRoot);
+    path.Combine(PathUtils::GetProgramPath(), WebRoot);
     return path.IsDirectory() ? (LPCTSTR)path : _T("");
 }
 
@@ -248,7 +241,7 @@ void CPPageWebServer::OnBnClickedButton1()
     CString dir = GetCurWebRoot();
     if (PickDir(dir)) {
         CPath path;
-        if (path.RelativePathTo(GetProgramPath(), FILE_ATTRIBUTE_DIRECTORY, dir, FILE_ATTRIBUTE_DIRECTORY)) {
+        if (path.RelativePathTo(PathUtils::GetProgramPath(), FILE_ATTRIBUTE_DIRECTORY, dir, FILE_ATTRIBUTE_DIRECTORY)) {
             dir = (LPCTSTR)path;
         }
         m_WebRoot = dir;

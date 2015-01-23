@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Dat Luong Anh <datanhlg@gmail.com>, 2014
@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-10-03 17:40+0000\n"
-"Last-Translator: Dat Luong Anh <datanhlg@gmail.com>\n"
+"PO-Revision-Date: 2014-10-20 10:21+0000\n"
+"Last-Translator: Underground78\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/mpc-hc/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -190,8 +190,8 @@ msgid "About"
 msgstr "Giới thiệu"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2014 see Authors.txt"
-msgstr "Bản quyền © 2002-2014 xem Authors.txt"
+msgid "Copyright © 2002-2015 see Authors.txt"
+msgstr "Bản quyền © 2002-2015 xem Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -1323,7 +1323,7 @@ msgstr "Băng thông"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Freq. End"
-msgstr "Tần số  kết thúc "
+msgstr "Tần số kết thúc "
 
 msgctxt "IDD_TUNER_SCAN_IDC_CHECK_IGNORE_ENCRYPTED"
 msgid "Ignore encrypted channels"

@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Xabier Aramendi <azpidatziak@gmail.com>, 2013-2014
@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-09-20 11:30+0000\n"
+"PO-Revision-Date: 2014-10-20 10:21+0000\n"
 "Last-Translator: Xabier Aramendi <azpidatziak@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/mpc-hc/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -189,8 +189,8 @@ msgid "About"
 msgstr "Honi buruz"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2014 see Authors.txt"
-msgstr "Copyrighta © 2002-2014 ikusi Authors.txt"
+msgid "Copyright © 2002-2015 see Authors.txt"
+msgstr "Copyrighta © 2002-2015 ikusi Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -294,7 +294,7 @@ msgstr "Finkatu mahigain hertzetara"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK8"
 msgid "Store settings in .ini file"
-msgstr "Biltegiratu ezarpenak .ini agirira"
+msgstr "Biltegiratu ezarpenak .ini agirian"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"
 msgid "Disable \"Open Disc\" menu"
@@ -1638,7 +1638,7 @@ msgstr "PS 3.0"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_STATIC"
 msgid "Advanced Settings, do not edit unless you know what you are doing."
-msgstr "Ezarpen Aurreratuak, ez editatu zer egiten ari bazen jakinez gero ezik."
+msgstr "Ezarpen Aurreratuak, ez editatu zer egiten ari zaren jakinez gero ezik."
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO1"
 msgid "True"

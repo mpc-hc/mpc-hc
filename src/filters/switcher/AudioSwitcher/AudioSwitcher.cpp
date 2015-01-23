@@ -86,13 +86,13 @@ CAudioSwitcherFilter::CAudioSwitcherFilter(LPUNKNOWN lpunk, HRESULT* phr)
     , m_fCustomChannelMapping(false)
     , m_fDownSampleTo441(false)
     , m_rtAudioTimeShift(0)
-    , m_rtNextStart(0)
-    , m_rtNextStop(1)
     , m_fNormalize(false)
     , m_fNormalizeRecover(false)
     , m_nMaxNormFactor(4.0)
     , m_boostFactor(1.0)
     , m_normalizeFactor(m_nMaxNormFactor)
+    , m_rtNextStart(0)
+    , m_rtNextStop(1)
 {
     ZeroMemory(m_pSpeakerToChannelMap, sizeof(m_pSpeakerToChannelMap));
 

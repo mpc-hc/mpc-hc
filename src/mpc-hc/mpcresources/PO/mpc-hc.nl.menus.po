@@ -1,17 +1,18 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Dennis Gerritsen <frostflame@hotmail.com>, 2014
 # Devrim Yolo <devrim.extra@gmail.com>, 2013-2014
+# DennisW, 2014
 # kasper93, 2013
 # rjongejan <ruben.jongejan@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-19 21:10:25+0000\n"
-"PO-Revision-Date: 2014-09-13 22:09+0000\n"
-"Last-Translator: Dennis Gerritsen <frostflame@hotmail.com>\n"
+"POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
+"PO-Revision-Date: 2014-10-31 08:50+0000\n"
+"Last-Translator: DennisW\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/mpc-hc/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -614,6 +615,10 @@ msgstr "Lock"
 msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
 msgid "Turn off the &monitor"
 msgstr "Schakel de &monitor uit"
+
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "Speel &volgend bestand af in map"
 
 msgctxt "POPUP"
 msgid "&Navigate"

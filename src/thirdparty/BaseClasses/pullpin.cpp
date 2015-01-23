@@ -19,7 +19,11 @@
 CPullPin::CPullPin()
   : m_pReader(NULL),
     m_pAlloc(NULL),
-    m_State(TM_Exit)
+    m_State(TM_Exit),
+    m_tStart(0),
+    m_tStop(0),
+    m_tDuration(0),
+    m_bSync(FALSE)
 {
 #ifdef DXMPERF
 	PERFLOG_CTOR( L"CPullPin", this );

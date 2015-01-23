@@ -115,6 +115,7 @@ MediaInfo_Config_MediaInfo::MediaInfo_Config_MediaInfo()
     File_MpegTs_stream_type_Trust=true;
     File_MpegTs_Atsc_transport_stream_id_Trust=true;
     File_MpegTs_RealTime=false;
+    File_Mxf_TimeCodeFromMaterialPackage=false;
     File_Bdmv_ParseTargetedFile=true;
     #if defined(MEDIAINFO_DVDIF_YES)
     File_DvDif_DisableAudioIfIsInContainer=false;
@@ -774,6 +775,15 @@ Ztring MediaInfo_Config_MediaInfo::Option (const String &Option, const String &V
     else if (Option_Lower==__T("file_mpegts_realtime_get"))
     {
         return File_MpegTs_RealTime_Get()?"1":"0";
+    }
+    else if (Option_Lower==__T("file_mxf_timecodefrommaterialpackage"))
+    {
+        File_Mxf_TimeCodeFromMaterialPackage_Set(!(Value==__T("0") || Value.empty()));
+        return __T("");
+    }
+    else if (Option_Lower==__T("file_mxf_timecodefrommaterialpackage_get"))
+    {
+        return File_Mxf_TimeCodeFromMaterialPackage_Get()?"1":"0";
     }
     else if (Option_Lower==__T("file_bdmv_parsetargetedfile"))
     {
@@ -2342,6 +2352,21 @@ bool MediaInfo_Config_MediaInfo::File_MpegTs_RealTime_Get ()
 {
     CS.Enter();
     bool Temp=File_MpegTs_RealTime;
+    CS.Leave();
+    return Temp;
+}
+
+//---------------------------------------------------------------------------
+void MediaInfo_Config_MediaInfo::File_Mxf_TimeCodeFromMaterialPackage_Set (bool NewValue)
+{
+    CriticalSectionLocker CSL(CS);
+    File_Mxf_TimeCodeFromMaterialPackage=NewValue;
+}
+
+bool MediaInfo_Config_MediaInfo::File_Mxf_TimeCodeFromMaterialPackage_Get ()
+{
+    CS.Enter();
+    bool Temp=File_Mxf_TimeCodeFromMaterialPackage;
     CS.Leave();
     return Temp;
 }

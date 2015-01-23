@@ -101,6 +101,7 @@ bool File_Xdcam_Clip::FileHeader_Begin()
                     //int8u ReadByHuman=Ztring(MediaInfo::Option_Static(__T("ReadByHuman_Get"))).To_int8u();
                     //MediaInfo::Option_Static(__T("ReadByHuman"), __T("0"));
                     MediaInfo_Internal MI;
+                    MI.Option(__T("File_IsReferenced"), __T("1"));
                     if (MI.Open(MXF_File))
                     {
                         //MediaInfo::Option_Static(__T("ReadByHuman"), ReadByHuman?__T("1"):__T("0"));

@@ -22,6 +22,9 @@ CBaseStreamControl::CBaseStreamControl(__inout HRESULT *phr)
 , m_FilterState(State_Stopped)
 , m_bIsFlushing(FALSE)
 , m_bStopSendExtra(FALSE)
+, m_bStopExtraSent(FALSE)
+, m_pSink(NULL)
+, m_tRunStart(0)
 {}
 
 CBaseStreamControl::~CBaseStreamControl()

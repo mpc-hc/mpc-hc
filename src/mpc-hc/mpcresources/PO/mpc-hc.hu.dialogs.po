@@ -1,13 +1,13 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Máté <lang.mate@gmail.com>, 2014
+# Máté <lang.mate@gmail.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-09-20 11:50+0000\n"
+"PO-Revision-Date: 2015-01-14 22:41+0000\n"
 "Last-Translator: Máté <lang.mate@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/mpc-hc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -102,7 +102,7 @@ msgstr "Mintavételezés csökkentése 44100 Hz-re"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK4"
 msgid "Audio time shift (ms):"
-msgstr "Audió időzítés-eltolása:\n(ezredmásodpercben)"
+msgstr ""
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK1"
 msgid "Enable custom channel mapping"
@@ -189,8 +189,8 @@ msgid "About"
 msgstr "Névjegy"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2014 see Authors.txt"
-msgstr "Szerzői jog © 2002-2014 lásd Authors.txt fájl"
+msgid "Copyright © 2002-2015 see Authors.txt"
+msgstr "Szerzői jog © 2002-2015 lásd Authors.txt fájl"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -1146,7 +1146,7 @@ msgstr "Újrainicializálás képernyők közötti váltáskor"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "D3D Fullscreen"
-msgstr "Direct3D Teljes képernyő\n(megszünteti a képszétválást - page tearing)"
+msgstr "D3D Teljes képernyő"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Alternative VSync"

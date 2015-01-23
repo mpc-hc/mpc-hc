@@ -618,6 +618,7 @@ void File_Bdmv::BDMV()
         {
             MIs[Pos]=new MediaInfo_Internal();
             MIs[Pos]->Option(__T("File_Bdmv_ParseTargetedFile"), __T("0"));
+            MIs[Pos]->Option(__T("File_IsReferenced"), __T("1"));
             MIs[Pos]->Open(List[Pos]);
             int64u Duration=Ztring(MIs[Pos]->Get(Stream_General, 0, General_Duration)).To_int64u();
             if (Duration>MaxDuration)
@@ -632,6 +633,7 @@ void File_Bdmv::BDMV()
     {
         //Merging
         MediaInfo_Internal MI;
+        MI.Option(__T("File_IsReferenced"), __T("1"));
         MI.Open(List[MaxDuration_Pos]); //Open it again for having the M2TS part
         Merge(MI);
 
@@ -691,6 +693,7 @@ void File_Bdmv::Clpi_ProgramInfo()
 
         MediaInfo_Internal MI;
         MI.Option(__T("File_Bdmv_ParseTargetedFile"), __T("0"));
+        MI.Option(__T("File_IsReferenced"), __T("1"));
         if (MI.Open(M2TS_File))
         {
             Merge(MI);
@@ -1187,6 +1190,7 @@ void File_Bdmv::Mpls_PlayList_PlayItem()
 
         MediaInfo_Internal MI;
         MI.Option(__T("File_Bdmv_ParseTargetedFile"), Config->File_Bdmv_ParseTargetedFile_Get()?__T("1"):__T("0"));
+        MI.Option(__T("File_IsReferenced"), __T("1"));
         if (MI.Open(CLPI_File))
         {
             for (size_t StreamKind=Stream_General+1; StreamKind<Stream_Max; StreamKind++)
@@ -1373,6 +1377,7 @@ void File_Bdmv::Mpls_PlayList_SubPlayItem(int8u SubPath_type, int16u Pos)
 
                 MediaInfo_Internal MI;
                 MI.Option(__T("File_Bdmv_ParseTargetedFile"), Config->File_Bdmv_ParseTargetedFile_Get()?__T("1"):__T("0"));
+                MI.Option(__T("File_IsReferenced"), __T("1"));
                 if (MI.Open(CLPI_File))
                 {
                     if (MI.Count_Get(Stream_Video))

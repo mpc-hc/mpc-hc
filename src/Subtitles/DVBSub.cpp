@@ -34,9 +34,9 @@
 
 CDVBSub::CDVBSub(CCritSec* pLock, const CString& name, LCID lcid)
     : CRLECodedSubtitle(pLock, name, lcid)
+    , m_nBufferSize(0)
     , m_nBufferReadPos(0)
     , m_nBufferWritePos(0)
-    , m_nBufferSize(0)
     , m_pBuffer(nullptr)
 {
     if (m_name.IsEmpty() || m_name == _T("Unknown")) {

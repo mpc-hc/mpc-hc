@@ -79,9 +79,9 @@ public:
     class CNode {
 #endif
 
-        CNode *m_pPrev;         /* Previous node in the list */
-        CNode *m_pNext;         /* Next node in the list */
-        void *m_pObject;      /* Pointer to the object */
+        CNode *m_pPrev = NULL;          /* Previous node in the list */
+        CNode *m_pNext = NULL;          /* Next node in the list */
+        void *m_pObject = NULL;         /* Pointer to the object */
 
     public:
 

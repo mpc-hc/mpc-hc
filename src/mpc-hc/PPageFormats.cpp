@@ -23,8 +23,8 @@
 #include "mplayerc.h"
 #include "PPageFormats.h"
 #include "FileAssoc.h"
+#include "PathUtils.h"
 #include "SysVersion.h"
-#include "WinAPIUtils.h"
 #include <psapi.h>
 #include <string>
 #include <atlimage.h>
@@ -37,10 +37,10 @@ IMPLEMENT_DYNAMIC(CPPageFormats, CPPageBase)
 CPPageFormats::CPPageFormats()
     : CPPageBase(CPPageFormats::IDD, CPPageFormats::IDD)
     , m_list(0)
-    , m_iRtspHandler(0)
-    , m_fRtspFileExtFirst(FALSE)
     , m_bInsufficientPrivileges(false)
     , m_bFileExtChanged(false)
+    , m_iRtspHandler(0)
+    , m_fRtspFileExtFirst(FALSE)
     , m_bHaveRegisteredCategory(false)
 {
 }
@@ -537,13 +537,10 @@ void CPPageFormats::OnClearAllAssociations()
 
 void CPPageFormats::OnBnRunAsAdmin()
 {
-    TCHAR   strApp[MAX_PATH];
     CString strCmd;
-
-    GetModuleFileNameEx(GetCurrentProcess(), AfxGetMyApp()->m_hInstance, strApp, MAX_PATH);
     strCmd.Format(_T("/adminoption %d"), IDD);
 
-    AfxGetMyApp()->RunAsAdministrator(strApp, strCmd, true);
+    AfxGetMyApp()->RunAsAdministrator(PathUtils::GetProgramPath(true), strCmd, true);
 
     auto& s = AfxGetAppSettings();
     s.m_Formats.UpdateData(false);

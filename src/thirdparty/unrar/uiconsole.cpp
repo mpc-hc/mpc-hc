@@ -1,8 +1,20 @@
 // Purely user interface function. Gets and returns user input.
 UIASKREP_RESULT uiAskReplace(wchar *Name,size_t MaxNameSize,int64 FileSize,RarTime *FileTime,uint Flags)
 {
+  wchar SizeText1[20],DateStr1[50],SizeText2[20],DateStr2[50];
+
+  FindData ExistingFD;
+  memset(&ExistingFD,0,sizeof(ExistingFD)); // In case find fails.
+  FindFile::FastFind(Name,&ExistingFD);
+  itoa(ExistingFD.Size,SizeText1);
+  ExistingFD.mtime.GetText(DateStr1,ASIZE(DateStr1),true,false);
+
+  itoa(FileSize,SizeText2);
+  FileTime->GetText(DateStr2,ASIZE(DateStr2),true,false);
+  
+  eprintf(St(MAskReplace),Name,SizeText1,DateStr1,SizeText2,DateStr2);
+
   bool AllowRename=(Flags & UIASKREP_F_NORENAME)==0;
-  eprintf(St(MFileExists),Name);
   int Choice=0;
   do
   {
@@ -299,11 +311,14 @@ void uiMsgStore::Msg()
     case UIMSG_CHECKSUM:
       mprintf(St(MCRCFailed),Str[0]);
       break;
+    case UIMSG_FAT32SIZE:
+      mprintf(St(MFAT32Size));
+      mprintf(L"     "); // For progress percent.
+      break;
 
 
 
-
-    case UIEVENT_RRTESTING:
+    case UIEVENT_RRTESTINGSTART:
       mprintf(L"%s      ",St(MTestingRR));
       break;
   }

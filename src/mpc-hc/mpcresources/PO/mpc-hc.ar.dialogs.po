@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Abubakr Mohammed <bcs2610@hotmail.com>, 2014
@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-10-02 18:20+0000\n"
+"PO-Revision-Date: 2014-12-04 17:52+0000\n"
 "Last-Translator: manxx55 <w6txz2@gmail.com>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/mpc-hc/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -68,7 +68,7 @@ msgstr "معاينة"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
 msgid "V/A Buffers:"
-msgstr "V/A Buffers:"
+msgstr "V/A المؤقتة:"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK5"
 msgid "Audio to wav"
@@ -195,12 +195,12 @@ msgid "About"
 msgstr "حول"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2014 see Authors.txt"
-msgstr "Authors.txt حقوق طبع © 2002-2014 انظر"
+msgid "Copyright © 2002-2015 see Authors.txt"
+msgstr "Authors.txt حقوق طبع © 2002-2015 انظر"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
-msgstr " هذا البرنامج مجاني وأصدر تحت رخصة GNU رخصة جنو العمومية."
+msgstr "هذا البرنامج مجاني وأصدر تحت رخصة GNU رخصة جنو العمومية."
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
@@ -472,7 +472,7 @@ msgstr "استعمل خيط العامل لبناء مخطط الفلاتر"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK6"
 msgid "Report pins which fail to render"
-msgstr "Report pins which fail to render"
+msgstr "عمل تقرير للهويات التي فشلت بالعارض"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
@@ -520,7 +520,7 @@ msgstr "%"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Delay step"
-msgstr ""
+msgstr "تأخير الخطوة"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "ms"
@@ -596,7 +596,7 @@ msgstr "تشغيل مع"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK8"
 msgid "Use the format-specific icons"
-msgstr ""
+msgstr "استخدام إيقونة صيغة محددة"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON1"
 msgid "Run as &administrator"
@@ -604,7 +604,7 @@ msgstr "تشغيل كمسؤول"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON7"
 msgid "Set as &default program"
-msgstr ""
+msgstr "تطبيق كإفتراضي للبرنامج"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Real-Time Streaming Protocol handler (for rtsp://... URLs)"
@@ -688,7 +688,7 @@ msgstr "إستعمال مميزّات شريط المهام لويندوز 7"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
-msgstr "فتح (التالي / السابق) (رجوع خلفي/ أمامي) في الحافظة عندما تكون هناك مادة وحيدة  في قائمة التشغيل"
+msgstr "فتح (التالي / السابق) (رجوع خلفي/ أمامي) في الحافظة عندما تكون هناك مادة وحيدة في قائمة التشغيل"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
 msgid "Use time tooltip:"
@@ -900,7 +900,7 @@ msgstr "تحذير"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC1"
 msgid "MPC-HC could not render some of the pins in the graph, you may not have the needed codecs or filters installed on the system."
-msgstr "مشغل الوسائط الكلاسيكي - هوم سينما لا يستطيع أن يعيد البعض من التثبيت في الرسم البياني، يحتمل أنه لا يوجد عندك الكودك  المطلوب أو أن الفلاتر غير مثبته على النظام"
+msgstr "مشغل الوسائط الكلاسيكي - هوم سينما لا يستطيع أن يعيد البعض من التثبيت في الرسم البياني، يحتمل أنه لا يوجد عندك الكودك المطلوب أو أن الفلاتر غير مثبته على النظام"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC2"
 msgid "The following pin(s) failed to find a connectable filter:"
@@ -992,11 +992,11 @@ msgstr "المساحات"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Angle (z,°)"
-msgstr "الزاوية  (z,°)"
+msgstr "الزاوية (z,°)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Scale (x,%)"
-msgstr "المقياس  (x,%)"
+msgstr "المقياس (x,%)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Scale (y,%)"

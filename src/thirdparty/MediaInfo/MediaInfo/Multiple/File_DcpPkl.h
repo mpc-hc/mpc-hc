@@ -36,6 +36,29 @@ public :
     File_DcpPkl();
     ~File_DcpPkl();
 
+    //Streams
+    struct stream
+    {
+        stream_t    StreamKind; // With special cases: Stream_Max+1 means CPL, Stream_Max+2 means PKL
+        string      Id;
+        string      OriginalFileName;
+        string      Type;
+        string      AnnotationText;
+        struct chunk
+        {
+            string Path;
+        };
+        typedef std::vector<chunk> chunks;
+        chunks      ChunkList;
+
+        stream()
+        {
+            StreamKind=Stream_Max;
+        }
+    };
+    typedef std::vector<stream> streams;
+    streams Streams;
+
 private :
     //Streams management
     void Streams_Finish ();
@@ -48,10 +71,11 @@ private :
     //Buffer - File header
     bool FileHeader_Begin();
 
+    //AM
+    void MergeFromAm (File_DcpPkl::streams &StreamsToMerge);
+
     //Temp
     File__ReferenceFilesHelper*     ReferenceFiles;
-    bool                            HasCpl;
-    friend class File_DpcCpl;   //Theses classes need access to internal structure for optimization. There is recursivity with theses formats
 };
 
 } //NameSpace

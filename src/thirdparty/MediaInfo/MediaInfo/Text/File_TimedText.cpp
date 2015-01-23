@@ -59,6 +59,8 @@ void File_TimedText::Header_Parse()
     //Filling
     Header_Fill_Code(0, "Block");
     Header_Fill_Size(Element_Offset+Size);
+
+    //TODO: if IsChapter, it may be UTF-16 (with BOM), it may also be followed by an encd atom (e.g. for UTF-8 00 00 00 0C 65 6E 63 64 00 00 01 00)
 }
 
 //---------------------------------------------------------------------------

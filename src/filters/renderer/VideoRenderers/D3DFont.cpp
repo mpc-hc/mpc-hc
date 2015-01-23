@@ -356,8 +356,8 @@ HRESULT CD3DFont::RestoreDeviceObjects()
     // Create vertex buffer for the letters
     UINT vertexSize = std::max<UINT>(sizeof(FONT2DVERTEX), sizeof(FONT3DVERTEX));
     if (FAILED(hr = m_pd3dDevice->CreateVertexBuffer(MAX_NUM_VERTICES * vertexSize,
-                    D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC, 0,
-                    D3DPOOL_DEFAULT, &m_pVB, nullptr))) {
+                                                     D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC, 0,
+                                                     D3DPOOL_DEFAULT, &m_pVB, nullptr))) {
         return hr;
     }
 

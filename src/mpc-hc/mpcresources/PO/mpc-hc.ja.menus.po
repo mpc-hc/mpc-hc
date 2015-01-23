@@ -1,13 +1,13 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # ever_green, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-19 21:10:25+0000\n"
-"PO-Revision-Date: 2014-08-27 11:57+0000\n"
+"POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
+"PO-Revision-Date: 2014-12-28 10:21+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -612,6 +612,10 @@ msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
 msgid "Turn off the &monitor"
 msgstr "モニタの電源を切る(&M)"
 
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "フォルダ内を順次再生する(&N)"
+
 msgctxt "POPUP"
 msgid "&Navigate"
 msgstr "操作(&N)"
@@ -626,7 +630,7 @@ msgstr "次へ(&N)"
 
 msgctxt "ID_NAVIGATE_GOTO"
 msgid "&Go To..."
-msgstr "再生位置を移動(&G)..."
+msgstr "指定位置に移動(&G)..."
 
 msgctxt "ID_NAVIGATE_TITLEMENU"
 msgid "&Title Menu"
@@ -666,7 +670,7 @@ msgstr "ホームページ(&H)"
 
 msgctxt "ID_HELP_CHECKFORUPDATE"
 msgid "Check for &updates"
-msgstr "更新を確認する(&U)"
+msgstr "更新の確認(&U)"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"
@@ -678,7 +682,7 @@ msgstr "ツールバーの画像をダウンロード(&T)"
 
 msgctxt "ID_HELP_DONATE"
 msgid "&Donate"
-msgstr "寄付する(&D)"
+msgstr "寄付(&D)"
 
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."

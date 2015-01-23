@@ -99,6 +99,9 @@ class RAROptions
     wchar ArcPath[NM];
     SecPassword Password;
     bool EncryptHeaders;
+    
+    bool ManualPassword; // Password entered manually during operation, might need to clean for next archive.
+
     wchar LogName[NM];
     MESSAGE_TYPE MsgStream;
     bool Sound;

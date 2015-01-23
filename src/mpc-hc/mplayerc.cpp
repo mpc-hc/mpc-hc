@@ -33,6 +33,7 @@
 #include "Ifo.h"
 #include "Monitors.h"
 #include "WinAPIUtils.h"
+#include "PathUtils.h"
 #include "FileAssoc.h"
 #include "UpdateChecker.h"
 #include "winddk/ntddcdvd.h"
@@ -45,6 +46,7 @@
 #include "mpc-hc_config.h"
 #include "../MathLibFix/MathLibFix.h"
 #include "CmdLineHelpDlg.h"
+#include "MiniDump.h"
 
 
 #define HOOKS_BUGS_URL _T("https://trac.mpc-hc.org/ticket/3739")
@@ -83,6 +85,12 @@ HICON LoadIcon(CString fn, bool bSmallIcon)
 
     if (!ext.CompareNoCase(_T(".cda"))) {
         if (HICON hIcon = loadIcon(MAKEINTRESOURCE(IDI_AUDIOCD))) {
+            return hIcon;
+        }
+    }
+
+    if (!ext.CompareNoCase(_T(".unknown"))) {
+        if (HICON hIcon = loadIcon(MAKEINTRESOURCE(IDI_UNKNOWN))) {
             return hIcon;
         }
     }
@@ -605,16 +613,13 @@ void SetHandCursor(HWND m_hWnd, UINT nID)
 
 CMPlayerCApp::CMPlayerCApp()
     : m_hNTDLL(nullptr)
-    , m_fClosingState(false)
+    , m_bDelayingIdle(false)
     , m_bProfileInitialized(false)
     , m_bQueuedProfileFlush(false)
     , m_dwProfileLastAccessTick(0)
-    , m_bDelayingIdle(false)
+    , m_fClosingState(false)
 {
-    TCHAR strApp[MAX_PATH];
-
-    GetModuleFileNameEx(GetCurrentProcess(), m_hInstance, strApp, MAX_PATH);
-    m_strVersion = FileVersionInfo::GetFileVersionStr(strApp);
+    m_strVersion = FileVersionInfo::GetFileVersionStr(PathUtils::GetProgramPath(true));
 
     ZeroMemory(&m_ColorControl, sizeof(m_ColorControl));
     ResetColorControlRange();
@@ -730,20 +735,20 @@ bool CMPlayerCApp::StoreSettingsToRegistry()
 
 CString CMPlayerCApp::GetIniPath() const
 {
-    CString path = GetProgramPath(true);
+    CString path = PathUtils::GetProgramPath(true);
     path = path.Left(path.ReverseFind('.') + 1) + _T("ini");
     return path;
 }
 
 bool CMPlayerCApp::IsIniValid() const
 {
-    return FileExists(GetIniPath());
+    return PathUtils::Exists(GetIniPath());
 }
 
 bool CMPlayerCApp::GetAppSavePath(CString& path)
 {
     if (IsIniValid()) { // If settings ini file found, store stuff in the same folder as the exe file
-        path = GetProgramPath();
+        path = PathUtils::GetProgramPath();
     } else {
         return GetAppDataPath(path);
     }
@@ -848,7 +853,7 @@ void CMPlayerCApp::InitProfile()
         m_dwProfileLastAccessTick = GetTickCount();
 
         ASSERT(m_pszProfileName);
-        if (!FileExists(m_pszProfileName)) {
+        if (!PathUtils::Exists(m_pszProfileName)) {
             return;
         }
 
@@ -1447,6 +1452,7 @@ BOOL CMPlayerCApp::InitInstance()
     // Remove the working directory from the search path to work around the DLL preloading vulnerability
     SetDllDirectory(_T(""));
 
+    CMiniDump::Enable();
     WorkAroundMathLibraryBug();
 
     if (!HeapSetInformation(nullptr, HeapEnableTerminationOnCorruption, nullptr, 0)) {
@@ -1530,7 +1536,7 @@ BOOL CMPlayerCApp::InitInstance()
 
     m_s->ParseCommandLine(m_cmdln);
 
-    VERIFY(SetCurrentDirectory(GetProgramPath()));
+    VERIFY(SetCurrentDirectory(PathUtils::GetProgramPath()));
 
     if (m_s->nCLSwitches & (CLSW_HELP | CLSW_UNRECOGNIZEDSWITCH)) { // show commandline help window
         m_s->LoadSettings();
@@ -1579,7 +1585,7 @@ BOOL CMPlayerCApp::InitInstance()
             VERIFY(key.Close() == ERROR_SUCCESS);
             // Set ExePath value to prevent settings migration
             key.Attach(GetAppRegistryKey());
-            VERIFY(key.SetStringValue(_T("ExePath"), GetProgramPath(true)) == ERROR_SUCCESS);
+            VERIFY(key.SetStringValue(_T("ExePath"), PathUtils::GetProgramPath(true)) == ERROR_SUCCESS);
             VERIFY(key.Close() == ERROR_SUCCESS);
         }
 
@@ -1589,7 +1595,7 @@ BOOL CMPlayerCApp::InitInstance()
             CPath playlistPath;
             playlistPath.Combine(strSavePath, _T("default.mpcpl"));
 
-            if (FileExists(playlistPath)) {
+            if (playlistPath.FileExists()) {
                 CFile::Remove(playlistPath);
             }
         }
@@ -1715,7 +1721,7 @@ BOOL CMPlayerCApp::InitInstance()
                 }
             }
 
-            key.SetStringValue(_T("ExePath"), GetProgramPath(true));
+            key.SetStringValue(_T("ExePath"), PathUtils::GetProgramPath(true));
         }
     }
 

@@ -30,6 +30,8 @@
 IMPLEMENT_DYNAMIC(CPPageSubStyle, CPPageBase)
 CPPageSubStyle::CPPageSubStyle()
     : CPPageBase(CPPageSubStyle::IDD, CPPageSubStyle::IDD)
+    , m_stss(AfxGetAppSettings().subtitlesDefStyle)
+    , m_bDefaultStyle(true)
     , m_iCharset(0)
     , m_spacing(0)
     , m_angle(0)
@@ -42,8 +44,6 @@ CPPageSubStyle::CPPageSubStyle()
     , m_margin(0, 0, 0, 0)
     , m_bLinkAlphaSliders(FALSE)
     , m_iRelativeTo(0)
-    , m_bDefaultStyle(true)
-    , m_stss(AfxGetAppSettings().subtitlesDefStyle)
 {
 }
 
@@ -222,7 +222,7 @@ BOOL CPPageSubStyle::OnApply()
 
         if (stss != m_stss) {
             stss = m_stss;
-            if (auto pMainFrame = dynamic_cast<CMainFrame*>(AfxGetMainWnd())) {
+            if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
                 pMainFrame->UpdateSubDefaultStyle();
             }
         }

@@ -24,7 +24,7 @@ template <typename>
 class WinapiFunc;
 
 template <typename ReturnType, typename...Args>
-class WinapiFunc<ReturnType(Args...)> final
+class WinapiFunc<ReturnType WINAPI(Args...)> final
 {
 public:
     typedef ReturnType(WINAPI* WinapiFuncType)(Args...);

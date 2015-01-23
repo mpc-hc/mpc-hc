@@ -1914,7 +1914,8 @@ CDeferredCommand::CDeferredCommand(
 	m_DispParams(nArgs, pDispParams, phr),
 	m_pvarResult(pvarResult),
 	m_bStream(bStream),
-	m_hrResult(E_ABORT)
+	m_hrResult(E_ABORT),
+	m_DispId(0)
 
 {
     // convert REFTIME to REFERENCE_TIME

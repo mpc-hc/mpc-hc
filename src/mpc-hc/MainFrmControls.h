@@ -57,8 +57,7 @@ public:
     CMainFrameControls(CMainFrame* pMainFrame);
     ~CMainFrameControls();
 
-    enum class Toolbar
-    {
+    enum class Toolbar {
         SEEKBAR,
         CONTROLS,
         INFO,
@@ -67,8 +66,7 @@ public:
     };
     std::map<Toolbar, CControlBar*> m_toolbars;
 
-    enum class Panel
-    {
+    enum class Panel {
         SUBRESYNC,
         PLAYLIST,
         CAPTURE,

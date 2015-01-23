@@ -1,5 +1,5 @@
 /*
- * (C) 2012-2013 see Authors.txt
+ * (C) 2012-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -80,10 +80,10 @@ Update_Status UpdateChecker::IsUpdateAvailable(const Version& currentVersion)
         headers.Format(headersFmt, osVersionStr);
 
         CHttpFile* versionFile = (CHttpFile*) internet.OpenURL(versionFileURL,
-                                 1,
-                                 INTERNET_FLAG_TRANSFER_ASCII | INTERNET_FLAG_DONT_CACHE | INTERNET_FLAG_RELOAD,
-                                 headers,
-                                 DWORD(-1));
+                                                               1,
+                                                               INTERNET_FLAG_TRANSFER_ASCII | INTERNET_FLAG_DONT_CACHE | INTERNET_FLAG_RELOAD,
+                                                               headers,
+                                                               DWORD(-1));
 
         if (versionFile) {
             CString latestVersionStr;

@@ -1,15 +1,17 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Adolfo Jayme Barrientos <fito@libreoffice.org>, 2014
+# Adolfo Jayme Barrientos <fito@libreoffice.org>, 2014
 # JellyFrog, 2013
 # squallmx <squallmx@users.sourceforge.net>, 2014
+# strel, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-19 21:10:25+0000\n"
-"PO-Revision-Date: 2014-09-16 16:41+0000\n"
+"POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
+"PO-Revision-Date: 2014-10-27 16:10+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/mpc-hc/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -392,19 +394,19 @@ msgstr "A&justar a la ventana"
 
 msgctxt "ID_VIEW_VF_FROMINSIDE"
 msgid "Touch Window From &Inside"
-msgstr "Tocar Ventana desde A&fuera"
+msgstr "&Tocar ventana desde adentro"
 
 msgctxt "ID_VIEW_VF_ZOOM1"
 msgid "Zoom &1"
-msgstr "Ampliación &1"
+msgstr "Escala &1"
 
 msgctxt "ID_VIEW_VF_ZOOM2"
 msgid "Zoom &2"
-msgstr "Ampliación &2"
+msgstr "Escala &2"
 
 msgctxt "ID_VIEW_VF_FROMOUTSIDE"
 msgid "Touch Window From &Outside"
-msgstr "Tocar Ventana desde Ad&entro"
+msgstr "Tocar ventana desde a&fuera"
 
 msgctxt "ID_VIEW_VF_KEEPASPECTRATIO"
 msgid "&Keep Aspect Ratio"
@@ -613,6 +615,10 @@ msgstr "&Bloquear"
 msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
 msgid "Turn off the &monitor"
 msgstr "Apagar el &monitor"
+
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "Reproducir &siguiente archivo en la carpeta"
 
 msgctxt "POPUP"
 msgid "&Navigate"

@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # geogeo.gr <admin@geogeo.gr>, 2013-2014
@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-29 21:09:08+0000\n"
-"PO-Revision-Date: 2014-09-30 20:38+0000\n"
+"POT-Creation-Date: 2014-10-30 22:04:38+0000\n"
+"PO-Revision-Date: 2014-11-13 22:50+0000\n"
 "Last-Translator: firespin <dartworldgr@hotmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/mpc-hc/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -790,7 +790,7 @@ msgid "Couldn't find all archive volumes"
 msgstr "Δεν ήταν δυνατή η εύρεση όλων των τόμων της αρχειοθήκης"
 
 msgctxt "IDC_TEXTURESURF2D"
-msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
+msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
 msgstr "Η επιφάνεια του βίντεο θα διατεθεί ως υφή, αλλά οι λειτουργίες 2D θα μπορούν να χρησιμοποιηθούν για αντιγραφή και επιμήκυνση στην backbuffer. Απαιτεί μια κάρτα γραφικών που να διαθέσει 32bit, RGBA, υφές διαστάσεων όχι-δυνάμεων του δύο και τουλάχιστον στην ανάλυση του βίντεο."
 
 msgctxt "IDC_TEXTURESURF3D"
@@ -1315,7 +1315,7 @@ msgstr "Έξοδος"
 
 msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
 msgid "Turn off the monitor"
-msgstr "Σβήσε την οθόνη"
+msgstr "Απενεργοποίηση οθόνης"
 
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
 msgid "JPEG Image"
@@ -1327,7 +1327,7 @@ msgstr "Ποιότητα (%):"
 
 msgctxt "IDS_PPAGEADVANCED_COVER_SIZE_LIMIT"
 msgid "Maximum size (NxNpx) of a cover-art loaded in the audio only mode."
-msgstr "Μέγιστο μέγεθος (NxNpx) από ένα εξώφυλλο που έχει φορτωθεί στην  λειτουργία μόνο ήχου."
+msgstr "Μέγιστο μέγεθος (NxNpx) από ένα εξώφυλλο που έχει φορτωθεί στην λειτουργία μόνο ήχου."
 
 msgctxt "IDS_SUBTITLE_DELAY_STEP_TOOLTIP"
 msgid "The subtitle delay will be decreased/increased by this value each time the corresponding hotkeys are used (%s/%s)."
@@ -1336,6 +1336,42 @@ msgstr "Η καθυστέρηση στους υπότιτλους θα μειω�
 msgctxt "IDS_HOTKEY_NOT_DEFINED"
 msgid "<not defined>"
 msgstr "<not defined>"
+
+msgctxt "IDS_NAVIGATION_WATCH"
+msgid "Watch"
+msgstr "Παρακολούθηση"
+
+msgctxt "IDS_NAVIGATION_MOVE_UP"
+msgid "Move Up"
+msgstr "Μετακίν. πάνω"
+
+msgctxt "IDS_NAVIGATION_MOVE_DOWN"
+msgid "Move Down"
+msgstr "Μετακίν. κάτω"
+
+msgctxt "IDS_NAVIGATION_SORT"
+msgid "Sort by LCN"
+msgstr "Ταξινόμηση κατά LCN"
+
+msgctxt "IDS_NAVIGATION_REMOVE_ALL"
+msgid "Remove all"
+msgstr "Κατάργηση όλων"
+
+msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
+msgid "Are you sure you want to remove all channels from the list?"
+msgstr "Είστε βέβαιος ότι θέλετε να καταργήσετε όλα τα κανάλια από τη λίστα;"
+
+msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"
+msgid "No information available"
+msgstr "Δεν υπάρχουν διαθέσιμες πληροφορίες"
+
+msgctxt "IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS"
+msgid "Please wait, analysis in progress..."
+msgstr "Παρακαλώ περιμένετε. Ανάλυση σε εξέλιξη..."
+
+msgctxt "IDS_ASPECT_RATIO_FMT"
+msgid "AR %d:%d"
+msgstr "AR %d:%d"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1538,11 +1574,11 @@ msgid "Reset Rate"
 msgstr "Επαναφορά ροής"
 
 msgctxt "IDS_MPLAYERC_21"
-msgid "Audio Delay +10ms"
+msgid "Audio Delay +10 ms"
 msgstr "Καθυστέρηση ήχου +10ms"
 
 msgctxt "IDS_MPLAYERC_22"
-msgid "Audio Delay -10ms"
+msgid "Audio Delay -10 ms"
 msgstr "Καθυστέρηση ήχου -10ms"
 
 msgctxt "IDS_MPLAYERC_23"
@@ -1698,8 +1734,8 @@ msgid "No subtitles found."
 msgstr "Δεν βρέθηκαν υπότιτλοι."
 
 msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
-msgid " %d subtitle(s) available."
-msgstr " %d υπότιτλοι είναι διαθέσιμοι."
+msgid "%d subtitle(s) available."
+msgstr "%d υπότιτλοι είναι διαθέσιμοι."
 
 msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
@@ -2026,12 +2062,12 @@ msgid "Volume: %02lu/%02lu, Title: %02lu/%02lu, Chapter: %02lu/%02lu"
 msgstr "Τόμος: %02lu/%02lu, Τίτλος: %02lu/%02lu, Κεφάλαιο: %02lu/%02lu"
 
 msgctxt "IDS_MAINFRM_10"
-msgid "Angle: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
+msgid "Angle: %02lu/%02lu, %lux%lu %lu Hz %lu:%lu"
 msgstr "Γωνία: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
 
 msgctxt "IDS_MAINFRM_11"
-msgid "%s, %s %uHz %dbits %d %s"
-msgstr "%s, %s %uHz %dbits %d %s"
+msgid "%s, %s %u Hz %d bits %d %s"
+msgstr "%s, %s %u Hz %d bits %d %s"
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
@@ -2095,7 +2131,7 @@ msgstr "DVD: Μη συμβατές περιοχές δίσκου και αποκ
 
 msgctxt "IDS_D3DFS_WARNING"
 msgid "This option is designed to avoid tearing. However, it will also prevent MPC-HC from displaying the context menu and any dialog box during playback.\n\nDo you really want to activate this option?"
-msgstr "Η επιλογή αυτή έχει σχεδιαστεί για την αποφυγή σχισίματος. Ωστόσο, θα αποτρέψει επίσης το MPC-HC\nαπό την εμφάνιση των μενού περιβάλλοντος και παραθύρων διαλόγου κατά την αναπαραγωγή.\n\nΓια να βγείτε από την αναπαραγωγή Direct3D πλήρους οθόνης, πρέπει να πιέσετε: Ctrl + C.\n\nΕίστε βέβαιος ότι θέλετε να ενεργοποιήσετε αυτήν την επιλογή;"
+msgstr ""
 
 msgctxt "IDS_MAINFRM_139"
 msgid "Sub delay: %ld ms"
@@ -2138,19 +2174,19 @@ msgid ", Total: %ld, Dropped: %ld"
 msgstr ", Σύνολο: %ld, Απορρίφθηκαν: %ld"
 
 msgctxt "IDS_MAINFRM_38"
-msgid ", Size: %I64dKB"
+msgid ", Size: %I64d KB"
 msgstr ", Μέγεθος: %I64dKB"
 
 msgctxt "IDS_MAINFRM_39"
-msgid ", Size: %I64dMB"
+msgid ", Size: %I64d MB"
 msgstr ", Μέγεθος: %I64dMB"
 
 msgctxt "IDS_MAINFRM_40"
-msgid ", Free: %I64dKB"
+msgid ", Free: %I64d KB"
 msgstr ", Ελεύθερη: %I64dKB"
 
 msgctxt "IDS_MAINFRM_41"
-msgid ", Free: %I64dMB"
+msgid ", Free: %I64d MB"
 msgstr ", Ελεύθερη: %I64dMB"
 
 msgctxt "IDS_MAINFRM_42"
@@ -2238,7 +2274,7 @@ msgid "Aspect Ratio: Default"
 msgstr "Αναλογία πλευρών: Προεπιλογή"
 
 msgctxt "IDS_MAINFRM_70"
-msgid "Audio Delay: %I64dms"
+msgid "Audio delay: %I64d ms"
 msgstr "Καθυστέρηση ήχου: %I64dms"
 
 msgctxt "IDS_AG_CHAPTER"
@@ -2423,11 +2459,11 @@ msgstr "Κατακόρυφος συγχρονισμός (VSync)"
 
 msgctxt "IDS_MAINFRM_121"
 msgid " (Director Comments 1)"
-msgstr "(Σχόλια σκηνοθέτη 1)"
+msgstr " (Σχόλια σκηνοθέτη 1)"
 
 msgctxt "IDS_MAINFRM_122"
 msgid " (Director Comments 2)"
-msgstr "(Σχόλια σκηνοθέτη 2)"
+msgstr " (Σχόλια σκηνοθέτη 2)"
 
 msgctxt "IDS_DVD_SUBTITLES_ENABLE"
 msgid "Enable DVD subtitles"
@@ -2478,8 +2514,8 @@ msgid "Volume boost Max"
 msgstr "Μέγιστη ώθηση έντασης"
 
 msgctxt "IDS_USAGE"
-msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "Χρήση: mpc-hc.exe \"κατάλογος\" [παράμετροι]\n\n\"κατάλογος\"\tΤο κύριο αρχείο ή ο κατάλογος που θα φορτωθεί\n\t\t(επιτρέπονται τα μπαλαντέρ \"-\" υποδηλώνει τυπική είσοδο)\n/dub \"αρχείο ήχου\"\tΦόρτωση ενός πρόσθετου αρχείου ήχου\n/dubdelay \"αρχείο\"\tΦόρτωση ενός πρόσθετου αρχείου ήχου μετατοπισμένο με XXms\n\t\t(εάν το αρχείο περιέχει \"...DELAY XXms...\")\n/d3dfs\t\tΕκκίνηση απόδοσης σε λειτουργία D3D πλήρους οθόνης\n/sub \"όνομα υπότιτλων\"\tΦόρτωση ενός πρόσθετου αρχείου υποτίτλων\n/filter \"όνομα φίλτρου\"\tΦόρτωση φίλτρων DirectShow από ένα dll\n\t\t(επιτρέπονται τα μπαλαντέρ)\n/dvd\t\tΕκτέλεση σε λειτουργία DVD. Ως \"κατάλογος\" εννοείται\n\t\tο φάκελος του DVD (προαιρετικά)\n/dvdpos T#C\tΈναρξη αναπαραγωγής στον τίτλο T, κεφάλαιο C\n/dvdpos T#hh:mm\tΈναρξη αναπαραγωγής στον τίτλο T, θέση hh:mm:ss\n/cd\t\tΦόρτωση όλων των κομματιών από ένα CD ή (S)VCD.\n\t\tΩς \"κατάλογος\" εννοείται της συσκευής οδήγησης (προαιρετικά)\n/device\t\tΆνοιγμα της προεπιλεγμένης συσκευής βίντεο\n/open\t\tΆνοιγμα του αρχείου χωρίς αυτόματη έναρξη αναπαραγωγής\n/play\t\tΈναρξη αναπαραγωγής του αρχείου με την εκκίνηση του\n\t\tπρογράμματος αναπαραγωγής\n/close\t\tΚλείσιμο του προγράμματος μετά την αναπαραγωγή\n\t\t(δουλεύει μόνο όταν χρησιμοποιείται με το /play)\n/shutdown\tΤερματισμός του συστήματος μετά την αναπαραγωγή\n/fullscreen\tΈκκίνηση σε λειτουργία πλήρους οθόνης\n/minimized\tΈκκίνηση σε ελαχιστοποιημένη λειτουργία\n/new\t\tΕκκινεί μια νέα παρουσία του MPC-HC\n/add\t\tΠροσθήκη του \"κατάλογος\" στη λίστα αναπαραγωγής.\n\t\tΜπορεί να συνδυαστεί με /open και /play\n/regvid\t\tΔημιουργεί συσχετίσεις για αρχεία βίντεο\n/regaud\t\tΔημιουργεί συσχετίσεις για αρχεία ήχου\n/regpl\t\tΔημιουργεί συσχετίσεις για αρχεία λίστας αναπαραγωγής\n/regall\t\tΔημιουργεί συσχετίσεις αρχείων\n\t\tγια όλους τους υποστηριζόμενους τύπους αρχείων\n/unregall\t\tΚαταργεί όλες τις συσχετίσεις αρχείων\n/start ms\t\tΈναρξη αναπαραγωγής στα \"ms\" (= χιλιοστά δευτερολέπτου)\n/startpos hh:mm:ss\tΈναρξη αναπαραγωγής στη θέση hh:mm:ss\n/fixedsize w,h\tΟρίζει το μέγεθος ενός σταθερού παραθύρου\n/monitor N\tΕκκίνηση του MPC-HC στην οθόνη N (όπου το N ξεκινά από 1)\n/audiorenderer N\tΈναρξη απόδοσης ήχου με χρήση του N (όπου το N ξεκινά από 1)\n\t\t(βλέπε ρυθμίσεις \"Έξοδος\")\n/shaderpreset \"Pr\"\tΈναρξη με χρήση της προρύθμισης σκίασης \"Pr\"\n/reset\t\tΕπαναφορά προεπιλεγμένων ρυθμίσεων\n/help /h /?\tΕμφάνιση βοήθειας σχετικά με τις παραμέτρους της γραμμής εντολών\n"
+msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nominidump\tDisable minidump creation\n/slave \"hWnd\"\tUse MPC-HC as slave\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
+msgstr "Χρήση: mpc-hc.exe \"κατάλογος\" [παράμετροι]\n\n\"κατάλογος\"\tΤο κύριο αρχείο ή ο κατάλογος που θα φορτωθεί\n\t\t(επιτρέπονται τα μπαλαντέρ \"-\" υποδηλώνει τυπική είσοδο)\n/dub \"αρχείο ήχου\"\tΦόρτωση ενός πρόσθετου αρχείου ήχου\n/dubdelay \"αρχείο\"\tΦόρτωση ενός πρόσθετου αρχείου ήχου μετατοπισμένο με XXms\n\t\t(εάν το αρχείο περιέχει \"...DELAY XXms...\")\n/d3dfs\t\tΕκκίνηση απόδοσης σε λειτουργία D3D πλήρους οθόνης\n/sub \"όνομα υπότιτλων\"\tΦόρτωση ενός πρόσθετου αρχείου υποτίτλων\n/filter \"όνομα φίλτρου\"\tΦόρτωση φίλτρων DirectShow από ένα dll\n\t\t(επιτρέπονται τα μπαλαντέρ)\n/dvd\t\tΕκτέλεση σε λειτουργία DVD. Ως \"κατάλογος\" εννοείται\n\t\tο φάκελος του DVD (προαιρετικά)\n/dvdpos T#C\tΈναρξη αναπαραγωγής στον τίτλο T, κεφάλαιο C\n/dvdpos T#hh:mm\tΈναρξη αναπαραγωγής στον τίτλο T, θέση hh:mm:ss\n/cd\t\tΦόρτωση όλων των κομματιών από ένα CD ή (S)VCD.\n\t\tΩς \"κατάλογος\" εννοείται της συσκευής οδήγησης (προαιρετικά)\n/device\t\tΆνοιγμα της προεπιλεγμένης συσκευής βίντεο\n/open\t\tΆνοιγμα του αρχείου χωρίς αυτόματη έναρξη αναπαραγωγής\n/play\t\tΈναρξη αναπαραγωγής του αρχείου με την εκκίνηση του\n\t\tπρογράμματος αναπαραγωγής\n/close\t\tΚλείσιμο του προγράμματος μετά την αναπαραγωγή\n\t\t(δουλεύει μόνο όταν χρησιμοποιείται με το /play)\n/shutdown\tΤερματισμός του συστήματος μετά την αναπαραγωγή\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tΈκκίνηση σε λειτουργία πλήρους οθόνης\n/minimized\tΈκκίνηση σε ελαχιστοποιημένη λειτουργία\n/new\t\tΕκκινεί μια νέα παρουσία του MPC-HC\n/add\t\tΠροσθήκη του \"κατάλογος\" στη λίστα αναπαραγωγής.\n\t\tΜπορεί να συνδυαστεί με /open και /play\n/regvid\t\tΔημιουργεί συσχετίσεις για αρχεία βίντεο\n/regaud\t\tΔημιουργεί συσχετίσεις για αρχεία ήχου\n/regpl\t\tΔημιουργεί συσχετίσεις για αρχεία λίστας αναπαραγωγής\n/regall\t\tΔημιουργεί συσχετίσεις αρχείων\n\t\tγια όλους τους υποστηριζόμενους τύπους αρχείων\n/unregall\t\tΚαταργεί όλες τις συσχετίσεις αρχείων\n/start ms\t\tΈναρξη αναπαραγωγής στα \"ms\" (= χιλιοστά δευτερολέπτου)\n/startpos hh:mm:ss\tΈναρξη αναπαραγωγής στη θέση hh:mm:ss\n/fixedsize w,h\tΟρίζει το μέγεθος ενός σταθερού παραθύρου\n/monitor N\tΕκκίνηση του MPC-HC στην οθόνη N (όπου το N ξεκινά από 1)\n/audiorenderer N\tΈναρξη απόδοσης ήχου με χρήση του N (όπου το N ξεκινά από 1)\n\t\t(βλέπε ρυθμίσεις \"Έξοδος\")\n/shaderpreset \"Pr\"\tΈναρξη με χρήση της προρύθμισης σκίασης \"Pr\"\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nominidump\tDisable minidump creation\n/slave \"hWnd\"\tUse MPC-HC as slave\n/reset\t\tΕπαναφορά προεπιλεγμένων ρυθμίσεων\n/help /h /?\tΕμφάνιση βοήθειας σχετικά με τις παραμέτρους της γραμμής εντολών\n"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -3223,7 +3259,7 @@ msgstr "Η τρέχουσα έκδοσή σας είναι η v%s.\n\nΗ νεώ�
 
 msgctxt "IDS_NEW_UPDATE_AVAILABLE"
 msgid "MPC-HC v%s is now available. You are using v%s.\n\nDo you want to visit MPC-HC's website to download it?"
-msgstr "Η έκδοση MPC-HC v%s είναι τώρα διαθέσιμη.\nΧρησιμοποιείτε την v%s.\n\nΘέλετε να επισκεφθείτε τον ιστότοπο του MPC-HC για λήψη;"
+msgstr "Η έκδοση MPC-HC v%s είναι τώρα διαθέσιμη.\n\nΧρησιμοποιείτε την v%s.\n\nΘέλετε να επισκεφθείτε τον ιστότοπο του MPC-HC για λήψη;"
 
 msgctxt "IDS_UPDATE_ERROR"
 msgid "Update server not found.\n\nPlease check your internet connection or try again later."
@@ -3276,6 +3312,10 @@ msgstr "Ανάκτηση έντασης: Ναι"
 msgctxt "IDS_OSD_REGAIN_VOLUME_OFF"
 msgid "Regain volume: Off"
 msgstr "Ανάκτηση έντασης: Όχι"
+
+msgctxt "IDS_SIZE_UNIT_BYTES"
+msgid "bytes"
+msgstr "bytes"
 
 msgctxt "IDS_SIZE_UNIT_K"
 msgid "KB"
@@ -3451,7 +3491,15 @@ msgstr "Μετά την αναπαραγωγή: Κλείδωμα"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
-msgstr "Μετά την Αναπαραγωγή: Σβήσε την οθόνη"
+msgstr "Μετά την Αναπαραγωγή: Απενεργοποίηση οθόνης"
+
+msgctxt "IDS_AFTERPLAYBACK_PLAYNEXT"
+msgid "After Playback: Play next file in the folder"
+msgstr "Μετά την αναπαραγωγή: Αναπ/γωγή επόμενου αρχείου στο φάκελο"
+
+msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
+msgid "After Playback: Do nothing"
+msgstr "Μετά την αναπαραγωγή: Καμία ενέργεια"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"

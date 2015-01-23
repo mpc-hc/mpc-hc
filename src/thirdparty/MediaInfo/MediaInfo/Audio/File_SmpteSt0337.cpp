@@ -738,7 +738,7 @@ bool File_SmpteSt0337::Synched_Test()
                         case 24 :
                                     switch (Stream_Bits)
                                     {
-                                        case 16 : if (CC6(Buffer+Buffer_Offset)!=0xF872004E1F00LL) {Synched=false; return true;} break;
+                                        case 16 : if (CC6(Buffer+Buffer_Offset)!=0x00F872004E1FLL) {Synched=false; return true;} break;
                                         case 20 : if (CC6(Buffer+Buffer_Offset)!=0x6F872054E1F0LL) {Synched=false; return true;} break;
                                         case 24 : if (CC6(Buffer+Buffer_Offset)!=0x96F872A54E1FLL) {Synched=false; return true;} break;
                                         default : ;

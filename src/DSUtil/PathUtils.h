@@ -31,6 +31,8 @@ namespace PathUtils
     CString GetProgramPath(bool bWithExeName = false);
     CString CombinePaths(LPCTSTR dir, LPCTSTR path);
     CString FilterInvalidCharsFromFileName(LPCTSTR fn, TCHAR replacementChar = _T('_'));
+    CString Unquote(LPCTSTR path);
+    CString StripPathOrUrl(LPCTSTR path);
     bool IsInDir(LPCTSTR path, LPCTSTR dir);
     CString ToRelative(LPCTSTR dir, const LPCTSTR path, bool* pbRelative = nullptr);
     bool IsRelative(LPCTSTR path);

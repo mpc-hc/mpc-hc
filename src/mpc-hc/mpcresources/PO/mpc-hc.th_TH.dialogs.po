@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # M. Somsak, 2014
@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-10-01 18:03+0000\n"
+"PO-Revision-Date: 2014-10-26 05:00+0000\n"
 "Last-Translator: M. Somsak\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/mpc-hc/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -190,8 +190,8 @@ msgid "About"
 msgstr "เกี่ยวกับ"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2014 see Authors.txt"
-msgstr "สงวนลิขสิทธิ์ © 2002-2014 ดูที่ Authors.txt"
+msgid "Copyright © 2002-2015 see Authors.txt"
+msgstr "สงวนลิขสิทธิ์ © 2002-2015 ดูที่ Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -375,7 +375,7 @@ msgstr "การตั้งค่าเพิ่มเติม"
 
 msgctxt "IDD_PPAGEDVD_IDC_CHECK2"
 msgid "Allow closed captions in \"Line 21 Decoder\""
-msgstr "อนุญาตศัพท์บรรยายเหตุการณ์  ใน \"Line 21 Decoder\""
+msgstr "อนุญาตศัพท์บรรยายเหตุการณ์ ใน \"Line 21 Decoder\""
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Audio"
@@ -879,7 +879,7 @@ msgstr "ซูม: 0.2 -> 3.0"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_CHECK2"
 msgid "Global Media Keys"
-msgstr "ปุ่มคีย์ของสื่อโดยทั่วไป"
+msgstr "ปุ่มคีย์ของสื่อทั่วทั้งหมด"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON1"
 msgid "Select All"

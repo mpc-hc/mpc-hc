@@ -41,10 +41,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2014-01-07 19:26:29 +0000 (Tue, 07 Jan 2014) $
+// Last changed  : $Date: 2014-04-06 15:57:21 +0000 (Sun, 06 Apr 2014) $
 // File revision : $Revision: 4 $
 //
-// $Id: SoundTouch.h 185 2014-01-07 19:26:29Z oparviai $
+// $Id: SoundTouch.h 195 2014-04-06 15:57:21Z oparviai $
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -160,7 +160,7 @@ private:
     float virtualPitch;
 
     /// Flag: Has sample rate been set?
-    BOOL  bSrateSet;
+    bool  bSrateSet;
 
     /// Calculates effective rate & tempo valuescfrom 'virtualRate', 'virtualTempo' and 
     /// 'virtualPitch' parameters.
@@ -247,8 +247,8 @@ public:
     /// Changes a setting controlling the processing system behaviour. See the
     /// 'SETTING_...' defines for available setting ID's.
     /// 
-    /// \return 'TRUE' if the setting was succesfully changed
-    BOOL setSetting(int settingId,   ///< Setting ID number. see SETTING_... defines.
+    /// \return 'true' if the setting was succesfully changed
+    bool setSetting(int settingId,   ///< Setting ID number. see SETTING_... defines.
                     int value        ///< New setting value.
                     );
 

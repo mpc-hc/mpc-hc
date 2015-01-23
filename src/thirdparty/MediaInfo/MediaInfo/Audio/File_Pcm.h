@@ -40,8 +40,8 @@ public :
     int8u           Sign;
 
     //Buffer - Global
-    #if MEDIAINFO_DEMUX
     void Read_Buffer_Continue ();
+    #if MEDIAINFO_DEMUX
     int64u  Frame_Count_Valid_Demux;
     #endif //MEDIAINFO_DEMUX
 

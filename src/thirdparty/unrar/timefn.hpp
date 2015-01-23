@@ -32,6 +32,7 @@ class RarTime
     RarTime& operator =(time_t ut);
     time_t GetUnix();
     bool operator == (RarTime &rt) {return itime==rt.itime;}
+    bool operator != (RarTime &rt) {return itime!=rt.itime;}
     bool operator < (RarTime &rt)  {return itime<rt.itime;}
     bool operator <= (RarTime &rt) {return itime<rt.itime || itime==rt.itime;}
     bool operator > (RarTime &rt)  {return itime>rt.itime;}

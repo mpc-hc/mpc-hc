@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -334,89 +334,88 @@ bool CCDDAStream::Load(const WCHAR* fnw)
         m_header.frm.pcm.wf.nChannels = 4;
     }
 
-    m_nStartSector = MSF2UINT(m_TOC.TrackData[iTrackIndex - 1].Address) - 150; //MSF2UINT(m_TOC.TrackData[0].Address);
-    m_nStopSector = MSF2UINT(m_TOC.TrackData[iTrackIndex].Address) - 150;//MSF2UINT(m_TOC.TrackData[0].Address);
+    m_nStartSector = MSF2UINT(m_TOC.TrackData[iTrackIndex - 1].Address) - 150;
+    m_nStopSector = MSF2UINT(m_TOC.TrackData[iTrackIndex].Address) - 150;
 
     m_llLength = LONGLONG(m_nStopSector - m_nStartSector) * RAW_SECTOR_SIZE;
 
     m_header.riff.hdr.chunkSize = (long)(m_llLength + sizeof(m_header) - 8);
     m_header.data.hdr.chunkSize = (long)(m_llLength);
 
-    do {
-        CDROM_READ_TOC_EX TOCEx;
-        ZeroMemory(&TOCEx, sizeof(TOCEx));
-        TOCEx.Format = CDROM_READ_TOC_EX_FORMAT_CDTEXT;
-        TOCEx.SessionTrack = iTrackIndex;
-        WORD size = 0;
-        ASSERT(MINIMUM_CDROM_READ_TOC_EX_SIZE == sizeof(size));
-        if (!DeviceIoControl(m_hDrive, IOCTL_CDROM_READ_TOC_EX, &TOCEx, sizeof(TOCEx), &size, sizeof(size), &BytesReturned, 0)) {
-            break;
+    CDROM_READ_TOC_EX TOCEx;
+    ZeroMemory(&TOCEx, sizeof(TOCEx));
+    TOCEx.Format = CDROM_READ_TOC_EX_FORMAT_CDTEXT;
+    BYTE header[4] = { 0 };
+    static_assert(sizeof(header) >= MINIMUM_CDROM_READ_TOC_EX_SIZE, "sizeof(header) must be greater or equal to MINIMUM_CDROM_READ_TOC_EX_SIZE");
+    if (!DeviceIoControl(m_hDrive, IOCTL_CDROM_READ_TOC_EX, &TOCEx, sizeof(TOCEx), header, sizeof(header), &BytesReturned, 0)) {
+        return true;
+    }
+
+    DWORD size = 2 + (WORD(header[0]) << 8) + header[1];
+    if (size <= 4) { // No cd-text information
+        return true;
+    }
+
+    CAutoVectorPtr<BYTE> pCDTextData;
+    if (!pCDTextData.Allocate(size)) {
+        return true;
+    }
+    ZeroMemory(pCDTextData, size);
+
+    if (!DeviceIoControl(m_hDrive, IOCTL_CDROM_READ_TOC_EX, &TOCEx, sizeof(TOCEx), pCDTextData, size, &BytesReturned, 0)) {
+        return true;
+    }
+
+    size = (WORD)(BytesReturned - sizeof(CDROM_TOC_CD_TEXT_DATA));
+    CDROM_TOC_CD_TEXT_DATA_BLOCK* pDesc = ((CDROM_TOC_CD_TEXT_DATA*)(BYTE*)pCDTextData)->Descriptors;
+
+    CStringArray str[16];
+    for (int i = 0; i < _countof(str); i++) {
+        str[i].SetSize(1 + m_TOC.LastTrack);
+    }
+    CString last;
+
+    for (int i = 0; size >= sizeof(CDROM_TOC_CD_TEXT_DATA_BLOCK); i++, size -= sizeof(CDROM_TOC_CD_TEXT_DATA_BLOCK), pDesc++) {
+        if (pDesc->TrackNumber > m_TOC.LastTrack) {
+            continue;
         }
 
-        size = _byteswap_ushort(size) + sizeof(size);
+        const int lenU = _countof(pDesc->Text);
+        const int lenW = _countof(pDesc->WText);
 
-        CAutoVectorPtr<BYTE> pCDTextData;
-        if (!pCDTextData.Allocate(size)) {
-            break;
+        CString text = !pDesc->Unicode
+                        ? CString(CStringA((CHAR*)pDesc->Text, lenU))
+                        : CString(CStringW((WCHAR*)pDesc->WText, lenW));
+
+        int tlen = text.GetLength();
+        CString tmp = (tlen < 12 - 1)
+                        ? (!pDesc->Unicode
+                            ? CString(CStringA((CHAR*)pDesc->Text + tlen + 1, lenU - (tlen + 1)))
+                            : CString(CStringW((WCHAR*)pDesc->WText + tlen + 1, lenW - (tlen + 1))))
+                        : _T("");
+
+        if (pDesc->PackType < 0x80 || pDesc->PackType >= 0x80 + 0x10) {
+            continue;
         }
-        ZeroMemory(pCDTextData, size);
+        pDesc->PackType -= 0x80;
 
-        if (!DeviceIoControl(m_hDrive, IOCTL_CDROM_READ_TOC_EX, &TOCEx, sizeof(TOCEx), pCDTextData, size, &BytesReturned, 0)) {
-            break;
-        }
-
-        size = (WORD)(BytesReturned - sizeof(CDROM_TOC_CD_TEXT_DATA));
-        CDROM_TOC_CD_TEXT_DATA_BLOCK* pDesc = ((CDROM_TOC_CD_TEXT_DATA*)(BYTE*)pCDTextData)->Descriptors;
-
-        CStringArray str[16];
-        for (int i = 0; i < _countof(str); i++) {
-            str[i].SetSize(1 + m_TOC.LastTrack);
-        }
-        CString last;
-
-        for (int i = 0; size >= sizeof(CDROM_TOC_CD_TEXT_DATA_BLOCK); i++, size -= sizeof(CDROM_TOC_CD_TEXT_DATA_BLOCK), pDesc++) {
-            if (pDesc->TrackNumber > m_TOC.LastTrack) {
-                continue;
+        if (pDesc->CharacterPosition == 0) {
+            str[pDesc->PackType][pDesc->TrackNumber] = text;
+        } else { // pDesc->CharacterPosition <= 0xf since CharacterPosition is a 4-bit field
+            if (pDesc->CharacterPosition < 0xf && !last.IsEmpty()) {
+                str[pDesc->PackType][pDesc->TrackNumber] = last + text;
+            } else {
+                str[pDesc->PackType][pDesc->TrackNumber] += text;
             }
-
-            const int lenU = _countof(pDesc->Text);
-            const int lenW = _countof(pDesc->WText);
-
-            CString text = !pDesc->Unicode
-                           ? CString(CStringA((CHAR*)pDesc->Text, lenU))
-                           : CString(CStringW((WCHAR*)pDesc->WText, lenW));
-
-            int tlen = text.GetLength();
-            CString tmp = (tlen < 12 - 1)
-                          ? (!pDesc->Unicode
-                             ? CString(CStringA((CHAR*)pDesc->Text + tlen + 1, lenU - (tlen + 1)))
-                             : CString(CStringW((WCHAR*)pDesc->WText + tlen + 1, lenW - (tlen + 1))))
-                          : _T("");
-
-            if (pDesc->PackType < 0x80 || pDesc->PackType >= 0x80 + 0x10) {
-                continue;
-            }
-            pDesc->PackType -= 0x80;
-
-            if (pDesc->CharacterPosition == 0) {
-                str[pDesc->PackType][pDesc->TrackNumber] = text;
-            } else { // pDesc->CharacterPosition <= 0xf since CharacterPosition is a 4-bit field
-                if (pDesc->CharacterPosition < 0xf && !last.IsEmpty()) {
-                    str[pDesc->PackType][pDesc->TrackNumber] = last + text;
-                } else {
-                    str[pDesc->PackType][pDesc->TrackNumber] += text;
-                }
-            }
-
-            last = tmp;
         }
 
-        m_discTitle = str[0][0];
-        m_trackTitle = str[0][iTrackIndex];
-        m_discArtist = str[1][0];
-        m_trackArtist = str[1][iTrackIndex];
-    } while (0);
+        last = tmp;
+    }
 
+    m_discTitle = str[0][0];
+    m_trackTitle = str[0][iTrackIndex];
+    m_discArtist = str[1][0];
+    m_trackArtist = str[1][iTrackIndex];
 
     return true;
 }
@@ -434,11 +433,9 @@ HRESULT CCDDAStream::Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDW
 {
     CAutoLock lck(&m_csLock);
 
-    BYTE buff[RAW_SECTOR_SIZE];
-
     PBYTE pbBufferOrg = pbBuffer;
     LONGLONG pos = m_llPosition;
-    size_t len = (size_t)dwBytesToRead;
+    size_t len = dwBytesToRead;
 
     if (pos < sizeof(m_header) && len > 0) {
         size_t l = std::min(len, size_t(sizeof(m_header) - pos));
@@ -452,23 +449,27 @@ HRESULT CCDDAStream::Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDW
 
     while (pos >= 0 && pos < m_llLength && len > 0) {
         RAW_READ_INFO rawreadinfo;
-        rawreadinfo.SectorCount = 1;
         rawreadinfo.TrackMode = CDDA;
 
-        UINT sector = m_nStartSector + int(pos / RAW_SECTOR_SIZE);
-        __int64 offset = pos % RAW_SECTOR_SIZE;
+        UINT sector = m_nStartSector + UINT(pos / RAW_SECTOR_SIZE);
+        UINT offset = pos % RAW_SECTOR_SIZE;
+
+        // Reading 20 sectors at once seems to be a good trade-off between performance and compatibility
+        rawreadinfo.SectorCount = std::min(20u, m_nStopSector - sector);
+
+        if (m_buff.size() < rawreadinfo.SectorCount * RAW_SECTOR_SIZE) {
+            m_buff.resize(rawreadinfo.SectorCount * RAW_SECTOR_SIZE);
+        }
 
         rawreadinfo.DiskOffset.QuadPart = sector * 2048;
-        DWORD BytesReturned = 0;
-        BOOL b = DeviceIoControl(
-                     m_hDrive, IOCTL_CDROM_RAW_READ,
-                     &rawreadinfo, sizeof(rawreadinfo),
-                     buff, RAW_SECTOR_SIZE,
-                     &BytesReturned, 0);
-        UNREFERENCED_PARAMETER(b);
+        DWORD dwBytesReturned = 0;
+        VERIFY(DeviceIoControl(m_hDrive, IOCTL_CDROM_RAW_READ,
+                               &rawreadinfo, sizeof(rawreadinfo),
+                               m_buff.data(), (DWORD)m_buff.size(),
+                               &dwBytesReturned, 0));
 
-        size_t l = (size_t)std::min(std::min(len, size_t(RAW_SECTOR_SIZE - offset)), size_t(m_llLength - pos));
-        memcpy(pbBuffer, &buff[offset], l);
+        size_t l = std::min(std::min(len, m_buff.size() - offset), size_t(m_llLength - pos));
+        memcpy(pbBuffer, &m_buff[offset], l);
 
         pbBuffer += l;
         pos += l;

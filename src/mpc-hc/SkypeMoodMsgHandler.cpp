@@ -1,5 +1,5 @@
 /*
- * (C) 2013 see Authors.txt
+ * (C) 2013, 2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -36,7 +36,7 @@ void SkypeMoodMsgHandler::Connect(HWND hWnd)
 {
     m_hWnd = hWnd;
     TRACE(_T("SkypeMoodMsgHandler::Connect --> hWnd = %p\n"), hWnd);
-    ::SendMessage(HWND_BROADCAST, uSkypeControlAPIDiscover, (WPARAM)hWnd, 0);
+    ::SendNotifyMessage(HWND_BROADCAST, uSkypeControlAPIDiscover, (WPARAM)hWnd, 0);
 }
 
 LRESULT SkypeMoodMsgHandler::HandleAttach(WPARAM wParam, LPARAM lParam)

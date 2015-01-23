@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Abubakr Mohammed <bcs2610@hotmail.com>, 2014
@@ -12,9 +12,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-29 21:09:08+0000\n"
-"PO-Revision-Date: 2014-09-30 13:19+0000\n"
-"Last-Translator: JellyFrog\n"
+"POT-Creation-Date: 2014-10-30 22:04:38+0000\n"
+"PO-Revision-Date: 2014-12-04 17:52+0000\n"
+"Last-Translator: manxx55 <w6txz2@gmail.com>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/mpc-hc/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -96,7 +96,7 @@ msgstr "المتوسط​​: %d مللي ثانية, المتوسط​​: %d �
 
 msgctxt "IDS_STATSBAR_JITTER"
 msgid "Jitter"
-msgstr "Jitter"
+msgstr "الإهتزاز"
 
 msgctxt "IDS_STATSBAR_BITRATE"
 msgid "Bitrate"
@@ -104,7 +104,7 @@ msgstr "معدل البايت"
 
 msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
 msgid "(avg/cur)"
-msgstr "(avg/cur)"
+msgstr "(متوسط/الحالي)"
 
 msgctxt "IDS_STATSBAR_SIGNAL"
 msgid "Signal"
@@ -120,7 +120,7 @@ msgstr "الأستايلات"
 
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
-msgstr "إذا ترك الـ  rendering targeh غير معروف، سيتم إخراج ترجمات SSA / ASS بالنسبة لإطار الفيديو في حين سيتم إخراج جميع الترجمات الأخرى بالنسبة للنافذة."
+msgstr "إذا ترك الـ rendering targeh غير معروف، سيتم إخراج ترجمات SSA / ASS بالنسبة لإطار الفيديو في حين سيتم إخراج جميع الترجمات الأخرى بالنسبة للنافذة."
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -424,7 +424,7 @@ msgstr "&اعادة تعيين"
 
 msgctxt "IDS_MPLAYERC_104"
 msgid "Subtitle Delay -"
-msgstr " تأخير الترجمة -"
+msgstr "تأخير الترجمة -"
 
 msgctxt "IDS_MPLAYERC_105"
 msgid "Subtitle Delay +"
@@ -628,7 +628,7 @@ msgstr "نفس الـ VMR-9 ولكنه (عارض أقل)، لكن إستعمال
 
 msgctxt "IDC_DSNULL_COMP"
 msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the cpu from working unnecessarily."
-msgstr "الإتصال بأيّ فيديو مثل نوع الوسائط  وسيرسل العينات ليفحصها ليس في أي مكان. إستعمله إذا كنت لست بحاجة إلى عرض الفيديو وأردت توفير وحدة المعالجة المركزية من عمل غير ضروري."
+msgstr "الإتصال بأيّ فيديو مثل نوع الوسائط وسيرسل العينات ليفحصها ليس في أي مكان. إستعمله إذا كنت لست بحاجة إلى عرض الفيديو وأردت توفير وحدة المعالجة المركزية من عمل غير ضروري."
 
 msgctxt "IDC_DSNULL_UNCOMP"
 msgid "Same as the normal Null renderer, but this will only connect to uncompressed types."
@@ -656,11 +656,11 @@ msgstr "العارض الخاص لـ Real's. مخطوطات SMIL ستعمل، ل
 
 msgctxt "IDC_RMDX7"
 msgid "The output of Real's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "ناتج عارض محرّك لـ Real's من قبل DX7 ويستند على خصائص متقدّمة من VMR-7  (عارض أقل)."
+msgstr "ناتج عارض محرّك لـ Real's من قبل DX7 ويستند على خصائص متقدّمة من VMR-7 (عارض أقل)."
 
 msgctxt "IDC_RMDX9"
 msgid "The output of Real's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
-msgstr "ناتج عارض محرّك لـ Real's من قبل DX9 ويستند على خصائص متقدّمة من VMR-9  (عارض أقل)."
+msgstr "ناتج عارض محرّك لـ Real's من قبل DX9 ويستند على خصائص متقدّمة من VMR-9 (عارض أقل)."
 
 msgctxt "IDC_QTSYSDEF"
 msgid "QuickTime's own renderer. Gets a little slow when its video area is resized or partially covered by another window. When Overlay is not available it likes to fall back to GDI."
@@ -668,11 +668,11 @@ msgstr "عارض QuickTime's الخاص. يصبح بطيئاً إلى حدّ م�
 
 msgctxt "IDC_QTDX7"
 msgid "The output of QuickTime's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "ناتج عارض محرّك لـ QuickTime's من قبل DX7 ويستند على خصائص متقدّمة من VMR-7  (عارض أقل)."
+msgstr "ناتج عارض محرّك لـ QuickTime's من قبل DX7 ويستند على خصائص متقدّمة من VMR-7 (عارض أقل)."
 
 msgctxt "IDC_QTDX9"
 msgid "The output of QuickTime's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
-msgstr "ناتج عارض محرّك لـ QuickTime's من قبل DX9 ويستند على خصائص متقدّمة من VMR-9  (عارض أقل)."
+msgstr "ناتج عارض محرّك لـ QuickTime's من قبل DX9 ويستند على خصائص متقدّمة من VMR-9 (عارض أقل)."
 
 msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
@@ -795,7 +795,7 @@ msgid "Couldn't find all archive volumes"
 msgstr "لا يستطيع أن يجد كلّ أحجام الأرشيف"
 
 msgctxt "IDC_TEXTURESURF2D"
-msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
+msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
 msgstr "سطح فيديو سيخصّص كتركيب لكن ما زالت وظائف 2d ستكون مستعمله للنسخ وإمتداد للذاكرة المؤقتة. يتطلّب بطاقة فيديو الذي يمكن أن يخصّص 32 بت، RGBA، بدون قوّة تحجيم التركيب وبحجم أقل في تصميم الفيديو."
 
 msgctxt "IDC_TEXTURESURF3D"
@@ -856,7 +856,7 @@ msgstr "لا تسمح بتحريك الترجمة. تفعيل هذا الخيا�
 
 msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
-msgstr "زيادة معدل تخزين الصور الفرعية ينبغي بصفة عامة أن يُحسن أداء الريندرنج على حساب معدل استخدام وحدة التخزين في  كارت الشاشة."
+msgstr "زيادة معدل تخزين الصور الفرعية ينبغي بصفة عامة أن يُحسن أداء الريندرنج على حساب معدل استخدام وحدة التخزين في كارت الشاشة."
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
@@ -1336,11 +1336,47 @@ msgstr "الحد الأقصى (NxNpx) من الأغطية الفنية يتم ت
 
 msgctxt "IDS_SUBTITLE_DELAY_STEP_TOOLTIP"
 msgid "The subtitle delay will be decreased/increased by this value each time the corresponding hotkeys are used (%s/%s)."
-msgstr ""
+msgstr "سيتم خفض التأخير للترجمة/بالنسبة لزيادة هذه القيمة في كل مرة استخدم مفاتيح التشغيل السريع المطابق للمستعملة (%s/%s)."
 
 msgctxt "IDS_HOTKEY_NOT_DEFINED"
 msgid "<not defined>"
-msgstr ""
+msgstr "<غير معرّف>"
+
+msgctxt "IDS_NAVIGATION_WATCH"
+msgid "Watch"
+msgstr "الساعة"
+
+msgctxt "IDS_NAVIGATION_MOVE_UP"
+msgid "Move Up"
+msgstr "تحريك لإعلى"
+
+msgctxt "IDS_NAVIGATION_MOVE_DOWN"
+msgid "Move Down"
+msgstr "تحريك لإسفل"
+
+msgctxt "IDS_NAVIGATION_SORT"
+msgid "Sort by LCN"
+msgstr "الترتيب بـLCN"
+
+msgctxt "IDS_NAVIGATION_REMOVE_ALL"
+msgid "Remove all"
+msgstr "إزالة الكل"
+
+msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
+msgid "Are you sure you want to remove all channels from the list?"
+msgstr "هل أنت متأكد بأنك تريد إزالة جميع القنوات من القائمة؟"
+
+msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"
+msgid "No information available"
+msgstr "لا توجد معلومات متاحة"
+
+msgctxt "IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS"
+msgid "Please wait, analysis in progress..."
+msgstr "الرجاء الإنتظار، التحليل مستمرّ.."
+
+msgctxt "IDS_ASPECT_RATIO_FMT"
+msgid "AR %d:%d"
+msgstr "AR %d:%d"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1508,7 +1544,7 @@ msgstr "إعادة ضبظ الإعدادات"
 
 msgctxt "IDS_RESET_SETTINGS_WARNING"
 msgid "Are you sure you want to restore MPC-HC to its default settings?\nBe warned that ALL your current settings will be lost!"
-msgstr "هل أنت متأكّد بأنك تريد إعادة MPC-HC إلى الضبط الأفتراضي؟\nكن حذراً فكلّ الضبط الحالي  ستفقدة!"
+msgstr "هل أنت متأكّد بأنك تريد إعادة MPC-HC إلى الضبط الأفتراضي؟\nكن حذراً فكلّ الضبط الحالي ستفقدة!"
 
 msgctxt "IDS_RESET_SETTINGS_MUTEX"
 msgid "Please close all instances of MPC-HC so that the default settings can be restored."
@@ -1543,12 +1579,12 @@ msgid "Reset Rate"
 msgstr "إعادة ضبط المعدل"
 
 msgctxt "IDS_MPLAYERC_21"
-msgid "Audio Delay +10ms"
-msgstr " تأخير الصوت +10ms "
+msgid "Audio Delay +10 ms"
+msgstr "تأخير الصوت +10ms "
 
 msgctxt "IDS_MPLAYERC_22"
-msgid "Audio Delay -10ms"
-msgstr " تأخير الصوت -10ms "
+msgid "Audio Delay -10 ms"
+msgstr "تأخير الصوت -10ms "
 
 msgctxt "IDS_MPLAYERC_23"
 msgid "Jump Forward (small)"
@@ -1600,7 +1636,7 @@ msgstr "الملف السابق"
 
 msgctxt "IDS_MPLAYERC_99"
 msgid "Toggle Direct3D fullscreen"
-msgstr "تبديل  D3D ملء الشاشة"
+msgstr "تبديل D3D ملء الشاشة"
 
 msgctxt "IDS_MPLAYERC_100"
 msgid "Goto Prev Subtitle"
@@ -1703,12 +1739,12 @@ msgid "No subtitles found."
 msgstr "لم يجد ترجمة"
 
 msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
-msgid " %d subtitle(s) available."
+msgid "%d subtitle(s) available."
 msgstr "%d ترجمة متوفرة"
 
 msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
-msgstr "هل تريد الفحص بشكل دوري على تحديثات MPC-HC؟\nيمكن تعطيل هذه الخاصية في وقت لاحق من صفحة الخيارات المتنوعة."
+msgstr "هل تريد الفحص بشكل دوري على تحديثات MPC-HC؟\n\nيمكن تعطيل هذه الخاصية في وقت لاحق من صفحة الخيارات المتنوعة."
 
 msgctxt "IDS_ZOOM_50"
 msgid "50%"
@@ -2031,12 +2067,12 @@ msgid "Volume: %02lu/%02lu, Title: %02lu/%02lu, Chapter: %02lu/%02lu"
 msgstr "الصوت: %02lu/%02lu، العنوان: %02lu/%02lu، الفصل: %02lu/%02lu"
 
 msgctxt "IDS_MAINFRM_10"
-msgid "Angle: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
+msgid "Angle: %02lu/%02lu, %lux%lu %lu Hz %lu:%lu"
 msgstr "الزاوية: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
 
 msgctxt "IDS_MAINFRM_11"
-msgid "%s, %s %uHz %dbits %d %s"
-msgstr "%s, %s %uHz %dbits %d %s"
+msgid "%s, %s %u Hz %d bits %d %s"
+msgstr "%s, %s %u هرتز %d بت %d %s"
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
@@ -2048,7 +2084,7 @@ msgstr "تشغيل مع MPC-HC"
 
 msgctxt "IDS_CANNOT_CHANGE_FORMAT"
 msgid "MPC-HC has not enough privileges to change files formats associations. Please click on the \"Run as administrator\" button."
-msgstr ""
+msgstr "MPC-HC ليس لديه إمتيازات كافيه حتى يغيّر روابط صيغ الملفات. الرجاء إنقر على زر \"تشغيل كمستخدم\"."
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
@@ -2143,19 +2179,19 @@ msgid ", Total: %ld, Dropped: %ld"
 msgstr ", الإجمالي: %ld، المسقطة: %ld"
 
 msgctxt "IDS_MAINFRM_38"
-msgid ", Size: %I64dKB"
+msgid ", Size: %I64d KB"
 msgstr ", الحجم: %I64dKB"
 
 msgctxt "IDS_MAINFRM_39"
-msgid ", Size: %I64dMB"
+msgid ", Size: %I64d MB"
 msgstr ", الحجم: %I64dMB"
 
 msgctxt "IDS_MAINFRM_40"
-msgid ", Free: %I64dKB"
+msgid ", Free: %I64d KB"
 msgstr ", حر: %I64dKB"
 
 msgctxt "IDS_MAINFRM_41"
-msgid ", Free: %I64dMB"
+msgid ", Free: %I64d MB"
 msgstr ", حر: %I64dMB"
 
 msgctxt "IDS_MAINFRM_42"
@@ -2180,7 +2216,7 @@ msgstr "حدد المسار لـلـDVD/BD:"
 
 msgctxt "IDS_SUB_LOADED_SUCCESS"
 msgid " loaded successfully"
-msgstr "تم التحميل بنجاح"
+msgstr " تم التحميل بنجاح"
 
 msgctxt "IDS_ALL_FILES_FILTER"
 msgid "All files (*.*)|*.*||"
@@ -2243,7 +2279,7 @@ msgid "Aspect Ratio: Default"
 msgstr "النسبة الباعية: افتراضي"
 
 msgctxt "IDS_MAINFRM_70"
-msgid "Audio Delay: %I64dms"
+msgid "Audio delay: %I64d ms"
 msgstr "تأخير الصوت: %I64dms"
 
 msgctxt "IDS_AG_CHAPTER"
@@ -2412,7 +2448,7 @@ msgstr "&الخصائص"
 
 msgctxt "IDS_MAINFRM_117"
 msgid " (pin) properties..."
-msgstr "(دبوس) خصائص..."
+msgstr " (دبوس) خصائص..."
 
 msgctxt "IDS_AG_UNKNOWN_STREAM"
 msgid "Unknown Stream"
@@ -2428,11 +2464,11 @@ msgstr "VSync"
 
 msgctxt "IDS_MAINFRM_121"
 msgid " (Director Comments 1)"
-msgstr "(تعليقات المخرج 1)"
+msgstr " (تعليقات المخرج 1)"
 
 msgctxt "IDS_MAINFRM_122"
 msgid " (Director Comments 2)"
-msgstr "(تعليقات المخرج 2)"
+msgstr " (تعليقات المخرج 2)"
 
 msgctxt "IDS_DVD_SUBTITLES_ENABLE"
 msgid "Enable DVD subtitles"
@@ -2483,8 +2519,8 @@ msgid "Volume boost Max"
 msgstr "أقصى تعزيز للصوت"
 
 msgctxt "IDS_USAGE"
-msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "طريقة الاستعمال: mpc-hc.exe \"pathname\" [المفاتيح]\n\n\"pathname\"\tالملف الرئيسي او المجلد الذي سيتم تحميله (حرف بدل\n\t\tمسموح, \"-\" يدل على المدخل القياسي)\n/dub \"dubname\"\tتحميل ملف صوت إضافي\n/dubdelay \"file\"\tتحميل ملف صوت إضافي مزاح بـ XXms (إذا كان\n\t\tالملف يحتوي على \"...DELAY XXms...\")\n/d3dfs\t\tبدء التصيير في وضع ملء الشاشة D3D\n/sub \"subname\"\tتحميل ملف ترجمة إضافي\n/filter \"filtername\"\tتحميل فلاتر DirectShow من مكتبة الروابط\n\t\tالديناميكية (أحرف البدل مسموحة)\n/dvd\t\tتشغيل في وضع DVD, \"pathname\" تعني الـDVD\n\t\tالمجلد (اختياري)\n/dvdpos T#C\tبدء التشغيل في العنوان T, فصل C\n/dvdpos T#hh:mm\tبدء التشغيل في العنوان T, موقع hh:mm:ss\n/cd\t\tتحميل كل مسارات audio cd أو (s)vcd,\n\t\t\"pathname\" يعني مسار محرك الأقراص (اختياري)\n/device\t\tفتح جهاز الفيديو الافتراضي\n/open\t\tافتح الملف، لا تبدأ التشغيل تلقائيا\n/play\t\tبدء تشغيل الملف عند بدء\n\t\tالمشغل\n/close\t\tإغلاق المشغل بعد نهاية العرض (يعمل فقط عند\n\t\tاستعماله مع /play)\n/shutdown\tإيقاف تشغيل نظام التشغيل بعد العرض\n/fullscreen\tالبدء في وضع ملء الشاشة\n/minimized\tالبدء في الوضع المصغر\n/new\t\tاستخدام مثيل جديد من المشغل\n/add\t\tإضافة \"pathname\" إلى قائمة التشغيل، يمكن دمجه\n\t\tمع /open و /play\n/regvid\t\tإنشاء اقترانات الملفات لملفات الفيديو\n/regaud\t\tإنشاء اقترانات الملفات لملفات الصوت\n/regpl\t\tإنشاء اقترانات الملفات لملفات قائمة التشغيل\n/regall\t\tإنشاء اقترانات الملفات لجميع الملفات المدعومة\n/unregall\t\tإزالة جميع اقترانات الملفات\n/start ms\t\tبدء العرض عند \"ms\" (= ميلي ثانية)\n/startpos hh:mm:ss\tبدء العرض عند موضع hh:mm:ss\n/fixedsize w,h\tتعيين حجم نافذة ثابت\n/monitor N\tبدء المشغل على الشاشة N، حيث N تبدأ من 1\n/audiorenderer N\tالبدء باستعمال مصيير الصوت N، حيث N تبدأ من 1\n\t\t( راجع اعدادات \"المخرجات\" )\n/shaderpreset \"Pr\"\tالبدء باستعمال الاعدادات المسبقة \"Pr\" للمظلل\n/reset\t\tاستعادة الإعدادات الافتراضية\n/help /h /?\tعرض التعليمات حول مفاتيح سطر الأوامر\n"
+msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nominidump\tDisable minidump creation\n/slave \"hWnd\"\tUse MPC-HC as slave\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
+msgstr "طريقة الاستعمال: mpc-hc.exe \"pathname\" [المفاتيح]\n\n\"pathname\"\tالملف الرئيسي او المجلد الذي سيتم تحميله (حرف بدل\n\t\tمسموح, \"-\" يدل على المدخل القياسي)\n/dub \"dubname\"\tتحميل ملف صوت إضافي\n/dubdelay \"file\"\tتحميل ملف صوت إضافي مزاح بـ XXms (إذا كان\n\t\tالملف يحتوي على \"...DELAY XXms...\")\n/d3dfs\t\tبدء التصيير في وضع ملء الشاشة D3D\n/sub \"subname\"\tتحميل ملف ترجمة إضافي\n/filter \"filtername\"\tتحميل فلاتر DirectShow من مكتبة الروابط\n\t\tالديناميكية (أحرف البدل مسموحة)\n/dvd\t\tتشغيل في وضع DVD, \"pathname\" تعني الـDVD\n\t\tالمجلد (اختياري)\n/dvdpos T#C\tبدء التشغيل في العنوان T, فصل C\n/dvdpos T#hh:mm\tبدء التشغيل في العنوان T, موقع hh:mm:ss\n/cd\t\tتحميل كل مسارات audio cd أو (s)vcd,\n\t\t\"pathname\" يعني مسار محرك الأقراص (اختياري)\n/device\t\tفتح جهاز الفيديو الافتراضي\n/open\t\tافتح الملف، لا تبدأ التشغيل تلقائيا\n/play\t\tبدء تشغيل الملف عند بدء\n\t\tالمشغل\n/close\t\tإغلاق المشغل بعد نهاية العرض (يعمل فقط عند\n\t\tاستعماله مع /play)\n/shutdown\tإيقاف تشغيل نظام التشغيل بعد العرض\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tالبدء في وضع ملء الشاشة\n/minimized\tالبدء في الوضع المصغر\n/new\t\tاستخدام مثيل جديد من المشغل\n/add\t\tإضافة \"pathname\" إلى قائمة التشغيل، يمكن دمجه\n\t\tمع /open و /play\n/regvid\t\tإنشاء اقترانات الملفات لملفات الفيديو\n/regaud\t\tإنشاء اقترانات الملفات لملفات الصوت\n/regpl\t\tإنشاء اقترانات الملفات لملفات قائمة التشغيل\n/regall\t\tإنشاء اقترانات الملفات لجميع الملفات المدعومة\n/unregall\t\tإزالة جميع اقترانات الملفات\n/start ms\t\tبدء العرض عند \"ms\" (= ميلي ثانية)\n/startpos hh:mm:ss\tبدء العرض عند موضع hh:mm:ss\n/fixedsize w,h\tتعيين حجم نافذة ثابت\n/monitor N\tبدء المشغل على الشاشة N، حيث N تبدأ من 1\n/audiorenderer N\tالبدء باستعمال مصيير الصوت N، حيث N تبدأ من 1\n\t\t( راجع اعدادات \"المخرجات\" )\n/shaderpreset \"Pr\"\tالبدء باستعمال الاعدادات المسبقة \"Pr\" للمظلل\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nominidump\tDisable minidump creation\n/slave \"hWnd\"\tUse MPC-HC as slave\n/reset\t\tاستعادة الإعدادات الافتراضية\n/help /h /?\tعرض التعليمات حول مفاتيح سطر الأوامر\n"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -3282,6 +3318,10 @@ msgctxt "IDS_OSD_REGAIN_VOLUME_OFF"
 msgid "Regain volume: Off"
 msgstr "إستعادة المستوى: مغلق"
 
+msgctxt "IDS_SIZE_UNIT_BYTES"
+msgid "bytes"
+msgstr "بايت"
+
 msgctxt "IDS_SIZE_UNIT_K"
 msgid "KB"
 msgstr "KB"
@@ -3344,11 +3384,11 @@ msgstr "لا يستطيع تأطير الخطوة، حاول بعارض فيدي
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for RealMedia.\nSelect one of the DirectX renderers for RealMedia in MPC-HC's output options and reopen the file."
-msgstr " \"حفظ الصورة\" و \"حفظ المصغرات\" هذه الوظائف لاتعمل بعارض الفيديو الإفتراضي لـ RealMedia.\nاختر احدى عارض DirectX لـ RealMedia في MPC-HC's لخيارات الناتج واعد فتح الملف."
+msgstr "\"حفظ الصورة\" و \"حفظ المصغرات\" هذه الوظائف لاتعمل بعارض الفيديو الإفتراضي لـ RealMedia.\nاختر احدى عارض DirectX لـ RealMedia في MPC-HC's لخيارات الناتج واعد فتح الملف."
 
 msgctxt "IDS_SCREENSHOT_ERROR_QT"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for QuickTime.\nSelect one of the DirectX renderers for QuickTime in MPC-HC's output options and reopen the file."
-msgstr " \"حفظ الصورة\" و \"حفظ المصغرات\" هذه الوظائف لاتعمل بعارض الفيديو الإفتراضي لـ QuickTime.\nاختر احدى عارض DirectX لـ QuickTime في MPC-HC's لخيارات الناتج واعد فتح الملف."
+msgstr "\"حفظ الصورة\" و \"حفظ المصغرات\" هذه الوظائف لاتعمل بعارض الفيديو الإفتراضي لـ QuickTime.\nاختر احدى عارض DirectX لـ QuickTime في MPC-HC's لخيارات الناتج واعد فتح الملف."
 
 msgctxt "IDS_SCREENSHOT_ERROR_SHOCKWAVE"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work for Shockwave files."
@@ -3458,6 +3498,14 @@ msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
 msgstr "بعد التشغيل: أغلق الشاشة"
 
+msgctxt "IDS_AFTERPLAYBACK_PLAYNEXT"
+msgid "After Playback: Play next file in the folder"
+msgstr "بعد نهاية التشغيل: تشغيل الملف التالي في المجلد"
+
+msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
+msgid "After Playback: Do nothing"
+msgstr "بعد نهاية التشغيل: لا تفعل شيئ"
+
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
 msgstr "السطوع: %s"
@@ -3516,23 +3564,23 @@ msgstr "القنوات"
 
 msgctxt "IDC_FASTSEEK_CHECK"
 msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."
-msgstr "إذا تم إختيار \"الإطار المفتاحي الأحدث\"، إبحث  عن الإطار المفتاحي الأول قبل نقطة البحث الحالية\nإذا تم إختيار \"الإطار المفتاحي الأقرب\"، إبحث  عن الإطار المفتاحي الأول قبل نقطة البحث الحالية إعتماداً علي أيها الأقرب"
+msgstr "إذا تم إختيار \"الإطار المفتاحي الأحدث\"، إبحث عن الإطار المفتاحي الأول قبل نقطة البحث الحالية\nإذا تم إختيار \"الإطار المفتاحي الأقرب\"، إبحث عن الإطار المفتاحي الأول قبل نقطة البحث الحالية إعتماداً علي أيها الأقرب"
 
 msgctxt "IDC_ASSOCIATE_ALL_FORMATS"
 msgid "Associate with all formats"
-msgstr ""
+msgstr "ربط مع كل الصيغ"
 
 msgctxt "IDC_ASSOCIATE_VIDEO_FORMATS"
 msgid "Associate with video formats only"
-msgstr ""
+msgstr "ربط مع صيغ الفيديو فقط"
 
 msgctxt "IDC_ASSOCIATE_AUDIO_FORMATS"
 msgid "Associate with audio formats only"
-msgstr ""
+msgstr "ربط مع صيغ الأصوات فقط"
 
 msgctxt "IDC_CLEAR_ALL_ASSOCIATIONS"
 msgid "Clear all associations"
-msgstr ""
+msgstr "إلغاء تحديد كل الصيغ"
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"

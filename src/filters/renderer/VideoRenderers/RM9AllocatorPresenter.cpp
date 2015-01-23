@@ -48,6 +48,8 @@ HRESULT CRM9AllocatorPresenter::AllocSurfaces()
     CAutoLock cAutoLock(this);
     CAutoLock cRenderLock(&m_RenderLock);
 
+    CheckPointer(m_pD3DDev, E_POINTER);
+
     m_pVideoSurfaceOff  = nullptr;
     m_pVideoSurfaceYUY2 = nullptr;
 

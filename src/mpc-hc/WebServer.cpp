@@ -29,7 +29,7 @@
 #include "WebClientSocket.h"
 #include "WebServer.h"
 #include "VersionInfo.h"
-#include "WinAPIUtils.h"
+#include "PathUtils.h"
 
 
 CAtlStringMap<CWebServer::RequestHandler, CStringA> CWebServer::m_internalpages;
@@ -40,7 +40,7 @@ CWebServer::CWebServer(CMainFrame* pMainFrame, int nPort)
     : m_pMainFrame(pMainFrame)
     , m_nPort(nPort)
 {
-    m_webroot = CPath(GetProgramPath());
+    m_webroot = CPath(PathUtils::GetProgramPath());
     const CAppSettings& s = AfxGetAppSettings();
 
     CString WebRoot = s.strWebRoot;
@@ -664,7 +664,7 @@ bool CWebServer::CallCGI(CWebClientSocket* pClient, CStringA& hdr, CStringA& bod
                     envstr.GetLength() ? (LPVOID)(LPCSTR)envstr : nullptr,
                     dir, &siStartInfo, &piProcInfo)) {
             DWORD ThreadId;
-            CreateThread(nullptr, 0, KillCGI, (LPVOID)piProcInfo.hProcess, 0, &ThreadId);
+            VERIFY(CreateThread(nullptr, 0, KillCGI, (LPVOID)piProcInfo.hProcess, 0, &ThreadId));
 
             static const int BUFFSIZE = 1024;
             DWORD dwRead, dwWritten = 0;

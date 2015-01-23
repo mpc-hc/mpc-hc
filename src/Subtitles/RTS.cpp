@@ -24,7 +24,7 @@
 #include <intrin.h>
 #include <algorithm>
 #include "RTS.h"
-#include "../DSUtil/WinAPIUtils.h"
+#include "../DSUtil/PathUtils.h"
 
 // WARNING: this isn't very thread safe, use only one RTS a time. We should use TLS in future.
 static HDC g_hDC;
@@ -67,22 +67,22 @@ CMyFont::CMyFont(STSStyle& style)
 
 CWord::CWord(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley,
              RenderingCaches& renderingCaches)
-    : m_style(style)
+    : m_fDrawn(false)
+    , m_p(INT_MAX, INT_MAX)
+    , m_renderingCaches(renderingCaches)
+    , m_scalex(scalex)
+    , m_scaley(scaley)
     , m_str(str)
-    , m_width(0)
-    , m_ascent(0)
-    , m_descent(0)
+    , m_fWhiteSpaceChar(false)
+    , m_fLineBreak(false)
+    , m_style(style)
+    , m_pOpaqueBox(nullptr)
     , m_ktype(ktype)
     , m_kstart(kstart)
     , m_kend(kend)
-    , m_fDrawn(false)
-    , m_p(INT_MAX, INT_MAX)
-    , m_fLineBreak(false)
-    , m_fWhiteSpaceChar(false)
-    , m_pOpaqueBox(nullptr)
-    , m_scalex(scalex)
-    , m_scaley(scaley)
-    , m_renderingCaches(renderingCaches)
+    , m_width(0)
+    , m_ascent(0)
+    , m_descent(0)
 {
     if (str.IsEmpty()) {
         m_fWhiteSpaceChar = m_fLineBreak = true;
@@ -123,17 +123,13 @@ void CWord::Paint(const CPoint& p, const CPoint& org)
     if (m_renderingCaches.overlayCache.Lookup(overlayKey, m_pOverlayData)) {
         m_fDrawn = m_renderingCaches.outlineCache.Lookup(overlayKey, m_pOutlineData);
         if (m_style.borderStyle == 1) {
-            if (!CreateOpaqueBox()) {
-                return;
-            }
+            VERIFY(CreateOpaqueBox());
         }
     } else {
         if (!m_fDrawn) {
             if (m_renderingCaches.outlineCache.Lookup(overlayKey, m_pOutlineData)) {
                 if (m_style.borderStyle == 1) {
-                    if (!CreateOpaqueBox()) {
-                        return;
-                    }
+                    VERIFY(CreateOpaqueBox());
                 }
             } else {
                 if (!CreatePath()) {
@@ -163,9 +159,7 @@ void CWord::Paint(const CPoint& p, const CPoint& org)
                         return;
                     }
                 } else if (m_style.borderStyle == 1) {
-                    if (!CreateOpaqueBox()) {
-                        return;
-                    }
+                    VERIFY(CreateOpaqueBox());
                 }
 
                 m_renderingCaches.outlineCache.SetAt(overlayKey, m_pOutlineData);
@@ -207,12 +201,14 @@ bool CWord::CreateOpaqueBox()
 
     STSStyle style = m_style;
     style.borderStyle = 0;
-    style.outlineWidthX = style.outlineWidthY = 0;
+    // We don't want to apply the outline and the scaling twice
+    style.outlineWidthX = style.outlineWidthY = 0.0;
+    style.fontScaleX = style.fontScaleY = 100.0;
     style.colors[0] = m_style.colors[2];
     style.alpha[0] = m_style.alpha[2];
 
-    int w = (int)(m_style.outlineWidthX + 0.5);
-    int h = (int)(m_style.outlineWidthY + 0.5);
+    int w = std::lround(m_style.outlineWidthX);
+    int h = std::lround(m_style.outlineWidthY);
 
     // Convert to pixels rounding to nearest
     CStringW str;
@@ -222,7 +218,12 @@ bool CWord::CreateOpaqueBox()
                (m_width + w + 4) / 8, (m_ascent + m_descent + h + 4) / 8,
                -(w + 4) / 8, (m_ascent + m_descent + h + 4) / 8);
 
-    m_pOpaqueBox = DEBUG_NEW CPolygon(style, str, 0, 0, 0, 1.0, 1.0, 0, m_renderingCaches);
+    try {
+        m_pOpaqueBox = DEBUG_NEW CPolygon(style, str, 0, 0, 0, 1.0, 1.0, 0, m_renderingCaches);
+    } catch (CMemoryException* e) {
+        e->Delete();
+        m_pOpaqueBox = nullptr;
+    }
 
     return !!m_pOpaqueBox;
 }
@@ -792,8 +793,13 @@ CClipper::CClipper(CStringW str, const CSize& size, double scalex, double scaley
         e->Delete();
         return;
     }
+    memset(m_pAlphaMask, (m_inverse ? 0x40 : 0), alphaMaskSize);
 
     Paint(CPoint(0, 0), CPoint(0, 0));
+
+    if (!m_pOverlayData) {
+        return;
+    }
 
     int w = m_pOverlayData->mOverlayWidth, h = m_pOverlayData->mOverlayHeight;
 
@@ -820,8 +826,6 @@ CClipper::CClipper(CStringW str, const CSize& size, double scalex, double scaley
     if (w <= 0 || h <= 0) {
         return;
     }
-
-    memset(m_pAlphaMask, (m_inverse ? 0x40 : 0), alphaMaskSize);
 
     const BYTE* src = m_pOverlayData->mpOverlayBufferBody + m_pOverlayData->mOverlayPitch * yo + xo;
     BYTE* dst = m_pAlphaMask + m_size.cx * y + x;
@@ -987,7 +991,7 @@ CRect CLine::PaintOutline(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CP
             return bbox;    // should not happen since this class is just a line of text without any breaks
         }
 
-        if (w->m_style.outlineWidthX + w->m_style.outlineWidthY > 0 && !(w->m_ktype == 2 && time < w->m_kstart)) {
+        if ((w->m_style.outlineWidthX + w->m_style.outlineWidthY > 0 || w->m_style.borderStyle == 1) && !(w->m_ktype == 2 && time < w->m_kstart)) {
             int x = p.x;
             int y = p.y + m_ascent - w->m_ascent;
             DWORD aoutline = w->m_style.alpha[2];
@@ -1096,19 +1100,19 @@ CRect CLine::PaintBody(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPoin
 
 CSubtitle::CSubtitle(RenderingCaches& renderingCaches)
     : m_renderingCaches(renderingCaches)
-    , m_pClipper(nullptr)
-    , m_clipInverse(false)
-    , m_scalex(1.0)
-    , m_scaley(1.0)
     , m_scrAlignment(0)
     , m_wrapStyle(0)
     , m_fAnimated(false)
-    , m_relativeTo(STSStyle::AUTO)
+    , m_bIsAnimated(false)
+    , m_relativeTo(STSStyle::VIDEO)
+    , m_pClipper(nullptr)
     , m_topborder(0)
     , m_bottomborder(0)
+    , m_clipInverse(false)
+    , m_scalex(1.0)
+    , m_scaley(1.0)
 {
     ZeroMemory(m_effects, sizeof(Effect*)*EF_NUMBEROFEFFECTS);
-    m_bIsAnimated = false;
 }
 
 CSubtitle::~CSubtitle()
@@ -1294,22 +1298,30 @@ void CSubtitle::CreateClippers(CSize size)
     size.cx >>= 3;
     size.cy >>= 3;
 
-    if (m_effects[EF_BANNER] && m_effects[EF_BANNER]->param[2]) {
-        int width = m_effects[EF_BANNER]->param[2];
+    auto createClipper = [this](const CSize & size) {
+        ASSERT(!m_pClipper);
+        CStringW str;
+        str.Format(L"m %d %d l %d %d %d %d %d %d", 0, 0, size.cx, 0, size.cx, size.cy, 0, size.cy);
 
-        int w = size.cx, h = size.cy;
-
-        if (!m_pClipper) {
-            CStringW str;
-            str.Format(L"m %d %d l %d %d %d %d %d %d", 0, 0, w, 0, w, h, 0, h);
-            try {
-                m_pClipper = DEBUG_NEW CClipper(str, size, 1, 1, false, CPoint(0, 0), m_renderingCaches);
-            } catch (CMemoryException* e) {
-                e->Delete();
-                return;
+        try {
+            m_pClipper = DEBUG_NEW CClipper(str, size, 1.0, 1.0, false, CPoint(0, 0), m_renderingCaches);
+            if (!m_pClipper->m_pAlphaMask) {
+                SAFE_DELETE(m_pClipper);
             }
+        } catch (CMemoryException* e) {
+            e->Delete();
         }
 
+        return !!m_pClipper;
+    };
+
+    if (m_effects[EF_BANNER] && m_effects[EF_BANNER]->param[2]) {
+        if (!m_pClipper && !createClipper(size)) {
+            return;
+        }
+
+        int width = m_effects[EF_BANNER]->param[2];
+        int w = size.cx, h = size.cy;
         int da = (64 << 8) / width;
         BYTE* am = m_pClipper->m_pAlphaMask;
 
@@ -1334,22 +1346,12 @@ void CSubtitle::CreateClippers(CSize size)
             }
         }
     } else if (m_effects[EF_SCROLL] && m_effects[EF_SCROLL]->param[4]) {
-        int height = m_effects[EF_SCROLL]->param[4];
-
-        int w = size.cx, h = size.cy;
-
-        if (!m_pClipper) {
-            CStringW str;
-            str.Format(L"m %d %d l %d %d %d %d %d %d", 0, 0, w, 0, w, h, 0, h);
-            try {
-                m_pClipper = DEBUG_NEW CClipper(str, size, 1, 1, false, CPoint(0, 0),
-                                                m_renderingCaches);
-            } catch (CMemoryException* e) {
-                e->Delete();
-                return;
-            }
+        if (!m_pClipper && !createClipper(size)) {
+            return;
         }
 
+        int height = m_effects[EF_SCROLL]->param[4];
+        int w = size.cx, h = size.cy;
         int da = (64 << 8) / height;
         int a = 0;
         int k = m_effects[EF_SCROLL]->param[0] >> 3;
@@ -1530,9 +1532,6 @@ CAtlMap<CStringW, SSATagCmd, CStringElementTraits<CStringW>> CRenderedTextSubtit
 
 CRenderedTextSubtitle::CRenderedTextSubtitle(CCritSec* pLock)
     : CSubPicProviderImpl(pLock)
-    , m_bOverrideStyle(false)
-    , m_bOverridePlacement(false)
-    , m_overridePlacement(50, 90)
     , m_time(0)
     , m_delay(0)
     , m_animStart(0)
@@ -1543,6 +1542,9 @@ CRenderedTextSubtitle::CRenderedTextSubtitle(CCritSec* pLock)
     , m_kend(0)
     , m_nPolygon(0)
     , m_polygonBaselineOffset(0)
+    , m_bOverrideStyle(false)
+    , m_bOverridePlacement(false)
+    , m_overridePlacement(50, 90)
 {
     m_size = CSize(0, 0);
 
@@ -2062,7 +2064,7 @@ bool CRenderedTextSubtitle::ParseSSATag(SSATagsList& tagsList, const CStringW& s
 }
 
 bool CRenderedTextSubtitle::CreateSubFromSSATag(CSubtitle* sub, const SSATagsList& tagsList,
-        STSStyle& style, STSStyle& org, bool fAnimate /*= false*/)
+                                                STSStyle& style, STSStyle& org, bool fAnimate /*= false*/)
 {
     if (!sub || !tagsList) {
         return false;
@@ -3242,7 +3244,7 @@ STDMETHODIMP CRenderedTextSubtitle::SetStream(int iStream)
 
 STDMETHODIMP CRenderedTextSubtitle::Reload()
 {
-    if (!FileExists(m_path)) {
+    if (!PathUtils::Exists(m_path)) {
         return E_FAIL;
     }
     return !m_path.IsEmpty() && Open(m_path, DEFAULT_CHARSET, m_name) ? S_OK : E_FAIL;

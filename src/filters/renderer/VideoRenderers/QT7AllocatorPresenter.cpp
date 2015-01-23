@@ -46,6 +46,8 @@ HRESULT CQT7AllocatorPresenter::AllocSurfaces()
 {
     CAutoLock cAutoLock(this);
 
+    CheckPointer(m_pDD, E_POINTER);
+
     m_pVideoSurfaceOff = nullptr;
 
     DDSURFACEDESC2 ddsd;

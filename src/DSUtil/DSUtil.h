@@ -66,6 +66,7 @@ extern CString GetFilterPath(LPCTSTR clsid);
 extern CString GetFilterPath(const CLSID& clsid);
 extern void  CStringToBin(CString str, CAtlArray<BYTE>& data);
 extern CString BinToCString(const BYTE* ptr, size_t len);
+extern void FindFiles(CString fn, CAtlList<CString>& files);
 enum OpticalDiskType_t {
     OpticalDisk_NotFound,
     OpticalDisk_Audio,
@@ -109,7 +110,7 @@ extern bool IsISO639Language(LPCSTR code);
 extern CString ISO639XToLanguage(LPCSTR code, bool bCheckForFullLangName = false);
 extern LCID ISO6391ToLcid(LPCSTR code);
 extern LCID ISO6392ToLcid(LPCSTR code);
-extern CString ISO6391To6392(LPCSTR code);
+extern CStringA ISO6391To6392(LPCSTR code);
 extern CString ISO6392To6391(LPCSTR code);
 extern CString LanguageToISO6392(LPCTSTR lang);
 extern BOOL CFileGetStatus(LPCTSTR lpszFileName, CFileStatus& status);

@@ -1,5 +1,5 @@
 @ECHO OFF
-REM (C) 2013-2014 see Authors.txt
+REM (C) 2013-2015 see Authors.txt
 REM
 REM This file is part of MPC-HC.
 REM
@@ -141,9 +141,9 @@ PUSHD src
 REM Build LAVFilters
 IF /I "%ARCH%" == "x86" (SET "ARCHVS=Win32") ELSE (SET "ARCHVS=x64")
 
-devenv /nologo LAVFilters.sln /%BUILDTYPE% "%RELEASETYPE%|%ARCHVS%"
+MSBuild.exe LAVFilters.sln /nologo /consoleloggerparameters:Verbosity=minimal /nodeReuse:true /m /t:%BUILDTYPE% /property:Configuration=%RELEASETYPE%;Platform=%ARCHVS%
 IF %ERRORLEVEL% NEQ 0 (
-  CALL :SubMsg "ERROR" "'devenv /nologo LAVFilters.sln /%BUILDTYPE% "%RELEASETYPE%-%ARCHVS%"' failed!"
+  CALL :SubMsg "ERROR" "'MSBuild.exe LAVFilters.sln /nologo /consoleloggerparameters:Verbosity=minimal /nodeReuse:true /m /t:%BUILDTYPE% /property:Configuration=%RELEASETYPE%;Platform=%ARCHVS%' failed!"
   EXIT /B
 )
 

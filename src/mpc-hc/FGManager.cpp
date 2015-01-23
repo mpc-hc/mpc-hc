@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -25,7 +25,7 @@
 #include "FGManager.h"
 #include "DSUtil.h"
 #include "FileVersionInfo.h"
-#include "WinAPIUtils.h"
+#include "PathUtils.h"
 #include "../filters/Filters.h"
 #include "AllocatorCommon7.h"
 #include "AllocatorCommon.h"
@@ -208,7 +208,9 @@ HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl
     if (protocol.GetLength() <= 1 || protocol == L"file") {
         hFile = CreateFile(CString(fn), GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, (HANDLE)nullptr);
 
-        if (hFile == INVALID_HANDLE_VALUE) {
+        // In case of audio CDs with extra content, the audio tracks
+        // cannot be accessed directly so we have to try opening it
+        if (hFile == INVALID_HANDLE_VALUE && ext != L".cda") {
             return VFW_E_NOT_FOUND;
         }
     }
@@ -218,9 +220,6 @@ HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl
     if (ext == _T(".dvr-ms") || ext == _T(".wtv")) { // doh, this is stupid
         fl.Insert(LookupFilterRegistry(CLSID_StreamBufferSource, m_override, MERIT64_PREFERRED), 0);
     }
-
-    TCHAR buff[256];
-    ULONG len;
 
     if (hFile == INVALID_HANDLE_VALUE) {
         // internal / protocol
@@ -272,6 +271,9 @@ HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl
             }
         }
     }
+
+    TCHAR buff[256];
+    ULONG len;
 
     if (hFile == INVALID_HANDLE_VALUE) {
         // protocol
@@ -2186,7 +2188,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
             bOverrideBroadcom = true;
         }
 
-        if (fo->fDisabled || fo->type == FilterOverride::EXTERNAL && !CPath(MakeFullPath(fo->path)).FileExists()) {
+        if (fo->fDisabled || fo->type == FilterOverride::EXTERNAL && !PathUtils::Exists(MakeFullPath(fo->path))) {
             continue;
         }
 
@@ -2290,7 +2292,7 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
         GUID guidsVideo[] = {MEDIATYPE_Video, MEDIASUBTYPE_NULL};
 
         if (SUCCEEDED(m_pFM->EnumMatchingFilters(&pEM, 0, FALSE, MERIT_DO_NOT_USE + 1,
-                      TRUE, 1, guidsVideo, nullptr, nullptr, TRUE, FALSE, 0, nullptr, nullptr, nullptr))) {
+                                                 TRUE, 1, guidsVideo, nullptr, nullptr, TRUE, FALSE, 0, nullptr, nullptr, nullptr))) {
             for (CComPtr<IMoniker> pMoniker; S_OK == pEM->Next(1, &pMoniker, nullptr); pMoniker = nullptr) {
                 CFGFilterRegistry f(pMoniker);
                 // RDP DShow Redirection Filter's merit is so high that it flaws the graph building process so we ignore it.
@@ -2309,7 +2311,7 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
         GUID guidsAudio[] = {MEDIATYPE_Audio, MEDIASUBTYPE_NULL};
 
         if (SUCCEEDED(m_pFM->EnumMatchingFilters(&pEM, 0, FALSE, MERIT_DO_NOT_USE + 1,
-                      TRUE, 1, guidsAudio, nullptr, nullptr, TRUE, FALSE, 0, nullptr, nullptr, nullptr))) {
+                                                 TRUE, 1, guidsAudio, nullptr, nullptr, TRUE, FALSE, 0, nullptr, nullptr, nullptr))) {
             for (CComPtr<IMoniker> pMoniker; S_OK == pEM->Next(1, &pMoniker, nullptr); pMoniker = nullptr) {
                 CFGFilterRegistry f(pMoniker);
                 // Use the same RDP DShow Redirection Filter hack with audio, too

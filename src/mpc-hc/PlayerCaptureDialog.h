@@ -353,6 +353,7 @@ class CPlayerCaptureDialog : public CResizableDialog
     //DECLARE_DYNAMIC(CPlayerCaptureDialog)
 
 private:
+    CMainFrame* m_pMainFrame;
     bool m_bInitialized;
 
     CComboBox m_vidinput;
@@ -437,7 +438,7 @@ public:
     CComPtr<IBaseFilter> m_pVidEnc, m_pAudEnc, m_pMux, m_pDst, m_pAudMux, m_pAudDst;
     CComPtr<IBaseFilter> m_pVidBuffer, m_pAudBuffer;
 
-    CPlayerCaptureDialog();
+    CPlayerCaptureDialog(CMainFrame* pMainFrame);
     virtual ~CPlayerCaptureDialog();
 
     BOOL Create(CWnd* pParent = nullptr);

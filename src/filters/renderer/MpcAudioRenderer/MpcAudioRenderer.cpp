@@ -90,28 +90,27 @@ bool CALLBACK DSEnumProc2(LPGUID lpGUID,
 
 CMpcAudioRenderer::CMpcAudioRenderer(LPUNKNOWN punk, HRESULT* phr)
     : CBaseRenderer(__uuidof(this), MpcAudioRendererName, punk, phr)
-    , m_pDSBuffer(nullptr)
-    , m_pSoundTouch(nullptr)
     , m_pDS(nullptr)
+    , m_pDSBuffer(nullptr)
     , m_dwDSWriteOff(0)
-    , m_nDSBufSize(0)
-    , m_dRate(1.0)
-    , m_pReferenceClock(nullptr)
     , m_pWaveFileFormat(nullptr)
+    , m_nDSBufSize(0)
+    , m_pReferenceClock(nullptr)
+    , m_dRate(1.0)
+    , m_lVolume(DSBVOLUME_MIN)
+    , m_pSoundTouch(nullptr)
+    , m_useWASAPI(true)
+    , m_bMuteFastForward(false)
     , m_pMMDevice(nullptr)
     , m_pAudioClient(nullptr)
     , m_pRenderClient(nullptr)
-    , m_useWASAPI(true)
-    , m_bMuteFastForward(false)
-    , m_csSound_Device(_T(""))
     , m_nFramesInBuffer(0)
     , m_hnsPeriod(0)
+    , m_hnsActualDuration(0)
     , m_hTask(nullptr)
     , m_bufferSize(0)
     , m_isAudioClientStarted(false)
     , m_lastBufferTime(0)
-    , m_hnsActualDuration(0)
-    , m_lVolume(DSBVOLUME_MIN)
     , m_pfAvSetMmThreadCharacteristicsW(nullptr)
     , m_pfAvRevertMmThreadCharacteristics(nullptr)
 {
@@ -1195,9 +1194,8 @@ HRESULT CMpcAudioRenderer::GetBufferSize(WAVEFORMATEX* pWaveFormatEx, REFERENCE_
             return S_OK;
         }
 
-    *pHnsBufferPeriod = (REFERENCE_TIME)((REFERENCE_TIME)m_bufferSize * 10000 * 8 / ((REFERENCE_TIME)pWaveFormatEx->nChannels * pWaveFormatEx->wBitsPerSample *
-                                         1.0 * pWaveFormatEx->nSamplesPerSec) /*+ 0.5*/);
-    *pHnsBufferPeriod *= 1000;
+    const double dBitrate = (double)pWaveFormatEx->nChannels * pWaveFormatEx->wBitsPerSample * pWaveFormatEx->nSamplesPerSec;
+    *pHnsBufferPeriod = REFERENCE_TIME(m_bufferSize * 10000000i64 * 8 / dBitrate);
 
     TRACE(_T("CMpcAudioRenderer::GetBufferSize set a %I64d period for a %ld buffer size\n"), *pHnsBufferPeriod, m_bufferSize);
 

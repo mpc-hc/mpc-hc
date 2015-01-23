@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # JellyFrog, 2014
@@ -10,8 +10,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-19 21:10:25+0000\n"
-"PO-Revision-Date: 2014-09-04 17:40+0000\n"
+"POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
+"PO-Revision-Date: 2014-11-15 20:30+0000\n"
 "Last-Translator: Luan <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -210,15 +210,15 @@ msgstr "&Restzeitanzeige"
 
 msgctxt "POPUP"
 msgid "&Output Range"
-msgstr "&EVR-Farbraum"
+msgstr "A&usgabebereich"
 
 msgctxt "ID_VIEW_EVROUTPUTRANGE_0_255"
 msgid "&0 - 255"
-msgstr "0 - 255"
+msgstr "&0 - 255"
 
 msgctxt "ID_VIEW_EVROUTPUTRANGE_16_235"
 msgid "&16 - 235"
-msgstr "16 - 235"
+msgstr "&16 - 235"
 
 msgctxt "POPUP"
 msgid "&Presentation"
@@ -254,7 +254,7 @@ msgstr "&Windows-Desktopgestaltung (Aero) deaktivieren"
 
 msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time &Correction"
-msgstr "&Bildzeit-Korrektur"
+msgstr "&Bildzeitkorrektur"
 
 msgctxt "POPUP"
 msgid "&Color Management"
@@ -362,7 +362,7 @@ msgstr "&Auf geleerte GPU warten"
 
 msgctxt "POPUP"
 msgid "R&eset"
-msgstr "Ein&stellungen"
+msgstr "&Einstellungen"
 
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
@@ -602,19 +602,23 @@ msgstr "&Ruhezustand (falls verfügbar)"
 
 msgctxt "ID_AFTERPLAYBACK_SHUTDOWN"
 msgid "Shut&down"
-msgstr "&Computer herunterfahren"
+msgstr "Computer &herunterfahren"
 
 msgctxt "ID_AFTERPLAYBACK_LOGOFF"
 msgid "Log &Off"
-msgstr "Benutzer &abmelden"
+msgstr "&Benutzer abmelden"
 
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
-msgstr "Benutzer &sperren"
+msgstr "Computer &sperren"
 
 msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
 msgid "Turn off the &monitor"
-msgstr "&Bildschirm ausschalten"
+msgstr "B&ildschirm ausschalten"
+
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "&Nächste Ordnerdatei öffnen"
 
 msgctxt "POPUP"
 msgid "&Navigate"
@@ -674,7 +678,7 @@ msgstr "&Auf Update prüfen"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"
-msgstr "Hilfe für &Befehlszeile"
+msgstr "H&ilfe für Befehlszeile"
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"

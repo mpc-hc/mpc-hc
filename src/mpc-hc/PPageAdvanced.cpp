@@ -63,6 +63,9 @@ BOOL CPPageAdvanced::OnInitDialog()
     GetDlgItem(IDC_RADIO2)->ShowWindow(SW_HIDE);
     GetDlgItem(IDC_BUTTON1)->ShowWindow(SW_HIDE);
 
+    GetDlgItemText(IDC_RADIO1, m_strTrue);
+    GetDlgItemText(IDC_RADIO2, m_strFalse);
+
     InitSettings();
 
     for (int i = 0; i < m_list.GetHeaderCtrl()->GetItemCount(); ++i) {
@@ -79,7 +82,7 @@ void CPPageAdvanced::InitSettings()
     auto addBoolItem = [this](int nItem, CString name, bool defaultValue, bool & settingReference, CString toolTipText) {
         auto pItem = std::make_shared<SettingsBool>(name, defaultValue, settingReference, toolTipText);
         int iItem = m_list.InsertItem(nItem, pItem->GetName());
-        m_list.SetItemText(iItem, COL_VALUE, (pItem->GetValue() ? _T("true") : _T("false")));
+        m_list.SetItemText(iItem, COL_VALUE, (pItem->GetValue() ? m_strTrue : m_strFalse));
         m_list.SetItemData(iItem, nItem);
         m_hiddenOptions[static_cast<ADVANCED_SETTINGS>(nItem)] = pItem;
     };
@@ -174,7 +177,7 @@ void CPPageAdvanced::OnBnClickedDefaultButton()
         pItem->ResetDefault();
 
         if (auto pItemBool = std::dynamic_pointer_cast<SettingsBool>(pItem)) {
-            str = pItemBool->GetValue() ? _T("true") : _T("false");
+            str = pItemBool->GetValue() ? m_strTrue : m_strFalse;
             SetDlgItemText(IDC_EDIT1, str);
             if (pItemBool->GetValue()) {
                 CheckRadioButton(IDC_RADIO1, IDC_RADIO2, IDC_RADIO1);
@@ -224,8 +227,8 @@ void CPPageAdvanced::OnNMDblclk(NMHDR* pNMHDR, LRESULT* pResult)
         if (auto pItemBool = std::dynamic_pointer_cast<SettingsBool>(pItem)) {
             SetRedraw(FALSE);
             pItemBool->Toggle();
-            CString str = pItemBool->GetValue() ? _T("true") : _T("false");
-            m_list.SetItemText(pNMItemActivate->iItem, COL_VALUE, str);
+            m_list.SetItemText(pNMItemActivate->iItem, COL_VALUE,
+                               pItemBool->GetValue() ? m_strTrue : m_strFalse);
             if (pItemBool->GetValue()) {
                 CheckRadioButton(IDC_RADIO1, IDC_RADIO2, IDC_RADIO1);
             } else {
@@ -333,7 +336,7 @@ void CPPageAdvanced::OnBnClickedRadio1()
         if (auto pItemBool = std::dynamic_pointer_cast<SettingsBool>(pItem)) {
             SetRedraw(FALSE);
             pItemBool->SetValue(true);
-            m_list.SetItemText(iItem, COL_VALUE, _T("true"));
+            m_list.SetItemText(iItem, COL_VALUE, m_strTrue);
             UpdateData(FALSE);
             SetRedraw(TRUE);
             Invalidate();
@@ -352,7 +355,7 @@ void CPPageAdvanced::OnBnClickedRadio2()
         if (auto pItemBool = std::dynamic_pointer_cast<SettingsBool>(pItem)) {
             SetRedraw(FALSE);
             pItemBool->SetValue(false);
-            m_list.SetItemText(iItem, COL_VALUE, _T("false"));
+            m_list.SetItemText(iItem, COL_VALUE, m_strFalse);
             UpdateData(FALSE);
             SetRedraw(TRUE);
             Invalidate();

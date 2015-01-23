@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,6 +22,7 @@
 #include "stdafx.h"
 #include <atlpath.h>
 #include "mplayerc.h"
+#include "PathUtils.h"
 #include "OpenDlg.h"
 #include "OpenFileDlg.h"
 
@@ -31,10 +32,8 @@
 //IMPLEMENT_DYNAMIC(COpenDlg, CResizableDialog)
 COpenDlg::COpenDlg(CWnd* pParent /*=nullptr*/)
     : CResizableDialog(COpenDlg::IDD, pParent)
-    , m_path(_T(""))
-    , m_path2(_T(""))
-    , m_fMultipleFiles(false)
-    , m_fAppendPlaylist(FALSE)
+    , m_bMultipleFiles(false)
+    , m_bAppendToPlaylist(FALSE)
 {
 }
 
@@ -46,19 +45,19 @@ void COpenDlg::DoDataExchange(CDataExchange* pDX)
 {
     __super::DoDataExchange(pDX);
     DDX_Control(pDX, IDR_MAINFRAME, m_icon);
-    DDX_Control(pDX, IDC_COMBO1, m_mrucombo);
+    DDX_Control(pDX, IDC_COMBO1, m_cbMRU);
     DDX_CBString(pDX, IDC_COMBO1, m_path);
-    DDX_Control(pDX, IDC_COMBO2, m_mrucombo2);
-    DDX_CBString(pDX, IDC_COMBO2, m_path2);
-    DDX_Control(pDX, IDC_STATIC1, m_label2);
-    DDX_Check(pDX, IDC_CHECK1, m_fAppendPlaylist);
+    DDX_Control(pDX, IDC_COMBO2, m_cbMRUDub);
+    DDX_CBString(pDX, IDC_COMBO2, m_pathDub);
+    DDX_Control(pDX, IDC_STATIC1, m_labelDub);
+    DDX_Check(pDX, IDC_CHECK1, m_bAppendToPlaylist);
 }
 
 
 BEGIN_MESSAGE_MAP(COpenDlg, CResizableDialog)
-    ON_BN_CLICKED(IDC_BUTTON1, OnBnClickedBrowsebutton)
-    ON_BN_CLICKED(IDC_BUTTON2, OnBnClickedBrowsebutton2)
-    ON_BN_CLICKED(IDOK, OnBnClickedOk)
+    ON_BN_CLICKED(IDC_BUTTON1, OnBrowseFile)
+    ON_BN_CLICKED(IDC_BUTTON2, OnBrowseDubFile)
+    ON_BN_CLICKED(IDOK, OnOk)
     ON_UPDATE_COMMAND_UI(IDC_STATIC1, OnUpdateDub)
     ON_UPDATE_COMMAND_UI(IDC_COMBO2, OnUpdateDub)
     ON_UPDATE_COMMAND_UI(IDC_BUTTON2, OnUpdateDub)
@@ -78,36 +77,36 @@ BOOL COpenDlg::OnInitDialog()
 
     CRecentFileList& MRU = s.MRU;
     MRU.ReadList();
-    m_mrucombo.ResetContent();
+    m_cbMRU.ResetContent();
     for (int i = 0; i < MRU.GetSize(); i++) {
         if (!MRU[i].IsEmpty()) {
-            m_mrucombo.AddString(MRU[i]);
+            m_cbMRU.AddString(MRU[i]);
         }
     }
-    CorrectComboListWidth(m_mrucombo);
+    CorrectComboListWidth(m_cbMRU);
 
     CRecentFileList& MRUDub = s.MRUDub;
     MRUDub.ReadList();
-    m_mrucombo2.ResetContent();
+    m_cbMRUDub.ResetContent();
     for (int i = 0; i < MRUDub.GetSize(); i++) {
         if (!MRUDub[i].IsEmpty()) {
-            m_mrucombo2.AddString(MRUDub[i]);
+            m_cbMRUDub.AddString(MRUDub[i]);
         }
     }
-    CorrectComboListWidth(m_mrucombo2);
+    CorrectComboListWidth(m_cbMRUDub);
 
-    if (m_mrucombo.GetCount() > 0) {
-        m_mrucombo.SetCurSel(0);
+    if (m_cbMRU.GetCount() > 0) {
+        m_cbMRU.SetCurSel(0);
     }
 
     m_fns.RemoveAll();
-    m_path = _T("");
-    m_path2 = _T("");
-    m_fMultipleFiles = false;
-    m_fAppendPlaylist = FALSE;
+    m_path.Empty();
+    m_pathDub.Empty();
+    m_bMultipleFiles = false;
+    m_bAppendToPlaylist = FALSE;
 
-    AddAnchor(m_mrucombo, TOP_LEFT, TOP_RIGHT);
-    AddAnchor(m_mrucombo2, TOP_LEFT, TOP_RIGHT);
+    AddAnchor(m_cbMRU, TOP_LEFT, TOP_RIGHT);
+    AddAnchor(m_cbMRUDub, TOP_LEFT, TOP_RIGHT);
     AddAnchor(IDC_BUTTON1, TOP_RIGHT);
     AddAnchor(IDC_BUTTON2, TOP_RIGHT);
     AddAnchor(IDOK, TOP_RIGHT);
@@ -132,7 +131,7 @@ static CString GetFileName(CString str)
     return (LPCTSTR)p;
 }
 
-void COpenDlg::OnBnClickedBrowsebutton()
+void COpenDlg::OnBrowseFile()
 {
     UpdateData();
 
@@ -171,15 +170,15 @@ void COpenDlg::OnBnClickedBrowsebutton()
             || m_fns.GetCount() == 1
             && (m_fns.GetHead()[m_fns.GetHead().GetLength() - 1] == '\\'
                 || m_fns.GetHead()[m_fns.GetHead().GetLength() - 1] == '*')) {
-        m_fMultipleFiles = true;
+        m_bMultipleFiles = true;
         EndDialog(IDOK);
         return;
     }
 
-    m_mrucombo.SetWindowText(fd.GetPathName());
+    m_cbMRU.SetWindowText(fd.GetPathName());
 }
 
-void COpenDlg::OnBnClickedBrowsebutton2()
+void COpenDlg::OnBrowseDubFile()
 {
     UpdateData();
 
@@ -194,26 +193,26 @@ void COpenDlg::OnBnClickedBrowsebutton2()
         dwFlags |= OFN_DONTADDTORECENT;
     }
 
-    COpenFileDlg fd(mask, false, nullptr, m_path2, dwFlags, filter, this);
+    COpenFileDlg fd(mask, false, nullptr, m_pathDub, dwFlags, filter, this);
 
     if (fd.DoModal() != IDOK) {
         return;
     }
 
-    m_mrucombo2.SetWindowText(fd.GetPathName());
+    m_cbMRUDub.SetWindowText(fd.GetPathName());
 }
 
-void COpenDlg::OnBnClickedOk()
+void COpenDlg::OnOk()
 {
     UpdateData();
 
     m_fns.RemoveAll();
-    m_fns.AddTail(m_path);
-    if (m_mrucombo2.IsWindowEnabled()) {
-        m_fns.AddTail(m_path2);
+    m_fns.AddTail(PathUtils::Unquote(m_path));
+    if (m_cbMRUDub.IsWindowEnabled()) {
+        m_fns.AddTail(PathUtils::Unquote(m_pathDub));
     }
 
-    m_fMultipleFiles = false;
+    m_bMultipleFiles = false;
 
     OnOK();
 }
@@ -227,5 +226,5 @@ void COpenDlg::OnUpdateDub(CCmdUI* pCmdUI)
 void COpenDlg::OnUpdateOk(CCmdUI* pCmdUI)
 {
     UpdateData();
-    pCmdUI->Enable(!m_path.IsEmpty() || !m_path2.IsEmpty());
+    pCmdUI->Enable(!m_path.IsEmpty() || !m_pathDub.IsEmpty());
 }

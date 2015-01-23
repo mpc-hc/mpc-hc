@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,6 +20,7 @@
  */
 
 #include "stdafx.h"
+#include <strsafe.h>
 #include "mplayerc.h"
 #include "MainFrm.h"
 #include "FavoriteOrganizeDlg.h"
@@ -117,6 +118,7 @@ BEGIN_MESSAGE_MAP(CFavoriteOrganizeDlg, CResizableDialog)
     ON_NOTIFY(LVN_ENDLABELEDIT, IDC_LIST2, OnLvnEndlabeleditList2)
     ON_NOTIFY(NM_DBLCLK, IDC_LIST2, OnPlayFavorite)
     ON_NOTIFY(LVN_KEYDOWN, IDC_LIST2, OnKeyPressed)
+    ON_NOTIFY(LVN_GETINFOTIP, IDC_LIST2, OnLvnGetInfoTipList)
     ON_WM_SIZE()
 END_MESSAGE_MAP()
 
@@ -134,7 +136,7 @@ BOOL CFavoriteOrganizeDlg::OnInitDialog()
 
     m_list.InsertColumn(0, _T(""));
     m_list.InsertColumn(1, _T(""));
-    m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
+    m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT | LVS_EX_INFOTIP);
 
     const CAppSettings& s = AfxGetAppSettings();
     s.GetFav(FAV_FILE, m_sl[0]);
@@ -413,4 +415,19 @@ void CFavoriteOrganizeDlg::OnSize(UINT nType, int cx, int cy)
     if (IsWindow(m_list)) {
         m_list.SetColumnWidth(0, LVSCW_AUTOSIZE_USEHEADER);
     }
+}
+
+void CFavoriteOrganizeDlg::OnLvnGetInfoTipList(NMHDR* pNMHDR, LRESULT* pResult)
+{
+    LPNMLVGETINFOTIP pGetInfoTip = reinterpret_cast<LPNMLVGETINFOTIP>(pNMHDR);
+
+    CAtlList<CString> args;
+    ExplodeEsc(m_sl[m_tab.GetCurSel()].GetAt((POSITION)m_list.GetItemData(pGetInfoTip->iItem)), args, _T(';'));
+    CString path = args.RemoveTail();
+    // Relative to drive value is always third. If less args are available that means it is not included.
+    int rootLength = (args.GetCount() == 3 && args.RemoveTail() != _T("0")) ? CPath(path).SkipRoot() : 0;
+
+    StringCchCopy(pGetInfoTip->pszText, pGetInfoTip->cchTextMax, path.Mid(rootLength));
+
+    *pResult = 0;
 }

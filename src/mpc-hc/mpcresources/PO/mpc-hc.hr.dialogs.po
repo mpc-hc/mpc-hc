@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # schop <aprcel00@fesb.hr>, 2014
@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-10-01 18:03+0000\n"
-"Last-Translator: schop <aprcel00@fesb.hr>\n"
+"PO-Revision-Date: 2014-12-12 12:21+0000\n"
+"Last-Translator: Underground78\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/mpc-hc/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -193,8 +193,8 @@ msgid "About"
 msgstr "O programu"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2014 see Authors.txt"
-msgstr "Zaštićeno © 2002-2014 - pogledaj Authors.txt"
+msgid "Copyright © 2002-2015 see Authors.txt"
+msgstr "Zaštićeno © 2002-2015 - pogledaj Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."

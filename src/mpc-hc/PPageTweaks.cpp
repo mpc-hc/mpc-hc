@@ -34,16 +34,16 @@ CPPageTweaks::CPPageTweaks()
     , m_nJumpDistS(0)
     , m_nJumpDistM(0)
     , m_nJumpDistL(0)
-    , m_nOSDSize(0)
     , m_fNotifySkype(TRUE)
     , m_fPreventMinimize(FALSE)
     , m_fUseWin7TaskBar(TRUE)
     , m_fUseSearchInFolder(FALSE)
-    , m_fLCDSupport(FALSE)
-    , m_fFastSeek(FALSE)
-    , m_fShowChapters(TRUE)
     , m_fUseTimeTooltip(TRUE)
     , m_bHideWindowedMousePointer(TRUE)
+    , m_nOSDSize(0)
+    , m_fFastSeek(FALSE)
+    , m_fShowChapters(TRUE)
+    , m_fLCDSupport(FALSE)
 {
 }
 
@@ -236,7 +236,9 @@ void CPPageTweaks::OnChngOSDCombo()
     CString str;
     m_nOSDSize = m_FontSize.GetCurSel() + 10;
     m_FontType.GetLBText(m_FontType.GetCurSel(), str);
-    ((CMainFrame*)AfxGetMainWnd())->m_OSD.DisplayMessage(OSD_TOPLEFT, _T("Test"), 2000, m_nOSDSize, str);
+    if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
+        pMainFrame->m_OSD.DisplayMessage(OSD_TOPLEFT, _T("Test"), 2000, m_nOSDSize, str);
+    }
     SetModified();
 }
 

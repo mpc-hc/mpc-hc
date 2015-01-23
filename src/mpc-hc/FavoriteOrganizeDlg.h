@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -75,4 +75,5 @@ public:
     afx_msg void OnPlayFavorite(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnKeyPressed(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnSize(UINT nType, int cx, int cy);
+    afx_msg void OnLvnGetInfoTipList(NMHDR* pNMHDR, LRESULT* pResult);
 };

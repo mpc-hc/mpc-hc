@@ -98,15 +98,15 @@ void CryptData::SetKey50(bool Encrypt,SecPassword *Password,const wchar *PwdW,
 
   byte Key[32],PswCheckValue[SHA256_DIGEST_SIZE],HashKeyValue[SHA256_DIGEST_SIZE];
   bool Found=false;
-  for (uint I=0;I<ASIZE(KDFCache);I++)
+  for (uint I=0;I<ASIZE(KDF5Cache);I++)
   {
-    KDFCacheItem *Item=KDFCache+I;
+    KDF5CacheItem *Item=KDF5Cache+I;
     if (Item->Lg2Count==Lg2Cnt && Item->Pwd==*Password &&
         memcmp(Item->Salt,Salt,SIZE_SALT50)==0)
     {
-      SecHideData(Item->Key,sizeof(Item->Key),false);
+      SecHideData(Item->Key,sizeof(Item->Key),false,false);
       memcpy(Key,Item->Key,sizeof(Key));
-      SecHideData(Item->Key,sizeof(Item->Key),true);
+      SecHideData(Item->Key,sizeof(Item->Key),true,false);
 
       memcpy(PswCheckValue,Item->PswCheckValue,sizeof(PswCheckValue));
       memcpy(HashKeyValue,Item->HashKeyValue,sizeof(HashKeyValue));
@@ -123,14 +123,14 @@ void CryptData::SetKey50(bool Encrypt,SecPassword *Password,const wchar *PwdW,
     pbkdf2((byte *)PwdUtf,strlen(PwdUtf),Salt,SIZE_SALT50,Key,HashKeyValue,PswCheckValue,(1<<Lg2Cnt));
     cleandata(PwdUtf,sizeof(PwdUtf));
 
-    KDFCacheItem *Item=KDFCache+(KDFCachePos++ % ASIZE(KDFCache));
+    KDF5CacheItem *Item=KDF5Cache+(KDF5CachePos++ % ASIZE(KDF5Cache));
     Item->Lg2Count=Lg2Cnt;
     Item->Pwd=*Password;
     memcpy(Item->Salt,Salt,SIZE_SALT50);
     memcpy(Item->Key,Key,sizeof(Key));
     memcpy(Item->PswCheckValue,PswCheckValue,sizeof(PswCheckValue));
     memcpy(Item->HashKeyValue,HashKeyValue,sizeof(HashKeyValue));
-    SecHideData(Item->Key,sizeof(Key),true);
+    SecHideData(Item->Key,sizeof(Key),true,false);
   }
   if (HashKey!=NULL)
     memcpy(HashKey,HashKeyValue,SHA256_DIGEST_SIZE);

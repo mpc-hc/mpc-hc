@@ -96,16 +96,16 @@ CAsyncRequest::Complete()
 // note - all events created manual reset
 
 CAsyncIo::CAsyncIo(CAsyncStream *pStream)
-         : m_hThread(NULL),
-           m_evWork(TRUE),
-           m_evDone(TRUE),
-           m_evStop(TRUE),
+         : m_pStream(pStream),
+           m_bFlushing(FALSE),
            m_listWork(NAME("Work list")),
            m_listDone(NAME("Done list")),
-           m_bFlushing(FALSE),
+           m_evWork(TRUE),
+           m_evDone(TRUE),
            m_cItemsOut(0),
            m_bWaiting(FALSE),
-           m_pStream(pStream)
+           m_evStop(TRUE),
+           m_hThread(NULL)
 {
 
 }

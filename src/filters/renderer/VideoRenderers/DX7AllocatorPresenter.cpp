@@ -253,6 +253,8 @@ HRESULT CDX7AllocatorPresenter::AllocSurfaces()
 {
     CAutoLock cAutoLock(this);
 
+    CheckPointer(m_pDD, E_POINTER);
+
     const CRenderersSettings& r = GetRenderersSettings();
 
     m_pVideoTexture = nullptr;
@@ -347,42 +349,37 @@ STDMETHODIMP_(bool) CDX7AllocatorPresenter::Paint(bool bAll)
     CRect rSrcPri(CPoint(0, 0), m_windowRect.Size());
     CRect rDstPri(m_windowRect);
 
-    if (bAll) {
-        // clear the backbuffer
+    // clear the backbuffer
+    CRect rl(0, 0, rDstVid.left, rSrcPri.bottom);
+    CRect rr(rDstVid.right, 0, rSrcPri.right, rSrcPri.bottom);
+    CRect rt(0, 0, rSrcPri.right, rDstVid.top);
+    CRect rb(0, rDstVid.bottom, rSrcPri.right, rSrcPri.bottom);
 
-        CRect rl(0, 0, rDstVid.left, rSrcPri.bottom);
-        CRect rr(rDstVid.right, 0, rSrcPri.right, rSrcPri.bottom);
-        CRect rt(0, 0, rSrcPri.right, rDstVid.top);
-        CRect rb(0, rDstVid.bottom, rSrcPri.right, rSrcPri.bottom);
+    DDBLTFX fx;
+    INITDDSTRUCT(fx);
+    fx.dwFillColor = 0;
+    hr = m_pBackBuffer->Blt(nullptr, nullptr, nullptr, DDBLT_WAIT | DDBLT_COLORFILL, &fx);
 
-        DDBLTFX fx;
-        INITDDSTRUCT(fx);
-        fx.dwFillColor = 0;
-        hr = m_pBackBuffer->Blt(nullptr, nullptr, nullptr, DDBLT_WAIT | DDBLT_COLORFILL, &fx);
-
-        // paint the video on the backbuffer
-
-        if (!rDstVid.IsRectEmpty()) {
-            if (m_pVideoTexture) {
-                Vector v[4];
-                Transform(rDstVid, v);
-                hr = TextureBlt(m_pD3DDev, m_pVideoTexture, v, rSrcVid);
-            } else {
-                hr = m_pBackBuffer->Blt(rDstVid, m_pVideoSurface, rSrcVid, DDBLT_WAIT, nullptr);
-            }
+    // paint the video on the backbuffer
+    if (!rDstVid.IsRectEmpty()) {
+        if (m_pVideoTexture) {
+            Vector v[4];
+            Transform(rDstVid, v);
+            hr = TextureBlt(m_pD3DDev, m_pVideoTexture, v, rSrcVid);
+        } else {
+            hr = m_pBackBuffer->Blt(rDstVid, m_pVideoSurface, rSrcVid, DDBLT_WAIT, nullptr);
         }
-
-        // paint the text on the backbuffer
-
-        AlphaBltSubPic(rDstPri, rDstVid);
     }
 
-    // wait vsync
+    // paint the text on the backbuffer
+    AlphaBltSubPic(rDstPri, rDstVid);
 
-    m_pDD->WaitForVerticalBlank(DDWAITVB_BLOCKBEGIN, nullptr);
+    // wait vsync
+    if (bAll) {
+        m_pDD->WaitForVerticalBlank(DDWAITVB_BLOCKBEGIN, nullptr);
+    }
 
     // blt to the primary surface
-
     MapWindowRect(m_hWnd, HWND_DESKTOP, &rDstPri);
     hr = m_pPrimary->Blt(rDstPri, m_pBackBuffer, rSrcPri, DDBLT_WAIT, nullptr);
 
@@ -428,11 +425,20 @@ STDMETHODIMP CDX7AllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
 {
     CheckPointer(size, E_POINTER);
 
+    // Keep a reference so that we can safely work on the surface
+    // without having to lock everything
+    CComPtr<IDirectDrawSurface7> pVideoSurface;
+    {
+        CAutoLock cAutoLock(this);
+        CheckPointer(m_pVideoSurface, E_FAIL);
+        pVideoSurface = m_pVideoSurface;
+    }
+
     HRESULT hr;
 
     DDSURFACEDESC2 ddsd;
     INITDDSTRUCT(ddsd);
-    if (FAILED(m_pVideoSurface->GetSurfaceDesc(&ddsd))) {
+    if (FAILED(pVideoSurface->GetSurfaceDesc(&ddsd))) {
         return E_FAIL;
     }
 
@@ -451,8 +457,7 @@ STDMETHODIMP CDX7AllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
     *size = required;
 
     INITDDSTRUCT(ddsd);
-    if (FAILED(hr = m_pVideoSurface->Lock(nullptr, &ddsd, DDLOCK_WAIT | DDLOCK_SURFACEMEMORYPTR | DDLOCK_READONLY | DDLOCK_NOSYSLOCK, nullptr))) {
-        // TODO
+    if (FAILED(hr = pVideoSurface->Lock(nullptr, &ddsd, DDLOCK_WAIT | DDLOCK_SURFACEMEMORYPTR | DDLOCK_READONLY | DDLOCK_NOSYSLOCK, nullptr))) {
         return hr;
     }
 
@@ -465,22 +470,11 @@ STDMETHODIMP CDX7AllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
     bih->biPlanes = 1;
     bih->biSizeImage = bih->biWidth * bih->biHeight * bih->biBitCount >> 3;
 
-    BitBltFromRGBToRGB(
-        bih->biWidth, bih->biHeight,
-        (BYTE*)(bih + 1), bih->biWidth * bih->biBitCount >> 3, bih->biBitCount,
-        (BYTE*)ddsd.lpSurface + ddsd.lPitch * (ddsd.dwHeight - 1), -(int)ddsd.lPitch, ddsd.ddpfPixelFormat.dwRGBBitCount);
+    BitBltFromRGBToRGB(bih->biWidth, bih->biHeight,
+                       (BYTE*)(bih + 1), bih->biWidth * bih->biBitCount >> 3, bih->biBitCount,
+                       (BYTE*)ddsd.lpSurface + ddsd.lPitch * (ddsd.dwHeight - 1), -(int)ddsd.lPitch, ddsd.ddpfPixelFormat.dwRGBBitCount);
 
-    m_pVideoSurface->Unlock(nullptr);
-
-    /*
-     BitBltFromRGBToRGB(
-        w, h,
-        (BYTE*)ddsd.lpSurface, ddsd.lPitch, ddsd.ddpfPixelFormat.dwRGBBitCount,
-        (BYTE*)bm.bmBits, bm.bmWidthBytes, bm.bmBitsPixel);
-    m_pVideoSurfaceOff->Unlock(nullptr);
-    fOk = true;
-    }
-    */
+    pVideoSurface->Unlock(nullptr);
 
     return S_OK;
 }

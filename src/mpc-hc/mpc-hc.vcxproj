@@ -311,6 +311,7 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\thirdparty\TimXmlRpc\TimXmlRpc.cpp" />
     <ClCompile Include="AboutDlg.cpp" />
     <ClCompile Include="AppSettings.cpp" />
     <ClCompile Include="AuthDlg.cpp" />
@@ -320,6 +321,7 @@
     <ClCompile Include="ColorButton.cpp" />
     <ClCompile Include="ComPropertyPage.cpp" />
     <ClCompile Include="ComPropertySheet.cpp" />
+    <ClCompile Include="CoverArt.cpp" />
     <ClCompile Include="CShockwaveFlash.cpp" />
     <ClCompile Include="DebugShadersDlg.cpp" />
     <ClCompile Include="DeinterlacerFilter.cpp" />
@@ -344,7 +346,6 @@
     <ClCompile Include="GoToDlg.cpp" />
     <ClCompile Include="GraphThread.cpp" />
     <ClCompile Include="Ifo.cpp" />
-    <ClCompile Include="ISDb.cpp" />
     <ClCompile Include="KeyProvider.cpp" />
     <ClCompile Include="LcdSupport.cpp" />
     <ClCompile Include="MainFrm.cpp" />
@@ -424,6 +425,10 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="SubtitleDlDlg.cpp" />
+    <ClCompile Include="SubtitlesProvider.cpp" />
+    <ClCompile Include="SubtitlesProviders.cpp" />
+    <ClCompile Include="SubtitlesProvidersUtils.cpp" />
+    <ClCompile Include="SubtitleUpDlg.cpp" />
     <ClCompile Include="TextPassThruFilter.cpp" />
     <ClCompile Include="TunerScanDlg.cpp" />
     <ClCompile Include="UpdateChecker.cpp" />
@@ -438,9 +443,7 @@
     <ClCompile Include="WinHotkeyCtrl.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\thirdparty\LAVFilters\LAVAudioSettings.h" />
-    <ClInclude Include="..\thirdparty\LAVFilters\LAVSplitterSettings.h" />
-    <ClInclude Include="..\thirdparty\LAVFilters\LAVVideoSettings.h" />
+    <ClInclude Include="..\thirdparty\TimXmlRpc\TimXmlRpc.h" />
     <ClInclude Include="AboutDlg.h" />
     <ClInclude Include="AppSettings.h" />
     <ClInclude Include="AuthDlg.h" />
@@ -450,6 +453,7 @@
     <ClInclude Include="ColorButton.h" />
     <ClInclude Include="ComPropertyPage.h" />
     <ClInclude Include="ComPropertySheet.h" />
+    <ClInclude Include="CoverArt.h" />
     <ClInclude Include="CShockwaveFlash.h" />
     <ClInclude Include="DebugShadersDlg.h" />
     <ClInclude Include="DeinterlacerFilter.h" />
@@ -475,7 +479,6 @@
     <ClInclude Include="Ifo.h" />
     <ClInclude Include="IGraphBuilder2.h" />
     <ClInclude Include="InternalFiltersConfig.h" />
-    <ClInclude Include="ISDb.h" />
     <ClInclude Include="KeyProvider.h" />
     <ClInclude Include="LcdSupport.h" />
     <ClInclude Include="MainFrm.h" />
@@ -558,6 +561,10 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Struct.h" />
     <ClInclude Include="SubtitleDlDlg.h" />
+    <ClInclude Include="SubtitlesProvider.h" />
+    <ClInclude Include="SubtitlesProviders.h" />
+    <ClInclude Include="SubtitlesProvidersUtils.h" />
+    <ClInclude Include="SubtitleUpDlg.h" />
     <ClInclude Include="TextPassThruFilter.h" />
     <ClInclude Include="TimerWrappers.h" />
     <ClInclude Include="Translations.h" />
@@ -627,7 +634,6 @@
     <None Include="res\noaudio.bmp" />
     <None Include="res\onoff.bmp" />
     <None Include="res\shaders\final.psh" />
-    <None Include="res\shaders\LCDAngleCorrection.psh" />
     <None Include="res\single.ico" />
     <None Include="res\stereo.bmp" />
     <None Include="res\streamtypes.bmp" />
@@ -637,29 +643,8 @@
     <None Include="res\tickcross.png" />
     <None Include="res\toolbar.bmp" />
     <None Include="res\toolbarw7.png" />
-    <None Include="res\shaders\BT601BT709.psh" />
-    <None Include="res\shaders\contour.psh" />
-    <None Include="res\shaders\deinterlace (blend).psh" />
-    <None Include="res\shaders\denoise.psh" />
-    <None Include="res\shaders\EdgeSharpen.psh" />
-    <None Include="res\shaders\emboss.psh" />
     <None Include="res\shaders\empty.psh" />
-    <None Include="res\shaders\grayscale.psh" />
-    <None Include="res\shaders\invert.psh" />
-    <None Include="res\shaders\letterbox.psh" />
-    <None Include="res\shaders\levels.psh" />
-    <None Include="res\shaders\levels2.psh" />
-    <None Include="res\shaders\levels3.psh" />
-    <None Include="res\shaders\nightvision.psh" />
-    <None Include="res\shaders\procamp.psh" />
     <None Include="res\shaders\resizer.psh" />
-    <None Include="res\shaders\sharpen.psh" />
-    <None Include="res\shaders\SharpenComplex.psh" />
-    <None Include="res\shaders\SharpenComplex2.psh" />
-    <None Include="res\shaders\sphere.psh" />
-    <None Include="res\shaders\spotlight.psh" />
-    <None Include="res\shaders\wave.psh" />
-    <None Include="res\shaders\YV12ChromaUpsampling.psh" />
     <None Include="res\web\404.html" />
     <None Include="res\web\browser.html" />
     <None Include="res\web\controls.html" />
@@ -843,6 +828,12 @@
     <Image Include="res\check_audio.bmp" />
     <Image Include="res\check_video.bmp" />
     <Image Include="res\uncheck_all.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\subtitles\favicon_opensubtitles.ico" />
+    <Image Include="res\subtitles\favicon_podnapisi.ico" />
+    <Image Include="res\subtitles\favicon_subdb.ico" />
+    <Image Include="res\subtitles\favicon_titlovi.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

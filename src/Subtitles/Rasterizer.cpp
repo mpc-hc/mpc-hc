@@ -44,10 +44,10 @@ int Rasterizer::getOverlayWidth()
 }
 
 Rasterizer::Rasterizer()
-    : mpPathTypes(nullptr)
+    : fFirstSet(false)
+    , mpPathTypes(nullptr)
     , mpPathPoints(nullptr)
     , mPathPoints(0)
-    , fFirstSet(false)
     , mpEdgeBuffer(nullptr)
     , mEdgeHeapSize(0)
     , mEdgeNext(0)

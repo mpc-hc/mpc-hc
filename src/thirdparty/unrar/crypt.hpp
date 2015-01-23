@@ -20,18 +20,28 @@ enum CRYPT_METHOD {
 #define CRYPT_VERSION             0 // Supported encryption version.
 
 
-struct KDFCacheItem
-{
-  SecPassword Pwd;
-  byte Salt[SIZE_SALT50];
-  uint Lg2Count; // Log2 of PBKDF2 repetition count.
-  byte Key[32];
-  byte PswCheckValue[SHA256_DIGEST_SIZE];
-  byte HashKeyValue[SHA256_DIGEST_SIZE];
-};
-
 class CryptData
 {
+  struct KDF5CacheItem
+  {
+    SecPassword Pwd;
+    byte Salt[SIZE_SALT50];
+    byte Key[32];
+    uint Lg2Count; // Log2 of PBKDF2 repetition count.
+    byte PswCheckValue[SHA256_DIGEST_SIZE];
+    byte HashKeyValue[SHA256_DIGEST_SIZE];
+  };
+
+  struct KDF3CacheItem
+  {
+    SecPassword Pwd;
+    byte Salt[SIZE_SALT30];
+    byte Key[16];
+    byte Init[16];
+    bool SaltPresent;
+  };
+
+
   private:
     void SetKey13(const char *Password);
     void Decrypt13(byte *Data,size_t Count);
@@ -46,10 +56,13 @@ class CryptData
     void DecryptBlock20(byte *Buf);
 
     void SetKey30(bool Encrypt,SecPassword *Password,const wchar *PwdW,const byte *Salt);
-
     void SetKey50(bool Encrypt,SecPassword *Password,const wchar *PwdW,const byte *Salt,const byte *InitV,uint Lg2Cnt,byte *HashKey,byte *PswCheck);
-    KDFCacheItem KDFCache[4];
-    uint KDFCachePos;
+
+    KDF3CacheItem KDF3Cache[4];
+    uint KDF3CachePos;
+    
+    KDF5CacheItem KDF5Cache[4];
+    uint KDF5CachePos;
 
     CRYPT_METHOD Method;
 

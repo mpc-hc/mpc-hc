@@ -185,7 +185,6 @@ CPPageDVD::CPPageDVD()
     , m_idMenuLang(0)
     , m_idAudioLang(0)
     , m_idSubtitlesLang(0)
-    , m_dvdpath(_T(""))
     , m_fClosedCaptions(FALSE)
 {
 }
