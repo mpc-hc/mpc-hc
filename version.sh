@@ -1,5 +1,5 @@
 #!/bin/bash
-# (C) 2012-2013 see Authors.txt
+# (C) 2012-2013, 2015 see Authors.txt
 #
 # This file is part of MPC-HC.
 #
@@ -23,11 +23,11 @@ manifestfile="./src/mpc-hc/res/mpc-hc.exe.manifest"
 # Read major, minor and patch version numbers from static version.h file
 while read -r _ var value; do
   if [[ $var == MPC_VERSION_MAJOR ]]; then
-    ver_fixed_major=$value
+    ver_fixed_major=$(echo $value|tr -d '\r')
   elif [[ $var == MPC_VERSION_MINOR ]]; then
-    ver_fixed_minor=$value
+    ver_fixed_minor=$(echo $value|tr -d '\r')
   elif [[ $var == MPC_VERSION_PATCH ]]; then
-    ver_fixed_patch=$value
+    ver_fixed_patch=$(echo $value|tr -d '\r')
   fi
 done < "$versionfile_fixed"
 ver_fixed="${ver_fixed_major}.${ver_fixed_minor}.${ver_fixed_patch}"
