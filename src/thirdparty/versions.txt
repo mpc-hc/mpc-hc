@@ -8,6 +8,7 @@ MediaInfoLib        0.7.71
 Mhook               2.3 (modified)
 MultiMon            28 Aug '03 (modified)
 QuickTime SDK       7.3
+RapidJSON           0.1
 RARFileSource       0.9.3 (modified)
 RealMedia SDK       -
 ResizableLib        1.3
@@ -15,5 +16,6 @@ SoundTouch          1.8.0 r201
 TreePropSheet       7 Mar '03 (modified)
 UnRAR               5.2.3
 VirtualDub          1.10.4
+XmlRpcC4Win         1.0.13 (modified)
 ZenLib              0.4.29 r498
 zlib                1.2.8
