@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -2397,7 +2397,7 @@ void CVobSubStream::Open(CString name, BYTE* pData, int len)
                 m_bAlign = sl.RemoveHead() == _T("ON");
                 CString hor = sl.GetHead(), ver = sl.GetTail();
                 m_alignhor = hor == _T("LEFT") ? 0 : hor == _T("CENTER") ? 1 : hor == _T("RIGHT") ? 2 : 1;
-                m_alignver = ver == _T("TOP") ? 0 : ver == _T("CENTER") ? 1 : ver == _T("BOTTOM") ? 2 : 2;
+                m_alignver = ver == _T("TOP") ? 0 : ver == _T("CENTER") ? 1 : /*ver == _T("BOTTOM") ? 2 :*/ 2;
             }
         } else if (key == _T("fade in/out")) {
             _stscanf_s(value, _T("%d%, %d%"), &m_fadein, &m_fadeout);
