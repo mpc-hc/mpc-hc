@@ -69,7 +69,6 @@ DEFINE_SUBTITLESPROVIDER_END
 DEFINE_SUBTITLESPROVIDER_BEGIN(podnapisi, "http://www.podnapisi.net", IDI_PODNAPISI, SPF_SEARCH)
 virtual SRESULT Login(std::string& sUserName, std::string& sPassword);
 std::string GetLanguagesString();
-static const std::regex regex_pattern[];
 DEFINE_SUBTITLESPROVIDER_END
 
 DEFINE_SUBTITLESPROVIDER_BEGIN(titlovi, "http://www.titlovi.com", IDI_TITLOVI, SPF_SEARCH)
