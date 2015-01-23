@@ -1,5 +1,5 @@
 ﻿/*
- * (C) 2014 see Authors.txt
+ * (C) 2014-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -287,7 +287,7 @@ public: // overridden
     virtual SRESULT Login(std::string& sUserName, std::string& sPassword) { return SR_UNDEFINED; }
     virtual SRESULT Hash(SubtitlesInfo& pFileInfo) { return SR_UNDEFINED; }
     virtual SRESULT Upload(const SubtitlesInfo& pSubtitlesInfo) { return SR_UNDEFINED; };
-    virtual std::string UserAgent() { return string_format("mpc-hc v%S", MPC_VERSION_STR); }
+    virtual std::string UserAgent() { return string_format("mpc-hc v%S", MAKE_STR(MPC_VERSION_MAJOR) _T(".") MAKE_STR(MPC_VERSION_MINOR) _T(".") MAKE_STR(MPC_VERSION_PATCH)); }
 
 public:
     BOOL Login();

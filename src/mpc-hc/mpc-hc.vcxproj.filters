@@ -83,6 +83,9 @@
     <Filter Include="Main View">
       <UniqueIdentifier>{0453474a-2716-4c52-b5f4-cf6bd9e31ed0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Subtitles">
+      <UniqueIdentifier>{20afe682-61a3-4123-9012-4c918a03f482}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppSettings.cpp">
@@ -341,22 +344,22 @@
       <Filter>Custom Controls</Filter>
     </ClCompile>
     <ClCompile Include="..\thirdparty\TimXmlRpc\TimXmlRpc.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Subtitles</Filter>
     </ClCompile>
     <ClCompile Include="SubtitlesProvider.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Subtitles</Filter>
     </ClCompile>
     <ClCompile Include="SubtitlesProviders.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Subtitles</Filter>
     </ClCompile>
     <ClCompile Include="SubtitlesProvidersUtils.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Subtitles</Filter>
     </ClCompile>
     <ClCompile Include="SubtitleUpDlg.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Subtitles</Filter>
     </ClCompile>
     <ClCompile Include="SubtitleDlDlg.cpp">
-      <Filter>Modal Dialogs</Filter>
+      <Filter>Subtitles</Filter>
     </ClCompile>
     <ClCompile Include="Translations.cpp">
       <Filter>Player Config</Filter>
@@ -717,22 +720,22 @@
       <Filter>Helpers</Filter>
     </ClInclude>
     <ClInclude Include="..\thirdparty\TimXmlRpc\TimXmlRpc.h">
-      <Filter>Header Files</Filter>
+      <Filter>Subtitles</Filter>
     </ClInclude>
     <ClInclude Include="SubtitlesProvider.h">
-      <Filter>Header Files</Filter>
+      <Filter>Subtitles</Filter>
     </ClInclude>
     <ClInclude Include="SubtitlesProviders.h">
-      <Filter>Header Files</Filter>
+      <Filter>Subtitles</Filter>
     </ClInclude>
     <ClInclude Include="SubtitlesProvidersUtils.h">
-      <Filter>Header Files</Filter>
+      <Filter>Subtitles</Filter>
     </ClInclude>
     <ClInclude Include="SubtitleUpDlg.h">
-      <Filter>Header Files</Filter>
+      <Filter>Subtitles</Filter>
     </ClInclude>
     <ClInclude Include="SubtitleDlDlg.h">
-      <Filter>Modal Dialogs</Filter>
+      <Filter>Subtitles</Filter>
     </ClInclude>
     <ClInclude Include="TimerWrappers.h">
       <Filter>Helpers</Filter>

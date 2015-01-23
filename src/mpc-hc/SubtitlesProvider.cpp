@@ -1,5 +1,5 @@
 ﻿/*
- * (C) 2014 see Authors.txt
+ * (C) 2014-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -65,11 +65,7 @@ SRESULT OpenSubtitles::Login(std::string& sUserName, std::string& sPassword)
         args[0] = sUserName;
         args[1] = sPassword;
         args[2] = "en";
-#if (defined(_DEBUG) || MPC_NIGHTLY_RELEASE == 1)
-        args[3] = "OS Test User Agent";
-#else
-        args[3] = UserAgent().c_str();
-#endif
+        args[3] = UserAgent().c_str(); // Test with "OSTestUserAgent"
         if (!xmlrpc->execute("LogIn", args, result)) { return SR_FAILED; }
         token = result["token"];
     }
