@@ -1,5 +1,5 @@
 @ECHO OFF
-REM (C) 2010-2013 see Authors.txt
+REM (C) 2010-2013, 2015 see Authors.txt
 REM
 REM This file is part of MPC-HC.
 REM
@@ -21,12 +21,10 @@ SETLOCAL
 
 PUSHD %~dp0
 
-IF EXIST "build.user.bat" (
-  CALL "build.user.bat"
-) ELSE (
-  IF DEFINED GIT  (SET MPCHC_GIT=%GIT%)
-  IF DEFINED MSYS (SET MPCHC_MSYS=%MSYS%) ELSE (GOTO MissingVar)
-)
+IF EXIST "build.user.bat" CALL "build.user.bat"
+
+IF NOT DEFINED MPCHC_GIT  IF DEFINED GIT (SET MPCHC_GIT=%GIT%)
+IF NOT DEFINED MPCHC_MSYS IF DEFINED MSYS (SET MPCHC_MSYS=%MSYS%) ELSE (GOTO MissingVar)
 
 SET PATH=%MPCHC_MSYS%\bin;%MPCHC_GIT%\cmd;%PATH%
 FOR %%G IN (bash.exe) DO (SET FOUND=%%~$PATH:G)

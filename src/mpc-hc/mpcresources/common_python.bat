@@ -1,5 +1,5 @@
 @ECHO OFF
-REM (C) 2012-2013 see Authors.txt
+REM (C) 2012-2013, 2015 see Authors.txt
 REM
 REM This file is part of MPC-HC.
 REM
@@ -21,11 +21,9 @@ PUSHD %~dp0
 
 SET ROOT_DIR=..\..\..
 
-IF EXIST "%ROOT_DIR%\build.user.bat" (
-  CALL "%ROOT_DIR%\build.user.bat"
-) ELSE (
-  IF DEFINED PYTHON (SET MPCHC_PYTHON=%PYTHON%)
-)
+IF EXIST "%ROOT_DIR%\build.user.bat" CALL "%ROOT_DIR%\build.user.bat"
+
+IF NOT DEFINED MPCHC_PYTHON IF DEFINED PYTHON (SET MPCHC_PYTHON=%PYTHON%)
 
 REM If the define wasn't set, we try to detect Python 2.7 from the registry
 IF NOT DEFINED MPCHC_PYTHON (
