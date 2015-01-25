@@ -384,15 +384,15 @@ bool CCDDAStream::Load(const WCHAR* fnw)
         const int lenW = _countof(pDesc->WText);
 
         CString text = !pDesc->Unicode
-                        ? CString(CStringA((CHAR*)pDesc->Text, lenU))
-                        : CString(CStringW((WCHAR*)pDesc->WText, lenW));
+                       ? CString(CStringA((CHAR*)pDesc->Text, lenU))
+                       : CString(CStringW((WCHAR*)pDesc->WText, lenW));
 
         int tlen = text.GetLength();
         CString tmp = (tlen < 12 - 1)
-                        ? (!pDesc->Unicode
-                            ? CString(CStringA((CHAR*)pDesc->Text + tlen + 1, lenU - (tlen + 1)))
-                            : CString(CStringW((WCHAR*)pDesc->WText + tlen + 1, lenW - (tlen + 1))))
-                        : _T("");
+                      ? (!pDesc->Unicode
+                         ? CString(CStringA((CHAR*)pDesc->Text + tlen + 1, lenU - (tlen + 1)))
+                         : CString(CStringW((WCHAR*)pDesc->WText + tlen + 1, lenW - (tlen + 1))))
+                      : _T("");
 
         if (pDesc->PackType < 0x80 || pDesc->PackType >= 0x80 + 0x10) {
             continue;
