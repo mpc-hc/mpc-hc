@@ -92,6 +92,8 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
         TBBS_SEPARATOR,
         TBBS_BUTTON,
         TBBS_SEPARATOR,
+        TBBS_BUTTON,
+        TBBS_SEPARATOR,
         TBBS_SEPARATOR,
         TBBS_CHECKBOX,
     };
@@ -148,7 +150,7 @@ void CPlayerToolBar::ArrangeControls()
     CRect br = GetBorders();
 
     CRect r10;
-    GetItemRect(10, &r10);
+    GetItemRect(m_nVolumeSeparatorIndex - 1, &r10);
 
     CRect vr(r.right + br.right - 60, r.top - 2, r.right + br.right + 6, r.bottom);
     m_volctrl.MoveWindow(vr);
@@ -163,8 +165,8 @@ void CPlayerToolBar::ArrangeControls()
     UINT nID;
     UINT nStyle;
     int iImage;
-    GetButtonInfo(12, nID, nStyle, iImage);
-    SetButtonInfo(11, GetItemID(11), TBBS_SEPARATOR, vr.left - iImage - r10.right - (r10.bottom - r10.top) + 11);
+    GetButtonInfo(m_nVolumeOnImageIndex, nID, nStyle, iImage);
+    SetButtonInfo(m_nVolumeSeparatorIndex, GetItemID(m_nVolumeSeparatorIndex), TBBS_SEPARATOR, vr.left - iImage - r10.right - (r10.bottom - r10.top) + 11);
 }
 
 void CPlayerToolBar::SetMute(bool fMute)
@@ -173,7 +175,7 @@ void CPlayerToolBar::SetMute(bool fMute)
     TBBUTTONINFO bi;
     bi.cbSize = sizeof(bi);
     bi.dwMask = TBIF_IMAGE;
-    bi.iImage = fMute ? 13 : 12;
+    bi.iImage = fMute ? m_nVolumeOffImageIndex : m_nVolumeOnImageIndex;
     tb.SetButtonInfo(ID_VOLUME_MUTE, &bi);
 
     AfxGetAppSettings().fMute = fMute;
@@ -186,7 +188,7 @@ bool CPlayerToolBar::IsMuted() const
     bi.cbSize = sizeof(bi);
     bi.dwMask = TBIF_IMAGE;
     tb.GetButtonInfo(ID_VOLUME_MUTE, &bi);
-    return (bi.iImage == 13);
+    return (bi.iImage == m_nVolumeOffImageIndex);
 }
 
 int CPlayerToolBar::GetVolume() const
@@ -203,7 +205,7 @@ int CPlayerToolBar::GetVolume() const
 
 int CPlayerToolBar::GetMinWidth() const
 {
-    return m_nButtonHeight * 9 + 155 + m_volumeMinSizeInc;
+    return m_nButtonHeight * (m_nVolumeSeparatorIndex - 2) + 155 + m_volumeMinSizeInc;
 }
 
 void CPlayerToolBar::SetVolume(int volume)
@@ -257,7 +259,7 @@ void CPlayerToolBar::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
             CDC dc;
             dc.Attach(pTBCD->nmcd.hdc);
             RECT r;
-            GetItemRect(11, &r);
+            GetItemRect(m_nVolumeSeparatorIndex, &r);
             dc.FillSolidRect(&r, GetSysColor(COLOR_BTNFACE));
             dc.Detach();
             lr |= CDRF_SKIPDEFAULT;
@@ -388,11 +390,12 @@ BOOL CPlayerToolBar::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
     tb.GetButtonInfo(ID_VOLUME_MUTE, &bi);
 
     static CString strTipText;
-    if (bi.iImage == 12) {
+    if (bi.iImage == m_nVolumeOnImageIndex) {
         strTipText.LoadString(ID_VOLUME_MUTE);
-    } else if (bi.iImage == 13) {
+    } else if (bi.iImage == m_nVolumeOffImageIndex) {
         strTipText.LoadString(ID_VOLUME_MUTE_ON);
-    } else if (bi.iImage == 14) {
+    }
+    else if (bi.iImage == m_nVolumeDisabledImageIndex) {
         strTipText.LoadString(ID_VOLUME_MUTE_DISABLED);
     } else {
         return FALSE;

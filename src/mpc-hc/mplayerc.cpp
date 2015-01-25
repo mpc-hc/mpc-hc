@@ -1287,6 +1287,12 @@ bool CMPlayerCApp::SendCommandLine(HWND hWnd)
     return !!SendMessage(hWnd, WM_COPYDATA, (WPARAM)nullptr, (LPARAM)&cds);
 }
 
+void CMPlayerCApp::Exit()
+{
+    m_fClosingState = true;
+    OnAppExit();
+}
+
 // CMPlayerCApp initialization
 
 // This hook prevents the program from reporting that a debugger is attached
@@ -2018,8 +2024,7 @@ void CMPlayerCApp::OnAppAbout()
 
 void CMPlayerCApp::OnFileExit()
 {
-    m_fClosingState = true;
-    OnAppExit();
+    Exit();
 }
 
 void CMPlayerCApp::OnHelpShowcommandlineswitches()
