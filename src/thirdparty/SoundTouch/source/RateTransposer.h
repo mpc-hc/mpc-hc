@@ -14,10 +14,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2014-01-06 18:40:23 +0000 (Mon, 06 Jan 2014) $
+// Last changed  : $Date: 2014-04-06 15:57:21 +0000 (Sun, 06 Apr 2014) $
 // File revision : $Revision: 4 $
 //
-// $Id: RateTransposer.h 178 2014-01-06 18:40:23Z oparviai $
+// $Id: RateTransposer.h 195 2014-04-06 15:57:21Z oparviai $
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -118,7 +118,7 @@ protected:
     /// Output sample buffer
     FIFOSampleBuffer outputBuffer;
 
-    BOOL bUseAAFilter;
+    bool bUseAAFilter;
 
 
     /// Transposes sample rate by applying anti-alias filter to prevent folding. 
@@ -151,10 +151,10 @@ public:
     AAFilter *getAAFilter();
 
     /// Enables/disables the anti-alias filter. Zero to disable, nonzero to enable
-    void enableAAFilter(BOOL newMode);
+    void enableAAFilter(bool newMode);
 
     /// Returns nonzero if anti-alias filter is enabled.
-    BOOL isAAFilterEnabled() const;
+    bool isAAFilterEnabled() const;
 
     /// Sets new target rate. Normal rate = 1.0, smaller values represent slower 
     /// rate, larger faster rates.

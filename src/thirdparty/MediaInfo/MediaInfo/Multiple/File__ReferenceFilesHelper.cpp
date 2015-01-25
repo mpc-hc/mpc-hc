@@ -591,7 +591,7 @@ void File__ReferenceFilesHelper::ParseReferences()
                     for (references::iterator ReferenceSource=References.begin(); ReferenceSource!=References.end(); ++ReferenceSource)
                         if (ReferenceSource->FileNames.empty())
                             CountOfReferencesToParse--;
-                    DTS_Interval=3000000000LL; // 3 seconds
+                    DTS_Interval=250000000LL; // 250 milliseconds
                 }
             }
             else
@@ -678,13 +678,24 @@ void File__ReferenceFilesHelper::ParseReferences()
 
                 #if MEDIAINFO_NEXTPACKET
                     //Minimal DTS
-                    if (DTS_Interval!=(int64u)-1 && !Reference->Status[File__Analyze::IsFinished] && ReferenceTemp->CompleteDuration_Pos<ReferenceTemp->CompleteDuration.size())
+                    if (DTS_Interval!=(int64u)-1 && !Reference->Status[File__Analyze::IsFinished] && (ReferenceTemp->CompleteDuration.empty() || ReferenceTemp->CompleteDuration_Pos<ReferenceTemp->CompleteDuration.size()))
                     {
                         int64u DTS_Temp;
-                        if (ReferenceTemp->CompleteDuration_Pos)
-                            DTS_Temp=ReferenceTemp->CompleteDuration[ReferenceTemp->CompleteDuration_Pos].MI->Info->FrameInfo.DTS;
+                        if (!ReferenceTemp->CompleteDuration.empty() && ReferenceTemp->CompleteDuration_Pos)
+                        {
+                            if (ReferenceTemp->CompleteDuration[ReferenceTemp->CompleteDuration_Pos].MI->Info->FrameInfo.DTS!=(int64u)-1)
+                                DTS_Temp=ReferenceTemp->CompleteDuration[ReferenceTemp->CompleteDuration_Pos].MI->Info->FrameInfo.DTS-ReferenceTemp->CompleteDuration[ReferenceTemp->CompleteDuration_Pos].MI->Info->Config->Demux_Offset_DTS_FromStream;
+                            else
+                                DTS_Temp=0;
+                        }
                         else
-                            DTS_Temp=ReferenceTemp->MI->Info->FrameInfo.DTS;
+                        {
+                            if (ReferenceTemp->MI->Info->FrameInfo.DTS!=(int64u)-1)
+                                DTS_Temp=ReferenceTemp->MI->Info->FrameInfo.DTS-ReferenceTemp->MI->Info->Config->Demux_Offset_DTS_FromStream;
+                            else
+                                DTS_Temp=0;
+                        }
+                        DTS_Temp+=ReferenceTemp->CompleteDuration[ReferenceTemp->CompleteDuration_Pos].Demux_Offset_DTS;
                         if (DTS_Minimal>DTS_Temp)
                             DTS_Minimal=DTS_Temp;
                     }
@@ -755,36 +766,54 @@ bool File__ReferenceFilesHelper::ParseReference_Init()
     {
         for (size_t Pos=0; Pos<Reference->CompleteDuration.size(); Pos++)
         {
-            MediaInfo_Internal MI2;
-            MI2.Option(__T("File_KeepInfo"), __T("1"));
-            Ztring ParseSpeed_Save=MI2.Option(__T("ParseSpeed_Get"), __T("0"));
-            Ztring Demux_Save=MI2.Option(__T("Demux_Get"), __T(""));
-            MI2.Option(__T("ParseSpeed"), __T("0"));
-            MI2.Option(__T("Demux"), Ztring());
-            size_t MiOpenResult=MI2.Open(Reference->CompleteDuration[Pos].FileName);
-            MI2.Option(__T("ParseSpeed"), ParseSpeed_Save); //This is a global value, need to reset it. TODO: local value
-            MI2.Option(__T("Demux"), Demux_Save); //This is a global value, need to reset it. TODO: local value
-            if (MiOpenResult)
+            if (Reference->CompleteDuration[0].IgnoreFramesRate)
             {
                 #if MEDIAINFO_DEMUX
-                    int64u Duration=MI2.Get(Reference->StreamKind, 0, __T("Duration")).To_int64u()*1000000;
-                    int64u FrameCount=MI2.Get(Reference->StreamKind, 0, __T("FrameCount")).To_int64u();
                     if (Pos==0)
                     {
-                        int64u Delay=MI2.Get(Stream_Video, 0, Video_Delay).To_int64u()*1000000;
-                        if (Reference->StreamKind==Stream_Video && Offset_Video_DTS==0)
-                            Offset_Video_DTS=Delay;
-                        Reference->CompleteDuration[0].Demux_Offset_DTS=Offset_Video_DTS;
+                        Reference->CompleteDuration[0].Demux_Offset_DTS=0;
                         Reference->CompleteDuration[0].Demux_Offset_Frame=0;
                     }
                     if (Pos+1<Reference->CompleteDuration.size())
                     {
-                        Reference->CompleteDuration[Pos+1].Demux_Offset_DTS=Reference->CompleteDuration[Pos].Demux_Offset_DTS+Duration;
-                        Reference->CompleteDuration[Pos+1].Demux_Offset_Frame=Reference->CompleteDuration[Pos].Demux_Offset_Frame+FrameCount;
+                        Reference->CompleteDuration[Pos+1].Demux_Offset_DTS=float64_int64s(Reference->CompleteDuration[Pos].Demux_Offset_DTS+(Reference->CompleteDuration[Pos].IgnoreFramesAfter-Reference->CompleteDuration[Pos].IgnoreFramesBefore)/Reference->CompleteDuration[0].IgnoreFramesRate*1000000000);
+                        Reference->CompleteDuration[Pos+1].Demux_Offset_Frame=Reference->CompleteDuration[Pos].Demux_Offset_Frame+Reference->CompleteDuration[Pos].IgnoreFramesAfter-Reference->CompleteDuration[Pos].IgnoreFramesBefore;
                     }
-                    else
-                        Duration=Reference->CompleteDuration[Pos].Demux_Offset_DTS+Duration-Reference->CompleteDuration[0].Demux_Offset_DTS;
                 #endif //MEDIAINFO_DEMUX
+            }
+            else
+            {
+                MediaInfo_Internal MI2;
+                MI2.Option(__T("File_KeepInfo"), __T("1"));
+                Ztring ParseSpeed_Save=MI2.Option(__T("ParseSpeed_Get"), __T("0"));
+                Ztring Demux_Save=MI2.Option(__T("Demux_Get"), __T(""));
+                MI2.Option(__T("ParseSpeed"), __T("0"));
+                MI2.Option(__T("Demux"), Ztring());
+                size_t MiOpenResult=MI2.Open(Reference->CompleteDuration[Pos].FileName);
+                MI2.Option(__T("ParseSpeed"), ParseSpeed_Save); //This is a global value, need to reset it. TODO: local value
+                MI2.Option(__T("Demux"), Demux_Save); //This is a global value, need to reset it. TODO: local value
+                if (MiOpenResult)
+                {
+                    #if MEDIAINFO_DEMUX
+                        int64u Duration=MI2.Get(Reference->StreamKind, 0, __T("Duration")).To_int64u()*1000000;
+                        int64u FrameCount=MI2.Get(Reference->StreamKind, 0, __T("FrameCount")).To_int64u();
+                        if (Pos==0)
+                        {
+                            int64u Delay=MI2.Get(Stream_Video, 0, Video_Delay).To_int64u()*1000000;
+                            if (Reference->StreamKind==Stream_Video && Offset_Video_DTS==0)
+                                Offset_Video_DTS=Delay;
+                            Reference->CompleteDuration[0].Demux_Offset_DTS=Offset_Video_DTS;
+                            Reference->CompleteDuration[0].Demux_Offset_Frame=0;
+                        }
+                        if (Pos+1<Reference->CompleteDuration.size())
+                        {
+                            Reference->CompleteDuration[Pos+1].Demux_Offset_DTS=Reference->CompleteDuration[Pos].Demux_Offset_DTS+Duration;
+                            Reference->CompleteDuration[Pos+1].Demux_Offset_Frame=Reference->CompleteDuration[Pos].Demux_Offset_Frame+FrameCount;
+                        }
+                        else
+                            Duration=Reference->CompleteDuration[Pos].Demux_Offset_DTS+Duration-Reference->CompleteDuration[0].Demux_Offset_DTS;
+                    #endif //MEDIAINFO_DEMUX
+                }
             }
 
             if (Pos)
@@ -883,14 +912,25 @@ void File__ReferenceFilesHelper::ParseReference()
     if (Reference->MI)
     {
         #if MEDIAINFO_EVENTS && MEDIAINFO_NEXTPACKET
-            if (DTS_Interval!=(int64u)-1 && !Reference->Status[File__Analyze::IsFinished] && Reference->MI->Info->FrameInfo.DTS!=(int64u)-1 && DTS_Minimal!=(int64u)-1 && Reference->CompleteDuration_Pos<Reference->CompleteDuration.size())
+            if (DTS_Interval!=(int64u)-1 && !Reference->Status[File__Analyze::IsFinished] && Reference->MI->Info->FrameInfo.DTS!=(int64u)-1 && DTS_Minimal!=(int64u)-1 && (Reference->CompleteDuration.empty() || Reference->CompleteDuration_Pos<Reference->CompleteDuration.size()))
             {
                 int64u DTS_Temp;
-                if (Reference->CompleteDuration_Pos)
-                    DTS_Temp=Reference->CompleteDuration[Reference->CompleteDuration_Pos].MI->Info->FrameInfo.DTS;
+                if (!Reference->CompleteDuration.empty() && Reference->CompleteDuration_Pos)
+                {
+                    if (Reference->CompleteDuration[Reference->CompleteDuration_Pos].MI->Info->FrameInfo.DTS!=(int64u)-1)
+                        DTS_Temp=Reference->CompleteDuration[Reference->CompleteDuration_Pos].MI->Info->FrameInfo.DTS-Reference->CompleteDuration[Reference->CompleteDuration_Pos].MI->Info->Config->Demux_Offset_DTS_FromStream;
+                    else
+                        DTS_Temp=0;
+                }
                 else
-                    DTS_Temp=Reference->MI->Info->FrameInfo.DTS;
-                if (Reference->CompleteDuration_Pos<Reference->CompleteDuration.size() && Reference->CompleteDuration[Reference->CompleteDuration_Pos].IgnoreFramesRate && Reference->CompleteDuration[Reference->CompleteDuration_Pos].IgnoreFramesBefore)
+                {
+                    if (Reference->MI->Info->FrameInfo.DTS!=(int64u)-1)
+                        DTS_Temp=Reference->MI->Info->FrameInfo.DTS-Reference->MI->Info->Config->Demux_Offset_DTS_FromStream;
+                    else
+                        DTS_Temp=0;
+                }
+                DTS_Temp+=Reference->CompleteDuration[Reference->CompleteDuration_Pos].Demux_Offset_DTS;
+                if (!Reference->CompleteDuration.empty() && Reference->CompleteDuration_Pos<Reference->CompleteDuration.size() && Reference->CompleteDuration[Reference->CompleteDuration_Pos].IgnoreFramesRate && Reference->CompleteDuration[Reference->CompleteDuration_Pos].IgnoreFramesBefore)
                 {
                     int64u TimeOffset=float64_int64s(((float64)Reference->CompleteDuration[Reference->CompleteDuration_Pos].IgnoreFramesBefore)/Reference->CompleteDuration[Reference->CompleteDuration_Pos].IgnoreFramesRate*1000000000);
                     if (DTS_Temp>TimeOffset)
@@ -1227,7 +1267,19 @@ void File__ReferenceFilesHelper::ParseReference_Finalize_PerStream ()
         MI->Fill(StreamKind_Last, StreamPos_To, General_ID_String, ID_String, true);
         MI->Fill(StreamKind_Last, StreamPos_To, "MenuID", MenuID, true);
         MI->Fill(StreamKind_Last, StreamPos_To, "MenuID/String", MenuID_String, true);
-        MI->Fill(StreamKind_Last, StreamPos_To, "Source", Reference->Source, true);
+        if (!MI->Retrieve(StreamKind_Last, StreamPos_To, "Source").empty())
+        {
+            if (MI->Retrieve(StreamKind_Last, StreamPos_To, "Source_Original").empty() && Reference->Source!=MI->Retrieve(StreamKind_Last, StreamPos_To, "Source")) // TODO: better handling
+            {
+                MI->Fill(StreamKind_Last, StreamPos_To, "Source_Original", MI->Retrieve(StreamKind_Last, StreamPos_To, "Source"));
+                MI->Fill(StreamKind_Last, StreamPos_To, "Source_Original_Kind", MI->Retrieve(StreamKind_Last, StreamPos_To, "Source_Kind"));
+                MI->Fill(StreamKind_Last, StreamPos_To, "Source_Original_Info", MI->Retrieve(StreamKind_Last, StreamPos_To, "Source_Info"));
+            }
+            MI->Clear(StreamKind_Last, StreamPos_To, "Source");
+            MI->Clear(StreamKind_Last, StreamPos_To, "Source_Kind");
+            MI->Clear(StreamKind_Last, StreamPos_To, "Source_Info");
+        }
+        MI->Fill(StreamKind_Last, StreamPos_To, "Source", Reference->Source);
     }
     for (std::map<string, Ztring>::iterator Info=Reference->Infos.begin(); Info!=Reference->Infos.end(); ++Info)
         if (MI->Retrieve(StreamKind_Last, StreamPos_To, Info->first.c_str()).empty())
@@ -1434,7 +1486,9 @@ MediaInfo_Internal* File__ReferenceFilesHelper::MI_Create()
         if (Config->Demux_Hevc_Transcode_Iso14496_15_to_AnnexB_Get())
             MI_Temp->Option(__T("File_Demux_Hevc_Transcode_Iso14496_15_to_AnnexB"), __T("1"));
         if (FrameRate)
-            MI_Temp->Option(__T("File_Demux_Rate"), Ztring::ToZtring(FrameRate, 25));
+            MI_Temp->Option(__T("File_Demux_Rate"), Ztring::ToZtring(FrameRate));
+        else if (!Reference->CompleteDuration.empty() && Reference->CompleteDuration[0].IgnoreFramesRate) //TODO: per Pos
+            MI_Temp->Option(__T("File_Demux_Rate"), Ztring::ToZtring(Reference->CompleteDuration[0].IgnoreFramesRate));
         switch (Config->Demux_InitData_Get())
         {
             case 0 : MI_Temp->Option(__T("File_Demux_InitData"), __T("Event")); break;

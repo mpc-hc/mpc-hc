@@ -20,6 +20,7 @@
 #include "MediaInfo/File__Analyze.h"
 #include "MediaInfo/MediaInfo_Internal.h"
 #include "MediaInfo/MediaInfo_Config.h"
+#include "MediaInfo/TimeCode.h"
 #include "ZenLib/File.h"
 #include "ZenLib/FileName.h"
 #include "ZenLib/BitStream_LE.h"
@@ -465,146 +466,6 @@ void File__Analyze::Fill (stream_t StreamKind, size_t StreamPos, size_t Paramete
             }
         }
 
-        //Human readable
-        if (MediaInfoLib::Config.ReadByHuman_Get())
-        {
-            //Strings
-            const Ztring &List_Measure_Value=MediaInfoLib::Config.Info_Get(StreamKind).Read(Parameter, Info_Measure);
-                 if (List_Measure_Value==__T(" byte"))
-                FileSize_FileSize123(StreamKind, StreamPos, Parameter);
-            else if (List_Measure_Value==__T(" bps") || List_Measure_Value==__T(" Hz"))
-                Kilo_Kilo123(StreamKind, StreamPos, Parameter);
-            else if (List_Measure_Value==__T(" ms"))
-                Duration_Duration123(StreamKind, StreamPos, Parameter);
-            else if (List_Measure_Value==__T("Yes"))
-                YesNo_YesNo(StreamKind, StreamPos, Parameter);
-            else
-                Value_Value123(StreamKind, StreamPos, Parameter);
-
-            //BitRate_Mode / OverallBitRate_Mode
-            if (ParameterName==(StreamKind==Stream_General?__T("OverallBitRate_Mode"):__T("BitRate_Mode")) && MediaInfoLib::Config.ReadByHuman_Get())
-            {
-                Clear(StreamKind, StreamPos, StreamKind==Stream_General?"OverallBitRate_Mode/String":"BitRate_Mode/String");
-
-                ZtringList List;
-                List.Separator_Set(0, __T(" / "));
-                List.Write(Retrieve(StreamKind, StreamPos, Parameter));
-
-                //Per value
-                for (size_t Pos=0; Pos<List.size(); Pos++)
-                    List[Pos]=MediaInfoLib::Config.Language_Get(Ztring(__T("BitRate_Mode_"))+List[Pos]);
-
-                Ztring Translated=List.Read();
-                Fill(StreamKind, StreamPos, StreamKind==Stream_General?"OverallBitRate_Mode/String":"BitRate_Mode/String", Translated.find(__T("BitRate_Mode_"))?Translated:Value);
-            }
-
-            //Encoded_Library
-            if (ParameterName==__T("Encoded_Library")
-             || ParameterName==__T("Encoded_Library/Name")
-             || ParameterName==__T("Encoded_Library/Version")
-             || ParameterName==__T("Encoded_Library/Date"))
-            {
-                Ztring Name=Retrieve(StreamKind, StreamPos, "Encoded_Library/Name");
-                Ztring Version=Retrieve(StreamKind, StreamPos, "Encoded_Library/Version");
-                Ztring Date=Retrieve(StreamKind, StreamPos, "Encoded_Library/Date");
-                if (!Name.empty())
-                {
-                    Ztring String=Name;
-                    if (!Version.empty())
-                    {
-                        String+=__T(" ");
-                        String+=Version;
-                    }
-                    if (!Date.empty())
-                    {
-                        String+=__T(" (");
-                        String+=Date;
-                        String+=__T(")");
-                    }
-                    Fill(StreamKind, StreamPos, "Encoded_Library/String", String, true);
-                }
-                else
-                    Fill(StreamKind, StreamPos, "Encoded_Library/String", Retrieve(StreamKind, StreamPos, "Encoded_Library"), true);
-            }
-
-            //Format_Settings_Matrix
-            if (StreamKind==Stream_Video && Parameter==Video_Format_Settings_Matrix)
-            {
-                Ztring Translated=MediaInfoLib::Config.Language_Get(Ztring(__T("Format_Settings_Matrix_"))+Value);
-                Fill(Stream_Video, StreamPos, Video_Format_Settings_Matrix_String, Translated.find(__T("Format_Settings_Matrix_"))?Translated:Value, Replace);
-            }
-
-            //Scan type
-            if (StreamKind==Stream_Video && Parameter==Video_ScanType)
-            {
-                Ztring Translated=MediaInfoLib::Config.Language_Get(Ztring(__T("Interlaced_"))+Value);
-                Fill(Stream_Video, StreamPos, Video_ScanType_String, Translated.find(__T("Interlaced_"))?Translated:Value, Replace);
-            }
-            if (StreamKind==Stream_Video && Parameter==Video_ScanType_Original)
-            {
-                Ztring Translated=MediaInfoLib::Config.Language_Get(Ztring(__T("Interlaced_"))+Value);
-                Fill(Stream_Video, StreamPos, Video_ScanType_Original_String, Translated.find(__T("Interlaced_"))?Translated:Value, Replace);
-            }
-            if (StreamKind==Stream_Video && Parameter==Video_ScanType_StoreMethod)
-            {
-                Ztring ToTranslate=Ztring(__T("StoreMethod_"))+Value;
-                if (!Retrieve(Stream_Video, StreamPos, Video_ScanType_StoreMethod_FieldsPerBlock).empty())
-                    ToTranslate+=__T('_')+Retrieve(Stream_Video, StreamPos, Video_ScanType_StoreMethod_FieldsPerBlock);
-                Ztring Translated=MediaInfoLib::Config.Language_Get(ToTranslate);
-                Fill(Stream_Video, StreamPos, Video_ScanType_StoreMethod_String, Translated.find(__T("StoreMethod_"))?Translated:Value, Replace);
-            }
-
-            //Scan order
-            if (StreamKind==Stream_Video && Parameter==Video_ScanOrder)
-            {
-                Ztring Translated=MediaInfoLib::Config.Language_Get(Ztring(__T("Interlaced_"))+Value);
-                Fill(Stream_Video, StreamPos, Video_ScanOrder_String, Translated.find(__T("Interlaced_"))?Translated:Value, Replace);
-            }
-            if (StreamKind==Stream_Video && Parameter==Video_ScanOrder_Stored)
-            {
-                Ztring Translated=MediaInfoLib::Config.Language_Get(Ztring(__T("Interlaced_"))+Value);
-                Fill(Stream_Video, StreamPos, Video_ScanOrder_Stored_String, Translated.find(__T("Interlaced_"))?Translated:Value, Replace);
-            }
-            if (StreamKind==Stream_Video && Parameter==Video_ScanOrder_Original)
-            {
-                Ztring Translated=MediaInfoLib::Config.Language_Get(Ztring(__T("Interlaced_"))+Value);
-                Fill(Stream_Video, StreamPos, Video_ScanOrder_Original_String, Translated.find(__T("Interlaced_"))?Translated:Value, Replace);
-            }
-
-            //Interlacement
-            if (StreamKind==Stream_Video && Parameter==Video_Interlacement)
-            {
-                const Ztring &Z1=Retrieve(Stream_Video, StreamPos, Video_Interlacement);
-                if (Z1.size()==3)
-                    Fill(Stream_Video, StreamPos, Video_Interlacement_String, MediaInfoLib::Config.Language_Get(Ztring(__T("Interlaced_"))+Z1), Replace);
-                else
-                    Fill(Stream_Video, StreamPos, Video_Interlacement_String, MediaInfoLib::Config.Language_Get(Z1), Replace);
-                if (Retrieve(Stream_Video, StreamPos, Video_Interlacement_String).empty())
-                    Fill(Stream_Video, StreamPos, Video_Interlacement_String, Z1, true);
-            }
-
-            //FrameRate_Mode
-            if (StreamKind==Stream_Video && Parameter==Video_FrameRate_Mode)
-            {
-                Ztring Translated=MediaInfoLib::Config.Language_Get(Ztring(__T("FrameRate_Mode_"))+Value);
-                Fill(Stream_Video, StreamPos, Video_FrameRate_Mode_String, Translated.find(__T("FrameRate_Mode_"))?Translated:Value, Replace);
-            }
-
-            //Compression_Mode
-            if (Parameter==Fill_Parameter(StreamKind, Generic_Compression_Mode))
-            {
-                Ztring Translated=MediaInfoLib::Config.Language_Get(Ztring(__T("Compression_Mode_"))+Value);
-                Fill(StreamKind, StreamPos, Fill_Parameter(StreamKind, Generic_Compression_Mode_String), Translated.find(__T("Compression_Mode_"))?Translated:Value, Replace);
-            }
-
-            //Delay_Source
-            if (Parameter==Fill_Parameter(StreamKind, Generic_Delay_Source))
-            {
-                Ztring Translated=MediaInfoLib::Config.Language_Get(Ztring(__T("Delay_Source_"))+Value);
-                Fill(StreamKind, StreamPos, Fill_Parameter(StreamKind, Generic_Delay_Source_String), Translated.find(__T("Delay_Source_"))?Translated:Value, Replace);
-            }
-        }
-
         //General Format
         if (Parameter==Fill_Parameter(StreamKind, Generic_Format) && Retrieve(Stream_General, 0, General_Format).empty() && !Value.empty())
             Fill(Stream_General, 0, General_Format, Value); //If not already filled, we are filling with the stream format
@@ -936,7 +797,7 @@ void File__Analyze::Fill (stream_t StreamKind, size_t StreamPos, size_t Paramete
         {
             float32 FrameRate=Retrieve(Stream_Video, StreamPos, Video_FrameRate).To_float32();
             float32 FrameRate_Nominal=Retrieve(Stream_Video, StreamPos, Video_FrameRate_Nominal).To_float32();
-            if (FrameRate_Nominal>FrameRate*0.995 && FrameRate_Nominal<FrameRate*1.005)
+            if (FrameRate_Nominal>FrameRate*0.9995 && FrameRate_Nominal<FrameRate*1.0005)
             {
                 Ztring Temp=Retrieve(StreamKind, StreamPos, Video_FrameRate_Nominal);
                 Clear(StreamKind, StreamPos, Video_FrameRate_Nominal);
@@ -1288,7 +1149,7 @@ void File__Analyze::Clear (stream_t StreamKind, size_t StreamPos, size_t Paramet
             }
             else if (List_Measure_Value==__T(" ms"))
             {
-                for (size_t Pos=Parameter+1; Pos<=Parameter+4; Pos++)
+                for (size_t Pos=Parameter+1; Pos<=Parameter+6; Pos++)
                     if (Pos<(*Stream)[StreamKind][StreamPos].size())
                         (*Stream)[StreamKind][StreamPos][Pos].clear();
             }
@@ -1902,6 +1763,8 @@ void File__Analyze::Duration_Duration123(stream_t StreamKind, size_t StreamPos, 
     Clear(StreamKind, StreamPos, Parameter+2);
     Clear(StreamKind, StreamPos, Parameter+3);
     Clear(StreamKind, StreamPos, Parameter+4);
+    Clear(StreamKind, StreamPos, Parameter+5);
+    Clear(StreamKind, StreamPos, Parameter+6);
 
     //Retrieving multiple values
     ZtringList List;
@@ -2024,6 +1887,122 @@ void File__Analyze::Duration_Duration123(stream_t StreamKind, size_t StreamPos, 
         Fill(StreamKind, StreamPos, Parameter+2, DurationString1); // /String1
         Fill(StreamKind, StreamPos, Parameter+3, DurationString2); // /String2
         Fill(StreamKind, StreamPos, Parameter+4, DurationString3); // /String3
+
+        if (Parameter==Fill_Parameter(StreamKind, Generic_Duration))
+        {
+            Ztring DurationString4;
+            Ztring FrameRateS=Retrieve(StreamKind, StreamPos, Fill_Parameter(StreamKind, Generic_FrameRate));
+            Ztring FrameCountS=Retrieve(StreamKind, StreamPos, Fill_Parameter(StreamKind, Generic_FrameCount));
+            if (!FrameRateS.empty() && !FrameCountS.empty() && FrameRateS.To_int64u() && FrameRateS.To_int64u()<256)
+            {
+                bool DropFrame=false;
+                bool DropFrame_IsValid=false;
+
+                // Testing time code
+                if (StreamKind==Stream_Video)
+                {
+                    Ztring TC=Retrieve(Stream_Video, StreamPos, Video_TimeCode_FirstFrame);
+                    if (TC.size()>=11 && TC[2]==__T(':') && TC[5]==__T(':'))
+                    {
+                        switch (TC[8])
+                        {
+                            case __T(':'):
+                                            DropFrame=false;
+                                            DropFrame_IsValid=true;
+                                            break;
+                            case __T(';'):
+                                            DropFrame=true;
+                                            DropFrame_IsValid=true;
+                                            break;
+                            default      :  ;
+                        }
+                    }
+                }
+
+                // Testing delay
+                if (!DropFrame_IsValid)
+                {
+                    Ztring TC=Retrieve(StreamKind, StreamPos, Fill_Parameter(StreamKind, Generic_Delay_Original_DropFrame));
+                    if (TC.size()>=11 && TC[2]==__T(':') && TC[5]==__T(':'))
+                    {
+                        switch (TC[8])
+                        {
+                            case __T(':'):
+                                            DropFrame=false;
+                                            DropFrame_IsValid=true;
+                                            break;
+                            case __T(';'):
+                                            DropFrame=true;
+                                            DropFrame_IsValid=true;
+                                            break;
+                            default      :  ;
+                        }
+                    }
+                }
+
+                // Testing time code track
+                if (!DropFrame_IsValid)
+                {
+                    for (size_t Step=Retrieve(Stream_General, 0, General_Format)==__T("MXF")?0:1; Step<2; ++Step)
+                    {
+                        for (size_t TC_Pos=0; TC_Pos<Count_Get(Stream_Other); ++TC_Pos)
+                            if (Retrieve(Stream_Other, TC_Pos, Other_Type)==__T("Time code")
+                             && (Step || Retrieve(Stream_Other, TC_Pos, Other_TimeCode_Settings)==__T("Source Package")))
+                            {
+                                Ztring TC=Retrieve(Stream_Other, TC_Pos, Other_TimeCode_FirstFrame);
+                                if (TC.size()>=11 && TC[2]==__T(':') && TC[5]==__T(':'))
+                                {
+                                    switch (TC[8])
+                                    {
+                                        case __T(':'):
+                                                        DropFrame=false;
+                                                        DropFrame_IsValid=true;
+                                                        break;
+                                        case __T(';'):
+                                                        DropFrame=true;
+                                                        DropFrame_IsValid=true;
+                                                        break;
+                                        default      :  ;
+                                    }
+                                }
+
+                                if (DropFrame_IsValid)
+                                    break; //Using first time code track
+                            }
+
+                        if (DropFrame_IsValid)
+                            break; //Using first time code track
+                    }
+                }
+
+                // Testing frame rate (1/1001)
+                if (!DropFrame_IsValid)
+                {
+                    float32 FrameRateF=FrameRateS.To_float32();
+                    int32s  FrameRateI=float32_int32s(FrameRateS.To_float32());
+                    float FrameRateF_Min=((float32)FrameRateI)/((float32)1.002);
+                    float FrameRateF_Max=(float32)FrameRateI;
+                    if (FrameRateF>=FrameRateF_Min && FrameRateF<FrameRateF_Max)
+                        DropFrame=true;
+                    else
+                        DropFrame=false;
+                }
+
+                TimeCode TC(FrameCountS.To_int64s(), (int8u)float32_int32s(FrameRateS.To_float32()), DropFrame);
+                DurationString4.From_UTF8(TC.ToString());
+
+                Fill(StreamKind, StreamPos, Parameter+5, DurationString4); // /String4
+            }
+            Ztring DurationString5(DurationString3);
+            if (!DurationString4.empty())
+            {
+                DurationString5+=__T(' ');
+                DurationString5+=__T('(');
+                DurationString5+=DurationString4;
+                DurationString5+=__T(')');
+            }
+            Fill(StreamKind, StreamPos, Parameter+6, DurationString5); // /String5
+        }
     }
 }
 
@@ -2070,6 +2049,7 @@ void File__Analyze::FileSize_FileSize123(stream_t StreamKind, size_t StreamPos, 
         case  1 : Measure=__T(" KiB");  MeasureIsAlwaysSame=true;  break;
         case  2 : Measure=__T(" MiB");  MeasureIsAlwaysSame=true;  break;
         case  3 : Measure=__T(" GiB");  MeasureIsAlwaysSame=true;  break;
+        case  4 : Measure=__T(" TiB");  MeasureIsAlwaysSame=true;  break;
         default : Measure=__T(" ?iB");  MeasureIsAlwaysSame=true;
     }
     Fill(StreamKind, StreamPos, Parameter+2, MediaInfoLib::Config.Language_Get(Ztring::ToZtring(F1,  0), Measure, MeasureIsAlwaysSame), true); // /String1
@@ -2288,6 +2268,21 @@ size_t File__Analyze::Fill_Parameter(stream_t StreamKind, generic StreamPos)
                                     case Generic_Duration_String1 : return General_Duration_String1;
                                     case Generic_Duration_String2 : return General_Duration_String2;
                                     case Generic_Duration_String3 : return General_Duration_String3;
+                                    case Generic_Duration_String4 : return General_Duration_String4;
+                                    case Generic_Duration_String5 : return General_Duration_String5;
+                                    case Generic_FrameRate : return General_FrameRate;
+                                    case Generic_FrameCount : return General_FrameCount;
+                                    case Generic_Delay : return General_Delay;
+                                    case Generic_Delay_String : return General_Delay_String;
+                                    case Generic_Delay_String1 : return General_Delay_String1;
+                                    case Generic_Delay_String2 : return General_Delay_String2;
+                                    case Generic_Delay_String3 : return General_Delay_String3;
+                                    case Generic_Delay_String4 : return General_Delay_String4;
+                                    case Generic_Delay_String5 : return General_Delay_String5;
+                                    case Generic_Delay_Settings : return General_Delay_Settings;
+                                    case Generic_Delay_DropFrame : return General_Delay_DropFrame;
+                                    case Generic_Delay_Source : return General_Delay_Source;
+                                    case Generic_Delay_Source_String : return General_Delay_Source_String;
                                     case Generic_StreamSize : return General_StreamSize;
                                     case Generic_StreamSize_String : return General_StreamSize_String;
                                     case Generic_StreamSize_String1 : return General_StreamSize_String1;
@@ -2327,11 +2322,15 @@ size_t File__Analyze::Fill_Parameter(stream_t StreamKind, generic StreamPos)
                                     case Generic_Duration_String1 : return Video_Duration_String1;
                                     case Generic_Duration_String2 : return Video_Duration_String2;
                                     case Generic_Duration_String3 : return Video_Duration_String3;
+                                    case Generic_Duration_String4 : return Video_Duration_String4;
+                                    case Generic_Duration_String5 : return Video_Duration_String5;
                                     case Generic_Source_Duration : return Video_Source_Duration;
                                     case Generic_Source_Duration_String : return Video_Source_Duration_String;
                                     case Generic_Source_Duration_String1 : return Video_Source_Duration_String1;
                                     case Generic_Source_Duration_String2 : return Video_Source_Duration_String2;
                                     case Generic_Source_Duration_String3 : return Video_Source_Duration_String3;
+                                    case Generic_Source_Duration_String4 : return Video_Source_Duration_String4;
+                                    case Generic_Source_Duration_String5 : return Video_Source_Duration_String5;
                                     case Generic_BitRate_Mode : return Video_BitRate_Mode;
                                     case Generic_BitRate_Mode_String : return Video_BitRate_Mode_String;
                                     case Generic_BitRate : return Video_BitRate;
@@ -2344,6 +2343,7 @@ size_t File__Analyze::Fill_Parameter(stream_t StreamKind, generic StreamPos)
                                     case Generic_BitRate_Maximum_String : return Video_BitRate_Maximum_String;
                                     case Generic_BitRate_Encoded : return Video_BitRate_Encoded;
                                     case Generic_BitRate_Encoded_String : return Video_BitRate_Encoded_String;
+                                    case Generic_FrameRate : return Video_FrameRate;
                                     case Generic_FrameCount : return Video_FrameCount;
                                     case Generic_Source_FrameCount : return Video_Source_FrameCount;
                                     case Generic_ColorSpace : return Video_ColorSpace;
@@ -2361,6 +2361,7 @@ size_t File__Analyze::Fill_Parameter(stream_t StreamKind, generic StreamPos)
                                     case Generic_Delay_String2 : return Video_Delay_String2;
                                     case Generic_Delay_String3 : return Video_Delay_String3;
                                     case Generic_Delay_String4 : return Video_Delay_String4;
+                                    case Generic_Delay_String5 : return Video_Delay_String5;
                                     case Generic_Delay_Settings : return Video_Delay_Settings;
                                     case Generic_Delay_DropFrame : return Video_Delay_DropFrame;
                                     case Generic_Delay_Source : return Video_Delay_Source;
@@ -2436,11 +2437,15 @@ size_t File__Analyze::Fill_Parameter(stream_t StreamKind, generic StreamPos)
                                     case Generic_Duration_String1 : return Audio_Duration_String1;
                                     case Generic_Duration_String2 : return Audio_Duration_String2;
                                     case Generic_Duration_String3 : return Audio_Duration_String3;
+                                    case Generic_Duration_String4 : return Audio_Duration_String4;
+                                    case Generic_Duration_String5 : return Audio_Duration_String5;
                                     case Generic_Source_Duration : return Audio_Source_Duration;
                                     case Generic_Source_Duration_String : return Audio_Source_Duration_String;
                                     case Generic_Source_Duration_String1 : return Audio_Source_Duration_String1;
                                     case Generic_Source_Duration_String2 : return Audio_Source_Duration_String2;
                                     case Generic_Source_Duration_String3 : return Audio_Source_Duration_String3;
+                                    case Generic_Source_Duration_String4 : return Audio_Source_Duration_String4;
+                                    case Generic_Source_Duration_String5 : return Audio_Source_Duration_String5;
                                     case Generic_BitRate_Mode : return Audio_BitRate_Mode;
                                     case Generic_BitRate_Mode_String : return Audio_BitRate_Mode_String;
                                     case Generic_BitRate : return Audio_BitRate;
@@ -2453,6 +2458,7 @@ size_t File__Analyze::Fill_Parameter(stream_t StreamKind, generic StreamPos)
                                     case Generic_BitRate_Maximum_String : return Audio_BitRate_Maximum_String;
                                     case Generic_BitRate_Encoded : return Audio_BitRate_Encoded;
                                     case Generic_BitRate_Encoded_String : return Audio_BitRate_Encoded_String;
+                                    case Generic_FrameRate : return Audio_FrameRate;
                                     case Generic_FrameCount : return Audio_FrameCount;
                                     case Generic_Source_FrameCount : return Audio_Source_FrameCount;
                                     case Generic_Resolution : return Audio_Resolution;
@@ -2468,6 +2474,7 @@ size_t File__Analyze::Fill_Parameter(stream_t StreamKind, generic StreamPos)
                                     case Generic_Delay_String2 : return Audio_Delay_String2;
                                     case Generic_Delay_String3 : return Audio_Delay_String3;
                                     case Generic_Delay_String4 : return Audio_Delay_String4;
+                                    case Generic_Delay_String5 : return Audio_Delay_String5;
                                     case Generic_Delay_Settings : return Audio_Delay_Settings;
                                     case Generic_Delay_DropFrame : return Audio_Delay_DropFrame;
                                     case Generic_Delay_Source : return Audio_Delay_Source;
@@ -2549,11 +2556,15 @@ size_t File__Analyze::Fill_Parameter(stream_t StreamKind, generic StreamPos)
                                     case Generic_Duration_String1 : return Text_Duration_String1;
                                     case Generic_Duration_String2 : return Text_Duration_String2;
                                     case Generic_Duration_String3 : return Text_Duration_String3;
+                                    case Generic_Duration_String4 : return Text_Duration_String4;
+                                    case Generic_Duration_String5 : return Text_Duration_String5;
                                     case Generic_Source_Duration : return Text_Source_Duration;
                                     case Generic_Source_Duration_String : return Text_Source_Duration_String;
                                     case Generic_Source_Duration_String1 : return Text_Source_Duration_String1;
                                     case Generic_Source_Duration_String2 : return Text_Source_Duration_String2;
                                     case Generic_Source_Duration_String3 : return Text_Source_Duration_String3;
+                                    case Generic_Source_Duration_String4 : return Text_Source_Duration_String4;
+                                    case Generic_Source_Duration_String5 : return Text_Source_Duration_String5;
                                     case Generic_BitRate_Mode : return Text_BitRate_Mode;
                                     case Generic_BitRate_Mode_String : return Text_BitRate_Mode_String;
                                     case Generic_BitRate : return Text_BitRate;
@@ -2566,6 +2577,7 @@ size_t File__Analyze::Fill_Parameter(stream_t StreamKind, generic StreamPos)
                                     case Generic_BitRate_Maximum_String : return Text_BitRate_Maximum_String;
                                     case Generic_BitRate_Encoded : return Text_BitRate_Encoded;
                                     case Generic_BitRate_Encoded_String : return Text_BitRate_Encoded_String;
+                                    case Generic_FrameRate : return Text_FrameRate;
                                     case Generic_FrameCount : return Text_FrameCount;
                                     case Generic_Source_FrameCount : return Text_Source_FrameCount;
                                     case Generic_ColorSpace : return Text_ColorSpace;
@@ -2583,6 +2595,7 @@ size_t File__Analyze::Fill_Parameter(stream_t StreamKind, generic StreamPos)
                                     case Generic_Delay_String2 : return Text_Delay_String2;
                                     case Generic_Delay_String3 : return Text_Delay_String3;
                                     case Generic_Delay_String4 : return Text_Delay_String4;
+                                    case Generic_Delay_String5 : return Text_Delay_String5;
                                     case Generic_Delay_Settings : return Text_Delay_Settings;
                                     case Generic_Delay_DropFrame : return Text_Delay_DropFrame;
                                     case Generic_Delay_Source : return Text_Delay_Source;
@@ -2658,6 +2671,9 @@ size_t File__Analyze::Fill_Parameter(stream_t StreamKind, generic StreamPos)
                                     case Generic_Duration_String1 : return Other_Duration_String1;
                                     case Generic_Duration_String2 : return Other_Duration_String2;
                                     case Generic_Duration_String3 : return Other_Duration_String3;
+                                    case Generic_Duration_String4 : return Other_Duration_String4;
+                                    case Generic_Duration_String5 : return Other_Duration_String5;
+                                    case Generic_FrameRate : return Other_FrameRate;
                                     case Generic_FrameCount : return Other_FrameCount;
                                     case Generic_Language : return Other_Language;
                                     default: return (size_t)-1;
@@ -2727,6 +2743,8 @@ size_t File__Analyze::Fill_Parameter(stream_t StreamKind, generic StreamPos)
                                     case Generic_Duration_String1 : return Menu_Duration_String1;
                                     case Generic_Duration_String2 : return Menu_Duration_String2;
                                     case Generic_Duration_String3 : return Menu_Duration_String3;
+                                    case Generic_Duration_String4 : return Menu_Duration_String4;
+                                    case Generic_Duration_String5 : return Menu_Duration_String5;
                                     case Generic_Language : return Menu_Language;
                                     case Generic_ServiceName : return Menu_ServiceName;
                                     case Generic_ServiceProvider : return Menu_ServiceProvider;

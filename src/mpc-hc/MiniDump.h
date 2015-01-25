@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2013 see Authors.txt
+ * (C) 2009-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,16 +20,12 @@
 
 #pragma once
 
-class CMiniDump
+namespace CMiniDump
 {
-public:
-    CMiniDump();
-    ~CMiniDump();
+    void Enable();
+    void Disable();
 
-    static void Enable()  { SetUnhandledExceptionFilter(UnhandledExceptionFilter); };
-    static void Disable() { SetUnhandledExceptionFilter(nullptr); };
-
-private:
-    static LONG WINAPI UnhandledExceptionFilter(_EXCEPTION_POINTERS* lpTopLevelExceptionFilter);
-    static BOOL        PreventSetUnhandledExceptionFilter();
+#ifndef _DEBUG
+    LONG WINAPI UnhandledExceptionFilter(EXCEPTION_POINTERS* pExceptionPointers);
+#endif
 };

@@ -1,6 +1,6 @@
 #ifndef ISPP_INVOKED
 /*
- * (C) 2010-2014 see Authors.txt
+ * (C) 2010-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -53,7 +53,7 @@
 
 #define MPC_VERSION_MAJOR       1
 #define MPC_VERSION_MINOR       7
-#define MPC_VERSION_PATCH       7
+#define MPC_VERSION_PATCH       8
 
 #ifndef NO_VERSION_REV_NEEDED
 
@@ -66,7 +66,7 @@
 #endif // NO_VERSION_REV_NEEDED
 
 #define MPC_COMP_NAME_STR       _T("MPC-HC Team")
-#define MPC_COPYRIGHT_STR       _T("Copyright © 2002-2014 all contributors, see Authors.txt")
+#define MPC_COPYRIGHT_STR       _T("Copyright © 2002-2015 all contributors, see Authors.txt")
 #define MPC_VERSION_COMMENTS    WEBSITE_URL
 
 

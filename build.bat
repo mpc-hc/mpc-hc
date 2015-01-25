@@ -1,5 +1,5 @@
 @ECHO OFF
-REM (C) 2009-2014 see Authors.txt
+REM (C) 2009-2015 see Authors.txt
 REM
 REM This file is part of MPC-HC.
 REM
@@ -59,7 +59,7 @@ FOR %%G IN (%ARG%) DO (
   IF /I "%%G" == "x86"          SET "PPLATFORM=Win32"    & SET /A ARGPL+=1
   IF /I "%%G" == "x64"          SET "PPLATFORM=x64"      & SET /A ARGPL+=1
   IF /I "%%G" == "All"          SET "CONFIG=All"         & SET /A ARGC+=1
-  IF /I "%%G" == "Main"         SET "CONFIG=Main"        & SET /A ARGC+=1  & SET "NO_INST=True" & SET "NO_ZIP=True" 
+  IF /I "%%G" == "Main"         SET "CONFIG=Main"        & SET /A ARGC+=1  & SET "NO_INST=True" & SET "NO_ZIP=True"
   IF /I "%%G" == "Filters"      SET "CONFIG=Filters"     & SET /A ARGC+=1  & SET "NO_INST=True" & SET "NO_LITE=True"
   IF /I "%%G" == "Filter"       SET "CONFIG=Filters"     & SET /A ARGC+=1  & SET "NO_INST=True" & SET "NO_LITE=True"
   IF /I "%%G" == "API"          SET "CONFIG=API"         & SET /A ARGC+=1  & SET "NO_INST=True" & SET "NO_ZIP=True" & SET "NO_LITE=True"
@@ -282,10 +282,11 @@ IF %ERRORLEVEL% NEQ 0 EXIT /B
 
 FOR %%G IN (
  "Arabic" "Armenian" "Basque" "Belarusian" "Bengali" "Catalan" "Chinese Simplified"
- "Chinese Traditional" "Croatian" "Czech" "Dutch" "English (British)" "French"
- "Galician" "German" "Greek" "Hebrew" "Hungarian" "Italian" "Japanese" "Korean"
- "Malay" "Polish" "Portuguese (Brazil)" "Romanian" "Russian" "Slovak" "Slovenian"
- "Spanish" "Swedish" "Tatar" "Thai" "Turkish" "Ukrainian" "Vietnamese"
+ "Chinese Traditional" "Croatian" "Czech" "Dutch" "English (British)" "Finnish"
+ "French" "Galician" "German" "Greek" "Hebrew" "Hungarian" "Italian" "Japanese"
+ "Korean" "Malay" "Polish" "Portuguese (Brazil)" "Romanian" "Russian" "Serbian"
+ "Slovak" "Slovenian" "Spanish" "Swedish" "Tatar" "Thai" "Turkish" "Ukrainian"
+ "Vietnamese"
 ) DO (
  TITLE Compiling mpcresources %COMPILER% - %%~G^|%1...
  MSBuild.exe mpcresources.sln %MSBUILD_SWITCHES%^
@@ -356,7 +357,7 @@ IF /I "%~1" == "x64" (
 IF DEFINED MPCHC_LITE (
   SET MPCHC_INNO_DEF=%MPCHC_INNO_DEF% /DMPCHC_LITE
   SET MPCHC_COPY_DX_DLL_ARGS=%MPCHC_COPY_DX_DLL_ARGS% " Lite"
-) 
+)
 
 CALL :SubCopyDXDll %MPCHC_COPY_DX_DLL_ARGS%
 
@@ -396,7 +397,7 @@ IF /I "%~2" == "Win32" (
 
 IF DEFINED MPCHC_LITE (
   CALL :SubCopyDXDll %ARCH% " Lite"
-) ELSE (
+) ELSE IF /I "%NAME%" == "MPC-HC" (
   CALL :SubCopyDXDll %ARCH%
 )
 
@@ -424,7 +425,8 @@ REM Compress the pdb file for mpc-hc only
 IF /I "%NAME%" == "MPC-HC" (
   PUSHD "%VS_OUT_DIR%"
   TITLE Creating archive %PCKG_NAME%.pdb.7z...
-  START "7z" /B /WAIT "%SEVENZIP%" a -t7z "%PCKG_NAME%.pdb.7z" %PDB_FILES% -m0=LZMA -mx9 -ms=on
+  START "7z" /B /WAIT "%SEVENZIP%" a -t7z "%PCKG_NAME%.pdb.7z" %PDB_FILES% -m0=LZMA2^
+   -mmt=%NUMBER_OF_PROCESSORS% -mx9 -ms=on
   IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Unable to create %PCKG_NAME%.pdb.7z!" & EXIT /B
   CALL :SubMsg "INFO" "%PCKG_NAME%.pdb.7z successfully created"
   IF EXIST "%PCKG_NAME%.pdb.7z" MOVE /Y "%PCKG_NAME%.pdb.7z" ".." >NUL
@@ -469,8 +471,8 @@ COPY /Y /V "..\docs\Changelog.txt"  "%PCKG_NAME%" >NUL
 COPY /Y /V "..\docs\Readme.txt"     "%PCKG_NAME%" >NUL
 
 TITLE Creating archive %PCKG_NAME%.7z...
-START "7z" /B /WAIT "%SEVENZIP%" a -t7z "%PCKG_NAME%.7z" "%PCKG_NAME%"^
- -m0=LZMA -mx9 -ms=on
+START "7z" /B /WAIT "%SEVENZIP%" a -t7z "%PCKG_NAME%.7z" "%PCKG_NAME%" -m0=LZMA2^
+ -mmt=%NUMBER_OF_PROCESSORS% -mx9 -ms=on
 IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Unable to create %PCKG_NAME%.7z!" & EXIT /B
 CALL :SubMsg "INFO" "%PCKG_NAME%.7z successfully created"
 
@@ -481,6 +483,7 @@ EXIT /B
 
 
 :SubGetVersion
+PUSHD %~dp0
 REM Get the version
 IF NOT EXIST "include\version_rev.h" SET "FORCE_VER_UPDATE=True"
 IF /I "%FORCE_VER_UPDATE%" == "True" CALL "update_version.bat" && SET "FORCE_VER_UPDATE=False"
@@ -505,6 +508,7 @@ IF "%MPCHC_NIGHTLY%" NEQ "0" (
 ) ELSE (
   SET "MPCHC_VER=%MPC_VERSION_MAJOR%.%MPC_VERSION_MINOR%.%MPC_VERSION_PATCH%"
 )
+POPD
 EXIT /B
 
 

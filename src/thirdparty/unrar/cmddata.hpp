@@ -28,7 +28,7 @@ class CommandData:public RAROptions
     void ParseDone();
     void ParseEnvVar();
     void ReadConfig();
-    bool PreprocessSwitch(const wchar *Switch);
+    void PreprocessArg(const wchar *Arg);
     void OutTitle();
     void OutHelp(RAR_EXIT ExitCode);
     bool IsSwitch(int Ch);

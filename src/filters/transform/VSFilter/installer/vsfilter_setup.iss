@@ -1,4 +1,4 @@
-; (C) 2012-2014 see Authors.txt
+; (C) 2012-2015 see Authors.txt
 ;
 ; This file is part of MPC-HC.
 ;
@@ -36,7 +36,7 @@
 #include AddBackslash(top_dir) + "include\mpc-hc_config.h"
 #include AddBackslash(top_dir) + "include\version.h"
 
-#define copyright_str   "2001-2014"
+#define copyright_str   "2001-2015"
 #define app_name        "VSFilter"
 
 #define app_version     str(VerMajor) + "." + str(VerMinor) + "." + str(MPC_VERSION_REV)

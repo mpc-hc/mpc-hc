@@ -36,12 +36,11 @@ public:
 
     virtual ~CMouse();
 
-    static inline bool PointEqualsImprecise(long a, long b) {
-        const unsigned uDelta = 1;
-        return abs(a - b) <= uDelta;
+    static inline bool PointEqualsImprecise(long a, long b, long lDelta) {
+        return abs(a - b) <= abs(lDelta);
     }
-    static inline bool PointEqualsImprecise(const CPoint& a, const CPoint& b) {
-        return PointEqualsImprecise(a.x, b.x) && PointEqualsImprecise(a.y, b.y);
+    static inline bool PointEqualsImprecise(const CPoint& a, const CPoint& b, long xDelta = 1, long yDelta = 1) {
+        return PointEqualsImprecise(a.x, b.x, xDelta) && PointEqualsImprecise(a.y, b.y, yDelta);
     }
 
     static UINT GetMouseFlags();

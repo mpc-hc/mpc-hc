@@ -44,8 +44,9 @@ enum TSC_COLUMN {
 
 IMPLEMENT_DYNAMIC(CTunerScanDlg, CDialog)
 
-CTunerScanDlg::CTunerScanDlg(CWnd* pParent /*=nullptr*/)
-    : CDialog(CTunerScanDlg::IDD, pParent)
+CTunerScanDlg::CTunerScanDlg(CMainFrame* pMainFrame)
+    : CDialog(CTunerScanDlg::IDD, pMainFrame)
+    , m_pMainFrame(pMainFrame)
     , m_bInProgress(false)
 {
     const CAppSettings& s = AfxGetAppSettings();
@@ -120,17 +121,38 @@ END_MESSAGE_MAP()
 
 void CTunerScanDlg::OnBnClickedSave()
 {
-    CAppSettings& s = AfxGetAppSettings();
-    s.m_DVBChannels.RemoveAll();
+    auto& DVBChannels = AfxGetAppSettings().m_DVBChannels;
+    const size_t maxChannelsNum = ID_NAVIGATE_JUMPTO_SUBITEM_END - ID_NAVIGATE_JUMPTO_SUBITEM_START + 1;
 
     for (int i = 0; i < m_ChannelList.GetItemCount(); i++) {
-        CDVBChannel channel;
-        if (channel.FromString(m_ChannelList.GetItemText(i, TSCC_CHANNEL))) {
-            channel.SetPrefNumber(i);
-            s.m_DVBChannels.AddTail(channel);
+        try {
+            CDVBChannel channel(m_ChannelList.GetItemText(i, TSCC_CHANNEL));
+            auto it = std::find(std::begin(DVBChannels), std::end(DVBChannels), channel);
+            if (it != DVBChannels.end()) {
+                // replace existing channel
+                channel.SetPrefNumber(it->GetPrefNumber());
+                *it = channel;
+            } else {
+                // add new channel to the end
+                const size_t size = DVBChannels.size();
+                if (size < maxChannelsNum) {
+                    channel.SetPrefNumber((int)size);
+                    DVBChannels.push_back(channel);
+                } else {
+                    // Just to be safe. We have 600 channels limit, but we never know what user might load there.
+                    CString msg;
+                    msg.Format(_T("Unable to add new channel \"%s\" to the list. Channels list is full. Please notify developers about the problem."), channel.GetName());
+                    AfxMessageBox(msg, MB_OK | MB_ICONERROR);
+                }
+            }
+        } catch (CException* e) {
+            // The tokenisation can fail if the input string was invalid
+            TRACE(_T("Failed to parse a DVB channel from string \"%s\""), m_ChannelList.GetItemText(i, TSCC_CHANNEL));
+            ASSERT(FALSE);
+            e->Delete();
         }
     }
-    ((CMainFrame*)AfxGetMainWnd())->SetChannel(0);
+    m_pMainFrame->SetChannel(0);
 
     OnOK();
 }
@@ -148,20 +170,20 @@ void CTunerScanDlg::OnBnClickedStart()
         SaveScanSettings();
 
         m_ChannelList.DeleteAllItems();
-        ((CMainFrame*)AfxGetMainWnd())->StartTunerScan(pTSD);
+        m_pMainFrame->StartTunerScan(pTSD);
 
         SetProgress(true);
     } else {
-        ((CMainFrame*)AfxGetMainWnd())->StopTunerScan();
+        m_pMainFrame->StopTunerScan();
     }
 }
 
 void CTunerScanDlg::OnBnClickedCancel()
 {
     if (m_bInProgress) {
-        ((CMainFrame*)AfxGetMainWnd())->StopTunerScan();
+        m_pMainFrame->StopTunerScan();
     }
-    ((CMainFrame*)AfxGetMainWnd())->SetChannel(AfxGetAppSettings().nDVBLastChannel);
+    m_pMainFrame->SetChannel(AfxGetAppSettings().nDVBLastChannel);
 
     OnCancel();
 }
@@ -193,56 +215,63 @@ LRESULT CTunerScanDlg::OnStats(WPARAM wParam, LPARAM lParam)
 
 LRESULT CTunerScanDlg::OnNewChannel(WPARAM wParam, LPARAM lParam)
 {
-    CDVBChannel channel;
-    CString strTemp;
+    try {
+        CDVBChannel channel((LPCTSTR)lParam);
+        if (!m_bIgnoreEncryptedChannels || !channel.IsEncrypted()) {
+            CString strTemp;
+            int nItem, nChannelNumber;
 
-    if (channel.FromString((LPCTSTR)lParam) && (!m_bIgnoreEncryptedChannels || !channel.IsEncrypted())) {
-        int nItem, nChannelNumber;
-
-        if (channel.GetOriginNumber() != 0) { // LCN is available
-            nChannelNumber = channel.GetOriginNumber();
-            // Insert new channel so that channels are sorted by their logical number
-            for (nItem = 0; nItem < m_ChannelList.GetItemCount(); nItem++) {
-                if ((int)m_ChannelList.GetItemData(nItem) > nChannelNumber || (int)m_ChannelList.GetItemData(nItem) == 0) {
-                    break;
+            if (channel.GetOriginNumber() != 0) { // LCN is available
+                nChannelNumber = channel.GetOriginNumber();
+                // Insert new channel so that channels are sorted by their logical number
+                for (nItem = 0; nItem < m_ChannelList.GetItemCount(); nItem++) {
+                    if ((int)m_ChannelList.GetItemData(nItem) > nChannelNumber || (int)m_ChannelList.GetItemData(nItem) == 0) {
+                        break;
+                    }
                 }
+            } else {
+                nChannelNumber = 0;
+                nItem = m_ChannelList.GetItemCount();
             }
-        } else {
-            nChannelNumber = 0;
-            nItem = m_ChannelList.GetItemCount();
+
+            strTemp.Format(_T("%d"), nChannelNumber);
+            nItem = m_ChannelList.InsertItem(nItem, strTemp);
+
+            m_ChannelList.SetItemData(nItem, channel.GetOriginNumber());
+
+            m_ChannelList.SetItemText(nItem, TSCC_NAME, channel.GetName());
+
+            strTemp.Format(_T("%lu"), channel.GetFrequency());
+            m_ChannelList.SetItemText(nItem, TSCC_FREQUENCY, strTemp);
+
+            strTemp = channel.IsEncrypted() ? ResStr(IDS_DVB_CHANNEL_ENCRYPTED) : ResStr(IDS_DVB_CHANNEL_NOT_ENCRYPTED);
+            m_ChannelList.SetItemText(nItem, TSCC_ENCRYPTED, strTemp);
+            if (channel.GetVideoType() == DVB_H264) {
+                strTemp = _T(" H.264");
+            } else if (channel.GetVideoPID()) {
+                strTemp = _T("MPEG-2");
+            } else {
+                strTemp = _T("   -  ");
+            }
+            m_ChannelList.SetItemText(nItem, TSCC_VIDEO_FORMAT, strTemp);
+            strTemp = channel.GetVideoFpsDesc();
+            m_ChannelList.SetItemText(nItem, TSCC_VIDEO_FPS, strTemp);
+            if (channel.GetVideoWidth() || channel.GetVideoHeight()) {
+                strTemp.Format(_T("%lux%lu"), channel.GetVideoWidth(), channel.GetVideoHeight());
+            } else {
+                strTemp = _T("   -   ");
+            }
+            m_ChannelList.SetItemText(nItem, TSCC_VIDEO_RES, strTemp);
+            strTemp.Format(_T("%lu/%lu"), channel.GetVideoARy(), channel.GetVideoARx());
+            m_ChannelList.SetItemText(nItem, TSCC_VIDEO_AR, strTemp);
+            m_ChannelList.SetItemText(nItem, TSCC_CHANNEL, (LPCTSTR) lParam);
         }
-
-        strTemp.Format(_T("%d"), nChannelNumber);
-        nItem = m_ChannelList.InsertItem(nItem, strTemp);
-
-        m_ChannelList.SetItemData(nItem, channel.GetOriginNumber());
-
-        m_ChannelList.SetItemText(nItem, TSCC_NAME, channel.GetName());
-
-        strTemp.Format(_T("%lu"), channel.GetFrequency());
-        m_ChannelList.SetItemText(nItem, TSCC_FREQUENCY, strTemp);
-
-        strTemp = channel.IsEncrypted() ? ResStr(IDS_DVB_CHANNEL_ENCRYPTED) : ResStr(IDS_DVB_CHANNEL_NOT_ENCRYPTED);
-        m_ChannelList.SetItemText(nItem, TSCC_ENCRYPTED, strTemp);
-        if (channel.GetVideoType() == DVB_H264) {
-            strTemp = _T(" H.264");
-        } else if (channel.GetVideoPID()) {
-            strTemp = _T("MPEG-2");
-        } else {
-            strTemp = _T("   -  ");
-        }
-        m_ChannelList.SetItemText(nItem, TSCC_VIDEO_FORMAT, strTemp);
-        strTemp = channel.GetVideoFpsDesc();
-        m_ChannelList.SetItemText(nItem, TSCC_VIDEO_FPS, strTemp);
-        if (channel.GetVideoWidth() || channel.GetVideoHeight()) {
-            strTemp.Format(_T("%lux%lu"), channel.GetVideoWidth(), channel.GetVideoHeight());
-        } else {
-            strTemp = _T("   -   ");
-        }
-        m_ChannelList.SetItemText(nItem, TSCC_VIDEO_RES, strTemp);
-        strTemp.Format(_T("%lu/%lu"), channel.GetVideoARy(), channel.GetVideoARx());
-        m_ChannelList.SetItemText(nItem, TSCC_VIDEO_AR, strTemp);
-        m_ChannelList.SetItemText(nItem, TSCC_CHANNEL, (LPCTSTR) lParam);
+    } catch (CException* e) {
+        // The tokenisation can fail if the input string was invalid
+        TRACE(_T("Failed to parse a DVB channel from string \"%s\""), (LPCTSTR)lParam);
+        ASSERT(FALSE);
+        e->Delete();
+        return FALSE;
     }
 
     return TRUE;

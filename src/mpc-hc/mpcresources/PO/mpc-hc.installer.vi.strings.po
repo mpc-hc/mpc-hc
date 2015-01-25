@@ -3,12 +3,12 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Dat Luong Anh <datanhlg@gmail.com>, 2014
-# TRẦN ANH MINH <anhminhvks@yahoo.com>, 2014
+# TRẦN ANH MINH <anhminhvks@yahoo.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-06-17 15:23:34+0000\n"
-"PO-Revision-Date: 2014-07-09 14:31+0000\n"
+"PO-Revision-Date: 2015-01-21 03:24+0000\n"
 "Last-Translator: TRẦN ANH MINH <anhminhvks@yahoo.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/mpc-hc/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 msgctxt "Messages_WelcomeLabel2"
 msgid "This will install [name] on your computer.\n\nIt is recommended that you close all other applications before continuing."
-msgstr "Chuẩn bị cài [name] vào máy tính của bạn.\n\nĐề nghị bạn đóng tất cả các ứng dụng khác trước khi tiếp tục."
+msgstr "Chuẩn bị cài đặt [name] vào máy tính của bạn.\n\nĐề nghị bạn đóng tất cả các ứng dụng khác trước khi tiếp tục."
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows XP Service Pack 3 or newer to run."

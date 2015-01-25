@@ -17,6 +17,7 @@
 
 //---------------------------------------------------------------------------
 #include "MediaInfo/File__Analyze.h"
+#include "MediaInfo/Multiple/File_DcpPkl.h"
 #include <vector>
 //---------------------------------------------------------------------------
 
@@ -48,10 +49,12 @@ private :
     //Buffer - File header
     bool FileHeader_Begin();
 
+    //PKL
+    size_t PKL_Pos;
+    void MergeFromAm (File_DcpPkl::streams &StreamsToMerge);
+
     //Temp
     File__ReferenceFilesHelper*     ReferenceFiles;
-    friend class File_DcpAm;    //Theses classes need access to internal structure for optimization. There is recursivity with theses formats
-    friend class File_DcpPkl;   //Theses classes need access to internal structure for optimization. There is recursivity with theses formats
 };
 
 } //NameSpace

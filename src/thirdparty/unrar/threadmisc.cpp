@@ -58,6 +58,20 @@ ThreadPool* CreateThreadPool()
   if (GlobalPoolUseCount++ == 0)
     GlobalPool=new ThreadPool(MaxPoolThreads);
 
+#ifdef RARDLL
+  // We use a simple thread pool, which does not allow to add tasks from
+  // different functions and threads in the same time. It is ok for RAR,
+  // but UnRAR.dll can be used in multithreaded environment. So if one of
+  // threads requests a copy of global pool and another copy is already
+  // in use, we create and return a new pool instead of existing global.
+  if (GlobalPoolUseCount > 1)
+  {
+    ThreadPool *Pool = new ThreadPool(MaxPoolThreads);
+    CriticalSectionEnd(&PoolCreateSync.CritSection); 
+    return Pool;
+  }
+#endif
+
   CriticalSectionEnd(&PoolCreateSync.CritSection); 
   return GlobalPool;
 }
@@ -69,6 +83,12 @@ void DestroyThreadPool(ThreadPool *Pool)
 
   if (Pool!=NULL && Pool==GlobalPool && GlobalPoolUseCount > 0 && --GlobalPoolUseCount == 0)
     delete GlobalPool;
+#ifdef RARDLL
+  // To correctly work in multithreaded environment UnRAR.dll creates
+  // new pools if global pool is already in use. We delete such pools here.
+  if (Pool!=NULL && Pool!=GlobalPool)
+    delete Pool;
+#endif
 
   CriticalSectionEnd(&PoolCreateSync.CritSection); 
 }

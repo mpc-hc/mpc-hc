@@ -114,7 +114,7 @@ private:
     CComPtr<IDirect3D9> m_pD3D;
     CComPtr<IDirect3DDevice9> m_pD3DDev;
     CComPtr<IDirect3DDeviceManager9> m_pD3DDeviceManager;
-    UINT m_nResetTocken;
+    UINT m_nResetToken;
     HANDLE m_hDevice;
     HWND m_hWnd;
 
@@ -124,11 +124,11 @@ private:
 CNullVideoRendererInputPin::CNullVideoRendererInputPin(CBaseRenderer* pRenderer, HRESULT* phr, LPCWSTR Name)
     : CRendererInputPin(pRenderer, phr, Name)
     , m_hDXVA2Lib(nullptr)
-    , m_pD3DDev(nullptr)
-    , m_pD3DDeviceManager(nullptr)
     , pfDXVA2CreateDirect3DDeviceManager9(nullptr)
     , pfDXVA2CreateVideoService(nullptr)
-    , m_nResetTocken(0)
+    , m_pD3DDev(nullptr)
+    , m_pD3DDeviceManager(nullptr)
+    , m_nResetToken(0)
     , m_hDevice(INVALID_HANDLE_VALUE)
 {
     CreateSurface();
@@ -137,12 +137,12 @@ CNullVideoRendererInputPin::CNullVideoRendererInputPin(CBaseRenderer* pRenderer,
     if (m_hDXVA2Lib) {
         pfDXVA2CreateDirect3DDeviceManager9 = reinterpret_cast<PTR_DXVA2CreateDirect3DDeviceManager9>(GetProcAddress(m_hDXVA2Lib, "DXVA2CreateDirect3DDeviceManager9"));
         pfDXVA2CreateVideoService = reinterpret_cast<PTR_DXVA2CreateVideoService>(GetProcAddress(m_hDXVA2Lib, "DXVA2CreateVideoService"));
-        pfDXVA2CreateDirect3DDeviceManager9(&m_nResetTocken, &m_pD3DDeviceManager);
+        pfDXVA2CreateDirect3DDeviceManager9(&m_nResetToken, &m_pD3DDeviceManager);
     }
 
     // Initialize Device Manager with DX surface
     if (m_pD3DDev) {
-        m_pD3DDeviceManager->ResetDevice(m_pD3DDev, m_nResetTocken);
+        m_pD3DDeviceManager->ResetDevice(m_pD3DDev, m_nResetToken);
         m_pD3DDeviceManager->OpenDeviceHandle(&m_hDevice);
     }
 }

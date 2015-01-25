@@ -47,8 +47,6 @@ configure() {
     --enable-version3               \
     --enable-w32threads             \
     --disable-demuxer=matroska      \
-    --disable-decoder=opus          \
-    --disable-parser=opus           \
     --disable-filters               \
     --enable-filter=yadif           \
     --enable-filter=scale           \
@@ -73,7 +71,6 @@ configure() {
     --enable-libspeex               \
     --enable-libopencore-amrnb      \
     --enable-libopencore-amrwb      \
-    --enable-libopus                \
     --enable-avresample             \
     --enable-avisynth               \
     --disable-avdevice              \
@@ -104,7 +101,7 @@ configure() {
 
 build() {
   echo Building...
-  make -j8 2>&1 | tee make.log
+  make -j$(($NUMBER_OF_PROCESSORS+1)) 2>&1 | tee make.log
   ## Check the return status and the log to detect possible errors
   [ ${PIPESTATUS[0]} -eq 0 ] && ! grep -q -F "rerun configure" make.log
 }

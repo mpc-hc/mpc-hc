@@ -291,7 +291,8 @@ void CMouse::InternalOnLButtonDown(UINT nFlags, const CPoint& point)
     bool bDouble = false;
     if (m_bLeftDoubleStarted &&
             GetMessageTime() - m_leftDoubleStartTime < (int)GetDoubleClickTime() &&
-            CMouse::PointEqualsImprecise(m_leftDoubleStartPoint, point)) {
+            CMouse::PointEqualsImprecise(m_leftDoubleStartPoint, point,
+                                         GetSystemMetrics(SM_CXDOUBLECLK) / 2, GetSystemMetrics(SM_CYDOUBLECLK) / 2)) {
         m_bLeftDoubleStarted = false;
         bDouble = true;
     } else {
@@ -473,7 +474,8 @@ bool CMouse::TestDrag(const CPoint& screenPoint)
         ASSERT(!IsOnFullscreenWindow());
         bool bUpAssigned = !!AssignedToCmd(wmcmd::LUP, false);
         if ((!bUpAssigned && screenPoint != m_beginDragPoint) ||
-                (bUpAssigned && !PointEqualsImprecise(screenPoint, m_beginDragPoint))) {
+                (bUpAssigned && !PointEqualsImprecise(screenPoint, m_beginDragPoint,
+                                                      GetSystemMetrics(SM_CXDRAG), GetSystemMetrics(SM_CYDRAG)))) {
             VERIFY(ReleaseCapture());
             m_pMainFrame->PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(m_beginDragPoint.x, m_beginDragPoint.y));
             m_drag = Drag::DRAGGED;

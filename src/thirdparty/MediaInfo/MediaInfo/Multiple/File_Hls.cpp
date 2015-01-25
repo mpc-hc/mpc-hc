@@ -23,7 +23,6 @@
 //---------------------------------------------------------------------------
 #include "MediaInfo/Multiple/File_Hls.h"
 #include "MediaInfo/MediaInfo.h"
-#include "MediaInfo/MediaInfo_Internal.h"
 #include "MediaInfo/Multiple/File__ReferenceFilesHelper.h"
 #include "ZenLib/File.h"
 #include "ZenLib/Dir.h"

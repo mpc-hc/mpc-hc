@@ -13,10 +13,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2014-01-07 18:25:40 +0000 (Tue, 07 Jan 2014) $
+// Last changed  : $Date: 2014-04-06 15:57:21 +0000 (Sun, 06 Apr 2014) $
 // File revision : $Revision: 4 $
 //
-// $Id: TDStretch.h 184 2014-01-07 18:25:40Z oparviai $
+// $Id: TDStretch.h 195 2014-04-06 15:57:21Z oparviai $
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -125,14 +125,14 @@ protected:
     float skipFract;
     FIFOSampleBuffer outputBuffer;
     FIFOSampleBuffer inputBuffer;
-    BOOL bQuickSeek;
+    bool bQuickSeek;
 
     int sampleRate;
     int sequenceMs;
     int seekWindowMs;
     int overlapMs;
-    BOOL bAutoSeqSetting;
-    BOOL bAutoSeekSetting;
+    bool bAutoSeqSetting;
+    bool bAutoSeekSetting;
 
     void acceptNewOverlapLength(int newOverlapLength);
 
@@ -195,10 +195,10 @@ public:
 
     /// Enables/disables the quick position seeking algorithm. Zero to disable, 
     /// nonzero to enable
-    void enableQuickSeek(BOOL enable);
+    void enableQuickSeek(bool enable);
 
     /// Returns nonzero if the quick seeking algorithm is enabled.
-    BOOL isQuickSeekEnabled() const;
+    bool isQuickSeekEnabled() const;
 
     /// Sets routine control parameters. These control are certain time constants
     /// defining how the sound is stretched to the desired duration.

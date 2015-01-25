@@ -1,13 +1,13 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Máté <lang.mate@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-19 21:10:25+0000\n"
-"PO-Revision-Date: 2014-09-13 22:09+0000\n"
+"POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
+"PO-Revision-Date: 2014-10-31 14:21+0000\n"
 "Last-Translator: Máté <lang.mate@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/mpc-hc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -611,6 +611,10 @@ msgstr "Zárolás"
 msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
 msgid "Turn off the &monitor"
 msgstr "Kapcsolja ki a monitort"
+
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "Játssza le a mappában következő fájlt"
 
 msgctxt "POPUP"
 msgid "&Navigate"

@@ -30,7 +30,7 @@
 #include "AllocatorCommon.h"
 
 #define DXVA_LOGFILE_A 0 // set to 1 for logging DXVA data to a file
-#define LOG_BITSTREAM  0 // set to 1 for logging DXVA bistream data to a file
+#define LOG_BITSTREAM  0 // set to 1 for logging DXVA bitstream data to a file
 #define LOG_MATRIX     0 // set to 1 for logging DXVA matrix data to a file
 
 #if defined(_DEBUG) && DXVA_LOGFILE_A
@@ -209,20 +209,29 @@ void HookWorkAroundNVIDIADriverBug(IBaseFilter* pBF)
 {
     DWORD flOldProtect = 0;
 
+    // Unhook previous VTable
     if (g_pPinCVtbl) {
-        VirtualProtect(g_pPinCVtbl, sizeof(IPinCVtbl), PAGE_WRITECOPY, &flOldProtect);
-        UnhookWorkAroundNVIDIADriverBug();
-        VirtualProtect(g_pPinCVtbl, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
+        if (VirtualProtect(g_pPinCVtbl, sizeof(IPinCVtbl), PAGE_WRITECOPY, &flOldProtect)) {
+            UnhookWorkAroundNVIDIADriverBug();
+            VirtualProtect(g_pPinCVtbl, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
+            g_pPinCVtbl = nullptr;
+        } else {
+            TRACE(_T("HookWorkAroundNVIDIADriverBug: Could not unhook previous VTable"));
+            ASSERT(FALSE);
+        }
     }
 
     if (CComPtr<IPin> pPin = GetFirstPin(pBF)) {
         IPinC* pPinC = (IPinC*)(IPin*)pPin;
 
-        VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), PAGE_WRITECOPY, &flOldProtect);
-        HookWorkAroundNVIDIADriverBug(pPinC);
-        VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
-
-        g_pPinCVtbl = pPinC->lpVtbl;
+        if (VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), PAGE_WRITECOPY, &flOldProtect)) {
+            HookWorkAroundNVIDIADriverBug(pPinC);
+            VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
+            g_pPinCVtbl = pPinC->lpVtbl;
+        } else {
+            TRACE(_T("HookWorkAroundNVIDIADriverBug: Could not hook the VTable"));
+            ASSERT(FALSE);
+        }
     }
 }
 
@@ -230,25 +239,34 @@ void UnhookNewSegmentAndReceive()
 {
     DWORD flOldProtect = 0;
 
-    // Casimir666 : unhook previous VTables
-    if (g_pPinCVtbl && g_pMemInputPinCVtbl) {
-        VirtualProtect(g_pPinCVtbl, sizeof(IPinCVtbl), PAGE_WRITECOPY, &flOldProtect);
-        if (g_pPinCVtbl->NewSegment == NewSegmentMine) {
-            g_pPinCVtbl->NewSegment = NewSegmentOrg;
+    // Unhook previous VTables
+    if (g_pPinCVtbl) {
+        if (VirtualProtect(g_pPinCVtbl, sizeof(IPinCVtbl), PAGE_WRITECOPY, &flOldProtect)) {
+            if (g_pPinCVtbl->NewSegment == NewSegmentMine) {
+                g_pPinCVtbl->NewSegment = NewSegmentOrg;
+            }
+            UnhookWorkAroundNVIDIADriverBug();
+            VirtualProtect(g_pPinCVtbl, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
+            g_pPinCVtbl = nullptr;
+            NewSegmentOrg = nullptr;
+        } else {
+            TRACE(_T("UnhookNewSegmentAndReceive: Could not unhook g_pPinCVtbl VTable"));
+            ASSERT(FALSE);
         }
-        UnhookWorkAroundNVIDIADriverBug();
-        VirtualProtect(g_pPinCVtbl, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
+    }
 
-        VirtualProtect(g_pMemInputPinCVtbl, sizeof(IMemInputPinCVtbl), PAGE_WRITECOPY, &flOldProtect);
-        if (g_pMemInputPinCVtbl->Receive == ReceiveMine) {
-            g_pMemInputPinCVtbl->Receive = ReceiveOrg;
+    if (g_pMemInputPinCVtbl) {
+        if (VirtualProtect(g_pMemInputPinCVtbl, sizeof(IMemInputPinCVtbl), PAGE_WRITECOPY, &flOldProtect)) {
+            if (g_pMemInputPinCVtbl->Receive == ReceiveMine) {
+                g_pMemInputPinCVtbl->Receive = ReceiveOrg;
+            }
+            VirtualProtect(g_pMemInputPinCVtbl, sizeof(IMemInputPinCVtbl), flOldProtect, &flOldProtect);
+            g_pMemInputPinCVtbl = nullptr;
+            ReceiveOrg = nullptr;
+        } else {
+            TRACE(_T("UnhookNewSegmentAndReceive: Could not unhook g_pMemInputPinCVtbl VTable"));
+            ASSERT(FALSE);
         }
-        VirtualProtect(g_pMemInputPinCVtbl, sizeof(IMemInputPinCVtbl), flOldProtect, &flOldProtect);
-
-        g_pPinCVtbl         = nullptr;
-        g_pMemInputPinCVtbl = nullptr;
-        NewSegmentOrg       = nullptr;
-        ReceiveOrg          = nullptr;
     }
 }
 
@@ -260,29 +278,39 @@ bool HookNewSegmentAndReceive(IPinC* pPinC, IMemInputPinC* pMemInputPinC)
 
     g_tSegmentStart = 0;
     g_tSampleStart = 0;
-    DWORD flOldProtect = 0;
 
     UnhookNewSegmentAndReceive();
 
-    // Casimir666 : change sizeof(IPinC) to sizeof(IPinCVtbl) to fix crash with EVR hack on Vista!
-    VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), PAGE_WRITECOPY, &flOldProtect);
-    if (NewSegmentOrg == nullptr) {
-        NewSegmentOrg = pPinC->lpVtbl->NewSegment;
-    }
-    pPinC->lpVtbl->NewSegment = NewSegmentMine; // Function sets global variable(s)
-    HookWorkAroundNVIDIADriverBug(pPinC);
-    VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
+    DWORD flOldProtect = 0;
 
-    // Casimir666 : change sizeof(IMemInputPinC) to sizeof(IMemInputPinCVtbl) to fix crash with EVR hack on Vista!
-    VirtualProtect(pMemInputPinC->lpVtbl, sizeof(IMemInputPinCVtbl), PAGE_WRITECOPY, &flOldProtect);
-    if (ReceiveOrg == nullptr) {
-        ReceiveOrg = pMemInputPinC->lpVtbl->Receive;
+    if (!g_pPinCVtbl) {
+        if (VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), PAGE_WRITECOPY, &flOldProtect)) {
+            if (NewSegmentOrg == nullptr) {
+                NewSegmentOrg = pPinC->lpVtbl->NewSegment;
+            }
+            pPinC->lpVtbl->NewSegment = NewSegmentMine; // Function sets global variable(s)
+            HookWorkAroundNVIDIADriverBug(pPinC);
+            VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
+            g_pPinCVtbl = pPinC->lpVtbl;
+        } else {
+            TRACE(_T("HookNewSegmentAndReceive: Could not unhook g_pPinCVtbl VTable"));
+            ASSERT(FALSE);
+        }
     }
-    pMemInputPinC->lpVtbl->Receive = ReceiveMine; // Function sets global variable(s)
-    VirtualProtect(pMemInputPinC->lpVtbl, sizeof(IMemInputPinCVtbl), flOldProtect, &flOldProtect);
 
-    g_pPinCVtbl = pPinC->lpVtbl;
-    g_pMemInputPinCVtbl = pMemInputPinC->lpVtbl;
+    if (!g_pMemInputPinCVtbl) {
+        if (VirtualProtect(pMemInputPinC->lpVtbl, sizeof(IMemInputPinCVtbl), PAGE_WRITECOPY, &flOldProtect)) {
+            if (ReceiveOrg == nullptr) {
+                ReceiveOrg = pMemInputPinC->lpVtbl->Receive;
+            }
+            pMemInputPinC->lpVtbl->Receive = ReceiveMine; // Function sets global variable(s)
+            VirtualProtect(pMemInputPinC->lpVtbl, sizeof(IMemInputPinCVtbl), flOldProtect, &flOldProtect);
+            g_pMemInputPinCVtbl = pMemInputPinC->lpVtbl;
+        } else {
+            TRACE(_T("HookNewSegmentAndReceive: Could not unhook g_pMemInputPinCVtbl VTable"));
+            ASSERT(FALSE);
+        }
+    }
 
     return true;
 }
@@ -292,7 +320,7 @@ bool HookNewSegmentAndReceive(IPinC* pPinC, IMemInputPinC* pMemInputPinC)
 
 #ifdef _DEBUG
 #define MAX_BUFFER_TYPE     15
-BYTE*       g_ppBuffer[MAX_BUFFER_TYPE]; // Only used for debug logging
+BYTE* g_ppBuffer[MAX_BUFFER_TYPE]; // Only used for debug logging
 
 static HRESULT(STDMETHODCALLTYPE* GetVideoAcceleratorGUIDsOrg)(IAMVideoAcceleratorC* This,/* [out][in] */ LPDWORD pdwNumGuidsSupported,/* [out][in] */ LPGUID pGuidsSupported) = nullptr;
 static HRESULT(STDMETHODCALLTYPE* GetUncompFormatsSupportedOrg)(IAMVideoAcceleratorC* This,/* [in] */ const GUID* pGuid,/* [out][in] */ LPDWORD pdwNumFormatsSupported,/* [out][in] */ LPDDPIXELFORMAT pFormatsSupported) = nullptr;
@@ -463,25 +491,24 @@ static void LogDXVA_PicParams_H264(DXVA_PicParams_H264* pPic)
 
     strRes.AppendFormat(_T("%d,"), pPic->slice_group_change_rate_minus1);
 
-    //for (int i=0; i<810; i++)
-    //  strRes.AppendFormat(_T("%d,"), pPic->SliceGroupMap[i]);
-    //          strRes.AppendFormat(_T("%d,"), pPic->SliceGroupMap[810]);
+    //for (int i=0; i<810; i++) {
+    //    strRes.AppendFormat(_T("%d,"), pPic->SliceGroupMap[i]);
+    //}
+    //strRes.AppendFormat(_T("%d"), pPic->SliceGroupMap[810]);
 
     // SABOTAGE !!!
-    //for (int i=0; i<16; i++)
-    //{
-    //  pPic->FieldOrderCntList[i][0] =  pPic->FieldOrderCntList[i][1] = 0;
-    //  pPic->RefFrameList[i].AssociatedFlag = 1;
-    //  pPic->RefFrameList[i].bPicEntry = 255;
-    //  pPic->RefFrameList[i].Index7Bits = 127;
+    //for (int i=0; i<16; i++) {
+    //    pPic->FieldOrderCntList[i][0] =  pPic->FieldOrderCntList[i][1] = 0;
+    //    pPic->RefFrameList[i].AssociatedFlag = 1;
+    //    pPic->RefFrameList[i].bPicEntry = 255;
+    //    pPic->RefFrameList[i].Index7Bits = 127;
     //}
 
     // === Dump PicParams!
     //static FILE*  hPict = nullptr;
-    //if (!hPict) hPict = fopen ("PicParam.bin", "wb");
-    //if (hPict)
-    //{
-    //  fwrite (pPic, sizeof (DXVA_PicParams_H264), 1, hPict);
+    //if (!hPict) { hPict = fopen ("PicParam.bin", "wb") };
+    //if (hPict) {
+    //    fwrite (pPic, sizeof (DXVA_PicParams_H264), 1, hPict);
     //}
 
     LOG_TOFILE(LOG_FILE_PICTURE, strRes);
@@ -806,14 +833,12 @@ static HRESULT STDMETHODCALLTYPE GetCompBufferInfoMine(IAMVideoAcceleratorC* Thi
 
     LOG(_T("hr = %08x"), hr);
 
-    //if (pdwNumTypesCompBuffers)
-    //{
-    //  LOG(_T("[out] *pdwNumTypesCompBuffers = %d"), *pdwNumTypesCompBuffers);
-
-    //  if (pamvaUncompDataInfo)
-    //  {
-    //      LOGUDI(_T("[out] pamvaUncompDataInfo"), pamvaUncompDataInfo, *pdwNumTypesCompBuffers);
-    //  }
+    //if (pdwNumTypesCompBuffers) {
+    //    LOG(_T("[out] *pdwNumTypesCompBuffers = %d"), *pdwNumTypesCompBuffers);
+    //
+    //    if (pamvaUncompDataInfo) {
+    //        LOGUDI(_T("[out] pamvaUncompDataInfo"), pamvaUncompDataInfo, *pdwNumTypesCompBuffers);
+    //    }
     //}
 
     return hr;
@@ -905,7 +930,7 @@ static HRESULT STDMETHODCALLTYPE ReleaseBufferMine(IAMVideoAcceleratorC* This, D
 }
 
 static HRESULT STDMETHODCALLTYPE ExecuteMine(IAMVideoAcceleratorC* This, DWORD dwFunction, LPVOID lpPrivateInputData, DWORD cbPrivateInputData,
-        LPVOID lpPrivateOutputData, DWORD cbPrivateOutputData, DWORD dwNumBuffers, const AMVABUFFERINFO* pamvaBufferInfo)
+                                             LPVOID lpPrivateOutputData, DWORD cbPrivateOutputData, DWORD dwNumBuffers, const AMVABUFFERINFO* pamvaBufferInfo)
 {
 #ifdef _DEBUG
     LOG(_T("\nExecute"));
@@ -1034,72 +1059,76 @@ void HookAMVideoAccelerator(IAMVideoAcceleratorC* pAMVideoAcceleratorC)
     g_nDXVAVersion = 0;
     DWORD flOldProtect = 0;
 
-    VirtualProtect(pAMVideoAcceleratorC->lpVtbl, sizeof(IAMVideoAcceleratorC), PAGE_WRITECOPY, &flOldProtect);
+    if (VirtualProtect(pAMVideoAcceleratorC->lpVtbl, sizeof(IAMVideoAcceleratorC), PAGE_WRITECOPY, &flOldProtect)) {
 
 #ifdef _DEBUG
-    if (GetVideoAcceleratorGUIDsOrg == nullptr) {
-        GetVideoAcceleratorGUIDsOrg = pAMVideoAcceleratorC->lpVtbl->GetVideoAcceleratorGUIDs;
-    }
-    if (GetUncompFormatsSupportedOrg == nullptr) {
-        GetUncompFormatsSupportedOrg = pAMVideoAcceleratorC->lpVtbl->GetUncompFormatsSupported;
-    }
-    if (GetInternalMemInfoOrg == nullptr) {
-        GetInternalMemInfoOrg = pAMVideoAcceleratorC->lpVtbl->GetInternalMemInfo;
-    }
+        if (GetVideoAcceleratorGUIDsOrg == nullptr) {
+            GetVideoAcceleratorGUIDsOrg = pAMVideoAcceleratorC->lpVtbl->GetVideoAcceleratorGUIDs;
+        }
+        if (GetUncompFormatsSupportedOrg == nullptr) {
+            GetUncompFormatsSupportedOrg = pAMVideoAcceleratorC->lpVtbl->GetUncompFormatsSupported;
+        }
+        if (GetInternalMemInfoOrg == nullptr) {
+            GetInternalMemInfoOrg = pAMVideoAcceleratorC->lpVtbl->GetInternalMemInfo;
+        }
 #endif
-    if (GetCompBufferInfoOrg == nullptr) {
-        GetCompBufferInfoOrg = pAMVideoAcceleratorC->lpVtbl->GetCompBufferInfo;
-    }
+        if (GetCompBufferInfoOrg == nullptr) {
+            GetCompBufferInfoOrg = pAMVideoAcceleratorC->lpVtbl->GetCompBufferInfo;
+        }
 #ifdef _DEBUG
-    if (GetInternalCompBufferInfoOrg == nullptr) {
-        GetInternalCompBufferInfoOrg = pAMVideoAcceleratorC->lpVtbl->GetInternalCompBufferInfo;
-    }
-    if (BeginFrameOrg == nullptr) {
-        BeginFrameOrg = pAMVideoAcceleratorC->lpVtbl->BeginFrame;
-    }
-    if (EndFrameOrg == nullptr) {
-        EndFrameOrg = pAMVideoAcceleratorC->lpVtbl->EndFrame;
-    }
-    if (GetBufferOrg == nullptr) {
-        GetBufferOrg = pAMVideoAcceleratorC->lpVtbl->GetBuffer;
-    }
-    if (ReleaseBufferOrg == nullptr) {
-        ReleaseBufferOrg = pAMVideoAcceleratorC->lpVtbl->ReleaseBuffer;
-    }
-    if (ExecuteOrg == nullptr) {
-        ExecuteOrg = pAMVideoAcceleratorC->lpVtbl->Execute;
-    }
-    if (QueryRenderStatusOrg == nullptr) {
-        QueryRenderStatusOrg = pAMVideoAcceleratorC->lpVtbl->QueryRenderStatus;
-    }
-    if (DisplayFrameOrg == nullptr) {
-        DisplayFrameOrg = pAMVideoAcceleratorC->lpVtbl->DisplayFrame;
-    }
+        if (GetInternalCompBufferInfoOrg == nullptr) {
+            GetInternalCompBufferInfoOrg = pAMVideoAcceleratorC->lpVtbl->GetInternalCompBufferInfo;
+        }
+        if (BeginFrameOrg == nullptr) {
+            BeginFrameOrg = pAMVideoAcceleratorC->lpVtbl->BeginFrame;
+        }
+        if (EndFrameOrg == nullptr) {
+            EndFrameOrg = pAMVideoAcceleratorC->lpVtbl->EndFrame;
+        }
+        if (GetBufferOrg == nullptr) {
+            GetBufferOrg = pAMVideoAcceleratorC->lpVtbl->GetBuffer;
+        }
+        if (ReleaseBufferOrg == nullptr) {
+            ReleaseBufferOrg = pAMVideoAcceleratorC->lpVtbl->ReleaseBuffer;
+        }
+        if (ExecuteOrg == nullptr) {
+            ExecuteOrg = pAMVideoAcceleratorC->lpVtbl->Execute;
+        }
+        if (QueryRenderStatusOrg == nullptr) {
+            QueryRenderStatusOrg = pAMVideoAcceleratorC->lpVtbl->QueryRenderStatus;
+        }
+        if (DisplayFrameOrg == nullptr) {
+            DisplayFrameOrg = pAMVideoAcceleratorC->lpVtbl->DisplayFrame;
+        }
 
-    pAMVideoAcceleratorC->lpVtbl->GetVideoAcceleratorGUIDs = GetVideoAcceleratorGUIDsMine;
-    pAMVideoAcceleratorC->lpVtbl->GetUncompFormatsSupported = GetUncompFormatsSupportedMine;
-    pAMVideoAcceleratorC->lpVtbl->GetInternalMemInfo = GetInternalMemInfoMine;
+        pAMVideoAcceleratorC->lpVtbl->GetVideoAcceleratorGUIDs = GetVideoAcceleratorGUIDsMine;
+        pAMVideoAcceleratorC->lpVtbl->GetUncompFormatsSupported = GetUncompFormatsSupportedMine;
+        pAMVideoAcceleratorC->lpVtbl->GetInternalMemInfo = GetInternalMemInfoMine;
 #endif
-    pAMVideoAcceleratorC->lpVtbl->GetCompBufferInfo = GetCompBufferInfoMine; // Function sets global variable(s)
+        pAMVideoAcceleratorC->lpVtbl->GetCompBufferInfo = GetCompBufferInfoMine; // Function sets global variable(s)
 #ifdef _DEBUG
-    pAMVideoAcceleratorC->lpVtbl->GetInternalCompBufferInfo = GetInternalCompBufferInfoMine;
-    pAMVideoAcceleratorC->lpVtbl->BeginFrame = BeginFrameMine;
-    pAMVideoAcceleratorC->lpVtbl->EndFrame = EndFrameMine;
-    pAMVideoAcceleratorC->lpVtbl->GetBuffer = GetBufferMine;
-    pAMVideoAcceleratorC->lpVtbl->ReleaseBuffer = ReleaseBufferMine;
-    pAMVideoAcceleratorC->lpVtbl->Execute = ExecuteMine;
-    pAMVideoAcceleratorC->lpVtbl->QueryRenderStatus = QueryRenderStatusMine;
-    pAMVideoAcceleratorC->lpVtbl->DisplayFrame = DisplayFrameMine;
+        pAMVideoAcceleratorC->lpVtbl->GetInternalCompBufferInfo = GetInternalCompBufferInfoMine;
+        pAMVideoAcceleratorC->lpVtbl->BeginFrame = BeginFrameMine;
+        pAMVideoAcceleratorC->lpVtbl->EndFrame = EndFrameMine;
+        pAMVideoAcceleratorC->lpVtbl->GetBuffer = GetBufferMine;
+        pAMVideoAcceleratorC->lpVtbl->ReleaseBuffer = ReleaseBufferMine;
+        pAMVideoAcceleratorC->lpVtbl->Execute = ExecuteMine;
+        pAMVideoAcceleratorC->lpVtbl->QueryRenderStatus = QueryRenderStatusMine;
+        pAMVideoAcceleratorC->lpVtbl->DisplayFrame = DisplayFrameMine;
+#endif
 
-    VirtualProtect(pAMVideoAcceleratorC->lpVtbl, sizeof(IAMVideoAcceleratorC), PAGE_EXECUTE, &flOldProtect);
+        VirtualProtect(pAMVideoAcceleratorC->lpVtbl, sizeof(IAMVideoAcceleratorC), PAGE_EXECUTE, &flOldProtect);
+    } else {
+        TRACE(_T("HookAMVideoAccelerator: Could not hook the VTable"));
+        ASSERT(FALSE);
+    }
 
-#if DXVA_LOGFILE_A
+#if defined(_DEBUG) && DXVA_LOGFILE_A
     ::DeleteFile(LOG_FILE_DXVA);
     ::DeleteFile(LOG_FILE_PICTURE);
     ::DeleteFile(LOG_FILE_SLICELONG);
     ::DeleteFile(LOG_FILE_SLICESHORT);
     ::DeleteFile(LOG_FILE_BITSTREAM);
-#endif
 #endif
 }
 
@@ -1200,10 +1229,10 @@ public:
             CString strBuffer;
 
             LogDecodeBufferDesc(&pExecuteParams->pCompressedBuffers[i]);
-            /*
-            for (int j=0; j<4000 && j<pExecuteParams->pCompressedBuffers[i].DataSize; j++)
-                strBuffer.AppendFormat (_T("%02x "), m_ppBuffer[pExecuteParams->pCompressedBuffers[i].CompressedBufferType][j]);
 
+            /*for (int j=0; j<4000 && j<pExecuteParams->pCompressedBuffers[i].DataSize; j++) {
+                strBuffer.AppendFormat (_T("%02x "), m_ppBuffer[pExecuteParams->pCompressedBuffers[i].CompressedBufferType][j]);
+            }
             LOG (_T(" - Buffer type=%d,  offset=%d, size=%d"),
                 pExecuteParams->pCompressedBuffers[i].CompressedBufferType,
                 pExecuteParams->pCompressedBuffers[i].DataOffset,
@@ -1350,11 +1379,11 @@ interface IDirectXVideoDecoderServiceC {
 
 IDirectXVideoDecoderServiceCVtbl* g_pIDirectXVideoDecoderServiceCVtbl = nullptr;
 static HRESULT(STDMETHODCALLTYPE* CreateVideoDecoderOrg)(IDirectXVideoDecoderServiceC* pThis,
-        __in REFGUID Guid,
-        __in const DXVA2_VideoDesc* pVideoDesc,
-        __in const DXVA2_ConfigPictureDecode* pConfig,
-        __in_ecount(NumRenderTargets)
-        IDirect3DSurface9** ppDecoderRenderTargets, __in  UINT NumRenderTargets, __deref_out  IDirectXVideoDecoder** ppDecode) = nullptr;
+                                                         __in REFGUID Guid,
+                                                         __in const DXVA2_VideoDesc* pVideoDesc,
+                                                         __in const DXVA2_ConfigPictureDecode* pConfig,
+                                                         __in_ecount(NumRenderTargets)
+                                                         IDirect3DSurface9** ppDecoderRenderTargets, __in  UINT NumRenderTargets, __deref_out  IDirectXVideoDecoder** ppDecode) = nullptr;
 #ifdef _DEBUG
 static HRESULT(STDMETHODCALLTYPE* GetDecoderDeviceGuidsOrg)(IDirectXVideoDecoderServiceC* pThis, __out  UINT* pCount, __deref_out_ecount_opt(*pCount)  GUID** pGuids) = nullptr;
 static HRESULT(STDMETHODCALLTYPE* GetDecoderConfigurationsOrg)(IDirectXVideoDecoderServiceC* pThis, __in  REFGUID Guid, __in const DXVA2_VideoDesc* pVideoDesc, __reserved void* pReserved, __out UINT* pCount, __deref_out_ecount_opt(*pCount)  DXVA2_ConfigPictureDecode** ppConfigs) = nullptr;
@@ -1460,8 +1489,8 @@ static HRESULT STDMETHODCALLTYPE CreateVideoDecoderMine(
     __in UINT NumRenderTargets,
     __deref_out IDirectXVideoDecoder** ppDecode)
 {
-    //  DebugBreak();
-    //  ((DXVA2_VideoDesc*)pVideoDesc)->Format = (D3DFORMAT)0x3231564E;
+    // DebugBreak();
+    // ((DXVA2_VideoDesc*)pVideoDesc)->Format = (D3DFORMAT)0x3231564E;
     g_guidDXVADecoder = Guid;
     g_nDXVAVersion = 2;
 
@@ -1504,8 +1533,8 @@ static HRESULT STDMETHODCALLTYPE CreateVideoDecoderMine(
 
 #ifdef _DEBUG
 static HRESULT STDMETHODCALLTYPE GetDecoderDeviceGuidsMine(IDirectXVideoDecoderServiceC* pThis,
-        __out  UINT* pCount,
-        __deref_out_ecount_opt(*pCount) GUID** pGuids)
+                                                           __out  UINT* pCount,
+                                                           __deref_out_ecount_opt(*pCount) GUID** pGuids)
 {
     HRESULT hr = GetDecoderDeviceGuidsOrg(pThis, pCount, pGuids);
     LOG(_T("IDirectXVideoDecoderService::GetDecoderDeviceGuids  hr = %08x\n"), hr);
@@ -1514,16 +1543,16 @@ static HRESULT STDMETHODCALLTYPE GetDecoderDeviceGuidsMine(IDirectXVideoDecoderS
 }
 
 static HRESULT STDMETHODCALLTYPE GetDecoderConfigurationsMine(IDirectXVideoDecoderServiceC* pThis,
-        __in REFGUID Guid,
-        __in const DXVA2_VideoDesc* pVideoDesc,
-        __reserved void* pReserved,
-        __out UINT* pCount,
-        __deref_out_ecount_opt(*pCount) DXVA2_ConfigPictureDecode** ppConfigs)
+                                                              __in REFGUID Guid,
+                                                              __in const DXVA2_VideoDesc* pVideoDesc,
+                                                              __reserved void* pReserved,
+                                                              __out UINT* pCount,
+                                                              __deref_out_ecount_opt(*pCount) DXVA2_ConfigPictureDecode** ppConfigs)
 {
     HRESULT hr = GetDecoderConfigurationsOrg(pThis, Guid, pVideoDesc, pReserved, pCount, ppConfigs);
 
     // Force LongSlice decoding !
-    //  memcpy (&(*ppConfigs)[1], &(*ppConfigs)[0], sizeof(DXVA2_ConfigPictureDecode));
+    // memcpy (&(*ppConfigs)[1], &(*ppConfigs)[0], sizeof(DXVA2_ConfigPictureDecode));
 
     return hr;
 }
@@ -1535,29 +1564,35 @@ void HookDirectXVideoDecoderService(void* pIDirectXVideoDecoderService)
 
     DWORD flOldProtect = 0;
 
-    // Casimir666 : unhook previous VTables
+    // Unhook previous VTable
     if (g_pIDirectXVideoDecoderServiceCVtbl) {
-        VirtualProtect(g_pIDirectXVideoDecoderServiceCVtbl, sizeof(IDirectXVideoDecoderServiceCVtbl), PAGE_WRITECOPY, &flOldProtect);
-        if (g_pIDirectXVideoDecoderServiceCVtbl->CreateVideoDecoder == CreateVideoDecoderMine) {
-            g_pIDirectXVideoDecoderServiceCVtbl->CreateVideoDecoder = CreateVideoDecoderOrg;
-        }
+        if (VirtualProtect(g_pIDirectXVideoDecoderServiceCVtbl, sizeof(IDirectXVideoDecoderServiceCVtbl), PAGE_WRITECOPY, &flOldProtect)) {
+            if (g_pIDirectXVideoDecoderServiceCVtbl->CreateVideoDecoder == CreateVideoDecoderMine) {
+                g_pIDirectXVideoDecoderServiceCVtbl->CreateVideoDecoder = CreateVideoDecoderOrg;
+            }
 
 #ifdef _DEBUG
-        if (g_pIDirectXVideoDecoderServiceCVtbl->GetDecoderConfigurations == GetDecoderConfigurationsMine) {
-            g_pIDirectXVideoDecoderServiceCVtbl->GetDecoderConfigurations = GetDecoderConfigurationsOrg;
+            if (g_pIDirectXVideoDecoderServiceCVtbl->GetDecoderConfigurations == GetDecoderConfigurationsMine) {
+                g_pIDirectXVideoDecoderServiceCVtbl->GetDecoderConfigurations = GetDecoderConfigurationsOrg;
+            }
+
+            //if (g_pIDirectXVideoDecoderServiceCVtbl->GetDecoderDeviceGuids == GetDecoderDeviceGuidsMine) {
+            //    g_pIDirectXVideoDecoderServiceCVtbl->GetDecoderDeviceGuids = GetDecoderDeviceGuidsOrg;
+            //}
+#endif
+
+            VirtualProtect(g_pIDirectXVideoDecoderServiceCVtbl, sizeof(IDirectXVideoDecoderServiceCVtbl), flOldProtect, &flOldProtect);
+
+            g_pIDirectXVideoDecoderServiceCVtbl = nullptr;
+            CreateVideoDecoderOrg = nullptr;
+#ifdef _DEBUG
+            GetDecoderConfigurationsOrg = nullptr;
+#endif
+        } else {
+            TRACE(_T("HookDirectXVideoDecoderService: Could not unhook the VTable"));
+            ASSERT(FALSE);
         }
 
-        //if (g_pIDirectXVideoDecoderServiceCVtbl->GetDecoderDeviceGuids == GetDecoderDeviceGuidsMine)
-        //  g_pIDirectXVideoDecoderServiceCVtbl->GetDecoderDeviceGuids = GetDecoderDeviceGuidsOrg;
-#endif
-
-        VirtualProtect(g_pIDirectXVideoDecoderServiceCVtbl, sizeof(IDirectXVideoDecoderServiceCVtbl), flOldProtect, &flOldProtect);
-
-        g_pIDirectXVideoDecoderServiceCVtbl = nullptr;
-        CreateVideoDecoderOrg = nullptr;
-#ifdef _DEBUG
-        GetDecoderConfigurationsOrg = nullptr;
-#endif
         g_guidDXVADecoder = GUID_NULL;
         g_nDXVAVersion = 0;
     }
@@ -1569,21 +1604,25 @@ void HookDirectXVideoDecoderService(void* pIDirectXVideoDecoderService)
 #endif
 
     if (!g_pIDirectXVideoDecoderServiceCVtbl && pIDirectXVideoDecoderService) {
-        VirtualProtect(pIDirectXVideoDecoderServiceC->lpVtbl, sizeof(IDirectXVideoDecoderServiceCVtbl), PAGE_WRITECOPY, &flOldProtect);
+        if (VirtualProtect(pIDirectXVideoDecoderServiceC->lpVtbl, sizeof(IDirectXVideoDecoderServiceCVtbl), PAGE_WRITECOPY, &flOldProtect)) {
 
-        CreateVideoDecoderOrg = pIDirectXVideoDecoderServiceC->lpVtbl->CreateVideoDecoder;
-        pIDirectXVideoDecoderServiceC->lpVtbl->CreateVideoDecoder = CreateVideoDecoderMine;
+            CreateVideoDecoderOrg = pIDirectXVideoDecoderServiceC->lpVtbl->CreateVideoDecoder;
+            pIDirectXVideoDecoderServiceC->lpVtbl->CreateVideoDecoder = CreateVideoDecoderMine;
 
 #ifdef _DEBUG
-        GetDecoderConfigurationsOrg = pIDirectXVideoDecoderServiceC->lpVtbl->GetDecoderConfigurations;
-        pIDirectXVideoDecoderServiceC->lpVtbl->GetDecoderConfigurations = GetDecoderConfigurationsMine;
+            GetDecoderConfigurationsOrg = pIDirectXVideoDecoderServiceC->lpVtbl->GetDecoderConfigurations;
+            pIDirectXVideoDecoderServiceC->lpVtbl->GetDecoderConfigurations = GetDecoderConfigurationsMine;
 
-        //GetDecoderDeviceGuidsOrg = pIDirectXVideoDecoderServiceC->lpVtbl->GetDecoderDeviceGuids;
-        //pIDirectXVideoDecoderServiceC->lpVtbl->GetDecoderDeviceGuids = GetDecoderDeviceGuidsMine;
+            //GetDecoderDeviceGuidsOrg = pIDirectXVideoDecoderServiceC->lpVtbl->GetDecoderDeviceGuids;
+            //pIDirectXVideoDecoderServiceC->lpVtbl->GetDecoderDeviceGuids = GetDecoderDeviceGuidsMine;
 #endif
 
-        VirtualProtect(pIDirectXVideoDecoderServiceC->lpVtbl, sizeof(IDirectXVideoDecoderServiceCVtbl), flOldProtect, &flOldProtect);
+            VirtualProtect(pIDirectXVideoDecoderServiceC->lpVtbl, sizeof(IDirectXVideoDecoderServiceCVtbl), flOldProtect, &flOldProtect);
 
-        g_pIDirectXVideoDecoderServiceCVtbl = pIDirectXVideoDecoderServiceC->lpVtbl;
+            g_pIDirectXVideoDecoderServiceCVtbl = pIDirectXVideoDecoderServiceC->lpVtbl;
+        } else {
+            TRACE(_T("HookDirectXVideoDecoderService: Could not hook the VTable"));
+            ASSERT(FALSE);
+        }
     }
 }

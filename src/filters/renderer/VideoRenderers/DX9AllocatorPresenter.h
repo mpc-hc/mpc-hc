@@ -56,13 +56,12 @@ namespace DSObjects
 
         CRenderersSettings::CAdvRendererSettings m_LastRendererSettings;
 
+        HMODULE m_hDWMAPI;
+        HMODULE m_hD3D9;
+
         HRESULT(__stdcall* m_pDwmIsCompositionEnabled)(__out BOOL* pfEnabled);
         HRESULT(__stdcall* m_pDwmEnableComposition)(UINT uCompositionAction);
-
-        HMODULE m_hDWMAPI;
-
         HRESULT(__stdcall* m_pDirect3DCreate9Ex)(UINT SDKVersion, IDirect3D9Ex**);
-        HMODULE m_hD3D9;
 
         CCritSec m_RenderLock;
         CComPtr<IDirectDraw> m_pDirectDraw;
@@ -174,9 +173,9 @@ namespace DSObjects
         int                     m_VMR9AlphaBitmapWidthBytes;
 
         D3DXLoadSurfaceFromMemoryPtr    m_pD3DXLoadSurfaceFromMemory;
-        D3DXLoadSurfaceFromSurfacePtr m_pD3DXLoadSurfaceFromSurface;
-        D3DXCreateLinePtr       m_pD3DXCreateLine;
-        D3DXCreateFontPtr       m_pD3DXCreateFont;
+        D3DXLoadSurfaceFromSurfacePtr   m_pD3DXLoadSurfaceFromSurface;
+        D3DXCreateLinePtr               m_pD3DXCreateLine;
+        D3DXCreateFontPtr               m_pD3DXCreateFont;
         HRESULT(__stdcall* m_pD3DXCreateSprite)(LPDIRECT3DDEVICE9 pDevice, LPD3DXSPRITE* ppSprite);
 
 

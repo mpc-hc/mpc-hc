@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -55,9 +55,21 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     , m_bIsFullscreen(bFullscreen)
     , m_bNeedCheckSample(true)
     , m_MainThreadId(0)
+    , m_bIsRendering(false)
+    , m_hDWMAPI(nullptr)
+    , m_hD3D9(nullptr)
+    , m_pDwmIsCompositionEnabled(nullptr)
+    , m_pDwmEnableComposition(nullptr)
+    , m_pDirect3DCreate9Ex(nullptr)
+    , m_pDirectDraw(nullptr)
     , m_LastAdapterCheck(0)
     , m_nTearingPos(0)
     , m_VMR9AlphaBitmapWidthBytes(0)
+    , m_pD3DXLoadSurfaceFromMemory(nullptr)
+    , m_pD3DXLoadSurfaceFromSurface(nullptr)
+    , m_pD3DXCreateLine(nullptr)
+    , m_pD3DXCreateFont(nullptr)
+    , m_pD3DXCreateSprite(nullptr)
     , m_nVMR9Surfaces(0)
     , m_iVMR9Surface(0)
     , m_nUsedBuffer(0)
@@ -132,18 +144,6 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     , m_LastFrameDuration(0)
     , m_LastSampleTime(0)
     , m_FocusThread(nullptr)
-    , m_pDirectDraw(nullptr)
-    , m_hDWMAPI(nullptr)
-    , m_hD3D9(nullptr)
-    , m_pD3DXLoadSurfaceFromMemory(nullptr)
-    , m_pD3DXLoadSurfaceFromSurface(nullptr)
-    , m_pD3DXCreateLine(nullptr)
-    , m_pD3DXCreateFont(nullptr)
-    , m_pD3DXCreateSprite(nullptr)
-    , m_pDwmIsCompositionEnabled(nullptr)
-    , m_pDwmEnableComposition(nullptr)
-    , m_pDirect3DCreate9Ex(nullptr)
-    , m_bIsRendering(false)
 {
     ZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap));
 
@@ -792,22 +792,19 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
         m_BackbufferType = pp.BackBufferFormat;
     }
 
-    while (hr == D3DERR_DEVICELOST) {
-        TRACE(_T("D3DERR_DEVICELOST. Trying to Reset.\n"));
-        hr = m_pD3DDev->TestCooperativeLevel();
-    }
-    if (hr == D3DERR_DEVICENOTRESET) {
-        TRACE(_T("D3DERR_DEVICENOTRESET\n"));
-        hr = m_pD3DDev->Reset(&pp);
-    }
+    if (m_pD3DDev) {
+        while (hr == D3DERR_DEVICELOST) {
+            TRACE(_T("D3DERR_DEVICELOST. Trying to Reset.\n"));
+            hr = m_pD3DDev->TestCooperativeLevel();
+        }
+        if (hr == D3DERR_DEVICENOTRESET) {
+            TRACE(_T("D3DERR_DEVICENOTRESET\n"));
+            hr = m_pD3DDev->Reset(&pp);
+        }
 
-    TRACE(_T("CreateDevice: %ld\n"), (LONG)hr);
-    ASSERT(SUCCEEDED(hr));
-
-    m_MainThreadId = GetCurrentThreadId();
-
-    if (m_pD3DDevEx) {
-        m_pD3DDevEx->SetGPUThreadPriority(7);
+        if (m_pD3DDevEx) {
+            m_pD3DDevEx->SetGPUThreadPriority(7);
+        }
     }
 
     if (FAILED(hr)) {
@@ -818,6 +815,10 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
 
         return hr;
     }
+
+    ASSERT(m_pD3DDev);
+
+    m_MainThreadId = GetCurrentThreadId();
 
     // Get the device caps
     ZeroMemory(&m_Caps, sizeof(m_Caps));
@@ -841,7 +842,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
 
     hr = S_OK;
     if (!m_pSubPicQueue) {
-        CAutoLock(this);
+        CAutoLock cAutoLock(this);
         m_pSubPicQueue = r.subPicQueueSettings.nSize > 0
                          ? (ISubPicQueue*)DEBUG_NEW CSubPicQueue(r.subPicQueueSettings, m_pAllocator, &hr)
                          : (ISubPicQueue*)DEBUG_NEW CSubPicQueueNoThread(r.subPicQueueSettings, m_pAllocator, &hr);
@@ -1412,8 +1413,8 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool bAll)
         if ((m_VMR9AlphaBitmap.dwFlags & VMRBITMAP_DISABLE) == 0 && (BYTE*)m_VMR9AlphaBitmapData) {
             if ((m_pD3DXLoadSurfaceFromMemory != nullptr) &&
                     SUCCEEDED(hr = m_pD3DDev->CreateTexture(rcSrc.Width(), rcSrc.Height(), 1,
-                                   D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8,
-                                   D3DPOOL_DEFAULT, &m_pOSDTexture, nullptr))) {
+                                                            D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8,
+                                                            D3DPOOL_DEFAULT, &m_pOSDTexture, nullptr))) {
                 if (SUCCEEDED(hr = m_pOSDTexture->GetSurfaceLevel(0, &m_pOSDSurface))) {
                     hr = m_pD3DXLoadSurfaceFromMemory(m_pOSDSurface,
                                                       nullptr,
@@ -1908,7 +1909,12 @@ void CDX9AllocatorPresenter::DrawStats()
             OffsetRect(&rc, 0, TextHeight);
 
             if (m_bIsEVR) {
-                strText.Format(L"Refresh rate : %.05f Hz    SL: %4d     (%3u Hz)      Last Duration: %10.6f      Corrected Frame Time: %s", m_DetectedRefreshRate, int(m_DetectedScanlinesPerFrame + 0.5), m_refreshRate, double(m_LastFrameDuration) / 10000.0, m_bCorrectedFrameTime ? L"Yes" : L"No");
+                if (r.m_AdvRendSets.bVMR9VSync) {
+                    strText.Format(L"Refresh rate : %.05f Hz    SL: %4d     (%3u Hz)      ", m_DetectedRefreshRate, int(m_DetectedScanlinesPerFrame + 0.5), m_refreshRate);
+                } else {
+                    strText.Format(L"Refresh rate : %3u Hz      ", m_refreshRate);
+                }
+                strText.AppendFormat(L"Last Duration: %10.6f      Corrected Frame Time: %s", double(m_LastFrameDuration) / 10000.0, m_bCorrectedFrameTime ? L"Yes" : L"No");
                 DrawText(rc, strText, 1);
                 OffsetRect(&rc, 0, TextHeight);
             }
@@ -2128,11 +2134,22 @@ STDMETHODIMP CDX9AllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
 {
     CheckPointer(size, E_POINTER);
 
+    // Keep a reference so that we can safely work on the surface
+    // without having to lock everything
+    CComPtr<IDirect3DSurface9> pVideoSurface;
+    {
+        CAutoLock cAutoLock(this);
+        CheckPointer(m_pVideoSurface[m_nCurSurface], E_FAIL);
+        pVideoSurface = m_pVideoSurface[m_nCurSurface];
+    }
+
     HRESULT hr;
 
     D3DSURFACE_DESC desc;
     ZeroMemory(&desc, sizeof(desc));
-    m_pVideoSurface[m_nCurSurface]->GetDesc(&desc);
+    if (FAILED(hr = pVideoSurface->GetDesc(&desc))) {
+        return hr;
+    }
 
     DWORD required = sizeof(BITMAPINFOHEADER) + (desc.Width * desc.Height * 32 >> 3);
     if (!lpDib) {
@@ -2148,11 +2165,11 @@ STDMETHODIMP CDX9AllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
     // Convert to 8-bit when using 10-bit or full/half processing modes
     if (desc.Format != D3DFMT_X8R8G8B8) {
         if (FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(desc.Width, desc.Height, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &pSurface, nullptr))
-                || FAILED(hr = m_pD3DXLoadSurfaceFromSurface(pSurface, nullptr, nullptr, m_pVideoSurface[m_nCurSurface], nullptr, nullptr, D3DX_DEFAULT, 0))) {
+                || FAILED(hr = m_pD3DXLoadSurfaceFromSurface(pSurface, nullptr, nullptr, pVideoSurface, nullptr, nullptr, D3DX_DEFAULT, 0))) {
             return hr;
         }
     } else {
-        pSurface = m_pVideoSurface[m_nCurSurface];
+        pSurface = pVideoSurface;
     }
     D3DLOCKED_RECT r;
     if (FAILED(hr = pSurface->LockRect(&r, nullptr, D3DLOCK_READONLY))) {
@@ -2175,10 +2192,9 @@ STDMETHODIMP CDX9AllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
     bih->biPlanes = 1;
     bih->biSizeImage = bih->biWidth * bih->biHeight * bih->biBitCount >> 3;
 
-    BitBltFromRGBToRGB(
-        bih->biWidth, bih->biHeight,
-        (BYTE*)(bih + 1), bih->biWidth * bih->biBitCount >> 3, bih->biBitCount,
-        (BYTE*)r.pBits + r.Pitch * (desc.Height - 1), -(int)r.Pitch, 32);
+    BitBltFromRGBToRGB(bih->biWidth, bih->biHeight,
+                       (BYTE*)(bih + 1), bih->biWidth * bih->biBitCount >> 3, bih->biBitCount,
+                       (BYTE*)r.pBits + r.Pitch * (desc.Height - 1), -(int)r.Pitch, 32);
 
     pSurface->UnlockRect();
 

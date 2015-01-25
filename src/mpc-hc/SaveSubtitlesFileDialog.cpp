@@ -36,8 +36,8 @@ CSaveSubtitlesFileDialog::CSaveSubtitlesFileDialog(
     : CSaveTextFileDialog(e, lpszDefExt, lpszFileName, lpszFilter, pParentWnd)
     , m_types(types)
     , m_bDisableEncoding(false)
-    , m_delay(delay)
     , m_bDisableExternalStyleCheckBox(false)
+    , m_delay(delay)
     , m_bSaveExternalStyleFile(bSaveExternalStyleFile)
 {
     InitCustomization();
@@ -49,8 +49,8 @@ CSaveSubtitlesFileDialog::CSaveSubtitlesFileDialog(
     LPCTSTR lpszFilter, CWnd* pParentWnd)
     : CSaveTextFileDialog(CTextFile::ANSI, lpszDefExt, lpszFileName, lpszFilter, pParentWnd)
     , m_bDisableEncoding(true)
-    , m_delay(delay)
     , m_bDisableExternalStyleCheckBox(true)
+    , m_delay(delay)
     , m_bSaveExternalStyleFile(FALSE)
 {
     InitCustomization();

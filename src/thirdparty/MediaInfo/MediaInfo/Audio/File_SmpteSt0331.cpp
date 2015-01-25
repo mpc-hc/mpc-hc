@@ -48,10 +48,10 @@ const char* Smpte_St0331_ChannelsPositions(int8u number_channels)
 {
     switch (number_channels)
     {
-        case  0 : return "Front: L R";                                  //2 channels
-        case  1 : return "Front: L C R, LFE";                           //4 channels
-        case  2 : return "Front: L C R, Side: L R, LFE";                //6 channels
-        case  3 : return "Front: L C R, Side: L R, Back: L R, LFE";     //8 channels
+        case  2 : return "Front: L R";                                  //2 channels
+        case  4 : return "Front: L C R, LFE";                           //4 channels
+        case  6 : return "Front: L C R, Side: L R, LFE";                //6 channels
+        case  8 : return "Front: L C R, Side: L R, Back: L R, LFE";     //8 channels
         default : return "";
     }
 }
@@ -61,10 +61,10 @@ const char* Smpte_St0331_ChannelsPositions2(int8u number_channels)
 {
     switch (number_channels)
     {
-        case  0 : return "2/0/0.0";                                     //2 channels
-        case  1 : return "3/0/0.1";                                     //4 channels
-        case  2 : return "3/2/0.1";                                     //6 channels
-        case  3 : return "3/2/2.1";                                     //8 channels
+        case  2 : return "2/0/0.0";                                     //2 channels
+        case  4 : return "3/0/0.1";                                     //4 channels
+        case  6 : return "3/2/0.1";                                     //6 channels
+        case  8 : return "3/2/2.1";                                     //8 channels
         default : return "";
     }
 }

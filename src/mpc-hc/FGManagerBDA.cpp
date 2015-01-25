@@ -96,10 +96,8 @@ static VIDEOINFOHEADER2 vih2_H264 = {
     {
         // bmiHeader
         sizeof(BITMAPINFOHEADER),   // biSize
-        //720,                        // biWidth
-        //576,                        // biHeight
-        1920,                       // biWidth
-        1080,                       // biHeight
+        720,                        // biWidth
+        576,                        // biHeight
         1,                          // biPlanes
         0,                          // biBitCount
         FCC_h264                    // biCompression
@@ -120,15 +118,43 @@ static AM_MEDIA_TYPE mt_H264 = {
     (LPBYTE)& vih2_H264             // pbFormat
 };
 
-/// Format, Audio (common)
-static const WAVEFORMATEX wf_Audio = {
-    WAVE_FORMAT_PCM,                // wFormatTag
-    2,                              // nChannels
-    48000,                          // nSamplesPerSec
-    4 * 48000,                      // nAvgBytesPerSec
-    4,                              // nBlockAlign
-    16,                             // wBitsPerSample
-    0                               // cbSize
+// Format, Audio MPEG2
+static BYTE MPEG2AudioFormat[] = {
+    0x50, 0x00,             //wFormatTag
+    0x02, 0x00,             //nChannels
+    0x80, 0xbb, 0x00, 0x00, //nSamplesPerSec
+    0x00, 0x7d, 0x00, 0x00, //nAvgBytesPerSec
+    0x01, 0x00,             //nBlockAlign
+    0x00, 0x00,             //wBitsPerSample
+    0x16, 0x00,             //cbSize
+    0x02, 0x00,             //wValidBitsPerSample
+    0x00, 0xe8,             //wSamplesPerBlock
+    0x03, 0x00,             //wReserved
+    0x01, 0x00, 0x01, 0x00, //dwChannelMask
+    0x01, 0x00, 0x16, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+};
+
+// Format, Audio (E)AC3
+static BYTE AC3AudioFormat[] = {
+    0x00, 0x20,             //wFormatTag
+    0x06, 0x00,             //nChannels
+    0x80, 0xBB, 0x00, 0x00, //nSamplesPerSec
+    0xC0, 0x5D, 0x00, 0x00, //nAvgBytesPerSec
+    0x00, 0x03,             //nBlockAlign
+    0x00, 0x00,             //wBitsPerSample
+    0x00, 0x00              //cbSize
+};
+
+// Format, Audio AAC
+static BYTE AACAudioFormat[] = {
+    0xFF, 0x00,             //wFormatTag
+    0x02, 0x00,             //nChannels
+    0x80, 0xBB, 0x00, 0x00, //nSamplesPerSec
+    0xCE, 0x3E, 0x00, 0x00, //nAvgBytesPerSec
+    0xAE, 0x02,             //nBlockAlign
+    0x00, 0x00,             //wBitsPerSample
+    0x02, 0x00,             //cbSize
+    0x11, 0x90
 };
 
 /// Media type, Audio MPEG2
@@ -140,8 +166,8 @@ static const AM_MEDIA_TYPE mt_Mpa = {
     0,                              // lSampleSize
     FORMAT_WaveFormatEx,            // formattype
     nullptr,                        // pUnk
-    sizeof(wf_Audio),               // cbFormat
-    (LPBYTE)& wf_Audio              // pbFormat
+    sizeof(MPEG2AudioFormat),       // cbFormat
+    MPEG2AudioFormat                // pbFormat
 };
 
 /// Media type, Audio AC3
@@ -153,8 +179,8 @@ static const AM_MEDIA_TYPE mt_Ac3 = {
     0,                              // lSampleSize
     FORMAT_WaveFormatEx,            // formattype
     nullptr,                        // pUnk
-    sizeof(wf_Audio),               // cbFormat
-    (LPBYTE)& wf_Audio,             // pbFormat
+    sizeof(AC3AudioFormat),         // cbFormat
+    AC3AudioFormat,                 // pbFormat
 };
 
 /// Media type, Audio EAC3
@@ -166,8 +192,8 @@ static const AM_MEDIA_TYPE mt_Eac3 = {
     0,                              // lSampleSize
     FORMAT_WaveFormatEx,            // formattype
     nullptr,                        // pUnk
-    sizeof(wf_Audio),               // cbFormat
-    (LPBYTE)& wf_Audio,             // pbFormat
+    sizeof(AC3AudioFormat),         // cbFormat
+    AC3AudioFormat,                 // pbFormat
 };
 
 /// Media type, Audio AAC LATM
@@ -179,8 +205,8 @@ static const AM_MEDIA_TYPE mt_latm = {
     0,                              // lSampleSize
     FORMAT_WaveFormatEx,            // formattype
     nullptr,                        // pUnk
-    sizeof(wf_Audio),               // cbFormat
-    (LPBYTE)& wf_Audio,             // pbFormat
+    sizeof(AACAudioFormat),         // cbFormat
+    AACAudioFormat,                 // pbFormat
 };
 
 /// Media type, PSI
@@ -433,7 +459,7 @@ STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayL
     CComPtr<IBaseFilter> pReceiver;
 
     LOG(_T("Creating BDA filters..."));
-    CheckAndLog(CreateKSFilter(&pNetwork, KSCATEGORY_BDA_NETWORK_PROVIDER, s.strBDANetworkProvider), _T("BDA: Network provider creation"));
+    CheckAndLogBDA(CreateKSFilter(&pNetwork, KSCATEGORY_BDA_NETWORK_PROVIDER, s.strBDANetworkProvider), _T("Network provider creation"));
     if (FAILED(hr = CreateKSFilter(&pTuner, KSCATEGORY_BDA_NETWORK_TUNER, s.strBDATuner))) {
         MessageBox(AfxGetMyApp()->GetMainWnd()->m_hWnd, ResStr(IDS_BDA_ERROR_CREATE_TUNER), ResStr(IDS_BDA_ERROR), MB_ICONERROR | MB_OK);
         TRACE(_T("BDA: Network tuner creation: 0x%08x\n"), hr);
@@ -579,12 +605,12 @@ STDMETHODIMP CFGManagerBDA::SetFrequency(ULONG freq)
     CheckPointer(m_pBDAControl, E_FAIL);
     CheckPointer(m_pBDAFreq, E_FAIL);
 
-    CheckAndLog(m_pBDAControl->StartChanges(), _T("BDA: SetFrequency StartChanges"));
-    m_pBDAFreq->put_FrequencyMultiplier(1000);
-    CheckAndLog(m_pBDAFreq->put_Bandwidth(s.iBDABandwidth), _T("BDA: SetFrequency put_Bandwidth"));
-    CheckAndLog(m_pBDAFreq->put_Frequency(freq), _T("BDA: SetFrequency put_Frequency"));
-    CheckAndLog(m_pBDAControl->CheckChanges(), _T("BDA: SetFrequency CheckChanges"));
-    CheckAndLog(m_pBDAControl->CommitChanges(), _T("BDA: SetFrequency CommitChanges"));
+    CheckAndLogBDA(m_pBDAControl->StartChanges(), _T("  SetFrequency StartChanges"));
+    CheckAndLogBDANoRet(m_pBDAFreq->put_FrequencyMultiplier(1000), _T("  SetFrequency put_FrequencyMultiplier"));
+    CheckAndLogBDANoRet(m_pBDAFreq->put_Bandwidth(s.iBDABandwidth), _T("  SetFrequency put_Bandwidth"));
+    CheckAndLogBDA(m_pBDAFreq->put_Frequency(freq), _T("  SetFrequency put_Frequency"));
+    CheckAndLogBDA(m_pBDAControl->CheckChanges(), _T("  SetFrequency CheckChanges"));
+    CheckAndLogBDA(m_pBDAControl->CommitChanges(), _T("  SetFrequency CommitChanges"));
 
     int i = 50;
     ULONG pState = BDA_CHANGES_PENDING;
@@ -727,21 +753,21 @@ STDMETHODIMP CFGManagerBDA::Enable(long lIndex, DWORD dwFlags)
         if (lIndex >= 0 && lIndex < pChannel->GetAudioCount()) {
             DVBStreamInfo* pStreamInfo = pChannel->GetAudio(lIndex);
             if (pStreamInfo) {
-                CDVBStream* pStream = &m_DVBStreams[pStreamInfo->Type];
+                CDVBStream* pStream = &m_DVBStreams[pStreamInfo->nType];
                 if (pStream) {
                     if (pStream->GetMappedPID()) {
                         pStream->Unmap(pStream->GetMappedPID());
                     }
                     FILTER_STATE nState = GetState();
-                    if (m_nCurAudioType != pStreamInfo->Type) {
+                    if (m_nCurAudioType != pStreamInfo->nType) {
                         if ((s.nDVBStopFilterGraph == DVB_STOP_FG_ALWAYS) && (GetState() != State_Stopped)) {
                             ChangeState(State_Stopped);
                         }
-                        SwitchStream(m_nCurAudioType, pStreamInfo->Type);
-                        m_nCurAudioType = pStreamInfo->Type;
+                        SwitchStream(m_nCurAudioType, pStreamInfo->nType);
+                        m_nCurAudioType = pStreamInfo->nType;
                         CheckNoLog(Flush(m_nCurVideoType, m_nCurAudioType));
                     }
-                    pStream->Map(pStreamInfo->PID);
+                    pStream->Map(pStreamInfo->ulPID);
                     ChangeState((FILTER_STATE)nState);
 
                     hr = S_OK;
@@ -755,7 +781,7 @@ STDMETHODIMP CFGManagerBDA::Enable(long lIndex, DWORD dwFlags)
             DVBStreamInfo* pStreamInfo = pChannel->GetSubtitle(lIndex - pChannel->GetAudioCount());
 
             if (pStreamInfo) {
-                m_DVBStreams[DVB_SUB].Map(pStreamInfo->PID);
+                m_DVBStreams[DVB_SUB].Map(pStreamInfo->ulPID);
                 hr = S_OK;
             }
         } else if (lIndex > 0 && m_DVBStreams[DVB_SUB].GetMappedPID() && lIndex == pChannel->GetAudioCount() + pChannel->GetSubtitleCount()) {
@@ -783,7 +809,7 @@ STDMETHODIMP CFGManagerBDA::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFl
             pCurrentStream = &m_DVBStreams[m_nCurAudioType];
             pStreamInfo = pChannel->GetAudio(lIndex);
             if (pStreamInfo) {
-                pStream = &m_DVBStreams[pStreamInfo->Type];
+                pStream = &m_DVBStreams[pStreamInfo->nType];
             }
             if (pdwGroup) {
                 *pdwGroup = 1;    // Audio group
@@ -792,7 +818,7 @@ STDMETHODIMP CFGManagerBDA::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFl
             pCurrentStream = &m_DVBStreams[DVB_SUB];
             pStreamInfo = pChannel->GetSubtitle(lIndex - pChannel->GetAudioCount());
             if (pStreamInfo) {
-                pStream = &m_DVBStreams[pStreamInfo->Type];
+                pStream = &m_DVBStreams[pStreamInfo->nType];
             }
             if (pdwGroup) {
                 *pdwGroup = 2;    // Subtitle group
@@ -830,7 +856,7 @@ STDMETHODIMP CFGManagerBDA::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFl
                 *ppmt = CreateMediaType(pStream->GetMediaType());
             }
             if (pdwFlags) {
-                *pdwFlags = (pCurrentStream->GetMappedPID() == pStreamInfo->PID) ? AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE : 0;
+                *pdwFlags = (pCurrentStream->GetMappedPID() == pStreamInfo->ulPID) ? AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE : 0;
             }
             if (plcid) {
                 *plcid = pStreamInfo->GetLCID();
@@ -844,11 +870,11 @@ STDMETHODIMP CFGManagerBDA::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFl
             if (ppszName) {
                 CStringW str;
 
-                str = StreamTypeToName(pStreamInfo->PesType);
+                str = StreamTypeToName(pStreamInfo->nPesType);
 
-                if (!pStreamInfo->Language.IsEmpty() && pStreamInfo->GetLCID() == 0) {
+                if (!pStreamInfo->sLanguage.IsEmpty() && pStreamInfo->GetLCID() == 0) {
                     // Try to convert language code even if LCID was not found.
-                    str += _T(" [") + ISO6392ToLanguage(CStringA(pStreamInfo->Language)) + _T("]");
+                    str += _T(" [") + ISO6392ToLanguage(CStringA(pStreamInfo->sLanguage)) + _T("]");
                 }
 
                 *ppszName = (WCHAR*)CoTaskMemAlloc((str.GetLength() + 1) * sizeof(WCHAR));
@@ -891,7 +917,7 @@ HRESULT CFGManagerBDA::CreateMicrosoftDemux(CComPtr<IBaseFilter>& pMpeg2Demux)
     CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
     if (pChannel && (m_nDVBRebuildFilterGraph == DVB_REBUILD_FG_ALWAYS)) {
         for (int i = 0; i < pChannel->GetAudioCount(); i++) {
-            switch ((pChannel->GetAudio(i))->Type) {
+            switch ((pChannel->GetAudio(i))->nType) {
                 case DVB_MPA:
                     bAudioMPA = true;
                     break;
@@ -980,7 +1006,8 @@ HRESULT CFGManagerBDA::CreateMicrosoftDemux(CComPtr<IBaseFilter>& pMpeg2Demux)
                 CheckNoLog(Connect(pPin, nullptr, false));
                 CComPtr<IPin> pPinTo;
                 pPin->ConnectedTo(&pPinTo);
-                if (SUCCEEDED(hr = ((CMainFrame*)AfxGetMainWnd())->InsertTextPassThruFilter(pMpeg2Demux, pPin, pPinTo))) {
+                CMainFrame* pMainFrame = dynamic_cast<CMainFrame*>(AfxGetApp()->GetMainWnd());
+                if (pMainFrame && SUCCEEDED(hr = pMainFrame->InsertTextPassThruFilter(pMpeg2Demux, pPin, pPinTo))) {
                     Stream.SetPin(pPin);
                     LOG(_T("Filter connected to Demux for media type %d."), nType);
                 } else {
@@ -1032,7 +1059,6 @@ HRESULT CFGManagerBDA::SetChannelInternal(CDVBChannel* pChannel)
         }
     } else {
         m_fHideWindow = true;
-        ((CMainFrame*)AfxGetMainWnd())->HideVideoWindow(m_fHideWindow);
     }
 
     if (m_nCurAudioType != pChannel->GetDefaultAudioType()) {
@@ -1068,7 +1094,10 @@ HRESULT CFGManagerBDA::SetChannelInternal(CDVBChannel* pChannel)
     if (bRadioToTV) {
         m_fHideWindow = false;
         Sleep(1800);
-        ((CMainFrame*)AfxGetMainWnd())->HideVideoWindow(m_fHideWindow);
+    }
+
+    if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
+        pMainFrame->HideVideoWindow(m_fHideWindow);
     }
 
     return hr;
@@ -1203,9 +1232,6 @@ void CFGManagerBDA::UpdateMediaType(VIDEOINFOHEADER2* NewVideoHeader, CDVBChanne
     if (pChannel->GetVideoHeight()) {
         NewVideoHeader->bmiHeader.biHeight = pChannel->GetVideoHeight();
         NewVideoHeader->bmiHeader.biWidth = pChannel->GetVideoWidth();
-    } else if (pChannel->GetVideoType() == DVB_H264) {
-        NewVideoHeader->bmiHeader.biHeight = 1080;   // 1080 was the default before this change (should be 576)
-        NewVideoHeader->bmiHeader.biWidth = 1920;    // 1920 was the default before this change (should be 720)
     } else {
         NewVideoHeader->bmiHeader.biHeight = 576;
         NewVideoHeader->bmiHeader.biWidth = 720;
@@ -1246,10 +1272,11 @@ HRESULT CFGManagerBDA::ChangeState(FILTER_STATE nRequested)
     QueryInterface(IID_PPV_ARGS(&pMC));
     pMC->GetState(500, &nState);
     if (nState != nRequested) {
+        CMainFrame* pMainFrame = AfxGetMainFrame();
         switch (nRequested) {
             case State_Stopped: {
-                if (SUCCEEDED(hr = pMC->Stop())) {
-                    ((CMainFrame*)AfxGetMainWnd())->KillTimersStop();
+                if (SUCCEEDED(hr = pMC->Stop()) && pMainFrame) {
+                    pMainFrame->KillTimersStop();
                 }
                 LOG(_T("IMediaControl stop: 0x%08x."), hr);
                 return hr;
@@ -1259,8 +1286,8 @@ HRESULT CFGManagerBDA::ChangeState(FILTER_STATE nRequested)
                 return pMC->Pause();
             }
             case State_Running: {
-                if (SUCCEEDED(hr = pMC->Run()) && SUCCEEDED(hr = pMC->GetState(500, &nState)) && nState == State_Running) {
-                    ((CMainFrame*)AfxGetMainWnd())->SetTimersPlay();
+                if (SUCCEEDED(hr = pMC->Run()) && SUCCEEDED(hr = pMC->GetState(500, &nState)) && nState == State_Running && pMainFrame) {
+                    pMainFrame->SetTimersPlay();
                 }
                 LOG(_T("IMediaControl play: 0x%08x."), hr);
                 return hr;

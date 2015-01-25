@@ -25,8 +25,7 @@
 #include <memory>
 #include <set>
 
-enum class MpcEvent
-{
+enum class MpcEvent {
     SWITCHING_TO_FULLSCREEN,
     SWITCHED_TO_FULLSCREEN,
     SWITCHING_FROM_FULLSCREEN,

@@ -31,12 +31,12 @@
 
 CSubtitleDlDlg::CSubtitleDlDlg(CWnd* pParent, const CStringA& url, const CString& filename)
     : CResizableDialog(CSubtitleDlDlg::IDD, pParent)
-    , m_url(url)
     , m_ps(nullptr, 0, TRUE)
     , m_defps(nullptr, filename)
-    , m_status()
     , m_pTA(nullptr)
+    , m_url(url)
     , m_fReplaceSubs(false)
+    , m_status()
 {
 }
 

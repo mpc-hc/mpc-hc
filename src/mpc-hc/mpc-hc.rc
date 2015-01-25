@@ -182,7 +182,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     ICON            "",IDR_MAINFRAME,14,10,48,48
     LTEXT           "",IDC_STATIC1,60,8,200,8
-    CONTROL         "Copyright © 2002-2014 see Authors.txt",IDC_AUTHORS_LINK,
+    CONTROL         "Copyright © 2002-2015 see Authors.txt",IDC_AUTHORS_LINK,
                     "SysLink",WS_TABSTOP,60,20,200,8
     CONTROL         "",IDC_HOMEPAGE_LINK,"SysLink",WS_TABSTOP,60,32,200,8
     LTEXT           "This program is freeware and released under the GNU General Public License.",IDC_STATIC,7,46,246,18
@@ -462,7 +462,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     ICON            "",IDC_DEFAULTICON,5,5,21,20,SS_REALSIZEIMAGE
     EDITTEXT        IDC_EDIT1,32,13,186,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,10,30,211,1
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,10,30,212,1
     LTEXT           "Type:",IDC_STATIC,10,36,60,8
     EDITTEXT        IDC_EDIT4,72,36,151,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     LTEXT           "Size:",IDC_STATIC,10,51,60,8
@@ -839,10 +839,10 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     ICON            "",IDC_DEFAULTICON,5,5,21,20,SS_REALSIZEIMAGE
-    EDITTEXT        IDC_EDIT1,30,12,199,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,5,29,222,1
+    EDITTEXT        IDC_EDIT1,32,13,186,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,10,30,212,1
+    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_SORTASCENDING | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,5,35,221,144
     PUSHBUTTON      "Save As...",IDC_BUTTON1,5,183,64,14
-    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_SORTASCENDING | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,5,33,224,146
 END
 
 IDD_PPAGEMISC DIALOGEX 0, 0, 296, 241
@@ -1529,6 +1529,7 @@ BEGIN
             MENUITEM "Log &Off",                    ID_AFTERPLAYBACK_LOGOFF
             MENUITEM "&Lock",                       ID_AFTERPLAYBACK_LOCK
             MENUITEM "Turn off the &monitor",       ID_AFTERPLAYBACK_MONITOROFF
+            MENUITEM "Play &next file in the folder", ID_AFTERPLAYBACK_PLAYNEXT
         END
     END
     POPUP "&Navigate"
@@ -1682,6 +1683,7 @@ BEGIN
             MENUITEM "Log &Off",                    ID_AFTERPLAYBACK_LOGOFF
             MENUITEM "&Lock",                       ID_AFTERPLAYBACK_LOCK
             MENUITEM "Turn off the &monitor",       ID_AFTERPLAYBACK_MONITOROFF
+            MENUITEM "Play &next file in the folder", ID_AFTERPLAYBACK_PLAYNEXT
         END
         MENUITEM SEPARATOR
         POPUP "&View"
@@ -2021,6 +2023,7 @@ BEGIN
             MENUITEM "Log &Off",                    ID_AFTERPLAYBACK_LOGOFF
             MENUITEM "&Lock",                       ID_AFTERPLAYBACK_LOCK
             MENUITEM "Turn off the &monitor",       ID_AFTERPLAYBACK_MONITOROFF
+            MENUITEM "Play &next file in the folder", ID_AFTERPLAYBACK_PLAYNEXT
         END
         MENUITEM SEPARATOR
         POPUP "R&enderer Settings"
@@ -2381,7 +2384,7 @@ END
 
 STRINGTABLE
 BEGIN
-    IDC_TEXTURESURF2D       "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
+    IDC_TEXTURESURF2D       "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
     IDC_TEXTURESURF3D       "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
     IDC_DX9RESIZER_COMBO    "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
     IDC_DSVMR9LOADMIXER     "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
@@ -2611,6 +2614,20 @@ BEGIN
     IDS_SUBTITLE_DELAY_STEP_TOOLTIP 
                             "The subtitle delay will be decreased/increased by this value each time the corresponding hotkeys are used (%s/%s)."
     IDS_HOTKEY_NOT_DEFINED  "<not defined>"
+    IDS_NAVIGATION_WATCH    "Watch"
+    IDS_NAVIGATION_MOVE_UP  "Move Up"
+    IDS_NAVIGATION_MOVE_DOWN "Move Down"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_NAVIGATION_SORT     "Sort by LCN"
+    IDS_NAVIGATION_REMOVE_ALL "Remove all"
+    IDS_REMOVE_CHANNELS_QUESTION 
+                            "Are you sure you want to remove all channels from the list?"
+    IDS_MEDIAINFO_NO_INFO_AVAILABLE "No information available"
+    IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS "Please wait, analysis in progress..."
+    IDS_ASPECT_RATIO_FMT    "AR %d:%d"
 END
 
 STRINGTABLE
@@ -2682,8 +2699,8 @@ STRINGTABLE
 BEGIN
     IDS_AG_DECREASE_RATE    "Decrease Rate"
     IDS_AG_RESET_RATE       "Reset Rate"
-    IDS_MPLAYERC_21         "Audio Delay +10ms"
-    IDS_MPLAYERC_22         "Audio Delay -10ms"
+    IDS_MPLAYERC_21         "Audio Delay +10 ms"
+    IDS_MPLAYERC_22         "Audio Delay -10 ms"
     IDS_MPLAYERC_23         "Jump Forward (small)"
     IDS_MPLAYERC_24         "Jump Backward (small)"
     IDS_MPLAYERC_25         "Jump Forward (medium)"
@@ -2734,7 +2751,7 @@ BEGIN
     IDS_SUBDL_DLG_DOWNLOADING "Downloading subtitle(s), please wait."
     IDS_SUBDL_DLG_PARSING   "Parsing list..."
     IDS_SUBDL_DLG_NOT_FOUND "No subtitles found."
-    IDS_SUBDL_DLG_SUBS_AVAIL " %d subtitle(s) available."
+    IDS_SUBDL_DLG_SUBS_AVAIL "%d subtitle(s) available."
     IDS_UPDATE_CONFIG_AUTO_CHECK 
                             "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
     IDS_ZOOM_50             "50%"
@@ -2841,8 +2858,8 @@ BEGIN
     IDS_AG_FRAMES           "Frames"
     IDS_AG_BUFFERS          "Buffers"
     IDS_MAINFRM_9           "Volume: %02lu/%02lu, Title: %02lu/%02lu, Chapter: %02lu/%02lu"
-    IDS_MAINFRM_10          "Angle: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
-    IDS_MAINFRM_11          "%s, %s %uHz %dbits %d %s"
+    IDS_MAINFRM_10          "Angle: %02lu/%02lu, %lux%lu %lu Hz %lu:%lu"
+    IDS_MAINFRM_11          "%s, %s %u Hz %d bits %d %s"
 END
 
 STRINGTABLE
@@ -2887,10 +2904,10 @@ STRINGTABLE
 BEGIN
     IDS_AG_ASPECT_RATIO     "Aspect Ratio"
     IDS_MAINFRM_37          ", Total: %ld, Dropped: %ld"
-    IDS_MAINFRM_38          ", Size: %I64dKB"
-    IDS_MAINFRM_39          ", Size: %I64dMB"
-    IDS_MAINFRM_40          ", Free: %I64dKB"
-    IDS_MAINFRM_41          ", Free: %I64dMB"
+    IDS_MAINFRM_38          ", Size: %I64d KB"
+    IDS_MAINFRM_39          ", Size: %I64d MB"
+    IDS_MAINFRM_40          ", Free: %I64d KB"
+    IDS_MAINFRM_41          ", Free: %I64d MB"
     IDS_MAINFRM_42          ", Free V/A Buffers: %03d/%03d"
     IDS_AG_ERROR            "Error"
     IDS_SUBTITLE_STREAM_OFF "Subtitle: off"
@@ -2923,7 +2940,7 @@ STRINGTABLE
 BEGIN
     IDS_MAINFRM_68          "Aspect Ratio: %ld:%ld"
     IDS_MAINFRM_69          "Aspect Ratio: Default"
-    IDS_MAINFRM_70          "Audio Delay: %I64dms"
+    IDS_MAINFRM_70          "Audio delay: %I64d ms"
     IDS_AG_CHAPTER          "Chapter %d"
     IDS_AG_OUT_OF_MEMORY    "Out of memory"
     IDS_MAINFRM_77          "Error: Flash player for IE is required"
@@ -2999,7 +3016,7 @@ BEGIN
     IDS_VOLUME_BOOST_DEC    "Volume boost decrease"
     IDS_VOLUME_BOOST_MIN    "Volume boost Min"
     IDS_VOLUME_BOOST_MAX    "Volume boost Max"
-    IDS_USAGE               "Usage: mpc-hc.exe ""pathname"" [switches]\n\n""pathname""\tThe main file or directory to be loaded (wildcards\n\t\tallowed, ""-"" denotes standard input)\n/dub ""dubname""\tLoad an additional audio file\n/dubdelay ""file""\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains ""...DELAY XXms..."")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub ""subname""\tLoad an additional subtitle file\n/filter ""filtername""\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, ""pathname"" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t""pathname"" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd ""pathname"" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at ""ms"" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see ""Output"" settings)\n/shaderpreset ""Pr""\tStart using ""Pr"" shader preset\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
+    IDS_USAGE               "Usage: mpc-hc.exe ""pathname"" [switches]\n\n""pathname""\tThe main file or directory to be loaded (wildcards\n\t\tallowed, ""-"" denotes standard input)\n/dub ""dubname""\tLoad an additional audio file\n/dubdelay ""file""\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains ""...DELAY XXms..."")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub ""subname""\tLoad an additional subtitle file\n/filter ""filtername""\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, ""pathname"" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t""pathname"" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd ""pathname"" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at ""ms"" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see ""Output"" settings)\n/shaderpreset ""Pr""\tStart using ""Pr"" shader preset\n/pns ""name""\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nominidump\tDisable minidump creation\n/slave ""hWnd""\tUse MPC-HC as slave\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
     IDS_UNKNOWN_SWITCH      "Unrecognized switch(es) found in command line string: \n\n"
 END
 
@@ -3292,6 +3309,7 @@ BEGIN
     IDS_REGAIN_VOLUME       "Toggle regain volume"
     IDS_OSD_REGAIN_VOLUME_ON "Regain volume: On"
     IDS_OSD_REGAIN_VOLUME_OFF "Regain volume: Off"
+    IDS_SIZE_UNIT_BYTES     "bytes"
     IDS_SIZE_UNIT_K         "KB"
     IDS_SIZE_UNIT_M         "MB"
     IDS_SIZE_UNIT_G         "GB"
@@ -3363,6 +3381,8 @@ BEGIN
     IDS_AFTERPLAYBACK_LOGOFF "After Playback: Log Off"
     IDS_AFTERPLAYBACK_LOCK  "After Playback: Lock"
     IDS_AFTERPLAYBACK_MONITOROFF "After Playback: Turn off the monitor"
+    IDS_AFTERPLAYBACK_PLAYNEXT "After Playback: Play next file in the folder"
+    IDS_AFTERPLAYBACK_DONOTHING "After Playback: Do nothing"
     IDS_OSD_BRIGHTNESS      "Brightness: %s"
     IDS_OSD_CONTRAST        "Contrast: %s"
     IDS_OSD_HUE             "Hue: %s°"

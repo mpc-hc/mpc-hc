@@ -320,6 +320,7 @@
     <ClCompile Include="ColorButton.cpp" />
     <ClCompile Include="ComPropertyPage.cpp" />
     <ClCompile Include="ComPropertySheet.cpp" />
+    <ClCompile Include="CoverArt.cpp" />
     <ClCompile Include="CShockwaveFlash.cpp" />
     <ClCompile Include="DebugShadersDlg.cpp" />
     <ClCompile Include="DeinterlacerFilter.cpp" />
@@ -438,9 +439,6 @@
     <ClCompile Include="WinHotkeyCtrl.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\thirdparty\LAVFilters\LAVAudioSettings.h" />
-    <ClInclude Include="..\thirdparty\LAVFilters\LAVSplitterSettings.h" />
-    <ClInclude Include="..\thirdparty\LAVFilters\LAVVideoSettings.h" />
     <ClInclude Include="AboutDlg.h" />
     <ClInclude Include="AppSettings.h" />
     <ClInclude Include="AuthDlg.h" />
@@ -450,6 +448,7 @@
     <ClInclude Include="ColorButton.h" />
     <ClInclude Include="ComPropertyPage.h" />
     <ClInclude Include="ComPropertySheet.h" />
+    <ClInclude Include="CoverArt.h" />
     <ClInclude Include="CShockwaveFlash.h" />
     <ClInclude Include="DebugShadersDlg.h" />
     <ClInclude Include="DeinterlacerFilter.h" />
@@ -627,7 +626,6 @@
     <None Include="res\noaudio.bmp" />
     <None Include="res\onoff.bmp" />
     <None Include="res\shaders\final.psh" />
-    <None Include="res\shaders\LCDAngleCorrection.psh" />
     <None Include="res\single.ico" />
     <None Include="res\stereo.bmp" />
     <None Include="res\streamtypes.bmp" />
@@ -637,29 +635,8 @@
     <None Include="res\tickcross.png" />
     <None Include="res\toolbar.bmp" />
     <None Include="res\toolbarw7.png" />
-    <None Include="res\shaders\BT601BT709.psh" />
-    <None Include="res\shaders\contour.psh" />
-    <None Include="res\shaders\deinterlace (blend).psh" />
-    <None Include="res\shaders\denoise.psh" />
-    <None Include="res\shaders\EdgeSharpen.psh" />
-    <None Include="res\shaders\emboss.psh" />
     <None Include="res\shaders\empty.psh" />
-    <None Include="res\shaders\grayscale.psh" />
-    <None Include="res\shaders\invert.psh" />
-    <None Include="res\shaders\letterbox.psh" />
-    <None Include="res\shaders\levels.psh" />
-    <None Include="res\shaders\levels2.psh" />
-    <None Include="res\shaders\levels3.psh" />
-    <None Include="res\shaders\nightvision.psh" />
-    <None Include="res\shaders\procamp.psh" />
     <None Include="res\shaders\resizer.psh" />
-    <None Include="res\shaders\sharpen.psh" />
-    <None Include="res\shaders\SharpenComplex.psh" />
-    <None Include="res\shaders\SharpenComplex2.psh" />
-    <None Include="res\shaders\sphere.psh" />
-    <None Include="res\shaders\spotlight.psh" />
-    <None Include="res\shaders\wave.psh" />
-    <None Include="res\shaders\YV12ChromaUpsampling.psh" />
     <None Include="res\web\404.html" />
     <None Include="res\web\browser.html" />
     <None Include="res\web\controls.html" />

@@ -517,7 +517,7 @@ size_t Reader_File::Format_Test_PerParser_Continue (MediaInfo_Internal* MI)
                 #if MEDIAINFO_ADVANCED2
                 MI->Open_Buffer_SegmentChange();
                 #endif //MEDIAINFO_ADVANCED2
-                if (MI->Config.File_Names_Pos<MI->Config.File_Names.size())
+                if (MI->Config.File_Names_Pos && MI->Config.File_Names_Pos<MI->Config.File_Names.size())
                 {
                     MI->Config.File_Current_Offset+=MI->Config.File_Names_Pos<=MI->Config.File_Sizes.size()?MI->Config.File_Sizes[MI->Config.File_Names_Pos-1]:F.Size_Get();
                     F.Close();

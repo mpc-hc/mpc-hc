@@ -19,143 +19,97 @@
  */
 
 #include "stdafx.h"
+#include <DbgHelp.h>
 #include <atlpath.h>
 #include "mplayerc.h"
-#include "MiniDump.h"
 #include "resource.h"
-#include <DbgHelp.h>
-#include "mpc-hc_config.h"
-#include "VersionInfo.h"
 #include "WinAPIUtils.h"
+#include "PathUtils.h"
+#include "WinApiFunc.h"
+#include "VersionInfo.h"
+#include "mpc-hc_config.h"
+#include "MiniDump.h"
 
-
-CMiniDump _Singleton;
-
-
-typedef BOOL (WINAPI* MINIDUMPWRITEDUMP)(HANDLE hProcess, DWORD dwPid, HANDLE hFile, MINIDUMP_TYPE DumpType,
-        CONST PMINIDUMP_EXCEPTION_INFORMATION ExceptionParam,
-        CONST PMINIDUMP_USER_STREAM_INFORMATION UserStreamParam,
-        CONST PMINIDUMP_CALLBACK_INFORMATION CallbackParam
-                                        );
-
-
-CMiniDump::CMiniDump()
+void CMiniDump::Enable()
 {
 #ifndef _DEBUG
-
-    Enable();
-
-    //#ifndef _WIN64
-    // Enable catching in CRT (http://blog.kalmbachnet.de/?postid=75)
-    //  PreventSetUnhandledExceptionFilter();
-    //#endif
+    SetUnhandledExceptionFilter(UnhandledExceptionFilter);
 #endif
-}
+};
 
-CMiniDump::~CMiniDump()
+void CMiniDump::Disable()
 {
-}
+#ifndef _DEBUG
+    SetUnhandledExceptionFilter(nullptr);
+#endif
+};
 
-LPTOP_LEVEL_EXCEPTION_FILTER WINAPI MyDummySetUnhandledExceptionFilter(LPTOP_LEVEL_EXCEPTION_FILTER lpTopLevelExceptionFilter)
+#ifndef _DEBUG
+LONG WINAPI CMiniDump::UnhandledExceptionFilter(EXCEPTION_POINTERS* pExceptionPointers)
 {
-    return nullptr;
-}
+    LONG retval = EXCEPTION_CONTINUE_SEARCH;
 
-BOOL CMiniDump::PreventSetUnhandledExceptionFilter()
-{
-    HMODULE hKernel32 = LoadLibrary(_T("kernel32.dll"));
-    if (hKernel32 == nullptr) {
-        return FALSE;
-    }
-
-    void* pOrgEntry = GetProcAddress(hKernel32, "SetUnhandledExceptionFilter");
-    if (pOrgEntry == nullptr) {
-        FreeLibrary(hKernel32);
-        return FALSE;
-    }
-
-    unsigned char newJump[100];
-    DWORD_PTR dwOrgEntryAddr = (DWORD_PTR)pOrgEntry;
-    dwOrgEntryAddr += 5; // add 5 for 5 op-codes for jmp far
-    void* pNewFunc = &MyDummySetUnhandledExceptionFilter;
-    DWORD_PTR dwNewEntryAddr = (DWORD_PTR)pNewFunc;
-    DWORD_PTR dwRelativeAddr = dwNewEntryAddr - dwOrgEntryAddr;
-
-    newJump[0] = 0xE9;  // JMP absolute
-    memcpy(&newJump[1], &dwRelativeAddr, sizeof(pNewFunc));
-    SIZE_T bytesWritten;
-    BOOL bRet = WriteProcessMemory(GetCurrentProcess(), pOrgEntry, newJump, sizeof(pNewFunc) + 1, &bytesWritten);
-    FreeLibrary(hKernel32);
-    return bRet;
-}
-
-LONG WINAPI CMiniDump::UnhandledExceptionFilter(_EXCEPTION_POINTERS* lpTopLevelExceptionFilter)
-{
-    LONG    retval = EXCEPTION_CONTINUE_SEARCH;
-    BOOL    bDumpCreated = FALSE;
-    TCHAR   szResult[800];
-    szResult[0] = _T('\0');
+#if ENABLE_MINIDUMP || ENABLE_FULLDUMP
+    CString strResult;
     CPath   dumpPath;
+    bool    bDumpCreated = false;
 
-#if ENABLE_MINIDUMP
-    HMODULE hDll = ::LoadLibrary(_T("dbghelp.dll"));
+    const WinapiFunc<decltype(MiniDumpWriteDump)> fnMiniDumpWriteDump = { "DbgHelp.dll", "MiniDumpWriteDump" };
 
-    if (hDll != nullptr) {
-        MINIDUMPWRITEDUMP pMiniDumpWriteDump = (MINIDUMPWRITEDUMP)::GetProcAddress(hDll, "MiniDumpWriteDump");
-        if (pMiniDumpWriteDump != nullptr && AfxGetMyApp()->GetAppSavePath(dumpPath)) {
-            // Check that the folder actually exists
-            if (!FileExists(dumpPath)) {
-                VERIFY(CreateDirectory(dumpPath, nullptr));
-            }
+    if (fnMiniDumpWriteDump && AfxGetMyApp()->GetAppSavePath(dumpPath) && (PathUtils::Exists(dumpPath) || CreateDirectory(dumpPath, nullptr))) {
+        dumpPath.Append(CString(AfxGetApp()->m_pszExeName) + _T(".exe.") + VersionInfo::GetVersionString() + _T(".dmp"));
 
-            CString strDumpName = AfxGetApp()->m_pszExeName;
-            strDumpName.Append(_T(".exe.") + VersionInfo::GetVersionString() + _T(".dmp"));
-            dumpPath.Append(strDumpName);
+        HANDLE hFile = ::CreateFile(dumpPath, GENERIC_WRITE, FILE_SHARE_WRITE, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 
-            // create the file
-            HANDLE hFile = ::CreateFile(dumpPath, GENERIC_WRITE, FILE_SHARE_WRITE, nullptr, CREATE_ALWAYS,
-                                        FILE_ATTRIBUTE_NORMAL, nullptr);
+        if (hFile != INVALID_HANDLE_VALUE) {
+            MINIDUMP_EXCEPTION_INFORMATION ExInfo = { ::GetCurrentThreadId(), pExceptionPointers, FALSE };
+            MINIDUMP_TYPE dumpType = (MINIDUMP_TYPE)(
+#if ENABLE_FULLDUMP
+                                         MiniDumpWithFullMemory |
+                                         MiniDumpWithHandleData |
+                                         MiniDumpWithThreadInfo |
+                                         MiniDumpWithProcessThreadData |
+                                         MiniDumpWithFullMemoryInfo |
+                                         MiniDumpWithUnloadedModules |
+                                         MiniDumpIgnoreInaccessibleMemory |
+                                         MiniDumpWithTokenInformation
+#else
+                                         MiniDumpWithHandleData |
+                                         MiniDumpWithFullMemoryInfo |
+                                         MiniDumpWithThreadInfo |
+                                         MiniDumpWithUnloadedModules |
+                                         MiniDumpWithProcessThreadData
+#endif // ENABLE_FULLDUMP
+                                     );
 
-            if (hFile != INVALID_HANDLE_VALUE) {
-                _MINIDUMP_EXCEPTION_INFORMATION ExInfo;
+            bDumpCreated = !!fnMiniDumpWriteDump(::GetCurrentProcess(), ::GetCurrentProcessId(), hFile, dumpType, (pExceptionPointers ? &ExInfo : nullptr), nullptr, nullptr);
 
-                ExInfo.ThreadId = ::GetCurrentThreadId();
-                ExInfo.ExceptionPointers = lpTopLevelExceptionFilter;
-                ExInfo.ClientPointers = FALSE;
-
-                // write the dump
-                bDumpCreated = pMiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), hFile, MiniDumpNormal, &ExInfo, nullptr, nullptr);
-                if (bDumpCreated) {
-                    _stprintf_s(szResult, _countof(szResult), ResStr(IDS_MPC_CRASH), dumpPath);
-                    retval = EXCEPTION_EXECUTE_HANDLER;
-                } else {
-                    _stprintf_s(szResult, _countof(szResult), ResStr(IDS_MPC_MINIDUMP_FAIL), dumpPath, GetLastError());
-                }
-
-                ::CloseHandle(hFile);
-            } else {
-                _stprintf_s(szResult, _countof(szResult), ResStr(IDS_MPC_MINIDUMP_FAIL), dumpPath, GetLastError());
-            }
+            ::CloseHandle(hFile);
         }
-        FreeLibrary(hDll);
     }
 
-    if (szResult[0]) {
-        switch (MessageBox(AfxGetMyApp()->GetMainWnd()->m_hWnd, szResult, _T("MPC-HC - Mini Dump"), (bDumpCreated ? MB_YESNO : MB_OK) | MB_TOPMOST)) {
-            case IDYES:
-                ShellExecute(nullptr, _T("open"), BUGS_URL, nullptr, nullptr, SW_SHOWDEFAULT);
-                ExploreToFile(dumpPath);
-                break;
-            case IDNO:
-                retval = EXCEPTION_CONTINUE_SEARCH; // rethrow the exception to make easier attaching a debugger
-                break;
-        }
+    if (bDumpCreated) {
+        strResult.Format(ResStr(IDS_MPC_CRASH), dumpPath);
+        retval = EXCEPTION_EXECUTE_HANDLER;
+    } else {
+        strResult.Format(ResStr(IDS_MPC_MINIDUMP_FAIL), dumpPath, GetLastError());
+    }
+
+    switch (MessageBox(AfxGetApp()->GetMainWnd()->GetSafeHwnd(), strResult, _T("MPC-HC - Mini Dump"), (bDumpCreated ? MB_YESNO : MB_OK) | MB_TOPMOST)) {
+        case IDYES:
+            ShellExecute(nullptr, _T("open"), BUGS_URL, nullptr, nullptr, SW_SHOWDEFAULT);
+            ExploreToFile(dumpPath);
+            break;
+        case IDNO:
+            retval = EXCEPTION_CONTINUE_SEARCH; // rethrow the exception to make easier attaching a debugger
+            break;
     }
 #else
-    if (MessageBox(AfxGetMyApp()->GetMainWnd()->m_hWnd, ResStr(IDS_MPC_BUG_REPORT), ResStr(IDS_MPC_BUG_REPORT_TITLE), MB_YESNO | MB_TOPMOST) == IDYES) {
+    if (MessageBox(AfxGetApp()->GetMainWnd()->GetSafeHwnd(), ResStr(IDS_MPC_BUG_REPORT), ResStr(IDS_MPC_BUG_REPORT_TITLE), MB_YESNO | MB_TOPMOST) == IDYES) {
         ShellExecute(nullptr, _T("open"), DOWNLOAD_URL, nullptr, nullptr, SW_SHOWDEFAULT);
     }
 #endif // DISABLE_MINIDUMP
 
     return retval;
 }
+#endif

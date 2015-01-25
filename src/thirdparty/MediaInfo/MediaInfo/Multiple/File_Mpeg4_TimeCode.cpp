@@ -68,8 +68,7 @@ void File_Mpeg4_TimeCode::Streams_Fill()
         Fill(Stream_Other, StreamPos_Last, Other_Type, "Time code");
         Fill(Stream_Other, StreamPos_Last, Other_TimeCode_FirstFrame, TC.ToString().c_str());
         if (Frame_Count==1)
-            Fill(Stream_Other, StreamPos_Last, Other_TimeCode_Settings, "Striped");
-
+            Fill(Stream_Other, StreamPos_Last, Other_TimeCode_Striped, "Yes");
     }
 }
 

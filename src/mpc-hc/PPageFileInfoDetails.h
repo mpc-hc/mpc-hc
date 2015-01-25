@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,7 +21,6 @@
 
 #pragma once
 
-#include "../SubPic/ISubPic.h"
 #include <afxwin.h>
 
 
@@ -33,33 +32,29 @@ class CPPageFileInfoDetails : public CPropertyPage
 
 private:
     HICON m_hIcon;
+    CStatic m_icon;
 
-    void InitEncodingText(IFilterGraph* pFG);
+    CString m_fn, m_path;
+    CString m_type;
+    CString m_size;
+    CString m_duration;
+    CString m_resolution;
+    CString m_creationDate;
+    CString m_trackInfo;
+
+    void InitTrackInfoText(IFilterGraph* pFG);
 
 public:
-    CPPageFileInfoDetails(CString path, IFilterGraph* pFG, ISubPicAllocatorPresenter* pCAP, IFileSourceFilter* pFSF);
+    CPPageFileInfoDetails(CString path, IFilterGraph* pFG, ISubPicAllocatorPresenter* pCAP, IFileSourceFilter* pFSF, IDvdInfo2* pDVDI);
     virtual ~CPPageFileInfoDetails();
 
     // Dialog Data
     enum { IDD = IDD_FILEPROPDETAILS };
 
-    CStatic m_icon;
-    CString m_fn, m_path;
-    CString m_type;
-    CString m_size;
-    CString m_time;
-    CString m_res;
-    CString m_created;
-    CString m_encodingtext;
-    CEdit   m_encoding;
-
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
     virtual BOOL OnInitDialog();
     virtual BOOL OnSetActive();
-    virtual LRESULT OnSetPageFocus(WPARAM wParam, LPARAM lParam);
 
     DECLARE_MESSAGE_MAP()
-
-public:
 };

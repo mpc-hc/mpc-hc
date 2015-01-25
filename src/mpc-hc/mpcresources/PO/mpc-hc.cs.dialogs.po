@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # khagaroth, 2013-2014
@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-09-21 14:40+0000\n"
+"PO-Revision-Date: 2014-10-26 09:38+0000\n"
 "Last-Translator: khagaroth\n"
 "Language-Team: Czech (http://www.transifex.com/projects/p/mpc-hc/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -189,12 +189,12 @@ msgid "About"
 msgstr "O programu"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2014 see Authors.txt"
-msgstr "Copyright © 2002-2014, viz soubor Authors.txt"
+msgid "Copyright © 2002-2015 see Authors.txt"
+msgstr "Copyright © 2002-2015, viz soubor Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
-msgstr "Tento program je freeware vydaný pod\nGNU General Public License."
+msgstr "Tento program je freeware vydaný pod GNU General Public License."
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
@@ -654,7 +654,7 @@ msgstr "Audio CD"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "Jump distances (small, medium, large in ms)"
-msgstr "Velikosti skoků  [malý | střední | velký]  (ms)"
+msgstr "Velikosti skoků [malý | střední | velký] (ms)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_BUTTON1"
 msgid "Default"

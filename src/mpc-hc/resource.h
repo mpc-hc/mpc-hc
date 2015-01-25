@@ -218,6 +218,7 @@
 #define ID_BOSS                         944
 #define ID_DUMMYSEPARATOR               945
 #define ID_BUTTONSEP                    946
+#define ID_AFTERPLAYBACK_PLAYNEXT       947
 #define ID_MENU_PLAYER_SHORT            949
 #define ID_MENU_PLAYER_LONG             950
 #define ID_MENU_FILTERS                 951
@@ -288,8 +289,8 @@
 #define ID_SHADERS_PRESETS_START        4201
 #define ID_SHADERS_PRESETS_END          4299
 #define ID_NAVIGATE_JUMPTO_SUBITEM_START 4300
-#define ID_NAVIGATE_JUMPTO_SUBITEM_END  4499
-#define ID_VIEW_ZOOM_AUTOFIT_LARGER     4500
+#define ID_NAVIGATE_JUMPTO_SUBITEM_END  4899
+#define ID_VIEW_ZOOM_AUTOFIT_LARGER     4900
 // filters
 #define IDS_FILTER_SETTINGS_CAPTION     7000
 #define IDS_ARS_WASAPI_MODE             7100
@@ -1222,6 +1223,8 @@
 #define IDS_AFTERPLAYBACK_LOGOFF        41300
 #define IDS_AFTERPLAYBACK_LOCK          41301
 #define IDS_AFTERPLAYBACK_MONITOROFF    41302
+#define IDS_AFTERPLAYBACK_PLAYNEXT      41303
+#define IDS_AFTERPLAYBACK_DONOTHING     41304
 #define IDS_OSD_BRIGHTNESS              41305
 #define IDS_OSD_CONTRAST                41306
 #define IDS_OSD_HUE                     41307
@@ -1254,6 +1257,7 @@
 #define IDS_REGAIN_VOLUME               41335
 #define IDS_OSD_REGAIN_VOLUME_ON        41336
 #define IDS_OSD_REGAIN_VOLUME_OFF       41337
+#define IDS_SIZE_UNIT_BYTES             41338
 #define IDS_SIZE_UNIT_K                 41339
 #define IDS_SIZE_UNIT_M                 41340
 #define IDS_SIZE_UNIT_G                 41341
@@ -1452,6 +1456,15 @@
 #define IDS_PPAGEADVANCED_COVER_SIZE_LIMIT 57418
 #define IDS_SUBTITLE_DELAY_STEP_TOOLTIP 57419
 #define IDS_HOTKEY_NOT_DEFINED          57420
+#define IDS_NAVIGATION_WATCH            57421
+#define IDS_NAVIGATION_MOVE_UP          57422
+#define IDS_NAVIGATION_MOVE_DOWN        57423
+#define IDS_NAVIGATION_SORT             57424
+#define IDS_NAVIGATION_REMOVE_ALL       57425
+#define IDS_REMOVE_CHANNELS_QUESTION    57426
+#define IDS_MEDIAINFO_NO_INFO_AVAILABLE 57427
+#define IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS 57428
+#define IDS_ASPECT_RATIO_FMT            57429
 
 // Next default values for new objects
 //

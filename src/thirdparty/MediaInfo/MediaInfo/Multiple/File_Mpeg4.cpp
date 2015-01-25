@@ -220,6 +220,7 @@ File_Mpeg4::File_Mpeg4()
     IsSecondPass=false;
     IsParsing_mdat=false;
     IsFragmented=false;
+    StreamOrder=0;
     moov_trak_tkhd_TrackID=(int32u)-1;
     #if defined(MEDIAINFO_REFERENCES_YES)
         ReferenceFiles=NULL;
@@ -332,7 +333,7 @@ void File_Mpeg4::Streams_Finish()
         if (StreamKind_Last==Stream_Max && Temp->second.hdlr_SubType)
         {
             Stream_Prepare(Stream_Other);
-            Fill(Stream_Other, StreamPos_Last, Other_Type, Ztring().From_CC4(Streams[moov_trak_tkhd_TrackID].hdlr_SubType));
+            Fill(Stream_Other, StreamPos_Last, Other_Type, Ztring().From_CC4(Temp->second.hdlr_SubType));
         }
 
         //if (Temp->second.stsz_StreamSize)
@@ -701,6 +702,7 @@ void File_Mpeg4::Streams_Finish()
                         Stream_Prepare(Stream_Audio);
                         size_t Pos=Count_Get(Stream_Audio)-1;
                         Merge(*Temp->second.Parsers[0], Stream_Audio, Audio_Pos, StreamPos_Last);
+                        Fill(Stream_Audio, Pos, Audio_MuxingMode, Temp->second.Parsers[0]->Retrieve(Stream_General, 0, General_Format));
                         Fill(Stream_Audio, Pos, Audio_MuxingMode_MoreInfo, __T("Muxed in Video #")+Ztring().From_Number(Temp->second.StreamPos+1));
                         Fill(Stream_Audio, Pos, Audio_Duration, Retrieve(Stream_Video, Temp->second.StreamPos, Video_Duration));
                         Fill(Stream_Audio, Pos, Audio_StreamSize_Encoded, 0); //Included in the DV stream size
@@ -718,6 +720,7 @@ void File_Mpeg4::Streams_Finish()
                         Stream_Prepare(Stream_Text);
                         size_t Pos=Count_Get(Stream_Text)-1;
                         Merge(*Temp->second.Parsers[0], Stream_Text, Text_Pos, StreamPos_Last);
+                        Fill(Stream_Text, Pos, Text_MuxingMode, Temp->second.Parsers[0]->Retrieve(Stream_General, 0, General_Format));
                         Fill(Stream_Text, Pos, Text_MuxingMode_MoreInfo, __T("Muxed in Video #")+Ztring().From_Number(Temp->second.StreamPos+1));
                         Fill(Stream_Text, Pos, Text_Duration, Retrieve(Stream_Video, Temp->second.StreamPos, Video_Duration));
                         Fill(Stream_Text, Pos, Text_StreamSize_Encoded, 0); //Included in the DV stream size
@@ -905,6 +908,9 @@ void File_Mpeg4::Streams_Finish()
                 //TODO: compute Bit rate mode from stsz and stss (in order to compute per GOP instead of per frame)
             }
         }
+
+        for (std::map<string, Ztring>::iterator Info=Temp->second.Infos.begin(); Info!=Temp->second.Infos.end(); ++Info)
+            Fill(StreamKind_Last, StreamPos_Last, Info->first.c_str(), Info->second);
 
         ++Temp;
     }

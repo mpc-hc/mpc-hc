@@ -1,5 +1,5 @@
 /*
-* (C) 2014 see Authors.txt
+* (C) 2014-2015 see Authors.txt
 *
 * This file is part of MPC-HC.
 *
@@ -22,9 +22,9 @@
 #include "Translations.h"
 #include "FileVersionInfo.h"
 #include "VersionInfo.h"
-#include "WinAPIUtils.h"
+#include "PathUtils.h"
 
-static const std::vector<const Translations::LanguageResource> languageResources = {
+static const std::vector<Translations::LanguageResource> languageResources = {
     { 1025,   _T("Arabic"),                   _T("Lang\\mpcresources.ar.dll") },
     { 1067,   _T("Armenian"),                 _T("Lang\\mpcresources.hy.dll") },
     { 1069,   _T("Basque"),                   _T("Lang\\mpcresources.eu.dll") },
@@ -38,6 +38,7 @@ static const std::vector<const Translations::LanguageResource> languageResources
     { 1043,   _T("Dutch"),                    _T("Lang\\mpcresources.nl.dll") },
     { 0,      _T("English"),                  nullptr },
     { 2057,   _T("English (British)"),        _T("Lang\\mpcresources.en_GB.dll") },
+    { 1035,   _T("Finnish"),                  _T("Lang\\mpcresources.fi.dll") },
     { 1036,   _T("French"),                   _T("Lang\\mpcresources.fr.dll") },
     { 1110,   _T("Galician"),                 _T("Lang\\mpcresources.gl.dll") },
     { 1031,   _T("German"),                   _T("Lang\\mpcresources.de.dll") },
@@ -52,6 +53,7 @@ static const std::vector<const Translations::LanguageResource> languageResources
     { 1046,   _T("Portuguese (Brazil)"),      _T("Lang\\mpcresources.pt_BR.dll") },
     { 1048,   _T("Romanian"),                 _T("Lang\\mpcresources.ro.dll") },
     { 1049,   _T("Russian"),                  _T("Lang\\mpcresources.ru.dll") },
+    { 3098,   _T("Serbian"),                  _T("Lang\\mpcresources.sr.dll") },
     { 1051,   _T("Slovak"),                   _T("Lang\\mpcresources.sk.dll") },
     { 1060,   _T("Slovenian"),                _T("Lang\\mpcresources.sl.dll") },
     { 1053,   _T("Swedish"),                  _T("Lang\\mpcresources.sv.dll") },
@@ -78,14 +80,14 @@ Translations::LanguageResource Translations::GetLanguageResourceByLocaleID(LANGI
     return defaultResource;
 }
 
-std::list<const Translations::LanguageResource> Translations::GetAvailableLanguageResources()
+std::list<Translations::LanguageResource> Translations::GetAvailableLanguageResources()
 {
-    std::list<const Translations::LanguageResource> availableResources;
+    std::list<Translations::LanguageResource> availableResources;
 
-    CString appPath = GetProgramPath();
+    CString appPath = PathUtils::GetProgramPath();
 
     for (auto& lr : languageResources) {
-        if (0 == lr.localeID || FileExists(appPath + lr.dllPath)) {
+        if (0 == lr.localeID || PathUtils::Exists(PathUtils::CombinePaths(appPath, lr.dllPath))) {
             availableResources.emplace_back(lr);
         }
     }

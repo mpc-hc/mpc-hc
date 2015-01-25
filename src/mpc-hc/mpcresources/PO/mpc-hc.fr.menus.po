@@ -1,13 +1,13 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Underground78, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-19 21:10:25+0000\n"
-"PO-Revision-Date: 2014-08-20 10:11+0000\n"
+"POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
+"PO-Revision-Date: 2014-11-11 11:11+0000\n"
 "Last-Translator: Underground78\n"
 "Language-Team: French (http://www.transifex.com/projects/p/mpc-hc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -410,11 +410,11 @@ msgstr "&Conserver les proportions"
 
 msgctxt "POPUP"
 msgid "Override &Aspect Ratio"
-msgstr "Modifier les proportions"
+msgstr "Modifier les &proportions"
 
 msgctxt "ID_ASPECTRATIO_SOURCE"
 msgid "&Default"
-msgstr "Par défaut"
+msgstr "Par &défaut"
 
 msgctxt "ID_ASPECTRATIO_4_3"
 msgid "&4:3"
@@ -438,7 +438,7 @@ msgstr "1&85:100"
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"
-msgstr "Corriger le différentiel bureau/écran"
+msgstr "&Corriger le différentiel de proportion bureau/écran"
 
 msgctxt "POPUP"
 msgid "Pa&n&&Scan"
@@ -611,6 +611,10 @@ msgstr "&Verrouiller la session"
 msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
 msgid "Turn off the &monitor"
 msgstr "Éteindre l'&écran"
+
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "Lire le fichier &suivant dans le répertoire"
 
 msgctxt "POPUP"
 msgid "&Navigate"

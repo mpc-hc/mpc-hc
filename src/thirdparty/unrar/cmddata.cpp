@@ -13,7 +13,6 @@ void CommandData::Init()
   *Command=0;
   *ArcName=0;
   FileLists=false;
-  NoMoreSwitches=false;
 
   ListMode=RCLM_AUTO;
 
@@ -47,6 +46,8 @@ static const wchar *AllocCmdParam(const wchar *CmdLine,wchar **Par)
 #if !defined(SFX_MODULE) && !defined(_ANDROID)
 void CommandData::ParseCommandLine(bool Preprocess,int argc, char *argv[])
 {
+  *Command=0;
+  NoMoreSwitches=false;
 #ifdef CUSTOM_CMDLINE_PARSER
   // In Windows we may prefer to implement our own command line parser
   // to avoid replacing \" by " in standard parser. Such replacing corrupts
@@ -58,15 +59,12 @@ void CommandData::ParseCommandLine(bool Preprocess,int argc, char *argv[])
   {
     if ((CmdLine=AllocCmdParam(CmdLine,&Par))==NULL)
       break;
-    bool Code=true;
     if (!FirstParam) // First parameter is the executable name.
       if (Preprocess)
-        Code=PreprocessSwitch(Par);
+        PreprocessArg(Par);
       else
         ParseArg(Par);
     free(Par);
-    if (Preprocess && !Code)
-      break;
   }
 #else
   Array<wchar> Arg;
@@ -75,10 +73,7 @@ void CommandData::ParseCommandLine(bool Preprocess,int argc, char *argv[])
     Arg.Alloc(strlen(argv[I])+1);
     CharToWide(argv[I],&Arg[0],Arg.Size());
     if (Preprocess)
-    {
-      if (!PreprocessSwitch(&Arg[0]))
-        break;
-    }
+      PreprocessArg(&Arg[0]);
     else
       ParseArg(&Arg[0]);
   }
@@ -93,7 +88,7 @@ void CommandData::ParseCommandLine(bool Preprocess,int argc, char *argv[])
 void CommandData::ParseArg(wchar *Arg)
 {
   if (IsSwitch(*Arg) && !NoMoreSwitches)
-    if (Arg[1]=='-')
+    if (Arg[1]=='-' && Arg[2]==0)
       NoMoreSwitches=true;
     else
       ProcessSwitch(Arg+1);
@@ -199,37 +194,37 @@ void CommandData::ParseEnvVar()
 #if !defined(SFX_MODULE) && !defined(_ANDROID)
 // Preprocess those parameters, which must be processed before the rest of
 // command line. Return 'false' to stop further processing.
-bool CommandData::PreprocessSwitch(const wchar *Switch)
+void CommandData::PreprocessArg(const wchar *Arg)
 {
-  if (IsSwitch(Switch[0]))
+  if (IsSwitch(Arg[0]) && !NoMoreSwitches)
   {
-    Switch++;
-    char SwitchA[1024];
-    WideToChar(Switch,SwitchA,ASIZE(SwitchA));
-    if (wcsicomp(Switch,L"-")==0) // Switch "--".
-      return false;
-    if (wcsicomp(Switch,L"cfg-")==0)
+    Arg++;
+    if (Arg[0]=='-' && Arg[1]==0) // Switch "--".
+      NoMoreSwitches=true;
+    if (wcsicomp(Arg,L"cfg-")==0)
       ConfigDisabled=true;
 #ifndef GUI
-    if (wcsnicomp(Switch,L"ilog",4)==0)
+    if (wcsnicomp(Arg,L"ilog",4)==0)
     {
       // Ensure that correct log file name is already set
       // if we need to report an error when processing the command line.
-      ProcessSwitch(Switch);
+      ProcessSwitch(Arg);
       InitLogOptions(LogName,ErrlogCharset);
     }
 #endif
-    if (wcsnicomp(Switch,L"sc",2)==0)
+    if (wcsnicomp(Arg,L"sc",2)==0)
     {
       // Process -sc before reading any file lists.
-      ProcessSwitch(Switch);
+      ProcessSwitch(Arg);
 #ifndef GUI
       if (*LogName!=0)
         InitLogOptions(LogName,ErrlogCharset);
 #endif
     }
   }
-  return true;
+  else
+    if (*Command==0)
+      wcsncpy(Command,Arg,ASIZE(Command)); // Need for rar.ini.
 }
 #endif
 
@@ -247,6 +242,22 @@ void CommandData::ReadConfig()
         Str++;
       if (wcsnicomp(Str,L"switches=",9)==0)
         ProcessSwitchesString(Str+9);
+      if (*Command!=0)
+      {
+        wchar Cmd[16];
+        wcsncpyz(Cmd,Command,ASIZE(Cmd));
+        wchar C0=toupperw(Cmd[0]);
+        wchar C1=toupperw(Cmd[1]);
+        if (C0=='I' || C0=='L' || C0=='M' || C0=='S' || C0=='V')
+          Cmd[1]=0;
+        if (C0=='R' && (C1=='R' || C1=='V'))
+          Cmd[2]=0;
+        wchar SwName[16+ASIZE(Cmd)];
+        swprintf(SwName,ASIZE(SwName),L"switches_%s=",Cmd);
+        size_t Length=wcslen(SwName);
+        if (wcsnicomp(Str,SwName,Length)==0)
+          ProcessSwitchesString(Str+Length);
+      }
     }
   }
 }
@@ -1010,7 +1021,7 @@ bool CommandData::ExclCheck(const wchar *CheckName,bool Dir,bool CheckFullPath,b
     return true;
   if (!CheckInclList || InclArgs.ItemsCount()==0)
     return false;
-  if (ExclCheckArgs(&InclArgs,Dir,CheckName,false,MATCH_WILDSUBPATH))
+  if (ExclCheckArgs(&InclArgs,Dir,CheckName,CheckFullPath,MATCH_WILDSUBPATH))
     return false;
   return true;
 }

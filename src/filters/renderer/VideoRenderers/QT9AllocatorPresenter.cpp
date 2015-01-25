@@ -43,6 +43,8 @@ STDMETHODIMP CQT9AllocatorPresenter::NonDelegatingQueryInterface(REFIID riid, vo
 
 HRESULT CQT9AllocatorPresenter::AllocSurfaces()
 {
+    CheckPointer(m_pD3DDev, E_POINTER);
+
     HRESULT hr;
 
     m_pVideoSurfaceOff = nullptr;

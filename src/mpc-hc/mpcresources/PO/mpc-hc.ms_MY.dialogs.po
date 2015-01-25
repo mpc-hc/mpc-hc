@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # abuyop <abuyop@gmail.com>, 2014
@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-09-24 20:36+0000\n"
+"PO-Revision-Date: 2014-12-18 18:40+0000\n"
 "Last-Translator: abuyop <abuyop@gmail.com>\n"
 "Language-Team: Malay (Malaysia) (http://www.transifex.com/projects/p/mpc-hc/language/ms_MY/)\n"
 "MIME-Version: 1.0\n"
@@ -189,8 +189,8 @@ msgid "About"
 msgstr "Perihal"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2014 see Authors.txt"
-msgstr "Hakcipta © 2002-2014 sila rujuk Authors.txt"
+msgid "Copyright © 2002-2015 see Authors.txt"
+msgstr "Hakcipta © 2002-2015 sila rujuk Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."

@@ -1,16 +1,17 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Adolfo Jayme Barrientos <fito@libreoffice.org>, 2014
-# papu <papu@openmailbox.org>, 2014
+# Adolfo Jayme Barrientos, 2015
+# Adolfo Jayme Barrientos, 2014
+# papu <papu@openmailbox.org>, 2014-2015
 # papu <papu@openmailbox.org>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-09-26 23:00+0000\n"
-"Last-Translator: papu <papu@openmailbox.org>\n"
+"PO-Revision-Date: 2015-01-23 09:11+0000\n"
+"Last-Translator: Adolfo Jayme Barrientos\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,11 +21,11 @@ msgstr ""
 
 msgctxt "IDD_SELECTMEDIATYPE_CAPTION"
 msgid "Select Media Type"
-msgstr "Seleccioni Tipus de Mitjà"
+msgstr "Trieu el tipus de mitjà"
 
 msgctxt "IDD_SELECTMEDIATYPE_IDOK"
 msgid "OK"
-msgstr "D'acord"
+msgstr "D’acord"
 
 msgctxt "IDD_SELECTMEDIATYPE_IDCANCEL"
 msgid "Cancel"
@@ -36,7 +37,7 @@ msgstr "Vídeo"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_BUTTON1"
 msgid "Set"
-msgstr "Fixar"
+msgstr "Estableix"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
 msgid "Audio"
@@ -48,23 +49,23 @@ msgstr "Sortida"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK1"
 msgid "Record Video"
-msgstr "Gravar Vídeo"
+msgstr "Enregistra vídeo"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK2"
 msgid "Preview"
-msgstr "Vista prèvia"
+msgstr "Previsualitza"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK3"
 msgid "Record Audio"
-msgstr "Gravar Àudio"
+msgstr "Enregistra àudio"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK4"
 msgid "Preview"
-msgstr "Vista prèvia"
+msgstr "Previsualitza"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
 msgid "V/A Buffers:"
-msgstr "Buffers V/A:"
+msgstr "Memòria intermèdia d’A/V:"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK5"
 msgid "Audio to wav"
@@ -72,7 +73,7 @@ msgstr "Àudio a WAV"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_BUTTON2"
 msgid "Record"
-msgstr "Gravar"
+msgstr "Enregistra"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK2"
 msgid "Enable built-in audio switcher filter (requires restart)"
@@ -80,11 +81,11 @@ msgstr "Activar interruptor del filtre d'àudio intern (requereix inicialitzar)"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK5"
 msgid "Normalize"
-msgstr "Normalitzar"
+msgstr "Normalitza"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC4"
 msgid "Max amplification:"
-msgstr "Amplificació Màxima:"
+msgstr "Amplificació màx.:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC5"
 msgid "%"
@@ -120,11 +121,11 @@ msgstr "Canals d'entrada:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
 msgid "Hold shift for immediate changes when clicking something "
-msgstr "Prem la tecla \"shift\" per aplicar els canvis al moment"
+msgstr "Premeu Maj en fer clic a les opcions per aplicar-les al moment"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."
-msgstr "Anar A..."
+msgstr "Vés a…"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time. You do not need to enter the separators explicitly."
@@ -136,7 +137,7 @@ msgstr "Temps"
 
 msgctxt "IDD_GOTO_DLG_IDC_OK1"
 msgid "Go!"
-msgstr "Ves!"
+msgstr "Vés-hi"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Enter two numbers to jump to a specified frame, the first is the frame number, the second is the frame rate."
@@ -148,15 +149,15 @@ msgstr "Fotograma"
 
 msgctxt "IDD_GOTO_DLG_IDC_OK2"
 msgid "Go!"
-msgstr "Ves!"
+msgstr "Vés-hi"
 
 msgctxt "IDD_OPEN_DLG_CAPTION"
 msgid "Open"
-msgstr "Obrir"
+msgstr "Obre"
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Type the address of a movie or audio file (on the Internet or your computer) and the player will open it for you."
-msgstr "Escriu el camí de l'arxiu multimèdia ( a Internet o al teu ordinador) y el reproductor l'obrirà per tu."
+msgstr "Escriu el camí del fitxer multimèdia (a Internet o al ordinador) y el reproductor l’obrirà per vós."
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Open:"
@@ -176,11 +177,11 @@ msgstr "Explorar..."
 
 msgctxt "IDD_OPEN_DLG_IDOK"
 msgid "OK"
-msgstr "D'acord"
+msgstr "D’acord"
 
 msgctxt "IDD_OPEN_DLG_IDCANCEL"
 msgid "Cancel"
-msgstr "Cancel.lar"
+msgstr "Cancel·la"
 
 msgctxt "IDD_OPEN_DLG_IDC_CHECK1"
 msgid "Add to playlist without opening"
@@ -191,8 +192,8 @@ msgid "About"
 msgstr "Quant a"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2014 see Authors.txt"
-msgstr "Copyright © 2002-2014 veure l'arxiu Authors.txt"
+msgid "Copyright © 2002-2015 see Authors.txt"
+msgstr "Copyright © 2002-2015 Vegeu el fitxer Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -200,7 +201,7 @@ msgstr "Aquet programa és gratuït i distribuït sota la Llicència Pública Ge
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
-msgstr "Traducció al català per l'Enric"
+msgstr "Traducció al català per l’Enric, l’Adolf i altres"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build information"
@@ -220,7 +221,7 @@ msgstr "No s'utilitza"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build date:"
-msgstr "Data de Compilació:"
+msgstr "Data de compilació:"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Operating system"
@@ -236,11 +237,11 @@ msgstr "Copiar al porta-retalls"
 
 msgctxt "IDD_ABOUTBOX_IDOK"
 msgid "OK"
-msgstr "D'acord"
+msgstr "D’acord"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Open options"
-msgstr "Opcions d'obertura"
+msgstr "Opcions d’obertura"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO1"
 msgid "Use the same player for each media file"
@@ -252,7 +253,7 @@ msgstr "Obrir un nou reproductor per cada arxiu de mitjans que es reprodueixi"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Language"
-msgstr "Llenguatge"
+msgstr "Idioma"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Title bar"
@@ -620,23 +621,23 @@ msgstr "DirectShow"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK5"
 msgid "Check file extension first"
-msgstr "Mirar primer l'extensió"
+msgstr "Comprova primer l’extensió del fitxer"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Explorer Context Menu"
-msgstr "Menú contextual del gestor d'arxius"
+msgstr "Menú contextual de l’Explorador"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK6"
 msgid "Directory"
-msgstr "Directori"
+msgstr "Carpeta"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK7"
 msgid "File(s)"
-msgstr "Arxiu(s)"
+msgstr "Fitxer(s)"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC1"
 msgid "Autoplay"
-msgstr "Reproducció Automàtica"
+msgstr "Reproducció automàtica"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK1"
 msgid "Video"
@@ -652,7 +653,7 @@ msgstr "DVD"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK3"
 msgid "Audio CD"
-msgstr "CDs d'Àudio"
+msgstr "CD d’àudio"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "Jump distances (small, medium, large in ms)"
@@ -740,7 +741,7 @@ msgstr "Afegir Subtipus..."
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON7"
 msgid "Delete"
-msgstr "Borrar"
+msgstr "Suprimeix"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON8"
 msgid "Reset List"
@@ -752,7 +753,7 @@ msgstr "Tipus:"
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Size:"
-msgstr "Tamany:"
+msgstr "Mida:"
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Media length:"
@@ -760,7 +761,7 @@ msgstr "Duració:"
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Video size:"
-msgstr "Tamany del vídeo:"
+msgstr "Mida del vídeo:"
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Created:"
@@ -776,11 +777,11 @@ msgstr "Autor:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Copyright:"
-msgstr "Copyright:"
+msgstr "Drets d’autor:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Rating:"
-msgstr "Clasificació:"
+msgstr "Classificació:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Location:"
@@ -804,11 +805,11 @@ msgstr "Recordar posició"
 
 msgctxt "IDD_FAVADD_IDCANCEL"
 msgid "Cancel"
-msgstr "Cancel.lar"
+msgstr "Cancel·la"
 
 msgctxt "IDD_FAVADD_IDOK"
 msgid "OK"
-msgstr "D'acord"
+msgstr "D’acord"
 
 msgctxt "IDD_FAVADD_IDC_CHECK2"
 msgid "Relative drive"
@@ -820,7 +821,7 @@ msgstr "Organitzar Favorits"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON1"
 msgid "Rename"
-msgstr "Renombrar"
+msgstr "Reanomena"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON3"
 msgid "Move Up"
@@ -832,11 +833,11 @@ msgstr "Baixar"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON2"
 msgid "Delete"
-msgstr "Borrar"
+msgstr "Suprimeix"
 
 msgctxt "IDD_FAVORGANIZE_IDOK"
 msgid "OK"
-msgstr "D'acord"
+msgstr "D’acord"
 
 msgctxt "IDD_PNSPRESET_DLG_CAPTION"
 msgid "Pan&Scan Presets"
@@ -848,7 +849,7 @@ msgstr "Nou"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON3"
 msgid "Delete"
-msgstr "Borrar"
+msgstr "Suprimeix"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON4"
 msgid "Up"
@@ -864,11 +865,11 @@ msgstr "&Posar"
 
 msgctxt "IDD_PNSPRESET_DLG_IDCANCEL"
 msgid "&Cancel"
-msgstr "&Cancel.lar"
+msgstr "&Cancel·la"
 
 msgctxt "IDD_PNSPRESET_DLG_IDOK"
 msgid "&Save"
-msgstr "&Desar"
+msgstr "&Desa"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
 msgid "Pos: 0.0 -> 1.0"
@@ -884,7 +885,7 @@ msgstr "Tecles multimèdia globals"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON1"
 msgid "Select All"
-msgstr "Seleccionar Tots"
+msgstr "Selecciona-ho tot"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON2"
 msgid "Reset Selected"
@@ -904,23 +905,23 @@ msgstr "Els seguents conectors no han trobat un filtre conectable:"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDOK"
 msgid "Close"
-msgstr "Buscar codecs a la xarxa"
+msgstr "Tanca"
 
 msgctxt "IDD_SAVE_DLG_CAPTION"
 msgid "Saving..."
-msgstr "Desant..."
+msgstr "S’està desant…"
 
 msgctxt "IDD_SAVE_DLG_IDCANCEL"
 msgid "Cancel"
-msgstr "Cancel.lar"
+msgstr "Cancel·la"
 
 msgctxt "IDD_SAVETEXTFILEDIALOGTEMPL_IDC_STATIC1"
 msgid "Encoding:"
-msgstr "Codificant:"
+msgstr "Codificació:"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC1"
 msgid "Encoding:"
-msgstr "Codificant:"
+msgstr "Codificació:"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC"
 msgid "Delay:"
@@ -932,7 +933,7 @@ msgstr "ms"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_CHECK1"
 msgid "Save custom style"
-msgstr "Gravar estil personalitzat"
+msgstr "Desa l’estil personalitzat"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
@@ -944,7 +945,7 @@ msgstr "Miniatures:"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "rows"
-msgstr "files"
+msgstr "fileres"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "columns"
@@ -960,7 +961,7 @@ msgstr "píxels"
 
 msgctxt "IDD_ADDREGFILTER_CAPTION"
 msgid "Select Filter"
-msgstr "Seleccionar Filtre"
+msgstr "Trieu un filtre"
 
 msgctxt "IDD_ADDREGFILTER_IDC_BUTTON1"
 msgid "Browse..."
@@ -968,11 +969,11 @@ msgstr "Explorar..."
 
 msgctxt "IDD_ADDREGFILTER_IDOK"
 msgid "OK"
-msgstr "D'acord"
+msgstr "D’acord"
 
 msgctxt "IDD_ADDREGFILTER_IDCANCEL"
 msgid "Cancel"
-msgstr "Cancel.lar"
+msgstr "Cancel·la"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Font"
@@ -1000,7 +1001,7 @@ msgstr "Escala (y,%)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Border Style"
-msgstr "Estil de les Vores"
+msgstr "Estil de les vores"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO1"
 msgid "Outline"
@@ -1012,7 +1013,7 @@ msgstr "Caixa opaca"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Width"
-msgstr "Vora"
+msgstr "Amplada"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Shadow"
@@ -1244,7 +1245,7 @@ msgstr "Remplaçar els subtítols actuals"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
-msgstr "Desar Com a.."
+msgstr "Anomena i desa…"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Color controls (for VMR-9, EVR and madVR)"
@@ -1272,7 +1273,7 @@ msgstr "Inicialitzar"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Update check"
-msgstr "Comprovació d'actualitzacions"
+msgstr "Comprovació d’actualitzacions"
 
 msgctxt "IDD_PPAGEMISC_IDC_CHECK1"
 msgid "Enable automatic update check"
@@ -1280,7 +1281,7 @@ msgstr "Activar comprovació automàtica d'actualitzacions"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
 msgid "Delay between each check:"
-msgstr "Comprovar cada:  "
+msgstr "Comprovar cada:"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"
@@ -1332,7 +1333,7 @@ msgstr "Ignorar canals encriptats"
 
 msgctxt "IDD_TUNER_SCAN_ID_SAVE"
 msgid "Save"
-msgstr "Desar"
+msgstr "Desa"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "S"
@@ -1420,11 +1421,11 @@ msgstr "Ajustar freqüència:"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC3"
 msgid "lines"
-msgstr "Línies"
+msgstr "fileres"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC4"
 msgid "columns"
-msgstr "Columnes"
+msgstr "columnes"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCNEAREST"
 msgid "Present at nearest VSync"
@@ -1484,7 +1485,7 @@ msgstr "Usar mode de monitor a pantalla completa automàtic"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON1"
 msgid "Add"
-msgstr "Afegir"
+msgstr "Afegeix"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON2"
 msgid "Del"
@@ -1516,7 +1517,7 @@ msgstr "s"
 
 msgctxt "IDD_NAVIGATION_DLG_IDC_NAVIGATION_INFO"
 msgid "Info"
-msgstr "Info"
+msgstr "Informació"
 
 msgctxt "IDD_NAVIGATION_DLG_IDC_NAVIGATION_SCAN"
 msgid "Scan"
@@ -1536,7 +1537,7 @@ msgstr "No carregar subtítols encastats"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Autoload paths"
-msgstr "Camí de càrrega automàtica"
+msgstr "Camins de càrrega automàtica"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON1"
 msgid "Reset"
@@ -1548,27 +1549,27 @@ msgstr "Base de dades en línia"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Base URL of the online subtitle database:"
-msgstr "La URL de la base de dades de subtítols en línia"
+msgstr "L’URL de la base de dades de subtítols en línia"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON2"
 msgid "Test"
-msgstr "Provar"
+msgstr "Prova"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
-msgstr "Actualitzar verificador"
+msgstr "Comprovador d’actualitzacions"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_DL_BUTTON"
 msgid "&Download now"
-msgstr "&Decarregar ara"
+msgstr "&Baixa-la ara"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_LATER_BUTTON"
 msgid "Remind me &later"
-msgstr "Recordarme &més tard"
+msgstr "Recorda-m’ho &més tard"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_IGNORE_BUTTON"
 msgid "&Ignore this update"
-msgstr "&Ignorar aquesta actualització"
+msgstr "&Ignora aquesta actualització"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shaders contain special effects which can be added to the video rendering process."
@@ -1600,11 +1601,11 @@ msgstr "Carregar"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON4"
 msgid "Save"
-msgstr "Desar"
+msgstr "Desa"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON5"
 msgid "Delete"
-msgstr "Borrar"
+msgstr "Suprimeix"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active pre-resize shaders"
@@ -1660,9 +1661,9 @@ msgstr "Qualitat JPEG:"
 
 msgctxt "IDD_CMD_LINE_HELP_CAPTION"
 msgid "Command line help"
-msgstr "Ajuda de la línia de Comandaments"
+msgstr "Ajuda de la línia d’ordres"
 
 msgctxt "IDD_CMD_LINE_HELP_IDOK"
 msgid "OK"
-msgstr "D'acord"
+msgstr "D’acord"
 

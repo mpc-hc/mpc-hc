@@ -28,6 +28,7 @@
 #include "VersionInfo.h"
 #include "SysVersion.h"
 #include "WinAPIUtils.h"
+#include "PathUtils.h"
 #include "Translations.h"
 #include "UpdateChecker.h"
 #include "moreuuids.h"
@@ -36,7 +37,7 @@
 #pragma warning(push)
 #pragma warning(disable: 4351) // new behavior: elements of array 'array' will be default initialized
 CAppSettings::CAppSettings()
-    : fInitialized(false)
+    : bInitialized(false)
     , hAccel(nullptr)
     , nCmdlnWebServerPort(-1)
     , fShowDebugInfo(false)
@@ -60,7 +61,7 @@ CAppSettings::CAppSettings()
     , iBDAScanFreqStart(474000)
     , iBDAScanFreqEnd(858000)
     , fBDAIgnoreEncryptedChannels(false)
-    , nDVBLastChannel(1)
+    , nDVBLastChannel(INT_ERROR)
     , nDVBStopFilterGraph(DVB_STOP_FG_WHEN_SWITCHING)
     , nDVBRebuildFilterGraph(DVB_REBUILD_FG_WHEN_SWITCHING)
     , fEnableAudioSwitcher(true)
@@ -575,6 +576,7 @@ void CAppSettings::CreateCommands()
     ADDCMD((ID_AFTERPLAYBACK_LOGOFF,              0, FVIRTKEY | FNOINVERT,                    IDS_AFTERPLAYBACK_LOGOFF));
     ADDCMD((ID_AFTERPLAYBACK_LOCK,                0, FVIRTKEY | FNOINVERT,                    IDS_AFTERPLAYBACK_LOCK));
     ADDCMD((ID_AFTERPLAYBACK_MONITOROFF,          0, FVIRTKEY | FNOINVERT,                    IDS_AFTERPLAYBACK_MONITOROFF));
+    ADDCMD((ID_AFTERPLAYBACK_PLAYNEXT,            0, FVIRTKEY | FNOINVERT,                    IDS_AFTERPLAYBACK_PLAYNEXT));
 
     ADDCMD((ID_VIEW_EDITLISTEDITOR,               0, FVIRTKEY | FNOINVERT,                    IDS_AG_TOGGLE_EDITLISTEDITOR));
     ADDCMD((ID_EDL_IN,                            0, FVIRTKEY | FNOINVERT,                    IDS_AG_EDL_IN));
@@ -653,7 +655,7 @@ void CAppSettings::SaveSettings()
     CMPlayerCApp* pApp = AfxGetMyApp();
     ASSERT(pApp);
 
-    if (!fInitialized) {
+    if (!bInitialized) {
         return;
     }
 
@@ -823,14 +825,10 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_DVB, IDS_RS_DVB_REBUILD_FG, nDVBRebuildFilterGraph);
     pApp->WriteProfileInt(IDS_R_DVB, IDS_RS_DVB_STOP_FG, nDVBStopFilterGraph);
 
-    int iChannel = 0;
-    POSITION pos = m_DVBChannels.GetHeadPosition();
-    while (pos) {
-        CString strTemp2;
-        CDVBChannel& Channel = m_DVBChannels.GetNext(pos);
-        strTemp2.Format(_T("%d"), iChannel);
-        pApp->WriteProfileString(IDS_R_DVB, strTemp2, Channel.ToString());
-        iChannel++;
+    for (size_t i = 0; i < m_DVBChannels.size(); i++) {
+        CString numChannel;
+        numChannel.Format(_T("%Iu"), i);
+        pApp->WriteProfileString(IDS_R_DVB, numChannel, m_DVBChannels[i].ToString());
     }
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DVDPOS, fRememberDVDPos);
@@ -859,7 +857,7 @@ void CAppSettings::SaveSettings()
     }
 
     pApp->WriteProfileString(IDS_R_COMMANDS, nullptr, nullptr);
-    pos = wmcmds.GetHeadPosition();
+    POSITION pos = wmcmds.GetHeadPosition();
     for (int i = 0; pos;) {
         wmcmd& wc = wmcmds.GetNext(pos);
         if (wc.IsModified()) {
@@ -1177,7 +1175,7 @@ void CAppSettings::LoadSettings()
     UINT  len;
     BYTE* ptr = nullptr;
 
-    if (fInitialized) {
+    if (bInitialized) {
         return;
     }
 
@@ -1210,7 +1208,7 @@ void CAppSettings::LoadSettings()
     fLoopForever = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LOOP, FALSE);
     iZoomLevel = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ZOOM, 1);
     iDSVideoRendererType = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DSVIDEORENDERERTYPE,
-                           SysVersion::IsVistaOrLater() ? (IsVideoRendererAvailable(VIDRNDT_DS_EVR_CUSTOM) ? VIDRNDT_DS_EVR_CUSTOM : VIDRNDT_DS_VMR9RENDERLESS) : VIDRNDT_DS_VMR7RENDERLESS);
+                                               SysVersion::IsVistaOrLater() ? (IsVideoRendererAvailable(VIDRNDT_DS_EVR_CUSTOM) ? VIDRNDT_DS_EVR_CUSTOM : VIDRNDT_DS_VMR9RENDERLESS) : VIDRNDT_DS_VMR7RENDERLESS);
     iRMVideoRendererType = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_RMVIDEORENDERERTYPE, VIDRNDT_RM_DEFAULT);
     iQTVideoRendererType = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_QTVIDEORENDERERTYPE, VIDRNDT_QT_DEFAULT);
     nVolumeStep = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_VOLUMESTEP, 5);
@@ -1348,8 +1346,8 @@ void CAppSettings::LoadSettings()
     {
         CString temp = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SPSTYLE);
         subtitlesDefStyle <<= temp;
-        if (temp.IsEmpty()) {
-            subtitlesDefStyle.relativeTo = STSStyle::AUTO; // default to auto mode
+        if (temp.IsEmpty()) { // Position the text subtitles relative to the video frame by default
+            subtitlesDefStyle.relativeTo = STSStyle::VIDEO;
         }
     }
     fOverridePlacement = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SPOVERRIDEPLACEMENT, FALSE);
@@ -1610,21 +1608,24 @@ void CAppSettings::LoadSettings()
     fBDAUseOffset         = !!pApp->GetProfileInt(IDS_R_DVB, IDS_RS_BDA_USE_OFFSET, FALSE);
     iBDAOffset            = pApp->GetProfileInt(IDS_R_DVB, IDS_RS_BDA_OFFSET, 166);
     fBDAIgnoreEncryptedChannels = !!pApp->GetProfileInt(IDS_R_DVB, IDS_RS_BDA_IGNORE_ENCRYPTED_CHANNELS, FALSE);
-    nDVBLastChannel       = pApp->GetProfileInt(IDS_R_DVB, IDS_RS_DVB_LAST_CHANNEL, 1);
+    nDVBLastChannel       = pApp->GetProfileInt(IDS_R_DVB, IDS_RS_DVB_LAST_CHANNEL, INT_ERROR);
     nDVBRebuildFilterGraph = (DVB_RebuildFilterGraph) pApp->GetProfileInt(IDS_R_DVB, IDS_RS_DVB_REBUILD_FG, DVB_REBUILD_FG_WHEN_SWITCHING);
     nDVBStopFilterGraph = (DVB_StopFilterGraph) pApp->GetProfileInt(IDS_R_DVB, IDS_RS_DVB_STOP_FG, DVB_STOP_FG_WHEN_SWITCHING);
 
     for (int iChannel = 0; ; iChannel++) {
         CString strTemp;
-        CString strChannel;
-        CDVBChannel channel;
         strTemp.Format(_T("%d"), iChannel);
-        strChannel = pApp->GetProfileString(IDS_R_DVB, strTemp);
+        CString strChannel = pApp->GetProfileString(IDS_R_DVB, strTemp);
         if (strChannel.IsEmpty()) {
             break;
         }
-        if (channel.FromString(strChannel)) {
-            m_DVBChannels.AddTail(channel);
+        try {
+            m_DVBChannels.emplace_back(strChannel);
+        } catch (CException* e) {
+            // The tokenisation can fail if the input string was invalid
+            TRACE(_T("Failed to parse a DVB channel from string \"%s\""), strChannel);
+            ASSERT(FALSE);
+            e->Delete();
         }
     }
 
@@ -1662,7 +1663,7 @@ void CAppSettings::LoadSettings()
         nCLSwitches |= CLSW_FULLSCREEN;
     }
 
-    fInitialized = true;
+    bInitialized = true;
 }
 
 bool CAppSettings::GetAllowMultiInst() const
@@ -1860,7 +1861,7 @@ CString CAppSettings::ParseFileName(CString const& param)
     if (param.Find(_T(":")) < 0) {
         fullPathName.ReleaseBuffer(GetFullPathName(param, MAX_PATH, fullPathName.GetBuffer(MAX_PATH), nullptr));
 
-        if (!fullPathName.IsEmpty() && FileExists(fullPathName)) {
+        if (!fullPathName.IsEmpty() && PathUtils::Exists(fullPathName)) {
             return fullPathName;
         }
     }
@@ -2004,6 +2005,8 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
                 nCLSwitches |= CLSW_RESET;
             } else if (sw == _T("monitoroff")) {
                 nCLSwitches |= CLSW_MONITOROFF;
+            } else if (sw == _T("playnext")) {
+                nCLSwitches |= CLSW_PLAYNEXT;
             } else {
                 nCLSwitches |= CLSW_HELP | CLSW_UNRECOGNIZEDSWITCH;
             }
@@ -2091,21 +2094,17 @@ void CAppSettings::AddFav(favtype ft, CString s)
 
 CDVBChannel* CAppSettings::FindChannelByPref(int nPrefNumber)
 {
-    POSITION pos = m_DVBChannels.GetHeadPosition();
-    while (pos) {
-        CDVBChannel& Channel = m_DVBChannels.GetNext(pos);
-        if (Channel.GetPrefNumber() == nPrefNumber) {
-            return &Channel;
-        }
-    }
+    auto it = find_if(m_DVBChannels.begin(), m_DVBChannels.end(), [&](CDVBChannel const & channel) {
+        return channel.GetPrefNumber() == nPrefNumber;
+    });
 
-    return nullptr;
+    return it != m_DVBChannels.end() ? &(*it) : nullptr;
 }
 
 // Settings::CRecentFileAndURLList
 CAppSettings::CRecentFileAndURLList::CRecentFileAndURLList(UINT nStart, LPCTSTR lpszSection,
-        LPCTSTR lpszEntryFormat, int nSize,
-        int nMaxDispLen)
+                                                           LPCTSTR lpszEntryFormat, int nSize,
+                                                           int nMaxDispLen)
     : CRecentFileList(nStart, lpszSection, lpszEntryFormat, nSize, nMaxDispLen)
 {
 }

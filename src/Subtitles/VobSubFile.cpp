@@ -32,7 +32,7 @@
 #include "unrar/dll.hpp"
 #endif
 #include "RTS.h"
-#include "../DSUtil/WinAPIUtils.h"
+#include "../DSUtil/PathUtils.h"
 
 //
 
@@ -1459,7 +1459,7 @@ STDMETHODIMP CVobSubFile::SetStream(int iStream)
 
 STDMETHODIMP CVobSubFile::Reload()
 {
-    if (!FileExists(m_title + _T(".idx"))) {
+    if (!PathUtils::Exists(m_title + _T(".idx"))) {
         return E_FAIL;
     }
     return !m_title.IsEmpty() && Open(m_title) ? S_OK : E_FAIL;

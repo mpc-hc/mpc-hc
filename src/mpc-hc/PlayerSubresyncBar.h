@@ -78,8 +78,6 @@ private:
     };
     MODE m_mode;
 
-    //bool m_bUnlink;
-
     struct SubTime {
         int orgStart, newStart, orgEnd, newEnd;
     };

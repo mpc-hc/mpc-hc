@@ -6,8 +6,8 @@
    [OpenID authentication](https://trac.mpc-hc.org/openidlogin) is available).
 2. Please search our [Trac](https://trac.mpc-hc.org/report/1)
    for your problem since there's a good chance that someone has already reported it.
-3. In case you found a match, please try to provide as much info as you can
-   so we have better picture about what the real problem is and how to fix it ASAP.
+3. If you find a match, please try to provide as much info as you can,
+   so that we have a better picture about what the real problem is and how to fix it ASAP.
 4. If you didn't find any tickets with a problem similar to yours then please open a
    [new ticket](https://trac.mpc-hc.org/ticket/newticket)
    * Be descriptive as much as you can
@@ -19,7 +19,7 @@ If you want to help, here's what you need to do:
 
 1. Make sure you have a [GitHub account](https://github.com/signup/free).
 2. [Fork](https://github.com/mpc-hc/mpc-hc/fork) our repository.
-3. Create a new topic branch to contain your feature, change, or fix.
+3. Create a new topic branch (based on the `develop` branch) to contain your feature, change, or fix.
 4. Set `core.autocrlf` to true: `git config core.autocrlf true`.
 5. Make sure you have enabled the pre-commit hook - **[pre-commit.sh](/contrib/pre-commit.sh)**.
 6. Make sure that your changes adhere to the current coding conventions used

@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Ahmad Abd-Elghany <tolpa1@gmail.com>, 2013-2014
@@ -9,9 +9,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-19 21:10:25+0000\n"
-"PO-Revision-Date: 2014-08-20 18:50+0000\n"
-"Last-Translator: Ahmad Abd-Elghany <tolpa1@gmail.com>\n"
+"POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
+"PO-Revision-Date: 2014-12-01 22:49+0000\n"
+"Last-Translator: Underground78\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/mpc-hc/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -233,11 +233,11 @@ msgstr "وضع ملء الشاشة D3D مع دعم واجهة المستخدم �
 
 msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
 msgid "10-bit &RGB Output"
-msgstr "إخراج  RGB 10-bit"
+msgstr "إخراج RGB 10-bit"
 
 msgctxt "ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION"
 msgid "Force 10-bit RGB &Input"
-msgstr "فرض إدخال  RGB 10-bit"
+msgstr "فرض إدخال RGB 10-bit"
 
 msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
 msgid "&Full Floating Point Processing"
@@ -614,6 +614,10 @@ msgstr "قفل"
 msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
 msgid "Turn off the &monitor"
 msgstr "أغلق الشاشة"
+
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "تشغيل الملف التالي في المجلد"
 
 msgctxt "POPUP"
 msgid "&Navigate"

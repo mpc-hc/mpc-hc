@@ -140,12 +140,12 @@ using namespace DSObjects;
 
 CDX9RenderingEngine::CDX9RenderingEngine(HWND hWnd, HRESULT& hr, CString* _pError)
     : CSubPicAllocatorPresenterImpl(hWnd, hr, _pError)
-    , m_ScreenSize(0, 0)
-    , m_nNbDXSurface(1)
-    , m_nCurSurface(0)
     , m_CurrentAdapter(UINT_ERROR)
     , m_BackbufferType(D3DFMT_UNKNOWN)
     , m_DisplayType(D3DFMT_UNKNOWN)
+    , m_ScreenSize(0, 0)
+    , m_nNbDXSurface(1)
+    , m_nCurSurface(0)
     , m_bHighColorResolution(false)
     , m_bForceInputHighColorResolution(false)
     , m_RenderingPath(RENDERING_PATH_DRAW)
@@ -226,6 +226,8 @@ HRESULT CDX9RenderingEngine::CreateVideoSurfaces()
     for (int i = 0; i < 2; i++) {
         m_pTemporaryVideoTextures[i] = nullptr;
     }
+
+    CheckPointer(m_pD3DDev, E_POINTER);
 
     if (r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE2D || r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) {
         int nTexturesNeeded = r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D ? m_nNbDXSurface : 1;
@@ -581,7 +583,7 @@ HRESULT CDX9RenderingEngine::InitTemporaryScreenSpaceTextures(int count)
     for (int i = 0; i < count; i++) {
         if (m_pTemporaryScreenSpaceTextures[i] == nullptr) {
             m_TemporaryScreenSpaceTextureSize = CSize(std::min(m_ScreenSize.cx, (long)m_Caps.MaxTextureWidth),
-                                                std::min(std::max(m_ScreenSize.cy, m_nativeVideoSize.cy), (long)m_Caps.MaxTextureHeight));
+                                                      std::min(std::max(m_ScreenSize.cy, m_nativeVideoSize.cy), (long)m_Caps.MaxTextureHeight));
             hr = m_pD3DDev->CreateTexture(
                      m_TemporaryScreenSpaceTextureSize.cx,
                      m_TemporaryScreenSpaceTextureSize.cy,

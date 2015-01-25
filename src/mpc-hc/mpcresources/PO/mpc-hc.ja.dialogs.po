@@ -1,13 +1,13 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# ever_green, 2014
+# ever_green, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-09-28 02:20+0000\n"
+"PO-Revision-Date: 2015-01-23 11:01+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -122,7 +122,7 @@ msgstr "Shift キーを押したままクリックすると、即座に変更さ
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."
-msgstr "再生位置を移動..."
+msgstr "指定位置に移動..."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time. You do not need to enter the separators explicitly."
@@ -189,8 +189,8 @@ msgid "About"
 msgstr "バージョン情報"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2014 see Authors.txt"
-msgstr "Copyright © 2002-2014 (Authors.txt ファイルを参照)"
+msgid "Copyright © 2002-2015 see Authors.txt"
+msgstr "Copyright © 2002-2015 (Authors.txt ファイルを参照)"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -286,7 +286,7 @@ msgstr "OSD を表示する (再起動が必要)"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK4"
 msgid "Limit window proportions on resize"
-msgstr "リサイズ時にウィンドウ サイズの縦横比を固定する"
+msgstr "サイズ変更時にウィンドウ サイズの縦横比を固定する"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK12"
 msgid "Snap to desktop edges"
@@ -454,7 +454,7 @@ msgstr "音声:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK4"
 msgid "Allow overriding external splitter choice"
-msgstr "外部スプリッタでの選択を上書きできるようにする"
+msgstr "外部スプリッタでの選択の上書きを許可する"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Open settings"
@@ -470,7 +470,7 @@ msgstr "表示できないピンを報告する"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
-msgstr "音声ファイルを自動で読み込む"
+msgstr "オーディオ ファイルを自動で読み込む"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
 msgid "Use the built-in subtitle renderer"
@@ -554,7 +554,7 @@ msgstr "% でアニメーション化する"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Allow dropping some subpictures if the queue is running late"
-msgstr "キューが遅れて実行されている場合、サブピクチャのドロップを許可する"
+msgstr "キューが遅れて実行されている場合、サブピクチャの脱落を許可する"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Renderer Layout"
@@ -570,7 +570,7 @@ msgstr "警告"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu."
-msgstr "ビデオカードの設定で全画面表示のアンチエイリアスを有効にした場合、CPU を消費するのみで字幕は少しも綺麗になりません。"
+msgstr "字幕の配置を強制的に指定し、ビデオカードの設定で全画面表示のアンチエイリアスを有効にした場合、CPU を消費するのみで字幕は少しも綺麗になりません。"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
 msgid "File extensions"
@@ -650,7 +650,7 @@ msgstr "DVD"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK3"
 msgid "Audio CD"
-msgstr "オーディオ CD"
+msgstr "音楽 CD"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "Jump distances (small, medium, large in ms)"
@@ -674,7 +674,7 @@ msgstr "「現在再生中」 のファイル情報を Skype のムード メッ
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
-msgstr "既定のモニタ以外で全画面表示している場合、プレーヤーを最小化しない"
+msgstr "既定のモニタ以外で全画面表示している場合、プレーヤーを最小化できないようにする"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_WIN7"
 msgid "Use Windows 7 Taskbar features"
@@ -682,7 +682,7 @@ msgstr "Windows 7 のタスクバーの機能を使用する"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
-msgstr "一つの項目のみが再生リストに残っている場合、 「前へ/次へ」 でフォルダ内の前/次のファイルを開く"
+msgstr "再生リスト内に一つの項目のみがある場合、 「前へ/次へ」 でフォルダ内の前/次のファイルを開く"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
 msgid "Use time tooltip:"
@@ -822,11 +822,11 @@ msgstr "名前の変更"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON3"
 msgid "Move Up"
-msgstr "上へ"
+msgstr "上へ移動"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON4"
 msgid "Move Down"
-msgstr "下へ"
+msgstr "下へ移動"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON2"
 msgid "Delete"
@@ -1134,15 +1134,15 @@ msgstr "サーフェス:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Resizer:"
-msgstr "補間方法:"
+msgstr "リサイザ:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_D3D9DEVICE"
 msgid "Select D3D9 Render Device"
-msgstr "Direct3D 9 レンダラ デバイスを選択"
+msgstr "Direct3D 9 レンダラ デバイスを選択する"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_RESETDEVICE"
 msgid "Reinitialize when changing display"
-msgstr "表示変更時に再初期化する"
+msgstr "ディスプレイ変更時に再初期化する"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "D3D Fullscreen"
@@ -1210,7 +1210,7 @@ msgstr "デバッグ情報を表示する"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK4"
 msgid "Serve pages from:"
-msgstr "サーバのルート ディレクトリ:"
+msgstr "サーバーのルート ディレクトリ:"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_BUTTON1"
 msgid "Browse..."
@@ -1246,7 +1246,7 @@ msgstr "名前を付けて保存..."
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Color controls (for VMR-9, EVR and madVR)"
-msgstr "カラー コントロール (VMR-9, EVR 及び madVR 用)"
+msgstr "カラー コントロール (VMR-9, EVR および madVR 用)"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Brightness"
@@ -1274,7 +1274,7 @@ msgstr "更新の確認"
 
 msgctxt "IDD_PPAGEMISC_IDC_CHECK1"
 msgid "Enable automatic update check"
-msgstr "自動更新の確認を有効にする"
+msgstr "更新の自動確認を有効にする"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
 msgid "Delay between each check:"
@@ -1522,11 +1522,11 @@ msgstr "スキャン"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK1"
 msgid "Prefer forced and/or default subtitles tracks"
-msgstr "強制字幕及び既定の字幕トラックまたはそのどちらかを選択する"
+msgstr "強制字幕トラックおよびまたは既定の字幕トラックを優先する"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK2"
 msgid "Prefer external subtitles over embedded subtitles"
-msgstr "埋め込まれた字幕ではなく外部字幕を選択する"
+msgstr "埋め込まれた字幕ではなく外部字幕を優先する"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK3"
 msgid "Ignore embedded subtitles"
@@ -1582,11 +1582,11 @@ msgstr "消去"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON1"
 msgid "Add to pre-resize"
-msgstr "リサイズ前のシェーダに追加"
+msgstr "サイズ変更前のシェーダに追加"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON2"
 msgid "Add to post-resize"
-msgstr "リサイズ後のシェーダに追加"
+msgstr "サイズ変更後のシェーダに追加"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shader presets"
@@ -1606,11 +1606,11 @@ msgstr "削除"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active pre-resize shaders"
-msgstr "アクティブなリサイズ前のシェーダ"
+msgstr "アクティブなサイズ変更前のシェーダ"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active post-resize shaders"
-msgstr "アクティブなリサイズ後のシェーダ"
+msgstr "アクティブなサイズ変更後のシェーダ"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_CAPTION"
 msgid "Debug Shaders"

@@ -26,7 +26,16 @@
 #include <algorithm>
 
 CVobSubImage::CVobSubImage()
-    : nLang(SIZE_T_ERROR)
+    : org(CSize(0, 0))
+    , lpTemp1(nullptr)
+    , lpTemp2(nullptr)
+    , nPlane(0)
+    , bCustomPal(false)
+    , bAligned(true)
+    , tridx(0)
+    , orgpal(nullptr)
+    , cuspal(nullptr)
+    , nLang(SIZE_T_ERROR)
     , nIdx(SIZE_T_ERROR)
     , bForced(false)
     , bAnimated(false)
@@ -35,15 +44,6 @@ CVobSubImage::CVobSubImage()
     , delay(0)
     , rect(CRect(0, 0, 0, 0))
     , lpPixels(nullptr)
-    , lpTemp1(nullptr)
-    , lpTemp2(nullptr)
-    , org(CSize(0, 0))
-    , nPlane(0)
-    , bCustomPal(false)
-    , bAligned(true)
-    , tridx(0)
-    , orgpal(nullptr)
-    , cuspal(nullptr)
 {
     ZeroMemory(&pal, sizeof(pal));
 }

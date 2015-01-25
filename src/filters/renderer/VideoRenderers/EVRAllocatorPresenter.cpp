@@ -67,44 +67,44 @@ using namespace DSObjects;
 
 CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
     : CDX9AllocatorPresenter(hWnd, bFullscreen, hr, true, _Error)
-    , m_hDXVA2Lib(nullptr)
-    , m_hEVRLib(nullptr)
-    , m_hAVRTLib(nullptr)
-    , m_nResetToken(0)
-    , m_hThread(nullptr)
-    , m_hGetMixerThread(nullptr)
-    , m_hVSyncThread(nullptr)
-    , m_hEvtFlush(nullptr)
-    , m_hEvtQuit(nullptr)
-    , m_bEvtQuit(0)
-    , m_bEvtFlush(0)
     , m_ModeratedTime(0)
     , m_ModeratedTimeLast(-1)
     , m_ModeratedClockLast(-1)
     , m_ModeratedTimer(0)
     , m_LastClockState(MFCLOCK_STATE_INVALID)
-    , m_nRenderState(Shutdown)
+    , m_pOuterEVR(nullptr)
+    , m_dwVideoAspectRatioMode(MFVideoARMode_PreservePicture)
+    , m_dwVideoRenderPrefs((MFVideoRenderPrefs)0)
+    , m_BorderColor(RGB(0, 0, 0))
+    , m_hEvtQuit(nullptr)
+    , m_bEvtQuit(0)
+    , m_hEvtFlush(nullptr)
+    , m_bEvtFlush(0)
     , m_fUseInternalTimer(false)
     , m_LastSetOutputRange(-1)
     , m_bPendingRenegotiate(false)
     , m_bPendingMediaFinished(false)
-    , m_bWaitingSample(false)
+    , m_hThread(nullptr)
+    , m_hGetMixerThread(nullptr)
+    , m_hVSyncThread(nullptr)
+    , m_nRenderState(Shutdown)
     , m_pCurrentDisplaydSample(nullptr)
-    , m_nStepCount(0)
-    , m_dwVideoAspectRatioMode(MFVideoARMode_PreservePicture)
-    , m_dwVideoRenderPrefs((MFVideoRenderPrefs)0)
-    , m_BorderColor(RGB(0, 0, 0))
-    , m_bSignaledStarvation(false)
-    , m_StarvationClock(0)
-    , m_pOuterEVR(nullptr)
+    , m_bWaitingSample(false)
+    , m_bLastSampleOffsetValid(false)
     , m_LastScheduledSampleTime(-1)
+    , m_LastScheduledSampleTimeFP(-1)
     , m_LastScheduledUncorrectedSampleTime(-1)
     , m_MaxSampleDuration(0)
     , m_LastSampleOffset(0)
     , m_LastPredictedSync(0)
     , m_VSyncOffsetHistoryPos(0)
-    , m_bLastSampleOffsetValid(false)
-    , m_LastScheduledSampleTimeFP(-1)
+    , m_nResetToken(0)
+    , m_nStepCount(0)
+    , m_bSignaledStarvation(false)
+    , m_StarvationClock(0)
+    , m_hDXVA2Lib(nullptr)
+    , m_hEVRLib(nullptr)
+    , m_hAVRTLib(nullptr)
     , pfDXVA2CreateDirect3DDeviceManager9(nullptr)
     , pfMFCreateDXSurfaceBuffer(nullptr)
     , pfMFCreateVideoSampleFromSurface(nullptr)
@@ -1236,8 +1236,8 @@ STDMETHODIMP CEVRAllocatorPresenter::GetDeviceID(/* [out] */ __out  IID* pDevice
 
 // IMFGetService
 STDMETHODIMP CEVRAllocatorPresenter::GetService(/* [in] */ __RPC__in REFGUID guidService,
-        /* [in] */ __RPC__in REFIID riid,
-        /* [iid_is][out] */ __RPC__deref_out_opt LPVOID* ppvObject)
+                                                           /* [in] */ __RPC__in REFIID riid,
+                                                           /* [iid_is][out] */ __RPC__deref_out_opt LPVOID* ppvObject)
 {
     if (guidService == MR_VIDEO_RENDER_SERVICE) {
         return NonDelegatingQueryInterface(riid, ppvObject);
@@ -2550,7 +2550,7 @@ HRESULT CEVRAllocatorPresenter::GetFreeSample(IMFSample** ppSample)
     HRESULT hr = S_OK;
 
     if (m_FreeSamples.GetCount() > 1) { // <= Cannot use first free buffer (can be currently displayed)
-        InterlockedIncrement(&m_nUsedBuffer);
+        m_nUsedBuffer++;
         *ppSample = m_FreeSamples.RemoveHead().Detach();
     } else {
         hr = MF_E_SAMPLEALLOCATOR_EMPTY;
@@ -2578,7 +2578,8 @@ HRESULT CEVRAllocatorPresenter::GetScheduledSample(IMFSample** ppSample, int& _C
 void CEVRAllocatorPresenter::MoveToFreeList(IMFSample* pSample, bool bTail)
 {
     CAutoLock lock(&m_SampleQueueLock);
-    InterlockedDecrement(&m_nUsedBuffer);
+
+    m_nUsedBuffer--;
     if (m_bPendingMediaFinished && m_nUsedBuffer == 0) {
         m_bPendingMediaFinished = false;
         m_pSink->Notify(EC_COMPLETE, 0, 0);

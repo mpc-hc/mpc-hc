@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -161,8 +161,8 @@ CCritSec CDSMResource::m_csResources;
 CAtlMap<uintptr_t, CDSMResource*> CDSMResource::m_resources;
 
 CDSMResource::CDSMResource()
-    : mime(_T("application/octet-stream"))
-    , tag(0)
+    : tag(0)
+    , mime(_T("application/octet-stream"))
 {
     CAutoLock cAutoLock(&m_csResources);
     m_resources.SetAt(reinterpret_cast<uintptr_t>(this), this);

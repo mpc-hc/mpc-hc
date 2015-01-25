@@ -1,13 +1,13 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # abuyop <abuyop@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-19 21:10:25+0000\n"
-"PO-Revision-Date: 2014-09-01 10:40+0000\n"
+"POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
+"PO-Revision-Date: 2014-11-29 05:40+0000\n"
 "Last-Translator: abuyop <abuyop@gmail.com>\n"
 "Language-Team: Malay (Malaysia) (http://www.transifex.com/projects/p/mpc-hc/language/ms_MY/)\n"
 "MIME-Version: 1.0\n"
@@ -611,6 +611,10 @@ msgstr "Kun&ci"
 msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
 msgid "Turn off the &monitor"
 msgstr "Matikan &monitor"
+
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "Main fail &berikutnya di dalam folder"
 
 msgctxt "POPUP"
 msgid "&Navigate"

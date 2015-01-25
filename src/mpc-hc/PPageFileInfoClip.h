@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -33,13 +33,7 @@ class CPPageFileInfoClip : public CPropertyPage
 private:
     HICON m_hIcon;
     CToolTipCtrl m_tooltip;
-
-public:
-    CPPageFileInfoClip(CString path, IFilterGraph* pFG, IFileSourceFilter* pFSF);
-    virtual ~CPPageFileInfoClip();
-
-    // Dialog Data
-    enum { IDD = IDD_FILEPROPCLIP };
+    CEdit m_locationCtrl;
 
     CStatic m_icon;
     CString m_fn, m_path;
@@ -47,20 +41,23 @@ public:
     CString m_author;
     CString m_copyright;
     CString m_rating;
-    CString m_location_str;
-    CString m_desctext;
-    CEdit   m_location;
-    CEdit   m_desc;
+    CString m_location;
+    CString m_desc;
+
+public:
+    CPPageFileInfoClip(CString path, IFilterGraph* pFG, IFileSourceFilter* pFSF, IDvdInfo2* pDVDI);
+    virtual ~CPPageFileInfoClip();
+
+    // Dialog Data
+    enum { IDD = IDD_FILEPROPCLIP };
 
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-    virtual BOOL OnInitDialog();
     virtual BOOL PreTranslateMessage(MSG* pMsg);
+    virtual BOOL OnInitDialog();
     virtual BOOL OnSetActive();
-    virtual LRESULT OnSetPageFocus(WPARAM wParam, LPARAM lParam);
-    BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
 
     DECLARE_MESSAGE_MAP()
 
-public:
+    bool OnDoubleClickLocation();
 };

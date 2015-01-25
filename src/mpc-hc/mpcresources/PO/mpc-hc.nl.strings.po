@@ -1,15 +1,18 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Dennis Gerritsen <frostflame@hotmail.com>, 2014
+# dragnadh <dragnadh@gmail.com>, 2015
+# DennisW, 2014
 # rjongejan <ruben.jongejan@gmail.com>, 2014
+# Tom <tom@boksma.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-09-20 09:58+0000\n"
-"Last-Translator: JellyFrog\n"
+"POT-Creation-Date: 2014-10-30 22:04:38+0000\n"
+"PO-Revision-Date: 2015-01-22 17:01+0000\n"
+"Last-Translator: dragnadh <dragnadh@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/mpc-hc/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -87,7 +90,7 @@ msgstr "Synchronisatie compensatie"
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET_FORMAT"
 msgid "avg: %d ms, dev: %d ms"
-msgstr "avg: %d ms, dev: %d ms"
+msgstr "gem.: %d ms, afw.: %d ms"
 
 msgctxt "IDS_STATSBAR_JITTER"
 msgid "Jitter"
@@ -311,7 +314,7 @@ msgstr "Laag"
 
 msgctxt "IDS_SUBRESYNC_CLN_ACTOR"
 msgid "Actor"
-msgstr ""
+msgstr "Acteur"
 
 msgctxt "IDS_SUBRESYNC_CLN_EFFECT"
 msgid "Effect"
@@ -487,43 +490,43 @@ msgstr "Oude Video Renderer"
 
 msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
-msgstr ""
+msgstr "Overlay Mixer Renderer"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
 msgid "Video Mixing Renderer 7 (windowed)"
-msgstr ""
+msgstr "Video Mixing Renderer 7 (windowed)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
 msgid "Video Mixing Renderer 9 (windowed)"
-msgstr ""
+msgstr "Video Mixing Renderer 9 (windowed)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
 msgid "Video Mixing Renderer 7 (renderless)"
-msgstr ""
+msgstr "Video Mixing Renderer 7 (renderless)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
 msgid "Video Mixing Renderer 9 (renderless)"
-msgstr ""
+msgstr "Video Mixing Renderer 9 (renderless)"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR"
 msgid "Enhanced Video Renderer"
-msgstr ""
+msgstr "Enhanced Video Renderer"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR_CUSTOM"
 msgid "Enhanced Video Renderer (custom presenter)"
-msgstr ""
+msgstr "Enhanced Video Renderer (custom presenter)"
 
 msgctxt "IDS_PPAGE_OUTPUT_DXR"
 msgid "Haali Video Renderer"
-msgstr ""
+msgstr "Haali Video Renderer"
 
 msgctxt "IDS_PPAGE_OUTPUT_NULL_COMP"
 msgid "Null (anything)"
-msgstr ""
+msgstr "Ontbrekend (alles)"
 
 msgctxt "IDS_PPAGE_OUTPUT_NULL_UNCOMP"
 msgid "Null (uncompressed)"
-msgstr ""
+msgstr "Ontbrekend (ongecomprimeerd)"
 
 msgctxt "IDS_PPAGE_OUTPUT_MADVR"
 msgid "madVR"
@@ -567,7 +570,7 @@ msgstr "Overige"
 
 msgctxt "IDD_FILEMEDIAINFO"
 msgid "MediaInfo"
-msgstr ""
+msgstr "MediaInfo"
 
 msgctxt "IDD_PPAGECAPTURE"
 msgid "Playback::Capture"
@@ -583,11 +586,11 @@ msgstr "Weergave::Volledig Scherm"
 
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
-msgstr ""
+msgstr "Details"
 
 msgctxt "IDD_FILEPROPCLIP"
 msgid "Clip"
-msgstr ""
+msgstr "Fragment"
 
 msgctxt "IDC_DSSYSDEF"
 msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason. On Windown XP this is the same as VMR-7 (windowed)."
@@ -631,19 +634,19 @@ msgstr "Hetzelfde als de normale Null renderer, maar deze zal alleen verbinding 
 
 msgctxt "IDC_DSEVR"
 msgid "Only available on Vista or later or on XP with at least .NET Framework 3.5 installed."
-msgstr ""
+msgstr "Alleen beschikbaar op Vista of later, of op XP met minstens .NET Framework 3.5 geïnstalleerd."
 
 msgctxt "IDC_DSEVR_CUSTOM"
 msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
-msgstr ""
+msgstr "Zelfde als de EVR, maar met de Allocator-Presenter van MPC-HC voor ondertiteling and postprocessing. Aanbevolen voor Windows Vista of later."
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
-msgstr ""
+msgstr "Hoge kwaliteit renderer, een GPU dat D3D9 of later ondersteund is vereist."
 
 msgctxt "IDC_DSSYNC"
 msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
-msgstr ""
+msgstr "Zelfde als de EVER (CP), maar biedt verscheidende opties om video framerate te synchroniseren met display refresh rate om dubbele of overgeslagen frames tegen te gaan."
 
 msgctxt "IDC_RMSYSDEF"
 msgid "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
@@ -675,19 +678,19 @@ msgstr "Video oppervlak is een normaal offscreen oppervlak."
 
 msgctxt "IDC_AUDRND_COMBO"
 msgid "MPC Audio Renderer is broken, do not use."
-msgstr ""
+msgstr "MPC Audio renderer is defect, niet gebruiken."
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
-msgstr ""
+msgstr "Sync Renderer"
 
 msgctxt "IDS_MPC_BUG_REPORT_TITLE"
 msgid "MPC-HC - Reporting a bug"
-msgstr ""
+msgstr "MPC-HC - Raporteer een bug"
 
 msgctxt "IDS_MPC_BUG_REPORT"
 msgid "MPC-HC just crashed but this build was compiled without debug information.\nIf you want to report this bug, you should first try an official build.\n\nDo you want to visit the download page now?"
-msgstr ""
+msgstr "MPC-HC is gecrasht, maar deze build is gecompileerd zonder debug informatie.\nAls U deze bug wilt rapporteren, raden we aan om eerst een officiële build te proberen.\n\nWilt U de download pagina nu bezoeken?"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
 msgid "Regular offscreen plain surface"
@@ -695,55 +698,55 @@ msgstr ""
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_2D"
 msgid "2D surfaces"
-msgstr ""
+msgstr "2D oppervlaktes"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_3D"
 msgid "3D surfaces (recommended)"
-msgstr ""
+msgstr "3D oppervlaktes (aanbevolen)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZE_NN"
 msgid "Nearest neighbor"
-msgstr ""
+msgstr "Naaste buur"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BILIN"
 msgid "Bilinear"
-msgstr ""
+msgstr "Bilinear"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BIL_PS"
 msgid "Bilinear (PS 2.0)"
-msgstr ""
+msgstr "Bilinear (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB1"
 msgid "Bicubic A=-0.60 (PS 2.0)"
-msgstr ""
+msgstr "Bicubic A=-0.60 (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB2"
 msgid "Bicubic A=-0.75 (PS 2.0)"
-msgstr ""
+msgstr "Bicubic A=-0.75 (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB3"
 msgid "Bicubic A=-1.00 (PS 2.0)"
-msgstr ""
+msgstr "Bicubic A=-1.00 (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLE"
 msgid "**unavailable**"
-msgstr ""
+msgstr "**onbeschikbaar**"
 
 msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLEMSG"
 msgid "The selected renderer is not installed."
-msgstr ""
+msgstr "The geselecteerde renderer is niet geïnstalleerd "
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_COMP"
 msgid "Null (anything)"
-msgstr ""
+msgstr "Ontbrekend (alles)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP"
 msgid "Null (uncompressed)"
-msgstr ""
+msgstr "Ontbrekend (ongecomprimeerd)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND"
 msgid "MPC-HC Audio Renderer"
-msgstr ""
+msgstr "MPC-HC Audio Renderer"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
@@ -751,46 +754,46 @@ msgstr "Naam"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_TYPE"
 msgid "MIME Type"
-msgstr ""
+msgstr "MIME Type"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_INFO"
 msgid "In order to view an embedded resource in your browser you have to enable the web interface.\n\nUse the \"Save As\" button if you only want to save the information."
-msgstr ""
+msgstr "Om een ingebedde bron in uw browser te bekijken dient de web interface geactiveerd te zijn.\n\nGebruik de \"Opslaan Als\" knop als u alleen de informatie wilt opslaan."
 
 msgctxt "IDS_DOWNLOAD_SUBS"
 msgid "Download subtitles"
-msgstr ""
+msgstr "Download ondertiteling"
 
 msgctxt "IDS_SUBFILE_DELAY"
 msgid "Delay (ms):"
-msgstr ""
+msgstr "Vertraging (ms):"
 
 msgctxt "IDS_SPEEDSTEP_AUTO"
 msgid "Auto"
-msgstr ""
+msgstr "Automatisch"
 
 msgctxt "IDS_EXPORT_SETTINGS_NO_KEYS"
 msgid "There are no customized keys to export."
-msgstr ""
+msgstr "Er zijn geen aangepaste toetsen om te exporteren."
 
 msgctxt "IDS_RFS_NO_FILES"
 msgid "No media files found in the archive"
-msgstr ""
+msgstr "Geen media bestanden gevonden in het archief"
 
 msgctxt "IDS_RFS_COMPRESSED"
 msgid "Compressed files are not supported"
-msgstr ""
+msgstr "Gecomprimeerde bestanden worden niet ondersteund"
 
 msgctxt "IDS_RFS_ENCRYPTED"
 msgid "Encrypted files are not supported"
-msgstr ""
+msgstr "Gecodeerde bestanden worden niet ondersteund"
 
 msgctxt "IDS_RFS_MISSING_VOLS"
 msgid "Couldn't find all archive volumes"
-msgstr ""
+msgstr "Kan niet alle gearchiveerde volumes vinden"
 
 msgctxt "IDC_TEXTURESURF2D"
-msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
+msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
 msgstr "Video oppervlak is een texture-oppervlak, maar de 2Dd functies worden gebruikt om het beeld in de backbuffer te kopieren en te spreiden. Vereist een grafische kaart die 32bit, RGBA, non-power-of-two textures ondersteunt, binnen de resolutie van de video."
 
 msgctxt "IDC_TEXTURESURF3D"
@@ -807,7 +810,7 @@ msgstr "Zet VMR-9 (renderless) in de mixer-modus. Dit betekent dat bij eigenscha
 
 msgctxt "IDC_DSVMR9YUVMIXER"
 msgid "Improves performance at the cost of some compatibility of the renderer."
-msgstr ""
+msgstr "Verbeter prestatie ten koste van de compatibiliteit van de renderer."
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."
@@ -827,19 +830,19 @@ msgstr ""
 
 msgctxt "IDS_INTERNAL_LAVF"
 msgid "Uses LAV Filters"
-msgstr ""
+msgstr "Gebruikt LAV Filters"
 
 msgctxt "IDS_INTERNAL_LAVF_WMV"
 msgid "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
-msgstr ""
+msgstr "Gebruik LAV Filters. Standaard uitgeschakeld aangezien Microsoft filters stabieler zijn voor dit formaat.\nAls u interne filters wilt gebruiken, schakel deze dan voor zowel de bron als decoding in voor een betere afspeel ervaring."
 
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
-msgstr ""
+msgstr "Navigatie balk aan/uit"
 
 msgctxt "IDS_AG_VSYNCACCURATE"
 msgid "Accurate VSync"
-msgstr ""
+msgstr "Accurate VSync"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid "If the rendering target is left undefined, it will be inherited from the default style."
@@ -891,7 +894,7 @@ msgstr "Dempen"
 
 msgctxt "ID_VOLUME_MUTE_ON"
 msgid "Unmute"
-msgstr ""
+msgstr "Dempen opheffen"
 
 msgctxt "ID_VOLUME_MUTE_DISABLED"
 msgid "No audio"
@@ -939,11 +942,11 @@ msgstr "Opties"
 
 msgctxt "IDS_SHADERS_SELECT"
 msgid "&Select Shaders..."
-msgstr ""
+msgstr "&Selecteer Shaders"
 
 msgctxt "IDS_SHADERS_DEBUG"
 msgid "&Debug Shaders..."
-msgstr ""
+msgstr "&Foutopsporing Shaders"
 
 msgctxt "IDS_FAVORITES_ADD"
 msgid "&Add to Favorites..."
@@ -955,7 +958,7 @@ msgstr "Favorieten indelen..."
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
 msgid "Shuffle"
-msgstr ""
+msgstr "Schuifelen"
 
 msgctxt "IDS_PLAYLIST_SHOWFOLDER"
 msgid "Open file location"
@@ -987,7 +990,7 @@ msgstr "Recente bestandenlijst leegmaken ?"
 
 msgctxt "IDS_AG_EDL_SAVE"
 msgid "EDL save"
-msgstr ""
+msgstr "EDL opslaan"
 
 msgctxt "IDS_AG_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time Correction"
@@ -1131,7 +1134,7 @@ msgstr ""
 
 msgctxt "IDS_AG_MOUSE_FS"
 msgid "Mouse Fullscreen"
-msgstr ""
+msgstr "Muis Volledig scherm"
 
 msgctxt "IDS_AG_APP_COMMAND"
 msgid "App Command"
@@ -1191,11 +1194,11 @@ msgstr ""
 
 msgctxt "IDS_AG_SHADERS_PRESET_NEXT"
 msgid "Next Shader Preset"
-msgstr ""
+msgstr "Volgende Shader voorinstelling"
 
 msgctxt "IDS_AG_SHADERS_PRESET_PREV"
 msgid "Prev Shader Preset"
-msgstr ""
+msgstr "Vorige Shader voorinstelling"
 
 msgctxt "IDS_STRING_COLON"
 msgid "%s:"
@@ -1239,23 +1242,23 @@ msgstr "[H/W]"
 
 msgctxt "IDS_TOOLTIP_SOFTWARE_DECODING"
 msgid "Software Decoding"
-msgstr ""
+msgstr "Software decodering"
 
 msgctxt "IDS_STATSBAR_PLAYBACK_RATE"
 msgid "Playback rate"
-msgstr ""
+msgstr "Afspeel snelheid"
 
 msgctxt "IDS_FILTERS_COPY_TO_CLIPBOARD"
 msgid "&Copy filters list to clipboard"
-msgstr ""
+msgstr "&Kopieer filters naar klembord"
 
 msgctxt "IDS_CREDENTIALS_SERVER"
 msgid "Enter server credentials"
-msgstr ""
+msgstr "Voer server credentials in"
 
 msgctxt "IDS_CREDENTIALS_CONNECT"
 msgid "Enter your credentials to connect"
-msgstr ""
+msgstr "Voer je inloggegevens in om te verbinden"
 
 msgctxt "IDS_SUB_SAVE_EXTERNAL_STYLE_FILE"
 msgid "Save custom style"
@@ -1279,7 +1282,7 @@ msgstr "Naam"
 
 msgctxt "IDS_PPAGEADVANCED_COL_VALUE"
 msgid "Value"
-msgstr ""
+msgstr "Waarde"
 
 msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
@@ -1295,11 +1298,11 @@ msgstr ""
 
 msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
 msgid "Do Nothing"
-msgstr ""
+msgstr "Niets doen"
 
 msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
 msgid "Play next file in the folder"
-msgstr ""
+msgstr "Speel volgend bestand af"
 
 msgctxt "IDS_AFTER_PLAYBACK_REWIND"
 msgid "Rewind current file"
@@ -1315,15 +1318,15 @@ msgstr "Afsluiten"
 
 msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
 msgid "Turn off the monitor"
-msgstr ""
+msgstr "Schakel de monitor uit"
 
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
 msgid "JPEG Image"
-msgstr ""
+msgstr "JPEG Afbeelding"
 
 msgctxt "IDS_IMAGE_QUALITY"
 msgid "Quality (%):"
-msgstr ""
+msgstr "Kwaliteit (%):"
 
 msgctxt "IDS_PPAGEADVANCED_COVER_SIZE_LIMIT"
 msgid "Maximum size (NxNpx) of a cover-art loaded in the audio only mode."
@@ -1335,6 +1338,42 @@ msgstr ""
 
 msgctxt "IDS_HOTKEY_NOT_DEFINED"
 msgid "<not defined>"
+msgstr ""
+
+msgctxt "IDS_NAVIGATION_WATCH"
+msgid "Watch"
+msgstr "Bekijk"
+
+msgctxt "IDS_NAVIGATION_MOVE_UP"
+msgid "Move Up"
+msgstr "Omhoog"
+
+msgctxt "IDS_NAVIGATION_MOVE_DOWN"
+msgid "Move Down"
+msgstr "Omlaag"
+
+msgctxt "IDS_NAVIGATION_SORT"
+msgid "Sort by LCN"
+msgstr "Sorteer op LCN"
+
+msgctxt "IDS_NAVIGATION_REMOVE_ALL"
+msgid "Remove all"
+msgstr "Verwijder alles"
+
+msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
+msgid "Are you sure you want to remove all channels from the list?"
+msgstr ""
+
+msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"
+msgid "No information available"
+msgstr "Geen informatie beschikbaar"
+
+msgctxt "IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS"
+msgid "Please wait, analysis in progress..."
+msgstr "Even geduld, analyse bezig..."
+
+msgctxt "IDS_ASPECT_RATIO_FMT"
+msgid "AR %d:%d"
 msgstr ""
 
 msgctxt "IDS_AG_OPEN_DEVICE"
@@ -1415,15 +1454,15 @@ msgstr ""
 
 msgctxt "IDS_CONTENT_MUSIC_BALLET_DANCE"
 msgid "Music/Ballet/Dance"
-msgstr ""
+msgstr "Muziek/Ballet/Dans"
 
 msgctxt "IDS_CONTENT_MUSIC_ART_CULTURE"
 msgid "Arts/Culture"
-msgstr ""
+msgstr "Kunst/Cultuur"
 
 msgctxt "IDS_CONTENT_SOCIAL_POLITICAL_ECO"
 msgid "Social/Political issues/Economics"
-msgstr ""
+msgstr "Sociaal/Politiek/Economie"
 
 msgctxt "IDS_CONTENT_LEISURE"
 msgid "Leisure hobbies"
@@ -1431,7 +1470,7 @@ msgstr ""
 
 msgctxt "IDS_FILE_RECYCLE"
 msgid "Move to Recycle Bin"
-msgstr ""
+msgstr "Verplaats naar prullenbak"
 
 msgctxt "IDS_AG_SAVE_COPY"
 msgid "Save a Copy"
@@ -1439,11 +1478,11 @@ msgstr "Kopie opslaan"
 
 msgctxt "IDS_FASTSEEK_LATEST"
 msgid "Latest keyframe"
-msgstr ""
+msgstr "Laatste keyframe"
 
 msgctxt "IDS_FASTSEEK_NEAREST"
 msgid "Nearest keyframe"
-msgstr ""
+msgstr "Dichtstbijzijnde keyframe"
 
 msgctxt "IDS_HOOKS_FAILED"
 msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
@@ -1451,11 +1490,11 @@ msgstr ""
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
 msgid "Never show"
-msgstr ""
+msgstr "Nooit tonen"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWMOVED"
 msgid "Show when moving the cursor, hide after:"
-msgstr ""
+msgstr "Toon aanwijzer tijdens bewegen, verberg na:"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOHHOVERED"
 msgid "Show when hovering control, hide after:"
@@ -1479,11 +1518,11 @@ msgstr ""
 
 msgctxt "IDS_OSD_RS_VSYNC_OFFSET"
 msgid "VSync Offset: %d"
-msgstr ""
+msgstr "VSync compensatie: %d"
 
 msgctxt "IDS_OSD_SPEED"
 msgid "Speed: %.2lfx"
-msgstr ""
+msgstr "Snelheid: %.2lfx"
 
 msgctxt "IDS_OSD_THUMBS_SAVED"
 msgid "Thumbnails saved successfully"
@@ -1523,11 +1562,11 @@ msgstr ""
 
 msgctxt "IDS_EXPORT_SETTINGS_FAILED"
 msgid "The export failed! This can happen when you don't have the correct rights."
-msgstr ""
+msgstr "Export gefaald! Dit kan gebeuren als U niet de correcte rechten heeft."
 
 msgctxt "IDS_BDA_ERROR"
 msgid "BDA Error"
-msgstr ""
+msgstr "BDA Fout"
 
 msgctxt "IDS_AG_DECREASE_RATE"
 msgid "Decrease Rate"
@@ -1538,11 +1577,11 @@ msgid "Reset Rate"
 msgstr "Normaal"
 
 msgctxt "IDS_MPLAYERC_21"
-msgid "Audio Delay +10ms"
+msgid "Audio Delay +10 ms"
 msgstr "Audio vertragingDelay +10ms"
 
 msgctxt "IDS_MPLAYERC_22"
-msgid "Audio Delay -10ms"
+msgid "Audio Delay -10 ms"
 msgstr "Audio vertraging -10ms"
 
 msgctxt "IDS_MPLAYERC_23"
@@ -1687,7 +1726,7 @@ msgstr "PnS Dec Hoogte"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
 msgid "Downloading subtitle(s), please wait."
-msgstr ""
+msgstr "Ondertiteling downloaden, even geduld."
 
 msgctxt "IDS_SUBDL_DLG_PARSING"
 msgid "Parsing list..."
@@ -1698,8 +1737,8 @@ msgid "No subtitles found."
 msgstr "Geen ondertitels gevonden."
 
 msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
-msgid " %d subtitle(s) available."
-msgstr ""
+msgid "%d subtitle(s) available."
+msgstr "%d ondertitel(s) beschikbaar."
 
 msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
@@ -1719,11 +1758,11 @@ msgstr "200%"
 
 msgctxt "IDS_ZOOM_AUTOFIT"
 msgid "Auto Fit"
-msgstr ""
+msgstr "Autom. passend"
 
 msgctxt "IDS_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (Larger Only)"
-msgstr ""
+msgstr "Autom. passend (Alleen groter)"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT_LARGER"
 msgid "Zoom Auto Fit (Larger Only)"
@@ -1735,19 +1774,19 @@ msgstr ""
 
 msgctxt "IDS_TOOLTIP_EXPLORE_TO_FILE"
 msgid "Double click to open file location"
-msgstr ""
+msgstr "Dubbelklik om bestandlocatie te openen"
 
 msgctxt "IDS_TOOLTIP_REMAINING_TIME"
 msgid "Toggle between elapsed and remaining time"
-msgstr ""
+msgstr "Schakel tussen verstreken en resterende tijd"
 
 msgctxt "IDS_UPDATE_DELAY_ERROR_TITLE"
 msgid "Invalid delay"
-msgstr ""
+msgstr "Ongeldige vertraging"
 
 msgctxt "IDS_UPDATE_DELAY_ERROR_MSG"
 msgid "Please enter a number between 1 and 365."
-msgstr ""
+msgstr "Voer een getal in tussen 1 en 365"
 
 msgctxt "IDS_AG_PNS_CENTER"
 msgid "PnS Center"
@@ -1803,7 +1842,7 @@ msgstr "DVD Titel Menu"
 
 msgctxt "IDS_AG_DVD_ROOT_MENU"
 msgid "DVD Root Menu"
-msgstr ""
+msgstr "DVD Root menu"
 
 msgctxt "IDS_MPLAYERC_65"
 msgid "DVD Subtitle Menu"
@@ -1983,11 +2022,11 @@ msgstr "Stoppen"
 
 msgctxt "IDS_DVB_TVNAV_SEERADIO"
 msgid "Radio stations"
-msgstr ""
+msgstr "Radio stations"
 
 msgctxt "IDS_DVB_TVNAV_SEETV"
 msgid "TV stations"
-msgstr ""
+msgstr "TV Stations"
 
 msgctxt "IDS_DVB_CHANNEL_FORMAT"
 msgid "Format"
@@ -2015,23 +2054,23 @@ msgstr "gemaakt: %d, verworpen: %d"
 
 msgctxt "IDS_AG_FRAMES"
 msgid "Frames"
-msgstr ""
+msgstr "Beelden"
 
 msgctxt "IDS_AG_BUFFERS"
 msgid "Buffers"
-msgstr ""
+msgstr "Buffers"
 
 msgctxt "IDS_MAINFRM_9"
 msgid "Volume: %02lu/%02lu, Title: %02lu/%02lu, Chapter: %02lu/%02lu"
 msgstr "Volume: %02lu/%02lu, Title: %02lu/%02lu, Hoofdstuk: %02lu/%02lu"
 
 msgctxt "IDS_MAINFRM_10"
-msgid "Angle: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
+msgid "Angle: %02lu/%02lu, %lux%lu %lu Hz %lu:%lu"
 msgstr "Camerahoek: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
 
 msgctxt "IDS_MAINFRM_11"
-msgid "%s, %s %uHz %dbits %d %s"
-msgstr "%s, %s %uHz %dbits %d %s"
+msgid "%s, %s %u Hz %d bits %d %s"
+msgstr ""
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
@@ -2043,7 +2082,7 @@ msgstr "Afspelen met MPC-HC"
 
 msgctxt "IDS_CANNOT_CHANGE_FORMAT"
 msgid "MPC-HC has not enough privileges to change files formats associations. Please click on the \"Run as administrator\" button."
-msgstr ""
+msgstr "MPC-HC heeft niet genoeg rechten om bestand associaties te veranderen. Klik op \"Uitvoeren als Administrator\"."
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
@@ -2119,7 +2158,7 @@ msgstr "Kolommen:"
 
 msgctxt "IDS_THUMB_IMAGE_WIDTH"
 msgid "Image width"
-msgstr ""
+msgstr "Beeldbreedte"
 
 msgctxt "IDS_PPSDB_URLCORRECT"
 msgid "The URL appears to be correct!"
@@ -2138,24 +2177,24 @@ msgid ", Total: %ld, Dropped: %ld"
 msgstr ", Totaal: %ld, Verworpen: %ld"
 
 msgctxt "IDS_MAINFRM_38"
-msgid ", Size: %I64dKB"
+msgid ", Size: %I64d KB"
 msgstr ", Grootte: %I64dKB"
 
 msgctxt "IDS_MAINFRM_39"
-msgid ", Size: %I64dMB"
+msgid ", Size: %I64d MB"
 msgstr ", Grootte: %I64dMB"
 
 msgctxt "IDS_MAINFRM_40"
-msgid ", Free: %I64dKB"
+msgid ", Free: %I64d KB"
 msgstr ", Beschikbaar: %I64dKB"
 
 msgctxt "IDS_MAINFRM_41"
-msgid ", Free: %I64dMB"
+msgid ", Free: %I64d MB"
 msgstr ", Beschikbaar: %I64dMB"
 
 msgctxt "IDS_MAINFRM_42"
 msgid ", Free V/A Buffers: %03d/%03d"
-msgstr ",Beschikbare V/A Buffers: %03d/%03d"
+msgstr ", Beschikbare V/A Buffers: %03d/%03d"
 
 msgctxt "IDS_AG_ERROR"
 msgid "Error"
@@ -2227,7 +2266,7 @@ msgstr ""
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
-msgstr ""
+msgstr "Ondertiteling bestanden"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %ld:%ld"
@@ -2238,7 +2277,7 @@ msgid "Aspect Ratio: Default"
 msgstr "Beeldverhouding: Default"
 
 msgctxt "IDS_MAINFRM_70"
-msgid "Audio Delay: %I64dms"
+msgid "Audio delay: %I64d ms"
 msgstr "Audio vertraging: %I64dms"
 
 msgctxt "IDS_AG_CHAPTER"
@@ -2478,8 +2517,8 @@ msgid "Volume boost Max"
 msgstr ""
 
 msgctxt "IDS_USAGE"
-msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "Gebruik: mpc-hc.exe \"padnaam\" [parameters]\n\n\"padnaam\"\tHet te laden bestand of map (wildcards\n\t\ttoegestaan, \"-\" denotes standard input)\n/dub \"dubnaam\"\tLaad nog een geluidsbestand\n/dubdelay \"best\"\tLaad nog een geluidsbestand met een\n\t\tverschuiving van XXms\n\t\t (als bestand \"..vertraging XXms..\" heeft)\n/d3dfs\t\tStart renderen in D3D Volledig Scherm modus\n/sub \"ondertitel\"\tLaad nog een ondertitelingsbestand\n/filter \"filternaam\"\tLaad DirectShow filters van een DLL\n\t\t(wildcards toegestaan)\n/dvd\t\tStart in DVD-modus, \"padnaam\" betekent de DVD\n\t\tmap (hoeft niet)\n/dvdpos T#H\tStart afspelen bij titel T, hoofdstuk H\n/dvdpos T#uu:mm\tStart afspelen bij titel T, positie uu:mm:ss\n/cd\t\tLaad alle nummers van een audio cd of (s)vcd\n\t\t\"padnaam\" betekent het stationspad (hoeft niet)\n/device\t\tOpen the default video device\n/open\t\tOpen het bestand zonder automatisch af te spelen\n/play\t\tDirect afspelen, wanneer de speler wordt geopend\n/close\t\tSluit de speler af na afspelen (werkt alleen samen \n\t\tmet /play)\n/shutdown\tWindows afsluiten na afspelen\n/fullscreen\tStart in Volldig Scherm modus\n/minimized\tStart geminimaliseerd\n/new\t\tEen nieuwe speler openen\n/add\t\tVoegt \"padnaam\" aan de afspeellijst toe\n\t\tKan gecombineerd worden met /open en /play\n/regvid\t\tMaak bestandskoppelingen voor videobestanden\n/regaud\t\tMaak bestandskoppelingen voor\n\t\tgeluidsbestanden\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tVerwijder alle bestandskoppelingen\n/start ms\t\tStart afspelen op \"ms\" (= milliseconden)\n/startpos uu:mm:ss\tStart afspelen op positie uu:mm:ss\n/fixedsize B,H\tZet venstergrootte op BxH\n/monitor N\tStart op schermmonitor N (N start bij 1)\n/audiorenderer N\tStart met audiorenderer N (N start bij 1)\n\t\t(zie \"Uitgangs\" instellingen)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tRestore default settings\n/help /h /?\tToon help over opdrachtprompt parameters\n"
+msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nominidump\tDisable minidump creation\n/slave \"hWnd\"\tUse MPC-HC as slave\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
+msgstr "Gebruik: mpc-hc.exe \"padnaam\" [parameters]\n\n\"padnaam\"\tHet te laden bestand of map (wildcards\n\t\ttoegestaan, \"-\" denotes standard input)\n/dub \"dubnaam\"\tLaad nog een geluidsbestand\n/dubdelay \"best\"\tLaad nog een geluidsbestand met een\n\t\tverschuiving van XXms\n\t\t (als bestand \"..vertraging XXms..\" heeft)\n/d3dfs\t\tStart renderen in D3D Volledig Scherm modus\n/sub \"ondertitel\"\tLaad nog een ondertitelingsbestand\n/filter \"filternaam\"\tLaad DirectShow filters van een DLL\n\t\t(wildcards toegestaan)\n/dvd\t\tStart in DVD-modus, \"padnaam\" betekent de DVD\n\t\tmap (hoeft niet)\n/dvdpos T#H\tStart afspelen bij titel T, hoofdstuk H\n/dvdpos T#uu:mm\tStart afspelen bij titel T, positie uu:mm:ss\n/cd\t\tLaad alle nummers van een audio cd of (s)vcd\n\t\t\"padnaam\" betekent het stationspad (hoeft niet)\n/device\t\tOpen the default video device\n/open\t\tOpen het bestand zonder automatisch af te spelen\n/play\t\tDirect afspelen, wanneer de speler wordt geopend\n/close\t\tSluit de speler af na afspelen (werkt alleen samen \n\t\tmet /play)\n/shutdown\tWindows afsluiten na afspelen\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in Volldig Scherm modus\n/minimized\tStart geminimaliseerd\n/new\t\tEen nieuwe speler openen\n/add\t\tVoegt \"padnaam\" aan de afspeellijst toe\n\t\tKan gecombineerd worden met /open en /play\n/regvid\t\tMaak bestandskoppelingen voor videobestanden\n/regaud\t\tMaak bestandskoppelingen voor\n\t\tgeluidsbestanden\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tVerwijder alle bestandskoppelingen\n/start ms\t\tStart afspelen op \"ms\" (= milliseconden)\n/startpos uu:mm:ss\tStart afspelen op positie uu:mm:ss\n/fixedsize B,H\tZet venstergrootte op BxH\n/monitor N\tStart op schermmonitor N (N start bij 1)\n/audiorenderer N\tStart met audiorenderer N (N start bij 1)\n\t\t(zie \"Uitgangs\" instellingen)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nominidump\tDisable minidump creation\n/slave \"hWnd\"\tUse MPC-HC as slave\n/reset\t\tRestore default settings\n/help /h /?\tToon help over opdrachtprompt parameters\n"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -2579,15 +2618,15 @@ msgstr "Auteur onbekend. Neem contact op als je dit logo hebt gemaakt!"
 
 msgctxt "IDS_NO_MORE_MEDIA"
 msgid "No more media in the current folder."
-msgstr ""
+msgstr "Geen media meer in de huidige folder."
 
 msgctxt "IDS_FIRST_IN_FOLDER"
 msgid "The first file of the folder is already loaded."
-msgstr ""
+msgstr "Het eerste bestand in de folder is al geladen."
 
 msgctxt "IDS_LAST_IN_FOLDER"
 msgid "The last file of the folder is already loaded."
-msgstr ""
+msgstr "Het laatste bestand in de folder is al geladen."
 
 msgctxt "IDS_FRONT_LEFT"
 msgid "Front Left"
@@ -2687,19 +2726,19 @@ msgstr "Verberg menu"
 
 msgctxt "IDD_PPAGEADVANCED"
 msgid "Advanced"
-msgstr ""
+msgstr "Geavanceerd"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seekbar"
-msgstr ""
+msgstr "Boven zoekbalk"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
 msgid "Below seekbar"
-msgstr ""
+msgstr "Onder zoekbalk"
 
 msgctxt "IDS_VIDEO_STREAM"
 msgid "Video: %s"
-msgstr ""
+msgstr "Video: %s"
 
 msgctxt "IDS_APPLY"
 msgid "Apply"
@@ -2707,7 +2746,7 @@ msgstr "Toepassen"
 
 msgctxt "IDS_CLEAR"
 msgid "Clear"
-msgstr ""
+msgstr "Leegmaken"
 
 msgctxt "IDS_CANCEL"
 msgid "Cancel"
@@ -2715,7 +2754,7 @@ msgstr "Annuleren"
 
 msgctxt "IDS_THUMB_THUMBNAILS"
 msgid "Layout"
-msgstr ""
+msgstr "Layout"
 
 msgctxt "IDS_THUMB_PIXELS"
 msgid "Pixels:"
@@ -2731,27 +2770,27 @@ msgstr "&Deactiveer alle filters"
 
 msgctxt "IDS_ENABLE_AUDIO_FILTERS"
 msgid "Enable all audio decoders"
-msgstr ""
+msgstr "Activeer alle audio decoders"
 
 msgctxt "IDS_DISABLE_AUDIO_FILTERS"
 msgid "Disable all audio decoders"
-msgstr ""
+msgstr "Deactiveer alle audio decoders"
 
 msgctxt "IDS_ENABLE_VIDEO_FILTERS"
 msgid "Enable all video decoders"
-msgstr ""
+msgstr "Activeer alle video decoders"
 
 msgctxt "IDS_DISABLE_VIDEO_FILTERS"
 msgid "Disable all video decoders"
-msgstr ""
+msgstr "Deactiveer alle video decoders"
 
 msgctxt "IDS_STRETCH_TO_WINDOW"
 msgid "Stretch To Window"
-msgstr ""
+msgstr "Spreiden"
 
 msgctxt "IDS_TOUCH_WINDOW_FROM_INSIDE"
 msgid "Touch Window From Inside"
-msgstr ""
+msgstr "Pas venster vanuit binnen aan"
 
 msgctxt "IDS_ZOOM1"
 msgid "Zoom 1"
@@ -2763,15 +2802,15 @@ msgstr "Zoom 2"
 
 msgctxt "IDS_TOUCH_WINDOW_FROM_OUTSIDE"
 msgid "Touch Window From Outside"
-msgstr ""
+msgstr "Pas venster vanaf buiten aan"
 
 msgctxt "IDS_AUDIO_STREAM"
 msgid "Audio: %s"
-msgstr ""
+msgstr "Audio: %s"
 
 msgctxt "IDS_AG_REOPEN"
 msgid "Reopen File"
-msgstr ""
+msgstr "Bestand heropenen"
 
 msgctxt "IDS_MFMT_AVI"
 msgid "AVI"
@@ -2859,7 +2898,7 @@ msgstr "Shockwave Flash"
 
 msgctxt "IDS_MFMT_OTHER_AUDIO"
 msgid "Other Audio"
-msgstr ""
+msgstr "Ander audio"
 
 msgctxt "IDS_MFMT_AC3"
 msgid "AC-3/DTS"
@@ -2887,7 +2926,7 @@ msgstr "AU/SND"
 
 msgctxt "IDS_MFMT_CDA"
 msgid "Audio CD track"
-msgstr ""
+msgstr "Audio CD nummer"
 
 msgctxt "IDS_MFMT_FLAC"
 msgid "FLAC"
@@ -2931,7 +2970,7 @@ msgstr "Real Audio"
 
 msgctxt "IDS_MFMT_TAK"
 msgid "TAK"
-msgstr ""
+msgstr "TAK"
 
 msgctxt "IDS_MFMT_TTA"
 msgid "True Audio"
@@ -2959,11 +2998,11 @@ msgstr "Afspeellijst"
 
 msgctxt "IDS_MFMT_BDPLS"
 msgid "Blu-ray playlist"
-msgstr ""
+msgstr "Blu-ray afspeellijst"
 
 msgctxt "IDS_MFMT_RAR"
 msgid "RAR Archive"
-msgstr ""
+msgstr "RAR Archief"
 
 msgctxt "IDS_DVB_CHANNEL_FPS"
 msgid "FPS"
@@ -2979,11 +3018,11 @@ msgstr "Beeldverhouding"
 
 msgctxt "IDS_ARS_WASAPI_MODE"
 msgid "Use WASAPI (restart playback)"
-msgstr ""
+msgstr "Gebruik WASAPI (herstart afspelen)"
 
 msgctxt "IDS_ARS_MUTE_FAST_FORWARD"
 msgid "Mute on fast forward"
-msgstr ""
+msgstr "Demp bij vooruitspoelen"
 
 msgctxt "IDS_ARS_SOUND_DEVICE"
 msgid "Sound Device:"
@@ -2999,11 +3038,11 @@ msgstr "VSync: Uit"
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_ON"
 msgid "Accurate VSync: On"
-msgstr ""
+msgstr "Accurate VSync: Aan"
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_OFF"
 msgid "Accurate VSync: Off"
-msgstr ""
+msgstr "Accurate VSync: Uit"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_ON"
 msgid "Synchronize Video to Display: On"
@@ -3031,27 +3070,27 @@ msgstr ""
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_ON"
 msgid "Color Management: On"
-msgstr ""
+msgstr "Kleurbeheer: Aan"
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_OFF"
 msgid "Color Management: Off"
-msgstr ""
+msgstr "Kleurbeheer: Uit"
 
 msgctxt "IDS_OSD_RS_INPUT_TYPE_AUTO"
 msgid "Input Type: Auto-Detect"
-msgstr ""
+msgstr "Invoer-type: Autom. Detecteren"
 
 msgctxt "IDS_OSD_RS_INPUT_TYPE_HDTV"
 msgid "Input Type: HDTV"
-msgstr ""
+msgstr "Invoer-type: HDTV"
 
 msgctxt "IDS_OSD_RS_INPUT_TYPE_SD_NTSC"
 msgid "Input Type: SDTV NTSC"
-msgstr ""
+msgstr "Invoer-type: SDTV NTSC"
 
 msgctxt "IDS_OSD_RS_INPUT_TYPE_SD_PAL"
 msgid "Input Type: SDTV PAL"
-msgstr ""
+msgstr "Invoer-type: SDTV PAL"
 
 msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_BRIGHT"
 msgid "Ambient Light: Bright (2.2 Gamma)"
@@ -3103,19 +3142,19 @@ msgstr ""
 
 msgctxt "IDS_OSD_RS_WAIT_ON"
 msgid "Wait for GPU Flush: On"
-msgstr ""
+msgstr "Wacht voor GPU leeg: Aan"
 
 msgctxt "IDS_OSD_RS_WAIT_OFF"
 msgid "Wait for GPU Flush: Off"
-msgstr ""
+msgstr "Wacht voor GPU leeg: Uit"
 
 msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_ON"
 msgid "D3D Fullscreen: On"
-msgstr ""
+msgstr "D3D Volledig scherm: Aan"
 
 msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_OFF"
 msgid "D3D Fullscreen: Off"
-msgstr ""
+msgstr "D3D Volledig scherm: Uit"
 
 msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_ON"
 msgid "Disable desktop composition: On"
@@ -3127,11 +3166,11 @@ msgstr ""
 
 msgctxt "IDS_OSD_RS_ALT_VSYNC_ON"
 msgid "Alternative VSync: On"
-msgstr ""
+msgstr "Alternatieve VSync: Aan"
 
 msgctxt "IDS_OSD_RS_ALT_VSYNC_OFF"
 msgid "Alternative VSync: Off"
-msgstr ""
+msgstr "Alternatieve VSync: Uit"
 
 msgctxt "IDS_OSD_RS_RESET_DEFAULT"
 msgid "Renderer settings reset to default"
@@ -3183,35 +3222,35 @@ msgstr ""
 
 msgctxt "IDS_BRIGHTNESS_DEC"
 msgid "Brightness decrease"
-msgstr ""
+msgstr "Helderheid verlagen"
 
 msgctxt "IDS_CONTRAST_INC"
 msgid "Contrast increase"
-msgstr ""
+msgstr "Contrast verhogen"
 
 msgctxt "IDS_CONTRAST_DEC"
 msgid "Contrast decrease"
-msgstr ""
+msgstr "Helderheid verlagen"
 
 msgctxt "IDS_HUE_INC"
 msgid "Hue increase"
-msgstr ""
+msgstr "Tint verhogen"
 
 msgctxt "IDS_HUE_DEC"
 msgid "Hue decrease"
-msgstr ""
+msgstr "Tint verlagen"
 
 msgctxt "IDS_SATURATION_INC"
 msgid "Saturation increase"
-msgstr ""
+msgstr "Verzadiging verhogen"
 
 msgctxt "IDS_SATURATION_DEC"
 msgid "Saturation decrease"
-msgstr ""
+msgstr "Verzadiging verlagen"
 
 msgctxt "IDS_RESET_COLOR"
 msgid "Reset color settings"
-msgstr ""
+msgstr "Kleurinstellingen resetten"
 
 msgctxt "IDS_USING_LATEST_STABLE"
 msgid "\nYou are already using the latest stable version."
@@ -3219,15 +3258,15 @@ msgstr ""
 
 msgctxt "IDS_USING_NEWER_VERSION"
 msgid "Your current version is v%s.\n\nThe latest stable version is v%s."
-msgstr ""
+msgstr "Geïnstalleerde versie: v%s.\n\nDe laatste stabiele versie is v%s."
 
 msgctxt "IDS_NEW_UPDATE_AVAILABLE"
 msgid "MPC-HC v%s is now available. You are using v%s.\n\nDo you want to visit MPC-HC's website to download it?"
-msgstr ""
+msgstr "MPC-HC v%s is beschikbaar. U gebruikt v%s.\n\nWilt u de nieuwste MPC-HC versie downloaden van de website?"
 
 msgctxt "IDS_UPDATE_ERROR"
 msgid "Update server not found.\n\nPlease check your internet connection or try again later."
-msgstr ""
+msgstr "Update server niet gevonden.\n\nControlleer uw internet verbinding en probeer opnieuw."
 
 msgctxt "IDS_UPDATE_CLOSE"
 msgid "&Close"
@@ -3239,7 +3278,7 @@ msgstr "Zoom: %.0lf%%"
 
 msgctxt "IDS_OSD_ZOOM_AUTO"
 msgid "Zoom: Auto"
-msgstr ""
+msgstr "Zoom: Automatisch"
 
 msgctxt "IDS_CUSTOM_CHANNEL_MAPPING"
 msgid "Toggle custom channel mapping"
@@ -3276,6 +3315,10 @@ msgstr ""
 msgctxt "IDS_OSD_REGAIN_VOLUME_OFF"
 msgid "Regain volume: Off"
 msgstr ""
+
+msgctxt "IDS_SIZE_UNIT_BYTES"
+msgid "bytes"
+msgstr "bytes"
 
 msgctxt "IDS_SIZE_UNIT_K"
 msgid "KB"
@@ -3419,67 +3462,75 @@ msgstr ""
 
 msgctxt "IDS_EXTERNAL_FILTERS_ERROR_MT"
 msgid "This type is already in the list!"
-msgstr ""
+msgstr "Dit type staat al in de lijst!"
 
 msgctxt "IDS_WEBSERVER_ERROR_TEST"
 msgid "You need to apply the new settings before testing them."
-msgstr ""
+msgstr "Je moet de nieuwe instellingen toepassen voordat je ze test. "
 
 msgctxt "IDS_AFTERPLAYBACK_CLOSE"
 msgid "After Playback: Exit"
-msgstr ""
+msgstr "Na weergave: Sluiten"
 
 msgctxt "IDS_AFTERPLAYBACK_STANDBY"
 msgid "After Playback: Stand By"
-msgstr ""
+msgstr "Na weergave: Stand By"
 
 msgctxt "IDS_AFTERPLAYBACK_HIBERNATE"
 msgid "After Playback: Hibernate"
-msgstr ""
+msgstr "Na weergave: Slaap modus"
 
 msgctxt "IDS_AFTERPLAYBACK_SHUTDOWN"
 msgid "After Playback: Shutdown"
-msgstr ""
+msgstr "Na weergave: Afsluiten"
 
 msgctxt "IDS_AFTERPLAYBACK_LOGOFF"
 msgid "After Playback: Log Off"
-msgstr ""
+msgstr "Na weergave: Uitloggen"
 
 msgctxt "IDS_AFTERPLAYBACK_LOCK"
 msgid "After Playback: Lock"
-msgstr ""
+msgstr "Na weergave: Vergrendelen"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
-msgstr ""
+msgstr "Na weergave: Monitor uitschakelen"
+
+msgctxt "IDS_AFTERPLAYBACK_PLAYNEXT"
+msgid "After Playback: Play next file in the folder"
+msgstr "Na weergave: Speel volgend bestand af in map"
+
+msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
+msgid "After Playback: Do nothing"
+msgstr "Na weergave: Niets doen"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
-msgstr ""
+msgstr "Helderheid: %s"
 
 msgctxt "IDS_OSD_CONTRAST"
 msgid "Contrast: %s"
-msgstr ""
+msgstr "Contrast: %s"
 
 msgctxt "IDS_OSD_HUE"
 msgid "Hue: %s°"
-msgstr ""
+msgstr "Tint: %s°"
 
 msgctxt "IDS_OSD_SATURATION"
 msgid "Saturation: %s"
-msgstr ""
+msgstr "Verzadiging: %s"
 
 msgctxt "IDS_OSD_RESET_COLOR"
 msgid "Color settings restored"
-msgstr ""
+msgstr "Kleurinstellingen hersteld"
 
 msgctxt "IDS_OSD_NO_COLORCONTROL"
 msgid "Color control is not supported"
-msgstr ""
+msgstr "Kleur controlle wordt niet ondersteund"
 
 msgctxt "IDS_BRIGHTNESS_INC"
 msgid "Brightness increase"
-msgstr ""
+msgstr "Helderheid verhogen"
 
 msgctxt "IDS_LANG_PREF_EXAMPLE"
 msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
@@ -3491,7 +3542,7 @@ msgstr ""
 
 msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
 msgid "&Blu-Ray playlists"
-msgstr ""
+msgstr "&Blu-Ray afspeellijsten"
 
 msgctxt "IDS_NAVIGATE_PLAYLIST"
 msgid "&Playlist"
@@ -3515,19 +3566,19 @@ msgstr ""
 
 msgctxt "IDC_ASSOCIATE_ALL_FORMATS"
 msgid "Associate with all formats"
-msgstr ""
+msgstr "Associeer met alle formaten"
 
 msgctxt "IDC_ASSOCIATE_VIDEO_FORMATS"
 msgid "Associate with video formats only"
-msgstr ""
+msgstr "Alleen met videoformaten associëren "
 
 msgctxt "IDC_ASSOCIATE_AUDIO_FORMATS"
 msgid "Associate with audio formats only"
-msgstr ""
+msgstr "Alleen met audioformaten associëren "
 
 msgctxt "IDC_CLEAR_ALL_ASSOCIATIONS"
 msgid "Clear all associations"
-msgstr ""
+msgstr "Verwijder alle associaties"
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"

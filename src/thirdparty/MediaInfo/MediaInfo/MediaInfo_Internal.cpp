@@ -538,6 +538,27 @@ void MediaInfo_Internal::Entry()
                         if (File::Exists(Test))
                             Dxw+=" <clip file=\""+Test.Name_Get().To_UTF8()+".vtt\" />\r\n";
                     }
+                    if (FileExtension!=__T("xml"))
+                    {
+                        Test.Extension_Set(__T("xml"));
+                        if (File::Exists(Test))
+                        {
+                            MediaInfo_Internal MI;
+                            Ztring ParseSpeed_Save=MI.Option(__T("ParseSpeed_Get"), __T(""));
+                            Ztring Demux_Save=MI.Option(__T("Demux_Get"), __T(""));
+                            MI.Option(__T("ParseSpeed"), __T("0"));
+                            MI.Option(__T("Demux"), Ztring());
+                            size_t MiOpenResult=MI.Open(Test);
+                            MI.Option(__T("ParseSpeed"), ParseSpeed_Save); //This is a global value, need to reset it. TODO: local value
+                            MI.Option(__T("Demux"), Demux_Save); //This is a global value, need to reset it. TODO: local value
+                            if (MiOpenResult)
+                            {
+                                Ztring Format=MI.Get(Stream_General, 0, General_Format);
+                                if (Format==__T("TTML"))
+                                    Dxw+=" <clip file=\""+Test.Name_Get().To_UTF8()+".xml\" />\r\n";
+                            }
+                        }
+                    }
 
                     Ztring Name=Test.Name_Get();
                     Ztring BaseName=Name.SubString(Ztring(), __T("_"));

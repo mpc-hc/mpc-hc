@@ -199,12 +199,12 @@ private:
         bool                            rendered;
 
         DVB_PAGE()
-            : pageTimeOut(0)
+            : rtStart(0)
+            , rtStop(0)
+            , pageTimeOut(0)
             , pageVersionNumber(0)
             , pageState(0)
-            , rendered(false)
-            , rtStart(0)
-            , rtStop(0) {
+            , rendered(false) {
         }
     };
 

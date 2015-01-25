@@ -401,12 +401,13 @@ CAsyncReader::CAsyncReader(
                 clsid, // MPC-HC patch
                 NULL
                 ),
+    m_Io(pStream),
     m_OutputPin(
                 phr,
                 this,
                 &m_Io,
-                &m_csFilter),
-    m_Io(pStream)
+                &m_csFilter)
+
 {
 }
 

@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Alex Luís Silva <alex.mooca@hotmail.com>, 2014
@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-19 21:10:25+0000\n"
-"PO-Revision-Date: 2014-10-01 23:40+0000\n"
+"POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
+"PO-Revision-Date: 2014-10-27 15:00+0000\n"
 "Last-Translator: Alex Luís Silva <alex.mooca@hotmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/mpc-hc/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -613,6 +613,10 @@ msgstr "Trancar sessão"
 msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
 msgid "Turn off the &monitor"
 msgstr "Desligar o &monitor"
+
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "Reproduzir o próximo arquivo na pasta"
 
 msgctxt "POPUP"
 msgid "&Navigate"

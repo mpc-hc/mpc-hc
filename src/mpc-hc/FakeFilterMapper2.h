@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -44,9 +44,9 @@ public:
         : fDisabled(false)
         , fTemporary(false)
         , type(EXTERNAL)
+        , clsid(GUID_NULL)
         , iLoadType(0)
-        , dwMerit(0)
-        , clsid(GUID_NULL) {
+        , dwMerit(0) {
     }
     FilterOverride(FilterOverride* f) {
         fDisabled = f->fDisabled;

@@ -529,12 +529,9 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
                 }
             }
             if (!bTryToReset) {
-                if (FAILED(hr = m_pD3DEx->CreateDeviceEx(m_CurrentAdapter, D3DDEVTYPE_HAL, m_FocusThread->GetFocusWindow(),
-                                D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS | D3DCREATE_NOWINDOWCHANGES,
-                                &pp, &DisplayMode, &m_pD3DDevEx))) {
-                    _Error += GetWindowsErrorMessage(hr, m_hD3D9);
-                    return hr;
-                }
+                hr = m_pD3DEx->CreateDeviceEx(m_CurrentAdapter, D3DDEVTYPE_HAL, m_FocusThread->GetFocusWindow(),
+                                              D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS | D3DCREATE_NOWINDOWCHANGES,
+                                              &pp, &DisplayMode, &m_pD3DDevEx);
             }
 
             if (m_pD3DDevEx) {
@@ -549,12 +546,9 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
                 }
             }
             if (!bTryToReset) {
-                if (FAILED(hr = m_pD3D->CreateDevice(m_CurrentAdapter, D3DDEVTYPE_HAL, m_FocusThread->GetFocusWindow(),
-                                                     D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_NOWINDOWCHANGES,
-                                                     &pp, &m_pD3DDev))) {
-                    _Error += GetWindowsErrorMessage(hr, m_hD3D9);
-                    return hr;
-                }
+                hr = m_pD3D->CreateDevice(m_CurrentAdapter, D3DDEVTYPE_HAL, m_FocusThread->GetFocusWindow(),
+                                          D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_NOWINDOWCHANGES,
+                                          &pp, &m_pD3DDev);
             }
             TRACE(_T("Created full-screen device\n"));
             if (m_pD3DDev) {
@@ -602,10 +596,6 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
                 hr = m_pD3DEx->CreateDeviceEx(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
                                               D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS,
                                               &pp, nullptr, &m_pD3DDevEx);
-                if (FAILED(hr) && hr != D3DERR_DEVICELOST && hr != D3DERR_DEVICENOTRESET) {
-                    _Error += GetWindowsErrorMessage(hr, m_hD3D9);
-                    return hr;
-                }
             }
 
             if (m_pD3DDevEx) {
@@ -621,29 +611,30 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
                 hr = m_pD3D->CreateDevice(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
                                           D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED,
                                           &pp, &m_pD3DDev);
-                if (FAILED(hr) && hr != D3DERR_DEVICELOST && hr != D3DERR_DEVICENOTRESET) {
-                    _Error += GetWindowsErrorMessage(hr, m_hD3D9);
-                    return hr;
-                }
             }
             TRACE(_T("Created windowed device\n"));
         }
     }
 
-    while (hr == D3DERR_DEVICELOST) {
-        TRACE(_T("D3DERR_DEVICELOST. Trying to Reset.\n"));
-        hr = m_pD3DDev->TestCooperativeLevel();
-    }
-    if (hr == D3DERR_DEVICENOTRESET) {
-        TRACE(_T("D3DERR_DEVICENOTRESET\n"));
-        hr = m_pD3DDev->Reset(&pp);
+    if (m_pD3DDev) {
+        while (hr == D3DERR_DEVICELOST) {
+            TRACE(_T("D3DERR_DEVICELOST. Trying to Reset.\n"));
+            hr = m_pD3DDev->TestCooperativeLevel();
+        }
+        if (hr == D3DERR_DEVICENOTRESET) {
+            TRACE(_T("D3DERR_DEVICENOTRESET\n"));
+            hr = m_pD3DDev->Reset(&pp);
+        }
+
+        if (m_pD3DDevEx) {
+            m_pD3DDevEx->SetGPUThreadPriority(7);
+        }
     }
 
-    TRACE(_T("CreateDevice: %ld\n"), (LONG)hr);
-    ASSERT(SUCCEEDED(hr));
+    if (FAILED(hr)) {
+        _Error.AppendFormat(_T("CreateDevice failed: %s\n"), GetWindowsErrorMessage(hr, m_hD3D9));
 
-    if (m_pD3DDevEx) {
-        m_pD3DDevEx->SetGPUThreadPriority(7);
+        return hr;
     }
 
     m_pPSC.Attach(DEBUG_NEW CPixelShaderCompiler(m_pD3DDev, true));
@@ -945,6 +936,8 @@ HRESULT CBaseAP::AllocSurfaces(D3DFORMAT Format)
 {
     CAutoLock cAutoLock(this);
     CAutoLock cRenderLock(&m_allocatorLock);
+
+    CheckPointer(m_pD3DDev, E_POINTER);
 
     const CRenderersSettings& r = GetRenderersSettings();
 
@@ -2308,11 +2301,22 @@ STDMETHODIMP CBaseAP::GetDIB(BYTE* lpDib, DWORD* size)
 {
     CheckPointer(size, E_POINTER);
 
+    // Keep a reference so that we can safely work on the surface
+    // without having to lock everything
+    CComPtr<IDirect3DSurface9> pVideoSurface;
+    {
+        CAutoLock cAutoLock(this);
+        CheckPointer(m_pVideoSurface[m_nCurSurface], E_FAIL);
+        pVideoSurface = m_pVideoSurface[m_nCurSurface];
+    }
+
     HRESULT hr;
 
     D3DSURFACE_DESC desc;
     ZeroMemory(&desc, sizeof(desc));
-    m_pVideoSurface[m_nCurSurface]->GetDesc(&desc);
+    if (FAILED(hr = pVideoSurface->GetDesc(&desc))) {
+        return hr;
+    }
 
     DWORD required = sizeof(BITMAPINFOHEADER) + (desc.Width * desc.Height * 32 >> 3);
     if (!lpDib) {
@@ -2324,12 +2328,12 @@ STDMETHODIMP CBaseAP::GetDIB(BYTE* lpDib, DWORD* size)
     }
     *size = required;
 
-    CComPtr<IDirect3DSurface9> pSurface = m_pVideoSurface[m_nCurSurface];
+    CComPtr<IDirect3DSurface9> pSurface = pVideoSurface;
     D3DLOCKED_RECT r;
     if (FAILED(hr = pSurface->LockRect(&r, nullptr, D3DLOCK_READONLY))) {
         pSurface = nullptr;
         if (FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(desc.Width, desc.Height, desc.Format, D3DPOOL_SYSTEMMEM, &pSurface, nullptr))
-                || FAILED(hr = m_pD3DDev->GetRenderTargetData(m_pVideoSurface[m_nCurSurface], pSurface))
+                || FAILED(hr = m_pD3DDev->GetRenderTargetData(pVideoSurface, pSurface))
                 || FAILED(hr = pSurface->LockRect(&r, nullptr, D3DLOCK_READONLY))) {
             return hr;
         }
@@ -2344,10 +2348,9 @@ STDMETHODIMP CBaseAP::GetDIB(BYTE* lpDib, DWORD* size)
     bih->biPlanes = 1;
     bih->biSizeImage = bih->biWidth * bih->biHeight * bih->biBitCount >> 3;
 
-    BitBltFromRGBToRGB(
-        bih->biWidth, bih->biHeight,
-        (BYTE*)(bih + 1), bih->biWidth * bih->biBitCount >> 3, bih->biBitCount,
-        (BYTE*)r.pBits + r.Pitch * (desc.Height - 1), -(int)r.Pitch, 32);
+    BitBltFromRGBToRGB(bih->biWidth, bih->biHeight,
+                       (BYTE*)(bih + 1), bih->biWidth * bih->biBitCount >> 3, bih->biBitCount,
+                       (BYTE*)r.pBits + r.Pitch * (desc.Height - 1), -(int)r.Pitch, 32);
 
     pSurface->UnlockRect();
 
@@ -3859,7 +3862,7 @@ HRESULT CSyncAP::GetFreeSample(IMFSample** ppSample)
     HRESULT hr = S_OK;
 
     if (m_FreeSamples.GetCount() > 1) { // Cannot use first free buffer (can be currently displayed)
-        InterlockedIncrement(&m_nUsedBuffer);
+        m_nUsedBuffer++;
         *ppSample = m_FreeSamples.RemoveHead().Detach();
     } else {
         hr = MF_E_SAMPLEALLOCATOR_EMPTY;
@@ -3887,7 +3890,8 @@ HRESULT CSyncAP::GetScheduledSample(IMFSample** ppSample, int& _Count)
 void CSyncAP::MoveToFreeList(IMFSample* pSample, bool bTail)
 {
     CAutoLock lock(&m_SampleQueueLock);
-    InterlockedDecrement(&m_nUsedBuffer);
+
+    m_nUsedBuffer--;
     if (m_bPendingMediaFinished && m_nUsedBuffer == 0) {
         m_bPendingMediaFinished = false;
         m_pSink->Notify(EC_COMPLETE, 0, 0);

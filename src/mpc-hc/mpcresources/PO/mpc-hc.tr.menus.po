@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Burak <burakgarci@gmail.com>, 2013
@@ -10,8 +10,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-19 21:10:25+0000\n"
-"PO-Revision-Date: 2014-08-22 19:12+0000\n"
+"POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
+"PO-Revision-Date: 2014-11-26 19:41+0000\n"
 "Last-Translator: Sinan H.\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/mpc-hc/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -146,7 +146,7 @@ msgstr "Yö&nlendirme"
 
 msgctxt "ID_VIEW_DEBUGSHADERS"
 msgid "&Debug Shaders"
-msgstr "&Tonlama hata ayıklaması"
+msgstr "&Tonlama Hata Ayıklaması"
 
 msgctxt "POPUP"
 msgid "&Presets..."
@@ -194,7 +194,7 @@ msgstr "Sığdır (&Sadece büyütme)"
 
 msgctxt "POPUP"
 msgid "R&enderer Settings"
-msgstr "Ç&evirici ayarları"
+msgstr "Ç&evirici Ayarları"
 
 msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
@@ -616,6 +616,10 @@ msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
 msgid "Turn off the &monitor"
 msgstr "E&kranı kapat"
 
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "Klasördeki &sıradaki dosyayı yürüt"
+
 msgctxt "POPUP"
 msgid "&Navigate"
 msgstr "&Yönetim"
@@ -642,7 +646,7 @@ msgstr "&Kök Menüsü"
 
 msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
 msgid "&Subtitle Menu"
-msgstr "&Alt yazı Menüsü"
+msgstr "&Alt Yazı Menüsü"
 
 msgctxt "ID_NAVIGATE_AUDIOMENU"
 msgid "&Audio Menu"

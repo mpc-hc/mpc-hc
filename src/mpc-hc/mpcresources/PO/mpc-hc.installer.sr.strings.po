@@ -1,0 +1,83 @@
+# MPC-HC - Strings extracted from string tables
+# Copyright (C) 2002 - 2014 see Authors.txt
+# This file is distributed under the same license as the MPC-HC package.
+# Translators:
+# Rancher <djordje.vasiljevich@gmail.com>, 2014
+# Zlatan Vasović <legospace9876@gmail.com>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: MPC-HC\n"
+"POT-Creation-Date: 2014-06-17 15:23:34+0000\n"
+"PO-Revision-Date: 2014-12-10 21:41+0000\n"
+"Last-Translator: Rancher <djordje.vasiljevich@gmail.com>\n"
+"Language-Team: Serbian (http://www.transifex.com/projects/p/mpc-hc/language/sr/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sr\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+msgctxt "Messages_WelcomeLabel2"
+msgid "This will install [name] on your computer.\n\nIt is recommended that you close all other applications before continuing."
+msgstr "Овим ћете инсталирати [name] на ваш рачунар.\n\nПрепоручује се да затворите све друге програме пре него што наставите."
+
+msgctxt "Messages_WinVersionTooLowError"
+msgid "[name] requires Windows XP Service Pack 3 or newer to run."
+msgstr "[name] захтева Windows XP Service Pack 3 или новији за покретање."
+
+msgctxt "CustomMessages_comp_mpciconlib"
+msgid "Icon Library"
+msgstr "Библиотека са иконама"
+
+msgctxt "CustomMessages_comp_mpcresources"
+msgid "Translations"
+msgstr "Преводи"
+
+msgctxt "CustomMessages_msg_DeleteSettings"
+msgid "Do you also want to delete MPC-HC settings?\n\nIf you plan on installing MPC-HC again then you do not have to delete them."
+msgstr "Желите ли да обришете и поставке MPC-HC-а?\n\nНе морате их брисати ако планирате поново да инсталирате MPC-HC."
+
+msgctxt "CustomMessages_msg_SetupIsRunningWarning"
+msgid "MPC-HC setup is already running!"
+msgstr "Инсталација MPC-HC-а је већ покренута!"
+
+msgctxt "CustomMessages_msg_simd_sse"
+msgid "This build of MPC-HC requires a CPU with SSE extension support.\n\nYour CPU does not have those capabilities."
+msgstr "Ова верзија MPC-HC-а захтева процесор са подршком за SSE проширења.\n\nВаш процесор нема те могућности."
+
+msgctxt "CustomMessages_msg_simd_sse2"
+msgid "This build of MPC-HC requires a CPU with SSE2 extension support.\n\nYour CPU does not have those capabilities."
+msgstr "Ова верзија MPC-HC-а захтева процесор са подршком за SSE2 проширења.\n\nВаш процесор нема те могућности."
+
+msgctxt "CustomMessages_run_DownloadToolbarImages"
+msgid "Visit our Wiki page to download toolbar images"
+msgstr "Посети вики страницу ради преузимања слика траке са алаткама"
+
+msgctxt "CustomMessages_tsk_AllUsers"
+msgid "For all users"
+msgstr "За све кориснике"
+
+msgctxt "CustomMessages_tsk_CurrentUser"
+msgid "For the current user only"
+msgstr "Само за тренутног корисника"
+
+msgctxt "CustomMessages_tsk_Other"
+msgid "Other tasks:"
+msgstr "Остали задаци:"
+
+msgctxt "CustomMessages_tsk_ResetSettings"
+msgid "Reset settings"
+msgstr "Врати подразумеване поставке"
+
+msgctxt "CustomMessages_types_DefaultInstallation"
+msgid "Default installation"
+msgstr "Уобичајена инсталација"
+
+msgctxt "CustomMessages_types_CustomInstallation"
+msgid "Custom installation"
+msgstr "Прилагођена инсталација"
+
+msgctxt "CustomMessages_ViewChangelog"
+msgid "View Changelog"
+msgstr "Погледај евиденцију промена"
+

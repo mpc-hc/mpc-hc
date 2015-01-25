@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-06-17 15:23:34+0000\n"
-"PO-Revision-Date: 2014-07-31 13:51+0000\n"
+"PO-Revision-Date: 2014-12-02 00:15+0000\n"
 "Last-Translator: JellyFrog\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/mpc-hc/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -39,7 +39,7 @@ msgstr "Vill du också ta bort inställningarna för MPC-HC?\n\nOm du planerar a
 
 msgctxt "CustomMessages_msg_SetupIsRunningWarning"
 msgid "MPC-HC setup is already running!"
-msgstr "Konfigurering av MPC-HC pågår redan!"
+msgstr "Installation av MPC-HC pågår redan!"
 
 msgctxt "CustomMessages_msg_simd_sse"
 msgid "This build of MPC-HC requires a CPU with SSE extension support.\n\nYour CPU does not have those capabilities."

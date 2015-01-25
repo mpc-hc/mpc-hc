@@ -671,6 +671,9 @@
 #if !defined(MEDIAINFO_TEXT_NO) && !defined(MEDIAINFO_SCTE20_NO) && !defined(MEDIAINFO_SCTE20_YES)
     #define MEDIAINFO_SCTE20_YES
 #endif
+#if !defined(MEDIAINFO_TEXT_NO) && !defined(MEDIAINFO_SDP_NO) && !defined(MEDIAINFO_SDP_YES)
+    #define MEDIAINFO_SDP_YES
+#endif
 #if !defined(MEDIAINFO_TEXT_NO) && !defined(MEDIAINFO_SUBRIP_NO) && !defined(MEDIAINFO_SUBRIP_YES)
     #define MEDIAINFO_SUBRIP_YES
 #endif
@@ -784,6 +787,9 @@
 #endif
 #if !defined(MEDIAINFO_TAG_NO) && !defined(MEDIAINFO_LYRICS3V2_NO) && !defined(MEDIAINFO_LYRICS3V2_YES)
     #define MEDIAINFO_LYRICS3V2_YES
+#endif
+#if !defined(MEDIAINFO_TAG_NO) && !defined(MEDIAINFO_PROPERTYLIST_NO) && !defined(MEDIAINFO_PROPERTYLIST_YES)
+    #define MEDIAINFO_PROPERTYLIST_YES
 #endif
 #if !defined(MEDIAINFO_TAG_NO) && !defined(MEDIAINFO_VORBISCOM_NO) && !defined(MEDIAINFO_VORBISCOM_YES)
     #define MEDIAINFO_VORBISCOM_YES

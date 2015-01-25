@@ -72,11 +72,11 @@ CString CClip::GetOut() const
 
 IMPLEMENT_DYNAMIC(CEditListEditor, CPlayerBar)
 CEditListEditor::CEditListEditor()
-    : m_pDragImage(nullptr)
-    , m_curPos(nullptr)
+    : m_curPos(nullptr)
     , m_bDragging(FALSE)
     , m_nDragIndex(-1)
     , m_nDropIndex(-1)
+    , m_pDragImage(nullptr)
     , m_bFileOpen(false)
 {
 }

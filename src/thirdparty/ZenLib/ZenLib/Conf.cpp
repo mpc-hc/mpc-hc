@@ -32,7 +32,7 @@ namespace ZenLib
     const Char  PathSeparator=__T('/');
 #endif
 #if defined (MACOS) || defined (MACOSX)
-    const Char* EOL=__T("\r");
+    const Char* EOL=__T("\n");
     const Char  PathSeparator=__T('/');
 #endif
 

@@ -329,9 +329,7 @@ void File_N19::FileHeader_Parse()
             }
         }
         Fill(Stream_Text, 0, Text_Width, MNC.To_int32u());
-        Fill(Stream_Text, 0, Text_Width_String, Ztring::ToZtring(MNC.To_int32u())+__T(" characters"), true);
         Fill(Stream_Text, 0, Text_Height, MNR.To_int32u());
-        Fill(Stream_Text, 0, Text_Height_String, Ztring::ToZtring(MNR.To_int32u())+__T(" characters"), true);
         Fill(Stream_Text, 0, Text_Language, N19_LanguageCode(LC));
 
         //Init

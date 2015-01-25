@@ -22,11 +22,13 @@
 
 //---------------------------------------------------------------------------
 #include "MediaInfo/Multiple/File_DcpPkl.h"
+#include "MediaInfo/Multiple/File_DcpAm.h"
+#include "MediaInfo/Multiple/File_DcpCpl.h"
 #include "MediaInfo/MediaInfo.h"
 #include "MediaInfo/MediaInfo_Internal.h"
 #include "MediaInfo/Multiple/File__ReferenceFilesHelper.h"
-#include "MediaInfo/Multiple/File_DcpCpl.h"
 #include "ZenLib/Dir.h"
+#include "ZenLib/File.h"
 #include "ZenLib/FileName.h"
 #include "tinyxml2.h"
 using namespace tinyxml2;
@@ -40,7 +42,7 @@ namespace MediaInfoLib
 //***************************************************************************
 
 //---------------------------------------------------------------------------
-extern void DcpCpl_MergeFromPkl(File__ReferenceFilesHelper* FromCpl, File__ReferenceFilesHelper* FromPkl);
+extern void DcpCpl_MergeFromAm(File__ReferenceFilesHelper* FromCpl, File__ReferenceFilesHelper* FromPkl);
 
 //***************************************************************************
 // Constructor/Destructor
@@ -60,7 +62,6 @@ File_DcpPkl::File_DcpPkl()
 
     //Temp
     ReferenceFiles=NULL;
-    HasCpl=false;
 }
 
 //---------------------------------------------------------------------------
@@ -80,6 +81,18 @@ void File_DcpPkl::Streams_Finish()
         return;
 
     ReferenceFiles->ParseReferences();
+
+    // Detection of IMF CPL
+    bool IsImf=false;
+    for (size_t StreamKind=Stream_General+1; StreamKind<Stream_Max; StreamKind++)
+        for (size_t StreamPos=0; StreamPos<Count_Get((stream_t)StreamKind); StreamPos++)
+            if (Retrieve((stream_t)StreamKind, StreamPos, "MuxingMode").find(__T("IMF CPL"))==0)
+                IsImf=true;
+    if (IsImf)
+    {
+        Fill(Stream_General, 0, General_Format, "IMF PKL", Unlimited, true, true);
+        Clear(Stream_General, 0, General_Format_Version);
+    }
 }
 
 //***************************************************************************
@@ -133,9 +146,6 @@ bool File_DcpPkl::FileHeader_Begin()
     Fill(Stream_General, 0, General_Format, "DCP PKL");
     Config->File_ID_OnlyRoot_Set(false);
 
-    ReferenceFiles=new File__ReferenceFilesHelper(this, Config);
-    Ztring CPL_FileName;
-
     //Parsing main elements
     for (XMLElement* PackingList_Item=PackingList->FirstChildElement(); PackingList_Item; PackingList_Item=PackingList_Item->NextSiblingElement())
     {
@@ -147,105 +157,112 @@ bool File_DcpPkl::FileHeader_Begin()
                 //Asset
                 if (!strcmp(AssetList_Item->Value(), "Asset"))
                 {
-                    File__ReferenceFilesHelper::reference ReferenceFile;
-                    bool IsCPL=false;
-                    bool PreviousFileNameIsAnnotationText=false;
+                    stream Stream;
 
                     for (XMLElement* File_Item=AssetList_Item->FirstChildElement(); File_Item; File_Item=File_Item->NextSiblingElement())
                     {
+                        //AnnotationText
+                        if (!strcmp(File_Item->Value(), "AnnotationText"))
+                            Stream.AnnotationText=File_Item->GetText();
+
                         //Id
                         if (!strcmp(File_Item->Value(), "Id"))
-                            ReferenceFile.Infos["UniqueID"].From_UTF8(File_Item->GetText());
+                            Stream.Id=File_Item->GetText();
+
+                        //OriginalFileName
+                        if (!strcmp(File_Item->Value(), "OriginalFileName"))
+                            Stream.OriginalFileName=File_Item->GetText();
 
                         //Type
                         if (!strcmp(File_Item->Value(), "Type"))
                         {
-                                    if (!strcmp(File_Item->GetText(), "application/x-smpte-mxf;asdcpKind=Picture"))
-                                ReferenceFile.StreamKind=Stream_Video;
+                                 if (!strcmp(File_Item->GetText(), "application/x-smpte-mxf;asdcpKind=Picture"))
+                                Stream.StreamKind=Stream_Video;
                             else if (!strcmp(File_Item->GetText(), "application/x-smpte-mxf;asdcpKind=Sound"))
-                                ReferenceFile.StreamKind=Stream_Audio;
-                            else if (!strcmp(File_Item->GetText(), "text/xml;asdcpKind=CPL"))
-                            {
-                                HasCpl=IsCPL=true;
-                            }
+                                Stream.StreamKind=Stream_Audio;
+                            else if (!strcmp(File_Item->GetText(), "text/xml") || !strcmp(File_Item->GetText(), "text/xml;asdcpKind=CPL"))
+                                Stream.StreamKind=(stream_t)(Stream_Max+1); // Means CPL
                             else
-                                ReferenceFile.StreamKind=Stream_Other;
-                        }
-
-                        //Id
-                        if (!strcmp(File_Item->Value(), "OriginalFileName")
-                         || (ReferenceFile.FileNames.empty() && !strcmp(File_Item->Value(), "AnnotationText"))) // Annotation contains file name (buggy IMF file)
-                        {
-                            if (PreviousFileNameIsAnnotationText)
-                                ReferenceFile.FileNames.clear(); // Annotation is something else, no need of it
-                            if (!strcmp(File_Item->Value(), "AnnotationText"))
-                                PreviousFileNameIsAnnotationText=true;
-                            ReferenceFile.FileNames.push_back(Ztring().From_UTF8(File_Item->GetText()));
-                            string Text=File_Item->GetText();
-                            if (Text.size()>=8
-                             && (Text.find("_cpl.xml")==Text.size()-8)
-                              || (Text.find("CPL_")==0 && Text.find(".xml")==Text.size()-4))
-                            {
-                                HasCpl=IsCPL=true;
-                                ReferenceFile.StreamKind=Stream_Max;
-                            }
+                                Stream.StreamKind=Stream_Other;
                         }
                     }
 
-                    if (IsCPL)
-                    {
-                        if (CPL_FileName.empty() && !ReferenceFile.FileNames.empty())
-                            CPL_FileName=ReferenceFile.FileNames[0]; //Using only the first CPL file meet
-                    }
-                    else
-                    {
-                        ReferenceFile.StreamID=ReferenceFiles->References.size()+1;
-                        ReferenceFiles->References.push_back(ReferenceFile);
-                    }
+                    Streams.push_back(Stream);
                 }
             }
         }
     }
-
     Element_Offset=File_Size;
 
-    //Getting links between files
-    if (!CPL_FileName.empty() && !Config->File_IsReferenced_Get())
+    //Merging with Assetmap
+    if (!Config->File_IsReferenced_Get())
     {
         FileName Directory(File_Name);
-        if (CPL_FileName.find(__T("file://"))==0 && CPL_FileName.find(__T("file:///"))==string::npos)
-            CPL_FileName.erase(0, 7); //TODO: better handling of relative and absolute file naes
-        MediaInfo_Internal MI;
-        MI.Option(__T("File_KeepInfo"), __T("1"));
-        Ztring ParseSpeed_Save=MI.Option(__T("ParseSpeed_Get"), __T(""));
-        Ztring Demux_Save=MI.Option(__T("Demux_Get"), __T(""));
-        MI.Option(__T("ParseSpeed"), __T("0"));
-        MI.Option(__T("Demux"), Ztring());
-        MI.Option(__T("File_IsReferenced"), __T("1"));
-        size_t MiOpenResult=MI.Open(Directory.Path_Get()+PathSeparator+CPL_FileName);
-        MI.Option(__T("ParseSpeed"), ParseSpeed_Save); //This is a global value, need to reset it. TODO: local value
-        MI.Option(__T("Demux"), Demux_Save); //This is a global value, need to reset it. TODO: local value
-        if (MiOpenResult
-            && (MI.Get(Stream_General, 0, General_Format)==__T("DCP CPL")
-            ||  MI.Get(Stream_General, 0, General_Format)==__T("IMF CPL")))
+        Ztring Assetmap_FileName=Directory.Path_Get()+PathSeparator+__T("ASSETMAP.xml");
+        bool IsOk=false;
+        if (File::Exists(Assetmap_FileName))
+            IsOk=true;
+        else
         {
-            DcpCpl_MergeFromPkl(((File_DcpCpl*)MI.Info)->ReferenceFiles, ReferenceFiles);
-            ReferenceFiles->References=((File_DcpCpl*)MI.Info)->ReferenceFiles->References;
-            if (MI.Get(Stream_General, 0, General_Format)==__T("IMF CPL"))
-                Fill(Stream_General, 0, General_Format, "IMF PKL", Unlimited, true, true);
-
-            for (size_t Pos=0; Pos<MI.Count_Get(Stream_Other); ++Pos)
+            Assetmap_FileName.resize(Assetmap_FileName.size()-4); //Old fashion, without ".xml"
+            if (File::Exists(Assetmap_FileName))
+                IsOk=true;
+        }
+        if (IsOk)
+        {
+            MediaInfo_Internal MI;
+            MI.Option(__T("File_KeepInfo"), __T("1"));
+            Ztring ParseSpeed_Save=MI.Option(__T("ParseSpeed_Get"), __T(""));
+            Ztring Demux_Save=MI.Option(__T("Demux_Get"), __T(""));
+            MI.Option(__T("ParseSpeed"), __T("0"));
+            MI.Option(__T("Demux"), Ztring());
+            MI.Option(__T("File_IsReferenced"), __T("1"));
+            size_t MiOpenResult=MI.Open(Assetmap_FileName);
+            MI.Option(__T("ParseSpeed"), ParseSpeed_Save); //This is a global value, need to reset it. TODO: local value
+            MI.Option(__T("Demux"), Demux_Save); //This is a global value, need to reset it. TODO: local value
+            if (MiOpenResult
+                && (MI.Get(Stream_General, 0, General_Format)==__T("DCP AM")
+                || MI.Get(Stream_General, 0, General_Format)==__T("IMF AM")))
             {
-                Stream_Prepare(Stream_Other);
-                Merge(*MI.Info, Stream_Other, Pos, StreamPos_Last);
+                MergeFromAm(((File_DcpPkl*)MI.Info)->Streams);
             }
         }
     }
 
-    ReferenceFiles->FilesForStorage=true;
+    //Creating the playlist
+    if (!Config->File_IsReferenced_Get())
+    {
+        ReferenceFiles=new File__ReferenceFilesHelper(this, Config);
+
+        for (File_DcpPkl::streams::iterator Stream=Streams.begin(); Stream!=Streams.end(); ++Stream)
+            if (Stream->StreamKind==(stream_t)(Stream_Max+1) && Stream->ChunkList.size()==1) // Means CPL
+            {
+                File__ReferenceFilesHelper::reference ReferenceFile;
+                ReferenceFile.FileNames.push_back(Ztring().From_UTF8(Stream->ChunkList[0].Path));
+
+                ReferenceFiles->References.push_back(ReferenceFile);
+            }
+
+        ReferenceFiles->FilesForStorage=true;
+    }
 
     //All should be OK...
     return true;
+}
+
+//***************************************************************************
+// Infos
+//***************************************************************************
+
+//---------------------------------------------------------------------------
+void File_DcpPkl::MergeFromAm (File_DcpPkl::streams &StreamsToMerge)
+{
+    for (File_DcpPkl::streams::iterator Stream=Streams.begin(); Stream!=Streams.end(); ++Stream)
+    {
+        for (File_DcpPkl::streams::iterator StreamToMerge=StreamsToMerge.begin(); StreamToMerge!=StreamsToMerge.end(); ++StreamToMerge)
+            if (StreamToMerge->Id==Stream->Id)
+                *Stream=*StreamToMerge;
+    }
 }
 
 } //NameSpace

@@ -28,7 +28,8 @@
 // CPlayerCaptureBar
 
 IMPLEMENT_DYNAMIC(CPlayerCaptureBar, CPlayerBar)
-CPlayerCaptureBar::CPlayerCaptureBar()
+CPlayerCaptureBar::CPlayerCaptureBar(CMainFrame* pMainFrame)
+    : m_capdlg(pMainFrame)
 {
 }
 

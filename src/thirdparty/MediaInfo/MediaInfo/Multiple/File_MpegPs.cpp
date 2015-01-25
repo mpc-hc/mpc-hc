@@ -4744,7 +4744,8 @@ File__Analyze* File_MpegPs::ChooseParser_Teletext()
 {
     //Filling
     #if defined(MEDIAINFO_TELETEXT_YES)
-        File__Analyze* Parser=new File_Teletext();
+        File_Teletext* Parser=new File_Teletext();
+        Parser->FromMpegPs=true;
     #else
         //Filling
         File__Analyze* Parser=new File_Unknown();

@@ -73,12 +73,12 @@
 #include "SkypeMoodMsgHandler.h"
 
 #include <memory>
+#include <future>
 
 
 class CFullscreenWnd;
 
-enum class MLS
-{
+enum class MLS {
     CLOSED,
     LOADING,
     LOADED,
@@ -158,16 +158,14 @@ interface ISubClock;
 class CMainFrame : public CFrameWnd, public CDropTarget
 {
 public:
-    enum class Timer32HzSubscriber
-    {
+    enum class Timer32HzSubscriber {
         TOOLBARS_HIDER,
         CURSOR_HIDER,
         CURSOR_HIDER_D3DFS,
     };
     OnDemandTimer<Timer32HzSubscriber> m_timer32Hz;
 
-    enum class TimerOneTimeSubscriber
-    {
+    enum class TimerOneTimeSubscriber {
         TOOLBARS_DELAY_NOTLOADED,
         CHILDVIEW_CURSOR_HACK,
         DELAY_IDLE,
@@ -348,7 +346,7 @@ private:
 
     DWORD m_dwLastRun;
 
-    bool m_fBuffering;
+    bool m_bBuffering;
 
     bool m_fLiveWM;
 
@@ -565,7 +563,42 @@ public:
     virtual void RecalcLayout(BOOL bNotify = TRUE);
 
     // DVB capture
-    void ShowCurrentChannelInfo(bool fShowOSD = true, bool fShowInfoBar = false);
+    void UpdateCurrentChannelInfo(bool bShowOSD = true, bool bShowInfoBar = false);
+    LRESULT OnCurrentChannelInfoUpdated(WPARAM wParam, LPARAM lParam);
+
+    struct DVBState {
+        struct EITData {
+            HRESULT hr        = E_FAIL;
+            EventDescriptor NowNext;
+            bool bShowOSD     = true;
+            bool bShowInfoBar = false;
+        };
+
+        CString         sChannelName;                // Current channel name
+        CDVBChannel*    pChannel          = nullptr; // Pointer to current channel object
+        EventDescriptor NowNext;                     // Current channel EIT
+        bool            bActive           = false;   // True when channel is active
+        bool            bSetChannelActive = false;   // True when channel change is in progress
+        bool            bInfoActive       = false;   // True when EIT data update is in progress
+        bool            bAbortInfo        = true;    // True when aborting current EIT update
+        std::future<DVBState::EITData> infoData;
+
+        void Reset() {
+            sChannelName.Empty();
+            pChannel          = nullptr;
+            NowNext           = EventDescriptor();
+            bActive           = false;
+            bSetChannelActive = false;
+            bInfoActive       = false;
+            bAbortInfo        = true;
+        }
+
+        ~DVBState() {
+            bAbortInfo = true;
+        }
+    };
+
+    std::unique_ptr<DVBState> m_pDVBState = nullptr;
 
     // Implementation
 public:
@@ -949,10 +982,10 @@ public:
     int         m_nCurSubtitle;
     long        m_lSubtitleShift;
     REFERENCE_TIME m_rtCurSubPos;
+    bool        m_bScanDlgOpened;
     bool        m_bStopTunerScan;
     bool        m_bLockedZoomVideoWindow;
     int         m_nLockedZoomVideoWindow;
-    bool        m_fSetChannelActive;
 
     void        SetLoadState(MLS eState);
     MLS         GetLoadState() const;

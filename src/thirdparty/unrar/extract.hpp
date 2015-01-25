@@ -43,11 +43,13 @@ class CmdExtract
 
     wchar ArcName[NM];
 
-    SecPassword Password;
     bool PasswordAll;
     bool PrevExtracted;
     wchar DestFileName[NM];
     bool PasswordCancelled;
+#if defined(_WIN_ALL) && !defined(SFX_MODULE) && !defined(SILENT)
+    bool Fat32,NotFat32;
+#endif
   public:
     CmdExtract(CommandData *Cmd);
     ~CmdExtract();

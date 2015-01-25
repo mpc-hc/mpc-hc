@@ -61,7 +61,7 @@ CString CMediaTypeEx::ToString(IPin* pPin)
         packing = _T("MPEG2 PES");
     }
 
-    if (majortype == MEDIATYPE_Video) {
+    if (majortype == MEDIATYPE_Video || subtype == MEDIASUBTYPE_MPEG2_VIDEO) {
         type = _T("Video");
 
         BITMAPINFOHEADER bih;
@@ -121,7 +121,7 @@ CString CMediaTypeEx::ToString(IPin* pPin)
             type = _T("Subtitle");
             codec = _T("DVD Subpicture");
         }
-    } else if (majortype == MEDIATYPE_Audio) {
+    } else if (majortype == MEDIATYPE_Audio || subtype == MEDIASUBTYPE_DOLBY_AC3) {
         type = _T("Audio");
 
         if (formattype == FORMAT_WaveFormatEx) {
@@ -173,7 +173,7 @@ CString CMediaTypeEx::ToString(IPin* pPin)
         }
     } else if (majortype == MEDIATYPE_Text) {
         type = _T("Text");
-    } else if (majortype == MEDIATYPE_Subtitle) {
+    } else if (majortype == MEDIATYPE_Subtitle || subtype == MEDIASUBTYPE_DVD_SUBPICTURE) {
         type = _T("Subtitle");
         codec = GetSubtitleCodecName(subtype);
     } else {
@@ -443,7 +443,8 @@ CString CMediaTypeEx::GetSubtitleCodecName(const GUID& subtype)
         names[MEDIASUBTYPE_ASS2] = _T("Advanced SubStation Alpha");
         names[MEDIASUBTYPE_USF] = _T("Universal Subtitle Format");
         names[MEDIASUBTYPE_VOBSUB] = _T("VobSub");
-        // names[''] = _T("");
+        names[MEDIASUBTYPE_DVB_SUBTITLES] = _T("DVB Subtitles");
+        names[MEDIASUBTYPE_DVD_SUBPICTURE] = _T("DVD Subtitles");
     }
 
     if (names.Lookup(subtype, str)) {

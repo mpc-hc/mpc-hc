@@ -66,6 +66,7 @@ extern CString GetFilterPath(LPCTSTR clsid);
 extern CString GetFilterPath(const CLSID& clsid);
 extern void  CStringToBin(CString str, CAtlArray<BYTE>& data);
 extern CString BinToCString(const BYTE* ptr, size_t len);
+extern void FindFiles(CString fn, CAtlList<CString>& files);
 enum OpticalDiskType_t {
     OpticalDisk_NotFound,
     OpticalDisk_Audio,

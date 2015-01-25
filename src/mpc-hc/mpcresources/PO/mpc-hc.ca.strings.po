@@ -1,16 +1,17 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Adolfo Jayme Barrientos <fito@libreoffice.org>, 2014
+# Adolfo Jayme Barrientos, 2014-2015
+# Adolfo Jayme Barrientos, 2014
 # papu <papu@openmailbox.org>, 2014
 # papu <papu@openmailbox.org>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-09-20 13:10+0000\n"
-"Last-Translator: papu <papu@openmailbox.org>\n"
+"POT-Creation-Date: 2014-10-30 22:04:38+0000\n"
+"PO-Revision-Date: 2015-01-23 09:01+0000\n"
+"Last-Translator: Adolfo Jayme Barrientos\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,19 +45,19 @@ msgstr "completant..."
 
 msgctxt "IDS_AUTOPLAY_PLAYVIDEO"
 msgid "Play Video"
-msgstr "Reproduir Vídeo"
+msgstr "Reprodueix vídeo"
 
 msgctxt "IDS_AUTOPLAY_PLAYMUSIC"
 msgid "Play Music"
-msgstr "Reproduir Música"
+msgstr "Reprodueix música"
 
 msgctxt "IDS_AUTOPLAY_PLAYAUDIOCD"
 msgid "Play Audio CD"
-msgstr "Reproduir CD de Àudio"
+msgstr "Reprodueix CD d’àudio"
 
 msgctxt "IDS_AUTOPLAY_PLAYDVDMOVIE"
 msgid "Play DVD Movie"
-msgstr "Reproduir Película en DVD"
+msgstr "Reprodueix pel·lícula en DVD"
 
 msgctxt "IDS_PROPSHEET_PROPERTIES"
 msgid "Properties"
@@ -136,7 +137,7 @@ msgstr "No és compatible amb alguns dispositius. Dos descodificadors de vídeo 
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
 msgid "Fast except when switching between different video streams. Only one video decoder present in the filter graph."
-msgstr "Ràpid  excepte en canviar entre diferents fluxos de vídeo. Només un descodificador de vídeo present en el filter graph."
+msgstr "Ràpid excepte en canviar entre diferents fluxos de vídeo. Només un descodificador de vídeo present en el filter graph."
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC2"
 msgid "Not recommended. Only for testing purposes."
@@ -220,7 +221,7 @@ msgstr "ID del VOB"
 
 msgctxt "IDS_SUBRESYNC_CLN_CELL_ID"
 msgid "Cell ID"
-msgstr "ID de la cèl·lula"
+msgstr "Id. de la cel·la"
 
 msgctxt "IDS_SUBRESYNC_CLN_FORCED"
 msgid "Forced"
@@ -264,7 +265,7 @@ msgstr "No es pot obrir el controlador de captació."
 
 msgctxt "IDS_INVALID_PARAMS_ERROR"
 msgid "Can't open, invalid input parameters"
-msgstr "No es pot obrir, paràmetres  d'entrada no vàlids"
+msgstr "No es pot obrir, paràmetres d'entrada no vàlids"
 
 msgctxt "IDS_EDIT_LIST_EDITOR"
 msgid "Edit List Editor"
@@ -600,7 +601,7 @@ msgstr "Aquet es el renderitzador predeterminat per Windows 9x/Me/2K. Depenent d
 
 msgctxt "IDC_DSOVERLAYMIXER"
 msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
-msgstr "Sempre renderitzador amb Overlay. Generalment només es permeten els formats YUV, però es presenten directament sense cap conversió de color a RGB. Aquesta manera de renderitzat  es el més ràpid i l'únic on pots estar segur sobre el Video Mirroring a pantalla completa quant actives la sortida de TV."
+msgstr "Sempre renderitzador amb Overlay. Generalment només es permeten els formats YUV, però es presenten directament sense cap conversió de color a RGB. Aquesta manera de renderitzat es el més ràpid i l'únic on pots estar segur sobre el Video Mirroring a pantalla completa quant actives la sortida de TV."
 
 msgctxt "IDC_DSVMR7WIN"
 msgid "The default renderer of Windows XP. Very stable and just a little slower than the Overlay mixer. Uses DirectDraw and runs in Overlay when it can."
@@ -608,7 +609,7 @@ msgstr "El renderitzat predeterminat de XP. Molt estable i només es una mica m�
 
 msgctxt "IDC_DSVMR9WIN"
 msgid "Only available if you have DirectX 9 installed. Has the same abilities as VMR-7 (windowed), but it will never use Overlay rendering and because of this it may be a little slower than VMR-7 (windowed)."
-msgstr "Només disponible si tens instal·lat DirectX 9. Té les mateixes habilitats que VMR-7 (de finestra), pero  mai usarà el renderitzat Overlay i per aquesta raó podria ser una mica més lent que VMR-7 (de finestra)."
+msgstr "Només disponible si tens instal·lat DirectX 9. Té les mateixes habilitats que VMR-7 (de finestra), pero mai usarà el renderitzat Overlay i per aquesta raó podria ser una mica més lent que VMR-7 (de finestra)."
 
 msgctxt "IDC_DSVMR7REN"
 msgid "Same as the VMR-7 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring WILL NOT work. \"True Color\" desktop color space recommended."
@@ -624,7 +625,7 @@ msgstr "Igual que VMR-9 (sense res), pero usa un redimensionador real de dues pa
 
 msgctxt "IDC_DSNULL_COMP"
 msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the cpu from working unnecessarily."
-msgstr "Conecta a cualsevol tipus de mitjà de vídeo i manda les mostres a cap lloc. Utilitza'l quant no necesitis veure el vídeo, i vulguis  evitar l'ús no necessari de la cpu."
+msgstr "Conecta a cualsevol tipus de mitjà de vídeo i manda les mostres a cap lloc. Utilitza'l quant no necesitis veure el vídeo, i vulguis evitar l'ús no necessari de la cpu."
 
 msgctxt "IDC_DSNULL_UNCOMP"
 msgid "Same as the normal Null renderer, but this will only connect to uncompressed types."
@@ -791,7 +792,7 @@ msgid "Couldn't find all archive volumes"
 msgstr "Falten porcions de l'arxiu"
 
 msgctxt "IDC_TEXTURESURF2D"
-msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
+msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
 msgstr "La superfície de vídeo serà asiganada como una textura pero encara les funciones 2D serán usadas per copiar i estirar-se sobre el backbuffer. Eequereix una tarjeta de vídeo que pugui aplicar RGBA de 32 bits, com a mínim textures de potència de dos en la resolució del vídeo."
 
 msgctxt "IDC_TEXTURESURF3D"
@@ -844,7 +845,7 @@ msgstr "VSync precisa"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid "If the rendering target is left undefined, it will be inherited from the default style."
-msgstr "Si l' objectiu  del renderitzador es deixa sense definir, s' hereta l 'estil predeterminat."
+msgstr "Si l' objectiu del renderitzador es deixa sense definir, s' hereta l 'estil predeterminat."
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
@@ -1272,7 +1273,7 @@ msgstr "Oculta els controls i panells també en mode de finestra."
 
 msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
 msgid "Prevent external subtitle renderer to be loaded when internal is in use."
-msgstr "Evitar la càrrega del renderitzador  de subtítols extern  quant l'intern està en ús."
+msgstr "Evitar la càrrega del renderitzador de subtítols extern quant l'intern està en ús."
 
 msgctxt "IDS_PPAGEADVANCED_COL_NAME"
 msgid "Name"
@@ -1332,11 +1333,47 @@ msgstr "Mida màxima (NxNpx) de l'art de les portades carregada només en el mod
 
 msgctxt "IDS_SUBTITLE_DELAY_STEP_TOOLTIP"
 msgid "The subtitle delay will be decreased/increased by this value each time the corresponding hotkeys are used (%s/%s)."
-msgstr "El retartd del subtítol es reduirà / s'incrementarà en funció d'aquest valor cada vegada que s'utilitzen les tecles d'accés directe corresponents (% s /% s)."
+msgstr "El retartd del subtítol es reduirà / s'incrementarà en funció d'aquest valor cada vegada que s'utilitzen les tecles d'accés directe corresponents (%s/%s)."
 
 msgctxt "IDS_HOTKEY_NOT_DEFINED"
 msgid "<not defined>"
+msgstr "<sense definir>"
+
+msgctxt "IDS_NAVIGATION_WATCH"
+msgid "Watch"
 msgstr ""
+
+msgctxt "IDS_NAVIGATION_MOVE_UP"
+msgid "Move Up"
+msgstr "Pujar"
+
+msgctxt "IDS_NAVIGATION_MOVE_DOWN"
+msgid "Move Down"
+msgstr "Baixar"
+
+msgctxt "IDS_NAVIGATION_SORT"
+msgid "Sort by LCN"
+msgstr "Ordenar per LCN"
+
+msgctxt "IDS_NAVIGATION_REMOVE_ALL"
+msgid "Remove all"
+msgstr "Traieu tot"
+
+msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
+msgid "Are you sure you want to remove all channels from the list?"
+msgstr "Segur que vols eliminar tots els canals de la llista?"
+
+msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"
+msgid "No information available"
+msgstr "No hi ha informació disponible"
+
+msgctxt "IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS"
+msgid "Please wait, analysis in progress..."
+msgstr "Si us plau esperi, l'anàlisi en curs ..."
+
+msgctxt "IDS_ASPECT_RATIO_FMT"
+msgid "AR %d:%d"
+msgstr "RA %d:%d"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1400,7 +1437,7 @@ msgstr "Vés a"
 
 msgctxt "IDS_AG_INCREASE_RATE"
 msgid "Increase Rate"
-msgstr "Augmentar  Velocitat"
+msgstr "Augmentar Velocitat"
 
 msgctxt "IDS_CONTENT_SHOW_GAMESHOW"
 msgid "Show/Game show"
@@ -1539,11 +1576,11 @@ msgid "Reset Rate"
 msgstr "Inicialitzar Velocitat"
 
 msgctxt "IDS_MPLAYERC_21"
-msgid "Audio Delay +10ms"
+msgid "Audio Delay +10 ms"
 msgstr "Ajust d'Àudio en +10ms"
 
 msgctxt "IDS_MPLAYERC_22"
-msgid "Audio Delay -10ms"
+msgid "Audio Delay -10 ms"
 msgstr "Ajust d'Àudio en -10ms"
 
 msgctxt "IDS_MPLAYERC_23"
@@ -1600,7 +1637,7 @@ msgstr "Commutar el Direct3D a Pantalla completa"
 
 msgctxt "IDS_MPLAYERC_100"
 msgid "Goto Prev Subtitle"
-msgstr "Anar a  Subtítol Previ"
+msgstr "Anar a Subtítol Previ"
 
 msgctxt "IDS_MPLAYERC_101"
 msgid "Goto Next Subtitle"
@@ -1699,12 +1736,12 @@ msgid "No subtitles found."
 msgstr "No s'han trobat subtítols."
 
 msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
-msgid " %d subtitle(s) available."
-msgstr " %d subtítols disponibles."
+msgid "%d subtitle(s) available."
+msgstr "%d subtítols disponibles."
 
 msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
-msgstr "Vols comprovar periòdicament si hi ha actualitzacions del MPC-HC?\n\nAquesta funció pot ser desactivada més tard a  Miscel.lània en menú d'opcions."
+msgstr "Vols comprovar periòdicament si hi ha actualitzacions del MPC-HC?\n\nAquesta funció pot ser desactivada més tard a Miscel.lània en menú d'opcions."
 
 msgctxt "IDS_ZOOM_50"
 msgid "50%"
@@ -2027,12 +2064,12 @@ msgid "Volume: %02lu/%02lu, Title: %02lu/%02lu, Chapter: %02lu/%02lu"
 msgstr "Volum: %02lu/%02lu, Títol: %02lu/%02lu, Capítol: %02lu/%02lu"
 
 msgctxt "IDS_MAINFRM_10"
-msgid "Angle: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
-msgstr "Angle: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
+msgid "Angle: %02lu/%02lu, %lux%lu %lu Hz %lu:%lu"
+msgstr "Angle: %02lu/%02lu, %lux%lu %lu Hz %lu:%lu"
 
 msgctxt "IDS_MAINFRM_11"
-msgid "%s, %s %uHz %dbits %d %s"
-msgstr "%s, %s %uHz %dbits %d %s"
+msgid "%s, %s %u Hz %d bits %d %s"
+msgstr "%s, %s %u Hz %d bits %d %s"
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
@@ -2139,19 +2176,19 @@ msgid ", Total: %ld, Dropped: %ld"
 msgstr ", Total: %ld, Perduts: %ld"
 
 msgctxt "IDS_MAINFRM_38"
-msgid ", Size: %I64dKB"
+msgid ", Size: %I64d KB"
 msgstr ", Tamany: %I64dKB"
 
 msgctxt "IDS_MAINFRM_39"
-msgid ", Size: %I64dMB"
+msgid ", Size: %I64d MB"
 msgstr ", Tamany: %I64dMB"
 
 msgctxt "IDS_MAINFRM_40"
-msgid ", Free: %I64dKB"
+msgid ", Free: %I64d KB"
 msgstr ", Lliure: %I64dKB"
 
 msgctxt "IDS_MAINFRM_41"
-msgid ", Free: %I64dMB"
+msgid ", Free: %I64d MB"
 msgstr ", Lliure: %I64dMB"
 
 msgctxt "IDS_MAINFRM_42"
@@ -2176,7 +2213,7 @@ msgstr "Seleccioneu la ruta d'accés del DVD/BD:"
 
 msgctxt "IDS_SUB_LOADED_SUCCESS"
 msgid " loaded successfully"
-msgstr "Carregat amb èxit"
+msgstr " carregat amb èxit"
 
 msgctxt "IDS_ALL_FILES_FILTER"
 msgid "All files (*.*)|*.*||"
@@ -2239,7 +2276,7 @@ msgid "Aspect Ratio: Default"
 msgstr "Relació d'Aspecte: Original"
 
 msgctxt "IDS_MAINFRM_70"
-msgid "Audio Delay: %I64dms"
+msgid "Audio delay: %I64d ms"
 msgstr "Diferència entre Vídeo i Àudio: %I64dms"
 
 msgctxt "IDS_AG_CHAPTER"
@@ -2292,7 +2329,7 @@ msgstr "Augmentar : +%u%%"
 
 msgctxt "IDS_BALANCE_OSD"
 msgid "Balance: %s"
-msgstr "Balanç"
+msgstr "Balanç: %s"
 
 msgctxt "IDS_FULLSCREENMONITOR_CURRENT"
 msgid "Current"
@@ -2440,7 +2477,7 @@ msgstr "Angle N° %u"
 
 msgctxt "IDS_AG_VSYNCOFFSET_INCREASE"
 msgid "Increase VSync Offset"
-msgstr "Augmentar  desajustament del Vsync"
+msgstr "Augmentar desajustament del Vsync"
 
 msgctxt "IDS_AG_DISABLED"
 msgid "Disabled"
@@ -2479,8 +2516,8 @@ msgid "Volume boost Max"
 msgstr "Guany de volum màxim"
 
 msgctxt "IDS_USAGE"
-msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "Ús: mpc-hc.exe \"camí\" [switches]\n\n\"camí\"\tL'arxiu o directori principal a cargar-se (comodins permesos, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tfile ambtains \"...DELAY XXms...\")\n/d3dfs\t\tstart rendering in D3D Mode a Pantalla completa\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary. (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playing\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tRegister Vídeo formats\n/regaud\t\tRegister audio formats\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tUnregister Vídeo formats\n/start ms\t\tStart playing at \"ms\" (= milliseambds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet fixed window size\n/monitor N\tStart on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/reset\t\tRestore default settings\n/help /h /?\tMostra l' ajuda de la línea de comandaments(no traduït)\n"
+msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nominidump\tDisable minidump creation\n/slave \"hWnd\"\tUse MPC-HC as slave\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
+msgstr "Ús: mpc-hc.exe \"camí\" [switches]\n\n\"camí\"\t\tL'arxiu o directori principal a cargar-se\n(comodins permesos, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tfile ambtains \"...DELAY XXms...\")\n/d3dfs\t\tstart rendering in D3D Mode a Pantalla completa\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary. (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playing\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tRegister Vídeo formats\n/regaud\t\tRegister audio formats\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tUnregister Vídeo formats\n/start ms\t\tStart playing at \"ms\" (= milliseambds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet fixed window size\n/monitor N\tStart on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nominidump\tDisable minidump creation\n/slave \"hWnd\"\tUse MPC-HC as slave\n/reset\t\tRestore default settings\n/help /h /?\tMostra l' ajuda de la línea de comandaments(no traduït)\n"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -3278,6 +3315,10 @@ msgctxt "IDS_OSD_REGAIN_VOLUME_OFF"
 msgid "Regain volume: Off"
 msgstr "Recuperar volum: Off"
 
+msgctxt "IDS_SIZE_UNIT_BYTES"
+msgid "bytes"
+msgstr "bytes"
+
 msgctxt "IDS_SIZE_UNIT_K"
 msgid "KB"
 msgstr "KB"
@@ -3454,6 +3495,14 @@ msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
 msgstr "Després de reproducció: Apagar el monitor"
 
+msgctxt "IDS_AFTERPLAYBACK_PLAYNEXT"
+msgid "After Playback: Play next file in the folder"
+msgstr "Després de la reproducció: Reproduir el seguent arxiu dins la carperta"
+
+msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
+msgid "After Playback: Do nothing"
+msgstr "Després de la reproducció: No fer res"
+
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
 msgstr "Brillantor: %s"
@@ -3472,11 +3521,11 @@ msgstr "Saturació: %s"
 
 msgctxt "IDS_OSD_RESET_COLOR"
 msgid "Color settings restored"
-msgstr "Configuarció de color restaurat"
+msgstr "S’han restaurat els paràmetres de color"
 
 msgctxt "IDS_OSD_NO_COLORCONTROL"
 msgid "Color control is not supported"
-msgstr "Control de color no està suportat"
+msgstr "El control de color no és compatible"
 
 msgctxt "IDS_BRIGHTNESS_INC"
 msgid "Brightness increase"
@@ -3488,15 +3537,15 @@ msgstr "Introdueixi els seves idiomes preferits aquí.\nPer exemple, escriu: \"e
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
-msgstr "Els splitters externs poden tenir les seves pròpies opcions de preferències d'idioma per tant el comportament predeterminat MPC-HC no és per canviar la seva elecció inicial.\nActiveu aquesta opció si voleu MPC-HC  controli els splitters externs."
+msgstr "Els splitters externs poden tenir les seves pròpies opcions de preferències d'idioma per tant el comportament predeterminat MPC-HC no és per canviar la seva elecció inicial.\nActiveu aquesta opció si voleu MPC-HC controli els splitters externs."
 
 msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
 msgid "&Blu-Ray playlists"
-msgstr "Listes de Reproducció &Blu-Ray"
+msgstr "Llistes de reproducció &Blu-Ray"
 
 msgctxt "IDS_NAVIGATE_PLAYLIST"
 msgid "&Playlist"
-msgstr "&Llista de Reproducció"
+msgstr "&Llista de reproducció"
 
 msgctxt "IDS_NAVIGATE_CHAPTERS"
 msgid "&Chapters"
@@ -3516,21 +3565,21 @@ msgstr "Si \"últim fotograma clau\" està seleccionat, anar al primer fotograma
 
 msgctxt "IDC_ASSOCIATE_ALL_FORMATS"
 msgid "Associate with all formats"
-msgstr "Associar amb tots els formats"
+msgstr "Associa’t amb tots els formats"
 
 msgctxt "IDC_ASSOCIATE_VIDEO_FORMATS"
 msgid "Associate with video formats only"
-msgstr "Associat  només amb formats de vídeo"
+msgstr "Associa’t només amb formats de vídeo"
 
 msgctxt "IDC_ASSOCIATE_AUDIO_FORMATS"
 msgid "Associate with audio formats only"
-msgstr "Associatnomés  amb formats d'àudio"
+msgstr "Associa’t només amb formats d’àudio"
 
 msgctxt "IDC_CLEAR_ALL_ASSOCIATIONS"
 msgid "Clear all associations"
-msgstr "Netejar totes les associacions"
+msgstr "Neteja totes les associacions"
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"
-msgstr "Configuració"
+msgstr "Paràmetres"
 

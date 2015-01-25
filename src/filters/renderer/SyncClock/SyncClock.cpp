@@ -1,5 +1,5 @@
 /*
- * (C) 2010-2013 see Authors.txt
+ * (C) 2010-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -82,13 +82,13 @@ CBasePin* CSyncClockFilter::GetPin(int i)
 // CSyncClock methods
 CSyncClock::CSyncClock(LPUNKNOWN pUnk, HRESULT* phr)
     : CBaseReferenceClock(NAME("SyncClock"), pUnk, phr)
-    , m_pCurrentRefClock(0)
-    , m_pPrevRefClock(0)
-    , m_rtPrivateTime(GetTicks100ns())
-    , m_rtPrevTime(m_rtPrivateTime)
     , adjustment(1.0)
     , bias(1.0)
+    , m_rtPrivateTime(GetTicks100ns())
     , m_llPerfFrequency(0)
+    , m_rtPrevTime(m_rtPrivateTime)
+    , m_pCurrentRefClock(0)
+    , m_pPrevRefClock(0)
 {
     QueryPerformanceFrequency((LARGE_INTEGER*)&m_llPerfFrequency);
 }

@@ -24,7 +24,7 @@
 #include "FileAssoc.h"
 #include "resource.h"
 #include "SysVersion.h"
-#include "WinAPIUtils.h"
+#include "PathUtils.h"
 
 
 // TODO: change this along with the root key for settings and the mutex name to
@@ -64,13 +64,13 @@ void CFileAssoc::IconLib::SaveVersion() const
 }
 
 CFileAssoc::CFileAssoc()
-    : m_iconLibPath(GetProgramPath() + _T("mpciconlib.dll"))
+    : m_iconLibPath(PathUtils::CombinePaths(PathUtils::GetProgramPath(), _T("mpciconlib.dll")))
     , m_strRegisteredAppName(_T("Media Player Classic"))
     , m_strOldAssocKey(_T("PreviousRegistration"))
     , m_strRegisteredAppKey(_T("Software\\Clients\\Media\\Media Player Classic\\Capabilities"))
     , m_strRegAppFileAssocKey(_T("Software\\Clients\\Media\\Media Player Classic\\Capabilities\\FileAssociations"))
-    , m_strOpenCommand(_T("\"") + GetProgramPath(true) + _T("\" \"%1\""))
-    , m_strEnqueueCommand(_T("\"") + GetProgramPath(true) + _T("\" /add \"%1\""))
+    , m_strOpenCommand(_T("\"") + PathUtils::GetProgramPath(true) + _T("\" \"%1\""))
+    , m_strEnqueueCommand(_T("\"") + PathUtils::GetProgramPath(true) + _T("\" /add \"%1\""))
     , m_bNoRecentDocs(false)
     , m_checkIconsAssocInactiveEvent(TRUE, TRUE) // initially set, manual reset
 {
@@ -137,7 +137,7 @@ bool CFileAssoc::RegisterApp()
     bool success = false;
 
     if (m_pAAR) {
-        CString appIcon = "\"" + GetProgramPath(true) + "\",0";
+        CString appIcon = "\"" + PathUtils::GetProgramPath(true) + "\",0";
 
         // Register MPC-HC for the windows "Default application" manager
         CRegKey key;
@@ -191,7 +191,7 @@ bool CFileAssoc::Register(CString ext, CString strLabel, bool bRegister, bool bR
             key.DeleteValue(_T("NoRecentDocs"));
         }
 
-        CString appIcon = "\"" + GetProgramPath(true) + "\",0";
+        CString appIcon = "\"" + PathUtils::GetProgramPath(true) + "\",0";
 
         // Add to playlist option
         if (bRegisterContextMenuEntries) {
@@ -526,7 +526,7 @@ bool CFileAssoc::RegisterFolderContextMenuEntries(bool bRegister)
     if (bRegister) {
         success = false;
 
-        CString appIcon = "\"" + GetProgramPath(true) + "\",0";
+        CString appIcon = "\"" + PathUtils::GetProgramPath(true) + "\",0";
 
         if (ERROR_SUCCESS == key.Create(HKEY_CLASSES_ROOT, _T("Directory\\shell\\") PROGID _T(".enqueue"))) {
             key.SetStringValue(nullptr, ResStr(IDS_ADD_TO_PLAYLIST));
@@ -577,7 +577,7 @@ bool CFileAssoc::AreRegisteredFolderContextMenuEntries() const
 
 bool CFileAssoc::RegisterAutoPlay(autoplay_t ap, bool bRegister)
 {
-    CString exe = GetProgramPath(true);
+    CString exe = PathUtils::GetProgramPath(true);
 
     size_t i = (size_t)ap;
     if (i >= m_handlers.size()) {
@@ -632,7 +632,7 @@ bool CFileAssoc::IsAutoPlayRegistered(autoplay_t ap) const
 {
     ULONG len;
     TCHAR buff[MAX_PATH];
-    CString exe = GetProgramPath(true);
+    CString exe = PathUtils::GetProgramPath(true);
 
     size_t i = (size_t)ap;
     if (i >= m_handlers.size()) {
@@ -727,7 +727,7 @@ bool CFileAssoc::ReAssocIcons(const CAtlList<CString>& exts)
     }
     iconLib->SaveVersion();
 
-    const CString progPath = GetProgramPath(true);
+    const CString progPath = PathUtils::GetProgramPath(true);
 
     CRegKey key;
 
@@ -804,7 +804,7 @@ void CFileAssoc::CheckIconsAssocThread()
                         TaskDialogIndirect(&config, &nButtonPressed, nullptr, nullptr);
 
                         if (IDYES == nButtonPressed) {
-                            AfxGetMyApp()->RunAsAdministrator(GetProgramPath(true), _T("/iconsassoc"), true);
+                            AfxGetMyApp()->RunAsAdministrator(PathUtils::GetProgramPath(true), _T("/iconsassoc"), true);
                         }
                     }
 

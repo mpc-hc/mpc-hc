@@ -418,7 +418,7 @@ void File__Analyze::Open_Buffer_Continue (const int8u* ToAdd, size_t ToAdd_Size)
                     delete AES_Decrypted; AES_Decrypted=new int8u[ToAdd_Size*2];
                     AES_Decrypted_Size=ToAdd_Size*2;
                 }
-                AES->cbc_decrypt(ToAdd, AES_Decrypted, ToAdd_Size, AES_IV);
+                AES->cbc_decrypt(ToAdd, AES_Decrypted, (int)ToAdd_Size, AES_IV);    //TODO: handle the case where ToAdd_Size is more than 2GB
                 if (File_Offset+Buffer_Size+ToAdd_Size>=Config->File_Current_Size && ToAdd_Size)
                 {
                     int8u LastByte=AES_Decrypted[ToAdd_Size-1];

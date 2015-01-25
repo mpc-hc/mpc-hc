@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2013 see Authors.txt
+ * (C) 2009-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -30,17 +30,17 @@ class CDVBStream
 {
 public:
     CDVBStream()
-        : m_Name(L"")
+        : m_pmt(0)
         , m_bFindExisting(false)
-        , m_pmt(0)
+        , m_Name(L"")
         , m_nMsc(MEDIA_TRANSPORT_PACKET)
         , m_ulMappedPID(0) {
     }
 
     CDVBStream(LPWSTR strName, const AM_MEDIA_TYPE* pmt, bool bFindExisting = false, MEDIA_SAMPLE_CONTENT nMsc = MEDIA_ELEMENTARY_STREAM)
-        : m_Name(strName)
+        : m_pmt(pmt)
         , m_bFindExisting(bFindExisting)
-        , m_pmt(pmt)
+        , m_Name(strName)
         , m_nMsc(nMsc)
         , m_ulMappedPID(0) {
     }
@@ -174,11 +174,14 @@ private:
     HRESULT SearchIBDATopology(const CComPtr<IBaseFilter>& pTuner, REFIID iid, CComPtr<IUnknown>& pUnk);
 };
 
-#define LOG_FILE _T("bda.log")
-
 #ifdef _DEBUG
 #include <sys/types.h>
 #include <sys/timeb.h>
+
+#define CheckAndLogBDA(x, msg)  hr = ##x; if (FAILED(hr)) { LOG(msg _T(": 0x%08x\n"), hr); return hr; }
+#define CheckAndLogBDANoRet(x, msg)  hr = ##x; if (FAILED(hr)) { LOG(msg _T(": 0x%08x\n"), hr); }
+
+#define LOG_FILE _T("bda.log")
 
 static void LOG(LPCTSTR fmt, ...)
 {
@@ -208,4 +211,6 @@ static void LOG(LPCTSTR fmt, ...)
 }
 #else
 inline void LOG(LPCTSTR fmt, ...) {}
+#define CheckAndLogBDA(x, msg)  hr = ##x; if (FAILED(hr)) { TRACE(msg _T(": 0x%08x\n"), hr); return hr; }
+#define CheckAndLogBDANoRet(x, msg)  hr = ##x; if (FAILED(hr)) { TRACE(msg _T(": 0x%08x\n"), hr); }
 #endif

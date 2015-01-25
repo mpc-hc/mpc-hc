@@ -272,11 +272,8 @@ static void SetupMediaTypes(IAMStreamConfig* pAMSC, CFormatArray<T>& tfa, CCombo
 
                     if (mtCap.formattype == FORMAT_VideoInfo) {
                         VIDEOINFOHEADER* vih = (VIDEOINFOHEADER*)mtCap.pbFormat;
-                        if (!vih->bmiHeader.biHeight) {
-                            vih->bmiHeader.biHeight = 1;
-                        }
                         vih->bmiHeader.biWidth = presets[j].cx;
-                        vih->bmiHeader.biHeight = presets[j].cy * (vih->bmiHeader.biHeight / vih->bmiHeader.biHeight);
+                        vih->bmiHeader.biHeight = presets[j].cy * (vih->bmiHeader.biHeight < 0 ? -1 : 1);
                         vih->bmiHeader.biSizeImage = presets[j].cx * presets[j].cy * vih->bmiHeader.biBitCount >> 3;
 
                         AM_MEDIA_TYPE* pmt = (AM_MEDIA_TYPE*)CoTaskMemAlloc(sizeof(AM_MEDIA_TYPE));
@@ -303,11 +300,8 @@ static void SetupMediaTypes(IAMStreamConfig* pAMSC, CFormatArray<T>& tfa, CCombo
                         }
                     } else if (mtCap.formattype == FORMAT_VideoInfo2) {
                         VIDEOINFOHEADER2* vih2 = (VIDEOINFOHEADER2*)mtCap.pbFormat;
-                        if (!vih2->bmiHeader.biHeight) {
-                            vih2->bmiHeader.biHeight = 1;
-                        }
                         vih2->bmiHeader.biWidth = presets[j].cx;
-                        vih2->bmiHeader.biHeight = presets[j].cy * (vih2->bmiHeader.biHeight / vih2->bmiHeader.biHeight);
+                        vih2->bmiHeader.biHeight = presets[j].cy * (vih2->bmiHeader.biHeight < 0 ? -1 : 1);
                         vih2->bmiHeader.biSizeImage = presets[j].cx * presets[j].cy * vih2->bmiHeader.biBitCount >> 3;
                         vih2->dwPictAspectRatioX = 4;
                         vih2->dwPictAspectRatioY = 3;
@@ -519,22 +513,23 @@ static int ShowPPage(CAtlArray<Codec>& codecs, const CComboBox& box, HWND hWnd =
 // CPlayerCaptureDialog dialog
 
 //IMPLEMENT_DYNAMIC(CPlayerCaptureDialog, CResizableDialog)
-CPlayerCaptureDialog::CPlayerCaptureDialog()
+CPlayerCaptureDialog::CPlayerCaptureDialog(CMainFrame* pMainFrame)
     : CResizableDialog(CPlayerCaptureDialog::IDD, nullptr)
+    , m_pMainFrame(pMainFrame)
     , m_bInitialized(false)
     , m_vidfps(0)
-    , m_fVidOutput(TRUE)
-    , m_fAudOutput(TRUE)
-    , m_fVidPreview(FALSE)
-    , m_fAudPreview(FALSE)
-    , m_fEnableOgm(FALSE)
     , m_nVidBuffers(0)
     , m_nAudBuffers(0)
-    , m_pVidBuffer(nullptr)
-    , m_pAudBuffer(nullptr)
+    , m_nRecordTimerID(0)
     , m_fSepAudio(FALSE)
     , m_muxtype(0)
-    , m_nRecordTimerID(0)
+    , m_fEnableOgm(FALSE)
+    , m_fVidOutput(TRUE)
+    , m_fVidPreview(FALSE)
+    , m_fAudOutput(TRUE)
+    , m_fAudPreview(FALSE)
+    , m_pVidBuffer(nullptr)
+    , m_pAudBuffer(nullptr)
 {
     EmptyVideo();
     EmptyAudio();
@@ -939,7 +934,7 @@ void CPlayerCaptureDialog::UpdateGraph()
 {
     UpdateMediaTypes();
 
-    ((CMainFrame*)AfxGetMainWnd())->BuildGraphVideoAudio(m_fVidPreview, false, m_fAudPreview, false);
+    m_pMainFrame->BuildGraphVideoAudio(m_fVidPreview, false, m_fAudPreview, false);
 
     UpdateUserDefinableControls();
 }
@@ -1406,9 +1401,9 @@ void CPlayerCaptureDialog::OnVideoInput()
             HRESULT hr = m_pAMVfwCD->ShowDialog(iSel, m_hWnd);
 
             if (VFW_E_NOT_STOPPED == hr) {
-                ((CMainFrame*)AfxGetMainWnd())->SendMessage(WM_COMMAND, ID_PLAY_STOP);
+                m_pMainFrame->SendMessage(WM_COMMAND, ID_PLAY_STOP);
                 hr = m_pAMVfwCD->ShowDialog(iSel, m_hWnd);
-                ((CMainFrame*)AfxGetMainWnd())->SendMessage(WM_COMMAND, ID_PLAY_PLAY);
+                m_pMainFrame->SendMessage(WM_COMMAND, ID_PLAY_PLAY);
             }
 
             if (VFW_E_CANNOT_CONNECT == hr) {
@@ -1590,12 +1585,7 @@ void CPlayerCaptureDialog::OnRecord()
 {
     UpdateData();
 
-    CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
-    if (!pFrame) {
-        return;
-    }
-
-    if (!pFrame->m_fCapturing) {
+    if (!m_pMainFrame->m_fCapturing) {
         UpdateMuxer();
 
         CComQIPtr<IFileSinkFilter2> pFSF = m_pMux;
@@ -1654,14 +1644,14 @@ void CPlayerCaptureDialog::OnRecord()
 
         EnableControls(this, false);
 
-        pFrame->StartCapture();
+        m_pMainFrame->StartCapture();
 
         m_nRecordTimerID = SetTimer(1, 100, nullptr);
     } else {
         KillTimer(m_nRecordTimerID);
         m_nRecordTimerID = 0;
 
-        pFrame->StopCapture();
+        m_pMainFrame->StopCapture();
         EnableControls(this, true);
 
         m_pVidBuffer = nullptr;
@@ -1684,7 +1674,7 @@ void CPlayerCaptureDialog::OnChangeAudioBuffers()
 void CPlayerCaptureDialog::OnTimer(UINT_PTR nIDEvent)
 {
     if (nIDEvent == m_nRecordTimerID) {
-        if (((CMainFrame*)AfxGetMainWnd())->m_fCapturing) {
+        if (m_pMainFrame->m_fCapturing) {
             ULARGE_INTEGER FreeBytesAvailable, TotalNumberOfBytes, TotalNumberOfFreeBytes;
             if (GetDiskFreeSpaceEx(m_file.Left(m_file.ReverseFind('\\') + 1), &FreeBytesAvailable, &TotalNumberOfBytes, &TotalNumberOfFreeBytes)
                     && FreeBytesAvailable.QuadPart < 1024i64 * 1024 * 10) {

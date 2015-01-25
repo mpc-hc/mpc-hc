@@ -811,7 +811,7 @@ size_t Archive::ReadHeader50()
         Raw.GetB((byte *)FileName,ReadNameSize);
         FileName[ReadNameSize]=0;
 
-        UtfToWide(FileName,hd->FileName,ASIZE(hd->FileName)-1);
+        UtfToWide(FileName,hd->FileName,ASIZE(hd->FileName));
 
         // Should do it before converting names, because extra fields can
         // affect name processing, like in case of NTFS streams.
@@ -893,6 +893,7 @@ void Archive::RequestArcPassword()
       ErrHandler.Exit(RARX_USERBREAK);
     }
 #endif
+    Cmd->ManualPassword=true;
   }
 }
 #endif

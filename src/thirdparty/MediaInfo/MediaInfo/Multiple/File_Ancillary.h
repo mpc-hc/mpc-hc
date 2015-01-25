@@ -67,6 +67,9 @@ public :
     #if defined(MEDIAINFO_ARIBSTDB24B37_YES)
         File__Analyze*  AribStdB34B37_Parser;
     #endif //defined(MEDIAINFO_ARIBSTDB24B37_YES)
+    #if defined(MEDIAINFO_SDP_YES)
+        File__Analyze*  Sdp_Parser;
+    #endif //defined(MEDIAINFO_ARIBSTDB24B37_YES)
 
     //Constructor/Destructor
     File_Ancillary();

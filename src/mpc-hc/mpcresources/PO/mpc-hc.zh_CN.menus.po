@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # bruce55 <bruce.luo+transifex@nyu.edu>, 2014
@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-19 21:10:25+0000\n"
-"PO-Revision-Date: 2014-08-20 10:11+0000\n"
+"POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
+"PO-Revision-Date: 2014-10-27 07:42+0000\n"
 "Last-Translator: Ming Chen <yzonline@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/mpc-hc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -612,7 +612,11 @@ msgstr "锁定(&L)"
 
 msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
 msgid "Turn off the &monitor"
-msgstr "关闭显示器(&m)"
+msgstr "关闭显示器(&M)"
+
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "播放文件夹中的下一个文件(&N)"
 
 msgctxt "POPUP"
 msgid "&Navigate"

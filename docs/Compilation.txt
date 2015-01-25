@@ -16,8 +16,8 @@ Part B: Preparing the GCC environment
   * If you installed the MSYS/MinGW package in an other directory you will have to use that path in the following steps.
   * If you don't have Git installed then the revision number will be a hard-coded one, like 1.6.3.0.
 
- 1. Download and extract MSYS_MinGW-w64_GCC_491_x86-x64.7z to "C:\MSYS" -> http://xhmikosr.1f0.de/tools/msys/MSYS_MinGW-w64_GCC_491_x86-x64.7z
-    For the components and their version see: http://xhmikosr.1f0.de/tools/msys/MSYS_MinGW-w64_GCC_491_x86-x64_components.txt
+ 1. Download and extract MSYS_MinGW-w64_GCC_492_x86-x64.7z to "C:\MSYS" -> http://xhmikosr.1f0.de/tools/msys/MSYS_MinGW-w64_GCC_492_x86-x64.7z
+    For the components and their version see: http://xhmikosr.1f0.de/tools/msys/MSYS_MinGW-w64_GCC_492_x86-x64_components.txt
  2. Edit the "fstab" file in "C:\MSYS\etc" to specify your MinGW path. This is optional.
     Add this to it: C:\MSYS\mingw	\mingw
     Note the tab-space between "mingw" and "\mingw"
@@ -49,6 +49,9 @@ Part C: Downloading and compiling the MPC-HC source
       git submodule foreach --recursive git fetch --tags
     then run the update again
       git submodule update --init --recursive
+
+    Note that you can add `-b master` to the `git clone` command if you want to get the latest stable version
+    instead of the latest development version
 2. Open the solution file "C:\mpc-hc\mpc-hc.sln"
     Change the solution's configuration to "Release" (in the toolbar).
 3. Press F7 to build the solution.
@@ -60,7 +63,7 @@ Part C: Downloading and compiling the MPC-HC source
     In Visual Studio go to Build->Batch Build->Press Select All->Press Build
 9. You now have "mpcresources.XX.dll" under "C:\mpc-hc\bin\mpc-hc_x86\Lang"
 
-Alternatively, you can use "build.bat" which can build everything for you
+Alternatively, you can use "build.bat" that can build everything for you
 (run: build.bat help for more info)
 
 

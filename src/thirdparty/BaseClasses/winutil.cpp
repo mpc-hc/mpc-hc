@@ -35,9 +35,12 @@ CBaseWindow::CBaseWindow(BOOL bDoGetDC, bool bDoPostToDestroy) :
     m_bRealizing(FALSE),
 #endif
     m_bNoRealize(FALSE),
-    m_bDoPostToDestroy(bDoPostToDestroy)
+    m_bDoPostToDestroy(bDoPostToDestroy),
+    m_bDoGetDC(bDoGetDC),
+    m_Width(0),
+    m_Height(0),
+    m_RealizePalette(0)
 {
-    m_bDoGetDC = bDoGetDC;
 }
 
 
@@ -1457,7 +1460,8 @@ CImageAllocator::CImageAllocator(__inout CBaseFilter *pFilter,
                                  __in_opt LPCTSTR pName,
                                  __inout HRESULT *phr) :
     CBaseAllocator(pName,NULL,phr,TRUE,TRUE),
-    m_pFilter(pFilter)
+    m_pFilter(pFilter),
+    m_pMediaType(NULL)
 {
     ASSERT(phr);
     ASSERT(pFilter);
@@ -1742,6 +1746,7 @@ CImageSample::CImageSample(__inout CBaseAllocator *pAllocator,
     CMediaSample(pName,pAllocator,phr,pBuffer,length),
     m_bInit(FALSE)
 {
+    ZeroMemory(&m_DibData, sizeof(DIBDATA));
     ASSERT(pAllocator);
     ASSERT(pBuffer);
 }

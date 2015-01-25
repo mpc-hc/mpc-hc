@@ -33,7 +33,7 @@ class CPlayerCaptureBar : public CPlayerBar
 public:
     CPlayerCaptureDialog m_capdlg;
 
-    CPlayerCaptureBar();
+    CPlayerCaptureBar(CMainFrame* pMainFrame);
     virtual ~CPlayerCaptureBar();
 
     BOOL Create(CWnd* pParentWnd, UINT defDockBarID);
