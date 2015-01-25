@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2015-01-22 00:41+0000\n"
+"PO-Revision-Date: 2015-01-23 11:01+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -674,7 +674,7 @@ msgstr "「現在再生中」 のファイル情報を Skype のムード メッ
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
-msgstr "既定のモニタ以外で全画面表示している場合、プレーヤーを最小化しない"
+msgstr "既定のモニタ以外で全画面表示している場合、プレーヤーを最小化できないようにする"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_WIN7"
 msgid "Use Windows 7 Taskbar features"

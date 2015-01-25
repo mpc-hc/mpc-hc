@@ -2,16 +2,16 @@
 # Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Adolfo Jayme Barrientos <fito@libreoffice.org>, 2014
-# Adolfo Jayme Barrientos <fito@libreoffice.org>, 2014
+# Adolfo Jayme Barrientos, 2014-2015
+# Adolfo Jayme Barrientos, 2014
 # papu <papu@openmailbox.org>, 2014
 # papu <papu@openmailbox.org>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-10-30 22:04:38+0000\n"
-"PO-Revision-Date: 2015-01-10 10:50+0000\n"
-"Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
+"PO-Revision-Date: 2015-01-23 09:01+0000\n"
+"Last-Translator: Adolfo Jayme Barrientos\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,19 +45,19 @@ msgstr "completant..."
 
 msgctxt "IDS_AUTOPLAY_PLAYVIDEO"
 msgid "Play Video"
-msgstr "Reproduir Vídeo"
+msgstr "Reprodueix vídeo"
 
 msgctxt "IDS_AUTOPLAY_PLAYMUSIC"
 msgid "Play Music"
-msgstr "Reproduir Música"
+msgstr "Reprodueix música"
 
 msgctxt "IDS_AUTOPLAY_PLAYAUDIOCD"
 msgid "Play Audio CD"
-msgstr "Reproduir CD de Àudio"
+msgstr "Reprodueix CD d’àudio"
 
 msgctxt "IDS_AUTOPLAY_PLAYDVDMOVIE"
 msgid "Play DVD Movie"
-msgstr "Reproduir Película en DVD"
+msgstr "Reprodueix pel·lícula en DVD"
 
 msgctxt "IDS_PROPSHEET_PROPERTIES"
 msgid "Properties"
