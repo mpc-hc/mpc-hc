@@ -2,12 +2,12 @@
 # Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# ever_green, 2014
+# ever_green, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-10-30 22:04:38+0000\n"
-"PO-Revision-Date: 2014-12-28 10:31+0000\n"
+"PO-Revision-Date: 2015-01-23 14:41+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -810,7 +810,7 @@ msgstr "レンダラの互換性を犠牲にしてパフォーマンスを向上
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."
-msgstr "テアリングを減らしますが、ツールバーを表示できません。"
+msgstr "テアリングを減らしますが、ツールバーが表示されなくなります。"
 
 msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Reduces tearing by bypassing the default VSync built into D3D."
@@ -1270,7 +1270,7 @@ msgstr "ウィンドウ モードでもコントロールやパネルを隠し�
 
 msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
 msgid "Prevent external subtitle renderer to be loaded when internal is in use."
-msgstr "内蔵の字幕レンダラを使用している場合、外部の字幕レンダラを読み込みません。"
+msgstr "内蔵の字幕レンダラを使用している場合、外部の字幕レンダラを読み込まないようにします。"
 
 msgctxt "IDS_PPAGEADVANCED_COL_NAME"
 msgid "Name"
