@@ -44,10 +44,10 @@ size_t Archive::SearchBlock(HEADER_TYPE HeaderType)
     if ((++Count & 127)==0)
       Wait();
     if (GetHeaderType()==HeaderType)
-      return(Size);
+      return Size;
     SeekToNext();
   }
-  return(0);
+  return 0;
 }
 
 
@@ -128,7 +128,7 @@ size_t Archive::ReadHeader15()
     if (Read(Salt,SIZE_SALT30)!=SIZE_SALT30)
     {
       UnexpEndArcMsg();
-      return(0);
+      return 0;
     }
     HeadersCrypt.SetCryptKeys(false,CRYPT_RAR30,&Cmd->Password,Salt,NULL,0,NULL,NULL);
     Raw.SetCrypt(&HeadersCrypt);
@@ -155,7 +155,7 @@ size_t Archive::ReadHeader15()
   if (ShortBlock.HeadSize<SIZEOF_SHORTBLOCKHEAD)
   {
     BrokenHeaderMsg();
-    return(0);
+    return 0;
   }
 
   // For simpler further processing we map header types common
@@ -562,7 +562,7 @@ size_t Archive::ReadHeader50()
   if (Decrypt)
   {
 #if defined(SHELL_EXT) || defined(RAR_NOCRYPT)
-    return(0);
+    return 0;
 #else
     RequestArcPassword();
 
@@ -570,7 +570,7 @@ size_t Archive::ReadHeader50()
     if (Read(HeadersInitV,SIZE_INITV)!=SIZE_INITV)
     {
       UnexpEndArcMsg();
-      return(0);
+      return 0;
     }
 
     byte PswCheck[SIZE_PSWCHECK];
@@ -1168,7 +1168,7 @@ size_t Archive::ReadHeader14()
       NextBlockPos=CurBlockPos+FileHead.HeadSize+FileHead.PackSize;
     CurHeaderType=HEAD_FILE;
   }
-  return(NextBlockPos>CurBlockPos ? Raw.Size():0);
+  return NextBlockPos>CurBlockPos ? Raw.Size() : 0;
 }
 #endif
 

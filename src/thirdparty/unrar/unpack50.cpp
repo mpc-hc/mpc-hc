@@ -570,7 +570,7 @@ bool Unpack::ReadTables(BitInput &Inp,UnpackBlockHeader &Header,UnpackBlockTable
       else
       {
         ZeroCount+=2;
-        while (ZeroCount-- > 0 && I<sizeof(BitLength)/sizeof(BitLength[0]))
+        while (ZeroCount-- > 0 && I<ASIZE(BitLength))
           BitLength[I++]=0;
         I--;
       }
@@ -587,7 +587,7 @@ bool Unpack::ReadTables(BitInput &Inp,UnpackBlockHeader &Header,UnpackBlockTable
   {
     if (!Inp.ExternalBuffer && Inp.InAddr>ReadTop-5)
       if (!UnpReadBuf())
-        return(false);
+        return false;
     int Number=DecodeNumber(Inp,&Tables.BD);
     if (Number<16)
     {
@@ -633,12 +633,12 @@ bool Unpack::ReadTables(BitInput &Inp,UnpackBlockHeader &Header,UnpackBlockTable
       }
   }
   if (!Inp.ExternalBuffer && Inp.InAddr>ReadTop)
-    return(false);
+    return false;
   MakeDecodeTables(&Table[0],&Tables.LD,NC);
   MakeDecodeTables(&Table[NC],&Tables.DD,DC);
   MakeDecodeTables(&Table[NC+DC],&Tables.LDD,LDC);
   MakeDecodeTables(&Table[NC+DC+LDC],&Tables.RD,RC);
-  return(true);
+  return true;
 }
 
 
