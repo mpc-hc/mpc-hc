@@ -1,5 +1,5 @@
 /*
- * (C) 2012-2014 see Authors.txt
+ * (C) 2012-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -31,7 +31,6 @@
 #include "PathUtils.h"
 #include <afxole.h>
 
-extern "C" char g_Gcc_Compiler[];
 
 /////////////////////////////////////////////////////////////////////////////
 // CAboutDlg dialog used for App About
@@ -216,7 +215,7 @@ void CAboutDlg::OnCopyToClipboard()
     info += _T("    LAV Splitter:       ") + CFGFilterLAV::GetVersion(CFGFilterLAV::SPLITTER) + _T("\r\n");
     info += _T("    LAV Video:          ") + CFGFilterLAV::GetVersion(CFGFilterLAV::VIDEO_DECODER) + _T("\r\n");
     info += _T("    LAV Audio:          ") + CFGFilterLAV::GetVersion(CFGFilterLAV::AUDIO_DECODER) + _T("\r\n");
-    info += _T("    FFmpeg compiler:    ") + CString(g_Gcc_Compiler) + _T("\r\n\r\n");
+    info += _T("    FFmpeg compiler:    ") + VersionInfo::GetGCCVersion() + _T("\r\n\r\n");
 #endif
     info += _T("Operating system:\r\n");
     info += _T("    Name:               ") + m_OSName + _T("\r\n");

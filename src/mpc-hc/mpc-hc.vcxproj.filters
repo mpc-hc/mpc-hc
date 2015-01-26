@@ -1048,9 +1048,4 @@
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
-  <ItemGroup>
-    <Object Include="..\thirdparty\LAVFilters\src\bin_$(PlatformName)\ffmpeg\GCCInfo.o">
-      <Filter>Build Info</Filter>
-    </Object>
-  </ItemGroup>
 </Project>

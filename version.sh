@@ -80,9 +80,26 @@ else
   fi
 fi
 
+gcc_exe=('gcc' 'x86_64-w64-mingw32-gcc')
+gcc_version_str=()
+
+for gcc in "${gcc_exe[@]}"; do
+  gcc_machine=$($gcc -dumpmachine)
+  if [ "$gcc_machine" != "" ];then
+    if [[ $gcc_machine  == *"w64-mingw32" ]]; then
+      mingw_name="MinGW-w64"
+    elif [[ $gcc_machine == *"-mingw32" ]]; then
+      mingw_name="MinGW"
+    fi
+    gcc_version_str+=("$mingw_name GCC $($gcc -dumpversion)")
+  fi
+done
+
 version_info+="#define MPCHC_HASH _T(\"$hash\")"$'\n'
 version_info+="#define MPC_VERSION_REV $ver"$'\n'
-version_info+="#define MPC_VERSION_ADDITIONAL _T(\"${ver_additional}\")"
+version_info+="#define MPC_VERSION_ADDITIONAL _T(\"${ver_additional}\")"$'\n'
+version_info+="#define GCC32_VERSION _T(\"${gcc_version_str[0]}\")"$'\n'
+version_info+="#define GCC64_VERSION _T(\"${gcc_version_str[1]}\")"
 
 
 # Update version_rev.h if it does not exist, or if version information was changed.

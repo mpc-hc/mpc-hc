@@ -1,5 +1,5 @@
 /*
- * (C) 2013 see Authors.txt
+ * (C) 2013, 2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -33,6 +33,7 @@ public:
     static unsigned GetMinorNumber();
     static unsigned GetPatchNumber();
     static unsigned GetRevisionNumber();
+    static CString GetGCCVersion();
 private:
     VersionInfo();
 };
