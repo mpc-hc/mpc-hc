@@ -259,8 +259,8 @@ bool CVobSubFile::Copy(CVobSubFile& vsf)
             sp.filepos = m_sub.GetPosition();
 
             BYTE buff[2048];
-            vsf.m_sub.Read(buff, 2048);
-            m_sub.Write(buff, 2048);
+            UINT uRead = vsf.m_sub.Read(buff, 2048);
+            m_sub.Write(buff, uRead);
 
             WORD packetsize = (buff[buff[0x16] + 0x18] << 8) | buff[buff[0x16] + 0x19];
 
@@ -271,13 +271,13 @@ bool CVobSubFile::Copy(CVobSubFile& vsf)
                 size = std::min(sizeleft, 2048 - hsize);
 
                 if (size != sizeleft) {
-                    while (vsf.m_sub.Read(buff, 2048)) {
+                    while ((uRead = vsf.m_sub.Read(buff, 2048)) > 0) {
                         if (!(buff[0x15] & 0x80) && buff[buff[0x16] + 0x17] == (i | 0x20)) {
                             break;
                         }
                     }
 
-                    m_sub.Write(buff, 2048);
+                    m_sub.Write(buff, uRead);
                 }
             }
 
