@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -9156,7 +9156,7 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
     if (!bRestoredWindowPosition) {
         CMonitors monitors;
         CMonitor monitor;
-        if (iMonitor > 0) {
+        if (iMonitor > 0 && iMonitor <= monitors.GetCount()) {
             monitor = monitors.GetMonitor(--iMonitor);
         } else {
             monitor = CMonitors::GetNearestMonitor(this);

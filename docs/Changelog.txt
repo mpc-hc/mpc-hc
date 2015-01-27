@@ -14,6 +14,7 @@ next version - not released yet
 * Updated Unrar to v5.2.4
 * Updated LAV Filters to v0.63.0.62
 ! EVR-CP/Sync renderers could produce wrong colors
+! Ticket #5239, Fix a crash when specifying a non-existent monitor in the command line (/monitor)
 
 
 1.7.8 - 25 January 2015
