@@ -444,8 +444,8 @@ bool CWebClientSocket::OnInfo(CStringA& hdr, CStringA& body, CStringA& mime)
     m_pWebServer->LoadPage(IDR_HTML_INFO, body, AToT(m_path));
     body.Replace("[version]", UTF8(AfxGetMyApp()->m_strVersion));
     body.Replace("[file]", UTF8(m_pMainFrame->GetFileName()));
-    body.Replace("[position]", UTF8(NumToCString(std::lround(m_pMainFrame->GetPos() / 10000i64))));
-    body.Replace("[duration]", UTF8(NumToCString(std::lround(m_pMainFrame->GetDur() / 10000i64))));
+    body.Replace("[position]", UTF8(ReftimeToString2(m_pMainFrame->GetPos())));
+    body.Replace("[duration]", UTF8(ReftimeToString2(m_pMainFrame->GetDur())));
     body.Replace("[size]", UTF8(GetSize()));
     return true;
 }
