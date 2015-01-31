@@ -119,6 +119,10 @@ BOOL CPPageSubMisc::OnInitDialog()
     m_list.Invalidate();
     m_list.UpdateWindow();
 
+    //TODO: Remove when Auto Upload is finalised
+    CheckDlgButton(IDC_CHECK6, FALSE);
+    GetDlgItem(IDC_CHECK6)->EnableWindow(FALSE);
+
     UpdateData(FALSE);
 
     return TRUE;

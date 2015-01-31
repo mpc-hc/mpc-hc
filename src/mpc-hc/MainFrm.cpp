@@ -1880,10 +1880,11 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                     m_wndSubresyncBar.SetFPS(m_pCAP->GetFPS());
                 }
 
-                const CAppSettings& s = AfxGetAppSettings();
-                if (s.bAutoUploadSubtitles && (rtNow / rtDur == 90) && !m_pSubStreams.IsEmpty() && s.fEnableSubtitles && m_pCAP && m_pCAP->GetSubtitleDelay() == 0) {
-                    m_pSubtitlesProviders->Upload();
-                }
+                //TODO: Update when Auto Upload is finalised
+                //const CAppSettings& s = AfxGetAppSettings();
+                //if (s.bAutoUploadSubtitles && (rtNow / rtDur == 90) && !m_pSubStreams.IsEmpty() && s.fEnableSubtitles && m_pCAP && m_pCAP->GetSubtitleDelay() == 0) {
+                //    m_pSubtitlesProviders->Upload();
+                //}
             }
             break;
         case TIMER_STREAMPOSPOLLER2:
@@ -2353,9 +2354,10 @@ void CMainFrame::GraphEventComplete()
         bBreak = !!(s.nCLSwitches & CLSW_AFTERPLAYBACK_MASK);
     }
 
-    if (!m_pSubStreams.IsEmpty() && s.fEnableSubtitles && s.bAutoUploadSubtitles && m_pCAP && m_pCAP->GetSubtitleDelay() == 0) {
-        m_pSubtitlesProviders->Upload();
-    }
+    //TODO: Update when Auto Upload is finalised
+    //if (!m_pSubStreams.IsEmpty() && s.fEnableSubtitles && s.bAutoUploadSubtitles && m_pCAP && m_pCAP->GetSubtitleDelay() == 0) {
+    //    m_pSubtitlesProviders->Upload();
+    //}
 
 
     if (s.fLoopForever || m_nLoops < s.nLoops) {
