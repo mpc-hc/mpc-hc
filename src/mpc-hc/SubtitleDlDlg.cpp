@@ -169,15 +169,15 @@ BOOL CSubtitleDlDlg::OnInitDialog()
 #endif
     }
 
-    m_list.InsertColumn(COL_PROVIDER, _T("Provider")/*ResStr(IDS_SUBDL_DLG_PROVIDER_COL)*/, LVCFMT_LEFT, columnWidth[COL_PROVIDER]);
+    m_list.InsertColumn(COL_PROVIDER, ResStr(IDS_SUBDL_DLG_PROVIDER_COL), LVCFMT_LEFT, columnWidth[COL_PROVIDER]);
     m_list.InsertColumn(COL_FILENAME, ResStr(IDS_SUBDL_DLG_FILENAME_COL), LVCFMT_LEFT, columnWidth[COL_FILENAME]);
     m_list.InsertColumn(COL_LANGUAGE, ResStr(IDS_SUBDL_DLG_LANGUAGE_COL), LVCFMT_CENTER, columnWidth[COL_LANGUAGE]);
     m_list.InsertColumn(COL_DISC, ResStr(IDS_SUBDL_DLG_DISC_COL), LVCFMT_CENTER, columnWidth[COL_DISC]);
-    m_list.InsertColumn(COL_HEARINGIMPAIRED, _T("Hearing Impaired"), LVCFMT_CENTER, columnWidth[COL_HEARINGIMPAIRED]);
-    m_list.InsertColumn(COL_DOWNLOADS, _T("Downloads"), LVCFMT_RIGHT, columnWidth[COL_DOWNLOADS]);
+    m_list.InsertColumn(COL_HEARINGIMPAIRED, ResStr(IDS_SUBDL_DLG_HI_COL), LVCFMT_CENTER, columnWidth[COL_HEARINGIMPAIRED]);
+    m_list.InsertColumn(COL_DOWNLOADS, ResStr(IDS_SUBDL_DLG_DOWNLOADS_COL), LVCFMT_RIGHT, columnWidth[COL_DOWNLOADS]);
     m_list.InsertColumn(COL_TITLES, ResStr(IDS_SUBDL_DLG_TITLES_COL), LVCFMT_LEFT, columnWidth[COL_TITLES]);
 #ifdef _DEBUG
-    m_list.InsertColumn(COL_SCORE, _T("Score"), LVCFMT_RIGHT, columnWidth[COL_SCORE]);
+    m_list.InsertColumn(COL_SCORE, ResStr(IDS_SUBDL_DLG_SCORE_COL), LVCFMT_RIGHT, columnWidth[COL_SCORE]);
 #endif
     SetListViewSortColumn();
 
@@ -411,9 +411,9 @@ void CSubtitleDlDlg::OnRightClick(NMHDR* pNMHDR, LRESULT* pResult)
 
         CMenu m;
         m.CreatePopupMenu();
-        m.AppendMenu(MF_STRING | (m_list.GetCheck(lpnmlv->iItem) != -1 ? MF_ENABLED : MF_DISABLED), DOWNLOAD, L"Download && Open" /*ResStr(IDS_ENABLE_ALL_FILTERS)*/);
+        m.AppendMenu(MF_STRING | (m_list.GetCheck(lpnmlv->iItem) != -1 ? MF_ENABLED : MF_DISABLED), DOWNLOAD, ResStr(IDS_SUBMENU_DOWNLOAD));
         m.AppendMenu(MF_SEPARATOR);
-        m.AppendMenu(MF_STRING | (!subtitlesInfo.url.empty() ? MF_ENABLED : MF_DISABLED), OPEN_URL, L"Open Url" /*ResStr(IDS_ENABLE_ALL_FILTERS)*/);
+        m.AppendMenu(MF_STRING | (!subtitlesInfo.url.empty() ? MF_ENABLED : MF_DISABLED), OPEN_URL, ResStr(IDS_SUBMENU_OPENURL));
 
         CPoint pt = lpnmlv->ptAction;
         ::MapWindowPoints(lpnmlv->hdr.hwndFrom, HWND_DESKTOP, &pt, 1);
@@ -463,7 +463,7 @@ afx_msg LRESULT CSubtitleDlDlg::OnSearch(WPARAM wParam, LPARAM /*lParam*/)
 {
     INT _nCount = (INT)wParam;
 
-    SetStatusText(_T("Searching for subtitles online, please wait..."));
+    SetStatusText(ResStr(IDS_SUBDL_DLG_SEARCHING));
     GetDlgItem(IDC_BUTTON1)->EnableWindow(FALSE);
     GetDlgItem(IDC_BUTTON1)->ShowWindow(FALSE);
     GetDlgItem(IDC_BUTTON2)->ShowWindow(TRUE);
@@ -478,7 +478,7 @@ afx_msg LRESULT CSubtitleDlDlg::OnSearch(WPARAM wParam, LPARAM /*lParam*/)
 afx_msg LRESULT CSubtitleDlDlg::OnSearching(WPARAM /*wParam*/, LPARAM lParam)
 {
     SubtitlesInfo& _fileInfo = *(SubtitlesInfo*)lParam;
-    CString title = _T("Download subtitles - ") + CString(_fileInfo.fileName.c_str());
+    CString title = ResStr(IDS_SUBDL_DLG_TITLE) + _T(" - ") + CString(_fileInfo.fileName.c_str());
     SetWindowText(title);
     return S_OK;
 }
@@ -488,7 +488,7 @@ afx_msg LRESULT CSubtitleDlDlg::OnDownloading(WPARAM /*wParam*/, LPARAM lParam)
     SubtitlesInfo& _fileInfo = *(SubtitlesInfo*)lParam;
 
     CString statusMessage;
-    statusMessage.Format(_T("Downloading [%s] \"%s\""), CString(_fileInfo.Provider().Name().c_str()), CString(_fileInfo.fileName.c_str()));
+    statusMessage.Format(ResStr(IDS_SUBDL_DLG_DOWNLOADING), CString(_fileInfo.Provider().Name().c_str()), CString(_fileInfo.fileName.c_str()));
     SetStatusText(statusMessage);
 
     return S_OK;
@@ -499,7 +499,7 @@ afx_msg LRESULT CSubtitleDlDlg::OnDownloaded(WPARAM /*wParam*/, LPARAM lParam)
     SubtitlesInfo& _fileInfo = *(SubtitlesInfo*)lParam;
 
     if (!GetDlgItem(IDC_BUTTON1)->IsWindowEnabled()) {
-        SetStatusText(_T("Searching for subtitles online, please wait..."), FALSE);
+        SetStatusText(ResStr(IDS_SUBDL_DLG_SEARCHING), FALSE);
     }
 
     for (int i = 0; i < m_list.GetItemCount(); ++i) {
@@ -521,7 +521,7 @@ afx_msg LRESULT CSubtitleDlDlg::OnCompleted(WPARAM wParam, LPARAM lParam)
     m_progress.StepIt();
 
     if (_result == SR_ABORTED) {
-        SetStatusText("Online subtitles search aborting...");
+        SetStatusText(ResStr(IDS_SUBDL_DLG_ABORTING));
     } else if (!_subtitlesList.empty()) {
         m_list.SetRedraw(FALSE);
         SubtitlesList::const_iterator _begin = std::next(m_Subtitles.begin(), !m_Subtitles.empty() ? m_Subtitles.size() - 1 : 0);
@@ -577,13 +577,13 @@ afx_msg LRESULT CSubtitleDlDlg::OnFinished(WPARAM wParam, LPARAM lParam)
             }
 
             CString message;
-            message.Format(L"Online subtitles search completed, %d subtitles found.", (int)m_Subtitles.size());
+            message.Format(ResStr(IDS_SUBDL_DLG_FOUND), (int)m_Subtitles.size());
             SetStatusText(message);
         } else {
-            SetStatusText(L"Online subtitles search completed, no subtitles found.");
+            SetStatusText(ResStr(IDS_SUBDL_DLG_NOTFOUND));
         }
     } else {
-        SetStatusText("Online subtitles search aborted.");
+        SetStatusText(ResStr(IDS_SUBDL_DLG_ABORTED));
     }
 
     int nLower = 0, nUpper = 0;
@@ -600,7 +600,7 @@ afx_msg LRESULT CSubtitleDlDlg::OnFinished(WPARAM wParam, LPARAM lParam)
 
 afx_msg LRESULT CSubtitleDlDlg::OnFailed(WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
-    SetStatusText("Online subtitles search failed."/*ResStr(IDS_SUBDL_DLG_CONNECT_ERROR)*/);
+    SetStatusText(ResStr(IDS_SUBDL_DLG_FAILED));
 
     return S_OK;
 }
@@ -608,7 +608,7 @@ afx_msg LRESULT CSubtitleDlDlg::OnFailed(WPARAM /*wParam*/, LPARAM /*lParam*/)
 
 afx_msg LRESULT CSubtitleDlDlg::OnClear(WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
-    CString title = _T("Download subtitles");
+    CString title = ResStr(IDS_SUBDL_DLG_TITLE);
     SetWindowText(title);
 
     m_progress.SetPos(0);

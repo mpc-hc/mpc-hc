@@ -1074,6 +1074,9 @@
     <Image Include="res\uncheck_all.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="res\subtitles\favicon_ysubs.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\subtitles\favicon_opensubtitles.ico">

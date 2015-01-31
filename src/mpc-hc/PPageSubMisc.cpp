@@ -98,9 +98,9 @@ BOOL CPPageSubMisc::OnInitDialog()
         columnWidth.Add(300);
     }
 
-    m_list.InsertColumn(COL_PROVIDER, _T("Provider")/*ResStr(IDS_SUBDL_DLG_PROVIDER_COL)*/, LVCFMT_LEFT, columnWidth[COL_PROVIDER]);
-    m_list.InsertColumn(COL_USERNAME, _T("Username")/*ResStr(IDS_SUBDL_DLG_FILENAME_COL)*/, LVCFMT_LEFT, columnWidth[COL_USERNAME]);
-    m_list.InsertColumn(COL_LANGUAGES, _T("Languages")/*ResStr(IDS_SUBDL_DLG_LANGUAGE_COL)*/, LVCFMT_LEFT, columnWidth[COL_LANGUAGES]);
+    m_list.InsertColumn(COL_PROVIDER, ResStr(IDS_SUBDL_DLG_PROVIDER_COL), LVCFMT_LEFT, columnWidth[COL_PROVIDER]);
+    m_list.InsertColumn(COL_USERNAME, ResStr(IDS_SUBUL_DLG_USERNAME_COL), LVCFMT_LEFT, columnWidth[COL_USERNAME]);
+    m_list.InsertColumn(COL_LANGUAGES, ResStr(IDS_SUBPP_DLG_LANGUAGES_COL), LVCFMT_LEFT, columnWidth[COL_LANGUAGES]);
 
     m_list.SetRedraw(FALSE);
     m_list.DeleteAllItems();
@@ -110,7 +110,7 @@ BOOL CPPageSubMisc::OnInitDialog()
         int iItem = m_list.InsertItem((int)i++, CString(iter->Name().c_str()), iter->GetIconIndex());
         m_list.SetItemText(iItem, COL_USERNAME, UTF8To16(iter->UserName().c_str()));
         CString languages(UTF8To16(iter->Languages().c_str()));
-        m_list.SetItemText(iItem, COL_LANGUAGES, languages.GetLength() ? languages : _T("ERROR: Internet connection could not be established."));
+        m_list.SetItemText(iItem, COL_LANGUAGES, languages.GetLength() ? languages : ResStr(IDS_SUBPP_DLG_LANGUAGES_ERROR));
         m_list.SetCheck(iItem, iter->Enabled(SPF_SEARCH));
         m_list.SetItemData(iItem, (DWORD_PTR)(iter));
     }
@@ -175,13 +175,13 @@ void CPPageSubMisc::OnRightClick(NMHDR* pNMHDR, LRESULT* pResult)
 
         CMenu m;
         m.CreatePopupMenu();
-        m.AppendMenu(MF_STRING | (provider.Flags(SPF_LOGIN) ? MF_ENABLED : MF_DISABLED), SET_CREDENTIALS, L"Setup"/*ResStr(IDS_DISABLE_ALL_FILTERS)*/);
-        m.AppendMenu(MF_STRING | (provider.Flags(SPF_LOGIN) && provider.UserName().length() ? MF_ENABLED : MF_DISABLED), RESET_CREDENTIALS, L"Reset"/*ResStr(IDS_DISABLE_ALL_FILTERS)*/);
+        m.AppendMenu(MF_STRING | (provider.Flags(SPF_LOGIN) ? MF_ENABLED : MF_DISABLED), SET_CREDENTIALS, ResStr(IDS_SUBMENU_SETUP));
+        m.AppendMenu(MF_STRING | (provider.Flags(SPF_LOGIN) && provider.UserName().length() ? MF_ENABLED : MF_DISABLED), RESET_CREDENTIALS, ResStr(IDS_SUBMENU_RESET));
         m.AppendMenu(MF_SEPARATOR);
-        m.AppendMenu(MF_STRING | (lpnmlv->iItem > 0 ? MF_ENABLED : MF_DISABLED), MOVE_UP, L"Move Up"/*ResStr(IDS_DISABLE_ALL_FILTERS)*/);
-        m.AppendMenu(MF_STRING | (lpnmlv->iItem < m_list.GetItemCount() - 1  ? MF_ENABLED : MF_DISABLED), MOVE_DOWN, L"Move Down"/*ResStr(IDS_DISABLE_ALL_FILTERS)*/);
+        m.AppendMenu(MF_STRING | (lpnmlv->iItem > 0 ? MF_ENABLED : MF_DISABLED), MOVE_UP, ResStr(IDS_SUBMENU_MOVEUP));
+        m.AppendMenu(MF_STRING | (lpnmlv->iItem < m_list.GetItemCount() - 1  ? MF_ENABLED : MF_DISABLED), MOVE_DOWN, ResStr(IDS_SUBMENU_MOVEDOWN));
         m.AppendMenu(MF_SEPARATOR);
-        m.AppendMenu(MF_STRING | MF_ENABLED, OPEN_URL, L"Open Url" /*ResStr(IDS_ENABLE_ALL_FILTERS)*/);
+        m.AppendMenu(MF_STRING | MF_ENABLED, OPEN_URL, ResStr(IDS_SUBMENU_OPENURL));
 
         CPoint pt = lpnmlv->ptAction;
         ::MapWindowPoints(lpnmlv->hdr.hwndFrom, HWND_DESKTOP, &pt, 1);
@@ -195,7 +195,7 @@ void CPPageSubMisc::OnRightClick(NMHDR* pNMHDR, LRESULT* pResult)
                 CString szPass(UTF8To16(provider.Password().c_str()));
                 CString szDomain(provider.Name().c_str());
                 if (ERROR_SUCCESS == PromptForCredentials(GetSafeHwnd(),
-                                                          ResStr(IDS_CREDENTIALS_SERVER), L"Enter your credentials to connect to: " + CString(provider.Url().c_str()),
+                                                          ResStr(IDS_SUB_CREDENTIALS_TITLE), ResStr(IDS_SUB_CREDENTIALS_MSG) + CString(provider.Url().c_str()),
                                                           szDomain, szUser, szPass, /*&bSave*/nullptr)) {
                     provider.UserName((const char*)UTF16To8(szUser));
                     provider.Password((const char*)UTF16To8(szPass));

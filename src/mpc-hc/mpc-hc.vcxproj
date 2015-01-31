@@ -827,6 +827,7 @@
     <Image Include="res\check_all.bmp" />
     <Image Include="res\check_audio.bmp" />
     <Image Include="res\check_video.bmp" />
+    <Image Include="res\subtitles\favicon_ysubs.ico" />
     <Image Include="res\uncheck_all.bmp" />
   </ItemGroup>
   <ItemGroup>

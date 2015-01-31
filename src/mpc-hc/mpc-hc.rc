@@ -2782,7 +2782,7 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_SUBDL_DLG_DOWNLOADING "Downloading subtitle(s), please wait."
+    IDS_SUBDL_DLG_DOWNLOADING "Downloading [%s] ""%s"""
     IDS_SUBDL_DLG_PARSING   "Parsing list..."
     IDS_SUBDL_DLG_NOT_FOUND "No subtitles found."
     IDS_SUBDL_DLG_SUBS_AVAIL "%d subtitle(s) available."
@@ -3373,8 +3373,6 @@ BEGIN
                             "The ""Save Image"" and ""Save Thumbnails"" functions do not work for Shockwave files."
     IDS_SCREENSHOT_ERROR_OVERLAY 
                             "The ""Save Image"" and ""Save Thumbnails"" functions do not work with the Overlay Mixer video renderer.\nChange the video renderer in MPC's output options and reopen the file."
-    IDS_SUBDL_DLG_CONNECT_ERROR 
-                            "Cannot connect to the online subtitles database."
     IDS_MB_SHOW_EDL_EDITOR  "Do you want to activate the EDL editor?"
 END
 
@@ -3450,6 +3448,49 @@ END
 STRINGTABLE
 BEGIN
     IDS_FILTER_SETTINGS_CAPTION "Settings"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_SUBDL_DLG_ABORTED   "Online subtitles search aborted."
+    IDS_SUBDL_DLG_FOUND     "Online subtitles search completed, %d subtitles found."
+    IDS_SUBDL_DLG_NOTFOUND  "Online subtitles search completed, no subtitles found."
+    IDS_SUBDL_DLG_TITLE     "Download subtitles"
+    IDS_SUBDL_DLG_SEARCHING "Searching for subtitles online, please wait..."
+    IDS_SUBDL_DLG_ABORTING  "Online subtitles search aborting..."
+    IDS_SUBUL_DLG_USERNAME_COL "Username"
+    IDS_SUBUL_DLG_STATUS_COL "Status"
+    IDS_SUBUL_DLG_STATUS_READY "Ready..."
+    IDS_SUBUL_DLG_STATUS_NOTIMPLEMENTED "Not implemented."
+    IDS_SUBUL_DLG_STATUS_UPLOADING "Uploading..."
+    IDS_SUBUL_DLG_STATUS_UPLOADED "Subtitles uploaded succeessfuly."
+    IDS_SUBUL_DLG_STATUS_FAILED "Subtitles upload failed."
+    IDS_SUBUL_DLG_STATUS_ABORTED "Subtitles upload aborted."
+    IDS_SUBUL_DLG_STATUS_ALREADYEXISTS "Subtitles already exist."
+END
+
+STRINGTABLE
+BEGIN
+    IDS_SUBUL_DLG_UPLOADING "Uploading subtitles, please wait..."
+    IDS_SUBUL_DLG_UPLOADED  "Upload finished."
+    IDS_SUBUL_DLG_ABORTED   "Upload aborted."
+    IDS_SUBUL_DLG_FAILED    "Upload failed."
+    IDS_SUBMENU_SETUP       "Setup"
+    IDS_SUBMENU_RESET       "Reset"
+    IDS_SUBMENU_MOVEUP      "Move Up"
+    IDS_SUBMENU_MOVEDOWN    "Move Down"
+    IDS_SUB_CREDENTIALS_TITLE "Enter website credentitals"
+    IDS_SUB_CREDENTIALS_MSG "Enter your credentials to connect to: "
+    IDS_SUBDL_DLG_PROVIDER_COL "Provider"
+    IDS_SUBDL_DLG_HI_COL    "Hearing Impaired"
+    IDS_SUBDL_DLG_DOWNLOADS_COL "Downloads"
+    IDS_SUBDL_DLG_SCORE_COL "Score"
+    IDS_SUBMENU_DOWNLOAD    "Download && Open"
+    IDS_SUBMENU_OPENURL     "Open Url"
+    IDS_SUBPP_DLG_LANGUAGES_COL "Languages"
+    IDS_SUBDL_DLG_FAILED    "Online subtitles search failed."
+    IDS_SUBPP_DLG_LANGUAGES_ERROR 
+                            "ERROR: Internet connection could not be established."
 END
 
 #endif    // English (United States) resources

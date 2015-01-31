@@ -94,9 +94,9 @@ BOOL CSubtitleUpDlg::OnInitDialog()
         columnWidth.Add(250);
     }
 
-    m_list.InsertColumn(COL_PROVIDER, _T("Provider")/*ResStr(IDS_SUBDL_DLG_PROVIDER_COL)*/, LVCFMT_LEFT, columnWidth[COL_PROVIDER]);
-    m_list.InsertColumn(COL_USERNAME, _T("Username")/*ResStr(IDS_SUBDL_DLG_USERNAME_COL)*/, LVCFMT_LEFT, columnWidth[COL_USERNAME]);
-    m_list.InsertColumn(COL_STATUS, _T("Status")/*ResStr(IDS_SUBDL_DLG_LANGUAGE_COL)*/, LVCFMT_LEFT, columnWidth[COL_STATUS]);
+    m_list.InsertColumn(COL_PROVIDER, ResStr(IDS_SUBDL_DLG_PROVIDER_COL), LVCFMT_LEFT, columnWidth[COL_PROVIDER]);
+    m_list.InsertColumn(COL_USERNAME, ResStr(IDS_SUBUL_DLG_USERNAME_COL), LVCFMT_LEFT, columnWidth[COL_USERNAME]);
+    m_list.InsertColumn(COL_STATUS, ResStr(IDS_SUBUL_DLG_STATUS_COL), LVCFMT_LEFT, columnWidth[COL_STATUS]);
 
     m_list.SetRedraw(FALSE);
     m_list.DeleteAllItems();
@@ -106,13 +106,13 @@ BOOL CSubtitleUpDlg::OnInitDialog()
         if (iter->Flags(SPF_UPLOAD)) {
             int iItem = m_list.InsertItem((int)i++, CString(iter->Name().c_str()), iter->GetIconIndex());
             m_list.SetItemText(iItem, COL_USERNAME, UTF8To16(iter->UserName().c_str()));
-            m_list.SetItemText(iItem, COL_STATUS, _T("Ready..."));
+            m_list.SetItemText(iItem, COL_STATUS, ResStr(IDS_SUBUL_DLG_STATUS_READY));
             m_list.SetCheck(iItem, iter->Enabled(SPF_UPLOAD));
             m_list.SetItemData(iItem, (DWORD_PTR)(iter));
             //} else {
             //    LVITEMINDEX lvii = { iItem, -1 };
             //    m_list.SetItemIndexState(&lvii, INDEXTOSTATEIMAGEMASK(0), LVIS_STATEIMAGEMASK);
-            //    m_list.SetItemText(iItem, COL_STATUS, _T("Not implemented."));
+            //    m_list.SetItemText(iItem, COL_STATUS, ResStr(IDS_SUBUL_DLG_STATUS_NOTIMPLEMENTED));
         }
     }
 
@@ -291,13 +291,13 @@ void CSubtitleUpDlg::OnRightClick(NMHDR* pNMHDR, LRESULT* pResult)
 
         CMenu m;
         m.CreatePopupMenu();
-        m.AppendMenu(MF_STRING | (provider.Flags(SPF_LOGIN) ? MF_ENABLED : MF_DISABLED), SET_CREDENTIALS, L"Setup"/*ResStr(IDS_DISABLE_ALL_FILTERS)*/);
-        m.AppendMenu(MF_STRING | (provider.Flags(SPF_LOGIN) && !provider.UserName().empty() ? MF_ENABLED : MF_DISABLED), RESET_CREDENTIALS, L"Reset"/*ResStr(IDS_DISABLE_ALL_FILTERS)*/);
+        m.AppendMenu(MF_STRING | (provider.Flags(SPF_LOGIN) ? MF_ENABLED : MF_DISABLED), SET_CREDENTIALS, ResStr(IDS_SUBMENU_SETUP));
+        m.AppendMenu(MF_STRING | (provider.Flags(SPF_LOGIN) && !provider.UserName().empty() ? MF_ENABLED : MF_DISABLED), RESET_CREDENTIALS, ResStr(IDS_SUBMENU_RESET));
         m.AppendMenu(MF_SEPARATOR);
-        m.AppendMenu(MF_STRING | (lpnmlv->iItem > 0 ? MF_ENABLED : MF_DISABLED), MOVE_UP, L"Move Up"/*ResStr(IDS_DISABLE_ALL_FILTERS)*/);
-        m.AppendMenu(MF_STRING | (lpnmlv->iItem < m_list.GetItemCount() - 1  ? MF_ENABLED : MF_DISABLED), MOVE_DOWN, L"Move Down"/*ResStr(IDS_DISABLE_ALL_FILTERS)*/);
+        m.AppendMenu(MF_STRING | (lpnmlv->iItem > 0 ? MF_ENABLED : MF_DISABLED), MOVE_UP, ResStr(IDS_SUBMENU_MOVEUP));
+        m.AppendMenu(MF_STRING | (lpnmlv->iItem < m_list.GetItemCount() - 1  ? MF_ENABLED : MF_DISABLED), MOVE_DOWN, ResStr(IDS_SUBMENU_MOVEDOWN));
         m.AppendMenu(MF_SEPARATOR);
-        m.AppendMenu(MF_STRING | MF_ENABLED, OPEN_URL, L"Open Url" /*ResStr(IDS_ENABLE_ALL_FILTERS)*/);
+        m.AppendMenu(MF_STRING | MF_ENABLED, OPEN_URL, ResStr(IDS_SUBMENU_OPENURL));
 
         CPoint pt = lpnmlv->ptAction;
         ::MapWindowPoints(lpnmlv->hdr.hwndFrom, HWND_DESKTOP, &pt, 1);
@@ -311,7 +311,7 @@ void CSubtitleUpDlg::OnRightClick(NMHDR* pNMHDR, LRESULT* pResult)
                 CString szPass(UTF8To16(provider.Password().c_str()));
                 CString szDomain(provider.Name().c_str());
                 if (ERROR_SUCCESS == PromptForCredentials(GetSafeHwnd(),
-                                                          L"Enter website credentitals", L"Enter your credentials to connect to: " + CString(provider.Url().c_str()),
+                                                          ResStr(IDS_SUB_CREDENTIALS_TITLE), ResStr(IDS_SUB_CREDENTIALS_MSG) + CString(provider.Url().c_str()),
                                                           szDomain, szUser, szPass, /*&bSave*/nullptr)) {
                     provider.UserName((const char*)UTF16To8(szUser));
                     provider.Password((const char*)UTF16To8(szPass));
@@ -384,7 +384,7 @@ afx_msg LRESULT CSubtitleUpDlg::OnUpload(WPARAM wParam, LPARAM /*lParam*/)
 {
     INT _nCount = (INT)wParam;
 
-    SetStatusText(L"Uploading subtitles, please wait...");
+    SetStatusText(ResStr(IDS_SUBUL_DLG_UPLOADING));
     GetDlgItem(IDC_BUTTON1)->EnableWindow(TRUE);
 
     m_progress.SetRange32(0, _nCount);
@@ -401,7 +401,7 @@ afx_msg LRESULT CSubtitleUpDlg::OnUploading(WPARAM /*wParam*/, LPARAM lParam)
     for (int i = 0; i < m_list.GetItemCount(); ++i) {
         SubtitlesProvider& iter = *(SubtitlesProvider*)m_list.GetItemData(i);
         if (&iter == &_provider) {
-            m_list.SetItemText(i, COL_STATUS, _T("Uploading..."));
+            m_list.SetItemText(i, COL_STATUS, ResStr(IDS_SUBUL_DLG_STATUS_UPLOADING));
         }
     }
     UpdateWindow();
@@ -421,16 +421,16 @@ afx_msg LRESULT CSubtitleUpDlg::OnCompleted(WPARAM wParam, LPARAM lParam)
         if (&iter == &_provider) {
             switch (_result) {
                 case SR_SUCCEEDED:
-                    m_list.SetItemText(i, COL_STATUS, _T("Subtitles uploaded succeessfuly."));
+                    m_list.SetItemText(i, COL_STATUS, ResStr(IDS_SUBUL_DLG_STATUS_UPLOADED));
                     break;
                 case SR_FAILED:
-                    m_list.SetItemText(i, COL_STATUS, _T("Subtitles upload failed."));
+                    m_list.SetItemText(i, COL_STATUS, ResStr(IDS_SUBUL_DLG_STATUS_FAILED));
                     break;
                 case SR_ABORTED:
-                    m_list.SetItemText(i, COL_STATUS, _T("Subtitles upload aborted."));
+                    m_list.SetItemText(i, COL_STATUS, ResStr(IDS_SUBUL_DLG_STATUS_ABORTED));
                     break;
                 case SR_EXISTS:
-                    m_list.SetItemText(i, COL_STATUS, _T("Subtitles already exist."));
+                    m_list.SetItemText(i, COL_STATUS, ResStr(IDS_SUBUL_DLG_STATUS_ALREADYEXISTS));
                     break;
             }
         }
@@ -445,9 +445,9 @@ afx_msg LRESULT CSubtitleUpDlg::OnFinished(WPARAM wParam, LPARAM /*lParam*/)
     BOOL _bAborted = (BOOL)wParam;
 
     if (_bAborted == FALSE) {
-        SetStatusText(_T("Upload finished."));
+        SetStatusText(ResStr(IDS_SUBUL_DLG_UPLOADED));
     } else {
-        SetStatusText(_T("Upload aborted."));
+        SetStatusText(ResStr(IDS_SUBUL_DLG_ABORTED));
     }
 
     GetDlgItem(IDC_BUTTON1)->EnableWindow(FALSE);
@@ -458,7 +458,7 @@ afx_msg LRESULT CSubtitleUpDlg::OnFinished(WPARAM wParam, LPARAM /*lParam*/)
 
 afx_msg LRESULT CSubtitleUpDlg::OnFailed(WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
-    SetStatusText(_T("Upload failed."));
+    SetStatusText(ResStr(IDS_SUBUL_DLG_FAILED));
 
     return S_OK;
 }
@@ -471,7 +471,7 @@ afx_msg LRESULT CSubtitleUpDlg::OnClear(WPARAM /*wParam*/, LPARAM /*lParam*/)
     for (int i = 0; i < m_list.GetItemCount(); ++i) {
         SubtitlesProvider& iter = *(SubtitlesProvider*)m_list.GetItemData(i);
         if (iter.Flags(SPF_UPLOAD)) {
-            m_list.SetItemText(i, COL_STATUS, _T("Ready..."));
+            m_list.SetItemText(i, COL_STATUS, ResStr(IDS_SUBUL_DLG_STATUS_READY));
         }
     }
 
