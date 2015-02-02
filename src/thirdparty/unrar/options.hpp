@@ -132,6 +132,7 @@ class RAROptions
     bool ProcessOwners;
     bool SaveSymLinks;
     bool SaveHardLinks;
+    bool AbsoluteLinks;
     int Priority;
     int SleepTime;
     bool KeepBroken;

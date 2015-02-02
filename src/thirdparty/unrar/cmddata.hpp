@@ -37,7 +37,8 @@ class CommandData:public RAROptions
     bool TimeCheck(RarTime &ft);
     bool SizeCheck(int64 Size);
     bool AnyFiltersActive();
-    int IsProcessFile(FileHeader &FileHead,bool *ExactMatch=NULL,int MatchType=MATCH_WILDSUBPATH);
+    int IsProcessFile(FileHeader &FileHead,bool *ExactMatch=NULL,int MatchType=MATCH_WILDSUBPATH,
+                      wchar *MatchedArg=NULL,uint MatchedArgSize=0);
     void ProcessCommand();
     void AddArcName(const wchar *Name);
     bool GetArcName(wchar *Name,int MaxSize);

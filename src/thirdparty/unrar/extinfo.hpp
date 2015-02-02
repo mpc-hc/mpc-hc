@@ -1,6 +1,7 @@
 #ifndef _RAR_EXTINFO_
 #define _RAR_EXTINFO_
 
+bool IsRelativeSymlinkSafe(const wchar *SrcName,const wchar *TargetName);
 bool ExtractSymlink(CommandData *Cmd,ComprDataIO &DataIO,Archive &Arc,const wchar *LinkName);
 #ifdef _UNIX
 void SetUnixOwner(Archive &Arc,const wchar *FileName);

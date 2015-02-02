@@ -886,7 +886,8 @@ void Archive::RequestArcPassword()
       ErrHandler.Exit(RARX_USERBREAK);
     }
 #else
-    if (!uiGetPassword(UIPASSWORD_ARCHIVE,FileName,&Cmd->Password))
+    if (!uiGetPassword(UIPASSWORD_ARCHIVE,FileName,&Cmd->Password) ||
+        !Cmd->Password.IsSet())
     {
       Close();
       uiMsg(UIERROR_INCERRCOUNT);

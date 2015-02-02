@@ -56,6 +56,7 @@ inline void SlashToNative(const wchar *SrcName,wchar *DestName,size_t MaxLength)
 
 void ConvertNameToFull(const wchar *Src,wchar *Dest,size_t MaxSize);
 bool IsFullPath(const wchar *Path);
+bool IsFullRootPath(const wchar *Path);
 bool IsDiskLetter(const wchar *Path);
 void GetPathRoot(const wchar *Path,wchar *Root,size_t MaxSize);
 int ParseVersionFileName(wchar *Name,bool Truncate);
