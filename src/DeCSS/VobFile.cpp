@@ -249,7 +249,7 @@ bool CDVDSession::ReadKey(DVD_KEY_TYPE KeyType, BYTE* pKeyData, int lba)
     CAutoVectorPtr<BYTE> key;
     DVD_COPY_PROTECT_KEY* pKey = nullptr;
 
-    auto allocateKey = [&](size_t len) {
+    auto allocateKey = [&](ULONG len) {
         bool bSuccess = key.Allocate(len);
         if (bSuccess) {
             pKey = (DVD_COPY_PROTECT_KEY*)(BYTE*)key;
