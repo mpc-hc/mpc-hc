@@ -61,7 +61,8 @@ SRESULT OpenSubtitles::Login(std::string& sUserName, std::string& sPassword)
         args[0] = sUserName;
         args[1] = sPassword;
         args[2] = "en";
-        args[3] = UserAgent().c_str(); // Test with "OSTestUserAgent"
+        std::string strUA = UserAgent();
+        args[3] = strUA.c_str(); // Test with "OSTestUserAgent"
         if (!xmlrpc->execute("LogIn", args, result)) { return SR_FAILED; }
         token = result["token"];
     }

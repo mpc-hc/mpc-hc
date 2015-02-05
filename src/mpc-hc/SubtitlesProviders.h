@@ -23,7 +23,7 @@
 #include "SubtitlesProvidersUtils.h"
 #include "MediaInfo/thirdparty/base64/base64.h"
 #include "MainFrm.h"
-#include "version.h"
+#include "VersionInfo.h"
 
 #define PROBE_SIZE  64 * 1024
 
@@ -287,7 +287,7 @@ public: // overridden
     virtual SRESULT Login(std::string& sUserName, std::string& sPassword) { return SR_UNDEFINED; }
     virtual SRESULT Hash(SubtitlesInfo& pFileInfo) { return SR_UNDEFINED; }
     virtual SRESULT Upload(const SubtitlesInfo& pSubtitlesInfo) { return SR_UNDEFINED; };
-    virtual std::string UserAgent() { return string_format("mpc-hc v%S", MAKE_STR(MPC_VERSION_MAJOR) _T(".") MAKE_STR(MPC_VERSION_MINOR) _T(".") MAKE_STR(MPC_VERSION_PATCH)); }
+    virtual std::string UserAgent() { return string_format("MPC-HC v%u.%u.%u", VersionInfo::GetMajorNumber(), VersionInfo::GetMinorNumber(), VersionInfo::GetPatchNumber()); }
 
 public:
     BOOL Login();

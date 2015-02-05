@@ -22,6 +22,7 @@
 
 #include "SubtitlesProviders.h"
 #include "TimXmlRpc/TimXmlRpc.h"
+#include "VersionInfo.h"
 
 #define DEFINE_SUBTITLESPROVIDER_BEGIN(P, U, I, F)                            \
 class P : public SubtitlesProvider {                                          \
@@ -63,7 +64,7 @@ DEFINE_SUBTITLESPROVIDER_END
 DEFINE_SUBTITLESPROVIDER_BEGIN(SubDB, "http://api.thesubdb.com", IDI_SUBDB, SPF_HASH | SPF_UPLOAD)
 virtual SRESULT Hash(SubtitlesInfo& pFileInfo);
 virtual SRESULT Upload(const SubtitlesInfo& pSubtitlesInfo);
-virtual std::string UserAgent() { return string_format("SubDB/1.0 (mpc-hc/%S; http://mpc-hc.org)", MPC_VERSION_STR); }
+virtual std::string UserAgent() { return string_format("SubDB/1.0 (MPC-HC/%s; http://mpc-hc.org)", VersionInfo::GetVersionString()); }
 DEFINE_SUBTITLESPROVIDER_END
 
 DEFINE_SUBTITLESPROVIDER_BEGIN(podnapisi, "http://www.podnapisi.net", IDI_PODNAPISI, SPF_SEARCH)
