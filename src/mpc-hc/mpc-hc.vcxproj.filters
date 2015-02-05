@@ -83,6 +83,9 @@
     <Filter Include="Main View">
       <UniqueIdentifier>{0453474a-2716-4c52-b5f4-cf6bd9e31ed0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Subtitles">
+      <UniqueIdentifier>{20afe682-61a3-4123-9012-4c918a03f482}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppSettings.cpp">
@@ -167,9 +170,6 @@
       <Filter>DVB</Filter>
     </ClCompile>
     <ClCompile Include="Ifo.cpp">
-      <Filter>Helpers</Filter>
-    </ClCompile>
-    <ClCompile Include="ISDb.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
     <ClCompile Include="LcdSupport.cpp">
@@ -343,8 +343,23 @@
     <ClCompile Include="StatusLabel.cpp">
       <Filter>Custom Controls</Filter>
     </ClCompile>
+    <ClCompile Include="..\thirdparty\TimXmlRpc\TimXmlRpc.cpp">
+      <Filter>Subtitles</Filter>
+    </ClCompile>
+    <ClCompile Include="SubtitlesProvider.cpp">
+      <Filter>Subtitles</Filter>
+    </ClCompile>
+    <ClCompile Include="SubtitlesProviders.cpp">
+      <Filter>Subtitles</Filter>
+    </ClCompile>
+    <ClCompile Include="SubtitlesProvidersUtils.cpp">
+      <Filter>Subtitles</Filter>
+    </ClCompile>
+    <ClCompile Include="SubtitleUpDlg.cpp">
+      <Filter>Subtitles</Filter>
+    </ClCompile>
     <ClCompile Include="SubtitleDlDlg.cpp">
-      <Filter>Modal Dialogs</Filter>
+      <Filter>Subtitles</Filter>
     </ClCompile>
     <ClCompile Include="Translations.cpp">
       <Filter>Player Config</Filter>
@@ -523,9 +538,6 @@
     </ClInclude>
     <ClInclude Include="InternalFiltersConfig.h">
       <Filter>Player Config</Filter>
-    </ClInclude>
-    <ClInclude Include="ISDb.h">
-      <Filter>Helpers</Filter>
     </ClInclude>
     <ClInclude Include="LcdSupport.h">
       <Filter>Integration\Logitech LCD</Filter>
@@ -707,8 +719,23 @@
     <ClInclude Include="Struct.h">
       <Filter>Helpers</Filter>
     </ClInclude>
+    <ClInclude Include="..\thirdparty\TimXmlRpc\TimXmlRpc.h">
+      <Filter>Subtitles</Filter>
+    </ClInclude>
+    <ClInclude Include="SubtitlesProvider.h">
+      <Filter>Subtitles</Filter>
+    </ClInclude>
+    <ClInclude Include="SubtitlesProviders.h">
+      <Filter>Subtitles</Filter>
+    </ClInclude>
+    <ClInclude Include="SubtitlesProvidersUtils.h">
+      <Filter>Subtitles</Filter>
+    </ClInclude>
+    <ClInclude Include="SubtitleUpDlg.h">
+      <Filter>Subtitles</Filter>
+    </ClInclude>
     <ClInclude Include="SubtitleDlDlg.h">
-      <Filter>Modal Dialogs</Filter>
+      <Filter>Subtitles</Filter>
     </ClInclude>
     <ClInclude Include="TimerWrappers.h">
       <Filter>Helpers</Filter>
@@ -1045,6 +1072,23 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\uncheck_all.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\subtitles\favicon_ysubs.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\subtitles\favicon_opensubtitles.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\subtitles\favicon_podnapisi.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\subtitles\favicon_subdb.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\subtitles\favicon_titlovi.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

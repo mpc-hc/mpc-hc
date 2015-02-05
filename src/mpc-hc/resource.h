@@ -81,11 +81,10 @@
 #define ID_FILE_SAVE_IMAGE              806
 #define ID_FILE_SAVE_IMAGE_AUTO         807
 #define ID_FILE_SAVE_THUMBNAILS         808
-#define ID_FILE_LOAD_SUBTITLE           809
-#define ID_FILE_SAVE_SUBTITLE           810
-#define ID_FILE_ISDB_UPLOAD             811
-#define ID_FILE_ISDB_DOWNLOAD           812
-#define ID_FILE_ISDB_SEARCH             813
+#define ID_FILE_SUBTITLES_LOAD          809
+#define ID_FILE_SUBTITLES_SAVE          810
+#define ID_FILE_SUBTITLES_UPLOAD        811
+#define ID_FILE_SUBTITLES_DOWNLOAD      812
 #define ID_FILE_PROPERTIES              814
 #define ID_VIEW_OPTIONS                 815
 #define ID_FILE_EXIT                    816
@@ -301,6 +300,7 @@
 #define IDD_MEDIATYPES_DLG              10002
 #define IDD_SAVE_DLG                    10004
 #define IDD_SUBTITLEDL_DLG              10005
+#define IDD_SUBTITLEUP_DLG              10006
 #define IDD_FILEPROPDETAILS             10010
 #define IDD_FILEPROPCLIP                10011
 #define IDD_PNSPRESET_DLG               10015
@@ -589,6 +589,11 @@
 #define IDD_PPAGEADVANCED               20014
 #define IDD_SAVEIMAGEDIALOGTEMPL        20015
 #define IDD_CMD_LINE_HELP               20016
+#define IDI_OPENSUBTITLES               21001
+#define IDI_PODNAPISI                   21002
+#define IDI_SUBDB                       21003
+#define IDI_TITLOVI                     21004
+#define IDI_YSUBS                       21005
 #define IDC_FULLSCREEN_MONITOR_CHECK    22002
 #define IDC_SLI_CONTRAST                22003
 #define IDC_RESET                       22004
@@ -1361,7 +1366,8 @@
 #define IDS_EMB_RESOURCES_VIEWER_NAME   41441
 #define IDS_EMB_RESOURCES_VIEWER_TYPE   41442
 #define IDS_EMB_RESOURCES_VIEWER_INFO   41443
-#define IDS_DOWNLOAD_SUBS               41444
+#define IDS_SUBTITLES_DOWNLOAD          41444
+#define IDS_SUBTITLES_UPLOAD            41445
 #define IDS_SUBFILE_DELAY               41448
 #define IDS_SPEEDSTEP_AUTO              41449
 #define IDS_EXPORT_SETTINGS_NO_KEYS     41450
@@ -1465,6 +1471,40 @@
 #define IDS_MEDIAINFO_NO_INFO_AVAILABLE 57427
 #define IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS 57428
 #define IDS_ASPECT_RATIO_FMT            57429
+#define IDS_SUBDL_DLG_PROVIDER_COL      57430
+#define IDS_SUBDL_DLG_HI_COL            57431
+#define IDS_SUBDL_DLG_DOWNLOADS_COL     57432
+#define IDS_SUBDL_DLG_SCORE_COL         57433
+#define IDS_SUBDL_DLG_FAILED            57434
+#define IDS_SUBDL_DLG_ABORTED           57435
+#define IDS_SUBDL_DLG_FOUND             57436
+#define IDS_SUBDL_DLG_NOTFOUND          57437
+#define IDS_SUBDL_DLG_TITLE             57438
+#define IDS_SUBDL_DLG_SEARCHING         57439
+#define IDS_SUBDL_DLG_ABORTING          57440
+#define IDS_SUBUL_DLG_USERNAME_COL      57441
+#define IDS_SUBUL_DLG_STATUS_COL        57442
+#define IDS_SUBUL_DLG_STATUS_READY      57443
+#define IDS_SUBUL_DLG_STATUS_NOTIMPLEMENTED 57444
+#define IDS_SUBUL_DLG_STATUS_UPLOADING  57445
+#define IDS_SUBUL_DLG_STATUS_UPLOADED   57446
+#define IDS_SUBUL_DLG_STATUS_FAILED     57447
+#define IDS_SUBUL_DLG_STATUS_ABORTED    57448
+#define IDS_SUBUL_DLG_STATUS_ALREADYEXISTS 57449
+#define IDS_SUBUL_DLG_UPLOADING         57450
+#define IDS_SUBUL_DLG_UPLOADED          57451
+#define IDS_SUBUL_DLG_ABORTED           57452
+#define IDS_SUBUL_DLG_FAILED            57453
+#define IDS_SUBMENU_DOWNLOAD            57454
+#define IDS_SUBMENU_SETUP               57455
+#define IDS_SUBMENU_RESET               57456
+#define IDS_SUBMENU_MOVEUP              57457
+#define IDS_SUBMENU_MOVEDOWN            57458
+#define IDS_SUBMENU_OPENURL             57459
+#define IDS_SUBPP_DLG_LANGUAGES_COL     57460
+#define IDS_SUBPP_DLG_LANGUAGES_ERROR   57461
+#define IDS_SUB_CREDENTIALS_TITLE       57462
+#define IDS_SUB_CREDENTIALS_MSG         57463
 
 // Next default values for new objects
 //

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -584,8 +584,14 @@ public:
     bool            fPrioritizeExternalSubtitles;
     bool            fDisableInternalSubtitles;
     bool            bAllowOverridingExternalSplitterChoice;
+    bool            bAutoDownloadSubtitles;
+    int             nAutoDownloadScoreMovies;
+    int             nAutoDownloadScoreSeries;
+    CString         strAutoDownloadSubtitlesExclude;
+    bool            bAutoUploadSubtitles;
+    bool            bPreferHearingImpairedSubtitles;
+    CString         strSubtitlesProviders;
     CString         strSubtitlePaths;
-    CString         strISDb;
 
     // Tweaks
     int             nJumpDistS;

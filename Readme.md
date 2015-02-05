@@ -72,6 +72,7 @@ MPC-HC makes use of the following third-party code:
 | Mhook             | MIT License               | https://github.com/martona/mhook |
 | MultiMon          | CPOL                      | http://www.codeproject.com/Articles/3690/ |
 | QuickTime SDK     | -                         | http://developer.apple.com/quicktime/ |
+| RapidJSON         | -                         | https://github.com/miloyip/rapidjson |
 | RARFileSource     | GPLv2+                    | http://www.v12pwr.com/RARFileSource/ |
 | RealMedia SDK     | -                         | - |
 | ResizableLib      | Artistic License          | http://sourceforge.net/projects/resizablelib/ |
@@ -80,5 +81,6 @@ MPC-HC makes use of the following third-party code:
 | TreePropSheet     | -                         | http://www.codeproject.com/Articles/3709/ |
 | UnRAR             | freeware                  | http://www.rarlab.com/rar_add.htm |
 | VirtualDub        | GPLv2+                    | http://www.virtualdub.org/ |
+| XmlRpcC4Win       | LGPLv2                    | https://sourceforge.net/projects/xmlrpcc4win/ |
 | ZenLib            | zlib License              | http://sourceforge.net/projects/zenlib/ |
 | zlib              | zlib License              | http://zlib.net/ |

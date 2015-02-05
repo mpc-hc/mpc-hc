@@ -7,3 +7,6 @@
 [submodule "LAVFilters"]
     path = src/thirdparty/LAVFilters/src
     url = https://github.com/mpc-hc/LAVFilters.git
+[submodule "src/thirdparty/rapidjson"]
+	path = src/thirdparty/rapidjson
+	url = https://github.com/miloyip/rapidjson.git
