@@ -12,7 +12,9 @@ next version - not released yet
 ===============================
 * Updated Little CMS to v2.7 (git d11d276)
 * Updated Unrar to v5.2.4
-* Updated LAV Filters to v0.63.0.62
+* Updated LAV Filters to stable version 0.64.0:
+    - LAV Video Decoder: Faster DXVA decoding in copy-back mode (direct output mode)
+    - LAV Video Decoder: Support for HEVC Main10 DXVA2 decoding in copy-back mode
 ! EVR-CP/Sync renderers could produce wrong colors
 ! Ticket #5239, Fix a crash when specifying a non-existent monitor in the command line (/monitor)
 ! Ticket #5259, The auto fit factor could not be modified unless auto fit was used as auto-zoom
