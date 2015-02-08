@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Adolfo Jayme Barrientos, 2015
+# Adolfo Jayme Barrientos, 2015
 # Adolfo Jayme Barrientos, 2014
 # papu <papu@openmailbox.org>, 2014-2015
 # papu <papu@openmailbox.org>, 2014
@@ -10,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2015-01-23 09:11+0000\n"
+"PO-Revision-Date: 2015-02-01 01:40+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -117,7 +118,7 @@ msgstr "Configuració dels altaveus"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
 msgid "input channels:"
-msgstr "Canals d'entrada:"
+msgstr "canals d’entrada:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
 msgid "Hold shift for immediate changes when clicking something "
@@ -205,7 +206,7 @@ msgstr "Traducció al català per l’Enric, l’Adolf i altres"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build information"
-msgstr "Informació de Compilació"
+msgstr "Informació de compilació"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Version:"
@@ -233,7 +234,7 @@ msgstr "Nom:"
 
 msgctxt "IDD_ABOUTBOX_IDC_BUTTON1"
 msgid "Copy to clipboard"
-msgstr "Copiar al porta-retalls"
+msgstr "Copia al porta-retalls"
 
 msgctxt "IDD_ABOUTBOX_IDOK"
 msgid "OK"
@@ -297,11 +298,11 @@ msgstr "Ajustar a les vores de l'escriptori"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK8"
 msgid "Store settings in .ini file"
-msgstr "Desar la configuració a un arxiu .ini"
+msgstr "Desa els paràmetres a un fitxer .ini"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"
 msgid "Disable \"Open Disc\" menu"
-msgstr "Desactivar el menú \"Obrir Disc\""
+msgstr "Inhabilita el menú «Obre el disc»"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK9"
 msgid "Process priority above normal"
@@ -421,7 +422,7 @@ msgstr "Repetir per sempre"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC1"
 msgid "time(s)"
-msgstr "cop(vegades)"
+msgstr "cops"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
@@ -461,7 +462,7 @@ msgstr "Anul·lar opcions de maquinari forà (splitter)"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Open settings"
-msgstr "Ajustos d'inici"
+msgstr "Paràmetres d’obertura"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK7"
 msgid "Use worker thread to construct the filter graph"
@@ -705,7 +706,7 @@ msgstr "Amagar automàticament el punter del ratolí durant la reproducció en m
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
 msgid "Add Filter..."
-msgstr "Afegir Filtre..."
+msgstr "Afegeix un filtre…"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON2"
 msgid "Remove"
@@ -1045,7 +1046,7 @@ msgstr "Posició subtítols relativa a la imatge"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Colors && Transparency"
-msgstr "Colors i Transparència"
+msgstr "Colors i transparència"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "0%"
@@ -1185,7 +1186,7 @@ msgstr "Shaders"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Rotation"
-msgstr "Rotació"
+msgstr "Gir"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "* External filters (such as VSFilter) can display subtitles on all renderers."
@@ -1233,15 +1234,15 @@ msgstr "Gestors de CGI: (.ext1=ruta1;.ext2=ruta2;...)"
 
 msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
 msgid "Subtitles available online"
-msgstr "Subtítols disponibles en línea"
+msgstr "Subtítols disponibles en línia"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
 msgid "Download && Open"
-msgstr "Descarregar i Obrir"
+msgstr "Baixa i obre’ls"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
 msgid "Replace currently loaded subtitles"
-msgstr "Remplaçar els subtítols actuals"
+msgstr "Reemplaça els subtítols actuals"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
@@ -1313,7 +1314,7 @@ msgstr "Inici"
 
 msgctxt "IDD_TUNER_SCAN_IDCANCEL"
 msgid "Cancel"
-msgstr "Cancel.lar"
+msgstr "Cancel·la"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Freq. Start"
@@ -1381,7 +1382,7 @@ msgstr "Configuració digital (BDA)"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC4"
 msgid "Network Provider"
-msgstr "Proveedor"
+msgstr "Proveïdor de xarxa"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC5"
 msgid "Tuner"
@@ -1621,7 +1622,7 @@ msgstr "Depuració dels Shaders..."
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_STATIC"
 msgid "Debug Information"
-msgstr "Informació de Depuració"
+msgstr "Informació de depuració"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO1"
 msgid "PS 2.0"

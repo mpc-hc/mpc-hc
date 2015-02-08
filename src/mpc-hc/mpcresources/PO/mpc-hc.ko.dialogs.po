@@ -2,13 +2,13 @@
 # Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Level ASMer <zx132435@naver.com>, 2014
+# Level ASMer <zx132435@naver.com>, 2014-2015
 # limeburst <me@limeburst.net>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-11-02 09:10+0000\n"
+"PO-Revision-Date: 2015-01-30 04:00+0000\n"
 "Last-Translator: Level ASMer <zx132435@naver.com>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/mpc-hc/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -923,7 +923,7 @@ msgstr "인코딩:"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC"
 msgid "Delay:"
-msgstr ""
+msgstr "딜레이:"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC"
 msgid "ms"
@@ -1183,7 +1183,7 @@ msgstr "셰이더"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Rotation"
-msgstr ""
+msgstr "회전"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "* External filters (such as VSFilter) can display subtitles on all renderers."
@@ -1443,7 +1443,7 @@ msgstr "한계:"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC8"
 msgid "+/-"
-msgstr ""
+msgstr "+/-"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC9"
 msgid "ms"

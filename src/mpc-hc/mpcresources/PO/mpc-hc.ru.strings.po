@@ -4,16 +4,17 @@
 # Translators:
 # Alexander Gorishnyak <kefir500@gmail.com>, 2014
 # Arkady Shapkin <arkadiy_s@inbox.ru>, 2014
+# Ilya, 2015
 # sayanvd <sayanvd@yandex.ru>, 2014
 # stryaponoff <stryaponoff@gmail.com>, 2014
-# SmilyCarrot <twisted-transistor@yandex.ru>, 2014
+# SmilyCarrot <twisted-transistor@yandex.ru>, 2014-2015
 # Underground78, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-10-30 22:04:38+0000\n"
-"PO-Revision-Date: 2014-12-03 11:31+0000\n"
-"Last-Translator: sayanvd <sayanvd@yandex.ru>\n"
+"PO-Revision-Date: 2015-02-13 20:54+0000\n"
+"Last-Translator: SmilyCarrot <twisted-transistor@yandex.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/mpc-hc/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1267,7 +1268,7 @@ msgstr "Сохранить пользовательский стиль"
 
 msgctxt "IDS_CONTENT_EDUCATION_SCIENCE"
 msgid "Education/Science/Factual topics"
-msgstr ""
+msgstr "Образование/Наука/Фактические темы"
 
 msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
 msgid "Hides controls and panels also in windowed mode."
@@ -1375,7 +1376,7 @@ msgstr "Пожалуйста, подождите. Идёт анализ..."
 
 msgctxt "IDS_ASPECT_RATIO_FMT"
 msgid "AR %d:%d"
-msgstr ""
+msgstr "Соотношение сторон %d:%d"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
