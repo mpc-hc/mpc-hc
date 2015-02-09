@@ -2304,6 +2304,10 @@ void CMainFrame::DoAfterPlaybackEvent()
         }
     }
 
+    if (AfxGetMyApp()->m_fClosingState) {
+        return;
+    }
+
     if (m_fEndOfStream) {
         m_OSD.EnableShowMessage(false);
         SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
@@ -2374,7 +2378,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 
     LONG evCode = 0;
     LONG_PTR evParam1, evParam2;
-    while (m_pME && SUCCEEDED(m_pME->GetEvent(&evCode, &evParam1, &evParam2, 0))) {
+    while (!AfxGetMyApp()->m_fClosingState && m_pME && SUCCEEDED(m_pME->GetEvent(&evCode, &evParam1, &evParam2, 0))) {
 #ifdef _DEBUG
         TRACE(_T("--> CMainFrame::OnGraphNotify on thread: %lu; event: 0x%08x (%ws)\n"), GetCurrentThreadId(), evCode, GetEventString(evCode));
 #endif

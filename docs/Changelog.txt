@@ -18,6 +18,7 @@ next version - not released yet
     - LAV Video Decoder: Support for HEVC Main10 DXVA2 decoding in copy-back mode
 * Updated Catalan, Finnish, Japanese, Korean, Russian and Spanish translations
 ! EVR-CP/Sync renderers could produce wrong colors
+! Ticket #5183, Fix a rare crash when processing after playback event
 ! Ticket #5239, Fix a crash when specifying a non-existent monitor in the command line (/monitor)
 ! Ticket #5241, Improve the handling of RTL layout for dockable bars (Playlist, Subresync, etc.)
 ! Ticket #5259, The auto fit factor could not be modified unless auto fit was used as auto-zoom
