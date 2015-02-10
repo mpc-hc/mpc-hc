@@ -2950,11 +2950,18 @@ HRESULT CSyncAP::CreateOptimalOutputType(IMFMediaType* pMixerProposedType, IMFMe
 
     const CRenderersSettings& r = GetRenderersSettings();
 
-    if (r.m_AdvRendSets.iEVROutputRange == 1) {
-        pOptimalMediaType->SetUINT32(MF_MT_VIDEO_NOMINAL_RANGE, MFNominalRange_16_235);
+    UINT32 nominalRange;
+    if (SUCCEEDED(pMixerInputType->GetUINT32(MF_MT_VIDEO_NOMINAL_RANGE, &nominalRange))
+            && nominalRange == MFNominalRange_0_255) {
+        // EVR mixer always assume 16-235 input. To ensure that luminance range won't be expanded we requests 16-235 also on output.
+        // Request 16-235 to ensure untouched luminance range on output. It is the only way to pass 0-255 without changes.
+        nominalRange = MFNominalRange_16_235;
+        m_LastSetOutputRange = 1;
     } else {
-        pOptimalMediaType->SetUINT32(MF_MT_VIDEO_NOMINAL_RANGE, MFNominalRange_0_255);
+        nominalRange = (r.m_AdvRendSets.iEVROutputRange == 1) ? MFNominalRange_16_235 : MFNominalRange_0_255;
+        m_LastSetOutputRange = r.m_AdvRendSets.iEVROutputRange;
     }
+    pOptimalMediaType->SetUINT32(MF_MT_VIDEO_NOMINAL_RANGE, nominalRange);
 
     m_LastSetOutputRange = r.m_AdvRendSets.iEVROutputRange;
 
