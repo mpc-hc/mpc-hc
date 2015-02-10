@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -37,12 +37,11 @@ CPlayerInfoBar::~CPlayerInfoBar()
 {
 }
 
-void CPlayerInfoBar::SetLine(CString label, CString info)
+bool CPlayerInfoBar::SetLine(CString label, CString info)
 {
     info.Trim();
     if (info.IsEmpty()) {
-        RemoveLine(label);
-        return;
+        return RemoveLine(label);
     }
 
     for (size_t idx = 0; idx < m_label.GetCount(); idx++) {
@@ -54,7 +53,7 @@ void CPlayerInfoBar::SetLine(CString label, CString info)
                 m_info[idx]->SetWindowText(info);
                 m_tooltip.UpdateTipText(info, m_info[idx]);
             }
-            return;
+            return false;
         }
     }
 
@@ -68,6 +67,8 @@ void CPlayerInfoBar::SetLine(CString label, CString info)
     m_info.Add(i);
 
     Relayout();
+
+    return true;
 }
 
 void CPlayerInfoBar::GetLine(CString label, CString& info)
@@ -85,7 +86,7 @@ void CPlayerInfoBar::GetLine(CString label, CString& info)
     }
 }
 
-void CPlayerInfoBar::RemoveLine(CString label)
+bool CPlayerInfoBar::RemoveLine(CString label)
 {
     for (size_t i = 0; i < m_label.GetCount(); i++) {
         CString tmp;
@@ -95,9 +96,10 @@ void CPlayerInfoBar::RemoveLine(CString label)
             m_label.RemoveAt(i);
             m_info.RemoveAt(i);
             Relayout();
-            break;
+            return true;
         }
     }
+    return false;
 }
 
 void CPlayerInfoBar::RemoveAllLines()

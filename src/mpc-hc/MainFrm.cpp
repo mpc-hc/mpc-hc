@@ -11160,6 +11160,8 @@ void CMainFrame::OpenSetupCaptureBar()
 
 void CMainFrame::OpenSetupInfoBar(bool bClear /*= true*/)
 {
+    bool bRecalcLayout = false;
+
     if (bClear) {
         m_wndInfoBar.RemoveAllLines();
     }
@@ -11193,19 +11195,23 @@ void CMainFrame::OpenSetupInfoBar(bool bClear /*= true*/)
         }
         EndEnumFilters;
 
-        m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_TITLE), title);
+        bRecalcLayout |= m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_TITLE), title);
         UpdateChapterInInfoBar();
-        m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_AUTHOR), author);
-        m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_COPYRIGHT), copyright);
-        m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_RATING), rating);
-        m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_DESCRIPTION), description);
+        bRecalcLayout |= m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_AUTHOR), author);
+        bRecalcLayout |= m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_COPYRIGHT), copyright);
+        bRecalcLayout |= m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_RATING), rating);
+        bRecalcLayout |= m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_DESCRIPTION), description);
     } else if (GetPlaybackMode() == PM_DVD) {
         CString info('-');
-        m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_DOMAIN), info);
-        m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_LOCATION), info);
-        m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_VIDEO), info);
-        m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_AUDIO), info);
-        m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_SUBTITLES), info);
+        bRecalcLayout |= m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_DOMAIN), info);
+        bRecalcLayout |= m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_LOCATION), info);
+        bRecalcLayout |= m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_VIDEO), info);
+        bRecalcLayout |= m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_AUDIO), info);
+        bRecalcLayout |= m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_SUBTITLES), info);
+    }
+
+    if (bRecalcLayout) {
+        RecalcLayout();
     }
 }
 
@@ -11227,7 +11233,9 @@ void CMainFrame::UpdateChapterInInfoBar()
             }
         }
     }
-    m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_CHAPTER), chapter);
+    if (m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_CHAPTER), chapter)) {
+        RecalcLayout();
+    }
 }
 
 

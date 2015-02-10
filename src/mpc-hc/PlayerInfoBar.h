@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -48,9 +48,9 @@ public:
 
     BOOL Create(CWnd* pParentWnd);
 
-    void SetLine(CString label, CString info);
+    bool SetLine(CString label, CString info);
     void GetLine(CString label, CString& info);
-    void RemoveLine(CString label);
+    bool RemoveLine(CString label);
     void RemoveAllLines();
 
 protected:
