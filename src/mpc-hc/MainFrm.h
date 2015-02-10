@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -384,6 +384,8 @@ private:
 
     REFTIME GetAvgTimePerFrame() const;
 
+    void OnDropFiles(HDROP hDropInfo, bool bAppend);
+
 public:
     void StartWebServer(int nPort);
     void StopWebServer();
@@ -731,7 +733,6 @@ public:
     afx_msg void OnFileOpenOpticalDisk(UINT nID);
     afx_msg void OnFileReopen();
     afx_msg void OnFileRecycle();
-    afx_msg void OnDropFiles(HDROP hDropInfo); // no menu item
     afx_msg void OnFileSaveAs();
     afx_msg void OnUpdateFileSaveAs(CCmdUI* pCmdUI);
     afx_msg void OnFileSaveImage();

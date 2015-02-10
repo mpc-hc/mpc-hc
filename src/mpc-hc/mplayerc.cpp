@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -1753,7 +1753,6 @@ BOOL CMPlayerCApp::InitInstance()
     pFrame->SetDefaultFullscreenState();
     pFrame->UpdateControlState(CMainFrame::UPDATE_CONTROLS_VISIBILITY);
     pFrame->SetIcon(icon, TRUE);
-    pFrame->DragAcceptFiles();
     pFrame->ShowWindow((m_s->nCLSwitches & CLSW_MINIMIZED) ? SW_SHOWMINIMIZED : SW_SHOW);
     pFrame->UpdateWindow();
     pFrame->m_hAccelTable = m_s->hAccel;

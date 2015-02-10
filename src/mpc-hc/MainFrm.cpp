@@ -247,7 +247,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_UPDATE_COMMAND_UI_RANGE(ID_FILE_OPEN_OPTICAL_DISK_START, ID_FILE_OPEN_OPTICAL_DISK_END, OnUpdateFileOpen)
     ON_COMMAND(ID_FILE_REOPEN, OnFileReopen)
     ON_COMMAND(ID_FILE_RECYCLE, OnFileRecycle)
-    ON_WM_DROPFILES()
     ON_COMMAND(ID_FILE_SAVE_COPY, OnFileSaveAs)
     ON_UPDATE_COMMAND_UI(ID_FILE_SAVE_COPY, OnUpdateFileSaveAs)
     ON_COMMAND(ID_FILE_SAVE_IMAGE, OnFileSaveImage)
@@ -995,7 +994,17 @@ DROPEFFECT CMainFrame::OnDragEnter(COleDataObject* pDataObject, DWORD dwKeyState
 
 DROPEFFECT CMainFrame::OnDragOver(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point)
 {
+    ClientToScreen(&point);
+    if (!CMouse::CursorOnWindow(point, m_wndView)) {
+        return DROPEFFECT_NONE;
+    }
+
     UpdateControlState(UPDATE_CONTROLS_VISIBILITY);
+    DROPEFFECT ret = (dwKeyState & MK_CONTROL) ? DROPEFFECT_COPY : DROPEFFECT_MOVE;
+
+    if (pDataObject->IsDataAvailable(CF_HDROP)) {
+        return ret;
+    }
     UINT CF_URL = RegisterClipboardFormat(_T("UniformResourceLocator"));
     return pDataObject->IsDataAvailable(CF_URL) ? DROPEFFECT_COPY : DROPEFFECT_NONE;
 }
@@ -1006,7 +1015,15 @@ BOOL CMainFrame::OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoi
     BOOL bResult = FALSE;
 
     // If we are dropping a file, let OnDropFiles handle drag-and-drop
-    if (!pDataObject->IsDataAvailable(CF_HDROP) && pDataObject->IsDataAvailable(CF_URL)) {
+    if (pDataObject->IsDataAvailable(CF_HDROP)) {
+        if (HGLOBAL hGlobal = pDataObject->GetGlobalData(CF_HDROP)) {
+            if (HDROP hDrop = (HDROP)GlobalLock(hGlobal)) {
+                OnDropFiles(hDrop, !!(dropEffect & DROPEFFECT_COPY));
+                bResult = TRUE;
+            }
+            GlobalUnlock(hGlobal);
+        }
+    } else if (pDataObject->IsDataAvailable(CF_URL)) {
         FORMATETC fmt = {CF_URL, nullptr, DVASPECT_CONTENT, -1, TYMED_HGLOBAL};
         if (HGLOBAL hGlobal = pDataObject->GetGlobalData(CF_URL, &fmt)) {
             LPCSTR pText = (LPCSTR)GlobalLock(hGlobal);
@@ -1018,8 +1035,12 @@ BOOL CMainFrame::OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoi
                 CAtlList<CString> sl;
                 sl.AddTail(CString(url));
 
-                m_wndPlaylistBar.Open(sl, true);
-                OpenCurPlaylistItem();
+                if (dropEffect & DROPEFFECT_COPY) {
+                    m_wndPlaylistBar.Append(sl, true);
+                } else {
+                    m_wndPlaylistBar.Open(sl, true);
+                    OpenCurPlaylistItem();
+                }
 
                 GlobalUnlock(hGlobal);
                 bResult = TRUE;
@@ -4374,7 +4395,7 @@ void CMainFrame::OnFileReopen()
     OpenCurPlaylistItem();
 }
 
-void CMainFrame::OnDropFiles(HDROP hDropInfo)
+void CMainFrame::OnDropFiles(HDROP hDropInfo, bool bAppend)
 {
     SetForegroundWindow();
 
@@ -4431,8 +4452,12 @@ void CMainFrame::OnDropFiles(HDROP hDropInfo)
         }
         SendStatusMessage(filenames + ResStr(IDS_SUB_LOADED_SUCCESS), 3000);
     } else {
-        m_wndPlaylistBar.Open(sl, true);
-        OpenCurPlaylistItem();
+        if (bAppend) {
+            m_wndPlaylistBar.Append(sl, true);
+        } else {
+            m_wndPlaylistBar.Open(sl, true);
+            OpenCurPlaylistItem();
+        }
     }
 }
 
