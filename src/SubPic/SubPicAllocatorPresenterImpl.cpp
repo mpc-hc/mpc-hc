@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2014 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -365,8 +365,8 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::GetString(LPCSTR field, LPWSTR* valu
     } else if (!strcmp(field, "yuvMatrix")) {
         ret = L"None";
 
-        if (m_VIH2MediaType.IsValid() && m_VIH2MediaType.formattype == FORMAT_VideoInfo2) {
-            VIDEOINFOHEADER2* pVIH2 = (VIDEOINFOHEADER2*)m_VIH2MediaType.pbFormat;
+        if (m_inputMediaType.IsValid() && m_inputMediaType.formattype == FORMAT_VideoInfo2) {
+            VIDEOINFOHEADER2* pVIH2 = (VIDEOINFOHEADER2*)m_inputMediaType.pbFormat;
 
             if (pVIH2->dwControlFlags & AMCONTROL_COLORINFO_PRESENT) {
                 DXVA2_ExtendedFormat& flags = (DXVA2_ExtendedFormat&)pVIH2->dwControlFlags;

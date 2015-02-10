@@ -763,7 +763,6 @@ HRESULT CEVRAllocatorPresenter::SetMediaType(IMFMediaType* pType)
     if (SUCCEEDED(hr)) {
         CAutoLock lock(&m_MediaTypeLock);
         m_pMediaType = pType;
-        m_VIH2MediaType = *pAMMedia;
 
         strTemp = GetMediaTypeName(pAMMedia->subtype);
         strTemp.Replace(L"MEDIASUBTYPE_", L"");
@@ -945,6 +944,14 @@ HRESULT CEVRAllocatorPresenter::RenegotiateMediaType()
 
     // Get the mixer's input type
     hr = m_pMixer->GetInputCurrentType(0, &pMixerInputType);
+    if (SUCCEEDED(hr)) {
+        AM_MEDIA_TYPE* pMT;
+        hr = pMixerInputType->GetRepresentation(FORMAT_VideoInfo2, (void**)&pMT);
+        if (SUCCEEDED(hr)) {
+            m_inputMediaType = *pMT;
+            pMixerInputType->FreeRepresentation(FORMAT_VideoInfo2, pMT);
+        }
+    }
 
     // Loop through all of the mixer's proposed output types.
     DWORD iTypeIndex = 0;
