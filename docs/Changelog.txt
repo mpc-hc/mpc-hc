@@ -12,7 +12,7 @@ next version - not released yet
 ===============================
 + Ticket #5147, Add /randomize command-line switch for playlist randomization
 + Internal Subtitle Renderer: Convert colorspace of subtitles to match video.
-* Updated Little CMS to v2.7 (git d11d276)
+* Updated Little CMS to v2.7 (git 926963a)
 * Updated Unrar to v5.2.6
 * Updated LAV Filters to stable version 0.64.0:
     - LAV Video Decoder: Faster DXVA decoding in copy-back mode (direct output mode)
