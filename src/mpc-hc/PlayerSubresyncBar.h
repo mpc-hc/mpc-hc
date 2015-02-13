@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,6 +22,7 @@
 #pragma once
 
 #include <afxcview.h>
+#include <vector>
 #include "PlayerBar.h"
 #include "PlayerListCtrl.h"
 #include "../Subtitles/RTS.h"
@@ -81,7 +82,7 @@ private:
     struct SubTime {
         int orgStart, newStart, orgEnd, newEnd;
     };
-    CAtlArray<SubTime> m_subtimes;
+    std::vector<SubTime> m_subtimes;
 
     CSimpleTextSubtitle m_sts;
     CAtlArray<CVobSubFile::SubPos> m_vobSub;
@@ -90,7 +91,7 @@ private:
         int tStart, tPrevStart, tEnd, tPrevEnd;
         int flags;
     };
-    CAtlArray<DisplayData> m_displayData;
+    std::vector<DisplayData> m_displayData;
     CString m_displayBuffer;
 
     int GetStartTime(int iItem);

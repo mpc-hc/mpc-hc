@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -235,7 +235,7 @@ void CPlayerSubresyncBar::ReloadSubtitle()
         m_list.InsertColumn(COL_EFFECT, ResStr(IDS_SUBRESYNC_CLN_EFFECT), LVCFMT_LEFT, 80);
     }
 
-    m_subtimes.SetCount(m_sts.GetCount());
+    m_subtimes.resize(m_sts.GetCount());
 
     for (size_t i = 0, j = m_sts.GetCount(); i < j; i++) {
         m_subtimes[i].orgStart = m_sts[i].start;
@@ -254,7 +254,7 @@ void CPlayerSubresyncBar::ResetSubtitle()
         int prevstart = INT_MIN;
 
         size_t nCount = m_sts.GetCount();
-        m_displayData.SetCount(nCount);
+        m_displayData.resize(nCount);
 
         for (size_t i = 0; i < nCount; i++) {
             m_subtimes[i].newStart = m_subtimes[i].orgStart;
@@ -558,7 +558,7 @@ void CPlayerSubresyncBar::OnGetDisplayInfo(NMHDR* pNMHDR, LRESULT* pResult)
     NMLVDISPINFO* pDispInfo = (NMLVDISPINFO*)pNMHDR;
     LV_ITEM* pItem = &pDispInfo->item;
 
-    if (pItem->iItem < 0 || (size_t)pItem->iItem >= m_displayData.GetCount()) {
+    if (pItem->iItem < 0 || size_t(pItem->iItem) >= m_displayData.size()) {
         return;
     }
 
@@ -1011,9 +1011,9 @@ void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
                         STSEntry entry = m_sts[iItem];
                         m_sts.InsertAt(iItem + 1, entry);
                         SubTime subtime = m_subtimes[iItem];
-                        m_subtimes.InsertAt(iItem + 1, subtime);
+                        m_subtimes.insert(m_subtimes.begin() + iItem + 1, subtime);
                         DisplayData displayData = m_displayData[iItem];
-                        m_displayData.InsertAt(iItem + 1, displayData);
+                        m_displayData.insert(m_displayData.begin() + iItem + 1, displayData);
                     }
 
                     m_list.SetItemCount((int)m_sts.GetCount());
@@ -1033,8 +1033,8 @@ void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
                     for (INT_PTR i = 0, l = items.GetCount(); i < l; i++) {
                         iItem = items[i];
                         m_sts.RemoveAt(iItem);
-                        m_subtimes.RemoveAt(iItem);
-                        m_displayData.RemoveAt(iItem);
+                        m_subtimes.erase(m_subtimes.begin() + iItem);
+                        m_displayData.erase(m_displayData.begin() + iItem);
                     }
 
                     m_list.SetItemCount((int)m_sts.GetCount());
@@ -1356,7 +1356,7 @@ bool CPlayerSubresyncBar::HandleShortCuts(const MSG* pMsg)
 
 int CPlayerSubresyncBar::FindNearestSub(REFERENCE_TIME& rtPos, bool bForward)
 {
-    if (m_subtimes.IsEmpty()) {
+    if (m_subtimes.empty()) {
         return -2;
     }
 
