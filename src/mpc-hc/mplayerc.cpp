@@ -644,6 +644,8 @@ CMPlayerCApp::~CMPlayerCApp()
     if (m_hNTDLL) {
         FreeLibrary(m_hNTDLL);
     }
+    // Wait for any pending I/O operations to be canceled
+    while (WAIT_IO_COMPLETION == SleepEx(0, TRUE));
 }
 
 void CMPlayerCApp::DelayedIdle()
