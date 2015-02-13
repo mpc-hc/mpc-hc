@@ -255,10 +255,15 @@ void CPlayerSubresyncBar::ResetSubtitle()
 
         size_t nCount = m_sts.GetCount();
         m_displayData.resize(nCount);
+        m_newStartsIndex.clear();
 
+        auto itHint = m_newStartsIndex.end();
         for (size_t i = 0; i < nCount; i++) {
             m_subtimes[i].newStart = m_subtimes[i].orgStart;
             m_subtimes[i].newEnd = m_subtimes[i].orgEnd;
+            // In general subtitle files are more or less sorted so try to use that to insert more efficiently
+            m_subtimes[i].itIndex = itHint = m_newStartsIndex.emplace_hint(itHint, m_subtimes[i].newStart, i);
+            ++itHint;
 
             m_displayData[i].tStart = m_displayData[i].tPrevStart = m_subtimes[i].orgStart;
             m_displayData[i].tEnd = m_displayData[i].tPrevEnd = m_subtimes[i].orgEnd;
@@ -493,6 +498,8 @@ bool CPlayerSubresyncBar::ModStart(int iItem, int t, bool bReset)
         } else if (bReset) {
             st.newStart = st.newEnd - (st.orgEnd - st.orgStart);
         }
+        m_newStartsIndex.erase(st.itIndex);
+        st.itIndex = m_newStartsIndex.emplace(st.newStart, size_t(iItem));
 
         SetCheck(iItem, !bReset, bEndMod);
     }
@@ -516,6 +523,8 @@ bool CPlayerSubresyncBar::ModEnd(int iItem, int t, bool bReset)
         st.newEnd = t;
         if (!bStartMod) {
             st.newStart = st.newEnd - (st.orgEnd - st.orgStart);
+            m_newStartsIndex.erase(st.itIndex);
+            st.itIndex = m_newStartsIndex.emplace(st.newStart, size_t(iItem));
         } else if (bReset) {
             st.newEnd = st.newStart + (st.orgEnd - st.orgStart);
         }
@@ -1012,6 +1021,10 @@ void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
                         m_sts.InsertAt(iItem + 1, entry);
                         SubTime subtime = m_subtimes[iItem];
                         m_subtimes.insert(m_subtimes.begin() + iItem + 1, subtime);
+                        m_subtimes[iItem + 1].itIndex = m_newStartsIndex.emplace(m_subtimes[iItem + 1].newStart, size_t(iItem + 1));
+                        for (size_t j = size_t(iItem + 2); j < m_subtimes.size(); j++) {
+                            m_subtimes[j].itIndex->second++;
+                        }
                         DisplayData displayData = m_displayData[iItem];
                         m_displayData.insert(m_displayData.begin() + iItem + 1, displayData);
                     }
@@ -1033,7 +1046,11 @@ void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
                     for (INT_PTR i = 0, l = items.GetCount(); i < l; i++) {
                         iItem = items[i];
                         m_sts.RemoveAt(iItem);
+                        m_newStartsIndex.erase(m_subtimes[iItem].itIndex);
                         m_subtimes.erase(m_subtimes.begin() + iItem);
+                        for (size_t j = size_t(iItem); j < m_subtimes.size(); j++) {
+                            m_subtimes[j].itIndex->second--;
+                        }
                         m_displayData.erase(m_displayData.begin() + iItem);
                     }
 
@@ -1360,21 +1377,22 @@ int CPlayerSubresyncBar::FindNearestSub(REFERENCE_TIME& rtPos, bool bForward)
         return -2;
     }
 
-    int lCurTime = (int)(rtPos / 10000) + (bForward ? 1 : -1);
-    int subCount = (int)m_sts.GetCount();
+    int lCurTime = int(rtPos / 10000) + (bForward ? 1 : -1);
 
-    if (lCurTime < m_subtimes[0].newStart) {
-        rtPos = (REFERENCE_TIME)m_subtimes[0].newStart * 10000;
-        return bForward ? 0 : -1;
-    } else if (lCurTime > m_subtimes[subCount - 1].newStart) {
-        rtPos = (REFERENCE_TIME)m_subtimes[subCount - 1].newStart * 10000;
-        return bForward ? -1 : subCount - 1;
+    if (lCurTime < m_newStartsIndex.begin()->first) {
+        size_t i = m_newStartsIndex.begin()->second;
+        rtPos = m_subtimes[i].newStart * 10000i64;
+        return bForward ? int(i) : -1;
+    } else if (lCurTime > m_newStartsIndex.rbegin()->first) {
+        size_t i = m_newStartsIndex.rbegin()->second;
+        rtPos = m_subtimes[i].newStart * 10000i64;
+        return bForward ? -1 : int(i);
     }
 
-    for (int i = 1; i < subCount; i++) {
-        if ((lCurTime >= m_subtimes[i - 1].newStart) && (lCurTime < m_subtimes[i].newStart)) {
-            rtPos = bForward ? (REFERENCE_TIME)m_subtimes[i].newStart * 10000 : (REFERENCE_TIME)m_subtimes[i - 1].newStart * 10000;
-            return bForward ? i : i - 1;
+    for (auto it = m_newStartsIndex.begin(), itPrec = it++; it != m_newStartsIndex.end(); it++, itPrec++) {
+        if (lCurTime >= itPrec->first && lCurTime < it->first) {
+            rtPos = bForward ? it->first * 10000i64 : itPrec->first * 10000i64;
+            return int(bForward ? it->second : itPrec->second);
         }
     }
 

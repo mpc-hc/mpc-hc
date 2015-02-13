@@ -23,6 +23,7 @@
 
 #include <afxcview.h>
 #include <vector>
+#include <map>
 #include "PlayerBar.h"
 #include "PlayerListCtrl.h"
 #include "../Subtitles/RTS.h"
@@ -79,8 +80,10 @@ private:
     };
     MODE m_mode;
 
+    std::multimap<int, size_t> m_newStartsIndex;
     struct SubTime {
         int orgStart, newStart, orgEnd, newEnd;
+        std::multimap<int, size_t>::iterator itIndex;
     };
     std::vector<SubTime> m_subtimes;
 
