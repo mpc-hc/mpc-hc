@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -108,21 +108,15 @@ CRenderersData::CRenderersData()
     // Don't disable hardware features before initializing a renderer
     m_bFP16Support  = true;
     m_b10bitSupport = true;
+    QueryPerformanceFrequency(&llPerfFrequency);
 }
 
 LONGLONG CRenderersData::GetPerfCounter() const
 {
     LARGE_INTEGER i64Ticks100ns;
-    LARGE_INTEGER llPerfFrequency;
 
-    QueryPerformanceFrequency(&llPerfFrequency);
-    if (llPerfFrequency.QuadPart != 0) {
-        QueryPerformanceCounter(&i64Ticks100ns);
-        return llMulDiv(i64Ticks100ns.QuadPart, 10000000, llPerfFrequency.QuadPart, 0);
-    } else {
-        // ms to 100ns units
-        return LONGLONG(timeGetTime()) * 10000;
-    }
+    QueryPerformanceCounter(&i64Ticks100ns);
+    return llMulDiv(i64Ticks100ns.QuadPart, 10000000, llPerfFrequency.QuadPart, 0);
 }
 
 HINSTANCE CRenderersData::GetD3X9Dll()
