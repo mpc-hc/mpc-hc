@@ -336,7 +336,7 @@
     <ClCompile Include="FGManager.cpp" />
     <ClCompile Include="FGManagerBDA.cpp" />
     <ClCompile Include="FileAssoc.cpp" />
-    <ClCompile Include="FileDropTarget.cpp" />
+    <ClCompile Include="DropTarget.cpp" />
     <ClCompile Include="FreeviewEPGDecode.cpp" />
     <ClCompile Include="MainFrmControls.cpp" />
     <ClCompile Include="MediaPositionList.cpp" />
@@ -464,7 +464,7 @@
     <ClInclude Include="FGManager.h" />
     <ClInclude Include="FGManagerBDA.h" />
     <ClInclude Include="FileAssoc.h" />
-    <ClInclude Include="FileDropTarget.h" />
+    <ClInclude Include="DropTarget.h" />
     <ClInclude Include="FilterEnum.h" />
     <ClInclude Include="FloatEdit.h" />
     <ClInclude Include="FreeviewEPGDecode.h" />

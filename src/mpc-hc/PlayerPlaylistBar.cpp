@@ -80,6 +80,8 @@ BOOL CPlayerPlaylistBar::Create(CWnd* pParentWnd, UINT defDockBarID)
     m_fakeImageList.Create(1, 16, ILC_COLOR4, 10, 10);
     m_list.SetImageList(&m_fakeImageList, LVSIL_SMALL);
 
+    m_dropTarget.Register(this);
+
     return TRUE;
 }
 
@@ -899,13 +901,13 @@ void CPlayerPlaylistBar::SavePlaylist()
 }
 
 BEGIN_MESSAGE_MAP(CPlayerPlaylistBar, CPlayerBar)
+    ON_WM_DESTROY()
     ON_WM_SIZE()
     ON_NOTIFY(LVN_KEYDOWN, IDC_PLAYLIST, OnLvnKeyDown)
     ON_NOTIFY(NM_DBLCLK, IDC_PLAYLIST, OnNMDblclkList)
     //ON_NOTIFY(NM_CUSTOMDRAW, IDC_PLAYLIST, OnCustomdrawList)
     ON_WM_DRAWITEM()
     ON_COMMAND_EX(ID_PLAY_PLAY, OnPlayPlay)
-    ON_WM_DROPFILES()
     ON_NOTIFY(LVN_BEGINDRAG, IDC_PLAYLIST, OnBeginDrag)
     ON_WM_MOUSEMOVE()
     ON_WM_LBUTTONUP()
@@ -942,6 +944,12 @@ void CPlayerPlaylistBar::ResizeListColumn()
         Invalidate();
         m_list.RedrawWindow(nullptr, nullptr, RDW_FRAME | RDW_INVALIDATE);
     }
+}
+
+void CPlayerPlaylistBar::OnDestroy()
+{
+    m_dropTarget.Revoke();
+    __super::OnDestroy();
 }
 
 void CPlayerPlaylistBar::OnSize(UINT nType, int cx, int cy)
@@ -1117,24 +1125,19 @@ BOOL CPlayerPlaylistBar::OnPlayPlay(UINT nID)
     return FALSE;
 }
 
-void CPlayerPlaylistBar::OnDropFiles(HDROP hDropInfo)
+DROPEFFECT CPlayerPlaylistBar::OnDropAccept(COleDataObject*, DWORD, CPoint)
+{
+    return DROPEFFECT_COPY;
+}
+
+void CPlayerPlaylistBar::OnDropFiles(CAtlList<CString>& slFiles, DROPEFFECT)
 {
     SetForegroundWindow();
     m_list.SetFocus();
 
-    CAtlList<CString> sl;
+    m_pMainFrame->ParseDirs(slFiles);
 
-    UINT nFiles = ::DragQueryFile(hDropInfo, UINT_MAX, nullptr, 0);
-    for (UINT iFile = 0; iFile < nFiles; iFile++) {
-        TCHAR szFileName[MAX_PATH];
-        ::DragQueryFile(hDropInfo, iFile, szFileName, MAX_PATH);
-        sl.AddTail(szFileName);
-    }
-    ::DragFinish(hDropInfo);
-
-    m_pMainFrame->ParseDirs(sl);
-
-    Append(sl, true);
+    Append(slFiles, true);
 }
 
 void CPlayerPlaylistBar::OnBeginDrag(NMHDR* pNMHDR, LRESULT* pResult)

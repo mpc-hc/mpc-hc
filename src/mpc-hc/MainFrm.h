@@ -36,7 +36,7 @@
 #include "EditListEditor.h"
 #include "PPageSheet.h"
 #include "PPageFileInfoSheet.h"
-#include "FileDropTarget.h"
+#include "DropTarget.h"
 #include "KeyProvider.h"
 #include "GraphThread.h"
 #include "TimerWrappers.h"
@@ -155,7 +155,7 @@ struct SubtitleInput {
 
 interface ISubClock;
 
-class CMainFrame : public CFrameWnd, public CDropTarget
+class CMainFrame : public CFrameWnd, public CDropClient
 {
 public:
     enum class Timer32HzSubscriber {
@@ -384,7 +384,9 @@ private:
 
     REFTIME GetAvgTimePerFrame() const;
 
-    void OnDropFiles(HDROP hDropInfo, bool bAppend);
+    CDropTarget m_dropTarget;
+    void OnDropFiles(CAtlList<CString>& slFiles, DROPEFFECT dropEffect) override;
+    DROPEFFECT CMainFrame::OnDropAccept(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point) override;
 
 public:
     void StartWebServer(int nPort);
@@ -630,15 +632,6 @@ protected:  // control bar embedded members
     CEditListEditor m_wndEditListEditor;
 
     std::unique_ptr<CDebugShadersDlg> m_pDebugShaders;
-
-    CFileDropTarget m_fileDropTarget;
-    // TODO
-    DROPEFFECT OnDragEnter(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point);
-    DROPEFFECT OnDragOver(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point);
-    BOOL OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point);
-    DROPEFFECT OnDropEx(COleDataObject* pDataObject, DROPEFFECT dropDefault, DROPEFFECT dropList, CPoint point);
-    void OnDragLeave();
-    DROPEFFECT OnDragScroll(DWORD dwKeyState, CPoint point);
 
     LPCTSTR GetRecentFile() const;
 

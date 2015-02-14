@@ -714,7 +714,6 @@ CMainFrame::CMainFrame()
     , m_fOpeningAborted(false)
     , m_bBuffering(false)
     , m_bUsingDXVA(false)
-    , m_fileDropTarget(this)
     , m_bTrayIcon(false)
     , m_pFullscreenWnd(nullptr)
     , m_pVideoWnd(nullptr)
@@ -901,7 +900,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
         pair.second->ShowWindow(SW_HIDE);
     }
 
-    m_fileDropTarget.Register(this);
+    m_dropTarget.Register(this);
 
     const CAppSettings& s = AfxGetAppSettings();
 
@@ -938,7 +937,7 @@ void CMainFrame::OnDestroy()
 {
     WTSUnRegisterSessionNotification();
     ShowTrayIcon(false);
-    m_fileDropTarget.Revoke();
+    m_dropTarget.Revoke();
 
     if (m_pDebugShaders && IsWindow(m_pDebugShaders->m_hWnd)) {
         VERIFY(m_pDebugShaders->DestroyWindow());
@@ -985,84 +984,6 @@ void CMainFrame::OnClose()
 
     SendAPICommand(CMD_DISCONNECT, L"\0");  // according to CMD_NOTIFYENDOFSTREAM (ctrl+f it here), you're not supposed to send NULL here
     __super::OnClose();
-}
-
-DROPEFFECT CMainFrame::OnDragEnter(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point)
-{
-    return DROPEFFECT_NONE;
-}
-
-DROPEFFECT CMainFrame::OnDragOver(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point)
-{
-    ClientToScreen(&point);
-    if (!CMouse::CursorOnWindow(point, m_wndView)) {
-        return DROPEFFECT_NONE;
-    }
-
-    UpdateControlState(UPDATE_CONTROLS_VISIBILITY);
-    DROPEFFECT ret = (dwKeyState & MK_CONTROL) ? DROPEFFECT_COPY : DROPEFFECT_MOVE;
-
-    if (pDataObject->IsDataAvailable(CF_HDROP)) {
-        return ret;
-    }
-    UINT CF_URL = RegisterClipboardFormat(_T("UniformResourceLocator"));
-    return pDataObject->IsDataAvailable(CF_URL) ? DROPEFFECT_COPY : DROPEFFECT_NONE;
-}
-
-BOOL CMainFrame::OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point)
-{
-    UINT CF_URL = RegisterClipboardFormat(_T("UniformResourceLocator"));
-    BOOL bResult = FALSE;
-
-    // If we are dropping a file, let OnDropFiles handle drag-and-drop
-    if (pDataObject->IsDataAvailable(CF_HDROP)) {
-        if (HGLOBAL hGlobal = pDataObject->GetGlobalData(CF_HDROP)) {
-            if (HDROP hDrop = (HDROP)GlobalLock(hGlobal)) {
-                OnDropFiles(hDrop, !!(dropEffect & DROPEFFECT_COPY));
-                bResult = TRUE;
-            }
-            GlobalUnlock(hGlobal);
-        }
-    } else if (pDataObject->IsDataAvailable(CF_URL)) {
-        FORMATETC fmt = {CF_URL, nullptr, DVASPECT_CONTENT, -1, TYMED_HGLOBAL};
-        if (HGLOBAL hGlobal = pDataObject->GetGlobalData(CF_URL, &fmt)) {
-            LPCSTR pText = (LPCSTR)GlobalLock(hGlobal);
-            if (AfxIsValidString(pText)) {
-                CStringA url(pText);
-
-                SetForegroundWindow();
-
-                CAtlList<CString> sl;
-                sl.AddTail(CString(url));
-
-                if (dropEffect & DROPEFFECT_COPY) {
-                    m_wndPlaylistBar.Append(sl, true);
-                } else {
-                    m_wndPlaylistBar.Open(sl, true);
-                    OpenCurPlaylistItem();
-                }
-
-                GlobalUnlock(hGlobal);
-                bResult = TRUE;
-            }
-        }
-    }
-
-    return bResult;
-}
-
-DROPEFFECT CMainFrame::OnDropEx(COleDataObject* pDataObject, DROPEFFECT dropDefault, DROPEFFECT dropList, CPoint point)
-{
-    return (DROPEFFECT) - 1;
-}
-
-void CMainFrame::OnDragLeave()
-{
-}
-
-DROPEFFECT CMainFrame::OnDragScroll(DWORD dwKeyState, CPoint point)
-{
-    return DROPEFFECT_NONE;
 }
 
 LPCTSTR CMainFrame::GetRecentFile() const
@@ -4395,39 +4316,39 @@ void CMainFrame::OnFileReopen()
     OpenCurPlaylistItem();
 }
 
-void CMainFrame::OnDropFiles(HDROP hDropInfo, bool bAppend)
+DROPEFFECT CMainFrame::OnDropAccept(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point)
+{
+    ClientToScreen(&point);
+    if (CMouse::CursorOnRootWindow(point, *this)) {
+        UpdateControlState(UPDATE_CONTROLS_VISIBILITY);
+        return (dwKeyState & MK_CONTROL) ? DROPEFFECT_COPY : DROPEFFECT_MOVE;
+    }
+
+    return DROPEFFECT_NONE;
+}
+
+void CMainFrame::OnDropFiles(CAtlList<CString>& slFiles, DROPEFFECT dropEffect)
 {
     SetForegroundWindow();
 
-    UINT nFiles = ::DragQueryFile(hDropInfo, UINT_MAX, nullptr, 0);
-
-    CAtlList<CString> sl;
-    for (UINT iFile = 0; iFile < nFiles; iFile++) {
-        CString fn;
-        fn.ReleaseBuffer(::DragQueryFile(hDropInfo, iFile, fn.GetBuffer(MAX_PATH), MAX_PATH));
-        sl.AddTail(fn);
-    }
-
-    ::DragFinish(hDropInfo);
-
-    if (sl.IsEmpty()) {
+    if (slFiles.IsEmpty()) {
         return;
     }
 
-    if (sl.GetCount() == 1 && OpenBD(sl.GetHead())) {
+    if (slFiles.GetCount() == 1 && OpenBD(slFiles.GetHead())) {
         return;
     }
 
-    ParseDirs(sl);
+    ParseDirs(slFiles);
 
     SubtitleInput subInputSelected;
     if (GetLoadState() == MLS::LOADED && !IsPlaybackCaptureMode() && !m_fAudioOnly && m_pCAP) {
-        POSITION pos = sl.GetHeadPosition();
+        POSITION pos = slFiles.GetHeadPosition();
         while (pos) {
             // Try to open all dropped files as subtitles. If one of the files
             // cannot be loaded as subtitle, add all files to the playlist.
             SubtitleInput subInput;
-            if (LoadSubtitle(sl.GetNext(pos), &subInput)) {
+            if (LoadSubtitle(slFiles.GetNext(pos), &subInput)) {
                 if (!subInputSelected.pSubStream) {
                     subInputSelected = subInput;
                 }
@@ -4444,18 +4365,18 @@ void CMainFrame::OnDropFiles(HDROP hDropInfo, bool bAppend)
         SetSubtitle(subInputSelected);
 
         CString filenames;
-        POSITION pos = sl.GetHeadPosition();
+        POSITION pos = slFiles.GetHeadPosition();
         while (pos) {
-            CPath fn(sl.GetNext(pos));
+            CPath fn(slFiles.GetNext(pos));
             fn.StripPath();
             filenames.AppendFormat(pos ? _T("%s, ") : _T("%s"), fn);
         }
         SendStatusMessage(filenames + ResStr(IDS_SUB_LOADED_SUCCESS), 3000);
     } else {
-        if (bAppend) {
-            m_wndPlaylistBar.Append(sl, true);
+        if (dropEffect & DROPEFFECT_COPY) {
+            m_wndPlaylistBar.Append(slFiles, true);
         } else {
-            m_wndPlaylistBar.Open(sl, true);
+            m_wndPlaylistBar.Open(slFiles, true);
             OpenCurPlaylistItem();
         }
     }

@@ -25,13 +25,14 @@
 #include "PlayerBar.h"
 #include "PlayerListCtrl.h"
 #include "Playlist.h"
+#include "DropTarget.h"
 
 
 class OpenMediaData;
 
 class CMainFrame;
 
-class CPlayerPlaylistBar : public CPlayerBar
+class CPlayerPlaylistBar : public CPlayerBar, public CDropClient
 {
     DECLARE_DYNAMIC(CPlayerPlaylistBar)
 
@@ -71,6 +72,10 @@ private:
     void DropItemOnList();
 
     bool m_bHiddenDueToFullscreen;
+
+    CDropTarget m_dropTarget;
+    void OnDropFiles(CAtlList<CString>& slFiles, DROPEFFECT) override;
+    DROPEFFECT OnDropAccept(COleDataObject*, DWORD, CPoint) override;
 
 public:
     CPlayerPlaylistBar(CMainFrame* pMainFrame);
@@ -128,6 +133,7 @@ protected:
     DECLARE_MESSAGE_MAP()
 
 public:
+    afx_msg void OnDestroy();
     afx_msg void OnSize(UINT nType, int cx, int cy);
     afx_msg void OnLvnKeyDown(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnNMDblclkList(NMHDR* pNMHDR, LRESULT* pResult);
@@ -135,7 +141,6 @@ public:
     //  afx_msg void OnCustomdrawList(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct);
     afx_msg BOOL OnPlayPlay(UINT nID);
-    afx_msg void OnDropFiles(HDROP hDropInfo);
     afx_msg void OnBeginDrag(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnMouseMove(UINT nFlags, CPoint point);
     afx_msg void OnLButtonUp(UINT nFlags, CPoint point);

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -326,7 +326,7 @@ BEGIN_MESSAGE_MAP(CPPageExternalFilters, CPPageBase)
     ON_EN_CHANGE(IDC_EDIT1, OnChangeMerit)
     ON_NOTIFY(NM_DBLCLK, IDC_TREE1, OnDoubleClickType)
     ON_NOTIFY(TVN_KEYDOWN, IDC_TREE1, OnKeyDownType)
-    ON_WM_DROPFILES()
+    ON_WM_DESTROY()
     ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify)
 END_MESSAGE_MAP()
 
@@ -337,7 +337,7 @@ BOOL CPPageExternalFilters::OnInitDialog()
 {
     __super::OnInitDialog();
 
-    DragAcceptFiles(TRUE);
+    m_dropTarget.Register(this);
 
     const CAppSettings& s = AfxGetAppSettings();
 
@@ -373,6 +373,12 @@ BOOL CPPageExternalFilters::OnInitDialog()
 
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
+}
+
+void CPPageExternalFilters::OnDestroy()
+{
+    m_dropTarget.Revoke();
+    __super::OnDestroy();
 }
 
 BOOL CPPageExternalFilters::OnApply()
@@ -821,17 +827,22 @@ void CPPageExternalFilters::OnKeyDownType(NMHDR* pNMHDR, LRESULT* pResult)
     *pResult = 0;
 }
 
-void CPPageExternalFilters::OnDropFiles(HDROP hDropInfo)
+DROPEFFECT CPPageExternalFilters::OnDropAccept(COleDataObject*, DWORD, CPoint)
+{
+    return DROPEFFECT_COPY;
+}
+
+void CPPageExternalFilters::OnDropFiles(CAtlList<CString>& slFiles, DROPEFFECT)
 {
     SetActiveWindow();
 
-    UINT nFiles = ::DragQueryFile(hDropInfo, UINT_MAX, nullptr, 0);
-    for (UINT iFile = 0; iFile < nFiles; iFile++) {
-        TCHAR szFileName[MAX_PATH];
-        ::DragQueryFile(hDropInfo, iFile, szFileName, MAX_PATH);
+    POSITION pos = slFiles.GetHeadPosition();
+
+    while (pos) {
+        CString fn = slFiles.GetNext(pos);
 
         CFilterMapper2 fm2(false);
-        fm2.Register(szFileName);
+        fm2.Register(fn);
 
         while (!fm2.m_filters.IsEmpty()) {
             if (FilterOverride* f = fm2.m_filters.RemoveHead()) {
@@ -849,7 +860,6 @@ void CPPageExternalFilters::OnDropFiles(HDROP hDropInfo)
             }
         }
     }
-    ::DragFinish(hDropInfo);
 }
 
 BOOL CPPageExternalFilters::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)

@@ -157,9 +157,6 @@
     <ClCompile Include="FileAssoc.cpp">
       <Filter>Player Config</Filter>
     </ClCompile>
-    <ClCompile Include="FileDropTarget.cpp">
-      <Filter>Helpers</Filter>
-    </ClCompile>
     <ClCompile Include="FloatEdit.cpp">
       <Filter>Custom Controls</Filter>
     </ClCompile>
@@ -435,6 +432,9 @@
     <ClCompile Include="PlayerPlaylistBar.cpp">
       <Filter>Panels</Filter>
     </ClCompile>
+    <ClCompile Include="DropTarget.cpp">
+      <Filter>Helpers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h">
@@ -508,9 +508,6 @@
     </ClInclude>
     <ClInclude Include="FileAssoc.h">
       <Filter>Player Config</Filter>
-    </ClInclude>
-    <ClInclude Include="FileDropTarget.h">
-      <Filter>Helpers</Filter>
     </ClInclude>
     <ClInclude Include="FloatEdit.h">
       <Filter>Custom Controls</Filter>
@@ -811,6 +808,9 @@
     </ClInclude>
     <ClInclude Include="PlayerPlaylistBar.h">
       <Filter>Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="DropTarget.h">
+      <Filter>Helpers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
