@@ -1,5 +1,5 @@
 /*
- * (C) 2013-2014 see Authors.txt
+ * (C) 2013-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -52,8 +52,10 @@ public:
 
     CMouse& operator=(const CMouse&) = delete;
 
-private:
+protected:
     const bool m_bD3DFS;
+
+private:
     CMainFrame* m_pMainFrame;
     bool m_bMouseHiderStarted;
     CPoint m_mouseHiderStartScreenPoint;
@@ -156,5 +158,9 @@ private:
 
     virtual CWnd& GetWnd() override final {
         return *this;
+    }
+
+    virtual ULONG GetGestureStatus(CPoint) override {
+        return m_bD3DFS ? TABLET_DISABLE_PRESSANDHOLD : 0;
     }
 };

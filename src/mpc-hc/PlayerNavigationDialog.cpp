@@ -1,5 +1,5 @@
 /*
- * (C) 2010-2014 see Authors.txt
+ * (C) 2010-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -92,6 +92,10 @@ BOOL CPlayerNavigationDialog::OnInitDialog()
     } else {
         m_buttonFilterStations.SetWindowText(ResStr(IDS_DVB_TVNAV_SEETV));
     }
+
+    ATOM atom = ::GlobalAddAtom(MICROSOFT_TABLETPENSERVICE_PROPERTY);
+    ::SetProp(m_channelList.GetSafeHwnd(), MICROSOFT_TABLETPENSERVICE_PROPERTY, nullptr);
+    ::GlobalDeleteAtom(atom);
 
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
