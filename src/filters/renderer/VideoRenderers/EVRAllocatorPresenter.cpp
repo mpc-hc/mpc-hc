@@ -2352,86 +2352,87 @@ void CEVRAllocatorPresenter::VSyncThread()
                         WaitForVBlankRange(ScanlineEnd, 5, true, true, false, bTakenLock);
                         LONGLONG TimeEnd = rd->GetPerfCounter();
 
-                        double nSeconds = double(TimeEnd - TimeStart) / 10000000.0;
-                        LONGLONG DiffMiddle = TimeMiddle - TimeStart;
-                        LONGLONG DiffEnd = TimeEnd - TimeMiddle;
-                        double DiffDiff;
-                        if (DiffEnd > DiffMiddle) {
-                            DiffDiff = double(DiffEnd) / double(DiffMiddle);
-                        } else {
-                            DiffDiff = double(DiffMiddle) / double(DiffEnd);
-                        }
-                        if (nSeconds > 0.003 && DiffDiff < 1.3) {
-                            double ScanLineSeconds;
-                            double nScanLines;
-                            if (ScanLineMiddle > ScanlineEnd) {
-                                ScanLineSeconds = double(TimeMiddle - TimeStart) / 10000000.0;
-                                nScanLines = ScanLineMiddle - ScanlineStart;
-                            } else {
-                                ScanLineSeconds = double(TimeEnd - TimeMiddle) / 10000000.0;
-                                nScanLines = ScanlineEnd - ScanLineMiddle;
-                            }
+                        double nSeconds = (TimeEnd - TimeStart) / 10000000.0;
+                        LONGLONG llDiffMiddle = TimeMiddle - TimeStart;
+                        ASSERT(llDiffMiddle > 0);
 
-                            double ScanLineTime = ScanLineSeconds / nScanLines;
+                        if (nSeconds > 0.003 && llDiffMiddle > 0) {
+                            double dDiffMiddle = double(llDiffMiddle);
+                            double dDiffEnd = double(TimeEnd - TimeMiddle);
 
-                            int iPos = m_DetectedRefreshRatePos % 100;
-                            m_ldDetectedScanlineRateList[iPos] = ScanLineTime;
-                            if (m_DetectedScanlineTime && ScanlineStart != ScanlineEnd) {
-                                int Diff = ScanlineEnd - ScanlineStart;
-                                nSeconds -= double(Diff) * m_DetectedScanlineTime;
-                            }
-                            m_ldDetectedRefreshRateList[iPos] = nSeconds;
-                            double Average = 0;
-                            double AverageScanline = 0;
-                            int nPos = std::min(iPos + 1, 100);
-                            for (int i = 0; i < nPos; ++i) {
-                                Average += m_ldDetectedRefreshRateList[i];
-                                AverageScanline += m_ldDetectedScanlineRateList[i];
-                            }
-
-                            if (nPos) {
-                                Average /= double(nPos);
-                                AverageScanline /= double(nPos);
-                            } else {
-                                Average = 0;
-                                AverageScanline = 0;
-                            }
-
-                            double ThisValue = Average;
-
-                            if (Average > 0.0 && AverageScanline > 0.0) {
-                                CAutoLock Lock(&m_refreshRateLock);
-                                ++m_DetectedRefreshRatePos;
-                                if (m_DetectedRefreshTime == 0 || m_DetectedRefreshTime / ThisValue > 1.01 || m_DetectedRefreshTime / ThisValue < 0.99) {
-                                    m_DetectedRefreshTime = ThisValue;
-                                    m_DetectedRefreshTimePrim = 0;
-                                }
-                                if (_isnan(m_DetectedRefreshTime)) {
-                                    m_DetectedRefreshTime = 0.0;
-                                }
-                                if (_isnan(m_DetectedRefreshTimePrim)) {
-                                    m_DetectedRefreshTimePrim = 0.0;
-                                }
-
-                                ModerateFloat(m_DetectedRefreshTime, ThisValue, m_DetectedRefreshTimePrim, 1.5);
-                                if (m_DetectedRefreshTime > 0.0) {
-                                    m_DetectedRefreshRate = 1.0 / m_DetectedRefreshTime;
+                            double dDiffDiff = dDiffEnd / dDiffMiddle;
+                            if (dDiffDiff < 1.3 && dDiffDiff > (1 / 1.3)) {
+                                double ScanLineSeconds;
+                                double nScanLines;
+                                if (ScanLineMiddle > ScanlineEnd) {
+                                    ScanLineSeconds = dDiffMiddle / 10000000.0;
+                                    nScanLines = ScanLineMiddle - ScanlineStart;
                                 } else {
-                                    m_DetectedRefreshRate = 0.0;
+                                    ScanLineSeconds = dDiffEnd / 10000000.0;
+                                    nScanLines = ScanlineEnd - ScanLineMiddle;
                                 }
 
-                                if (m_DetectedScanlineTime == 0 || m_DetectedScanlineTime / AverageScanline > 1.01 || m_DetectedScanlineTime / AverageScanline < 0.99) {
-                                    m_DetectedScanlineTime = AverageScanline;
-                                    m_DetectedScanlineTimePrim = 0;
+                                double ScanLineTime = ScanLineSeconds / nScanLines;
+
+                                int iPos = m_DetectedRefreshRatePos % 100;
+                                m_ldDetectedScanlineRateList[iPos] = ScanLineTime;
+                                if (m_DetectedScanlineTime && ScanlineStart != ScanlineEnd) {
+                                    int Diff = ScanlineEnd - ScanlineStart;
+                                    nSeconds -= double(Diff) * m_DetectedScanlineTime;
                                 }
-                                ModerateFloat(m_DetectedScanlineTime, AverageScanline, m_DetectedScanlineTimePrim, 1.5);
-                                if (m_DetectedScanlineTime > 0.0) {
-                                    m_DetectedScanlinesPerFrame = m_DetectedRefreshTime / m_DetectedScanlineTime;
+                                m_ldDetectedRefreshRateList[iPos] = nSeconds;
+                                double Average = 0;
+                                double AverageScanline = 0;
+                                int nPos = std::min(iPos + 1, 100);
+                                for (int i = 0; i < nPos; ++i) {
+                                    Average += m_ldDetectedRefreshRateList[i];
+                                    AverageScanline += m_ldDetectedScanlineRateList[i];
+                                }
+
+                                if (nPos) {
+                                    Average /= double(nPos);
+                                    AverageScanline /= double(nPos);
                                 } else {
-                                    m_DetectedScanlinesPerFrame = 0;
+                                    Average = 0;
+                                    AverageScanline = 0;
                                 }
+
+                                double ThisValue = Average;
+
+                                if (Average > 0.0 && AverageScanline > 0.0) {
+                                    CAutoLock Lock(&m_refreshRateLock);
+                                    ++m_DetectedRefreshRatePos;
+                                    if (m_DetectedRefreshTime == 0 || m_DetectedRefreshTime / ThisValue > 1.01 || m_DetectedRefreshTime / ThisValue < 0.99) {
+                                        m_DetectedRefreshTime = ThisValue;
+                                        m_DetectedRefreshTimePrim = 0;
+                                    }
+                                    if (_isnan(m_DetectedRefreshTime)) {
+                                        m_DetectedRefreshTime = 0.0;
+                                    }
+                                    if (_isnan(m_DetectedRefreshTimePrim)) {
+                                        m_DetectedRefreshTimePrim = 0.0;
+                                    }
+
+                                    ModerateFloat(m_DetectedRefreshTime, ThisValue, m_DetectedRefreshTimePrim, 1.5);
+                                    if (m_DetectedRefreshTime > 0.0) {
+                                        m_DetectedRefreshRate = 1.0 / m_DetectedRefreshTime;
+                                    } else {
+                                        m_DetectedRefreshRate = 0.0;
+                                    }
+
+                                    if (m_DetectedScanlineTime == 0 || m_DetectedScanlineTime / AverageScanline > 1.01 || m_DetectedScanlineTime / AverageScanline < 0.99) {
+                                        m_DetectedScanlineTime = AverageScanline;
+                                        m_DetectedScanlineTimePrim = 0;
+                                    }
+                                    ModerateFloat(m_DetectedScanlineTime, AverageScanline, m_DetectedScanlineTimePrim, 1.5);
+                                    if (m_DetectedScanlineTime > 0.0) {
+                                        m_DetectedScanlinesPerFrame = m_DetectedRefreshTime / m_DetectedScanlineTime;
+                                    } else {
+                                        m_DetectedScanlinesPerFrame = 0;
+                                    }
+                                }
+                                //TRACE(_T("Refresh: %f\n"), RefreshRate);
                             }
-                            //TRACE(_T("Refresh: %f\n"), RefreshRate);
                         }
                     }
                 } else {
