@@ -8207,7 +8207,9 @@ bool CMainFrame::SeekToFileChapter(int iChapter, bool bRelative /*= false*/)
         }
 
         CComBSTR name;
-        if (iChapter >= 0 && DWORD(iChapter) < nChapters && SUCCEEDED(m_pCB->ChapGet(iChapter, &rt, &name))) {
+        REFERENCE_TIME rtStart, rtStop;
+        m_wndSeekBar.GetRange(rtStart, rtStop);
+        if (iChapter >= 0 && DWORD(iChapter) < nChapters && SUCCEEDED(m_pCB->ChapGet(iChapter, &rt, &name)) && rt < rtStop) {
             SeekTo(rt, false);
             SendStatusMessage(ResStr(IDS_AG_CHAPTER2) + CString(name), 3000);
             ret = true;
