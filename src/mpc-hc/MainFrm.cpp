@@ -2291,7 +2291,7 @@ void CMainFrame::GraphEventComplete()
             DoAfterPlaybackEvent();
         } else if (m_wndPlaylistBar.GetCount() > 1) {
             int nLoops = m_nLoops;
-            SendMessage(WM_COMMAND, ID_NAVIGATE_SKIPFORWARD);
+            SendMessage(WM_COMMAND, ID_NAVIGATE_SKIPFORWARDFILE);
             m_nLoops = nLoops;
         } else {
             if (GetMediaState() == State_Stopped) {
