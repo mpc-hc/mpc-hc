@@ -1,6 +1,6 @@
 Project             Version
 ----------------------------------------
-CSizingControlBar   2.45
+CSizingControlBar   2.45 (modified)
 LAV Filters         0.63-58-5f45b57 (custom build based on 0.63-52-17b2dae)
 Little CMS          2.7 (git 8174681)
 Logitech SDK        3.01 (driver 8.00.100)

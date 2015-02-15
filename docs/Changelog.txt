@@ -18,6 +18,7 @@ next version - not released yet
 * Updated Catalan, Finnish, Japanese, Korean, Russian and Spanish translations
 ! EVR-CP/Sync renderers could produce wrong colors
 ! Ticket #5239, Fix a crash when specifying a non-existent monitor in the command line (/monitor)
+! Ticket #5241, Improve the handling of RTL layout for dockable bars (Playlist, Subresync, etc.)
 ! Ticket #5259, The auto fit factor could not be modified unless auto fit was used as auto-zoom
 ! Ticket #5262, The "Go to next/previous subtitle" feature did not work for some subtitles
 
