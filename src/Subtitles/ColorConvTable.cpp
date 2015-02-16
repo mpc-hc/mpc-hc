@@ -203,6 +203,7 @@ private:
 ConvMatrix::ConvMatrix()
 {
     ZeroMemory(m_matrix, LEVEL_COUNT * COLOR_COUNT * LEVEL_COUNT * COLOR_COUNT * sizeof(float*));
+    Init();
 }
 
 ConvMatrix::~ConvMatrix()
@@ -588,7 +589,6 @@ ConvFunc::ConvFunc(YuvMatrixType yuv_type, YuvRangeType range, bool bOutputTVRan
     : m_bOutputTVRange(bOutputTVRange)
     , m_bVSFilterCorrection(bVSFilterCorrection)
 {
-    m_convMatrix.Init();
     m_convMatrix.InitMatrix(
         ConvMatrix::LEVEL_TV, ConvMatrix::COLOR_YUV_601,
         ConvMatrix::LEVEL_TV, ConvMatrix::COLOR_YUV_709);
