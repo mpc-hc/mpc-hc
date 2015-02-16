@@ -724,7 +724,6 @@ CMainFrame::CMainFrame()
     , m_rtStepForwardStart(0)
     , m_lCurrentChapter(0)
     , m_lChapterStartTime(0xFFFFFFFF)
-    , m_pTaskbarList(nullptr)
     , m_pGraphThread(nullptr)
     , m_bOpenedThroughThread(false)
     , m_evOpenPrivateFinished(FALSE, TRUE)
@@ -15743,27 +15742,18 @@ HRESULT CMainFrame::CreateThumbnailToolbar()
         return E_FAIL;
     }
 
-    if (m_pTaskbarList) {
-        m_pTaskbarList->Release();
-    }
-    HRESULT hr = CoCreateInstance(CLSID_TaskbarList, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&m_pTaskbarList));
-    if (SUCCEEDED(hr)) {
+    if (m_pTaskbarList || SUCCEEDED(m_pTaskbarList.CoCreateInstance(CLSID_TaskbarList, nullptr, CLSCTX_INPROC_SERVER))) {
         CMPCPngImage image;
-        if (!image.Load(MAKEINTRESOURCE(IDF_WIN7_TOOLBAR))) {
-            m_pTaskbarList->Release();
-            image.CleanUp();
+        if (!image.Load(IDF_WIN7_TOOLBAR)) {
             return E_FAIL;
         }
 
-        BITMAP bi;
-        image.GetBitmap(&bi);
-        int nI = bi.bmWidth / bi.bmHeight;
-        HIMAGELIST hImageList = ImageList_Create(bi.bmHeight, bi.bmHeight, ILC_COLOR32, nI, 0);
+        CSize size = image.GetSize();
+        CImageList imageList;
+        imageList.Create(size.cy, size.cy, ILC_COLOR32, size.cx / size.cy, 0);
+        imageList.Add(&image, nullptr);
 
-        ImageList_Add(hImageList, (HBITMAP)image, 0);
-        hr = m_pTaskbarList->ThumbBarSetImageList(m_hWnd, hImageList);
-
-        if (SUCCEEDED(hr)) {
+        if (SUCCEEDED(m_pTaskbarList->ThumbBarSetImageList(m_hWnd, imageList.GetSafeHandle()))) {
             THUMBBUTTON buttons[5] = {};
 
             // PREVIOUS
@@ -15801,13 +15791,11 @@ HRESULT CMainFrame::CreateThumbnailToolbar()
             buttons[4].iBitmap = 5;
             StringCchCopy(buttons[4].szTip, _countof(buttons[4].szTip), ResStr(IDS_AG_FULLSCREEN));
 
-            hr = m_pTaskbarList->ThumbBarAddButtons(m_hWnd, ARRAYSIZE(buttons), buttons);
+            return m_pTaskbarList->ThumbBarAddButtons(m_hWnd, ARRAYSIZE(buttons), buttons);
         }
-        ImageList_Destroy(hImageList);
-        image.CleanUp();
     }
 
-    return hr;
+    return E_FAIL;
 }
 
 HRESULT CMainFrame::UpdateThumbarButton()

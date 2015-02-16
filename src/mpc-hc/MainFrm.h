@@ -1013,7 +1013,7 @@ public:
 
     CString GetVidPos() const;
 
-    ITaskbarList3* m_pTaskbarList;
+    CComPtr<ITaskbarList3> m_pTaskbarList;
     HRESULT CreateThumbnailToolbar();
     HRESULT UpdateThumbarButton();
     HRESULT UpdateThumbarButton(MPC_PLAYSTATE iPlayState);
