@@ -524,7 +524,11 @@ public:
     ConvMatrix    m_convMatrix; //for YUV to YUV or other complicated conversions
 };
 
-ConvFunc s_default_conv_set(ColorConvTable::BT601, ColorConvTable::RANGE_TV, false, false);
+static ConvFunc& ConvFuncInst()
+{
+    static ConvFunc s(ColorConvTable::BT601, ColorConvTable::RANGE_TV, false, false);
+    return s;
+}
 
 bool ConvFunc::InitConvFunc(YuvMatrixType yuv_type, YuvRangeType range)
 {
@@ -618,21 +622,21 @@ ConvFunc::ConvFunc(YuvMatrixType yuv_type, YuvRangeType range, bool bOutputTVRan
 //
 ColorConvTable::YuvMatrixType ColorConvTable::GetDefaultYUVType()
 {
-    return s_default_conv_set.m_eYuvType;
+    return ConvFuncInst().m_eYuvType;
 }
 
 ColorConvTable::YuvRangeType ColorConvTable::GetDefaultRangeType()
 {
-    return s_default_conv_set.m_eRangeType;
+    return ConvFuncInst().m_eRangeType;
 }
 
 void ColorConvTable::SetDefaultConvType(YuvMatrixType yuv_type, YuvRangeType range, bool bOutputTVRange, bool bVSFilterCorrection)
 {
-    if (s_default_conv_set.m_eYuvType != yuv_type || s_default_conv_set.m_eRangeType != range) {
-        s_default_conv_set.InitConvFunc(yuv_type, range);
+    if (ConvFuncInst().m_eYuvType != yuv_type || ConvFuncInst().m_eRangeType != range) {
+        ConvFuncInst().InitConvFunc(yuv_type, range);
     }
-    s_default_conv_set.m_bOutputTVRange = bOutputTVRange;
-    s_default_conv_set.m_bVSFilterCorrection = bVSFilterCorrection;
+    ConvFuncInst().m_bOutputTVRange = bOutputTVRange;
+    ConvFuncInst().m_bVSFilterCorrection = bVSFilterCorrection;
 }
 
 DWORD ColorConvTable::Argb2Auyv(DWORD argb)
@@ -640,7 +644,7 @@ DWORD ColorConvTable::Argb2Auyv(DWORD argb)
     int r = (argb & 0x00ff0000) >> 16;
     int g = (argb & 0x0000ff00) >> 8;
     int b = (argb & 0x000000ff);
-    return (argb & 0xff000000) | s_default_conv_set.r8g8b8_to_uyv_func(r, g, b);
+    return (argb & 0xff000000) | ConvFuncInst().r8g8b8_to_uyv_func(r, g, b);
 }
 
 DWORD ColorConvTable::Argb2Ayuv(DWORD argb)
@@ -648,7 +652,7 @@ DWORD ColorConvTable::Argb2Ayuv(DWORD argb)
     int r = (argb & 0x00ff0000) >> 16;
     int g = (argb & 0x0000ff00) >> 8;
     int b = (argb & 0x000000ff);
-    return (argb & 0xff000000) | s_default_conv_set.r8g8b8_to_yuv_func(r, g, b);
+    return (argb & 0xff000000) | ConvFuncInst().r8g8b8_to_yuv_func(r, g, b);
 }
 
 DWORD ColorConvTable::Argb2Ayuv_TV_BT601(DWORD argb)
@@ -668,12 +672,12 @@ DWORD ColorConvTable::Ayuv2Auyv(DWORD ayuv)
 
 DWORD ColorConvTable::PreMulArgb2Ayuv(int a8, int r8, int g8, int b8)
 {
-    return s_default_conv_set.pre_mul_argb_to_ayuv_func(a8, r8, g8, b8);
+    return ConvFuncInst().pre_mul_argb_to_ayuv_func(a8, r8, g8, b8);
 }
 
 DWORD ColorConvTable::Rgb2Y(int r8, int g8, int b8)
 {
-    return s_default_conv_set.r8g8b8_to_y_func(r8, g8, b8);
+    return ConvFuncInst().r8g8b8_to_y_func(r8, g8, b8);
 }
 
 DWORD ColorConvTable::Ayuv2Argb_TV_BT601(DWORD ayuv)
@@ -697,7 +701,7 @@ DWORD ColorConvTable::Ayuv2Argb(DWORD ayuv)
     int y = (ayuv & 0x00ff0000) >> 16;
     int u = (ayuv & 0x0000ff00) >> 8;
     int v = (ayuv & 0x000000ff);
-    return (ayuv & 0xff000000) | s_default_conv_set.y8u8v8_to_rgb_func(y, u, v);
+    return (ayuv & 0xff000000) | ConvFuncInst().y8u8v8_to_rgb_func(y, u, v);
 }
 
 DWORD ColorConvTable::A8Y8U8V8_To_ARGB_TV_BT601(int a8, int y8, int u8, int v8)
@@ -786,14 +790,14 @@ DWORD ColorConvTable::A8Y8U8V8_TO_AYUV(int a8, int y8, int u8, int v8,
             return (a8 << 24) | (y8 << 16) | (u8 << 8) | v8;
         }
     }
-    return (a8 << 24) | s_default_conv_set.m_convMatrix.Convert(y8, u8, v8,
-                                                                level_map[in_range], type_map[in_type], level_map[out_range], type_map[out_type]);
+    return (a8 << 24) | ConvFuncInst().m_convMatrix.Convert(y8, u8, v8,
+                                                            level_map[in_range], type_map[in_type], level_map[out_range], type_map[out_type]);
 }
 
 DWORD ColorConvTable::A8Y8U8V8_TO_CUR_AYUV(int a8, int y8, int u8, int v8, YuvRangeType in_range, YuvMatrixType in_type)
 {
     return A8Y8U8V8_TO_AYUV(a8, y8, u8, v8, in_range, in_type,
-                            s_default_conv_set.m_eRangeType, s_default_conv_set.m_eYuvType);
+                            ConvFuncInst().m_eRangeType, ConvFuncInst().m_eYuvType);
 }
 
 DWORD ColorConvTable::A8Y8U8V8_TO_ARGB(int a8, int y8, int u8, int v8, YuvMatrixType in_type)
@@ -808,18 +812,18 @@ DWORD ColorConvTable::A8Y8U8V8_TO_ARGB(int a8, int y8, int u8, int v8, YuvMatrix
             { YUV_PC_TO_RGB_TV_709, YUV_PC_TO_RGB_PC_709 }
         }
     };
-    return (a8 << 24) | funcs[s_default_conv_set.m_eRangeType == RANGE_PC ? 1 : 0][in_type == BT709 ? 1 : 0][s_default_conv_set.m_bOutputTVRange ? 0 : 1](y8, u8, v8);
+    return (a8 << 24) | funcs[ConvFuncInst().m_eRangeType == RANGE_PC ? 1 : 0][in_type == BT709 ? 1 : 0][ConvFuncInst().m_bOutputTVRange ? 0 : 1](y8, u8, v8);
 }
 
 DWORD ColorConvTable::ColorCorrection(DWORD argb)
 {
-    if (s_default_conv_set.m_bVSFilterCorrection) {
+    if (ConvFuncInst().m_bVSFilterCorrection) {
         int r = (argb & 0x00ff0000) >> 16;
         int g = (argb & 0x0000ff00) >> 8;
         int b = (argb & 0x000000ff);
         return (argb & 0xff000000) |
-               s_default_conv_set.m_convMatrix.ColorCorrection(r, g, b,
-                                                               s_default_conv_set.m_bOutputTVRange ? ConvMatrix::LEVEL_TV : ConvMatrix::LEVEL_PC);
+               ConvFuncInst().m_convMatrix.ColorCorrection(r, g, b,
+                                                           ConvFuncInst().m_bOutputTVRange ? ConvMatrix::LEVEL_TV : ConvMatrix::LEVEL_PC);
     }
     return argb;
 }
