@@ -20,10 +20,11 @@ REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 SETLOCAL
 
 PUSHD %~dp0
+SET "COMMMON=%~dp0..\common.bat"
 
 IF EXIST "..\build.user.bat" CALL "..\build.user.bat"
 
-IF NOT EXIST "%COV_PATH%" (CALL :SubMsg "ERROR" "Coverity not found in '%COV_PATH%'" & EXIT /B)
+IF NOT EXIST "%COV_PATH%" (CALL %COMMON% :SubMsg "ERROR" "Coverity not found in '%COV_PATH%'" & EXIT /B)
 
 
 :Cleanup
@@ -43,12 +44,12 @@ CALL "..\build.bat" clean Api Both Release silent
 "%COV_PATH%\bin\cov-build.exe" --dir cov-int "..\build.bat" Build Filters Both Release silent
 "%COV_PATH%\bin\cov-build.exe" --dir cov-int "..\build.bat" Build IconLib Both Release silent
 "%COV_PATH%\bin\cov-build.exe" --dir cov-int "..\build.bat" Build Api Both Release silent
-IF %ERRORLEVEL% NEQ 0 (CALL :SubMsg "ERROR" "Build failed." & EXIT /B)
+IF %ERRORLEVEL% NEQ 0 (CALL %COMMON% :SubMsg "ERROR" "Build failed." & EXIT /B)
 
 
 :tar
-CALL :SubDetectTar
-IF NOT EXIST "%TAR%" (CALL :SubMsg "WARNING" "tar not found. Trying 7-zip..." & GOTO SevenZip)
+CALL %COMMON% :SubDetectTar
+IF NOT EXIST "%TAR%" (CALL %COMMON% :SubMsg "WARNING" "tar not found. Trying 7-zip..." & GOTO SevenZip)
 
 SET "FILE_NAME=MPC-HC.tar.xz"
 SET "XZ_OPT=-9e"
@@ -63,99 +64,37 @@ IF %ERRORLEVEL% NEQ 0 (
   %TAR% cJf %FILE_NAME% cov-int
 )
 
-IF %ERRORLEVEL% NEQ 0 (CALL :SubMsg "WARNING" "tar failed. Trying 7-zip..." & GOTO SevenZip)
+IF %ERRORLEVEL% NEQ 0 (CALL %COMMON% :SubMsg "WARNING" "tar failed. Trying 7-zip..." & GOTO SevenZip)
 GOTO Upload
 
 
 :SevenZip
-CALL :SubDetectSevenzipPath
-IF NOT EXIST "%SEVENZIP%" (CALL :SubMsg "ERROR" "7-zip not found." & EXIT /B)
+CALL %COMMON% :SubDetectSevenzipPath
+IF NOT EXIST "%SEVENZIP%" (CALL %COMMON% :SubMsg "ERROR" "7-zip not found." & EXIT /B)
 
 SET "FILE_NAME=MPC-HC.tgz"
 REM 7-Zip doesn't support tarball compliant LZMA2 archives, just use tar/gzip.
 "%SEVENZIP%" a -ttar "MPC-HC.tar" "cov-int"
-IF %ERRORLEVEL% NEQ 0 (CALL :SubMsg "ERROR" "7-zip failed." & EXIT /B)
+IF %ERRORLEVEL% NEQ 0 (CALL %COMMON% :SubMsg "ERROR" "7-zip failed." & EXIT /B)
 "%SEVENZIP%" a -tgzip "%FILE_NAME%" "MPC-HC.tar"
-IF %ERRORLEVEL% NEQ 0 (CALL :SubMsg "ERROR" "7-zip failed." & EXIT /B)
+IF %ERRORLEVEL% NEQ 0 (CALL %COMMON% :SubMsg "ERROR" "7-zip failed." & EXIT /B)
 IF EXIST "MPC-HC.tar" DEL "MPC-HC.tar"
 GOTO Upload
 
 
 :Upload
 CALL "..\build.bat" GetVersion
-CALL :SubDetectCurl
-IF NOT EXIST "%CURL%" (CALL :SubMsg "WARNING" "curl not found. Upload aborted." & GOTO End)
-IF NOT DEFINED COV_TOKEN (CALL :SubMsg "WARNING" "COV_TOKEN not defined. Upload aborted." & GOTO End)
-IF NOT DEFINED COV_EMAIL (CALL :SubMsg "WARNING" "COV_EMAIL not defined. Upload aborted." & GOTO End)
+CALL %COMMON% :SubDetectCurl
+IF NOT EXIST "%CURL%" (CALL %COMMON% :SubMsg "WARNING" "curl not found. Upload aborted." & GOTO End)
+IF NOT DEFINED COV_TOKEN (CALL %COMMON% :SubMsg "WARNING" "COV_TOKEN not defined. Upload aborted." & GOTO End)
+IF NOT DEFINED COV_EMAIL (CALL %COMMON% :SubMsg "WARNING" "COV_EMAIL not defined. Upload aborted." & GOTO End)
 %CURL% --form token=%COV_TOKEN% --form email=%COV_EMAIL% --form file=@%FILE_NAME% --form version=%MPCHC_HASH% https://scan.coverity.com/builds?project=MPC-HC -o cov_upload.log
 GOTO End
 
 
 :End
 POPD
-CALL :SubMsg "INFO" "Done. Press any key to exit..."
+CALL %COMMON% :SubMsg "INFO" "Done. Press any key to exit..."
 PAUSE >NUL
 ENDLOCAL
-EXIT /B
-
-
-:SubDetectSevenzipPath
-FOR %%G IN (7z.exe) DO (SET "SEVENZIP_PATH=%%~$PATH:G")
-IF EXIST "%SEVENZIP_PATH%" (SET "SEVENZIP=%SEVENZIP_PATH%" & EXIT /B)
-
-FOR %%G IN (7za.exe) DO (SET "SEVENZIP_PATH=%%~$PATH:G")
-IF EXIST "%SEVENZIP_PATH%" (SET "SEVENZIP=%SEVENZIP_PATH%" & EXIT /B)
-
-FOR /F "tokens=2*" %%A IN (
-  'REG QUERY "HKLM\SOFTWARE\7-Zip" /v "Path" 2^>NUL ^| FIND "REG_SZ" ^|^|
-   REG QUERY "HKLM\SOFTWARE\Wow6432Node\7-Zip" /v "Path" 2^>NUL ^| FIND "REG_SZ"') DO SET "SEVENZIP=%%B\7z.exe"
-EXIT /B
-
-
-:SubDetectCurl
-IF EXIST curl.exe (SET "CURL=curl.exe" & EXIT /B)
-IF EXIST "%CURL_PATH%\curl.exe" (SET "CURL=%CURL_PATH%\curl.exe" & EXIT /B)
-FOR %%G IN (curl.exe) DO (SET "CURL_PATH=%%~$PATH:G")
-IF EXIST "%CURL_PATH%" (SET "CURL=%CURL_PATH%" & EXIT /B)
-EXIT /B
-
-
-:SubDetectTar
-IF EXIST tar.exe (SET "TAR=tar.exe" & EXIT /B)
-IF EXIST "%TAR_PATH%\tar.exe" (SET "TAR=%TAR_PATH%\tar.exe" & EXIT /B)
-FOR %%G IN (tar.exe) DO (SET "TAR_PATH=%%~$PATH:G")
-IF EXIST "%TAR_PATH%" (SET "TAR=%TAR_PATH%" & EXIT /B)
-EXIT /B
-
-
-:SubMsg
-ECHO. & ECHO ------------------------------
-IF /I "%~1" == "ERROR" (
-  CALL :SubColorText "0C" "[%~1]" "%~2"
-) ELSE IF /I "%~1" == "INFO" (
-  CALL :SubColorText "0A" "[%~1]" "%~2"
-) ELSE IF /I "%~1" == "WARNING" (
-  CALL :SubColorText "0E" "[%~1]" "%~2"
-)
-ECHO ------------------------------ & ECHO.
-IF /I "%~1" == "ERROR" (
-  ECHO Press any key to exit...
-  PAUSE >NUL
-  POPD
-  ENDLOCAL
-  EXIT /B 1
-) ELSE (
-  EXIT /B
-)
-
-
-:SubColorText
-FOR /F "tokens=1,2 delims=#" %%G IN (
-  '"PROMPT #$H#$E# & ECHO ON & FOR %%H IN (1) DO REM"') DO (
-  SET "DEL=%%G")
-<NUL SET /p ".=%DEL%" > "%~2"
-FINDSTR /v /a:%1 /R ".18" "%~2" NUL
-DEL "%~2" > NUL 2>&1
-REM The space in the following ECHO is intentional
-ECHO  %~3
 EXIT /B

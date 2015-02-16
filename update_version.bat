@@ -21,14 +21,16 @@ SETLOCAL
 
 PUSHD %~dp0
 
+SET "COMMON=%~dp0\common.bat"
+
 IF EXIST "build.user.bat" CALL "build.user.bat"
 
 IF NOT DEFINED MPCHC_GIT  IF DEFINED GIT (SET MPCHC_GIT=%GIT%)
-IF NOT DEFINED MPCHC_MSYS IF DEFINED MSYS (SET MPCHC_MSYS=%MSYS%) ELSE (GOTO MissingVar)
 
-SET PATH=%MPCHC_MSYS%\bin;%MPCHC_GIT%\cmd;%PATH%
-FOR %%G IN (bash.exe) DO (SET FOUND=%%~$PATH:G)
-IF NOT DEFINED FOUND GOTO MissingVar
+CALL %COMMON% :SubSetPath
+IF %ERRORLEVEL% NEQ 0 GOTO MissingVar
+CALL %COMMON% :SubDoesExist bash.exe
+IF %ERRORLEVEL% NEQ 0 GOTO MissingVar
 
 bash.exe ./version.sh
 

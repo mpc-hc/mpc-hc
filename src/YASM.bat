@@ -17,11 +17,9 @@ REM You should have received a copy of the GNU General Public License
 REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-IF EXIST "%~dp0..\build.user.bat" CALL "%~dp0..\build.user.bat"
-
-IF NOT DEFINED MPCHC_MSYS IF DEFINED MSYS SET MPCHC_MSYS=%MSYS%
-IF NOT EXIST "%MPCHC_MSYS%" EXIT /B 1
-
-SET PATH=%PATH%;%MPCHC_MSYS%\bin
+CALL "%~dp0..\common.bat" :SubSetPath
+IF %ERRORLEVEL% NEQ 0 EXIT /B
+CALL "%~dp0..\common.bat" :SubDoesExist yasm.exe
+IF %ERRORLEVEL% NEQ 0 EXIT /B
 
 yasm.exe %*

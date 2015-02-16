@@ -21,20 +21,12 @@ SETLOCAL
 PUSHD %~dp0
 
 SET ROOT_DIR=..\..\..
+SET "COMMON=%~dp0%ROOT_DIR%\common.bat"
 
-IF EXIST "%ROOT_DIR%\build.user.bat" CALL "%ROOT_DIR%\build.user.bat"
-
-IF NOT DEFINED MPCHC_MINGW32 IF DEFINED MINGW32 (SET MPCHC_MINGW32=%MINGW32%) ELSE (GOTO MissingVar)
-IF NOT DEFINED MPCHC_MINGW64 IF DEFINED MINGW64 (SET MPCHC_MINGW64=%MINGW64%) ELSE (GOTO MissingVar)
-IF NOT DEFINED MPCHC_MSYS    IF DEFINED MSYS    (SET MPCHC_MSYS=%MSYS%)       ELSE (GOTO MissingVar)
-
-IF NOT EXIST "%MPCHC_MINGW32%" GOTO MissingVar
-IF NOT EXIST "%MPCHC_MINGW64%" GOTO MissingVar
-IF NOT EXIST "%MPCHC_MSYS%"    GOTO MissingVar
-
-SET PATH=%MPCHC_MSYS%\bin;%MPCHC_MINGW32%\bin;%PATH%
-FOR %%G IN (gcc.exe) DO (SET FOUND=%%~$PATH:G)
-IF NOT DEFINED FOUND GOTO MissingVar
+CALL %COMMON% :SubSetPath
+IF %ERRORLEVEL% NEQ 0 EXIT /B
+CALL %COMMON% :SubDoesExist gcc.exe
+IF %ERRORLEVEL% NEQ 0 EXIT /B
 
 SET ARG=/%*
 SET ARG=%ARG:/=%
@@ -115,8 +107,8 @@ EXIT /B
 IF %ERRORLEVEL% NEQ 0 EXIT /B
 TITLE Compiling LAV Filters %COMPILER% [FINISHED]
 SET END_TIME=%TIME%
-CALL :SubGetDuration
-CALL :SubMsg "INFO" "LAV Filters compilation started on %START_DATE%-%START_TIME% and completed on %DATE%-%END_TIME% [%DURATION%]"
+CALL %COMMON% :SubGetDuration
+CALL %COMMON% :SubMsg "INFO" "LAV Filters compilation started on %START_DATE%-%START_TIME% and completed on %DATE%-%END_TIME% [%DURATION%]"
 POPD
 ENDLOCAL
 EXIT /B
@@ -130,7 +122,7 @@ IF /I "%ARCH%" == "x86" (SET "ARCHVS=Win32") ELSE (SET "ARCHVS=x64")
 REM Build FFmpeg
 sh build_ffmpeg.sh %ARCH% %BUILDTYPE%
 IF %ERRORLEVEL% NEQ 0 (
-  CALL :SubMsg "ERROR" "'sh build_ffmpeg.sh %ARCH% %BUILDTYPE%' failed!"
+  CALL %COMMON% :SubMsg "ERROR" "'sh build_ffmpeg.sh %ARCH% %BUILDTYPE%' failed!"
   EXIT /B
 )
 
@@ -141,7 +133,7 @@ IF /I "%ARCH%" == "x86" (SET "ARCHVS=Win32") ELSE (SET "ARCHVS=x64")
 
 MSBuild.exe LAVFilters.sln /nologo /consoleloggerparameters:Verbosity=minimal /nodeReuse:true /m /t:%BUILDTYPE% /property:Configuration=%RELEASETYPE%;Platform=%ARCHVS%
 IF %ERRORLEVEL% NEQ 0 (
-  CALL :SubMsg "ERROR" "'MSBuild.exe LAVFilters.sln /nologo /consoleloggerparameters:Verbosity=minimal /nodeReuse:true /m /t:%BUILDTYPE% /property:Configuration=%RELEASETYPE%;Platform=%ARCHVS%' failed!"
+  CALL %COMMON% :SubMsg "ERROR" "'MSBuild.exe LAVFilters.sln /nologo /consoleloggerparameters:Verbosity=minimal /nodeReuse:true /m /t:%BUILDTYPE% /property:Configuration=%RELEASETYPE%;Platform=%ARCHVS%' failed!"
   EXIT /B
 )
 
@@ -193,7 +185,7 @@ EXIT /B
 ECHO Not all build dependencies were found.
 ECHO.
 ECHO See "%ROOT_DIR%\docs\Compilation.txt" for more information.
-CALL :SubMsg "ERROR" "LAV Filters compilation failed!" & EXIT /B 1
+CALL %COMMON% :SubMsg "ERROR" "LAV Filters compilation failed!" & EXIT /B 1
 
 
 :UnsupportedSwitch
@@ -203,7 +195,7 @@ ECHO.
 ECHO "%~nx0 %*"
 ECHO.
 ECHO Run "%~nx0 help" for details about the commandline switches.
-CALL :SubMsg "ERROR" "LAV Filters compilation failed!" & EXIT /B 1
+CALL %COMMON% :SubMsg "ERROR" "LAV Filters compilation failed!" & EXIT /B 1
 
 
 :ShowHelp
@@ -220,69 +212,4 @@ ECHO "%~nx0 Build Both Release VS2013"
 ECHO.
 POPD
 ENDLOCAL
-EXIT /B
-
-
-:SubMsg
-ECHO. & ECHO ------------------------------
-IF /I "%~1" == "ERROR" (
-  CALL :SubColorText "0C" "[%~1]" "%~2"
-) ELSE IF /I "%~1" == "INFO" (
-  CALL :SubColorText "0A" "[%~1]" "%~2"
-) ELSE IF /I "%~1" == "WARNING" (
-  CALL :SubColorText "0E" "[%~1]" "%~2"
-)
-ECHO ------------------------------ & ECHO.
-IF /I "%~1" == "ERROR" (
-  IF NOT DEFINED SILENT (
-    ECHO Press any key to exit...
-    PAUSE >NUL
-  )
-  POPD
-  ENDLOCAL
-  EXIT /B 1
-) ELSE (
-  EXIT /B
-)
-
-
-:SubColorText
-IF DEFINED NOCOLORS ECHO %~2 %~3 & EXIT /B
-FOR /F "tokens=1,2 delims=#" %%G IN (
-  '"PROMPT #$H#$E# & ECHO ON & FOR %%H IN (1) DO REM"') DO (
-  SET "DEL=%%G")
-<NUL SET /p ".=%DEL%" > "%~2"
-FINDSTR /v /a:%1 /R ".18" "%~2" NUL
-DEL "%~2" > NUL 2>&1
-REM The space in the following ECHO is intentional
-ECHO  %~3
-EXIT /B
-
-
-:SubGetDuration
-SET START_TIME=%START_TIME: =%
-SET END_TIME=%END_TIME: =%
-
-FOR /F "tokens=1-4 delims=:.," %%G IN ("%START_TIME%") DO (
-  SET /A "STARTTIME=(100%%G %% 100) * 360000 + (100%%H %% 100) * 6000 + (100%%I %% 100) * 100 + (100%%J %% 100)"
-)
-
-FOR /F "tokens=1-4 delims=:.," %%G IN ("%END_TIME%") DO (
-  SET /A "ENDTIME=(100%%G %% 100) * 360000 + (100%%H %% 100) * 6000 + (100%%I %% 100) * 100 + (100%%J %% 100)"
-)
-
-SET /A DURATION=%ENDTIME%-%STARTTIME%
-IF %ENDTIME% LSS %STARTTIME% SET /A "DURATION+=24 * 360000"
-
-SET /A DURATIONH=%DURATION% / 360000
-SET /A DURATIONM=(%DURATION% - %DURATIONH%*360000) / 6000
-SET /A DURATIONS=(%DURATION% - %DURATIONH%*360000 - %DURATIONM%*6000) / 100
-SET /A DURATIONHS=(%DURATION% - %DURATIONH%*360000 - %DURATIONM%*6000 - %DURATIONS%*100)*10
-
-IF %DURATIONH%  EQU 0 (SET DURATIONH=)  ELSE (SET DURATIONH=%DURATIONH%h )
-IF %DURATIONM%  EQU 0 (SET DURATIONM=)  ELSE (SET DURATIONM=%DURATIONM%m )
-IF %DURATIONS%  EQU 0 (SET DURATIONS=)  ELSE (SET DURATIONS=%DURATIONS%s )
-IF %DURATIONHS% EQU 0 (SET DURATIONHS=) ELSE (SET DURATIONHS=%DURATIONHS%ms)
-
-SET "DURATION=%DURATIONH%%DURATIONM%%DURATIONS%%DURATIONHS%"
 EXIT /B
