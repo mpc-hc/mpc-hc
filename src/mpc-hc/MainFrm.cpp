@@ -15754,42 +15754,26 @@ HRESULT CMainFrame::CreateThumbnailToolbar()
         if (SUCCEEDED(m_pTaskbarList->ThumbBarSetImageList(m_hWnd, imageList.GetSafeHandle()))) {
             THUMBBUTTON buttons[5] = {};
 
+            for (size_t i = 0; i < _countof(buttons); i++) {
+                buttons[i].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
+                buttons[i].dwFlags = THBF_DISABLED;
+                buttons[i].iBitmap = 0; // Will be set later
+            }
+
             // PREVIOUS
-            buttons[0].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
-            buttons[0].dwFlags = THBF_DISABLED;
             buttons[0].iId = IDTB_BUTTON3;
-            buttons[0].iBitmap = 0;
-            StringCchCopy(buttons[0].szTip, _countof(buttons[0].szTip), ResStr(IDS_AG_PREVIOUS));
-
             // STOP
-            buttons[1].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
-            buttons[1].dwFlags = THBF_DISABLED;
             buttons[1].iId = IDTB_BUTTON1;
-            buttons[1].iBitmap = 1;
-            StringCchCopy(buttons[1].szTip, _countof(buttons[1].szTip), ResStr(IDS_AG_STOP));
-
             // PLAY/PAUSE
-            buttons[2].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
-            buttons[2].dwFlags = THBF_DISABLED;
             buttons[2].iId = IDTB_BUTTON2;
-            buttons[2].iBitmap = 3;
-            StringCchCopy(buttons[2].szTip, _countof(buttons[2].szTip), ResStr(IDS_AG_PLAYPAUSE));
-
             // NEXT
-            buttons[3].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
-            buttons[3].dwFlags = THBF_DISABLED;
             buttons[3].iId = IDTB_BUTTON4;
-            buttons[3].iBitmap = 4;
-            StringCchCopy(buttons[3].szTip, _countof(buttons[3].szTip), ResStr(IDS_AG_NEXT));
-
             // FULLSCREEN
-            buttons[4].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
-            buttons[4].dwFlags = THBF_DISABLED;
             buttons[4].iId = IDTB_BUTTON5;
-            buttons[4].iBitmap = 5;
-            StringCchCopy(buttons[4].szTip, _countof(buttons[4].szTip), ResStr(IDS_AG_FULLSCREEN));
 
-            return m_pTaskbarList->ThumbBarAddButtons(m_hWnd, ARRAYSIZE(buttons), buttons);
+            if (SUCCEEDED(m_pTaskbarList->ThumbBarAddButtons(m_hWnd, _countof(buttons), buttons))) {
+                return UpdateThumbarButton();
+            }
         }
     }
 
@@ -15818,70 +15802,53 @@ HRESULT CMainFrame::UpdateThumbarButton(MPC_PLAYSTATE iPlayState)
         return E_FAIL;
     }
 
+    THUMBBUTTON buttons[5] = {};
+
+    for (size_t i = 0; i < _countof(buttons); i++) {
+        buttons[i].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
+    }
+
+    buttons[0].iId = IDTB_BUTTON3;
+    buttons[1].iId = IDTB_BUTTON1;
+    buttons[2].iId = IDTB_BUTTON2;
+    buttons[3].iId = IDTB_BUTTON4;
+    buttons[4].iId = IDTB_BUTTON5;
+
     const CAppSettings& s = AfxGetAppSettings();
 
     if (!s.fUseWin7TaskBar) {
         m_pTaskbarList->SetOverlayIcon(m_hWnd, nullptr, L"");
         m_pTaskbarList->SetProgressState(m_hWnd, TBPF_NOPROGRESS);
 
-        THUMBBUTTON buttons[5] = {};
+        for (size_t i = 0; i < _countof(buttons); i++) {
+            buttons[i].dwFlags = THBF_HIDDEN;
+        }
 
-        buttons[0].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
-        buttons[0].dwFlags = THBF_HIDDEN;
-        buttons[0].iId = IDTB_BUTTON3;
-
-        buttons[1].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
-        buttons[1].dwFlags = THBF_HIDDEN;
-        buttons[1].iId = IDTB_BUTTON1;
-
-        buttons[2].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
-        buttons[2].dwFlags = THBF_HIDDEN;
-        buttons[2].iId = IDTB_BUTTON2;
-
-        buttons[3].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
-        buttons[3].dwFlags = THBF_HIDDEN;
-        buttons[3].iId = IDTB_BUTTON4;
-
-        buttons[4].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
-        buttons[4].dwFlags = THBF_HIDDEN;
-        buttons[4].iId = IDTB_BUTTON5;
-
-        HRESULT hr = m_pTaskbarList->ThumbBarUpdateButtons(m_hWnd, ARRAYSIZE(buttons), buttons);
-        return hr;
+        return m_pTaskbarList->ThumbBarUpdateButtons(m_hWnd, _countof(buttons), buttons);
     }
 
-    THUMBBUTTON buttons[5] = {};
-
-    buttons[0].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
-    buttons[0].dwFlags = (!s.fUseSearchInFolder && m_wndPlaylistBar.GetCount() <= 1 && (m_pCB && m_pCB->ChapGetCount() <= 1)) ? THBF_DISABLED : THBF_ENABLED;
-    buttons[0].iId = IDTB_BUTTON3;
     buttons[0].iBitmap = 0;
     StringCchCopy(buttons[0].szTip, _countof(buttons[0].szTip), ResStr(IDS_AG_PREVIOUS));
 
-    buttons[1].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
-    buttons[1].iId = IDTB_BUTTON1;
     buttons[1].iBitmap = 1;
     StringCchCopy(buttons[1].szTip, _countof(buttons[1].szTip), ResStr(IDS_AG_STOP));
 
-    buttons[2].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
-    buttons[2].iId = IDTB_BUTTON2;
     buttons[2].iBitmap = 3;
     StringCchCopy(buttons[2].szTip, _countof(buttons[2].szTip), ResStr(IDS_AG_PLAYPAUSE));
 
-    buttons[3].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
-    buttons[3].dwFlags = (!s.fUseSearchInFolder && m_wndPlaylistBar.GetCount() <= 1 && (m_pCB && m_pCB->ChapGetCount() <= 1)) ? THBF_DISABLED : THBF_ENABLED;
-    buttons[3].iId = IDTB_BUTTON4;
     buttons[3].iBitmap = 4;
     StringCchCopy(buttons[3].szTip, _countof(buttons[3].szTip), ResStr(IDS_AG_NEXT));
 
-    buttons[4].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
-    buttons[4].dwFlags = THBF_ENABLED;
-    buttons[4].iId = IDTB_BUTTON5;
     buttons[4].iBitmap = 5;
     StringCchCopy(buttons[4].szTip, _countof(buttons[4].szTip), ResStr(IDS_AG_FULLSCREEN));
 
     if (GetLoadState() == MLS::LOADED) {
         HICON hIcon = nullptr;
+
+        buttons[0].dwFlags = (!s.fUseSearchInFolder && m_wndPlaylistBar.GetCount() <= 1 && (m_pCB && m_pCB->ChapGetCount() <= 1)) ? THBF_DISABLED : THBF_ENABLED;
+        buttons[3].dwFlags = (!s.fUseSearchInFolder && m_wndPlaylistBar.GetCount() <= 1 && (m_pCB && m_pCB->ChapGetCount() <= 1)) ? THBF_DISABLED : THBF_ENABLED;
+        buttons[4].dwFlags = !m_fAudioOnly ? THBF_ENABLED : THBF_DISABLED;
+
         if (iPlayState == PS_PLAY) {
             buttons[1].dwFlags = THBF_ENABLED;
             buttons[2].dwFlags = THBF_ENABLED;
@@ -15905,10 +15872,6 @@ HRESULT CMainFrame::UpdateThumbarButton(MPC_PLAYSTATE iPlayState)
             m_pTaskbarList->SetProgressState(m_hWnd, m_wndSeekBar.HasDuration() ? TBPF_PAUSED : TBPF_NOPROGRESS);
         }
 
-        if (m_fAudioOnly) {
-            buttons[4].dwFlags = THBF_DISABLED;
-        }
-
         if (GetPlaybackMode() == PM_DVD && m_iDVDDomain != DVD_DOMAIN_Title) {
             buttons[0].dwFlags = THBF_DISABLED;
             buttons[1].dwFlags = THBF_DISABLED;
@@ -15922,17 +15885,15 @@ HRESULT CMainFrame::UpdateThumbarButton(MPC_PLAYSTATE iPlayState)
             DestroyIcon(hIcon);
         }
     } else {
-        buttons[0].dwFlags = THBF_DISABLED;
-        buttons[1].dwFlags = THBF_DISABLED;
-        buttons[2].dwFlags = THBF_DISABLED;
-        buttons[3].dwFlags = THBF_DISABLED;
-        buttons[4].dwFlags = THBF_DISABLED;
+        for (size_t i = 0; i < _countof(buttons); i++) {
+            buttons[i].dwFlags = THBF_DISABLED;
+        }
 
         m_pTaskbarList->SetOverlayIcon(m_hWnd, nullptr, L"");
         m_pTaskbarList->SetProgressState(m_hWnd, TBPF_NOPROGRESS);
     }
 
-    HRESULT hr = m_pTaskbarList->ThumbBarUpdateButtons(m_hWnd, ARRAYSIZE(buttons), buttons);
+    HRESULT hr = m_pTaskbarList->ThumbBarUpdateButtons(m_hWnd, _countof(buttons), buttons);
 
     UpdateThumbnailClip();
 
