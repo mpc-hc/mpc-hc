@@ -255,7 +255,7 @@ bool ConvMatrix::Init()
 void ConvMatrix::InitMatrix(int in_level, int in_type, int out_level, int out_type)
 {
     int*& out_matrix = m_matrix[in_level][in_type][out_level][out_type];
-    if (!out_matrix) {
+    if (out_matrix) {
         return;
     }
     out_matrix = DEBUG_NEW int[3 * 4];
@@ -302,7 +302,10 @@ DWORD ConvMatrix::Convert(int x1, int x2, int x3, int in_level, int in_type, int
     int*& matrix_int = m_matrix[in_level][in_type][out_level][out_type];
     if (!matrix_int) {
         InitMatrix(in_level, in_type, out_level, out_type);
-        ASSERT(matrix_int);
+        if (!matrix_int) {
+            ASSERT(FALSE);
+            return 0;
+        }
     }
     return DoConvert(x1, x2, x3, matrix_int);
 }
