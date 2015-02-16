@@ -24,7 +24,7 @@ Main Features:
 * Multi-Monitor support
 * Various pixel shaders
 * Color management
-* 40 translations available
+* 41 translations available
 
 
 System Requirements:

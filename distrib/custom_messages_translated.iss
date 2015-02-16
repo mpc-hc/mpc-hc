@@ -113,6 +113,10 @@ ja.WinVersionTooLowError=[name] を実行するためには Windows XP Service P
 ko.WelcomeLabel2=이것은 [name] 를(을) 당신의 컴퓨터에 설치합니다.%n%n설치를 계속하기 전에 다른 모든 프로그램을 종료하는 것을 권장합니다.
 ko.WinVersionTooLowError=[name] 는(은) Windows XP Service Pack 3 또는 그 이상의 버전에서만 설치할 수 있습니다.
 
+; Lithuanian
+lt.WelcomeLabel2=Ši programa įdiegs [name] į jūsų kompiuterį.%n%nRekomenduojama išjungti visas kitas programas, prieš pradedant diegimą.
+lt.WinVersionTooLowError=[name] veikimui reikalingas Windows XP su 3-čiu pakeitimų paketu arba naujesne versija.
+
 ; Malay (Malaysia)
 ms_MY.WelcomeLabel2=Ini akan memasang [name] ke dalam komputer anda.%n%nDisarankan anda tutup semua aplikasi lain sebelum diteruskan.
 ms_MY.WinVersionTooLowError=[name] memerlukan Windows XP Service Pack 3 atau yg lebih baharu untuk dijalankan.
@@ -600,6 +604,25 @@ ko.tsk_ResetSettings=설정 초기화
 ko.types_DefaultInstallation=기본 설치
 ko.types_CustomInstallation=사용자 정의 설치
 ko.ViewChangelog=버전 변경사항 보기
+
+; Lithuanian
+lt.langid=00001063
+lt.comp_mpciconlib=Piktogramų biblioteka
+lt.comp_mpcresources=Vertimai
+lt.msg_DeleteSettings=Ar norite taip pat ištrinti MPC-HC nuostatas?%n%nJei planuojate vėl diegti MPC-HC, tada jų trinti nebūtina.
+#if defined(sse_required)
+lt.msg_simd_sse=Šiai MPC-HC versijai reikalingas centrinis procesorius su SSE plėtinio palaikymu.%n%nJūsų procesorius neturi šių galimybių.
+#elif defined(sse2_required)
+lt.msg_simd_sse2=Šiai MPC-HC versijai reikalingas centrinis CPU su SSE2 plėtinio palaikymu.%n%nJūsų procesorius neturi šių galimybių.
+#endif
+lt.run_DownloadToolbarImages=Aplankykite mūsų Wiki puslapį įrankių juostos paveikslėliams atsisiųsti
+lt.tsk_AllUsers=Visiems naudotojams
+lt.tsk_CurrentUser=Dabartiniam naudotojui
+lt.tsk_Other=Kitos užduotys:
+lt.tsk_ResetSettings=Atstatyti nustatymus
+lt.types_DefaultInstallation=Numatytasis diegimas
+lt.types_CustomInstallation=Pasirinktinis diegimas
+lt.ViewChangelog=Peržiūrėti pokyčių žurnalą
 
 ; Malay (Malaysia)
 ms_MY.langid=00001086

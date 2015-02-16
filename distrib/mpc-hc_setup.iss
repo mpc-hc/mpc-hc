@@ -182,6 +182,7 @@ Name: id;    MessagesFile: Languages\Indonesian.isl
 Name: it;    MessagesFile: compiler:Languages\Italian.isl
 Name: ja;    MessagesFile: compiler:Languages\Japanese.isl
 Name: ko;    MessagesFile: Languages\Korean.isl
+Name: lt;    MessagesFile: Languages\Lithuanian.isl
 Name: ms_MY; MessagesFile: Languages\Malaysian.isl
 Name: nl;    MessagesFile: compiler:Languages\Dutch.isl
 Name: pl;    MessagesFile: compiler:Languages\Polish.isl
