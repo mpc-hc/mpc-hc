@@ -165,10 +165,7 @@ void CChildView::LoadImgInternal(HGDIOBJ hImg)
 
 CSize CChildView::GetLogoSize()
 {
-    BITMAP bitmap;
-    ZeroMemory(&bitmap, sizeof(BITMAP));
-    m_img.GetBitmap(&bitmap);
-    return CSize(bitmap.bmWidth, bitmap.bmHeight);
+    return m_img.GetSize();
 }
 
 IMPLEMENT_DYNAMIC(CChildView, CMouseWnd)
