@@ -709,7 +709,7 @@ HRESULT CEVRAllocatorPresenter::CreateOptimalOutputType(IMFMediaType* pMixerProp
         // EVR mixer always assume 16-235 input. To ensure that luminance range won't be expanded we requests 16-235 also on output.
         // Request 16-235 to ensure untouched luminance range on output. It is the only way to pass 0-255 without changes.
         nominalRange = MFNominalRange_16_235;
-        m_LastSetOutputRange = 1;
+        m_LastSetOutputRange = -1; // -1 to prevent renegotiations because of different value than this in settings.
     } else {
         nominalRange = (r.m_AdvRendSets.iEVROutputRange == 1) ? MFNominalRange_16_235 : MFNominalRange_0_255;
         m_LastSetOutputRange = r.m_AdvRendSets.iEVROutputRange;
