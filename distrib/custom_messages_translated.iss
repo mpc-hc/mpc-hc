@@ -45,6 +45,10 @@ ca.WinVersionTooLowError=[name] requereix Windows XP Service Pack 3 o superior p
 cs.WelcomeLabel2=Produkt [name] bude nainstalován na Váš počítač.%n%nDříve než budete pokračovat, doporučuje se ukončit veškeré spuštěné aplikace.
 cs.WinVersionTooLowError=[name] vyžaduje Windows XP Service Pack 3 nebo novější.
 
+; Danish
+da.WelcomeLabel2=Dette vil installere [name] på din computer.%n%nDet anbefales, at du lukker alle andre programmer, inden du fortsætter.
+da.WinVersionTooLowError=[name] kræver Windows XP Service Pack 3 eller nyere for at køre.
+
 ; German (Neutral)
 de.WelcomeLabel2=Dieses Programm installiert [name] auf Ihrem Computer.%n%nEs wird empfohlen, alle laufenden Programme zu beenden, bevor Sie mit der Installation fortfahren.
 de.WinVersionTooLowError=[name] benötigt Windows XP Service Pack 3 oder höher.
@@ -274,6 +278,26 @@ cs.tsk_ResetSettings=Obnovit výchozí nastavení
 cs.types_DefaultInstallation=Standardní instalace
 cs.types_CustomInstallation=Volitelná instalace
 cs.ViewChangelog=Zobrazit seznam změn
+
+; Danish
+da.langid=00001030
+da.comp_mpciconlib=Ikon-bibliotek
+da.comp_mpcresources=Oversættelser
+da.msg_DeleteSettings=Vil du også slette MPC-HC indstillinger?%n%nHvis du har tænkt dig at installere MPC-HC igen, så behøves du ikke slette dem.
+da.msg_SetupIsRunningWarning=MPC-HC installation kører allerede!
+#if defined(sse_required)
+da.msg_simd_sse=Denne version af MPC-HC kræver en CPU der understøtter SSE-extension.%n%nDin CPU understøtter det ikke.
+#elif defined(sse2_required)
+da.msg_simd_sse2=Denne version af MPC-HC kræver en CPU der understøtter SSE2-extension.%n%nDin CPU understøtter det ikke.
+#endif
+da.run_DownloadToolbarImages=Besøg vores wiki-side for at downloade billeder til værktøjslinjen.
+da.tsk_AllUsers=For alle brugere
+da.tsk_CurrentUser=Kun for den nuværende bruger
+da.tsk_Other=Andre opgaver:
+da.tsk_ResetSettings=Nulstil indstillinger
+da.types_DefaultInstallation=Standardinstallation
+da.types_CustomInstallation=Tilpasset installation
+da.ViewChangelog=Vis ændringslog
 
 ; German (Neutral)
 de.langid=00001031

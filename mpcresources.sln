@@ -26,6 +26,8 @@ Global
 		Release Croatian|x64 = Release Croatian|x64
 		Release Czech|Win32 = Release Czech|Win32
 		Release Czech|x64 = Release Czech|x64
+		Release Danish|Win32 = Release Danish|Win32
+		Release Danish|x64 = Release Danish|x64
 		Release Dutch|Win32 = Release Dutch|Win32
 		Release Dutch|x64 = Release Dutch|x64
 		Release English (British)|Win32 = Release English (British)|Win32
@@ -122,6 +124,10 @@ Global
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Czech|Win32.Build.0 = Release Czech|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Czech|x64.ActiveCfg = Release Czech|x64
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Czech|x64.Build.0 = Release Czech|x64
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Danish|Win32.ActiveCfg = Release Danish|Win32
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Danish|Win32.Build.0 = Release Danish|Win32
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Danish|x64.ActiveCfg = Release Danish|x64
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Danish|x64.Build.0 = Release Danish|x64
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Dutch|Win32.ActiveCfg = Release Dutch|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Dutch|Win32.Build.0 = Release Dutch|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Dutch|x64.ActiveCfg = Release Dutch|x64

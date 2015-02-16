@@ -163,6 +163,7 @@ Name: be;    MessagesFile: Languages\Belarusian.isl
 Name: bn;    MessagesFile: Languages\Bengali.islu
 Name: ca;    MessagesFile: compiler:Languages\Catalan.isl
 Name: cs;    MessagesFile: compiler:Languages\Czech.isl
+Name: da;    MessagesFile: compiler:Languages\Danish.isl
 Name: de;    MessagesFile: compiler:Languages\German.isl
 Name: el;    MessagesFile: compiler:Languages\Greek.isl
 Name: en_GB; MessagesFile: Languages\EnglishBritish.isl

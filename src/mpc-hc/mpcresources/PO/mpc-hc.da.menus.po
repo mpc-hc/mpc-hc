@@ -1,0 +1,692 @@
+# MPC-HC - Strings extracted from menus
+# Copyright (C) 2002 - 2015 see Authors.txt
+# This file is distributed under the same license as the MPC-HC package.
+# Translators:
+# Jatyrael <cbf_x@hotmail.com>, 2014
+# Xebika <fidodkk@gmail.com>, 2015
+# scootergrisen, 2015
+msgid ""
+msgstr ""
+"Project-Id-Version: MPC-HC\n"
+"POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
+"PO-Revision-Date: 2015-03-02 16:51+0000\n"
+"Last-Translator: scootergrisen\n"
+"Language-Team: Danish (http://www.transifex.com/projects/p/mpc-hc/language/da/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: da\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgctxt "POPUP"
+msgid "&File"
+msgstr "&Filer"
+
+msgctxt "ID_FILE_OPENQUICK"
+msgid "&Quick Open File..."
+msgstr "&Åbn fil hurtigt..."
+
+msgctxt "ID_FILE_OPENMEDIA"
+msgid "&Open File..."
+msgstr "&Åbn fil..."
+
+msgctxt "ID_FILE_OPENDVDBD"
+msgid "Open &DVD/BD..."
+msgstr "Åbn &DVD/BD..."
+
+msgctxt "ID_FILE_OPENDEVICE"
+msgid "Open De&vice..."
+msgstr "Åbn &enhed..."
+
+msgctxt "ID_FILE_OPENDIRECTORY"
+msgid "Open Dir&ectory..."
+msgstr "Åbn &mappe..."
+
+msgctxt "ID_FILE_OPENDISC"
+msgid "O&pen Disc"
+msgstr "Å&bn disk"
+
+msgctxt "ID_RECENT_FILES"
+msgid "Recent &Files"
+msgstr "Seneste &filer"
+
+msgctxt "ID_FILE_CLOSE_AND_RESTORE"
+msgid "&Close"
+msgstr "&Luk"
+
+msgctxt "ID_FILE_SAVE_COPY"
+msgid "&Save a Copy..."
+msgstr "&Gem en kopi"
+
+msgctxt "ID_FILE_SAVE_IMAGE"
+msgid "Save &Image..."
+msgstr "Gem b&illede..."
+
+msgctxt "ID_FILE_SAVE_THUMBNAILS"
+msgid "Save &Thumbnails..."
+msgstr "Gem &miniaturer..."
+
+msgctxt "ID_FILE_LOAD_SUBTITLE"
+msgid "&Load Subtitle..."
+msgstr "&Indlæs undertekst..."
+
+msgctxt "ID_FILE_SAVE_SUBTITLE"
+msgid "Save S&ubtitle..."
+msgstr "Gem u&ndertekst..."
+
+msgctxt "POPUP"
+msgid "Subtitle Data&base"
+msgstr "U&ndertekst-database"
+
+msgctxt "ID_FILE_ISDB_SEARCH"
+msgid "&Search..."
+msgstr "&Søg..."
+
+msgctxt "ID_FILE_ISDB_UPLOAD"
+msgid "&Upload..."
+msgstr "U&pload..."
+
+msgctxt "ID_FILE_ISDB_DOWNLOAD"
+msgid "&Download..."
+msgstr "&Download..."
+
+msgctxt "ID_FILE_PROPERTIES"
+msgid "P&roperties"
+msgstr "E&genskaber"
+
+msgctxt "ID_FILE_EXIT"
+msgid "E&xit"
+msgstr "A&fslut"
+
+msgctxt "POPUP"
+msgid "&View"
+msgstr "&Vis"
+
+msgctxt "ID_VIEW_CAPTIONMENU"
+msgid "Caption&&Menu"
+msgstr "Titellinje og menu"
+
+msgctxt "ID_VIEW_SEEKER"
+msgid "See&k Bar"
+msgstr "For&løbslinje"
+
+msgctxt "ID_VIEW_CONTROLS"
+msgid "&Controls"
+msgstr "&Knapper"
+
+msgctxt "ID_VIEW_INFORMATION"
+msgid "&Information"
+msgstr "&Oplysninger"
+
+msgctxt "ID_VIEW_STATISTICS"
+msgid "&Statistics"
+msgstr "&Statistik"
+
+msgctxt "ID_VIEW_STATUS"
+msgid "St&atus"
+msgstr "St&atus"
+
+msgctxt "ID_VIEW_SUBRESYNC"
+msgid "Su&bresync"
+msgstr "Un&dertekst gensynkronisering"
+
+msgctxt "ID_VIEW_PLAYLIST"
+msgid "Pla&ylist"
+msgstr "Afs&pilningsliste"
+
+msgctxt "ID_VIEW_CAPTURE"
+msgid "Captu&re"
+msgstr "Opta&g"
+
+msgctxt "ID_VIEW_NAVIGATION"
+msgid "Na&vigation"
+msgstr "Na&vigation"
+
+msgctxt "ID_VIEW_DEBUGSHADERS"
+msgid "&Debug Shaders"
+msgstr "&Fejlfind shadere"
+
+msgctxt "POPUP"
+msgid "&Presets..."
+msgstr "&Forudindstillinger..."
+
+msgctxt "ID_VIEW_PRESETS_MINIMAL"
+msgid "&Minimal"
+msgstr "&Minimal"
+
+msgctxt "ID_VIEW_PRESETS_COMPACT"
+msgid "&Compact"
+msgstr "&Kompakt"
+
+msgctxt "ID_VIEW_PRESETS_NORMAL"
+msgid "&Normal"
+msgstr "&Standard"
+
+msgctxt "ID_VIEW_FULLSCREEN"
+msgid "F&ull Screen"
+msgstr "F&uldskærm"
+
+msgctxt "POPUP"
+msgid "&Zoom"
+msgstr "&Zoom"
+
+msgctxt "ID_VIEW_ZOOM_50"
+msgid "&50%"
+msgstr "&50%"
+
+msgctxt "ID_VIEW_ZOOM_100"
+msgid "&100%"
+msgstr "&100%"
+
+msgctxt "ID_VIEW_ZOOM_200"
+msgid "&200%"
+msgstr "&200%"
+
+msgctxt "ID_VIEW_ZOOM_AUTOFIT"
+msgid "Auto &Fit"
+msgstr "Automatisk &tilpasning"
+
+msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
+msgid "Auto Fit (&Larger Only)"
+msgstr "Automatisk tilpasning (&Kun større)"
+
+msgctxt "POPUP"
+msgid "R&enderer Settings"
+msgstr "R&enderer indstillinger"
+
+msgctxt "ID_VIEW_TEARING_TEST"
+msgid "&Tearing Test"
+msgstr "&Iturivningstest"
+
+msgctxt "ID_VIEW_DISPLAYSTATS"
+msgid "&Display Stats"
+msgstr "Vis statistik"
+
+msgctxt "ID_VIEW_REMAINING_TIME"
+msgid "&Remaining Time"
+msgstr "&Resterende tid"
+
+msgctxt "POPUP"
+msgid "&Output Range"
+msgstr "&Output område"
+
+msgctxt "ID_VIEW_EVROUTPUTRANGE_0_255"
+msgid "&0 - 255"
+msgstr "&0 - 255"
+
+msgctxt "ID_VIEW_EVROUTPUTRANGE_16_235"
+msgid "&16 - 235"
+msgstr "&16 - 235"
+
+msgctxt "POPUP"
+msgid "&Presentation"
+msgstr "&Præsentation"
+
+msgctxt "ID_VIEW_D3DFULLSCREEN"
+msgid "D3D Fullscreen &Mode"
+msgstr "D3D fuldskærm &tilstand"
+
+msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
+msgid "D3D Fullscreen &GUI Support"
+msgstr "D3D fuldskærm &GUI understøttelse"
+
+msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
+msgid "10-bit &RGB Output"
+msgstr "10-bit &RGB output"
+
+msgctxt "ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION"
+msgid "Force 10-bit RGB &Input"
+msgstr "Tvunget 10-bit RGB &input"
+
+msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
+msgid "&Full Floating Point Processing"
+msgstr "&Fuld flydende kommatal beregning"
+
+msgctxt "ID_VIEW_HALFFLOATINGPOINTPROCESSING"
+msgid "&Half Floating Point Processing"
+msgstr "&Halv flydende kommatal beregning"
+
+msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
+msgid "Disable desktop composition (&Aero)"
+msgstr "Deaktivér skrivebordsopbygning (&Aero)"
+
+msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
+msgid "Enable Frame Time &Correction"
+msgstr "Aktivér billedtid &rettelse"
+
+msgctxt "POPUP"
+msgid "&Color Management"
+msgstr "&Farvehåndtering"
+
+msgctxt "ID_VIEW_CM_ENABLE"
+msgid "&Enable"
+msgstr "&Aktivér"
+
+msgctxt "POPUP"
+msgid "&Input Type"
+msgstr "&Input type"
+
+msgctxt "ID_VIEW_CM_INPUT_AUTO"
+msgid "&Auto-Detect"
+msgstr "Automatisk identificering"
+
+msgctxt "ID_VIEW_CM_INPUT_HDTV"
+msgid "&HDTV"
+msgstr "&HDTV"
+
+msgctxt "ID_VIEW_CM_INPUT_SDTV_NTSC"
+msgid "SDTV &NTSC"
+msgstr "SDTV &NTSC"
+
+msgctxt "ID_VIEW_CM_INPUT_SDTV_PAL"
+msgid "SDTV &PAL"
+msgstr "SDTV &PAL"
+
+msgctxt "POPUP"
+msgid "Ambient &Light"
+msgstr "Omgivende &lys"
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
+msgid "&Bright (2.2 Gamma)"
+msgstr "&Lyst (2,2 gamma)"
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DIM"
+msgid "&Dim (2.35 Gamma)"
+msgstr "Nedton (2,35 gamma)"
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DARK"
+msgid "D&ark (2.4 Gamma)"
+msgstr "M&ørkt (2,4 gamma)"
+
+msgctxt "POPUP"
+msgid "&Rendering Intent"
+msgstr "&Gengivelsesformål"
+
+msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
+msgid "&Perceptual"
+msgstr "&Sanselig"
+
+msgctxt "ID_VIEW_CM_INTENT_RELATIVECOLORIMETRIC"
+msgid "&Relative Colorimetric"
+msgstr "&Relativ farvemåling"
+
+msgctxt "ID_VIEW_CM_INTENT_SATURATION"
+msgid "&Saturation"
+msgstr "&Farvemætning"
+
+msgctxt "ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC"
+msgid "&Absolute Colorimetric"
+msgstr "&Absolut farvemåling"
+
+msgctxt "POPUP"
+msgid "&VSync"
+msgstr "&Lodret synkronisering"
+
+msgctxt "ID_VIEW_VSYNC"
+msgid "&VSync"
+msgstr "&Lodret synkronisering"
+
+msgctxt "ID_VIEW_VSYNCACCURATE"
+msgid "&Accurate VSync"
+msgstr "&Præcis lodret synkronisering"
+
+msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
+msgid "A&lternative VSync"
+msgstr "A&lternativ lodret synkronisering"
+
+msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
+msgid "&Decrease VSync Offset"
+msgstr "Formindsk forskydning af lodret synkronisering"
+
+msgctxt "ID_VIEW_VSYNCOFFSET_INCREASE"
+msgid "&Increase VSync Offset"
+msgstr "Forøg forskydning af lodret synkronisering"
+
+msgctxt "POPUP"
+msgid "&GPU Control"
+msgstr "&GPU styring"
+
+msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
+msgid "Flush GPU &before VSync"
+msgstr "Tøm GPU &før lodret synkronisering"
+
+msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
+msgid "Flush GPU &after Present"
+msgstr "Tøm GPU &efter nuværende"
+
+msgctxt "ID_VIEW_FLUSHGPU_WAIT"
+msgid "&Wait for flushes"
+msgstr "&Vent på tømninger"
+
+msgctxt "POPUP"
+msgid "R&eset"
+msgstr "N&ulstil"
+
+msgctxt "ID_VIEW_RESET_DEFAULT"
+msgid "Reset to &default renderer settings"
+msgstr "Nulstil til &standard gengivelsesindstillinger"
+
+msgctxt "ID_VIEW_RESET_OPTIMAL"
+msgid "Reset to &optimal renderer settings"
+msgstr "Nulstil til &optimale gengivelsesindstillinger"
+
+msgctxt "POPUP"
+msgid "Video &Frame"
+msgstr "Video&billede"
+
+msgctxt "ID_VIEW_VF_HALF"
+msgid "&Half Size"
+msgstr "&Halv størrelse"
+
+msgctxt "ID_VIEW_VF_NORMAL"
+msgid "&Normal Size"
+msgstr "&Standard størrelse"
+
+msgctxt "ID_VIEW_VF_DOUBLE"
+msgid "&Double Size"
+msgstr "&Dobbelt størrelse"
+
+msgctxt "ID_VIEW_VF_STRETCH"
+msgid "&Stretch To Window"
+msgstr "&Stræk til vindue"
+
+msgctxt "ID_VIEW_VF_FROMINSIDE"
+msgid "Touch Window From &Inside"
+msgstr "Rør vindue &indefra"
+
+msgctxt "ID_VIEW_VF_ZOOM1"
+msgid "Zoom &1"
+msgstr "Zoom &1"
+
+msgctxt "ID_VIEW_VF_ZOOM2"
+msgid "Zoom &2"
+msgstr "Zoom &2"
+
+msgctxt "ID_VIEW_VF_FROMOUTSIDE"
+msgid "Touch Window From &Outside"
+msgstr "Rør vindue &udefra"
+
+msgctxt "ID_VIEW_VF_KEEPASPECTRATIO"
+msgid "&Keep Aspect Ratio"
+msgstr "Hold billedformat"
+
+msgctxt "POPUP"
+msgid "Override &Aspect Ratio"
+msgstr "Tilsidesæt &billedformat"
+
+msgctxt "ID_ASPECTRATIO_SOURCE"
+msgid "&Default"
+msgstr "&Standard"
+
+msgctxt "ID_ASPECTRATIO_4_3"
+msgid "&4:3"
+msgstr "&4:3"
+
+msgctxt "ID_ASPECTRATIO_5_4"
+msgid "&5:4"
+msgstr "&5:4"
+
+msgctxt "ID_ASPECTRATIO_16_9"
+msgid "&16:9"
+msgstr "&16:9"
+
+msgctxt "ID_ASPECTRATIO_235_100"
+msgid "&235:100"
+msgstr "&235:100"
+
+msgctxt "ID_ASPECTRATIO_185_100"
+msgid "1&85:100"
+msgstr "1&85:100"
+
+msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
+msgid "&Correct Monitor/Desktop AR Diff"
+msgstr "&Korriger monitor/skrivebord AR forskel"
+
+msgctxt "POPUP"
+msgid "Pa&n&&Scan"
+msgstr "Pa&norering og scanning"
+
+msgctxt "ID_VIEW_INCSIZE"
+msgid "&Increase Size"
+msgstr "&Større"
+
+msgctxt "ID_VIEW_DECSIZE"
+msgid "&Decrease Size"
+msgstr "&Mindre"
+
+msgctxt "ID_VIEW_INCWIDTH"
+msgid "I&ncrease Width"
+msgstr "B&reddere"
+
+msgctxt "ID_VIEW_DECWIDTH"
+msgid "D&ecrease Width"
+msgstr "S&mallere"
+
+msgctxt "ID_VIEW_INCHEIGHT"
+msgid "In&crease Height"
+msgstr "Hø&jere"
+
+msgctxt "ID_VIEW_DECHEIGHT"
+msgid "Decre&ase Height"
+msgstr "Laver&e"
+
+msgctxt "ID_PANSCAN_MOVERIGHT"
+msgid "Move &Right"
+msgstr "Flyt til &højre"
+
+msgctxt "ID_PANSCAN_MOVELEFT"
+msgid "Move &Left"
+msgstr "Flyt til &venstre"
+
+msgctxt "ID_PANSCAN_MOVEUP"
+msgid "Move &Up"
+msgstr "Flyt &op"
+
+msgctxt "ID_PANSCAN_MOVEDOWN"
+msgid "Move &Down"
+msgstr "Flyt &ned"
+
+msgctxt "ID_PANSCAN_CENTER"
+msgid "Cen&ter"
+msgstr "Mid&ti"
+
+msgctxt "ID_VIEW_RESET"
+msgid "Re&set"
+msgstr "Nu&lstil"
+
+msgctxt "POPUP"
+msgid "On &Top"
+msgstr "&Øverst"
+
+msgctxt "ID_ONTOP_DEFAULT"
+msgid "&Default"
+msgstr "&Standard"
+
+msgctxt "ID_ONTOP_ALWAYS"
+msgid "&Always"
+msgstr "&Altid"
+
+msgctxt "ID_ONTOP_WHILEPLAYING"
+msgid "While &Playing"
+msgstr "Under &afspilning"
+
+msgctxt "ID_ONTOP_WHILEPLAYINGVIDEO"
+msgid "While Playing &Video"
+msgstr "Under afspilning af &video"
+
+msgctxt "ID_VIEW_OPTIONS"
+msgid "&Options..."
+msgstr "&Indstillinger..."
+
+msgctxt "POPUP"
+msgid "&Play"
+msgstr "&Afspil"
+
+msgctxt "ID_PLAY_PLAYPAUSE"
+msgid "&Play/Pause"
+msgstr "&Afspil/Pause"
+
+msgctxt "ID_PLAY_STOP"
+msgid "&Stop"
+msgstr "&Stop"
+
+msgctxt "ID_PLAY_FRAMESTEP"
+msgid "F&rame Step"
+msgstr "F&rame step"
+
+msgctxt "ID_PLAY_DECRATE"
+msgid "&Decrease Rate"
+msgstr "&Langsommere"
+
+msgctxt "ID_PLAY_INCRATE"
+msgid "&Increase Rate"
+msgstr "&Hurtigere"
+
+msgctxt "ID_PLAY_RESETRATE"
+msgid "R&eset Rate"
+msgstr "N&ulstil hastighed"
+
+msgctxt "ID_FILTERS"
+msgid "&Filters"
+msgstr "&Filtre"
+
+msgctxt "ID_SHADERS"
+msgid "S&haders"
+msgstr "S&haders"
+
+msgctxt "ID_AUDIOS"
+msgid "&Audio"
+msgstr "&Lyd"
+
+msgctxt "ID_SUBTITLES"
+msgid "Su&btitles"
+msgstr "Un&dertekster"
+
+msgctxt "ID_VIDEO_STREAMS"
+msgid "&Video Stream"
+msgstr "&Video-stream"
+
+msgctxt "POPUP"
+msgid "&Volume"
+msgstr "&Lydstyrke"
+
+msgctxt "ID_VOLUME_UP"
+msgid "&Up"
+msgstr "&Op"
+
+msgctxt "ID_VOLUME_DOWN"
+msgid "&Down"
+msgstr "&Ned"
+
+msgctxt "ID_VOLUME_MUTE"
+msgid "&Mute"
+msgstr "&Afbryd"
+
+msgctxt "POPUP"
+msgid "Af&ter Playback"
+msgstr "Ef&ter afspilning"
+
+msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgid "&Exit"
+msgstr "&Afslut"
+
+msgctxt "ID_AFTERPLAYBACK_STANDBY"
+msgid "&Stand By"
+msgstr "&Standby"
+
+msgctxt "ID_AFTERPLAYBACK_HIBERNATE"
+msgid "&Hibernate"
+msgstr "&Dvale"
+
+msgctxt "ID_AFTERPLAYBACK_SHUTDOWN"
+msgid "Shut&down"
+msgstr "&Luk"
+
+msgctxt "ID_AFTERPLAYBACK_LOGOFF"
+msgid "Log &Off"
+msgstr "Log &af"
+
+msgctxt "ID_AFTERPLAYBACK_LOCK"
+msgid "&Lock"
+msgstr "&Lås"
+
+msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
+msgid "Turn off the &monitor"
+msgstr "Deaktivér &monitoren"
+
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "Afspil &næste fil i mappen"
+
+msgctxt "POPUP"
+msgid "&Navigate"
+msgstr "&Naviger"
+
+msgctxt "ID_NAVIGATE_SKIPBACK"
+msgid "&Previous"
+msgstr "&Forrige"
+
+msgctxt "ID_NAVIGATE_SKIPFORWARD"
+msgid "&Next"
+msgstr "&Næste"
+
+msgctxt "ID_NAVIGATE_GOTO"
+msgid "&Go To..."
+msgstr "&Gå til..."
+
+msgctxt "ID_NAVIGATE_TITLEMENU"
+msgid "&Title Menu"
+msgstr "&Titelmenu"
+
+msgctxt "ID_NAVIGATE_ROOTMENU"
+msgid "&Root Menu"
+msgstr "&Rodmenu"
+
+msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
+msgid "&Subtitle Menu"
+msgstr "&Undertekstmenu"
+
+msgctxt "ID_NAVIGATE_AUDIOMENU"
+msgid "&Audio Menu"
+msgstr "&Lydmenu"
+
+msgctxt "ID_NAVIGATE_ANGLEMENU"
+msgid "An&gle Menu"
+msgstr "Vi&nkelmenu"
+
+msgctxt "ID_NAVIGATE_CHAPTERMENU"
+msgid "&Chapter Menu"
+msgstr "&Kapitelmenu"
+
+msgctxt "ID_FAVORITES"
+msgid "F&avorites"
+msgstr "F&avoritter"
+
+msgctxt "POPUP"
+msgid "&Help"
+msgstr "&Hjælp"
+
+msgctxt "ID_HELP_HOMEPAGE"
+msgid "&Home Page"
+msgstr "&Hjemmeside"
+
+msgctxt "ID_HELP_CHECKFORUPDATE"
+msgid "Check for &updates"
+msgstr "Søg efter &opdateringer"
+
+msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
+msgid "&Command Line Switches"
+msgstr "&Kommandolinje kontakter"
+
+msgctxt "ID_HELP_TOOLBARIMAGES"
+msgid "Download &Toolbar Images"
+msgstr "Download &værktøjslinje billeder"
+
+msgctxt "ID_HELP_DONATE"
+msgid "&Donate"
+msgstr "&Donér"
+
+msgctxt "ID_HELP_ABOUT"
+msgid "&About..."
+msgstr "&Om..."
+
