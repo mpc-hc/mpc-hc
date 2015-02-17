@@ -856,15 +856,14 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileString(IDS_R_COMMANDS, nullptr, nullptr);
     POSITION pos = wmcmds.GetHeadPosition();
     for (int i = 0; pos;) {
-        wmcmd& wc = wmcmds.GetNext(pos);
+        const wmcmd& wc = wmcmds.GetNext(pos);
         if (wc.IsModified()) {
             CString str;
             str.Format(_T("CommandMod%d"), i);
             CString str2;
-            str2.Format(_T("%u %x %x %s %d %u %u %u"),
-                        wc.cmd, wc.fVirt, wc.key,
-                        _T("\"") + CString(wc.rmcmd) + _T("\""), wc.rmrepcnt,
-                        wc.mouse, wc.appcmd, wc.mouseFS);
+            str2.Format(_T("%hu %hx %hx \"%S\" %d %u %u %u"),
+                        wc.cmd, (WORD)wc.fVirt, wc.key, wc.rmcmd,
+                        wc.rmrepcnt, wc.mouse, wc.appcmd, wc.mouseFS);
             pApp->WriteProfileString(IDS_R_COMMANDS, str, str2);
             i++;
         }
@@ -1444,29 +1443,35 @@ void CAppSettings::LoadSettings()
         if (str2.IsEmpty()) {
             break;
         }
-        int cmd, fVirt, key, repcnt;
-        UINT mouse, mouseFS, appcmd;
-        TCHAR buff[128];
+
+        wmcmd tmp;
         int n;
-        if (5 > (n = _stscanf_s(str2, _T("%d %x %x %s %d %u %u %u"), &cmd, &fVirt, &key, buff, _countof(buff), &repcnt, &mouse, &appcmd, &mouseFS))) {
+        int fVirt = 0;
+        if (5 > (n = _stscanf_s(str2, _T("%hu %x %hx %S %d %u %u %u"),
+                                &tmp.cmd, &fVirt, &tmp.key, tmp.rmcmd.GetBuffer(128), 128,
+                                &tmp.rmrepcnt, &tmp.mouse, &tmp.appcmd, &tmp.mouseFS))) {
             break;
         }
-        if (POSITION pos = wmcmds.Find(cmd)) {
+        tmp.rmcmd.ReleaseBuffer();
+        if (n >= 2) {
+            tmp.fVirt = (BYTE)fVirt;
+        }
+        if (POSITION pos = wmcmds.Find(tmp)) {
             wmcmd& wc = wmcmds.GetAt(pos);
-            wc.cmd = cmd;
-            wc.fVirt = fVirt;
-            wc.key = key;
+            wc.cmd = tmp.cmd;
+            wc.fVirt = tmp.fVirt;
+            wc.key = tmp.key;
             if (n >= 6) {
-                wc.mouse = mouse;
+                wc.mouse = tmp.mouse;
             }
             if (n >= 7) {
-                wc.appcmd = appcmd;
+                wc.appcmd = tmp.appcmd;
             }
             // If there is no distinct bindings for windowed and
             // fullscreen modes we use the same for both.
-            wc.mouseFS = (n >= 8) ? mouseFS : wc.mouse;
-            wc.rmcmd = CStringA(buff).Trim('\"');
-            wc.rmrepcnt = repcnt;
+            wc.mouseFS = (n >= 8) ? tmp.mouseFS : wc.mouse;
+            wc.rmcmd = tmp.rmcmd.Trim('\"');
+            wc.rmrepcnt = tmp.rmrepcnt;
         }
     }
 

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -274,35 +274,31 @@ public:
     CStringA rmcmd;
     int rmrepcnt;
 
-    wmcmd(WORD cmd = 0)
-        : appcmd(0)
-        , appcmdorg(0)
-        , dwname(0)
-        , mouse(NONE)
-        , mouseorg(NONE)
-        , mouseFS(NONE)
-        , mouseFSorg(NONE)
-        , rmrepcnt(0) {
-        this->cmd = cmd;
-        this->key = 0;
-        this->fVirt = 0;
-        ZeroMemory(&backup, sizeof(backup));
+    explicit wmcmd(WORD cmd = 0)
+        : ACCEL( { 0, 0, cmd })
+    , backup({ 0, 0, cmd })
+    , appcmdorg(0)
+    , mouseorg(NONE)
+    , mouseFSorg(NONE)
+    , dwname(0)
+    , appcmd(0)
+    , mouse(NONE)
+    , mouseFS(NONE)
+    , rmrepcnt(0) {
     }
 
     wmcmd(WORD cmd, WORD key, BYTE fVirt, DWORD dwname, UINT appcmd = 0, UINT mouse = NONE, UINT mouseFS = NONE, LPCSTR rmcmd = "", int rmrepcnt = 5)
-        : appcmd(appcmd)
-        , appcmdorg(appcmd)
-        , dwname(dwname)
-        , mouse(mouse)
-        , mouseorg(mouse)
-        , mouseFS(mouseFS)
-        , mouseFSorg(mouseFS)
-        , rmcmd(rmcmd)
-        , rmrepcnt(rmrepcnt) {
-        this->cmd = cmd;
-        this->key = key;
-        this->fVirt = fVirt;
-        backup = *this;
+        : ACCEL( { fVirt, key, cmd })
+    , backup({ fVirt, key, cmd })
+    , appcmdorg(appcmd)
+    , mouseorg(mouse)
+    , mouseFSorg(mouseFS)
+    , dwname(dwname)
+    , appcmd(appcmd)
+    , mouse(mouse)
+    , mouseFS(mouseFS)
+    , rmcmd(rmcmd)
+    , rmrepcnt(rmrepcnt) {
     }
 
     bool operator == (const wmcmd& wc) const {
