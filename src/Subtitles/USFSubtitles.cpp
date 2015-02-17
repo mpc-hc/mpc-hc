@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -315,7 +315,7 @@ bool CUSFSubtitles::ConvertToSTS(CSimpleTextSubtitle& sts)
         if (!s->name.CompareNoCase(L"Default") && !s->fontstyle.wrap.IsEmpty()) {
             sts.m_defaultWrapStyle =
                 !s->fontstyle.wrap.CompareNoCase(L"no") ? 2 :
-                !s->fontstyle.wrap.CompareNoCase(L"auto") ? 1 :
+                /*!s->fontstyle.wrap.CompareNoCase(L"auto") ? 1 :*/
                 1;
         }
 
@@ -428,7 +428,7 @@ bool CUSFSubtitles::ConvertToSTS(CSimpleTextSubtitle& sts)
                 if (s->name == t->style && !s->fontstyle.wrap.IsEmpty()) {
                     int WrapStyle =
                         !s->fontstyle.wrap.CompareNoCase(L"no") ? 2 :
-                        !s->fontstyle.wrap.CompareNoCase(L"auto") ? 1 :
+                        /*!s->fontstyle.wrap.CompareNoCase(L"auto") ? 1 :*/
                         1;
 
                     if (WrapStyle != sts.m_defaultWrapStyle) {
