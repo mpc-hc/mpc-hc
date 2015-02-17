@@ -18,15 +18,16 @@ REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 SETLOCAL
-PUSHD %~dp0
+SET "FILE_DIR=%~dp0"
+PUSHD "%FILE_DIR%"
 
 SET ROOT_DIR=..\..\..
-SET "COMMON=%~dp0%ROOT_DIR%\common.bat"
+SET "COMMON=%FILE_DIR%%ROOT_DIR%\common.bat"
 
-CALL %COMMON% :SubSetPath
-IF %ERRORLEVEL% NEQ 0 EXIT /B
-CALL %COMMON% :SubDoesExist gcc.exe
-IF %ERRORLEVEL% NEQ 0 EXIT /B
+CALL "%COMMON%" :SubSetPath
+IF %ERRORLEVEL% NEQ 0 EXIT /B 1
+CALL "%COMMON%" :SubDoesExist gcc.exe
+IF %ERRORLEVEL% NEQ 0 EXIT /B 1
 
 SET ARG=/%*
 SET ARG=%ARG:/=%
@@ -107,8 +108,8 @@ EXIT /B
 IF %ERRORLEVEL% NEQ 0 EXIT /B
 TITLE Compiling LAV Filters %COMPILER% [FINISHED]
 SET END_TIME=%TIME%
-CALL %COMMON% :SubGetDuration
-CALL %COMMON% :SubMsg "INFO" "LAV Filters compilation started on %START_DATE%-%START_TIME% and completed on %DATE%-%END_TIME% [%DURATION%]"
+CALL "%COMMON%" :SubGetDuration
+CALL "%COMMON%" :SubMsg "INFO" "LAV Filters compilation started on %START_DATE%-%START_TIME% and completed on %DATE%-%END_TIME% [%DURATION%]"
 POPD
 ENDLOCAL
 EXIT /B
@@ -122,7 +123,7 @@ IF /I "%ARCH%" == "x86" (SET "ARCHVS=Win32") ELSE (SET "ARCHVS=x64")
 REM Build FFmpeg
 sh build_ffmpeg.sh %ARCH% %BUILDTYPE%
 IF %ERRORLEVEL% NEQ 0 (
-  CALL %COMMON% :SubMsg "ERROR" "'sh build_ffmpeg.sh %ARCH% %BUILDTYPE%' failed!"
+  CALL "%COMMON%" :SubMsg "ERROR" "'sh build_ffmpeg.sh %ARCH% %BUILDTYPE%' failed!"
   EXIT /B
 )
 
@@ -133,7 +134,7 @@ IF /I "%ARCH%" == "x86" (SET "ARCHVS=Win32") ELSE (SET "ARCHVS=x64")
 
 MSBuild.exe LAVFilters.sln /nologo /consoleloggerparameters:Verbosity=minimal /nodeReuse:true /m /t:%BUILDTYPE% /property:Configuration=%RELEASETYPE%;Platform=%ARCHVS%
 IF %ERRORLEVEL% NEQ 0 (
-  CALL %COMMON% :SubMsg "ERROR" "'MSBuild.exe LAVFilters.sln /nologo /consoleloggerparameters:Verbosity=minimal /nodeReuse:true /m /t:%BUILDTYPE% /property:Configuration=%RELEASETYPE%;Platform=%ARCHVS%' failed!"
+  CALL "%COMMON%" :SubMsg "ERROR" "'MSBuild.exe LAVFilters.sln /nologo /consoleloggerparameters:Verbosity=minimal /nodeReuse:true /m /t:%BUILDTYPE% /property:Configuration=%RELEASETYPE%;Platform=%ARCHVS%' failed!"
   EXIT /B
 )
 
@@ -185,7 +186,7 @@ EXIT /B
 ECHO Not all build dependencies were found.
 ECHO.
 ECHO See "%ROOT_DIR%\docs\Compilation.txt" for more information.
-CALL %COMMON% :SubMsg "ERROR" "LAV Filters compilation failed!" & EXIT /B 1
+CALL "%COMMON%" :SubMsg "ERROR" "LAV Filters compilation failed!" & EXIT /B 1
 
 
 :UnsupportedSwitch
@@ -195,7 +196,7 @@ ECHO.
 ECHO "%~nx0 %*"
 ECHO.
 ECHO Run "%~nx0 help" for details about the commandline switches.
-CALL %COMMON% :SubMsg "ERROR" "LAV Filters compilation failed!" & EXIT /B 1
+CALL "%COMMON%" :SubMsg "ERROR" "LAV Filters compilation failed!" & EXIT /B 1
 
 
 :ShowHelp

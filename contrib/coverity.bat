@@ -18,13 +18,14 @@ REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 SETLOCAL
+SET "FILE_DIR=%~dp0"
+PUSHD "%FILE_DIR%"
 
-PUSHD %~dp0
-SET "COMMMON=%~dp0..\common.bat"
+SET "COMMON=%FILE_DIR%..\common.bat"
 
 IF EXIST "..\build.user.bat" CALL "..\build.user.bat"
 
-IF NOT EXIST "%COV_PATH%" (CALL %COMMON% :SubMsg "ERROR" "Coverity not found in '%COV_PATH%'" & EXIT /B)
+IF NOT EXIST "%COV_PATH%" (CALL "%COMMON%" :SubMsg "ERROR" "Coverity not found in '%COV_PATH%'" & EXIT /B)
 
 
 :Cleanup
@@ -44,12 +45,12 @@ CALL "..\build.bat" clean Api Both Release silent
 "%COV_PATH%\bin\cov-build.exe" --dir cov-int "..\build.bat" Build Filters Both Release silent
 "%COV_PATH%\bin\cov-build.exe" --dir cov-int "..\build.bat" Build IconLib Both Release silent
 "%COV_PATH%\bin\cov-build.exe" --dir cov-int "..\build.bat" Build Api Both Release silent
-IF %ERRORLEVEL% NEQ 0 (CALL %COMMON% :SubMsg "ERROR" "Build failed." & EXIT /B)
+IF %ERRORLEVEL% NEQ 0 (CALL "%COMMON%" :SubMsg "ERROR" "Build failed." & EXIT /B)
 
 
 :tar
-CALL %COMMON% :SubDetectTar
-IF NOT EXIST "%TAR%" (CALL %COMMON% :SubMsg "WARNING" "tar not found. Trying 7-zip..." & GOTO SevenZip)
+CALL "%COMMON%" :SubDetectTar
+IF NOT EXIST "%TAR%" (CALL "%COMMON%" :SubMsg "WARNING" "tar not found. Trying 7-zip..." & GOTO SevenZip)
 
 SET "FILE_NAME=MPC-HC.tar.xz"
 SET "XZ_OPT=-9e"
@@ -64,37 +65,37 @@ IF %ERRORLEVEL% NEQ 0 (
   %TAR% cJf %FILE_NAME% cov-int
 )
 
-IF %ERRORLEVEL% NEQ 0 (CALL %COMMON% :SubMsg "WARNING" "tar failed. Trying 7-zip..." & GOTO SevenZip)
+IF %ERRORLEVEL% NEQ 0 (CALL "%COMMON%" :SubMsg "WARNING" "tar failed. Trying 7-zip..." & GOTO SevenZip)
 GOTO Upload
 
 
 :SevenZip
-CALL %COMMON% :SubDetectSevenzipPath
-IF NOT EXIST "%SEVENZIP%" (CALL %COMMON% :SubMsg "ERROR" "7-zip not found." & EXIT /B)
+CALL "%COMMON%" :SubDetectSevenzipPath
+IF NOT EXIST "%SEVENZIP%" (CALL "%COMMON%" :SubMsg "ERROR" "7-zip not found." & EXIT /B)
 
 SET "FILE_NAME=MPC-HC.tgz"
 REM 7-Zip doesn't support tarball compliant LZMA2 archives, just use tar/gzip.
 "%SEVENZIP%" a -ttar "MPC-HC.tar" "cov-int"
-IF %ERRORLEVEL% NEQ 0 (CALL %COMMON% :SubMsg "ERROR" "7-zip failed." & EXIT /B)
+IF %ERRORLEVEL% NEQ 0 (CALL "%COMMON%" :SubMsg "ERROR" "7-zip failed." & EXIT /B)
 "%SEVENZIP%" a -tgzip "%FILE_NAME%" "MPC-HC.tar"
-IF %ERRORLEVEL% NEQ 0 (CALL %COMMON% :SubMsg "ERROR" "7-zip failed." & EXIT /B)
+IF %ERRORLEVEL% NEQ 0 (CALL "%COMMON%" :SubMsg "ERROR" "7-zip failed." & EXIT /B)
 IF EXIST "MPC-HC.tar" DEL "MPC-HC.tar"
 GOTO Upload
 
 
 :Upload
 CALL "..\build.bat" GetVersion
-CALL %COMMON% :SubDetectCurl
-IF NOT EXIST "%CURL%" (CALL %COMMON% :SubMsg "WARNING" "curl not found. Upload aborted." & GOTO End)
-IF NOT DEFINED COV_TOKEN (CALL %COMMON% :SubMsg "WARNING" "COV_TOKEN not defined. Upload aborted." & GOTO End)
-IF NOT DEFINED COV_EMAIL (CALL %COMMON% :SubMsg "WARNING" "COV_EMAIL not defined. Upload aborted." & GOTO End)
+CALL "%COMMON%" :SubDetectCurl
+IF NOT EXIST "%CURL%" (CALL "%COMMON%" :SubMsg "WARNING" "curl not found. Upload aborted." & GOTO End)
+IF NOT DEFINED COV_TOKEN (CALL "%COMMON%" :SubMsg "WARNING" "COV_TOKEN not defined. Upload aborted." & GOTO End)
+IF NOT DEFINED COV_EMAIL (CALL "%COMMON%" :SubMsg "WARNING" "COV_EMAIL not defined. Upload aborted." & GOTO End)
 %CURL% --form token=%COV_TOKEN% --form email=%COV_EMAIL% --form file=@%FILE_NAME% --form version=%MPCHC_HASH% https://scan.coverity.com/builds?project=MPC-HC -o cov_upload.log
 GOTO End
 
 
 :End
 POPD
-CALL %COMMON% :SubMsg "INFO" "Done. Press any key to exit..."
+CALL "%COMMON%" :SubMsg "INFO" "Done. Press any key to exit..."
 PAUSE >NUL
 ENDLOCAL
 EXIT /B

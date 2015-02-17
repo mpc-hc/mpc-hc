@@ -18,13 +18,14 @@ REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 SETLOCAL
-PUSHD %~dp0
+SET "FILE_DIR=%~dp0"
+PUSHD "%FILE_DIR%"
 
 SET ROOT_DIR=..\..\..\..\..
 SET "BIN_DIR=%ROOT_DIR%\bin"
 
-CALL "%~dp0%ROOT_DIR%\common.bat" :SubDetectInnoSetup
-IF EXIST "%~dp0%ROOT_DIR%\signinfo.txt" (
+CALL "%FILE_DIR%%ROOT_DIR%\common.bat" :SubDetectInnoSetup
+IF EXIST "%FILE_DIR%%ROOT_DIR%\signinfo.txt" (
   CALL :SubSign VSFilter.dll x86
   CALL :SubSign VSFilter.dll x64
 )
@@ -44,7 +45,7 @@ REM %1 is name of the file to sign
 REM %2 is the platform
 
 PUSHD "%BIN_DIR%\Filters_%~2\"
-CALL "%~dp0%ROOT_DIR%\contrib\sign.bat" "%1" || (ECHO Problem signing %1 & GOTO Break)
+CALL "%FILE_DIR%%ROOT_DIR%\contrib\sign.bat" "%1" || (ECHO Problem signing %1 & GOTO Break)
 ECHO %1 signed successfully.
 
 :Break
@@ -56,7 +57,7 @@ EXIT /B
 IF %ERRORLEVEL% NEQ 0 GOTO EndWithError
 ECHO.
 TITLE Building VSFilter installer...
-"%InnoSetupPath%\ISCC.exe" /SMySignTool="cmd /c "%~dp0%ROOT_DIR%\contrib\sign.bat" $f" /Q^
+"%InnoSetupPath%\ISCC.exe" /SMySignTool="cmd /c "%FILE_DIR%%ROOT_DIR%\contrib\sign.bat" $f" /Q^
  "vsfilter_setup.iss" /D%~1
 IF %ERRORLEVEL% NEQ 0 GOTO EndWithError
 IF /I "%~1%" == "x64Build" (

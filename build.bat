@@ -18,9 +18,10 @@ REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 SETLOCAL
-CD /D %~dp0
+SET "FILE_DIR=%~dp0"
+PUSHD "%FILE_DIR%"
 
-SET "COMMON=%~dp0\common.bat"
+SET "COMMON=%FILE_DIR%\common.bat"
 
 CALL "%COMMON%" :SubPreBuild
 IF %ERRORLEVEL% NEQ 0 GOTO MissingVar
@@ -95,7 +96,7 @@ IF NOT DEFINED VS120COMNTOOLS GOTO MissingVar
 SET "TOOLSET=%VS120COMNTOOLS%..\..\VC\vcvarsall.bat"
 SET "BIN_DIR=bin"
 
-IF EXIST "%~dp0signinfo.txt" (
+IF EXIST "%FILE_DIR%signinfo.txt" (
   IF /I "%INSTALLER%" == "True" SET "SIGN=True"
   IF /I "%ZIP%" == "True"       SET "SIGN=True"
 )
@@ -177,8 +178,8 @@ EXIT /B
 IF %ERRORLEVEL% NEQ 0 EXIT /B
 TITLE Compiling MPC-HC %COMPILER% [FINISHED]
 SET END_TIME=%TIME%
-CALL %COMMON% :SubGetDuration
-CALL %COMMON% :SubMsg "INFO" "Compilation started on %START_DATE%-%START_TIME% and completed on %DATE%-%END_TIME% [%DURATION%]"
+CALL "%COMMON%" :SubGetDuration
+CALL "%COMMON%" :SubMsg "INFO" "Compilation started on %START_DATE%-%START_TIME% and completed on %DATE%-%END_TIME% [%DURATION%]"
 ENDLOCAL
 EXIT /B
 
@@ -195,10 +196,10 @@ MSBuild.exe mpc-hc.sln %MSBUILD_SWITCHES%^
  /flp1:LogFile=%LOG_DIR%\filters_errors_%BUILDCFG%_%1.log;errorsonly;Verbosity=diagnostic^
  /flp2:LogFile=%LOG_DIR%\filters_warnings_%BUILDCFG%_%1.log;warningsonly;Verbosity=diagnostic
 IF %ERRORLEVEL% NEQ 0 (
-  CALL %COMMON% :SubMsg "ERROR" "mpc-hc.sln %BUILDCFG% Filter %1 - Compilation failed!"
+  CALL "%COMMON%" :SubMsg "ERROR" "mpc-hc.sln %BUILDCFG% Filter %1 - Compilation failed!"
   EXIT /B
 ) ELSE (
-  CALL %COMMON% :SubMsg "INFO" "mpc-hc.sln %BUILDCFG% Filter %1 compiled successfully"
+  CALL "%COMMON%" :SubMsg "INFO" "mpc-hc.sln %BUILDCFG% Filter %1 compiled successfully"
 )
 IF /I "%SIGN%" == "True" CALL :SubSign Filters *.ax
 IF /I "%SIGN%" == "True" CALL :SubSign Filters VSFilter.dll
@@ -214,10 +215,10 @@ MSBuild.exe mpc-hc.sln %MSBUILD_SWITCHES%^
  /flp1:LogFile="%LOG_DIR%\mpc-hc_errors_%BUILDCFG%_%1.log";errorsonly;Verbosity=diagnostic^
  /flp2:LogFile="%LOG_DIR%\mpc-hc_warnings_%BUILDCFG%_%1.log";warningsonly;Verbosity=diagnostic
 IF %ERRORLEVEL% NEQ 0 (
-  CALL %COMMON% :SubMsg "ERROR" "mpc-hc.sln %BUILDCFG% %1 - Compilation failed!"
+  CALL "%COMMON%" :SubMsg "ERROR" "mpc-hc.sln %BUILDCFG% %1 - Compilation failed!"
   EXIT /B
 ) ELSE (
-  CALL %COMMON% :SubMsg "INFO" "mpc-hc.sln %BUILDCFG% %1 compiled successfully"
+  CALL "%COMMON%" :SubMsg "INFO" "mpc-hc.sln %BUILDCFG% %1 compiled successfully"
 )
 IF /I "%SIGN%" == "True" CALL :SubSign MPC-HC mpc-hc*.exe
 IF /I "%SIGN%" == "True" CALL :SubSign MPC-HC *.dll %LAVFILTERSDIR%
@@ -230,14 +231,14 @@ EXIT /B
 IF %ERRORLEVEL% NEQ 0 EXIT /B
 
 IF /I "%BUILDCFG%" == "Debug" (
-  CALL %COMMON% :SubMsg "WARNING" "/debug was used, resources will not be built"
+  CALL "%COMMON%" :SubMsg "WARNING" "/debug was used, resources will not be built"
   EXIT /B
 )
 
 CALL :SubMPCIconLib %1
 
 IF DEFINED MPCHC_LITE (
-  CALL %COMMON% :SubMsg "WARNING" "/lite was used, translations will not be built"
+  CALL "%COMMON%" :SubMsg "WARNING" "/lite was used, translations will not be built"
   EXIT /B
 )
 
@@ -252,10 +253,10 @@ TITLE Compiling mpciconlib %COMPILER% - Release^|%1...
 MSBuild.exe mpciconlib.sln %MSBUILD_SWITCHES%^
  /target:%BUILDTYPE% /property:Configuration=Release;Platform=%1
 IF %ERRORLEVEL% NEQ 0 (
-  CALL %COMMON% :SubMsg "ERROR" "mpciconlib.sln %1 - Compilation failed!"
+  CALL "%COMMON%" :SubMsg "ERROR" "mpciconlib.sln %1 - Compilation failed!"
   EXIT /B
 ) ELSE (
-  CALL %COMMON% :SubMsg "INFO" "mpciconlib.sln %1 compiled successfully"
+  CALL "%COMMON%" :SubMsg "INFO" "mpciconlib.sln %1 compiled successfully"
 )
 IF /I "%SIGN%" == "True" CALL :SubSign MPC-HC mpciconlib.dll
 
@@ -283,7 +284,7 @@ FOR %%G IN (
  TITLE Compiling mpcresources %COMPILER% - %%~G^|%1...
  MSBuild.exe mpcresources.sln %MSBUILD_SWITCHES%^
  /target:%BUILDTYPE% /property:Configuration="Release %%~G";Platform=%1
- IF %ERRORLEVEL% NEQ 0 CALL %COMMON% :SubMsg "ERROR" "Compilation failed!" & EXIT /B
+ IF %ERRORLEVEL% NEQ 0 CALL "%COMMON%" :SubMsg "ERROR" "Compilation failed!" & EXIT /B
 )
 IF /I "%SIGN%" == "True" CALL :SubSign MPC-HC mpcresources.??.dll Lang
 IF /I "%SIGN%" == "True" CALL :SubSign MPC-HC mpcresources.??_??.dll Lang
@@ -298,10 +299,10 @@ TITLE Compiling MPCTestAPI %COMPILER% - %BUILDCFG%^|%1...
 MSBuild.exe MPCTestAPI.sln %MSBUILD_SWITCHES%^
  /target:%BUILDTYPE% /property:Configuration=%BUILDCFG%;Platform=%1
 IF %ERRORLEVEL% NEQ 0 (
-  CALL %COMMON% :SubMsg "ERROR" "MPCTestAPI.sln %1 - Compilation failed!"
+  CALL "%COMMON%" :SubMsg "ERROR" "MPCTestAPI.sln %1 - Compilation failed!"
   EXIT /B
 ) ELSE (
-  CALL %COMMON% :SubMsg "INFO" "MPCTestAPI.sln %1 compiled successfully"
+  CALL "%COMMON%" :SubMsg "INFO" "MPCTestAPI.sln %1 compiled successfully"
 )
 POPD
 EXIT /B
@@ -317,9 +318,9 @@ IF /I "%PPLATFORM%" == "Win32" PUSHD "%BIN_DIR%\%~1_x86\%3"
 IF /I "%PPLATFORM%" == "x64"   PUSHD "%BIN_DIR%\%~1_x64\%3"
 
 FOR /F "delims=" %%A IN ('DIR "%2" /b') DO (
-  CALL "%~dp0contrib\sign.bat" "%%A" || (CALL %COMMON% :SubMsg "ERROR" "Problem signing %%A" & GOTO Break)
+  CALL "%FILE_DIR%contrib\sign.bat" "%%A" || (CALL "%COMMON%" :SubMsg "ERROR" "Problem signing %%A" & GOTO Break)
 )
-CALL %COMMON% :SubMsg "INFO" "%2 signed successfully."
+CALL "%COMMON%" :SubMsg "INFO" "%2 signed successfully."
 
 :Break
 POPD
@@ -330,9 +331,9 @@ EXIT /B
 IF /I "%BUILDCFG%" == "Debug" EXIT /B
 PUSHD "%BIN_DIR%"
 EXPAND "%DXSDK_DIR%\Redist\Jun2010_D3DCompiler_43_%~1.cab" -F:D3DCompiler_43.dll "mpc-hc_%~1%~2"
-IF %ERRORLEVEL% NEQ 0 CALL %COMMON% :SubMsg "ERROR" "Problem when extracting %DXSDK_DIR%\Redist\Jun2010_D3DCompiler_43_%~1.cab" & EXIT /B
+IF %ERRORLEVEL% NEQ 0 CALL "%COMMON%" :SubMsg "ERROR" "Problem when extracting %DXSDK_DIR%\Redist\Jun2010_D3DCompiler_43_%~1.cab" & EXIT /B
 EXPAND "%DXSDK_DIR%\Redist\Jun2010_d3dx9_43_%~1.cab" -F:d3dx9_43.dll "mpc-hc_%~1%~2"
-IF %ERRORLEVEL% NEQ 0 CALL %COMMON% :SubMsg "ERROR" "Problem when extracting Jun2010_d3dx9_43_%~1.cab" & EXIT /B
+IF %ERRORLEVEL% NEQ 0 CALL "%COMMON%" :SubMsg "ERROR" "Problem when extracting Jun2010_d3dx9_43_%~1.cab" & EXIT /B
 POPD
 EXIT /B
 
@@ -353,18 +354,18 @@ IF DEFINED MPCHC_LITE (
 
 CALL :SubCopyDXDll %MPCHC_COPY_DX_DLL_ARGS%
 
-CALL %COMMON% :SubDetectInnoSetup
+CALL "%COMMON%" :SubDetectInnoSetup
 
 IF NOT DEFINED InnoSetupPath (
-  CALL %COMMON% :SubMsg "WARNING" "Inno Setup wasn't found, the %1 installer wasn't built"
+  CALL "%COMMON%" :SubMsg "WARNING" "Inno Setup wasn't found, the %1 installer wasn't built"
   EXIT /B
 )
 
 TITLE Compiling %1 %COMPILER% installer...
-"%InnoSetupPath%" /SMySignTool="cmd /c "%~dp0contrib\sign.bat" $f" /Q /O"%BIN_DIR%"^
+"%InnoSetupPath%" /SMySignTool="cmd /c "%FILE_DIR%contrib\sign.bat" $f" /Q /O"%BIN_DIR%"^
  "distrib\mpc-hc_setup.iss" %MPCHC_INNO_DEF%
-IF %ERRORLEVEL% NEQ 0 CALL %COMMON% :SubMsg "ERROR" "Compilation failed!" & EXIT /B
-CALL %COMMON% :SubMsg "INFO" "%1 installer successfully built"
+IF %ERRORLEVEL% NEQ 0 CALL "%COMMON%" :SubMsg "ERROR" "Compilation failed!" & EXIT /B
+CALL "%COMMON%" :SubMsg "INFO" "%1 installer successfully built"
 
 EXIT /B
 
@@ -372,11 +373,11 @@ EXIT /B
 :SubCreatePackages
 IF %ERRORLEVEL% NEQ 0 EXIT /B
 
-CALL %COMMON% :SubDetectSevenzipPath
+CALL "%COMMON%" :SubDetectSevenzipPath
 CALL :SubGetVersion
 
 IF NOT DEFINED SEVENZIP (
-  CALL %COMMON% :SubMsg "WARNING" "7-Zip wasn't found, the %1 %2 package wasn't built"
+  CALL "%COMMON%" :SubMsg "WARNING" "7-Zip wasn't found, the %1 %2 package wasn't built"
   EXIT /B
 )
 
@@ -419,8 +420,8 @@ IF /I "%NAME%" == "MPC-HC" (
   TITLE Creating archive %PCKG_NAME%.pdb.7z...
   START "7z" /B /WAIT "%SEVENZIP%" a -t7z "%PCKG_NAME%.pdb.7z" %PDB_FILES% -m0=LZMA2^
    -mmt=%NUMBER_OF_PROCESSORS% -mx9 -ms=on
-  IF %ERRORLEVEL% NEQ 0 CALL %COMMON% :SubMsg "ERROR" "Unable to create %PCKG_NAME%.pdb.7z!" & EXIT /B
-  CALL %COMMON% :SubMsg "INFO" "%PCKG_NAME%.pdb.7z successfully created"
+  IF %ERRORLEVEL% NEQ 0 CALL "%COMMON%" :SubMsg "ERROR" "Unable to create %PCKG_NAME%.pdb.7z!" & EXIT /B
+  CALL "%COMMON%" :SubMsg "INFO" "%PCKG_NAME%.pdb.7z successfully created"
   IF EXIST "%PCKG_NAME%.pdb.7z" MOVE /Y "%PCKG_NAME%.pdb.7z" ".." >NUL
   POPD
 )
@@ -465,8 +466,8 @@ COPY /Y /V "..\docs\Readme.txt"     "%PCKG_NAME%" >NUL
 TITLE Creating archive %PCKG_NAME%.7z...
 START "7z" /B /WAIT "%SEVENZIP%" a -t7z "%PCKG_NAME%.7z" "%PCKG_NAME%" -m0=LZMA2^
  -mmt=%NUMBER_OF_PROCESSORS% -mx9 -ms=on
-IF %ERRORLEVEL% NEQ 0 CALL %COMMON% :SubMsg "ERROR" "Unable to create %PCKG_NAME%.7z!" & EXIT /B
-CALL %COMMON% :SubMsg "INFO" "%PCKG_NAME%.7z successfully created"
+IF %ERRORLEVEL% NEQ 0 CALL "%COMMON%" :SubMsg "ERROR" "Unable to create %PCKG_NAME%.7z!" & EXIT /B
+CALL "%COMMON%" :SubMsg "INFO" "%PCKG_NAME%.7z successfully created"
 
 IF EXIST "%PCKG_NAME%" RD /Q /S "%PCKG_NAME%"
 
@@ -475,7 +476,7 @@ EXIT /B
 
 
 :SubGetVersion
-PUSHD %~dp0
+PUSHD %FILE_DIR%
 REM Get the version
 IF NOT EXIST "include\version_rev.h" SET "FORCE_VER_UPDATE=True"
 IF /I "%FORCE_VER_UPDATE%" == "True" CALL "update_version.bat" && SET "FORCE_VER_UPDATE=False"
@@ -536,7 +537,7 @@ TITLE Compiling MPC-HC %COMPILER% [ERROR]
 ECHO Not all build dependencies were found.
 ECHO.
 ECHO See "docs\Compilation.txt" for more information.
-CALL %COMMON% :SubMsg "ERROR" "Compilation failed!" & EXIT /B
+CALL "%COMMON%" :SubMsg "ERROR" "Compilation failed!" & EXIT /B
 
 
 :UnsupportedSwitch
@@ -546,4 +547,4 @@ ECHO.
 ECHO "%~nx0 %*"
 ECHO.
 ECHO Run "%~nx0 help" for details about the commandline switches.
-CALL %COMMON% :SubMsg "ERROR" "Compilation failed!" & EXIT /B
+CALL "%COMMON%" :SubMsg "ERROR" "Compilation failed!" & EXIT /B

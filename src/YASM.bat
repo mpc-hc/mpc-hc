@@ -18,8 +18,8 @@ REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 CALL "%~dp0..\common.bat" :SubSetPath
-IF %ERRORLEVEL% NEQ 0 EXIT /B
+IF %ERRORLEVEL% NEQ 0 EXIT /B 1
 CALL "%~dp0..\common.bat" :SubDoesExist yasm.exe
-IF %ERRORLEVEL% NEQ 0 EXIT /B
+IF %ERRORLEVEL% NEQ 0 EXIT /B 1
 
 yasm.exe %*

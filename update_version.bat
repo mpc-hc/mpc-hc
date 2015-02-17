@@ -18,18 +18,19 @@ REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 SETLOCAL
+SET "FILE_DIR=%~dp0"
+PUSHD "%FILE_DIR%"
 
-PUSHD %~dp0
-
-SET "COMMON=%~dp0\common.bat"
+SET "COMMON=%FILE_DIR%\common.bat"
 
 IF EXIST "build.user.bat" CALL "build.user.bat"
 
 IF NOT DEFINED MPCHC_GIT  IF DEFINED GIT (SET MPCHC_GIT=%GIT%)
+SET "PATH=%MPCHC_GIT%\cmd;%PATH%"
 
-CALL %COMMON% :SubSetPath
+CALL "%COMMON%" :SubSetPath
 IF %ERRORLEVEL% NEQ 0 GOTO MissingVar
-CALL %COMMON% :SubDoesExist bash.exe
+CALL "%COMMON%" :SubDoesExist bash.exe
 IF %ERRORLEVEL% NEQ 0 GOTO MissingVar
 
 bash.exe ./version.sh

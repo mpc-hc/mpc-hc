@@ -17,14 +17,14 @@ REM You should have received a copy of the GNU General Public License
 REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-IF "%1"=="" CALL :SubMsg "WARNING" "common.bat No argument was provided." & EXIT /B
+IF "%1" == "" CALL :SubMsg "WARNING" "%~nx0, No argument was provided." & EXIT /B
 PUSHD %~dp0
 CALL %*
 POPD
 EXIT /B
 
 :SubPreBuild
-IF EXIST "../build.user.bat" CALL "../build.user.bat"
+IF EXIST "build.user.bat" CALL "build.user.bat"
 
 IF NOT DEFINED MPCHC_MINGW32 IF DEFINED MINGW32 (SET "MPCHC_MINGW32=%MINGW32%") ELSE (EXIT /B 1)
 IF NOT DEFINED MPCHC_MINGW64 IF DEFINED MINGW64 (SET "MPCHC_MINGW64=%MINGW64%") ELSE (EXIT /B 1)
@@ -37,8 +37,8 @@ EXIT /B
 
 :SubSetPath
 CALL :SubPreBuild
-IF %ERRORLEVEL% NEQ 0 EXIT /B
-SET PATH=%MPCHC_MSYS%\bin;%MPCHC_MINGW32%\bin;%PATH%
+IF %ERRORLEVEL% NEQ 0 EXIT /B 1
+SET "PATH=%MPCHC_MSYS%\usr\bin;%MPCHC_MSYS%\bin;%MPCHC_MINGW32%\bin;%PATH%"
 EXIT /B
 
 :SubDoesExist
