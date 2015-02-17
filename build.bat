@@ -18,13 +18,6 @@ REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 SETLOCAL
-SET "FILE_DIR=%~dp0"
-PUSHD "%FILE_DIR%"
-
-SET "COMMON=%FILE_DIR%\common.bat"
-
-CALL "%COMMON%" :SubPreBuild
-IF %ERRORLEVEL% NEQ 0 GOTO MissingVar
 
 SET ARG=/%*
 SET ARG=%ARG:/=%
@@ -41,9 +34,7 @@ IF /I "%ARG%" == "?"            GOTO ShowHelp
 
 FOR %%G IN (%ARG%) DO (
   IF /I "%%G" == "help"         GOTO ShowHelp
-  IF /I "%%G" == "GetVersion"   ENDLOCAL & SET "FORCE_VER_UPDATE=True" & CALL :SubGetVersion & EXIT /B
-  IF /I "%%G" == "CopyDXDll"    ENDLOCAL & CALL :SubCopyDXDll x86 & CALL :SubCopyDXDll x64 & EXIT /B
-  IF /I "%%G" == "CopyDX"       ENDLOCAL & CALL :SubCopyDXDll x86 & CALL :SubCopyDXDll x64 & EXIT /B
+  IF /I "%%G" == "GetVersion"   ENDLOCAL & SET "FORCE_VER_UPDATE=True" & CALL "%~dp0common.bat" :SubGetVersion & EXIT /B
   IF /I "%%G" == "Build"        SET "BUILDTYPE=Build"    & SET /A ARGB+=1
   IF /I "%%G" == "Clean"        SET "BUILDTYPE=Clean"    & SET /A ARGB+=1  & SET "NO_INST=True" & SET /A "NO_ZIP=True" & SET "NO_LAV=True"
   IF /I "%%G" == "Rebuild"      SET "BUILDTYPE=Rebuild"  & SET /A ARGB+=1  & SET "NO_LAV=True"
@@ -74,6 +65,14 @@ FOR %%G IN (%ARG%) DO (
   IF /I "%%G" == "Nocolors"     SET "NOCOLORS=True"      & SET /A VALID+=1
   IF /I "%%G" == "Analyze"      SET "ANALYZE=True"       & SET /A VALID+=1
 )
+
+SET "FILE_DIR=%~dp0"
+PUSHD "%FILE_DIR%"
+
+SET "COMMON=%FILE_DIR%\common.bat"
+
+CALL "%COMMON%" :SubPreBuild
+IF %ERRORLEVEL% NEQ 0 GOTO MissingVar
 
 FOR %%G IN (%*) DO SET /A INPUT+=1
 SET /A VALID+=%ARGB%+%ARGPL%+%ARGC%+%ARGBC%+%ARGCOMP%
@@ -374,7 +373,7 @@ EXIT /B
 IF %ERRORLEVEL% NEQ 0 EXIT /B
 
 CALL "%COMMON%" :SubDetectSevenzipPath
-CALL :SubGetVersion
+CALL "%COMMON%" :SubGetVersion
 
 IF NOT DEFINED SEVENZIP (
   CALL "%COMMON%" :SubMsg "WARNING" "7-Zip wasn't found, the %1 %2 package wasn't built"
@@ -474,35 +473,6 @@ IF EXIST "%PCKG_NAME%" RD /Q /S "%PCKG_NAME%"
 POPD
 EXIT /B
 
-
-:SubGetVersion
-PUSHD %FILE_DIR%
-REM Get the version
-IF NOT EXIST "include\version_rev.h" SET "FORCE_VER_UPDATE=True"
-IF /I "%FORCE_VER_UPDATE%" == "True" CALL "update_version.bat" && SET "FORCE_VER_UPDATE=False"
-
-FOR /F "tokens=2,3" %%A IN ('FINDSTR /R /C:"define MPC_VERSION_[M,P]" "include\version.h"') DO (
-  SET "%%A=%%B"
-)
-
-FOR /F "tokens=2,3" %%A IN ('FINDSTR /R /C:"define MPC" "include\version_rev.h"') DO (
-  SET "%%A=%%B"
-)
-
-IF "%MPC_VERSION_REV%" NEQ "0" (SET "MPCHC_NIGHTLY=1") ELSE (SET "MPCHC_NIGHTLY=0")
-
-SET "MPCHC_HASH=%MPCHC_HASH:~4,-2%"
-IF DEFINED MPCHC_BRANCH (
-  SET "MPCHC_BRANCH=%MPCHC_BRANCH:~4,-2%"
-)
-
-IF "%MPCHC_NIGHTLY%" NEQ "0" (
-  SET "MPCHC_VER=%MPC_VERSION_MAJOR%.%MPC_VERSION_MINOR%.%MPC_VERSION_PATCH%.%MPC_VERSION_REV%"
-) ELSE (
-  SET "MPCHC_VER=%MPC_VERSION_MAJOR%.%MPC_VERSION_MINOR%.%MPC_VERSION_PATCH%"
-)
-POPD
-EXIT /B
 
 :ShowHelp
 TITLE %~nx0 Help

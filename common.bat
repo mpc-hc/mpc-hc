@@ -46,6 +46,33 @@ FOR %%G IN (%~1) DO (SET FOUND=%%~$PATH:G)
 IF NOT DEFINED FOUND EXIT /B 1
 EXIT /B
 
+:SubGetVersion
+REM Get the version
+IF NOT EXIST "include\version_rev.h" SET "FORCE_VER_UPDATE=True"
+IF /I "%FORCE_VER_UPDATE%" == "True" CALL "update_version.bat" && SET "FORCE_VER_UPDATE=False"
+
+FOR /F "tokens=2,3" %%A IN ('FINDSTR /R /C:"define MPC_VERSION_[M,P]" "include\version.h"') DO (
+  SET "%%A=%%B"
+)
+
+FOR /F "tokens=2,3" %%A IN ('FINDSTR /R /C:"define MPC" "include\version_rev.h"') DO (
+  SET "%%A=%%B"
+)
+
+IF "%MPC_VERSION_REV%" NEQ "0" (SET "MPCHC_NIGHTLY=1") ELSE (SET "MPCHC_NIGHTLY=0")
+
+SET "MPCHC_HASH=%MPCHC_HASH:~4,-2%"
+IF DEFINED MPCHC_BRANCH (
+  SET "MPCHC_BRANCH=%MPCHC_BRANCH:~4,-2%"
+)
+
+IF "%MPCHC_NIGHTLY%" NEQ "0" (
+  SET "MPCHC_VER=%MPC_VERSION_MAJOR%.%MPC_VERSION_MINOR%.%MPC_VERSION_PATCH%.%MPC_VERSION_REV%"
+) ELSE (
+  SET "MPCHC_VER=%MPC_VERSION_MAJOR%.%MPC_VERSION_MINOR%.%MPC_VERSION_PATCH%"
+)
+EXIT /B
+
 :SubDetectCurl
 IF EXIST curl.exe (SET "CURL=curl.exe" & EXIT /B)
 IF EXIST "%CURL_PATH%\curl.exe" (SET "CURL=%CURL_PATH%\curl.exe" & EXIT /B)
