@@ -15296,7 +15296,7 @@ void CMainFrame::SendNowPlayingToApi()
                     // get current location (title number & chapter)
                     if (SUCCEEDED(m_pDVDI->GetCurrentLocation(&Location))) {
                         // get number of chapters in current title
-                        m_pDVDI->GetNumberOfChapters(Location.TitleNum, &ulNumOfChapters);
+                        VERIFY(SUCCEEDED(m_pDVDI->GetNumberOfChapters(Location.TitleNum, &ulNumOfChapters)));
                     }
 
                     // get total time of title
