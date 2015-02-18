@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -396,9 +396,9 @@ DWORD CMatroskaMuxerFilter::ThreadProc()
     // TODO
     QWORD voidlen = 100;
     if (rtDur > 0) {
-        voidlen += int(1.0 * rtDur / MAXCLUSTERTIME / 10000 + 0.5) * 20;
+        voidlen += QWORD(1.0 * rtDur / MAXCLUSTERTIME / 10000 + 0.5) * 20;
     } else {
-        voidlen += int(1.0 * 1000 * 60 * 60 * 24 / MAXCLUSTERTIME + 0.5) * 20; // when no duration is known, allocate for 24 hours (~340k)
+        voidlen += QWORD(1.0 * 1000 * 60 * 60 * 24 / MAXCLUSTERTIME + 0.5) * 20; // when no duration is known, allocate for 24 hours (~340k)
     }
     ULONGLONG voidpos = GetStreamPosition(pStream);
     {
@@ -675,15 +675,15 @@ DWORD CMatroskaMuxerFilter::ThreadProc()
                 }
 
                 SetStreamPosition(pStream, voidpos);
-                int len = (int)(voidlen - seek.Size());
+                QWORD len = voidlen - seek.Size();
                 ASSERT(len >= 0 && len != 1);
                 seek.Write(pStream);
 
                 if (len == 0) {
                     // nothing to do
                 } else if (len >= 2) {
-                    for (int i = 0; i < 8; i++) {
-                        if (len >= (1 << i * 7) - 2 && len <= (1 << (i + 1) * 7) - 2) {
+                    for (QWORD i = 0; i < 8; i++) {
+                        if (len >= (QWORD(1) << i * 7) - 2 && len <= (QWORD(1) << (i + 1) * 7) - 2) {
                             Void(len - 2 - i).Write(pStream);
                             break;
                         }
