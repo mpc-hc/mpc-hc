@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -924,8 +924,14 @@ HRESULT Void::Write(IStream* pStream)
     HeaderWrite(pStream);
     BYTE buff[64];
     memset(buff, 0x80, sizeof(buff));
-    for (int len = (int)m_len; len > 0; len -= sizeof(buff)) {
-        pStream->Write(buff, std::min<ULONG>(sizeof(buff), (ULONG)len), nullptr);
+    QWORD len = m_len;
+    for (; len >= sizeof(buff); len -= sizeof(buff)) {
+        pStream->Write(buff, sizeof(buff), nullptr);
     }
+
+    if (len > 0) {
+        pStream->Write(buff, (ULONG)len, nullptr);
+    }
+
     return S_OK;
 }
