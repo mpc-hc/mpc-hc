@@ -584,12 +584,11 @@ void SetAudioRenderer(int AudioDevNo)
     int i = 2;
 
     BeginEnumSysDev(CLSID_AudioRendererCategory, pMoniker) {
-        LPOLESTR olestr = nullptr;
+        CComHeapPtr<OLECHAR> olestr;
         if (FAILED(pMoniker->GetDisplayName(0, 0, &olestr))) {
             continue;
         }
         CStringW str(olestr);
-        CoTaskMemFree(olestr);
         m_AudioRendererDisplayNames.Add(CString(str));
         i++;
     }

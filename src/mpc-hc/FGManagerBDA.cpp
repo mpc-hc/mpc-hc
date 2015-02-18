@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2014 see Authors.txt
+ * (C) 2009-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -354,11 +354,11 @@ HRESULT CFGManagerBDA::CreateKSFilter(IBaseFilter** ppBF, CLSID KSCategory, cons
     BeginEnumSysDev(KSCategory, pMoniker) {
         CComPtr<IPropertyBag> pPB;
         CComVariant var;
-        LPOLESTR strName = nullptr;
+        CComHeapPtr<OLECHAR> strName;
         if (SUCCEEDED(pMoniker->BindToStorage(0, 0, IID_PPV_ARGS(&pPB))) &&
                 SUCCEEDED(pMoniker->GetDisplayName(nullptr, nullptr, &strName)) &&
-                SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
-            CStringW Name = CStringW(strName);
+                SUCCEEDED(pPB->Read(_T("FriendlyName"), &var, nullptr))) {
+            CStringW Name = strName;
             if (Name != DisplayName) {
                 continue;
             }
@@ -368,10 +368,6 @@ HRESULT CFGManagerBDA::CreateKSFilter(IBaseFilter** ppBF, CLSID KSCategory, cons
                 hr = AddFilter(*ppBF, CStringW(var.bstrVal));
             }
             break;
-        }
-
-        if (strName) {
-            CoTaskMemFree(strName);
         }
     }
     EndEnumSysDev;

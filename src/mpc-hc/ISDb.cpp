@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -43,12 +43,11 @@ namespace ISDb
             return false;
         }
 
-        LPOLESTR name;
+        CComHeapPtr<OLECHAR> name;
         if (FAILED(pFSF->GetCurFile(&name, nullptr))) {
             return false;
         }
         fh.name = name;
-        CoTaskMemFree(name);
 
         LONGLONG size, available;
         if (pAR->Length(&size, &available) != S_OK) { // Don't accept estimates

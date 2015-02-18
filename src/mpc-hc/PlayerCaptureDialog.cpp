@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -428,19 +428,18 @@ static void InitCodecList(CAtlArray<Codec>& codecs, CComboBox& box, const GUID& 
         }
         c.pBF = pBF;
         */
-        LPOLESTR strName = nullptr;
+        CComHeapPtr<OLECHAR> strName;
         if (FAILED(pMoniker->GetDisplayName(nullptr, nullptr, &strName))) {
             continue;
         }
 
         c.displayName = strName;
-        CoTaskMemFree(strName);
 
         CComPtr<IPropertyBag> pPB;
         pMoniker->BindToStorage(0, 0, IID_PPV_ARGS(&pPB));
 
         CComVariant var;
-        if (!pPB || FAILED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
+        if (!pPB || FAILED(pPB->Read(_T("FriendlyName"), &var, nullptr))) {
             continue;
         }
 

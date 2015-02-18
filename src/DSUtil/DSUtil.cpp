@@ -346,7 +346,7 @@ IPin* AppendFilter(IPin* pPin, CString DisplayName, IGraphBuilder* pGB)
         }
 
         CComVariant var;
-        if (FAILED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
+        if (FAILED(pPB->Read(_T("FriendlyName"), &var, nullptr))) {
             break;
         }
 
@@ -440,7 +440,7 @@ IPin* InsertFilter(IPin* pPin, CString DisplayName, IGraphBuilder* pGB)
         }
 
         CComVariant var;
-        if (FAILED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
+        if (FAILED(pPB->Read(_T("FriendlyName"), &var, nullptr))) {
             break;
         }
 
@@ -629,10 +629,9 @@ bool IsCLSIDRegistered(const CLSID& clsid)
 {
     bool fRet = false;
 
-    LPOLESTR pStr = nullptr;
+    CComHeapPtr<OLECHAR> pStr;
     if (S_OK == StringFromCLSID(clsid, &pStr) && pStr) {
         fRet = IsCLSIDRegistered(CString(pStr));
-        CoTaskMemFree(pStr);
     }
 
     return fRet;
@@ -660,10 +659,9 @@ CString GetFilterPath(const CLSID& clsid)
 {
     CString path;
 
-    LPOLESTR pStr = nullptr;
+    CComHeapPtr<OLECHAR> pStr;
     if (S_OK == StringFromCLSID(clsid, &pStr) && pStr) {
         path = GetFilterPath(CString(pStr));
-        CoTaskMemFree(pStr);
     }
 
     return path;
@@ -1117,7 +1115,7 @@ bool CreateFilter(CStringW DisplayName, IBaseFilter** ppBF, CStringW& FriendlyNa
     CComPtr<IPropertyBag> pPB;
     CComVariant var;
     if (SUCCEEDED(pMoniker->BindToStorage(pBindCtx, 0, IID_PPV_ARGS(&pPB)))
-            && SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
+            && SUCCEEDED(pPB->Read(_T("FriendlyName"), &var, nullptr))) {
         FriendlyName = var.bstrVal;
     }
 
@@ -1146,7 +1144,7 @@ IBaseFilter* AppendFilter(IPin* pPin, IMoniker* pMoniker, IGraphBuilder* pGB)
         }
 
         CComVariant var;
-        if (FAILED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
+        if (FAILED(pPB->Read(_T("FriendlyName"), &var, nullptr))) {
             break;
         }
 
@@ -1190,7 +1188,7 @@ CStringW GetFriendlyName(CStringW displayName)
         CComPtr<IPropertyBag> pPB;
         CComVariant var;
         if (SUCCEEDED(pMoniker->BindToStorage(pBindCtx, 0, IID_PPV_ARGS(&pPB)))
-                && SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
+                && SUCCEEDED(pPB->Read(_T("FriendlyName"), &var, nullptr))) {
             friendlyName = var.bstrVal;
         }
     }

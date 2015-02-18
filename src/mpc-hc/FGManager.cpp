@@ -2257,7 +2257,7 @@ STDMETHODIMP CFGManagerCustom::AddFilter(IBaseFilter* pBF, LPCWSTR pName)
     if (GetCLSID(pBF) == CLSID_DMOWrapperFilter) {
         if (CComQIPtr<IPropertyBag> pPB = pBF) {
             CComVariant var(true);
-            pPB->Write(CComBSTR(L"_HIRESOUTPUT"), &var);
+            pPB->Write(_T("_HIRESOUTPUT"), &var);
         }
     }
 

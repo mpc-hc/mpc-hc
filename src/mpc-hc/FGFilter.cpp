@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -104,12 +104,11 @@ CFGFilterRegistry::CFGFilterRegistry(IMoniker* pMoniker, UINT64 merit)
         return;
     }
 
-    LPOLESTR str = nullptr;
+    CComHeapPtr<OLECHAR> str;
     if (FAILED(m_pMoniker->GetDisplayName(0, 0, &str))) {
         return;
     }
     m_DisplayName = m_name = str;
-    CoTaskMemFree(str), str = nullptr;
 
     QueryProperties();
 
@@ -147,17 +146,17 @@ void CFGFilterRegistry::QueryProperties()
     CComPtr<IPropertyBag> pPB;
     if (SUCCEEDED(m_pMoniker->BindToStorage(0, 0, IID_PPV_ARGS(&pPB)))) {
         CComVariant var;
-        if (SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
+        if (SUCCEEDED(pPB->Read(_T("FriendlyName"), &var, nullptr))) {
             m_name = var.bstrVal;
             var.Clear();
         }
 
-        if (SUCCEEDED(pPB->Read(CComBSTR(_T("CLSID")), &var, nullptr))) {
+        if (SUCCEEDED(pPB->Read(_T("CLSID"), &var, nullptr))) {
             CLSIDFromString(var.bstrVal, &m_clsid);
             var.Clear();
         }
 
-        if (SUCCEEDED(pPB->Read(CComBSTR(_T("FilterData")), &var, nullptr))) {
+        if (SUCCEEDED(pPB->Read(_T("FilterData"), &var, nullptr))) {
             BSTR* pstr;
             if (SUCCEEDED(SafeArrayAccessData(var.parray, (void**)&pstr))) {
                 ExtractFilterData((BYTE*)pstr, var.parray->cbElements * (var.parray->rgsabound[0].cElements));

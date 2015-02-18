@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -33,10 +33,9 @@ CPPageFileInfoRes::CPPageFileInfoRes(CString path, IFilterGraph* pFG, IFileSourc
     , m_fn(path)
 {
     if (pFSF) {
-        LPOLESTR pFN = nullptr;
+        CComHeapPtr<OLECHAR> pFN;
         if (SUCCEEDED(pFSF->GetCurFile(&pFN, nullptr))) {
             m_fn = pFN;
-            CoTaskMemFree(pFN);
         }
     }
 

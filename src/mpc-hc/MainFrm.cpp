@@ -8702,11 +8702,10 @@ void CMainFrame::AddFavorite(bool fDisplayMessage, bool fShowDialog)
             BeginEnumFilters(m_pGB, pEF, pBF) {
                 CComQIPtr<IFileSourceFilter> pFSF = pBF;
                 if (pFSF) {
-                    LPOLESTR pFN = nullptr;
+                    CComHeapPtr<OLECHAR> pFN;
                     AM_MEDIA_TYPE mt;
                     if (SUCCEEDED(pFSF->GetCurFile(&pFN, &mt)) && pFN && *pFN) {
                         fn = CStringW(pFN);
-                        CoTaskMemFree(pFN);
                     }
                     break;
                 }
@@ -16421,10 +16420,9 @@ CString CMainFrame::GetFileName()
     CString path(m_wndPlaylistBar.GetCurFileName());
 
     if (m_pFSF) {
-        LPOLESTR pFN;
+        CComHeapPtr<OLECHAR> pFN;
         if (SUCCEEDED(m_pFSF->GetCurFile(&pFN, nullptr))) {
             path = pFN;
-            CoTaskMemFree(pFN);
         }
     }
 

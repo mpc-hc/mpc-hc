@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2014 see Authors.txt
+ * (C) 2009-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -491,15 +491,14 @@ void CPPageCapture::FindAnalogDevices()
         pMoniker->BindToStorage(0, 0, IID_PPV_ARGS(&pPB));
 
         CComVariant var;
-        if (SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
+        if (SUCCEEDED(pPB->Read(_T("FriendlyName"), &var, nullptr))) {
             int i = m_cbAnalogVideo.AddString(CString(var.bstrVal));
-            LPOLESTR strName = nullptr;
+            CComHeapPtr<OLECHAR> strName;
             if (SUCCEEDED(pMoniker->GetDisplayName(nullptr, nullptr, &strName))) {
                 m_vidnames.Add(CString(strName));
                 if (s.strAnalogVideo == CString(strName)) {
                     iSel = i;
                 }
-                CoTaskMemFree(strName);
             }
         }
     }
@@ -526,16 +525,15 @@ void CPPageCapture::FindAnalogDevices()
         pMoniker->BindToStorage(0, 0, IID_PPV_ARGS(&pPB));
 
         CComVariant var;
-        if (SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
+        if (SUCCEEDED(pPB->Read(_T("FriendlyName"), &var, nullptr))) {
             int i = m_cbAnalogAudio.AddString(CString(var.bstrVal));
 
-            LPOLESTR strName = nullptr;
+            CComHeapPtr<OLECHAR> strName;
             if (SUCCEEDED(pMoniker->GetDisplayName(nullptr, nullptr, &strName))) {
                 m_audnames.Add(CString(strName));
                 if (s.strAnalogAudio == CString(strName)) {
                     iSel = i;
                 }
-                CoTaskMemFree(strName);
             }
         }
     }
@@ -637,10 +635,10 @@ void CPPageCapture::FindDigitalDevices()
         pMoniker->BindToStorage(0, 0, IID_PPV_ARGS(&pPB));
 
         CComVariant var;
-        if (SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
+        if (SUCCEEDED(pPB->Read(_T("FriendlyName"), &var, nullptr))) {
             int i = m_cbDigitalNetworkProvider.AddString(CString(var.bstrVal));
 
-            LPOLESTR strName = nullptr;
+            CComHeapPtr<OLECHAR> strName;
             if (SUCCEEDED(pMoniker->GetDisplayName(nullptr, nullptr, &strName))) {
                 m_providernames.Add(CString(strName));
                 if (s.strBDANetworkProvider == CString(strName)) {
@@ -650,7 +648,6 @@ void CPPageCapture::FindDigitalDevices()
                     // Select Microsoft Network Provider by default, other network providers are deprecated.
                     iSel = i;
                 }
-                CoTaskMemFree(strName);
             }
         }
     }
@@ -668,16 +665,15 @@ void CPPageCapture::FindDigitalDevices()
         pMoniker->BindToStorage(0, 0, IID_PPV_ARGS(&pPB));
 
         CComVariant var;
-        if (SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
+        if (SUCCEEDED(pPB->Read(_T("FriendlyName"), &var, nullptr))) {
             int i = m_cbDigitalTuner.AddString(CString(var.bstrVal));
 
-            LPOLESTR strName = nullptr;
+            CComHeapPtr<OLECHAR> strName;
             if (SUCCEEDED(pMoniker->GetDisplayName(nullptr, nullptr, &strName))) {
                 m_tunernames.Add(CString(strName));
                 if (s.strBDATuner == CString(strName)) {
                     iSel = i;
                 }
-                CoTaskMemFree(strName);
             }
         }
     }
@@ -694,16 +690,15 @@ void CPPageCapture::FindDigitalDevices()
         pMoniker->BindToStorage(0, 0, IID_PPV_ARGS(&pPB));
 
         CComVariant var;
-        if (SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
+        if (SUCCEEDED(pPB->Read(_T("FriendlyName"), &var, nullptr))) {
             int i = m_cbDigitalReceiver.AddString(CString(var.bstrVal));
 
-            LPOLESTR strName = nullptr;
+            CComHeapPtr<OLECHAR> strName;
             if (SUCCEEDED(pMoniker->GetDisplayName(nullptr, nullptr, &strName))) {
                 m_receivernames.Add(CString(strName));
                 if (s.strBDAReceiver == CString(strName)) {
                     iSel = i;
                 }
-                CoTaskMemFree(strName);
             }
         }
     }

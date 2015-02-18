@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -154,24 +154,23 @@ BOOL CPPageOutput::OnInitDialog()
     CString Cbstr;
 
     BeginEnumSysDev(CLSID_AudioRendererCategory, pMoniker) {
-        LPOLESTR olestr = nullptr;
+        CComHeapPtr<OLECHAR> olestr;
         if (FAILED(pMoniker->GetDisplayName(0, 0, &olestr))) {
             continue;
         }
 
         CStringW str(olestr);
-        CoTaskMemFree(olestr);
 
         m_AudioRendererDisplayNames.Add(CString(str));
 
         CComPtr<IPropertyBag> pPB;
         if (SUCCEEDED(pMoniker->BindToStorage(0, 0, IID_PPV_ARGS(&pPB)))) {
             CComVariant var;
-            if (SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
+            if (SUCCEEDED(pPB->Read(_T("FriendlyName"), &var, nullptr))) {
                 CString fstr(var.bstrVal);
 
                 var.Clear();
-                if (SUCCEEDED(pPB->Read(CComBSTR(_T("FilterData")), &var, nullptr))) {
+                if (SUCCEEDED(pPB->Read(_T("FilterData"), &var, nullptr))) {
                     BSTR* pbstr;
                     if (SUCCEEDED(SafeArrayAccessData(var.parray, (void**)&pbstr))) {
                         fstr.Format(_T("%s (%08x)"), CString(fstr), *((DWORD*)pbstr + 1));
