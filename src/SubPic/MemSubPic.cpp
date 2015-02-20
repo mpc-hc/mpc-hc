@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -94,6 +94,9 @@ CMemSubPic::CMemSubPic(const SubPicDesc& spd)
 CMemSubPic::~CMemSubPic()
 {
     delete [] m_spd.bits;
+    if (m_resizedSpd) {
+        delete[] m_resizedSpd->bits;
+    }
 }
 
 // ISubPic
@@ -106,8 +109,8 @@ STDMETHODIMP_(void*) CMemSubPic::GetObject()
 STDMETHODIMP CMemSubPic::GetDesc(SubPicDesc& spd)
 {
     spd.type = m_spd.type;
-    spd.w = m_size.cx;
-    spd.h = m_size.cy;
+    spd.w = m_spd.w;
+    spd.h = m_spd.h;
     spd.bpp = m_spd.bpp;
     spd.pitch = m_spd.pitch;
     spd.bits = m_spd.bits;
@@ -128,6 +131,11 @@ STDMETHODIMP CMemSubPic::CopyTo(ISubPic* pSubPic)
     SubPicDesc src, dst;
     if (FAILED(GetDesc(src)) || FAILED(pSubPic->GetDesc(dst))) {
         return E_FAIL;
+    }
+
+    if (auto subPic = dynamic_cast<CMemSubPic*>(pSubPic)) {
+        // Move because we are not going to reuse it.
+        subPic->m_resizedSpd = std::move(m_resizedSpd);
     }
 
     int w = m_rcDirty.Width(), h = m_rcDirty.Height();
@@ -181,26 +189,62 @@ STDMETHODIMP CMemSubPic::Unlock(RECT* pDirtyRect)
         return S_OK;
     }
 
-    if (m_spd.type == MSP_YUY2 || m_spd.type == MSP_YV12 || m_spd.type == MSP_IYUV || m_spd.type == MSP_AYUV) {
+    CRect r = m_spd.vidrect;
+    CRect rcDirty = m_rcDirty;
+    if (m_spd.h != r.Height() || m_spd.w != r.Width()) {
+        if (!m_resizedSpd) {
+            m_resizedSpd = std::unique_ptr<SubPicDesc>(DEBUG_NEW SubPicDesc);
+        }
+
+        m_resizedSpd->type = m_spd.type;
+        m_resizedSpd->w = r.Width();
+        m_resizedSpd->h = r.Height();
+        m_resizedSpd->pitch = r.Width() * 4;
+        m_resizedSpd->bpp = m_spd.bpp;
+
+        if (m_resizedSpd->h < r.Height() || m_resizedSpd->w < r.Width() || !m_resizedSpd->bits) {
+            delete[] m_resizedSpd->bits;
+            m_resizedSpd->bits = DEBUG_NEW BYTE[r.Width() * 4 * r.Height()];
+        }
+
+        BitBltFromRGBToRGBStretch(m_resizedSpd->w, m_resizedSpd->h, m_resizedSpd->bits, m_resizedSpd->pitch, m_resizedSpd->bpp
+                                  , m_spd.w, m_spd.h, m_spd.bits, m_spd.pitch, m_spd.bpp);
+        TRACE("CMemSubPic: Resized SubPic %dx%d -> %dx%d\n", m_spd.w, m_spd.h, r.Width(), r.Height());
+
+        // Set whole resized spd as dirty, we are not going to reuse it.
+        rcDirty.SetRect(0, 0, m_resizedSpd->w, m_resizedSpd->h);
+    } else if (m_resizedSpd) {
+        // Resize is not needed so release m_resizedSpd.
+        delete[] m_resizedSpd->bits;
+        m_resizedSpd = nullptr;
+    }
+
+    const SubPicDesc& subPic = m_resizedSpd ? *m_resizedSpd : m_spd;
+
+    if (subPic.type == MSP_YUY2 || subPic.type == MSP_YV12 || subPic.type == MSP_IYUV || subPic.type == MSP_AYUV) {
         ColorConvInit();
 
-        if (m_spd.type == MSP_YUY2 || m_spd.type == MSP_YV12 || m_spd.type == MSP_IYUV) {
-            m_rcDirty.left &= ~1;
-            m_rcDirty.right = (m_rcDirty.right + 1) & ~1;
+        if (subPic.type == MSP_YUY2 || subPic.type == MSP_YV12 || subPic.type == MSP_IYUV) {
+            rcDirty.left &= ~1;
+            rcDirty.right = (rcDirty.right + 1) & ~1;
 
-            if (m_spd.type == MSP_YV12 || m_spd.type == MSP_IYUV) {
-                m_rcDirty.top &= ~1;
-                m_rcDirty.bottom = (m_rcDirty.bottom + 1) & ~1;
+            if (subPic.type == MSP_YV12 || subPic.type == MSP_IYUV) {
+                rcDirty.top &= ~1;
+                rcDirty.bottom = (rcDirty.bottom + 1) & ~1;
             }
         }
     }
 
-    int w = m_rcDirty.Width(), h = m_rcDirty.Height();
-    BYTE* top = m_spd.bits + m_spd.pitch * m_rcDirty.top + m_rcDirty.left * 4;
-    BYTE* bottom = top + m_spd.pitch * h;
+    if (!m_resizedSpd) {
+        m_rcDirty = rcDirty;
+    }
 
-    if (m_spd.type == MSP_RGB16) {
-        for (; top < bottom ; top += m_spd.pitch) {
+    int w = rcDirty.Width(), h = rcDirty.Height();
+    BYTE* top = subPic.bits + subPic.pitch * rcDirty.top + rcDirty.left * 4;
+    BYTE* bottom = top + subPic.pitch * h;
+
+    if (subPic.type == MSP_RGB16) {
+        for (; top < bottom ; top += subPic.pitch) {
             DWORD* s = (DWORD*)top;
             DWORD* e = s + w;
             for (; s < e; s++) {
@@ -208,8 +252,8 @@ STDMETHODIMP CMemSubPic::Unlock(RECT* pDirtyRect)
                 //*s = (*s&0xff000000)|((*s>>8)&0xf800)|((*s>>5)&0x07e0)|((*s>>3)&0x001f);
             }
         }
-    } else if (m_spd.type == MSP_RGB15) {
-        for (; top < bottom; top += m_spd.pitch) {
+    } else if (subPic.type == MSP_RGB15) {
+        for (; top < bottom; top += subPic.pitch) {
             DWORD* s = (DWORD*)top;
             DWORD* e = s + w;
             for (; s < e; s++) {
@@ -217,8 +261,8 @@ STDMETHODIMP CMemSubPic::Unlock(RECT* pDirtyRect)
                 //*s = (*s&0xff000000)|((*s>>9)&0x7c00)|((*s>>6)&0x03e0)|((*s>>3)&0x001f);
             }
         }
-    } else if (m_spd.type == MSP_YUY2 || m_spd.type == MSP_YV12 || m_spd.type == MSP_IYUV) {
-        for (; top < bottom ; top += m_spd.pitch) {
+    } else if (subPic.type == MSP_YUY2 || subPic.type == MSP_YV12 || subPic.type == MSP_IYUV) {
+        for (; top < bottom ; top += subPic.pitch) {
             BYTE* s = top;
             BYTE* e = s + w * 4;
             for (; s < e; s += 8) { // ARGB ARGB -> AxYU AxYV
@@ -236,8 +280,8 @@ STDMETHODIMP CMemSubPic::Unlock(RECT* pDirtyRect)
                 }
             }
         }
-    } else if (m_spd.type == MSP_AYUV) {
-        for (; top < bottom ; top += m_spd.pitch) {
+    } else if (subPic.type == MSP_AYUV) {
+        for (; top < bottom ; top += subPic.pitch) {
             BYTE* s = top;
             BYTE* e = s + w * 4;
 
@@ -373,7 +417,7 @@ STDMETHODIMP CMemSubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
         return E_POINTER;
     }
 
-    const SubPicDesc& src = m_spd;
+    const SubPicDesc& src = m_resizedSpd ? *m_resizedSpd : m_spd;
     SubPicDesc dst = *pTarget; // copy, because we might modify it
 
     if (src.type != dst.type) {
@@ -381,6 +425,10 @@ STDMETHODIMP CMemSubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
     }
 
     CRect rs(*pSrc), rd(*pDst);
+
+    if (m_resizedSpd) {
+        rs = rd = CRect(0, 0, m_resizedSpd->w, m_resizedSpd->h);
+    }
 
     if (dst.h < 0) {
         dst.h = -dst.h;
@@ -600,6 +648,7 @@ bool CMemSubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
     spd.bpp = 32;
     spd.pitch = (spd.w * spd.bpp) >> 3;
     spd.type = m_type;
+    spd.vidrect = m_curvidrect;
     try {
         spd.bits = DEBUG_NEW BYTE[spd.pitch * spd.h];
     } catch (CMemoryException* e) {

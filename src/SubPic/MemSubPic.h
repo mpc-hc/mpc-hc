@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,6 +22,7 @@
 #pragma once
 
 #include "SubPicImpl.h"
+#include <memory>
 
 enum {
     MSP_RGB32,
@@ -40,6 +41,7 @@ enum {
 class CMemSubPic : public CSubPicImpl
 {
     SubPicDesc m_spd;
+    std::unique_ptr<SubPicDesc> m_resizedSpd;
 
 protected:
     STDMETHODIMP_(void*) GetObject(); // returns SubPicDesc*
@@ -63,9 +65,19 @@ class CMemSubPicAllocator : public CSubPicAllocatorImpl
 {
     int m_type;
     CSize m_maxsize;
+    CRect m_curvidrect;
 
     bool Alloc(bool fStatic, ISubPic** ppSubPic);
 
 public:
     CMemSubPicAllocator(int type, SIZE maxsize);
+    STDMETHODIMP SetMaxTextureSize(SIZE maxTextureSize) override {
+        m_maxsize = maxTextureSize;
+        return S_OK;
+    }
+
+    STDMETHODIMP SetCurVidRect(RECT curvidrect) override {
+        m_curvidrect = curvidrect;
+        return __super::SetCurVidRect(curvidrect);
+    }
 };

@@ -262,6 +262,62 @@ bool BitBltFromRGBToRGB(int w, int h, BYTE* dst, int dstpitch, int dbpp, BYTE* s
     return VDPixmapBlt(dstpxm, srcbm);
 }
 
+bool BitBltFromRGBToRGBStretch(int dstw, int dsth, BYTE* dst, int dstpitch, int dbpp, int srcw, int srch, BYTE* src, int srcpitch, int sbpp)
+{
+    VDPixmap srcbm = {
+        src + srcpitch * (srch - 1),
+        nullptr,
+        srcw,
+        srch,
+        -srcpitch
+    };
+
+    switch (sbpp) {
+    case 8:
+        srcbm.format = nsVDPixmap::kPixFormat_Pal8;
+        break;
+    case 16:
+        srcbm.format = nsVDPixmap::kPixFormat_RGB565;
+        break;
+    case 24:
+        srcbm.format = nsVDPixmap::kPixFormat_RGB888;
+        break;
+    case 32:
+        srcbm.format = nsVDPixmap::kPixFormat_XRGB8888;
+        break;
+    default:
+        VDASSERT(false);
+    }
+
+    VDPixmap dstpxm = {
+        dst + dstpitch * (dsth - 1),
+        nullptr,
+        dstw,
+        dsth,
+        -dstpitch
+    };
+
+    switch (dbpp) {
+    case 8:
+        dstpxm.format = nsVDPixmap::kPixFormat_Pal8;
+        break;
+    case 16:
+        dstpxm.format = nsVDPixmap::kPixFormat_RGB565;
+        break;
+    case 24:
+        dstpxm.format = nsVDPixmap::kPixFormat_RGB888;
+        break;
+    case 32:
+        dstpxm.format = nsVDPixmap::kPixFormat_XRGB8888;
+        break;
+    default:
+        VDASSERT(false);
+    }
+
+    return VDPixmapStretchBltBilinear(dstpxm, srcbm);
+}
+
+
 bool BitBltFromYUY2ToRGB(int w, int h, BYTE* dst, int dstpitch, int dbpp, BYTE* src, int srcpitch)
 {
     if (srcpitch == 0) srcpitch = w;
