@@ -15741,12 +15741,41 @@ HRESULT CMainFrame::CreateThumbnailToolbar()
     }
 
     if (m_pTaskbarList || SUCCEEDED(m_pTaskbarList.CoCreateInstance(CLSID_TaskbarList, nullptr, CLSCTX_INPROC_SERVER))) {
+        bool bRTLLayout = false; // Assume left-to-right layout by default
+        // Try to locate the window used to display the task bar
+        if (CWnd* pTaskBarWnd = FindWindow(_T("TaskListThumbnailWnd"), nullptr)) {
+            bRTLLayout = !!(pTaskBarWnd->GetExStyle() & WS_EX_LAYOUTRTL);
+        }
+
         CMPCPngImage image;
         if (!image.Load(IDF_WIN7_TOOLBAR)) {
             return E_FAIL;
         }
 
         CSize size = image.GetSize();
+
+        if (bRTLLayout) { // We don't want the buttons to be mirrored so we pre-mirror them
+            // Create memory DCs for the source and destination bitmaps
+            CDC sourceDC, destDC;
+            sourceDC.CreateCompatibleDC(nullptr);
+            destDC.CreateCompatibleDC(nullptr);
+            // Swap the source bitmap with an empty one
+            CBitmap sourceImg;
+            sourceImg.Attach(image.Detach());
+            // Create the destination bitmap using a temporary DC
+            image.CreateCompatibleBitmap(&CClientDC(nullptr), size.cx, size.cy);
+            // Select the bitmaps into the DCs
+            HGDIOBJ oldSourceDCObj = sourceDC.SelectObject(sourceImg);
+            HGDIOBJ oldDestDCObj = destDC.SelectObject(image);
+            // Actually flip the bitmap
+            destDC.StretchBlt(0, 0, size.cx, size.cy,
+                              &sourceDC, size.cx, 0, -size.cx, size.cy,
+                              SRCCOPY);
+            // Reselect the old objects back into their DCs
+            sourceDC.SelectObject(oldSourceDCObj);
+            destDC.SelectObject(oldDestDCObj);
+        }
+
         CImageList imageList;
         imageList.Create(size.cy, size.cy, ILC_COLOR32, size.cx / size.cy, 0);
         imageList.Add(&image, nullptr);
@@ -15770,6 +15799,10 @@ HRESULT CMainFrame::CreateThumbnailToolbar()
             buttons[3].iId = IDTB_BUTTON4;
             // FULLSCREEN
             buttons[4].iId = IDTB_BUTTON5;
+
+            if (bRTLLayout) { // We don't want the buttons to be mirrored so we pre-mirror them
+                std::reverse(buttons, buttons + _countof(buttons));
+            }
 
             if (SUCCEEDED(m_pTaskbarList->ThumbBarAddButtons(m_hWnd, _countof(buttons), buttons))) {
                 return UpdateThumbarButton();
@@ -15823,81 +15856,91 @@ HRESULT CMainFrame::UpdateThumbarButton(MPC_PLAYSTATE iPlayState)
         for (size_t i = 0; i < _countof(buttons); i++) {
             buttons[i].dwFlags = THBF_HIDDEN;
         }
-
-        return m_pTaskbarList->ThumbBarUpdateButtons(m_hWnd, _countof(buttons), buttons);
-    }
-
-    buttons[0].iBitmap = 0;
-    StringCchCopy(buttons[0].szTip, _countof(buttons[0].szTip), ResStr(IDS_AG_PREVIOUS));
-
-    buttons[1].iBitmap = 1;
-    StringCchCopy(buttons[1].szTip, _countof(buttons[1].szTip), ResStr(IDS_AG_STOP));
-
-    buttons[2].iBitmap = 3;
-    StringCchCopy(buttons[2].szTip, _countof(buttons[2].szTip), ResStr(IDS_AG_PLAYPAUSE));
-
-    buttons[3].iBitmap = 4;
-    StringCchCopy(buttons[3].szTip, _countof(buttons[3].szTip), ResStr(IDS_AG_NEXT));
-
-    buttons[4].iBitmap = 5;
-    StringCchCopy(buttons[4].szTip, _countof(buttons[4].szTip), ResStr(IDS_AG_FULLSCREEN));
-
-    if (GetLoadState() == MLS::LOADED) {
-        HICON hIcon = nullptr;
-
-        buttons[0].dwFlags = (!s.fUseSearchInFolder && m_wndPlaylistBar.GetCount() <= 1 && (m_pCB && m_pCB->ChapGetCount() <= 1)) ? THBF_DISABLED : THBF_ENABLED;
-        buttons[3].dwFlags = (!s.fUseSearchInFolder && m_wndPlaylistBar.GetCount() <= 1 && (m_pCB && m_pCB->ChapGetCount() <= 1)) ? THBF_DISABLED : THBF_ENABLED;
-        buttons[4].dwFlags = !m_fAudioOnly ? THBF_ENABLED : THBF_DISABLED;
-
-        if (iPlayState == PS_PLAY) {
-            buttons[1].dwFlags = THBF_ENABLED;
-            buttons[2].dwFlags = THBF_ENABLED;
-            buttons[2].iBitmap = 2;
-
-            hIcon = (HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDR_TB_PLAY), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE);
-            m_pTaskbarList->SetProgressState(m_hWnd, m_wndSeekBar.HasDuration() ? TBPF_NORMAL : TBPF_NOPROGRESS);
-        } else if (iPlayState == PS_STOP) {
-            buttons[1].dwFlags = THBF_DISABLED;
-            buttons[2].dwFlags = THBF_ENABLED;
-            buttons[2].iBitmap = 3;
-
-            hIcon = (HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDR_TB_STOP), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE);
-            m_pTaskbarList->SetProgressState(m_hWnd, TBPF_NOPROGRESS);
-        } else if (iPlayState == PS_PAUSE) {
-            buttons[1].dwFlags = THBF_ENABLED;
-            buttons[2].dwFlags = THBF_ENABLED;
-            buttons[2].iBitmap = 3;
-
-            hIcon = (HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDR_TB_PAUSE), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE);
-            m_pTaskbarList->SetProgressState(m_hWnd, m_wndSeekBar.HasDuration() ? TBPF_PAUSED : TBPF_NOPROGRESS);
-        }
-
-        if (GetPlaybackMode() == PM_DVD && m_iDVDDomain != DVD_DOMAIN_Title) {
-            buttons[0].dwFlags = THBF_DISABLED;
-            buttons[1].dwFlags = THBF_DISABLED;
-            buttons[2].dwFlags = THBF_DISABLED;
-            buttons[3].dwFlags = THBF_DISABLED;
-        }
-
-        m_pTaskbarList->SetOverlayIcon(m_hWnd, hIcon, L"");
-
-        if (hIcon != nullptr) {
-            DestroyIcon(hIcon);
-        }
     } else {
-        for (size_t i = 0; i < _countof(buttons); i++) {
-            buttons[i].dwFlags = THBF_DISABLED;
+        buttons[0].iBitmap = 0;
+        StringCchCopy(buttons[0].szTip, _countof(buttons[0].szTip), ResStr(IDS_AG_PREVIOUS));
+
+        buttons[1].iBitmap = 1;
+        StringCchCopy(buttons[1].szTip, _countof(buttons[1].szTip), ResStr(IDS_AG_STOP));
+
+        buttons[2].iBitmap = 3;
+        StringCchCopy(buttons[2].szTip, _countof(buttons[2].szTip), ResStr(IDS_AG_PLAYPAUSE));
+
+        buttons[3].iBitmap = 4;
+        StringCchCopy(buttons[3].szTip, _countof(buttons[3].szTip), ResStr(IDS_AG_NEXT));
+
+        buttons[4].iBitmap = 5;
+        StringCchCopy(buttons[4].szTip, _countof(buttons[4].szTip), ResStr(IDS_AG_FULLSCREEN));
+
+        if (GetLoadState() == MLS::LOADED) {
+            HICON hIcon = nullptr;
+
+            buttons[0].dwFlags = (!s.fUseSearchInFolder && m_wndPlaylistBar.GetCount() <= 1 && (m_pCB && m_pCB->ChapGetCount() <= 1)) ? THBF_DISABLED : THBF_ENABLED;
+            buttons[3].dwFlags = (!s.fUseSearchInFolder && m_wndPlaylistBar.GetCount() <= 1 && (m_pCB && m_pCB->ChapGetCount() <= 1)) ? THBF_DISABLED : THBF_ENABLED;
+            buttons[4].dwFlags = !m_fAudioOnly ? THBF_ENABLED : THBF_DISABLED;
+
+            if (iPlayState == PS_PLAY) {
+                buttons[1].dwFlags = THBF_ENABLED;
+                buttons[2].dwFlags = THBF_ENABLED;
+                buttons[2].iBitmap = 2;
+
+                hIcon = (HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDR_TB_PLAY), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE);
+                m_pTaskbarList->SetProgressState(m_hWnd, m_wndSeekBar.HasDuration() ? TBPF_NORMAL : TBPF_NOPROGRESS);
+            }
+            else if (iPlayState == PS_STOP) {
+                buttons[1].dwFlags = THBF_DISABLED;
+                buttons[2].dwFlags = THBF_ENABLED;
+                buttons[2].iBitmap = 3;
+
+                hIcon = (HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDR_TB_STOP), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE);
+                m_pTaskbarList->SetProgressState(m_hWnd, TBPF_NOPROGRESS);
+            }
+            else if (iPlayState == PS_PAUSE) {
+                buttons[1].dwFlags = THBF_ENABLED;
+                buttons[2].dwFlags = THBF_ENABLED;
+                buttons[2].iBitmap = 3;
+
+                hIcon = (HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDR_TB_PAUSE), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE);
+                m_pTaskbarList->SetProgressState(m_hWnd, m_wndSeekBar.HasDuration() ? TBPF_PAUSED : TBPF_NOPROGRESS);
+            }
+
+            if (GetPlaybackMode() == PM_DVD && m_iDVDDomain != DVD_DOMAIN_Title) {
+                buttons[0].dwFlags = THBF_DISABLED;
+                buttons[1].dwFlags = THBF_DISABLED;
+                buttons[2].dwFlags = THBF_DISABLED;
+                buttons[3].dwFlags = THBF_DISABLED;
+            }
+
+            m_pTaskbarList->SetOverlayIcon(m_hWnd, hIcon, L"");
+
+            if (hIcon != nullptr) {
+                DestroyIcon(hIcon);
+            }
+        }
+        else {
+            for (size_t i = 0; i < _countof(buttons); i++) {
+                buttons[i].dwFlags = THBF_DISABLED;
+            }
+
+            m_pTaskbarList->SetOverlayIcon(m_hWnd, nullptr, L"");
+            m_pTaskbarList->SetProgressState(m_hWnd, TBPF_NOPROGRESS);
         }
 
-        m_pTaskbarList->SetOverlayIcon(m_hWnd, nullptr, L"");
-        m_pTaskbarList->SetProgressState(m_hWnd, TBPF_NOPROGRESS);
+        UpdateThumbnailClip();
     }
 
-    HRESULT hr = m_pTaskbarList->ThumbBarUpdateButtons(m_hWnd, _countof(buttons), buttons);
+    // Try to locate the window used to display the task bar to check if it is RTLed
+    if (CWnd* pTaskBarWnd = FindWindow(_T("TaskListThumbnailWnd"), nullptr)) {
+        // We don't want the buttons to be mirrored so we pre-mirror them
+        if (pTaskBarWnd->GetExStyle() & WS_EX_LAYOUTRTL) {
+            for (UINT i = 0; i < _countof(buttons); i++) {
+                buttons[i].iBitmap = _countof(buttons) - buttons[i].iBitmap;
+            }
+            std::reverse(buttons, buttons + _countof(buttons));
+        }
+    }
 
-    UpdateThumbnailClip();
-
-    return hr;
+    return m_pTaskbarList->ThumbBarUpdateButtons(m_hWnd, _countof(buttons), buttons);
 }
 
 HRESULT CMainFrame::UpdateThumbnailClip()
