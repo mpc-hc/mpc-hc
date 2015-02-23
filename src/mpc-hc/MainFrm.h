@@ -386,7 +386,7 @@ private:
 
     CDropTarget m_dropTarget;
     void OnDropFiles(CAtlList<CString>& slFiles, DROPEFFECT dropEffect) override;
-    DROPEFFECT CMainFrame::OnDropAccept(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point) override;
+    DROPEFFECT OnDropAccept(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point) override;
 
 public:
     void StartWebServer(int nPort);
