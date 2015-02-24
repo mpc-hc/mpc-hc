@@ -1,18 +1,19 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Dennis Gerritsen <frostflame@hotmail.com>, 2014
 # dragnadh <dragnadh@gmail.com>, 2015
 # DennisW, 2014
+# B512, 2015
 # rjongejan <ruben.jongejan@gmail.com>, 2014
 # Tom <tom@boksma.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-30 22:04:38+0000\n"
-"PO-Revision-Date: 2015-01-22 17:01+0000\n"
-"Last-Translator: dragnadh <dragnadh@gmail.com>\n"
+"POT-Creation-Date: 2015-02-16 12:05:09+0000\n"
+"PO-Revision-Date: 2015-02-18 03:13+0000\n"
+"Last-Translator: B512\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/mpc-hc/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +23,7 @@ msgstr ""
 
 msgctxt "IDS_INFOBAR_LOCATION"
 msgid "Location"
-msgstr "Lokatie"
+msgstr "Locatie"
 
 msgctxt "IDS_INFOBAR_VIDEO"
 msgid "Video"
@@ -1030,7 +1031,7 @@ msgstr "PnS draaien Z-"
 
 msgctxt "IDS_AG_TEARING_TEST"
 msgid "Tearing Test"
-msgstr ""
+msgstr "Tearing Test"
 
 msgctxt "IDS_SCALE_16_9"
 msgid "Scale to 16:9 TV,%.3f,%.3f,%.3f,%.3f"
@@ -1306,7 +1307,7 @@ msgstr "Speel volgend bestand af"
 
 msgctxt "IDS_AFTER_PLAYBACK_REWIND"
 msgid "Rewind current file"
-msgstr ""
+msgstr "Huidig bestand terugspoelen"
 
 msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
 msgid "Close"
@@ -1338,7 +1339,7 @@ msgstr ""
 
 msgctxt "IDS_HOTKEY_NOT_DEFINED"
 msgid "<not defined>"
-msgstr ""
+msgstr "<niet gedefinieerd>"
 
 msgctxt "IDS_NAVIGATION_WATCH"
 msgid "Watch"
@@ -1362,7 +1363,7 @@ msgstr "Verwijder alles"
 
 msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
 msgid "Are you sure you want to remove all channels from the list?"
-msgstr ""
+msgstr "Weet u zeker dat u alle kanalen van de lijst wilt verwijderen?"
 
 msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"
 msgid "No information available"
@@ -1506,11 +1507,11 @@ msgstr ""
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
 msgid "Frame Time Correction: On"
-msgstr ""
+msgstr "Frame tijdcorrectie: Aan"
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_OFF"
 msgid "Frame Time Correction: Off"
-msgstr ""
+msgstr "Frame tijdcorrectie: Uit"
 
 msgctxt "IDS_OSD_RS_TARGET_VSYNC_OFFSET"
 msgid "Target VSync Offset: %.1f"
@@ -1558,7 +1559,7 @@ msgstr ""
 
 msgctxt "IDS_EXPORT_SETTINGS_SUCCESS"
 msgid "The settings have been successfully exported."
-msgstr ""
+msgstr "De instellingen zijn succesvol geëxporteerd."
 
 msgctxt "IDS_EXPORT_SETTINGS_FAILED"
 msgid "The export failed! This can happen when you don't have the correct rights."
@@ -3230,7 +3231,7 @@ msgstr "Contrast verhogen"
 
 msgctxt "IDS_CONTRAST_DEC"
 msgid "Contrast decrease"
-msgstr "Helderheid verlagen"
+msgstr "Contrast verlagen"
 
 msgctxt "IDS_HUE_INC"
 msgid "Hue increase"
@@ -3270,7 +3271,7 @@ msgstr "Update server niet gevonden.\n\nControlleer uw internet verbinding en pr
 
 msgctxt "IDS_UPDATE_CLOSE"
 msgid "&Close"
-msgstr "Sl&uiten"
+msgstr "&Sluiten"
 
 msgctxt "IDS_OSD_ZOOM"
 msgid "Zoom: %.0lf%%"

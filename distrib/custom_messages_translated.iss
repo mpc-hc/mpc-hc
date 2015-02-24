@@ -74,7 +74,7 @@ fr.WelcomeLabel2=Vous allez installer [name] sur votre ordinateur.%n%nIl est rec
 fr.WinVersionTooLowError=[name] nécessite Windows XP Service Pack 3 ou plus récent pour fonctionner.
 
 ; Galician
-gl.WelcomeLabel2=Isto intalará [name] no teu ordenador.%n%nRecomendase que peches todas as aplicacións antes de seguir.
+gl.WelcomeLabel2=Isto instalará [name] no teu ordenador.%n%nRecoméndase que peches todas as aplicacións antes de seguir.
 gl.WinVersionTooLowError=[name] require Windows XP Service Pack 3 ou posterior.
 
 ; Hebrew (Israel)
@@ -419,12 +419,12 @@ fr.ViewChangelog=Voir la liste des changements
 gl.langid=00001110
 gl.comp_mpciconlib=Biblioteca de iconas
 gl.comp_mpcresources=Traducións
-gl.msg_DeleteSettings=Tamén queres eliminar os axustes de MPC-HC?%n%nSe te plantexas instalar MPC-HC outra vez entón non o tes que eliminar.
-gl.msg_SetupIsRunningWarning=O instalador de MPC-HC xa está correndo!
+gl.msg_DeleteSettings=Ques eliminar tamén os axustes de MPC-HC?%n%nSe pensas instalar MPC-HC de novo entón non o tes que eliminalos.
+gl.msg_SetupIsRunningWarning=O instalador de MPC-HC xa está a ser executado!
 #if defined(sse_required)
-gl.msg_simd_sse=Esta versión de MPC-HC require unha CPU con soporte para a extensión SSE .%n%nO seu CPU non ten estas capacidades.
+gl.msg_simd_sse=Esta versión de MPC-HC require unha CPU con soporte para a extensión SSE .%n%nA súa CPU non ten estas capacidades.
 #elif defined(sse2_required)
-gl.msg_simd_sse2=Esta versión de MPC-HC require unha CPU con soporte para a extensión SSE2 .%n%nO seu CPU non ten estas capacidades.
+gl.msg_simd_sse2=Esta versión de MPC-HC require unha CPU con soporte para a extensión SSE2 .%n%nA súa CPU non ten estas capacidades.
 #endif
 gl.run_DownloadToolbarImages=Visite a nosa Wiki para descargar imaxes da barra de ferramentas
 gl.tsk_AllUsers=Para todos os usuarios

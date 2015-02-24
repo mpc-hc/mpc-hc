@@ -2,14 +2,14 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Rancher <djordje.vasiljevich@gmail.com>, 2014
+# Rancher <djordje.vasiljevich@gmail.com>, 2014-2015
 # vBm <the.vbm@gmail.com>, 2014
 # vBm <the.vbm@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-30 22:04:38+0000\n"
-"PO-Revision-Date: 2014-12-11 19:52+0000\n"
+"POT-Creation-Date: 2015-02-16 12:05:09+0000\n"
+"PO-Revision-Date: 2015-02-28 13:11+0000\n"
 "Last-Translator: Rancher <djordje.vasiljevich@gmail.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/mpc-hc/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -2212,7 +2212,7 @@ msgstr "Изаберите путању DVD-а/BD-а:"
 
 msgctxt "IDS_SUB_LOADED_SUCCESS"
 msgid " loaded successfully"
-msgstr "успешно учитано"
+msgstr " успешно учитано"
 
 msgctxt "IDS_ALL_FILES_FILTER"
 msgid "All files (*.*)|*.*||"
