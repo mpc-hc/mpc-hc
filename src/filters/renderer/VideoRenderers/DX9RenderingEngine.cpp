@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -1397,9 +1397,6 @@ HRESULT CDX9RenderingEngine::CreateIccProfileLut(TCHAR* profilePath, float* lut3
         delete [] lut3DOutput;
         delete [] lut3DInput;
         cmsDeleteTransform(hTransform);
-
-        return S_OK;
-
     } catch (...) {
         // Cleanup
         delete [] lut3DOutput;
