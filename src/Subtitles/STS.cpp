@@ -242,14 +242,6 @@ int CharSetLen = _countof(CharSetList);
 
 //
 
-static DWORD CharSetToCodePage(DWORD dwCharSet)
-{
-    CHARSETINFO cs;
-    ZeroMemory(&cs, sizeof(CHARSETINFO));
-    ::TranslateCharsetInfo((DWORD*)dwCharSet, &cs, TCI_SRCCHARSET);
-    return cs.ciACP;
-}
-
 static int FindChar(CStringW str, WCHAR c, int pos, bool fUnicode, int CharSet)
 {
     if (fUnicode) {
