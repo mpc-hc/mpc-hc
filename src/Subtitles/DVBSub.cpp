@@ -634,7 +634,7 @@ HRESULT CDVBSub::ParseObject(CGolombBuffer& gb, WORD wSegLength)
 
     if (m_pCurrentPage) {
         size_t nExpectedSize = 3;
-        size_t nEnd = gb.GetPos() + wSegLength;
+        // size_t nEnd = gb.GetPos() + wSegLength;
 
         short id = gb.ReadShort();
         POSITION posObject = FindObject(m_pCurrentPage, id);

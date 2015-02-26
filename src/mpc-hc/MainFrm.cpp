@@ -7367,7 +7367,6 @@ void CMainFrame::OnPlaySeekKey(UINT nID)
 void CMainFrame::OnUpdatePlaySeek(CCmdUI* pCmdUI)
 {
     bool fEnable = false;
-    OAFilterState fs = GetMediaState();
 
     if (GetLoadState() == MLS::LOADED) {
         fEnable = true;

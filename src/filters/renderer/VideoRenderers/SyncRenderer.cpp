@@ -3628,7 +3628,7 @@ void CSyncAP::RenderThread()
     // Set timer resolution
     timeGetDevCaps(&tc, sizeof(TIMECAPS));
     DWORD dwResolution = std::min(std::max(tc.wPeriodMin, 0u), tc.wPeriodMax);
-    DWORD dwUser = timeBeginPeriod(dwResolution);
+    VERIFY(timeBeginPeriod(dwResolution) == 0);
     pNewSample = nullptr;
 
     while (!bQuit) {

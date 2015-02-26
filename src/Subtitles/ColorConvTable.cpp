@@ -435,10 +435,7 @@ DWORD func(int r8, int g8, int b8)                                              
     const int INT_Kr = int(Kr*FRACTION_SCALE+0.5);                                           \
     const int INT_Kg = int(Kg*FRACTION_SCALE+0.5);                                           \
     const int INT_Kb = int(Kb*FRACTION_SCALE+0.5);                                           \
-    const int Y_CU   = int(0.5/(1-Kb)*4096+0.5);                                             \
-    const int Y_CV   = int(0.5/(1-Kr)*4096+0.5);                                             \
     const int Y_SCALE= int(1.0*YUV_LEVEL.y_size/RGB_LEVEL.size*4096+0.5);                    \
-    const int U_SCALE= int(1.0*YUV_LEVEL.u_size/RGB_LEVEL.size*4096+0.5);                    \
                                                                                              \
     int y = INT_Kr*r8 + INT_Kg*g8 + INT_Kb*b8 - RGB_LEVEL.low;                               \
     y = Y_SCALE == 4096 ? y : (y>>12)*Y_SCALE;                                               \

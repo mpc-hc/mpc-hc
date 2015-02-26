@@ -1930,7 +1930,7 @@ void CEVRAllocatorPresenter::RenderThread()
 
     timeGetDevCaps(&tc, sizeof(TIMECAPS));
     DWORD dwResolution = std::min(std::max(tc.wPeriodMin, 0u), tc.wPeriodMax);
-    DWORD dwUser = timeBeginPeriod(dwResolution);
+    VERIFY(timeBeginPeriod(dwResolution) == 0);
     const CRenderersSettings& r = GetRenderersSettings();
 
     int NextSleepTime = 1;
