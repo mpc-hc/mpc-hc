@@ -23,6 +23,7 @@
 
 #include "SubPicImpl.h"
 #include <memory>
+#include <vector>
 
 enum {
     MSP_RGB32,
@@ -37,9 +38,11 @@ enum {
 };
 
 // CMemSubPic
-
+class CMemSubPicAllocator;
 class CMemSubPic : public CSubPicImpl
 {
+    CComPtr<CMemSubPicAllocator> m_pAllocator;
+
     SubPicDesc m_spd;
     std::unique_ptr<SubPicDesc> m_resizedSpd;
 
@@ -47,7 +50,7 @@ protected:
     STDMETHODIMP_(void*) GetObject(); // returns SubPicDesc*
 
 public:
-    CMemSubPic(const SubPicDesc& spd);
+    CMemSubPic(const SubPicDesc& spd, CMemSubPicAllocator* pAllocator);
     virtual ~CMemSubPic();
 
     // ISubPic
@@ -61,23 +64,23 @@ public:
 
 // CMemSubPicAllocator
 
-class CMemSubPicAllocator : public CSubPicAllocatorImpl
+class CMemSubPicAllocator : public CSubPicAllocatorImpl, public CCritSec
 {
     int m_type;
     CSize m_maxsize;
     CRect m_curvidrect;
 
+    std::vector<std::pair<size_t, BYTE*>> m_freeMemoryChunks;
+
     bool Alloc(bool fStatic, ISubPic** ppSubPic);
 
 public:
     CMemSubPicAllocator(int type, SIZE maxsize);
-    STDMETHODIMP SetMaxTextureSize(SIZE maxTextureSize) override {
-        m_maxsize = maxTextureSize;
-        return S_OK;
-    }
+    virtual ~CMemSubPicAllocator();
 
-    STDMETHODIMP SetCurVidRect(RECT curvidrect) override {
-        m_curvidrect = curvidrect;
-        return __super::SetCurVidRect(curvidrect);
-    }
+    bool AllocSpdBits(SubPicDesc& spd);
+    void FreeSpdBits(SubPicDesc& spd);
+
+    STDMETHODIMP SetMaxTextureSize(SIZE maxTextureSize) override;
+    STDMETHODIMP SetCurVidRect(RECT curvidrect) override;
 };

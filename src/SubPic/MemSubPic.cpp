@@ -84,8 +84,9 @@ void ColorConvInit()
 // CMemSubPic
 //
 
-CMemSubPic::CMemSubPic(const SubPicDesc& spd)
-    : m_spd(spd)
+CMemSubPic::CMemSubPic(const SubPicDesc& spd, CMemSubPicAllocator* pAllocator)
+    : m_pAllocator(pAllocator)
+    , m_spd(spd)
 {
     m_maxsize.SetSize(spd.w, spd.h);
     m_rcDirty.SetRect(0, 0, spd.w, spd.h);
@@ -93,9 +94,9 @@ CMemSubPic::CMemSubPic(const SubPicDesc& spd)
 
 CMemSubPic::~CMemSubPic()
 {
-    delete [] m_spd.bits;
+    m_pAllocator->FreeSpdBits(m_spd);
     if (m_resizedSpd) {
-        delete[] m_resizedSpd->bits;
+        m_pAllocator->FreeSpdBits(*m_resizedSpd);
     }
 }
 
@@ -134,6 +135,8 @@ STDMETHODIMP CMemSubPic::CopyTo(ISubPic* pSubPic)
     }
 
     if (auto subPic = dynamic_cast<CMemSubPic*>(pSubPic)) {
+        ASSERT(subPic->m_pAllocator == m_pAllocator);
+        ASSERT(subPic->m_resizedSpd == nullptr);
         // Move because we are not going to reuse it.
         subPic->m_resizedSpd = std::move(m_resizedSpd);
     }
@@ -202,9 +205,8 @@ STDMETHODIMP CMemSubPic::Unlock(RECT* pDirtyRect)
         m_resizedSpd->pitch = r.Width() * 4;
         m_resizedSpd->bpp = m_spd.bpp;
 
-        if (m_resizedSpd->h < r.Height() || m_resizedSpd->w < r.Width() || !m_resizedSpd->bits) {
-            delete[] m_resizedSpd->bits;
-            m_resizedSpd->bits = DEBUG_NEW BYTE[r.Width() * 4 * r.Height()];
+        if (!m_resizedSpd->bits) {
+            m_pAllocator->AllocSpdBits(*m_resizedSpd);
         }
 
         BitBltFromRGBToRGBStretch(m_resizedSpd->w, m_resizedSpd->h, m_resizedSpd->bits, m_resizedSpd->pitch, m_resizedSpd->bpp
@@ -215,7 +217,7 @@ STDMETHODIMP CMemSubPic::Unlock(RECT* pDirtyRect)
         rcDirty.SetRect(0, 0, m_resizedSpd->w, m_resizedSpd->h);
     } else if (m_resizedSpd) {
         // Resize is not needed so release m_resizedSpd.
-        delete[] m_resizedSpd->bits;
+        m_pAllocator->FreeSpdBits(*m_resizedSpd);
         m_resizedSpd = nullptr;
     }
 
@@ -634,11 +636,20 @@ CMemSubPicAllocator::CMemSubPicAllocator(int type, SIZE maxsize)
 {
 }
 
+CMemSubPicAllocator::~CMemSubPicAllocator()
+{
+    CAutoLock cAutoLock(this);
+
+    for (const auto& p : m_freeMemoryChunks) {
+        delete[] std::get<1>(p);
+    }
+}
+
 // ISubPicAllocatorImpl
 
 bool CMemSubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
 {
-    if (!ppSubPic) {
+    if (!ppSubPic || m_maxsize.cx <= 0 || m_maxsize.cy <= 0) {
         return false;
     }
 
@@ -649,15 +660,13 @@ bool CMemSubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
     spd.pitch = (spd.w * spd.bpp) >> 3;
     spd.type = m_type;
     spd.vidrect = m_curvidrect;
-    try {
-        spd.bits = DEBUG_NEW BYTE[spd.pitch * spd.h];
-    } catch (CMemoryException* e) {
-        e->Delete();
+
+    if (!AllocSpdBits(spd)) {
         return false;
     }
 
     try {
-        *ppSubPic = DEBUG_NEW CMemSubPic(spd);
+        *ppSubPic = DEBUG_NEW CMemSubPic(spd, this);
     } catch (CMemoryException* e) {
         e->Delete();
         delete [] spd.bits;
@@ -667,4 +676,58 @@ bool CMemSubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
     (*ppSubPic)->AddRef();
 
     return true;
+}
+
+bool CMemSubPicAllocator::AllocSpdBits(SubPicDesc& spd)
+{
+    CAutoLock cAutoLock(this);
+
+    ASSERT(!spd.bits);
+    ASSERT(spd.pitch * spd.h > 0);
+
+    auto it = std::find_if(m_freeMemoryChunks.cbegin(), m_freeMemoryChunks.cend(), [&](const std::pair<size_t, BYTE*>& p) {
+        return std::get<0>(p) == size_t(spd.pitch) * spd.h;
+    });
+
+    if (it != m_freeMemoryChunks.end()) {
+        spd.bits = std::get<1>(*it);
+        m_freeMemoryChunks.erase(it);
+    } else {
+        try {
+            spd.bits = DEBUG_NEW BYTE[spd.pitch * spd.h];
+        } catch (CMemoryException* e) {
+            ASSERT(FALSE);
+            e->Delete();
+            return false;
+        }
+    }
+    return true;
+}
+
+void CMemSubPicAllocator::FreeSpdBits(SubPicDesc& spd)
+{
+    CAutoLock cAutoLock(this);
+
+    ASSERT(spd.bits);
+    m_freeMemoryChunks.emplace_back(spd.pitch * spd.h, spd.bits);
+    spd.bits = nullptr;
+}
+
+STDMETHODIMP CMemSubPicAllocator::SetMaxTextureSize(SIZE maxTextureSize)
+{
+    if (m_maxsize != maxTextureSize) {
+        m_maxsize = maxTextureSize;
+        CAutoLock cAutoLock(this);
+        for (const auto& p : m_freeMemoryChunks) {
+            delete[] std::get<1>(p);
+        }
+        m_freeMemoryChunks.clear();
+    }
+    return S_OK;
+}
+
+STDMETHODIMP CMemSubPicAllocator::SetCurVidRect(RECT curvidrect)
+{
+    m_curvidrect = curvidrect;
+    return __super::SetCurVidRect(curvidrect);
 }

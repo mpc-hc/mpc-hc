@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -180,6 +180,7 @@ CSubPicQueue::~CSubPicQueue()
     m_bExitThread = true;
     SetSubPicProvider(nullptr);
     CAMThread::Close();
+    m_pAllocator->FreeStatic();
 }
 
 // ISubPicQueue
@@ -688,6 +689,7 @@ CSubPicQueueNoThread::CSubPicQueueNoThread(SubPicQueueSettings settings, ISubPic
 
 CSubPicQueueNoThread::~CSubPicQueueNoThread()
 {
+    m_pAllocator->FreeStatic();
 }
 
 // ISubPicQueue
