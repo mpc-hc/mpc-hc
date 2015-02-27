@@ -476,7 +476,7 @@ HRESULT CDVBSub::ParsePage(CGolombBuffer& gb, WORD wSegLength, CAutoPtr<DVB_PAGE
     size_t nExpectedSize = 2;
     size_t nEnd = gb.GetPos() + wSegLength;
 
-    pPage = CAutoPtr<DVB_PAGE>(DEBUG_NEW DVB_PAGE());
+    pPage.Attach(DEBUG_NEW DVB_PAGE());
 
     pPage->pageTimeOut = gb.ReadByte();
     pPage->pageVersionNumber = (BYTE)gb.BitRead(4);
