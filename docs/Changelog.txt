@@ -14,6 +14,7 @@ next version - not released yet
 + Internal Subtitle Renderer: Convert colorspace of subtitles to match video.
 + Append files to the playlist on drag&drop while holding "Control" key
 + Enable Press and Hold gesture to make easier access to context menu on touch devices
+* Ticket #5294, Use internal LAV Splitter for demuxing WTV files
 * Updated Little CMS to v2.7 (git 926963a)
 * Updated Unrar to v5.2.6
 * Updated LAV Filters to v0.64.0.5:

@@ -1,5 +1,5 @@
 /*
- * (C) 2010-2014 see Authors.txt
+ * (C) 2010-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -100,6 +100,9 @@ enum SOURCE_FILTER {
 #endif
 #if INTERNAL_SOURCEFILTER_ASF
     SRC_ASF,
+#endif
+#if INTERNAL_SOURCEFILTER_WTV
+    SRC_WTV,
 #endif
 #if INTERNAL_SOURCEFILTER_FLAC
     SRC_FLAC,

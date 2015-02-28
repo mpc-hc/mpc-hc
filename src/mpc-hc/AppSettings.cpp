@@ -270,6 +270,9 @@ CAppSettings::CAppSettings()
 #if INTERNAL_SOURCEFILTER_ASF
     SrcFiltersKeys[SRC_ASF] = FilterKey(_T("SRC_ASF"), false);
 #endif
+#if INTERNAL_SOURCEFILTER_WTV
+    SrcFiltersKeys[SRC_WTV] = FilterKey(_T("SRC_WTV"), true);
+#endif
 #if INTERNAL_SOURCEFILTER_FLAC
     SrcFiltersKeys[SRC_FLAC] = FilterKey(_T("SRC_FLAC"), true);
 #endif

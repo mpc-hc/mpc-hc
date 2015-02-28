@@ -215,12 +215,6 @@ HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl
         }
     }
 
-    // exceptions first
-
-    if (ext == _T(".dvr-ms") || ext == _T(".wtv")) { // doh, this is stupid
-        fl.Insert(LookupFilterRegistry(CLSID_StreamBufferSource, m_override, MERIT64_PREFERRED), 0);
-    }
-
     if (hFile == INVALID_HANDLE_VALUE) {
         // internal / protocol
 
@@ -1470,6 +1464,13 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
         pFGLAVSplitterSource->m_extensions.AddTail(_T(".asf"));
         pFGLAVSplitterSource->m_extensions.AddTail(_T(".dvr-ms"));
         pFGLAVSplitterSource->AddEnabledFormat("asf");
+    }
+#endif
+
+#if INTERNAL_SOURCEFILTER_WTV
+    if (src[SRC_WTV]) {
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".wtv"));
+        pFGLAVSplitterSource->AddEnabledFormat("wtv");
     }
 #endif
 

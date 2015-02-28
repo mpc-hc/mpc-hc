@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -394,6 +394,11 @@ void CPPageInternalFilters::InitFiltersList()
 #if INTERNAL_SOURCEFILTER_ASF
     if (bLAVSplitterIsAvailable) {
         m_filters.Add(filter_t(_T("WMV/ASF/DVR-MS"), SOURCE_FILTER, SRC_ASF, IDS_INTERNAL_LAVF_WMV));
+    }
+#endif
+#if INTERNAL_SOURCEFILTER_WTV
+    if (bLAVSplitterIsAvailable) {
+        m_filters.Add(filter_t(_T("WTV"), SOURCE_FILTER, SRC_WTV, IDS_INTERNAL_LAVF_WMV));
     }
 #endif
 #if INTERNAL_SOURCEFILTER_OGG
