@@ -16,9 +16,10 @@ next version - not released yet
 + Enable Press and Hold gesture to make easier access to context menu on touch devices
 * Updated Little CMS to v2.7 (git 926963a)
 * Updated Unrar to v5.2.6
-* Updated LAV Filters to stable version 0.64.0:
+* Updated LAV Filters to v0.64.0.5:
     - LAV Video Decoder: Faster DXVA decoding in copy-back mode (direct output mode)
     - LAV Video Decoder: Support for HEVC Main10 DXVA2 decoding in copy-back mode
+    - Ticket #5299, LAV Video Decoder: Fix corrupted decoding of some HEVC files
 * Updated British English, Catalan, Chinese (Simplified), Czech, Dutch, Finnish, French, Galician, German,
   Greek, Japanese, Korean, Russian, Serbian, Spanish and Ukrainian translations
 ! EVR-CP/Sync renderers could produce wrong colors
