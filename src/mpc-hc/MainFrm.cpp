@@ -15877,7 +15877,7 @@ HRESULT CMainFrame::UpdateThumbarButton(MPC_PLAYSTATE iPlayState)
 
             buttons[0].dwFlags = (!s.fUseSearchInFolder && m_wndPlaylistBar.GetCount() <= 1 && (m_pCB && m_pCB->ChapGetCount() <= 1)) ? THBF_DISABLED : THBF_ENABLED;
             buttons[3].dwFlags = (!s.fUseSearchInFolder && m_wndPlaylistBar.GetCount() <= 1 && (m_pCB && m_pCB->ChapGetCount() <= 1)) ? THBF_DISABLED : THBF_ENABLED;
-            buttons[4].dwFlags = !m_fAudioOnly ? THBF_ENABLED : THBF_DISABLED;
+            buttons[4].dwFlags = THBF_ENABLED;
 
             if (iPlayState == PS_PLAY) {
                 buttons[1].dwFlags = THBF_ENABLED;
