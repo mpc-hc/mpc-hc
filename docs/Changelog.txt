@@ -25,6 +25,7 @@ next version - not released yet
 * Updated British English, Catalan, Chinese (Simplified), Czech, Dutch, Finnish, French, Galician, German,
   Greek, Japanese, Korean, Russian, Serbian, Spanish and Ukrainian translations
 ! EVR-CP/Sync renderers could produce wrong colors
+! Do not mirror the status bar and the time indicator when using an RTL layout
 ! Ticket #2167, Prevent the task bar buttons from being RTLed when Windows is configured to use RTL layout
 ! Ticket #2516, VSFilter: Fix PGS/DVB subtitles with different size than video frame
 ! Ticket #5183, Fix a rare crash when processing after playback event

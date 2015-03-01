@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -51,13 +51,15 @@ BOOL CPlayerStatusBar::Create(CWnd* pParentWnd)
 {
     BOOL ret = CDialogBar::Create(pParentWnd, IDD_PLAYERSTATUSBAR, WS_CHILD | WS_VISIBLE | CBRS_ALIGN_BOTTOM, IDD_PLAYERSTATUSBAR);
 
+    // Should never be RTLed
+    ModifyStyleEx(WS_EX_LAYOUTRTL, WS_EX_NOINHERITLAYOUT);
+
     m_tooltip.Create(this, TTS_NOPREFIX | TTS_ALWAYSTIP);
     m_tooltip.SetDelayTime(TTDT_INITIAL, 0);
     m_tooltip.SetDelayTime(TTDT_AUTOPOP, 2500);
     m_tooltip.SetDelayTime(TTDT_RESHOW, 0);
     m_tooltip.AddTool(&m_time, IDS_TOOLTIP_REMAINING_TIME);
     m_tooltip.AddTool(&m_status);
-
 
     return ret;
 }
@@ -98,6 +100,8 @@ int CPlayerStatusBar::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
     m_time.Create(_T(""), WS_CHILD | WS_VISIBLE | SS_OWNERDRAW | SS_NOTIFY,
                   r, this, IDC_PLAYERTIME);
+    // Should never be RTLed
+    m_time.ModifyStyleEx(WS_EX_LAYOUTRTL, WS_EX_NOINHERITLAYOUT);
 
     m_status.SetWindowPos(&m_time, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 
