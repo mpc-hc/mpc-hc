@@ -36,7 +36,7 @@ public:
     virtual ~CDropTarget() = default;
 
 private:
-    const UINT CF_URL = RegisterClipboardFormat(_T("UniformResourceLocator"));
+    const CLIPFORMAT CF_URL = (CLIPFORMAT)RegisterClipboardFormat(_T("UniformResourceLocator"));
     CComPtr<IDropTargetHelper> m_pDropHelper;
 
 protected:

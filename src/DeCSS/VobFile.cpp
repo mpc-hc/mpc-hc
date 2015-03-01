@@ -97,7 +97,7 @@ bool CDVDSession::Authenticate()
 
     BYTE Challenge[10], Key[10];
 
-    for (int i = 0; i < 10; i++) {
+    for (BYTE i = 0; i < 10; i++) {
         Challenge[i] = i;
     }
 
@@ -553,7 +553,7 @@ bool CVobFile::Open(CString fn, CAtlList<CString>& vobs, ULONG nProgNum /*= 1*/,
     int cellTableOffset = ReadShort();
     REFERENCE_TIME rtDuration = 0;
     m_pChapters[0] = 0;
-    for (int currentProgram = 0; currentProgram < programChainPrograms; currentProgram++) {
+    for (BYTE currentProgram = 0; currentProgram < programChainPrograms; currentProgram++) {
         m_ifoFile.Seek(pcgITPosition + chainOffset + programMapOffset + currentProgram, CFile::begin);
         byte entryCell = ReadByte();
         byte exitCell = entryCell;
@@ -854,6 +854,7 @@ BSTR CVobFile::GetTrackName(UINT aTrackIdx) const
 REFERENCE_TIME CVobFile::GetChapterOffset(UINT ChapterNumber) const
 {
     REFERENCE_TIME rtChapterOffset = 0;
-    m_pChapters.Lookup(ChapterNumber, rtChapterOffset);
+    ASSERT(ChapterNumber < BYTE_MAX);
+    m_pChapters.Lookup((BYTE)ChapterNumber, rtChapterOffset);
     return rtChapterOffset;
 }

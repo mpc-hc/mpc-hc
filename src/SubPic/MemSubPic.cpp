@@ -62,7 +62,7 @@ void ColorConvInit()
 
     for (int i = 0; i < 256; i++) {
         clipBase[i] = 0;
-        clipBase[i + 256] = i;
+        clipBase[i + 256] = BYTE(i);
         clipBase[i + 512] = 255;
     }
 
@@ -269,8 +269,8 @@ STDMETHODIMP CMemSubPic::Unlock(RECT* pDirtyRect)
             BYTE* e = s + w * 4;
             for (; s < e; s += 8) { // ARGB ARGB -> AxYU AxYV
                 if ((s[3] + s[7]) < 0x1fe) {
-                    s[1] = (c2y_yb[s[0]] + c2y_yg[s[1]] + c2y_yr[s[2]] + 0x108000) >> 16;
-                    s[5] = (c2y_yb[s[4]] + c2y_yg[s[5]] + c2y_yr[s[6]] + 0x108000) >> 16;
+                    s[1] = BYTE((c2y_yb[s[0]] + c2y_yg[s[1]] + c2y_yr[s[2]] + 0x108000) >> 16);
+                    s[5] = BYTE((c2y_yb[s[4]] + c2y_yg[s[5]] + c2y_yr[s[6]] + 0x108000) >> 16);
 
                     int scaled_y = (s[1] + s[5] - 32) * cy_cy2;
 
@@ -289,7 +289,7 @@ STDMETHODIMP CMemSubPic::Unlock(RECT* pDirtyRect)
 
             for (; s < e; s += 4) { // ARGB -> AYUV
                 if (s[3] < 0xff) {
-                    int y = (c2y_yb[s[0]] + c2y_yg[s[1]] + c2y_yr[s[2]] + 0x108000) >> 16;
+                    auto y = BYTE((c2y_yb[s[0]] + c2y_yg[s[1]] + c2y_yr[s[2]] + 0x108000) >> 16);
                     int scaled_y = (y - 32) * cy_cy;
                     s[1] = clip[((((s[0] << 16) - scaled_y) >> 10) * c2y_cu + 0x800000 + 0x8000) >> 16];
                     s[0] = clip[((((s[2] << 16) - scaled_y) >> 10) * c2y_cv + 0x800000 + 0x8000) >> 16];
@@ -615,7 +615,7 @@ STDMETHODIMP CMemSubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
                 for (; s2 < s2end; s2 += 8, d2++, is2 += 8) {
                     unsigned int ia = (s2[3] + s2[3 + src.pitch] + is2[3] + is2[3 + src.pitch]) >> 2;
                     if (ia < 0xff) {
-                        *d2 = (((*d2 - 0x80) * ia) >> 8) + ((s2[0] + s2[src.pitch]) >> 1);
+                        *d2 = BYTE((((*d2 - 0x80) * ia) >> 8) + ((s2[0] + s2[src.pitch]) >> 1));
                     }
                 }
             }

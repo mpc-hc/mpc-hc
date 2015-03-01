@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -300,12 +300,12 @@ STDMETHODIMP CDirectVobSub::get_TextSettings(void* lf, int lflen, COLORREF* colo
             return E_INVALIDARG;
         }
 
-        ((LOGFONT*)lf)->lfCharSet = m_defStyle.charSet;
-        ((LOGFONT*)lf)->lfItalic = m_defStyle.fItalic;
+        ((LOGFONT*)lf)->lfCharSet = (BYTE)m_defStyle.charSet;
+        ((LOGFONT*)lf)->lfItalic = (BYTE)m_defStyle.fItalic;
         ((LOGFONT*)lf)->lfHeight = (LONG)m_defStyle.fontSize;
         ((LOGFONT*)lf)->lfWeight = m_defStyle.fontWeight;
-        ((LOGFONT*)lf)->lfStrikeOut = m_defStyle.fStrikeOut;
-        ((LOGFONT*)lf)->lfUnderline = m_defStyle.fUnderline;
+        ((LOGFONT*)lf)->lfStrikeOut = (BYTE)m_defStyle.fStrikeOut;
+        ((LOGFONT*)lf)->lfUnderline = (BYTE)m_defStyle.fUnderline;
     }
 
     if (color) {

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -990,8 +990,8 @@ void CVobSubImage::SplitOutline(const COutline& o, COutline& o1, COutline& o2)
         }
     }
 
-    size_t maxlen = 0, maxidx = -1;
-    size_t maxlen2 = 0, maxidx2 = -1;
+    size_t maxlen = 0, maxidx = SIZE_T_ERROR;
+    size_t maxlen2 = 0, maxidx2 = SIZE_T_ERROR;
 
     for (i = 0; i < la.GetCount(); i++) {
         if (maxlen < la[i]) {
@@ -1004,6 +1004,8 @@ void CVobSubImage::SplitOutline(const COutline& o, COutline& o1, COutline& o2)
             maxidx2 = i;
         }
     }
+
+    ASSERT(maxidx != SIZE_T_ERROR && maxidx2 != SIZE_T_ERROR);
 
     if (maxlen == maxlen2) {
         maxidx = maxidx2;    // if equal choose the inner section

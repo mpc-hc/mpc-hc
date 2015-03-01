@@ -1333,7 +1333,7 @@ void CSubtitle::CreateClippers(CSize size)
             int k = std::min(width, w);
 
             for (ptrdiff_t i = 0; i < k; i++, a += da) {
-                am[i] = (am[i] * a) >> 14;
+                am[i] = BYTE((am[i] * a) >> 14);
             }
 
             a = 0x40 << 8;
@@ -1345,7 +1345,7 @@ void CSubtitle::CreateClippers(CSize size)
             }
 
             for (ptrdiff_t i = k; i < w; i++, a -= da) {
-                am[i] = (am[i] * a) >> 14;
+                am[i] = BYTE((am[i] * a) >> 14);
             }
         }
     } else if (m_effects[EF_SCROLL] && m_effects[EF_SCROLL]->param[4]) {
@@ -1374,7 +1374,7 @@ void CSubtitle::CreateClippers(CSize size)
 
             for (ptrdiff_t j = k; j < l; j++, a += da) {
                 for (ptrdiff_t i = 0; i < w; i++, am++) {
-                    *am = ((*am) * a) >> 14;
+                    *am = BYTE(((*am) * a) >> 14);
                 }
             }
         }
@@ -1397,7 +1397,7 @@ void CSubtitle::CreateClippers(CSize size)
             int j = k;
             for (; j < l; j++, a += da) {
                 for (ptrdiff_t i = 0; i < w; i++, am++) {
-                    *am = ((*am) * a) >> 14;
+                    *am = BYTE(((*am) * a) >> 14);
                 }
             }
 

@@ -1024,7 +1024,7 @@ BOOL CMPlayerCApp::GetProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPBY
             return FALSE;
         }
         for (UINT i = 0; i < *pBytes; i++) {
-            (*ppData)[i] = (valueStr[i * 2] - 'A') | ((valueStr[i * 2 + 1] - 'A') << 4);
+            (*ppData)[i] = BYTE((valueStr[i * 2] - 'A') | ((valueStr[i * 2 + 1] - 'A') << 4));
         }
         return TRUE;
     }

@@ -156,7 +156,7 @@ CBasePin* CMatroskaMuxerFilter::GetPin(int n)
         }
     }
 
-    if (n == m_pInputs.GetCount() && m_pOutput) {
+    if (n == (int)m_pInputs.GetCount() && m_pOutput) {
         return m_pOutput;
     }
 
@@ -1105,7 +1105,7 @@ HRESULT CMatroskaMuxerInputPin::CompleteConnect(IPin* pPin)
             *dst++ = 2;
             for (int i = 0; i < 2; i++) {
                 for (int len2 = pvf2->HeaderSize[i]; len2 >= 0; len2 -= 255) {
-                    *dst++ = std::min(len2, 255);
+                    *dst++ = (BYTE)std::min(len2, BYTE_MAX);
                 }
             }
 

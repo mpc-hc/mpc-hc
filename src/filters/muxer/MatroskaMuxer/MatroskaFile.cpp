@@ -255,7 +255,7 @@ QWORD CLength::Size(bool fWithHeader)
 
     QWORD len = 0;
     for (int i = 1; i <= 8; i++) {
-        if (!(m_len & (~((1i64 << (7 * i)) - 1))) && (m_len & ((1i64 << (7 * i)) - 1)) != ((1i64 << (7 * i)) - 1)) {
+        if (!(m_len & (~((QWORD(1) << (7 * i)) - 1))) && (m_len & ((QWORD(1) << (7 * i)) - 1)) != ((QWORD(1) << (7 * i)) - 1)) {
             len += i;
             break;
         }

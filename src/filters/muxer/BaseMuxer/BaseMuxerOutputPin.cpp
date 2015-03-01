@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2013, 2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -244,8 +244,8 @@ void CBaseMuxerRawOutputPin::MuxPacket(const CMediaType& mt, const MuxerPacket* 
         int len = (DataSize + 7) & 0x1fff;
 
         BYTE hdr[7] = {0xff, 0xf9};
-        hdr[2] = (profile << 6) | (srate_idx << 2) | ((channels & 4) >> 2);
-        hdr[3] = ((channels & 3) << 6) | (len >> 11);
+        hdr[2] = BYTE((profile << 6) | (srate_idx << 2) | ((channels & 4) >> 2));
+        hdr[3] = BYTE(((channels & 3) << 6) | (len >> 11));
         hdr[4] = (len >> 3) & 0xff;
         hdr[5] = ((len & 7) << 5) | 0x1f;
         hdr[6] = 0xfc;

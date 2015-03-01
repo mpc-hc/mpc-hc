@@ -331,7 +331,7 @@ BOOL CPPageOutput::OnInitDialog()
     addRenderer(VIDRNDT_DS_NULL_UNCOMP);
 
     for (int j = 0; j < m_iDSVRTC.GetCount(); ++j) {
-        if (m_iDSVideoRendererType == m_iDSVRTC.GetItemData(j)) {
+        if ((UINT)m_iDSVideoRendererType == m_iDSVRTC.GetItemData(j)) {
             m_iDSVRTC.SetCurSel(j);
             break;
         }
@@ -419,7 +419,7 @@ BOOL CPPageOutput::OnApply()
         // revert to the renderer in the settings
         m_iDSVideoRendererTypeCtrl.SetCurSel(0);
         for (int i = 0; i < m_iDSVideoRendererTypeCtrl.GetCount(); ++i) {
-            if (s.iDSVideoRendererType == m_iDSVideoRendererTypeCtrl.GetItemData(i)) {
+            if ((UINT)s.iDSVideoRendererType == m_iDSVideoRendererTypeCtrl.GetItemData(i)) {
                 m_iDSVideoRendererTypeCtrl.SetCurSel(i);
                 break;
             }

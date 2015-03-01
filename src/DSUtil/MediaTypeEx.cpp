@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -262,7 +262,7 @@ CString CMediaTypeEx::GetVideoCodecName(const GUID& subtype, DWORD biCompression
 
         for (ptrdiff_t i = 0; i < 4; i++) {
             if (b[i] >= 'a' && b[i] <= 'z') {
-                b[i] = toupper(b[i]);
+                b[i] = (BYTE)toupper(b[i]);
             }
         }
 

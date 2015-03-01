@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -1024,23 +1024,21 @@ STDMETHODIMP CVobSubFileRipper::LoadParamFile(CString fn)
                     line.TrimLeft();
 
                     n = 0;
-
-                    int langnum;
-
                     if (_istdigit(lang[0])) {
+                        int langnum;
                         n = _stscanf_s(lang, _T("%d"), &langnum);
                         if (n != 1) {
                             break;
                         }
 
-                        m_rd.selids[langnum] = true;
+                        m_rd.selids[(BYTE)langnum] = true;
                     } else if (_istalpha(lang[0])) {
                         n = _stscanf_s(lang, _T("%s"), langid, _countof(langid));
                         if (n != 1) {
                             break;
                         }
 
-                        int id = (langid[0] << 8) + langid[1];
+                        BYTE id = BYTE((langid[0] << 8) + langid[1]);
 
                         if (id == 'cc') {
                             m_rd.bClosedCaption = true;

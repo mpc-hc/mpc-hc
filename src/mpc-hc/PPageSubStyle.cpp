@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -214,7 +214,8 @@ BOOL CPPageSubStyle::OnApply()
     m_stss.relativeTo = (STSStyle::RelativeTo)m_iRelativeTo;
 
     for (size_t i = 0; i < m_alpha.size(); i++) {
-        m_stss.alpha[i] = BYTE_MAX - m_alpha[i];
+        ASSERT(m_alpha[i] <= BYTE_MAX);
+        m_stss.alpha[i] = BYTE_MAX - BYTE(m_alpha[i]);
     }
 
     if (m_bDefaultStyle) {

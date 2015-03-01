@@ -648,7 +648,7 @@ bool CVobSubFile::ReadIdx(CString fn, int& ver)
         } else if (entry == _T("id")) {
             str.MakeLower();
 
-            int langid = ((str[0] & 0xff) << 8) | (str[1] & 0xff);
+            WORD langid = ((str[0] & 0xff) << 8) | (str[1] & 0xff);
 
             i = str.Find(_T("index:"));
             if (i < 0) {
@@ -690,8 +690,8 @@ bool CVobSubFile::ReadIdx(CString fn, int& ver)
         } else if (id >= 0 && entry == _T("timestamp")) {
             SubPos sb;
 
-            sb.vobid = vobid;
-            sb.cellid = cellid;
+            sb.vobid = (char)vobid;
+            sb.cellid = (char)cellid;
             sb.celltimestamp = celltimestamp;
             sb.bValid = true;
 
@@ -1143,13 +1143,15 @@ BYTE* CVobSubFile::GetPacket(size_t idx, size_t& packetSize, size_t& dataSize, s
             break;
         }
 
+        ASSERT(nLang < BYTE_MAX);
+
         // let's check a few things to make sure...
         if (*(DWORD*)&buff[0x00] != 0xba010000
                 || *(DWORD*)&buff[0x0e] != 0xbd010000
                 || !(buff[0x15] & 0x80)
                 || (buff[0x17] & 0xf0) != 0x20
                 || (buff[buff[0x16] + 0x17] & 0xe0) != 0x20
-                || (buff[buff[0x16] + 0x17] & 0x1f) != nLang) {
+                || (buff[buff[0x16] + 0x17] & 0x1f) != (BYTE)nLang) {
             break;
         }
 
@@ -1360,7 +1362,7 @@ STDMETHODIMP CVobSubFile::Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps,
 
     rt /= 10000;
 
-    if (!GetFrame(GetFrameIdxByTimeStamp(rt), -1, rt)) {
+    if (!GetFrame(GetFrameIdxByTimeStamp(rt), SIZE_T_ERROR, rt)) {
         return E_FAIL;
     }
 
@@ -1496,8 +1498,8 @@ static void PixelAtBiLinear(RGBQUAD& c, int x, int y, CVobSubImage& src)
                   + c21.rgbGreen * v2u1 + c22.rgbGreen * v2u2) >> 24;
     c.rgbBlue = (c11.rgbBlue * v1u1 + c12.rgbBlue * v1u2
                  + c21.rgbBlue * v2u1 + c22.rgbBlue * v2u2) >> 24;
-    c.rgbReserved = (v1u1 + v1u2
-                     + v2u1 + v2u2) >> 16;
+    c.rgbReserved = BYTE((v1u1 + v1u2
+                          + v2u1 + v2u2) >> 16);
 }
 
 static void StretchBlt(SubPicDesc& spd, CRect dstrect, CVobSubImage& src)
@@ -1960,7 +1962,8 @@ bool CVobSubFile::SaveScenarist(CString fn, int delay)
     BYTE colormap[16];
 
     for (size_t i = 0; i < 16; i++) {
-        int idx = 0, maxdif = 255 * 255 * 3 + 1;
+        BYTE idx = 0;
+        int maxdif = 255 * 255 * 3 + 1;
 
         for (size_t j = 0; j < 16 && maxdif; j++) {
             int rdif = pal[j].rgbRed - m_orgpal[i].rgbRed;
@@ -1970,7 +1973,7 @@ bool CVobSubFile::SaveScenarist(CString fn, int delay)
             int dif = rdif * rdif + gdif * gdif + bdif * bdif;
             if (dif < maxdif) {
                 maxdif = dif;
-                idx = (int)j;
+                idx = (BYTE)j;
             }
         }
 

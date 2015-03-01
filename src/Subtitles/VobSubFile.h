@@ -94,7 +94,7 @@ public:
     };
 
     struct SubLang {
-        int id = 0;
+        WORD id = 0;
         CString name, alt;
         CAtlArray<SubPos> subpos;
     };

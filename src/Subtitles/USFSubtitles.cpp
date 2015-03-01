@@ -348,12 +348,12 @@ bool CUSFSubtitles::ConvertToSTS(CSimpleTextSubtitle& sts)
 
         for (size_t i = 0; i < 4; i++) {
             DWORD color = ColorToDWORD(s->fontstyle.color[i]);
-            int alpha = (BYTE)wcstol(s->fontstyle.alpha, nullptr, 10);
+            auto alpha = (BYTE)wcstol(s->fontstyle.alpha, nullptr, 10);
 
             stss->colors[i] = color & 0xffffff;
             stss->alpha[i] = (BYTE)(color >> 24);
 
-            stss->alpha[i] = stss->alpha[i] + (255 - stss->alpha[i]) * std::min(std::max(alpha, 0), 100) / 100;
+            stss->alpha[i] = BYTE(stss->alpha[i] + (255 - stss->alpha[i]) * std::min(std::max(alpha, 0ui8), 100ui8) / 100);
         }
 
         if (!s->fontstyle.face.IsEmpty()) {
