@@ -1891,12 +1891,12 @@ msgid "Boss key"
 msgstr "老板键"
 
 msgctxt "IDS_MPLAYERC_77"
-msgid "Player Menu (short)"
-msgstr "播放器菜单 (短)"
+msgid "Player Menu"
+msgstr ""
 
 msgctxt "IDS_MPLAYERC_78"
-msgid "Player Menu (long)"
-msgstr "播放器菜单 (长)"
+msgid "Player Menu (full)"
+msgstr ""
 
 msgctxt "IDS_AG_FILTERS_MENU"
 msgid "Filters Menu"

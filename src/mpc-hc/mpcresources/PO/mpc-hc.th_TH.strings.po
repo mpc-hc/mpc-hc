@@ -1891,12 +1891,12 @@ msgid "Boss key"
 msgstr "ปุ่มหลบเจ้านาย"
 
 msgctxt "IDS_MPLAYERC_77"
-msgid "Player Menu (short)"
-msgstr "เมนูเครื่องเล่น (สั้น)"
+msgid "Player Menu"
+msgstr ""
 
 msgctxt "IDS_MPLAYERC_78"
-msgid "Player Menu (long)"
-msgstr "เมนูเครื่องเล่น (ยาว)"
+msgid "Player Menu (full)"
+msgstr ""
 
 msgctxt "IDS_AG_FILTERS_MENU"
 msgid "Filters Menu"

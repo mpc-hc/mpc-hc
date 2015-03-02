@@ -682,11 +682,11 @@ msgid "Use Windows 7 Taskbar features"
 msgstr "Použiť vlastnosti panela úloh Windows 7"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
 msgstr "Ak je v playliste iba jedna položka, otvoriť ďalší/predchádzajúci súbor v priečinku pri príkaze \"Preskočiť dozadu/dopredu\""
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Use time tooltip:"
+msgid "Show time tooltip:"
 msgstr "Použiť časový tip:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
@@ -1278,8 +1278,8 @@ msgid "Enable automatic update check"
 msgstr "Zapnúť automatickú kontrolu aktualizácií"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
-msgid "Delay between each check:"
-msgstr "Čas medzi kontrolami:"
+msgid "Check every:"
+msgstr ""
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"

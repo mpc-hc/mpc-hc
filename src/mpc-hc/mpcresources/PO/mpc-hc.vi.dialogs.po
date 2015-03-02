@@ -682,11 +682,11 @@ msgid "Use Windows 7 Taskbar features"
 msgstr "Sử dụng tính năng Windows 7 Taskbar"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
 msgstr "Mở tập tin trước / sau trong thư mục vào \"Bỏ qua trở lại / về phía trước\" khi chỉ có một mục trong danh sách nhạc"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Use time tooltip:"
+msgid "Show time tooltip:"
 msgstr "Sử dụng thời gian tooltip:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
@@ -1278,8 +1278,8 @@ msgid "Enable automatic update check"
 msgstr "Kích hoạt kiểm tra nâng cấp"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
-msgid "Delay between each check:"
-msgstr "Sự chậm trễ giữa mỗi lần kiểm tra:"
+msgid "Check every:"
+msgstr ""
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"

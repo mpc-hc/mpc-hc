@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-02-16 12:05:09+0000\n"
+"POT-Creation-Date: 2015-03-03 21:51:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1886,11 +1886,11 @@ msgid "Boss key"
 msgstr ""
 
 msgctxt "IDS_MPLAYERC_77"
-msgid "Player Menu (short)"
+msgid "Player Menu"
 msgstr ""
 
 msgctxt "IDS_MPLAYERC_78"
-msgid "Player Menu (long)"
+msgid "Player Menu (full)"
 msgstr ""
 
 msgctxt "IDS_AG_FILTERS_MENU"

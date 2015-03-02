@@ -682,12 +682,12 @@ msgid "Use Windows 7 Taskbar features"
 msgstr "Use Windows 7 Taskbar features"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
-msgstr "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgstr "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Use time tooltip:"
-msgstr "Use time tooltip:"
+msgid "Show time tooltip:"
+msgstr "Show time tooltip:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "OSD font:"
@@ -1278,8 +1278,8 @@ msgid "Enable automatic update check"
 msgstr "Enable automatic update check"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
-msgid "Delay between each check:"
-msgstr "Delay between each check:"
+msgid "Check every:"
+msgstr ""
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"

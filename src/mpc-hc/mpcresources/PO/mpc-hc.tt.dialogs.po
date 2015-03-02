@@ -683,11 +683,11 @@ msgid "Use Windows 7 Taskbar features"
 msgstr "Windows 7 аслыгы мөмкинлекләрен кулланырга 7"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
 msgstr "Папкада Киләсе/алдагы файлны 'Алга/Артка' аша, уйнату битендә бер нокта булганда ачарга"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Use time tooltip:"
+msgid "Show time tooltip:"
 msgstr "Вакытны күрсәтергә"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
@@ -1279,8 +1279,8 @@ msgid "Enable automatic update check"
 msgstr "Яңартуны үзе тикшерү"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
-msgid "Delay between each check:"
-msgstr "Тикшерү аралыгы:"
+msgid "Check every:"
+msgstr ""
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"

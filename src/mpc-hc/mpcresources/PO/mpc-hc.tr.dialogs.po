@@ -683,11 +683,11 @@ msgid "Use Windows 7 Taskbar features"
 msgstr "Windows 7 görev çubuğu özelliklerini kullan"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
 msgstr "Oynatma listesinde tek nesne varken \"Geri/ileri git\" tuşuyla önceki/sonraki dosyayı aç"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Use time tooltip:"
+msgid "Show time tooltip:"
 msgstr "Süre gösterim yerleşimi:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
@@ -1279,8 +1279,8 @@ msgid "Enable automatic update check"
 msgstr "Otomatik güncelleştirmeleri aç"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
-msgid "Delay between each check:"
-msgstr "Güncelleştirme kontrolü :"
+msgid "Check every:"
+msgstr ""
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"

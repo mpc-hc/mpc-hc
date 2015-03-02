@@ -422,9 +422,9 @@ BEGIN
     CONTROL         "Prevent minimizing the player when in fullscreen on a non default monitor",IDC_CHECK6,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,90,290,8
     CONTROL         "Use Windows 7 Taskbar features",IDC_CHECK_WIN7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,102,286,8
-    CONTROL         "Open next/previous file in folder on ""Skip back/forward"" when there is only one item in playlist",IDC_CHECK7,
+    CONTROL         "Open previous/next file in folder on ""Skip back/forward"" when there is only one item in playlist",IDC_CHECK7,
                     "Button",BS_AUTOCHECKBOX | BS_VCENTER | BS_MULTILINE | WS_TABSTOP,5,125,290,18
-    CONTROL         "Use time tooltip:",IDC_CHECK8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,149,135,8
+    CONTROL         "Show time tooltip:",IDC_CHECK8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,149,135,8
     COMBOBOX        IDC_COMBO3,145,147,113,64,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "OSD font:",IDC_STATIC,5,167,82,8
     COMBOBOX        IDC_COMBO1,89,165,140,64,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
@@ -865,7 +865,7 @@ BEGIN
     PUSHBUTTON      "Reset",IDC_RESET,231,80,50,14
     GROUPBOX        "Update check",IDC_STATIC,5,106,286,40
     CONTROL         "Enable automatic update check",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,118,250,8
-    LTEXT           "Delay between each check:",IDC_STATIC5,10,131,110,8
+    LTEXT           "Check every:",IDC_STATIC5,10,131,110,8
     EDITTEXT        IDC_EDIT1,120,129,30,13,ES_CENTER | ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,150,129,13,14
     LTEXT           "day(s)",IDC_STATIC6,155,131,50,8
@@ -2799,8 +2799,8 @@ BEGIN
     IDS_AG_DVD_MENU_BACK    "DVD Menu Back"
     IDS_MPLAYERC_75         "DVD Menu Leave"
     IDS_AG_BOSS_KEY         "Boss key"
-    IDS_MPLAYERC_77         "Player Menu (short)"
-    IDS_MPLAYERC_78         "Player Menu (long)"
+    IDS_MPLAYERC_77         "Player Menu"
+    IDS_MPLAYERC_78         "Player Menu (full)"
     IDS_AG_FILTERS_MENU     "Filters Menu"
     IDS_AG_OPTIONS          "Options"
     IDS_AG_NEXT_AUDIO       "Next Audio"

@@ -682,11 +682,11 @@ msgid "Use Windows 7 Taskbar features"
 msgstr "ใช้คุณลักษณะ Windows 7 Taskbar"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
 msgstr "เปิดไฟล์ ก่อนหน้า/ถัดไป ในโฟลเดอร์ เมื่อเลือก \"ข้ามไปหลัง/ข้ามไปหน้า\" หากมีเพียงรายการเดียวในบัญชีการเล่น"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Use time tooltip:"
+msgid "Show time tooltip:"
 msgstr "ใช้ตัวบอกเวลา:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
@@ -1278,8 +1278,8 @@ msgid "Enable automatic update check"
 msgstr "ใช้งานการตรวจสอบการอัพเดตอัตโนมัติ"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
-msgid "Delay between each check:"
-msgstr "ช่วงของการตรวจสอบ:"
+msgid "Check every:"
+msgstr ""
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"

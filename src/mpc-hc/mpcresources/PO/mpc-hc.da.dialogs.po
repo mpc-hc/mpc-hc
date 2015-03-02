@@ -686,11 +686,11 @@ msgid "Use Windows 7 Taskbar features"
 msgstr "Brug Windows 7 proceslinje funktioner"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
 msgstr "Åbn næste/forrige fil i mappe ved \"Spring tilbage/fremad\" når spillelisten kun har én post"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Use time tooltip:"
+msgid "Show time tooltip:"
 msgstr "Vis værktøjstip om tid:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
@@ -1282,8 +1282,8 @@ msgid "Enable automatic update check"
 msgstr "Aktivér automatisk søgning efter opdatering"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
-msgid "Delay between each check:"
-msgstr "Tid mellem hver søgning:"
+msgid "Check every:"
+msgstr ""
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"

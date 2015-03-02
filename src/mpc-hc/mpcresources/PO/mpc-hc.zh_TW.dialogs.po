@@ -685,11 +685,11 @@ msgid "Use Windows 7 Taskbar features"
 msgstr "使用 Windows 7 工作列功能"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
 msgstr "當播放清單中只有一個項目時執行 \"前一段/後一段\" 時開啟前/後一個檔案"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Use time tooltip:"
+msgid "Show time tooltip:"
 msgstr "使用時間工具提示:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
@@ -1281,8 +1281,8 @@ msgid "Enable automatic update check"
 msgstr "啟用自動更新檢查"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
-msgid "Delay between each check:"
-msgstr "每次檢查間隔:"
+msgid "Check every:"
+msgstr ""
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"

@@ -684,11 +684,11 @@ msgid "Use Windows 7 Taskbar features"
 msgstr "Gebruik mogelijkheden van Windows 7 Taakbalk "
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
 msgstr "Open het volgende/vorige bestand in de bestandsmap op \"Volgende/Vorige\" wanneer er maar een bestand in de afspeellijst staat"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Use time tooltip:"
+msgid "Show time tooltip:"
 msgstr "Gebruik tijd tooltip:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
@@ -1280,8 +1280,8 @@ msgid "Enable automatic update check"
 msgstr "Automatisch op updates controleren"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
-msgid "Delay between each check:"
-msgstr "Wachttijd tussen elke controle:"
+msgid "Check every:"
+msgstr ""
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"

@@ -682,11 +682,11 @@ msgid "Use Windows 7 Taskbar features"
 msgstr "Χρήση χαρακτηριστικών Γραμμής εργασίας των Windows 7"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
 msgstr "Άνοιγμα του επόμενου/προηγούμ. αρχείου στο φάκελο, στην επιλογή «Παράβλεψη επόμενου/προηγούμ. αρχείου», όταν υπάρχει μόνο ένα στοιχείο στη λίστα αναπ/γωγής"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Use time tooltip:"
+msgid "Show time tooltip:"
 msgstr "Χρήση συμβουλής χρόνου:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
@@ -1278,8 +1278,8 @@ msgid "Enable automatic update check"
 msgstr "Ενεργοποίηση αυτόματου ελέγχου ενημερώσεων"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
-msgid "Delay between each check:"
-msgstr "Περίοδος μεταξύ ελέγχων:"
+msgid "Check every:"
+msgstr ""
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"

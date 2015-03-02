@@ -681,11 +681,11 @@ msgid "Use Windows 7 Taskbar features"
 msgstr "Օգտագործել Windows 7-ի առաջադրանքի վահանակի հնարավորությունները"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
 msgstr "Բացել հաջորդ/նախորդ ֆայլը թղթապանակում \"Հետ/Առաջ\"-ի միջոցով, եթե խաղացանկում առկա է մեկ ֆայլ։"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Use time tooltip:"
+msgid "Show time tooltip:"
 msgstr "Օգտ. ժամանակի հուշումը"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
@@ -1277,8 +1277,8 @@ msgid "Enable automatic update check"
 msgstr "Միացնել թարմացումների ստուգումը"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
-msgid "Delay between each check:"
-msgstr "Ստուգել յուրաքանչյուր՝"
+msgid "Check every:"
+msgstr ""
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"

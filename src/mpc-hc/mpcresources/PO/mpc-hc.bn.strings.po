@@ -1890,12 +1890,12 @@ msgid "Boss key"
 msgstr "বস্‌ কী"
 
 msgctxt "IDS_MPLAYERC_77"
-msgid "Player Menu (short)"
-msgstr "প্লেয়ার মেন্যু (ছোট)"
+msgid "Player Menu"
+msgstr ""
 
 msgctxt "IDS_MPLAYERC_78"
-msgid "Player Menu (long)"
-msgstr "প্লেয়ার মেন্যু (বড়ো)"
+msgid "Player Menu (full)"
+msgstr ""
 
 msgctxt "IDS_AG_FILTERS_MENU"
 msgid "Filters Menu"

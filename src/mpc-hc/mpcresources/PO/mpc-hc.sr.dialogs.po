@@ -683,11 +683,11 @@ msgid "Use Windows 7 Taskbar features"
 msgstr "Функције траке задатака из ОС Windows 7"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
 msgstr "Отвори претходну/следећу датотеку у фасцикли при коришћењу опције „Прескочи уназад/унапред“ када је у плеј-листи само једна датотека"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Use time tooltip:"
+msgid "Show time tooltip:"
 msgstr "Прикажи време:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
@@ -1279,8 +1279,8 @@ msgid "Enable automatic update check"
 msgstr "Аутоматска потражња ажурирања"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
-msgid "Delay between each check:"
-msgstr "Застој између сваке провере:"
+msgid "Check every:"
+msgstr ""
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"

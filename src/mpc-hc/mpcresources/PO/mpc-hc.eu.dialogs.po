@@ -681,11 +681,11 @@ msgid "Use Windows 7 Taskbar features"
 msgstr "Erabili Windows 7 Eginkizun-barra ezaugarriak"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
 msgstr "Ireki agiritegiko hurrengo/aurreko agiria 'Jauzi atzera/aurrera' irakur-zerrendan gai bakarra dagoenean"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Use time tooltip:"
+msgid "Show time tooltip:"
 msgstr "Denbora tresnaburua:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
@@ -1277,8 +1277,8 @@ msgid "Enable automatic update check"
 msgstr "Gaitu berezgaitasunezko eguneraketa egiaztapena"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
-msgid "Delay between each check:"
-msgstr "Atzerap. egiazt. artean:"
+msgid "Check every:"
+msgstr ""
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"

@@ -681,11 +681,11 @@ msgid "Use Windows 7 Taskbar features"
 msgstr "Windows 7 Tálcafunkciók használata"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
 msgstr "Az \"Ugrás előre/vissza\" nyissa meg a mappában a következő/az előző fájlt, ha csak 1 fájl van a lejátszási listában."
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Use time tooltip:"
+msgid "Show time tooltip:"
 msgstr "Idő buborék használata:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
@@ -1277,8 +1277,8 @@ msgid "Enable automatic update check"
 msgstr "Frissítések keresése automatikusan"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
-msgid "Delay between each check:"
-msgstr "Keresés gyakorisága:"
+msgid "Check every:"
+msgstr ""
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"

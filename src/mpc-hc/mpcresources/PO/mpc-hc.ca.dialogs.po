@@ -685,11 +685,11 @@ msgid "Use Windows 7 Taskbar features"
 msgstr "Usar característiques de la barra de tasques del Win7"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
 msgstr "Obrir el fitxer de la carpeta següent/anterior amb \"Skip back/forward\" quan només hi ha un element de llista de reproducció"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Use time tooltip:"
+msgid "Show time tooltip:"
 msgstr "Usar la descripció emergent de temps:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
@@ -1281,8 +1281,8 @@ msgid "Enable automatic update check"
 msgstr "Activar comprovació automàtica d'actualitzacions"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
-msgid "Delay between each check:"
-msgstr "Comprovar cada:"
+msgid "Check every:"
+msgstr ""
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"

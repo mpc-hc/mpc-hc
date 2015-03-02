@@ -683,11 +683,11 @@ msgid "Use Windows 7 Taskbar features"
 msgstr "Windows 7এর বৈশিষ্ট্যমূলক টাস্কবার ব্যবহার"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
 msgstr "প্লেলিস্টে মাত্র একটি ফাইল থাকলে \"পিছনে/সামনে যাই\" দ্বারা ফোল্ডারে থাকা পরবর্তী/পূর্ববর্তী ফাইল চালনা"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Use time tooltip:"
+msgid "Show time tooltip:"
 msgstr "সময় প্রদর্শনে টুলটিপ ব্যবহার:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
@@ -1279,8 +1279,8 @@ msgid "Enable automatic update check"
 msgstr "স্বয়ংক্রিয়ভাবে হালনাগাদ অনুসন্ধান সক্রিয়করণ"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
-msgid "Delay between each check:"
-msgstr "প্রত্যেক অনুসন্ধান মধ্যবর্তি বিরতি:"
+msgid "Check every:"
+msgstr ""
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"

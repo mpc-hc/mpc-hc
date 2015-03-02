@@ -683,11 +683,11 @@ msgid "Use Windows 7 Taskbar features"
 msgstr "Käytä Windows 7 tehtäväpalkkiominaisuuksia"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
 msgstr "Avaa kansion seuraava/edellinen tiedosto toiminnossa \"Takaisin/eteenpäin\", kun toistolistassa on vain yksi nimike."
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Use time tooltip:"
+msgid "Show time tooltip:"
 msgstr "Käytä aika-työkaluvihjettä:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
@@ -1279,8 +1279,8 @@ msgid "Enable automatic update check"
 msgstr "Salli päivitysten automaattinen tarkistus"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
-msgid "Delay between each check:"
-msgstr "Tarkistusten väliaika:"
+msgid "Check every:"
+msgstr ""
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"

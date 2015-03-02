@@ -682,11 +682,11 @@ msgid "Use Windows 7 Taskbar features"
 msgstr "אפשר שליטה ותצוגה מתקדמת בשורת המשימות של Windows 7"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
 msgstr "פתח את הקובץ הקודם/הבא בתיקייה בביצוע \"קפיצה אחורה/קדימה\" כאשר יש פריט אחד בלבד ברשימת הניגון"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Use time tooltip:"
+msgid "Show time tooltip:"
 msgstr "השתמש בתיבת זמן מרחפת:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
@@ -1278,8 +1278,8 @@ msgid "Enable automatic update check"
 msgstr "הפעל בדיקת עדכונים אוטומטית"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
-msgid "Delay between each check:"
-msgstr "משך זמן בין בדיקה לבדיקה:"
+msgid "Check every:"
+msgstr ""
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"

@@ -1890,12 +1890,12 @@ msgid "Boss key"
 msgstr "Πλήκτρο αφεντικού"
 
 msgctxt "IDS_MPLAYERC_77"
-msgid "Player Menu (short)"
-msgstr "Μενού αναπαραγωγού (σύντομο)"
+msgid "Player Menu"
+msgstr ""
 
 msgctxt "IDS_MPLAYERC_78"
-msgid "Player Menu (long)"
-msgstr "Μενού αναπαραγωγού (ευρύ)"
+msgid "Player Menu (full)"
+msgstr ""
 
 msgctxt "IDS_AG_FILTERS_MENU"
 msgid "Filters Menu"
