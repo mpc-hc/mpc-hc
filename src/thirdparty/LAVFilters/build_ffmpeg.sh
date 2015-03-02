@@ -101,7 +101,7 @@ configure() {
 
 build() {
   echo Building...
-  make -j$(($NUMBER_OF_PROCESSORS+1)) 2>&1 | tee make.log
+  make -j$(($NUMBER_OF_PROCESSORS)) 2>&1 | tee make.log
   ## Check the return status and the log to detect possible errors
   [ ${PIPESTATUS[0]} -eq 0 ] && ! grep -q -F "rerun configure" make.log
 }
