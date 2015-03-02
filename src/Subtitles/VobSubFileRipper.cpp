@@ -1038,12 +1038,13 @@ STDMETHODIMP CVobSubFileRipper::LoadParamFile(CString fn)
                             break;
                         }
 
-                        BYTE id = BYTE((langid[0] << 8) + langid[1]);
+                        int id = (langid[0] << 8) + langid[1];
 
                         if (id == 'cc') {
                             m_rd.bClosedCaption = true;
                         } else {
-                            m_rd.selids[id] = true;
+                            ASSERT(id <= BYTE_MAX);
+                            m_rd.selids[(BYTE)id] = true;
                         }
                     } else {
                         break;
