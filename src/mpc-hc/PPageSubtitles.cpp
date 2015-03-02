@@ -274,11 +274,12 @@ BOOL CPPageSubtitles::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 
     switch (nID) {
         case IDC_EDIT4:
-            auto && substituteEmpty = [](CString && hotkey) {
-                if (hotkey.IsEmpty()) {
+            auto substituteEmpty = [](CString && hotkey) -> CString && {
+                if (hotkey.IsEmpty())
+                {
                     hotkey.LoadString(IDS_HOTKEY_NOT_DEFINED);
                 }
-                return hotkey;
+                return std::move(hotkey);
             };
             ::SendMessage(pNMHDR->hwndFrom, TTM_SETMAXTIPWIDTH, 0, 320);
             m_strToolTip.Format(IDS_SUBTITLE_DELAY_STEP_TOOLTIP,
