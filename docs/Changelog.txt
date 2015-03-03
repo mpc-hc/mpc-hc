@@ -26,6 +26,9 @@ next version - not released yet
   Greek, Japanese, Korean, Russian, Serbian, Spanish and Ukrainian translations
 ! EVR-CP/Sync renderers could produce wrong colors
 ! Do not mirror the status bar and the time indicator when using an RTL layout
+! Prevent the main window from stealing the mouse focus from the D3D fullscreen window
+  when using always on top. It could cause unintentional mouse clicks in the hidden main
+  window and prevented the mouse pointer from being correctly hidden
 ! Ticket #2167, Prevent the task bar buttons from being RTLed when Windows is configured to use RTL layout
 ! Ticket #2516, VSFilter: Fix PGS/DVB subtitles with different size than video frame
 ! Ticket #5183, Fix a rare crash when processing after playback event

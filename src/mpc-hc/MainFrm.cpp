@@ -14858,7 +14858,6 @@ bool CMainFrame::CreateFullScreenWindow()
 {
     HMONITOR      hMonitor;
     MONITORINFOEX MonitorInfo;
-    CRect         MonitorRect;
 
     if (m_pFullscreenWnd->IsWindow()) {
         m_pFullscreenWnd->DestroyWindow();
@@ -14894,22 +14893,8 @@ bool CMainFrame::CreateFullScreenWindow()
         hMonitor = MonitorFromWindow(m_hWnd, 0);
     }
     if (GetMonitorInfo(hMonitor, &MonitorInfo)) {
-        MonitorRect = CRect(MonitorInfo.rcMonitor);
-        // Window creation
-        DWORD dwStyle    = WS_POPUP | WS_VISIBLE;
-
-        m_pFullscreenWnd->CreateEx(WS_EX_TOPMOST | WS_EX_TOOLWINDOW, _T(""), ResStr(IDS_MAINFRM_136), dwStyle, MonitorRect.left, MonitorRect.top, MonitorRect.Width(), MonitorRect.Height(), nullptr, nullptr, nullptr);
-        //SetWindowLongPtr(m_pFullscreenWnd->m_hWnd, GWL_EXSTYLE, WS_EX_TOPMOST); // TODO : still freezing sometimes...
-        /*
-        CRect r;
-        GetWindowRect(r);
-
-        int x = MonitorRect.left + (MonitorRect.Width()/2)-(r.Width()/2);
-        int y = MonitorRect.top + (MonitorRect.Height()/2)-(r.Height()/2);
-        int w = r.Width();
-        int h = r.Height();
-        MoveWindow(x, y, w, h);
-        */
+        m_pFullscreenWnd->CreateEx(WS_EX_TOPMOST | WS_EX_TOOLWINDOW, _T(""), ResStr(IDS_MAINFRM_136),
+                                   WS_POPUP | WS_VISIBLE, MonitorInfo.rcMonitor, this, 0);
     }
 
     return m_pFullscreenWnd->IsWindow();
