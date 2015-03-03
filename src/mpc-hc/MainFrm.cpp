@@ -15762,8 +15762,10 @@ HRESULT CMainFrame::CreateThumbnailToolbar()
             // Swap the source bitmap with an empty one
             CBitmap sourceImg;
             sourceImg.Attach(image.Detach());
-            // Create the destination bitmap using a temporary DC
-            image.CreateCompatibleBitmap(&CClientDC(nullptr), size.cx, size.cy);
+            // Create a temporary DC
+            CClientDC clientDC(nullptr);
+            // Create the destination bitmap
+            image.CreateCompatibleBitmap(&clientDC, size.cx, size.cy);
             // Select the bitmaps into the DCs
             HGDIOBJ oldSourceDCObj = sourceDC.SelectObject(sourceImg);
             HGDIOBJ oldDestDCObj = destDC.SelectObject(image);
