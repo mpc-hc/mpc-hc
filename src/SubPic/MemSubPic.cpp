@@ -689,7 +689,7 @@ bool CMemSubPicAllocator::AllocSpdBits(SubPicDesc& spd)
         return std::get<0>(p) == size_t(spd.pitch) * spd.h;
     });
 
-    if (it != m_freeMemoryChunks.end()) {
+    if (it != m_freeMemoryChunks.cend()) {
         spd.bits = std::get<1>(*it);
         m_freeMemoryChunks.erase(it);
     } else {
