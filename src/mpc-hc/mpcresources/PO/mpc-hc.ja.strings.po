@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-02-16 12:05:09+0000\n"
-"PO-Revision-Date: 2015-03-01 02:20+0000\n"
+"PO-Revision-Date: 2015-03-06 12:21+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -2726,11 +2726,11 @@ msgstr "高度な設定"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seekbar"
-msgstr "シークバーの上に表示"
+msgstr "シークバーの上に"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
 msgid "Below seekbar"
-msgstr "シークバーの下に表示"
+msgstr "シークバーの下に"
 
 msgctxt "IDS_VIDEO_STREAM"
 msgid "Video: %s"
@@ -3374,7 +3374,7 @@ msgstr "入力されたフレーム レートの解析中にエラーが発生�
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
 msgid "Cannot frame step, try a different video renderer."
-msgstr "フレーム ステップできません。別のビデオ レンダラを試してください。"
+msgstr "コマ送りできません。別のビデオ レンダラを試してください。"
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for RealMedia.\nSelect one of the DirectX renderers for RealMedia in MPC-HC's output options and reopen the file."

@@ -286,17 +286,17 @@ da.comp_mpcresources=Oversættelser
 da.msg_DeleteSettings=Vil du også slette MPC-HC indstillinger?%n%nHvis du har tænkt dig at installere MPC-HC igen, så behøves du ikke slette dem.
 da.msg_SetupIsRunningWarning=MPC-HC installation kører allerede!
 #if defined(sse_required)
-da.msg_simd_sse=Denne version af MPC-HC kræver en CPU der understøtter SSE-extension.%n%nDin CPU understøtter det ikke.
+da.msg_simd_sse=Denne version af MPC-HC kræver en CPU der understøtter SSE-udvidelsen.%n%nDin CPU understøtter det ikke.
 #elif defined(sse2_required)
-da.msg_simd_sse2=Denne version af MPC-HC kræver en CPU der understøtter SSE2-extension.%n%nDin CPU understøtter det ikke.
+da.msg_simd_sse2=Denne version af MPC-HC kræver en CPU der understøtter SSE2-udvidelsen.%n%nDin CPU understøtter det ikke.
 #endif
-da.run_DownloadToolbarImages=Besøg vores wiki-side for at downloade billeder til værktøjslinjen.
+da.run_DownloadToolbarImages=Besøg vores wiki-side for at hente værktøjslinjebilleder
 da.tsk_AllUsers=For alle brugere
-da.tsk_CurrentUser=Kun for den nuværende bruger
+da.tsk_CurrentUser=Kun for denne bruger
 da.tsk_Other=Andre opgaver:
 da.tsk_ResetSettings=Nulstil indstillinger
 da.types_DefaultInstallation=Standardinstallation
-da.types_CustomInstallation=Tilpasset installation
+da.types_CustomInstallation=Brugerdefineret installation
 da.ViewChangelog=Vis ændringslog
 
 ; German (Neutral)

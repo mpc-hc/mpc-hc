@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
-"PO-Revision-Date: 2015-03-02 16:51+0000\n"
+"PO-Revision-Date: 2015-03-15 22:00+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/mpc-hc/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -56,7 +56,7 @@ msgstr "&Luk"
 
 msgctxt "ID_FILE_SAVE_COPY"
 msgid "&Save a Copy..."
-msgstr "&Gem en kopi"
+msgstr "&Gem en kopi..."
 
 msgctxt "ID_FILE_SAVE_IMAGE"
 msgid "Save &Image..."
@@ -108,7 +108,7 @@ msgstr "Titellinje og menu"
 
 msgctxt "ID_VIEW_SEEKER"
 msgid "See&k Bar"
-msgstr "For&løbslinje"
+msgstr "&Søgelinje"
 
 msgctxt "ID_VIEW_CONTROLS"
 msgid "&Controls"
@@ -128,11 +128,11 @@ msgstr "St&atus"
 
 msgctxt "ID_VIEW_SUBRESYNC"
 msgid "Su&bresync"
-msgstr "Un&dertekst gensynkronisering"
+msgstr "Un&dertekst gensynk."
 
 msgctxt "ID_VIEW_PLAYLIST"
 msgid "Pla&ylist"
-msgstr "Afs&pilningsliste"
+msgstr "&Spilleliste"
 
 msgctxt "ID_VIEW_CAPTURE"
 msgid "Captu&re"
@@ -192,7 +192,7 @@ msgstr "Automatisk tilpasning (&Kun større)"
 
 msgctxt "POPUP"
 msgid "R&enderer Settings"
-msgstr "R&enderer indstillinger"
+msgstr "R&endererindstillinger"
 
 msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
@@ -200,7 +200,7 @@ msgstr "&Iturivningstest"
 
 msgctxt "ID_VIEW_DISPLAYSTATS"
 msgid "&Display Stats"
-msgstr "Vis statistik"
+msgstr "&Vis statistik"
 
 msgctxt "ID_VIEW_REMAINING_TIME"
 msgid "&Remaining Time"
@@ -208,7 +208,7 @@ msgstr "&Resterende tid"
 
 msgctxt "POPUP"
 msgid "&Output Range"
-msgstr "&Output område"
+msgstr "&Output-område"
 
 msgctxt "ID_VIEW_EVROUTPUTRANGE_0_255"
 msgid "&0 - 255"
@@ -224,7 +224,7 @@ msgstr "&Præsentation"
 
 msgctxt "ID_VIEW_D3DFULLSCREEN"
 msgid "D3D Fullscreen &Mode"
-msgstr "D3D fuldskærm &tilstand"
+msgstr "D3D fuldskær&m-tilstand"
 
 msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
 msgid "D3D Fullscreen &GUI Support"
@@ -236,15 +236,15 @@ msgstr "10-bit &RGB output"
 
 msgctxt "ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION"
 msgid "Force 10-bit RGB &Input"
-msgstr "Tvunget 10-bit RGB &input"
+msgstr "Gennemtving 10-bit RGB &input"
 
 msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
 msgid "&Full Floating Point Processing"
-msgstr "&Fuld flydende kommatal beregning"
+msgstr "&Fuld flydende kommatal bearbejdning"
 
 msgctxt "ID_VIEW_HALFFLOATINGPOINTPROCESSING"
 msgid "&Half Floating Point Processing"
-msgstr "&Halv flydende kommatal beregning"
+msgstr "&Halv flydende kommatal bearbejdning"
 
 msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
 msgid "Disable desktop composition (&Aero)"
@@ -252,7 +252,7 @@ msgstr "Deaktivér skrivebordsopbygning (&Aero)"
 
 msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time &Correction"
-msgstr "Aktivér billedtid &rettelse"
+msgstr "Aktivér billedtid &korrigering"
 
 msgctxt "POPUP"
 msgid "&Color Management"
@@ -268,7 +268,7 @@ msgstr "&Input type"
 
 msgctxt "ID_VIEW_CM_INPUT_AUTO"
 msgid "&Auto-Detect"
-msgstr "Automatisk identificering"
+msgstr "&Automatisk"
 
 msgctxt "ID_VIEW_CM_INPUT_HDTV"
 msgid "&HDTV"
@@ -292,7 +292,7 @@ msgstr "&Lyst (2,2 gamma)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DIM"
 msgid "&Dim (2.35 Gamma)"
-msgstr "Nedton (2,35 gamma)"
+msgstr "Ne&dtonet (2,35 gamma)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DARK"
 msgid "D&ark (2.4 Gamma)"
@@ -300,7 +300,7 @@ msgstr "M&ørkt (2,4 gamma)"
 
 msgctxt "POPUP"
 msgid "&Rendering Intent"
-msgstr "&Gengivelsesformål"
+msgstr "&Renderingsformål"
 
 msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
 msgid "&Perceptual"
@@ -312,7 +312,7 @@ msgstr "&Relativ farvemåling"
 
 msgctxt "ID_VIEW_CM_INTENT_SATURATION"
 msgid "&Saturation"
-msgstr "&Farvemætning"
+msgstr "&Mætning"
 
 msgctxt "ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC"
 msgid "&Absolute Colorimetric"
@@ -336,11 +336,11 @@ msgstr "A&lternativ lodret synkronisering"
 
 msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
 msgid "&Decrease VSync Offset"
-msgstr "Formindsk forskydning af lodret synkronisering"
+msgstr "&Forskyd lodret synkronisering -"
 
 msgctxt "ID_VIEW_VSYNCOFFSET_INCREASE"
 msgid "&Increase VSync Offset"
-msgstr "Forøg forskydning af lodret synkronisering"
+msgstr "&Forskyd lodret synkronisering +"
 
 msgctxt "POPUP"
 msgid "&GPU Control"
@@ -352,7 +352,7 @@ msgstr "Tøm GPU &før lodret synkronisering"
 
 msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
 msgid "Flush GPU &after Present"
-msgstr "Tøm GPU &efter nuværende"
+msgstr "Tøm GPU &efter præsentation"
 
 msgctxt "ID_VIEW_FLUSHGPU_WAIT"
 msgid "&Wait for flushes"
@@ -364,11 +364,11 @@ msgstr "N&ulstil"
 
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
-msgstr "Nulstil til &standard gengivelsesindstillinger"
+msgstr "Nulstil til &standard rendererindstillinger"
 
 msgctxt "ID_VIEW_RESET_OPTIMAL"
 msgid "Reset to &optimal renderer settings"
-msgstr "Nulstil til &optimale gengivelsesindstillinger"
+msgstr "Nulstil til &optimale rendererindstillinger"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
@@ -380,7 +380,7 @@ msgstr "&Halv størrelse"
 
 msgctxt "ID_VIEW_VF_NORMAL"
 msgid "&Normal Size"
-msgstr "&Standard størrelse"
+msgstr "&Standardstørrelse"
 
 msgctxt "ID_VIEW_VF_DOUBLE"
 msgid "&Double Size"
@@ -408,11 +408,11 @@ msgstr "Rør vindue &udefra"
 
 msgctxt "ID_VIEW_VF_KEEPASPECTRATIO"
 msgid "&Keep Aspect Ratio"
-msgstr "Hold billedformat"
+msgstr "&Bevar højde-bredde-forhold"
 
 msgctxt "POPUP"
 msgid "Override &Aspect Ratio"
-msgstr "Tilsidesæt &billedformat"
+msgstr "Tilsidesæt &højde-bredde-forhold"
 
 msgctxt "ID_ASPECTRATIO_SOURCE"
 msgid "&Default"
@@ -440,7 +440,7 @@ msgstr "1&85:100"
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"
-msgstr "&Korriger monitor/skrivebord AR forskel"
+msgstr "&Korriger monitor/skrivebord højde-bredde-forskelle"
 
 msgctxt "POPUP"
 msgid "Pa&n&&Scan"
@@ -488,7 +488,7 @@ msgstr "Flyt &ned"
 
 msgctxt "ID_PANSCAN_CENTER"
 msgid "Cen&ter"
-msgstr "Mid&ti"
+msgstr "I mid&ten"
 
 msgctxt "ID_VIEW_RESET"
 msgid "Re&set"
@@ -532,7 +532,7 @@ msgstr "&Stop"
 
 msgctxt "ID_PLAY_FRAMESTEP"
 msgid "F&rame Step"
-msgstr "F&rame step"
+msgstr "&Billedtrin"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "&Decrease Rate"
@@ -552,7 +552,7 @@ msgstr "&Filtre"
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"
-msgstr "S&haders"
+msgstr "S&hadere"
 
 msgctxt "ID_AUDIOS"
 msgid "&Audio"
@@ -580,7 +580,7 @@ msgstr "&Ned"
 
 msgctxt "ID_VOLUME_MUTE"
 msgid "&Mute"
-msgstr "&Afbryd"
+msgstr "&Lydløs"
 
 msgctxt "POPUP"
 msgid "Af&ter Playback"
@@ -612,7 +612,7 @@ msgstr "&Lås"
 
 msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
 msgid "Turn off the &monitor"
-msgstr "Deaktivér &monitoren"
+msgstr "Sluk &monitoren"
 
 msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
 msgid "Play &next file in the folder"
@@ -640,7 +640,7 @@ msgstr "&Titelmenu"
 
 msgctxt "ID_NAVIGATE_ROOTMENU"
 msgid "&Root Menu"
-msgstr "&Rodmenu"
+msgstr "&Hovedmenu"
 
 msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
 msgid "&Subtitle Menu"
@@ -676,11 +676,11 @@ msgstr "Søg efter &opdateringer"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"
-msgstr "&Kommandolinje kontakter"
+msgstr "&Kommandolinjeparametre"
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"
-msgstr "Download &værktøjslinje billeder"
+msgstr "Hent &værktøjslinjebilleder"
 
 msgctxt "ID_HELP_DONATE"
 msgid "&Donate"

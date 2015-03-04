@@ -2,6 +2,7 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# B512, 2015
 # Dennis Gerritsen <frostflame@hotmail.com>, 2014
 # dragnadh <dragnadh@gmail.com>, 2015
 # DennisW, 2014
@@ -12,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-02-16 12:05:09+0000\n"
-"PO-Revision-Date: 2015-02-18 03:13+0000\n"
+"PO-Revision-Date: 2015-03-04 05:40+0000\n"
 "Last-Translator: B512\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/mpc-hc/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -1927,7 +1928,7 @@ msgstr "Vorige Ondertiteling"
 
 msgctxt "IDS_MPLAYERC_85"
 msgid "On/Off Subtitle"
-msgstr "Aan/Uit Ondertiteling"
+msgstr "Ondertiteling Aan/Uit"
 
 msgctxt "IDS_MPLAYERC_86"
 msgid "Reload Subtitles"
@@ -3047,19 +3048,19 @@ msgstr "Accurate VSync: Uit"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_ON"
 msgid "Synchronize Video to Display: On"
-msgstr ""
+msgstr "Synchroniseer Video met Scherm: Aan"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_OFF"
 msgid "Synchronize Video to Display: Off"
-msgstr ""
+msgstr "Synchroniseer Video met Scherm: Uit"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_ON"
 msgid "Synchronize Display to Video: On"
-msgstr ""
+msgstr "Synchroniseer Scherm met Video: Aan"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_OFF"
 msgid "Synchronize Display to Video: Off"
-msgstr ""
+msgstr "Synchroniseer Scherm met Video: Uit"
 
 msgctxt "IDS_OSD_RS_PRESENT_NEAREST_ON"
 msgid "Present at Nearest VSync: On"
@@ -3123,7 +3124,7 @@ msgstr ""
 
 msgctxt "IDS_OSD_RS_OUTPUT_RANGE"
 msgid "Output Range: %s"
-msgstr ""
+msgstr "Uitvoer Bereik: %s"
 
 msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_ON"
 msgid "Flush GPU before VSync: On"
@@ -3175,11 +3176,11 @@ msgstr "Alternatieve VSync: Uit"
 
 msgctxt "IDS_OSD_RS_RESET_DEFAULT"
 msgid "Renderer settings reset to default"
-msgstr ""
+msgstr "Reset renderer naar standaard instellingen"
 
 msgctxt "IDS_OSD_RS_RESET_OPTIMAL"
 msgid "Renderer settings reset to optimal"
-msgstr ""
+msgstr "Reset renderer naar optimale instellingen"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
 msgid "D3D Fullscreen GUI Support: On"
@@ -3191,19 +3192,19 @@ msgstr ""
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_ON"
 msgid "10-bit RGB Output: On"
-msgstr ""
+msgstr "10-bit RGB Uitvoer: Aan"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_OFF"
 msgid "10-bit RGB Output: Off"
-msgstr ""
+msgstr "10-bit RGB Uitvoer: Uit"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_IN_ON"
 msgid "Force 10-bit RGB Input: On"
-msgstr ""
+msgstr "Verplicht 10-bit RGB Invoer: Aan"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_IN_OFF"
 msgid "Force 10-bit RGB Input: Off"
-msgstr ""
+msgstr "Verplicht 10-bit RGB Invoer: Uit"
 
 msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_ON"
 msgid "Full Floating Point Processing: On"
@@ -3255,7 +3256,7 @@ msgstr "Kleurinstellingen resetten"
 
 msgctxt "IDS_USING_LATEST_STABLE"
 msgid "\nYou are already using the latest stable version."
-msgstr ""
+msgstr "\nJe gebruikt al de laatste stabiele versie."
 
 msgctxt "IDS_USING_NEWER_VERSION"
 msgid "Your current version is v%s.\n\nThe latest stable version is v%s."
@@ -3287,11 +3288,11 @@ msgstr ""
 
 msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_ON"
 msgid "Custom channel mapping: On"
-msgstr ""
+msgstr "Aangepaste kanaalindeling: Aan"
 
 msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_OFF"
 msgid "Custom channel mapping: Off"
-msgstr ""
+msgstr "Aangepaste kanaalindeling: Uit"
 
 msgctxt "IDS_NORMALIZE"
 msgid "Toggle normalization"
@@ -3299,11 +3300,11 @@ msgstr ""
 
 msgctxt "IDS_OSD_NORMALIZE_ON"
 msgid "Normalization: On"
-msgstr ""
+msgstr "Normalisatie: Aan"
 
 msgctxt "IDS_OSD_NORMALIZE_OFF"
 msgid "Normalization: Off"
-msgstr ""
+msgstr "Normalisatie: Uit"
 
 msgctxt "IDS_REGAIN_VOLUME"
 msgid "Toggle regain volume"
@@ -3399,7 +3400,7 @@ msgstr ""
 
 msgctxt "IDS_SUBDL_DLG_CONNECT_ERROR"
 msgid "Cannot connect to the online subtitles database."
-msgstr ""
+msgstr "Kan geen verbinding maken met de online ondertitel database."
 
 msgctxt "IDS_MB_SHOW_EDL_EDITOR"
 msgid "Do you want to activate the EDL editor?"
