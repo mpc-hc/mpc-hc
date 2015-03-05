@@ -31,6 +31,7 @@
 #include "mplayerc.h"
 #include "PPageDigitalTV.h"
 #include "DSUtil.h"
+#include "TVToolsDlg.h"
 
 
 // CPPageCapture dialog
@@ -39,6 +40,9 @@ IMPLEMENT_DYNAMIC(CPPageDigitalTV, CPPageBase)
 
 CPPageDigitalTV::CPPageDigitalTV()
     : CPPageBase(CPPageDigitalTV::IDD, CPPageDigitalTV::IDD)
+    , m_bEnableDVB(FALSE)
+    , m_bEnableIPTV(FALSE)
+    , m_bUseIGMPMembership(FALSE)
 {
 }
 
@@ -80,6 +84,11 @@ BEGIN_MESSAGE_MAP(CPPageDigitalTV, CPPageBase)
     ON_UPDATE_COMMAND_UI(IDC_STATIC1, OnUpdateIPTV)
     ON_UPDATE_COMMAND_UI(IDC_STATIC3, OnUpdateIPTV)
     ON_UPDATE_COMMAND_UI(IDC_CHECK3, OnUpdateIPTV)
+    ON_BN_CLICKED(IDC_DVBCHANNELS, OnClickedDVBChannels)
+    ON_BN_CLICKED(IDC_IPTVCHANNELS, OnClickedIPTVChannels)
+    ON_UPDATE_COMMAND_UI(IDC_STATIC7, OnUpdateIPTV)
+    ON_UPDATE_COMMAND_UI(IDC_DVBCHANNELS, OnUpdateDVB)
+    ON_UPDATE_COMMAND_UI(IDC_IPTVCHANNELS, OnUpdateIPTV)
 END_MESSAGE_MAP()
 
 
@@ -309,4 +318,20 @@ void CPPageDigitalTV::SaveFoundDevices()
     s.bEnabledIPTV = !!m_bEnableIPTV;
     s.bUseIGMPMembership = !!m_bUseIGMPMembership;
 
+}
+
+void CPPageDigitalTV::OnClickedDVBChannels()
+{
+    CTVToolsDlg Dlg(this);
+    Dlg.m_bEnabledDVB = true;
+    Dlg.m_bEnabledIPTV = false;
+    Dlg.DoModal();
+}
+
+void CPPageDigitalTV::OnClickedIPTVChannels()
+{
+    CTVToolsDlg Dlg(this);
+    Dlg.m_bEnabledDVB = false;
+    Dlg.m_bEnabledIPTV = true;
+    Dlg.DoModal();
 }

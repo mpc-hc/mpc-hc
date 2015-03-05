@@ -22,15 +22,16 @@
 
 #include <afxcmn.h>
 #include <afxwin.h>
+#include "IPTVDiscoverySetupDlg.h"
 
-enum TSC_COLUMN {
-    TSCC_NUMBER,
-    TSCC_NAME,
-    TSCC_ADDRESS,
-    TSCC_PREFNUM,
-    TSCC_VALIDATED,
-    TSCC_CHANNEL,
-    TSCC_SERVICEID
+enum ISC_COLUMN {
+    ISCC_NUMBER,
+    ISCC_NAME,
+    ISCC_ADDRESS,
+    ISCC_PREFNUM,
+    ISCC_VALIDATED,
+    ISCC_CHANNEL,
+    ISCC_SERVICEID
 };
 
 // CIPTVScanDlg dialog
@@ -43,6 +44,7 @@ public:
     CIPTVScanDlg(CWnd* pParent = nullptr);   // standard constructor
     virtual ~CIPTVScanDlg();
     virtual BOOL OnInitDialog();
+    std::unique_ptr<CIPTVDiscoverySetupDlg> m_pIPTVDiscoverySetup;
 
     // Dialog Data
     enum { IDD = IDD_IPTV_SCAN };
@@ -57,27 +59,54 @@ protected:
 private:
     HRESULT ImportFile(LPCTSTR sFileName);
     void AddToList(LPCTSTR strChannelName, LPCTSTR strURL, int nChannelNumber);
-
+    boolean bInterfaceBusy;
+    void SetInterfaceBusy(boolean bNewStatusBusy);
+    boolean GetInterfaceBusy() { return bInterfaceBusy; }
 
 public:
     CListCtrl m_ChannelList;
     CEdit m_ChannelName;
     CEdit m_IPAddress;
+    CEdit m_IPAddress1;
+    CEdit m_IPAddress2;
+    CEdit m_Port;
+    CEdit m_ExpectedTime;
     CButton m_btnSave;
     CButton m_btnCancel;
+    CButton m_btnScan;
     CButton m_btnImportList;
     CButton m_btnAddChannel;
+    CButton m_btnDiscoverySetup;
+    CButton m_btnDiscovery;
     CStatic m_StaticChName;
     CStatic m_Static_IPAdr;
+    CStatic m_StaticIP1;
+    CStatic m_StaticIP2;
+    CStatic m_StaticPort;
+    CStatic m_StaticTime;
     BOOL m_bRemoveChannels;
+    BOOL m_bSaveOnlyValid;
+    BOOL m_bOnlyNewChannels;
     CButton m_chkRemoveChannels;
+    CButton m_chkOnlyNewCh;
+    CButton m_chkSaveOnlyValid;
+    CButton m_rdChAddMethod1;
+    CButton m_rdChAddMethod2;
+    CButton m_rdChAddMethod3;
+    CButton m_rdChAddMethod4;
     int m_iChannelAdditionMethod;
+    CString m_strIPAddress1, m_strIPAddress2, m_strPort;
 
     afx_msg LRESULT OnNewChannel(WPARAM wParam, LPARAM lParam);
+    afx_msg LRESULT OnEndDiscovery(WPARAM wParam, LPARAM lParam);
     afx_msg void OnUpdateData();
     afx_msg void OnClickedSave();
     afx_msg void OnClickedCancel();
     afx_msg void OnClickedNewChannel();
     afx_msg void OnClickedImportList();
+    afx_msg void OnClickedScan();
     afx_msg void OnUpdateAddChannelMethod(UINT nID);
+    afx_msg void OnClickedDiscoverySetup();
+    afx_msg void OnClickedDiscovery();
+    afx_msg void OnUpdateExpectedTime();
 };

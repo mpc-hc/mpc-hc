@@ -945,7 +945,8 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "",IDC_STATIC,5,13,286,150
     CONTROL         "Enable DVB",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,12,55,8
-    LTEXT           "DVB settings (BDA)", IDC_STATIC2, 10, 30, 280, 8 
+    LTEXT           "DVB settings (BDA)", IDC_STATIC2, 10, 30, 280, 8
+    PUSHBUTTON      "DVB Channels",IDC_DVBCHANNELS,231,20,55,14
     LTEXT           "Network Provider",IDC_STATIC4,10,45,74,8
     COMBOBOX        IDC_COMBO4,84,43,202,30,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Tuner",IDC_STATIC5,10,60,74,8
@@ -960,9 +961,10 @@ BEGIN
     COMBOBOX        IDC_COMBO7,84,139,201,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     
     GROUPBOX        "",IDC_STATIC1,5,179,286,57
-    CONTROL         "Enable IPTV",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,178,55,8    
-    LTEXT           "IPTV settings", IDC_STATIC3, 10, 198, 280, 8 
-    CONTROL         "Let the player manage IGMP membership (only for multicast)",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,212,280,8   
+    CONTROL         "Enable IPTV",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,178,55,8
+    LTEXT           "IPTV settings", IDC_STATIC3, 10, 198, 280, 8
+    PUSHBUTTON      "IPTV Channels",IDC_IPTVCHANNELS,231,188,55,14
+    CONTROL         "Let the player manage IGMP membership (only for multicast)",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,212,280,8
     LTEXT           "When using LAV splitter you may need to increase 'stream analysis duration' parameter",IDC_STATIC7,10,224,280,8
 END
 
@@ -1201,30 +1203,59 @@ BEGIN
     CONTROL         "",IDC_TAB1,"SysTabControl32",0x0,7,7,413,260
 END
 
-IDD_IPTV_SCAN DIALOGEX 0, 0, 406, 251
+IDD_IPTV_SCAN DIALOGEX 0, 0, 410, 251
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "Save",ID_SAVE,299,227,50,14
     CONTROL         "Remove current IPTV channels when saving",IDC_CHECK_REMOVE_CHANNELS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,135,232,155,8
+    CONTROL         "Save only valid channels",IDC_CHECK_SAVE_ONLY_VALID,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,135,220,155,8
     PUSHBUTTON      "Cancel",IDCANCEL,355,227,50,14
-    CONTROL         "", IDC_CHANNEL_LIST, "SysListView32", LVS_REPORT | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP, 10, 12, 393, 155
-    GROUPBOX        "Method for adding channels", IDC_STATIC, 10, 170, 393, 54
-    CONTROL         "Import list", IDC_RADIO1, "Button", BS_AUTORADIOBUTTON | WS_GROUP, 15, 185, 75, 8
-    CONTROL         "Manually", IDC_RADIO2, "Button", BS_AUTORADIOBUTTON, 15, 205, 75, 8
+        CONTROL         "",IDC_CHANNEL_LIST,"SysListView32",LVS_REPORT | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,14,10,389,143
+    GROUPBOX        "Method for adding channels",IDC_STATIC,10,160,393,54
+    CONTROL         "Import list",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,15,170,75,8
+    CONTROL         "Manually",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,15,180,75,8
+    CONTROL         "Range of IPs",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON,15,190,75,8
+    CONTROL         "Services Discovery",IDC_RADIO4,"Button",BS_AUTORADIOBUTTON,15,200,75,8
+    PUSHBUTTON      "Import",IDC_IMPORT_LIST,149,184,50,14
+    PUSHBUTTON      "Discovery",IDC_DISCOVERY,100,184,50,14
+    PUSHBUTTON      "Setup",IDC_DISCOVERY_SETUP,219,184,50,14
+    LTEXT           "Channel name",IDC_STATIC1,100,184,45,11
+    EDITTEXT        IDC_CHANNELNAME,150,183,110,12,ES_AUTOHSCROLL
+    LTEXT           "URL",IDC_STATIC2,265,184,35,8
+    EDITTEXT        IDC_IPADDRESS,283,183,81,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "+",IDC_NEW_CHANNEL,370,183,30,14
+    LTEXT           "Initial IP address: ",IDC_STATIC3,125,170,65,8
+    CONTROL         "",IDC_IPADDRESS1,"SysIPAddress32",WS_TABSTOP,195,170,100,12
+    LTEXT           "Final IP address: ",IDC_STATIC4,125,184,65,8
+    CONTROL         "",IDC_IPADDRESS2,"SysIPAddress32",WS_TABSTOP,195,184,100,12
+    LTEXT           "Port:",IDC_STATIC5,305,170,22,8
+    EDITTEXT        IDC_PORT,325,170,40,12,ES_NUMBER
+    LTEXT           "Expected process duration: ", IDC_STATIC6, 125, 198, 105, 8
+    EDITTEXT        IDC_EXPECTEDTIME,230,198,65,12, ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP
+    CONTROL         "Search only new channels",IDC_CHECK_ONLY_NEW,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,305,184,95,12
+    PUSHBUTTON      "Scan", IDC_SCAN, 355, 198, 45, 14
+END
 
-//    To be used in future releases:
-//    CONTROL         "Import list", IDC_RADIO1, "Button", BS_AUTORADIOBUTTON | WS_GROUP, 15, 180, 75, 8
-//    CONTROL         "Manually", IDC_RADIO2, "Button", BS_AUTORADIOBUTTON, 15, 190, 75, 8
-//    CONTROL         "Range of IPs", IDC_RADIO3, "Button", BS_AUTORADIOBUTTON, 15, 200, 75, 8
-//    CONTROL         "Services Discovery", IDC_RADIO4, "Button", BS_AUTORADIOBUTTON, 15, 210, 75, 8
-    PUSHBUTTON      "Import", IDC_IMPORT_LIST, 100, 193, 50, 14
-    LTEXT           "Channel name",IDC_STATIC1,100,193,45,11
-    EDITTEXT        IDC_CHANNELNAME,150,191,110,12,ES_AUTOHSCROLL
-    LTEXT           "IP Address",IDC_STATIC2,265,193,35,8
-    EDITTEXT        IDC_IPADDRESS,306,191,50,12,ES_AUTOHSCROLL
-    PUSHBUTTON      "+", IDC_NEW_CHANNEL, 368, 191, 30, 14
+IDD_IPTV_DISCOVERY DIALOGEX 0, 0, 350, 280
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "Service Providers discovery entry point: ",IDC_STATIC1,10,17,135,8
+    LTEXT           "(Example 239.0.2.129:3937)", IDC_STATIC5, 10, 27, 130, 8
+    CONTROL         "",IDC_SP_ENTRY_POINT,"SysIPAddress32",WS_TABSTOP,139,15,96,15
+    LTEXT           "Port:",IDC_STATIC2,239,17,22,8,0x2000
+    EDITTEXT        IDC_SP_PORT,259,15,40,15,ES_NUMBER
+    PUSHBUTTON      "Find",IDC_FIND,303,15,37,14
+    CONTROL         "Service Providers",IDC_SP_LIST,"SysListView32",LVS_REPORT | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,10,40,330,190
+    LTEXT           "Service Provider IP address: ",IDC_STATIC3,15,233,95,8
+    CONTROL         "",IDC_IPADDRESS,"SysIPAddress32",WS_TABSTOP,113,232,100,15
+    LTEXT           "Port:",IDC_STATIC4,223,233,22,8
+    EDITTEXT        IDC_PORT,248,232,40,15,ES_NUMBER
+    DEFPUSHBUTTON   "Save",ID_SAVE,235,255,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,290,255,50,14
 END
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1381,6 +1412,12 @@ BEGIN
         VERTGUIDE, 84
     END
 
+    IDD_PPAGEDIGITALTV, DIALOG
+    BEGIN
+        VERTGUIDE, 10
+        VERTGUIDE, 84
+    END
+    
     IDD_PPAGESYNC, DIALOG
     BEGIN
         VERTGUIDE, 10
@@ -1442,7 +1479,7 @@ BEGIN
         BOTTOMMARGIN, 170
     END
     
-        IDD_SCAN, DIALOG
+    IDD_SCAN, DIALOG
     BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 420
@@ -1453,7 +1490,7 @@ BEGIN
     IDD_IPTV_SCAN, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 399
+        RIGHTMARGIN, 403
         TOPMARGIN, 7
         BOTTOMMARGIN, 244
     END
@@ -1461,6 +1498,10 @@ BEGIN
     IDD_CRASH_REPORTER, DIALOG
     BEGIN
         BOTTOMMARGIN, 200
+    END
+    
+    IDD_IPTV_DISCOVERY, DIALOG
+    BEGIN
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -3764,6 +3805,10 @@ BEGIN
     IDS_DTV_IPTV_SCAN        "IPTV channels Management"
     IDS_DTV_IPTV_OPEN_STREAM "Opening stream..."
     IDS_DTV_IPTV_OPEN_ERR    "Error when trying to open the stream"
+    IDS_DTV_IPTV_NUMBER      "ID"
+    IDS_DTV_IPTV_LOCALIZATION "Localization"
+    IDS_DTV_IPTV_IP          "IP Address"
+    IDS_DTV_IPTV_PORT        "Port"
 END
 
 #endif    // English (United States) resources

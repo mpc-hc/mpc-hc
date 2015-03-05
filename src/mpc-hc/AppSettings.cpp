@@ -930,6 +930,10 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_DVB, IDS_RS_DVB_STOP_FG, nDVBStopFilterGraph);
     pApp->WriteProfileInt(IDS_R_DVB, IDS_RS_ENABLE_IPTV, bEnabledIPTV);
     pApp->WriteProfileInt(IDS_R_DVB, IDS_RS_USE_IGMPMEMBERSHIP, bUseIGMPMembership);
+    pApp->WriteProfileString(IDS_R_DVB, IDS_RS_IPTV_SD_ENTRY, strServicesDiscoveryEntry);
+    pApp->WriteProfileString(IDS_R_DVB, IDS_RS_IPTV_SD_PORT, strServicesDiscoveryPort);
+    pApp->WriteProfileString(IDS_R_DVB, IDS_RS_IPTV_SERV_PROVIDER_IP, strServiceProvider_IP);
+    pApp->WriteProfileString(IDS_R_DVB, IDS_RS_IPTV_SERV_PROVIDER_PORT, strServicesProvider_Port);
 
     for (size_t i = 0; i < m_DVBChannels.size(); i++) {
         CString numChannel;
@@ -1764,6 +1768,10 @@ void CAppSettings::LoadSettings()
     uNextChannelCount     = pApp->GetProfileInt(IDS_R_DVB, IDS_RS_DVB_NEXTCHANNELCOUNT, 0);
     bEnabledIPTV          = !!pApp->GetProfileInt(IDS_R_DVB, IDS_RS_ENABLE_IPTV, FALSE);
     bUseIGMPMembership    = !!pApp->GetProfileInt(IDS_R_DVB, IDS_RS_USE_IGMPMEMBERSHIP, FALSE);
+    strServicesDiscoveryEntry = pApp->GetProfileString(IDS_R_DVB, IDS_RS_IPTV_SD_ENTRY);
+    strServicesDiscoveryPort = pApp->GetProfileString(IDS_R_DVB, IDS_RS_IPTV_SD_PORT);
+    strServiceProvider_IP = pApp->GetProfileString(IDS_R_DVB, IDS_RS_IPTV_SERV_PROVIDER_IP);
+    strServicesProvider_Port = pApp->GetProfileString(IDS_R_DVB, IDS_RS_IPTV_SERV_PROVIDER_PORT);
     for (int iChannel = 0; ; iChannel++) {
         CString strTemp;
         strTemp.Format(_T("%d"), iChannel);

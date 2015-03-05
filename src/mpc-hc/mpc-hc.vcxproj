@@ -166,6 +166,7 @@
     <ClCompile Include="DropTarget.cpp" />
     <ClCompile Include="FreeviewEPGDecode.cpp" />
     <ClCompile Include="ImageGrayer.cpp" />
+    <ClCompile Include="IPTVDiscoverySetupDlg.cpp" />
     <ClCompile Include="IPTVMcastTools.cpp" />
     <ClCompile Include="IPTVScanDlg.cpp" />
     <ClCompile Include="MainFrmControls.cpp" />
@@ -317,6 +318,7 @@
     <ClInclude Include="IGraphBuilder2.h" />
     <ClInclude Include="ImageGrayer.h" />
     <ClInclude Include="InternalFiltersConfig.h" />
+    <ClInclude Include="IPTVDiscoverySetupDlg.h" />
     <ClInclude Include="IPTVMcastTools.h" />
     <ClInclude Include="IPTVScanDlg.h" />
     <ClInclude Include="KeyProvider.h" />

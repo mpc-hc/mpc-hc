@@ -265,6 +265,10 @@
 #define IDS_RS_DVB_STOP_FG                  _T("StopFilterGraph")
 #define IDS_RS_ENABLE_IPTV                  _T("EnableIPTV")
 #define IDS_RS_USE_IGMPMEMBERSHIP           _T("UseIGMP_Membership")
+#define IDS_RS_IPTV_SD_ENTRY                _T("IPTV Services Discovery entry point")
+#define IDS_RS_IPTV_SD_PORT                 _T("IPTV Services Discovery port")
+#define IDS_RS_IPTV_SERV_PROVIDER_IP        _T("IPTV Service Provider")
+#define IDS_RS_IPTV_SERV_PROVIDER_PORT      _T("IPTV Service Provider port")
 
 #define IDS_RS_D3D9RENDERDEVICE             _T("D3D9RenderDevice")
 

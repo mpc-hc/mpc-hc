@@ -474,6 +474,9 @@
     <ClCompile Include="TVToolsDlg.cpp">
       <Filter>Modal Dialogs</Filter>
     </ClCompile>
+    <ClCompile Include="IPTVDiscoverySetupDlg.cpp">
+      <Filter>IPTV</Filter>
+    </ClCompile>
     <ClCompile Include="IPTVScanDlg.cpp">
       <Filter>IPTV</Filter>
     </ClCompile>
@@ -871,6 +874,9 @@
     </ClInclude>
     <ClInclude Include="TVToolsDlg.h">
       <Filter>Modal Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="IPTVDiscoverySetupDlg.h">
+      <Filter>IPTV</Filter>
     </ClInclude>
     <ClInclude Include="IPTVScanDlg.h">
       <Filter>IPTV</Filter>

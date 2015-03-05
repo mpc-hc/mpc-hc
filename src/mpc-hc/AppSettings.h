@@ -576,6 +576,10 @@ public:
     DVB_StopFilterGraph nDVBStopFilterGraph;
     bool            bEnabledIPTV;
     bool            bUseIGMPMembership;
+    CString         strServicesDiscoveryEntry;
+    CString         strServicesDiscoveryPort;
+    CString         strServiceProvider_IP;
+    CString         strServicesProvider_Port;
 
     // Internal Filters
     bool            SrcFilters[SRC_LAST + !SRC_LAST];

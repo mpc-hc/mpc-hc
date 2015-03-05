@@ -70,4 +70,6 @@ public:
     afx_msg void OnSelchangeStopFilterGraph();
     afx_msg void OnUpdateIPTV(CCmdUI* pCmdUI);
     afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMH, LRESULT* pResult);
+    afx_msg void OnClickedDVBChannels();
+    afx_msg void OnClickedIPTVChannels();
 };

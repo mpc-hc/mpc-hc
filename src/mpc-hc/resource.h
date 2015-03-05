@@ -590,6 +590,7 @@
 #define IDD_SCAN                        20018
 #define IDD_IPTV_SCAN                   20019
 #define IDD_ADD_IPTVCHANNEL             20020
+#define IDD_IPTV_DISCOVERY              20021
 #define IDI_OPENSUBTITLES               21001
 #define IDI_PODNAPISI                   21002
 #define IDI_SUBDB                       21003
@@ -616,7 +617,8 @@
 #define IDC_FREQ_END                    22023
 #define IDC_CHANNEL_LIST                22024
 #define ID_START                        22025
-#define IDC_CHECK_REMOVE_CHANNELS       22029
+#define IDC_CHECK_SAVE_ONLY_VALID       22027
+#define IDC_CHECK_REMOVE_CHANNELS       22028
 #define ID_SAVE                         22030
 #define IDC_STRENGTH                    22031
 #define IDC_SYNCVIDEO                   22032
@@ -672,6 +674,20 @@
 #define IDC_IMPORT_LIST                 22087
 #define IDC_CHANNELNAME                 22088
 #define IDC_IPADDRESS                   22089
+#define IDC_DISCOVERY                   22090
+#define IDC_DISCOVERY_SETUP             22091
+#define IDC_SP_ENTRY_POINT              22092
+#define IDC_SP_PORT                     22093
+#define IDC_SP_LIST                     22094
+#define IDC_PORT                        22095
+#define IDC_FIND                        22096
+#define IDC_CHECK_ONLY_NEW              22097
+#define IDC_IPADDRESS1                  22098
+#define IDC_IPADDRESS2                  22099
+#define IDC_EXPECTEDTIME                22100
+#define IDC_SCAN                        22101
+#define IDC_DVBCHANNELS                 22102
+#define IDC_IPTVCHANNELS                22103
 #define ID_SUB_DELAY_DOWN               24000
 #define ID_SUB_DELAY_UP                 24001
 #define IDS_MPLAYERC_104                24002
@@ -1138,6 +1154,10 @@
 #define IDS_DTV_IPTV_SCAN               41136
 #define IDS_DTV_IPTV_OPEN_STREAM        41137
 #define IDS_DTV_IPTV_OPEN_ERR           41138
+#define IDS_DTV_IPTV_NUMBER             41139
+#define IDS_DTV_IPTV_LOCALIZATION       41140
+#define IDS_DTV_IPTV_IP                 41141
+#define IDS_DTV_IPTV_PORT               41142
 #define IDS_OSD_RS_VSYNC_ON             41200
 #define IDS_OSD_RS_VSYNC_OFF            41201
 #define IDS_OSD_RS_ACCURATE_VSYNC_ON    41202
@@ -1595,9 +1615,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        20021
+#define _APS_NEXT_RESOURCE_VALUE        20022
 #define _APS_NEXT_COMMAND_VALUE         33452
-#define _APS_NEXT_CONTROL_VALUE         22086
+#define _APS_NEXT_CONTROL_VALUE         22104
 #define _APS_NEXT_SYMED_VALUE           24044
 #endif
 #endif

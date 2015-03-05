@@ -8786,9 +8786,12 @@ void CMainFrame::OnUpdateNavigateMenuItem(CCmdUI* pCmdUI)
 
 void CMainFrame::OnTunerScan()
 {
+    const auto& s = AfxGetAppSettings();
     m_bScanDlgOpened = true;
-    CTVToolsDlg dlg(this);
-    dlg.DoModal();
+    CTVToolsDlg Dlg(this);
+    Dlg.m_bEnabledDVB = s.bEnabledDVB;
+    Dlg.m_bEnabledIPTV = s.bEnabledIPTV;
+    Dlg.DoModal();
     m_bScanDlgOpened = false;
 }
 
