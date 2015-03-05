@@ -12364,47 +12364,6 @@ bool CMainFrame::SearchInDir(bool bDirForward, bool bLoop /*= false*/)
     return true;
 }
 
-void CMainFrame::DoTunerScan(TunerScanData* pTSD)
-{
-    if (GetPlaybackMode() == PM_DIGITAL_TV) {
-        CComQIPtr<IBDATuner> pTun = m_pGB;
-        if (pTun) {
-            BOOLEAN bPresent;
-            BOOLEAN bLocked;
-            LONG lDbStrength;
-            LONG lPercentQuality;
-            int nOffset = pTSD->Offset ? 3 : 1;
-            LONG lOffsets[3] = {0, pTSD->Offset, -pTSD->Offset};
-            m_bStopTunerScan = false;
-            pTun->Scan(0, 0, NULL);  // Clear maps
-
-            for (ULONG ulFrequency = pTSD->FrequencyStart; ulFrequency <= pTSD->FrequencyStop; ulFrequency += pTSD->Bandwidth) {
-                bool bSucceeded = false;
-                for (int nOffsetPos = 0; nOffsetPos < nOffset && !bSucceeded; nOffsetPos++) {
-                    if (SUCCEEDED(pTun->SetFrequency(ulFrequency + lOffsets[nOffsetPos], pTSD->Bandwidth))) {
-                        Sleep(200); // Let the tuner some time to detect the signal
-                        if (SUCCEEDED(pTun->GetStats(bPresent, bLocked, lDbStrength, lPercentQuality)) && bPresent) {
-                            ::SendMessage(pTSD->Hwnd, WM_TUNER_STATS, lDbStrength, lPercentQuality);
-                            pTun->Scan(ulFrequency + lOffsets[nOffsetPos], pTSD->Bandwidth, pTSD->Hwnd);
-                            bSucceeded = true;
-                        }
-                    }
-                }
-
-                int nProgress = MulDiv(ulFrequency - pTSD->FrequencyStart, 100, pTSD->FrequencyStop - pTSD->FrequencyStart);
-                ::SendMessage(pTSD->Hwnd, WM_TUNER_SCAN_PROGRESS, nProgress, 0);
-                ::SendMessage(pTSD->Hwnd, WM_TUNER_STATS, lDbStrength, lPercentQuality);
-
-                if (m_bStopTunerScan) {
-                    break;
-                }
-            }
-
-            ::SendMessage(pTSD->Hwnd, WM_TUNER_SCAN_END, 0, 0);
-        }
-    }
-}
-
 // Skype
 
 void CMainFrame::SendNowPlayingToSkype()
@@ -15048,28 +15007,6 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
 
     // graph is destroyed, update stuff
     OnFilePostClosemedia(bNextIsQueued);
-}
-
-void CMainFrame::StartTunerScan(CAutoPtr<TunerScanData> pTSD)
-{
-    // Remove the old info during the scan
-    m_pDVBState->Reset();
-    m_wndInfoBar.RemoveAllLines();
-    m_wndNavigationBar.m_navdlg.SetChannelInfoAvailable(false);
-    RecalcLayout();
-    OpenSetupWindowTitle();
-    SendNowPlayingToSkype();
-
-    if (m_pGraphThread) {
-        m_pGraphThread->PostThreadMessage(CGraphThread::TM_TUNER_SCAN, 0, (LPARAM)pTSD.Detach());
-    } else {
-        DoTunerScan(pTSD);
-    }
-}
-
-void CMainFrame::StopTunerScan()
-{
-    m_bStopTunerScan = true;
 }
 
 HRESULT CMainFrame::SetChannel(int nChannel)

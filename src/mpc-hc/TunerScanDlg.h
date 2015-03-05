@@ -22,7 +22,17 @@
 
 #include <afxcmn.h>
 #include <afxwin.h>
+#include <atomic>
 
+class TunerScanData
+{
+public:
+    ULONG FrequencyStart;
+    ULONG FrequencyStop;
+    ULONG Bandwidth;
+    LONG  Offset;
+    HWND  Hwnd;
+};
 
 // CTunerScanDlg dialog
 
@@ -56,11 +66,13 @@ public:
     CProgressCtrl m_Strength;
     CProgressCtrl m_Quality;
     CListCtrl m_ChannelList;
-    bool m_bInProgress;
+    std::atomic<bool> m_bInProgress;
+    std::atomic<bool> m_bStopRequested;
     CButton m_btnStart;
     CButton m_btnSave;
     CButton m_btnCancel;
     BOOL m_bRemoveChannels;
+    CAutoPtr<TunerScanData> pTSD;
 
     afx_msg LRESULT OnScanProgress(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT OnScanEnd(WPARAM wParam, LPARAM lParam);
@@ -71,4 +83,8 @@ public:
     afx_msg void OnBnClickedSave();
     afx_msg void OnBnClickedStart();
     afx_msg void OnBnClickedCancel();
+
+private:
+    CWinThread* m_pTVToolsThread;
+    CWnd* m_pParent;
 };

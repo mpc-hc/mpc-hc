@@ -22,6 +22,7 @@
 
 #include <afxcmn.h>
 #include <afxwin.h>
+#include <atomic>
 #include "IPTVDiscoverySetupDlg.h"
 
 enum ISC_COLUMN {
@@ -45,6 +46,8 @@ public:
     virtual ~CIPTVScanDlg();
     virtual BOOL OnInitDialog();
     std::unique_ptr<CIPTVDiscoverySetupDlg> m_pIPTVDiscoverySetup;
+    std::atomic<bool> m_bInProgress;
+    std::atomic<bool> m_bStopRequested;
 
     // Dialog Data
     enum { IDD = IDD_IPTV_SCAN };
@@ -62,6 +65,8 @@ private:
     boolean bInterfaceBusy;
     void SetInterfaceBusy(boolean bNewStatusBusy);
     boolean GetInterfaceBusy() { return bInterfaceBusy; }
+    CWnd* m_pParent;
+    CWinThread* m_pTVToolsThread;
 
 public:
     CListCtrl m_ChannelList;

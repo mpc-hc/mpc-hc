@@ -136,16 +136,6 @@ public:
     int vinput, vchannel, ainput;
 };
 
-class TunerScanData
-{
-public:
-    ULONG FrequencyStart;
-    ULONG FrequencyStop;
-    ULONG Bandwidth;
-    LONG  Offset;
-    HWND  Hwnd;
-};
-
 struct SubtitleInput {
     CComQIPtr<ISubStream> pSubStream;
     CComPtr<IBaseFilter> pSourceFilter;
@@ -452,7 +442,6 @@ protected:
     // Operations
     bool OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD);
     void CloseMediaPrivate();
-    void DoTunerScan(TunerScanData* pTSD);
 
     CWnd* GetModalParent();
 
@@ -515,8 +504,6 @@ public:
     bool ResetDevice();
     bool DisplayChange();
     void CloseMedia(bool bNextIsQueued = false);
-    void StartTunerScan(CAutoPtr<TunerScanData> pTSD);
-    void StopTunerScan();
     HRESULT SetChannel(int nChannel);
 
     void AddCurDevToPlaylist();

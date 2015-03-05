@@ -440,7 +440,7 @@ bool CIPTVMcastTools::FindLogicChannelNum(CString strServID, ChannelID_logicalCh
     return bRet;
 }
 
-void CIPTVMcastTools::BroadcastChannelsDiscover(LPCTSTR pstrIP_Address, LPCTSTR pstrPort, HWND hWnd)
+void CIPTVMcastTools::BroadcastChannelsDiscover(LPCTSTR pstrIP_Address, LPCTSTR pstrPort, HWND hWnd, std::atomic<bool> &bStopRequested)
 {
     char buf[DEFAULT_BUFLEN];
     ChannelID_logicalChannel ChPairs[DEFAULT_MAX_SP];
@@ -466,10 +466,10 @@ void CIPTVMcastTools::BroadcastChannelsDiscover(LPCTSTR pstrIP_Address, LPCTSTR 
                 iStartPosition = GetStartPosition(buf, buflen, TAG_START_POSITION);
             }
         } while ((hr == S_OK && buf[4] != 5) ||
-                 (hr == S_OK && buf[4] == 5 && (iStartPosition < 0)));
+            (hr == S_OK && buf[4] == 5 && (iStartPosition < 0)) && !(bStopRequested));
 
         CString strStream;
-        while ((hr == S_OK) && buf[4] == 5 && iStartPosition >= 0) {
+        while ((hr == S_OK) && buf[4] == 5 && iStartPosition >= 0 && !(bStopRequested)) {
             // Read packets with the available packages
             for (int i = iStartPosition; i < buflen - iStartPosition; i++) {
                 if (buf[i]) {
@@ -528,26 +528,31 @@ void CIPTVMcastTools::BroadcastChannelsDiscover(LPCTSTR pstrIP_Address, LPCTSTR 
                     }
                     bError = true;
                 }
-            } while (!bError && (strStream.GetLength() > 0));
+            } while (!bError && (strStream.GetLength() > 0) && !(bStopRequested));
 
-            hr = GetPacket(buf, buflen);
+            if (!bStopRequested) {
+                hr = GetPacket(buf, buflen);
+            }
         }
 
-        // Find start position
-        // PayloadID == 02 (SD&S Broadcast Discovery Information)
-        if (hr == S_OK && buf[4] == 2) {
-            iStartPosition = GetStartPosition(buf, buflen, TAG_START_POSITION);
-        }
-        while ((hr == S_OK && buf[4] != 2) ||
-                (hr == S_OK && buf[4] == 2 && (iStartPosition < 0))) {
-            hr = GetPacket(buf, buflen);
-            if (hr == S_OK) {
+        if (!bStopRequested) {
+            // Find start position
+            // PayloadID == 02 (SD&S Broadcast Discovery Information)
+            if (hr == S_OK && buf[4] == 2) {
                 iStartPosition = GetStartPosition(buf, buflen, TAG_START_POSITION);
+            }
+            while ((hr == S_OK && buf[4] != 2) ||
+                (hr == S_OK && buf[4] == 2 && (iStartPosition < 0)))
+            {
+                hr = GetPacket(buf, buflen);
+                if (hr == S_OK) {
+                    iStartPosition = GetStartPosition(buf, buflen, TAG_START_POSITION);
+                }
             }
         }
 
         strStream.Empty();
-        while ((hr == S_OK) && buf[4] == 2 && iStartPosition >= 0) {
+        while ((hr == S_OK) && buf[4] == 2 && iStartPosition >= 0 && !(bStopRequested)) {
             // Read packets with broadcast channels information
             int nDestSize = MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)buf + iStartPosition, buflen - iStartPosition, nullptr, 0);
             if (nDestSize > 0) {
@@ -767,7 +772,7 @@ HRESULT CIPTVMcastTools::VerifyChannel(LPCTSTR pstrAddr)
     return hr;
 }
 
-void CIPTVMcastTools::ScanRangeIPs(LPCTSTR pstrIP_Addr1, LPCTSTR pstrIP_Addr2, LPCTSTR pstrPort, HWND hWnd)
+void CIPTVMcastTools::ScanRangeIPs(LPCTSTR pstrIP_Addr1, LPCTSTR pstrIP_Addr2, LPCTSTR pstrPort, HWND hWnd, std::atomic<bool> &bStopRequested)
 {
     UINT32 uIP1 = strIPAddress2UINT32(pstrIP_Addr1);
     UINT32 uIP2 = strIPAddress2UINT32(pstrIP_Addr2);
@@ -777,6 +782,9 @@ void CIPTVMcastTools::ScanRangeIPs(LPCTSTR pstrIP_Addr1, LPCTSTR pstrIP_Addr2, L
     USHORT uPort = strPort2USHORT(pstrPort);
 
     for (UINT32 uCount = uIP1; uCount <= uIP2; uCount++) {
+        if (bStopRequested) {
+            break;
+        }
         UINT32 uIPCurrent = htonl(uCount);
         // Show current IP Address
         struct in_addr address_struct;

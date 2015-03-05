@@ -25,6 +25,7 @@
 #include "resource.h"
 #include "TunerScanDlg.h"
 #include "IPTVScanDlg.h"
+#include "IGraphBuilder2.h"
 
 class CTVToolsThread;
 
@@ -75,15 +76,20 @@ class CTVToolsThread : public CWinThread
 {
     DECLARE_DYNCREATE(CTVToolsThread);
 public:
-    CTVToolsThread() : m_pTVToolsDlg(nullptr) {}
+    CTVToolsThread() : m_pTVToolsDlg(nullptr)
+        , pGB(nullptr)
+        , m_bMediaClosed(false)
+        , m_evProcessFinished(TRUE, TRUE)
+    {}
 
     BOOL InitInstance();
     int ExitInstance();
     void SetTVToolsDlg(CTVToolsDlg* pTVToolsDlg) { m_pTVToolsDlg = pTVToolsDlg; }
+    ::CEvent m_evProcessFinished;
 
     enum {
-        TM_EXIT = WM_APP,
-        TM_OPEN,
+        TM_OPEN = WM_APP + 1,
+        TM_EXIT,
         TM_CLOSE,
         TM_TUNER_SCAN,
         TM_IPTV_DISCOVERY,
@@ -103,4 +109,6 @@ protected:
 
 private:
     CTVToolsDlg* m_pTVToolsDlg;
+    CComPtr<IGraphBuilder2> pGB;
+    bool m_bMediaClosed;
 };

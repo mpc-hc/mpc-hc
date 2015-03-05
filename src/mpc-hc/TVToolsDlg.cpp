@@ -23,6 +23,10 @@
 #include "TVToolsDlg.h"
 #include "mplayerc.h"
 #include "MainFrm.h"
+#include "FGManagerBDA.h"
+
+#define THREAD_EXIT_TIMEOUT 20000
+#define PROCESS_FINISH_TIMEOUT 30000
 
 // CTVToolsDlg dialog
 
@@ -36,29 +40,78 @@ CTVToolsDlg::CTVToolsDlg(CWnd* pParent /*=nullptr*/)
     , m_bEnabledIPTV(true)
     , m_evCloseFinished(FALSE, TRUE)
 {
-    m_pTVToolsThread = (CTVToolsThread*)AfxBeginThread(RUNTIME_CLASS(CTVToolsThread));
-    m_pTVToolsThread->SetTVToolsDlg(this);
+    m_pTVToolsThread = dynamic_cast<CTVToolsThread*>(AfxBeginThread(RUNTIME_CLASS(CTVToolsThread)));
+    if (m_pTVToolsThread) {
+        m_pTVToolsThread->SetTVToolsDlg(this);
+    } else {
+        ASSERT(FALSE);
+    }
 }
 
 void CTVToolsDlg::OnDestroy()
 {
     if (m_pTVToolsThread) {
-        CAMMsgEvent e;
-        m_pTVToolsThread->PostThreadMessage(CTVToolsThread::TM_EXIT, 0, (LPARAM)&e);
-        if (!e.Wait(5000)) {
-            TRACE(_T("ERROR: Must call TerminateThread() on CTVToolsDlg::m_pTVToolsThread->m_hThread\n"));
-            TerminateThread(m_pTVToolsThread->m_hThread, DWORD_ERROR);
+        if (m_TunerScanDlg.m_bInProgress) {
+            m_TunerScanDlg.m_bStopRequested = true;
+            DWORD RetValue = WaitForSingleObject(m_pTVToolsThread->m_evProcessFinished, PROCESS_FINISH_TIMEOUT);
+            switch (RetValue) {
+            case WAIT_TIMEOUT:
+                TRACE(_T("Timeout when trying to stop the tuner scan process.\n"));
+                break;
+            case WAIT_ABANDONED:
+                TRACE(_T("Wait abandoned trying to stop the tuner scan process.\n"));
+                break;
+            case WAIT_OBJECT_0:
+                TRACE(_T("Tuner scan process stopped successfully.\n"));
+                break;
+            case WAIT_FAILED:
+                DWORD LErr = GetLastError();
+                TRACE(_T("Error %lu trying to stop the tuner scan process.\n"), LErr);
+                break;
+            }
         }
+        else if (m_IPTVScanDlg.m_bInProgress) {
+            m_IPTVScanDlg.m_bStopRequested = true;
+            DWORD RetValue = WaitForSingleObject(m_pTVToolsThread->m_evProcessFinished, PROCESS_FINISH_TIMEOUT);
+            switch (RetValue) {
+            case WAIT_TIMEOUT:
+                TRACE(_T("Timeout when trying to stop the IPTV scan/discovery process.\n"));
+                break;
+            case WAIT_ABANDONED:
+                TRACE(_T("Wait abandoned trying to stop the IPTV scan/discovery process.\n"));
+                break;
+            case WAIT_OBJECT_0:
+                TRACE(_T("IPTV scan/discovery process stopped successfully.\n"));
+                break;
+            case WAIT_FAILED:
+                DWORD LErr = GetLastError();
+                TRACE(_T("Error %lu trying to stop the IPTV scan/discovery process.\n"), LErr);
+                break;
+            }
+        }
+
+        VERIFY(m_evCloseFinished.Set());
+
+        CAMMsgEvent e;
+        VERIFY(m_pTVToolsThread->PostThreadMessage(CTVToolsThread::TM_EXIT, 0, (LPARAM)&e));
+        if (!e.Wait(THREAD_EXIT_TIMEOUT)) {
+             TRACE(_T("ERROR: Must call TerminateThread() on CTVToolsDlg::m_pTVToolsThread->m_hThread\n"));
+             TerminateThread(m_pTVToolsThread->m_hThread, DWORD_ERROR);
+        }
+        m_pTVToolsThread = nullptr;
     }
+
     __super::OnDestroy();
 }
 
 void CTVToolsDlg::OnClose()
 {
-    VERIFY(m_pTVToolsThread->PostThreadMessage(CTVToolsThread::TM_CLOSE, 0, 0));
-    ASSERT(WaitForSingleObject(m_evCloseFinished, 0) == WAIT_TIMEOUT);
+    if (m_TunerScanDlg.m_bInProgress || m_IPTVScanDlg.m_bInProgress) {
+        m_TunerScanDlg.m_bStopRequested = true;
+    }
     __super::OnClose();
 }
+
 
 BOOL CTVToolsDlg::OnInitDialog()
 {
@@ -196,6 +249,7 @@ LRESULT CTVToolsDlg::OnSetChannel(WPARAM wParam, LPARAM lParam)
     return hr;
 }
 
+
 // CTVToolsThread
 
 IMPLEMENT_DYNCREATE(CTVToolsThread, CWinThread)
@@ -203,7 +257,6 @@ IMPLEMENT_DYNCREATE(CTVToolsThread, CWinThread)
 BOOL CTVToolsThread::InitInstance()
 {
     SetThreadName(DWORD(-1), "TVToolsThread");
-    AfxSocketInit();
     return SUCCEEDED(CoInitialize(nullptr)) ? TRUE : FALSE;
 }
 
@@ -226,15 +279,33 @@ END_MESSAGE_MAP()
 void CTVToolsThread::OnClose(WPARAM wParam, LPARAM lParam)
 {
     ASSERT(m_pTVToolsDlg);
-    VERIFY(m_pTVToolsDlg->m_evCloseFinished.Set());
+    if (m_pTVToolsDlg->m_TunerScanDlg.m_bInProgress) {
+        m_pTVToolsDlg->m_TunerScanDlg.m_bStopRequested = true;
+        ASSERT(WaitForSingleObject(m_evProcessFinished, 0) == WAIT_TIMEOUT);
+    } else if (m_pTVToolsDlg->m_IPTVScanDlg.m_bInProgress) {
+        m_pTVToolsDlg->m_IPTVScanDlg.m_bStopRequested = true;
+        ASSERT(WaitForSingleObject(m_evProcessFinished, 0) == WAIT_TIMEOUT);
+    }
+
+    if (m_bMediaClosed) {
+        AfxGetMyApp()->GetMainWnd()->PostMessage(WM_COMMAND, ID_FILE_OPENDIGITALTV);
+        m_bMediaClosed = false;
+    }
 }
 
 void CTVToolsThread::OnExit(WPARAM wParam, LPARAM lParam)
 {
+    ASSERT(m_pTVToolsDlg);
+    if (m_bMediaClosed) {
+        AfxGetMyApp()->GetMainWnd()->PostMessage(WM_COMMAND, ID_FILE_OPENDIGITALTV);
+        m_bMediaClosed = false;
+    }
+
     PostQuitMessage(0);
     if (CAMEvent* e = (CAMEvent*)lParam) {
         e->Set();
     }
+    TRACE(_T("Thread OnExit: PostQuitMessage(0)./n"));
 }
 
 void CTVToolsThread::OnOpen(WPARAM wParam, LPARAM lParam)
@@ -246,50 +317,139 @@ void CTVToolsThread::OnOpen(WPARAM wParam, LPARAM lParam)
 
 void CTVToolsThread::OnTunerScan(WPARAM wParam, LPARAM lParam)
 {
-    if (m_pTVToolsDlg) {
-        CAutoPtr<TunerScanData> pTSD((TunerScanData*)lParam);
-        //        m_pTVToolsDlg->DoTunerScan(pTSD);
+    m_pTVToolsDlg->m_TabCtrl.EnableWindow(false);
+    m_evProcessFinished.Reset();
+    CAutoPtr<TunerScanData> pTSD((TunerScanData*) lParam);
+    CFGManagerBDA* pFGMBDA = DEBUG_NEW CFGManagerBDA(_T("CFGManagerBDA"), nullptr, AfxGetMyApp()->GetMainWnd()->m_hWnd);
+    pGB = pFGMBDA;
+    pGB->AddToROT();
+    CMainFrame* pMfrm = dynamic_cast<CMainFrame*>(AfxGetMyApp()->GetMainWnd());
+
+    // When watching DTV, close the current graph before opening new graph for tuner scan
+    if (pMfrm && (pMfrm->GetLoadState() != MLS::CLOSED) && (pMfrm->GetPlaybackMode() == PM_DIGITAL_TV)) {
+        pMfrm->SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
+        ASSERT(pMfrm->GetLoadState() == MLS::CLOSED);
+        m_bMediaClosed = true;
     }
+
+    pGB->RenderFile(P_SCAN, (LPCWSTR)&m_pTVToolsDlg->m_TunerScanDlg.m_bStopRequested);
+
+    CComQIPtr<IBDATuner> pTun = pGB;
+    BOOLEAN bPresent;
+    BOOLEAN bLocked;
+    LONG lDbStrength;
+    LONG lPercentQuality;
+    int nOffset = pTSD->Offset ? 3 : 1;
+    LONG lOffsets[3] = { 0, pTSD->Offset, -pTSD->Offset };
+    pTun->Scan(0, 0, NULL);  // Clear maps
+
+    bool bStopRequested = false;
+    for (ULONG ulFrequency = pTSD->FrequencyStart; ulFrequency <= pTSD->FrequencyStop; ulFrequency += pTSD->Bandwidth) {
+        bool bSucceeded = false;
+        for (int nOffsetPos = 0; nOffsetPos < nOffset && !bSucceeded; nOffsetPos++) {
+            if (SUCCEEDED(pTun->SetFrequency(ulFrequency + lOffsets[nOffsetPos], pTSD->Bandwidth))) {
+                // Let the tuner some time to detect the signal (originally Sleep(200))
+                int iWaitTime = 20;
+                while (iWaitTime > 0 && !bStopRequested) {
+                    Sleep(10);
+                    bStopRequested = m_pTVToolsDlg->m_TunerScanDlg.m_bStopRequested;
+                    iWaitTime--;
+                }
+
+                if (bStopRequested) {
+                    break;
+                }
+                if (SUCCEEDED(pTun->GetStats(bPresent, bLocked, lDbStrength, lPercentQuality)) && bPresent) {
+                    ::PostMessage(pTSD->Hwnd, WM_TUNER_STATS, lDbStrength, lPercentQuality);
+                    if (pTun->Scan(ulFrequency + lOffsets[nOffsetPos], pTSD->Bandwidth, pTSD->Hwnd) == S_FALSE) {
+                        bStopRequested = true;
+                        break;
+                    }
+                    bSucceeded = true;
+                }
+            }
+            if (!bStopRequested) {
+                bStopRequested = m_pTVToolsDlg->m_TunerScanDlg.m_bStopRequested;
+                if (bStopRequested) {
+                    break;
+                }
+            }
+        }
+
+        if (bStopRequested) {
+            break;
+        }
+
+        int nProgress = MulDiv(ulFrequency - pTSD->FrequencyStart, 100, pTSD->FrequencyStop - pTSD->FrequencyStart);
+        ::PostMessage(pTSD->Hwnd, WM_TUNER_SCAN_PROGRESS, nProgress, 0);
+        ::PostMessage(pTSD->Hwnd, WM_TUNER_STATS, lDbStrength, lPercentQuality);
+    }
+
+    if (pGB) {
+        pGB->RemoveFromROT();
+        pGB.Release();
+    }
+    m_evProcessFinished.Set();
+    ::PostMessage(pTSD->Hwnd, WM_TUNER_SCAN_END, 0, 0);
 }
+
 
 void CTVToolsThread::OnIPTVDiscovery(WPARAM wParam, LPARAM lParam)
 {
-    m_pTVToolsDlg->m_TabCtrl.EnableWindow(false);
+    bool bStopRequested;
     std::unique_ptr<CIPTVMcastTools> pMulticastTools;
     pMulticastTools = std::make_unique<CIPTVMcastTools>();
     const CAppSettings& s = AfxGetAppSettings();
     boolean bValidDiscoverySetupWindow = true;
+    m_evProcessFinished.Reset();
 
-    pMulticastTools->BroadcastChannelsDiscover(s.strServiceProvider_IP, s.strServicesProvider_Port, (HWND)m_pTVToolsDlg->m_IPTVScanDlg);
+    pMulticastTools->BroadcastChannelsDiscover(s.strServiceProvider_IP, s.strServicesProvider_Port, (HWND)m_pTVToolsDlg->m_IPTVScanDlg, std::ref(m_pTVToolsDlg->m_IPTVScanDlg.m_bStopRequested));
+    bStopRequested = m_pTVToolsDlg->m_IPTVScanDlg.m_bStopRequested;
+    if (!bStopRequested) {
 
-    for (int nItem = 0; nItem < m_pTVToolsDlg->m_IPTVScanDlg.m_ChannelList.GetItemCount(); nItem++) {
-        CDVBChannel channel(m_pTVToolsDlg->m_IPTVScanDlg.m_ChannelList.GetItemText(nItem, ISCC_CHANNEL));
-        HRESULT hr = pMulticastTools->VerifyChannel(channel.GetUrl());
-        CString strVerify = _T("No");
-        if (hr == S_OK) {
-            strVerify = _T("Yes");
+        for (int nItem = 0; nItem < m_pTVToolsDlg->m_IPTVScanDlg.m_ChannelList.GetItemCount(); nItem++) {
+            CDVBChannel channel(m_pTVToolsDlg->m_IPTVScanDlg.m_ChannelList.GetItemText(nItem, ISCC_CHANNEL));
+            HRESULT hr = pMulticastTools->VerifyChannel(channel.GetUrl());
+            bStopRequested = m_pTVToolsDlg->m_IPTVScanDlg.m_bStopRequested;
+            if (bStopRequested) {
+                break;
+            }
+            CString strVerify = _T("No");
+            if (hr == S_OK) {
+                strVerify = _T("Yes");
+            }
+            if (m_pTVToolsDlg && ::IsWindow(m_pTVToolsDlg->m_IPTVScanDlg.GetSafeHwnd())) {
+                m_pTVToolsDlg->m_IPTVScanDlg.m_ChannelList.SetItemText(nItem, ISCC_VALIDATED, strVerify);
+            } else {
+                // The window has been closed and doesn't exist anymore
+                bValidDiscoverySetupWindow = false;
+                TRACE(_T("The window has been closed and doesn't exist anymore\n"));
+                break;
+            }
+            bStopRequested = m_pTVToolsDlg->m_IPTVScanDlg.m_bStopRequested;
+            if (bStopRequested) {
+                break;
+            }
+
         }
-        if (m_pTVToolsDlg && ::IsWindow(m_pTVToolsDlg->m_IPTVScanDlg.GetSafeHwnd())) {
-            m_pTVToolsDlg->m_IPTVScanDlg.m_ChannelList.SetItemText(nItem, ISCC_VALIDATED, strVerify);
-        } else {
-            // The window has been closed and doesn't exist anymore
-            bValidDiscoverySetupWindow = false;
-            break;
-        }
+    }
+    else {
+        TRACE(_T("Stop requested.\n"));
     }
 
     pMulticastTools = nullptr;
+    m_evProcessFinished.Set();
     if (bValidDiscoverySetupWindow) {
-        m_pTVToolsDlg->m_TabCtrl.EnableWindow(true);
-        m_pTVToolsDlg->m_IPTVScanDlg.SendMessage(WM_IPTV_END_DISCOVERY);
+        m_pTVToolsDlg->m_IPTVScanDlg.PostMessage(WM_IPTV_END_DISCOVERY);
     }
 }
 
 void CTVToolsThread::OnIPTVScan(WPARAM wParam, LPARAM lParam)
 {
-    m_pTVToolsDlg->m_TabCtrl.EnableWindow(false);
     CString strIP1, strIPAddress1, strIPAddress2, strPort;
     strIP1 = (LPCTSTR)wParam;
+
+    m_evProcessFinished.Reset();
 
     int iPos1 = strIP1.ReverseFind(_T(':'));
     if (iPos1 < 0) {
@@ -301,21 +461,23 @@ void CTVToolsThread::OnIPTVScan(WPARAM wParam, LPARAM lParam)
 
     std::unique_ptr<CIPTVMcastTools> pMulticastTools;
     pMulticastTools = std::make_unique<CIPTVMcastTools>();
-    pMulticastTools->ScanRangeIPs(strIPAddress1, strIPAddress2, strPort, (HWND)m_pTVToolsDlg->m_IPTVScanDlg);
+    pMulticastTools->ScanRangeIPs(strIPAddress1, strIPAddress2, strPort, (HWND)m_pTVToolsDlg->m_IPTVScanDlg, std::ref(m_pTVToolsDlg->m_IPTVScanDlg.m_bStopRequested));
 
     pMulticastTools = nullptr;
-    m_pTVToolsDlg->m_TabCtrl.EnableWindow(true);
-    m_pTVToolsDlg->m_IPTVScanDlg.SendMessage(WM_IPTV_END_DISCOVERY);
+    m_evProcessFinished.Set();
+    m_pTVToolsDlg->m_IPTVScanDlg.PostMessage(WM_IPTV_END_DISCOVERY);
 }
 
 void CTVToolsThread::OnIPTVServiceProviders(WPARAM wParam, LPARAM lParam)
 {
     std::unique_ptr<CIPTVMcastTools> pMulticastTools;
+    m_evProcessFinished.Reset();
     pMulticastTools = std::make_unique<CIPTVMcastTools>();
     CString strIP = (LPCTSTR)wParam;
     CString strPort = (LPCTSTR)lParam;
     pMulticastTools->GetServiceProviders(strIP, strPort, m_pTVToolsDlg->m_IPTVScanDlg.m_pIPTVDiscoverySetup->GetSafeHwnd());
 
     pMulticastTools = nullptr;
+    m_evProcessFinished.Set();
 
 }

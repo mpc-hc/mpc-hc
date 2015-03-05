@@ -35,13 +35,16 @@ IMPLEMENT_DYNAMIC(CIPTVScanDlg, CDialog)
 
 CIPTVScanDlg::CIPTVScanDlg(CWnd* pParent /*=nullptr*/)
     : CDialog(CIPTVScanDlg::IDD, pParent)
+    , m_bInProgress(false)
+    , m_bStopRequested(false)
     , m_iChannelAdditionMethod(0)
     , m_bRemoveChannels(FALSE)
     , m_bOnlyNewChannels(FALSE)
     , m_bSaveOnlyValid(FALSE)
     , m_pIPTVDiscoverySetup(nullptr)
+    , m_pTVToolsThread(nullptr)
 {
-
+    m_pParent = pParent;
 }
 
 CIPTVScanDlg::~CIPTVScanDlg()
@@ -51,6 +54,10 @@ CIPTVScanDlg::~CIPTVScanDlg()
 BOOL CIPTVScanDlg::OnInitDialog()
 {
     CDialog::OnInitDialog();
+    m_pTVToolsThread = dynamic_cast<CTVToolsDlg*> (m_pParent)->m_pTVToolsThread;
+    if (!m_pTVToolsThread) {
+        ASSERT(FALSE);
+    }
 
     m_ChannelList.InsertColumn(ISCC_NUMBER, ResStr(IDS_DVB_CHANNEL_NUMBER), LVCFMT_LEFT, 35);
     m_ChannelList.InsertColumn(ISCC_NAME, ResStr(IDS_DVB_CHANNEL_NAME), LVCFMT_LEFT, 190);
@@ -163,6 +170,10 @@ void CIPTVScanDlg::SetInterfaceBusy(boolean bNewStatusBusy)
             GetDlgItem(IDC_CHECK_REMOVE_CHANNELS)->EnableWindow(FALSE);
             GetDlgItem(IDC_CHECK_SAVE_ONLY_VALID)->EnableWindow(FALSE);
         }
+        auto pParentWnd = dynamic_cast<CTVToolsDlg*>(GetParent());
+        if (pParentWnd->m_TabCtrl) {
+            pParentWnd->m_TabCtrl.EnableWindow(!bNewStatusBusy);
+        }
     }
 }
 
@@ -260,11 +271,18 @@ void CIPTVScanDlg::OnUpdateAddChannelMethod(UINT nId)
 void CIPTVScanDlg::OnClickedScan()
 {
     SetInterfaceBusy(true);
+    m_bInProgress = true;
     m_IPAddress1.GetWindowTextW(m_strIPAddress1);
     m_IPAddress2.GetWindowTextW(m_strIPAddress2);
     m_Port.GetWindowTextW(m_strPort);
     m_strIPAddress1.Append(_T(":") + m_strPort);
-    ((CTVToolsDlg*)GetParent())->m_pTVToolsThread->PostThreadMessage(CTVToolsThread::TM_IPTV_SCAN, (WPARAM)(LPCTSTR)m_strIPAddress1, (LPARAM)(LPCTSTR)m_strIPAddress2);
+    if (m_pTVToolsThread) {
+        m_pTVToolsThread->PostThreadMessage(CTVToolsThread::TM_IPTV_SCAN, (WPARAM)(LPCTSTR)m_strIPAddress1, (LPARAM)(LPCTSTR)m_strIPAddress2);
+    }
+    else {
+        TRACE(_T("m_pTVToolsThread thread not found."));
+        ASSERT(FALSE);
+    }
 
 }
 
@@ -382,9 +400,14 @@ void CIPTVScanDlg::OnClickedSave()
 
 void CIPTVScanDlg::OnClickedCancel()
 {
+    m_btnCancel.EnableWindow(false);
+    m_bStopRequested = true;
+
     // Set the current channel and close the dialog
     GetParent()->SendMessage(WM_DTV_SETCHANNEL, (WPARAM)AfxGetAppSettings().nDVBLastChannel);
     GetParent()->SendMessage(WM_CLOSE);
+    GetParent()->SendMessage(WM_DESTROY);
+
 }
 
 
@@ -424,7 +447,6 @@ void CIPTVScanDlg::OnClickedImportList()
 void CIPTVScanDlg::OnClickedDiscoverySetup()
 {
     const CAppSettings& s = AfxGetAppSettings();
-    //    DWORD dwFlags = OFN_EXPLORER | OFN_ENABLESIZING | OFN_HIDEREADONLY | OFN_NOCHANGEDIR;
     if (!m_pIPTVDiscoverySetup) {
         m_pIPTVDiscoverySetup = std::make_unique<CIPTVDiscoverySetupDlg>(GetParent());
     }
@@ -438,7 +460,14 @@ void CIPTVScanDlg::OnClickedDiscoverySetup()
 void CIPTVScanDlg::OnClickedDiscovery()
 {
     SetInterfaceBusy(true);
-    ((CTVToolsDlg*)GetParent())->m_pTVToolsThread->PostThreadMessage(CTVToolsThread::TM_IPTV_DISCOVERY, 0, 0);
+    m_bInProgress = true;
+    if (m_pTVToolsThread) {
+        m_pTVToolsThread->PostThreadMessage(CTVToolsThread::TM_IPTV_DISCOVERY, 0, 0);
+    }
+    else {
+        TRACE(_T("m_pTVToolsThread thread not found."));
+        ASSERT(FALSE);
+    }
 }
 
 LPARAM CIPTVScanDlg::OnEndDiscovery(WPARAM wParam, LPARAM lParam)
@@ -448,6 +477,8 @@ LPARAM CIPTVScanDlg::OnEndDiscovery(WPARAM wParam, LPARAM lParam)
     m_btnSave.EnableWindow(TRUE);
     GetDlgItem(IDC_CHECK_REMOVE_CHANNELS)->EnableWindow(TRUE);
     GetDlgItem(IDC_CHECK_SAVE_ONLY_VALID)->EnableWindow(TRUE);
+    m_bInProgress = false;
+    m_bStopRequested = false;
     return TRUE;
 }
 

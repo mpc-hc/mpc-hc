@@ -30,6 +30,8 @@
 // Protocol encapsulation:
 #define PROTOCOL_RTP _T("rtp://")
 
+#include <atomic>
+
 class CServiceProvider
 {
     CServiceProvider() : SP_addr(0), SP_port(0), strDescription(_T("")) {}
@@ -62,8 +64,8 @@ public:
 
     // DVBSTP Services
     HRESULT GetServiceProviders(LPCTSTR pstrIP_Address, LPCTSTR pstrPort, HWND hWnd);
-    void BroadcastChannelsDiscover(LPCTSTR pstrIP_Address, LPCTSTR pstrPort, HWND hWnd);
-    void ScanRangeIPs(LPCTSTR pstrIP_Addr1, LPCTSTR pstrIP_Addr2, LPCTSTR pstrPort, HWND hWnd);
+    void BroadcastChannelsDiscover(LPCTSTR pstrIP_Address, LPCTSTR pstrPort, HWND hWnd, std::atomic<bool> &bStopRequested);
+    void ScanRangeIPs(LPCTSTR pstrIP_Addr1, LPCTSTR pstrIP_Addr2, LPCTSTR pstrPort, HWND hWnd, std::atomic<bool> &bStopRequested);
     HRESULT GetEPGInfo(LPCTSTR pstrIP_Address, LPCTSTR pstrPort, LPCTSTR pstrInfo);
     HRESULT VerifyChannel(LPCTSTR pstrAddr);
     HRESULT VerifyChannel(UINT32 remote_addr, USHORT uPort);

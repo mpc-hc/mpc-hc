@@ -24,6 +24,7 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "TunerScanDlg.h"
+#include "TVToolsDlg.h"
 #include "MainFrm.h"
 
 
@@ -46,9 +47,13 @@ IMPLEMENT_DYNAMIC(CTunerScanDlg, CDialog)
 CTunerScanDlg::CTunerScanDlg(CWnd* pParent /*=nullptr*/)
     : CDialog(CTunerScanDlg::IDD, pParent)
     , m_bInProgress(false)
+    , m_bStopRequested(false)
     , m_bRemoveChannels(false)
+    , pTSD(DEBUG_NEW TunerScanData)
+    , m_pTVToolsThread(nullptr)
 {
     const CAppSettings& s = AfxGetAppSettings();
+    m_pParent = pParent;
 
     m_ulFrequencyStart = s.iBDAScanFreqStart;
     m_ulFrequencyEnd = s.iBDAScanFreqEnd;
@@ -56,6 +61,7 @@ CTunerScanDlg::CTunerScanDlg(CWnd* pParent /*=nullptr*/)
     m_bUseOffset = s.fBDAUseOffset;
     m_lOffset = s.iBDAOffset;
     m_bIgnoreEncryptedChannels = s.fBDAIgnoreEncryptedChannels;
+
 }
 
 CTunerScanDlg::~CTunerScanDlg()
@@ -65,6 +71,10 @@ CTunerScanDlg::~CTunerScanDlg()
 BOOL CTunerScanDlg::OnInitDialog()
 {
     CDialog::OnInitDialog();
+    m_pTVToolsThread = dynamic_cast<CTVToolsDlg*> (m_pParent)->m_pTVToolsThread;
+    if (!m_pTVToolsThread) {
+        ASSERT(FALSE);
+    }
 
     m_OffsetEditBox.EnableWindow(m_bUseOffset);
 
@@ -199,15 +209,17 @@ void CTunerScanDlg::OnBnClickedSave()
     }
     s.nDVBLastChannel = nDVBLastChannel;
 
-    GetParent()->SendMessage(WM_DTV_SETCHANNEL, (WPARAM)iChannel);
     GetParent()->SendMessage(WM_CLOSE);
+    GetParent()->SendMessage(WM_DESTROY);
 }
 
 void CTunerScanDlg::OnBnClickedStart()
 {
     if (!m_bInProgress) {
         UpdateData(true);
-        CAutoPtr<TunerScanData> pTSD(DEBUG_NEW TunerScanData);
+        if (!pTSD) {
+            pTSD.m_p = DEBUG_NEW TunerScanData;
+        }
         pTSD->Hwnd           = m_hWnd;
         pTSD->FrequencyStart = m_ulFrequencyStart;
         pTSD->FrequencyStop  = m_ulFrequencyEnd;
@@ -216,22 +228,28 @@ void CTunerScanDlg::OnBnClickedStart()
         SaveScanSettings();
 
         m_ChannelList.DeleteAllItems();
-        ((CMainFrame*)GetParent()->GetParent())->StartTunerScan(pTSD);
+        if (m_pTVToolsThread) {
+            m_pTVToolsThread->PostThreadMessage(CTVToolsThread::TM_TUNER_SCAN, 0, (LPARAM)pTSD.Detach());
+        } else {
+            TRACE(_T("m_pTVToolsThread thread not found."));
+            ASSERT(FALSE);
+        }
 
         SetProgress(true);
     } else {
-        ((CMainFrame*)GetParent()->GetParent())->StopTunerScan();
+        m_bStopRequested = true;
+        m_btnStart.EnableWindow(false);
     }
 }
 
 void CTunerScanDlg::OnBnClickedCancel()
 {
-    if (m_bInProgress) {
-        ((CMainFrame*)GetParent()->GetParent())->StopTunerScan();
-    }
+    m_btnCancel.EnableWindow(false);
+    m_btnStart.EnableWindow(false);
+    m_bStopRequested = true;
 
-    GetParent()->SendMessage(WM_DTV_SETCHANNEL, (WPARAM)AfxGetAppSettings().nDVBLastChannel);
     GetParent()->SendMessage(WM_CLOSE);
+    GetParent()->SendMessage(WM_DESTROY);
 }
 
 void CTunerScanDlg::OnBnClickedCheckOffset()
@@ -249,6 +267,8 @@ LRESULT CTunerScanDlg::OnScanProgress(WPARAM wParam, LPARAM lParam)
 LRESULT CTunerScanDlg::OnScanEnd(WPARAM wParam, LPARAM lParam)
 {
     SetProgress(false);
+    m_bStopRequested = false;
+    m_btnStart.EnableWindow(true);
     return TRUE;
 }
 
@@ -282,6 +302,7 @@ LRESULT CTunerScanDlg::OnNewChannel(WPARAM wParam, LPARAM lParam)
 
             strTemp.Format(_T("%d"), nChannelNumber);
             nItem = m_ChannelList.InsertItem(nItem, strTemp);
+            m_ChannelList.EnsureVisible(m_ChannelList.GetItemCount() - 1, false); // Scroll down to the bottom
 
             m_ChannelList.SetItemData(nItem, channel.GetOriginNumber());
 
@@ -328,13 +349,16 @@ void CTunerScanDlg::SetProgress(bool bState)
 {
     if (bState) {
         m_btnStart.SetWindowTextW(ResStr(IDS_DVB_CHANNEL_STOP_SCAN));
-        m_btnSave.EnableWindow(FALSE);
-        GetDlgItem(IDC_CHECK_REMOVE_CHANNELS)->EnableWindow(FALSE);
     } else {
         m_btnStart.SetWindowTextW(ResStr(IDS_DVB_CHANNEL_START_SCAN));
         m_Progress.SetPos(0);
-        m_btnSave.EnableWindow(TRUE);
-        GetDlgItem(IDC_CHECK_REMOVE_CHANNELS)->EnableWindow(TRUE);
+    }
+
+    m_btnSave.EnableWindow(!bState);
+    GetDlgItem(IDC_CHECK_REMOVE_CHANNELS)->EnableWindow(!bState);
+    auto pParentWnd = dynamic_cast<CTVToolsDlg*>(GetParent());
+    if (pParentWnd->m_TabCtrl) {
+        pParentWnd->m_TabCtrl.EnableWindow(!bState);
     }
 
     m_bInProgress = bState;
