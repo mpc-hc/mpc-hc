@@ -8095,7 +8095,7 @@ void CMainFrame::OnAfterplayback(UINT nID)
     WORD osdMsg = 0;
     bool bDisable = false;
 
-    auto toogleOption = [&](UINT64 nID) {
+    auto toggleOption = [&](UINT64 nID) {
         bDisable = !!(s.nCLSwitches & nID);
         s.nCLSwitches &= ~CLSW_AFTERPLAYBACK_MASK | nID;
         s.nCLSwitches ^= nID;
@@ -8103,35 +8103,35 @@ void CMainFrame::OnAfterplayback(UINT nID)
 
     switch (nID) {
         case ID_AFTERPLAYBACK_CLOSE:
-            toogleOption(CLSW_CLOSE);
+            toggleOption(CLSW_CLOSE);
             osdMsg = IDS_AFTERPLAYBACK_CLOSE;
             break;
         case ID_AFTERPLAYBACK_STANDBY:
-            toogleOption(CLSW_STANDBY);
+            toggleOption(CLSW_STANDBY);
             osdMsg = IDS_AFTERPLAYBACK_STANDBY;
             break;
         case ID_AFTERPLAYBACK_HIBERNATE:
-            toogleOption(CLSW_HIBERNATE);
+            toggleOption(CLSW_HIBERNATE);
             osdMsg = IDS_AFTERPLAYBACK_HIBERNATE;
             break;
         case ID_AFTERPLAYBACK_SHUTDOWN:
-            toogleOption(CLSW_SHUTDOWN);
+            toggleOption(CLSW_SHUTDOWN);
             osdMsg = IDS_AFTERPLAYBACK_SHUTDOWN;
             break;
         case ID_AFTERPLAYBACK_LOGOFF:
-            toogleOption(CLSW_LOGOFF);
+            toggleOption(CLSW_LOGOFF);
             osdMsg = IDS_AFTERPLAYBACK_LOGOFF;
             break;
         case ID_AFTERPLAYBACK_LOCK:
-            toogleOption(CLSW_LOCK);
+            toggleOption(CLSW_LOCK);
             osdMsg = IDS_AFTERPLAYBACK_LOCK;
             break;
         case ID_AFTERPLAYBACK_MONITOROFF:
-            toogleOption(CLSW_MONITOROFF);
+            toggleOption(CLSW_MONITOROFF);
             osdMsg = IDS_AFTERPLAYBACK_MONITOROFF;
             break;
         case ID_AFTERPLAYBACK_PLAYNEXT:
-            toogleOption(CLSW_PLAYNEXT);
+            toggleOption(CLSW_PLAYNEXT);
             osdMsg = IDS_AFTERPLAYBACK_PLAYNEXT;
             break;
     }
