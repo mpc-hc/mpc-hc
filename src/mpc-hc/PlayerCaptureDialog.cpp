@@ -1335,7 +1335,7 @@ BOOL CPlayerCaptureDialog::OnInitDialog()
 {
     __super::OnInitDialog();
 
-    return TRUE;  // return TRUE unless you set the focus to a control
+    return FALSE;  // return FALSE so that the dialog does not steal focus
     // EXCEPTION: OCX Property Pages should return FALSE
 }
 

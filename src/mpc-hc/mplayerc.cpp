@@ -1752,7 +1752,13 @@ BOOL CMPlayerCApp::InitInstance()
     pFrame->SetDefaultFullscreenState();
     pFrame->UpdateControlState(CMainFrame::UPDATE_CONTROLS_VISIBILITY);
     pFrame->SetIcon(icon, TRUE);
-    pFrame->ShowWindow((m_s->nCLSwitches & CLSW_MINIMIZED) ? SW_SHOWMINIMIZED : SW_SHOW);
+    int nCmdShow;
+    if (m_s->nCLSwitches & CLSW_MINIMIZED) {
+        nCmdShow = (m_s->nCLSwitches & CLSW_NOFOCUS) ? SW_SHOWMINNOACTIVE : SW_SHOWMINIMIZED;
+    } else {
+        nCmdShow = (m_s->nCLSwitches & CLSW_NOFOCUS) ? SW_SHOWNA : SW_SHOW;
+    }
+    pFrame->ShowWindow(nCmdShow);
     pFrame->UpdateWindow();
     pFrame->m_hAccelTable = m_s->hAccel;
     m_s->WinLircClient.SetHWND(m_pMainWnd->m_hWnd);
@@ -1771,7 +1777,9 @@ BOOL CMPlayerCApp::InitInstance()
     SendCommandLine(m_pMainWnd->m_hWnd);
     RegisterHotkeys();
 
-    pFrame->SetFocus();
+    if (!(m_s->nCLSwitches & CLSW_NOFOCUS)) {
+        pFrame->SetFocus();
+    }
 
     // set HIGH I/O Priority for better playback performance
     if (m_hNTDLL) {

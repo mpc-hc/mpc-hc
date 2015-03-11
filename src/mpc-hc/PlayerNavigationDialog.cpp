@@ -97,7 +97,7 @@ BOOL CPlayerNavigationDialog::OnInitDialog()
     ::SetProp(m_channelList.GetSafeHwnd(), MICROSOFT_TABLETPENSERVICE_PROPERTY, nullptr);
     ::GlobalDeleteAtom(atom);
 
-    return TRUE;  // return TRUE unless you set the focus to a control
+    return FALSE;  // return FALSE so that the dialog does not steal focus
     // EXCEPTION: OCX Property Pages should return FALSE
 }
 

@@ -907,8 +907,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
     ShowTrayIcon(s.fTrayIcon);
 
-    SetFocus();
-
     m_pGraphThread = (CGraphThread*)AfxBeginThread(RUNTIME_CLASS(CGraphThread));
 
     if (m_pGraphThread) {
@@ -9079,7 +9077,7 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
             ModifyStyle(WS_CAPTION | WS_THICKFRAME, 0, SWP_NOZORDER);
         }
         SetMenuBarVisibility(AFX_MBV_DISPLAYONFOCUS | AFX_MBV_DISPLAYONF10);
-        SetWindowPos(nullptr, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOSIZE | SWP_NOMOVE | SWP_NOZORDER);
+        SetWindowPos(nullptr, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOSIZE | SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
     }
 
     CSize windowSize;
@@ -9122,7 +9120,7 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
             monitor = CMonitors::GetNearestMonitor(this);
         }
 
-        SetWindowPos(nullptr, 0, 0, windowSize.cx, windowSize.cy, SWP_NOMOVE | SWP_NOZORDER);
+        SetWindowPos(nullptr, 0, 0, windowSize.cx, windowSize.cy, SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
         monitor.CenterWindowToMonitor(this, TRUE);
     }
 

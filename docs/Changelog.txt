@@ -37,6 +37,7 @@ next version - not released yet
 ! Ticket #5247, "Information" panel was not showing new lines until window resize
 ! Ticket #5259, The auto fit factor could not be modified unless auto fit was used as auto-zoom
 ! Ticket #5262, The "Go to next/previous subtitle" feature did not work for some subtitles
+! Ticket #5280, The /nofocus command line option did nothing when starting MPC-HC
 
 
 1.7.8 - 25 January 2015
