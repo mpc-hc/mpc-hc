@@ -14859,48 +14859,37 @@ void CMainFrame::SetPlayState(MPC_PLAYSTATE iState)
 
 bool CMainFrame::CreateFullScreenWindow()
 {
-    HMONITOR      hMonitor;
-    MONITORINFOEX MonitorInfo;
+    const CAppSettings& s = AfxGetAppSettings();
+    CMonitor monitor;
 
     if (m_pFullscreenWnd->IsWindow()) {
         m_pFullscreenWnd->DestroyWindow();
     }
 
-    ZeroMemory(&MonitorInfo, sizeof(MonitorInfo));
-    MonitorInfo.cbSize  = sizeof(MonitorInfo);
-
-    CMonitors monitors;
-    CString str;
-    CMonitor monitor;
-    const CAppSettings& s = AfxGetAppSettings();
-    hMonitor = nullptr;
-
-    if (!s.iMonitor) {
-        if (s.strFullScreenMonitor == _T("Current")) {
-            hMonitor = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
-        } else {
-            for (int i = 0; i < monitors.GetCount(); i++) {
-                monitor = monitors.GetMonitor(i);
+    if (s.iMonitor == 0 && s.strFullScreenMonitor != _T("Current")) {
+        CMonitors monitors;
+        for (int i = 0; i < monitors.GetCount(); i++) {
+            monitor = monitors.GetMonitor(i);
+            if (monitor.IsMonitor()) {
+                CString str;
                 monitor.GetName(str);
-
-                if ((monitor.IsMonitor()) && (s.strFullScreenMonitor == str)) {
-                    hMonitor = monitor;
+                if (s.strFullScreenMonitor == str) {
                     break;
                 }
-            }
-            if (!hMonitor) {
-                hMonitor = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
+                monitor.Detach();
             }
         }
-    } else {
-        hMonitor = MonitorFromWindow(m_hWnd, 0);
-    }
-    if (GetMonitorInfo(hMonitor, &MonitorInfo)) {
-        m_pFullscreenWnd->CreateEx(WS_EX_TOPMOST | WS_EX_TOOLWINDOW, _T(""), ResStr(IDS_MAINFRM_136),
-                                   WS_POPUP | WS_VISIBLE, MonitorInfo.rcMonitor, this, 0);
     }
 
-    return m_pFullscreenWnd->IsWindow();
+    if (!monitor.IsMonitor()) {
+        monitor = CMonitors::GetNearestMonitor(this);
+    }
+
+    CRect monitorRect;
+    monitor.GetMonitorRect(monitorRect);
+
+    return !!m_pFullscreenWnd->CreateEx(WS_EX_TOPMOST | WS_EX_TOOLWINDOW, _T(""), ResStr(IDS_MAINFRM_136),
+                                        WS_POPUP | WS_VISIBLE, monitorRect, this, 0);
 }
 
 bool CMainFrame::IsD3DFullScreenMode() const
