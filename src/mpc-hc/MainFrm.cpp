@@ -1922,7 +1922,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                             DWORD nAvg = pBRI->GetAverageBitRate() / 1000;
 
                             if (nAvg > 0) {
-                                sInfo.AppendFormat(_T("[%u]: %lu/%lu Kb/s "), i, nAvg, pBRI->GetCurrentBitRate() / 1000);
+                                sInfo.AppendFormat(_T("[%u]: %lu/%lu kb/s "), i, nAvg, pBRI->GetCurrentBitRate() / 1000);
                             }
                         }
                         i++;
