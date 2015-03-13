@@ -269,11 +269,6 @@ void CompositionObject::Dvb2PixelsCodeString(SubPicDesc& spd, CGolombBuffer& gb,
             }
         }
 
-        if (nX + nCount > m_width) {
-            ASSERT(FALSE);
-            break;
-        }
-
         if (nCount > 0) {
             FillSolidRect(spd, nX, nY, nCount, 1, m_colors[nPaletteIndex]);
             nX += nCount;
@@ -327,11 +322,6 @@ void CompositionObject::Dvb4PixelsCodeString(SubPicDesc& spd, CGolombBuffer& gb,
             }
         }
 
-        if (nX + nCount > m_width) {
-            ASSERT(FALSE);
-            break;
-        }
-
         if (nCount > 0) {
             FillSolidRect(spd, nX, nY, nCount, 1, m_colors[nPaletteIndex]);
             nX += nCount;
@@ -362,11 +352,6 @@ void CompositionObject::Dvb8PixelsCodeString(SubPicDesc& spd, CGolombBuffer& gb,
                 nCount = (short)gb.BitRead(7);          // run_length_3-127
                 nPaletteIndex = gb.ReadByte();
             }
-        }
-
-        if (nX + nCount > m_width) {
-            ASSERT(FALSE);
-            break;
         }
 
         if (nCount > 0) {
