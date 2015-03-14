@@ -15888,16 +15888,14 @@ HRESULT CMainFrame::UpdateThumbarButton(MPC_PLAYSTATE iPlayState)
 
                 hIcon = (HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDR_TB_PLAY), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE);
                 m_pTaskbarList->SetProgressState(m_hWnd, m_wndSeekBar.HasDuration() ? TBPF_NORMAL : TBPF_NOPROGRESS);
-            }
-            else if (iPlayState == PS_STOP) {
+            } else if (iPlayState == PS_STOP) {
                 buttons[1].dwFlags = THBF_DISABLED;
                 buttons[2].dwFlags = THBF_ENABLED;
                 buttons[2].iBitmap = 3;
 
                 hIcon = (HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDR_TB_STOP), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE);
                 m_pTaskbarList->SetProgressState(m_hWnd, TBPF_NOPROGRESS);
-            }
-            else if (iPlayState == PS_PAUSE) {
+            } else if (iPlayState == PS_PAUSE) {
                 buttons[1].dwFlags = THBF_ENABLED;
                 buttons[2].dwFlags = THBF_ENABLED;
                 buttons[2].iBitmap = 3;
@@ -15918,8 +15916,7 @@ HRESULT CMainFrame::UpdateThumbarButton(MPC_PLAYSTATE iPlayState)
             if (hIcon != nullptr) {
                 DestroyIcon(hIcon);
             }
-        }
-        else {
+        } else {
             for (size_t i = 0; i < _countof(buttons); i++) {
                 buttons[i].dwFlags = THBF_DISABLED;
             }
