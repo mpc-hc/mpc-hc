@@ -11750,9 +11750,14 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
             // Set start time but seek only after all files are loaded
             if (pFileData->rtStart > 0) { // Check if an explicit start time was given
                 rtPos = pFileData->rtStart;
-            } else if (m_bRememberFilePos && !s.filePositions.AddEntry(fn)) {
-                // else check if we have a remembered position to restore
-                rtPos = s.filePositions.GetLatestEntry()->llPosition;
+            }
+            if (m_bRememberFilePos) { // Check if we want to remember the position
+                // Always update the file positions list so that the position
+                // is correctly saved but only restore the remembered position
+                // if no explicit start time was already set.
+                if (!s.filePositions.AddEntry(fn) && !rtPos) {
+                    rtPos = s.filePositions.GetLatestEntry()->llPosition;
+                }
             }
 
             if (rtPos) {

@@ -38,6 +38,8 @@ next version - not released yet
 ! Ticket #5259, The auto fit factor could not be modified unless auto fit was used as auto-zoom
 ! Ticket #5262, The "Go to next/previous subtitle" feature did not work for some subtitles
 ! Ticket #5280, The /nofocus command line option did nothing when starting MPC-HC
+! Ticket #5314, If an explicit start time was set (for example from the command line or a favorite),
+  the saved position wrongly overwrote the position of the previously opened file
 
 
 1.7.8 - 25 January 2015
