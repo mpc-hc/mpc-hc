@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-02-16 12:05:09+0000\n"
-"PO-Revision-Date: 2015-02-28 13:11+0000\n"
+"POT-Creation-Date: 2015-03-03 21:51:04+0000\n"
+"PO-Revision-Date: 2015-03-24 22:12+0000\n"
 "Last-Translator: Rancher <djordje.vasiljevich@gmail.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/mpc-hc/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -1892,11 +1892,11 @@ msgstr "Главни тастер"
 
 msgctxt "IDS_MPLAYERC_77"
 msgid "Player Menu"
-msgstr ""
+msgstr "Мени плејера"
 
 msgctxt "IDS_MPLAYERC_78"
 msgid "Player Menu (full)"
-msgstr ""
+msgstr "Мени плејера (пун)"
 
 msgctxt "IDS_AG_FILTERS_MENU"
 msgid "Filters Menu"
@@ -1980,7 +1980,7 @@ msgstr "Преостало време"
 
 msgctxt "IDS_PPAGEWEBSERVER_0"
 msgid "Select the directory"
-msgstr "Изаберите фасциклу"
+msgstr "Изабери фасциклу"
 
 msgctxt "IDS_FAVORITES_QUICKADDFAVORITE"
 msgid "Quick add favorite"
@@ -2208,7 +2208,7 @@ msgstr "Титл: %s"
 
 msgctxt "IDS_MAINFRM_46"
 msgid "Select the path for the DVD/BD:"
-msgstr "Изаберите путању DVD-а/BD-а:"
+msgstr "Избор путање DVD-а/BD-а"
 
 msgctxt "IDS_SUB_LOADED_SUCCESS"
 msgid " loaded successfully"
@@ -2344,7 +2344,7 @@ msgstr "Не могу да креирам датотеку исписа стањ
 
 msgctxt "IDS_MAINFRM_DIR_TITLE"
 msgid "Select Directory"
-msgstr "Изабери фасциклу"
+msgstr "Избор фасцикле"
 
 msgctxt "IDS_MAINFRM_DIR_CHECK"
 msgid "Include subdirectories"

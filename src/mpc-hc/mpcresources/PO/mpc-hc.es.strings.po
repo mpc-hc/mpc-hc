@@ -1,22 +1,22 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Adolfo Jayme Barrientos, 2014-2015
 # Adolfo Jayme Barrientos, 2014
-# Ernesto Avilés Vzqz <whippiii@gmail.com>, 2013
+# Ernesto Avilés Vázquez <whippiii@gmail.com>, 2013
 # fdelacruz <freddy@delacruz.cl>, 2014
 # Johan Ramirez <idonthumanbeing@gmail.com>, 2014
 # Johan Ramirez <idonthumanbeing@gmail.com>, 2014
 # Alpha120 <juanhc120@gmail.com>, 2014
 # squallmx <squallmx@users.sourceforge.net>, 2014
-# strel, 2014
+# strel, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-30 22:04:38+0000\n"
-"PO-Revision-Date: 2015-01-10 11:00+0000\n"
-"Last-Translator: Adolfo Jayme Barrientos\n"
+"POT-Creation-Date: 2015-03-03 21:51:04+0000\n"
+"PO-Revision-Date: 2015-03-21 07:23+0000\n"
+"Last-Translator: strel\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/mpc-hc/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1898,11 +1898,11 @@ msgstr "Tecla del jefe"
 
 msgctxt "IDS_MPLAYERC_77"
 msgid "Player Menu"
-msgstr ""
+msgstr "Menú del reproductor"
 
 msgctxt "IDS_MPLAYERC_78"
 msgid "Player Menu (full)"
-msgstr ""
+msgstr "Menú del reproductor (completo)"
 
 msgctxt "IDS_AG_FILTERS_MENU"
 msgid "Filters Menu"

@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-02-16 12:05:09+0000\n"
-"PO-Revision-Date: 2015-03-16 21:08+0000\n"
+"POT-Creation-Date: 2015-03-03 21:51:04+0000\n"
+"PO-Revision-Date: 2015-03-26 04:00+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/mpc-hc/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -836,7 +836,7 @@ msgstr "Bruger LAV Filters. Deaktiveret som standard, da Microsoft filtre genere
 
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
-msgstr "Slå navigationslinje til/fra"
+msgstr "Navigationslinje til/fra"
 
 msgctxt "IDS_AG_VSYNCACCURATE"
 msgid "Accurate VSync"
@@ -996,7 +996,7 @@ msgstr "Aktivér billedtid korrigering"
 
 msgctxt "IDS_AG_TOGGLE_EDITLISTEDITOR"
 msgid "Toggle EDL window"
-msgstr "Slå EDL vindue til/fra"
+msgstr "EDL vindue til/fra"
 
 msgctxt "IDS_AG_EDL_IN"
 msgid "EDL set In"
@@ -1632,7 +1632,7 @@ msgstr "Forrige fil"
 
 msgctxt "IDS_MPLAYERC_99"
 msgid "Toggle Direct3D fullscreen"
-msgstr "Slå Direct3D fuldskærm til/fra"
+msgstr "Direct3D fuldskærm til/fra"
 
 msgctxt "IDS_MPLAYERC_100"
 msgid "Goto Prev Subtitle"
@@ -1832,7 +1832,7 @@ msgstr "Lydstyrke ned"
 
 msgctxt "IDS_AG_VOLUME_MUTE"
 msgid "Volume Mute"
-msgstr "Slå lyden fra"
+msgstr "Lydløs"
 
 msgctxt "IDS_MPLAYERC_63"
 msgid "DVD Title Menu"
@@ -1892,11 +1892,11 @@ msgstr "Chef tast"
 
 msgctxt "IDS_MPLAYERC_77"
 msgid "Player Menu"
-msgstr ""
+msgstr "Afspillermenu"
 
 msgctxt "IDS_MPLAYERC_78"
 msgid "Player Menu (full)"
-msgstr ""
+msgstr "Afspillermenu (fuld)"
 
 msgctxt "IDS_AG_FILTERS_MENU"
 msgid "Filters Menu"
@@ -2356,15 +2356,15 @@ msgstr "Pause"
 
 msgctxt "IDS_AG_TOGGLE_CAPTION"
 msgid "Toggle Caption&Menu"
-msgstr "Slå titellinje og &menu til/fra"
+msgstr "Titellinje og &menu til/fra"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
 msgid "Toggle Seeker"
-msgstr "Slå søgelinje til/fra"
+msgstr "Søgelinje til/fra"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
 msgid "Toggle Controls"
-msgstr "Slå knapper til/fra"
+msgstr "Knapper til/fra"
 
 msgctxt "IDS_MAINFRM_84"
 msgid "Invalid file name"
@@ -2524,31 +2524,31 @@ msgstr "Ukendte parametre i kommandolinje streng: \n\n"
 
 msgctxt "IDS_AG_TOGGLE_INFO"
 msgid "Toggle Information"
-msgstr "Slå oplysninger til/fra"
+msgstr "Oplysninger til/fra"
 
 msgctxt "IDS_AG_TOGGLE_STATS"
 msgid "Toggle Statistics"
-msgstr "Slå statistik til/fra"
+msgstr "Statistik til/fra"
 
 msgctxt "IDS_AG_TOGGLE_STATUS"
 msgid "Toggle Status"
-msgstr "Slå status til/fra"
+msgstr "Status til/fra"
 
 msgctxt "IDS_AG_TOGGLE_SUBRESYNC"
 msgid "Toggle Subresync Bar"
-msgstr "Slå undertekst gensynk.linje til/fra"
+msgstr "Undertekst gensynk.linje til/fra"
 
 msgctxt "IDS_AG_TOGGLE_PLAYLIST"
 msgid "Toggle Playlist Bar"
-msgstr "Slå spillelistelinje til/fra"
+msgstr "Spillelistelinje til/fra"
 
 msgctxt "IDS_AG_TOGGLE_CAPTURE"
 msgid "Toggle Capture Bar"
-msgstr "Slå indspilningslinje til/fra"
+msgstr "Indspilningslinje til/fra"
 
 msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
 msgid "Toggle Debug Shaders"
-msgstr "Slå fejlfind shadere til/fra"
+msgstr "Fejlfind shadere til/fra"
 
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
@@ -3280,7 +3280,7 @@ msgstr "Zoom: Automatisk"
 
 msgctxt "IDS_CUSTOM_CHANNEL_MAPPING"
 msgid "Toggle custom channel mapping"
-msgstr "Slå brugerdefineret kanalkort til/fra"
+msgstr "Brugerdefineret kanalkort til/fra"
 
 msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_ON"
 msgid "Custom channel mapping: On"
@@ -3292,7 +3292,7 @@ msgstr "Brugerdefineret kanalkort: Fra"
 
 msgctxt "IDS_NORMALIZE"
 msgid "Toggle normalization"
-msgstr "Slå normalisering til/fra"
+msgstr "Normalisering til/fra"
 
 msgctxt "IDS_OSD_NORMALIZE_ON"
 msgid "Normalization: On"
@@ -3304,7 +3304,7 @@ msgstr "Normalisering: Fra"
 
 msgctxt "IDS_REGAIN_VOLUME"
 msgid "Toggle regain volume"
-msgstr "Slå genvind lydstyrke til/fra"
+msgstr "Genvind lydstyrke til/fra"
 
 msgctxt "IDS_OSD_REGAIN_VOLUME_ON"
 msgid "Regain volume: On"

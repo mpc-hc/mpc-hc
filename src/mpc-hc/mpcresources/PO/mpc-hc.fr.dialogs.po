@@ -1,13 +1,13 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Underground78, 2013-2014
+# Underground78, 2013-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2015-01-12 18:41+0000\n"
+"POT-Creation-Date: 2015-03-16 18:09:30+0000\n"
+"PO-Revision-Date: 2015-03-21 07:23+0000\n"
 "Last-Translator: Underground78\n"
 "Language-Team: French (http://www.transifex.com/projects/p/mpc-hc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -682,11 +682,11 @@ msgstr "Utilisation des fonctionnalités de la barre des tâches de Windows 7"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
-msgstr "Ouvrir le fichier suivant/précédent dans le dossier lorsque \"Fichier suivant/précédent\" est utilisé alors qu'il n'y a qu'un seul élément dans la liste de lecture"
+msgstr "Ouvrir le fichier précédent/suivant dans le dossier lorsque \"Fichier précédent/suivant\" est utilisé alors qu'il n'y a qu'un seul élément dans la liste de lecture"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
 msgid "Show time tooltip:"
-msgstr "Utiliser l'infobulle temporelle :"
+msgstr "Afficher l'infobulle temporelle :"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "OSD font:"
@@ -1278,7 +1278,7 @@ msgstr "Activer la recherche automatique des mises à jour"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
 msgid "Check every:"
-msgstr ""
+msgstr "Vérifier tous les :"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"

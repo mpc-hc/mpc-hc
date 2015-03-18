@@ -1,14 +1,14 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Marián Hikaník <podnety@mojepreklady.net>, 2013-2014
-# Marián Hikaník <podnety@mojepreklady.net>, 2014
+# Marián Hikaník <podnety@mojepreklady.net>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-30 22:04:38+0000\n"
-"PO-Revision-Date: 2014-11-01 18:50+0000\n"
+"POT-Creation-Date: 2015-03-03 21:51:04+0000\n"
+"PO-Revision-Date: 2015-03-21 12:55+0000\n"
 "Last-Translator: Marián Hikaník <podnety@mojepreklady.net>\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/mpc-hc/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -1891,11 +1891,11 @@ msgstr "Boss key"
 
 msgctxt "IDS_MPLAYERC_77"
 msgid "Player Menu"
-msgstr ""
+msgstr "Menu prehrávača"
 
 msgctxt "IDS_MPLAYERC_78"
 msgid "Player Menu (full)"
-msgstr ""
+msgstr "Menu prehrávača (úplné)"
 
 msgctxt "IDS_AG_FILTERS_MENU"
 msgid "Filters Menu"

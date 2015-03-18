@@ -103,7 +103,7 @@ it.WinVersionTooLowError=[name] richiede Windows XP Service Pack 3 o successivo 
 
 ; Japanese
 ja.WelcomeLabel2=このプログラムはあなたのコンピュータ上に [name] をインストールします。%n%nセットアップを続行する前に他のすべてのアプリケーションを閉じることが推奨されます。
-ja.WinVersionTooLowError=[name] を実行する為には Windows XP Service Pack 3 以降が必要です。
+ja.WinVersionTooLowError=[name] を実行するためには Windows XP Service Pack 3 以降が必要です。
 
 ; Korean
 ko.WelcomeLabel2=이것은 [name] 를(을) 당신의 컴퓨터에 설치합니다.%n%n설치를 계속하기 전에 다른 모든 프로그램을 종료하는 것을 권장합니다.

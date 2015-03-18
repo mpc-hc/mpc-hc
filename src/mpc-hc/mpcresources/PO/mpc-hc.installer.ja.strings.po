@@ -2,12 +2,12 @@
 # Copyright (C) 2002 - 2014 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# ever_green, 2014
+# ever_green, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-06-17 15:23:34+0000\n"
-"PO-Revision-Date: 2014-10-12 11:31+0000\n"
+"PO-Revision-Date: 2015-03-21 23:10+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgstr "このプログラムはあなたのコンピュータ上に [name] を�
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows XP Service Pack 3 or newer to run."
-msgstr "[name] を実行する為には Windows XP Service Pack 3 以降が必要です。"
+msgstr "[name] を実行するためには Windows XP Service Pack 3 以降が必要です。"
 
 msgctxt "CustomMessages_comp_mpciconlib"
 msgid "Icon Library"

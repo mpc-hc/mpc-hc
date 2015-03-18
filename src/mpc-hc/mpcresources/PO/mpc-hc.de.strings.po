@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-02-16 12:05:09+0000\n"
-"PO-Revision-Date: 2015-03-10 19:51+0000\n"
+"POT-Creation-Date: 2015-03-03 21:51:04+0000\n"
+"PO-Revision-Date: 2015-03-21 23:09+0000\n"
 "Last-Translator: Luan <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -781,7 +781,7 @@ msgstr "Keine benutzerdefinierten Tastenbefehle verfügbar."
 
 msgctxt "IDS_RFS_NO_FILES"
 msgid "No media files found in the archive"
-msgstr "Keine Mediendateien im Archiv gefunden"
+msgstr "Keine Mediendatei im Archiv gefunden"
 
 msgctxt "IDS_RFS_COMPRESSED"
 msgid "Compressed files are not supported"
@@ -893,15 +893,15 @@ msgstr "Tempo erhöhen\nTempo erhöhen"
 
 msgctxt "ID_VOLUME_MUTE"
 msgid "Mute"
-msgstr "Stummschaltung ein"
+msgstr "Ton aus"
 
 msgctxt "ID_VOLUME_MUTE_ON"
 msgid "Unmute"
-msgstr "Stummschaltung aus"
+msgstr "Ton ein"
 
 msgctxt "ID_VOLUME_MUTE_DISABLED"
 msgid "No audio"
-msgstr "Kein Audio"
+msgstr "Kein Audiosignal"
 
 msgctxt "ID_NAVIGATE_SKIPBACK"
 msgid "Skip back\nSkip back"
@@ -1297,7 +1297,7 @@ msgstr "Merkt sich die Wiedergabeposition nur für Dateien länger als N Minuten
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
 msgid "Remember file position also for audio files."
-msgstr "Merkt sich die Wiedergabeposition auch bei Audio-Dateien."
+msgstr "Merkt sich die Wiedergabeposition auch bei Audiodateien."
 
 msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
 msgid "Do Nothing"
@@ -1369,7 +1369,7 @@ msgstr "Wirklich alle Sender von der Liste entfernen?"
 
 msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"
 msgid "No information available"
-msgstr "Keine Informationen verfügbar"
+msgstr "Keine Information verfügbar"
 
 msgctxt "IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS"
 msgid "Please wait, analysis in progress..."
@@ -1737,7 +1737,7 @@ msgstr "Analysiere..."
 
 msgctxt "IDS_SUBDL_DLG_NOT_FOUND"
 msgid "No subtitles found."
-msgstr "Keine Untertitel gefunden"
+msgstr "Keinen Untertitel gefunden"
 
 msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
 msgid "%d subtitle(s) available."
@@ -1897,11 +1897,11 @@ msgstr "Cheftaste"
 
 msgctxt "IDS_MPLAYERC_77"
 msgid "Player Menu"
-msgstr ""
+msgstr "Player-Kontextmenü (vereinfacht)"
 
 msgctxt "IDS_MPLAYERC_78"
 msgid "Player Menu (full)"
-msgstr ""
+msgstr "Player-Kontextmenü (vollständig)"
 
 msgctxt "IDS_AG_FILTERS_MENU"
 msgid "Filters Menu"
@@ -2421,7 +2421,7 @@ msgstr "Kann Videoaufnahme-Filter nicht erstellen"
 
 msgctxt "IDS_MAINFRM_98"
 msgid "No capture filters"
-msgstr "Keine Aufnahme-Filter verfügbar"
+msgstr "Kein Aufnahme-Filter verfügbar"
 
 msgctxt "IDS_MAINFRM_99"
 msgid "Can't create capture graph builder object"
@@ -2621,7 +2621,7 @@ msgstr "Autor unbekannt. Als Verfasser bitte melden!"
 
 msgctxt "IDS_NO_MORE_MEDIA"
 msgid "No more media in the current folder."
-msgstr "Letzte Ordnerdatei wiedergegeben."
+msgstr "Keine weitere Ordnerdatei verfügbar."
 
 msgctxt "IDS_FIRST_IN_FOLDER"
 msgid "The first file of the folder is already loaded."
@@ -3445,11 +3445,11 @@ msgstr "Stream %s konnte mit Multiplexer-Filter nicht verbunden werden."
 
 msgctxt "IDS_CAPTURE_ERROR_VID_CAPT_PIN"
 msgid "No video capture pin was found."
-msgstr "Kein Videoaufnahme-Pin gefunden."
+msgstr "Keinen Videoaufnahme-Pin gefunden."
 
 msgctxt "IDS_CAPTURE_ERROR_AUD_CAPT_PIN"
 msgid "No audio capture pin was found."
-msgstr "Kein Audioaufnahme-Pin gefunden."
+msgstr "Keinen Audioaufnahme-Pin gefunden."
 
 msgctxt "IDS_CAPTURE_ERROR_OUT_FILE"
 msgid "Error initializing the output file."

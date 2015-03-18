@@ -23,8 +23,9 @@ next version - not released yet
     - LAV Video Decoder: Faster DXVA decoding in copy-back mode (direct output mode)
     - LAV Video Decoder: Support for HEVC Main10 DXVA2 decoding in copy-back mode
     - Ticket #5299, LAV Video Decoder: Fix corrupted decoding of some HEVC files
-* Updated British English, Catalan, Chinese (Simplified), Czech, Dutch, Finnish, French, Galician, German,
-  Greek, Japanese, Korean, Russian, Serbian, Spanish and Ukrainian translations
+* Updated Basque, British English, Catalan, Chinese (Simplified), Czech, Dutch, Finnish, French, Galician,
+  German, Greek, Japanese, Korean, Malay, Polish, Romanian, Russian, Serbian, Slovak, Spanish, Ukrainian
+  and Vietnamese translations
 ! EVR-CP/Sync renderers could produce wrong colors
 ! Do not mirror the status bar and the time indicator when using an RTL layout
 ! Prevent the main window from stealing the mouse focus from the D3D fullscreen window

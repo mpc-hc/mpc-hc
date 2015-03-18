@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-02-16 12:05:09+0000\n"
-"PO-Revision-Date: 2015-03-06 12:21+0000\n"
+"POT-Creation-Date: 2015-03-03 21:51:04+0000\n"
+"PO-Revision-Date: 2015-03-25 09:41+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -898,11 +898,11 @@ msgstr "音声なし"
 
 msgctxt "ID_NAVIGATE_SKIPBACK"
 msgid "Skip back\nSkip back"
-msgstr "前へ戻る\n前へ戻る"
+msgstr "前に戻る\n前に戻る"
 
 msgctxt "ID_NAVIGATE_SKIPFORWARD"
 msgid "Skip forward\nSkip forward"
-msgstr "次へ進む\n次へ進む"
+msgstr "次に進む\n次に進む"
 
 msgctxt "IDS_SUBRESYNC_ORIGINAL"
 msgid "&Original"
@@ -1542,7 +1542,7 @@ msgstr "MPC-HC を既定の設定に復元してもよろしいですか？\n現
 
 msgctxt "IDS_RESET_SETTINGS_MUTEX"
 msgid "Please close all instances of MPC-HC so that the default settings can be restored."
-msgstr "既定の設定を復元する為に MPC-HC のすべてのインスタンスを閉じてください。"
+msgstr "既定の設定を復元するために MPC-HC のすべてのインスタンスを閉じてください。"
 
 msgctxt "IDS_EXPORT_SETTINGS"
 msgid "Export settings"
@@ -1890,11 +1890,11 @@ msgstr "ボス キー"
 
 msgctxt "IDS_MPLAYERC_77"
 msgid "Player Menu"
-msgstr ""
+msgstr "プレーヤー メニュー"
 
 msgctxt "IDS_MPLAYERC_78"
 msgid "Player Menu (full)"
-msgstr ""
+msgstr "プレーヤー メニュー (完全)"
 
 msgctxt "IDS_AG_FILTERS_MENU"
 msgid "Filters Menu"

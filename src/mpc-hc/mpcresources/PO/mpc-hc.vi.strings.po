@@ -1,15 +1,15 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Dat Luong Anh <datanhlg@gmail.com>, 2014
-# TRẦN ANH MINH <anhminhvks@yahoo.com>, 2014
+# TRẦN ANH MINH <anhminhvks@yahoo.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-19 22:15:16+0000\n"
-"PO-Revision-Date: 2014-10-20 10:21+0000\n"
-"Last-Translator: JellyFrog\n"
+"POT-Creation-Date: 2015-03-03 21:51:04+0000\n"
+"PO-Revision-Date: 2015-03-25 15:54+0000\n"
+"Last-Translator: TRẦN ANH MINH <anhminhvks@yahoo.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/mpc-hc/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -791,7 +791,7 @@ msgstr "Không thể tìm thấy tất cả các khối lưu trữ"
 
 msgctxt "IDC_TEXTURESURF2D"
 msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
-msgstr "Bề mặt video sẽ được phân bổ như một kết cấu nhưng vẫn còn các chức năng 2d sẽ được sử dụng để sao chép và kéo nó vào backbuffer. Đòi hỏi một card video mà có thể phân bổ 32bit, RGBA, không quyền lực-của-hai kết cấu có kích thước và ít nhất ở độ phân giải của video."
+msgstr "Bề mặt video sẽ được phân bổ như một kết cấu nhưng các chức năng 2D vẫn sẽ được sử dụng để sao chép và kéo nó vào bộ đệm nền. Yêu cầu card màn hình có thể phân bổ kết cấu cỡ 32bit, RGBA, \"non-power-of-two\" và có độ phân giải tối thiểu bằng độ phân giải của video."
 
 msgctxt "IDC_TEXTURESURF3D"
 msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
@@ -1339,7 +1339,7 @@ msgstr "<không xác định>"
 
 msgctxt "IDS_NAVIGATION_WATCH"
 msgid "Watch"
-msgstr ""
+msgstr "Xem"
 
 msgctxt "IDS_NAVIGATION_MOVE_UP"
 msgid "Move Up"
@@ -1351,27 +1351,27 @@ msgstr "Xuống dưới"
 
 msgctxt "IDS_NAVIGATION_SORT"
 msgid "Sort by LCN"
-msgstr ""
+msgstr "Sắp xếp theo LCN"
 
 msgctxt "IDS_NAVIGATION_REMOVE_ALL"
 msgid "Remove all"
-msgstr ""
+msgstr "Xóa tất cả"
 
 msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
 msgid "Are you sure you want to remove all channels from the list?"
-msgstr ""
+msgstr "Bạn có chắc muốn xóa tất cả các kênh trong danh sách?"
 
 msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"
 msgid "No information available"
-msgstr ""
+msgstr "Không có thông tin"
 
 msgctxt "IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS"
 msgid "Please wait, analysis in progress..."
-msgstr ""
+msgstr "Vui lòng đợi, đang tiến hành phân tích..."
 
 msgctxt "IDS_ASPECT_RATIO_FMT"
 msgid "AR %d:%d"
-msgstr ""
+msgstr "AR %d:%d"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1575,11 +1575,11 @@ msgstr "Đặt lại đánh giá"
 
 msgctxt "IDS_MPLAYERC_21"
 msgid "Audio Delay +10 ms"
-msgstr "Độ trễ âm +10 giây"
+msgstr "Âm thanh trễ +10 giây"
 
 msgctxt "IDS_MPLAYERC_22"
 msgid "Audio Delay -10 ms"
-msgstr "Độ trễ âm -10 giây"
+msgstr "Âm thanh trễ -10 giây"
 
 msgctxt "IDS_MPLAYERC_23"
 msgid "Jump Forward (small)"
@@ -1891,11 +1891,11 @@ msgstr "Phím boss"
 
 msgctxt "IDS_MPLAYERC_77"
 msgid "Player Menu"
-msgstr ""
+msgstr "Trình đơn của Trình phát nhạc"
 
 msgctxt "IDS_MPLAYERC_78"
 msgid "Player Menu (full)"
-msgstr ""
+msgstr "Trình đơn của Trình phát nhạc (đầy đủ)"
 
 msgctxt "IDS_AG_FILTERS_MENU"
 msgid "Filters Menu"
@@ -2063,11 +2063,11 @@ msgstr "Âm lượng: %02lu/%02lu, Tiêu đề: %02lu/%02lu, Chương: %02lu/%02
 
 msgctxt "IDS_MAINFRM_10"
 msgid "Angle: %02lu/%02lu, %lux%lu %lu Hz %lu:%lu"
-msgstr "Góc: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
+msgstr "Góc: %02lu/%02lu, %lux%lu %lu Hz %lu:%lu"
 
 msgctxt "IDS_MAINFRM_11"
 msgid "%s, %s %u Hz %d bits %d %s"
-msgstr "%s, %s %uHz %dbit %d %s"
+msgstr "%s, %s %u Hz %d bit %d %s"
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
@@ -2175,19 +2175,19 @@ msgstr ", Tổng cộng: %ld, Bỏ sót: %ld"
 
 msgctxt "IDS_MAINFRM_38"
 msgid ", Size: %I64d KB"
-msgstr ", Kích thước: %I64dKB"
+msgstr ", Kích cỡ: %I64d KB"
 
 msgctxt "IDS_MAINFRM_39"
 msgid ", Size: %I64d MB"
-msgstr ", Kích thước: %I64dKB"
+msgstr ", Kích cỡ: %I64d MB"
 
 msgctxt "IDS_MAINFRM_40"
 msgid ", Free: %I64d KB"
-msgstr ", Trống: %I64dKB"
+msgstr ", Trống: %I64d KB"
 
 msgctxt "IDS_MAINFRM_41"
 msgid ", Free: %I64d MB"
-msgstr ", Trống: %I64dMB"
+msgstr ", Trống: %I64d MB"
 
 msgctxt "IDS_MAINFRM_42"
 msgid ", Free V/A Buffers: %03d/%03d"
@@ -2275,7 +2275,7 @@ msgstr "Tỉ lệ khung hình: Mặc định"
 
 msgctxt "IDS_MAINFRM_70"
 msgid "Audio delay: %I64d ms"
-msgstr "Độ trễ âm: %I64dgiây"
+msgstr "Âm thanh trễ: %I64d ms"
 
 msgctxt "IDS_AG_CHAPTER"
 msgid "Chapter %d"
@@ -3259,7 +3259,7 @@ msgstr "Phiên bản hiện tại của bạn là v%s.\n\nPhiên bản ổn đ�
 
 msgctxt "IDS_NEW_UPDATE_AVAILABLE"
 msgid "MPC-HC v%s is now available. You are using v%s.\n\nDo you want to visit MPC-HC's website to download it?"
-msgstr ""
+msgstr "Đã có MPC-HC phiên bản mới v%s. Bạn đang sử dụng phiên bản v%s.\n\nBạn có muốn truy cập trang web của MPC-HC để tải về?"
 
 msgctxt "IDS_UPDATE_ERROR"
 msgid "Update server not found.\n\nPlease check your internet connection or try again later."
@@ -3315,7 +3315,7 @@ msgstr "Lấy lại khối lượng: Tắt"
 
 msgctxt "IDS_SIZE_UNIT_BYTES"
 msgid "bytes"
-msgstr ""
+msgstr "byte"
 
 msgctxt "IDS_SIZE_UNIT_K"
 msgid "KB"
@@ -3495,11 +3495,11 @@ msgstr "Sau khi phát lại: Tắt màn hình"
 
 msgctxt "IDS_AFTERPLAYBACK_PLAYNEXT"
 msgid "After Playback: Play next file in the folder"
-msgstr ""
+msgstr "Sau khi phát xong: Chạy tập tin kế tiếp trong thư mục"
 
 msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
 msgid "After Playback: Do nothing"
-msgstr ""
+msgstr "Sau khi phát xong: Không làm gì cả"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
