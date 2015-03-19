@@ -85,6 +85,17 @@ void CPlayerBar::OnExitMenuLoop(BOOL bIsTrackPopupMenu)
     __super::OnExitMenuLoop(bIsTrackPopupMenu);
 }
 
+void CPlayerBar::OnBarStyleChange(DWORD dwOldStyle, DWORD dwNewStyle)
+{
+    DWORD dwChangedStyle = dwOldStyle ^ dwNewStyle;
+
+    if (dwChangedStyle & CBRS_FLOATING) {
+        SaveState();
+    }
+
+    __super::OnBarStyleChange(dwOldStyle, dwNewStyle);
+}
+
 BOOL CPlayerBar::Create(LPCTSTR lpszWindowName, CWnd* pParentWnd, UINT nID, UINT defDockBarID, CString const& strSettingName)
 {
     m_defDockBarID = defDockBarID;

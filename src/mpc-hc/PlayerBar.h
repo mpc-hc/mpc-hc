@@ -1,5 +1,5 @@
 /*
- * (C) 2012-2014 see Authors.txt
+ * (C) 2012-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -44,6 +44,8 @@ protected:
     afx_msg void OnWindowPosChanged(WINDOWPOS* lpwndpos);
     afx_msg void OnEnterMenuLoop(BOOL bIsTrackPopupMenu);
     afx_msg void OnExitMenuLoop(BOOL bIsTrackPopupMenu);
+
+    virtual void OnBarStyleChange(DWORD dwOldStyle, DWORD dwNewStyle);
 
     void SetAutohidden(bool bValue);
 
