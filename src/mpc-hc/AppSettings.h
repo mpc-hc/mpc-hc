@@ -667,10 +667,13 @@ public:
     bool            bEnableCoverArt;
     int             nCoverArtSizeLimit;
 
+    bool            bEnableLogging;
+
     bool            IsD3DFullscreen() const;
     CString         SelectedAudioRenderer() const;
     bool            IsISRAutoLoadEnabled() const;
     bool            IsISRAvailable() const;
+    bool            IsInitialized() const;
     static bool     IsVideoRendererAvailable(int iVideoRendererType);
 
     CFileAssoc      fileAssoc;

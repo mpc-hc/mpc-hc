@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-03-03 21:51:04+0000\n"
+"POT-Creation-Date: 2015-03-26 22:39:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1367,6 +1367,10 @@ msgstr ""
 
 msgctxt "IDS_ASPECT_RATIO_FMT"
 msgid "AR %d:%d"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_LOGGER"
+msgid "Enables logging to file. (require restart)"
 msgstr ""
 
 msgctxt "IDS_AG_OPEN_DEVICE"

@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2014 see Authors.txt
+ * (C) 2009-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -293,3 +293,4 @@
 
 #define IDS_RS_COVER_ART                    _T("EnableCoverArt")
 #define IDS_RS_COVER_ART_SIZE_LIMIT         _T("CoverArtSizeLimit")
+#define IDS_RS_LOGGING                      _T("EnableLogging")

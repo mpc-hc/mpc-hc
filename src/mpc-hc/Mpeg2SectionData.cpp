@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2014 see Authors.txt
+ * (C) 2009-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -26,7 +26,9 @@
 #include "Mpeg2SectionData.h"
 #include "FreeviewEPGDecode.h"
 #include "resource.h"
+#include "Logger.h"
 
+#define BDA_LOG Logger<LogTargets::BDA>::LOG
 
 #define BeginEnumDescriptors(gb, nType, nLength)                    \
 {                                                                   \
@@ -38,7 +40,7 @@
 
 #define SkipDescriptor(gb, nType, nLength)                          \
     gb.ReadBuffer(DescBuffer, nLength);                             \
-    TRACE(_T("Skipped descriptor : 0x%02x\n"), nType);              \
+    BDA_LOG(_T("Skipped descriptor : 0x%02x"), nType);              \
     UNREFERENCED_PARAMETER(nType);
 
 #define EndEnumDescriptors }}
@@ -292,7 +294,7 @@ HRESULT CMpeg2DataParser::ParseSDT(ULONG ulFreq)
                     gb.ReadBuffer(DescBuffer, nLength);         // service_name
                     DescBuffer[nLength] = 0;
                     Channel.SetName(ConvertString(DescBuffer, nLength));
-                    TRACE(_T("%-20s %lu\n"), Channel.GetName(), Channel.GetSID());
+                    BDA_LOG(_T("%-20s %lu"), Channel.GetName(), Channel.GetSID());
                     break;
                 default:
                     SkipDescriptor(gb, nType, nLength);         // descriptor()
@@ -313,7 +315,7 @@ HRESULT CMpeg2DataParser::ParseSDT(ULONG ulFreq)
                     Channels[Channel.GetSID()] = Channel;
                     break;
                 default:
-                    TRACE(_T("DVB: Skipping not supported service: %-20s %lu\n"), Channel.GetName(), Channel.GetSID());
+                    BDA_LOG(_T("DVB: Skipping not supported service: %-20s %lu"), Channel.GetName(), Channel.GetSID());
                     break;
             }
         }
@@ -716,7 +718,7 @@ HRESULT CMpeg2DataParser::ParseNIT()
                         WORD logical_channel_number  = (WORD)gb.BitRead(10);
                         if (Channels.Lookup(service_id)) {
                             Channels[service_id].SetOriginNumber(logical_channel_number);
-                            TRACE(_T("NIT association : %d -> %s\n"), logical_channel_number, Channels[service_id].ToString());
+                            BDA_LOG(_T("NIT association : %d -> %s"), logical_channel_number, Channels[service_id].ToString());
                         }
                     }
                     break;

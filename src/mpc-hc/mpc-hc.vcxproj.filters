@@ -812,6 +812,9 @@
     <ClInclude Include="DropTarget.h">
       <Filter>Helpers</Filter>
     </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\ani.avi">

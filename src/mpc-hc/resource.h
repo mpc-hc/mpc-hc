@@ -1465,6 +1465,7 @@
 #define IDS_MEDIAINFO_NO_INFO_AVAILABLE 57427
 #define IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS 57428
 #define IDS_ASPECT_RATIO_FMT            57429
+#define IDS_PPAGEADVANCED_LOGGER        57430
 
 // Next default values for new objects
 //

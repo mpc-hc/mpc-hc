@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2006-2008 Team MediaPortal http://www.team-mediaportal.com
- * (C) 2013 see Authors.txt
+ * (C) 2013, 2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,6 +21,7 @@
 
 #include "stdafx.h"
 #include "FreeviewEPGDecode.h"
+#include "Logger.h"
 
 #define bitrev16(d) ((d << 8) & 0xff00) + ((d >> 8) & 0x00ff)
 #define START   '\0'
@@ -738,7 +739,7 @@ CString DecodeFreeviewEPG(const BYTE* pBuffer, size_t uLength)
             prevc = nextc;
         } while (nextc != STOP);
     } else {
-        TRACE(_T("DecodeFreeviewEPG: unsupported huffman table version %d, only version 1 and 2 are supported\n"), pBuffer[0]);
+        Logger<LogTargets::BDA>::LOG(_T("DecodeFreeviewEPG: unsupported huffman table version %d, only version 1 and 2 are supported\n"), pBuffer[0]);
     }
 
     return uncompressedString;

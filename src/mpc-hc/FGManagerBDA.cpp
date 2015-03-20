@@ -38,7 +38,11 @@
 #include "Mpeg2SectionData.h"
 #include "MainFrm.h"
 #include "SysVersion.h"
+#include "Logger.h"
 
+#define LOG Logger<LogTargets::BDA>::LOG
+#define CheckAndLogBDA(x, msg)  hr = ##x; if (FAILED(hr)) { LOG(msg _T(": 0x%08x\n"), hr); return hr; }
+#define CheckAndLogBDANoRet(x, msg)  hr = ##x; if (FAILED(hr)) { LOG(msg _T(": 0x%08x\n"), hr); }
 
 /// Format, Video MPEG2
 static VIDEOINFOHEADER2 sMpv_fmt = {

@@ -2628,6 +2628,7 @@ BEGIN
     IDS_MEDIAINFO_NO_INFO_AVAILABLE "No information available"
     IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS "Please wait, analysis in progress..."
     IDS_ASPECT_RATIO_FMT    "AR %d:%d"
+    IDS_PPAGEADVANCED_LOGGER "Enables logging to file. (require restart)"
 END
 
 STRINGTABLE

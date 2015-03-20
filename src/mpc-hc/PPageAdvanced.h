@@ -1,5 +1,5 @@
 /*
-* (C) 2014 see Authors.txt
+* (C) 2015 see Authors.txt
 *
 * This file is part of MPC-HC.
 *
@@ -143,7 +143,8 @@ private:
         RECENT_FILES_NB,
         FILE_POS_LONGER,
         FILE_POS_AUDIO,
-        COVER_SIZE_LIMIT
+        COVER_SIZE_LIMIT,
+        LOGGING
     };
 
     enum {

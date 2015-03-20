@@ -198,6 +198,7 @@ CAppSettings::CAppSettings()
     , nJpegQuality(90)
     , bEnableCoverArt(true)
     , nCoverArtSizeLimit(600)
+    , bEnableLogging(false)
 {
     // Internal source filter
 #if INTERNAL_SOURCEFILTER_CDDA
@@ -638,6 +639,11 @@ bool CAppSettings::IsVideoRendererAvailable(int iVideoRendererType)
     }
 }
 
+bool CAppSettings::IsInitialized() const
+{
+    return bInitialized;
+}
+
 CString CAppSettings::SelectedAudioRenderer() const
 {
     CString strResult;
@@ -960,6 +966,8 @@ void CAppSettings::SaveSettings()
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_COVER_ART, bEnableCoverArt);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_COVER_ART_SIZE_LIMIT, nCoverArtSizeLimit);
+
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LOGGING, bEnableLogging);
 
     pApp->FlushProfile();
 }
@@ -1663,6 +1671,8 @@ void CAppSettings::LoadSettings()
 
     bEnableCoverArt = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_COVER_ART, TRUE);
     nCoverArtSizeLimit = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_COVER_ART_SIZE_LIMIT, 600);
+
+    bEnableLogging = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LOGGING, FALSE);
 
     if (fLaunchfullscreen) {
         nCLSwitches |= CLSW_FULLSCREEN;
