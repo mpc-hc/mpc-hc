@@ -889,7 +889,7 @@ msgctxt "ID_VOLUME_MUTE"
 msgid "Mute"
 msgstr "Ljud av"
 
-msgctxt "ID_VOLUME_MUTE_ON"
+msgctxt "ID_VOLUME_MUTE_OFF"
 msgid "Unmute"
 msgstr "Ljud på"
 

@@ -888,7 +888,7 @@ msgctxt "ID_VOLUME_MUTE"
 msgid "Mute"
 msgstr "Muet"
 
-msgctxt "ID_VOLUME_MUTE_ON"
+msgctxt "ID_VOLUME_MUTE_OFF"
 msgid "Unmute"
 msgstr "Activer le son"
 

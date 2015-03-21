@@ -893,7 +893,7 @@ msgctxt "ID_VOLUME_MUTE"
 msgid "Mute"
 msgstr "Tišina"
 
-msgctxt "ID_VOLUME_MUTE_ON"
+msgctxt "ID_VOLUME_MUTE_OFF"
 msgid "Unmute"
 msgstr "Ukljući zvuk"
 

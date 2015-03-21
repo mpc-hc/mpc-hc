@@ -181,7 +181,7 @@
 #define ID_VOLUME_UP                    907
 #define ID_VOLUME_DOWN                  908
 #define ID_VOLUME_MUTE                  909
-#define ID_VOLUME_MUTE_ON               910
+#define ID_VOLUME_MUTE_OFF              910
 #define ID_VOLUME_MUTE_DISABLED         911
 #define ID_AFTERPLAYBACK_CLOSE          912
 #define ID_AFTERPLAYBACK_STANDBY        913

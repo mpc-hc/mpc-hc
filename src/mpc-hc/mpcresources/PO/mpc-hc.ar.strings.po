@@ -894,7 +894,7 @@ msgctxt "ID_VOLUME_MUTE"
 msgid "Mute"
 msgstr "صامت"
 
-msgctxt "ID_VOLUME_MUTE_ON"
+msgctxt "ID_VOLUME_MUTE_OFF"
 msgid "Unmute"
 msgstr "غير صامت"
 

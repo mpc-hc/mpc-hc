@@ -890,7 +890,7 @@ msgctxt "ID_VOLUME_MUTE"
 msgid "Mute"
 msgstr "Sesi Kıs"
 
-msgctxt "ID_VOLUME_MUTE_ON"
+msgctxt "ID_VOLUME_MUTE_OFF"
 msgid "Unmute"
 msgstr "Sesi Aç"
 
