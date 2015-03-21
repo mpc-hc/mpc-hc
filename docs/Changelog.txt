@@ -28,9 +28,6 @@ next version - not released yet
   and Vietnamese translations
 ! EVR-CP/Sync renderers could produce wrong colors
 ! Do not mirror the status bar and the time indicator when using an RTL layout
-! Prevent the main window from stealing the mouse focus from the D3D fullscreen window
-  when using always on top. It could cause unintentional mouse clicks in the hidden main
-  window and prevented the mouse pointer from being correctly hidden
 ! Ticket #2167, Prevent the task bar buttons from being RTLed when Windows is configured to use RTL layout
 ! Ticket #2516, VSFilter: Fix PGS/DVB subtitles with different size than video frame
 ! Ticket #5183, Fix a rare crash when processing after playback event
@@ -43,6 +40,9 @@ next version - not released yet
 ! Ticket #5280, The /nofocus command line option did nothing when starting MPC-HC
 ! Ticket #5314, If an explicit start time was set (for example from the command line or a favorite),
   the saved position wrongly overwrote the position of the previously opened file
+! Ticket #5326, Prevent the main window from stealing the mouse focus from the D3D fullscreen window
+  when using always on top. It could cause unintentional mouse clicks in the hidden main
+  window and prevented the mouse pointer from being correctly hidden
 
 
 1.7.8 - 25 January 2015
