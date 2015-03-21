@@ -672,7 +672,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
         if (r.m_AdvRendSets.bVMR9FullscreenGUISupport && !m_bHighColorResolution) {
             pp.Flags |= D3DPRESENTFLAG_LOCKABLE_BACKBUFFER;
         }
-        m_D3DDevExError = L"No m_pD3DEx";
+        m_D3DDevExError = _T("No m_pD3DEx");
 
         if (!m_FocusThread) {
             m_FocusThread = (CFocusThread*)AfxBeginThread(RUNTIME_CLASS(CFocusThread), 0, 0, 0);
@@ -701,7 +701,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
                          &pp, &DisplayMode, &m_pD3DDevEx);
             }
 
-            m_D3DDevExError = GetWindowsErrorMessage(hr, m_hD3D9);
+            m_D3DDevExError = FAILED(hr) ? GetWindowsErrorMessage(hr, m_hD3D9) : _T("");
             if (m_pD3DDevEx) {
                 m_pD3DDev = m_pD3DDevEx;
                 m_BackbufferType = pp.BackBufferFormat;
@@ -1904,7 +1904,9 @@ void CDX9AllocatorPresenter::DrawStats()
             DrawText(rc, strText, 1);
             OffsetRect(&rc, 0, TextHeight);
 
-            strText.Format(L"Formats      : Surface %s    Backbuffer %s    Display %s     Device %s      D3DExError: %s", GetD3DFormatStr(m_SurfaceType), GetD3DFormatStr(m_BackbufferType), GetD3DFormatStr(m_DisplayType), m_pD3DDevEx ? L"D3DDevEx" : L"D3DDev", m_D3DDevExError.GetString());
+            strText.Format(L"Formats      : Surface %s    Backbuffer %s    Display %s     Device %s      %s",
+                           GetD3DFormatStr(m_SurfaceType), GetD3DFormatStr(m_BackbufferType), GetD3DFormatStr(m_DisplayType),
+                           m_pD3DDevEx ? L"D3DDevEx" : L"D3DDev", m_D3DDevExError.IsEmpty() ? _T("") : _T("D3DExError: ") + m_D3DDevExError);
             DrawText(rc, strText, 1);
             OffsetRect(&rc, 0, TextHeight);
 
