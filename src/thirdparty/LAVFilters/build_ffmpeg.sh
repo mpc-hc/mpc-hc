@@ -4,31 +4,38 @@ if [ "${1}" == "x64" ]; then
   arch=x86_64
   archdir=x64
   cross_prefix=x86_64-w64-mingw32-
+  lav_folder=LAVFilters64
+  mpc_hc_folder=mpc-hc_x64
 else
   arch=x86
   archdir=Win32
   cross_prefix=
+  lav_folder=LAVFilters
+  mpc_hc_folder=mpc-hc_x86
+fi
+
+if [ "${2}" == "Debug" ]; then
+  dll_target=../../../../bin/${mpc_hc_folder}_Debug/${lav_folder}
+  lib_target=bin_${archdir}d/lib
+else
+  dll_target=../../../../bin/${mpc_hc_folder}/${lav_folder}
+  lib_target=bin_${archdir}/lib
 fi
 
 make_dirs() {
-  if [ ! -d bin_${archdir}/lib ]; then
-    mkdir -p bin_${archdir}/lib
+  if [ ! -d ${lib_target} ]; then
+    mkdir -p ${lib_target}
   fi
-
-  if [ ! -d bin_${archdir}d/lib ]; then
-    mkdir -p bin_${archdir}d/lib
+  if [ ! -d ${dll_target} ]; then
+    mkdir -p ${dll_target}
   fi
 }
 
 copy_libs() {
-  # install -s --strip-program=${cross_prefix}strip lib*/*-lav-*.dll ../../bin_${archdir}
-  cp lib*/*-lav-*.dll ../../bin_${archdir}
-  ${cross_prefix}strip ../../bin_${archdir}/*-lav-*.dll
-  cp -u lib*/*.lib ../../bin_${archdir}/lib
-
-  cp lib*/*-lav-*.dll ../../bin_${archdir}d
-  ${cross_prefix}strip ../../bin_${archdir}d/*-lav-*.dll
-  cp -u lib*/*.lib ../../bin_${archdir}d/lib
+  # install -s --strip-program=${cross_prefix}strip lib*/*-lav-*.dll ../../${dll_target}
+  cp lib*/*-lav-*.dll ../../${dll_target}
+  ${cross_prefix}strip ../../${dll_target}/*-lav-*.dll
+  cp -u lib*/*.lib ../../${lib_target}
 }
 
 clean() {
@@ -143,7 +150,7 @@ cd ${out_dir}
 
 CONFIGRETVAL=0
 
-if [ "${2}" == "Clean" ]; then
+if [ "${3}" == "Clean" ]; then
   clean
   CONFIGRETVAL=$?
 else

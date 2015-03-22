@@ -121,9 +121,9 @@ IF %ERRORLEVEL% NEQ 0 EXIT /B
 IF /I "%ARCH%" == "x86" (SET "ARCHVS=Win32") ELSE (SET "ARCHVS=x64")
 
 REM Build FFmpeg
-sh build_ffmpeg.sh %ARCH% %BUILDTYPE%
+sh build_ffmpeg.sh %ARCH% %RELEASETYPE% %BUILDTYPE%
 IF %ERRORLEVEL% NEQ 0 (
-  CALL "%COMMON%" :SubMsg "ERROR" "'sh build_ffmpeg.sh %ARCH% %BUILDTYPE%' failed!"
+  CALL "%COMMON%" :SubMsg "ERROR" "'sh build_ffmpeg.sh %ARCH% %RELEASETYPE% %BUILDTYPE%' failed!"
   EXIT /B
 )
 
