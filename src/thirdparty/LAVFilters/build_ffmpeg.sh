@@ -115,7 +115,8 @@ build() {
 
 configureAndBuild() {
   ## Don't run configure again if it was previously run
-  if [ -f config.mak ]; then
+  if [ ../../ffmpeg/configure -ot config.mak ] &&
+     [ ../../../build_ffmpeg.sh -ot config.mak ]; then
     echo Skipping configure...
   else
     echo Configuring...
