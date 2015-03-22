@@ -16,7 +16,7 @@ next version - not released yet
 + Add Danish translation
 + Ticket #5147, Add /randomize command-line switch for playlist randomization
 * Ticket #5294, Use internal LAV Splitter for demuxing WTV files
-* Updated Little CMS to v2.7 (git 926963a)
+* Updated Little CMS to v2.7 (git dd0074b)
 * Updated Unrar to v5.2.6
 * Updated SoundTouch to v1.8.0 r208
 * Updated LAV Filters to v0.64.0.32:
