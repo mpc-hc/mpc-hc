@@ -455,6 +455,12 @@ begin
 end;
 
 
+procedure InitializeWizard();
+begin
+  WizardForm.LicenseAcceptedRadio.Checked := True;
+end;
+
+
 procedure CurStepChanged(CurStep: TSetupStep);
 var
   iLanguage: Integer;
