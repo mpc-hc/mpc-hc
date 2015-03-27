@@ -13,7 +13,7 @@ logos for the player and images for the file associations, or you can create/mai
 website, please join our IRC channel and talk to us. Any help is always appreciated.
 
 Find some easy ticket on our trac page, fix the problem, send a [pull request](https://github.com/mpc-hc/mpc-hc/pulls),
-or post the patch on [trac](https://trac.mpc-hc.org) or come on IRC and we'll review it for you.
+or post the patch on [trac](https://trac.mpc-hc.org/) or come on IRC and we'll review it for you.
 See [CONTRIBUTING.md](/CONTRIBUTING.md) for more info.
 
 *We care about keeping an open project open and free for contributions wherever they may come from.*
@@ -40,12 +40,12 @@ See [CONTRIBUTING.md](/CONTRIBUTING.md) for more info.
 
 
 ## Links:
-* [Website](http://mpc-hc.org)
+* [Website](https://mpc-hc.org/)
 * [Source code](https://github.com/mpc-hc)
-* [Support Trac](https://trac.mpc-hc.org)
+* [Support Trac](https://trac.mpc-hc.org/)
 * IRC Channel: [#mpc-hc](http://webchat.freenode.net/?randomnick=1&channels=mpc-hc&prompt=1&uio=d4)
   / [#mpc-hc-dev](http://webchat.freenode.net/?randomnick=1&channels=mpc-hc-dev&prompt=1&uio=d4) at [Freenode](http://freenode.net/)
-* [Donations](http://mpc-hc.org/donate/)
+* [Donations](https://mpc-hc.org/donate/)
 
 
 For the people involved in the development, see
