@@ -343,9 +343,14 @@ void CPPageInternalFilters::InitFiltersList()
 #if INTERNAL_SOURCEFILTER_DSM
     m_filters.Add(filter_t(_T("DirectShow Media"), SOURCE_FILTER, SRC_DSM, 0));
 #endif
-#if INTERNAL_SOURCEFILTER_DTSAC3
+#if INTERNAL_SOURCEFILTER_AC3
     if (bLAVSplitterIsAvailable) {
-        m_filters.Add(filter_t(_T("DTS/AC3"), SOURCE_FILTER, SRC_DTSAC3, IDS_INTERNAL_LAVF));
+        m_filters.Add(filter_t(_T("AC3"), SOURCE_FILTER, SRC_AC3, IDS_INTERNAL_LAVF));
+    }
+#endif
+#if INTERNAL_SOURCEFILTER_DTS
+    if (bLAVSplitterIsAvailable) {
+        m_filters.Add(filter_t(_T("DTS/DTS-HD"), SOURCE_FILTER, SRC_DTS, IDS_INTERNAL_LAVF));
     }
 #endif
 #if INTERNAL_SOURCEFILTER_VTS

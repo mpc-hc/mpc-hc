@@ -3165,7 +3165,8 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_MFMT_AC3            "AC-3/DTS"
+    IDS_MFMT_AC3            "AC-3"
+    IDS_MFMT_DTS            "DTS/DTS-HD"
     IDS_MFMT_AIFF           "AIFF"
     IDS_MFMT_ALAC           "Apple Lossless"
 END

@@ -367,7 +367,7 @@ public:
     CUIceClient();
 };
 
-#define APPSETTINGS_VERSION 5
+#define APPSETTINGS_VERSION 6
 
 class CAppSettings
 {

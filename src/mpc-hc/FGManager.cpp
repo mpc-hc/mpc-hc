@@ -1530,20 +1530,27 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
 #endif
 
-#if INTERNAL_SOURCEFILTER_DTSAC3
-    if (src[SRC_DTSAC3]) {
-        pFGLAVSplitterSource->m_chkbytes.AddTail(_T("0,4,,7FFE8001"));                      // DTS
-        pFGLAVSplitterSource->m_chkbytes.AddTail(_T("0,4,,fE7f0180"));                      // DTS LE
+#if INTERNAL_SOURCEFILTER_AC3
+    if (src[SRC_AC3]) {
         pFGLAVSplitterSource->m_chkbytes.AddTail(_T("0,2,,0B77"));                          // AC3, E-AC3
-        pFGLAVSplitterSource->m_chkbytes.AddTail(_T("0,4,,52494646,8,8,,57415645666D7420"));// RIFFxxxxWAVEfmt_ for DTSWAV
         pFGLAVSplitterSource->m_chkbytes.AddTail(_T("4,4,,F8726FBB"));                      // MLP
         pFGLAVSplitterSource->m_extensions.AddTail(_T(".ac3"));
-        pFGLAVSplitterSource->m_extensions.AddTail(_T(".dts"));
         pFGLAVSplitterSource->m_extensions.AddTail(_T(".eac3"));
         pFGLAVSplitterSource->AddEnabledFormat("ac3");
+        pFGLAVSplitterSource->AddEnabledFormat("eac3");
+    }
+#endif
+
+#if INTERNAL_SOURCEFILTER_DTS
+    if (src[SRC_DTS]) {
+        pFGLAVSplitterSource->m_chkbytes.AddTail(_T("0,4,,7FFE8001"));                      // DTS
+        pFGLAVSplitterSource->m_chkbytes.AddTail(_T("0,4,,fE7f0180"));                      // DTS LE
+        pFGLAVSplitterSource->m_chkbytes.AddTail(_T("0,4,,52494646,8,8,,57415645666D7420"));// RIFFxxxxWAVEfmt_ for DTSWAV
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".dts"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".dtshd"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".dtsma"));
         pFGLAVSplitterSource->AddEnabledFormat("dts");
         pFGLAVSplitterSource->AddEnabledFormat("dtshd");
-        pFGLAVSplitterSource->AddEnabledFormat("eac3");
     }
 #endif
 

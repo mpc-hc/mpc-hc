@@ -2907,8 +2907,12 @@ msgid "Other Audio"
 msgstr "Ander audio"
 
 msgctxt "IDS_MFMT_AC3"
-msgid "AC-3/DTS"
-msgstr "AC-3/DTS"
+msgid "AC-3"
+msgstr ""
+
+msgctxt "IDS_MFMT_DTS"
+msgid "DTS/DTS-HD"
+msgstr ""
 
 msgctxt "IDS_MFMT_AIFF"
 msgid "AIFF"

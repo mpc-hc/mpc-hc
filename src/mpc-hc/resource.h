@@ -1071,6 +1071,7 @@
 #define IDS_MFMT_WMA                    39521
 #define IDS_MFMT_WV                     39522
 #define IDS_MFMT_OPUS                   39523
+#define IDS_MFMT_DTS                    39524
 #define IDS_MFMT_PLS                    39901
 #define IDS_MFMT_BDPLS                  39902
 #define IDS_MFMT_RAR                    39903

@@ -213,8 +213,11 @@ CAppSettings::CAppSettings()
 #if INTERNAL_SOURCEFILTER_FLIC
     SrcFiltersKeys[SRC_FLIC] = FilterKey(_T("SRC_FLIC"), true);
 #endif
-#if INTERNAL_SOURCEFILTER_DTSAC3
-    SrcFiltersKeys[SRC_DTSAC3] = FilterKey(_T("SRC_DTSAC3"), true);
+#if INTERNAL_SOURCEFILTER_AC3
+    SrcFiltersKeys[SRC_AC3] = FilterKey(_T("SRC_AC3"), true);
+#endif
+#if INTERNAL_SOURCEFILTER_DTS
+    SrcFiltersKeys[SRC_DTS] = FilterKey(_T("SRC_DTS"), true);
 #endif
 #if INTERNAL_SOURCEFILTER_MATROSKA
     SrcFiltersKeys[SRC_MATROSKA] = FilterKey(_T("SRC_MATROSKA"), true);
@@ -2391,6 +2394,10 @@ void CAppSettings::UpdateSettings()
             bool bDisableSubtitleAnimation = !pApp->GetProfileInt(IDS_R_SETTINGS, _T("SPCAllowAnimationWhenBuffering"), TRUE);
             VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DISABLE_SUBTITLE_ANIMATION, bDisableSubtitleAnimation));
         }
+        // no break
+        case 5:
+            copyInt(IDS_R_INTERNAL_FILTERS, _T("SRC_DTSAC3"), IDS_R_INTERNAL_FILTERS, _T("SRC_DTS"));
+            copyInt(IDS_R_INTERNAL_FILTERS, _T("SRC_DTSAC3"), IDS_R_INTERNAL_FILTERS, _T("SRC_AC3"));
         // no break
         default:
             pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_R_VERSION, APPSETTINGS_VERSION);

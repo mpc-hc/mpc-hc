@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-04-06 16:31:55+0000\n"
+"POT-Creation-Date: 2015-04-09 21:29:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2898,7 +2898,11 @@ msgid "Other Audio"
 msgstr ""
 
 msgctxt "IDS_MFMT_AC3"
-msgid "AC-3/DTS"
+msgid "AC-3"
+msgstr ""
+
+msgctxt "IDS_MFMT_DTS"
+msgid "DTS/DTS-HD"
 msgstr ""
 
 msgctxt "IDS_MFMT_AIFF"
