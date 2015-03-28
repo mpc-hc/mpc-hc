@@ -1,4 +1,4 @@
-# (C) 2013 see Authors.txt
+# (C) 2013, 2015 see Authors.txt
 #
 # This file is part of MPC-HC.
 #
@@ -19,12 +19,8 @@ import sys
 
 from TranslationDataRC import *
 
-if __name__ == '__main__':
-    if len(sys.argv) != 2:
-        RuntimeError('Invalid number of parameters. Usage: UpdatePO.py <filename>')
 
-    filename = sys.argv[1]
-
+def UpdatePO(filename):
     translationDataOld = TranslationDataRC()
     translationDataOld.loadFromPO('PO\\' + filename, 'po')
 
@@ -32,3 +28,9 @@ if __name__ == '__main__':
     translationData.loadFromPO(r'PO\mpc-hc', 'pot')
     translationData.translate(translationDataOld)
     translationData.writePO('PO\\' + filename, 'po')
+
+if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        RuntimeError('Invalid number of parameters. Usage: UpdatePO.py <filename>')
+
+    UpdatePO(sys.argv[1])

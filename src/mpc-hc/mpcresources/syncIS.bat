@@ -1,5 +1,5 @@
 @ECHO OFF
-REM (C) 2013 see Authors.txt
+REM (C) 2013, 2015 see Authors.txt
 REM
 REM This file is part of MPC-HC.
 REM
@@ -23,19 +23,7 @@ PUSHD %~dp0
 CALL "common_python.bat"
 IF %ERRORLEVEL% NEQ 0 GOTO END
 
-ECHO Updating the installer POT file
-python.exe UpdateISPOT.py
-ECHO ----------------------
-
-FOR %%i IN (PO\mpc-hc.installer.*.strings.po) DO (
-  ECHO Updating PO file %%i
-  python.exe UpdateISPO.py %%~ni
-  ECHO ----------------------
-)
-
-ECHO Updating IS file
-python.exe UpdateIS.py
-ECHO ----------------------
+python.exe syncIS.py
 
 :END
 PAUSE

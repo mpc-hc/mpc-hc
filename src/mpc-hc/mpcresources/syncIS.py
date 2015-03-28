@@ -1,4 +1,4 @@
-# (C) 2013, 2015 see Authors.txt
+# (C) 2015 see Authors.txt
 #
 # This file is part of MPC-HC.
 #
@@ -16,20 +16,24 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import sys
+import os
+import fnmatch
 
-from TranslationDataRC import *
-
-
-def UpdateRC(filename, normalizePOFile=True):
-    translationData = TranslationDataRC()
-    translationData.loadFromPO('PO\\' + filename, 'po')
-    translationData.translateRC(r'..\mpc-hc.rc', filename)
-    if normalizePOFile:
-        # Write back the PO file to ensure it's properly normalized
-        translationData.writePO('PO\\' + filename, 'po')
+from UpdateISPOT import *
+from UpdateISPO import *
+from UpdateIS import *
 
 if __name__ == '__main__':
-    if len(sys.argv) != 2:
-        RuntimeError('Invalid number of parameters. Usage: UpdateRC.py <filename>')
+    print 'Updating POT file'
+    UpdateISPOT()
+    print '----------------------'
 
-    UpdateRC(sys.argv[1])
+    for file in os.listdir('PO'):
+        if fnmatch.fnmatch(file, 'mpc-hc.installer.*.strings.po'):
+            print 'Updating PO file', file
+            UpdateISPO(os.path.splitext(file)[0])
+            print '----------------------'
+
+    print 'Updating IS file'
+    UpdateIS(False)
+    print '----------------------'

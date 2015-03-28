@@ -1,4 +1,4 @@
-# (C) 2013 see Authors.txt
+# (C) 2013, 2015 see Authors.txt
 #
 # This file is part of MPC-HC.
 #
@@ -19,7 +19,8 @@ import sys
 
 from TranslationDataIS import *
 
-if __name__ == '__main__':
+
+def UpdateISPOT():
     translationData = TranslationDataIS()
     translationData.loadFromIS(r'..\..\..\distrib\custom_messages.iss')
 
@@ -28,3 +29,6 @@ if __name__ == '__main__':
     output = tuple(not b for b in translationData.areEqualsSections(translationDataOld))
 
     translationData.writePO(r'PO\mpc-hc.installer', 'pot', output)
+
+if __name__ == '__main__':
+    UpdateISPOT()

@@ -1,4 +1,4 @@
-# (C) 2013 see Authors.txt
+# (C) 2013, 2015 see Authors.txt
 #
 # This file is part of MPC-HC.
 #
@@ -19,7 +19,8 @@ import sys
 
 from TranslationDataRC import *
 
-if __name__ == '__main__':
+
+def UpdatePOT():
     translationData = TranslationDataRC()
     translationData.loadFromRC(r'..\mpc-hc.rc')
 
@@ -28,3 +29,6 @@ if __name__ == '__main__':
     output = tuple(not b for b in translationData.areEqualsSections(translationDataOld))
 
     translationData.writePO(r'PO\mpc-hc', 'pot', output)
+
+if __name__ == '__main__':
+    UpdatePOT()
