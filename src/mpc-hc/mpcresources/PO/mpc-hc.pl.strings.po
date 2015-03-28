@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # kasper93, 2013-2015
-# M T <michtrz@gmail.com>, 2013-2014
+# M T <michtrz@gmail.com>, 2013-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-03-03 21:51:04+0000\n"
-"PO-Revision-Date: 2015-03-21 07:23+0000\n"
-"Last-Translator: kasper93\n"
+"POT-Creation-Date: 2015-03-26 22:39:02+0000\n"
+"PO-Revision-Date: 2015-03-30 13:42+0000\n"
+"Last-Translator: M T <michtrz@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/mpc-hc/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1375,7 +1375,7 @@ msgstr "AR %d:%d"
 
 msgctxt "IDS_PPAGEADVANCED_LOGGER"
 msgid "Enables logging to file. (require restart)"
-msgstr ""
+msgstr "Włącz logowanie do pliku. (wymaga restartu)"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"

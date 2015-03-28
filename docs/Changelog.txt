@@ -26,8 +26,8 @@ next version - not released yet
     - Ticket #5330, LAV Video Decoder: Improve DVD subtitles timeout in some cases
     - Ticket #5333, LAV Splitter: Fix handling of some Blu-Ray playlist
 * Updated Basque, British English, Catalan, Chinese (Simplified), Czech, Dutch, Finnish, French, Galician,
-  German, Greek, Japanese, Korean, Malay, Polish, Romanian, Russian, Serbian, Slovak, Spanish, Ukrainian
-  and Vietnamese translations
+  German, Greek, Japanese, Korean, Malay, Polish, Romanian, Russian, Serbian, Slovak, Spanish, Swedish
+  Ukrainian and Vietnamese translations
 ! EVR-CP/Sync renderers could produce wrong colors
 ! Do not mirror the status bar and the time indicator when using an RTL layout
 ! Ticket #2167, Prevent the task bar buttons from being RTLed when Windows is configured to use RTL layout

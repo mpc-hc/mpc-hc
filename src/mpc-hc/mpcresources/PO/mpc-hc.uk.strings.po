@@ -3,11 +3,12 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # arestarh1986 <arestarh@ukr.net>, 2014-2015
+# Maksym Kozachenko <symphonicon@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-03-03 21:51:04+0000\n"
-"PO-Revision-Date: 2015-03-23 08:01+0000\n"
+"POT-Creation-Date: 2015-03-26 22:39:02+0000\n"
+"PO-Revision-Date: 2015-04-04 11:43+0000\n"
 "Last-Translator: arestarh1986 <arestarh@ukr.net>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/mpc-hc/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -1374,7 +1375,7 @@ msgstr "Спів. стор. %d:%d"
 
 msgctxt "IDS_PPAGEADVANCED_LOGGER"
 msgid "Enables logging to file. (require restart)"
-msgstr ""
+msgstr "Вмикає запис логу у файл (потребує перезапуску)."
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"

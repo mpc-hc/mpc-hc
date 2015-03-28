@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-03-16 18:09:30+0000\n"
-"PO-Revision-Date: 2015-03-21 07:23+0000\n"
+"PO-Revision-Date: 2015-03-28 15:31+0000\n"
 "Last-Translator: papu <papu@openmailbox.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -78,7 +78,7 @@ msgstr "Enregistra"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK2"
 msgid "Enable built-in audio switcher filter (requires restart)"
-msgstr "Activar interruptor del filtre d'àudio intern (requereix inicialitzar)"
+msgstr "Activa l'interruptor del filtre d'àudio intern (cal inicialitzar)"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK5"
 msgid "Normalize"
@@ -246,11 +246,11 @@ msgstr "Opcions d’obertura"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO1"
 msgid "Use the same player for each media file"
-msgstr "Usar el mateix reproductor per a cada arxiu de mitjans que es reprodueixi"
+msgstr "Usar el mateix reproductor per a cada fitxer de mitjans que es reprodueixi"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO2"
 msgid "Open a new player for each media file played"
-msgstr "Obrir un nou reproductor per cada arxiu de mitjans que es reprodueixi"
+msgstr "Obrir un nou reproductor per cada fitxer de mitjans que es reprodueixi"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Language"
@@ -266,7 +266,7 @@ msgstr "Mostrar el camí complet"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO4"
 msgid "File name only"
-msgstr "Només el nom de l'arxiu"
+msgstr "Només el nom del fitxer"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO5"
 msgid "Don't prefix anything"
@@ -286,7 +286,7 @@ msgstr "Icona a la safata del sistema"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_SHOW_OSD"
 msgid "Show OSD (requires restart)"
-msgstr "Mostrar OSD (requereix inicialitzar)"
+msgstr "Mostra OSD (cal inicialitzar)"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK4"
 msgid "Limit window proportions on resize"
@@ -318,7 +318,7 @@ msgstr "Historial"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK1"
 msgid "Keep history of recently opened files"
-msgstr "Mantenir l'historial dels arxius oberts"
+msgstr "Mantenir l'historial dels fitxers oberts"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK2"
 msgid "Remember last playlist"
@@ -326,7 +326,7 @@ msgstr "Recordar l'última llista de reproducció"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_FILE_POS"
 msgid "Remember File position"
-msgstr "Recordar la posició de l'arxiu"
+msgstr "Recorda la posició del fitxer"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_DVD_POS"
 msgid "Remember DVD position"
@@ -526,7 +526,7 @@ msgstr "ms"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Texture settings (open the video again to see the changes)"
-msgstr "Opcions de textura (es necessari reobrir l'arxiu perque tingui efecta)"
+msgstr "Opcions de textura (es necessari reobrir el fitxer perque tingui efecte)"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Sub pictures to buffer:"
@@ -578,7 +578,7 @@ msgstr "Si actives l'antialiasing a pantalla completa en les opcions de la tarja
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
 msgid "File extensions"
-msgstr "Extensions d'arxiu"
+msgstr "Extensions de fitxer"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON2"
 msgid "Default"
@@ -794,7 +794,7 @@ msgstr "Descripció:"
 
 msgctxt "IDD_FAVADD_CAPTION"
 msgid "Add Favorite"
-msgstr "Afegir a Favorits"
+msgstr "Afegir als Preferits"
 
 msgctxt "IDD_FAVADD_IDC_STATIC"
 msgid "Choose a name for your shortcut:"
@@ -818,7 +818,7 @@ msgstr "Unitat relativa"
 
 msgctxt "IDD_FAVORGANIZE_CAPTION"
 msgid "Organize Favorites"
-msgstr "Organitzar Favorits"
+msgstr "Organitzar els Preferits"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON1"
 msgid "Rename"
@@ -882,7 +882,7 @@ msgstr "Zoom: 0.2 -> 3.0"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_CHECK2"
 msgid "Global Media Keys"
-msgstr "Tecles multimèdia globals"
+msgstr "Tecles Multimèdia globals"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON1"
 msgid "Select All"
@@ -1458,7 +1458,7 @@ msgstr "Els canvis tindran efecte després de tencar i reiniciar la reproducció
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK1"
 msgid "Launch files in fullscreen"
-msgstr "Executar arxius a pantalla completa"
+msgstr "Executa fitxers a pantalla completa"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK4"
 msgid "Hide controls in fullscreen"
@@ -1526,7 +1526,7 @@ msgstr "Sintonitzar"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK1"
 msgid "Prefer forced and/or default subtitles tracks"
-msgstr "Preferir pistes de subtítols forçats i/o per defecte"
+msgstr "Prefereix pistes de subtítols forçats per defecte"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK2"
 msgid "Prefer external subtitles over embedded subtitles"
@@ -1578,7 +1578,7 @@ msgstr "Els \"shaders\" contenen efectes especials que es poden afegir al procé
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON12"
 msgid "Add shader file"
-msgstr "Afegir arxiu shader"
+msgstr "Afegir fitxer shader"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON13"
 msgid "Remove"

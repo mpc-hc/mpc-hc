@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-03-16 18:09:30+0000\n"
-"PO-Revision-Date: 2015-03-26 04:41+0000\n"
+"PO-Revision-Date: 2015-04-03 14:41+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/mpc-hc/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -123,7 +123,7 @@ msgstr "indgangskanaler:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
 msgid "Hold shift for immediate changes when clicking something "
-msgstr "Hold skift-knappen mens du klikker, for at ændre noget hurtigt"
+msgstr "Hold skift-knappen nede mens du klikker, for at foretage hurtige ændringer "
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."
@@ -143,7 +143,7 @@ msgstr "Gå!"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Enter two numbers to jump to a specified frame, the first is the frame number, the second is the frame rate."
-msgstr "Indtast to tal for at gå til et bestemt billede. Det første er billednummeret, det andet er billedhastigheden."
+msgstr "Indtast to tal for at gå til et bestemt billede, det første er billednummeret, det andet er billedhastigheden."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Frame"
@@ -159,7 +159,7 @@ msgstr "Åbn"
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Type the address of a movie or audio file (on the Internet or your computer) and the player will open it for you."
-msgstr "Indtast adressen af en film eller lydfil (på internettet, eller din computer), og afspilleren vil åbne den for dig."
+msgstr "Indtast adressen til en film- eller lydfil (på internettet eller din computer) og afspilleren vil åbne den for dig."
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Open:"
@@ -171,7 +171,7 @@ msgstr "Gennemse..."
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC1"
 msgid "Dub:"
-msgstr "Lyd (dub):"
+msgstr "Dub:"
 
 msgctxt "IDD_OPEN_DLG_IDC_BUTTON2"
 msgid "Browse..."
@@ -235,7 +235,7 @@ msgstr "Navn:"
 
 msgctxt "IDD_ABOUTBOX_IDC_BUTTON1"
 msgid "Copy to clipboard"
-msgstr "Kopier til udklipsholder"
+msgstr "Kopiér til udklipsholder"
 
 msgctxt "IDD_ABOUTBOX_IDOK"
 msgid "OK"
@@ -575,7 +575,7 @@ msgstr "Advarsel"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu."
-msgstr "Vælges \"tilsidesæt placering\" samtidig med, at antialiasing er aktiveret i grafikkortets indstillinger, ser underteksterne ikke bedre ud, men der bruges betydeligt flere CPU-ressourcer."
+msgstr "Hvis du tilsidesætter og aktivere fuldskærm antialiasing i grafikkortets indstillinger, kommer underteksterne ikke til at se bedre ud, men der bruges betydeligt flere CPU-ressourcer."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
 msgid "File extensions"
@@ -659,7 +659,7 @@ msgstr "Lyd CD"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "Jump distances (small, medium, large in ms)"
-msgstr "\"Gå til\" afstande (lille, medium, stor i ms)"
+msgstr "\"Gå til\"-afstande (lille, medium, stor i ms)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_BUTTON1"
 msgid "Default"
@@ -687,7 +687,7 @@ msgstr "Brug Windows 7 proceslinje funktioner"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
-msgstr "Åbn næste/forrige fil i mappe ved \"Spring tilbage/fremad\" når spillelisten kun har ét element"
+msgstr "Åbn næste/forrige fil i mappe ved \"Spring tilbage/fremad\" når der kun er ét element i spillelisten"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
 msgid "Show time tooltip:"
@@ -759,7 +759,7 @@ msgstr "Størrelse:"
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Media length:"
-msgstr "Medie længde:"
+msgstr "Medie varighed:"
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Video size:"
@@ -767,7 +767,7 @@ msgstr "Video størrelse:"
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Created:"
-msgstr "Produceret:"
+msgstr "Oprettet:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Clip:"
@@ -783,11 +783,11 @@ msgstr "Copyright:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Rating:"
-msgstr "Rating:"
+msgstr "Klassificering:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Location:"
-msgstr "Sted:"
+msgstr "Placering:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Description:"
@@ -875,7 +875,7 @@ msgstr "&Gem"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
 msgid "Pos: 0.0 -> 1.0"
-msgstr "Placering: 0,0 -> 1,0"
+msgstr "Placering: 0.0 -> 1.0"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
 msgid "Zoom: 0.2 -> 3.0"
@@ -951,7 +951,7 @@ msgstr "rækker"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "columns"
-msgstr "kolonner/rækker(1)"
+msgstr "kolonner"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "Image width:"
@@ -1139,7 +1139,7 @@ msgstr "Overflade:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Resizer:"
-msgstr "Resizer:"
+msgstr "Gensampling:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_D3D9DEVICE"
 msgid "Select D3D9 Render Device"
@@ -1427,7 +1427,7 @@ msgstr "linjer"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC4"
 msgid "columns"
-msgstr "kolonner/rækker(2)"
+msgstr "kolonner"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCNEAREST"
 msgid "Present at nearest VSync"
@@ -1463,7 +1463,7 @@ msgstr "Start filer i fuldskærm"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK4"
 msgid "Hide controls in fullscreen"
-msgstr "Skjul knapper i fuldskærm"
+msgstr "Skjul kontrolelementer i fuldskærm"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC1"
 msgid "ms"

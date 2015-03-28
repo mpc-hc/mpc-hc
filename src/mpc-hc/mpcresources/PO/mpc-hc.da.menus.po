@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
-"PO-Revision-Date: 2015-03-21 03:50+0000\n"
+"PO-Revision-Date: 2015-04-03 14:41+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/mpc-hc/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -84,7 +84,7 @@ msgstr "&Søg..."
 
 msgctxt "ID_FILE_ISDB_UPLOAD"
 msgid "&Upload..."
-msgstr "U&pload..."
+msgstr "&Upload..."
 
 msgctxt "ID_FILE_ISDB_DOWNLOAD"
 msgid "&Download..."
@@ -104,7 +104,7 @@ msgstr "&Vis"
 
 msgctxt "ID_VIEW_CAPTIONMENU"
 msgid "Caption&&Menu"
-msgstr "Titellinje og menu"
+msgstr "Titel- og menulinje"
 
 msgctxt "ID_VIEW_SEEKER"
 msgid "See&k Bar"
@@ -112,7 +112,7 @@ msgstr "&Søgelinje"
 
 msgctxt "ID_VIEW_CONTROLS"
 msgid "&Controls"
-msgstr "&Knapper"
+msgstr "&Kontrolelementer"
 
 msgctxt "ID_VIEW_INFORMATION"
 msgid "&Information"
@@ -288,15 +288,15 @@ msgstr "Omgivende &lys"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
 msgid "&Bright (2.2 Gamma)"
-msgstr "&Lyst (2,2 gamma)"
+msgstr "&Lyst (2.2 gamma)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DIM"
 msgid "&Dim (2.35 Gamma)"
-msgstr "Ne&dtonet (2,35 gamma)"
+msgstr "Ne&dtonet (2.35 gamma)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DARK"
 msgid "D&ark (2.4 Gamma)"
-msgstr "M&ørkt (2,4 gamma)"
+msgstr "M&ørkt (2.4 gamma)"
 
 msgctxt "POPUP"
 msgid "&Rendering Intent"
@@ -380,7 +380,7 @@ msgstr "&Halv størrelse"
 
 msgctxt "ID_VIEW_VF_NORMAL"
 msgid "&Normal Size"
-msgstr "&Standardstørrelse"
+msgstr "&Normal størrelse"
 
 msgctxt "ID_VIEW_VF_DOUBLE"
 msgid "&Double Size"
@@ -440,7 +440,7 @@ msgstr "1&85:100"
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"
-msgstr "&Korriger monitor/skrivebord højde-bredde-forskelle"
+msgstr "&Korrigér monitor/skrivebord højde-bredde-forskelle"
 
 msgctxt "POPUP"
 msgid "Pa&n&&Scan"
@@ -488,7 +488,7 @@ msgstr "Flyt &ned"
 
 msgctxt "ID_PANSCAN_CENTER"
 msgid "Cen&ter"
-msgstr "I mid&ten"
+msgstr "Cent&reret"
 
 msgctxt "ID_VIEW_RESET"
 msgid "Re&set"
@@ -496,7 +496,7 @@ msgstr "Nu&lstil"
 
 msgctxt "POPUP"
 msgid "On &Top"
-msgstr "&Øverst"
+msgstr "Øvers&t"
 
 msgctxt "ID_ONTOP_DEFAULT"
 msgid "&Default"
@@ -532,7 +532,7 @@ msgstr "&Stop"
 
 msgctxt "ID_PLAY_FRAMESTEP"
 msgid "F&rame Step"
-msgstr "&Billedtrin"
+msgstr "Billed&trin"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "&Decrease Rate"
@@ -580,7 +580,7 @@ msgstr "&Ned"
 
 msgctxt "ID_VOLUME_MUTE"
 msgid "&Mute"
-msgstr "&Lydløs"
+msgstr "&Mute"
 
 msgctxt "POPUP"
 msgid "Af&ter Playback"

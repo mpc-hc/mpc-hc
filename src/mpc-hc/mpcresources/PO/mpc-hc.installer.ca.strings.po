@@ -4,14 +4,14 @@
 # Translators:
 # Adolfo Jayme Barrientos, 2014
 # Adolfo Jayme Barrientos, 2014
-# papu <papu@openmailbox.org>, 2014
+# papu <papu@openmailbox.org>, 2014-2015
 # papu <papu@openmailbox.org>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-06-17 15:23:34+0000\n"
-"PO-Revision-Date: 2014-09-14 21:20+0000\n"
-"Last-Translator: Adolfo Jayme Barrientos\n"
+"PO-Revision-Date: 2015-03-27 21:02+0000\n"
+"Last-Translator: papu <papu@openmailbox.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,7 +25,7 @@ msgstr "Aquest auxiliar instal·larà el [name] al vostre ordinador\n\nEs recoma
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows XP Service Pack 3 or newer to run."
-msgstr "[name] requereix Windows XP Service Pack 3 o superior per funcionar."
+msgstr "[name] cal Windows XP Service Pack 3 o superior per funcionar."
 
 msgctxt "CustomMessages_comp_mpciconlib"
 msgid "Icon Library"
@@ -45,11 +45,11 @@ msgstr "La instal·lació del MPC-HC ja s’està executant."
 
 msgctxt "CustomMessages_msg_simd_sse"
 msgid "This build of MPC-HC requires a CPU with SSE extension support.\n\nYour CPU does not have those capabilities."
-msgstr "Aquesta versió de MPC-HC requereix una CPU amb suport d'extensions SSE.\n\nLa teva CPU no cumpleix aquestes característiques."
+msgstr "Aquesta versió de MPC-HC cal una CPU amb suport d'extensions SSE.\n\nLa teva CPU no cumpleix aquestes característiques."
 
 msgctxt "CustomMessages_msg_simd_sse2"
 msgid "This build of MPC-HC requires a CPU with SSE2 extension support.\n\nYour CPU does not have those capabilities."
-msgstr "Aquesta versió de MPC-HC requereix una CPU amb suport d'extensions SSE2.\n\nLa teva CPU no cumpleix aquestes característiques."
+msgstr "Aquesta versió de MPC-HC cal una CPU amb suport d'extensions SSE2.\n\nLa teva CPU no cumpleix aquestes característiques."
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"

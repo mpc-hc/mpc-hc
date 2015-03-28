@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-03-03 21:51:04+0000\n"
-"PO-Revision-Date: 2015-03-25 15:54+0000\n"
+"POT-Creation-Date: 2015-03-26 22:39:02+0000\n"
+"PO-Revision-Date: 2015-03-31 01:30+0000\n"
 "Last-Translator: TRẦN ANH MINH <anhminhvks@yahoo.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/mpc-hc/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -891,7 +891,7 @@ msgstr "Im"
 
 msgctxt "ID_VOLUME_MUTE_OFF"
 msgid "Unmute"
-msgstr "Bỏ im"
+msgstr "Mở tiếng"
 
 msgctxt "ID_VOLUME_MUTE_DISABLED"
 msgid "No audio"
@@ -1375,7 +1375,7 @@ msgstr "AR %d:%d"
 
 msgctxt "IDS_PPAGEADVANCED_LOGGER"
 msgid "Enables logging to file. (require restart)"
-msgstr ""
+msgstr "Cho phép đăng nhập vào tập tin. (Yêu cầu khởi động lại)"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
