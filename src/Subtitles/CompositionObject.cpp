@@ -197,6 +197,12 @@ void CompositionObject::DvbRenderField(SubPicDesc& spd, CGolombBuffer& gb, short
     short nX = nXStart;
     short nY = nYStart;
     size_t nEnd = gb.GetPos() + nLength;
+    if (nEnd > gb.GetSize()) {
+        // Unexpected end of data, the file is probably corrupted
+        // but try to render the subtitles anyway
+        ASSERT(FALSE);
+        nEnd = gb.GetSize();
+    }
 
     while (gb.GetPos() < nEnd) {
         BYTE bType = gb.ReadByte();
