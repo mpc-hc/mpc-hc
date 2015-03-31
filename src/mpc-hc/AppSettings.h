@@ -653,6 +653,7 @@ public:
     UINT            nLastWindowType;
     UINT            nLastUsedPage;
     bool            fRemainingTime;
+    bool            bHighPrecisionTimer;
     bool            fLastFullScreen;
 
     bool            fIntRealMedia;

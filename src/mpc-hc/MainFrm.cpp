@@ -673,6 +673,10 @@ void CMainFrame::EventCallback(MpcEvent ev)
         case MpcEvent::CHANGING_UI_LANGUAGE:
             UpdateUILanguage();
             break;
+        case MpcEvent::STREAM_POS_UPDATE_REQUEST:
+            OnTimer(TIMER_STREAMPOSPOLLER);
+            OnTimer(TIMER_STREAMPOSPOLLER2);
+            break;
         default:
             ASSERT(FALSE);
     }
@@ -780,6 +784,7 @@ CMainFrame::CMainFrame()
     receives.insert(MpcEvent::DISPLAY_MODE_AUTOCHANGING);
     receives.insert(MpcEvent::DISPLAY_MODE_AUTOCHANGED);
     receives.insert(MpcEvent::CHANGING_UI_LANGUAGE);
+    receives.insert(MpcEvent::STREAM_POS_UPDATE_REQUEST);
     EventRouter::EventSelection fires;
     fires.insert(MpcEvent::SWITCHING_TO_FULLSCREEN);
     fires.insert(MpcEvent::SWITCHED_TO_FULLSCREEN);

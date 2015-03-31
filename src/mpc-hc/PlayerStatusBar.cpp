@@ -38,6 +38,9 @@ CPlayerStatusBar::CPlayerStatusBar(CMainFrame* pMainFrame)
     , m_hIcon(0)
     , m_time_rect(-1, -1, -1, -1)
 {
+    EventRouter::EventSelection fires;
+    fires.insert(MpcEvent::STREAM_POS_UPDATE_REQUEST);
+    GetEventd().Connect(m_eventc, fires);
 }
 
 CPlayerStatusBar::~CPlayerStatusBar()
@@ -264,11 +267,12 @@ void CPlayerStatusBar::SetStatusTimer(REFERENCE_TIME rtNow, REFERENCE_TIME rtDur
 {
     CString str;
     CString posstr, durstr, rstr;
+    const CAppSettings& s = AfxGetAppSettings();
 
     if (timeFormat == TIME_FORMAT_MEDIA_TIME) {
         DVD_HMSF_TIMECODE tcNow, tcDur, tcRt;
 
-        if (fHighPrecision) {
+        if (fHighPrecision || s.bHighPrecisionTimer) {
             tcNow = RT2HMSF(rtNow);
             tcDur = RT2HMSF(rtDur);
             tcRt  = RT2HMSF(rtDur - rtNow);
@@ -292,7 +296,7 @@ void CPlayerStatusBar::SetStatusTimer(REFERENCE_TIME rtNow, REFERENCE_TIME rtDur
             durstr.Format(_T("%02u:%02u"), tcDur.bMinutes, tcDur.bSeconds);
         }
 
-        if (fHighPrecision) {
+        if (fHighPrecision || s.bHighPrecisionTimer) {
             posstr.AppendFormat(_T(".%03d"), int((rtNow / 10000) % 1000));
             durstr.AppendFormat(_T(".%03d"), int((rtDur / 10000) % 1000));
             rstr.AppendFormat(_T(".%03d"), int(((rtDur - rtNow) / 10000) % 1000));
@@ -303,7 +307,7 @@ void CPlayerStatusBar::SetStatusTimer(REFERENCE_TIME rtNow, REFERENCE_TIME rtDur
         rstr.Format(_T("%I64d"), rtDur - rtNow);
     }
 
-    if (!AfxGetAppSettings().fRemainingTime) {
+    if (!s.fRemainingTime) {
         str = ((rtDur <= 0) || (rtDur < rtNow)) ? posstr : posstr + _T(" / ") + durstr;
     } else {
         str = ((rtDur <= 0) || (rtDur < rtNow)) ? posstr : _T("- ") + rstr + _T(" / ") + durstr;
@@ -327,6 +331,7 @@ BEGIN_MESSAGE_MAP(CPlayerStatusBar, CDialogBar)
     ON_WM_LBUTTONDOWN()
     ON_WM_SETCURSOR()
     ON_WM_CTLCOLOR()
+    ON_WM_CONTEXTMENU()
     ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify)
 END_MESSAGE_MAP()
 
@@ -469,12 +474,42 @@ BOOL CPlayerStatusBar::PreTranslateMessage(MSG* pMsg)
 
 void CPlayerStatusBar::OnTimeDisplayClicked()
 {
-    CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
     CAppSettings& s = AfxGetAppSettings();
 
     s.fRemainingTime = !s.fRemainingTime;
-    // This isn't particularly nice...
-    pFrame->OnTimer(2);
+    m_eventc.FireEvent(MpcEvent::STREAM_POS_UPDATE_REQUEST);
+}
+
+void CPlayerStatusBar::OnContextMenu(CWnd* pWnd, CPoint point)
+{
+    CPoint clientPoint = point;
+    ScreenToClient(&clientPoint);
+    if (!m_time_rect.PtInRect(clientPoint)) {
+        return __super::OnContextMenu(pWnd, point);
+    }
+
+    CAppSettings& s = AfxGetAppSettings();
+
+    enum {
+        REMAINIGN_TIME,
+        HIGH_PRECISION
+    };
+
+    CMenu m;
+    m.CreatePopupMenu();
+    m.AppendMenu(MF_STRING | MF_ENABLED | (s.fRemainingTime ? MF_CHECKED : MF_UNCHECKED), REMAINIGN_TIME, _T("Remaining time"));
+    m.AppendMenu(MF_STRING | MF_ENABLED | (s.bHighPrecisionTimer ? MF_CHECKED : MF_UNCHECKED), HIGH_PRECISION, _T("High precision"));
+
+    switch (m.TrackPopupMenu(TPM_LEFTBUTTON | TPM_RETURNCMD, point.x, point.y, this)) {
+        case REMAINIGN_TIME:
+            s.fRemainingTime = !s.fRemainingTime;
+            m_eventc.FireEvent(MpcEvent::STREAM_POS_UPDATE_REQUEST);
+            break;
+        case HIGH_PRECISION:
+            s.bHighPrecisionTimer = !s.bHighPrecisionTimer;
+            m_eventc.FireEvent(MpcEvent::STREAM_POS_UPDATE_REQUEST);
+            break;
+    }
 }
 
 BOOL CPlayerStatusBar::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)

@@ -261,6 +261,7 @@
 #define IDS_RS_LCD_SUPPORT                  _T("LcdSupport")
 
 #define IDS_RS_REMAINING_TIME               _T("RemainingTime")
+#define IDS_RS_HIGH_PRECISION_TIMER         _T("HighPrecisionTimer")
 
 #define IDS_RS_UPDATER_AUTO_CHECK           _T("UpdaterAutoCheck")
 #define IDS_RS_UPDATER_LAST_CHECK           _T("UpdaterLastCheck")

@@ -15,6 +15,8 @@ next version - not released yet
 + Enable Press and Hold gesture to make easier access to context menu on touch devices
 + Add Danish translation
 + Ticket #5147, Add /randomize command-line switch for playlist randomization
++ Ticket #5334, Allow to enable high precision timer also when Subresync bar is hidden.
+  Right click on timer shows menu with options.
 + Ticket #5356, DVB: Support HEVC broadcasts
 * Subtitle renderer: Better compatibility with ASS/SSA subtitle files that are slightly violating the specs
 * Ticket #5294, Use internal LAV Splitter for demuxing WTV files
