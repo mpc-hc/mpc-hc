@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2014 see Authors.txt
+ * (C) 2009-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,6 +22,8 @@
 
 #include "RLECodedSubtitle.h"
 #include "CompositionObject.h"
+#include <list>
+#include <memory>
 
 class CGolombBuffer;
 
@@ -71,141 +73,77 @@ private:
     };
 
     struct DVB_CLUT {
-        BYTE    id;
-        BYTE    version_number;
-        BYTE    size;
+        BYTE id = 0;
+        BYTE version_number = 0;
+        BYTE size = 0;
 
-        HDMV_PALETTE palette[256];
+        std::array<HDMV_PALETTE, 256> palette;
 
         DVB_CLUT()
-            : id(0)
-            , version_number(0)
-            , size(0) {
-            ZeroMemory(palette, sizeof(palette));
+            : palette() {
         }
     };
 
     struct DVB_DISPLAY {
-        BYTE        version_number;
-        BYTE        display_window_flag;
-        short       width;
-        short       height;
-        short       horizontal_position_minimun;
-        short       horizontal_position_maximum;
-        short       vertical_position_minimun;
-        short       vertical_position_maximum;
-
-        DVB_DISPLAY()
         // Default value (section 5.1.3)
-            : version_number(0)
-            , display_window_flag(0)
-            , width(720)
-            , height(576)
-            , horizontal_position_minimun(0)
-            , horizontal_position_maximum(0)
-            , vertical_position_minimun(0)
-            , vertical_position_maximum(0) {
-        }
+        BYTE  version_number = 0;
+        BYTE  display_window_flag = 0;
+        short width = 720;
+        short height = 576;
+        short horizontal_position_minimun = 0;
+        short horizontal_position_maximum = 0;
+        short vertical_position_minimun = 0;
+        short vertical_position_maximum = 0;
     };
 
     struct DVB_OBJECT {
-        short       object_id;
-        BYTE        object_type;
-        BYTE        object_provider_flag;
-        short       object_horizontal_position;
-        short       object_vertical_position;
-        BYTE        foreground_pixel_code;
-        BYTE        background_pixel_code;
-
-        DVB_OBJECT()
-            : object_id(0xFF)
-            , object_type(0)
-            , object_provider_flag(0)
-            , object_horizontal_position(0)
-            , object_vertical_position(0)
-            , foreground_pixel_code(0)
-            , background_pixel_code(0) {
-        }
+        short object_id = 0;
+        BYTE  object_type = 0;
+        BYTE  object_provider_flag = 0;
+        short object_horizontal_position = 0;
+        short object_vertical_position = 0;
+        BYTE  foreground_pixel_code = 0;
+        BYTE  background_pixel_code = 0;
     };
 
     struct DVB_REGION_POS {
-        BYTE       id;
-        WORD       horizAddr;
-        WORD       vertAddr;
-
-        DVB_REGION_POS()
-            : id(0)
-            , horizAddr(0)
-            , vertAddr(0) {
-        }
+        BYTE id = 0;
+        WORD horizAddr = 0;
+        WORD vertAddr = 0;
     };
 
     struct DVB_REGION {
-        BYTE       id;
-        BYTE       version_number;
-        BYTE       fill_flag;
-        WORD       width;
-        WORD       height;
-        BYTE       level_of_compatibility;
-        BYTE       depth;
-        BYTE       CLUT_id;
-        BYTE       _8_bit_pixel_code;
-        BYTE       _4_bit_pixel_code;
-        BYTE       _2_bit_pixel_code;
-        CAtlList<DVB_OBJECT> objects;
-
-        DVB_REGION()
-            : id(0)
-            , version_number(0)
-            , fill_flag(0)
-            , width(0)
-            , height(0)
-            , level_of_compatibility(0)
-            , depth(0)
-            , CLUT_id(0)
-            , _8_bit_pixel_code(0)
-            , _4_bit_pixel_code(0)
-            , _2_bit_pixel_code(0) {
-        }
-
-        DVB_REGION(const CDVBSub::DVB_REGION& region)
-            : id(region.id)
-            , version_number(region.version_number)
-            , fill_flag(region.fill_flag)
-            , width(region.width)
-            , height(region.height)
-            , level_of_compatibility(region.level_of_compatibility)
-            , depth(region.depth)
-            , CLUT_id(region.CLUT_id)
-            , _8_bit_pixel_code(region._8_bit_pixel_code)
-            , _4_bit_pixel_code(region._4_bit_pixel_code)
-            , _2_bit_pixel_code(region._2_bit_pixel_code)  {
-            objects.AddHeadList(&region.objects);
-        }
+        BYTE id = 0;
+        BYTE version_number = 0;
+        BYTE fill_flag = 0;
+        WORD width = 0;
+        WORD height = 0;
+        BYTE level_of_compatibility = 0;
+        BYTE depth = 0;
+        BYTE CLUT_id = 0;
+        BYTE _8_bit_pixel_code = 0;
+        BYTE _4_bit_pixel_code = 0;
+        BYTE _2_bit_pixel_code = 0;
+        std::list<DVB_OBJECT> objects;
     };
+
+    using RegionList = std::list<std::unique_ptr<DVB_REGION>>;
+    using CompositionObjectList = std::list<std::unique_ptr<CompositionObject>>;
+    using ClutList = std::list<std::unique_ptr<DVB_CLUT>>;
 
     class DVB_PAGE
     {
     public:
-        REFERENCE_TIME                  rtStart;
-        REFERENCE_TIME                  rtStop;
-        BYTE                            pageTimeOut;
-        BYTE                            pageVersionNumber;
-        BYTE                            pageState;
-        CAtlList<DVB_REGION_POS>        regionsPos;
-        CAutoPtrList<DVB_REGION>        regions;
-        CAutoPtrList<CompositionObject> objects;
-        CAutoPtrList<DVB_CLUT>          CLUTs;
-        bool                            rendered;
-
-        DVB_PAGE()
-            : rtStart(0)
-            , rtStop(0)
-            , pageTimeOut(0)
-            , pageVersionNumber(0)
-            , pageState(0)
-            , rendered(false) {
-        }
+        REFERENCE_TIME rtStart = 0;
+        REFERENCE_TIME rtStop = 0;
+        BYTE           pageTimeOut = 0;
+        BYTE           pageVersionNumber = 0;
+        BYTE           pageState = 0;
+        std::list<DVB_REGION_POS> regionsPos;
+        RegionList                regions;
+        CompositionObjectList     objects;
+        ClutList                  CLUTs;
+        bool           rendered = false;
     };
 
     size_t                 m_nBufferSize;
@@ -219,9 +157,9 @@ private:
     HRESULT  AddToBuffer(BYTE* pData, size_t nSize);
 
     POSITION FindPage(REFERENCE_TIME rt) const;
-    POSITION FindRegion(const CAutoPtr<DVB_PAGE>& pPage, BYTE bRegionId) const;
-    POSITION FindClut(const CAutoPtr<DVB_PAGE>& pPage, BYTE bClutId) const;
-    POSITION FindObject(const CAutoPtr<DVB_PAGE>& pPage, short sObjectId) const;
+    RegionList::const_iterator FindRegion(const CAutoPtr<DVB_PAGE>& pPage, BYTE bRegionId) const;
+    ClutList::const_iterator   FindClut(const CAutoPtr<DVB_PAGE>& pPage, BYTE bClutId) const;
+    CompositionObjectList::const_iterator FindObject(const CAutoPtr<DVB_PAGE>& pPage, short sObjectId) const;
 
     HRESULT  ParsePage(CGolombBuffer& gb, WORD wSegLength, CAutoPtr<DVB_PAGE>& pPage);
     HRESULT  ParseDisplay(CGolombBuffer& gb, WORD wSegLength);
