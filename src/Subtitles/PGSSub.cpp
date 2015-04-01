@@ -216,8 +216,8 @@ void CPGSSub::Reset()
     m_nCurSegment = NO_SEGMENT;
     m_pCurrentPresentationSegment.Free();
     m_pPresentationSegments.RemoveAll();
-    for (int i = 0; i < _countof(m_compositionObjects); i++) {
-        m_compositionObjects[i].Reset();
+    for (auto& compositionObject : m_compositionObjects) {
+        compositionObject.Reset();
     }
 }
 
@@ -256,13 +256,10 @@ HRESULT CPGSSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox, bool bRe
         bbox.left = bbox.top = LONG_MAX;
         bbox.right = bbox.bottom = 0;
 
-        POSITION pos = pPresentationSegment->objects.GetHeadPosition();
-        while (pos) {
-            const auto& pObject = pPresentationSegment->objects.GetNext(pos);
-
+        for (const auto& pObject : pPresentationSegment->objects) {
             if (pObject->GetRLEDataSize() && pObject->m_width > 0 && pObject->m_height > 0
                     && spd.w >= (pObject->m_horizontal_position + pObject->m_width) && spd.h >= (pObject->m_vertical_position + pObject->m_height)) {
-                pObject->SetPalette(pPresentationSegment->CLUT.size, pPresentationSegment->CLUT.palette, m_eSourceMatrix);
+                pObject->SetPalette(pPresentationSegment->CLUT.size, pPresentationSegment->CLUT.palette.data(), m_eSourceMatrix);
                 bbox.left = std::min(pObject->m_horizontal_position, bbox.left);
                 bbox.top = std::min(pObject->m_vertical_position, bbox.top);
                 bbox.right = std::max(pObject->m_horizontal_position + pObject->m_width, bbox.right);
@@ -288,7 +285,8 @@ HRESULT CPGSSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox, bool bRe
 
 int CPGSSub::ParsePresentationSegment(REFERENCE_TIME rt, CGolombBuffer* pGBuffer)
 {
-    m_pCurrentPresentationSegment = CAutoPtr<HDMV_PRESENTATION_SEGMENT>(DEBUG_NEW HDMV_PRESENTATION_SEGMENT());
+    m_pCurrentPresentationSegment.Free();
+    m_pCurrentPresentationSegment.Attach(DEBUG_NEW HDMV_PRESENTATION_SEGMENT());
 
     m_pCurrentPresentationSegment->rtStart = rt;
     m_pCurrentPresentationSegment->rtStop = UNKNOWN_TIME; // Unknown for now
@@ -303,9 +301,9 @@ int CPGSSub::ParsePresentationSegment(REFERENCE_TIME rt, CGolombBuffer* pGBuffer
                  m_pCurrentPresentationSegment->composition_descriptor.bState, m_pCurrentPresentationSegment->objectCount);
 
     for (int i = 0; i < m_pCurrentPresentationSegment->objectCount; i++) {
-        CAutoPtr<CompositionObject> pCompositionObject(DEBUG_NEW CompositionObject());
+        std::unique_ptr<CompositionObject> pCompositionObject(DEBUG_NEW CompositionObject());
         ParseCompositionObject(pGBuffer, pCompositionObject);
-        m_pCurrentPresentationSegment->objects.AddTail(pCompositionObject);
+        m_pCurrentPresentationSegment->objects.emplace_back(std::move(pCompositionObject));
     }
 
     return m_pCurrentPresentationSegment->objectCount;
@@ -318,10 +316,7 @@ void CPGSSub::EnqueuePresentationSegment()
             m_pCurrentPresentationSegment->CLUT = m_CLUTs[m_pCurrentPresentationSegment->CLUT.id];
 
             // Get the objects' data
-            POSITION pos = m_pCurrentPresentationSegment->objects.GetHeadPosition();
-            while (pos) {
-                const auto& pObject = m_pCurrentPresentationSegment->objects.GetNext(pos);
-
+            for (auto& pObject : m_pCurrentPresentationSegment->objects) {
                 const CompositionObject& pObjectData = m_compositionObjects[pObject->m_object_id_ref];
 
                 pObject->m_width = pObjectData.m_width;
@@ -383,7 +378,7 @@ void CPGSSub::ParsePalette(CGolombBuffer* pGBuffer, size_t nSize)  // #497
 void CPGSSub::ParseObject(CGolombBuffer* pGBuffer, size_t nUnitSize)   // #498
 {
     short object_id = pGBuffer->ReadShort();
-    ASSERT(object_id < _countof(m_compositionObjects));
+    ASSERT(object_id >= 0 && size_t(object_id) < m_compositionObjects.size());
 
     CompositionObject& pObject = m_compositionObjects[object_id];
 
@@ -404,7 +399,7 @@ void CPGSSub::ParseObject(CGolombBuffer* pGBuffer, size_t nUnitSize)   // #498
     }
 }
 
-void CPGSSub::ParseCompositionObject(CGolombBuffer* pGBuffer, const CAutoPtr<CompositionObject>& pCompositionObject)
+void CPGSSub::ParseCompositionObject(CGolombBuffer* pGBuffer, const std::unique_ptr<CompositionObject>& pCompositionObject)
 {
     BYTE bTemp;
     pCompositionObject->m_object_id_ref = pGBuffer->ReadShort();
@@ -458,12 +453,12 @@ void CPGSSub::RemoveOldSegments(REFERENCE_TIME rt)
     while (!m_pPresentationSegments.IsEmpty()
             && m_pPresentationSegments.GetHead()->rtStop != UNKNOWN_TIME
             && m_pPresentationSegments.GetHead()->rtStop + 120 * 10000000i64 < rt) {
-        auto pPresentationSegment = m_pPresentationSegments.RemoveHead();
         TRACE_PGSSUB(_T("CPGSSub::RemoveOldSegments Remove presentation segment %d %s => %s (rt=%s)\n"),
-                     pPresentationSegment->composition_descriptor.nNumber,
-                     ReftimeToString(pPresentationSegment->rtStart),
-                     ReftimeToString(pPresentationSegment->rtStop),
+                     m_pPresentationSegments.GetHead()->composition_descriptor.nNumber,
+                     ReftimeToString(m_pPresentationSegments.GetHead()->rtStart),
+                     ReftimeToString(m_pPresentationSegments.GetHead()->rtStop),
                      ReftimeToString(rt));
+        m_pPresentationSegments.RemoveHeadNoReturn();
     }
 }
 
