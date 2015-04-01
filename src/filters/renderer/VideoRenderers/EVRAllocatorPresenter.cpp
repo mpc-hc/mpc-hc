@@ -1993,17 +1993,16 @@ void CEVRAllocatorPresenter::RenderThread()
                         m_pCurrentDisplaydSample = pMFSample;
 
                         bool bValidSampleTime = true;
-                        HRESULT hGetSampleTime = pMFSample->GetSampleTime(&nsSampleTime);
-                        if (hGetSampleTime != S_OK || nsSampleTime == 0) {
+                        HRESULT hrGetSampleTime = pMFSample->GetSampleTime(&nsSampleTime);
+                        if (hrGetSampleTime != S_OK || nsSampleTime == 0) {
                             bValidSampleTime = false;
                         }
                         // We assume that all samples have the same duration
                         LONGLONG SampleDuration = 0;
                         bool bValidSampleDuration = true;
-                        HRESULT hGetSampleDuration = pMFSample->GetSampleDuration(&SampleDuration);
-
+                        HRESULT hrGetSampleDuration = pMFSample->GetSampleDuration(&SampleDuration);
                         // Some filters return invalid values, ignore them
-                        if (hGetSampleTime != S_OK || SampleDuration <= MIN_FRAME_TIME) {
+                        if (hrGetSampleDuration != S_OK || SampleDuration <= MIN_FRAME_TIME) {
                             bValidSampleDuration = false;
                         }
 
