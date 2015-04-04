@@ -257,22 +257,16 @@ void CPlayerPlaylistBar::ResolveLinkFiles(CAtlList<CString>& fns)
 {
     // resolve .lnk files
 
-    CComPtr<IShellLink> pSL;
-    pSL.CoCreateInstance(CLSID_ShellLink);
-    CComQIPtr<IPersistFile> pPF = pSL;
-
     POSITION pos = fns.GetHeadPosition();
-    while (pSL && pPF && pos) {
+    while (pos) {
         CString& fn = fns.GetNext(pos);
-        TCHAR buff[MAX_PATH];
-        if (CPath(fn).GetExtension().MakeLower() != _T(".lnk")
-                || FAILED(pPF->Load(CStringW(fn), STGM_READ))
-                || FAILED(pSL->Resolve(nullptr, SLR_ANY_MATCH | SLR_NO_UI))
-                || FAILED(pSL->GetPath(buff, _countof(buff), nullptr, 0))) {
-            continue;
-        }
 
-        fn = buff;
+        if (PathUtils::IsLinkFile(fn)) {
+            CString fnResolved = PathUtils::ResolveLinkFile(fn);
+            if (!fnResolved.IsEmpty()) {
+                fn = fnResolved;
+            }
+        }
     }
 }
 
