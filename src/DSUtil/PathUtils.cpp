@@ -230,6 +230,7 @@ namespace PathUtils
     {
         POSITION pos = paths.GetHeadPosition();
         while (pos) {
+            POSITION prevPos = pos;
             CString fn = paths.GetNext(pos);
             // Try to follow link files that point to a directory
             if (IsLinkFile(fn)) {
@@ -237,7 +238,13 @@ namespace PathUtils
             }
 
             if (IsDir(fn)) {
-                RecurseAddDir(fn, paths);
+                CAtlList<CString> subDirs;
+                RecurseAddDir(fn, subDirs);
+                // Add the subdirectories just after their parent
+                // so that the tree is not parsed multiple times
+                while (!subDirs.IsEmpty()) {
+                    paths.InsertAfter(prevPos, subDirs.RemoveTail());
+                }
             }
         }
     }
