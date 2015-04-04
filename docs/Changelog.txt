@@ -49,3 +49,4 @@ next version - not released yet
   when using always on top. It could cause unintentional mouse clicks in the hidden main
   window and prevented the mouse pointer from being correctly hidden
 ! Ticket #5345, Fix opening of shortcuts pointing on directories
+! Ticket #5348, Vobsub: The latest subtitle entry was sometimes not rendered

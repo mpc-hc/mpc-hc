@@ -1227,14 +1227,11 @@ bool CVobSubFile::GetFrame(size_t idx, size_t nLang /*= SIZE_T_ERROR*/, REFERENC
         }
 
         m_img.start = sp[idx].start;
-        m_img.delay = idx + 1 < sp.GetCount() ? sp[idx + 1].start - sp[idx].start : 3000;
 
         bool ret = m_img.Decode(buff, packetSize, dataSize, rt >= 0 ? int(rt - sp[idx].start) : INT_MAX,
                                 m_bCustomPal, m_tridx, m_orgpal, m_cuspal, true);
 
-        if (idx + 1 < sp.GetCount()) {
-            m_img.delay = std::min(m_img.delay, sp[idx + 1].start - m_img.start);
-        }
+        m_img.delay = sp[idx].stop - sp[idx].start;
 
         if (!ret) {
             return false;
