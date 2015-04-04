@@ -11925,7 +11925,7 @@ void CMainFrame::ParseDirs(CAtlList<CString>& sl)
                     fn += '\\';
                 }
 
-                COpenDirHelper::RecurseAddDir(fn, &sl);
+                PathUtils::RecurseAddDir(fn, sl);
             }
 
             FindClose(hFind);
@@ -15704,7 +15704,7 @@ void CMainFrame::OnFileOpendirectory()
     CAtlList<CString> sl;
     sl.AddTail(path);
     if (COpenDirHelper::m_incl_subdir) {
-        COpenDirHelper::RecurseAddDir(path, &sl);
+        PathUtils::RecurseAddDir(path, sl);
     }
 
     m_wndPlaylistBar.Open(sl, true);

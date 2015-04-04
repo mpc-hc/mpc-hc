@@ -209,4 +209,20 @@ namespace PathUtils
 
         return _T("");
     }
+
+    void RecurseAddDir(LPCTSTR path, CAtlList<CString>& paths)
+    {
+        CFileFind finder;
+
+        BOOL bFound = finder.FindFile(PathUtils::CombinePaths(path, _T("*.*")));
+        while (bFound) {
+            bFound = finder.FindNextFile();
+
+            if (!finder.IsDots() && finder.IsDirectory()) {
+                CString folderPath = finder.GetFilePath();
+                paths.AddTail(folderPath);
+                RecurseAddDir(folderPath, paths);
+            }
+        }
+    }
 }
