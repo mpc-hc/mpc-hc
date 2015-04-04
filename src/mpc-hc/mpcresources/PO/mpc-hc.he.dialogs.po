@@ -570,7 +570,7 @@ msgid "Warning"
 msgstr "אזהרה"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu."
+msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
 msgstr "אם אתה מבצע מעקף בהגדרות כרטיס המסך ומפעיל את החלקת הקצוות במסך מלא, הכתוביות לא יראו טוב יותר, אך המעבד שלך יעבוד שעות נוספות."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"

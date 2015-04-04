@@ -569,8 +569,8 @@ msgid "Warning"
 msgstr "Kontuz"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu."
-msgstr "Ezeztatzen baduzu eta gaitu ikusleiho-osoko hertzlehunketa zure bideo txartelaren ezarpenetan, azpidatziak ez dira hobeto ikusiko baina zure cpu-a jango dute."
+msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
+msgstr "Ezeztatzen baduzu eta gaitu ikusleiho-osoko hertzlehunketa zure bideo txartelaren ezarpenetan, azpidatziak ez dira hobeto ikusiko baina zure CPU-a jango dute."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
 msgid "File extensions"

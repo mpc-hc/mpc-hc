@@ -574,7 +574,7 @@ msgid "Warning"
 msgstr "Hinweis"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu."
+msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
 msgstr "Wird hier \"Untertitelposition anpassen\" zusammen mit Vollbild-Antialiasing in den Einstellungen der Grafikkarte aktiviert, bleibt die Bildqualität unverändert. Dabei steigt die CPU-Auslastung aber deutlich an."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"

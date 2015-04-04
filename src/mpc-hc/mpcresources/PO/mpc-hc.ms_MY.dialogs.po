@@ -569,8 +569,8 @@ msgid "Warning"
 msgstr "Amaran"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu."
-msgstr "Jika anda batal dan benarkan anti-alias skrin penuh pada tetapan kad video anda, sarikata tidak akan kelihatan lebih baik tetapi ia pasti banyak gunakan cpu anda."
+msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
+msgstr "Jika anda batal dan benarkan anti-alias skrin penuh pada tetapan kad video anda, sarikata tidak akan kelihatan lebih baik tetapi ia pasti banyak gunakan CPU anda."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
 msgid "File extensions"

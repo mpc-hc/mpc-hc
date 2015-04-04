@@ -630,8 +630,8 @@ msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer.
 msgstr "Igual que VMR-9 (sin renderizador), pero usa un redimensionador bicúbico de dos pasadas real. "
 
 msgctxt "IDC_DSNULL_COMP"
-msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the cpu from working unnecessarily."
-msgstr "Conecta a cualquier tipo de medio de video y manda las muestras a ningún lado. Utilízalo cuando no necesitas ver el video, y quieres evitar el uso de cpu innecesario."
+msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the CPU from working unnecessarily."
+msgstr "Conecta a cualquier tipo de medio de video y manda las muestras a ningún lado. Utilízalo cuando no necesitas ver el video, y quieres evitar el uso de CPU innecesario."
 
 msgctxt "IDC_DSNULL_UNCOMP"
 msgid "Same as the normal Null renderer, but this will only connect to uncompressed types."

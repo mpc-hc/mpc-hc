@@ -621,7 +621,7 @@ msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer.
 msgstr ""
 
 msgctxt "IDC_DSNULL_COMP"
-msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the cpu from working unnecessarily."
+msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the CPU from working unnecessarily."
 msgstr "Միանում է ցանկացած տեսակի տեսատվյալների և մտնող կադրերը ոչ մի տեղ չի ուղարկում։ Այս եղանակը կարող է օգտակար լինել, եթե անհրաժեշտ է պահպանել ռեսուրսներից միայն ձայնը։"
 
 msgctxt "IDC_DSNULL_UNCOMP"
