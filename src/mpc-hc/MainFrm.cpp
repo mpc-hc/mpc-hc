@@ -4099,7 +4099,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
         CAtlList<CString> sl;
         sl.AddTailList(&s.slFiles);
 
-        ParseDirs(sl);
+        PathUtils::ParseDirs(sl);
 
         bool fMulti = sl.GetCount() > 1;
 
@@ -4336,7 +4336,7 @@ void CMainFrame::OnDropFiles(CAtlList<CString>& slFiles, DROPEFFECT dropEffect)
         return;
     }
 
-    ParseDirs(slFiles);
+    PathUtils::ParseDirs(slFiles);
 
     SubtitleInput subInputSelected;
     if (GetLoadState() == MLS::LOADED && !IsPlaybackCaptureMode() && !m_fAudioOnly && m_pCAP) {
@@ -11909,30 +11909,6 @@ void CMainFrame::CloseMediaPrivate()
     m_AudDispName.Empty();
 }
 
-void CMainFrame::ParseDirs(CAtlList<CString>& sl)
-{
-    POSITION pos = sl.GetHeadPosition();
-
-    while (pos) {
-        CString fn = sl.GetNext(pos);
-        WIN32_FIND_DATA fd;
-        ZeroMemory(&fd, sizeof(WIN32_FIND_DATA));
-        HANDLE hFind = FindFirstFile(fn, &fd);
-
-        if (hFind != INVALID_HANDLE_VALUE) {
-            if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-                if (fn[fn.GetLength() - 1] != '\\') {
-                    fn += '\\';
-                }
-
-                PathUtils::RecurseAddDir(fn, sl);
-            }
-
-            FindClose(hFind);
-        }
-    }
-}
-
 bool CMainFrame::SearchInDir(bool bDirForward, bool bLoop /*= false*/)
 {
     ASSERT(GetPlaybackMode() == PM_FILE);
@@ -15695,6 +15671,14 @@ void CMainFrame::OnFileOpendirectory()
             return;
         }
         path = _path;
+    }
+
+    // If we got a link file that points to a directory, follow the link
+    if (PathUtils::IsLinkFile(path)) {
+        CString resolvedPath = PathUtils::ResolveLinkFile(path);
+        if (PathUtils::IsDir(resolvedPath)) {
+            path = resolvedPath;
+        }
     }
 
     if (path[path.GetLength() - 1] != '\\') {

@@ -1129,7 +1129,7 @@ void CPlayerPlaylistBar::OnDropFiles(CAtlList<CString>& slFiles, DROPEFFECT)
     SetForegroundWindow();
     m_list.SetFocus();
 
-    m_pMainFrame->ParseDirs(slFiles);
+    PathUtils::ParseDirs(slFiles);
 
     Append(slFiles, true);
 }

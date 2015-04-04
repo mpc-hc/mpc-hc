@@ -225,4 +225,20 @@ namespace PathUtils
             }
         }
     }
+
+    void ParseDirs(CAtlList<CString>& paths)
+    {
+        POSITION pos = paths.GetHeadPosition();
+        while (pos) {
+            CString fn = paths.GetNext(pos);
+            // Try to follow link files that point to a directory
+            if (IsLinkFile(fn)) {
+                fn = ResolveLinkFile(fn);
+            }
+
+            if (IsDir(fn)) {
+                RecurseAddDir(fn, paths);
+            }
+        }
+    }
 }

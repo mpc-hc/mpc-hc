@@ -558,7 +558,6 @@ public:
     bool DoCapture(), StartCapture(), StopCapture();
 
     void DoAfterPlaybackEvent();
-    void ParseDirs(CAtlList<CString>& sl);
     bool SearchInDir(bool bDirForward, bool bLoop = false);
 
     virtual BOOL PreCreateWindow(CREATESTRUCT& cs);

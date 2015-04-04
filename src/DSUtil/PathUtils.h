@@ -43,4 +43,5 @@ namespace PathUtils
     bool CreateDirRecursive(LPCTSTR path);
     CString ResolveLinkFile(LPCTSTR path);
     void RecurseAddDir(LPCTSTR path, CAtlList<CString>& sl);
+    void ParseDirs(CAtlList<CString>& pathsList);
 }
