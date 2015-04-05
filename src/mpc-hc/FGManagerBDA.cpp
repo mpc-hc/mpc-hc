@@ -82,8 +82,6 @@ static AM_MEDIA_TYPE mt_Mpv = {
     (LPBYTE)& sMpv_fmt              // pbFormat
 };
 
-#define FCC_h264 MAKEFOURCC('h', '2', '6', '4')
-
 /// Format, Video H264
 static VIDEOINFOHEADER2 vih2_H264 = {
     {0, 0, 0, 0},                   // rcSource
@@ -99,12 +97,12 @@ static VIDEOINFOHEADER2 vih2_H264 = {
     0,                              // dwReserved2
     {
         // bmiHeader
-        sizeof(BITMAPINFOHEADER),   // biSize
-        720,                        // biWidth
-        576,                        // biHeight
-        1,                          // biPlanes
-        0,                          // biBitCount
-        FCC_h264                    // biCompression
+        sizeof(BITMAPINFOHEADER),      // biSize
+        720,                           // biWidth
+        576,                           // biHeight
+        1,                             // biPlanes
+        0,                             // biBitCount
+        MAKEFOURCC('h', '2', '6', '4') // biCompression
     }
     // implicitly sets the others fields to 0
 };
@@ -120,6 +118,44 @@ static AM_MEDIA_TYPE mt_H264 = {
     nullptr,                        // pUnk
     sizeof(vih2_H264),              // cbFormat
     (LPBYTE)& vih2_H264             // pbFormat
+};
+
+/// Format, Video HEVC
+static VIDEOINFOHEADER2 vih2_HEVC = {
+    {0, 0, 0, 0},                   // rcSource
+    {0, 0, 0, 0},                   // rcTarget
+    0,                              // dwBitRate,
+    0,                              // dwBitErrorRate
+    0,                              // AvgTimePerFrame
+    0,                              // dwInterlaceFlags
+    0,                              // dwCopyProtectFlags
+    0,                              // dwPictAspectRatioX
+    0,                              // dwPictAspectRatioY
+    {0},                            // dwControlFlag & dwReserved1
+    0,                              // dwReserved2
+    {
+        // bmiHeader
+        sizeof(BITMAPINFOHEADER),      // biSize
+        720,                           // biWidth
+        576,                           // biHeight
+        1,                             // biPlanes
+        0,                             // biBitCount
+        MAKEFOURCC('H', 'E', 'V', 'C') // biCompression
+    }
+    // implicitly sets the others fields to 0
+};
+
+/// Media type, Video HEVC
+static AM_MEDIA_TYPE mt_HEVC = {
+    MEDIATYPE_Video,                // majortype
+    MEDIASUBTYPE_HEVC,              // subtype
+    FALSE,                          // bFixedSizeSamples
+    TRUE,                           // bTemporalCompression
+    0,                              // lSampleSize
+    FORMAT_VideoInfo2,              // formattype
+    nullptr,                        // pUnk
+    sizeof(vih2_HEVC),              // cbFormat
+    (LPBYTE)& vih2_HEVC             // pbFormat
 };
 
 // Format, Audio MPEG2
@@ -298,6 +334,8 @@ CFGManagerBDA::CFGManagerBDA(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
     if (pChannel) {
         if (pChannel->GetVideoType() == DVB_H264) {
             UpdateMediaType(&vih2_H264, pChannel);
+        } else if (pChannel->GetVideoType() == DVB_HEVC) {
+            UpdateMediaType(&vih2_HEVC, pChannel);
         } else if (pChannel->GetVideoType() == DVB_MPV) {
             UpdateMediaType(&sMpv_fmt, pChannel);
         }
@@ -305,6 +343,7 @@ CFGManagerBDA::CFGManagerBDA(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
 
     m_DVBStreams[DVB_MPV]  = CDVBStream(L"mpv",  &mt_Mpv);
     m_DVBStreams[DVB_H264] = CDVBStream(L"h264", &mt_H264);
+    m_DVBStreams[DVB_HEVC] = CDVBStream(L"HEVC", &mt_HEVC);
     m_DVBStreams[DVB_MPA]  = CDVBStream(L"mpa",  &mt_Mpa);
     m_DVBStreams[DVB_AC3]  = CDVBStream(L"ac3",  &mt_Ac3);
     m_DVBStreams[DVB_EAC3] = CDVBStream(L"eac3", &mt_Eac3);
@@ -653,6 +692,9 @@ HRESULT CFGManagerBDA::ClearMaps()
     if (m_DVBStreams[DVB_H264].GetMappedPID()) {
         CheckNoLog(m_DVBStreams[DVB_H264].Unmap(m_DVBStreams[DVB_H264].GetMappedPID()));
     }
+    if (m_DVBStreams[DVB_HEVC].GetMappedPID()) {
+        CheckNoLog(m_DVBStreams[DVB_HEVC].Unmap(m_DVBStreams[DVB_HEVC].GetMappedPID()));
+    }
     if (m_DVBStreams[DVB_MPA].GetMappedPID()) {
         CheckNoLog(m_DVBStreams[DVB_MPA].Unmap(m_DVBStreams[DVB_MPA].GetMappedPID()));
     }
@@ -959,6 +1001,7 @@ HRESULT CFGManagerBDA::CreateMicrosoftDemux(CComPtr<IBaseFilter>& pMpeg2Demux)
 
             case DVB_MPV:
             case DVB_H264:
+            case DVB_HEVC:
                 if ((nType == m_nCurVideoType) || (m_nDVBRebuildFilterGraph == DVB_REBUILD_FG_NEVER)) {
                     if (!Stream.GetFindExisting() ||
                             (pPin = FindPin(pMpeg2Demux, PINDIR_OUTPUT, Stream.GetMediaType())) == nullptr) {
@@ -1040,6 +1083,9 @@ HRESULT CFGManagerBDA::SetChannelInternal(CDVBChannel* pChannel)
         if (pChannel->GetVideoType() == DVB_H264) {
             UpdateMediaType(&vih2_H264, pChannel);
             hr = pDemux->SetOutputPinMediaType(L"h264", const_cast<AM_MEDIA_TYPE*>(&mt_H264));
+        } else if (pChannel->GetVideoType() == DVB_HEVC) {
+            UpdateMediaType(&vih2_HEVC, pChannel);
+            hr = pDemux->SetOutputPinMediaType(L"HEVC", const_cast<AM_MEDIA_TYPE*>(&mt_HEVC));
         } else {
             UpdateMediaType(&sMpv_fmt, pChannel);
             hr = pDemux->SetOutputPinMediaType(L"mpv", const_cast<AM_MEDIA_TYPE*>(&mt_Mpv));
@@ -1086,7 +1132,8 @@ HRESULT CFGManagerBDA::SetChannelInternal(CDVBChannel* pChannel)
         CheckNoLog(m_DVBStreams[DVB_SUB].Map(pChannel->GetDefaultSubtitlePID()));
     }
     LOG(_T("Stream maps:"));
-    LOG(_T("Mapped PID MPEG-2: %u, Mapped PID H.264: %u."), m_DVBStreams[DVB_MPV].GetMappedPID(), m_DVBStreams[DVB_H264].GetMappedPID());
+    LOG(_T("Mapped PID MPEG-2: %u, Mapped PID H.264: %u, Mapped PID HEVC: %u."),
+        m_DVBStreams[DVB_MPV].GetMappedPID(), m_DVBStreams[DVB_H264].GetMappedPID(), m_DVBStreams[DVB_HEVC].GetMappedPID());
     LOG(_T("Mapped PID MPA: %u, Mapped PID AC3: %u, Mapped PID EAC3: %u, Mapped PID AAC-LATM: %u."), m_DVBStreams[DVB_MPA].GetMappedPID(),
         m_DVBStreams[DVB_AC3].GetMappedPID(), m_DVBStreams[DVB_EAC3].GetMappedPID(), m_DVBStreams[DVB_LATM].GetMappedPID());
     LOG(_T("Mapped PID Subtitles: %u."), m_DVBStreams[DVB_SUB].GetMappedPID());
@@ -1144,7 +1191,7 @@ HRESULT CFGManagerBDA::SwitchStream(DVB_STREAM_TYPE nOldType, DVB_STREAM_TYPE nN
         CComPtr<IPin> pNewOut = GetFirstPin(pFGNew, PINDIR_OUTPUT);
         CComPtr<IPinConnection> pNewOutDynamic;
 
-        if ((nNewType != DVB_H264) && (nNewType != DVB_MPV) && GetState() != State_Stopped) {
+        if (nNewType != DVB_MPV && nNewType != DVB_H264 && nNewType != DVB_HEVC && GetState() != State_Stopped) {
             CComPtr<IMpeg2Demultiplexer> pDemux;
             m_pDemux->QueryInterface(IID_PPV_ARGS(&pDemux));
 

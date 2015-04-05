@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2014 see Authors.txt
+ * (C) 2009-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -150,6 +150,7 @@ void CDVBChannel::AddStreamInfo(ULONG ulPID, DVB_STREAM_TYPE nType, PES_STREAM_T
     switch (nType) {
         case DVB_MPV:
         case DVB_H264:
+        case DVB_HEVC:
             m_ulVideoPID = ulPID;
             m_nVideoType = nType;
             break;

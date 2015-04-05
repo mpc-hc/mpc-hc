@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2014 see Authors.txt
+ * (C) 2009-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -248,6 +248,8 @@ LRESULT CTunerScanDlg::OnNewChannel(WPARAM wParam, LPARAM lParam)
             m_ChannelList.SetItemText(nItem, TSCC_ENCRYPTED, strTemp);
             if (channel.GetVideoType() == DVB_H264) {
                 strTemp = _T(" H.264");
+            } else if (channel.GetVideoType() == DVB_HEVC) {
+                strTemp = _T(" HEVC");
             } else if (channel.GetVideoPID()) {
                 strTemp = _T("MPEG-2");
             } else {

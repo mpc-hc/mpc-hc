@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2014 see Authors.txt
+ * (C) 2009-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -54,6 +54,12 @@ enum PES_STREAM_TYPE {
     AUXILIARY_VIDEO_STREAM              = 0x1E, // Auxiliary video stream as defined in ISO/IEC 23002-3
     SVC_H264                            = 0x1F, // SVC video sub-bitstream of an AVC video stream conforming to one or more profiles defined in Annex G of ITU-T Rec. H.264 | ISO/IEC 14496-10
     MVC_H264                            = 0x20, // MVC video sub-bitstream of an AVC video stream conforming to one or more profiles defined in Annex H of ITU-T Rec. H.264 | ISO/IEC 14496-10
+    VIDEO_STREAM_JPEG2000               = 0x21, // ITU - T Rec.T.800 | ISO / IEC 15444 - 1
+    ADDITIONAL_VIEW_MPEG2               = 0x22, // ITU - T Rec.H.262 | ISO / IEC 13818 - 2 Additional view for compatible 3D
+    ADDITIONAL_VIEW_H264                = 0x23, // ITU - T Rec.H.264 | ISO / IEC 14496 - 10 Additional view for compatible 3D
+    VIDEO_STREAM_HEVC                   = 0x24, // ITU - T Rec.H.265 | ISO / IEC 23008 - 2 video stream
+    VIDEO_SUBSET_HEVC                   = 0x25, // ITU - T Rec.H.265 | ISO / IEC 23008 - 2 Annex A temporal video subset
+    MVCD_H264                           = 0x26, // ITU - T Rec.H.264 | ISO / IEC 14496 - 10 Annex I MVCD video sub - bitstream
     AUDIO_STREAM_LPCM                   = 0x80,
     AUDIO_STREAM_AC3                    = 0x81,
     AUDIO_STREAM_DTS                    = 0x82,
@@ -166,7 +172,8 @@ enum SERVICE_TYPE {
     AVC_DIGITAL_RADIO   = 0x0A,
     MPEG2_HD_DIGITAL_TV = 0x11,
     AVC_SD_TV           = 0x16,
-    AVC_HD_TV           = 0x19
+    AVC_HD_TV           = 0x19,
+    HEVC_TV             = 0x1F
 };
 
 extern const wchar_t* StreamTypeToName(PES_STREAM_TYPE _Type);
