@@ -51,6 +51,97 @@
 namespace ZenLib
 {
 
+//---------------------------------------------------------------------------
+// Debug
+#ifdef ZENLIB_DEBUG
+    #include <stdio.h>
+    #include <windows.h>
+    namespace ZenLib_File_Debug
+    {
+        FILE* F;
+        std::string Debug;
+        SYSTEMTIME st_In;
+
+        void Debug_Open(bool Out)
+        {
+            F=fopen("C:\\Temp\\ZenLib_Debug.txt", "a+t");
+            Debug.clear();
+            SYSTEMTIME st;
+            GetLocalTime( &st );
+
+            char Duration[100];
+            if (Out)
+            {
+                FILETIME ft_In;
+                if (SystemTimeToFileTime(&st_In, &ft_In))
+                {
+                    FILETIME ft_Out;
+                    if (SystemTimeToFileTime(&st, &ft_Out))
+                    {
+                        ULARGE_INTEGER UI_In;
+                        UI_In.HighPart=ft_In.dwHighDateTime;
+                        UI_In.LowPart=ft_In.dwLowDateTime;
+
+                        ULARGE_INTEGER UI_Out;
+                        UI_Out.HighPart=ft_Out.dwHighDateTime;
+                        UI_Out.LowPart=ft_Out.dwLowDateTime;
+
+                        ULARGE_INTEGER UI_Diff;
+                        UI_Diff.QuadPart=UI_Out.QuadPart-UI_In.QuadPart;
+
+                        FILETIME ft_Diff;
+                        ft_Diff.dwHighDateTime=UI_Diff.HighPart;
+                        ft_Diff.dwLowDateTime=UI_Diff.LowPart;
+
+                        SYSTEMTIME st_Diff;
+                        if (FileTimeToSystemTime(&ft_Diff, &st_Diff))
+                        {
+                            sprintf(Duration, "%02hd:%02hd:%02hd.%03hd", st_Diff.wHour, st_Diff.wMinute, st_Diff.wSecond, st_Diff.wMilliseconds);
+                        }
+                        else
+                            strcpy(Duration, "            ");
+                    }
+                    else
+                        strcpy(Duration, "            ");
+
+                }
+                else
+                    strcpy(Duration, "            ");
+            }
+            else
+            {
+                st_In=st;
+                strcpy(Duration, "            ");
+            }
+
+            fprintf(F,"                                       %02hd:%02hd:%02hd.%03hd %s", st.wHour, st.wMinute, st.wSecond, st.wMilliseconds, Duration);
+        }
+
+        void Debug_Close()
+        {
+            Debug += "\r\n";
+            fwrite(Debug.c_str(), Debug.size(), 1, F); \
+            fclose(F);
+        }
+    }
+    using namespace ZenLib_File_Debug;
+
+    #define ZENLIB_DEBUG1(_NAME,_TOAPPEND) \
+        Debug_Open(false); \
+        Debug+=", ";Debug+=_NAME; \
+        _TOAPPEND; \
+        Debug_Close();
+
+    #define ZENLIB_DEBUG2(_NAME,_TOAPPEND) \
+        Debug_Open(true); \
+        Debug+=", ";Debug+=_NAME; \
+        _TOAPPEND; \
+        Debug_Close();
+#else // ZENLIB_DEBUG
+    #define ZENLIB_DEBUG1(_NAME,_TOAPPEND)
+    #define ZENLIB_DEBUG2(_NAME,_TOAPPEND)
+#endif // ZENLIB_DEBUG
+
 //***************************************************************************
 // Constructor/Destructor
 //***************************************************************************
@@ -101,6 +192,9 @@ File::~File()
 bool File::Open (const tstring &File_Name_, access_t Access)
 {
     Close();
+
+    ZENLIB_DEBUG1(      "File Open",
+                        Debug+=", File_Name="; Debug +=Ztring(File_Name_).To_UTF8();)
 
     File_Name=File_Name_;
 
@@ -174,6 +268,7 @@ bool File::Open (const tstring &File_Name_, access_t Access)
             #else
                 File_Handle=CreateFile(File_Name.c_str(), dwDesiredAccess, dwShareMode, NULL, dwCreationDisposition, 0, NULL);
             #endif //UNICODE
+            #if 0 //Disabled
             if (File_Handle==INVALID_HANDLE_VALUE)
             {
                 //Sometimes the file is locked for few milliseconds, we try again later
@@ -198,9 +293,18 @@ bool File::Open (const tstring &File_Name_, access_t Access)
                     #endif //UNICODE
                 }
             }
+            #endif //0
             if (File_Handle==INVALID_HANDLE_VALUE)
+            {
+                ZENLIB_DEBUG2(      "File Open",
+                                    Debug+=", returns 0";)
+
                 //File is not openable
                 return false;
+            }
+
+            ZENLIB_DEBUG2(      "File Open",
+                                Debug+=", returns 1";)
 
             //Append
             if (Access==Access_Write_Append)
@@ -215,6 +319,9 @@ bool File::Open (const tstring &File_Name_, access_t Access)
 bool File::Create (const Ztring &File_Name_, bool OverWrite)
 {
     Close();
+
+    ZENLIB_DEBUG1(      "File Create",
+                        Debug+=", File_Name="; Debug +=Ztring(File_Name_).To_UTF8();)
 
     File_Name=File_Name_;
 
@@ -278,6 +385,7 @@ bool File::Create (const Ztring &File_Name_, bool OverWrite)
             #else
                 File_Handle=CreateFile(File_Name.c_str(), dwDesiredAccess, dwShareMode, NULL, dwCreationDisposition, 0, NULL);
             #endif //UNICODE
+            #if 0 //Disabled
             if (File_Handle==INVALID_HANDLE_VALUE)
             {
                 //Sometime the file is locked for few milliseconds, we try again later
@@ -288,9 +396,19 @@ bool File::Create (const Ztring &File_Name_, bool OverWrite)
                     File_Handle=CreateFile(File_Name.c_str(), dwDesiredAccess, dwShareMode, NULL, dwCreationDisposition, 0, NULL);
                 #endif //UNICODE
             }
+            #endif //0
             if (File_Handle==INVALID_HANDLE_VALUE)
+            {
+                ZENLIB_DEBUG2(      "File Create",
+                                    Debug+=", returns 0";)
+
                 //File is not openable
                 return false;
+            }
+
+            ZENLIB_DEBUG2(      "File Create",
+                                Debug+=", returns 1";)
+
             return true;
         #endif
     #endif //ZENLIB_USEWX
@@ -299,6 +417,24 @@ bool File::Create (const Ztring &File_Name_, bool OverWrite)
 //---------------------------------------------------------------------------
 void File::Close ()
 {
+    #ifdef ZENLIB_DEBUG
+        bool isOpen=false;
+        #ifdef ZENLIB_USEWX
+            if (File_Handle!=NULL)
+        #else //ZENLIB_USEWX
+            #ifdef ZENLIB_STANDARD
+                if (File_Handle!=NULL)
+            #elif defined WINDOWS
+                if (File_Handle!=INVALID_HANDLE_VALUE)
+            #endif
+        #endif //ZENLIB_USEWX
+            {
+                ZENLIB_DEBUG1(      "File Close",
+                                    Debug+=", File_Name="; Debug+=Ztring(File_Name).To_UTF8();)
+                isOpen=true;
+            }
+    #endif
+
     #ifdef ZENLIB_USEWX
         delete (wxFile*)File_Handle; File_Handle=NULL;
     #else //ZENLIB_USEWX
@@ -311,6 +447,14 @@ void File::Close ()
     #endif //ZENLIB_USEWX
     Position=(int64u)-1;
     Size=(int64u)-1;
+
+    #ifdef ZENLIB_DEBUG
+        if (isOpen)
+        {
+            ZENLIB_DEBUG2(      "File Close",
+                                )
+        }
+    #endif
 }
 
 //***************************************************************************
@@ -320,6 +464,9 @@ void File::Close ()
 //---------------------------------------------------------------------------
 size_t File::Read (int8u* Buffer, size_t Buffer_Size_Max)
 {
+    ZENLIB_DEBUG1(      "File Read",
+                        Debug+=", File_Name="; Debug+=Ztring(File_Name).To_UTF8(); Debug+=", MaxSize="; Debug +=Ztring::ToZtring(Buffer_Size_Max).To_UTF8())
+
     #ifdef ZENLIB_USEWX
         if (File_Handle==NULL)
     #else //ZENLIB_USEWX
@@ -353,10 +500,18 @@ size_t File::Read (int8u* Buffer, size_t Buffer_Size_Max)
             if (ReadFile(File_Handle, Buffer, (DWORD)Buffer_Size_Max, &Buffer_Size, NULL))
             {
                 Position+=Buffer_Size;
+
+                ZENLIB_DEBUG2(      "File Read",
+                                    Debug+=", new position ";Debug+=Ztring::ToZtring(Position).To_UTF8();;Debug+=", returns ";Debug+=Ztring::ToZtring((int64u)Buffer_Size).To_UTF8();)
+
                 return Buffer_Size;
             }
             else
+            {
+                ZENLIB_DEBUG2(      "File Read",
+                                    Debug+=", returns 0";)
                 return 0;
+            }
         #endif
     #endif //ZENLIB_USEWX
 }
@@ -457,6 +612,9 @@ size_t File::Write (const Ztring &ToWrite)
 //---------------------------------------------------------------------------
 bool File::GoTo (int64s Position_ToMove, move_t MoveMethod)
 {
+    ZENLIB_DEBUG1(      "File GoTo",
+                        Debug+=", File_Name="; Debug+=Ztring(File_Name).To_UTF8(); Debug+="File GoTo: "; Debug +=Ztring(File_Name).To_UTF8(); Debug+=", MoveMethod="; Debug +=Ztring::ToZtring(MoveMethod).To_UTF8(); Debug+=", MaxSize="; Debug +=Ztring::ToZtring(Position_ToMove).To_UTF8())
+
     #ifdef ZENLIB_USEWX
         if (File_Handle==NULL)
     #else //ZENLIB_USEWX
@@ -497,7 +655,16 @@ bool File::GoTo (int64s Position_ToMove, move_t MoveMethod)
         #elif defined WINDOWS
             LARGE_INTEGER GoTo;
             GoTo.QuadPart=Position_ToMove;
-            return SetFilePointerEx(File_Handle, GoTo, NULL, MoveMethod)!=0;
+            BOOL i=SetFilePointerEx(File_Handle, GoTo, NULL, MoveMethod);
+
+            #ifdef ZENLIB_DEBUG
+                LARGE_INTEGER Temp; Temp.QuadPart=0;
+                SetFilePointerEx(File_Handle, Temp, &Temp, FILE_CURRENT);
+                ZENLIB_DEBUG2(      "File GoTo",
+                                    Debug+=", new position ";Debug+=Ztring::ToZtring(Temp.QuadPart).To_UTF8();Debug+=", returns ";Debug+=i?'1':'0';)
+            #endif //ZENLIB_DEBUG
+
+            return i?true:false;
         #endif
     #endif //ZENLIB_USEWX
 }
@@ -507,6 +674,9 @@ int64u File::Position_Get ()
 {
     if (Position!=(int64u)-1)
         return Position;
+
+    ZENLIB_DEBUG1(      "File Position_Get",
+                        Debug+=", File_Name="; Debug+=Ztring(File_Name).To_UTF8())
 
     #ifdef ZENLIB_USEWX
         if (File_Handle==NULL)
@@ -529,6 +699,10 @@ int64u File::Position_Get ()
             LARGE_INTEGER GoTo; GoTo.QuadPart=0;
             GoTo.LowPart=SetFilePointer(File_Handle, GoTo.LowPart, &GoTo.HighPart, FILE_CURRENT);
             Position=GoTo.QuadPart;
+
+            ZENLIB_DEBUG2(      "File GoTo",
+                                Debug+=", new position ";Debug+=Ztring::ToZtring(GoTo.QuadPart).To_UTF8();Debug+=", returns 1";)
+
             return Position;
         #endif
     #endif //ZENLIB_USEWX
@@ -789,6 +963,9 @@ Ztring File::Modified_Get(const Ztring &File_Name)
 //---------------------------------------------------------------------------
 bool File::Exists(const Ztring &File_Name)
 {
+    ZENLIB_DEBUG1(      "File Exists",
+                        Debug+=", File_Name="; Debug+=Ztring(File_Name).To_UTF8())
+
     #ifdef ZENLIB_USEWX
         wxFileName FN(File_Name.c_str());
         return FN.FileExists();
@@ -812,6 +989,10 @@ bool File::Exists(const Ztring &File_Name)
             #else
                 DWORD FileAttributes=GetFileAttributes(File_Name.c_str());
             #endif //UNICODE
+
+            ZENLIB_DEBUG2(      "File Exists",
+                                Debug+=", File_Name="; Debug+=Ztring::ToZtring(((FileAttributes!=INVALID_FILE_ATTRIBUTES) && !(FileAttributes&FILE_ATTRIBUTE_DIRECTORY))?1:0).To_UTF8())
+
             return ((FileAttributes!=INVALID_FILE_ATTRIBUTES) && !(FileAttributes&FILE_ATTRIBUTE_DIRECTORY));
         #endif
     #endif //ZENLIB_USEWX

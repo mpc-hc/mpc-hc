@@ -178,7 +178,11 @@
 
 //---------------------------------------------------------------------------
 //(-1) is known to be the MAX of an unsigned int but GCC complains about it
-#include <new>
+#ifdef __cplusplus
+    #include <new> //for size_t
+#else /* __cplusplus */
+    #include <stddef.h> //for size_t
+#endif /* __cplusplus */
 #include <cstring> //size_t
 namespace ZenLib
 {
