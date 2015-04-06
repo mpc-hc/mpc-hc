@@ -16,6 +16,7 @@ next version - not released yet
 + Add Danish translation
 + Ticket #5147, Add /randomize command-line switch for playlist randomization
 + Ticket #5356, DVB: Support HEVC broadcasts
+* Subtitle renderer: Better compatibility with ASS/SSA subtitle files that are slightly violating the specs
 * Ticket #5294, Use internal LAV Splitter for demuxing WTV files
 * Updated Little CMS to v2.7 (git dd0074b)
 * Updated Unrar to v5.2.6

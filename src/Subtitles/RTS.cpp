@@ -606,14 +606,16 @@ bool CPolygon::ParseStr()
         };
 
         for (LPCWSTR str = m_str; *str;) {
-            // Trim left whitespace
-            while (CStringW::StrTraits::IsSpace(*str)) {
+            // Trim any leading invalid characters and whitespace
+            while (*str && !isValidAction(*str)) {
                 str++;
             }
             const WCHAR c = *str;
-            do {
-                str++;
-            } while (isValidAction(*str));
+            if (*str) {
+                do {
+                    str++;
+                } while (isValidAction(*str));
+            }
             switch (c) {
                 case L'm':
                     if (!bFoundMove) {
