@@ -553,16 +553,16 @@ msgid "S&haders"
 msgstr "শেইডারসমূহ(&H)"
 
 msgctxt "ID_AUDIOS"
-msgid "&Audio"
-msgstr "অডিও(&A)"
+msgid "&Audio Track"
+msgstr ""
 
 msgctxt "ID_SUBTITLES"
-msgid "Su&btitles"
-msgstr "সাবটাইটেল(&B)"
+msgid "Su&btitle Track"
+msgstr ""
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Stream"
-msgstr "ভিডিও স্ট্রিম(&V)"
+msgid "&Video Track"
+msgstr ""
 
 msgctxt "POPUP"
 msgid "&Volume"

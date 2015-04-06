@@ -1531,8 +1531,8 @@ msgid "Thumbnails saved successfully"
 msgstr "Сличице су успешно сачуване"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
-msgid "&Video Stream"
-msgstr "Ток &видео-записа"
+msgid "&Video Track"
+msgstr ""
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
 msgid "Video Ang&le"

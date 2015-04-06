@@ -555,16 +555,16 @@ msgid "S&haders"
 msgstr "&Σκιάσεις"
 
 msgctxt "ID_AUDIOS"
-msgid "&Audio"
-msgstr "Ή&χος"
+msgid "&Audio Track"
+msgstr ""
 
 msgctxt "ID_SUBTITLES"
-msgid "Su&btitles"
-msgstr "&Υπότιτλοι"
+msgid "Su&btitle Track"
+msgstr ""
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Stream"
-msgstr "Ροή &βίντεο"
+msgid "&Video Track"
+msgstr ""
 
 msgctxt "POPUP"
 msgid "&Volume"

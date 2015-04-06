@@ -1530,8 +1530,8 @@ msgid "Thumbnails saved successfully"
 msgstr "Οι μικρογραφίες αποθηκεύτηκαν επιτυχώς"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
-msgid "&Video Stream"
-msgstr "&Ροή βίντεο"
+msgid "&Video Track"
+msgstr ""
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
 msgid "Video Ang&le"

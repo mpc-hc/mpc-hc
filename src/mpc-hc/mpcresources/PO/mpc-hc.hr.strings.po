@@ -1534,8 +1534,8 @@ msgid "Thumbnails saved successfully"
 msgstr "Minijature uspješno spremljene"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
-msgid "&Video Stream"
-msgstr "Video protok"
+msgid "&Video Track"
+msgstr ""
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
 msgid "Video Ang&le"

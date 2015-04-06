@@ -554,16 +554,16 @@ msgid "S&haders"
 msgstr "S&hadery"
 
 msgctxt "ID_AUDIOS"
-msgid "&Audio"
-msgstr "&Zvuk"
+msgid "&Audio Track"
+msgstr ""
 
 msgctxt "ID_SUBTITLES"
-msgid "Su&btitles"
-msgstr "Ti&tulky"
+msgid "Su&btitle Track"
+msgstr ""
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Stream"
-msgstr "S&tream s videom"
+msgid "&Video Track"
+msgstr ""
 
 msgctxt "POPUP"
 msgid "&Volume"

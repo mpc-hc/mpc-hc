@@ -555,16 +555,16 @@ msgid "S&haders"
 msgstr "Модули за &сенчење"
 
 msgctxt "ID_AUDIOS"
-msgid "&Audio"
-msgstr "&Звук"
+msgid "&Audio Track"
+msgstr ""
 
 msgctxt "ID_SUBTITLES"
-msgid "Su&btitles"
-msgstr "&Титлови"
+msgid "Su&btitle Track"
+msgstr ""
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Stream"
-msgstr "Ток &видео-записа"
+msgid "&Video Track"
+msgstr ""
 
 msgctxt "POPUP"
 msgid "&Volume"

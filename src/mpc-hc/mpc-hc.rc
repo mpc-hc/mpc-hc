@@ -1510,9 +1510,9 @@ BEGIN
         MENUITEM "&Filters",                    ID_FILTERS
         MENUITEM "S&haders",                    ID_SHADERS
         MENUITEM SEPARATOR
-        MENUITEM "&Audio",                      ID_AUDIOS
-        MENUITEM "Su&btitles",                  ID_SUBTITLES
-        MENUITEM "&Video Stream",               ID_VIDEO_STREAMS
+        MENUITEM "&Audio Track",                ID_AUDIOS
+        MENUITEM "Su&btitle Track",             ID_SUBTITLES
+        MENUITEM "&Video Track",                ID_VIDEO_STREAMS
         MENUITEM SEPARATOR
         POPUP "&Volume"
         BEGIN
@@ -1664,9 +1664,9 @@ BEGIN
         MENUITEM "&Filters",                    ID_FILTERS
         MENUITEM "S&haders",                    ID_SHADERS
         MENUITEM SEPARATOR
-        MENUITEM "&Audio",                      ID_AUDIOS
-        MENUITEM "Su&btitles",                  ID_SUBTITLES
-        MENUITEM "&Video Stream",               ID_VIDEO_STREAMS
+        MENUITEM "&Audio Track",                ID_AUDIOS
+        MENUITEM "Su&btitle Track",             ID_SUBTITLES
+        MENUITEM "&Video Track",                ID_VIDEO_STREAMS
         MENUITEM SEPARATOR
         POPUP "&Volume"
         BEGIN
@@ -2004,9 +2004,9 @@ BEGIN
         MENUITEM "&Filters",                    ID_FILTERS
         MENUITEM "S&haders",                    ID_SHADERS
         MENUITEM SEPARATOR
-        MENUITEM "&Audio",                      ID_AUDIOS
-        MENUITEM "Su&btitles",                  ID_SUBTITLES
-        MENUITEM "&Video Stream",               ID_VIDEO_STREAMS
+        MENUITEM "&Audio Track",                ID_AUDIOS
+        MENUITEM "Su&btitle Track",             ID_SUBTITLES
+        MENUITEM "&Video Track",                ID_VIDEO_STREAMS
         MENUITEM SEPARATOR
         POPUP "&Volume"
         BEGIN
@@ -2679,7 +2679,7 @@ BEGIN
     IDS_OSD_RS_VSYNC_OFFSET "VSync Offset: %d"
     IDS_OSD_SPEED           "Speed: %.2lfx"
     IDS_OSD_THUMBS_SAVED    "Thumbnails saved successfully"
-    IDS_MENU_VIDEO_STREAM   "&Video Stream"
+    IDS_MENU_VIDEO_STREAM   "&Video Track"
     IDS_MENU_VIDEO_ANGLE    "Video Ang&le"
     IDS_RESET_SETTINGS      "Reset settings"
     IDS_RESET_SETTINGS_WARNING 

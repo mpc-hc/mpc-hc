@@ -1531,8 +1531,8 @@ msgid "Thumbnails saved successfully"
 msgstr "成功保存缩略图"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
-msgid "&Video Stream"
-msgstr "视频流(&V)"
+msgid "&Video Track"
+msgstr ""
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
 msgid "Video Ang&le"

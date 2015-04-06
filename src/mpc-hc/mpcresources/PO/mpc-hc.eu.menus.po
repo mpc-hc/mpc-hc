@@ -553,16 +553,16 @@ msgid "S&haders"
 msgstr "It&zalak"
 
 msgctxt "ID_AUDIOS"
-msgid "&Audio"
-msgstr "&Audioa"
+msgid "&Audio Track"
+msgstr ""
 
 msgctxt "ID_SUBTITLES"
-msgid "Su&btitles"
-msgstr "Az&pidatziak"
+msgid "Su&btitle Track"
+msgstr ""
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Stream"
-msgstr "Bi&deo Jarioa"
+msgid "&Video Track"
+msgstr ""
 
 msgctxt "POPUP"
 msgid "&Volume"

@@ -554,16 +554,16 @@ msgid "S&haders"
 msgstr "셰이더(&H)"
 
 msgctxt "ID_AUDIOS"
-msgid "&Audio"
-msgstr "오디오(&A)"
+msgid "&Audio Track"
+msgstr ""
 
 msgctxt "ID_SUBTITLES"
-msgid "Su&btitles"
-msgstr "자막(&B)"
+msgid "Su&btitle Track"
+msgstr ""
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Stream"
-msgstr "비디오 스트림(&T)"
+msgid "&Video Track"
+msgstr ""
 
 msgctxt "POPUP"
 msgid "&Volume"

@@ -1529,8 +1529,8 @@ msgid "Thumbnails saved successfully"
 msgstr "Ikonképek mentése sikeres"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
-msgid "&Video Stream"
-msgstr "Video S&tream"
+msgid "&Video Track"
+msgstr ""
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
 msgid "Video Ang&le"

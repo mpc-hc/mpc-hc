@@ -554,16 +554,16 @@ msgid "S&haders"
 msgstr "Shaders (&H)"
 
 msgctxt "ID_AUDIOS"
-msgid "&Audio"
-msgstr "音訊(&A)"
+msgid "&Audio Track"
+msgstr ""
 
 msgctxt "ID_SUBTITLES"
-msgid "Su&btitles"
-msgstr "字幕(&B)"
+msgid "Su&btitle Track"
+msgstr ""
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Stream"
-msgstr "視訊流(&V)"
+msgid "&Video Track"
+msgstr ""
 
 msgctxt "POPUP"
 msgid "&Volume"

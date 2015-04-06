@@ -1529,8 +1529,8 @@ msgid "Thumbnails saved successfully"
 msgstr "Lakaran kenit berjaya disimpan"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
-msgid "&Video Stream"
-msgstr "Strim &Video"
+msgid "&Video Track"
+msgstr ""
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
 msgid "Video Ang&le"

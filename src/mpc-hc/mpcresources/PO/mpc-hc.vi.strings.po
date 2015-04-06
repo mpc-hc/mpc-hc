@@ -1530,8 +1530,8 @@ msgid "Thumbnails saved successfully"
 msgstr "Hình thu nhỏ đã được lưu"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
-msgid "&Video Stream"
-msgstr "Luồng video"
+msgid "&Video Track"
+msgstr ""
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
 msgid "Video Ang&le"

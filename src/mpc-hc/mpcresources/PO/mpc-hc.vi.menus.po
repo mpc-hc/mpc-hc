@@ -554,16 +554,16 @@ msgid "S&haders"
 msgstr "&Bộ đổ bóng"
 
 msgctxt "ID_AUDIOS"
-msgid "&Audio"
-msgstr "&Âm thanh"
+msgid "&Audio Track"
+msgstr ""
 
 msgctxt "ID_SUBTITLES"
-msgid "Su&btitles"
-msgstr "&Phụ đề"
+msgid "Su&btitle Track"
+msgstr ""
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Stream"
-msgstr "&Hình ảnh"
+msgid "&Video Track"
+msgstr ""
 
 msgctxt "POPUP"
 msgid "&Volume"

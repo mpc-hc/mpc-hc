@@ -557,16 +557,16 @@ msgid "S&haders"
 msgstr "T&onlamalar"
 
 msgctxt "ID_AUDIOS"
-msgid "&Audio"
-msgstr "&Ses"
+msgid "&Audio Track"
+msgstr ""
 
 msgctxt "ID_SUBTITLES"
-msgid "Su&btitles"
-msgstr "Al&t Yazılar"
+msgid "Su&btitle Track"
+msgstr ""
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Stream"
-msgstr "&Video Akışı"
+msgid "&Video Track"
+msgstr ""
 
 msgctxt "POPUP"
 msgid "&Volume"

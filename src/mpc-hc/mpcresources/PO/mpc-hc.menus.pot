@@ -1,10 +1,10 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
+"POT-Creation-Date: 2015-04-06 16:31:55+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -550,15 +550,15 @@ msgid "S&haders"
 msgstr ""
 
 msgctxt "ID_AUDIOS"
-msgid "&Audio"
+msgid "&Audio Track"
 msgstr ""
 
 msgctxt "ID_SUBTITLES"
-msgid "Su&btitles"
+msgid "Su&btitle Track"
 msgstr ""
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Stream"
+msgid "&Video Track"
 msgstr ""
 
 msgctxt "POPUP"

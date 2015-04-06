@@ -1531,8 +1531,8 @@ msgid "Thumbnails saved successfully"
 msgstr "Küçük resim başarıyla kaydedildi"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
-msgid "&Video Stream"
-msgstr "Video A&kışı"
+msgid "&Video Track"
+msgstr ""
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
 msgid "Video Ang&le"

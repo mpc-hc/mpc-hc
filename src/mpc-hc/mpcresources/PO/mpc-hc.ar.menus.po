@@ -556,16 +556,16 @@ msgid "S&haders"
 msgstr "المظللات"
 
 msgctxt "ID_AUDIOS"
-msgid "&Audio"
-msgstr "الصوت"
+msgid "&Audio Track"
+msgstr ""
 
 msgctxt "ID_SUBTITLES"
-msgid "Su&btitles"
-msgstr "الترجمة"
+msgid "Su&btitle Track"
+msgstr ""
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Stream"
-msgstr "تدفق الفيديو"
+msgid "&Video Track"
+msgstr ""
 
 msgctxt "POPUP"
 msgid "&Volume"

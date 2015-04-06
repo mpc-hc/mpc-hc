@@ -1530,8 +1530,8 @@ msgid "Thumbnails saved successfully"
 msgstr "썸네일이 성공적으로 저장되었습니다."
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
-msgid "&Video Stream"
-msgstr "비디오 스트림(&T)"
+msgid "&Video Track"
+msgstr ""
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
 msgid "Video Ang&le"

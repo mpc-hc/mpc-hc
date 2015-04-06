@@ -554,16 +554,16 @@ msgid "S&haders"
 msgstr "เฉดเ&ดอร์"
 
 msgctxt "ID_AUDIOS"
-msgid "&Audio"
-msgstr "เ&สียง"
+msgid "&Audio Track"
+msgstr ""
 
 msgctxt "ID_SUBTITLES"
-msgid "Su&btitles"
-msgstr "ศัพท์&บรรยาย"
+msgid "Su&btitle Track"
+msgstr ""
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Stream"
-msgstr "กระแส&วิดีโอ"
+msgid "&Video Track"
+msgstr ""
 
 msgctxt "POPUP"
 msgid "&Volume"

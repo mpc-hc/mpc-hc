@@ -553,16 +553,16 @@ msgid "S&haders"
 msgstr "Cieniowanie (&Shadery)"
 
 msgctxt "ID_AUDIOS"
-msgid "&Audio"
-msgstr "Ścieżka &dźwiękowa"
+msgid "&Audio Track"
+msgstr ""
 
 msgctxt "ID_SUBTITLES"
-msgid "Su&btitles"
-msgstr "N&apisy"
+msgid "Su&btitle Track"
+msgstr ""
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Stream"
-msgstr "Strum&ień wideo"
+msgid "&Video Track"
+msgstr ""
 
 msgctxt "POPUP"
 msgid "&Volume"
