@@ -426,8 +426,16 @@ HRESULT CFGFilterFile::Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_
 CFGFilterVideoRenderer::CFGFilterVideoRenderer(HWND hWnd, const CLSID& clsid, CStringW name, UINT64 merit)
     : CFGFilter(clsid, name, merit)
     , m_hWnd(hWnd)
+    , m_bHasVideoDriverWorkAround(false)
 {
     AddType(MEDIATYPE_Video, MEDIASUBTYPE_NULL);
+}
+
+CFGFilterVideoRenderer::~CFGFilterVideoRenderer()
+{
+    if (m_bHasVideoDriverWorkAround) {
+        UnhookWorkAroundVideoDriversBug();
+    }
 }
 
 HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_IUnknown>& pUnks)
@@ -474,8 +482,6 @@ HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnkno
             if (m_clsid == CLSID_EnhancedVideoRenderer) {
                 CComQIPtr<IEVRFilterConfig> pConfig = pBF;
                 pConfig->SetNumberOfStreams(3);
-
-                HookWorkAroundNVIDIADriverBug(pBF);
             }
 
             BeginEnumPins(pBF, pEP, pPin) {
@@ -492,6 +498,9 @@ HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnkno
 
     if (!*ppBF) {
         hr = E_FAIL;
+    } else if (m_clsid != CLSID_madVRAllocatorPresenter) {
+        HookWorkAroundVideoDriversBug(*ppBF);
+        m_bHasVideoDriverWorkAround = true;
     }
 
     return hr;

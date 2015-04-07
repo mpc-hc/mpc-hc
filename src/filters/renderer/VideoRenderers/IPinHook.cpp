@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -47,6 +47,7 @@ GUID g_guidDXVADecoder = GUID_NULL;
 int  g_nDXVAVersion = 0;
 
 IPinCVtbl* g_pPinCVtbl = nullptr;
+IPinCVtbl* g_pPinCVtblVideoDriverWorkAround = nullptr;
 IMemInputPinCVtbl* g_pMemInputPinCVtbl = nullptr;
 
 struct D3DFORMAT_TYPE {
@@ -152,8 +153,8 @@ static HRESULT(STDMETHODCALLTYPE* ReceiveConnectionOrg)(IPinC* This, /* [in] */ 
 
 static HRESULT STDMETHODCALLTYPE ReceiveConnectionMine(IPinC* This, /* [in] */ IPinC* pConnector, /* [in] */ const AM_MEDIA_TYPE* pmt)
 {
-    // Force the renderer to always reject the P010 pixel format
-    if (pmt && pmt->subtype == MEDIASUBTYPE_P010) {
+    // Force the renderer to always reject the P010 and P016 pixel formats
+    if (pmt && (pmt->subtype == MEDIASUBTYPE_P010 || pmt->subtype == MEDIASUBTYPE_P016)) {
         return VFW_E_TYPE_NOT_ACCEPTED;
     } else {
         return ReceiveConnectionOrg(This, pConnector, pmt);
@@ -183,53 +184,47 @@ static HRESULT STDMETHODCALLTYPE ReceiveMine(IMemInputPinC* This, IMediaSample* 
     return ReceiveMineI(This, pSample);
 }
 
-void HookWorkAroundNVIDIADriverBug(IPinC* pPinC)
+void HookWorkAroundVideoDriversBug(IBaseFilter* pBF)
 {
-    // Work-around a bug in NVIDIA drivers v344.11: this driver mistakenly
-    // accepts P010 pixel format as input for EVR so use the pin hook to
-    // add our own level of verification
-#if MPC_VERSION_MAJOR > 1 || MPC_VERSION_MINOR > 7 || MPC_VERSION_PATCH > 6
-#pragma message("WARNING: Check if this bug is fixed in currently distributed driver")
+    // Work-around a bug in some video drivers: some drivers mistakenly
+    // accepts P010 and P016 pixel formats as input for VMR/EVR renderers
+    // so use the pin hook to add our own level of verification.
+#if MPC_VERSION_MAJOR > 1 || MPC_VERSION_MINOR > 7 || MPC_VERSION_PATCH > 9
+#pragma message("WARNING: Check if this bug is fixed in currently distributed drivers")
 #endif
-    if (ReceiveConnectionOrg == nullptr) {
-        ReceiveConnectionOrg = pPinC->lpVtbl->ReceiveConnection;
-    }
-    pPinC->lpVtbl->ReceiveConnection = ReceiveConnectionMine;
-}
-
-void UnhookWorkAroundNVIDIADriverBug()
-{
-    if (g_pPinCVtbl->ReceiveConnection == ReceiveConnectionMine) {
-        g_pPinCVtbl->ReceiveConnection = ReceiveConnectionOrg;
-    }
-    ReceiveConnectionOrg = nullptr;
-}
-
-void HookWorkAroundNVIDIADriverBug(IBaseFilter* pBF)
-{
-    DWORD flOldProtect = 0;
-
-    // Unhook previous VTable
-    if (g_pPinCVtbl) {
-        if (VirtualProtect(g_pPinCVtbl, sizeof(IPinCVtbl), PAGE_WRITECOPY, &flOldProtect)) {
-            UnhookWorkAroundNVIDIADriverBug();
-            VirtualProtect(g_pPinCVtbl, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
-            g_pPinCVtbl = nullptr;
-        } else {
-            TRACE(_T("HookWorkAroundNVIDIADriverBug: Could not unhook previous VTable"));
-            ASSERT(FALSE);
-        }
-    }
 
     if (CComPtr<IPin> pPin = GetFirstPin(pBF)) {
         IPinC* pPinC = (IPinC*)(IPin*)pPin;
 
+        DWORD flOldProtect = 0;
         if (VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), PAGE_WRITECOPY, &flOldProtect)) {
-            HookWorkAroundNVIDIADriverBug(pPinC);
+            if (ReceiveConnectionOrg == nullptr) {
+                ReceiveConnectionOrg = pPinC->lpVtbl->ReceiveConnection;
+            }
+            pPinC->lpVtbl->ReceiveConnection = ReceiveConnectionMine;
             VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
-            g_pPinCVtbl = pPinC->lpVtbl;
+            g_pPinCVtblVideoDriverWorkAround = pPinC->lpVtbl;
         } else {
-            TRACE(_T("HookWorkAroundNVIDIADriverBug: Could not hook the VTable"));
+            TRACE(_T("HookWorkAroundVideoDriversBug: Could not hook the VTable"));
+            ASSERT(FALSE);
+        }
+    }
+}
+
+void UnhookWorkAroundVideoDriversBug()
+{
+    // Unhook previous VTable
+    if (g_pPinCVtblVideoDriverWorkAround) {
+        DWORD flOldProtect = 0;
+        if (VirtualProtect(g_pPinCVtblVideoDriverWorkAround, sizeof(IPinCVtbl), PAGE_WRITECOPY, &flOldProtect)) {
+            if (g_pPinCVtblVideoDriverWorkAround->ReceiveConnection == ReceiveConnectionMine) {
+                g_pPinCVtblVideoDriverWorkAround->ReceiveConnection = ReceiveConnectionOrg;
+            }
+            ReceiveConnectionOrg = nullptr;
+            VirtualProtect(g_pPinCVtblVideoDriverWorkAround, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
+            g_pPinCVtblVideoDriverWorkAround = nullptr;
+        } else {
+            TRACE(_T("UnhookWorkAroundVideoDriversBug: Could not unhook previous VTable"));
             ASSERT(FALSE);
         }
     }
@@ -245,7 +240,6 @@ void UnhookNewSegmentAndReceive()
             if (g_pPinCVtbl->NewSegment == NewSegmentMine) {
                 g_pPinCVtbl->NewSegment = NewSegmentOrg;
             }
-            UnhookWorkAroundNVIDIADriverBug();
             VirtualProtect(g_pPinCVtbl, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
             g_pPinCVtbl = nullptr;
             NewSegmentOrg = nullptr;
@@ -289,7 +283,6 @@ bool HookNewSegmentAndReceive(IPinC* pPinC, IMemInputPinC* pMemInputPinC)
                 NewSegmentOrg = pPinC->lpVtbl->NewSegment;
             }
             pPinC->lpVtbl->NewSegment = NewSegmentMine; // Function sets global variable(s)
-            HookWorkAroundNVIDIADriverBug(pPinC);
             VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
             g_pPinCVtbl = pPinC->lpVtbl;
         } else {

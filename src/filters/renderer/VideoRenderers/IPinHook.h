@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -76,7 +76,8 @@ extern bool HookNewSegmentAndReceive(IPinC* pPinC, IMemInputPinC* pMemInputPin);
 extern void UnhookNewSegmentAndReceive();
 extern REFERENCE_TIME g_tSegmentStart, g_tSampleStart, g_rtTimePerFrame;
 
-extern void HookWorkAroundNVIDIADriverBug(IBaseFilter* pBF);
+extern void HookWorkAroundVideoDriversBug(IBaseFilter* pBF);
+extern void UnhookWorkAroundVideoDriversBug();
 
 //
 

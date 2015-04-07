@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2013, 2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -124,9 +124,11 @@ class CFGFilterVideoRenderer : public CFGFilter
 {
 protected:
     HWND m_hWnd;
+    bool m_bHasVideoDriverWorkAround;
 
 public:
     CFGFilterVideoRenderer(HWND hWnd, const CLSID& clsid, CStringW name = L"", UINT64 merit = MERIT64_DO_USE);
+    virtual ~CFGFilterVideoRenderer();
 
     HRESULT Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
 };
