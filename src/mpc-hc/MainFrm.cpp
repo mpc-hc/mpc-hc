@@ -1544,7 +1544,7 @@ void CMainFrame::OnWindowPosChanging(WINDOWPOS* lpwndpos)
 void CMainFrame::OnSysCommand(UINT nID, LPARAM lParam)
 {
     // Only stop screensaver if video playing; allow for audio only
-    if ((GetMediaState() == State_Running && !m_fAudioOnly)
+    if ((GetMediaState() == State_Running && !m_fEndOfStream && !m_fAudioOnly)
             && (((nID & 0xFFF0) == SC_SCREENSAVE) || ((nID & 0xFFF0) == SC_MONITORPOWER))) {
         TRACE(_T("SC_SCREENSAVE, nID = %u, lParam = %d\n"), nID, lParam);
         return;
