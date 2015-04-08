@@ -56,7 +56,7 @@ bool ExtractUnixLink30(CommandData *Cmd,ComprDataIO &DataIO,Archive &Arc,const w
 
     if (!Cmd->AbsoluteLinks && (IsFullPath(Target) ||
         !IsRelativeSymlinkSafe(Arc.FileHead.FileName,Arc.FileHead.RedirName)))
-
+      return false;
     return UnixSymlink(Target,LinkName,&Arc.FileHead.mtime,&Arc.FileHead.atime);
   }
   return false;

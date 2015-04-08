@@ -90,6 +90,9 @@ void Unpack::Unpack5MT(bool Solid)
     DataSize+=ReadSize;
     if (DataSize==0)
       break;
+
+    // First read chunk can be small if we are near the end of volume
+    // and we want it to fit block header and tables.
     if (ReadSize>0 && DataSize<TooSmallToProcess)
       continue;
 

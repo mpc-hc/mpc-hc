@@ -19,7 +19,7 @@ void IntToExt(const char *Src,char *Dest,size_t DestSize)
   Dest[DestSize-1]=0;
 #elif defined(_ANDROID)
   wchar DestW[NM];
-  UnkToWide(Src,DestW,ASIZE(DestW));
+  JniCharToWide(Src,DestW,ASIZE(DestW),true);
   WideToChar(DestW,Dest,DestSize);
 #else
   if (Dest!=Src)

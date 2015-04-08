@@ -19,7 +19,7 @@ next version - not released yet
 * Subtitle renderer: Better compatibility with ASS/SSA subtitle files that are slightly violating the specs
 * Ticket #5294, Use internal LAV Splitter for demuxing WTV files
 * Updated Little CMS to v2.7 (git dd0074b)
-* Updated Unrar to v5.2.6
+* Updated Unrar to v5.2.7
 * Updated MediaInfoLib to v0.7.73
 * Updated ZenLib to v0.4.31
 * Updated SoundTouch to v1.8.0 r208

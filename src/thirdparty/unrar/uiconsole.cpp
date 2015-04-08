@@ -9,10 +9,17 @@ UIASKREP_RESULT uiAskReplace(wchar *Name,size_t MaxNameSize,int64 FileSize,RarTi
   itoa(ExistingFD.Size,SizeText1);
   ExistingFD.mtime.GetText(DateStr1,ASIZE(DateStr1),true,false);
 
-  itoa(FileSize,SizeText2);
-  FileTime->GetText(DateStr2,ASIZE(DateStr2),true,false);
-  
-  eprintf(St(MAskReplace),Name,SizeText1,DateStr1,SizeText2,DateStr2);
+  if (FileSize==INT64NDF || FileTime==NULL)
+  {
+    eprintf(L"\n");
+    eprintf(St(MAskOverwrite),Name);
+  }
+  else
+  {
+    itoa(FileSize,SizeText2);
+    FileTime->GetText(DateStr2,ASIZE(DateStr2),true,false);
+    eprintf(St(MAskReplace),Name,SizeText1,DateStr1,SizeText2,DateStr2);
+  }
 
   bool AllowRename=(Flags & UIASKREP_F_NORENAME)==0;
   int Choice=0;

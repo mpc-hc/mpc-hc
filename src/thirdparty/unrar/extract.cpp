@@ -387,9 +387,13 @@ bool CmdExtract::ExtractCurrentFile(Archive &Arc,size_t HeaderSize,bool &Repeat)
 
     if (Arc.FileHead.Encrypted)
     {
+      // Stop archive extracting if user cancelled a password prompt.
 #ifdef RARDLL
       if (!ExtrDllGetPassword())
+      {
+        Cmd->DllError=ERAR_MISSING_PASSWORD;
         return false;
+      }
 #else
       if (!ExtrGetPassword(Arc,ArcFileName))
       {
@@ -398,6 +402,9 @@ bool CmdExtract::ExtractCurrentFile(Archive &Arc,size_t HeaderSize,bool &Repeat)
       }
 #endif
       // Skip only the current encrypted file if empty password is entered.
+      // Actually our "cancel" code above intercepts empty passwords too now,
+      // so we keep the code below just in case we'll decide process empty
+      // and cancelled passwords differently sometimes.
       if (!Cmd->Password.IsSet())
       {
         ErrHandler.SetErrorCode(RARX_WARNING);
