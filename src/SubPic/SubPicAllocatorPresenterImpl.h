@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -23,6 +23,7 @@
 
 #include <atlbase.h>
 #include <atlcoll.h>
+#include <condition_variable>
 #include "ISubPic.h"
 #include "CoordGeom.h"
 #include "SubRenderIntf.h"
@@ -53,6 +54,8 @@ protected:
     CComPtr<ISubPicProvider> m_pSubPicProvider;
     CComPtr<ISubPicAllocator> m_pAllocator;
     CComPtr<ISubPicQueue> m_pSubPicQueue;
+
+    std::condition_variable m_condAllocatorReady;
 
     bool m_bDeviceResetRequested;
     bool m_bPendingResetDevice;

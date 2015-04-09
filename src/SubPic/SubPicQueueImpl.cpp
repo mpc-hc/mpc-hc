@@ -180,7 +180,9 @@ CSubPicQueue::~CSubPicQueue()
     m_bExitThread = true;
     SetSubPicProvider(nullptr);
     CAMThread::Close();
-    m_pAllocator->FreeStatic();
+    if (m_pAllocator) {
+        m_pAllocator->FreeStatic();
+    }
 }
 
 // ISubPicQueue
@@ -689,7 +691,9 @@ CSubPicQueueNoThread::CSubPicQueueNoThread(SubPicQueueSettings settings, ISubPic
 
 CSubPicQueueNoThread::~CSubPicQueueNoThread()
 {
-    m_pAllocator->FreeStatic();
+    if (m_pAllocator) {
+        m_pAllocator->FreeStatic();
+    }
 }
 
 // ISubPicQueue

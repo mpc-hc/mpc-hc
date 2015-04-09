@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -82,26 +82,36 @@ STDMETHODIMP CDXRAllocatorPresenter::NonDelegatingQueryInterface(REFIID riid, vo
 
 HRESULT CDXRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
 {
-    CheckPointer(pD3DDev, E_POINTER);
+    HRESULT hr = S_OK;
+
+    if (!pD3DDev) {
+        // release all resources
+        m_pSubPicQueue = nullptr;
+        m_pAllocator = nullptr;
+        return hr;
+    }
 
     const CRenderersSettings& r = GetRenderersSettings();
-
     InitMaxSubtitleTextureSize(r.subPicQueueSettings.nMaxRes, m_ScreenSize);
 
     if (m_pAllocator) {
         m_pAllocator->ChangeDevice(pD3DDev);
     } else {
         m_pAllocator = DEBUG_NEW CDX9SubPicAllocator(pD3DDev, m_maxSubtitleTextureSize, true);
+        m_condAllocatorReady.notify_one();
     }
 
-    HRESULT hr = S_OK;
-    if (!m_pSubPicQueue) {
+    {
+        // Lock before check because m_pSubPicQueue might be initialized in CSubPicAllocatorPresenterImpl::Connect
         CAutoLock cAutoLock(this);
-        m_pSubPicQueue = r.subPicQueueSettings.nSize > 0
-                         ? (ISubPicQueue*)DEBUG_NEW CSubPicQueue(r.subPicQueueSettings, m_pAllocator, &hr)
-                         : (ISubPicQueue*)DEBUG_NEW CSubPicQueueNoThread(r.subPicQueueSettings, m_pAllocator, &hr);
-    } else {
-        m_pSubPicQueue->Invalidate();
+        if (!m_pSubPicQueue) {
+            m_pSubPicQueue = r.subPicQueueSettings.nSize > 0
+                             ? (ISubPicQueue*)DEBUG_NEW CSubPicQueue(r.subPicQueueSettings, m_pAllocator, &hr)
+                             : (ISubPicQueue*)DEBUG_NEW CSubPicQueueNoThread(r.subPicQueueSettings, m_pAllocator, &hr);
+        } else {
+            this->Unlock();
+            m_pSubPicQueue->Invalidate();
+        }
     }
 
     if (SUCCEEDED(hr) && m_pSubPicProvider) {

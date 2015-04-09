@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -88,8 +88,6 @@ STDMETHODIMP CmadVRAllocatorPresenter::NonDelegatingQueryInterface(REFIID riid, 
 
 HRESULT CmadVRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
 {
-    const CRenderersSettings& r = GetRenderersSettings();
-
     if (!pD3DDev) {
         // release all resources
         m_pSubPicQueue = nullptr;
@@ -97,6 +95,7 @@ HRESULT CmadVRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
         return S_OK;
     }
 
+    const CRenderersSettings& r = GetRenderersSettings();
     InitMaxSubtitleTextureSize(r.subPicQueueSettings.nMaxRes, m_ScreenSize);
 
     if (m_pAllocator) {
