@@ -15,8 +15,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-03-26 22:39:02+0000\n"
-"PO-Revision-Date: 2015-03-27 22:11+0000\n"
+"POT-Creation-Date: 2015-04-09 21:29:25+0000\n"
+"PO-Revision-Date: 2015-04-12 14:10+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/mpc-hc/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -631,7 +631,7 @@ msgstr "Igual que VMR-9 (sin renderizador), pero usa un redimensionador bicúbic
 
 msgctxt "IDC_DSNULL_COMP"
 msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the CPU from working unnecessarily."
-msgstr "Conecta a cualquier tipo de medio de video y manda las muestras a ningún lado. Utilízalo cuando no necesitas ver el video, y quieres evitar el uso de CPU innecesario."
+msgstr "Funciona con cualquier tipo de vídeo e impide el envío de las muestras entrantes. Úselo si no necesita ver el vídeo y quiere evitar el uso innecesario de la CPU."
 
 msgctxt "IDC_DSNULL_UNCOMP"
 msgid "Same as the normal Null renderer, but this will only connect to uncompressed types."
@@ -1539,7 +1539,7 @@ msgstr "Miniaturas guardadas satisfactoriamente"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
 msgid "&Video Track"
-msgstr ""
+msgstr "Pista de &vídeo"
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
 msgid "Video Ang&le"
@@ -2911,11 +2911,11 @@ msgstr "Otro audio"
 
 msgctxt "IDS_MFMT_AC3"
 msgid "AC-3"
-msgstr ""
+msgstr "AC-3"
 
 msgctxt "IDS_MFMT_DTS"
 msgid "DTS/DTS-HD"
-msgstr ""
+msgstr "DTS/DTS-HD"
 
 msgctxt "IDS_MFMT_AIFF"
 msgid "AIFF"

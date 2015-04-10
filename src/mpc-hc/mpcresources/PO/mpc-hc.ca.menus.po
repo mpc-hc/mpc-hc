@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Adolfo Jayme Barrientos, 2015
@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
-"PO-Revision-Date: 2015-03-28 15:31+0000\n"
+"POT-Creation-Date: 2015-04-06 16:31:55+0000\n"
+"PO-Revision-Date: 2015-04-12 14:00+0000\n"
 "Last-Translator: papu <papu@openmailbox.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -349,15 +349,15 @@ msgstr "Control de la &GPU"
 
 msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
 msgid "Flush GPU &before VSync"
-msgstr "Buida la GPU &abans de VSync"
+msgstr "Buida la GPU &abans de la VSync"
 
 msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
 msgid "Flush GPU &after Present"
-msgstr "Buida GPU &després de Present"
+msgstr "Buida la GPU &després de Present"
 
 msgctxt "ID_VIEW_FLUSHGPU_WAIT"
 msgid "&Wait for flushes"
-msgstr "Espera pel &buidatge"
+msgstr "Espera al &buidat"
 
 msgctxt "POPUP"
 msgid "R&eset"
@@ -441,7 +441,7 @@ msgstr "185:100"
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"
-msgstr "Corregeix la  &Relació d'Aspecte Diff al Monitor/Escriptori"
+msgstr "Corregeix la diferència de &Relació d'Aspecte del  Monitor/Escriptori"
 
 msgctxt "POPUP"
 msgid "Pa&n&&Scan"
@@ -557,15 +557,15 @@ msgstr "S&haders"
 
 msgctxt "ID_AUDIOS"
 msgid "&Audio Track"
-msgstr ""
+msgstr "Pista d' &Àudio"
 
 msgctxt "ID_SUBTITLES"
 msgid "Su&btitle Track"
-msgstr ""
+msgstr "Pista de Su&títols"
 
 msgctxt "ID_VIDEO_STREAMS"
 msgid "&Video Track"
-msgstr ""
+msgstr "Pista de &Vídeo"
 
 msgctxt "POPUP"
 msgid "&Volume"
@@ -661,7 +661,7 @@ msgstr "Menú dels &Capítols"
 
 msgctxt "ID_FAVORITES"
 msgid "F&avorites"
-msgstr "&Preferit"
+msgstr "&Adreces d'Interès"
 
 msgctxt "POPUP"
 msgid "&Help"

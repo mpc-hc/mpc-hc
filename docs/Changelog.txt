@@ -32,8 +32,8 @@ next version - not released yet
     - Ticket #5330, LAV Video Decoder: Improve DVD subtitles timeout in some cases
     - Ticket #5333, LAV Splitter: Fix handling of some Blu-Ray playlist
 * Updated Basque, British English, Catalan, Chinese (Simplified), Czech, Dutch, Finnish, French, Galician,
-  German, Greek, Japanese, Korean, Malay, Polish, Romanian, Russian, Serbian, Slovak, Spanish, Swedish
-  Ukrainian and Vietnamese translations
+  German, Greek, Japanese, Korean, Malay, Polish, Portuguese (Brazil), Romanian, Russian, Serbian, Slovak,
+  Spanish, Swedish, Ukrainian and Vietnamese translations
 ! EVR-CP/Sync renderers could produce wrong colors
 ! Do not mirror the status bar and the time indicator when using an RTL layout
 ! DVBSub: Fix a possible infinite loop when rendering corrupted subtitles

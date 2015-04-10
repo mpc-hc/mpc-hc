@@ -1,14 +1,14 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # mehzad, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-19 21:10:25+0000\n"
-"PO-Revision-Date: 2014-08-21 19:10+0000\n"
-"Last-Translator: mehzad\n"
+"POT-Creation-Date: 2015-04-06 16:31:55+0000\n"
+"PO-Revision-Date: 2015-04-12 14:14+0000\n"
+"Last-Translator: Mehedi Hussain\n"
 "Language-Team: Bengali (http://www.transifex.com/projects/p/mpc-hc/language/bn/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -326,7 +326,7 @@ msgstr "&VSync"
 
 msgctxt "ID_VIEW_VSYNCACCURATE"
 msgid "&Accurate VSync"
-msgstr "যথোপযোগী VSync(&A)"
+msgstr "নিখুঁত VSync(&A)"
 
 msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
 msgid "A&lternative VSync"
@@ -554,15 +554,15 @@ msgstr "শেইডারসমূহ(&H)"
 
 msgctxt "ID_AUDIOS"
 msgid "&Audio Track"
-msgstr ""
+msgstr "অডিও ট্র্যাক(&A)"
 
 msgctxt "ID_SUBTITLES"
 msgid "Su&btitle Track"
-msgstr ""
+msgstr "সাবটাইটেল ট্র্যাক(&B)"
 
 msgctxt "ID_VIDEO_STREAMS"
 msgid "&Video Track"
-msgstr ""
+msgstr "ভিডিও ট্র্যাক(&V)"
 
 msgctxt "POPUP"
 msgid "&Volume"
@@ -578,7 +578,7 @@ msgstr "কমাই(&D)"
 
 msgctxt "ID_VOLUME_MUTE"
 msgid "&Mute"
-msgstr "শব্দহীন করি(&M)"
+msgstr "নিঃশব্দ করি(&M)"
 
 msgctxt "POPUP"
 msgid "Af&ter Playback"
@@ -614,7 +614,7 @@ msgstr "মনিটর বন্ধ করি(&M)"
 
 msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
 msgid "Play &next file in the folder"
-msgstr ""
+msgstr "ফোল্ডারের পরবর্তী ফাইলটি প্লে করি(N)"
 
 msgctxt "POPUP"
 msgid "&Navigate"

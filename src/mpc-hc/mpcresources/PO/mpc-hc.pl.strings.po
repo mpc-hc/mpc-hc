@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-03-26 22:39:02+0000\n"
-"PO-Revision-Date: 2015-03-30 13:42+0000\n"
-"Last-Translator: M T <michtrz@gmail.com>\n"
+"POT-Creation-Date: 2015-04-09 21:29:25+0000\n"
+"PO-Revision-Date: 2015-04-12 03:09+0000\n"
+"Last-Translator: kasper93\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/mpc-hc/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -623,7 +623,7 @@ msgstr "Działa tak samo jak „VMR-9 (renderless)”, lecz używa prawdziwego d
 
 msgctxt "IDC_DSNULL_COMP"
 msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the CPU from working unnecessarily."
-msgstr "Podpina się do dowolnego typu video i wysyła przychodzące próbki donikąd. Użycie wskazane, gdy strumień wideo nie musi być wyświetlany, dzięki czemu można zmniejszyć obciążenie CPU."
+msgstr "Podpina się do dowolnego typu wideo i wysyła przychodzące próbki donikąd. Użycie wskazane, gdy strumień wideo nie musi być wyświetlany, dzięki czemu można zmniejszyć obciążenie CPU."
 
 msgctxt "IDC_DSNULL_UNCOMP"
 msgid "Same as the normal Null renderer, but this will only connect to uncompressed types."
@@ -1531,7 +1531,7 @@ msgstr "Poprawnie zapisano miniaturki"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
 msgid "&Video Track"
-msgstr ""
+msgstr "Ścieżka w&ideo"
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
 msgid "Video Ang&le"
@@ -2903,11 +2903,11 @@ msgstr "Inne audio"
 
 msgctxt "IDS_MFMT_AC3"
 msgid "AC-3"
-msgstr ""
+msgstr "AC-3"
 
 msgctxt "IDS_MFMT_DTS"
 msgid "DTS/DTS-HD"
-msgstr ""
+msgstr "DTS/DTS-HD"
 
 msgctxt "IDS_MFMT_AIFF"
 msgid "AIFF"

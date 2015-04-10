@@ -11,8 +11,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-03-26 22:39:02+0000\n"
-"PO-Revision-Date: 2015-03-28 15:31+0000\n"
+"POT-Creation-Date: 2015-04-09 21:29:25+0000\n"
+"PO-Revision-Date: 2015-04-12 14:00+0000\n"
 "Last-Translator: papu <papu@openmailbox.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -187,11 +187,11 @@ msgstr "GB/s"
 
 msgctxt "IDS_FILE_FAV_ADDED"
 msgid "File added to favorites"
-msgstr "Fitxer afegit als preferits"
+msgstr "Fitxer afegit a les adreces d'interès"
 
 msgctxt "IDS_DVD_FAV_ADDED"
 msgid "DVD added to favorites"
-msgstr "DVD afegit als preferits"
+msgstr "DVD afegit a les Adreces d'Interès"
 
 msgctxt "IDS_CAPTURE_SETTINGS"
 msgid "Capture Settings"
@@ -603,7 +603,7 @@ msgstr "Aquet es el renderitzador predeterminat per Windows 9x/Me/2K. Depenent d
 
 msgctxt "IDC_DSOVERLAYMIXER"
 msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
-msgstr "Sempre renderitzador amb Overlay. Generalment només es permeten els formats YUV, però es presenten directament sense cap conversió de color a RGB. Aquesta manera de renderitzat es el més ràpid i l'únic on pots estar segur sobre el Video Mirroring a pantalla completa quant actives la sortida de TV."
+msgstr "Sempre renderitzador amb Overlay. Generalment només es permeten els formats YUV, però es presenten directament sense cap conversió de color a RGB. Aquesta manera de renderitzat és la més ràpida i l'únic on pots estar segur sobre el Video Mirroring a pantalla completa en activar la sortida de TV."
 
 msgctxt "IDC_DSVMR7WIN"
 msgid "The default renderer of Windows XP. Very stable and just a little slower than the Overlay mixer. Uses DirectDraw and runs in Overlay when it can."
@@ -615,11 +615,11 @@ msgstr "Només disponible si tens instal·lat DirectX 9. Té les mateixes habili
 
 msgctxt "IDC_DSVMR7REN"
 msgid "Same as the VMR-7 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring WILL NOT work. \"True Color\" desktop color space recommended."
-msgstr "El mateix que VMR-7 (de finestra), però amb el plugin \"Allocator-Presenter\" de MPC per el subtitulat. El mirall de l'Overlay NO funcionarà. Es recomana la profunditat de color de l'escriptori \"Color Verdader\"."
+msgstr "El mateix que VMR-7 (de finestra), però amb el plugin \"Asignador-Presentador\" del MPC pel subtitulat. El mirall de l'Overlay NO funcionarà. Es recomana la profunditat de color de l'escriptori \"Color Verdader\"."
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
-msgstr "El mateix que VMR-9 (de finestra), però amb el plugin \"Allocator-Presenter\" de MPC per el subtitulat. El mirall de l'Overlay POTSER funcionarà. Es recomana la profunditat de color de l'escriptori \"Color Verdader\"."
+msgstr "El mateix que VMR-9 (de finestra), però amb el plugin  \"Asignador-Presentador\" del MPC pel subtitulat. El mirall de l'Overlay POTSER funcionarà. Es recomana la profunditat de color de l'escriptori \"Color Verdader\"."
 
 msgctxt "IDC_DSDXR"
 msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
@@ -639,7 +639,7 @@ msgstr "Nomès disponible a Vista o posterior o per XP amb com a mínim .NET Fra
 
 msgctxt "IDC_DSEVR_CUSTOM"
 msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
-msgstr "Igual que EVR, pero amb Asignació-Presentació del MPC-HC per subtitulat y postprocessament. Recomanat per Vindows Vista o posterior."
+msgstr "Igual que EVR, pero amb l' Asignació-Presentació del MPC-HC pel subtitulat i postprocessament. Recomanat per Vindows Vista o posterior."
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
@@ -655,11 +655,11 @@ msgstr "Renderitzat propi real. Els scripts SMIL funcionaran, però la interacci
 
 msgctxt "IDC_RMDX7"
 msgid "The output of Real's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "La sortida del motor Real serà renderitzat per el \"Allocator-Presenter\" basat en DX7 de VMR-7 (sense res)."
+msgstr "La sortida del motor Real serà renderitzat per l' \"Asignador-Presentador\" basat en DX7 de VMR-7 (sense renderitzar)."
 
 msgctxt "IDC_RMDX9"
 msgid "The output of Real's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
-msgstr "La sortida del motor Real serà renderitzat per el \"Allocator-Presenter\" basat en DX9 de VMR-9 (sense res)."
+msgstr "La sortida del motor Real serà renderitzat per l' \"Asignador-Presentador\" basat en DX9 del VMR-9 (sense renderitzar)."
 
 msgctxt "IDC_QTSYSDEF"
 msgid "QuickTime's own renderer. Gets a little slow when its video area is resized or partially covered by another window. When Overlay is not available it likes to fall back to GDI."
@@ -667,11 +667,11 @@ msgstr "El renderitzador propi del Quictime, es torna una mica lent quant l'àre
 
 msgctxt "IDC_QTDX7"
 msgid "The output of QuickTime's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "La Sortida del motor de QuickTime será renderitzat per el \"Allocator-Presenter\" basat en DX7 de VMR-7 (sense res)."
+msgstr "La Sortida del motor de QuickTime será renderitzat pel \"Allocator-Presenter\" basat en DX7 del VMR-7 (sense renderitzar)."
 
 msgctxt "IDC_QTDX9"
 msgid "The output of QuickTime's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
-msgstr "La Sortida del motor de QuickTime será renderitzat per el \"Allocator-Presenter\" basat en DX9 de VMR-9 (sense res)."
+msgstr "La Sortida del motor de QuickTime será renderitzat per l \"Allocator-Presenter\" basat en DX9 del VMR-9 (sense renderitzar)."
 
 msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
@@ -951,11 +951,11 @@ msgstr "&Depuració dels Shaders..."
 
 msgctxt "IDS_FAVORITES_ADD"
 msgid "&Add to Favorites..."
-msgstr "&Afegir als Preferits..."
+msgstr "&Afegir a les Adreces d'Interès..."
 
 msgctxt "IDS_FAVORITES_ORGANIZE"
 msgid "&Organize Favorites..."
-msgstr "&Organizar els Preferits..."
+msgstr "&Organizar les Adreces d'Interès..."
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
 msgid "Shuffle"
@@ -1495,15 +1495,15 @@ msgstr "MPC-HC ha trobat un problema durant la inicialització. La reproducció 
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
 msgid "Never show"
-msgstr "No mostrar mai"
+msgstr "No mostris mai"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWMOVED"
 msgid "Show when moving the cursor, hide after:"
-msgstr "Mostra quan es mou el cursor, amagar-se després:"
+msgstr "Visualitzar en moure el cursor, amaga després:"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOHHOVERED"
 msgid "Show when hovering control, hide after:"
-msgstr "Mostra al voleiar el control, amagar-se després:"
+msgstr "Visualitza en voleiar el control, amaga després:"
 
 msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
 msgid "Failed to set pre-resize shaders"
@@ -1535,7 +1535,7 @@ msgstr "Miniatures desades amb èxit"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
 msgid "&Video Track"
-msgstr ""
+msgstr "Pista de &Vídeo"
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
 msgid "Video Ang&le"
@@ -1659,7 +1659,7 @@ msgstr "Moure Subtítol cap a la Dreta"
 
 msgctxt "IDS_AG_DISPLAY_STATS"
 msgid "Display Stats"
-msgstr "Mostrar Estadisticas"
+msgstr "Mostra l'Estadisticas"
 
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"
@@ -1991,7 +1991,7 @@ msgstr "Selecciona el Directori"
 
 msgctxt "IDS_FAVORITES_QUICKADDFAVORITE"
 msgid "Quick add favorite"
-msgstr "addició Ràpida als preferits"
+msgstr "Addició Ràpida a les Adreces d'Interès"
 
 msgctxt "IDS_DVB_CHANNEL_NUMBER"
 msgid "N"
@@ -2715,7 +2715,7 @@ msgstr "Subtítols::Més Opcions"
 
 msgctxt "IDS_VIEW_BORDERLESS"
 msgid "Hide &borders"
-msgstr "Amagar vores"
+msgstr "Amaga les &vores"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
 msgid "Frame Only"
@@ -2723,11 +2723,11 @@ msgstr "Només Fotograma(frame)"
 
 msgctxt "IDS_VIEW_CAPTIONMENU"
 msgid "Sho&w Caption&&Menu"
-msgstr "Mostrar Menú &&Llegenda"
+msgstr "Mostra el Menú &&Llegenda"
 
 msgctxt "IDS_VIEW_HIDEMENU"
 msgid "Hide &Menu"
-msgstr "Amagar Menú"
+msgstr "Amaga el &Menú"
 
 msgctxt "IDD_PPAGEADVANCED"
 msgid "Advanced"
@@ -2907,11 +2907,11 @@ msgstr "Altre Àudio"
 
 msgctxt "IDS_MFMT_AC3"
 msgid "AC-3"
-msgstr ""
+msgstr "So AC-3"
 
 msgctxt "IDS_MFMT_DTS"
 msgid "DTS/DTS-HD"
-msgstr ""
+msgstr "So DTS/DTS-HD"
 
 msgctxt "IDS_MFMT_AIFF"
 msgid "AIFF"
@@ -3071,11 +3071,11 @@ msgstr "Sincronitzar la pantalla al vídeo: Desactivat"
 
 msgctxt "IDS_OSD_RS_PRESENT_NEAREST_ON"
 msgid "Present at Nearest VSync: On"
-msgstr "Presentar al Vsync més proper: On"
+msgstr "Presentar a la Vsync més propera: On"
 
 msgctxt "IDS_OSD_RS_PRESENT_NEAREST_OFF"
 msgid "Present at Nearest VSync: Off"
-msgstr "Presentar al Vsync més proper: Desactivat"
+msgstr "Presentar a la Vsync més propera: Desactivat"
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_ON"
 msgid "Color Management: On"
@@ -3135,27 +3135,27 @@ msgstr "Rang de Sortida: %s"
 
 msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_ON"
 msgid "Flush GPU before VSync: On"
-msgstr "Buidar GPU Abans de VSync: On"
+msgstr "Buida la GPU abans de la VSync: On"
 
 msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_OFF"
 msgid "Flush GPU before VSync: Off"
-msgstr "Buidar GPU Abans de VSync: Desactivat"
+msgstr "Buida la GPU abans de la VSync: Desactivat"
 
 msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_ON"
 msgid "Flush GPU after Present: On"
-msgstr "Buidar GPU després de Present: On"
+msgstr "Buida la GPU després de la Presentaciót: On"
 
 msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_OFF"
 msgid "Flush GPU after Present: Off"
-msgstr "Buidar GPU després de Present: Desactivat"
+msgstr "Buida la GPU després de la Presentació: Desactivat"
 
 msgctxt "IDS_OSD_RS_WAIT_ON"
 msgid "Wait for GPU Flush: On"
-msgstr "Esperar el buidatge: On"
+msgstr "Espera el buidat de la GPU: On"
 
 msgctxt "IDS_OSD_RS_WAIT_OFF"
 msgid "Wait for GPU Flush: Off"
-msgstr "Esperar el buidatge: Desactivat"
+msgstr "Espera el buidat de la GPU: Desactivat"
 
 msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_ON"
 msgid "D3D Fullscreen: On"

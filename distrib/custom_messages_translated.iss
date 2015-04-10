@@ -35,7 +35,7 @@ be.WinVersionTooLowError=[name] патрабуецца Windows XP Service Pack 3
 
 ; Bengali
 bn.WelcomeLabel2=এর মাধ্যমে আপনার কম্পিউটারে [name] ইনস্টল করা হবে। %n%nপ্রক্রিয়াটি চালিয়ে যাওয়ার পূর্বে অন্যান্য সকল অ্যাপ্লিকেশন বন্ধ করার পরামর্শ দেয়া যাচ্ছে।
-bn.WinVersionTooLowError=[name] চালানোর জন্য Windows XP Service Pack 3 অথবা ঊর্ধ্বতন সংস্করণ প্রয়োজন।
+bn.WinVersionTooLowError=[NAME] চালানোর জন্য Windows XP Service Pack 3 অথবা ঊর্ধ্বতন সংস্করণ প্রয়োজন।
 
 ; Catalan
 ca.WelcomeLabel2=Aquest auxiliar instal·larà el [name] al vostre ordinador%n%nEs recomana tancar totes les aplicacions abans de continuar.
@@ -224,7 +224,7 @@ bn.langid=00001093
 bn.comp_mpciconlib=আইকন লাইব্রেরি
 bn.comp_mpcresources=অনুবাদসমূহ
 bn.msg_DeleteSettings=আপনি কি MPC-HCএর সেটিংসমূহও মুছে ফেলতে চান?%n%nআপনার যদি পুনরায় MPC-HC ইনস্টল করার পরিকল্পনা থাকে, তাহলে এসব মুছে ফেলতে হবে না।
-bn.msg_SetupIsRunningWarning=MPC-HCএর সেটআপ ইতিমধ্যে চলমান রয়েছে!
+bn.msg_SetupIsRunningWarning=MPC-HCএর সেটআপ প্রক্রিয়া ইতিমধ্যে চলমান রয়েছে!
 #if defined(sse_required)
 bn.msg_simd_sse=MPC-HCএর এই নির্মাণটির জন্য SSE এক্সটেনশন সমর্থন করে এমন একটি CPUর প্রয়োজন।%n%nআপনার CPUর সেই কর্মক্ষমতা নেই।
 #elif defined(sse2_required)
@@ -235,8 +235,8 @@ bn.tsk_AllUsers=সকল ব্যবহারকারীর জন্য
 bn.tsk_CurrentUser=শুধুমাত্র বর্তমান ব্যবহারকারীর জন্য
 bn.tsk_Other=অন্যান্য কাজসমূহ:
 bn.tsk_ResetSettings=সেটিংসমূহ পুনর্বিন্যাস
-bn.types_DefaultInstallation=নির্ধারিত ইনস্টল প্রক্রিয়া
-bn.types_CustomInstallation=নির্ধারণযোগ্য ইনস্টল প্রক্রিয়া
+bn.types_DefaultInstallation=ডিফল্ট ইনস্টল প্রক্রিয়া
+bn.types_CustomInstallation=ব্যক্তি-নির্ধারিত ইনস্টল প্রক্রিয়া
 bn.ViewChangelog=পরিবর্তনতালিকা দেখুন
 
 ; Catalan

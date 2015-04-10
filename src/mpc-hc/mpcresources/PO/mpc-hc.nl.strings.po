@@ -7,14 +7,15 @@
 # dragnadh <dragnadh@gmail.com>, 2015
 # DennisW, 2014
 # B512, 2015
+# Peter Pul, 2015
 # rjongejan <ruben.jongejan@gmail.com>, 2014
 # Tom <tom@boksma.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-02-16 12:05:09+0000\n"
-"PO-Revision-Date: 2015-03-04 05:40+0000\n"
-"Last-Translator: B512\n"
+"POT-Creation-Date: 2015-04-09 21:29:25+0000\n"
+"PO-Revision-Date: 2015-04-14 08:02+0000\n"
+"Last-Translator: Peter Pul\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/mpc-hc/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1536,7 +1537,7 @@ msgstr "Miniatuurweergaven succesvol opgeslagen"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
 msgid "&Video Track"
-msgstr ""
+msgstr "&Videospoor"
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
 msgid "Video Ang&le"
@@ -2076,7 +2077,7 @@ msgstr "Camerahoek: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
 
 msgctxt "IDS_MAINFRM_11"
 msgid "%s, %s %u Hz %d bits %d %s"
-msgstr ""
+msgstr "%s, %s %u Hz %d bits %d %s"
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
@@ -2092,7 +2093,7 @@ msgstr "MPC-HC heeft niet genoeg rechten om bestand associaties te veranderen. K
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
-msgstr ""
+msgstr "MPC-HC is een extreem lichtgewicht, open source media speler voor Windows. Het ondersteunt alle bekende, speelbare video en audio bestandsformaten. Wij zijn 100% spyware vrij, er zijn geen advertenties of werkbalken."
 
 msgctxt "IDS_MAINFRM_12"
 msgid "channel"
