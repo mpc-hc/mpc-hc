@@ -41,6 +41,7 @@ private:
     HICON m_hIcon;
 
     CRect m_time_rect;
+    CMenu m_timerMenu;
 
     CToolTipCtrl m_tooltip;
 

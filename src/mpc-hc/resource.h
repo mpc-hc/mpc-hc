@@ -1467,6 +1467,8 @@
 #define IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS 57428
 #define IDS_ASPECT_RATIO_FMT            57429
 #define IDS_PPAGEADVANCED_LOGGER        57430
+#define IDS_TIMER_REMAINING_TIME        57431
+#define IDS_TIMER_HIGH_PRECISION        57432
 
 // Next default values for new objects
 //

@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-04-09 21:29:25+0000\n"
+"POT-Creation-Date: 2015-04-15 21:44:52+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1371,6 +1371,14 @@ msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_LOGGER"
 msgid "Enables logging to file. (require restart)"
+msgstr ""
+
+msgctxt "IDS_TIMER_REMAINING_TIME"
+msgid "Remaining time"
+msgstr ""
+
+msgctxt "IDS_TIMER_HIGH_PRECISION"
+msgid "High precision"
 msgstr ""
 
 msgctxt "IDS_AG_OPEN_DEVICE"
@@ -2901,16 +2909,32 @@ msgctxt "IDS_MFMT_AC3"
 msgid "AC-3"
 msgstr ""
 
-msgctxt "IDS_MFMT_DTS"
-msgid "DTS/DTS-HD"
-msgstr ""
-
 msgctxt "IDS_MFMT_AIFF"
 msgid "AIFF"
 msgstr ""
 
 msgctxt "IDS_MFMT_ALAC"
 msgid "Apple Lossless"
+msgstr ""
+
+msgctxt "IDS_MFMT_WAV"
+msgid "WAV"
+msgstr ""
+
+msgctxt "IDS_MFMT_WMA"
+msgid "Windows Media Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_WV"
+msgid "WavPack"
+msgstr ""
+
+msgctxt "IDS_MFMT_OPUS"
+msgid "Opus Audio Codec"
+msgstr ""
+
+msgctxt "IDS_MFMT_DTS"
+msgid "DTS/DTS-HD"
 msgstr ""
 
 msgctxt "IDS_MFMT_AMR"
@@ -2975,22 +2999,6 @@ msgstr ""
 
 msgctxt "IDS_MFMT_TTA"
 msgid "True Audio"
-msgstr ""
-
-msgctxt "IDS_MFMT_WAV"
-msgid "WAV"
-msgstr ""
-
-msgctxt "IDS_MFMT_WMA"
-msgid "Windows Media Audio"
-msgstr ""
-
-msgctxt "IDS_MFMT_WV"
-msgid "WavPack"
-msgstr ""
-
-msgctxt "IDS_MFMT_OPUS"
-msgid "Opus Audio Codec"
 msgstr ""
 
 msgctxt "IDS_MFMT_PLS"

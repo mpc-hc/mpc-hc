@@ -1383,6 +1383,14 @@ msgctxt "IDS_PPAGEADVANCED_LOGGER"
 msgid "Enables logging to file. (require restart)"
 msgstr "Aktiviert die Dateiprotokollierung (Neustart erforderlich)."
 
+msgctxt "IDS_TIMER_REMAINING_TIME"
+msgid "Remaining time"
+msgstr ""
+
+msgctxt "IDS_TIMER_HIGH_PRECISION"
+msgid "High precision"
+msgstr ""
+
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
 msgstr "Gerät öffnen"
@@ -2911,10 +2919,6 @@ msgctxt "IDS_MFMT_AC3"
 msgid "AC-3"
 msgstr "AC-3"
 
-msgctxt "IDS_MFMT_DTS"
-msgid "DTS/DTS-HD"
-msgstr "DTS/DTS-HD"
-
 msgctxt "IDS_MFMT_AIFF"
 msgid "AIFF"
 msgstr "AIFF"
@@ -2922,6 +2926,26 @@ msgstr "AIFF"
 msgctxt "IDS_MFMT_ALAC"
 msgid "Apple Lossless"
 msgstr "Apple Lossless Audio Codec"
+
+msgctxt "IDS_MFMT_WAV"
+msgid "WAV"
+msgstr "WAV"
+
+msgctxt "IDS_MFMT_WMA"
+msgid "Windows Media Audio"
+msgstr "Windows Media Audio"
+
+msgctxt "IDS_MFMT_WV"
+msgid "WavPack"
+msgstr "WavPack"
+
+msgctxt "IDS_MFMT_OPUS"
+msgid "Opus Audio Codec"
+msgstr "Opus"
+
+msgctxt "IDS_MFMT_DTS"
+msgid "DTS/DTS-HD"
+msgstr "DTS/DTS-HD"
 
 msgctxt "IDS_MFMT_AMR"
 msgid "AMR"
@@ -2986,22 +3010,6 @@ msgstr "Tom's lossless Audio Kompressor"
 msgctxt "IDS_MFMT_TTA"
 msgid "True Audio"
 msgstr "The True Audio"
-
-msgctxt "IDS_MFMT_WAV"
-msgid "WAV"
-msgstr "WAV"
-
-msgctxt "IDS_MFMT_WMA"
-msgid "Windows Media Audio"
-msgstr "Windows Media Audio"
-
-msgctxt "IDS_MFMT_WV"
-msgid "WavPack"
-msgstr "WavPack"
-
-msgctxt "IDS_MFMT_OPUS"
-msgid "Opus Audio Codec"
-msgstr "Opus"
 
 msgctxt "IDS_MFMT_PLS"
 msgid "Playlist"

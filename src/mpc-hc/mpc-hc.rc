@@ -2629,6 +2629,8 @@ BEGIN
     IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS "Please wait, analysis in progress..."
     IDS_ASPECT_RATIO_FMT    "AR %d:%d"
     IDS_PPAGEADVANCED_LOGGER "Enables logging to file. (require restart)"
+    IDS_TIMER_REMAINING_TIME "Remaining time"
+    IDS_TIMER_HIGH_PRECISION "High precision"
 END
 
 STRINGTABLE
@@ -3166,9 +3168,17 @@ END
 STRINGTABLE
 BEGIN
     IDS_MFMT_AC3            "AC-3"
-    IDS_MFMT_DTS            "DTS/DTS-HD"
     IDS_MFMT_AIFF           "AIFF"
     IDS_MFMT_ALAC           "Apple Lossless"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_MFMT_WAV            "WAV"
+    IDS_MFMT_WMA            "Windows Media Audio"
+    IDS_MFMT_WV             "WavPack"
+    IDS_MFMT_OPUS           "Opus Audio Codec"
+    IDS_MFMT_DTS            "DTS/DTS-HD"
 END
 
 STRINGTABLE
@@ -3189,14 +3199,6 @@ BEGIN
     IDS_MFMT_RA             "Real Audio"
     IDS_MFMT_TAK            "TAK"
     IDS_MFMT_TTA            "True Audio"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_MFMT_WAV            "WAV"
-    IDS_MFMT_WMA            "Windows Media Audio"
-    IDS_MFMT_WV             "WavPack"
-    IDS_MFMT_OPUS           "Opus Audio Codec"
 END
 
 STRINGTABLE

@@ -436,7 +436,7 @@ BOOL CPlayerStatusBar::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
     GetCursorPos(&p);
     ScreenToClient(&p);
 
-    if (m_time_rect.PtInRect(p)) {
+    if (m_time_rect.PtInRect(p) && !IsMenu(m_timerMenu)) {
         SetCursor(LoadCursor(nullptr, IDC_HAND));
         return TRUE;
     }
@@ -491,17 +491,16 @@ void CPlayerStatusBar::OnContextMenu(CWnd* pWnd, CPoint point)
     CAppSettings& s = AfxGetAppSettings();
 
     enum {
-        REMAINIGN_TIME,
+        REMAINING_TIME = 1,
         HIGH_PRECISION
     };
 
-    CMenu m;
-    m.CreatePopupMenu();
-    m.AppendMenu(MF_STRING | MF_ENABLED | (s.fRemainingTime ? MF_CHECKED : MF_UNCHECKED), REMAINIGN_TIME, _T("Remaining time"));
-    m.AppendMenu(MF_STRING | MF_ENABLED | (s.bHighPrecisionTimer ? MF_CHECKED : MF_UNCHECKED), HIGH_PRECISION, _T("High precision"));
+    m_timerMenu.CreatePopupMenu();
+    m_timerMenu.AppendMenu(MF_STRING | MF_ENABLED | (s.fRemainingTime ? MF_CHECKED : MF_UNCHECKED), REMAINING_TIME, ResStr(IDS_TIMER_REMAINING_TIME));
+    m_timerMenu.AppendMenu(MF_STRING | MF_ENABLED | (s.bHighPrecisionTimer ? MF_CHECKED : MF_UNCHECKED), HIGH_PRECISION, ResStr(IDS_TIMER_HIGH_PRECISION));
 
-    switch (m.TrackPopupMenu(TPM_LEFTBUTTON | TPM_RETURNCMD, point.x, point.y, this)) {
-        case REMAINIGN_TIME:
+    switch (m_timerMenu.TrackPopupMenu(TPM_LEFTBUTTON | TPM_RETURNCMD, point.x, point.y, this)) {
+        case REMAINING_TIME:
             s.fRemainingTime = !s.fRemainingTime;
             m_eventc.FireEvent(MpcEvent::STREAM_POS_UPDATE_REQUEST);
             break;
@@ -510,6 +509,7 @@ void CPlayerStatusBar::OnContextMenu(CWnd* pWnd, CPoint point)
             m_eventc.FireEvent(MpcEvent::STREAM_POS_UPDATE_REQUEST);
             break;
     }
+    m_timerMenu.DestroyMenu();
 }
 
 BOOL CPlayerStatusBar::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)

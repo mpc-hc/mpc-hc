@@ -1376,6 +1376,14 @@ msgctxt "IDS_PPAGEADVANCED_LOGGER"
 msgid "Enables logging to file. (require restart)"
 msgstr ""
 
+msgctxt "IDS_TIMER_REMAINING_TIME"
+msgid "Remaining time"
+msgstr ""
+
+msgctxt "IDS_TIMER_HIGH_PRECISION"
+msgid "High precision"
+msgstr ""
+
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
 msgstr "Բացել սարքը"
@@ -2904,16 +2912,32 @@ msgctxt "IDS_MFMT_AC3"
 msgid "AC-3"
 msgstr ""
 
-msgctxt "IDS_MFMT_DTS"
-msgid "DTS/DTS-HD"
-msgstr ""
-
 msgctxt "IDS_MFMT_AIFF"
 msgid "AIFF"
 msgstr ""
 
 msgctxt "IDS_MFMT_ALAC"
 msgid "Apple Lossless"
+msgstr ""
+
+msgctxt "IDS_MFMT_WAV"
+msgid "WAV"
+msgstr ""
+
+msgctxt "IDS_MFMT_WMA"
+msgid "Windows Media Audio"
+msgstr ""
+
+msgctxt "IDS_MFMT_WV"
+msgid "WavPack"
+msgstr ""
+
+msgctxt "IDS_MFMT_OPUS"
+msgid "Opus Audio Codec"
+msgstr ""
+
+msgctxt "IDS_MFMT_DTS"
+msgid "DTS/DTS-HD"
 msgstr ""
 
 msgctxt "IDS_MFMT_AMR"
@@ -2978,22 +3002,6 @@ msgstr ""
 
 msgctxt "IDS_MFMT_TTA"
 msgid "True Audio"
-msgstr ""
-
-msgctxt "IDS_MFMT_WAV"
-msgid "WAV"
-msgstr ""
-
-msgctxt "IDS_MFMT_WMA"
-msgid "Windows Media Audio"
-msgstr ""
-
-msgctxt "IDS_MFMT_WV"
-msgid "WavPack"
-msgstr ""
-
-msgctxt "IDS_MFMT_OPUS"
-msgid "Opus Audio Codec"
 msgstr ""
 
 msgctxt "IDS_MFMT_PLS"
