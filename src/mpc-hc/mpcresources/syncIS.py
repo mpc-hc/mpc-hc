@@ -18,21 +18,43 @@
 import sys
 import os
 import fnmatch
+import traceback
 
+from multiprocessing import Pool
 from UpdateISPOT import *
 from UpdateISPO import *
 from UpdateIS import *
+
+def processPO(file):
+    ret = 'Updating PO file ' + file + '\n'
+    result = True
+    try:
+        UpdateISPO(file)
+    except Exception as e:
+        ret += ''.join(traceback.format_exception(*sys.exc_info()))
+        result = False
+
+    ret += '----------------------'
+    return result, ret
 
 if __name__ == '__main__':
     print 'Updating POT file'
     UpdateISPOT()
     print '----------------------'
 
+    pool = Pool();
+    results = []
     for file in os.listdir('PO'):
         if fnmatch.fnmatch(file, 'mpc-hc.installer.*.strings.po'):
-            print 'Updating PO file', file
-            UpdateISPO(os.path.splitext(file)[0])
-            print '----------------------'
+            results.append(pool.apply_async(processPO, [os.path.splitext(file)[0]]));
+
+    pool.close()
+
+    for result in results:
+        ret = result.get(True)
+        print ret[1]
+        if (not ret[0]):
+            os.system('pause')
 
     print 'Updating IS file'
     UpdateIS(False)

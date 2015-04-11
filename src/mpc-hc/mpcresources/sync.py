@@ -18,22 +18,48 @@
 import sys
 import os
 import fnmatch
+import traceback
 
+from multiprocessing import Pool
 from UpdatePOT import *
 from UpdatePO import *
 from UpdateRC import *
+
+def processRC(file):
+    ret = file + '\n'
+    result = True
+    try:
+        ret += '--> Updating PO file\n'
+        UpdatePO(file)
+    except Exception as e:
+        ret += ''.join(traceback.format_exception(*sys.exc_info()))
+        result = False
+    else:
+        try:
+            ret += '--> Updating RC file\n'
+            UpdateRC(file, False)
+        except Exception as e:
+            ret += ''.join(traceback.format_exception(*sys.exc_info()))
+            result = False
+
+    ret += '----------------------'
+    return result, ret
 
 if __name__ == '__main__':
     print 'Updating POT file'
     UpdatePOT()
     print '----------------------'
 
+    pool = Pool()
+    results = []
     for file in os.listdir('.'):
         if fnmatch.fnmatch(file, '*.rc'):
-            print file
-            file = os.path.splitext(file)[0]
-            print '--> Updating PO files'
-            UpdatePO(file)
-            print '--> Updating RC file'
-            UpdateRC(file, False)
-            print '----------------------'
+            results.append(pool.apply_async(processRC, [os.path.splitext(file)[0]]));
+
+    pool.close()
+
+    for result in results:
+        ret = result.get(True)
+        print ret[1]
+        if (not ret[0]):
+            os.system('pause')
