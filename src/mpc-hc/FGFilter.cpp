@@ -459,6 +459,9 @@ HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnkno
                 }
                 // madVR supports calling IVideoWindow::put_Owner before the pins are connected
                 if (m_clsid == CLSID_madVRAllocatorPresenter) {
+                    if (CComQIPtr<IMadVRSubclassReplacement> pMVRSR = pCAP) {
+                        VERIFY(SUCCEEDED(pMVRSR->DisableSubclassing()));
+                    }
                     if (CComQIPtr<IVideoWindow> pVW = pCAP) {
                         pVW->put_Owner((OAHWND)m_hWnd);
                     }

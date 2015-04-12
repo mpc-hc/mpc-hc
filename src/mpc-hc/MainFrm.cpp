@@ -11699,6 +11699,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         m_pGB->FindInterface(IID_PPV_ARGS(&m_pVMRMC), TRUE);
         m_pGB->FindInterface(IID_PPV_ARGS(&pVMB), TRUE);
         m_pGB->FindInterface(IID_PPV_ARGS(&pMFVMB), TRUE);
+        m_pMVRSR = m_pCAP;
         m_pMVRS = m_pCAP;
         pMVTO = m_pCAP;
 
@@ -11866,6 +11867,7 @@ void CMainFrame::CloseMediaPrivate()
     // IMPORTANT: IVMRSurfaceAllocatorNotify/IVMRSurfaceAllocatorNotify9 has to be released before the VMR/VMR9, otherwise it will crash in Release()
     m_OSD.Stop();
     m_pMVRS.Release();
+    m_pMVRSR.Release();
     m_pCAP2.Release();
     m_pCAP.Release();
     m_pVMRWC.Release();
@@ -14086,6 +14088,7 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
             CComPtr<IMadVRTextOsd>       pMVTO;
 
             m_pMVRS.Release();
+            m_pMVRSR.Release();
 
             m_OSD.Stop();
             m_pCAP2.Release();
@@ -14107,6 +14110,7 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
             m_pGB->FindInterface(IID_PPV_ARGS(&m_pMFVDC), TRUE);
             m_pGB->FindInterface(IID_PPV_ARGS(&m_pMFVP), TRUE);
             pMVTO = m_pCAP;
+            m_pMVRSR = m_pCAP;
             m_pMVRS = m_pCAP;
 
             const CAppSettings& s = AfxGetAppSettings();
@@ -15931,11 +15935,6 @@ HRESULT CMainFrame::UpdateThumbnailClip()
 
 LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
-    if (message == WM_LBUTTONDOWN || message == WM_LBUTTONUP) {
-        ASSERT(m_pMVRS);
-        return 42;
-    }
-
     if ((message == WM_COMMAND) && (THBN_CLICKED == HIWORD(wParam))) {
         int const wmId = LOWORD(wParam);
         switch (wmId) {
@@ -15966,7 +15965,25 @@ LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
         return 0;
     }
 
-    return __super::WindowProc(message, wParam, lParam);
+    LRESULT ret = 0;
+    bool bCallOurProc = true;
+    if (m_pMVRSR) {
+        // call madVR window proc directly when the interface is available
+        switch (message) {
+            case WM_MOUSEMOVE:
+            case WM_LBUTTONDOWN:
+            case WM_LBUTTONUP:
+                // CMouseWnd will call madVR window proc
+                break;
+            default:
+                bCallOurProc = !m_pMVRSR->ParentWindowProc(m_hWnd, message, &wParam, &lParam, &ret);
+        }
+    }
+    if (bCallOurProc) {
+        ret = __super::WindowProc(message, wParam, lParam);
+    }
+
+    return ret;
 }
 
 bool CMainFrame::IsAeroSnapped()
