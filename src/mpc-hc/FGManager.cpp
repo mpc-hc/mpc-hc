@@ -1687,6 +1687,26 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     }
 #endif
 
+#if INTERNAL_SOURCEFILTER_AC3
+    if (src[SRC_AC3]) {
+        pFGLAVSplitter->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_DOLBY_AC3);
+        pFGLAVSplitter->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_DOLBY_TRUEHD);
+        pFGLAVSplitter->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_DOLBY_DDPLUS);
+        pFGLAVSplitter->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MLP);
+        pFGLAVSplitter->AddEnabledFormat("ac3");
+        pFGLAVSplitter->AddEnabledFormat("eac3");
+    }
+#endif
+
+#if INTERNAL_SOURCEFILTER_DTS
+    if (src[SRC_DTS]) {
+        pFGLAVSplitter->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_DTS);
+        pFGLAVSplitter->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_DTS_HD);
+        pFGLAVSplitter->AddEnabledFormat("dts");
+        pFGLAVSplitter->AddEnabledFormat("dtshd");
+    }
+#endif
+
 #if INTERNAL_SOURCEFILTER_MPEGAUDIO
     if (src[SRC_MPA]) {
         pFGLAVSplitter->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG1Audio);
