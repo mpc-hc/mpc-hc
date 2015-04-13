@@ -326,12 +326,12 @@ msgid "On/Off"
 msgstr "Zap/Vyp"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
-msgid "From fps"
-msgstr "Od fps"
+msgid "From FPS"
+msgstr "Od FPS"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
-msgid "To fps"
-msgstr "Do fps"
+msgid "To FPS"
+msgstr "Do FPS"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
@@ -1426,11 +1426,11 @@ msgid "Stop"
 msgstr "Zastavit"
 
 msgctxt "IDS_AG_FRAMESTEP"
-msgid "Framestep"
+msgid "Frame-step"
 msgstr "O snímek vpřed"
 
 msgctxt "IDS_MPLAYERC_16"
-msgid "Framestep back"
+msgid "Frame-step back"
 msgstr "O snímek zpět"
 
 msgctxt "IDS_AG_GO_TO"
@@ -2290,8 +2290,8 @@ msgid "Out of memory"
 msgstr "Nedostatek paměti"
 
 msgctxt "IDS_MAINFRM_77"
-msgid "Error: Flash player for IE is required"
-msgstr "Chyba: Vyžadován Flash plugin pro IE"
+msgid "Error: Adobe Flash Player for Internet Explorer is required"
+msgstr "Chyba: Vyžadován Flash plugin pro Internet Explorer"
 
 msgctxt "IDS_MAINFRM_78"
 msgid "QuickTime not yet supported for X64 (apple library not available)"
@@ -2362,7 +2362,7 @@ msgid "Toggle Caption&Menu"
 msgstr "Zobrazit/Skrýt záhlaví a hlavní nabídku"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seeker"
+msgid "Toggle Seek Bar"
 msgstr "Zobrazit/Skrýt panel hledání"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
@@ -2730,11 +2730,11 @@ msgid "Advanced"
 msgstr "Pokročilé"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seekbar"
+msgid "Above seek bar"
 msgstr "Nad panelem hledání"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seekbar"
+msgid "Below seek bar"
 msgstr "Pod panelem hledání"
 
 msgctxt "IDS_VIDEO_STREAM"
@@ -3382,7 +3382,7 @@ msgid "Error parsing the entered frame rate!"
 msgstr "Při analýze zadané snímkové frekvence došlo k chybě!"
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
-msgid "Cannot frame step, try a different video renderer."
+msgid "Cannot frame-step, try a different video renderer."
 msgstr "Pohyb po snímcích není podporován, zkuste použít jiný video renderer."
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"

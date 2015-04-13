@@ -667,7 +667,7 @@ msgstr "Nhanh chóng tìm kiếm (trên khung hình)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK2"
 msgid "Show chapter marks in seek bar"
-msgstr "Dấu cho thấy chương trong seekbar"
+msgstr "Dấu cho thấy chương trong seek bar"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK4"
 msgid "Display \"Now Playing\" information in Skype's mood message"

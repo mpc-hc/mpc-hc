@@ -330,12 +330,12 @@ msgid "On/Off"
 msgstr "Uklj./Isklj."
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
-msgid "From fps"
-msgstr "Od fps"
+msgid "From FPS"
+msgstr "Od FPS"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
-msgid "To fps"
-msgstr "Do fps"
+msgid "To FPS"
+msgstr "Do FPS"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
@@ -1430,11 +1430,11 @@ msgid "Stop"
 msgstr "stani"
 
 msgctxt "IDS_AG_FRAMESTEP"
-msgid "Framestep"
+msgid "Frame-step"
 msgstr "Korak slike"
 
 msgctxt "IDS_MPLAYERC_16"
-msgid "Framestep back"
+msgid "Frame-step back"
 msgstr "Korak slike nazad"
 
 msgctxt "IDS_AG_GO_TO"
@@ -2294,8 +2294,8 @@ msgid "Out of memory"
 msgstr "nedostaje memorije"
 
 msgctxt "IDS_MAINFRM_77"
-msgid "Error: Flash player for IE is required"
-msgstr "greska: za IE potreban je flash player"
+msgid "Error: Adobe Flash Player for Internet Explorer is required"
+msgstr "greska: za Internet Explorer potreban je Adobe Flash Player"
 
 msgctxt "IDS_MAINFRM_78"
 msgid "QuickTime not yet supported for X64 (apple library not available)"
@@ -2366,7 +2366,7 @@ msgid "Toggle Caption&Menu"
 msgstr "Namjestiti natpis&izbornik"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seeker"
+msgid "Toggle Seek Bar"
 msgstr "Namjestiti klizač"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
@@ -2734,11 +2734,11 @@ msgid "Advanced"
 msgstr "Napredno"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seekbar"
+msgid "Above seek bar"
 msgstr "Iznad trake za pomicanje"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seekbar"
+msgid "Below seek bar"
 msgstr "Ispod trake za pomicanje"
 
 msgctxt "IDS_VIDEO_STREAM"
@@ -3386,7 +3386,7 @@ msgid "Error parsing the entered frame rate!"
 msgstr "Greška slanja unesene brzine izmjene!"
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
-msgid "Cannot frame step, try a different video renderer."
+msgid "Cannot frame-step, try a different video renderer."
 msgstr "Nemoguć korak slike, pokušajte drukčiji video izvođač."
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"

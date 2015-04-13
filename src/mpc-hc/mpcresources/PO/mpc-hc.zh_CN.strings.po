@@ -327,12 +327,12 @@ msgid "On/Off"
 msgstr "开/关"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
-msgid "From fps"
-msgstr "从 fps"
+msgid "From FPS"
+msgstr "从 FPS"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
-msgid "To fps"
-msgstr "到 fps"
+msgid "To FPS"
+msgstr "到 FPS"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
@@ -1427,11 +1427,11 @@ msgid "Stop"
 msgstr "停止"
 
 msgctxt "IDS_AG_FRAMESTEP"
-msgid "Framestep"
+msgid "Frame-step"
 msgstr "帧步进"
 
 msgctxt "IDS_MPLAYERC_16"
-msgid "Framestep back"
+msgid "Frame-step back"
 msgstr "帧回退"
 
 msgctxt "IDS_AG_GO_TO"
@@ -2291,8 +2291,8 @@ msgid "Out of memory"
 msgstr "内存溢出"
 
 msgctxt "IDS_MAINFRM_77"
-msgid "Error: Flash player for IE is required"
-msgstr "错误: 需要用于 IE 的 Flash player"
+msgid "Error: Adobe Flash Player for Internet Explorer is required"
+msgstr "错误: 需要用于 Internet Explorer 的 Adobe Flash Player"
 
 msgctxt "IDS_MAINFRM_78"
 msgid "QuickTime not yet supported for X64 (apple library not available)"
@@ -2363,7 +2363,7 @@ msgid "Toggle Caption&Menu"
 msgstr "切换标题与菜单"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seeker"
+msgid "Toggle Seek Bar"
 msgstr "切换进度栏"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
@@ -2731,11 +2731,11 @@ msgid "Advanced"
 msgstr "高级"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seekbar"
+msgid "Above seek bar"
 msgstr "在进度栏之上"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seekbar"
+msgid "Below seek bar"
 msgstr "在进度栏之下"
 
 msgctxt "IDS_VIDEO_STREAM"
@@ -3383,7 +3383,7 @@ msgid "Error parsing the entered frame rate!"
 msgstr "解析输入的帧率错误！"
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
-msgid "Cannot frame step, try a different video renderer."
+msgid "Cannot frame-step, try a different video renderer."
 msgstr "无法进行帧步进,请尝试其它视频渲染器。"
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"

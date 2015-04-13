@@ -334,12 +334,12 @@ msgid "On/Off"
 msgstr "Activado/desactivado"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
-msgid "From fps"
-msgstr "De fps"
+msgid "From FPS"
+msgstr "De FPS"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
-msgid "To fps"
-msgstr "A fps"
+msgid "To FPS"
+msgstr "A FPS"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
@@ -1434,11 +1434,11 @@ msgid "Stop"
 msgstr "Detener"
 
 msgctxt "IDS_AG_FRAMESTEP"
-msgid "Framestep"
+msgid "Frame-step"
 msgstr "Avanzar un cuadro"
 
 msgctxt "IDS_MPLAYERC_16"
-msgid "Framestep back"
+msgid "Frame-step back"
 msgstr "Retroceder un cuadro"
 
 msgctxt "IDS_AG_GO_TO"
@@ -2298,8 +2298,8 @@ msgid "Out of memory"
 msgstr "Memoria agotada"
 
 msgctxt "IDS_MAINFRM_77"
-msgid "Error: Flash player for IE is required"
-msgstr "Error: se necesita el reproductor Flash para IE"
+msgid "Error: Adobe Flash Player for Internet Explorer is required"
+msgstr "Error: se necesita el reproductor Flash para Internet Explorer"
 
 msgctxt "IDS_MAINFRM_78"
 msgid "QuickTime not yet supported for X64 (apple library not available)"
@@ -2370,7 +2370,7 @@ msgid "Toggle Caption&Menu"
 msgstr "Alternar Menú de &Captura"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seeker"
+msgid "Toggle Seek Bar"
 msgstr "Mostrar/ocultar barra de navegación"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
@@ -2738,11 +2738,11 @@ msgid "Advanced"
 msgstr "Avanzado"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seekbar"
+msgid "Above seek bar"
 msgstr "Sobre la barra de desplazamiento"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seekbar"
+msgid "Below seek bar"
 msgstr "Bajo la barra de desplazamiento"
 
 msgctxt "IDS_VIDEO_STREAM"
@@ -3390,7 +3390,7 @@ msgid "Error parsing the entered frame rate!"
 msgstr "Error al analizar la velocidad de cuadro introducido"
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
-msgid "Cannot frame step, try a different video renderer."
+msgid "Cannot frame-step, try a different video renderer."
 msgstr "No se puede enmarcar paso, pruebe con un render de vídeo diferente."
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"

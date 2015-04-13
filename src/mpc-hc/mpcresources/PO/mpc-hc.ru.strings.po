@@ -331,12 +331,12 @@ msgid "On/Off"
 msgstr "Вкл/Выкл"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
-msgid "From fps"
-msgstr "От (fps)"
+msgid "From FPS"
+msgstr "От (FPS)"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
-msgid "To fps"
-msgstr "До (fps)"
+msgid "To FPS"
+msgstr "До (FPS)"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
@@ -1431,11 +1431,11 @@ msgid "Stop"
 msgstr "Стоп"
 
 msgctxt "IDS_AG_FRAMESTEP"
-msgid "Framestep"
+msgid "Frame-step"
 msgstr "Шаг вперед"
 
 msgctxt "IDS_MPLAYERC_16"
-msgid "Framestep back"
+msgid "Frame-step back"
 msgstr "Шаг назад"
 
 msgctxt "IDS_AG_GO_TO"
@@ -2295,8 +2295,8 @@ msgid "Out of memory"
 msgstr "Не хватает памяти"
 
 msgctxt "IDS_MAINFRM_77"
-msgid "Error: Flash player for IE is required"
-msgstr "Ошибка: требуется Flash для IE"
+msgid "Error: Adobe Flash Player for Internet Explorer is required"
+msgstr "Ошибка: требуется Flash для Internet Explorer"
 
 msgctxt "IDS_MAINFRM_78"
 msgid "QuickTime not yet supported for X64 (apple library not available)"
@@ -2367,7 +2367,7 @@ msgid "Toggle Caption&Menu"
 msgstr "Вкл/Откл заголовок и меню"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seeker"
+msgid "Toggle Seek Bar"
 msgstr "Вкл/Откл полосу прокрутки"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
@@ -2735,11 +2735,11 @@ msgid "Advanced"
 msgstr "Расширенный"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seekbar"
+msgid "Above seek bar"
 msgstr "над полосой прокрутки"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seekbar"
+msgid "Below seek bar"
 msgstr "под полосой прокрутки"
 
 msgctxt "IDS_VIDEO_STREAM"
@@ -3387,7 +3387,7 @@ msgid "Error parsing the entered frame rate!"
 msgstr "Количество кадров в секунду записаны некорректно!"
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
-msgid "Cannot frame step, try a different video renderer."
+msgid "Cannot frame-step, try a different video renderer."
 msgstr "Покадровый просмотр невозможен, попробуйте другой видеорендерер."
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"

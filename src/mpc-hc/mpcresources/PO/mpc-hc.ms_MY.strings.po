@@ -325,12 +325,12 @@ msgid "On/Off"
 msgstr "Hidup/Mati"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
-msgid "From fps"
-msgstr "Dari fps"
+msgid "From FPS"
+msgstr "Dari FPS"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
-msgid "To fps"
-msgstr "Ke fps"
+msgid "To FPS"
+msgstr "Ke FPS"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
@@ -1425,11 +1425,11 @@ msgid "Stop"
 msgstr "Henti"
 
 msgctxt "IDS_AG_FRAMESTEP"
-msgid "Framestep"
+msgid "Frame-step"
 msgstr "Langkah Bingkai"
 
 msgctxt "IDS_MPLAYERC_16"
-msgid "Framestep back"
+msgid "Frame-step back"
 msgstr "Langkah bingkai undur"
 
 msgctxt "IDS_AG_GO_TO"
@@ -2289,8 +2289,8 @@ msgid "Out of memory"
 msgstr "Kehabisan ingatan"
 
 msgctxt "IDS_MAINFRM_77"
-msgid "Error: Flash player for IE is required"
-msgstr "Ralat: Pemain Flash untuk IE diperlukan"
+msgid "Error: Adobe Flash Player for Internet Explorer is required"
+msgstr "Ralat: Pemain Flash untuk Internet Explorer diperlukan"
 
 msgctxt "IDS_MAINFRM_78"
 msgid "QuickTime not yet supported for X64 (apple library not available)"
@@ -2361,7 +2361,7 @@ msgid "Toggle Caption&Menu"
 msgstr "Togol Menu&Kapsyen"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seeker"
+msgid "Toggle Seek Bar"
 msgstr "Togol Penjangkau"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
@@ -2729,11 +2729,11 @@ msgid "Advanced"
 msgstr "Lanjutan"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seekbar"
+msgid "Above seek bar"
 msgstr "Atas palang jangkau"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seekbar"
+msgid "Below seek bar"
 msgstr "Bawah palang jangkau"
 
 msgctxt "IDS_VIDEO_STREAM"
@@ -3381,7 +3381,7 @@ msgid "Error parsing the entered frame rate!"
 msgstr "Ralat menghurai kadar bingkai dimasuki!"
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
-msgid "Cannot frame step, try a different video renderer."
+msgid "Cannot frame-step, try a different video renderer."
 msgstr "Tidak dapat langkah bingkai, cuba penerap video yang lain."
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"

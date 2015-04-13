@@ -326,11 +326,11 @@ msgid "On/Off"
 msgstr "Päällä/pois"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
-msgid "From fps"
+msgid "From FPS"
 msgstr "Kehysnopeudesta"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
-msgid "To fps"
+msgid "To FPS"
 msgstr "kehysnopeuteen"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
@@ -1426,11 +1426,11 @@ msgid "Stop"
 msgstr "Pysäytä"
 
 msgctxt "IDS_AG_FRAMESTEP"
-msgid "Framestep"
+msgid "Frame-step"
 msgstr "Kehysaskel"
 
 msgctxt "IDS_MPLAYERC_16"
-msgid "Framestep back"
+msgid "Frame-step back"
 msgstr "Kehysaskel taakse"
 
 msgctxt "IDS_AG_GO_TO"
@@ -2290,8 +2290,8 @@ msgid "Out of memory"
 msgstr "Muisti lopussa"
 
 msgctxt "IDS_MAINFRM_77"
-msgid "Error: Flash player for IE is required"
-msgstr "Virhe: IE:n Flash player vaaditaan"
+msgid "Error: Adobe Flash Player for Internet Explorer is required"
+msgstr "Virhe: Internet Explorer:n Adobe Flash Player vaaditaan"
 
 msgctxt "IDS_MAINFRM_78"
 msgid "QuickTime not yet supported for X64 (apple library not available)"
@@ -2362,7 +2362,7 @@ msgid "Toggle Caption&Menu"
 msgstr "Tekstitysvalikko päällä/pois"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seeker"
+msgid "Toggle Seek Bar"
 msgstr "Etsintä päällä/pois"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
@@ -2730,11 +2730,11 @@ msgid "Advanced"
 msgstr "Kehittynyt"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seekbar"
+msgid "Above seek bar"
 msgstr "Etsintäpalkin yläpuolella"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seekbar"
+msgid "Below seek bar"
 msgstr "Etsintäpalkin alapuolella"
 
 msgctxt "IDS_VIDEO_STREAM"
@@ -3382,7 +3382,7 @@ msgid "Error parsing the entered frame rate!"
 msgstr "Virhe jäsennettäessä annettua kehysnopeutta!"
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
-msgid "Cannot frame step, try a different video renderer."
+msgid "Cannot frame-step, try a different video renderer."
 msgstr "Kehystä ei voi askeltaa, yritä eri videomuuntimella."
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"

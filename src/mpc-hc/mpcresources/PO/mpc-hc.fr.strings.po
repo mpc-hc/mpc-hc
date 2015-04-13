@@ -325,11 +325,11 @@ msgid "On/Off"
 msgstr "Activé"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
-msgid "From fps"
+msgid "From FPS"
 msgstr "IPS d'origine"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
-msgid "To fps"
+msgid "To FPS"
 msgstr "IPS cible"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
@@ -1425,11 +1425,11 @@ msgid "Stop"
 msgstr "Arrêter"
 
 msgctxt "IDS_AG_FRAMESTEP"
-msgid "Framestep"
+msgid "Frame-step"
 msgstr "Image suivante"
 
 msgctxt "IDS_MPLAYERC_16"
-msgid "Framestep back"
+msgid "Frame-step back"
 msgstr "Image précédente"
 
 msgctxt "IDS_AG_GO_TO"
@@ -2289,8 +2289,8 @@ msgid "Out of memory"
 msgstr "Mémoire insuffisante"
 
 msgctxt "IDS_MAINFRM_77"
-msgid "Error: Flash player for IE is required"
-msgstr "Erreur : le lecteur Flash pour IE est requis"
+msgid "Error: Adobe Flash Player for Internet Explorer is required"
+msgstr "Erreur : le lecteur Flash pour Internet Explorer est requis"
 
 msgctxt "IDS_MAINFRM_78"
 msgid "QuickTime not yet supported for X64 (apple library not available)"
@@ -2361,7 +2361,7 @@ msgid "Toggle Caption&Menu"
 msgstr "Afficher le titre et le menu"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seeker"
+msgid "Toggle Seek Bar"
 msgstr "Afficher la barre de recherche"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
@@ -2729,11 +2729,11 @@ msgid "Advanced"
 msgstr "Réglages expert"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seekbar"
+msgid "Above seek bar"
 msgstr "Au-dessus de la barre de lecture"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seekbar"
+msgid "Below seek bar"
 msgstr "Au-dessous de la barre de lecture"
 
 msgctxt "IDS_VIDEO_STREAM"
@@ -3381,7 +3381,7 @@ msgid "Error parsing the entered frame rate!"
 msgstr "L'analyse du débit d'images entré a échoué !"
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
-msgid "Cannot frame step, try a different video renderer."
+msgid "Cannot frame-step, try a different video renderer."
 msgstr "Impossible d'utiliser le déplacement image par image, réessayez avec un autre moteur de rendu vidéo."
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"

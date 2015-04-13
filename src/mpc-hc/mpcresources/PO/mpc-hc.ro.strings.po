@@ -326,12 +326,12 @@ msgid "On/Off"
 msgstr "Pornit/Oprit"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
-msgid "From fps"
-msgstr "De la fps"
+msgid "From FPS"
+msgstr "De la FPS"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
-msgid "To fps"
-msgstr "La fps"
+msgid "To FPS"
+msgstr "La FPS"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
@@ -1426,11 +1426,11 @@ msgid "Stop"
 msgstr "Oprire"
 
 msgctxt "IDS_AG_FRAMESTEP"
-msgid "Framestep"
+msgid "Frame-step"
 msgstr "Cadrul următor"
 
 msgctxt "IDS_MPLAYERC_16"
-msgid "Framestep back"
+msgid "Frame-step back"
 msgstr "Cadrul precedent"
 
 msgctxt "IDS_AG_GO_TO"
@@ -2290,8 +2290,8 @@ msgid "Out of memory"
 msgstr "Memorie insuficientă"
 
 msgctxt "IDS_MAINFRM_77"
-msgid "Error: Flash player for IE is required"
-msgstr "Eroare: Este necesar Flash pentru IE"
+msgid "Error: Adobe Flash Player for Internet Explorer is required"
+msgstr "Eroare: Este necesar Flash pentru Internet Explorer"
 
 msgctxt "IDS_MAINFRM_78"
 msgid "QuickTime not yet supported for X64 (apple library not available)"
@@ -2362,7 +2362,7 @@ msgid "Toggle Caption&Menu"
 msgstr "Comută meniu și titlu"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seeker"
+msgid "Toggle Seek Bar"
 msgstr "Comută bara de căutare"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
@@ -2730,11 +2730,11 @@ msgid "Advanced"
 msgstr "Avansat"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seekbar"
+msgid "Above seek bar"
 msgstr "Deasupra barei de căutare"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seekbar"
+msgid "Below seek bar"
 msgstr "Sub bara de căutare"
 
 msgctxt "IDS_VIDEO_STREAM"
@@ -3382,7 +3382,7 @@ msgid "Error parsing the entered frame rate!"
 msgstr "Eroare la analizarea ratei de cadre introduse!"
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
-msgid "Cannot frame step, try a different video renderer."
+msgid "Cannot frame-step, try a different video renderer."
 msgstr "Nu se poate face deplasare cadru cu cadru, încercați un randor video diferit."
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"

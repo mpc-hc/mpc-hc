@@ -333,11 +333,11 @@ msgid "On/Off"
 msgstr "Sim/Não"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
-msgid "From fps"
-msgstr "Do fps"
+msgid "From FPS"
+msgstr "Do FPS"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
-msgid "To fps"
+msgid "To FPS"
 msgstr "Para"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
@@ -1433,11 +1433,11 @@ msgid "Stop"
 msgstr "Parar"
 
 msgctxt "IDS_AG_FRAMESTEP"
-msgid "Framestep"
+msgid "Frame-step"
 msgstr "Avançar um quadro"
 
 msgctxt "IDS_MPLAYERC_16"
-msgid "Framestep back"
+msgid "Frame-step back"
 msgstr "Voltar um quadro"
 
 msgctxt "IDS_AG_GO_TO"
@@ -2297,8 +2297,8 @@ msgid "Out of memory"
 msgstr "Falta de memória!!!"
 
 msgctxt "IDS_MAINFRM_77"
-msgid "Error: Flash player for IE is required"
-msgstr "Erro: Flash para IE não instalado"
+msgid "Error: Adobe Flash Player for Internet Explorer is required"
+msgstr "Erro: Flash para Internet Explorer não instalado"
 
 msgctxt "IDS_MAINFRM_78"
 msgid "QuickTime not yet supported for X64 (apple library not available)"
@@ -2369,7 +2369,7 @@ msgid "Toggle Caption&Menu"
 msgstr "Mostrar menu de captura"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seeker"
+msgid "Toggle Seek Bar"
 msgstr "Mostrar seeker"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
@@ -2737,11 +2737,11 @@ msgid "Advanced"
 msgstr "Avançado"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seekbar"
+msgid "Above seek bar"
 msgstr "Acima da barra de progresso"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seekbar"
+msgid "Below seek bar"
 msgstr "Abaixo da barra de progresso"
 
 msgctxt "IDS_VIDEO_STREAM"
@@ -3389,7 +3389,7 @@ msgid "Error parsing the entered frame rate!"
 msgstr "Erro ao tentar processar a taxa de quadros digitada!"
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
-msgid "Cannot frame step, try a different video renderer."
+msgid "Cannot frame-step, try a different video renderer."
 msgstr "Não é possivel pular o quadro, tente processador de vídeo diferente."
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"

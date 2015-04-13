@@ -332,11 +332,11 @@ msgid "On/Off"
 msgstr "Ein/Aus"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
-msgid "From fps"
+msgid "From FPS"
 msgstr "Von (fps)"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
-msgid "To fps"
+msgid "To FPS"
 msgstr "Bis (fps)"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
@@ -1432,11 +1432,11 @@ msgid "Stop"
 msgstr "Stopp"
 
 msgctxt "IDS_AG_FRAMESTEP"
-msgid "Framestep"
+msgid "Frame-step"
 msgstr "Einzelbild vor"
 
 msgctxt "IDS_MPLAYERC_16"
-msgid "Framestep back"
+msgid "Frame-step back"
 msgstr "Einzelbild zurück"
 
 msgctxt "IDS_AG_GO_TO"
@@ -2296,8 +2296,8 @@ msgid "Out of memory"
 msgstr "Zu wenig Arbeitsspeicher verfügbar"
 
 msgctxt "IDS_MAINFRM_77"
-msgid "Error: Flash player for IE is required"
-msgstr "Flash Player für Internet Explorer wird benötigt."
+msgid "Error: Adobe Flash Player for Internet Explorer is required"
+msgstr "Adobe Flash Player für Internet Explorer wird benötigt."
 
 msgctxt "IDS_MAINFRM_78"
 msgid "QuickTime not yet supported for X64 (apple library not available)"
@@ -2368,7 +2368,7 @@ msgid "Toggle Caption&Menu"
 msgstr "Ansicht: Fensterelemente (ein/aus)"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seeker"
+msgid "Toggle Seek Bar"
 msgstr "Ansicht: Zeitleiste (ein/aus)"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
@@ -2736,11 +2736,11 @@ msgid "Advanced"
 msgstr "Erweitert"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seekbar"
+msgid "Above seek bar"
 msgstr "Über der Zeitleiste"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seekbar"
+msgid "Below seek bar"
 msgstr "Unter der Zeitleiste"
 
 msgctxt "IDS_VIDEO_STREAM"
@@ -3388,7 +3388,7 @@ msgid "Error parsing the entered frame rate!"
 msgstr "Parser-Fehler bei angegebener Bildrate."
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
-msgid "Cannot frame step, try a different video renderer."
+msgid "Cannot frame-step, try a different video renderer."
 msgstr "Einzelbildschaltung nicht möglich. Bitte einen anderen Video-Renderer verwenden."
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"

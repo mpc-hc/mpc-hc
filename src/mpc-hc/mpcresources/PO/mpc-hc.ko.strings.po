@@ -326,11 +326,11 @@ msgid "On/Off"
 msgstr "켬/끔"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
-msgid "From fps"
+msgid "From FPS"
 msgstr ""
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
-msgid "To fps"
+msgid "To FPS"
 msgstr ""
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
@@ -1426,11 +1426,11 @@ msgid "Stop"
 msgstr "정지"
 
 msgctxt "IDS_AG_FRAMESTEP"
-msgid "Framestep"
+msgid "Frame-step"
 msgstr "프레임 재생"
 
 msgctxt "IDS_MPLAYERC_16"
-msgid "Framestep back"
+msgid "Frame-step back"
 msgstr "프레임 재생"
 
 msgctxt "IDS_AG_GO_TO"
@@ -2290,7 +2290,7 @@ msgid "Out of memory"
 msgstr "메모리 없음"
 
 msgctxt "IDS_MAINFRM_77"
-msgid "Error: Flash player for IE is required"
+msgid "Error: Adobe Flash Player for Internet Explorer is required"
 msgstr "에러: IE를 위한 Flash 기능이 필요합니다."
 
 msgctxt "IDS_MAINFRM_78"
@@ -2362,7 +2362,7 @@ msgid "Toggle Caption&Menu"
 msgstr "제목표시줄&메뉴 토글"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seeker"
+msgid "Toggle Seek Bar"
 msgstr "탐색바 토글"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
@@ -2730,11 +2730,11 @@ msgid "Advanced"
 msgstr "고급"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seekbar"
+msgid "Above seek bar"
 msgstr "탐색바 위에"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seekbar"
+msgid "Below seek bar"
 msgstr "탐색바 아래에"
 
 msgctxt "IDS_VIDEO_STREAM"
@@ -3382,7 +3382,7 @@ msgid "Error parsing the entered frame rate!"
 msgstr "프레임 레이트를 파싱하는데에 오류가 발생했습니다!"
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
-msgid "Cannot frame step, try a different video renderer."
+msgid "Cannot frame-step, try a different video renderer."
 msgstr "프레임 단위 이동에 문제가 있으면, 다른 비디오 렌더러를 사용해보세요."
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"

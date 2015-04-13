@@ -673,7 +673,7 @@ msgstr "Geef hoofdstukmarkeringen in zoekbalk weer"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK4"
 msgid "Display \"Now Playing\" information in Skype's mood message"
-msgstr "Laat \"Nu Afpselen\" informatie zien in Skype's stemmingsbericht"
+msgstr "Laat \"Nu AFPSelen\" informatie zien in Skype's stemmingsbericht"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid "Prevent minimizing the player when in fullscreen on a non default monitor"

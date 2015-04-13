@@ -327,11 +327,11 @@ msgid "On/Off"
 msgstr "Укључено/искључено"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
-msgid "From fps"
+msgid "From FPS"
 msgstr "Од (FPS)"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
-msgid "To fps"
+msgid "To FPS"
 msgstr "До (FPS)"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
@@ -1427,11 +1427,11 @@ msgid "Stop"
 msgstr "Заустави"
 
 msgctxt "IDS_AG_FRAMESTEP"
-msgid "Framestep"
+msgid "Frame-step"
 msgstr "Корак унапред"
 
 msgctxt "IDS_MPLAYERC_16"
-msgid "Framestep back"
+msgid "Frame-step back"
 msgstr "Корак уназад"
 
 msgctxt "IDS_AG_GO_TO"
@@ -2291,8 +2291,8 @@ msgid "Out of memory"
 msgstr "Нема меморије"
 
 msgctxt "IDS_MAINFRM_77"
-msgid "Error: Flash player for IE is required"
-msgstr "Грешка: потребан је Flash Player за IE"
+msgid "Error: Adobe Flash Player for Internet Explorer is required"
+msgstr "Грешка: потребан је Adobe Flash Player за Internet Explorer"
 
 msgctxt "IDS_MAINFRM_78"
 msgid "QuickTime not yet supported for X64 (apple library not available)"
@@ -2363,7 +2363,7 @@ msgid "Toggle Caption&Menu"
 msgstr "Укључи/искључи наслов и мени"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seeker"
+msgid "Toggle Seek Bar"
 msgstr "Укључи/искључи траку за премотавање"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
@@ -2731,11 +2731,11 @@ msgid "Advanced"
 msgstr "Напредно"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seekbar"
+msgid "Above seek bar"
 msgstr "изнад траке за премотавање"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seekbar"
+msgid "Below seek bar"
 msgstr "испод траке за премотавање"
 
 msgctxt "IDS_VIDEO_STREAM"
@@ -3383,7 +3383,7 @@ msgid "Error parsing the entered frame rate!"
 msgstr "Грешка приликом обраде наведене учесталости кадрова!"
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
-msgid "Cannot frame step, try a different video renderer."
+msgid "Cannot frame-step, try a different video renderer."
 msgstr "Не могу да премотавам по кадровима. Пробајте други видео-рендерер."
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"

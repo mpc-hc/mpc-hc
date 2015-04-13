@@ -2211,8 +2211,8 @@ BEGIN
     IDS_SUBRESYNC_CLN_EFFECT "Effect"
     IDS_PLAYLIST_CAPTION    "Playlist"
     IDS_PPAGE_FS_CLN_ON_OFF "On/Off"
-    IDS_PPAGE_FS_CLN_FROM_FPS "From fps"
-    IDS_PPAGE_FS_CLN_TO_FPS "To fps"
+    IDS_PPAGE_FS_CLN_FROM_FPS "From FPS"
+    IDS_PPAGE_FS_CLN_TO_FPS "To FPS"
     IDS_PPAGE_FS_CLN_DISPLAY_MODE "Display mode (Hz)"
     IDS_PPAGE_FS_DEFAULT    "Default"
     IDS_PPAGE_FS_OTHER      "Other"
@@ -2645,8 +2645,8 @@ BEGIN
     IDS_AG_PLAYPAUSE        "Play/Pause"
     IDS_AG_PLAY             "Play"
     IDS_AG_STOP             "Stop"
-    IDS_AG_FRAMESTEP        "Framestep"
-    IDS_MPLAYERC_16         "Framestep back"
+    IDS_AG_FRAMESTEP        "Frame-step"
+    IDS_MPLAYERC_16         "Frame-step back"
     IDS_AG_GO_TO            "Go To"
     IDS_AG_INCREASE_RATE    "Increase Rate"
 END
@@ -2944,7 +2944,7 @@ BEGIN
     IDS_MAINFRM_70          "Audio delay: %I64d ms"
     IDS_AG_CHAPTER          "Chapter %d"
     IDS_AG_OUT_OF_MEMORY    "Out of memory"
-    IDS_MAINFRM_77          "Error: Flash player for IE is required"
+    IDS_MAINFRM_77          "Error: Adobe Flash Player for Internet Explorer is required"
     IDS_MAINFRM_78          "QuickTime not yet supported for X64 (apple library not available)"
     IDS_MAINFRM_80          "Failed to create the filter graph object"
     IDS_MAINFRM_81          "Invalid argument"
@@ -2966,7 +2966,7 @@ BEGIN
     IDS_MAINFRM_DIR_CHECK   "Include subdirectories"
     IDS_AG_PAUSE            "Pause"
     IDS_AG_TOGGLE_CAPTION   "Toggle Caption&Menu"
-    IDS_AG_TOGGLE_SEEKER    "Toggle Seeker"
+    IDS_AG_TOGGLE_SEEKER    "Toggle Seek Bar"
     IDS_AG_TOGGLE_CONTROLS  "Toggle Controls"
 END
 
@@ -3102,8 +3102,8 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_TIME_TOOLTIP_ABOVE  "Above seekbar"
-    IDS_TIME_TOOLTIP_BELOW  "Below seekbar"
+    IDS_TIME_TOOLTIP_ABOVE  "Above seek bar"
+    IDS_TIME_TOOLTIP_BELOW  "Below seek bar"
     IDS_VIDEO_STREAM        "Video: %s"
     IDS_APPLY               "Apply"
     IDS_CLEAR               "Clear"
@@ -3333,7 +3333,7 @@ BEGIN
     IDS_GOTO_ERROR_PARSING_TEXT "Error parsing the entered text!"
     IDS_GOTO_ERROR_PARSING_FPS "Error parsing the entered frame rate!"
     IDS_FRAME_STEP_ERROR_RENDERER 
-                            "Cannot frame step, try a different video renderer."
+                            "Cannot frame-step, try a different video renderer."
     IDS_SCREENSHOT_ERROR_REAL 
                             "The ""Save Image"" and ""Save Thumbnails"" functions do not work with the default video renderer for RealMedia.\nSelect one of the DirectX renderers for RealMedia in MPC-HC's output options and reopen the file."
     IDS_SCREENSHOT_ERROR_QT "The ""Save Image"" and ""Save Thumbnails"" functions do not work with the default video renderer for QuickTime.\nSelect one of the DirectX renderers for QuickTime in MPC-HC's output options and reopen the file."

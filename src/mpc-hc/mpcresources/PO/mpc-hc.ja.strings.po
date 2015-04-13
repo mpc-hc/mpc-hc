@@ -325,12 +325,12 @@ msgid "On/Off"
 msgstr "オン/オフ"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
-msgid "From fps"
-msgstr "fps から"
+msgid "From FPS"
+msgstr "FPS から"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
-msgid "To fps"
-msgstr "fps へ"
+msgid "To FPS"
+msgstr "FPS へ"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
@@ -1425,11 +1425,11 @@ msgid "Stop"
 msgstr "停止"
 
 msgctxt "IDS_AG_FRAMESTEP"
-msgid "Framestep"
+msgid "Frame-step"
 msgstr "コマ送り"
 
 msgctxt "IDS_MPLAYERC_16"
-msgid "Framestep back"
+msgid "Frame-step back"
 msgstr "コマ戻し"
 
 msgctxt "IDS_AG_GO_TO"
@@ -2289,8 +2289,8 @@ msgid "Out of memory"
 msgstr "メモリが不足しています"
 
 msgctxt "IDS_MAINFRM_77"
-msgid "Error: Flash player for IE is required"
-msgstr "エラー: IE 用の Flash player が必要です"
+msgid "Error: Adobe Flash Player for Internet Explorer is required"
+msgstr "エラー: Internet Explorer 用の Adobe Flash Player が必要です"
 
 msgctxt "IDS_MAINFRM_78"
 msgid "QuickTime not yet supported for X64 (apple library not available)"
@@ -2361,7 +2361,7 @@ msgid "Toggle Caption&Menu"
 msgstr "タイトル バーとメニュー バーの表示"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seeker"
+msgid "Toggle Seek Bar"
 msgstr "シーク バーの表示"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
@@ -2729,11 +2729,11 @@ msgid "Advanced"
 msgstr "高度な設定"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seekbar"
+msgid "Above seek bar"
 msgstr "シーク バーの上に"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seekbar"
+msgid "Below seek bar"
 msgstr "シーク バーの下に"
 
 msgctxt "IDS_VIDEO_STREAM"
@@ -3381,7 +3381,7 @@ msgid "Error parsing the entered frame rate!"
 msgstr "入力されたフレーム レートの解析中にエラーが発生しました！"
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
-msgid "Cannot frame step, try a different video renderer."
+msgid "Cannot frame-step, try a different video renderer."
 msgstr "コマ送りできません。別のビデオ レンダラを試してください。"
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"

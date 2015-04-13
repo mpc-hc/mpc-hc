@@ -326,11 +326,11 @@ msgid "On/Off"
 msgstr "Aktiverat"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
-msgid "From fps"
+msgid "From FPS"
 msgstr "Från FPS"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
-msgid "To fps"
+msgid "To FPS"
 msgstr "Till FPS"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
@@ -1426,11 +1426,11 @@ msgid "Stop"
 msgstr "Stoppa"
 
 msgctxt "IDS_AG_FRAMESTEP"
-msgid "Framestep"
+msgid "Frame-step"
 msgstr "Bild steg"
 
 msgctxt "IDS_MPLAYERC_16"
-msgid "Framestep back"
+msgid "Frame-step back"
 msgstr "Bild steg tillbaka"
 
 msgctxt "IDS_AG_GO_TO"
@@ -2290,8 +2290,8 @@ msgid "Out of memory"
 msgstr "Slut på ledigt minne"
 
 msgctxt "IDS_MAINFRM_77"
-msgid "Error: Flash player for IE is required"
-msgstr "Error: Flash for IE is required"
+msgid "Error: Adobe Flash Player for Internet Explorer is required"
+msgstr "Error: Flash for Internet Explorer is required"
 
 msgctxt "IDS_MAINFRM_78"
 msgid "QuickTime not yet supported for X64 (apple library not available)"
@@ -2362,7 +2362,7 @@ msgid "Toggle Caption&Menu"
 msgstr "Växla Rubrik && Meny"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seeker"
+msgid "Toggle Seek Bar"
 msgstr "Växla Sök Bar"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
@@ -2730,12 +2730,12 @@ msgid "Advanced"
 msgstr "Avancerat"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seekbar"
-msgstr "Ovanför seekbar"
+msgid "Above seek bar"
+msgstr "Ovanför seek bar"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seekbar"
-msgstr "Nedanför seekbar"
+msgid "Below seek bar"
+msgstr "Nedanför seek bar"
 
 msgctxt "IDS_VIDEO_STREAM"
 msgid "Video: %s"
@@ -3382,7 +3382,7 @@ msgid "Error parsing the entered frame rate!"
 msgstr "Tolkningsfel av inskriven uppdateringfrekvens!"
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
-msgid "Cannot frame step, try a different video renderer."
+msgid "Cannot frame-step, try a different video renderer."
 msgstr "Kan inte bildstega, försök med en annan videorenderare."
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"

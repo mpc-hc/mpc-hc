@@ -325,11 +325,11 @@ msgid "On/Off"
 msgstr "Eraginda/Etenda"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
-msgid "From fps"
+msgid "From FPS"
 msgstr "fs-kotik "
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
-msgid "To fps"
+msgid "To FPS"
 msgstr "fs-kora"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
@@ -1425,11 +1425,11 @@ msgid "Stop"
 msgstr "Gelditu"
 
 msgctxt "IDS_AG_FRAMESTEP"
-msgid "Framestep"
+msgid "Frame-step"
 msgstr "Frame-urratsa"
 
 msgctxt "IDS_MPLAYERC_16"
-msgid "Framestep back"
+msgid "Frame-step back"
 msgstr "Frame-urratsa atzera"
 
 msgctxt "IDS_AG_GO_TO"
@@ -2289,8 +2289,8 @@ msgid "Out of memory"
 msgstr "Oroimenetik kanpo"
 
 msgctxt "IDS_MAINFRM_77"
-msgid "Error: Flash player for IE is required"
-msgstr "Akatsa: IE-rako Flash irakurgailua beharrezkoa da"
+msgid "Error: Adobe Flash Player for Internet Explorer is required"
+msgstr "Akatsa: Internet Explorer-rako Flash irakurgailua beharrezkoa da"
 
 msgctxt "IDS_MAINFRM_78"
 msgid "QuickTime not yet supported for X64 (apple library not available)"
@@ -2361,7 +2361,7 @@ msgid "Toggle Caption&Menu"
 msgstr "Aldatu Harpena eta Menua"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seeker"
+msgid "Toggle Seek Bar"
 msgstr "Aldatu Bilatzailea"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
@@ -2729,11 +2729,11 @@ msgid "Advanced"
 msgstr "Aurreratua"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seekbar"
+msgid "Above seek bar"
 msgstr "Bilaketabarra gainean"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seekbar"
+msgid "Below seek bar"
 msgstr "Bilaketabarra azpian"
 
 msgctxt "IDS_VIDEO_STREAM"
@@ -3381,7 +3381,7 @@ msgid "Error parsing the entered frame rate!"
 msgstr "Akatsa sartutako frame neurria aztertzerakoan!"
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
-msgid "Cannot frame step, try a different video renderer."
+msgid "Cannot frame-step, try a different video renderer."
 msgstr "Ezinezkoa frame urratsa, saiatu beste bideo aurkezle batekin."
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"

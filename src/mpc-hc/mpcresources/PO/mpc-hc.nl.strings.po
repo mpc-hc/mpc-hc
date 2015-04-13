@@ -332,12 +332,12 @@ msgid "On/Off"
 msgstr "Aan/Uit"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
-msgid "From fps"
-msgstr "Van fps"
+msgid "From FPS"
+msgstr "Van FPS"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
-msgid "To fps"
-msgstr "Tot fps"
+msgid "To FPS"
+msgstr "Tot FPS"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
@@ -1432,11 +1432,11 @@ msgid "Stop"
 msgstr "Stoppen"
 
 msgctxt "IDS_AG_FRAMESTEP"
-msgid "Framestep"
+msgid "Frame-step"
 msgstr "Frame vooruit"
 
 msgctxt "IDS_MPLAYERC_16"
-msgid "Framestep back"
+msgid "Frame-step back"
 msgstr "Frame terug"
 
 msgctxt "IDS_AG_GO_TO"
@@ -2296,8 +2296,8 @@ msgid "Out of memory"
 msgstr "Te weinig geheugen"
 
 msgctxt "IDS_MAINFRM_77"
-msgid "Error: Flash player for IE is required"
-msgstr "Fout: Flash voor IE vereist"
+msgid "Error: Adobe Flash Player for Internet Explorer is required"
+msgstr "Fout: Flash voor Internet Explorer vereist"
 
 msgctxt "IDS_MAINFRM_78"
 msgid "QuickTime not yet supported for X64 (apple library not available)"
@@ -2368,7 +2368,7 @@ msgid "Toggle Caption&Menu"
 msgstr "Titel&Menu aan/uit"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seeker"
+msgid "Toggle Seek Bar"
 msgstr "Zoeken aan/uit"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
@@ -2736,11 +2736,11 @@ msgid "Advanced"
 msgstr "Geavanceerd"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seekbar"
+msgid "Above seek bar"
 msgstr "Boven zoekbalk"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seekbar"
+msgid "Below seek bar"
 msgstr "Onder zoekbalk"
 
 msgctxt "IDS_VIDEO_STREAM"
@@ -3388,7 +3388,7 @@ msgid "Error parsing the entered frame rate!"
 msgstr ""
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
-msgid "Cannot frame step, try a different video renderer."
+msgid "Cannot frame-step, try a different video renderer."
 msgstr ""
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"

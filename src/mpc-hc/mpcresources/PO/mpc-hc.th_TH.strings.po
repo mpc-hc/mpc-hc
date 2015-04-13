@@ -327,12 +327,12 @@ msgid "On/Off"
 msgstr "เปิด/ปิด"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
-msgid "From fps"
-msgstr "จาก fps"
+msgid "From FPS"
+msgstr "จาก FPS"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
-msgid "To fps"
-msgstr "สู่ fps"
+msgid "To FPS"
+msgstr "สู่ FPS"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
@@ -1427,11 +1427,11 @@ msgid "Stop"
 msgstr "หยุด"
 
 msgctxt "IDS_AG_FRAMESTEP"
-msgid "Framestep"
+msgid "Frame-step"
 msgstr "เดินเฟรม"
 
 msgctxt "IDS_MPLAYERC_16"
-msgid "Framestep back"
+msgid "Frame-step back"
 msgstr "ถอยเฟรม"
 
 msgctxt "IDS_AG_GO_TO"
@@ -2291,8 +2291,8 @@ msgid "Out of memory"
 msgstr "หน่วยความจำไม่เพียงพอ"
 
 msgctxt "IDS_MAINFRM_77"
-msgid "Error: Flash player for IE is required"
-msgstr "ผิดพลาด: ต้องการตัวเล่นแฟลชสำหรับ IE"
+msgid "Error: Adobe Flash Player for Internet Explorer is required"
+msgstr "ผิดพลาด: ต้องการตัวเล่นแฟลชสำหรับ Internet Explorer"
 
 msgctxt "IDS_MAINFRM_78"
 msgid "QuickTime not yet supported for X64 (apple library not available)"
@@ -2363,7 +2363,7 @@ msgid "Toggle Caption&Menu"
 msgstr "เปิดปิด ข้อความและเมนู"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seeker"
+msgid "Toggle Seek Bar"
 msgstr "เปิดปิด ตัวเลื่อนหา"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
@@ -2731,11 +2731,11 @@ msgid "Advanced"
 msgstr "ขั้นสูง"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seekbar"
+msgid "Above seek bar"
 msgstr "เหนือแถบเลื่อนหา"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seekbar"
+msgid "Below seek bar"
 msgstr "ล่างแถบเลื่อนหา"
 
 msgctxt "IDS_VIDEO_STREAM"
@@ -3383,7 +3383,7 @@ msgid "Error parsing the entered frame rate!"
 msgstr "ผิดพลาดในการวิเคราะห์อัตราเฟรมที่ใส่!"
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
-msgid "Cannot frame step, try a different video renderer."
+msgid "Cannot frame-step, try a different video renderer."
 msgstr "ไม่สามารถเดินเฟรม โปรดลองตัวแปลผลวิดีโอชนิดอื่น"
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"

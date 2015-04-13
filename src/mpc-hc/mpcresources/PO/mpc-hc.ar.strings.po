@@ -331,11 +331,11 @@ msgid "On/Off"
 msgstr "تشغيل/إيقاف"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
-msgid "From fps"
+msgid "From FPS"
 msgstr "من إطار في الثانية"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
-msgid "To fps"
+msgid "To FPS"
 msgstr "إلى إطار في الثانية"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
@@ -1431,11 +1431,11 @@ msgid "Stop"
 msgstr "توقف"
 
 msgctxt "IDS_AG_FRAMESTEP"
-msgid "Framestep"
+msgid "Frame-step"
 msgstr "خطوة إطار"
 
 msgctxt "IDS_MPLAYERC_16"
-msgid "Framestep back"
+msgid "Frame-step back"
 msgstr "خطوة خلفية للإطار"
 
 msgctxt "IDS_AG_GO_TO"
@@ -2295,7 +2295,7 @@ msgid "Out of memory"
 msgstr "نفذت الذاكرة"
 
 msgctxt "IDS_MAINFRM_77"
-msgid "Error: Flash player for IE is required"
+msgid "Error: Adobe Flash Player for Internet Explorer is required"
 msgstr "خطأ: مطلوب فلاش بلاير لانترنت اكسبلورر"
 
 msgctxt "IDS_MAINFRM_78"
@@ -2367,7 +2367,7 @@ msgid "Toggle Caption&Menu"
 msgstr "تبديل العنوان و القائمة"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seeker"
+msgid "Toggle Seek Bar"
 msgstr "تبديل الباحث"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
@@ -2735,11 +2735,11 @@ msgid "Advanced"
 msgstr "متقدّم"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seekbar"
+msgid "Above seek bar"
 msgstr "فوق شريط الباحث"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seekbar"
+msgid "Below seek bar"
 msgstr "تحت شريط الباحث"
 
 msgctxt "IDS_VIDEO_STREAM"
@@ -3387,7 +3387,7 @@ msgid "Error parsing the entered frame rate!"
 msgstr "يوضح الخطأ نسبة تداخل في الإطار!"
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
-msgid "Cannot frame step, try a different video renderer."
+msgid "Cannot frame-step, try a different video renderer."
 msgstr "لا يستطيع تأطير الخطوة، حاول بعارض فيديو مختلف."
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"
