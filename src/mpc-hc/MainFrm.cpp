@@ -8568,7 +8568,7 @@ void CMainFrame::OnNavigateMenuItem(UINT nID)
                 m_pDVDC->SelectRelativeButton(DVD_Relative_Lower);
                 break;
             case 4:
-                if (m_iDVDDomain != DVD_DOMAIN_Title) { // Casimir666 : for the remote control
+                if (m_iDVDDomain == DVD_DOMAIN_Title || m_iDVDDomain == DVD_DOMAIN_VideoTitleSetMenu || m_iDVDDomain == DVD_DOMAIN_VideoManagerMenu) {
                     m_pDVDC->ActivateButton();
                 } else {
                     OnPlayPlay();
