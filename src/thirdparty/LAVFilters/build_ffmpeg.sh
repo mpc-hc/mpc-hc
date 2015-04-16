@@ -15,16 +15,28 @@ else
 fi
 
 if [ "${2}" == "Debug" ]; then
-  dll_target=../../../../bin/${mpc_hc_folder}_Debug/${lav_folder}
-  lib_target=bin_${archdir}d/lib
+  dll_target=$(pwd)/../../../bin/${mpc_hc_folder}_Debug/${lav_folder}
+  BASEDIR=$(pwd)/src/bin_${archdir}d
 else
-  dll_target=../../../../bin/${mpc_hc_folder}/${lav_folder}
-  lib_target=bin_${archdir}/lib
+  dll_target=$(pwd)/../../../bin/${mpc_hc_folder}/${lav_folder}
+  BASEDIR=$(pwd)/src/bin_${archdir}
 fi
+
+THIRDPARTYPREFIX=${BASEDIR}/thirdparty
+ffmpeg_obj_target=${THIRDPARTYPREFIX}/ffmpeg
+dcadec_obj_target=${THIRDPARTYPREFIX}/dcadec
+lib_target=${BASEDIR}/lib
+export PKG_CONFIG_PATH="${dcadec_obj_target}"
 
 make_dirs() {
   if [ ! -d ${lib_target} ]; then
     mkdir -p ${lib_target}
+  fi
+  if [ ! -d ${ffmpeg_obj_target} ]; then
+    mkdir -p ${ffmpeg_obj_target}
+  fi
+  if [ ! -d ${dcadec_obj_target} ]; then
+    mkdir -p ${dcadec_obj_target}
   fi
   if [ ! -d ${dll_target} ]; then
     mkdir -p ${dll_target}
@@ -32,17 +44,19 @@ make_dirs() {
 }
 
 copy_libs() {
-  # install -s --strip-program=${cross_prefix}strip lib*/*-lav-*.dll ../../${dll_target}
-  cp lib*/*-lav-*.dll ../../${dll_target}
-  ${cross_prefix}strip ../../${dll_target}/*-lav-*.dll
-  cp -u lib*/*.lib ../../${lib_target}
+  # install -s --strip-program=${cross_prefix}strip lib*/*-lav-*.dll ${dll_target}
+  cp lib*/*-lav-*.dll ${dll_target}
+  ${cross_prefix}strip ${dll_target}/*-lav-*.dll
+  cp -u lib*/*.lib ${lib_target}
 }
 
 clean() {
+  cd ${ffmpeg_obj_target}
   echo Cleaning...
   if [ -f config.mak ]; then
     make distclean > /dev/null 2>&1
   fi
+  cd ${BASEDIR}
 }
 
 configure() {
@@ -92,18 +106,18 @@ configure() {
     --build-suffix=-lav             \
     --arch=${arch}"
 
-  EXTRA_CFLAGS="-D_WIN32_WINNT=0x0502 -DWINVER=0x0502 -I../../thirdparty/include"
+  EXTRA_CFLAGS="-D_WIN32_WINNT=0x0502 -DWINVER=0x0502 -I../../../thirdparty/include"
   EXTRA_LDFLAGS=""
   if [ "${arch}" == "x86_64" ]; then
-    OPTIONS="${OPTIONS} --enable-cross-compile --cross-prefix=${cross_prefix} --target-os=mingw32"
-    EXTRA_LDFLAGS="${EXTRA_LDFLAGS} -L../../thirdparty/lib64"
+    OPTIONS="${OPTIONS} --enable-cross-compile --cross-prefix=${cross_prefix} --target-os=mingw32 --pkg-config=pkg-config"
+    EXTRA_LDFLAGS="${EXTRA_LDFLAGS} -L../../../thirdparty/lib64"
   else
     OPTIONS="${OPTIONS} --cpu=i686"
     EXTRA_CFLAGS="${EXTRA_CFLAGS} -mmmx -msse -mfpmath=sse"
-    EXTRA_LDFLAGS="${EXTRA_LDFLAGS} -L../../thirdparty/lib32"
+    EXTRA_LDFLAGS="${EXTRA_LDFLAGS} -L../../../thirdparty/lib32"
   fi
 
-  sh ../../ffmpeg/configure --extra-ldflags="${EXTRA_LDFLAGS}" --extra-cflags="${EXTRA_CFLAGS}" ${OPTIONS}
+  sh ../../../ffmpeg/configure --extra-ldflags="${EXTRA_LDFLAGS}" --extra-cflags="${EXTRA_CFLAGS}" ${OPTIONS}
 }
 
 build() {
@@ -114,6 +128,8 @@ build() {
 }
 
 configureAndBuild() {
+  cd ${ffmpeg_obj_target}
+
   ## Don't run configure again if it was previously run
   if [ ../../ffmpeg/configure -ot config.mak ] &&
      [ ../../../build_ffmpeg.sh -ot config.mak ]; then
@@ -135,23 +151,33 @@ configureAndBuild() {
     copy_libs
     CONFIGRETVAL=$?
   fi
+
+  cd ${BASEDIR}
+}
+
+build_dcadec() {
+  cd ${dcadec_obj_target}
+  make -f../../../thirdparty/dcadec/Makefile -j$NUMBER_OF_PROCESSORS CONFIG_WINDOWS=1 CONFIG_NDEBUG=1 CC=${cross_prefix}gcc AR=${cross_prefix}ar PREFIX=${THIRDPARTYPREFIX} lib
+  make -f../../../thirdparty/dcadec/Makefile PREFIX=${THIRDPARTYPREFIX} LIBDIR=${dcadec_obj_target}/libdcadec INCLUDEDIR=../../../thirdparty/dcadec dcadec.pc
+  cd "${BASEDIR}"
+}
+
+clean_dcadec() {
+  cd ${dcadec_obj_target}
+  make -f../../../thirdparty/dcadec/Makefile CONFIG_WINDOWS=1 clean
+  cd ${BASEDIR}
 }
 
 echo Building ffmpeg in GCC ${arch} Release config...
 
-cd src
-
 make_dirs
 
-out_dir=bin_${archdir}/ffmpeg
-if [ ! -d ${out_dir} ]; then
-  mkdir -p ${out_dir}
-fi
-cd ${out_dir}
+cd ${BASEDIR}
 
 CONFIGRETVAL=0
 
 if [ "${3}" == "Clean" ]; then
+  clean_dcadec
   clean
   CONFIGRETVAL=$?
 else
@@ -162,12 +188,15 @@ else
     CLEANBUILD=1
   fi
 
+  build_dcadec
+
   configureAndBuild
 
   ## In case of error and only if we didn't start with a clean build,
   ## we try to rebuild from scratch including a full reconfigure
   if [ ! ${CONFIGRETVAL} -eq 0 ] && [ ${CLEANBUILD} -eq 0 ]; then
     echo Trying again with forced reconfigure...
+    clean_dcadec && build_dcadec
     clean && configureAndBuild
   fi
 fi
