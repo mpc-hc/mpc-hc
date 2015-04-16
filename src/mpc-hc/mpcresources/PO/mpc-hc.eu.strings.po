@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-04-09 21:29:25+0000\n"
-"PO-Revision-Date: 2015-04-12 02:17+0000\n"
+"POT-Creation-Date: 2015-04-15 21:44:52+0000\n"
+"PO-Revision-Date: 2015-04-16 14:43+0000\n"
 "Last-Translator: Xabier Aramendi <azpidatziak@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/mpc-hc/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -1378,11 +1378,11 @@ msgstr "Agirira oharreratzea gaitzen du. (beharrezkoa berrabiaraztea)"
 
 msgctxt "IDS_TIMER_REMAINING_TIME"
 msgid "Remaining time"
-msgstr ""
+msgstr "Gelditzen den denbora"
 
 msgctxt "IDS_TIMER_HIGH_PRECISION"
 msgid "High precision"
-msgstr ""
+msgstr "Zehaztasun handia"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2298,7 +2298,7 @@ msgstr "Oroimenetik kanpo"
 
 msgctxt "IDS_MAINFRM_77"
 msgid "Error: Adobe Flash Player for Internet Explorer is required"
-msgstr "Akatsa: Internet Explorer-rako Flash irakurgailua beharrezkoa da"
+msgstr "Akatsa: Beharrezkoa da Internet Explorer-rako Flash irakurgailua"
 
 msgctxt "IDS_MAINFRM_78"
 msgid "QuickTime not yet supported for X64 (apple library not available)"
@@ -2738,11 +2738,11 @@ msgstr "Aurreratua"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seek bar"
-msgstr "Bilaketabarra gainean"
+msgstr "Bilaketa barra gainean"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
 msgid "Below seek bar"
-msgstr "Bilaketabarra azpian"
+msgstr "Bilaketa barra azpian"
 
 msgctxt "IDS_VIDEO_STREAM"
 msgid "Video: %s"

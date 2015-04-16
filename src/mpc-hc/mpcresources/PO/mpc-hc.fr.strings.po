@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-04-09 21:29:25+0000\n"
-"PO-Revision-Date: 2015-04-12 02:17+0000\n"
+"POT-Creation-Date: 2015-04-15 21:44:52+0000\n"
+"PO-Revision-Date: 2015-04-16 17:12+0000\n"
 "Last-Translator: Underground78\n"
 "Language-Team: French (http://www.transifex.com/projects/p/mpc-hc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -1378,11 +1378,11 @@ msgstr "Sauvegarder le journal des événements dans un fichier (redémarrage n�
 
 msgctxt "IDS_TIMER_REMAINING_TIME"
 msgid "Remaining time"
-msgstr ""
+msgstr "Temps restant"
 
 msgctxt "IDS_TIMER_HIGH_PRECISION"
 msgid "High precision"
-msgstr ""
+msgstr "Haute précision"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2298,7 +2298,7 @@ msgstr "Mémoire insuffisante"
 
 msgctxt "IDS_MAINFRM_77"
 msgid "Error: Adobe Flash Player for Internet Explorer is required"
-msgstr "Erreur : le lecteur Flash pour Internet Explorer est requis"
+msgstr "Erreur : Adobe Flash Player pour Internet Explorer est requis"
 
 msgctxt "IDS_MAINFRM_78"
 msgid "QuickTime not yet supported for X64 (apple library not available)"

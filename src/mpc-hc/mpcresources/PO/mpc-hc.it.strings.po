@@ -1,16 +1,16 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Gabrix <gabrixs@outlook.com>, 2014
+# Gabrix <inactive+Gabrix@transifex.com>, 2014
 # Kiba_No_Ou <kiba.no.michi@gmail.com>, 2014
-# Tummarellox <tummarellox@gmail.com>, 2014
+# Jacopo Tumminello <tummarellox@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-30 22:04:38+0000\n"
-"PO-Revision-Date: 2014-11-27 17:50+0000\n"
-"Last-Translator: Tummarellox <tummarellox@gmail.com>\n"
+"POT-Creation-Date: 2015-04-15 21:44:52+0000\n"
+"PO-Revision-Date: 2015-04-19 16:21+0000\n"
+"Last-Translator: Underground78\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/mpc-hc/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1540,7 +1540,7 @@ msgstr "Miniature salvate con successo"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
 msgid "&Video Track"
-msgstr ""
+msgstr "&Traccia Video"
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
 msgid "Video Ang&le"

@@ -39,7 +39,7 @@ bn.WinVersionTooLowError=[NAME] চালানোর জন্য Windows XP Se
 
 ; Catalan
 ca.WelcomeLabel2=Aquest auxiliar instal·larà el [name] al vostre ordinador%n%nEs recomana tancar totes les aplicacions abans de continuar.
-ca.WinVersionTooLowError=[name] cal Windows XP Service Pack 3 o superior per funcionar.
+ca.WinVersionTooLowError=[name] cal Windows XP Service Pack 3 o superior per que funcioni.
 
 ; Czech
 cs.WelcomeLabel2=Produkt [name] bude nainstalován na Váš počítač.%n%nDříve než budete pokračovat, doporučuje se ukončit veškeré spuštěné aplikace.
@@ -246,15 +246,15 @@ ca.comp_mpcresources=Traduccions
 ca.msg_DeleteSettings=Voleu suprimir les preferències del MPC-HC?%n%nSi planegeu instal·lar-ho un altre cop no cal eliminar-les.
 ca.msg_SetupIsRunningWarning=La instal·lació del MPC-HC ja s’està executant.
 #if defined(sse_required)
-ca.msg_simd_sse=Aquesta versió de MPC-HC cal una CPU amb suport d'extensions SSE.%n%nLa teva CPU no cumpleix aquestes característiques.
+ca.msg_simd_sse=Aquesta versió de MPC-HC necessita una CPU amb suport d'extensions SSE.%n%nLa teva CPU no cumpleix aquestes característiques.
 #elif defined(sse2_required)
-ca.msg_simd_sse2=Aquesta versió de MPC-HC cal una CPU amb suport d'extensions SSE2.%n%nLa teva CPU no cumpleix aquestes característiques.
+ca.msg_simd_sse2=Aquesta versió de MPC-HC requereix una CPU amb suport d'extensions SSE2.%n%nLa teva CPU no cumpleix aquestes característiques.
 #endif
-ca.run_DownloadToolbarImages=Visita la nostra pàgina de Wiki per descarregar imatges per la barra d'eines
-ca.tsk_AllUsers=Per tots els usuaris
+ca.run_DownloadToolbarImages=Visita la nostra pàgina del Wiki per descarregar imatges per a la barra d'eines
+ca.tsk_AllUsers=Per a tots els usuaris
 ca.tsk_CurrentUser=Només per l'usuari actual
 ca.tsk_Other=Altres tasques:
-ca.tsk_ResetSettings=Reiniciar preferències
+ca.tsk_ResetSettings=Reiniciar les preferències
 ca.types_DefaultInstallation=Instal·lació per defecte
 ca.types_CustomInstallation=Instal·lació personalitzada
 ca.ViewChangelog=Veure registre de canvis

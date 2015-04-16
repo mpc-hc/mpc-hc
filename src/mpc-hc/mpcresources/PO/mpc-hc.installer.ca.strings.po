@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-06-17 15:23:34+0000\n"
-"PO-Revision-Date: 2015-03-27 21:02+0000\n"
+"PO-Revision-Date: 2015-04-23 13:02+0000\n"
 "Last-Translator: papu <papu@openmailbox.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,7 @@ msgstr "Aquest auxiliar instal·larà el [name] al vostre ordinador\n\nEs recoma
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows XP Service Pack 3 or newer to run."
-msgstr "[name] cal Windows XP Service Pack 3 o superior per funcionar."
+msgstr "[name] cal Windows XP Service Pack 3 o superior per que funcioni."
 
 msgctxt "CustomMessages_comp_mpciconlib"
 msgid "Icon Library"
@@ -45,19 +45,19 @@ msgstr "La instal·lació del MPC-HC ja s’està executant."
 
 msgctxt "CustomMessages_msg_simd_sse"
 msgid "This build of MPC-HC requires a CPU with SSE extension support.\n\nYour CPU does not have those capabilities."
-msgstr "Aquesta versió de MPC-HC cal una CPU amb suport d'extensions SSE.\n\nLa teva CPU no cumpleix aquestes característiques."
+msgstr "Aquesta versió de MPC-HC necessita una CPU amb suport d'extensions SSE.\n\nLa teva CPU no cumpleix aquestes característiques."
 
 msgctxt "CustomMessages_msg_simd_sse2"
 msgid "This build of MPC-HC requires a CPU with SSE2 extension support.\n\nYour CPU does not have those capabilities."
-msgstr "Aquesta versió de MPC-HC cal una CPU amb suport d'extensions SSE2.\n\nLa teva CPU no cumpleix aquestes característiques."
+msgstr "Aquesta versió de MPC-HC requereix una CPU amb suport d'extensions SSE2.\n\nLa teva CPU no cumpleix aquestes característiques."
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
-msgstr "Visita la nostra pàgina de Wiki per descarregar imatges per la barra d'eines"
+msgstr "Visita la nostra pàgina del Wiki per descarregar imatges per a la barra d'eines"
 
 msgctxt "CustomMessages_tsk_AllUsers"
 msgid "For all users"
-msgstr "Per tots els usuaris"
+msgstr "Per a tots els usuaris"
 
 msgctxt "CustomMessages_tsk_CurrentUser"
 msgid "For the current user only"
@@ -69,7 +69,7 @@ msgstr "Altres tasques:"
 
 msgctxt "CustomMessages_tsk_ResetSettings"
 msgid "Reset settings"
-msgstr "Reiniciar preferències"
+msgstr "Reiniciar les preferències"
 
 msgctxt "CustomMessages_types_DefaultInstallation"
 msgid "Default installation"

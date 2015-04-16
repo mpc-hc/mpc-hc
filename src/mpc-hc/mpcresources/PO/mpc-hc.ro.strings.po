@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-04-09 21:29:25+0000\n"
-"PO-Revision-Date: 2015-04-14 07:13+0000\n"
+"POT-Creation-Date: 2015-04-15 21:44:52+0000\n"
+"PO-Revision-Date: 2015-04-20 16:52+0000\n"
 "Last-Translator: Daniel <danny34ever@yahoo.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/mpc-hc/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -83,7 +83,7 @@ msgstr "Durată"
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET"
 msgid "Sync Offset"
-msgstr "Decalaj Sync"
+msgstr "Decalaj sincronizare"
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET_FORMAT"
 msgid "avg: %d ms, dev: %d ms"
@@ -575,7 +575,7 @@ msgstr "Redare::Captură"
 
 msgctxt "IDD_PPAGESYNC"
 msgid "Playback::Sync Renderer Settings"
-msgstr "Redare::Setările Randorului Sync"
+msgstr "Redare::Setările randorului Sync"
 
 msgctxt "IDD_PPAGEFULLSCREEN"
 msgid "Playback::Fullscreen"
@@ -887,11 +887,11 @@ msgstr "Mărește viteză\nMărește viteză"
 
 msgctxt "ID_VOLUME_MUTE"
 msgid "Mute"
-msgstr "Silențios"
+msgstr "Tăcut"
 
 msgctxt "ID_VOLUME_MUTE_OFF"
 msgid "Unmute"
-msgstr "Activare sunet"
+msgstr "Activează sunet"
 
 msgctxt "ID_VOLUME_MUTE_DISABLED"
 msgid "No audio"
@@ -939,11 +939,11 @@ msgstr "Opțiuni"
 
 msgctxt "IDS_SHADERS_SELECT"
 msgid "&Select Shaders..."
-msgstr "&Selectare Shadere Pixeli..."
+msgstr "&Selectare shadere..."
 
 msgctxt "IDS_SHADERS_DEBUG"
 msgid "&Debug Shaders..."
-msgstr "&Depanare Shadere..."
+msgstr "&Depanare shadere..."
 
 msgctxt "IDS_FAVORITES_ADD"
 msgid "&Add to Favorites..."
@@ -1031,15 +1031,15 @@ msgstr "Test de rupere (tearing)"
 
 msgctxt "IDS_SCALE_16_9"
 msgid "Scale to 16:9 TV,%.3f,%.3f,%.3f,%.3f"
-msgstr "Scalează la 16:9 TV,%.3f,%.3f,%.3f,%.3f"
+msgstr "Scalează pentru televizor 16:9,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_SCALE_WIDESCREEN"
 msgid "Zoom To Widescreen,%.3f,%.3f,%.3f,%.3f"
-msgstr "Mărește la Widescreen,%.3f,%.3f,%.3f,%.3f"
+msgstr "Scalează pentru ecran lat,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_SCALE_ULTRAWIDE"
 msgid "Zoom To Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
-msgstr "Mărește la Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
+msgstr "Scalează pentru ecran ultra-lat,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_PLAYLIST_HIDEFS"
 msgid "Hide on Fullscreen"
@@ -1379,11 +1379,11 @@ msgstr "Activează jurnalizare în fișier. (necesită repornire)"
 
 msgctxt "IDS_TIMER_REMAINING_TIME"
 msgid "Remaining time"
-msgstr ""
+msgstr "Timp rămas"
 
 msgctxt "IDS_TIMER_HIGH_PRECISION"
 msgid "High precision"
-msgstr ""
+msgstr "Precizie ridicată"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1479,7 +1479,7 @@ msgstr "Activităţi pentru timpul liber"
 
 msgctxt "IDS_FILE_RECYCLE"
 msgid "Move to Recycle Bin"
-msgstr "Mută în Coșul de reciclare"
+msgstr "Mută în coșul de reciclare"
 
 msgctxt "IDS_AG_SAVE_COPY"
 msgid "Save a Copy"
@@ -1691,7 +1691,7 @@ msgstr "Ecran complet (fără schimbare rez.)"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT"
 msgid "Zoom Auto Fit"
-msgstr "Autopotrivire scalare"
+msgstr "Potrivire automată scalare"
 
 msgctxt "IDS_AG_VIDFRM_HALF"
 msgid "VidFrm Half"
@@ -1775,7 +1775,7 @@ msgstr "Autopotrivire (doar cele mari)"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT_LARGER"
 msgid "Zoom Auto Fit (Larger Only)"
-msgstr "Autopotrivire scalare (doar cele mari)"
+msgstr "Potrivire automată scalare (doar cele mari)"
 
 msgctxt "IDS_OSD_ZOOM_AUTO_LARGER"
 msgid "Zoom: Auto (Larger Only)"
@@ -1843,7 +1843,7 @@ msgstr "Scade Volum"
 
 msgctxt "IDS_AG_VOLUME_MUTE"
 msgid "Volume Mute"
-msgstr "Silențios"
+msgstr "Tăcut"
 
 msgctxt "IDS_MPLAYERC_63"
 msgid "DVD Title Menu"
@@ -3035,7 +3035,7 @@ msgstr "Folosește WASAPI (necesită reponirea redării)"
 
 msgctxt "IDS_ARS_MUTE_FAST_FORWARD"
 msgid "Mute on fast forward"
-msgstr "Fără sunet la derulare rapidă înainte"
+msgstr "Tăcut la derulare rapidă înainte"
 
 msgctxt "IDS_ARS_SOUND_DEVICE"
 msgid "Sound Device:"

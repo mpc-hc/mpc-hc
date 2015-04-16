@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-04-09 21:29:25+0000\n"
-"PO-Revision-Date: 2015-04-15 13:55+0000\n"
+"POT-Creation-Date: 2015-04-15 21:44:52+0000\n"
+"PO-Revision-Date: 2015-04-16 14:43+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/mpc-hc/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -112,7 +112,7 @@ msgstr "Styrke: %d dB, Kvalitet: %ld%%"
 
 msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
 msgid "Styles"
-msgstr "Typografier"
+msgstr "Typografi"
 
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
@@ -300,7 +300,7 @@ msgstr "Titler"
 
 msgctxt "IDS_SUBRESYNC_CLN_CHARSET"
 msgid "CharSet"
-msgstr "CharSet"
+msgstr "Tegnsæt"
 
 msgctxt "IDS_SUBRESYNC_CLN_UNICODE"
 msgid "Unicode"
@@ -792,7 +792,7 @@ msgstr "Kunne ikke finde alle arkiv volumener"
 
 msgctxt "IDC_TEXTURESURF2D"
 msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
-msgstr "Videooverflade vil blive allokeret som en struktur men anden funktionerne vil stadig blive brugt til at kopiere og strække den over backbufferen. Kræver et grafikkort der kan allokere 32-bit, RGBA, non-power-of-two tekstur størrelser og minimum i videoens opløsning."
+msgstr "Videooverflade vil blive allokeret som en struktur men anden funktionerne vil stadig blive brugt til at kopiere og strække den over backbufferen. Kræver et grafikkort der kan allokere 32-bit, RGBA, ikke-potens-af-to struktur størrelser og minimum i videoens opløsning."
 
 msgctxt "IDC_TEXTURESURF3D"
 msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
@@ -1072,7 +1072,7 @@ msgstr "&Indstillinger..."
 
 msgctxt "IDS_SUBTITLES_STYLES"
 msgid "&Styles..."
-msgstr "&Typografier..."
+msgstr "&Typografi..."
 
 msgctxt "IDS_SUBTITLES_RELOAD"
 msgid "&Reload"
@@ -1380,11 +1380,11 @@ msgstr "Aktiverer logning til fil. (kræver genstart)"
 
 msgctxt "IDS_TIMER_REMAINING_TIME"
 msgid "Remaining time"
-msgstr ""
+msgstr "Resterende tid"
 
 msgctxt "IDS_TIMER_HIGH_PRECISION"
 msgid "High precision"
-msgstr ""
+msgstr "Høj præcision"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
