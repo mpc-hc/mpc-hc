@@ -22,6 +22,7 @@
 #include "MouseTouch.h"
 #include "MainFrm.h"
 #include "FullscreenWnd.h"
+#include <mvrInterfaces.h>
 
 #define CURSOR_HIDE_TIMEOUT 2000
 

@@ -24,7 +24,6 @@
 #include <d3d9.h>
 #include <evr9.h>
 #include <vmr9.h>
-#include "madVRAllocatorPresenter.h"
 
 
 enum OSD_COLORS {
@@ -45,8 +44,8 @@ enum OSD_MESSAGEPOS {
     OSD_DEBUG
 };
 
-struct IDSMChapterBag;
-
+interface IMadVRTextOsd;
+interface IDSMChapterBag;
 class CMainFrame;
 
 class CVMROSD

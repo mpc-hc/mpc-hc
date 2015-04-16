@@ -23,7 +23,8 @@
 #include "../../../SubPic/DX9SubPic.h"
 #include "../../../SubPic/SubPicQueueImpl.h"
 #include "RenderersSettings.h"
-#include "moreuuids.h"
+#include <mvrInterfaces.h>
+
 
 using namespace DSObjects;
 

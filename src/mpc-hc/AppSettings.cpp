@@ -32,6 +32,7 @@
 #include "Translations.h"
 #include "UpdateChecker.h"
 #include "moreuuids.h"
+#include <mvrInterfaces.h>
 
 
 #pragma warning(push)

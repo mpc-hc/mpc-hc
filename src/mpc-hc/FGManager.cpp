@@ -30,7 +30,6 @@
 #include "AllocatorCommon7.h"
 #include "AllocatorCommon.h"
 #include "SyncAllocatorPresenter.h"
-#include "madVRAllocatorPresenter.h"
 #include "DeinterlacerFilter.h"
 #include "../DeCSS/VobFile.h"
 #include <InitGuid.h>
@@ -42,6 +41,7 @@
 #include <ksproxy.h>
 #include "IPinHook.h"
 #include "moreuuids.h"
+#include <mvrInterfaces.h>
 
 //
 // CFGManager

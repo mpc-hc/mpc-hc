@@ -101,6 +101,9 @@
 #include "../Subtitles/RLECodedSubtitle.h"
 #include "../Subtitles/PGSSub.h"
 
+#include <mvrInterfaces.h>
+#include <SubRenderIntf.h>
+
 template<typename T>
 bool NEARLY_EQ(T a, T b, T tol)
 {

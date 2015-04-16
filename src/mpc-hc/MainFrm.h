@@ -154,6 +154,8 @@ struct SubtitleInput {
 };
 
 interface ISubClock;
+interface IMadVRSubclassReplacement;
+interface IMadVRSettings;
 
 class CMainFrame : public CFrameWnd, public CDropClient
 {

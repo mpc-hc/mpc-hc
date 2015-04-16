@@ -29,6 +29,7 @@
 #include "SyncAllocatorPresenter.h"
 #include "IPinHook.h" // For the NVIDIA driver bug work-around
 #include "moreuuids.h"
+#include <mvrInterfaces.h>
 
 
 //
