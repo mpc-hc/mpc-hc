@@ -25,6 +25,10 @@ next version - not released yet
   "OSD: Reset Renderer Statistics" so that their meaning is clearer in the "Keys" option panel. Also
   rename "Display Stats" to "Display Statistics" in the "Renderer Settings" menu
 * Ticket #5294, Use internal LAV Splitter for demuxing WTV files
+* Tickets #5336/5380, Replace the minidump creation by Doctor Dump, a more advanced crash reporter.
+  The new crash reporter is able to send the report automatically after the user's approval and can
+  warn the user if the problem has already been fixed in a newer version. It should also be generally
+  more reliable than the old method
 * Ticket #5416, Rename "Remaining Time" feature to "Display Current Time" in the "Renderer Settings" menu
   and to "OSD: Display Current Time" in the "Keys" option panel so that it describes the feature accurately
 * Updated Little CMS to v2.7 (git dd0074b)

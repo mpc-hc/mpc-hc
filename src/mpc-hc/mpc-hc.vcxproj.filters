@@ -435,6 +435,7 @@
     <ClCompile Include="DropTarget.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
+    <ClCompile Include="CrashReporter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h">
@@ -815,6 +816,7 @@
     <ClInclude Include="Logger.h">
       <Filter>Helpers</Filter>
     </ClInclude>
+    <ClInclude Include="CrashReporter.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\ani.avi">

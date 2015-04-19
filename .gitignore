@@ -28,5 +28,6 @@
 /src/mpc-hc/mpcresources/tx.exe
 /src/mpc-hc/res/mpc-hc.exe.manifest
 /src/MPCTestAPI/bin
+/src/thirdparty/DoctorDump/obj
 /src/thirdparty/LAVFilters/obj
 ipch
