@@ -110,16 +110,16 @@ msgid "Enable custom channel mapping"
 msgstr "Enable custom channel mapping"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
-msgstr "Speaker configuration for "
+msgid "Speaker configuration for"
+msgstr "Speaker configuration for"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
 msgid "input channels:"
 msgstr "input channels:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
-msgstr "Hold shift for immediate changes when clicking something "
+msgid "Hold shift for immediate changes when clicking something"
+msgstr "Hold shift for immediate changes when clicking something"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."

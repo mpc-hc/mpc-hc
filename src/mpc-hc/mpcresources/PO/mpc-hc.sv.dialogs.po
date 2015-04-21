@@ -110,16 +110,16 @@ msgid "Enable custom channel mapping"
 msgstr "Aktivera anpassad kanalmappning"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
-msgstr "Högtalarkonfigurationen för "
+msgid "Speaker configuration for"
+msgstr "Högtalarkonfigurationen för"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
 msgid "input channels:"
 msgstr "ingångskanaler:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
-msgstr "Håll in skift för omedelbara förändringar när du klickar på något "
+msgid "Hold shift for immediate changes when clicking something"
+msgstr "Håll in skift för omedelbara förändringar när du klickar på något"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."

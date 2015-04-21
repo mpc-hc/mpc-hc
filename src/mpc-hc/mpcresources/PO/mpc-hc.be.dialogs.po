@@ -108,16 +108,16 @@ msgid "Enable custom channel mapping"
 msgstr "Уключыць карыстальніцкае размеркаванне каналаў"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
-msgstr "Налада калонак для "
+msgid "Speaker configuration for"
+msgstr "Налада калонак для"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
 msgid "input channels:"
 msgstr "уваходных каналаў:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
-msgstr "Утрымлівайце shift для неадкладнага прыняцця змен пры націску "
+msgid "Hold shift for immediate changes when clicking something"
+msgstr "Утрымлівайце shift для неадкладнага прыняцця змен пры націску"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."

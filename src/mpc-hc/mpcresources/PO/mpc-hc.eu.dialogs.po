@@ -109,16 +109,16 @@ msgid "Enable custom channel mapping"
 msgstr "Gaitu norbere bide mapaketa"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
-msgstr "Hotsgorailu itxurapena "
+msgid "Speaker configuration for"
+msgstr "Hotsgorailu itxurapena"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
 msgid "input channels:"
 msgstr "Sarrera bideak:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
-msgstr "Sakatu \"aldatu\" tekla berehalako aldaketarako zerbait klikatzerakoan "
+msgid "Hold shift for immediate changes when clicking something"
+msgstr "Sakatu \"aldatu\" tekla berehalako aldaketarako zerbait klikatzerakoan"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."

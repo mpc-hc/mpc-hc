@@ -134,12 +134,12 @@ BEGIN
     EDITTEXT        IDC_EDIT2,124,77,46,13,ES_AUTOHSCROLL,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,158,77,12,13
     CONTROL         "Enable custom channel mapping",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,93,286,8
-    LTEXT           "Speaker configuration for ",IDC_STATIC1,5,107,115,8
+    LTEXT           "Speaker configuration for",IDC_STATIC1,5,107,115,8
     EDITTEXT        IDC_EDIT1,124,105,29,13,ES_CENTER | ES_AUTOHSCROLL
     CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,141,105,12,13
     LTEXT           "input channels:",IDC_STATIC2,157,107,134,8
     CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_OWNERDRAWFIXED | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | WS_BORDER | WS_TABSTOP,5,121,286,103
-    CTEXT           "Hold shift for immediate changes when clicking something ",IDC_STATIC3,5,228,286,8
+    CTEXT           "Hold shift for immediate changes when clicking something",IDC_STATIC3,5,228,286,8
 END
 
 IDD_GOTO_DLG DIALOGEX 0, 0, 186, 120

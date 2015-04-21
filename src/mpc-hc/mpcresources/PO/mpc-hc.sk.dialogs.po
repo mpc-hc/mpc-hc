@@ -110,16 +110,16 @@ msgid "Enable custom channel mapping"
 msgstr "Zapnúť mapovanie kanálov používateľom"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
-msgstr "Konfig. reproduktory na: "
+msgid "Speaker configuration for"
+msgstr "Konfig. reproduktory na:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
 msgid "input channels:"
 msgstr "vstupné kanály:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
-msgstr "Ak chcete zmeny uplatniť okamžite, pridržte klávesu Shift "
+msgid "Hold shift for immediate changes when clicking something"
+msgstr "Ak chcete zmeny uplatniť okamžite, pridržte klávesu Shift"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."

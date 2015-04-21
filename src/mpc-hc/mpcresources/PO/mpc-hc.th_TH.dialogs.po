@@ -110,7 +110,7 @@ msgid "Enable custom channel mapping"
 msgstr "ใช้การวางตำแหน่งช่อง ที่กำหนดเอง"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
+msgid "Speaker configuration for"
 msgstr "การกำหนดค่าลำโพงสำหรับ"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
@@ -118,7 +118,7 @@ msgid "input channels:"
 msgstr "ช่องขาเข้า:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
+msgid "Hold shift for immediate changes when clicking something"
 msgstr "เมื่อคลิกบางอย่าง กดปุ่ม Shift ค้างไว้ด้วยจะเปลี่ยนแปลงโดยทันที"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"

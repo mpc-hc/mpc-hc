@@ -109,15 +109,15 @@ msgid "Enable custom channel mapping"
 msgstr "Egyedi csatornaleképezés engedélyezése"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
-msgstr "Hangszórók konfigurálása "
+msgid "Speaker configuration for"
+msgstr "Hangszórók konfigurálása"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
 msgid "input channels:"
 msgstr "bemeneti csatornához:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
+msgid "Hold shift for immediate changes when clicking something"
 msgstr "Tartsa lenyomva a shift billentyűt a változtatások azonnali érvénybeléptetéséhez"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"

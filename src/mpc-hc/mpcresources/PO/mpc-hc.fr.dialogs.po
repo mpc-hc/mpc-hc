@@ -109,7 +109,7 @@ msgid "Enable custom channel mapping"
 msgstr "Activer la répartition personnalisée des canaux"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
+msgid "Speaker configuration for"
 msgstr "Configuration des hauts-parleurs pour"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
@@ -117,8 +117,8 @@ msgid "input channels:"
 msgstr "canaux en entrée :"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
-msgstr "Maintenez la touche Maj. en cliquant pour que la modification soit immédiate "
+msgid "Hold shift for immediate changes when clicking something"
+msgstr "Maintenez la touche Maj. en cliquant pour que la modification soit immédiate"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."

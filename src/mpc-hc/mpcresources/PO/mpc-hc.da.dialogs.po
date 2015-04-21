@@ -114,16 +114,16 @@ msgid "Enable custom channel mapping"
 msgstr "Aktivér brugerdefineret kanalkort"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
-msgstr "Højtaleropsætning til "
+msgid "Speaker configuration for"
+msgstr "Højtaleropsætning til"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
 msgid "input channels:"
 msgstr "indgangskanaler:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
-msgstr "Hold skift-knappen nede mens du klikker, for at foretage hurtige ændringer "
+msgid "Hold shift for immediate changes when clicking something"
+msgstr "Hold skift-knappen nede mens du klikker, for at foretage hurtige ændringer"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."

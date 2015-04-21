@@ -110,16 +110,16 @@ msgid "Enable custom channel mapping"
 msgstr "开启自定义声道映射"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
-msgstr "扬声器设置 "
+msgid "Speaker configuration for"
+msgstr "扬声器设置"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
 msgid "input channels:"
 msgstr "输入声道:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
-msgstr "当点击任意项目时按下 shift 键可使其立即生效 "
+msgid "Hold shift for immediate changes when clicking something"
+msgstr "当点击任意项目时按下 shift 键可使其立即生效"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."

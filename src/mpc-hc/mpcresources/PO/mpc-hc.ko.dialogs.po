@@ -110,15 +110,15 @@ msgid "Enable custom channel mapping"
 msgstr "사용자정의 채널/스피커배치기능 사용"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
-msgstr "스피커 채널 설정 "
+msgid "Speaker configuration for"
+msgstr "스피커 채널 설정"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
 msgid "input channels:"
 msgstr "입력 채널:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
+msgid "Hold shift for immediate changes when clicking something"
 msgstr "Shift키를 누른채로 설정을 변경시키면 즉시 설정이 반영됩니다."
 
 msgctxt "IDD_GOTO_DLG_CAPTION"

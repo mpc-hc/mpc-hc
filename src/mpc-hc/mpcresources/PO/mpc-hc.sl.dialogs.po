@@ -110,16 +110,16 @@ msgid "Enable custom channel mapping"
 msgstr "Omogoči preslikavo kanalov po meri"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
-msgstr "Konfiguracija zvočnikov za "
+msgid "Speaker configuration for"
+msgstr "Konfiguracija zvočnikov za"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
 msgid "input channels:"
 msgstr "vhodne kanale:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
-msgstr "Drži shift za takojšnje spremembe ob kliku "
+msgid "Hold shift for immediate changes when clicking something"
+msgstr "Drži shift za takojšnje spremembe ob kliku"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."

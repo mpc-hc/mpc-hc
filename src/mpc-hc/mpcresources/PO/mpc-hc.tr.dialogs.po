@@ -112,7 +112,7 @@ msgid "Enable custom channel mapping"
 msgstr "Özel kanal adreslemesini kullan"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
+msgid "Speaker configuration for"
 msgstr "Hoparlör sayısını ve çıkışını :"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
@@ -120,7 +120,7 @@ msgid "input channels:"
 msgstr "kanallı olarak ayarla"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
+msgid "Hold shift for immediate changes when clicking something"
 msgstr "Ayarların hemen geçerli olabilmesi için tıklarken Shift tuşuna basınız"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"

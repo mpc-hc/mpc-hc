@@ -109,7 +109,7 @@ msgid "Enable custom channel mapping"
 msgstr "Benarkan pemetaan saluran suai"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
+msgid "Speaker configuration for"
 msgstr "Konfigurasi pembesar suara untuk"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
@@ -117,7 +117,7 @@ msgid "input channels:"
 msgstr "saluran input:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
+msgid "Hold shift for immediate changes when clicking something"
 msgstr "Tahan shift untuk perubahan serta-merta bila mengklik sesuatu"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"

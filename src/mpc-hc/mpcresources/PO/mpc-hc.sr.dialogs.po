@@ -111,7 +111,7 @@ msgid "Enable custom channel mapping"
 msgstr "Мапирање прилагођених канала"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
+msgid "Speaker configuration for"
 msgstr "Подешавање звучника за"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
@@ -119,7 +119,7 @@ msgid "input channels:"
 msgstr "улазна канала:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
+msgid "Hold shift for immediate changes when clicking something"
 msgstr "Држите Shift да бисте измене видели одмах након клика."
 
 msgctxt "IDD_GOTO_DLG_CAPTION"

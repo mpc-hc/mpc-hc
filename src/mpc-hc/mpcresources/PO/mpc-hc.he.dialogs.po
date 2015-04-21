@@ -110,16 +110,16 @@ msgid "Enable custom channel mapping"
 msgstr "הפעל מיפוי ערוצים מותאם אישית"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
-msgstr "תצורת רמקולים עבור "
+msgid "Speaker configuration for"
+msgstr "תצורת רמקולים עבור"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
 msgid "input channels:"
 msgstr "ערוצי קלט:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
-msgstr "החזק את מקש ה-Shift בשביל שינוי מיידי כאשר אתה לוחץ על משהו "
+msgid "Hold shift for immediate changes when clicking something"
+msgstr "החזק את מקש ה-Shift בשביל שינוי מיידי כאשר אתה לוחץ על משהו"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."

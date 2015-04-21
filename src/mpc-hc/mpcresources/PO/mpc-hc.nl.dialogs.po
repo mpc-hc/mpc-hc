@@ -112,16 +112,16 @@ msgid "Enable custom channel mapping"
 msgstr "Door gebruiker bepaalde kanaal-setup toepassen"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
-msgstr "Luidspreker-configuratie voor "
+msgid "Speaker configuration for"
+msgstr "Luidspreker-configuratie voor"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
 msgid "input channels:"
 msgstr "ingangskanalen:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
-msgstr "Druk op shift tijdens het klikken om de veranderingen direkt door te voeren "
+msgid "Hold shift for immediate changes when clicking something"
+msgstr "Druk op shift tijdens het klikken om de veranderingen direkt door te voeren"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."

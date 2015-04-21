@@ -109,16 +109,16 @@ msgid "Enable custom channel mapping"
 msgstr "Povolit vlastní přiřazení zvukových kanálů"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
-msgstr "Nastavení reproduktorů pro "
+msgid "Speaker configuration for"
+msgstr "Nastavení reproduktorů pro"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
 msgid "input channels:"
 msgstr "vstupní kanály:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
-msgstr "Pokud při kliknutí myší podržíte Shift, změny se projeví okamžitě "
+msgid "Hold shift for immediate changes when clicking something"
+msgstr "Pokud při kliknutí myší podržíte Shift, změny se projeví okamžitě"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."

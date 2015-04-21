@@ -111,7 +111,7 @@ msgid "Enable custom channel mapping"
 msgstr "ব্যক্তি-নির্ধারিত চ্যানেল বিন্যাস সক্রিয়করণ"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
+msgid "Speaker configuration for"
 msgstr "কনফিগারেশনের জন্য স্পিকার সংখ্যা"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
@@ -119,7 +119,7 @@ msgid "input channels:"
 msgstr "ইনপুট চ্যানেলসমূহ:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
+msgid "Hold shift for immediate changes when clicking something"
 msgstr "কোন কিছু ক্লিক করার সময় অবিলম্বে পরিবর্তনের জন্য শিফট কী ধরে রাখুন"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"

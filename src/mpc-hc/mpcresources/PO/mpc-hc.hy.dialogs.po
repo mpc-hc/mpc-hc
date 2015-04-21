@@ -109,7 +109,7 @@ msgid "Enable custom channel mapping"
 msgstr "Միացնել ալիքների ընտրված տեղորոշումը"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
+msgid "Speaker configuration for"
 msgstr "Սյուների կարագավորում՝"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
@@ -117,7 +117,7 @@ msgid "input channels:"
 msgstr "մտնող ալիքների."
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
+msgid "Hold shift for immediate changes when clicking something"
 msgstr "Սեղմած պահեք shift-ը՝ փոփոխությունները անհապաղ կիրառելու համար"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"

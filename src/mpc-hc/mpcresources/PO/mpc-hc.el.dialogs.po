@@ -110,15 +110,15 @@ msgid "Enable custom channel mapping"
 msgstr "Ενεργοποίηση προσαρμοσμένης αντιστοίχισης καναλιών"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
-msgstr "Διαμόρφωση ηχείων για "
+msgid "Speaker configuration for"
+msgstr "Διαμόρφωση ηχείων για"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
 msgid "input channels:"
 msgstr "κανάλια εισόδου:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
+msgid "Hold shift for immediate changes when clicking something"
 msgstr "Κρατήστε πατημένο το πλήκτρο shift για άμεσες αλλαγές όταν κάνετε κλικ σε κάτι"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"

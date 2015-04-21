@@ -113,7 +113,7 @@ msgid "Enable custom channel mapping"
 msgstr "Activa l' assignació de canal personalitzat"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
+msgid "Speaker configuration for"
 msgstr "Configuració dels altaveus"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
@@ -121,7 +121,7 @@ msgid "input channels:"
 msgstr "canals d’entrada:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
+msgid "Hold shift for immediate changes when clicking something"
 msgstr "Manteniu la techa shift en fer clic a les opcions per aplicar-les al moment"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"

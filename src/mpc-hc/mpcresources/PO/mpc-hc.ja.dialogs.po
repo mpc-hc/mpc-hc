@@ -109,7 +109,7 @@ msgid "Enable custom channel mapping"
 msgstr "カスタム チャンネル マッピングを有効にする"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
+msgid "Speaker configuration for"
 msgstr "入力スピーカーの設定:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
@@ -117,7 +117,7 @@ msgid "input channels:"
 msgstr "チャンネル"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
+msgid "Hold shift for immediate changes when clicking something"
 msgstr "Shift キーを押したままクリックすると、即座に変更されます"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"

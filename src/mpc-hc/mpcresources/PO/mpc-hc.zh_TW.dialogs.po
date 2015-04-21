@@ -113,7 +113,7 @@ msgid "Enable custom channel mapping"
 msgstr "啟用自訂的聲道對應"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
+msgid "Speaker configuration for"
 msgstr "揚聲器組態: 給"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
@@ -121,7 +121,7 @@ msgid "input channels:"
 msgstr "組聲道"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
+msgid "Hold shift for immediate changes when clicking something"
 msgstr "按住 Shift 可以立即反應點選時的改變"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"

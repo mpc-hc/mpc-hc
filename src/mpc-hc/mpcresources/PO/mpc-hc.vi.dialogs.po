@@ -110,7 +110,7 @@ msgid "Enable custom channel mapping"
 msgstr "Cho phép lập bản đồ kênh tùy chỉnh"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
+msgid "Speaker configuration for"
 msgstr "Cấu hình loa cho"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
@@ -118,7 +118,7 @@ msgid "input channels:"
 msgstr "Ngõ vào:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
+msgid "Hold shift for immediate changes when clicking something"
 msgstr "Giữ shift để thay đổi ngay lập tức khi nhấn một cái gì đó"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"

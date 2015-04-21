@@ -111,16 +111,16 @@ msgid "Enable custom channel mapping"
 msgstr "Кулланучының каналлар бүлүен кабызырга"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
-msgstr "Баганаларны көйләү "
+msgid "Speaker configuration for"
+msgstr "Баганаларны көйләү"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
 msgid "input channels:"
 msgstr "кергән канал:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
-msgstr "Басканда үзгәртүләр кичекмәстән кабул ителсен өчен shift төймәсенә басып торыгыз "
+msgid "Hold shift for immediate changes when clicking something"
+msgstr "Басканда үзгәртүләр кичекмәстән кабул ителсен өчен shift төймәсенә басып торыгыз"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."

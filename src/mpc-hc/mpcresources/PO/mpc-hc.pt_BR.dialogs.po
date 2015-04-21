@@ -115,7 +115,7 @@ msgid "Enable custom channel mapping"
 msgstr "Ativar o mapeamento de canais personalizado"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
+msgid "Speaker configuration for"
 msgstr "Ajustes dos alto-falantes p/"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
@@ -123,7 +123,7 @@ msgid "input channels:"
 msgstr "canais de entrada"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
+msgid "Hold shift for immediate changes when clicking something"
 msgstr "Pressione \"Shift\" ao clicar em algo para aplicar as alterações imediatamente."
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
