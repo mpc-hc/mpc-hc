@@ -61,3 +61,5 @@ next version - not released yet
 ! Ticket #5348, Vobsub: The latest subtitle entry was sometimes not rendered
 ! Ticket #5360, Fix: The "turn off monitor" after playback event did not work
 ! Ticket #5378, Fix the "DVD Menu Activate" hotkey
+! Ticket #5392, the Internal Subtitle Renderer did not work properly when the maximum texture resolution
+  was set to "Video" and the renderer was madVR

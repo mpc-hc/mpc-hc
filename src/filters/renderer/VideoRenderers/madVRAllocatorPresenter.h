@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -94,7 +94,7 @@ namespace DSObjects
         // ISubPicAllocatorPresenter
         STDMETHODIMP CreateRenderer(IUnknown** ppRenderer);
         STDMETHODIMP_(void) SetPosition(RECT w, RECT v);
-        STDMETHODIMP_(SIZE) GetVideoSize(bool bCorrectAR) const;
+        STDMETHODIMP_(SIZE) GetVideoSize(bool bCorrectAR = true) const;
         STDMETHODIMP_(bool) Paint(bool bAll);
         STDMETHODIMP GetDIB(BYTE* lpDib, DWORD* size);
         STDMETHODIMP SetPixelShader(LPCSTR pSrcData, LPCSTR pTarget);
