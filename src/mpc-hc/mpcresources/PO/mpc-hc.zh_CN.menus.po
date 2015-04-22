@@ -206,6 +206,10 @@ msgctxt "ID_VIEW_REMAINING_TIME"
 msgid "&Remaining Time"
 msgstr "剩余时间(&R)"
 
+msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
+msgid "Show &File Name"
+msgstr ""
+
 msgctxt "POPUP"
 msgid "&Output Range"
 msgstr "输出范围(&O)"

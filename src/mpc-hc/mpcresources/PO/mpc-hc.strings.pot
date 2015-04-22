@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-04-15 21:44:52+0000\n"
+"POT-Creation-Date: 2015-05-15 16:51:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1663,6 +1663,10 @@ msgstr ""
 
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"
+msgstr ""
+
+msgctxt "IDS_OSD_SHOW_FILENAME"
+msgid "OSD: Show File Name"
 msgstr ""
 
 msgctxt "IDS_AG_VIEW_MINIMAL"

@@ -19,6 +19,7 @@ next version - not released yet
 + Ticket #5334, Allow to enable high precision timer also when Subresync bar is hidden.
   Right click on timer shows menu with options.
 + Ticket #5356, DVB: Support HEVC broadcasts
++ Ticket #5386, OSD: Add the ability to display the file name using a menu item and a hotkey ('N' by default)
 * Subtitle renderer: Better compatibility with ASS/SSA subtitle files that are slightly violating the specs
 * Ticket #5294, Use internal LAV Splitter for demuxing WTV files
 * Updated Little CMS to v2.7 (git dd0074b)

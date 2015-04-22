@@ -1385,6 +1385,7 @@ BEGIN
             MENUITEM "&Tearing Test",               ID_VIEW_TEARING_TEST
             MENUITEM "&Display Stats",              ID_VIEW_DISPLAYSTATS
             MENUITEM "&Remaining Time",             ID_VIEW_REMAINING_TIME
+            MENUITEM "Show &File Name",             ID_VIEW_OSD_SHOW_FILENAME
             MENUITEM SEPARATOR
             POPUP "&Output Range"
             BEGIN
@@ -1719,6 +1720,7 @@ BEGIN
             MENUITEM "&Tearing Test",               ID_VIEW_TEARING_TEST
             MENUITEM "&Display Stats",              ID_VIEW_DISPLAYSTATS
             MENUITEM "&Remaining Time",             ID_VIEW_REMAINING_TIME
+            MENUITEM "Show &File Name",             ID_VIEW_OSD_SHOW_FILENAME
             MENUITEM SEPARATOR
             POPUP "&Output Range"
             BEGIN
@@ -1854,6 +1856,7 @@ BEGIN
                 MENUITEM "&Tearing Test",               ID_VIEW_TEARING_TEST
                 MENUITEM "&Display Stats",              ID_VIEW_DISPLAYSTATS
                 MENUITEM "&Remaining Time",             ID_VIEW_REMAINING_TIME
+                MENUITEM "Show &File Name",             ID_VIEW_OSD_SHOW_FILENAME
                 MENUITEM SEPARATOR
                 POPUP "&Output Range"
                 BEGIN
@@ -2031,6 +2034,7 @@ BEGIN
             MENUITEM "&Tearing Test",               ID_VIEW_TEARING_TEST
             MENUITEM "&Display Stats",              ID_VIEW_DISPLAYSTATS
             MENUITEM "&Remaining Time",             ID_VIEW_REMAINING_TIME
+            MENUITEM "Show &File Name",             ID_VIEW_OSD_SHOW_FILENAME
             MENUITEM SEPARATOR
             POPUP "&Output Range"
             BEGIN
@@ -2727,6 +2731,7 @@ BEGIN
     IDS_MPLAYERC_103        "Shift Subtitle Right"
     IDS_AG_DISPLAY_STATS    "Display Stats"
     IDS_AG_SEEKSET          "Jump to Beginning"
+    IDS_OSD_SHOW_FILENAME   "OSD: Show File Name"
 END
 
 STRINGTABLE

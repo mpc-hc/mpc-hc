@@ -418,6 +418,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_COMMAND(ID_VIEW_VSYNCOFFSET_DECREASE, OnViewVSyncOffsetDecrease)
     ON_UPDATE_COMMAND_UI(ID_VIEW_REMAINING_TIME, OnUpdateViewRemainingTime)
     ON_COMMAND(ID_VIEW_REMAINING_TIME, OnViewRemainingTime)
+    ON_UPDATE_COMMAND_UI(ID_VIEW_OSD_SHOW_FILENAME, OnUpdateViewOSDShowFileName)
+    ON_COMMAND(ID_VIEW_OSD_SHOW_FILENAME, OnViewOSDShowFileName)
     ON_COMMAND(ID_D3DFULLSCREEN_TOGGLE, OnD3DFullscreenToggle)
     ON_COMMAND_RANGE(ID_GOTO_PREV_SUB, ID_GOTO_NEXT_SUB, OnGotoSubtitle)
     ON_COMMAND_RANGE(ID_SHIFT_SUB_DOWN, ID_SHIFT_SUB_UP, OnShiftSubtitle)
@@ -6146,6 +6148,48 @@ void CMainFrame::OnViewRemainingTime()
     }
 
     OnTimer(TIMER_STREAMPOSPOLLER2);
+}
+
+void CMainFrame::OnUpdateViewOSDShowFileName(CCmdUI* pCmdUI)
+{
+    const CAppSettings& s = AfxGetAppSettings();
+    pCmdUI->Enable(s.fShowOSD && GetLoadState() != MLS::CLOSED);
+}
+
+void CMainFrame::OnViewOSDShowFileName()
+{
+    CString strOSD;
+    switch (GetPlaybackMode()) {
+        case PM_FILE:
+            strOSD = GetFileName();
+            break;
+        case PM_DVD:
+            strOSD = _T("DVD");
+            if (m_pDVDI) {
+                CString path;
+                ULONG len = 0;
+                if (SUCCEEDED(m_pDVDI->GetDVDDirectory(path.GetBuffer(MAX_PATH), MAX_PATH, &len)) && len) {
+                    path.ReleaseBuffer();
+                    if (path.Find(_T("\\VIDEO_TS")) == 2) {
+                        strOSD.AppendFormat(_T(" - %s"), GetDriveLabel(CPath(path)));
+                    } else {
+                        strOSD.AppendFormat(_T(" - %s"), path);
+                    }
+                }
+            }
+            break;
+        case PM_ANALOG_CAPTURE:
+            strOSD = GetCaptureTitle();
+        case PM_DIGITAL_CAPTURE:
+            UpdateCurrentChannelInfo(true, false);
+            break;
+        default: // Shouldn't happen
+            ASSERT(FALSE);
+            return;
+    }
+    if (!strOSD.IsEmpty()) {
+        m_OSD.DisplayMessage(OSD_TOPLEFT, strOSD);
+    }
 }
 
 void CMainFrame::OnD3DFullscreenToggle()

@@ -1669,6 +1669,10 @@ msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"
 msgstr "Hoppa till början"
 
+msgctxt "IDS_OSD_SHOW_FILENAME"
+msgid "OSD: Show File Name"
+msgstr ""
+
 msgctxt "IDS_AG_VIEW_MINIMAL"
 msgid "View Minimal"
 msgstr "Visa Minimal"

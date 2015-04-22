@@ -882,6 +882,8 @@ public:
     afx_msg void OnViewVSyncOffsetDecrease();
     afx_msg void OnUpdateViewRemainingTime(CCmdUI* pCmdUI);
     afx_msg void OnViewRemainingTime();
+    afx_msg void OnUpdateViewOSDShowFileName(CCmdUI* pCmdUI);
+    afx_msg void OnViewOSDShowFileName();
     afx_msg void OnD3DFullscreenToggle();
     afx_msg void OnGotoSubtitle(UINT nID);
     afx_msg void OnShiftSubtitle(UINT nID);

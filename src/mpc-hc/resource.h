@@ -684,7 +684,8 @@
 #define ID_VIEW_TEARING_TEST            32769
 #define ID_FILE_OPENDISC                32774
 #define ID_SHADERS                      32775
-#define ID_VIEW_REMAINING_TIME          32778
+#define ID_VIEW_REMAINING_TIME          32777
+#define ID_VIEW_OSD_SHOW_FILENAME       32778
 #define ID_D3DFULLSCREEN_TOGGLE         32779
 #define ID_GOTO_PREV_SUB                32780
 #define ID_GOTO_NEXT_SUB                32781
@@ -808,6 +809,7 @@
 #define IDS_MPLAYERC_103                32980
 #define IDS_AG_DISPLAY_STATS            32981
 #define IDS_AG_SEEKSET                  32982
+#define IDS_OSD_SHOW_FILENAME           32983
 #define IDS_PPAGEWEBSERVER_0            32996
 #define IDS_MAINFRM_2                   33014
 #define IDS_AG_SUBTITLES_SAVED          33015
