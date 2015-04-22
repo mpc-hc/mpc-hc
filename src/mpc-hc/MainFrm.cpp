@@ -416,8 +416,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 
     ON_COMMAND(ID_VIEW_VSYNCOFFSET_INCREASE, OnViewVSyncOffsetIncrease)
     ON_COMMAND(ID_VIEW_VSYNCOFFSET_DECREASE, OnViewVSyncOffsetDecrease)
-    ON_UPDATE_COMMAND_UI(ID_VIEW_REMAINING_TIME, OnUpdateViewRemainingTime)
-    ON_COMMAND(ID_VIEW_REMAINING_TIME, OnViewRemainingTime)
+    ON_UPDATE_COMMAND_UI(ID_VIEW_OSD_DISPLAY_TIME, OnUpdateViewOSDDisplayTime)
+    ON_COMMAND(ID_VIEW_OSD_DISPLAY_TIME, OnViewOSDDisplayTime)
     ON_UPDATE_COMMAND_UI(ID_VIEW_OSD_SHOW_FILENAME, OnUpdateViewOSDShowFileName)
     ON_COMMAND(ID_VIEW_OSD_SHOW_FILENAME, OnViewOSDShowFileName)
     ON_COMMAND(ID_D3DFULLSCREEN_TOGGLE, OnD3DFullscreenToggle)
@@ -723,7 +723,7 @@ CMainFrame::CMainFrame()
     , m_bTrayIcon(false)
     , m_pFullscreenWnd(nullptr)
     , m_pVideoWnd(nullptr)
-    , m_bRemainingTime(false)
+    , m_bOSDDisplayTime(false)
     , m_nCurSubtitle(-1)
     , m_lSubtitleShift(0)
     , m_nStepForwardCount(0)
@@ -1825,7 +1825,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                     case PM_FILE:
                     // no break
                     case PM_DVD:
-                        if (m_bRemainingTime) {
+                        if (m_bOSDDisplayTime) {
                             m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer());
                         }
                         break;
@@ -1837,7 +1837,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                             REFERENCE_TIME rtNow = REFERENCE_TIME(tNow - NowNext.startTime) * 10000000;
                             REFERENCE_TIME rtDur = REFERENCE_TIME(NowNext.duration) * 10000000;
                             m_wndStatusBar.SetStatusTimer(rtNow, rtDur, false, TIME_FORMAT_MEDIA_TIME);
-                            if (m_bRemainingTime) {
+                            if (m_bOSDDisplayTime) {
                                 m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer());
                             }
                         } else {
@@ -6132,18 +6132,18 @@ void CMainFrame::OnViewVSyncOffsetDecrease()
     m_OSD.DisplayMessage(OSD_TOPRIGHT, strOSD);
 }
 
-void CMainFrame::OnUpdateViewRemainingTime(CCmdUI* pCmdUI)
+void CMainFrame::OnUpdateViewOSDDisplayTime(CCmdUI* pCmdUI)
 {
     const CAppSettings& s = AfxGetAppSettings();
-    pCmdUI->Enable(s.fShowOSD && (GetLoadState() != MLS::CLOSED));
-    pCmdUI->SetCheck(m_bRemainingTime);
+    pCmdUI->Enable(s.fShowOSD && GetLoadState() != MLS::CLOSED);
+    pCmdUI->SetCheck(m_bOSDDisplayTime);
 }
 
-void CMainFrame::OnViewRemainingTime()
+void CMainFrame::OnViewOSDDisplayTime()
 {
-    m_bRemainingTime = !m_bRemainingTime;
+    m_bOSDDisplayTime = !m_bOSDDisplayTime;
 
-    if (!m_bRemainingTime) {
+    if (!m_bOSDDisplayTime) {
         m_OSD.ClearMessage();
     }
 

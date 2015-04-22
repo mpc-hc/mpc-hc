@@ -22,6 +22,8 @@ next version - not released yet
 + Ticket #5386, OSD: Add the ability to display the file name using a menu item and a hotkey ('N' by default)
 * Subtitle renderer: Better compatibility with ASS/SSA subtitle files that are slightly violating the specs
 * Ticket #5294, Use internal LAV Splitter for demuxing WTV files
+* Ticket #5416, Rename "Remaining Time" feature to "Display Current Time" in the "Renderer Settings" menu
+  and to "OSD: Display Current Time" in the "Keys" option panel so that it describes the feature accurately
 * Updated Little CMS to v2.7 (git dd0074b)
 * Updated Unrar to v5.2.7
 * Updated MediaInfoLib to v0.7.73

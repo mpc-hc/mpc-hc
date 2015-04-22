@@ -201,9 +201,9 @@ msgctxt "ID_VIEW_DISPLAYSTATS"
 msgid "&Display Stats"
 msgstr "&Hiện thông số"
 
-msgctxt "ID_VIEW_REMAINING_TIME"
-msgid "&Remaining Time"
-msgstr "&Thời gian còn lại"
+msgctxt "ID_VIEW_OSD_DISPLAY_TIME"
+msgid "Display Current T&ime"
+msgstr ""
 
 msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
 msgid "Show &File Name"

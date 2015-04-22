@@ -1384,7 +1384,7 @@ BEGIN
         BEGIN
             MENUITEM "&Tearing Test",               ID_VIEW_TEARING_TEST
             MENUITEM "&Display Stats",              ID_VIEW_DISPLAYSTATS
-            MENUITEM "&Remaining Time",             ID_VIEW_REMAINING_TIME
+            MENUITEM "Display Current T&ime",       ID_VIEW_OSD_DISPLAY_TIME
             MENUITEM "Show &File Name",             ID_VIEW_OSD_SHOW_FILENAME
             MENUITEM SEPARATOR
             POPUP "&Output Range"
@@ -1719,7 +1719,7 @@ BEGIN
         BEGIN
             MENUITEM "&Tearing Test",               ID_VIEW_TEARING_TEST
             MENUITEM "&Display Stats",              ID_VIEW_DISPLAYSTATS
-            MENUITEM "&Remaining Time",             ID_VIEW_REMAINING_TIME
+            MENUITEM "Display Current T&ime",       ID_VIEW_OSD_DISPLAY_TIME
             MENUITEM "Show &File Name",             ID_VIEW_OSD_SHOW_FILENAME
             MENUITEM SEPARATOR
             POPUP "&Output Range"
@@ -1855,7 +1855,7 @@ BEGIN
             BEGIN
                 MENUITEM "&Tearing Test",               ID_VIEW_TEARING_TEST
                 MENUITEM "&Display Stats",              ID_VIEW_DISPLAYSTATS
-                MENUITEM "&Remaining Time",             ID_VIEW_REMAINING_TIME
+                MENUITEM "Display Current T&ime",       ID_VIEW_OSD_DISPLAY_TIME
                 MENUITEM "Show &File Name",             ID_VIEW_OSD_SHOW_FILENAME
                 MENUITEM SEPARATOR
                 POPUP "&Output Range"
@@ -2033,7 +2033,7 @@ BEGIN
         BEGIN
             MENUITEM "&Tearing Test",               ID_VIEW_TEARING_TEST
             MENUITEM "&Display Stats",              ID_VIEW_DISPLAYSTATS
-            MENUITEM "&Remaining Time",             ID_VIEW_REMAINING_TIME
+            MENUITEM "Display Current T&ime",       ID_VIEW_OSD_DISPLAY_TIME
             MENUITEM "Show &File Name",             ID_VIEW_OSD_SHOW_FILENAME
             MENUITEM SEPARATOR
             POPUP "&Output Range"
@@ -2832,7 +2832,7 @@ BEGIN
     IDS_MPLAYERC_95         "Next Subtitle (DVD)"
     IDS_MPLAYERC_96         "Prev Subtitle (DVD)"
     IDS_MPLAYERC_97         "On/Off Subtitle (DVD)"
-    IDS_MPLAYERC_98         "Remaining Time"
+    IDS_OSD_DISPLAY_CURRENT_TIME "OSD: Display Current Time"
 END
 
 STRINGTABLE

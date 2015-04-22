@@ -880,8 +880,8 @@ public:
     afx_msg void OnViewEnableFrameTimeCorrection();
     afx_msg void OnViewVSyncOffsetIncrease();
     afx_msg void OnViewVSyncOffsetDecrease();
-    afx_msg void OnUpdateViewRemainingTime(CCmdUI* pCmdUI);
-    afx_msg void OnViewRemainingTime();
+    afx_msg void OnUpdateViewOSDDisplayTime(CCmdUI* pCmdUI);
+    afx_msg void OnViewOSDDisplayTime();
     afx_msg void OnUpdateViewOSDShowFileName(CCmdUI* pCmdUI);
     afx_msg void OnViewOSDShowFileName();
     afx_msg void OnD3DFullscreenToggle();
@@ -974,7 +974,7 @@ public:
     CWnd*           m_pVideoWnd;            // Current Video (main display screen or 2nd)
     CFullscreenWnd* m_pFullscreenWnd;
     CVMROSD     m_OSD;
-    bool        m_bRemainingTime;
+    bool        m_bOSDDisplayTime;
     int         m_nCurSubtitle;
     long        m_lSubtitleShift;
     REFERENCE_TIME m_rtCurSubPos;

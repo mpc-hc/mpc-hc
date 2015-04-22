@@ -200,9 +200,9 @@ msgctxt "ID_VIEW_DISPLAYSTATS"
 msgid "&Display Stats"
 msgstr "&Показ статистики"
 
-msgctxt "ID_VIEW_REMAINING_TIME"
-msgid "&Remaining Time"
-msgstr "Залишок часу"
+msgctxt "ID_VIEW_OSD_DISPLAY_TIME"
+msgid "Display Current T&ime"
+msgstr ""
 
 msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
 msgid "Show &File Name"
