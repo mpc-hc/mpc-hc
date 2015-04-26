@@ -2721,7 +2721,7 @@ msgid "Hide &borders"
 msgstr "Cacher les &bordures"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
-msgid "Frame Only"
+msgid "Fra&me Only"
 msgstr "Bordures uniquement"
 
 msgctxt "IDS_VIEW_CAPTIONMENU"

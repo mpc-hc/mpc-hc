@@ -2728,7 +2728,7 @@ msgid "Hide &borders"
 msgstr "Fensterrahmen aus&blenden"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
-msgid "Frame Only"
+msgid "Fra&me Only"
 msgstr "Titelleiste aus&blenden"
 
 msgctxt "IDS_VIEW_CAPTIONMENU"

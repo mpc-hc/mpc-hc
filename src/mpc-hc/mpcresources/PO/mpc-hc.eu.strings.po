@@ -2721,7 +2721,7 @@ msgid "Hide &borders"
 msgstr "Ezkutatu hertzak\tKtrl+0"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
-msgid "Frame Only"
+msgid "Fra&me Only"
 msgstr "Framea Bakarrik\tKtrl+0"
 
 msgctxt "IDS_VIEW_CAPTIONMENU"

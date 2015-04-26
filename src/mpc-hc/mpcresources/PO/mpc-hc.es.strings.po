@@ -2730,7 +2730,7 @@ msgid "Hide &borders"
 msgstr "Hide borders"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
-msgid "Frame Only"
+msgid "Fra&me Only"
 msgstr "Solo el cuadro"
 
 msgctxt "IDS_VIEW_CAPTIONMENU"

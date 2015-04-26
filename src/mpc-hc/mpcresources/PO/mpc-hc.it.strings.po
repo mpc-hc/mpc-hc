@@ -2723,7 +2723,7 @@ msgid "Hide &borders"
 msgstr "Nascondi bordi"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
-msgid "Frame Only"
+msgid "Fra&me Only"
 msgstr "Solo video"
 
 msgctxt "IDS_VIEW_CAPTIONMENU"

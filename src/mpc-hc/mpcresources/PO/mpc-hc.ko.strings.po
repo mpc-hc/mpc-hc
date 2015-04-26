@@ -2722,7 +2722,7 @@ msgid "Hide &borders"
 msgstr "외곽선 숨기기"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
-msgid "Frame Only"
+msgid "Fra&me Only"
 msgstr "창 프레임만"
 
 msgctxt "IDS_VIEW_CAPTIONMENU"

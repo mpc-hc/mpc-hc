@@ -2722,7 +2722,7 @@ msgid "Hide &borders"
 msgstr "Skryť o&kraje"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
-msgid "Frame Only"
+msgid "Fra&me Only"
 msgstr "Len snímok"
 
 msgctxt "IDS_VIEW_CAPTIONMENU"

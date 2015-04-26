@@ -2727,7 +2727,7 @@ msgid "Hide &borders"
 msgstr "إخفاء الحدود"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
-msgid "Frame Only"
+msgid "Fra&me Only"
 msgstr "الإطار فقط"
 
 msgctxt "IDS_VIEW_CAPTIONMENU"

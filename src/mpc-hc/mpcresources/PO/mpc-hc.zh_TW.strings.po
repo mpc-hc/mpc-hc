@@ -2725,7 +2725,7 @@ msgid "Hide &borders"
 msgstr "隱藏邊框"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
-msgid "Frame Only"
+msgid "Fra&me Only"
 msgstr "僅影格"
 
 msgctxt "IDS_VIEW_CAPTIONMENU"

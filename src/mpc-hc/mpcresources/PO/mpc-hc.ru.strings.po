@@ -2728,7 +2728,7 @@ msgid "Hide &borders"
 msgstr "Скрыть границы"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
-msgid "Frame Only"
+msgid "Fra&me Only"
 msgstr "Только видеокадр"
 
 msgctxt "IDS_VIEW_CAPTIONMENU"

@@ -2721,7 +2721,7 @@ msgid "Hide &borders"
 msgstr "Թաքցնել եզրագիծը"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
-msgid "Frame Only"
+msgid "Fra&me Only"
 msgstr "Միայն կադրը"
 
 msgctxt "IDS_VIEW_CAPTIONMENU"

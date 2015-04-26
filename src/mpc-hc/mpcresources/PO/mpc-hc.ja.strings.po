@@ -2721,7 +2721,7 @@ msgid "Hide &borders"
 msgstr "境界線を隠す(&B)"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
-msgid "Frame Only"
+msgid "Fra&me Only"
 msgstr "フレームのみ(&M)"
 
 msgctxt "IDS_VIEW_CAPTIONMENU"

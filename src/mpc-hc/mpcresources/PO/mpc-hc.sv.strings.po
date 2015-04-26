@@ -2722,7 +2722,7 @@ msgid "Hide &borders"
 msgstr "Göm kanter"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
-msgid "Frame Only"
+msgid "Fra&me Only"
 msgstr "Endast Ram"
 
 msgctxt "IDS_VIEW_CAPTIONMENU"

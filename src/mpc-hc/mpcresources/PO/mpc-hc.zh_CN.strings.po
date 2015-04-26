@@ -2723,7 +2723,7 @@ msgid "Hide &borders"
 msgstr "隐藏边框(&B)"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
-msgid "Frame Only"
+msgid "Fra&me Only"
 msgstr "仅图像"
 
 msgctxt "IDS_VIEW_CAPTIONMENU"

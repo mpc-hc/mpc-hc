@@ -2722,7 +2722,7 @@ msgid "Hide &borders"
 msgstr "বর্ডারসমূহ লুকিয়ে রাখি(&B)"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
-msgid "Frame Only"
+msgid "Fra&me Only"
 msgstr "শুধুমাত্র ফ্রেম"
 
 msgctxt "IDS_VIEW_CAPTIONMENU"

@@ -2722,7 +2722,7 @@ msgid "Hide &borders"
 msgstr "Ascunde mar&gini"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
-msgid "Frame Only"
+msgid "Fra&me Only"
 msgstr "Doar cadru video"
 
 msgctxt "IDS_VIEW_CAPTIONMENU"

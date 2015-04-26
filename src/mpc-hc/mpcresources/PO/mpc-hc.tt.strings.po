@@ -2725,7 +2725,7 @@ msgid "Hide &borders"
 msgstr "Чикләрне яшерергә"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
-msgid "Frame Only"
+msgid "Fra&me Only"
 msgstr "Видеокадр гына"
 
 msgctxt "IDS_VIEW_CAPTIONMENU"

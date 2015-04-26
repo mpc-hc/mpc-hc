@@ -3096,7 +3096,7 @@ BEGIN
     IDS_AG_RESET_STATS      "Reset Display Stats"
     IDD_PPAGESUBMISC        "Subtitles::Misc"
     IDS_VIEW_BORDERLESS     "Hide &borders"
-    IDS_VIEW_FRAMEONLY      "Frame Only"
+    IDS_VIEW_FRAMEONLY      "Fra&me Only"
     IDS_VIEW_CAPTIONMENU    "Sho&w Caption&&Menu"
     IDS_VIEW_HIDEMENU       "Hide &Menu"
     IDD_PPAGEADVANCED       "Advanced"

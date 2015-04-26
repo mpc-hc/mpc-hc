@@ -2723,7 +2723,7 @@ msgid "Hide &borders"
 msgstr "Сакриј &ивице"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
-msgid "Frame Only"
+msgid "Fra&me Only"
 msgstr "Само кадар"
 
 msgctxt "IDS_VIEW_CAPTIONMENU"

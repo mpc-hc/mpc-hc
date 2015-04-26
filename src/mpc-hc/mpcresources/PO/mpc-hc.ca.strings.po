@@ -2726,7 +2726,7 @@ msgid "Hide &borders"
 msgstr "Amaga les &vores"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
-msgid "Frame Only"
+msgid "Fra&me Only"
 msgstr "Només Fotograma(frame)"
 
 msgctxt "IDS_VIEW_CAPTIONMENU"

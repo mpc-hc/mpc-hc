@@ -2726,7 +2726,7 @@ msgid "Hide &borders"
 msgstr "Sakrij &rubove"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
-msgid "Frame Only"
+msgid "Fra&me Only"
 msgstr "Samo okvir"
 
 msgctxt "IDS_VIEW_CAPTIONMENU"

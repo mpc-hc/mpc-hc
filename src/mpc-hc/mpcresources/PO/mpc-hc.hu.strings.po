@@ -2721,7 +2721,7 @@ msgid "Hide &borders"
 msgstr "Ablakszegély elrejtése"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
-msgid "Frame Only"
+msgid "Fra&me Only"
 msgstr "Csak a keret megjelenítése"
 
 msgctxt "IDS_VIEW_CAPTIONMENU"

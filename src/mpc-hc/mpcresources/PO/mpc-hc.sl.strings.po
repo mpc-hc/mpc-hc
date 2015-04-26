@@ -2723,7 +2723,7 @@ msgid "Hide &borders"
 msgstr "&Skrij okvir"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
-msgid "Frame Only"
+msgid "Fra&me Only"
 msgstr "&Samo slika"
 
 msgctxt "IDS_VIEW_CAPTIONMENU"

@@ -2723,7 +2723,7 @@ msgid "Hide &borders"
 msgstr "Kenarları gizle"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
-msgid "Frame Only"
+msgid "Fra&me Only"
 msgstr "Sadece çerçevede"
 
 msgctxt "IDS_VIEW_CAPTIONMENU"

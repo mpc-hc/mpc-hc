@@ -2722,7 +2722,7 @@ msgid "Hide &borders"
 msgstr "הסתר מסגרת"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
-msgid "Frame Only"
+msgid "Fra&me Only"
 msgstr "פריים בלבד"
 
 msgctxt "IDS_VIEW_CAPTIONMENU"

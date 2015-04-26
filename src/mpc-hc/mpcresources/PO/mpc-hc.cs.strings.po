@@ -2722,7 +2722,7 @@ msgid "Hide &borders"
 msgstr "Skrýt okraje"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
-msgid "Frame Only"
+msgid "Fra&me Only"
 msgstr "Pouze rámeček s videem"
 
 msgctxt "IDS_VIEW_CAPTIONMENU"
