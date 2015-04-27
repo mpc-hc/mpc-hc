@@ -394,7 +394,6 @@
     <ClCompile Include="EventDispatcher.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="MainFrmControls.cpp" />
-    <ClCompile Include="MiniDump.cpp" />
     <ClCompile Include="mplayerc.cpp" />
     <ClCompile Include="Playlist.cpp" />
     <ClCompile Include="stdafx.cpp" />
@@ -768,7 +767,6 @@
     <ClInclude Include="EventDispatcher.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="MainFrmControls.h" />
-    <ClInclude Include="MiniDump.h" />
     <ClInclude Include="mplayerc.h" />
     <ClInclude Include="Playlist.h" />
     <ClInclude Include="resource.h" />
