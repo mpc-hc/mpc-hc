@@ -23,4 +23,5 @@
 namespace CrashReporter
 {
     void Enable();
+    void Disable();
 };

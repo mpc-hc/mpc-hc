@@ -30,7 +30,12 @@ using namespace crash_rpt;
 
 namespace CrashReporter
 {
+    static bool g_bEnabled = false;
     static CrashRpt g_crashReporter(L"CrashReporter\\crashrpt.dll");
+
+    static CrashProcessingCallbackResult CALLBACK CrashProcessingCallback(CrashProcessingCallbackStage stage,
+            ExceptionInfo* pExceptionInfo,
+            LPVOID pUserData);
 }
 #endif
 
@@ -81,12 +86,30 @@ void CrashReporter::Enable()
         nullptr,    // No lang file (for now)
         nullptr,    // Default path for SendRpt
         nullptr,    // Default path for DbgHelp
-        nullptr,    // No callback function (yet)
+        CrashProcessingCallback,    // Callback function
         nullptr     // No user defined parameter for the callback function
     };
 
     if (!g_crashReporter.IsCrashHandlingEnabled()) {
-        g_crashReporter.InitCrashRpt(&appInfo, &handlerSettings);
+        g_bEnabled = g_crashReporter.InitCrashRpt(&appInfo, &handlerSettings);
+    } else {
+        g_bEnabled = true;
     }
 #endif
 };
+
+void CrashReporter::Disable()
+{
+#ifndef _DEBUG
+    g_bEnabled = false;
+#endif
+};
+
+#ifndef _DEBUG
+CrashProcessingCallbackResult CALLBACK CrashReporter::CrashProcessingCallback(CrashProcessingCallbackStage stage,
+        ExceptionInfo* pExceptionInfo,
+        LPVOID pUserData)
+{
+    return g_bEnabled ? DoDefaultActions : SkipSendReportReturnDefaultResult;
+};
+#endif
