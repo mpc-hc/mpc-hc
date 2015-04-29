@@ -1433,8 +1433,18 @@ HRESULT CFGManagerBDA::ChangeState(FILTER_STATE nRequested)
                 return pMC->Pause();
             }
             case State_Running: {
-                if (SUCCEEDED(hr = pMC->Run()) && SUCCEEDED(hr = pMC->GetState(500, &nState)) && nState == State_Running && pMainFrame) {
-                    pMainFrame->SetTimersPlay();
+                if (SUCCEEDED(hr = pMC->Run())) {
+                    if (SUCCEEDED(hr = pMC->GetState(500, &nState))) {
+                        if (nState != State_Running) {
+                            Sleep(100);
+                            if (SUCCEEDED(hr = pMC->Run())) {
+                                hr = pMC->GetState(500, &nState);
+                            }
+                        }
+                        if (nState == State_Running && pMainFrame) {
+                            pMainFrame->SetTimersPlay();
+                        }
+                    }
                 }
                 LOG(_T("IMediaControl play: 0x%08x."), hr);
                 return hr;

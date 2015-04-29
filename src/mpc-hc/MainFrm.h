@@ -390,6 +390,7 @@ private:
     CDropTarget m_dropTarget;
     void OnDropFiles(CAtlList<CString>& slFiles, DROPEFFECT dropEffect) override;
     DROPEFFECT OnDropAccept(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point) override;
+    void AbortOpening();
 
 public:
     void StartWebServer(int nPort);
@@ -504,6 +505,7 @@ public:
     bool ResetDevice();
     bool DisplayChange();
     void CloseMedia(bool bNextIsQueued = false);
+    HRESULT ReCreateGraph();
     HRESULT SetChannel(int nChannel);
 
     void AddCurDevToPlaylist();
@@ -983,6 +985,7 @@ public:
 
     afx_msg void OnClose();
     afx_msg void OnRefreshPlayerSettings();
+    afx_msg LRESULT OnBDASetChannel(WPARAM wParam, LPARAM lParam);
 
     CMPC_Lcd m_Lcd;
 

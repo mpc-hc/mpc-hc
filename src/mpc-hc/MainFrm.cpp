@@ -198,6 +198,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 
     ON_MESSAGE_VOID(WM_SAVESETTINGS, SaveAppSettings)
     ON_MESSAGE_VOID(WM_DTV_REFRESHSETTINGS, OnRefreshPlayerSettings)
+    ON_MESSAGE(WM_BDA_SETCHANNEL, OnBDASetChannel)
 
     ON_WM_NCHITTEST()
 
@@ -3263,7 +3264,9 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
 
 LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
 {
-    ASSERT(GetLoadState() == MLS::LOADING);
+    if (!(m_pDVBState && m_pDVBState->bSetChannelActive)) {
+        ASSERT(GetLoadState() == MLS::LOADING);
+    }
     auto& s = AfxGetAppSettings();
 
     // from this on
@@ -3356,7 +3359,7 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
             m_wndNavigationBar.m_navdlg.UpdateElementList();
             if (!m_controls.ControlChecked(CMainFrameControls::Panel::NAVIGATION)) {
                 m_controls.ToggleControl(CMainFrameControls::Panel::NAVIGATION);
-            } else {
+            } else if (!m_pDVBState->bSetChannelActive){
                 ASSERT(FALSE);
             }
         }
@@ -3373,10 +3376,13 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
     OnTimer(TIMER_STREAMPOSPOLLER);
     OnTimer(TIMER_STREAMPOSPOLLER2);
 
-    // auto-zoom if requested
-    if (IsWindowVisible() && s.fRememberZoomLevel &&
+    // Only if we are not in the middle of a change of channel for digital TV
+    if (!(m_pDVBState && m_pDVBState->bSetChannelActive)) {
+        // auto-zoom if requested
+        if (IsWindowVisible() && s.fRememberZoomLevel &&
             !m_fFullScreen && !IsD3DFullScreenMode() && !IsZoomed() && !IsIconic() && !IsAeroSnapped()) {
-        ZoomVideoWindow();
+            ZoomVideoWindow();
+        }
     }
 
     // Add temporary flag to allow EC_VIDEO_SIZE_CHANGED event to stabilize window size
@@ -3385,9 +3391,12 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
     m_timerOneTime.Subscribe(TimerOneTimeSubscriber::AUTOFIT_TIMEOUT, [this]
     { m_bAllowWindowZoom = false; }, 5000);
 
-    // update control bar areas and paint bypassing the message queue
-    RecalcLayout();
-    UpdateWindow();
+    // Only if we are not in the middle of a change of channel for digital TV
+    if (!(m_pDVBState && m_pDVBState->bSetChannelActive)) {
+        // update control bar areas and paint bypassing the message queue
+        RecalcLayout();
+//        UpdateWindow();
+    }
 
     // the window is repositioned and repainted, video renderer rect is ready to be set -
     // OnPlayPlay()/OnPlayPause() will take care of that
@@ -4236,13 +4245,6 @@ void CMainFrame::OnFileOpendigitalTV()
                     p->err = 0;
                 }
 
-                if (s.bUseIGMPMembership) {
-                    // Manages IGMPv2 multicast membership
-                    if (m_pMulticastMembership == nullptr) {
-                        m_pMulticastMembership = std::make_unique<CIPTVMcastTools>();
-                    }
-                    m_pMulticastMembership->UDPMulticastJoinGroup(p->address);
-                }
                 OpenMedia(p);
             } else {
                 // The channel is IPTV and IPTV disabled
@@ -6980,7 +6982,7 @@ void CMainFrame::OnViewOptions()
 
 void CMainFrame::OnPlayPlay()
 {
-    const CAppSettings& s = AfxGetAppSettings();
+   CAppSettings& s = AfxGetAppSettings();
 
     m_timerOneTime.Unsubscribe(TimerOneTimeSubscriber::DELAY_PLAYPAUSE_AFTER_AUTOCHANGE_MODE);
     m_bOpeningInAutochangedMonitorMode = false;
@@ -7013,8 +7015,15 @@ void CMainFrame::OnPlayPlay()
             m_pMC->Stop(); // audio preview won't be in sync if we run it from paused state
         } else if (GetPlaybackMode() == PM_DIGITAL_TV) {
             bVideoWndNeedReset = false; // SetChannel deals with MoveVideoWindow
+
+            if (!(m_pDVBState->pChannel)) {
+                CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
+                // Only for DVB
+                if (!(pChannel && pChannel->IsIPTV())) {
+                    SetChannel(s.nDVBLastChannel);
+                }
+            }
             m_pDVBState->bSetChannelActive = false;
-            SetChannel(s.nDVBLastChannel);
         } else {
             ASSERT(FALSE);
         }
@@ -10333,7 +10342,9 @@ double CMainFrame::GetZoomAutoFitScale(bool bLargerOnly)
 
 void CMainFrame::RepaintVideo()
 {
-    if (!m_bDelaySetOutputRect && GetMediaState() != State_Running) {
+    // We skip this operation for digital TV when channel change is in progress
+    if (!(m_pDVBState && m_pDVBState->bSetChannelActive) && 
+        !m_bDelaySetOutputRect && GetMediaState() != State_Running) {
         if (m_pCAP) {
             m_pCAP->Paint(false);
         } else if (m_pMFVDC) {
@@ -10776,9 +10787,7 @@ void CMainFrame::OpenNetwork(OpenNetworkData* pOND)
 
     if (FAILED(hr)) {
         // if failed we cancel any active SetChannel operation
-        if (m_pDVBState) {
-            m_pDVBState->bSetChannelActive = false;
-        }
+        TRACE("SetChannel operation cancelled.\n");
         ReportFailedPins(hr, pOND);
 
         if (!(m_pFSF = m_pGB)) {
@@ -10807,7 +10816,9 @@ void CMainFrame::OpenNetwork(OpenNetworkData* pOND)
         EndEnumFilters;
     }
     SetPlaybackMode(PM_DIGITAL_TV);
-    m_pDVBState = std::make_unique<DVBState>();
+    if (!m_pDVBState) {
+        m_pDVBState = std::make_unique<DVBState>();
+    }
 }
 
 void CMainFrame::SetupChapters()
@@ -11076,7 +11087,9 @@ HRESULT CMainFrame::OpenBDAGraph()
     HRESULT hr = m_pGB->RenderFile(L"", L"");
     if (SUCCEEDED(hr)) {
         SetPlaybackMode(PM_DIGITAL_TV);
-        m_pDVBState = std::make_unique<DVBState>();
+        if (!(m_pDVBState && m_pDVBState->bSetChannelActive)) {
+            m_pDVBState = std::make_unique<DVBState>();
+        }
     }
     return hr;
 }
@@ -11984,7 +11997,9 @@ int CMainFrame::SetupSubtitleStreams()
 
 bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 {
-    ASSERT(GetLoadState() == MLS::LOADING);
+    if (!(m_pDVBState && m_pDVBState->bSetChannelActive)) {
+        ASSERT(GetLoadState() == MLS::LOADING);
+    }
     auto& s = AfxGetAppSettings();
 
     OpenFileData* pFileData = dynamic_cast<OpenFileData*>(pOMD.m_p);
@@ -12021,6 +12036,15 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
             }
         };
         checkAborted();
+
+        if (pNetworkData && s.bUseIGMPMembership) {
+            // Manages IGMPv2 multicast membership
+            if (m_pMulticastMembership == nullptr) {
+                m_pMulticastMembership = std::make_unique<CIPTVMcastTools>();
+            }
+            m_pMulticastMembership->UDPMulticastJoinGroup(pNetworkData->address);
+        }
+
 
         OpenCreateGraphObject(pOMD);
         checkAborted();
@@ -12215,7 +12239,13 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 
 void CMainFrame::CloseMediaPrivate()
 {
-    ASSERT(GetLoadState() == MLS::CLOSING);
+    if (!(m_pDVBState && m_pDVBState->bSetChannelActive)) {
+        ASSERT(GetLoadState() == MLS::CLOSING);
+        if (m_pDVBState) {
+            m_pDVBState->Join();
+        }
+        m_pDVBState = nullptr;
+    }
 
     // IPTV: Managing IGMPv2 multicast membership (leave group) if needed
     if (m_pMulticastMembership != nullptr) {
@@ -12224,17 +12254,17 @@ void CMainFrame::CloseMediaPrivate()
     }
 
     if (m_pMC) {
-        m_pMC->Stop(); // needed for StreamBufferSource, because m_iMediaLoadState is always MLS::CLOSED // TODO: fix the opening for such media
+        if (GetPlaybackMode() == PM_DIGITAL_TV) {
+            m_pMC->StopWhenReady(); // Sometimes needed for bad quality sources
+        } else {
+            m_pMC->Stop(); // needed for StreamBufferSource, because m_iMediaLoadState is always MLS::CLOSED // TODO: fix the opening for such media
+        }
     }
     m_fLiveWM = false;
     m_fEndOfStream = false;
     m_bBuffering = false;
     m_rtDurationOverride = -1;
     m_bUsingDXVA = false;
-    if (m_pDVBState) {
-        m_pDVBState->Join();
-        m_pDVBState = nullptr;
-    }
     m_pCB.Release();
 
     SetSubtitle(SubtitleInput(nullptr));
@@ -12290,6 +12320,7 @@ void CMainFrame::CloseMediaPrivate()
         m_pGB->RemoveFromROT();
         m_pGB.Release();
     }
+    ASSERT(m_pGB == nullptr);
 
     m_pProv.Release();
 
@@ -14900,6 +14931,45 @@ bool CMainFrame::DisplayChange()
     return true;
 }
 
+void CMainFrame::AbortOpening()
+{
+    // should be possible only in graph thread
+    ASSERT(m_bOpenedThroughThread);
+
+    // tell OpenMediaPrivate() that we want to abort
+    m_fOpeningAborted = true;
+
+    // abort current graph task
+    if (m_pGB) {
+        m_pGB->Abort(); // TODO: lock on graph objects somehow, this is not thread safe
+    }
+
+    BeginWaitCursor();
+    if (WaitForSingleObject(m_evOpenPrivateFinished, 5000) == WAIT_TIMEOUT) { // TODO: it's really dangerous, decide if we should do it at all
+        // graph thread is taking too long to respond, we take extreme measures and terminate it
+        MessageBeep(MB_ICONEXCLAMATION);
+        ASSERT(FALSE);
+        ENSURE(TerminateThread(m_pGraphThread->m_hThread, DWORD_ERROR));
+        // then we recreate graph thread
+        m_pGraphThread = (CGraphThread*)AfxBeginThread(RUNTIME_CLASS(CGraphThread));
+        m_pGraphThread->SetMainFrame(this);
+    }
+    EndWaitCursor();
+
+    MSG msg;
+    // purge possible queued OnFilePostOpenmedia()
+    if (PeekMessage(&msg, m_hWnd, WM_POSTOPEN, WM_POSTOPEN, PM_REMOVE | PM_NOYIELD)) {
+        free((OpenMediaData*)msg.lParam);
+    }
+    // purge possible queued OnOpenMediaFailed()
+    if (PeekMessage(&msg, m_hWnd, WM_OPENFAILED, WM_OPENFAILED, PM_REMOVE | PM_NOYIELD)) {
+        free((OpenMediaData*)msg.lParam);
+    }
+
+    // abort finished, unset the flag
+    m_fOpeningAborted = false;
+}
+
 void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
 {
     auto& s = AfxGetAppSettings();
@@ -14919,41 +14989,7 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
 
     // abort if loading
     if (GetLoadState() == MLS::LOADING) {
-        // should be possible only in graph thread
-        ASSERT(m_bOpenedThroughThread);
-
-        // tell OpenMediaPrivate() that we want to abort
-        m_fOpeningAborted = true;
-
-        // abort current graph task
-        if (m_pGB) {
-            m_pGB->Abort(); // TODO: lock on graph objects somehow, this is not thread safe
-        }
-
-        BeginWaitCursor();
-        if (WaitForSingleObject(m_evOpenPrivateFinished, 5000) == WAIT_TIMEOUT) { // TODO: it's really dangerous, decide if we should do it at all
-            // graph thread is taking too long to respond, we take extreme measures and terminate it
-            MessageBeep(MB_ICONEXCLAMATION);
-            ASSERT(FALSE);
-            ENSURE(TerminateThread(m_pGraphThread->m_hThread, DWORD_ERROR));
-            // then we recreate graph thread
-            m_pGraphThread = (CGraphThread*)AfxBeginThread(RUNTIME_CLASS(CGraphThread));
-            m_pGraphThread->SetMainFrame(this);
-        }
-        EndWaitCursor();
-
-        MSG msg;
-        // purge possible queued OnFilePostOpenmedia()
-        if (PeekMessage(&msg, m_hWnd, WM_POSTOPEN, WM_POSTOPEN, PM_REMOVE | PM_NOYIELD)) {
-            free((OpenMediaData*)msg.lParam);
-        }
-        // purge possible queued OnOpenMediaFailed()
-        if (PeekMessage(&msg, m_hWnd, WM_OPENFAILED, WM_OPENFAILED, PM_REMOVE | PM_NOYIELD)) {
-            free((OpenMediaData*)msg.lParam);
-        }
-
-        // abort finished, unset the flag
-        m_fOpeningAborted = false;
+        AbortOpening();
     }
 
     // we are on the way
@@ -15009,6 +15045,132 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
     OnFilePostClosemedia(bNextIsQueued);
 }
 
+HRESULT CMainFrame::ReCreateGraph()
+{
+    HRESULT hr = S_OK;
+
+    // abort if loading
+    if (GetLoadState() == MLS::LOADING) {
+        AbortOpening();
+    }
+
+    // stop the graph before destroying it
+    OnPlayStop();
+
+    SetLoadState(MLS::CLOSING);
+
+    // Destroy and create a new graph:
+    auto& s = AfxGetAppSettings();
+    CAutoPtr<OpenNetworkData> pNetworkData(DEBUG_NEW OpenNetworkData());
+    CAutoPtr<OpenDeviceDigitalData> pDeviceDigitalData(DEBUG_NEW OpenDeviceDigitalData());
+
+    CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
+    if (pChannel->IsIPTV()) {
+        if (pNetworkData) {
+            pNetworkData->address = pChannel->GetUrl();
+            pNetworkData->err = 0;
+        }
+    } else {
+        if (pDeviceDigitalData) {
+            pDeviceDigitalData->nDVBChannel = s.nDVBLastChannel;
+            pDeviceDigitalData->err = 0;
+        }
+    }
+
+    // initiate graph destruction and creation, OpenMediaPrivate() will call OnFilePostOpenmedia()
+    if (m_bOpenedThroughThread) {
+        VERIFY(m_evClosePrivateFinished.Reset());
+        VERIFY(m_evOpenPrivateFinished.Reset());
+        if (pNetworkData && pChannel->IsIPTV()) {
+            m_pGraphThread->PostThreadMessage(CGraphThread::TM_RECREATE, 0, (LPARAM)pNetworkData.Detach());
+        } else if (pDeviceDigitalData && pChannel->IsDVB()) {
+            m_pGraphThread->PostThreadMessage(CGraphThread::TM_RECREATE, 0, (LPARAM)pDeviceDigitalData.Detach());
+        }
+
+        HANDLE hEvent = m_evClosePrivateFinished;
+        HANDLE handles[] = { hEvent };
+        bool bClosePrivateFinished = false;
+        while (!bClosePrivateFinished) {
+            switch (MsgWaitForMultipleObjects(_countof(handles), handles, FALSE, INFINITE, QS_ALLINPUT)) {
+            case WAIT_OBJECT_0:
+                bClosePrivateFinished = true;
+                break;
+            case WAIT_OBJECT_0 + 1:
+                MSG msg;
+                while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+                    if (msg.message != WM_KICKIDLE && !PreTranslateMessage(&msg)) {
+                        TranslateMessage(&msg);
+                        DispatchMessage(&msg);
+                    }
+                }
+                break;
+            default:
+                ASSERT(FALSE);
+                return E_INVALIDARG;
+            }
+        }
+
+        ASSERT(m_pGB == nullptr);
+
+        SetLoadState(MLS::LOADING);
+
+        // Update or create m_pDVBState
+        if (!m_pDVBState) {
+            m_pDVBState = std::make_unique<DVBState>();
+        }
+        m_pDVBState->bSetChannelActive = true;
+
+        // create d3dfs window if launching in fullscreen and d3dfs is enabled
+        if (s.IsD3DFullscreen() && m_fStartInD3DFullscreen) {
+            CreateFullScreenWindow();
+            m_pVideoWnd = (CWnd*)m_pFullscreenWnd;
+            m_fStartInD3DFullscreen = false;
+        }
+        else {
+            m_pVideoWnd = &m_wndView;
+        }
+
+        HANDLE hEvent2 = m_evOpenPrivateFinished;
+        HANDLE handles2[] = { hEvent2 };
+        while (true) {
+            switch (MsgWaitForMultipleObjects(_countof(handles2), handles2, FALSE, INFINITE, QS_ALLINPUT)) {
+            case WAIT_OBJECT_0:
+                return S_OK;
+                break;
+            case WAIT_OBJECT_0 + 1:
+                MSG msg;
+                while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+                    if (msg.message != WM_KICKIDLE && !PreTranslateMessage(&msg)) {
+                        TranslateMessage(&msg);
+                        DispatchMessage(&msg);
+                    }
+                }
+                break;
+            default:
+                TRACE("m_evOpenPrivateFinished event: time out.\n");
+                return E_INVALIDARG;
+            }
+        }
+    }
+    else {
+        CloseMediaPrivate();
+        if (pChannel->IsIPTV()) {
+            OpenMediaPrivate(pNetworkData);
+            if (pNetworkData && s.bUseIGMPMembership) {
+                // Manages IGMPv2 multicast membership
+                if (m_pMulticastMembership == nullptr) {
+                    m_pMulticastMembership = std::make_unique<CIPTVMcastTools>();
+                }
+                m_pMulticastMembership->UDPMulticastJoinGroup(pNetworkData->address);
+            }
+        } else {
+            OpenMediaPrivate(pDeviceDigitalData);
+        }
+    }
+
+    return hr;
+}
+
 HRESULT CMainFrame::SetChannel(int nChannel)
 {
     CAppSettings& s = AfxGetAppSettings();
@@ -15022,6 +15184,8 @@ HRESULT CMainFrame::SetChannel(int nChannel)
         m_wndNavigationBar.m_navdlg.SetChannelInfoAvailable(false);
         RecalcLayout();
         m_pDVBState->bSetChannelActive = true;
+
+        CDVBChannel* pChannel = s.FindChannelByPref(nChannel);
 
         // Skip n intermediate ZoomVideoWindow() calls while the new size is stabilized:
         switch (s.iDSVideoRendererType) {
@@ -15039,14 +15203,15 @@ HRESULT CMainFrame::SetChannel(int nChannel)
                 m_nLockedZoomVideoWindow = 0;
         }
 
-        CDVBChannel* pChannel = s.FindChannelByPref(nChannel);
         if (!pChannel) {
             if (s.bEnabledDVB) {
                 // Channel not found and DVB is enabled.
+                TRACE(_T("Channel not found and DVB is enabled"));
                 hr = S_FALSE;
             } else {
                 // Channel not found and DVB disabled.
                 // Then do nothing
+                TRACE(_T("Channel not found and DVB is disabled"));
                 m_pDVBState->bSetChannelActive = false;
                 return E_ABORT;
             }
@@ -15054,24 +15219,35 @@ HRESULT CMainFrame::SetChannel(int nChannel)
             if (pChannel->IsDVB()) {
                 if (s.bEnabledDVB) {
                     // The channel is DVB and DVB is enabled
-                    CComQIPtr<IBDATuner> pTun = m_pGB;
-                    if (pTun) {
-                        if (SUCCEEDED(hr = pTun->SetChannel(nChannel))) {
-                            if (hr == S_FALSE) { // Re-create all
-                                m_nLockedZoomVideoWindow = 0;
-                                m_wndNavigationBar.m_navdlg.SetChannelInfoAvailable(FALSE);
-                                PostMessage(WM_COMMAND, ID_FILE_OPENDIGITALTV);
-                                return hr;
+                    if (m_bOpenedThroughThread) {
+                        hr = (HRESULT) SendMessage(WM_BDA_SETCHANNEL, nChannel);
+                    } else {
+                        hr = (HRESULT) OnBDASetChannel(nChannel, 0);
+                    }
+                    if (SUCCEEDED(hr)) {
+                        if (hr == S_FALSE) { // Re-create all
+                            m_nLockedZoomVideoWindow = 0;
+                            m_wndNavigationBar.m_navdlg.SetChannelInfoAvailable(FALSE);
+                            m_pDVBState->pChannel = pChannel;
+                            hr = ReCreateGraph();
+                            if (m_bOpenedThroughThread) {
+                                hr = (HRESULT) SendMessage(WM_BDA_SETCHANNEL, nChannel);
+                            } else {
+                                hr = (HRESULT) OnBDASetChannel(nChannel, 0);
                             }
                         }
-                    } else {
+                    } else if (hr == E_INVALIDARG) {
                         // pTun object not created. Force rebuilding graph
-                        hr = S_FALSE;
                         m_nLockedZoomVideoWindow = 0;
                         s.nDVBLastChannel = nChannel;
+                        m_pDVBState->pChannel = pChannel;
                         m_wndNavigationBar.m_navdlg.SetChannelInfoAvailable(FALSE);
-                        PostMessage(WM_COMMAND, ID_FILE_OPENDIGITALTV);
-                        return hr;
+                        hr = ReCreateGraph();
+                        if (m_bOpenedThroughThread) {
+                            hr = (HRESULT) SendMessage(WM_BDA_SETCHANNEL, nChannel);
+                        } else {
+                            hr = (HRESULT) OnBDASetChannel(nChannel, 0);
+                        }
                     }
                 } else {
                     // The channel is DVB and DVB is not enabled
@@ -15079,13 +15255,14 @@ HRESULT CMainFrame::SetChannel(int nChannel)
                 }
             } else if (pChannel->IsIPTV() && s.bEnabledIPTV) {
                 // IPTV
+                // Only switch channel if new channel != current channel  
                 if (pChannel != s.FindChannelByPref(s.nDVBLastChannel)) {
-                    hr = S_FALSE;   // Force rebuilding graph
+                    // Rebuild graph
                     m_nLockedZoomVideoWindow = 0;
                     s.nDVBLastChannel = nChannel;
                     m_wndNavigationBar.m_navdlg.SetChannelInfoAvailable(FALSE);
-                    PostMessage(WM_COMMAND, ID_FILE_OPENDIGITALTV);
-                    return hr;
+                    m_pDVBState->pChannel = pChannel;
+                    hr = ReCreateGraph();
                 }
             } else {
                 // The channel is IPTV and IPTV is not enabled
@@ -15101,11 +15278,13 @@ HRESULT CMainFrame::SetChannel(int nChannel)
             m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_CHANNEL), m_pDVBState->sChannelName);
             RecalcLayout();
 
-            if (s.fRememberZoomLevel && !(m_fFullScreen || IsZoomed() || IsIconic())) {
-                ZoomVideoWindow();
+            if (pChannel->IsDVB()) {
+                if (s.fRememberZoomLevel && !(m_fFullScreen || IsZoomed() || IsIconic())) {
+                    ZoomVideoWindow();
+                }
+                MoveVideoWindow();
+                UpdateCurrentChannelInfo();
             }
-            MoveVideoWindow();
-            UpdateCurrentChannelInfo();
         }
 
         // Add temporary flag to allow EC_VIDEO_SIZE_CHANGED event to stabilize window size
@@ -15119,6 +15298,8 @@ HRESULT CMainFrame::SetChannel(int nChannel)
 
     return hr;
 }
+
+
 
 void CMainFrame::UpdateCurrentChannelInfo(bool bShowOSD /*= true*/, bool bShowInfoBar /*= false*/)
 {
@@ -15144,6 +15325,21 @@ void CMainFrame::UpdateCurrentChannelInfo(bool bShowOSD /*= true*/, bool bShowIn
             return infoData;
         });
     }
+}
+
+
+LRESULT CMainFrame::OnBDASetChannel(WPARAM wParam, LPARAM lParam)
+{
+    UINT nChannel = (UINT) wParam;
+    LRESULT hr = S_OK;
+    
+    CComQIPtr<IBDATuner> pTun = m_pGB;
+    if (pTun) {
+        hr = pTun->SetChannel(nChannel);
+    } else {
+        hr = E_INVALIDARG;
+    }
+    return hr;
 }
 
 LRESULT CMainFrame::OnCurrentChannelInfoUpdated(WPARAM wParam, LPARAM lParam)
