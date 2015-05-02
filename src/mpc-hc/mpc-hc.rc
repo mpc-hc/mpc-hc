@@ -1104,6 +1104,20 @@ BEGIN
     DEFPUSHBUTTON   "OK",IDOK,252,156,50,14
 END
 
+IDD_CRASH_REPORTER DIALOGEX 0, 0, 300, 240
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Crash reporter"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "We are sorry, it seems MPC-HC just crashed. :(\n\nTo help us diagnose and fix the problem, a bug report will be sent. You can provide additional information if you want.",IDC_STATIC1,5,5,290,35
+    LTEXT           "Email:",IDC_STATIC2,5,45,290,8
+    EDITTEXT        IDC_EDIT1,5,57,290,13,ES_AUTOHSCROLL
+    LTEXT           "Your email address is optional and will only be used if the developers need to contact you for more information.",IDC_STATIC3,5,72,290,16
+    LTEXT           "Problem description (use English only):",IDC_STATIC4,5,92,290,8
+    EDITTEXT        IDC_EDIT2,5,105,290,112,ES_MULTILINE | ES_AUTOVSCROLL | WS_VSCROLL | ES_WANTRETURN
+    DEFPUSHBUTTON   "OK",IDOK,245,220,50,14
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1277,6 +1291,11 @@ BEGIN
         RIGHTMARGIN, 302
         TOPMARGIN, 7
         BOTTOMMARGIN, 170
+    END
+
+    IDD_CRASH_REPORTER, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 200
     END
 END
 #endif    // APSTUDIO_INVOKED

@@ -21,6 +21,7 @@
 #include "stdafx.h"
 #include <DbgHelp.h>
 #include "CrashReporter.h"
+#include "CrashReporterDialog.h"
 #include "VersionInfo.h"
 #include "mpc-hc_config.h"
 #include "DoctorDump/CrashRpt.h"
@@ -92,6 +93,8 @@ void CrashReporter::Enable()
 
     if (!g_crashReporter.IsCrashHandlingEnabled()) {
         g_bEnabled = g_crashReporter.InitCrashRpt(&appInfo, &handlerSettings);
+        // Ensure the crash reporter UI thread is running
+        VERIFY(CCrashReporterUIThread::GetInstance() != nullptr);
     } else {
         g_bEnabled = true;
     }
@@ -110,6 +113,34 @@ CrashProcessingCallbackResult CALLBACK CrashReporter::CrashProcessingCallback(Cr
         ExceptionInfo* pExceptionInfo,
         LPVOID pUserData)
 {
-    return g_bEnabled ? DoDefaultActions : SkipSendReportReturnDefaultResult;
+    if (!g_bEnabled) {
+        return SkipSendReportReturnDefaultResult;
+    }
+
+    // All variables are allocated statically to reduce allocations after crashing
+    if (stage == BeforeSendReport) {
+        // We need to make sure the message pump is ready
+        static CCrashReporterUIThread* pCrashReporterUIThread = CCrashReporterUIThread::GetInstance();
+        pCrashReporterUIThread->WaitThreadReady();
+        // before actually showing the dialog
+        static CCrashReporterDialog& crashDlg = pCrashReporterUIThread->GetCrashDialog();
+        crashDlg.ShowWindow(SW_SHOWNORMAL);
+        crashDlg.SetWindowPos(&CWnd::wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+        crashDlg.SetForegroundWindow();
+
+        static CString email, description;
+        if (crashDlg.WaitForUserInput(email, description)) {
+            if (!email.IsEmpty()) {
+                g_crashReporter.AddUserInfoToReport(L"email", email);
+            }
+            if (!description.IsEmpty()) {
+                g_crashReporter.AddUserInfoToReport(L"description", description);
+            }
+        }
+        crashDlg.SignalDataRead();
+        WaitForSingleObject(CCrashReporterUIThread::GetInstance()->m_hThread, INFINITE);
+    }
+
+    return DoDefaultActions;
 };
 #endif

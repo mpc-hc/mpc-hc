@@ -322,6 +322,7 @@
     <ClCompile Include="ComPropertySheet.cpp" />
     <ClCompile Include="CoverArt.cpp" />
     <ClCompile Include="CrashReporter.cpp" />
+    <ClCompile Include="CrashReporterDialog.cpp" />
     <ClCompile Include="CShockwaveFlash.cpp" />
     <ClCompile Include="DebugShadersDlg.cpp" />
     <ClCompile Include="DeinterlacerFilter.cpp" />
@@ -450,6 +451,7 @@
     <ClInclude Include="ComPropertySheet.h" />
     <ClInclude Include="CoverArt.h" />
     <ClInclude Include="CrashReporter.h" />
+    <ClInclude Include="CrashReporterDialog.h" />
     <ClInclude Include="CShockwaveFlash.h" />
     <ClInclude Include="DebugShadersDlg.h" />
     <ClInclude Include="DeinterlacerFilter.h" />

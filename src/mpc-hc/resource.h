@@ -590,6 +590,7 @@
 #define IDD_PPAGEADVANCED               20014
 #define IDD_SAVEIMAGEDIALOGTEMPL        20015
 #define IDD_CMD_LINE_HELP               20016
+#define IDD_CRASH_REPORTER              20017
 #define IDC_FULLSCREEN_MONITOR_CHECK    22002
 #define IDC_SLI_CONTRAST                22003
 #define IDC_RESET                       22004
@@ -1476,7 +1477,7 @@
 //
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        20017
+#define _APS_NEXT_RESOURCE_VALUE        20018
 #define _APS_NEXT_COMMAND_VALUE         33449
 #define _APS_NEXT_CONTROL_VALUE         22081
 #define _APS_NEXT_SYMED_VALUE           24044

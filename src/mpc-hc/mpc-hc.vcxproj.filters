@@ -83,6 +83,9 @@
     <Filter Include="Main View">
       <UniqueIdentifier>{0453474a-2716-4c52-b5f4-cf6bd9e31ed0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Crash Reporter">
+      <UniqueIdentifier>{1d73f7db-64e8-4bc8-b0ca-72847253f467}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppSettings.cpp">
@@ -434,7 +437,12 @@
     <ClCompile Include="DropTarget.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="CrashReporter.cpp" />
+    <ClCompile Include="CrashReporter.cpp">
+      <Filter>Crash Reporter</Filter>
+    </ClCompile>
+    <ClCompile Include="CrashReporterDialog.cpp">
+      <Filter>Crash Reporter</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h">
@@ -814,7 +822,12 @@
     <ClInclude Include="Logger.h">
       <Filter>Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="CrashReporter.h" />
+    <ClInclude Include="CrashReporter.h">
+      <Filter>Crash Reporter</Filter>
+    </ClInclude>
+    <ClInclude Include="CrashReporterDialog.h">
+      <Filter>Crash Reporter</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\ani.avi">
