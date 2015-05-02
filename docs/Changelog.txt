@@ -69,3 +69,4 @@ next version - not released yet
 ! Ticket #5378, Fix the "DVD Menu Activate" hotkey
 ! Ticket #5392, the Internal Subtitle Renderer did not work properly when the maximum texture resolution
   was set to "Video" and the renderer was madVR
+! Ticket #5401, Remote commands (WinLIRC, uICE) were incorrectly bounded to actions
