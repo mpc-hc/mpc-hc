@@ -517,17 +517,9 @@ msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
 msgstr "Overlay Mixer Renderer"
 
-msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
-msgid "Video Mixing Renderer 7 (windowed)"
-msgstr "Video Mixing Renderer 7 (windowed)"
-
 msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
 msgid "Video Mixing Renderer 9 (windowed)"
 msgstr "Video Mixing Renderer 9 (windowed)"
-
-msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
-msgid "Video Mixing Renderer 7 (renderless)"
-msgstr "Video Mixing Renderer 7 (renderless)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
 msgid "Video Mixing Renderer 9 (renderless)"
@@ -605,17 +597,9 @@ msgctxt "IDC_DSOVERLAYMIXER"
 msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
 msgstr "Vždy vykresluje v overlay. Obecně jsou povoleny pouze formáty YUV, ale jsou zobrazovány bez jakéhokoliv převodu barev do RGB. Toto je nejrychlejší způsob vykreslování, a jediný, u kterého si můžete být jisti funkčností fullscreen video mirroringu do tv-out."
 
-msgctxt "IDC_DSVMR7WIN"
-msgid "The default renderer of Windows XP. Very stable and just a little slower than the Overlay mixer. Uses DirectDraw and runs in Overlay when it can."
-msgstr "Výchozí renderer Windows XP. Velice stabilní a jen o málo pomalejší než Overlay mixer. Používá DirectDraw a pokud je k dispozici, tak i overlay."
-
 msgctxt "IDC_DSVMR9WIN"
-msgid "Only available if you have DirectX 9 installed. Has the same abilities as VMR-7 (windowed), but it will never use Overlay rendering and because of this it may be a little slower than VMR-7 (windowed)."
-msgstr "Dostupný pouze s nainstalovaným DirectX 9. Má stejné vlastnosti jako VMR-7 (windowed), ale nikdy nepoužije overlay a je proto trochu pomalejší než VMR-7 (windowed)."
-
-msgctxt "IDC_DSVMR7REN"
-msgid "Same as the VMR-7 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring WILL NOT work. \"True Color\" desktop color space recommended."
-msgstr "Stejný jako VMR-7 (windowed), ale s titulkovým pluginem MPC-HC pro Allocator-Presenter. Overlay video mirroring NEBUDE fungovat. Doporučeno ve vlastnostech zobrazení nastavit 32bitovou barevnou hloubku."
+msgid "Only available if you have DirectX 9 installed. Very stable but it will never use Overlay rendering and because of this it may be a little slower than Overlay mixer."
+msgstr ""
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
@@ -653,10 +637,6 @@ msgctxt "IDC_RMSYSDEF"
 msgid "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
 msgstr "Vlastní renderer Real. Skripty SMIL budou funkční, ale interakce pravděpodobně ne. Používá DirectDraw a pokud může, použije overlay."
 
-msgctxt "IDC_RMDX7"
-msgid "The output of Real's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "Výstup Real enginu vykreslovaný pomocí Allocator-Presenteru VMR-7 (renderless)."
-
 msgctxt "IDC_RMDX9"
 msgid "The output of Real's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
 msgstr "Výstup Real enginu vykreslovaný pomocí Allocator-Presenteru VMR-9 (renderless)."
@@ -664,10 +644,6 @@ msgstr "Výstup Real enginu vykreslovaný pomocí Allocator-Presenteru VMR-9 (re
 msgctxt "IDC_QTSYSDEF"
 msgid "QuickTime's own renderer. Gets a little slow when its video area is resized or partially covered by another window. When Overlay is not available it likes to fall back to GDI."
 msgstr "Vlastní renderer QuickTime. Pomalý pokud dojde ke změně velikosti oblasti videa nebo je video částečně překryto jiným oknem. Pokud není k dispozici overlay, většinou použije GDI."
-
-msgctxt "IDC_QTDX7"
-msgid "The output of QuickTime's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "Výstup QuickTime enginu vykreslovaný pomocí Allocator-Presenteru VMR-7 (renderless)."
 
 msgctxt "IDC_QTDX9"
 msgid "The output of QuickTime's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
@@ -2314,8 +2290,8 @@ msgid "The thumbnails would be too small, impossible to create the file.\n\nTry 
 msgstr "Soubor nelze vytvořit, protože miniatury by byly příliš malé.\n\nSnižte počet miniatur, nebo zadejte větší celkovou velikost."
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
-msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "Aby bylo možné načíst titulky, musíte změnit výstupní video renderer a znovu spustit přehrávání.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR nebo Haali\n- RealMedia: Speciální renderer pro RealMedia, nebo otevřít prostřednictvím DirectShow\n- QuickTime: DX7 nebo DX9 renderer pro QuickTime\n- ShockWave: n/a"
+msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+msgstr "Aby bylo možné načíst titulky, musíte změnit výstupní video renderer a znovu spustit přehrávání.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR nebo Haali\n- RealMedia: Speciální renderer pro RealMedia, nebo otevřít prostřednictvím DirectShow\n- QuickTime: DX7 nebo DX9 renderer pro QuickTime\n- ShockWave: n/a"
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"

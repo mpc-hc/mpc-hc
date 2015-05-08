@@ -518,17 +518,9 @@ msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
 msgstr "Izrisovalnik mešalnik s prekrivanjem"
 
-msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
-msgid "Video Mixing Renderer 7 (windowed)"
-msgstr "Video mešalni izrisovalnik VMR 7 (okensko)"
-
 msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
 msgid "Video Mixing Renderer 9 (windowed)"
 msgstr "Video mešalni izrisovalnik VMR 9 (okensko)"
-
-msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
-msgid "Video Mixing Renderer 7 (renderless)"
-msgstr "Video mešalni izrisovalnik VMR 7 (brez izrisovanja)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
 msgid "Video Mixing Renderer 9 (renderless)"
@@ -606,17 +598,9 @@ msgctxt "IDC_DSOVERLAYMIXER"
 msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
 msgstr "Vedno izrisuje s prekrivanjem. Običajno je dovoljen samo YUV format, vendar so prikazani neposredno brez pretvorbe barv v RGB. To je najhitrejši način izrisovanja in edini, kjer je zagotovljeno celozaslonsko zrcaljenje slike na tv-izhod."
 
-msgctxt "IDC_DSVMR7WIN"
-msgid "The default renderer of Windows XP. Very stable and just a little slower than the Overlay mixer. Uses DirectDraw and runs in Overlay when it can."
-msgstr "Privzeti izrisovalnik na Windows XP. Zelo stabilen in samo malo počasnejši kot prekrivni mešalnik. Uporablja DirectDraw in deluje v prekrivanju kadar lahko."
-
 msgctxt "IDC_DSVMR9WIN"
-msgid "Only available if you have DirectX 9 installed. Has the same abilities as VMR-7 (windowed), but it will never use Overlay rendering and because of this it may be a little slower than VMR-7 (windowed)."
-msgstr "Na voljo samo če imate nameščeno DirectX 9. Ima iste zmožnosti kot VMR-7 (okensko), vendar ne bo nikoli uporabljal izrisovanja s prekrivanjem, zato pa bo tudi mogoče malo počasnejši od VMR-7 (okensko)."
-
-msgctxt "IDC_DSVMR7REN"
-msgid "Same as the VMR-7 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring WILL NOT work. \"True Color\" desktop color space recommended."
-msgstr "Enako kot VMR-7 (okensko), vendar z Allocator-Presenter vtičnikom od MPC-HC za podnapise. Video zrcaljenje s prekrivanjem NE BO delalo. \"True Color\" nastavitev barv namizja priporočena."
+msgid "Only available if you have DirectX 9 installed. Very stable but it will never use Overlay rendering and because of this it may be a little slower than Overlay mixer."
+msgstr ""
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
@@ -654,10 +638,6 @@ msgctxt "IDC_RMSYSDEF"
 msgid "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
 msgstr "Lastni izrisovalnik Real. SMIL skripte bodo delale, interakcija pa najbrž ne. Uporablja DirectDraw in teče s prekrivanjem, kadar lahko."
 
-msgctxt "IDC_RMDX7"
-msgid "The output of Real's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "Izhod iz Real izrisan z Allocator-Presenter na osnovi DX7 od VMR-7 (brez izrisovalnika)."
-
 msgctxt "IDC_RMDX9"
 msgid "The output of Real's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
 msgstr "Izhod iz Real izrisan z Allocator-Presenter na osnovi DX9 od VMR-9 (brez izrisovalnika)."
@@ -665,10 +645,6 @@ msgstr "Izhod iz Real izrisan z Allocator-Presenter na osnovi DX9 od VMR-9 (brez
 msgctxt "IDC_QTSYSDEF"
 msgid "QuickTime's own renderer. Gets a little slow when its video area is resized or partially covered by another window. When Overlay is not available it likes to fall back to GDI."
 msgstr "Lastni izrisovalnik QuickTime. Postane počasen, ko je velikost video območja spremenjena ali delno prekrito z drugim oknom. Ko prekrivanje ni na voljo najraje preklopi nazaj na GDI."
-
-msgctxt "IDC_QTDX7"
-msgid "The output of QuickTime's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "Izhod iz QuickTime izrisan z Allocator-Presenter na osnovi DX7 od VMR-7 (brez izrisovalnika)."
 
 msgctxt "IDC_QTDX9"
 msgid "The output of QuickTime's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
@@ -2315,8 +2291,8 @@ msgid "The thumbnails would be too small, impossible to create the file.\n\nTry 
 msgstr "Predogledne sličice bi bile premajhne, nemogoče je izdelati datoteko.\n\nPoskušaj zmanjšati število sličic ali povečati skupno velikost."
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
-msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "Da bi naložili podnapise morate spremeniti vrsto video izrisovalnika in ponovno odpreti datoteko.\n- DirectShow: VMR-7/VMR-9 (brez izrisovalnika), EVR (CP), Sync, madVR or Haali\n- RealMedia: Poseben prikazovalnik za RealMedia, ali pa ga odprite s pomočjo DirectShow\n- QuickTime: DX7 ali DX9 prikazovalnika za QuickTime\n- ShockWave: n/a"
+msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+msgstr "Da bi naložili podnapise morate spremeniti vrsto video izrisovalnika in ponovno odpreti datoteko.\n- DirectShow: VMR-9 (brez izrisovalnika), EVR (CP), Sync, madVR or Haali\n- RealMedia: Poseben prikazovalnik za RealMedia, ali pa ga odprite s pomočjo DirectShow\n- QuickTime: DX7 ali DX9 prikazovalnika za QuickTime\n- ShockWave: n/a"
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"

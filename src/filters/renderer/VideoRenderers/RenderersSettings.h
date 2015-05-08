@@ -32,14 +32,12 @@ enum {
 
 enum {
     VIDRNDT_RM_DEFAULT,
-    VIDRNDT_RM_DX7,
-    VIDRNDT_RM_DX9
+    VIDRNDT_RM_DX9 = 2
 };
 
 enum {
     VIDRNDT_QT_DEFAULT,
-    VIDRNDT_QT_DX7,
-    VIDRNDT_QT_DX9
+    VIDRNDT_QT_DX9 = 2
 };
 
 enum {

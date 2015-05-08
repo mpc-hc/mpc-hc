@@ -1121,8 +1121,8 @@ msgid "Audio Renderer"
 msgstr "Syntezátor zvuku"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
-msgstr "Možnosti VMR-7/VMR-9 (renderless) a EVR (CP)"
+msgid "VMR-9 (renderless) and EVR (CP) settings"
+msgstr "Možnosti VMR-9 (renderless) a EVR (CP)"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"

@@ -519,17 +519,9 @@ msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
 msgstr "Overlay Mixer Renderer"
 
-msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
-msgid "Video Mixing Renderer 7 (windowed)"
-msgstr "Video Mixing Renderer 7 (windowed)"
-
 msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
 msgid "Video Mixing Renderer 9 (windowed)"
 msgstr "Video Mixing Renderer 9 (windowed)"
-
-msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
-msgid "Video Mixing Renderer 7 (renderless)"
-msgstr "Video Mixing Renderer 7 (renderless)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
 msgid "Video Mixing Renderer 9 (renderless)"
@@ -607,17 +599,9 @@ msgctxt "IDC_DSOVERLAYMIXER"
 msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
 msgstr "সর্বদা overlayএ রেনডার করে। সাধারণত শুধু YUV ফরম্যাট গ্রহণযোগ্য, কিন্তু সেগুলো RGBতে কোন রঙের রূপান্তরণ ছাড়াই সরাসরি উপস্থাপন করে। এটা সবগুলো রেনডারিং পদ্ধতির মধ্যে সবচেয়ে দ্রুত এবং শুধুমাত্র এটাতেই আপনি tv-outএ ফুলস্ক্রীন ভিডিও মিররিং সক্রিয়করণ নিশ্চিতভাবেই করতে পারবেন।"
 
-msgctxt "IDC_DSVMR7WIN"
-msgid "The default renderer of Windows XP. Very stable and just a little slower than the Overlay mixer. Uses DirectDraw and runs in Overlay when it can."
-msgstr "Windows XPএর ডিফল্ট রেনডারার। খুবই সুস্থিত এবং Overlay mixer থেকে কিছুটা ধীরগতিসম্পন্ন। DirectDraw ব্যবহার করে আর যখন পারে Overlayএ চালনা করে।"
-
 msgctxt "IDC_DSVMR9WIN"
-msgid "Only available if you have DirectX 9 installed. Has the same abilities as VMR-7 (windowed), but it will never use Overlay rendering and because of this it may be a little slower than VMR-7 (windowed)."
-msgstr "DirectX 9 ইনস্টল করা থাকলেই শুধুমাত্র ব্যবহার করা যাবে। VMR-7 (windowed)এর মত একই সক্ষমতা রয়েছে, কিন্তু এটা কখনোই Overlay রেনডারিং ব্যবহার করবে না আর সেজন্যই এটা VMR-7 (windowed) থেকে কিছুটা ধীরগতিসম্পন্ন।"
-
-msgctxt "IDC_DSVMR7REN"
-msgid "Same as the VMR-7 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring WILL NOT work. \"True Color\" desktop color space recommended."
-msgstr "VMR-7 (windowed)এর মত একই রকমের, তবে সাথে সাবটাইটেল প্রদর্শনে MPC-HCএর অ্যালোকেটর-প্রেজেন্টার প্লাগইন ব্যবহার করা হবে। Overlay ভিডিও মিররিং কাজ করবে না। ডেস্কটপ কালার স্পেসের জন্য \"True Color\" নির্ধারণে পরামর্শ দেওয়া যাচ্ছে।"
+msgid "Only available if you have DirectX 9 installed. Very stable but it will never use Overlay rendering and because of this it may be a little slower than Overlay mixer."
+msgstr ""
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
@@ -655,10 +639,6 @@ msgctxt "IDC_RMSYSDEF"
 msgid "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
 msgstr "Realএর নিজস্ব রেনডারার। SMIL স্ক্রিপ্টসমুহ কাজ করবে, তবে পারস্পরিক ক্রিয়া-প্রতিক্রিয়ার সম্ভাবনা নেই। DirectDraw ব্যবহার করে আর যখন পারে Overlayএ চালনা করে।"
 
-msgctxt "IDC_RMDX7"
-msgid "The output of Real's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "Realএর ইঞ্জিন থেকে প্রাপ্ত আউটপুট DX7এর উপর ভিত্তি করা VMR-7 (renderless)এর অ্যালোকেটর-প্রেজেন্টার দ্বারা রেনডার করা হয়।"
-
 msgctxt "IDC_RMDX9"
 msgid "The output of Real's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
 msgstr "Realএর ইঞ্জিন থেকে প্রাপ্ত আউটপুট DX9এর উপর ভিত্তি করা VMR-9 (renderless)এর অ্যালোকেটর-প্রেজেন্টার দ্বারা রেনডার করা হয়।"
@@ -666,10 +646,6 @@ msgstr "Realএর ইঞ্জিন থেকে প্রাপ্ত আউ�
 msgctxt "IDC_QTSYSDEF"
 msgid "QuickTime's own renderer. Gets a little slow when its video area is resized or partially covered by another window. When Overlay is not available it likes to fall back to GDI."
 msgstr "QuickTimeএর নিজস্ব রেনডারার। কিছুটা ধীরগতিতে কাজ করে যখন ভিডিওর সাইজপরিবর্তন করা হয় বা ভিডিও ক্ষেত্র আংশিকভাবে অন্য উইন্ডো দ্বারা ঢেকে যায়। এটা যখন Overlay ব্যবহার করতে পারে না তখন GDIএ ফিরে আসতে পছন্দ করে।"
-
-msgctxt "IDC_QTDX7"
-msgid "The output of QuickTime's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "QuickTimeএর ইঞ্জিন থেকে প্রাপ্ত আউটপুট DX7এর উপর ভিত্তি করা VMR-7 (renderless)এর অ্যালোকেটর-প্রেজেন্টার দ্বারা রেনডার করা হয়।"
 
 msgctxt "IDC_QTDX9"
 msgid "The output of QuickTime's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
@@ -2316,8 +2292,8 @@ msgid "The thumbnails would be too small, impossible to create the file.\n\nTry 
 msgstr "থাম্ব্‌নেইলসমূহ আকারে খুব ছোট হবে, ফাইলটি তৈরি করা যাচ্ছে না।\n\nথাম্ব্‌নেইলসমূহের সংখ্যা কমিয়ে অথবা সম্পূর্ণ সাইজটি বাড়িয়ে চেষ্টা করুন।"
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
-msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "সাবটাইটেল লোড করার জন্য আপনাকে ভিডিও রেনডারার ধরন পরিবর্তন করতে হবে এবং পুনরায় ফাইলটি চালনা করতে হবে।\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR অথবা Haali\n- RealMedia: RealMediaর জন্য বিশেষ রেনডারার, অথবা DirectShow দিয়ে চালনা করুন\n- QuickTime: QuickTimeএর জন্য DX7 অথবা DX9 রেনডারার\n- ShockWave: n/a"
+msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+msgstr "সাবটাইটেল লোড করার জন্য আপনাকে ভিডিও রেনডারার ধরন পরিবর্তন করতে হবে এবং পুনরায় ফাইলটি চালনা করতে হবে।\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR অথবা Haali\n- RealMedia: RealMediaর জন্য বিশেষ রেনডারার, অথবা DirectShow দিয়ে চালনা করুন\n- QuickTime: QuickTimeএর জন্য DX7 অথবা DX9 রেনডারার\n- ShockWave: n/a"
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"

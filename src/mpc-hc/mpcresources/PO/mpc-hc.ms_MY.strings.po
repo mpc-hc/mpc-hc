@@ -516,17 +516,9 @@ msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
 msgstr "Penerap Pengadun Tindihan"
 
-msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
-msgid "Video Mixing Renderer 7 (windowed)"
-msgstr "Penerap Adunan Video 7 (bertetingkap)"
-
 msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
 msgid "Video Mixing Renderer 9 (windowed)"
 msgstr "Penerap Adunan Video 9 (bertetingkap)"
-
-msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
-msgid "Video Mixing Renderer 7 (renderless)"
-msgstr "Penerap Adunan Video 7 (tanpa terap)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
 msgid "Video Mixing Renderer 9 (renderless)"
@@ -604,17 +596,9 @@ msgctxt "IDC_DSOVERLAYMIXER"
 msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
 msgstr "Sentiasa terap dalam tindihan. Umumnya hanya format YUV dibenarkan, tetapi ia dipersembahkan secara langsung tanpa pertukaran warna ke RGB. Ini adalah kaedah penerapan terpantas dan dimana anda pasti mengenai pencerminan video berskrin penuh ke pengaktifan tv-out."
 
-msgctxt "IDC_DSVMR7WIN"
-msgid "The default renderer of Windows XP. Very stable and just a little slower than the Overlay mixer. Uses DirectDraw and runs in Overlay when it can."
-msgstr "Penerap lalai Windows XP. Sangat stabil dan hanya sedikit lembab berbanding pengadun Tindihan. Menggunakan DirectDraw dan berjalan dalam Tindihan bila ia boleh."
-
 msgctxt "IDC_DSVMR9WIN"
-msgid "Only available if you have DirectX 9 installed. Has the same abilities as VMR-7 (windowed), but it will never use Overlay rendering and because of this it may be a little slower than VMR-7 (windowed)."
-msgstr "Hanya tersedia jika anda mempunyai DirectX 9 dipasang. Mempunyai keupayaan yang sama seperti VMR-7 (bertetingkap), tetapi ia tidak sesekali guna penerapan Tindihan dan disebabkan ini ia menjadi lebih lembab berbanding VMR-7 (bertetingkap)."
-
-msgctxt "IDC_DSVMR7REN"
-msgid "Same as the VMR-7 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring WILL NOT work. \"True Color\" desktop color space recommended."
-msgstr "Sama seperti VMR-7 (bertetingkap), tetapi dengan pemalam Allocator-Presenter MPC-HC untuk sarikata. Pencerminan video Tindihan TIDAK AKAN berfungsi. Ruang warna desktop \"True Color\" disarankan."
+msgid "Only available if you have DirectX 9 installed. Very stable but it will never use Overlay rendering and because of this it may be a little slower than Overlay mixer."
+msgstr ""
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
@@ -652,10 +636,6 @@ msgctxt "IDC_RMSYSDEF"
 msgid "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
 msgstr "Penerap Real sendiri. Skrip SMIL akan berfungsi, tetapi interaksi berkemungkinan tidak berfungsi. Gunakan DirectDraw dan dijalankan dalam Tindihan bila ia boleh."
 
-msgctxt "IDC_RMDX7"
-msgid "The output of Real's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "Output bagi enjin Real diterap oleh Allocator-Presenter berasaskan-DX7 bagi VMR-7 (tak diterap)."
-
 msgctxt "IDC_RMDX9"
 msgid "The output of Real's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
 msgstr "Output bagi enjin Real diterap oleh Allocator-Presenter berasaskan-DX9 bagi VMR-9 (tak diterap)."
@@ -663,10 +643,6 @@ msgstr "Output bagi enjin Real diterap oleh Allocator-Presenter berasaskan-DX9 b
 msgctxt "IDC_QTSYSDEF"
 msgid "QuickTime's own renderer. Gets a little slow when its video area is resized or partially covered by another window. When Overlay is not available it likes to fall back to GDI."
 msgstr "Penerap QuikTime sendiri. Menjadi lebih perlahan jika kawasan videonya disaiz semula atau sebahagiannya ditutupi oleh tetingkap lain. Bila Tindihan tidak tersedia ia berkemungkinan akan jatuh-balik ke GDI."
-
-msgctxt "IDC_QTDX7"
-msgid "The output of QuickTime's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "Output bagi enjin QuickTime diterap oleh Allocator-Presenter berasaskan-DX7 bagi VMR-7 (tak diterap)."
 
 msgctxt "IDC_QTDX9"
 msgid "The output of QuickTime's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
@@ -2313,8 +2289,8 @@ msgid "The thumbnails would be too small, impossible to create the file.\n\nTry 
 msgstr "Lakaran kenit terlalu kecil, mustahil dapat hasilkan fail.\n\nCuba kurangkan bilangan lakaran kenit atau tingkatkan jumlah saiz."
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
-msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "Untuk muatkan sarikata anda perlu menukar jenis penerap dan buka semula fail.\n- DirectShow: VMR-7/VMR-9 (tak diterap), EVR (CP), Sync, madVR atau Haali\n- RealMedia: Penerap khas untukRealMedia, atau buka ia menerusi DirectShow\n- QuickTime: Penerap DX7 atau DX9 untuk QuickTime\n- ShockWave: t/a"
+msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+msgstr "Untuk muatkan sarikata anda perlu menukar jenis penerap dan buka semula fail.\n- DirectShow: VMR-9 (tak diterap), EVR (CP), Sync, madVR atau Haali\n- RealMedia: Penerap khas untukRealMedia, atau buka ia menerusi DirectShow\n- QuickTime: Penerap DX7 atau DX9 untuk QuickTime\n- ShockWave: t/a"
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"

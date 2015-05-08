@@ -517,17 +517,9 @@ msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
 msgstr "Randor Mixare Overlay"
 
-msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
-msgid "Video Mixing Renderer 7 (windowed)"
-msgstr "VMR-7 - Randor Mixare Video 7 (în fereastră)"
-
 msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
 msgid "Video Mixing Renderer 9 (windowed)"
 msgstr "VMR-9 - Randor Mixare Video 9 (în fereastră)"
-
-msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
-msgid "Video Mixing Renderer 7 (renderless)"
-msgstr "VMR-7 - Randor Mixare Video 7 (fără randare)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
 msgid "Video Mixing Renderer 9 (renderless)"
@@ -605,17 +597,9 @@ msgctxt "IDC_DSOVERLAYMIXER"
 msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
 msgstr "Randează întotdeauna în overlay (suprapunere). În mod normal doar formatele YUV sunt permise, dar ele sunt prezentate direct fără nicio conversie de culoare către RGB. Aceasta este cea mai rapidă metodă de randare dintre toate și singura în care puteți fi sigur(ă) de oglindirea/recopierea videoului în ecran complet la activarea tv-out (Ieşire TV)."
 
-msgctxt "IDC_DSVMR7WIN"
-msgid "The default renderer of Windows XP. Very stable and just a little slower than the Overlay mixer. Uses DirectDraw and runs in Overlay when it can."
-msgstr "Randorul implicit pentru Windows XP. Foarte stabil și doar puțin mai încet decât mixarea Overlay. Folosește DirectDraw și rulează în Overlay atunci când poate."
-
 msgctxt "IDC_DSVMR9WIN"
-msgid "Only available if you have DirectX 9 installed. Has the same abilities as VMR-7 (windowed), but it will never use Overlay rendering and because of this it may be a little slower than VMR-7 (windowed)."
-msgstr "Disponibil numai dacă aveți DirectX 9 instalat. Are aceleași abilităţi ca și VMR-7 (în fereastră), dar nu va folosi niciodată randare în Overlay și din această cauză s-ar putea să fie puțin mai încet decât VMR-7 (în fereastră)."
-
-msgctxt "IDC_DSVMR7REN"
-msgid "Same as the VMR-7 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring WILL NOT work. \"True Color\" desktop color space recommended."
-msgstr "Asemănător cu VMR-7 (în fereastră), dar cu modulul Allocator-Presenter din MPC-HC pentru subtitrări. Oglindirea video în overlay NU va funcționa. Spațiul de culori recomandat pentru desktop este „True Color”."
+msgid "Only available if you have DirectX 9 installed. Very stable but it will never use Overlay rendering and because of this it may be a little slower than Overlay mixer."
+msgstr ""
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
@@ -653,10 +637,6 @@ msgctxt "IDC_RMSYSDEF"
 msgid "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
 msgstr "Randor propriu al Real. Scripturile SMIL vor funcționa, dar interacțiunea puțin probabil. Folosește DirectDraw și rulează în Overlay atunci când poate."
 
-msgctxt "IDC_RMDX7"
-msgid "The output of Real's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "Ieșirea motorului Real randată de modulul Allocator-Presenter bazat pe DX7 al lui VMR-7 (fără randare)."
-
 msgctxt "IDC_RMDX9"
 msgid "The output of Real's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
 msgstr "Ieșirea motorului Real randată de modulul Allocator-Presenter bazat pe DX9 al lui VMR-9 (fără randare)."
@@ -664,10 +644,6 @@ msgstr "Ieșirea motorului Real randată de modulul Allocator-Presenter bazat pe
 msgctxt "IDC_QTSYSDEF"
 msgid "QuickTime's own renderer. Gets a little slow when its video area is resized or partially covered by another window. When Overlay is not available it likes to fall back to GDI."
 msgstr "Randor propriu al QuickTime. Încetinește puțin atunci când zona video este redimensionată sau este acoperită parțial de altă fereastră. Când Overlay nu este disponibil preferă să revină la GDI."
-
-msgctxt "IDC_QTDX7"
-msgid "The output of QuickTime's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "Ieșirea motorului QuickTime randată de modulul Allocator-Presenter bazat pe DX7 al lui VMR-7 (fără randare)."
 
 msgctxt "IDC_QTDX9"
 msgid "The output of QuickTime's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
@@ -2314,8 +2290,8 @@ msgid "The thumbnails would be too small, impossible to create the file.\n\nTry 
 msgstr "Miniaturile ar fi prea mici, imposibil de creat fișierul.\n\nÎncercați să micșorați numărul de miniaturi sau să măriți dimensiunea totală."
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
-msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "Pentru a încărca subtitrări trebuie să schimbați tipul randorului video și să redeschideți fișierul.\n- DirectShow: VMR-7/VMR-9 (fără randare), EVR (CP), Sync, madVR sau Haali\n- RealMedia: Randor special pentru RealMedia sau deschideţi cu DirectShow\n- QuickTime: Randor DX7 sau DX9 pentru QuickTime\n- ShockWave: indisponibil"
+msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+msgstr "Pentru a încărca subtitrări trebuie să schimbați tipul randorului video și să redeschideți fișierul.\n- DirectShow: VMR-9 (fără randare), EVR (CP), Sync, madVR sau Haali\n- RealMedia: Randor special pentru RealMedia sau deschideţi cu DirectShow\n- QuickTime: Randor DX7 sau DX9 pentru QuickTime\n- ShockWave: indisponibil"
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"

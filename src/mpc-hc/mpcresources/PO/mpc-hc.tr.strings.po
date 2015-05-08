@@ -519,17 +519,9 @@ msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
 msgstr "Ters Süzme İşleyicisi"
 
-msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
-msgid "Video Mixing Renderer 7 (windowed)"
-msgstr "Video Karıştırma İşleyicisi 7 (pencerede)"
-
 msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
 msgid "Video Mixing Renderer 9 (windowed)"
 msgstr "Video Karıştırma İşleyicisi 9 (pencerede)"
-
-msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
-msgid "Video Mixing Renderer 7 (renderless)"
-msgstr "Video Karıştırma İşleyicisi 7 (çevrilmeden)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
 msgid "Video Mixing Renderer 9 (renderless)"
@@ -607,17 +599,9 @@ msgctxt "IDC_DSOVERLAYMIXER"
 msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
 msgstr "Daima ters süzme olarak dönüştürülür. Genellikle sadece YUV biçimleri geçerlidir, ancak renkler RGB 'ye dönüştürülmez. Tüm yöntemler içinde en hızlısı ve TV çıkışı ile Tam ekran aynalama için kullanabileceğiniz en uygunudur."
 
-msgctxt "IDC_DSVMR7WIN"
-msgid "The default renderer of Windows XP. Very stable and just a little slower than the Overlay mixer. Uses DirectDraw and runs in Overlay when it can."
-msgstr "Windows XP için varsayılan dönüştürücüdür. Oldukça kararlı ve Üst süzme dönüştürücüsünden çok az daha yavaştır. DirectDraw ve yapabildiğinde Üst süzmeyi kullanır."
-
 msgctxt "IDC_DSVMR9WIN"
-msgid "Only available if you have DirectX 9 installed. Has the same abilities as VMR-7 (windowed), but it will never use Overlay rendering and because of this it may be a little slower than VMR-7 (windowed)."
-msgstr "Sadece DirectX 9 yüklüyse çalışır. VKI-7 (pencerede) ile aynı özelliklere sahiptir, ancak Üst süzme kipini kullanmaz ve bu yüzden VKI-7 'den (pencere) biraz daha yavaştır."
-
-msgctxt "IDC_DSVMR7REN"
-msgid "Same as the VMR-7 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring WILL NOT work. \"True Color\" desktop color space recommended."
-msgstr "VKI-7 (pencerede) ile aynıdır, ancak alt yazı için MPC-HC yerleşim yöneticisi ile beraberdir. Üst süzme video yansılaması ÇALIŞMAZ. 'Gerçek Renk' masaüstü renk kalitesi önerilir."
+msgid "Only available if you have DirectX 9 installed. Very stable but it will never use Overlay rendering and because of this it may be a little slower than Overlay mixer."
+msgstr ""
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
@@ -655,10 +639,6 @@ msgctxt "IDC_RMSYSDEF"
 msgid "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
 msgstr "Real 'in kendi dönüştürücüsüdür. SMIL senaryoları çalışacak, ancak etkileşimli olmayacaktır. DirectDraw ve mevcutsa Üst Süzme kullanılır."
 
-msgctxt "IDC_RMDX7"
-msgid "The output of Real's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "VKI-7 'nin (çevrilmeden) DX7 tabanlı yerleşim yöneticisince çevrilen Real 'in çıktı motorudur."
-
 msgctxt "IDC_RMDX9"
 msgid "The output of Real's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
 msgstr "VKI-9 'un (çevrilmeden) DX9 tabanlı yerleşim yöneticisince çevrilen Real 'in çıktı motorudur."
@@ -666,10 +646,6 @@ msgstr "VKI-9 'un (çevrilmeden) DX9 tabanlı yerleşim yöneticisince çevrilen
 msgctxt "IDC_QTSYSDEF"
 msgid "QuickTime's own renderer. Gets a little slow when its video area is resized or partially covered by another window. When Overlay is not available it likes to fall back to GDI."
 msgstr "QuickTime 'ın kendi dönüştürücüsüdür. Video alanı boyutlandırılınca veya başka bir pencerenin arkasında kalınca yavaşlar. Üst süzme mevcut değilse GDI 'ye çevrilir."
-
-msgctxt "IDC_QTDX7"
-msgid "The output of QuickTime's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "QuickTime motoru çıkışı DX7-tabanlı VKI-7 (çevrilmeden) Ayırıcısı-Sunucusu tarafından çevrilir."
 
 msgctxt "IDC_QTDX9"
 msgid "The output of QuickTime's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
@@ -2316,8 +2292,8 @@ msgid "The thumbnails would be too small, impossible to create the file.\n\nTry 
 msgstr "Küçük resim boyutları çok sınırlı olduğundan dosya yaratılamıyor.\n\nKüçük resim sayısını azaltmayı ya da toplam boyutu arttırmayı deneyiniz."
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
-msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "Altyazıları yüklemek için video işleyicisi biçimini değiştirip, dosyayı yeniden açmanız gerekmektedir.\n- DirectShow: VKI-7/VKI-9 (çevrilmeden), GVI (CP), Senk., madVR veya Haali\n- RealMedia: RealMedia için özel işleyici gereklidir, veya DirectShow üzerinden oynatabilirsiniz\n- QuickTime: Quicktime için DX7 veya DX9 işleyicisi gereklidir\n- ShockWave: boş"
+msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+msgstr "Altyazıları yüklemek için video işleyicisi biçimini değiştirip, dosyayı yeniden açmanız gerekmektedir.\n- DirectShow: VKI-9 (çevrilmeden), GVI (CP), Senk., madVR veya Haali\n- RealMedia: RealMedia için özel işleyici gereklidir, veya DirectShow üzerinden oynatabilirsiniz\n- QuickTime: Quicktime için DX7 veya DX9 işleyicisi gereklidir\n- ShockWave: boş"
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"

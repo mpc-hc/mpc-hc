@@ -1121,8 +1121,8 @@ msgid "Audio Renderer"
 msgstr "Penerap Audio"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
-msgstr "Tetapan VMR-7/VMR-9 (tak terap) dan EVR (CP)"
+msgid "VMR-9 (renderless) and EVR (CP) settings"
+msgstr "Tetapan VMR-9 (tak terap) dan EVR (CP)"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"

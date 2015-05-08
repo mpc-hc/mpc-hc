@@ -1122,8 +1122,8 @@ msgid "Audio Renderer"
 msgstr "ตัวแปลผลเสียง"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
-msgstr "การตั้งค่า VMR-7/VMR-9 (renderless) และ EVR (CP)"
+msgid "VMR-9 (renderless) and EVR (CP) settings"
+msgstr "การตั้งค่า VMR-9 (renderless) และ EVR (CP)"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"

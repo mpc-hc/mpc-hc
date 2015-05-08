@@ -1128,8 +1128,8 @@ msgid "Audio Renderer"
 msgstr "音訊譜製器"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
-msgstr "VMR-7/VMR-9 (無轉換) 與 EVR 自訂呈現設定"
+msgid "VMR-9 (renderless) and EVR (CP) settings"
+msgstr "VMR-9 (無轉換) 與 EVR 自訂呈現設定"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"

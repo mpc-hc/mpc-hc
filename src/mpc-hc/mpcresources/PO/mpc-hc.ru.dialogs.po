@@ -1129,8 +1129,8 @@ msgid "Audio Renderer"
 msgstr "Аудио-рендерер"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
-msgstr "Настройки для VMR-7/VMR-9 (renderless) и EVR (CP)"
+msgid "VMR-9 (renderless) and EVR (CP) settings"
+msgstr "Настройки для VMR-9 (renderless) и EVR (CP)"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"

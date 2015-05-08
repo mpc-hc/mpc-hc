@@ -517,17 +517,9 @@ msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
 msgstr "Bộ phủ hòa âm render"
 
-msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
-msgid "Video Mixing Renderer 7 (windowed)"
-msgstr "Video Mixing Renderer 7 (cửa sổ)"
-
 msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
 msgid "Video Mixing Renderer 9 (windowed)"
 msgstr "Video Mixing Renderer 9 (cửa sổ)"
-
-msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
-msgid "Video Mixing Renderer 7 (renderless)"
-msgstr "Video Mixing Renderer 7 (render ít hơn)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
 msgid "Video Mixing Renderer 9 (renderless)"
@@ -605,17 +597,9 @@ msgctxt "IDC_DSOVERLAYMIXER"
 msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
 msgstr "Luôn luôn ám trong lớp phủ. Thường chỉ định dạng YUV được cho phép, nhưng họ được trình bày trực tiếp mà không cần bất kỳ chuyển đổi màu RGB. Đây là phương pháp dựng hình nhanh nhất của tất cả và duy nhất mà bạn có thể chắc chắn về video toàn màn hình phản chiếu để kích hoạt ngõ ra tv."
 
-msgctxt "IDC_DSVMR7WIN"
-msgid "The default renderer of Windows XP. Very stable and just a little slower than the Overlay mixer. Uses DirectDraw and runs in Overlay when it can."
-msgstr "Trình dựng hình mặc định của Windows XP. Rất ổn định và chỉ một chút chậm hơn so với bộ trộn Overlay. Sử dụng DirectDraw và chạy trong Overlay khi nó có thể."
-
 msgctxt "IDC_DSVMR9WIN"
-msgid "Only available if you have DirectX 9 installed. Has the same abilities as VMR-7 (windowed), but it will never use Overlay rendering and because of this it may be a little slower than VMR-7 (windowed)."
-msgstr "Chỉ có nếu bạn có cài đặt DirectX 9. Có khả năng tương tự như VMR-7 (cửa sổ), nhưng nó sẽ không bao giờ sử dụng dựng hình Overlay và vì điều này có thể là một chút chậm hơn so với VMR-7 (cửa sổ)."
-
-msgctxt "IDC_DSVMR7REN"
-msgid "Same as the VMR-7 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring WILL NOT work. \"True Color\" desktop color space recommended."
-msgstr "Giống như VMR-7 (cửa sổ), nhưng với các plugin cấp phát của MPC-HC cho phụ đề. Lớp phủ phản chiếu phim sẽ không làm việc. \"True Color\" không gian màu máy tính để bàn được khuyến khích."
+msgid "Only available if you have DirectX 9 installed. Very stable but it will never use Overlay rendering and because of this it may be a little slower than Overlay mixer."
+msgstr ""
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
@@ -653,10 +637,6 @@ msgctxt "IDC_RMSYSDEF"
 msgid "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
 msgstr "Dựng hình của Real. Kịch bản SMIL sẽ làm việc, nhưng không có khả năng tương tác. Sử dụng DirectDraw và chạy trong Overlay khi nó có thể."
 
-msgctxt "IDC_RMDX7"
-msgid "The output of Real's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "Đầu ra công cụ của Real đưa ra bởi các DX7 dựa trên cấp phát của VMR-7 (ít render hơn)."
-
 msgctxt "IDC_RMDX9"
 msgid "The output of Real's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
 msgstr "Đầu ra công cụ của Real đưa ra bởi các DX9 dựa trên cấp phát của VMR-9 (ít render hơn)."
@@ -664,10 +644,6 @@ msgstr "Đầu ra công cụ của Real đưa ra bởi các DX9 dựa trên cấ
 msgctxt "IDC_QTSYSDEF"
 msgid "QuickTime's own renderer. Gets a little slow when its video area is resized or partially covered by another window. When Overlay is not available it likes to fall back to GDI."
 msgstr "Dựng hình của QuickTime. Được một chút chậm khi khu vực video của nó được thay đổi kích cỡ hoặc phủ một phần bởi một cửa sổ khác. Lớp phủ khi không có nó thích rơi trở lại GDI."
-
-msgctxt "IDC_QTDX7"
-msgid "The output of QuickTime's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "Đầu ra công cụ của QuickTime kết xuất của DX7 dựa trên cấp phát của VMR-7 (ít render hơn)."
 
 msgctxt "IDC_QTDX9"
 msgid "The output of QuickTime's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
@@ -2314,8 +2290,8 @@ msgid "The thumbnails would be too small, impossible to create the file.\n\nTry 
 msgstr "Các hình ảnh thu nhỏ sẽ quá nhỏ, không thể tạo tập tin.\n\nHãy giảm số lượng các hình ảnh thu nhỏ hoặc tăng tổng kích thước."
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
-msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "Để nạp phụ đề bạn phải thay đổi loại bộ dựng hình và mở lại tập tin.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR hoặc Haali\n- RealMedia: Bộ dựng hình dành riêng cho RealMedia, hoặc mở nó bằng DirectShow\n- QuickTime: Bộ dựng hình DX7 hoặc DX9 cho QuickTime\n- ShockWave: Không có sẵn"
+msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+msgstr "Để nạp phụ đề bạn phải thay đổi loại bộ dựng hình và mở lại tập tin.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR hoặc Haali\n- RealMedia: Bộ dựng hình dành riêng cho RealMedia, hoặc mở nó bằng DirectShow\n- QuickTime: Bộ dựng hình DX7 hoặc DX9 cho QuickTime\n- ShockWave: Không có sẵn"
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"

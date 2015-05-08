@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,7 +22,6 @@
 #pragma once
 
 #include "BaseGraph.h"
-#include "AllocatorCommon7.h"
 #include "AllocatorCommon.h"
 
 #include "realmedia/pntypes.h"

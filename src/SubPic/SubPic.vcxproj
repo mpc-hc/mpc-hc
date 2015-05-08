@@ -92,7 +92,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CoordGeom.cpp" />
-    <ClCompile Include="DX7SubPic.cpp" />
     <ClCompile Include="DX9SubPic.cpp" />
     <ClCompile Include="MemSubPic.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -107,7 +106,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CoordGeom.h" />
-    <ClInclude Include="DX7SubPic.h" />
     <ClInclude Include="DX9SubPic.h" />
     <ClInclude Include="SubPicQueueSettings.h" />
     <ClInclude Include="ISubPic.h" />

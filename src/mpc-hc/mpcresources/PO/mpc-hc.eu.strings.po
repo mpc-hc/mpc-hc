@@ -516,17 +516,9 @@ msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
 msgstr "Gainjarpen Nahastzaile Aurkezlea"
 
-msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
-msgid "Video Mixing Renderer 7 (windowed)"
-msgstr "Bideo Nahastzaile Aurkezlea 7 (leihotuta)"
-
 msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
 msgid "Video Mixing Renderer 9 (windowed)"
 msgstr "Bideo Nahastzaile Aurkezlea 9 (leihotuta)"
-
-msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
-msgid "Video Mixing Renderer 7 (renderless)"
-msgstr "Bideo Nahastzaile Aurkezlea 7 (aurkezgabe)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
 msgid "Video Mixing Renderer 9 (renderless)"
@@ -604,17 +596,9 @@ msgctxt "IDC_DSOVERLAYMIXER"
 msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
 msgstr "Betik aurkezten du gainjarpenean. Orokorrean YUV heuskarriak bakarrik daude ahalbidetuta, baina zuzenean aurkezten dira RGB-rako margo bihurketarik gabe. Hau da aurkezpen metodo azkarrena guztien artean eta ikusleiho-osoko telebista irteerarako bideo ispilu zihur bakarra."
 
-msgctxt "IDC_DSVMR7WIN"
-msgid "The default renderer of Windows XP. Very stable and just a little slower than the Overlay mixer. Uses DirectDraw and runs in Overlay when it can."
-msgstr "Windows XP-ren berezko aurkezlea. Oso egonkorra eta apur bat astiroagoa bakarrik Gainjarpen nahastzailearekiko. DirectDraw erabiltzen du eta Gainjarpenean abiarazten da ahal duenean."
-
 msgctxt "IDC_DSVMR9WIN"
-msgid "Only available if you have DirectX 9 installed. Has the same abilities as VMR-7 (windowed), but it will never use Overlay rendering and because of this it may be a little slower than VMR-7 (windowed)."
-msgstr "Eskuragarri bakarrik DirectX 9 ezarrita baduzu. VMR-7-ren (leihotuta) gaitasun berak ditu, baina inoiz ezingo du Gainjarpen aurkezpena erabili eta honegaitik VMR-7 (leihotuta) baino apur bat astiroagoa izan daiteke."
-
-msgctxt "IDC_DSVMR7REN"
-msgid "Same as the VMR-7 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring WILL NOT work. \"True Color\" desktop color space recommended."
-msgstr "VMR-7-ren berdina da (leihotuta), baina MPC-HC-ren Banantzaile-Aurkezle pluginarekin azpidatzientzat. Bideo gainjarpen ispiluak EZ DU lanik egingo. 'True Color' mahigain margo tartea gomendatuta."
+msgid "Only available if you have DirectX 9 installed. Very stable but it will never use Overlay rendering and because of this it may be a little slower than Overlay mixer."
+msgstr ""
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
@@ -652,10 +636,6 @@ msgctxt "IDC_RMSYSDEF"
 msgid "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
 msgstr "Real-ren bere aurkezlea. SMIL eskriptak egingo dute lan, baina berrizpenak zihurrenik ez. DirectDraw erabiltzen du eta Gainjarpenean abiarazten da ahal duenean."
 
-msgctxt "IDC_RMDX7"
-msgid "The output of Real's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "Real-ren gailuaren irteera VMR-7-ren (aurkezgabe) DX7-ohinarriko Banantzaile-Aurkezleak aurkeztuta."
-
 msgctxt "IDC_RMDX9"
 msgid "The output of Real's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
 msgstr "Real-ren gailuaren irteera VMR-9-ren (aurkezgabe) DX9-ohinarriko Banantzaile-Aurkezleak aurkeztuta."
@@ -663,10 +643,6 @@ msgstr "Real-ren gailuaren irteera VMR-9-ren (aurkezgabe) DX9-ohinarriko Banantz
 msgctxt "IDC_QTSYSDEF"
 msgid "QuickTime's own renderer. Gets a little slow when its video area is resized or partially covered by another window. When Overlay is not available it likes to fall back to GDI."
 msgstr "QuickTime-ren bere aurkezlea. Apur bat astiroa bideo eremua birneurriratua bada edo beste leiho batez erdi estalia. Gainjarpena ez dagoenean eskuragarri GDI-ra itzultzeko joera dau."
-
-msgctxt "IDC_QTDX7"
-msgid "The output of QuickTime's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "QuickTime-ren gailuaren irteera VMR-7-ren (aurkezgabe) DX7-ohinarriko Banantzaile-Aurkezleak aurkeztuta."
 
 msgctxt "IDC_QTDX9"
 msgid "The output of QuickTime's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
@@ -2313,8 +2289,8 @@ msgid "The thumbnails would be too small, impossible to create the file.\n\nTry 
 msgstr "Txikirudiak txikiegiak dira, ezinezkoa agiria sortzea.\n\nSaiatu txikirudi zenbateko txikiago batekin edo handitu neurri orokorra."
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
-msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "Azpidatziak gertatzeko bideo aurkezlea aldatu eta agiria berrireki behar duzu.\n- DirectShow: VMR-7/VMR-9 (aurkezgabe), EVR Egile, EVR Aldib, edo Haali\n- RealMedia: RealMediarako aurkezle berezia, edo ireki DirectShow bidez\n- QuickTime: DX7 edo DX9 aurkezleak QuickTimerako\n- ShockWave: n/a"
+msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+msgstr "Azpidatziak gertatzeko bideo aurkezlea aldatu eta agiria berrireki behar duzu.\n- DirectShow: VMR-9 (aurkezgabe), EVR Egile, EVR Aldib, edo Haali\n- RealMedia: RealMediarako aurkezle berezia, edo ireki DirectShow bidez\n- QuickTime: DX7 edo DX9 aurkezleak QuickTimerako\n- ShockWave: n/a"
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"

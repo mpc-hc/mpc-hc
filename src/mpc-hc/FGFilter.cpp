@@ -24,7 +24,6 @@
 #include "FGFilter.h"
 #include "MainFrm.h"
 #include "DSUtil.h"
-#include "AllocatorCommon7.h"
 #include "AllocatorCommon.h"
 #include "SyncAllocatorPresenter.h"
 #include "IPinHook.h" // For the NVIDIA driver bug work-around
@@ -470,8 +469,6 @@ HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnkno
         }
     } else if (m_clsid == CLSID_VMR9AllocatorPresenter || m_clsid == CLSID_DXRAllocatorPresenter) {
         CheckNoLog(CreateAP9(m_clsid, m_hWnd, isD3DFullScreenMode(), &pCAP));
-    } else if (m_clsid == CLSID_VMR7AllocatorPresenter) {
-        CheckNoLog(CreateAP7(m_clsid, m_hWnd, &pCAP));
     } else {
         CComPtr<IBaseFilter> pBF;
         CheckNoLog(pBF.CoCreateInstance(m_clsid));

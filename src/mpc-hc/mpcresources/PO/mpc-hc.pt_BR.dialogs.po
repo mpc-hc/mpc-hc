@@ -1131,8 +1131,8 @@ msgid "Audio Renderer"
 msgstr "Áudio DirectShow"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
-msgstr "VMR-7/VMR-9 (sem render) e ajustes EVR (CP)"
+msgid "VMR-9 (renderless) and EVR (CP) settings"
+msgstr "VMR-9 (sem render) e ajustes EVR (CP)"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"

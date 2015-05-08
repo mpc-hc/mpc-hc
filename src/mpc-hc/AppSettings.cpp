@@ -651,7 +651,6 @@ bool CAppSettings::IsSubtitleRendererSupported(SubtitleRenderer eSubtitleRendere
     switch (eSubtitleRenderer) {
         case SubtitleRenderer::INTERNAL:
             switch (videoRenderer) {
-                case VIDRNDT_DS_VMR7RENDERLESS:
                 case VIDRNDT_DS_VMR9RENDERLESS:
                 case VIDRNDT_DS_EVR_CUSTOM:
                 case VIDRNDT_DS_DXR:
@@ -684,8 +683,6 @@ bool CAppSettings::IsSubtitleRendererSupported(SubtitleRenderer eSubtitleRendere
 bool CAppSettings::IsVideoRendererAvailable(int iVideoRendererType)
 {
     switch (iVideoRendererType) {
-        case VIDRNDT_DS_VMR7RENDERLESS:
-            return !VersionInfo::Is64Bit() && GetSystemMetrics(SM_CXVIRTUALSCREEN) < 2048 && GetSystemMetrics(SM_CYVIRTUALSCREEN) < 2048;
         case VIDRNDT_DS_DXR:
             return IsCLSIDRegistered(CLSID_DXR);
         case VIDRNDT_DS_EVR:
@@ -1306,7 +1303,7 @@ void CAppSettings::LoadSettings()
     fLoopForever = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LOOP, FALSE);
     iZoomLevel = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ZOOM, 1);
     iDSVideoRendererType = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DSVIDEORENDERERTYPE,
-                                               SysVersion::IsVistaOrLater() ? (IsVideoRendererAvailable(VIDRNDT_DS_EVR_CUSTOM) ? VIDRNDT_DS_EVR_CUSTOM : VIDRNDT_DS_VMR9RENDERLESS) : VIDRNDT_DS_VMR7RENDERLESS);
+                                               (SysVersion::IsVistaOrLater() && IsVideoRendererAvailable(VIDRNDT_DS_EVR_CUSTOM)) ? VIDRNDT_DS_EVR_CUSTOM : VIDRNDT_DS_VMR9RENDERLESS);
     iRMVideoRendererType = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_RMVIDEORENDERERTYPE, VIDRNDT_RM_DEFAULT);
     iQTVideoRendererType = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_QTVIDEORENDERERTYPE, VIDRNDT_QT_DEFAULT);
     nVolumeStep = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_VOLUMESTEP, 5);
@@ -2514,7 +2511,7 @@ void CAppSettings::UpdateSettings()
                     subrenderer = SubtitleRenderer::VS_FILTER;
                 }
                 if (IsSubtitleRendererRegistered(SubtitleRenderer::XY_SUB_FILTER)) {
-                    int renderer = SysVersion::IsVistaOrLater() ? (IsVideoRendererAvailable(VIDRNDT_DS_EVR_CUSTOM) ? VIDRNDT_DS_EVR_CUSTOM : VIDRNDT_DS_VMR9RENDERLESS) : VIDRNDT_DS_VMR7RENDERLESS;
+                    int renderer = (SysVersion::IsVistaOrLater() && IsVideoRendererAvailable(VIDRNDT_DS_EVR_CUSTOM)) ? VIDRNDT_DS_EVR_CUSTOM : VIDRNDT_DS_VMR9RENDERLESS;
                     renderer = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DSVIDEORENDERERTYPE, renderer);
                     if (IsSubtitleRendererSupported(SubtitleRenderer::XY_SUB_FILTER, renderer)) {
                         subrenderer = SubtitleRenderer::XY_SUB_FILTER;
@@ -2523,6 +2520,23 @@ void CAppSettings::UpdateSettings()
             }
             VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SUBTITLE_RENDERER, static_cast<int>(subrenderer)));
         }
+        // no break
+        case 7:
+            // Update the settings after the removal of DirectX 7 renderers
+            switch (pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DSVIDEORENDERERTYPE, VIDRNDT_DS_DEFAULT)) {
+                case 3: // VIDRNDT_DS_VMR7WINDOWED
+                    VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DSVIDEORENDERERTYPE, VIDRNDT_DS_VMR9WINDOWED));
+                    break;
+                case 5: // VIDRNDT_DS_VMR7RENDERLESS
+                    VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DSVIDEORENDERERTYPE, VIDRNDT_DS_VMR9RENDERLESS));
+                    break;
+            }
+            if (pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_RMVIDEORENDERERTYPE, VIDRNDT_RM_DEFAULT) == 1) { // VIDRNDT_RM_DX7
+                VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_RMVIDEORENDERERTYPE, VIDRNDT_RM_DX9));
+            }
+            if (pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_QTVIDEORENDERERTYPE, VIDRNDT_QT_DEFAULT) == 1) { // VIDRNDT_QT_DX7
+                VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_QTVIDEORENDERERTYPE, VIDRNDT_QT_DX9));
+            }
         // no break
         default:
             pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_R_VERSION, APPSETTINGS_VERSION);
