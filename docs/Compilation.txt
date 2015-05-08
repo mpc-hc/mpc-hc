@@ -10,6 +10,11 @@ Part A: Preparing the Visual Studio environment
   2. Make sure you install all available updates from Microsoft Update
   3. Install the DirectX SDK (June 2010) -> http://go.microsoft.com/fwlink/?LinkID=71193
 
+ Visual Studio 2015
+  1. Install Visual C++ 2015, part of Visual Studio 2015 (any edition will work fine)
+  2. Make sure you install all available updates from Microsoft Update
+  3. Install the DirectX SDK (June 2010) -> http://go.microsoft.com/fwlink/?LinkID=71193
+
 
 Part B: Preparing the GCC environment
  NOTES:
