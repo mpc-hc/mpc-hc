@@ -331,9 +331,9 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     // Casimir666
     ON_UPDATE_COMMAND_UI(ID_VIEW_TEARING_TEST, OnUpdateViewTearingTest)
     ON_COMMAND(ID_VIEW_TEARING_TEST, OnViewTearingTest)
-    ON_UPDATE_COMMAND_UI(ID_VIEW_DISPLAYSTATS, OnUpdateViewDisplayStats)
-    ON_COMMAND(ID_VIEW_RESETSTATS, OnViewResetStats)
-    ON_COMMAND(ID_VIEW_DISPLAYSTATS, OnViewDisplayStatsSC)
+    ON_UPDATE_COMMAND_UI(ID_VIEW_DISPLAY_RENDERER_STATS, OnUpdateViewDisplayRendererStats)
+    ON_COMMAND(ID_VIEW_RESET_RENDERER_STATS, OnViewResetRendererStats)
+    ON_COMMAND(ID_VIEW_DISPLAY_RENDERER_STATS, OnViewDisplayRendererStats)
     ON_UPDATE_COMMAND_UI(ID_VIEW_FULLSCREENGUISUPPORT, OnUpdateViewFullscreenGUISupport)
     ON_UPDATE_COMMAND_UI(ID_VIEW_HIGHCOLORRESOLUTION, OnUpdateViewHighColorResolution)
     ON_UPDATE_COMMAND_UI(ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION, OnUpdateViewForceInputHighColorResolution)
@@ -5380,7 +5380,7 @@ void CMainFrame::OnViewTearingTest()
     AfxGetMyApp()->m_Renderers.m_bTearingTest = !AfxGetMyApp()->m_Renderers.m_bTearingTest;
 }
 
-void CMainFrame::OnUpdateViewDisplayStats(CCmdUI* pCmdUI)
+void CMainFrame::OnUpdateViewDisplayRendererStats(CCmdUI* pCmdUI)
 {
     const CAppSettings& s = AfxGetAppSettings();
     bool supported = (s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS
@@ -5391,12 +5391,12 @@ void CMainFrame::OnUpdateViewDisplayStats(CCmdUI* pCmdUI)
     pCmdUI->SetCheck(supported && AfxGetMyApp()->m_Renderers.m_iDisplayStats);
 }
 
-void CMainFrame::OnViewResetStats()
+void CMainFrame::OnViewResetRendererStats()
 {
     AfxGetMyApp()->m_Renderers.m_bResetStats = true; // Reset by "consumer"
 }
 
-void CMainFrame::OnViewDisplayStatsSC()
+void CMainFrame::OnViewDisplayRendererStats()
 {
     const CAppSettings& s = AfxGetAppSettings();
     bool supported = (s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS

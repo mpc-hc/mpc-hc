@@ -1662,10 +1662,6 @@ msgctxt "IDS_MPLAYERC_103"
 msgid "Shift Subtitle Right"
 msgstr "ขยับศัพท์บรรยายไปขวา"
 
-msgctxt "IDS_AG_DISPLAY_STATS"
-msgid "Display Stats"
-msgstr "แสดงสถิติ"
-
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"
 msgstr "ก้าวไปจุดเริ่มต้น"
@@ -1673,6 +1669,38 @@ msgstr "ก้าวไปจุดเริ่มต้น"
 msgctxt "IDS_OSD_SHOW_FILENAME"
 msgid "OSD: Show File Name"
 msgstr ""
+
+msgctxt "IDS_OSD_DISPLAY_RENDERER_STATS"
+msgid "OSD: Display Renderer Statistics"
+msgstr ""
+
+msgctxt "IDS_OSD_RESET_RENDERER_STATS"
+msgid "OSD: Reset Renderer Statistics"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC"
+msgid "Subtitles::Misc"
+msgstr "ศัพท์บรรยาย::จิปาถะ"
+
+msgctxt "IDS_VIEW_BORDERLESS"
+msgid "Hide &borders"
+msgstr "ซ่อน&ขอบ"
+
+msgctxt "IDS_VIEW_FRAMEONLY"
+msgid "Fra&me Only"
+msgstr "เฟรมเท่านั้น"
+
+msgctxt "IDS_VIEW_CAPTIONMENU"
+msgid "Sho&w Caption&&Menu"
+msgstr "แ&สดงข้อความและเมนู"
+
+msgctxt "IDS_VIEW_HIDEMENU"
+msgid "Hide &Menu"
+msgstr "ซ่อ&นเมนู"
+
+msgctxt "IDD_PPAGEADVANCED"
+msgid "Advanced"
+msgstr "ขั้นสูง"
 
 msgctxt "IDS_AG_VIEW_MINIMAL"
 msgid "View Minimal"
@@ -2713,34 +2741,6 @@ msgstr "บน หลัง กลาง"
 msgctxt "IDS_TOP_BACK_RIGHT"
 msgid "Top Back Right"
 msgstr "บน หลัง ขวา"
-
-msgctxt "IDS_AG_RESET_STATS"
-msgid "Reset Display Stats"
-msgstr "คืนค่าสถิติแสดงผล"
-
-msgctxt "IDD_PPAGESUBMISC"
-msgid "Subtitles::Misc"
-msgstr "ศัพท์บรรยาย::จิปาถะ"
-
-msgctxt "IDS_VIEW_BORDERLESS"
-msgid "Hide &borders"
-msgstr "ซ่อน&ขอบ"
-
-msgctxt "IDS_VIEW_FRAMEONLY"
-msgid "Fra&me Only"
-msgstr "เฟรมเท่านั้น"
-
-msgctxt "IDS_VIEW_CAPTIONMENU"
-msgid "Sho&w Caption&&Menu"
-msgstr "แ&สดงข้อความและเมนู"
-
-msgctxt "IDS_VIEW_HIDEMENU"
-msgid "Hide &Menu"
-msgstr "ซ่อ&นเมนู"
-
-msgctxt "IDD_PPAGEADVANCED"
-msgid "Advanced"
-msgstr "ขั้นสูง"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seek bar"

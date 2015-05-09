@@ -21,6 +21,9 @@ next version - not released yet
 + Ticket #5356, DVB: Support HEVC broadcasts
 + Ticket #5386, OSD: Add the ability to display the file name using a menu item and a hotkey ('N' by default)
 * Subtitle renderer: Better compatibility with ASS/SSA subtitle files that are slightly violating the specs
+* Rename "Display Stats" and "Reset Display Stats" features to "OSD: Display Renderer Statistics" and
+  "OSD: Reset Renderer Statistics" so that their meaning is clearer in the "Keys" option panel. Also
+  rename "Display Stats" to "Display Statistics" in the "Renderer Settings" menu
 * Ticket #5294, Use internal LAV Splitter for demuxing WTV files
 * Ticket #5416, Rename "Remaining Time" feature to "Display Current Time" in the "Renderer Settings" menu
   and to "OSD: Display Current Time" in the "Keys" option panel so that it describes the feature accurately

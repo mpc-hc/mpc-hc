@@ -1383,7 +1383,7 @@ BEGIN
         POPUP "R&enderer Settings"
         BEGIN
             MENUITEM "&Tearing Test",               ID_VIEW_TEARING_TEST
-            MENUITEM "&Display Stats",              ID_VIEW_DISPLAYSTATS
+            MENUITEM "&Display Statistics",         ID_VIEW_DISPLAY_RENDERER_STATS
             MENUITEM "Display Current T&ime",       ID_VIEW_OSD_DISPLAY_TIME
             MENUITEM "Show &File Name",             ID_VIEW_OSD_SHOW_FILENAME
             MENUITEM SEPARATOR
@@ -1718,7 +1718,7 @@ BEGIN
         POPUP "R&enderer Settings"
         BEGIN
             MENUITEM "&Tearing Test",               ID_VIEW_TEARING_TEST
-            MENUITEM "&Display Stats",              ID_VIEW_DISPLAYSTATS
+            MENUITEM "&Display Statistics",         ID_VIEW_DISPLAY_RENDERER_STATS
             MENUITEM "Display Current T&ime",       ID_VIEW_OSD_DISPLAY_TIME
             MENUITEM "Show &File Name",             ID_VIEW_OSD_SHOW_FILENAME
             MENUITEM SEPARATOR
@@ -1854,7 +1854,7 @@ BEGIN
             POPUP "R&enderer Settings"
             BEGIN
                 MENUITEM "&Tearing Test",               ID_VIEW_TEARING_TEST
-                MENUITEM "&Display Stats",              ID_VIEW_DISPLAYSTATS
+                MENUITEM "&Display Statistics",         ID_VIEW_DISPLAY_RENDERER_STATS
                 MENUITEM "Display Current T&ime",       ID_VIEW_OSD_DISPLAY_TIME
                 MENUITEM "Show &File Name",             ID_VIEW_OSD_SHOW_FILENAME
                 MENUITEM SEPARATOR
@@ -2032,7 +2032,7 @@ BEGIN
         POPUP "R&enderer Settings"
         BEGIN
             MENUITEM "&Tearing Test",               ID_VIEW_TEARING_TEST
-            MENUITEM "&Display Stats",              ID_VIEW_DISPLAYSTATS
+            MENUITEM "&Display Statistics",         ID_VIEW_DISPLAY_RENDERER_STATS
             MENUITEM "Display Current T&ime",       ID_VIEW_OSD_DISPLAY_TIME
             MENUITEM "Show &File Name",             ID_VIEW_OSD_SHOW_FILENAME
             MENUITEM SEPARATOR
@@ -2729,9 +2729,20 @@ BEGIN
     IDS_MPLAYERC_101        "Goto Next Subtitle"
     IDS_MPLAYERC_102        "Shift Subtitle Left"
     IDS_MPLAYERC_103        "Shift Subtitle Right"
-    IDS_AG_DISPLAY_STATS    "Display Stats"
     IDS_AG_SEEKSET          "Jump to Beginning"
     IDS_OSD_SHOW_FILENAME   "OSD: Show File Name"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_OSD_DISPLAY_RENDERER_STATS "OSD: Display Renderer Statistics"
+    IDS_OSD_RESET_RENDERER_STATS "OSD: Reset Renderer Statistics"
+    IDD_PPAGESUBMISC        "Subtitles::Misc"
+    IDS_VIEW_BORDERLESS     "Hide &borders"
+    IDS_VIEW_FRAMEONLY      "Fra&me Only"
+    IDS_VIEW_CAPTIONMENU    "Sho&w Caption&&Menu"
+    IDS_VIEW_HIDEMENU       "Hide &Menu"
+    IDD_PPAGEADVANCED       "Advanced"
 END
 
 STRINGTABLE
@@ -3094,17 +3105,6 @@ BEGIN
     IDS_TOP_BACK_LEFT       "Top Back Left"
     IDS_TOP_BACK_CENTER     "Top Back Center"
     IDS_TOP_BACK_RIGHT      "Top Back Right"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_AG_RESET_STATS      "Reset Display Stats"
-    IDD_PPAGESUBMISC        "Subtitles::Misc"
-    IDS_VIEW_BORDERLESS     "Hide &borders"
-    IDS_VIEW_FRAMEONLY      "Fra&me Only"
-    IDS_VIEW_CAPTIONMENU    "Sho&w Caption&&Menu"
-    IDS_VIEW_HIDEMENU       "Hide &Menu"
-    IDD_PPAGEADVANCED       "Advanced"
 END
 
 STRINGTABLE

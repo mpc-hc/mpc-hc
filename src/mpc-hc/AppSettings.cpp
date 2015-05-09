@@ -567,8 +567,8 @@ void CAppSettings::CreateCommands()
     wmcmds.AddTail({ID_GOTO_NEXT_SUB,                   'U', FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_101});
     wmcmds.AddTail({ID_SHIFT_SUB_DOWN,              VK_NEXT, FVIRTKEY | FALT | FNOINVERT,             IDS_MPLAYERC_102});
     wmcmds.AddTail({ID_SHIFT_SUB_UP,               VK_PRIOR, FVIRTKEY | FALT | FNOINVERT,             IDS_MPLAYERC_103});
-    wmcmds.AddTail({ID_VIEW_DISPLAYSTATS,               'J', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_DISPLAY_STATS});
-    wmcmds.AddTail({ID_VIEW_RESETSTATS,                 'R', FVIRTKEY | FCONTROL | FALT | FNOINVERT,  IDS_AG_RESET_STATS});
+    wmcmds.AddTail({ID_VIEW_DISPLAY_RENDERER_STATS,     'J', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_OSD_DISPLAY_RENDERER_STATS});
+    wmcmds.AddTail({ID_VIEW_RESET_RENDERER_STATS,       'R', FVIRTKEY | FCONTROL | FALT | FNOINVERT,  IDS_OSD_RESET_RENDERER_STATS});
     wmcmds.AddTail({ID_VIEW_VSYNC,                      'V', FVIRTKEY | FNOINVERT,                    IDS_AG_VSYNC});
     wmcmds.AddTail({ID_VIEW_ENABLEFRAMETIMECORRECTION,    0, FVIRTKEY | FNOINVERT,                    IDS_AG_ENABLEFRAMETIMECORRECTION});
     wmcmds.AddTail({ID_VIEW_VSYNCACCURATE,              'V', FVIRTKEY | FCONTROL | FALT | FNOINVERT,  IDS_AG_VSYNCACCURATE});

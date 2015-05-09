@@ -809,9 +809,9 @@ public:
     afx_msg void OnViewOptions();
     afx_msg void OnUpdateViewTearingTest(CCmdUI* pCmdUI);
     afx_msg void OnViewTearingTest();
-    afx_msg void OnUpdateViewDisplayStats(CCmdUI* pCmdUI);
-    afx_msg void OnViewResetStats();
-    afx_msg void OnViewDisplayStatsSC();
+    afx_msg void OnUpdateViewDisplayRendererStats(CCmdUI* pCmdUI);
+    afx_msg void OnViewResetRendererStats();
+    afx_msg void OnViewDisplayRendererStats();
     afx_msg void OnUpdateViewVSync(CCmdUI* pCmdUI);
     afx_msg void OnUpdateViewVSyncOffset(CCmdUI* pCmdUI);
     afx_msg void OnUpdateViewVSyncAccurate(CCmdUI* pCmdUI);
