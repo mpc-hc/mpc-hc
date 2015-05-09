@@ -429,6 +429,10 @@ public:
     }
     bool IsD3DFullScreenMode() const;
 
+    bool IsSubresyncBarVisible() const {
+        return !!m_wndSubresyncBar.IsWindowVisible();
+    }
+
     CControlBar* m_pLastBar;
 
 protected:
