@@ -220,6 +220,7 @@ private:
     CComQIPtr<IMediaSeeking> m_pMS;
     CComQIPtr<IVideoFrameStep> m_pFS;
     CComQIPtr<IFileSourceFilter> m_pFSF;
+    CComQIPtr<IKeyFrameInfo> m_pKFI;
     CComQIPtr<IQualProp, &IID_IQualProp> m_pQP;
     CComQIPtr<IBufferInfo> m_pBI;
     CComQIPtr<IAMOpenProgress> m_pAMOP;

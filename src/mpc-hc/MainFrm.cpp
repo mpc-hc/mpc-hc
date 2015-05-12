@@ -10478,13 +10478,16 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
 
         if (bMainFile) {
             pOFD->title = fn;
-            if (!(m_pFSF = m_pGB)) {
-                BeginEnumFilters(m_pGB, pEF, pBF);
-                if (m_pFSF = pBF) {
-                    break;
-                }
-                EndEnumFilters;
+
+            m_pFSF = m_pGB;
+            BeginEnumFilters(m_pGB, pEF, pBF);
+            if (!m_pFSF) {
+                m_pFSF = pBF;
             }
+            if (!m_pKFI) {
+                m_pKFI = pBF;
+            }
+            EndEnumFilters;
         }
 
         bMainFile = false;
@@ -11946,6 +11949,7 @@ void CMainFrame::CloseMediaPrivate()
     m_pME.Release();
     m_pMC.Release();
     m_pFSF.Release();
+    m_pKFI.Release();
 
     if (m_pGB) {
         m_pGB->RemoveFromROT();
@@ -13739,18 +13743,12 @@ bool CMainFrame::GetNeighbouringKeyFrames(REFERENCE_TIME rtTarget, std::pair<REF
 
 void CMainFrame::LoadKeyFrames()
 {
-    CComQIPtr<IKeyFrameInfo> pKFI;
-    BeginEnumFilters(m_pGB, pEF, pBF);
-    if (pKFI = pBF) {
-        break;
-    }
-    EndEnumFilters;
     UINT nKFs = 0;
     m_kfs.clear();
-    if (pKFI && S_OK == pKFI->GetKeyFrameCount(nKFs) && nKFs > 1) {
+    if (m_pKFI && S_OK == m_pKFI->GetKeyFrameCount(nKFs) && nKFs > 1) {
         UINT k = nKFs;
         m_kfs.resize(k);
-        if (FAILED(pKFI->GetKeyFrames(&TIME_FORMAT_MEDIA_TIME, m_kfs.data(), k)) || k != nKFs) {
+        if (FAILED(m_pKFI->GetKeyFrames(&TIME_FORMAT_MEDIA_TIME, m_kfs.data(), k)) || k != nKFs) {
             m_kfs.clear();
         }
     }
