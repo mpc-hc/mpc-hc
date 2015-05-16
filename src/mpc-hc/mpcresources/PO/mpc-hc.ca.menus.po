@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Adolfo Jayme Barrientos, 2015
+# Adolfo Jayme Barrientos, 2015
 # Adolfo Jayme Barrientos, 2014
 # papu <papu@openmailbox.org>, 2014-2015
 # papu <papu@openmailbox.org>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-04-06 16:31:55+0000\n"
-"PO-Revision-Date: 2015-04-23 00:10+0000\n"
-"Last-Translator: papu <papu@openmailbox.org>\n"
+"POT-Creation-Date: 2015-05-15 16:53:42+0000\n"
+"PO-Revision-Date: 2015-05-16 08:42+0000\n"
+"Last-Translator: Adolfo Jayme Barrientos\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -105,7 +106,7 @@ msgstr "&Visualitza"
 
 msgctxt "ID_VIEW_CAPTIONMENU"
 msgid "Caption&&Menu"
-msgstr "Capçalera &i Menú"
+msgstr "Menú &i llegenda"
 
 msgctxt "ID_VIEW_SEEKER"
 msgid "See&k Bar"
@@ -201,15 +202,15 @@ msgstr "Prova de &Pipelleig"
 
 msgctxt "ID_VIEW_DISPLAY_RENDERER_STATS"
 msgid "&Display Statistics"
-msgstr ""
+msgstr "&Visualitza les Estadístiques"
 
 msgctxt "ID_VIEW_OSD_DISPLAY_TIME"
 msgid "Display Current T&ime"
-msgstr ""
+msgstr "Visualitza el T&emps Actual"
 
 msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
 msgid "Show &File Name"
-msgstr ""
+msgstr "Mostra el &Nom del Fixer"
 
 msgctxt "POPUP"
 msgid "&Output Range"
