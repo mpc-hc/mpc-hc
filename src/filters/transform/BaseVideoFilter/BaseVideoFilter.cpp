@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -27,6 +27,9 @@
 
 #include <InitGuid.h>
 #include "moreuuids.h"
+// Even if we don't use this, it is needed for mvrInterfaces.h
+typedef interface IDirect3DDevice9* LPDIRECT3DDEVICE9;
+#include <mvrInterfaces.h>
 
 //
 // CBaseVideoFilter
