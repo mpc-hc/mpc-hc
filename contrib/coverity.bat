@@ -61,6 +61,7 @@ REM Lowering compression preset will also decrease memory usage significantly.
 %TAR% cJf %FILE_NAME% cov-int
 IF %ERRORLEVEL% NEQ 0 (
   REM Fallback for 32-bit version of xz.
+  CALL "%COMMON%" :SubMsg "WARNING" "Fallback for 32-bit xz. Trying again with 'XZ_OPT=-7e'..."
   SET "XZ_OPT=-7e"
   %TAR% cJf %FILE_NAME% cov-int
 )
