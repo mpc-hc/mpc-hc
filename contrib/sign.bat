@@ -51,7 +51,7 @@ IF %ERRORLEVEL% NEQ 0 (
 )
 
 REM Repeat n times when signing fails
-SET REPEAT=3
+SET REPEAT=5
 SET TRY=0
 
 :SIGN
