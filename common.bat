@@ -76,6 +76,7 @@ EXIT /B
 :SubDetectCurl
 IF EXIST curl.exe (SET "CURL=curl.exe" & EXIT /B)
 IF EXIST "%CURL_PATH%\curl.exe" (SET "CURL=%CURL_PATH%\curl.exe" & EXIT /B)
+IF EXIST "%CURL_PATH%\bin\curl.exe" (SET "CURL=%CURL_PATH%\bin\curl.exe" & EXIT /B)
 FOR %%G IN (curl.exe) DO (SET "CURL_PATH=%%~$PATH:G")
 IF EXIST "%CURL_PATH%" (SET "CURL=%CURL_PATH%" & EXIT /B)
 EXIT /B
