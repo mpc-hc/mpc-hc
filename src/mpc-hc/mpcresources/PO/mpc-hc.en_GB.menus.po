@@ -1,13 +1,13 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Sir_Burpalot <doctor.z01db3rg@gmail.com>, 2013-2014
+# Sir_Burpalot <doctor.z01db3rg@gmail.com>, 2013-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
-"PO-Revision-Date: 2014-11-08 03:46+0000\n"
+"POT-Creation-Date: 2015-05-15 16:53:42+0000\n"
+"PO-Revision-Date: 2015-05-18 11:24+0000\n"
 "Last-Translator: Sir_Burpalot <doctor.z01db3rg@gmail.com>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/mpc-hc/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -198,15 +198,15 @@ msgstr "&Tearing Test"
 
 msgctxt "ID_VIEW_DISPLAY_RENDERER_STATS"
 msgid "&Display Statistics"
-msgstr ""
+msgstr "&Display Statistics"
 
 msgctxt "ID_VIEW_OSD_DISPLAY_TIME"
 msgid "Display Current T&ime"
-msgstr ""
+msgstr "Display Current T&ime"
 
 msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
 msgid "Show &File Name"
-msgstr ""
+msgstr "Show &File Name"
 
 msgctxt "POPUP"
 msgid "&Output Range"
@@ -558,15 +558,15 @@ msgstr "S&haders"
 
 msgctxt "ID_AUDIOS"
 msgid "&Audio Track"
-msgstr ""
+msgstr "&Audio Track"
 
 msgctxt "ID_SUBTITLES"
 msgid "Su&btitle Track"
-msgstr ""
+msgstr "Su&btitle Track"
 
 msgctxt "ID_VIDEO_STREAMS"
 msgid "&Video Track"
-msgstr ""
+msgstr "&Video Track"
 
 msgctxt "POPUP"
 msgid "&Volume"

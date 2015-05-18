@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-03-03 21:51:04+0000\n"
-"PO-Revision-Date: 2015-03-26 08:21+0000\n"
+"POT-Creation-Date: 2015-05-15 16:53:42+0000\n"
+"PO-Revision-Date: 2015-05-18 11:24+0000\n"
 "Last-Translator: Sir_Burpalot <doctor.z01db3rg@gmail.com>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/mpc-hc/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -1374,15 +1374,15 @@ msgstr "AR %d:%d"
 
 msgctxt "IDS_PPAGEADVANCED_LOGGER"
 msgid "Enables logging to file. (require restart)"
-msgstr ""
+msgstr "Enables logging to file. (require restart)"
 
 msgctxt "IDS_TIMER_REMAINING_TIME"
 msgid "Remaining time"
-msgstr ""
+msgstr "Remaining time"
 
 msgctxt "IDS_TIMER_HIGH_PRECISION"
 msgid "High precision"
-msgstr ""
+msgstr "High precision"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1538,7 +1538,7 @@ msgstr "Thumbnails saved successfully"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
 msgid "&Video Track"
-msgstr ""
+msgstr "&Video Track"
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
 msgid "Video Ang&le"
@@ -1666,15 +1666,15 @@ msgstr "Jump to Beginning"
 
 msgctxt "IDS_OSD_SHOW_FILENAME"
 msgid "OSD: Show File Name"
-msgstr ""
+msgstr "OSD: Show File Name"
 
 msgctxt "IDS_OSD_DISPLAY_RENDERER_STATS"
 msgid "OSD: Display Renderer Statistics"
-msgstr ""
+msgstr "OSD: Display Renderer Statistics"
 
 msgctxt "IDS_OSD_RESET_RENDERER_STATS"
 msgid "OSD: Reset Renderer Statistics"
-msgstr ""
+msgstr "OSD: Reset Renderer Statistics"
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
@@ -2018,7 +2018,7 @@ msgstr "On/Off Subtitle (DVD)"
 
 msgctxt "IDS_OSD_DISPLAY_CURRENT_TIME"
 msgid "OSD: Display Current Time"
-msgstr ""
+msgstr "OSD: Display Current Time"
 
 msgctxt "IDS_PPAGEWEBSERVER_0"
 msgid "Select the directory"
@@ -2914,7 +2914,7 @@ msgstr "Other Audio"
 
 msgctxt "IDS_MFMT_AC3"
 msgid "AC-3"
-msgstr ""
+msgstr "AC-3"
 
 msgctxt "IDS_MFMT_AIFF"
 msgid "AIFF"
@@ -2942,7 +2942,7 @@ msgstr "Opus Audio Codec"
 
 msgctxt "IDS_MFMT_DTS"
 msgid "DTS/DTS-HD"
-msgstr ""
+msgstr "DTS/DTS-HD"
 
 msgctxt "IDS_MFMT_AMR"
 msgid "AMR"

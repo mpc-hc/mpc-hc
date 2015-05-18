@@ -2,13 +2,14 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# Fridrich Losonszki <losonszki@gmail.com>, 2015
 # Máté <lang.mate@gmail.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-05-15 16:53:42+0000\n"
-"PO-Revision-Date: 2015-05-15 18:32+0000\n"
-"Last-Translator: Underground78\n"
+"PO-Revision-Date: 2015-05-18 06:52+0000\n"
+"Last-Translator: Fridrich Losonszki <losonszki@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/mpc-hc/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -82,7 +83,7 @@ msgstr "Idő"
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET"
 msgid "Sync Offset"
-msgstr ""
+msgstr "Szinkronizáció eltolás"
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET_FORMAT"
 msgid "avg: %d ms, dev: %d ms"
@@ -198,7 +199,7 @@ msgstr "Navigációs sáv"
 
 msgctxt "IDS_SUBRESYNC_CAPTION"
 msgid "Subresync"
-msgstr ""
+msgstr "Feliratidőzítés"
 
 msgctxt "IDS_SUBRESYNC_CLN_TIME"
 msgid "Time"
@@ -214,7 +215,7 @@ msgstr "Előnézet"
 
 msgctxt "IDS_SUBRESYNC_CLN_VOB_ID"
 msgid "Vob ID"
-msgstr ""
+msgstr "Vob azonosító"
 
 msgctxt "IDS_SUBRESYNC_CLN_CELL_ID"
 msgid "Cell ID"
@@ -258,7 +259,7 @@ msgstr ""
 
 msgctxt "IDS_CAPTURE_ERROR_DEVICE"
 msgid "Could not open capture device."
-msgstr ""
+msgstr "Nem nyitható meg rögzítő eszköz"
 
 msgctxt "IDS_INVALID_PARAMS_ERROR"
 msgid "Can't open, invalid input parameters"
@@ -266,7 +267,7 @@ msgstr ""
 
 msgctxt "IDS_EDIT_LIST_EDITOR"
 msgid "Edit List Editor"
-msgstr ""
+msgstr "Lista Szerkesztő szerkesztése"
 
 msgctxt "IDS_GOTO_ERROR_INVALID_TIME"
 msgid "The entered time is greater than the file duration."
@@ -1358,7 +1359,7 @@ msgstr "Mindegyik eltávolítása"
 
 msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
 msgid "Are you sure you want to remove all channels from the list?"
-msgstr ""
+msgstr "Biztosan törölni szeretnéd az összes csatornát a listából?"
 
 msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"
 msgid "No information available"
@@ -1770,7 +1771,7 @@ msgstr "Felirat(ok) letöltése, kérem várjon."
 
 msgctxt "IDS_SUBDL_DLG_PARSING"
 msgid "Parsing list..."
-msgstr ""
+msgstr "Elemzési lista..."
 
 msgctxt "IDS_SUBDL_DLG_NOT_FOUND"
 msgid "No subtitles found."
@@ -2678,7 +2679,7 @@ msgstr "Jobb első"
 
 msgctxt "IDS_FRONT_CENTER"
 msgid "Front Center"
-msgstr ""
+msgstr "Front Közép"
 
 msgctxt "IDS_LOW_FREQUENCY"
 msgid "Low Frequency"
@@ -2714,7 +2715,7 @@ msgstr "Jobb Oldalsó"
 
 msgctxt "IDS_TOP_CENTER"
 msgid "Top Center"
-msgstr ""
+msgstr "Top Közép"
 
 msgctxt "IDS_TOP_FRONT_LEFT"
 msgid "Top Front Left"
@@ -2722,7 +2723,7 @@ msgstr "Top Front "
 
 msgctxt "IDS_TOP_FRONT_CENTER"
 msgid "Top Front Center"
-msgstr ""
+msgstr "Top Front Közép"
 
 msgctxt "IDS_TOP_FRONT_RIGHT"
 msgid "Top Front Right"
@@ -2766,7 +2767,7 @@ msgstr "Mégse"
 
 msgctxt "IDS_THUMB_THUMBNAILS"
 msgid "Layout"
-msgstr ""
+msgstr "Elrendezés"
 
 msgctxt "IDS_THUMB_PIXELS"
 msgid "Pixels:"
@@ -2910,7 +2911,7 @@ msgstr "Shockwave Flash"
 
 msgctxt "IDS_MFMT_OTHER_AUDIO"
 msgid "Other Audio"
-msgstr ""
+msgstr "Egyéb Audio"
 
 msgctxt "IDS_MFMT_AC3"
 msgid "AC-3"

@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-03-16 18:09:30+0000\n"
-"PO-Revision-Date: 2015-05-15 19:00+0000\n"
+"POT-Creation-Date: 2015-05-17 20:47:27+0000\n"
+"PO-Revision-Date: 2015-05-18 19:16+0000\n"
 "Last-Translator: Underground78\n"
 "Language-Team: French (http://www.transifex.com/projects/p/mpc-hc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -1666,25 +1666,25 @@ msgstr "OK"
 
 msgctxt "IDD_CRASH_REPORTER_CAPTION"
 msgid "Crash reporter"
-msgstr ""
+msgstr "Rapporteur de plantage"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
 msgid "We are sorry, it seems MPC-HC just crashed. :(\n\nTo help us diagnose and fix the problem, a bug report will be sent. You can provide additional information if you want."
-msgstr ""
+msgstr "Désolé, il semblerait que MPC-HC vienne de planter. :(\n\nPour nous aider à diagnostiquer et à corriger le problème, un rapport de bug va être envoyé. Vous pouvez fournir des informations complémentaires si vous le souhaitez."
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
 msgid "Email:"
-msgstr ""
+msgstr "E-mail :"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC3"
 msgid "Your email address is optional and will only be used if the developers need to contact you for more information."
-msgstr ""
+msgstr "Votre adresse électronique est optionnelle et sera utilisée uniquement si les développeurs ont besoin de vous contacter pour un supplément d'information."
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
 msgid "Problem description (use English only):"
-msgstr ""
+msgstr "Description du problème (obligatoirement en anglais) :"
 
 msgctxt "IDD_CRASH_REPORTER_IDOK"
 msgid "OK"
-msgstr ""
+msgstr "OK"
 

@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-03-16 18:09:30+0000\n"
-"PO-Revision-Date: 2015-05-15 18:12+0000\n"
+"POT-Creation-Date: 2015-05-17 20:47:27+0000\n"
+"PO-Revision-Date: 2015-05-17 23:32+0000\n"
 "Last-Translator: Underground78\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/mpc-hc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -1686,5 +1686,5 @@ msgstr ""
 
 msgctxt "IDD_CRASH_REPORTER_IDOK"
 msgid "OK"
-msgstr ""
+msgstr "OK"
 

@@ -10,8 +10,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-03-16 18:09:30+0000\n"
-"PO-Revision-Date: 2015-05-16 23:02+0000\n"
+"POT-Creation-Date: 2015-05-17 20:47:27+0000\n"
+"PO-Revision-Date: 2015-05-18 12:43+0000\n"
 "Last-Translator: papu <papu@openmailbox.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -1670,7 +1670,7 @@ msgstr "D’acord"
 
 msgctxt "IDD_CRASH_REPORTER_CAPTION"
 msgid "Crash reporter"
-msgstr ""
+msgstr "Informe de Fallades"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
 msgid "We are sorry, it seems MPC-HC just crashed. :(\n\nTo help us diagnose and fix the problem, a bug report will be sent. You can provide additional information if you want."
@@ -1678,17 +1678,17 @@ msgstr ""
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
 msgid "Email:"
-msgstr ""
+msgstr "Correu Electrònic:"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC3"
 msgid "Your email address is optional and will only be used if the developers need to contact you for more information."
-msgstr ""
+msgstr "La seva adreça de correu electrònic és opcional i només s'utilitzarà si els desenvolupadors han de posar-se en contacte amb vostè per obtenir més informació."
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
 msgid "Problem description (use English only):"
-msgstr ""
+msgstr "Descripció del problema( useu només l'Anglès):"
 
 msgctxt "IDD_CRASH_REPORTER_IDOK"
 msgid "OK"
-msgstr ""
+msgstr "D’acord"
 
