@@ -1,5 +1,8 @@
 #!/bin/sh
 
+echo "$(pwd)" | grep -q '[[:blank:]]' &&
+  echo "Out of tree builds are impossible with whitespace in source path." && exit 1
+
 if [ "${1}" == "x64" ]; then
   arch=x86_64
   archdir=x64
@@ -15,43 +18,44 @@ else
 fi
 
 if [ "${2}" == "Debug" ]; then
-  dll_target=$(pwd)/../../../bin/${mpc_hc_folder}_Debug/${lav_folder}
+  FFMPEG_DLL_PATH=$(readlink -f ../../..)/bin/${mpc_hc_folder}_Debug/${lav_folder}
   BASEDIR=$(pwd)/src/bin_${archdir}d
 else
-  dll_target=$(pwd)/../../../bin/${mpc_hc_folder}/${lav_folder}
+  FFMPEG_DLL_PATH=$(readlink -f ../../..)/bin/${mpc_hc_folder}/${lav_folder}
   BASEDIR=$(pwd)/src/bin_${archdir}
 fi
 
 THIRDPARTYPREFIX=${BASEDIR}/thirdparty
-ffmpeg_obj_target=${THIRDPARTYPREFIX}/ffmpeg
-dcadec_obj_target=${THIRDPARTYPREFIX}/dcadec
-lib_target=${BASEDIR}/lib
-export PKG_CONFIG_PATH="${dcadec_obj_target}"
+FFMPEG_BUILD_PATH=${THIRDPARTYPREFIX}/ffmpeg
+FFMPEG_LIB_PATH=${BASEDIR}/lib
+DCADEC_SOURCE_PATH=$(pwd)/src/thirdparty/dcadec
+DCADEC_BUILD_PATH=${THIRDPARTYPREFIX}/dcadec
+export PKG_CONFIG_PATH="${DCADEC_BUILD_PATH}"
 
 make_dirs() {
-  if [ ! -d ${lib_target} ]; then
-    mkdir -p ${lib_target}
+  if [ ! -d ${FFMPEG_LIB_PATH} ]; then
+    mkdir -p ${FFMPEG_LIB_PATH}
   fi
-  if [ ! -d ${ffmpeg_obj_target} ]; then
-    mkdir -p ${ffmpeg_obj_target}
+  if [ ! -d ${FFMPEG_BUILD_PATH} ]; then
+    mkdir -p ${FFMPEG_BUILD_PATH}
   fi
-  if [ ! -d ${dcadec_obj_target} ]; then
-    mkdir -p ${dcadec_obj_target}
+  if [ ! -d ${DCADEC_BUILD_PATH} ]; then
+    mkdir -p ${DCADEC_BUILD_PATH}
   fi
-  if [ ! -d ${dll_target} ]; then
-    mkdir -p ${dll_target}
+  if [ ! -d ${FFMPEG_DLL_PATH} ]; then
+    mkdir -p ${FFMPEG_DLL_PATH}
   fi
 }
 
 copy_libs() {
-  # install -s --strip-program=${cross_prefix}strip lib*/*-lav-*.dll ${dll_target}
-  cp lib*/*-lav-*.dll ${dll_target}
-  ${cross_prefix}strip ${dll_target}/*-lav-*.dll
-  cp -u lib*/*.lib ${lib_target}
+  # install -s --strip-program=${cross_prefix}strip lib*/*-lav-*.dll ${FFMPEG_DLL_PATH}
+  cp lib*/*-lav-*.dll ${FFMPEG_DLL_PATH}
+  ${cross_prefix}strip ${FFMPEG_DLL_PATH}/*-lav-*.dll
+  cp -u lib*/*.lib ${FFMPEG_LIB_PATH}
 }
 
 clean() {
-  cd ${ffmpeg_obj_target}
+  cd ${FFMPEG_BUILD_PATH}
   echo Cleaning...
   if [ -f config.mak ]; then
     make distclean > /dev/null 2>&1
@@ -122,17 +126,16 @@ configure() {
 
 build() {
   echo Building...
-  make -j$(($NUMBER_OF_PROCESSORS)) 2>&1 | tee make.log
+  make -j$NUMBER_OF_PROCESSORS 2>&1 | tee make.log
   ## Check the return status and the log to detect possible errors
   [ ${PIPESTATUS[0]} -eq 0 ] && ! grep -q -F "rerun configure" make.log
 }
 
 configureAndBuild() {
-  cd ${ffmpeg_obj_target}
-
+  cd ${FFMPEG_BUILD_PATH}
   ## Don't run configure again if it was previously run
-  if [ ../../ffmpeg/configure -ot config.mak ] &&
-     [ ../../../build_ffmpeg.sh -ot config.mak ]; then
+  if [ ../../../ffmpeg/configure -ot config.mak ] &&
+     [ ../../../../build_ffmpeg.sh -ot config.mak ]; then
     echo Skipping configure...
   else
     echo Configuring...
@@ -151,28 +154,25 @@ configureAndBuild() {
     copy_libs
     CONFIGRETVAL=$?
   fi
-
   cd ${BASEDIR}
 }
 
 build_dcadec() {
-  cd ${dcadec_obj_target}
-  make -f../../../thirdparty/dcadec/Makefile -j$NUMBER_OF_PROCESSORS CONFIG_WINDOWS=1 CONFIG_NDEBUG=1 CC=${cross_prefix}gcc AR=${cross_prefix}ar PREFIX=${THIRDPARTYPREFIX} lib
-  make -f../../../thirdparty/dcadec/Makefile PREFIX=${THIRDPARTYPREFIX} LIBDIR=${dcadec_obj_target}/libdcadec INCLUDEDIR=../../../thirdparty/dcadec dcadec.pc
-  cd "${BASEDIR}"
+  cd ${DCADEC_BUILD_PATH}
+  make -f "${DCADEC_SOURCE_PATH}/Makefile" -j$NUMBER_OF_PROCESSORS CONFIG_WINDOWS=1 CONFIG_SMALL=1 CC=${cross_prefix}gcc AR=${cross_prefix}ar lib
+  make -f "${DCADEC_SOURCE_PATH}/Makefile" PREFIX="${THIRDPARTYPREFIX}" LIBDIR="${DCADEC_BUILD_PATH}/libdcadec" INCLUDEDIR="${DCADEC_SOURCE_PATH}" dcadec.pc
+  cd ${BASEDIR}
 }
 
 clean_dcadec() {
-  cd ${dcadec_obj_target}
-  make -f../../../thirdparty/dcadec/Makefile CONFIG_WINDOWS=1 clean
+  cd ${DCADEC_BUILD_PATH}
+  make -f "${DCADEC_SOURCE_PATH}/Makefile" CONFIG_WINDOWS=1 clean
   cd ${BASEDIR}
 }
 
 echo Building ffmpeg in GCC ${arch} Release config...
 
 make_dirs
-
-cd ${BASEDIR}
 
 CONFIGRETVAL=0
 
@@ -200,7 +200,5 @@ else
     clean && configureAndBuild
   fi
 fi
-
-cd ../../..
 
 exit ${CONFIGRETVAL}
