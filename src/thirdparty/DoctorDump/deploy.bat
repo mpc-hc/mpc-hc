@@ -25,6 +25,8 @@ SET ROOT_DIR=..\..\..
 SET "COMMON=%FILE_DIR%%ROOT_DIR%\common.bat"
 CALL "%COMMON%" :SubPreBuild
 
+IF "%1" == "" CALL "%COMMON%" :SubMsg "ERROR" "%~nx0, No argument was provided." & EXIT /B
+
 SET "SRCFOLDER=%MPCHC_DOCTORDUMP%\bin"
 IF /I "%~1" == "x64" (
   SET "SRCFOLDER=%SRCFOLDER%\x64"
