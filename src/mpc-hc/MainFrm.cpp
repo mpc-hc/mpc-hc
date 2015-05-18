@@ -6183,6 +6183,7 @@ void CMainFrame::OnViewOSDShowFileName()
             break;
         case PM_ANALOG_CAPTURE:
             strOSD = GetCaptureTitle();
+            break;
         case PM_DIGITAL_CAPTURE:
             UpdateCurrentChannelInfo(true, false);
             break;
