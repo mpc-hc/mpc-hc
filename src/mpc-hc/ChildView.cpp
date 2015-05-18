@@ -224,7 +224,7 @@ BOOL CChildView::OnEraseBkgnd(CDC* pDC)
         if (!r.IsRectEmpty()) {
             if (m_resizedImg.IsNull() || r.Width() != m_resizedImg.GetWidth() || r.Height() != m_resizedImg.GetHeight() || img.GetBPP() != m_resizedImg.GetBPP()) {
                 m_resizedImg.Destroy();
-                m_resizedImg.Create(r.Width(), r.Height(), img.GetBPP());
+                m_resizedImg.Create(r.Width(), r.Height(), std::max(img.GetBPP(), 24));
 
                 HDC hDC = m_resizedImg.GetDC();
                 SetStretchBltMode(hDC, STRETCH_HALFTONE);

@@ -51,6 +51,7 @@ next version - not released yet
 ! DVBSub: Fix a possible infinite loop when rendering corrupted subtitles
 ! Subfolders were sometimes parsed multiple times when drag-and-dropping a folder
 ! Haali Renderer: Fix XySubFilter support
+! Cover image were sometimes incorrectly displayed
 ! Ticket #2167, Prevent the task bar buttons from being RTLed when Windows is configured to use RTL layout
 ! Ticket #2516, VSFilter: Fix PGS/DVB subtitles with different size than video frame
 ! Ticket #5183, Fix a rare crash when processing after playback event
