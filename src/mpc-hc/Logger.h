@@ -83,7 +83,6 @@ private:
 
         std::lock_guard<std::mutex> lock(m_mutex);
         if (_tfopen_s(&f, filename, _T("at")) == 0) {
-            fseek(f, 0, 2);
             _ftprintf_s(f, _T("%.8s.%03hu - %s\n"), time1, timebuffer.millitm, buff);
             fclose(f);
         }
