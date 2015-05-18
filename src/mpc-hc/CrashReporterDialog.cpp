@@ -39,7 +39,7 @@ BOOL CCrashReporterDialog::Create()
     m_email.Preallocate(128);
     m_description.Preallocate(4096);
 
-    bool res = __super::Create(IDD, CWnd::GetDesktopWindow());
+    BOOL res = __super::Create(IDD, CWnd::GetDesktopWindow());
 
     // Because we set LR_SHARED, there is no need to explicitly destroy the icon
     VERIFY(SetIcon((HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDR_MAINFRAME), IMAGE_ICON, 48, 48, LR_SHARED), true) == nullptr);
