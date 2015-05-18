@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{A21F07E6-A891-479C-98EA-EDB58CE4EFAB}"
 EndProject
@@ -1127,15 +1127,14 @@ Global
 		{BECEAFF9-CDCA-45EC-A1CF-658FA51818E6}.Debug Filter|x64.ActiveCfg = Release|x64
 		{BECEAFF9-CDCA-45EC-A1CF-658FA51818E6}.Debug Lite|Win32.ActiveCfg = Release Lite|Win32
 		{BECEAFF9-CDCA-45EC-A1CF-658FA51818E6}.Debug Lite|x64.ActiveCfg = Release Lite|x64
-		{BECEAFF9-CDCA-45EC-A1CF-658FA51818E6}.Debug Lite|x64.Build.0 = Release Lite|x64
 		{BECEAFF9-CDCA-45EC-A1CF-658FA51818E6}.Debug|Win32.ActiveCfg = Release|Win32
 		{BECEAFF9-CDCA-45EC-A1CF-658FA51818E6}.Debug|x64.ActiveCfg = Release|x64
 		{BECEAFF9-CDCA-45EC-A1CF-658FA51818E6}.Release Filter|Win32.ActiveCfg = Release|Win32
 		{BECEAFF9-CDCA-45EC-A1CF-658FA51818E6}.Release Filter|x64.ActiveCfg = Release|x64
 		{BECEAFF9-CDCA-45EC-A1CF-658FA51818E6}.Release Lite|Win32.ActiveCfg = Release Lite|Win32
 		{BECEAFF9-CDCA-45EC-A1CF-658FA51818E6}.Release Lite|Win32.Build.0 = Release Lite|Win32
-		{BECEAFF9-CDCA-45EC-A1CF-658FA51818E6}.Release Lite|x64.ActiveCfg = Release|x64
-		{BECEAFF9-CDCA-45EC-A1CF-658FA51818E6}.Release Lite|x64.Build.0 = Release|x64
+		{BECEAFF9-CDCA-45EC-A1CF-658FA51818E6}.Release Lite|x64.ActiveCfg = Release Lite|x64
+		{BECEAFF9-CDCA-45EC-A1CF-658FA51818E6}.Release Lite|x64.Build.0 = Release Lite|x64
 		{BECEAFF9-CDCA-45EC-A1CF-658FA51818E6}.Release|Win32.ActiveCfg = Release|Win32
 		{BECEAFF9-CDCA-45EC-A1CF-658FA51818E6}.Release|Win32.Build.0 = Release|Win32
 		{BECEAFF9-CDCA-45EC-A1CF-658FA51818E6}.Release|x64.ActiveCfg = Release|x64

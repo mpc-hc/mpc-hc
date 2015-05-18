@@ -38,9 +38,11 @@
     <Import Project="..\..\common-3rd-party.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup>
-    <NMakeBuildCommandLine>$(ProjectDir)deploy.bat $(Platform) "$(OutputPath)"</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine>$(ProjectDir)deploy.bat $(Platform) "$(OutputPath)"</NMakeReBuildCommandLine>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)bin\mpc-hc_x86\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Lite|Win32'">
+    <OutDir>$(SolutionDir)bin\mpc-hc_x86 Lite\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)bin\mpc-hc_x64\</OutDir>
@@ -48,11 +50,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Lite|x64'">
     <OutDir>$(SolutionDir)bin\mpc-hc_x64 Lite\</OutDir>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)bin\mpc-hc_x86\</OutDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Lite|Win32'">
-    <OutDir>$(SolutionDir)bin\mpc-hc_x86 Lite\</OutDir>
+  <PropertyGroup>
+    <NMakeBuildCommandLine>$(ProjectDir)deploy.bat $(Platform) "$(OutDir)"</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>$(ProjectDir)deploy.bat $(Platform) "$(OutDir)"</NMakeReBuildCommandLine>
   </PropertyGroup>
   <ItemGroup>
     <ClInclude Include="CrashRpt.h" />
