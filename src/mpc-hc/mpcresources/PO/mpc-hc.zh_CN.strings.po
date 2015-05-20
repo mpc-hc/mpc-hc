@@ -1375,7 +1375,7 @@ msgid "AR %d:%d"
 msgstr "高宽比 %d:%d"
 
 msgctxt "IDS_PPAGEADVANCED_LOGGER"
-msgid "Enables logging to file. (require restart)"
+msgid "Enables logging to file (requires restart)"
 msgstr "启用日志记录到文件中。(需要重新启动)"
 
 msgctxt "IDS_TIMER_REMAINING_TIME"

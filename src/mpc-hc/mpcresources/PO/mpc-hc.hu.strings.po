@@ -1374,8 +1374,8 @@ msgid "AR %d:%d"
 msgstr "AR %d:%d"
 
 msgctxt "IDS_PPAGEADVANCED_LOGGER"
-msgid "Enables logging to file. (require restart)"
-msgstr "Fájlba naplózás engedélyezése. (Újraindítást igényel)"
+msgid "Enables logging to file (requires restart)"
+msgstr "Fájlba naplózás engedélyezése (Újraindítást igényel)"
 
 msgctxt "IDS_TIMER_REMAINING_TIME"
 msgid "Remaining time"

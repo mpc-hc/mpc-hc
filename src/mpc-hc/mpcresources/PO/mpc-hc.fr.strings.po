@@ -1373,8 +1373,8 @@ msgid "AR %d:%d"
 msgstr "AR %d:%d"
 
 msgctxt "IDS_PPAGEADVANCED_LOGGER"
-msgid "Enables logging to file. (require restart)"
-msgstr "Sauvegarder le journal des événements dans un fichier (redémarrage nécessaire)."
+msgid "Enables logging to file (requires restart)"
+msgstr "Sauvegarder le journal des événements dans un fichier (redémarrage nécessaire)"
 
 msgctxt "IDS_TIMER_REMAINING_TIME"
 msgid "Remaining time"

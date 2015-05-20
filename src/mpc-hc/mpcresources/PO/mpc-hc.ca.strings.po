@@ -1378,8 +1378,8 @@ msgid "AR %d:%d"
 msgstr "RA %d:%d"
 
 msgctxt "IDS_PPAGEADVANCED_LOGGER"
-msgid "Enables logging to file. (require restart)"
-msgstr "Activa el registre a un fitxer. (cal reiniciar)"
+msgid "Enables logging to file (requires restart)"
+msgstr "Activa el registre a un fitxer (cal reiniciar)"
 
 msgctxt "IDS_TIMER_REMAINING_TIME"
 msgid "Remaining time"

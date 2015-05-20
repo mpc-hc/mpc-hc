@@ -1374,8 +1374,8 @@ msgid "AR %d:%d"
 msgstr "Pomer strán %d:%d"
 
 msgctxt "IDS_PPAGEADVANCED_LOGGER"
-msgid "Enables logging to file. (require restart)"
-msgstr "Zapne zaznamenávanie do súboru (vyžaduje reštart)."
+msgid "Enables logging to file (requires restart)"
+msgstr "Zapne zaznamenávanie do súboru (vyžaduje reštart)"
 
 msgctxt "IDS_TIMER_REMAINING_TIME"
 msgid "Remaining time"

@@ -1375,7 +1375,7 @@ msgid "AR %d:%d"
 msgstr "อัตราส่วนฯ %d:%d"
 
 msgctxt "IDS_PPAGEADVANCED_LOGGER"
-msgid "Enables logging to file. (require restart)"
+msgid "Enables logging to file (requires restart)"
 msgstr "ใช้งานการจดข้อมูลลงสู่ไฟล์ (ต้องเริ่มใหม่)"
 
 msgctxt "IDS_TIMER_REMAINING_TIME"

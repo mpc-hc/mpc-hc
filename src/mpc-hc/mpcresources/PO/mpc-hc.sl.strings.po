@@ -1375,8 +1375,8 @@ msgid "AR %d:%d"
 msgstr "AR %d:%d"
 
 msgctxt "IDS_PPAGEADVANCED_LOGGER"
-msgid "Enables logging to file. (require restart)"
-msgstr "Omogoči beleženje v datoteko. (zahteva ponovni zagon) "
+msgid "Enables logging to file (requires restart)"
+msgstr "Omogoči beleženje v datoteko (zahteva ponovni zagon) "
 
 msgctxt "IDS_TIMER_REMAINING_TIME"
 msgid "Remaining time"

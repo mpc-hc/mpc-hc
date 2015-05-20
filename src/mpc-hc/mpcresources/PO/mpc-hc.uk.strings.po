@@ -1374,8 +1374,8 @@ msgid "AR %d:%d"
 msgstr "Спів. стор. %d:%d"
 
 msgctxt "IDS_PPAGEADVANCED_LOGGER"
-msgid "Enables logging to file. (require restart)"
-msgstr "Вмикає запис логу у файл (потребує перезапуску)."
+msgid "Enables logging to file (requires restart)"
+msgstr "Вмикає запис логу у файл (потребує перезапуску)"
 
 msgctxt "IDS_TIMER_REMAINING_TIME"
 msgid "Remaining time"

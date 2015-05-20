@@ -1374,7 +1374,7 @@ msgid "AR %d:%d"
 msgstr "Bildformat %d:%d"
 
 msgctxt "IDS_PPAGEADVANCED_LOGGER"
-msgid "Enables logging to file. (require restart)"
+msgid "Enables logging to file (requires restart)"
 msgstr ""
 
 msgctxt "IDS_TIMER_REMAINING_TIME"

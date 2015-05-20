@@ -1373,8 +1373,8 @@ msgid "AR %d:%d"
 msgstr "IM %d:%d"
 
 msgctxt "IDS_PPAGEADVANCED_LOGGER"
-msgid "Enables logging to file. (require restart)"
-msgstr "Agirira oharreratzea gaitzen du. (beharrezkoa berrabiaraztea)"
+msgid "Enables logging to file (requires restart)"
+msgstr "Agirira oharreratzea gaitzen du (beharrezkoa berrabiaraztea)"
 
 msgctxt "IDS_TIMER_REMAINING_TIME"
 msgid "Remaining time"

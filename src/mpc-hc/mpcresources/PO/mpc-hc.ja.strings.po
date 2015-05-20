@@ -1373,7 +1373,7 @@ msgid "AR %d:%d"
 msgstr "縦横比 %d:%d"
 
 msgctxt "IDS_PPAGEADVANCED_LOGGER"
-msgid "Enables logging to file. (require restart)"
+msgid "Enables logging to file (requires restart)"
 msgstr "ファイルへのログ記録を有効にします (再起動が必要)"
 
 msgctxt "IDS_TIMER_REMAINING_TIME"

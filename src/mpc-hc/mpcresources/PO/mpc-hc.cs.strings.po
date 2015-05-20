@@ -1374,8 +1374,8 @@ msgid "AR %d:%d"
 msgstr "PS %d:%d"
 
 msgctxt "IDS_PPAGEADVANCED_LOGGER"
-msgid "Enables logging to file. (require restart)"
-msgstr "Povolit záznam protokolu do souboru. (vyžaduje restart)"
+msgid "Enables logging to file (requires restart)"
+msgstr "Povolit záznam protokolu do souboru (vyžaduje restart)"
 
 msgctxt "IDS_TIMER_REMAINING_TIME"
 msgid "Remaining time"

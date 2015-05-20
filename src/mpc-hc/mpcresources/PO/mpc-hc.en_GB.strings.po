@@ -1373,8 +1373,8 @@ msgid "AR %d:%d"
 msgstr "AR %d:%d"
 
 msgctxt "IDS_PPAGEADVANCED_LOGGER"
-msgid "Enables logging to file. (require restart)"
-msgstr "Enables logging to file. (require restart)"
+msgid "Enables logging to file (requires restart)"
+msgstr "Enables logging to file (requires restart)"
 
 msgctxt "IDS_TIMER_REMAINING_TIME"
 msgid "Remaining time"

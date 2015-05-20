@@ -1374,7 +1374,7 @@ msgid "AR %d:%d"
 msgstr "AR %d:%d"
 
 msgctxt "IDS_PPAGEADVANCED_LOGGER"
-msgid "Enables logging to file. (require restart)"
+msgid "Enables logging to file (requires restart)"
 msgstr "ফাইলে নিবন্ধন করা সক্রিয়করণ।(বন্ধ করে পুনরায় চালনা করতে হবে)"
 
 msgctxt "IDS_TIMER_REMAINING_TIME"
