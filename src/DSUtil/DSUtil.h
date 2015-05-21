@@ -287,7 +287,7 @@ typename std::enable_if<std::is_unsigned<T>::value, T>::type GCD(T a, T b)
 template <class T>
 typename std::enable_if<std::is_signed<T>::value, T>::type GCD(T a, T b)
 {
-    typedef std::make_unsigned<T>::type uT;
+    using uT = typename std::make_unsigned<T>::type;
 
     return T(GCD(uT(std::abs(a)), uT(std::abs(b))));
 }
