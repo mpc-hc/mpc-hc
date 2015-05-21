@@ -1042,7 +1042,7 @@ HRESULT CEVRAllocatorPresenter::RenegotiateMediaType()
 
 bool CEVRAllocatorPresenter::GetImageFromMixer()
 {
-    MFT_OUTPUT_DATA_BUFFER Buffer;
+    MFT_OUTPUT_DATA_BUFFER dataBuffer;
     HRESULT hr = S_OK;
     DWORD dwStatus;
     REFERENCE_TIME nsSampleTime;
@@ -1061,18 +1061,20 @@ bool CEVRAllocatorPresenter::GetImageFromMixer()
             break;
         }
 
-        ZeroMemory(&Buffer, sizeof(Buffer));
-        Buffer.pSample = pSample;
+        ZeroMemory(&dataBuffer, sizeof(dataBuffer));
+        dataBuffer.pSample = pSample;
         pSample->GetUINT32(GUID_SURFACE_INDEX, &dwSurface);
 
         {
             llClockBefore = GetRenderersData()->GetPerfCounter();
-            hr = m_pMixer->ProcessOutput(0, 1, &Buffer, &dwStatus);
+            hr = m_pMixer->ProcessOutput(0, 1, &dataBuffer, &dwStatus);
             llClockAfter = GetRenderersData()->GetPerfCounter();
         }
 
         if (hr == MF_E_TRANSFORM_NEED_MORE_INPUT) {
             MoveToFreeList(pSample, false);
+            // Important: Release any events returned from the ProcessOutput method.
+            SAFE_RELEASE(dataBuffer.pEvents);
             break;
         }
 
@@ -1105,6 +1107,10 @@ bool CEVRAllocatorPresenter::GetImageFromMixer()
 
         MoveToScheduledList(pSample, false);
         bDoneSomething = true;
+
+        // Important: Release any events returned from the ProcessOutput method.
+        SAFE_RELEASE(dataBuffer.pEvents);
+
         if (m_rtTimePerFrame == 0) {
             break;
         }

@@ -3148,7 +3148,7 @@ HRESULT CSyncAP::RenegotiateMediaType()
 
 bool CSyncAP::GetSampleFromMixer()
 {
-    MFT_OUTPUT_DATA_BUFFER Buffer;
+    MFT_OUTPUT_DATA_BUFFER dataBuffer;
     HRESULT hr = S_OK;
     DWORD dwStatus;
     LONGLONG llClockBefore = 0;
@@ -3165,17 +3165,19 @@ bool CSyncAP::GetSampleFromMixer()
             break;
         }
 
-        ZeroMemory(&Buffer, sizeof(Buffer));
-        Buffer.pSample = pSample;
+        ZeroMemory(&dataBuffer, sizeof(dataBuffer));
+        dataBuffer.pSample = pSample;
         pSample->GetUINT32(GUID_SURFACE_INDEX, &dwSurface);
         {
             llClockBefore = GetRenderersData()->GetPerfCounter();
-            hr = m_pMixer->ProcessOutput(0 , 1, &Buffer, &dwStatus);
+            hr = m_pMixer->ProcessOutput(0 , 1, &dataBuffer, &dwStatus);
             llClockAfter = GetRenderersData()->GetPerfCounter();
         }
 
         if (hr == MF_E_TRANSFORM_NEED_MORE_INPUT) { // There are no samples left in the mixer
             MoveToFreeList(pSample, false);
+            // Important: Release any events returned from the ProcessOutput method.
+            SAFE_RELEASE(dataBuffer.pEvents);
             break;
         }
         if (m_pSink) {
@@ -3200,6 +3202,8 @@ bool CSyncAP::GetSampleFromMixer()
             m_nTearingPos = (m_nTearingPos + 7) % m_nativeVideoSize.cx;
         }
         MoveToScheduledList(pSample, false); // Schedule, then go back to see if there is more where that came from
+        // Important: Release any events returned from the ProcessOutput method.
+        SAFE_RELEASE(dataBuffer.pEvents);
     }
     return newSample;
 }
