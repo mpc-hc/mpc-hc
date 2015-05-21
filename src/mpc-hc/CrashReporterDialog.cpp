@@ -49,13 +49,18 @@ BOOL CCrashReporterDialog::Create()
 
 void CCrashReporterDialog::LoadTranslatableResources()
 {
-    // Load the template in a temporary dialog and get the strings from there
-    CDialog tmpDlg;
-    if (tmpDlg.Create(IDD)) {
+    // Load the template in a temporary dialog and get the strings from there.
+    // We don't use MFC to avoid side effects caused by creating another dialog.
+    HWND hDlg = ::CreateDialog(AfxGetResourceHandle(), MAKEINTRESOURCE(IDD), nullptr, nullptr);
+    if (hDlg) {
         auto setTextFromDlg = [&](int nID) {
-            CString text;
-            if (tmpDlg.GetDlgItemText(nID, text)) {
-                GetDlgItem(nID)->SetWindowText(text);
+            CWnd* pItem = CWnd::FromHandle(::GetDlgItem(hDlg, nID));
+            if (pItem && IsWindow(pItem->m_hWnd)) {
+                CString text;
+                pItem->GetWindowText(text);
+                if (!text.IsEmpty()) {
+                    GetDlgItem(nID)->SetWindowText(text);
+                }
             }
         };
 
@@ -64,6 +69,8 @@ void CCrashReporterDialog::LoadTranslatableResources()
         setTextFromDlg(IDC_STATIC3);
         setTextFromDlg(IDC_STATIC4);
         setTextFromDlg(IDOK);
+
+        ::DestroyWindow(hDlg);
     }
 }
 
