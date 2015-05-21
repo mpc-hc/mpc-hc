@@ -20,7 +20,6 @@
 
 #pragma once
 
-#include "AppSettings.h"
 #include "PPageBase.h"
 #include "resource.h"
 #include <afxwin.h>
@@ -40,6 +39,7 @@ public:
         : name(name)
         , toolTipText(toolTipText) {
     }
+    virtual ~SettingsBase() = default;
 
     CString GetToolTipText() const { return toolTipText; }
     CString GetName() const { return name; }
@@ -179,9 +179,7 @@ protected:
     virtual BOOL OnInitDialog() override;
     virtual BOOL OnApply() override;
 
-    afx_msg void OnBnClickedSetButton();
     afx_msg void OnBnClickedDefaultButton();
-    afx_msg void OnUpdateSetButton(CCmdUI* pCmdUI);
     afx_msg void OnUpdateDefaultButton(CCmdUI* pCmdUI);
     afx_msg void OnNMDblclk(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult);
