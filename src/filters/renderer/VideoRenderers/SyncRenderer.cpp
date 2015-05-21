@@ -3532,6 +3532,7 @@ STDMETHODIMP CSyncAP::InitializeDevice(AM_MEDIA_TYPE* pMediaType)
         hr = fnMFCreateVideoSampleFromSurface(m_pVideoSurface[i], &pMFSample);
         if (SUCCEEDED(hr)) {
             pMFSample->SetUINT32(GUID_SURFACE_INDEX, i);
+            CAutoLock sampleQueueLock(&m_SampleQueueLock);
             m_FreeSamples.AddTail(pMFSample);
         }
         ASSERT(SUCCEEDED(hr));
@@ -3815,6 +3816,7 @@ STDMETHODIMP_(bool) CSyncAP::ResetDevice()
     CAutoLock lock(this);
     CAutoLock lock2(&m_ImageProcessingLock);
     CAutoLock cRenderLock(&m_allocatorLock);
+
     RemoveAllSamples();
 
     bool bResult = __super::ResetDevice();
@@ -3824,6 +3826,7 @@ STDMETHODIMP_(bool) CSyncAP::ResetDevice()
         HRESULT hr = fnMFCreateVideoSampleFromSurface(m_pVideoSurface[i], &pMFSample);
         if (SUCCEEDED(hr)) {
             pMFSample->SetUINT32(GUID_SURFACE_INDEX, i);
+            CAutoLock sampleQueueLock(&m_SampleQueueLock);
             m_FreeSamples.AddTail(pMFSample);
         }
         ASSERT(SUCCEEDED(hr));
@@ -3846,7 +3849,9 @@ void CSyncAP::OnResetDevice()
 
 void CSyncAP::RemoveAllSamples()
 {
-    CAutoLock AutoLock(&m_ImageProcessingLock);
+    CAutoLock imageProcesssingLock(&m_ImageProcessingLock);
+    CAutoLock sampleQueueLock(&m_SampleQueueLock);
+
     FlushSamples();
     m_ScheduledSamples.RemoveAll();
     m_FreeSamples.RemoveAll();
@@ -3902,11 +3907,11 @@ void CSyncAP::MoveToFreeList(IMFSample* pSample, bool bTail)
 
 void CSyncAP::MoveToScheduledList(IMFSample* pSample, bool _bSorted)
 {
+    CAutoLock lock(&m_SampleQueueLock);
+
     if (_bSorted) {
-        CAutoLock lock(&m_SampleQueueLock);
         m_ScheduledSamples.AddHead(pSample);
     } else {
-        CAutoLock lock(&m_SampleQueueLock);
         m_ScheduledSamples.AddTail(pSample);
     }
 }

@@ -1467,6 +1467,7 @@ STDMETHODIMP CEVRAllocatorPresenter::InitializeDevice(IMFMediaType* pMediaType)
 
             if (SUCCEEDED(hr)) {
                 pMFSample->SetUINT32(GUID_SURFACE_INDEX, i);
+                CAutoLock sampleQueueLock(&m_SampleQueueLock);
                 m_FreeSamples.AddTail(pMFSample);
             }
             ASSERT(SUCCEEDED(hr));
@@ -1860,6 +1861,7 @@ STDMETHODIMP_(bool) CEVRAllocatorPresenter::ResetDevice()
 
         if (SUCCEEDED(hr)) {
             pMFSample->SetUINT32(GUID_SURFACE_INDEX, i);
+            CAutoLock sampleQueueLock(&m_SampleQueueLock);
             m_FreeSamples.AddTail(pMFSample);
         }
         ASSERT(SUCCEEDED(hr));
@@ -2468,7 +2470,8 @@ void CEVRAllocatorPresenter::OnResetDevice()
 
 void CEVRAllocatorPresenter::RemoveAllSamples()
 {
-    CAutoLock AutoLock(&m_ImageProcessingLock);
+    CAutoLock imageProcesssingLock(&m_ImageProcessingLock);
+    CAutoLock sampleQueueLock(&m_SampleQueueLock);
 
     FlushSamples();
     m_ScheduledSamples.RemoveAll();
