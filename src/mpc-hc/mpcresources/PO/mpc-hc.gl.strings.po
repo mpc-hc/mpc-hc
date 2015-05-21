@@ -1385,6 +1385,14 @@ msgctxt "IDS_TIMER_HIGH_PRECISION"
 msgid "High precision"
 msgstr "Alta precisión"
 
+msgctxt "IDS_AFTERPLAYBACK_REWIND"
+msgid "After Playback: Rewind current file"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_CLOSE"
+msgid "After Playback: Close"
+msgstr ""
+
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
 msgstr "Abrir Dispositivo"
@@ -3485,7 +3493,7 @@ msgctxt "IDS_WEBSERVER_ERROR_TEST"
 msgid "You need to apply the new settings before testing them."
 msgstr "Vostede precisa aplicar as novas configuracións antes de probar."
 
-msgctxt "IDS_AFTERPLAYBACK_CLOSE"
+msgctxt "IDS_AFTERPLAYBACK_EXIT"
 msgid "After Playback: Exit"
 msgstr "Despois da reprodución: Pechar ficheiro"
 

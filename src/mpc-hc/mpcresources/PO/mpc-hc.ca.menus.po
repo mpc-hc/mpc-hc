@@ -592,7 +592,7 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "Després de la Re&producció"
 
-msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
 msgstr "&Tanca"
 

@@ -1542,7 +1542,7 @@ BEGIN
         END
         POPUP "Af&ter Playback"
         BEGIN
-            MENUITEM "&Exit",                       ID_AFTERPLAYBACK_CLOSE
+            MENUITEM "&Exit",                       ID_AFTERPLAYBACK_EXIT
             MENUITEM "&Stand By",                   ID_AFTERPLAYBACK_STANDBY
             MENUITEM "&Hibernate",                  ID_AFTERPLAYBACK_HIBERNATE
             MENUITEM "Shut&down",                   ID_AFTERPLAYBACK_SHUTDOWN
@@ -1696,7 +1696,7 @@ BEGIN
         END
         POPUP "Af&ter Playback"
         BEGIN
-            MENUITEM "&Exit",                       ID_AFTERPLAYBACK_CLOSE
+            MENUITEM "&Exit",                       ID_AFTERPLAYBACK_EXIT
             MENUITEM "&Stand By",                   ID_AFTERPLAYBACK_STANDBY
             MENUITEM "&Hibernate",                  ID_AFTERPLAYBACK_HIBERNATE
             MENUITEM "Shut&down",                   ID_AFTERPLAYBACK_SHUTDOWN
@@ -2038,7 +2038,7 @@ BEGIN
         END
         POPUP "Af&ter Playback"
         BEGIN
-            MENUITEM "&Exit",                       ID_AFTERPLAYBACK_CLOSE
+            MENUITEM "&Exit",                       ID_AFTERPLAYBACK_EXIT
             MENUITEM "&Stand By",                   ID_AFTERPLAYBACK_STANDBY
             MENUITEM "&Hibernate",                  ID_AFTERPLAYBACK_HIBERNATE
             MENUITEM "Shut&down",                   ID_AFTERPLAYBACK_SHUTDOWN
@@ -2654,6 +2654,8 @@ BEGIN
     IDS_PPAGEADVANCED_LOGGER "Enables logging to file (requires restart)"
     IDS_TIMER_REMAINING_TIME "Remaining time"
     IDS_TIMER_HIGH_PRECISION "High precision"
+    IDS_AFTERPLAYBACK_REWIND "After Playback: Rewind current file"
+    IDS_AFTERPLAYBACK_CLOSE "After Playback: Close"
 END
 
 STRINGTABLE
@@ -3402,7 +3404,7 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_AFTERPLAYBACK_CLOSE "After Playback: Exit"
+    IDS_AFTERPLAYBACK_EXIT  "After Playback: Exit"
     IDS_AFTERPLAYBACK_STANDBY "After Playback: Stand By"
     IDS_AFTERPLAYBACK_HIBERNATE "After Playback: Hibernate"
     IDS_AFTERPLAYBACK_SHUTDOWN "After Playback: Shutdown"

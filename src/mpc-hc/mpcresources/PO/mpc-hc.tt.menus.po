@@ -589,7 +589,7 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "Уйнату тәмамлангач"
 
-msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
 msgstr "Программаны ябарга"
 

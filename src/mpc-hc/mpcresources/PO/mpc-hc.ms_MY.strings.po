@@ -1384,6 +1384,14 @@ msgctxt "IDS_TIMER_HIGH_PRECISION"
 msgid "High precision"
 msgstr "Kejituan tinggi"
 
+msgctxt "IDS_AFTERPLAYBACK_REWIND"
+msgid "After Playback: Rewind current file"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_CLOSE"
+msgid "After Playback: Close"
+msgstr ""
+
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
 msgstr "Buka Peranti"
@@ -3484,7 +3492,7 @@ msgctxt "IDS_WEBSERVER_ERROR_TEST"
 msgid "You need to apply the new settings before testing them."
 msgstr "Anda perlu laksanakan tetapan baharu sebelum mengunjinya."
 
-msgctxt "IDS_AFTERPLAYBACK_CLOSE"
+msgctxt "IDS_AFTERPLAYBACK_EXIT"
 msgid "After Playback: Exit"
 msgstr "Selepas Main Balik: Keluar"
 

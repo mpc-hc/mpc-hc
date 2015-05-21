@@ -589,7 +589,7 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "P&o přehrání"
 
-msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
 msgstr "Zavřít přehrávač"
 

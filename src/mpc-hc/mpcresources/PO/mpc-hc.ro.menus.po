@@ -589,7 +589,7 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "Du&pă redare"
 
-msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
 msgstr "Î&nchide programul"
 

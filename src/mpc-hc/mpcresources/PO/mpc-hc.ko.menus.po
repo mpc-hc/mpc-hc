@@ -589,7 +589,7 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "재생이 끝나면"
 
-msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
 msgstr "파일 닫기 "
 

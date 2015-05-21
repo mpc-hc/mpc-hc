@@ -590,7 +590,7 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "Ef&ter afspilning"
 
-msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
 msgstr "&Afslut"
 

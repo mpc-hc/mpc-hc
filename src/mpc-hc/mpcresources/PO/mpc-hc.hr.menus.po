@@ -590,7 +590,7 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "Na&kon reprodukcije"
 
-msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
 msgstr "&Zatvori program"
 

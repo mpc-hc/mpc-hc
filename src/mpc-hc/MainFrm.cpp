@@ -469,8 +469,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_COMMAND_RANGE(ID_NORMALIZE, ID_REGAIN_VOLUME, OnNormalizeRegainVolume)
     ON_UPDATE_COMMAND_UI_RANGE(ID_NORMALIZE, ID_REGAIN_VOLUME, OnUpdateNormalizeRegainVolume)
     ON_COMMAND_RANGE(ID_COLOR_BRIGHTNESS_INC, ID_COLOR_RESET, OnPlayColor)
-    ON_UPDATE_COMMAND_UI_RANGE(ID_AFTERPLAYBACK_CLOSE, ID_AFTERPLAYBACK_MONITOROFF, OnUpdateAfterplayback)
-    ON_COMMAND_RANGE(ID_AFTERPLAYBACK_CLOSE, ID_AFTERPLAYBACK_MONITOROFF, OnAfterplayback)
+    ON_UPDATE_COMMAND_UI_RANGE(ID_AFTERPLAYBACK_EXIT, ID_AFTERPLAYBACK_MONITOROFF, OnUpdateAfterplayback)
+    ON_COMMAND_RANGE(ID_AFTERPLAYBACK_EXIT, ID_AFTERPLAYBACK_MONITOROFF, OnAfterplayback)
     ON_UPDATE_COMMAND_UI(ID_AFTERPLAYBACK_PLAYNEXT, OnUpdateAfterplayback)
     ON_COMMAND_RANGE(ID_AFTERPLAYBACK_PLAYNEXT, ID_AFTERPLAYBACK_PLAYNEXT, OnAfterplayback)
 
@@ -8153,9 +8153,9 @@ void CMainFrame::OnAfterplayback(UINT nID)
     };
 
     switch (nID) {
-        case ID_AFTERPLAYBACK_CLOSE:
+        case ID_AFTERPLAYBACK_EXIT:
             toggleOption(CLSW_CLOSE);
-            osdMsg = IDS_AFTERPLAYBACK_CLOSE;
+            osdMsg = IDS_AFTERPLAYBACK_EXIT;
             break;
         case ID_AFTERPLAYBACK_STANDBY:
             toggleOption(CLSW_STANDBY);
@@ -8186,18 +8186,44 @@ void CMainFrame::OnAfterplayback(UINT nID)
             osdMsg = IDS_AFTERPLAYBACK_PLAYNEXT;
             break;
     }
+    if (bDisable) {
+        switch (s.eAfterPlayback) {
+            case CAppSettings::AfterPlayback::PLAY_NEXT:
+                osdMsg = IDS_AFTERPLAYBACK_PLAYNEXT;
+                break;
+            case CAppSettings::AfterPlayback::REWIND:
+                osdMsg = IDS_AFTERPLAYBACK_REWIND;
+                break;
+            case CAppSettings::AfterPlayback::MONITOROFF:
+                osdMsg = IDS_AFTERPLAYBACK_MONITOROFF;
+                break;
+            case CAppSettings::AfterPlayback::CLOSE:
+                osdMsg = IDS_AFTERPLAYBACK_CLOSE;
+                break;
+            case CAppSettings::AfterPlayback::EXIT:
+                osdMsg = IDS_AFTERPLAYBACK_EXIT;
+                break;
+            default:
+                ASSERT(FALSE);
+            case CAppSettings::AfterPlayback::DO_NOTHING:
+                osdMsg = IDS_AFTERPLAYBACK_DONOTHING;
+                break;
+        }
+    }
 
-    m_OSD.DisplayMessage(OSD_TOPLEFT, bDisable ? ResStr(IDS_AFTERPLAYBACK_DONOTHING) : ResStr(osdMsg));
+    m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(osdMsg));
 }
 
 void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
 {
     const CAppSettings& s = AfxGetAppSettings();
     bool bChecked = false;
+    bool bRadio = false;
 
     switch (pCmdUI->m_nID) {
-        case ID_AFTERPLAYBACK_CLOSE:
+        case ID_AFTERPLAYBACK_EXIT:
             bChecked = !!(s.nCLSwitches & CLSW_CLOSE);
+            bRadio = s.eAfterPlayback == CAppSettings::AfterPlayback::EXIT;
             break;
         case ID_AFTERPLAYBACK_STANDBY:
             bChecked = !!(s.nCLSwitches & CLSW_STANDBY);
@@ -8216,14 +8242,21 @@ void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
             break;
         case ID_AFTERPLAYBACK_MONITOROFF:
             bChecked = !!(s.nCLSwitches & CLSW_MONITOROFF);
+            bRadio = s.eAfterPlayback == CAppSettings::AfterPlayback::MONITOROFF;
             break;
         case ID_AFTERPLAYBACK_PLAYNEXT:
             bChecked = !!(s.nCLSwitches & CLSW_PLAYNEXT);
+            bRadio = s.eAfterPlayback == CAppSettings::AfterPlayback::PLAY_NEXT;
             break;
     }
 
-    pCmdUI->Enable();
-    pCmdUI->SetCheck(bChecked);
+    pCmdUI->Enable(!bRadio);
+
+    if (bRadio) {
+        pCmdUI->m_pMenu->CheckMenuRadioItem(pCmdUI->m_nID, pCmdUI->m_nID, pCmdUI->m_nID, MF_BYCOMMAND);
+    } else {
+        pCmdUI->SetCheck(bChecked);
+    }
 }
 
 bool CMainFrame::SeekToFileChapter(int iChapter, bool bRelative /*= false*/)
