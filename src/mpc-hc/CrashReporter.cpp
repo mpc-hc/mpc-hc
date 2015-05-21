@@ -19,14 +19,15 @@
  */
 
 #include "stdafx.h"
-#include <DbgHelp.h>
 #include "CrashReporter.h"
+#ifndef _DEBUG
+#include <DbgHelp.h>
 #include "CrashReporterDialog.h"
 #include "VersionInfo.h"
 #include "mpc-hc_config.h"
 #include "DoctorDump/CrashRpt.h"
 
-#ifndef _DEBUG
+
 using namespace crash_rpt;
 
 namespace CrashReporter
