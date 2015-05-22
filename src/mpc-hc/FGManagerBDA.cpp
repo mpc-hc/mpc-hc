@@ -463,19 +463,24 @@ HRESULT CFGManagerBDA::ConnectFilters(IBaseFilter* pOutFilter, IBaseFilter* pInF
                         && S_OK != IsPinConnected(pInPin)) {
                     hr = this->ConnectDirect(pOutPin, pInPin, nullptr);
 
-                    /*#ifdef _DEBUG
-                    PIN_INFO InfoPinIn, InfoPinOut;
-                    FILTER_INFO InfoFilterIn, InfoFilterOut;
-                    pInPin->QueryPinInfo (&InfoPinIn);
-                    pOutPin->QueryPinInfo (&InfoPinOut);
-                    InfoPinIn.pFilter->QueryFilterInfo(&InfoFilterIn);
-                    InfoPinOut.pFilter->QueryFilterInfo(&InfoFilterOut);
+#if 0 && defined(_DEBUG) // Disabled by default because it can be verbose
+                    CPinInfo infoPinIn, infoPinOut;
+                    infoPinIn.achName[0] = infoPinOut.achName[0] = L'\0';
+                    CFilterInfo infoFilterIn, infoFilterOut;
+                    infoFilterIn.achName[0] = infoFilterOut.achName[0] = L'\0';
 
-                    TRACE(_T("%s - %s => %s - %s (hr=0x%08x)\n"), InfoFilterOut.achName, InfoPinOut.achName, InfoFilterIn.achName, InfoPinIn.achName, hr);
+                    pInPin->QueryPinInfo(&infoPinIn);
+                    if (infoPinIn.pFilter) {
+                        infoPinIn.pFilter->QueryFilterInfo(&infoFilterIn);
+                    }
+                    pOutPin->QueryPinInfo(&infoPinOut);
+                    if (infoPinOut.pFilter) {
+                        infoPinOut.pFilter->QueryFilterInfo(&infoFilterOut);
+                    }
 
-                    InfoPinIn.pFilter->Release();
-                    InfoPinOut.pFilter->Release();
-                    #endif*/
+                    TRACE(_T("%s - %s => %s - %s (hr=0x%08x)\n"), infoFilterOut.achName, infoPinOut.achName, infoFilterIn.achName, infoPinIn.achName, hr);
+#endif
+
                     if (SUCCEEDED(hr)) {
                         return hr;
                     }
