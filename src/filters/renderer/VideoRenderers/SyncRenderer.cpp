@@ -713,14 +713,13 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
     CComPtr<IEnumPins> rendererInputEnum;
     std::vector<CComPtr<IPin>> decoderOutput;
     std::vector<CComPtr<IPin>> rendererInput;
-    FILTER_INFO filterInfo;
-    ZeroMemory(&filterInfo, sizeof(filterInfo));
+    CFilterInfo filterInfo;
 
-    bool disconnected = FALSE;
+    bool disconnected = false;
 
     // Disconnect all pins to release video memory resources
     if (m_pD3DDev) {
-        m_pOuterEVR->QueryFilterInfo(&filterInfo); // This addref's the pGraph member
+        m_pOuterEVR->QueryFilterInfo(&filterInfo);
         if (SUCCEEDED(m_pOuterEVR->EnumPins(&rendererInputEnum))) {
             CComPtr<IPin> input;
             CComPtr<IPin> output;
@@ -737,13 +736,15 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
         } else {
             return hr;
         }
-        for (DWORD i = 0; i < decoderOutput.size(); i++) {
-            TRACE(_T("Disconnecting pin\n"));
-            filterInfo.pGraph->Disconnect(decoderOutput.at(i).p);
-            filterInfo.pGraph->Disconnect(rendererInput.at(i).p);
-            TRACE(_T("Pin disconnected\n"));
+        if (filterInfo.pGraph) {
+            for (size_t i = 0; i < decoderOutput.size(); i++) {
+                TRACE(_T("Disconnecting pin\n"));
+                filterInfo.pGraph->Disconnect(decoderOutput[i].p);
+                filterInfo.pGraph->Disconnect(rendererInput[i].p);
+                TRACE(_T("Pin disconnected\n"));
+            }
+            disconnected = true;
         }
-        disconnected = true;
     }
 
     // Release more resources
@@ -861,14 +862,10 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
     }
 
     if (disconnected) {
-        for (DWORD i = 0; i < decoderOutput.size(); i++) {
-            if (FAILED(filterInfo.pGraph->ConnectDirect(decoderOutput.at(i).p, rendererInput.at(i).p, nullptr))) {
+        for (size_t i = 0; i < decoderOutput.size(); i++) {
+            if (FAILED(filterInfo.pGraph->ConnectDirect(decoderOutput[i].p, rendererInput[i].p, nullptr))) {
                 return hr;
             }
-        }
-
-        if (filterInfo.pGraph != nullptr) {
-            filterInfo.pGraph->Release();
         }
     }
 
@@ -3942,10 +3939,9 @@ HRESULT CSyncAP::BeginStreaming()
     m_pcFramesDrawn = 0;
 
     CComPtr<IBaseFilter> pEVR;
-    FILTER_INFO filterInfo;
-    ZeroMemory(&filterInfo, sizeof(filterInfo));
+    CFilterInfo filterInfo;
     m_pOuterEVR->QueryInterface(IID_PPV_ARGS(&pEVR));
-    pEVR->QueryFilterInfo(&filterInfo); // This addref's the pGraph member
+    pEVR->QueryFilterInfo(&filterInfo);
 
     BeginEnumFilters(filterInfo.pGraph, pEF, pBF);
     if (CComQIPtr<IAMAudioRendererStats> pAS = pBF) {
@@ -3954,9 +3950,6 @@ HRESULT CSyncAP::BeginStreaming()
     EndEnumFilters;
 
     pEVR->GetSyncSource(&m_pRefClock);
-    if (filterInfo.pGraph) {
-        filterInfo.pGraph->Release();
-    }
     m_pGenlock->SetMonitor(GetAdapter(m_pD3D, m_hWnd));
     m_pGenlock->GetTiming();
 
