@@ -579,6 +579,7 @@ void CAppSettings::CreateCommands()
     wmcmds.AddTail({ID_SUB_DELAY_DOWN,                VK_F1, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_104});
     wmcmds.AddTail({ID_SUB_DELAY_UP,                  VK_F2, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_105});
 
+    wmcmds.AddTail({ID_AFTERPLAYBACK_DONOTHING,           0, FVIRTKEY | FNOINVERT,                    IDS_AFTERPLAYBACK_DONOTHING});
     wmcmds.AddTail({ID_AFTERPLAYBACK_EXIT,                0, FVIRTKEY | FNOINVERT,                    IDS_AFTERPLAYBACK_EXIT});
     wmcmds.AddTail({ID_AFTERPLAYBACK_STANDBY,             0, FVIRTKEY | FNOINVERT,                    IDS_AFTERPLAYBACK_STANDBY});
     wmcmds.AddTail({ID_AFTERPLAYBACK_HIBERNATE,           0, FVIRTKEY | FNOINVERT,                    IDS_AFTERPLAYBACK_HIBERNATE});

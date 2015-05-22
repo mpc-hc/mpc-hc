@@ -1542,6 +1542,7 @@ BEGIN
         END
         POPUP "Af&ter Playback"
         BEGIN
+            MENUITEM "Do no&thing",                 ID_AFTERPLAYBACK_DONOTHING
             MENUITEM "&Exit",                       ID_AFTERPLAYBACK_EXIT
             MENUITEM "&Stand By",                   ID_AFTERPLAYBACK_STANDBY
             MENUITEM "&Hibernate",                  ID_AFTERPLAYBACK_HIBERNATE
@@ -1696,6 +1697,7 @@ BEGIN
         END
         POPUP "Af&ter Playback"
         BEGIN
+            MENUITEM "Do no&thing",                 ID_AFTERPLAYBACK_DONOTHING
             MENUITEM "&Exit",                       ID_AFTERPLAYBACK_EXIT
             MENUITEM "&Stand By",                   ID_AFTERPLAYBACK_STANDBY
             MENUITEM "&Hibernate",                  ID_AFTERPLAYBACK_HIBERNATE
@@ -2038,6 +2040,7 @@ BEGIN
         END
         POPUP "Af&ter Playback"
         BEGIN
+            MENUITEM "Do no&thing",                 ID_AFTERPLAYBACK_DONOTHING
             MENUITEM "&Exit",                       ID_AFTERPLAYBACK_EXIT
             MENUITEM "&Stand By",                   ID_AFTERPLAYBACK_STANDBY
             MENUITEM "&Hibernate",                  ID_AFTERPLAYBACK_HIBERNATE

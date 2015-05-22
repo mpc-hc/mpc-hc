@@ -471,8 +471,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_COMMAND_RANGE(ID_COLOR_BRIGHTNESS_INC, ID_COLOR_RESET, OnPlayColor)
     ON_UPDATE_COMMAND_UI_RANGE(ID_AFTERPLAYBACK_EXIT, ID_AFTERPLAYBACK_MONITOROFF, OnUpdateAfterplayback)
     ON_COMMAND_RANGE(ID_AFTERPLAYBACK_EXIT, ID_AFTERPLAYBACK_MONITOROFF, OnAfterplayback)
-    ON_UPDATE_COMMAND_UI(ID_AFTERPLAYBACK_PLAYNEXT, OnUpdateAfterplayback)
-    ON_COMMAND_RANGE(ID_AFTERPLAYBACK_PLAYNEXT, ID_AFTERPLAYBACK_PLAYNEXT, OnAfterplayback)
+    ON_UPDATE_COMMAND_UI_RANGE(ID_AFTERPLAYBACK_PLAYNEXT, ID_AFTERPLAYBACK_DONOTHING, OnUpdateAfterplayback)
+    ON_COMMAND_RANGE(ID_AFTERPLAYBACK_PLAYNEXT, ID_AFTERPLAYBACK_DONOTHING, OnAfterplayback)
 
     ON_COMMAND_RANGE(ID_NAVIGATE_SKIPBACK, ID_NAVIGATE_SKIPFORWARD, OnNavigateSkip)
     ON_UPDATE_COMMAND_UI_RANGE(ID_NAVIGATE_SKIPBACK, ID_NAVIGATE_SKIPFORWARD, OnUpdateNavigateSkip)
@@ -2183,7 +2183,9 @@ void CMainFrame::DoAfterPlaybackEvent()
     bool bExitFullScreen = false;
     bool bNoMoreMedia = false;
 
-    if (s.nCLSwitches & CLSW_CLOSE) {
+    if (s.nCLSwitches & CLSW_DONOTHING) {
+        // Do nothing
+    } else if (s.nCLSwitches & CLSW_CLOSE) {
         SendMessage(WM_COMMAND, ID_FILE_EXIT);
     } else if (s.nCLSwitches & CLSW_MONITOROFF) {
         m_fEndOfStream = true;
@@ -8185,6 +8187,10 @@ void CMainFrame::OnAfterplayback(UINT nID)
             toggleOption(CLSW_PLAYNEXT);
             osdMsg = IDS_AFTERPLAYBACK_PLAYNEXT;
             break;
+        case ID_AFTERPLAYBACK_DONOTHING:
+            toggleOption(CLSW_DONOTHING);
+            osdMsg = IDS_AFTERPLAYBACK_DONOTHING;
+            break;
     }
     if (bDisable) {
         switch (s.eAfterPlayback) {
@@ -8247,6 +8253,10 @@ void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
         case ID_AFTERPLAYBACK_PLAYNEXT:
             bChecked = !!(s.nCLSwitches & CLSW_PLAYNEXT);
             bRadio = s.eAfterPlayback == CAppSettings::AfterPlayback::PLAY_NEXT;
+            break;
+        case ID_AFTERPLAYBACK_DONOTHING:
+            bChecked = !!(s.nCLSwitches & CLSW_DONOTHING);
+            bRadio = s.eAfterPlayback == CAppSettings::AfterPlayback::DO_NOTHING;
             break;
     }
 

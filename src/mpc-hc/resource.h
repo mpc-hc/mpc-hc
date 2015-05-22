@@ -219,6 +219,7 @@
 #define ID_DUMMYSEPARATOR               945
 #define ID_BUTTONSEP                    946
 #define ID_AFTERPLAYBACK_PLAYNEXT       947
+#define ID_AFTERPLAYBACK_DONOTHING      948
 #define ID_MENU_PLAYER_SHORT            949
 #define ID_MENU_PLAYER_LONG             950
 #define ID_MENU_FILTERS                 951

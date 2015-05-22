@@ -589,6 +589,10 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "หลังเล่น&จบ"
 
+msgctxt "ID_AFTERPLAYBACK_DONOTHING"
+msgid "Do no&thing"
+msgstr ""
+
 msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
 msgstr "&ออก"

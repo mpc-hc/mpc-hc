@@ -588,6 +588,10 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "Af&ter Playback"
 
+msgctxt "ID_AFTERPLAYBACK_DONOTHING"
+msgid "Do no&thing"
+msgstr ""
+
 msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
 msgstr "&Exit"

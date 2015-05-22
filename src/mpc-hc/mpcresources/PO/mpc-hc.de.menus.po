@@ -592,6 +592,10 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "Nach Wieder&gabe"
 
+msgctxt "ID_AFTERPLAYBACK_DONOTHING"
+msgid "Do no&thing"
+msgstr ""
+
 msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
 msgstr "&Programm beenden"
