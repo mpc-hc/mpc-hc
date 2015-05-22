@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -116,7 +116,7 @@ bool CPinInfoWnd::OnActivate()
                          IDC_PP_EDIT1);
     m_info_edit.SetLimitText(60000);
 
-    OnCbnSelchangeCombo1();
+    OnSelectedPinChange();
 
     for (CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow()) {
         pWnd->SetFont(&m_font, FALSE);
@@ -151,7 +151,7 @@ BOOL CPinInfoWnd::OnWndMsg(UINT message, WPARAM wParam, LPARAM lParam, LRESULT* 
 }
 
 BEGIN_MESSAGE_MAP(CPinInfoWnd, CInternalPropertyPageWnd)
-    ON_CBN_SELCHANGE(IDC_PP_COMBO1, OnCbnSelchangeCombo1)
+    ON_CBN_SELCHANGE(IDC_PP_COMBO1, OnSelectedPinChange)
 END_MESSAGE_MAP()
 
 void CPinInfoWnd::AddLine(CString str)
@@ -162,7 +162,7 @@ void CPinInfoWnd::AddLine(CString str)
     m_info_edit.ReplaceSel(str);
 }
 
-void CPinInfoWnd::OnCbnSelchangeCombo1()
+void CPinInfoWnd::OnSelectedPinChange()
 {
     m_info_edit.SetWindowText(_T(""));
 
@@ -177,29 +177,27 @@ void CPinInfoWnd::OnCbnSelchangeCombo1()
     }
 
     CString str;
-    PIN_INFO PinInfo;
+    CPinInfo pinInfo;
 
-    if (SUCCEEDED(pPin->QueryPinInfo(&PinInfo))) {
+    if (SUCCEEDED(pPin->QueryPinInfo(&pinInfo))) {
         CString strName;
-        CLSID   FilterClsid;
-        FILTER_INFO FilterInfo;
+        CLSID   filterClsid;
+        CFilterInfo filterInfo;
 
-        if (SUCCEEDED(PinInfo.pFilter->QueryFilterInfo(&FilterInfo))) {
+        if (SUCCEEDED(pinInfo.pFilter->QueryFilterInfo(&filterInfo))) {
             CRegKey key;
-            PinInfo.pFilter->GetClassID(&FilterClsid);
+            pinInfo.pFilter->GetClassID(&filterClsid);
             TCHAR buff[128];
             ULONG len = _countof(buff);
-            if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, _T("CLSID\\{083863F1-70DE-11D0-BD40-00A0C911CE86}\\Instance\\") + CStringFromGUID(FilterClsid), KEY_READ)
+            if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, _T("CLSID\\{083863F1-70DE-11D0-BD40-00A0C911CE86}\\Instance\\") + CStringFromGUID(filterClsid), KEY_READ)
                     && ERROR_SUCCESS == key.QueryStringValue(_T("FriendlyName"), buff, &len)) {
                 strName = CString(buff);
             } else {
-                strName = FilterInfo.achName;
+                strName = filterInfo.achName;
             }
-            str.Format(_T("Filter : %s - CLSID : %s\n\n"), strName, CStringFromGUID(FilterClsid));
+            str.Format(_T("Filter : %s - CLSID : %s\n\n"), strName, CStringFromGUID(filterClsid));
             AddLine(str);
-            FilterInfo.pGraph->Release();
         }
-        PinInfo.pFilter->Release();
     }
 
     CMediaTypeEx cmt;
