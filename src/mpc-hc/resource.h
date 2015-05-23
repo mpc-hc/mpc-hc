@@ -291,12 +291,10 @@
 #define ID_NAVIGATE_JUMPTO_SUBITEM_START 4300
 #define ID_NAVIGATE_JUMPTO_SUBITEM_END  4899
 #define ID_VIEW_ZOOM_AUTOFIT_LARGER     4900
-// filters
 #define IDS_FILTER_SETTINGS_CAPTION     7000
 #define IDS_ARS_WASAPI_MODE             7100
 #define IDS_ARS_MUTE_FAST_FORWARD       7101
 #define IDS_ARS_SOUND_DEVICE            7102
-//
 #define IDD_OPEN_DLG                    10000
 #define IDD_MEDIATYPES_DLG              10002
 #define IDD_SAVE_DLG                    10004
@@ -1474,7 +1472,7 @@
 #define IDS_TIMER_HIGH_PRECISION        57432
 
 // Next default values for new objects
-//
+// 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        20018
