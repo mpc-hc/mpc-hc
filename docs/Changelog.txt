@@ -36,7 +36,7 @@ next version - not released yet
 * Updated MediaInfoLib to v0.7.73
 * Updated ZenLib to v0.4.31
 * Updated SoundTouch to v1.9.0
-* Updated LAV Filters to v0.65.0.7:
+* Updated LAV Filters to v0.65.0.9:
     - LAV Video Decoder: Faster DXVA decoding in copy-back mode (direct output mode)
     - LAV Video Decoder: Support for HEVC Main10 DXVA2 decoding in copy-back mode
     - LAV Audio Decoder: Support for native DTS-HD decoding using libdcadec

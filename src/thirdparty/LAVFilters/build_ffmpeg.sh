@@ -33,18 +33,10 @@ DCADEC_BUILD_PATH=${THIRDPARTYPREFIX}/dcadec
 export PKG_CONFIG_PATH="${DCADEC_BUILD_PATH}"
 
 make_dirs() {
-  if [ ! -d ${FFMPEG_LIB_PATH} ]; then
-    mkdir -p ${FFMPEG_LIB_PATH}
-  fi
-  if [ ! -d ${FFMPEG_BUILD_PATH} ]; then
-    mkdir -p ${FFMPEG_BUILD_PATH}
-  fi
-  if [ ! -d ${DCADEC_BUILD_PATH} ]; then
-    mkdir -p ${DCADEC_BUILD_PATH}
-  fi
-  if [ ! -d ${FFMPEG_DLL_PATH} ]; then
-    mkdir -p ${FFMPEG_DLL_PATH}
-  fi
+  mkdir -p ${FFMPEG_LIB_PATH}
+  mkdir -p ${FFMPEG_BUILD_PATH}
+  mkdir -p ${DCADEC_BUILD_PATH}
+  mkdir -p ${FFMPEG_DLL_PATH}
 }
 
 copy_libs() {
