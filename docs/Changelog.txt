@@ -35,7 +35,7 @@ next version - not released yet
 * Updated Unrar to v5.2.7
 * Updated MediaInfoLib to v0.7.73
 * Updated ZenLib to v0.4.31
-* Updated SoundTouch to v1.8.0 r208
+* Updated SoundTouch to v1.9.0
 * Updated LAV Filters to v0.65.0.7:
     - LAV Video Decoder: Faster DXVA decoding in copy-back mode (direct output mode)
     - LAV Video Decoder: Support for HEVC Main10 DXVA2 decoding in copy-back mode
