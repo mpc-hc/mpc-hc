@@ -532,7 +532,9 @@ void CPlayerPlaylistBar::Append(CAtlList<CString>& fns, bool fMulti, CAtlList<CS
     if (posFirstAdded) {
         EnsureVisible(m_pl.GetTailPosition()); // This ensures that we maximize the number of newly added items shown
         EnsureVisible(posFirstAdded);
-        m_list.SetItemState(iFirstAdded, LVIS_SELECTED, LVIS_SELECTED);
+        if (iFirstAdded) { // Select the first added item only if some were already present
+            m_list.SetItemState(iFirstAdded, LVIS_SELECTED, LVIS_SELECTED);
+        }
     }
 }
 
@@ -717,6 +719,8 @@ void CPlayerPlaylistBar::SetFirstSelected()
         while (m_pl.GetNextWrap(pos).m_fInvalid && pos != org) {
             ;
         }
+        // Select the first item to be played when no item was previously selected
+        m_list.SetItemState(FindItem(pos), LVIS_SELECTED, LVIS_SELECTED);
     }
     UpdateList();
     m_pl.SetPos(pos);
