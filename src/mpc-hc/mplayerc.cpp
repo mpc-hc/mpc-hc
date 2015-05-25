@@ -1453,7 +1453,10 @@ BOOL CMPlayerCApp::InitInstance()
     // Remove the working directory from the search path to work around the DLL preloading vulnerability
     SetDllDirectory(_T(""));
 
-    CrashReporter::Enable();
+    // At this point we have not hooked this function yet so we get the real result
+    if (!IsDebuggerPresent()) {
+        CrashReporter::Enable();
+    }
     WorkAroundMathLibraryBug();
 
     if (!HeapSetInformation(nullptr, HeapEnableTerminationOnCorruption, nullptr, 0)) {
