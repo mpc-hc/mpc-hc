@@ -1282,25 +1282,9 @@ void CPlayerPlaylistBar::DropItemOnList()
 
     m_list.DeleteItem(m_nDragIndex);
 
-    CList<CPlaylistItem> tmp;
-    UINT id = UINT_MAX;
     for (int i = 0; i < m_list.GetItemCount(); i++) {
         POSITION pos = (POSITION)m_list.GetItemData(i);
-        CPlaylistItem& pli = m_pl.GetAt(pos);
-        tmp.AddTail(pli);
-        if (pos == m_pl.GetPos()) {
-            id = pli.m_id;
-        }
-    }
-    m_pl.RemoveAll();
-    POSITION pos = tmp.GetHeadPosition();
-    for (int i = 0; pos; i++) {
-        CPlaylistItem& pli = tmp.GetNext(pos);
-        m_pl.AddTail(pli);
-        if (pli.m_id == id) {
-            m_pl.SetPos(m_pl.GetTailPosition());
-        }
-        m_list.SetItemData(i, (DWORD_PTR)m_pl.GetTailPosition());
+        m_pl.MoveToTail(pos);
     }
 
     ResizeListColumn();
@@ -1317,7 +1301,7 @@ BOOL CPlayerPlaylistBar::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResul
     int row = ((pNMHDR->idFrom - 1) >> 10) & 0x3fffff;
     int col = (pNMHDR->idFrom - 1) & 0x3ff;
 
-    if (row < 0 || row >= m_pl.GetCount()) {
+    if (row < 0 || size_t(row) >= m_pl.GetCount()) {
         return FALSE;
     }
 
@@ -1365,7 +1349,7 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
     if (p.x == -1 && p.y == -1) {
         lvhti.iItem = m_list.GetSelectionMark();
 
-        if (lvhti.iItem == -1 && m_pl.GetSize() == 1) {
+        if (lvhti.iItem == -1 && m_pl.GetCount() == 1) {
             lvhti.iItem = 0;
         }
 
@@ -1382,7 +1366,7 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
         m_list.ScreenToClient(&lvhti.pt);
         m_list.SubItemHitTest(&lvhti);
         bOnItem = lvhti.iItem >= 0 && !!(lvhti.flags & LVHT_ONITEM);
-        if (!bOnItem && m_pl.GetSize() == 1) {
+        if (!bOnItem && m_pl.GetCount() == 1) {
             bOnItem = true;
             lvhti.iItem = 0;
         }

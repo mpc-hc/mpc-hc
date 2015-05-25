@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2012, 2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -54,7 +54,7 @@ public:
     CString GetLabel(int i = 0);
 };
 
-class CPlaylist : public CList<CPlaylistItem>
+class CPlaylist : public CAtlList<CPlaylistItem>
 {
 protected:
     POSITION m_pos;

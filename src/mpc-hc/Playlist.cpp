@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -278,11 +278,7 @@ void CPlaylist::SortById()
     }
     qsort(a.GetData(), a.GetCount(), sizeof(plsort_t), compare);
     for (size_t i = 0; i < a.GetCount(); i++) {
-        AddTail(GetAt(a[i].pos));
-        __super::RemoveAt(a[i].pos);
-        if (m_pos == a[i].pos) {
-            m_pos = GetTailPosition();
-        }
+        MoveToTail(a[i].pos);
     }
 }
 
@@ -298,11 +294,7 @@ void CPlaylist::SortByName()
     }
     qsort(a.GetData(), a.GetCount(), sizeof(plsort2_t), compare2);
     for (size_t i = 0; i < a.GetCount(); i++) {
-        AddTail(GetAt(a[i].pos));
-        __super::RemoveAt(a[i].pos);
-        if (m_pos == a[i].pos) {
-            m_pos = GetTailPosition();
-        }
+        MoveToTail(a[i].pos);
     }
 }
 
@@ -316,11 +308,7 @@ void CPlaylist::SortByPath()
     }
     qsort(a.GetData(), a.GetCount(), sizeof(plsort2_t), compare2);
     for (size_t i = 0; i < a.GetCount(); i++) {
-        AddTail(GetAt(a[i].pos));
-        __super::RemoveAt(a[i].pos);
-        if (m_pos == a[i].pos) {
-            m_pos = GetTailPosition();
-        }
+        MoveToTail(a[i].pos);
     }
 }
 
@@ -334,13 +322,8 @@ void CPlaylist::Randomize()
         a[i].n = rand(), a[i].pos = pos;
     }
     qsort(a.GetData(), a.GetCount(), sizeof(plsort_t), compare);
-
     for (size_t i = 0; i < a.GetCount(); i++) {
-        AddTail(GetAt(a[i].pos));
-        __super::RemoveAt(a[i].pos);
-        if (m_pos == a[i].pos) {
-            m_pos = GetTailPosition();
-        }
+        MoveToTail(a[i].pos);
     }
 }
 
@@ -356,8 +339,8 @@ void CPlaylist::SetPos(POSITION pos)
 
 POSITION CPlaylist::Shuffle()
 {
-    static INT_PTR idx = 0;
-    static INT_PTR count = 0;
+    static size_t idx = 0;
+    static size_t count = 0;
     static CAtlArray<plsort_t> a;
 
     ASSERT(GetCount() > 2);
@@ -374,8 +357,8 @@ POSITION CPlaylist::Shuffle()
 
         //Use Fisher-Yates shuffle algorithm
         srand((unsigned)time(nullptr));
-        for (INT_PTR i = 0; i < (count - 1); i++) {
-            INT_PTR r = i + (rand() % (count - i));
+        for (size_t i = 0; i < (count - 1); i++) {
+            size_t r = i + (rand() % (count - i));
             POSITION temp = a[i].pos;
             a[i].pos = a[r].pos;
             a[r].pos = temp;
