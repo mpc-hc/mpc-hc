@@ -37,6 +37,7 @@ IMPLEMENT_DYNAMIC(CPlayerPlaylistBar, CPlayerBar)
 CPlayerPlaylistBar::CPlayerPlaylistBar(CMainFrame* pMainFrame)
     : m_pMainFrame(pMainFrame)
     , m_list(0)
+    , m_pl(AfxGetAppSettings().bShufflePlaylistItems)
     , m_nTimeColWidth(0)
     , m_pDragImage(nullptr)
     , m_bDragging(FALSE)
@@ -643,7 +644,7 @@ void CPlayerPlaylistBar::SetSelIdx(int i)
 
 bool CPlayerPlaylistBar::IsAtEnd()
 {
-    POSITION pos = m_pl.GetPos(), tail = m_pl.GetTailPosition();
+    POSITION pos = m_pl.GetPos(), tail = m_pl.GetShuffleAwareTailPosition();
     bool isAtEnd = (pos && pos == tail);
 
     if (!isAtEnd && pos) {
@@ -714,7 +715,7 @@ void CPlayerPlaylistBar::SetFirstSelected()
     if (pos) {
         pos = FindPos(m_list.GetNextSelectedItem(pos));
     } else {
-        pos = m_pl.GetTailPosition();
+        pos = m_pl.GetShuffleAwareTailPosition();
         POSITION org = pos;
         while (m_pl.GetNextWrap(pos).m_fInvalid && pos != org) {
             ;
@@ -1712,6 +1713,7 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
         break;
         case M_SHUFFLE:
             s.bShufflePlaylistItems = !s.bShufflePlaylistItems;
+            m_pl.SetShuffle(s.bShufflePlaylistItems);
             break;
         case M_HIDEFULLSCREEN:
             s.bHidePlaylistFullScreen = !s.bHidePlaylistFullScreen;

@@ -32,7 +32,9 @@
 UINT CPlaylistItem::m_globalid = 0;
 
 CPlaylistItem::CPlaylistItem()
-    : m_type(file)
+    : m_posNextShuffle(nullptr)
+    , m_posPrevShuffle(nullptr)
+    , m_type(file)
     , m_duration(0)
     , m_vinput(-1)
     , m_vchannel(-1)
@@ -216,8 +218,12 @@ void CPlaylistItem::AutoLoadFiles()
 // CPlaylist
 //
 
-CPlaylist::CPlaylist()
+CPlaylist::CPlaylist(bool bShuffle /*= false*/)
     : m_pos(nullptr)
+    , m_bShuffle(bShuffle)
+    , m_posHeadShuffle(nullptr)
+    , m_posTailShuffle(nullptr)
+    , m_nShuffledListSize(0)
 {
 }
 
@@ -230,13 +236,32 @@ bool CPlaylist::RemoveAll()
     __super::RemoveAll();
     bool bWasPlaying = (m_pos != nullptr);
     m_pos = nullptr;
+    m_posHeadShuffle = m_posTailShuffle = nullptr;
+    m_nShuffledListSize = 0;
     return bWasPlaying;
 }
 
 bool CPlaylist::RemoveAt(POSITION pos)
 {
     if (pos) {
+        // Update the shuffled list
+        if (m_bShuffle) {
+            const CPlaylistItem& pli = GetAt(pos);
+            if (pos == m_posHeadShuffle) {
+                m_posHeadShuffle = pli.m_posNextShuffle;
+            } else {
+                GetAt(pli.m_posPrevShuffle).m_posNextShuffle = pli.m_posNextShuffle;
+            }
+            if (pos == m_posTailShuffle) {
+                m_posTailShuffle = pli.m_posPrevShuffle;
+            } else {
+                GetAt(pli.m_posNextShuffle).m_posPrevShuffle = pli.m_posPrevShuffle;
+            }
+            m_nShuffledListSize--;
+        }
+        // Actually remove the item
         __super::RemoveAt(pos);
+        // Check if it was the currently playing item
         if (m_pos == pos) {
             m_pos = nullptr;
             return true;
@@ -337,56 +362,99 @@ void CPlaylist::SetPos(POSITION pos)
     m_pos = pos;
 }
 
-POSITION CPlaylist::Shuffle()
+POSITION CPlaylist::GetShuffleAwareHeadPosition()
 {
-    static size_t idx = 0;
-    static size_t count = 0;
-    static CAtlArray<plsort_t> a;
-
-    ASSERT(GetCount() > 2);
-    // insert or remove items in playlist, or index out of bounds then recalculate
-    if ((count != GetCount()) || (idx >= GetCount())) {
-        a.RemoveAll();
-        idx = 0;
-        a.SetCount(count = GetCount());
-
-        POSITION pos = GetHeadPosition();
-        for (INT_PTR i = 0; pos; i++, GetNext(pos)) {
-            a[i].pos = pos;    // initialize position array
-        }
-
-        //Use Fisher-Yates shuffle algorithm
-        srand((unsigned)time(nullptr));
-        for (size_t i = 0; i < (count - 1); i++) {
-            size_t r = i + (rand() % (count - i));
-            POSITION temp = a[i].pos;
-            a[i].pos = a[r].pos;
-            a[r].pos = temp;
-        }
+    POSITION posHead;
+    if (m_bShuffle) {
+        ReshuffleIfNeeded();
+        posHead = m_posHeadShuffle;
+    } else {
+        posHead = GetHeadPosition();
     }
+    return posHead;
+}
 
-    return a[idx++].pos;
+POSITION CPlaylist::GetShuffleAwareTailPosition()
+{
+    POSITION posTail;
+    if (m_bShuffle) {
+        ReshuffleIfNeeded();
+        posTail = m_posTailShuffle;
+    } else {
+        posTail = GetTailPosition();
+    }
+    return posTail;
 }
 
 CPlaylistItem& CPlaylist::GetNextWrap(POSITION& pos)
 {
-    if (AfxGetAppSettings().bShufflePlaylistItems && GetCount() > 2) {
-        pos = Shuffle();
+    if (m_bShuffle) {
+        ReshuffleIfNeeded();
+        pos = GetAt(pos).m_posNextShuffle;
     } else {
         GetNext(pos);
-        if (!pos) {
-            pos = GetHeadPosition();
-        }
     }
-
+    if (!pos) {
+        pos = GetShuffleAwareHeadPosition();
+    }
     return GetAt(pos);
 }
 
 CPlaylistItem& CPlaylist::GetPrevWrap(POSITION& pos)
 {
-    GetPrev(pos);
+    if (m_bShuffle) {
+        ReshuffleIfNeeded();
+        pos = GetAt(pos).m_posPrevShuffle;
+    } else {
+        GetPrev(pos);
+    }
     if (!pos) {
-        pos = GetTailPosition();
+        pos = GetShuffleAwareTailPosition();
     }
     return GetAt(pos);
+}
+
+// Calling this function with bEnable equals to true when
+// shuffle is already enabled will re-shuffle the tracks.
+void CPlaylist::SetShuffle(bool bEnable)
+{
+    m_bShuffle = bEnable;
+
+    if (bEnable && !IsEmpty()) {
+        m_nShuffledListSize = GetCount();
+        CAtlArray<plsort_t> positions;
+        positions.SetCount(m_nShuffledListSize + 1);
+        srand((unsigned int)time(nullptr));
+        POSITION pos = GetHeadPosition();
+        for (size_t i = 0; pos; i++, GetNext(pos)) {
+            positions[i].n = rand();
+            positions[i].pos = pos;
+        }
+        qsort(positions.GetData(), m_nShuffledListSize, sizeof(plsort_t), compare);
+        positions[m_nShuffledListSize].pos = nullptr; // Termination
+
+        m_posHeadShuffle = positions[0].pos;
+        m_posTailShuffle = nullptr;
+        for (size_t i = 0; i < m_nShuffledListSize; i++) {
+            pos = positions[i].pos;
+            CPlaylistItem& pli = GetAt(pos);
+            pli.m_posPrevShuffle = m_posTailShuffle;
+            pli.m_posNextShuffle = positions[i + 1].pos;
+            m_posTailShuffle = pos;
+        }
+    } else {
+        m_posHeadShuffle = m_posTailShuffle = nullptr;
+        m_nShuffledListSize = 0;
+    }
+}
+
+// This will reshuffle if the shuffled list size
+// does not match the playlist size.
+bool CPlaylist::ReshuffleIfNeeded()
+{
+    if (m_bShuffle && m_nShuffledListSize != GetCount()) {
+        SetShuffle(true);
+        return true;
+    }
+    return false;
 }
