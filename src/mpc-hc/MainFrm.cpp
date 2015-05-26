@@ -9173,7 +9173,12 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
             monitor = CMonitors::GetNearestMonitor(this);
         }
 
-        SetWindowPos(nullptr, 0, 0, windowSize.cx, windowSize.cy, SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
+        int scrWidth,scrHeight;
+        scrWidth=GetSystemMetrics(SM_CXSCREEN);
+        scrHeight=GetSystemMetrics(SM_CYSCREEN);
+
+        SetWindowPos(nullptr, (scrWidth-windowSize.cx)/2, (scrHeight-windowSize.cy)/2, windowSize.cx, windowSize.cy, SWP_NOZORDER | SWP_NOACTIVATE);
+        //check again
         monitor.CenterWindowToMonitor(this, TRUE);
     }
 
