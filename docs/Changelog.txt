@@ -33,7 +33,7 @@ next version - not released yet
   more reliable than the old method
 * Ticket #5416, Rename "Remaining Time" feature to "Display Current Time" in the "Renderer Settings" menu
   and to "OSD: Display Current Time" in the "Keys" option panel so that it describes the feature accurately
-* Updated Little CMS to v2.7 (git dd0074b)
+* Updated Little CMS to v2.7 (git 6e33faa)
 * Updated Unrar to v5.2.7
 * Updated MediaInfoLib to v0.7.73
 * Updated ZenLib to v0.4.31
