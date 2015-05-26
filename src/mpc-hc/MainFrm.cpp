@@ -9223,15 +9223,6 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
         SetWindowPos(nullptr, windowRect.left, windowRect.top, windowSize.cx, windowSize.cy, SWP_NOZORDER | SWP_NOACTIVATE);
     }
 
-    if (s.fRememberWindowSize && s.fRememberWindowPos) {
-        UINT lastWindowType = s.nLastWindowType;
-        if (lastWindowType == SIZE_MAXIMIZED) {
-            ShowWindow(SW_MAXIMIZE);
-        } else if (lastWindowType == SIZE_MINIMIZED) {
-            ShowWindow(SW_MINIMIZE);
-        }
-    }
-
     if (s.fSavePnSZoom) {
         m_ZoomX = s.dZoomX;
         m_ZoomY = s.dZoomY;

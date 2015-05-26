@@ -1755,14 +1755,30 @@ BOOL CMPlayerCApp::InitInstance()
     pFrame->SetDefaultFullscreenState();
     pFrame->UpdateControlState(CMainFrame::UPDATE_CONTROLS_VISIBILITY);
     pFrame->SetIcon(icon, TRUE);
-    int nCmdShow;
-    if (m_s->nCLSwitches & CLSW_MINIMIZED) {
-        nCmdShow = (m_s->nCLSwitches & CLSW_NOFOCUS) ? SW_SHOWMINNOACTIVE : SW_SHOWMINIMIZED;
+
+    bool bRestoreLastWindowType = m_s->fRememberWindowSize && m_s->fRememberWindowPos;
+    bool bMinimized = (m_s->nCLSwitches & CLSW_MINIMIZED) || (bRestoreLastWindowType && m_s->nLastWindowType == SIZE_MINIMIZED);
+    bool bMaximized = bRestoreLastWindowType && m_s->nLastWindowType == SIZE_MAXIMIZED;
+
+    if (bMinimized) {
+        m_nCmdShow = (m_s->nCLSwitches & CLSW_NOFOCUS) ? SW_SHOWMINNOACTIVE : SW_SHOWMINIMIZED;
+    } else if (bMaximized) {
+        // Show maximized without focus is not supported nor make sense.
+        m_nCmdShow = (m_s->nCLSwitches & CLSW_NOFOCUS) ? SW_SHOWNOACTIVATE : SW_SHOWMAXIMIZED;
     } else {
-        nCmdShow = (m_s->nCLSwitches & CLSW_NOFOCUS) ? SW_SHOWNA : SW_SHOW;
+        m_nCmdShow = (m_s->nCLSwitches & CLSW_NOFOCUS) ? SW_SHOWNOACTIVATE : SW_SHOWNORMAL;
     }
-    pFrame->ShowWindow(nCmdShow);
+
+    pFrame->ActivateFrame(m_nCmdShow);
     pFrame->UpdateWindow();
+
+    if (bMinimized && bMaximized) {
+        WINDOWPLACEMENT wp;
+        GetWindowPlacement(*pFrame, &wp);
+        wp.flags = WPF_RESTORETOMAXIMIZED;
+        SetWindowPlacement(*pFrame, &wp);
+    }
+
     pFrame->m_hAccelTable = m_s->hAccel;
     m_s->WinLircClient.SetHWND(m_pMainWnd->m_hWnd);
     if (m_s->fWinLirc) {
@@ -1779,10 +1795,6 @@ BOOL CMPlayerCApp::InitInstance()
 
     SendCommandLine(m_pMainWnd->m_hWnd);
     RegisterHotkeys();
-
-    if (!(m_s->nCLSwitches & CLSW_NOFOCUS)) {
-        pFrame->SetFocus();
-    }
 
     // set HIGH I/O Priority for better playback performance
     if (m_hNTDLL) {
