@@ -990,9 +990,8 @@ void CPlayerPlaylistBar::OnLvnKeyDown(NMHDR* pNMHDR, LRESULT* pResult)
         *pResult = TRUE;
     } else if (pLVKeyDown->wVKey == VK_SPACE && items.GetCount() == 1) {
         m_pl.SetPos(FindPos(items.GetHead()));
-
+        m_list.Invalidate();
         m_pMainFrame->OpenCurPlaylistItem();
-
         m_pMainFrame->SetFocus();
 
         *pResult = TRUE;
