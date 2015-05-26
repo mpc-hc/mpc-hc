@@ -530,7 +530,7 @@ void CPGSSubFile::ParseFile(CString fn)
         headerBuffer.ReadByte(); // segment type
         WORD wLenSegment = (WORD)headerBuffer.ReadShort();
 
-        // Let some round to add the segment type and size
+        // Leave some room to add the segment type and size
         int nLenData = nExtraSize + wLenSegment;
         segBuff.resize(nLenData);
         memcpy(segBuff.data(), &header[header.size() - nExtraSize], nExtraSize);
