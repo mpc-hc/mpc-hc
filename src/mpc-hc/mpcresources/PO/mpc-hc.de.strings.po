@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-15 16:53:42+0000\n"
-"PO-Revision-Date: 2015-05-25 14:15+0000\n"
+"POT-Creation-Date: 2015-05-21 13:30:54+0000\n"
+"PO-Revision-Date: 2015-05-27 18:20+0000\n"
 "Last-Translator: Luan <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -1313,7 +1313,7 @@ msgstr "Zum Anfang springen"
 
 msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
 msgid "Close"
-msgstr "Wiedergabe schließen"
+msgstr "Medien schließen"
 
 msgctxt "IDS_AFTER_PLAYBACK_EXIT"
 msgid "Exit"
@@ -1381,7 +1381,7 @@ msgstr "AR %d:%d"
 
 msgctxt "IDS_PPAGEADVANCED_LOGGER"
 msgid "Enables logging to file (requires restart)"
-msgstr "Aktiviert die Dateiprotokollierung (Neustart erforderlich)"
+msgstr "Aktiviert die Dateiprotokollierung (Neustart erforderlich)."
 
 msgctxt "IDS_TIMER_REMAINING_TIME"
 msgid "Remaining time"
@@ -1393,11 +1393,11 @@ msgstr "Hohe Genauigkeit"
 
 msgctxt "IDS_AFTERPLAYBACK_REWIND"
 msgid "After Playback: Rewind current file"
-msgstr ""
+msgstr "Nach Wiedergabe: Zum Anfang springen"
 
 msgctxt "IDS_AFTERPLAYBACK_CLOSE"
 msgid "After Playback: Close"
-msgstr ""
+msgstr "Nach Wiedergabe: Medien schließen"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"

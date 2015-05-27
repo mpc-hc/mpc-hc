@@ -11,9 +11,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-15 16:53:42+0000\n"
-"PO-Revision-Date: 2015-05-17 23:27+0000\n"
-"Last-Translator: Underground78\n"
+"POT-Creation-Date: 2015-05-21 13:30:54+0000\n"
+"PO-Revision-Date: 2015-05-26 22:50+0000\n"
+"Last-Translator: papu <papu@openmailbox.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -419,7 +419,7 @@ msgstr "D&uplicar"
 
 msgctxt "IDS_SUBRESYNC_RESET"
 msgid "&Reset"
-msgstr "&Inicialitzar"
+msgstr "&Inicialitza"
 
 msgctxt "IDS_MPLAYERC_104"
 msgid "Subtitle Delay -"
@@ -1299,7 +1299,7 @@ msgstr "Recorda també la posició per a fitxers d'àudio."
 
 msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
 msgid "Do Nothing"
-msgstr "No fer res"
+msgstr "No facis Res"
 
 msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
 msgid "Play next file in the folder"
@@ -1319,7 +1319,7 @@ msgstr "Surt"
 
 msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
 msgid "Turn off the monitor"
-msgstr "Apagar el monitor"
+msgstr "Apaga el monitor"
 
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
 msgid "JPEG Image"
@@ -1391,11 +1391,11 @@ msgstr "Alta precisió"
 
 msgctxt "IDS_AFTERPLAYBACK_REWIND"
 msgid "After Playback: Rewind current file"
-msgstr ""
+msgstr "Després de la Reproducció:Rebobina el fitxer actual"
 
 msgctxt "IDS_AFTERPLAYBACK_CLOSE"
 msgid "After Playback: Close"
-msgstr ""
+msgstr "Després de la Reproducció:Tanca"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1571,7 +1571,7 @@ msgstr "Si us plau, tanqueu totes les instàncies del MPC-HC perquè la configur
 
 msgctxt "IDS_EXPORT_SETTINGS"
 msgid "Export settings"
-msgstr "Exportar configuracions"
+msgstr "Exporta les configuracions"
 
 msgctxt "IDS_EXPORT_SETTINGS_WARNING"
 msgid "Some changes have not been saved yet.\nDo you want to save them before exporting?"
@@ -1595,7 +1595,7 @@ msgstr "Disminueix la Velocitat"
 
 msgctxt "IDS_AG_RESET_RATE"
 msgid "Reset Rate"
-msgstr "Inicialitzar Velocitat"
+msgstr "Inicialitza la Velocitat"
 
 msgctxt "IDS_MPLAYERC_21"
 msgid "Audio Delay +10 ms"
@@ -2635,7 +2635,7 @@ msgstr "VidFrm Afora"
 
 msgctxt "IDS_AG_PNS_RESET"
 msgid "PnS Reset"
-msgstr "Inicialitzar PnS"
+msgstr "Inicialitza el PnS"
 
 msgctxt "IDS_AG_PNS_ROTATEX_P"
 msgid "PnS Rotate X+"
@@ -3511,7 +3511,7 @@ msgstr "Després de la reproducció: Hibernació"
 
 msgctxt "IDS_AFTERPLAYBACK_SHUTDOWN"
 msgid "After Playback: Shutdown"
-msgstr "Després de la reproducció: Apagar l'equip"
+msgstr "Després de la reproducció: Apaga l'equip"
 
 msgctxt "IDS_AFTERPLAYBACK_LOGOFF"
 msgid "After Playback: Log Off"
@@ -3519,7 +3519,7 @@ msgstr "Després de la Reproducció: Finalitza la sessió"
 
 msgctxt "IDS_AFTERPLAYBACK_LOCK"
 msgid "After Playback: Lock"
-msgstr "Després de la reproducció: Bloquejar"
+msgstr "Després de la reproducció: Bloqueja"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
@@ -3527,11 +3527,11 @@ msgstr "Després de reproducció: Apaga el monitor"
 
 msgctxt "IDS_AFTERPLAYBACK_PLAYNEXT"
 msgid "After Playback: Play next file in the folder"
-msgstr "Després de la reproducció: Reproduir el seguent fitxer dins la carperta"
+msgstr "Després de la Reproducció: Reprodueix el seguent fitxer dins la carperta"
 
 msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
 msgid "After Playback: Do nothing"
-msgstr "Després de la reproducció: No fer res"
+msgstr "Després de la reproducció: No facis res"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
