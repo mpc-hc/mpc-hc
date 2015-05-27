@@ -37,6 +37,7 @@ public:
     CCrashReporterDialog();
 
     BOOL Create();
+    BOOL OnInitDialog() override;
     void LoadTranslatableResources();
 
     bool WaitForUserInput(CString& email, CString& description);

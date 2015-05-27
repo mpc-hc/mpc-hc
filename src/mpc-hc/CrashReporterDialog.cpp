@@ -47,6 +47,12 @@ BOOL CCrashReporterDialog::Create()
     return res;
 }
 
+BOOL CCrashReporterDialog::OnInitDialog()
+{
+    __super::OnInitDialog();
+    return FALSE; // return FALSE so that the dialog does not steal focus
+}
+
 void CCrashReporterDialog::LoadTranslatableResources()
 {
     // Load the template in a temporary dialog and get the strings from there.
