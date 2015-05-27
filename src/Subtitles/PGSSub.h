@@ -129,7 +129,7 @@ private:
     void ParseObject(CGolombBuffer* pGBuffer, size_t nUnitSize);
     void ParseVideoDescriptor(CGolombBuffer* pGBuffer, VIDEO_DESCRIPTOR* pVideoDescriptor);
     void ParseCompositionDescriptor(CGolombBuffer* pGBuffer, COMPOSITION_DESCRIPTOR* pCompositionDescriptor);
-    void ParseCompositionObject(CGolombBuffer* pGBuffer, const std::unique_ptr<CompositionObject>& pCompositionObject);
+    bool ParseCompositionObject(CGolombBuffer* pGBuffer, const std::unique_ptr<CompositionObject>& pCompositionObject);
 
     POSITION FindPresentationSegment(REFERENCE_TIME rt) const;
 

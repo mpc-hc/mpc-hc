@@ -302,8 +302,9 @@ int CPGSSub::ParsePresentationSegment(REFERENCE_TIME rt, CGolombBuffer* pGBuffer
 
     for (int i = 0; i < m_pCurrentPresentationSegment->objectCount; i++) {
         std::unique_ptr<CompositionObject> pCompositionObject(DEBUG_NEW CompositionObject());
-        ParseCompositionObject(pGBuffer, pCompositionObject);
-        m_pCurrentPresentationSegment->objects.emplace_back(std::move(pCompositionObject));
+        if (ParseCompositionObject(pGBuffer, pCompositionObject)) {
+            m_pCurrentPresentationSegment->objects.emplace_back(std::move(pCompositionObject));
+        }
     }
 
     return m_pCurrentPresentationSegment->objectCount;
@@ -378,7 +379,10 @@ void CPGSSub::ParsePalette(CGolombBuffer* pGBuffer, size_t nSize)  // #497
 void CPGSSub::ParseObject(CGolombBuffer* pGBuffer, size_t nUnitSize)   // #498
 {
     short object_id = pGBuffer->ReadShort();
-    ASSERT(object_id >= 0 && size_t(object_id) < m_compositionObjects.size());
+    if (object_id < 0 || size_t(object_id) >= m_compositionObjects.size()) {
+        ASSERT(FALSE); // This is not supposed to happen
+        return;
+    }
 
     CompositionObject& pObject = m_compositionObjects[object_id];
 
@@ -399,12 +403,17 @@ void CPGSSub::ParseObject(CGolombBuffer* pGBuffer, size_t nUnitSize)   // #498
     }
 }
 
-void CPGSSub::ParseCompositionObject(CGolombBuffer* pGBuffer, const std::unique_ptr<CompositionObject>& pCompositionObject)
+bool CPGSSub::ParseCompositionObject(CGolombBuffer* pGBuffer, const std::unique_ptr<CompositionObject>& pCompositionObject)
 {
-    BYTE bTemp;
-    pCompositionObject->m_object_id_ref = pGBuffer->ReadShort();
+    short object_id_ref = pGBuffer->ReadShort();
+    if (object_id_ref < 0 || size_t(object_id_ref) >= m_compositionObjects.size()) {
+        ASSERT(FALSE); // This is not supposed to happen
+        return false;
+    }
+
+    pCompositionObject->m_object_id_ref = object_id_ref;
     pCompositionObject->m_window_id_ref = pGBuffer->ReadByte();
-    bTemp = pGBuffer->ReadByte();
+    BYTE bTemp = pGBuffer->ReadByte();
     pCompositionObject->m_object_cropped_flag = !!(bTemp & 0x80);
     pCompositionObject->m_forced_on_flag = !!(bTemp & 0x40);
     pCompositionObject->m_horizontal_position = pGBuffer->ReadShort();
@@ -416,6 +425,8 @@ void CPGSSub::ParseCompositionObject(CGolombBuffer* pGBuffer, const std::unique_
         pCompositionObject->m_cropping_width = pGBuffer->ReadShort();
         pCompositionObject->m_cropping_height = pGBuffer->ReadShort();
     }
+
+    return true;
 }
 
 void CPGSSub::ParseVideoDescriptor(CGolombBuffer* pGBuffer, VIDEO_DESCRIPTOR* pVideoDescriptor)

@@ -55,6 +55,7 @@ next version - not released yet
 ! Haali Renderer: Fix XySubFilter support
 ! Cover image were sometimes incorrectly displayed
 ! Logitech LCD: MPC-HC crashed when the media duration was unknown
+! PGS subtitles: MPC-HC could crash when rendering broken subtitles
 ! Ticket #2167, Prevent the task bar buttons from being RTLed when Windows is configured to use RTL layout
 ! Ticket #2516, VSFilter: Fix PGS/DVB subtitles with different size than video frame
 ! Ticket #5028, Display OSD message for every time after playback event if once event is disabled
