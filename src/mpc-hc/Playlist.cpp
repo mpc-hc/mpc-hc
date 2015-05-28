@@ -54,7 +54,7 @@ CPlaylistItem::CPlaylistItem(const CPlaylistItem& pli)
     *this = pli;
 }
 
-CPlaylistItem& CPlaylistItem::operator = (const CPlaylistItem& pli)
+CPlaylistItem& CPlaylistItem::operator=(const CPlaylistItem& pli)
 {
     if (this != &pli) {
         m_id = pli.m_id;
@@ -70,6 +70,8 @@ CPlaylistItem& CPlaylistItem::operator = (const CPlaylistItem& pli)
         m_vchannel = pli.m_vchannel;
         m_ainput = pli.m_ainput;
         m_country = pli.m_country;
+        m_posNextShuffle = pli.m_posNextShuffle;
+        m_posPrevShuffle = pli.m_posPrevShuffle;
     }
     return *this;
 }

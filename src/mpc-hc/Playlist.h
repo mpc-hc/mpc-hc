@@ -49,7 +49,7 @@ public:
     virtual ~CPlaylistItem();
 
     CPlaylistItem(const CPlaylistItem& pli);
-    CPlaylistItem& operator = (const CPlaylistItem& pli);
+    CPlaylistItem& operator=(const CPlaylistItem& pli);
 
     POSITION FindFile(LPCTSTR path);
     void AutoLoadFiles();
