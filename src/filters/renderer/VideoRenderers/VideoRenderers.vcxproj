@@ -138,6 +138,7 @@
   <ItemGroup>
     <ClInclude Include="AllocatorCommon.h" />
     <ClInclude Include="AllocatorCommon7.h" />
+    <ClInclude Include="AsyncCallback.h" />
     <ClInclude Include="D3DFont.h" />
     <ClInclude Include="Dither.h" />
     <ClInclude Include="DX7AllocatorPresenter.h" />

@@ -2418,7 +2418,6 @@ CSyncAP::CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
     , m_LastSetOutputRange(-1)
     , m_bPendingRenegotiate(false)
     , m_bPendingMediaFinished(false)
-    , m_pCurrentDisplaydSample(nullptr)
     , m_nStepCount(0)
     , m_dwVideoAspectRatioMode(MFVideoARMode_PreservePicture)
     , m_dwVideoRenderPrefs((MFVideoRenderPrefs)0)
@@ -2426,6 +2425,7 @@ CSyncAP::CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
     , m_bPrerolled(false)
     , m_LastClockState(MFCLOCK_STATE_INVALID)
     , m_bEvtSkip(false)
+    , m_SampleFreeCallback(this, &CSyncAP::OnSampleFree)
     , fnDXVA2CreateDirect3DDeviceManager9("dxva2.dll", "DXVA2CreateDirect3DDeviceManager9")
     , fnMFCreateDXSurfaceBuffer("evr.dll", "MFCreateDXSurfaceBuffer")
     , fnMFCreateVideoSampleFromSurface("evr.dll", "MFCreateVideoSampleFromSurface")
@@ -3180,6 +3180,7 @@ bool CSyncAP::GetSampleFromMixer()
             SAFE_RELEASE(dataBuffer.pEvents);
             break;
         }
+
         if (m_pSink) {
             llMixerLatency = llClockAfter - llClockBefore;
             m_pSink->Notify(EC_PROCESSING_LATENCY, (LONG_PTR)&llMixerLatency, 0);
@@ -3201,7 +3202,13 @@ bool CSyncAP::GetSampleFromMixer()
             m_pD3DDev->ColorFill(m_pVideoSurface[dwSurface], &rcTearing, D3DCOLOR_ARGB(255, 255, 0, 0));
             m_nTearingPos = (m_nTearingPos + 7) % m_nativeVideoSize.cx;
         }
-        MoveToScheduledList(pSample, false); // Schedule, then go back to see if there is more where that came from
+
+        if (SUCCEEDED(TrackSample(pSample))) {
+            MoveToScheduledList(pSample, false); // Schedule, then go back to see if there is more where that came from
+        } else {
+            ASSERT(FALSE);
+        }
+
         // Important: Release any events returned from the ProcessOutput method.
         SAFE_RELEASE(dataBuffer.pEvents);
     }
@@ -3652,7 +3659,6 @@ void CSyncAP::RenderThread()
                     m_lNextSampleWait = 0;  // Present immediately
                 } else if (SUCCEEDED(pNewSample->GetSampleTime(&m_llSampleTime))) { // Get zero-based sample due time
                     if (m_llLastSampleTime == m_llSampleTime) { // In the rare case there are duplicate frames in the movie. There really shouldn't be but it happens.
-                        MoveToFreeList(pNewSample, true);
                         pNewSample = nullptr;
                         m_lNextSampleWait = 0;
                     } else {
@@ -3739,9 +3745,6 @@ void CSyncAP::RenderThread()
                 break;
 
             case WAIT_OBJECT_0 + 1: // Flush
-                if (pNewSample) {
-                    MoveToFreeList(pNewSample, true);
-                }
                 pNewSample = nullptr;
                 FlushSamples();
                 m_bEvtFlush = false;
@@ -3761,9 +3764,6 @@ void CSyncAP::RenderThread()
 
             case WAIT_TIMEOUT: // Time to show the sample or something
                 if (m_LastSetOutputRange != -1 && m_LastSetOutputRange != r.m_AdvRendSets.iEVROutputRange || m_bPendingRenegotiate) {
-                    if (pNewSample) {
-                        MoveToFreeList(pNewSample, true);
-                    }
                     pNewSample = nullptr;
                     FlushSamples();
                     RenegotiateMediaType();
@@ -3771,9 +3771,6 @@ void CSyncAP::RenderThread()
                 }
 
                 if (m_bPendingResetDevice) {
-                    if (pNewSample) {
-                        MoveToFreeList(pNewSample, true);
-                    }
                     pNewSample = nullptr;
                     SendResetRequest();
                 } else if (m_nStepCount < 0) {
@@ -3800,15 +3797,11 @@ void CSyncAP::RenderThread()
                 }
                 break;
         } // switch
-        if (pNewSample && stepForward) {
-            MoveToFreeList(pNewSample, true);
+        if (stepForward) {
             pNewSample = nullptr;
         }
     } // while
-    if (pNewSample) {
-        MoveToFreeList(pNewSample, true);
-        pNewSample = nullptr;
-    }
+    pNewSample = nullptr;
     timeEndPeriod(dwResolution);
     if (fnAvRevertMmThreadCharacteristics) {
         fnAvRevertMmThreadCharacteristics(hAvrt);
@@ -3867,7 +3860,7 @@ HRESULT CSyncAP::GetFreeSample(IMFSample** ppSample)
     CAutoLock lock(&m_SampleQueueLock);
     HRESULT hr = S_OK;
 
-    if (m_FreeSamples.GetCount() > 1) { // Cannot use first free buffer (can be currently displayed)
+    if (!m_FreeSamples.IsEmpty()) {
         m_nUsedBuffer++;
         *ppSample = m_FreeSamples.RemoveHead().Detach();
     } else {
@@ -3924,17 +3917,30 @@ void CSyncAP::FlushSamples()
 {
     CAutoLock lock(this);
     CAutoLock lock2(&m_SampleQueueLock);
-    FlushSamplesInternal();
+
+    m_bPrerolled = false;
+    m_ScheduledSamples.RemoveAll();
 }
 
-void CSyncAP::FlushSamplesInternal()
+HRESULT CSyncAP::TrackSample(IMFSample* pSample)
 {
-    m_bPrerolled = false;
-    while (!m_ScheduledSamples.IsEmpty()) {
-        CComPtr<IMFSample> pMFSample;
-        pMFSample = m_ScheduledSamples.RemoveHead();
-        MoveToFreeList(pMFSample, true);
+    HRESULT hr = E_FAIL;
+    if (CComQIPtr<IMFTrackedSample> pTracked = pSample) {
+        hr = pTracked->SetAllocator(&m_SampleFreeCallback, nullptr);
     }
+    return hr;
+}
+
+HRESULT CSyncAP::OnSampleFree(IMFAsyncResult* pResult)
+{
+    CComPtr<IUnknown> pObject;
+    HRESULT hr = pResult->GetObject(&pObject);
+    if (SUCCEEDED(hr)) {
+        if (CComQIPtr<IMFSample> pSample = pObject) {
+            MoveToFreeList(pSample, true);
+        }
+    }
+    return hr;
 }
 
 HRESULT CSyncAP::AdviseSyncClock(ISyncClock* sC)

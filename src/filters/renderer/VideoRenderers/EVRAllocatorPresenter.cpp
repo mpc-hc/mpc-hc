@@ -89,7 +89,6 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     , m_hGetMixerThread(nullptr)
     , m_hVSyncThread(nullptr)
     , m_nRenderState(Shutdown)
-    , m_pCurrentDisplaydSample(nullptr)
     , m_bWaitingSample(false)
     , m_bLastSampleOffsetValid(false)
     , m_LastScheduledSampleTime(-1)
@@ -103,6 +102,7 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     , m_nStepCount(0)
     , m_bSignaledStarvation(false)
     , m_StarvationClock(0)
+    , m_SampleFreeCallback(this, &CEVRAllocatorPresenter::OnSampleFree)
     , fnDXVA2CreateDirect3DDeviceManager9("dxva2.dll", "DXVA2CreateDirect3DDeviceManager9")
     , fnMFCreateDXSurfaceBuffer("evr.dll", "MFCreateDXSurfaceBuffer")
     , fnMFCreateVideoSampleFromSurface("evr.dll", "MFCreateVideoSampleFromSurface")
@@ -1105,8 +1105,12 @@ bool CEVRAllocatorPresenter::GetImageFromMixer()
 
         TRACE_EVR("EVR: Get from Mixer : %u  (%I64d) (%I64d)\n", dwSurface, nsSampleTime, m_rtTimePerFrame ? nsSampleTime / m_rtTimePerFrame : 0);
 
-        MoveToScheduledList(pSample, false);
-        bDoneSomething = true;
+        if (SUCCEEDED(TrackSample(pSample))) {
+            MoveToScheduledList(pSample, false);
+            bDoneSomething = true;
+        } else {
+            ASSERT(FALSE);
+        }
 
         // Important: Release any events returned from the ProcessOutput method.
         SAFE_RELEASE(dataBuffer.pEvents);
@@ -2256,8 +2260,6 @@ void CEVRAllocatorPresenter::RenderThread()
 
                         m_pCurrentDisplaydSample = nullptr;
                         if (bStepForward) {
-                            MoveToFreeList(pMFSample, true);
-                            CheckWaitingSampleFromMixer();
                             m_MaxSampleDuration = std::max(SampleDuration, m_MaxSampleDuration);
                         } else {
                             MoveToScheduledList(pMFSample, true);
@@ -2492,7 +2494,7 @@ HRESULT CEVRAllocatorPresenter::GetFreeSample(IMFSample** ppSample)
     CAutoLock lock(&m_SampleQueueLock);
     HRESULT hr = S_OK;
 
-    if (m_FreeSamples.GetCount() > 1) { // <= Cannot use first free buffer (can be currently displayed)
+    if (!m_FreeSamples.IsEmpty()) {
         m_nUsedBuffer++;
         *ppSample = m_FreeSamples.RemoveHead().Detach();
     } else {
@@ -2771,20 +2773,32 @@ void CEVRAllocatorPresenter::FlushSamples()
     CAutoLock lock(this);
     CAutoLock lock2(&m_SampleQueueLock);
 
-    FlushSamplesInternal();
-    m_LastScheduledSampleTime = -1;
-}
-
-void CEVRAllocatorPresenter::FlushSamplesInternal()
-{
-    while (!m_ScheduledSamples.IsEmpty()) {
-        CComPtr<IMFSample> pMFSample;
-
-        pMFSample = m_ScheduledSamples.RemoveHead();
-        MoveToFreeList(pMFSample, true);
-    }
+    m_ScheduledSamples.RemoveAll();
 
     m_LastSampleOffset = 0;
     m_bLastSampleOffsetValid = false;
     m_bSignaledStarvation = false;
+    m_LastScheduledSampleTime = -1;
+}
+
+HRESULT CEVRAllocatorPresenter::TrackSample(IMFSample* pSample)
+{
+    HRESULT hr = E_FAIL;
+    if (CComQIPtr<IMFTrackedSample> pTracked = pSample) {
+        hr = pTracked->SetAllocator(&m_SampleFreeCallback, nullptr);
+    }
+    return hr;
+}
+
+HRESULT CEVRAllocatorPresenter::OnSampleFree(IMFAsyncResult* pResult)
+{
+    CComPtr<IUnknown> pObject;
+    HRESULT hr = pResult->GetObject(&pObject);
+    if (SUCCEEDED(hr)) {
+        if (CComQIPtr<IMFSample> pSample = pObject) {
+            MoveToFreeList(pSample, true);
+            CheckWaitingSampleFromMixer();
+        }
+    }
+    return hr;
 }

@@ -30,6 +30,7 @@
 #define VMRBITMAP_UPDATE 0x80000000
 #define MAX_PICTURE_SLOTS (60 + 2) // Last 2 for pixels shader!
 #define NB_JITTER 126
+#include "AsyncCallback.h"
 
 extern bool g_bNoDuration; // Defined in MainFrm.cpp
 extern bool g_bExternalSubtitleTime;
@@ -487,9 +488,8 @@ namespace GothSync
         CCritSec m_SampleQueueLock;
         CCritSec m_ImageProcessingLock;
 
-        CInterfaceList<IMFSample, &IID_IMFSample> m_FreeSamples;
-        CInterfaceList<IMFSample, &IID_IMFSample> m_ScheduledSamples;
-        IMFSample* m_pCurrentDisplaydSample;
+        CInterfaceList<IMFSample> m_FreeSamples;
+        CInterfaceList<IMFSample> m_ScheduledSamples;
         UINT m_nResetToken;
         int m_nStepCount;
 
@@ -512,7 +512,12 @@ namespace GothSync
         void MoveToFreeList(IMFSample* pSample, bool bTail);
         void MoveToScheduledList(IMFSample* pSample, bool _bSorted);
         void FlushSamples();
-        void FlushSamplesInternal();
+
+        HRESULT TrackSample(IMFSample* pSample);
+
+        // Callback when a video sample is released.
+        HRESULT OnSampleFree(IMFAsyncResult* pResult);
+        AsyncCallback<CSyncAP> m_SampleFreeCallback;
 
         LONGLONG GetMediaTypeMerit(IMFMediaType* pMediaType);
         HRESULT RenegotiateMediaType();

@@ -24,6 +24,7 @@
 #include <mfapi.h>  // API Media Foundation
 #include <evr9.h>
 #include "../../../DSUtil/WinapiFunc.h"
+#include "AsyncCallback.h"
 
 namespace DSObjects
 {
@@ -193,9 +194,9 @@ namespace DSObjects
         CCritSec                         m_ImageProcessingLock;
         CCritSec                         m_MediaTypeLock;
 
-        CInterfaceList<IMFSample, &IID_IMFSample> m_FreeSamples;
-        CInterfaceList<IMFSample, &IID_IMFSample> m_ScheduledSamples;
-        IMFSample*                       m_pCurrentDisplaydSample;
+        CInterfaceList<IMFSample>        m_FreeSamples;
+        CInterfaceList<IMFSample>        m_ScheduledSamples;
+        CComPtr<IMFSample>               m_pCurrentDisplaydSample;
         bool                             m_bWaitingSample;
         bool                             m_bLastSampleOffsetValid;
         LONGLONG                         m_LastScheduledSampleTime;
@@ -242,7 +243,12 @@ namespace DSObjects
         void                             MoveToFreeList(IMFSample* pSample, bool bTail);
         void                             MoveToScheduledList(IMFSample* pSample, bool _bSorted);
         void                             FlushSamples();
-        void                             FlushSamplesInternal();
+
+        HRESULT TrackSample(IMFSample* pSample);
+
+        // Callback when a video sample is released.
+        HRESULT OnSampleFree(IMFAsyncResult* pResult);
+        AsyncCallback<CEVRAllocatorPresenter> m_SampleFreeCallback;
 
         // === Media type negotiation functions
         HRESULT                          RenegotiateMediaType();
