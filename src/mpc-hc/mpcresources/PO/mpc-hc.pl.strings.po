@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-15 16:53:42+0000\n"
-"PO-Revision-Date: 2015-05-15 18:42+0000\n"
+"POT-Creation-Date: 2015-05-21 13:30:54+0000\n"
+"PO-Revision-Date: 2015-05-30 21:41+0000\n"
 "Last-Translator: kasper93\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/mpc-hc/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -1387,11 +1387,11 @@ msgstr "Wysoka precyzja"
 
 msgctxt "IDS_AFTERPLAYBACK_REWIND"
 msgid "After Playback: Rewind current file"
-msgstr ""
+msgstr "Po zakończeniu odtwarzania: Przewiń plik do początku"
 
 msgctxt "IDS_AFTERPLAYBACK_CLOSE"
 msgid "After Playback: Close"
-msgstr ""
+msgstr "Po zakończeniu odtwarzania: Zamknij plik"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1695,7 +1695,7 @@ msgstr "Ukryj obramowanie"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
 msgid "Fra&me Only"
-msgstr "Tylko ramka"
+msgstr "Tylko &ramka"
 
 msgctxt "IDS_VIEW_CAPTIONMENU"
 msgid "Sho&w Caption&&Menu"
@@ -3495,27 +3495,27 @@ msgstr "Musisz zastosować nowe ustawienia zanim je przetestujesz."
 
 msgctxt "IDS_AFTERPLAYBACK_EXIT"
 msgid "After Playback: Exit"
-msgstr "Po zakończeniu odtwarzania: Zakończenie programu"
+msgstr "Po zakończeniu odtwarzania: Zamknij program"
 
 msgctxt "IDS_AFTERPLAYBACK_STANDBY"
 msgid "After Playback: Stand By"
-msgstr "Po zakończeniu odtwarzania: Przejście w stan wstrzymania"
+msgstr "Po zakończeniu odtwarzania: Przejdź w stan wstrzymania"
 
 msgctxt "IDS_AFTERPLAYBACK_HIBERNATE"
 msgid "After Playback: Hibernate"
-msgstr "Po zakończeniu odtwarzania: Przejście w stan hibernacji"
+msgstr "Po zakończeniu odtwarzania: Przejdź w stan hibernacji"
 
 msgctxt "IDS_AFTERPLAYBACK_SHUTDOWN"
 msgid "After Playback: Shutdown"
-msgstr "Po zakończeniu odtwarzania: Wyłączenie komputera"
+msgstr "Po zakończeniu odtwarzania: Wyłącz komputer"
 
 msgctxt "IDS_AFTERPLAYBACK_LOGOFF"
 msgid "After Playback: Log Off"
-msgstr "Po zakończeniu odtwarzania: Wylogowanie użytkownika"
+msgstr "Po zakończeniu odtwarzania: Wyloguj użytkownika"
 
 msgctxt "IDS_AFTERPLAYBACK_LOCK"
 msgid "After Playback: Lock"
-msgstr "Po zakończeniu odtwarzania: Zablokowanie komputera"
+msgstr "Po zakończeniu odtwarzania: Zablokuj komputer"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"

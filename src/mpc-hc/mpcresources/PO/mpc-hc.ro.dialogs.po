@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Daniel <danny34ever@yahoo.com>, 2014-2015
-# lordkag <lord.kagula@gmail.com>, 2014
+# lordkag <lord.kagula@gmail.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-05-17 20:47:27+0000\n"
-"PO-Revision-Date: 2015-05-26 06:00+0000\n"
-"Last-Translator: Daniel <danny34ever@yahoo.com>\n"
+"PO-Revision-Date: 2015-05-30 20:10+0000\n"
+"Last-Translator: lordkag <lord.kagula@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/mpc-hc/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -683,7 +683,7 @@ msgstr "Folosește facilitățile barei de activități Windows 7"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
-msgstr "Deschide următorul/precedentul fişier din dosar la comenzile „Sari înapoi/înainte” când este un singur element în lista de redare"
+msgstr "Deschide precedentul/următorul fişier din dosar la comenzile „Sari înapoi/înainte” când este un singur element în lista de redare"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
 msgid "Show time tooltip:"
@@ -1683,7 +1683,7 @@ msgstr "Adresa dumneavoastră de email este opțională și va fi folosită doar
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
 msgid "Problem description (use English only):"
-msgstr "Descierea problemei (folosiți doar limba engleză):"
+msgstr "Descrierea problemei (folosiți doar limba engleză):"
 
 msgctxt "IDD_CRASH_REPORTER_IDOK"
 msgid "OK"

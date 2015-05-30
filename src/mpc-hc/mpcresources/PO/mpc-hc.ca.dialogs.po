@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-05-17 20:47:27+0000\n"
-"PO-Revision-Date: 2015-05-26 23:00+0000\n"
+"PO-Revision-Date: 2015-05-27 23:10+0000\n"
 "Last-Translator: papu <papu@openmailbox.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -162,7 +162,7 @@ msgstr "Escriu el camí del fitxer multimèdia (a Internet o al ordinador) y el 
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Open:"
-msgstr "Obrir:"
+msgstr "Obre:"
 
 msgctxt "IDD_OPEN_DLG_IDC_BUTTON1"
 msgid "Browse..."
@@ -246,11 +246,11 @@ msgstr "Opcions d’obertura"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO1"
 msgid "Use the same player for each media file"
-msgstr "Usar el mateix reproductor per a cada fitxer de mitjans que es reprodueixi"
+msgstr "Usa el mateix reproductor per a cada fitxer de mitjans que es reprodueixi"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO2"
 msgid "Open a new player for each media file played"
-msgstr "Obrir un nou reproductor per cada fitxer de mitjans que es reprodueixi"
+msgstr "Obre un nou reproductor per cada fitxer de mitjans que es reprodueixi"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Language"
@@ -346,7 +346,7 @@ msgstr "Recorda l'últim Zoom de Pan-n-Scan"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
-msgstr "Comportament de \"Llençar un DVD/BD\""
+msgstr "Comportament de \"Llença un DVD/BD\""
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO1"
 msgid "Prompt for location"
@@ -354,7 +354,7 @@ msgstr "Pregunta per la ubicació"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO2"
 msgid "Always open the default location:"
-msgstr "Sembre obrir la ubicació per defecte:"
+msgstr "Sembre obre la ubicació per defecte:"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "Preferred language for DVD Navigator and the external OGM Splitter"
@@ -470,7 +470,7 @@ msgstr "Ajuda en la construcció del Filter Graph"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK6"
 msgid "Report pins which fail to render"
-msgstr "Reportar conectors que no volen funcionar"
+msgstr "Reporta els conectors que no volen funcionar"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
@@ -478,7 +478,7 @@ msgstr "Carga automàtica d'àudio"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
 msgid "Use the built-in subtitle renderer"
-msgstr "Usar el processador de subtítols incorporat"
+msgstr "Usa el processador de subtítols incorporat"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Control"
@@ -682,15 +682,15 @@ msgstr "Evita de MINIMITZAR quan s'està en pantalla completa al monitor secunda
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_WIN7"
 msgid "Use Windows 7 Taskbar features"
-msgstr "Usar característiques de la barra de tasques del Win7"
+msgstr "Usa les característiques de la barra de tasques del Win7"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
-msgstr "Obrir el fitxer de la carpeta següent/anterior amb \"Skip back/forward\" quan només hi ha un element de llista de reproducció"
+msgstr "Obre el fitxer de la carpeta següent/anterior amb \"Skip back/forward\" quan només hi ha un element de llista de reproducció"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
 msgid "Show time tooltip:"
-msgstr "Usar la descripció emergent de temps:"
+msgstr "Usa la descripció emergent de temps:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "OSD font:"
@@ -1198,7 +1198,7 @@ msgstr "Port que rep les conexions:"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC1"
 msgid "Launch in web browser..."
-msgstr "Llençar dins del navegador..."
+msgstr "Llença dins del navegador web..."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK3"
 msgid "Enable compression"
@@ -1302,7 +1302,7 @@ msgstr "Exporta"
 
 msgctxt "IDD_PPAGEMISC_IDC_EXPORT_KEYS"
 msgid "Export keys"
-msgstr "Exporta les Dreceres de Teclat"
+msgstr "Exporta les Dreceres"
 
 msgctxt "IDD_TUNER_SCAN_CAPTION"
 msgid "Tuner scan"
@@ -1346,7 +1346,7 @@ msgstr "Q"
 
 msgctxt "IDD_TUNER_SCAN_IDC_CHECK_OFFSET"
 msgid "Use an offset"
-msgstr "Usar un desajustament(offset)"
+msgstr "Usa un desajustament \"offset\""
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Default Device"
@@ -1482,7 +1482,7 @@ msgstr "Monitor a Pantalla completa"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK2"
 msgid "Use autochange fullscreen monitor mode"
-msgstr "Usar mode de monitor a pantalla completa automàtic"
+msgstr "Usa el mode de monitor a pantalla completa automàtic"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON1"
 msgid "Add"

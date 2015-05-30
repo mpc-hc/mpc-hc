@@ -495,7 +495,7 @@ hr.tsk_AllUsers=Za sve korisnike
 hr.tsk_CurrentUser=Samo za trenutnog korisnika
 hr.tsk_Other=Ostali zadaci:
 hr.tsk_ResetSettings=Vrati na početne postavke programa
-hr.types_DefaultInstallation=Standarnda instalacija
+hr.types_DefaultInstallation=Standardna instalacija
 hr.types_CustomInstallation=Prilagođena instalacija
 hr.ViewChangelog=Pogledaj popis promjena
 
