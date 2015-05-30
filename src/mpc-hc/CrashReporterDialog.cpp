@@ -121,8 +121,8 @@ IMPLEMENT_DYNCREATE(CCrashReporterUIThread, CWinThread)
 
 CCrashReporterUIThread::CCrashReporterUIThread()
     : CWinThread()
-    , m_bThreadReady(false)
     , m_eventThreadReady(TRUE)
+    , m_bThreadReady(false)
 {}
 
 BOOL CCrashReporterUIThread::InitInstance()

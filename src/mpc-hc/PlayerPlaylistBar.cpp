@@ -37,13 +37,13 @@ IMPLEMENT_DYNAMIC(CPlayerPlaylistBar, CPlayerBar)
 CPlayerPlaylistBar::CPlayerPlaylistBar(CMainFrame* pMainFrame)
     : m_pMainFrame(pMainFrame)
     , m_list(0)
-    , m_pl(AfxGetAppSettings().bShufflePlaylistItems)
     , m_nTimeColWidth(0)
     , m_pDragImage(nullptr)
     , m_bDragging(FALSE)
     , m_nDragIndex(0)
     , m_nDropIndex(0)
     , m_bHiddenDueToFullscreen(false)
+    , m_pl(AfxGetAppSettings().bShufflePlaylistItems)
 {
 }
 
