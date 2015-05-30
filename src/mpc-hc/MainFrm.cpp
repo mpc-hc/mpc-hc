@@ -8211,6 +8211,7 @@ void CMainFrame::OnAfterplayback(UINT nID)
                 break;
             default:
                 ASSERT(FALSE);
+            // no break
             case CAppSettings::AfterPlayback::DO_NOTHING:
                 osdMsg = IDS_AFTERPLAYBACK_DONOTHING;
                 break;
@@ -8223,7 +8224,7 @@ void CMainFrame::OnAfterplayback(UINT nID)
 void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
 {
     const CAppSettings& s = AfxGetAppSettings();
-    bool bChecked = false;
+    bool bChecked;
     bool bRadio = false;
 
     switch (pCmdUI->m_nID) {
@@ -8258,14 +8259,18 @@ void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
             bChecked = !!(s.nCLSwitches & CLSW_DONOTHING);
             bRadio = s.eAfterPlayback == CAppSettings::AfterPlayback::DO_NOTHING;
             break;
+        default:
+            ASSERT(FALSE);
+            return;
     }
 
-    pCmdUI->Enable(!bRadio);
-
-    if (bRadio) {
-        pCmdUI->m_pMenu->CheckMenuRadioItem(pCmdUI->m_nID, pCmdUI->m_nID, pCmdUI->m_nID, MF_BYCOMMAND);
-    } else {
-        pCmdUI->SetCheck(bChecked);
+    if (IsMenu(*pCmdUI->m_pMenu)) {
+        MENUITEMINFO mii;
+        mii.cbSize = sizeof(mii);
+        mii.fMask = MIIM_FTYPE | MIIM_STATE;
+        mii.fType = (bRadio ? MFT_RADIOCHECK : 0);
+        mii.fState = (bRadio ? MFS_DISABLED : 0) | (bChecked || bRadio ? MFS_CHECKED : 0);
+        VERIFY(pCmdUI->m_pMenu->SetMenuItemInfo(pCmdUI->m_nID, &mii));
     }
 }
 

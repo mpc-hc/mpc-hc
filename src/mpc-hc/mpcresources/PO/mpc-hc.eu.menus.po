@@ -592,6 +592,14 @@ msgctxt "ID_AFTERPLAYBACK_DONOTHING"
 msgid "Do no&thing"
 msgstr "E&z egin ezer"
 
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "Irakurri &agiritegiko hurrengoa"
+
+msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
+msgid "Turn off the &monitor"
+msgstr "Itzali &monitorea"
+
 msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
 msgstr "I&rten"
@@ -615,14 +623,6 @@ msgstr "Saioa amaitu"
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "Blokeatu"
-
-msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
-msgid "Turn off the &monitor"
-msgstr "Itzali &monitorea"
-
-msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
-msgid "Play &next file in the folder"
-msgstr "Irakurri &agiritegiko hurrengoa"
 
 msgctxt "POPUP"
 msgid "&Navigate"

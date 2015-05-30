@@ -592,6 +592,14 @@ msgctxt "ID_AFTERPLAYBACK_DONOTHING"
 msgid "Do no&thing"
 msgstr ""
 
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "Otwórz &następny plik w folderze"
+
+msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
+msgid "Turn off the &monitor"
+msgstr "Wyłącz &monitor"
+
 msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
 msgstr "&Zamknij program"
@@ -615,14 +623,6 @@ msgstr "Wy&loguj"
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "Za&blokuj komputer"
-
-msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
-msgid "Turn off the &monitor"
-msgstr "Wyłącz &monitor"
-
-msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
-msgid "Play &next file in the folder"
-msgstr "Otwórz &następny plik w folderze"
 
 msgctxt "POPUP"
 msgid "&Navigate"

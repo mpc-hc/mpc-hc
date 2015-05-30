@@ -592,6 +592,14 @@ msgctxt "ID_AFTERPLAYBACK_DONOTHING"
 msgid "Do no&thing"
 msgstr "Ne csináljon semmit"
 
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "Játssza le a mappában következő fájlt"
+
+msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
+msgid "Turn off the &monitor"
+msgstr "Kapcsolja ki a monitort"
+
 msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
 msgstr "Bezárás"
@@ -615,14 +623,6 @@ msgstr "Kijelentkezés"
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "Zárolás"
-
-msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
-msgid "Turn off the &monitor"
-msgstr "Kapcsolja ki a monitort"
-
-msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
-msgid "Play &next file in the folder"
-msgstr "Játssza le a mappában következő fájlt"
 
 msgctxt "POPUP"
 msgid "&Navigate"

@@ -593,6 +593,14 @@ msgctxt "ID_AFTERPLAYBACK_DONOTHING"
 msgid "Do no&thing"
 msgstr "Neuro&biť nič"
 
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "Prehrať ď&alší súbor v priečinku"
+
+msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
+msgid "Turn off the &monitor"
+msgstr "Vypnúť &monitor"
+
 msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
 msgstr "&Ukončiť"
@@ -616,14 +624,6 @@ msgstr "Od&hlásiť používateľa"
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "U&zamknúť"
-
-msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
-msgid "Turn off the &monitor"
-msgstr "Vypnúť &monitor"
-
-msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
-msgid "Play &next file in the folder"
-msgstr "Prehrať ď&alší súbor v priečinku"
 
 msgctxt "POPUP"
 msgid "&Navigate"

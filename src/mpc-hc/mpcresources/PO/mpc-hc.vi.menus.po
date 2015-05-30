@@ -593,6 +593,14 @@ msgctxt "ID_AFTERPLAYBACK_DONOTHING"
 msgid "Do no&thing"
 msgstr ""
 
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "&Phát tập tin kế tiếp trong thư mục"
+
+msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
+msgid "Turn off the &monitor"
+msgstr "Tắt &màn hình"
+
 msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
 msgstr "&Thoát"
@@ -616,14 +624,6 @@ msgstr "&Đăng xuất"
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "&Khoá máy"
-
-msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
-msgid "Turn off the &monitor"
-msgstr "Tắt &màn hình"
-
-msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
-msgid "Play &next file in the folder"
-msgstr "&Phát tập tin kế tiếp trong thư mục"
 
 msgctxt "POPUP"
 msgid "&Navigate"

@@ -1543,14 +1543,14 @@ BEGIN
         POPUP "Af&ter Playback"
         BEGIN
             MENUITEM "Do no&thing",                 ID_AFTERPLAYBACK_DONOTHING
+            MENUITEM "Play &next file in the folder", ID_AFTERPLAYBACK_PLAYNEXT
+            MENUITEM "Turn off the &monitor",       ID_AFTERPLAYBACK_MONITOROFF
             MENUITEM "&Exit",                       ID_AFTERPLAYBACK_EXIT
             MENUITEM "&Stand By",                   ID_AFTERPLAYBACK_STANDBY
             MENUITEM "&Hibernate",                  ID_AFTERPLAYBACK_HIBERNATE
             MENUITEM "Shut&down",                   ID_AFTERPLAYBACK_SHUTDOWN
             MENUITEM "Log &Off",                    ID_AFTERPLAYBACK_LOGOFF
             MENUITEM "&Lock",                       ID_AFTERPLAYBACK_LOCK
-            MENUITEM "Turn off the &monitor",       ID_AFTERPLAYBACK_MONITOROFF
-            MENUITEM "Play &next file in the folder", ID_AFTERPLAYBACK_PLAYNEXT
         END
     END
     POPUP "&Navigate"
@@ -1698,14 +1698,14 @@ BEGIN
         POPUP "Af&ter Playback"
         BEGIN
             MENUITEM "Do no&thing",                 ID_AFTERPLAYBACK_DONOTHING
+            MENUITEM "Play &next file in the folder", ID_AFTERPLAYBACK_PLAYNEXT
+            MENUITEM "Turn off the &monitor",       ID_AFTERPLAYBACK_MONITOROFF
             MENUITEM "&Exit",                       ID_AFTERPLAYBACK_EXIT
             MENUITEM "&Stand By",                   ID_AFTERPLAYBACK_STANDBY
             MENUITEM "&Hibernate",                  ID_AFTERPLAYBACK_HIBERNATE
             MENUITEM "Shut&down",                   ID_AFTERPLAYBACK_SHUTDOWN
             MENUITEM "Log &Off",                    ID_AFTERPLAYBACK_LOGOFF
             MENUITEM "&Lock",                       ID_AFTERPLAYBACK_LOCK
-            MENUITEM "Turn off the &monitor",       ID_AFTERPLAYBACK_MONITOROFF
-            MENUITEM "Play &next file in the folder", ID_AFTERPLAYBACK_PLAYNEXT
         END
         MENUITEM SEPARATOR
         POPUP "&View"
@@ -2041,14 +2041,14 @@ BEGIN
         POPUP "Af&ter Playback"
         BEGIN
             MENUITEM "Do no&thing",                 ID_AFTERPLAYBACK_DONOTHING
+            MENUITEM "Play &next file in the folder", ID_AFTERPLAYBACK_PLAYNEXT
+            MENUITEM "Turn off the &monitor",       ID_AFTERPLAYBACK_MONITOROFF
             MENUITEM "&Exit",                       ID_AFTERPLAYBACK_EXIT
             MENUITEM "&Stand By",                   ID_AFTERPLAYBACK_STANDBY
             MENUITEM "&Hibernate",                  ID_AFTERPLAYBACK_HIBERNATE
             MENUITEM "Shut&down",                   ID_AFTERPLAYBACK_SHUTDOWN
             MENUITEM "Log &Off",                    ID_AFTERPLAYBACK_LOGOFF
             MENUITEM "&Lock",                       ID_AFTERPLAYBACK_LOCK
-            MENUITEM "Turn off the &monitor",       ID_AFTERPLAYBACK_MONITOROFF
-            MENUITEM "Play &next file in the folder", ID_AFTERPLAYBACK_PLAYNEXT
         END
         MENUITEM SEPARATOR
         POPUP "R&enderer Settings"

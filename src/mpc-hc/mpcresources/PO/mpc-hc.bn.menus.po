@@ -592,6 +592,14 @@ msgctxt "ID_AFTERPLAYBACK_DONOTHING"
 msgid "Do no&thing"
 msgstr ""
 
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "ফোল্ডারের পরবর্তী ফাইলটি প্লে করি(N)"
+
+msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
+msgid "Turn off the &monitor"
+msgstr "মনিটর বন্ধ করি(&M)"
+
 msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
 msgstr "প্রোগ্রাম বন্ধ করি(&E)"
@@ -615,14 +623,6 @@ msgstr "কম্পিউটার লগ অফ করি(&O)"
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "কম্পিউটার লক করি(&L)"
-
-msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
-msgid "Turn off the &monitor"
-msgstr "মনিটর বন্ধ করি(&M)"
-
-msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
-msgid "Play &next file in the folder"
-msgstr "ফোল্ডারের পরবর্তী ফাইলটি প্লে করি(N)"
 
 msgctxt "POPUP"
 msgid "&Navigate"

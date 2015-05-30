@@ -579,6 +579,8 @@ void CAppSettings::CreateCommands()
     wmcmds.AddTail({ID_SUB_DELAY_DOWN,                VK_F1, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_104});
     wmcmds.AddTail({ID_SUB_DELAY_UP,                  VK_F2, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_105});
 
+    wmcmds.AddTail({ID_AFTERPLAYBACK_PLAYNEXT,            0, FVIRTKEY | FNOINVERT,                    IDS_AFTERPLAYBACK_PLAYNEXT});
+    wmcmds.AddTail({ID_AFTERPLAYBACK_MONITOROFF,          0, FVIRTKEY | FNOINVERT,                    IDS_AFTERPLAYBACK_MONITOROFF});
     wmcmds.AddTail({ID_AFTERPLAYBACK_DONOTHING,           0, FVIRTKEY | FNOINVERT,                    IDS_AFTERPLAYBACK_DONOTHING});
     wmcmds.AddTail({ID_AFTERPLAYBACK_EXIT,                0, FVIRTKEY | FNOINVERT,                    IDS_AFTERPLAYBACK_EXIT});
     wmcmds.AddTail({ID_AFTERPLAYBACK_STANDBY,             0, FVIRTKEY | FNOINVERT,                    IDS_AFTERPLAYBACK_STANDBY});
@@ -586,8 +588,6 @@ void CAppSettings::CreateCommands()
     wmcmds.AddTail({ID_AFTERPLAYBACK_SHUTDOWN,            0, FVIRTKEY | FNOINVERT,                    IDS_AFTERPLAYBACK_SHUTDOWN});
     wmcmds.AddTail({ID_AFTERPLAYBACK_LOGOFF,              0, FVIRTKEY | FNOINVERT,                    IDS_AFTERPLAYBACK_LOGOFF});
     wmcmds.AddTail({ID_AFTERPLAYBACK_LOCK,                0, FVIRTKEY | FNOINVERT,                    IDS_AFTERPLAYBACK_LOCK});
-    wmcmds.AddTail({ID_AFTERPLAYBACK_MONITOROFF,          0, FVIRTKEY | FNOINVERT,                    IDS_AFTERPLAYBACK_MONITOROFF});
-    wmcmds.AddTail({ID_AFTERPLAYBACK_PLAYNEXT,            0, FVIRTKEY | FNOINVERT,                    IDS_AFTERPLAYBACK_PLAYNEXT});
 
     wmcmds.AddTail({ID_VIEW_EDITLISTEDITOR,               0, FVIRTKEY | FNOINVERT,                    IDS_AG_TOGGLE_EDITLISTEDITOR});
     wmcmds.AddTail({ID_EDL_IN,                            0, FVIRTKEY | FNOINVERT,                    IDS_AG_EDL_IN});

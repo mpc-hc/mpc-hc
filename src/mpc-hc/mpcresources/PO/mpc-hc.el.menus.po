@@ -594,6 +594,14 @@ msgctxt "ID_AFTERPLAYBACK_DONOTHING"
 msgid "Do no&thing"
 msgstr ""
 
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "Αναπ/γωγή &επόμενου αρχείου στο φάκελο"
+
+msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
+msgid "Turn off the &monitor"
+msgstr "Απενεργοποίηση &οθόνης"
+
 msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
 msgstr "Έξοδος"
@@ -617,14 +625,6 @@ msgstr "Αποσύνδεση"
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "Κλείδωμα"
-
-msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
-msgid "Turn off the &monitor"
-msgstr "Απενεργοποίηση &οθόνης"
-
-msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
-msgid "Play &next file in the folder"
-msgstr "Αναπ/γωγή &επόμενου αρχείου στο φάκελο"
 
 msgctxt "POPUP"
 msgid "&Navigate"
