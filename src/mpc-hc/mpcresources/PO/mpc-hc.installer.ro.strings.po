@@ -2,12 +2,12 @@
 # Copyright (C) 2002 - 2014 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Daniel <danny34ever@yahoo.com>, 2014
+# Daniel <danny34ever@yahoo.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-06-17 15:23:34+0000\n"
-"PO-Revision-Date: 2014-07-07 16:20+0000\n"
+"PO-Revision-Date: 2015-05-31 16:51+0000\n"
 "Last-Translator: Daniel <danny34ever@yahoo.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/mpc-hc/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 
 msgctxt "Messages_WelcomeLabel2"
 msgid "This will install [name] on your computer.\n\nIt is recommended that you close all other applications before continuing."
-msgstr "Se va instala [name] pe calculatorul dumneavoastră.\n\nEste recomandat să închideţi toate celelalte aplicaţii înainte de a continua."
+msgstr "Se va instala [name] pe calculatorul dumneavoastră.\n\nEste recomandat să închideţi toate celelalte aplicații înainte de a continua."
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows XP Service Pack 3 or newer to run."
