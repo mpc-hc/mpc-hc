@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -125,10 +125,6 @@ extern CString ReftimeToString(const REFERENCE_TIME& rtVal);
 extern CString ReftimeToString2(const REFERENCE_TIME& rtVal);
 extern CString DVDtimeToString(const DVD_HMSF_TIMECODE& rtVal, bool bAlwaysShowHours = false);
 extern REFERENCE_TIME StringToReftime(LPCTSTR strVal);
-extern COLORREF YCrCbToRGB_Rec601(BYTE Y, BYTE Cr, BYTE Cb, double sourceBlackLevel, double sourceWhiteLevel, double targetBlackLevel, double targetWhiteLevel);
-extern COLORREF YCrCbToRGB_Rec709(BYTE Y, BYTE Cr, BYTE Cb, double sourceBlackLevel, double sourceWhiteLevel, double targetBlackLevel, double targetWhiteLevel);
-extern DWORD YCrCbToRGB_Rec601(BYTE A, BYTE Y, BYTE Cr, BYTE Cb, double sourceBlackLevel, double sourceWhiteLevel, double targetBlackLevel, double targetWhiteLevel);
-extern DWORD YCrCbToRGB_Rec709(BYTE A, BYTE Y, BYTE Cr, BYTE Cb, double sourceBlackLevel, double sourceWhiteLevel, double targetBlackLevel, double targetWhiteLevel);
 extern void SetThreadName(DWORD dwThreadID, LPCSTR szThreadName);
 extern void CorrectComboListWidth(CComboBox& m_pComboBox);
 extern void CorrectComboBoxHeaderWidth(CWnd* pComboBox);
@@ -291,7 +287,7 @@ typename std::enable_if<std::is_unsigned<T>::value, T>::type GCD(T a, T b)
 template <class T>
 typename std::enable_if<std::is_signed<T>::value, T>::type GCD(T a, T b)
 {
-    typedef std::make_unsigned<T>::type uT;
+    using uT = typename std::make_unsigned<T>::type;
 
     return T(GCD(uT(std::abs(a)), uT(std::abs(b))));
 }

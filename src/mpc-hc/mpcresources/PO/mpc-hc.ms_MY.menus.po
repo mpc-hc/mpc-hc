@@ -1,13 +1,13 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# abuyop <abuyop@gmail.com>, 2014
+# abuyop <abuyop@gmail.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
-"PO-Revision-Date: 2014-11-29 05:40+0000\n"
+"POT-Creation-Date: 2015-05-22 20:53:41+0000\n"
+"PO-Revision-Date: 2015-05-27 03:10+0000\n"
 "Last-Translator: abuyop <abuyop@gmail.com>\n"
 "Language-Team: Malay (Malaysia) (http://www.transifex.com/projects/p/mpc-hc/language/ms_MY/)\n"
 "MIME-Version: 1.0\n"
@@ -196,13 +196,17 @@ msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
 msgstr "Ujian &Koyakan"
 
-msgctxt "ID_VIEW_DISPLAYSTATS"
-msgid "&Display Stats"
-msgstr "Stat Papa&ran"
+msgctxt "ID_VIEW_DISPLAY_RENDERER_STATS"
+msgid "&Display Statistics"
+msgstr "&Papar Statistik"
 
-msgctxt "ID_VIEW_REMAINING_TIME"
-msgid "&Remaining Time"
-msgstr "Ma&sa Berbaki"
+msgctxt "ID_VIEW_OSD_DISPLAY_TIME"
+msgid "Display Current T&ime"
+msgstr "Papar &Waktu Semasa"
+
+msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
+msgid "Show &File Name"
+msgstr "Tunjuk Nama &Fail"
 
 msgctxt "POPUP"
 msgid "&Output Range"
@@ -553,16 +557,16 @@ msgid "S&haders"
 msgstr "Pe&lorek"
 
 msgctxt "ID_AUDIOS"
-msgid "&Audio"
-msgstr "&Audio"
+msgid "&Audio Track"
+msgstr "Trek &Audio"
 
 msgctxt "ID_SUBTITLES"
-msgid "Su&btitles"
-msgstr "Sa&rikata"
+msgid "Su&btitle Track"
+msgstr "Trek Sa&rikata"
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Stream"
-msgstr "Strim &Video"
+msgid "&Video Track"
+msgstr "Trek &Video"
 
 msgctxt "POPUP"
 msgid "&Volume"
@@ -584,7 +588,19 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "Se&lepas Main Balik"
 
-msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgctxt "ID_AFTERPLAYBACK_DONOTHING"
+msgid "Do no&thing"
+msgstr "&Jangan buat apa-apa"
+
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "Main fail &berikutnya di dalam folder"
+
+msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
+msgid "Turn off the &monitor"
+msgstr "Matikan &monitor"
+
+msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
 msgstr "&Keluar"
 
@@ -607,14 +623,6 @@ msgstr "Daftar &Keluar"
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "Kun&ci"
-
-msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
-msgid "Turn off the &monitor"
-msgstr "Matikan &monitor"
-
-msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
-msgid "Play &next file in the folder"
-msgstr "Main fail &berikutnya di dalam folder"
 
 msgctxt "POPUP"
 msgid "&Navigate"

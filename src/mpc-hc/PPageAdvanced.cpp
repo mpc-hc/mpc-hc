@@ -1,5 +1,5 @@
 /*
-* (C) 2014 see Authors.txt
+* (C) 2014-2015 see Authors.txt
 *
 * This file is part of MPC-HC.
 *
@@ -22,6 +22,7 @@
 #include <strsafe.h>
 #include "PPageAdvanced.h"
 #include "mplayerc.h"
+#include "MainFrm.h"
 #include "SettingsDefines.h"
 
 CPPageAdvanced::CPPageAdvanced()
@@ -127,6 +128,7 @@ void CPPageAdvanced::InitSettings()
     addIntItem(FILE_POS_LONGER, IDS_RS_FILEPOSLONGER, 0, s.iRememberPosForLongerThan, std::make_pair(0, INT_MAX), ResStr(IDS_PPAGEADVANCED_FILE_POS_LONGER));
     addBoolItem(FILE_POS_AUDIO, IDS_RS_FILEPOSAUDIO, true, s.bRememberPosForAudioFiles, ResStr(IDS_PPAGEADVANCED_FILE_POS_AUDIO));
     addIntItem(COVER_SIZE_LIMIT, IDS_RS_COVER_ART_SIZE_LIMIT, 600, s.nCoverArtSizeLimit, std::make_pair(0, INT_MAX), ResStr(IDS_PPAGEADVANCED_COVER_SIZE_LIMIT));
+    addBoolItem(LOGGING, IDS_RS_LOGGING, false, s.bEnableLogging, ResStr(IDS_PPAGEADVANCED_LOGGER));
 }
 
 BOOL CPPageAdvanced::OnApply()
@@ -142,6 +144,11 @@ BOOL CPPageAdvanced::OnApply()
     s.MRUDub.SetSize(s.iRecentFilesNumber);
     s.filePositions.SetMaxSize(s.iRecentFilesNumber);
     s.dvdPositions.SetMaxSize(s.iRecentFilesNumber);
+
+    // There is no main frame when the option dialog is displayed stand-alone
+    if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
+        pMainFrame->UpdateControlState(CMainFrame::UPDATE_CONTROLS_VISIBILITY);
+    }
 
     return __super::OnApply();
 }

@@ -349,7 +349,7 @@ void File_Vc1::Streams_Finish()
     if (PTS_End>PTS_Begin)
         Fill(Stream_Video, 0, Video_Duration, float64_int64s(((float64)(PTS_End-PTS_Begin))/1000000));
 
-    #if MEDIAINFO_IBI
+    #if MEDIAINFO_IBIUSAGE
         int64u Numerator=0, Denominator=0;
         if (framerate_present)
         {
@@ -366,7 +366,7 @@ void File_Vc1::Streams_Finish()
         }
         if (Numerator)
             Ibi_Stream_Finish(Numerator, Denominator);
-    #endif //MEDIAINFO_IBI
+    #endif //MEDIAINFO_IBIUSAGE
 }
 
 //***************************************************************************
@@ -414,11 +414,11 @@ bool File_Vc1::Synched_Test()
     if (!Header_Parser_QuickSearch())
         return false;
 
-    #if MEDIAINFO_IBI
+    #if MEDIAINFO_IBIUSAGE
         bool RandomAccess=Buffer[Buffer_Offset+3]==0x0F; //SequenceHeader
         if (RandomAccess)
             Ibi_Add();
-    #endif //MEDIAINFO_IBI
+    #endif //MEDIAINFO_IBIUSAGE
 
         //We continue
     return true;

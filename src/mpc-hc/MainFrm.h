@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -36,7 +36,7 @@
 #include "EditListEditor.h"
 #include "PPageSheet.h"
 #include "PPageFileInfoSheet.h"
-#include "FileDropTarget.h"
+#include "DropTarget.h"
 #include "KeyProvider.h"
 #include "GraphThread.h"
 #include "TimerWrappers.h"
@@ -154,8 +154,10 @@ struct SubtitleInput {
 };
 
 interface ISubClock;
+interface IMadVRSubclassReplacement;
+interface IMadVRSettings;
 
-class CMainFrame : public CFrameWnd, public CDropTarget
+class CMainFrame : public CFrameWnd, public CDropClient
 {
 public:
     enum class Timer32HzSubscriber {
@@ -220,6 +222,7 @@ private:
     CComQIPtr<IMediaSeeking> m_pMS;
     CComQIPtr<IVideoFrameStep> m_pFS;
     CComQIPtr<IFileSourceFilter> m_pFSF;
+    CComQIPtr<IKeyFrameInfo> m_pKFI;
     CComQIPtr<IQualProp, &IID_IQualProp> m_pQP;
     CComQIPtr<IBufferInfo> m_pBI;
     CComQIPtr<IAMOpenProgress> m_pAMOP;
@@ -231,6 +234,7 @@ private:
     CComPtr<ISubPicAllocatorPresenter> m_pCAP;
     CComPtr<ISubPicAllocatorPresenter2> m_pCAP2;
 
+    CComPtr<IMadVRSubclassReplacement> m_pMVRSR;
     CComPtr<IMadVRSettings> m_pMVRS;
 
     CComQIPtr<IDvdControl2> m_pDVDC;
@@ -384,6 +388,10 @@ private:
 
     REFTIME GetAvgTimePerFrame() const;
 
+    CDropTarget m_dropTarget;
+    void OnDropFiles(CAtlList<CString>& slFiles, DROPEFFECT dropEffect) override;
+    DROPEFFECT OnDropAccept(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point) override;
+
 public:
     void StartWebServer(int nPort);
     void StopWebServer();
@@ -423,6 +431,10 @@ public:
         return (AfxGetAppSettings().fIntRealMedia && m_fRealMediaGraph || m_fShockwaveGraph);
     }
     bool IsD3DFullScreenMode() const;
+
+    bool IsSubresyncBarVisible() const {
+        return !!m_wndSubresyncBar.IsWindowVisible();
+    }
 
     CControlBar* m_pLastBar;
 
@@ -554,7 +566,6 @@ public:
     bool DoCapture(), StartCapture(), StopCapture();
 
     void DoAfterPlaybackEvent();
-    void ParseDirs(CAtlList<CString>& sl);
     bool SearchInDir(bool bDirForward, bool bLoop = false);
 
     virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
@@ -628,15 +639,6 @@ protected:  // control bar embedded members
     CEditListEditor m_wndEditListEditor;
 
     std::unique_ptr<CDebugShadersDlg> m_pDebugShaders;
-
-    CFileDropTarget m_fileDropTarget;
-    // TODO
-    DROPEFFECT OnDragEnter(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point);
-    DROPEFFECT OnDragOver(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point);
-    BOOL OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point);
-    DROPEFFECT OnDropEx(COleDataObject* pDataObject, DROPEFFECT dropDefault, DROPEFFECT dropList, CPoint point);
-    void OnDragLeave();
-    DROPEFFECT OnDragScroll(DWORD dwKeyState, CPoint point);
 
     LPCTSTR GetRecentFile() const;
 
@@ -731,7 +733,6 @@ public:
     afx_msg void OnFileOpenOpticalDisk(UINT nID);
     afx_msg void OnFileReopen();
     afx_msg void OnFileRecycle();
-    afx_msg void OnDropFiles(HDROP hDropInfo); // no menu item
     afx_msg void OnFileSaveAs();
     afx_msg void OnUpdateFileSaveAs(CCmdUI* pCmdUI);
     afx_msg void OnFileSaveImage();
@@ -815,9 +816,9 @@ public:
     afx_msg void OnViewOptions();
     afx_msg void OnUpdateViewTearingTest(CCmdUI* pCmdUI);
     afx_msg void OnViewTearingTest();
-    afx_msg void OnUpdateViewDisplayStats(CCmdUI* pCmdUI);
-    afx_msg void OnViewResetStats();
-    afx_msg void OnViewDisplayStatsSC();
+    afx_msg void OnUpdateViewDisplayRendererStats(CCmdUI* pCmdUI);
+    afx_msg void OnViewResetRendererStats();
+    afx_msg void OnViewDisplayRendererStats();
     afx_msg void OnUpdateViewVSync(CCmdUI* pCmdUI);
     afx_msg void OnUpdateViewVSyncOffset(CCmdUI* pCmdUI);
     afx_msg void OnUpdateViewVSyncAccurate(CCmdUI* pCmdUI);
@@ -886,8 +887,10 @@ public:
     afx_msg void OnViewEnableFrameTimeCorrection();
     afx_msg void OnViewVSyncOffsetIncrease();
     afx_msg void OnViewVSyncOffsetDecrease();
-    afx_msg void OnUpdateViewRemainingTime(CCmdUI* pCmdUI);
-    afx_msg void OnViewRemainingTime();
+    afx_msg void OnUpdateViewOSDDisplayTime(CCmdUI* pCmdUI);
+    afx_msg void OnViewOSDDisplayTime();
+    afx_msg void OnUpdateViewOSDShowFileName(CCmdUI* pCmdUI);
+    afx_msg void OnViewOSDShowFileName();
     afx_msg void OnD3DFullscreenToggle();
     afx_msg void OnGotoSubtitle(UINT nID);
     afx_msg void OnShiftSubtitle(UINT nID);
@@ -978,7 +981,7 @@ public:
     CWnd*           m_pVideoWnd;            // Current Video (main display screen or 2nd)
     CFullscreenWnd* m_pFullscreenWnd;
     CVMROSD     m_OSD;
-    bool        m_bRemainingTime;
+    bool        m_bOSDDisplayTime;
     int         m_nCurSubtitle;
     long        m_lSubtitleShift;
     REFERENCE_TIME m_rtCurSubPos;
@@ -1019,7 +1022,7 @@ public:
 
     CString GetVidPos() const;
 
-    ITaskbarList3* m_pTaskbarList;
+    CComPtr<ITaskbarList3> m_pTaskbarList;
     HRESULT CreateThumbnailToolbar();
     HRESULT UpdateThumbarButton();
     HRESULT UpdateThumbarButton(MPC_PLAYSTATE iPlayState);

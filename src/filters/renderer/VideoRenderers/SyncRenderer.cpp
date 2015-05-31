@@ -1,5 +1,5 @@
 /*
- * (C) 2010-2014 see Authors.txt
+ * (C) 2010-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -45,6 +45,7 @@
 #include "SyncRenderer.h"
 #include "version.h"
 #include "FocusThread.h"
+#include "../../../DSUtil/ArrayUtils.h"
 
 // only for debugging
 //#define DISABLE_USING_D3D9EX
@@ -79,7 +80,7 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
     , m_pAudioStats(nullptr)
     , m_nNextJitter(0)
     , m_nNextSyncOffset(0)
-    , m_llLastSyncTime(0)
+    , m_llLastSyncTime(LONGLONG_ERROR)
     , m_fAvrFps(0.0)
     , m_fJitterStdDev(0.0)
     , m_fSyncOffsetStdDev(0.0)
@@ -381,6 +382,7 @@ void CBaseAP::ResetStats()
     m_MaxSyncOffset = MINLONG64;
     m_uSyncGlitches = 0;
     m_pcFramesDropped = 0;
+    m_llLastSyncTime = LONGLONG_ERROR;
 }
 
 bool CBaseAP::SettingsNeedResetDevice()
@@ -711,14 +713,13 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
     CComPtr<IEnumPins> rendererInputEnum;
     std::vector<CComPtr<IPin>> decoderOutput;
     std::vector<CComPtr<IPin>> rendererInput;
-    FILTER_INFO filterInfo;
-    ZeroMemory(&filterInfo, sizeof(filterInfo));
+    CFilterInfo filterInfo;
 
-    bool disconnected = FALSE;
+    bool disconnected = false;
 
     // Disconnect all pins to release video memory resources
     if (m_pD3DDev) {
-        m_pOuterEVR->QueryFilterInfo(&filterInfo); // This addref's the pGraph member
+        m_pOuterEVR->QueryFilterInfo(&filterInfo);
         if (SUCCEEDED(m_pOuterEVR->EnumPins(&rendererInputEnum))) {
             CComPtr<IPin> input;
             CComPtr<IPin> output;
@@ -735,13 +736,15 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
         } else {
             return hr;
         }
-        for (DWORD i = 0; i < decoderOutput.size(); i++) {
-            TRACE(_T("Disconnecting pin\n"));
-            filterInfo.pGraph->Disconnect(decoderOutput.at(i).p);
-            filterInfo.pGraph->Disconnect(rendererInput.at(i).p);
-            TRACE(_T("Pin disconnected\n"));
+        if (filterInfo.pGraph) {
+            for (size_t i = 0; i < decoderOutput.size(); i++) {
+                TRACE(_T("Disconnecting pin\n"));
+                filterInfo.pGraph->Disconnect(decoderOutput[i].p);
+                filterInfo.pGraph->Disconnect(rendererInput[i].p);
+                TRACE(_T("Pin disconnected\n"));
+            }
+            disconnected = true;
         }
-        disconnected = true;
     }
 
     // Release more resources
@@ -859,14 +862,10 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
     }
 
     if (disconnected) {
-        for (DWORD i = 0; i < decoderOutput.size(); i++) {
-            if (FAILED(filterInfo.pGraph->ConnectDirect(decoderOutput.at(i).p, rendererInput.at(i).p, nullptr))) {
+        for (size_t i = 0; i < decoderOutput.size(); i++) {
+            if (FAILED(filterInfo.pGraph->ConnectDirect(decoderOutput[i].p, rendererInput[i].p, nullptr))) {
                 return hr;
             }
-        }
-
-        if (filterInfo.pGraph != nullptr) {
-            filterInfo.pGraph->Release();
         }
     }
 
@@ -1461,6 +1460,10 @@ HRESULT CBaseAP::AlphaBlt(RECT* pSrc, const RECT* pDst, IDirect3DTexture9* pText
 // Update the array m_pllJitter with a new vsync period. Calculate min, max and stddev.
 void CBaseAP::SyncStats(LONGLONG syncTime)
 {
+    if (m_llLastSyncTime == LONGLONG_ERROR) {
+        m_llLastSyncTime = syncTime;
+    }
+
     m_nNextJitter = (m_nNextJitter + 1) % NB_JITTER;
     LONGLONG jitter = syncTime - m_llLastSyncTime;
     m_pllJitter[m_nNextJitter] = jitter;
@@ -2401,9 +2404,6 @@ STDMETHODIMP CBaseAP::SetPixelShader2(LPCSTR pSrcData, LPCSTR pTarget, bool bScr
 
 CSyncAP::CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
     : CBaseAP(hWnd, bFullscreen, hr, _Error)
-    , m_hDXVA2Lib(nullptr)
-    , m_hEVRLib(nullptr)
-    , m_hAVRTLib(nullptr)
     , m_nResetToken(0)
     , m_hRenderThread(nullptr)
     , m_hMixerThread(nullptr)
@@ -2426,13 +2426,13 @@ CSyncAP::CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
     , m_bPrerolled(false)
     , m_LastClockState(MFCLOCK_STATE_INVALID)
     , m_bEvtSkip(false)
-    , pfDXVA2CreateDirect3DDeviceManager9(nullptr)
-    , pfMFCreateDXSurfaceBuffer(nullptr)
-    , pfMFCreateVideoSampleFromSurface(nullptr)
-    , pfMFCreateVideoMediaType(nullptr)
-    , pfAvSetMmThreadCharacteristicsW(nullptr)
-    , pfAvSetMmThreadPriority(nullptr)
-    , pfAvRevertMmThreadCharacteristics(nullptr)
+    , fnDXVA2CreateDirect3DDeviceManager9("dxva2.dll", "DXVA2CreateDirect3DDeviceManager9")
+    , fnMFCreateDXSurfaceBuffer("evr.dll", "MFCreateDXSurfaceBuffer")
+    , fnMFCreateVideoSampleFromSurface("evr.dll", "MFCreateVideoSampleFromSurface")
+    , fnMFCreateMediaType("mfplat.dll", "MFCreateMediaType")
+    , fnAvSetMmThreadCharacteristicsW("avrt.dll", "AvSetMmThreadCharacteristicsW")
+    , fnAvSetMmThreadPriority("avrt.dll", "AvSetMmThreadPriority")
+    , fnAvRevertMmThreadCharacteristics("avrt.dll", "AvRevertMmThreadCharacteristics")
 {
     const CRenderersSettings& r = GetRenderersSettings();
 
@@ -2441,47 +2441,25 @@ CSyncAP::CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
         return;
     }
 
-    // Load EVR specific DLLs
-    m_hDXVA2Lib = LoadLibrary(L"dxva2.dll");
-    if (m_hDXVA2Lib) {
-        pfDXVA2CreateDirect3DDeviceManager9 = (PTR_DXVA2CreateDirect3DDeviceManager9) GetProcAddress(m_hDXVA2Lib, "DXVA2CreateDirect3DDeviceManager9");
-    }
-
-    // Load EVR functions
-    m_hEVRLib = LoadLibrary(L"evr.dll");
-    if (m_hEVRLib) {
-        pfMFCreateDXSurfaceBuffer = (PTR_MFCreateDXSurfaceBuffer)GetProcAddress(m_hEVRLib, "MFCreateDXSurfaceBuffer");
-        pfMFCreateVideoSampleFromSurface = (PTR_MFCreateVideoSampleFromSurface)GetProcAddress(m_hEVRLib, "MFCreateVideoSampleFromSurface");
-        pfMFCreateVideoMediaType = (PTR_MFCreateVideoMediaType)GetProcAddress(m_hEVRLib, "MFCreateVideoMediaType");
-    }
-
-    if (!pfDXVA2CreateDirect3DDeviceManager9 || !pfMFCreateDXSurfaceBuffer || !pfMFCreateVideoSampleFromSurface || !pfMFCreateVideoMediaType) {
-        if (!pfDXVA2CreateDirect3DDeviceManager9) {
+    if (!fnDXVA2CreateDirect3DDeviceManager9 || !fnMFCreateDXSurfaceBuffer || !fnMFCreateVideoSampleFromSurface || !fnMFCreateMediaType) {
+        if (!fnDXVA2CreateDirect3DDeviceManager9) {
             _Error += L"Could not find DXVA2CreateDirect3DDeviceManager9 (dxva2.dll)\n";
         }
-        if (!pfMFCreateDXSurfaceBuffer) {
+        if (!fnMFCreateDXSurfaceBuffer) {
             _Error += L"Could not find MFCreateDXSurfaceBuffer (evr.dll)\n";
         }
-        if (!pfMFCreateVideoSampleFromSurface) {
+        if (!fnMFCreateVideoSampleFromSurface) {
             _Error += L"Could not find MFCreateVideoSampleFromSurface (evr.dll)\n";
         }
-        if (!pfMFCreateVideoMediaType) {
-            _Error += L"Could not find MFCreateVideoMediaType (evr.dll)\n";
+        if (!fnMFCreateMediaType) {
+            _Error += L"Could not find MFCreateMediaType (mfplat.dll)\n";
         }
         hr = E_FAIL;
         return;
     }
 
-    // Load Vista+ specific DLLs
-    m_hAVRTLib = LoadLibrary(L"avrt.dll");
-    if (m_hAVRTLib) {
-        pfAvSetMmThreadCharacteristicsW = (PTR_AvSetMmThreadCharacteristicsW) GetProcAddress(m_hAVRTLib, "AvSetMmThreadCharacteristicsW");
-        pfAvSetMmThreadPriority = (PTR_AvSetMmThreadPriority) GetProcAddress(m_hAVRTLib, "AvSetMmThreadPriority");
-        pfAvRevertMmThreadCharacteristics = (PTR_AvRevertMmThreadCharacteristics) GetProcAddress(m_hAVRTLib, "AvRevertMmThreadCharacteristics");
-    }
-
     // Init DXVA manager
-    hr = pfDXVA2CreateDirect3DDeviceManager9(&m_nResetToken, &m_pD3DManager);
+    hr = fnDXVA2CreateDirect3DDeviceManager9(&m_nResetToken, &m_pD3DManager);
     if (SUCCEEDED(hr) && m_pD3DManager) {
         hr = m_pD3DManager->ResetDevice(m_pD3DDev, m_nResetToken);
         if (FAILED(hr)) {
@@ -2515,16 +2493,6 @@ CSyncAP::~CSyncAP()
     m_pMediaType = nullptr;
     m_pClock = nullptr;
     m_pD3DManager = nullptr;
-
-    if (m_hDXVA2Lib) {
-        FreeLibrary(m_hDXVA2Lib);
-    }
-    if (m_hEVRLib) {
-        FreeLibrary(m_hEVRLib);
-    }
-    if (m_hAVRTLib) {
-        FreeLibrary(m_hAVRTLib);
-    }
 }
 
 HRESULT CSyncAP::CheckShutdown() const
@@ -2940,52 +2908,78 @@ HRESULT CSyncAP::IsMediaTypeSupported(IMFMediaType* pMixerType)
     return hr;
 }
 
-HRESULT CSyncAP::CreateProposedOutputType(IMFMediaType* pMixerType, IMFMediaType** ppType)
+HRESULT CSyncAP::CreateOptimalOutputType(IMFMediaType* pMixerProposedType, IMFMediaType* pMixerInputType, IMFMediaType** ppType)
 {
     HRESULT hr;
-    AM_MEDIA_TYPE* pAMMedia = nullptr;
-    LARGE_INTEGER i64Size;
-    MFVIDEOFORMAT* VideoFormat;
+    IMFMediaType* pOptimalMediaType;
 
-    CHECK_HR(pMixerType->GetRepresentation(FORMAT_MFVideoFormat, (void**)&pAMMedia));
+    CHECK_HR(fnMFCreateMediaType(&pOptimalMediaType));
+    CHECK_HR(pMixerProposedType->CopyAllItems(pOptimalMediaType));
 
-    VideoFormat = (MFVIDEOFORMAT*)pAMMedia->pbFormat;
-    hr = pfMFCreateVideoMediaType(VideoFormat, &m_pMediaType);
+    auto colorAttributes = make_array(
+                               MF_MT_VIDEO_LIGHTING,
+                               MF_MT_VIDEO_PRIMARIES,
+                               MF_MT_TRANSFER_FUNCTION,
+                               MF_MT_YUV_MATRIX,
+                               MF_MT_VIDEO_CHROMA_SITING
+                           );
 
-    CSize videoSize;
-    videoSize.cx = VideoFormat->videoInfo.dwWidth;
-    videoSize.cy = VideoFormat->videoInfo.dwHeight;
+    auto copyAttribute = [](IMFAttributes * pFrom, IMFAttributes * pTo, REFGUID guidKey) {
+        PROPVARIANT val;
+        HRESULT hr = pFrom->GetItem(guidKey, &val);
 
-    if (SUCCEEDED(hr)) {
-        i64Size.HighPart = videoSize.cx;
-        i64Size.LowPart  = videoSize.cy;
-        m_pMediaType->SetUINT64(MF_MT_FRAME_SIZE, i64Size.QuadPart);
-        m_pMediaType->SetUINT32(MF_MT_PAN_SCAN_ENABLED, 0);
-        const CRenderersSettings& r = GetRenderersSettings();
-
-        if (r.m_AdvRendSets.iEVROutputRange == 1) {
-            m_pMediaType->SetUINT32(MF_MT_VIDEO_NOMINAL_RANGE, MFNominalRange_16_235);
-        } else {
-            m_pMediaType->SetUINT32(MF_MT_VIDEO_NOMINAL_RANGE, MFNominalRange_0_255);
+        if (SUCCEEDED(hr)) {
+            hr = pTo->SetItem(guidKey, val);
+            PropVariantClear(&val);
+        } else if (hr == MF_E_ATTRIBUTENOTFOUND) {
+            hr = pTo->DeleteItem(guidKey);
         }
+        return hr;
+    };
 
+    for (REFGUID guidKey : colorAttributes) {
+        if (FAILED(hr = copyAttribute(pMixerInputType, pOptimalMediaType, guidKey))) {
+            TRACE(_T("Copying color attribute %s failed: 0x%08x\n"), CComBSTR(guidKey), hr);
+        }
+    }
+
+    pOptimalMediaType->SetUINT32(MF_MT_PAN_SCAN_ENABLED, 0);
+
+    const CRenderersSettings& r = GetRenderersSettings();
+
+    UINT32 nominalRange;
+    if (SUCCEEDED(pMixerInputType->GetUINT32(MF_MT_VIDEO_NOMINAL_RANGE, &nominalRange))
+            && nominalRange == MFNominalRange_0_255) {
+        // EVR mixer always assume 16-235 input. To ensure that luminance range won't be expanded we requests 16-235 also on output.
+        // Request 16-235 to ensure untouched luminance range on output. It is the only way to pass 0-255 without changes.
+        nominalRange = MFNominalRange_16_235;
+        m_LastSetOutputRange = -1; // -1 to prevent renegotiations because of different value than this in settings.
+    } else {
+        nominalRange = (r.m_AdvRendSets.iEVROutputRange == 1) ? MFNominalRange_16_235 : MFNominalRange_0_255;
         m_LastSetOutputRange = r.m_AdvRendSets.iEVROutputRange;
-        i64Size.HighPart = VideoFormat->videoInfo.PixelAspectRatio.Numerator;
-        i64Size.LowPart = VideoFormat->videoInfo.PixelAspectRatio.Denominator;
-        m_pMediaType->SetUINT64(MF_MT_PIXEL_ASPECT_RATIO, i64Size.QuadPart);
-
-        MFVideoArea Area = GetArea(0, 0, videoSize.cx, videoSize.cy);
-        m_pMediaType->SetBlob(MF_MT_GEOMETRIC_APERTURE, (UINT8*)&Area, sizeof(MFVideoArea));
     }
+    pOptimalMediaType->SetUINT32(MF_MT_VIDEO_NOMINAL_RANGE, nominalRange);
 
-    UINT64 dwARx = UINT64(VideoFormat->videoInfo.PixelAspectRatio.Numerator)   * videoSize.cx;
-    UINT64 dwARy = UINT64(VideoFormat->videoInfo.PixelAspectRatio.Denominator) * videoSize.cy;
-    UINT64 gcd = GCD(dwARx, dwARy);
+    m_LastSetOutputRange = r.m_AdvRendSets.iEVROutputRange;
+
+    ULARGE_INTEGER ui64Size;
+    pOptimalMediaType->GetUINT64(MF_MT_FRAME_SIZE, &ui64Size.QuadPart);
+
+    CSize videoSize((LONG)ui64Size.HighPart, (LONG)ui64Size.LowPart);
+    MFVideoArea Area = GetArea(0, 0, videoSize.cx, videoSize.cy);
+    pOptimalMediaType->SetBlob(MF_MT_GEOMETRIC_APERTURE, (UINT8*)&Area, sizeof(MFVideoArea));
+
+    ULARGE_INTEGER ui64AspectRatio;
+    pOptimalMediaType->GetUINT64(MF_MT_PIXEL_ASPECT_RATIO, &ui64AspectRatio.QuadPart);
+
+    UINT64 ui64ARx = UINT64(ui64AspectRatio.HighPart) * ui64Size.HighPart;
+    UINT64 ui64ARy = UINT64(ui64AspectRatio.LowPart)  * ui64Size.LowPart;
+    UINT64 gcd = GCD(ui64ARx, ui64ARy);
     if (gcd > 1) {
-        dwARx /= gcd;
-        dwARy /= gcd;
+        ui64ARx /= gcd;
+        ui64ARy /= gcd;
     }
-    CSize aspectRatio((LONG)dwARx, (LONG)dwARy);
+    CSize aspectRatio((LONG)ui64ARx, (LONG)ui64ARy);
 
     if (videoSize != m_nativeVideoSize || aspectRatio != m_aspectRatio) {
         SetVideoSize(videoSize, aspectRatio);
@@ -2996,8 +2990,8 @@ HRESULT CSyncAP::CreateProposedOutputType(IMFMediaType* pMixerType, IMFMediaType
         }
     }
 
-    pMixerType->FreeRepresentation(FORMAT_MFVideoFormat, (void*)pAMMedia);
-    m_pMediaType->QueryInterface(IID_PPV_ARGS(ppType));
+    *ppType = pOptimalMediaType;
+    (*ppType)->AddRef();
 
     return hr;
 }
@@ -3013,6 +3007,9 @@ HRESULT CSyncAP::SetMediaType(IMFMediaType* pType)
 
     hr = InitializeDevice(pAMMedia);
     if (SUCCEEDED(hr)) {
+        CAutoLock lock(this);
+        m_pMediaType = pType;
+
         strTemp = GetMediaTypeName(pAMMedia->subtype);
         strTemp.Replace(L"MEDIASUBTYPE_", L"");
         m_strStatsMsg[MSG_MIXEROUT].Format(L"Mixer output : %s", strTemp);
@@ -3066,6 +3063,7 @@ HRESULT CSyncAP::RenegotiateMediaType()
     HRESULT hr = S_OK;
 
     CComPtr<IMFMediaType> pMixerType;
+    CComPtr<IMFMediaType> pMixerInputType;
     CComPtr<IMFMediaType> pType;
 
     if (!m_pMixer) {
@@ -3073,13 +3071,13 @@ HRESULT CSyncAP::RenegotiateMediaType()
     }
 
     // Get the mixer's input type
-    hr = m_pMixer->GetInputCurrentType(0, &pType);
+    hr = m_pMixer->GetInputCurrentType(0, &pMixerInputType);
     if (SUCCEEDED(hr)) {
         AM_MEDIA_TYPE* pMT;
-        hr = pType->GetRepresentation(FORMAT_VideoInfo2, (void**)&pMT);
+        hr = pMixerInputType->GetRepresentation(FORMAT_VideoInfo2, (void**)&pMT);
         if (SUCCEEDED(hr)) {
             m_inputMediaType = *pMT;
-            pType->FreeRepresentation(FORMAT_VideoInfo2, pMT);
+            pMixerInputType->FreeRepresentation(FORMAT_VideoInfo2, pMT);
         }
     }
 
@@ -3089,7 +3087,6 @@ HRESULT CSyncAP::RenegotiateMediaType()
     while ((hr != MF_E_NO_MORE_TYPES)) {
         pMixerType  = nullptr;
         pType = nullptr;
-        m_pMediaType = nullptr;
 
         // Step 1. Get the next media type supported by mixer.
         hr = m_pMixer->GetOutputAvailableType(0, iTypeIndex++, &pMixerType);
@@ -3101,7 +3098,7 @@ HRESULT CSyncAP::RenegotiateMediaType()
             hr = IsMediaTypeSupported(pMixerType);
         }
         if (SUCCEEDED(hr)) {
-            hr = CreateProposedOutputType(pMixerType, &pType);
+            hr = CreateOptimalOutputType(pMixerType, pMixerInputType, &pType);
         }
         // Step 4. Check if the mixer will accept this media type.
         if (SUCCEEDED(hr)) {
@@ -3151,7 +3148,7 @@ HRESULT CSyncAP::RenegotiateMediaType()
 
 bool CSyncAP::GetSampleFromMixer()
 {
-    MFT_OUTPUT_DATA_BUFFER Buffer;
+    MFT_OUTPUT_DATA_BUFFER dataBuffer;
     HRESULT hr = S_OK;
     DWORD dwStatus;
     LONGLONG llClockBefore = 0;
@@ -3168,17 +3165,19 @@ bool CSyncAP::GetSampleFromMixer()
             break;
         }
 
-        ZeroMemory(&Buffer, sizeof(Buffer));
-        Buffer.pSample = pSample;
+        ZeroMemory(&dataBuffer, sizeof(dataBuffer));
+        dataBuffer.pSample = pSample;
         pSample->GetUINT32(GUID_SURFACE_INDEX, &dwSurface);
         {
             llClockBefore = GetRenderersData()->GetPerfCounter();
-            hr = m_pMixer->ProcessOutput(0 , 1, &Buffer, &dwStatus);
+            hr = m_pMixer->ProcessOutput(0 , 1, &dataBuffer, &dwStatus);
             llClockAfter = GetRenderersData()->GetPerfCounter();
         }
 
         if (hr == MF_E_TRANSFORM_NEED_MORE_INPUT) { // There are no samples left in the mixer
             MoveToFreeList(pSample, false);
+            // Important: Release any events returned from the ProcessOutput method.
+            SAFE_RELEASE(dataBuffer.pEvents);
             break;
         }
         if (m_pSink) {
@@ -3203,6 +3202,8 @@ bool CSyncAP::GetSampleFromMixer()
             m_nTearingPos = (m_nTearingPos + 7) % m_nativeVideoSize.cx;
         }
         MoveToScheduledList(pSample, false); // Schedule, then go back to see if there is more where that came from
+        // Important: Release any events returned from the ProcessOutput method.
+        SAFE_RELEASE(dataBuffer.pEvents);
     }
     return newSample;
 }
@@ -3532,9 +3533,10 @@ STDMETHODIMP CSyncAP::InitializeDevice(AM_MEDIA_TYPE* pMediaType)
 
     for (int i = 0; i < m_nDXSurface; i++) {
         CComPtr<IMFSample> pMFSample;
-        hr = pfMFCreateVideoSampleFromSurface(m_pVideoSurface[i], &pMFSample);
+        hr = fnMFCreateVideoSampleFromSurface(m_pVideoSurface[i], &pMFSample);
         if (SUCCEEDED(hr)) {
             pMFSample->SetUINT32(GUID_SURFACE_INDEX, i);
+            CAutoLock sampleQueueLock(&m_SampleQueueLock);
             m_FreeSamples.AddTail(pMFSample);
         }
         ASSERT(SUCCEEDED(hr));
@@ -3617,18 +3619,18 @@ void CSyncAP::RenderThread()
 
     // Tell Multimedia Class Scheduler we are doing threaded playback (increase priority)
     HANDLE hAvrt = 0;
-    if (pfAvSetMmThreadCharacteristicsW) {
+    if (fnAvSetMmThreadCharacteristicsW) {
         DWORD dwTaskIndex = 0;
-        hAvrt = pfAvSetMmThreadCharacteristicsW(L"Playback", &dwTaskIndex);
-        if (pfAvSetMmThreadPriority) {
-            pfAvSetMmThreadPriority(hAvrt, AVRT_PRIORITY_HIGH);
+        hAvrt = fnAvSetMmThreadCharacteristicsW(L"Playback", &dwTaskIndex);
+        if (fnAvSetMmThreadPriority) {
+            fnAvSetMmThreadPriority(hAvrt, AVRT_PRIORITY_HIGH);
         }
     }
 
     // Set timer resolution
     timeGetDevCaps(&tc, sizeof(TIMECAPS));
     DWORD dwResolution = std::min(std::max(tc.wPeriodMin, 0u), tc.wPeriodMax);
-    DWORD dwUser = timeBeginPeriod(dwResolution);
+    VERIFY(timeBeginPeriod(dwResolution) == 0);
     pNewSample = nullptr;
 
     while (!bQuit) {
@@ -3808,8 +3810,8 @@ void CSyncAP::RenderThread()
         pNewSample = nullptr;
     }
     timeEndPeriod(dwResolution);
-    if (pfAvRevertMmThreadCharacteristics) {
-        pfAvRevertMmThreadCharacteristics(hAvrt);
+    if (fnAvRevertMmThreadCharacteristics) {
+        fnAvRevertMmThreadCharacteristics(hAvrt);
     }
 }
 
@@ -3818,15 +3820,17 @@ STDMETHODIMP_(bool) CSyncAP::ResetDevice()
     CAutoLock lock(this);
     CAutoLock lock2(&m_ImageProcessingLock);
     CAutoLock cRenderLock(&m_allocatorLock);
+
     RemoveAllSamples();
 
     bool bResult = __super::ResetDevice();
 
     for (int i = 0; i < m_nDXSurface; i++) {
         CComPtr<IMFSample> pMFSample;
-        HRESULT hr = pfMFCreateVideoSampleFromSurface(m_pVideoSurface[i], &pMFSample);
+        HRESULT hr = fnMFCreateVideoSampleFromSurface(m_pVideoSurface[i], &pMFSample);
         if (SUCCEEDED(hr)) {
             pMFSample->SetUINT32(GUID_SURFACE_INDEX, i);
+            CAutoLock sampleQueueLock(&m_SampleQueueLock);
             m_FreeSamples.AddTail(pMFSample);
         }
         ASSERT(SUCCEEDED(hr));
@@ -3849,7 +3853,9 @@ void CSyncAP::OnResetDevice()
 
 void CSyncAP::RemoveAllSamples()
 {
-    CAutoLock AutoLock(&m_ImageProcessingLock);
+    CAutoLock imageProcesssingLock(&m_ImageProcessingLock);
+    CAutoLock sampleQueueLock(&m_SampleQueueLock);
+
     FlushSamples();
     m_ScheduledSamples.RemoveAll();
     m_FreeSamples.RemoveAll();
@@ -3905,11 +3911,11 @@ void CSyncAP::MoveToFreeList(IMFSample* pSample, bool bTail)
 
 void CSyncAP::MoveToScheduledList(IMFSample* pSample, bool _bSorted)
 {
+    CAutoLock lock(&m_SampleQueueLock);
+
     if (_bSorted) {
-        CAutoLock lock(&m_SampleQueueLock);
         m_ScheduledSamples.AddHead(pSample);
     } else {
-        CAutoLock lock(&m_SampleQueueLock);
         m_ScheduledSamples.AddTail(pSample);
     }
 }
@@ -3942,10 +3948,9 @@ HRESULT CSyncAP::BeginStreaming()
     m_pcFramesDrawn = 0;
 
     CComPtr<IBaseFilter> pEVR;
-    FILTER_INFO filterInfo;
-    ZeroMemory(&filterInfo, sizeof(filterInfo));
+    CFilterInfo filterInfo;
     m_pOuterEVR->QueryInterface(IID_PPV_ARGS(&pEVR));
-    pEVR->QueryFilterInfo(&filterInfo); // This addref's the pGraph member
+    pEVR->QueryFilterInfo(&filterInfo);
 
     BeginEnumFilters(filterInfo.pGraph, pEF, pBF);
     if (CComQIPtr<IAMAudioRendererStats> pAS = pBF) {
@@ -3954,9 +3959,6 @@ HRESULT CSyncAP::BeginStreaming()
     EndEnumFilters;
 
     pEVR->GetSyncSource(&m_pRefClock);
-    if (filterInfo.pGraph) {
-        filterInfo.pGraph->Release();
-    }
     m_pGenlock->SetMonitor(GetAdapter(m_pD3D, m_hWnd));
     m_pGenlock->GetTiming();
 

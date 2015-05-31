@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -24,7 +24,8 @@
 #include "AppSettings.h"
 #include "FGFilter.h"
 #include "FileAssoc.h"
-#include "MiniDump.h"
+#include "CrashReporter.h"
+#include "CrashReporterDialog.h"
 #include "VersionInfo.h"
 #include "SysVersion.h"
 #include "WinAPIUtils.h"
@@ -32,6 +33,7 @@
 #include "Translations.h"
 #include "UpdateChecker.h"
 #include "moreuuids.h"
+#include <mvrInterfaces.h>
 
 
 #pragma warning(push)
@@ -53,6 +55,7 @@ CAppSettings::CAppSettings()
     , nOSDSize(0)
     , nSpeakerChannels(2)
     , fRemainingTime(false)
+    , bHighPrecisionTimer(false)
     , nUpdaterAutoCheck(-1)
     , nUpdaterDelay(7)
     , fBDAUseOffset(false)
@@ -198,6 +201,7 @@ CAppSettings::CAppSettings()
     , nJpegQuality(90)
     , bEnableCoverArt(true)
     , nCoverArtSizeLimit(600)
+    , bEnableLogging(false)
 {
     // Internal source filter
 #if INTERNAL_SOURCEFILTER_CDDA
@@ -212,8 +216,11 @@ CAppSettings::CAppSettings()
 #if INTERNAL_SOURCEFILTER_FLIC
     SrcFiltersKeys[SRC_FLIC] = FilterKey(_T("SRC_FLIC"), true);
 #endif
-#if INTERNAL_SOURCEFILTER_DTSAC3
-    SrcFiltersKeys[SRC_DTSAC3] = FilterKey(_T("SRC_DTSAC3"), true);
+#if INTERNAL_SOURCEFILTER_AC3
+    SrcFiltersKeys[SRC_AC3] = FilterKey(_T("SRC_AC3"), true);
+#endif
+#if INTERNAL_SOURCEFILTER_DTS
+    SrcFiltersKeys[SRC_DTS] = FilterKey(_T("SRC_DTS"), true);
 #endif
 #if INTERNAL_SOURCEFILTER_MATROSKA
     SrcFiltersKeys[SRC_MATROSKA] = FilterKey(_T("SRC_MATROSKA"), true);
@@ -269,6 +276,9 @@ CAppSettings::CAppSettings()
 #endif
 #if INTERNAL_SOURCEFILTER_ASF
     SrcFiltersKeys[SRC_ASF] = FilterKey(_T("SRC_ASF"), false);
+#endif
+#if INTERNAL_SOURCEFILTER_WTV
+    SrcFiltersKeys[SRC_WTV] = FilterKey(_T("SRC_WTV"), true);
 #endif
 #if INTERNAL_SOURCEFILTER_FLAC
     SrcFiltersKeys[SRC_FLAC] = FilterKey(_T("SRC_FLAC"), true);
@@ -396,195 +406,194 @@ CAppSettings::CAppSettings()
 
 void CAppSettings::CreateCommands()
 {
-#define ADDCMD(cmd) wmcmds.AddTail(wmcmd##cmd)
-    ADDCMD((ID_FILE_OPENQUICK,                  'Q', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_MPLAYERC_0));
-    ADDCMD((ID_FILE_OPENMEDIA,                  'O', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_OPEN_FILE));
-    ADDCMD((ID_FILE_OPENDVDBD,                  'D', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_OPEN_DVD));
-    ADDCMD((ID_FILE_OPENDEVICE,                 'V', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_OPEN_DEVICE));
-    ADDCMD((ID_FILE_REOPEN,                     'E', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_REOPEN));
-    ADDCMD((ID_FILE_RECYCLE,                      0, FVIRTKEY | FNOINVERT,                    IDS_FILE_RECYCLE));
+    wmcmds.AddTail({ID_FILE_OPENQUICK,                  'Q', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_MPLAYERC_0});
+    wmcmds.AddTail({ID_FILE_OPENMEDIA,                  'O', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_OPEN_FILE});
+    wmcmds.AddTail({ID_FILE_OPENDVDBD,                  'D', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_OPEN_DVD});
+    wmcmds.AddTail({ID_FILE_OPENDEVICE,                 'V', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_OPEN_DEVICE});
+    wmcmds.AddTail({ID_FILE_REOPEN,                     'E', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_REOPEN});
+    wmcmds.AddTail({ID_FILE_RECYCLE,                      0, FVIRTKEY | FNOINVERT,                    IDS_FILE_RECYCLE});
 
-    ADDCMD((ID_FILE_SAVE_COPY,                    0, FVIRTKEY | FNOINVERT,                    IDS_AG_SAVE_COPY));
-    ADDCMD((ID_FILE_SAVE_IMAGE,                 'I', FVIRTKEY | FALT | FNOINVERT,             IDS_AG_SAVE_IMAGE));
-    ADDCMD((ID_FILE_SAVE_IMAGE_AUTO,          VK_F5, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_6));
-    ADDCMD((ID_FILE_SAVE_THUMBNAILS,              0, FVIRTKEY | FNOINVERT,                    IDS_FILE_SAVE_THUMBNAILS));
+    wmcmds.AddTail({ID_FILE_SAVE_COPY,                    0, FVIRTKEY | FNOINVERT,                    IDS_AG_SAVE_COPY});
+    wmcmds.AddTail({ID_FILE_SAVE_IMAGE,                 'I', FVIRTKEY | FALT | FNOINVERT,             IDS_AG_SAVE_IMAGE});
+    wmcmds.AddTail({ID_FILE_SAVE_IMAGE_AUTO,          VK_F5, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_6});
+    wmcmds.AddTail({ID_FILE_SAVE_THUMBNAILS,              0, FVIRTKEY | FNOINVERT,                    IDS_FILE_SAVE_THUMBNAILS});
 
-    ADDCMD((ID_FILE_LOAD_SUBTITLE,              'L', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_LOAD_SUBTITLE));
-    ADDCMD((ID_FILE_SAVE_SUBTITLE,              'S', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_SAVE_SUBTITLE));
-    ADDCMD((ID_FILE_CLOSE_AND_RESTORE,          'C', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_CLOSE));
-    ADDCMD((ID_FILE_PROPERTIES,              VK_F10, FVIRTKEY | FSHIFT | FNOINVERT,           IDS_AG_PROPERTIES));
-    ADDCMD((ID_FILE_EXIT,                       'X', FVIRTKEY | FALT | FNOINVERT,             IDS_AG_EXIT));
-    ADDCMD((ID_PLAY_PLAYPAUSE,             VK_SPACE, FVIRTKEY | FNOINVERT,                    IDS_AG_PLAYPAUSE,   APPCOMMAND_MEDIA_PLAY_PAUSE, wmcmd::LUP, wmcmd::LUP));
-    ADDCMD((ID_PLAY_PLAY,                         0, FVIRTKEY | FNOINVERT,                    IDS_AG_PLAY,        APPCOMMAND_MEDIA_PLAY));
-    ADDCMD((ID_PLAY_PAUSE,                        0, FVIRTKEY | FNOINVERT,                    IDS_AG_PAUSE,       APPCOMMAND_MEDIA_PAUSE));
-    ADDCMD((ID_PLAY_STOP,             VK_OEM_PERIOD, FVIRTKEY | FNOINVERT,                    IDS_AG_STOP,        APPCOMMAND_MEDIA_STOP));
-    ADDCMD((ID_PLAY_FRAMESTEP,             VK_RIGHT, FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_FRAMESTEP));
-    ADDCMD((ID_PLAY_FRAMESTEPCANCEL,        VK_LEFT, FVIRTKEY | FCONTROL | FNOINVERT,         IDS_MPLAYERC_16));
-    ADDCMD((ID_NAVIGATE_GOTO,                   'G', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_GO_TO));
-    ADDCMD((ID_PLAY_INCRATE,                  VK_UP, FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_INCREASE_RATE));
-    ADDCMD((ID_PLAY_DECRATE,                VK_DOWN, FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_DECREASE_RATE));
-    ADDCMD((ID_PLAY_RESETRATE,                  'R', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_RESET_RATE));
-    ADDCMD((ID_PLAY_INCAUDDELAY,             VK_ADD, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_21));
-    ADDCMD((ID_PLAY_DECAUDDELAY,        VK_SUBTRACT, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_22));
-    ADDCMD((ID_PLAY_SEEKFORWARDSMALL,             0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_23));
-    ADDCMD((ID_PLAY_SEEKBACKWARDSMALL,            0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_24));
-    ADDCMD((ID_PLAY_SEEKFORWARDMED,        VK_RIGHT, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_25));
-    ADDCMD((ID_PLAY_SEEKBACKWARDMED,        VK_LEFT, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_26));
-    ADDCMD((ID_PLAY_SEEKFORWARDLARGE,             0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_27));
-    ADDCMD((ID_PLAY_SEEKBACKWARDLARGE,            0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_28));
-    ADDCMD((ID_PLAY_SEEKKEYFORWARD,        VK_RIGHT, FVIRTKEY | FSHIFT | FNOINVERT,           IDS_MPLAYERC_29));
-    ADDCMD((ID_PLAY_SEEKKEYBACKWARD,        VK_LEFT, FVIRTKEY | FSHIFT | FNOINVERT,           IDS_MPLAYERC_30));
-    ADDCMD((ID_PLAY_SEEKSET,                VK_HOME, FVIRTKEY | FNOINVERT,                    IDS_AG_SEEKSET));
-    ADDCMD((ID_NAVIGATE_SKIPFORWARD,        VK_NEXT, FVIRTKEY | FNOINVERT,                    IDS_AG_NEXT,        APPCOMMAND_MEDIA_NEXTTRACK, wmcmd::X2DOWN, wmcmd::X2DOWN));
-    ADDCMD((ID_NAVIGATE_SKIPBACK,          VK_PRIOR, FVIRTKEY | FNOINVERT,                    IDS_AG_PREVIOUS,    APPCOMMAND_MEDIA_PREVIOUSTRACK, wmcmd::X1DOWN, wmcmd::X1DOWN));
-    ADDCMD((ID_NAVIGATE_SKIPFORWARDFILE,    VK_NEXT, FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_NEXT_FILE));
-    ADDCMD((ID_NAVIGATE_SKIPBACKFILE,      VK_PRIOR, FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_PREVIOUS_FILE));
-    ADDCMD((ID_NAVIGATE_TUNERSCAN,              'T', FVIRTKEY | FSHIFT | FNOINVERT,           IDS_NAVIGATE_TUNERSCAN));
-    ADDCMD((ID_FAVORITES_QUICKADDFAVORITE,      'Q', FVIRTKEY | FSHIFT | FNOINVERT,           IDS_FAVORITES_QUICKADDFAVORITE));
-    ADDCMD((ID_VIEW_CAPTIONMENU,                '0', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_TOGGLE_CAPTION));
-    ADDCMD((ID_VIEW_SEEKER,                     '1', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_TOGGLE_SEEKER));
-    ADDCMD((ID_VIEW_CONTROLS,                   '2', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_TOGGLE_CONTROLS));
-    ADDCMD((ID_VIEW_INFORMATION,                '3', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_TOGGLE_INFO));
-    ADDCMD((ID_VIEW_STATISTICS,                 '4', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_TOGGLE_STATS));
-    ADDCMD((ID_VIEW_STATUS,                     '5', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_TOGGLE_STATUS));
-    ADDCMD((ID_VIEW_SUBRESYNC,                  '6', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_TOGGLE_SUBRESYNC));
-    ADDCMD((ID_VIEW_PLAYLIST,                   '7', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_TOGGLE_PLAYLIST));
-    ADDCMD((ID_VIEW_CAPTURE,                    '8', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_TOGGLE_CAPTURE));
-    ADDCMD((ID_VIEW_NAVIGATION,                 '9', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_TOGGLE_NAVIGATION));
-    ADDCMD((ID_VIEW_DEBUGSHADERS,                 0, FVIRTKEY | FNOINVERT,                    IDS_AG_TOGGLE_DEBUGSHADERS));
-    ADDCMD((ID_VIEW_PRESETS_MINIMAL,            '1', FVIRTKEY | FNOINVERT,                    IDS_AG_VIEW_MINIMAL));
-    ADDCMD((ID_VIEW_PRESETS_COMPACT,            '2', FVIRTKEY | FNOINVERT,                    IDS_AG_VIEW_COMPACT));
-    ADDCMD((ID_VIEW_PRESETS_NORMAL,             '3', FVIRTKEY | FNOINVERT,                    IDS_AG_VIEW_NORMAL));
-    ADDCMD((ID_VIEW_FULLSCREEN,           VK_RETURN, FVIRTKEY | FALT | FNOINVERT,             IDS_AG_FULLSCREEN, 0, wmcmd::LDBLCLK, wmcmd::LDBLCLK));
-    ADDCMD((ID_VIEW_FULLSCREEN_SECONDARY,    VK_F11, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_39));
-    ADDCMD((ID_VIEW_ZOOM_50,                    '1', FVIRTKEY | FALT | FNOINVERT,             IDS_AG_ZOOM_50));
-    ADDCMD((ID_VIEW_ZOOM_100,                   '2', FVIRTKEY | FALT | FNOINVERT,             IDS_AG_ZOOM_100));
-    ADDCMD((ID_VIEW_ZOOM_200,                   '3', FVIRTKEY | FALT | FNOINVERT,             IDS_AG_ZOOM_200));
-    ADDCMD((ID_VIEW_ZOOM_AUTOFIT,               '4', FVIRTKEY | FALT | FNOINVERT,             IDS_AG_ZOOM_AUTO_FIT));
-    ADDCMD((ID_VIEW_ZOOM_AUTOFIT_LARGER,        '5', FVIRTKEY | FALT | FNOINVERT,             IDS_AG_ZOOM_AUTO_FIT_LARGER));
-    ADDCMD((ID_ASPECTRATIO_NEXT,                  0, FVIRTKEY | FNOINVERT,                    IDS_AG_NEXT_AR_PRESET));
-    ADDCMD((ID_VIEW_VF_HALF,                      0, FVIRTKEY | FNOINVERT,                    IDS_AG_VIDFRM_HALF));
-    ADDCMD((ID_VIEW_VF_NORMAL,                    0, FVIRTKEY | FNOINVERT,                    IDS_AG_VIDFRM_NORMAL));
-    ADDCMD((ID_VIEW_VF_DOUBLE,                    0, FVIRTKEY | FNOINVERT,                    IDS_AG_VIDFRM_DOUBLE));
-    ADDCMD((ID_VIEW_VF_STRETCH,                   0, FVIRTKEY | FNOINVERT,                    IDS_AG_VIDFRM_STRETCH));
-    ADDCMD((ID_VIEW_VF_FROMINSIDE,                0, FVIRTKEY | FNOINVERT,                    IDS_AG_VIDFRM_INSIDE));
-    ADDCMD((ID_VIEW_VF_ZOOM1,                     0, FVIRTKEY | FNOINVERT,                    IDS_AG_VIDFRM_ZOOM1));
-    ADDCMD((ID_VIEW_VF_ZOOM2,                     0, FVIRTKEY | FNOINVERT,                    IDS_AG_VIDFRM_ZOOM2));
-    ADDCMD((ID_VIEW_VF_FROMOUTSIDE,               0, FVIRTKEY | FNOINVERT,                    IDS_AG_VIDFRM_OUTSIDE));
-    ADDCMD((ID_VIEW_VF_SWITCHZOOM,                0, FVIRTKEY | FNOINVERT,                    IDS_AG_VIDFRM_SWITCHZOOM));
-    ADDCMD((ID_ONTOP_ALWAYS,                    'A', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_ALWAYS_ON_TOP));
-    ADDCMD((ID_VIEW_RESET,               VK_NUMPAD5, FVIRTKEY | FNOINVERT,                    IDS_AG_PNS_RESET));
-    ADDCMD((ID_VIEW_INCSIZE,             VK_NUMPAD9, FVIRTKEY | FNOINVERT,                    IDS_AG_PNS_INC_SIZE));
-    ADDCMD((ID_VIEW_INCWIDTH,            VK_NUMPAD6, FVIRTKEY | FNOINVERT,                    IDS_AG_PNS_INC_WIDTH));
-    ADDCMD((ID_VIEW_INCHEIGHT,           VK_NUMPAD8, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_47));
-    ADDCMD((ID_VIEW_DECSIZE,             VK_NUMPAD1, FVIRTKEY | FNOINVERT,                    IDS_AG_PNS_DEC_SIZE));
-    ADDCMD((ID_VIEW_DECWIDTH,            VK_NUMPAD4, FVIRTKEY | FNOINVERT,                    IDS_AG_PNS_DEC_WIDTH));
-    ADDCMD((ID_VIEW_DECHEIGHT,           VK_NUMPAD2, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_50));
-    ADDCMD((ID_PANSCAN_CENTER,           VK_NUMPAD5, FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_PNS_CENTER));
-    ADDCMD((ID_PANSCAN_MOVELEFT,         VK_NUMPAD4, FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_PNS_LEFT));
-    ADDCMD((ID_PANSCAN_MOVERIGHT,        VK_NUMPAD6, FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_PNS_RIGHT));
-    ADDCMD((ID_PANSCAN_MOVEUP,           VK_NUMPAD8, FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_PNS_UP));
-    ADDCMD((ID_PANSCAN_MOVEDOWN,         VK_NUMPAD2, FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_PNS_DOWN));
-    ADDCMD((ID_PANSCAN_MOVEUPLEFT,       VK_NUMPAD7, FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_PNS_UPLEFT));
-    ADDCMD((ID_PANSCAN_MOVEUPRIGHT,      VK_NUMPAD9, FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_PNS_UPRIGHT));
-    ADDCMD((ID_PANSCAN_MOVEDOWNLEFT,     VK_NUMPAD1, FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_PNS_DOWNLEFT));
-    ADDCMD((ID_PANSCAN_MOVEDOWNRIGHT,    VK_NUMPAD3, FVIRTKEY | FCONTROL | FNOINVERT,         IDS_MPLAYERC_59));
-    ADDCMD((ID_PANSCAN_ROTATEXP,         VK_NUMPAD8, FVIRTKEY | FALT | FNOINVERT,             IDS_AG_PNS_ROTATEX_P));
-    ADDCMD((ID_PANSCAN_ROTATEXM,         VK_NUMPAD2, FVIRTKEY | FALT | FNOINVERT,             IDS_AG_PNS_ROTATEX_M));
-    ADDCMD((ID_PANSCAN_ROTATEYP,         VK_NUMPAD4, FVIRTKEY | FALT | FNOINVERT,             IDS_AG_PNS_ROTATEY_P));
-    ADDCMD((ID_PANSCAN_ROTATEYM,         VK_NUMPAD6, FVIRTKEY | FALT | FNOINVERT,             IDS_AG_PNS_ROTATEY_M));
-    ADDCMD((ID_PANSCAN_ROTATEZP,         VK_NUMPAD1, FVIRTKEY | FALT | FNOINVERT,             IDS_AG_PNS_ROTATEZ_P));
-    ADDCMD((ID_PANSCAN_ROTATEZM,         VK_NUMPAD3, FVIRTKEY | FALT | FNOINVERT,             IDS_AG_PNS_ROTATEZ_M));
-    ADDCMD((ID_VOLUME_UP,                     VK_UP, FVIRTKEY | FNOINVERT,                    IDS_AG_VOLUME_UP,   0, wmcmd::WUP, wmcmd::WUP));
-    ADDCMD((ID_VOLUME_DOWN,                 VK_DOWN, FVIRTKEY | FNOINVERT,                    IDS_AG_VOLUME_DOWN, 0, wmcmd::WDOWN, wmcmd::WDOWN));
-    ADDCMD((ID_VOLUME_MUTE,                     'M', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_VOLUME_MUTE, 0));
-    ADDCMD((ID_VOLUME_BOOST_INC,                  0, FVIRTKEY | FNOINVERT,                    IDS_VOLUME_BOOST_INC));
-    ADDCMD((ID_VOLUME_BOOST_DEC,                  0, FVIRTKEY | FNOINVERT,                    IDS_VOLUME_BOOST_DEC));
-    ADDCMD((ID_VOLUME_BOOST_MIN,                  0, FVIRTKEY | FNOINVERT,                    IDS_VOLUME_BOOST_MIN));
-    ADDCMD((ID_VOLUME_BOOST_MAX,                  0, FVIRTKEY | FNOINVERT,                    IDS_VOLUME_BOOST_MAX));
-    ADDCMD((ID_CUSTOM_CHANNEL_MAPPING,            0, FVIRTKEY | FNOINVERT,                    IDS_CUSTOM_CHANNEL_MAPPING));
-    ADDCMD((ID_NORMALIZE,                         0, FVIRTKEY | FNOINVERT,                    IDS_NORMALIZE));
-    ADDCMD((ID_REGAIN_VOLUME,                     0, FVIRTKEY | FNOINVERT,                    IDS_REGAIN_VOLUME));
-    ADDCMD((ID_COLOR_BRIGHTNESS_INC,              0, FVIRTKEY | FNOINVERT,                    IDS_BRIGHTNESS_INC));
-    ADDCMD((ID_COLOR_BRIGHTNESS_DEC,              0, FVIRTKEY | FNOINVERT,                    IDS_BRIGHTNESS_DEC));
-    ADDCMD((ID_COLOR_CONTRAST_INC,                0, FVIRTKEY | FNOINVERT,                    IDS_CONTRAST_INC));
-    ADDCMD((ID_COLOR_CONTRAST_DEC,                0, FVIRTKEY | FNOINVERT,                    IDS_CONTRAST_DEC));
-    ADDCMD((ID_COLOR_HUE_INC,                     0, FVIRTKEY | FNOINVERT,                    IDS_HUE_INC));
-    ADDCMD((ID_COLOR_HUE_DEC,                     0, FVIRTKEY | FNOINVERT,                    IDS_HUE_DEC));
-    ADDCMD((ID_COLOR_SATURATION_INC,              0, FVIRTKEY | FNOINVERT,                    IDS_SATURATION_INC));
-    ADDCMD((ID_COLOR_SATURATION_DEC,              0, FVIRTKEY | FNOINVERT,                    IDS_SATURATION_DEC));
-    ADDCMD((ID_COLOR_RESET,                       0, FVIRTKEY | FNOINVERT,                    IDS_RESET_COLOR));
-    ADDCMD((ID_NAVIGATE_TITLEMENU,              'T', FVIRTKEY | FALT | FNOINVERT,             IDS_MPLAYERC_63));
-    ADDCMD((ID_NAVIGATE_ROOTMENU,               'R', FVIRTKEY | FALT | FNOINVERT,             IDS_AG_DVD_ROOT_MENU));
-    ADDCMD((ID_NAVIGATE_SUBPICTUREMENU,           0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_65));
-    ADDCMD((ID_NAVIGATE_AUDIOMENU,                0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_66));
-    ADDCMD((ID_NAVIGATE_ANGLEMENU,                0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_67));
-    ADDCMD((ID_NAVIGATE_CHAPTERMENU,              0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_68));
-    ADDCMD((ID_NAVIGATE_MENU_LEFT,          VK_LEFT, FVIRTKEY | FALT | FNOINVERT,             IDS_AG_DVD_MENU_LEFT));
-    ADDCMD((ID_NAVIGATE_MENU_RIGHT,        VK_RIGHT, FVIRTKEY | FALT | FNOINVERT,             IDS_MPLAYERC_70));
-    ADDCMD((ID_NAVIGATE_MENU_UP,              VK_UP, FVIRTKEY | FALT | FNOINVERT,             IDS_AG_DVD_MENU_UP));
-    ADDCMD((ID_NAVIGATE_MENU_DOWN,          VK_DOWN, FVIRTKEY | FALT | FNOINVERT,             IDS_AG_DVD_MENU_DOWN));
-    ADDCMD((ID_NAVIGATE_MENU_ACTIVATE,            0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_73));
-    ADDCMD((ID_NAVIGATE_MENU_BACK,                0, FVIRTKEY | FNOINVERT,                    IDS_AG_DVD_MENU_BACK));
-    ADDCMD((ID_NAVIGATE_MENU_LEAVE,               0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_75));
-    ADDCMD((ID_BOSS,                            'B', FVIRTKEY | FNOINVERT,                    IDS_AG_BOSS_KEY));
-    ADDCMD((ID_MENU_PLAYER_SHORT,           VK_APPS, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_77, 0, wmcmd::RUP, wmcmd::RUP));
-    ADDCMD((ID_MENU_PLAYER_LONG,                  0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_78));
-    ADDCMD((ID_MENU_FILTERS,                      0, FVIRTKEY | FNOINVERT,                    IDS_AG_FILTERS_MENU));
-    ADDCMD((ID_VIEW_OPTIONS,                    'O', FVIRTKEY | FNOINVERT,                    IDS_AG_OPTIONS));
-    ADDCMD((ID_STREAM_AUDIO_NEXT,               'A', FVIRTKEY | FNOINVERT,                    IDS_AG_NEXT_AUDIO));
-    ADDCMD((ID_STREAM_AUDIO_PREV,               'A', FVIRTKEY | FSHIFT | FNOINVERT,           IDS_AG_PREV_AUDIO));
-    ADDCMD((ID_STREAM_SUB_NEXT,                 'S', FVIRTKEY | FNOINVERT,                    IDS_AG_NEXT_SUBTITLE));
-    ADDCMD((ID_STREAM_SUB_PREV,                 'S', FVIRTKEY | FSHIFT | FNOINVERT,           IDS_AG_PREV_SUBTITLE));
-    ADDCMD((ID_STREAM_SUB_ONOFF,                'W', FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_85));
-    ADDCMD((ID_SUBTITLES_SUBITEM_START + 2,       0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_86));
-    ADDCMD((ID_FILE_ISDB_DOWNLOAD,              'D', FVIRTKEY | FNOINVERT,                    IDS_DOWNLOAD_SUBS));
-    ADDCMD((ID_OGM_AUDIO_NEXT,                    0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_87));
-    ADDCMD((ID_OGM_AUDIO_PREV,                    0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_88));
-    ADDCMD((ID_OGM_SUB_NEXT,                      0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_89));
-    ADDCMD((ID_OGM_SUB_PREV,                      0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_90));
-    ADDCMD((ID_DVD_ANGLE_NEXT,                    0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_91));
-    ADDCMD((ID_DVD_ANGLE_PREV,                    0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_92));
-    ADDCMD((ID_DVD_AUDIO_NEXT,                    0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_93));
-    ADDCMD((ID_DVD_AUDIO_PREV,                    0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_94));
-    ADDCMD((ID_DVD_SUB_NEXT,                      0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_95));
-    ADDCMD((ID_DVD_SUB_PREV,                      0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_96));
-    ADDCMD((ID_DVD_SUB_ONOFF,                     0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_97));
-    ADDCMD((ID_VIEW_TEARING_TEST,               'T', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_TEARING_TEST));
-    ADDCMD((ID_VIEW_REMAINING_TIME,             'I', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_MPLAYERC_98));
-    ADDCMD((ID_SHADERS_PRESET_NEXT,               0, FVIRTKEY | FNOINVERT,                    IDS_AG_SHADERS_PRESET_NEXT));
-    ADDCMD((ID_SHADERS_PRESET_PREV,               0, FVIRTKEY | FNOINVERT,                    IDS_AG_SHADERS_PRESET_PREV));
-    ADDCMD((ID_D3DFULLSCREEN_TOGGLE,              0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_99));
-    ADDCMD((ID_GOTO_PREV_SUB,                   'Y', FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_100));
-    ADDCMD((ID_GOTO_NEXT_SUB,                   'U', FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_101));
-    ADDCMD((ID_SHIFT_SUB_DOWN,              VK_NEXT, FVIRTKEY | FALT | FNOINVERT,             IDS_MPLAYERC_102));
-    ADDCMD((ID_SHIFT_SUB_UP,               VK_PRIOR, FVIRTKEY | FALT | FNOINVERT,             IDS_MPLAYERC_103));
-    ADDCMD((ID_VIEW_DISPLAYSTATS,               'J', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_DISPLAY_STATS));
-    ADDCMD((ID_VIEW_RESETSTATS,                 'R', FVIRTKEY | FCONTROL | FALT | FNOINVERT,  IDS_AG_RESET_STATS));
-    ADDCMD((ID_VIEW_VSYNC,                      'V', FVIRTKEY | FNOINVERT,                    IDS_AG_VSYNC));
-    ADDCMD((ID_VIEW_ENABLEFRAMETIMECORRECTION,    0, FVIRTKEY | FNOINVERT,                    IDS_AG_ENABLEFRAMETIMECORRECTION));
-    ADDCMD((ID_VIEW_VSYNCACCURATE,              'V', FVIRTKEY | FCONTROL | FALT | FNOINVERT,  IDS_AG_VSYNCACCURATE));
-    ADDCMD((ID_VIEW_VSYNCOFFSET_DECREASE,     VK_UP, FVIRTKEY | FCONTROL | FALT | FNOINVERT,  IDS_AG_VSYNCOFFSET_DECREASE));
-    ADDCMD((ID_VIEW_VSYNCOFFSET_INCREASE,   VK_DOWN, FVIRTKEY | FCONTROL | FALT | FNOINVERT,  IDS_AG_VSYNCOFFSET_INCREASE));
-    ADDCMD((ID_SUB_DELAY_DOWN,                VK_F1, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_104));
-    ADDCMD((ID_SUB_DELAY_UP,                  VK_F2, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_105));
+    wmcmds.AddTail({ID_FILE_LOAD_SUBTITLE,              'L', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_LOAD_SUBTITLE});
+    wmcmds.AddTail({ID_FILE_SAVE_SUBTITLE,              'S', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_SAVE_SUBTITLE});
+    wmcmds.AddTail({ID_FILE_CLOSE_AND_RESTORE,          'C', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_CLOSE});
+    wmcmds.AddTail({ID_FILE_PROPERTIES,              VK_F10, FVIRTKEY | FSHIFT | FNOINVERT,           IDS_AG_PROPERTIES});
+    wmcmds.AddTail({ID_FILE_EXIT,                       'X', FVIRTKEY | FALT | FNOINVERT,             IDS_AG_EXIT});
+    wmcmds.AddTail({ID_PLAY_PLAYPAUSE,             VK_SPACE, FVIRTKEY | FNOINVERT,                    IDS_AG_PLAYPAUSE,   APPCOMMAND_MEDIA_PLAY_PAUSE, wmcmd::LUP, wmcmd::LUP});
+    wmcmds.AddTail({ID_PLAY_PLAY,                         0, FVIRTKEY | FNOINVERT,                    IDS_AG_PLAY,        APPCOMMAND_MEDIA_PLAY});
+    wmcmds.AddTail({ID_PLAY_PAUSE,                        0, FVIRTKEY | FNOINVERT,                    IDS_AG_PAUSE,       APPCOMMAND_MEDIA_PAUSE});
+    wmcmds.AddTail({ID_PLAY_STOP,             VK_OEM_PERIOD, FVIRTKEY | FNOINVERT,                    IDS_AG_STOP,        APPCOMMAND_MEDIA_STOP});
+    wmcmds.AddTail({ID_PLAY_FRAMESTEP,             VK_RIGHT, FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_FRAMESTEP});
+    wmcmds.AddTail({ID_PLAY_FRAMESTEPCANCEL,        VK_LEFT, FVIRTKEY | FCONTROL | FNOINVERT,         IDS_MPLAYERC_16});
+    wmcmds.AddTail({ID_NAVIGATE_GOTO,                   'G', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_GO_TO});
+    wmcmds.AddTail({ID_PLAY_INCRATE,                  VK_UP, FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_INCREASE_RATE});
+    wmcmds.AddTail({ID_PLAY_DECRATE,                VK_DOWN, FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_DECREASE_RATE});
+    wmcmds.AddTail({ID_PLAY_RESETRATE,                  'R', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_RESET_RATE});
+    wmcmds.AddTail({ID_PLAY_INCAUDDELAY,             VK_ADD, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_21});
+    wmcmds.AddTail({ID_PLAY_DECAUDDELAY,        VK_SUBTRACT, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_22});
+    wmcmds.AddTail({ID_PLAY_SEEKFORWARDSMALL,             0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_23});
+    wmcmds.AddTail({ID_PLAY_SEEKBACKWARDSMALL,            0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_24});
+    wmcmds.AddTail({ID_PLAY_SEEKFORWARDMED,        VK_RIGHT, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_25});
+    wmcmds.AddTail({ID_PLAY_SEEKBACKWARDMED,        VK_LEFT, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_26});
+    wmcmds.AddTail({ID_PLAY_SEEKFORWARDLARGE,             0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_27});
+    wmcmds.AddTail({ID_PLAY_SEEKBACKWARDLARGE,            0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_28});
+    wmcmds.AddTail({ID_PLAY_SEEKKEYFORWARD,        VK_RIGHT, FVIRTKEY | FSHIFT | FNOINVERT,           IDS_MPLAYERC_29});
+    wmcmds.AddTail({ID_PLAY_SEEKKEYBACKWARD,        VK_LEFT, FVIRTKEY | FSHIFT | FNOINVERT,           IDS_MPLAYERC_30});
+    wmcmds.AddTail({ID_PLAY_SEEKSET,                VK_HOME, FVIRTKEY | FNOINVERT,                    IDS_AG_SEEKSET});
+    wmcmds.AddTail({ID_NAVIGATE_SKIPFORWARD,        VK_NEXT, FVIRTKEY | FNOINVERT,                    IDS_AG_NEXT,        APPCOMMAND_MEDIA_NEXTTRACK, wmcmd::X2DOWN, wmcmd::X2DOWN});
+    wmcmds.AddTail({ID_NAVIGATE_SKIPBACK,          VK_PRIOR, FVIRTKEY | FNOINVERT,                    IDS_AG_PREVIOUS,    APPCOMMAND_MEDIA_PREVIOUSTRACK, wmcmd::X1DOWN, wmcmd::X1DOWN});
+    wmcmds.AddTail({ID_NAVIGATE_SKIPFORWARDFILE,    VK_NEXT, FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_NEXT_FILE});
+    wmcmds.AddTail({ID_NAVIGATE_SKIPBACKFILE,      VK_PRIOR, FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_PREVIOUS_FILE});
+    wmcmds.AddTail({ID_NAVIGATE_TUNERSCAN,              'T', FVIRTKEY | FSHIFT | FNOINVERT,           IDS_NAVIGATE_TUNERSCAN});
+    wmcmds.AddTail({ID_FAVORITES_QUICKADDFAVORITE,      'Q', FVIRTKEY | FSHIFT | FNOINVERT,           IDS_FAVORITES_QUICKADDFAVORITE});
+    wmcmds.AddTail({ID_VIEW_CAPTIONMENU,                '0', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_TOGGLE_CAPTION});
+    wmcmds.AddTail({ID_VIEW_SEEKER,                     '1', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_TOGGLE_SEEKER});
+    wmcmds.AddTail({ID_VIEW_CONTROLS,                   '2', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_TOGGLE_CONTROLS});
+    wmcmds.AddTail({ID_VIEW_INFORMATION,                '3', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_TOGGLE_INFO});
+    wmcmds.AddTail({ID_VIEW_STATISTICS,                 '4', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_TOGGLE_STATS});
+    wmcmds.AddTail({ID_VIEW_STATUS,                     '5', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_TOGGLE_STATUS});
+    wmcmds.AddTail({ID_VIEW_SUBRESYNC,                  '6', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_TOGGLE_SUBRESYNC});
+    wmcmds.AddTail({ID_VIEW_PLAYLIST,                   '7', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_TOGGLE_PLAYLIST});
+    wmcmds.AddTail({ID_VIEW_CAPTURE,                    '8', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_TOGGLE_CAPTURE});
+    wmcmds.AddTail({ID_VIEW_NAVIGATION,                 '9', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_TOGGLE_NAVIGATION});
+    wmcmds.AddTail({ID_VIEW_DEBUGSHADERS,                 0, FVIRTKEY | FNOINVERT,                    IDS_AG_TOGGLE_DEBUGSHADERS});
+    wmcmds.AddTail({ID_VIEW_PRESETS_MINIMAL,            '1', FVIRTKEY | FNOINVERT,                    IDS_AG_VIEW_MINIMAL});
+    wmcmds.AddTail({ID_VIEW_PRESETS_COMPACT,            '2', FVIRTKEY | FNOINVERT,                    IDS_AG_VIEW_COMPACT});
+    wmcmds.AddTail({ID_VIEW_PRESETS_NORMAL,             '3', FVIRTKEY | FNOINVERT,                    IDS_AG_VIEW_NORMAL});
+    wmcmds.AddTail({ID_VIEW_FULLSCREEN,           VK_RETURN, FVIRTKEY | FALT | FNOINVERT,             IDS_AG_FULLSCREEN, 0, wmcmd::LDBLCLK, wmcmd::LDBLCLK});
+    wmcmds.AddTail({ID_VIEW_FULLSCREEN_SECONDARY,    VK_F11, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_39});
+    wmcmds.AddTail({ID_VIEW_ZOOM_50,                    '1', FVIRTKEY | FALT | FNOINVERT,             IDS_AG_ZOOM_50});
+    wmcmds.AddTail({ID_VIEW_ZOOM_100,                   '2', FVIRTKEY | FALT | FNOINVERT,             IDS_AG_ZOOM_100});
+    wmcmds.AddTail({ID_VIEW_ZOOM_200,                   '3', FVIRTKEY | FALT | FNOINVERT,             IDS_AG_ZOOM_200});
+    wmcmds.AddTail({ID_VIEW_ZOOM_AUTOFIT,               '4', FVIRTKEY | FALT | FNOINVERT,             IDS_AG_ZOOM_AUTO_FIT});
+    wmcmds.AddTail({ID_VIEW_ZOOM_AUTOFIT_LARGER,        '5', FVIRTKEY | FALT | FNOINVERT,             IDS_AG_ZOOM_AUTO_FIT_LARGER});
+    wmcmds.AddTail({ID_ASPECTRATIO_NEXT,                  0, FVIRTKEY | FNOINVERT,                    IDS_AG_NEXT_AR_PRESET});
+    wmcmds.AddTail({ID_VIEW_VF_HALF,                      0, FVIRTKEY | FNOINVERT,                    IDS_AG_VIDFRM_HALF});
+    wmcmds.AddTail({ID_VIEW_VF_NORMAL,                    0, FVIRTKEY | FNOINVERT,                    IDS_AG_VIDFRM_NORMAL});
+    wmcmds.AddTail({ID_VIEW_VF_DOUBLE,                    0, FVIRTKEY | FNOINVERT,                    IDS_AG_VIDFRM_DOUBLE});
+    wmcmds.AddTail({ID_VIEW_VF_STRETCH,                   0, FVIRTKEY | FNOINVERT,                    IDS_AG_VIDFRM_STRETCH});
+    wmcmds.AddTail({ID_VIEW_VF_FROMINSIDE,                0, FVIRTKEY | FNOINVERT,                    IDS_AG_VIDFRM_INSIDE});
+    wmcmds.AddTail({ID_VIEW_VF_ZOOM1,                     0, FVIRTKEY | FNOINVERT,                    IDS_AG_VIDFRM_ZOOM1});
+    wmcmds.AddTail({ID_VIEW_VF_ZOOM2,                     0, FVIRTKEY | FNOINVERT,                    IDS_AG_VIDFRM_ZOOM2});
+    wmcmds.AddTail({ID_VIEW_VF_FROMOUTSIDE,               0, FVIRTKEY | FNOINVERT,                    IDS_AG_VIDFRM_OUTSIDE});
+    wmcmds.AddTail({ID_VIEW_VF_SWITCHZOOM,                0, FVIRTKEY | FNOINVERT,                    IDS_AG_VIDFRM_SWITCHZOOM});
+    wmcmds.AddTail({ID_ONTOP_ALWAYS,                    'A', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_ALWAYS_ON_TOP});
+    wmcmds.AddTail({ID_VIEW_RESET,               VK_NUMPAD5, FVIRTKEY | FNOINVERT,                    IDS_AG_PNS_RESET});
+    wmcmds.AddTail({ID_VIEW_INCSIZE,             VK_NUMPAD9, FVIRTKEY | FNOINVERT,                    IDS_AG_PNS_INC_SIZE});
+    wmcmds.AddTail({ID_VIEW_INCWIDTH,            VK_NUMPAD6, FVIRTKEY | FNOINVERT,                    IDS_AG_PNS_INC_WIDTH});
+    wmcmds.AddTail({ID_VIEW_INCHEIGHT,           VK_NUMPAD8, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_47});
+    wmcmds.AddTail({ID_VIEW_DECSIZE,             VK_NUMPAD1, FVIRTKEY | FNOINVERT,                    IDS_AG_PNS_DEC_SIZE});
+    wmcmds.AddTail({ID_VIEW_DECWIDTH,            VK_NUMPAD4, FVIRTKEY | FNOINVERT,                    IDS_AG_PNS_DEC_WIDTH});
+    wmcmds.AddTail({ID_VIEW_DECHEIGHT,           VK_NUMPAD2, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_50});
+    wmcmds.AddTail({ID_PANSCAN_CENTER,           VK_NUMPAD5, FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_PNS_CENTER});
+    wmcmds.AddTail({ID_PANSCAN_MOVELEFT,         VK_NUMPAD4, FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_PNS_LEFT});
+    wmcmds.AddTail({ID_PANSCAN_MOVERIGHT,        VK_NUMPAD6, FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_PNS_RIGHT});
+    wmcmds.AddTail({ID_PANSCAN_MOVEUP,           VK_NUMPAD8, FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_PNS_UP});
+    wmcmds.AddTail({ID_PANSCAN_MOVEDOWN,         VK_NUMPAD2, FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_PNS_DOWN});
+    wmcmds.AddTail({ID_PANSCAN_MOVEUPLEFT,       VK_NUMPAD7, FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_PNS_UPLEFT});
+    wmcmds.AddTail({ID_PANSCAN_MOVEUPRIGHT,      VK_NUMPAD9, FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_PNS_UPRIGHT});
+    wmcmds.AddTail({ID_PANSCAN_MOVEDOWNLEFT,     VK_NUMPAD1, FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_PNS_DOWNLEFT});
+    wmcmds.AddTail({ID_PANSCAN_MOVEDOWNRIGHT,    VK_NUMPAD3, FVIRTKEY | FCONTROL | FNOINVERT,         IDS_MPLAYERC_59});
+    wmcmds.AddTail({ID_PANSCAN_ROTATEXP,         VK_NUMPAD8, FVIRTKEY | FALT | FNOINVERT,             IDS_AG_PNS_ROTATEX_P});
+    wmcmds.AddTail({ID_PANSCAN_ROTATEXM,         VK_NUMPAD2, FVIRTKEY | FALT | FNOINVERT,             IDS_AG_PNS_ROTATEX_M});
+    wmcmds.AddTail({ID_PANSCAN_ROTATEYP,         VK_NUMPAD4, FVIRTKEY | FALT | FNOINVERT,             IDS_AG_PNS_ROTATEY_P});
+    wmcmds.AddTail({ID_PANSCAN_ROTATEYM,         VK_NUMPAD6, FVIRTKEY | FALT | FNOINVERT,             IDS_AG_PNS_ROTATEY_M});
+    wmcmds.AddTail({ID_PANSCAN_ROTATEZP,         VK_NUMPAD1, FVIRTKEY | FALT | FNOINVERT,             IDS_AG_PNS_ROTATEZ_P});
+    wmcmds.AddTail({ID_PANSCAN_ROTATEZM,         VK_NUMPAD3, FVIRTKEY | FALT | FNOINVERT,             IDS_AG_PNS_ROTATEZ_M});
+    wmcmds.AddTail({ID_VOLUME_UP,                     VK_UP, FVIRTKEY | FNOINVERT,                    IDS_AG_VOLUME_UP,   0, wmcmd::WUP, wmcmd::WUP});
+    wmcmds.AddTail({ID_VOLUME_DOWN,                 VK_DOWN, FVIRTKEY | FNOINVERT,                    IDS_AG_VOLUME_DOWN, 0, wmcmd::WDOWN, wmcmd::WDOWN});
+    wmcmds.AddTail({ID_VOLUME_MUTE,                     'M', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_VOLUME_MUTE, 0});
+    wmcmds.AddTail({ID_VOLUME_BOOST_INC,                  0, FVIRTKEY | FNOINVERT,                    IDS_VOLUME_BOOST_INC});
+    wmcmds.AddTail({ID_VOLUME_BOOST_DEC,                  0, FVIRTKEY | FNOINVERT,                    IDS_VOLUME_BOOST_DEC});
+    wmcmds.AddTail({ID_VOLUME_BOOST_MIN,                  0, FVIRTKEY | FNOINVERT,                    IDS_VOLUME_BOOST_MIN});
+    wmcmds.AddTail({ID_VOLUME_BOOST_MAX,                  0, FVIRTKEY | FNOINVERT,                    IDS_VOLUME_BOOST_MAX});
+    wmcmds.AddTail({ID_CUSTOM_CHANNEL_MAPPING,            0, FVIRTKEY | FNOINVERT,                    IDS_CUSTOM_CHANNEL_MAPPING});
+    wmcmds.AddTail({ID_NORMALIZE,                         0, FVIRTKEY | FNOINVERT,                    IDS_NORMALIZE});
+    wmcmds.AddTail({ID_REGAIN_VOLUME,                     0, FVIRTKEY | FNOINVERT,                    IDS_REGAIN_VOLUME});
+    wmcmds.AddTail({ID_COLOR_BRIGHTNESS_INC,              0, FVIRTKEY | FNOINVERT,                    IDS_BRIGHTNESS_INC});
+    wmcmds.AddTail({ID_COLOR_BRIGHTNESS_DEC,              0, FVIRTKEY | FNOINVERT,                    IDS_BRIGHTNESS_DEC});
+    wmcmds.AddTail({ID_COLOR_CONTRAST_INC,                0, FVIRTKEY | FNOINVERT,                    IDS_CONTRAST_INC});
+    wmcmds.AddTail({ID_COLOR_CONTRAST_DEC,                0, FVIRTKEY | FNOINVERT,                    IDS_CONTRAST_DEC});
+    wmcmds.AddTail({ID_COLOR_HUE_INC,                     0, FVIRTKEY | FNOINVERT,                    IDS_HUE_INC});
+    wmcmds.AddTail({ID_COLOR_HUE_DEC,                     0, FVIRTKEY | FNOINVERT,                    IDS_HUE_DEC});
+    wmcmds.AddTail({ID_COLOR_SATURATION_INC,              0, FVIRTKEY | FNOINVERT,                    IDS_SATURATION_INC});
+    wmcmds.AddTail({ID_COLOR_SATURATION_DEC,              0, FVIRTKEY | FNOINVERT,                    IDS_SATURATION_DEC});
+    wmcmds.AddTail({ID_COLOR_RESET,                       0, FVIRTKEY | FNOINVERT,                    IDS_RESET_COLOR});
+    wmcmds.AddTail({ID_NAVIGATE_TITLEMENU,              'T', FVIRTKEY | FALT | FNOINVERT,             IDS_MPLAYERC_63});
+    wmcmds.AddTail({ID_NAVIGATE_ROOTMENU,               'R', FVIRTKEY | FALT | FNOINVERT,             IDS_AG_DVD_ROOT_MENU});
+    wmcmds.AddTail({ID_NAVIGATE_SUBPICTUREMENU,           0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_65});
+    wmcmds.AddTail({ID_NAVIGATE_AUDIOMENU,                0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_66});
+    wmcmds.AddTail({ID_NAVIGATE_ANGLEMENU,                0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_67});
+    wmcmds.AddTail({ID_NAVIGATE_CHAPTERMENU,              0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_68});
+    wmcmds.AddTail({ID_NAVIGATE_MENU_LEFT,          VK_LEFT, FVIRTKEY | FALT | FNOINVERT,             IDS_AG_DVD_MENU_LEFT});
+    wmcmds.AddTail({ID_NAVIGATE_MENU_RIGHT,        VK_RIGHT, FVIRTKEY | FALT | FNOINVERT,             IDS_MPLAYERC_70});
+    wmcmds.AddTail({ID_NAVIGATE_MENU_UP,              VK_UP, FVIRTKEY | FALT | FNOINVERT,             IDS_AG_DVD_MENU_UP});
+    wmcmds.AddTail({ID_NAVIGATE_MENU_DOWN,          VK_DOWN, FVIRTKEY | FALT | FNOINVERT,             IDS_AG_DVD_MENU_DOWN});
+    wmcmds.AddTail({ID_NAVIGATE_MENU_ACTIVATE,            0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_73});
+    wmcmds.AddTail({ID_NAVIGATE_MENU_BACK,                0, FVIRTKEY | FNOINVERT,                    IDS_AG_DVD_MENU_BACK});
+    wmcmds.AddTail({ID_NAVIGATE_MENU_LEAVE,               0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_75});
+    wmcmds.AddTail({ID_BOSS,                            'B', FVIRTKEY | FNOINVERT,                    IDS_AG_BOSS_KEY});
+    wmcmds.AddTail({ID_MENU_PLAYER_SHORT,           VK_APPS, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_77, 0, wmcmd::RUP, wmcmd::RUP});
+    wmcmds.AddTail({ID_MENU_PLAYER_LONG,                  0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_78});
+    wmcmds.AddTail({ID_MENU_FILTERS,                      0, FVIRTKEY | FNOINVERT,                    IDS_AG_FILTERS_MENU});
+    wmcmds.AddTail({ID_VIEW_OPTIONS,                    'O', FVIRTKEY | FNOINVERT,                    IDS_AG_OPTIONS});
+    wmcmds.AddTail({ID_STREAM_AUDIO_NEXT,               'A', FVIRTKEY | FNOINVERT,                    IDS_AG_NEXT_AUDIO});
+    wmcmds.AddTail({ID_STREAM_AUDIO_PREV,               'A', FVIRTKEY | FSHIFT | FNOINVERT,           IDS_AG_PREV_AUDIO});
+    wmcmds.AddTail({ID_STREAM_SUB_NEXT,                 'S', FVIRTKEY | FNOINVERT,                    IDS_AG_NEXT_SUBTITLE});
+    wmcmds.AddTail({ID_STREAM_SUB_PREV,                 'S', FVIRTKEY | FSHIFT | FNOINVERT,           IDS_AG_PREV_SUBTITLE});
+    wmcmds.AddTail({ID_STREAM_SUB_ONOFF,                'W', FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_85});
+    wmcmds.AddTail({ID_SUBTITLES_SUBITEM_START + 2,       0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_86});
+    wmcmds.AddTail({ID_FILE_ISDB_DOWNLOAD,              'D', FVIRTKEY | FNOINVERT,                    IDS_DOWNLOAD_SUBS});
+    wmcmds.AddTail({ID_OGM_AUDIO_NEXT,                    0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_87});
+    wmcmds.AddTail({ID_OGM_AUDIO_PREV,                    0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_88});
+    wmcmds.AddTail({ID_OGM_SUB_NEXT,                      0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_89});
+    wmcmds.AddTail({ID_OGM_SUB_PREV,                      0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_90});
+    wmcmds.AddTail({ID_DVD_ANGLE_NEXT,                    0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_91});
+    wmcmds.AddTail({ID_DVD_ANGLE_PREV,                    0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_92});
+    wmcmds.AddTail({ID_DVD_AUDIO_NEXT,                    0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_93});
+    wmcmds.AddTail({ID_DVD_AUDIO_PREV,                    0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_94});
+    wmcmds.AddTail({ID_DVD_SUB_NEXT,                      0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_95});
+    wmcmds.AddTail({ID_DVD_SUB_PREV,                      0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_96});
+    wmcmds.AddTail({ID_DVD_SUB_ONOFF,                     0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_97});
+    wmcmds.AddTail({ID_VIEW_TEARING_TEST,               'T', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_TEARING_TEST});
+    wmcmds.AddTail({ID_VIEW_OSD_DISPLAY_TIME,           'I', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_OSD_DISPLAY_CURRENT_TIME});
+    wmcmds.AddTail({ID_VIEW_OSD_SHOW_FILENAME,          'N', FVIRTKEY | FNOINVERT,                    IDS_OSD_SHOW_FILENAME});
+    wmcmds.AddTail({ID_SHADERS_PRESET_NEXT,               0, FVIRTKEY | FNOINVERT,                    IDS_AG_SHADERS_PRESET_NEXT});
+    wmcmds.AddTail({ID_SHADERS_PRESET_PREV,               0, FVIRTKEY | FNOINVERT,                    IDS_AG_SHADERS_PRESET_PREV});
+    wmcmds.AddTail({ID_D3DFULLSCREEN_TOGGLE,              0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_99});
+    wmcmds.AddTail({ID_GOTO_PREV_SUB,                   'Y', FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_100});
+    wmcmds.AddTail({ID_GOTO_NEXT_SUB,                   'U', FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_101});
+    wmcmds.AddTail({ID_SHIFT_SUB_DOWN,              VK_NEXT, FVIRTKEY | FALT | FNOINVERT,             IDS_MPLAYERC_102});
+    wmcmds.AddTail({ID_SHIFT_SUB_UP,               VK_PRIOR, FVIRTKEY | FALT | FNOINVERT,             IDS_MPLAYERC_103});
+    wmcmds.AddTail({ID_VIEW_DISPLAY_RENDERER_STATS,     'J', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_OSD_DISPLAY_RENDERER_STATS});
+    wmcmds.AddTail({ID_VIEW_RESET_RENDERER_STATS,       'R', FVIRTKEY | FCONTROL | FALT | FNOINVERT,  IDS_OSD_RESET_RENDERER_STATS});
+    wmcmds.AddTail({ID_VIEW_VSYNC,                      'V', FVIRTKEY | FNOINVERT,                    IDS_AG_VSYNC});
+    wmcmds.AddTail({ID_VIEW_ENABLEFRAMETIMECORRECTION,    0, FVIRTKEY | FNOINVERT,                    IDS_AG_ENABLEFRAMETIMECORRECTION});
+    wmcmds.AddTail({ID_VIEW_VSYNCACCURATE,              'V', FVIRTKEY | FCONTROL | FALT | FNOINVERT,  IDS_AG_VSYNCACCURATE});
+    wmcmds.AddTail({ID_VIEW_VSYNCOFFSET_DECREASE,     VK_UP, FVIRTKEY | FCONTROL | FALT | FNOINVERT,  IDS_AG_VSYNCOFFSET_DECREASE});
+    wmcmds.AddTail({ID_VIEW_VSYNCOFFSET_INCREASE,   VK_DOWN, FVIRTKEY | FCONTROL | FALT | FNOINVERT,  IDS_AG_VSYNCOFFSET_INCREASE});
+    wmcmds.AddTail({ID_SUB_DELAY_DOWN,                VK_F1, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_104});
+    wmcmds.AddTail({ID_SUB_DELAY_UP,                  VK_F2, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_105});
 
-    ADDCMD((ID_AFTERPLAYBACK_CLOSE,               0, FVIRTKEY | FNOINVERT,                    IDS_AFTERPLAYBACK_CLOSE));
-    ADDCMD((ID_AFTERPLAYBACK_STANDBY,             0, FVIRTKEY | FNOINVERT,                    IDS_AFTERPLAYBACK_STANDBY));
-    ADDCMD((ID_AFTERPLAYBACK_HIBERNATE,           0, FVIRTKEY | FNOINVERT,                    IDS_AFTERPLAYBACK_HIBERNATE));
-    ADDCMD((ID_AFTERPLAYBACK_SHUTDOWN,            0, FVIRTKEY | FNOINVERT,                    IDS_AFTERPLAYBACK_SHUTDOWN));
-    ADDCMD((ID_AFTERPLAYBACK_LOGOFF,              0, FVIRTKEY | FNOINVERT,                    IDS_AFTERPLAYBACK_LOGOFF));
-    ADDCMD((ID_AFTERPLAYBACK_LOCK,                0, FVIRTKEY | FNOINVERT,                    IDS_AFTERPLAYBACK_LOCK));
-    ADDCMD((ID_AFTERPLAYBACK_MONITOROFF,          0, FVIRTKEY | FNOINVERT,                    IDS_AFTERPLAYBACK_MONITOROFF));
-    ADDCMD((ID_AFTERPLAYBACK_PLAYNEXT,            0, FVIRTKEY | FNOINVERT,                    IDS_AFTERPLAYBACK_PLAYNEXT));
+    wmcmds.AddTail({ID_AFTERPLAYBACK_DONOTHING,           0, FVIRTKEY | FNOINVERT,                    IDS_AFTERPLAYBACK_DONOTHING});
+    wmcmds.AddTail({ID_AFTERPLAYBACK_PLAYNEXT,            0, FVIRTKEY | FNOINVERT,                    IDS_AFTERPLAYBACK_PLAYNEXT});
+    wmcmds.AddTail({ID_AFTERPLAYBACK_MONITOROFF,          0, FVIRTKEY | FNOINVERT,                    IDS_AFTERPLAYBACK_MONITOROFF});
+    wmcmds.AddTail({ID_AFTERPLAYBACK_EXIT,                0, FVIRTKEY | FNOINVERT,                    IDS_AFTERPLAYBACK_EXIT});
+    wmcmds.AddTail({ID_AFTERPLAYBACK_STANDBY,             0, FVIRTKEY | FNOINVERT,                    IDS_AFTERPLAYBACK_STANDBY});
+    wmcmds.AddTail({ID_AFTERPLAYBACK_HIBERNATE,           0, FVIRTKEY | FNOINVERT,                    IDS_AFTERPLAYBACK_HIBERNATE});
+    wmcmds.AddTail({ID_AFTERPLAYBACK_SHUTDOWN,            0, FVIRTKEY | FNOINVERT,                    IDS_AFTERPLAYBACK_SHUTDOWN});
+    wmcmds.AddTail({ID_AFTERPLAYBACK_LOGOFF,              0, FVIRTKEY | FNOINVERT,                    IDS_AFTERPLAYBACK_LOGOFF});
+    wmcmds.AddTail({ID_AFTERPLAYBACK_LOCK,                0, FVIRTKEY | FNOINVERT,                    IDS_AFTERPLAYBACK_LOCK});
 
-    ADDCMD((ID_VIEW_EDITLISTEDITOR,               0, FVIRTKEY | FNOINVERT,                    IDS_AG_TOGGLE_EDITLISTEDITOR));
-    ADDCMD((ID_EDL_IN,                            0, FVIRTKEY | FNOINVERT,                    IDS_AG_EDL_IN));
-    ADDCMD((ID_EDL_OUT,                           0, FVIRTKEY | FNOINVERT,                    IDS_AG_EDL_OUT));
-    ADDCMD((ID_EDL_NEWCLIP,                       0, FVIRTKEY | FNOINVERT,                    IDS_AG_EDL_NEW_CLIP));
-    ADDCMD((ID_EDL_SAVE,                          0, FVIRTKEY | FNOINVERT,                    IDS_AG_EDL_SAVE));
-
-#undef ADDCMD
+    wmcmds.AddTail({ID_VIEW_EDITLISTEDITOR,               0, FVIRTKEY | FNOINVERT,                    IDS_AG_TOGGLE_EDITLISTEDITOR});
+    wmcmds.AddTail({ID_EDL_IN,                            0, FVIRTKEY | FNOINVERT,                    IDS_AG_EDL_IN});
+    wmcmds.AddTail({ID_EDL_OUT,                           0, FVIRTKEY | FNOINVERT,                    IDS_AG_EDL_OUT});
+    wmcmds.AddTail({ID_EDL_NEWCLIP,                       0, FVIRTKEY | FNOINVERT,                    IDS_AG_EDL_NEW_CLIP});
+    wmcmds.AddTail({ID_EDL_SAVE,                          0, FVIRTKEY | FNOINVERT,                    IDS_AG_EDL_SAVE});
 }
 
 CAppSettings::~CAppSettings()
@@ -636,6 +645,11 @@ bool CAppSettings::IsVideoRendererAvailable(int iVideoRendererType)
         default:
             return true;
     }
+}
+
+bool CAppSettings::IsInitialized() const
+{
+    return bInitialized;
 }
 
 CString CAppSettings::SelectedAudioRenderer() const
@@ -859,15 +873,14 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileString(IDS_R_COMMANDS, nullptr, nullptr);
     POSITION pos = wmcmds.GetHeadPosition();
     for (int i = 0; pos;) {
-        wmcmd& wc = wmcmds.GetNext(pos);
+        const wmcmd& wc = wmcmds.GetNext(pos);
         if (wc.IsModified()) {
             CString str;
             str.Format(_T("CommandMod%d"), i);
             CString str2;
-            str2.Format(_T("%u %x %x %s %d %u %u %u"),
-                        wc.cmd, wc.fVirt, wc.key,
-                        _T("\"") + CString(wc.rmcmd) + _T("\""), wc.rmrepcnt,
-                        wc.mouse, wc.appcmd, wc.mouseFS);
+            str2.Format(_T("%hu %hx %hx \"%S\" %d %u %u %u"),
+                        wc.cmd, (WORD)wc.fVirt, wc.key, wc.rmcmd,
+                        wc.rmrepcnt, wc.mouse, wc.appcmd, wc.mouseFS);
             pApp->WriteProfileString(IDS_R_COMMANDS, str, str2);
             i++;
         }
@@ -951,6 +964,7 @@ void CAppSettings::SaveSettings()
     }
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_REMAINING_TIME, fRemainingTime);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_HIGH_PRECISION_TIMER, bHighPrecisionTimer);
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_UPDATER_AUTO_CHECK, nUpdaterAutoCheck);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_UPDATER_DELAY, nUpdaterDelay);
@@ -961,6 +975,8 @@ void CAppSettings::SaveSettings()
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_COVER_ART, bEnableCoverArt);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_COVER_ART_SIZE_LIMIT, nCoverArtSizeLimit);
+
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LOGGING, bEnableLogging);
 
     pApp->FlushProfile();
 }
@@ -1192,6 +1208,13 @@ void CAppSettings::LoadSettings()
             language = 0;
         }
     }
+#ifndef DEBUG
+    if (language) {
+        auto pCrashReporterUIThread = CCrashReporterUIThread::GetInstance();
+        pCrashReporterUIThread->WaitThreadReady();
+        pCrashReporterUIThread->GetCrashDialog().LoadTranslatableResources();
+    }
+#endif
 
     CreateCommands();
 
@@ -1447,29 +1470,35 @@ void CAppSettings::LoadSettings()
         if (str2.IsEmpty()) {
             break;
         }
-        int cmd, fVirt, key, repcnt;
-        UINT mouse, mouseFS, appcmd;
-        TCHAR buff[128];
+
+        wmcmd tmp;
         int n;
-        if (5 > (n = _stscanf_s(str2, _T("%d %x %x %s %d %u %u %u"), &cmd, &fVirt, &key, buff, _countof(buff), &repcnt, &mouse, &appcmd, &mouseFS))) {
+        int fVirt = 0;
+        if (5 > (n = _stscanf_s(str2, _T("%hu %x %hx %S %d %u %u %u"),
+                                &tmp.cmd, &fVirt, &tmp.key, tmp.rmcmd.GetBuffer(128), 128,
+                                &tmp.rmrepcnt, &tmp.mouse, &tmp.appcmd, &tmp.mouseFS))) {
             break;
         }
-        if (POSITION pos = wmcmds.Find(cmd)) {
+        tmp.rmcmd.ReleaseBuffer();
+        if (n >= 2) {
+            tmp.fVirt = (BYTE)fVirt;
+        }
+        if (POSITION pos = wmcmds.Find(tmp)) {
             wmcmd& wc = wmcmds.GetAt(pos);
-            wc.cmd = cmd;
-            wc.fVirt = fVirt;
-            wc.key = key;
+            wc.cmd = tmp.cmd;
+            wc.fVirt = tmp.fVirt;
+            wc.key = tmp.key;
             if (n >= 6) {
-                wc.mouse = mouse;
+                wc.mouse = tmp.mouse;
             }
             if (n >= 7) {
-                wc.appcmd = appcmd;
+                wc.appcmd = tmp.appcmd;
             }
             // If there is no distinct bindings for windowed and
             // fullscreen modes we use the same for both.
-            wc.mouseFS = (n >= 8) ? mouseFS : wc.mouse;
-            wc.rmcmd = CStringA(buff).Trim('\"');
-            wc.rmrepcnt = repcnt;
+            wc.mouseFS = (n >= 8) ? tmp.mouseFS : wc.mouse;
+            wc.rmcmd = tmp.rmcmd.Trim('\"');
+            wc.rmrepcnt = tmp.rmrepcnt;
         }
     }
 
@@ -1642,6 +1671,7 @@ void CAppSettings::LoadSettings()
     fLastFullScreen = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LASTFULLSCREEN, FALSE);
 
     fRemainingTime = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_REMAINING_TIME, FALSE);
+    bHighPrecisionTimer = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_HIGH_PRECISION_TIMER, FALSE);
 
     nUpdaterAutoCheck = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_UPDATER_AUTO_CHECK, AUTOUPDATE_UNKNOWN);
     nUpdaterDelay = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_UPDATER_DELAY, 7);
@@ -1658,6 +1688,8 @@ void CAppSettings::LoadSettings()
 
     bEnableCoverArt = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_COVER_ART, TRUE);
     nCoverArtSizeLimit = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_COVER_ART_SIZE_LIMIT, 600);
+
+    bEnableLogging = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LOGGING, FALSE);
 
     if (fLaunchfullscreen) {
         nCLSwitches |= CLSW_FULLSCREEN;
@@ -1930,6 +1962,8 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
                 nCLSwitches |= CLSW_DEVICE;
             } else if (sw == _T("add")) {
                 nCLSwitches |= CLSW_ADD;
+            } else if (sw == _T("randomize")) {
+                nCLSwitches |= CLSW_RANDOMIZE;
             } else if (sw == _T("regvid")) {
                 nCLSwitches |= CLSW_REGEXTVID;
             } else if (sw == _T("regaud")) {
@@ -1995,8 +2029,8 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
                 }
             } else if (sw == _T("debug")) {
                 fShowDebugInfo = true;
-            } else if (sw == _T("nominidump")) {
-                CMiniDump::Disable();
+            } else if (sw == _T("nocrashreporter")) {
+                CrashReporter::Disable();
             } else if (sw == _T("audiorenderer") && pos) {
                 SetAudioRenderer(_ttoi(cmdln.GetNext(pos)));
             } else if (sw == _T("shaderpreset") && pos) {
@@ -2374,6 +2408,10 @@ void CAppSettings::UpdateSettings()
             bool bDisableSubtitleAnimation = !pApp->GetProfileInt(IDS_R_SETTINGS, _T("SPCAllowAnimationWhenBuffering"), TRUE);
             VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DISABLE_SUBTITLE_ANIMATION, bDisableSubtitleAnimation));
         }
+        // no break
+        case 5:
+            copyInt(IDS_R_INTERNAL_FILTERS, _T("SRC_DTSAC3"), IDS_R_INTERNAL_FILTERS, _T("SRC_DTS"));
+            copyInt(IDS_R_INTERNAL_FILTERS, _T("SRC_DTSAC3"), IDS_R_INTERNAL_FILTERS, _T("SRC_AC3"));
         // no break
         default:
             pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_R_VERSION, APPSETTINGS_VERSION);

@@ -135,7 +135,7 @@ const char* Mk_StereoMode(int64u StereoMode)
         case 0x0C : return "Anaglyph (green/magenta)";
         case 0x0D : return "Both Eyes laced in one block (left eye first)";
         case 0x0E : return "Both Eyes laced in one block (right eye first)";
-        default   : return "Unknown";
+        default   : return "";
     }
 }
 
@@ -148,7 +148,7 @@ const char* Mk_StereoMode_v2(int64u StereoMode)
         case 0x01 : return "Right Eye";
         case 0x02 : return "Left Eye";
         case 0x03 : return "Both Eye";
-        default   : return "Unknown";
+        default   : return "";
     }
 }
 

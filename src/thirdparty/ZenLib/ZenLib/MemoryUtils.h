@@ -32,7 +32,7 @@ namespace ZenLib
 
     //-----------------------------------------------------------------------
     // Arbitrary size - To Unaligned
-    #define memcpy_Unaligned_Unaligned memcpy 
+    #define memcpy_Unaligned_Unaligned memcpy
     #define memcpy_Aligned128_Unaligned memcpy
 
     //-----------------------------------------------------------------------
@@ -70,7 +70,7 @@ namespace ZenLib
     {
         return _aligned_malloc (size, 16); //aligned_alloc in C11
     }
-    
+
     inline void     free_Aligned128 ( void *ptr )
     {
         _aligned_free (ptr); //free in C11

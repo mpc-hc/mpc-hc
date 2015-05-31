@@ -21,6 +21,7 @@
 #include "stdafx.h"
 #include "MainFrmControls.h"
 #include "MainFrm.h"
+#include <mvrInterfaces.h>
 
 #define DELAY_SHOW_NOT_LOADED_TIME_MS 3000
 

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -70,6 +70,7 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::NonDelegatingQueryInterface(REFIID r
         QI(ISubPicAllocatorPresenter2)
         QI(ISubRenderOptions)
         QI(ISubRenderConsumer)
+        QI(ISubRenderConsumer2)
         __super::NonDelegatingQueryInterface(riid, ppv);
 }
 
@@ -483,10 +484,21 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::Connect(ISubRenderProvider* subtitle
                                              : (ISubPicQueue*)DEBUG_NEW CXySubPicQueueNoThread(m_pAllocator, &hr);
         */
 
+        // Lock and wait for m_pAllocator to be ready.
+        CAutoLock cAutoLock(this);
+        if (!m_pAllocator) {
+            std::mutex mutexAllocator;
+            std::unique_lock<std::mutex> lock(mutexAllocator);
+            if (!m_condAllocatorReady.wait_for(lock, std::chrono::seconds(1), [&]() {return !!m_pAllocator;})) {
+                // Return early, CXySubPicQueueNoThread ctor would fail anyway.
+                ASSERT(FALSE);
+                return E_FAIL;
+            }
+        }
+
         CComPtr<ISubPicQueue> pSubPicQueue = (ISubPicQueue*)DEBUG_NEW CXySubPicQueueNoThread(m_pAllocator, &hr);
 
         if (SUCCEEDED(hr)) {
-            CAutoLock cAutoLock(this);
             pSubPicQueue->SetSubPicProvider(pSubPicProvider);
             m_pSubPicProvider = pSubPicProvider;
             m_pSubPicQueue = pSubPicQueue;

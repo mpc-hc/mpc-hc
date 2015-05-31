@@ -132,7 +132,7 @@ size_t File__Base::Count_Get (stream_t StreamKind, size_t Pos) const
 const Ztring &File__Base::Get (stream_t StreamKind, size_t StreamNumber, size_t Parameter, info_t KindOfInfo)
 {
     //Check integrity
-    if (StreamKind>=Stream_Max || StreamNumber>=(*Stream)[StreamKind].size() || Parameter>=MediaInfoLib::Config.Info_Get(StreamKind).size()+(*Stream_More)[StreamKind][StreamNumber].size() || KindOfInfo>=Info_Max)
+    if (StreamKind>=Stream_Max || StreamNumber>=(*Stream)[StreamKind].size() || Parameter>=MediaInfoLib::Config.Info_Get(StreamKind).size()+(StreamNumber>=(*Stream_More)[StreamKind].size()?0:(*Stream_More)[StreamKind][StreamNumber].size()) || KindOfInfo>=Info_Max)
         return MediaInfoLib::Config.EmptyString_Get(); //Parameter is unknown
 
     else if (Parameter<MediaInfoLib::Config.Info_Get(StreamKind).size())

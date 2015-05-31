@@ -1,5 +1,5 @@
 /*
- * (C) 2008-2013 see Authors.txt
+ * (C) 2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -18,15 +18,10 @@
  *
  */
 
-#include <_mingw.h>
+#pragma once
 
-#define str(s)  xstr(s)
-#define xstr(s) #s
-
-#ifdef __MINGW64_VERSION_MAJOR
-#define MINGW "MinGW-w64"
-#else
-#define MINGW "MinGW"
-#endif
-
-char g_Gcc_Compiler[] = MINGW " GCC " str(__GNUC__) "." str(__GNUC_MINOR__) "." str(__GNUC_PATCHLEVEL__);
+namespace CrashReporter
+{
+    void Enable();
+    void Disable();
+};

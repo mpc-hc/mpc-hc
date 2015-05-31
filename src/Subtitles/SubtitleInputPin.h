@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,6 +22,7 @@
 #pragma once
 
 #include <vector>
+#include <list>
 #include <memory>
 #include <thread>
 #include <condition_variable>
@@ -51,7 +52,7 @@ class CSubtitleInputPin : public CBaseInputPin
             , data(pData, pData + len) {}
     };
 
-    CAutoPtrList<SubtitleSample> m_sampleQueue;
+    std::list<std::unique_ptr<SubtitleSample>> m_sampleQueue;
 
     bool m_bExitDecodingThread, m_bStopDecoding;
     std::thread m_decodeThread;
@@ -59,7 +60,7 @@ class CSubtitleInputPin : public CBaseInputPin
     std::condition_variable m_condQueueReady;
 
     void DecodeSamples();
-    REFERENCE_TIME DecodeSample(const CAutoPtr<SubtitleSample>& pSample);
+    REFERENCE_TIME DecodeSample(const std::unique_ptr<SubtitleSample>& pSample);
     void InvalidateSamples();
 
 protected:

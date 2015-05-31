@@ -1,14 +1,14 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# geogeo.gr <admin@geogeo.gr>, 2013-2014
+# geogeo.gr <admin@geogeo.gr>, 2013-2015
 # firespin <dartworldgr@hotmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-10-27 06:10+0000\n"
+"POT-Creation-Date: 2015-05-17 20:47:27+0000\n"
+"PO-Revision-Date: 2015-05-31 14:42+0000\n"
 "Last-Translator: geogeo.gr <admin@geogeo.gr>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/mpc-hc/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -110,15 +110,15 @@ msgid "Enable custom channel mapping"
 msgstr "Ενεργοποίηση προσαρμοσμένης αντιστοίχισης καναλιών"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
-msgstr "Διαμόρφωση ηχείων για "
+msgid "Speaker configuration for"
+msgstr "Διαμόρφωση ηχείων για"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
 msgid "input channels:"
 msgstr "κανάλια εισόδου:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
+msgid "Hold shift for immediate changes when clicking something"
 msgstr "Κρατήστε πατημένο το πλήκτρο shift για άμεσες αλλαγές όταν κάνετε κλικ σε κάτι"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
@@ -570,7 +570,7 @@ msgid "Warning"
 msgstr "Προειδοποίηση"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu."
+msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
 msgstr "Εάν παρακάμψετε κι ενεργοποιήσετε την εξομάλυνση γραφικών πλήρους οθόνης κάπου στις ρυθμίσεις της κάρτας γραφικών σας, οι υπότιτλοι δεν πρόκειται να φανούν καλύτερα, αλλά σίγουρα θα τρώνε από τον επεξεργαστή σας."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
@@ -682,11 +682,11 @@ msgid "Use Windows 7 Taskbar features"
 msgstr "Χρήση χαρακτηριστικών Γραμμής εργασίας των Windows 7"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
 msgstr "Άνοιγμα του επόμενου/προηγούμ. αρχείου στο φάκελο, στην επιλογή «Παράβλεψη επόμενου/προηγούμ. αρχείου», όταν υπάρχει μόνο ένα στοιχείο στη λίστα αναπ/γωγής"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Use time tooltip:"
+msgid "Show time tooltip:"
 msgstr "Χρήση συμβουλής χρόνου:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
@@ -1278,8 +1278,8 @@ msgid "Enable automatic update check"
 msgstr "Ενεργοποίηση αυτόματου ελέγχου ενημερώσεων"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
-msgid "Delay between each check:"
-msgstr "Περίοδος μεταξύ ελέγχων:"
+msgid "Check every:"
+msgstr "Έλεγχος κάθε:"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"
@@ -1662,6 +1662,30 @@ msgid "Command line help"
 msgstr "Βοήθεια γραμμής εντολών"
 
 msgctxt "IDD_CMD_LINE_HELP_IDOK"
+msgid "OK"
+msgstr "Εντάξει"
+
+msgctxt "IDD_CRASH_REPORTER_CAPTION"
+msgid "Crash reporter"
+msgstr "Αναφορά κατάρρευσης"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
+msgid "We are sorry, it seems MPC-HC just crashed. :(\n\nTo help us diagnose and fix the problem, a bug report will be sent. You can provide additional information if you want."
+msgstr "Λυπούμαστε, φαίνεται πως το MPC-HC μόλις κατέρρευσε. :(\n\nΓια να μας βοηθήσετε να διαγνώσουμε και να διορθώσουμε το πρόβλημα, θα σταλεί μια αναφορά σφάλματος. Μπορείτε, εάν θέλετε, να παρέχετε πρόσθετες πληροφορίες."
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
+msgid "Email:"
+msgstr "Email:"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC3"
+msgid "Your email address is optional and will only be used if the developers need to contact you for more information."
+msgstr "Η διεύθυνση του ηλεκτρονικού σας ταχυδρομείου είναι προαιρετική και θα χρησιμοποιηθεί μόνο αν οι προγραμματιστές πρέπει να επικοινωνήσουν μαζί σας για περισσότερες πληροφορίες."
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
+msgid "Problem description (use English only):"
+msgstr "Περιγραφή προβλήματος (μόνο στα Αγγλικά):"
+
+msgctxt "IDD_CRASH_REPORTER_IDOK"
 msgid "OK"
 msgstr "Εντάξει"
 

@@ -80,7 +80,7 @@ class File
     bool Close();
     bool Delete();
     bool Rename(const wchar *NewName);
-    void Write(const void *Data,size_t Size);
+    bool Write(const void *Data,size_t Size);
     virtual int Read(void *Data,size_t Size);
     int DirectRead(void *Data,size_t Size);
     virtual void Seek(int64 Offset,int Method);

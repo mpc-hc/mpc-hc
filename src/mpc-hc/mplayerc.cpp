@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -46,7 +46,7 @@
 #include "mpc-hc_config.h"
 #include "../MathLibFix/MathLibFix.h"
 #include "CmdLineHelpDlg.h"
-#include "MiniDump.h"
+#include "CrashReporter.h"
 
 
 #define HOOKS_BUGS_URL _T("https://trac.mpc-hc.org/ticket/3739")
@@ -584,12 +584,11 @@ void SetAudioRenderer(int AudioDevNo)
     int i = 2;
 
     BeginEnumSysDev(CLSID_AudioRendererCategory, pMoniker) {
-        LPOLESTR olestr = nullptr;
+        CComHeapPtr<OLECHAR> olestr;
         if (FAILED(pMoniker->GetDisplayName(0, 0, &olestr))) {
             continue;
         }
         CStringW str(olestr);
-        CoTaskMemFree(olestr);
         m_AudioRendererDisplayNames.Add(CString(str));
         i++;
     }
@@ -644,6 +643,8 @@ CMPlayerCApp::~CMPlayerCApp()
     if (m_hNTDLL) {
         FreeLibrary(m_hNTDLL);
     }
+    // Wait for any pending I/O operations to be canceled
+    while (WAIT_IO_COMPLETION == SleepEx(0, TRUE));
 }
 
 void CMPlayerCApp::DelayedIdle()
@@ -1023,7 +1024,7 @@ BOOL CMPlayerCApp::GetProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPBY
             return FALSE;
         }
         for (UINT i = 0; i < *pBytes; i++) {
-            (*ppData)[i] = (valueStr[i * 2] - 'A') | ((valueStr[i * 2 + 1] - 'A') << 4);
+            (*ppData)[i] = BYTE((valueStr[i * 2] - 'A') | ((valueStr[i * 2 + 1] - 'A') << 4));
         }
         return TRUE;
     }
@@ -1452,7 +1453,10 @@ BOOL CMPlayerCApp::InitInstance()
     // Remove the working directory from the search path to work around the DLL preloading vulnerability
     SetDllDirectory(_T(""));
 
-    CMiniDump::Enable();
+    // At this point we have not hooked this function yet so we get the real result
+    if (!IsDebuggerPresent()) {
+        CrashReporter::Enable();
+    }
     WorkAroundMathLibraryBug();
 
     if (!HeapSetInformation(nullptr, HeapEnableTerminationOnCorruption, nullptr, 0)) {
@@ -1751,9 +1755,30 @@ BOOL CMPlayerCApp::InitInstance()
     pFrame->SetDefaultFullscreenState();
     pFrame->UpdateControlState(CMainFrame::UPDATE_CONTROLS_VISIBILITY);
     pFrame->SetIcon(icon, TRUE);
-    pFrame->DragAcceptFiles();
-    pFrame->ShowWindow((m_s->nCLSwitches & CLSW_MINIMIZED) ? SW_SHOWMINIMIZED : SW_SHOW);
+
+    bool bRestoreLastWindowType = m_s->fRememberWindowSize && m_s->fRememberWindowPos;
+    bool bMinimized = (m_s->nCLSwitches & CLSW_MINIMIZED) || (bRestoreLastWindowType && m_s->nLastWindowType == SIZE_MINIMIZED);
+    bool bMaximized = bRestoreLastWindowType && m_s->nLastWindowType == SIZE_MAXIMIZED;
+
+    if (bMinimized) {
+        m_nCmdShow = (m_s->nCLSwitches & CLSW_NOFOCUS) ? SW_SHOWMINNOACTIVE : SW_SHOWMINIMIZED;
+    } else if (bMaximized) {
+        // Show maximized without focus is not supported nor make sense.
+        m_nCmdShow = (m_s->nCLSwitches & CLSW_NOFOCUS) ? SW_SHOWNOACTIVATE : SW_SHOWMAXIMIZED;
+    } else {
+        m_nCmdShow = (m_s->nCLSwitches & CLSW_NOFOCUS) ? SW_SHOWNOACTIVATE : SW_SHOWNORMAL;
+    }
+
+    pFrame->ActivateFrame(m_nCmdShow);
     pFrame->UpdateWindow();
+
+    if (bMinimized && bMaximized) {
+        WINDOWPLACEMENT wp;
+        GetWindowPlacement(*pFrame, &wp);
+        wp.flags = WPF_RESTORETOMAXIMIZED;
+        SetWindowPlacement(*pFrame, &wp);
+    }
+
     pFrame->m_hAccelTable = m_s->hAccel;
     m_s->WinLircClient.SetHWND(m_pMainWnd->m_hWnd);
     if (m_s->fWinLirc) {
@@ -1770,8 +1795,6 @@ BOOL CMPlayerCApp::InitInstance()
 
     SendCommandLine(m_pMainWnd->m_hWnd);
     RegisterHotkeys();
-
-    pFrame->SetFocus();
 
     // set HIGH I/O Priority for better playback performance
     if (m_hNTDLL) {
@@ -2135,10 +2158,8 @@ void CRemoteCtrlClient::ExecuteCommand(CStringA cmd, int repcnt)
     POSITION pos = s.wmcmds.GetHeadPosition();
     while (pos) {
         wmcmd wc = s.wmcmds.GetNext(pos);
-        CStringA name = TToA(wc.GetName());
-        name.Replace(' ', '_');
         if ((repcnt == 0 && wc.rmrepcnt == 0 || wc.rmrepcnt > 0 && (repcnt % wc.rmrepcnt) == 0)
-                && (!name.CompareNoCase(cmd) || !wc.rmcmd.CompareNoCase(cmd) || wc.cmd == (WORD)strtol(cmd, nullptr, 10))) {
+                && (!wc.rmcmd.CompareNoCase(cmd) || wc.cmd == (WORD)strtol(cmd, nullptr, 10))) {
             CAutoLock cAutoLock(&m_csLock);
             TRACE(_T("CRemoteCtrlClient (calling command): %s\n"), wc.GetName());
             m_pWnd->SendMessage(WM_COMMAND, wc.cmd);

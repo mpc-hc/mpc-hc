@@ -8,18 +8,6 @@
 CImage* CMPCPngImage::m_pImage;
 
 //////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
-CMPCPngImage::CMPCPngImage()
-{
-}
-
-CMPCPngImage::~CMPCPngImage()
-{
-}
-
-//////////////////////////////////////////////////////////////////////
 // Operations
 //////////////////////////////////////////////////////////////////////
 
@@ -111,4 +99,14 @@ BOOL CMPCPngImage::LoadFromBuffer(const LPBYTE lpBuffer, UINT uiSize)
     BOOL bRes = Attach(m_pImage->Detach());
 
     return bRes;
+}
+
+CSize CMPCPngImage::GetSize()
+{
+    CSize size;
+    BITMAP bm;
+    if (GetBitmap(&bm)) {
+        size.SetSize(bm.bmWidth, bm.bmHeight);
+    }
+    return size;
 }

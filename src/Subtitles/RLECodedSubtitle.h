@@ -1,5 +1,5 @@
 /*
- * (C) 2008-2014 see Authors.txt
+ * (C) 2008-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,6 +21,7 @@
 #pragma once
 
 #include "../SubPic/SubPicProviderImpl.h"
+#include "ColorConvTable.h"
 
 
 class __declspec(uuid("FCA68599-C83E-4ea5-94A3-C2E1B0E326B9"))
@@ -47,12 +48,12 @@ public:
     STDMETHODIMP_(int) GetStream();
     STDMETHODIMP SetStream(int iStream);
     STDMETHODIMP Reload();
+    STDMETHODIMP SetSourceTargetInfo(CString yuvMatrix, int targetBlackLevel, int targetWhiteLevel);
 
     virtual HRESULT ParseSample(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BYTE* pData, size_t nLen) PURE;
     HRESULT NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
     virtual void EndOfStream() PURE;
     virtual void Reset() PURE;
-    STDMETHODIMP SetSourceTargetInfo(CString yuvMatrix, int targetBlackLevel, int targetWhiteLevel);
 
 protected:
     CCritSec        m_csCritSec;
@@ -60,18 +61,5 @@ protected:
     CString         m_name;
     LCID            m_lcid;
 
-    enum SOURCE_MATRIX {
-        NONE,
-        BT_709,
-        BT_601
-    };
-
-    struct SourceTarget {
-        int sourceBlackLevel = 16;
-        int sourceWhiteLevel = 235;
-        int targetBlackLevel = 0;
-        int targetWhiteLevel = 255;
-
-        SOURCE_MATRIX sourceMatrix = NONE;
-    } m_infoSourceTarget;
+    ColorConvTable::YuvMatrixType m_eSourceMatrix = ColorConvTable::NONE;
 };

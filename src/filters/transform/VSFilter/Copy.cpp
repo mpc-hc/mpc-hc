@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -44,7 +44,7 @@ void BltLineRGB32(DWORD* d, BYTE* sub, int w, const GUID& subtype)
         for (; db < dbtend; sub += 4, db++) {
             if (sub[3] < 0xff) {
                 int y = (c2y_yb[sub[0]] + c2y_yg[sub[1]] + c2y_yr[sub[2]] + 0x108000) >> 16;
-                *db = y; // w/o colors
+                *db = BYTE(y); // w/o colors
             }
         }
     } else if (subtype == MEDIASUBTYPE_YUY2) {
@@ -54,7 +54,7 @@ void BltLineRGB32(DWORD* d, BYTE* sub, int w, const GUID& subtype)
         for (; ds < dstend; sub += 4, ds++) {
             if (sub[3] < 0xff) {
                 int y = (c2y_yb[sub[0]] + c2y_yg[sub[1]] + c2y_yr[sub[2]] + 0x108000) >> 16;
-                *ds = 0x8000 | y; // w/o colors
+                *ds = WORD(0x8000 | y); // w/o colors
             }
         }
     } else if (subtype == MEDIASUBTYPE_RGB555) {

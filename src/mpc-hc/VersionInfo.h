@@ -1,5 +1,5 @@
 /*
- * (C) 2013 see Authors.txt
+ * (C) 2013, 2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,19 +20,17 @@
 
 #pragma once
 
-class VersionInfo
+namespace VersionInfo
 {
-public:
-    static bool IsNightly();
-    static CString GetNightlyWord();
-    static bool Is64Bit();
-    static CString GetVersionString();
-    static CString GetFullVersionString();
-    static CString GetBuildDateString();
-    static unsigned GetMajorNumber();
-    static unsigned GetMinorNumber();
-    static unsigned GetPatchNumber();
-    static unsigned GetRevisionNumber();
-private:
-    VersionInfo();
+    bool IsNightly();
+    CString GetNightlyWord();
+    bool Is64Bit();
+    CString GetVersionString();
+    CString GetFullVersionString();
+    CString GetBuildDateString();
+    unsigned GetMajorNumber();
+    unsigned GetMinorNumber();
+    unsigned GetPatchNumber();
+    unsigned GetRevisionNumber();
+    CString GetGCCVersion();
 };

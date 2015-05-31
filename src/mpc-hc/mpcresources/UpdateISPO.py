@@ -1,4 +1,4 @@
-# (C) 2013 see Authors.txt
+# (C) 2013, 2015 see Authors.txt
 #
 # This file is part of MPC-HC.
 #
@@ -19,11 +19,9 @@ import sys
 
 from TranslationDataIS import *
 
-if __name__ == '__main__':
-    if len(sys.argv) != 2:
-        RuntimeError('Invalid number of parameters. Usage: UpdateISPO.py <filename>')
 
-    filename = sys.argv[1].replace('.strings', '')
+def UpdateISPO(filename):
+    filename = filename.replace('.strings', '')
 
     translationDataOld = TranslationDataIS()
     translationDataOld.loadFromPO('PO\\' + filename, 'po', (False, False, True))
@@ -32,3 +30,9 @@ if __name__ == '__main__':
     translationData.loadFromPO(r'PO\mpc-hc.installer', 'pot', (False, False, True))
     translationData.translate(translationDataOld)
     translationData.writePO('PO\\' + filename, 'po', (False, False, True))
+
+if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        RuntimeError('Invalid number of parameters. Usage: UpdateISPO.py <filename>')
+
+    UpdateISPO(sys.argv[1])

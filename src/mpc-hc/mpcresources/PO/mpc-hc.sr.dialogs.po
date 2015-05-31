@@ -2,14 +2,14 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Rancher <djordje.vasiljevich@gmail.com>, 2014
+# Rancher <djordje.vasiljevich@gmail.com>, 2014-2015
 # vBm <the.vbm@gmail.com>, 2014
 # vBm <the.vbm@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-12-11 18:21+0000\n"
+"POT-Creation-Date: 2015-03-16 18:09:30+0000\n"
+"PO-Revision-Date: 2015-03-24 22:12+0000\n"
 "Last-Translator: Rancher <djordje.vasiljevich@gmail.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/mpc-hc/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -111,7 +111,7 @@ msgid "Enable custom channel mapping"
 msgstr "Мапирање прилагођених канала"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
+msgid "Speaker configuration for"
 msgstr "Подешавање звучника за"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
@@ -119,7 +119,7 @@ msgid "input channels:"
 msgstr "улазна канала:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
+msgid "Hold shift for immediate changes when clicking something"
 msgstr "Држите Shift да бисте измене видели одмах након клика."
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
@@ -152,7 +152,7 @@ msgstr "&Пређи"
 
 msgctxt "IDD_OPEN_DLG_CAPTION"
 msgid "Open"
-msgstr "Отвори"
+msgstr "Отварање"
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Type the address of a movie or audio file (on the Internet or your computer) and the player will open it for you."
@@ -571,7 +571,7 @@ msgid "Warning"
 msgstr "Упозорење"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu."
+msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
 msgstr "Ако негде у поставкама графичке картице омогућите уклањање назубљености у режиму целог екрана, титлови неће изгледати боље, већ ћете само оптеретити процесор."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
@@ -683,11 +683,11 @@ msgid "Use Windows 7 Taskbar features"
 msgstr "Функције траке задатака из ОС Windows 7"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
 msgstr "Отвори претходну/следећу датотеку у фасцикли при коришћењу опције „Прескочи уназад/унапред“ када је у плеј-листи само једна датотека"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Use time tooltip:"
+msgid "Show time tooltip:"
 msgstr "Прикажи време:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
@@ -1279,8 +1279,8 @@ msgid "Enable automatic update check"
 msgstr "Аутоматска потражња ажурирања"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
-msgid "Delay between each check:"
-msgstr "Застој између сваке провере:"
+msgid "Check every:"
+msgstr "Проверавај сваких:"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"
@@ -1665,4 +1665,28 @@ msgstr "Помоћ око командне линије"
 msgctxt "IDD_CMD_LINE_HELP_IDOK"
 msgid "OK"
 msgstr "&У реду"
+
+msgctxt "IDD_CRASH_REPORTER_CAPTION"
+msgid "Crash reporter"
+msgstr ""
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
+msgid "We are sorry, it seems MPC-HC just crashed. :(\n\nTo help us diagnose and fix the problem, a bug report will be sent. You can provide additional information if you want."
+msgstr ""
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
+msgid "Email:"
+msgstr ""
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC3"
+msgid "Your email address is optional and will only be used if the developers need to contact you for more information."
+msgstr ""
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
+msgid "Problem description (use English only):"
+msgstr ""
+
+msgctxt "IDD_CRASH_REPORTER_IDOK"
+msgid "OK"
+msgstr ""
 

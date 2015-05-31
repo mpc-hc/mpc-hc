@@ -1,10 +1,10 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
+"POT-Creation-Date: 2015-05-30 00:33:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -193,12 +193,16 @@ msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
 msgstr ""
 
-msgctxt "ID_VIEW_DISPLAYSTATS"
-msgid "&Display Stats"
+msgctxt "ID_VIEW_DISPLAY_RENDERER_STATS"
+msgid "&Display Statistics"
 msgstr ""
 
-msgctxt "ID_VIEW_REMAINING_TIME"
-msgid "&Remaining Time"
+msgctxt "ID_VIEW_OSD_DISPLAY_TIME"
+msgid "Display Current T&ime"
+msgstr ""
+
+msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
+msgid "Show &File Name"
 msgstr ""
 
 msgctxt "POPUP"
@@ -550,15 +554,15 @@ msgid "S&haders"
 msgstr ""
 
 msgctxt "ID_AUDIOS"
-msgid "&Audio"
+msgid "&Audio Track"
 msgstr ""
 
 msgctxt "ID_SUBTITLES"
-msgid "Su&btitles"
+msgid "Su&btitle Track"
 msgstr ""
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Stream"
+msgid "&Video Track"
 msgstr ""
 
 msgctxt "POPUP"
@@ -581,7 +585,19 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr ""
 
-msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgctxt "ID_AFTERPLAYBACK_DONOTHING"
+msgid "Do no&thing"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
+msgid "Turn off the &monitor"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
 msgstr ""
 
@@ -603,14 +619,6 @@ msgstr ""
 
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
-msgstr ""
-
-msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
-msgid "Turn off the &monitor"
-msgstr ""
-
-msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
-msgid "Play &next file in the folder"
 msgstr ""
 
 msgctxt "POPUP"

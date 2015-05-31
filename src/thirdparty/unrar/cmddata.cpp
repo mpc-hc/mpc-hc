@@ -616,6 +616,8 @@ void CommandData::ProcessSwitch(const wchar *Switch)
 #ifdef SAVE_LINKS
         case 'L':
           SaveSymLinks=true;
+          if (toupperw(Switch[2])=='A')
+            AbsoluteLinks=true;
           break;
 #endif
         case 'R':
@@ -958,7 +960,7 @@ void CommandData::OutHelp(RAR_EXIT ExitCode)
     MCHelpSwCm,MCHelpSwCFGm,MCHelpSwCL,MCHelpSwCU,
     MCHelpSwDH,MCHelpSwEP,MCHelpSwEP3,MCHelpSwF,MCHelpSwIDP,MCHelpSwIERR,
     MCHelpSwINUL,MCHelpSwIOFF,MCHelpSwKB,MCHelpSwN,MCHelpSwNa,MCHelpSwNal,
-    MCHelpSwO,MCHelpSwOC,MCHelpSwOR,MCHelpSwOW,MCHelpSwP,
+    MCHelpSwO,MCHelpSwOC,MCHelpSwOL,MCHelpSwOR,MCHelpSwOW,MCHelpSwP,
     MCHelpSwPm,MCHelpSwR,MCHelpSwRI,MCHelpSwSC,MCHelpSwSL,MCHelpSwSM,
     MCHelpSwTA,MCHelpSwTB,MCHelpSwTN,MCHelpSwTO,MCHelpSwTS,MCHelpSwU,
     MCHelpSwVUnr,MCHelpSwVER,MCHelpSwVP,MCHelpSwX,MCHelpSwXa,MCHelpSwXal,
@@ -1157,8 +1159,11 @@ bool CommandData::SizeCheck(int64 Size)
 
 
 
-int CommandData::IsProcessFile(FileHeader &FileHead,bool *ExactMatch,int MatchType)
+int CommandData::IsProcessFile(FileHeader &FileHead,bool *ExactMatch,int MatchType,
+                               wchar *MatchedArg,uint MatchedArgSize)
 {
+  if (MatchedArg!=NULL && MatchedArgSize>0)
+    *MatchedArg=0;
   if (wcslen(FileHead.FileName)>=NM)
     return 0;
   bool Dir=FileHead.Dir;
@@ -1179,6 +1184,8 @@ int CommandData::IsProcessFile(FileHeader &FileHead,bool *ExactMatch,int MatchTy
     {
       if (ExactMatch!=NULL)
         *ExactMatch=wcsicompc(ArgName,FileHead.FileName)==0;
+      if (MatchedArg!=NULL)
+        wcsncpyz(MatchedArg,ArgName,MatchedArgSize);
       return StringCount;
     }
   return 0;

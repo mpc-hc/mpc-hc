@@ -280,11 +280,11 @@ bool File_Mpeg4v::Synched_Test()
     if (!Header_Parser_QuickSearch())
         return false;
 
-    #if MEDIAINFO_IBI
+    #if MEDIAINFO_IBIUSAGE
         bool RandomAccess=Buffer[Buffer_Offset+3]==0xB0; //SequenceHeader
         if (RandomAccess)
             Ibi_Add();
-    #endif //MEDIAINFO_IBI
+    #endif //MEDIAINFO_IBIUSAGE
 
     //We continue
     return true;
@@ -581,10 +581,10 @@ void File_Mpeg4v::Streams_Finish()
         Fill(Stream_Video, 0, Video_Duration, Duration);
     }
 
-    #if MEDIAINFO_IBI
+    #if MEDIAINFO_IBIUSAGE
         if (fixed_vop_time_increment)
             Ibi_Stream_Finish(vop_time_increment_resolution, fixed_vop_time_increment);
-    #endif //MEDIAINFO_IBI
+    #endif //MEDIAINFO_IBIUSAGE
 }
 //***************************************************************************
 // Buffer - Demux

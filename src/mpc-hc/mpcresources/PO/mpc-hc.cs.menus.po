@@ -1,14 +1,14 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # kasper93, 2013
-# khagaroth, 2013-2014
+# khagaroth, 2013-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
-"PO-Revision-Date: 2014-10-27 16:00+0000\n"
+"POT-Creation-Date: 2015-05-22 20:53:41+0000\n"
+"PO-Revision-Date: 2015-05-27 15:31+0000\n"
 "Last-Translator: khagaroth\n"
 "Language-Team: Czech (http://www.transifex.com/projects/p/mpc-hc/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -197,13 +197,17 @@ msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
 msgstr "Test &trhání"
 
-msgctxt "ID_VIEW_DISPLAYSTATS"
-msgid "&Display Stats"
-msgstr "&Statistika zobrazení"
+msgctxt "ID_VIEW_DISPLAY_RENDERER_STATS"
+msgid "&Display Statistics"
+msgstr "Zobrazit statistiku"
 
-msgctxt "ID_VIEW_REMAINING_TIME"
-msgid "&Remaining Time"
-msgstr "Zbývající čas"
+msgctxt "ID_VIEW_OSD_DISPLAY_TIME"
+msgid "Display Current T&ime"
+msgstr "Zobrazit aktuální čas"
+
+msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
+msgid "Show &File Name"
+msgstr "Zobrazit název souboru"
 
 msgctxt "POPUP"
 msgid "&Output Range"
@@ -554,16 +558,16 @@ msgid "S&haders"
 msgstr "Shadery"
 
 msgctxt "ID_AUDIOS"
-msgid "&Audio"
-msgstr "Zvuk"
+msgid "&Audio Track"
+msgstr "&Zvuková stopa"
 
 msgctxt "ID_SUBTITLES"
-msgid "Su&btitles"
-msgstr "Titulky"
+msgid "Su&btitle Track"
+msgstr "&Titulková stopa"
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Stream"
-msgstr "&Video"
+msgid "&Video Track"
+msgstr "&Video stopa"
 
 msgctxt "POPUP"
 msgid "&Volume"
@@ -585,7 +589,19 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "P&o přehrání"
 
-msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgctxt "ID_AFTERPLAYBACK_DONOTHING"
+msgid "Do no&thing"
+msgstr "Žádná akce"
+
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "Přehrát &další soubor v adresáři"
+
+msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
+msgid "Turn off the &monitor"
+msgstr "Vypnout &monitor"
+
+msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
 msgstr "Zavřít přehrávač"
 
@@ -608,14 +624,6 @@ msgstr "Odhlásit uživatele"
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "Uzamknout počítač"
-
-msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
-msgid "Turn off the &monitor"
-msgstr "Vypnout &monitor"
-
-msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
-msgid "Play &next file in the folder"
-msgstr "Přehrát &další soubor v adresáři"
 
 msgctxt "POPUP"
 msgid "&Navigate"

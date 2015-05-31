@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2014 see Authors.txt
+ * (C) 2009-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -173,44 +173,3 @@ private:
 
     HRESULT SearchIBDATopology(const CComPtr<IBaseFilter>& pTuner, REFIID iid, CComPtr<IUnknown>& pUnk);
 };
-
-#ifdef _DEBUG
-#include <sys/types.h>
-#include <sys/timeb.h>
-
-#define CheckAndLogBDA(x, msg)  hr = ##x; if (FAILED(hr)) { LOG(msg _T(": 0x%08x\n"), hr); return hr; }
-#define CheckAndLogBDANoRet(x, msg)  hr = ##x; if (FAILED(hr)) { LOG(msg _T(": 0x%08x\n"), hr); }
-
-#define LOG_FILE _T("bda.log")
-
-static void LOG(LPCTSTR fmt, ...)
-{
-    va_list args;
-    va_start(args, fmt);
-    TCHAR buff[3000];
-    FILE* f;
-    _timeb timebuffer;
-    TCHAR time1[8];
-    TCHAR wbuf[26];
-
-    _ftime_s(&timebuffer);
-    _tctime_s(wbuf, _countof(wbuf), &timebuffer.time);
-
-    for (size_t i = 0; i < _countof(time1); i++) {
-        time1[i] = wbuf[i + 11];
-    }
-
-    _vstprintf_s(buff, _countof(buff), fmt, args);
-    if (_tfopen_s(&f, LOG_FILE, _T("at")) == 0) {
-        fseek(f, 0, 2);
-        _ftprintf_s(f, _T("%.8s.%03hu - %s\n"), time1, timebuffer.millitm, buff);
-        fclose(f);
-    }
-
-    va_end(args);
-}
-#else
-inline void LOG(LPCTSTR fmt, ...) {}
-#define CheckAndLogBDA(x, msg)  hr = ##x; if (FAILED(hr)) { TRACE(msg _T(": 0x%08x\n"), hr); return hr; }
-#define CheckAndLogBDANoRet(x, msg)  hr = ##x; if (FAILED(hr)) { TRACE(msg _T(": 0x%08x\n"), hr); }
-#endif

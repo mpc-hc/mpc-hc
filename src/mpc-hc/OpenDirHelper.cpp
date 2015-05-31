@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,6 +22,7 @@
 #include "stdafx.h"
 #include "MainFrm.h"
 #include "OpenDirHelper.h"
+#include "PathUtils.h"
 
 
 WNDPROC COpenDirHelper::CBProc;
@@ -109,28 +110,4 @@ int CALLBACK COpenDirHelper::BrowseCallbackProcDIR(HWND hwnd, UINT uMsg, LPARAM 
     }
 
     return 0;
-}
-
-void COpenDirHelper::RecurseAddDir(CString path, CAtlList<CString>* sl)
-{
-    WIN32_FIND_DATA fd;
-    ZeroMemory(&fd, sizeof(WIN32_FIND_DATA));
-
-    HANDLE hFind = FindFirstFile(path + _T("*.*"), &fd);
-    if (hFind != INVALID_HANDLE_VALUE) {
-        do {
-            CString f_name = fd.cFileName;
-            if ((fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && (f_name != _T(".")) && (f_name != _T(".."))) {
-                CString fullpath = path + f_name;
-                if (fullpath[fullpath.GetLength() - 1] != '\\') {
-                    fullpath += '\\';
-                }
-                sl->AddTail(fullpath);
-                RecurseAddDir(fullpath, sl);
-            } else {
-                continue;
-            }
-        } while (FindNextFile(hFind, &fd));
-        FindClose(hFind);
-    }
 }

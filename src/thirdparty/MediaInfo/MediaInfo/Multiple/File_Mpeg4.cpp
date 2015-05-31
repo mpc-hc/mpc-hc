@@ -636,6 +636,7 @@ void File_Mpeg4::Streams_Finish()
                 else
                 {
                     //Temp->second.Parsers[0]->Clear(StreamKind_Last, StreamPos_Last, "Delay"); //DV TimeCode is removed
+                    Temp->second.Parsers[0]->Clear(StreamKind_Last, StreamPos_Last, "FrameCount");
                     Merge(*Temp->second.Parsers[0], StreamKind_Last, 0, StreamPos_Last);
 
                     //Law rating
@@ -846,31 +847,9 @@ void File_Mpeg4::Streams_Finish()
         //Aperture size
         if (Temp->second.CleanAperture_Width)
         {
-            Ztring CleanAperture_Width=Ztring().From_Number(Temp->second.CleanAperture_Width, 0);
-            Ztring CleanAperture_Height=Ztring().From_Number(Temp->second.CleanAperture_Height, 0);
-            if (CleanAperture_Width!=Retrieve(Stream_Video, StreamPos_Last, Video_Width))
-            {
-                Fill(Stream_Video, StreamPos_Last, Video_Width_Original, Retrieve(Stream_Video, StreamPos_Last, Video_Width), true);
-                Fill(Stream_Video, StreamPos_Last, Video_Width, Temp->second.CleanAperture_Width, 0, true);
-            }
-            if (CleanAperture_Height!=Retrieve(Stream_Video, StreamPos_Last, Video_Height))
-            {
-                Fill(Stream_Video, StreamPos_Last, Video_Height_Original, Retrieve(Stream_Video, StreamPos_Last, Video_Height), true);
-                Fill(Stream_Video, StreamPos_Last, Video_Height, Temp->second.CleanAperture_Height, 0, true);
-            }
-            if (Temp->second.CleanAperture_PixelAspectRatio)
-            {
-                Clear(Stream_Video, StreamPos_Last, Video_DisplayAspectRatio);
-                Clear(Stream_Video, StreamPos_Last, Video_PixelAspectRatio);
-                Fill(Stream_Video, StreamPos_Last, Video_PixelAspectRatio, Temp->second.CleanAperture_PixelAspectRatio, 3, true);
-                if (Retrieve(Stream_Video, StreamPos_Last, Video_PixelAspectRatio)==Retrieve(Stream_Video, StreamPos_Last, Video_PixelAspectRatio_Original))
-                    Clear(Stream_Video, StreamPos_Last, Video_PixelAspectRatio_Original);
-                if (Retrieve(Stream_Video, StreamPos_Last, Video_DisplayAspectRatio)==Retrieve(Stream_Video, StreamPos_Last, Video_DisplayAspectRatio_Original))
-                {
-                    Clear(Stream_Video, StreamPos_Last, Video_DisplayAspectRatio_Original);
-                    Clear(Stream_Video, StreamPos_Last, Video_DisplayAspectRatio_Original_String);
-                }
-            }
+            Fill(Stream_Video, StreamPos_Last, "Width_CleanAperture", Temp->second.CleanAperture_Width, 0, true);
+            Fill(Stream_Video, StreamPos_Last, "Height_CleanAperture", Temp->second.CleanAperture_Height, 0, true);
+            Fill(Stream_Video, StreamPos_Last, "PixelAspectRatio_CleanAperture", Temp->second.CleanAperture_PixelAspectRatio, 3, true);
         }
 
         //Special case: QuickTime files and Stereo streams, there is a default value in QuickTime player, a QuickTime "standard"?
@@ -932,7 +911,7 @@ void File_Mpeg4::Streams_Finish()
     if (Count_Get(Stream_Video)==0 && Count_Get(Stream_Image)==0 && Count_Get(Stream_Audio)>0)
         Fill(Stream_General, 0, General_InternetMediaType, "audio/mp4", Unlimited, true, true);
 
-    //Parsing reference files
+    //Parsing sequence files
     #ifdef MEDIAINFO_REFERENCES_YES
         for (streams::iterator Stream=Streams.begin(); Stream!=Streams.end(); ++Stream)
             if (!Stream->second.File_Name.empty())
@@ -940,16 +919,16 @@ void File_Mpeg4::Streams_Finish()
                 if (ReferenceFiles==NULL)
                     ReferenceFiles=new File__ReferenceFilesHelper(this, Config);
 
-                File__ReferenceFilesHelper::reference ReferenceFile;
-                ReferenceFile.FileNames.push_back(Stream->second.File_Name);
-                ReferenceFile.StreamKind=Stream->second.StreamKind;
-                ReferenceFile.StreamPos=Stream->second.StreamPos;
-                ReferenceFile.StreamID=Retrieve(Stream->second.StreamKind, Stream->second.StreamPos, General_ID).To_int64u();
+                sequence* Sequence=new sequence;
+                Sequence->AddFileName(Stream->second.File_Name);
+                Sequence->StreamKind=Stream->second.StreamKind;
+                Sequence->StreamPos=Stream->second.StreamPos;
+                Sequence->StreamID=Retrieve(Stream->second.StreamKind, Stream->second.StreamPos, General_ID).To_int64u();
                 if (Stream->second.StreamKind==Stream_Video)
                 {
-                    ReferenceFile.FrameRate=Retrieve(Stream_Video, Stream->second.StreamPos, Video_FrameRate).To_float64();
+                    Sequence->FrameRate_Set(Retrieve(Stream_Video, Stream->second.StreamPos, Video_FrameRate).To_float64());
 
-                    #ifdef MEDIAINFO_IBI_YES
+                    #if MEDIAINFO_IBIUSAGE
                         for (size_t stss_Pos=0; stss_Pos<Stream->second.stss.size(); stss_Pos++)
                         {
                             int64u Value=Stream->second.stss[stss_Pos];
@@ -974,22 +953,22 @@ void File_Mpeg4::Streams_Finish()
                                         IbiInfo.StreamOffset=Stream->second.stco[stco_Pos];
                                         IbiInfo.FrameNumber=Value;
                                         IbiInfo.Dts=TimeCode_DtsOffset+(stts_Duration->DTS_Begin+(((int64u)stts_Duration->SampleDuration)*(Value-stts_Duration->Pos_Begin)))*1000000000/Stream->second.mdhd_TimeScale;
-                                        ReferenceFile.IbiStream.Add(IbiInfo);
+                                        Sequence->IbiStream.Add(IbiInfo);
                                     }
                                 }
                             }
                         }
-                    #endif //MEDIAINFO_IBI_YES
+                    #endif //MEDIAINFO_IBIUSAGE
 
                 }
-                ReferenceFiles->References.push_back(ReferenceFile);
+                ReferenceFiles->AddSequence(Sequence);
             }
 
         if (ReferenceFiles)
         {
             ReferenceFiles->ParseReferences();
             #if MEDIAINFO_NEXTPACKET
-                if (Config->NextPacket_Get() && ReferenceFiles && !ReferenceFiles->References.empty())
+                if (Config->NextPacket_Get() && ReferenceFiles && ReferenceFiles->Sequences_Size())
                 {
                     ReferenceFiles_IsParsing=true;
                     return;
@@ -1186,7 +1165,7 @@ size_t File_Mpeg4::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
 {
     #if defined(MEDIAINFO_REFERENCES_YES)
         if (ReferenceFiles)
-            return ReferenceFiles->Read_Buffer_Seek(Method, Value, ID);
+            return ReferenceFiles->Seek(Method, Value, ID);
     #endif //defined(MEDIAINFO_REFERENCES_YES)
     if (!IsSub && MajorBrand==0x6A703220) //"jp2 "
         return Read_Buffer_Seek_OneFramePerFile(Method, Value, ID);
@@ -1322,6 +1301,15 @@ size_t File_Mpeg4::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
                                                     break;
                                 default           : ;
                             }
+
+                        if (!StreamOffset_Jump.empty())
+                        {
+                            std::map<int64u, int64u>::iterator StreamOffset_Current=StreamOffset_Jump.end();
+                            do
+                                --StreamOffset_Current;
+                            while (StreamOffset_Current->second>JumpTo && StreamOffset_Current!=StreamOffset_Jump.begin());
+                            JumpTo=StreamOffset_Current->second;
+                        }
 
                         GoTo(JumpTo);
                         Open_Buffer_Unsynch();

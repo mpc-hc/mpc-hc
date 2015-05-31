@@ -170,7 +170,12 @@ void File_Ttml::Read_Buffer_Continue()
                 MuxingMode=11; //MPEG-4
             if (StreamIDs_Size>2 && ParserIDs[StreamIDs_Size-2]==MediaInfo_Parser_Mxf) //Only if referenced MXF
                 MuxingMode=13; //MXF
-        #endif MEDIAINFO_EVENTS
+        #endif //MEDIAINFO_EVENTS
+
+        #if MEDIAINFO_DEMUX && MEDIAINFO_NEXTPACKET
+            if (Config->NextPacket_Get() && Config->Event_CallBackFunction_IsSet())
+                return; // Waiting for NextPacket
+        #endif //MEDIAINFO_DEMUX && MEDIAINFO_NEXTPACKET
     }
 
     tinyxml2::XMLElement*       div=NULL;
@@ -241,7 +246,7 @@ void File_Ttml::Read_Buffer_Continue()
                 Frame_Count++;
             }
         }
-    #endif MEDIAINFO_EVENTS
+    #endif //MEDIAINFO_EVENTS
 
     Buffer_Offset=Buffer_Size;
 }

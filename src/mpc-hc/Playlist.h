@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2012, 2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -26,7 +26,11 @@
 
 class CPlaylistItem
 {
+    friend class CPlaylist;
+
     static UINT m_globalid;
+    POSITION m_posNextShuffle;
+    POSITION m_posPrevShuffle;
 
 public:
     UINT m_id;
@@ -41,12 +45,11 @@ public:
 
     bool m_fInvalid;
 
-public:
     CPlaylistItem();
     virtual ~CPlaylistItem();
 
     CPlaylistItem(const CPlaylistItem& pli);
-    CPlaylistItem& operator = (const CPlaylistItem& pli);
+    CPlaylistItem& operator=(const CPlaylistItem& pli);
 
     POSITION FindFile(LPCTSTR path);
     void AutoLoadFiles();
@@ -54,13 +57,35 @@ public:
     CString GetLabel(int i = 0);
 };
 
-class CPlaylist : public CList<CPlaylistItem>
+class CPlaylist : protected CAtlList<CPlaylistItem>
 {
 protected:
     POSITION m_pos;
+    bool m_bShuffle;
+    POSITION m_posHeadShuffle;
+    POSITION m_posTailShuffle;
+    size_t m_nShuffledListSize;
+
+    bool ReshuffleIfNeeded();
 
 public:
-    CPlaylist();
+    using CAtlList<CPlaylistItem>::AddHead;
+    using CAtlList<CPlaylistItem>::AddTail;
+    using CAtlList<CPlaylistItem>::InsertAfter;
+    using CAtlList<CPlaylistItem>::InsertBefore;
+    using CAtlList<CPlaylistItem>::GetHead;
+    using CAtlList<CPlaylistItem>::GetTail;
+    using CAtlList<CPlaylistItem>::GetHeadPosition;
+    using CAtlList<CPlaylistItem>::GetTailPosition;
+    using CAtlList<CPlaylistItem>::GetNext;
+    using CAtlList<CPlaylistItem>::GetPrev;
+    using CAtlList<CPlaylistItem>::GetAt;
+    using CAtlList<CPlaylistItem>::GetCount;
+    using CAtlList<CPlaylistItem>::IsEmpty;
+    using CAtlList<CPlaylistItem>::MoveToHead;
+    using CAtlList<CPlaylistItem>::MoveToTail;
+
+    CPlaylist(bool bShuffle = false);
     virtual ~CPlaylist();
 
     bool RemoveAll();
@@ -70,8 +95,12 @@ public:
 
     POSITION GetPos() const;
     void SetPos(POSITION pos);
+
+    POSITION GetShuffleAwareHeadPosition();
+    POSITION GetShuffleAwareTailPosition();
+
     CPlaylistItem& GetNextWrap(POSITION& pos);
     CPlaylistItem& GetPrevWrap(POSITION& pos);
 
-    POSITION Shuffle();
+    void SetShuffle(bool bEnable);
 };

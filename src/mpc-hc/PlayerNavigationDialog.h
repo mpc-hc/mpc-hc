@@ -1,5 +1,5 @@
 /*
- * (C) 2010-2014 see Authors.txt
+ * (C) 2010-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -26,10 +26,19 @@
 
 class CMainFrame;
 
+class CNavListBox : public CListBox
+{
+public:
+    virtual ~CNavListBox() = default;
+
+protected:
+    virtual ULONG GetGestureStatus(CPoint) override { return 0; }
+};
+
 class CPlayerNavigationDialog : public CResizableDialog
 {
 private:
-    CListBox m_channelList;
+    CNavListBox m_channelList;
     CButton m_buttonInfo;
     CButton m_buttonFilterStations;
 

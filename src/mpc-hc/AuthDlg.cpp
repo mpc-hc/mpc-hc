@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,7 +22,7 @@
 #include "stdafx.h"
 #include "AuthDlg.h"
 #include "SysVersion.h"
-#include "version.h"
+#include "VersionInfo.h"
 
 // We need to dynamically link to the functions provided by CredUI.lib in order
 // to be able to use the features available to the OS.
@@ -103,7 +103,7 @@ HRESULT PromptForCredentials(HWND hWnd, const CString& strCaptionText, const CSt
             const DWORD dwFlags = CREDUI_FLAGS_ALWAYS_SHOW_UI | CREDUI_FLAGS_GENERIC_CREDENTIALS/* | CREDUI_FLAGS_EXPECT_CONFIRMATION*/ | CREDUI_FLAGS_COMPLETE_USERNAME | CREDUI_FLAGS_DO_NOT_PERSIST | (bSave ? CREDUI_FLAGS_SHOW_SAVE_CHECK_BOX : 0);
             CString strUserDomain(strUsername);
             if (!strDomain.GetLength()) {
-                strDomain = _T("mpc-hc/") MPC_VERSION_STR;
+                strDomain = _T("mpc-hc/") + VersionInfo::GetVersionString();
             }
 
             DWORD dwResult = fnCredUIPromptForCredentialsW(&info, strDomain.Left(dwDomain), nullptr, dwAuthError,
@@ -116,7 +116,7 @@ HRESULT PromptForCredentials(HWND hWnd, const CString& strCaptionText, const CSt
             strDomain.ReleaseBuffer();
             //dwResult = CredUIConfirmCredentials(szDomain.Left(cchDomain), TRUE);
 
-            if (strDomain == _T("mpc-hc/") MPC_VERSION_STR) {
+            if (strDomain == _T("mpc-hc/") + VersionInfo::GetVersionString()) {
                 strDomain.Empty();
             }
 

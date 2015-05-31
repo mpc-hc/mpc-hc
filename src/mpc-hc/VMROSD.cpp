@@ -23,6 +23,7 @@
 #include "mplayerc.h"
 #include "DSMPropertyBag.h"
 #include "MainFrm.h"
+#include <mvrInterfaces.h>
 
 #define SEEKBAR_HEIGHT       60
 #define SLIDER_BAR_MARGIN    10

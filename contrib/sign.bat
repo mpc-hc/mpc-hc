@@ -1,5 +1,5 @@
 @ECHO OFF
-REM (C) 2013 see Authors.txt
+REM (C) 2013, 2015 see Authors.txt
 REM
 REM This file is part of MPC-HC.
 REM
@@ -18,6 +18,7 @@ REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 SETLOCAL
+SET "FILE_DIR=%~dp0"
 
 IF "%~1" == "" (
   ECHO %~nx0: No input specified!
@@ -31,14 +32,14 @@ IF NOT DEFINED VS120COMNTOOLS (
   GOTO END
 )
 
-IF NOT EXIST "%~dp0..\signinfo.txt" (
-  ECHO %~nx0: %~dp0..\signinfo.txt is not present!
+IF NOT EXIST "%FILE_DIR%..\signinfo.txt" (
+  ECHO %~nx0: %FILE_DIR%..\signinfo.txt is not present!
   SET SIGN_ERROR=True
   GOTO END
 )
 
 SET SIGN_CMD=
-SET /P SIGN_CMD=<%~dp0..\signinfo.txt
+SET /P SIGN_CMD=<"%FILE_DIR%..\signinfo.txt"
 
 TITLE Signing "%~1"...
 ECHO. & ECHO Signing "%~1"...
@@ -50,7 +51,7 @@ IF %ERRORLEVEL% NEQ 0 (
 )
 
 REM Repeat n times when signing fails
-SET REPEAT=3
+SET REPEAT=5
 SET TRY=0
 
 :SIGN

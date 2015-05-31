@@ -1,5 +1,5 @@
 /*
- * (C) 2012-2014 see Authors.txt
+ * (C) 2012-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -85,6 +85,17 @@ void CPlayerBar::OnExitMenuLoop(BOOL bIsTrackPopupMenu)
     __super::OnExitMenuLoop(bIsTrackPopupMenu);
 }
 
+void CPlayerBar::OnBarStyleChange(DWORD dwOldStyle, DWORD dwNewStyle)
+{
+    DWORD dwChangedStyle = dwOldStyle ^ dwNewStyle;
+
+    if (dwChangedStyle & CBRS_FLOATING) {
+        SaveState();
+    }
+
+    __super::OnBarStyleChange(dwOldStyle, dwNewStyle);
+}
+
 BOOL CPlayerBar::Create(LPCTSTR lpszWindowName, CWnd* pParentWnd, UINT nID, UINT defDockBarID, CString const& strSettingName)
 {
     m_defDockBarID = defDockBarID;
@@ -97,10 +108,8 @@ void CPlayerBar::LoadState(CFrameWnd* pParent)
 {
     CWinApp* pApp = AfxGetApp();
 
-    CRect r;
-    pParent->GetWindowRect(r);
-    CRect rDesktop;
-    GetDesktopWindow()->GetWindowRect(&rDesktop);
+    CRect rcDesktop;
+    GetDesktopWindow()->GetWindowRect(&rcDesktop);
 
     CString section = _T("ToolBars\\") + m_strSettingName;
 
@@ -108,22 +117,33 @@ void CPlayerBar::LoadState(CFrameWnd* pParent)
 
     UINT dockBarID = pApp->GetProfileInt(section, _T("DockState"), m_defDockBarID);
 
+    CPoint p;
+    p.x = pApp->GetProfileInt(section, _T("DockPosX"), CW_USEDEFAULT);
+    p.y = pApp->GetProfileInt(section, _T("DockPosY"), CW_USEDEFAULT);
+    if (p.x != CW_USEDEFAULT && p.y != CW_USEDEFAULT) {
+        if (p.x < rcDesktop.left) {
+            p.x = rcDesktop.left;
+        }
+        if (p.y < rcDesktop.top) {
+            p.y = rcDesktop.top;
+        }
+        if (p.x >= rcDesktop.right) {
+            p.x = rcDesktop.right - 1;
+        }
+        if (p.y >= rcDesktop.bottom) {
+            p.y = rcDesktop.bottom - 1;
+        }
+    } else {
+        p = rcDesktop.CenterPoint();
+        p.x -= m_szFloat.cx / 2;
+        p.y -= m_szFloat.cy / 2;
+    }
+
+    ASSERT(m_pDockContext);
+    m_pDockContext->m_uMRUDockID = m_defDockBarID;
+    m_pDockContext->m_ptMRUFloatPos = p;
+
     if (dockBarID == AFX_IDW_DOCKBAR_FLOAT) {
-        CPoint p;
-        p.x = pApp->GetProfileInt(section, _T("DockPosX"), r.right);
-        p.y = pApp->GetProfileInt(section, _T("DockPosY"), r.top);
-        if (p.x < rDesktop.left) {
-            p.x = rDesktop.left;
-        }
-        if (p.y < rDesktop.top) {
-            p.y = rDesktop.top;
-        }
-        if (p.x >= rDesktop.right) {
-            p.x = rDesktop.right - 1;
-        }
-        if (p.y >= rDesktop.bottom) {
-            p.y = rDesktop.bottom - 1;
-        }
         pParent->FloatControlBar(this, p);
     } else {
         pParent->DockControlBar(this, dockBarID);

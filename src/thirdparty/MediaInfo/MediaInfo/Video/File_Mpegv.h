@@ -340,9 +340,9 @@ private :
         vlc_fast coded_block_pattern;
     #endif //MEDIAINFO_MACROBLOCKS
 
-    #if MEDIAINFO_IBI
+    #if MEDIAINFO_IBIUSAGE
         bool    Ibi_SliceParsed;
-    #endif //MEDIAINFO_IBI
+    #endif //MEDIAINFO_IBIUSAGE
 
     #if MEDIAINFO_ADVANCED
         int64u  InitDataNotRepeated;

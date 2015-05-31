@@ -716,7 +716,7 @@ bool File_Riff::Header_Begin()
             Element_Size=Buffer_Size; //All the buffer is used
         else
         {
-            Element_Size=File_Offset+Buffer_Size-Buffer_DataToParse_End;
+            Element_Size=Buffer_DataToParse_End-(File_Offset+Buffer_Offset);
             Buffer_DataToParse_End=0;
         }
 
@@ -726,7 +726,10 @@ bool File_Riff::Header_Begin()
         // Fake header
         Element_Begin0();
         Element_Begin0();
-        Header_Fill_Size(Buffer_DataToParse_End-(File_Offset+Buffer_Offset));
+        if (Buffer_DataToParse_End)
+            Header_Fill_Size(Buffer_DataToParse_End-(File_Offset+Buffer_Offset));
+        else
+            Header_Fill_Size(Element_Size);
         Element_End();
 
         switch (Kind)
@@ -974,6 +977,9 @@ void File_Riff::Header_Parse()
 //---------------------------------------------------------------------------
 bool File_Riff::BookMark_Needed()
 {
+    if (!movi_Size || SecondPass)
+        return false;
+
     //Go to the first usefull chunk
     if (stream_Count==0 && Stream_Structure.empty())
         return false; //No need

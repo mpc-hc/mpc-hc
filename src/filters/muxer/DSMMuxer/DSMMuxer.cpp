@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2013, 2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -417,7 +417,7 @@ void CDSMMuxerFilter::IndexSyncPoint(const MuxerPacket* p, __int64 fp)
     m_rtPrevSyncPoint = p->rtStart;
 
     SyncPoint sp;
-    sp.id = p->pPin->GetID();
+    sp.id = (BYTE)p->pPin->GetID();
     sp.rtStart = p->rtStart;
     sp.rtStop = p->pPin->IsSubtitleStream() ? p->rtStop : _I64_MAX;
     sp.fp = fp;

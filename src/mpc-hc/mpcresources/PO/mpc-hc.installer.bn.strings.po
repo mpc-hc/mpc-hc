@@ -2,15 +2,15 @@
 # Copyright (C) 2002 - 2014 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# mehzad, 2014
+# Mehedi Hussain, 2014
 # mehzad, 2014
 # Underground78, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-06-17 15:23:34+0000\n"
-"PO-Revision-Date: 2014-09-07 09:10+0000\n"
-"Last-Translator: Underground78\n"
+"PO-Revision-Date: 2015-04-12 14:10+0000\n"
+"Last-Translator: Mehedi Hussain\n"
 "Language-Team: Bengali (http://www.transifex.com/projects/p/mpc-hc/language/bn/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +24,7 @@ msgstr "এর মাধ্যমে আপনার কম্পিউটার
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows XP Service Pack 3 or newer to run."
-msgstr "[name] চালানোর জন্য Windows XP Service Pack 3 অথবা ঊর্ধ্বতন সংস্করণ প্রয়োজন।"
+msgstr "[NAME] চালানোর জন্য Windows XP Service Pack 3 অথবা ঊর্ধ্বতন সংস্করণ প্রয়োজন।"
 
 msgctxt "CustomMessages_comp_mpciconlib"
 msgid "Icon Library"
@@ -40,7 +40,7 @@ msgstr "আপনি কি MPC-HCএর সেটিংসমূহও মু�
 
 msgctxt "CustomMessages_msg_SetupIsRunningWarning"
 msgid "MPC-HC setup is already running!"
-msgstr "MPC-HCএর সেটআপ ইতিমধ্যে চলমান রয়েছে!"
+msgstr "MPC-HCএর সেটআপ প্রক্রিয়া ইতিমধ্যে চলমান রয়েছে!"
 
 msgctxt "CustomMessages_msg_simd_sse"
 msgid "This build of MPC-HC requires a CPU with SSE extension support.\n\nYour CPU does not have those capabilities."
@@ -72,11 +72,11 @@ msgstr "সেটিংসমূহ পুনর্বিন্যাস"
 
 msgctxt "CustomMessages_types_DefaultInstallation"
 msgid "Default installation"
-msgstr "নির্ধারিত ইনস্টল প্রক্রিয়া"
+msgstr "ডিফল্ট ইনস্টল প্রক্রিয়া"
 
 msgctxt "CustomMessages_types_CustomInstallation"
 msgid "Custom installation"
-msgstr "নির্ধারণযোগ্য ইনস্টল প্রক্রিয়া"
+msgstr "ব্যক্তি-নির্ধারিত ইনস্টল প্রক্রিয়া"
 
 msgctxt "CustomMessages_ViewChangelog"
 msgid "View Changelog"

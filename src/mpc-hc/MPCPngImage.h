@@ -6,8 +6,8 @@ class CMPCPngImage : public CBitmap
 {
     // Construction/Destruction
 public:
-    CMPCPngImage();
-    virtual ~CMPCPngImage();
+    CMPCPngImage() = default;
+    virtual ~CMPCPngImage() = default;
 
     // Attributes:
 protected:
@@ -20,6 +20,8 @@ public:
 
     BOOL LoadFromFile(LPCTSTR lpszPath);
     BOOL LoadFromBuffer(const LPBYTE lpBuffer, UINT uiSize);
+
+    CSize GetSize();
 
     static void __stdcall CleanUp() {
         SAFE_DELETE(m_pImage);

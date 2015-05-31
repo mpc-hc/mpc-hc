@@ -1,15 +1,15 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# mehzad, 2014
+# Mehedi Hussain, 2014
 # mehzad, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-19 22:15:16+0000\n"
-"PO-Revision-Date: 2014-10-20 10:21+0000\n"
-"Last-Translator: JellyFrog\n"
+"POT-Creation-Date: 2015-04-09 21:29:25+0000\n"
+"PO-Revision-Date: 2015-04-12 14:14+0000\n"
+"Last-Translator: Mehedi Hussain\n"
 "Language-Team: Bengali (http://www.transifex.com/projects/p/mpc-hc/language/bn/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -115,7 +115,7 @@ msgstr "ধরনসমূহ"
 
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
-msgstr "যদি রেনডার করার জন্য কোন নির্দিষ্ট ধরন নির্ধারণ করা না থাকে, তাহলে SSA/ASS সাবটাইটেলসমূহ ভিডিও ফ্রেম সাপেক্ষে রেনডার করা হবে যেখানে অন্যান্য সকল টেক্সট্‌ সাবটাইটেল উইন্ডো সাপেক্ষে রেনডার করা হবে।"
+msgstr "যদি রেনডার করার জন্য কোন নির্দিষ্ট ধরন নির্ধারণ করা না থাকে, তাহলে SSA/ASS সাবটাইটেলসমূহ ভিডিও ফ্রেমের সাপেক্ষে রেনডার করা হবে, যখন অন্যান্য সকল টেক্সট্‌ সাবটাইটেল উইন্ডো-এর সাপেক্ষে রেনডার করা হবে।"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -179,7 +179,7 @@ msgstr "খবর/সাম্প্রতিক ব্যাপার"
 
 msgctxt "IDS_SPEED_UNIT_G"
 msgid "GB/s"
-msgstr "GB/s"
+msgstr "গিগাবাইট/সেকন্ড"
 
 msgctxt "IDS_FILE_FAV_ADDED"
 msgid "File added to favorites"
@@ -263,7 +263,7 @@ msgstr "ক্যাপচার ডিভাইসটি চালনা কর
 
 msgctxt "IDS_INVALID_PARAMS_ERROR"
 msgid "Can't open, invalid input parameters"
-msgstr "চালনা করা যাচ্ছে না, ইনপুট প্যারামিটারসমূহ সঠিক নয়"
+msgstr "চালনা করা যাচ্ছে না, ইনপুট প্যারামিটারসমূহ অগ্রহণযোগ্য"
 
 msgctxt "IDS_EDIT_LIST_EDITOR"
 msgid "Edit List Editor"
@@ -275,7 +275,7 @@ msgstr "প্রবেশকৃত সময়টি ফাইলের স্থ
 
 msgctxt "IDS_MISSING_ICONS_LIB"
 msgid "The icons library \"mpciconlib.dll\" is missing.\nThe player's default icon will be used for file associations.\nPlease, reinstall MPC-HC to get \"mpciconlib.dll\"."
-msgstr "আইকন লাইব্রেরি \"mpciconlib.dll\" খুঁজে পাওয়া যাচ্ছে না।\nপ্লেয়ারের ডিফল্ট আইকন সংশ্লিষ্ট ফাইলসমূহে ব্যবহার করা হবে।\n\"mpciconlib.dll\" পাওয়ার জন্যে, অনুগ্রহপূর্বক পুনরায় MPC-HC ইনস্টল করুন।"
+msgstr "আইকন লাইব্রেরি \"mpciconlib.dll\" খুঁজে পাওয়া যাচ্ছে না।\nপ্লেয়ারের ডিফল্ট আইকন সম্পৃক্ত ফাইলসমূহে ব্যবহার করা হবে।\n\"mpciconlib.dll\" পাওয়ার জন্যে, অনুগ্রহপূর্বক পুনরায় MPC-HC ইনস্টল করুন।"
 
 msgctxt "IDS_SUBDL_DLG_FILENAME_COL"
 msgid "File"
@@ -326,12 +326,12 @@ msgid "On/Off"
 msgstr "চালু/বন্ধ"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
-msgid "From fps"
-msgstr "fps থেকে"
+msgid "From FPS"
+msgstr "FPS থেকে"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
-msgid "To fps"
-msgstr "fpsএর দিকে"
+msgid "To FPS"
+msgstr "FPSএর দিকে"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
@@ -475,11 +475,11 @@ msgstr "আইকন লাইব্রেরির নতুন সংস্ক
 
 msgctxt "IDS_ICONS_REASSOC_DLG_INSTR"
 msgid "Do you want to reassociate the icons?"
-msgstr "আপনি কি আইকনসমূহ পুনরায় সংশ্লিষ্টকরণ করতে চান?"
+msgstr "আপনি কি আইকনসমূহ পুনরায় সম্পৃক্তকরণ করতে চান?"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_CONTENT"
 msgid "This will fix the icons being incorrectly displayed after an update of the icon library.\nThe file associations will not be modified, only the corresponding icons will be refreshed."
-msgstr "আইকন লাইব্রেরি হালনাগাদকরণের পরে আইকনসমূহ ভুলভাবে প্রদর্শন করলে, এর মাধ্যমে তা ঠিক করা যাবে।\nফাইলের সংশ্লিষ্টতাসমূহ এর মাধ্যমে পরিবর্তিত হবে না, শুধু সংশ্লিষ্ট আইকনসমূহ নতুন করে বিন্যস্ত হবে।"
+msgstr "আইকন লাইব্রেরি হালনাগাদকরণের পরে আইকনসমূহ ভুলভাবে প্রদর্শন করলে, এর মাধ্যমে তা ঠিক করা যাবে।\nফাইলের সম্পৃক্ততাসমূহ এর মাধ্যমে পরিবর্তিত হবে না, শুধু সংশ্লিষ্ট আইকনসমূহ নতুন করে বিন্যস্ত হবে।"
 
 msgctxt "IDS_PPAGE_OUTPUT_OLDRENDERER"
 msgid "Old Video Renderer"
@@ -622,8 +622,8 @@ msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer.
 msgstr "VMR-9 (renderless)এর মত একই রকমের, তবে একটি ট্রু টু-পাস বিকিউবিক সাইজপরিবর্তন পদ্ধতি ব্যবহার করে।"
 
 msgctxt "IDC_DSNULL_COMP"
-msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the cpu from working unnecessarily."
-msgstr "ভিডিওর মত যেকোনো মিডিয়া টাইপের সাথেই সংযুক্ত হবে এবং আসন্ন নমুনাসমূহকে কোথাও পাঠাবে না। এটা তখনই ব্যবহার করুন যখন আপনার ভিডিও ডিসপ্লের কোনো প্রয়োজন নেই এবং আপনি cpuকে অযথা কাজ করা থেকে বিরত রাখতে চান।"
+msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the CPU from working unnecessarily."
+msgstr "ভিডিওর মত যেকোনো মিডিয়া টাইপের সাথেই সংযুক্ত হবে এবং আসন্ন নমুনাসমূহকে কোথাও পাঠাবে না। এটা তখনই ব্যবহার করুন যখন আপনার ভিডিও ডিসপ্লের কোনো প্রয়োজন নেই এবং আপনি CPUকে অযথা কাজ করা থেকে বিরত রাখতে চান।"
 
 msgctxt "IDC_DSNULL_UNCOMP"
 msgid "Same as the normal Null renderer, but this will only connect to uncompressed types."
@@ -755,7 +755,7 @@ msgstr "MIMEএর ধরন"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_INFO"
 msgid "In order to view an embedded resource in your browser you have to enable the web interface.\n\nUse the \"Save As\" button if you only want to save the information."
-msgstr "কোন সংযুক্ত উৎস ব্রাউজারে দেখার জন্য ওয়েব ইন্টারফেস সক্রিয় করতে হবে।\n\nযদি শুধুমাত্র তথ্যাদি সেইভ করতে চান তবে \"সেইভ করতে পারি\" বাটনটি ব্যবহার করুন।"
+msgstr "কোন সংযুক্তি উৎস ব্রাউজারে দেখার জন্য ওয়েব ইন্টারফেস সক্রিয় করতে হবে।\n\nযদি শুধুমাত্র তথ্যাদি সেইভ করতে চান তবে \"সেইভ করতে পারি\" বাটনটি ব্যবহার করুন।"
 
 msgctxt "IDS_DOWNLOAD_SUBS"
 msgid "Download subtitles"
@@ -771,7 +771,7 @@ msgstr "স্বয়ংক্রিয়"
 
 msgctxt "IDS_EXPORT_SETTINGS_NO_KEYS"
 msgid "There are no customized keys to export."
-msgstr "এক্সপোর্ট করার জন্য কোনো নির্ধারণকৃত কীসমূহ পাওয়া যায়নি।"
+msgstr "এক্সপোর্ট করার জন্য কোনো ব্যক্তি-নির্ধারিত কীসমূহ পাওয়া যায়নি।"
 
 msgctxt "IDS_RFS_NO_FILES"
 msgid "No media files found in the archive"
@@ -839,27 +839,27 @@ msgstr "ন্যাভিগেশন বার নিয়ন্ত্রণ"
 
 msgctxt "IDS_AG_VSYNCACCURATE"
 msgid "Accurate VSync"
-msgstr "যথোপযোগী VSync"
+msgstr "নিখুঁত VSync"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid "If the rendering target is left undefined, it will be inherited from the default style."
-msgstr "রেনডার করার জন্য কোন নির্দিষ্ট ধরন নির্ধারণ করা না থাকলে, তা ডিফল্ট ধরন থেকে গ্রহণ করা হবে।"
+msgstr "রেনডার করার জন্য কোন নির্দিষ্ট ধরন নির্ধারণ করা না থাকলে, তা ডিফল্ট ধরনটি থেকে গ্রহণ করা হবে।"
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
-msgstr "সাবটাইটেলের অ্যানিমেশন অননুমোদন। এই অপশনটি সক্রিয়করণে CPUর ব্যবহার কম হবে। সাবটাইটেল বার বার চমকাতে দেখলে এ অপশনটি ব্যবহার করতে পারেন।"
+msgstr "সাবটাইটেলের অ্যানিমেশন অননুমোদন। এই অপশনটি সক্রিয়করণে CPUর ব্যবহার কম হবে। সাবটাইটেল বারবার চমকাতে দেখলে এ অপশনটি ব্যবহার করতে পারেন।"
 
 msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
-msgstr "সাধারণভাবে, বাফারকৃত সাবপিকচারসমূহের সংখ্যা বৃদ্ধি করলে তা GPUতে উচ্চমাত্রায় ভিডিও RAM ব্যবহারের বিনিময়ে রেনডারিং কার্য-সম্পাদনের উন্নতিসাধন করে।"
+msgstr "সাধারণভাবে, বাফারকৃত সাবপিকচারসমূহের সংখ্যা বৃদ্ধি করলে তা উচ্চমাত্রায় ভিডিও RAM ব্যবহারের বিনিময়ে GPUতে রেনডারিং কার্য-সম্পাদনের উন্নতিসাধন করে।"
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
-msgstr "এই বাটনটি ক্লিক করার পরে, নির্ধারণকৃত ধরন শ্রেণীর ফাইলসমূহ MPC-HCএর সাথে সংশ্লিষ্ট হবে। নতুন করে এক্সটেনশন যোগ করলে নির্ধারণ টিক-চিহ্নটি ছাই রং ধারণ করবে, তাই অপশন ডায়লগ বক্স বন্ধ করার পূর্বে সেটা পুনরায় নির্ধারণ করতে ভুলবেন না!"
+msgstr "এই বাটনটি ক্লিক করার পরে, নির্ধারণকৃত ধরন শ্রেণীর ফাইলসমূহ MPC-HCএর সাথে সম্পৃক্ত হবে। নতুন করে এক্সটেনশন যোগ করলে নির্ধারণ টিক-চিহ্নটি ছাই রং ধারণ করবে, তাই অপশন ডায়লগ বক্স বন্ধ করার পূর্বে সেটা পুনরায় নির্ধারণ করতে ভুলবেন না!"
 
 msgctxt "IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Disabling this option will prevent the subtitles from blinking but it may cause the video renderer to skip some video frames."
-msgstr "এই অপশনটি নিষ্ক্রিয়করণে সাবটাইটেলের বার বার চমকানো বন্ধ হবে কিন্তু এর জন্য ভিডিও রেনডারার কিছু ভিডিও ফ্রেম স্কিপ করতে পারে।"
+msgstr "এই অপশনটি নিষ্ক্রিয়করণে সাবটাইটেলের বারবার চমকানো বন্ধ হবে কিন্তু এর জন্য ভিডিও রেনডারার কিছু ভিডিও ফ্রেমসমূহ বাদ দিয়ে যেতে পারে।"
 
 msgctxt "ID_PLAY_PLAY"
 msgid "Play\nPlay"
@@ -875,7 +875,7 @@ msgstr "বন্ধ করি\nবন্ধ করি"
 
 msgctxt "ID_PLAY_FRAMESTEP"
 msgid "Step\nStep"
-msgstr "পদক্ষেপ করি\nপদক্ষেপ করি"
+msgstr "পদক্ষেপ গ্রহন করি\nপদক্ষেপ গ্রহন করি"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "Decrease speed\nDecrease speed"
@@ -887,11 +887,11 @@ msgstr "গতি বৃদ্ধি করি\nগতি বৃদ্ধি ক
 
 msgctxt "ID_VOLUME_MUTE"
 msgid "Mute"
-msgstr "শব্দহীন করি"
+msgstr "নিঃশব্দ করি"
 
-msgctxt "ID_VOLUME_MUTE_ON"
+msgctxt "ID_VOLUME_MUTE_OFF"
 msgid "Unmute"
-msgstr "শব্দহীনতা বন্ধ করি"
+msgstr "নিঃশব্দতা বন্ধ করি"
 
 msgctxt "ID_VOLUME_MUTE_DISABLED"
 msgid "No audio"
@@ -1231,7 +1231,7 @@ msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
 msgid "Add containing folder"
-msgstr "ধারণকৃত ফোল্ডার যোগ করি"
+msgstr "ধারণকারী ফোল্ডার যোগ করি"
 
 msgctxt "IDS_HW_INDICATOR"
 msgid "[H/W]"
@@ -1251,27 +1251,27 @@ msgstr "ফিল্টারসমূহের তালিকা ক্লি�
 
 msgctxt "IDS_CREDENTIALS_SERVER"
 msgid "Enter server credentials"
-msgstr "সার্ভার এর বিস্তারিত বিবরণসমূহ প্রবেশ করুন"
+msgstr "সার্ভার এর প্রামাণ্য বিবরণসমূহ প্রবেশ করুন"
 
 msgctxt "IDS_CREDENTIALS_CONNECT"
 msgid "Enter your credentials to connect"
-msgstr "সংযুক্ত হতে আপনার বিস্তারিত বিবরণসমূহ প্রবেশ করুন"
+msgstr "সংযুক্ত হতে আপনার প্রামাণ্য বিবরণসমূহ প্রবেশ করুন"
 
 msgctxt "IDS_SUB_SAVE_EXTERNAL_STYLE_FILE"
 msgid "Save custom style"
-msgstr "নির্ধারণকৃত ধরনটি সেইভ করি"
+msgstr "ব্যক্তি-নির্ধারিত ধরনটি সেইভ করি"
 
 msgctxt "IDS_CONTENT_EDUCATION_SCIENCE"
 msgid "Education/Science/Factual topics"
-msgstr "শিক্ষা/বিজ্ঞান/তথ্যমূলক বিষয়সমূহ"
+msgstr "শিক্ষা/বিজ্ঞান/বাস্তববাদী আলোচ্য বিষয়সমূহ"
 
 msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
 msgid "Hides controls and panels also in windowed mode."
-msgstr "কন্ট্রোল এবং প্যানেলসমূহ উইন্ডো'ড মুডেও লুকিয়ে যাওয়া সক্রিয়করণ।"
+msgstr "উইন্ডো'ড মুডেও কন্ট্রোল এবং প্যানেলসমূহ লুকিয়ে যাওয়া সক্রিয়করণ।"
 
 msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
 msgid "Prevent external subtitle renderer to be loaded when internal is in use."
-msgstr "আভ্যন্তরীণ সাবটাইটেল ফিল্টার ব্যবহার হতে থাকলে বাহিরস্থ সাবটাইটেল রেনডারার লোড করা বিরত করণ।"
+msgstr "আভ্যন্তরীণ সাবটাইটেল ফিল্টার ব্যবহার হতে থাকলে বাহিরস্থ সাবটাইটেল রেনডারার লোড করা প্রতিরোধ করণ।"
 
 msgctxt "IDS_PPAGEADVANCED_COL_NAME"
 msgid "Name"
@@ -1283,7 +1283,7 @@ msgstr "মান"
 
 msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
-msgstr "\"সাম্প্রতিক ফাইলসমূহ\" মেন্যুতে সর্বোচ্চ যতটি ফাইল প্রদর্শন করা হবে এবং যেগুলোর অবস্থানকাল সম্ভাব্যরূপে স্মৃতিতে সংরক্ষিত হবে।"
+msgstr "\"সাম্প্রতিক ফাইলসমূহ\" মেন্যুতে সর্বোচ্চ যতটি ফাইল প্রদর্শন করা হবে এবং সম্ভাব্য যেগুলোর অবস্থানকাল স্মৃতিতে সংরক্ষিত হবে।"
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
@@ -1295,11 +1295,11 @@ msgstr "অডিও ফাইলসমূহের জন্যও ফাইল
 
 msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
 msgid "Do Nothing"
-msgstr "কিছুই না করা"
+msgstr "কোন কিছু করি না"
 
 msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
 msgid "Play next file in the folder"
-msgstr "ফোল্ডারে থাকা পরবর্তী ফাইলটি চালনা"
+msgstr "ফোল্ডারের পরবর্তী ফাইলটি প্লে করি"
 
 msgctxt "IDS_AFTER_PLAYBACK_REWIND"
 msgid "Rewind current file"
@@ -1327,19 +1327,19 @@ msgstr "বৈশিষ্ট্যগুণ (%):"
 
 msgctxt "IDS_PPAGEADVANCED_COVER_SIZE_LIMIT"
 msgid "Maximum size (NxNpx) of a cover-art loaded in the audio only mode."
-msgstr ""
+msgstr "শুধুমাত্র অডিও মুডে লোডকৃত কভার-আর্টের সর্বোচ্চ সাইজ (NxNপিক্সেল)"
 
 msgctxt "IDS_SUBTITLE_DELAY_STEP_TOOLTIP"
 msgid "The subtitle delay will be decreased/increased by this value each time the corresponding hotkeys are used (%s/%s)."
-msgstr ""
+msgstr "সংশ্লিষ্ট হট্‌কী (%s/%s) ব্যবহারে সাবটাইটেলের বিলম্বন, এই মান দ্বারা প্রত্যেক বার হ্রাস/বৃদ্ধি পাবে।"
 
 msgctxt "IDS_HOTKEY_NOT_DEFINED"
 msgid "<not defined>"
-msgstr ""
+msgstr "<নির্ধারণ করা হয় নি>"
 
 msgctxt "IDS_NAVIGATION_WATCH"
 msgid "Watch"
-msgstr ""
+msgstr "পর্যবেক্ষণ করি"
 
 msgctxt "IDS_NAVIGATION_MOVE_UP"
 msgid "Move Up"
@@ -1351,26 +1351,46 @@ msgstr "নিচে নামাই"
 
 msgctxt "IDS_NAVIGATION_SORT"
 msgid "Sort by LCN"
-msgstr ""
+msgstr "LCN অনুযায়ী সাজাই"
 
 msgctxt "IDS_NAVIGATION_REMOVE_ALL"
 msgid "Remove all"
-msgstr ""
+msgstr "সবগুলো অপসারণ করি"
 
 msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
 msgid "Are you sure you want to remove all channels from the list?"
-msgstr ""
+msgstr "আপনি কি নিশ্চিত যে তালিকা থেকে সবগুলো চ্যানেল অপসারণ করতে চান?"
 
 msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"
 msgid "No information available"
-msgstr ""
+msgstr "কোন তথ্যাদি পাওয়া যায় নি"
 
 msgctxt "IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS"
 msgid "Please wait, analysis in progress..."
-msgstr ""
+msgstr "অনুগ্রহপূর্বক অপেক্ষা করুন, বিশ্লেষণ প্রক্রিয়া চলমান রয়েছে..."
 
 msgctxt "IDS_ASPECT_RATIO_FMT"
 msgid "AR %d:%d"
+msgstr "AR %d:%d"
+
+msgctxt "IDS_PPAGEADVANCED_LOGGER"
+msgid "Enables logging to file (requires restart)"
+msgstr "ফাইলে নিবন্ধন করা সক্রিয়করণ।(বন্ধ করে পুনরায় চালনা করতে হবে)"
+
+msgctxt "IDS_TIMER_REMAINING_TIME"
+msgid "Remaining time"
+msgstr ""
+
+msgctxt "IDS_TIMER_HIGH_PRECISION"
+msgid "High precision"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_REWIND"
+msgid "After Playback: Rewind current file"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_CLOSE"
+msgid "After Playback: Close"
 msgstr ""
 
 msgctxt "IDS_AG_OPEN_DEVICE"
@@ -1422,11 +1442,11 @@ msgid "Stop"
 msgstr "বন্ধ করি"
 
 msgctxt "IDS_AG_FRAMESTEP"
-msgid "Framestep"
+msgid "Frame-step"
 msgstr "ফ্রেমের পদক্ষেপ"
 
 msgctxt "IDS_MPLAYERC_16"
-msgid "Framestep back"
+msgid "Frame-step back"
 msgstr "পিছনের দিকে ফ্রেমের পদক্ষেপ"
 
 msgctxt "IDS_AG_GO_TO"
@@ -1475,11 +1495,11 @@ msgstr "প্রতিলিপি সেইভ করি"
 
 msgctxt "IDS_FASTSEEK_LATEST"
 msgid "Latest keyframe"
-msgstr "সর্বশেষ কীফ্রেম"
+msgstr "আগের কীফ্রেমে"
 
 msgctxt "IDS_FASTSEEK_NEAREST"
 msgid "Nearest keyframe"
-msgstr "নিকটবর্তী কীফ্রেম"
+msgstr "নিকটবর্তী কীফ্রেমে"
 
 msgctxt "IDS_HOOKS_FAILED"
 msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
@@ -1526,8 +1546,8 @@ msgid "Thumbnails saved successfully"
 msgstr "থাম্ব্‌নেইলসমূহ সফলভাবে সেইভ হয়েছে"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
-msgid "&Video Stream"
-msgstr "ভিডিও স্ট্রিম(&V)"
+msgid "&Video Track"
+msgstr "ভিডিও ট্র্যাক(&V)"
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
 msgid "Video Ang&le"
@@ -1539,11 +1559,11 @@ msgstr "সেটিংসমূহ পুনর্বিন্যাস কর�
 
 msgctxt "IDS_RESET_SETTINGS_WARNING"
 msgid "Are you sure you want to restore MPC-HC to its default settings?\nBe warned that ALL your current settings will be lost!"
-msgstr "আপনি কি নিশ্চিত যে MPC-HCকে ডিফল্ট সেটিংসমূহে ফিরিয়ে আনতে চান?\nএই বিষয়ে সতর্ক করা হচ্ছে যে আপনার বর্তমানে থাকা সকল সেটিংসমূহ হারিয়ে যাবে!"
+msgstr "আপনি কি নিশ্চিত যে MPC-HCকে ডিফল্ট সেটিংসমূহে পূর্বাবস্থায় ফিরিয়ে আনতে চান?\nএই বিষয়ে সতর্ক করা হচ্ছে যে আপনার বর্তমানে থাকা সকল সেটিংসমূহ হারিয়ে যাবে!"
 
 msgctxt "IDS_RESET_SETTINGS_MUTEX"
 msgid "Please close all instances of MPC-HC so that the default settings can be restored."
-msgstr "অনুগ্রহপূর্বক অন্যান্য সকল চালনাকৃত MPC-HC বন্ধ করুন যাতে MPC-HCকে ডিফল্ট সেটিংসমূহে ফিরিয়ে আনা যায়।"
+msgstr "অনুগ্রহপূর্বক অন্যান্য সকল চালনাকৃত MPC-HC বন্ধ করুন যাতে MPC-HCকে ডিফল্ট সেটিংসমূহে পূর্বাবস্থায় ফিরিয়ে আনা যায়।"
 
 msgctxt "IDS_EXPORT_SETTINGS"
 msgid "Export settings"
@@ -1649,13 +1669,45 @@ msgctxt "IDS_MPLAYERC_103"
 msgid "Shift Subtitle Right"
 msgstr "সাবটাইটেলের অবস্থান ডানে সরাই"
 
-msgctxt "IDS_AG_DISPLAY_STATS"
-msgid "Display Stats"
-msgstr "ডিসপ্লে বৃত্তান্ত"
-
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"
 msgstr "শুরুতে লাফিয়ে যাই"
+
+msgctxt "IDS_OSD_SHOW_FILENAME"
+msgid "OSD: Show File Name"
+msgstr ""
+
+msgctxt "IDS_OSD_DISPLAY_RENDERER_STATS"
+msgid "OSD: Display Renderer Statistics"
+msgstr ""
+
+msgctxt "IDS_OSD_RESET_RENDERER_STATS"
+msgid "OSD: Reset Renderer Statistics"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC"
+msgid "Subtitles::Misc"
+msgstr "সাবটাইটেল::অন্যান্য"
+
+msgctxt "IDS_VIEW_BORDERLESS"
+msgid "Hide &borders"
+msgstr "বর্ডারসমূহ লুকিয়ে রাখি(&B)"
+
+msgctxt "IDS_VIEW_FRAMEONLY"
+msgid "Fra&me Only"
+msgstr "শুধুমাত্র ফ্রেম"
+
+msgctxt "IDS_VIEW_CAPTIONMENU"
+msgid "Sho&w Caption&&Menu"
+msgstr "ক্যাপশন আর মেন্যু প্রদর্শন(&W)"
+
+msgctxt "IDS_VIEW_HIDEMENU"
+msgid "Hide &Menu"
+msgstr "মেন্যু লুকিয়ে রাখি(&M)"
+
+msgctxt "IDD_PPAGEADVANCED"
+msgid "Advanced"
+msgstr "অ্যাডভান্সড্‌"
 
 msgctxt "IDS_AG_VIEW_MINIMAL"
 msgid "View Minimal"
@@ -1727,7 +1779,7 @@ msgstr "সাবটাইটেল(সমূহ) ডাউনলোড হচ�
 
 msgctxt "IDS_SUBDL_DLG_PARSING"
 msgid "Parsing list..."
-msgstr "তালিকা পার্সিং করা হচ্ছে..."
+msgstr "তালিকাটি সমন্বয় সাধিত হচ্ছে..."
 
 msgctxt "IDS_SUBDL_DLG_NOT_FOUND"
 msgid "No subtitles found."
@@ -1779,7 +1831,7 @@ msgstr "অতিবাহিত আর অবশিষ্ট সময় প্�
 
 msgctxt "IDS_UPDATE_DELAY_ERROR_TITLE"
 msgid "Invalid delay"
-msgstr "বিলম্বনটি সঠিক নয়"
+msgstr "বিলম্বন সময়টি অগ্রহণযোগ্য"
 
 msgctxt "IDS_UPDATE_DELAY_ERROR_MSG"
 msgid "Please enter a number between 1 and 365."
@@ -1831,7 +1883,7 @@ msgstr "ভলিউম কমাই"
 
 msgctxt "IDS_AG_VOLUME_MUTE"
 msgid "Volume Mute"
-msgstr "ভলিউম শব্দহীন করি"
+msgstr "ভলিউম নিঃশব্দ করি"
 
 msgctxt "IDS_MPLAYERC_63"
 msgid "DVD Title Menu"
@@ -1890,12 +1942,12 @@ msgid "Boss key"
 msgstr "বস্‌ কী"
 
 msgctxt "IDS_MPLAYERC_77"
-msgid "Player Menu (short)"
-msgstr "প্লেয়ার মেন্যু (ছোট)"
+msgid "Player Menu"
+msgstr "প্লেয়ার মেন্যু"
 
 msgctxt "IDS_MPLAYERC_78"
-msgid "Player Menu (long)"
-msgstr "প্লেয়ার মেন্যু (বড়ো)"
+msgid "Player Menu (full)"
+msgstr "প্লেয়ার মেন্যু (সম্পূর্ণ)"
 
 msgctxt "IDS_AG_FILTERS_MENU"
 msgid "Filters Menu"
@@ -1973,9 +2025,9 @@ msgctxt "IDS_MPLAYERC_97"
 msgid "On/Off Subtitle (DVD)"
 msgstr "সাবটাইটেল চালু/বন্ধ করি (DVD)"
 
-msgctxt "IDS_MPLAYERC_98"
-msgid "Remaining Time"
-msgstr "অবশিষ্ট সময়"
+msgctxt "IDS_OSD_DISPLAY_CURRENT_TIME"
+msgid "OSD: Display Current Time"
+msgstr ""
 
 msgctxt "IDS_PPAGEWEBSERVER_0"
 msgid "Select the directory"
@@ -2051,7 +2103,7 @@ msgstr "আঁকা হয়েছে: %d, বাদ গেছে: %d"
 
 msgctxt "IDS_AG_FRAMES"
 msgid "Frames"
-msgstr "ফ্রেমসমূহ"
+msgstr "ফ্রেম"
 
 msgctxt "IDS_AG_BUFFERS"
 msgid "Buffers"
@@ -2067,7 +2119,7 @@ msgstr "ক্যামেরা অ্যাঙ্গেল: %02lu/%02lu, %lux%
 
 msgctxt "IDS_MAINFRM_11"
 msgid "%s, %s %u Hz %d bits %d %s"
-msgstr ""
+msgstr "%s, %s %u Hz %d bits %d %s"
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
@@ -2079,7 +2131,7 @@ msgstr "MPC-HC দ্বারা প্লে করি"
 
 msgctxt "IDS_CANNOT_CHANGE_FORMAT"
 msgid "MPC-HC has not enough privileges to change files formats associations. Please click on the \"Run as administrator\" button."
-msgstr ""
+msgstr "ফাইলের ধরনসমূহের সম্পৃক্ততা পরিবর্তনের জন্য যথেষ্ট অধিকার MPC-HCএর নেই। অনুগ্রহপূর্বক \"Run as administrator\" বাটনে ক্লিক করুন।"
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
@@ -2107,15 +2159,15 @@ msgstr "DVD: কপি-প্রোটেক্ট ব্যর্থ হয়ে�
 
 msgctxt "IDS_MAINFRM_18"
 msgid "DVD: Invalid DVD 1.x Disc"
-msgstr "DVD: DVD 1.x ডিস্কটি সঠিক নয়"
+msgstr "DVD: DVD 1.x ডিস্কটি অগ্রহণযোগ্য"
 
 msgctxt "IDS_MAINFRM_19"
 msgid "DVD: Invalid Disc Region"
-msgstr "DVD: ডিস্কের অঞ্চলগত বিন্যাস সঠিক নয়"
+msgstr "DVD: ডিস্কের অঞ্চলগত বিন্যাসটি অগ্রহণযোগ্য"
 
 msgctxt "IDS_MAINFRM_20"
 msgid "DVD: Low Parental Level"
-msgstr "DVD: নিচু অভিভাবকীয় মূল্যায়ন"
+msgstr "DVD: নিম্নমানের অভিভাবকীয় মূল্যায়ন"
 
 msgctxt "IDS_MAINFRM_21"
 msgid "DVD: Macrovision Fail"
@@ -2159,7 +2211,7 @@ msgstr "ছবির প্রস্থ"
 
 msgctxt "IDS_PPSDB_URLCORRECT"
 msgid "The URL appears to be correct!"
-msgstr "URLটি সঠিক বলেই প্রতীয়মান হচ্ছে!"
+msgstr "URLটি সঠিক বলেই মনে হচ্ছে!"
 
 msgctxt "IDS_PPSDB_PROTOCOLERR"
 msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
@@ -2243,7 +2295,7 @@ msgstr "ম্যামরি শেষ, আরো কিছু ম্যাম�
 
 msgctxt "IDS_THUMBNAILS_INVALID_FORMAT"
 msgid "Invalid image format, cannot create thumbnails out of %d bpp dibs."
-msgstr "ছবির ফাইলের ধরনটি সঠিক নয়, %d bpp dibs থেকে বেশিতে থাম্ব্‌নেইলসমূহ তৈরি করা যাচ্ছে না।"
+msgstr "ছবির ফাইলের ধরনটি অগ্রহণযোগ্য, %d bpp dibs থেকে বেশিতে থাম্ব্‌নেইলসমূহ তৈরি করা যাচ্ছে না।"
 
 msgctxt "IDS_THUMBNAILS_INFO_FILESIZE"
 msgid "File Size: %s (%s bytes)\\N"
@@ -2255,7 +2307,7 @@ msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}ফাইলের সাই
 
 msgctxt "IDS_THUMBNAIL_TOO_SMALL"
 msgid "The thumbnails would be too small, impossible to create the file.\n\nTry lowering the number of thumbnails or increasing the total size."
-msgstr "থাম্ব্‌নেইলসমূহ আকারে খুব ছোট হবে, ফাইলটি তৈরি করা যাচ্ছে না।\n\nথাম্ব্‌নেইলসমূহের সংখ্যা কমিয়ে অথবা সম্পূর্ণ সাইজ বাড়িয়ে চেষ্টা করুন।"
+msgstr "থাম্ব্‌নেইলসমূহ আকারে খুব ছোট হবে, ফাইলটি তৈরি করা যাচ্ছে না।\n\nথাম্ব্‌নেইলসমূহের সংখ্যা কমিয়ে অথবা সম্পূর্ণ সাইজটি বাড়িয়ে চেষ্টা করুন।"
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
@@ -2283,10 +2335,10 @@ msgstr "পরিচ্ছেদ %d"
 
 msgctxt "IDS_AG_OUT_OF_MEMORY"
 msgid "Out of memory"
-msgstr "ম্যামরি শেষ"
+msgstr "পর্যাপ্ত ম্যামরি নেই"
 
 msgctxt "IDS_MAINFRM_77"
-msgid "Error: Flash player for IE is required"
+msgid "Error: Adobe Flash Player for Internet Explorer is required"
 msgstr "সমস্যা: IEএর জন্য Flash প্লেয়ার প্রয়োজন"
 
 msgctxt "IDS_MAINFRM_78"
@@ -2299,11 +2351,11 @@ msgstr "ফিল্টার গ্রাফের অবজেক্ট তৈ
 
 msgctxt "IDS_MAINFRM_81"
 msgid "Invalid argument"
-msgstr "আর্গুমেন্টটি সঠিক নয়"
+msgstr "আর্গুমেন্টটি অগ্রহণযোগ্য"
 
 msgctxt "IDS_MAINFRM_82"
 msgid "Opening aborted"
-msgstr "চালনা বন্ধ করা হয়েছে"
+msgstr "চালনা রহিত করা হয়েছে"
 
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
@@ -2358,7 +2410,7 @@ msgid "Toggle Caption&Menu"
 msgstr "ক্যাপশন অ্যান্ড মেন্যু নিয়ন্ত্রণ"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seeker"
+msgid "Toggle Seek Bar"
 msgstr "সীকার নিয়ন্ত্রণ"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
@@ -2367,7 +2419,7 @@ msgstr "কন্ট্রোল নিয়ন্ত্রণ"
 
 msgctxt "IDS_MAINFRM_84"
 msgid "Invalid file name"
-msgstr "ফাইলের নামটি সঠিক নয়"
+msgstr "ফাইলের নামটি অগ্রহণযোগ্য"
 
 msgctxt "IDS_MAINFRM_86"
 msgid "Cannot connect the filters"
@@ -2383,7 +2435,7 @@ msgstr "ফাইলটি রেনডার করা যাচ্ছে ন�
 
 msgctxt "IDS_MAINFRM_89"
 msgid "Invalid file format"
-msgstr "ফাইলের ধরনটি সঠিক নয়"
+msgstr "ফাইলের ধরনটি অগ্রহণযোগ্য"
 
 msgctxt "IDS_MAINFRM_90"
 msgid "File not found"
@@ -2431,11 +2483,11 @@ msgstr "শব্দ"
 
 msgctxt "IDS_MAINFRM_114"
 msgid "%s was not found, please insert media containing this file."
-msgstr "%s খুঁজে পাওয়া যায় নি, এই ফাইলটি ধারণকৃত মিডিয়া প্রবেশ করান।"
+msgstr "%s খুঁজে পাওয়া যায় নি, এই ফাইলটি অন্তর্ভুক্তকৃত মিডিয়া প্রবেশ করান।"
 
 msgctxt "IDS_AG_ABORTED"
 msgid "Aborted"
-msgstr "বন্ধ করা হয়েছে"
+msgstr "রহিত করা হয়েছে"
 
 msgctxt "IDS_MAINFRM_116"
 msgid "&Properties..."
@@ -2447,7 +2499,7 @@ msgstr " (পিন) প্রোপার্টিস..."
 
 msgctxt "IDS_AG_UNKNOWN_STREAM"
 msgid "Unknown Stream"
-msgstr "স্ত্রিমটি অপরিচিত"
+msgstr "স্ট্রিমটি অপরিচিত"
 
 msgctxt "IDS_AG_UNKNOWN"
 msgid "Unknown %u"
@@ -2491,7 +2543,7 @@ msgstr "MPC-HC D3D ফুলস্ক্রীন"
 
 msgctxt "IDS_MAINFRM_137"
 msgid "Unknown format"
-msgstr "ধরনটি অপরিচিত"
+msgstr "অপরিচিত ধরন"
 
 msgctxt "IDS_MAINFRM_138"
 msgid "Sub shift: %ld ms"
@@ -2514,8 +2566,8 @@ msgid "Volume boost Max"
 msgstr "ভলিউমের উন্নতিসাধন সর্বোচ্চ"
 
 msgctxt "IDS_USAGE"
-msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nominidump\tDisable minidump creation\n/slave \"hWnd\"\tUse MPC-HC as slave\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "ব্যবহারবিধি: mpc-hc.exe \"pathname\" [নির্দেশনাসমূহ]\n\n\"pathname\"\tযে মূল ফাইল বা ডিরেক্টরি লোড করা হবে (ওয়াইল্ডকার্ড ক্যারেক্টারসমূহ\n\t\tব্যবহার করা যাবে, সাধারণ ইনপুটটি \"-\" চিহ্ন দ্বারা সূচিত করুন)\n/dub \"dubname\"\tঅতিরিক্ত অডিও ফাইল লোড করণ\n/dubdelay \"file\"\tঅতিরিক্ত অডিও ফাইল XXms সময়ের স্থানান্তর করে লোড করণ\n\t\t(যদি ফাইলটিতে \"...DELAY XXms...\" থেকে থাকে)\n/d3dfs\t\tD3D ফুলস্ক্রীন মুডে রেনডার করা শুরু করণ\n/sub \"subname\"\tঅতিরিক্ত সাবটাইটেল ফাইল লোড করণ\n/filter \"filtername\"\tডাইনামিক লিঙ্ক লাইব্রেরি থেকে DirectShow ফিল্টারসমূহ লোড\n\t\tকরণ (ওয়াইল্ডকার্ড ক্যারেক্টারসমূহ ব্যবহার করা যাবে)\n/dvd\t\tDVD মুডে চালনা করণ, \"pathname\" হবে dvd ফোল্ডারটি (ঐচ্ছিক)\n/dvdpos T#C\tটাইটেল T এর পরিচ্ছেদ C থেকে প্লেব্যাক শুরু করণ\n/dvdpos T#hh:mm\tটাইটেল T এর অবস্থানকাল hh:mm:ss থেকে প্লেব্যাক শুরু করণ\n/cd\t\tcd বা (s)vcd এর সকল ট্র্যাকসমূহ লোড করণ, \"pathname\" হবে ড্রাইভের\n\t\tঠিকানাটি (ঐচ্ছিক)\n/device\t\tডিফল্ট ভিডিও ডিভাইসটি চালনা করণ\n/open\t\tফাইলটি চালনা করণ, স্বয়ংক্রিয়ভাবে প্লেব্যাক শুরু করবে না\n/play\t\tপ্লেয়ারটি চালনার সাথে সাথেই ফাইলটি প্লে করা শুরু করণ\n/close\t\tপ্লেব্যাক শেষে প্লেয়ারটি বন্ধ করণ (শুধুমাত্র কাজ করবে যখন /play\n\t\tনির্দেশনাটির সাথে ব্যবহার করা হবে)\n/shutdown\tপ্লেব্যাক শেষে অপারেটিং সিস্টেমটি শাটডাউন করণ\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tফুল-স্ক্রীন মুডে চালনা করণ\n/minimized\tমিনিমাইজড্‌ মুডে চালনা করণ\n/new\t\tনতুন আরেকটি প্লেয়ার ব্যবহার\n/add\t\t\"pathname\" প্লেলিস্টে যোগ করণ, /open আর /play এর সাথে একত্রে\n\t\tব্যবহার করা যাবে\n/regvid\t\tভিডিও ফাইলসমূহের সাথে সংশ্লিষ্টতা স্থাপন\n/regaud\t\tঅডিও ফাইলসমূহের সাথে সংশ্লিষ্টতা স্থাপন\n/regpl\t\tপ্লেলিস্ট ফাইলসমূহের সাথে সংশ্লিষ্টতা স্থাপন\n/regall\t\tসমর্থন করে এমন সকল ফাইলসমূহের সাথে সংশ্লিষ্টতা স্থাপন\n/unregall\t\tসকল ফাইলসমূহের সাথে সংশ্লিষ্টতা অপসারণ\n/start ms\t\t\"ms\" (= মিলিসেকেন্ড) থেকে প্লে শুরু করণ\n/startpos hh:mm:ss\thh:mm:ss অবস্থানকাল থেকে প্লে শুরু করণ\n/fixedsize w,h\tউইন্ডোর সাইজ নির্দিষ্টকরণSet a fixed window size\n/monitor N\tমনিটর Nএ প্লেয়ার চালনা করণ, যেখানে Nএর মান ১ থেকে শুরু হয়\n/audiorenderer N\tঅডিও রেনডারার N ব্যবহার শুরু করণ, যেখানে Nএর মান ১\n\t\tথেকে শুরু হয় (বিস্তারিত দেখুন \"Output\" সেটিংসমূহে)\n/shaderpreset \"Pr\"\t\"Pr\" শেইডার প্রিসেট ব্যবহার শুরু করণ\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nominidump\tDisable minidump creation\n/slave \"hWnd\"\tUse MPC-HC as slave\n/reset\t\tডিফল্ট সেটিংসমূহে পুনর্বিন্যাস করণ\n/help /h /?\tকমান্ড লাইনের নির্দেশনাসমূহ সম্পর্কে সহায়িকা প্রদর্শন\n"
+msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/randomize\tRandomize the playlist\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tUse MPC-HC as slave\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
+msgstr "ব্যবহারবিধি: mpc-hc.exe \"pathname\" [নির্দেশনাসমূহ]\n\n\"pathname\"\\tযে মূল ফাইল বা ডিরেক্টরি লোড করা হবে (ওয়াইল্ডকার্ড ক্যারেক্টারসমূহ\n\\t\\tব্যবহার করা যাবে, সাধারণ ইনপুটটি \"-\" চিহ্ন দ্বারা সূচিত করুন)\n/dub \"dubname\"\\tঅতিরিক্ত অডিও ফাইল লোড করণ\n/dubdelay \"file\"\\tঅতিরিক্ত অডিও ফাইল XXms সময়ের স্থানান্তর করে লোড করণ\n\\t\\t(যদি ফাইলটিতে \"...DELAY XXms...\" থেকে থাকে)\n/d3dfs\\t\\tD3D ফুলস্ক্রীন মুডে রেনডার করা শুরু করণ\n/sub \"subname\"\\tঅতিরিক্ত সাবটাইটেল ফাইল লোড করণ\n/filter \"filtername\"\\tডাইনামিক লিঙ্ক লাইব্রেরি থেকে DirectShow ফিল্টারসমূহ লোড\n\\t\\tকরণ (ওয়াইল্ডকার্ড ক্যারেক্টারসমূহ ব্যবহার করা যাবে)\n/dvd\\t\\tDVD মুডে চালনা করণ, \"pathname\" হবে dvd ফোল্ডারটি (ঐচ্ছিক)\n/dvdpos T#C\\tটাইটেল T এর পরিচ্ছেদ C থেকে প্লেব্যাক শুরু করণ\n/dvdpos T#hh:mm\\tটাইটেল T এর অবস্থানকাল hh:mm:ss থেকে প্লেব্যাক শুরু করণ\n/cd\\t\\tcd বা (s)vcd এর সকল ট্র্যাকসমূহ লোড করণ, \"pathname\" হবে ড্রাইভের\n\\t\\tঠিকানাটি (ঐচ্ছিক)\n/device\\t\\tডিফল্ট ভিডিও ডিভাইসটি চালনা করণ\n/open\\t\\tফাইলটি চালনা করণ, স্বয়ংক্রিয়ভাবে প্লেব্যাক শুরু করবে না\n/play\\t\\tপ্লেয়ারটি চালনার সাথে সাথেই ফাইলটি প্লে করা শুরু করণ\n/close\\t\\tপ্লেব্যাক শেষে প্লেয়ারটি বন্ধ করণ (শুধুমাত্র কাজ করবে যখন /play\n\\t\\tনির্দেশনাটির সাথে ব্যবহার করা হবে)\n/shutdown\\tপ্লেব্যাক শেষে অপারেটিং সিস্টেমটি শাটডাউন করণ\n/standby\\t\\tপ্লেব্যাক শেষে অপারেটিং সিস্টেমটি স্লিপ করণ\n/hibernate\\tপ্লেব্যাক শেষে অপারেটিং সিস্টেমটি হাইবারনেট করণ\n/logoff\\t\\tপ্লেব্যাক শেষে অপারেটিং সিস্টেমটি লগ অফ করণ\n/lock\\t\\tপ্লেব্যাক শেষে কম্পিউটারটি লক করণ\n/monitoroff\\tপ্লেব্যাক শেষে মনিটর বন্ধ করণ\n/playnext\\t\\tপ্লেব্যাক শেষে ফোল্ডারের পরবর্তী ফাইলটি চালনা করণ\n/fullscreen\\tফুল-স্ক্রীন মুডে চালনা করণ\n/minimized\\tমিনিমাইজড্‌ মুডে চালনা করণ\n/new\\t\\tনতুন আরেকটি প্লেয়ার ব্যবহার\n/add\\t\\t\"pathname\" প্লেলিস্টে যোগ করণ, /open আর /play এর সাথে একত্রে\n\\t\\tব্যবহার করা যাবে\n/randomize\\tপ্লেলিস্টটি এলোমেলোভাবে সাজান\n/regvid\\t\\tভিডিও ফাইলসমূহের সাথে সম্পৃক্ততা স্থাপন\n/regaud\\t\\tঅডিও ফাইলসমূহের সাথে সম্পৃক্ততা স্থাপন\n/regpl\\t\\tপ্লেলিস্ট ফাইলসমূহের সাথে সম্পৃক্ততা স্থাপন\n/regall\\t\\tসমর্থন করে এমন সকল ফাইলসমূহের সাথে সম্পৃক্ততা স্থাপন\n/unregall\\t\\tসকল ফাইলসমূহের সাথে সম্পৃক্ততা অপসারণ\n/start ms\\t\\t\"ms\" (= মিলিসেকেন্ড) থেকে প্লে শুরু করণ\n/startpos hh:mm:ss\\thh:mm:ss অবস্থানকাল থেকে প্লে শুরু করণ\n/fixedsize w,h\\tউইন্ডোর সাইজ নির্দিষ্টকরণSet a fixed window size\n/monitor N\\tমনিটর Nএ প্লেয়ার চালনা করণ, যেখানে Nএর মান ১ থেকে শুরু হয়\n/audiorenderer N\\tঅডিও রেনডারার N ব্যবহার শুরু করণ, যেখানে Nএর মান ১\n\\t\\tথেকে শুরু হয় (বিস্তারিত দেখুন \"আউটপুট\" সেটিংসমূহে)\n/shaderpreset \"Pr\"\\t\"Pr\" শেইডার প্রিসেট ব্যবহার শুরু করণ\n/pns \"name\"\\tব্যবহার করার জন্যে প্যানঅ্যান্ডস্ক্যান প্রিসেটের নাম নির্দেশিত করণ\n/iconsassoc\\tফাইলের ধরনের আইকন সমূহ পুনরায় সম্পৃক্ত করণ\n/nofocus\\t\\tMPC-HCকে ব্যাকগ্রাউন্ডে চালনা করণ\n/webport N\\tনির্দেশিত পোর্টে ওয়েব ইন্টারফেস চালনা করণ\n/debug\\t\\tOSDতে ডিবাগ তথ্যাদি প্রদর্শন\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\\tMPC-HCকে স্লেইভ হিসেবে ব্যবহার\n/reset\\t\\tডিফল্ট সেটিংসমূহে পূর্বাবস্থায় পরিবর্তন\n/help /h /?\\tকমান্ড লাইনের নির্দেশনাসমূহ সম্পর্কে সহায়িকা প্রদর্শন\n"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -2697,40 +2749,12 @@ msgctxt "IDS_TOP_BACK_RIGHT"
 msgid "Top Back Right"
 msgstr "উপরে পিছনে ডানে"
 
-msgctxt "IDS_AG_RESET_STATS"
-msgid "Reset Display Stats"
-msgstr "ডিসপ্লে বৃত্তান্ত পুনর্বিন্যাস করি"
-
-msgctxt "IDD_PPAGESUBMISC"
-msgid "Subtitles::Misc"
-msgstr "সাবটাইটেল::Misc"
-
-msgctxt "IDS_VIEW_BORDERLESS"
-msgid "Hide &borders"
-msgstr "বর্ডারসমূহ লুকিয়ে রাখি(&B)"
-
-msgctxt "IDS_VIEW_FRAMEONLY"
-msgid "Frame Only"
-msgstr "শুধুমাত্র ফ্রেম"
-
-msgctxt "IDS_VIEW_CAPTIONMENU"
-msgid "Sho&w Caption&&Menu"
-msgstr "ক্যাপশন আর মেন্যু প্রদর্শন(&W)"
-
-msgctxt "IDS_VIEW_HIDEMENU"
-msgid "Hide &Menu"
-msgstr "মেন্যু লুকিয়ে রাখি(&M)"
-
-msgctxt "IDD_PPAGEADVANCED"
-msgid "Advanced"
-msgstr "অ্যাডভান্সড্‌"
-
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seekbar"
+msgid "Above seek bar"
 msgstr "সীকবারের উপরে"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seekbar"
+msgid "Below seek bar"
 msgstr "সীকবারের নিচে"
 
 msgctxt "IDS_VIDEO_STREAM"
@@ -2739,7 +2763,7 @@ msgstr "ভিডিও: %s"
 
 msgctxt "IDS_APPLY"
 msgid "Apply"
-msgstr "কার্যকর করি"
+msgstr "প্রয়োগ করি"
 
 msgctxt "IDS_CLEAR"
 msgid "Clear"
@@ -2898,8 +2922,8 @@ msgid "Other Audio"
 msgstr "Other Audio"
 
 msgctxt "IDS_MFMT_AC3"
-msgid "AC-3/DTS"
-msgstr "AC-3/DTS"
+msgid "AC-3"
+msgstr "AC-3"
 
 msgctxt "IDS_MFMT_AIFF"
 msgid "AIFF"
@@ -2908,6 +2932,26 @@ msgstr "AIFF"
 msgctxt "IDS_MFMT_ALAC"
 msgid "Apple Lossless"
 msgstr "Apple Lossless"
+
+msgctxt "IDS_MFMT_WAV"
+msgid "WAV"
+msgstr "WAV"
+
+msgctxt "IDS_MFMT_WMA"
+msgid "Windows Media Audio"
+msgstr "Windows Media Audio"
+
+msgctxt "IDS_MFMT_WV"
+msgid "WavPack"
+msgstr "WavPack"
+
+msgctxt "IDS_MFMT_OPUS"
+msgid "Opus Audio Codec"
+msgstr "Opus Audio Codec"
+
+msgctxt "IDS_MFMT_DTS"
+msgid "DTS/DTS-HD"
+msgstr "DTS/DTS-HD"
 
 msgctxt "IDS_MFMT_AMR"
 msgid "AMR"
@@ -2973,22 +3017,6 @@ msgctxt "IDS_MFMT_TTA"
 msgid "True Audio"
 msgstr "True Audio"
 
-msgctxt "IDS_MFMT_WAV"
-msgid "WAV"
-msgstr "WAV"
-
-msgctxt "IDS_MFMT_WMA"
-msgid "Windows Media Audio"
-msgstr "Windows Media Audio"
-
-msgctxt "IDS_MFMT_WV"
-msgid "WavPack"
-msgstr "WavPack"
-
-msgctxt "IDS_MFMT_OPUS"
-msgid "Opus Audio Codec"
-msgstr "Opus Audio Codec"
-
 msgctxt "IDS_MFMT_PLS"
 msgid "Playlist"
 msgstr "Playlist"
@@ -3015,11 +3043,11 @@ msgstr "অ্যাসপেক্ট রেশিও"
 
 msgctxt "IDS_ARS_WASAPI_MODE"
 msgid "Use WASAPI (restart playback)"
-msgstr "WASAPI ব্যবহার (পুনরায় প্লেব্যাক করুন)"
+msgstr "WASAPI ব্যবহার (বন্ধ করে পুনরায় প্লেব্যাক করুন)"
 
 msgctxt "IDS_ARS_MUTE_FAST_FORWARD"
 msgid "Mute on fast forward"
-msgstr "শব্দহীন ভাবে দ্রুত সামনে যাওয়া"
+msgstr "নিঃশব্দে দ্রুত সামনে অগ্রসর"
 
 msgctxt "IDS_ARS_SOUND_DEVICE"
 msgid "Sound Device:"
@@ -3035,11 +3063,11 @@ msgstr "VSync: বন্ধ করা হল"
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_ON"
 msgid "Accurate VSync: On"
-msgstr "যথোপযোগী VSync: চালু করা হল"
+msgstr "নিখুঁত VSync: চালু করা হল"
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_OFF"
 msgid "Accurate VSync: Off"
-msgstr "যথোপযোগী VSync: বন্ধ করা হল"
+msgstr "নিখুঁত VSync: বন্ধ করা হল"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_ON"
 msgid "Synchronize Video to Display: On"
@@ -3279,15 +3307,15 @@ msgstr "জূম: স্বয়ংক্রিয়"
 
 msgctxt "IDS_CUSTOM_CHANNEL_MAPPING"
 msgid "Toggle custom channel mapping"
-msgstr "নির্ধারণযোগ্য চ্যানেল বিন্যাস নিয়ন্ত্রণ"
+msgstr "ব্যক্তি-নির্ধারিত চ্যানেল বিন্যাস নিয়ন্ত্রণ"
 
 msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_ON"
 msgid "Custom channel mapping: On"
-msgstr "নির্ধারণযোগ্য চ্যানেল বিন্যাস: চালু করা হল"
+msgstr "ব্যক্তি-নির্ধারিত চ্যানেল বিন্যাস: চালু করা হল"
 
 msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_OFF"
 msgid "Custom channel mapping: Off"
-msgstr "নির্ধারণযোগ্য চ্যানেল বিন্যাস: বন্ধ করা হল"
+msgstr "ব্যক্তি-নির্ধারিত চ্যানেল বিন্যাস: বন্ধ করা হল"
 
 msgctxt "IDS_NORMALIZE"
 msgid "Toggle normalization"
@@ -3315,27 +3343,27 @@ msgstr "ভলিউম পুনর্বৃদ্ধি: বন্ধ কর�
 
 msgctxt "IDS_SIZE_UNIT_BYTES"
 msgid "bytes"
-msgstr ""
+msgstr "বাইট"
 
 msgctxt "IDS_SIZE_UNIT_K"
 msgid "KB"
-msgstr "KB"
+msgstr "কিলো বাইট"
 
 msgctxt "IDS_SIZE_UNIT_M"
 msgid "MB"
-msgstr "MB"
+msgstr "মেগাবাইট"
 
 msgctxt "IDS_SIZE_UNIT_G"
 msgid "GB"
-msgstr "GB"
+msgstr "গিগাবাইট"
 
 msgctxt "IDS_SPEED_UNIT_K"
 msgid "KB/s"
-msgstr "KB/s"
+msgstr "কিলোবাইট/সেকন্ড"
 
 msgctxt "IDS_SPEED_UNIT_M"
 msgid "MB/s"
-msgstr "MB/s"
+msgstr "মেগাবাইট/সেকন্ড"
 
 msgctxt "IDS_BDA_ERROR_CREATE_TUNER"
 msgid "Could not create the tuner."
@@ -3363,18 +3391,18 @@ msgstr "ডিমাল্টিপ্লেক্সারটি তৈরি �
 
 msgctxt "IDS_GOTO_ERROR_PARSING_TIME"
 msgid "Error parsing the entered time!"
-msgstr "প্রবেশকৃত সময়টি পার্সিং করণে সমস্যা হয়েছে!"
+msgstr "প্রবেশকৃত সময়টি সমন্বয় সাধনে সমস্যা হয়েছে!"
 
 msgctxt "IDS_GOTO_ERROR_PARSING_TEXT"
 msgid "Error parsing the entered text!"
-msgstr "প্রবেশকৃত টেক্সট্‌টি পার্সিং করণে সমস্যা হয়েছে!"
+msgstr "প্রবেশকৃত টেক্সট্‌টি সমন্বয় সাধনে সমস্যা হয়েছে!"
 
 msgctxt "IDS_GOTO_ERROR_PARSING_FPS"
 msgid "Error parsing the entered frame rate!"
-msgstr "প্রবেশকৃত ফ্রেম রেটটি পার্সিং করণে সমস্যা হয়েছে!"
+msgstr "প্রবেশকৃত ফ্রেম রেটটি সমন্বয় সাধনে সমস্যা হয়েছে!"
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
-msgid "Cannot frame step, try a different video renderer."
+msgid "Cannot frame-step, try a different video renderer."
 msgstr "ফ্রেমের পদক্ষেপ নেয়া যাচ্ছে না, ভিন্ন ভিডিও রেনডারার চেষ্টা করে দেখুন।"
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"
@@ -3463,9 +3491,9 @@ msgstr "এই ধরনটি ইতিমধ্যে তালিকাতে
 
 msgctxt "IDS_WEBSERVER_ERROR_TEST"
 msgid "You need to apply the new settings before testing them."
-msgstr "নতুন সেটিংসমূহ পরীক্ষা করার আগে সেগুলো কার্যকর করতে হবে।"
+msgstr "নতুন সেটিংসমূহ পরীক্ষা করার আগে সেগুলো প্রয়োগ করতে হবে।"
 
-msgctxt "IDS_AFTERPLAYBACK_CLOSE"
+msgctxt "IDS_AFTERPLAYBACK_EXIT"
 msgid "After Playback: Exit"
 msgstr "প্লেব্যাকের পরে: প্রোগ্রাম বন্ধ করি"
 
@@ -3495,11 +3523,11 @@ msgstr "প্লেব্যাকের পরে: মনিটর বন্�
 
 msgctxt "IDS_AFTERPLAYBACK_PLAYNEXT"
 msgid "After Playback: Play next file in the folder"
-msgstr ""
+msgstr "প্লেব্যাকের পরে: ফোল্ডারের পরবর্তী ফাইলটি প্লে করি"
 
 msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
 msgid "After Playback: Do nothing"
-msgstr ""
+msgstr "প্লেব্যাকের পরে: কোন কিছু করি না"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
@@ -3519,7 +3547,7 @@ msgstr "রঙের তীব্রতা: %s"
 
 msgctxt "IDS_OSD_RESET_COLOR"
 msgid "Color settings restored"
-msgstr "রঙের সেটিংসমূহ পুনর্বিন্যাস করা হয়েছে"
+msgstr "রঙের সেটিংসমূহ পূর্বাবস্থায় ফিরিয়ে আনা হয়েছে"
 
 msgctxt "IDS_OSD_NO_COLORCONTROL"
 msgid "Color control is not supported"
@@ -3531,11 +3559,11 @@ msgstr "উজ্জ্বলতা বৃদ্ধি করি"
 
 msgctxt "IDS_LANG_PREF_EXAMPLE"
 msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
-msgstr "এখানে আপনার পছন্দনীয় ভাষাসমূহ প্রবেশ করুন।\nউদাহরণস্বরূপ, প্রবেশ করতে পারেন: \"eng jap swe\""
+msgstr "আপনার পছন্দনীয় ভাষাসমূহ এখানে প্রবেশ করুন।\nউদাহরণস্বরূপ, প্রবেশ করতে পারেন: \"ben eng jap swe\""
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
-msgstr "বাহিরস্থ স্প্লিটারসমূহের নিজস্ব পছন্দনীয় ভাষার অপশন থাকতে পারে, সেটাহলে MPC-HCএর ডিফল্ট আচরণ সেগুলোর প্রাথমিক পছন্দ পরিবর্তন করবে না।\nMPC-HC দ্বারা বাহিরস্থ স্প্লিটারসমূহ নিয়ন্ত্রণ করতে চাইলে এই অপশনটি সক্রিয় করুন।"
+msgstr "বাহিরস্থ স্প্লিটারসমূহের নিজস্ব পছন্দনীয় ভাষার অপশন থাকতে পারে, সেটার জন্য MPC-HCএর ডিফল্ট আচরণ সেসবের প্রাথমিক পছন্দ পরিবর্তন করে না।\nMPC-HC দ্বারা বাহিরস্থ স্প্লিটারসমূহ নিয়ন্ত্রণ করতে চাইলে এই অপশনটি সক্রিয় করুন।"
 
 msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
 msgid "&Blu-Ray playlists"
@@ -3559,23 +3587,23 @@ msgstr "চ্যানেলসমূহ(&C)"
 
 msgctxt "IDC_FASTSEEK_CHECK"
 msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."
-msgstr ""
+msgstr "যদি \"আগের কীফ্রেমে\" নির্ধারণ করা হয়ে থাকে, নির্দিষ্ট সীককৃত অবস্থানের আগের প্রথম কীফ্রেমে সীক করবে।\nযদি \"নিকটবর্তী কীফ্রেমে\" নির্ধারণ করা হয়ে থাকে, নির্দিষ্ট সীককৃত অবস্থানের আগের বা পরের প্রথম কীফ্রেমে সীক করবে, নির্ভর করবে কোনটা অপেক্ষাকৃত কাছে।"
 
 msgctxt "IDC_ASSOCIATE_ALL_FORMATS"
 msgid "Associate with all formats"
-msgstr ""
+msgstr "সকল ধরনের ফাইলের সাথে সম্পৃক্ততা"
 
 msgctxt "IDC_ASSOCIATE_VIDEO_FORMATS"
 msgid "Associate with video formats only"
-msgstr ""
+msgstr "শুধুমাত্র ভিডিও ফাইলসমূহের সাথে সম্পৃক্ততা"
 
 msgctxt "IDC_ASSOCIATE_AUDIO_FORMATS"
 msgid "Associate with audio formats only"
-msgstr ""
+msgstr "শুধুমাত্র অডিও ফাইলসমূহের সাথে সম্পৃক্ততা"
 
 msgctxt "IDC_CLEAR_ALL_ASSOCIATIONS"
 msgid "Clear all associations"
-msgstr ""
+msgstr "সকল সম্পৃক্ততা অপসারণ করি"
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"

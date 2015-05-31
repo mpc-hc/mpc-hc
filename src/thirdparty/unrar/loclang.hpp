@@ -99,7 +99,7 @@
 #define   MCHelpSwOC         L"\n  oc            Set NTFS Compressed attribute"
 #define   MCHelpSwOH         L"\n  oh            Save hard links as the link instead of the file"
 #define   MCHelpSwOI         L"\n  oi[0-4][:min] Save identical files as references"
-#define   MCHelpSwOL         L"\n  ol            Save symbolic links as the link instead of the file"
+#define   MCHelpSwOL         L"\n  ol[a]         Process symbolic links as the link [absolute paths]"
 #define   MCHelpSwOR         L"\n  or            Rename files automatically"
 #define   MCHelpSwOS         L"\n  os            Save NTFS streams"
 #define   MCHelpSwOW         L"\n  ow            Save or restore file owner and group"

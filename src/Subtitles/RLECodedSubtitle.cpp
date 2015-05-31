@@ -1,5 +1,5 @@
 /*
- * (C) 2008-2014 see Authors.txt
+ * (C) 2008-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -101,40 +101,38 @@ STDMETHODIMP CRLECodedSubtitle::Reload()
     return S_OK;
 }
 
+STDMETHODIMP CRLECodedSubtitle::SetSourceTargetInfo(CString yuvMatrix, int targetBlackLevel, int targetWhiteLevel)
+{
+    yuvMatrix.Replace(_T(".VSFilter"), _T(""));
+    int nPos = 0;
+    CString range = yuvMatrix.Tokenize(_T("."), nPos);
+    CString matrix = yuvMatrix.Mid(nPos);
+
+    ColorConvTable::YuvRangeType sourceRange = ColorConvTable::RANGE_TV;
+    if (range == _T("PC")) {
+        sourceRange = ColorConvTable::RANGE_PC;
+    }
+
+    if (matrix == _T("709")) {
+        m_eSourceMatrix = ColorConvTable::BT709;
+    } else if (matrix == _T("240M")) {
+        m_eSourceMatrix = ColorConvTable::BT709;
+    } else if (matrix == _T("601")) {
+        m_eSourceMatrix = ColorConvTable::BT601;
+    } else {
+        m_eSourceMatrix = ColorConvTable::NONE;
+    }
+
+    ColorConvTable::SetDefaultConvType(ColorConvTable::BT601, sourceRange, (targetWhiteLevel < 245), false); // Matrix isn't relevant here.
+
+    return S_OK;
+}
+
 HRESULT CRLECodedSubtitle::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate)
 {
     CAutoLock cAutoLock(&m_csCritSec);
 
     Reset();
-
-    return S_OK;
-}
-
-STDMETHODIMP CRLECodedSubtitle::SetSourceTargetInfo(CString yuvMatrix, int targetBlackLevel, int targetWhiteLevel)
-{
-    int nPos = 0;
-    CString range = yuvMatrix.Tokenize(_T("."), nPos);
-    CString matrix = yuvMatrix.Mid(nPos);
-
-    m_infoSourceTarget.sourceBlackLevel = 16;
-    m_infoSourceTarget.sourceWhiteLevel = 235;
-    if (range == _T("PC")) {
-        m_infoSourceTarget.sourceBlackLevel = 0;
-        m_infoSourceTarget.sourceWhiteLevel = 255;
-    }
-
-    if (matrix == _T("709")) {
-        m_infoSourceTarget.sourceMatrix = BT_709;
-    } else if (matrix == _T("240M")) {
-        m_infoSourceTarget.sourceMatrix = BT_709;
-    } else if (matrix == _T("601")) {
-        m_infoSourceTarget.sourceMatrix = BT_601;
-    } else {
-        m_infoSourceTarget.sourceMatrix = NONE;
-    }
-
-    m_infoSourceTarget.targetBlackLevel = targetBlackLevel;
-    m_infoSourceTarget.targetWhiteLevel = targetWhiteLevel;
 
     return S_OK;
 }

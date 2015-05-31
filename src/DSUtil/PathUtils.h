@@ -1,5 +1,5 @@
 /*
- * (C) 2013-2014 see Authors.txt
+ * (C) 2013-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -39,5 +39,9 @@ namespace PathUtils
     bool Exists(LPCTSTR path);
     bool IsFile(LPCTSTR path);
     bool IsDir(LPCTSTR path);
+    bool IsLinkFile(LPCTSTR path);
     bool CreateDirRecursive(LPCTSTR path);
+    CString ResolveLinkFile(LPCTSTR path);
+    void RecurseAddDir(LPCTSTR path, CAtlList<CString>& sl);
+    void ParseDirs(CAtlList<CString>& pathsList);
 }

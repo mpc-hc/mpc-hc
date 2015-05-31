@@ -30,7 +30,13 @@ static bool UnixSymlink(const char *Target,const wchar *LinkName,RarTime *ftm,Ra
 }
 
 
-bool ExtractUnixLink30(ComprDataIO &DataIO,Archive &Arc,const wchar *LinkName)
+static bool IsFullPath(const char *PathA) // Unix ASCII version.
+{
+  return *PathA==CPATHDIVIDER;
+}
+
+
+bool ExtractUnixLink30(CommandData *Cmd,ComprDataIO &DataIO,Archive &Arc,const wchar *LinkName)
 {
   char Target[NM];
   if (IsLink(Arc.FileHead.FileAttr))
@@ -48,13 +54,16 @@ bool ExtractUnixLink30(ComprDataIO &DataIO,Archive &Arc,const wchar *LinkName)
     if (!DataIO.UnpHash.Cmp(&Arc.FileHead.FileHash,Arc.FileHead.UseHashKey ? Arc.FileHead.HashKey:NULL))
       return true;
 
+    if (!Cmd->AbsoluteLinks && (IsFullPath(Target) ||
+        !IsRelativeSymlinkSafe(Arc.FileHead.FileName,Arc.FileHead.RedirName)))
+      return false;
     return UnixSymlink(Target,LinkName,&Arc.FileHead.mtime,&Arc.FileHead.atime);
   }
   return false;
 }
 
 
-bool ExtractUnixLink50(const wchar *Name,FileHeader *hd)
+bool ExtractUnixLink50(CommandData *Cmd,const wchar *Name,FileHeader *hd)
 {
   char Target[NM];
   WideToChar(hd->RedirName,Target,ASIZE(Target));
@@ -68,5 +77,8 @@ bool ExtractUnixLink50(const wchar *Name,FileHeader *hd)
       return false;
     DosSlashToUnix(Target,Target,ASIZE(Target));
   }
+  if (!Cmd->AbsoluteLinks && (IsFullPath(Target) ||
+      !IsRelativeSymlinkSafe(hd->FileName,hd->RedirName)))
+    return false;
   return UnixSymlink(Target,Name,&hd->mtime,&hd->atime);
 }

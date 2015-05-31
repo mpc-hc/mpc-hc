@@ -28,7 +28,12 @@ public :
     ~Export_EbuCore ();
 
     //Input
-    Ztring Transform(MediaInfo_Internal &MI);
+    enum version
+    {
+        Version_1_5,
+        Version_1_6,
+    };
+    Ztring Transform(MediaInfo_Internal &MI, version Version=Version_1_5);
 };
 
 } //NameSpace

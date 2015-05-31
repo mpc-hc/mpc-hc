@@ -100,7 +100,7 @@ size_t File_DcpAm::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
     if (ReferenceFiles==NULL)
         return 0;
 
-    return ReferenceFiles->Read_Buffer_Seek(Method, Value, ID);
+    return ReferenceFiles->Seek(Method, Value, ID);
 }
 #endif //MEDIAINFO_SEEK
 
@@ -254,10 +254,11 @@ bool File_DcpAm::FileHeader_Begin()
         for (File_DcpPkl::streams::iterator Stream=Streams.begin(); Stream!=Streams.end(); ++Stream)
             if (Stream->StreamKind==(stream_t)(Stream_Max+1) && Stream->ChunkList.size()==1) // Means CPL
             {
-                File__ReferenceFilesHelper::reference ReferenceFile;
-                ReferenceFile.FileNames.push_back(Ztring().From_UTF8(Stream->ChunkList[0].Path));
+                sequence* Sequence=new sequence;
+                Sequence->FileNames.push_back(Ztring().From_UTF8(Stream->ChunkList[0].Path));
 
-                ReferenceFiles->References.push_back(ReferenceFile);
+                Sequence->StreamID=ReferenceFiles->Sequences_Size()+1;
+                ReferenceFiles->AddSequence(Sequence);
             }
 
         ReferenceFiles->FilesForStorage=true;

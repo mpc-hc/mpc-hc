@@ -1,13 +1,13 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# ever_green, 2014
+# ever_green, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
-"PO-Revision-Date: 2014-12-28 10:21+0000\n"
+"POT-Creation-Date: 2015-05-22 20:53:41+0000\n"
+"PO-Revision-Date: 2015-05-28 13:50+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -102,7 +102,7 @@ msgstr "表示(&V)"
 
 msgctxt "ID_VIEW_CAPTIONMENU"
 msgid "Caption&&Menu"
-msgstr "タイトルとメニュー(&M)"
+msgstr "タイトル バーとメニュー バー(&M)"
 
 msgctxt "ID_VIEW_SEEKER"
 msgid "See&k Bar"
@@ -196,13 +196,17 @@ msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
 msgstr "テアリング テスト(&T)"
 
-msgctxt "ID_VIEW_DISPLAYSTATS"
-msgid "&Display Stats"
-msgstr "レンダラ統計情報(&D)"
+msgctxt "ID_VIEW_DISPLAY_RENDERER_STATS"
+msgid "&Display Statistics"
+msgstr "統計情報を表示(&D)"
 
-msgctxt "ID_VIEW_REMAINING_TIME"
-msgid "&Remaining Time"
-msgstr "残り時間(&R)"
+msgctxt "ID_VIEW_OSD_DISPLAY_TIME"
+msgid "Display Current T&ime"
+msgstr "現在の再生時間を表示(&I)"
+
+msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
+msgid "Show &File Name"
+msgstr "ファイル名を表示(&F)"
 
 msgctxt "POPUP"
 msgid "&Output Range"
@@ -498,7 +502,7 @@ msgstr "手前に表示(&T)"
 
 msgctxt "ID_ONTOP_DEFAULT"
 msgid "&Default"
-msgstr "しない(&D)"
+msgstr "標準(&D)"
 
 msgctxt "ID_ONTOP_ALWAYS"
 msgid "&Always"
@@ -506,11 +510,11 @@ msgstr "常に(&A)"
 
 msgctxt "ID_ONTOP_WHILEPLAYING"
 msgid "While &Playing"
-msgstr "再生中(&P)"
+msgstr "再生時(&P)"
 
 msgctxt "ID_ONTOP_WHILEPLAYINGVIDEO"
 msgid "While Playing &Video"
-msgstr "ビデオを再生中(&V)"
+msgstr "ビデオの再生時(&V)"
 
 msgctxt "ID_VIEW_OPTIONS"
 msgid "&Options..."
@@ -553,16 +557,16 @@ msgid "S&haders"
 msgstr "シェーダ(&H)"
 
 msgctxt "ID_AUDIOS"
-msgid "&Audio"
-msgstr "音声(&A)"
+msgid "&Audio Track"
+msgstr "音声トラック(&A)"
 
 msgctxt "ID_SUBTITLES"
-msgid "Su&btitles"
-msgstr "字幕(&B)"
+msgid "Su&btitle Track"
+msgstr "字幕トラック(&B)"
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Stream"
-msgstr "ビデオ ストリーム(&V)"
+msgid "&Video Track"
+msgstr "映像トラック(&V)"
 
 msgctxt "POPUP"
 msgid "&Volume"
@@ -584,7 +588,19 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "再生終了後の動作(&T)"
 
-msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgctxt "ID_AFTERPLAYBACK_DONOTHING"
+msgid "Do no&thing"
+msgstr "何もしない(&T)"
+
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "フォルダ内を順次再生する(&N)"
+
+msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
+msgid "Turn off the &monitor"
+msgstr "モニタの電源を切る(&M)"
+
+msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
 msgstr "終了(&E)"
 
@@ -607,14 +623,6 @@ msgstr "ログオフ(&O)"
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "ロック(&L)"
-
-msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
-msgid "Turn off the &monitor"
-msgstr "モニタの電源を切る(&M)"
-
-msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
-msgid "Play &next file in the folder"
-msgstr "フォルダ内を順次再生する(&N)"
 
 msgctxt "POPUP"
 msgid "&Navigate"

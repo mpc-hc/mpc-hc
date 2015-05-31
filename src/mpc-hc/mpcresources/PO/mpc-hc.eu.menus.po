@@ -1,13 +1,13 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Xabier Aramendi <azpidatziak@gmail.com>, 2013-2014
+# Xabier Aramendi <azpidatziak@gmail.com>, 2013-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
-"PO-Revision-Date: 2014-10-27 15:40+0000\n"
+"POT-Creation-Date: 2015-05-22 20:53:41+0000\n"
+"PO-Revision-Date: 2015-05-30 21:32+0000\n"
 "Last-Translator: Xabier Aramendi <azpidatziak@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/mpc-hc/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -142,7 +142,7 @@ msgstr "&Nabigazioa"
 
 msgctxt "ID_VIEW_DEBUGSHADERS"
 msgid "&Debug Shaders"
-msgstr "&Garbiketa Itzalak"
+msgstr "Garbike&ta Itzalak"
 
 msgctxt "POPUP"
 msgid "&Presets..."
@@ -196,13 +196,17 @@ msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
 msgstr "&Hauspen Azterketa"
 
-msgctxt "ID_VIEW_DISPLAYSTATS"
-msgid "&Display Stats"
-msgstr "&Erakutsi Estatistikak"
+msgctxt "ID_VIEW_DISPLAY_RENDERER_STATS"
+msgid "&Display Statistics"
+msgstr "Erakutsi &Estatistikak"
 
-msgctxt "ID_VIEW_REMAINING_TIME"
-msgid "&Remaining Time"
-msgstr "&Gelditzen den Denbora"
+msgctxt "ID_VIEW_OSD_DISPLAY_TIME"
+msgid "Display Current T&ime"
+msgstr "Erakutsi Oraingo &Denbora"
+
+msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
+msgid "Show &File Name"
+msgstr "Erakutsi &Agiri Izena"
 
 msgctxt "POPUP"
 msgid "&Output Range"
@@ -510,7 +514,7 @@ msgstr "Irakurtzerakoan"
 
 msgctxt "ID_ONTOP_WHILEPLAYINGVIDEO"
 msgid "While Playing &Video"
-msgstr "Bideoa Irakurtzerakoan"
+msgstr "Bi&deoa Irakurtzerakoan"
 
 msgctxt "ID_VIEW_OPTIONS"
 msgid "&Options..."
@@ -553,16 +557,16 @@ msgid "S&haders"
 msgstr "It&zalak"
 
 msgctxt "ID_AUDIOS"
-msgid "&Audio"
-msgstr "&Audioa"
+msgid "&Audio Track"
+msgstr "&Audio Bidea"
 
 msgctxt "ID_SUBTITLES"
-msgid "Su&btitles"
-msgstr "Az&pidatziak"
+msgid "Su&btitle Track"
+msgstr "Az&pidatzia Bidea"
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Stream"
-msgstr "Bi&deo Jarioa"
+msgid "&Video Track"
+msgstr "Bi&deo Bidea"
 
 msgctxt "POPUP"
 msgid "&Volume"
@@ -584,9 +588,21 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "Irakurri &Ondoren"
 
-msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgctxt "ID_AFTERPLAYBACK_DONOTHING"
+msgid "Do no&thing"
+msgstr "E&z egin ezer"
+
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "Irakurri &agiritegiko hurrengoa"
+
+msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
+msgid "Turn off the &monitor"
+msgstr "Itzali &monitorea"
+
+msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
-msgstr "Irten"
+msgstr "I&rten"
 
 msgctxt "ID_AFTERPLAYBACK_STANDBY"
 msgid "&Stand By"
@@ -598,7 +614,7 @@ msgstr "Neguratu"
 
 msgctxt "ID_AFTERPLAYBACK_SHUTDOWN"
 msgid "Shut&down"
-msgstr "I&tzali"
+msgstr "Itzali"
 
 msgctxt "ID_AFTERPLAYBACK_LOGOFF"
 msgid "Log &Off"
@@ -607,14 +623,6 @@ msgstr "Saioa amaitu"
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "Blokeatu"
-
-msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
-msgid "Turn off the &monitor"
-msgstr "Itzali &monitorea"
-
-msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
-msgid "Play &next file in the folder"
-msgstr "Irakurri &agiritegiko hurrengoa"
 
 msgctxt "POPUP"
 msgid "&Navigate"

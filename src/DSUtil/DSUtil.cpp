@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -346,7 +346,7 @@ IPin* AppendFilter(IPin* pPin, CString DisplayName, IGraphBuilder* pGB)
         }
 
         CComVariant var;
-        if (FAILED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
+        if (FAILED(pPB->Read(_T("FriendlyName"), &var, nullptr))) {
             break;
         }
 
@@ -440,7 +440,7 @@ IPin* InsertFilter(IPin* pPin, CString DisplayName, IGraphBuilder* pGB)
         }
 
         CComVariant var;
-        if (FAILED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
+        if (FAILED(pPB->Read(_T("FriendlyName"), &var, nullptr))) {
             break;
         }
 
@@ -629,10 +629,9 @@ bool IsCLSIDRegistered(const CLSID& clsid)
 {
     bool fRet = false;
 
-    LPOLESTR pStr = nullptr;
+    CComHeapPtr<OLECHAR> pStr;
     if (S_OK == StringFromCLSID(clsid, &pStr) && pStr) {
         fRet = IsCLSIDRegistered(CString(pStr));
-        CoTaskMemFree(pStr);
     }
 
     return fRet;
@@ -660,10 +659,9 @@ CString GetFilterPath(const CLSID& clsid)
 {
     CString path;
 
-    LPOLESTR pStr = nullptr;
+    CComHeapPtr<OLECHAR> pStr;
     if (S_OK == StringFromCLSID(clsid, &pStr) && pStr) {
         path = GetFilterPath(CString(pStr));
-        CoTaskMemFree(pStr);
     }
 
     return path;
@@ -1117,7 +1115,7 @@ bool CreateFilter(CStringW DisplayName, IBaseFilter** ppBF, CStringW& FriendlyNa
     CComPtr<IPropertyBag> pPB;
     CComVariant var;
     if (SUCCEEDED(pMoniker->BindToStorage(pBindCtx, 0, IID_PPV_ARGS(&pPB)))
-            && SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
+            && SUCCEEDED(pPB->Read(_T("FriendlyName"), &var, nullptr))) {
         FriendlyName = var.bstrVal;
     }
 
@@ -1146,7 +1144,7 @@ IBaseFilter* AppendFilter(IPin* pPin, IMoniker* pMoniker, IGraphBuilder* pGB)
         }
 
         CComVariant var;
-        if (FAILED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
+        if (FAILED(pPB->Read(_T("FriendlyName"), &var, nullptr))) {
             break;
         }
 
@@ -1190,7 +1188,7 @@ CStringW GetFriendlyName(CStringW displayName)
         CComPtr<IPropertyBag> pPB;
         CComVariant var;
         if (SUCCEEDED(pMoniker->BindToStorage(pBindCtx, 0, IID_PPV_ARGS(&pPB)))
-                && SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
+                && SUCCEEDED(pPB->Read(_T("FriendlyName"), &var, nullptr))) {
             friendlyName = var.bstrVal;
         }
     }
@@ -2424,87 +2422,6 @@ REFERENCE_TIME StringToReftime(LPCTSTR strVal)
     return rt;
 }
 
-const double Rec601_Kr = 0.299;
-const double Rec601_Kb = 0.114;
-const double Rec601_Kg = 0.587;
-
-COLORREF YCrCbToRGB_Rec601(BYTE Y, BYTE Cr, BYTE Cb, double sourceBlackLevel, double sourceWhiteLevel, double targetBlackLevel, double targetWhiteLevel)
-{
-    double targetRange = targetWhiteLevel - targetBlackLevel;
-    double chromaChannelRange = (sourceWhiteLevel == 235.0 ? 224.0 /* 4:2:0 */ : sourceBlackLevel == 0.0 ? 255.0 /* 4:4:4 */ : 239.0 /* 4:2:2 */) / 2.0;
-    double chromaScaleFactor = targetRange / chromaChannelRange;
-    double scaledY = (Y - (sourceBlackLevel - targetBlackLevel)) * (targetRange / (sourceWhiteLevel - sourceBlackLevel));
-
-    double rp = scaledY + chromaScaleFactor * (Cr - 128) * (1.0 - Rec601_Kr);
-    double gp = scaledY - chromaScaleFactor * (Cb - 128) * (1.0 - Rec601_Kb) * Rec601_Kb / Rec601_Kg - chromaScaleFactor * (Cr - 128) * (1.0 - Rec601_Kr) * Rec601_Kr / Rec601_Kg;
-    double bp = scaledY + chromaScaleFactor * (Cb - 128) * (1.0 - Rec601_Kb);
-
-    auto R = (BYTE)std::max(targetBlackLevel, std::min(std::abs(std::round(rp)), targetWhiteLevel));
-    auto G = (BYTE)std::max(targetBlackLevel, std::min(std::abs(std::round(gp)), targetWhiteLevel));
-    auto B = (BYTE)std::max(targetBlackLevel, std::min(std::abs(std::round(bp)), targetWhiteLevel));
-
-    return RGB(R, G, B);
-}
-
-DWORD YCrCbToRGB_Rec601(BYTE A, BYTE Y, BYTE Cr, BYTE Cb, double sourceBlackLevel, double sourceWhiteLevel, double targetBlackLevel, double targetWhiteLevel)
-{
-    double targetRange = targetWhiteLevel - targetBlackLevel;
-    double chromaChannelRange = (sourceWhiteLevel == 235.0 ? 224.0 /* 4:2:0 */ : sourceBlackLevel == 0.0 ? 255.0 /* 4:4:4 */ : 239.0 /* 4:2:2 */) / 2.0;
-    double chromaScaleFactor = targetRange / chromaChannelRange;
-    double scaledY = (Y - (sourceBlackLevel - targetBlackLevel)) * (targetRange / (sourceWhiteLevel - sourceBlackLevel));
-
-    double rp = scaledY + chromaScaleFactor * (Cr - 128) * (1.0 - Rec601_Kr);
-    double gp = scaledY - chromaScaleFactor * (Cb - 128) * (1.0 - Rec601_Kb) * Rec601_Kb / Rec601_Kg - chromaScaleFactor * (Cr - 128) * (1.0 - Rec601_Kr) * Rec601_Kr / Rec601_Kg;
-    double bp = scaledY + chromaScaleFactor * (Cb - 128) * (1.0 - Rec601_Kb);
-
-    auto R = (BYTE)std::max(targetBlackLevel, std::min(std::abs(std::round(rp)), targetWhiteLevel));
-    auto G = (BYTE)std::max(targetBlackLevel, std::min(std::abs(std::round(gp)), targetWhiteLevel));
-    auto B = (BYTE)std::max(targetBlackLevel, std::min(std::abs(std::round(bp)), targetWhiteLevel));
-
-    return D3DCOLOR_ARGB(A, R, G, B);
-}
-
-
-const double Rec709_Kr = 0.2126;
-const double Rec709_Kb = 0.0722;
-const double Rec709_Kg = 0.7152;
-
-COLORREF YCrCbToRGB_Rec709(BYTE Y, BYTE Cr, BYTE Cb, double sourceBlackLevel, double sourceWhiteLevel, double targetBlackLevel, double targetWhiteLevel)
-{
-    double targetRange = targetWhiteLevel - targetBlackLevel;
-    double chromaChannelRange = (sourceWhiteLevel == 235.0 ? 224.0 /* 4:2:0 */ : sourceBlackLevel == 0.0 ? 255.0 /* 4:4:4 */ : 239.0 /* 4:2:2 */) / 2.0;
-    double chromaScaleFactor = targetRange / chromaChannelRange;
-    double scaledY = (Y - (sourceBlackLevel - targetBlackLevel)) * (targetRange / (sourceWhiteLevel - sourceBlackLevel));
-
-    double rp = scaledY + chromaScaleFactor * (Cr - 128) * (1.0 - Rec709_Kr);
-    double gp = scaledY - chromaScaleFactor * (Cb - 128) * (1.0 - Rec709_Kb) * Rec709_Kb / Rec709_Kg - chromaScaleFactor * (Cr - 128) * (1.0 - Rec709_Kr) * Rec709_Kr / Rec709_Kg;
-    double bp = scaledY + chromaScaleFactor * (Cb - 128) * (1.0 - Rec709_Kb);
-
-    auto R = (BYTE)std::max(targetBlackLevel, std::min(std::abs(std::round(rp)), targetWhiteLevel));
-    auto G = (BYTE)std::max(targetBlackLevel, std::min(std::abs(std::round(gp)), targetWhiteLevel));
-    auto B = (BYTE)std::max(targetBlackLevel, std::min(std::abs(std::round(bp)), targetWhiteLevel));
-
-    return RGB(R, G, B);
-}
-
-DWORD YCrCbToRGB_Rec709(BYTE A, BYTE Y, BYTE Cr, BYTE Cb, double sourceBlackLevel, double sourceWhiteLevel, double targetBlackLevel, double targetWhiteLevel)
-{
-    double targetRange = targetWhiteLevel - targetBlackLevel;
-    double chromaChannelRange = (sourceWhiteLevel == 235.0 ? 224.0 /* 4:2:0 */ : sourceBlackLevel == 0.0 ? 255.0 /* 4:4:4 */ : 239.0 /* 4:2:2 */) / 2.0;
-    double chromaScaleFactor = targetRange / chromaChannelRange;
-    double scaledY = (Y - (sourceBlackLevel - targetBlackLevel)) * (targetRange / (sourceWhiteLevel - sourceBlackLevel));
-
-    double rp = scaledY + chromaScaleFactor * (Cr - 128) * (1.0 - Rec709_Kr);
-    double gp = scaledY - chromaScaleFactor * (Cb - 128) * (1.0 - Rec709_Kb) * Rec709_Kb / Rec709_Kg - chromaScaleFactor * (Cr - 128) * (1.0 - Rec709_Kr) * Rec709_Kr / Rec709_Kg;
-    double bp = scaledY + chromaScaleFactor * (Cb - 128) * (1.0 - Rec709_Kb);
-
-    auto R = (BYTE)std::max(targetBlackLevel, std::min(std::abs(std::round(rp)), targetWhiteLevel));
-    auto G = (BYTE)std::max(targetBlackLevel, std::min(std::abs(std::round(gp)), targetWhiteLevel));
-    auto B = (BYTE)std::max(targetBlackLevel, std::min(std::abs(std::round(bp)), targetWhiteLevel));
-
-    return D3DCOLOR_ARGB(A, R, G, B);
-}
-
 const wchar_t* StreamTypeToName(PES_STREAM_TYPE _Type)
 {
     switch (_Type) {
@@ -2518,6 +2435,8 @@ const wchar_t* StreamTypeToName(PES_STREAM_TYPE _Type)
             return L"MPEG-2";
         case VIDEO_STREAM_H264:
             return L"H264";
+        case VIDEO_STREAM_HEVC:
+            return L"HEVC";
         case AUDIO_STREAM_LPCM:
             return L"LPCM";
         case AUDIO_STREAM_AC3:

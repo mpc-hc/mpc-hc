@@ -1647,7 +1647,7 @@ void File_Mpegv::Streams_Finish()
         }
     #endif //defined(MEDIAINFO_AFDBARDATA_YES)
 
-    #if MEDIAINFO_IBI
+    #if MEDIAINFO_IBIUSAGE
         int64u Numerator=0, Denominator=0;
         switch (frame_rate_code)
         {
@@ -1667,7 +1667,7 @@ void File_Mpegv::Streams_Finish()
             Denominator*=frame_rate_extension_d+1;
             Ibi_Stream_Finish(Numerator, Denominator);
         }
-    #endif //MEDIAINFO_IBI
+    #endif //MEDIAINFO_IBIUSAGE
 }
 
 //***************************************************************************
@@ -1694,7 +1694,7 @@ bool File_Mpegv::Synched_Test()
     if (!Header_Parser_QuickSearch())
         return false;
 
-    #if MEDIAINFO_IBI
+    #if MEDIAINFO_IBIUSAGE
         if ((Ibi_SliceParsed && (Buffer[Buffer_Offset+3]==0x00)) || Buffer[Buffer_Offset+3]==0xB3) // picture_start without sequence_header or sequence_header
         {
             if (Buffer_Offset+6>Buffer_Size)
@@ -1705,7 +1705,7 @@ bool File_Mpegv::Synched_Test()
 
             Ibi_SliceParsed=false;
         }
-    #endif //MEDIAINFO_IBI
+    #endif //MEDIAINFO_IBIUSAGE
 
     //We continue
     return true;
@@ -1774,9 +1774,9 @@ void File_Mpegv::Synched_Init()
     tc=0;
     IFrame_IsParsed=false;
     IFrame_Count=0;
-    #if MEDIAINFO_IBI
+    #if MEDIAINFO_IBIUSAGE
         Ibi_SliceParsed=true;
-    #endif //MEDIAINFO_IBI
+    #endif //MEDIAINFO_IBIUSAGE
     #if MEDIAINFO_ADVANCED
         Config_VariableGopDetection_Occurences=MediaInfoLib::Config.VariableGopDetection_Occurences_Get();
         Config_VariableGopDetection_GiveUp=MediaInfoLib::Config.VariableGopDetection_GiveUp_Get();
@@ -1960,9 +1960,9 @@ void File_Mpegv::Read_Buffer_Unsynched()
     PTS_LastIFrame=(int64u)-1;
     IFrame_IsParsed=false;
     picture_coding_types_Current.clear();
-    #if MEDIAINFO_IBI
+    #if MEDIAINFO_IBIUSAGE
         Ibi_SliceParsed=true;
-    #endif //MEDIAINFO_IBI
+    #endif //MEDIAINFO_IBIUSAGE
     #if MEDIAINFO_MACROBLOCKS
         if (Macroblocks_Parse)
         {
@@ -2184,7 +2184,7 @@ void File_Mpegv::Detect_EOF()
                 Streams[0x00].Searching_Payload=GA94_03_IsPresent || Cdp_IsPresent;
                 Streams[0xB2].Searching_Payload=GA94_03_IsPresent || CC___IsPresent || Scte_IsPresent;
                 Streams[0xB3].Searching_Payload=GA94_03_IsPresent || Cdp_IsPresent;
-            #endif defined(MEDIAINFO_DTVCCTRANSPORT_YES) || defined(MEDIAINFO_SCTE20_YES) || (defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_CDP_YES))
+            #endif //defined(MEDIAINFO_DTVCCTRANSPORT_YES) || defined(MEDIAINFO_SCTE20_YES) || (defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_CDP_YES))
             return;
         }
 
@@ -2707,9 +2707,9 @@ void File_Mpegv::slice_start()
             }
         #endif //MEDIAINFO_DEMUX
 
-        #if MEDIAINFO_IBI
+        #if MEDIAINFO_IBIUSAGE
             Ibi_SliceParsed=true;
-        #endif //MEDIAINFO_IBI
+        #endif //MEDIAINFO_IBIUSAGE
         #if MEDIAINFO_MACROBLOCKS
             if (Macroblocks_Parse)
             {

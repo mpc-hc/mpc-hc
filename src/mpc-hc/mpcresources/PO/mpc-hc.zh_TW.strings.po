@@ -329,12 +329,12 @@ msgid "On/Off"
 msgstr "開/關"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
-msgid "From fps"
-msgstr "由 fps"
+msgid "From FPS"
+msgstr "由 FPS"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
-msgid "To fps"
-msgstr "至 fps"
+msgid "To FPS"
+msgstr "至 FPS"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
@@ -625,7 +625,7 @@ msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer.
 msgstr "和 VMR-9 (無轉換) 相同，但使用了真正的 two-pass bicubic 縮放器。"
 
 msgctxt "IDC_DSNULL_COMP"
-msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the cpu from working unnecessarily."
+msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the CPU from working unnecessarily."
 msgstr "連到任何視訊媒體類型，並且不傳送傳進來的取樣資料。當你不需要任何視訊顯示而又想節省不必要的 CPU 工作時可以用。"
 
 msgctxt "IDC_DSNULL_UNCOMP"
@@ -892,7 +892,7 @@ msgctxt "ID_VOLUME_MUTE"
 msgid "Mute"
 msgstr "靜音"
 
-msgctxt "ID_VOLUME_MUTE_ON"
+msgctxt "ID_VOLUME_MUTE_OFF"
 msgid "Unmute"
 msgstr "解除靜音"
 
@@ -1376,6 +1376,26 @@ msgctxt "IDS_ASPECT_RATIO_FMT"
 msgid "AR %d:%d"
 msgstr ""
 
+msgctxt "IDS_PPAGEADVANCED_LOGGER"
+msgid "Enables logging to file (requires restart)"
+msgstr ""
+
+msgctxt "IDS_TIMER_REMAINING_TIME"
+msgid "Remaining time"
+msgstr ""
+
+msgctxt "IDS_TIMER_HIGH_PRECISION"
+msgid "High precision"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_REWIND"
+msgid "After Playback: Rewind current file"
+msgstr ""
+
+msgctxt "IDS_AFTERPLAYBACK_CLOSE"
+msgid "After Playback: Close"
+msgstr ""
+
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
 msgstr "開啟裝置"
@@ -1425,11 +1445,11 @@ msgid "Stop"
 msgstr "停止"
 
 msgctxt "IDS_AG_FRAMESTEP"
-msgid "Framestep"
+msgid "Frame-step"
 msgstr "單格步進"
 
 msgctxt "IDS_MPLAYERC_16"
-msgid "Framestep back"
+msgid "Frame-step back"
 msgstr "單格退回"
 
 msgctxt "IDS_AG_GO_TO"
@@ -1529,8 +1549,8 @@ msgid "Thumbnails saved successfully"
 msgstr "縮圖已成功儲存"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
-msgid "&Video Stream"
-msgstr "視訊串流(&T)"
+msgid "&Video Track"
+msgstr ""
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
 msgid "Video Ang&le"
@@ -1652,13 +1672,45 @@ msgctxt "IDS_MPLAYERC_103"
 msgid "Shift Subtitle Right"
 msgstr "字幕向右移"
 
-msgctxt "IDS_AG_DISPLAY_STATS"
-msgid "Display Stats"
-msgstr "顯示統計"
-
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"
 msgstr "跳至起始點"
+
+msgctxt "IDS_OSD_SHOW_FILENAME"
+msgid "OSD: Show File Name"
+msgstr ""
+
+msgctxt "IDS_OSD_DISPLAY_RENDERER_STATS"
+msgid "OSD: Display Renderer Statistics"
+msgstr ""
+
+msgctxt "IDS_OSD_RESET_RENDERER_STATS"
+msgid "OSD: Reset Renderer Statistics"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC"
+msgid "Subtitles::Misc"
+msgstr "字幕::其它"
+
+msgctxt "IDS_VIEW_BORDERLESS"
+msgid "Hide &borders"
+msgstr "隱藏邊框"
+
+msgctxt "IDS_VIEW_FRAMEONLY"
+msgid "Fra&me Only"
+msgstr "僅影格"
+
+msgctxt "IDS_VIEW_CAPTIONMENU"
+msgid "Sho&w Caption&&Menu"
+msgstr "顯示標題選單"
+
+msgctxt "IDS_VIEW_HIDEMENU"
+msgid "Hide &Menu"
+msgstr "隱藏選單"
+
+msgctxt "IDD_PPAGEADVANCED"
+msgid "Advanced"
+msgstr ""
 
 msgctxt "IDS_AG_VIEW_MINIMAL"
 msgid "View Minimal"
@@ -1893,12 +1945,12 @@ msgid "Boss key"
 msgstr "老闆鍵"
 
 msgctxt "IDS_MPLAYERC_77"
-msgid "Player Menu (short)"
-msgstr "播放程式選單 (短)"
+msgid "Player Menu"
+msgstr ""
 
 msgctxt "IDS_MPLAYERC_78"
-msgid "Player Menu (long)"
-msgstr "播放程式選單 (長)"
+msgid "Player Menu (full)"
+msgstr ""
 
 msgctxt "IDS_AG_FILTERS_MENU"
 msgid "Filters Menu"
@@ -1976,9 +2028,9 @@ msgctxt "IDS_MPLAYERC_97"
 msgid "On/Off Subtitle (DVD)"
 msgstr "開啟/關閉字幕 (DVD)"
 
-msgctxt "IDS_MPLAYERC_98"
-msgid "Remaining Time"
-msgstr "剩餘時間"
+msgctxt "IDS_OSD_DISPLAY_CURRENT_TIME"
+msgid "OSD: Display Current Time"
+msgstr ""
 
 msgctxt "IDS_PPAGEWEBSERVER_0"
 msgid "Select the directory"
@@ -2289,8 +2341,8 @@ msgid "Out of memory"
 msgstr "記憶體不足"
 
 msgctxt "IDS_MAINFRM_77"
-msgid "Error: Flash player for IE is required"
-msgstr "錯誤: 需要 IE 用的 Flash"
+msgid "Error: Adobe Flash Player for Internet Explorer is required"
+msgstr "錯誤: 需要 Internet Explorer 用的 Flash"
 
 msgctxt "IDS_MAINFRM_78"
 msgid "QuickTime not yet supported for X64 (apple library not available)"
@@ -2361,7 +2413,7 @@ msgid "Toggle Caption&Menu"
 msgstr "切換標題選單"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seeker"
+msgid "Toggle Seek Bar"
 msgstr "切換搜尋列"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
@@ -2517,8 +2569,8 @@ msgid "Volume boost Max"
 msgstr "最大音量增幅"
 
 msgctxt "IDS_USAGE"
-msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nominidump\tDisable minidump creation\n/slave \"hWnd\"\tUse MPC-HC as slave\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "用法: mpc-hc.exe \"路徑名稱\" [選項]\n\n\"路徑名稱\"\t要載入的主要檔案或資料夾。(可使用萬用字元, \"-\" 表示標準輸入)\n/dub \"音源名稱\"\t載入額外的音訊檔案\n/dubdelay \"檔案\"\t以平移 XXms 的時間載入額外的音訊檔案。\n\t\t(如果檔案含有 \"...DELAY XXms...\")\n/d3dfs\t\t在 D3D 全螢幕模式啟動繪製\n/sub \"字幕名稱\"\t載入額外的字幕檔\n/filter \"篩選器名\"\t從動態連結函式庫載入 DirectShow 篩選器。\n\t\t(允許萬用字元)\n/dvd\t\t執行 DVD 模式, \"路徑名稱\" 代表該 DVD 資料夾\n\t\t(選用)\n/dvdpos T#C\t從第 T 標題, 第 C 章節開始播放\n/dvdpos T#hh:mm\t從第 T 標題, 時間 hh:mm:ss 開始播放\n/cd\t\t載入音樂 CD 或是 (S)VCD 的所有音軌, \"路徑名稱\"\n\t\t表示光碟機路徑 (選用)\n/device\t\t開啟預設視訊設備\n/open\t\t開啟檔案, 但不自動播放\n/play\t\t播放程式一啟動就播放檔案\n/close\t\t播放完畢後就關閉播放程式 (搭配 /play\n\t\t一起用才有效)\n/shutdown\t播放完之後關閉作業系統\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\t以全螢幕模式啟動\n/minimized\t以最小化模式啟動\n/new\t\t使用新的播放程式實體\n/add\t\t新增 \"路徑名稱\" 到播放清單, 可與 /open 和 /play\n\t\t合併使用\n/regvid\t\t建立視訊格式檔案關聯\n/regaud\t\t建立音訊格式檔案關聯\n/regpl\t\t建立播放清單檔案關聯\n/regall\t\t建立所有支援格式的檔案關聯\n/unregall\t\t移除所有檔案關聯\n/start ms\t\t從第 ms 毫秒開始播放\n/startpos hh:mm:ss\t從時間 hh:mm:ss 開始播放\n/fixedsize w,h\t設定固定的視窗大小\n/monitor N\t在第 N 顯示器啟動, N 從 1 開始\n/audiorenderer N\t使用第 N 音訊譜製器啟動, N 從 1 開始\n\t\t(請見 \"輸出\" 設定)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nominidump\tDisable minidump creation\n/slave \"hWnd\"\tUse MPC-HC as slave\n/reset\t\t回復預設設定\n/help /h /?\t顯示命令列選項的說明\n"
+msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/randomize\tRandomize the playlist\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tUse MPC-HC as slave\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
+msgstr "用法: mpc-hc.exe \"路徑名稱\" [選項]\n\n\"路徑名稱\"\t要載入的主要檔案或資料夾。(可使用萬用字元, \"-\" 表示標準輸入)\n/dub \"音源名稱\"\t載入額外的音訊檔案\n/dubdelay \"檔案\"\t以平移 XXms 的時間載入額外的音訊檔案。\n\t\t(如果檔案含有 \"...DELAY XXms...\")\n/d3dfs\t\t在 D3D 全螢幕模式啟動繪製\n/sub \"字幕名稱\"\t載入額外的字幕檔\n/filter \"篩選器名\"\t從動態連結函式庫載入 DirectShow 篩選器。\n\t\t(允許萬用字元)\n/dvd\t\t執行 DVD 模式, \"路徑名稱\" 代表該 DVD 資料夾\n\t\t(選用)\n/dvdpos T#C\t從第 T 標題, 第 C 章節開始播放\n/dvdpos T#hh:mm\t從第 T 標題, 時間 hh:mm:ss 開始播放\n/cd\t\t載入音樂 CD 或是 (S)VCD 的所有音軌, \"路徑名稱\"\n\t\t表示光碟機路徑 (選用)\n/device\t\t開啟預設視訊設備\n/open\t\t開啟檔案, 但不自動播放\n/play\t\t播放程式一啟動就播放檔案\n/close\t\t播放完畢後就關閉播放程式 (搭配 /play\n\t\t一起用才有效)\n/shutdown\t播放完之後關閉作業系統\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\t以全螢幕模式啟動\n/minimized\t以最小化模式啟動\n/new\t\t使用新的播放程式實體\n/add\t\t新增 \"路徑名稱\" 到播放清單, 可與 /open 和 /play\n\t\t合併使用\n/randomize\tRandomize the playlist\n/regvid\t\t建立視訊格式檔案關聯\n/regaud\t\t建立音訊格式檔案關聯\n/regpl\t\t建立播放清單檔案關聯\n/regall\t\t建立所有支援格式的檔案關聯\n/unregall\t\t移除所有檔案關聯\n/start ms\t\t從第 ms 毫秒開始播放\n/startpos hh:mm:ss\t從時間 hh:mm:ss 開始播放\n/fixedsize w,h\t設定固定的視窗大小\n/monitor N\t在第 N 顯示器啟動, N 從 1 開始\n/audiorenderer N\t使用第 N 音訊譜製器啟動, N 從 1 開始\n\t\t(請見 \"輸出\" 設定)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tUse MPC-HC as slave\n/reset\t\t回復預設設定\n/help /h /?\t顯示命令列選項的說明\n"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -2700,40 +2752,12 @@ msgctxt "IDS_TOP_BACK_RIGHT"
 msgid "Top Back Right"
 msgstr "右上後側"
 
-msgctxt "IDS_AG_RESET_STATS"
-msgid "Reset Display Stats"
-msgstr "重設顯示統計"
-
-msgctxt "IDD_PPAGESUBMISC"
-msgid "Subtitles::Misc"
-msgstr "字幕::其它"
-
-msgctxt "IDS_VIEW_BORDERLESS"
-msgid "Hide &borders"
-msgstr "隱藏邊框"
-
-msgctxt "IDS_VIEW_FRAMEONLY"
-msgid "Frame Only"
-msgstr "僅影格"
-
-msgctxt "IDS_VIEW_CAPTIONMENU"
-msgid "Sho&w Caption&&Menu"
-msgstr "顯示標題選單"
-
-msgctxt "IDS_VIEW_HIDEMENU"
-msgid "Hide &Menu"
-msgstr "隱藏選單"
-
-msgctxt "IDD_PPAGEADVANCED"
-msgid "Advanced"
-msgstr ""
-
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seekbar"
+msgid "Above seek bar"
 msgstr "搜尋列之上"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seekbar"
+msgid "Below seek bar"
 msgstr "搜尋列之下"
 
 msgctxt "IDS_VIDEO_STREAM"
@@ -2901,8 +2925,8 @@ msgid "Other Audio"
 msgstr "其他音訊"
 
 msgctxt "IDS_MFMT_AC3"
-msgid "AC-3/DTS"
-msgstr "AC-3/DTS"
+msgid "AC-3"
+msgstr ""
 
 msgctxt "IDS_MFMT_AIFF"
 msgid "AIFF"
@@ -2911,6 +2935,26 @@ msgstr "AIFF"
 msgctxt "IDS_MFMT_ALAC"
 msgid "Apple Lossless"
 msgstr "Apple Lossless"
+
+msgctxt "IDS_MFMT_WAV"
+msgid "WAV"
+msgstr "WAV"
+
+msgctxt "IDS_MFMT_WMA"
+msgid "Windows Media Audio"
+msgstr "Windows Media Audio"
+
+msgctxt "IDS_MFMT_WV"
+msgid "WavPack"
+msgstr "WavPack"
+
+msgctxt "IDS_MFMT_OPUS"
+msgid "Opus Audio Codec"
+msgstr "Opus 音訊"
+
+msgctxt "IDS_MFMT_DTS"
+msgid "DTS/DTS-HD"
+msgstr ""
 
 msgctxt "IDS_MFMT_AMR"
 msgid "AMR"
@@ -2975,22 +3019,6 @@ msgstr "TAK"
 msgctxt "IDS_MFMT_TTA"
 msgid "True Audio"
 msgstr "True Audio"
-
-msgctxt "IDS_MFMT_WAV"
-msgid "WAV"
-msgstr "WAV"
-
-msgctxt "IDS_MFMT_WMA"
-msgid "Windows Media Audio"
-msgstr "Windows Media Audio"
-
-msgctxt "IDS_MFMT_WV"
-msgid "WavPack"
-msgstr "WavPack"
-
-msgctxt "IDS_MFMT_OPUS"
-msgid "Opus Audio Codec"
-msgstr "Opus 音訊"
 
 msgctxt "IDS_MFMT_PLS"
 msgid "Playlist"
@@ -3377,7 +3405,7 @@ msgid "Error parsing the entered frame rate!"
 msgstr "解析輸入的影格播放速率時發生錯誤!"
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
-msgid "Cannot frame step, try a different video renderer."
+msgid "Cannot frame-step, try a different video renderer."
 msgstr "不能步進影格, 請嘗試其他的視訊繪製器。"
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"
@@ -3468,7 +3496,7 @@ msgctxt "IDS_WEBSERVER_ERROR_TEST"
 msgid "You need to apply the new settings before testing them."
 msgstr "測試之前您需要套用新的設定。"
 
-msgctxt "IDS_AFTERPLAYBACK_CLOSE"
+msgctxt "IDS_AFTERPLAYBACK_EXIT"
 msgid "After Playback: Exit"
 msgstr "播放完後: 離開"
 

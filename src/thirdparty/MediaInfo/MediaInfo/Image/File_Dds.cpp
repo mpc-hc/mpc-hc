@@ -78,9 +78,6 @@ void File_Dds::Streams_Accept()
     }
     else
         Stream_Prepare(StreamKind_Last);
-
-    //Configuration
-    Frame_Count_NotParsedIncluded=0;
 }
 
 //***************************************************************************

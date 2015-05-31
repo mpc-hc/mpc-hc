@@ -233,6 +233,44 @@ void File__Analyze::Get_B16(int128u &Info, const char* Name)
 }
 
 //---------------------------------------------------------------------------
+// Big Endian - float 16 bits
+// TODO: remove it when Linux version of ZenLib is updated
+float32 BigEndian2float16corrected(const char* Liste)
+{
+    //sign          1 bit
+    //exponent      5 bit
+    //significand  10 bit
+
+    //Retrieving data
+    int16u Integer=BigEndian2int16u(Liste);
+
+    //Retrieving elements
+    bool   Sign    =(Integer&0x8000)?true:false;
+    int32u Exponent=(Integer>>10)&0xFF;
+    int32u Mantissa= Integer&0x03FF;
+
+    //Some computing
+    if (Exponent==0 || Exponent==0xFF)
+        return 0; //These are denormalised numbers, NANs, and other horrible things
+    Exponent-=0x0F; //Bias
+    float64 Answer=(((float64)Mantissa)/8388608+1.0)*std::pow((float64)2, (int)Exponent); //(1+Mantissa) * 2^Exponent
+    if (Sign)
+        Answer=-Answer;
+
+    return (float32)Answer;
+}
+inline float32 BigEndian2float16corrected  (const int8u* List) {return BigEndian2float16corrected   ((const char*)List);}
+
+//---------------------------------------------------------------------------
+void File__Analyze::Get_BF2(float32 &Info, const char* Name)
+{
+    INTEGRITY_SIZE_ATLEAST_INT(2);
+    Info=BigEndian2float16corrected(Buffer+Buffer_Offset+(size_t)Element_Offset);
+    if (Trace_Activated) Param(Name, Info);
+    Element_Offset+=2;
+}
+
+//---------------------------------------------------------------------------
 void File__Analyze::Get_BF4(float32 &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_INT(4);
@@ -1471,8 +1509,8 @@ void File__Analyze::Get_VL_Prepare(vlc_fast &Vlc)
         if (Vlc.Vlc[Pos].bit_increment==255)
             break;
         Increment+=Vlc.Vlc[Pos].bit_increment;
-        size_t Value=Vlc.Vlc[Pos].value<<(Vlc.Size-Increment);
-        size_t ToFill_Size=1<<(Vlc.Size-Increment);
+        size_t Value=((size_t)Vlc.Vlc[Pos].value)<<(Vlc.Size-Increment);
+        size_t ToFill_Size=((size_t)1)<<(Vlc.Size-Increment);
         for (size_t ToFill_Pos=0; ToFill_Pos<ToFill_Size; ToFill_Pos++)
         {
             Vlc.Array[Value+ToFill_Pos]=Pos;

@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -23,6 +23,8 @@
 #include "RLECodedSubtitle.h"
 #include "CompositionObject.h"
 #include <thread>
+#include <list>
+#include <memory>
 
 class CGolombBuffer;
 
@@ -80,17 +82,14 @@ private:
     };
 
     struct HDMV_CLUT {
-        BYTE id;
-        BYTE version_number;
-        BYTE size;
+        BYTE id = 0;
+        BYTE version_number = 0;
+        BYTE size = 0;
 
-        HDMV_PALETTE palette[256];
+        std::array<HDMV_PALETTE, 256> palette;
 
         HDMV_CLUT()
-            : id(0)
-            , version_number(0)
-            , size(0) {
-            ZeroMemory(palette, sizeof(palette));
+            : palette() {
         }
     };
 
@@ -106,7 +105,7 @@ private:
 
         int objectCount;
 
-        CAutoPtrList<CompositionObject> objects;
+        std::list<std::unique_ptr<CompositionObject>> objects;
     };
 
     HDMV_SEGMENT_TYPE m_nCurSegment;
@@ -118,8 +117,8 @@ private:
     CAutoPtr<HDMV_PRESENTATION_SEGMENT>     m_pCurrentPresentationSegment;
     CAutoPtrList<HDMV_PRESENTATION_SEGMENT> m_pPresentationSegments;
 
-    HDMV_CLUT m_CLUTs[256];
-    CompositionObject m_compositionObjects[64];
+    std::array<HDMV_CLUT, 256> m_CLUTs;
+    std::array<CompositionObject, 64> m_compositionObjects;
 
     void AllocSegment(size_t nSize);
     int  ParsePresentationSegment(REFERENCE_TIME rt, CGolombBuffer* pGBuffer);
@@ -130,7 +129,7 @@ private:
     void ParseObject(CGolombBuffer* pGBuffer, size_t nUnitSize);
     void ParseVideoDescriptor(CGolombBuffer* pGBuffer, VIDEO_DESCRIPTOR* pVideoDescriptor);
     void ParseCompositionDescriptor(CGolombBuffer* pGBuffer, COMPOSITION_DESCRIPTOR* pCompositionDescriptor);
-    void ParseCompositionObject(CGolombBuffer* pGBuffer, const CAutoPtr<CompositionObject>& pCompositionObject);
+    bool ParseCompositionObject(CGolombBuffer* pGBuffer, const std::unique_ptr<CompositionObject>& pCompositionObject);
 
     POSITION FindPresentationSegment(REFERENCE_TIME rt) const;
 

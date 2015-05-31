@@ -1,4 +1,4 @@
-# (C) 2013 see Authors.txt
+# (C) 2013, 2015 see Authors.txt
 #
 # This file is part of MPC-HC.
 #
@@ -20,7 +20,8 @@ import glob
 
 from TranslationDataIS import *
 
-if __name__ == '__main__':
+
+def UpdateIS(normalizePOFile=True):
     translationsConfigAndData = []
     for cfgPath in glob.glob(r'cfg\*.cfg'):
         config = ConfigParser.RawConfigParser({'installerIsTranslated': 'True'})
@@ -30,9 +31,13 @@ if __name__ == '__main__':
             poPath = r'PO\mpc-hc.installer.' + config.get('Info', 'langShortName')
             translationData = TranslationDataIS()
             translationData.loadFromPO(poPath, 'po', (False, False, True))
-            # Write back the PO file to ensure it's properly normalized
-            translationData.writePO(poPath, 'po', (False, False, True))
+            if normalizePOFile:
+                # Write back the PO file to ensure it's properly normalized
+                translationData.writePO(poPath, 'po', (False, False, True))
 
             translationsConfigAndData.append((config, translationData))
 
     TranslationDataIS.translateIS(translationsConfigAndData, r'..\..\..\distrib\custom_messages.iss', r'..\..\..\distrib\custom_messages_translated.iss')
+
+if __name__ == '__main__':
+    UpdateIS()

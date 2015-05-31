@@ -1,13 +1,13 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Máté <lang.mate@gmail.com>, 2014
+# Máté <lang.mate@gmail.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
-"PO-Revision-Date: 2014-10-31 14:21+0000\n"
+"POT-Creation-Date: 2015-05-22 20:53:41+0000\n"
+"PO-Revision-Date: 2015-05-27 15:16+0000\n"
 "Last-Translator: Máté <lang.mate@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/mpc-hc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -196,13 +196,17 @@ msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
 msgstr "&Képszétválasztás teszt"
 
-msgctxt "ID_VIEW_DISPLAYSTATS"
-msgid "&Display Stats"
-msgstr "&Statisztika megjelenítése"
+msgctxt "ID_VIEW_DISPLAY_RENDERER_STATS"
+msgid "&Display Statistics"
+msgstr "Statisztika megjelenítése"
 
-msgctxt "ID_VIEW_REMAINING_TIME"
-msgid "&Remaining Time"
-msgstr "Hátralévő játékidő"
+msgctxt "ID_VIEW_OSD_DISPLAY_TIME"
+msgid "Display Current T&ime"
+msgstr "Eltelt idő megjelenítése"
+
+msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
+msgid "Show &File Name"
+msgstr "Fájlnév megjelenítése"
 
 msgctxt "POPUP"
 msgid "&Output Range"
@@ -553,16 +557,16 @@ msgid "S&haders"
 msgstr "&Árnyékolók"
 
 msgctxt "ID_AUDIOS"
-msgid "&Audio"
-msgstr "&Hangsáv"
+msgid "&Audio Track"
+msgstr "Hangsáv"
 
 msgctxt "ID_SUBTITLES"
-msgid "Su&btitles"
-msgstr "&Feliratok"
+msgid "Su&btitle Track"
+msgstr "Felirat sáv"
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Stream"
-msgstr "Video S&tream"
+msgid "&Video Track"
+msgstr "Videó sáv"
 
 msgctxt "POPUP"
 msgid "&Volume"
@@ -584,7 +588,19 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "Lejátszás után"
 
-msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgctxt "ID_AFTERPLAYBACK_DONOTHING"
+msgid "Do no&thing"
+msgstr "Ne csináljon semmit"
+
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "Játssza le a mappában következő fájlt"
+
+msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
+msgid "Turn off the &monitor"
+msgstr "Kapcsolja ki a monitort"
+
+msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
 msgstr "Bezárás"
 
@@ -607,14 +623,6 @@ msgstr "Kijelentkezés"
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "Zárolás"
-
-msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
-msgid "Turn off the &monitor"
-msgstr "Kapcsolja ki a monitort"
-
-msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
-msgid "Play &next file in the folder"
-msgstr "Játssza le a mappában következő fájlt"
 
 msgctxt "POPUP"
 msgid "&Navigate"

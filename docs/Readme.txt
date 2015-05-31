@@ -5,8 +5,8 @@ and contains many additional features and bug fixes.
 We are in dire need of new developers of any kind. If you can code a little,
 or you can create logos for the player and images for the file associations,
 or you can create/maintain the main website, please join our IRC channel
-and talk to us. Find some easy ticket on our trac page, fix the problem,
-post the patch on trac or come on IRC and we'll review it for you.
+and talk to us. Find some easy ticket on our Trac, fix the problem,
+post the patch on Trac or come on IRC and we'll review it for you.
 Any help is always appreciated.
 
 We care about keeping an open project open and free for contributions
@@ -24,7 +24,7 @@ Main Features:
 * Multi-Monitor support
 * Various pixel shaders
 * Color management
-* 37 translations available
+* 38 translations available
 
 
 System Requirements:
@@ -35,11 +35,11 @@ System Requirements:
 
 Links:
 ------
-Website:            http://mpc-hc.org
+Website:            https://mpc-hc.org/
 Source code:        https://github.com/mpc-hc
-Support Trac:       https://trac.mpc-hc.org
+Support Trac:       https://trac.mpc-hc.org/
 IRC Channel:        #mpc-hc / #mpc-hc-dev at Freenode (http://webchat.freenode.net/)
-Donations:          http://mpc-hc.org/donate/
+Donations:          https://mpc-hc.org/donate/
 
 
 For the people involved in the development, see Authors.txt.
@@ -53,21 +53,21 @@ MPC-HC makes use of the following third-party code:
 Project             License                     Website
 --------------------------------------------------------------------
 CSizingControlBar   -                           http://www.datamekanix.com/sizecbar/
-LAV Filters         GPLv2+                      http://code.google.com/p/lavfilters/
+LAV Filters         GPLv2+                      https://code.google.com/p/lavfilters/
 libdivide           zlib License                http://libdivide.com/
 Little CMS          MIT License                 http://www.littlecms.com/
 Logitech SDK        -                           -
-MediaInfoLib        Simplified BSD License      http://mediaarea.net/MediaInfo
+MediaInfoLib        Simplified BSD License      https://mediaarea.net/MediaInfo
 Mhook               MIT License                 https://github.com/martona/mhook
 MultiMon            CPOL                        http://www.codeproject.com/Articles/3690/
 QuickTime SDK       -                           http://developer.apple.com/quicktime/
 RARFileSource       GPLv2+                      http://www.v12pwr.com/RARFileSource/
 RealMedia SDK       -                           -
-ResizableLib        Artistic License            http://sourceforge.net/projects/resizablelib/
+ResizableLib        Artistic License            https://sourceforge.net/projects/resizablelib/
 Silk Icons          CC Attribution 2.5          http://www.famfamfam.com/lab/icons/silk/
 SoundTouch          LGPLv2.1                    http://www.surina.net/soundtouch/
 TreePropSheet       -                           http://www.codeproject.com/Articles/3709/
 UnRAR               freeware                    http://www.rarlab.com/rar_add.htm
 VirtualDub          GPLv2+                      http://www.virtualdub.org/
-ZenLib              zlib License                http://sourceforge.net/projects/zenlib/
+ZenLib              zlib License                https://sourceforge.net/projects/zenlib/
 zlib                zlib License                http://zlib.net/

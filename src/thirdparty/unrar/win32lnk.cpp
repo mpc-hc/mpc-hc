@@ -40,23 +40,6 @@ bool CreateReparsePoint(CommandData *Cmd,const wchar *Name,FileHeader *hd)
     PrivSet=true;
   }
 
-  CreatePath(Name,true);
-
-  // 'DirTarget' check is important for Unix symlinks to directories.
-  // Unix symlinks do not have their own 'directory' attribute.
-  if (hd->Dir || hd->DirTarget)
-  {
-    if (!CreateDirectory(Name,NULL))
-      return false;
-  }
-  else
-  {
-    HANDLE hFile=CreateFile(Name,GENERIC_WRITE,0,NULL,CREATE_NEW,FILE_ATTRIBUTE_NORMAL,NULL);
-    if (hFile == INVALID_HANDLE_VALUE)
-      return false;
-    CloseHandle(hFile);
-  }
-
   const DWORD BufSize=sizeof(REPARSE_DATA_BUFFER)+2*NM+1024;
   Array<byte> Buf(BufSize);
   REPARSE_DATA_BUFFER *rdb=(REPARSE_DATA_BUFFER *)&Buf[0];
@@ -79,6 +62,26 @@ bool CreateReparsePoint(CommandData *Cmd,const wchar *Name,FileHeader *hd)
   size_t PrintLength=wcslen(PrintName);
 
   bool AbsPath=WinPrefix;
+  if (!Cmd->AbsoluteLinks && (AbsPath || !IsRelativeSymlinkSafe(hd->FileName,hd->RedirName)))
+    return false;
+
+  CreatePath(Name,true);
+
+  // 'DirTarget' check is important for Unix symlinks to directories.
+  // Unix symlinks do not have their own 'directory' attribute.
+  if (hd->Dir || hd->DirTarget)
+  {
+    if (!CreateDirectory(Name,NULL))
+      return false;
+  }
+  else
+  {
+    HANDLE hFile=CreateFile(Name,GENERIC_WRITE,0,NULL,CREATE_NEW,FILE_ATTRIBUTE_NORMAL,NULL);
+    if (hFile == INVALID_HANDLE_VALUE)
+      return false;
+    CloseHandle(hFile);
+  }
+
 
   if (hd->RedirType==FSREDIR_JUNCTION)
   {

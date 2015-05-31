@@ -1,21 +1,21 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# sayanvd <sayanvd@yandex.ru>, 2014
+# sayanvd <sayanvd@yandex.ru>, 2014-2015
 # SmilyCarrot <twisted-transistor@yandex.ru>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
-"PO-Revision-Date: 2014-11-21 14:11+0000\n"
-"Last-Translator: SmilyCarrot <twisted-transistor@yandex.ru>\n"
+"POT-Creation-Date: 2015-05-22 20:53:41+0000\n"
+"PO-Revision-Date: 2015-05-30 20:50+0000\n"
+"Last-Translator: sayanvd <sayanvd@yandex.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/mpc-hc/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ru\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
 msgctxt "POPUP"
 msgid "&File"
@@ -197,13 +197,17 @@ msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
 msgstr "&Тест дрожания"
 
-msgctxt "ID_VIEW_DISPLAYSTATS"
-msgid "&Display Stats"
+msgctxt "ID_VIEW_DISPLAY_RENDERER_STATS"
+msgid "&Display Statistics"
 msgstr "&Показать статистику"
 
-msgctxt "ID_VIEW_REMAINING_TIME"
-msgid "&Remaining Time"
-msgstr "Оставшееся время"
+msgctxt "ID_VIEW_OSD_DISPLAY_TIME"
+msgid "Display Current T&ime"
+msgstr "Отображение текущего времени"
+
+msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
+msgid "Show &File Name"
+msgstr "Показать имя файла"
 
 msgctxt "POPUP"
 msgid "&Output Range"
@@ -554,16 +558,16 @@ msgid "S&haders"
 msgstr "&Шейдеры"
 
 msgctxt "ID_AUDIOS"
-msgid "&Audio"
-msgstr "&Аудио"
+msgid "&Audio Track"
+msgstr "Дорожка аудио"
 
 msgctxt "ID_SUBTITLES"
-msgid "Su&btitles"
-msgstr "С&убтитры"
+msgid "Su&btitle Track"
+msgstr "Дорожка с&убтитров"
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Stream"
-msgstr "Поток &видео"
+msgid "&Video Track"
+msgstr "Дорожка &видео"
 
 msgctxt "POPUP"
 msgid "&Volume"
@@ -585,7 +589,19 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "По окончании воспроизведения"
 
-msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgctxt "ID_AFTERPLAYBACK_DONOTHING"
+msgid "Do no&thing"
+msgstr "Ничего не делать"
+
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "Воспроизвести &следующий файл в папке"
+
+msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
+msgid "Turn off the &monitor"
+msgstr "Выключить &монитор"
+
+msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
 msgstr "Закрыть программу"
 
@@ -608,14 +624,6 @@ msgstr "Завершить сеанс"
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "Блокировать компьютер"
-
-msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
-msgid "Turn off the &monitor"
-msgstr "Выключить &монитор"
-
-msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
-msgid "Play &next file in the folder"
-msgstr "Воспроизвести &следующий файл в папке"
 
 msgctxt "POPUP"
 msgid "&Navigate"

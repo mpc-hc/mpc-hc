@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -275,7 +275,7 @@ STDMETHODIMP CSubtitleInputPin::Receive(IMediaSample* pSample)
 
         {
             std::unique_lock<std::mutex> lock(m_mutexQueue);
-            m_sampleQueue.AddTail(CAutoPtr<SubtitleSample>(DEBUG_NEW SubtitleSample(tStart, tStop, pData, size_t(len))));
+            m_sampleQueue.emplace_back(DEBUG_NEW SubtitleSample(tStart, tStop, pData, size_t(len)));
             lock.unlock();
             m_condQueueReady.notify_one();
         }
@@ -290,7 +290,7 @@ STDMETHODIMP CSubtitleInputPin::EndOfStream(void)
 
     if (SUCCEEDED(hr)) {
         std::unique_lock<std::mutex> lock(m_mutexQueue);
-        m_sampleQueue.AddTail(CAutoPtr<SubtitleSample>(nullptr)); // nullptr means end of stream
+        m_sampleQueue.emplace_back(nullptr); // nullptr means end of stream
         lock.unlock();
         m_condQueueReady.notify_one();
     }
@@ -318,7 +318,7 @@ void  CSubtitleInputPin::DecodeSamples()
         };
 
         auto isQueueReady = [&]() {
-            return !m_sampleQueue.IsEmpty() || needStopProcessing();
+            return !m_sampleQueue.empty() || needStopProcessing();
         };
 
         m_condQueueReady.wait(lock, isQueueReady);
@@ -330,8 +330,8 @@ void  CSubtitleInputPin::DecodeSamples()
             CAutoLock cAutoLock(m_pSubLock);
             lock.lock(); // Reacquire the lock
 
-            while (!m_sampleQueue.IsEmpty() && !needStopProcessing()) {
-                auto pSample = m_sampleQueue.RemoveHead();
+            while (!m_sampleQueue.empty() && !needStopProcessing()) {
+                const auto& pSample = m_sampleQueue.front();
 
                 if (pSample) {
                     REFERENCE_TIME rtSampleInvalidate = DecodeSample(pSample);
@@ -344,6 +344,8 @@ void  CSubtitleInputPin::DecodeSamples()
                         pRLECodedSubtitle->EndOfStream();
                     }
                 }
+
+                m_sampleQueue.pop_front();
             }
         }
 
@@ -355,7 +357,7 @@ void  CSubtitleInputPin::DecodeSamples()
     }
 }
 
-REFERENCE_TIME CSubtitleInputPin::DecodeSample(const CAutoPtr<SubtitleSample>& pSample)
+REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSample>& pSample)
 {
     bool bInvalidate = false;
 
@@ -476,7 +478,7 @@ void CSubtitleInputPin::InvalidateSamples()
     m_bStopDecoding = true;
     {
         std::lock_guard<std::mutex> lock(m_mutexQueue);
-        m_sampleQueue.RemoveAll();
+        m_sampleQueue.clear();
         m_bStopDecoding = false;
     }
 }

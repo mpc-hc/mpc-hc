@@ -29,7 +29,7 @@ wchar* ConvertPath(const wchar *SrcPath,wchar *DestPath)
   while (*DestPtr!=0)
   {
     const wchar *s=DestPtr;
-    if (s[0] && IsDriveDiv(s[1]))
+    if (s[0]!=0 && IsDriveDiv(s[1]))
       s+=2;
     if (s[0]=='\\' && s[1]=='\\')
     {
@@ -538,6 +538,12 @@ bool IsFullPath(const wchar *Path)
 #else
   return IsPathDiv(Path[0]);
 #endif
+}
+
+
+bool IsFullRootPath(const wchar *Path)
+{
+  return IsFullPath(Path) || IsPathDiv(Path[0]);
 }
 
 

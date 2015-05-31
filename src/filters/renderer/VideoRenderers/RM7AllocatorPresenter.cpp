@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -87,9 +87,8 @@ HRESULT CRM7AllocatorPresenter::AllocSurfaces()
     ddsd.ddpfPixelFormat.dwYUVBitCount = 16;
     ddsd.ddpfPixelFormat.dwFourCC = '2YUY';
 
-    m_pDD->CreateSurface(&ddsd, &m_pVideoSurfaceYUY2, nullptr);
-
-    if (FAILED(m_pVideoSurfaceOff->Blt(nullptr, m_pVideoSurfaceYUY2, nullptr, DDBLT_WAIT, nullptr))) {
+    if (FAILED(m_pDD->CreateSurface(&ddsd, &m_pVideoSurfaceYUY2, nullptr)) ||
+            FAILED(m_pVideoSurfaceOff->Blt(nullptr, m_pVideoSurfaceYUY2, nullptr, DDBLT_WAIT, nullptr))) {
         m_pVideoSurfaceYUY2 = nullptr;
     }
 

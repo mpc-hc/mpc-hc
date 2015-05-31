@@ -61,7 +61,7 @@ const char* Wm_CodecList_Kind(int32u Kind)
     {
         case 0x01 : return "Video";
         case 0x02 : return "Audio";
-        default   : return "Unknown";
+        default   : return "";
     }
 }
 
@@ -73,7 +73,7 @@ const char* Wm_BannerImageData_Type(int32u Type)
         case 0x01 : return "Bitmap";
         case 0x02 : return "JPEG";
         case 0x03 : return "GIF";
-        default   : return "Unknown";
+        default   : return "";
     }
 }
 
@@ -145,7 +145,7 @@ const char* Wm_StreamType(const int128u Kind)
         case Elements::Header_StreamProperties_DegradableJPEG : return "Degradable JPEG";
         case Elements::Header_StreamProperties_FileTransfer :   return "File Transfer";
         case Elements::Header_StreamProperties_Binary :         return "Binary";
-        default :                                               return "Unknown";
+        default :                                               return "";
     }
 }
 
@@ -155,7 +155,7 @@ const char* Wm_ExclusionType(const int128u ExclusionType)
     {
         case Elements::Header_StreamProperties_Audio :          return "Language";
         case Elements::Header_StreamProperties_Video :          return "Bitrate";
-        default :                                               return "Unknown";
+        default :                                               return "";
     }
 }
 

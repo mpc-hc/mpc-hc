@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -391,7 +391,7 @@ BOOL CPlayerToolBar::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
     if (bi.iImage == 12) {
         strTipText.LoadString(ID_VOLUME_MUTE);
     } else if (bi.iImage == 13) {
-        strTipText.LoadString(ID_VOLUME_MUTE_ON);
+        strTipText.LoadString(ID_VOLUME_MUTE_OFF);
     } else if (bi.iImage == 14) {
         strTipText.LoadString(ID_VOLUME_MUTE_DISABLED);
     } else {

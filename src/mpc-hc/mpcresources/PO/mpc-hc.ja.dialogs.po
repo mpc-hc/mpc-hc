@@ -1,13 +1,13 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # ever_green, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2015-01-23 11:01+0000\n"
+"POT-Creation-Date: 2015-05-17 20:47:27+0000\n"
+"PO-Revision-Date: 2015-05-23 10:20+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -102,14 +102,14 @@ msgstr "44100 Hz にダウンサンプリングする"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK4"
 msgid "Audio time shift (ms):"
-msgstr "音声のタイム シフト (ms):"
+msgstr "音声のタイム シフト (ミリ秒):"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK1"
 msgid "Enable custom channel mapping"
 msgstr "カスタム チャンネル マッピングを有効にする"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
+msgid "Speaker configuration for"
 msgstr "入力スピーカーの設定:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
@@ -117,7 +117,7 @@ msgid "input channels:"
 msgstr "チャンネル"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
+msgid "Hold shift for immediate changes when clicking something"
 msgstr "Shift キーを押したままクリックすると、即座に変更されます"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
@@ -138,7 +138,7 @@ msgstr "移動"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Enter two numbers to jump to a specified frame, the first is the frame number, the second is the frame rate."
-msgstr "フレーム番号、フレーム レートの順で数値を入力し、移動先のフレームを指定してください。"
+msgstr "指定したフレームにジャンプするにはフレーム番号、フレーム レートの順に二つの数値を入力してください。"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Frame"
@@ -338,7 +338,7 @@ msgstr "終了時のウィンドウ サイズを記憶する"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
 msgid "Remember last Pan-n-Scan Zoom"
-msgstr "最近使ったパン＆スキャンの拡大率を記憶する"
+msgstr "終了時のパン＆スキャンの拡大率を記憶する"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
@@ -434,7 +434,7 @@ msgstr "自動拡大:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC2"
 msgid "Auto fit factor:"
-msgstr "自動調整の拡大率:"
+msgstr "自動調整の倍率:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC3"
 msgid "%"
@@ -462,7 +462,7 @@ msgstr "開くの設定"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK7"
 msgid "Use worker thread to construct the filter graph"
-msgstr "フィルタ グラフの構築にワーカー スレッドを使用する"
+msgstr "フィルタ グラフを構築するためにワーカー スレッドを使用する"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK6"
 msgid "Report pins which fail to render"
@@ -482,7 +482,7 @@ msgstr "コントロール"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Volume step:"
-msgstr "音量のステップ:"
+msgstr "音量調節のステップ:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "%"
@@ -490,7 +490,7 @@ msgstr "%"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Speed step:"
-msgstr "再生速度のステップ:"
+msgstr "速度調節のステップ:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK3"
 msgid "Override placement"
@@ -518,7 +518,7 @@ msgstr "遅延のステップ"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "ms"
-msgstr "ms"
+msgstr "ミリ秒"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Texture settings (open the video again to see the changes)"
@@ -569,7 +569,7 @@ msgid "Warning"
 msgstr "警告"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu."
+msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
 msgstr "字幕の配置を強制的に指定し、ビデオカードの設定で全画面表示のアンチエイリアスを有効にした場合、CPU を消費するのみで字幕は少しも綺麗になりません。"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
@@ -654,7 +654,7 @@ msgstr "音楽 CD"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "Jump distances (small, medium, large in ms)"
-msgstr "ジャンプの間隔 (小, 中, 大 : ms 単位)"
+msgstr "ジャンプの間隔 (小, 中, 大 : ミリ秒単位)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_BUTTON1"
 msgid "Default"
@@ -670,7 +670,7 @@ msgstr "シーク バーにチャプター マークを表示する"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK4"
 msgid "Display \"Now Playing\" information in Skype's mood message"
-msgstr "「現在再生中」 のファイル情報を Skype のムード メッセージに表示する"
+msgstr "「再生中」 のファイル情報を Skype のムード メッセージに表示する"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
@@ -681,12 +681,12 @@ msgid "Use Windows 7 Taskbar features"
 msgstr "Windows 7 のタスクバーの機能を使用する"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
-msgstr "再生リスト内に一つの項目のみがある場合、 「前へ/次へ」 でフォルダ内の前/次のファイルを開く"
+msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgstr "再生リスト内に項目が一つしかない場合、 「前に戻る/次に進む」 でフォルダ内の前/次のファイルを開く"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Use time tooltip:"
-msgstr "タイム ツールチップを使用する:"
+msgid "Show time tooltip:"
+msgstr "タイム ツールチップを表示する:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "OSD font:"
@@ -926,7 +926,7 @@ msgstr "遅延:"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC"
 msgid "ms"
-msgstr "ms"
+msgstr "ミリ秒"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_CHECK1"
 msgid "Save custom style"
@@ -1277,8 +1277,8 @@ msgid "Enable automatic update check"
 msgstr "更新の自動確認を有効にする"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
-msgid "Delay between each check:"
-msgstr "確認の間隔:"
+msgid "Check every:"
+msgstr "確認する間隔:"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"
@@ -1434,7 +1434,7 @@ msgstr "目標同期オフセット:"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC6"
 msgid "ms"
-msgstr "ms"
+msgstr "ミリ秒"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC7"
 msgid "Control limits:"
@@ -1446,7 +1446,7 @@ msgstr "+/-"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC9"
 msgid "ms"
-msgstr "ms"
+msgstr "ミリ秒"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC10"
 msgid "Changes take effect after the playback has been closed and restarted."
@@ -1462,7 +1462,7 @@ msgstr "全画面表示でコントロールを隠す"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC1"
 msgid "ms"
-msgstr "ms"
+msgstr "ミリ秒"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK6"
 msgid "Hide docked panels"
@@ -1510,7 +1510,7 @@ msgstr "遅延"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC2"
 msgid "s"
-msgstr "s"
+msgstr "秒"
 
 msgctxt "IDD_NAVIGATION_DLG_IDC_NAVIGATION_INFO"
 msgid "Info"
@@ -1534,7 +1534,7 @@ msgstr "埋め込まれた字幕を読み込まない"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Autoload paths"
-msgstr "字幕ファイルの自動読み込みパスを指定"
+msgstr "字幕ファイルの自動読み込みパス"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON1"
 msgid "Reset"
@@ -1661,6 +1661,30 @@ msgid "Command line help"
 msgstr "コマンド ライン ヘルプ"
 
 msgctxt "IDD_CMD_LINE_HELP_IDOK"
+msgid "OK"
+msgstr "OK"
+
+msgctxt "IDD_CRASH_REPORTER_CAPTION"
+msgid "Crash reporter"
+msgstr "クラッシュ レポート"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
+msgid "We are sorry, it seems MPC-HC just crashed. :(\n\nTo help us diagnose and fix the problem, a bug report will be sent. You can provide additional information if you want."
+msgstr "申し訳ございませんが、 MPC-HC がクラッシュしました。\n\nこの問題を診断し、解決しやすくするために、バグ レポートが送信されます。必要に応じて、追加情報を提供することができます。"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
+msgid "Email:"
+msgstr "電子メール:"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC3"
+msgid "Your email address is optional and will only be used if the developers need to contact you for more information."
+msgstr "電子メールのアドレスは任意であり、開発者がより多くの情報を得るために連絡する必要がある場合にのみ使用されます。"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
+msgid "Problem description (use English only):"
+msgstr "問題の詳細 (英語のみを使用してください):"
+
+msgctxt "IDD_CRASH_REPORTER_IDOK"
 msgid "OK"
 msgstr "OK"
 

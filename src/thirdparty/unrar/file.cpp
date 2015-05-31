@@ -281,10 +281,10 @@ bool File::Rename(const wchar *NewName)
 }
 
 
-void File::Write(const void *Data,size_t Size)
+bool File::Write(const void *Data,size_t Size)
 {
   if (Size==0)
-    return;
+    return true;
   if (HandleType==FILE_HANDLESTD)
   {
 #ifdef _WIN_ALL
@@ -301,9 +301,10 @@ void File::Write(const void *Data,size_t Size)
     }
 #endif
   }
+  bool Success;
   while (1)
   {
-    bool Success=false;
+    Success=false;
 #ifdef _WIN_ALL
     DWORD Written=0;
     if (HandleType!=FILE_HANDLENORMAL)
@@ -352,6 +353,7 @@ void File::Write(const void *Data,size_t Size)
     break;
   }
   LastWrite=true;
+  return Success; // It can return false only if AllowExceptions is disabled.
 }
 
 

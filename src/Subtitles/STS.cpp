@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -241,14 +241,6 @@ TCHAR* CharSetNames[] = {
 int CharSetLen = _countof(CharSetList);
 
 //
-
-static DWORD CharSetToCodePage(DWORD dwCharSet)
-{
-    CHARSETINFO cs;
-    ZeroMemory(&cs, sizeof(CHARSETINFO));
-    ::TranslateCharsetInfo((DWORD*)dwCharSet, &cs, TCI_SRCCHARSET);
-    return cs.ciACP;
-}
 
 static int FindChar(CStringW str, WCHAR c, int pos, bool fUnicode, int CharSet)
 {
@@ -1269,7 +1261,7 @@ static bool LoadFont(const CString& font)
     const TCHAR* s = font;
     const TCHAR* e = s + len;
     for (BYTE* p = pData; s < e; s++, p++) {
-        *p = *s - 33;
+        *p = BYTE(*s - 33);
     }
 
     for (ptrdiff_t i = 0, j = 0, k = len & ~3; i < k; i += 4, j += 3) {
@@ -1485,7 +1477,7 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
                     style->colors[2] = style->colors[3];    // style->colors[2] is used for drawing the outline
                     alpha = std::max(std::min(alpha, 0xff), 0);
                     for (size_t i = 0; i < 3; i++) {
-                        style->alpha[i] = alpha;
+                        style->alpha[i] = (BYTE)alpha;
                     }
                     style->alpha[3] = 0x80;
                 }
@@ -1580,6 +1572,8 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
             fRet = true;
         } else if (entry == L"fontname") {
             LoadUUEFont(file);
+        } else if (entry == L"ycbcr matrix") {
+            ret.m_sYCbCrMatrix = GetStrW(pszBuff, nBuffLength);
         }
     }
 
@@ -1645,7 +1639,7 @@ static bool OpenXombieSub(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
                     style->colors[i] = (COLORREF)GetInt(pszBuff, nBuffLength);
                 }
                 for (size_t i = 0; i < 4; i++) {
-                    style->alpha[i] = GetInt(pszBuff, nBuffLength);
+                    style->alpha[i] = (BYTE)GetInt(pszBuff, nBuffLength);
                 }
                 style->fontWeight = GetInt(pszBuff, nBuffLength) ? FW_BOLD : FW_NORMAL;
                 style->fItalic = GetInt(pszBuff, nBuffLength);
@@ -2615,7 +2609,7 @@ bool CSimpleTextSubtitle::Open(CString fn, int CharSet, CString name, CString vi
     return Open(&f, CharSet, name);
 }
 
-static size_t CountLines(CTextFile* f, ULONGLONG from, ULONGLONG to, CString& s = CString())
+static size_t CountLines(CTextFile* f, ULONGLONG from, ULONGLONG to, CString s = _T(""))
 {
     size_t n = 0;
     f->Seek(from, CFile::begin);
@@ -3038,7 +3032,7 @@ STSStyle& STSStyle::operator = (LOGFONT& lf)
 
 LOGFONTA& operator <<= (LOGFONTA& lfa, STSStyle& s)
 {
-    lfa.lfCharSet = s.charSet;
+    lfa.lfCharSet = (BYTE)s.charSet;
     strncpy_s(lfa.lfFaceName, LF_FACESIZE, CStringA(s.fontName), _TRUNCATE);
     HDC hDC = GetDC(nullptr);
     lfa.lfHeight = -MulDiv((int)(s.fontSize + 0.5), GetDeviceCaps(hDC, LOGPIXELSY), 72);
@@ -3052,7 +3046,7 @@ LOGFONTA& operator <<= (LOGFONTA& lfa, STSStyle& s)
 
 LOGFONTW& operator <<= (LOGFONTW& lfw, STSStyle& s)
 {
-    lfw.lfCharSet = s.charSet;
+    lfw.lfCharSet = (BYTE)s.charSet;
     wcsncpy_s(lfw.lfFaceName, LF_FACESIZE, CStringW(s.fontName), _TRUNCATE);
     HDC hDC = GetDC(nullptr);
     lfw.lfHeight = -MulDiv((int)(s.fontSize + 0.5), GetDeviceCaps(hDC, LOGPIXELSY), 72);
@@ -3106,7 +3100,7 @@ STSStyle& operator <<= (STSStyle& s, const CString& style)
                 s.colors[i] = (COLORREF)GetInt(pszBuff, nBuffLength, L';');
             }
             for (size_t i = 0; i < 4; i++) {
-                s.alpha[i] = GetInt(pszBuff, nBuffLength, L';');
+                s.alpha[i] = (BYTE)GetInt(pszBuff, nBuffLength, L';');
             }
             s.charSet = GetInt(pszBuff, nBuffLength, L';');
             s.fontName = WToT(GetStrW(pszBuff, nBuffLength, L';'));

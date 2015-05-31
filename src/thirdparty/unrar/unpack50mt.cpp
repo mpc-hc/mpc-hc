@@ -80,6 +80,10 @@ void Unpack::Unpack5MT(bool Solid)
   bool Done=false;
   while (!Done)
   {
+    // Data amount, which is guaranteed to fit block header and tables,
+    // so we can safely read them without additional checks.
+    const int TooSmallToProcess=1024;
+
     int ReadSize=UnpIO->UnpRead(ReadBufMT+DataSize,(UNP_READ_SIZE_MT-DataSize)&~0xf);
     if (ReadSize<0)
       break;
@@ -87,13 +91,14 @@ void Unpack::Unpack5MT(bool Solid)
     if (DataSize==0)
       break;
 
+    // First read chunk can be small if we are near the end of volume
+    // and we want it to fit block header and tables.
+    if (ReadSize>0 && DataSize<TooSmallToProcess)
+      continue;
+
     bool BufferProcessed=false;
     while (BlockStart<DataSize && !Done)
     {
-      // Data amount, which is guaranteed to fit block header and tables,
-      // so we can safely read them without additional checks.
-      const int TooSmallToProcess=1024;
-
       uint BlockNumber=0,BlockNumberMT=0;
       while (BlockNumber<MaxUserThreads*UNP_BLOCKS_PER_THREAD)
       {

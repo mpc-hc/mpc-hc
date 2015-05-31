@@ -1,0 +1,83 @@
+# MPC-HC - Strings extracted from string tables
+# Copyright (C) 2002 - 2014 see Authors.txt
+# This file is distributed under the same license as the MPC-HC package.
+# Translators:
+# Jatyrael <cbf_x@hotmail.com>, 2014
+# scootergrisen, 2015
+msgid ""
+msgstr ""
+"Project-Id-Version: MPC-HC\n"
+"POT-Creation-Date: 2014-06-17 15:23:34+0000\n"
+"PO-Revision-Date: 2015-03-20 21:34+0000\n"
+"Last-Translator: scootergrisen\n"
+"Language-Team: Danish (http://www.transifex.com/projects/p/mpc-hc/language/da/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: da\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgctxt "Messages_WelcomeLabel2"
+msgid "This will install [name] on your computer.\n\nIt is recommended that you close all other applications before continuing."
+msgstr "Dette vil installere [name] på din computer.\n\nDet anbefales, at du lukker alle andre programmer, inden du fortsætter."
+
+msgctxt "Messages_WinVersionTooLowError"
+msgid "[name] requires Windows XP Service Pack 3 or newer to run."
+msgstr "[name] kræver Windows XP Service Pack 3 eller nyere for at køre."
+
+msgctxt "CustomMessages_comp_mpciconlib"
+msgid "Icon Library"
+msgstr "Ikon-bibliotek"
+
+msgctxt "CustomMessages_comp_mpcresources"
+msgid "Translations"
+msgstr "Oversættelser"
+
+msgctxt "CustomMessages_msg_DeleteSettings"
+msgid "Do you also want to delete MPC-HC settings?\n\nIf you plan on installing MPC-HC again then you do not have to delete them."
+msgstr "Vil du også slette MPC-HC indstillinger?\n\nHvis du har tænkt dig at installere MPC-HC igen, så behøves du ikke slette dem."
+
+msgctxt "CustomMessages_msg_SetupIsRunningWarning"
+msgid "MPC-HC setup is already running!"
+msgstr "MPC-HC installation kører allerede!"
+
+msgctxt "CustomMessages_msg_simd_sse"
+msgid "This build of MPC-HC requires a CPU with SSE extension support.\n\nYour CPU does not have those capabilities."
+msgstr "Denne version af MPC-HC kræver en CPU der understøtter SSE-udvidelsen.\n\nDin CPU understøtter det ikke."
+
+msgctxt "CustomMessages_msg_simd_sse2"
+msgid "This build of MPC-HC requires a CPU with SSE2 extension support.\n\nYour CPU does not have those capabilities."
+msgstr "Denne version af MPC-HC kræver en CPU der understøtter SSE2-udvidelsen.\n\nDin CPU understøtter det ikke."
+
+msgctxt "CustomMessages_run_DownloadToolbarImages"
+msgid "Visit our Wiki page to download toolbar images"
+msgstr "Besøg vores wiki-side for at hente værktøjslinjebilleder"
+
+msgctxt "CustomMessages_tsk_AllUsers"
+msgid "For all users"
+msgstr "For alle brugere"
+
+msgctxt "CustomMessages_tsk_CurrentUser"
+msgid "For the current user only"
+msgstr "Kun for denne bruger"
+
+msgctxt "CustomMessages_tsk_Other"
+msgid "Other tasks:"
+msgstr "Andre opgaver:"
+
+msgctxt "CustomMessages_tsk_ResetSettings"
+msgid "Reset settings"
+msgstr "Nulstil indstillinger"
+
+msgctxt "CustomMessages_types_DefaultInstallation"
+msgid "Default installation"
+msgstr "Standardinstallation"
+
+msgctxt "CustomMessages_types_CustomInstallation"
+msgid "Custom installation"
+msgstr "Brugerdefineret installation"
+
+msgctxt "CustomMessages_ViewChangelog"
+msgid "View Changelog"
+msgstr "Vis ændringslog"
+

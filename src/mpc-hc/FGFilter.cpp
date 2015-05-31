@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -29,6 +29,7 @@
 #include "SyncAllocatorPresenter.h"
 #include "IPinHook.h" // For the NVIDIA driver bug work-around
 #include "moreuuids.h"
+#include <mvrInterfaces.h>
 
 
 //
@@ -104,12 +105,11 @@ CFGFilterRegistry::CFGFilterRegistry(IMoniker* pMoniker, UINT64 merit)
         return;
     }
 
-    LPOLESTR str = nullptr;
+    CComHeapPtr<OLECHAR> str;
     if (FAILED(m_pMoniker->GetDisplayName(0, 0, &str))) {
         return;
     }
     m_DisplayName = m_name = str;
-    CoTaskMemFree(str), str = nullptr;
 
     QueryProperties();
 
@@ -147,17 +147,17 @@ void CFGFilterRegistry::QueryProperties()
     CComPtr<IPropertyBag> pPB;
     if (SUCCEEDED(m_pMoniker->BindToStorage(0, 0, IID_PPV_ARGS(&pPB)))) {
         CComVariant var;
-        if (SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
+        if (SUCCEEDED(pPB->Read(_T("FriendlyName"), &var, nullptr))) {
             m_name = var.bstrVal;
             var.Clear();
         }
 
-        if (SUCCEEDED(pPB->Read(CComBSTR(_T("CLSID")), &var, nullptr))) {
+        if (SUCCEEDED(pPB->Read(_T("CLSID"), &var, nullptr))) {
             CLSIDFromString(var.bstrVal, &m_clsid);
             var.Clear();
         }
 
-        if (SUCCEEDED(pPB->Read(CComBSTR(_T("FilterData")), &var, nullptr))) {
+        if (SUCCEEDED(pPB->Read(_T("FilterData"), &var, nullptr))) {
             BSTR* pstr;
             if (SUCCEEDED(SafeArrayAccessData(var.parray, (void**)&pstr))) {
                 ExtractFilterData((BYTE*)pstr, var.parray->cbElements * (var.parray->rgsabound[0].cElements));
@@ -427,8 +427,16 @@ HRESULT CFGFilterFile::Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_
 CFGFilterVideoRenderer::CFGFilterVideoRenderer(HWND hWnd, const CLSID& clsid, CStringW name, UINT64 merit)
     : CFGFilter(clsid, name, merit)
     , m_hWnd(hWnd)
+    , m_bHasVideoDriverWorkAround(false)
 {
     AddType(MEDIATYPE_Video, MEDIASUBTYPE_NULL);
+}
+
+CFGFilterVideoRenderer::~CFGFilterVideoRenderer()
+{
+    if (m_bHasVideoDriverWorkAround) {
+        UnhookWorkAroundVideoDriversBug();
+    }
 }
 
 HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_IUnknown>& pUnks)
@@ -460,6 +468,9 @@ HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnkno
                 }
                 // madVR supports calling IVideoWindow::put_Owner before the pins are connected
                 if (m_clsid == CLSID_madVRAllocatorPresenter) {
+                    if (CComQIPtr<IMadVRSubclassReplacement> pMVRSR = pCAP) {
+                        VERIFY(SUCCEEDED(pMVRSR->DisableSubclassing()));
+                    }
                     if (CComQIPtr<IVideoWindow> pVW = pCAP) {
                         pVW->put_Owner((OAHWND)m_hWnd);
                     }
@@ -472,8 +483,6 @@ HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnkno
             if (m_clsid == CLSID_EnhancedVideoRenderer) {
                 CComQIPtr<IEVRFilterConfig> pConfig = pBF;
                 pConfig->SetNumberOfStreams(3);
-
-                HookWorkAroundNVIDIADriverBug(pBF);
             }
 
             BeginEnumPins(pBF, pEP, pPin) {
@@ -490,6 +499,9 @@ HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnkno
 
     if (!*ppBF) {
         hr = E_FAIL;
+    } else if (m_clsid != CLSID_madVRAllocatorPresenter) {
+        HookWorkAroundVideoDriversBug(*ppBF);
+        m_bHasVideoDriverWorkAround = true;
     }
 
     return hr;

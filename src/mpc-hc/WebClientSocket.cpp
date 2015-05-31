@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -26,6 +26,7 @@
 #include "../Subtitles/TextFile.h"
 #include "WebServer.h"
 #include "WebClientSocket.h"
+#include "text.h"
 
 #define MAX_HEADER_SIZE 512 * 1024
 #define MAX_DATA_SIZE 2 * 1024 * 1024
@@ -440,52 +441,12 @@ bool CWebClientSocket::OnIndex(CStringA& hdr, CStringA& body, CStringA& mime)
 
 bool CWebClientSocket::OnInfo(CStringA& hdr, CStringA& body, CStringA& mime)
 {
-    int pos = (int)(m_pMainFrame->GetPos() / 10000);
-    int dur = (int)(m_pMainFrame->GetDur() / 10000);
-
-    CString positionstring, durationstring, versionstring, sizestring;
-    versionstring.Format(L"%s", AfxGetMyApp()->m_strVersion);
-
-    positionstring.Format(_T("%02d:%02d:%02d"), (pos / 3600000), (pos / 60000) % 60, (pos / 1000) % 60);
-    durationstring.Format(_T("%02d:%02d:%02d"), (dur / 3600000), (dur / 60000) % 60, (dur / 1000) % 60);
-
-    CPath file(m_pMainFrame->GetFileName());
-    file.RemoveExtension();
-
-    LONGLONG size = 0;
-    if (CComQIPtr<IBaseFilter> pBF = m_pMainFrame->m_pFSF) {
-        BeginEnumPins(pBF, pEP, pPin) {
-            if (CComQIPtr<IAsyncReader> pAR = pPin) {
-                LONGLONG total, available;
-                if (SUCCEEDED(pAR->Length(&total, &available))) {
-                    size = total;
-                    break;
-                }
-            }
-        }
-        EndEnumPins;
-    }
-
-    if (size == 0) {
-        WIN32_FIND_DATA wfd;
-        HANDLE hFind = FindFirstFile(m_pMainFrame->m_wndPlaylistBar.GetCurFileName(), &wfd);
-        if (hFind != INVALID_HANDLE_VALUE) {
-            FindClose(hFind);
-            size = (LONGLONG(wfd.nFileSizeHigh) << 32) | wfd.nFileSizeLow;
-        }
-    }
-
-    const int MAX_FILE_SIZE_BUFFER = 65;
-    TCHAR szFileSize[MAX_FILE_SIZE_BUFFER];
-    StrFormatByteSizeW(size, szFileSize, MAX_FILE_SIZE_BUFFER);
-    sizestring.Format(L"%s", szFileSize);
-
     m_pWebServer->LoadPage(IDR_HTML_INFO, body, AToT(m_path));
-    body.Replace("[version]", UTF8(versionstring));
-    body.Replace("[file]", UTF8(file));
-    body.Replace("[position]", UTF8(positionstring));
-    body.Replace("[duration]", UTF8(durationstring));
-    body.Replace("[size]", UTF8(sizestring));
+    body.Replace("[version]", UTF8(AfxGetMyApp()->m_strVersion));
+    body.Replace("[file]", UTF8(m_pMainFrame->GetFileName()));
+    body.Replace("[position]", UTF8(ReftimeToString2(m_pMainFrame->GetPos())));
+    body.Replace("[duration]", UTF8(ReftimeToString2(m_pMainFrame->GetDur())));
+    body.Replace("[size]", UTF8(GetSize()));
     return true;
 }
 
@@ -703,19 +664,7 @@ bool CWebClientSocket::OnControls(CStringA& hdr, CStringA& body, CStringA& mime)
             break;
     }
 
-    int pos = (int)(m_pMainFrame->GetPos() / 10000);
-    int dur = (int)(m_pMainFrame->GetDur() / 10000);
-
-    CString position, duration;
-    position.Format(_T("%d"), pos);
-    duration.Format(_T("%d"), dur);
-
-    CString positionstring, durationstring, playbackrate;
-    //  positionstring.Format(_T("%02d:%02d:%02d.%03d"), (pos/3600000), (pos/60000)%60, (pos/1000)%60, pos%1000);
-    //  durationstring.Format(_T("%02d:%02d:%02d.%03d"), (dur/3600000), (dur/60000)%60, (dur/1000)%60, dur%1000);
-    positionstring.Format(_T("%02d:%02d:%02d"), (pos / 3600000), (pos / 60000) % 60, (pos / 1000) % 60);
-    durationstring.Format(_T("%02d:%02d:%02d"), (dur / 3600000), (dur / 60000) % 60, (dur / 1000) % 60);
-    playbackrate = _T("1"); // TODO
+    CString playbackrate = _T("1"); // TODO
 
     CString volumelevel, muted;
     volumelevel.Format(_T("%d"), m_pMainFrame->m_wndToolBar.m_volctrl.GetPos());
@@ -730,10 +679,10 @@ bool CWebClientSocket::OnControls(CStringA& hdr, CStringA& body, CStringA& mime)
     body.Replace("[filedir]", UTF8(dir));
     body.Replace("[state]", UTF8(state));
     body.Replace("[statestring]", UTF8(statestring));
-    body.Replace("[position]", UTF8(position));
-    body.Replace("[positionstring]", UTF8(positionstring));
-    body.Replace("[duration]", UTF8(duration));
-    body.Replace("[durationstring]", UTF8(durationstring));
+    body.Replace("[position]", UTF8(NumToCString(std::lround(m_pMainFrame->GetPos() / 10000i64))));
+    body.Replace("[positionstring]", UTF8(ReftimeToString2(m_pMainFrame->GetPos())));
+    body.Replace("[duration]", UTF8(NumToCString(std::lround(m_pMainFrame->GetDur() / 10000i64))));
+    body.Replace("[durationstring]", UTF8(ReftimeToString2(m_pMainFrame->GetDur())));
     body.Replace("[volumelevel]", UTF8(volumelevel));
     body.Replace("[muted]", UTF8(muted));
     body.Replace("[playbackrate]", UTF8(playbackrate));
@@ -772,19 +721,7 @@ bool CWebClientSocket::OnVariables(CStringA& hdr, CStringA& body, CStringA& mime
             break;
     }
 
-    int pos = (int)(m_pMainFrame->GetPos() / 10000);
-    int dur = (int)(m_pMainFrame->GetDur() / 10000);
-
-    CString position, duration;
-    position.Format(_T("%d"), pos);
-    duration.Format(_T("%d"), dur);
-
-    CString positionstring, durationstring, playbackrate;
-    //  positionstring.Format(_T("%02d:%02d:%02d.%03d"), (pos/3600000), (pos/60000)%60, (pos/1000)%60, pos%1000);
-    //  durationstring.Format(_T("%02d:%02d:%02d.%03d"), (dur/3600000), (dur/60000)%60, (dur/1000)%60, dur%1000);
-    positionstring.Format(_T("%02d:%02d:%02d"), (pos / 3600000), (pos / 60000) % 60, (pos / 1000) % 60);
-    durationstring.Format(_T("%02d:%02d:%02d"), (dur / 3600000), (dur / 60000) % 60, (dur / 1000) % 60);
-    playbackrate = _T("1"); // TODO
+    CString playbackrate = _T("1"); // TODO
 
     CString volumelevel, muted;
     volumelevel.Format(_T("%d"), m_pMainFrame->m_wndToolBar.m_volctrl.GetPos());
@@ -793,20 +730,23 @@ bool CWebClientSocket::OnVariables(CStringA& hdr, CStringA& body, CStringA& mime
     CString reloadtime(_T("0")); // TODO
 
     m_pWebServer->LoadPage(IDR_HTML_VARIABLES, body, AToT(m_path));
+    body.Replace("[file]", UTF8(m_pMainFrame->GetFileName()));
     body.Replace("[filepatharg]", UTF8Arg(path));
     body.Replace("[filepath]", UTF8(path));
     body.Replace("[filedirarg]", UTF8Arg(dir));
     body.Replace("[filedir]", UTF8(dir));
     body.Replace("[state]", UTF8(state));
     body.Replace("[statestring]", UTF8(statestring));
-    body.Replace("[position]", UTF8(position));
-    body.Replace("[positionstring]", UTF8(positionstring));
-    body.Replace("[duration]", UTF8(duration));
-    body.Replace("[durationstring]", UTF8(durationstring));
+    body.Replace("[position]", UTF8(NumToCString(std::lround(m_pMainFrame->GetPos() / 10000i64))));
+    body.Replace("[positionstring]", UTF8(ReftimeToString2(m_pMainFrame->GetPos())));
+    body.Replace("[duration]", UTF8(NumToCString(std::lround(m_pMainFrame->GetDur() / 10000i64))));
+    body.Replace("[durationstring]", UTF8(ReftimeToString2(m_pMainFrame->GetDur())));
     body.Replace("[volumelevel]", UTF8(volumelevel));
     body.Replace("[muted]", UTF8(muted));
     body.Replace("[playbackrate]", UTF8(playbackrate));
+    body.Replace("[size]", UTF8(GetSize()));
     body.Replace("[reloadtime]", UTF8(reloadtime));
+    body.Replace("[version]", UTF8(AfxGetMyApp()->m_strVersion));
 
     return true;
 }
@@ -835,19 +775,16 @@ bool CWebClientSocket::OnStatus(CStringA& hdr, CStringA& body, CStringA& mime)
             break;
     }
 
-    int pos = (int)(m_pMainFrame->GetPos() / 10000);
-    int dur = (int)(m_pMainFrame->GetDur() / 10000);
-
-    CString posstr, durstr;
-    posstr.Format(_T("%02d:%02d:%02d"), (pos / 3600000), (pos / 60000) % 60, (pos / 1000) % 60);
-    durstr.Format(_T("%02d:%02d:%02d"), (dur / 3600000), (dur / 60000) % 60, (dur / 1000) % 60);
+    REFERENCE_TIME pos = m_pMainFrame->GetPos();
+    REFERENCE_TIME dur = m_pMainFrame->GetDur();
 
     title.Replace(_T("'"), _T("\\'"));
     status.Replace(_T("'"), _T("\\'"));
 
-    body.Format("OnStatus(\"%s\", \"%s\", %d, \"%s\", %d, \"%s\", %d, %d, \"%s\")", // , \"%s\"
+    body.Format("OnStatus(\"%s\", \"%s\", %ld, \"%s\", %ld, \"%s\", %d, %d, \"%s\")", // , \"%s\"
                 UTF8(title), UTF8(status),
-                pos, UTF8(posstr), dur, UTF8(durstr),
+                std::lround(pos / 10000i64), UTF8(ReftimeToString2(pos)),
+                std::lround(dur / 10000i64), UTF8(ReftimeToString2(dur)),
                 m_pMainFrame->IsMuted(), m_pMainFrame->GetVolume(),
                 UTF8(file)/*, UTF8(dir)*/);
 
@@ -1017,4 +954,39 @@ bool CWebClientSocket::OnDVBSetChannel(CStringA& hdr, CStringA& body, CStringA& 
         hdr = "HTTP/1.0 503 Service Unavailable\r\n";
     }
     return true;
+}
+
+CString CWebClientSocket::GetSize() const
+{
+    CString sizeString;
+    LONGLONG size = 0;
+
+    if (CComQIPtr<IBaseFilter> pBF = m_pMainFrame->m_pFSF) {
+        BeginEnumPins(pBF, pEP, pPin) {
+            if (CComQIPtr<IAsyncReader> pAR = pPin) {
+                LONGLONG total, available;
+                if (SUCCEEDED(pAR->Length(&total, &available))) {
+                    size = total;
+                    break;
+                }
+            }
+        }
+        EndEnumPins;
+    }
+
+    if (size == 0) {
+        WIN32_FIND_DATA wfd;
+        HANDLE hFind = FindFirstFile(m_pMainFrame->m_wndPlaylistBar.GetCurFileName(), &wfd);
+        if (hFind != INVALID_HANDLE_VALUE) {
+            FindClose(hFind);
+            size = (LONGLONG(wfd.nFileSizeHigh) << 32) | wfd.nFileSizeLow;
+        }
+    }
+
+    const int MAX_FILE_SIZE_BUFFER = 65;
+    TCHAR szFileSize[MAX_FILE_SIZE_BUFFER];
+    StrFormatByteSizeW(size, szFileSize, MAX_FILE_SIZE_BUFFER);
+    sizeString.Format(L"%s", szFileSize);
+
+    return sizeString;
 }

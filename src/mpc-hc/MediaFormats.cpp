@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -232,7 +232,8 @@ void CMediaFormats::UpdateData(bool fSave)
         ADDFMT((_T("ivf"),         ResStr(IDS_MFMT_IVF),         _T("ivf")));
         ADDFMT((_T("swf"),         ResStr(IDS_MFMT_SWF),         _T("swf"), false, _T("ShockWave ActiveX control"), ShockWave));
         ADDFMT((_T("other"),       ResStr(IDS_MFMT_OTHER),       _T("divx amv")));
-        ADDFMT((_T("ac3dts"),      ResStr(IDS_MFMT_AC3),         _T("ac3 dts"), true));
+        ADDFMT((_T("ac3"),         ResStr(IDS_MFMT_AC3),         _T("ac3"), true));
+        ADDFMT((_T("dts"),         ResStr(IDS_MFMT_DTS),         _T("dts dtshd dtsma"), true));
         ADDFMT((_T("aiff"),        ResStr(IDS_MFMT_AIFF),        _T("aif aifc aiff"), true));
         ADDFMT((_T("alac"),        ResStr(IDS_MFMT_ALAC),        _T("alac"), true));
         ADDFMT((_T("amr"),         ResStr(IDS_MFMT_AMR),         _T("amr"), true));

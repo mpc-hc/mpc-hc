@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -41,8 +41,11 @@ private:
     HICON m_hIcon;
 
     CRect m_time_rect;
+    CMenu m_timerMenu;
 
     CToolTipCtrl m_tooltip;
+
+    EventClient m_eventc;
 
     void Relayout();
 
@@ -83,5 +86,6 @@ protected:
     afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
     afx_msg BOOL PreTranslateMessage(MSG* pMsg);
     afx_msg void OnTimeDisplayClicked();
+    afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
     afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
 };

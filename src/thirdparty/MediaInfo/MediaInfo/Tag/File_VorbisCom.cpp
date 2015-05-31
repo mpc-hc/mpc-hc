@@ -170,9 +170,9 @@ void File_VorbisCom::FileHeader_Parse()
         if (vendor_string.find(__T("BS; Lancer"))==0) Library_Name="Lancer";
 
         Fill(StreamKind_Specific, 0, "Encoded_Library", vendor_string);
-        Fill(StreamKind_Specific, 0, "Encoded_Library/Name", Library_Name);
-        Fill(StreamKind_Specific, 0, "Encoded_Library/Version", Library_Version);
-        Fill(StreamKind_Specific, 0, "Encoded_Library/Date", Library_Date);
+        Fill(StreamKind_Specific, 0, "Encoded_Library_Name", Library_Name);
+        Fill(StreamKind_Specific, 0, "Encoded_Library_Version", Library_Version);
+        Fill(StreamKind_Specific, 0, "Encoded_Library_Date", Library_Date);
     FILLING_END();
 }
 

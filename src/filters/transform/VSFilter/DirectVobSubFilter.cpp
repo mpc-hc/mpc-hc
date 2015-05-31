@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -1622,31 +1622,30 @@ void CDirectVobSubFilter::SetSubtitle(ISubStream* pSubStream)
 
             pRTS->SetAlignment(m_fOverridePlacement, m_PlacementXperc, m_PlacementYperc);
             pRTS->Deinit();
-        } else if (clsid == __uuidof(CRLECodedSubtitle)) {
-            CRLECodedSubtitle* pRHS = (CRLECodedSubtitle*)pSubStream;
-
-            DXVA2_ExtendedFormat extFormat;
-            extFormat.value = m_cf;
-            CString yuvMatrix = (extFormat.NominalRange == DXVA2_NominalRange_Normal) ? _T("PC.") : _T("TV.");
-
-            switch (extFormat.VideoTransferMatrix) {
-                case DXVA2_VideoTransferMatrix_BT601:
-                    yuvMatrix.Append(_T("601"));
-                    break;
-                case DXVA2_VideoTransferMatrix_BT709:
-                    yuvMatrix.Append(_T("709"));
-                    break;
-                case DXVA2_VideoTransferMatrix_SMPTE240M:
-                    yuvMatrix.Append(_T("240M"));
-                    break;
-                default:
-                    yuvMatrix = _T("None");
-                    break;
-            }
-
-            // Actually VSFilter expect full range (A)RGB frames to work with.
-            pRHS->SetSourceTargetInfo(yuvMatrix, 0, 255);
         }
+
+        DXVA2_ExtendedFormat extFormat;
+        extFormat.value = m_cf;
+        CString yuvMatrix = (extFormat.NominalRange == DXVA2_NominalRange_Normal) ? _T("PC.") : _T("TV.");
+
+        switch (extFormat.VideoTransferMatrix) {
+            case DXVA2_VideoTransferMatrix_BT601:
+                yuvMatrix.Append(_T("601"));
+                break;
+            case DXVA2_VideoTransferMatrix_BT709:
+                yuvMatrix.Append(_T("709"));
+                break;
+            case DXVA2_VideoTransferMatrix_SMPTE240M:
+                yuvMatrix.Append(_T("240M"));
+                break;
+            default:
+                yuvMatrix = _T("None");
+                break;
+        }
+
+        yuvMatrix.Append(_T(".VSFilter"));
+        // Actually VSFilter expect full range (A)RGB frames to work with.
+        pSubStream->SetSourceTargetInfo(yuvMatrix, 0, 255);
     }
 
     int i = 0;

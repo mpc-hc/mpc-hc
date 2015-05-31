@@ -44,6 +44,33 @@ void File_Other::Read_Buffer_Continue()
     }
 
     Ztring Format;
+    if (Buffer[0]==0xEA
+     && Buffer[1]==0x22
+     && Buffer[2]<=0x03)
+    {
+        Accept();
+
+        Stream_Prepare(Stream_Text);
+        Fill(Stream_Text, 0, Text_Format, "Cheetah");
+
+        Finish();
+        return;
+    }
+    if (Buffer[0]==0x4C
+     && Buffer[1]==0x61
+     && Buffer[2]==0x6D
+     && Buffer[3]==0x62
+     && Buffer[4]==0x64
+     && Buffer[5]==0x61)
+    {
+        Accept();
+
+        Stream_Prepare(Stream_Text);
+        Fill(Stream_Text, 0, Text_Format, "Lambda");
+
+        Finish();
+        return;
+    }
          if (CC4(Buffer)==0xC5C6CBC3) {Format=__T("RISC OS Chunk data");}
     else if (CC4(Buffer)==0x110000EF) {Format=__T("RISC OS AIF executable");}
     else if (CC4(Buffer)==CC4("Draw")) {Format=__T("RISC OS Draw");}

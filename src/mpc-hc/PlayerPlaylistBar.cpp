@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -37,6 +37,7 @@ IMPLEMENT_DYNAMIC(CPlayerPlaylistBar, CPlayerBar)
 CPlayerPlaylistBar::CPlayerPlaylistBar(CMainFrame* pMainFrame)
     : m_pMainFrame(pMainFrame)
     , m_list(0)
+    , m_pl(AfxGetAppSettings().bShufflePlaylistItems)
     , m_nTimeColWidth(0)
     , m_pDragImage(nullptr)
     , m_bDragging(FALSE)
@@ -79,6 +80,8 @@ BOOL CPlayerPlaylistBar::Create(CWnd* pParentWnd, UINT defDockBarID)
 
     m_fakeImageList.Create(1, 16, ILC_COLOR4, 10, 10);
     m_list.SetImageList(&m_fakeImageList, LVSIL_SMALL);
+
+    m_dropTarget.Register(this);
 
     return TRUE;
 }
@@ -255,22 +258,16 @@ void CPlayerPlaylistBar::ResolveLinkFiles(CAtlList<CString>& fns)
 {
     // resolve .lnk files
 
-    CComPtr<IShellLink> pSL;
-    pSL.CoCreateInstance(CLSID_ShellLink);
-    CComQIPtr<IPersistFile> pPF = pSL;
-
     POSITION pos = fns.GetHeadPosition();
-    while (pSL && pPF && pos) {
+    while (pos) {
         CString& fn = fns.GetNext(pos);
-        TCHAR buff[MAX_PATH];
-        if (CPath(fn).GetExtension().MakeLower() != _T(".lnk")
-                || FAILED(pPF->Load(CStringW(fn), STGM_READ))
-                || FAILED(pSL->Resolve(nullptr, SLR_ANY_MATCH | SLR_NO_UI))
-                || FAILED(pSL->GetPath(buff, _countof(buff), nullptr, 0))) {
-            continue;
-        }
 
-        fn = buff;
+        if (PathUtils::IsLinkFile(fn)) {
+            CString fnResolved = PathUtils::ResolveLinkFile(fn);
+            if (!fnResolved.IsEmpty()) {
+                fn = fnResolved;
+            }
+        }
     }
 }
 
@@ -536,7 +533,9 @@ void CPlayerPlaylistBar::Append(CAtlList<CString>& fns, bool fMulti, CAtlList<CS
     if (posFirstAdded) {
         EnsureVisible(m_pl.GetTailPosition()); // This ensures that we maximize the number of newly added items shown
         EnsureVisible(posFirstAdded);
-        m_list.SetItemState(iFirstAdded, LVIS_SELECTED, LVIS_SELECTED);
+        if (iFirstAdded) { // Select the first added item only if some were already present
+            m_list.SetItemState(iFirstAdded, LVIS_SELECTED, LVIS_SELECTED);
+        }
     }
 }
 
@@ -645,7 +644,7 @@ void CPlayerPlaylistBar::SetSelIdx(int i)
 
 bool CPlayerPlaylistBar::IsAtEnd()
 {
-    POSITION pos = m_pl.GetPos(), tail = m_pl.GetTailPosition();
+    POSITION pos = m_pl.GetPos(), tail = m_pl.GetShuffleAwareTailPosition();
     bool isAtEnd = (pos && pos == tail);
 
     if (!isAtEnd && pos) {
@@ -716,11 +715,13 @@ void CPlayerPlaylistBar::SetFirstSelected()
     if (pos) {
         pos = FindPos(m_list.GetNextSelectedItem(pos));
     } else {
-        pos = m_pl.GetTailPosition();
+        pos = m_pl.GetShuffleAwareTailPosition();
         POSITION org = pos;
         while (m_pl.GetNextWrap(pos).m_fInvalid && pos != org) {
             ;
         }
+        // Select the first item to be played when no item was previously selected
+        m_list.SetItemState(FindItem(pos), LVIS_SELECTED, LVIS_SELECTED);
     }
     UpdateList();
     m_pl.SetPos(pos);
@@ -768,6 +769,13 @@ void CPlayerPlaylistBar::SetCurTime(REFERENCE_TIME rt)
         pli.m_duration = rt;
         m_list.SetItemText(FindItem(pos), COL_TIME, pli.GetLabel(1));
     }
+}
+
+void CPlayerPlaylistBar::Randomize()
+{
+    m_pl.Randomize();
+    SetupList();
+    SavePlaylist();
 }
 
 OpenMediaData* CPlayerPlaylistBar::GetCurOMD(REFERENCE_TIME rtStart)
@@ -892,13 +900,13 @@ void CPlayerPlaylistBar::SavePlaylist()
 }
 
 BEGIN_MESSAGE_MAP(CPlayerPlaylistBar, CPlayerBar)
+    ON_WM_DESTROY()
     ON_WM_SIZE()
     ON_NOTIFY(LVN_KEYDOWN, IDC_PLAYLIST, OnLvnKeyDown)
     ON_NOTIFY(NM_DBLCLK, IDC_PLAYLIST, OnNMDblclkList)
     //ON_NOTIFY(NM_CUSTOMDRAW, IDC_PLAYLIST, OnCustomdrawList)
     ON_WM_DRAWITEM()
     ON_COMMAND_EX(ID_PLAY_PLAY, OnPlayPlay)
-    ON_WM_DROPFILES()
     ON_NOTIFY(LVN_BEGINDRAG, IDC_PLAYLIST, OnBeginDrag)
     ON_WM_MOUSEMOVE()
     ON_WM_LBUTTONUP()
@@ -935,6 +943,12 @@ void CPlayerPlaylistBar::ResizeListColumn()
         Invalidate();
         m_list.RedrawWindow(nullptr, nullptr, RDW_FRAME | RDW_INVALIDATE);
     }
+}
+
+void CPlayerPlaylistBar::OnDestroy()
+{
+    m_dropTarget.Revoke();
+    __super::OnDestroy();
 }
 
 void CPlayerPlaylistBar::OnSize(UINT nType, int cx, int cy)
@@ -976,9 +990,8 @@ void CPlayerPlaylistBar::OnLvnKeyDown(NMHDR* pNMHDR, LRESULT* pResult)
         *pResult = TRUE;
     } else if (pLVKeyDown->wVKey == VK_SPACE && items.GetCount() == 1) {
         m_pl.SetPos(FindPos(items.GetHead()));
-
+        m_list.Invalidate();
         m_pMainFrame->OpenCurPlaylistItem();
-
         m_pMainFrame->SetFocus();
 
         *pResult = TRUE;
@@ -1110,24 +1123,19 @@ BOOL CPlayerPlaylistBar::OnPlayPlay(UINT nID)
     return FALSE;
 }
 
-void CPlayerPlaylistBar::OnDropFiles(HDROP hDropInfo)
+DROPEFFECT CPlayerPlaylistBar::OnDropAccept(COleDataObject*, DWORD, CPoint)
+{
+    return DROPEFFECT_COPY;
+}
+
+void CPlayerPlaylistBar::OnDropFiles(CAtlList<CString>& slFiles, DROPEFFECT)
 {
     SetForegroundWindow();
     m_list.SetFocus();
 
-    CAtlList<CString> sl;
+    PathUtils::ParseDirs(slFiles);
 
-    UINT nFiles = ::DragQueryFile(hDropInfo, UINT_MAX, nullptr, 0);
-    for (UINT iFile = 0; iFile < nFiles; iFile++) {
-        TCHAR szFileName[MAX_PATH];
-        ::DragQueryFile(hDropInfo, iFile, szFileName, MAX_PATH);
-        sl.AddTail(szFileName);
-    }
-    ::DragFinish(hDropInfo);
-
-    m_pMainFrame->ParseDirs(sl);
-
-    Append(sl, true);
+    Append(slFiles, true);
 }
 
 void CPlayerPlaylistBar::OnBeginDrag(NMHDR* pNMHDR, LRESULT* pResult)
@@ -1278,25 +1286,9 @@ void CPlayerPlaylistBar::DropItemOnList()
 
     m_list.DeleteItem(m_nDragIndex);
 
-    CList<CPlaylistItem> tmp;
-    UINT id = UINT_MAX;
     for (int i = 0; i < m_list.GetItemCount(); i++) {
         POSITION pos = (POSITION)m_list.GetItemData(i);
-        CPlaylistItem& pli = m_pl.GetAt(pos);
-        tmp.AddTail(pli);
-        if (pos == m_pl.GetPos()) {
-            id = pli.m_id;
-        }
-    }
-    m_pl.RemoveAll();
-    POSITION pos = tmp.GetHeadPosition();
-    for (int i = 0; pos; i++) {
-        CPlaylistItem& pli = tmp.GetNext(pos);
-        m_pl.AddTail(pli);
-        if (pli.m_id == id) {
-            m_pl.SetPos(m_pl.GetTailPosition());
-        }
-        m_list.SetItemData(i, (DWORD_PTR)m_pl.GetTailPosition());
+        m_pl.MoveToTail(pos);
     }
 
     ResizeListColumn();
@@ -1313,7 +1305,7 @@ BOOL CPlayerPlaylistBar::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResul
     int row = ((pNMHDR->idFrom - 1) >> 10) & 0x3fffff;
     int col = (pNMHDR->idFrom - 1) & 0x3ff;
 
-    if (row < 0 || row >= m_pl.GetCount()) {
+    if (row < 0 || size_t(row) >= m_pl.GetCount()) {
         return FALSE;
     }
 
@@ -1361,7 +1353,7 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
     if (p.x == -1 && p.y == -1) {
         lvhti.iItem = m_list.GetSelectionMark();
 
-        if (lvhti.iItem == -1 && m_pl.GetSize() == 1) {
+        if (lvhti.iItem == -1 && m_pl.GetCount() == 1) {
             lvhti.iItem = 0;
         }
 
@@ -1378,7 +1370,7 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
         m_list.ScreenToClient(&lvhti.pt);
         m_list.SubItemHitTest(&lvhti);
         bOnItem = lvhti.iItem >= 0 && !!(lvhti.flags & LVHT_ONITEM);
-        if (!bOnItem && m_pl.GetSize() == 1) {
+        if (!bOnItem && m_pl.GetCount() == 1) {
             bOnItem = true;
             lvhti.iItem = 0;
         }
@@ -1476,9 +1468,7 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
             SavePlaylist();
             break;
         case M_RANDOMIZE:
-            m_pl.Randomize();
-            SetupList();
-            SavePlaylist();
+            Randomize();
             break;
         case M_CLIPBOARD:
             if (OpenClipboard() && EmptyClipboard()) {
@@ -1722,6 +1712,7 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
         break;
         case M_SHUFFLE:
             s.bShufflePlaylistItems = !s.bShufflePlaylistItems;
+            m_pl.SetShuffle(s.bShufflePlaylistItems);
             break;
         case M_HIDEFULLSCREEN:
             s.bHidePlaylistFullScreen = !s.bHidePlaylistFullScreen;

@@ -1,15 +1,15 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# geogeo.gr <admin@geogeo.gr>, 2014
+# geogeo.gr <admin@geogeo.gr>, 2014-2015
 # firespin <dartworldgr@hotmail.com>, 2014
 # kasper93, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
-"PO-Revision-Date: 2014-10-27 06:10+0000\n"
+"POT-Creation-Date: 2015-05-22 20:53:41+0000\n"
+"PO-Revision-Date: 2015-05-31 14:42+0000\n"
 "Last-Translator: geogeo.gr <admin@geogeo.gr>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/mpc-hc/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -198,13 +198,17 @@ msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
 msgstr "&Δοκιμή σχισίματος"
 
-msgctxt "ID_VIEW_DISPLAYSTATS"
-msgid "&Display Stats"
-msgstr "&Εμφάνιση στατιστικών"
+msgctxt "ID_VIEW_DISPLAY_RENDERER_STATS"
+msgid "&Display Statistics"
+msgstr "Πρ&οβολή στατιστικών"
 
-msgctxt "ID_VIEW_REMAINING_TIME"
-msgid "&Remaining Time"
-msgstr "Χρόνος που απομένει"
+msgctxt "ID_VIEW_OSD_DISPLAY_TIME"
+msgid "Display Current T&ime"
+msgstr "Προβολή τρέχοντος &χρόνου"
+
+msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
+msgid "Show &File Name"
+msgstr "Εμφάνιση ονόματος &αρχείου"
 
 msgctxt "POPUP"
 msgid "&Output Range"
@@ -555,16 +559,16 @@ msgid "S&haders"
 msgstr "&Σκιάσεις"
 
 msgctxt "ID_AUDIOS"
-msgid "&Audio"
-msgstr "Ή&χος"
+msgid "&Audio Track"
+msgstr "Κανάλι Ή&χου"
 
 msgctxt "ID_SUBTITLES"
-msgid "Su&btitles"
-msgstr "&Υπότιτλοι"
+msgid "Su&btitle Track"
+msgstr "Κανάλι &Υποτίτλων"
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Stream"
-msgstr "Ροή &βίντεο"
+msgid "&Video Track"
+msgstr "Κανάλι &Βίντεο"
 
 msgctxt "POPUP"
 msgid "&Volume"
@@ -586,7 +590,19 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "Μετά την αναπαραγωγή"
 
-msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgctxt "ID_AFTERPLAYBACK_DONOTHING"
+msgid "Do no&thing"
+msgstr "Καμία ενέρ&γεια"
+
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "Αναπ/γωγή &επόμενου αρχείου στο φάκελο"
+
+msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
+msgid "Turn off the &monitor"
+msgstr "Απενεργοποίηση &οθόνης"
+
+msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
 msgstr "Έξοδος"
 
@@ -609,14 +625,6 @@ msgstr "Αποσύνδεση"
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "Κλείδωμα"
-
-msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
-msgid "Turn off the &monitor"
-msgstr "Απενεργοποίηση &οθόνης"
-
-msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
-msgid "Play &next file in the folder"
-msgstr "Αναπ/γωγή &επόμενου αρχείου στο φάκελο"
 
 msgctxt "POPUP"
 msgid "&Navigate"

@@ -45,7 +45,6 @@ bool FileCreate(RAROptions *Cmd,File *NewFile,wchar *Name,size_t MaxNameSize,
   uint FileMode=WriteOnly ? FMF_WRITE|FMF_SHAREREAD:FMF_UPDATE|FMF_SHAREREAD;
   if (NewFile!=NULL && NewFile->Create(Name,FileMode))
     return true;
-  PrepareToDelete(Name);
   CreatePath(Name,true);
   return NewFile!=NULL ? NewFile->Create(Name,FileMode):DelFile(Name);
 }

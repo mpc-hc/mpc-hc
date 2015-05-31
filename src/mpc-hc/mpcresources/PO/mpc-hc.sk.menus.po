@@ -1,14 +1,14 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Marián Hikaník <podnety@mojepreklady.net>, 2013
-# Marián Hikaník <podnety@mojepreklady.net>, 2014
+# Marián Hikaník <podnety@mojepreklady.net>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
-"PO-Revision-Date: 2014-10-30 18:21+0000\n"
+"POT-Creation-Date: 2015-05-22 20:53:41+0000\n"
+"PO-Revision-Date: 2015-05-27 14:15+0000\n"
 "Last-Translator: Marián Hikaník <podnety@mojepreklady.net>\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/mpc-hc/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -197,13 +197,17 @@ msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
 msgstr "&Test trhania"
 
-msgctxt "ID_VIEW_DISPLAYSTATS"
-msgid "&Display Stats"
-msgstr "&Štatistika zobrazenia"
+msgctxt "ID_VIEW_DISPLAY_RENDERER_STATS"
+msgid "&Display Statistics"
+msgstr "Zo&braziť štatistiky"
 
-msgctxt "ID_VIEW_REMAINING_TIME"
-msgid "&Remaining Time"
-msgstr "Zostáva&júci čas"
+msgctxt "ID_VIEW_OSD_DISPLAY_TIME"
+msgid "Display Current T&ime"
+msgstr "Zobraz&iť aktuálny čas"
+
+msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
+msgid "Show &File Name"
+msgstr "Zobraziť &názov súboru"
 
 msgctxt "POPUP"
 msgid "&Output Range"
@@ -554,16 +558,16 @@ msgid "S&haders"
 msgstr "S&hadery"
 
 msgctxt "ID_AUDIOS"
-msgid "&Audio"
-msgstr "&Zvuk"
+msgid "&Audio Track"
+msgstr "Zvuková stop&a"
 
 msgctxt "ID_SUBTITLES"
-msgid "Su&btitles"
-msgstr "Ti&tulky"
+msgid "Su&btitle Track"
+msgstr "Stopa s &titulkami"
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Stream"
-msgstr "S&tream s videom"
+msgid "&Video Track"
+msgstr "Stopa s &videom"
 
 msgctxt "POPUP"
 msgid "&Volume"
@@ -585,7 +589,19 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "Po prehra&tí"
 
-msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgctxt "ID_AFTERPLAYBACK_DONOTHING"
+msgid "Do no&thing"
+msgstr "Neuro&biť nič"
+
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "Prehrať ď&alší súbor v priečinku"
+
+msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
+msgid "Turn off the &monitor"
+msgstr "Vypnúť &monitor"
+
+msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
 msgstr "&Ukončiť"
 
@@ -608,14 +624,6 @@ msgstr "Od&hlásiť používateľa"
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "U&zamknúť"
-
-msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
-msgid "Turn off the &monitor"
-msgstr "Vypnúť &monitor"
-
-msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
-msgid "Play &next file in the folder"
-msgstr "Prehrať ď&alší súbor v priečinku"
 
 msgctxt "POPUP"
 msgid "&Navigate"

@@ -1,16 +1,16 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # kasper93, 2013-2014
 # fubuzz <knedlc@gmail.com>, 2014
-# shvala <simon.hvala@hotmail.com>, 2013
+# shvala <simon.hvala@hotmail.com>, 2013,2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-19 21:10:25+0000\n"
-"PO-Revision-Date: 2014-09-02 13:11+0000\n"
-"Last-Translator: fubuzz <knedlc@gmail.com>\n"
+"POT-Creation-Date: 2015-05-22 20:53:41+0000\n"
+"PO-Revision-Date: 2015-05-31 14:58+0000\n"
+"Last-Translator: shvala <simon.hvala@hotmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/mpc-hc/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -198,13 +198,17 @@ msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
 msgstr "&Test trganja"
 
-msgctxt "ID_VIEW_DISPLAYSTATS"
-msgid "&Display Stats"
-msgstr "Pr&ikaži statistiko"
+msgctxt "ID_VIEW_DISPLAY_RENDERER_STATS"
+msgid "&Display Statistics"
+msgstr "&Prikaži statistiko"
 
-msgctxt "ID_VIEW_REMAINING_TIME"
-msgid "&Remaining Time"
-msgstr "P&reostali čas"
+msgctxt "ID_VIEW_OSD_DISPLAY_TIME"
+msgid "Display Current T&ime"
+msgstr "Prikaži trenutni &čas"
+
+msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
+msgid "Show &File Name"
+msgstr "Prikaži ime &datoteke"
 
 msgctxt "POPUP"
 msgid "&Output Range"
@@ -555,16 +559,16 @@ msgid "S&haders"
 msgstr "&Senčilniki"
 
 msgctxt "ID_AUDIOS"
-msgid "&Audio"
-msgstr "&Audio pretok"
+msgid "&Audio Track"
+msgstr "&Zvočni zapis"
 
 msgctxt "ID_SUBTITLES"
-msgid "Su&btitles"
-msgstr "&Podnapisi"
+msgid "Su&btitle Track"
+msgstr "Zapis &podnapisov"
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Stream"
-msgstr "&Video pretok"
+msgid "&Video Track"
+msgstr "&Video zapis"
 
 msgctxt "POPUP"
 msgid "&Volume"
@@ -586,7 +590,19 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "Po predvajanj&u"
 
-msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgctxt "ID_AFTERPLAYBACK_DONOTHING"
+msgid "Do no&thing"
+msgstr "&Ne naredi ničesar"
+
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "Predvajaj &naslednjo datoteko v imeniku"
+
+msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
+msgid "Turn off the &monitor"
+msgstr "Izklopi &monitor"
+
+msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
 msgstr "&Izhod"
 
@@ -609,14 +625,6 @@ msgstr "&Odjava"
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "&Zakleni"
-
-msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
-msgid "Turn off the &monitor"
-msgstr "Izklopi &monitor"
-
-msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
-msgid "Play &next file in the folder"
-msgstr ""
 
 msgctxt "POPUP"
 msgid "&Navigate"

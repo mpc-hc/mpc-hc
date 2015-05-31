@@ -16,6 +16,9 @@
 //---------------------------------------------------------------------------
 #include "MediaInfo/MediaInfo.h"
 #include "MediaInfo/MediaInfo_Internal.h"
+#if defined(_MSC_VER) && _MSC_VER >= 1800 && _MSC_VER < 1900 && defined(_M_X64)
+    #include <math.h> // needed for _set_FMA3_enable()
+#endif
 using namespace ZenLib;
 //---------------------------------------------------------------------------
 
@@ -60,6 +63,13 @@ using namespace MediaInfo_Debug_MediaInfo;
 MediaInfo::MediaInfo()
 {
     Internal=new MediaInfo_Internal();
+
+    // FMA3 support in the 2013 CRT is broken on Vista and Windows 7 RTM (fixed in SP1).
+    // See https://connect.microsoft.com/VisualStudio/feedback/details/987093/x64-log-function-uses-vpsrlq-avx-instruction-without-regard-to-operating-system-so-it-crashes-on-vista-x64
+    // Hotfix: we disable it for MSVC2013.
+    #if defined(_MSC_VER) && _MSC_VER >= 1800 && _MSC_VER < 1900 && defined(_M_X64)
+        _set_FMA3_enable(0);
+    #endif
 }
 
 //---------------------------------------------------------------------------

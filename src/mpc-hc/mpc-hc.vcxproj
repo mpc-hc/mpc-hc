@@ -321,6 +321,8 @@
     <ClCompile Include="ComPropertyPage.cpp" />
     <ClCompile Include="ComPropertySheet.cpp" />
     <ClCompile Include="CoverArt.cpp" />
+    <ClCompile Include="CrashReporter.cpp" />
+    <ClCompile Include="CrashReporterDialog.cpp" />
     <ClCompile Include="CShockwaveFlash.cpp" />
     <ClCompile Include="DebugShadersDlg.cpp" />
     <ClCompile Include="DeinterlacerFilter.cpp" />
@@ -336,7 +338,7 @@
     <ClCompile Include="FGManager.cpp" />
     <ClCompile Include="FGManagerBDA.cpp" />
     <ClCompile Include="FileAssoc.cpp" />
-    <ClCompile Include="FileDropTarget.cpp" />
+    <ClCompile Include="DropTarget.cpp" />
     <ClCompile Include="FreeviewEPGDecode.cpp" />
     <ClCompile Include="MainFrmControls.cpp" />
     <ClCompile Include="MediaPositionList.cpp" />
@@ -351,7 +353,6 @@
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="MediaFormats.cpp" />
     <ClCompile Include="MediaTypesDlg.cpp" />
-    <ClCompile Include="MiniDump.cpp" />
     <ClCompile Include="Monitors.cpp" />
     <ClCompile Include="MouseTouch.cpp" />
     <ClCompile Include="MPCPngImage.cpp" />
@@ -449,6 +450,8 @@
     <ClInclude Include="ComPropertyPage.h" />
     <ClInclude Include="ComPropertySheet.h" />
     <ClInclude Include="CoverArt.h" />
+    <ClInclude Include="CrashReporter.h" />
+    <ClInclude Include="CrashReporterDialog.h" />
     <ClInclude Include="CShockwaveFlash.h" />
     <ClInclude Include="DebugShadersDlg.h" />
     <ClInclude Include="DeinterlacerFilter.h" />
@@ -464,7 +467,7 @@
     <ClInclude Include="FGManager.h" />
     <ClInclude Include="FGManagerBDA.h" />
     <ClInclude Include="FileAssoc.h" />
-    <ClInclude Include="FileDropTarget.h" />
+    <ClInclude Include="DropTarget.h" />
     <ClInclude Include="FilterEnum.h" />
     <ClInclude Include="FloatEdit.h" />
     <ClInclude Include="FreeviewEPGDecode.h" />
@@ -477,12 +480,12 @@
     <ClInclude Include="ISDb.h" />
     <ClInclude Include="KeyProvider.h" />
     <ClInclude Include="LcdSupport.h" />
+    <ClInclude Include="Logger.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="MainFrmControls.h" />
     <ClInclude Include="MediaFormats.h" />
     <ClInclude Include="MediaPositionList.h" />
     <ClInclude Include="MediaTypesDlg.h" />
-    <ClInclude Include="MiniDump.h" />
     <ClInclude Include="Monitors.h" />
     <ClInclude Include="MouseTouch.h" />
     <ClInclude Include="MpcApi.h" />
@@ -574,13 +577,6 @@
     <ClInclude Include="WinHotkeyCtrl.h" />
   </ItemGroup>
   <ItemGroup>
-    <Object Include="..\thirdparty\LAVFilters\src\bin_$(PlatformName)\ffmpeg\GCCInfo.o">
-      <FileType>Document</FileType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug Lite|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug Lite|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Lite|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Lite|Win32'">true</ExcludedFromBuild>
-    </Object>
     <None Include="res\ani.avi" />
     <None Include="res\icon.ico">
       <FileType>ICO</FileType>
@@ -765,6 +761,9 @@
     </ProjectReference>
     <ProjectReference Include="..\Subtitles\Subtitles.vcxproj">
       <Project>{5e56335f-0fb1-4eea-b240-d8dc5e0608e4}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\thirdparty\DoctorDump\DoctorDump.vcxproj">
+      <Project>{beceaff9-cdca-45ec-a1cf-658fa51818e6}</Project>
     </ProjectReference>
     <ProjectReference Include="..\thirdparty\LAVFilters\LAVFilters.vcxproj">
       <Project>{ed257874-e12e-4143-af0a-0676da3bb18c}</Project>

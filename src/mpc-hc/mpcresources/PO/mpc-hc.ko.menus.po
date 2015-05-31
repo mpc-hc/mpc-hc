@@ -197,13 +197,17 @@ msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
 msgstr "잔상 테스트 (&T)"
 
-msgctxt "ID_VIEW_DISPLAYSTATS"
-msgid "&Display Stats"
-msgstr "디스플레이 상태(&D)"
+msgctxt "ID_VIEW_DISPLAY_RENDERER_STATS"
+msgid "&Display Statistics"
+msgstr ""
 
-msgctxt "ID_VIEW_REMAINING_TIME"
-msgid "&Remaining Time"
-msgstr "남은 시간"
+msgctxt "ID_VIEW_OSD_DISPLAY_TIME"
+msgid "Display Current T&ime"
+msgstr ""
+
+msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
+msgid "Show &File Name"
+msgstr ""
 
 msgctxt "POPUP"
 msgid "&Output Range"
@@ -554,16 +558,16 @@ msgid "S&haders"
 msgstr "셰이더(&H)"
 
 msgctxt "ID_AUDIOS"
-msgid "&Audio"
-msgstr "오디오(&A)"
+msgid "&Audio Track"
+msgstr ""
 
 msgctxt "ID_SUBTITLES"
-msgid "Su&btitles"
-msgstr "자막(&B)"
+msgid "Su&btitle Track"
+msgstr ""
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Stream"
-msgstr "비디오 스트림(&T)"
+msgid "&Video Track"
+msgstr ""
 
 msgctxt "POPUP"
 msgid "&Volume"
@@ -585,7 +589,19 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "재생이 끝나면"
 
-msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgctxt "ID_AFTERPLAYBACK_DONOTHING"
+msgid "Do no&thing"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "폴더의 다음 파일을 재생"
+
+msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
+msgid "Turn off the &monitor"
+msgstr "모니터를 끄기"
+
+msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
 msgstr "파일 닫기 "
 
@@ -608,14 +624,6 @@ msgstr "윈도우 로그오프"
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "잠그기"
-
-msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
-msgid "Turn off the &monitor"
-msgstr "모니터를 끄기"
-
-msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
-msgid "Play &next file in the folder"
-msgstr "폴더의 다음 파일을 재생"
 
 msgctxt "POPUP"
 msgid "&Navigate"

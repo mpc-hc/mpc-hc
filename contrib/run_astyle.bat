@@ -1,5 +1,5 @@
 @ECHO OFF
-REM (C) 2012-2014 see Authors.txt
+REM (C) 2012-2015 see Authors.txt
 REM
 REM This file is part of MPC-HC.
 REM
@@ -18,8 +18,8 @@ REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 SETLOCAL
-
-PUSHD %~dp0
+SET "FILE_DIR=%~dp0"
+PUSHD "%FILE_DIR%"
 
 SET "AStyleVerReq=2.05.1"
 astyle --version 2>NUL || (ECHO. & ECHO ERROR: AStyle not found & GOTO End)
@@ -27,7 +27,7 @@ CALL :SubCheckVer || GOTO End
 
 
 :Start
-TITLE Running astyle using %~dp0astyle.ini
+TITLE Running astyle using %FILE_DIR%astyle.ini
 
 IF "%~1" == "" (
   astyle -r --options=astyle.ini ..\*.h ..\*.cpp

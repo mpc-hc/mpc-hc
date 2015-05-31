@@ -1,14 +1,14 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# M. Somsak, 2014
+# M. Somsak, 2014-2015
 # M. Somsak, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-10-26 05:00+0000\n"
+"POT-Creation-Date: 2015-05-17 20:47:27+0000\n"
+"PO-Revision-Date: 2015-05-19 11:29+0000\n"
 "Last-Translator: M. Somsak\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/mpc-hc/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -110,7 +110,7 @@ msgid "Enable custom channel mapping"
 msgstr "ใช้การวางตำแหน่งช่อง ที่กำหนดเอง"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
+msgid "Speaker configuration for"
 msgstr "การกำหนดค่าลำโพงสำหรับ"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
@@ -118,7 +118,7 @@ msgid "input channels:"
 msgstr "ช่องขาเข้า:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
+msgid "Hold shift for immediate changes when clicking something"
 msgstr "เมื่อคลิกบางอย่าง กดปุ่ม Shift ค้างไว้ด้วยจะเปลี่ยนแปลงโดยทันที"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
@@ -570,8 +570,8 @@ msgid "Warning"
 msgstr "คำเตือน"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu."
-msgstr "ถ้าคุณฝืนและใช้งานการลดรอยหยักในโหมดเต็มจอบางที่ที่การตั้งค่าการ์ดจอของคุณ ศัพท์บรรยายจะไม่ได้ดูดีขึ้นแต่จะเปลือง cpu ของคุณ"
+msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
+msgstr "ถ้าคุณฝืนและใช้งานการลดรอยหยักในโหมดเต็มจอบางที่ที่การตั้งค่าการ์ดจอของคุณ ศัพท์บรรยายจะไม่ได้ดูดีขึ้นแต่จะเปลือง CPU ของคุณ"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
 msgid "File extensions"
@@ -682,11 +682,11 @@ msgid "Use Windows 7 Taskbar features"
 msgstr "ใช้คุณลักษณะ Windows 7 Taskbar"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
 msgstr "เปิดไฟล์ ก่อนหน้า/ถัดไป ในโฟลเดอร์ เมื่อเลือก \"ข้ามไปหลัง/ข้ามไปหน้า\" หากมีเพียงรายการเดียวในบัญชีการเล่น"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Use time tooltip:"
+msgid "Show time tooltip:"
 msgstr "ใช้ตัวบอกเวลา:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
@@ -1278,8 +1278,8 @@ msgid "Enable automatic update check"
 msgstr "ใช้งานการตรวจสอบการอัพเดตอัตโนมัติ"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
-msgid "Delay between each check:"
-msgstr "ช่วงของการตรวจสอบ:"
+msgid "Check every:"
+msgstr "ตรวจสอบทุก:"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"
@@ -1662,6 +1662,30 @@ msgid "Command line help"
 msgstr "ความช่วยเหลือ Command line"
 
 msgctxt "IDD_CMD_LINE_HELP_IDOK"
+msgid "OK"
+msgstr "ตกลง"
+
+msgctxt "IDD_CRASH_REPORTER_CAPTION"
+msgid "Crash reporter"
+msgstr "รายงานข้อบกพร่อง"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
+msgid "We are sorry, it seems MPC-HC just crashed. :(\n\nTo help us diagnose and fix the problem, a bug report will be sent. You can provide additional information if you want."
+msgstr "ขออภัย, ดูเหมือนว่า MPC-HC เกิดข้อบกพร่อง :(\n\nการายงานบั๊กจะถูกส่งเพื่อช่วยเราวินิจฉัยและแก้ไขปัญหา คุณสามารถให้ข้อมูลเพิ่มเติมได้ถ้าคุณต้องการ"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
+msgid "Email:"
+msgstr "อีเมล:"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC3"
+msgid "Your email address is optional and will only be used if the developers need to contact you for more information."
+msgstr "ที่อยู่อีเมลของคุณอาจไม่จำเป็นต้องให้ แต่มันจะถูกใช้กรณีถ้านักพัฒนาต้องการติดต่อคุณเพื่อขอข้อมูลเพิ่มเติมเท่านั้น"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
+msgid "Problem description (use English only):"
+msgstr "บรรยายปัญหา (ใช้ภาษาอังกฤษเท่านั้น):"
+
+msgctxt "IDD_CRASH_REPORTER_IDOK"
 msgid "OK"
 msgstr "ตกลง"
 

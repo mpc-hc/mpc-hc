@@ -1,7 +1,7 @@
 # Media Player Classic - Home Cinema
 
-[![GitHub version](https://badge.fury.io/gh/mpc-hc%2Fmpc-hc.svg)](http://badge.fury.io/gh/mpc-hc%2Fmpc-hc)
-[![Coverity Scan Build Status](https://scan.coverity.com/projects/259/badge.svg)](https://scan.coverity.com/projects/259)
+[![GitHub Tag](https://img.shields.io/github/tag/mpc-hc/mpc-hc.svg?label=version)](https://github.com/mpc-hc/mpc-hc)
+[![Coverity Scan Build Status](https://img.shields.io/coverity/scan/259.svg)](https://scan.coverity.com/projects/259)
 
 
 Media Player Classic - Home Cinema (MPC-HC) is a free and open source (OSS) video
@@ -12,26 +12,26 @@ We are in dire need of new developers of any kind. If you can code a little, or 
 logos for the player and images for the file associations, or you can create/maintain the main
 website, please join our IRC channel and talk to us. Any help is always appreciated.
 
-Find some easy ticket on our trac page, fix the problem, send a [pull request](https://github.com/mpc-hc/mpc-hc/pulls),
-or post the patch on [trac](https://trac.mpc-hc.org) or come on IRC and we'll review it for you.
+Find some easy ticket on our Trac, fix the problem, send a [pull request](https://github.com/mpc-hc/mpc-hc/pulls),
+or post the patch on [Trac](https://trac.mpc-hc.org/) or come on IRC and we'll review it for you.
 See [CONTRIBUTING.md](/CONTRIBUTING.md) for more info.
 
 *We care about keeping an open project open and free for contributions wherever they may come from.*
 
 
 ## Main Features:
-* Option to remove [tearing](http://en.wikipedia.org/wiki/Screen_tearing)
+* Option to remove [tearing](https://en.wikipedia.org/wiki/Screen_tearing)
 * Support for Windows Vista/7/8, including a 64-bit build
-* Support for [EVR/EVR CP](http://en.wikipedia.org/wiki/Media_Foundation#Enhanced_Video_Renderer) (Enhanced Video Renderer)
-* Supports most types of [subtitles](http://en.wikipedia.org/wiki/Subtitle_%28captioning%29#Subtitle_formats)
-  including [BluRay](http://en.wikipedia.org/wiki/Blu-ray_Disc) .sup files
+* Support for [EVR/EVR CP](https://en.wikipedia.org/wiki/Media_Foundation#Enhanced_Video_Renderer) (Enhanced Video Renderer)
+* Supports most types of [subtitles](https://en.wikipedia.org/wiki/Subtitle_%28captioning%29#Subtitle_formats)
+  including [BluRay](https://en.wikipedia.org/wiki/Blu-ray_Disc) .sup files
 * Playback and recording of television programs, if a supported
-  [TV tuner card](http://en.wikipedia.org/wiki/TV_tuner_card) is installed
-* [OSD info (On Screen Display)](http://en.wikipedia.org/wiki/On-screen_display)
+  [TV tuner card](https://en.wikipedia.org/wiki/TV_tuner_card) is installed
+* [OSD info (On Screen Display)](https://en.wikipedia.org/wiki/On-screen_display)
 * Multi-Monitor support
-* Various [pixel shaders](http://en.wikipedia.org/wiki/Shader#Pixel_shaders)
-* [Color management](http://en.wikipedia.org/wiki/Color_management)
-* 37 translations available
+* Various [pixel shaders](https://en.wikipedia.org/wiki/Shader#Pixel_shaders)
+* [Color management](https://en.wikipedia.org/wiki/Color_management)
+* 38 translations available
 
 
 ## System Requirements:
@@ -40,12 +40,12 @@ See [CONTRIBUTING.md](/CONTRIBUTING.md) for more info.
 
 
 ## Links:
-* [Website](http://mpc-hc.org)
+* [Website](https://mpc-hc.org/)
 * [Source code](https://github.com/mpc-hc)
-* [Support Trac](https://trac.mpc-hc.org)
-* IRC Channel: [#mpc-hc](http://webchat.freenode.net/?randomnick=1&channels=mpc-hc&prompt=1&uio=d4)
-  / [#mpc-hc-dev](http://webchat.freenode.net/?randomnick=1&channels=mpc-hc-dev&prompt=1&uio=d4) at [Freenode](http://freenode.net/)
-* [Donations](http://mpc-hc.org/donate/)
+* [Support Trac](https://trac.mpc-hc.org/)
+* IRC Channel: [#mpc-hc](https://webchat.freenode.net/?randomnick=1&channels=mpc-hc&prompt=1&uio=d4)
+  / [#mpc-hc-dev](https://webchat.freenode.net/?randomnick=1&channels=mpc-hc-dev&prompt=1&uio=d4) at [Freenode](https://freenode.net/)
+* [Donations](https://mpc-hc.org/donate/)
 
 
 For the people involved in the development, see
@@ -64,21 +64,21 @@ MPC-HC makes use of the following third-party code:
 | Project           | License                   | Website           |
 | ----------------- | ------------------------- | ----------------- |
 | CSizingControlBar | -                         | http://www.datamekanix.com/sizecbar/ |
-| LAV Filters       | GPLv2+                    | http://code.google.com/p/lavfilters/ |
+| LAV Filters       | GPLv2+                    | https://code.google.com/p/lavfilters/ |
 | libdivide         | zlib License              | http://libdivide.com/ |
 | Little CMS        | MIT License               | http://www.littlecms.com/ |
 | Logitech SDK      | -                         | - |
-| MediaInfoLib      | Simplified BSD License    | http://mediaarea.net/MediaInfo |
+| MediaInfoLib      | Simplified BSD License    | https://mediaarea.net/MediaInfo |
 | Mhook             | MIT License               | https://github.com/martona/mhook |
 | MultiMon          | CPOL                      | http://www.codeproject.com/Articles/3690/ |
-| QuickTime SDK     | -                         | http://developer.apple.com/quicktime/ |
+| QuickTime SDK     | -                         | https://developer.apple.com/quicktime/ |
 | RARFileSource     | GPLv2+                    | http://www.v12pwr.com/RARFileSource/ |
 | RealMedia SDK     | -                         | - |
-| ResizableLib      | Artistic License          | http://sourceforge.net/projects/resizablelib/ |
+| ResizableLib      | Artistic License          | https://sourceforge.net/projects/resizablelib/ |
 | Silk Icons        | CC Attribution 2.5        | http://www.famfamfam.com/lab/icons/silk/ |
 | SoundTouch        | LGPLv2.1                  | http://www.surina.net/soundtouch/ |
 | TreePropSheet     | -                         | http://www.codeproject.com/Articles/3709/ |
 | UnRAR             | freeware                  | http://www.rarlab.com/rar_add.htm |
 | VirtualDub        | GPLv2+                    | http://www.virtualdub.org/ |
-| ZenLib            | zlib License              | http://sourceforge.net/projects/zenlib/ |
+| ZenLib            | zlib License              | https://sourceforge.net/projects/zenlib/ |
 | zlib              | zlib License              | http://zlib.net/ |

@@ -4,12 +4,12 @@
 # Translators:
 # schop <aprcel00@fesb.hr>, 2014
 # iivana24 <iivana24@gmail.com>, 2014
-# streger <stjepan.treger@gmail.com>, 2014
+# streger <stjepan.treger@gmail.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-06-17 15:23:34+0000\n"
-"PO-Revision-Date: 2014-09-08 12:31+0000\n"
+"PO-Revision-Date: 2015-05-29 21:00+0000\n"
 "Last-Translator: streger <stjepan.treger@gmail.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/mpc-hc/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -72,7 +72,7 @@ msgstr "Vrati na početne postavke programa"
 
 msgctxt "CustomMessages_types_DefaultInstallation"
 msgid "Default installation"
-msgstr "Standarnda instalacija"
+msgstr "Standardna instalacija"
 
 msgctxt "CustomMessages_types_CustomInstallation"
 msgid "Custom installation"

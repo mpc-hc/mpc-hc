@@ -1,5 +1,5 @@
 /*
- * (C) 2013-2014 see Authors.txt
+ * (C) 2013-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -179,6 +179,11 @@ namespace PathUtils
         return (attr != INVALID_FILE_ATTRIBUTES) && (attr & FILE_ATTRIBUTE_DIRECTORY);
     }
 
+    bool IsLinkFile(LPCTSTR path)
+    {
+        return !FileExt(path).CompareNoCase(_T(".lnk"));
+    }
+
     bool CreateDirRecursive(LPCTSTR path)
     {
         bool ret = IsDir(path) || CreateDirectory(path, nullptr);
@@ -186,5 +191,61 @@ namespace PathUtils
             ret = CreateDirRecursive(DirName(path)) && CreateDirectory(path, nullptr);
         }
         return ret;
+    }
+
+    CString ResolveLinkFile(LPCTSTR path)
+    {
+        TCHAR buff[MAX_PATH];
+        CComPtr<IShellLink> pSL;
+        pSL.CoCreateInstance(CLSID_ShellLink);
+        CComQIPtr<IPersistFile> pPF = pSL;
+
+        if (pSL && pPF
+                && SUCCEEDED(pPF->Load(path, STGM_READ))
+                && SUCCEEDED(pSL->Resolve(nullptr, SLR_ANY_MATCH | SLR_NO_UI))
+                && SUCCEEDED(pSL->GetPath(buff, _countof(buff), nullptr, 0))) {
+            return buff;
+        }
+
+        return _T("");
+    }
+
+    void RecurseAddDir(LPCTSTR path, CAtlList<CString>& paths)
+    {
+        CFileFind finder;
+
+        BOOL bFound = finder.FindFile(PathUtils::CombinePaths(path, _T("*.*")));
+        while (bFound) {
+            bFound = finder.FindNextFile();
+
+            if (!finder.IsDots() && finder.IsDirectory()) {
+                CString folderPath = finder.GetFilePath();
+                paths.AddTail(folderPath);
+                RecurseAddDir(folderPath, paths);
+            }
+        }
+    }
+
+    void ParseDirs(CAtlList<CString>& paths)
+    {
+        POSITION pos = paths.GetHeadPosition();
+        while (pos) {
+            POSITION prevPos = pos;
+            CString fn = paths.GetNext(pos);
+            // Try to follow link files that point to a directory
+            if (IsLinkFile(fn)) {
+                fn = ResolveLinkFile(fn);
+            }
+
+            if (IsDir(fn)) {
+                CAtlList<CString> subDirs;
+                RecurseAddDir(fn, subDirs);
+                // Add the subdirectories just after their parent
+                // so that the tree is not parsed multiple times
+                while (!subDirs.IsEmpty()) {
+                    paths.InsertAfter(prevPos, subDirs.RemoveTail());
+                }
+            }
+        }
     }
 }

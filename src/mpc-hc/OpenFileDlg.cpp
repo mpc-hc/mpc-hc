@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -121,27 +121,21 @@ BOOL COpenFileDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 
 BOOL COpenFileDlg::OnIncludeItem(OFNOTIFYEX* pOFNEx, LRESULT* pResult)
 {
-    TCHAR buff[MAX_PATH];
-    if (!SHGetPathFromIDList((PIDLIST_ABSOLUTE)pOFNEx->pidl, buff)) {
+    CString fn;
+    if (!SHGetPathFromIDList((PIDLIST_ABSOLUTE)pOFNEx->pidl, fn.GetBuffer(MAX_PATH))) {
+        fn.ReleaseBuffer(0);
+        IShellFolder* psf = (IShellFolder*)pOFNEx->psf;
+        PCUITEMID_CHILD pidl = (PCUITEMID_CHILD)pOFNEx->pidl;
         STRRET s;
-        HRESULT hr = ((IShellFolder*)pOFNEx->psf)->GetDisplayNameOf((PCUITEMID_CHILD)pOFNEx->pidl, SHGDN_NORMAL | SHGDN_FORPARSING, &s);
-        if (S_OK != hr) {
-            return FALSE;
+        CComHeapPtr<TCHAR> fnTmp;
+        if (SUCCEEDED(psf->GetDisplayNameOf(pidl, SHGDN_NORMAL | SHGDN_FORPARSING, &s))
+                && SUCCEEDED(StrRetToStr(&s, pidl, &fnTmp))) {
+            fn = fnTmp;
         }
-        switch (s.uType) {
-            case STRRET_CSTR:
-                _tcscpy_s(buff, CString(s.cStr));
-                break;
-            case STRRET_WSTR:
-                _tcscpy_s(buff, CString(s.pOleStr));
-                CoTaskMemFree(s.pOleStr);
-                break;
-            default:
-                return FALSE;
-        }
+    } else {
+        fn.ReleaseBuffer();
     }
 
-    CString fn(buff);
     /*
         WIN32_FILE_ATTRIBUTE_DATA fad;
         if (GetFileAttributesEx(fn, GetFileExInfoStandard, &fad)

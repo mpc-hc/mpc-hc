@@ -70,6 +70,7 @@ private:
     HANDLE m_hDrive;
     CDROM_TOC m_TOC;
     UINT m_nFirstSector, m_nStartSector, m_nStopSector;
+    bool m_bDTS;
 
     WAVEChunck m_header;
 
@@ -82,6 +83,8 @@ public:
     CString m_discArtist, m_trackArtist;
 
     bool Load(const WCHAR* fnw);
+
+    bool IsDTS() const { return m_bDTS; };
 
     // overrides
     HRESULT SetPointer(LONGLONG llPos);

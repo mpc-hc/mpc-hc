@@ -1375,15 +1375,15 @@ bool File_Dts::FrameSynchPoint_Test()
                 {
                     int64u Value;
                     if (BigEndian)
-                        Value =(((int64u)(   BigEndian2int16u(Buffer+Pos  )&0x3FFF))<<42)
-                             | (((int64u)(   BigEndian2int16u(Buffer+Pos+2)&0x3FFF))<<28)
-                             | (((int64u)(   BigEndian2int16u(Buffer+Pos+4)&0x3FFF))<<14)
-                             | (((int64u)(   BigEndian2int16u(Buffer+Pos+6)&0x3FFF))    );
+                        Value =(((int64u)(   BigEndian2int16u(Buffer+Buffer_Offset+Pos  )&0x3FFF))<<42)
+                             | (((int64u)(   BigEndian2int16u(Buffer+Buffer_Offset+Pos+2)&0x3FFF))<<28)
+                             | (((int64u)(   BigEndian2int16u(Buffer+Buffer_Offset+Pos+4)&0x3FFF))<<14)
+                             | (((int64u)(   BigEndian2int16u(Buffer+Buffer_Offset+Pos+6)&0x3FFF))    );
                     else
-                        Value =(((int64u)(LittleEndian2int16u(Buffer+Pos  )&0x3FFF))<<42)
-                             | (((int64u)(LittleEndian2int16u(Buffer+Pos+2)&0x3FFF))<<28)
-                             | (((int64u)(LittleEndian2int16u(Buffer+Pos+4)&0x3FFF))<<14)
-                             | (((int64u)(LittleEndian2int16u(Buffer+Pos+6)&0x3FFF))    );
+                        Value =(((int64u)(LittleEndian2int16u(Buffer+Buffer_Offset+Pos  )&0x3FFF))<<42)
+                             | (((int64u)(LittleEndian2int16u(Buffer+Buffer_Offset+Pos+2)&0x3FFF))<<28)
+                             | (((int64u)(LittleEndian2int16u(Buffer+Buffer_Offset+Pos+4)&0x3FFF))<<14)
+                             | (((int64u)(LittleEndian2int16u(Buffer+Buffer_Offset+Pos+6)&0x3FFF))    );
                     int56u2BigEndian(Dest+Pos*14/16, Value);
                 }
                 Save_Buffer=Dest;

@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2015 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Rancher <djordje.vasiljevich@gmail.com>, 2014
@@ -198,13 +198,17 @@ msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
 msgstr "&Тест на цепање слике"
 
-msgctxt "ID_VIEW_DISPLAYSTATS"
-msgid "&Display Stats"
-msgstr "&Статистика"
+msgctxt "ID_VIEW_DISPLAY_RENDERER_STATS"
+msgid "&Display Statistics"
+msgstr ""
 
-msgctxt "ID_VIEW_REMAINING_TIME"
-msgid "&Remaining Time"
-msgstr "Пр&еостало време"
+msgctxt "ID_VIEW_OSD_DISPLAY_TIME"
+msgid "Display Current T&ime"
+msgstr ""
+
+msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
+msgid "Show &File Name"
+msgstr ""
 
 msgctxt "POPUP"
 msgid "&Output Range"
@@ -555,16 +559,16 @@ msgid "S&haders"
 msgstr "Модули за &сенчење"
 
 msgctxt "ID_AUDIOS"
-msgid "&Audio"
-msgstr "&Звук"
+msgid "&Audio Track"
+msgstr ""
 
 msgctxt "ID_SUBTITLES"
-msgid "Su&btitles"
-msgstr "&Титлови"
+msgid "Su&btitle Track"
+msgstr ""
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Stream"
-msgstr "Ток &видео-записа"
+msgid "&Video Track"
+msgstr ""
 
 msgctxt "POPUP"
 msgid "&Volume"
@@ -586,7 +590,19 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "&Након репродукције"
 
-msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgctxt "ID_AFTERPLAYBACK_DONOTHING"
+msgid "Do no&thing"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "Пусти &следећу датотеку"
+
+msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
+msgid "Turn off the &monitor"
+msgstr "Искључи &монитор"
+
+msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
 msgstr "&Изађи из програма"
 
@@ -609,14 +625,6 @@ msgstr "&Одјави корисника"
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "&Закључај рачунар"
-
-msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
-msgid "Turn off the &monitor"
-msgstr "Искључи &монитор"
-
-msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
-msgid "Play &next file in the folder"
-msgstr "Пусти &следећу датотеку"
 
 msgctxt "POPUP"
 msgid "&Navigate"

@@ -411,9 +411,10 @@ private :
     void slice_layer_extension(bool svc_extension_flag);
 
     //Packets - SubElements
-    bool seq_parameter_set_data(vector<seq_parameter_set_struct*> &Data, int32u &Data_id);
+    seq_parameter_set_struct* seq_parameter_set_data(int32u &Data_id);
+    void seq_parameter_set_data_Add(vector<seq_parameter_set_struct*> &Data, const int32u Data_id, seq_parameter_set_struct* Data_Item_New);
     void seq_parameter_set_svc_extension();
-    void seq_parameter_set_mvc_extension(int32u subset_seq_parameter_sets_id);
+    void seq_parameter_set_mvc_extension(seq_parameter_set_struct* Data_Item);
     void scaling_list(int32u ScalingList_Size);
     void vui_parameters(seq_parameter_set_struct::vui_parameters_struct* &vui_parameters_Item);
     void svc_vui_parameters_extension();
@@ -544,6 +545,10 @@ private :
     int8u                               nal_ref_idc;
     int8u                               FrameRate_Divider;
     bool                                FirstPFrameInGop_IsParsed;
+    #if MEDIAINFO_ADVANCED2
+        std::vector<std::string>        Dump_SPS;
+        std::vector<std::string>        Dump_PPS;
+    #endif //MEDIAINFO_ADVANCED2
 
     //Helpers
     string                              GOP_Detect                              (string PictureTypes);

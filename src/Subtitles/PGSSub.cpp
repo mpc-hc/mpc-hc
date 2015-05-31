@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -216,8 +216,8 @@ void CPGSSub::Reset()
     m_nCurSegment = NO_SEGMENT;
     m_pCurrentPresentationSegment.Free();
     m_pPresentationSegments.RemoveAll();
-    for (int i = 0; i < _countof(m_compositionObjects); i++) {
-        m_compositionObjects[i].Reset();
+    for (auto& compositionObject : m_compositionObjects) {
+        compositionObject.Reset();
     }
 }
 
@@ -247,7 +247,7 @@ HRESULT CPGSSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox, bool bRe
     if (posPresentationSegment) {
         const auto& pPresentationSegment = m_pPresentationSegments.GetAt(posPresentationSegment);
 
-        bool BT709 = m_infoSourceTarget.sourceMatrix == BT_709 ? true : m_infoSourceTarget.sourceMatrix == NONE ? (pPresentationSegment->video_descriptor.nVideoWidth > 720) : false;
+        m_eSourceMatrix = ColorConvTable::NONE ? (pPresentationSegment->video_descriptor.nVideoWidth > 720) ? ColorConvTable::BT709 : ColorConvTable::BT601 : m_eSourceMatrix;
 
         TRACE_PGSSUB(_T("CPGSSub:Render Presentation segment %d --> %s - %s\n"), pPresentationSegment->composition_descriptor.nNumber,
                      ReftimeToString(pPresentationSegment->rtStart),
@@ -256,14 +256,10 @@ HRESULT CPGSSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox, bool bRe
         bbox.left = bbox.top = LONG_MAX;
         bbox.right = bbox.bottom = 0;
 
-        POSITION pos = pPresentationSegment->objects.GetHeadPosition();
-        while (pos) {
-            const auto& pObject = pPresentationSegment->objects.GetNext(pos);
-
+        for (const auto& pObject : pPresentationSegment->objects) {
             if (pObject->GetRLEDataSize() && pObject->m_width > 0 && pObject->m_height > 0
                     && spd.w >= (pObject->m_horizontal_position + pObject->m_width) && spd.h >= (pObject->m_vertical_position + pObject->m_height)) {
-                pObject->SetPalette(pPresentationSegment->CLUT.size, pPresentationSegment->CLUT.palette, BT709,
-                                    m_infoSourceTarget.sourceBlackLevel, m_infoSourceTarget.sourceWhiteLevel, m_infoSourceTarget.targetBlackLevel, m_infoSourceTarget.targetWhiteLevel);
+                pObject->SetPalette(pPresentationSegment->CLUT.size, pPresentationSegment->CLUT.palette.data(), m_eSourceMatrix);
                 bbox.left = std::min(pObject->m_horizontal_position, bbox.left);
                 bbox.top = std::min(pObject->m_vertical_position, bbox.top);
                 bbox.right = std::max(pObject->m_horizontal_position + pObject->m_width, bbox.right);
@@ -289,7 +285,8 @@ HRESULT CPGSSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox, bool bRe
 
 int CPGSSub::ParsePresentationSegment(REFERENCE_TIME rt, CGolombBuffer* pGBuffer)
 {
-    m_pCurrentPresentationSegment = CAutoPtr<HDMV_PRESENTATION_SEGMENT>(DEBUG_NEW HDMV_PRESENTATION_SEGMENT());
+    m_pCurrentPresentationSegment.Free();
+    m_pCurrentPresentationSegment.Attach(DEBUG_NEW HDMV_PRESENTATION_SEGMENT());
 
     m_pCurrentPresentationSegment->rtStart = rt;
     m_pCurrentPresentationSegment->rtStop = UNKNOWN_TIME; // Unknown for now
@@ -304,9 +301,10 @@ int CPGSSub::ParsePresentationSegment(REFERENCE_TIME rt, CGolombBuffer* pGBuffer
                  m_pCurrentPresentationSegment->composition_descriptor.bState, m_pCurrentPresentationSegment->objectCount);
 
     for (int i = 0; i < m_pCurrentPresentationSegment->objectCount; i++) {
-        CAutoPtr<CompositionObject> pCompositionObject(DEBUG_NEW CompositionObject());
-        ParseCompositionObject(pGBuffer, pCompositionObject);
-        m_pCurrentPresentationSegment->objects.AddTail(pCompositionObject);
+        std::unique_ptr<CompositionObject> pCompositionObject(DEBUG_NEW CompositionObject());
+        if (ParseCompositionObject(pGBuffer, pCompositionObject)) {
+            m_pCurrentPresentationSegment->objects.emplace_back(std::move(pCompositionObject));
+        }
     }
 
     return m_pCurrentPresentationSegment->objectCount;
@@ -319,10 +317,7 @@ void CPGSSub::EnqueuePresentationSegment()
             m_pCurrentPresentationSegment->CLUT = m_CLUTs[m_pCurrentPresentationSegment->CLUT.id];
 
             // Get the objects' data
-            POSITION pos = m_pCurrentPresentationSegment->objects.GetHeadPosition();
-            while (pos) {
-                const auto& pObject = m_pCurrentPresentationSegment->objects.GetNext(pos);
-
+            for (auto& pObject : m_pCurrentPresentationSegment->objects) {
                 const CompositionObject& pObjectData = m_compositionObjects[pObject->m_object_id_ref];
 
                 pObject->m_width = pObjectData.m_width;
@@ -384,7 +379,10 @@ void CPGSSub::ParsePalette(CGolombBuffer* pGBuffer, size_t nSize)  // #497
 void CPGSSub::ParseObject(CGolombBuffer* pGBuffer, size_t nUnitSize)   // #498
 {
     short object_id = pGBuffer->ReadShort();
-    ASSERT(object_id < _countof(m_compositionObjects));
+    if (object_id < 0 || size_t(object_id) >= m_compositionObjects.size()) {
+        ASSERT(FALSE); // This is not supposed to happen
+        return;
+    }
 
     CompositionObject& pObject = m_compositionObjects[object_id];
 
@@ -405,12 +403,17 @@ void CPGSSub::ParseObject(CGolombBuffer* pGBuffer, size_t nUnitSize)   // #498
     }
 }
 
-void CPGSSub::ParseCompositionObject(CGolombBuffer* pGBuffer, const CAutoPtr<CompositionObject>& pCompositionObject)
+bool CPGSSub::ParseCompositionObject(CGolombBuffer* pGBuffer, const std::unique_ptr<CompositionObject>& pCompositionObject)
 {
-    BYTE bTemp;
-    pCompositionObject->m_object_id_ref = pGBuffer->ReadShort();
+    short object_id_ref = pGBuffer->ReadShort();
+    if (object_id_ref < 0 || size_t(object_id_ref) >= m_compositionObjects.size()) {
+        ASSERT(FALSE); // This is not supposed to happen
+        return false;
+    }
+
+    pCompositionObject->m_object_id_ref = object_id_ref;
     pCompositionObject->m_window_id_ref = pGBuffer->ReadByte();
-    bTemp = pGBuffer->ReadByte();
+    BYTE bTemp = pGBuffer->ReadByte();
     pCompositionObject->m_object_cropped_flag = !!(bTemp & 0x80);
     pCompositionObject->m_forced_on_flag = !!(bTemp & 0x40);
     pCompositionObject->m_horizontal_position = pGBuffer->ReadShort();
@@ -422,6 +425,8 @@ void CPGSSub::ParseCompositionObject(CGolombBuffer* pGBuffer, const CAutoPtr<Com
         pCompositionObject->m_cropping_width = pGBuffer->ReadShort();
         pCompositionObject->m_cropping_height = pGBuffer->ReadShort();
     }
+
+    return true;
 }
 
 void CPGSSub::ParseVideoDescriptor(CGolombBuffer* pGBuffer, VIDEO_DESCRIPTOR* pVideoDescriptor)
@@ -459,12 +464,12 @@ void CPGSSub::RemoveOldSegments(REFERENCE_TIME rt)
     while (!m_pPresentationSegments.IsEmpty()
             && m_pPresentationSegments.GetHead()->rtStop != UNKNOWN_TIME
             && m_pPresentationSegments.GetHead()->rtStop + 120 * 10000000i64 < rt) {
-        auto pPresentationSegment = m_pPresentationSegments.RemoveHead();
         TRACE_PGSSUB(_T("CPGSSub::RemoveOldSegments Remove presentation segment %d %s => %s (rt=%s)\n"),
-                     pPresentationSegment->composition_descriptor.nNumber,
-                     ReftimeToString(pPresentationSegment->rtStart),
-                     ReftimeToString(pPresentationSegment->rtStop),
+                     m_pPresentationSegments.GetHead()->composition_descriptor.nNumber,
+                     ReftimeToString(m_pPresentationSegments.GetHead()->rtStart),
+                     ReftimeToString(m_pPresentationSegments.GetHead()->rtStop),
                      ReftimeToString(rt));
+        m_pPresentationSegments.RemoveHeadNoReturn();
     }
 }
 
@@ -536,7 +541,7 @@ void CPGSSubFile::ParseFile(CString fn)
         headerBuffer.ReadByte(); // segment type
         WORD wLenSegment = (WORD)headerBuffer.ReadShort();
 
-        // Let some round to add the segment type and size
+        // Leave some room to add the segment type and size
         int nLenData = nExtraSize + wLenSegment;
         segBuff.resize(nLenData);
         memcpy(segBuff.data(), &header[header.size() - nExtraSize], nExtraSize);

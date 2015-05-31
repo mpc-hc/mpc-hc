@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -509,7 +509,7 @@ bool CQuicktimeWindow::OpenMovie(CString fn)
 
         CHAR buff[MAX_PATH] = {0, 0};
         WideCharToMultiByte(GetACP(), 0, fn, -1, buff + 1, _countof(buff) - 1, 0, 0);
-        buff[0] = strlen(buff + 1);
+        buff[0] = (CHAR)strlen(buff + 1);
 
         // Make a FSSpec with a pascal string filename
         FSSpec sfFile;

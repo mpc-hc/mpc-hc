@@ -1,13 +1,13 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Underground78, 2013-2014
+# Underground78, 2013-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
-"PO-Revision-Date: 2014-11-11 11:11+0000\n"
+"POT-Creation-Date: 2015-05-22 20:53:41+0000\n"
+"PO-Revision-Date: 2015-05-27 17:11+0000\n"
 "Last-Translator: Underground78\n"
 "Language-Team: French (http://www.transifex.com/projects/p/mpc-hc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -196,13 +196,17 @@ msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
 msgstr "Test de &tearing"
 
-msgctxt "ID_VIEW_DISPLAYSTATS"
-msgid "&Display Stats"
+msgctxt "ID_VIEW_DISPLAY_RENDERER_STATS"
+msgid "&Display Statistics"
 msgstr "&Afficher les statistiques"
 
-msgctxt "ID_VIEW_REMAINING_TIME"
-msgid "&Remaining Time"
-msgstr "&Durée restante"
+msgctxt "ID_VIEW_OSD_DISPLAY_TIME"
+msgid "Display Current T&ime"
+msgstr "Afficher l'&indicateur de temps"
+
+msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
+msgid "Show &File Name"
+msgstr "Afficher le nom de &fichier"
 
 msgctxt "POPUP"
 msgid "&Output Range"
@@ -553,15 +557,15 @@ msgid "S&haders"
 msgstr "&Effets vidéo"
 
 msgctxt "ID_AUDIOS"
-msgid "&Audio"
-msgstr "&Audio"
+msgid "&Audio Track"
+msgstr "Piste &audio"
 
 msgctxt "ID_SUBTITLES"
-msgid "Su&btitles"
-msgstr "&Sous-titres"
+msgid "Su&btitle Track"
+msgstr "Piste de &sous-titres"
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Stream"
+msgid "&Video Track"
 msgstr "Piste &vidéo"
 
 msgctxt "POPUP"
@@ -584,7 +588,19 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "&En fin de lecture"
 
-msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgctxt "ID_AFTERPLAYBACK_DONOTHING"
+msgid "Do no&thing"
+msgstr "&Ne rien faire"
+
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "Lire le fichier &suivant dans le répertoire"
+
+msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
+msgid "Turn off the &monitor"
+msgstr "Éteindre l'&écran"
+
+msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
 msgstr "&Quitter le programme"
 
@@ -602,19 +618,11 @@ msgstr "&Arrêter l'ordinateur"
 
 msgctxt "ID_AFTERPLAYBACK_LOGOFF"
 msgid "Log &Off"
-msgstr "Fermer la &session"
+msgstr "&Fermer la session"
 
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "&Verrouiller la session"
-
-msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
-msgid "Turn off the &monitor"
-msgstr "Éteindre l'&écran"
-
-msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
-msgid "Play &next file in the folder"
-msgstr "Lire le fichier &suivant dans le répertoire"
 
 msgctxt "POPUP"
 msgid "&Navigate"

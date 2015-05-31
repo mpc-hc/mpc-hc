@@ -83,6 +83,9 @@
     <Filter Include="Main View">
       <UniqueIdentifier>{0453474a-2716-4c52-b5f4-cf6bd9e31ed0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Crash Reporter">
+      <UniqueIdentifier>{1d73f7db-64e8-4bc8-b0ca-72847253f467}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppSettings.cpp">
@@ -156,9 +159,6 @@
     </ClCompile>
     <ClCompile Include="FileAssoc.cpp">
       <Filter>Player Config</Filter>
-    </ClCompile>
-    <ClCompile Include="FileDropTarget.cpp">
-      <Filter>Helpers</Filter>
     </ClCompile>
     <ClCompile Include="FloatEdit.cpp">
       <Filter>Custom Controls</Filter>
@@ -397,7 +397,6 @@
     <ClCompile Include="EventDispatcher.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="MainFrmControls.cpp" />
-    <ClCompile Include="MiniDump.cpp" />
     <ClCompile Include="mplayerc.cpp" />
     <ClCompile Include="Playlist.cpp" />
     <ClCompile Include="stdafx.cpp" />
@@ -434,6 +433,15 @@
     </ClCompile>
     <ClCompile Include="PlayerPlaylistBar.cpp">
       <Filter>Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="DropTarget.cpp">
+      <Filter>Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="CrashReporter.cpp">
+      <Filter>Crash Reporter</Filter>
+    </ClCompile>
+    <ClCompile Include="CrashReporterDialog.cpp">
+      <Filter>Crash Reporter</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -508,9 +516,6 @@
     </ClInclude>
     <ClInclude Include="FileAssoc.h">
       <Filter>Player Config</Filter>
-    </ClInclude>
-    <ClInclude Include="FileDropTarget.h">
-      <Filter>Helpers</Filter>
     </ClInclude>
     <ClInclude Include="FloatEdit.h">
       <Filter>Custom Controls</Filter>
@@ -770,7 +775,6 @@
     <ClInclude Include="EventDispatcher.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="MainFrmControls.h" />
-    <ClInclude Include="MiniDump.h" />
     <ClInclude Include="mplayerc.h" />
     <ClInclude Include="Playlist.h" />
     <ClInclude Include="resource.h" />
@@ -811,6 +815,18 @@
     </ClInclude>
     <ClInclude Include="PlayerPlaylistBar.h">
       <Filter>Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="DropTarget.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="CrashReporter.h">
+      <Filter>Crash Reporter</Filter>
+    </ClInclude>
+    <ClInclude Include="CrashReporterDialog.h">
+      <Filter>Crash Reporter</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1047,10 +1063,5 @@
     <Image Include="res\uncheck_all.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <Object Include="..\thirdparty\LAVFilters\src\bin_$(PlatformName)\ffmpeg\GCCInfo.o">
-      <Filter>Build Info</Filter>
-    </Object>
   </ItemGroup>
 </Project>

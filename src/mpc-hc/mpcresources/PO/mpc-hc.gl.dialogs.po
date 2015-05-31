@@ -1,14 +1,14 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Rubén <feiticeiro2010@hotmail.es>, 2014
+# Rubén <feiticeiro2010@hotmail.es>, 2014-2015
 # Toño Calo <enfeitizador@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-12-23 18:52+0000\n"
+"POT-Creation-Date: 2015-05-17 20:47:27+0000\n"
+"PO-Revision-Date: 2015-05-27 14:16+0000\n"
 "Last-Translator: Rubén <feiticeiro2010@hotmail.es>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/mpc-hc/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -110,7 +110,7 @@ msgid "Enable custom channel mapping"
 msgstr "Activar mapeo de canles personalizado"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
+msgid "Speaker configuration for"
 msgstr "Axustes dos altofalantes para"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
@@ -118,7 +118,7 @@ msgid "input channels:"
 msgstr "Canles de entrada:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
+msgid "Hold shift for immediate changes when clicking something"
 msgstr "Presiona a tecla \"shift\" para aplicar os cambios de inmediato"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
@@ -155,7 +155,7 @@ msgstr "Abrir"
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Type the address of a movie or audio file (on the Internet or your computer) and the player will open it for you."
-msgstr "Escribe a ruta do filme ou ficheiro de audio (en Internet ou no teu ordenador) e o reproductor abrirao por ti."
+msgstr "Escribe a ruta do filme ou ficheiro de audio (en Internet ou no teu ordenador) e o reprodutor abrirao por ti."
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Open:"
@@ -243,11 +243,11 @@ msgstr "Opcións de apertura"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO1"
 msgid "Use the same player for each media file"
-msgstr "Usar o mesmo reproductor para cada ficheiro de medios que se reproduza"
+msgstr "Usar o mesmo reprodutor para cada ficheiro de medios que se reproduza"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO2"
 msgid "Open a new player for each media file played"
-msgstr "Abrir un novo reproductor para cada ficheiro de medios que se reproduza"
+msgstr "Abrir un novo reprodutor para cada ficheiro de medios que se reproduza"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Language"
@@ -570,7 +570,7 @@ msgid "Warning"
 msgstr "Aviso"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu."
+msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
 msgstr "Se activas o modo de antialiasing a pantalla completa na configuración da súa tarxeta gráfica, os subtítulos non lucirán mellor e esixirán forza ao CPU."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
@@ -682,11 +682,11 @@ msgid "Use Windows 7 Taskbar features"
 msgstr "Utilizar características da barra de tarefas de Windows 7"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
 msgstr "Saltar ao ficheiro anterior/seguinte no cartafol en \"Saltar seguinte/anterior\" cando só hai un ficheiro na lista de reprodución"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Use time tooltip:"
+msgid "Show time tooltip:"
 msgstr "Usar tooltip de tempo:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
@@ -1278,8 +1278,8 @@ msgid "Enable automatic update check"
 msgstr "Activar comprobación automática de actualizacións"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
-msgid "Delay between each check:"
-msgstr "Demora entre cada comprobación:"
+msgid "Check every:"
+msgstr "Comprobar cada:"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"
@@ -1662,6 +1662,30 @@ msgid "Command line help"
 msgstr "Axuda da liña de comandos"
 
 msgctxt "IDD_CMD_LINE_HELP_IDOK"
+msgid "OK"
+msgstr "De acordo"
+
+msgctxt "IDD_CRASH_REPORTER_CAPTION"
+msgid "Crash reporter"
+msgstr "Informe de fallo"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
+msgid "We are sorry, it seems MPC-HC just crashed. :(\n\nTo help us diagnose and fix the problem, a bug report will be sent. You can provide additional information if you want."
+msgstr "Sentimolo, semella que MPC-HC acaba de caer. :(\n\nPara axudarnos a diagnosticar e reparar o problema, enviarase un informe de fallo. Pode proporcionar información adicional se quere."
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
+msgid "Email:"
+msgstr "Correo electrónico:"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC3"
+msgid "Your email address is optional and will only be used if the developers need to contact you for more information."
+msgstr "O seu enderezo de correo electrónico é opcional e só se usará se os desenvolvedores precisan contactar con vostede para recabar máis información."
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
+msgid "Problem description (use English only):"
+msgstr "Descrición do problema (usa só o inglés):"
+
+msgctxt "IDD_CRASH_REPORTER_IDOK"
 msgid "OK"
 msgstr "De acordo"
 

@@ -1,14 +1,14 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Marián Hikaník <podnety@mojepreklady.net>, 2013-2014
-# Marián Hikaník <podnety@mojepreklady.net>, 2014
+# Marián Hikaník <podnety@mojepreklady.net>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-30 22:04:38+0000\n"
-"PO-Revision-Date: 2014-11-01 18:50+0000\n"
+"POT-Creation-Date: 2015-05-21 13:30:54+0000\n"
+"PO-Revision-Date: 2015-05-27 14:15+0000\n"
 "Last-Translator: Marián Hikaník <podnety@mojepreklady.net>\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/mpc-hc/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -326,11 +326,11 @@ msgid "On/Off"
 msgstr "Zap./Vyp."
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
-msgid "From fps"
+msgid "From FPS"
 msgstr "Od snímok/sek."
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
-msgid "To fps"
+msgid "To FPS"
 msgstr "Do snímok/sek."
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
@@ -622,8 +622,8 @@ msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer.
 msgstr "Rovnaké ako VMR-9 (bez vykreslenia), ale používa dvojprechodovú, bikubickú zmenu veľkosti."
 
 msgctxt "IDC_DSNULL_COMP"
-msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the cpu from working unnecessarily."
-msgstr "Pripája sa k médiu s videom, neodosiela však prichádzajúce vzorky. Môžete ho použiť vtedy, ak nepotrebujete obrazový výstup videa a chcete obmedziť zbytočnú prácu procesora."
+msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the CPU from working unnecessarily."
+msgstr "Pripája sa k akémukoľvek typu média s videom, neodosiela však prichádzajúce vzorky. Môžete ho použiť vtedy, keď nepotrebujete obrazový výstup videa a chcete obmedziť zbytočnú prácu procesora."
 
 msgctxt "IDC_DSNULL_UNCOMP"
 msgid "Same as the normal Null renderer, but this will only connect to uncompressed types."
@@ -889,7 +889,7 @@ msgctxt "ID_VOLUME_MUTE"
 msgid "Mute"
 msgstr "Stlmiť"
 
-msgctxt "ID_VOLUME_MUTE_ON"
+msgctxt "ID_VOLUME_MUTE_OFF"
 msgid "Unmute"
 msgstr "Nestlmiť"
 
@@ -1373,6 +1373,26 @@ msgctxt "IDS_ASPECT_RATIO_FMT"
 msgid "AR %d:%d"
 msgstr "Pomer strán %d:%d"
 
+msgctxt "IDS_PPAGEADVANCED_LOGGER"
+msgid "Enables logging to file (requires restart)"
+msgstr "Zapne zaznamenávanie do súboru (vyžaduje reštart)"
+
+msgctxt "IDS_TIMER_REMAINING_TIME"
+msgid "Remaining time"
+msgstr "Zostávajúci čas"
+
+msgctxt "IDS_TIMER_HIGH_PRECISION"
+msgid "High precision"
+msgstr "Veľká presnosť"
+
+msgctxt "IDS_AFTERPLAYBACK_REWIND"
+msgid "After Playback: Rewind current file"
+msgstr "Po prehratí: Vrátiť aktuálny súbor na začiatok"
+
+msgctxt "IDS_AFTERPLAYBACK_CLOSE"
+msgid "After Playback: Close"
+msgstr "Po prehratí: Uzatvoriť"
+
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
 msgstr "Načítať zo zariadenia"
@@ -1422,11 +1442,11 @@ msgid "Stop"
 msgstr "Stop"
 
 msgctxt "IDS_AG_FRAMESTEP"
-msgid "Framestep"
+msgid "Frame-step"
 msgstr "Posunúť o jednu snímku"
 
 msgctxt "IDS_MPLAYERC_16"
-msgid "Framestep back"
+msgid "Frame-step back"
 msgstr "Posunúť o jednu snímku dozadu"
 
 msgctxt "IDS_AG_GO_TO"
@@ -1526,8 +1546,8 @@ msgid "Thumbnails saved successfully"
 msgstr "Náhľady boli úspešne uložené"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
-msgid "&Video Stream"
-msgstr "Stream s &videom"
+msgid "&Video Track"
+msgstr "Stopa s &videom"
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
 msgid "Video Ang&le"
@@ -1649,13 +1669,45 @@ msgctxt "IDS_MPLAYERC_103"
 msgid "Shift Subtitle Right"
 msgstr "Posunúť titulok doprava"
 
-msgctxt "IDS_AG_DISPLAY_STATS"
-msgid "Display Stats"
-msgstr "Zobraziť štatistiky"
-
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"
 msgstr "Preskočiť na začiatok"
+
+msgctxt "IDS_OSD_SHOW_FILENAME"
+msgid "OSD: Show File Name"
+msgstr "OSD: Zobraziť názov súboru"
+
+msgctxt "IDS_OSD_DISPLAY_RENDERER_STATS"
+msgid "OSD: Display Renderer Statistics"
+msgstr "OSD: Zobraziť štatistiky vykresľovača"
+
+msgctxt "IDS_OSD_RESET_RENDERER_STATS"
+msgid "OSD: Reset Renderer Statistics"
+msgstr "OSD: Reset štatistík vykresľovača"
+
+msgctxt "IDD_PPAGESUBMISC"
+msgid "Subtitles::Misc"
+msgstr "Titulky::Rôzne"
+
+msgctxt "IDS_VIEW_BORDERLESS"
+msgid "Hide &borders"
+msgstr "Skryť o&kraje"
+
+msgctxt "IDS_VIEW_FRAMEONLY"
+msgid "Fra&me Only"
+msgstr "Len sním&ok"
+
+msgctxt "IDS_VIEW_CAPTIONMENU"
+msgid "Sho&w Caption&&Menu"
+msgstr "Z&obraziť titulok&&menu"
+
+msgctxt "IDS_VIEW_HIDEMENU"
+msgid "Hide &Menu"
+msgstr "Skryť &menu"
+
+msgctxt "IDD_PPAGEADVANCED"
+msgid "Advanced"
+msgstr "Pokročilé"
 
 msgctxt "IDS_AG_VIEW_MINIMAL"
 msgid "View Minimal"
@@ -1890,12 +1942,12 @@ msgid "Boss key"
 msgstr "Boss key"
 
 msgctxt "IDS_MPLAYERC_77"
-msgid "Player Menu (short)"
-msgstr "Menu prehrávača (krátke)"
+msgid "Player Menu"
+msgstr "Menu prehrávača"
 
 msgctxt "IDS_MPLAYERC_78"
-msgid "Player Menu (long)"
-msgstr "Menu prehrávača (dlhé)"
+msgid "Player Menu (full)"
+msgstr "Menu prehrávača (úplné)"
 
 msgctxt "IDS_AG_FILTERS_MENU"
 msgid "Filters Menu"
@@ -1973,9 +2025,9 @@ msgctxt "IDS_MPLAYERC_97"
 msgid "On/Off Subtitle (DVD)"
 msgstr "Zapnúť/vypnúť titulky (DVD)"
 
-msgctxt "IDS_MPLAYERC_98"
-msgid "Remaining Time"
-msgstr "Zostávajúci čas"
+msgctxt "IDS_OSD_DISPLAY_CURRENT_TIME"
+msgid "OSD: Display Current Time"
+msgstr "OSD: Zobraziť aktuálny čas"
 
 msgctxt "IDS_PPAGEWEBSERVER_0"
 msgid "Select the directory"
@@ -2286,8 +2338,8 @@ msgid "Out of memory"
 msgstr "Nedostatok pamäte"
 
 msgctxt "IDS_MAINFRM_77"
-msgid "Error: Flash player for IE is required"
-msgstr "Chyba: je potrebný Flash player pre IE"
+msgid "Error: Adobe Flash Player for Internet Explorer is required"
+msgstr "Chyba: je potrebný Adobe Flash Player pre Internet Explorer"
 
 msgctxt "IDS_MAINFRM_78"
 msgid "QuickTime not yet supported for X64 (apple library not available)"
@@ -2358,7 +2410,7 @@ msgid "Toggle Caption&Menu"
 msgstr "Prepnúť kapitolu&menu"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seeker"
+msgid "Toggle Seek Bar"
 msgstr "Prepnúť vyhľadávač"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
@@ -2514,8 +2566,8 @@ msgid "Volume boost Max"
 msgstr "Zvýraznenie hlasitosti Max"
 
 msgctxt "IDS_USAGE"
-msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nominidump\tDisable minidump creation\n/slave \"hWnd\"\tUse MPC-HC as slave\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "Pouzitie: mpc-hc.exe \"cesta\" [prepinace]\n\n\"cesta\"\tHlavny subor alebo priecinok, ktoreho obsah sa nacita (zastupne znaky\n\t\tsu povolene, znakom \"-\" oznacite standardny vstup)\n/dub \"zvukova stopa\"\tNacitat dalsi zvukovy subor\n/dubdelay \"subor\"\t Nacitat dalsi zvukovy subor, oneskoreny o XX ms (ak\n\t\tsubor obsahuje \"...DELAY XXms...\")\n/d3dfs\t\tspustit vykreslovanie v rezime na celu obrazovku D3D\n/sub \"nazov titulkov\"\tNacitat pridavny subor s titulkami\n/filter \"nazov filtra\"\t Nacitat filtre DirectShow z dynamicky prepojenej\n\t\tkniznice (zastupne znaky su povolene)\n/dvd\t\tSpustit v rezime DVD, \"cesta\" oznacuje priecinok na\n\t\tDVD (volitelne)\n/dvdpos T#C\tSpustit prehravanie titulu T, kapitoly C\n/dvdpos T#hh:mm\tSpustit prehravanie titulu T, na pozicii hh:mm:ss\n/cd\t\tNacitat vsetky stopy zvukoveho CD alebo (S)VCD,\n\t\t\"cesta\" - cesta k jednotke (volitelne)\n/device\t\tOtvorit predvolene zariadenie pre video\n/open\t\tOtvorit subor, neprehrat automaticky\n/play\t\tSpustit prehravanie ihned po spusteni \n\t\tprehravaca\n/close\t\tZatvorit prehravac po prehrati (funguje len s prepinacom\n\t\t /play)\n/shutdown\tVypnut operacny system po prehrati\n/standby\t\tPrepnut operacny system do pohotovostneho rezimu pre prehrati\n/hibernate\tPrepnut operacny system do rezimu hibernacie po prehrati\n/logoff\t\tPo prehrati odhlasit\n/lock\t\tPo prehrati uzamknut pocitac\n/monitoroff\tPo prehrati vypnut monitor\n/playnext\t\tPo prehrati otvorit dalsi subor v priecinku\n/fullscreen\tSpustit v rezime na celu obrazovku\n/minimized\tSpustiť minimalizovane\n/new\t\tPouzit novu instanciu prehravaca\n/add\t\tPridat \"cestu\" k playlistu, parameter mozno kombinovat s prepinacmi\n\t\t /open a /play\n/regvid\t\tVytvorit asociacie k suborom s videom\n/regaud\t\tVytvorit asociacie k suborom so zvukom\n/regpl\t\tVytvorit asociacie k suborom playlistov\n/regall\t\tVytvorit asociacie k vsetkym podporovanym suborom\n/unregall\t\tOdstranit vsetky asociacie k suborom\n/start ms\t\tSpustit prehravanie na pozicii v \"ms\" (= milisekundach)\n/startpos hh:mm:ss\tSpustit prehravanie na pozicii hh:mm:ss\n/fixedsize w,h\tNastavit fixnu sirku okna\n/monitor N\tSpustit prehravac na monitore N, pricom cislo N zacina na hodnote 1\n/audiorenderer N\tSpustit s pouzitim vykreslovaca zvuku N, pricom N sa zacina na hodnote 1\n\t\t(pozrite si nastavenia v casti \"Vystup\")\n/shaderpreset \"Pr\"\tSpustit s pouzitim prednastavenia shaderov \"Pr\"\n/pns \"name\"\tUrcit prednastavenia funkcie Pan&Scan ktore sa maju pouzit\n/iconsassoc\tZnovu asociovat ikony formatov\n/nofocus\t\tOtvorit program MPC-HC na pozadi\n/webport N\tSpustit webove rozhranie na specifikovanom porte\n/debug\t\tZobrazit informaciu pre ladenie v OSD\n/nominidump\tVypnut vytvaranie mini-vypisu pamate\n/slave \"hWnd\"\tPouzit MPC-HC ako druhotnu aplikaciu\n/reset\t\tObnovit predvolene nastavenia\n/help /h /?\tZobrazit pomocnika k prepinacom na prikazovom riadku\n"
+msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/randomize\tRandomize the playlist\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tUse MPC-HC as slave\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
+msgstr "Pouzitie: mpc-hc.exe \"cesta\" [prepinace]\n\n\"cesta\"\tHlavny subor alebo priecinok, ktoreho obsah sa nacita (zastupne znaky\n\t\tsu povolene, znakom \"-\" oznacite standardny vstup)\n/dub \"zvukova stopa\"\tNacitat dalsi zvukovy subor\n/dubdelay \"subor\"\t Nacitat dalsi zvukovy subor, oneskoreny o XX ms (ak\n\t\tsubor obsahuje \"...DELAY XXms...\")\n/d3dfs\t\tspustit vykreslovanie v rezime na celu obrazovku D3D\n/sub \"nazov titulkov\"\tNacitat dalsi subor s titulkami\n/filter \"nazov filtra\"\t Nacitat filtre DirectShow z dynamicky prepojenej\n\t\tkniznice (zastupne znaky su povolene)\n/dvd\t\tSpustit v rezime DVD, \"cesta\" oznacuje priecinok na\n\t\tDVD (volitelne)\n/dvdpos T#C\tSpustit prehravanie titulu T, kapitoly C\n/dvdpos T#hh:mm\tSpustit prehravanie titulu T, na pozicii hh:mm:ss\n/cd\t\tNacitat vsetky stopy zvukoveho CD alebo (S)VCD,\n\t\t\"cesta\" - cesta k jednotke (volitelne)\n/device\t\tOtvorit predvolene zariadenie pre video\n/open\t\tOtvorit subor, neprehrat automaticky\n/play\t\tSpustit prehravanie ihned po spusteni \n\t\tprehravaca\n/close\t\tZatvorit prehravac po prehrati (funguje len s prepinacom\n\t\t /play)\n/shutdown\tVypnut operacny system po prehrati\n/standby\t\tPrepnut operacny system do pohotovostneho rezimu pre prehrati\n/hibernate\tPrepnut operacny system do rezimu hibernacie po prehrati\n/logoff\t\tPo prehrati odhlasit\n/lock\t\tPo prehrati uzamknut pocitac\n/monitoroff\tPo prehrati vypnut monitor\n/playnext\t\tPo prehrati otvorit dalsi subor v priecinku\n/fullscreen\tSpustit v rezime na celu obrazovku\n/minimized\tSpustiť minimalizovane\n/new\t\tPouzit novu instanciu prehravaca\n/add\t\tPridat \"cestu\" k playlistu, parameter mozno kombinovat s prepinacmi\n\t\t /open a /play\n/randomize\tNahodne prehravanie v playliste\n/regvid\t\tVytvorit asociacie k suborom s videom\n/regaud\t\tVytvorit asociacie k suborom so zvukom\n/regpl\t\tVytvorit asociacie k suborom playlistov\n/regall\t\tVytvorit asociacie k vsetkym podporovanym suborom\n/unregall\t\tOdstranit vsetky asociacie k suborom\n/start ms\t\tSpustit prehravanie na pozicii v \"ms\" (= milisekundach)\n/startpos hh:mm:ss\tSpustit prehravanie na pozicii hh:mm:ss\n/fixedsize w,h\tNastavit fixnu sirku okna\n/monitor N\tSpustit prehravac na monitore N, pricom cislo N zacina na hodnote 1\n/audiorenderer N\tSpustit s pouzitim vykreslovaca zvuku N, pricom N sa zacina na hodnote 1\n\t\t(pozrite si nastavenia v casti \"Vystup\")\n/shaderpreset \"Pr\"\tSpustit s pouzitim prednastavenia shaderov \"Pr\"\n/pns \"name\"\tUrcit prednastavenia funkcie Pan&Scan ktore sa maju pouzit\n/iconsassoc\tZnovu asociovat ikony formatov\n/nofocus\t\tOtvorit program MPC-HC na pozadi\n/webport N\tSpustit webove rozhranie na specifikovanom porte\n/debug\t\tZobrazit informaciu pre ladenie v OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tPouzit MPC-HC ako druhotnu aplikaciu\n/reset\t\tObnovit predvolene nastavenia\n/help /h /?\tZobrazit pomocnika k prepinacom na prikazovom riadku\n"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -2697,40 +2749,12 @@ msgctxt "IDS_TOP_BACK_RIGHT"
 msgid "Top Back Right"
 msgstr "Horný pravý - vzadu"
 
-msgctxt "IDS_AG_RESET_STATS"
-msgid "Reset Display Stats"
-msgstr "Obnoviť štatistiku zobrazenia"
-
-msgctxt "IDD_PPAGESUBMISC"
-msgid "Subtitles::Misc"
-msgstr "Titulky::Rôzne"
-
-msgctxt "IDS_VIEW_BORDERLESS"
-msgid "Hide &borders"
-msgstr "Skryť o&kraje"
-
-msgctxt "IDS_VIEW_FRAMEONLY"
-msgid "Frame Only"
-msgstr "Len snímok"
-
-msgctxt "IDS_VIEW_CAPTIONMENU"
-msgid "Sho&w Caption&&Menu"
-msgstr "Z&obraziť titulok&&menu"
-
-msgctxt "IDS_VIEW_HIDEMENU"
-msgid "Hide &Menu"
-msgstr "Skryť &menu"
-
-msgctxt "IDD_PPAGEADVANCED"
-msgid "Advanced"
-msgstr "Pokročilé"
-
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seekbar"
+msgid "Above seek bar"
 msgstr "Nad panelom vyhľadávania"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seekbar"
+msgid "Below seek bar"
 msgstr "Pod panelom vyhľadávania"
 
 msgctxt "IDS_VIDEO_STREAM"
@@ -2898,8 +2922,8 @@ msgid "Other Audio"
 msgstr "Iný zvuk"
 
 msgctxt "IDS_MFMT_AC3"
-msgid "AC-3/DTS"
-msgstr "AC-3/DTS"
+msgid "AC-3"
+msgstr "AC-3"
 
 msgctxt "IDS_MFMT_AIFF"
 msgid "AIFF"
@@ -2908,6 +2932,26 @@ msgstr "AIFF"
 msgctxt "IDS_MFMT_ALAC"
 msgid "Apple Lossless"
 msgstr "Apple - bezstratový"
+
+msgctxt "IDS_MFMT_WAV"
+msgid "WAV"
+msgstr "WAV"
+
+msgctxt "IDS_MFMT_WMA"
+msgid "Windows Media Audio"
+msgstr "Windows Media Audio"
+
+msgctxt "IDS_MFMT_WV"
+msgid "WavPack"
+msgstr "WavPack"
+
+msgctxt "IDS_MFMT_OPUS"
+msgid "Opus Audio Codec"
+msgstr "Kodek Opus Audio"
+
+msgctxt "IDS_MFMT_DTS"
+msgid "DTS/DTS-HD"
+msgstr "DTS/DTS-HD"
 
 msgctxt "IDS_MFMT_AMR"
 msgid "AMR"
@@ -2972,22 +3016,6 @@ msgstr "TAK"
 msgctxt "IDS_MFMT_TTA"
 msgid "True Audio"
 msgstr "True Audio"
-
-msgctxt "IDS_MFMT_WAV"
-msgid "WAV"
-msgstr "WAV"
-
-msgctxt "IDS_MFMT_WMA"
-msgid "Windows Media Audio"
-msgstr "Windows Media Audio"
-
-msgctxt "IDS_MFMT_WV"
-msgid "WavPack"
-msgstr "WavPack"
-
-msgctxt "IDS_MFMT_OPUS"
-msgid "Opus Audio Codec"
-msgstr "Kodek Opus Audio"
 
 msgctxt "IDS_MFMT_PLS"
 msgid "Playlist"
@@ -3374,7 +3402,7 @@ msgid "Error parsing the entered frame rate!"
 msgstr "Chyba pri analyzovaní zadanej rýchlosti snímkovania!"
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
-msgid "Cannot frame step, try a different video renderer."
+msgid "Cannot frame-step, try a different video renderer."
 msgstr "Krokovanie snímkami nie je možné. Skúste použiť iný vykresľovač videa."
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"
@@ -3465,7 +3493,7 @@ msgctxt "IDS_WEBSERVER_ERROR_TEST"
 msgid "You need to apply the new settings before testing them."
 msgstr "Pred otestovaním je potrebné aplikovať nové nastavenia."
 
-msgctxt "IDS_AFTERPLAYBACK_CLOSE"
+msgctxt "IDS_AFTERPLAYBACK_EXIT"
 msgid "After Playback: Exit"
 msgstr "Po prehratí: Ukončiť"
 

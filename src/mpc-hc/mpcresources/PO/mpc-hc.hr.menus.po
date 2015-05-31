@@ -1,16 +1,16 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# schop <aprcel00@fesb.hr>, 2014
-# streger <stjepan.treger@gmail.com>, 2014
+# schop <aprcel00@fesb.hr>, 2014-2015
+# streger <stjepan.treger@gmail.com>, 2014-2015
 # Ico2005 <vukasinac@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
-"PO-Revision-Date: 2014-10-27 08:00+0000\n"
-"Last-Translator: schop <aprcel00@fesb.hr>\n"
+"POT-Creation-Date: 2015-05-22 20:53:41+0000\n"
+"PO-Revision-Date: 2015-05-30 21:41+0000\n"
+"Last-Translator: streger <stjepan.treger@gmail.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/mpc-hc/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -68,15 +68,15 @@ msgstr "Spremi &sličice..."
 
 msgctxt "ID_FILE_LOAD_SUBTITLE"
 msgid "&Load Subtitle..."
-msgstr "&Učitaj podnapise..."
+msgstr "Učitaj tit&love..."
 
 msgctxt "ID_FILE_SAVE_SUBTITLE"
 msgid "Save S&ubtitle..."
-msgstr "Spremi p&odnapise..."
+msgstr "Spremi titlo&ve..."
 
 msgctxt "POPUP"
 msgid "Subtitle Data&base"
-msgstr "Baza pod&napisa"
+msgstr "&Baza titlova"
 
 msgctxt "ID_FILE_ISDB_SEARCH"
 msgid "&Search..."
@@ -128,7 +128,7 @@ msgstr "St&atus"
 
 msgctxt "ID_VIEW_SUBRESYNC"
 msgid "Su&bresync"
-msgstr "Resinkronizacija podnapisa"
+msgstr "Resinkronizacija titlova"
 
 msgctxt "ID_VIEW_PLAYLIST"
 msgid "Pla&ylist"
@@ -136,7 +136,7 @@ msgstr "Pla&ylist"
 
 msgctxt "ID_VIEW_CAPTURE"
 msgid "Captu&re"
-msgstr "&snimak"
+msgstr "&Snimak"
 
 msgctxt "ID_VIEW_NAVIGATION"
 msgid "Na&vigation"
@@ -198,13 +198,17 @@ msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
 msgstr "&Test razdvajanja"
 
-msgctxt "ID_VIEW_DISPLAYSTATS"
-msgid "&Display Stats"
-msgstr "&Status ekrana"
+msgctxt "ID_VIEW_DISPLAY_RENDERER_STATS"
+msgid "&Display Statistics"
+msgstr "&Prikaži statistiku"
 
-msgctxt "ID_VIEW_REMAINING_TIME"
-msgid "&Remaining Time"
-msgstr "&Preostalo vrijeme"
+msgctxt "ID_VIEW_OSD_DISPLAY_TIME"
+msgid "Display Current T&ime"
+msgstr "Prikaži trenutno &vrijeme"
+
+msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
+msgid "Show &File Name"
+msgstr "Prikaži &ime datoteke"
 
 msgctxt "POPUP"
 msgid "&Output Range"
@@ -444,7 +448,7 @@ msgstr "&Ispravi razliku omjera slike na monitoru/radnoj površini"
 
 msgctxt "POPUP"
 msgid "Pa&n&&Scan"
-msgstr "Raz&vlač&&enje slike"
+msgstr "Razvlače&nje slike"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"
@@ -555,16 +559,16 @@ msgid "S&haders"
 msgstr "S&haderi"
 
 msgctxt "ID_AUDIOS"
-msgid "&Audio"
-msgstr "&Audio"
+msgid "&Audio Track"
+msgstr "&Audio zapis"
 
 msgctxt "ID_SUBTITLES"
-msgid "Su&btitles"
-msgstr "Pod&napisi"
+msgid "Su&btitle Track"
+msgstr "Zap&is podnapisa"
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Stream"
-msgstr "&Video traka"
+msgid "&Video Track"
+msgstr "&Video zapis"
 
 msgctxt "POPUP"
 msgid "&Volume"
@@ -586,7 +590,19 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "Na&kon reprodukcije"
 
-msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgctxt "ID_AFTERPLAYBACK_DONOTHING"
+msgid "Do no&thing"
+msgstr "Ne čini &ništa"
+
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "Reproduciraj slijedeću datoteku iz mape"
+
+msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
+msgid "Turn off the &monitor"
+msgstr "Isključiti &ekran"
+
+msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
 msgstr "&Zatvori program"
 
@@ -609,14 +625,6 @@ msgstr "Odjavi &korisnika"
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "&Zaključaj korisnika"
-
-msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
-msgid "Turn off the &monitor"
-msgstr "Isključiti &ekran"
-
-msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
-msgid "Play &next file in the folder"
-msgstr "Reproduciraj slijedeću datoteku iz mape"
 
 msgctxt "POPUP"
 msgid "&Navigate"
@@ -644,7 +652,7 @@ msgstr "&Glavni izbornik"
 
 msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
 msgid "&Subtitle Menu"
-msgstr "&Izbor podnapisa"
+msgstr "&Izbor titlova"
 
 msgctxt "ID_NAVIGATE_AUDIOMENU"
 msgid "&Audio Menu"

@@ -1,19 +1,20 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Adolfo Jayme Barrientos <fito@libreoffice.org>, 2014
-# Adolfo Jayme Barrientos <fito@libreoffice.org>, 2014
-# Ernesto Avilés Vzqz <whippiii@gmail.com>, 2013
-# Ernesto Avilés Vzqz <whippiii@gmail.com>, 2014
+# Adolfo Jayme Barrientos, 2014-2015
+# Adolfo Jayme Barrientos, 2015
+# Adolfo Jayme Barrientos, 2014
+# Ernesto Avilés Vázquez <whippiii@gmail.com>, 2013
+# Ernesto Avilés Vázquez <whippiii@gmail.com>, 2014
 # squallmx <squallmx@users.sourceforge.net>, 2014
-# strel, 2014
+# strel, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-12-01 22:46+0000\n"
-"Last-Translator: Underground78\n"
+"POT-Creation-Date: 2015-05-17 20:47:27+0000\n"
+"PO-Revision-Date: 2015-05-17 23:41+0000\n"
+"Last-Translator: strel\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/mpc-hc/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -114,7 +115,7 @@ msgid "Enable custom channel mapping"
 msgstr "Activar asignación de canales personalizada"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
+msgid "Speaker configuration for"
 msgstr "Configuración de altavoces para"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
@@ -122,7 +123,7 @@ msgid "input channels:"
 msgstr "canales de entrada:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
+msgid "Hold shift for immediate changes when clicking something"
 msgstr "Mantenga presionada Mayús para aplicar los cambios de inmediato"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
@@ -574,7 +575,7 @@ msgid "Warning"
 msgstr "Advertencia"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu."
+msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
 msgstr "Si activa el modo de suavizado a pantalla completa en la configuración de la tarjeta de vídeo, se incrementará el uso de la CPU sin mejoras de calidad visual de los subtítulos."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
@@ -686,11 +687,11 @@ msgid "Use Windows 7 Taskbar features"
 msgstr "Utilizar funciones de la barra de tareas de Windows 7"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
 msgstr "Saltar al archivo anterior/siguiente en la carpeta en «Saltar siguiente/anterior» cuando solo hay un archivo en la lista de reproducción"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Use time tooltip:"
+msgid "Show time tooltip:"
 msgstr "Burbuja de tiempo:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
@@ -795,7 +796,7 @@ msgstr "Descripción:"
 
 msgctxt "IDD_FAVADD_CAPTION"
 msgid "Add Favorite"
-msgstr "Agregar a Favoritos"
+msgstr "Añadir a Favoritos"
 
 msgctxt "IDD_FAVADD_IDC_STATIC"
 msgid "Choose a name for your shortcut:"
@@ -1231,7 +1232,7 @@ msgstr "Página predeterminada:"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC"
 msgid "CGI handlers: (.ext1=path1;.ext2=path2;...)"
-msgstr "Tratantes de CGI: (.ext1=ruta1;.ext2=ruta2;…)"
+msgstr "Manejadores de CGI: (.ext1=ruta1;.ext2=ruta2;…)"
 
 msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
 msgid "Subtitles available online"
@@ -1282,8 +1283,8 @@ msgid "Enable automatic update check"
 msgstr "Activar búsqueda automática de actualizaciones"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
-msgid "Delay between each check:"
-msgstr "Retardo entre cada comprobación:"
+msgid "Check every:"
+msgstr "Comprobar cada:"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"
@@ -1511,7 +1512,7 @@ msgstr "Restaurar resolución al salir"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Delay"
-msgstr "Retraso"
+msgstr "Retardo"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC2"
 msgid "s"
@@ -1666,6 +1667,30 @@ msgid "Command line help"
 msgstr "Ayuda de línea de órdenes"
 
 msgctxt "IDD_CMD_LINE_HELP_IDOK"
+msgid "OK"
+msgstr "Aceptar"
+
+msgctxt "IDD_CRASH_REPORTER_CAPTION"
+msgid "Crash reporter"
+msgstr "Informe de fallo"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
+msgid "We are sorry, it seems MPC-HC just crashed. :(\n\nTo help us diagnose and fix the problem, a bug report will be sent. You can provide additional information if you want."
+msgstr "Lo sentimos, parece que MPC-HC acaba de caerse. :(\n\nPara ayudarnos a diagnosticar y reparar el problema, se enviará un informe de fallo. Puede proporcionar información adicional si quiere."
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
+msgid "Email:"
+msgstr "Correo electrónico:"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC3"
+msgid "Your email address is optional and will only be used if the developers need to contact you for more information."
+msgstr "Su direccion de correo electrónico es opcional y sólo se usará si los desarrolladores necesitan contactar con usted para recabar más información."
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
+msgid "Problem description (use English only):"
+msgstr "Descripción del problema (use sólo inglés):"
+
+msgctxt "IDD_CRASH_REPORTER_IDOK"
 msgid "OK"
 msgstr "Aceptar"
 

@@ -107,7 +107,7 @@ Ztring DashMpd_codecid_CodecID (const char* codecid)
     else
     {
         CodecID=Codecs.substr(0, DotPos);
-        //TODO per format, rfc 6381 //ReferenceFile.Infos["Format_Profile"]=;
+        //TODO per format, rfc 6381 //Sequence->Infos["Format_Profile"]=;
     }
     CodecID.FindAndReplace(__T("0x"), Ztring(), 0, Ztring_Recursive);
 
@@ -117,7 +117,7 @@ Ztring DashMpd_codecid_CodecID (const char* codecid)
 //---------------------------------------------------------------------------
 struct template_generic
 {
-    File__ReferenceFilesHelper::reference ReferenceFile;
+    sequence* Sequence;
     Ztring SourceDir;
     Ztring BaseURL;
     Ztring initialization;
@@ -144,12 +144,27 @@ struct template_generic
 
     template_generic(const Ztring &BaseURL=Ztring(), const Ztring &SourceDir=Ztring())
     {
+        Sequence=new sequence;
         template_generic::BaseURL=BaseURL;
         template_generic::SourceDir=SourceDir;
         duration=1;
         startNumber=1;
         duration_Max=0;
         startNumber_Max=0;
+    }
+
+    template_generic(const template_generic &ToCopy)
+    {
+        Sequence=new sequence;
+        *Sequence=*ToCopy.Sequence;
+        template_generic::BaseURL=ToCopy.BaseURL;
+        template_generic::SourceDir=ToCopy.SourceDir;
+        initialization=ToCopy.initialization;
+        media=ToCopy.media;
+        duration=ToCopy.duration;
+        startNumber=ToCopy.duration;
+        duration_Max=ToCopy.duration_Max;
+        startNumber_Max=ToCopy.startNumber_Max;
     }
 
     void AdaptationSet_Attributes_Parse     (XMLElement* Item);
@@ -167,17 +182,17 @@ void template_generic::AdaptationSet_Attributes_Parse (XMLElement* Item)
     //Attributes - mineType
     Attribute=Item->Attribute("mimeType");
     if (Attribute)
-        ReferenceFile.StreamKind=DashMpd_mimeType_StreamKind(Attribute);
+        Sequence->StreamKind=DashMpd_mimeType_StreamKind(Attribute);
 
     //Attributes - codecs
     Attribute=Item->Attribute("codecs");
     if (Attribute)
-        ReferenceFile.Infos["CodecID"]=DashMpd_codecid_CodecID(Attribute);
+        Sequence->Infos["CodecID"]=DashMpd_codecid_CodecID(Attribute);
 
     //Attributes - lang
     Attribute=Item->Attribute("lang");
     if (Attribute)
-        ReferenceFile.Infos["Language"].From_UTF8(Attribute);
+        Sequence->Infos["Language"].From_UTF8(Attribute);
 }
 
 void template_generic::SegmentTemplate_Attributes_Parse (XMLElement* Item)
@@ -256,42 +271,42 @@ void template_generic::Representation_Attributes_Parse (XMLElement* Item)
     Attribute=Item->Attribute("id");
     if (Attribute)
     {
-        ReferenceFile.StreamID=Ztring().From_UTF8(Attribute).To_int64u(16);
+        Sequence->StreamID=Ztring().From_UTF8(Attribute).To_int64u(16);
     }
 
     //Attributes - bandwidth
     Attribute=Item->Attribute("bandwidth");
     if (Attribute)
     {
-        ReferenceFile.Infos["BitRate"].From_UTF8(Attribute);
+        Sequence->Infos["BitRate"].From_UTF8(Attribute);
     }
 
     //Attributes - frame size
     Attribute=Item->Attribute("width");
     if (Attribute)
     {
-        ReferenceFile.Infos["Width"].From_UTF8(Attribute);
+        Sequence->Infos["Width"].From_UTF8(Attribute);
     }
     Attribute=Item->Attribute("height");
     if (Attribute)
     {
-        ReferenceFile.Infos["Height"].From_UTF8(Attribute);
+        Sequence->Infos["Height"].From_UTF8(Attribute);
     }
 
     //Attributes - mineType
     Attribute=Item->Attribute("mimeType");
     if (Attribute)
-        ReferenceFile.StreamKind=DashMpd_mimeType_StreamKind(Attribute);
+        Sequence->StreamKind=DashMpd_mimeType_StreamKind(Attribute);
 
     //Attributes - codecs
     Attribute=Item->Attribute("codecs");
     if (Attribute)
-        ReferenceFile.Infos["CodecID"]=DashMpd_codecid_CodecID(Attribute);
+        Sequence->Infos["CodecID"]=DashMpd_codecid_CodecID(Attribute);
 
     //Attributes - lang
     Attribute=Item->Attribute("lang");
     if (Attribute)
-        ReferenceFile.Infos["Language"].From_UTF8(Attribute);
+        Sequence->Infos["Language"].From_UTF8(Attribute);
 
     //Attributes - Saving all attributes
     for (const XMLAttribute* Attribute_Item=Item->FirstAttribute(); Attribute_Item; Attribute_Item=Attribute_Item->Next())
@@ -309,7 +324,7 @@ void template_generic::Decode()
     if (!initialization.empty())
     {
         DashMpd_Transform(initialization, Attributes_ForMedia);
-        ReferenceFile.FileNames.push_back(BaseURL+initialization);
+        Sequence->AddFileName(BaseURL+initialization);
     }
 
     //media - URL decoding, template adaptation and add it
@@ -367,7 +382,7 @@ void template_generic::Decode()
                     File_Name+=BaseURL+Media_Name_Temp;
                     if (!File::Exists(File_Name))
                         break;
-                    ReferenceFile.FileNames.push_back(File_Name);
+                    Sequence->AddFileName(File_Name);
                     Index_Pos_Temp++;
                 }
             }
@@ -396,7 +411,7 @@ void template_generic::Decode()
                             Media_Name_Temp.insert(Time_Pos_Temp, Time);
                         }
 
-                        ReferenceFile.FileNames.push_back(BaseURL+Media_Name_Temp);
+                        Sequence->AddFileName(BaseURL+Media_Name_Temp);
                         SegmentTimeLines_duration+=SegmentTimeLines[SegmentTimeLines_Pos].d;
                         SegmentTimeLines_startNumber++;
                     }
@@ -404,7 +419,7 @@ void template_generic::Decode()
             }
         }
         else
-            ReferenceFile.FileNames.push_back(BaseURL+media);
+            Sequence->AddFileName(BaseURL+media);
     }
 }
 
@@ -455,7 +470,7 @@ size_t File_DashMpd::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
     if (ReferenceFiles==NULL)
         return 0;
 
-    return ReferenceFiles->Read_Buffer_Seek(Method, Value, ID);
+    return ReferenceFiles->Seek(Method, Value, ID);
 }
 #endif //MEDIAINFO_SEEK
 
@@ -554,7 +569,7 @@ bool File_DashMpd::FileHeader_Begin()
                                         //BaseURL
                                         if (string(Representation_Item->Value())=="BaseURL")
                                         {
-                                            Template_Generic_PerRepresentation.ReferenceFile.FileNames.push_back(BaseURL+Ztring().From_UTF8(Representation_Item->GetText()));
+                                            Template_Generic_PerRepresentation.Sequence->AddFileName(BaseURL+Ztring().From_UTF8(Representation_Item->GetText()));
                                         }
 
                                         //SegmentTemplate
@@ -574,7 +589,7 @@ bool File_DashMpd::FileHeader_Begin()
                                                 {
                                                     Attribute=SegmentBase_Item->Attribute("sourceURL");
                                                     if (Attribute)
-                                                        Template_Generic_PerRepresentation.ReferenceFile.FileNames.insert(Template_Generic_PerRepresentation.ReferenceFile.FileNames.begin(), BaseURL+Ztring().From_UTF8(Attribute));
+                                                        Template_Generic_PerRepresentation.Sequence->AddFileName(BaseURL+Ztring().From_UTF8(Attribute), 0);
                                                 }
                                             }
                                         }
@@ -601,14 +616,14 @@ bool File_DashMpd::FileHeader_Begin()
 
                                                     Attribute=SegmentBase_Item->Attribute("media");
                                                     if (Attribute && IsSupported)
-                                                        Template_Generic_PerRepresentation.ReferenceFile.FileNames.push_back(BaseURL+Ztring().From_UTF8(Attribute));
+                                                        Template_Generic_PerRepresentation.Sequence->AddFileName(BaseURL+Ztring().From_UTF8(Attribute));
                                                 }
                                             }
                                         }
                                     }
 
                                     Template_Generic_PerRepresentation.Decode();
-                                    ReferenceFiles->References.push_back(Template_Generic_PerRepresentation.ReferenceFile);
+                                    ReferenceFiles->AddSequence(Template_Generic_PerRepresentation.Sequence);
                                 }
                             }
                         }
@@ -616,23 +631,23 @@ bool File_DashMpd::FileHeader_Begin()
                         //Representation (=a stream)
                         if (string(Period_Item->Value())=="Representation")
                         {
-                            File__ReferenceFilesHelper::reference ReferenceFile;
+                            sequence* Sequence=new sequence;
                             int64u duration=1;
 
                             //Attributes - mineType
                             Attribute=Period_Item->Attribute("mimeType");
                             if (Attribute)
-                                ReferenceFile.StreamKind=DashMpd_mimeType_StreamKind(Attribute);
+                                Sequence->StreamKind=DashMpd_mimeType_StreamKind(Attribute);
 
                             //Attributes - codecs
                             Attribute=Period_Item->Attribute("codecs");
                             if (Attribute)
-                                ReferenceFile.Infos["CodecID"]=DashMpd_codecid_CodecID(Attribute);
+                                Sequence->Infos["CodecID"]=DashMpd_codecid_CodecID(Attribute);
 
                             //Attributes - lang
                             Attribute=Period_Item->Attribute("lang");
                             if (Attribute)
-                                ReferenceFile.Infos["Language"].From_UTF8(Attribute);
+                                Sequence->Infos["Language"].From_UTF8(Attribute);
 
                             //Sub
                             for (XMLElement* AdaptationSet_Item=Period_Item->FirstChildElement(); AdaptationSet_Item; AdaptationSet_Item=AdaptationSet_Item->NextSiblingElement())
@@ -655,7 +670,7 @@ bool File_DashMpd::FileHeader_Begin()
                                         {
                                             Attribute=SegmentInfo_Item->Attribute("sourceURL");
                                             if (Attribute)
-                                                ReferenceFile.FileNames.insert(ReferenceFile.FileNames.begin(), BaseURL+Ztring().From_UTF8(Attribute));
+                                                Sequence->AddFileName(BaseURL+Ztring().From_UTF8(Attribute), 0);
                                         }
 
                                         //Url
@@ -663,11 +678,11 @@ bool File_DashMpd::FileHeader_Begin()
                                         {
                                             Attribute=SegmentInfo_Item->Attribute("sourceURL");
                                             if (Attribute)
-                                                ReferenceFile.FileNames.push_back(BaseURL+Ztring().From_UTF8(Attribute));
+                                                Sequence->AddFileName(BaseURL+Ztring().From_UTF8(Attribute));
                                         }
                                     }
 
-                                    ReferenceFiles->References.push_back(ReferenceFile);
+                                    ReferenceFiles->AddSequence(Sequence);
                                 }
                             }
                         }

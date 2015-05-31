@@ -1,5 +1,5 @@
 @ECHO OFF
-REM (C) 2010-2013 see Authors.txt
+REM (C) 2010-2013, 2015 see Authors.txt
 REM
 REM This file is part of MPC-HC.
 REM
@@ -18,19 +18,20 @@ REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 SETLOCAL
+SET "FILE_DIR=%~dp0"
+PUSHD "%FILE_DIR%"
 
-PUSHD %~dp0
+SET "COMMON=%FILE_DIR%\common.bat"
 
-IF EXIST "build.user.bat" (
-  CALL "build.user.bat"
-) ELSE (
-  IF DEFINED GIT  (SET MPCHC_GIT=%GIT%)
-  IF DEFINED MSYS (SET MPCHC_MSYS=%MSYS%) ELSE (GOTO MissingVar)
-)
+IF EXIST "build.user.bat" CALL "build.user.bat"
 
-SET PATH=%MPCHC_MSYS%\bin;%MPCHC_GIT%\cmd;%PATH%
-FOR %%G IN (bash.exe) DO (SET FOUND=%%~$PATH:G)
-IF NOT DEFINED FOUND GOTO MissingVar
+IF NOT DEFINED MPCHC_GIT  IF DEFINED GIT (SET MPCHC_GIT=%GIT%)
+SET "PATH=%MPCHC_GIT%\cmd;%PATH%"
+
+CALL "%COMMON%" :SubSetPath
+IF %ERRORLEVEL% NEQ 0 GOTO MissingVar
+CALL "%COMMON%" :SubDoesExist bash.exe
+IF %ERRORLEVEL% NEQ 0 GOTO MissingVar
 
 bash.exe ./version.sh
 

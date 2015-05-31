@@ -55,14 +55,14 @@ private :
     void Data_Parse();
 
     //Elements
-    void GenericSectionHeader_v1();
-    void GenericSectionHeader_v2();
-    void GenericSectionHeader_v1_ImageElement();
-    void GenericSectionHeader_v2_ImageElement();
-    void IndustrySpecificHeader_v1();
-    void IndustrySpecificHeader_v2();
-    void UserDefinedHeader_v1();
-    void UserDefinedHeader_v2();
+    void GenericSectionHeader_Cineon();
+    void GenericSectionHeader_Dpx();
+    void GenericSectionHeader_Cineon_ImageElement();
+    void GenericSectionHeader_Dpx_ImageElement();
+    void IndustrySpecificHeader_Cineon();
+    void IndustrySpecificHeader_Dpx();
+    void UserDefinedHeader_Cineon();
+    void UserDefinedHeader_Dpx();
     void Padding();
     void ImageData();
 
@@ -70,6 +70,7 @@ private :
     std::vector<int32u> Sizes;
     size_t              Sizes_Pos;
     int8u               Version;
+    bool                IsDpx;
     bool                LittleEndian;
 
     //Helpers

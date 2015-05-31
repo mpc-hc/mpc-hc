@@ -1,18 +1,18 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Dennis Gerritsen <frostflame@hotmail.com>, 2014
-# Devrim Yolo <devrim.extra@gmail.com>, 2013-2014
+# Devrim, 2013-2015
 # DennisW, 2014
 # kasper93, 2013
 # rjongejan <ruben.jongejan@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
-"PO-Revision-Date: 2014-10-31 08:50+0000\n"
-"Last-Translator: DennisW\n"
+"POT-Creation-Date: 2015-04-06 16:31:55+0000\n"
+"PO-Revision-Date: 2015-04-13 17:22+0000\n"
+"Last-Translator: Devrim\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/mpc-hc/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -200,13 +200,17 @@ msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
 msgstr "&Tearing Test"
 
-msgctxt "ID_VIEW_DISPLAYSTATS"
-msgid "&Display Stats"
-msgstr "&Beeld Statistieken"
+msgctxt "ID_VIEW_DISPLAY_RENDERER_STATS"
+msgid "&Display Statistics"
+msgstr ""
 
-msgctxt "ID_VIEW_REMAINING_TIME"
-msgid "&Remaining Time"
-msgstr "Resterende T&ijd"
+msgctxt "ID_VIEW_OSD_DISPLAY_TIME"
+msgid "Display Current T&ime"
+msgstr ""
+
+msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
+msgid "Show &File Name"
+msgstr ""
 
 msgctxt "POPUP"
 msgid "&Output Range"
@@ -557,16 +561,16 @@ msgid "S&haders"
 msgstr "Pixel S&hader"
 
 msgctxt "ID_AUDIOS"
-msgid "&Audio"
-msgstr "&Audio"
+msgid "&Audio Track"
+msgstr "&Geluidsspoor"
 
 msgctxt "ID_SUBTITLES"
-msgid "Su&btitles"
+msgid "Su&btitle Track"
 msgstr "&Ondertiteling"
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Stream"
-msgstr "Video S&tream"
+msgid "&Video Track"
+msgstr "&Videospoor"
 
 msgctxt "POPUP"
 msgid "&Volume"
@@ -588,7 +592,19 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "&Na weergave"
 
-msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgctxt "ID_AFTERPLAYBACK_DONOTHING"
+msgid "Do no&thing"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "Speel &volgend bestand af in map"
+
+msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
+msgid "Turn off the &monitor"
+msgstr "Schakel de &monitor uit"
+
+msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
 msgstr "Afsluiten"
 
@@ -611,14 +627,6 @@ msgstr "Afmelden"
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "Lock"
-
-msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
-msgid "Turn off the &monitor"
-msgstr "Schakel de &monitor uit"
-
-msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
-msgid "Play &next file in the folder"
-msgstr "Speel &volgend bestand af in map"
 
 msgctxt "POPUP"
 msgid "&Navigate"

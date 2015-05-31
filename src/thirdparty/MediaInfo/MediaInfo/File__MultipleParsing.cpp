@@ -191,6 +191,9 @@
 #if defined(MEDIAINFO_AU_YES)
     #include "MediaInfo/Audio/File_Au.h"
 #endif
+#if defined(MEDIAINFO_CAF_YES)
+    #include "MediaInfo/Audio/File_Caf.h"
+#endif
 #if defined(MEDIAINFO_DTS_YES)
     #include "MediaInfo/Audio/File_Dts.h"
 #endif
@@ -280,6 +283,9 @@
 #endif
 #if defined(MEDIAINFO_BMP_YES)
     #include "MediaInfo/Image/File_Bmp.h"
+#endif
+#if defined(MEDIAINFO_BPG_YES)
+    #include "MediaInfo/Image/File_Bpg.h"
 #endif
 #if defined(MEDIAINFO_DDS_YES)
     #include "MediaInfo/Image/File_Dds.h"
@@ -565,6 +571,9 @@ File__MultipleParsing::File__MultipleParsing()
     #if defined(MEDIAINFO_AU_YES)
         Parser.push_back(new File_Au());
     #endif
+    #if defined(MEDIAINFO_CAF_YES)
+        Parser.push_back(new File_Caf());
+    #endif
     #if defined(MEDIAINFO_DTS_YES)
         Parser.push_back(new File_Dts());
     #endif
@@ -651,6 +660,9 @@ File__MultipleParsing::File__MultipleParsing()
     #endif
     #if defined(MEDIAINFO_BMP_YES)
         Parser.push_back(new File_Bmp());
+    #endif
+    #if defined(MEDIAINFO_BPG_YES)
+        Parser.push_back(new File_Bpg());
     #endif
     #if defined(MEDIAINFO_DDS_YES)
         Parser.push_back(new File_Dds());

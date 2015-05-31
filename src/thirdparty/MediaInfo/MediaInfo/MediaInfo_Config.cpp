@@ -19,6 +19,97 @@
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
+// Debug
+#ifdef MEDIAINFO_DEBUG
+    #include <stdio.h>
+    #include <windows.h>
+    namespace MediaInfo_Config_Debug
+    {
+        FILE* F;
+        std::string Debug;
+        SYSTEMTIME st_In;
+
+        void Debug_Open(bool Out)
+        {
+            F=fopen("C:\\Temp\\MediaInfo_Debug.txt", "a+t");
+            Debug.clear();
+            SYSTEMTIME st;
+            GetLocalTime( &st );
+
+            char Duration[100];
+            if (Out)
+            {
+                FILETIME ft_In;
+                if (SystemTimeToFileTime(&st_In, &ft_In))
+                {
+                    FILETIME ft_Out;
+                    if (SystemTimeToFileTime(&st, &ft_Out))
+                    {
+                        ULARGE_INTEGER UI_In;
+                        UI_In.HighPart=ft_In.dwHighDateTime;
+                        UI_In.LowPart=ft_In.dwLowDateTime;
+
+                        ULARGE_INTEGER UI_Out;
+                        UI_Out.HighPart=ft_Out.dwHighDateTime;
+                        UI_Out.LowPart=ft_Out.dwLowDateTime;
+
+                        ULARGE_INTEGER UI_Diff;
+                        UI_Diff.QuadPart=UI_Out.QuadPart-UI_In.QuadPart;
+
+                        FILETIME ft_Diff;
+                        ft_Diff.dwHighDateTime=UI_Diff.HighPart;
+                        ft_Diff.dwLowDateTime=UI_Diff.LowPart;
+
+                        SYSTEMTIME st_Diff;
+                        if (FileTimeToSystemTime(&ft_Diff, &st_Diff))
+                        {
+                            sprintf(Duration, "%02hd:%02hd:%02hd.%03hd", st_Diff.wHour, st_Diff.wMinute, st_Diff.wSecond, st_Diff.wMilliseconds);
+                        }
+                        else
+                            strcpy(Duration, "            ");
+                    }
+                    else
+                        strcpy(Duration, "            ");
+
+                }
+                else
+                    strcpy(Duration, "            ");
+            }
+            else
+            {
+                st_In=st;
+                strcpy(Duration, "            ");
+            }
+
+            fprintf(F,"                                       %02hd:%02hd:%02hd.%03hd %s", st.wHour, st.wMinute, st.wSecond, st.wMilliseconds, Duration);
+        }
+
+        void Debug_Close()
+        {
+            Debug += "\r\n";
+            fwrite(Debug.c_str(), Debug.size(), 1, F); \
+            fclose(F);
+        }
+    }
+    using namespace MediaInfo_Config_Debug;
+
+    #define MEDIAINFO_DEBUG1(_NAME,_TOAPPEND) \
+        Debug_Open(false); \
+        Debug+=", ";Debug+=_NAME; \
+        _TOAPPEND; \
+        Debug_Close();
+
+    #define MEDIAINFO_DEBUG2(_NAME,_TOAPPEND) \
+        Debug_Open(true); \
+        Debug+=", ";Debug+=_NAME; \
+        _TOAPPEND; \
+        Debug_Close();
+#else // MEDIAINFO_DEBUG
+    #define MEDIAINFO_DEBUG1(_NAME,__TOAPPEND)
+    #define MEDIAINFO_DEBUG2(_NAME,__TOAPPEND)
+#endif // MEDIAINFO_DEBUG
+
+//---------------------------------------------------------------------------
 #include "MediaInfo/Setup.h"
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
@@ -34,7 +125,7 @@ namespace MediaInfoLib
 {
 
 //---------------------------------------------------------------------------
-const Char*  MediaInfo_Version=__T("MediaInfoLib - v0.7.71");
+const Char*  MediaInfo_Version=__T("MediaInfoLib - v0.7.73");
 const Char*  MediaInfo_Url=__T("http://MediaArea.net/MediaInfo");
       Ztring EmptyZtring;       //Use it when we can't return a reference to a true Ztring
 const Ztring EmptyZtring_Const; //Use it when we can't return a reference to a true Ztring, const version
@@ -158,7 +249,9 @@ void MediaInfo_Config::Init()
 
 Ztring MediaInfo_Config::Option (const String &Option, const String &Value_Raw)
 {
+    CS.Enter();
     SubFile_Config(Option)=Value_Raw;
+    CS.Leave();
 
     String Option_Lower(Option);
     size_t Egal_Pos=Option_Lower.find(__T('='));
@@ -2156,7 +2249,15 @@ void MediaInfo_Config::Event_Send (const int8u* Data_Content, size_t Data_Size, 
     CriticalSectionLocker CSL(CS);
 
     if (Event_CallBackFunction)
+    {
+        MEDIAINFO_DEBUG1(   "Event",
+                            Debug+=", EventID=";Debug+=Ztring::ToZtring(LittleEndian2int32u(Data_Content), 16).To_UTF8();)
+
         Event_CallBackFunction ((unsigned char*)Data_Content, Data_Size, Event_UserHandler);
+
+        MEDIAINFO_DEBUG2(   "Event",
+                            )
+    }
 }
 #endif //MEDIAINFO_EVENTS
 

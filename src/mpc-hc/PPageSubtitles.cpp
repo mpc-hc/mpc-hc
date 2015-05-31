@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -274,11 +274,12 @@ BOOL CPPageSubtitles::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 
     switch (nID) {
         case IDC_EDIT4:
-            auto& substituteEmpty = [](CString & hotkey) {
-                if (hotkey.IsEmpty()) {
+            auto substituteEmpty = [](CString && hotkey) -> CString && {
+                if (hotkey.IsEmpty())
+                {
                     hotkey.LoadString(IDS_HOTKEY_NOT_DEFINED);
                 }
-                return hotkey;
+                return std::move(hotkey);
             };
             ::SendMessage(pNMHDR->hwndFrom, TTM_SETMAXTIPWIDTH, 0, 320);
             m_strToolTip.Format(IDS_SUBTITLE_DELAY_STEP_TOOLTIP,

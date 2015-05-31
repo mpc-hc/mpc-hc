@@ -1,17 +1,17 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Burak <burakgarci@gmail.com>, 2013
-# Devrim Yolo <devrim.extra@gmail.com>, 2013
+# Devrim, 2013
 # kasper93, 2013
-# Sinan H., 2014
+# Sinan H., 2014-2015
 # Sinan H., 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
-"PO-Revision-Date: 2014-11-26 19:41+0000\n"
+"POT-Creation-Date: 2015-04-06 16:31:55+0000\n"
+"PO-Revision-Date: 2015-04-18 17:45+0000\n"
 "Last-Translator: Sinan H.\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/mpc-hc/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -200,13 +200,17 @@ msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
 msgstr "&Kopukluk Testi"
 
-msgctxt "ID_VIEW_DISPLAYSTATS"
-msgid "&Display Stats"
-msgstr "&İstatistikleri Göster"
+msgctxt "ID_VIEW_DISPLAY_RENDERER_STATS"
+msgid "&Display Statistics"
+msgstr ""
 
-msgctxt "ID_VIEW_REMAINING_TIME"
-msgid "&Remaining Time"
-msgstr "&Kalan Süre"
+msgctxt "ID_VIEW_OSD_DISPLAY_TIME"
+msgid "Display Current T&ime"
+msgstr ""
+
+msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
+msgid "Show &File Name"
+msgstr ""
 
 msgctxt "POPUP"
 msgid "&Output Range"
@@ -557,16 +561,16 @@ msgid "S&haders"
 msgstr "T&onlamalar"
 
 msgctxt "ID_AUDIOS"
-msgid "&Audio"
-msgstr "&Ses"
+msgid "&Audio Track"
+msgstr "&Ses Parçası"
 
 msgctxt "ID_SUBTITLES"
-msgid "Su&btitles"
-msgstr "Al&t Yazılar"
+msgid "Su&btitle Track"
+msgstr "Al&t Yazı Parçası"
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Stream"
-msgstr "&Video Akışı"
+msgid "&Video Track"
+msgstr "&Video Parçası"
 
 msgctxt "POPUP"
 msgid "&Volume"
@@ -588,7 +592,19 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "Oy&natmadan Sonra"
 
-msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgctxt "ID_AFTERPLAYBACK_DONOTHING"
+msgid "Do no&thing"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "Klasördeki &sıradaki dosyayı yürüt"
+
+msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
+msgid "Turn off the &monitor"
+msgstr "E&kranı kapat"
+
+msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
 msgstr "&Kapat "
 
@@ -611,14 +627,6 @@ msgstr "Oturumu &Kapat"
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "&Kilitle"
-
-msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
-msgid "Turn off the &monitor"
-msgstr "E&kranı kapat"
-
-msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
-msgid "Play &next file in the folder"
-msgstr "Klasördeki &sıradaki dosyayı yürüt"
 
 msgctxt "POPUP"
 msgid "&Navigate"

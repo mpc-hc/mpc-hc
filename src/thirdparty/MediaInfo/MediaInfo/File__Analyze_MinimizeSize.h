@@ -325,6 +325,7 @@ public :
     void Get_B7_   (int64u  &Info);
     void Get_B8_   (int64u  &Info);
     void Get_B16_  (int128u &Info);
+    void Get_BF2_  (float32 &Info);
     void Get_BF4_  (float32 &Info);
     void Get_BF8_  (float64 &Info);
     void Get_BF10_ (float80 &Info);
@@ -338,6 +339,7 @@ public :
     #define Get_B7(Info, Name) Get_B7_(Info)
     #define Get_B8(Info, Name) Get_B8_(Info)
     #define Get_B16(Info, Name) Get_B16_(Info)
+    #define Get_BF2(Info, Name) Get_BF2_(Info)
     #define Get_BF4(Info, Name) Get_BF4_(Info)
     #define Get_BF8(Info, Name) Get_BF8_(Info)
     #define Get_BF10(Info, Name) Get_BF10_(Info)
@@ -1006,7 +1008,7 @@ public :
     #endif //SIZE_T_IS_LONG
     ZtringListList Fill_Temp;
     void Fill_Flush ();
-    size_t Fill_Parameter(stream_t StreamKind, generic StreamPos);
+    static size_t Fill_Parameter(stream_t StreamKind, generic StreamPos);
 
     const Ztring &Retrieve_Const (stream_t StreamKind, size_t StreamPos, size_t Parameter, info_t KindOfInfo=Info_Text);
     Ztring Retrieve (stream_t StreamKind, size_t StreamPos, size_t Parameter, info_t KindOfInfo=Info_Text);
@@ -1075,6 +1077,8 @@ public :
     size_t Merge(File__Analyze &ToAdd, stream_t StreamKind, size_t StreamPos_From, size_t StreamPos_To, bool Erase=true); //Merge 2 streams
 
     void CodecID_Fill           (const Ztring &Value, stream_t StreamKind, size_t StreamPos, infocodecid_format_t Format, stream_t StreamKind_CodecID=Stream_Max);
+    void PixelAspectRatio_Fill  (const Ztring &Value, stream_t StreamKind, size_t StreamPos, size_t Parameter_Width, size_t Parameter_Height, size_t Parameter_PixelAspectRatio, size_t Parameter_DisplayAspectRatio);
+    void DisplayAspectRatio_Fill(const Ztring &Value, stream_t StreamKind, size_t StreamPos, size_t Parameter_Width, size_t Parameter_Height, size_t Parameter_PixelAspectRatio, size_t Parameter_DisplayAspectRatio);
 
     //***************************************************************************
     // Finalize
@@ -1317,7 +1321,7 @@ public :
         bool Seek_Duration_Detected;
     #endif //MEDIAINFO_SEEK
 
-    #if MEDIAINFO_IBI
+    #if MEDIAINFO_IBIUSAGE
     public:
         bool    Config_Ibi_Create;
         int64u  Ibi_SynchronizationOffset_Current;
@@ -1329,13 +1333,13 @@ public :
         void    Ibi_Stream_Finish           ();
         void    Ibi_Stream_Finish           (int64u Numerator, int64u Denominator); //Partial
         void    Ibi_Add                     ();
-    #else //MEDIAINFO_IBI
+    #else //MEDIAINFO_IBIUSAGE
         size_t  Ibi_Read_Buffer_Seek        (size_t, int64u, int64u)            {return (size_t)-1;}
         void    Ibi_Read_Buffer_Unsynched   ()                                  {}
         void    Ibi_Stream_Finish           ()                                  {}
         void    Ibi_Stream_Finish           (int64u, int64u)                    {}
         void    Ibi_Add                     ()                                  {}
-    #endif //MEDIAINFO_IBI
+    #endif //MEDIAINFO_IBIUSAGE
 };
 
 //Helpers

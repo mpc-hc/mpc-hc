@@ -112,6 +112,7 @@ public :  //A virer
     friend class File__Analyze;
     friend class File__MultipleParsing;
     friend class File__ReferenceFilesHelper;
+    friend class resource;
 };
 
 } //NameSpace

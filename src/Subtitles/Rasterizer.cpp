@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -865,9 +865,9 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
                 byte* dst = buffer + m_pOverlayData->mOverlayPitch * (y >> 3) + first;
 
                 if (first == last) {
-                    *dst += x2 - x1;
+                    *dst += byte(x2 - x1);
                 } else {
-                    *dst += ((first + 1) << 3) - x1;
+                    *dst += byte(((first + 1) << 3) - x1);
                     ++dst;
 
                     while (++first < last) {
@@ -875,7 +875,7 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
                         ++dst;
                     }
 
-                    *dst += x2 - (last << 3);
+                    *dst += byte(x2 - (last << 3));
                 }
             }
         }
@@ -1674,6 +1674,8 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 
 void Rasterizer::FillSolidRect(SubPicDesc& spd, int x, int y, int nWidth, int nHeight, DWORD lColor)
 {
+    ASSERT(spd.w >= x + nWidth && spd.h >= y + nHeight);
+
     for (int wy = y; wy < y + nHeight; wy++) {
         DWORD* dst = (DWORD*)((BYTE*)spd.bits + spd.pitch * wy) + x;
         for (int wt = 0; wt < nWidth; ++wt) {

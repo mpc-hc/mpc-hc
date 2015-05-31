@@ -90,11 +90,9 @@
     #include "MediaInfo/MediaInfo_Config_MediaInfo.h"
     #include "MediaInfo/MediaInfo_Events_Internal.h"
 #endif //MEDIAINFO_EVENTS
-#if MEDIAINFO_IBI
-    #if MEDIAINFO_SEEK
-        #include "MediaInfo/Multiple/File_Ibi.h"
-    #endif //MEDIAINFO_SEEK
-#endif //MEDIAINFO_IBI
+#if MEDIAINFO_IBIUSAGE && MEDIAINFO_SEEK
+    #include "MediaInfo/Multiple/File_Ibi.h"
+#endif //MEDIAINFO_IBIUSAGE && MEDIAINFO_SEEK
 using namespace ZenLib;
 using namespace std;
 //---------------------------------------------------------------------------
@@ -556,7 +554,7 @@ void File_MpegPs::Streams_Finish()
         }
     }
 
-    #if MEDIAINFO_IBI
+    #if MEDIAINFO_IBIUSAGE
         if (!IsSub && Config_Ibi_Create)
         {
             for (ibi::streams::iterator IbiStream_Temp=Ibi.Streams.begin(); IbiStream_Temp!=Ibi.Streams.end(); ++IbiStream_Temp)
@@ -579,7 +577,7 @@ void File_MpegPs::Streams_Finish()
                 }
             }
         }
-    #endif //MEDIAINFO_IBI
+    #endif //MEDIAINFO_IBIUSAGE
 }
 
 //---------------------------------------------------------------------------
@@ -1005,7 +1003,7 @@ size_t File_MpegPs::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
     if (!Duration_Detected)
     {
         //External IBI
-        #if MEDIAINFO_IBI
+        #if MEDIAINFO_IBIUSAGE
             std::string IbiFile=Config->Ibi_Get();
             if (!IbiFile.empty())
             {
@@ -1046,7 +1044,7 @@ size_t File_MpegPs::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
                 if (Ibi.Streams.empty())
                     return 4; //Problem during IBI file parsing
             }
-        #endif //#if MEDIAINFO_IBI
+        #endif //#if MEDIAINFO_IBIUSAGE
 
         Duration_Detected=true;
     }
@@ -1063,7 +1061,7 @@ size_t File_MpegPs::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
                     Open_Buffer_Unsynch();
                     return 1;
         case 2  :   //Timestamp
-                    #if MEDIAINFO_IBI
+                    #if MEDIAINFO_IBIUSAGE
                     {
                     ibi::streams::iterator IbiStream_Temp;
                     if (ID==(int64u)-1)
@@ -1118,11 +1116,11 @@ size_t File_MpegPs::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
 
                     return 2; //Invalid value
                     }
-                    #else //MEDIAINFO_IBI
+                    #else //MEDIAINFO_IBIUSAGE
                     return (size_t)-2; //Not supported / IBI disabled
-                    #endif //MEDIAINFO_IBI
+                    #endif //MEDIAINFO_IBIUSAGE
         case 3  :   //FrameNumber
-                    #if MEDIAINFO_IBI
+                    #if MEDIAINFO_IBIUSAGE
                     {
                     ibi::streams::iterator IbiStream_Temp;
                     if (ID==(int64u)-1)
@@ -1154,9 +1152,9 @@ size_t File_MpegPs::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
 
                     return 2; //Invalid value
                     }
-                    #else //MEDIAINFO_IBI
+                    #else //MEDIAINFO_IBIUSAGE
                     return (size_t)-2; //Not supported / IBI disabled
-                    #endif //MEDIAINFO_IBI
+                    #endif //MEDIAINFO_IBIUSAGE
         default :   return (size_t)-1; //Not supported
     }
 }
@@ -1649,6 +1647,8 @@ void File_MpegPs::Header_Parse_PES_packet_MPEG1(int8u stream_id)
         FrameInfo.DTS=(((int64u)DTS_32)<<30)
                     | (((int64u)DTS_29)<<15)
                     | (((int64u)DTS_14));
+        if (Frame_Count<16 &&FrameInfo.DTS>=0x100000000LL) //Hack in case DTS is negative (currently not supported by MI). TODO: negative DTS.
+            FrameInfo.DTS=0;
         if (Streams[stream_id].Searching_TimeStamp_End)
         {
             if (Streams[stream_id].TimeStamp_End.DTS.TimeStamp==(int64u)-1)
@@ -1734,15 +1734,15 @@ void File_MpegPs::Header_Parse_PES_packet_MPEG2(int8u stream_id)
             return;
         }
         Buffer_Pos_Flags++;
-        PTS_DTS_flags               =Buffer[Buffer_Pos_Flags]>>6;
-        ESCR_flag                   =Buffer[Buffer_Pos_Flags]&0x20?true:false;
-        ES_rate_flag                =Buffer[Buffer_Pos_Flags]&0x10?true:false;
-        DSM_trick_mode_flag         =Buffer[Buffer_Pos_Flags]&0x08?true:false;
-        additional_copy_info_flag   =Buffer[Buffer_Pos_Flags]&0x04?true:false;
-        PES_CRC_flag                =Buffer[Buffer_Pos_Flags]&0x02?true:false;
-        PES_extension_flag          =Buffer[Buffer_Pos_Flags]&0x01?true:false;
+        PTS_DTS_flags               = Buffer[Buffer_Pos_Flags] >> 6;
+        ESCR_flag                   = (Buffer[Buffer_Pos_Flags] & 0x20) ? true: false;
+        ES_rate_flag                = (Buffer[Buffer_Pos_Flags] & 0x10) ? true: false;
+        DSM_trick_mode_flag         = (Buffer[Buffer_Pos_Flags] & 0x08) ? true: false;
+        additional_copy_info_flag   = (Buffer[Buffer_Pos_Flags] & 0x04) ? true: false;
+        PES_CRC_flag                = (Buffer[Buffer_Pos_Flags] & 0x02) ? true: false;
+        PES_extension_flag          = (Buffer[Buffer_Pos_Flags] & 0x01) ? true: false;
         Buffer_Pos_Flags++;
-        PES_header_data_length      =Buffer[Buffer_Pos_Flags];
+        PES_header_data_length      = Buffer[Buffer_Pos_Flags];
         Element_Offset+=3;
     #if MEDIAINFO_TRACE
     }
@@ -1939,6 +1939,8 @@ void File_MpegPs::Header_Parse_PES_packet_MPEG2(int8u stream_id)
             FrameInfo.DTS=(((int64u)DTS_32)<<30)
                         | (((int64u)DTS_29)<<15)
                         | (((int64u)DTS_14));
+            if (Frame_Count<16 &&FrameInfo.DTS>=0x100000000LL) //Hack in case DTS is negative (currently not supported by MI). TODO: negative DTS.
+                FrameInfo.DTS=0;
             Element_Info_From_Milliseconds(float64_int64s(((float64)FrameInfo.DTS)/90));
             Element_End0();
             Element_End0();
@@ -1963,6 +1965,8 @@ void File_MpegPs::Header_Parse_PES_packet_MPEG2(int8u stream_id)
               | ( ((int64u)Buffer[Buffer_Pos+1]      )<<22)|((((int64u)Buffer[Buffer_Pos+2]&0xFE))<<14)
               | ( ((int64u)Buffer[Buffer_Pos+3]      )<< 7)|((((int64u)Buffer[Buffer_Pos+4]&0xFE))>> 1);
             Element_Offset+=5;
+            if (Frame_Count<16 &&FrameInfo.DTS>=0x100000000LL) //Hack in case DTS is negative (currently not supported by MI). TODO: negative DTS.
+                FrameInfo.DTS=0;
         #if MEDIAINFO_TRACE
         }
         #endif //MEDIAINFO_TRACE
@@ -2470,10 +2474,10 @@ void File_MpegPs::pack_start()
                 SizeToAnalyze=2*1024*1024; //Not too less
         }
 
-        #if MEDIAINFO_IBI
+        #if MEDIAINFO_IBIUSAGE
             if (!IsSub)
                 Ibi_SynchronizationOffset_Current=File_Offset+Buffer_Offset-Header_Size;
-        #endif //MEDIAINFO_IBI
+        #endif //MEDIAINFO_IBIUSAGE
     FILLING_END();
 }
 
@@ -3409,7 +3413,7 @@ void File_MpegPs::video_stream()
         {
             Streams[stream_id].Parsers[Pos]->CA_system_ID_MustSkipSlices=CA_system_ID_MustSkipSlices;
             Open_Buffer_Init(Streams[stream_id].Parsers[Pos]);
-            #if MEDIAINFO_IBI
+            #if MEDIAINFO_IBIUSAGE
                 if (FromTS)
                     Streams[stream_id].Parsers[Pos]->IbiStream=IbiStream;
                 else
@@ -3418,7 +3422,7 @@ void File_MpegPs::video_stream()
                         Ibi.Streams[stream_id]=new ibi::stream;
                     Streams[stream_id].Parsers[Pos]->IbiStream=Ibi.Streams[stream_id];
                 }
-            #endif //MEDIAINFO_IBI
+            #endif //MEDIAINFO_IBIUSAGE
             #if MEDIAINFO_SEEK
                 if (Unsynch_Frame_Counts.find(stream_id)!=Unsynch_Frame_Counts.end())
                     Streams[stream_id].Parsers[Pos]->Frame_Count_NotParsedIncluded=Unsynch_Frame_Counts[stream_id];
@@ -3970,9 +3974,9 @@ void File_MpegPs::xxx_stream_Parse(ps_stream &Temp, int8u &stream_Count)
                 if (Temp.Parsers.size()>1)
                     Element_Begin1("Test");
             #endif //MEDIAINFO_TRACE
-            #if MEDIAINFO_IBI
+            #if MEDIAINFO_IBIUSAGE
                 Temp.Parsers[Pos]->Ibi_SynchronizationOffset_Current=Ibi_SynchronizationOffset_Current;
-            #endif //MEDIAINFO_IBI
+            #endif //MEDIAINFO_IBIUSAGE
             #if defined(MEDIAINFO_EIA608_YES) || defined(MEDIAINFO_EIA708_YES)
                 Temp.Parsers[Pos]->ServiceDescriptors=ServiceDescriptors;
             #endif
@@ -4088,7 +4092,7 @@ void File_MpegPs::xxx_stream_Parse(ps_stream &Temp, int8u &stream_Count)
         #endif //MEDIAINFO_DEMUX
     #endif //MEDIAINFO_EVENTS
 
-    #if MEDIAINFO_SEEK && MEDIAINFO_IBI
+    #if MEDIAINFO_SEEK && MEDIAINFO_IBIUSAGE
         if (Seek_ID!=(int64u)-1)
         {
             if (Ibi.Streams[Seek_ID]->IsModified)
@@ -4117,7 +4121,7 @@ void File_MpegPs::xxx_stream_Parse(ps_stream &Temp, int8u &stream_Count)
                     }
             }
         }
-    #endif //MEDIAINFO_SEEK && MEDIAINFO_IBI
+    #endif //MEDIAINFO_SEEK && MEDIAINFO_IBIUSAGE
 }
 
 //***************************************************************************

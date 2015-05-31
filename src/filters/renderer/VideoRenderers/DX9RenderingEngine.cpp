@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -1365,22 +1365,22 @@ HRESULT CDX9RenderingEngine::CreateIccProfileLut(TCHAR* profilePath, float* lut3
         return E_FAIL;
     }
 
-    unsigned short* lut3DOutput = nullptr;
-    unsigned short* lut3DInput  = nullptr;
+    uint16_t* lut3DOutput = nullptr;
+    uint16_t* lut3DInput = nullptr;
 
     try {
         // Create the 3D LUT input
-        lut3DOutput = DEBUG_NEW unsigned short[m_Lut3DEntryCount * 3];
-        lut3DInput  = DEBUG_NEW unsigned short[m_Lut3DEntryCount * 3];
+        lut3DOutput = DEBUG_NEW uint16_t[m_Lut3DEntryCount * 3];
+        lut3DInput  = DEBUG_NEW uint16_t[m_Lut3DEntryCount * 3];
 
-        unsigned short* lut3DInputIterator = lut3DInput;
+        uint16_t* lut3DInputIterator = lut3DInput;
 
         for (int b = 0; b < m_Lut3DSize; b++) {
             for (int g = 0; g < m_Lut3DSize; g++) {
                 for (int r = 0; r < m_Lut3DSize; r++) {
-                    *lut3DInputIterator++ = r * 65535 / (m_Lut3DSize - 1);
-                    *lut3DInputIterator++ = g * 65535 / (m_Lut3DSize - 1);
-                    *lut3DInputIterator++ = b * 65535 / (m_Lut3DSize - 1);
+                    *lut3DInputIterator++ = uint16_t(r * 65535 / (m_Lut3DSize - 1));
+                    *lut3DInputIterator++ = uint16_t(g * 65535 / (m_Lut3DSize - 1));
+                    *lut3DInputIterator++ = uint16_t(b * 65535 / (m_Lut3DSize - 1));
                 }
             }
         }
@@ -1397,9 +1397,6 @@ HRESULT CDX9RenderingEngine::CreateIccProfileLut(TCHAR* profilePath, float* lut3
         delete [] lut3DOutput;
         delete [] lut3DInput;
         cmsDeleteTransform(hTransform);
-
-        return S_OK;
-
     } catch (...) {
         // Cleanup
         delete [] lut3DOutput;

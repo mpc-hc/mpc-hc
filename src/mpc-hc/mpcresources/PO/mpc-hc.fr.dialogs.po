@@ -1,13 +1,13 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Underground78, 2013-2014
+# Underground78, 2013-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-11-11 11:21+0000\n"
+"POT-Creation-Date: 2015-05-17 20:47:27+0000\n"
+"PO-Revision-Date: 2015-05-18 19:16+0000\n"
 "Last-Translator: Underground78\n"
 "Language-Team: French (http://www.transifex.com/projects/p/mpc-hc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -109,7 +109,7 @@ msgid "Enable custom channel mapping"
 msgstr "Activer la répartition personnalisée des canaux"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
+msgid "Speaker configuration for"
 msgstr "Configuration des hauts-parleurs pour"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
@@ -117,8 +117,8 @@ msgid "input channels:"
 msgstr "canaux en entrée :"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
-msgstr "Maintenez la touche Maj. en cliquant pour que la modification soit immédiate "
+msgid "Hold shift for immediate changes when clicking something"
+msgstr "Maintenez la touche Maj. en cliquant pour que la modification soit immédiate"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."
@@ -569,7 +569,7 @@ msgid "Warning"
 msgstr "Attention"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu."
+msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
 msgstr "Si vous activez l'anticrénelage en mode plein écran dans les paramètres de votre carte vidéo, cela n'améliorera pas l'affichage des sous-titres mais consommera davantage de ressources système."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
@@ -681,12 +681,12 @@ msgid "Use Windows 7 Taskbar features"
 msgstr "Utilisation des fonctionnalités de la barre des tâches de Windows 7"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
-msgstr "Ouvrir le fichier suivant/précédent dans le dossier lorsque \"Fichier suivant/précédent\" est utilisé alors qu'il n'y a qu'un seul élément dans la liste de lecture"
+msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgstr "Ouvrir le fichier précédent/suivant dans le dossier lorsque \"Fichier précédent/suivant\" est utilisé alors qu'il n'y a qu'un seul élément dans la liste de lecture"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Use time tooltip:"
-msgstr "Utiliser l'infobulle temporelle :"
+msgid "Show time tooltip:"
+msgstr "Afficher l'infobulle temporelle :"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "OSD font:"
@@ -1277,8 +1277,8 @@ msgid "Enable automatic update check"
 msgstr "Activer la recherche automatique des mises à jour"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
-msgid "Delay between each check:"
-msgstr "Délai entre chaque vérification :"
+msgid "Check every:"
+msgstr "Vérifier tous les :"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"
@@ -1661,6 +1661,30 @@ msgid "Command line help"
 msgstr "Paramètres de la ligne de commandes"
 
 msgctxt "IDD_CMD_LINE_HELP_IDOK"
+msgid "OK"
+msgstr "OK"
+
+msgctxt "IDD_CRASH_REPORTER_CAPTION"
+msgid "Crash reporter"
+msgstr "Rapporteur de plantage"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
+msgid "We are sorry, it seems MPC-HC just crashed. :(\n\nTo help us diagnose and fix the problem, a bug report will be sent. You can provide additional information if you want."
+msgstr "Désolé, il semblerait que MPC-HC vienne de planter. :(\n\nPour nous aider à diagnostiquer et à corriger le problème, un rapport de bug va être envoyé. Vous pouvez fournir des informations complémentaires si vous le souhaitez."
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
+msgid "Email:"
+msgstr "E-mail :"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC3"
+msgid "Your email address is optional and will only be used if the developers need to contact you for more information."
+msgstr "Votre adresse électronique est optionnelle et sera utilisée uniquement si les développeurs ont besoin de vous contacter pour un supplément d'information."
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
+msgid "Problem description (use English only):"
+msgstr "Description du problème (obligatoirement en anglais) :"
+
+msgctxt "IDD_CRASH_REPORTER_IDOK"
 msgid "OK"
 msgstr "OK"
 

@@ -1,5 +1,5 @@
 /*
- * (C) 2013-2014 see Authors.txt
+ * (C) 2013-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -559,6 +559,7 @@ LPCTSTR CFGFilterLAVVideo::GetUserFriendlyDecoderName(const CString& decoderName
         make_pair(_T("avcodec"), _T("FFmpeg")),
         make_pair(_T("dxva2n"), _T("DXVA2 Native")),
         make_pair(_T("dxva2cb"), _T("DXVA2 Copy-back")),
+        make_pair(_T("dxva2cb direct"), _T("DXVA2 Copy-back (Direct)")),
         make_pair(_T("cuvid"), _T("NVIDIA CUVID")),
         make_pair(_T("quicksync"), _T("Intel QuickSync"))
     };

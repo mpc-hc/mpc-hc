@@ -1,13 +1,13 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # ever_green, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-30 22:04:38+0000\n"
-"PO-Revision-Date: 2015-01-23 14:41+0000\n"
+"POT-Creation-Date: 2015-05-21 13:30:54+0000\n"
+"PO-Revision-Date: 2015-05-28 13:50+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -86,7 +86,7 @@ msgstr "同期オフセット"
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET_FORMAT"
 msgid "avg: %d ms, dev: %d ms"
-msgstr "平均: %d ms, 偏差: %d ms"
+msgstr "平均: %d ミリ秒, 偏差: %d ミリ秒"
 
 msgctxt "IDS_STATSBAR_JITTER"
 msgid "Jitter"
@@ -178,7 +178,7 @@ msgstr "ニュース/時事"
 
 msgctxt "IDS_SPEED_UNIT_G"
 msgid "GB/s"
-msgstr "GB/s"
+msgstr "GB/秒"
 
 msgctxt "IDS_FILE_FAV_ADDED"
 msgid "File added to favorites"
@@ -325,12 +325,12 @@ msgid "On/Off"
 msgstr "オン/オフ"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
-msgid "From fps"
-msgstr "fps から"
+msgid "From FPS"
+msgstr "FPS から"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
-msgid "To fps"
-msgstr "fps へ"
+msgid "To FPS"
+msgstr "FPS へ"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
@@ -621,7 +621,7 @@ msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer.
 msgstr "VMR-9 (レンダーレス) と同じですが、有効な 2 パス バイキュービック リサイザを使用します。"
 
 msgctxt "IDC_DSNULL_COMP"
-msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the cpu from working unnecessarily."
+msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the CPU from working unnecessarily."
 msgstr "どんな動画のようなメディア タイプにも接続し、入力サンプルをどこにも出力しません。映像の表示が不要で、CPU に無駄な動作をさせたくない場合に使用してください。"
 
 msgctxt "IDC_DSNULL_UNCOMP"
@@ -762,7 +762,7 @@ msgstr "字幕をダウンロード"
 
 msgctxt "IDS_SUBFILE_DELAY"
 msgid "Delay (ms):"
-msgstr "遅延 (ms):"
+msgstr "遅延 (ミリ秒):"
 
 msgctxt "IDS_SPEEDSTEP_AUTO"
 msgid "Auto"
@@ -888,7 +888,7 @@ msgctxt "ID_VOLUME_MUTE"
 msgid "Mute"
 msgstr "ミュート"
 
-msgctxt "ID_VOLUME_MUTE_ON"
+msgctxt "ID_VOLUME_MUTE_OFF"
 msgid "Unmute"
 msgstr "ミュート解除"
 
@@ -898,11 +898,11 @@ msgstr "音声なし"
 
 msgctxt "ID_NAVIGATE_SKIPBACK"
 msgid "Skip back\nSkip back"
-msgstr "前へ\n前へ"
+msgstr "前に戻る\n前に戻る"
 
 msgctxt "ID_NAVIGATE_SKIPFORWARD"
 msgid "Skip forward\nSkip forward"
-msgstr "次へ\n次へ"
+msgstr "次に進む\n次に進む"
 
 msgctxt "IDS_SUBRESYNC_ORIGINAL"
 msgid "&Original"
@@ -1246,7 +1246,7 @@ msgstr "再生速度"
 
 msgctxt "IDS_FILTERS_COPY_TO_CLIPBOARD"
 msgid "&Copy filters list to clipboard"
-msgstr "フィルタ リストをクリップボードにコピー"
+msgstr "フィルタ リストをクリップボードにコピー(&C)"
 
 msgctxt "IDS_CREDENTIALS_SERVER"
 msgid "Enter server credentials"
@@ -1372,6 +1372,26 @@ msgctxt "IDS_ASPECT_RATIO_FMT"
 msgid "AR %d:%d"
 msgstr "縦横比 %d:%d"
 
+msgctxt "IDS_PPAGEADVANCED_LOGGER"
+msgid "Enables logging to file (requires restart)"
+msgstr "ファイルへのログ記録を有効にします (再起動が必要)"
+
+msgctxt "IDS_TIMER_REMAINING_TIME"
+msgid "Remaining time"
+msgstr "残り時間"
+
+msgctxt "IDS_TIMER_HIGH_PRECISION"
+msgid "High precision"
+msgstr "高精細表示"
+
+msgctxt "IDS_AFTERPLAYBACK_REWIND"
+msgid "After Playback: Rewind current file"
+msgstr "再生終了後: 現在のファイルを巻き戻す"
+
+msgctxt "IDS_AFTERPLAYBACK_CLOSE"
+msgid "After Playback: Close"
+msgstr "再生終了後: 閉じる"
+
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
 msgstr "デバイスを開く"
@@ -1421,11 +1441,11 @@ msgid "Stop"
 msgstr "停止"
 
 msgctxt "IDS_AG_FRAMESTEP"
-msgid "Framestep"
+msgid "Frame-step"
 msgstr "コマ送り"
 
 msgctxt "IDS_MPLAYERC_16"
-msgid "Framestep back"
+msgid "Frame-step back"
 msgstr "コマ戻し"
 
 msgctxt "IDS_AG_GO_TO"
@@ -1525,12 +1545,12 @@ msgid "Thumbnails saved successfully"
 msgstr "サムネイルは正常に保存されました"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
-msgid "&Video Stream"
-msgstr "ビデオ ストリーム(&V)"
+msgid "&Video Track"
+msgstr "映像トラック(&V)"
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
 msgid "Video Ang&le"
-msgstr "ビデオ アングル(&L)"
+msgstr "映像アングル(&L)"
 
 msgctxt "IDS_RESET_SETTINGS"
 msgid "Reset settings"
@@ -1542,7 +1562,7 @@ msgstr "MPC-HC を既定の設定に復元してもよろしいですか？\n現
 
 msgctxt "IDS_RESET_SETTINGS_MUTEX"
 msgid "Please close all instances of MPC-HC so that the default settings can be restored."
-msgstr "既定の設定を復元する為に MPC-HC のすべてのインスタンスを閉じてください。"
+msgstr "既定の設定を復元するために MPC-HC のすべてのインスタンスを閉じてください。"
 
 msgctxt "IDS_EXPORT_SETTINGS"
 msgid "Export settings"
@@ -1574,11 +1594,11 @@ msgstr "再生速度 標準"
 
 msgctxt "IDS_MPLAYERC_21"
 msgid "Audio Delay +10 ms"
-msgstr "音声の遅延 +10 ms"
+msgstr "音声の遅延 +10 ミリ秒"
 
 msgctxt "IDS_MPLAYERC_22"
 msgid "Audio Delay -10 ms"
-msgstr "音声の遅延 -10 ms"
+msgstr "音声の遅延 -10 ミリ秒"
 
 msgctxt "IDS_MPLAYERC_23"
 msgid "Jump Forward (small)"
@@ -1648,13 +1668,45 @@ msgctxt "IDS_MPLAYERC_103"
 msgid "Shift Subtitle Right"
 msgstr "字幕を右へ移動"
 
-msgctxt "IDS_AG_DISPLAY_STATS"
-msgid "Display Stats"
-msgstr "レンダラ統計情報"
-
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"
 msgstr "先頭にジャンプ"
+
+msgctxt "IDS_OSD_SHOW_FILENAME"
+msgid "OSD: Show File Name"
+msgstr "OSD: ファイル名を表示"
+
+msgctxt "IDS_OSD_DISPLAY_RENDERER_STATS"
+msgid "OSD: Display Renderer Statistics"
+msgstr "OSD: レンダラ統計情報を表示"
+
+msgctxt "IDS_OSD_RESET_RENDERER_STATS"
+msgid "OSD: Reset Renderer Statistics"
+msgstr "OSD: レンダラ統計情報をリセット"
+
+msgctxt "IDD_PPAGESUBMISC"
+msgid "Subtitles::Misc"
+msgstr "字幕::その他"
+
+msgctxt "IDS_VIEW_BORDERLESS"
+msgid "Hide &borders"
+msgstr "境界線を隠す(&B)"
+
+msgctxt "IDS_VIEW_FRAMEONLY"
+msgid "Fra&me Only"
+msgstr "フレームのみ(&M)"
+
+msgctxt "IDS_VIEW_CAPTIONMENU"
+msgid "Sho&w Caption&&Menu"
+msgstr "タイトル バーとメニュー バーを表示(&W)"
+
+msgctxt "IDS_VIEW_HIDEMENU"
+msgid "Hide &Menu"
+msgstr "メニュー バーを隠す(&M)"
+
+msgctxt "IDD_PPAGEADVANCED"
+msgid "Advanced"
+msgstr "高度な設定"
 
 msgctxt "IDS_AG_VIEW_MINIMAL"
 msgid "View Minimal"
@@ -1889,12 +1941,12 @@ msgid "Boss key"
 msgstr "ボス キー"
 
 msgctxt "IDS_MPLAYERC_77"
-msgid "Player Menu (short)"
-msgstr "プレーヤー メニュー (簡約版)"
+msgid "Player Menu"
+msgstr "プレーヤー メニュー"
 
 msgctxt "IDS_MPLAYERC_78"
-msgid "Player Menu (long)"
-msgstr "プレーヤー メニュー (完全版)"
+msgid "Player Menu (full)"
+msgstr "プレーヤー メニュー (完全)"
 
 msgctxt "IDS_AG_FILTERS_MENU"
 msgid "Filters Menu"
@@ -1972,9 +2024,9 @@ msgctxt "IDS_MPLAYERC_97"
 msgid "On/Off Subtitle (DVD)"
 msgstr "字幕のオン/オフ (DVD)"
 
-msgctxt "IDS_MPLAYERC_98"
-msgid "Remaining Time"
-msgstr "残り時間"
+msgctxt "IDS_OSD_DISPLAY_CURRENT_TIME"
+msgid "OSD: Display Current Time"
+msgstr "OSD: 現在の再生時間を表示"
 
 msgctxt "IDS_PPAGEWEBSERVER_0"
 msgid "Select the directory"
@@ -2134,7 +2186,7 @@ msgstr "このオプションはテアリングを除去するために設計さ
 
 msgctxt "IDS_MAINFRM_139"
 msgid "Sub delay: %ld ms"
-msgstr "字幕の遅延: %ld ms"
+msgstr "字幕の遅延: %ld ミリ秒"
 
 msgctxt "IDS_AG_TITLE2"
 msgid "Title: %02d/%02d"
@@ -2274,7 +2326,7 @@ msgstr "縦横比: 標準"
 
 msgctxt "IDS_MAINFRM_70"
 msgid "Audio delay: %I64d ms"
-msgstr "音声の遅延: %I64d ms"
+msgstr "音声の遅延: %I64d ミリ秒"
 
 msgctxt "IDS_AG_CHAPTER"
 msgid "Chapter %d"
@@ -2285,8 +2337,8 @@ msgid "Out of memory"
 msgstr "メモリが不足しています"
 
 msgctxt "IDS_MAINFRM_77"
-msgid "Error: Flash player for IE is required"
-msgstr "エラー: IE 用の Flash player が必要です"
+msgid "Error: Adobe Flash Player for Internet Explorer is required"
+msgstr "エラー: Internet Explorer 用の Adobe Flash Player が必要です"
 
 msgctxt "IDS_MAINFRM_78"
 msgid "QuickTime not yet supported for X64 (apple library not available)"
@@ -2302,7 +2354,7 @@ msgstr "無効な引数です"
 
 msgctxt "IDS_MAINFRM_82"
 msgid "Opening aborted"
-msgstr "ファイルを開きませんでした"
+msgstr "開く処理を中止しました"
 
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
@@ -2354,10 +2406,10 @@ msgstr "一時停止"
 
 msgctxt "IDS_AG_TOGGLE_CAPTION"
 msgid "Toggle Caption&Menu"
-msgstr "タイトルとメニューの表示"
+msgstr "タイトル バーとメニュー バーの表示"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seeker"
+msgid "Toggle Seek Bar"
 msgstr "シーク バーの表示"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
@@ -2494,7 +2546,7 @@ msgstr "不明なファイル形式"
 
 msgctxt "IDS_MAINFRM_138"
 msgid "Sub shift: %ld ms"
-msgstr "字幕の移動: %ld ms"
+msgstr "字幕のシフト: %ld ミリ秒"
 
 msgctxt "IDS_VOLUME_BOOST_INC"
 msgid "Volume boost increase"
@@ -2513,8 +2565,8 @@ msgid "Volume boost Max"
 msgstr "音量のブースト 最大"
 
 msgctxt "IDS_USAGE"
-msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nominidump\tDisable minidump creation\n/slave \"hWnd\"\tUse MPC-HC as slave\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "使用方法: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\t最初のファイルかフォルダが読み込まれる (ワイルドカードの使用可, \"-\" が標準入力を表す)\n/dub \"dubname\"\t追加のオーディオ ファイルを読み込む\n/dubdelay \"file\"\t追加のオーディオ ファイルを XXms シフトして読み込む (ファイルが \"...DELAY XXms...\" を含む場合)\n/d3dfs\t\tDirect3D フルスクリーン モードで起動する\n/sub \"subname\"\t追加の字幕ファイルを読み込む\n/filter \"filtername\"\tDLL から DirectShow フィルタを読み込む (ワイルドカードの使用可)\n/dvd\t\tDVD モードで起動する, \"pathname\" は DVD フォルダを表す (省略可能)\n/dvdpos T#C\tタイトル T のチャプター C から再生を開始する\n/dvdpos T#hh:mm\tタイトル T の hh:mm:ss の位置から再生を開始する\n/cd\t\t音楽 CD または (S)VCD の全トラックを読み込む, \"pathname\" はドライブ パスを指定する (省略可能)\n/device\t\t既定のビデオ デバイスを開く\n/open\t\t自動で再生を開始せずにファイルを開く\n/play\t\tプレーヤーの起動と同時にファイルを再生する\n/close\t\t再生終了後にプレーヤーを終了する (/play の使用時のみ有効)\n/shutdown \t再生終了後に OS をシャットダウンする\n/standby\t\t再生終了後に OS をスタンバイ モードにする\n/hibernate\t\t再生終了後に OS を休止状態にする\n/logoff\t\t再生終了後にログオフする\n/lock\t\t再生終了後にワークステーションをロックする\n/monitoroff\t再生終了後にモニタの電源を切る\n/playnext\t\t再生終了後にフォルダ内の次のファイルを開く\n/fullscreen\t全画面表示モードで起動する\n/minimized\t最小化モードで起動する\n/new\t\t新しいプレーヤーを起動する\n/add\t\t\"pathname\" を再生リストに追加する, /open および /play と同時に使用できる\n/regvid\t\tビデオ ファイルを関連付ける\n/regaud\t\tオーディオ ファイルを関連付ける\n/regpl\t\t再生リスト ファイルを関連付ける\n/regall\t\tサポートされているすべてのファイルの種類を関連付ける\n/unregall\t\tすべてのファイルの関連付けを解除する\n/start ms\t\t\"ms\" (ミリ秒) の位置から再生を開始する\n/startpos hh:mm:ss\thh:mm:ss の位置から再生を開始する\n/fixedsize w,h\tウィンドウ サイズを固定する\n/monitor N\tN 番目 (N は 1 から始まる) のモニタで起動する\n/audiorenderer N\tN 番目 (N は 1 から始まる) のオーディオ レンダラを使用する\n\t\t(\"出力\" 設定を参照)\n/shaderpreset \"Pr\"\t\"Pr\" シェーダ プリセットを使用する\n/pns \"name\"\t使用するパン＆スキャンのプリセット名を指定する\n/iconsassoc\tファイル形式のアイコンを再度関連付ける\n/nofocus\t\tバックグラウンドで MPC-HC を開く\n/webport N\t指定したポート上でウェブ インターフェイスを開始する\n/debug\t\tOSD でデバッグ情報を表示する\n/nominidump\tミニダンプの作成を無効にする\n/slave \"hWnd\"\tスレーブとして MPC-HC を使用する\n/reset\t\t既定の設定を復元する\n/help /h /?\tコマンド ライン スイッチのヘルプを表示する\n"
+msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/randomize\tRandomize the playlist\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tUse MPC-HC as slave\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
+msgstr "使用方法: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\t最初のファイルかフォルダが読み込まれる (ワイルドカードの使用可, \"-\" が標準入力を表す)\n/dub \"dubname\"\t追加のオーディオ ファイルを読み込む\n/dubdelay \"file\"\t追加のオーディオ ファイルを XXms シフトして読み込む (ファイルが \"...DELAY XXms...\" を含む場合)\n/d3dfs\t\tDirect3D フルスクリーン モードで起動する\n/sub \"subname\"\t追加の字幕ファイルを読み込む\n/filter \"filtername\"\tDLL から DirectShow フィルタを読み込む (ワイルドカードの使用可)\n/dvd\t\tDVD モードで起動する, \"pathname\" は DVD フォルダを表す (省略可能)\n/dvdpos T#C\tタイトル T のチャプター C から再生を開始する\n/dvdpos T#hh:mm\tタイトル T の hh:mm:ss の位置から再生を開始する\n/cd\t\t音楽 CD または (S)VCD の全トラックを読み込む, \"pathname\" はドライブ パスを指定する (省略可能)\n/device\t\t既定のビデオ デバイスを開く\n/open\t\t自動で再生を開始せずにファイルを開く\n/play\t\tプレーヤーの起動と同時にファイルを再生する\n/close\t\t再生終了後にプレーヤーを終了する (/play の使用時のみ有効)\n/shutdown \t再生終了後に OS をシャットダウンする\n/standby\t\t再生終了後に OS をスタンバイ モードにする\n/hibernate\t\t再生終了後に OS を休止状態にする\n/logoff\t\t再生終了後にログオフする\n/lock\t\t再生終了後にワークステーションをロックする\n/monitoroff\t再生終了後にモニタの電源を切る\n/playnext\t\t再生終了後にフォルダ内の次のファイルを開く\n/fullscreen\t全画面表示モードで起動する\n/minimized\t最小化モードで起動する\n/new\t\t新しいプレーヤーを起動する\n/add\t\t\"pathname\" を再生リストに追加する, /open および /play と同時に使用できる\n/randomize\t再生リストをランダム化する\n/regvid\t\tビデオ ファイルに関連付ける\n/regaud\t\tオーディオ ファイルに関連付ける\n/regpl\t\t再生リスト ファイルに関連付ける\n/regall\t\tサポートされているすべてのファイルの種類に関連付ける\n/unregall\t\tすべてのファイルの関連付けを解除する\n/start ms\t\t\"ms\" (ミリ秒) の位置から再生を開始する\n/startpos hh:mm:ss\thh:mm:ss の位置から再生を開始する\n/fixedsize w,h\tウィンドウ サイズを固定する\n/monitor N\tN 番目 (N は 1 から始まる) のモニタで起動する\n/audiorenderer N\tN 番目 (N は 1 から始まる) のオーディオ レンダラを使用する\n\t\t(\"出力\" 設定を参照)\n/shaderpreset \"Pr\"\t\"Pr\" シェーダ プリセットを使用する\n/pns \"name\"\t使用するパン＆スキャンのプリセット名を指定する\n/iconsassoc\tファイル形式のアイコンを再度関連付ける\n/nofocus\t\tバックグラウンドで MPC-HC を開く\n/webport N\t指定したポート上でウェブ インターフェイスを開始する\n/debug\t\tOSD でデバッグ情報を表示する\n/nocrashreporter\tクラッシュ レポートを無効にする\n/slave \"hWnd\"\tスレーブとして MPC-HC を使用する\n/reset\t\t既定の設定を復元する\n/help /h /?\tコマンド ライン スイッチのヘルプを表示する\n"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -2696,41 +2748,13 @@ msgctxt "IDS_TOP_BACK_RIGHT"
 msgid "Top Back Right"
 msgstr "トップ リア 右"
 
-msgctxt "IDS_AG_RESET_STATS"
-msgid "Reset Display Stats"
-msgstr "レンダラ統計情報をリセット"
-
-msgctxt "IDD_PPAGESUBMISC"
-msgid "Subtitles::Misc"
-msgstr "字幕::その他"
-
-msgctxt "IDS_VIEW_BORDERLESS"
-msgid "Hide &borders"
-msgstr "境界線を隠す(&B)"
-
-msgctxt "IDS_VIEW_FRAMEONLY"
-msgid "Frame Only"
-msgstr "フレームのみ"
-
-msgctxt "IDS_VIEW_CAPTIONMENU"
-msgid "Sho&w Caption&&Menu"
-msgstr "タイトルとメニューを表示する(&W)"
-
-msgctxt "IDS_VIEW_HIDEMENU"
-msgid "Hide &Menu"
-msgstr "メニューを隠す(&M)"
-
-msgctxt "IDD_PPAGEADVANCED"
-msgid "Advanced"
-msgstr "高度な設定"
-
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seekbar"
-msgstr "シークバーの上に表示"
+msgid "Above seek bar"
+msgstr "シーク バーより上に"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seekbar"
-msgstr "シークバーの下に表示"
+msgid "Below seek bar"
+msgstr "シーク バーより下に"
 
 msgctxt "IDS_VIDEO_STREAM"
 msgid "Video: %s"
@@ -2897,8 +2921,8 @@ msgid "Other Audio"
 msgstr "Other Audio"
 
 msgctxt "IDS_MFMT_AC3"
-msgid "AC-3/DTS"
-msgstr "AC-3/DTS"
+msgid "AC-3"
+msgstr "AC-3"
 
 msgctxt "IDS_MFMT_AIFF"
 msgid "AIFF"
@@ -2907,6 +2931,26 @@ msgstr "AIFF"
 msgctxt "IDS_MFMT_ALAC"
 msgid "Apple Lossless"
 msgstr "Apple Lossless"
+
+msgctxt "IDS_MFMT_WAV"
+msgid "WAV"
+msgstr "WAV"
+
+msgctxt "IDS_MFMT_WMA"
+msgid "Windows Media Audio"
+msgstr "Windows Media Audio"
+
+msgctxt "IDS_MFMT_WV"
+msgid "WavPack"
+msgstr "WavPack"
+
+msgctxt "IDS_MFMT_OPUS"
+msgid "Opus Audio Codec"
+msgstr "Opus Audio Codec"
+
+msgctxt "IDS_MFMT_DTS"
+msgid "DTS/DTS-HD"
+msgstr "DTS/DTS-HD"
 
 msgctxt "IDS_MFMT_AMR"
 msgid "AMR"
@@ -2971,22 +3015,6 @@ msgstr "TAK"
 msgctxt "IDS_MFMT_TTA"
 msgid "True Audio"
 msgstr "True Audio"
-
-msgctxt "IDS_MFMT_WAV"
-msgid "WAV"
-msgstr "WAV"
-
-msgctxt "IDS_MFMT_WMA"
-msgid "Windows Media Audio"
-msgstr "Windows Media Audio"
-
-msgctxt "IDS_MFMT_WV"
-msgid "WavPack"
-msgstr "WavPack"
-
-msgctxt "IDS_MFMT_OPUS"
-msgid "Opus Audio Codec"
-msgstr "Opus Audio Codec"
 
 msgctxt "IDS_MFMT_PLS"
 msgid "Playlist"
@@ -3330,11 +3358,11 @@ msgstr "GB"
 
 msgctxt "IDS_SPEED_UNIT_K"
 msgid "KB/s"
-msgstr "KB/s"
+msgstr "KB/秒"
 
 msgctxt "IDS_SPEED_UNIT_M"
 msgid "MB/s"
-msgstr "MB/s"
+msgstr "MB/秒"
 
 msgctxt "IDS_BDA_ERROR_CREATE_TUNER"
 msgid "Could not create the tuner."
@@ -3373,8 +3401,8 @@ msgid "Error parsing the entered frame rate!"
 msgstr "入力されたフレーム レートの解析中にエラーが発生しました！"
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
-msgid "Cannot frame step, try a different video renderer."
-msgstr "フレーム ステップできません。別のビデオ レンダラを試してください。"
+msgid "Cannot frame-step, try a different video renderer."
+msgstr "コマ送りできません。別のビデオ レンダラを試してください。"
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for RealMedia.\nSelect one of the DirectX renderers for RealMedia in MPC-HC's output options and reopen the file."
@@ -3464,7 +3492,7 @@ msgctxt "IDS_WEBSERVER_ERROR_TEST"
 msgid "You need to apply the new settings before testing them."
 msgstr "これらをテストする前に新しい設定を適用してください。"
 
-msgctxt "IDS_AFTERPLAYBACK_CLOSE"
+msgctxt "IDS_AFTERPLAYBACK_EXIT"
 msgid "After Playback: Exit"
 msgstr "再生終了後: 終了"
 
@@ -3494,7 +3522,7 @@ msgstr "再生終了後: モニタの電源を切る"
 
 msgctxt "IDS_AFTERPLAYBACK_PLAYNEXT"
 msgid "After Playback: Play next file in the folder"
-msgstr "再生終了後: フォルダ内を順次再生する "
+msgstr "再生終了後: フォルダ内を順次再生する"
 
 msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
 msgid "After Playback: Do nothing"

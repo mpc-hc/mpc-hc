@@ -1,4 +1,4 @@
-# (C) 2013 see Authors.txt
+# (C) 2013, 2015 see Authors.txt
 #
 # This file is part of MPC-HC.
 #
@@ -19,14 +19,17 @@ import sys
 
 from TranslationDataRC import *
 
+
+def UpdateRC(filename, normalizePOFile=True):
+    translationData = TranslationDataRC()
+    translationData.loadFromPO('PO\\' + filename, 'po')
+    translationData.translateRC(r'..\mpc-hc.rc', filename)
+    if normalizePOFile:
+        # Write back the PO file to ensure it's properly normalized
+        translationData.writePO('PO\\' + filename, 'po')
+
 if __name__ == '__main__':
     if len(sys.argv) != 2:
         RuntimeError('Invalid number of parameters. Usage: UpdateRC.py <filename>')
 
-    filename = sys.argv[1]
-
-    translationData = TranslationDataRC()
-    translationData.loadFromPO('PO\\' + filename, 'po')
-    translationData.translateRC(r'..\mpc-hc.rc', filename)
-    # Write back the PO file to ensure it's properly normalized
-    translationData.writePO('PO\\' + filename, 'po')
+    UpdateRC(sys.argv[1])

@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2014 see Authors.txt
+ * (C) 2009-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,6 +20,7 @@
 
 #include "stdafx.h"
 #include "CompositionObject.h"
+#include "ColorConvTable.h"
 #include "../DSUtil/GolombBuffer.h"
 
 
@@ -82,15 +83,11 @@ void CompositionObject::Reset()
     Init();
 }
 
-void CompositionObject::SetPalette(int nNbEntry, const HDMV_PALETTE* pPalette, bool BT709, int sourceBlackLevel, int sourceWhiteLevel, int targetBlackLevel, int targetWhiteLevel)
+void CompositionObject::SetPalette(int nNbEntry, const HDMV_PALETTE* pPalette, ColorConvTable::YuvMatrixType currentMatrix)
 {
     m_nColorNumber = nNbEntry;
     for (int i = 0; i < nNbEntry; i++) {
-        if (BT709) {
-            m_colors[pPalette[i].entry_id] = YCrCbToRGB_Rec709(pPalette[i].T, pPalette[i].Y, pPalette[i].Cr, pPalette[i].Cb, sourceBlackLevel, sourceWhiteLevel, targetBlackLevel, targetWhiteLevel);
-        } else {
-            m_colors[pPalette[i].entry_id] = YCrCbToRGB_Rec601(pPalette[i].T, pPalette[i].Y, pPalette[i].Cr, pPalette[i].Cb, sourceBlackLevel, sourceWhiteLevel, targetBlackLevel, targetWhiteLevel);
-        }
+        m_colors[pPalette[i].entry_id] = ColorConvTable::A8Y8U8V8_TO_ARGB(pPalette[i].T, pPalette[i].Y, pPalette[i].Cb, pPalette[i].Cr, currentMatrix);
     }
 }
 
@@ -200,6 +197,12 @@ void CompositionObject::DvbRenderField(SubPicDesc& spd, CGolombBuffer& gb, short
     short nX = nXStart;
     short nY = nYStart;
     size_t nEnd = gb.GetPos() + nLength;
+    if (nEnd > gb.GetSize()) {
+        // Unexpected end of data, the file is probably corrupted
+        // but try to render the subtitles anyway
+        ASSERT(FALSE);
+        nEnd = gb.GetSize();
+    }
 
     while (gb.GetPos() < nEnd) {
         BYTE bType = gb.ReadByte();
@@ -272,11 +275,6 @@ void CompositionObject::Dvb2PixelsCodeString(SubPicDesc& spd, CGolombBuffer& gb,
             }
         }
 
-        if (nX + nCount > m_width) {
-            ASSERT(FALSE);
-            break;
-        }
-
         if (nCount > 0) {
             FillSolidRect(spd, nX, nY, nCount, 1, m_colors[nPaletteIndex]);
             nX += nCount;
@@ -330,13 +328,6 @@ void CompositionObject::Dvb4PixelsCodeString(SubPicDesc& spd, CGolombBuffer& gb,
             }
         }
 
-#if 0
-        if (nX + nCount > m_width) {
-            ASSERT(FALSE);
-            break;
-        }
-#endif
-
         if (nCount > 0) {
             FillSolidRect(spd, nX, nY, nCount, 1, m_colors[nPaletteIndex]);
             nX += nCount;
@@ -367,11 +358,6 @@ void CompositionObject::Dvb8PixelsCodeString(SubPicDesc& spd, CGolombBuffer& gb,
                 nCount = (short)gb.BitRead(7);          // run_length_3-127
                 nPaletteIndex = gb.ReadByte();
             }
-        }
-
-        if (nX + nCount > m_width) {
-            ASSERT(FALSE);
-            break;
         }
 
         if (nCount > 0) {

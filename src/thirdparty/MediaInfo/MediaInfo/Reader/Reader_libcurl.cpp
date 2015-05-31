@@ -60,7 +60,7 @@ struct Reader_libcurl::curl_data
     char                ErrorBuffer[CURL_ERROR_SIZE];
     #if MEDIAINFO_NEXTPACKET
         CURLM*          CurlM;
-    #endif MEDIAINFO_NEXTPACKET
+    #endif //MEDIAINFO_NEXTPACKET
     struct curl_slist*  HttpHeader;
     std::bitset<32>     Status;
     String              File_Name;
@@ -80,7 +80,7 @@ struct Reader_libcurl::curl_data
     bool                Init_NotAFile;
     #if MEDIAINFO_NEXTPACKET
         bool            NextPacket;
-    #endif MEDIAINFO_NEXTPACKET
+    #endif //MEDIAINFO_NEXTPACKET
     time_t              Time_Max;
     #ifdef MEDIAINFO_DEBUG
         int64u          Debug_BytesRead_Total;
@@ -98,7 +98,7 @@ struct Reader_libcurl::curl_data
         ErrorBuffer[0]='\0';
         #if MEDIAINFO_NEXTPACKET
             CurlM=NULL;
-        #endif MEDIAINFO_NEXTPACKET
+        #endif //MEDIAINFO_NEXTPACKET
         HttpHeader=NULL;
         Ssl_IgnoreSecurity=false;
         Ssh_IgnoreSecurity=false;
@@ -106,7 +106,7 @@ struct Reader_libcurl::curl_data
         Init_NotAFile=false;
         #if MEDIAINFO_NEXTPACKET
             NextPacket=false;
-        #endif MEDIAINFO_NEXTPACKET
+        #endif //MEDIAINFO_NEXTPACKET
         Time_Max=0;
         #ifdef MEDIAINFO_DEBUG
             Debug_BytesRead_Total=0;

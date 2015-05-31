@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2013, 2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -33,6 +33,4 @@ public:
     static LRESULT APIENTRY CheckBoxSubclassProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
     static int CALLBACK BrowseCallbackProcDIR(HWND hwnd, UINT uMsg, LPARAM lParam, LPARAM lpData);
-
-    static void RecurseAddDir(CString path, CAtlList<CString>* sl);
 };

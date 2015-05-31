@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2013, 2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -144,10 +144,9 @@ DWORD CStreamDriveThruFilter::ThreadProc()
                     if (CComQIPtr<IFileSinkFilter2> pFSF = GetFilterFromPin(m_pOutput->GetConnected())) {
                         pFSF->SetMode(AM_FILE_OVERWRITE);
 
-                        LPOLESTR pfn;
+                        CComHeapPtr<OLECHAR> pfn;
                         if (SUCCEEDED(pFSF->GetCurFile(&pfn, nullptr))) {
                             pFSF->SetFileName(pfn, nullptr);
-                            CoTaskMemFree(pfn);
                         }
                     }
 

@@ -111,16 +111,16 @@ msgid "Enable custom channel mapping"
 msgstr "Кулланучының каналлар бүлүен кабызырга"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
-msgstr "Баганаларны көйләү "
+msgid "Speaker configuration for"
+msgstr "Баганаларны көйләү"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
 msgid "input channels:"
 msgstr "кергән канал:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
-msgstr "Басканда үзгәртүләр кичекмәстән кабул ителсен өчен shift төймәсенә басып торыгыз "
+msgid "Hold shift for immediate changes when clicking something"
+msgstr "Басканда үзгәртүләр кичекмәстән кабул ителсен өчен shift төймәсенә басып торыгыз"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."
@@ -571,7 +571,7 @@ msgid "Warning"
 msgstr "Игътибар"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu."
+msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
 msgstr "Әгәр сез урынны үзгәртсәгез һәм видеокарта көйләүләрендә тулы экранда тигезләүне кушсагыз, субтитрлар яхшырак күренәчәк, ләкин процессор артык төяләчәк."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
@@ -683,11 +683,11 @@ msgid "Use Windows 7 Taskbar features"
 msgstr "Windows 7 аслыгы мөмкинлекләрен кулланырга 7"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
 msgstr "Папкада Киләсе/алдагы файлны 'Алга/Артка' аша, уйнату битендә бер нокта булганда ачарга"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Use time tooltip:"
+msgid "Show time tooltip:"
 msgstr "Вакытны күрсәтергә"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
@@ -1279,8 +1279,8 @@ msgid "Enable automatic update check"
 msgstr "Яңартуны үзе тикшерү"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
-msgid "Delay between each check:"
-msgstr "Тикшерү аралыгы:"
+msgid "Check every:"
+msgstr ""
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"
@@ -1665,4 +1665,28 @@ msgstr ""
 msgctxt "IDD_CMD_LINE_HELP_IDOK"
 msgid "OK"
 msgstr "Ярар"
+
+msgctxt "IDD_CRASH_REPORTER_CAPTION"
+msgid "Crash reporter"
+msgstr ""
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
+msgid "We are sorry, it seems MPC-HC just crashed. :(\n\nTo help us diagnose and fix the problem, a bug report will be sent. You can provide additional information if you want."
+msgstr ""
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
+msgid "Email:"
+msgstr ""
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC3"
+msgid "Your email address is optional and will only be used if the developers need to contact you for more information."
+msgstr ""
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
+msgid "Problem description (use English only):"
+msgstr ""
+
+msgctxt "IDD_CRASH_REPORTER_IDOK"
+msgid "OK"
+msgstr ""
 

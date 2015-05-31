@@ -1,14 +1,14 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# arestarh1986 <arestarh@ukr.net>, 2014
+# arestarh1986 <arestarh@ukr.net>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
-"PO-Revision-Date: 2014-10-27 11:01+0000\n"
-"Last-Translator: arestarh1986 <arestarh@ukr.net>\n"
+"POT-Creation-Date: 2015-05-15 16:53:42+0000\n"
+"PO-Revision-Date: 2015-05-15 18:10+0000\n"
+"Last-Translator: Underground78\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/mpc-hc/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -196,13 +196,17 @@ msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
 msgstr "&Тест дрижання"
 
-msgctxt "ID_VIEW_DISPLAYSTATS"
-msgid "&Display Stats"
-msgstr "&Показ статистики"
+msgctxt "ID_VIEW_DISPLAY_RENDERER_STATS"
+msgid "&Display Statistics"
+msgstr ""
 
-msgctxt "ID_VIEW_REMAINING_TIME"
-msgid "&Remaining Time"
-msgstr "Залишок часу"
+msgctxt "ID_VIEW_OSD_DISPLAY_TIME"
+msgid "Display Current T&ime"
+msgstr ""
+
+msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
+msgid "Show &File Name"
+msgstr ""
 
 msgctxt "POPUP"
 msgid "&Output Range"
@@ -553,16 +557,16 @@ msgid "S&haders"
 msgstr "&Шейдери"
 
 msgctxt "ID_AUDIOS"
-msgid "&Audio"
-msgstr "&Аудіо"
+msgid "&Audio Track"
+msgstr "&Аудіодоріжка"
 
 msgctxt "ID_SUBTITLES"
-msgid "Su&btitles"
-msgstr "С&убтитри"
+msgid "Su&btitle Track"
+msgstr "Доріжка су&бтитрів"
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Stream"
-msgstr "&Потік відео"
+msgid "&Video Track"
+msgstr "&Відеодоріжка"
 
 msgctxt "POPUP"
 msgid "&Volume"
@@ -584,7 +588,19 @@ msgctxt "POPUP"
 msgid "Af&ter Playback"
 msgstr "Наприкінці"
 
-msgctxt "ID_AFTERPLAYBACK_CLOSE"
+msgctxt "ID_AFTERPLAYBACK_DONOTHING"
+msgid "Do no&thing"
+msgstr ""
+
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "Відтворити &наступний файл у теці"
+
+msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
+msgid "Turn off the &monitor"
+msgstr "Вимкнути &монітор"
+
+msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
 msgstr "Закрити програму"
 
@@ -607,14 +623,6 @@ msgstr "Завершити сеанс"
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
 msgstr "Заблокувати ПК"
-
-msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
-msgid "Turn off the &monitor"
-msgstr "Вимкнути &монітор"
-
-msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
-msgid "Play &next file in the folder"
-msgstr "Відтворити &наступний файл у теці"
 
 msgctxt "POPUP"
 msgid "&Navigate"

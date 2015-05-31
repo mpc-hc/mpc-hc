@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2014 see Authors.txt
+ * (C) 2009-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -50,6 +50,7 @@ enum DVB_STREAM_TYPE {
     DVB_MPA      = 0x02,
     DVB_AC3      = 0x03,
     DVB_EAC3     = 0x04,
+    DVB_HEVC     = 0x05,
     DVB_LATM     = 0x11,
     DVB_PSI      = 0x80,
     DVB_TIF      = 0x81,

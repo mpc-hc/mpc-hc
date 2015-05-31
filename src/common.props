@@ -12,7 +12,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalOptions>/w34701 /w34706 /d2Zi+ /Zc:rvalueCast %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/w34701 /w34706 /Zo /Zc:rvalueCast %(AdditionalOptions)</AdditionalOptions>
       <AdditionalOptions Condition="'$(ANALYZE)'=='true'">/wd4005 /wd6031 /wd6246 /wd6309 /wd6387 /wd28204 %(AdditionalOptions)</AdditionalOptions>
       <EnablePREfast Condition="'$(ANALYZE)'=='true'">true</EnablePREfast>
       <BufferSecurityCheck>true</BufferSecurityCheck>
@@ -26,7 +26,7 @@
       <PreprocessorDefinitions Condition="'$(Configuration)'=='Debug Filter' Or '$(Configuration)'=='Release Filter'">STANDALONE_FILTER;_USRDLL;_AFX_NO_MFC_CONTROLS_IN_DIALOGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Platform)'=='Win32'">WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Platform)'=='x64'">_WIN64;WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
     </ClCompile>
     <Lib>
       <TargetMachine Condition="'$(Platform)'=='Win32'">MachineX86</TargetMachine>

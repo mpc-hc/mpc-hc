@@ -1,7 +1,8 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# Adolfo Jayme Barrientos, 2015
 # Adolfo Jayme Barrientos, 2015
 # Adolfo Jayme Barrientos, 2014
 # papu <papu@openmailbox.org>, 2014-2015
@@ -9,9 +10,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2015-01-23 09:11+0000\n"
-"Last-Translator: Adolfo Jayme Barrientos\n"
+"POT-Creation-Date: 2015-05-17 20:47:27+0000\n"
+"PO-Revision-Date: 2015-05-31 14:58+0000\n"
+"Last-Translator: papu <papu@openmailbox.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -77,7 +78,7 @@ msgstr "Enregistra"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK2"
 msgid "Enable built-in audio switcher filter (requires restart)"
-msgstr "Activar interruptor del filtre d'àudio intern (requereix inicialitzar)"
+msgstr "Activa l'interruptor del filtre d'àudio intern (cal que inicialitzeu)"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK5"
 msgid "Normalize"
@@ -101,7 +102,7 @@ msgstr "Augment:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK3"
 msgid "Down-sample to 44100 Hz"
-msgstr "Resamplejar a 44100 Hz"
+msgstr "Redueix el mostreig a 44100 Hz"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK4"
 msgid "Audio time shift (ms):"
@@ -109,19 +110,19 @@ msgstr "Desplaçament de l'àudio (ms):"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK1"
 msgid "Enable custom channel mapping"
-msgstr "Activar assignació de canal personalitzat"
+msgstr "Activa l' assignació de canal personalitzat"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
-msgid "Speaker configuration for "
+msgid "Speaker configuration for"
 msgstr "Configuració dels altaveus"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
 msgid "input channels:"
-msgstr "Canals d'entrada:"
+msgstr "canals d’entrada:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
-msgid "Hold shift for immediate changes when clicking something "
-msgstr "Premeu Maj en fer clic a les opcions per aplicar-les al moment"
+msgid "Hold shift for immediate changes when clicking something"
+msgstr "Manteniu la techa shift en fer clic a les opcions per aplicar-les al moment"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."
@@ -161,11 +162,11 @@ msgstr "Escriu el camí del fitxer multimèdia (a Internet o al ordinador) y el 
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Open:"
-msgstr "Obrir:"
+msgstr "Obre:"
 
 msgctxt "IDD_OPEN_DLG_IDC_BUTTON1"
 msgid "Browse..."
-msgstr "Explorar..."
+msgstr "Explora..."
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC1"
 msgid "Dub:"
@@ -173,7 +174,7 @@ msgstr "Doblatge:"
 
 msgctxt "IDD_OPEN_DLG_IDC_BUTTON2"
 msgid "Browse..."
-msgstr "Explorar..."
+msgstr "Explora..."
 
 msgctxt "IDD_OPEN_DLG_IDOK"
 msgid "OK"
@@ -185,7 +186,7 @@ msgstr "Cancel·la"
 
 msgctxt "IDD_OPEN_DLG_IDC_CHECK1"
 msgid "Add to playlist without opening"
-msgstr "Afegir a la Llista de reproducció sense obrir"
+msgstr "Afegeix a la Llista de reproducció sense obrir"
 
 msgctxt "IDD_ABOUTBOX_CAPTION"
 msgid "About"
@@ -205,7 +206,7 @@ msgstr "Traducció al català per l’Enric, l’Adolf i altres"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build information"
-msgstr "Informació de Compilació"
+msgstr "Informació de compilació"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Version:"
@@ -233,7 +234,7 @@ msgstr "Nom:"
 
 msgctxt "IDD_ABOUTBOX_IDC_BUTTON1"
 msgid "Copy to clipboard"
-msgstr "Copiar al porta-retalls"
+msgstr "Copia al porta-retalls"
 
 msgctxt "IDD_ABOUTBOX_IDOK"
 msgid "OK"
@@ -245,11 +246,11 @@ msgstr "Opcions d’obertura"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO1"
 msgid "Use the same player for each media file"
-msgstr "Usar el mateix reproductor per a cada arxiu de mitjans que es reprodueixi"
+msgstr "Usa el mateix reproductor per a cada fitxer de mitjans que es reprodueixi"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO2"
 msgid "Open a new player for each media file played"
-msgstr "Obrir un nou reproductor per cada arxiu de mitjans que es reprodueixi"
+msgstr "Obre un nou reproductor per cada fitxer de mitjans que es reprodueixi"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Language"
@@ -261,15 +262,15 @@ msgstr "Barra del títol"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO3"
 msgid "Display full path"
-msgstr "Mostrar el camí complet"
+msgstr "Visualitza el camí complet"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO4"
 msgid "File name only"
-msgstr "Només el nom de l'arxiu"
+msgstr "Només el nom del fitxer"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO5"
 msgid "Don't prefix anything"
-msgstr "No mostrar res"
+msgstr "No mostris res"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK13"
 msgid "Replace file name with title"
@@ -285,23 +286,23 @@ msgstr "Icona a la safata del sistema"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_SHOW_OSD"
 msgid "Show OSD (requires restart)"
-msgstr "Mostrar OSD (requereix inicialitzar)"
+msgstr "Mostra OSD (cal que inicialitzeu)"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK4"
 msgid "Limit window proportions on resize"
-msgstr "Limitar proporcions finestra al canviar tamany"
+msgstr "Limita les proporcions de la finestra al canviar tamany"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK12"
 msgid "Snap to desktop edges"
-msgstr "Ajustar a les vores de l'escriptori"
+msgstr "Ajusta a les vores de l'escriptori"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK8"
 msgid "Store settings in .ini file"
-msgstr "Desar la configuració a un arxiu .ini"
+msgstr "Desa els paràmetres a un fitxer .ini"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"
 msgid "Disable \"Open Disc\" menu"
-msgstr "Desactivar el menú \"Obrir Disc\""
+msgstr "Inhabilita el menú «Obre el disc»"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK9"
 msgid "Process priority above normal"
@@ -309,7 +310,7 @@ msgstr "Més prioritat pel procés"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK14"
 msgid "Enable cover-art support"
-msgstr "Activar suport de l'art de les portades"
+msgstr "Activa el suport de l'art de les portades"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "History"
@@ -317,43 +318,43 @@ msgstr "Historial"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK1"
 msgid "Keep history of recently opened files"
-msgstr "Mantenir l'historial dels arxius oberts"
+msgstr "Manté l'historial dels fitxers oberts"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK2"
 msgid "Remember last playlist"
-msgstr "Recordar l'última llista de reproducció"
+msgstr "Recorda l'última llista de reproducció"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_FILE_POS"
 msgid "Remember File position"
-msgstr "Recordar la posició de l'arxiu"
+msgstr "Recorda la posició del fitxer"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_DVD_POS"
 msgid "Remember DVD position"
-msgstr "Recordar la posició del DVD"
+msgstr "Recorda la posició del DVD"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK6"
 msgid "Remember last window position"
-msgstr "Recordar posició de la finestra"
+msgstr "Recorda la posició de la finestra"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK7"
 msgid "Remember last window size"
-msgstr "Recordar tamany de la finestra"
+msgstr "Recorda el tamany de la finestra"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
 msgid "Remember last Pan-n-Scan Zoom"
-msgstr "Recordar l'últim Zoom de Pan-n-Scan"
+msgstr "Recorda l'últim Zoom de Pan-n-Scan"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
-msgstr "Comportament de \"Llençar un DVD/BD\""
+msgstr "Comportament de \"Llença un DVD/BD\""
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO1"
 msgid "Prompt for location"
-msgstr "Preguntar per la ubicació"
+msgstr "Pregunta per la ubicació"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO2"
 msgid "Always open the default location:"
-msgstr "Sembre obrir la ubicació per defecte:"
+msgstr "Sembre obre la ubicació per defecte:"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "Preferred language for DVD Navigator and the external OGM Splitter"
@@ -413,7 +414,7 @@ msgstr "Reproducció"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_RADIO1"
 msgid "Play"
-msgstr "Reproduir"
+msgstr "Reprodueix"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_RADIO2"
 msgid "Repeat forever"
@@ -421,7 +422,7 @@ msgstr "Repetir per sempre"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC1"
 msgid "time(s)"
-msgstr "cop(vegades)"
+msgstr "cops"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
@@ -457,11 +458,11 @@ msgstr "Àudio:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK4"
 msgid "Allow overriding external splitter choice"
-msgstr "Anul·lar opcions de maquinari forà (splitter)"
+msgstr "Anul·la les opcions de maquinari forà o splitter"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Open settings"
-msgstr "Ajustos d'inici"
+msgstr "Paràmetres d’obertura"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK7"
 msgid "Use worker thread to construct the filter graph"
@@ -469,7 +470,7 @@ msgstr "Ajuda en la construcció del Filter Graph"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK6"
 msgid "Report pins which fail to render"
-msgstr "Reportar conectors que no volen funcionar"
+msgstr "Reporta els conectors que no volen funcionar"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
@@ -477,7 +478,7 @@ msgstr "Carga automàtica d'àudio"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
 msgid "Use the built-in subtitle renderer"
-msgstr "Usar el processador de subtítols incorporat"
+msgstr "Usa el processador de subtítols incorporat"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Control"
@@ -525,11 +526,11 @@ msgstr "ms"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Texture settings (open the video again to see the changes)"
-msgstr "Opcions de textura (es necessari reobrir l'arxiu perque tingui efecta)"
+msgstr "Opcions de textura (es necessari reobrir el fitxer perque tingui efecte)"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Sub pictures to buffer:"
-msgstr "Nombre de pre càrrega de subtítols:"
+msgstr "Nombre de  subtítols a la memòria intermèdia:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Maximum texture resolution:"
@@ -541,19 +542,19 @@ msgstr "Mai permetre animacions als subtítols"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC5"
 msgid "Render at"
-msgstr "Renderitzar a"
+msgstr ""
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC6"
 msgid "% of the animation"
-msgstr "% de la animació"
+msgstr ""
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC7"
 msgid "Animate at"
-msgstr "Animacions a"
+msgstr "Animació al"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC8"
 msgid "% of the video frame rate"
-msgstr "% del fotograma de vídeo"
+msgstr "% de les imatges per segon del vídeo"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Allow dropping some subpictures if the queue is running late"
@@ -565,19 +566,19 @@ msgstr "Format del rendetirzador"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SUB_AR_COMPENSATION"
 msgid "Apply aspect ratio compensation for anamorphic videos"
-msgstr "Aplicar la compensació de la relació d'aspecte per als vídeos anamòrfics"
+msgstr "Aplica la compensació de la relació d'aspecte per als vídeos anamòrfics"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Warning"
 msgstr "Advertència"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu."
-msgstr "Si actives l'antialiasing a pantalla completa en les opcions de la tarja gràfica, els subtítols no es veuran millor i exigirant força cpu."
+msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
+msgstr "Si actives l'antialiasing a pantalla completa en les opcions de la tarja gràfica, els subtítols no es veuran millor i exigirant força CPU."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
 msgid "File extensions"
-msgstr "Extensions d'arxiu"
+msgstr "Extensions de fitxer"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON2"
 msgid "Default"
@@ -597,7 +598,7 @@ msgstr "Utilitzeu les icones del format específic"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON1"
 msgid "Run as &administrator"
-msgstr "Executar com a &administrador"
+msgstr "Executa com a &administrador"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON7"
 msgid "Set as &default program"
@@ -677,19 +678,19 @@ msgstr "Mostra el títol \"En reproducció\" en els missatges d'estat d'ànim de
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
-msgstr "Prevenir MINIMITZAR des de pantalla completa al monitor secundari"
+msgstr "Evita de MINIMITZAR quan s'està en pantalla completa al monitor secundari"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_WIN7"
 msgid "Use Windows 7 Taskbar features"
-msgstr "Usar característiques de la barra de tasques del Win7"
+msgstr "Usa les característiques de la barra de tasques del Win7"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
-msgid "Open next/previous file in folder on \"Skip back/forward\" when there is only one item in playlist"
-msgstr "Obrir el fitxer de la carpeta següent/anterior amb \"Skip back/forward\" quan només hi ha un element de llista de reproducció"
+msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
+msgstr "Obre el fitxer de la carpeta següent/anterior amb \"Skip back/forward\" quan només hi ha un element de llista de reproducció"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Use time tooltip:"
-msgstr "Usar la descripció emergent de temps:"
+msgid "Show time tooltip:"
+msgstr "Usa la descripció emergent de temps:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "OSD font:"
@@ -697,19 +698,19 @@ msgstr "Estil del OSD:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_LCD"
 msgid "Enable Logitech LCD support (experimental)"
-msgstr "Activar suport LCD per teclat Logitech (experimental)"
+msgstr "Activa el suport LCD per teclat Logitech (experimental)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
 msgid "Auto-hide the mouse pointer during playback in windowed mode"
-msgstr "Amagar automàticament el punter del ratolí durant la reproducció en mode de finestra"
+msgstr "Amaga automàticament el punter del ratolí durant la reproducció en mode de finestra"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
 msgid "Add Filter..."
-msgstr "Afegir Filtre..."
+msgstr "Afegeix un filtre…"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON2"
 msgid "Remove"
-msgstr "Eliminar"
+msgstr "Elimina"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO1"
 msgid "Prefer"
@@ -717,7 +718,7 @@ msgstr "Preferir"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO2"
 msgid "Block"
-msgstr "Bloquejar"
+msgstr "Bloqueja"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO3"
 msgid "Set merit:"
@@ -737,7 +738,7 @@ msgstr "Afegeix un Tipus..."
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON6"
 msgid "Add Sub Type..."
-msgstr "Afegir Subtipus..."
+msgstr "Afegeix el Subtipus..."
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON7"
 msgid "Delete"
@@ -793,7 +794,7 @@ msgstr "Descripció:"
 
 msgctxt "IDD_FAVADD_CAPTION"
 msgid "Add Favorite"
-msgstr "Afegir a Favorits"
+msgstr "Afegeix una Adreça d'Interès"
 
 msgctxt "IDD_FAVADD_IDC_STATIC"
 msgid "Choose a name for your shortcut:"
@@ -801,7 +802,7 @@ msgstr "Escull un nom per la drecera de teclat:"
 
 msgctxt "IDD_FAVADD_IDC_CHECK1"
 msgid "Remember position"
-msgstr "Recordar posició"
+msgstr "Recorda la posició"
 
 msgctxt "IDD_FAVADD_IDCANCEL"
 msgid "Cancel"
@@ -817,7 +818,7 @@ msgstr "Unitat relativa"
 
 msgctxt "IDD_FAVORGANIZE_CAPTION"
 msgid "Organize Favorites"
-msgstr "Organitzar Favorits"
+msgstr "Organitzeu les Adreces d'Interès"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON1"
 msgid "Rename"
@@ -881,7 +882,7 @@ msgstr "Zoom: 0.2 -> 3.0"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_CHECK2"
 msgid "Global Media Keys"
-msgstr "Tecles multimèdia globals"
+msgstr "Tecles Multimèdia globals"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON1"
 msgid "Select All"
@@ -889,7 +890,7 @@ msgstr "Selecciona-ho tot"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON2"
 msgid "Reset Selected"
-msgstr "Inicialitzar Selecció"
+msgstr "Inicialitza la Selecció"
 
 msgctxt "IDD_MEDIATYPES_DLG_CAPTION"
 msgid "Warning"
@@ -965,7 +966,7 @@ msgstr "Trieu un filtre"
 
 msgctxt "IDD_ADDREGFILTER_IDC_BUTTON1"
 msgid "Browse..."
-msgstr "Explorar..."
+msgstr "Explora..."
 
 msgctxt "IDD_ADDREGFILTER_IDOK"
 msgid "OK"
@@ -1045,7 +1046,7 @@ msgstr "Posició subtítols relativa a la imatge"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Colors && Transparency"
-msgstr "Colors i Transparència"
+msgstr "Colors i transparència"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "0%"
@@ -1069,7 +1070,7 @@ msgstr "Contorn"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK1"
 msgid "Link alpha channels"
-msgstr "Vincular canals alfa"
+msgstr "Vincula els canals alfa"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "If you would like to use the stand-alone versions of these filters or another replacement, disable them here."
@@ -1085,7 +1086,7 @@ msgstr "Filtres de Transformació"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Internal LAV Filters settings"
-msgstr "Configuració els LAV Filters interns"
+msgstr "Configuració dels LAV Filters interns"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_SPLITTER_CONF"
 msgid "Splitter"
@@ -1109,7 +1110,7 @@ msgstr "Extern:"
 
 msgctxt "IDD_PPAGELOGO_IDC_BUTTON2"
 msgid "Browse..."
-msgstr "Explorar..."
+msgstr "Explora..."
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "DirectShow Video"
@@ -1129,7 +1130,7 @@ msgstr "Renderitzador d'Àudio"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
-msgstr "VMR-7/VMR-9 (sense res) and EVR (CP) settings"
+msgstr "Configuració del VMR-7/VMR-9 (sense renderitzar) i del EVR (CP)"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"
@@ -1141,7 +1142,7 @@ msgstr "Interpolació:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_D3D9DEVICE"
 msgid "Select D3D9 Render Device"
-msgstr "Seleccionar dispositiu de D3D9"
+msgstr "Selecciona el dispositiu de D3D9"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_RESETDEVICE"
 msgid "Reinitialize when changing display"
@@ -1165,7 +1166,7 @@ msgstr "Mesclador YUV"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_EVR_BUFFERS_TXT"
 msgid "EVR Buffers:"
-msgstr "Buffers de l'EVR:"
+msgstr "Memòria intermèdia de l'EVR:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "DXVA"
@@ -1185,43 +1186,43 @@ msgstr "Shaders"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Rotation"
-msgstr "Rotació"
+msgstr "Gir"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "* External filters (such as VSFilter) can display subtitles on all renderers."
-msgstr "* Filtres externs (com VSFilter) poden mostrar subtítols en tots els renderitzadors."
+msgstr "* Els filtres externs (com VSFilter) poden mostrar subtítols en tots els renderitzadors."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
-msgstr "Escoltar al port"
+msgstr "Port que rep les conexions:"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC1"
 msgid "Launch in web browser..."
-msgstr "Llençar dins del navegador..."
+msgstr "Llença dins del navegador web..."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK3"
 msgid "Enable compression"
-msgstr "Activar compresió"
+msgstr "Activa la compresió"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK5"
 msgid "Allow access from localhost only"
-msgstr "Permitir acces només des del host local"
+msgstr "Permet l'accés només des del host local"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
 msgid "Print debug information"
-msgstr "Imprimir informació de depuració"
+msgstr "Imprimeix la informació de depuració"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK4"
 msgid "Serve pages from:"
-msgstr "Servir pàginas des de:"
+msgstr "Serveix les pàginas des de:"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_BUTTON1"
 msgid "Browse..."
-msgstr "Explorar..."
+msgstr "Explora..."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_BUTTON2"
 msgid "Deploy..."
-msgstr "Desplegar..."
+msgstr "Desplega..."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC"
 msgid "Default page:"
@@ -1229,19 +1230,19 @@ msgstr "Pàgina per defecte:"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC"
 msgid "CGI handlers: (.ext1=path1;.ext2=path2;...)"
-msgstr "Gestors de CGI: (.ext1=ruta1;.ext2=ruta2;...)"
+msgstr "Gestors del CGI: (.ext1=ruta1;.ext2=ruta2;...)"
 
 msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
 msgid "Subtitles available online"
-msgstr "Subtítols disponibles en línea"
+msgstr "Subtítols disponibles en línia"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
 msgid "Download && Open"
-msgstr "Descarregar i Obrir"
+msgstr "Baixa i obre’ls"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
 msgid "Replace currently loaded subtitles"
-msgstr "Remplaçar els subtítols actuals"
+msgstr "Reemplaça els subtítols actuals"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
@@ -1269,7 +1270,7 @@ msgstr "Saturació"
 
 msgctxt "IDD_PPAGEMISC_IDC_RESET"
 msgid "Reset"
-msgstr "Inicialitzar"
+msgstr "Inicialitza"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Update check"
@@ -1277,10 +1278,10 @@ msgstr "Comprovació d’actualitzacions"
 
 msgctxt "IDD_PPAGEMISC_IDC_CHECK1"
 msgid "Enable automatic update check"
-msgstr "Activar comprovació automàtica d'actualitzacions"
+msgstr "Activa la comprovació automàtica d'actualitzacions"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
-msgid "Delay between each check:"
+msgid "Check every:"
 msgstr "Comprovar cada:"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
@@ -1293,15 +1294,15 @@ msgstr "Gestió de configuracions"
 
 msgctxt "IDD_PPAGEMISC_IDC_RESET_SETTINGS"
 msgid "Reset"
-msgstr "Inicialitzar"
+msgstr "Inicialitza"
 
 msgctxt "IDD_PPAGEMISC_IDC_EXPORT_SETTINGS"
 msgid "Export"
-msgstr "Exportar"
+msgstr "Exporta"
 
 msgctxt "IDD_PPAGEMISC_IDC_EXPORT_KEYS"
 msgid "Export keys"
-msgstr "Exp. Dreceres Teclat"
+msgstr "Exporta les Dreceres"
 
 msgctxt "IDD_TUNER_SCAN_CAPTION"
 msgid "Tuner scan"
@@ -1313,7 +1314,7 @@ msgstr "Inici"
 
 msgctxt "IDD_TUNER_SCAN_IDCANCEL"
 msgid "Cancel"
-msgstr "Cancel.lar"
+msgstr "Cancel·la"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Freq. Start"
@@ -1345,7 +1346,7 @@ msgstr "Q"
 
 msgctxt "IDD_TUNER_SCAN_IDC_CHECK_OFFSET"
 msgid "Use an offset"
-msgstr "Usar un desajustament(offset)"
+msgstr "Usa un desajustament \"offset\""
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Default Device"
@@ -1381,7 +1382,7 @@ msgstr "Configuració digital (BDA)"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC4"
 msgid "Network Provider"
-msgstr "Proveedor"
+msgstr "Proveïdor de xarxa"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC5"
 msgid "Tuner"
@@ -1405,19 +1406,19 @@ msgstr "Aturar el \"filtre graph\""
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCVIDEO"
 msgid "Sync video to display"
-msgstr "Sincronitzar el vídeo a la pantalla"
+msgstr "Sincronitza el vídeo a la pantalla"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC1"
 msgid "Frequency adjustment:"
-msgstr "Ajustar freqüència:"
+msgstr "Ajusta la freqüència:"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCDISPLAY"
 msgid "Sync display to video"
-msgstr "Sincronitzar la pantalla al vídeo"
+msgstr "Sincronitza la pantalla al vídeo"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC2"
 msgid "Frequency adjustment:"
-msgstr "Ajustar freqüència:"
+msgstr "Ajusta la freqüència:"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC3"
 msgid "lines"
@@ -1429,7 +1430,7 @@ msgstr "columnes"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCNEAREST"
 msgid "Present at nearest VSync"
-msgstr "Presentar al Vsync més proper"
+msgstr "Presenta a la Vsync més propera"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC5"
 msgid "Target sync offset:"
@@ -1457,11 +1458,11 @@ msgstr "Els canvis tindran efecte després de tencar i reiniciar la reproducció
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK1"
 msgid "Launch files in fullscreen"
-msgstr "Executar arxius a pantalla completa"
+msgstr "Executa fitxers a pantalla completa"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK4"
 msgid "Hide controls in fullscreen"
-msgstr "Amaga controls en pantalla completa"
+msgstr "Amaga els controls en pantalla completa"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC1"
 msgid "ms"
@@ -1469,11 +1470,11 @@ msgstr "ms"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK6"
 msgid "Hide docked panels"
-msgstr "Amaga panells acoblats"
+msgstr "Amaga els panells acoblats"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK5"
 msgid "Exit fullscreen at the end of playback"
-msgstr "Sortir de la pantalla completa en acabar"
+msgstr "Surt de la pantalla completa en acabar"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Fullscreen monitor"
@@ -1481,7 +1482,7 @@ msgstr "Monitor a Pantalla completa"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK2"
 msgid "Use autochange fullscreen monitor mode"
-msgstr "Usar mode de monitor a pantalla completa automàtic"
+msgstr "Usa el mode de monitor a pantalla completa automàtic"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON1"
 msgid "Add"
@@ -1501,11 +1502,11 @@ msgstr "Avall"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK3"
 msgid "Apply default monitor mode on fullscreen exit"
-msgstr "Aplicar visualització per defecte del monitor en sortir de la pantalla completa"
+msgstr "Aplica la visualització per defecte del monitor en sortir de la pantalla completa"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_RESTORERESCHECK"
 msgid "Restore resolution on program exit"
-msgstr "Restaurar la resolució en sortir"
+msgstr "Restaura la resolució en sortir"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Delay"
@@ -1525,7 +1526,7 @@ msgstr "Sintonitzar"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK1"
 msgid "Prefer forced and/or default subtitles tracks"
-msgstr "Preferir pistes de subtítols forçats i/o per defecte"
+msgstr "Prefereix pistes de subtítols forçats per defecte"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK2"
 msgid "Prefer external subtitles over embedded subtitles"
@@ -1533,7 +1534,7 @@ msgstr "Subtítols externs per defecte si hi són"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK3"
 msgid "Ignore embedded subtitles"
-msgstr "No carregar subtítols encastats"
+msgstr "Ignora els subtítols encastats"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Autoload paths"
@@ -1541,7 +1542,7 @@ msgstr "Camins de càrrega automàtica"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON1"
 msgid "Reset"
-msgstr "Inicialitzar"
+msgstr "Inicialitza"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Online database"
@@ -1573,31 +1574,31 @@ msgstr "&Ignora aquesta actualització"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shaders contain special effects which can be added to the video rendering process."
-msgstr "Els \"shaders\" contenen efectes especials que es poden afegir al procés de processament de vídeo."
+msgstr "Els \"shaders o pixel shaders o P.S\"  contenen efectes especials que es poden afegir al procés de renderització del vídeo."
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON12"
 msgid "Add shader file"
-msgstr "Afegir arxiu shader"
+msgstr "Afegeix un fitxer P.S"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON13"
 msgid "Remove"
-msgstr "Eliminar"
+msgstr "Elimina"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON1"
 msgid "Add to pre-resize"
-msgstr "Afegir al pre-redimensionament"
+msgstr "Afegeix al pre-redimensionament"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON2"
 msgid "Add to post-resize"
-msgstr "Afegir al post-redimensionament"
+msgstr "Afegeix al post-redimensionament"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shader presets"
-msgstr "Preestablir els Shaders"
+msgstr "Preestableix els P.S"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON3"
 msgid "Load"
-msgstr "Carregar"
+msgstr "Carrega"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON4"
 msgid "Save"
@@ -1609,11 +1610,11 @@ msgstr "Suprimeix"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active pre-resize shaders"
-msgstr "Activar pre-redimenionament dels shaders"
+msgstr "Activa el pre-redimenionament dels shaders"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active post-resize shaders"
-msgstr "Activar post-redimensionament dels shaders"
+msgstr "Activa el post-redimensionament dels shaders"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_CAPTION"
 msgid "Debug Shaders"
@@ -1621,7 +1622,7 @@ msgstr "Depuració dels Shaders..."
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_STATIC"
 msgid "Debug Information"
-msgstr "Informació de Depuració"
+msgstr "Informació de depuració"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO1"
 msgid "PS 2.0"
@@ -1641,7 +1642,7 @@ msgstr "PS 3.0"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_STATIC"
 msgid "Advanced Settings, do not edit unless you know what you are doing."
-msgstr "Configuració avançada, no ho editi a menys que sàpiga el que està fent."
+msgstr "Configuració avançada, no la editeu sino sabeu el que esteu fent."
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO1"
 msgid "True"
@@ -1664,6 +1665,30 @@ msgid "Command line help"
 msgstr "Ajuda de la línia d’ordres"
 
 msgctxt "IDD_CMD_LINE_HELP_IDOK"
+msgid "OK"
+msgstr "D’acord"
+
+msgctxt "IDD_CRASH_REPORTER_CAPTION"
+msgid "Crash reporter"
+msgstr "Informe de Fallades"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
+msgid "We are sorry, it seems MPC-HC just crashed. :(\n\nTo help us diagnose and fix the problem, a bug report will be sent. You can provide additional information if you want."
+msgstr "Ho sentim molt sembla que el MPC-HC ha fallat. :(\nPer ajudar-nos a diagnosticar i solucionar el problema, s'enviarà un informe d'error. Pot proporcionar informació addicional si ho desitja."
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
+msgid "Email:"
+msgstr "Correu Electrònic:"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC3"
+msgid "Your email address is optional and will only be used if the developers need to contact you for more information."
+msgstr "La seva adreça de correu electrònic és opcional i només s'utilitzarà si els desenvolupadors han de posar-se en contacte amb vostè per obtenir més informació."
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
+msgid "Problem description (use English only):"
+msgstr "Descripció del problema( useu només l'Anglès):"
+
+msgctxt "IDD_CRASH_REPORTER_IDOK"
 msgid "OK"
 msgstr "D’acord"
 

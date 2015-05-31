@@ -23,6 +23,10 @@
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
+#if defined(MEDIAINFO_PBCORE_YES)
+//---------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------
 #include "MediaInfo/Export/Export_PBCore2.h"
 #include "MediaInfo/File__Analyse_Automatic.h"
 #include <ctime>
@@ -80,8 +84,6 @@ void PBCore2_Transform(Ztring &ToReturn, MediaInfo_Internal &MI, stream_t Stream
     if (StreamKind==Stream_Menu && MI.Get(Stream_Menu, StreamPos, Menu_Format)!=__T("TimeCode"))
         return;
 
-    ToReturn+=__T("\t<instantiationEssenceTrack>\n");
-
     //essenceTrackType
     Ztring essenceTrackType;
     switch (StreamKind)
@@ -114,6 +116,9 @@ void PBCore2_Transform(Ztring &ToReturn, MediaInfo_Internal &MI, stream_t Stream
                 return; //Not supported
         default:            return; //Not supported
     }
+
+    ToReturn+=__T("\t<instantiationEssenceTrack>\n");
+
     ToReturn+=__T("\t\t<essenceTrackType>");
     ToReturn+=essenceTrackType;
     ToReturn+=__T("</essenceTrackType>\n");
@@ -158,7 +163,8 @@ void PBCore2_Transform(Ztring &ToReturn, MediaInfo_Internal &MI, stream_t Stream
         ToReturn+=__T("\t\t<essenceTrackEncoding");
         if (!MI.Get(StreamKind, StreamPos, __T("CodecID")).empty())
         {
-            ToReturn+=__T(" ref=\"codecid:");
+            ToReturn+=__T(" source=\"codecid\"");
+            ToReturn+=__T(" ref=\"");
             ToReturn+=MI.Get(StreamKind, StreamPos, __T("CodecID"));
             ToReturn+=__T("\"");
         }
@@ -574,3 +580,5 @@ Ztring Export_PBCore2::Transform(MediaInfo_Internal &MI)
 //***************************************************************************
 
 } //NameSpace
+
+#endif

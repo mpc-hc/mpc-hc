@@ -83,7 +83,7 @@ size_t File_Hls::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
     if (ReferenceFiles==NULL)
         return 0;
 
-    return ReferenceFiles->Read_Buffer_Seek(Method, Value, ID);
+    return ReferenceFiles->Seek(Method, Value, ID);
 }
 #endif //MEDIAINFO_SEEK
 
@@ -140,7 +140,7 @@ bool File_Hls::FileHeader_Begin()
     if (!IsSub)
         ReferenceFiles->ContainerHasNoId=true;
 
-    File__ReferenceFilesHelper::reference ReferenceFile;
+    sequence* Sequence=new sequence;
 
     bool IsGroup=false;
     for (size_t Line=0; Line<Lines.size(); Line++)
@@ -199,25 +199,25 @@ bool File_Hls::FileHeader_Begin()
             {
                 if (IsGroup)
                 {
-                    ReferenceFile.FileNames.push_back(Lines[Line]);
-                    ReferenceFile.StreamID=ReferenceFiles->References.size()+1;
-                    ReferenceFiles->References.push_back(ReferenceFile);
+                    Sequence->AddFileName(Lines[Line]);
+                    Sequence->StreamID=ReferenceFiles->Sequences_Size()+1;
+                    ReferenceFiles->AddSequence(Sequence);
                     IsGroup=false;
-                    ReferenceFile=File__ReferenceFilesHelper::reference();
+                    Sequence=new sequence();
                     #if MEDIAINFO_EVENTS
                         ParserIDs[0]=MediaInfo_Parser_HlsIndex;
                         StreamIDs_Width[0]=sizeof(size_t);
                     #endif //MEDIAINFO_EVENTS
                 }
                 else
-                    ReferenceFile.FileNames.push_back(Lines[Line]);
+                    Sequence->AddFileName(Lines[Line]);
             }
         }
     }
 
-    if (!ReferenceFile.FileNames.empty())
+    if (!Sequence->FileNames.empty())
     {
-        ReferenceFiles->References.push_back(ReferenceFile);
+        ReferenceFiles->AddSequence(Sequence);
         Fill(Stream_General, 0, General_Format_Profile, "Media");
     }
     else

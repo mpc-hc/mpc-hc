@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2014 see Authors.txt
+ * (C) 2009-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -49,10 +49,9 @@ CPPageFileMediaInfo::CPPageFileMediaInfo(CString path, IFileSourceFilter* pFSF, 
 {
     CComQIPtr<IAsyncReader> pAR;
     if (pFSF) {
-        LPOLESTR pFN;
+        CComHeapPtr<OLECHAR> pFN;
         if (SUCCEEDED(pFSF->GetCurFile(&pFN, nullptr))) {
             m_fn = pFN;
-            CoTaskMemFree(pFN);
         }
 
         if (CComQIPtr<IBaseFilter> pBF = pFSF) {

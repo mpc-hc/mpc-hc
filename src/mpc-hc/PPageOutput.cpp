@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -154,24 +154,23 @@ BOOL CPPageOutput::OnInitDialog()
     CString Cbstr;
 
     BeginEnumSysDev(CLSID_AudioRendererCategory, pMoniker) {
-        LPOLESTR olestr = nullptr;
+        CComHeapPtr<OLECHAR> olestr;
         if (FAILED(pMoniker->GetDisplayName(0, 0, &olestr))) {
             continue;
         }
 
         CStringW str(olestr);
-        CoTaskMemFree(olestr);
 
         m_AudioRendererDisplayNames.Add(CString(str));
 
         CComPtr<IPropertyBag> pPB;
         if (SUCCEEDED(pMoniker->BindToStorage(0, 0, IID_PPV_ARGS(&pPB)))) {
             CComVariant var;
-            if (SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, nullptr))) {
+            if (SUCCEEDED(pPB->Read(_T("FriendlyName"), &var, nullptr))) {
                 CString fstr(var.bstrVal);
 
                 var.Clear();
-                if (SUCCEEDED(pPB->Read(CComBSTR(_T("FilterData")), &var, nullptr))) {
+                if (SUCCEEDED(pPB->Read(_T("FilterData"), &var, nullptr))) {
                     BSTR* pbstr;
                     if (SUCCEEDED(SafeArrayAccessData(var.parray, (void**)&pbstr))) {
                         fstr.Format(_T("%s (%08x)"), CString(fstr), *((DWORD*)pbstr + 1));
@@ -332,7 +331,7 @@ BOOL CPPageOutput::OnInitDialog()
     addRenderer(VIDRNDT_DS_NULL_UNCOMP);
 
     for (int j = 0; j < m_iDSVRTC.GetCount(); ++j) {
-        if (m_iDSVideoRendererType == m_iDSVRTC.GetItemData(j)) {
+        if ((UINT)m_iDSVideoRendererType == m_iDSVRTC.GetItemData(j)) {
             m_iDSVRTC.SetCurSel(j);
             break;
         }
@@ -420,7 +419,7 @@ BOOL CPPageOutput::OnApply()
         // revert to the renderer in the settings
         m_iDSVideoRendererTypeCtrl.SetCurSel(0);
         for (int i = 0; i < m_iDSVideoRendererTypeCtrl.GetCount(); ++i) {
-            if (s.iDSVideoRendererType == m_iDSVideoRendererTypeCtrl.GetItemData(i)) {
+            if ((UINT)s.iDSVideoRendererType == m_iDSVideoRendererTypeCtrl.GetItemData(i)) {
                 m_iDSVideoRendererTypeCtrl.SetCurSel(i);
                 break;
             }

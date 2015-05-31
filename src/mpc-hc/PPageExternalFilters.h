@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2013, 2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -24,6 +24,7 @@
 #include "PPageBase.h"
 #include "FloatEdit.h"
 #include "mplayerc.h"
+#include "DropTarget.h"
 
 
 class CPPageExternalFiltersListBox : public CCheckListBox
@@ -45,7 +46,7 @@ protected:
 
 // CPPageExternalFilters dialog
 
-class CPPageExternalFilters : public CPPageBase
+class CPPageExternalFilters : public CPPageBase, public CDropClient
 {
     DECLARE_DYNAMIC(CPPageExternalFilters)
 
@@ -64,6 +65,10 @@ private:
     int m_iLoadType;
     CHexEdit m_dwMerit;
     CTreeCtrl m_tree;
+
+    CDropTarget m_dropTarget;
+    void OnDropFiles(CAtlList<CString>& slFiles, DROPEFFECT) override;
+    DROPEFFECT OnDropAccept(COleDataObject*, DWORD, CPoint) override;
 
     void StepUp(CCheckListBox& list);
     void StepDown(CCheckListBox& list);
@@ -102,6 +107,6 @@ protected:
     afx_msg void OnChangeMerit();
     afx_msg void OnDoubleClickType(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnKeyDownType(NMHDR* pNMHDR, LRESULT* pResult);
-    afx_msg void OnDropFiles(HDROP hDropInfo);
+    afx_msg void OnDestroy();
     afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
 };

@@ -197,6 +197,9 @@
     <ClInclude Include="MediaInfo\Image\File_Bmp.h">
       <Filter>Header Files\Image</Filter>
     </ClInclude>
+    <ClInclude Include="MediaInfo\Image\File_Bpg.h">
+      <Filter>Header Files\Image</Filter>
+    </ClInclude>
     <ClInclude Include="MediaInfo\Image\File_Dds.h">
       <Filter>Header Files\Image</Filter>
     </ClInclude>
@@ -231,6 +234,18 @@
       <Filter>Header Files\Image</Filter>
     </ClInclude>
     <ClInclude Include="MediaInfo\Multiple\File__ReferenceFilesHelper.h">
+      <Filter>Header Files\Multiple</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Multiple\File__ReferenceFilesHelper_Common.h">
+      <Filter>Header Files\Multiple</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Multiple\File__ReferenceFilesHelper_Resource.h">
+      <Filter>Header Files\Multiple</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Multiple\File__ReferenceFilesHelper_Sequence.h">
+      <Filter>Header Files\Multiple</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Multiple\File__ReferenceFilesHelper_Sequence_Common.h">
       <Filter>Header Files\Multiple</Filter>
     </ClInclude>
     <ClInclude Include="MediaInfo\Multiple\File_Ancillary.h">
@@ -498,6 +513,9 @@
       <Filter>Header Files\Audio</Filter>
     </ClInclude>
     <ClInclude Include="MediaInfo\Audio\File_Au.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_Caf.h">
       <Filter>Header Files\Audio</Filter>
     </ClInclude>
     <ClInclude Include="MediaInfo\Audio\File_Celt.h">
@@ -775,6 +793,9 @@
     <ClCompile Include="MediaInfo\Image\File_Bmp.cpp">
       <Filter>Source Files\Image</Filter>
     </ClCompile>
+    <ClCompile Include="MediaInfo\Image\File_Bpg.cpp">
+      <Filter>Source Files\Image</Filter>
+    </ClCompile>
     <ClCompile Include="MediaInfo\Image\File_Dds.cpp">
       <Filter>Source Files\Image</Filter>
     </ClCompile>
@@ -809,6 +830,12 @@
       <Filter>Source Files\Image</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Multiple\File__ReferenceFilesHelper.cpp">
+      <Filter>Source Files\Multiple</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Multiple\File__ReferenceFilesHelper_Resource.cpp">
+      <Filter>Source Files\Multiple</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Multiple\File__ReferenceFilesHelper_Sequence.cpp">
       <Filter>Source Files\Multiple</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Multiple\File_Ancillary.cpp">
@@ -1109,6 +1136,9 @@
       <Filter>Source Files\Audio</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Audio\File_Au.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_Caf.cpp">
       <Filter>Source Files\Audio</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Audio\File_Celt.cpp">

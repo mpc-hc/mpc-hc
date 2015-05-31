@@ -112,7 +112,7 @@ size_t File_Aaf::Read_Buffer_Seek (size_t Method, int64u Value, int64u ID)
     if (ReferenceFiles==NULL)
         return 0;
 
-    return ReferenceFiles->Read_Buffer_Seek(Method, Value, ID);
+    return ReferenceFiles->Seek(Method, Value, ID);
 }
 #endif //MEDIAINFO_SEEK
 
@@ -644,9 +644,9 @@ void File_Aaf::NetworkLocator()
     Ztring Data;
     Get_UTF16L(xxxSize, Data,                                   "Data");
 
-    File__ReferenceFilesHelper::reference ReferenceFile;
-    ReferenceFile.FileNames.push_back(Data);
-    ReferenceFiles->References.push_back(ReferenceFile);
+    sequence* Sequence=new sequence;
+    Sequence->AddFileName(Data);
+    ReferenceFiles->AddSequence(Sequence);
 
     //Locators[Streams[Streams_Pos]->Directory_Pos].EssenceLocator=Data;
 }

@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -53,7 +53,7 @@ typedef enum MPC_LOADSTATE {
     MLS_LOADED,
     MLS_CLOSING,
     MLS_FAILING,
-};
+} MPC_LOADSTATE;
 
 
 typedef enum MPC_PLAYSTATE {
@@ -61,7 +61,7 @@ typedef enum MPC_PLAYSTATE {
     PS_PAUSE  = 1,
     PS_STOP   = 2,
     PS_UNUSED = 3
-};
+} MPC_PLAYSTATE;
 
 
 struct MPC_OSDDATA {
@@ -266,4 +266,4 @@ typedef enum MPCAPI_COMMAND :
     // Show host defined OSD message string
     CMD_OSDSHOWMESSAGE      = 0xA0005000
 
-};
+} MPCAPI_COMMAND;

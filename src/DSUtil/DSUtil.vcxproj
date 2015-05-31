@@ -132,6 +132,7 @@
     <ClCompile Include="WinAPIUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ArrayUtils.h" />
     <ClInclude Include="AudioTools.h" />
     <ClInclude Include="DSMPropertyBag.h" />
     <ClInclude Include="DSUtil.h" />

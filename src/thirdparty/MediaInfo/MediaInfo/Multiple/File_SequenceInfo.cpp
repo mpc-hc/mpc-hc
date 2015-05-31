@@ -82,7 +82,7 @@ size_t File_SequenceInfo::Read_Buffer_Seek (size_t Method, int64u Value, int64u 
     if (ReferenceFiles==NULL)
         return 0;
 
-    return ReferenceFiles->Read_Buffer_Seek(Method, Value, ID);
+    return ReferenceFiles->Seek(Method, Value, ID);
 }
 #endif //MEDIAINFO_SEEK
 
@@ -106,8 +106,8 @@ bool File_SequenceInfo::FileHeader_Begin()
 
             ReferenceFiles=new File__ReferenceFilesHelper(this, Config);
 
-            File__ReferenceFilesHelper::reference ReferenceFile;
-            ReferenceFile.StreamKind=Stream_Video;
+            sequence* Sequence=new sequence;
+            Sequence->StreamKind=Stream_Video;
 
             FileName FN(File_Name);
             Ztring Base=FN.Path_Get();
@@ -177,7 +177,7 @@ bool File_SequenceInfo::FileHeader_Begin()
                         if (FileNumberCount>=9)
                         {
                             //Trying with consecutive file numbers betweens dirs
-                            Number=Ztring::ToZtring(ReferenceFile.FileNames.size());
+                            Number=Ztring::ToZtring(Sequence->FileNames.size());
                             FullFile=FileBase;
                             FullFile.insert(FullFile.size()-Extension.size()-1, Number);
                             FileNumberCount=Number.size();
@@ -200,7 +200,7 @@ bool File_SequenceInfo::FileHeader_Begin()
 
                         if (FileNumberCount<9)
                         {
-                            size_t FileNumber=FromZero?0:ReferenceFile.FileNames.size();
+                            size_t FileNumber=FromZero?0:Sequence->FileNames.size();
                             do
                             {
                                 Number=Ztring::ToZtring(FileNumber);
@@ -212,7 +212,7 @@ bool File_SequenceInfo::FileHeader_Begin()
                                 if (!File::Exists(FullFile))
                                     break;
 
-                                ReferenceFile.FileNames.push_back(FullFile);
+                                Sequence->AddFileName(FullFile);
 
                                 FileNumber++;
                             }
@@ -223,8 +223,7 @@ bool File_SequenceInfo::FileHeader_Begin()
                     }
                     while (DirNumber<1000000000);
 
-                    if (!ReferenceFile.FileNames.empty())
-                        ReferenceFiles->References.push_back(ReferenceFile);
+                    ReferenceFiles->AddSequence(Sequence);
                 }
             }
         }
