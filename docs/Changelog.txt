@@ -8,15 +8,15 @@ Legend:
 ! Fixed
 
 
-next version - not released yet
-===============================
+1.7.9 - 1 June 2015
+===================
 + Internal Subtitle Renderer: Convert colorspace of subtitles to match video.
 + Append files to the playlist on drag&drop while holding "Control" key
 + Enable Press and Hold gesture to make easier access to context menu on touch devices
 + Add Danish translation
-+ Add ability to disable every time after playback event for current session by selecting 
++ Add ability to disable every time after playback event for current session by selecting
   "Do nothing" event in context menu.
-+ Ticket #3051, Support DTS Music Disk
++ Ticket #3051, Support DTS Music Disc
 + Ticket #5147, Add /randomize command-line switch for playlist randomization
 + Ticket #5334, Allow to enable high precision timer also when Subresync bar is hidden.
   Right click on timer shows menu with options.
@@ -27,7 +27,7 @@ next version - not released yet
   "OSD: Reset Renderer Statistics" so that their meaning is clearer in the "Keys" option panel. Also
   rename "Display Stats" to "Display Statistics" in the "Renderer Settings" menu
 * Ticket #5294, Use internal LAV Splitter for demuxing WTV files
-* Tickets #5336/5380, Replace the minidump creation by Doctor Dump, a more advanced crash reporter.
+* Ticket #5336/#5380, Replace the minidump creation by Doctor Dump, a more advanced crash reporter.
   The new crash reporter is able to send the report automatically after the user's approval and can
   warn the user if the problem has already been fixed in a newer version. It should also be generally
   more reliable than the old method
@@ -56,6 +56,12 @@ next version - not released yet
 ! Cover image were sometimes incorrectly displayed
 ! Logitech LCD: MPC-HC crashed when the media duration was unknown
 ! PGS subtitles: MPC-HC could crash when rendering broken subtitles
+! Playlist: Fix and improve the shuffle mode:
+    - Ticket #80, Playback stopped after playing the last playlist item even if not all tracks had been played
+    - Ticket #3028, If the playlist was cleared and then the items readded, pressing next caused a crash
+    - Ticket #3128, The first item to play was always the first one in the playlist
+    - Ticket #4442, Going to the previous file used the playlist order instead of the shuffled order
+    - Ticket #4616, No tracks will be repeated unless all tracks have been played at least once
 ! Ticket #2167, Prevent the task bar buttons from being RTLed when Windows is configured to use RTL layout
 ! Ticket #2516, VSFilter: Fix PGS/DVB subtitles with different size than video frame
 ! Ticket #5028, Display OSD message for every time after playback event if once event is disabled
@@ -74,8 +80,8 @@ next version - not released yet
   when using always on top. It could cause unintentional mouse clicks in the hidden main
   window and prevented the mouse pointer from being correctly hidden
 ! Ticket #5345, Fix opening of shortcuts pointing on directories
-! Ticket #5348, Vobsub: The latest subtitle entry was sometimes not rendered
-! Ticket #5360, Fix: The "turn off monitor" after playback event did not work
+! Ticket #5348, VobSub: The latest subtitle entry was sometimes not rendered
+! Ticket #5360, Fix: The "Turn off monitor" after playback event did not work
 ! Ticket #5378, Fix the "DVD Menu Activate" hotkey
 ! Ticket #5392, the Internal Subtitle Renderer did not work properly when the maximum texture resolution
   was set to "Video" and the renderer was madVR
