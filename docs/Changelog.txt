@@ -56,6 +56,12 @@ next version - not released yet
 ! Cover image were sometimes incorrectly displayed
 ! Logitech LCD: MPC-HC crashed when the media duration was unknown
 ! PGS subtitles: MPC-HC could crash when rendering broken subtitles
+! Playlist: Fix and improve the shuffle mode:
+    - Ticket #80, Playback stopped after playing the last playlist item even if not all tracks had been played
+    - Ticket #3028, If the playlist was cleared and then the items readded, pressing next caused a crash
+    - Ticket #3128, The first item to play was always the first one in the playlist
+    - Ticket #4442, Going to the previous file used the playlist order instead of the shuffled order
+    - Ticket #4616, No tracks will be repeated unless all tracks have been played at least once
 ! Ticket #2167, Prevent the task bar buttons from being RTLed when Windows is configured to use RTL layout
 ! Ticket #2516, VSFilter: Fix PGS/DVB subtitles with different size than video frame
 ! Ticket #5028, Display OSD message for every time after playback event if once event is disabled
