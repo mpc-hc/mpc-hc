@@ -26,11 +26,14 @@ Here is a quick how-to release a new stable build:
  6) Merge back the `master` branch into `develop`. Use `git merge --no-ff --no-commit master` since it's
     likely that some manually editing of the merge commit is needed to merge the changelog correctly. Try
     to give the merge commit an informative commit log, mentioning the release and its version number
- 7) Make sure you have a clean source tree, no modified files, or unpushed commits
+ 7) Checkout the `master` branch and make sure you have a clean source tree, no modified files, or unpushed commits
  8) Compile MPC-HC and the standalone filters:
     a. CALL "build.bat" Clean All Both Release
     b. CALL "build.bat" Build All Both Release Packages
  9) Keep the PDB files of all the filters and MPC-HC builds
-10) Upload the binary packages on SourceForge following the directory and the packages names scheme
+10) Upload the PDB files and the corresponding binary files to DrDump server. Use the same command
+    as the nightly builds with the version set to X.Y.Z.0
+11) Upload the binary packages on SourceForge following the directory and the packages names scheme
     (upload the PDB files too, use 7zip to create the 7z packages)
-11) Update the website with the new download links, changelog and version.txt with the new version number
+12) Update the website with the new version number, changelog and download links
+13) Update the milestone and the changelog on Trac
