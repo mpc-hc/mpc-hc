@@ -124,6 +124,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bs2b", "src\thirdparty\bs2b
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SoundTouch", "src\thirdparty\SoundTouch\SoundTouch.vcxproj", "{4C7A1953-CBC4-42D5-A12F-BB512C64B547}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zita-resampler", "src\thirdparty\zita-resampler\zita-resampler.vcxproj", "{F3D02050-F39A-4103-8343-09285359A495}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug Filter|Win32 = Debug Filter|Win32
@@ -1182,6 +1184,30 @@ Global
 		{4C7A1953-CBC4-42D5-A12F-BB512C64B547}.Release|Win32.Build.0 = Release|Win32
 		{4C7A1953-CBC4-42D5-A12F-BB512C64B547}.Release|x64.ActiveCfg = Release|x64
 		{4C7A1953-CBC4-42D5-A12F-BB512C64B547}.Release|x64.Build.0 = Release|x64
+		{F3D02050-F39A-4103-8343-09285359A495}.Debug Filter|Win32.ActiveCfg = Debug|Win32
+		{F3D02050-F39A-4103-8343-09285359A495}.Debug Filter|Win32.Build.0 = Debug|Win32
+		{F3D02050-F39A-4103-8343-09285359A495}.Debug Filter|x64.ActiveCfg = Debug|x64
+		{F3D02050-F39A-4103-8343-09285359A495}.Debug Filter|x64.Build.0 = Debug|x64
+		{F3D02050-F39A-4103-8343-09285359A495}.Debug Lite|Win32.ActiveCfg = Debug|Win32
+		{F3D02050-F39A-4103-8343-09285359A495}.Debug Lite|Win32.Build.0 = Debug|Win32
+		{F3D02050-F39A-4103-8343-09285359A495}.Debug Lite|x64.ActiveCfg = Debug|x64
+		{F3D02050-F39A-4103-8343-09285359A495}.Debug Lite|x64.Build.0 = Debug|x64
+		{F3D02050-F39A-4103-8343-09285359A495}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F3D02050-F39A-4103-8343-09285359A495}.Debug|Win32.Build.0 = Debug|Win32
+		{F3D02050-F39A-4103-8343-09285359A495}.Debug|x64.ActiveCfg = Debug|x64
+		{F3D02050-F39A-4103-8343-09285359A495}.Debug|x64.Build.0 = Debug|x64
+		{F3D02050-F39A-4103-8343-09285359A495}.Release Filter|Win32.ActiveCfg = Release|Win32
+		{F3D02050-F39A-4103-8343-09285359A495}.Release Filter|Win32.Build.0 = Release|Win32
+		{F3D02050-F39A-4103-8343-09285359A495}.Release Filter|x64.ActiveCfg = Release|x64
+		{F3D02050-F39A-4103-8343-09285359A495}.Release Filter|x64.Build.0 = Release|x64
+		{F3D02050-F39A-4103-8343-09285359A495}.Release Lite|Win32.ActiveCfg = Release|Win32
+		{F3D02050-F39A-4103-8343-09285359A495}.Release Lite|Win32.Build.0 = Release|Win32
+		{F3D02050-F39A-4103-8343-09285359A495}.Release Lite|x64.ActiveCfg = Release|x64
+		{F3D02050-F39A-4103-8343-09285359A495}.Release Lite|x64.Build.0 = Release|x64
+		{F3D02050-F39A-4103-8343-09285359A495}.Release|Win32.ActiveCfg = Release|Win32
+		{F3D02050-F39A-4103-8343-09285359A495}.Release|Win32.Build.0 = Release|Win32
+		{F3D02050-F39A-4103-8343-09285359A495}.Release|x64.ActiveCfg = Release|x64
+		{F3D02050-F39A-4103-8343-09285359A495}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1245,5 +1271,6 @@ Global
 		{7CBDE5A1-9CBB-4139-93F5-09D8DBA4427F} = {D9A0529B-9EC4-4D30-9E05-A5D533739D95}
 		{0FD9BF8F-2397-4E23-B41E-E4624F35D646} = {D9A0529B-9EC4-4D30-9E05-A5D533739D95}
 		{4C7A1953-CBC4-42D5-A12F-BB512C64B547} = {D9A0529B-9EC4-4D30-9E05-A5D533739D95}
+		{F3D02050-F39A-4103-8343-09285359A495} = {D9A0529B-9EC4-4D30-9E05-A5D533739D95}
 	EndGlobalSection
 EndGlobal
