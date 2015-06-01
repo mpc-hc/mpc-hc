@@ -3,13 +3,15 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Mehedi Hussain, 2014
+# Mehedi Hussain, 2014
 # mehzad, 2014
+# Underground78, 2014
 # Underground78, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-06-17 15:23:34+0000\n"
-"PO-Revision-Date: 2015-04-12 14:10+0000\n"
+"PO-Revision-Date: 2015-06-04 19:28+0000\n"
 "Last-Translator: Mehedi Hussain\n"
 "Language-Team: Bengali (http://www.transifex.com/projects/p/mpc-hc/language/bn/)\n"
 "MIME-Version: 1.0\n"

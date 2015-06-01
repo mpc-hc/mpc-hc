@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # kasper93, 2013
@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
-"PO-Revision-Date: 2015-03-26 23:21+0000\n"
+"POT-Creation-Date: 2015-05-22 20:53:41+0000\n"
+"PO-Revision-Date: 2015-06-04 16:05+0000\n"
 "Last-Translator: JellyFrog\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/mpc-hc/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -200,15 +200,15 @@ msgstr "&Tearingtest"
 
 msgctxt "ID_VIEW_DISPLAY_RENDERER_STATS"
 msgid "&Display Statistics"
-msgstr ""
+msgstr "&Visa Statistik"
 
 msgctxt "ID_VIEW_OSD_DISPLAY_TIME"
 msgid "Display Current T&ime"
-msgstr ""
+msgstr "Visa Aktuell tid"
 
 msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
 msgid "Show &File Name"
-msgstr ""
+msgstr "Visa &Filnamn"
 
 msgctxt "POPUP"
 msgid "&Output Range"
@@ -324,27 +324,27 @@ msgstr "&Absolut kolorimetri"
 
 msgctxt "POPUP"
 msgid "&VSync"
-msgstr "&Vertikalsynk"
+msgstr "&VSync"
 
 msgctxt "ID_VIEW_VSYNC"
 msgid "&VSync"
-msgstr "&Vertikalsynk"
+msgstr "&VSync"
 
 msgctxt "ID_VIEW_VSYNCACCURATE"
 msgid "&Accurate VSync"
-msgstr "&Exakt vertikalsynk"
+msgstr "&Exakt VSync"
 
 msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
 msgid "A&lternative VSync"
-msgstr "&Alternativ vertikalsynk"
+msgstr "&Alternativ VSync"
 
 msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
 msgid "&Decrease VSync Offset"
-msgstr "&Minska vertikalsynkförskjutningen"
+msgstr "&Minska VSync-förskjutningen"
 
 msgctxt "ID_VIEW_VSYNCOFFSET_INCREASE"
 msgid "&Increase VSync Offset"
-msgstr "&Öka vertikalsynkförskjutningen"
+msgstr "&Öka VSync-förskjutningen"
 
 msgctxt "POPUP"
 msgid "&GPU Control"
@@ -352,7 +352,7 @@ msgstr "GPU-kontroll"
 
 msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
 msgid "Flush GPU &before VSync"
-msgstr "Töm GPU &före vertikalsynk"
+msgstr "Töm GPU &före VSync"
 
 msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
 msgid "Flush GPU &after Present"
@@ -476,19 +476,19 @@ msgstr "Minska Höjd"
 
 msgctxt "ID_PANSCAN_MOVERIGHT"
 msgid "Move &Right"
-msgstr "Flytta Höger"
+msgstr "Flytta till &Höger"
 
 msgctxt "ID_PANSCAN_MOVELEFT"
 msgid "Move &Left"
-msgstr "Flytta Vänster"
+msgstr "Flytta till &Vänster"
 
 msgctxt "ID_PANSCAN_MOVEUP"
 msgid "Move &Up"
-msgstr "Flytta Upp"
+msgstr "Flytta &upp"
 
 msgctxt "ID_PANSCAN_MOVEDOWN"
 msgid "Move &Down"
-msgstr "Flytta Ner"
+msgstr "Flytta &ned"
 
 msgctxt "ID_PANSCAN_CENTER"
 msgid "Cen&ter"
@@ -560,15 +560,15 @@ msgstr "S&haders"
 
 msgctxt "ID_AUDIOS"
 msgid "&Audio Track"
-msgstr ""
+msgstr "&Ljudspår"
 
 msgctxt "ID_SUBTITLES"
 msgid "Su&btitle Track"
-msgstr ""
+msgstr "&Undertextspår"
 
 msgctxt "ID_VIDEO_STREAMS"
 msgid "&Video Track"
-msgstr ""
+msgstr "&Videospår"
 
 msgctxt "POPUP"
 msgid "&Volume"
@@ -592,7 +592,7 @@ msgstr "Efter &Uppspelning"
 
 msgctxt "ID_AFTERPLAYBACK_DONOTHING"
 msgid "Do no&thing"
-msgstr ""
+msgstr "Gör Ingen&ting"
 
 msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
 msgid "Play &next file in the folder"

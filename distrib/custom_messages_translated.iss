@@ -524,18 +524,18 @@ hy.langid=00001067
 hy.comp_mpciconlib=Պատկերների գրադարան
 hy.comp_mpcresources=Թարգմանություններ
 hy.msg_DeleteSettings=Ջնջե՞լ MPC-HC-ի կարգավորումները։%n%nԵթե նախատեսում եք վերատեղադրել MPC-HC, ապա պետք է չէ դրանք ջնջել։.
-hy.msg_SetupIsRunningWarning=MPC-HC-ի տեղակայիչը արդեն բացված է!
+hy.msg_SetupIsRunningWarning=MPC-HC-ի տեղակայիչը արդեն աշխատեցված է:
 #if defined(sse_required)
 hy.msg_simd_sse=MPC-HC-ի այս տարբերակը պահանջում է CPU՝ SSE-ի աջակցմամբ։%n%nՁեր CPU-ն այն չի աջակցում։
 #elif defined(sse2_required)
 hy.msg_simd_sse2=MPC-HC-ի այս տարբերակը պահանջում է CPU՝ SSE2-ի աջակցմամբ։%n%nՁեր CPU-ն այն չի աջակցում։
 #endif
-hy.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
+hy.run_DownloadToolbarImages=Այցելեք մեր Wiki էջը՝ ներբեռնելու համար գործիքագոտու պատկերներ
 hy.tsk_AllUsers=Բոլորի համար
-hy.tsk_CurrentUser=Միայն ձեզ համար
+hy.tsk_CurrentUser=Միայն ընթացիկ օգտվողի համար
 hy.tsk_Other=Լրացուցիչ.
-hy.tsk_ResetSettings=Ետարկել կարգավորումները
-hy.types_DefaultInstallation=Տեղադրել ըստ ծրագրայինի
+hy.tsk_ResetSettings=Վերակայել կարգավորումները
+hy.types_DefaultInstallation=Տեղադրել ըստ լռելյայն
 hy.types_CustomInstallation=Հարմարեցված տեղակայում
 hy.ViewChangelog=Փոփոխությունների ցանկը
 

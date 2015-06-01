@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-04-06 16:31:55+0000\n"
-"PO-Revision-Date: 2015-04-12 14:14+0000\n"
+"POT-Creation-Date: 2015-05-22 20:53:41+0000\n"
+"PO-Revision-Date: 2015-06-04 20:34+0000\n"
 "Last-Translator: Mehedi Hussain\n"
 "Language-Team: Bengali (http://www.transifex.com/projects/p/mpc-hc/language/bn/)\n"
 "MIME-Version: 1.0\n"
@@ -18,15 +18,15 @@ msgstr ""
 
 msgctxt "POPUP"
 msgid "&File"
-msgstr "ফাইল(&F)"
+msgstr "ফাইল (&F)"
 
 msgctxt "ID_FILE_OPENQUICK"
 msgid "&Quick Open File..."
-msgstr "দ্রুত ফাইল খুলি...(&Q)"
+msgstr "দ্রুত ফাইল খুলি... (&Q)"
 
 msgctxt "ID_FILE_OPENMEDIA"
 msgid "&Open File..."
-msgstr "ফাইল খুলি...(&O)"
+msgstr "ফাইল খুলি... (&O)"
 
 msgctxt "ID_FILE_OPENDVDBD"
 msgid "Open &DVD/BD..."
@@ -34,219 +34,219 @@ msgstr "&DVD/BD খুলি..."
 
 msgctxt "ID_FILE_OPENDEVICE"
 msgid "Open De&vice..."
-msgstr "ডিভাইস খুলি...(&V)"
+msgstr "ডিভাইস খুলি... (&V)"
 
 msgctxt "ID_FILE_OPENDIRECTORY"
 msgid "Open Dir&ectory..."
-msgstr "ডাইরেক্টরি খুলি...(&E)"
+msgstr "ডাইরেক্টরি খুলি... (&E)"
 
 msgctxt "ID_FILE_OPENDISC"
 msgid "O&pen Disc"
-msgstr "ডিস্ক খুলি(&P)"
+msgstr "ডিস্ক খুলি (&P)"
 
 msgctxt "ID_RECENT_FILES"
 msgid "Recent &Files"
-msgstr "সাম্প্রতিক ফাইলসমূহ(&F)"
+msgstr "সাম্প্রতিক ফাইলসমূহ (&F)"
 
 msgctxt "ID_FILE_CLOSE_AND_RESTORE"
 msgid "&Close"
-msgstr "চালনা বন্ধ করি(&C)"
+msgstr "চালনা বন্ধ করি (&C)"
 
 msgctxt "ID_FILE_SAVE_COPY"
 msgid "&Save a Copy..."
-msgstr "প্রতিলিপি সেইভ করি...(&S)"
+msgstr "প্রতিলিপি সেইভ করি... (&S)"
 
 msgctxt "ID_FILE_SAVE_IMAGE"
 msgid "Save &Image..."
-msgstr "ছবি সেইভ করি...(&I)"
+msgstr "ছবি সেইভ করি... (&I)"
 
 msgctxt "ID_FILE_SAVE_THUMBNAILS"
 msgid "Save &Thumbnails..."
-msgstr "থাম্ব্‌নেইলসমূহ সেইভ করি...(&T)"
+msgstr "থাম্ব্‌নেইলসমূহ সেইভ করি... (&T)"
 
 msgctxt "ID_FILE_LOAD_SUBTITLE"
 msgid "&Load Subtitle..."
-msgstr "সাবটাইটেল লোড করি...(&L)"
+msgstr "সাবটাইটেল লোড করি... (&L)"
 
 msgctxt "ID_FILE_SAVE_SUBTITLE"
 msgid "Save S&ubtitle..."
-msgstr "সাবটাইটেল সেইভ করি...(&U)"
+msgstr "সাবটাইটেল সেইভ করি... (&U)"
 
 msgctxt "POPUP"
 msgid "Subtitle Data&base"
-msgstr "সাবটাইটেল ডেটাবেস(&B)"
+msgstr "সাবটাইটেল ডেটাবেস (&B)"
 
 msgctxt "ID_FILE_ISDB_SEARCH"
 msgid "&Search..."
-msgstr "অনুসন্ধান করি...(&S)"
+msgstr "অনুসন্ধান করি... (&S)"
 
 msgctxt "ID_FILE_ISDB_UPLOAD"
 msgid "&Upload..."
-msgstr "আপলোড করি...(&U)"
+msgstr "আপলোড করি... (&U)"
 
 msgctxt "ID_FILE_ISDB_DOWNLOAD"
 msgid "&Download..."
-msgstr "ডাউনলোড করি...(&D)"
+msgstr "ডাউনলোড করি... (&D)"
 
 msgctxt "ID_FILE_PROPERTIES"
 msgid "P&roperties"
-msgstr "প্রোপার্টিস(&R)"
+msgstr "প্রোপার্টিস (&R)"
 
 msgctxt "ID_FILE_EXIT"
 msgid "E&xit"
-msgstr "প্রোগ্রাম বন্ধ করি(&X)"
+msgstr "প্রোগ্রাম বন্ধ করি (&X)"
 
 msgctxt "POPUP"
 msgid "&View"
-msgstr "প্রদর্শনী(&V)"
+msgstr "প্রদর্শনী (&V)"
 
 msgctxt "ID_VIEW_CAPTIONMENU"
 msgid "Caption&&Menu"
-msgstr "ক্যাপশন আর মেন্যু(&M)"
+msgstr "ক্যাপশন আর মেন্যু (&M)"
 
 msgctxt "ID_VIEW_SEEKER"
 msgid "See&k Bar"
-msgstr "সীক বার(&K)"
+msgstr "সীক বার (&K)"
 
 msgctxt "ID_VIEW_CONTROLS"
 msgid "&Controls"
-msgstr "কন্ট্রোলসমূহ(&C)"
+msgstr "কন্ট্রোলসমূহ (&C)"
 
 msgctxt "ID_VIEW_INFORMATION"
 msgid "&Information"
-msgstr "তথ্যাদি(&I)"
+msgstr "তথ্যাদি (&I)"
 
 msgctxt "ID_VIEW_STATISTICS"
 msgid "&Statistics"
-msgstr "পরিসংখ্যান(&S)"
+msgstr "পরিসংখ্যান (&S)"
 
 msgctxt "ID_VIEW_STATUS"
 msgid "St&atus"
-msgstr "অবস্থিতি(&A)"
+msgstr "অবস্থিতি (&A)"
 
 msgctxt "ID_VIEW_SUBRESYNC"
 msgid "Su&bresync"
-msgstr "সাবটাইটেল পুনঃSyncকরণ(&B)"
+msgstr "সাবটাইটেল পুনঃSyncকরণ (&B)"
 
 msgctxt "ID_VIEW_PLAYLIST"
 msgid "Pla&ylist"
-msgstr "প্লেলিস্ট(&Y)"
+msgstr "প্লেলিস্ট (&Y)"
 
 msgctxt "ID_VIEW_CAPTURE"
 msgid "Captu&re"
-msgstr "ক্যাপচার(&R)"
+msgstr "ক্যাপচার (&R)"
 
 msgctxt "ID_VIEW_NAVIGATION"
 msgid "Na&vigation"
-msgstr "ন্যাভিগেশন(&V)"
+msgstr "ন্যাভিগেশন (&V)"
 
 msgctxt "ID_VIEW_DEBUGSHADERS"
 msgid "&Debug Shaders"
-msgstr "শেইডারসমূহ ডিবাগকরণ(&D)"
+msgstr "শেইডারসমূহ ডিবাগকরণ (&D)"
 
 msgctxt "POPUP"
 msgid "&Presets..."
-msgstr "প্রিসেটসমুহ...(&P)"
+msgstr "প্রিসেটসমুহ... (&P)"
 
 msgctxt "ID_VIEW_PRESETS_MINIMAL"
 msgid "&Minimal"
-msgstr "ন্যূনতম(&M)"
+msgstr "ন্যূনতম (&M)"
 
 msgctxt "ID_VIEW_PRESETS_COMPACT"
 msgid "&Compact"
-msgstr "ঘনবিন্যস্ত(&C)"
+msgstr "ঘনবিন্যস্ত (&C)"
 
 msgctxt "ID_VIEW_PRESETS_NORMAL"
 msgid "&Normal"
-msgstr "সাধারণ(&N)"
+msgstr "সাধারণ (&N)"
 
 msgctxt "ID_VIEW_FULLSCREEN"
 msgid "F&ull Screen"
-msgstr "ফুলস্ক্রীন(&U)"
+msgstr "ফুলস্ক্রীন (&U)"
 
 msgctxt "POPUP"
 msgid "&Zoom"
-msgstr "জূম(&Z)"
+msgstr "জূম (&Z)"
 
 msgctxt "ID_VIEW_ZOOM_50"
 msgid "&50%"
-msgstr "৫০%(&5)"
+msgstr "৫০% (&5)"
 
 msgctxt "ID_VIEW_ZOOM_100"
 msgid "&100%"
-msgstr "১০০%(&1)"
+msgstr "১০০% (&1)"
 
 msgctxt "ID_VIEW_ZOOM_200"
 msgid "&200%"
-msgstr "২০০%(&2)"
+msgstr "২০০% (&2)"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT"
 msgid "Auto &Fit"
-msgstr "স্বয়ংক্রিয় পরিব্যাপ্তি(&F)"
+msgstr "স্বয়ংক্রিয় পরিব্যাপ্তি (&F)"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (&Larger Only)"
-msgstr "স্বয়ংক্রিয় পরিব্যাপ্তি(শুধু বড়ো)(&L)"
+msgstr "স্বয়ংক্রিয় পরিব্যাপ্তি(শুধু বড়ো) (&L)"
 
 msgctxt "POPUP"
 msgid "R&enderer Settings"
-msgstr "রেনডারার সেটিংসমূহ(&E)"
+msgstr "রেনডারার সেটিংসমূহ (&E)"
 
 msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
-msgstr "স্ক্রীন ছিঁড়ে যাওয়া পরীক্ষা(&T)"
+msgstr "স্ক্রীন ছিঁড়ে যাওয়া পরীক্ষা (&T)"
 
 msgctxt "ID_VIEW_DISPLAY_RENDERER_STATS"
 msgid "&Display Statistics"
-msgstr ""
+msgstr "বৃত্তান্ত প্রদর্শন (&D)"
 
 msgctxt "ID_VIEW_OSD_DISPLAY_TIME"
 msgid "Display Current T&ime"
-msgstr ""
+msgstr "চলতি সময় প্রদর্শন (&I)"
 
 msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
 msgid "Show &File Name"
-msgstr ""
+msgstr "ফাইলের নাম প্রদর্শন (&F)"
 
 msgctxt "POPUP"
 msgid "&Output Range"
-msgstr "আউটপুট সীমা(&O)"
+msgstr "আউটপুট সীমা (&O)"
 
 msgctxt "ID_VIEW_EVROUTPUTRANGE_0_255"
 msgid "&0 - 255"
-msgstr "০-২৫৫(&0)"
+msgstr "০-২৫৫ (&0)"
 
 msgctxt "ID_VIEW_EVROUTPUTRANGE_16_235"
 msgid "&16 - 235"
-msgstr "১৬-২৩৫(&1)"
+msgstr "১৬-২৩৫ (&1)"
 
 msgctxt "POPUP"
 msgid "&Presentation"
-msgstr "উপস্থাপনা(&P)"
+msgstr "উপস্থাপনা (&P)"
 
 msgctxt "ID_VIEW_D3DFULLSCREEN"
 msgid "D3D Fullscreen &Mode"
-msgstr "D3D ফুলস্ক্রীন মুড(&M)"
+msgstr "D3D ফুলস্ক্রীন মুড (&M)"
 
 msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
 msgid "D3D Fullscreen &GUI Support"
-msgstr "D3D ফুলস্ক্রীন GUI সমর্থন(&G)"
+msgstr "D3D ফুলস্ক্রীন GUI সমর্থন (&G)"
 
 msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
 msgid "10-bit &RGB Output"
-msgstr "১০-বিট RGB আউটপুট(&R)"
+msgstr "১০-বিট RGB আউটপুট (&R)"
 
 msgctxt "ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION"
 msgid "Force 10-bit RGB &Input"
-msgstr "জোরপূর্বক ১০-বিট RGB ইনপুট(&I)"
+msgstr "জোরপূর্বক ১০-বিট RGB ইনপুট (&I)"
 
 msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
 msgid "&Full Floating Point Processing"
-msgstr "সম্পূর্ণ ফ্লৌটিং পয়েন্ট প্রক্রিয়াকরণ(&F)"
+msgstr "সম্পূর্ণ ফ্লৌটিং পয়েন্ট প্রক্রিয়াকরণ (&F)"
 
 msgctxt "ID_VIEW_HALFFLOATINGPOINTPROCESSING"
 msgid "&Half Floating Point Processing"
-msgstr "অর্ধেক ফ্লৌটিং পয়েন্ট প্রক্রিয়াকরণ(&H)"
+msgstr "অর্ধেক ফ্লৌটিং পয়েন্ট প্রক্রিয়াকরণ (&H)"
 
 msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
 msgid "Disable desktop composition (&Aero)"
@@ -254,23 +254,23 @@ msgstr "ডেস্কটপের উপাদান নিষ্ক্রি�
 
 msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time &Correction"
-msgstr "ফ্রেমের সময় সংশোধন সক্রিয়করণ(&C)"
+msgstr "ফ্রেমের সময় সংশোধন সক্রিয়করণ (&C)"
 
 msgctxt "POPUP"
 msgid "&Color Management"
-msgstr "রং ব্যবস্থাপনা(&C)"
+msgstr "রং ব্যবস্থাপনা (&C)"
 
 msgctxt "ID_VIEW_CM_ENABLE"
 msgid "&Enable"
-msgstr "সক্রিয় করি(&E)"
+msgstr "সক্রিয় করি (&E)"
 
 msgctxt "POPUP"
 msgid "&Input Type"
-msgstr "ইনপুটের ধরন(&I)"
+msgstr "ইনপুটের ধরন (&I)"
 
 msgctxt "ID_VIEW_CM_INPUT_AUTO"
 msgid "&Auto-Detect"
-msgstr "স্বয়ংক্রিয়-সনাক্তকরণ(&A)"
+msgstr "স্বয়ংক্রিয়-সনাক্তকরণ (&A)"
 
 msgctxt "ID_VIEW_CM_INPUT_HDTV"
 msgid "&HDTV"
@@ -286,39 +286,39 @@ msgstr "SDTV &PAL"
 
 msgctxt "POPUP"
 msgid "Ambient &Light"
-msgstr "পরিবেষ্টিত উজ্জ্বলতা(&L)"
+msgstr "পরিবেষ্টিত উজ্জ্বলতা (&L)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
 msgid "&Bright (2.2 Gamma)"
-msgstr "উজ্জ্বল (২.২ গামা)(&B)"
+msgstr "উজ্জ্বল (২.২ গামা) (&B)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DIM"
 msgid "&Dim (2.35 Gamma)"
-msgstr "অনুজ্জ্বল (২.৩৫ গামা)(&D)"
+msgstr "অনুজ্জ্বল (২.৩৫ গামা) (&D)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DARK"
 msgid "D&ark (2.4 Gamma)"
-msgstr "অন্ধকার (২.৪ গামা)(&A)"
+msgstr "অন্ধকার (২.৪ গামা) (&A)"
 
 msgctxt "POPUP"
 msgid "&Rendering Intent"
-msgstr "রেনডারিং লক্ষ্য(&R)"
+msgstr "রেনডারিং লক্ষ্য (&R)"
 
 msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
 msgid "&Perceptual"
-msgstr "দর্শনযোগ্য(&P)"
+msgstr "দর্শনযোগ্য (&P)"
 
 msgctxt "ID_VIEW_CM_INTENT_RELATIVECOLORIMETRIC"
 msgid "&Relative Colorimetric"
-msgstr "আপেক্ষিক কালারিমেট্রিক(&R)"
+msgstr "আপেক্ষিক কালারিমেট্রিক (&R)"
 
 msgctxt "ID_VIEW_CM_INTENT_SATURATION"
 msgid "&Saturation"
-msgstr "পরিপৃক্ত(&S)"
+msgstr "পরিপৃক্ত (&S)"
 
 msgctxt "ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC"
 msgid "&Absolute Colorimetric"
-msgstr "পরম কালারিমেট্রিক(&A)"
+msgstr "পরম কালারিমেট্রিক (&A)"
 
 msgctxt "POPUP"
 msgid "&VSync"
@@ -330,19 +330,19 @@ msgstr "&VSync"
 
 msgctxt "ID_VIEW_VSYNCACCURATE"
 msgid "&Accurate VSync"
-msgstr "নিখুঁত VSync(&A)"
+msgstr "নিখুঁত VSync (&A)"
 
 msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
 msgid "A&lternative VSync"
-msgstr "বিকল্প VSync(&L)"
+msgstr "বিকল্প VSync (&L)"
 
 msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
 msgid "&Decrease VSync Offset"
-msgstr "VSync অফসেট হ্রাস করি(&D)"
+msgstr "VSync অফসেট হ্রাস করি (&D)"
 
 msgctxt "ID_VIEW_VSYNCOFFSET_INCREASE"
 msgid "&Increase VSync Offset"
-msgstr "VSync অফসেট বৃদ্ধি করি(&I)"
+msgstr "VSync অফসেট বৃদ্ধি করি (&I)"
 
 msgctxt "POPUP"
 msgid "&GPU Control"
@@ -350,51 +350,51 @@ msgstr "&GPU নিয়ন্ত্রণ"
 
 msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
 msgid "Flush GPU &before VSync"
-msgstr "VSyncএর আগে GPU ফ্লাশ করণ(&B)"
+msgstr "VSyncএর আগে GPU ফ্লাশ করণ (&B)"
 
 msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
 msgid "Flush GPU &after Present"
-msgstr "উপস্থাপনের পরে GPU ফ্লাশ করণ(&A)"
+msgstr "উপস্থাপনের পরে GPU ফ্লাশ করণ (&A)"
 
 msgctxt "ID_VIEW_FLUSHGPU_WAIT"
 msgid "&Wait for flushes"
-msgstr "ফ্লাশসমূহের জন্য অপেক্ষাকরণ(&W)"
+msgstr "ফ্লাশসমূহের জন্য অপেক্ষাকরণ (&W)"
 
 msgctxt "POPUP"
 msgid "R&eset"
-msgstr "পুনর্বিন্যাস করণ(&E)"
+msgstr "পুনর্বিন্যাস করণ (&E)"
 
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
-msgstr "ডিফল্ট রেনডারার সেটিংসমূহে পুনর্বিন্যাস(&D)"
+msgstr "ডিফল্ট রেনডারার সেটিংসমূহে পুনর্বিন্যাস (&D)"
 
 msgctxt "ID_VIEW_RESET_OPTIMAL"
 msgid "Reset to &optimal renderer settings"
-msgstr "সর্বোত্তম রেনডারার সেটিংসমূহে পুনর্বিন্যাস(&O)"
+msgstr "সর্বোত্তম রেনডারার সেটিংসমূহে পুনর্বিন্যাস (&O)"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
-msgstr "ভিডিও ফ্রেম(&F)"
+msgstr "ভিডিও ফ্রেম (&F)"
 
 msgctxt "ID_VIEW_VF_HALF"
 msgid "&Half Size"
-msgstr "অর্ধেক সাইজ(&H)"
+msgstr "অর্ধেক সাইজ (&H)"
 
 msgctxt "ID_VIEW_VF_NORMAL"
 msgid "&Normal Size"
-msgstr "স্বাভাবিক সাইজ(&N)"
+msgstr "স্বাভাবিক সাইজ (&N)"
 
 msgctxt "ID_VIEW_VF_DOUBLE"
 msgid "&Double Size"
-msgstr "দ্বিগুণ সাইজ(&D)"
+msgstr "দ্বিগুণ সাইজ (&D)"
 
 msgctxt "ID_VIEW_VF_STRETCH"
 msgid "&Stretch To Window"
-msgstr "উইন্ডো পর্যন্ত বিস্তৃতি(&S)"
+msgstr "উইন্ডো পর্যন্ত বিস্তৃতি (&S)"
 
 msgctxt "ID_VIEW_VF_FROMINSIDE"
 msgid "Touch Window From &Inside"
-msgstr "উইন্ডোর ভিতরে বিস্তারণ(&I)"
+msgstr "উইন্ডোর ভিতরে বিস্তারণ (&I)"
 
 msgctxt "ID_VIEW_VF_ZOOM1"
 msgid "Zoom &1"
@@ -406,19 +406,19 @@ msgstr "জূম &2"
 
 msgctxt "ID_VIEW_VF_FROMOUTSIDE"
 msgid "Touch Window From &Outside"
-msgstr "উইন্ডোর বাইরে বিস্তারণ(&O)"
+msgstr "উইন্ডোর বাইরে বিস্তারণ (&O)"
 
 msgctxt "ID_VIEW_VF_KEEPASPECTRATIO"
 msgid "&Keep Aspect Ratio"
-msgstr "অ্যাসপেক্ট রেশিও রক্ষাকরণ(&K)"
+msgstr "অ্যাসপেক্ট রেশিও রক্ষাকরণ (&K)"
 
 msgctxt "POPUP"
 msgid "Override &Aspect Ratio"
-msgstr "অ্যাসপেক্ট রেশিও ওভাররাইড করণ(&A)"
+msgstr "অ্যাসপেক্ট রেশিও ওভাররাইড করণ (&A)"
 
 msgctxt "ID_ASPECTRATIO_SOURCE"
 msgid "&Default"
-msgstr "ডিফল্ট(&D)"
+msgstr "ডিফল্ট (&D)"
 
 msgctxt "ID_ASPECTRATIO_4_3"
 msgid "&4:3"
@@ -442,155 +442,155 @@ msgstr "1&85:100"
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"
-msgstr "মনিটর/ডেস্কটপ AR বৈসাদৃশ্য ঠিককরণ(&C)"
+msgstr "মনিটর/ডেস্কটপ AR বৈসাদৃশ্য ঠিককরণ (&C)"
 
 msgctxt "POPUP"
 msgid "Pa&n&&Scan"
-msgstr "প্যানঅ্যান্ডস্ক্যান(&N)"
+msgstr "প্যানঅ্যান্ডস্ক্যান (&N)"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"
-msgstr "সাইজ বৃদ্ধি করি(&I)"
+msgstr "সাইজ বৃদ্ধি করি (&I)"
 
 msgctxt "ID_VIEW_DECSIZE"
 msgid "&Decrease Size"
-msgstr "সাইজ হ্রাস করি(&D)"
+msgstr "সাইজ হ্রাস করি (&D)"
 
 msgctxt "ID_VIEW_INCWIDTH"
 msgid "I&ncrease Width"
-msgstr "প্রস্থ বৃদ্ধি করি(&N)"
+msgstr "প্রস্থ বৃদ্ধি করি (&N)"
 
 msgctxt "ID_VIEW_DECWIDTH"
 msgid "D&ecrease Width"
-msgstr "প্রস্থ হ্রাস করি(&E)"
+msgstr "প্রস্থ হ্রাস করি (&E)"
 
 msgctxt "ID_VIEW_INCHEIGHT"
 msgid "In&crease Height"
-msgstr "উচ্চতা বৃদ্ধি করি(&C)"
+msgstr "উচ্চতা বৃদ্ধি করি (&C)"
 
 msgctxt "ID_VIEW_DECHEIGHT"
 msgid "Decre&ase Height"
-msgstr "উচ্চতা হ্রাস করি(&A)"
+msgstr "উচ্চতা হ্রাস করি (&A)"
 
 msgctxt "ID_PANSCAN_MOVERIGHT"
 msgid "Move &Right"
-msgstr "ডানে সরাই(&R)"
+msgstr "ডানে সরাই (&R)"
 
 msgctxt "ID_PANSCAN_MOVELEFT"
 msgid "Move &Left"
-msgstr "বামে সরাই(&L)"
+msgstr "বামে সরাই (&L)"
 
 msgctxt "ID_PANSCAN_MOVEUP"
 msgid "Move &Up"
-msgstr "উপরে সরাই(&U)"
+msgstr "উপরে সরাই (&U)"
 
 msgctxt "ID_PANSCAN_MOVEDOWN"
 msgid "Move &Down"
-msgstr "নিচে সরাই(&D)"
+msgstr "নিচে সরাই (&D)"
 
 msgctxt "ID_PANSCAN_CENTER"
 msgid "Cen&ter"
-msgstr "কেন্দ্রে সরাই(&T)"
+msgstr "কেন্দ্রে সরাই (&T)"
 
 msgctxt "ID_VIEW_RESET"
 msgid "Re&set"
-msgstr "পুনর্বিন্যাস করি(&S)"
+msgstr "পুনর্বিন্যাস করি (&S)"
 
 msgctxt "POPUP"
 msgid "On &Top"
-msgstr "উপরে অবস্থান(&T)"
+msgstr "উপরে অবস্থান (&T)"
 
 msgctxt "ID_ONTOP_DEFAULT"
 msgid "&Default"
-msgstr "ডিফল্ট(&D)"
+msgstr "ডিফল্ট (&D)"
 
 msgctxt "ID_ONTOP_ALWAYS"
 msgid "&Always"
-msgstr "সবসময়(&A)"
+msgstr "সবসময় (&A)"
 
 msgctxt "ID_ONTOP_WHILEPLAYING"
 msgid "While &Playing"
-msgstr "প্লে করার সময়(&P)"
+msgstr "প্লে করার সময় (&P)"
 
 msgctxt "ID_ONTOP_WHILEPLAYINGVIDEO"
 msgid "While Playing &Video"
-msgstr "ভিডিও প্লে করার সময়(&V)"
+msgstr "ভিডিও প্লে করার সময় (&V)"
 
 msgctxt "ID_VIEW_OPTIONS"
 msgid "&Options..."
-msgstr "অপশনসমূহ...(&O)"
+msgstr "অপশনসমূহ... (&O)"
 
 msgctxt "POPUP"
 msgid "&Play"
-msgstr "প্লে(&P)"
+msgstr "প্লে (&P)"
 
 msgctxt "ID_PLAY_PLAYPAUSE"
 msgid "&Play/Pause"
-msgstr "প্লে/প'জ করি(&P)"
+msgstr "প্লে/প'জ করি (&P)"
 
 msgctxt "ID_PLAY_STOP"
 msgid "&Stop"
-msgstr "বন্ধ করি(&S)"
+msgstr "বন্ধ করি (&S)"
 
 msgctxt "ID_PLAY_FRAMESTEP"
 msgid "F&rame Step"
-msgstr "ফ্রেমের পদক্ষেপ(&R)"
+msgstr "ফ্রেমের পদক্ষেপ (&R)"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "&Decrease Rate"
-msgstr "গতি হ্রাস করি(&D)"
+msgstr "গতি হ্রাস করি (&D)"
 
 msgctxt "ID_PLAY_INCRATE"
 msgid "&Increase Rate"
-msgstr "গতি বৃদ্ধি করি(&I)"
+msgstr "গতি বৃদ্ধি করি (&I)"
 
 msgctxt "ID_PLAY_RESETRATE"
 msgid "R&eset Rate"
-msgstr "গতি পুনর্বিন্যাস করি(&E)"
+msgstr "গতি পুনর্বিন্যাস করি (&E)"
 
 msgctxt "ID_FILTERS"
 msgid "&Filters"
-msgstr "ফিল্টারসমূহ(&F)"
+msgstr "ফিল্টারসমূহ (&F)"
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"
-msgstr "শেইডারসমূহ(&H)"
+msgstr "শেইডারসমূহ (&H)"
 
 msgctxt "ID_AUDIOS"
 msgid "&Audio Track"
-msgstr "অডিও ট্র্যাক(&A)"
+msgstr "অডিও ট্র্যাক (&A)"
 
 msgctxt "ID_SUBTITLES"
 msgid "Su&btitle Track"
-msgstr "সাবটাইটেল ট্র্যাক(&B)"
+msgstr "সাবটাইটেল ট্র্যাক (&B)"
 
 msgctxt "ID_VIDEO_STREAMS"
 msgid "&Video Track"
-msgstr "ভিডিও ট্র্যাক(&V)"
+msgstr "ভিডিও ট্র্যাক (&V)"
 
 msgctxt "POPUP"
 msgid "&Volume"
-msgstr "ভলিউম(&V)"
+msgstr "ভলিউম (&V)"
 
 msgctxt "ID_VOLUME_UP"
 msgid "&Up"
-msgstr "বাড়াই(&U)"
+msgstr "বাড়াই (&U)"
 
 msgctxt "ID_VOLUME_DOWN"
 msgid "&Down"
-msgstr "কমাই(&D)"
+msgstr "কমাই (&D)"
 
 msgctxt "ID_VOLUME_MUTE"
 msgid "&Mute"
-msgstr "নিঃশব্দ করি(&M)"
+msgstr "নিঃশব্দ করি (&M)"
 
 msgctxt "POPUP"
 msgid "Af&ter Playback"
-msgstr "প্লেব্যাকের পরে(&T)"
+msgstr "প্লেব্যাকের পরে (&T)"
 
 msgctxt "ID_AFTERPLAYBACK_DONOTHING"
 msgid "Do no&thing"
-msgstr ""
+msgstr "কোন কিছু করি না (&T)"
 
 msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
 msgid "Play &next file in the folder"
@@ -598,101 +598,101 @@ msgstr "ফোল্ডারের পরবর্তী ফাইলটি প
 
 msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
 msgid "Turn off the &monitor"
-msgstr "মনিটর বন্ধ করি(&M)"
+msgstr "মনিটর বন্ধ করি (&M)"
 
 msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
-msgstr "প্রোগ্রাম বন্ধ করি(&E)"
+msgstr "প্রোগ্রাম বন্ধ করি (&E)"
 
 msgctxt "ID_AFTERPLAYBACK_STANDBY"
 msgid "&Stand By"
-msgstr "কম্পিউটার স্লিপ করি(&S)"
+msgstr "কম্পিউটার স্লিপ করি (&S)"
 
 msgctxt "ID_AFTERPLAYBACK_HIBERNATE"
 msgid "&Hibernate"
-msgstr "কম্পিউটার হাইবারনেট করি(&H)"
+msgstr "কম্পিউটার হাইবারনেট করি (&H)"
 
 msgctxt "ID_AFTERPLAYBACK_SHUTDOWN"
 msgid "Shut&down"
-msgstr "কম্পিউটার শাটডাউন করি(&D)"
+msgstr "কম্পিউটার শাটডাউন করি (&D)"
 
 msgctxt "ID_AFTERPLAYBACK_LOGOFF"
 msgid "Log &Off"
-msgstr "কম্পিউটার লগ অফ করি(&O)"
+msgstr "কম্পিউটার লগ অফ করি (&O)"
 
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
-msgstr "কম্পিউটার লক করি(&L)"
+msgstr "কম্পিউটার লক করি (&L)"
 
 msgctxt "POPUP"
 msgid "&Navigate"
-msgstr "ন্যাভিগেট(&N)"
+msgstr "ন্যাভিগেট (&N)"
 
 msgctxt "ID_NAVIGATE_SKIPBACK"
 msgid "&Previous"
-msgstr "পূর্ববর্তী(&P)"
+msgstr "পূর্ববর্তী (&P)"
 
 msgctxt "ID_NAVIGATE_SKIPFORWARD"
 msgid "&Next"
-msgstr "পরবর্তী(&N)"
+msgstr "পরবর্তী (&N)"
 
 msgctxt "ID_NAVIGATE_GOTO"
 msgid "&Go To..."
-msgstr "নির্দিষ্ট সময়/ফ্রেমে যাই...(&G)"
+msgstr "নির্দিষ্ট সময়/ফ্রেমে যাই... (&G)"
 
 msgctxt "ID_NAVIGATE_TITLEMENU"
 msgid "&Title Menu"
-msgstr "টাইটেল মেন্যু(&T)"
+msgstr "টাইটেল মেন্যু (&T)"
 
 msgctxt "ID_NAVIGATE_ROOTMENU"
 msgid "&Root Menu"
-msgstr "মূল মেন্যু(&R)"
+msgstr "মূল মেন্যু (&R)"
 
 msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
 msgid "&Subtitle Menu"
-msgstr "সাবটাইটেল মেন্যু(&S)"
+msgstr "সাবটাইটেল মেন্যু (&S)"
 
 msgctxt "ID_NAVIGATE_AUDIOMENU"
 msgid "&Audio Menu"
-msgstr "অডিও মেন্যু(&A)"
+msgstr "অডিও মেন্যু (&A)"
 
 msgctxt "ID_NAVIGATE_ANGLEMENU"
 msgid "An&gle Menu"
-msgstr "ক্যামেরা অ্যাঙ্গেল মেন্যু(&G)"
+msgstr "ক্যামেরা অ্যাঙ্গেল মেন্যু (&G)"
 
 msgctxt "ID_NAVIGATE_CHAPTERMENU"
 msgid "&Chapter Menu"
-msgstr "পরিচ্ছেদ মেন্যু(&C)"
+msgstr "পরিচ্ছেদ মেন্যু (&C)"
 
 msgctxt "ID_FAVORITES"
 msgid "F&avorites"
-msgstr "পছন্দতালিকা(&A)"
+msgstr "পছন্দতালিকা (&A)"
 
 msgctxt "POPUP"
 msgid "&Help"
-msgstr "সাহায্য(&H)"
+msgstr "সহায়িকা (&H)"
 
 msgctxt "ID_HELP_HOMEPAGE"
 msgid "&Home Page"
-msgstr "হোম পেইজ(&H)"
+msgstr "হোম পেইজ (&H)"
 
 msgctxt "ID_HELP_CHECKFORUPDATE"
 msgid "Check for &updates"
-msgstr "হালনাগাদ অনুসন্ধান করি(&U)"
+msgstr "হালনাগাদ অনুসন্ধান করি (&U)"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"
-msgstr "কমান্ড লাইনের নির্দেশনাসমূহ(&C)"
+msgstr "কমান্ড লাইনের নির্দেশনাসমূহ (&C)"
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"
-msgstr "টুলবারের ছবি ডাউনলোড করি(&T)"
+msgstr "টুলবারের ছবি ডাউনলোড করি (&T)"
 
 msgctxt "ID_HELP_DONATE"
 msgid "&Donate"
-msgstr "আর্থসহায়তা(&D)"
+msgstr "আর্থসহায়তা (&D)"
 
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
-msgstr "MPC-HC বিষয়ক...(&A)"
+msgstr "MPC-HC বিষয়ক... (&A)"
 

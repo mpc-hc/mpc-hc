@@ -8,6 +8,12 @@ Legend:
 ! Fixed
 
 
+next version - not released yet
+===============================
+* Updated Armenian, Bengali, British English, Catalan, Croatian, Danish, Dutch, Japanese, Swedish,
+  Thai and Turkish translations
+
+
 1.7.9 - 1 June 2015
 ===================
 + Internal Subtitle Renderer: Convert colorspace of subtitles to match video.

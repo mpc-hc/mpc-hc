@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-03-26 22:39:02+0000\n"
-"PO-Revision-Date: 2015-03-27 09:08+0000\n"
+"POT-Creation-Date: 2015-05-21 13:30:54+0000\n"
+"PO-Revision-Date: 2015-06-04 16:10+0000\n"
 "Last-Translator: JellyFrog\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/mpc-hc/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -475,7 +475,7 @@ msgstr "Ny version av ikonbiblioteket"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_INSTR"
 msgid "Do you want to reassociate the icons?"
-msgstr "Vill du återansluta ikonerna?"
+msgstr "Vill du omassociera ikonerna?"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_CONTENT"
 msgid "This will fix the icons being incorrectly displayed after an update of the icon library.\nThe file associations will not be modified, only the corresponding icons will be refreshed."
@@ -815,7 +815,7 @@ msgstr "Reducerar \"tearing\" men förhindrar att verktygsfältet kan visas."
 
 msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Reduces tearing by bypassing the default VSync built into D3D."
-msgstr "Reducerar \"tearing\" genom att kringgå standard-vertikalsynken inbyggt i D3D."
+msgstr "Reducerar \"tearing\" genom att kringgå standard-VSync inbyggt i D3D."
 
 msgctxt "IDS_SRC_VTS"
 msgid "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"
@@ -839,7 +839,7 @@ msgstr "Växla Navigeringsfält"
 
 msgctxt "IDS_AG_VSYNCACCURATE"
 msgid "Accurate VSync"
-msgstr "Noggrann vertikalsynk"
+msgstr "Noggrann VSync"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid "If the rendering target is left undefined, it will be inherited from the default style."
@@ -911,7 +911,7 @@ msgstr "&Original"
 
 msgctxt "IDS_SUBRESYNC_CURRENT"
 msgid "&Current"
-msgstr "&Nuvarande"
+msgstr "&Aktuell"
 
 msgctxt "IDS_SUBRESYNC_EDIT"
 msgid "&Edit"
@@ -1303,7 +1303,7 @@ msgstr "Spela nästa fil i mappen"
 
 msgctxt "IDS_AFTER_PLAYBACK_REWIND"
 msgid "Rewind current file"
-msgstr "Spola tillbaka nuvarande fil"
+msgstr "Spola tillbaka aktuell fil"
 
 msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
 msgid "Close"
@@ -1343,11 +1343,11 @@ msgstr "Kolla"
 
 msgctxt "IDS_NAVIGATION_MOVE_UP"
 msgid "Move Up"
-msgstr "Flytta Upp"
+msgstr "Flytta upp"
 
 msgctxt "IDS_NAVIGATION_MOVE_DOWN"
 msgid "Move Down"
-msgstr "Flytta Ner"
+msgstr "Flytta ned"
 
 msgctxt "IDS_NAVIGATION_SORT"
 msgid "Sort by LCN"
@@ -1375,23 +1375,23 @@ msgstr "Bildformat %d:%d"
 
 msgctxt "IDS_PPAGEADVANCED_LOGGER"
 msgid "Enables logging to file (requires restart)"
-msgstr ""
+msgstr "Aktiverar loggning till fil (omstart krävs)"
 
 msgctxt "IDS_TIMER_REMAINING_TIME"
 msgid "Remaining time"
-msgstr ""
+msgstr "Återstående tid"
 
 msgctxt "IDS_TIMER_HIGH_PRECISION"
 msgid "High precision"
-msgstr ""
+msgstr "Hög precision"
 
 msgctxt "IDS_AFTERPLAYBACK_REWIND"
 msgid "After Playback: Rewind current file"
-msgstr ""
+msgstr "Efter Uppspelning: Spola tillbaka aktuell fil"
 
 msgctxt "IDS_AFTERPLAYBACK_CLOSE"
 msgid "After Playback: Close"
-msgstr ""
+msgstr "Efter Uppspelning: Stäng"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1547,7 +1547,7 @@ msgstr "Miniatyrerna har sparats"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
 msgid "&Video Track"
-msgstr ""
+msgstr "&Videospår"
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
 msgid "Video Ang&le"
@@ -1559,7 +1559,7 @@ msgstr "Återställ inställningar"
 
 msgctxt "IDS_RESET_SETTINGS_WARNING"
 msgid "Are you sure you want to restore MPC-HC to its default settings?\nBe warned that ALL your current settings will be lost!"
-msgstr "Är du säker att du du vill återställa alla MPC-HC:s inställningar till standardvärden?\nVarning: ALLA nuvarande inställningar kommer försvinna! "
+msgstr "Är du säker att du du vill återställa alla MPC-HC:s inställningar till standardvärden?\nVarning: ALLA aktuella inställningar kommer försvinna! "
 
 msgctxt "IDS_RESET_SETTINGS_MUTEX"
 msgid "Please close all instances of MPC-HC so that the default settings can be restored."
@@ -1843,19 +1843,19 @@ msgstr "PnS Center"
 
 msgctxt "IDS_AG_PNS_LEFT"
 msgid "PnS Left"
-msgstr "PnS Vänster"
+msgstr "PnS vänster"
 
 msgctxt "IDS_AG_PNS_RIGHT"
 msgid "PnS Right"
-msgstr "PnS Höger"
+msgstr "PnS höger"
 
 msgctxt "IDS_AG_PNS_UP"
 msgid "PnS Up"
-msgstr "PnS Upp"
+msgstr "PnS upp"
 
 msgctxt "IDS_AG_PNS_DOWN"
 msgid "PnS Down"
-msgstr "PnS Ner"
+msgstr "PnS ned"
 
 msgctxt "IDS_AG_PNS_UPLEFT"
 msgid "PnS Up/Left"
@@ -2383,7 +2383,7 @@ msgstr "Balans: %s"
 
 msgctxt "IDS_FULLSCREENMONITOR_CURRENT"
 msgid "Current"
-msgstr "Nuvarande"
+msgstr "Aktuell"
 
 msgctxt "IDS_MPC_CRASH"
 msgid "MPC-HC terminated unexpectedly. To help us fix this problem, please send this file \"%s\" to our bug tracker.\n\nDo you want to open the folder containing the minidump file and visit the bug tracker now?"
@@ -2479,7 +2479,7 @@ msgstr "Kunde inte öppna någon enhet"
 
 msgctxt "IDS_AG_SOUND"
 msgid "Sound"
-msgstr "LJud"
+msgstr "Ljud"
 
 msgctxt "IDS_MAINFRM_114"
 msgid "%s was not found, please insert media containing this file."
@@ -2923,7 +2923,7 @@ msgstr "Annat ljudformat"
 
 msgctxt "IDS_MFMT_AC3"
 msgid "AC-3"
-msgstr ""
+msgstr "AC-3"
 
 msgctxt "IDS_MFMT_AIFF"
 msgid "AIFF"
@@ -2951,7 +2951,7 @@ msgstr "Opus Audio Codec"
 
 msgctxt "IDS_MFMT_DTS"
 msgid "DTS/DTS-HD"
-msgstr ""
+msgstr "DTS/DTS-HD"
 
 msgctxt "IDS_MFMT_AMR"
 msgid "AMR"
@@ -3095,11 +3095,11 @@ msgstr "Visa vid närmaste VSync: Av"
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_ON"
 msgid "Color Management: On"
-msgstr "&Färghantering: På"
+msgstr "Färghantering: På"
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_OFF"
 msgid "Color Management: Off"
-msgstr "&Färghantering: Av"
+msgstr "Färghantering: Av"
 
 msgctxt "IDS_OSD_RS_INPUT_TYPE_AUTO"
 msgid "Input Type: Auto-Detect"
@@ -3283,7 +3283,7 @@ msgstr "\nDu använder redan den senaste stabila versionen."
 
 msgctxt "IDS_USING_NEWER_VERSION"
 msgid "Your current version is v%s.\n\nThe latest stable version is v%s."
-msgstr "Din nuvarande version är v%s.\n\nDen senaste stabila versionen är v%s."
+msgstr "Din aktuella version är v%s.\n\nDen senaste stabila versionen är v%s."
 
 msgctxt "IDS_NEW_UPDATE_AVAILABLE"
 msgid "MPC-HC v%s is now available. You are using v%s.\n\nDo you want to visit MPC-HC's website to download it?"
@@ -3527,7 +3527,7 @@ msgstr "Efter Uppspelning: Spela nästa fil i mappen"
 
 msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
 msgid "After Playback: Do nothing"
-msgstr "Efter Uppspelning: Gör inget"
+msgstr "Efter Uppspelning: Gör ingenting"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
@@ -3603,7 +3603,7 @@ msgstr "Associera enbart med ljudformat"
 
 msgctxt "IDC_CLEAR_ALL_ASSOCIATIONS"
 msgid "Clear all associations"
-msgstr "Rensa alla associeringar"
+msgstr "Radera alla associeringar"
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"

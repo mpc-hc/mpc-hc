@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Mehedi Hussain, 2014
+# Mehedi Hussain, 2014
 # mehzad, 2014
 # Tapu Afrad (তপু আফ্রাদ) <tapu_afrad@hotmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-03-16 18:09:30+0000\n"
-"PO-Revision-Date: 2015-04-12 14:10+0000\n"
+"POT-Creation-Date: 2015-05-17 20:47:27+0000\n"
+"PO-Revision-Date: 2015-06-04 20:29+0000\n"
 "Last-Translator: Mehedi Hussain\n"
 "Language-Team: Bengali (http://www.transifex.com/projects/p/mpc-hc/language/bn/)\n"
 "MIME-Version: 1.0\n"
@@ -1668,25 +1669,25 @@ msgstr "ঠিক আছে"
 
 msgctxt "IDD_CRASH_REPORTER_CAPTION"
 msgid "Crash reporter"
-msgstr ""
+msgstr "আকস্মিক বন্ধ হওয়ার প্রতিবেদন"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
 msgid "We are sorry, it seems MPC-HC just crashed. :(\n\nTo help us diagnose and fix the problem, a bug report will be sent. You can provide additional information if you want."
-msgstr ""
+msgstr "আমরা অত্যন্ত দুঃখিত, যথাসম্ভব MPC-HC আকস্মিকভাবে বন্ধ হয়ে গেছে। :(\n\nসমস্যাটি নির্ণয় ও সমাধানে আমাদের সাহায্য করতে, সমস্যাটির একটি প্রতিবেদন পাঠানো হবে। আপনি যদি চান তাহলে অতিরিক্ত তথ্যাদি যোগ করতে পারেন।"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
 msgid "Email:"
-msgstr ""
+msgstr "ইমেইল:"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC3"
 msgid "Your email address is optional and will only be used if the developers need to contact you for more information."
-msgstr ""
+msgstr "আপনার ইমেইল ঠিকানা দেয়া বাধ্যতামূলক নয় এবং শুধুমাত্র ব্যবহার করা হবে যদি ডেভলপারদের আরো তথ্যাদির জন্য আপনার সাথে যোগাযোগের প্রয়োজন পরে।"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
 msgid "Problem description (use English only):"
-msgstr ""
+msgstr "সমস্যার বৃত্তান্ত (শুধুমাত্র ইংরেজি ভাষা ব্যবহার করুন):"
 
 msgctxt "IDD_CRASH_REPORTER_IDOK"
 msgid "OK"
-msgstr ""
+msgstr "ঠিক আছে"
 

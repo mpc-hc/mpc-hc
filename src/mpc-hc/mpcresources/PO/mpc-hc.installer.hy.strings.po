@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-06-17 15:23:34+0000\n"
-"PO-Revision-Date: 2014-07-07 08:49+0000\n"
-"Last-Translator: JellyFrog\n"
+"PO-Revision-Date: 2015-06-03 08:01+0000\n"
+"Last-Translator: Hrant Ohanyan <h.ohanyan@haysoft.org>\n"
 "Language-Team: Armenian (http://www.transifex.com/projects/p/mpc-hc/language/hy/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -38,7 +38,7 @@ msgstr "Ջնջե՞լ MPC-HC-ի կարգավորումները։\n\nԵթե նախ
 
 msgctxt "CustomMessages_msg_SetupIsRunningWarning"
 msgid "MPC-HC setup is already running!"
-msgstr "MPC-HC-ի տեղակայիչը արդեն բացված է!"
+msgstr "MPC-HC-ի տեղակայիչը արդեն աշխատեցված է:"
 
 msgctxt "CustomMessages_msg_simd_sse"
 msgid "This build of MPC-HC requires a CPU with SSE extension support.\n\nYour CPU does not have those capabilities."
@@ -50,7 +50,7 @@ msgstr "MPC-HC-ի այս տարբերակը պահանջում է CPU՝ SSE2-ի 
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
-msgstr ""
+msgstr "Այցելեք մեր Wiki էջը՝ ներբեռնելու համար գործիքագոտու պատկերներ"
 
 msgctxt "CustomMessages_tsk_AllUsers"
 msgid "For all users"
@@ -58,7 +58,7 @@ msgstr "Բոլորի համար"
 
 msgctxt "CustomMessages_tsk_CurrentUser"
 msgid "For the current user only"
-msgstr "Միայն ձեզ համար"
+msgstr "Միայն ընթացիկ օգտվողի համար"
 
 msgctxt "CustomMessages_tsk_Other"
 msgid "Other tasks:"
@@ -66,11 +66,11 @@ msgstr "Լրացուցիչ."
 
 msgctxt "CustomMessages_tsk_ResetSettings"
 msgid "Reset settings"
-msgstr "Ետարկել կարգավորումները"
+msgstr "Վերակայել կարգավորումները"
 
 msgctxt "CustomMessages_types_DefaultInstallation"
 msgid "Default installation"
-msgstr "Տեղադրել ըստ ծրագրայինի"
+msgstr "Տեղադրել ըստ լռելյայն"
 
 msgctxt "CustomMessages_types_CustomInstallation"
 msgid "Custom installation"

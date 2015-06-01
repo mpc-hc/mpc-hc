@@ -1,14 +1,14 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Hrant Ohanyan <h.ohanyan@haysoft.org>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-10-20 10:21+0000\n"
-"Last-Translator: Underground78\n"
+"POT-Creation-Date: 2015-05-17 20:47:27+0000\n"
+"PO-Revision-Date: 2015-06-03 08:52+0000\n"
+"Last-Translator: Hrant Ohanyan <h.ohanyan@haysoft.org>\n"
 "Language-Team: Armenian (http://www.transifex.com/projects/p/mpc-hc/language/hy/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,7 +26,7 @@ msgstr "ԼԱՎ"
 
 msgctxt "IDD_SELECTMEDIATYPE_IDCANCEL"
 msgid "Cancel"
-msgstr "Մերժել"
+msgstr "Չեղարկել"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_STATIC1"
 msgid "Video"
@@ -206,7 +206,7 @@ msgstr "Կառուցման տեղեկությունը"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Version:"
-msgstr "Տարբերակը."
+msgstr "Տարբերակ."
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Compiler:"
@@ -222,7 +222,7 @@ msgstr "Կառուցման ամսաթիվը."
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Operating system"
-msgstr "Օպերացիոն համակարգը"
+msgstr "Օպերացիոն համակարգ"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Name:"
@@ -306,7 +306,7 @@ msgstr "Գործողության բարձր առաջնայնություն"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK14"
 msgid "Enable cover-art support"
-msgstr ""
+msgstr "Միացնել cover-art-ի աջակցում"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "History"
@@ -386,11 +386,11 @@ msgstr "Բարձրությունը"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Min"
-msgstr ""
+msgstr "Նվզ."
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Max"
-msgstr ""
+msgstr "Առվ."
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC_BALANCE"
 msgid "Balance"
@@ -398,11 +398,11 @@ msgstr "Բալանսը"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "L"
-msgstr ""
+msgstr "L"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "R"
-msgstr ""
+msgstr "R"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Playback"
@@ -422,7 +422,7 @@ msgstr "անգամ"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
-msgstr ""
+msgstr "Նվագարկումից հետո"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Output"
@@ -474,7 +474,7 @@ msgstr "Ձայնի ֆայլերի ինքնաբացում"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
 msgid "Use the built-in subtitle renderer"
-msgstr ""
+msgstr "Օգտ. ներկառուցված տողագրերի նյութավորիչ"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Control"
@@ -514,7 +514,7 @@ msgstr "%"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Delay step"
-msgstr ""
+msgstr "Ուշացման քայլ"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "ms"
@@ -534,35 +534,35 @@ msgstr "Արտապատկերման մաքսիմալ ընդլայնումը."
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_NO_SUB_ANIM"
 msgid "Never animate the subtitles"
-msgstr ""
+msgstr "Երբեք չշարժունացնել տողագրերը"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC5"
 msgid "Render at"
-msgstr ""
+msgstr "Նյութավորել"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC6"
 msgid "% of the animation"
-msgstr ""
+msgstr "% շարժունացում"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC7"
 msgid "Animate at"
-msgstr ""
+msgstr "Շարժունացնել"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC8"
 msgid "% of the video frame rate"
-msgstr ""
+msgstr "% տեսանյութի Կադրերի հաճախությունը"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Allow dropping some subpictures if the queue is running late"
-msgstr ""
+msgstr "Թույլատրել պատկերների որոշ մասերի գցումը, եթե հերթը ուշանում է"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Renderer Layout"
-msgstr ""
+msgstr "Նյութավորիչի դասավորություն"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SUB_AR_COMPENSATION"
 msgid "Apply aspect ratio compensation for anamorphic videos"
-msgstr ""
+msgstr "Կիրառել կողմերի հարաբերություն փոխհատուցումը անամորֆիկ տեսանյութերի համար"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Warning"
@@ -590,15 +590,15 @@ msgstr "Ասոցիացումներ"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK8"
 msgid "Use the format-specific icons"
-msgstr ""
+msgstr "Օգտ. ձևաչափի ուրույն պատկերակներ"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON1"
 msgid "Run as &administrator"
-msgstr ""
+msgstr "Մեկնարկել որպես &ադմին"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON7"
 msgid "Set as &default program"
-msgstr ""
+msgstr "Նշել որպես &հիմնական ծրագիր"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Real-Time Streaming Protocol handler (for rtsp://... URLs)"
@@ -698,7 +698,7 @@ msgstr "Միացնել Logitech LCD-ի աջակցումը (փորձարկվու�
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
 msgid "Auto-hide the mouse pointer during playback in windowed mode"
-msgstr ""
+msgstr "Ինքնաթաքցնել մկնիկի նշորդը նվագարկելիս պատուհանի կերպում"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
 msgid "Add Filter..."
@@ -714,7 +714,7 @@ msgstr "Նախապատվել"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO2"
 msgid "Block"
-msgstr "Կողփել"
+msgstr "Կապանել"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO3"
 msgid "Set merit:"
@@ -730,11 +730,11 @@ msgstr "Վար"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON5"
 msgid "Add Media Type..."
-msgstr "Նոր տեսակ..."
+msgstr "Ավելացնել մեդիայի տեսակ..."
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON6"
 msgid "Add Sub Type..."
-msgstr "Նոր տողագիր..."
+msgstr "Ավելացնել տողագրի տեսակ.."
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON7"
 msgid "Delete"
@@ -742,23 +742,23 @@ msgstr "Ջնջել"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON8"
 msgid "Reset List"
-msgstr "Ետարկել"
+msgstr "Վերակայել ցանկը"
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Type:"
-msgstr "Տեսակը."
+msgstr "Տեսակ."
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Size:"
-msgstr "Ծավալը."
+msgstr "Չափ."
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Media length:"
-msgstr "Տևողությունը."
+msgstr "Տևողություն."
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Video size:"
-msgstr "Չափը."
+msgstr "Տեսանյութի չափ."
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Created:"
@@ -802,7 +802,7 @@ msgstr "Հիշել դիրքը"
 
 msgctxt "IDD_FAVADD_IDCANCEL"
 msgid "Cancel"
-msgstr "Մերժել"
+msgstr "Չեղարկել"
 
 msgctxt "IDD_FAVADD_IDOK"
 msgid "OK"
@@ -810,7 +810,7 @@ msgstr "ԼԱՎ"
 
 msgctxt "IDD_FAVADD_IDC_CHECK2"
 msgid "Relative drive"
-msgstr "Հարաբերված սկավառակին"
+msgstr "Հարաբերական սկավառակին"
 
 msgctxt "IDD_FAVORGANIZE_CAPTION"
 msgid "Organize Favorites"
@@ -862,7 +862,7 @@ msgstr "&Տեղակայել"
 
 msgctxt "IDD_PNSPRESET_DLG_IDCANCEL"
 msgid "&Cancel"
-msgstr "&Մերժել"
+msgstr "&Չեղարկել"
 
 msgctxt "IDD_PNSPRESET_DLG_IDOK"
 msgid "&Save"
@@ -886,7 +886,7 @@ msgstr "Ընտրել բոլորը"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON2"
 msgid "Reset Selected"
-msgstr "Ետարկել ընտրումը"
+msgstr "Վերակայել ընտրվածը"
 
 msgctxt "IDD_MEDIATYPES_DLG_CAPTION"
 msgid "Warning"
@@ -930,11 +930,11 @@ msgstr "մվ"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_CHECK1"
 msgid "Save custom style"
-msgstr ""
+msgstr "Պահպանել հարմարեցված ոճը"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
-msgstr ""
+msgstr "JPEG-ի որակ."
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "Thumbnails:"
@@ -970,35 +970,35 @@ msgstr "ԼԱՎ"
 
 msgctxt "IDD_ADDREGFILTER_IDCANCEL"
 msgid "Cancel"
-msgstr "Մերժել"
+msgstr "Չեղարկել"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Font"
-msgstr "Տառատեսակը"
+msgstr "Տառատեսակ"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_BUTTON1"
 msgid "Font"
-msgstr "Տառատեսակը"
+msgstr "Տառատեսակ"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Spacing"
-msgstr "Դադար"
+msgstr "Բացատ"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Angle (z,°)"
-msgstr "Անկյունը (z,°)"
+msgstr "Անկյուն (z,°)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Scale (x,%)"
-msgstr "Անկյունը (x,%)"
+msgstr "Անկյուն (x,%)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Scale (y,%)"
-msgstr "Անկյունը (y,%)"
+msgstr "Անկյուն (y,%)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Border Style"
-msgstr "Շրջանակի ձևը"
+msgstr "Շրջանակի ձև"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO1"
 msgid "Outline"
@@ -1082,19 +1082,19 @@ msgstr "Ապակոդավորիչներ"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Internal LAV Filters settings"
-msgstr ""
+msgstr "Ներքին LAV զտիչների կարգավորումներ"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_SPLITTER_CONF"
 msgid "Splitter"
-msgstr ""
+msgstr "Տրոհիչ"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_VIDEO_DEC_CONF"
 msgid "Video decoder"
-msgstr ""
+msgstr "Տեսանյութի ապակոդավորիչ"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_AUDIO_DEC_CONF"
 msgid "Audio decoder"
-msgstr ""
+msgstr "Ձայնանյութի ապակոդավորիչ"
 
 msgctxt "IDD_PPAGELOGO_IDC_RADIO1"
 msgid "Internal:"
@@ -1266,7 +1266,7 @@ msgstr "Խտայնությունը"
 
 msgctxt "IDD_PPAGEMISC_IDC_RESET"
 msgid "Reset"
-msgstr "Ետարկել"
+msgstr "Վերակայել"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Update check"
@@ -1278,7 +1278,7 @@ msgstr "Միացնել թարմացումների ստուգումը"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
 msgid "Check every:"
-msgstr ""
+msgstr "Ստուգել յուրք.՝"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"
@@ -1290,7 +1290,7 @@ msgstr "Կարգավորումների կառավարում"
 
 msgctxt "IDD_PPAGEMISC_IDC_RESET_SETTINGS"
 msgid "Reset"
-msgstr "Ետարկել"
+msgstr "Վերակայել"
 
 msgctxt "IDD_PPAGEMISC_IDC_EXPORT_SETTINGS"
 msgid "Export"
@@ -1310,7 +1310,7 @@ msgstr "Սկսել"
 
 msgctxt "IDD_TUNER_SCAN_IDCANCEL"
 msgid "Cancel"
-msgstr "Մերժել"
+msgstr "Չեղարկել"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Freq. Start"
@@ -1334,7 +1334,7 @@ msgstr "Պահպանել"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "S"
-msgstr ""
+msgstr "S"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Q"
@@ -1458,7 +1458,7 @@ msgstr "Բացել ֆայլերը ամբողջ էկրանով"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK4"
 msgid "Hide controls in fullscreen"
-msgstr ""
+msgstr "Թաքցնել կառավարումը Լիաէկրան եղանակում"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC1"
 msgid "ms"
@@ -1466,7 +1466,7 @@ msgstr "մվ"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK6"
 msgid "Hide docked panels"
-msgstr ""
+msgstr "Թաքցնել հարակցված վահանակները"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK5"
 msgid "Exit fullscreen at the end of playback"
@@ -1506,7 +1506,7 @@ msgstr "Վերականգնել չափը՝ ծրագիրը փակելիս"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Delay"
-msgstr ""
+msgstr "Ուշացում"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC2"
 msgid "s"
@@ -1570,11 +1570,11 @@ msgstr "&Անտեսել թարմացումը"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shaders contain special effects which can be added to the video rendering process."
-msgstr ""
+msgstr "Շեյդերները պարունակում են հատուկ էֆեկտներ, որոնք կարող են ավելացվել տեսանյութի նյութավորմանը"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON12"
 msgid "Add shader file"
-msgstr ""
+msgstr "Ավելացնել շեյդերի ֆայլ"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON13"
 msgid "Remove"
@@ -1582,19 +1582,19 @@ msgstr "Ջնջել"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON1"
 msgid "Add to pre-resize"
-msgstr ""
+msgstr "Ավելացնել նախաչափափոխում"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON2"
 msgid "Add to post-resize"
-msgstr ""
+msgstr "Ավելացնել հետչափափոխում"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shader presets"
-msgstr ""
+msgstr "Շեյդերների նախակայումներ"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON3"
 msgid "Load"
-msgstr ""
+msgstr "Բեռնել"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON4"
 msgid "Save"
@@ -1606,19 +1606,19 @@ msgstr "Ջնջել"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active pre-resize shaders"
-msgstr ""
+msgstr "Ակտիվ նախաչափափոխված շեյդերներ"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active post-resize shaders"
-msgstr ""
+msgstr "Ակտիվ հետչափափոխված շեյդերներ"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_CAPTION"
 msgid "Debug Shaders"
-msgstr ""
+msgstr "Վրիպազերծման շեյդերներ"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_STATIC"
 msgid "Debug Information"
-msgstr ""
+msgstr "Վրիպազերծման տեղեկություն"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO1"
 msgid "PS 2.0"
@@ -1638,15 +1638,15 @@ msgstr "PS 3.0"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_STATIC"
 msgid "Advanced Settings, do not edit unless you know what you are doing."
-msgstr ""
+msgstr "Ընդլայնված կարգավորումներ, մի խմբագրեք, եթե չգիտեք, թե ինչ եք անում:"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO1"
 msgid "True"
-msgstr ""
+msgstr "Ճիշտ"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO2"
 msgid "False"
-msgstr ""
+msgstr "Կեղծ"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
@@ -1654,11 +1654,11 @@ msgstr "Ծրագրային"
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
-msgstr ""
+msgstr "JPEG-ի որակ."
 
 msgctxt "IDD_CMD_LINE_HELP_CAPTION"
 msgid "Command line help"
-msgstr ""
+msgstr "Հրամանի տողի օգնություն"
 
 msgctxt "IDD_CMD_LINE_HELP_IDOK"
 msgid "OK"
@@ -1666,25 +1666,25 @@ msgstr "ԼԱՎ"
 
 msgctxt "IDD_CRASH_REPORTER_CAPTION"
 msgid "Crash reporter"
-msgstr ""
+msgstr "Վթարի զեկույց"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
 msgid "We are sorry, it seems MPC-HC just crashed. :(\n\nTo help us diagnose and fix the problem, a bug report will be sent. You can provide additional information if you want."
-msgstr ""
+msgstr "Կարծես MPC-HC -ը վթարվել է: :(\n\nԽնդիրը ախտորոշելու և ուղղելու համար մեզ ուղարկեք խնդրի զեկույցը:"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
 msgid "Email:"
-msgstr ""
+msgstr "Էլ. փոստ."
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC3"
 msgid "Your email address is optional and will only be used if the developers need to contact you for more information."
-msgstr ""
+msgstr "Էլ. փոստի հասցեն լրացուցիչ է և կօգտագործվի միայն Ձեզ պատասխանելու համար:"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
 msgid "Problem description (use English only):"
-msgstr ""
+msgstr "Խնդրի նկարագրություն (միայն անգլերենով)."
 
 msgctxt "IDD_CRASH_REPORTER_IDOK"
 msgid "OK"
-msgstr ""
+msgstr "ԼԱՎ"
 
