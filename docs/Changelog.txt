@@ -10,6 +10,7 @@ Legend:
 
 next version - not released yet
 ===============================
+* Updated LAV Filters to v0.65.0.12
 * Updated Armenian, Bengali, British English, Catalan, Croatian, Danish, Dutch, Japanese, Swedish,
   Thai and Turkish translations
 
