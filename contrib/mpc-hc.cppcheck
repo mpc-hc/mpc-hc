@@ -15,6 +15,7 @@
     </libraries>
     <suppressions>
         <suppression>cstyleCast</suppression>
+        <suppression>noExplicitConstructor</suppression>
         <suppression>redundantAssignment</suppression>
         <suppression>unreadVariable</suppression>
         <suppression>unusedPrivateFunction</suppression>
