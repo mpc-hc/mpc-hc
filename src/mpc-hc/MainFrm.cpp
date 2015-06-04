@@ -1145,7 +1145,7 @@ BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
         }
     }
 
-    if ((m_dwMenuBarVisibility & AFX_MBV_DISPLAYONF10) && pMsg->message == WM_SYSKEYUP && pMsg->wParam == VK_F10 &&
+    if ((m_dwMenuBarVisibility & AFX_MBV_DISPLAYONFOCUS) && pMsg->message == WM_SYSKEYUP && pMsg->wParam == VK_F10 &&
             m_dwMenuBarState == AFX_MBS_VISIBLE) {
         // mfc doesn't hide menubar on f10, but we want to
         VERIFY(SetMenuBarState(AFX_MBS_HIDDEN));
@@ -6261,15 +6261,15 @@ void CMainFrame::SetCaptionState(MpcCaptionState eState)
                 dwRemove &= ~(WS_CAPTION | WS_THICKFRAME);
                 break;
             case MpcCaptionState::MODE_SHOWCAPTIONMENU:
-                dwMenuFlags = AFX_MBV_DISPLAYONFOCUS | AFX_MBV_DISPLAYONF10;
+                dwMenuFlags = AFX_MBV_DISPLAYONFOCUS;
                 break;
             case MpcCaptionState::MODE_HIDEMENU:
-                dwMenuFlags = AFX_MBV_DISPLAYONFOCUS | AFX_MBV_DISPLAYONF10;
+                dwMenuFlags = AFX_MBV_DISPLAYONFOCUS;
                 dwAdd &= ~WS_CAPTION;
                 dwRemove |= WS_CAPTION;
                 break;
             case MpcCaptionState::MODE_FRAMEONLY:
-                dwMenuFlags = AFX_MBV_DISPLAYONFOCUS | AFX_MBV_DISPLAYONF10;
+                dwMenuFlags = AFX_MBV_DISPLAYONFOCUS;
                 dwAdd &= ~WS_THICKFRAME;
                 dwRemove |= WS_THICKFRAME;
                 break;
@@ -9173,7 +9173,7 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
         } else if (s.eCaptionMenuMode == MODE_BORDERLESS) {
             ModifyStyle(WS_CAPTION | WS_THICKFRAME, 0, SWP_NOZORDER);
         }
-        SetMenuBarVisibility(AFX_MBV_DISPLAYONFOCUS | AFX_MBV_DISPLAYONF10);
+        SetMenuBarVisibility(AFX_MBV_DISPLAYONFOCUS);
         SetWindowPos(nullptr, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOSIZE | SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
     }
 
@@ -9439,7 +9439,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
         } else {
             GetDesktopWindow()->GetWindowRect(&r);
         }
-        SetMenuBarVisibility(AFX_MBV_DISPLAYONFOCUS | AFX_MBV_DISPLAYONF10);
+        SetMenuBarVisibility(AFX_MBV_DISPLAYONFOCUS);
     } else {
         m_eventc.FireEvent(MpcEvent::SWITCHING_FROM_FULLSCREEN);
 
@@ -9537,7 +9537,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
     if (!m_fFullScreen) {
         SetMenuBarVisibility(s.eCaptionMenuMode == MODE_SHOWCAPTIONMENU ?
-                             AFX_MBV_KEEPVISIBLE : AFX_MBV_DISPLAYONFOCUS | AFX_MBV_DISPLAYONF10);
+                             AFX_MBV_KEEPVISIBLE : AFX_MBV_DISPLAYONFOCUS);
     }
 
     UpdateControlState(UPDATE_CONTROLS_VISIBILITY);
