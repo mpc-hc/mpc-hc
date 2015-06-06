@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-05-21 13:30:54+0000\n"
-"PO-Revision-Date: 2015-05-31 14:58+0000\n"
+"PO-Revision-Date: 2015-06-04 23:41+0000\n"
 "Last-Translator: papu <papu@openmailbox.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -599,7 +599,7 @@ msgstr "Filtre renderitzat predeterminat per DirectShow. Altres l'utilitzarant q
 
 msgctxt "IDC_DSOLD"
 msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
-msgstr "Aquet es el renderitzador predeterminat per Windows 9x/Me/2K. Depenent de la visibilidat de la finestra de vídeo i de les capacitats de la teva tarjeta gràfica, escollirà dinàmicament entre els renders GDI, DirectDraw, i Overlay."
+msgstr "Aquest és el renderitzador predeterminat per Windows 9x/Me/2K. Depenent de la visibilidat de la finestra de vídeo i de les capacitats de la teva tarjeta gràfica, escollirà dinàmicament entre els renders GDI, DirectDraw  o Overlay."
 
 msgctxt "IDC_DSOVERLAYMIXER"
 msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
@@ -859,7 +859,7 @@ msgstr "En augmentar el nombre de subimatges de la memòria intermèdia s'hauria
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
-msgstr "Després de fer clic aquet botó, l'estat de comprobació del format del grup reflexarà las associacions del fitxer actual pel MPC. Una extensión recent agregada es motrarà en gris, no oblidis de maracar-la de nou abans de tencar aquet cuadre de diàleg"
+msgstr "Després de fer clic aquest botó, l'estat de comprobació del format del grup reflexarà las associacions del fitxer actual pel MPC. Una extensión recent agregada es motrarà en gris, no oblideu de maracar-la de nou abans de tencar aquet cuadre de diàleg"
 
 msgctxt "IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Disabling this option will prevent the subtitles from blinking but it may cause the video renderer to skip some video frames."
@@ -2667,7 +2667,7 @@ msgstr "Subtítols no cargats o renderitzador no soportat."
 
 msgctxt "IDS_LOGO_AUTHOR"
 msgid "Author unknown. Contact us if you made this logo!"
-msgstr "Autor desconegut contacte'm si vas fer aquet logotipus!"
+msgstr "Autor desconegut. Contacteu-me si vau fer aquest logotipus!"
 
 msgctxt "IDS_NO_MORE_MEDIA"
 msgid "No more media in the current folder."
@@ -2755,11 +2755,11 @@ msgstr "Dalt Darrere Dreta"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seek bar"
-msgstr "Per sobra la barra de cerca"
+msgstr "Per sobra de la barra de cerca"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
 msgid "Below seek bar"
-msgstr "Per sota la barra de cerca"
+msgstr "Per sota de la barra de cerca"
 
 msgctxt "IDS_VIDEO_STREAM"
 msgid "Video: %s"

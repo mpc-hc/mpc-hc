@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-05-22 20:53:41+0000\n"
-"PO-Revision-Date: 2015-06-04 13:00+0000\n"
+"PO-Revision-Date: 2015-06-05 09:30+0000\n"
 "Last-Translator: Zamani Karmana <zamani.karmana@gmail.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/mpc-hc/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -642,7 +642,7 @@ msgstr "Sela&njutnya"
 
 msgctxt "ID_NAVIGATE_GOTO"
 msgid "&Go To..."
-msgstr "&Pergi Ke..."
+msgstr "Per&gi Ke..."
 
 msgctxt "ID_NAVIGATE_TITLEMENU"
 msgid "&Title Menu"
@@ -650,7 +650,7 @@ msgstr "Menu &Judul"
 
 msgctxt "ID_NAVIGATE_ROOTMENU"
 msgid "&Root Menu"
-msgstr "Menu &Akar"
+msgstr "Menu Aka&r"
 
 msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
 msgid "&Subtitle Menu"
@@ -678,19 +678,19 @@ msgstr "B&antuan"
 
 msgctxt "ID_HELP_HOMEPAGE"
 msgid "&Home Page"
-msgstr "&Halaman Beranda"
+msgstr "Halaman &Beranda"
 
 msgctxt "ID_HELP_CHECKFORUPDATE"
 msgid "Check for &updates"
-msgstr "Periksa Pem&utakhiran"
+msgstr "Periksa Pe&mutakhiran"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"
-msgstr "Pengganti Pe&rintah Baris"
+msgstr "Pengganti &Perintah Baris"
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"
-msgstr "Unduh Gambar Bilah A&lat"
+msgstr "Unduh Gambar Bilah &Alat"
 
 msgctxt "ID_HELP_DONATE"
 msgid "&Donate"
@@ -698,5 +698,5 @@ msgstr "&Donasi"
 
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
-msgstr "Tent&ang"
+msgstr "&Tentang"
 

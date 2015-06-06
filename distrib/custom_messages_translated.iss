@@ -261,7 +261,7 @@ ca.tsk_Other=Altres tasques:
 ca.tsk_ResetSettings=Reiniciar les preferències
 ca.types_DefaultInstallation=Instal·lació per defecte
 ca.types_CustomInstallation=Instal·lació personalitzada
-ca.ViewChangelog=Veure registre de canvis
+ca.ViewChangelog=Veure el Registre de canvis
 
 ; Czech
 cs.langid=00001029

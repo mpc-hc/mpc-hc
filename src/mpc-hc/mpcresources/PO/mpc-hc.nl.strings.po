@@ -6,6 +6,7 @@
 # Dennis Gerritsen <frostflame@hotmail.com>, 2014
 # dragnadh <dragnadh@gmail.com>, 2015
 # DennisW, 2014
+# hendrickbert <hendrickbert@gmail.com>, 2015
 # B512, 2015
 # Peter Pul, 2015
 # rjongejan <ruben.jongejan@gmail.com>, 2014
@@ -14,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-05-21 13:30:54+0000\n"
-"PO-Revision-Date: 2015-06-03 14:40+0000\n"
-"Last-Translator: B512\n"
+"PO-Revision-Date: 2015-06-04 21:25+0000\n"
+"Last-Translator: hendrickbert <hendrickbert@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/mpc-hc/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -817,11 +818,11 @@ msgstr "Verbeter prestatie ten koste van de compatibiliteit van de renderer."
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."
-msgstr ""
+msgstr "Verminderd  scheuring maar blokkeert de werkbalk"
 
 msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Reduces tearing by bypassing the default VSync built into D3D."
-msgstr ""
+msgstr "Verminderd  scheuring door het omzeilen van de standaard VSync gebruikt in D3D."
 
 msgctxt "IDS_SRC_VTS"
 msgid "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"
@@ -829,7 +830,7 @@ msgstr "Opent VTS_xx_0.ifo om VTS_xx_x.vob-bestanden in een geheel te laden"
 
 msgctxt "IDS_SRC_RFS"
 msgid "Based on RARFileSource, doesn't support compressed files"
-msgstr ""
+msgstr "Gebaseerd op RARFILESource, ondersteund geen gecompenseerde bestanden. "
 
 msgctxt "IDS_INTERNAL_LAVF"
 msgid "Uses LAV Filters"
@@ -1297,7 +1298,7 @@ msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
 msgid "Remember file position also for audio files."
-msgstr ""
+msgstr "Onthoud de bestand positie ook voor audio bestanden."
 
 msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
 msgid "Do Nothing"
@@ -1949,11 +1950,11 @@ msgstr "Boss toets"
 
 msgctxt "IDS_MPLAYERC_77"
 msgid "Player Menu"
-msgstr ""
+msgstr "Speler Menu"
 
 msgctxt "IDS_MPLAYERC_78"
 msgid "Player Menu (full)"
-msgstr ""
+msgstr "Speler Menu (Volledig)"
 
 msgctxt "IDS_AG_FILTERS_MENU"
 msgid "Filters Menu"
@@ -2317,7 +2318,7 @@ msgstr ""
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr ""
+msgstr "Om de ondertiteling te laden verander de video render type en heropen het bestand.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR of Haali\n- RealMedia: Special renderer for RealMedia, of open het met DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"

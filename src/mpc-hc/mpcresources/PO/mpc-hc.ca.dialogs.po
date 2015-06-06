@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-05-17 20:47:27+0000\n"
-"PO-Revision-Date: 2015-06-01 22:32+0000\n"
+"PO-Revision-Date: 2015-06-04 23:41+0000\n"
 "Last-Translator: papu <papu@openmailbox.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -198,7 +198,7 @@ msgstr "Copyright © 2002-2015 Vegeu el fitxer Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
-msgstr "Aquet programa és gratuït i distribuït sota la Llicència Pública General de GNU."
+msgstr "Aquest programa és gratuït i distribuït sota la Llicència Pública General de GNU."
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
@@ -378,7 +378,7 @@ msgstr "Ajustos addicionals"
 
 msgctxt "IDD_PPAGEDVD_IDC_CHECK2"
 msgid "Allow closed captions in \"Line 21 Decoder\""
-msgstr "Permetre subtítols amb \"Line 21 Decoder\""
+msgstr "Permet subtítols amb \"Line 21 Decoder\""
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Audio"
@@ -418,7 +418,7 @@ msgstr "Reprodueix"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_RADIO2"
 msgid "Repeat forever"
-msgstr "Repetir per sempre"
+msgstr "Repeteix indefinidament"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC1"
 msgid "time(s)"
@@ -474,7 +474,7 @@ msgstr "Reporta els conectors que no volen funcionar"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
-msgstr "Carga automàtica d'àudio"
+msgstr "Carga automàticament l'àudio"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
 msgid "Use the built-in subtitle renderer"
@@ -538,7 +538,7 @@ msgstr "Resolució màxima de la textura:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_NO_SUB_ANIM"
 msgid "Never animate the subtitles"
-msgstr "Mai permetre animacions als subtítols"
+msgstr "Mai permetre animació als subtítols"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC5"
 msgid "Render at"
@@ -738,7 +738,7 @@ msgstr "Afegeix un Tipus..."
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON6"
 msgid "Add Sub Type..."
-msgstr "Afegeix el Subtipus..."
+msgstr "Afegeix un Subtipus..."
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON7"
 msgid "Delete"
@@ -746,7 +746,7 @@ msgstr "Suprimeix"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON8"
 msgid "Reset List"
-msgstr "Inicialitzar Llista"
+msgstr "Inicialitza la Llista"
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Type:"
@@ -1042,7 +1042,7 @@ msgstr "Sota"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK_RELATIVETO"
 msgid "Position subtitles relative to the video frame"
-msgstr "Posició subtítols relativa a la imatge"
+msgstr "Posició dels subtítols relativa a la imatge"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Colors && Transparency"
@@ -1074,7 +1074,7 @@ msgstr "Vincula els canals alfa"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "If you would like to use the stand-alone versions of these filters or another replacement, disable them here."
-msgstr "Si prefereix utilitzar les versions independents d'aquets filtres o algún altre reemplaçament, desactivi'ls aquí."
+msgstr "Si preferiu utilitzar les versions independents d'aquets filtres o algún altre reemplaçament, desactiveu-los aquí."
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Source Filters"
@@ -1146,7 +1146,7 @@ msgstr "Selecciona el dispositiu de D3D9"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_RESETDEVICE"
 msgid "Reinitialize when changing display"
-msgstr "Restablir quant canviï la pantalla"
+msgstr "Restableix quant canviï la pantalla"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "D3D Fullscreen"
@@ -1398,11 +1398,11 @@ msgstr "Ajust de la commutació de Canals"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST11"
 msgid "Rebuild filter graph"
-msgstr "Recontruir el \"filter graph\""
+msgstr "Recontrueix el \"filter graph\""
 
 msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST12"
 msgid "Stop filter graph"
-msgstr "Aturar el \"filtre graph\""
+msgstr "Atura el \"filtre graph\""
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCVIDEO"
 msgid "Sync video to display"
@@ -1610,11 +1610,11 @@ msgstr "Suprimeix"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active pre-resize shaders"
-msgstr "Activa el pre-redimenionament dels shaders"
+msgstr "Activa el pre-redimenionament dels P.S"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active post-resize shaders"
-msgstr "Activa el post-redimensionament dels shaders"
+msgstr "Activa el post-redimensionament dels P.S"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_CAPTION"
 msgid "Debug Shaders"

@@ -6,14 +6,15 @@
 # Dennis Gerritsen <frostflame@hotmail.com>, 2014
 # Devrim, 2013-2015
 # DennisW, 2014
+# hendrickbert <hendrickbert@gmail.com>, 2015
 # kasper93, 2013
 # rjongejan <ruben.jongejan@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-05-22 20:53:41+0000\n"
-"PO-Revision-Date: 2015-06-03 14:30+0000\n"
-"Last-Translator: B512\n"
+"PO-Revision-Date: 2015-06-04 21:11+0000\n"
+"Last-Translator: hendrickbert <hendrickbert@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/mpc-hc/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -595,7 +596,7 @@ msgstr "&Na weergave"
 
 msgctxt "ID_AFTERPLAYBACK_DONOTHING"
 msgid "Do no&thing"
-msgstr ""
+msgstr "Niets doen"
 
 msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
 msgid "Play &next file in the folder"

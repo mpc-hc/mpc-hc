@@ -12,8 +12,8 @@ next version - not released yet
 ===============================
 + Add Indonesian translation
 * Updated LAV Filters to v0.65.0.12
-* Updated Armenian, Bengali, British English, Catalan, Croatian, Danish, Dutch, Japanese, Swedish,
-  Thai and Turkish translations
+* Updated Armenian, Bengali, British English, Catalan, Croatian, Danish, Dutch, German, Japanese,
+  Swedish, Thai, Turkish and Vietnamese translations
 
 
 1.7.9 - 1 June 2015

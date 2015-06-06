@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-04-09 21:29:25+0000\n"
-"PO-Revision-Date: 2015-04-15 08:18+0000\n"
+"POT-Creation-Date: 2015-05-21 13:30:54+0000\n"
+"PO-Revision-Date: 2015-06-05 10:03+0000\n"
 "Last-Translator: TRẦN ANH MINH <anhminhvks@yahoo.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/mpc-hc/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -623,7 +623,7 @@ msgstr "Giống như VMR-9 (renderless), nhưng sử dụng một sự thật ha
 
 msgctxt "IDC_DSNULL_COMP"
 msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the CPU from working unnecessarily."
-msgstr "Kết nối với bất kỳ loại phương tiện truyền thông như video và sẽ gửi mẫu đến tới đâu cả. Sử dụng nó khi bạn không cần màn hình hiển thị video và muốn tiết kiệm CPU làm việc không cần thiết."
+msgstr "Kết nối với bất kỳ loại phương tiện truyền thông nào và sẽ không gửi mẫu hình ảnh đi đâu cả. Sử dụng điều này khi bạn không cần hiển thị hình ảnh video và muốn tiết kiệm CPU từ những việc không cần thiết."
 
 msgctxt "IDC_DSNULL_UNCOMP"
 msgid "Same as the normal Null renderer, but this will only connect to uncompressed types."
@@ -1375,23 +1375,23 @@ msgstr "AR %d:%d"
 
 msgctxt "IDS_PPAGEADVANCED_LOGGER"
 msgid "Enables logging to file (requires restart)"
-msgstr "Cho phép đăng nhập vào tập tin (Yêu cầu khởi động lại)"
+msgstr "Cho phép đăng nhập vào tập tin (yêu cầu khởi động lại)"
 
 msgctxt "IDS_TIMER_REMAINING_TIME"
 msgid "Remaining time"
-msgstr ""
+msgstr "Thời gian còn lại"
 
 msgctxt "IDS_TIMER_HIGH_PRECISION"
 msgid "High precision"
-msgstr ""
+msgstr "Độ chính xác cao"
 
 msgctxt "IDS_AFTERPLAYBACK_REWIND"
 msgid "After Playback: Rewind current file"
-msgstr ""
+msgstr "Sau khi phát xong: Tua lại tập tin hiện tại"
 
 msgctxt "IDS_AFTERPLAYBACK_CLOSE"
 msgid "After Playback: Close"
-msgstr ""
+msgstr "Sau khi phát xong: Đóng"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1443,11 +1443,11 @@ msgstr "Ngừng"
 
 msgctxt "IDS_AG_FRAMESTEP"
 msgid "Frame-step"
-msgstr "Khung"
+msgstr "Khung hình kế tiếp"
 
 msgctxt "IDS_MPLAYERC_16"
 msgid "Frame-step back"
-msgstr "Khung hình trở"
+msgstr "Khung hình trước"
 
 msgctxt "IDS_AG_GO_TO"
 msgid "Go To"
@@ -1675,15 +1675,15 @@ msgstr "Nhảy đến bắt đầu"
 
 msgctxt "IDS_OSD_SHOW_FILENAME"
 msgid "OSD: Show File Name"
-msgstr ""
+msgstr "MHHT: Hiển thị tên tập tin"
 
 msgctxt "IDS_OSD_DISPLAY_RENDERER_STATS"
 msgid "OSD: Display Renderer Statistics"
-msgstr ""
+msgstr "MHHT: Hiển thị thống kê bộ dựng hình"
 
 msgctxt "IDS_OSD_RESET_RENDERER_STATS"
 msgid "OSD: Reset Renderer Statistics"
-msgstr ""
+msgstr "MHHT: Thiết lập lại thống kê bộ dựng hình"
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
@@ -1695,7 +1695,7 @@ msgstr "Ẩn &viền"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
 msgid "Fra&me Only"
-msgstr "Chỉ khung"
+msgstr "Chỉ khung hình"
 
 msgctxt "IDS_VIEW_CAPTIONMENU"
 msgid "Sho&w Caption&&Menu"
@@ -2027,7 +2027,7 @@ msgstr "Bật/Tắt phụ đề (DVD)"
 
 msgctxt "IDS_OSD_DISPLAY_CURRENT_TIME"
 msgid "OSD: Display Current Time"
-msgstr ""
+msgstr "MHHT: Hiển thị thời gian hiện tại"
 
 msgctxt "IDS_PPAGEWEBSERVER_0"
 msgid "Select the directory"
@@ -2339,7 +2339,7 @@ msgstr "Đầy bộ nhớ"
 
 msgctxt "IDS_MAINFRM_77"
 msgid "Error: Adobe Flash Player for Internet Explorer is required"
-msgstr "Lỗi: Adobe Flash Player cho trình duyệt Internet Explorer là cần thiết"
+msgstr "Lỗi: Adobe Flash Player cho trình duyệt Internet Explorer được yêu cầu"
 
 msgctxt "IDS_MAINFRM_78"
 msgid "QuickTime not yet supported for X64 (apple library not available)"
@@ -2411,7 +2411,7 @@ msgstr "Chuyển Nhãn&Menu"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
 msgid "Toggle Seek Bar"
-msgstr "Chuyển đổi thanh dò"
+msgstr "Chuyển đổi thanh tìm kiếm"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
 msgid "Toggle Controls"
@@ -2751,11 +2751,11 @@ msgstr "Đỉnh trước phải"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seek bar"
-msgstr "Trên thanh dò nhanh"
+msgstr "Phía trên thanh tìm kiếm"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
 msgid "Below seek bar"
-msgstr "Dưới thanh dò nhanh"
+msgstr "Phía dưới thanh tìm kiếm"
 
 msgctxt "IDS_VIDEO_STREAM"
 msgid "Video: %s"
@@ -3403,7 +3403,7 @@ msgstr "Lỗi phân tích tỷ lệ khung hình vào!"
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
 msgid "Cannot frame-step, try a different video renderer."
-msgstr "Không có thể hình thành bước, hãy thử một dựng hình video khác nhau."
+msgstr "Không thể đọc khung hình kế tiếp, hãy thử một bộ dựng hình khác."
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for RealMedia.\nSelect one of the DirectX renderers for RealMedia in MPC-HC's output options and reopen the file."
@@ -3495,7 +3495,7 @@ msgstr "Bạn cần phải áp dụng các thiết lập mới trước khi th�
 
 msgctxt "IDS_AFTERPLAYBACK_EXIT"
 msgid "After Playback: Exit"
-msgstr "Sau khi xem lại: Thoát"
+msgstr "Sau khi phát xong: Thoát"
 
 msgctxt "IDS_AFTERPLAYBACK_STANDBY"
 msgid "After Playback: Stand By"
