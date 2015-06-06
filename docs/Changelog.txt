@@ -11,7 +11,8 @@ Legend:
 next version - not released yet
 ===============================
 + Add Indonesian translation
-* Updated LAV Filters to v0.65.0.12
+* Updated LAV Filters to v0.65.0.20:
+    - LAV Video Decoder: Allow hardware decoding of UHD video with AMD cards
 * Updated Armenian, Bengali, British English, Catalan, Croatian, Danish, Dutch, German, Japanese,
   Swedish, Thai, Turkish and Vietnamese translations
 
