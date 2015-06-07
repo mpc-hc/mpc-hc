@@ -2404,6 +2404,7 @@ STDMETHODIMP CBaseAP::SetPixelShader2(LPCSTR pSrcData, LPCSTR pTarget, bool bScr
 
 CSyncAP::CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
     : CBaseAP(hWnd, bFullscreen, hr, _Error)
+    , m_nCurrentGroupId(0)
     , m_nResetToken(0)
     , m_hRenderThread(nullptr)
     , m_hMixerThread(nullptr)
@@ -3158,6 +3159,11 @@ bool CSyncAP::GetSampleFromMixer()
     UINT dwSurface;
     bool newSample = false;
 
+    auto sampleHasCurrentGroupId = [this](IMFSample* pSample) {
+        UINT32 nGroupId;
+        return (SUCCEEDED(pSample->GetUINT32(GUID_GROUP_ID, &nGroupId)) && nGroupId == m_nCurrentGroupId);
+    };
+
     while (SUCCEEDED(hr)) { // Get as many frames as there are and that we have samples for
         CComPtr<IMFSample> pSample;
         CComPtr<IMFSample> pNewSample;
@@ -3168,6 +3174,8 @@ bool CSyncAP::GetSampleFromMixer()
         ZeroMemory(&dataBuffer, sizeof(dataBuffer));
         dataBuffer.pSample = pSample;
         pSample->GetUINT32(GUID_SURFACE_INDEX, &dwSurface);
+        ASSERT(sampleHasCurrentGroupId(pSample));
+
         {
             llClockBefore = GetRenderersData()->GetPerfCounter();
             hr = m_pMixer->ProcessOutput(0 , 1, &dataBuffer, &dwStatus);
@@ -3542,6 +3550,7 @@ STDMETHODIMP CSyncAP::InitializeDevice(AM_MEDIA_TYPE* pMediaType)
         CComPtr<IMFSample> pMFSample;
         hr = fnMFCreateVideoSampleFromSurface(m_pVideoSurface[i], &pMFSample);
         if (SUCCEEDED(hr)) {
+            pMFSample->SetUINT32(GUID_GROUP_ID, m_nCurrentGroupId);
             pMFSample->SetUINT32(GUID_SURFACE_INDEX, i);
             CAutoLock sampleQueueLock(&m_SampleQueueLock);
             m_FreeSamples.AddTail(pMFSample);
@@ -3822,6 +3831,7 @@ STDMETHODIMP_(bool) CSyncAP::ResetDevice()
         CComPtr<IMFSample> pMFSample;
         HRESULT hr = fnMFCreateVideoSampleFromSurface(m_pVideoSurface[i], &pMFSample);
         if (SUCCEEDED(hr)) {
+            pMFSample->SetUINT32(GUID_GROUP_ID, m_nCurrentGroupId);
             pMFSample->SetUINT32(GUID_SURFACE_INDEX, i);
             CAutoLock sampleQueueLock(&m_SampleQueueLock);
             m_FreeSamples.AddTail(pMFSample);
@@ -3853,6 +3863,8 @@ void CSyncAP::RemoveAllSamples()
     m_ScheduledSamples.RemoveAll();
     m_FreeSamples.RemoveAll();
     m_nUsedBuffer = 0;
+    // Increment the group id to make sure old samples will really be deleted
+    m_nCurrentGroupId++;
 }
 
 HRESULT CSyncAP::GetFreeSample(IMFSample** ppSample)
@@ -3937,7 +3949,11 @@ HRESULT CSyncAP::OnSampleFree(IMFAsyncResult* pResult)
     HRESULT hr = pResult->GetObject(&pObject);
     if (SUCCEEDED(hr)) {
         if (CComQIPtr<IMFSample> pSample = pObject) {
-            MoveToFreeList(pSample, true);
+            // Ignore the sample if it is from an old group
+            UINT32 nGroupId;
+            if (SUCCEEDED(pSample->GetUINT32(GUID_GROUP_ID, &nGroupId)) && nGroupId == m_nCurrentGroupId) {
+                MoveToFreeList(pSample, true);
+            }
         }
     }
     return hr;

@@ -40,7 +40,6 @@ public:
         if (iid == __uuidof(IUnknown)) {
             *ppv = static_cast<IUnknown*>(static_cast<IMFAsyncCallback*>(this));
         } else if (iid == __uuidof(IMFAsyncCallback)) {
-
             *ppv = static_cast<IMFAsyncCallback*>(this);
         } else {
             *ppv = nullptr;

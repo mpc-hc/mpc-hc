@@ -41,6 +41,8 @@ enum EVR_STATS_MSG {
     MSG_MIXEROUT
 };
 
+// Guid to tag IMFSample with a group id
+static const GUID GUID_GROUP_ID = { 0x309e32cc, 0x9b23, 0x4c6c, { 0x86, 0x63, 0xcd, 0xd9, 0xad, 0x49, 0x7f, 0x8a } };
 // Guid to tag IMFSample with DirectX surface index
 static const GUID GUID_SURFACE_INDEX = { 0x30c8e9f6, 0x415, 0x4b81, { 0xa3, 0x15, 0x1, 0xa, 0xc6, 0xa9, 0xda, 0x19 } };
 
@@ -89,6 +91,7 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     , m_hGetMixerThread(nullptr)
     , m_hVSyncThread(nullptr)
     , m_nRenderState(Shutdown)
+    , m_nCurrentGroupId(0)
     , m_bWaitingSample(false)
     , m_bLastSampleOffsetValid(false)
     , m_LastScheduledSampleTime(-1)
@@ -1053,6 +1056,11 @@ bool CEVRAllocatorPresenter::GetImageFromMixer()
 
     bool bDoneSomething = false;
 
+    auto sampleHasCurrentGroupId = [this](IMFSample* pSample) {
+        UINT32 nGroupId;
+        return (SUCCEEDED(pSample->GetUINT32(GUID_GROUP_ID, &nGroupId)) && nGroupId == m_nCurrentGroupId);
+    };
+
     while (SUCCEEDED(hr)) {
         CComPtr<IMFSample> pSample;
 
@@ -1064,6 +1072,7 @@ bool CEVRAllocatorPresenter::GetImageFromMixer()
         ZeroMemory(&dataBuffer, sizeof(dataBuffer));
         dataBuffer.pSample = pSample;
         pSample->GetUINT32(GUID_SURFACE_INDEX, &dwSurface);
+        ASSERT(sampleHasCurrentGroupId(pSample));
 
         {
             llClockBefore = GetRenderersData()->GetPerfCounter();
@@ -1476,6 +1485,7 @@ STDMETHODIMP CEVRAllocatorPresenter::InitializeDevice(IMFMediaType* pMediaType)
             hr = fnMFCreateVideoSampleFromSurface(m_pVideoSurface[i], &pMFSample);
 
             if (SUCCEEDED(hr)) {
+                pMFSample->SetUINT32(GUID_GROUP_ID, m_nCurrentGroupId);
                 pMFSample->SetUINT32(GUID_SURFACE_INDEX, i);
                 CAutoLock sampleQueueLock(&m_SampleQueueLock);
                 m_FreeSamples.AddTail(pMFSample);
@@ -1870,6 +1880,7 @@ STDMETHODIMP_(bool) CEVRAllocatorPresenter::ResetDevice()
         HRESULT hr = fnMFCreateVideoSampleFromSurface(m_pVideoSurface[i], &pMFSample);
 
         if (SUCCEEDED(hr)) {
+            pMFSample->SetUINT32(GUID_GROUP_ID, m_nCurrentGroupId);
             pMFSample->SetUINT32(GUID_SURFACE_INDEX, i);
             CAutoLock sampleQueueLock(&m_SampleQueueLock);
             m_FreeSamples.AddTail(pMFSample);
@@ -2487,6 +2498,8 @@ void CEVRAllocatorPresenter::RemoveAllSamples()
     m_LastScheduledSampleTime = -1;
     m_LastScheduledUncorrectedSampleTime = -1;
     m_nUsedBuffer = 0;
+    // Increment the group id to make sure old samples will really be deleted
+    m_nCurrentGroupId++;
 }
 
 HRESULT CEVRAllocatorPresenter::GetFreeSample(IMFSample** ppSample)
@@ -2796,8 +2809,12 @@ HRESULT CEVRAllocatorPresenter::OnSampleFree(IMFAsyncResult* pResult)
     HRESULT hr = pResult->GetObject(&pObject);
     if (SUCCEEDED(hr)) {
         if (CComQIPtr<IMFSample> pSample = pObject) {
-            MoveToFreeList(pSample, true);
-            CheckWaitingSampleFromMixer();
+            // Ignore the sample if it is from an old group
+            UINT32 nGroupId;
+            if (SUCCEEDED(pSample->GetUINT32(GUID_GROUP_ID, &nGroupId)) && nGroupId == m_nCurrentGroupId) {
+                MoveToFreeList(pSample, true);
+                CheckWaitingSampleFromMixer();
+            }
         }
     }
     return hr;

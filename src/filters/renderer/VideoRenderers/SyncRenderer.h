@@ -69,6 +69,8 @@ class CFocusThread;
 #define PIXELCLOCK  8
 #define UNKNOWN     9
 
+// Guid to tag IMFSample with a group id
+static const GUID GUID_GROUP_ID = { 0x309e32cc, 0x9b23, 0x4c6c, { 0x86, 0x63, 0xcd, 0xd9, 0xad, 0x49, 0x7f, 0x8a } };
 // Guid to tag IMFSample with DirectX surface index
 static const GUID GUID_SURFACE_INDEX = { 0x30c8e9f6, 0x415, 0x4b81, { 0xa3, 0x15, 0x1, 0xa, 0xc6, 0xa9, 0xda, 0x19 } };
 
@@ -488,6 +490,7 @@ namespace GothSync
         CCritSec m_SampleQueueLock;
         CCritSec m_ImageProcessingLock;
 
+        UINT32                    m_nCurrentGroupId;
         CInterfaceList<IMFSample> m_FreeSamples;
         CInterfaceList<IMFSample> m_ScheduledSamples;
         UINT m_nResetToken;
