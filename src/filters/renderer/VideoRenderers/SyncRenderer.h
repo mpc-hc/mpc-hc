@@ -449,6 +449,7 @@ namespace GothSync
         STDMETHODIMP GetD3DFullscreen(bool* pfEnabled);
 
     protected:
+        STDMETHODIMP_(bool) Paint(IMFSample* pMFSample);
         void OnResetDevice();
         MFCLOCK_STATE m_LastClockState;
 
@@ -493,6 +494,7 @@ namespace GothSync
         UINT32                    m_nCurrentGroupId;
         CInterfaceList<IMFSample> m_FreeSamples;
         CInterfaceList<IMFSample> m_ScheduledSamples;
+        CComPtr<IMFSample>        m_pCurrentlyDisplayedSample;
         UINT m_nResetToken;
         int m_nStepCount;
 

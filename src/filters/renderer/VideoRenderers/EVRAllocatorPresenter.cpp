@@ -314,6 +314,22 @@ STDMETHODIMP_(bool) CEVRAllocatorPresenter::Paint(bool bAll)
     return __super::Paint(bAll);
 }
 
+STDMETHODIMP_(bool) CEVRAllocatorPresenter::Paint(IMFSample* pMFSample)
+{
+    CAutoLock lock(&m_RenderLock);
+
+    m_pCurrentlyDisplayedSample = pMFSample;
+    pMFSample->GetUINT32(GUID_SURFACE_INDEX, (UINT32*)&m_nCurSurface);
+
+    auto sampleHasCurrentGroupId = [this](IMFSample* pSample) {
+        UINT32 nGroupId;
+        return (SUCCEEDED(pSample->GetUINT32(GUID_GROUP_ID, &nGroupId)) && nGroupId == m_nCurrentGroupId);
+    };
+    ASSERT(sampleHasCurrentGroupId(pMFSample));
+
+    return Paint(true);
+}
+
 STDMETHODIMP CEVRAllocatorPresenter::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
     HRESULT hr;
@@ -1173,6 +1189,7 @@ STDMETHODIMP CEVRAllocatorPresenter::ReleaseServicePointers()
 {
     TRACE_EVR("EVR: CEVRAllocatorPresenter::ReleaseServicePointers\n");
     StopWorkerThreads();
+    m_pCurrentlyDisplayedSample = nullptr;
     m_pMixer = nullptr;
     m_pSink  = nullptr;
     m_pClock = nullptr;
@@ -1801,7 +1818,9 @@ LONGLONG CEVRAllocatorPresenter::GetClockTime(LONGLONG PerformanceCounter)
 
 void CEVRAllocatorPresenter::OnVBlankFinished(bool bAll, LONGLONG PerformanceCounter)
 {
-    if (!m_pCurrentDisplaydSample || !m_OrderedPaint || !bAll) {
+    // This function is meant to be called only from the rendering function
+    // so with the ownership on m_RenderLock.
+    if (!m_pCurrentlyDisplayedSample || !m_OrderedPaint || !bAll) {
         return;
     }
 
@@ -1820,14 +1839,14 @@ void CEVRAllocatorPresenter::OnVBlankFinished(bool bAll, LONGLONG PerformanceCou
         llClockTime = m_StarvationClock;
     }
 
-    if (SUCCEEDED(m_pCurrentDisplaydSample->GetSampleDuration(&SampleDuration))) {
+    if (SUCCEEDED(m_pCurrentlyDisplayedSample->GetSampleDuration(&SampleDuration))) {
         // Some filters return invalid values, ignore them
         if (SampleDuration > MIN_FRAME_TIME) {
             TimePerFrame = SampleDuration;
         }
     }
 
-    if (FAILED(m_pCurrentDisplaydSample->GetSampleTime(&nsSampleTime))) {
+    if (FAILED(m_pCurrentlyDisplayedSample->GetSampleTime(&nsSampleTime))) {
         nsSampleTime = llClockTime;
     }
 
@@ -1859,7 +1878,6 @@ void CEVRAllocatorPresenter::OnVBlankFinished(bool bAll, LONGLONG PerformanceCou
         m_fSyncOffsetAvr = MeanOffset;
         m_bSyncStatsAvailable = true;
         m_fSyncOffsetStdDev = StdDev;
-
     }
 }
 
@@ -2012,8 +2030,8 @@ void CEVRAllocatorPresenter::RenderThread()
                     UNREFERENCED_PARAMETER(llPerf);
                     int nSamplesLeft = 0;
                     if (SUCCEEDED(GetScheduledSample(&pMFSample, nSamplesLeft))) {
-                        //pMFSample->GetUINT32 (GUID_SURFACE_INDEX, (UINT32*)&m_nCurSurface);
-                        m_pCurrentDisplaydSample = pMFSample;
+                        //UINT32 nSurface;
+                        //pMFSample->GetUINT32(GUID_SURFACE_INDEX, (UINT32*)&nSurface);
 
                         bool bValidSampleTime = true;
                         HRESULT hrGetSampleTime = pMFSample->GetSampleTime(&nsSampleTime);
@@ -2029,7 +2047,7 @@ void CEVRAllocatorPresenter::RenderThread()
                             bValidSampleDuration = false;
                         }
 
-                        //TRACE_EVR ("EVR: RenderThread ==>> Presenting surface %d  (%I64d)\n", m_nCurSurface, nsSampleTime);
+                        //TRACE_EVR("EVR: RenderThread ==>> Presenting surface %d  (%I64d)\n", nSurface, nsSampleTime);
 
                         bool bStepForward = false;
 
@@ -2041,14 +2059,13 @@ void CEVRAllocatorPresenter::RenderThread()
                             m_nStepCount = 0;
                             /*
                             } else if (m_nStepCount > 0) {
-                                pMFSample->GetUINT32(GUID_SURFACE_INDEX, (UINT32 *)&m_nCurSurface);
                                 ++m_OrderedPaint;
                                 if (!g_bExternalSubtitleTime) {
                                     __super::SetTime (g_tSegmentStart + nsSampleTime);
                                 }
-                                Paint(true);
+                                Paint(pMFSample);
                                 m_nDroppedUpdate = 0;
-                                CompleteFrameStep (false);
+                                CompleteFrameStep(false);
                                 bStepForward = true;
                             */
                         } else if (m_nRenderState == Started) {
@@ -2064,12 +2081,11 @@ void CEVRAllocatorPresenter::RenderThread()
                             if (!bValidSampleTime) {
                                 // Just play as fast as possible
                                 bStepForward = true;
-                                pMFSample->GetUINT32(GUID_SURFACE_INDEX, (UINT32*)&m_nCurSurface);
                                 ++m_OrderedPaint;
                                 if (!g_bExternalSubtitleTime) {
                                     __super::SetTime(g_tSegmentStart + nsSampleTime);
                                 }
-                                Paint(true);
+                                Paint(pMFSample);
                             } else {
                                 LONGLONG TimePerFrame = (LONGLONG)(GetFrameTime() * 10000000.0);
                                 LONGLONG DrawTime = m_PaintTime * 9 / 10 - 20000; // 2 ms offset (= m_PaintTime * 0.9 - 20000)
@@ -2183,7 +2199,6 @@ void CEVRAllocatorPresenter::RenderThread()
                                     TRACE_EVR("EVR: Normalframe\n");
                                     m_nDroppedUpdate = 0;
                                     bStepForward = true;
-                                    pMFSample->GetUINT32(GUID_SURFACE_INDEX, (UINT32*)&m_nCurSurface);
                                     m_LastFrameDuration = nsSampleTime - m_LastSampleTime;
                                     m_LastSampleTime = nsSampleTime;
                                     m_LastPredictedSync = VSyncOffset0;
@@ -2197,7 +2212,7 @@ void CEVRAllocatorPresenter::RenderThread()
                                     if (!g_bExternalSubtitleTime) {
                                         __super::SetTime(g_tSegmentStart + nsSampleTime);
                                     }
-                                    Paint(true);
+                                    Paint(pMFSample);
 
                                     NextSleepTime = 0;
                                     m_pcFramesDrawn++;
@@ -2264,12 +2279,11 @@ void CEVRAllocatorPresenter::RenderThread()
                                 if (!g_bExternalSubtitleTime) {
                                     __super::SetTime(g_tSegmentStart + nsSampleTime);
                                 }
-                                Paint(false);
+                                Paint(pMFSample);
                             }
                             NextSleepTime = int(SampleDuration / 10000 - 2);
                         }
 
-                        m_pCurrentDisplaydSample = nullptr;
                         if (bStepForward) {
                             m_MaxSampleDuration = std::max(SampleDuration, m_MaxSampleDuration);
                         } else {

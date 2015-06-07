@@ -2613,6 +2613,20 @@ STDMETHODIMP_(bool) CSyncAP::Paint(bool bAll)
     return __super::Paint(bAll);
 }
 
+STDMETHODIMP_(bool) CSyncAP::Paint(IMFSample* pMFSample)
+{
+    m_pCurrentlyDisplayedSample = pMFSample;
+    pMFSample->GetUINT32(GUID_SURFACE_INDEX, (UINT32*)&m_nCurSurface);
+
+    auto sampleHasCurrentGroupId = [this](IMFSample* pSample) {
+        UINT32 nGroupId;
+        return (SUCCEEDED(pSample->GetUINT32(GUID_GROUP_ID, &nGroupId)) && nGroupId == m_nCurrentGroupId);
+    };
+    ASSERT(sampleHasCurrentGroupId(pMFSample));
+
+    return Paint(true);
+}
+
 STDMETHODIMP CSyncAP::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
     HRESULT hr;
@@ -3252,6 +3266,7 @@ STDMETHODIMP CSyncAP::InitServicePointers(__in IMFTopologyServiceLookup* pLookup
 STDMETHODIMP CSyncAP::ReleaseServicePointers()
 {
     StopWorkerThreads();
+    m_pCurrentlyDisplayedSample = nullptr;
     m_pMixer = nullptr;
     m_pSink = nullptr;
     m_pClock = nullptr;
@@ -3787,20 +3802,15 @@ void CSyncAP::RenderThread()
                     m_pcFramesDropped++;
                     stepForward = true;
                 } else if (pNewSample && (m_nStepCount > 0)) {
-                    pNewSample->GetUINT32(GUID_SURFACE_INDEX, (UINT32*)&m_nCurSurface);
-                    if (!g_bExternalSubtitleTime) {
-                        __super::SetTime(g_tSegmentStart + m_llSampleTime);
-                    }
-                    Paint(true);
+                    Paint(pNewSample);
                     CompleteFrameStep(false);
                     m_pcFramesDrawn++;
                     stepForward = true;
                 } else if (pNewSample && !m_bStepping) { // When a stepped frame is shown, a new one is fetched that we don't want to show here while stepping
-                    pNewSample->GetUINT32(GUID_SURFACE_INDEX, (UINT32*)&m_nCurSurface);
                     if (!g_bExternalSubtitleTime) {
                         __super::SetTime(g_tSegmentStart + m_llSampleTime);
                     }
-                    Paint(true);
+                    Paint(pNewSample);
                     m_pcFramesDrawn++;
                     stepForward = true;
                 }

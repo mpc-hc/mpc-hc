@@ -145,6 +145,7 @@ namespace DSObjects
         STDMETHODIMP GetVideoService(HANDLE hDevice, REFIID riid, void** ppService);
 
     protected:
+        STDMETHODIMP_(bool) Paint(IMFSample* pMFSample);
         void OnResetDevice();
         virtual void OnVBlankFinished(bool bAll, LONGLONG PerformanceCounter);
 
@@ -197,7 +198,7 @@ namespace DSObjects
         UINT32                           m_nCurrentGroupId;
         CInterfaceList<IMFSample>        m_FreeSamples;
         CInterfaceList<IMFSample>        m_ScheduledSamples;
-        CComPtr<IMFSample>               m_pCurrentDisplaydSample;
+        CComPtr<IMFSample>               m_pCurrentlyDisplayedSample;
         bool                             m_bWaitingSample;
         bool                             m_bLastSampleOffsetValid;
         LONGLONG                         m_LastScheduledSampleTime;
