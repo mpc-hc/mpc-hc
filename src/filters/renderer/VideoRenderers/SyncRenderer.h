@@ -513,9 +513,9 @@ namespace GothSync
         STDMETHODIMP AdviseSyncClock(ISyncClock* sC);
         HRESULT BeginStreaming();
         HRESULT GetFreeSample(IMFSample** ppSample);
-        HRESULT GetScheduledSample(IMFSample** ppSample, int& _Count);
-        void MoveToFreeList(IMFSample* pSample, bool bTail);
-        void MoveToScheduledList(IMFSample* pSample, bool _bSorted);
+        HRESULT GetScheduledSample(IMFSample** ppSample, int& count);
+        void PutToFreeList(IMFSample* pSample, bool bTail);
+        void PutToScheduledList(IMFSample* pSample, bool bSorted);
         void FlushSamples();
 
         HRESULT TrackSample(IMFSample* pSample);

@@ -1097,7 +1097,8 @@ bool CEVRAllocatorPresenter::GetImageFromMixer()
         }
 
         if (hr == MF_E_TRANSFORM_NEED_MORE_INPUT) {
-            MoveToFreeList(pSample, false);
+            PutToFreeList(pSample, false);
+            pSample = nullptr; // The sample should not be used after being queued
             // Important: Release any events returned from the ProcessOutput method.
             SAFE_RELEASE(dataBuffer.pEvents);
             break;
@@ -1131,7 +1132,8 @@ bool CEVRAllocatorPresenter::GetImageFromMixer()
         TRACE_EVR("EVR: Get from Mixer : %u  (%I64d) (%I64d)\n", dwSurface, nsSampleTime, m_rtTimePerFrame ? nsSampleTime / m_rtTimePerFrame : 0);
 
         if (SUCCEEDED(TrackSample(pSample))) {
-            MoveToScheduledList(pSample, false);
+            PutToScheduledList(pSample, false);
+            pSample = nullptr; // The sample should not be used after being queued
             bDoneSomething = true;
         } else {
             ASSERT(FALSE);
@@ -1504,8 +1506,8 @@ STDMETHODIMP CEVRAllocatorPresenter::InitializeDevice(IMFMediaType* pMediaType)
             if (SUCCEEDED(hr)) {
                 pMFSample->SetUINT32(GUID_GROUP_ID, m_nCurrentGroupId);
                 pMFSample->SetUINT32(GUID_SURFACE_INDEX, i);
-                CAutoLock sampleQueueLock(&m_SampleQueueLock);
-                m_FreeSamples.AddTail(pMFSample);
+                PutToFreeList(pMFSample, true);
+                pMFSample = nullptr; // The sample should not be used after being queued
             }
             ASSERT(SUCCEEDED(hr));
         }
@@ -1900,8 +1902,8 @@ STDMETHODIMP_(bool) CEVRAllocatorPresenter::ResetDevice()
         if (SUCCEEDED(hr)) {
             pMFSample->SetUINT32(GUID_GROUP_ID, m_nCurrentGroupId);
             pMFSample->SetUINT32(GUID_SURFACE_INDEX, i);
-            CAutoLock sampleQueueLock(&m_SampleQueueLock);
-            m_FreeSamples.AddTail(pMFSample);
+            PutToFreeList(pMFSample, true);
+            pMFSample = nullptr; // The sample should not be used after being queued
         }
         ASSERT(SUCCEEDED(hr));
     }
@@ -2287,7 +2289,8 @@ void CEVRAllocatorPresenter::RenderThread()
                         if (bStepForward) {
                             m_MaxSampleDuration = std::max(SampleDuration, m_MaxSampleDuration);
                         } else {
-                            MoveToScheduledList(pMFSample, true);
+                            PutToScheduledList(pMFSample, true);
+                            pMFSample = nullptr; // The sample should not be used after being queued
                         }
 
                         bForcePaint = false;
@@ -2531,15 +2534,15 @@ HRESULT CEVRAllocatorPresenter::GetFreeSample(IMFSample** ppSample)
     return hr;
 }
 
-HRESULT CEVRAllocatorPresenter::GetScheduledSample(IMFSample** ppSample, int& _Count)
+HRESULT CEVRAllocatorPresenter::GetScheduledSample(IMFSample** ppSample, int& count)
 {
     CAutoLock lock(&m_SampleQueueLock);
     HRESULT hr = S_OK;
 
-    _Count = (int)m_ScheduledSamples.GetCount();
-    if (_Count > 0) {
+    count = (int)m_ScheduledSamples.GetCount();
+    if (count > 0) {
         *ppSample = m_ScheduledSamples.RemoveHead().Detach();
-        --_Count;
+        --count;
     } else {
         hr = MF_E_SAMPLEALLOCATOR_EMPTY;
     }
@@ -2547,7 +2550,7 @@ HRESULT CEVRAllocatorPresenter::GetScheduledSample(IMFSample** ppSample, int& _C
     return hr;
 }
 
-void CEVRAllocatorPresenter::MoveToFreeList(IMFSample* pSample, bool bTail)
+void CEVRAllocatorPresenter::PutToFreeList(IMFSample* pSample, bool bTail)
 {
     CAutoLock lock(&m_SampleQueueLock);
 
@@ -2563,11 +2566,11 @@ void CEVRAllocatorPresenter::MoveToFreeList(IMFSample* pSample, bool bTail)
     }
 }
 
-void CEVRAllocatorPresenter::MoveToScheduledList(IMFSample* pSample, bool _bSorted)
+void CEVRAllocatorPresenter::PutToScheduledList(IMFSample* pSample, bool bSorted)
 {
+    CAutoLock lock(&m_SampleQueueLock);
 
-    if (_bSorted) {
-        CAutoLock lock(&m_SampleQueueLock);
+    if (bSorted) {
         // Insert sorted
         /*POSITION Iterator = m_ScheduledSamples.GetHeadPosition();
 
@@ -2589,9 +2592,6 @@ void CEVRAllocatorPresenter::MoveToScheduledList(IMFSample* pSample, bool _bSort
 
         m_ScheduledSamples.AddHead(pSample);
     } else {
-
-        CAutoLock lock(&m_SampleQueueLock);
-
         const CRenderersSettings& r = GetRenderersSettings();
         double ForceFPS = 0.0;
         //double ForceFPS = 59.94;
@@ -2791,7 +2791,6 @@ void CEVRAllocatorPresenter::MoveToScheduledList(IMFSample* pSample, bool _bSort
         m_LastScheduledSampleTime = Time;
 
         m_ScheduledSamples.AddTail(pSample);
-
     }
 }
 
@@ -2826,7 +2825,8 @@ HRESULT CEVRAllocatorPresenter::OnSampleFree(IMFAsyncResult* pResult)
             // Ignore the sample if it is from an old group
             UINT32 nGroupId;
             if (SUCCEEDED(pSample->GetUINT32(GUID_GROUP_ID, &nGroupId)) && nGroupId == m_nCurrentGroupId) {
-                MoveToFreeList(pSample, true);
+                PutToFreeList(pSample, true);
+                pSample = nullptr; // The sample should not be used after being queued
                 CheckWaitingSampleFromMixer();
             }
         }

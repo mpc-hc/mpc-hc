@@ -3180,7 +3180,6 @@ bool CSyncAP::GetSampleFromMixer()
 
     while (SUCCEEDED(hr)) { // Get as many frames as there are and that we have samples for
         CComPtr<IMFSample> pSample;
-        CComPtr<IMFSample> pNewSample;
         if (FAILED(GetFreeSample(&pSample))) { // All samples are taken for the moment. Better luck next time
             break;
         }
@@ -3197,7 +3196,8 @@ bool CSyncAP::GetSampleFromMixer()
         }
 
         if (hr == MF_E_TRANSFORM_NEED_MORE_INPUT) { // There are no samples left in the mixer
-            MoveToFreeList(pSample, false);
+            PutToFreeList(pSample, false);
+            pSample = nullptr; // The sample should not be used after being queued
             // Important: Release any events returned from the ProcessOutput method.
             SAFE_RELEASE(dataBuffer.pEvents);
             break;
@@ -3226,7 +3226,8 @@ bool CSyncAP::GetSampleFromMixer()
         }
 
         if (SUCCEEDED(TrackSample(pSample))) {
-            MoveToScheduledList(pSample, false); // Schedule, then go back to see if there is more where that came from
+            PutToScheduledList(pSample, false); // Schedule, then go back to see if there is more where that came from
+            pSample = nullptr; // The sample should not be used after being queued
         } else {
             ASSERT(FALSE);
         }
@@ -3567,8 +3568,8 @@ STDMETHODIMP CSyncAP::InitializeDevice(AM_MEDIA_TYPE* pMediaType)
         if (SUCCEEDED(hr)) {
             pMFSample->SetUINT32(GUID_GROUP_ID, m_nCurrentGroupId);
             pMFSample->SetUINT32(GUID_SURFACE_INDEX, i);
-            CAutoLock sampleQueueLock(&m_SampleQueueLock);
-            m_FreeSamples.AddTail(pMFSample);
+            PutToFreeList(pMFSample, true);
+            pMFSample = nullptr; // The sample should not be used after being queued
         }
         ASSERT(SUCCEEDED(hr));
     }
@@ -3646,7 +3647,7 @@ void CSyncAP::RenderThread()
     HANDLE hEvts[] = {m_hEvtQuit, m_hEvtFlush, m_hEvtSkip};
     bool bQuit = false;
     TIMECAPS tc;
-    CComPtr<IMFSample>pNewSample = nullptr; // The sample next in line to be presented
+    CComPtr<IMFSample> pNewSample; // The sample next in line to be presented
 
     // Tell Multimedia Class Scheduler we are doing threaded playback (increase priority)
     HANDLE hAvrt = 0;
@@ -3662,7 +3663,6 @@ void CSyncAP::RenderThread()
     timeGetDevCaps(&tc, sizeof(TIMECAPS));
     DWORD dwResolution = std::min(std::max(tc.wPeriodMin, 0u), tc.wPeriodMax);
     VERIFY(timeBeginPeriod(dwResolution) == 0);
-    pNewSample = nullptr;
 
     while (!bQuit) {
         m_lNextSampleWait = 1; // Default value for running this loop
@@ -3843,8 +3843,8 @@ STDMETHODIMP_(bool) CSyncAP::ResetDevice()
         if (SUCCEEDED(hr)) {
             pMFSample->SetUINT32(GUID_GROUP_ID, m_nCurrentGroupId);
             pMFSample->SetUINT32(GUID_SURFACE_INDEX, i);
-            CAutoLock sampleQueueLock(&m_SampleQueueLock);
-            m_FreeSamples.AddTail(pMFSample);
+            PutToFreeList(pMFSample, true);
+            pMFSample = nullptr; // The sample should not be used after being queued
         }
         ASSERT(SUCCEEDED(hr));
     }
@@ -3892,15 +3892,15 @@ HRESULT CSyncAP::GetFreeSample(IMFSample** ppSample)
     return hr;
 }
 
-HRESULT CSyncAP::GetScheduledSample(IMFSample** ppSample, int& _Count)
+HRESULT CSyncAP::GetScheduledSample(IMFSample** ppSample, int& count)
 {
     CAutoLock lock(&m_SampleQueueLock);
     HRESULT hr = S_OK;
 
-    _Count = (int)m_ScheduledSamples.GetCount();
-    if (_Count > 0) {
+    count = (int)m_ScheduledSamples.GetCount();
+    if (count > 0) {
         *ppSample = m_ScheduledSamples.RemoveHead().Detach();
-        --_Count;
+        --count;
     } else {
         hr = MF_E_SAMPLEALLOCATOR_EMPTY;
     }
@@ -3908,7 +3908,7 @@ HRESULT CSyncAP::GetScheduledSample(IMFSample** ppSample, int& _Count)
     return hr;
 }
 
-void CSyncAP::MoveToFreeList(IMFSample* pSample, bool bTail)
+void CSyncAP::PutToFreeList(IMFSample* pSample, bool bTail)
 {
     CAutoLock lock(&m_SampleQueueLock);
 
@@ -3924,11 +3924,11 @@ void CSyncAP::MoveToFreeList(IMFSample* pSample, bool bTail)
     }
 }
 
-void CSyncAP::MoveToScheduledList(IMFSample* pSample, bool _bSorted)
+void CSyncAP::PutToScheduledList(IMFSample* pSample, bool bSorted)
 {
     CAutoLock lock(&m_SampleQueueLock);
 
-    if (_bSorted) {
+    if (bSorted) {
         m_ScheduledSamples.AddHead(pSample);
     } else {
         m_ScheduledSamples.AddTail(pSample);
@@ -3962,7 +3962,8 @@ HRESULT CSyncAP::OnSampleFree(IMFAsyncResult* pResult)
             // Ignore the sample if it is from an old group
             UINT32 nGroupId;
             if (SUCCEEDED(pSample->GetUINT32(GUID_GROUP_ID, &nGroupId)) && nGroupId == m_nCurrentGroupId) {
-                MoveToFreeList(pSample, true);
+                PutToFreeList(pSample, true);
+                pSample = nullptr; // The sample should not be used after being queued
             }
         }
     }
