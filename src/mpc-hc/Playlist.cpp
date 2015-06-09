@@ -246,8 +246,8 @@ bool CPlaylist::RemoveAll()
 bool CPlaylist::RemoveAt(POSITION pos)
 {
     if (pos) {
-        // Update the shuffled list
-        if (m_bShuffle) {
+        // Update the shuffled list only if there is no pending reshuffle
+        if (m_bShuffle && m_nShuffledListSize == GetCount()) {
             const CPlaylistItem& pli = GetAt(pos);
             if (pos == m_posHeadShuffle) {
                 m_posHeadShuffle = pli.m_posNextShuffle;

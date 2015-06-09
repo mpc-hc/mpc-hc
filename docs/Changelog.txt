@@ -15,6 +15,7 @@ next version - not released yet
     - LAV Video Decoder: Allow hardware decoding of UHD video with AMD cards
 * Updated Armenian, Bengali, British English, Catalan, Croatian, Danish, Dutch, German, Japanese,
   Swedish, Thai, Turkish and Vietnamese translations
+! Ticket #5454, Deleting an item from the playlist sometimes did not work when shuffle mode was enabled
 
 
 1.7.9 - 1 June 2015
