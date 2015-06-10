@@ -369,6 +369,9 @@ STDMETHODIMP CEVRAllocatorPresenter::NonDelegatingQueryInterface(REFIID riid, vo
 // IMFClockStateSink
 STDMETHODIMP CEVRAllocatorPresenter::OnClockStart(MFTIME hnsSystemTime, LONGLONG llClockStartOffset)
 {
+    HRESULT hr;
+    CHECK_HR(CheckShutdown());
+
     m_nRenderState = Started;
 
     TRACE_EVR("EVR: OnClockStart  hnsSystemTime = %I64d,   llClockStartOffset = %I64d\n", hnsSystemTime, llClockStartOffset);
@@ -380,6 +383,9 @@ STDMETHODIMP CEVRAllocatorPresenter::OnClockStart(MFTIME hnsSystemTime, LONGLONG
 
 STDMETHODIMP CEVRAllocatorPresenter::OnClockStop(MFTIME hnsSystemTime)
 {
+    HRESULT hr;
+    CHECK_HR(CheckShutdown());
+
     TRACE_EVR("EVR: OnClockStop  hnsSystemTime = %I64d\n", hnsSystemTime);
     m_nRenderState = Stopped;
 
@@ -390,6 +396,9 @@ STDMETHODIMP CEVRAllocatorPresenter::OnClockStop(MFTIME hnsSystemTime)
 
 STDMETHODIMP CEVRAllocatorPresenter::OnClockPause(MFTIME hnsSystemTime)
 {
+    HRESULT hr;
+    CHECK_HR(CheckShutdown());
+
     TRACE_EVR("EVR: OnClockPause  hnsSystemTime = %I64d\n", hnsSystemTime);
     if (!m_bSignaledStarvation) {
         m_nRenderState = Paused;
@@ -401,6 +410,9 @@ STDMETHODIMP CEVRAllocatorPresenter::OnClockPause(MFTIME hnsSystemTime)
 
 STDMETHODIMP CEVRAllocatorPresenter::OnClockRestart(MFTIME hnsSystemTime)
 {
+    HRESULT hr;
+    CHECK_HR(CheckShutdown());
+
     m_nRenderState = Started;
 
     m_ModeratedTimeLast  = -1;
@@ -578,6 +590,7 @@ void CEVRAllocatorPresenter::CompleteFrameStep(bool bCancel)
 STDMETHODIMP CEVRAllocatorPresenter::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, ULONG_PTR ulParam)
 {
     HRESULT hr = S_OK;
+    CHECK_HR(CheckShutdown());
 
     switch (eMessage) {
         case MFVP_MESSAGE_BEGINSTREAMING:           // The EVR switched from stopped to paused. The presenter should allocate resources
@@ -775,6 +788,7 @@ HRESULT CEVRAllocatorPresenter::SetMediaType(IMFMediaType* pType)
     AM_MEDIA_TYPE* pAMMedia = nullptr;
     CString strTemp, strTemp1;
 
+    CHECK_HR(CheckShutdown());
     CheckPointer(pType, E_POINTER);
     CHECK_HR(pType->GetRepresentation(FORMAT_VideoInfo2, (void**)&pAMMedia));
 

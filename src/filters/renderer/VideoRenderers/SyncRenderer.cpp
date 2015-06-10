@@ -2666,24 +2666,32 @@ STDMETHODIMP CSyncAP::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 // IMFClockStateSink
 STDMETHODIMP CSyncAP::OnClockStart(MFTIME hnsSystemTime, LONGLONG llClockStartOffset)
 {
+    HRESULT hr;
+    CHECK_HR(CheckShutdown());
     m_nRenderState = Started;
     return S_OK;
 }
 
 STDMETHODIMP CSyncAP::OnClockStop(MFTIME hnsSystemTime)
 {
+    HRESULT hr;
+    CHECK_HR(CheckShutdown());
     m_nRenderState = Stopped;
     return S_OK;
 }
 
 STDMETHODIMP CSyncAP::OnClockPause(MFTIME hnsSystemTime)
 {
+    HRESULT hr;
+    CHECK_HR(CheckShutdown());
     m_nRenderState = Paused;
     return S_OK;
 }
 
 STDMETHODIMP CSyncAP::OnClockRestart(MFTIME hnsSystemTime)
 {
+    HRESULT hr;
+    CHECK_HR(CheckShutdown());
     m_nRenderState  = Started;
     return S_OK;
 }
@@ -2853,6 +2861,7 @@ void CSyncAP::CompleteFrameStep(bool bCancel)
 STDMETHODIMP CSyncAP::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, ULONG_PTR ulParam)
 {
     HRESULT hr = S_OK;
+    CHECK_HR(CheckShutdown());
 
     switch (eMessage) {
         case MFVP_MESSAGE_BEGINSTREAMING:
@@ -3017,6 +3026,7 @@ HRESULT CSyncAP::SetMediaType(IMFMediaType* pType)
     AM_MEDIA_TYPE* pAMMedia = nullptr;
     CString strTemp;
 
+    CHECK_HR(CheckShutdown());
     CheckPointer(pType, E_POINTER);
     CHECK_HR(pType->GetRepresentation(FORMAT_VideoInfo2, (void**)&pAMMedia));
 
