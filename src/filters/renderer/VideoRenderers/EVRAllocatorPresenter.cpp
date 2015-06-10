@@ -784,12 +784,27 @@ HRESULT CEVRAllocatorPresenter::CreateOptimalOutputType(IMFMediaType* pMixerProp
 
 HRESULT CEVRAllocatorPresenter::SetMediaType(IMFMediaType* pType)
 {
-    HRESULT hr;
+    HRESULT hr = S_OK;
     AM_MEDIA_TYPE* pAMMedia = nullptr;
     CString strTemp, strTemp1;
 
     CHECK_HR(CheckShutdown());
-    CheckPointer(pType, E_POINTER);
+
+    if (!pType) {
+        // Release
+        RemoveAllSamples();
+        DeleteSurfaces();
+        CAutoLock lock(&m_MediaTypeLock);
+        m_pMediaType = nullptr;
+        return hr;
+    }
+
+    DWORD dwFlags = 0;
+    if (m_pMediaType && m_pMediaType->IsEqual(pType, &dwFlags)) {
+        // Nothing to do
+        return hr;
+    }
+
     CHECK_HR(pType->GetRepresentation(FORMAT_VideoInfo2, (void**)&pAMMedia));
 
     hr = InitializeDevice(pType);

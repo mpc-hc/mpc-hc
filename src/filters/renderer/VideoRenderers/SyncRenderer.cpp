@@ -3022,12 +3022,27 @@ HRESULT CSyncAP::CreateOptimalOutputType(IMFMediaType* pMixerProposedType, IMFMe
 
 HRESULT CSyncAP::SetMediaType(IMFMediaType* pType)
 {
-    HRESULT hr;
+    HRESULT hr = S_OK;
     AM_MEDIA_TYPE* pAMMedia = nullptr;
     CString strTemp;
 
     CHECK_HR(CheckShutdown());
-    CheckPointer(pType, E_POINTER);
+
+    if (pType == nullptr) {
+        // Release
+        RemoveAllSamples();
+        DeleteSurfaces();
+        CAutoLock lock(this);
+        m_pMediaType = nullptr;
+        return hr;
+    }
+
+    DWORD dwFlags = 0;
+    if (m_pMediaType && m_pMediaType->IsEqual(pType, &dwFlags)) {
+        // Nothing to do
+        return hr;
+    }
+
     CHECK_HR(pType->GetRepresentation(FORMAT_VideoInfo2, (void**)&pAMMedia));
 
     hr = InitializeDevice(pAMMedia);
