@@ -197,7 +197,7 @@ void HookWorkAroundVideoDriversBug(IBaseFilter* pBF)
         IPinC* pPinC = (IPinC*)(IPin*)pPin;
 
         DWORD flOldProtect = 0;
-        if (VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), PAGE_WRITECOPY, &flOldProtect)) {
+        if (VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), PAGE_EXECUTE_WRITECOPY, &flOldProtect)) {
             if (ReceiveConnectionOrg == nullptr) {
                 ReceiveConnectionOrg = pPinC->lpVtbl->ReceiveConnection;
             }
@@ -216,7 +216,7 @@ void UnhookWorkAroundVideoDriversBug()
     // Unhook previous VTable
     if (g_pPinCVtblVideoDriverWorkAround) {
         DWORD flOldProtect = 0;
-        if (VirtualProtect(g_pPinCVtblVideoDriverWorkAround, sizeof(IPinCVtbl), PAGE_WRITECOPY, &flOldProtect)) {
+        if (VirtualProtect(g_pPinCVtblVideoDriverWorkAround, sizeof(IPinCVtbl), PAGE_EXECUTE_WRITECOPY, &flOldProtect)) {
             if (g_pPinCVtblVideoDriverWorkAround->ReceiveConnection == ReceiveConnectionMine) {
                 g_pPinCVtblVideoDriverWorkAround->ReceiveConnection = ReceiveConnectionOrg;
             }
@@ -236,7 +236,7 @@ void UnhookNewSegmentAndReceive()
 
     // Unhook previous VTables
     if (g_pPinCVtbl) {
-        if (VirtualProtect(g_pPinCVtbl, sizeof(IPinCVtbl), PAGE_WRITECOPY, &flOldProtect)) {
+        if (VirtualProtect(g_pPinCVtbl, sizeof(IPinCVtbl), PAGE_EXECUTE_WRITECOPY, &flOldProtect)) {
             if (g_pPinCVtbl->NewSegment == NewSegmentMine) {
                 g_pPinCVtbl->NewSegment = NewSegmentOrg;
             }
@@ -250,7 +250,7 @@ void UnhookNewSegmentAndReceive()
     }
 
     if (g_pMemInputPinCVtbl) {
-        if (VirtualProtect(g_pMemInputPinCVtbl, sizeof(IMemInputPinCVtbl), PAGE_WRITECOPY, &flOldProtect)) {
+        if (VirtualProtect(g_pMemInputPinCVtbl, sizeof(IMemInputPinCVtbl), PAGE_EXECUTE_WRITECOPY, &flOldProtect)) {
             if (g_pMemInputPinCVtbl->Receive == ReceiveMine) {
                 g_pMemInputPinCVtbl->Receive = ReceiveOrg;
             }
@@ -278,7 +278,7 @@ bool HookNewSegmentAndReceive(IPinC* pPinC, IMemInputPinC* pMemInputPinC)
     DWORD flOldProtect = 0;
 
     if (!g_pPinCVtbl) {
-        if (VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), PAGE_WRITECOPY, &flOldProtect)) {
+        if (VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), PAGE_EXECUTE_WRITECOPY, &flOldProtect)) {
             if (NewSegmentOrg == nullptr) {
                 NewSegmentOrg = pPinC->lpVtbl->NewSegment;
             }
@@ -292,7 +292,7 @@ bool HookNewSegmentAndReceive(IPinC* pPinC, IMemInputPinC* pMemInputPinC)
     }
 
     if (!g_pMemInputPinCVtbl) {
-        if (VirtualProtect(pMemInputPinC->lpVtbl, sizeof(IMemInputPinCVtbl), PAGE_WRITECOPY, &flOldProtect)) {
+        if (VirtualProtect(pMemInputPinC->lpVtbl, sizeof(IMemInputPinCVtbl), PAGE_EXECUTE_WRITECOPY, &flOldProtect)) {
             if (ReceiveOrg == nullptr) {
                 ReceiveOrg = pMemInputPinC->lpVtbl->Receive;
             }
@@ -1052,7 +1052,7 @@ void HookAMVideoAccelerator(IAMVideoAcceleratorC* pAMVideoAcceleratorC)
     g_nDXVAVersion = 0;
     DWORD flOldProtect = 0;
 
-    if (VirtualProtect(pAMVideoAcceleratorC->lpVtbl, sizeof(IAMVideoAcceleratorC), PAGE_WRITECOPY, &flOldProtect)) {
+    if (VirtualProtect(pAMVideoAcceleratorC->lpVtbl, sizeof(IAMVideoAcceleratorC), PAGE_EXECUTE_WRITECOPY, &flOldProtect)) {
 
 #ifdef _DEBUG
         if (GetVideoAcceleratorGUIDsOrg == nullptr) {
@@ -1559,7 +1559,7 @@ void HookDirectXVideoDecoderService(void* pIDirectXVideoDecoderService)
 
     // Unhook previous VTable
     if (g_pIDirectXVideoDecoderServiceCVtbl) {
-        if (VirtualProtect(g_pIDirectXVideoDecoderServiceCVtbl, sizeof(IDirectXVideoDecoderServiceCVtbl), PAGE_WRITECOPY, &flOldProtect)) {
+        if (VirtualProtect(g_pIDirectXVideoDecoderServiceCVtbl, sizeof(IDirectXVideoDecoderServiceCVtbl), PAGE_EXECUTE_WRITECOPY, &flOldProtect)) {
             if (g_pIDirectXVideoDecoderServiceCVtbl->CreateVideoDecoder == CreateVideoDecoderMine) {
                 g_pIDirectXVideoDecoderServiceCVtbl->CreateVideoDecoder = CreateVideoDecoderOrg;
             }
@@ -1597,7 +1597,7 @@ void HookDirectXVideoDecoderService(void* pIDirectXVideoDecoderService)
 #endif
 
     if (!g_pIDirectXVideoDecoderServiceCVtbl && pIDirectXVideoDecoderService) {
-        if (VirtualProtect(pIDirectXVideoDecoderServiceC->lpVtbl, sizeof(IDirectXVideoDecoderServiceCVtbl), PAGE_WRITECOPY, &flOldProtect)) {
+        if (VirtualProtect(pIDirectXVideoDecoderServiceC->lpVtbl, sizeof(IDirectXVideoDecoderServiceCVtbl), PAGE_EXECUTE_WRITECOPY, &flOldProtect)) {
 
             CreateVideoDecoderOrg = pIDirectXVideoDecoderServiceC->lpVtbl->CreateVideoDecoder;
             pIDirectXVideoDecoderServiceC->lpVtbl->CreateVideoDecoder = CreateVideoDecoderMine;
