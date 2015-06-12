@@ -2618,7 +2618,7 @@ STDMETHODIMP_(bool) CSyncAP::Paint(IMFSample* pMFSample)
     m_pCurrentlyDisplayedSample = pMFSample;
     pMFSample->GetUINT32(GUID_SURFACE_INDEX, (UINT32*)&m_nCurSurface);
 
-    auto sampleHasCurrentGroupId = [this](IMFSample* pSample) {
+    auto sampleHasCurrentGroupId = [this](IMFSample * pSample) {
         UINT32 nGroupId;
         return (SUCCEEDED(pSample->GetUINT32(GUID_GROUP_ID, &nGroupId)) && nGroupId == m_nCurrentGroupId);
     };
@@ -3183,7 +3183,7 @@ bool CSyncAP::GetSampleFromMixer()
     UINT dwSurface;
     bool newSample = false;
 
-    auto sampleHasCurrentGroupId = [this](IMFSample* pSample) {
+    auto sampleHasCurrentGroupId = [this](IMFSample * pSample) {
         UINT32 nGroupId;
         return (SUCCEEDED(pSample->GetUINT32(GUID_GROUP_ID, &nGroupId)) && nGroupId == m_nCurrentGroupId);
     };
@@ -3277,7 +3277,6 @@ STDMETHODIMP CSyncAP::InitServicePointers(__in IMFTopologyServiceLookup* pLookup
 STDMETHODIMP CSyncAP::ReleaseServicePointers()
 {
     StopWorkerThreads();
-    m_pCurrentlyDisplayedSample = nullptr;
     m_pMixer = nullptr;
     m_pSink = nullptr;
     m_pClock = nullptr;
@@ -3674,6 +3673,16 @@ void CSyncAP::RenderThread()
     DWORD dwResolution = std::min(std::max(tc.wPeriodMin, 0u), tc.wPeriodMax);
     VERIFY(timeBeginPeriod(dwResolution) == 0);
 
+    auto checkPendingMediaFinished = [this]() {
+        if (m_bPendingMediaFinished) {
+            CAutoLock lock(&m_SampleQueueLock);
+            if (m_ScheduledSamples.IsEmpty()) {
+                m_bPendingMediaFinished = false;
+                m_pSink->Notify(EC_COMPLETE, 0, 0);
+            }
+        }
+    };
+
     while (!bQuit) {
         m_lNextSampleWait = 1; // Default value for running this loop
         int nSamplesLeft = 0;
@@ -3693,6 +3702,7 @@ void CSyncAP::RenderThread()
                     m_lNextSampleWait = 0;  // Present immediately
                 } else if (SUCCEEDED(pNewSample->GetSampleTime(&m_llSampleTime))) { // Get zero-based sample due time
                     if (m_llLastSampleTime == m_llSampleTime) { // In the rare case there are duplicate frames in the movie. There really shouldn't be but it happens.
+                        checkPendingMediaFinished();
                         pNewSample = nullptr;
                         m_lNextSampleWait = 0;
                     } else {
@@ -3769,6 +3779,8 @@ void CSyncAP::RenderThread()
                         }
                     }
                 } // if got new sample
+            } else {
+                checkPendingMediaFinished();
             }
         }
         // Wait for the next presentation time (m_lNextSampleWait) or some other event.
@@ -3779,6 +3791,7 @@ void CSyncAP::RenderThread()
                 break;
 
             case WAIT_OBJECT_0 + 1: // Flush
+                checkPendingMediaFinished();
                 pNewSample = nullptr;
                 FlushSamples();
                 m_bEvtFlush = false;
@@ -3798,6 +3811,7 @@ void CSyncAP::RenderThread()
 
             case WAIT_TIMEOUT: // Time to show the sample or something
                 if (m_LastSetOutputRange != -1 && m_LastSetOutputRange != r.m_AdvRendSets.iEVROutputRange || m_bPendingRenegotiate) {
+                    checkPendingMediaFinished();
                     pNewSample = nullptr;
                     FlushSamples();
                     RenegotiateMediaType();
@@ -3805,6 +3819,7 @@ void CSyncAP::RenderThread()
                 }
 
                 if (m_bPendingResetDevice) {
+                    checkPendingMediaFinished();
                     pNewSample = nullptr;
                     SendResetRequest();
                 } else if (m_nStepCount < 0) {
@@ -3827,6 +3842,7 @@ void CSyncAP::RenderThread()
                 break;
         } // switch
         if (stepForward) {
+            checkPendingMediaFinished();
             pNewSample = nullptr;
         }
     } // while
@@ -3923,10 +3939,6 @@ void CSyncAP::PutToFreeList(IMFSample* pSample, bool bTail)
     CAutoLock lock(&m_SampleQueueLock);
 
     m_nUsedBuffer--;
-    if (m_bPendingMediaFinished && m_nUsedBuffer == 0) {
-        m_bPendingMediaFinished = false;
-        m_pSink->Notify(EC_COMPLETE, 0, 0);
-    }
     if (bTail) {
         m_FreeSamples.AddTail(pSample);
     } else {
@@ -3951,6 +3963,7 @@ void CSyncAP::FlushSamples()
     CAutoLock lock2(&m_SampleQueueLock);
 
     m_bPrerolled = false;
+    m_pCurrentlyDisplayedSample = nullptr;
     m_ScheduledSamples.RemoveAll();
 }
 
