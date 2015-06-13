@@ -1,9 +1,15 @@
-[submodule "lcms2"]
-    path = src/thirdparty/lcms2/library
-    url = https://github.com/mm2/Little-CMS.git
-[submodule "RARFileSource"]
-    path = src/thirdparty/RARFileSource/library
-    url = https://github.com/mpc-hc/rarfilesource.git
 [submodule "LAVFilters"]
     path = src/thirdparty/LAVFilters/src
     url = https://github.com/mpc-hc/LAVFilters.git
+[submodule "lcms2"]
+    path = src/thirdparty/lcms2/library
+    url = https://github.com/mm2/Little-CMS.git
+[submodule "MediaInfoLib"]
+    path = src/thirdparty/MediaInfo/library
+    url = https://github.com/MediaArea/MediaInfoLib.git
+[submodule "RARFileSource"]
+    path = src/thirdparty/RARFileSource/library
+    url = https://github.com/mpc-hc/rarfilesource.git
+[submodule "ZenLib"]
+    path = src/thirdparty/ZenLib/library
+    url = https://github.com/MediaArea/ZenLib.git

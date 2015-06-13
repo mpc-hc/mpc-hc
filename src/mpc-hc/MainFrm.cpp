@@ -128,7 +128,7 @@ static UINT s_uTBBC = RegisterWindowMessage(_T("TaskbarButtonCreated"));
 #include "MediaInfo/MediaInfo.h"
 using namespace MediaInfoLib;
 #else
-#include "MediaInfoDLL.h"
+#include "MediaInfoDLL/MediaInfoDLL.h"
 using namespace MediaInfoDLL;
 #endif
 
