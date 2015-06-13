@@ -47,12 +47,6 @@
 #define SHADERS_DIR _T("Shaders")
 #define SHADERS_EXT _T(".hlsl")
 
-// If you distribute your builds, please disable minidumps by defining ENABLE_MINIDUMP 0.
-#define ENABLE_MINIDUMP 1
-
-// Minidump is not always enough, by defining ENABLE_MINIDUMP 1 full memory dump will be generated upon crash.
-#define ENABLE_FULLDUMP 0
-
 // If this is enabled, the registered LAV Filters can be loaded as internal filters
 #define ENABLE_LOAD_EXTERNAL_LAVF_AS_INTERNAL 0
 
