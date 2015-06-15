@@ -2,13 +2,14 @@
 # Copyright (C) 2002 - 2014 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# Ken <ken670128@yahoo.com.tw>, 2015
 # Peter Chen <petercpg@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2014-06-17 15:23:34+0000\n"
-"PO-Revision-Date: 2014-07-07 08:49+0000\n"
-"Last-Translator: JellyFrog\n"
+"PO-Revision-Date: 2015-06-16 09:35+0000\n"
+"Last-Translator: Ken <ken670128@yahoo.com.tw>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/mpc-hc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -50,7 +51,7 @@ msgstr "此版的 MPC-HC 須要有支援 SSE2 延伸指令集的 CPU。\n\n您�
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
-msgstr ""
+msgstr "參觀我們的 Wiki 網頁以下載工具列圖示"
 
 msgctxt "CustomMessages_tsk_AllUsers"
 msgid "For all users"

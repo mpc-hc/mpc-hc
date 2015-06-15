@@ -13,8 +13,8 @@ next version - not released yet
 + Add Indonesian translation
 * Updated LAV Filters to v0.65.0.20:
     - LAV Video Decoder: Allow hardware decoding of UHD video with AMD cards
-* Updated Armenian, Bengali, British English, Catalan, Croatian, Danish, Dutch, German, Japanese,
-  Swedish, Thai, Turkish and Vietnamese translations
+* Updated Armenian, Bengali, British English, Catalan, Chinese (Traditional), Croatian, Danish, Dutch,
+  German, Japanese, Swedish, Thai, Turkish and Vietnamese translations
 ! Ticket #5454, Deleting an item from the playlist sometimes did not work when shuffle mode was enabled
 
 

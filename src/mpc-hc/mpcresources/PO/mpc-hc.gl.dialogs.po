@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-05-17 20:47:27+0000\n"
-"PO-Revision-Date: 2015-05-27 14:16+0000\n"
+"PO-Revision-Date: 2015-06-17 05:53+0000\n"
 "Last-Translator: Rubén <feiticeiro2010@hotmail.es>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/mpc-hc/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -187,7 +187,7 @@ msgstr "Engadir á lista de reprodución sen abrir"
 
 msgctxt "IDD_ABOUTBOX_CAPTION"
 msgid "About"
-msgstr "Acerca De"
+msgstr "Acerca de"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
 msgid "Copyright © 2002-2015 see Authors.txt"
@@ -603,7 +603,7 @@ msgstr "Establecer como programa pre&definido"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Real-Time Streaming Protocol handler (for rtsp://... URLs)"
-msgstr "Xestor do Protocolo de Transmisións en Tempo Real (para rtsp://... URLs)"
+msgstr "Xestor do protocolo de Transmisións en tempo real (para rtsp://... URLs)"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_RADIO1"
 msgid "RealMedia"
@@ -787,7 +787,7 @@ msgstr "Ubicación:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Description:"
-msgstr "Descripción:"
+msgstr "Descrición:"
 
 msgctxt "IDD_FAVADD_CAPTION"
 msgid "Add Favorite"
@@ -1147,7 +1147,7 @@ msgstr "Reinicializar ao cambiar pantalla"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "D3D Fullscreen"
-msgstr "D3D en Pantalla completa"
+msgstr "D3D en pantalla completa"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Alternative VSync"
@@ -1243,7 +1243,7 @@ msgstr "Substitue os subtítulos cargados actualmente"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
-msgstr "Gardar Como..."
+msgstr "Gardar como..."
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Color controls (for VMR-9, EVR and madVR)"
@@ -1475,7 +1475,7 @@ msgstr "Saír da pantalla completa ao rematar"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Fullscreen monitor"
-msgstr "Monitor da Pantalla Completa"
+msgstr "Monitor da pantalla completa"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK2"
 msgid "Use autochange fullscreen monitor mode"

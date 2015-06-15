@@ -954,7 +954,7 @@ zh_TW.msg_simd_sse=此版的 MPC-HC 需要有支援 SSE 延伸指令集的 CPU�
 #elif defined(sse2_required)
 zh_TW.msg_simd_sse2=此版的 MPC-HC 須要有支援 SSE2 延伸指令集的 CPU。%n%n您的 CPU 並未相容這些功能。
 #endif
-zh_TW.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
+zh_TW.run_DownloadToolbarImages=參觀我們的 Wiki 網頁以下載工具列圖示
 zh_TW.tsk_AllUsers=安裝給所有使用者
 zh_TW.tsk_CurrentUser=僅安裝給目前使用者
 zh_TW.tsk_Other=其它工作：

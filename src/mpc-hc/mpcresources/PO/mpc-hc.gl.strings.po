@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-05-21 13:30:54+0000\n"
-"PO-Revision-Date: 2015-05-27 14:16+0000\n"
+"PO-Revision-Date: 2015-06-17 05:51+0000\n"
 "Last-Translator: Rubén <feiticeiro2010@hotmail.es>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/mpc-hc/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -195,11 +195,11 @@ msgstr "Configuracións de captura"
 
 msgctxt "IDS_NAVIGATION_BAR"
 msgid "Navigation Bar"
-msgstr "Barra de Navegación"
+msgstr "Barra de navegación"
 
 msgctxt "IDS_SUBRESYNC_CAPTION"
 msgid "Subresync"
-msgstr "Resincronizar Subtítulos"
+msgstr "Resincronizar subtítulos"
 
 msgctxt "IDS_SUBRESYNC_CLN_TIME"
 msgid "Time"
@@ -383,7 +383,7 @@ msgstr "&Copiar ao portapapeis"
 
 msgctxt "IDS_PLAYLIST_SAVEAS"
 msgid "&Save As..."
-msgstr "&Gardar Como..."
+msgstr "&Gardar como..."
 
 msgctxt "IDS_PLAYLIST_SORTBYLABEL"
 msgid "Sort by &label"
@@ -575,7 +575,7 @@ msgstr "Reprodución::Captura"
 
 msgctxt "IDD_PPAGESYNC"
 msgid "Playback::Sync Renderer Settings"
-msgstr "Reprodución::Axustes do Renderizador de Sincronización"
+msgstr "Reprodución::Axustes do renderizador de sincronización"
 
 msgctxt "IDD_PPAGEFULLSCREEN"
 msgid "Playback::Fullscreen"
@@ -979,7 +979,7 @@ msgstr "EDL Novo Clip"
 
 msgctxt "IDS_RECENT_FILES_CLEAR"
 msgid "&Clear list"
-msgstr "&Lista Borrada"
+msgstr "&Lista borrada"
 
 msgctxt "IDS_RECENT_FILES_QUESTION"
 msgid "Are you sure that you want to delete recent files list?"
@@ -991,7 +991,7 @@ msgstr "Gardado de EDL"
 
 msgctxt "IDS_AG_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time Correction"
-msgstr "Activar Correción de Tempos en Cadros"
+msgstr "Activar correción de tempos en cadros"
 
 msgctxt "IDS_AG_TOGGLE_EDITLISTEDITOR"
 msgid "Toggle EDL window"
@@ -1043,7 +1043,7 @@ msgstr "Zoom a Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_PLAYLIST_HIDEFS"
 msgid "Hide on Fullscreen"
-msgstr "Agochar en Pantalla Completa"
+msgstr "Agochar en pantalla completa"
 
 msgctxt "IDS_CONTROLS_STOPPED"
 msgid "Stopped"
@@ -1103,7 +1103,7 @@ msgstr "Clasificación"
 
 msgctxt "IDS_INFOBAR_DESCRIPTION"
 msgid "Description"
-msgstr "Descripción"
+msgstr "Descrición"
 
 msgctxt "IDS_INFOBAR_DOMAIN"
 msgid "Domain"
@@ -1395,11 +1395,11 @@ msgstr "Tras a reprodución: Pechar"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
-msgstr "Abrir Dispositivo"
+msgstr "Abrir dispositivo"
 
 msgctxt "IDS_AG_SAVE_AS"
 msgid "Save As"
-msgstr "Gardar Como"
+msgstr "Gardar como"
 
 msgctxt "IDS_AG_SAVE_IMAGE"
 msgid "Save Image"
@@ -1407,7 +1407,7 @@ msgstr "Gardar Imaxe"
 
 msgctxt "IDS_MPLAYERC_6"
 msgid "Save Image (auto)"
-msgstr "Gardar Imaxe (Automático)"
+msgstr "Gardar Imaxe (automático)"
 
 msgctxt "IDS_OSD_IMAGE_SAVED"
 msgid "Image saved successfully"
@@ -1419,7 +1419,7 @@ msgstr "Cargar Subtítulo"
 
 msgctxt "IDS_AG_SAVE_SUBTITLE"
 msgid "Save Subtitle"
-msgstr "Gardar Subtítulo"
+msgstr "Gardar subtítulo"
 
 msgctxt "IDS_AG_PROPERTIES"
 msgid "Properties"
@@ -1651,7 +1651,7 @@ msgstr "Ficheiro Anterior"
 
 msgctxt "IDS_MPLAYERC_99"
 msgid "Toggle Direct3D fullscreen"
-msgstr "Interruptor de Direct3D en Pantalla Completa"
+msgstr "Interruptor de Direct3D en pantalla completa"
 
 msgctxt "IDS_MPLAYERC_100"
 msgid "Goto Prev Subtitle"
@@ -1663,11 +1663,11 @@ msgstr "Ir a Sub Seguinte"
 
 msgctxt "IDS_MPLAYERC_102"
 msgid "Shift Subtitle Left"
-msgstr "Mover Sub á Esquerda"
+msgstr "Mover sub á esquerda"
 
 msgctxt "IDS_MPLAYERC_103"
 msgid "Shift Subtitle Right"
-msgstr "Mover Sub á Dereita"
+msgstr "Mover sub á dereita"
 
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"
@@ -1699,7 +1699,7 @@ msgstr "Cadro soamente"
 
 msgctxt "IDS_VIEW_CAPTIONMENU"
 msgid "Sho&w Caption&&Menu"
-msgstr "Amosar Menú &&Subtítulos"
+msgstr "Amosar menú &&subtítulos"
 
 msgctxt "IDS_VIEW_HIDEMENU"
 msgid "Hide &Menu"
@@ -1731,7 +1731,7 @@ msgstr "Pantalla completa (sen cambio de resolución)"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT"
 msgid "Zoom Auto Fit"
-msgstr "Zoom Auto Axustar"
+msgstr "Zoom Auto axustar"
 
 msgctxt "IDS_AG_VIDFRM_HALF"
 msgid "VidFrm Half"
@@ -1747,7 +1747,7 @@ msgstr "VidFrm Dobre"
 
 msgctxt "IDS_AG_ALWAYS_ON_TOP"
 msgid "Always On Top"
-msgstr "Sempre Visible"
+msgstr "Sempre visible"
 
 msgctxt "IDS_AG_PNS_INC_SIZE"
 msgid "PnS Inc Size"
@@ -1755,11 +1755,11 @@ msgstr "PnS Inc Tamaño"
 
 msgctxt "IDS_AG_PNS_INC_WIDTH"
 msgid "PnS Inc Width"
-msgstr "PnS Inc Ancho"
+msgstr "PnS Inc ancho"
 
 msgctxt "IDS_MPLAYERC_47"
 msgid "PnS Inc Height"
-msgstr "PnS Inc Altura"
+msgstr "PnS Inc altura"
 
 msgctxt "IDS_AG_PNS_DEC_SIZE"
 msgid "PnS Dec Size"
@@ -1767,11 +1767,11 @@ msgstr "PnS Dec Tamaño"
 
 msgctxt "IDS_AG_PNS_DEC_WIDTH"
 msgid "PnS Dec Width"
-msgstr "PnS Dec Ancho"
+msgstr "PnS Dis ancho"
 
 msgctxt "IDS_MPLAYERC_50"
 msgid "PnS Dec Height"
-msgstr "PnS Inc Altura"
+msgstr "PnS Dis altura"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
 msgid "Downloading subtitle(s), please wait."
@@ -1863,7 +1863,7 @@ msgstr "PnS Arriba/Esquerda"
 
 msgctxt "IDS_AG_PNS_UPRIGHT"
 msgid "PnS Up/Right"
-msgstr "PnS Up/Dereita"
+msgstr "PnS Arriba/Dereita"
 
 msgctxt "IDS_AG_PNS_DOWNLEFT"
 msgid "PnS Down/Left"
@@ -1887,55 +1887,55 @@ msgstr "Silenciar"
 
 msgctxt "IDS_MPLAYERC_63"
 msgid "DVD Title Menu"
-msgstr "Menú de Titulos do DVD"
+msgstr "Menú de títulos do DVD"
 
 msgctxt "IDS_AG_DVD_ROOT_MENU"
 msgid "DVD Root Menu"
-msgstr "Menú Raíz do DVD"
+msgstr "Menú raíz do DVD"
 
 msgctxt "IDS_MPLAYERC_65"
 msgid "DVD Subtitle Menu"
-msgstr "Menú de Subtítulos do DVD"
+msgstr "Menú de subtítulos do DVD"
 
 msgctxt "IDS_MPLAYERC_66"
 msgid "DVD Audio Menu"
-msgstr "Menú de Audio do DVD"
+msgstr "Menú de audio do DVD"
 
 msgctxt "IDS_MPLAYERC_67"
 msgid "DVD Angle Menu"
-msgstr "Menú de Ángulo do DVD"
+msgstr "Menú de ángulo do DVD"
 
 msgctxt "IDS_MPLAYERC_68"
 msgid "DVD Chapter Menu"
-msgstr "Menú de Capítulos do DVD"
+msgstr "Menú de capítulos do DVD"
 
 msgctxt "IDS_AG_DVD_MENU_LEFT"
 msgid "DVD Menu Left"
-msgstr "DVD Menú Esquerda"
+msgstr "DVD Menú esquerda"
 
 msgctxt "IDS_MPLAYERC_70"
 msgid "DVD Menu Right"
-msgstr "DVD Menú Dereita"
+msgstr "DVD Menú dereita"
 
 msgctxt "IDS_AG_DVD_MENU_UP"
 msgid "DVD Menu Up"
-msgstr "DVD Menú Arriba"
+msgstr "DVD Menú arriba"
 
 msgctxt "IDS_AG_DVD_MENU_DOWN"
 msgid "DVD Menu Down"
-msgstr "DVD Menú Abaixo"
+msgstr "DVD Menú abaixo"
 
 msgctxt "IDS_MPLAYERC_73"
 msgid "DVD Menu Activate"
-msgstr "DVD Menú Activar"
+msgstr "DVD Menú activar"
 
 msgctxt "IDS_AG_DVD_MENU_BACK"
 msgid "DVD Menu Back"
-msgstr "DVD Menú Voltar"
+msgstr "DVD Menú voltar"
 
 msgctxt "IDS_MPLAYERC_75"
 msgid "DVD Menu Leave"
-msgstr "DVD Menú Deixar"
+msgstr "DVD Menú deixar"
 
 msgctxt "IDS_AG_BOSS_KEY"
 msgid "Boss key"
@@ -1951,7 +1951,7 @@ msgstr "Menú do reprodutor (completo)"
 
 msgctxt "IDS_AG_FILTERS_MENU"
 msgid "Filters Menu"
-msgstr "Menú de Filtros"
+msgstr "Menú de filtros"
 
 msgctxt "IDS_AG_OPTIONS"
 msgid "Options"
@@ -2175,11 +2175,11 @@ msgstr "DVD: Fallo por Macrovision"
 
 msgctxt "IDS_MAINFRM_22"
 msgid "DVD: Incompatible System And Decoder Regions"
-msgstr "DVD: Sistema e Decodificador de Rexións Incompatibles"
+msgstr "DVD: Sistema e decodificador de rexións incompatibles"
 
 msgctxt "IDS_MAINFRM_23"
 msgid "DVD: Incompatible Disc And Decoder Regions"
-msgstr "DVD: Disco e Decodificador de Rexións Incompatibles"
+msgstr "DVD: Disco e decodificador de rexións incompatibles"
 
 msgctxt "IDS_D3DFS_WARNING"
 msgid "This option is designed to avoid tearing. However, it will also prevent MPC-HC from displaying the context menu and any dialog box during playback.\n\nDo you really want to activate this option?"
@@ -2219,7 +2219,7 @@ msgstr "Versión do protocolo non compatible, actualiza o teu reprodutor ou esco
 
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
-msgstr "Relación de Aspecto"
+msgstr "Relación de aspecto"
 
 msgctxt "IDS_MAINFRM_37"
 msgid ", Total: %ld, Dropped: %ld"
@@ -2319,11 +2319,11 @@ msgstr "Ficheiros de subtìtulos"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %ld:%ld"
-msgstr "Relación de Aspecto: %ld:%ld"
+msgstr "Relación de aspecto: %ld:%ld"
 
 msgctxt "IDS_MAINFRM_69"
 msgid "Aspect Ratio: Default"
-msgstr "Relación de Aspecto: Orixinal"
+msgstr "Relación de aspecto: Orixinal"
 
 msgctxt "IDS_MAINFRM_70"
 msgid "Audio delay: %I64d ms"
@@ -2407,7 +2407,7 @@ msgstr "Pausa"
 
 msgctxt "IDS_AG_TOGGLE_CAPTION"
 msgid "Toggle Caption&Menu"
-msgstr "Amosar Menú de &Captura"
+msgstr "Amosar menú de &captura"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
 msgid "Toggle Seek Bar"
@@ -2499,7 +2499,7 @@ msgstr " propiedades (do pin)..."
 
 msgctxt "IDS_AG_UNKNOWN_STREAM"
 msgid "Unknown Stream"
-msgstr "Pista Descoñecida"
+msgstr "Pista descoñecida"
 
 msgctxt "IDS_AG_UNKNOWN"
 msgid "Unknown %u"
@@ -2507,7 +2507,7 @@ msgstr "%u Descoñecida"
 
 msgctxt "IDS_AG_VSYNC"
 msgid "VSync"
-msgstr "VSync (Sincronia Vertical)"
+msgstr "VSync (Sincronia vertical)"
 
 msgctxt "IDS_MAINFRM_121"
 msgid " (Director Comments 1)"
@@ -2539,7 +2539,7 @@ msgstr "Diminuír desprazamento VSync"
 
 msgctxt "IDS_MAINFRM_136"
 msgid "MPC-HC D3D Fullscreen"
-msgstr "Pantalla Completa MPC-HC D3D"
+msgstr "Pantalla completa MPC-HC D3D"
 
 msgctxt "IDS_MAINFRM_137"
 msgid "Unknown format"
@@ -2587,15 +2587,15 @@ msgstr "Amosar Estado"
 
 msgctxt "IDS_AG_TOGGLE_SUBRESYNC"
 msgid "Toggle Subresync Bar"
-msgstr "Amosar Barra de Resincronizar Subtítulos"
+msgstr "Amosar barra de resincronizar subtítulos"
 
 msgctxt "IDS_AG_TOGGLE_PLAYLIST"
 msgid "Toggle Playlist Bar"
-msgstr "Amosar Barra da Lista de Reprodución"
+msgstr "Amosar barra da lista de reprodución"
 
 msgctxt "IDS_AG_TOGGLE_CAPTURE"
 msgid "Toggle Capture Bar"
-msgstr "Amosar Barra de Captura"
+msgstr "Amosar barra de captura"
 
 msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
 msgid "Toggle Debug Shaders"
@@ -2807,7 +2807,7 @@ msgstr "Inhabilitar todos os decodificadores de vídeo"
 
 msgctxt "IDS_STRETCH_TO_WINDOW"
 msgid "Stretch To Window"
-msgstr "Axustar á Xanela"
+msgstr "Axustar á xanela"
 
 msgctxt "IDS_TOUCH_WINDOW_FROM_INSIDE"
 msgid "Touch Window From Inside"
@@ -3039,7 +3039,7 @@ msgstr "Resolución"
 
 msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
 msgid "Aspect Ratio"
-msgstr "Relación de Aspecto"
+msgstr "Relación de aspecto"
 
 msgctxt "IDS_ARS_WASAPI_MODE"
 msgid "Use WASAPI (restart playback)"
@@ -3175,11 +3175,11 @@ msgstr "Agardar polo baleiramento da GPU: Apagado"
 
 msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_ON"
 msgid "D3D Fullscreen: On"
-msgstr "D3D en Pantalla completa: Encendido"
+msgstr "D3D en pantalla completa: Encendido"
 
 msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_OFF"
 msgid "D3D Fullscreen: Off"
-msgstr "D3D en Pantalla completa: Apagado"
+msgstr "D3D en pantalla completa: Apagado"
 
 msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_ON"
 msgid "Disable desktop composition: On"
