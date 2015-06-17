@@ -1111,7 +1111,7 @@ bool CEVRAllocatorPresenter::GetImageFromMixer()
         }
 
         if (hr == MF_E_TRANSFORM_NEED_MORE_INPUT) {
-            PutToFreeList(pSample, false);
+            AddToFreeList(pSample, false);
             pSample = nullptr; // The sample should not be used after being queued
             // Important: Release any events returned from the ProcessOutput method.
             SAFE_RELEASE(dataBuffer.pEvents);
@@ -1146,7 +1146,7 @@ bool CEVRAllocatorPresenter::GetImageFromMixer()
         TRACE_EVR("EVR: Get from Mixer : %u  (%I64d) (%I64d)\n", dwSurface, nsSampleTime, m_rtTimePerFrame ? nsSampleTime / m_rtTimePerFrame : 0);
 
         if (SUCCEEDED(TrackSample(pSample))) {
-            PutToScheduledList(pSample, false);
+            AddToScheduledList(pSample, false);
             pSample = nullptr; // The sample should not be used after being queued
             bDoneSomething = true;
         } else {
@@ -1519,7 +1519,8 @@ STDMETHODIMP CEVRAllocatorPresenter::InitializeDevice(IMFMediaType* pMediaType)
             if (SUCCEEDED(hr)) {
                 pMFSample->SetUINT32(GUID_GROUP_ID, m_nCurrentGroupId);
                 pMFSample->SetUINT32(GUID_SURFACE_INDEX, i);
-                PutToFreeList(pMFSample, true);
+                CAutoLock sampleQueueLock(&m_SampleQueueLock);
+                m_FreeSamples.AddTail(pMFSample);
                 pMFSample = nullptr; // The sample should not be used after being queued
             }
             ASSERT(SUCCEEDED(hr));
@@ -1915,7 +1916,8 @@ STDMETHODIMP_(bool) CEVRAllocatorPresenter::ResetDevice()
         if (SUCCEEDED(hr)) {
             pMFSample->SetUINT32(GUID_GROUP_ID, m_nCurrentGroupId);
             pMFSample->SetUINT32(GUID_SURFACE_INDEX, i);
-            PutToFreeList(pMFSample, true);
+            CAutoLock sampleQueueLock(&m_SampleQueueLock);
+            m_FreeSamples.AddTail(pMFSample);
             pMFSample = nullptr; // The sample should not be used after being queued
         }
         ASSERT(SUCCEEDED(hr));
@@ -2314,7 +2316,7 @@ void CEVRAllocatorPresenter::RenderThread()
                             m_MaxSampleDuration = std::max(SampleDuration, m_MaxSampleDuration);
                             checkPendingMediaFinished();
                         } else {
-                            PutToScheduledList(pMFSample, true);
+                            AddToScheduledList(pMFSample, true);
                             pMFSample = nullptr; // The sample should not be used after being queued
                         }
 
@@ -2577,7 +2579,7 @@ HRESULT CEVRAllocatorPresenter::GetScheduledSample(IMFSample** ppSample, int& co
     return hr;
 }
 
-void CEVRAllocatorPresenter::PutToFreeList(IMFSample* pSample, bool bTail)
+void CEVRAllocatorPresenter::AddToFreeList(IMFSample* pSample, bool bTail)
 {
     CAutoLock lock(&m_SampleQueueLock);
 
@@ -2589,7 +2591,7 @@ void CEVRAllocatorPresenter::PutToFreeList(IMFSample* pSample, bool bTail)
     }
 }
 
-void CEVRAllocatorPresenter::PutToScheduledList(IMFSample* pSample, bool bSorted)
+void CEVRAllocatorPresenter::AddToScheduledList(IMFSample* pSample, bool bSorted)
 {
     CAutoLock lock(&m_SampleQueueLock);
 
@@ -2850,7 +2852,7 @@ HRESULT CEVRAllocatorPresenter::OnSampleFree(IMFAsyncResult* pResult)
             // Ignore the sample if it is from an old group
             UINT32 nGroupId;
             if (SUCCEEDED(pSample->GetUINT32(GUID_GROUP_ID, &nGroupId)) && nGroupId == m_nCurrentGroupId) {
-                PutToFreeList(pSample, true);
+                AddToFreeList(pSample, true);
                 pSample = nullptr; // The sample should not be used after being queued
                 CheckWaitingSampleFromMixer();
             }

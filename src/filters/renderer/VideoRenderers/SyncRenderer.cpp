@@ -3206,7 +3206,7 @@ bool CSyncAP::GetSampleFromMixer()
         }
 
         if (hr == MF_E_TRANSFORM_NEED_MORE_INPUT) { // There are no samples left in the mixer
-            PutToFreeList(pSample, false);
+            AddToFreeList(pSample, false);
             pSample = nullptr; // The sample should not be used after being queued
             // Important: Release any events returned from the ProcessOutput method.
             SAFE_RELEASE(dataBuffer.pEvents);
@@ -3236,7 +3236,7 @@ bool CSyncAP::GetSampleFromMixer()
         }
 
         if (SUCCEEDED(TrackSample(pSample))) {
-            PutToScheduledList(pSample, false); // Schedule, then go back to see if there is more where that came from
+            AddToScheduledList(pSample, false); // Schedule, then go back to see if there is more where that came from
             pSample = nullptr; // The sample should not be used after being queued
         } else {
             ASSERT(FALSE);
@@ -3577,7 +3577,8 @@ STDMETHODIMP CSyncAP::InitializeDevice(AM_MEDIA_TYPE* pMediaType)
         if (SUCCEEDED(hr)) {
             pMFSample->SetUINT32(GUID_GROUP_ID, m_nCurrentGroupId);
             pMFSample->SetUINT32(GUID_SURFACE_INDEX, i);
-            PutToFreeList(pMFSample, true);
+            CAutoLock sampleQueueLock(&m_SampleQueueLock);
+            m_FreeSamples.AddTail(pMFSample);
             pMFSample = nullptr; // The sample should not be used after being queued
         }
         ASSERT(SUCCEEDED(hr));
@@ -3869,7 +3870,8 @@ STDMETHODIMP_(bool) CSyncAP::ResetDevice()
         if (SUCCEEDED(hr)) {
             pMFSample->SetUINT32(GUID_GROUP_ID, m_nCurrentGroupId);
             pMFSample->SetUINT32(GUID_SURFACE_INDEX, i);
-            PutToFreeList(pMFSample, true);
+            CAutoLock sampleQueueLock(&m_SampleQueueLock);
+            m_FreeSamples.AddTail(pMFSample);
             pMFSample = nullptr; // The sample should not be used after being queued
         }
         ASSERT(SUCCEEDED(hr));
@@ -3934,7 +3936,7 @@ HRESULT CSyncAP::GetScheduledSample(IMFSample** ppSample, int& count)
     return hr;
 }
 
-void CSyncAP::PutToFreeList(IMFSample* pSample, bool bTail)
+void CSyncAP::AddToFreeList(IMFSample* pSample, bool bTail)
 {
     CAutoLock lock(&m_SampleQueueLock);
 
@@ -3946,7 +3948,7 @@ void CSyncAP::PutToFreeList(IMFSample* pSample, bool bTail)
     }
 }
 
-void CSyncAP::PutToScheduledList(IMFSample* pSample, bool bSorted)
+void CSyncAP::AddToScheduledList(IMFSample* pSample, bool bSorted)
 {
     CAutoLock lock(&m_SampleQueueLock);
 
@@ -3985,7 +3987,7 @@ HRESULT CSyncAP::OnSampleFree(IMFAsyncResult* pResult)
             // Ignore the sample if it is from an old group
             UINT32 nGroupId;
             if (SUCCEEDED(pSample->GetUINT32(GUID_GROUP_ID, &nGroupId)) && nGroupId == m_nCurrentGroupId) {
-                PutToFreeList(pSample, true);
+                AddToFreeList(pSample, true);
                 pSample = nullptr; // The sample should not be used after being queued
             }
         }
