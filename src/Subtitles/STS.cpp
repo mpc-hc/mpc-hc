@@ -2423,7 +2423,7 @@ bool CSimpleTextSubtitle::GetStyle(CString styleName, STSStyle& stss)
 int CSimpleTextSubtitle::GetCharSet(int i)
 {
     const STSStyle* stss = GetStyle(i);
-    return stss->charSet;
+    return stss ? stss->charSet : DEFAULT_CHARSET;
 }
 
 bool CSimpleTextSubtitle::IsEntryUnicode(int i)
