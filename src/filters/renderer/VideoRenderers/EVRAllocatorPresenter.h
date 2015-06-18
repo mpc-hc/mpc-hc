@@ -199,7 +199,6 @@ namespace DSObjects
         CInterfaceList<IMFSample>        m_FreeSamples;
         CInterfaceList<IMFSample>        m_ScheduledSamples;
         CComPtr<IMFSample>               m_pCurrentlyDisplayedSample;
-        bool                             m_bWaitingSample;
         bool                             m_bLastSampleOffsetValid;
         LONGLONG                         m_LastScheduledSampleTime;
         double                           m_LastScheduledSampleTimeFP;
@@ -235,7 +234,6 @@ namespace DSObjects
         void                             StopWorkerThreads();
         HRESULT                          CheckShutdown() const;
         void                             CompleteFrameStep(bool bCancel);
-        void                             CheckWaitingSampleFromMixer();
         static DWORD WINAPI              VSyncThreadStatic(LPVOID lpParam);
         void                             VSyncThread();
 

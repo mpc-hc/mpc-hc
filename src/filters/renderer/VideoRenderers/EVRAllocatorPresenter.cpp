@@ -92,7 +92,6 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     , m_hVSyncThread(nullptr)
     , m_nRenderState(Shutdown)
     , m_nCurrentGroupId(0)
-    , m_bWaitingSample(false)
     , m_bLastSampleOffsetValid(false)
     , m_LastScheduledSampleTime(-1)
     , m_LastScheduledSampleTimeFP(-1)
@@ -1110,7 +1109,6 @@ bool CEVRAllocatorPresenter::GetImageFromMixer()
         CComPtr<IMFSample> pSample;
 
         if (FAILED(GetFreeSample(&pSample))) {
-            m_bWaitingSample = true;
             break;
         }
 
@@ -1559,14 +1557,6 @@ DWORD WINAPI CEVRAllocatorPresenter::PresentThread(LPVOID lpParam)
     CEVRAllocatorPresenter* pThis = (CEVRAllocatorPresenter*) lpParam;
     pThis->RenderThread();
     return 0;
-}
-
-void CEVRAllocatorPresenter::CheckWaitingSampleFromMixer()
-{
-    if (m_bWaitingSample) {
-        m_bWaitingSample = false;
-        //GetImageFromMixer(); // Do this in processing thread instead
-    }
 }
 
 bool ExtractInterlaced(const AM_MEDIA_TYPE* pmt)
@@ -2344,7 +2334,6 @@ void CEVRAllocatorPresenter::RenderThread()
                     } else {
                         checkPendingMediaFinished();
                     }
-                    //GetImageFromMixer();
                 }
                 //else
                 //{
@@ -2869,7 +2858,6 @@ HRESULT CEVRAllocatorPresenter::OnSampleFree(IMFAsyncResult* pResult)
             if (SUCCEEDED(pSample->GetUINT32(GUID_GROUP_ID, &nGroupId)) && nGroupId == m_nCurrentGroupId) {
                 AddToFreeList(pSample, true);
                 pSample = nullptr; // The sample should not be used after being queued
-                CheckWaitingSampleFromMixer();
             }
         }
     }
