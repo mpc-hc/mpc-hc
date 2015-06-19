@@ -5344,7 +5344,6 @@ void CMainFrame::OnFileISDBDownload()
         dlg.DoModal();
     } catch (CInternetException* ie) {
         ie->Delete();
-        return;
     }
 }
 
@@ -16567,7 +16566,6 @@ void CMainFrame::UpdateDXVAStatus()
         }
     }
     GetRenderersData()->m_strDXVAInfo = DXVAInfo;
-    return;
 }
 
 bool CMainFrame::GetDecoderType(CString& type) const
