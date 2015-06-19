@@ -551,7 +551,6 @@ public:
 
     CString GetFileName();
     CString GetCaptureTitle();
-    CString GetDigitalTVTitle();
 
     // shaders
     void SetShaders(bool bSetPreResize = true, bool bSetPostResize = true);

@@ -7019,8 +7019,14 @@ void CMainFrame::OnPlayPlay()
             if (!(m_pDVBState->pChannel)) {
                 CDVBChannel* pChannel = s.FindChannelByPref(s.nDVBLastChannel);
                 // Only for DVB
-                if (!(pChannel && pChannel->IsIPTV())) {
-                    SetChannel(s.nDVBLastChannel);
+                if (pChannel) {
+                    if (pChannel->IsDVB()) {
+                        SetChannel(s.nDVBLastChannel);
+                    } else { // pChannel->IsIPTV()
+                        m_pDVBState->bActive = true;
+                        m_pDVBState->pChannel = pChannel;
+                        m_pDVBState->sChannelName = pChannel->GetName();
+                    }
                 }
             }
             m_pDVBState->bSetChannelActive = false;
@@ -7086,6 +7092,9 @@ void CMainFrame::OnPlayPlay()
     }
     if (GetPlaybackMode() != PM_DIGITAL_TV) {
         m_OSD.DisplayMessage(OSD_TOPLEFT, strOSD, 3000);
+    } else if (m_pDVBState->pChannel && m_pDVBState->pChannel->IsIPTV()) {
+        MoveVideoWindow();
+        UpdateCurrentChannelInfo();
     }
 }
 
@@ -7195,7 +7204,11 @@ void CMainFrame::OnPlayStop()
             m_pMC->Stop();
             m_pDVDC->SetOption(DVD_ResetOnStop, FALSE);
         } else if (GetPlaybackMode() == PM_DIGITAL_TV) {
-            m_pMC->Stop();
+            OAFilterState nState;
+            m_pMC->GetState(500, &nState);
+            if (nState == State_Running) {
+                m_pMC->Stop();
+            }
             m_pDVBState->bActive = false;
             OpenSetupWindowTitle();
             m_wndStatusBar.SetStatusTimer(StrRes(IDS_CAPTURE_LIVE));
@@ -7235,16 +7248,19 @@ void CMainFrame::OnPlayStop()
         }
     }
 
-    if (!m_fEndOfStream && GetLoadState() == MLS::LOADED) {
-        CString strOSD(StrRes(ID_PLAY_STOP));
-        int i = strOSD.Find(_T("\n"));
-        if (i > 0) {
-            strOSD.Delete(i, strOSD.GetLength() - i);
+    // Show OSD only if not in the middle of a channel switch operation for digital TV
+    if (!(GetPlaybackMode() == PM_DIGITAL_TV && m_pDVBState && m_pDVBState->bSetChannelActive)) {
+        if (!m_fEndOfStream && GetLoadState() == MLS::LOADED) {
+            CString strOSD(StrRes(ID_PLAY_STOP));
+            int i = strOSD.Find(_T("\n"));
+            if (i > 0) {
+                strOSD.Delete(i, strOSD.GetLength() - i);
+            }
+            m_OSD.DisplayMessage(OSD_TOPLEFT, strOSD, 3000);
+            m_Lcd.SetStatusMessage(ResStr(IDS_CONTROLS_STOPPED), 3000);
+        } else {
+            m_fEndOfStream = false;
         }
-        m_OSD.DisplayMessage(OSD_TOPLEFT, strOSD, 3000);
-        m_Lcd.SetStatusMessage(ResStr(IDS_CONTROLS_STOPPED), 3000);
-    } else {
-        m_fEndOfStream = false;
     }
     SetPlayState(PS_STOP);
 }
@@ -7270,8 +7286,12 @@ void CMainFrame::OnUpdatePlayPauseStop(CCmdUI* pCmdUI)
                 fEnable = false;
             } else if (m_fLiveWM && pCmdUI->m_nID == ID_PLAY_PAUSE) {
                 fEnable = false;
-            } else if (GetPlaybackMode() == PM_DIGITAL_TV && pCmdUI->m_nID == ID_PLAY_PAUSE) {
-                fEnable = false; // Disable pause for digital capture mode to avoid accidental playback stop. We don't support time shifting yet.
+            } else if (GetPlaybackMode() == PM_DIGITAL_TV && 
+                (pCmdUI->m_nID == ID_PLAY_PAUSE || pCmdUI->m_nID == ID_PLAY_PLAY)) {
+                // Disable pause for digital TV to avoid accidental playback stop. We don't support time shifting yet.
+                // Also disable play to avoid problem with life streams when using the internal splitter
+                // Instead of play, we should select a channel
+                fEnable = false; 
             }
         } else if (GetPlaybackMode() == PM_DVD) {
             fEnable = m_iDVDDomain != DVD_DOMAIN_VideoManagerMenu
@@ -8695,8 +8715,6 @@ void CMainFrame::OnNavigateJumpTo(UINT nID)
         return;
     }
 
-    const CAppSettings& s = AfxGetAppSettings();
-
     if (GetPlaybackMode() == PM_FILE) {
         int id = nID - ID_NAVIGATE_JUMPTO_SUBITEM_START;
 
@@ -8739,11 +8757,9 @@ void CMainFrame::OnNavigateJumpTo(UINT nID)
     } else if (GetPlaybackMode() == PM_DIGITAL_TV) {
         int nChannel = nID - ID_NAVIGATE_JUMPTO_SUBITEM_START;
 
-        if (s.nDVBLastChannel != nChannel) {
-            if (SUCCEEDED(SetChannel(nChannel))) {
-                if (m_controls.ControlChecked(CMainFrameControls::Panel::NAVIGATION)) {
-                    m_wndNavigationBar.m_navdlg.UpdatePos(nChannel);
-                }
+        if (SUCCEEDED(SetChannel(nChannel))) {
+            if (m_controls.ControlChecked(CMainFrameControls::Panel::NAVIGATION)) {
+                m_wndNavigationBar.m_navdlg.UpdatePos(nChannel);
             }
         }
     }
@@ -15255,15 +15271,13 @@ HRESULT CMainFrame::SetChannel(int nChannel)
                 }
             } else if (pChannel->IsIPTV() && s.bEnabledIPTV) {
                 // IPTV
-                // Only switch channel if new channel != current channel  
-                if (pChannel != s.FindChannelByPref(s.nDVBLastChannel)) {
-                    // Rebuild graph
-                    m_nLockedZoomVideoWindow = 0;
-                    s.nDVBLastChannel = nChannel;
-                    m_wndNavigationBar.m_navdlg.SetChannelInfoAvailable(FALSE);
-                    m_pDVBState->pChannel = pChannel;
-                    hr = ReCreateGraph();
-                }
+                // Always rebuild graph
+                m_nLockedZoomVideoWindow = 0;
+                s.nDVBLastChannel = nChannel;
+                m_wndNavigationBar.m_navdlg.SetChannelInfoAvailable(FALSE);
+                m_pDVBState->pChannel = pChannel;
+                m_pDVBState->sChannelName = pChannel->GetName();
+                hr = ReCreateGraph();
             } else {
                 // The channel is IPTV and IPTV is not enabled
                 hr = E_INVALIDARG;
@@ -15324,6 +15338,9 @@ void CMainFrame::UpdateCurrentChannelInfo(bool bShowOSD /*= true*/, bool bShowIn
             }
             return infoData;
         });
+    }
+    else if (m_pDVBState && pChannel->IsIPTV()) {
+        PostMessage(WM_DVB_EIT_DATA_READY);
     }
 }
 
@@ -15416,6 +15433,13 @@ LRESULT CMainFrame::OnCurrentChannelInfoUpdated(WPARAM wParam, LPARAM lParam)
         if (infoData.bShowOSD) {
             m_OSD.DisplayMessage(OSD_TOPLEFT, sChannelInfo, 3500);
         }
+
+        // Update window title and skype status
+        OpenSetupWindowTitle();
+        SendNowPlayingToSkype();
+    } else if (m_pDVBState->pChannel->IsIPTV() && m_pDVBState->sChannelName) {
+        RecalcLayout();
+        m_OSD.DisplayMessage(OSD_TOPLEFT, m_pDVBState->sChannelName, 3500);
 
         // Update window title and skype status
         OpenSetupWindowTitle();
@@ -17042,23 +17066,21 @@ CString CMainFrame::GetCaptureTitle()
     CString title;
 
     title.LoadString(IDS_CAPTURE_LIVE);
-    CString devName = GetFriendlyName(m_VidDispName);
-    if (!devName.IsEmpty()) {
+    if (GetPlaybackMode() == PM_ANALOG_CAPTURE) {
+        CString devName = GetFriendlyName(m_VidDispName);
+        if (!devName.IsEmpty()) {
             title.AppendFormat(_T(" | %s"), devName.GetString());
-    }
-    return title;
-}
-
-CString CMainFrame::GetDigitalTVTitle()
-{
-    CString title;
-
-    title.LoadString(IDS_CAPTURE_LIVE);
-    CString& eventName = m_pDVBState->NowNext.eventName;
-    if (m_pDVBState->bActive) {
+        }
+    } else {
+        CString& eventName = m_pDVBState->NowNext.eventName;
+        if (m_pDVBState->bActive) {
             title.AppendFormat(_T(" | %s"), m_pDVBState->sChannelName.GetString());
-        if (!eventName.IsEmpty()) {
+            if (!eventName.IsEmpty()) {
                 title.AppendFormat(_T(" - %s"), eventName.GetString());
+            }
+        }
+        else if (m_pDVBState->sChannelName) {
+            title.AppendFormat(_T(" | %s"), m_pDVBState->sChannelName.GetString());
         } else {
             title += _T(" | DTV");
         }

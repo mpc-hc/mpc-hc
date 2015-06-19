@@ -294,10 +294,14 @@ void CIPTVScanDlg::OnUpdateExpectedTime()
 
     CT2CA pszConvertedAnsiString1(strIPAddress1);
     char* sIPAddr1 = pszConvertedAnsiString1;
-    UINT32 uIP1 = inet_addr(sIPAddr1);
+    UINT32 uIP1;
+    inet_pton(AF_INET, sIPAddr1, &uIP1);
+    // UINT32 uIP1 = inet_addr(sIPAddr1);
     CT2CA pszConvertedAnsiString2(strIPAddress2);
     char* sIPAddr2 = pszConvertedAnsiString2;
-    UINT32 uIP2 = inet_addr(sIPAddr2);
+    UINT32 uIP2;
+    inet_pton(AF_INET, sIPAddr2, &uIP2);
+    // UINT32 uIP2 = inet_addr(sIPAddr2);
     uIP1 = ntohl(uIP1);
     uIP2 = ntohl(uIP2);
     int iTime = (int)(uIP2 - uIP1) * 3 / 60;
@@ -373,7 +377,7 @@ void CIPTVScanDlg::OnClickedSave()
                 }
             } catch (CException* e) {
                 // The tokenisation can fail if the input string was invalid
-                TRACE(_T("Failed to parse a IPTV channel from string \"%s\""), m_ChannelList.GetItemText(i, ISCC_CHANNEL));
+                TRACE(_T("Failed to parse a IPTV channel from string \"%s\""), m_ChannelList.GetItemText(i, ISCC_CHANNEL).GetString());
                 ASSERT(FALSE);
                 e->Delete();
             }
