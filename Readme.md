@@ -63,6 +63,7 @@ MPC-HC makes use of the following third-party code:
 
 | Project           | License                   | Website           |
 | ----------------- | ------------------------- | ----------------- |
+| bs2b              | MIT License               | http://bs2b.sourceforge.net |
 | CSizingControlBar | -                         | http://www.datamekanix.com/sizecbar/ |
 | LAV Filters       | GPLv2+                    | https://code.google.com/p/lavfilters/ |
 | libdivide         | zlib License              | http://libdivide.com/ |
@@ -75,10 +76,13 @@ MPC-HC makes use of the following third-party code:
 | RARFileSource     | GPLv2+                    | http://www.v12pwr.com/RARFileSource/ |
 | RealMedia SDK     | -                         | - |
 | ResizableLib      | Artistic License          | https://sourceforge.net/projects/resizablelib/ |
+| sanear            | LGPLv2.1                  | https://github.com/alexmarsev/sanear |
 | Silk Icons        | CC Attribution 2.5        | http://www.famfamfam.com/lab/icons/silk/ |
 | SoundTouch        | LGPLv2.1                  | http://www.surina.net/soundtouch/ |
+| soxr              | LGPLv2.1+                 | https://sourceforge.net/projects/soxr/ |
 | TreePropSheet     | -                         | http://www.codeproject.com/Articles/3709/ |
 | UnRAR             | freeware                  | http://www.rarlab.com/rar_add.htm |
 | VirtualDub        | GPLv2+                    | http://www.virtualdub.org/ |
 | ZenLib            | zlib License              | https://sourceforge.net/projects/zenlib/ |
+| zita-resampler    | GPLv3                     | http://kokkinizita.linuxaudio.org/linuxaudio/ |
 | zlib              | zlib License              | http://zlib.net/ |
