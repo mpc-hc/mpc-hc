@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-21 13:30:54+0000\n"
+"POT-Creation-Date: 2015-07-04 10:38:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1954,19 +1954,19 @@ msgid "Options"
 msgstr ""
 
 msgctxt "IDS_AG_NEXT_AUDIO"
-msgid "Next Audio"
+msgid "Next Audio Track"
 msgstr ""
 
 msgctxt "IDS_AG_PREV_AUDIO"
-msgid "Prev Audio"
+msgid "Prev Audio Track"
 msgstr ""
 
 msgctxt "IDS_AG_NEXT_SUBTITLE"
-msgid "Next Subtitle"
+msgid "Next Subtitle Track"
 msgstr ""
 
 msgctxt "IDS_AG_PREV_SUBTITLE"
-msgid "Prev Subtitle"
+msgid "Prev Subtitle Track"
 msgstr ""
 
 msgctxt "IDS_MPLAYERC_85"
@@ -1978,19 +1978,19 @@ msgid "Reload Subtitles"
 msgstr ""
 
 msgctxt "IDS_MPLAYERC_87"
-msgid "Next Audio (OGM)"
+msgid "Next Audio Track (OGM)"
 msgstr ""
 
 msgctxt "IDS_MPLAYERC_88"
-msgid "Prev Audio (OGM)"
+msgid "Prev Audio Track (OGM)"
 msgstr ""
 
 msgctxt "IDS_MPLAYERC_89"
-msgid "Next Subtitle (OGM)"
+msgid "Next Subtitle Track (OGM)"
 msgstr ""
 
 msgctxt "IDS_MPLAYERC_90"
-msgid "Prev Subtitle (OGM)"
+msgid "Prev Subtitle Track (OGM)"
 msgstr ""
 
 msgctxt "IDS_MPLAYERC_91"
@@ -2002,19 +2002,19 @@ msgid "Prev Angle (DVD)"
 msgstr ""
 
 msgctxt "IDS_MPLAYERC_93"
-msgid "Next Audio (DVD)"
+msgid "Next Audio Track (DVD)"
 msgstr ""
 
 msgctxt "IDS_MPLAYERC_94"
-msgid "Prev Audio (DVD)"
+msgid "Prev Audio Track (DVD)"
 msgstr ""
 
 msgctxt "IDS_MPLAYERC_95"
-msgid "Next Subtitle (DVD)"
+msgid "Next Subtitle Track (DVD)"
 msgstr ""
 
 msgctxt "IDS_MPLAYERC_96"
-msgid "Prev Subtitle (DVD)"
+msgid "Prev Subtitle Track (DVD)"
 msgstr ""
 
 msgctxt "IDS_MPLAYERC_97"
