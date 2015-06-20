@@ -2121,10 +2121,6 @@ void CEVRAllocatorPresenter::RenderThread()
                                 Paint(pMFSample);
                             } else {
                                 LONGLONG TimePerFrame = (LONGLONG)(GetFrameTime() * 10000000.0);
-                                LONGLONG DrawTime = m_PaintTime * 9 / 10 - 20000; // 2 ms offset (= m_PaintTime * 0.9 - 20000)
-                                //if (!r.bVMR9VSync)
-                                DrawTime = 0;
-
                                 LONGLONG SyncOffset = 0;
                                 LONGLONG VSyncTime = 0;
                                 LONGLONG TimeToNextVSync = -1;
