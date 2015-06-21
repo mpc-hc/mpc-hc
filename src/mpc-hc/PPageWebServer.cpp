@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -53,6 +53,7 @@ void CPPageWebServer::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECK1, m_fEnableWebServer);
     DDX_Text(pDX, IDC_EDIT1, m_nWebServerPort);
     DDX_Control(pDX, IDC_EDIT1, m_nWebServerPortCtrl);
+    DDV_MinMaxInt(pDX, m_nWebServerPort, 1, 65535);
     DDX_Control(pDX, IDC_STATIC1, m_launch);
     DDX_Check(pDX, IDC_CHECK2, m_fWebServerPrintDebugInfo);
     DDX_Check(pDX, IDC_CHECK3, m_fWebServerUseCompression);
