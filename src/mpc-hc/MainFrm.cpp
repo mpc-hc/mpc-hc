@@ -11946,7 +11946,10 @@ void CMainFrame::CloseMediaPrivate()
     m_bBuffering = false;
     m_rtDurationOverride = -1;
     m_bUsingDXVA = false;
-    m_pDVBState = nullptr;
+    if (m_pDVBState) {
+        m_pDVBState->Join();
+        m_pDVBState = nullptr;
+    }
     m_pCB.Release();
 
     SetSubtitle(SubtitleInput(nullptr));
@@ -14797,7 +14800,7 @@ void CMainFrame::UpdateCurrentChannelInfo(bool bShowOSD /*= true*/, bool bShowIn
             infoData.hr = pTun->UpdatePSI(pChannel, infoData.NowNext);
             infoData.bShowOSD = bShowOSD;
             infoData.bShowInfoBar = bShowInfoBar;
-            if (!m_pDVBState->bAbortInfo)
+            if (m_pDVBState && !m_pDVBState->bAbortInfo)
             {
                 PostMessage(WM_DVB_EIT_DATA_READY);
             }

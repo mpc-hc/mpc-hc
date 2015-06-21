@@ -15,6 +15,7 @@ next version - not released yet
     - LAV Video Decoder: Allow hardware decoding of UHD video with AMD cards
 * Updated Armenian, Bengali, British English, Catalan, Chinese (Traditional), Croatian, Danish, Dutch,
   German, Japanese, Swedish, Thai, Turkish and Vietnamese translations
+! Fix a rare crash when exiting DVB mode
 ! Ticket #5454, Deleting an item from the playlist sometimes did not work when shuffle mode was enabled
 ! Ticket #5464: If the main window was minimized while the D3D fullscreen window was displayed on another screen,
   it was impossible to use the mouse buttons to play, pause, exit fullscreen, etc.

@@ -604,6 +604,13 @@ public:
             bAbortInfo        = true;
         }
 
+        void Join() {
+            if (infoData.valid()) {
+                bAbortInfo = true;
+                infoData.wait();
+            }
+        }
+
         ~DVBState() {
             bAbortInfo = true;
         }
