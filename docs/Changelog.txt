@@ -19,6 +19,7 @@ next version - not released yet
 ! Ticket #5454, Deleting an item from the playlist sometimes did not work when shuffle mode was enabled
 ! Ticket #5464: If the main window was minimized while the D3D fullscreen window was displayed on another screen,
   it was impossible to use the mouse buttons to play, pause, exit fullscreen, etc.
+! Ticket #5472: Make it easier to input value to the "Audio time shift" field in options
 
 
 1.7.9 - 1 June 2015
