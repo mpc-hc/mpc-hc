@@ -3038,7 +3038,7 @@ HRESULT CSyncAP::SetMediaType(IMFMediaType* pType)
     }
 
     DWORD dwFlags = 0;
-    if (m_pMediaType && m_pMediaType->IsEqual(pType, &dwFlags)) {
+    if (m_pMediaType && m_pMediaType->IsEqual(pType, &dwFlags) == S_OK) {
         // Nothing to do
         return hr;
     }
