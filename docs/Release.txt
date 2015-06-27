@@ -33,7 +33,8 @@ Here is a quick how-to release a new stable build:
  9) Keep the PDB files of all the filters and MPC-HC builds
 10) Upload the PDB files and the corresponding binary files to DrDump server. Use the same command
     as the nightly builds with the version set to X.Y.Z.0
-11) Upload the binary packages on SourceForge following the directory and the packages names scheme
-    (upload the PDB files too, use 7zip to create the 7z packages)
-12) Update the website with the new version number, changelog and download links
-13) Update the milestone and the changelog on Trac
+11) Upload the binary packages on MaxCDN following the directory and the packages names scheme
+    (upload the PDB files too, use 7-zip to create the 7z packages)
+12) Upload the old stable release on stable.mpc-hc.org
+13) Update the website with the new version number, changelog and download links
+14) Update the milestone and the changelog on Trac
