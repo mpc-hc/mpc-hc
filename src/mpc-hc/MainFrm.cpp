@@ -1244,46 +1244,33 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
     };
 
     const long saneSize = 110;
+    const bool bMenuVisible = GetMenuBarVisibility() == AFX_MBV_KEEPVISIBLE || m_bShowingFloatingMenubar;
 
-    {
-        // Begin with docked controls
-        lpMMI->ptMinTrackSize = CPoint(m_controls.GetDockZonesMinSize(saneSize));
-    }
+    // Begin with docked controls
+    lpMMI->ptMinTrackSize = CPoint(m_controls.GetDockZonesMinSize(saneSize));
 
-    if (GetMenuBarVisibility() == AFX_MBV_KEEPVISIBLE || m_bShowingFloatingMenubar) {
-        // Add menubar height
-        lpMMI->ptMinTrackSize.y += GetSystemMetrics(SM_CYMENU);
+    if (bMenuVisible) {
         // Ensure that menubar will fit horizontally
         MENUBARINFO mbi = { sizeof(mbi) };
-        ::GetMenuBarInfo(m_hWnd, OBJID_MENU, 0, &mbi);
+        GetMenuBarInfo(OBJID_MENU, 0, &mbi);
         long x = GetSystemMetrics(SM_CYMENU) / 2; // free space after menu
         CRect rect;
-        for (int i = 0; ::GetMenuItemRect(m_hWnd, mbi.hMenu, i, &rect); i++) {
+        for (int i = 0; GetMenuItemRect(m_hWnd, mbi.hMenu, i, &rect); i++) {
             x += rect.Width();
         }
         setLarger(lpMMI->ptMinTrackSize.x, x);
     }
 
-    if (IsWindow(m_wndToolBar.m_hWnd) && m_controls.ControlChecked(CMainFrameControls::Toolbar::CONTROLS)) {
+    if (IsWindow(m_wndToolBar) && m_controls.ControlChecked(CMainFrameControls::Toolbar::CONTROLS)) {
         // Ensure that Controls toolbar will fit
         setLarger(lpMMI->ptMinTrackSize.x, m_wndToolBar.GetMinWidth());
     }
 
-    {
-        // Add window frame
-        DWORD style = GetStyle();
-        if (style & WS_CAPTION) {
-            lpMMI->ptMinTrackSize.y += GetSystemMetrics(SM_CYCAPTION);
-        }
-        if (style & WS_THICKFRAME) {
-            lpMMI->ptMinTrackSize.x += GetSystemMetrics(SM_CXSIZEFRAME) * 2;
-            lpMMI->ptMinTrackSize.y += GetSystemMetrics(SM_CYSIZEFRAME) * 2;
-            if (!(style & WS_CAPTION)) {
-                lpMMI->ptMinTrackSize.x -= GetSystemMetrics(SM_CXBORDER) * 2;
-                lpMMI->ptMinTrackSize.y -= GetSystemMetrics(SM_CYBORDER) * 2;
-            }
-        }
-    }
+    // Ensure that window decorations will fit
+    CRect decorationsRect;
+    VERIFY(AdjustWindowRectEx(decorationsRect, GetWindowStyle(m_hWnd), bMenuVisible, GetWindowExStyle(m_hWnd)));
+    lpMMI->ptMinTrackSize.x += decorationsRect.Width();
+    lpMMI->ptMinTrackSize.y += decorationsRect.Height();
 
     // Final fence
     setLarger(lpMMI->ptMinTrackSize.x, 16);
@@ -6244,42 +6231,39 @@ void CMainFrame::SetCaptionState(MpcCaptionState eState)
     DWORD dwMenuFlags = GetMenuBarVisibility();
 
     CRect windowRect;
-    GetWindowRect(&windowRect);
+
+    const bool bZoomed = !!IsZoomed();
+
+    if (!bZoomed) {
+        GetWindowRect(&windowRect);
+        CRect decorationsRect;
+        VERIFY(AdjustWindowRectEx(decorationsRect, GetWindowStyle(m_hWnd), dwMenuFlags == AFX_MBV_KEEPVISIBLE, GetWindowExStyle(m_hWnd)));
+        windowRect.bottom -= decorationsRect.bottom;
+        windowRect.right  -= decorationsRect.right;
+        windowRect.top    -= decorationsRect.top;
+        windowRect.left   -= decorationsRect.left;
+    }
 
     const int base = MpcCaptionState::MODE_COUNT;
-    const bool bZoomed = !!IsZoomed();
     for (int i = eOldState; i != eState; i = (i + 1) % base) {
         switch (static_cast<MpcCaptionState>(i)) {
             case MpcCaptionState::MODE_BORDERLESS:
                 dwMenuFlags = AFX_MBV_KEEPVISIBLE;
                 dwAdd |= (WS_CAPTION | WS_THICKFRAME);
                 dwRemove &= ~(WS_CAPTION | WS_THICKFRAME);
-                windowRect.InflateRect(GetSystemMetrics(SM_CXSIZEFRAME), GetSystemMetrics(SM_CYSIZEFRAME));
-                if (!bZoomed) {
-                    windowRect.bottom += GetSystemMetrics(SM_CYCAPTION) + GetSystemMetrics(SM_CYMENU);
-                }
                 break;
             case MpcCaptionState::MODE_SHOWCAPTIONMENU:
                 dwMenuFlags = AFX_MBV_DISPLAYONFOCUS | AFX_MBV_DISPLAYONF10;
-                if (!bZoomed) {
-                    windowRect.bottom -= GetSystemMetrics(SM_CYMENU);
-                }
                 break;
             case MpcCaptionState::MODE_HIDEMENU:
                 dwMenuFlags = AFX_MBV_DISPLAYONFOCUS | AFX_MBV_DISPLAYONF10;
                 dwAdd &= ~WS_CAPTION;
                 dwRemove |= WS_CAPTION;
-                windowRect.DeflateRect(GetSystemMetrics(SM_CXBORDER), GetSystemMetrics(SM_CYBORDER));
-                if (!bZoomed) {
-                    windowRect.bottom -= GetSystemMetrics(SM_CYCAPTION);
-                }
                 break;
             case MpcCaptionState::MODE_FRAMEONLY:
                 dwMenuFlags = AFX_MBV_DISPLAYONFOCUS | AFX_MBV_DISPLAYONF10;
                 dwAdd &= ~WS_THICKFRAME;
                 dwRemove |= WS_THICKFRAME;
-                windowRect.DeflateRect(GetSystemMetrics(SM_CXSIZEFRAME) - GetSystemMetrics(SM_CXBORDER),
-                                       GetSystemMetrics(SM_CYSIZEFRAME) - GetSystemMetrics(SM_CYBORDER));
                 break;
             default:
                 ASSERT(FALSE);
@@ -6287,12 +6271,17 @@ void CMainFrame::SetCaptionState(MpcCaptionState eState)
     }
 
     UINT uFlags = SWP_NOZORDER;
-    if (dwRemove || dwAdd) {
+    if (dwRemove != dwAdd) {
         uFlags |= SWP_FRAMECHANGED;
+        VERIFY(SetWindowLong(m_hWnd, GWL_STYLE, (GetWindowLong(m_hWnd, GWL_STYLE) | dwAdd) & ~dwRemove));
     }
 
     SetMenuBarVisibility(dwMenuFlags);
-    VERIFY(SetWindowLong(m_hWnd, GWL_STYLE, (GetWindowLong(m_hWnd, GWL_STYLE) | dwAdd) & ~dwRemove));
+    if (bZoomed) {
+        CMonitors::GetNearestMonitor(this).GetWorkAreaRect(windowRect);
+    } else {
+        VERIFY(AdjustWindowRectEx(windowRect, GetWindowStyle(m_hWnd), dwMenuFlags == AFX_MBV_KEEPVISIBLE, GetWindowExStyle(m_hWnd)));
+    }
     VERIFY(SetWindowPos(nullptr, windowRect.left, windowRect.top, windowRect.Width(), windowRect.Height(), uFlags));
 }
 
