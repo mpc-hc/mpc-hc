@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Abubakr Mohammed <bcs2610@hotmail.com>, 2014
@@ -8,12 +8,12 @@
 # nour nader <thenino2013@gmail.com>, 2014
 # Tariq <tariq-mz@hotmail.com>, 2014
 # Tariq <tariq-mz@hotmail.com>, 2014
-# manxx55 <w6txz2@gmail.com>, 2014
+# manxx55 <w6txz2@gmail.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-30 22:04:38+0000\n"
-"PO-Revision-Date: 2014-12-04 17:52+0000\n"
+"POT-Creation-Date: 2015-05-21 13:30:54+0000\n"
+"PO-Revision-Date: 2015-07-02 19:36+0000\n"
 "Last-Translator: manxx55 <w6txz2@gmail.com>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/mpc-hc/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -1380,23 +1380,23 @@ msgstr "AR %d:%d"
 
 msgctxt "IDS_PPAGEADVANCED_LOGGER"
 msgid "Enables logging to file (requires restart)"
-msgstr ""
+msgstr "تمكين تسجيل الدخول لملف (يتطلب إعادة تشغيل)"
 
 msgctxt "IDS_TIMER_REMAINING_TIME"
 msgid "Remaining time"
-msgstr ""
+msgstr "الوقت المتبقي"
 
 msgctxt "IDS_TIMER_HIGH_PRECISION"
 msgid "High precision"
-msgstr ""
+msgstr "دقة عالية"
 
 msgctxt "IDS_AFTERPLAYBACK_REWIND"
 msgid "After Playback: Rewind current file"
-msgstr ""
+msgstr "بعد نهاية التشغيل: إعادة الملف الحالي"
 
 msgctxt "IDS_AFTERPLAYBACK_CLOSE"
 msgid "After Playback: Close"
-msgstr ""
+msgstr "بعد نهاية التشغيل: إغلاق"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1552,7 +1552,7 @@ msgstr "تم حفظ المصغرات"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
 msgid "&Video Track"
-msgstr ""
+msgstr "&مسار الفيديو"
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
 msgid "Video Ang&le"
@@ -1680,15 +1680,15 @@ msgstr "القفز إلى البداية"
 
 msgctxt "IDS_OSD_SHOW_FILENAME"
 msgid "OSD: Show File Name"
-msgstr ""
+msgstr "OSD: عرض اسم الملف"
 
 msgctxt "IDS_OSD_DISPLAY_RENDERER_STATS"
 msgid "OSD: Display Renderer Statistics"
-msgstr ""
+msgstr "OSD: عرض احصائيات الناقل"
 
 msgctxt "IDS_OSD_RESET_RENDERER_STATS"
 msgid "OSD: Reset Renderer Statistics"
-msgstr ""
+msgstr "OSD: إعادة تعيين احصائيات الناقل"
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
@@ -1948,11 +1948,11 @@ msgstr "مفتاح الرئيس"
 
 msgctxt "IDS_MPLAYERC_77"
 msgid "Player Menu"
-msgstr ""
+msgstr "قائمة المشغل"
 
 msgctxt "IDS_MPLAYERC_78"
 msgid "Player Menu (full)"
-msgstr ""
+msgstr "قائمة المشغل (وضع كامل الشاشة)"
 
 msgctxt "IDS_AG_FILTERS_MENU"
 msgid "Filters Menu"
@@ -2032,7 +2032,7 @@ msgstr "تشغيل/إيقاف الترجمة (DVD)"
 
 msgctxt "IDS_OSD_DISPLAY_CURRENT_TIME"
 msgid "OSD: Display Current Time"
-msgstr ""
+msgstr "OSD: عرض الوقت الحالي"
 
 msgctxt "IDS_PPAGEWEBSERVER_0"
 msgid "Select the directory"
@@ -2928,7 +2928,7 @@ msgstr "أصوات أخرى"
 
 msgctxt "IDS_MFMT_AC3"
 msgid "AC-3"
-msgstr ""
+msgstr "AC-3"
 
 msgctxt "IDS_MFMT_AIFF"
 msgid "AIFF"
@@ -2956,7 +2956,7 @@ msgstr "Opus كودك صوت"
 
 msgctxt "IDS_MFMT_DTS"
 msgid "DTS/DTS-HD"
-msgstr ""
+msgstr "DTS/DTS-HD"
 
 msgctxt "IDS_MFMT_AMR"
 msgid "AMR"

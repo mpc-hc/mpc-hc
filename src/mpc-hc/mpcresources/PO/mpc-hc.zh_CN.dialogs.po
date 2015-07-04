@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # bruce55 <bruce.luo+transifex@nyu.edu>, 2014
+# Dean Lee <xslidian@gmail.com>, 2015
 # Ming Chen <yzonline@gmail.com>, 2013-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-05-17 20:47:27+0000\n"
-"PO-Revision-Date: 2015-05-27 02:40+0000\n"
-"Last-Translator: Ming Chen <yzonline@gmail.com>\n"
+"PO-Revision-Date: 2015-07-06 04:29+0000\n"
+"Last-Translator: Dean Lee <xslidian@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/mpc-hc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -99,7 +100,7 @@ msgstr "增益:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK3"
 msgid "Down-sample to 44100 Hz"
-msgstr "降低采样率至44100 Hz"
+msgstr "降低采样率至 44100 Hz"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK4"
 msgid "Audio time shift (ms):"
@@ -127,7 +128,7 @@ msgstr "转到..."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time. You do not need to enter the separators explicitly."
-msgstr "请使用 [hh:]mm:ss.ms 为格式的时间代码来跳转到指定的时间。您无需输入特定的分隔符。"
+msgstr "请输入 [hh:]mm:ss.ms 格式的时间码来跳转到指定位置。分隔符不必特别输入。"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Time"
@@ -139,7 +140,7 @@ msgstr "跳转!"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Enter two numbers to jump to a specified frame, the first is the frame number, the second is the frame rate."
-msgstr "请输入两个数字来跳转到一个指定的帧,第一个数字是帧数,第二个数字是帧率。"
+msgstr "请输入两个数字来跳转到特定的帧，第一个数字是帧序号，第二个数字是帧率。"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Frame"
@@ -183,7 +184,7 @@ msgstr "取消"
 
 msgctxt "IDD_OPEN_DLG_IDC_CHECK1"
 msgid "Add to playlist without opening"
-msgstr "添加到播放列表但不要播放"
+msgstr "添加到播放列表但不要打开"
 
 msgctxt "IDD_ABOUTBOX_CAPTION"
 msgid "About"
@@ -199,7 +200,7 @@ msgstr "此程序是遵守 GNU 通用公众授权协议发布的自由软件。"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
-msgstr "简体中文翻译由风影幻想和酷剑菲心制作"
+msgstr "简体中文翻译由 Transifex 上的志愿者们维护，基于风影幻想和酷剑菲心翻译的底本。https://www.transifex.com/projects/p/mpc-hc/language/zh_CN/"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build information"
@@ -267,7 +268,7 @@ msgstr "仅文件名"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO5"
 msgid "Don't prefix anything"
-msgstr "不附加任何信息"
+msgstr "不附加任何前缀信息"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK13"
 msgid "Replace file name with title"
@@ -355,7 +356,7 @@ msgstr "总是打开默认的位置:"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "Preferred language for DVD Navigator and the external OGM Splitter"
-msgstr "首选的 DVD 导航器和扩展 OGM 分离器语言"
+msgstr "DVD 导航器及外部 OGM 分离器的首选语言"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO3"
 msgid "Menu"
@@ -435,7 +436,7 @@ msgstr "自动缩放:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC2"
 msgid "Auto fit factor:"
-msgstr "自动适应因素:"
+msgstr "自动适应因数:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC3"
 msgid "%"
@@ -443,7 +444,7 @@ msgstr "%"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Default track preference"
-msgstr "默认轨道优先"
+msgstr "默认轨道偏好"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Subtitles:"
@@ -467,7 +468,7 @@ msgstr "使用工作线程来创建滤镜图像"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK6"
 msgid "Report pins which fail to render"
-msgstr "报告渲染失败的帧"
+msgstr "渲染失败时报告 pin"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
@@ -523,11 +524,11 @@ msgstr "毫秒"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Texture settings (open the video again to see the changes)"
-msgstr "纹理设置 (请重新打开视频来查看更改效果)"
+msgstr "纹理设置 (请重新打开视频来查看效果)"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Sub pictures to buffer:"
-msgstr "子画面到缓存:"
+msgstr "缓冲子画面:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Maximum texture resolution:"
@@ -603,7 +604,7 @@ msgstr "设置为默认程序(&D)"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Real-Time Streaming Protocol handler (for rtsp://... URLs)"
-msgstr "实时流协议头部 (适用于 rtsp://... URL)"
+msgstr "接管实时流协议 (即 rtsp://... URL)"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_RADIO1"
 msgid "RealMedia"
@@ -663,7 +664,7 @@ msgstr "默认"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_FASTSEEK_CHECK"
 msgid "Fast seek (on keyframe)"
-msgstr "快速搜索 (以关键帧)"
+msgstr "快速定位 (按关键帧)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK2"
 msgid "Show chapter marks in seek bar"
@@ -751,7 +752,7 @@ msgstr "类型:"
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Size:"
-msgstr "容量:"
+msgstr "大小:"
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Media length:"
@@ -787,7 +788,7 @@ msgstr "位置:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Description:"
-msgstr "注释:"
+msgstr "描述:"
 
 msgctxt "IDD_FAVADD_CAPTION"
 msgid "Add Favorite"
@@ -839,7 +840,7 @@ msgstr "确定"
 
 msgctxt "IDD_PNSPRESET_DLG_CAPTION"
 msgid "Pan&Scan Presets"
-msgstr "全景和扫描预设"
+msgstr "全景扫描预设"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"
 msgid "New"
@@ -895,7 +896,7 @@ msgstr "警告"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC1"
 msgid "MPC-HC could not render some of the pins in the graph, you may not have the needed codecs or filters installed on the system."
-msgstr "MPC-HC 无法渲染图像中的某些帧,您或许未在系统中安装所需的解码器或者分离器。"
+msgstr "MPC-HC 无法渲染图像中的某些 pin，您的系统中可能没有安装所需的解码器或分离器。"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC2"
 msgid "The following pin(s) failed to find a connectable filter:"
@@ -1143,7 +1144,7 @@ msgstr "选择 D3D9 渲染设备"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_RESETDEVICE"
 msgid "Reinitialize when changing display"
-msgstr "在更改显示时重新初始化"
+msgstr "在更改显示器时重新初始化"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "D3D Fullscreen"
@@ -1203,7 +1204,7 @@ msgstr "开启压缩"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK5"
 msgid "Allow access from localhost only"
-msgstr "仅允许访问本地用户"
+msgstr "仅允许从 localhost 访问"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
 msgid "Print debug information"
@@ -1219,7 +1220,7 @@ msgstr "浏览..."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_BUTTON2"
 msgid "Deploy..."
-msgstr "配置..."
+msgstr "部署..."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC"
 msgid "Default page:"
@@ -1227,7 +1228,7 @@ msgstr "默认页:"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC"
 msgid "CGI handlers: (.ext1=path1;.ext2=path2;...)"
-msgstr "CGI 操作器: (.ext1=路径1; .ext2=路径2; ...)"
+msgstr "CGI 接管: (.扩展名1=路径1; .扩展名2=路径2; ...)"
 
 msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
 msgid "Subtitles available online"
@@ -1279,7 +1280,7 @@ msgstr "开启自动检测更新"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
 msgid "Check every:"
-msgstr "每次检测:"
+msgstr "检测间隔:"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"
@@ -1455,7 +1456,7 @@ msgstr "更改将在播放被关闭并重新启动后生效。"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK1"
 msgid "Launch files in fullscreen"
-msgstr "在全屏幕中启动文件"
+msgstr "打开文件时全屏幕启动"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK4"
 msgid "Hide controls in fullscreen"
@@ -1547,7 +1548,7 @@ msgstr "在线数据库"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Base URL of the online subtitle database:"
-msgstr "在线字幕数据库的基础 URL:"
+msgstr "在线字幕数据库的基本 URL:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON2"
 msgid "Test"
@@ -1671,7 +1672,7 @@ msgstr "崩溃报告"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
 msgid "We are sorry, it seems MPC-HC just crashed. :(\n\nTo help us diagnose and fix the problem, a bug report will be sent. You can provide additional information if you want."
-msgstr "非常抱歉，MPC-HC看起来崩溃了。 :(\n\n为了帮助我们诊断和修复问题，程序将上报错误报告。您还可以提供一些额外的信息。"
+msgstr "非常抱歉，MPC-HC 刚才好像崩溃了。 :(\n\n为了帮助我们诊断和修复问题，程序将上报错误报告。如果您乐意，可以提供一些额外的信息。"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
 msgid "Email:"
@@ -1679,7 +1680,7 @@ msgstr "邮箱:"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC3"
 msgid "Your email address is optional and will only be used if the developers need to contact you for more information."
-msgstr "您也可以选择不提供邮箱地址。只有在开发人员需要联系您获得更多信息的时候才会向您发送邮件。"
+msgstr "您可以选择不填写邮箱地址。只有在开发人员需要联系您了解更多信息的时候才会向您发送邮件。"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
 msgid "Problem description (use English only):"

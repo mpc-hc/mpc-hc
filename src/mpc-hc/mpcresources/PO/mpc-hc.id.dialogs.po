@@ -2,6 +2,7 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# Andy Martino <thegamers788@gmail.com>, 2015
 # Hatta.z, 2014
 # yoga.mardia <made.yoga12@gmail.com>, 2014
 # Reza Septyan .R. <ainofuyuumI@outlook.com>, 2014
@@ -10,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-05-17 20:47:27+0000\n"
-"PO-Revision-Date: 2015-06-04 11:30+0000\n"
-"Last-Translator: Zamani Karmana <zamani.karmana@gmail.com>\n"
-"Language-Team: Indonesian (http://www.transifex.com/projects/p/mpc-hc/language/id/)\n"
+"PO-Revision-Date: 2015-07-11 20:38+0000\n"
+"Last-Translator: Andy Martino <thegamers788@gmail.com>\n"
+"Language-Team: Indonesian (http://www.transifex.com/p/mpc-hc/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -77,7 +78,7 @@ msgstr "Rekam"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK2"
 msgid "Enable built-in audio switcher filter (requires restart)"
-msgstr "Fungsikan filter pengubah suara bawaan (wajib memulai ulang)"
+msgstr "Fungsikan penyaring pengubah suara bawaan (dibutuhkan untuk memulai ulang)"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK5"
 msgid "Normalize"
@@ -105,7 +106,7 @@ msgstr "Turunkan sampel ke 44100 Hz"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK4"
 msgid "Audio time shift (ms):"
-msgstr "Waktu ingsut audio (ms):"
+msgstr "Waktu perpindahan audio (ms):"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK1"
 msgid "Enable custom channel mapping"
@@ -165,7 +166,7 @@ msgstr "Buka:"
 
 msgctxt "IDD_OPEN_DLG_IDC_BUTTON1"
 msgid "Browse..."
-msgstr "Ramban..."
+msgstr "Jelajah..."
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC1"
 msgid "Dub:"
@@ -173,7 +174,7 @@ msgstr "Dub:"
 
 msgctxt "IDD_OPEN_DLG_IDC_BUTTON2"
 msgid "Browse..."
-msgstr "Ramban..."
+msgstr "Jelajah..."
 
 msgctxt "IDD_OPEN_DLG_IDOK"
 msgid "OK"
@@ -285,7 +286,7 @@ msgstr "Ikon baki"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_SHOW_OSD"
 msgid "Show OSD (requires restart)"
-msgstr "Tampilkan OSD (wajib memulai ulang)"
+msgstr "Tampilkan OSD (membutuhkan memulai ulang)"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK4"
 msgid "Limit window proportions on resize"

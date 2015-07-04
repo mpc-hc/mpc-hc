@@ -14,8 +14,8 @@ next version - not released yet
 * Updated MediaInfoLib to v0.7.75
 * Updated LAV Filters to v0.65.0.20:
     - LAV Video Decoder: Allow hardware decoding of UHD video with AMD cards
-* Updated Armenian, Bengali, British English, Catalan, Chinese (Traditional), Croatian, Danish, Dutch,
-  German, Japanese, Swedish, Thai, Turkish and Vietnamese translations
+* Updated Arabic, Armenian, Bengali, British English, Catalan, Chinese (Simplified and Traditional), Croatian,
+  Danish, Dutch, Galician, German, Japanese, Swedish, Thai, Turkish and Vietnamese translations
 ! Fix a rare crash when exiting DVB mode
 ! Quicktime: Fix a crash when using system default renderer
 ! Ticket #5454, Deleting an item from the playlist sometimes did not work when shuffle mode was enabled

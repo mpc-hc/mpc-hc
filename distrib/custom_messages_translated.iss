@@ -106,7 +106,7 @@ it.WelcomeLabel2=Questo installerà [name] sul tuo computer.%n%nE' consigliato c
 it.WinVersionTooLowError=[name] richiede Windows XP Service Pack 3 o successivo per funzionare.
 
 ; Japanese
-ja.WelcomeLabel2=このプログラムはあなたのコンピュータ上に [name] をインストールします。%n%nセットアップを続行する前に他のすべてのアプリケーションを閉じることが推奨されます。
+ja.WelcomeLabel2=このプログラムはお使いのコンピュータ上に [name] をインストールします。%n%nセットアップを続行する前に他のすべてのアプリケーションを閉じることが推奨されます。
 ja.WinVersionTooLowError=[name] を実行するためには Windows XP Service Pack 3 以降が必要です。
 
 ; Korean
@@ -556,7 +556,7 @@ id.msg_simd_sse2=Versi MPC-HC ini membutuhkan CPU dengan dukungan ekstensi SSE2.
 #endif
 id.run_DownloadToolbarImages=Kunjungi halaman Wiki kami untuk mengunduh gambar bilah alat
 id.tsk_AllUsers=Untuk semua pengguna
-id.tsk_CurrentUser=Hanya untuk pengguna saat ini
+id.tsk_CurrentUser=Hanya untuk pengguna ini saja
 id.tsk_Other=Tugas lain:
 id.tsk_ResetSettings=Setel ulang pengaturan
 id.types_DefaultInstallation=Pemasangan bawaan
@@ -939,8 +939,8 @@ zh_CN.tsk_AllUsers=为所有用户安装
 zh_CN.tsk_CurrentUser=仅为当前用户安装
 zh_CN.tsk_Other=其他任务:
 zh_CN.tsk_ResetSettings=重置设置
-zh_CN.types_DefaultInstallation=默认安装
-zh_CN.types_CustomInstallation=自定义安装
+zh_CN.types_DefaultInstallation=默认安装方案
+zh_CN.types_CustomInstallation=自定义安装方案
 zh_CN.ViewChangelog=查看更新日志
 
 ; Chinese (Taiwan)

@@ -1,17 +1,17 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Ahmad Abd-Elghany <tolpa1@gmail.com>, 2013-2014
 # Abubakr Mohammed <bcs2610@hotmail.com>, 2014
 # Tariq <tariq-mz@hotmail.com>, 2014
-# manxx55 <w6txz2@gmail.com>, 2014
+# manxx55 <w6txz2@gmail.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
-"PO-Revision-Date: 2014-12-01 22:49+0000\n"
-"Last-Translator: Underground78\n"
+"POT-Creation-Date: 2015-05-22 20:53:41+0000\n"
+"PO-Revision-Date: 2015-07-01 20:37+0000\n"
+"Last-Translator: manxx55 <w6txz2@gmail.com>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/mpc-hc/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -201,15 +201,15 @@ msgstr "اختبار التمزق"
 
 msgctxt "ID_VIEW_DISPLAY_RENDERER_STATS"
 msgid "&Display Statistics"
-msgstr ""
+msgstr "&عرض الأحصائيات"
 
 msgctxt "ID_VIEW_OSD_DISPLAY_TIME"
 msgid "Display Current T&ime"
-msgstr ""
+msgstr "عرض الوقت &الحالي"
 
 msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
 msgid "Show &File Name"
-msgstr ""
+msgstr "عرض اسم &الملف"
 
 msgctxt "POPUP"
 msgid "&Output Range"
@@ -561,15 +561,15 @@ msgstr "المظللات"
 
 msgctxt "ID_AUDIOS"
 msgid "&Audio Track"
-msgstr ""
+msgstr "&مسار الصوت"
 
 msgctxt "ID_SUBTITLES"
 msgid "Su&btitle Track"
-msgstr ""
+msgstr "&مسار الترجمة"
 
 msgctxt "ID_VIDEO_STREAMS"
 msgid "&Video Track"
-msgstr ""
+msgstr "&مسار الفيديو"
 
 msgctxt "POPUP"
 msgid "&Volume"
@@ -593,7 +593,7 @@ msgstr "بعد التشغيل"
 
 msgctxt "ID_AFTERPLAYBACK_DONOTHING"
 msgid "Do no&thing"
-msgstr ""
+msgstr "&لا تفعل شيء"
 
 msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
 msgid "Play &next file in the folder"

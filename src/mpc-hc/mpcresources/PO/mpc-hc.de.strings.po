@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-05-21 13:30:54+0000\n"
-"PO-Revision-Date: 2015-06-19 13:34+0000\n"
+"PO-Revision-Date: 2015-07-12 12:50+0000\n"
 "Last-Translator: Luan <luanmail@gmx.net>\n"
-"Language-Team: German (http://www.transifex.com/projects/p/mpc-hc/language/de/)\n"
+"Language-Team: German (http://www.transifex.com/p/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -189,11 +189,11 @@ msgstr "GB/s"
 
 msgctxt "IDS_FILE_FAV_ADDED"
 msgid "File added to favorites"
-msgstr "Datei zu Favoriten hinzugefügt."
+msgstr "Datei zu Favoriten hinzugefügt"
 
 msgctxt "IDS_DVD_FAV_ADDED"
 msgid "DVD added to favorites"
-msgstr "DVD zu Favoriten hinzugefügt."
+msgstr "DVD zu Favoriten hinzugefügt"
 
 msgctxt "IDS_CAPTURE_SETTINGS"
 msgid "Capture Settings"
@@ -781,7 +781,7 @@ msgstr "Keine benutzerdefinierten Tastenbefehle verfügbar."
 
 msgctxt "IDS_RFS_NO_FILES"
 msgid "No media files found in the archive"
-msgstr "Kann keine Mediendateien im Archiv finden"
+msgstr "Kann keine Mediendatei im Archiv finden"
 
 msgctxt "IDS_RFS_COMPRESSED"
 msgid "Compressed files are not supported"
@@ -1417,7 +1417,7 @@ msgstr "Bild schnell speichern"
 
 msgctxt "IDS_OSD_IMAGE_SAVED"
 msgid "Image saved successfully"
-msgstr "Bild erfolgreich gespeichert."
+msgstr "Bild gespeichert"
 
 msgctxt "IDS_AG_LOAD_SUBTITLE"
 msgid "Load Subtitle"
@@ -1549,7 +1549,7 @@ msgstr "Tempo: %.2lfx"
 
 msgctxt "IDS_OSD_THUMBS_SAVED"
 msgid "Thumbnails saved successfully"
-msgstr "Miniaturansichten erfolgreich gespeichert."
+msgstr "Miniaturansichten gespeichert"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
 msgid "&Video Track"
@@ -1565,7 +1565,7 @@ msgstr "Programm-Einstellungen zurücksetzen"
 
 msgctxt "IDS_RESET_SETTINGS_WARNING"
 msgid "Are you sure you want to restore MPC-HC to its default settings?\nBe warned that ALL your current settings will be lost!"
-msgstr "Alle aktuellen Einstellungen gehen verloren!\n\nProgramm-Einstellungen wirklich zurücksetzen?"
+msgstr "Alle aktuellen Einstellungen gehen verloren!\n\nProgramm-Einstellungen wirklich vollständig zurücksetzen?"
 
 msgctxt "IDS_RESET_SETTINGS_MUTEX"
 msgid "Please close all instances of MPC-HC so that the default settings can be restored."
@@ -1737,7 +1737,7 @@ msgstr "Vollbild ohne Auflösungsänderung (ein/aus)"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT"
 msgid "Zoom Auto Fit"
-msgstr "Zoom: Auto-Anpassung"
+msgstr "Zoom: Passend"
 
 msgctxt "IDS_AG_VIDFRM_HALF"
 msgid "VidFrm Half"
@@ -1813,19 +1813,19 @@ msgstr "200 %"
 
 msgctxt "IDS_ZOOM_AUTOFIT"
 msgid "Auto Fit"
-msgstr "Auto-Anpassung"
+msgstr "Passend"
 
 msgctxt "IDS_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (Larger Only)"
-msgstr "Auto-Verkleinerung"
+msgstr "Nur kleiner"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT_LARGER"
 msgid "Zoom Auto Fit (Larger Only)"
-msgstr "Zoom: Auto-Verkleinerung"
+msgstr "Zoom: Nur kleiner"
 
 msgctxt "IDS_OSD_ZOOM_AUTO_LARGER"
 msgid "Zoom: Auto (Larger Only)"
-msgstr "Zoom: Auto-Verkleinerung"
+msgstr "Zoom: Nur kleiner"
 
 msgctxt "IDS_TOOLTIP_EXPLORE_TO_FILE"
 msgid "Double click to open file location"
@@ -2097,7 +2097,7 @@ msgstr "Untertitel gespeichert"
 
 msgctxt "IDS_MAINFRM_4"
 msgid "Cannot save subtitles"
-msgstr "Untertitel konnten nicht gespeichert werden"
+msgstr "Kann Untertitel nicht speichern"
 
 msgctxt "IDS_AG_FRAMERATE"
 msgid "Frame rate"
@@ -2269,7 +2269,7 @@ msgstr "DVD/BD öffnen"
 
 msgctxt "IDS_SUB_LOADED_SUCCESS"
 msgid " loaded successfully"
-msgstr " erfolgreich geladen"
+msgstr " geladen"
 
 msgctxt "IDS_ALL_FILES_FILTER"
 msgid "All files (*.*)|*.*||"
@@ -2349,7 +2349,7 @@ msgstr "Kann Adobe Flash Player für Internet Explorer nicht finden"
 
 msgctxt "IDS_MAINFRM_78"
 msgid "QuickTime not yet supported for X64 (apple library not available)"
-msgstr "QuickTime Player kann mit 64-Bit nicht verwendet werden"
+msgstr "QuickTime kann mit 64-Bit nicht ausgeführt werden"
 
 msgctxt "IDS_MAINFRM_80"
 msgid "Failed to create the filter graph object"
@@ -2665,7 +2665,7 @@ msgstr "Frequenzbereich scannen"
 
 msgctxt "IDS_SUBTITLES_ERROR"
 msgid "Subtitles are not loaded or unsupported renderer."
-msgstr "Kann Untertitel nicht laden oder wiedergeben"
+msgstr "Kann Untertitel nicht laden oder mit Renderer darstellen"
 
 msgctxt "IDS_LOGO_AUTHOR"
 msgid "Author unknown. Contact us if you made this logo!"
@@ -2673,15 +2673,15 @@ msgstr "Autor unbekannt. Als Verfasser bitte melden!"
 
 msgctxt "IDS_NO_MORE_MEDIA"
 msgid "No more media in the current folder."
-msgstr "Keine weitere Ordnerdatei verfügbar."
+msgstr "Keine weitere Ordnerdatei verfügbar"
 
 msgctxt "IDS_FIRST_IN_FOLDER"
 msgid "The first file of the folder is already loaded."
-msgstr "Erste Ordnerdatei bereits geöffnet."
+msgstr "Erste Ordnerdatei bereits erreicht"
 
 msgctxt "IDS_LAST_IN_FOLDER"
 msgid "The last file of the folder is already loaded."
-msgstr "Letzte Ordnerdatei bereits geöffnet."
+msgstr "Letzte Ordnerdatei bereits erreicht"
 
 msgctxt "IDS_FRONT_LEFT"
 msgid "Front Left"
@@ -3205,19 +3205,19 @@ msgstr "Alternativer VSync: Aus"
 
 msgctxt "IDS_OSD_RS_RESET_DEFAULT"
 msgid "Renderer settings reset to default"
-msgstr "Standard-Einstellungen für Video-Renderer geladen."
+msgstr "Standard-Einstellungen für Video-Renderer geladen"
 
 msgctxt "IDS_OSD_RS_RESET_OPTIMAL"
 msgid "Renderer settings reset to optimal"
-msgstr "Optimierte Einstellungen für Video-Renderer geladen."
+msgstr "Optimierte Einstellungen für Video-Renderer geladen"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
 msgid "D3D Fullscreen GUI Support: On"
-msgstr "GUI-Unterstützung bei Direct3D-Vollbildmodus: Ein"
+msgstr "GUI-Unterstützung für Direct3D-Vollbildmodus: Ein"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF"
 msgid "D3D Fullscreen GUI Support: Off"
-msgstr "GUI-Unterstützung bei Direct3D-Vollbildmodus: Aus"
+msgstr "GUI-Unterstützung für Direct3D-Vollbildmodus: Aus"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_ON"
 msgid "10-bit RGB Output: On"
@@ -3253,35 +3253,35 @@ msgstr "Gleitkommaverarbeitung mit halber Genauigkeit: Aus"
 
 msgctxt "IDS_BRIGHTNESS_DEC"
 msgid "Brightness decrease"
-msgstr "Helligkeit verringern"
+msgstr "Farbsteuerung: Helligkeit verringern"
 
 msgctxt "IDS_CONTRAST_INC"
 msgid "Contrast increase"
-msgstr "Kontrast erhöhen"
+msgstr "Farbsteuerung: Kontrast erhöhen"
 
 msgctxt "IDS_CONTRAST_DEC"
 msgid "Contrast decrease"
-msgstr "Kontrast verringern"
+msgstr "Farbsteuerung: Kontrast verringern"
 
 msgctxt "IDS_HUE_INC"
 msgid "Hue increase"
-msgstr "Farbton erhöhen"
+msgstr "Farbsteuerung: Farbton erhöhen"
 
 msgctxt "IDS_HUE_DEC"
 msgid "Hue decrease"
-msgstr "Farbton verringern"
+msgstr "Farbsteuerung: Farbton verringern"
 
 msgctxt "IDS_SATURATION_INC"
 msgid "Saturation increase"
-msgstr "Sättigung erhöhen"
+msgstr "Farbsteuerung: Sättigung erhöhen"
 
 msgctxt "IDS_SATURATION_DEC"
 msgid "Saturation decrease"
-msgstr "Sättigung verringern"
+msgstr "Farbsteuerung: Sättigung verringern"
 
 msgctxt "IDS_RESET_COLOR"
 msgid "Reset color settings"
-msgstr "Farbeinstellungen zurücksetzen"
+msgstr "Farbsteuerung: Zurücksetzen"
 
 msgctxt "IDS_USING_LATEST_STABLE"
 msgid "\nYou are already using the latest stable version."
@@ -3309,7 +3309,7 @@ msgstr "Zoom: %.0lf %%"
 
 msgctxt "IDS_OSD_ZOOM_AUTO"
 msgid "Zoom: Auto"
-msgstr "Zoom: Auto-Anpassung"
+msgstr "Zoom: Passend"
 
 msgctxt "IDS_CUSTOM_CHANNEL_MAPPING"
 msgid "Toggle custom channel mapping"
@@ -3553,15 +3553,15 @@ msgstr "Sättigung: %s"
 
 msgctxt "IDS_OSD_RESET_COLOR"
 msgid "Color settings restored"
-msgstr "Farbeinstellungen zurückgesetzt."
+msgstr "Standard-Einstellungen für Farbsteuerung geladen"
 
 msgctxt "IDS_OSD_NO_COLORCONTROL"
 msgid "Color control is not supported"
-msgstr "Farbeinstellungen werden nicht unterstützt."
+msgstr "Farbsteuerung nicht verfügbar"
 
 msgctxt "IDS_BRIGHTNESS_INC"
 msgid "Brightness increase"
-msgstr "Helligkeit erhöhen"
+msgstr "Farbsteuerung: Helligkeit erhöhen"
 
 msgctxt "IDS_LANG_PREF_EXAMPLE"
 msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
