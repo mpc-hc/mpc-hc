@@ -326,12 +326,12 @@ msgid "On/Off"
 msgstr "Pornit/Oprit"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
-msgid "From FPS"
-msgstr "De la FPS"
+msgid "From (FPS)"
+msgstr "De la (FPS)"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
-msgid "To FPS"
-msgstr "La FPS"
+msgid "To (FPS)"
+msgstr "La (FPS)"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"

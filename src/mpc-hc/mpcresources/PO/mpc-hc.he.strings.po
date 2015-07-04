@@ -326,11 +326,11 @@ msgid "On/Off"
 msgstr "פועל/כבוי"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
-msgid "From FPS"
+msgid "From (FPS)"
 msgstr "מפריימים בשנייה"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
-msgid "To FPS"
+msgid "To (FPS)"
 msgstr "לפריימים בשנייה"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"

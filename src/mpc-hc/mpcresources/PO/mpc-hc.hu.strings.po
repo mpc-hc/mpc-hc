@@ -326,11 +326,11 @@ msgid "On/Off"
 msgstr "Be/Ki"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
-msgid "From FPS"
+msgid "From (FPS)"
 msgstr "FPS-től"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
-msgid "To FPS"
+msgid "To (FPS)"
 msgstr "FPS-ig"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"

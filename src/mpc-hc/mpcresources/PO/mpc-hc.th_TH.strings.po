@@ -327,12 +327,12 @@ msgid "On/Off"
 msgstr "เปิด/ปิด"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
-msgid "From FPS"
-msgstr "จาก FPS"
+msgid "From (FPS)"
+msgstr "จาก (FPS)"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
-msgid "To FPS"
-msgstr "สู่ FPS"
+msgid "To (FPS)"
+msgstr "สู่ (FPS)"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
