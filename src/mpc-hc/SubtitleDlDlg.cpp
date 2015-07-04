@@ -113,14 +113,16 @@ int CALLBACK CSubtitleDlDlg::DefSortCompare(LPARAM lParam1, LPARAM lParam2, LPAR
     int nLeft = (int)lParam1, nRight = (int)lParam2;
 
     // sort by language first
+    ISDb::subtitle* lSub = (ISDb::subtitle*)defps->m_list->GetItemData(nLeft);
+    ISDb::subtitle* rSub = (ISDb::subtitle*)defps->m_list->GetItemData(nRight);
     CString left  = defps->m_list->GetItemText(nLeft, COL_LANGUAGE);
     CString right = defps->m_list->GetItemText(nRight, COL_LANGUAGE);
     // user-provided sort order
     int lpos, rpos;
-    if (!defps->m_langPos.Lookup(left, lpos)) {
+    if (!defps->m_langPos.Lookup(CString(lSub->iso639_2), lpos) && !defps->m_langPos.Lookup(left, lpos)) {
         lpos = INT_MAX;
     }
-    if (!defps->m_langPos.Lookup(right, rpos)) {
+    if (!defps->m_langPos.Lookup(CString(rSub->iso639_2), rpos) && !defps->m_langPos.Lookup(right, rpos)) {
         rpos = INT_MAX;
     }
     if (lpos < rpos) {
@@ -351,14 +353,17 @@ BOOL CSubtitleDlDlg::OnInitDialog()
     int tPos = 0;
     CString langCode = order.Tokenize(_T(",; "), tPos);
     while (tPos != -1) {
+        int pos;
+        CString langCodeISO6391 = ISO6392To6391(CStringA(langCode));
+        if (!langCodeISO6391.IsEmpty() && !m_defps.m_langPos.Lookup(langCodeISO6391, pos)) {
+            m_defps.m_langPos[langCodeISO6391] = listPos;
+        }
         CString langName = LangCodeToName(CStringA(langCode));
-        if (!langName.IsEmpty()) {
-            int pos;
-            if (!m_defps.m_langPos.Lookup(langName, pos)) {
-                m_defps.m_langPos[langName] = listPos++;
-            }
+        if (!langName.IsEmpty() && !m_defps.m_langPos.Lookup(langName, pos)) {
+            m_defps.m_langPos[langName] = listPos;
         }
         langCode = order.Tokenize(_T(",; "), tPos);
+        listPos++;
     }
 
     // start new worker thread to download the list of subtitles
