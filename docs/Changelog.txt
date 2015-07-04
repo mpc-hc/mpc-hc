@@ -11,6 +11,7 @@ Legend:
 next version - not released yet
 ===============================
 + Add Indonesian translation
+* Updated MediaInfoLib to v0.7.75
 * Updated LAV Filters to v0.65.0.20:
     - LAV Video Decoder: Allow hardware decoding of UHD video with AMD cards
 * Updated Armenian, Bengali, British English, Catalan, Chinese (Traditional), Croatian, Danish, Dutch,
