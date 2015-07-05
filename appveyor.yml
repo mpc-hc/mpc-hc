@@ -1,0 +1,25 @@
+version: 1.7.10-{build}
+
+environment:
+  MSYS: C:\MSYS
+  MINGW32: C:\MSYS\mingw
+  MINGW64: C:\MSYS\mingw
+
+install:
+- ps: >-
+    if (!(Test-Path "$env:MSYS")) {
+      Invoke-WebRequest http://xhmikosr.1f0.de/tools/msys/MSYS_MinGW-w64_GCC_610_x86-x64.7z -OutFile msys.7z
+      7z x msys.7z -oC: -y > $null
+    }
+
+    git submodule -q update --init --recursive
+
+cache:  # 15.11.2015 14:32
+  - C:\MSYS -> appveyor.yml
+
+build_script:
+  - cmd: build.bat silent nocolors
+
+test: off
+
+deploy: off
