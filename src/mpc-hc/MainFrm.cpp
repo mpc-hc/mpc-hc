@@ -7006,7 +7006,7 @@ void CMainFrame::OnPlayPlay()
 
         if (GetPlaybackMode() == PM_FILE) {
             if (!m_LastOpenBDPath.IsEmpty()) {
-                strOSD = strPlay + _T(" BD");
+                strOSD = ResStr(IDS_PLAY_BD);
             } else {
                 strOSD = GetFileName();
                 if (!strOSD.IsEmpty()) {
@@ -7016,7 +7016,7 @@ void CMainFrame::OnPlayPlay()
                 }
             }
         } else if (GetPlaybackMode() == PM_DVD) {
-            strOSD = strPlay + _T(" DVD");
+            strOSD = ResStr(IDS_PLAY_DVD);
         }
     }
 

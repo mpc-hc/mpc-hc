@@ -2755,6 +2755,8 @@ BEGIN
     IDS_MPLAYERC_103        "Shift Subtitle Right"
     IDS_AG_SEEKSET          "Jump to Beginning"
     IDS_OSD_SHOW_FILENAME   "OSD: Show File Name"
+    IDS_PLAY_DVD            "Play DVD"
+    IDS_PLAY_BD             "Play BD"
 END
 
 STRINGTABLE
