@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -202,7 +202,7 @@ bool CSubtitleDlDlg::Parse()
     while (pos) {
         str = sl.GetNext(pos);
 
-        CStringA param = str.Left(max(0, str.Find('=')));
+        CStringA param = str.Left(std::max(0, str.Find('=')));
         CStringA value = str.Mid(str.Find('=') + 1);
 
         if (param == "ticket") {

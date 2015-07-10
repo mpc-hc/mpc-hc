@@ -204,7 +204,7 @@ static bool SearchFiles(CString mask, CAtlList<CString>& sl)
     }
 
     {
-        CString dir = mask.Left(max(mask.ReverseFind('\\'), mask.ReverseFind('/')) + 1);
+        CString dir = mask.Left(std::max(mask.ReverseFind('\\'), mask.ReverseFind('/')) + 1);
 
         WIN32_FIND_DATA fd;
         HANDLE h = FindFirstFile(mask, &fd);
@@ -982,7 +982,7 @@ void CPlayerPlaylistBar::OnLvnKeyDown(NMHDR* pNMHDR, LRESULT* pResult)
 
         m_list.SetItemState(-1, 0, LVIS_SELECTED);
         m_list.SetItemState(
-            max(min(items.GetTail(), m_list.GetItemCount() - 1), 0),
+            std::max(std::min(items.GetTail(), m_list.GetItemCount() - 1), 0),
             LVIS_SELECTED, LVIS_SELECTED);
 
         ResizeListColumn();

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -671,7 +671,7 @@ bool CWebServer::CallCGI(CWebClientSocket* pClient, CStringA& hdr, CStringA& bod
 
             int i = 0, len = pClient->m_data.GetLength();
             for (; i < len; i += dwWritten) {
-                if (!WriteFile(hChildStdinWrDup, (LPCSTR)pClient->m_data + i, min(len - i, BUFFSIZE), &dwWritten, nullptr)) {
+                if (!WriteFile(hChildStdinWrDup, (LPCSTR)pClient->m_data + i, std::min(len - i, BUFFSIZE), &dwWritten, nullptr)) {
                     break;
                 }
             }

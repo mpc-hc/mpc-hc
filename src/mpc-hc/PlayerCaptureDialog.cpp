@@ -1661,13 +1661,13 @@ void CPlayerCaptureDialog::OnRecord()
 void CPlayerCaptureDialog::OnChangeVideoBuffers()
 {
     UpdateData();
-    AfxGetApp()->WriteProfileInt(IDS_R_CAPTURE, _T("VidBuffers"), max(m_nVidBuffers, 0));
+    AfxGetApp()->WriteProfileInt(IDS_R_CAPTURE, _T("VidBuffers"), std::max(m_nVidBuffers, 0));
 }
 
 void CPlayerCaptureDialog::OnChangeAudioBuffers()
 {
     UpdateData();
-    AfxGetApp()->WriteProfileInt(IDS_R_CAPTURE, _T("AudBuffers"), max(m_nAudBuffers, 0));
+    AfxGetApp()->WriteProfileInt(IDS_R_CAPTURE, _T("AudBuffers"), std::max(m_nAudBuffers, 0));
 }
 
 void CPlayerCaptureDialog::OnTimer(UINT_PTR nIDEvent)

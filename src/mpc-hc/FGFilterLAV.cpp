@@ -556,12 +556,12 @@ void CFGFilterLAVVideo::ShowPropertyPages(CWnd* pParendWnd)
 LPCTSTR CFGFilterLAVVideo::GetUserFriendlyDecoderName(const CString& decoderName)
 {
     static std::pair<LPCTSTR, LPCTSTR> userFriendlyDecoderNames[] = {
-        make_pair(_T("avcodec"), _T("FFmpeg")),
-        make_pair(_T("dxva2n"), _T("DXVA2 Native")),
-        make_pair(_T("dxva2cb"), _T("DXVA2 Copy-back")),
-        make_pair(_T("dxva2cb direct"), _T("DXVA2 Copy-back (Direct)")),
-        make_pair(_T("cuvid"), _T("NVIDIA CUVID")),
-        make_pair(_T("quicksync"), _T("Intel QuickSync"))
+        std::make_pair(_T("avcodec"), _T("FFmpeg")),
+        std::make_pair(_T("dxva2n"), _T("DXVA2 Native")),
+        std::make_pair(_T("dxva2cb"), _T("DXVA2 Copy-back")),
+        std::make_pair(_T("dxva2cb direct"), _T("DXVA2 Copy-back (Direct)")),
+        std::make_pair(_T("cuvid"), _T("NVIDIA CUVID")),
+        std::make_pair(_T("quicksync"), _T("Intel QuickSync"))
     };
 
     for (int i = 0; i < _countof(userFriendlyDecoderNames); i++) {

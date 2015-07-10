@@ -1240,7 +1240,7 @@ BOOL CMainFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO*
 void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 {
     auto setLarger = [](long & a, long b) {
-        a = max(a, b);
+        a = std::max(a, b);
     };
 
     const long saneSize = 110;
@@ -2003,7 +2003,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                     CString lang;
                     if (AATR.Language) {
                         int len = GetLocaleInfo(AATR.Language, LOCALE_SENGLANGUAGE, lang.GetBuffer(64), 64);
-                        lang.ReleaseBufferSetLength(max(len - 1, 0));
+                        lang.ReleaseBufferSetLength(std::max(len - 1, 0));
                     } else {
                         lang.Format(IDS_AG_UNKNOWN, ulCurrent + 1);
                     }
@@ -2055,7 +2055,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                         && SUCCEEDED(m_pDVDI->GetSubpictureAttributes(ulCurrent, &SATR))) {
                     CString lang;
                     int len = GetLocaleInfo(SATR.Language, LOCALE_SENGLANGUAGE, lang.GetBuffer(64), 64);
-                    lang.ReleaseBufferSetLength(max(len - 1, 0));
+                    lang.ReleaseBufferSetLength(std::max(len - 1, 0));
 
                     switch (SATR.LanguageExtension) {
                         case DVD_SP_EXT_NotSpecified:
@@ -3717,7 +3717,7 @@ void CMainFrame::OnOgmSub(UINT nID)
                     lang = pszName;
                 } else {
                     int len = GetLocaleInfo(lcid, LOCALE_SENGLANGUAGE, lang.GetBuffer(64), 64);
-                    lang.ReleaseBufferSetLength(max(len - 1, 0));
+                    lang.ReleaseBufferSetLength(std::max(len - 1, 0));
                 }
 
                 strMessage.Format(IDS_SUBTITLE_STREAM, lang);
@@ -3777,7 +3777,7 @@ void CMainFrame::OnDvdAudio(UINT nID)
                 CString strMessage;
                 if (AATR.Language) {
                     int len = GetLocaleInfo(AATR.Language, LOCALE_SENGLANGUAGE, lang.GetBuffer(64), 64);
-                    lang.ReleaseBufferSetLength(max(len - 1, 0));
+                    lang.ReleaseBufferSetLength(std::max(len - 1, 0));
                 } else {
                     lang.Format(IDS_AG_UNKNOWN, nNextStream + 1);
                 }
@@ -3836,7 +3836,7 @@ void CMainFrame::OnDvdSub(UINT nID)
                     CString lang;
                     CString strMessage;
                     int len = GetLocaleInfo(SATR.Language, LOCALE_SENGLANGUAGE, lang.GetBuffer(64), 64);
-                    lang.ReleaseBufferSetLength(max(len - 1, 0));
+                    lang.ReleaseBufferSetLength(std::max(len - 1, 0));
                     lang += FAILED(hr) ? _T(" [") + ResStr(IDS_AG_ERROR) + _T("] ") : _T("");
                     strMessage.Format(IDS_SUBTITLE_STREAM, lang);
                     m_OSD.DisplayMessage(OSD_TOPLEFT, strMessage);
@@ -4710,12 +4710,12 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 
     const CAppSettings& s = AfxGetAppSettings();
 
-    int cols = max(1, min(10, s.iThumbCols));
-    int rows = max(1, min(20, s.iThumbRows));
+    int cols = std::max(1, std::min(10, s.iThumbCols));
+    int rows = std::max(1, std::min(20, s.iThumbRows));
 
     const int margin = 5;
     const int infoheight = 70;
-    int width = max(256, min(2560, s.iThumbWidth));
+    int width = std::max(256, std::min(2560, s.iThumbWidth));
     int height = width * szVideoARCorrected.cy / szVideoARCorrected.cx * rows / cols + infoheight;
 
     int dibsize = sizeof(BITMAPINFOHEADER) + width * height * 4;
@@ -6718,15 +6718,15 @@ void CMainFrame::OnViewPanNScan(UINT nID)
     }
 
     if (dx < 0 && m_PosX > 0) {
-        m_PosX = max(m_PosX - 0.005 * m_ZoomX, 0.0);
+        m_PosX = std::max(m_PosX - 0.005 * m_ZoomX, 0.0);
     } else if (dx > 0 && m_PosX < 1) {
-        m_PosX = min(m_PosX + 0.005 * m_ZoomX, 1.0);
+        m_PosX = std::min(m_PosX + 0.005 * m_ZoomX, 1.0);
     }
 
     if (dy < 0 && m_PosY > 0) {
-        m_PosY = max(m_PosY - 0.005 * m_ZoomY, 0.0);
+        m_PosY = std::max(m_PosY - 0.005 * m_ZoomY, 0.0);
     } else if (dy > 0 && m_PosY < 1) {
-        m_PosY = min(m_PosY + 0.005 * m_ZoomY, 1.0);
+        m_PosY = std::min(m_PosY + 0.005 * m_ZoomY, 1.0);
     }
 
     MoveVideoWindow(true);
@@ -6795,10 +6795,10 @@ void CMainFrame::OnViewPanNScanPresets(UINT nID)
         return;
     }
 
-    m_PosX = min(max(m_PosX, 0.0), 1.0);
-    m_PosY = min(max(m_PosY, 0.0), 1.0);
-    m_ZoomX = min(max(m_ZoomX, 0.2), 3.0);
-    m_ZoomY = min(max(m_ZoomY, 0.2), 3.0);
+    m_PosX = std::min(std::max(m_PosX, 0.0), 1.0);
+    m_PosY = std::min(std::max(m_PosY, 0.0), 1.0);
+    m_ZoomX = std::min(std::max(m_ZoomX, 0.2), 3.0);
+    m_ZoomY = std::min(std::max(m_ZoomY, 0.2), 3.0);
 
     MoveVideoWindow(true);
 }
@@ -8716,8 +8716,8 @@ public:
 
     // ISequentialStream
     STDMETHODIMP Read(void* pv, ULONG cb, ULONG* pcbRead) {
-        size_t cbRead = min(m_data.GetCount() - m_pos, size_t(cb));
-        cbRead = max(cbRead, size_t(0));
+        size_t cbRead = std::min(m_data.GetCount() - m_pos, size_t(cb));
+        cbRead = std::max(cbRead, size_t(0));
         if (cbRead) {
             memcpy(pv, &m_data[m_pos], cbRead);
         }
@@ -9004,7 +9004,7 @@ void CMainFrame::PlayFavoriteFile(CString fav)
     args.RemoveHeadNoReturn(); // desc / name
     _stscanf_s(args.RemoveHead(), _T("%I64d"), &rtStart);    // pos
     _stscanf_s(args.RemoveHead(), _T("%d"), &bRelativeDrive);    // relative drive
-    rtStart = max(rtStart, 0ll);
+    rtStart = std::max(rtStart, 0ll);
 
     // NOTE: This is just for the favorites but we could add a global settings that does this always when on. Could be useful when using removable devices.
     //       All you have to do then is plug in your 500 gb drive, full with movies and/or music, start MPC-HC (from the 500 gb drive) with a preloaded playlist and press play.
@@ -9184,8 +9184,8 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
         GetClientRect(&clientRect);
 
         CSize logoSize = m_wndView.GetLogoSize();
-        logoSize.cx = max<LONG>(logoSize.cx, MIN_LOGO_WIDTH);
-        logoSize.cy = max<LONG>(logoSize.cy, MIN_LOGO_HEIGHT);
+        logoSize.cx = std::max<LONG>(logoSize.cx, MIN_LOGO_WIDTH);
+        logoSize.cy = std::max<LONG>(logoSize.cy, MIN_LOGO_HEIGHT);
 
         unsigned uTop, uLeft, uRight, uBottom;
         m_controls.GetDockZones(uTop, uLeft, uRight, uBottom);
@@ -9214,7 +9214,7 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 
         MINMAXINFO mmi;
         OnGetMinMaxInfo(&mmi);
-        CRect windowRect(0, 0, max(windowSize.cx, mmi.ptMinTrackSize.x), max(windowSize.cy, mmi.ptMinTrackSize.y));
+        CRect windowRect(0, 0, std::max(windowSize.cx, mmi.ptMinTrackSize.x), std::max(windowSize.cy, mmi.ptMinTrackSize.y));
         monitor.CenterRectToMonitor(windowRect, TRUE);
         SetWindowPos(nullptr, windowRect.left, windowRect.top, windowSize.cx, windowSize.cy, SWP_NOZORDER | SWP_NOACTIVATE);
     }
@@ -9267,8 +9267,8 @@ void CMainFrame::RestoreDefaultWindowRect()
             GetClientRect(&clientRect);
 
             CSize logoSize = m_wndView.GetLogoSize();
-            logoSize.cx = max<LONG>(logoSize.cx, MIN_LOGO_WIDTH);
-            logoSize.cy = max<LONG>(logoSize.cy, MIN_LOGO_HEIGHT);
+            logoSize.cx = std::max<LONG>(logoSize.cx, MIN_LOGO_WIDTH);
+            logoSize.cy = std::max<LONG>(logoSize.cy, MIN_LOGO_HEIGHT);
 
             unsigned uTop, uLeft, uRight, uBottom;
             m_controls.GetDockZones(uTop, uLeft, uRight, uBottom);
@@ -10144,7 +10144,7 @@ double CMainFrame::GetZoomAutoFitScale(bool bLargerOnly)
 
     double sx = ((double)width  * s.nAutoFitFactor / 100 - decorationsSize.cx) / arxy.cx;
     double sy = ((double)height * s.nAutoFitFactor / 100 - decorationsSize.cy) / arxy.cy;
-    sx = min(sx, sy);
+    sx = std::min(sx, sy);
     // Take movie aspect ratio into consideration
     // The scaling is computed so that the height is an integer value
     sy = floor(arxy.cy * floor(arxy.cx * sx + 0.5) / arxy.cx + 0.5) / arxy.cy;
@@ -10822,7 +10822,7 @@ HRESULT CMainFrame::OpenBDAGraph()
     HRESULT hr = m_pGB->RenderFile(L"", L"");
     if (SUCCEEDED(hr)) {
         SetPlaybackMode(PM_DIGITAL_CAPTURE);
-        m_pDVBState = make_unique<DVBState>();
+        m_pDVBState = std::make_unique<DVBState>();
     }
     return hr;
 }
@@ -11270,7 +11270,7 @@ void CMainFrame::UpdateChapterInInfoBar()
             CComBSTR bstr;
             long currentChap = m_pCB->ChapLookup(&rtNow, &bstr);
             if (bstr.Length()) {
-                chapter.Format(_T("%s (%ld/%lu)"), bstr.m_str, max(0l, currentChap + 1l), dwChapCount);
+                chapter.Format(_T("%s (%ld/%lu)"), bstr.m_str, std::max(0l, currentChap + 1l), dwChapCount);
             } else {
                 chapter.Format(_T("%ld/%lu"), currentChap + 1, dwChapCount);
             }
@@ -12485,7 +12485,7 @@ void CMainFrame::SetupAudioSubMenu()
             CString str;
             if (Language) {
                 int len = GetLocaleInfo(Language, LOCALE_SENGLANGUAGE, str.GetBuffer(256), 256);
-                str.ReleaseBufferSetLength(max(len - 1, 0));
+                str.ReleaseBufferSetLength(std::max(len - 1, 0));
             } else {
                 str.Format(IDS_AG_UNKNOWN, i + 1);
             }
@@ -12604,7 +12604,7 @@ void CMainFrame::SetupSubtitlesSubMenu()
                 CString str;
                 if (Language) {
                     int len = GetLocaleInfo(Language, LOCALE_SENGLANGUAGE, str.GetBuffer(256), 256);
-                    str.ReleaseBufferSetLength(max(len - 1, 0));
+                    str.ReleaseBufferSetLength(std::max(len - 1, 0));
                 } else {
                     str.Format(IDS_AG_UNKNOWN, i + 1);
                 }
@@ -12718,7 +12718,7 @@ void CMainFrame::SetupSubtitlesSubMenu()
                     } else {
                         if (lcid != 0) {
                             int len = GetLocaleInfo(lcid, LOCALE_SENGLANGUAGE, str.GetBuffer(64), 64);
-                            str.ReleaseBufferSetLength(max(len - 1, 0));
+                            str.ReleaseBufferSetLength(std::max(len - 1, 0));
                         }
 
                         CString lcstr = CString(str).MakeLower();
@@ -13100,7 +13100,7 @@ void CMainFrame::SetupNavStreamSelectSubMenu(CMenu& subMenu, UINT id, DWORD dwSe
         } else {
             if (lcid != 0) {
                 int len = GetLocaleInfo(lcid, LOCALE_SENGLANGUAGE, str.GetBuffer(64), 64);
-                str.ReleaseBufferSetLength(max(len - 1, 0));
+                str.ReleaseBufferSetLength(std::max(len - 1, 0));
             }
 
             CString lcstr = CString(str).MakeLower();
@@ -15028,19 +15028,19 @@ void CMainFrame::SetColorControl(DWORD flags, int& brightness, int& contrast, in
     COLORPROPERTY_RANGE* cr;
     if (flags & ProcAmp_Brightness) {
         cr = pApp->GetColorControl(ProcAmp_Brightness);
-        brightness = min(max(brightness, cr->MinValue), cr->MaxValue);
+        brightness = std::min(std::max(brightness, cr->MinValue), cr->MaxValue);
     }
     if (flags & ProcAmp_Contrast) {
         cr = pApp->GetColorControl(ProcAmp_Contrast);
-        contrast = min(max(contrast, cr->MinValue), cr->MaxValue);
+        contrast = std::min(std::max(contrast, cr->MinValue), cr->MaxValue);
     }
     if (flags & ProcAmp_Hue) {
         cr = pApp->GetColorControl(ProcAmp_Hue);
-        hue = min(max(hue, cr->MinValue), cr->MaxValue);
+        hue = std::min(std::max(hue, cr->MinValue), cr->MaxValue);
     }
     if (flags & ProcAmp_Saturation) {
         cr = pApp->GetColorControl(ProcAmp_Saturation);
-        saturation = min(max(saturation, cr->MinValue), cr->MaxValue);
+        saturation = std::min(std::max(saturation, cr->MinValue), cr->MaxValue);
     }
 
     if (m_pVMRMC) {

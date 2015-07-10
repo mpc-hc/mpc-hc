@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -117,7 +117,7 @@ void CPlayerSeekBar::SyncVideoToThumb()
 
 long CPlayerSeekBar::ChannelPointFromPosition(REFERENCE_TIME rtPos) const
 {
-    rtPos = min(m_rtStop, max(m_rtStart, rtPos));
+    rtPos = std::min(m_rtStop, std::max(m_rtStart, rtPos));
     long ret = 0;
     auto w = GetChannelRect().Width();
     if (m_bHasDuration) {
@@ -154,7 +154,7 @@ void CPlayerSeekBar::SyncThumbToVideo(REFERENCE_TIME rtPos)
             InvalidateRect(newThumbRect | m_lastThumbRect);
         }
         if (bSetTaskbar && AfxGetAppSettings().fUseWin7TaskBar && m_pMainFrame->m_pTaskbarList) {
-            VERIFY(S_OK == m_pMainFrame->m_pTaskbarList->SetProgressValue(m_pMainFrame->m_hWnd, max(m_rtPos, 1ll), m_rtStop));
+            VERIFY(S_OK == m_pMainFrame->m_pTaskbarList->SetProgressValue(m_pMainFrame->m_hWnd, std::max(m_rtPos, 1ll), m_rtStop));
         }
     }
 }
@@ -295,7 +295,7 @@ void CPlayerSeekBar::UpdateToolTipPosition()
         point.x += m_pMainFrame->m_dpi.ScaleX(10);
         point.y += m_pMainFrame->m_dpi.ScaleY(20);
     }
-    point.x = max(0l, min(point.x, windowRect.Width() - bubbleSize.cx));
+    point.x = std::max(0l, std::min(point.x, windowRect.Width() - bubbleSize.cx));
     ClientToScreen(&point);
 
     m_tooltip.SendMessage(TTM_TRACKPOSITION, 0, MAKELPARAM(point.x, point.y));

@@ -285,7 +285,7 @@ static bool FindRedir(const CString& fn, CString ct, CAtlList<CString>& fns, con
         }
     }
 
-    CString dir = fn.Left(max(fn.ReverseFind('/'), fn.ReverseFind('\\')) + 1); // "ReverseFindOneOf"
+    CString dir = fn.Left(std::max(fn.ReverseFind('/'), fn.ReverseFind('\\')) + 1); // "ReverseFindOneOf"
 
     for (const auto re : res) {
         std::wcmatch mc;
@@ -2261,28 +2261,28 @@ void CMPlayerCApp::UpdateColorControlRange(bool isEVR)
         m_ColorControl[0].MinValue      = FixedToInt(m_EVRColorControl[0].MinValue);
         m_ColorControl[0].MaxValue      = FixedToInt(m_EVRColorControl[0].MaxValue);
         m_ColorControl[0].DefaultValue  = FixedToInt(m_EVRColorControl[0].DefaultValue);
-        m_ColorControl[0].StepSize      = max(1, FixedToInt(m_EVRColorControl[0].StepSize));
+        m_ColorControl[0].StepSize      = std::max(1, FixedToInt(m_EVRColorControl[0].StepSize));
         // Contrast
         m_ColorControl[1].MinValue      = FixedToInt(m_EVRColorControl[1].MinValue, 100) - 100;
         m_ColorControl[1].MaxValue      = FixedToInt(m_EVRColorControl[1].MaxValue, 100) - 100;
         m_ColorControl[1].DefaultValue  = FixedToInt(m_EVRColorControl[1].DefaultValue, 100) - 100;
-        m_ColorControl[1].StepSize      = max(1, FixedToInt(m_EVRColorControl[1].StepSize, 100));
+        m_ColorControl[1].StepSize      = std::max(1, FixedToInt(m_EVRColorControl[1].StepSize, 100));
         // Hue
         m_ColorControl[2].MinValue      = FixedToInt(m_EVRColorControl[2].MinValue);
         m_ColorControl[2].MaxValue      = FixedToInt(m_EVRColorControl[2].MaxValue);
         m_ColorControl[2].DefaultValue  = FixedToInt(m_EVRColorControl[2].DefaultValue);
-        m_ColorControl[2].StepSize      = max(1, FixedToInt(m_EVRColorControl[2].StepSize));
+        m_ColorControl[2].StepSize      = std::max(1, FixedToInt(m_EVRColorControl[2].StepSize));
         // Saturation
         m_ColorControl[3].MinValue      = FixedToInt(m_EVRColorControl[3].MinValue, 100) - 100;
         m_ColorControl[3].MaxValue      = FixedToInt(m_EVRColorControl[3].MaxValue, 100) - 100;
         m_ColorControl[3].DefaultValue  = FixedToInt(m_EVRColorControl[3].DefaultValue, 100) - 100;
-        m_ColorControl[3].StepSize      = max(1, FixedToInt(m_EVRColorControl[3].StepSize, 100));
+        m_ColorControl[3].StepSize      = std::max(1, FixedToInt(m_EVRColorControl[3].StepSize, 100));
     } else {
         // Brightness
         m_ColorControl[0].MinValue      = (int)floor(m_VMR9ColorControl[0].MinValue + 0.5);
         m_ColorControl[0].MaxValue      = (int)floor(m_VMR9ColorControl[0].MaxValue + 0.5);
         m_ColorControl[0].DefaultValue  = (int)floor(m_VMR9ColorControl[0].DefaultValue + 0.5);
-        m_ColorControl[0].StepSize      = max(1, (int)(m_VMR9ColorControl[0].StepSize + 0.5));
+        m_ColorControl[0].StepSize      = std::max(1, (int)(m_VMR9ColorControl[0].StepSize + 0.5));
         // Contrast
         /*if (m_VMR9ColorControl[1].MinValue == 0.0999908447265625) {
               m_VMR9ColorControl[1].MinValue = 0.11;    //fix NVIDIA bug
@@ -2293,17 +2293,17 @@ void CMPlayerCApp::UpdateColorControlRange(bool isEVR)
         m_ColorControl[1].MinValue      = (int)floor(m_VMR9ColorControl[1].MinValue * 100 + 0.5) - 100;
         m_ColorControl[1].MaxValue      = (int)floor(m_VMR9ColorControl[1].MaxValue * 100 + 0.5) - 100;
         m_ColorControl[1].DefaultValue  = (int)floor(m_VMR9ColorControl[1].DefaultValue * 100 + 0.5) - 100;
-        m_ColorControl[1].StepSize      = max(1, (int)(m_VMR9ColorControl[1].StepSize * 100 + 0.5));
+        m_ColorControl[1].StepSize      = std::max(1, (int)(m_VMR9ColorControl[1].StepSize * 100 + 0.5));
         // Hue
         m_ColorControl[2].MinValue      = (int)floor(m_VMR9ColorControl[2].MinValue + 0.5);
         m_ColorControl[2].MaxValue      = (int)floor(m_VMR9ColorControl[2].MaxValue + 0.5);
         m_ColorControl[2].DefaultValue  = (int)floor(m_VMR9ColorControl[2].DefaultValue + 0.5);
-        m_ColorControl[2].StepSize      = max(1, (int)(m_VMR9ColorControl[2].StepSize + 0.5));
+        m_ColorControl[2].StepSize      = std::max(1, (int)(m_VMR9ColorControl[2].StepSize + 0.5));
         // Saturation
         m_ColorControl[3].MinValue      = (int)floor(m_VMR9ColorControl[3].MinValue * 100 + 0.5) - 100;
         m_ColorControl[3].MaxValue      = (int)floor(m_VMR9ColorControl[3].MaxValue * 100 + 0.5) - 100;
         m_ColorControl[3].DefaultValue  = (int)floor(m_VMR9ColorControl[3].DefaultValue * 100 + 0.5) - 100;
-        m_ColorControl[3].StepSize      = max(1, (int)(m_VMR9ColorControl[3].StepSize * 100 + 0.5));
+        m_ColorControl[3].StepSize      = std::max(1, (int)(m_VMR9ColorControl[3].StepSize * 100 + 0.5));
     }
 
     // Brightness

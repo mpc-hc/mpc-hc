@@ -324,7 +324,7 @@ void CWebClientSocket::OnReceive(int nErrorCode)
                         }
 
                         headerEnd += 4;
-                        m_buffLen = max(int(m_buff + m_buffLen - headerEnd), 0);
+                        m_buffLen = std::max(int(m_buff + m_buffLen - headerEnd), 0);
                         if (m_buffLen > 0) {
                             memcpy(m_buff, headerEnd, m_buffLen + 1);
                             if (m_buffLen >= m_dataLen) {
@@ -398,7 +398,7 @@ bool CWebClientSocket::OnCommand(CStringA& hdr, CStringA& body, CStringA& mime)
                 }
             } else if (arg == CMD_SETVOLUME && m_request.Lookup("volume", arg)) {
                 int volume = _tcstol(arg, nullptr, 10);
-                m_pMainFrame->m_wndToolBar.Volume = min(max(volume, 0), 100);
+                m_pMainFrame->m_wndToolBar.Volume = std::min(std::max(volume, 0), 100);
                 m_pMainFrame->OnPlayVolume(0);
             }
         }

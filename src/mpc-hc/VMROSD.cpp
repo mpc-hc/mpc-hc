@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -363,8 +363,8 @@ void CVMROSD::Invalidate()
 void CVMROSD::UpdateSeekBarPos(CPoint point)
 {
     m_llSeekPos = (point.x - m_rectBar.left) * (m_llSeekMax - m_llSeekMin) / (m_rectBar.Width() - SLIDER_CURSOR_WIDTH);
-    m_llSeekPos = max(m_llSeekPos, m_llSeekMin);
-    m_llSeekPos = min(m_llSeekPos, m_llSeekMax);
+    m_llSeekPos = std::max(m_llSeekPos, m_llSeekMin);
+    m_llSeekPos = std::min(m_llSeekPos, m_llSeekMax);
 
     if (AfxGetAppSettings().bFastSeek ^ (GetKeyState(VK_SHIFT) < 0)) {
         m_llSeekPos = m_pMainFrame->GetClosestKeyFrame(m_llSeekPos);

@@ -176,14 +176,14 @@ BOOL CPPagePlayback::OnApply()
 
     s.nVolume = m_oldVolume = m_nVolume;
     s.nBalance = m_nBalance;
-    s.nVolumeStep = min(max(m_nVolumeStep, 1), 100);
+    s.nVolumeStep = std::min(std::max(m_nVolumeStep, 1), 100);
     s.nSpeedStep = m_nSpeedStep;
     s.fLoopForever = !!m_iLoopForever;
     s.nLoops = m_nLoops;
     s.eAfterPlayback = static_cast<CAppSettings::AfterPlayback>(m_iAfterPlayback);
     s.iZoomLevel = m_iZoomLevel;
     s.fRememberZoomLevel = !!m_iRememberZoomLevel;
-    s.nAutoFitFactor = m_nAutoFitFactor = min(max(m_nAutoFitFactor, 25), 100);
+    s.nAutoFitFactor = m_nAutoFitFactor = std::min(std::max(m_nAutoFitFactor, 25), 100);
     s.fAutoloadAudio = !!m_fAutoloadAudio;
     s.fAutoloadSubtitles = !!m_fAutoloadSubtitles;
     s.fEnableWorkerThreadForOpening = !!m_fEnableWorkerThreadForOpening;

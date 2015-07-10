@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -90,7 +90,7 @@ void CFavoriteOrganizeDlg::UpdateColumnsSizes()
     m_list.GetClientRect(r);
     m_list.SetColumnWidth(0, LVSCW_AUTOSIZE);
     m_list.SetColumnWidth(1, LVSCW_AUTOSIZE);
-    m_list.SetColumnWidth(1, max(m_list.GetColumnWidth(1), r.Width() - m_list.GetColumnWidth(0)));
+    m_list.SetColumnWidth(1, std::max(m_list.GetColumnWidth(1), r.Width() - m_list.GetColumnWidth(0)));
 }
 
 void CFavoriteOrganizeDlg::DoDataExchange(CDataExchange* pDX)
@@ -312,7 +312,7 @@ void CFavoriteOrganizeDlg::OnDeleteBnClicked()
         m_list.DeleteItem(nItem);
     }
 
-    nItem = min(nItem, m_list.GetItemCount() - 1);
+    nItem = std::min(nItem, m_list.GetItemCount() - 1);
     m_list.SetItemState(nItem, LVIS_SELECTED, LVIS_SELECTED);
 }
 

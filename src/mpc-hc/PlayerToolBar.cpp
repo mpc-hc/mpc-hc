@@ -195,7 +195,7 @@ int CPlayerToolBar::GetVolume() const
     if (IsMuted() || volume <= 0) {
         volume = -10000;
     } else {
-        volume = min((int)(4000 * log10(volume / 100.0f)), 0); // 4000=2.0*100*20, where 2.0 is a special factor
+        volume = std::min((int)(4000 * log10(volume / 100.0f)), 0); // 4000=2.0*100*20, where 2.0 is a special factor
     }
 
     return volume;
