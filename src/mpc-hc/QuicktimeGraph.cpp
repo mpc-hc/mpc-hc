@@ -139,21 +139,27 @@ STDMETHODIMP CQuicktimeGraph::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPla
 STDMETHODIMP CQuicktimeGraph::Run()
 {
     m_wndDestFrame.Run();
-    m_pQTAP->SetIsRendering(true);
+    if (m_pQTAP) {
+        m_pQTAP->SetIsRendering(true);
+    }
     return S_OK;
 }
 
 STDMETHODIMP CQuicktimeGraph::Pause()
 {
     m_wndDestFrame.Pause();
-    m_pQTAP->SetIsRendering(false);
+    if (m_pQTAP) {
+        m_pQTAP->SetIsRendering(false);
+    }
     return S_OK;
 }
 
 STDMETHODIMP CQuicktimeGraph::Stop()
 {
     m_wndDestFrame.Stop();
-    m_pQTAP->SetIsRendering(false);
+    if (m_pQTAP) {
+        m_pQTAP->SetIsRendering(false);
+    }
     return S_OK;
 }
 

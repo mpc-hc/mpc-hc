@@ -16,6 +16,7 @@ next version - not released yet
 * Updated Armenian, Bengali, British English, Catalan, Chinese (Traditional), Croatian, Danish, Dutch,
   German, Japanese, Swedish, Thai, Turkish and Vietnamese translations
 ! Fix a rare crash when exiting DVB mode
+! Quicktime: Fix a crash when using system default renderer
 ! Ticket #5454, Deleting an item from the playlist sometimes did not work when shuffle mode was enabled
 ! Ticket #5464: If the main window was minimized while the D3D fullscreen window was displayed on another screen,
   it was impossible to use the mouse buttons to play, pause, exit fullscreen, etc.
