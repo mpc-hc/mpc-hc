@@ -1,0 +1,3 @@
+LIBRARY "CrashReporterDialog"
+EXPORTS
+    CreateCrashDialog

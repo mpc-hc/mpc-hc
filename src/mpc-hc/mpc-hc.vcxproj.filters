@@ -440,9 +440,6 @@
     <ClCompile Include="CrashReporter.cpp">
       <Filter>Crash Reporter</Filter>
     </ClCompile>
-    <ClCompile Include="CrashReporterDialog.cpp">
-      <Filter>Crash Reporter</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h">
@@ -823,9 +820,6 @@
       <Filter>Helpers</Filter>
     </ClInclude>
     <ClInclude Include="CrashReporter.h">
-      <Filter>Crash Reporter</Filter>
-    </ClInclude>
-    <ClInclude Include="CrashReporterDialog.h">
       <Filter>Crash Reporter</Filter>
     </ClInclude>
   </ItemGroup>

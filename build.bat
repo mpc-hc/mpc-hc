@@ -452,11 +452,12 @@ IF /I "%NAME%" == "MPC-HC" (
   COPY /Y /V "%VS_OUT_DIR%\d3dx9_43.dll"                  "%PCKG_NAME%\d3dx9_43.dll" >NUL
   IF NOT EXIST "%PCKG_NAME%\Shaders" MD "%PCKG_NAME%\Shaders"
   COPY /Y /V "..\src\mpc-hc\res\shaders\external\*.hlsl" "%PCKG_NAME%\Shaders" >NUL
-  IF /I "%BUILDCFG%" NEQ "Debug" IF /I "%BUILDCFG%" NEQ "Debug Lite" IF EXIST "%VS_OUT_DIR%\CrashReporter" (
+  IF /I "%BUILDCFG%" NEQ "Debug" IF /I "%BUILDCFG%" NEQ "Debug Lite" IF EXIST "%VS_OUT_DIR%\CrashReporter\crashrpt.dll" (
     IF NOT EXIST "%PCKG_NAME%\CrashReporter" MD "%PCKG_NAME%\CrashReporter"
-    COPY /Y /V "%VS_OUT_DIR%\CrashReporter\crashrpt.dll" "%PCKG_NAME%\CrashReporter"
-    COPY /Y /V "%VS_OUT_DIR%\CrashReporter\dbghelp.dll"  "%PCKG_NAME%\CrashReporter"
-    COPY /Y /V "%VS_OUT_DIR%\CrashReporter\sendrpt.exe"  "%PCKG_NAME%\CrashReporter"
+    COPY /Y /V "%VS_OUT_DIR%\CrashReporter\crashrpt.dll"            "%PCKG_NAME%\CrashReporter"
+    COPY /Y /V "%VS_OUT_DIR%\CrashReporter\dbghelp.dll"             "%PCKG_NAME%\CrashReporter"
+    COPY /Y /V "%VS_OUT_DIR%\CrashReporter\sendrpt.exe"             "%PCKG_NAME%\CrashReporter"
+    COPY /Y /V "%VS_OUT_DIR%\CrashReporter\CrashReporterDialog.dll" "%PCKG_NAME%\CrashReporter"
   )
 ) ELSE (
   COPY /Y /V "%VS_OUT_DIR%\*.ax"           "%PCKG_NAME%\*.ax" >NUL

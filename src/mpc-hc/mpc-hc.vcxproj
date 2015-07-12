@@ -322,7 +322,6 @@
     <ClCompile Include="ComPropertySheet.cpp" />
     <ClCompile Include="CoverArt.cpp" />
     <ClCompile Include="CrashReporter.cpp" />
-    <ClCompile Include="CrashReporterDialog.cpp" />
     <ClCompile Include="CShockwaveFlash.cpp" />
     <ClCompile Include="DebugShadersDlg.cpp" />
     <ClCompile Include="DeinterlacerFilter.cpp" />
@@ -451,7 +450,6 @@
     <ClInclude Include="ComPropertySheet.h" />
     <ClInclude Include="CoverArt.h" />
     <ClInclude Include="CrashReporter.h" />
-    <ClInclude Include="CrashReporterDialog.h" />
     <ClInclude Include="CShockwaveFlash.h" />
     <ClInclude Include="DebugShadersDlg.h" />
     <ClInclude Include="DeinterlacerFilter.h" />
@@ -812,6 +810,9 @@
     </ProjectReference>
     <ProjectReference Include="..\thirdparty\TreePropSheet\TreePropSheet.vcxproj">
       <Project>{ab494732-ef6d-44d0-bcf8-80ff04858d10}</Project>
+    </ProjectReference>
+    <ProjectReference Include="CrashReporterDialog\CrashReporterDialog.vcxproj">
+      <Project>{5db958dd-8b25-45ef-8072-3356caf8ccd7}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

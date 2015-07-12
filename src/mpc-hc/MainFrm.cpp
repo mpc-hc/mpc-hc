@@ -56,6 +56,8 @@
 #include "UpdateChecker.h"
 #include "UpdateCheckerDlg.h"
 #include "WinapiFunc.h"
+#include "CrashReporter.h"
+#include "Translations.h"
 
 #include "../DeCSS/VobFile.h"
 
@@ -677,6 +679,9 @@ void CMainFrame::EventCallback(MpcEvent ev)
             break;
         case MpcEvent::CHANGING_UI_LANGUAGE:
             UpdateUILanguage();
+            if (CrashReporter::IsEnabled()) {
+                CrashReporter::Enable(Translations::GetLanguageResourceByLocaleID(s.language).dllPath);
+            }
             break;
         case MpcEvent::STREAM_POS_UPDATE_REQUEST:
             OnTimer(TIMER_STREAMPOSPOLLER);

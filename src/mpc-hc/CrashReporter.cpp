@@ -22,10 +22,11 @@
 #include "CrashReporter.h"
 #ifndef _DEBUG
 #include <DbgHelp.h>
-#include "CrashReporterDialog.h"
 #include "VersionInfo.h"
 #include "mpc-hc_config.h"
 #include "DoctorDump/CrashRpt.h"
+#include "mplayerc.h"
+#include "translations.h"
 
 
 using namespace crash_rpt;
@@ -41,10 +42,10 @@ namespace CrashReporter
 }
 #endif
 
-void CrashReporter::Enable()
+void CrashReporter::Enable(LPCTSTR langDll /*= nullptr*/)
 {
 #ifndef _DEBUG
-    static crash_rpt::ApplicationInfo appInfo = {
+    crash_rpt::ApplicationInfo appInfo = {
         sizeof(appInfo),
         "31c48823-ce52-401b-8425-888388161757",
         "mpc-hc",
@@ -76,7 +77,15 @@ void CrashReporter::Enable()
                                        MiniDumpIgnoreInaccessibleMemory
                                    );
 
-    static crash_rpt::HandlerSettings handlerSettings = {
+    crash_rpt::custom_data_collection::Settings dataCollectionSettings = {
+        sizeof(dataCollectionSettings),
+        _T("CrashReporter\\CrashReporterDialog.dll"),               // Path of the DLL
+        "CreateCrashDialog",                                        // Function name
+        (LPBYTE)langDll,                                            // No user-defined data
+        langDll ? DWORD(_tcslen(langDll) + 1)* sizeof(TCHAR) : 0    // Size of user-defined data
+    };
+
+    crash_rpt::HandlerSettings handlerSettings = {
         sizeof(handlerSettings),
         FALSE,      // Don't keep the dumps
         FALSE,      // Don't open the problem page in the browser
@@ -89,59 +98,35 @@ void CrashReporter::Enable()
         nullptr,    // Default path for SendRpt
         nullptr,    // Default path for DbgHelp
         CrashProcessingCallback,    // Callback function
-        nullptr     // No user defined parameter for the callback function
+        nullptr,    // No user defined parameter for the callback function
+        &dataCollectionSettings // Use our custom dialog
     };
 
-    if (!g_crashReporter.IsCrashHandlingEnabled()) {
-        g_bEnabled = g_crashReporter.InitCrashRpt(&appInfo, &handlerSettings);
-        // Ensure the crash reporter UI thread is running
-        VERIFY(CCrashReporterUIThread::GetInstance() != nullptr);
-    } else {
-        g_bEnabled = true;
-    }
+    g_bEnabled = g_crashReporter.InitCrashRpt(&appInfo, &handlerSettings);
 #endif
-};
+}
 
 void CrashReporter::Disable()
 {
 #ifndef _DEBUG
     g_bEnabled = false;
 #endif
-};
+}
+
+bool CrashReporter::IsEnabled()
+{
+#ifndef _DEBUG
+    return g_bEnabled;
+#else
+    return false;
+#endif
+}
 
 #ifndef _DEBUG
 CrashProcessingCallbackResult CALLBACK CrashReporter::CrashProcessingCallback(CrashProcessingCallbackStage stage,
         ExceptionInfo* pExceptionInfo,
         LPVOID pUserData)
 {
-    if (!g_bEnabled) {
-        return SkipSendReportReturnDefaultResult;
-    }
-
-    // All variables are allocated statically to reduce allocations after crashing
-    if (stage == BeforeSendReport) {
-        // We need to make sure the message pump is ready
-        static CCrashReporterUIThread* pCrashReporterUIThread = CCrashReporterUIThread::GetInstance();
-        pCrashReporterUIThread->WaitThreadReady();
-        // before actually showing the dialog
-        static CCrashReporterDialog& crashDlg = pCrashReporterUIThread->GetCrashDialog();
-        crashDlg.ShowWindow(SW_SHOWNORMAL);
-        crashDlg.SetWindowPos(&CWnd::wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-        crashDlg.SetForegroundWindow();
-
-        static CString email, description;
-        if (crashDlg.WaitForUserInput(email, description)) {
-            if (!email.IsEmpty()) {
-                g_crashReporter.AddUserInfoToReport(L"email", email);
-            }
-            if (!description.IsEmpty()) {
-                g_crashReporter.AddUserInfoToReport(L"description", description);
-            }
-        }
-        crashDlg.SignalDataRead();
-        WaitForSingleObject(CCrashReporterUIThread::GetInstance()->m_hThread, INFINITE);
-    }
-
-    return DoDefaultActions;
-};
+    return g_bEnabled ? DoDefaultActions : SkipSendReportReturnDefaultResult;
+}
 #endif

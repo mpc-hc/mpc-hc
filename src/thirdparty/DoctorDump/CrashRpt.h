@@ -97,6 +97,82 @@ typedef CrashProcessingCallbackResult (CALLBACK *PFNCRASHPROCESSINGCALLBACK)(
 	LPVOID	userData					//!< Pointer to user-defined data.
 	);
 
+
+namespace custom_data_collection {
+
+//! Result of custom data collection.
+enum Result
+{
+	ShowUploadConfirmDialog, 	//!< Proceed to upload confirm dialog stage.
+	DoUpload,					//!< Skip upload confirm dialog and proceed to upload stage.
+	CancelUpload,				//!< Cancel upload.
+};
+
+//! Information about the exception.
+struct ExceptionInfo
+{
+	DWORD	ExceptionInfoSize;	//!< Size of this structure. Should be set to sizeof(ExceptionInfo).
+	LPBYTE	UserData;			//!< Pointer to user-defined data buffer.
+	DWORD	UserDataSize;		//!< Size of userData buffer.
+	HANDLE	Process;			//!< Handle to the crashed process.
+	DWORD	ProcessId;			//!< Process ID of the crashed process.
+	LPVOID	ExceptInfo;			//!< Pointer to \b MINIDUMP_EXCEPTION_INFORMATION structure.
+	BOOL	WasAssert;			//!< Is it assert?  (see \ref crash_rpt::CrashRpt::SkipDoctorDump_SendAssertionViolated).
+	LPCSTR	DumpGroup;			//!< Used-defined dump group (see \ref crash_rpt::CrashRpt::SkipDoctorDump_SendAssertionViolated).
+	int		DumpID;				//!< Dump ID of this crash in DrDump service.
+	int		DumpGroupID;		//!< DumpGroup ID of this crash in DrDump service.
+	int		ProblemID;			//!< Problem ID of this crash in DrDump service.
+};
+
+//! This interface used to add custom data to crash report.
+struct IDataBag
+{
+	//! You may add any file to crash report. This file will be read when crash appears and will be sent within the report.
+	//! Multiple files may be added. Filename of the file in the report may be changed to any name.
+	//! \return If the function succeeds, the return value is \b true.
+	virtual bool AddFileToReport(
+		LPCWSTR path,						//!< [in] Path to the file, that will be added to the report.
+		LPCWSTR reportFileName /* = NULL */	//!< [in] Filename that will be used in report for this file. If parameter is \b NULL, original name from path will be used.
+		) = 0;
+
+	//! Remove from report the file that was registered earlier to be sent within report.
+	//! \return If the function succeeds, the return value is \b true.
+	virtual bool RemoveFileFromReport(
+		LPCWSTR path						//!< [in] Path to the file, that will be removed from the report.
+		) = 0;
+
+	//! You may add any key/value pair to crash report.
+    //! \return If the function succeeds, the return value is \b true.
+    virtual bool AddUserInfoToReport(
+        LPCWSTR key,                        //!< [in] key string that will be added to the report.
+        LPCWSTR value                       //!< [in] value for the key.
+        ) = 0;
+
+	//! You may remove any key that was added previously to crash report by \a AddUserInfoToReport.
+	//! \return If the function succeeds, the return value is \b true.
+	virtual bool RemoveUserInfoFromReport(
+		LPCWSTR key                        //!< [in] key string that will be removed from the report.
+		) = 0;
+};
+
+//! Client crash callback function prototype.
+typedef Result (CALLBACK *PFNCUSTOMDATACOLLECTIONCALLBACK)(
+	const ExceptionInfo& exceptionInfo,		//!< Information about exception being processed.
+	IDataBag* dataBag						//!< Interface for adding custom data to crash report.
+	);
+
+//! Contains data for optional custom data collection after the crash in context of sendrpt.exe process.
+struct Settings
+{
+	DWORD	SettingsSize;					//!< Size of this structure. Should be set to sizeof(CustomDataCollectionSettings).
+	LPCWSTR	CollectionLibraryPath;			//!< Path to dll where collection function exported from.
+	LPCSTR	CollectionFunctionName;			//!< Name of collection function exported from \ref CollectionLibraryPath. It should have \ref crash_rpt::custom_data_collection::PFNCUSTOMDATACOLLECTIONCALLBACK prototype.
+	LPBYTE	UserData;						//!< Pointer to user-defined data buffer.
+	DWORD	UserDataSize;					//!< Size of \ref UserData buffer.
+};
+
+}
+
 //! Contains data that identifies your application.
 struct ApplicationInfo
 {
@@ -126,9 +202,11 @@ struct HandlerSettings
 	LPCWSTR LangFilePath;               //!< To customize localization set this member to the path to the language file (including file name).
 	LPCWSTR SendRptPath;                //!< Set this member to NULL to use default behavior when SendRpt is named sendrpt.exe and exist in same folder with crashrpt.dll. Set to filename if sendrpt.exe has another name but it is in same folder as crashrpt.dll. Set to full path in other cases.
 	LPCWSTR DbgHelpPath;                //!< Set this member to NULL to use default behavior when DbgHelp is named dbghelp.dll and exist in same folder with crashrpt.dll. Set to filename if dbghelp.dll has another name but it is in same folder as crashrpt.dll. Set to full path in other cases.
-										//!< \note You should use dbghelp.dll that distributed with crashrpt.dll and not the %SystemRoot%\System32\dbghelp.dll, because only that dll supports all required functionality. See <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms679294(v=vs.85).aspx">DbgHelp Versions</a> for more information.
+										//!< \note You should use dbghelp.dll that distributed with crashrpt.dll and not the %SystemRoot%\\System32\\dbghelp.dll, because only that dll supports all required functionality. See <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms679294(v=vs.85).aspx">DbgHelp Versions</a> for more information.
 	PFNCRASHPROCESSINGCALLBACK CrashProcessingCallback; //!< Callback function that will be called when crash reporting occurs. Set to NULL if no special processing needed.
 	LPVOID CrashProcessingCallbackUserData; //!< User defined parameter for CrashProcessingCallback. Optional.
+	custom_data_collection::Settings* CustomDataCollectionSettings;
+										//!< Contains data for optional custom data collection after the crash in context of sendrpt.exe process.
 };
 
 //! \brief To enable crash processing you should create an instance of this class.

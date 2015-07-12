@@ -25,7 +25,6 @@
 #include "FGFilter.h"
 #include "FileAssoc.h"
 #include "CrashReporter.h"
-#include "CrashReporterDialog.h"
 #include "VersionInfo.h"
 #include "SysVersion.h"
 #include "WinAPIUtils.h"
@@ -1208,13 +1207,9 @@ void CAppSettings::LoadSettings()
             language = 0;
         }
     }
-#ifndef DEBUG
-    if (language) {
-        auto pCrashReporterUIThread = CCrashReporterUIThread::GetInstance();
-        pCrashReporterUIThread->WaitThreadReady();
-        pCrashReporterUIThread->GetCrashDialog().LoadTranslatableResources();
+    if (language && CrashReporter::IsEnabled()) {
+        CrashReporter::Enable(Translations::GetLanguageResourceByLocaleID(language).dllPath);
     }
-#endif
 
     CreateCommands();
 

@@ -249,10 +249,11 @@ Source: ..\docs\Authors.txt;                    DestDir: {app}; Components: main
 Source: ..\docs\Changelog.txt;                  DestDir: {app}; Components: main;         Flags: ignoreversion
 Source: ..\docs\Readme.txt;                     DestDir: {app}; Components: main;         Flags: ignoreversion
 Source: ..\src\mpc-hc\res\shaders\external\*.hlsl; DestDir: {app}\Shaders; Components: main; Flags: ignoreversion
-#if DirExists(crashreporter_dir)
-Source: {#bindir}\CrashReporter\crashrpt.dll;   DestDir: {app}\CrashReporter; Components: main; Flags: ignoreversion
-Source: {#bindir}\CrashReporter\dbghelp.dll;    DestDir: {app}\CrashReporter; Components: main; Flags: ignoreversion
-Source: {#bindir}\CrashReporter\sendrpt.exe;    DestDir: {app}\CrashReporter; Components: main; Flags: ignoreversion
+#ifexist AddBackslash(crashreporter_dir) + "crashrpt.dll"
+Source: {#crashreporter_dir}\crashrpt.dll;            DestDir: {app}\CrashReporter; Components: main; Flags: ignoreversion
+Source: {#crashreporter_dir}\dbghelp.dll;             DestDir: {app}\CrashReporter; Components: main; Flags: ignoreversion
+Source: {#crashreporter_dir}\sendrpt.exe;             DestDir: {app}\CrashReporter; Components: main; Flags: ignoreversion
+Source: {#crashreporter_dir}\CrashReporterDialog.dll; DestDir: {app}\CrashReporter; Components: main; Flags: ignoreversion
 #endif
 
 
