@@ -444,62 +444,66 @@ HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnkno
     TRACE(_T("--> CFGFilterVideoRenderer::Create on thread: %lu\n"), GetCurrentThreadId());
     CheckPointer(ppBF, E_POINTER);
 
-    HRESULT hr = S_OK;
-
+    HRESULT hr;
     CComPtr<ISubPicAllocatorPresenter> pCAP;
 
-    if (m_clsid == CLSID_VMR7AllocatorPresenter
-            || m_clsid == CLSID_VMR9AllocatorPresenter
-            || m_clsid == CLSID_DXRAllocatorPresenter
-            || m_clsid == CLSID_madVRAllocatorPresenter
-            || m_clsid == CLSID_EVRAllocatorPresenter
-            || m_clsid == CLSID_SyncAllocatorPresenter) {
-        bool bFullscreen = (AfxGetApp()->m_pMainWnd != nullptr) && (((CMainFrame*)AfxGetApp()->m_pMainWnd)->IsD3DFullScreenMode());
-        if (SUCCEEDED(CreateAP7(m_clsid, m_hWnd, &pCAP))
-                || SUCCEEDED(CreateAP9(m_clsid, m_hWnd, bFullscreen, &pCAP))
-                || SUCCEEDED(CreateEVR(m_clsid, m_hWnd, bFullscreen, &pCAP))
-                || SUCCEEDED(CreateSyncRenderer(m_clsid, m_hWnd, bFullscreen, &pCAP))) {
-            CComPtr<IUnknown> pRenderer;
-            if (SUCCEEDED(hr = pCAP->CreateRenderer(&pRenderer))) {
-                *ppBF = CComQIPtr<IBaseFilter>(pRenderer).Detach();
-                pUnks.AddTail(pCAP);
-                if (CComQIPtr<ISubPicAllocatorPresenter2> pCAP2 = pCAP) {
-                    pUnks.AddTail(pCAP2);
-                }
-                // madVR supports calling IVideoWindow::put_Owner before the pins are connected
-                if (m_clsid == CLSID_madVRAllocatorPresenter) {
-                    if (CComQIPtr<IMadVRSubclassReplacement> pMVRSR = pCAP) {
-                        VERIFY(SUCCEEDED(pMVRSR->DisableSubclassing()));
-                    }
-                    if (CComQIPtr<IVideoWindow> pVW = pCAP) {
-                        pVW->put_Owner((OAHWND)m_hWnd);
-                    }
-                }
-            }
+    auto isD3DFullScreenMode = []() {
+        const CMainFrame* pMainFrame = AfxGetMainFrame();
+        return pMainFrame && pMainFrame->IsD3DFullScreenMode();
+    };
+
+    if (m_clsid == CLSID_EVRAllocatorPresenter) {
+        CheckNoLog(CreateEVR(m_clsid, m_hWnd, isD3DFullScreenMode(), &pCAP));
+    } else if (m_clsid == CLSID_SyncAllocatorPresenter) {
+        CheckNoLog(CreateSyncRenderer(m_clsid, m_hWnd, isD3DFullScreenMode(), &pCAP));
+    } else if (m_clsid == CLSID_madVRAllocatorPresenter) {
+        CheckNoLog(CreateAP9(m_clsid, m_hWnd, isD3DFullScreenMode(), &pCAP));
+
+        if (CComQIPtr<IMadVRSubclassReplacement> pMVRSR = pCAP) {
+            VERIFY(SUCCEEDED(pMVRSR->DisableSubclassing()));
         }
+        // madVR supports calling IVideoWindow::put_Owner before the pins are connected
+        if (CComQIPtr<IVideoWindow> pVW = pCAP) {
+            VERIFY(SUCCEEDED(pVW->put_Owner((OAHWND)m_hWnd)));
+        }
+    } else if (m_clsid == CLSID_VMR9AllocatorPresenter || m_clsid == CLSID_DXRAllocatorPresenter) {
+        CheckNoLog(CreateAP9(m_clsid, m_hWnd, isD3DFullScreenMode(), &pCAP));
+    } else if (m_clsid == CLSID_VMR7AllocatorPresenter) {
+        CheckNoLog(CreateAP7(m_clsid, m_hWnd, &pCAP));
     } else {
         CComPtr<IBaseFilter> pBF;
-        if (SUCCEEDED(pBF.CoCreateInstance(m_clsid))) {
-            if (m_clsid == CLSID_EnhancedVideoRenderer) {
-                CComQIPtr<IEVRFilterConfig> pConfig = pBF;
-                pConfig->SetNumberOfStreams(3);
-            }
+        CheckNoLog(pBF.CoCreateInstance(m_clsid));
 
-            BeginEnumPins(pBF, pEP, pPin) {
-                if (CComQIPtr<IMixerPinConfig, &IID_IMixerPinConfig> pMPC = pPin) {
-                    pUnks.AddTail(pMPC);
-                    break;
-                }
-            }
-            EndEnumPins;
+        if (m_clsid == CLSID_EnhancedVideoRenderer) {
+            CComQIPtr<IEVRFilterConfig> pConfig = pBF;
+            pConfig->SetNumberOfStreams(3);
+        }
 
-            *ppBF = pBF.Detach();
+        BeginEnumPins(pBF, pEP, pPin) {
+            if (CComQIPtr<IMixerPinConfig, &IID_IMixerPinConfig> pMPC = pPin) {
+                pUnks.AddTail(pMPC);
+                break;
+            }
+        }
+        EndEnumPins;
+
+        *ppBF = pBF.Detach();
+    }
+
+    if (pCAP) {
+        CComPtr<IUnknown> pRenderer;
+        CheckNoLog(pCAP->CreateRenderer(&pRenderer));
+
+        *ppBF = CComQIPtr<IBaseFilter>(pRenderer).Detach();
+        pUnks.AddTail(pCAP);
+        if (CComQIPtr<ISubPicAllocatorPresenter2> pCAP2 = pCAP) {
+            pUnks.AddTail(pCAP2);
         }
     }
 
-    if (!*ppBF) {
-        hr = E_FAIL;
-    } else if (m_clsid != CLSID_madVRAllocatorPresenter) {
+    CheckPointer(*ppBF, E_FAIL);
+
+    if (m_clsid != CLSID_madVRAllocatorPresenter) {
         HookWorkAroundVideoDriversBug(*ppBF);
         m_bHasVideoDriverWorkAround = true;
     }
