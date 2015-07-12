@@ -13,7 +13,8 @@ next version - not released yet
 + Add Indonesian and Punjabi translations
 * Ticket #5450/#5479, Improved crash reporting dialog for better stability and user experience
 * Updated MediaInfoLib to v0.7.75
-* Updated LAV Filters to v0.65.0.20:
+* Updated LAV Filters to v0.65.0.26:
+    - LAV Splitter: New ASF/WMV demuxer
     - LAV Video Decoder: Allow hardware decoding of UHD video with AMD cards
 * Updated Arabic, Armenian, Bengali, British English, Catalan, Chinese (Simplified and Traditional), Croatian,
   Danish, Dutch, Galician, German, Japanese, Swedish, Thai, Turkish and Vietnamese translations

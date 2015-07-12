@@ -61,6 +61,7 @@ configure() {
     --disable-static                \
     --enable-version3               \
     --enable-w32threads             \
+    --disable-demuxer=asf           \
     --disable-demuxer=matroska      \
     --disable-filters               \
     --enable-filter=yadif           \
