@@ -1273,8 +1273,11 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
     lpMMI->ptMinTrackSize.y += decorationsRect.Height();
 
     // Final fence
-    setLarger(lpMMI->ptMinTrackSize.x, 16);
-    setLarger(lpMMI->ptMinTrackSize.y, 16);
+    setLarger(lpMMI->ptMinTrackSize.x, GetSystemMetrics(SM_CXMIN));
+    setLarger(lpMMI->ptMinTrackSize.y, GetSystemMetrics(SM_CYMIN));
+
+    lpMMI->ptMaxTrackSize.x = GetSystemMetrics(SM_CXVIRTUALSCREEN) + decorationsRect.Width();
+    lpMMI->ptMaxTrackSize.y = GetSystemMetrics(SM_CYVIRTUALSCREEN) + decorationsRect.Height();
 }
 
 void CMainFrame::OnMove(int x, int y)
