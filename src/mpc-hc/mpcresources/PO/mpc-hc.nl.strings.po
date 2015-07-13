@@ -8,16 +8,17 @@
 # DennisW, 2014
 # hendrickbert <hendrickbert@gmail.com>, 2015
 # B512, 2015
+# Marco Brohet <therbom@gmail.com>, 2015
 # Peter Pul, 2015
 # rjongejan <ruben.jongejan@gmail.com>, 2014
 # Tom <tom@boksma.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-21 13:30:54+0000\n"
-"PO-Revision-Date: 2015-06-04 21:25+0000\n"
-"Last-Translator: hendrickbert <hendrickbert@gmail.com>\n"
-"Language-Team: Dutch (http://www.transifex.com/projects/p/mpc-hc/language/nl/)\n"
+"POT-Creation-Date: 2015-07-12 21:27:04+0000\n"
+"PO-Revision-Date: 2015-07-14 19:30+0000\n"
+"Last-Translator: Marco Brohet <therbom@gmail.com>\n"
+"Language-Team: Dutch (http://www.transifex.com/p/mpc-hc/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1474,7 +1475,7 @@ msgstr "Sport"
 
 msgctxt "IDS_CONTENT_CHILDREN_YOUTH_PROG"
 msgid "Children's/Youth programmes"
-msgstr ""
+msgstr "Kinder-/jeugdprogramma's"
 
 msgctxt "IDS_CONTENT_MUSIC_BALLET_DANCE"
 msgid "Music/Ballet/Dance"
@@ -1490,7 +1491,7 @@ msgstr "Sociaal/Politiek/Economie"
 
 msgctxt "IDS_CONTENT_LEISURE"
 msgid "Leisure hobbies"
-msgstr ""
+msgstr "Ontspanningshobby's"
 
 msgctxt "IDS_FILE_RECYCLE"
 msgid "Move to Recycle Bin"
@@ -1686,19 +1687,19 @@ msgstr ""
 
 msgctxt "IDS_PLAY_DVD"
 msgid "Play DVD"
-msgstr ""
+msgstr "DVD afspelen"
 
 msgctxt "IDS_PLAY_BD"
 msgid "Play BD"
-msgstr ""
+msgstr "BD afspelen"
 
 msgctxt "IDS_OSD_DISPLAY_RENDERER_STATS"
 msgid "OSD: Display Renderer Statistics"
-msgstr ""
+msgstr "OSD: renderstatistieken weergeven"
 
 msgctxt "IDS_OSD_RESET_RENDERER_STATS"
 msgid "OSD: Reset Renderer Statistics"
-msgstr ""
+msgstr "OSD: renderstatistieken resetten"
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
@@ -1794,7 +1795,7 @@ msgstr "Ondertiteling downloaden, even geduld."
 
 msgctxt "IDS_SUBDL_DLG_PARSING"
 msgid "Parsing list..."
-msgstr ""
+msgstr "Lijst verwerken..."
 
 msgctxt "IDS_SUBDL_DLG_NOT_FOUND"
 msgid "No subtitles found."
@@ -1806,7 +1807,7 @@ msgstr "%d ondertitel(s) beschikbaar."
 
 msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
-msgstr ""
+msgstr "Wilt u automatisch controleren op updates voor MPC-HC?\n\nDit kan later worden uitgeschakeld in de opties bij "
 
 msgctxt "IDS_ZOOM_50"
 msgid "50%"
@@ -1974,19 +1975,19 @@ msgstr "Opties"
 
 msgctxt "IDS_AG_NEXT_AUDIO"
 msgid "Next Audio Track"
-msgstr ""
+msgstr "Volgend geluidsspoor"
 
 msgctxt "IDS_AG_PREV_AUDIO"
 msgid "Prev Audio Track"
-msgstr ""
+msgstr "Vorig geluidsspoor"
 
 msgctxt "IDS_AG_NEXT_SUBTITLE"
 msgid "Next Subtitle Track"
-msgstr ""
+msgstr "Volgend ondertitelingsspoor"
 
 msgctxt "IDS_AG_PREV_SUBTITLE"
 msgid "Prev Subtitle Track"
-msgstr ""
+msgstr "Vorig ondertitelingsspoor"
 
 msgctxt "IDS_MPLAYERC_85"
 msgid "On/Off Subtitle"
@@ -1998,11 +1999,11 @@ msgstr "Herlaad Ondertiteling"
 
 msgctxt "IDS_MPLAYERC_87"
 msgid "Next Audio Track (OGM)"
-msgstr ""
+msgstr "Volgend geluidsspoor (OGM)"
 
 msgctxt "IDS_MPLAYERC_88"
 msgid "Prev Audio Track (OGM)"
-msgstr ""
+msgstr "Vorig geluidsspoor (OGM)"
 
 msgctxt "IDS_MPLAYERC_89"
 msgid "Next Subtitle Track (OGM)"
@@ -2534,7 +2535,7 @@ msgstr " (Regisseur Commentaar 2)"
 
 msgctxt "IDS_DVD_SUBTITLES_ENABLE"
 msgid "Enable DVD subtitles"
-msgstr ""
+msgstr "DVD-ondertiteling inschakelen"
 
 msgctxt "IDS_AG_ANGLE"
 msgid "Angle %u"
@@ -2646,7 +2647,7 @@ msgstr "VidFrm Buiten"
 
 msgctxt "IDS_AG_PNS_RESET"
 msgid "PnS Reset"
-msgstr ""
+msgstr "PnS-reset"
 
 msgctxt "IDS_AG_PNS_ROTATEX_P"
 msgid "PnS Rotate X+"
@@ -3442,11 +3443,11 @@ msgstr "Kan geen verbinding maken met de online ondertitel database."
 
 msgctxt "IDS_MB_SHOW_EDL_EDITOR"
 msgid "Do you want to activate the EDL editor?"
-msgstr ""
+msgstr "Wilt u de EDL-bewerker inschakelen?"
 
 msgctxt "IDS_CAPTURE_ERROR"
 msgid "Capture Error"
-msgstr ""
+msgstr "Opnamefout"
 
 msgctxt "IDS_CAPTURE_ERROR_VIDEO"
 msgid "video"
@@ -3574,11 +3575,11 @@ msgstr "Helderheid verhogen"
 
 msgctxt "IDS_LANG_PREF_EXAMPLE"
 msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
-msgstr ""
+msgstr "Voer uw voorkeurstalen hier in.\nBijvoorbeeld: \"eng jap swe\""
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
-msgstr ""
+msgstr "Externe splitters kunnen eigen voorkeurstaalinstellingen hebben. MPC-HC verandert deze daarom standaard niet.\nU schakelt deze optie in als u MPC-HC de externe splitters wilt laten controleren."
 
 msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
 msgid "&Blu-Ray playlists"

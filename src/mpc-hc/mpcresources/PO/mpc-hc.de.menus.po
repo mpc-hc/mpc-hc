@@ -10,8 +10,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-22 20:53:41+0000\n"
-"PO-Revision-Date: 2015-07-12 12:44+0000\n"
+"POT-Creation-Date: 2015-05-30 00:33:30+0000\n"
+"PO-Revision-Date: 2015-07-17 23:38+0000\n"
 "Last-Translator: Luan <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/p/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -186,11 +186,11 @@ msgstr "&200 %"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT"
 msgid "Auto &Fit"
-msgstr "&Passend"
+msgstr "&Eingepasst"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (&Larger Only)"
-msgstr "&Nur kleiner"
+msgstr "&Nur verkleinert"
 
 msgctxt "POPUP"
 msgid "R&enderer Settings"
@@ -586,7 +586,7 @@ msgstr "&Verringern"
 
 msgctxt "ID_VOLUME_MUTE"
 msgid "&Mute"
-msgstr "&Stummschaltung"
+msgstr "&Ton aus"
 
 msgctxt "POPUP"
 msgid "Af&ter Playback"

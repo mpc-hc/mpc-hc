@@ -16,8 +16,9 @@ next version - not released yet
 * Updated LAV Filters to v0.65.0.26:
     - LAV Splitter: New ASF/WMV demuxer
     - LAV Video Decoder: Allow hardware decoding of UHD video with AMD cards
-* Updated Arabic, Armenian, Bengali, British English, Catalan, Chinese (Simplified and Traditional), Croatian,
-  Danish, Dutch, Galician, German, Japanese, Swedish, Thai, Turkish and Vietnamese translations
+* Updated Arabic, Armenian, Basque, Bengali, British English, Catalan, Chinese (Simplified and Traditional),
+  Croatian, Czech, Danish, Dutch, French, Galician, German, Greek, Hungarian, Japanese, Polish, Romanian,
+  Russian, Slovak, Spanish, Swedish, Thai, Turkish and Vietnamese translations
 ! Fix a rare crash when exiting DVB mode
 ! Quicktime: Fix a crash when using system default renderer
 ! Ticket #5454, Deleting an item from the playlist sometimes did not work when shuffle mode was enabled

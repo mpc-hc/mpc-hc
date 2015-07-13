@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-21 13:30:54+0000\n"
-"PO-Revision-Date: 2015-05-30 21:32+0000\n"
+"POT-Creation-Date: 2015-07-12 21:27:04+0000\n"
+"PO-Revision-Date: 2015-07-12 23:11+0000\n"
 "Last-Translator: Xabier Aramendi <azpidatziak@gmail.com>\n"
-"Language-Team: Basque (http://www.transifex.com/projects/p/mpc-hc/language/eu/)\n"
+"Language-Team: Basque (http://www.transifex.com/p/mpc-hc/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -326,11 +326,11 @@ msgstr "Eraginda/Etenda"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
 msgid "From (FPS)"
-msgstr "fs-kotik "
+msgstr "Hemendik (FS-ko)"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
 msgid "To (FPS)"
-msgstr "fs-kora"
+msgstr "Hona (FS-ko)"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
@@ -1678,11 +1678,11 @@ msgstr "IGE: Erakutsi Agiri Izena"
 
 msgctxt "IDS_PLAY_DVD"
 msgid "Play DVD"
-msgstr ""
+msgstr "Irakurri DVD-a"
 
 msgctxt "IDS_PLAY_BD"
 msgid "Play BD"
-msgstr ""
+msgstr "Irakurri BD-a"
 
 msgctxt "IDS_OSD_DISPLAY_RENDERER_STATS"
 msgid "OSD: Display Renderer Statistics"
@@ -1966,19 +1966,19 @@ msgstr "Aukerak"
 
 msgctxt "IDS_AG_NEXT_AUDIO"
 msgid "Next Audio Track"
-msgstr ""
+msgstr "Hurrengo Audio Bidea"
 
 msgctxt "IDS_AG_PREV_AUDIO"
 msgid "Prev Audio Track"
-msgstr ""
+msgstr "Aurreko Audio Bidea"
 
 msgctxt "IDS_AG_NEXT_SUBTITLE"
 msgid "Next Subtitle Track"
-msgstr ""
+msgstr "Hurrengo Azpidatzi Bidea"
 
 msgctxt "IDS_AG_PREV_SUBTITLE"
 msgid "Prev Subtitle Track"
-msgstr ""
+msgstr "Aurreko Azpidatzi Bidea"
 
 msgctxt "IDS_MPLAYERC_85"
 msgid "On/Off Subtitle"
@@ -1990,19 +1990,19 @@ msgstr "Birgertatu Azpidatzia"
 
 msgctxt "IDS_MPLAYERC_87"
 msgid "Next Audio Track (OGM)"
-msgstr ""
+msgstr "Hurrengo Audio Bidea (OGM)"
 
 msgctxt "IDS_MPLAYERC_88"
 msgid "Prev Audio Track (OGM)"
-msgstr ""
+msgstr "Aurreko Audio Bidea (OGM)"
 
 msgctxt "IDS_MPLAYERC_89"
 msgid "Next Subtitle Track (OGM)"
-msgstr ""
+msgstr "Hurrengo Azpidatzi Bidea (OGM)"
 
 msgctxt "IDS_MPLAYERC_90"
 msgid "Prev Subtitle Track (OGM)"
-msgstr ""
+msgstr "Aurreko Azpidatzi Bidea (OGM)"
 
 msgctxt "IDS_MPLAYERC_91"
 msgid "Next Angle (DVD)"
@@ -2014,19 +2014,19 @@ msgstr "Aurreko Angelua (DVD)"
 
 msgctxt "IDS_MPLAYERC_93"
 msgid "Next Audio Track (DVD)"
-msgstr ""
+msgstr "Hurrengo Audio Bidea (DVD)"
 
 msgctxt "IDS_MPLAYERC_94"
 msgid "Prev Audio Track (DVD)"
-msgstr ""
+msgstr "Aurreko Audio Bidea (DVD)"
 
 msgctxt "IDS_MPLAYERC_95"
 msgid "Next Subtitle Track (DVD)"
-msgstr ""
+msgstr "Hurrengo Azpidatzi Bidea (DVD)"
 
 msgctxt "IDS_MPLAYERC_96"
 msgid "Prev Subtitle Track (DVD)"
-msgstr ""
+msgstr "Aurreko Azpidatzi Bidea (DVD)"
 
 msgctxt "IDS_MPLAYERC_97"
 msgid "On/Off Subtitle (DVD)"

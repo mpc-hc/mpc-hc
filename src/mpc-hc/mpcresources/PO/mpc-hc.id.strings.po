@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-21 13:30:54+0000\n"
-"PO-Revision-Date: 2015-06-04 12:50+0000\n"
+"POT-Creation-Date: 2015-07-12 21:27:04+0000\n"
+"PO-Revision-Date: 2015-07-14 13:50+0000\n"
 "Last-Translator: Zamani Karmana <zamani.karmana@gmail.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/p/mpc-hc/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -1201,7 +1201,7 @@ msgstr "Prasetel Shader Selanjutnya"
 
 msgctxt "IDS_AG_SHADERS_PRESET_PREV"
 msgid "Prev Shader Preset"
-msgstr "Prasetel Shader Seblmnya"
+msgstr "Prasetel Shader Sebelumnya"
 
 msgctxt "IDS_STRING_COLON"
 msgid "%s:"
@@ -1661,11 +1661,11 @@ msgstr "Jungkit layar penuh Direct3D"
 
 msgctxt "IDS_MPLAYERC_100"
 msgid "Goto Prev Subtitle"
-msgstr "Pergi Ke Subtitel Sblmnya"
+msgstr "Ke Subtitel Sebelumnya"
 
 msgctxt "IDS_MPLAYERC_101"
 msgid "Goto Next Subtitle"
-msgstr "Pergi Ke Subtitel Slnjtnya"
+msgstr "Ke Subtitel Selanjutnya"
 
 msgctxt "IDS_MPLAYERC_102"
 msgid "Shift Subtitle Left"
@@ -1685,11 +1685,11 @@ msgstr "OSD: Tampilkan Nama Berkas"
 
 msgctxt "IDS_PLAY_DVD"
 msgid "Play DVD"
-msgstr ""
+msgstr "Putar DVD"
 
 msgctxt "IDS_PLAY_BD"
 msgid "Play BD"
-msgstr ""
+msgstr "Putar BD"
 
 msgctxt "IDS_OSD_DISPLAY_RENDERER_STATS"
 msgid "OSD: Display Renderer Statistics"
@@ -1973,19 +1973,19 @@ msgstr "Opsi"
 
 msgctxt "IDS_AG_NEXT_AUDIO"
 msgid "Next Audio Track"
-msgstr ""
+msgstr "Trek Audio Selanjutnya"
 
 msgctxt "IDS_AG_PREV_AUDIO"
 msgid "Prev Audio Track"
-msgstr ""
+msgstr "Trek Audio Sebelumnya"
 
 msgctxt "IDS_AG_NEXT_SUBTITLE"
 msgid "Next Subtitle Track"
-msgstr ""
+msgstr "Trek Subtitel Selanjutnya"
 
 msgctxt "IDS_AG_PREV_SUBTITLE"
 msgid "Prev Subtitle Track"
-msgstr ""
+msgstr "Trek Subtitel Sebelumnya"
 
 msgctxt "IDS_MPLAYERC_85"
 msgid "On/Off Subtitle"
@@ -1997,43 +1997,43 @@ msgstr "Muat Ulang Subtitel"
 
 msgctxt "IDS_MPLAYERC_87"
 msgid "Next Audio Track (OGM)"
-msgstr ""
+msgstr "Trek Audio Selanjutnya (OGM)"
 
 msgctxt "IDS_MPLAYERC_88"
 msgid "Prev Audio Track (OGM)"
-msgstr ""
+msgstr "Trek Audio Sebelumnya (OGM)"
 
 msgctxt "IDS_MPLAYERC_89"
 msgid "Next Subtitle Track (OGM)"
-msgstr ""
+msgstr "Trek Subtitel Selanjutnya (OGM)"
 
 msgctxt "IDS_MPLAYERC_90"
 msgid "Prev Subtitle Track (OGM)"
-msgstr ""
+msgstr "Trek Subtitel Sebelumnya (OGM)"
 
 msgctxt "IDS_MPLAYERC_91"
 msgid "Next Angle (DVD)"
-msgstr "Sudut Slnjtnya (DVD)"
+msgstr "Sudut Selanjutnya (DVD)"
 
 msgctxt "IDS_MPLAYERC_92"
 msgid "Prev Angle (DVD)"
-msgstr "Sudut Sblmnya (DVD)"
+msgstr "Sudut Sebelumnya (DVD)"
 
 msgctxt "IDS_MPLAYERC_93"
 msgid "Next Audio Track (DVD)"
-msgstr ""
+msgstr "Trek Audio Selanjutnya (DVD)"
 
 msgctxt "IDS_MPLAYERC_94"
 msgid "Prev Audio Track (DVD)"
-msgstr ""
+msgstr "Trek Audio Sebelumnya (DVD)"
 
 msgctxt "IDS_MPLAYERC_95"
 msgid "Next Subtitle Track (DVD)"
-msgstr ""
+msgstr "Trek Subtitel Selanjutnya (DVD)"
 
 msgctxt "IDS_MPLAYERC_96"
 msgid "Prev Subtitle Track (DVD)"
-msgstr ""
+msgstr "Trek Subtitel Sebelumnya (DVD)"
 
 msgctxt "IDS_MPLAYERC_97"
 msgid "On/Off Subtitle (DVD)"

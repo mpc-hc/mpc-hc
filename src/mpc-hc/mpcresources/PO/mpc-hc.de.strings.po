@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-21 13:30:54+0000\n"
-"PO-Revision-Date: 2015-07-12 12:50+0000\n"
+"POT-Creation-Date: 2015-07-12 21:27:04+0000\n"
+"PO-Revision-Date: 2015-07-18 17:05+0000\n"
 "Last-Translator: Luan <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/p/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -689,11 +689,11 @@ msgstr "Sync Renderer (EVR-CP)"
 
 msgctxt "IDS_MPC_BUG_REPORT_TITLE"
 msgid "MPC-HC - Reporting a bug"
-msgstr "Fehler melden"
+msgstr "Fehlerberichterstattung"
 
 msgctxt "IDS_MPC_BUG_REPORT"
 msgid "MPC-HC just crashed but this build was compiled without debug information.\nIf you want to report this bug, you should first try an official build.\n\nDo you want to visit the download page now?"
-msgstr "Der MPC-HC wurde unerwartet beendet. Zur Meldung des Problems bitte eine offizielle Version mit Debug-Information verwenden.\n\nDiese Programmversion jetzt herunterladen?"
+msgstr "Der MPC-HC wurde leider unerwartet beendet. Zur Meldung des Problems bitte eine offizielle Programmversion mit Debug-Information verwenden.\n\nDiese Version jetzt herunterladen?"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
 msgid "Regular offscreen plain surface"
@@ -777,7 +777,7 @@ msgstr "Auto"
 
 msgctxt "IDS_EXPORT_SETTINGS_NO_KEYS"
 msgid "There are no customized keys to export."
-msgstr "Keine benutzerdefinierten Tastenbefehle verfügbar."
+msgstr "Keine benutzerdefinierten Tasten verfügbar."
 
 msgctxt "IDS_RFS_NO_FILES"
 msgid "No media files found in the archive"
@@ -1573,7 +1573,7 @@ msgstr "Einstellungen konnten nicht zurückgesetzt werden. Bitte alle Programmin
 
 msgctxt "IDS_EXPORT_SETTINGS"
 msgid "Export settings"
-msgstr "Programm-Einstellungen sichern"
+msgstr "Programm-Einstellungen exportieren"
 
 msgctxt "IDS_EXPORT_SETTINGS_WARNING"
 msgid "Some changes have not been saved yet.\nDo you want to save them before exporting?"
@@ -1581,11 +1581,11 @@ msgstr "Nicht übernommene Einstellungen zuvor speichern?"
 
 msgctxt "IDS_EXPORT_SETTINGS_SUCCESS"
 msgid "The settings have been successfully exported."
-msgstr "Einstellungen wurden erfolgreich gesichert."
+msgstr "Einstellungen wurden erfolgreich exportiert."
 
 msgctxt "IDS_EXPORT_SETTINGS_FAILED"
 msgid "The export failed! This can happen when you don't have the correct rights."
-msgstr "Einstellungen konnten nicht gesichert werden. Möglicherweise fehlen die dafür nötigen Zugriffsrechte."
+msgstr "Einstellungen konnten nicht exportiert werden. Möglicherweise fehlen die dafür nötigen Zugriffsrechte."
 
 msgctxt "IDS_BDA_ERROR"
 msgid "BDA Error"
@@ -1685,11 +1685,11 @@ msgstr "Namensanzeige"
 
 msgctxt "IDS_PLAY_DVD"
 msgid "Play DVD"
-msgstr ""
+msgstr "DVD-Wiedergabe"
 
 msgctxt "IDS_PLAY_BD"
 msgid "Play BD"
-msgstr ""
+msgstr "BD-Wiedergabe"
 
 msgctxt "IDS_OSD_DISPLAY_RENDERER_STATS"
 msgid "OSD: Display Renderer Statistics"
@@ -1745,7 +1745,7 @@ msgstr "Vollbild ohne Auflösungsänderung (ein/aus)"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT"
 msgid "Zoom Auto Fit"
-msgstr "Zoom: Passend"
+msgstr "Zoom: Eingepasst"
 
 msgctxt "IDS_AG_VIDFRM_HALF"
 msgid "VidFrm Half"
@@ -1821,19 +1821,19 @@ msgstr "200 %"
 
 msgctxt "IDS_ZOOM_AUTOFIT"
 msgid "Auto Fit"
-msgstr "Passend"
+msgstr "Eingepasst"
 
 msgctxt "IDS_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (Larger Only)"
-msgstr "Nur kleiner"
+msgstr "Nur verkleinert"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT_LARGER"
 msgid "Zoom Auto Fit (Larger Only)"
-msgstr "Zoom: Nur kleiner"
+msgstr "Zoom: Nur verkleinert"
 
 msgctxt "IDS_OSD_ZOOM_AUTO_LARGER"
 msgid "Zoom: Auto (Larger Only)"
-msgstr "Zoom: Nur kleiner"
+msgstr "Zoom: Nur verkleinert"
 
 msgctxt "IDS_TOOLTIP_EXPLORE_TO_FILE"
 msgid "Double click to open file location"
@@ -1897,7 +1897,7 @@ msgstr "Lautstärke verringern"
 
 msgctxt "IDS_AG_VOLUME_MUTE"
 msgid "Volume Mute"
-msgstr "Stummschaltung (ein/aus)"
+msgstr "Ton (ein/aus)"
 
 msgctxt "IDS_MPLAYERC_63"
 msgid "DVD Title Menu"
@@ -1973,19 +1973,19 @@ msgstr "Optionen"
 
 msgctxt "IDS_AG_NEXT_AUDIO"
 msgid "Next Audio Track"
-msgstr ""
+msgstr "Audiospur vor"
 
 msgctxt "IDS_AG_PREV_AUDIO"
 msgid "Prev Audio Track"
-msgstr ""
+msgstr "Audiospur zurück"
 
 msgctxt "IDS_AG_NEXT_SUBTITLE"
 msgid "Next Subtitle Track"
-msgstr ""
+msgstr "Untertitelspur vor"
 
 msgctxt "IDS_AG_PREV_SUBTITLE"
 msgid "Prev Subtitle Track"
-msgstr ""
+msgstr "Untertitelspur zurück"
 
 msgctxt "IDS_MPLAYERC_85"
 msgid "On/Off Subtitle"
@@ -1997,19 +1997,19 @@ msgstr "Untertitel neu laden"
 
 msgctxt "IDS_MPLAYERC_87"
 msgid "Next Audio Track (OGM)"
-msgstr ""
+msgstr "OGM: Audiospur vor"
 
 msgctxt "IDS_MPLAYERC_88"
 msgid "Prev Audio Track (OGM)"
-msgstr ""
+msgstr "OGM: Audiospur zurück"
 
 msgctxt "IDS_MPLAYERC_89"
 msgid "Next Subtitle Track (OGM)"
-msgstr ""
+msgstr "OGM: Untertitelspur vor"
 
 msgctxt "IDS_MPLAYERC_90"
 msgid "Prev Subtitle Track (OGM)"
-msgstr ""
+msgstr "OGM: Untertitelspur zurück"
 
 msgctxt "IDS_MPLAYERC_91"
 msgid "Next Angle (DVD)"
@@ -2021,19 +2021,19 @@ msgstr "DVD: Blickwinkel zurück"
 
 msgctxt "IDS_MPLAYERC_93"
 msgid "Next Audio Track (DVD)"
-msgstr ""
+msgstr "DVD: Audiospur vor"
 
 msgctxt "IDS_MPLAYERC_94"
 msgid "Prev Audio Track (DVD)"
-msgstr ""
+msgstr "DVD: Audiospur zurück"
 
 msgctxt "IDS_MPLAYERC_95"
 msgid "Next Subtitle Track (DVD)"
-msgstr ""
+msgstr "DVD: Untertitelspur vor"
 
 msgctxt "IDS_MPLAYERC_96"
 msgid "Prev Subtitle Track (DVD)"
-msgstr ""
+msgstr "DVD: Untertitelspur zurück"
 
 msgctxt "IDS_MPLAYERC_97"
 msgid "On/Off Subtitle (DVD)"
@@ -3057,11 +3057,11 @@ msgstr "Seitenverhältnis"
 
 msgctxt "IDS_ARS_WASAPI_MODE"
 msgid "Use WASAPI (restart playback)"
-msgstr "WASAPI verwenden (Wiedergabe neu starten)"
+msgstr "WASAPI verwenden (Neustart der Wiedergabe erforderlich)"
 
 msgctxt "IDS_ARS_MUTE_FAST_FORWARD"
 msgid "Mute on fast forward"
-msgstr "Stummschaltung bei schnellem Vorlauf"
+msgstr "Ton bei schnellem Vorlauf deaktivieren"
 
 msgctxt "IDS_ARS_SOUND_DEVICE"
 msgid "Sound Device:"
@@ -3317,7 +3317,7 @@ msgstr "Zoom: %.0lf %%"
 
 msgctxt "IDS_OSD_ZOOM_AUTO"
 msgid "Zoom: Auto"
-msgstr "Zoom: Passend"
+msgstr "Zoom: Eingepasst"
 
 msgctxt "IDS_CUSTOM_CHANNEL_MAPPING"
 msgid "Toggle custom channel mapping"

@@ -106,7 +106,7 @@ it.WelcomeLabel2=Questo installerà [name] sul tuo computer.%n%nE' consigliato c
 it.WinVersionTooLowError=[name] richiede Windows XP Service Pack 3 o successivo per funzionare.
 
 ; Japanese
-ja.WelcomeLabel2=このプログラムはお使いのコンピュータ上に [name] をインストールします。%n%nセットアップを続行する前に他のすべてのアプリケーションを閉じることが推奨されます。
+ja.WelcomeLabel2=このプログラムはご使用のコンピュータ上に [name] をインストールします。%n%nセットアップを続行する前に他のすべてのアプリケーションを閉じることが推奨されます。
 ja.WinVersionTooLowError=[name] を実行するためには Windows XP Service Pack 3 以降が必要です。
 
 ; Korean
@@ -650,18 +650,18 @@ nl.comp_mpcresources=Taal
 nl.msg_DeleteSettings=Wilt u ook de instellingen van MPC-HC verwijderen?%n%nAls u van plan bent MPC-HC opnieuw te gaan installeren is dit niet nodig.
 nl.msg_SetupIsRunningWarning=MPC-HC installatie is al gestart!
 #if defined(sse_required)
-nl.msg_simd_sse=Deze versie van MPC-HC heeft een processor nodig die SSE ondersteunt.%n%nUw processor ondersteund dit niet.
+nl.msg_simd_sse=Deze versie van MPC-HC heeft een processor nodig die SSE ondersteunt.%n%nUw processor ondersteunt dit niet.
 #elif defined(sse2_required)
-nl.msg_simd_sse2=Deze versie van MPC-HC heeft een processor nodig die SSE2 ondersteunt.%n%nUw processor ondersteund dit niet.
+nl.msg_simd_sse2=Deze versie van MPC-HC heeft een processor nodig die SSE2 ondersteunt.%n%nUw processor ondersteunt dit niet.
 #endif
-nl.run_DownloadToolbarImages=Bezoek onze Wiki pagina om de werkbalk afbeeldingen te downloaden
+nl.run_DownloadToolbarImages=Bezoek onze wiki om de werkbalkafbeeldingen te downloaden
 nl.tsk_AllUsers=Voor alle gebruikers
-nl.tsk_CurrentUser=Allen voor de huidige gebruiker
+nl.tsk_CurrentUser=Alleen voor de huidige gebruiker
 nl.tsk_Other=Andere taken:
 nl.tsk_ResetSettings=Instellingen resetten
-nl.types_DefaultInstallation=Standaard installatie
+nl.types_DefaultInstallation=Standaardinstallatie
 nl.types_CustomInstallation=Aangepaste installatie
-nl.ViewChangelog=Bekijk Wijzigingsoverzicht
+nl.ViewChangelog=Wijzigingsoverzicht bekijken
 
 ; Polish
 pl.langid=00001045

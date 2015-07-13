@@ -8,13 +8,14 @@
 # sayanvd <sayanvd@yandex.ru>, 2014-2015
 # stryaponoff <stryaponoff@gmail.com>, 2014
 # SmilyCarrot <twisted-transistor@yandex.ru>, 2014
+# Victor Bychek, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-17 20:47:27+0000\n"
-"PO-Revision-Date: 2015-05-30 20:50+0000\n"
-"Last-Translator: sayanvd <sayanvd@yandex.ru>\n"
-"Language-Team: Russian (http://www.transifex.com/projects/p/mpc-hc/language/ru/)\n"
+"POT-Creation-Date: 2015-07-12 21:37:08+0000\n"
+"PO-Revision-Date: 2015-07-16 11:11+0000\n"
+"Last-Translator: Victor Bychek\n"
+"Language-Team: Russian (http://www.transifex.com/p/mpc-hc/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1675,15 +1676,15 @@ msgstr "Отчет о сбое"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC"
 msgid "We are sorry, it seems MPC-HC just crashed. :("
-msgstr ""
+msgstr "Мы сожалеем, кажется, в MPC-HC произошел сбой. :("
 
 msgctxt "IDD_CRASH_REPORTER_IDC_CHECK1"
 msgid "Send a bug report to help us diagnose and fix the problem."
-msgstr ""
+msgstr "Отправить отчёт об ошибке, чтобы помочь нам диагностировать и исправить проблему."
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
 msgid "Optional information"
-msgstr ""
+msgstr "Дополнительная информация"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
 msgid "Email:"
@@ -1699,9 +1700,9 @@ msgstr "Описание проблемы (только на английско�
 
 msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON1"
 msgid "Restart MPC-HC"
-msgstr ""
+msgstr "Перезапустить MPC-HC"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON2"
 msgid "Quit MPC-HC"
-msgstr ""
+msgstr "Выйти из MPC-HC"
 
