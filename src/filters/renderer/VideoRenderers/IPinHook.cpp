@@ -1110,7 +1110,7 @@ void HookAMVideoAccelerator(IAMVideoAcceleratorC* pAMVideoAcceleratorC)
         pAMVideoAcceleratorC->lpVtbl->DisplayFrame = DisplayFrameMine;
 #endif
 
-        VirtualProtect(pAMVideoAcceleratorC->lpVtbl, sizeof(IAMVideoAcceleratorC), PAGE_EXECUTE, &flOldProtect);
+        VirtualProtect(pAMVideoAcceleratorC->lpVtbl, sizeof(IAMVideoAcceleratorC), flOldProtect, &flOldProtect);
     } else {
         TRACE(_T("HookAMVideoAccelerator: Could not hook the VTable"));
         ASSERT(FALSE);
