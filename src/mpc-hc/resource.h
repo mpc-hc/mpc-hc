@@ -1471,6 +1471,7 @@
 #define IDS_TIMER_HIGH_PRECISION        57432
 #define IDS_AFTERPLAYBACK_REWIND        57433
 #define IDS_AFTERPLAYBACK_CLOSE         57434
+#define IDS_FRAME_INIT_FAILED           57435
 
 // Next default values for new objects
 // 

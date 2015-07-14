@@ -1744,7 +1744,9 @@ BOOL CMPlayerCApp::InitInstance()
     CMainFrame* pFrame = DEBUG_NEW CMainFrame;
     m_pMainWnd = pFrame;
     if (!pFrame->LoadFrame(IDR_MAINFRAME, WS_OVERLAPPEDWINDOW | FWS_ADDTOTITLE, nullptr, nullptr)) {
-        AfxMessageBox(_T("CMainFrame::LoadFrame failed!"));
+        if (MessageBox(nullptr, ResStr(IDS_FRAME_INIT_FAILED), m_pszAppName, MB_ICONERROR | MB_YESNO) == IDYES) {
+            ShellExecute(nullptr, _T("open"), TRAC_URL, nullptr, nullptr, SW_SHOWDEFAULT);
+        }
         return FALSE;
     }
     pFrame->m_controls.LoadState();
