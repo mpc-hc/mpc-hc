@@ -914,7 +914,7 @@ void memsetd(void* dst, unsigned int c, size_t nbytes)
 {
     size_t n = nbytes / 4;
 
-#ifndef _WIN64
+#if defined(_M_IX86_FP) && _M_IX86_FP < 2
     if (!(g_cpuid.m_flags & g_cpuid.sse2)) { // No SSE2
         __stosd((unsigned long*)dst, c, n);
         return;

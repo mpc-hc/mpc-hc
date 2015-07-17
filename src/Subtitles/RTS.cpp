@@ -187,10 +187,13 @@ void CWord::Paint(const CPoint& p, const CPoint& org)
 
 void CWord::Transform(CPoint org)
 {
-    if (m_bUseSSE2) {    // SSE code
-        Transform_SSE2(org);
-    } else {        // C-code
+#if defined(_M_IX86_FP) && _M_IX86_FP < 2
+    if (!m_bUseSSE2) {
         Transform_C(org);
+    } else
+#endif
+    {
+        Transform_SSE2(org);
     }
 }
 
