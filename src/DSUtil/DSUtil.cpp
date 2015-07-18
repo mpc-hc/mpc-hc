@@ -158,7 +158,8 @@ bool IsAudioWaveRenderer(IBaseFilter* pBF)
            clsid == CLSID_ReClock ||
            clsid == __uuidof(CNullAudioRenderer) ||
            clsid == __uuidof(CNullUAudioRenderer) ||
-           clsid == SaneAudioRenderer::Factory::GetFilterGuid();
+           clsid == SaneAudioRenderer::Factory::GetFilterGuid() ||
+           clsid == CLSID_SANEAR;
 }
 
 IBaseFilter* GetUpStreamFilter(IBaseFilter* pBF, IPin* pInputPin)
