@@ -448,7 +448,8 @@ HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnkno
     CComPtr<ISubPicAllocatorPresenter> pCAP;
 
     auto isD3DFullScreenMode = []() {
-        const CMainFrame* pMainFrame = AfxGetMainFrame();
+        auto pMainFrame = dynamic_cast<const CMainFrame*>(AfxGetApp()->m_pMainWnd);
+        ASSERT(pMainFrame);
         return pMainFrame && pMainFrame->IsD3DFullScreenMode();
     };
 
