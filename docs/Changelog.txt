@@ -26,3 +26,4 @@ next version - not released yet
   it was impossible to use the mouse buttons to play, pause, exit fullscreen, etc.
 ! Ticket #5472, Make it easier to input value to the "Audio time shift" field in options
 ! Ticket #5496, Subtitle downloader dialog: the preferred languages were sometimes not displayed first
+! Ticket #5519, SRT subtitles: Support parsing files with negative timecodes

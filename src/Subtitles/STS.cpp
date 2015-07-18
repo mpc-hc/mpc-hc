@@ -464,58 +464,68 @@ static CStringW SubRipper2SSA(CStringW str, int CharSet)
 
 static bool OpenSubRipper(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 {
-    CStringW buff;
+    CStringW buff, start, end;
     while (file->ReadString(buff)) {
         FastTrim(buff);
         if (buff.IsEmpty()) {
             continue;
         }
 
-        WCHAR sep;
         int num = 0; // This one isn't really used just assigned a new value
-        int hh1, mm1, ss1, ms1, hh2, mm2, ss2, ms2;
-        WCHAR msStr1[5] = {0}, msStr2[5] = {0};
-        int c = swscanf_s(buff, L"%d%c%d%c%d%4[^-] --> %d%c%d%c%d%4s\n",
-                          &hh1, &sep, 1, &mm1, &sep, 1, &ss1, msStr1, _countof(msStr1),
-                          &hh2, &sep, 1, &mm2, &sep, 1, &ss2, msStr2, _countof(msStr2));
 
-        if (c == 1) { // numbering
-            num = hh1;
-        } else if (c >= 11) { // time info
-            // Parse ms if present
-            if (2 != swscanf_s(msStr1, L"%c%d", &sep, 1, &ms1)) {
-                ms1 = 0;
-            }
-            if (2 != swscanf_s(msStr2, L"%c%d", &sep, 1, &ms2)) {
-                ms2 = 0;
-            }
+        WCHAR wc;
+        int c = swscanf_s(buff, L"%d%c", &num, &wc, 1);
 
-            CStringW str, tmp;
+        if (c == 2) { // c == 1 would be numbering, c == 2 might be timecodes
+            int len = buff.GetLength();
+            c = swscanf_s(buff, L"%s --> %s", start.GetBuffer(len), len, end.GetBuffer(len), len);
+            start.ReleaseBuffer();
+            end.ReleaseBuffer();
 
-            bool fFoundEmpty = false;
+            auto readTimeCode = [](LPCWSTR str, int& hh, int& mm, int& ss, int& ms) {
+                WCHAR sep;
+                int c = swscanf_s(str, L"%d%c%d%c%d%c%d",
+                                  &hh, &sep, 1, &mm, &sep, 1, &ss, &sep, 1, &ms);
+                // Check if ms was present
+                if (c == 5) {
+                    ms = 0;
+                }
+                return (c == 5 || c == 7);
+            };
 
-            while (file->ReadString(tmp)) {
-                FastTrim(tmp);
-                if (tmp.IsEmpty()) {
-                    fFoundEmpty = true;
+            int hh1, mm1, ss1, ms1, hh2, mm2, ss2, ms2;
+
+            if (c == 2
+                    && readTimeCode(start, hh1, mm1, ss1, ms1)
+                    && readTimeCode(end, hh2, mm2, ss2, ms2)) {
+                CStringW str, tmp;
+
+                bool bFoundEmpty = false;
+
+                while (file->ReadString(tmp)) {
+                    FastTrim(tmp);
+                    if (tmp.IsEmpty()) {
+                        bFoundEmpty = true;
+                    }
+
+                    int num2;
+                    WCHAR wc;
+                    if (swscanf_s(tmp, L"%d%c", &num2, &wc, 1) == 1 && bFoundEmpty) {
+                        num = num2;
+                        break;
+                    }
+
+                    str += tmp + '\n';
                 }
 
-                int num2;
-                WCHAR wc;
-                if (swscanf_s(tmp, L"%d%c", &num2, &wc, 1) == 1 && fFoundEmpty) {
-                    num = num2;
-                    break;
-                }
-
-                str += tmp + '\n';
+                ret.Add(SubRipper2SSA(str, CharSet),
+                        file->IsUnicode(),
+                        (((hh1 * 60 + mm1) * 60) + ss1) * 1000 + ms1,
+                        (((hh2 * 60 + mm2) * 60) + ss2) * 1000 + ms2);
+            } else {
+                return false;
             }
-
-            ret.Add(
-                SubRipper2SSA(str, CharSet),
-                file->IsUnicode(),
-                (((hh1 * 60 + mm1) * 60) + ss1) * 1000 + ms1,
-                (((hh2 * 60 + mm2) * 60) + ss2) * 1000 + ms2);
-        } else if (c != EOF) { // might be another format
+        } else if (c != 1) { // might be another format
             return false;
         }
     }
