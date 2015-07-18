@@ -9589,9 +9589,12 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
 
             // Destroy the D3D Fullscreen window and zoom the windowed video frame
             m_pFullscreenWnd->DestroyWindow();
-            ZoomVideoWindow();
-
-            MoveVideoWindow();
+            if (m_fFirstFSAfterLaunchOnFS) {
+                ZoomVideoWindow();
+                m_fFirstFSAfterLaunchOnFS = false;
+            } else {
+                MoveVideoWindow();
+            }
         } else {
             // Set the fullscreen display mode
             if (s.autoChangeFSMode.bEnabled && fSwitchScreenResWhenHasTo) {
@@ -14517,12 +14520,6 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
     }
     m_bIsBDPlay = false;
 
-    // activate auto-fit logic upon exiting fullscreen if
-    // we are opening new media in fullscreen mode
-    if (m_fFullScreen && s.fRememberZoomLevel) {
-        m_fFirstFSAfterLaunchOnFS = true;
-    }
-
     // no need to try releasing external objects while playing
     KillTimer(TIMER_UNLOAD_UNUSED_EXTERNAL_OBJECTS);
 
@@ -14540,6 +14537,12 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
         m_fStartInD3DFullscreen = false;
     } else {
         m_pVideoWnd = &m_wndView;
+    }
+
+    // activate auto-fit logic upon exiting fullscreen if
+    // we are opening new media in fullscreen mode
+    if ((m_fFullScreen || IsD3DFullScreenMode()) && s.fRememberZoomLevel) {
+        m_fFirstFSAfterLaunchOnFS = true;
     }
 
     // don't set video renderer output rect until the window is repositioned
