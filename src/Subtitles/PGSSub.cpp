@@ -364,9 +364,9 @@ void CPGSSub::ParsePalette(CGolombBuffer* pGBuffer, size_t nSize)  // #497
     CLUT.version_number = pGBuffer->ReadByte();
 
     ASSERT((nSize - 2) % sizeof(HDMV_PALETTE) == 0);
-    CLUT.size = BYTE((nSize - 2) / sizeof(HDMV_PALETTE));
+    CLUT.size = WORD((nSize - 2) / sizeof(HDMV_PALETTE));
 
-    for (int i = 0; i < CLUT.size; i++) {
+    for (WORD i = 0; i < CLUT.size; i++) {
         CLUT.palette[i].entry_id = pGBuffer->ReadByte();
 
         CLUT.palette[i].Y  = pGBuffer->ReadByte();
