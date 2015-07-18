@@ -3040,7 +3040,7 @@ STSStyle& STSStyle::operator = (LOGFONT& lf)
     return *this;
 }
 
-LOGFONTA& operator <<= (LOGFONTA& lfa, STSStyle& s)
+LOGFONTA& operator <<= (LOGFONTA& lfa, const STSStyle& s)
 {
     lfa.lfCharSet = (BYTE)s.charSet;
     strncpy_s(lfa.lfFaceName, LF_FACESIZE, CStringA(s.fontName), _TRUNCATE);
@@ -3054,7 +3054,7 @@ LOGFONTA& operator <<= (LOGFONTA& lfa, STSStyle& s)
     return lfa;
 }
 
-LOGFONTW& operator <<= (LOGFONTW& lfw, STSStyle& s)
+LOGFONTW& operator <<= (LOGFONTW& lfw, const STSStyle& s)
 {
     lfw.lfCharSet = (BYTE)s.charSet;
     wcsncpy_s(lfw.lfFaceName, LF_FACESIZE, CStringW(s.fontName), _TRUNCATE);

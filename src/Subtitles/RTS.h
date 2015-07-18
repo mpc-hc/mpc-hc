@@ -66,7 +66,7 @@ class CMyFont : public CFont
 public:
     int m_ascent, m_descent;
 
-    CMyFont(STSStyle& style);
+    CMyFont(const STSStyle& style);
 };
 
 struct CTextDims {
@@ -107,7 +107,7 @@ public:
     int m_width, m_ascent, m_descent;
 
     // str[0] = 0 -> m_fLineBreak = true (in this case we only need and use the height of m_font from the whole class)
-    CWord(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley,
+    CWord(const STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley,
           RenderingCaches& renderingCaches);
     virtual ~CWord();
 
@@ -125,7 +125,7 @@ protected:
     virtual bool CreatePath();
 
 public:
-    CText(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley,
+    CText(const STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley,
           RenderingCaches& renderingCaches);
 
     virtual CWord* Copy();
@@ -145,7 +145,7 @@ protected:
     virtual bool CreatePath();
 
 public:
-    CPolygon(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley, int baseline,
+    CPolygon(const STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley, int baseline,
              RenderingCaches& renderingCaches);
     CPolygon(CPolygon&); // can't use a const reference because we need to use CAtlArray::Copy which expects a non-const reference
     virtual ~CPolygon();

@@ -40,7 +40,7 @@ static long revcolor(long c)
 
 // CMyFont
 
-CMyFont::CMyFont(STSStyle& style)
+CMyFont::CMyFont(const STSStyle& style)
 {
     LOGFONT lf;
     ZeroMemory(&lf, sizeof(lf));
@@ -66,7 +66,7 @@ CMyFont::CMyFont(STSStyle& style)
 
 // CWord
 
-CWord::CWord(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley,
+CWord::CWord(const STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley,
              RenderingCaches& renderingCaches)
     : m_fDrawn(false)
     , m_p(INT_MAX, INT_MAX)
@@ -422,7 +422,7 @@ void CWord::Transform_SSE2(const CPoint& org)
 
 // CText
 
-CText::CText(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley,
+CText::CText(const STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley,
              RenderingCaches& renderingCaches)
     : CWord(style, str, ktype, kstart, kend, scalex, scaley, renderingCaches)
 {
@@ -533,7 +533,7 @@ bool CText::CreatePath()
 
 // CPolygon
 
-CPolygon::CPolygon(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley, int baseline,
+CPolygon::CPolygon(const STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley, int baseline,
                    RenderingCaches& renderingCaches)
     : CWord(style, str, ktype, kstart, kend, scalex, scaley, renderingCaches)
     , m_baseline(baseline)

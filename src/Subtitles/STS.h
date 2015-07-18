@@ -72,8 +72,8 @@ public:
 
     STSStyle& operator = (LOGFONT& lf);
 
-    friend LOGFONTA& operator <<= (LOGFONTA& lfa, STSStyle& s);
-    friend LOGFONTW& operator <<= (LOGFONTW& lfw, STSStyle& s);
+    friend LOGFONTA& operator <<= (LOGFONTA& lfa, const STSStyle& s);
+    friend LOGFONTW& operator <<= (LOGFONTW& lfw, const STSStyle& s);
 
     friend CString& operator <<= (CString& style, const STSStyle& s);
     friend STSStyle& operator <<= (STSStyle& s, const CString& style);
