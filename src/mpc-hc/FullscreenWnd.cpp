@@ -55,7 +55,7 @@ BOOL CFullscreenWnd::PreTranslateMessage(MSG* pMsg)
 BOOL CFullscreenWnd::PreCreateWindow(CREATESTRUCT& cs)
 {
     cs.style &= ~WS_BORDER;
-    cs.lpszClass = AfxRegisterWndClass(CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS,
+    cs.lpszClass = AfxRegisterWndClass(CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS | CS_NOCLOSE,
                                        ::LoadCursor(nullptr, IDC_ARROW), HBRUSH(COLOR_WINDOW + 1), nullptr);
 
     return __super::PreCreateWindow(cs);
