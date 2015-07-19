@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2013, 2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -24,7 +24,7 @@
 #include "FullscreenWnd.h"
 #include "MainFrm.h"
 
-IMPLEMENT_DYNAMIC(CFullscreenWnd, CWnd)
+IMPLEMENT_DYNAMIC(CFullscreenWnd, CMouseWnd)
 CFullscreenWnd::CFullscreenWnd(CMainFrame* pMainFrame)
     : CMouseWnd(pMainFrame, true)
     , m_pMainFrame(pMainFrame)
@@ -47,21 +47,19 @@ BOOL CFullscreenWnd::PreTranslateMessage(MSG* pMsg)
         case WM_KEYUP:
             m_pMainFrame->PostMessage(pMsg->message, pMsg->wParam, pMsg->lParam);
             return TRUE;
+
     }
-    return CWnd::PreTranslateMessage(pMsg);
+
+    return __super::PreTranslateMessage(pMsg);
 }
 
 BOOL CFullscreenWnd::PreCreateWindow(CREATESTRUCT& cs)
 {
-    if (!CWnd::PreCreateWindow(cs)) {
-        return FALSE;
-    }
-
     cs.style &= ~WS_BORDER;
     cs.lpszClass = AfxRegisterWndClass(CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS,
                                        ::LoadCursor(nullptr, IDC_ARROW), HBRUSH(COLOR_WINDOW + 1), nullptr);
 
-    return TRUE;
+    return __super::PreCreateWindow(cs);
 }
 
 BEGIN_MESSAGE_MAP(CFullscreenWnd, CMouseWnd)
