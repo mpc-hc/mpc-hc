@@ -14963,13 +14963,8 @@ bool CMainFrame::CreateFullScreenWindow()
     CRect monitorRect;
     monitor.GetMonitorRect(monitorRect);
 
-    bool bRet = !!m_pFullscreenWnd->CreateEx(WS_EX_TOPMOST | WS_EX_TOOLWINDOW, _T(""), ResStr(IDS_MAINFRM_136),
-                                             WS_POPUP | WS_VISIBLE, monitorRect, nullptr, 0);
-    if (bRet) {
-        this->SetWindowPos(m_pFullscreenWnd, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-    }
-
-    return bRet;
+    return !!m_pFullscreenWnd->CreateEx(WS_EX_TOPMOST | WS_EX_TOOLWINDOW, _T(""), ResStr(IDS_MAINFRM_136),
+                                        WS_POPUP | WS_VISIBLE, monitorRect, nullptr, 0);
 }
 
 bool CMainFrame::IsD3DFullScreenMode() const

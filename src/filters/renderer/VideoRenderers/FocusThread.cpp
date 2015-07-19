@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -27,9 +27,6 @@ IMPLEMENT_DYNCREATE(CFocusThread, CWinThread)
 LRESULT CALLBACK FocusWndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 {
     if (msg == WM_NCACTIVATE) {
-        if (wp) {
-            AfxGetMainWnd()->SetForegroundWindow();
-        }
         return 0;
     }
     return DefWindowProc(hwnd, msg, wp, lp);
