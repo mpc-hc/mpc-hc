@@ -335,6 +335,9 @@ CAppSettings::CAppSettings()
 #if INTERNAL_DECODER_AMR
     TraFiltersKeys[TRA_AMR] = FilterKey(_T("TRA_AMR"), true);
 #endif
+#if INTERNAL_DECODER_OPUS
+    TraFiltersKeys[TRA_OPUS] = FilterKey(_T("TRA_OPUS"), true);
+#endif
 #if INTERNAL_DECODER_PCM
     TraFiltersKeys[TRA_PCM] = FilterKey(_T("TRA_PCM"), true);
 #endif

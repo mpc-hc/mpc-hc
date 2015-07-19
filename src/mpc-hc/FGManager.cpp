@@ -1878,6 +1878,11 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_ALS);
 #endif
 
+#if INTERNAL_DECODER_OPUS
+    pFGF = tra[TRA_OPUS] ? pFGLAVAudio : pFGLAVAudioLM;
+    pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_OPUS);
+#endif
+
 #if INTERNAL_DECODER_PCM
     pFGF = tra[TRA_PCM] ? pFGLAVAudio : pFGLAVAudioLM;
     pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM);

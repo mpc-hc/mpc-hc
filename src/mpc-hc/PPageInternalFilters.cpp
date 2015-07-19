@@ -505,6 +505,11 @@ void CPPageInternalFilters::InitFiltersList()
         m_filters.Add(filter_t(_T("AMR"), AUDIO_DECODER, TRA_AMR, IDS_INTERNAL_LAVF));
     }
 #endif
+#if INTERNAL_DECODER_OPUS
+    if (bLAVAudioIsAvailable) {
+        m_filters.Add(filter_t(_T("Opus"), AUDIO_DECODER, TRA_OPUS, IDS_INTERNAL_LAVF));
+    }
+#endif
 #if INTERNAL_DECODER_REALAUDIO
     if (bLAVAudioIsAvailable) {
         m_filters.Add(filter_t(_T("RealAudio"), AUDIO_DECODER, TRA_RA, IDS_INTERNAL_LAVF));
