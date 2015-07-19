@@ -35,9 +35,9 @@ CFullscreenWnd::~CFullscreenWnd()
 {
 }
 
-bool CFullscreenWnd::IsWindow()
+bool CFullscreenWnd::IsWindow() const
 {
-    return (m_hWnd != nullptr);
+    return !!m_hWnd;
 }
 
 BOOL CFullscreenWnd::PreTranslateMessage(MSG* pMsg)
@@ -47,7 +47,6 @@ BOOL CFullscreenWnd::PreTranslateMessage(MSG* pMsg)
         case WM_KEYUP:
             m_pMainFrame->PostMessage(pMsg->message, pMsg->wParam, pMsg->lParam);
             return TRUE;
-
     }
 
     return __super::PreTranslateMessage(pMsg);
