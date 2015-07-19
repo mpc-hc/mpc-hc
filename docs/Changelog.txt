@@ -13,6 +13,7 @@ next version - not released yet
 + Add Indonesian and Punjabi translations
 * Use internal audio decoder by default for Opus decoding
 * Ticket #5450/#5479, Improved crash reporting dialog for better stability and user experience
+* Ticket #5472, Make it easier to input value to the "Audio time shift" field in options
 * Updated MediaInfoLib to v0.7.75
 * Updated LAV Filters to v0.65.0.26:
     - LAV Splitter: New ASF/WMV demuxer
@@ -25,7 +26,7 @@ next version - not released yet
 ! Ticket #5454, Deleting an item from the playlist sometimes did not work when shuffle mode was enabled
 ! Ticket #5464, If the main window was minimized while the D3D fullscreen window was displayed on another screen,
   it was impossible to use the mouse buttons to play, pause, exit fullscreen, etc.
-! Ticket #5472, Make it easier to input value to the "Audio time shift" field in options
 ! Ticket #5496, Subtitle downloader dialog: the preferred languages were sometimes not displayed first
 ! Ticket #5515, Blu-ray (PGS) subtitles were sometimes not displayed
 ! Ticket #5519, SRT subtitles: Support parsing files with negative timecodes
+! Fix realibility and stability of the D3D Fullscreen mode

@@ -318,6 +318,8 @@ namespace GothSync
         bool ExtractInterlaced(const AM_MEDIA_TYPE* pmt);
 
         CFocusThread* m_FocusThread;
+        HWND          m_hFocusWindow;
+
     public:
         CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error);
         ~CBaseAP();
