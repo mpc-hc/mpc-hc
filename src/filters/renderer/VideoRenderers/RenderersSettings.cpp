@@ -98,16 +98,16 @@ void CRenderersSettings::CAdvRendererSettings::SetOptimal()
 // CRenderersData construction
 
 CRenderersData::CRenderersData()
+    : m_hD3DX9Dll(nullptr)
+    , m_nDXSdkRelease(0)
+    , m_bTearingTest(false)
+    , m_iDisplayStats(0)
+    , m_bResetStats(false)
+      // Don't disable hardware features before initializing a renderer
+    , m_bFP16Support(true)
+    , m_bFP32Support(true)
+    , m_b10bitSupport(true)
 {
-    m_bTearingTest  = false;
-    m_iDisplayStats = 0;
-    m_bResetStats   = false;
-    m_hD3DX9Dll     = nullptr;
-    m_nDXSdkRelease = 0;
-
-    // Don't disable hardware features before initializing a renderer
-    m_bFP16Support  = true;
-    m_b10bitSupport = true;
     QueryPerformanceFrequency(&llPerfFrequency);
 }
 

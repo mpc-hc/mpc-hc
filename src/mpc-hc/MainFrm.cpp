@@ -5708,7 +5708,7 @@ void CMainFrame::OnUpdateViewFullFloatingPointProcessing(CCmdUI* pCmdUI)
     bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS
                        || s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM)
                       && r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D)
-                     && rd.m_bFP16Support;
+                     && rd.m_bFP32Support;
 
     pCmdUI->Enable(supported);
     pCmdUI->SetCheck(r.m_AdvRendSets.bVMR9FullFloatingPointProcessing);
