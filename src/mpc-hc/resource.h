@@ -929,8 +929,6 @@
 #define IDS_BOOST_OSD                   33203
 #define IDS_BALANCE_OSD                 33204
 #define IDS_FULLSCREENMONITOR_CURRENT   33205
-#define IDS_MPC_CRASH                   33206
-#define IDS_MPC_MINIDUMP_FAIL           33207
 #define ID_FILE_OPENDIRECTORY           33208
 #define IDS_MAINFRM_DIR_TITLE           33209
 #define IDS_MAINFRM_DIR_CHECK           33210
@@ -1347,8 +1345,6 @@
 #define IDS_PPAGE_OUTPUT_NULL_UNCOMP    41422
 #define IDS_PPAGE_OUTPUT_MADVR          41423
 #define IDS_PPAGE_OUTPUT_SYNC           41424
-#define IDS_MPC_BUG_REPORT_TITLE        41425
-#define IDS_MPC_BUG_REPORT              41426
 #define IDS_PPAGE_OUTPUT_SURF_OFFSCREEN 41427
 #define IDS_PPAGE_OUTPUT_SURF_2D        41428
 #define IDS_PPAGE_OUTPUT_SURF_3D        41429

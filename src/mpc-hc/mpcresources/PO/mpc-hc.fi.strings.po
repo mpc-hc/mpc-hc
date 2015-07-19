@@ -681,14 +681,6 @@ msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
 msgstr "Synkronointimuunnin"
 
-msgctxt "IDS_MPC_BUG_REPORT_TITLE"
-msgid "MPC-HC - Reporting a bug"
-msgstr "MPC-HC - Virheen raportointi"
-
-msgctxt "IDS_MPC_BUG_REPORT"
-msgid "MPC-HC just crashed but this build was compiled without debug information.\nIf you want to report this bug, you should first try an official build.\n\nDo you want to visit the download page now?"
-msgstr "MPC-HC kaatui äsken, mutta tässä versiossa ei ole virheenkorjaustietoja.\nJos haluat raportoida tämän virheen kannattaisi ensin kokeilla virallista versiota.\n\nHaluatko vierailla nyt lataussivulla?"
-
 msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
 msgid "Regular offscreen plain surface"
 msgstr "Tavallinen näytön ulkopuolinen taso"
@@ -2392,14 +2384,6 @@ msgstr "Balanssi: %s"
 msgctxt "IDS_FULLSCREENMONITOR_CURRENT"
 msgid "Current"
 msgstr "Nykyinen"
-
-msgctxt "IDS_MPC_CRASH"
-msgid "MPC-HC terminated unexpectedly. To help us fix this problem, please send this file \"%s\" to our bug tracker.\n\nDo you want to open the folder containing the minidump file and visit the bug tracker now?"
-msgstr "MPC-HC pysähtyi odottamatta. Auttaaksesi meitä korjaamaan ongelman, ole hyvä ja lähetä tiedosto \"%s\" virhehakuumme.\n\nHaluatko avata minidump-tiedoston sisältävän kansion ja käydä nyt virheen etsinnässä?"
-
-msgctxt "IDS_MPC_MINIDUMP_FAIL"
-msgid "Failed to create dump file to \"%s\" (error %u)"
-msgstr "Dump-tiedoston luonti kohteeseen \"%s\" epäonnistui (virhe %u)"
 
 msgctxt "IDS_MAINFRM_DIR_TITLE"
 msgid "Select Directory"

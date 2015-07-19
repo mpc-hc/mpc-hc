@@ -685,14 +685,6 @@ msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
 msgstr "同步繪製器"
 
-msgctxt "IDS_MPC_BUG_REPORT_TITLE"
-msgid "MPC-HC - Reporting a bug"
-msgstr "MPC-HC - 回報錯誤"
-
-msgctxt "IDS_MPC_BUG_REPORT"
-msgid "MPC-HC just crashed but this build was compiled without debug information.\nIf you want to report this bug, you should first try an official build.\n\nDo you want to visit the download page now?"
-msgstr "MPC-HC 未預期終止但是這個版本並未編入除錯資訊。\n如果您想回報這個錯誤, 您需要先嘗試使用官方版本。\n\n您要立即前往下載頁面嗎？"
-
 msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
 msgid "Regular offscreen plain surface"
 msgstr "一般幕後繪圖頁"
@@ -2396,14 +2388,6 @@ msgstr "平衡: %s"
 msgctxt "IDS_FULLSCREENMONITOR_CURRENT"
 msgid "Current"
 msgstr "目前的"
-
-msgctxt "IDS_MPC_CRASH"
-msgid "MPC-HC terminated unexpectedly. To help us fix this problem, please send this file \"%s\" to our bug tracker.\n\nDo you want to open the folder containing the minidump file and visit the bug tracker now?"
-msgstr "MPC-HC 未預期終止。為了幫助我們修正這個問題, 請傳送 '%s' 這個檔案到我們的 Bug Tracker。\n\n您要開啟內含 minidump 傾印檔案的資料夾並立即拜訪 Bug Tracker?"
-
-msgctxt "IDS_MPC_MINIDUMP_FAIL"
-msgid "Failed to create dump file to \"%s\" (error %u)"
-msgstr "無法建立傾印檔案到 '%s' (錯誤 %u)"
 
 msgctxt "IDS_MAINFRM_DIR_TITLE"
 msgid "Select Directory"
