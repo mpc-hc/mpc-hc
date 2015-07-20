@@ -65,9 +65,6 @@
       <Project>{981574ae-5a5e-4f27-bdf1-1b841e374cff}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\MathLibFix\MathLibFix.vcxproj">
-      <Project>{fc9fc17f-70bf-4aca-8285-c24d1889bacb}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\thirdparty\BaseClasses\BaseClasses.vcxproj">
       <Project>{e8a3f6fa-ae1c-4c8e-a0b6-9c8480324eaa}</Project>
     </ProjectReference>

@@ -44,7 +44,6 @@
 #include <regex>
 #include <share.h>
 #include "mpc-hc_config.h"
-#include "../MathLibFix/MathLibFix.h"
 #include "CmdLineHelpDlg.h"
 #include "CrashReporter.h"
 
@@ -1462,7 +1461,6 @@ BOOL CMPlayerCApp::InitInstance()
     if (!IsDebuggerPresent()) {
         CrashReporter::Enable();
     }
-    WorkAroundMathLibraryBug();
 
     if (!HeapSetInformation(nullptr, HeapEnableTerminationOnCorruption, nullptr, 0)) {
         TRACE(_T("Failed to enable \"terminate on corruption\" heap option, error %u\n"), GetLastError());
