@@ -2702,6 +2702,7 @@ LRESULT CMainFrame::OnResetDevice(WPARAM wParam, LPARAM lParam)
         } else {
             m_pMC->Stop(); // Capture mode doesn't support pause
         }
+        GetMediaState(); // Wait for transition to finish
     }
 
     if (m_bOpenedThroughThread) {
@@ -9574,7 +9575,15 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
         if (bIsFullscreen) {
             // Turn off D3D Fullscreen
             m_OSD.EnableShowSeekBar(false);
+            m_OSD.EnableShowMessage(false);
             pD3DFS->SetD3DFullscreen(false);
+
+            // Exiting D3D fullscreen mode doesn't work well when DXVA is active
+            // and graph is stopped.
+            if (GetMediaState() == State_Stopped) {
+                SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
+                GetMediaState();
+            }
 
             // Assign the windowed video frame and pass it to the relevant classes.
             m_pVideoWnd = &m_wndView;
@@ -9591,6 +9600,7 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
 
             // Destroy the D3D Fullscreen window and zoom the windowed video frame
             m_pFullscreenWnd->DestroyWindow();
+            m_OSD.EnableShowMessage(true);
             if (m_fFirstFSAfterLaunchOnFS) {
                 ZoomVideoWindow();
                 m_fFirstFSAfterLaunchOnFS = false;

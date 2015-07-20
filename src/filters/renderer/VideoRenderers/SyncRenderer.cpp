@@ -44,7 +44,6 @@
 #include "PixelShaderCompiler.h"
 #include "SyncRenderer.h"
 #include "version.h"
-#include "FocusThread.h"
 #include "../../../DSUtil/ArrayUtils.h"
 
 // only for debugging
@@ -228,14 +227,6 @@ CBaseAP::~CBaseAP()
     }
     m_pAudioStats = nullptr;
     SAFE_DELETE(m_pGenlock);
-
-    if (m_FocusThread) {
-        m_FocusThread->PostThreadMessage(WM_QUIT, 0, 0);
-        if (WaitForSingleObject(m_FocusThread->m_hThread, 10000) == WAIT_TIMEOUT) {
-            ASSERT(FALSE);
-            TerminateThread(m_FocusThread->m_hThread, 0xDEAD);
-        }
-    }
 }
 
 template<int texcoords>
@@ -511,13 +502,8 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
             pp.BackBufferFormat = d3ddm.Format;
         }
 
-        if (!m_FocusThread) {
-            m_FocusThread = (CFocusThread*)AfxBeginThread(RUNTIME_CLASS(CFocusThread), 0, 0, 0);
-        }
-
-        HWND hFocusWindow = m_FocusThread->GetFocusWindow();
-        bTryToReset &= m_hFocusWindow == hFocusWindow;
-        m_hFocusWindow = hFocusWindow;
+        bTryToReset &= m_hFocusWindow == m_hWnd;
+        m_hFocusWindow = m_hWnd;
 
         if (m_pD3DEx) {
             D3DDISPLAYMODEEX DisplayMode;
@@ -533,7 +519,7 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
             if (!bTryToReset) {
                 m_pD3DDev = nullptr;
                 m_pD3DDevEx = nullptr;
-                hr = m_pD3DEx->CreateDeviceEx(m_CurrentAdapter, D3DDEVTYPE_HAL, m_FocusThread->GetFocusWindow(),
+                hr = m_pD3DEx->CreateDeviceEx(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hFocusWindow,
                                               D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS | D3DCREATE_NOWINDOWCHANGES,
                                               &pp, &DisplayMode, &m_pD3DDevEx);
             }
@@ -549,7 +535,7 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
             if (!bTryToReset) {
                 m_pD3DDev = nullptr;
                 m_pD3DDevEx = nullptr;
-                hr = m_pD3D->CreateDevice(m_CurrentAdapter, D3DDEVTYPE_HAL, m_FocusThread->GetFocusWindow(),
+                hr = m_pD3D->CreateDevice(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hFocusWindow,
                                           D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_NOWINDOWCHANGES,
                                           &pp, &m_pD3DDev);
             }
@@ -3398,11 +3384,11 @@ STDMETHODIMP CSyncAP::GetAspectRatioMode(DWORD* pdwAspectRatioMode)
 
 STDMETHODIMP CSyncAP::SetVideoWindow(HWND hwndVideo)
 {
-    if (m_hWnd != hwndVideo) {
-        CAutoLock lock(this);
-        CAutoLock lock2(&m_ImageProcessingLock);
-        CAutoLock cRenderLock(&m_allocatorLock);
+    CAutoLock lock(this);
+    CAutoLock lock2(&m_ImageProcessingLock);
+    CAutoLock cRenderLock(&m_allocatorLock);
 
+    if (m_hWnd != hwndVideo) {
         m_hWnd = hwndVideo;
         m_bPendingResetDevice = true;
         SendResetRequest();

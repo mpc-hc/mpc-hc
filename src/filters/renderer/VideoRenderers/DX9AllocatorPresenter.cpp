@@ -29,7 +29,6 @@
 #include "../../../SubPic/SubPicQueueImpl.h"
 #include "IPinHook.h"
 #include "version.h"
-#include "FocusThread.h"
 
 CCritSec g_ffdshowReceive;
 bool queue_ffdshow_support = false;
@@ -238,14 +237,6 @@ CDX9AllocatorPresenter::~CDX9AllocatorPresenter()
     if (m_hD3D9) {
         FreeLibrary(m_hD3D9);
         m_hD3D9 = nullptr;
-    }
-
-    if (m_FocusThread) {
-        m_FocusThread->PostThreadMessage(WM_QUIT, 0, 0);
-        if (WaitForSingleObject(m_FocusThread->m_hThread, 10000) == WAIT_TIMEOUT) {
-            ASSERT(FALSE);
-            TerminateThread(m_FocusThread->m_hThread, 0xDEAD);
-        }
     }
 }
 
@@ -508,6 +499,8 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
     const CRenderersSettings& r = GetRenderersSettings();
     CRenderersData* rd = GetRenderersData();
 
+    CAutoLock lock(&m_RenderLock);
+
     m_VBlankEndWait = 0;
     m_VBlankMin = 300000;
     m_VBlankMinCalc = 300000;
@@ -678,13 +671,8 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
         }
         m_D3DDevExError = _T("No m_pD3DEx");
 
-        if (!m_FocusThread) {
-            m_FocusThread = (CFocusThread*)AfxBeginThread(RUNTIME_CLASS(CFocusThread), 0, 0, 0);
-        }
-
-        HWND hFocusWindow = m_FocusThread->GetFocusWindow();
-        bTryToReset &= m_hFocusWindow == hFocusWindow;
-        m_hFocusWindow = hFocusWindow;
+        bTryToReset &= m_hFocusWindow == m_hWnd;
+        m_hFocusWindow = m_hWnd;
 
         if (m_pD3DEx) {
             m_pD3DEx->GetAdapterDisplayModeEx(m_CurrentAdapter, &DisplayMode, nullptr);

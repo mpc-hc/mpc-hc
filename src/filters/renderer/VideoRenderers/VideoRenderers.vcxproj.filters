@@ -83,9 +83,6 @@
     <ClCompile Include="OuterVMR.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FocusThread.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AllocatorCommon.h">
@@ -164,9 +161,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="IQTVideoSurface.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FocusThread.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AsyncCallback.h">

@@ -25,20 +25,20 @@
 
 class CMainFrame;
 
-class CFullscreenWnd : public CMouseWnd
+class CFullscreenWnd final : public CMouseWnd
 {
     DECLARE_DYNAMIC(CFullscreenWnd)
 
     explicit CFullscreenWnd(CMainFrame* pMainFrame);
-    virtual ~CFullscreenWnd();
     bool IsWindow() const;
 
 private:
     CMainFrame* m_pMainFrame;
 
 protected:
-    virtual BOOL PreCreateWindow(CREATESTRUCT& cs) override;
-    virtual BOOL PreTranslateMessage(MSG* pMsg) override;
+    BOOL PreCreateWindow(CREATESTRUCT& cs) override;
+    BOOL PreTranslateMessage(MSG* pMsg) override;
+    LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam) override;
 
     DECLARE_MESSAGE_MAP()
 

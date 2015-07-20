@@ -31,10 +31,6 @@ CFullscreenWnd::CFullscreenWnd(CMainFrame* pMainFrame)
 {
 }
 
-CFullscreenWnd::~CFullscreenWnd()
-{
-}
-
 bool CFullscreenWnd::IsWindow() const
 {
     return !!m_hWnd;
@@ -59,6 +55,15 @@ BOOL CFullscreenWnd::PreCreateWindow(CREATESTRUCT& cs)
                                        ::LoadCursor(nullptr, IDC_ARROW), HBRUSH(COLOR_WINDOW + 1), nullptr);
 
     return __super::PreCreateWindow(cs);
+}
+
+LRESULT CFullscreenWnd::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
+{
+    if (message == WM_NCACTIVATE) {
+        return 0;
+    }
+
+    return __super::WindowProc(message, wParam, lParam);
 }
 
 BEGIN_MESSAGE_MAP(CFullscreenWnd, CMouseWnd)
