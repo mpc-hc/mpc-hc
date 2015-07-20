@@ -35,10 +35,6 @@ msgctxt "CustomMessages_msg_DeleteSettings"
 msgid "Do you also want to delete MPC-HC settings?\n\nIf you plan on installing MPC-HC again then you do not have to delete them."
 msgstr "Ці хочаце таксама выдаліць налады MPC-HC?\n\nКалі вы збіраецеся зноў усталяваць MPC-HC, тады іх можна пакінуць."
 
-msgctxt "CustomMessages_msg_SetupIsRunningWarning"
-msgid "MPC-HC setup is already running!"
-msgstr "Праграма ўсталявання MPC-HC ужо працуе!"
-
 msgctxt "CustomMessages_msg_simd_sse"
 msgid "This build of MPC-HC requires a CPU with SSE extension support.\n\nYour CPU does not have those capabilities."
 msgstr "Гэтая будова MPC-HC вымагае працэсар, здольны выконваць інструкцыі SSE.\n\nВаш працэсар гэтага не ўмее."

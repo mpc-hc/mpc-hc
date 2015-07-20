@@ -1,4 +1,4 @@
-﻿; (C) 2009-2014 see Authors.txt
+﻿; (C) 2009-2015 see Authors.txt
 ;
 ; This file is part of MPC-HC.
 ;
@@ -188,7 +188,6 @@ ar.langid=00001025
 ar.comp_mpciconlib=مكتبة الأيقونات
 ar.comp_mpcresources=الترجمة
 ar.msg_DeleteSettings=هل تريد حذف إعدادات ضبظ البرنامج؟ %n%nإذا كنت تنوي تثبيت البرنامج مرة أخرى، فلا يلزمك حذفها.
-ar.msg_SetupIsRunningWarning=ملف تثبيت البرنامج يعمل حالياً!
 #if defined(sse_required)
 ar.msg_simd_sse=هذه النسخة من البرنامج تتطلب معالج يدعم خاصية SSE.%n%nمعالج جهازك لايحمل هذه المتطلبات.
 #elif defined(sse2_required)
@@ -208,7 +207,6 @@ be.langid=00001059
 be.comp_mpciconlib=Бібліятэка значкоў
 be.comp_mpcresources=Пераклады
 be.msg_DeleteSettings=Ці хочаце таксама выдаліць налады MPC-HC?%n%nКалі вы збіраецеся зноў усталяваць MPC-HC, тады іх можна пакінуць.
-be.msg_SetupIsRunningWarning=Праграма ўсталявання MPC-HC ужо працуе!
 #if defined(sse_required)
 be.msg_simd_sse=Гэтая будова MPC-HC вымагае працэсар, здольны выконваць інструкцыі SSE.%n%nВаш працэсар гэтага не ўмее.
 #elif defined(sse2_required)
@@ -228,7 +226,6 @@ bn.langid=00001093
 bn.comp_mpciconlib=আইকন লাইব্রেরি
 bn.comp_mpcresources=অনুবাদসমূহ
 bn.msg_DeleteSettings=আপনি কি MPC-HCএর সেটিংসমূহও মুছে ফেলতে চান?%n%nআপনার যদি পুনরায় MPC-HC ইনস্টল করার পরিকল্পনা থাকে, তাহলে এসব মুছে ফেলতে হবে না।
-bn.msg_SetupIsRunningWarning=MPC-HCএর সেটআপ প্রক্রিয়া ইতিমধ্যে চলমান রয়েছে!
 #if defined(sse_required)
 bn.msg_simd_sse=MPC-HCএর এই নির্মাণটির জন্য SSE এক্সটেনশন সমর্থন করে এমন একটি CPUর প্রয়োজন।%n%nআপনার CPUর সেই কর্মক্ষমতা নেই।
 #elif defined(sse2_required)
@@ -248,7 +245,6 @@ ca.langid=00001027
 ca.comp_mpciconlib=Col·lecció d’icones
 ca.comp_mpcresources=Traduccions
 ca.msg_DeleteSettings=Voleu suprimir les preferències del MPC-HC?%n%nSi planegeu instal·lar-ho un altre cop no cal eliminar-les.
-ca.msg_SetupIsRunningWarning=La instal·lació del MPC-HC ja s’està executant.
 #if defined(sse_required)
 ca.msg_simd_sse=Aquesta versió de MPC-HC necessita una CPU amb suport d'extensions SSE.%n%nLa teva CPU no cumpleix aquestes característiques.
 #elif defined(sse2_required)
@@ -268,7 +264,6 @@ cs.langid=00001029
 cs.comp_mpciconlib=Ikony typů souborů
 cs.comp_mpcresources=Jazykové soubory
 cs.msg_DeleteSettings=Chcete smazat také nastavení MPC-HC?%n%nPokud plánujete MPC-HC znovu nainstalovat, mazat je nemusíte.
-cs.msg_SetupIsRunningWarning=Instalační program MPC-HC je již spuštěn!
 #if defined(sse_required)
 cs.msg_simd_sse=Toto sestavení MPC-HC vyžaduje procesor s podporou rozšíření SSE.%n%nVáš procesor tato rozšíření nepodporuje.
 #elif defined(sse2_required)
@@ -288,7 +283,6 @@ da.langid=00001030
 da.comp_mpciconlib=Ikon-bibliotek
 da.comp_mpcresources=Oversættelser
 da.msg_DeleteSettings=Vil du også slette MPC-HC indstillinger?%n%nHvis du har tænkt dig at installere MPC-HC igen, så behøves du ikke slette dem.
-da.msg_SetupIsRunningWarning=MPC-HC installation kører allerede!
 #if defined(sse_required)
 da.msg_simd_sse=Denne version af MPC-HC kræver en CPU der understøtter SSE-udvidelsen.%n%nDin CPU understøtter det ikke.
 #elif defined(sse2_required)
@@ -308,7 +302,6 @@ de.langid=00001031
 de.comp_mpciconlib=Dateisymbole für verknüpfte Mediendateien
 de.comp_mpcresources=Sprachdateien (darunter Deutsch)
 de.msg_DeleteSettings=Wollen Sie auch die Programmeinstellungen löschen?%n%nWenn Sie den MPC-HC wieder installieren möchten, dann müssen Sie diese nicht unbedingt löschen.
-de.msg_SetupIsRunningWarning=MPC-HC Setup wird bereits ausgeführt!
 #if defined(sse_required)
 de.msg_simd_sse=Dieses MPC-HC-Build benötigt einen Prozessor mit SSE-Unterstützung.%n%nIhr Prozessor besitzt nicht diese Eigenschaft.
 #elif defined(sse2_required)
@@ -328,7 +321,6 @@ el.langid=00001032
 el.comp_mpciconlib=Βιβλιοθήκη εικονιδίων
 el.comp_mpcresources=Μεταφράσεις
 el.msg_DeleteSettings=Θέλετε να διαγράψετε τις ρυθμίσεις του MPC-HC;%n%nΑν σκοπεύετε να εγκαταστήσετε το MPC-HC ξανά, τότε δεν χρειάζεται να τις διαγράψετε.
-el.msg_SetupIsRunningWarning=Η εγκατάσταση του MPC-HC εκτελείται ήδη!
 #if defined(sse_required)
 el.msg_simd_sse=Αυτή η έκδοση του MPC-HC απαιτεί επεξεργαστή με υποστήριξη SSE.%n%nΟ επεξεργαστής σας δεν έχει αυτές τις δυνατότητες.
 #elif defined(sse2_required)
@@ -348,7 +340,6 @@ en_GB.langid=00002057
 en_GB.comp_mpciconlib=Icon Library
 en_GB.comp_mpcresources=Translations
 en_GB.msg_DeleteSettings=Do you also want to delete MPC-HC settings?%n%nIf you plan on installing MPC-HC again then you do not have to delete them.
-en_GB.msg_SetupIsRunningWarning=MPC-HC setup is already running!
 #if defined(sse_required)
 en_GB.msg_simd_sse=This build of MPC-HC requires a CPU with SSE extension support.%n%nYour CPU does not have those capabilities.
 #elif defined(sse2_required)
@@ -368,7 +359,6 @@ es.langid=00003082
 es.comp_mpciconlib=Colección de iconos
 es.comp_mpcresources=Traducciones
 es.msg_DeleteSettings=¿Quiere eliminar también las preferencias de MPC-HC?%n%nSi planea instalar de nuevo MPC-HC no necesita eliminarlas.
-es.msg_SetupIsRunningWarning=La instalación de MPC-HC ya está en ejecución.
 #if defined(sse_required)
 es.msg_simd_sse=Esta versión de MPC-HC requiere una CPU compatible con extensiones SSE.%n%nSu CPU carece de esta característica.
 #elif defined(sse2_required)
@@ -388,7 +378,6 @@ eu.langid=00001069
 eu.comp_mpciconlib=Ikur Liburutegia
 eu.comp_mpcresources=Itzulpenak
 eu.msg_DeleteSettings=MPC-HC ezarpenak kentzea ere nahi dituzu?%n%nMPC-HC berriro ezartzeko asmoa baduzu ez dituzu ezabatu behar.
-eu.msg_SetupIsRunningWarning=MPC-HC ezarpena jadanik ekinean dago!
 #if defined(sse_required)
 eu.msg_simd_sse=MPC-HC eraiketa honek SSE hedapen sostengua duen CPU bat behar du.%n%nZure CPU-ak ez ditu gaitasun hauek.
 #elif defined(sse2_required)
@@ -408,7 +397,6 @@ fi.langid=00001035
 fi.comp_mpciconlib=Ikonikirjasto
 fi.comp_mpcresources=Käännökset
 fi.msg_DeleteSettings=Haluatko poistaa myöskin MPC-HC:n asetukset?%n%nJos aiot asentaa MPC-HC:n uudelleen, niitä ei tarvitse poistaa.
-fi.msg_SetupIsRunningWarning=MPC-HC:n asennus on jo käynnissä!
 #if defined(sse_required)
 fi.msg_simd_sse=MPC-HC:n tämä versio edellyttää CPU:lta SSE-laajennusten tukea.%n%nProsessorissasi ei ole niitä ominaisuuksia.
 #elif defined(sse2_required)
@@ -428,7 +416,6 @@ fr.langid=00001036
 fr.comp_mpciconlib=Bibliothèque d'icônes
 fr.comp_mpcresources=Traductions
 fr.msg_DeleteSettings=Souhaitez-vous également supprimer les paramètres de MPC-HC ?%n%nSi vous prévoyez de réinstaller MPC-HC, il est conseillé de ne pas les supprimer.
-fr.msg_SetupIsRunningWarning=L'installation de MPC-HC est déjà en cours d'exécution !
 #if defined(sse_required)
 fr.msg_simd_sse=Cette version de MPC-HC nécessite un CPU avec support des instructions SSE.%n%nVotre processeur ne supporte pas cette fonctionnalité.
 #elif defined(sse2_required)
@@ -448,7 +435,6 @@ gl.langid=00001110
 gl.comp_mpciconlib=Biblioteca de iconas
 gl.comp_mpcresources=Traducións
 gl.msg_DeleteSettings=Ques eliminar tamén os axustes de MPC-HC?%n%nSe pensas instalar MPC-HC de novo entón non o tes que eliminalos.
-gl.msg_SetupIsRunningWarning=O instalador de MPC-HC xa está a ser executado!
 #if defined(sse_required)
 gl.msg_simd_sse=Esta versión de MPC-HC require unha CPU con soporte para a extensión SSE .%n%nA súa CPU non ten estas capacidades.
 #elif defined(sse2_required)
@@ -468,7 +454,6 @@ he.langid=00001037
 he.comp_mpciconlib=ספריית אייקונים
 he.comp_mpcresources=תרגומים
 he.msg_DeleteSettings=האם ברצונך גם למחוק את ההגדרות של MPC-HC?%n%nאם אתה מתכנן להתקין את MPC-HC בשנית, אינך חייב להסירן.
-he.msg_SetupIsRunningWarning=ההתקנה של MPC-HC כבר רצה!
 #if defined(sse_required)
 he.msg_simd_sse=גרסה זו של MPC-HC דורשת מעבד עם תמיכה בהרחבת SSE.%n%nהמעבד שברשותך אינו תומך בכך.
 #elif defined(sse2_required)
@@ -488,7 +473,6 @@ hr.langid=00001050
 hr.comp_mpciconlib=Biblioteka ikona
 hr.comp_mpcresources=Prijevodi
 hr.msg_DeleteSettings=Želite li obrisati postavke od MPC-HC?%n%nAko planirate ponovno instalirati MPC-HC, ne morate ih brisati.
-hr.msg_SetupIsRunningWarning=MPC-HC instalacija je već pokrenuta!
 #if defined(sse_required)
 hr.msg_simd_sse=Ova verzija MPC-HC zahtijeva procesor sa SSE podrškom.%n%nVaš procesor nema te mogućnosti.
 #elif defined(sse2_required)
@@ -508,7 +492,6 @@ hu.langid=00001038
 hu.comp_mpciconlib=Ikon Gyűjtemény
 hu.comp_mpcresources=Fordítások
 hu.msg_DeleteSettings=Az MPC-HC beállításokat is törölni szeretné?%n%nHa azt tervezi, hogy újratelepíti az MPC-HC-t, akkor nem kell törölnie őket.
-hu.msg_SetupIsRunningWarning=Az MPC-HC telepítő már fut!
 #if defined(sse_required)
 hu.msg_simd_sse=Az MPC-HC jelen változatához SSE támogatással bíró CPU-ra van szüksége.%n%nAz ön CPU-ja nem rendelkezik ilyen támogatással.
 #elif defined(sse2_required)
@@ -528,7 +511,6 @@ hy.langid=00001067
 hy.comp_mpciconlib=Պատկերների գրադարան
 hy.comp_mpcresources=Թարգմանություններ
 hy.msg_DeleteSettings=Ջնջե՞լ MPC-HC-ի կարգավորումները։%n%nԵթե նախատեսում եք վերատեղադրել MPC-HC, ապա պետք է չէ դրանք ջնջել։.
-hy.msg_SetupIsRunningWarning=MPC-HC-ի տեղակայիչը արդեն աշխատեցված է:
 #if defined(sse_required)
 hy.msg_simd_sse=MPC-HC-ի այս տարբերակը պահանջում է CPU՝ SSE-ի աջակցմամբ։%n%nՁեր CPU-ն այն չի աջակցում։
 #elif defined(sse2_required)
@@ -548,7 +530,6 @@ id.langid=00001057
 id.comp_mpciconlib=Pustaka Ikon
 id.comp_mpcresources=Terjemahan
 id.msg_DeleteSettings=Apakah anda juga ingin menghapus pengaturan MPC-HC?%n%nJika anda berencana untuk memasang MPC-HC lagi maka anda tidak perlu menghapusnya.
-id.msg_SetupIsRunningWarning=Pemasangan MPC-HC sudah berjalan!
 #if defined(sse_required)
 id.msg_simd_sse=Versi MPC-HC ini membutuhkan CPU dengan dukungan ekstensi SSE.%n%nCPU anda tidak memiliki kemampuan tersebut.
 #elif defined(sse2_required)
@@ -568,7 +549,6 @@ it.langid=00001040
 it.comp_mpciconlib=Icona Libreria
 it.comp_mpcresources=Traduzioni
 it.msg_DeleteSettings=Vuoi eliminare anche le impostazioni di MPC-HC?%n%nSe pensi di reinstallare MPC-HC in seguito non dovresti eliminarle.
-it.msg_SetupIsRunningWarning=L'installazione di MPC-HC è già in corso!
 #if defined(sse_required)
 it.msg_simd_sse=Questa build di MPC-HC richiede una CPU con il supporto alle estensioni SSE.%n%nLa tua CPU non dispone di questa caratteristica.
 #elif defined(sse2_required)
@@ -588,7 +568,6 @@ ja.langid=00001041
 ja.comp_mpciconlib=アイコン ライブラリ
 ja.comp_mpcresources=翻訳
 ja.msg_DeleteSettings=MPC-HC の設定を削除してもよろしいですか？%n%nMPC-HC を再度インストールする場合、設定を削除する必要はありません。
-ja.msg_SetupIsRunningWarning=MPC-HC のセットアップは既に実行されています！
 #if defined(sse_required)
 ja.msg_simd_sse=このバージョンの MPC-HC には CPU の SSE 拡張サポートが必要です。%n%nお使いの CPU はこれらの機能を満たしていません。
 #elif defined(sse2_required)
@@ -608,7 +587,6 @@ ko.langid=00001042
 ko.comp_mpciconlib=아이콘 라이브러리
 ko.comp_mpcresources=번역
 ko.msg_DeleteSettings=MPC-HC 의 설정도 삭제 하시겠습니까?%n%nMPC-HC 를 다시 설치할 계획이라면 설정들을 삭제할 필요가 없습니다.
-ko.msg_SetupIsRunningWarning=MPC-HC 설치 프로그램이 이미 실행 중입니다!
 #if defined(sse_required)
 ko.msg_simd_sse=이 버전의 MPC-HC 는 SSE 기술을 지원하는 CPU가 필요합니다.%n%n이 컴퓨터의 CPU는 이 기술을 지원하지않습니다.
 #elif defined(sse2_required)
@@ -628,7 +606,6 @@ ms_MY.langid=00001086
 ms_MY.comp_mpciconlib=Pustaka Ikon
 ms_MY.comp_mpcresources=Terjemahan
 ms_MY.msg_DeleteSettings=Anda mahu padam tetapan MPC-HC?%n%nJika anda bercadang untuk memasang MPC-HC lagi, maka anda tidak perlu memadamnya.
-ms_MY.msg_SetupIsRunningWarning=Persediaan MPC-HC sedia dijalankan!
 #if defined(sse_required)
 ms_MY.msg_simd_sse=Binaan MPC-HC ini memerlukan CPU dengan sokongan sambungan SSE.%n%nCPU anda tidak mempunyai keupayaan tersebut.
 #elif defined(sse2_required)
@@ -648,7 +625,6 @@ nl.langid=00001043
 nl.comp_mpciconlib=Iconen voor mediabestanden
 nl.comp_mpcresources=Taal
 nl.msg_DeleteSettings=Wilt u ook de instellingen van MPC-HC verwijderen?%n%nAls u van plan bent MPC-HC opnieuw te gaan installeren is dit niet nodig.
-nl.msg_SetupIsRunningWarning=MPC-HC installatie is al gestart!
 #if defined(sse_required)
 nl.msg_simd_sse=Deze versie van MPC-HC heeft een processor nodig die SSE ondersteunt.%n%nUw processor ondersteunt dit niet.
 #elif defined(sse2_required)
@@ -668,7 +644,6 @@ pl.langid=00001045
 pl.comp_mpciconlib=Ikony plików multimedialnych
 pl.comp_mpcresources=Tłumaczenia
 pl.msg_DeleteSettings=Czy chcesz usunąć ustawienia MPC-HC?%n%nJeśli planujesz ponownie zainstalować MPC-HC, nie musisz ich usuwać.
-pl.msg_SetupIsRunningWarning=Instalator MPC-HC jest już uruchomiony!
 #if defined(sse_required)
 pl.msg_simd_sse=Ta kompilacja MPC-HC wymaga procesora z obsługą zestawu instrukcji SSE.%n%nTwój procesor ich nie obsługuje.
 #elif defined(sse2_required)
@@ -688,7 +663,6 @@ pt_BR.langid=00001046
 pt_BR.comp_mpciconlib=Biblioteca de ícones
 pt_BR.comp_mpcresources=Traduções
 pt_BR.msg_DeleteSettings=Gostaria de excluir as configurações do MPC-HC?%n%nSe planeja instalar o MPC-HC novamente, você não precisa excluí-las.
-pt_BR.msg_SetupIsRunningWarning=A instalação do MPC-HC ja está sendo executada!
 #if defined(sse_required)
 pt_BR.msg_simd_sse=Esta versão do MPC-HC necessita uma CPU com suporte a extensões SSE.%n%nSua CPU não tem esse suporte.
 #elif defined(sse2_required)
@@ -708,7 +682,6 @@ ro.langid=00001048
 ro.comp_mpciconlib=Bibliotecă de pictograme
 ro.comp_mpcresources=Traduceri
 ro.msg_DeleteSettings=Doriţi de asemenea să ştergeţi setările MPC-HC?%n%nDacă doriţi a reinstala MPC-HC, atunci nu este necesar să le ştergeţi.
-ro.msg_SetupIsRunningWarning=Instalatorul MPC-HC rulează deja!
 #if defined(sse_required)
 ro.msg_simd_sse=Această versiune de MPC-HC necesită un procesor cu suport pentru extensii SSE.%n%nProcesorul dumneavoastră nu are aceste capacităţi.
 #elif defined(sse2_required)
@@ -728,7 +701,6 @@ ru.langid=00001049
 ru.comp_mpciconlib=Библиотека значков
 ru.comp_mpcresources=Локализации
 ru.msg_DeleteSettings=Удалить также настроенные параметры MPC-HC?%n%nЕсли запланирована переустановка MPC-HC, эти параметры не нужно удалять.
-ru.msg_SetupIsRunningWarning=Программа установки MPC-HC уже запущена!
 #if defined(sse_required)
 ru.msg_simd_sse=Для этой сборки MPC-HC требуется процессор с поддержкой SSE-инструкций.%n%nВ данном процессоре они не поддерживаются.
 #elif defined(sse2_required)
@@ -748,7 +720,6 @@ sk.langid=00001051
 sk.comp_mpciconlib=Knižnica ikon
 sk.comp_mpcresources=Preklady
 sk.msg_DeleteSettings=Chcete vymazať aj nastavenia programu MPC-HC?%n%nAk plánujete opätovnú inštaláciu programu MPC-HC, tak nie je potrebné ich vymazávať.
-sk.msg_SetupIsRunningWarning=Inštalácia programu MPC-HC je už spustená!
 #if defined(sse_required)
 sk.msg_simd_sse=Toto zostavenie MPC-HC vyžaduje procesor s podporou inštrukcií SSE.%n%nVáš procesor ich nepodporuje.
 #elif defined(sse2_required)
@@ -768,7 +739,6 @@ sl.langid=00001060
 sl.comp_mpciconlib=Knjižnica ikon
 sl.comp_mpcresources=Prevodi
 sl.msg_DeleteSettings=Želite izbrisati nastavitve MPC-HC?%n%nČe nameravate spet namestiti MPC-HC, potem vam jih ni potrebno izbrisati.
-sl.msg_SetupIsRunningWarning=Namestitev MPC-HC je že zagnana!
 #if defined(sse_required)
 sl.msg_simd_sse=Ta različica MPC-HC zahteva procesor s podporo SSE razširitvam.%n%nVaš procesor nima teh zmožnosti.
 #elif defined(sse2_required)
@@ -788,7 +758,6 @@ sr.langid=00003098
 sr.comp_mpciconlib=Библиотека са иконама
 sr.comp_mpcresources=Преводи
 sr.msg_DeleteSettings=Желите ли да обришете и поставке MPC-HC-а?%n%nНе морате их брисати ако планирате поново да инсталирате MPC-HC.
-sr.msg_SetupIsRunningWarning=Инсталација MPC-HC-а је већ покренута!
 #if defined(sse_required)
 sr.msg_simd_sse=Ова верзија MPC-HC-а захтева процесор са подршком за SSE проширења.%n%nВаш процесор нема те могућности.
 #elif defined(sse2_required)
@@ -808,7 +777,6 @@ sv.langid=00001053
 sv.comp_mpciconlib=Ikonbibliotek
 sv.comp_mpcresources=Översättningar
 sv.msg_DeleteSettings=Vill du också ta bort inställningarna för MPC-HC?%n%nOm du planerar att installera MPC-HC igen så behöver du inte ta bort dem.
-sv.msg_SetupIsRunningWarning=Installation av MPC-HC pågår redan!
 #if defined(sse_required)
 sv.msg_simd_sse=Denna version av MPC-HC kräver en processor med stöd för SSE.%n%nDin processor saknar detta stöd.
 #elif defined(sse2_required)
@@ -828,7 +796,6 @@ th_TH.langid=00001054
 th_TH.comp_mpciconlib=คลังไอคอน
 th_TH.comp_mpcresources=การแปลภาษา
 th_TH.msg_DeleteSettings=คุณต้องการลบการตั้งค่า MPC-HC ด้วยหรือไม่?%n%nหากคุณวางแผนจะติดตั้ง MPC-HC อีกครั้ง คุณไม่จำเป็นต้องลบมันออก
-th_TH.msg_SetupIsRunningWarning=การติดตั้ง MPC-HC กำลังดำเนินการอยู่!
 #if defined(sse_required)
 th_TH.msg_simd_sse=MPC-HC รุ่นนี้ ต้องการ CPU ที่สนับสนุนส่วนเสริม SSE%n%nCPU ของคุณไม่มีความสามารถนั้น
 #elif defined(sse2_required)
@@ -848,7 +815,6 @@ tr.langid=00001055
 tr.comp_mpciconlib=Simge Kütüphanesi
 tr.comp_mpcresources=Çeviriler
 tr.msg_DeleteSettings=MPC-HC ayarlarını da silmek istiyor musunuz?%n%nMPC-HC 'yi tekrar yüklemeyi planlıyorsanız, bu ayarları silmemenizi öneririz.
-tr.msg_SetupIsRunningWarning=MPC-HC kurulumu zaten çalışıyor!
 #if defined(sse_required)
 tr.msg_simd_sse=Bu MPC-HC sürümü, SSE eklentisi destekleyen bir işlemci gerektirmektedir.%n%nİşlemciniz bu özelliği desteklemiyor.
 #elif defined(sse2_required)
@@ -868,7 +834,6 @@ tt.langid=00001092
 tt.comp_mpciconlib=Билгечекләр китапханәсе
 tt.comp_mpcresources=Телләштерү
 tt.msg_DeleteSettings=Шулай ук көйләнгән MPC-HC шартларын да бетерергәме?%n%nӘгәр ниятләнгән киредән MPC-HC урнаштыру булса, бу шартларны бетерергә кирәк түгел.
-tt.msg_SetupIsRunningWarning=MPC-HC урнаштыру программасы инде кабызылган!
 #if defined(sse_required)
 tt.msg_simd_sse=Бу MPC-HC бөрмәсе өчен SSE-кагыйдәләрен кулланган процессор кирәк.%n%nӘлеге процессорда алар кулланылмый.
 #elif defined(sse2_required)
@@ -888,7 +853,6 @@ uk.langid=00001058
 uk.comp_mpciconlib=Бібліотека іконок
 uk.comp_mpcresources=Локалізації
 uk.msg_DeleteSettings=Чи хочете ви видалити налаштування MPC-HC?%n%nЯкщо ви плануєте просто повторно встановити MPC-HC, то вам не потрібно їх видаляти.
-uk.msg_SetupIsRunningWarning=Встановлення MPC-HC вже запущено!
 #if defined(sse_required)
 uk.msg_simd_sse=Для використання даної версії MPC-HC необхідно, щоб ваш процесор підтримував SSE розширення.%n%nАле ваш процесор не підтримує їх.
 #elif defined(sse2_required)
@@ -908,7 +872,6 @@ vi.langid=00001066
 vi.comp_mpciconlib=Thư viện biểu tượng
 vi.comp_mpcresources=Các gói ngôn ngữ
 vi.msg_DeleteSettings=Bạn cũng muốn xóa các thiết lập của MPC-HC?%n%nNếu bạn dự định cài đặt lại MPC-HC thì bạn không cần phải xóa chúng.
-vi.msg_SetupIsRunningWarning=MPC-HC đang được cài đặt!
 #if defined(sse_required)
 vi.msg_simd_sse=Phiên bản MPC-HC này yêu cầu CPU có hỗ trợ phần mở rộng SSE.%n%nCPU của bạn không đáp ứng được yêu cầu này.
 #elif defined(sse2_required)
@@ -928,7 +891,6 @@ zh_CN.langid=00002052
 zh_CN.comp_mpciconlib=图标库
 zh_CN.comp_mpcresources=翻译
 zh_CN.msg_DeleteSettings=是否同时删除 MPC-HC 设置？%n%n如果您打算再次安装 MPC-HC 则不必删除。
-zh_CN.msg_SetupIsRunningWarning=MPC-HC 安装程序已在运行中！
 #if defined(sse_required)
 zh_CN.msg_simd_sse=此 MPC-HC 编译版本要求 CPU 支持 SSE 指令集。%n%n您的 CPU 不具备该能力。
 #elif defined(sse2_required)
@@ -948,7 +910,6 @@ zh_TW.langid=00001028
 zh_TW.comp_mpciconlib=圖示庫
 zh_TW.comp_mpcresources=翻譯
 zh_TW.msg_DeleteSettings=您是否也要刪除 MPC-HC 設定？%n%n如果您打算再次安裝 MPC-HC 則無需刪除。
-zh_TW.msg_SetupIsRunningWarning=已在執行 MPC-HC 安裝程式！
 #if defined(sse_required)
 zh_TW.msg_simd_sse=此版的 MPC-HC 需要有支援 SSE 延伸指令集的 CPU。%n%n您的 CPU 並未相容這些功能。
 #elif defined(sse2_required)

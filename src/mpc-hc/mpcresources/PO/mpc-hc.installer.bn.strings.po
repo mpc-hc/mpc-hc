@@ -40,10 +40,6 @@ msgctxt "CustomMessages_msg_DeleteSettings"
 msgid "Do you also want to delete MPC-HC settings?\n\nIf you plan on installing MPC-HC again then you do not have to delete them."
 msgstr "আপনি কি MPC-HCএর সেটিংসমূহও মুছে ফেলতে চান?\n\nআপনার যদি পুনরায় MPC-HC ইনস্টল করার পরিকল্পনা থাকে, তাহলে এসব মুছে ফেলতে হবে না।"
 
-msgctxt "CustomMessages_msg_SetupIsRunningWarning"
-msgid "MPC-HC setup is already running!"
-msgstr "MPC-HCএর সেটআপ প্রক্রিয়া ইতিমধ্যে চলমান রয়েছে!"
-
 msgctxt "CustomMessages_msg_simd_sse"
 msgid "This build of MPC-HC requires a CPU with SSE extension support.\n\nYour CPU does not have those capabilities."
 msgstr "MPC-HCএর এই নির্মাণটির জন্য SSE এক্সটেনশন সমর্থন করে এমন একটি CPUর প্রয়োজন।\n\nআপনার CPUর সেই কর্মক্ষমতা নেই।"

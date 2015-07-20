@@ -1,4 +1,4 @@
-﻿; (C) 2009-2014 see Authors.txt
+﻿; (C) 2009-2015 see Authors.txt
 ;
 ; This file is part of MPC-HC.
 ;
@@ -37,7 +37,6 @@ en.langid=00000000
 en.comp_mpciconlib=Icon Library
 en.comp_mpcresources=Translations
 en.msg_DeleteSettings=Do you also want to delete MPC-HC settings?%n%nIf you plan on installing MPC-HC again then you do not have to delete them.
-en.msg_SetupIsRunningWarning=MPC-HC setup is already running!
 #if defined(sse_required)
 en.msg_simd_sse=This build of MPC-HC requires a CPU with SSE extension support.%n%nYour CPU does not have those capabilities.
 #elif defined(sse2_required)

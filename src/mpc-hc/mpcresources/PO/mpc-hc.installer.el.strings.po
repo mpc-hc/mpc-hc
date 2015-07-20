@@ -37,10 +37,6 @@ msgctxt "CustomMessages_msg_DeleteSettings"
 msgid "Do you also want to delete MPC-HC settings?\n\nIf you plan on installing MPC-HC again then you do not have to delete them."
 msgstr "Θέλετε να διαγράψετε τις ρυθμίσεις του MPC-HC;\n\nΑν σκοπεύετε να εγκαταστήσετε το MPC-HC ξανά, τότε δεν χρειάζεται να τις διαγράψετε."
 
-msgctxt "CustomMessages_msg_SetupIsRunningWarning"
-msgid "MPC-HC setup is already running!"
-msgstr "Η εγκατάσταση του MPC-HC εκτελείται ήδη!"
-
 msgctxt "CustomMessages_msg_simd_sse"
 msgid "This build of MPC-HC requires a CPU with SSE extension support.\n\nYour CPU does not have those capabilities."
 msgstr "Αυτή η έκδοση του MPC-HC απαιτεί επεξεργαστή με υποστήριξη SSE.\n\nΟ επεξεργαστής σας δεν έχει αυτές τις δυνατότητες."

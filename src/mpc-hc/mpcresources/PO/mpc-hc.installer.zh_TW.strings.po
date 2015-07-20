@@ -37,10 +37,6 @@ msgctxt "CustomMessages_msg_DeleteSettings"
 msgid "Do you also want to delete MPC-HC settings?\n\nIf you plan on installing MPC-HC again then you do not have to delete them."
 msgstr "您是否也要刪除 MPC-HC 設定？\n\n如果您打算再次安裝 MPC-HC 則無需刪除。"
 
-msgctxt "CustomMessages_msg_SetupIsRunningWarning"
-msgid "MPC-HC setup is already running!"
-msgstr "已在執行 MPC-HC 安裝程式！"
-
 msgctxt "CustomMessages_msg_simd_sse"
 msgid "This build of MPC-HC requires a CPU with SSE extension support.\n\nYour CPU does not have those capabilities."
 msgstr "此版的 MPC-HC 需要有支援 SSE 延伸指令集的 CPU。\n\n您的 CPU 並未相容這些功能。"
