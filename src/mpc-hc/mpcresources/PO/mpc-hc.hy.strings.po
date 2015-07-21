@@ -464,6 +464,34 @@ msgctxt "IDD_PPAGESHADERS"
 msgid "Playback::Shaders"
 msgstr "Վերարտադրում::Շեյդերներ"
 
+msgctxt "IDD_FILEPROPRES"
+msgid "Resources"
+msgstr "Ռեսուրսներ"
+
+msgctxt "IDD_PPAGEMISC"
+msgid "Miscellaneous"
+msgstr "Տարբեր"
+
+msgctxt "IDD_FILEMEDIAINFO"
+msgid "MediaInfo"
+msgstr "MediaInfo"
+
+msgctxt "IDD_PPAGECAPTURE"
+msgid "Playback::Capture"
+msgstr "Վերարտադրում::տեսագրում"
+
+msgctxt "IDD_PPAGESYNC"
+msgid "Playback::Sync Renderer Settings"
+msgstr "Վերարտադրում::Sync Renderer-ի կարգավորումներ"
+
+msgctxt "IDD_PPAGEFULLSCREEN"
+msgid "Playback::Fullscreen"
+msgstr "Վերարտադրում::Ամբողջ էկրանով"
+
+msgctxt "IDD_PPAGEAUDIORENDERER"
+msgid "Internal Filters::Audio Renderer"
+msgstr ""
+
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
 msgstr "Ձայնի անջատիչ"
@@ -555,30 +583,6 @@ msgstr "Վերարտադրիչը::Web տեսքը"
 msgctxt "IDD_PPAGESUBDB"
 msgid "Subtitles::Database"
 msgstr "Տողագրերը::Բազան"
-
-msgctxt "IDD_FILEPROPRES"
-msgid "Resources"
-msgstr "Ռեսուրսներ"
-
-msgctxt "IDD_PPAGEMISC"
-msgid "Miscellaneous"
-msgstr "Տարբեր"
-
-msgctxt "IDD_FILEMEDIAINFO"
-msgid "MediaInfo"
-msgstr "MediaInfo"
-
-msgctxt "IDD_PPAGECAPTURE"
-msgid "Playback::Capture"
-msgstr "Վերարտադրում::տեսագրում"
-
-msgctxt "IDD_PPAGESYNC"
-msgid "Playback::Sync Renderer Settings"
-msgstr "Վերարտադրում::Sync Renderer-ի կարգավորումներ"
-
-msgctxt "IDD_PPAGEFULLSCREEN"
-msgid "Playback::Fullscreen"
-msgstr "Վերարտադրում::Ամբողջ էկրանով"
 
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
@@ -672,10 +676,6 @@ msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
 msgstr "Տեսանյութի մակերեսը առանձնացվում է որպես էկրանից դուրս։"
 
-msgctxt "IDC_AUDRND_COMBO"
-msgid "MPC Audio Renderer is broken, do not use."
-msgstr "MPC-ի ձայնի ռենդերերը վնասված է և չի օգտագործվում:"
-
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
 msgstr "Սինքի ռենդերերը"
@@ -732,8 +732,8 @@ msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP"
 msgid "Null (uncompressed)"
 msgstr "Null (չսեղմած)"
 
-msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND"
-msgid "MPC-HC Audio Renderer"
+msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
+msgid "Internal Audio Renderer"
 msgstr ""
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"

@@ -466,6 +466,34 @@ msgctxt "IDD_PPAGESHADERS"
 msgid "Playback::Shaders"
 msgstr "প্লেব্যাক::শেইডারসমূহ"
 
+msgctxt "IDD_FILEPROPRES"
+msgid "Resources"
+msgstr "উৎসসমূহ"
+
+msgctxt "IDD_PPAGEMISC"
+msgid "Miscellaneous"
+msgstr "বিবিধ"
+
+msgctxt "IDD_FILEMEDIAINFO"
+msgid "MediaInfo"
+msgstr "মিডিয়া ইন্‌ফো"
+
+msgctxt "IDD_PPAGECAPTURE"
+msgid "Playback::Capture"
+msgstr "প্লেব্যাক::ক্যাপচার"
+
+msgctxt "IDD_PPAGESYNC"
+msgid "Playback::Sync Renderer Settings"
+msgstr "প্লেব্যাক::Sync Renderer সেটিংসমূহ"
+
+msgctxt "IDD_PPAGEFULLSCREEN"
+msgid "Playback::Fullscreen"
+msgstr "প্লেব্যাক::ফুলস্ক্রীন"
+
+msgctxt "IDD_PPAGEAUDIORENDERER"
+msgid "Internal Filters::Audio Renderer"
+msgstr ""
+
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
 msgstr "অডিও পরিবর্তনকারী"
@@ -557,30 +585,6 @@ msgstr "প্লেয়ার::ওয়েব ইন্টারফেস"
 msgctxt "IDD_PPAGESUBDB"
 msgid "Subtitles::Database"
 msgstr "সাবটাইটেল::ডেটাবেস"
-
-msgctxt "IDD_FILEPROPRES"
-msgid "Resources"
-msgstr "উৎসসমূহ"
-
-msgctxt "IDD_PPAGEMISC"
-msgid "Miscellaneous"
-msgstr "বিবিধ"
-
-msgctxt "IDD_FILEMEDIAINFO"
-msgid "MediaInfo"
-msgstr "মিডিয়া ইন্‌ফো"
-
-msgctxt "IDD_PPAGECAPTURE"
-msgid "Playback::Capture"
-msgstr "প্লেব্যাক::ক্যাপচার"
-
-msgctxt "IDD_PPAGESYNC"
-msgid "Playback::Sync Renderer Settings"
-msgstr "প্লেব্যাক::Sync Renderer সেটিংসমূহ"
-
-msgctxt "IDD_PPAGEFULLSCREEN"
-msgid "Playback::Fullscreen"
-msgstr "প্লেব্যাক::ফুলস্ক্রীন"
 
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
@@ -674,10 +678,6 @@ msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
 msgstr "ভিডিও উপরিতলটি একটি সাধারণ বাইরেরস্ক্রীন উপরিতল হিসেবে নির্দেশিত হবে।"
 
-msgctxt "IDC_AUDRND_COMBO"
-msgid "MPC Audio Renderer is broken, do not use."
-msgstr "MPC অডিও রেনডারারটি অকেজো হয়ে পরেছে, এটা ব্যবহার করবেন না।"
-
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
 msgstr "Sync Renderer"
@@ -734,9 +734,9 @@ msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP"
 msgid "Null (uncompressed)"
 msgstr "Null (uncompressed)"
 
-msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND"
-msgid "MPC-HC Audio Renderer"
-msgstr "MPC-HC Audio Renderer"
+msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
+msgid "Internal Audio Renderer"
+msgstr ""
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"

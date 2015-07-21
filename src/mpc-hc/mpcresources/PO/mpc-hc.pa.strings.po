@@ -464,6 +464,34 @@ msgctxt "IDD_PPAGESHADERS"
 msgid "Playback::Shaders"
 msgstr "ਚਲਾਓ::ਸ਼ੇਡਰ"
 
+msgctxt "IDD_FILEPROPRES"
+msgid "Resources"
+msgstr "ਸਰੋਤ"
+
+msgctxt "IDD_PPAGEMISC"
+msgid "Miscellaneous"
+msgstr "ਫੁਟਕਲ"
+
+msgctxt "IDD_FILEMEDIAINFO"
+msgid "MediaInfo"
+msgstr "ਮੀਡੀਆ-ਜਾਣਕਾਰੀ"
+
+msgctxt "IDD_PPAGECAPTURE"
+msgid "Playback::Capture"
+msgstr "ਚਲਾਓ::ਕੈਪਚਰ"
+
+msgctxt "IDD_PPAGESYNC"
+msgid "Playback::Sync Renderer Settings"
+msgstr "ਚਲਾਓ::ਸਿੰਕ ਰੈਂਡਰਰ ਸੈਟਿੰਗਾਂ"
+
+msgctxt "IDD_PPAGEFULLSCREEN"
+msgid "Playback::Fullscreen"
+msgstr "ਚਲਾਓ::ਪੂਰੀ ਸਕਰੀਨ"
+
+msgctxt "IDD_PPAGEAUDIORENDERER"
+msgid "Internal Filters::Audio Renderer"
+msgstr ""
+
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
 msgstr "ਆਡੀਓ ਸਵਿੱਚਰ"
@@ -555,30 +583,6 @@ msgstr "ਪਲੇਅਰ::ਵੈਬ ਇੰਟਰਫੇਸ"
 msgctxt "IDD_PPAGESUBDB"
 msgid "Subtitles::Database"
 msgstr "ਸਬ-ਟਾਈਟਲ::ਡਾਟਾਬੇਸ"
-
-msgctxt "IDD_FILEPROPRES"
-msgid "Resources"
-msgstr "ਸਰੋਤ"
-
-msgctxt "IDD_PPAGEMISC"
-msgid "Miscellaneous"
-msgstr "ਫੁਟਕਲ"
-
-msgctxt "IDD_FILEMEDIAINFO"
-msgid "MediaInfo"
-msgstr "ਮੀਡੀਆ-ਜਾਣਕਾਰੀ"
-
-msgctxt "IDD_PPAGECAPTURE"
-msgid "Playback::Capture"
-msgstr "ਚਲਾਓ::ਕੈਪਚਰ"
-
-msgctxt "IDD_PPAGESYNC"
-msgid "Playback::Sync Renderer Settings"
-msgstr "ਚਲਾਓ::ਸਿੰਕ ਰੈਂਡਰਰ ਸੈਟਿੰਗਾਂ"
-
-msgctxt "IDD_PPAGEFULLSCREEN"
-msgid "Playback::Fullscreen"
-msgstr "ਚਲਾਓ::ਪੂਰੀ ਸਕਰੀਨ"
 
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
@@ -672,10 +676,6 @@ msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
 msgstr ""
 
-msgctxt "IDC_AUDRND_COMBO"
-msgid "MPC Audio Renderer is broken, do not use."
-msgstr "MPC ਆਡੀਓ ਰੈਂਡਰਰ ਖ਼ਰਾਬ ਹੈ, ਨਾ ਵਰਤੋਂ।"
-
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
 msgstr "ਸਿੰਕ ਰੈਂਡਰਰ"
@@ -732,9 +732,9 @@ msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP"
 msgid "Null (uncompressed)"
 msgstr "ਨਲ (ਬਿਨਾਂ-ਕੰਪੈਰਸ ਕੀਤਾ)"
 
-msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND"
-msgid "MPC-HC Audio Renderer"
-msgstr "MPC-HC ਆਡੀਓ ਰੈਂਡਰਰ"
+msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
+msgid "Internal Audio Renderer"
+msgstr ""
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"

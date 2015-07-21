@@ -466,6 +466,34 @@ msgctxt "IDD_PPAGESHADERS"
 msgid "Playback::Shaders"
 msgstr "การเล่น::เฉดเดอร์"
 
+msgctxt "IDD_FILEPROPRES"
+msgid "Resources"
+msgstr "ทรัพยากร"
+
+msgctxt "IDD_PPAGEMISC"
+msgid "Miscellaneous"
+msgstr "เบ็ดเตล็ด"
+
+msgctxt "IDD_FILEMEDIAINFO"
+msgid "MediaInfo"
+msgstr "ข้อมูลสื่อ"
+
+msgctxt "IDD_PPAGECAPTURE"
+msgid "Playback::Capture"
+msgstr "การเล่น::จับข้อมูล"
+
+msgctxt "IDD_PPAGESYNC"
+msgid "Playback::Sync Renderer Settings"
+msgstr "การเล่น::การตั้งค่าตัวแปลผลซิงค์"
+
+msgctxt "IDD_PPAGEFULLSCREEN"
+msgid "Playback::Fullscreen"
+msgstr "การเล่น::เต็มจอ"
+
+msgctxt "IDD_PPAGEAUDIORENDERER"
+msgid "Internal Filters::Audio Renderer"
+msgstr ""
+
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
 msgstr "ตัวสลับเสียง"
@@ -557,30 +585,6 @@ msgstr "เครื่องเล่น::ส่วนประสานเว�
 msgctxt "IDD_PPAGESUBDB"
 msgid "Subtitles::Database"
 msgstr "ศัพท์บรรยาย::ฐานข้อมูล"
-
-msgctxt "IDD_FILEPROPRES"
-msgid "Resources"
-msgstr "ทรัพยากร"
-
-msgctxt "IDD_PPAGEMISC"
-msgid "Miscellaneous"
-msgstr "เบ็ดเตล็ด"
-
-msgctxt "IDD_FILEMEDIAINFO"
-msgid "MediaInfo"
-msgstr "ข้อมูลสื่อ"
-
-msgctxt "IDD_PPAGECAPTURE"
-msgid "Playback::Capture"
-msgstr "การเล่น::จับข้อมูล"
-
-msgctxt "IDD_PPAGESYNC"
-msgid "Playback::Sync Renderer Settings"
-msgstr "การเล่น::การตั้งค่าตัวแปลผลซิงค์"
-
-msgctxt "IDD_PPAGEFULLSCREEN"
-msgid "Playback::Fullscreen"
-msgstr "การเล่น::เต็มจอ"
 
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
@@ -674,10 +678,6 @@ msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
 msgstr "ผิวหน้าวิดีโอจะถูกจัดสรรเป็นผิวหน้า offscreen ปกติ"
 
-msgctxt "IDC_AUDRND_COMBO"
-msgid "MPC Audio Renderer is broken, do not use."
-msgstr "ตัวแปลผลเสียง MPC เสียหาย, จงอย่าใช้"
-
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
 msgstr "ตัวแปลผลซิงค์"
@@ -734,9 +734,9 @@ msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP"
 msgid "Null (uncompressed)"
 msgstr "Null (ไม่มีบีบอัด)"
 
-msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND"
-msgid "MPC-HC Audio Renderer"
-msgstr "ตัวแปลผลเสียง MPC-HC"
+msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
+msgid "Internal Audio Renderer"
+msgstr ""
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
