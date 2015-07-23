@@ -1284,7 +1284,8 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
     setLarger(lpMMI->ptMinTrackSize.y, GetSystemMetrics(SM_CYMIN));
 
     lpMMI->ptMaxTrackSize.x = GetSystemMetrics(SM_CXVIRTUALSCREEN) + decorationsRect.Width();
-    lpMMI->ptMaxTrackSize.y = GetSystemMetrics(SM_CYVIRTUALSCREEN) + decorationsRect.Height();
+    lpMMI->ptMaxTrackSize.y = GetSystemMetrics(SM_CYVIRTUALSCREEN)
+                              + ((GetStyle() & WS_THICKFRAME) ? GetSystemMetrics(SM_CYSIZEFRAME) : 0);
 }
 
 void CMainFrame::OnMove(int x, int y)
