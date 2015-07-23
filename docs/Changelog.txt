@@ -11,6 +11,15 @@ Legend:
 next version - not released yet
 ===============================
 + Add Indonesian and Punjabi translations
+* Completely new Internal Audio Renderer:
+    - Uses sanear project as backend
+    - Requires Windows Vista or newer
+    - Outputs sound through WASAPI (shared or exclusive)
+    - Employs automatic channel downmixing
+    - Provides stereo crossfeed processing option (for headphones)
+    - Tries to preserve signal pitch when playing at custom rate (time stretching)
+    - Supports bitstreaming
+    - Fixes tickets #203, #1961, #2731, #3653, #4047, #5267
 * Use internal audio decoder by default for Opus decoding
 * Ticket #5450/#5479, Improved crash reporting dialog for better stability and user experience
 * Ticket #5472, Make it easier to input value to the "Audio time shift" field in options
