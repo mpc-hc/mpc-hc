@@ -25,7 +25,7 @@ next version - not released yet
 * Ticket #5450/#5479, Improved crash reporting dialog for better stability and user experience
 * Ticket #5472, Make it easier to input value to the "Audio time shift" field in options
 * Updated MediaInfoLib to v0.7.75
-* Updated LAV Filters to v0.65.0.26:
+* Updated LAV Filters to v0.65.0.35:
     - LAV Splitter: New ASF/WMV demuxer
     - LAV Video Decoder: Allow hardware decoding of UHD video with AMD cards
 * Updated Arabic, Armenian, Basque, Bengali, British English, Catalan, Chinese (Simplified and Traditional),
