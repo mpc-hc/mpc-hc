@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-22 20:53:41+0000\n"
+"POT-Creation-Date: 2015-05-30 00:33:30+0000\n"
 "PO-Revision-Date: 2015-05-30 21:10+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/mpc-hc/language/da/)\n"

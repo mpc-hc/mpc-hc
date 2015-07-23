@@ -569,9 +569,9 @@ ja.comp_mpciconlib=アイコン ライブラリ
 ja.comp_mpcresources=翻訳
 ja.msg_DeleteSettings=MPC-HC の設定を削除してもよろしいですか？%n%nMPC-HC を再度インストールする場合、設定を削除する必要はありません。
 #if defined(sse_required)
-ja.msg_simd_sse=このバージョンの MPC-HC には CPU の SSE 拡張サポートが必要です。%n%nお使いの CPU はこれらの機能を満たしていません。
+ja.msg_simd_sse=このバージョンの MPC-HC には CPU の SSE 拡張サポートが必要です。%n%nご使用の CPU はこれらの機能を満たしていません。
 #elif defined(sse2_required)
-ja.msg_simd_sse2=このバージョンの MPC-HC には CPU の SSE2 拡張サポートが必要です。%n%nお使いの CPU はこれらの機能を満たしていません。
+ja.msg_simd_sse2=このバージョンの MPC-HC には CPU の SSE2 拡張サポートが必要です。%n%nご使用の CPU はこれらの機能を満たしていません。
 #endif
 ja.run_DownloadToolbarImages=Wiki ページに移動してツールバーの画像をダウンロードする
 ja.tsk_AllUsers=すべてのユーザーにインストールする

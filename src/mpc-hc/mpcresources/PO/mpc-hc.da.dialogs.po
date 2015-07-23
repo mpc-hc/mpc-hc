@@ -11,8 +11,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-17 20:47:27+0000\n"
-"PO-Revision-Date: 2015-05-20 01:31+0000\n"
+"POT-Creation-Date: 2015-07-12 21:37:08+0000\n"
+"PO-Revision-Date: 2015-07-12 22:42+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/mpc-hc/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -1715,15 +1715,15 @@ msgstr "Fejlrapportering"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC"
 msgid "We are sorry, it seems MPC-HC just crashed. :("
-msgstr ""
+msgstr "Vi beklager, men det ser ud til at MPC-HC er holdt op med at virke. :("
 
 msgctxt "IDD_CRASH_REPORTER_IDC_CHECK1"
 msgid "Send a bug report to help us diagnose and fix the problem."
-msgstr ""
+msgstr "Send en fejlrapport for at hjælpe os med at diagnostisere problemet."
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
 msgid "Optional information"
-msgstr ""
+msgstr "Valgfrie informationer"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
 msgid "Email:"
@@ -1739,9 +1739,9 @@ msgstr "Beskrivelse af problemet (skriv kun på engelsk):"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON1"
 msgid "Restart MPC-HC"
-msgstr ""
+msgstr "Genstart MPC-HC"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON2"
 msgid "Quit MPC-HC"
-msgstr ""
+msgstr "Afslut MPC-HC"
 

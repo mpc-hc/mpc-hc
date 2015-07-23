@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-21 13:30:54+0000\n"
-"PO-Revision-Date: 2015-05-31 23:50+0000\n"
+"POT-Creation-Date: 2015-07-19 21:36:21+0000\n"
+"PO-Revision-Date: 2015-07-21 14:37+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/mpc-hc/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -1388,7 +1388,7 @@ msgstr "Efter afspilning: Luk"
 
 msgctxt "IDS_FRAME_INIT_FAILED"
 msgid "MPC-HC encountered a problem during initialization. With your help we might be able to fix the issue.\n\nDo you want to report it?"
-msgstr ""
+msgstr "MPC-HC støttet på et problem under initialisering. Med din hjælp, kan vi muligvis rette problemet.\n\nVil du rapporterer det? "
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1676,11 +1676,11 @@ msgstr "OSD: Vis filnavn"
 
 msgctxt "IDS_PLAY_DVD"
 msgid "Play DVD"
-msgstr ""
+msgstr "Afspil DVD"
 
 msgctxt "IDS_PLAY_BD"
 msgid "Play BD"
-msgstr ""
+msgstr "Afspil BD"
 
 msgctxt "IDS_OSD_DISPLAY_RENDERER_STATS"
 msgid "OSD: Display Renderer Statistics"
@@ -1964,19 +1964,19 @@ msgstr "Indstillinger"
 
 msgctxt "IDS_AG_NEXT_AUDIO"
 msgid "Next Audio Track"
-msgstr ""
+msgstr "Næste lydspor"
 
 msgctxt "IDS_AG_PREV_AUDIO"
 msgid "Prev Audio Track"
-msgstr ""
+msgstr "Forrige lydspor"
 
 msgctxt "IDS_AG_NEXT_SUBTITLE"
 msgid "Next Subtitle Track"
-msgstr ""
+msgstr "Næste undertekstspor"
 
 msgctxt "IDS_AG_PREV_SUBTITLE"
 msgid "Prev Subtitle Track"
-msgstr ""
+msgstr "Forrige undertekstspor"
 
 msgctxt "IDS_MPLAYERC_85"
 msgid "On/Off Subtitle"
@@ -1988,19 +1988,19 @@ msgstr "Genindlæs undertekster"
 
 msgctxt "IDS_MPLAYERC_87"
 msgid "Next Audio Track (OGM)"
-msgstr ""
+msgstr "Næste lydspor (OGM)"
 
 msgctxt "IDS_MPLAYERC_88"
 msgid "Prev Audio Track (OGM)"
-msgstr ""
+msgstr "Forrige lydspor (OGM)"
 
 msgctxt "IDS_MPLAYERC_89"
 msgid "Next Subtitle Track (OGM)"
-msgstr ""
+msgstr "Næste undertekstspor (OGM)"
 
 msgctxt "IDS_MPLAYERC_90"
 msgid "Prev Subtitle Track (OGM)"
-msgstr ""
+msgstr "Forrige undertekstspor (OGM)"
 
 msgctxt "IDS_MPLAYERC_91"
 msgid "Next Angle (DVD)"
@@ -2012,19 +2012,19 @@ msgstr "Forrige vinkel (DVD)"
 
 msgctxt "IDS_MPLAYERC_93"
 msgid "Next Audio Track (DVD)"
-msgstr ""
+msgstr "Næste lydspor (DVD)"
 
 msgctxt "IDS_MPLAYERC_94"
 msgid "Prev Audio Track (DVD)"
-msgstr ""
+msgstr "Forrige lydspor (DVD)"
 
 msgctxt "IDS_MPLAYERC_95"
 msgid "Next Subtitle Track (DVD)"
-msgstr ""
+msgstr "Næste undertekstspor (DVD)"
 
 msgctxt "IDS_MPLAYERC_96"
 msgid "Prev Subtitle Track (DVD)"
-msgstr ""
+msgstr "Forrige undertekstspor (DVD)"
 
 msgctxt "IDS_MPLAYERC_97"
 msgid "On/Off Subtitle (DVD)"

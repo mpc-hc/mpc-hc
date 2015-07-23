@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-07-12 21:27:04+0000\n"
-"PO-Revision-Date: 2015-07-14 14:15+0000\n"
+"POT-Creation-Date: 2015-07-19 21:36:21+0000\n"
+"PO-Revision-Date: 2015-07-23 00:43+0000\n"
 "Last-Translator: ever_green\n"
-"Language-Team: Japanese (http://www.transifex.com/p/mpc-hc/language/ja/)\n"
+"Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -746,7 +746,7 @@ msgstr "MIME タイプ"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_INFO"
 msgid "In order to view an embedded resource in your browser you have to enable the web interface.\n\nUse the \"Save As\" button if you only want to save the information."
-msgstr "お使いのブラウザに埋め込まれたリソースを表示するためには、ウェブ インターフェイスを有効にする必要があります。\n\n情報のみを保存したい場合、 「名前を付けて保存」 ボタンを使用します。"
+msgstr "ご使用のブラウザに埋め込まれたリソースを表示するためには、ウェブ インターフェイスを有効にする必要があります。\n\n情報のみを保存したい場合、 「名前を付けて保存」 ボタンを使用します。"
 
 msgctxt "IDS_DOWNLOAD_SUBS"
 msgid "Download subtitles"
@@ -1386,7 +1386,7 @@ msgstr "再生終了後: 閉じる"
 
 msgctxt "IDS_FRAME_INIT_FAILED"
 msgid "MPC-HC encountered a problem during initialization. With your help we might be able to fix the issue.\n\nDo you want to report it?"
-msgstr ""
+msgstr "MPC-HC の初期化中に問題が発生しました。あなたのご協力によって問題を解決することができるかもしれません。\n\n問題を報告しますか？"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -2314,7 +2314,7 @@ msgstr "サムネイルが小さすぎて、ファイルを作成できません
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "字幕を読み込むためにはビデオ レンダラを変更しファイルを​​再度開く必要があります。\n- DirectShow: VMR-7/VMR-9 (レンダーレス)、EVR (カスタム プレゼンタ)、同期、madVR、Haali\n- RealMedia: RealMedia 用の特別なレンダラまたは DirectShow を用いて開く\n- QuickTime: QuickTime 用の DirectX 7 または DirectX 9 レンダラ\n- ShockWave: n/a"
+msgstr "字幕を読み込むためにはビデオ レンダラを変更し、ファイルを​​再度開く必要があります。\n- DirectShow: VMR-7/VMR-9 (レンダーレス)、EVR (カスタム プレゼンタ)、同期、madVR、Haali\n- RealMedia: RealMedia 用の特別なレンダラまたは DirectShow を用いて開く\n- QuickTime: QuickTime 用の DirectX 7 または DirectX 9 レンダラ\n- ShockWave: n/a"
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"

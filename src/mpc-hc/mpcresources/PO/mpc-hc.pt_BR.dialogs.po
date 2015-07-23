@@ -4,6 +4,7 @@
 # Translators:
 # Alex Luís Silva <alex.mooca@hotmail.com>, 2014-2015
 # Alex Luís Silva <alex.mooca@hotmail.com>, 2014
+# Gustavo Cegolini Togni <gustavotogni@gmail.com>, 2015
 # Roger Filipe <lipe2000@outlook.com>, 2013-2014
 # Luis Henrique <henriqlh@gmail.com>, 2014
 # mvpetri <mvpetri@gmail.com>, 2014
@@ -12,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-17 20:47:27+0000\n"
-"PO-Revision-Date: 2015-05-31 05:10+0000\n"
-"Last-Translator: Alex Luís Silva <alex.mooca@hotmail.com>\n"
+"POT-Creation-Date: 2015-07-12 21:37:08+0000\n"
+"PO-Revision-Date: 2015-07-20 16:23+0000\n"
+"Last-Translator: Gustavo Cegolini Togni <gustavotogni@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/mpc-hc/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1716,15 +1717,15 @@ msgstr "Relatório de falha"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC"
 msgid "We are sorry, it seems MPC-HC just crashed. :("
-msgstr ""
+msgstr "Lamentamos, parece que o MPC-HC teve problemas. :("
 
 msgctxt "IDD_CRASH_REPORTER_IDC_CHECK1"
 msgid "Send a bug report to help us diagnose and fix the problem."
-msgstr ""
+msgstr "Envie-nos um relatório de erros para ajudar-nos a diagnosticar e corrigir o problema."
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
 msgid "Optional information"
-msgstr ""
+msgstr "Informação Opcional"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
 msgid "Email:"
@@ -1740,9 +1741,9 @@ msgstr "Descrição do problema (usar somente Inglês):"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON1"
 msgid "Restart MPC-HC"
-msgstr ""
+msgstr "Reiniciar o MPC-HC"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON2"
 msgid "Quit MPC-HC"
-msgstr ""
+msgstr "Sair do MPC-HC"
 

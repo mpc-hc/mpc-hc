@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-21 13:30:54+0000\n"
-"PO-Revision-Date: 2015-06-02 20:30+0000\n"
+"POT-Creation-Date: 2015-07-19 21:36:21+0000\n"
+"PO-Revision-Date: 2015-07-23 11:57+0000\n"
 "Last-Translator: Sinan H.\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/mpc-hc/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -1388,7 +1388,7 @@ msgstr "Oynatmadan Sonra: Kapat"
 
 msgctxt "IDS_FRAME_INIT_FAILED"
 msgid "MPC-HC encountered a problem during initialization. With your help we might be able to fix the issue.\n\nDo you want to report it?"
-msgstr ""
+msgstr "MPC-HC açılırken bir hata ile karşılaştı. Neyseki değerli yardımlarınız ile bu hatayı gidermemiz mümkün olacaktır.\n\nBu durumu tarafımıza bildirmek istiyor musunuz?"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1676,11 +1676,11 @@ msgstr "OSD: Dosya Adını Göster"
 
 msgctxt "IDS_PLAY_DVD"
 msgid "Play DVD"
-msgstr ""
+msgstr "DVD Oynat"
 
 msgctxt "IDS_PLAY_BD"
 msgid "Play BD"
-msgstr ""
+msgstr "BD Oynat"
 
 msgctxt "IDS_OSD_DISPLAY_RENDERER_STATS"
 msgid "OSD: Display Renderer Statistics"
@@ -1964,19 +1964,19 @@ msgstr "Ayarlar"
 
 msgctxt "IDS_AG_NEXT_AUDIO"
 msgid "Next Audio Track"
-msgstr ""
+msgstr "Sonraki Ses Parçası"
 
 msgctxt "IDS_AG_PREV_AUDIO"
 msgid "Prev Audio Track"
-msgstr ""
+msgstr "Önceki Ses Parçası"
 
 msgctxt "IDS_AG_NEXT_SUBTITLE"
 msgid "Next Subtitle Track"
-msgstr ""
+msgstr "Sonraki Alt Yazı"
 
 msgctxt "IDS_AG_PREV_SUBTITLE"
 msgid "Prev Subtitle Track"
-msgstr ""
+msgstr "Önceki Alt Yazı"
 
 msgctxt "IDS_MPLAYERC_85"
 msgid "On/Off Subtitle"
@@ -1988,19 +1988,19 @@ msgstr "Alt Yazıları Tekrar Yükle"
 
 msgctxt "IDS_MPLAYERC_87"
 msgid "Next Audio Track (OGM)"
-msgstr ""
+msgstr "Sonraki Ses Parçası (OGM)"
 
 msgctxt "IDS_MPLAYERC_88"
 msgid "Prev Audio Track (OGM)"
-msgstr ""
+msgstr "Önceki Ses Parçası (OGM)"
 
 msgctxt "IDS_MPLAYERC_89"
 msgid "Next Subtitle Track (OGM)"
-msgstr ""
+msgstr "Sonraki Alt Yazı (OGM)"
 
 msgctxt "IDS_MPLAYERC_90"
 msgid "Prev Subtitle Track (OGM)"
-msgstr ""
+msgstr "Önceki Alt Yazı (OGM)"
 
 msgctxt "IDS_MPLAYERC_91"
 msgid "Next Angle (DVD)"
@@ -2012,19 +2012,19 @@ msgstr "Önceki Açı (DVD)"
 
 msgctxt "IDS_MPLAYERC_93"
 msgid "Next Audio Track (DVD)"
-msgstr ""
+msgstr "Sonraki Ses Parçası (DVD)"
 
 msgctxt "IDS_MPLAYERC_94"
 msgid "Prev Audio Track (DVD)"
-msgstr ""
+msgstr "Önceki Ses Parçası (DVD)"
 
 msgctxt "IDS_MPLAYERC_95"
 msgid "Next Subtitle Track (DVD)"
-msgstr ""
+msgstr "Sonraki Alt Yazı (DVD)"
 
 msgctxt "IDS_MPLAYERC_96"
 msgid "Prev Subtitle Track (DVD)"
-msgstr ""
+msgstr "Önceki Alt Yazı (DVD)"
 
 msgctxt "IDS_MPLAYERC_97"
 msgid "On/Off Subtitle (DVD)"
