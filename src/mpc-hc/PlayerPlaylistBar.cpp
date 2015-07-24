@@ -45,6 +45,9 @@ CPlayerPlaylistBar::CPlayerPlaylistBar(CMainFrame* pMainFrame)
     , m_bHiddenDueToFullscreen(false)
     , m_pl(AfxGetAppSettings().bShufflePlaylistItems)
 {
+    GetEventd().Connect(m_eventc, {
+        MpcEvent::DPI_CHANGED,
+    }, std::bind(&CPlayerPlaylistBar::EventCallback, this, std::placeholders::_1));
 }
 
 CPlayerPlaylistBar::~CPlayerPlaylistBar()
@@ -69,14 +72,11 @@ BOOL CPlayerPlaylistBar::Create(CWnd* pParentWnd, UINT defDockBarID)
     m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER);
 
     // The column titles don't have to be translated since they aren't displayed anyway
-    m_list.InsertColumn(COL_NAME, _T("Name"), LVCFMT_LEFT, 380);
+    m_list.InsertColumn(COL_NAME, _T("Name"), LVCFMT_LEFT);
 
-    CDC* pDC = m_list.GetDC();
-    CFont* old = pDC->SelectObject(GetFont());
-    m_nTimeColWidth = pDC->GetTextExtent(_T("000:00:00")).cx + 5;
-    pDC->SelectObject(old);
-    m_list.ReleaseDC(pDC);
-    m_list.InsertColumn(COL_TIME, _T("Time"), LVCFMT_RIGHT, m_nTimeColWidth);
+    m_list.InsertColumn(COL_TIME, _T("Time"), LVCFMT_RIGHT);
+
+    ScaleFont();
 
     m_fakeImageList.Create(1, 16, ILC_COLOR4, 10, 10);
     m_list.SetImageList(&m_fakeImageList, LVSIL_SMALL);
@@ -905,6 +905,7 @@ BEGIN_MESSAGE_MAP(CPlayerPlaylistBar, CPlayerBar)
     ON_NOTIFY(LVN_KEYDOWN, IDC_PLAYLIST, OnLvnKeyDown)
     ON_NOTIFY(NM_DBLCLK, IDC_PLAYLIST, OnNMDblclkList)
     //ON_NOTIFY(NM_CUSTOMDRAW, IDC_PLAYLIST, OnCustomdrawList)
+    ON_WM_MEASUREITEM()
     ON_WM_DRAWITEM()
     ON_COMMAND_EX(ID_PLAY_PLAY, OnPlayPlay)
     ON_NOTIFY(LVN_BEGINDRAG, IDC_PLAYLIST, OnBeginDrag)
@@ -919,6 +920,38 @@ BEGIN_MESSAGE_MAP(CPlayerPlaylistBar, CPlayerBar)
     ON_WM_XBUTTONDBLCLK()
 END_MESSAGE_MAP()
 
+
+void CPlayerPlaylistBar::ScaleFont()
+{
+    LOGFONT lf;
+    GetMessageFont(&lf);
+    lf.lfHeight = m_pMainFrame->m_dpi.ScaleSystemToOverrideY(lf.lfHeight);
+
+    m_font.DeleteObject();
+    if (m_font.CreateFontIndirect(&lf)) {
+        m_list.SetFont(&m_font);
+    }
+
+    CDC* pDC = m_list.GetDC();
+    CFont* old = pDC->SelectObject(m_list.GetFont());
+    m_nTimeColWidth = pDC->GetTextExtent(_T("000:00:00")).cx + m_pMainFrame->m_dpi.ScaleX(5);
+    pDC->SelectObject(old);
+    m_list.ReleaseDC(pDC);
+    m_list.SetColumnWidth(COL_TIME, m_nTimeColWidth);
+}
+
+void CPlayerPlaylistBar::EventCallback(MpcEvent ev)
+{
+    switch (ev) {
+        case MpcEvent::DPI_CHANGED:
+            ScaleFont();
+            ResizeListColumn();
+            break;
+
+        default:
+            ASSERT(FALSE);
+    }
+}
 
 // CPlayerPlaylistBar message handlers
 
@@ -1021,6 +1054,16 @@ void CPlayerPlaylistBar::OnNMDblclkList(NMHDR* pNMHDR, LRESULT* pResult)
 
     *pResult = 0;
 }
+
+void CPlayerPlaylistBar::OnMeasureItem(int nIDCtl, LPMEASUREITEMSTRUCT lpMeasureItemStruct)
+{
+    __super::OnMeasureItem(nIDCtl, lpMeasureItemStruct);
+    if (m_itemHeight == 0) {
+        m_itemHeight = lpMeasureItemStruct->itemHeight;
+    }
+    lpMeasureItemStruct->itemHeight = m_pMainFrame->m_dpi.ScaleSystemToOverrideY(m_itemHeight);
+}
+
 /*
 void CPlayerPlaylistBar::OnCustomdrawList(NMHDR* pNMHDR, LRESULT* pResult)
 {

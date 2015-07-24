@@ -11,10 +11,6 @@ Legend:
 next version - not released yet
 ===============================
 + Add Indonesian and Punjabi translations
-* Use "Per-Monitor DPI Aware" declaration in the application manifest. Note that we still don't support proper per monitor
-  interface scaling and only do it because secondary scaling performed by DWM affects video quality rather heavily.
-  If anyone knows how to approach per-monitor dpi scaling in MFC applications or in applications that use dialog templates
-  and CreateDialogIndirect() function, please contact us at https://trac.mpc-hc.org/ticket/3356
 * Completely new Internal Audio Renderer:
     - Uses sanear project as backend
     - Requires Windows Vista or newer
@@ -24,6 +20,7 @@ next version - not released yet
     - Tries to preserve signal pitch when playing at custom rate (time stretching)
     - Supports bitstreaming
     - Fixes tickets #203, #1961, #2731, #3653, #4047, #5267
+* Ticket #3356, Initial support for per-monitor DPI scaling
 * Use internal audio decoder by default for Opus decoding
 * Ticket #5450/#5479, Improved crash reporting dialog for better stability and user experience
 * Ticket #5472, Make it easier to input value to the "Audio time shift" field in options

@@ -51,7 +51,7 @@
 
 #define HOOKS_BUGS_URL _T("https://trac.mpc-hc.org/ticket/3739")
 
-HICON LoadIcon(CString fn, bool bSmallIcon)
+HICON LoadIcon(CString fn, bool bSmallIcon, DpiHelper* pDpiHelper/* = nullptr*/)
 {
     if (fn.IsEmpty()) {
         return nullptr;
@@ -64,6 +64,11 @@ HICON LoadIcon(CString fn, bool bSmallIcon)
 
     CSize size(bSmallIcon ? GetSystemMetrics(SM_CXSMICON) : GetSystemMetrics(SM_CXICON),
                bSmallIcon ? GetSystemMetrics(SM_CYSMICON) : GetSystemMetrics(SM_CYICON));
+
+    if (pDpiHelper) {
+        size.cx = pDpiHelper->ScaleSystemToOverrideX(size.cx);
+        size.cy = pDpiHelper->ScaleSystemToOverrideY(size.cy);
+    }
 
     typedef HRESULT(WINAPI * LIWSD)(HINSTANCE, PCWSTR, int, int, HICON*);
     auto loadIcon = [&size](PCWSTR pszName) {

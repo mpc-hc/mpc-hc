@@ -71,6 +71,7 @@
 #include "sizecbar/scbarg.h"
 #include "DSMPropertyBag.h"
 #include "SkypeMoodMsgHandler.h"
+#include "DpiHelper.h"
 
 #include <memory>
 #include <future>
@@ -678,6 +679,8 @@ public:
     afx_msg void OnDisplayChange();
     afx_msg void OnWindowPosChanging(WINDOWPOS* lpwndpos);
 
+    LRESULT OnDpiChanged(WPARAM wParam, LPARAM lParam);
+
     afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
     afx_msg void OnActivateApp(BOOL bActive, DWORD dwThreadID);
     afx_msg LRESULT OnAppCommand(WPARAM wParam, LPARAM lParam);
@@ -1102,5 +1105,5 @@ public:
 
     bool GetDecoderType(CString& type) const;
 
-    DPI m_dpi;
+    DpiHelper m_dpi;
 };

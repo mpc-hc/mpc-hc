@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -29,6 +29,7 @@
 #include <string>
 #include <atlimage.h>
 
+#include "DpiHelper.h"
 
 // CPPageFormats dialog
 
@@ -269,7 +270,7 @@ BOOL CPPageFormats::OnInitDialog()
             GetDlgItem(nID)->MoveWindow(r);
         };
 
-        const int dy = DPI().ScaleY(-5);
+        const int dy = DpiHelper().ScaleY(-5); // TODO: use the helper from parent dialog
 
         offsetControlBottomRight(IDC_STATIC2, 0, dy);
         offsetControlBottomRight(IDC_LIST1, 0, dy);

@@ -191,6 +191,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_MESSAGE_VOID(WM_DISPLAYCHANGE, OnDisplayChange)
     ON_WM_WINDOWPOSCHANGING()
 
+    ON_MESSAGE(0x02E0, OnDpiChanged)
+
     ON_WM_SYSCOMMAND()
     ON_WM_ACTIVATEAPP()
     ON_MESSAGE(WM_APPCOMMAND, OnAppCommand)
@@ -759,6 +761,7 @@ CMainFrame::CMainFrame()
     , m_wndStatsBar(this)
     , m_wndStatusBar(this)
     , m_wndPlaylistBar(this)
+    , m_wndSubresyncBar(this)
     , m_wndCaptureBar(this)
     , m_wndNavigationBar(this)
     , m_pVideoWnd(nullptr)
@@ -811,6 +814,7 @@ CMainFrame::CMainFrame()
     fires.insert(MpcEvent::CONTEXT_MENU_POPUP_UNINITIALIZED);
     fires.insert(MpcEvent::SYSTEM_MENU_POPUP_INITIALIZED);
     fires.insert(MpcEvent::SYSTEM_MENU_POPUP_UNINITIALIZED);
+    fires.insert(MpcEvent::DPI_CHANGED);
     GetEventd().Connect(m_eventc, receives, std::bind(&CMainFrame::EventCallback, this, std::placeholders::_1), fires);
 }
 
@@ -822,6 +826,10 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
     if (__super::OnCreate(lpCreateStruct) == -1) {
         return -1;
+    }
+
+    if (SysVersion::Is81OrLater()) {
+        m_dpi.Override(m_hWnd);
     }
 
     const WinapiFunc<decltype(ChangeWindowMessageFilterEx)>
@@ -1547,6 +1555,15 @@ void CMainFrame::OnWindowPosChanging(WINDOWPOS* lpwndpos)
         }
     }
     __super::OnWindowPosChanging(lpwndpos);
+}
+
+LRESULT CMainFrame::OnDpiChanged(WPARAM wParam, LPARAM lParam)
+{
+    m_dpi.Override(LOWORD(wParam), HIWORD(wParam));
+    m_eventc.FireEvent(MpcEvent::DPI_CHANGED);
+    MoveWindow(reinterpret_cast<RECT*>(lParam));
+    RecalcLayout();
+    return 0;
 }
 
 void CMainFrame::OnSysCommand(UINT nID, LPARAM lParam)
@@ -14565,12 +14582,12 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
     if (pFileData) {
         CString filename = m_wndPlaylistBar.GetCurFileName();
         CString ext = filename.Mid(filename.ReverseFind('.') + 1);
-        m_wndStatusBar.SetStatusTypeIcon(LoadIcon(ext, true));
+        m_wndStatusBar.SetMediaType(ext);
     } else if (pDVDData) {
-        m_wndStatusBar.SetStatusTypeIcon(LoadIcon(_T(".ifo"), true));
+        m_wndStatusBar.SetMediaType(".ifo");
     } else {
         // TODO: Create icons for pDeviceData
-        m_wndStatusBar.SetStatusTypeIcon(LoadIcon(_T(".unknown"), true));
+        m_wndStatusBar.SetMediaType(".unknown");
     }
 
     // initiate graph creation, OpenMediaPrivate() will call OnFilePostOpenmedia()

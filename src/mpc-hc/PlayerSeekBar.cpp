@@ -46,6 +46,10 @@ CPlayerSeekBar::CPlayerSeekBar(CMainFrame* pMainFrame)
 {
     ZeroMemory(&m_ti, sizeof(m_ti));
     m_ti.cbSize = sizeof(m_ti);
+
+    GetEventd().Connect(m_eventc, {
+        MpcEvent::DPI_CHANGED,
+    }, std::bind(&CPlayerSeekBar::EventCallback, this, std::placeholders::_1));
 }
 
 CPlayerSeekBar::~CPlayerSeekBar()
@@ -74,6 +78,19 @@ BOOL CPlayerSeekBar::Create(CWnd* pParentWnd)
     m_tooltip.SendMessage(TTM_ADDTOOL, 0, (LPARAM)&m_ti);
 
     return TRUE;
+}
+
+void CPlayerSeekBar::EventCallback(MpcEvent ev)
+{
+    switch (ev) {
+        case MpcEvent::DPI_CHANGED:
+            m_pEnabledThumb = nullptr;
+            m_pDisabledThumb = nullptr;
+            break;
+
+        default:
+            ASSERT(FALSE);
+    }
 }
 
 BOOL CPlayerSeekBar::PreCreateWindow(CREATESTRUCT& cs)

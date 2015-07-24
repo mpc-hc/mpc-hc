@@ -25,22 +25,23 @@
 #include "MainFrm.h"
 #include "DSUtil.h"
 
-
 // CPlayerStatusBar
 
 IMPLEMENT_DYNAMIC(CPlayerStatusBar, CDialogBar)
 
 CPlayerStatusBar::CPlayerStatusBar(CMainFrame* pMainFrame)
     : m_pMainFrame(pMainFrame)
-    , m_status(false, true)
-    , m_time(true, false)
+    , m_status(pMainFrame->m_dpi, false, true)
+    , m_time(pMainFrame->m_dpi, true, false)
     , m_bmid(0)
     , m_hIcon(0)
     , m_time_rect(-1, -1, -1, -1)
 {
     EventRouter::EventSelection fires;
     fires.insert(MpcEvent::STREAM_POS_UPDATE_REQUEST);
-    GetEventd().Connect(m_eventc, fires);
+    EventRouter::EventSelection receives;
+    receives.insert(MpcEvent::DPI_CHANGED);
+    GetEventd().Connect(m_eventc, receives, std::bind(&CPlayerStatusBar::EventCallback, this, std::placeholders::_1), fires);
 }
 
 CPlayerStatusBar::~CPlayerStatusBar()
@@ -83,6 +84,7 @@ CSize CPlayerStatusBar::CalcFixedLayout(BOOL bStretch, BOOL bHorz)
 {
     CSize ret = __super::CalcFixedLayout(bStretch, bHorz);
     ret.cy = std::max<long>(ret.cy, 24);
+    ret.cy = m_pMainFrame->m_dpi.ScaleSystemToOverrideY(ret.cy);
     return ret;
 }
 
@@ -111,6 +113,20 @@ int CPlayerStatusBar::OnCreate(LPCREATESTRUCT lpCreateStruct)
     Relayout();
 
     return 0;
+}
+
+void CPlayerStatusBar::EventCallback(MpcEvent ev)
+{
+    switch (ev) {
+        case MpcEvent::DPI_CHANGED:
+            m_status.ScaleFont(m_pMainFrame->m_dpi);
+            m_time.ScaleFont(m_pMainFrame->m_dpi);
+            SetMediaTypeIcon();
+            break;
+
+        default:
+            ASSERT(FALSE);
+    }
 }
 
 void CPlayerStatusBar::Relayout()
@@ -170,7 +186,8 @@ void CPlayerStatusBar::Clear()
 {
     m_status.SetWindowText(_T(""));
     m_time.SetWindowText(_T(""));
-    SetStatusTypeIcon(nullptr);
+    m_typeExt.Empty();
+    SetMediaTypeIcon();
     SetStatusBitmap(0);
 }
 
@@ -195,18 +212,12 @@ void CPlayerStatusBar::SetStatusBitmap(UINT id)
     Relayout();
 }
 
-void CPlayerStatusBar::SetStatusTypeIcon(HICON hIcon)
+void CPlayerStatusBar::SetMediaType(CString ext)
 {
-    if (m_hIcon == hIcon) {
-        return;
+    if (ext != m_typeExt) {
+        m_typeExt = ext;
+        SetMediaTypeIcon();
     }
-
-    if (m_hIcon) {
-        DestroyIcon(m_hIcon);
-    }
-    m_type.SetIcon(m_hIcon = hIcon);
-
-    Relayout();
 }
 
 CString CPlayerStatusBar::GetStatusMessage() const
@@ -337,6 +348,19 @@ END_MESSAGE_MAP()
 
 
 // CPlayerStatusBar message handlers
+
+void CPlayerStatusBar::SetMediaTypeIcon()
+{
+    if (m_hIcon) {
+        DestroyIcon(m_hIcon);
+    }
+
+    m_hIcon = m_typeExt.IsEmpty() ? NULL : LoadIcon(m_typeExt, true, &m_pMainFrame->m_dpi);
+
+    m_type.SetIcon(m_hIcon);
+
+    Relayout();
+}
 
 BOOL CPlayerStatusBar::OnEraseBkgnd(CDC* pDC)
 {
