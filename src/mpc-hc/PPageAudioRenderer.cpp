@@ -65,6 +65,9 @@ namespace
 
 CPPageAudioRenderer::CPPageAudioRenderer()
     : CPPageBase(IDD, VersionInfo::IsLite() ? IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND : IDD_PPAGEAUDIORENDERER)
+    , m_bExclusiveMode(FALSE)
+    , m_bAllowBitstreaming(TRUE)
+    , m_bCrossfeedEnabled(FALSE)
 {
 }
 
