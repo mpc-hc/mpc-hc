@@ -1692,6 +1692,10 @@ msgid "Level:"
 msgstr ""
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "Note"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
 msgid "To minimize sound distortion, it is recommended to keep player volume at around 85% when playing loud lossy-encoded content."
 msgstr ""
 

@@ -1105,7 +1105,7 @@ BEGIN
     LTEXT           "Level:",IDC_STATIC3,157,113,47,8,0,WS_EX_RIGHT
     CONTROL         "",IDC_SLIDER2,"msctls_trackbar32",TBS_NOTICKS | WS_TABSTOP,208,111,42,12
     LTEXT           "",IDC_STATIC4,250,113,30,8
-    GROUPBOX        "",IDC_STATIC,7,141,282,48
+    GROUPBOX        "Note",IDC_STATIC,7,141,282,48
     LTEXT           "To minimize sound distortion, it is recommended to keep player volume at around 85% when playing loud lossy-encoded content.",IDC_STATIC,20,152,262,33
 END
 
