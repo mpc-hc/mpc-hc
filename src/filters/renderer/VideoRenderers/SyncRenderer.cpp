@@ -3989,6 +3989,7 @@ HRESULT CSyncAP::OnSampleFree(IMFAsyncResult* pResult)
         if (CComQIPtr<IMFSample> pSample = pObject) {
             // Ignore the sample if it is from an old group
             UINT32 nGroupId;
+            CAutoLock sampleQueueLock(&m_SampleQueueLock);
             if (SUCCEEDED(pSample->GetUINT32(GUID_GROUP_ID, &nGroupId)) && nGroupId == m_nCurrentGroupId) {
                 AddToFreeList(pSample, true);
                 pSample = nullptr; // The sample should not be used after being queued
