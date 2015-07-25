@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-07-19 21:36:21+0000\n"
-"PO-Revision-Date: 2015-07-21 13:47+0000\n"
+"POT-Creation-Date: 2015-07-21 23:39:26+0000\n"
+"PO-Revision-Date: 2015-07-24 19:40+0000\n"
 "Last-Translator: Xabier Aramendi <azpidatziak@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/mpc-hc/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -490,7 +490,7 @@ msgstr "Irakurketa::Ikusleiho-osoa"
 
 msgctxt "IDD_PPAGEAUDIORENDERER"
 msgid "Internal Filters::Audio Renderer"
-msgstr ""
+msgstr "Barneko Iragazkiak::Audio Aurkezlea"
 
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
@@ -734,7 +734,7 @@ msgstr "Null (konprimitugabea)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
 msgid "Internal Audio Renderer"
-msgstr ""
+msgstr "Barneko Audio Aurkezlea"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"

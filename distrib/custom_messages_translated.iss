@@ -106,7 +106,7 @@ it.WelcomeLabel2=Questo installerà [name] sul tuo computer.%n%nE' consigliato c
 it.WinVersionTooLowError=[name] richiede Windows XP Service Pack 3 o successivo per funzionare.
 
 ; Japanese
-ja.WelcomeLabel2=このプログラムはご使用のコンピュータ上に [name] をインストールします。%n%nセットアップを続行する前に他のすべてのアプリケーションを閉じることが推奨されます。
+ja.WelcomeLabel2=このプログラムはご使用のコンピュータ上に [name] をインストールします。%n%nセットアップを続行する前に他のすべてのアプリケーションを閉じることを推奨します。
 ja.WinVersionTooLowError=[name] を実行するためには Windows XP Service Pack 3 以降が必要です。
 
 ; Korean

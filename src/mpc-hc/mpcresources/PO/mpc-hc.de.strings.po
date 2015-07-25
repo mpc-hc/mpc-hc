@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-07-19 21:36:21+0000\n"
-"PO-Revision-Date: 2015-07-22 19:46+0000\n"
+"POT-Creation-Date: 2015-07-21 23:39:26+0000\n"
+"PO-Revision-Date: 2015-07-24 20:11+0000\n"
 "Last-Translator: Luan <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -329,7 +329,7 @@ msgstr "Wiedergabeliste"
 
 msgctxt "IDS_PPAGE_FS_CLN_ON_OFF"
 msgid "On/Off"
-msgstr "Ein/Aus"
+msgstr "Priorität"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
 msgid "From (FPS)"
@@ -461,7 +461,7 @@ msgstr "Optimierungen"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER"
 msgid "Internal Filters::Audio Switcher"
-msgstr "Interne Filter::Audio-Switcher"
+msgstr "Interne Filter::Audio Switcher"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS"
 msgid "External Filters"
@@ -497,11 +497,11 @@ msgstr "Wiedergabe::Vollbild"
 
 msgctxt "IDD_PPAGEAUDIORENDERER"
 msgid "Internal Filters::Audio Renderer"
-msgstr ""
+msgstr "Interne Filter::Audio Renderer"
 
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
-msgstr "Audio-Switcher"
+msgstr "Audio Switcher"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_TITLE"
 msgid "New version of the icon library"
@@ -741,7 +741,7 @@ msgstr "Null Audio Device (uncompressed)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
 msgid "Internal Audio Renderer"
-msgstr ""
+msgstr "Internal Audio Renderer"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"

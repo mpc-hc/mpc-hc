@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-07-19 21:36:21+0000\n"
-"PO-Revision-Date: 2015-07-23 00:43+0000\n"
+"POT-Creation-Date: 2015-07-21 23:39:26+0000\n"
+"PO-Revision-Date: 2015-07-25 00:44+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -490,7 +490,7 @@ msgstr "再生::全画面表示"
 
 msgctxt "IDD_PPAGEAUDIORENDERER"
 msgid "Internal Filters::Audio Renderer"
-msgstr ""
+msgstr "内部フィルタ::オーディオ レンダラ"
 
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
@@ -614,11 +614,11 @@ msgstr "DirectX 9 がインストールされている場合にのみ使用で�
 
 msgctxt "IDC_DSVMR7REN"
 msgid "Same as the VMR-7 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring WILL NOT work. \"True Color\" desktop color space recommended."
-msgstr "VMR-7 (ウィンドウ) と同じですが、字幕用の MPC-HC のアロケータ プレゼンタ プラグインを備えています。オーバーレイのビデオ ミラーリングは動作しません。デスクトップの色数を 「True Color」 にする事が推奨されます。"
+msgstr "VMR-7 (ウィンドウ) と同じですが、字幕用の MPC-HC のアロケータ プレゼンタ プラグインを備えています。オーバーレイのビデオ ミラーリングは動作しません。デスクトップの色数を 「True Color」 にする事を推奨します。"
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
-msgstr "VMR-9 (ウィンドウ) と同じですが、字幕用の MPC-HC のアロケータ プレゼンタ プラグインを備えています。オーバーレイのビデオ ミラーリングは動作することがあります。デスクトップの色数を 「True Color」 にする事が推奨されます。Windows XP を推奨します。"
+msgstr "VMR-9 (ウィンドウ) と同じですが、字幕用の MPC-HC のアロケータ プレゼンタ プラグインを備えています。オーバーレイのビデオ ミラーリングは動作することがあります。デスクトップの色数を 「True Color」 にする事を推奨します。Windows XP で推奨します。"
 
 msgctxt "IDC_DSDXR"
 msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
@@ -638,7 +638,7 @@ msgstr "Vista 以降で、または少なくとも .NET Framework 3.5 をイン�
 
 msgctxt "IDC_DSEVR_CUSTOM"
 msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
-msgstr "EVR と同じですが、字幕および後処理用の MPC-HC のアロケータ プレゼンタを備えています。Windows Vista 以降を推奨します。"
+msgstr "EVR と同じですが、字幕および後処理用の MPC-HC のアロケータ プレゼンタを備えています。Windows Vista 以降で推奨します。"
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
@@ -734,7 +734,7 @@ msgstr "無効 (非圧縮)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
 msgid "Internal Audio Renderer"
-msgstr ""
+msgstr "内蔵のオーディオ レンダラ"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
