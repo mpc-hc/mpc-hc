@@ -3037,18 +3037,6 @@ msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
 msgid "Aspect Ratio"
 msgstr "Kuvasuhde"
 
-msgctxt "IDS_ARS_WASAPI_MODE"
-msgid "Use WASAPI (restart playback)"
-msgstr "Käytä WASAPIa (käynnistä toisto uudelleen)"
-
-msgctxt "IDS_ARS_MUTE_FAST_FORWARD"
-msgid "Mute on fast forward"
-msgstr "Vaienna pikakelauksessa eteen"
-
-msgctxt "IDS_ARS_SOUND_DEVICE"
-msgid "Sound Device:"
-msgstr "Äänilaite:"
-
 msgctxt "IDS_OSD_RS_VSYNC_ON"
 msgid "VSync: On"
 msgstr "VSync: Päällä"

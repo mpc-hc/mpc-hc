@@ -3039,18 +3039,6 @@ msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
 msgid "Aspect Ratio"
 msgstr "Taraf Oranı"
 
-msgctxt "IDS_ARS_WASAPI_MODE"
-msgid "Use WASAPI (restart playback)"
-msgstr "WASAPI kullan (yeniden başlatın)"
-
-msgctxt "IDS_ARS_MUTE_FAST_FORWARD"
-msgid "Mute on fast forward"
-msgstr "İleri alırken sesi kıs"
-
-msgctxt "IDS_ARS_SOUND_DEVICE"
-msgid "Sound Device:"
-msgstr "Ses Aygıtı:"
-
 msgctxt "IDS_OSD_RS_VSYNC_ON"
 msgid "VSync: On"
 msgstr "Eşzamanlama: Açık"

@@ -3038,18 +3038,6 @@ msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
 msgid "Aspect Ratio"
 msgstr "Однос ширина/висина"
 
-msgctxt "IDS_ARS_WASAPI_MODE"
-msgid "Use WASAPI (restart playback)"
-msgstr "WASAPI (потребна поновна репродукција)"
-
-msgctxt "IDS_ARS_MUTE_FAST_FORWARD"
-msgid "Mute on fast forward"
-msgstr "Искључи звук при премотавању"
-
-msgctxt "IDS_ARS_SOUND_DEVICE"
-msgid "Sound Device:"
-msgstr "Уређај за звук:"
-
 msgctxt "IDS_OSD_RS_VSYNC_ON"
 msgid "VSync: On"
 msgstr "Вертикална синхронизација: укључено"

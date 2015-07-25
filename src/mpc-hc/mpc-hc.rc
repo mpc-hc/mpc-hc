@@ -3288,13 +3288,6 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_ARS_WASAPI_MODE     "Use WASAPI (restart playback)"
-    IDS_ARS_MUTE_FAST_FORWARD "Mute on fast forward"
-    IDS_ARS_SOUND_DEVICE    "Sound Device:"
-END
-
-STRINGTABLE
-BEGIN
     IDS_OSD_RS_VSYNC_ON     "VSync: On"
     IDS_OSD_RS_VSYNC_OFF    "VSync: Off"
     IDS_OSD_RS_ACCURATE_VSYNC_ON "Accurate VSync: On"
