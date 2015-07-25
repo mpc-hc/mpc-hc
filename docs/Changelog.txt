@@ -11,6 +11,10 @@ Legend:
 next version - not released yet
 ===============================
 + Add Indonesian and Punjabi translations
+* Use "Per-Monitor DPI Aware" declaration in the application manifest. Note that we still don't support proper per monitor
+  interface scaling and only do it because secondary scaling performed by DWM affects video quality rather heavily.
+  If anyone knows how to approach per-monitor dpi scaling in MFC applications or in applications that use dialog templates
+  and CreateDialogIndirect() function, please contact us at https://trac.mpc-hc.org/ticket/3356
 * Completely new Internal Audio Renderer:
     - Uses sanear project as backend
     - Requires Windows Vista or newer
