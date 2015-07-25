@@ -43,4 +43,5 @@ protected:
     DECLARE_MESSAGE_MAP()
 
     afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+    afx_msg void OnDestroy();
 };

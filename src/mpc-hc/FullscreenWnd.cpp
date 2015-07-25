@@ -68,9 +68,20 @@ LRESULT CFullscreenWnd::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 
 BEGIN_MESSAGE_MAP(CFullscreenWnd, CMouseWnd)
     ON_WM_ERASEBKGND()
+    ON_WM_DESTROY()
 END_MESSAGE_MAP()
 
 BOOL CFullscreenWnd::OnEraseBkgnd(CDC* pDC)
 {
     return FALSE;
+}
+
+void CFullscreenWnd::OnDestroy()
+{
+    __super::OnDestroy();
+
+    CWnd* pMainWnd = AfxGetApp()->GetMainWnd();
+    if (pMainWnd) {
+        pMainWnd->SetActiveWindow();
+    }
 }
