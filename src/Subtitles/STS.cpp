@@ -629,8 +629,8 @@ static bool OpenSubViewer(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
         WCHAR sep;
         int hh1, mm1, ss1, hs1, hh2, mm2, ss2, hs2;
         int c = swscanf_s(buff, L"%d:%d:%d%c%d,%d:%d:%d%c%d\n",
-                          &hh1, &mm1, &ss1, &sep, sizeof(WCHAR),
-                          &hs1, &hh2, &mm2, &ss2, &sep, sizeof(WCHAR), &hs2);
+                          &hh1, &mm1, &ss1, &sep, 1,
+                          &hs1, &hh2, &mm2, &ss2, &sep, 1, &hs2);
 
         if (c == 10) {
             CStringW str;

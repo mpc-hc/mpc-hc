@@ -10712,10 +10712,8 @@ void CMainFrame::SetupChapters()
 
                     int h, m, s, ms;
                     WCHAR wc;
-                    if (7 != swscanf_s(CStringW(var), L"%d%c%d%c%d%c%d", &h,
-                                       &wc, sizeof(WCHAR), &m,
-                                       &wc, sizeof(WCHAR), &s,
-                                       &wc, sizeof(WCHAR), &ms)) {
+                    if (7 != swscanf_s(CStringW(var), L"%d%c%d%c%d%c%d",
+                                       &h, &wc, 1, &m, &wc, 1, &s, &wc, 1, &ms)) {
                         break;
                     }
 
