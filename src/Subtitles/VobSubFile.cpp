@@ -1942,7 +1942,7 @@ bool CVobSubFile::SaveScenarist(CString fn, int delay)
     BITMAPINFOHEADER ihdr = {
         sizeof(BITMAPINFOHEADER),
         720, m_size.cy - 2, 1, 4, 0,
-        360 * (m_size.cy - 2),
+        DWORD(360 * (m_size.cy - 2)),
         0, 0,
         16, 4
     };
@@ -2178,7 +2178,7 @@ bool CVobSubFile::SaveMaestro(CString fn, int delay)
     BITMAPINFOHEADER ihdr = {
         sizeof(BITMAPINFOHEADER),
         720, m_size.cy - 2, 1, 4, 0,
-        360 * (m_size.cy - 2),
+        DWORD(360 * (m_size.cy - 2)),
         0, 0,
         16, 4
     };
