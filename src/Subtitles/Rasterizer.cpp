@@ -29,14 +29,13 @@
 #include "SeparableFilter.h"
 
 // Statics constants for use by alpha_blend_sse2
-static __m128i low_mask = _mm_set1_epi16(0xFF);
-static __m128i red_mask = _mm_set1_epi32(0xFF);
-static __m128i green_mask = _mm_set1_epi32(0xFF00);
-static __m128i blue_mask = _mm_set1_epi32(0xFF0000);
-static __m128i alpha_bit_mask = _mm_set1_epi32(0xFF000000);
-static __m128i one = _mm_set1_epi16(1);
-static __m128i inv_one = _mm_set1_epi16(0x100);
-static __m128i zero = _mm_setzero_si128();
+static const __m128i low_mask = _mm_set1_epi16(0xFF);
+static const __m128i red_mask = _mm_set1_epi32(0xFF);
+static const __m128i green_mask = _mm_set1_epi32(0xFF00);
+static const __m128i blue_mask = _mm_set1_epi32(0xFF0000);
+static const __m128i alpha_bit_mask = _mm_set1_epi32(0xFF000000);
+static const __m128i one = _mm_set1_epi16(1);
+static const __m128i inv_one = _mm_set1_epi16(0x100);
 
 int Rasterizer::getOverlayWidth()
 {
@@ -977,6 +976,7 @@ static __forceinline void pixmix2(DWORD* dst, DWORD color, DWORD shapealpha, DWO
 // Alpha blend 8 pixels at once. This is just pixmix_sse2, but done in a more vectorized manner.
 static __forceinline void alpha_blend_sse2(DWORD* dst, DWORD original_color, BYTE* s, int wt)
 {
+    __m128i zero = _mm_setzero_si128();
     __m128i srcR = _mm_set1_epi32(original_color & 0xFF);
     __m128i srcG = _mm_set1_epi32((original_color & 0xFF00) >> 8);
     __m128i srcB = _mm_set1_epi32((original_color & 0xFF0000) >> 16);
