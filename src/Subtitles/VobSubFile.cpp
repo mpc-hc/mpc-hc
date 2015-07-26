@@ -2400,7 +2400,7 @@ void CVobSubStream::Open(CString name, BYTE* pData, int len)
                 m_alignver = ver == _T("TOP") ? 0 : ver == _T("CENTER") ? 1 : /*ver == _T("BOTTOM") ? 2 :*/ 2;
             }
         } else if (key == _T("fade in/out")) {
-            _stscanf_s(value, _T("%d%, %d%"), &m_fadein, &m_fadeout);
+            _stscanf_s(value, _T("%d, %d"), &m_fadein, &m_fadeout);
         } else if (key == _T("time offset")) {
             m_toff = _tcstol(value, nullptr, 10);
         } else if (key == _T("forced subs")) {
