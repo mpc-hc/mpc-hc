@@ -157,7 +157,7 @@ namespace GothSync
         D3DFORMAT m_DisplayType;
         D3DTEXTUREFILTERTYPE m_filter;
         D3DCAPS9 m_caps;
-        D3DPRESENT_PARAMETERS pp;
+        D3DPRESENT_PARAMETERS m_pp;
 
         bool SettingsNeedResetDevice();
         void SendResetRequest();

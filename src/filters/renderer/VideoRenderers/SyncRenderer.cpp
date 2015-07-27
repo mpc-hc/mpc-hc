@@ -133,7 +133,7 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
 {
     ZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap));
     ZeroMemory(&m_caps, sizeof(m_caps));
-    ZeroMemory(&pp, sizeof(pp));
+    ZeroMemory(&m_pp, sizeof(m_pp));
 
     if (FAILED(hr)) {
         _Error += _T("ISubPicAllocatorPresenterImpl failed\n");
@@ -477,17 +477,17 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
     }
     m_bCompositionEnabled = bCompositionEnabled != 0;
 
-    ZeroMemory(&pp, sizeof(pp));
+    ZeroMemory(&m_pp, sizeof(m_pp));
     if (m_bIsFullscreen) { // Exclusive mode fullscreen
-        pp.Windowed = FALSE;
-        pp.BackBufferWidth = d3ddm.Width;
-        pp.BackBufferHeight = d3ddm.Height;
-        pp.hDeviceWindow = m_hWnd;
+        m_pp.Windowed = FALSE;
+        m_pp.BackBufferWidth = d3ddm.Width;
+        m_pp.BackBufferHeight = d3ddm.Height;
+        m_pp.hDeviceWindow = m_hWnd;
         TRACE(_T("Wnd in CreateDXDevice: %p\n"), m_hWnd);
-        pp.BackBufferCount = 3;
-        pp.SwapEffect = D3DSWAPEFFECT_DISCARD;
-        pp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
-        pp.Flags = D3DPRESENTFLAG_VIDEO;
+        m_pp.BackBufferCount = 3;
+        m_pp.SwapEffect = D3DSWAPEFFECT_DISCARD;
+        m_pp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
+        m_pp.Flags = D3DPRESENTFLAG_VIDEO;
         m_bHighColorResolution = r.m_AdvRendSets.bEVRHighColorResolution;
         if (m_bHighColorResolution) {
             if (FAILED(m_pD3D->CheckDeviceType(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, d3ddm.Format, D3DFMT_A2R10G10B10, false))) {
@@ -497,9 +497,9 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
         }
 
         if (m_bHighColorResolution) {
-            pp.BackBufferFormat = D3DFMT_A2R10G10B10;
+            m_pp.BackBufferFormat = D3DFMT_A2R10G10B10;
         } else {
-            pp.BackBufferFormat = d3ddm.Format;
+            m_pp.BackBufferFormat = d3ddm.Format;
         }
 
         bTryToReset &= m_hFocusWindow == m_hWnd;
@@ -511,48 +511,48 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
             DisplayMode.Size = sizeof(DisplayMode);
             m_pD3DEx->GetAdapterDisplayModeEx(m_CurrentAdapter, &DisplayMode, nullptr);
 
-            DisplayMode.Format = pp.BackBufferFormat;
-            pp.FullScreen_RefreshRateInHz = DisplayMode.RefreshRate;
+            DisplayMode.Format = m_pp.BackBufferFormat;
+            m_pp.FullScreen_RefreshRateInHz = DisplayMode.RefreshRate;
 
-            bTryToReset = bTryToReset && m_pD3DDevEx && SUCCEEDED(hr = m_pD3DDevEx->ResetEx(&pp, &DisplayMode));
+            bTryToReset = bTryToReset && m_pD3DDevEx && SUCCEEDED(hr = m_pD3DDevEx->ResetEx(&m_pp, &DisplayMode));
 
             if (!bTryToReset) {
                 m_pD3DDev = nullptr;
                 m_pD3DDevEx = nullptr;
                 hr = m_pD3DEx->CreateDeviceEx(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hFocusWindow,
                                               D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS | D3DCREATE_NOWINDOWCHANGES,
-                                              &pp, &DisplayMode, &m_pD3DDevEx);
+                                              &m_pp, &DisplayMode, &m_pD3DDevEx);
             }
 
             if (m_pD3DDevEx) {
                 m_pD3DDev = m_pD3DDevEx;
-                m_BackbufferType = pp.BackBufferFormat;
+                m_BackbufferType = m_pp.BackBufferFormat;
                 m_DisplayType = DisplayMode.Format;
             }
         } else {
-            bTryToReset = bTryToReset &&  m_pD3DDev && SUCCEEDED(hr = m_pD3DDev->Reset(&pp));
+            bTryToReset = bTryToReset &&  m_pD3DDev && SUCCEEDED(hr = m_pD3DDev->Reset(&m_pp));
 
             if (!bTryToReset) {
                 m_pD3DDev = nullptr;
                 m_pD3DDevEx = nullptr;
                 hr = m_pD3D->CreateDevice(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hFocusWindow,
                                           D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_NOWINDOWCHANGES,
-                                          &pp, &m_pD3DDev);
+                                          &m_pp, &m_pD3DDev);
             }
             TRACE(_T("Created full-screen device\n"));
             if (m_pD3DDev) {
-                m_BackbufferType = pp.BackBufferFormat;
+                m_BackbufferType = m_pp.BackBufferFormat;
                 m_DisplayType = d3ddm.Format;
             }
         }
     } else { // Windowed
-        pp.Windowed = TRUE;
-        pp.hDeviceWindow = m_hWnd;
-        pp.SwapEffect = D3DSWAPEFFECT_COPY;
-        pp.Flags = D3DPRESENTFLAG_VIDEO;
-        pp.BackBufferCount = 1;
-        pp.BackBufferWidth = szDesktopSize.cx;
-        pp.BackBufferHeight = szDesktopSize.cy;
+        m_pp.Windowed = TRUE;
+        m_pp.hDeviceWindow = m_hWnd;
+        m_pp.SwapEffect = D3DSWAPEFFECT_COPY;
+        m_pp.Flags = D3DPRESENTFLAG_VIDEO;
+        m_pp.BackBufferCount = 1;
+        m_pp.BackBufferWidth = szDesktopSize.cx;
+        m_pp.BackBufferHeight = szDesktopSize.cy;
         m_BackbufferType = d3ddm.Format;
         m_DisplayType = d3ddm.Format;
         m_bHighColorResolution = r.m_AdvRendSets.bEVRHighColorResolution;
@@ -565,27 +565,27 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
 
         if (m_bHighColorResolution) {
             m_BackbufferType = D3DFMT_A2R10G10B10;
-            pp.BackBufferFormat = D3DFMT_A2R10G10B10;
+            m_pp.BackBufferFormat = D3DFMT_A2R10G10B10;
         }
         if (bCompositionEnabled) {
             // Desktop composition presents the whole desktop
-            pp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+            m_pp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
         } else {
-            pp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
+            m_pp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
         }
 
         bTryToReset &= m_hFocusWindow == m_hWnd;
         m_hFocusWindow = m_hWnd;
 
         if (m_pD3DEx) {
-            bTryToReset = bTryToReset && m_pD3DDevEx && SUCCEEDED(hr = m_pD3DDevEx->ResetEx(&pp, nullptr));
+            bTryToReset = bTryToReset && m_pD3DDevEx && SUCCEEDED(hr = m_pD3DDevEx->ResetEx(&m_pp, nullptr));
 
             if (!bTryToReset) {
                 m_pD3DDev = nullptr;
                 m_pD3DDevEx = nullptr;
                 hr = m_pD3DEx->CreateDeviceEx(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hFocusWindow,
                                               D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS,
-                                              &pp, nullptr, &m_pD3DDevEx);
+                                              &m_pp, nullptr, &m_pD3DDevEx);
             }
 
             if (m_pD3DDevEx) {
@@ -593,14 +593,14 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
             }
         } else {
             if (bTryToReset) {
-                if (!m_pD3DDev || FAILED(hr = m_pD3DDev->Reset(&pp))) {
+                if (!m_pD3DDev || FAILED(hr = m_pD3DDev->Reset(&m_pp))) {
                     bTryToReset = false;
                 }
             }
             if (!bTryToReset) {
                 hr = m_pD3D->CreateDevice(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hFocusWindow,
                                           D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED,
-                                          &pp, &m_pD3DDev);
+                                          &m_pp, &m_pD3DDev);
             }
             TRACE(_T("Created windowed device\n"));
         }
@@ -613,7 +613,7 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
         }
         if (hr == D3DERR_DEVICENOTRESET) {
             TRACE(_T("D3DERR_DEVICENOTRESET\n"));
-            hr = m_pD3DDev->Reset(&pp);
+            hr = m_pD3DDev->Reset(&m_pp);
         }
 
         if (m_pD3DDevEx) {
@@ -771,8 +771,7 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
     m_pGenlock->SetDisplayResolution(d3ddm.Width, d3ddm.Height);
     CSize szDesktopSize(GetSystemMetrics(SM_CXVIRTUALSCREEN), GetSystemMetrics(SM_CYVIRTUALSCREEN));
 
-    D3DPRESENT_PARAMETERS pp;
-    ZeroMemory(&pp, sizeof(pp));
+    ZeroMemory(&m_pp, sizeof(m_pp));
 
     BOOL bCompositionEnabled = false;
     if (m_pDwmIsCompositionEnabled) {
@@ -782,14 +781,14 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
     m_bHighColorResolution = r.m_AdvRendSets.bEVRHighColorResolution;
 
     if (m_bIsFullscreen) { // Exclusive mode fullscreen
-        pp.BackBufferWidth = d3ddm.Width;
-        pp.BackBufferHeight = d3ddm.Height;
+        m_pp.BackBufferWidth = d3ddm.Width;
+        m_pp.BackBufferHeight = d3ddm.Height;
         if (m_bHighColorResolution) {
-            pp.BackBufferFormat = D3DFMT_A2R10G10B10;
+            m_pp.BackBufferFormat = D3DFMT_A2R10G10B10;
         } else {
-            pp.BackBufferFormat = d3ddm.Format;
+            m_pp.BackBufferFormat = d3ddm.Format;
         }
-        if (FAILED(m_pD3DEx->CheckDeviceType(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, pp.BackBufferFormat, pp.BackBufferFormat, false))) {
+        if (FAILED(m_pD3DEx->CheckDeviceType(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, m_pp.BackBufferFormat, m_pp.BackBufferFormat, false))) {
             _Error += L"10 bit RGB is not supported by this graphics device in exclusive mode fullscreen.\n";
             return hr;
         }
@@ -799,14 +798,14 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
         DisplayMode.Size = sizeof(DisplayMode);
         if (m_pD3DDevEx) {
             m_pD3DEx->GetAdapterDisplayModeEx(GetAdapter(m_pD3DEx, m_hWnd), &DisplayMode, nullptr);
-            DisplayMode.Format = pp.BackBufferFormat;
-            pp.FullScreen_RefreshRateInHz = DisplayMode.RefreshRate;
-            if (FAILED(m_pD3DDevEx->Reset(&pp))) {
+            DisplayMode.Format = m_pp.BackBufferFormat;
+            m_pp.FullScreen_RefreshRateInHz = DisplayMode.RefreshRate;
+            if (FAILED(m_pD3DDevEx->Reset(&m_pp))) {
                 _Error += GetWindowsErrorMessage(hr, m_hD3D9);
                 return hr;
             }
         } else if (m_pD3DDev) {
-            if (FAILED(m_pD3DDev->Reset(&pp))) {
+            if (FAILED(m_pD3DDev->Reset(&m_pp))) {
                 _Error += GetWindowsErrorMessage(hr, m_hD3D9);
                 return hr;
             }
@@ -814,33 +813,33 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
             _Error += L"No device.\n";
             return hr;
         }
-        m_BackbufferType = pp.BackBufferFormat;
+        m_BackbufferType = m_pp.BackBufferFormat;
         m_DisplayType = d3ddm.Format;
     } else { // Windowed
-        pp.BackBufferWidth = szDesktopSize.cx;
-        pp.BackBufferHeight = szDesktopSize.cy;
+        m_pp.BackBufferWidth = szDesktopSize.cx;
+        m_pp.BackBufferHeight = szDesktopSize.cy;
         m_BackbufferType = d3ddm.Format;
         m_DisplayType = d3ddm.Format;
         if (m_bHighColorResolution) {
             m_BackbufferType = D3DFMT_A2R10G10B10;
-            pp.BackBufferFormat = D3DFMT_A2R10G10B10;
+            m_pp.BackBufferFormat = D3DFMT_A2R10G10B10;
         }
-        if (FAILED(m_pD3DEx->CheckDeviceType(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, pp.BackBufferFormat, pp.BackBufferFormat, false))) {
+        if (FAILED(m_pD3DEx->CheckDeviceType(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, m_pp.BackBufferFormat, m_pp.BackBufferFormat, false))) {
             _Error += L"10 bit RGB is not supported by this graphics device in windowed mode.\n";
             return hr;
         }
         if (bCompositionEnabled) {
             // Desktop composition presents the whole desktop
-            pp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+            m_pp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
         } else {
-            pp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
+            m_pp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
         }
         if (m_pD3DDevEx)
-            if (FAILED(m_pD3DDevEx->Reset(&pp))) {
+            if (FAILED(m_pD3DDevEx->Reset(&m_pp))) {
                 _Error += GetWindowsErrorMessage(hr, m_hD3D9);
                 return hr;
             } else if (m_pD3DDev)
-                if (FAILED(m_pD3DDevEx->Reset(&pp))) {
+                if (FAILED(m_pD3DDevEx->Reset(&m_pp))) {
                     _Error += GetWindowsErrorMessage(hr, m_hD3D9);
                     return hr;
                 } else {
