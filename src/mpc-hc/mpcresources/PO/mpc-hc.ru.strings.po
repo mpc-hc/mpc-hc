@@ -4,6 +4,7 @@
 # Translators:
 # Alexander Gorishnyak <kefir500@gmail.com>, 2014
 # Arkady Shapkin <arkadiy_s@inbox.ru>, 2014
+# birkoff <birkoff.anarchist@gmail.com>, 2015
 # Ilya, 2015
 # Pavel Otchertsov <pavel.otchertsov@gmail.com>, 2015
 # sayanvd <sayanvd@yandex.ru>, 2014-2015
@@ -14,10 +15,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-07-12 21:27:04+0000\n"
-"PO-Revision-Date: 2015-07-16 11:32+0000\n"
-"Last-Translator: Victor Bychek\n"
-"Language-Team: Russian (http://www.transifex.com/p/mpc-hc/language/ru/)\n"
+"POT-Creation-Date: 2015-07-25 19:54:46+0000\n"
+"PO-Revision-Date: 2015-07-28 15:08+0000\n"
+"Last-Translator: birkoff <birkoff.anarchist@gmail.com>\n"
+"Language-Team: Russian (http://www.transifex.com/projects/p/mpc-hc/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -498,7 +499,7 @@ msgstr "Воспроизведение::Полный экран"
 
 msgctxt "IDD_PPAGEAUDIORENDERER"
 msgid "Internal Filters::Audio Renderer"
-msgstr ""
+msgstr "Встроенные фильтры::Аудио-рендерер"
 
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
@@ -742,7 +743,7 @@ msgstr "Null (без сжатия)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
 msgid "Internal Audio Renderer"
-msgstr ""
+msgstr "Встроенный аудио-рендерер"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
@@ -1394,7 +1395,7 @@ msgstr "По окончании воспроизведения: закрыть"
 
 msgctxt "IDS_FRAME_INIT_FAILED"
 msgid "MPC-HC encountered a problem during initialization. With your help we might be able to fix the issue.\n\nDo you want to report it?"
-msgstr ""
+msgstr "MPC-HC столкнулся с проблемой во время инициализации. С вашей помощью мы можем исправить проблему.\n\nВы хотите сообщить о ней?"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"

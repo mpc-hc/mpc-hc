@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-07-21 23:39:26+0000\n"
-"PO-Revision-Date: 2015-07-24 09:36+0000\n"
+"POT-Creation-Date: 2015-07-25 19:54:46+0000\n"
+"PO-Revision-Date: 2015-07-29 17:22+0000\n"
 "Last-Translator: JellyFrog\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/mpc-hc/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -491,7 +491,7 @@ msgstr "Uppspelning::Helskärm"
 
 msgctxt "IDD_PPAGEAUDIORENDERER"
 msgid "Internal Filters::Audio Renderer"
-msgstr ""
+msgstr "Interna Filter::Ljudrenderare"
 
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
@@ -735,7 +735,7 @@ msgstr "Null (okomprimerat)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
 msgid "Internal Audio Renderer"
-msgstr ""
+msgstr "Intern Ljudrenderare"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"

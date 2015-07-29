@@ -5,13 +5,14 @@
 # geogeo.gr <geogeo.gr@gmail.com>, 2013-2015
 # firespin <dartworldgr@hotmail.com>, 2014
 # geogeo.gr <geogeo.gr@gmail.com>, 2015
+# Lampros Zouloumis <onebrand@hotmail.gr>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-07-12 21:37:08+0000\n"
-"PO-Revision-Date: 2015-07-13 17:16+0000\n"
-"Last-Translator: geogeo.gr <geogeo.gr@gmail.com>\n"
-"Language-Team: Greek (http://www.transifex.com/p/mpc-hc/language/el/)\n"
+"POT-Creation-Date: 2015-07-25 13:12:15+0000\n"
+"PO-Revision-Date: 2015-07-27 18:54+0000\n"
+"Last-Translator: Lampros Zouloumis <onebrand@hotmail.gr>\n"
+"Language-Team: Greek (http://www.transifex.com/projects/p/mpc-hc/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1656,7 +1657,7 @@ msgstr "Προεπιλογή"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
 msgid "Device"
-msgstr ""
+msgstr "Συσκευή"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK1"
 msgid "Exclusive mode"
@@ -1668,7 +1669,7 @@ msgstr ""
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
 msgid "Options"
-msgstr ""
+msgstr "Επιλογές"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK3"
 msgid "Enable stereo crossfeed (for headphones)"
