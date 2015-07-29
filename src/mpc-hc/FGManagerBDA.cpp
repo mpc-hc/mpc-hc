@@ -458,7 +458,7 @@ HRESULT CFGManagerBDA::ConnectFilters(IBaseFilter* pOutFilter, IBaseFilter* pInF
     BeginEnumPins(pOutFilter, pEP, pOutPin) {
         if (S_OK == IsPinDirection(pOutPin, PINDIR_OUTPUT)
                 && S_OK != IsPinConnected(pOutPin)) {
-            BeginEnumPins(pInFilter, pEP, pInPin) {
+            BeginEnumPins(pInFilter, pEP2, pInPin) {
                 if (S_OK == IsPinDirection(pInPin, PINDIR_INPUT)
                         && S_OK != IsPinConnected(pInPin)) {
                     hr = this->ConnectDirect(pOutPin, pInPin, nullptr);

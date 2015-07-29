@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -144,34 +144,34 @@ HRESULT CAVI2AC3Filter::Transform(IMediaSample* pSample, IMediaSample* pOutSampl
                 int curlen = std::min(len - pos, 2013l);
                 pos += 2013;
 
-                CComPtr<IMediaSample> pOutSample;
-                hr = InitializeOutputSample(pSample, &pOutSample);
+                CComPtr<IMediaSample> pNewOutSample;
+                hr = InitializeOutputSample(pSample, &pNewOutSample);
 
                 if (fDiscontinuity) {
                     if (fHasTime) {
                         rtStop = rtStart + (rtStop - rtStart) * curlen / len;
-                        pOutSample->SetTime(&rtStart, &rtStop);
+                        pNewOutSample->SetTime(&rtStart, &rtStop);
                     }
 
                     fDiscontinuity = false;
                 } else {
-                    pOutSample->SetTime(nullptr, nullptr);
-                    pOutSample->SetDiscontinuity(FALSE);
+                    pNewOutSample->SetTime(nullptr, nullptr);
+                    pNewOutSample->SetDiscontinuity(FALSE);
                 }
 
-                BYTE* pOut = nullptr;
-                if (FAILED(hr = pOutSample->GetPointer(&pOut))) {
+                BYTE* pNewOut = nullptr;
+                if (FAILED(hr = pNewOutSample->GetPointer(&pNewOut))) {
                     return hr;
                 }
-                BYTE* pOutOrg = pOut;
+                BYTE* pNewOutOrg = pNewOut;
 
-                long size = pOutSample->GetSize();
+                long newSize = pNewOutSample->GetSize();
 
                 const GUID* majortype = &m_pOutput->CurrentMediaType().majortype;
                 const GUID* subtype = &m_pOutput->CurrentMediaType().subtype;
 
                 if (*majortype == MEDIATYPE_DVD_ENCRYPTED_PACK) {
-                    if (size < curlen + 32 + 3) {
+                    if (newSize < curlen + 32 + 3) {
                         return E_FAIL;
                     }
 
@@ -181,14 +181,14 @@ HRESULT CAVI2AC3Filter::Transform(IMediaSample* pSample, IMediaSample* pOutSampl
                         0x01, 0x89, 0xC3, 0xF8,         // mux rate (1260000 bytes/sec, 22bits), marker (2bits), reserved (~0, 5bits), stuffing (0, 3bits)
                     };
 
-                    memcpy(pOut, &PESHeader, sizeof(PESHeader));
-                    pOut += sizeof(PESHeader);
+                    memcpy(pNewOut, &PESHeader, sizeof(PESHeader));
+                    pNewOut += sizeof(PESHeader);
 
                     majortype = &MEDIATYPE_MPEG2_PES;
                 }
 
                 if (*majortype == MEDIATYPE_MPEG2_PES) {
-                    if (size < curlen + 20 + 3) {
+                    if (newSize < curlen + 20 + 3) {
                         return E_FAIL;
                     }
 
@@ -232,24 +232,24 @@ HRESULT CAVI2AC3Filter::Transform(IMediaSample* pSample, IMediaSample* pOutSampl
                         }
                     }
 
-                    memcpy(pOut, &Private1Header, sizeof(Private1Header));
-                    pOut += sizeof(Private1Header);
+                    memcpy(pNewOut, &Private1Header, sizeof(Private1Header));
+                    pNewOut += sizeof(Private1Header);
 
                     majortype = &MEDIATYPE_Audio;
                 }
 
                 if (*majortype == MEDIATYPE_Audio) {
-                    if (size < curlen) {
+                    if (newSize < curlen) {
                         return E_FAIL;
                     }
-                    memcpy(pOut, pIn, curlen);
+                    memcpy(pNewOut, pIn, curlen);
                     pIn += curlen;
-                    pOut += curlen;
+                    pNewOut += curlen;
                 }
 
-                pOutSample->SetActualDataLength(long(pOut - pOutOrg));
+                pNewOutSample->SetActualDataLength(long(pNewOut - pNewOutOrg));
 
-                m_pOutput->Deliver(pOutSample);
+                m_pOutput->Deliver(pNewOutSample);
             }
 
             return S_FALSE;

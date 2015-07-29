@@ -1383,12 +1383,12 @@ BOOL CPlayerPlaylistBar::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResul
     return TRUE;    // message was handled
 }
 
-void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
+void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
 {
     LVHITTESTINFO lvhti;
 
     bool bOnItem;
-    if (p.x == -1 && p.y == -1) {
+    if (point.x == -1 && point.y == -1) {
         lvhti.iItem = m_list.GetSelectionMark();
 
         if (lvhti.iItem == -1 && m_pl.GetCount() == 1) {
@@ -1397,14 +1397,14 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
 
         CRect r;
         if (!!m_list.GetItemRect(lvhti.iItem, r, LVIR_BOUNDS)) {
-            p.SetPoint(r.left, r.bottom);
+            point.SetPoint(r.left, r.bottom);
         } else {
-            p.SetPoint(0, 0);
+            point.SetPoint(0, 0);
         }
-        m_list.ClientToScreen(&p);
+        m_list.ClientToScreen(&point);
         bOnItem = lvhti.iItem != -1;
     } else {
-        lvhti.pt = p;
+        lvhti.pt = point;
         m_list.ScreenToClient(&lvhti.pt);
         m_list.SubItemHitTest(&lvhti);
         bOnItem = lvhti.iItem >= 0 && !!(lvhti.flags & LVHT_ONITEM);
@@ -1464,7 +1464,7 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
     m.AppendMenu(MF_SEPARATOR);
     m.AppendMenu(MF_STRING | MF_ENABLED | (s.bHidePlaylistFullScreen ? MF_CHECKED : MF_UNCHECKED), M_HIDEFULLSCREEN, ResStr(IDS_PLAYLIST_HIDEFS));
 
-    int nID = (int)m.TrackPopupMenu(TPM_LEFTBUTTON | TPM_RETURNCMD, p.x, p.y, this);
+    int nID = (int)m.TrackPopupMenu(TPM_LEFTBUTTON | TPM_RETURNCMD, point.x, point.y, this);
     switch (nID) {
         case M_OPEN:
             m_pl.SetPos(pos);
@@ -1542,15 +1542,15 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
                     std::set<CString, CStringUtils::LogicalLess> fileList;
                     {
                         // convert to stl
-                        POSITION pos = fileListAtl.GetHeadPosition();
-                        while (pos) {
-                            fileList.emplace_hint(fileList.end(), fileListAtl.GetNext(pos));
+                        POSITION pos2 = fileListAtl.GetHeadPosition();
+                        while (pos2) {
+                            fileList.emplace_hint(fileList.end(), fileListAtl.GetNext(pos2));
                         }
 
                         // deduplicate
-                        pos = m_pl.GetHeadPosition();
-                        while (pos) {
-                            const CPlaylistItem& pli = m_pl.GetNext(pos);
+                        pos2 = m_pl.GetHeadPosition();
+                        while (pos2) {
+                            const CPlaylistItem& pli = m_pl.GetNext(pos2);
                             POSITION subpos = pli.m_fns.GetHeadPosition();
                             while (subpos) {
                                 fileList.erase(pli.m_fns.GetNext(subpos));
@@ -1660,26 +1660,26 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
                 if (pli.m_type != CPlaylistItem::file) {
                     fRemovePath = false;
                 } else {
-                    POSITION pos;
+                    POSITION pos2;
 
-                    pos = pli.m_fns.GetHeadPosition();
-                    while (pos && fRemovePath) {
-                        CString fn = pli.m_fns.GetNext(pos);
+                    pos2 = pli.m_fns.GetHeadPosition();
+                    while (pos2 && fRemovePath) {
+                        CString fn = pli.m_fns.GetNext(pos2);
 
-                        CPath p(fn);
-                        p.RemoveFileSpec();
-                        if (base != (LPCTSTR)p) {
+                        CPath fnPath(fn);
+                        fnPath.RemoveFileSpec();
+                        if (base != (LPCTSTR)fnPath) {
                             fRemovePath = false;
                         }
                     }
 
-                    pos = pli.m_subs.GetHeadPosition();
-                    while (pos && fRemovePath) {
-                        CString fn = pli.m_subs.GetNext(pos);
+                    pos2 = pli.m_subs.GetHeadPosition();
+                    while (pos2 && fRemovePath) {
+                        CString fn = pli.m_subs.GetNext(pos2);
 
-                        CPath p(fn);
-                        p.RemoveFileSpec();
-                        if (base != (LPCTSTR)p) {
+                        CPath fnPath(fn);
+                        fnPath.RemoveFileSpec();
+                        if (base != (LPCTSTR)fnPath) {
                             fRemovePath = false;
                         }
                     }

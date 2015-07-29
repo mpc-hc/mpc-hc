@@ -893,7 +893,7 @@ void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
             EFFECTFIRST, EFFECTLAST = EFFECTFIRST + 1000
         };
 
-        CStringArray styles;
+        CStringArray stylesNames;
         CStringArray actors;
         CStringArray effects;
 
@@ -937,7 +937,7 @@ void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
                         CString key;
                         STSStyle* val;
                         m_sts.m_styles.GetNextAssoc(pos, key, val);
-                        styles.Add(key);
+                        stylesNames.Add(key);
                         m.AppendMenu(MF_STRING | MF_ENABLED, id++, key);
                     }
 
@@ -1124,7 +1124,7 @@ void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
                     break;
                 default:
                     if (STYLEFIRST <= id && id <= STYLELAST) {
-                        CString s = styles[id - STYLEFIRST];
+                        CString s = stylesNames[id - STYLEFIRST];
                         if (m_sts[iItem].style != s) {
                             m_sts[iItem].style = s;
                             bNeedsUpdate = true;
@@ -1136,11 +1136,11 @@ void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
                         STSStyle* stss = m_sts.GetStyle(iItem);
                         int iSelPage = 0;
 
-                        POSITION pos = m_sts.m_styles.GetStartPosition();
-                        for (int i = 0; pos; i++) {
+                        POSITION posStyles = m_sts.m_styles.GetStartPosition();
+                        for (int i = 0; posStyles; i++) {
                             CString key;
                             STSStyle* val;
-                            m_sts.m_styles.GetNextAssoc(pos, key, val);
+                            m_sts.m_styles.GetNextAssoc(posStyles, key, val);
 
                             CAutoPtr<CPPageSubStyle> page(DEBUG_NEW CPPageSubStyle());
                             page->InitStyle(key, *val);

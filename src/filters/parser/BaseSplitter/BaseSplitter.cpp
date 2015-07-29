@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -1095,9 +1095,9 @@ bool CBaseSplitterFilter::IsAnyPinDrying()
             //          if (m_priority != THREAD_PRIORITY_ABOVE_NORMAL && (count < MINPACKETS/3 || size < MINPACKETSIZE/3))
             if (m_priority != THREAD_PRIORITY_BELOW_NORMAL && (count < MINPACKETS / 3 || size < MINPACKETSIZE / 3)) {
                 // SetThreadPriority(m_hThread, m_priority = THREAD_PRIORITY_ABOVE_NORMAL);
-                POSITION pos = m_pOutputs.GetHeadPosition();
-                while (pos) {
-                    m_pOutputs.GetNext(pos)->SetThreadPriority(THREAD_PRIORITY_BELOW_NORMAL);
+                POSITION pos2 = m_pOutputs.GetHeadPosition();
+                while (pos2) {
+                    m_pOutputs.GetNext(pos2)->SetThreadPriority(THREAD_PRIORITY_BELOW_NORMAL);
                 }
                 m_priority = THREAD_PRIORITY_BELOW_NORMAL;
             }
@@ -1109,9 +1109,9 @@ bool CBaseSplitterFilter::IsAnyPinDrying()
 
     if (m_priority != THREAD_PRIORITY_NORMAL && (totalcount > m_QueueMaxPackets * 2 / 3 || totalsize > MAXPACKETSIZE * 2 / 3)) {
         //      SetThreadPriority(m_hThread, m_priority = THREAD_PRIORITY_NORMAL);
-        POSITION pos = m_pOutputs.GetHeadPosition();
-        while (pos) {
-            m_pOutputs.GetNext(pos)->SetThreadPriority(THREAD_PRIORITY_NORMAL);
+        POSITION pos2 = m_pOutputs.GetHeadPosition();
+        while (pos2) {
+            m_pOutputs.GetNext(pos2)->SetThreadPriority(THREAD_PRIORITY_NORMAL);
         }
         m_priority = THREAD_PRIORITY_NORMAL;
     }

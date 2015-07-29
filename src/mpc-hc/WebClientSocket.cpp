@@ -100,10 +100,10 @@ void CWebClientSocket::HandleRequest()
 {
     // remember new cookies
 
-    CStringA value;
-    if (m_hdrlines.Lookup("cookie", value)) {
+    CStringA cookie;
+    if (m_hdrlines.Lookup("cookie", cookie)) {
         CAtlList<CStringA> sl;
-        Explode(value, sl, ';');
+        Explode(cookie, sl, ';');
         POSITION pos = sl.GetHeadPosition();
         while (pos) {
             CAtlList<CStringA> sl2;
@@ -190,16 +190,16 @@ void CWebClientSocket::HandleRequest()
                 reshdr += "Set-Cookie: " + key + "=" + TToA(value);
                 POSITION pos2 = m_cookieattribs.GetStartPosition();
                 while (pos2) {
-                    cookie_attribs value;
-                    m_cookieattribs.GetNextAssoc(pos2, key, value);
-                    if (!value.path.IsEmpty()) {
-                        reshdr += "; path=" + value.path;
+                    cookie_attribs attribs;
+                    m_cookieattribs.GetNextAssoc(pos2, key, attribs);
+                    if (!attribs.path.IsEmpty()) {
+                        reshdr += "; path=" + attribs.path;
                     }
-                    if (!value.expire.IsEmpty()) {
-                        reshdr += "; expire=" + value.expire;
+                    if (!attribs.expire.IsEmpty()) {
+                        reshdr += "; expire=" + attribs.expire;
                     }
-                    if (!value.domain.IsEmpty()) {
-                        reshdr += "; domain=" + value.domain;
+                    if (!attribs.domain.IsEmpty()) {
+                        reshdr += "; domain=" + attribs.domain;
                     }
                 }
                 reshdr += "\r\n";
@@ -490,7 +490,7 @@ bool CWebClientSocket::OnBrowser(CStringA& hdr, CStringA& body, CStringA& mime)
                 *(DWORD*)p = (DWORD)cmdln.GetCount();
                 p += sizeof(DWORD);
 
-                POSITION pos = cmdln.GetHeadPosition();
+                pos = cmdln.GetHeadPosition();
                 while (pos) {
                     CString& str = cmdln.GetNext(pos);
                     len = (str.GetLength() + 1) * sizeof(TCHAR);

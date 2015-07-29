@@ -1162,13 +1162,13 @@ IBaseFilter* AppendFilter(IPin* pPin, IMoniker* pMoniker, IGraphBuilder* pGB)
             break;
         }
 
-        BeginEnumPins(pBF, pEP, pPinTo) {
+        BeginEnumPins(pBF, pEP, pPinTo2) {
             PIN_DIRECTION dir2;
-            if (FAILED(pPinTo->QueryDirection(&dir2)) || dir2 != PINDIR_INPUT) {
+            if (FAILED(pPinTo2->QueryDirection(&dir2)) || dir2 != PINDIR_INPUT) {
                 continue;
             }
 
-            if (SUCCEEDED(pGB->ConnectDirect(pPin, pPinTo, nullptr))) {
+            if (SUCCEEDED(pGB->ConnectDirect(pPin, pPinTo2, nullptr))) {
                 return pBF;
             }
         }

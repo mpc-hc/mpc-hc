@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -109,12 +109,12 @@ void Subtitle::GetSubFileNames(CString fn, const CAtlArray<CString>& paths, CAtl
             HANDLE hFile = FindFirstFile(path + title + _T("*"), &wfd);
             if (hFile != INVALID_HANDLE_VALUE) {
                 do {
-                    CString fn = path + wfd.cFileName;
+                    CString fn2 = path + wfd.cFileName;
                     if (std::regex_match(&wfd.cFileName[titleLength], reSub)) {
-                        subs.AddTail(fn);
+                        subs.AddTail(fn2);
                     } else if (std::regex_match(&wfd.cFileName[titleLength], reVid)) {
                         // Convert to lower-case and cut the extension for easier matching
-                        vids.AddTail(fn.Left(fn.ReverseFind(_T('.'))).MakeLower());
+                        vids.AddTail(fn2.Left(fn2.ReverseFind(_T('.'))).MakeLower());
                     }
                 } while (FindNextFile(hFile, &wfd));
 
@@ -123,8 +123,8 @@ void Subtitle::GetSubFileNames(CString fn, const CAtlArray<CString>& paths, CAtl
 
             POSITION posSub = subs.GetHeadPosition();
             while (posSub) {
-                CString& fn = subs.GetNext(posSub);
-                CString fnlower = fn;
+                CString& fn2 = subs.GetNext(posSub);
+                CString fnlower = fn2;
                 fnlower.MakeLower();
 
                 // Check if there is an exact match for another video file
@@ -139,7 +139,7 @@ void Subtitle::GetSubFileNames(CString fn, const CAtlArray<CString>& paths, CAtl
 
                 if (!bMatchAnotherVid) {
                     SubFile f;
-                    f.fn = fn;
+                    f.fn = fn2;
                     ret.Add(f);
                 }
             }

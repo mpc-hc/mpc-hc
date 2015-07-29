@@ -1581,9 +1581,9 @@ void CAppSettings::LoadSettings()
     // if (!SHGetSpecialFolderPath(nullptr, MyPictures.GetBufferSetLength(MAX_PATH), CSIDL_MYPICTURES, TRUE)) MyPictures.Empty();
     // else MyPictures.ReleaseBuffer();
     if (ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders"), KEY_READ)) {
-        ULONG len = MAX_PATH;
-        if (ERROR_SUCCESS == key.QueryStringValue(_T("My Pictures"), MyPictures.GetBuffer(MAX_PATH), &len)) {
-            MyPictures.ReleaseBufferSetLength(len);
+        ULONG lenValue = MAX_PATH;
+        if (ERROR_SUCCESS == key.QueryStringValue(_T("My Pictures"), MyPictures.GetBuffer(MAX_PATH), &lenValue)) {
+            MyPictures.ReleaseBufferSetLength(lenValue);
         } else {
             MyPictures.Empty();
         }
@@ -2278,18 +2278,18 @@ void CAppSettings::UpdateSettings()
     // so that all incremental updates are applied.
     switch (version) {
         case 0: {
-            UINT nAudioBoost = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOBOOST, -1);
-            if (nAudioBoost == UINT(-1)) {
+            UINT nAudioBoostTmp = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOBOOST, -1);
+            if (nAudioBoostTmp == UINT(-1)) {
                 double dAudioBoost_dB = _tstof(pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_AUDIOBOOST, _T("0")));
                 if (dAudioBoost_dB < 0 || dAudioBoost_dB > 10) {
                     dAudioBoost_dB = 0;
                 }
-                nAudioBoost = UINT(100 * pow(10.0, dAudioBoost_dB / 20.0) + 0.5) - 100;
+                nAudioBoostTmp = UINT(100 * pow(10.0, dAudioBoost_dB / 20.0) + 0.5) - 100;
             }
-            if (nAudioBoost > 300) { // Max boost is 300%
-                nAudioBoost = 300;
+            if (nAudioBoostTmp > 300) { // Max boost is 300%
+                nAudioBoostTmp = 300;
             }
-            pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOBOOST, nAudioBoost);
+            pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOBOOST, nAudioBoostTmp);
 
             ConvertOldExternalFiltersList();
         }

@@ -1706,7 +1706,7 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool bAll)
 
                 hr = m_pD3DDev->SetPixelShaderConstantF(0, (float*)fConstData, _countof(fConstData));
 
-                int src = 1, dst = 0;
+                int srcTexture = 1, dstTexture = 0;
 
                 POSITION pos = m_pPixelShadersScreenSpace.GetHeadPosition();
                 while (pos) {
@@ -1714,7 +1714,7 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool bAll)
                         m_pD3DDev->SetRenderTarget(0, pBackBuffer);
                     } else {
                         CComPtr<IDirect3DSurface9> pRT;
-                        hr = m_pScreenSizeTemporaryTexture[dst]->GetSurfaceLevel(0, &pRT);
+                        hr = m_pScreenSizeTemporaryTexture[dstTexture]->GetSurfaceLevel(0, &pRT);
                         m_pD3DDev->SetRenderTarget(0, pRT);
                     }
 
@@ -1723,9 +1723,9 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool bAll)
                         Shader.Compile(m_pPSC);
                     }
                     hr = m_pD3DDev->SetPixelShader(Shader.m_pPixelShader);
-                    TextureCopy(m_pScreenSizeTemporaryTexture[src]);
+                    TextureCopy(m_pScreenSizeTemporaryTexture[srcTexture]);
 
-                    std::swap(src, dst);
+                    std::swap(srcTexture, dstTexture);
                 }
 
                 hr = m_pD3DDev->SetPixelShader(nullptr);

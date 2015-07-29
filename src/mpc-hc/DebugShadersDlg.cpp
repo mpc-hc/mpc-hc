@@ -249,16 +249,16 @@ void CDebugShadersDlg::OnRecompileShader()
                     profile = "ps_2_0";
                     break;
             }
-            CString disasm, msg;
+            CString disasm, compilerMsg;
             if (SUCCEEDED(m_Compiler.CompileShaderFromFile(shader.filePath, "main", profile,
-                                                           D3DXSHADER_DEBUG, nullptr, &disasm, &msg))) {
-                if (!msg.IsEmpty()) {
-                    msg += _T("\n");
+                                                           D3DXSHADER_DEBUG, nullptr, &disasm, &compilerMsg))) {
+                if (!compilerMsg.IsEmpty()) {
+                    compilerMsg += _T("\n");
                 }
-                msg += disasm;
+                compilerMsg += disasm;
             }
-            msg.Replace(_T("\n"), _T("\r\n"));
-            m_DebugInfo.SetWindowText(msg);
+            compilerMsg.Replace(_T("\n"), _T("\r\n"));
+            m_DebugInfo.SetWindowText(compilerMsg);
         } else {
             m_DebugInfo.SetWindowText(_T("File not found"));
         }

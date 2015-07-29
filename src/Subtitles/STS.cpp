@@ -509,7 +509,6 @@ static bool OpenSubRipper(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
                     }
 
                     int num2;
-                    WCHAR wc;
                     if (swscanf_s(tmp, L"%d%c", &num2, &wc, 1) == 1 && bFoundEmpty) {
                         num = num2;
                         break;
@@ -2763,17 +2762,15 @@ bool CSimpleTextSubtitle::SaveAs(CString fn, Subtitle::SubType type,
         if (type == Subtitle::ASS && m_fScaledBAS) {
             str += _T("ScaledBorderAndShadow: Yes\n");
         }
-        str += _T("PlayResX: %d\n");
-        str += _T("PlayResY: %d\n");
+        str.AppendFormat(_T("PlayResX: %d\n"), m_dstScreenSize.cx);
+        str.AppendFormat(_T("PlayResY: %d\n"), m_dstScreenSize.cy);
         str += _T("Timer: 100.0000\n");
         str += _T("\n");
         str += (type == Subtitle::SSA)
                ? _T("[V4 Styles]\nFormat: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, TertiaryColour, BackColour, Bold, Italic, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, AlphaLevel, Encoding\n")
                : _T("[V4+ Styles]\nFormat: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\n");
 
-        CString str2;
-        str2.Format(str, m_dstScreenSize.cx, m_dstScreenSize.cy);
-        f.WriteString(str2);
+        f.WriteString(str);
 
         str  = (type == Subtitle::SSA)
                ? _T("Style: %s,%s,%d,&H%06x,&H%06x,&H%06x,&H%06x,%d,%d,%d,%.2f,%.2f,%d,%d,%d,%d,%d,%d\n")

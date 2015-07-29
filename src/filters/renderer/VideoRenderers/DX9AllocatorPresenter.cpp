@@ -1120,7 +1120,7 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int& _RasterStart, int _RasterSi
                 if (!GetVBlank(ScanLine, InVBlank, _bMeasure)) {
                     break;
                 }
-                int ScanLineDiff = long(ScanLine) - _RasterStart;
+                ScanLineDiff = long(ScanLine) - _RasterStart;
                 if (ScanLineDiff > m_ScreenSize.cy / 2) {
                     ScanLineDiff -= m_ScreenSize.cy;
                 } else if (ScanLineDiff < -m_ScreenSize.cy / 2) {
@@ -1182,7 +1182,7 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int& _RasterStart, int _RasterSi
         if (!GetVBlank(ScanLine, InVBlank, _bMeasure)) {
             break;
         }
-        int ScanLineDiff = long(ScanLine) - _RasterStart;
+        ScanLineDiff = long(ScanLine) - _RasterStart;
         if (ScanLineDiff > m_ScreenSize.cy / 2) {
             ScanLineDiff -= m_ScreenSize.cy;
         } else if (ScanLineDiff < -m_ScreenSize.cy / 2) {
@@ -1196,7 +1196,7 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int& _RasterStart, int _RasterSi
 
         bWaited = true;
 
-        int ScanLineDiffLock = long(ScanLine) - D3DDevLockStart;
+        ScanLineDiffLock = long(ScanLine) - D3DDevLockStart;
         if (ScanLineDiffLock > m_ScreenSize.cy / 2) {
             ScanLineDiffLock -= m_ScreenSize.cy;
         } else if (ScanLineDiffLock < -m_ScreenSize.cy / 2) {
@@ -1213,7 +1213,7 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int& _RasterStart, int _RasterSi
         LastLineDiffLock = ScanLineDiffLock;
 
 
-        int ScanLineDiffSleep = long(ScanLine) - NoSleepStart;
+        ScanLineDiffSleep = long(ScanLine) - NoSleepStart;
         if (ScanLineDiffSleep > m_ScreenSize.cy / 2) {
             ScanLineDiffSleep -= m_ScreenSize.cy;
         } else if (ScanLineDiffSleep < -m_ScreenSize.cy / 2) {
@@ -1449,19 +1449,18 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool bAll)
 
     bool bDoVSyncInPresent = (!bCompositionEnabled && !m_bAlternativeVSync) || !r.m_AdvRendSets.bVMR9VSync;
 
-    CComPtr<IDirect3DQuery9> pEventQuery;
-
-    m_pD3DDev->CreateQuery(D3DQUERYTYPE_EVENT, &pEventQuery);
-    if (pEventQuery) {
-        pEventQuery->Issue(D3DISSUE_END);
+    CComPtr<IDirect3DQuery9> pEventQueryFlushBeforeVSync;
+    m_pD3DDev->CreateQuery(D3DQUERYTYPE_EVENT, &pEventQueryFlushBeforeVSync);
+    if (pEventQueryFlushBeforeVSync) {
+        pEventQueryFlushBeforeVSync->Issue(D3DISSUE_END);
     }
 
-    if (r.m_AdvRendSets.bVMRFlushGPUBeforeVSync && pEventQuery) {
+    if (r.m_AdvRendSets.bVMRFlushGPUBeforeVSync && pEventQueryFlushBeforeVSync) {
         LONGLONG llPerf = rd->GetPerfCounter();
         BOOL Data;
         //Sleep(5);
         LONGLONG FlushStartTime = rd->GetPerfCounter();
-        while (S_FALSE == pEventQuery->GetData(&Data, sizeof(Data), D3DGETDATA_FLUSH)) {
+        while (S_FALSE == pEventQueryFlushBeforeVSync->GetData(&Data, sizeof(Data), D3DGETDATA_FLUSH)) {
             if (!r.m_AdvRendSets.bVMRFlushGPUWait) {
                 break;
             }
@@ -1504,8 +1503,8 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool bAll)
 
     // Create a query object
     {
-        CComPtr<IDirect3DQuery9> pEventQuery;
-        m_pD3DDev->CreateQuery(D3DQUERYTYPE_EVENT, &pEventQuery);
+        CComPtr<IDirect3DQuery9> pEventQueryFlushAfterVSync;
+        m_pD3DDev->CreateQuery(D3DQUERYTYPE_EVENT, &pEventQueryFlushAfterVSync);
 
         LONGLONG llPerf = rd->GetPerfCounter();
         CRect presentationSrcRect(rDstPri), presentationDestRect(m_windowRect);
@@ -1526,15 +1525,15 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool bAll)
             }
         }
         // Issue an End event
-        if (pEventQuery) {
-            pEventQuery->Issue(D3DISSUE_END);
+        if (pEventQueryFlushAfterVSync) {
+            pEventQueryFlushAfterVSync->Issue(D3DISSUE_END);
         }
 
         BOOL Data;
 
-        if (r.m_AdvRendSets.bVMRFlushGPUAfterPresent && pEventQuery) {
+        if (r.m_AdvRendSets.bVMRFlushGPUAfterPresent && pEventQueryFlushAfterVSync) {
             LONGLONG FlushStartTime = rd->GetPerfCounter();
-            while (S_FALSE == pEventQuery->GetData(&Data, sizeof(Data), D3DGETDATA_FLUSH)) {
+            while (S_FALSE == pEventQueryFlushAfterVSync->GetData(&Data, sizeof(Data), D3DGETDATA_FLUSH)) {
                 if (!r.m_AdvRendSets.bVMRFlushGPUWait) {
                     break;
                 }

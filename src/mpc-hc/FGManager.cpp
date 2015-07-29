@@ -347,7 +347,7 @@ HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl
 
         CRegKey key;
         if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, _T("Media Type\\Extensions\\") + CString(ext), KEY_READ)) {
-            ULONG len = _countof(buff);
+            len = _countof(buff);
             ZeroMemory(buff, sizeof(buff));
             LONG ret = key.QueryStringValue(_T("Source Filter"), buff, &len); // QueryStringValue can return ERROR_INVALID_DATA on bogus strings (radlight mpc v1003, fixed in v1004)
             if (ERROR_SUCCESS == ret || ERROR_INVALID_DATA == ret && GUIDFromCString(buff) != GUID_NULL) {
@@ -426,7 +426,7 @@ HRESULT CFGManager::AddSourceFilter(CFGFilter* pFGF, LPCWSTR lpcwstrFileName, LP
     }
 
     // doh :P
-    BeginEnumMediaTypes(GetFirstPin(pBF, PINDIR_OUTPUT), pEMT, pmt) {
+    BeginEnumMediaTypes(GetFirstPin(pBF, PINDIR_OUTPUT), pEMT, pmt2) {
         static const GUID guid1 =
         { 0x640999A0, 0xA946, 0x11D0, { 0xA5, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 } };
         static const GUID guid2 =
@@ -434,7 +434,7 @@ HRESULT CFGManager::AddSourceFilter(CFGFilter* pFGF, LPCWSTR lpcwstrFileName, LP
         static const GUID guid3 =
         { 0xD51BD5AE, 0x7548, 0x11CF, { 0xA5, 0x20, 0x00, 0x80, 0xC7, 0x7E, 0xF5, 0x8A } };
 
-        if (pmt->subtype == guid1 || pmt->subtype == guid2 || pmt->subtype == guid3) {
+        if (pmt2->subtype == guid1 || pmt2->subtype == guid2 || pmt2->subtype == guid3) {
             RemoveFilter(pBF);
             pFGF = DEBUG_NEW CFGFilterRegistry(CLSID_NetShowSource);
             hr = AddSourceFilter(pFGF, lpcwstrFileName, lpcwstrFilterName, ppBF);
@@ -442,7 +442,7 @@ HRESULT CFGManager::AddSourceFilter(CFGFilter* pFGF, LPCWSTR lpcwstrFileName, LP
             return hr;
         }
     }
-    EndEnumMediaTypes(pmt);
+    EndEnumMediaTypes(pmt2);
 
     *ppBF = pBF.Detach();
 
@@ -791,9 +791,9 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
 
                     // maybe the application should do this...
 
-                    POSITION pos = pUnks.GetHeadPosition();
-                    while (pos) {
-                        if (CComQIPtr<IMixerPinConfig, &IID_IMixerPinConfig> pMPC = pUnks.GetNext(pos)) {
+                    POSITION posInterface = pUnks.GetHeadPosition();
+                    while (posInterface) {
+                        if (CComQIPtr<IMixerPinConfig, &IID_IMixerPinConfig> pMPC = pUnks.GetNext(posInterface)) {
                             pMPC->SetAspectRatioMode(AM_ARMODE_STRETCHED);
                         }
                     }
@@ -1232,7 +1232,7 @@ STDMETHODIMP CFGManager::NukeDownstream(IUnknown* pUnk)
         CComPtr<IPin> pPinTo;
         if (S_OK == IsPinDirection(pPin, PINDIR_OUTPUT)
                 && SUCCEEDED(pPin->ConnectedTo(&pPinTo)) && pPinTo) {
-            if (CComPtr<IBaseFilter> pBF = GetFilterFromPin(pPinTo)) {
+            if (pBF = GetFilterFromPin(pPinTo)) {
                 if (GetCLSID(pBF) == CLSID_EnhancedVideoRenderer) {
                     // GetFilterFromPin() returns pointer to the Base EVR,
                     // but we need to remove Outer EVR from the graph.
@@ -2235,7 +2235,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 
         merit += merit_low++;
 
-        CFGFilter* pFGF = nullptr;
+        pFGF = nullptr;
 
         if (fo->type == FilterOverride::REGISTERED) {
             pFGF = DEBUG_NEW CFGFilterRegistry(fo->dispname, merit);

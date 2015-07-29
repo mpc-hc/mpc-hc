@@ -2963,8 +2963,6 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
         //pPopupMenu->ModifyMenu(i, MF_BYPOSITION|MF_STRING, nID, str);
 
         // this works fine
-        MENUITEMINFO mii;
-        mii.cbSize = sizeof(mii);
         mii.fMask = MIIM_STRING;
         mii.dwTypeData = (LPTSTR)(LPCTSTR)str;
         VERIFY(pPopupMenu->SetMenuItemInfo(i, &mii, TRUE));
@@ -4609,21 +4607,21 @@ void CMainFrame::SaveDIB(LPCTSTR fn, BYTE* pData, long size)
 
         Gdiplus::Bitmap* bm = new Gdiplus::Bitmap(w, h, dstpitch, PixelFormat24bppRGB, p);
 
-        UINT num;  // number of image encoders
-        UINT size; // size, in bytes, of the image encoder array
+        UINT num;       // number of image encoders
+        UINT arraySize; // size, in bytes, of the image encoder array
 
         // How many encoders are there?
         // How big (in bytes) is the array of all ImageCodecInfo objects?
-        Gdiplus::GetImageEncodersSize(&num, &size);
+        Gdiplus::GetImageEncodersSize(&num, &arraySize);
 
         // Create a buffer large enough to hold the array of ImageCodecInfo
         // objects that will be returned by GetImageEncoders.
-        Gdiplus::ImageCodecInfo* pImageCodecInfo = (Gdiplus::ImageCodecInfo*)DEBUG_NEW BYTE[size];
+        Gdiplus::ImageCodecInfo* pImageCodecInfo = (Gdiplus::ImageCodecInfo*)DEBUG_NEW BYTE[arraySize];
 
         // GetImageEncoders creates an array of ImageCodecInfo objects
         // and copies that array into a previously allocated buffer.
         // The third argument, imageCodecInfos, is a pointer to that buffer.
-        Gdiplus::GetImageEncoders(num, size, pImageCodecInfo);
+        Gdiplus::GetImageEncoders(num, arraySize, pImageCodecInfo);
 
         Gdiplus::EncoderParameters* pEncoderParameters = nullptr;
 
@@ -7758,14 +7756,14 @@ void CMainFrame::OnPlayFilters(UINT nID)
                 if (settings.GetSettings(pLAVFSettings)) { // Get current settings from LAVSplitter
                     settings.SaveSettings(); // Save them to the registry/ini
                 }
-            } else if (CComQIPtr<ILAVVideoSettings> pLAVFSettings = pBF) {
+            } else if (CComQIPtr<ILAVVideoSettings> pLAVVideoSettings = pBF) {
                 CFGFilterLAVVideo::Settings settings;
-                if (settings.GetSettings(pLAVFSettings)) { // Get current settings from LAVVideo
+                if (settings.GetSettings(pLAVVideoSettings)) { // Get current settings from LAVVideo
                     settings.SaveSettings(); // Save them to the registry/ini
                 }
-            } else if (CComQIPtr<ILAVAudioSettings> pLAVFSettings = pBF) {
+            } else if (CComQIPtr<ILAVAudioSettings> pLAVAudioSettings = pBF) {
                 CFGFilterLAVAudio::Settings settings;
-                if (settings.GetSettings(pLAVFSettings)) { // Get current settings from LAVAudio
+                if (settings.GetSettings(pLAVAudioSettings)) { // Get current settings from LAVAudio
                     settings.SaveSettings(); // Save them to the registry/ini
                 }
             }
@@ -8850,12 +8848,11 @@ void CMainFrame::AddFavorite(bool fDisplayMessage, bool fShowDialog)
         args.AddTail(name);
 
         // RememberPos
-        CString pos(_T("0"));
+        CString posStr = _T("0");
         if (s.bFavRememberPos) {
-            pos.Format(_T("%I64d"), GetPos());
+            posStr.Format(_T("%I64d"), GetPos());
         }
-
-        args.AddTail(pos);
+        args.AddTail(posStr);
 
         // RelativeDrive
         CString relativeDrive;
@@ -10325,10 +10322,10 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 
     const CAppSettings& s = AfxGetAppSettings();
 
-    if (OpenFileData* p = dynamic_cast<OpenFileData*>(pOMD)) {
-        engine_t engine = s.m_Formats.GetEngine(p->fns.GetHead());
+    if (auto pOpenFileData = dynamic_cast<OpenFileData*>(pOMD)) {
+        engine_t engine = s.m_Formats.GetEngine(pOpenFileData->fns.GetHead());
 
-        CStringA ct = GetContentType(p->fns.GetHead());
+        CStringA ct = GetContentType(pOpenFileData->fns.GetHead());
 
         if (ct == "video/x-ms-asf") {
             // TODO: put something here to make the windows media source filter load later
@@ -10403,9 +10400,9 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
         if (!m_fCustomGraph) {
             m_pGB = DEBUG_NEW CFGManagerPlayer(_T("CFGManagerPlayer"), nullptr, m_pVideoWnd->m_hWnd);
         }
-    } else if (OpenDVDData* p = dynamic_cast<OpenDVDData*>(pOMD)) {
+    } else if (auto pOpenDVDData = dynamic_cast<OpenDVDData*>(pOMD)) {
         m_pGB = DEBUG_NEW CFGManagerDVD(_T("CFGManagerDVD"), nullptr, m_pVideoWnd->m_hWnd);
-    } else if (OpenDeviceData* p = dynamic_cast<OpenDeviceData*>(pOMD)) {
+    } else if (auto pOpenDeviceData = dynamic_cast<OpenDeviceData*>(pOMD)) {
         if (s.iDefaultCaptureDevice == 1) {
             m_pGB = DEBUG_NEW CFGManagerBDA(_T("CFGManagerBDA"), nullptr, m_pVideoWnd->m_hWnd);
         } else {
@@ -11620,8 +11617,7 @@ int CMainFrame::SetupSubtitleStreams()
 {
     const CAppSettings& s = AfxGetAppSettings();
 
-    size_t cStreams = m_pSubStreams.GetCount();
-    if (cStreams > 0) {
+    if (!m_pSubStreams.IsEmpty()) {
         bool externalPriority = false;
         CAtlArray<CString> langs;
         int tPos = 0;
@@ -13246,14 +13242,14 @@ void CMainFrame::SetupFavoritesSubMenu()
 
     UINT nLastGroupStart = subMenu.GetMenuItemCount();
     UINT id = ID_FAVORITES_FILE_START;
-    CAtlList<CString> sl;
-    AfxGetAppSettings().GetFav(FAV_FILE, sl);
-    POSITION pos = sl.GetHeadPosition();
+    CAtlList<CString> favs;
+    AfxGetAppSettings().GetFav(FAV_FILE, favs);
+    POSITION pos = favs.GetHeadPosition();
 
     while (pos) {
         UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
 
-        CString f_str = sl.GetNext(pos);
+        CString f_str = favs.GetNext(pos);
         f_str.Replace(_T("&"), _T("&&"));
         f_str.Replace(_T("\t"), _T(" "));
 
@@ -13302,13 +13298,13 @@ void CMainFrame::SetupFavoritesSubMenu()
     nLastGroupStart = subMenu.GetMenuItemCount();
 
     id = ID_FAVORITES_DVD_START;
-    s.GetFav(FAV_DVD, sl);
-    pos = sl.GetHeadPosition();
+    s.GetFav(FAV_DVD, favs);
+    pos = favs.GetHeadPosition();
 
     while (pos) {
         UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
 
-        CString str = sl.GetNext(pos);
+        CString str = favs.GetNext(pos);
         str.Replace(_T("&"), _T("&&"));
 
         CAtlList<CString> sl;
@@ -13335,13 +13331,13 @@ void CMainFrame::SetupFavoritesSubMenu()
 
     id = ID_FAVORITES_DEVICE_START;
 
-    s.GetFav(FAV_DEVICE, sl);
+    s.GetFav(FAV_DEVICE, favs);
 
-    pos = sl.GetHeadPosition();
+    pos = favs.GetHeadPosition();
     while (pos) {
         UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
 
-        CString str = sl.GetNext(pos);
+        CString str = favs.GetNext(pos);
         str.Replace(_T("&"), _T("&&"));
 
         CAtlList<CString> sl;
@@ -16644,7 +16640,7 @@ void CMainFrame::UpdateSubAspectRatioCompensation()
 {
     const CAppSettings& s = AfxGetAppSettings();
     if (auto pRTS = dynamic_cast<CRenderedTextSubtitle*>((ISubStream*)m_pCurrentSubInput.pSubStream)) {
-        CAutoLock cAutoLock(&m_csSubtitleManagementLock);
+        CAutoLock autoLockSubtitleManagement(&m_csSubtitleManagementLock);
 
         bool bInvalidate = false;
         double dPARCompensation = 1.0;
@@ -16668,7 +16664,7 @@ void CMainFrame::UpdateSubAspectRatioCompensation()
 
         pRTS->m_ePARCompensationType = CSimpleTextSubtitle::EPARCompensationType::EPCTAccurateSize_ISR;
         if (pRTS->m_dPARCompensation != dPARCompensation) {
-            CAutoLock cAutoLock(&m_csSubLock);
+            CAutoLock autoLock(&m_csSubLock);
             bInvalidate = true;
             pRTS->m_dPARCompensation = dPARCompensation;
             pRTS->Deinit();

@@ -2059,8 +2059,8 @@ void CEVRAllocatorPresenter::RenderThread()
                 //if (WaitForMultipleObjects (_countof(hEvtsBuff), hEvtsBuff, FALSE, INFINITE) == WAIT_OBJECT_0+2)
                 {
                     CComPtr<IMFSample> pMFSample;
-                    LONGLONG llPerf = GetRenderersData()->GetPerfCounter();
-                    UNREFERENCED_PARAMETER(llPerf);
+                    //LONGLONG llPerf2 = GetRenderersData()->GetPerfCounter();
+                    //UNREFERENCED_PARAMETER(llPerf2);
                     int nSamplesLeft = 0;
                     if (SUCCEEDED(GetScheduledSample(&pMFSample, nSamplesLeft))) {
                         //UINT32 nSurface;
@@ -2648,7 +2648,7 @@ void CEVRAllocatorPresenter::AddToScheduledList(IMFSample* pSample, bool bSorted
         }
         if (Diff < m_rtTimePerFrame * 8 && m_rtTimePerFrame && Diff2 < m_rtTimePerFrame * 8) { // Detect seeking
             int iPos = (m_DetectedFrameTimePos++) % 60;
-            LONGLONG Diff = Time - PrevTime;
+            Diff = Time - PrevTime;
             if (PrevTime == -1) {
                 Diff = 0;
             }

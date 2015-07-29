@@ -231,14 +231,14 @@ HRESULT CFGFilterLAV::PropertyPageCallback(IBaseFilter* pBF)
             if (settings.GetSettings(pLAVFSettings)) { // Get current settings from LAVSplitter
                 settings.SaveSettings(); // Save them to the registry/ini
             }
-        } else if (CComQIPtr<ILAVVideoSettings> pLAVFSettings = pBF) {
+        } else if (CComQIPtr<ILAVVideoSettings> pLAVVideoSettings = pBF) {
             CFGFilterLAVVideo::Settings settings;
-            if (settings.GetSettings(pLAVFSettings)) { // Get current settings from LAVVideo
+            if (settings.GetSettings(pLAVVideoSettings)) { // Get current settings from LAVVideo
                 settings.SaveSettings(); // Save them to the registry/ini
             }
-        } else if (CComQIPtr<ILAVAudioSettings> pLAVFSettings = pBF) {
+        } else if (CComQIPtr<ILAVAudioSettings> pLAVAudioSettings = pBF) {
             CFGFilterLAVAudio::Settings settings;
-            if (settings.GetSettings(pLAVFSettings)) { // Get current settings from LAVAudio
+            if (settings.GetSettings(pLAVAudioSettings)) { // Get current settings from LAVAudio
                 settings.SaveSettings(); // Save them to the registry/ini
             }
         }

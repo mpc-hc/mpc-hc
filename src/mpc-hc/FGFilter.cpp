@@ -204,9 +204,10 @@ CFGFilterRegistry::CFGFilterRegistry(const CLSID& clsid, UINT64 merit)
             DWORD len = _countof(buff);
             for (DWORD i = 0; ERROR_SUCCESS == catkey.EnumKey(i, buff, &len, &ft); i++, len = _countof(buff)) {
                 if (ERROR_SUCCESS == key.Open(catkey, buff, KEY_READ)) {
-                    TCHAR clsid[256];
-                    len = _countof(clsid);
-                    if (ERROR_SUCCESS == key.QueryStringValue(_T("CLSID"), clsid, &len) && GUIDFromCString(clsid) == m_clsid) {
+                    TCHAR clsidString[256];
+                    len = _countof(clsidString);
+                    if (ERROR_SUCCESS == key.QueryStringValue(_T("CLSID"), clsidString, &len)
+                            && GUIDFromCString(clsidString) == m_clsid) {
                         break;
                     }
 
@@ -365,7 +366,7 @@ void CFGFilterRegistry::ExtractFilterData(BYTE* p, UINT len)
             p += 12;
             while (nTypes-- > 0) {
                 ChkLen(1)
-                BYTE n = *p - 0x30;
+                n = *p - 0x30;
                 p++;
                 UNREFERENCED_PARAMETER(n);
 
@@ -376,7 +377,7 @@ void CFGFilterRegistry::ExtractFilterData(BYTE* p, UINT len)
                 UNREFERENCED_PARAMETER(ty);
 
                 ChkLen(5)
-                BYTE x33 = *p;
+                x33 = *p;
                 p++;
                 ASSERT(x33 == 0x33);
                 UNREFERENCED_PARAMETER(x33);
