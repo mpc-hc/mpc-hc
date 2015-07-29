@@ -1695,7 +1695,7 @@ msgid "Note"
 msgstr ""
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
-msgid "To minimize sound distortion, it is recommended to keep player volume at around 85% when playing loud lossy-encoded content."
+msgid "To minimize audio distortion, it is recommended to keep player volume at around 85% when playing loud lossy-encoded content."
 msgstr "W celu zminimalizowania zniekształceń dźwięku, zalecane jest ustawienie głośności na poziomie około 85% podczas odtwarzania głośnych stratnie skompresowanych plików audio."
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
