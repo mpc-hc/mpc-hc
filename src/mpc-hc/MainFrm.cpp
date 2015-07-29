@@ -785,7 +785,6 @@ CMainFrame::CMainFrame()
     , m_bExtOnTop(false)
     , m_bIsBDPlay(false)
 {
-    m_Lcd.SetVolumeRange(0, 100);
     // Don't let CFrameWnd handle automatically the state of the menu items.
     // This means that menu items without handlers won't be automatically
     // disabled but it avoids some unwanted cases where programmatically
@@ -931,6 +930,9 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
     SetAlwaysOnTop(s.iOnTop);
 
     ShowTrayIcon(s.fTrayIcon);
+
+    m_Lcd.SetVolumeRange(0, 100);
+    m_Lcd.SetVolume(std::max(1, s.nVolume));
 
     m_pGraphThread = (CGraphThread*)AfxBeginThread(RUNTIME_CLASS(CGraphThread));
 
