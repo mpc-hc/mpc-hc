@@ -161,6 +161,9 @@ interface IMadVRSettings;
 class CMainFrame : public CFrameWnd, public CDropClient
 {
 public:
+
+    DpiHelper m_dpi;
+
     enum class Timer32HzSubscriber {
         TOOLBARS_HIDER,
         CURSOR_HIDER,
@@ -1104,6 +1107,4 @@ public:
     bool OpenBD(CString Path);
 
     bool GetDecoderType(CString& type) const;
-
-    DpiHelper m_dpi;
 };
