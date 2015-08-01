@@ -125,10 +125,8 @@ void CGoToDlg::OnParseTimeCode()
 
     AfxGetApp()->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_GOTO_LAST_USED, TYPE_TIME);
 
-    // The hh and mm are declared volatile to work around a compiler bug with ICL 13.
-    // It prevents the compiler to optimize out those variables from the computation.
-    volatile unsigned int hh = 0;
-    volatile unsigned int mm = 0;
+    unsigned int hh = 0;
+    unsigned int mm = 0;
     float ss = 0.0f;
     WCHAR c; // extra character to ensure the end of string was reached
 
