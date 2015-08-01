@@ -5,6 +5,7 @@
 # Alex Luís Silva <alex.mooca@hotmail.com>, 2014-2015
 # Alex Luís Silva <alex.mooca@hotmail.com>, 2014
 # brunoarmanelli <brunoarmanelli@me.com>, 2014
+# Edgar Peres <edgarvperes@gmail.com>, 2015
 # Erick Simões <erick.simoes@yahoo.com.br>, 2014-2015
 # Gustavo Cegolini Togni <gustavotogni@gmail.com>, 2015
 # Roger Filipe <lipe2000@outlook.com>, 2013-2014
@@ -16,8 +17,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-07-21 23:39:26+0000\n"
-"PO-Revision-Date: 2015-07-24 09:02+0000\n"
+"POT-Creation-Date: 2015-07-25 19:54:46+0000\n"
+"PO-Revision-Date: 2015-07-27 09:03+0000\n"
 "Last-Translator: JellyFrog\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/mpc-hc/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -500,7 +501,7 @@ msgstr "Reprodução::Tela Cheia"
 
 msgctxt "IDD_PPAGEAUDIORENDERER"
 msgid "Internal Filters::Audio Renderer"
-msgstr ""
+msgstr "Filtros Internos::Renderizador de Áudio"
 
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
@@ -744,7 +745,7 @@ msgstr "Nulo (sem compressão)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
 msgid "Internal Audio Renderer"
-msgstr ""
+msgstr "Renderizador Interno de Áudio"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"

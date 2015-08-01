@@ -98,7 +98,7 @@ hy.WelcomeLabel2=[name]-ը կտեղադրվի ձեր համակարգչում։%
 hy.WinVersionTooLowError=[name]-ը պահանջում է Windows XP Service Pack 3 կամ ավելի բարձր։
 
 ; Indonesian
-id.WelcomeLabel2=Ini akan memasang [name] di komputer anda.%n%nSangat disarankan untuk menutup semua aplikasi sebelum melanjutkan.
+id.WelcomeLabel2=Ini akan memasang [name] di komputer Anda.%n%nSangat disarankan untuk menutup semua aplikasi lain sebelum melanjutkan.
 id.WinVersionTooLowError=[name] membutuhkan Windows XP Service Pack 3 atau yang lebih baru agar bisa dijalankan.
 
 ; Italian
@@ -130,7 +130,7 @@ pt_BR.WelcomeLabel2=Isto instalará o [name] no seu computador.%n%nÉ recomendá
 pt_BR.WinVersionTooLowError=[name] requer o Windows XP Service Pack 3 ou superior para ser executado.
 
 ; Romanian
-ro.WelcomeLabel2=Se va instala [name] pe calculatorul dumneavoastră.%n%nEste recomandat să închideţi toate celelalte aplicații înainte de a continua.
+ro.WelcomeLabel2=Se va instala [name] pe calculatorul dumneavoastră.%n%nEste recomandat să închideți toate celelalte aplicații înainte de a continua.
 ro.WinVersionTooLowError=[name] necesită Windows XP Service Pack 3 sau mai nou pentru a rula.
 
 ; Russian
@@ -159,7 +159,7 @@ th_TH.WinVersionTooLowError=[name] ต้องการ Windows XP Service Pack
 
 ; Turkish
 tr.WelcomeLabel2=[name] medya oynatıcısı programı bilgisayarınıza kurulacaktır.%n%nKuruluma geçmeden önce tüm açık uygulamaları kapatmanızı öneriyoruz.
-tr.WinVersionTooLowError=[name] kurulumu, Windows XP Servis Paketi 3 veya daha yenisi ile çalışabilir.
+tr.WinVersionTooLowError=[name] kurulumu, ancak Windows XP Servis Paketi 3 veya daha yenisi ile çalışabilir.
 
 ; Tatar
 tt.WelcomeLabel2=Программа сезнең санакка [name] урнаштырачак.%n%nДәвам итү алдыннан барлык башка эшлекле кушымталарны ябарга кирәк.
@@ -529,11 +529,11 @@ hy.ViewChangelog=Փոփոխությունների ցանկը
 id.langid=00001057
 id.comp_mpciconlib=Pustaka Ikon
 id.comp_mpcresources=Terjemahan
-id.msg_DeleteSettings=Apakah anda juga ingin menghapus pengaturan MPC-HC?%n%nJika anda berencana untuk memasang MPC-HC lagi maka anda tidak perlu menghapusnya.
+id.msg_DeleteSettings=Apakah Anda juga ingin menghapus pengaturan MPC-HC?%n%nJika Anda berencana untuk memasang MPC-HC lagi maka Anda tidak perlu menghapusnya.
 #if defined(sse_required)
-id.msg_simd_sse=Versi MPC-HC ini membutuhkan CPU dengan dukungan ekstensi SSE.%n%nCPU anda tidak memiliki kemampuan tersebut.
+id.msg_simd_sse=Versi MPC-HC ini membutuhkan CPU dengan dukungan ekstensi SSE.%n%nCPU Anda tidak memiliki kemampuan tersebut.
 #elif defined(sse2_required)
-id.msg_simd_sse2=Versi MPC-HC ini membutuhkan CPU dengan dukungan ekstensi SSE2.%n%nCPU anda tidak memiliki kemampuan tersebut.
+id.msg_simd_sse2=Versi MPC-HC ini membutuhkan CPU dengan dukungan ekstensi SSE2.%n%nCPU Anda tidak memiliki kemampuan tersebut.
 #endif
 id.run_DownloadToolbarImages=Kunjungi halaman Wiki kami untuk mengunduh gambar bilah alat
 id.tsk_AllUsers=Untuk semua pengguna
@@ -542,7 +542,7 @@ id.tsk_Other=Tugas lain:
 id.tsk_ResetSettings=Setel ulang pengaturan
 id.types_DefaultInstallation=Pemasangan bawaan
 id.types_CustomInstallation=Pemasangan ubahsuai
-id.ViewChangelog=Lihat Log Perubahan
+id.ViewChangelog=Lihat Catatan Perubahan
 
 ; Italian
 it.langid=00001040
@@ -816,9 +816,9 @@ tr.comp_mpciconlib=Simge Kütüphanesi
 tr.comp_mpcresources=Çeviriler
 tr.msg_DeleteSettings=MPC-HC ayarlarını da silmek istiyor musunuz?%n%nMPC-HC 'yi tekrar yüklemeyi planlıyorsanız, bu ayarları silmemenizi öneririz.
 #if defined(sse_required)
-tr.msg_simd_sse=Bu MPC-HC sürümü, SSE eklentisi destekleyen bir işlemci gerektirmektedir.%n%nİşlemciniz bu özelliği desteklemiyor.
+tr.msg_simd_sse=Bu MPC-HC sürümü, SSE eklentisi destekleyen bir işlemci gerektirmektedir.%n%nİşlemciniz malesef bu özelliği desteklemiyor.
 #elif defined(sse2_required)
-tr.msg_simd_sse2=Bu MPC-HC sürümü, SSE2 eklentisi destekleyen bir işlemci gerektirmektedir.%n%nİşlemciniz bu özelliği desteklemiyor.
+tr.msg_simd_sse2=Bu MPC-HC sürümü, SSE2 eklentisi destekleyen bir işlemci gerektirmektedir.%n%nİşlemciniz malesef bu özelliği desteklemiyor.
 #endif
 tr.run_DownloadToolbarImages=Araç çubuğu simgelerini indirmek için Wiki sayfamızı ziyaret edebilirsiniz
 tr.tsk_AllUsers=Tüm kullanıcılar için

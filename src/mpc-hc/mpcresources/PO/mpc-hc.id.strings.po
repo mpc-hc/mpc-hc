@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-07-19 21:36:21+0000\n"
-"PO-Revision-Date: 2015-07-23 09:01+0000\n"
+"POT-Creation-Date: 2015-07-25 19:54:46+0000\n"
+"PO-Revision-Date: 2015-08-02 13:19+0000\n"
 "Last-Translator: Zamani Karmana <zamani.karmana@gmail.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/mpc-hc/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -497,7 +497,7 @@ msgstr "Pemutaran::Layar Penuh"
 
 msgctxt "IDD_PPAGEAUDIORENDERER"
 msgid "Internal Filters::Audio Renderer"
-msgstr ""
+msgstr "Filter Internal::Perender Audio"
 
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
@@ -741,7 +741,7 @@ msgstr "Nihil (tidak dikompresi)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
 msgid "Internal Audio Renderer"
-msgstr ""
+msgstr "Perender Audio Internal"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"

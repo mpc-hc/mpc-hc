@@ -10,8 +10,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-07-12 21:37:08+0000\n"
-"PO-Revision-Date: 2015-07-14 13:44+0000\n"
+"POT-Creation-Date: 2015-07-25 13:12:15+0000\n"
+"PO-Revision-Date: 2015-08-02 13:13+0000\n"
 "Last-Translator: Zamani Karmana <zamani.karmana@gmail.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/mpc-hc/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -78,7 +78,7 @@ msgstr "Rekam"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK2"
 msgid "Enable built-in audio switcher filter (requires restart)"
-msgstr "Fungsikan penyaring pengubah suara bawaan (dibutuhkan untuk memulai ulang)"
+msgstr "Fungsikan penyaring pengubah suara bawaan (wajib memulai ulang)"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK5"
 msgid "Normalize"
@@ -222,11 +222,11 @@ msgstr "Tidak digunakan"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build date:"
-msgstr "Tanggal Pembuatan:"
+msgstr "Tanggal pembuatan:"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Operating system"
-msgstr "Sistem Operasi"
+msgstr "Sistem operasi"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Name:"
@@ -286,7 +286,7 @@ msgstr "Ikon baki"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_SHOW_OSD"
 msgid "Show OSD (requires restart)"
-msgstr "Tampilkan OSD (membutuhkan memulai ulang)"
+msgstr "Tampilkan OSD (wajib memulai ulang)"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK4"
 msgid "Limit window proportions on resize"
@@ -318,7 +318,7 @@ msgstr "Riwayat"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK1"
 msgid "Keep history of recently opened files"
-msgstr "Simpan riwayat berkas yang baru terbuka"
+msgstr "Simpan riwayat berkas yang baru dibuka"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK2"
 msgid "Remember last playlist"
@@ -350,7 +350,7 @@ msgstr "Perilaku \"Buka DVD/BD\""
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO1"
 msgid "Prompt for location"
-msgstr "Anjurkan lokasi"
+msgstr "Tanyakan untuk lokasi"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO2"
 msgid "Always open the default location:"
@@ -1658,31 +1658,31 @@ msgstr "Bawaan"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
 msgid "Device"
-msgstr ""
+msgstr "Perangkat"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK1"
 msgid "Exclusive mode"
-msgstr ""
+msgstr "Mode eksklusif"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK2"
 msgid "Allow bitstreaming"
-msgstr ""
+msgstr "Izinkan bitstreaming"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
 msgid "Options"
-msgstr ""
+msgstr "Opsi"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK3"
 msgid "Enable stereo crossfeed (for headphones)"
-msgstr ""
+msgstr "Fungsikan stereo bersilangan (untuk fon kepala)"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON1"
 msgid "C. Moy"
-msgstr ""
+msgstr "C. Moy"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON2"
 msgid "J. Meier"
-msgstr ""
+msgstr "J. Meier"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC1"
 msgid "Cut-off:"
@@ -1690,7 +1690,7 @@ msgstr ""
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC3"
 msgid "Level:"
-msgstr ""
+msgstr "Level:"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
 msgid "Note"
@@ -1698,7 +1698,7 @@ msgstr ""
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
 msgid "To minimize audio distortion, it is recommended to keep player volume at around 85% when playing loud lossy-encoded content."
-msgstr ""
+msgstr "Untuk meminimalkan distorsi audio, direkomendasikan untuk tetap menjaga volume pemutar Anda sekitar 85% ketika memutar konten yang berisik."
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"

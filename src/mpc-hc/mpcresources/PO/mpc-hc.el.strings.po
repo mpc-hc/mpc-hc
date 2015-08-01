@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # geogeo.gr <geogeo.gr@gmail.com>, 2013-2015
-# firespin <dartworldgr@hotmail.com>, 2014
+# firespin <dartworldgr@hotmail.com>, 2014-2015
 # geogeo.gr <geogeo.gr@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-07-25 19:54:46+0000\n"
-"PO-Revision-Date: 2015-07-27 18:54+0000\n"
-"Last-Translator: JellyFrog\n"
+"PO-Revision-Date: 2015-07-30 21:18+0000\n"
+"Last-Translator: firespin <dartworldgr@hotmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/mpc-hc/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -492,7 +492,7 @@ msgstr "Αναπαραγωγή::Μεγιστοποιημένη προβολή"
 
 msgctxt "IDD_PPAGEAUDIORENDERER"
 msgid "Internal Filters::Audio Renderer"
-msgstr ""
+msgstr "Εσωτερικά φίλτρα::Απόδοση Ήχου"
 
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
@@ -736,7 +736,7 @@ msgstr "Ψευδής (ασυμπίεστο)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
 msgid "Internal Audio Renderer"
-msgstr ""
+msgstr "Εσωτερική Απόδοση Ήχου"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"

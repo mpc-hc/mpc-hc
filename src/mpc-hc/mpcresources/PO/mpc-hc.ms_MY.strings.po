@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-21 13:30:54+0000\n"
-"PO-Revision-Date: 2015-05-27 03:20+0000\n"
+"POT-Creation-Date: 2015-07-25 19:54:46+0000\n"
+"PO-Revision-Date: 2015-07-31 09:58+0000\n"
 "Last-Translator: abuyop <abuyop@gmail.com>\n"
 "Language-Team: Malay (Malaysia) (http://www.transifex.com/projects/p/mpc-hc/language/ms_MY/)\n"
 "MIME-Version: 1.0\n"
@@ -490,7 +490,7 @@ msgstr "Main Balik::Skrin Penuh"
 
 msgctxt "IDD_PPAGEAUDIORENDERER"
 msgid "Internal Filters::Audio Renderer"
-msgstr ""
+msgstr "Penapis Dalaman::Penerap Audio"
 
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
@@ -734,7 +734,7 @@ msgstr "Nol (tak mampat)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
 msgid "Internal Audio Renderer"
-msgstr ""
+msgstr "Penerap Audio Dalaman"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
@@ -1386,7 +1386,7 @@ msgstr "Selepas Main Balik: Tutup"
 
 msgctxt "IDS_FRAME_INIT_FAILED"
 msgid "MPC-HC encountered a problem during initialization. With your help we might be able to fix the issue.\n\nDo you want to report it?"
-msgstr ""
+msgstr "MPC-HC menghadapi masalah ketika pengawalan. Dengan bantuan anda kami dapat membaiki masalah tersebut.\n\nAnda mahu laporkannya?"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1674,11 +1674,11 @@ msgstr "OSD: Tunjuk Nama Fail"
 
 msgctxt "IDS_PLAY_DVD"
 msgid "Play DVD"
-msgstr ""
+msgstr "Main DVD"
 
 msgctxt "IDS_PLAY_BD"
 msgid "Play BD"
-msgstr ""
+msgstr "Main BD"
 
 msgctxt "IDS_OSD_DISPLAY_RENDERER_STATS"
 msgid "OSD: Display Renderer Statistics"
@@ -1962,19 +1962,19 @@ msgstr "Pilihan"
 
 msgctxt "IDS_AG_NEXT_AUDIO"
 msgid "Next Audio Track"
-msgstr ""
+msgstr "Trek Audio Berikutnya"
 
 msgctxt "IDS_AG_PREV_AUDIO"
 msgid "Prev Audio Track"
-msgstr ""
+msgstr "Trek Audio Terdahulu"
 
 msgctxt "IDS_AG_NEXT_SUBTITLE"
 msgid "Next Subtitle Track"
-msgstr ""
+msgstr "Trek Sarikata Berikutnya"
 
 msgctxt "IDS_AG_PREV_SUBTITLE"
 msgid "Prev Subtitle Track"
-msgstr ""
+msgstr "Trek Sarikata Terdahulu"
 
 msgctxt "IDS_MPLAYERC_85"
 msgid "On/Off Subtitle"
@@ -1986,19 +1986,19 @@ msgstr "Muat Semula Sarikata"
 
 msgctxt "IDS_MPLAYERC_87"
 msgid "Next Audio Track (OGM)"
-msgstr ""
+msgstr "Trek Audio Berikutnya (OGM)"
 
 msgctxt "IDS_MPLAYERC_88"
 msgid "Prev Audio Track (OGM)"
-msgstr ""
+msgstr "Trek Audio Terdahulu (OGM)"
 
 msgctxt "IDS_MPLAYERC_89"
 msgid "Next Subtitle Track (OGM)"
-msgstr ""
+msgstr "Trek Sarikata Berikutnya (OGM)"
 
 msgctxt "IDS_MPLAYERC_90"
 msgid "Prev Subtitle Track (OGM)"
-msgstr ""
+msgstr "Trek Sarikata Terdahulu (OGM)"
 
 msgctxt "IDS_MPLAYERC_91"
 msgid "Next Angle (DVD)"
@@ -2010,19 +2010,19 @@ msgstr "Sudut Terdahulu (DVD)"
 
 msgctxt "IDS_MPLAYERC_93"
 msgid "Next Audio Track (DVD)"
-msgstr ""
+msgstr "Trek Audio Berikutnya (DVD)"
 
 msgctxt "IDS_MPLAYERC_94"
 msgid "Prev Audio Track (DVD)"
-msgstr ""
+msgstr "Trek Audio Terdahulu (DVD)"
 
 msgctxt "IDS_MPLAYERC_95"
 msgid "Next Subtitle Track (DVD)"
-msgstr ""
+msgstr "Trek Sarikata Berikutnya (DVD)"
 
 msgctxt "IDS_MPLAYERC_96"
 msgid "Prev Subtitle Track (DVD)"
-msgstr ""
+msgstr "Trek Sarikata Terdahulu (DVD)"
 
 msgctxt "IDS_MPLAYERC_97"
 msgid "On/Off Subtitle (DVD)"
