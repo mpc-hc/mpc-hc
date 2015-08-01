@@ -25,6 +25,7 @@ next version - not released yet
 * Ticket #5450/#5479, Improved crash reporting dialog for better stability and user experience
 * Ticket #5472, Make it easier to input value to the "Audio time shift" field in options
 * Updated MediaInfoLib to v0.7.75
+* Updated Little CMS to v2.7 (git 07da965)
 * Updated LAV Filters to v0.65.0.35:
     - LAV Splitter: New ASF/WMV demuxer
     - LAV Video Decoder: Allow hardware decoding of UHD video with AMD cards
@@ -32,12 +33,12 @@ next version - not released yet
   Croatian, Czech, Danish, Dutch, French, Galician, German, Greek, Hungarian, Japanese, Polish, Portuguese (Brazil),
   Romanian, Russian, Slovak, Spanish, Swedish, Thai, Turkish and Vietnamese translations
 ! Fix a rare crash when exiting DVB mode
-! Quicktime: Fix a crash when using system default renderer
+! QuickTime: Fix a crash when using system default renderer
 ! Ticket #4086, Logitech LCD: Correctly initialize the volume at start-up
 ! Ticket #5454, Deleting an item from the playlist sometimes did not work when shuffle mode was enabled
-! Ticket #5464, If the main window was minimized while the D3D fullscreen window was displayed on another screen,
+! Ticket #5464, If the main window was minimized while the D3D Fullscreen window was displayed on another screen,
   it was impossible to use the mouse buttons to play, pause, exit fullscreen, etc.
 ! Ticket #5496, Subtitle downloader dialog: the preferred languages were sometimes not displayed first
 ! Ticket #5515, Blu-ray (PGS) subtitles were sometimes not displayed
 ! Ticket #5519, SRT subtitles: Support parsing files with negative timecodes
-! Fix realibility and stability of the D3D Fullscreen mode
+! Fix reliability and stability of the D3D Fullscreen mode

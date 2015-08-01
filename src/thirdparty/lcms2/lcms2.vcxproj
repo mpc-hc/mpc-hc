@@ -100,6 +100,7 @@
     <ClInclude Include="library\src\lcms2_internal.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="library\src\cmsalpha.c" />
     <ClCompile Include="library\src\cmscam02.c" />
     <ClCompile Include="library\src\cmscgats.c" />
     <ClCompile Include="library\src\cmscnvrt.c" />
