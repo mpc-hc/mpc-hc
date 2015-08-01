@@ -318,11 +318,6 @@ void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>
     AddItem(fns, subs);
 }
 
-static int s_int_comp(const void* i1, const void* i2)
-{
-    return (int)i1 - (int)i2;
-}
-
 static CString CombinePath(CPath p, CString fn)
 {
     if (fn.Find(':') >= 0 || fn.Find(_T("\\")) == 0) {
@@ -355,7 +350,7 @@ bool CPlayerPlaylistBar::ParseMPCPlayList(CString fn)
 {
     CString str;
     CAtlMap<int, CPlaylistItem> pli;
-    CAtlArray<int> idx;
+    std::vector<int> idx;
 
     CWebTextFile f(CTextFile::UTF8);
     if (!f.Open(fn) || !f.ReadString(str) || str != _T("MPCPLAYLIST")) {
@@ -382,7 +377,7 @@ bool CPlayerPlaylistBar::ParseMPCPlayList(CString fn)
 
             if (key == _T("type")) {
                 pli[i].m_type = (CPlaylistItem::type_t)_ttol(value);
-                idx.Add(i);
+                idx.push_back(i);
             } else if (key == _T("label")) {
                 pli[i].m_label = value;
             } else if (key == _T("filename")) {
@@ -413,9 +408,9 @@ bool CPlayerPlaylistBar::ParseMPCPlayList(CString fn)
         }
     }
 
-    qsort(idx.GetData(), idx.GetCount(), sizeof(int), s_int_comp);
-    for (size_t i = 0; i < idx.GetCount(); i++) {
-        m_pl.AddTail(pli[idx[i]]);
+    std::sort(idx.begin(), idx.end());
+    for (int i : idx) {
+        m_pl.AddTail(pli[i]);
     }
 
     return !pli.IsEmpty();
