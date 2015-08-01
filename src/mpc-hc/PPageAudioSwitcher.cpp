@@ -173,7 +173,8 @@ BOOL CPPageAudioSwitcher::OnInitDialog()
         //      m_list.SetColumnWidth(i, m_list.GetColumnWidth(i)*8/10);
     }
 
-    m_tooltip.Create(GetDlgItem(IDC_SLIDER1));
+    EnableToolTips(TRUE);
+    m_tooltip.Create(this);
     m_tooltip.Activate(TRUE);
 
     CorrectComboBoxHeaderWidth(GetDlgItem(IDC_CHECK5));
@@ -377,19 +378,27 @@ BOOL CPPageAudioSwitcher::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResu
         nID = ::GetDlgCtrlID((HWND)nID);
     }
 
-    if (nID != IDC_SLIDER1) {
-        return FALSE;
+    bool bRet = false;
+
+    static CString strTipText;
+
+    switch (nID) {
+        case IDC_SLIDER1:
+            strTipText.Format(ResStr(IDS_BOOST), m_AudioBoostCtrl.GetPos());
+            bRet = true;
+            break;
+        case IDC_EDIT2:
+        case IDC_SPIN2:
+            strTipText.LoadStringW(IDS_TIME_SHIFT_TOOLTIP);
+            bRet = true;
+            break;
     }
 
-    static CString strTipText; // static string
+    if (bRet) {
+        pTTT->lpszText = (LPWSTR)(LPCWSTR)strTipText;
+    }
 
-    strTipText.Format(ResStr(IDS_BOOST), m_AudioBoostCtrl.GetPos());
-
-    pTTT->lpszText = (LPWSTR)(LPCWSTR)strTipText;
-
-    *pResult = 0;
-
-    return TRUE;    // message was handled
+    return bRet;
 }
 
 void CPPageAudioSwitcher::OnCancel()

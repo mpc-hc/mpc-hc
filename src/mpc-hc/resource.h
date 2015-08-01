@@ -1470,6 +1470,7 @@
 #define IDS_AFTERPLAYBACK_REWIND        57433
 #define IDS_AFTERPLAYBACK_CLOSE         57434
 #define IDS_FRAME_INIT_FAILED           57435
+#define IDS_TIME_SHIFT_TOOLTIP          57436
 
 // Next default values for new objects
 // 
