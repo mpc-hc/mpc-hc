@@ -800,6 +800,12 @@ bool CWebClientSocket::OnError404(CStringA& hdr, CStringA& body, CStringA& mime)
 bool CWebClientSocket::OnPlayer(CStringA& hdr, CStringA& body, CStringA& mime)
 {
     m_pWebServer->LoadPage(IDR_HTML_PLAYER, body, AToT(m_path));
+    if (AfxGetAppSettings().bWebUIEnablePreview) {
+        body.Replace("[preview]",
+                     "<img src=\"snapshot.jpg\" id=\"snapshot\" alt=\"snapshot\" onload=\"onLoadSnapshot()\" onabort=\"onAbortErrorSnapshot()\" onerror=\"onAbortErrorSnapshot()\">");
+    } else {
+        body.Replace("[preview]", UTF8(ResStr(IDS_WEBUI_DISABLED_PREVIEW_MSG)));
+    }
     return true;
 }
 
@@ -807,11 +813,14 @@ bool CWebClientSocket::OnSnapshotJpeg(CStringA& hdr, CStringA& body, CStringA& m
 {
     // TODO: add quality control and return logo when nothing is loaded
 
-    bool fRet = false;
+    bool bRet = false;
 
     BYTE* pData = nullptr;
     long size = 0;
-    if (m_pMainFrame->GetDIB(&pData, size, true)) {
+    if (!AfxGetAppSettings().bWebUIEnablePreview) {
+        hdr = "HTTP/1.0 403 Forbidden\r\n";
+        bRet = true;
+    } else if (m_pMainFrame->GetDIB(&pData, size, true)) {
         PBITMAPINFO bi = reinterpret_cast<PBITMAPINFO>(pData);
         PBITMAPINFOHEADER bih = &bi->bmiHeader;
 
@@ -863,11 +872,11 @@ bool CWebClientSocket::OnSnapshotJpeg(CStringA& hdr, CStringA& body, CStringA& m
                 "Pragma: no-cache\r\n";
             body = CStringA((char*)ba.GetData(), (int)ba.GetCount());
             mime = "image/jpeg";
-            fRet = true;
+            bRet = true;
         }
     }
 
-    return fRet;
+    return bRet;
 }
 
 bool CWebClientSocket::OnViewRes(CStringA& hdr, CStringA& body, CStringA& mime)

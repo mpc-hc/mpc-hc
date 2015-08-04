@@ -466,6 +466,7 @@ public:
     int             nCmdlnWebServerPort;
     bool            fWebServerUseCompression;
     bool            fWebServerLocalhostOnly;
+    bool            bWebUIEnablePreview;
     bool            fWebServerPrintDebugInfo;
     CString         strWebRoot, strWebDefIndex;
     CString         strWebServerCGI;

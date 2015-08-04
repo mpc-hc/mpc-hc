@@ -179,6 +179,7 @@
 #define IDS_RS_ONTOP                        _T("OnTop")
 #define IDS_RS_WEBSERVERPRINTDEBUGINFO      _T("WebServerPrintDebugIfo")
 #define IDS_RS_WEBSERVERUSECOMPRESSION      _T("WebServerUseCompression")
+#define IDS_RS_WEBUI_ENABLE_PREVIEW         _T("WebUIEnablePreview")
 #define IDS_RS_SNAPSHOTPATH                 _T("SnapshotPath")
 #define IDS_RS_PRIORITY                     _T("Priority")
 #define IDS_RS_SNAPSHOTEXT                  _T("SnapshotExt")

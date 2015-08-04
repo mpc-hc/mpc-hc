@@ -1471,6 +1471,8 @@
 #define IDS_AFTERPLAYBACK_CLOSE         57434
 #define IDS_FRAME_INIT_FAILED           57435
 #define IDS_TIME_SHIFT_TOOLTIP          57436
+#define IDS_WEBUI_DISABLED_PREVIEW_MSG  57437
+#define IDS_WEBUI_PREVIEW_WARNING       57438
 
 // Next default values for new objects
 // 

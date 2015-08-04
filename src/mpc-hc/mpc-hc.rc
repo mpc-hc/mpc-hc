@@ -812,16 +812,17 @@ BEGIN
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,5,22,284,1
     CONTROL         "Enable compression",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,26,285,8
     CONTROL         "Allow access from localhost only",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,38,285,8
-    CONTROL         "Print debug information",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,50,285,8
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,5,62,284,1
-    CONTROL         "Serve pages from:",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,66,285,8
-    EDITTEXT        IDC_EDIT2,15,78,167,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "Browse...",IDC_BUTTON1,186,78,50,14
-    PUSHBUTTON      "Deploy...",IDC_BUTTON2,240,78,50,14
-    LTEXT           "Default page:",IDC_STATIC,5,96,285,8
-    EDITTEXT        IDC_EDIT9,15,108,275,14,ES_AUTOHSCROLL
-    LTEXT           "CGI handlers: (.ext1=path1;.ext2=path2;...)",IDC_STATIC,5,126,285,8
-    EDITTEXT        IDC_EDIT3,15,138,275,14,ES_AUTOHSCROLL
+    CONTROL         "Enable preview",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,50,285,8
+    CONTROL         "Print debug information",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,62,284,8
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,5,74,284,1
+    CONTROL         "Serve pages from:",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,78,285,8
+    EDITTEXT        IDC_EDIT2,15,90,167,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Browse...",IDC_BUTTON1,186,90,50,14
+    PUSHBUTTON      "Deploy...",IDC_BUTTON2,240,90,50,14
+    LTEXT           "Default page:",IDC_STATIC,5,108,285,8
+    EDITTEXT        IDC_EDIT9,15,120,275,14,ES_AUTOHSCROLL
+    LTEXT           "CGI handlers: (.ext1=path1;.ext2=path2;...)",IDC_STATIC,5,138,285,8
+    EDITTEXT        IDC_EDIT3,15,150,275,14,ES_AUTOHSCROLL
 END
 
 IDD_SUBTITLEDL_DLG DIALOGEX 0, 0, 500, 200
@@ -2702,6 +2703,8 @@ BEGIN
     IDS_AFTERPLAYBACK_CLOSE "After Playback: Close"
     IDS_FRAME_INIT_FAILED   "MPC-HC encountered a problem during initialization. With your help we might be able to fix the issue.\n\nDo you want to report it?"
     IDS_TIME_SHIFT_TOOLTIP  "Enter a positive value if the audio is early, a negative value if it is late."
+    IDS_WEBUI_DISABLED_PREVIEW_MSG "Preview is currently disabled. You can enable it in MPC-HC's options."
+    IDS_WEBUI_PREVIEW_WARNING "This option can be used to preview media files from remote location. Use it only on a properly secured private network.\n\nDo you really want to enable this option?"
 END
 
 STRINGTABLE
