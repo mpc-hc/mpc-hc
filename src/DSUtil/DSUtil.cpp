@@ -2421,7 +2421,7 @@ REFERENCE_TIME StringToReftime(LPCTSTR strVal)
     int lMillisec = 0;
 
     if (_stscanf_s(strVal, _T("%02d:%02d:%02d,%03d"), &lHour, &lMinute, &lSecond, &lMillisec) == 4) {
-        rt = ((((lHour * 24) + lMinute) * 60 + lSecond) * MILLISECONDS + lMillisec) * (UNITS / MILLISECONDS);
+        rt = ((((lHour * 60) + lMinute) * 60 + lSecond) * MILLISECONDS + lMillisec) * (UNITS / MILLISECONDS);
     }
 
     return rt;
