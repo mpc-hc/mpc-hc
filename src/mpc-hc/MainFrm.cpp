@@ -1348,6 +1348,9 @@ void CMainFrame::OnMoving(UINT fwSide, LPRECT pRect)
 
         CRect areaRect;
         CMonitors::GetNearestMonitor(this).GetWorkAreaRect(areaRect);
+        if (SysVersion::Is10OrLater()) {
+            areaRect.InflateRect(GetInvisibleBorderSize());
+        }
 
         bool bSnapping = false;
 
@@ -9311,6 +9314,30 @@ void CMainFrame::RestoreDefaultWindowRect()
     }
 }
 
+CRect CMainFrame::GetInvisibleBorderSize() const
+{
+    CRect invisibleBorders;
+
+    if (SysVersion::Is10OrLater()) {
+        static const WinapiFunc<decltype(DwmGetWindowAttribute)>
+        fnDwmGetWindowAttribute = { "Dwmapi.dll", "DwmGetWindowAttribute" };
+
+        if (fnDwmGetWindowAttribute) {
+            if (SUCCEEDED(fnDwmGetWindowAttribute(GetSafeHwnd(), DWMWA_EXTENDED_FRAME_BOUNDS, &invisibleBorders, sizeof(RECT)))) {
+                CRect windowRect;
+                GetWindowRect(windowRect);
+
+                invisibleBorders.TopLeft() = invisibleBorders.TopLeft() - windowRect.TopLeft();
+                invisibleBorders.BottomRight() = windowRect.BottomRight() - invisibleBorders.BottomRight();
+            } else {
+                ASSERT(false);
+            }
+        }
+    }
+
+    return invisibleBorders;
+}
+
 OAFilterState CMainFrame::GetMediaState() const
 {
     OAFilterState ret = -1;
@@ -9994,6 +10021,12 @@ CSize CMainFrame::GetZoomWindowSize(double dScale)
         CMonitors::GetNearestMonitor(this).GetWorkAreaRect(workRect);
 
         if (workRect.Width() && workRect.Height()) {
+            // account for invisible borders on Windows 10 by allowing
+            // the window to go out of screen a bit
+            if (SysVersion::Is10OrLater()) {
+                workRect.InflateRect(GetInvisibleBorderSize());
+            }
+
             // don't go larger than the current monitor working area and prevent black bars in this case
             CSize videoSpaceSize = workRect.Size() - controlsSize - decorationsRect.Size();
 
@@ -10036,23 +10069,31 @@ CRect CMainFrame::GetZoomWindowRect(const CSize& size)
 
     MONITORINFO mi = { sizeof(mi) };
     if (GetMonitorInfo(MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST), &mi)) {
+        CRect rcWork = mi.rcWork;
+        // account for invisible borders on Windows 10 by allowing
+        // the window to go out of screen a bit
+        if (SysVersion::Is10OrLater()) {
+            rcWork.InflateRect(GetInvisibleBorderSize());
+        }
+
         CSize windowSize(size);
 
         // don't go larger than the current monitor working area
-        windowSize.cx = std::min<long>(windowSize.cx, (mi.rcWork.right - mi.rcWork.left));
-        windowSize.cy = std::min<long>(windowSize.cy, (mi.rcWork.bottom - mi.rcWork.top));
+        windowSize.cx = std::min<long>(windowSize.cx, rcWork.Width());
+        windowSize.cy = std::min<long>(windowSize.cy, rcWork.Height());
 
-        // retain snapping and center the window if we don't remember its position
-        if (m_bWasSnapped && ret.left == mi.rcWork.left) {
+        // retain snapping or try not to be move the center of the window
+        // if we don't remember its position
+        if (m_bWasSnapped && ret.left == rcWork.left) {
             // do nothing
-        } else if (m_bWasSnapped && ret.right == mi.rcWork.right) {
+        } else if (m_bWasSnapped && ret.right == rcWork.right) {
             ret.left = ret.right - windowSize.cx;
         } else if (!s.fRememberWindowPos) {
             ret.left += (ret.right - ret.left) / 2 - windowSize.cx / 2;
         }
-        if (m_bWasSnapped && ret.top == mi.rcWork.top) {
+        if (m_bWasSnapped && ret.top == rcWork.top) {
             // do nothing
-        } else if (m_bWasSnapped && ret.bottom == mi.rcWork.bottom) {
+        } else if (m_bWasSnapped && ret.bottom == rcWork.bottom) {
             ret.top = ret.bottom - windowSize.cy;
         } else if (!s.fRememberWindowPos) {
             ret.top += (ret.bottom - ret.top) / 2 - windowSize.cy / 2;
@@ -10062,17 +10103,17 @@ CRect CMainFrame::GetZoomWindowRect(const CSize& size)
         ret.bottom = ret.top + windowSize.cy;
 
         // don't go beyond the current monitor working area
-        if (ret.right > mi.rcWork.right) {
-            ret.OffsetRect(mi.rcWork.right - ret.right, 0);
+        if (ret.right > rcWork.right) {
+            ret.OffsetRect(rcWork.right - ret.right, 0);
         }
-        if (ret.left < mi.rcWork.left) {
-            ret.OffsetRect(mi.rcWork.left - ret.left, 0);
+        if (ret.left < rcWork.left) {
+            ret.OffsetRect(rcWork.left - ret.left, 0);
         }
-        if (ret.bottom > mi.rcWork.bottom) {
-            ret.OffsetRect(0, mi.rcWork.bottom - ret.bottom);
+        if (ret.bottom > rcWork.bottom) {
+            ret.OffsetRect(0, rcWork.bottom - ret.bottom);
         }
-        if (ret.top < mi.rcWork.top) {
-            ret.OffsetRect(0, mi.rcWork.top - ret.top);
+        if (ret.top < rcWork.top) {
+            ret.OffsetRect(0, rcWork.top - ret.top);
         }
     } else {
         ASSERT(FALSE);
@@ -10153,6 +10194,15 @@ double CMainFrame::GetZoomAutoFitScale(bool bLargerOnly)
         decorationsSize.cx += 2 * ::GetSystemMetrics(SM_CXSIZEFRAME);
         // horizontal borders
         decorationsSize.cy += 2 * ::GetSystemMetrics(SM_CYSIZEFRAME);
+
+        // account for invisible borders on Windows 10
+        if (SysVersion::Is10OrLater()) {
+            RECT invisibleBorders = GetInvisibleBorderSize();
+
+            decorationsSize.cx -= (invisibleBorders.left + invisibleBorders.right);
+            decorationsSize.cy -= (invisibleBorders.top + invisibleBorders.bottom);
+        }
+
         if (!(style & WS_CAPTION)) {
             decorationsSize.cx -= 2;
             decorationsSize.cy -= 2;

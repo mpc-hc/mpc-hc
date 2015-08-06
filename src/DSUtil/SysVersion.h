@@ -35,6 +35,7 @@ namespace SysVersion
     bool Is8();
     bool Is8OrLater();
     bool Is81OrLater();
+    bool Is10OrLater();
 
     bool Is64Bit();
 };

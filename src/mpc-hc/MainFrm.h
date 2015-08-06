@@ -285,6 +285,7 @@ private:
     void SetDefaultWindowRect(int iMonitor = 0);
     void SetDefaultFullscreenState();
     void RestoreDefaultWindowRect();
+    CRect GetInvisibleBorderSize() const;
     CSize GetZoomWindowSize(double dScale);
     CRect GetZoomWindowRect(const CSize& size);
     void ZoomVideoWindow(double dScale = ZOOM_DEFAULT_LEVEL);

@@ -95,6 +95,11 @@ bool SysVersion::Is81OrLater()
     return (GetVersion() >= 0x0603);
 }
 
+bool SysVersion::Is10OrLater()
+{
+    return (GetVersion() >= 0x0A00);
+}
+
 bool SysVersion::Is64Bit()
 {
     const bool bIs64Bit = InitIs64Bit();
