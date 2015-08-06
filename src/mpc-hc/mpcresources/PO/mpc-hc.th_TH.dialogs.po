@@ -1205,6 +1205,10 @@ msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK5"
 msgid "Allow access from localhost only"
 msgstr "อนุญาตการเข้าถึงจากโฮสต์ถิ่นเท่านั้น"
 
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK6"
+msgid "Enable preview"
+msgstr ""
+
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
 msgid "Print debug information"
 msgstr "พิมพ์ข้อมูลดีบัก"

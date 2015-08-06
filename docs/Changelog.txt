@@ -11,6 +11,8 @@ Legend:
 next version - not released yet
 ===============================
 + Add Indonesian and Punjabi translations
++ Ticket #5411, Add an option to disable the preview in the web interface. This option is
+  disabled by default since it must be used only on a properly secured private network
 * Completely new Internal Audio Renderer:
     - Uses sanear project as backend
     - Requires Windows Vista or newer

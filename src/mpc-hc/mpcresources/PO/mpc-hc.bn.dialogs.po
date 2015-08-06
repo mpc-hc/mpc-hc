@@ -1207,6 +1207,10 @@ msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK5"
 msgid "Allow access from localhost only"
 msgstr "শুধুমাত্র স্থানীয়হোস্ট থেকে অ্যাকসেস সমর্থন"
 
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK6"
+msgid "Enable preview"
+msgstr ""
+
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
 msgid "Print debug information"
 msgstr "ডিবাগ তথ্যাদি মুদ্রণ"
