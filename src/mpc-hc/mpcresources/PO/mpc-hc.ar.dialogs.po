@@ -6,15 +6,16 @@
 # Ahmad Abd-Elghany <tolpa1@gmail.com>, 2013-2015
 # Abubakr Mohammed <bcs2610@hotmail.com>, 2014
 # manxx55 <w6txz2@gmail.com>, 2014
+# Omar Anwar <omaraglan91@yahoo.com>, 2015
 # Tariq <tariq-mz@hotmail.com>, 2014
 # Tariq <tariq-mz@hotmail.com>, 2014
 # manxx55 <w6txz2@gmail.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-07-25 13:12:15+0000\n"
-"PO-Revision-Date: 2015-08-03 17:18+0000\n"
-"Last-Translator: Ahmad Abd-Elghany <tolpa1@gmail.com>\n"
+"POT-Creation-Date: 2015-08-06 16:05:43+0000\n"
+"PO-Revision-Date: 2015-08-08 06:55+0000\n"
+"Last-Translator: Omar Anwar <omaraglan91@yahoo.com>\n"
 "Language-Team: Arabic (http://www.transifex.com/mpc-hc/mpc-hc/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1212,7 +1213,7 @@ msgstr "السماح بالوصول من المضيف المحلي فقط"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK6"
 msgid "Enable preview"
-msgstr ""
+msgstr "تمكين المعانيه"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
 msgid "Print debug information"
@@ -1668,43 +1669,43 @@ msgstr "جهاز"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK1"
 msgid "Exclusive mode"
-msgstr ""
+msgstr "وضع خاص"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK2"
 msgid "Allow bitstreaming"
-msgstr ""
+msgstr "تمكين التدفق"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
 msgid "Options"
-msgstr ""
+msgstr "اعدادات"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK3"
 msgid "Enable stereo crossfeed (for headphones)"
-msgstr ""
+msgstr "تمكين التغذيه عبر موحة الاستريو(من اجل سماعات الرأس)"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON1"
 msgid "C. Moy"
-msgstr ""
+msgstr "C. Moy"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON2"
 msgid "J. Meier"
-msgstr ""
+msgstr "J. Meier"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC1"
 msgid "Cut-off:"
-msgstr ""
+msgstr "قطع:"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC3"
 msgid "Level:"
-msgstr ""
+msgstr "مستوى:"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
 msgid "Note"
-msgstr ""
+msgstr "ملحوظه"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
 msgid "To minimize audio distortion, it is recommended to keep player volume at around 85% when playing loud lossy-encoded content."
-msgstr ""
+msgstr "لتقليل التشويه فى الصوت،من المفضل ان تبقى صوت المشغل فى حدود 85% \nعندما يتم تشغيل صوت صاخب-محتوى مرمز."
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
@@ -1724,15 +1725,15 @@ msgstr "إرسال انهيار"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC"
 msgid "We are sorry, it seems MPC-HC just crashed. :("
-msgstr ""
+msgstr "نحن اسفون، يبدو ان المشغل قد تعطل. :("
 
 msgctxt "IDD_CRASH_REPORTER_IDC_CHECK1"
 msgid "Send a bug report to help us diagnose and fix the problem."
-msgstr ""
+msgstr "ارسل تقرير عن العله لمساعدتنا فحص المشكله وايجاد الحل."
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
 msgid "Optional information"
-msgstr ""
+msgstr "معلومات اختياريه."
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
 msgid "Email:"
@@ -1748,9 +1749,9 @@ msgstr "وصف المشكلة (استخدام اللغة الإنجليزية ف
 
 msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON1"
 msgid "Restart MPC-HC"
-msgstr ""
+msgstr "اعاده تشغيل المشغل."
 
 msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON2"
 msgid "Quit MPC-HC"
-msgstr ""
+msgstr "اغلق المشغل"
 

@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-08-02 16:27:40+0000\n"
-"PO-Revision-Date: 2015-08-03 16:05+0000\n"
+"POT-Creation-Date: 2015-08-06 16:05:43+0000\n"
+"PO-Revision-Date: 2015-08-07 09:19+0000\n"
 "Last-Translator: Zamani Karmana <zamani.karmana@gmail.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/mpc-hc/mpc-hc/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -1401,11 +1401,11 @@ msgstr "Masukkan nilai positif jika audio terlalu cepat, negatif jika terlambat.
 
 msgctxt "IDS_WEBUI_DISABLED_PREVIEW_MSG"
 msgid "Preview is currently disabled. You can enable it in MPC-HC's options."
-msgstr ""
+msgstr "Pratinjau dinonfungsikan. Anda bisa memfungsikannya di opsi MPC-HC."
 
 msgctxt "IDS_WEBUI_PREVIEW_WARNING"
 msgid "This option can be used to preview media files from remote location. Use it only on a properly secured private network.\n\nDo you really want to enable this option?"
-msgstr ""
+msgstr "Opsi ini bisa digunakan untuk pratinjau berkas media dari lokasi yang jauh. Hanya gunakan pada jaringan privat yang benar-benar aman.\n\nApakah Anda benar-benar ingin memfungsikan opsi ini?"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"

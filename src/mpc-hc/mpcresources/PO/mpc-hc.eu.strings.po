@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-08-02 16:27:40+0000\n"
-"PO-Revision-Date: 2015-08-03 22:15+0000\n"
+"POT-Creation-Date: 2015-08-06 16:05:43+0000\n"
+"PO-Revision-Date: 2015-08-06 22:09+0000\n"
 "Last-Translator: Xabier Aramendi <azpidatziak@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/mpc-hc/mpc-hc/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -1394,11 +1394,11 @@ msgstr "Sartu balio positibo bat audioa aurreratua badago, balio negaitboa atzer
 
 msgctxt "IDS_WEBUI_DISABLED_PREVIEW_MSG"
 msgid "Preview is currently disabled. You can enable it in MPC-HC's options."
-msgstr ""
+msgstr "Aurreikuspena orain ezgaituta dago. MPC-HC-ren aukeratan gaitu dezakezu."
 
 msgctxt "IDS_WEBUI_PREVIEW_WARNING"
 msgid "This option can be used to preview media files from remote location. Use it only on a properly secured private network.\n\nDo you really want to enable this option?"
-msgstr ""
+msgstr "Aukera hau multimedia agiriak hurruneko kokaleku batetik ikusteko erabili daiteke. Erabili segurtasun egokia duen sare pribatu batean bakarrik.\n\nEgitan nahi duzu aukera hau gaitzea?"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"

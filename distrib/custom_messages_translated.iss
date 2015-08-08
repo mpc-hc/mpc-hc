@@ -178,7 +178,7 @@ zh_CN.WelcomeLabel2=这将安装 [name] 到您的计算机中。%n%n建议您在
 zh_CN.WinVersionTooLowError=[name] 要求 Windows XP Service Pack 3 或更高版本。
 
 ; Chinese (Taiwan)
-zh_TW.WelcomeLabel2=這將會安裝 [name] 在你的電腦中。%n%n建議您關閉所有其它應用程序後再繼續。
+zh_TW.WelcomeLabel2=這將會安裝 [name] 在您的電腦中。%n%n建議您關閉所有其它應用程式後再繼續。
 zh_TW.WinVersionTooLowError=執行 [name] 需要 Windows XP Service Pack 3 或更新的版本。
 
 
@@ -915,7 +915,7 @@ zh_TW.msg_simd_sse=此版的 MPC-HC 需要有支援 SSE 延伸指令集的 CPU�
 #elif defined(sse2_required)
 zh_TW.msg_simd_sse2=此版的 MPC-HC 須要有支援 SSE2 延伸指令集的 CPU。%n%n您的 CPU 並未相容這些功能。
 #endif
-zh_TW.run_DownloadToolbarImages=參觀我們的 Wiki 網頁以下載工具列圖示
+zh_TW.run_DownloadToolbarImages=參觀我們的維基頁面以下載工具列圖示
 zh_TW.tsk_AllUsers=安裝給所有使用者
 zh_TW.tsk_CurrentUser=僅安裝給目前使用者
 zh_TW.tsk_Other=其它工作：

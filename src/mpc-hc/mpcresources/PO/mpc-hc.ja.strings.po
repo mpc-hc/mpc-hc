@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-08-02 16:27:40+0000\n"
-"PO-Revision-Date: 2015-08-05 01:34+0000\n"
+"POT-Creation-Date: 2015-08-06 16:05:43+0000\n"
+"PO-Revision-Date: 2015-08-08 08:52+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/mpc-hc/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -114,7 +114,7 @@ msgstr "スタイル"
 
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
-msgstr "レンダリング ターゲットが定義されていない場合、SSA/ ASS 字幕は、ビデオ フレームに対して表示されますが、その他すべてのテキスト字幕は、ウィンドウに対して表示されます。"
+msgstr "レンダリング ターゲットが定義されていない場合、SSA/ASS 字幕は、ビデオ フレームに対して表示されますが、その他すべてのテキスト字幕は、ウィンドウに対して表示されます。"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -1394,11 +1394,11 @@ msgstr "映像よりも音声が早く再生される場合は正の値を、遅
 
 msgctxt "IDS_WEBUI_DISABLED_PREVIEW_MSG"
 msgid "Preview is currently disabled. You can enable it in MPC-HC's options."
-msgstr ""
+msgstr "プレビューは現在無効になっています。MPC-HC のオプションで有効にすることができます。"
 
 msgctxt "IDS_WEBUI_PREVIEW_WARNING"
 msgid "This option can be used to preview media files from remote location. Use it only on a properly secured private network.\n\nDo you really want to enable this option?"
-msgstr ""
+msgstr "このオプションは離れた場所からメディア ファイルをプレビューするために使用できます。適切に保護されたプライベート ネットワーク上でのみ使用してください。\n\n本当にこのオプションを有効にしますか？"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"

@@ -2,6 +2,7 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# 洪嘉鴻 <jerry9030@gmail.com>, 2015
 # kenelin <kenelin@gmail.com>, 2013
 # Ken <ken670128@yahoo.com.tw>, 2015
 # Peter Chen <petercpg@gmail.com>, 2014
@@ -9,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-05-30 00:33:30+0000\n"
-"PO-Revision-Date: 2015-06-16 11:16+0000\n"
-"Last-Translator: Ken <ken670128@yahoo.com.tw>\n"
+"PO-Revision-Date: 2015-08-07 08:10+0000\n"
+"Last-Translator: 洪嘉鴻 <jerry9030@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/mpc-hc/mpc-hc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -476,31 +477,31 @@ msgstr "降低高度"
 
 msgctxt "ID_PANSCAN_MOVERIGHT"
 msgid "Move &Right"
-msgstr "右移"
+msgstr "右移(&R)"
 
 msgctxt "ID_PANSCAN_MOVELEFT"
 msgid "Move &Left"
-msgstr "左移"
+msgstr "左移(&L)"
 
 msgctxt "ID_PANSCAN_MOVEUP"
 msgid "Move &Up"
-msgstr "上移"
+msgstr "上移(&U)"
 
 msgctxt "ID_PANSCAN_MOVEDOWN"
 msgid "Move &Down"
-msgstr "下移"
+msgstr "下移(&D)"
 
 msgctxt "ID_PANSCAN_CENTER"
 msgid "Cen&ter"
-msgstr "置中"
+msgstr "置中(&T)"
 
 msgctxt "ID_VIEW_RESET"
 msgid "Re&set"
-msgstr "重設"
+msgstr "重設(&S)"
 
 msgctxt "POPUP"
 msgid "On &Top"
-msgstr "最上層顯示"
+msgstr "最上層顯示(&T)"
 
 msgctxt "ID_ONTOP_DEFAULT"
 msgid "&Default"
@@ -508,7 +509,7 @@ msgstr "預設(&D)"
 
 msgctxt "ID_ONTOP_ALWAYS"
 msgid "&Always"
-msgstr "總是如此"
+msgstr "總是如此(&A)"
 
 msgctxt "ID_ONTOP_WHILEPLAYING"
 msgid "While &Playing"
@@ -516,7 +517,7 @@ msgstr "當播放時"
 
 msgctxt "ID_ONTOP_WHILEPLAYINGVIDEO"
 msgid "While Playing &Video"
-msgstr "當播放影片時"
+msgstr "當播放影片時(&V)"
 
 msgctxt "ID_VIEW_OPTIONS"
 msgid "&Options..."
@@ -548,7 +549,7 @@ msgstr "增加頻率(&I)"
 
 msgctxt "ID_PLAY_RESETRATE"
 msgid "R&eset Rate"
-msgstr "重設頻率"
+msgstr "重設頻率(&E)"
 
 msgctxt "ID_FILTERS"
 msgid "&Filters"
@@ -588,7 +589,7 @@ msgstr "靜音(&M)"
 
 msgctxt "POPUP"
 msgid "Af&ter Playback"
-msgstr "播放完後"
+msgstr "播放完後(&T)"
 
 msgctxt "ID_AFTERPLAYBACK_DONOTHING"
 msgid "Do no&thing"
@@ -604,27 +605,27 @@ msgstr "關閉螢幕(&M)"
 
 msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
-msgstr "離開"
+msgstr "結束(&E)"
 
 msgctxt "ID_AFTERPLAYBACK_STANDBY"
 msgid "&Stand By"
-msgstr "待命"
+msgstr "待命(&S)"
 
 msgctxt "ID_AFTERPLAYBACK_HIBERNATE"
 msgid "&Hibernate"
-msgstr "休眠"
+msgstr "休眠(&H)"
 
 msgctxt "ID_AFTERPLAYBACK_SHUTDOWN"
 msgid "Shut&down"
-msgstr "關機"
+msgstr "關機(&D)"
 
 msgctxt "ID_AFTERPLAYBACK_LOGOFF"
 msgid "Log &Off"
-msgstr "登出"
+msgstr "登出(&O)"
 
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
-msgstr "鎖定"
+msgstr "鎖定(&L)"
 
 msgctxt "POPUP"
 msgid "&Navigate"

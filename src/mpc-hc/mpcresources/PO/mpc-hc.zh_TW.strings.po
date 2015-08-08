@@ -2,19 +2,20 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# 洪嘉鴻 <jerry9030@gmail.com>, 2015
 # Jeff Huang <s8321414@gmail.com>, 2014
 # kenelin <kenelin@gmail.com>, 2013
 # Ken <ken670128@yahoo.com.tw>, 2015
 # Peter Chen <petercpg@gmail.com>, 2014
 # roytam1 <roytam@gmail.com>, 2014
 # Zakk <zakk0610@gmail.com>, 2014
-# Chiahong Hong <jerry9030@gmail.com>, 2015
+# 洪嘉鴻 <jerry9030@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-08-06 16:05:43+0000\n"
-"PO-Revision-Date: 2015-08-06 16:46+0000\n"
-"Last-Translator: Underground78\n"
+"PO-Revision-Date: 2015-08-07 10:21+0000\n"
+"Last-Translator: 洪嘉鴻 <jerry9030@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/mpc-hc/mpc-hc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -480,7 +481,7 @@ msgstr "其它"
 
 msgctxt "IDD_FILEMEDIAINFO"
 msgid "MediaInfo"
-msgstr "MediaInfo 媒體資訊"
+msgstr "媒體資訊"
 
 msgctxt "IDD_PPAGECAPTURE"
 msgid "Playback::Capture"
@@ -508,7 +509,7 @@ msgstr "新版本的圖示庫"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_INSTR"
 msgid "Do you want to reassociate the icons?"
-msgstr "你要重新關聯圖示嗎？"
+msgstr "您要重新關聯圖示嗎？"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_CONTENT"
 msgid "This will fix the icons being incorrectly displayed after an update of the icon library.\nThe file associations will not be modified, only the corresponding icons will be refreshed."
@@ -608,7 +609,7 @@ msgstr "這是 Windows 9x/ME/2K 的預設繪製器。依據視訊視窗的可見
 
 msgctxt "IDC_DSOVERLAYMIXER"
 msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
-msgstr "總是以覆疊模式繪製。一般說來只允許使用 YUV 格式，但這不會進行任何 RGB 色彩轉換而直接呈現。這是最快速的繪製方法，而且是你唯一能確保以全螢幕鏡射輸出到電視的方法。"
+msgstr "總是以覆疊模式繪製。一般說來只允許使用 YUV 格式，但這不會進行任何 RGB 色彩轉換而直接呈現。這是最快速的繪製方法，而且是您唯一能確保以全螢幕鏡射輸出到電視的方法。"
 
 msgctxt "IDC_DSVMR7WIN"
 msgid "The default renderer of Windows XP. Very stable and just a little slower than the Overlay mixer. Uses DirectDraw and runs in Overlay when it can."
@@ -632,7 +633,7 @@ msgstr "和 VMR-9 (無轉換) 相同，但使用了真正的 two-pass bicubic �
 
 msgctxt "IDC_DSNULL_COMP"
 msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the CPU from working unnecessarily."
-msgstr "連到任何視訊媒體類型，並且不傳送傳進來的取樣資料。當你不需要任何視訊顯示而又想節省不必要的 CPU 工作時可以用。"
+msgstr "連到任何視訊媒體類型，並且不傳送傳進來的取樣資料。當您不需要任何視訊顯示而又想節省不必要的 CPU 工作時可以用。"
 
 msgctxt "IDC_DSNULL_UNCOMP"
 msgid "Same as the normal Null renderer, but this will only connect to uncompressed types."
@@ -844,7 +845,7 @@ msgstr "若繪製目標未被定義, 將會使用預設樣式來繪製。"
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
-msgstr "停用字幕動畫化。 啟用此選項可以降低 CPU 的使用資源。若你的字幕會閃爍, 你可以啟用這個選項來解決。"
+msgstr "停用字幕動畫化。 啟用此選項可以降低 CPU 的使用資源。若你的字幕會閃爍, 您可以啟用這個選項來解決。"
 
 msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
@@ -976,7 +977,7 @@ msgstr "EDL 新影片"
 
 msgctxt "IDS_RECENT_FILES_CLEAR"
 msgid "&Clear list"
-msgstr "清除清單"
+msgstr "清除清單(&C)"
 
 msgctxt "IDS_RECENT_FILES_QUESTION"
 msgid "Are you sure that you want to delete recent files list?"
@@ -1080,7 +1081,7 @@ msgstr "啟用(&E)"
 
 msgctxt "IDS_PANSCAN_EDIT"
 msgid "&Edit..."
-msgstr "編輯..."
+msgstr "編輯(&E)..."
 
 msgctxt "IDS_INFOBAR_TITLE"
 msgid "Title"
@@ -1356,7 +1357,7 @@ msgstr "移除全部"
 
 msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
 msgid "Are you sure you want to remove all channels from the list?"
-msgstr "你確定要移除此清單裡的所有頻道?"
+msgstr "您確定要移除此清單裡的所有頻道?"
 
 msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"
 msgid "No information available"
@@ -1400,7 +1401,7 @@ msgstr ""
 
 msgctxt "IDS_WEBUI_DISABLED_PREVIEW_MSG"
 msgid "Preview is currently disabled. You can enable it in MPC-HC's options."
-msgstr ""
+msgstr "目前已停用預覽功能。您可以於 MPC-HC 的選項中將其啟用。"
 
 msgctxt "IDS_WEBUI_PREVIEW_WARNING"
 msgid "This option can be used to preview media files from remote location. Use it only on a properly secured private network.\n\nDo you really want to enable this option?"
@@ -1516,7 +1517,7 @@ msgstr "最接近的關鍵幀"
 
 msgctxt "IDS_HOOKS_FAILED"
 msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
-msgstr "MPC-HC 在初始化時遇到了一個問題。DVD 播放可能會不正常。這可能與某些安全工具的不兼容性所致。\n\n你要報告這個問題嗎?"
+msgstr "MPC-HC 在初始化時遇到了一個問題。DVD 播放可能會不正常。這可能與某些安全工具的不相容性所致。\n\n您要回報這個問題嗎?"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
 msgid "Never show"
@@ -1584,7 +1585,7 @@ msgstr "匯出設定"
 
 msgctxt "IDS_EXPORT_SETTINGS_WARNING"
 msgid "Some changes have not been saved yet.\nDo you want to save them before exporting?"
-msgstr "有些設定尚未儲存。\n你要先儲存它們後才匯出嗎?"
+msgstr "有些設定尚未儲存。\n您要先儲存它們後才匯出嗎?"
 
 msgctxt "IDS_EXPORT_SETTINGS_SUCCESS"
 msgid "The settings have been successfully exported."
@@ -1592,7 +1593,7 @@ msgstr "設定已經成功匯出。"
 
 msgctxt "IDS_EXPORT_SETTINGS_FAILED"
 msgid "The export failed! This can happen when you don't have the correct rights."
-msgstr "匯出失敗! 當你沒有正確的權限時會出現此情況。"
+msgstr "匯出失敗! 當您沒有正確的權限時會出現此情況。"
 
 msgctxt "IDS_BDA_ERROR"
 msgid "BDA Error"
@@ -1712,11 +1713,11 @@ msgstr "字幕::其它"
 
 msgctxt "IDS_VIEW_BORDERLESS"
 msgid "Hide &borders"
-msgstr "隱藏邊框"
+msgstr "隱藏邊框(&B)"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
 msgid "Fra&me Only"
-msgstr "僅影格"
+msgstr "僅影格(&M)"
 
 msgctxt "IDS_VIEW_CAPTIONMENU"
 msgid "Sho&w Caption&&Menu"
@@ -1724,7 +1725,7 @@ msgstr "顯示標題選單"
 
 msgctxt "IDS_VIEW_HIDEMENU"
 msgid "Hide &Menu"
-msgstr "隱藏選單"
+msgstr "隱藏選單(&M)"
 
 msgctxt "IDD_PPAGEADVANCED"
 msgid "Advanced"
@@ -1980,11 +1981,11 @@ msgstr "選單"
 
 msgctxt "IDS_AG_NEXT_AUDIO"
 msgid "Next Audio Track"
-msgstr ""
+msgstr "下一段音軌"
 
 msgctxt "IDS_AG_PREV_AUDIO"
 msgid "Prev Audio Track"
-msgstr ""
+msgstr "上一段音軌"
 
 msgctxt "IDS_AG_NEXT_SUBTITLE"
 msgid "Next Subtitle Track"
@@ -2004,11 +2005,11 @@ msgstr "重新載入字幕"
 
 msgctxt "IDS_MPLAYERC_87"
 msgid "Next Audio Track (OGM)"
-msgstr ""
+msgstr "下一段音軌 (OGM)"
 
 msgctxt "IDS_MPLAYERC_88"
 msgid "Prev Audio Track (OGM)"
-msgstr ""
+msgstr "上一段音軌 (OGM)"
 
 msgctxt "IDS_MPLAYERC_89"
 msgid "Next Subtitle Track (OGM)"
@@ -2028,11 +2029,11 @@ msgstr "前一角度 (DVD)"
 
 msgctxt "IDS_MPLAYERC_93"
 msgid "Next Audio Track (DVD)"
-msgstr ""
+msgstr "下一段音軌 (DVD)"
 
 msgctxt "IDS_MPLAYERC_94"
 msgid "Prev Audio Track (DVD)"
-msgstr ""
+msgstr "上一段音軌 (DVD)"
 
 msgctxt "IDS_MPLAYERC_95"
 msgid "Next Subtitle Track (DVD)"
@@ -2420,7 +2421,7 @@ msgstr "暫停"
 
 msgctxt "IDS_AG_TOGGLE_CAPTION"
 msgid "Toggle Caption&Menu"
-msgstr "切換標題選單"
+msgstr "切換標題選單(&M)"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
 msgid "Toggle Seek Bar"
@@ -3568,7 +3569,7 @@ msgstr "外部分離器可能有它們自己的語言偏好選項所以 MPC-HC �
 
 msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
 msgid "&Blu-Ray playlists"
-msgstr "&Blu-Ray 播放清單"
+msgstr "藍光播放清單(&B)"
 
 msgctxt "IDS_NAVIGATE_PLAYLIST"
 msgid "&Playlist"
