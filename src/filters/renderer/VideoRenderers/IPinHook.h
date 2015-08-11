@@ -76,9 +76,6 @@ extern bool HookNewSegmentAndReceive(IPinC* pPinC, IMemInputPinC* pMemInputPin);
 extern void UnhookNewSegmentAndReceive();
 extern REFERENCE_TIME g_tSegmentStart, g_tSampleStart, g_rtTimePerFrame;
 
-extern void HookWorkAroundVideoDriversBug(IBaseFilter* pBF);
-extern void UnhookWorkAroundVideoDriversBug();
-
 //
 
 interface IAMVideoAcceleratorC;

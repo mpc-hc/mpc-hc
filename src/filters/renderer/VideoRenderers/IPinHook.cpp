@@ -47,7 +47,6 @@ GUID g_guidDXVADecoder = GUID_NULL;
 int  g_nDXVAVersion = 0;
 
 IPinCVtbl* g_pPinCVtbl = nullptr;
-IPinCVtbl* g_pPinCVtblVideoDriverWorkAround = nullptr;
 IMemInputPinCVtbl* g_pMemInputPinCVtbl = nullptr;
 
 struct D3DFORMAT_TYPE {
@@ -149,19 +148,6 @@ static HRESULT STDMETHODCALLTYPE NewSegmentMine(IPinC* This, /* [in] */ REFERENC
     return NewSegmentOrg(This, tStart, tStop, dRate);
 }
 
-static HRESULT(STDMETHODCALLTYPE* ReceiveConnectionOrg)(IPinC* This, /* [in] */ IPinC* pConnector, /* [in] */ const AM_MEDIA_TYPE* pmt) = nullptr;
-
-static HRESULT STDMETHODCALLTYPE ReceiveConnectionMine(IPinC* This, /* [in] */ IPinC* pConnector, /* [in] */ const AM_MEDIA_TYPE* pmt)
-{
-    // Force the renderer to always reject the P010 and P016 pixel formats
-    if (pmt && (pmt->subtype == MEDIASUBTYPE_P010 || pmt->subtype == MEDIASUBTYPE_P016)) {
-        return VFW_E_TYPE_NOT_ACCEPTED;
-    } else {
-        return ReceiveConnectionOrg(This, pConnector, pmt);
-    }
-}
-
-
 static HRESULT(STDMETHODCALLTYPE* ReceiveOrg)(IMemInputPinC* This, IMediaSample* pSample) = nullptr;
 
 static HRESULT STDMETHODCALLTYPE ReceiveMineI(IMemInputPinC* This, IMediaSample* pSample)
@@ -182,54 +168,6 @@ static HRESULT STDMETHODCALLTYPE ReceiveMine(IMemInputPinC* This, IMediaSample* 
         return ReceiveMineI(This, pSample);
     }
     return ReceiveMineI(This, pSample);
-}
-
-void HookWorkAroundVideoDriversBug(IBaseFilter* pBF)
-{
-    // Work-around a bug in some video drivers: some drivers mistakenly
-    // accepts P010 and P016 pixel formats as input for VMR/EVR renderers
-    // so use the pin hook to add our own level of verification.
-#if MPC_VERSION_MAJOR > 1 || MPC_VERSION_MINOR > 7 || MPC_VERSION_PATCH > 9
-#pragma message("WARNING: Check if this bug is fixed in currently distributed drivers")
-#endif
-
-    if (CComPtr<IPin> pPin = GetFirstPin(pBF)) {
-        IPinC* pPinC = (IPinC*)(IPin*)pPin;
-
-        DWORD flOldProtect = 0;
-        if (VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), PAGE_EXECUTE_WRITECOPY, &flOldProtect)) {
-            if (ReceiveConnectionOrg == nullptr) {
-                ReceiveConnectionOrg = pPinC->lpVtbl->ReceiveConnection;
-            }
-            pPinC->lpVtbl->ReceiveConnection = ReceiveConnectionMine;
-            FlushInstructionCache(GetCurrentProcess(), pPinC->lpVtbl, sizeof(IPinCVtbl));
-            VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
-            g_pPinCVtblVideoDriverWorkAround = pPinC->lpVtbl;
-        } else {
-            TRACE(_T("HookWorkAroundVideoDriversBug: Could not hook the VTable"));
-            ASSERT(FALSE);
-        }
-    }
-}
-
-void UnhookWorkAroundVideoDriversBug()
-{
-    // Unhook previous VTable
-    if (g_pPinCVtblVideoDriverWorkAround) {
-        DWORD flOldProtect = 0;
-        if (VirtualProtect(g_pPinCVtblVideoDriverWorkAround, sizeof(IPinCVtbl), PAGE_EXECUTE_WRITECOPY, &flOldProtect)) {
-            if (g_pPinCVtblVideoDriverWorkAround->ReceiveConnection == ReceiveConnectionMine) {
-                g_pPinCVtblVideoDriverWorkAround->ReceiveConnection = ReceiveConnectionOrg;
-            }
-            ReceiveConnectionOrg = nullptr;
-            FlushInstructionCache(GetCurrentProcess(), g_pPinCVtblVideoDriverWorkAround, sizeof(IPinCVtbl));
-            VirtualProtect(g_pPinCVtblVideoDriverWorkAround, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
-            g_pPinCVtblVideoDriverWorkAround = nullptr;
-        } else {
-            TRACE(_T("UnhookWorkAroundVideoDriversBug: Could not unhook previous VTable"));
-            ASSERT(FALSE);
-        }
-    }
 }
 
 void UnhookNewSegmentAndReceive()
