@@ -479,6 +479,13 @@ HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnkno
         if (m_clsid == CLSID_EnhancedVideoRenderer) {
             CComQIPtr<IEVRFilterConfig> pConfig = pBF;
             pConfig->SetNumberOfStreams(3);
+
+            if (CComQIPtr<IMFGetService> pMFGS = pBF) {
+              CComPtr<IMFVideoDisplayControl> pMFVDC;
+              if (SUCCEEDED(pMFGS->GetService(MR_VIDEO_RENDER_SERVICE, __uuidof(IMFVideoDisplayControl), (void **)&pMFVDC))) {
+                pMFVDC->SetVideoWindow(m_hWnd);
+              }
+            }
         }
 
         BeginEnumPins(pBF, pEP, pPin) {
