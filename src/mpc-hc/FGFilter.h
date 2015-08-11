@@ -124,7 +124,6 @@ class CFGFilterVideoRenderer : public CFGFilter
 {
 protected:
     HWND m_hWnd;
-    bool m_bHasVideoDriverWorkAround;
 
 public:
     CFGFilterVideoRenderer(HWND hWnd, const CLSID& clsid, CStringW name = L"", UINT64 merit = MERIT64_DO_USE);
