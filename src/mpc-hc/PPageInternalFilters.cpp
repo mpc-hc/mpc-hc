@@ -403,7 +403,7 @@ void CPPageInternalFilters::InitFiltersList()
 #endif
 #if INTERNAL_SOURCEFILTER_WTV
     if (bLAVSplitterIsAvailable) {
-        m_filters.Add(filter_t(_T("WTV"), SOURCE_FILTER, SRC_WTV, IDS_INTERNAL_LAVF_WMV));
+        m_filters.Add(filter_t(_T("WTV"), SOURCE_FILTER, SRC_WTV, IDS_INTERNAL_LAVF));
     }
 #endif
 #if INTERNAL_SOURCEFILTER_OGG
