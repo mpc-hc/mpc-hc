@@ -34,7 +34,7 @@
 #include "../filters/PinInfoWnd.h"
 
 #define LAV_FILTERS_VERSION_MAJOR      0
-#define LAV_FILTERS_VERSION_MINOR      62
+#define LAV_FILTERS_VERSION_MINOR      66
 #define LAV_FILTERS_VERSION_REVISION   0
 #define LAV_FILTERS_VERSION_COMMIT_NUM 0
 #define LAV_FILTERS_VERSION ((QWORD)LAV_FILTERS_VERSION_MAJOR << 48 | (QWORD)LAV_FILTERS_VERSION_MINOR << 32 | (QWORD)LAV_FILTERS_VERSION_REVISION << 16 | LAV_FILTERS_VERSION_COMMIT_NUM)
@@ -356,7 +356,9 @@ void CFGFilterLAVSplitterBase::Settings::LoadSettings()
 
     bImpairedAudio = pApp->GetProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("ImpairedAudio"), bImpairedAudio);
 
-    dwQueueMaxSize = pApp->GetProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("QueueMaxSize"), dwQueueMaxSize);
+    dwQueueMaxMemSize = pApp->GetProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("QueueMaxSize"), dwQueueMaxMemSize);
+
+    dwQueueMaxPackets = pApp->GetProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("QueueMaxPackets"), dwQueueMaxPackets);
 
     dwNetworkAnalysisDuration = pApp->GetProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("NetworkAnalysisDuration"), dwNetworkAnalysisDuration);
 }
@@ -390,7 +392,9 @@ void CFGFilterLAVSplitterBase::Settings::SaveSettings()
 
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("ImpairedAudio"), bImpairedAudio);
 
-    pApp->WriteProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("QueueMaxSize"), dwQueueMaxSize);
+    pApp->WriteProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("QueueMaxSize"), dwQueueMaxMemSize);
+
+    pApp->WriteProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("QueueMaxPackets"), dwQueueMaxPackets);
 
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("NetworkAnalysisDuration"), dwNetworkAnalysisDuration);
 }
@@ -441,7 +445,9 @@ bool CFGFilterLAVSplitterBase::Settings::GetSettings(CComQIPtr<ILAVFSettings> pL
 
     bPreferHighQualityAudio = pLAVFSettings->GetPreferHighQualityAudioStreams();
 
-    dwQueueMaxSize = pLAVFSettings->GetMaxQueueMemSize();
+    dwQueueMaxMemSize = pLAVFSettings->GetMaxQueueMemSize();
+
+    dwQueueMaxPackets = pLAVFSettings->GetMaxQueueSize();
 
     dwNetworkAnalysisDuration = pLAVFSettings->GetNetworkStreamAnalysisDuration();
 
@@ -478,7 +484,9 @@ bool CFGFilterLAVSplitterBase::Settings::SetSettings(CComQIPtr<ILAVFSettings> pL
 
     pLAVFSettings->SetPreferHighQualityAudioStreams(bPreferHighQualityAudio);
 
-    pLAVFSettings->SetMaxQueueMemSize(dwQueueMaxSize);
+    pLAVFSettings->SetMaxQueueMemSize(dwQueueMaxMemSize);
+
+    pLAVFSettings->SetMaxQueueSize(dwQueueMaxPackets);
 
     pLAVFSettings->SetNetworkStreamAnalysisDuration(dwNetworkAnalysisDuration);
 
@@ -883,6 +891,8 @@ void CFGFilterLAVAudio::Settings::LoadSettings()
 
     bOutputStandardLayout = pApp->GetProfileInt(IDS_R_INTERNAL_LAVAUDIO, _T("OutputStandardLayout"), bOutputStandardLayout);
 
+    bOutput51Legacy = pApp->GetProfileInt(IDS_R_INTERNAL_LAVAUDIO, _T("Output51Legacy"), bOutput51Legacy);
+
     bMixingEnabled = pApp->GetProfileInt(IDS_R_INTERNAL_LAVAUDIO, _T("Mixing"), bMixingEnabled);
 
     dwMixingLayout = pApp->GetProfileInt(IDS_R_INTERNAL_LAVAUDIO, _T("MixingLayout"), dwMixingLayout);
@@ -935,6 +945,8 @@ void CFGFilterLAVAudio::Settings::SaveSettings()
 
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVAUDIO, _T("OutputStandardLayout"), bOutputStandardLayout);
 
+    pApp->WriteProfileInt(IDS_R_INTERNAL_LAVAUDIO, _T("Output51Legacy"), bOutput51Legacy);
+
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVAUDIO, _T("Mixing"), bMixingEnabled);
 
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVAUDIO, _T("MixingLayout"), dwMixingLayout);
@@ -986,6 +998,8 @@ bool CFGFilterLAVAudio::Settings::GetSettings(CComQIPtr<ILAVAudioSettings> pLAVF
 
     bOutputStandardLayout = pLAVFSettings->GetOutputStandardLayout();
 
+    bOutput51Legacy = pLAVFSettings->GetOutput51LegacyLayout();
+
     bMixingEnabled = pLAVFSettings->GetMixingEnabled();
 
     dwMixingLayout = pLAVFSettings->GetMixingLayout();
@@ -1030,6 +1044,8 @@ bool CFGFilterLAVAudio::Settings::SetSettings(CComQIPtr<ILAVAudioSettings> pLAVF
     pLAVFSettings->SetExpand61(bExpand61);
 
     pLAVFSettings->SetOutputStandardLayout(bOutputStandardLayout);
+
+    pLAVFSettings->SetOutput51LegacyLayout(bOutput51Legacy);
 
     pLAVFSettings->SetMixingEnabled(bMixingEnabled);
 

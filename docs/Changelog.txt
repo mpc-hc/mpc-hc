@@ -28,7 +28,7 @@ next version - not released yet
 * Ticket #5472, Make it easier to input value to the "Audio time shift" field in options
 * Updated MediaInfoLib to v0.7.75
 * Updated Little CMS to v2.7 (git 07da965)
-* Updated LAV Filters to v0.65.0.38:
+* Updated LAV Filters to stable version 0.66.0:
     - LAV Splitter: New ASF/WMV demuxer
     - Ticket #5548, LAV Splitter: Fix some rare deadlocks at startup
     - LAV Video Decoder: Allow hardware decoding of UHD video with AMD cards

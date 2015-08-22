@@ -1,5 +1,5 @@
 /*
- * (C) 2013-2014 see Authors.txt
+ * (C) 2013-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -115,7 +115,8 @@ public:
         BOOL bStreamSwitchRemoveAudio;
         BOOL bImpairedAudio;
         BOOL bPreferHighQualityAudio;
-        DWORD dwQueueMaxSize;
+        DWORD dwQueueMaxPackets;
+        DWORD dwQueueMaxMemSize;
         DWORD dwNetworkAnalysisDuration;
 
         void LoadSettings();
@@ -204,6 +205,7 @@ public:
         BOOL bExpandMono;
         BOOL bExpand61;
         BOOL bOutputStandardLayout;
+        BOOL bOutput51Legacy;
         BOOL bAllowRawSPDIF;
         BOOL bSampleFormats[SampleFormat_NB];
         BOOL bSampleConvertDither;
