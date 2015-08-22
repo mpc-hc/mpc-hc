@@ -12,13 +12,14 @@
 # SmilyCarrot <twisted-transistor@yandex.ru>, 2014-2015
 # Underground78, 2014
 # Victor Bychek, 2015
+# Денис <denyspokhylenko@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-07-25 19:54:46+0000\n"
-"PO-Revision-Date: 2015-07-28 15:08+0000\n"
-"Last-Translator: birkoff <birkoff.anarchist@gmail.com>\n"
-"Language-Team: Russian (http://www.transifex.com/projects/p/mpc-hc/language/ru/)\n"
+"POT-Creation-Date: 2015-08-06 16:05:43+0000\n"
+"PO-Revision-Date: 2015-08-12 04:32+0000\n"
+"Last-Translator: Денис <denyspokhylenko@gmail.com>\n"
+"Language-Team: Russian (http://www.transifex.com/mpc-hc/mpc-hc/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1399,15 +1400,15 @@ msgstr "MPC-HC столкнулся с проблемой во время ини
 
 msgctxt "IDS_TIME_SHIFT_TOOLTIP"
 msgid "Enter a positive value if the audio is early, a negative value if it is late."
-msgstr ""
+msgstr "Введите положительное значение, если звук в начале, отрицательное значение, если это поздно."
 
 msgctxt "IDS_WEBUI_DISABLED_PREVIEW_MSG"
 msgid "Preview is currently disabled. You can enable it in MPC-HC's options."
-msgstr ""
+msgstr "Предварительный просмотр в настоящее время отключена. Вы можете включить его в настройках MPC-HC."
 
 msgctxt "IDS_WEBUI_PREVIEW_WARNING"
 msgid "This option can be used to preview media files from remote location. Use it only on a properly secured private network.\n\nDo you really want to enable this option?"
-msgstr ""
+msgstr "Эта опция может быть использована для просмотра мультимедийных файлов с удаленного местоположения. Используйте его только на должным образом обеспеченных частной сети. Вы действительно хотите включить эту опцию?"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"

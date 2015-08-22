@@ -5,11 +5,12 @@
 # 洪嘉鴻 <jerry9030@gmail.com>, 2015
 # Ken <ken670128@yahoo.com.tw>, 2015
 # Peter Chen <petercpg@gmail.com>, 2014
+# 洪嘉鴻 <jerry9030@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-07-20 20:29:41+0000\n"
-"PO-Revision-Date: 2015-08-07 10:23+0000\n"
+"PO-Revision-Date: 2015-08-11 02:59+0000\n"
 "Last-Translator: 洪嘉鴻 <jerry9030@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/mpc-hc/mpc-hc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -48,7 +49,7 @@ msgstr "此版的 MPC-HC 須要有支援 SSE2 延伸指令集的 CPU。\n\n您�
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
-msgstr "參觀我們的維基頁面以下載工具列圖示"
+msgstr "參觀我們的 Wiki 頁面以下載工具列圖示"
 
 msgctxt "CustomMessages_tsk_AllUsers"
 msgid "For all users"

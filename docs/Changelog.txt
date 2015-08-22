@@ -33,8 +33,9 @@ next version - not released yet
     - Ticket #5548, LAV Splitter: Fix some rare deadlocks at startup
     - LAV Video Decoder: Allow hardware decoding of UHD video with AMD cards
 * Updated Arabic, Armenian, Basque, Bengali, British English, Catalan, Chinese (Simplified and Traditional),
-  Croatian, Czech, Danish, Dutch, French, Galician, German, Greek, Hungarian, Japanese, Polish, Portuguese (Brazil),
-  Romanian, Russian, Slovak, Spanish, Swedish, Thai, Turkish and Vietnamese translations
+  Croatian, Czech, Danish, Dutch, French, Galician, German, Greek, Hungarian, Japanese, Korean, Malay,
+  Polish, Portuguese (Brazil), Romanian, Russian, Slovenian, Slovak, Spanish, Swedish, Thai, Turkish,
+  Ukrainian and Vietnamese translations
 ! Fix a rare crash when exiting DVB mode
 ! QuickTime: Fix a crash when using system default renderer
 ! Fix "snap to desktop edge" and "autofit zoom" on Windows 10

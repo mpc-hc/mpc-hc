@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-08-06 16:05:43+0000\n"
-"PO-Revision-Date: 2015-08-07 20:38+0000\n"
+"PO-Revision-Date: 2015-08-15 20:49+0000\n"
 "Last-Translator: Luan <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/mpc-hc/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -1285,11 +1285,11 @@ msgstr "Bestimmt die Maximalanzahl gespeicherter Einträge der zuletzt geöffnet
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
-msgstr "Merkt sich die Wiedergabeposition nur für Dateien länger als N Minuten."
+msgstr "Beschränkt das Merken der Datei-Wiedergabeposition auf Dateien mit einer Laufzeit länger als N Minuten."
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
 msgid "Remember file position also for audio files."
-msgstr "Merkt sich die Wiedergabeposition auch bei Audiodateien."
+msgstr "Sieht das Merken der Datei-Wiedergabeposition auch für Audiodateien vor."
 
 msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
 msgid "Do Nothing"

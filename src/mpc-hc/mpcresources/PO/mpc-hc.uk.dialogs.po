@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # arestarh1986 <arestarh@ukr.net>, 2014-2015
+# Денис <denyspokhylenko@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-17 20:47:27+0000\n"
-"PO-Revision-Date: 2015-06-03 07:21+0000\n"
+"POT-Creation-Date: 2015-08-06 16:05:43+0000\n"
+"PO-Revision-Date: 2015-09-05 08:50+0000\n"
 "Last-Translator: arestarh1986 <arestarh@ukr.net>\n"
-"Language-Team: Ukrainian (http://www.transifex.com/projects/p/mpc-hc/language/uk/)\n"
+"Language-Team: Ukrainian (http://www.transifex.com/mpc-hc/mpc-hc/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1206,7 +1207,7 @@ msgstr "Дозволити доступ лише з локального ком�
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK6"
 msgid "Enable preview"
-msgstr ""
+msgstr "Ввімкнути поперед. перегляд"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
 msgid "Print debug information"
@@ -1658,15 +1659,15 @@ msgstr "Типово"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
 msgid "Device"
-msgstr ""
+msgstr "Пристрій"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK1"
 msgid "Exclusive mode"
-msgstr ""
+msgstr "Ексклюзивний режим"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK2"
 msgid "Allow bitstreaming"
-msgstr ""
+msgstr "Дозволити Потоковий"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
 msgid "Options"

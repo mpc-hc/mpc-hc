@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-08-06 16:05:43+0000\n"
-"PO-Revision-Date: 2015-08-07 13:26+0000\n"
+"PO-Revision-Date: 2015-09-01 15:57+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/mpc-hc/mpc-hc/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -3288,7 +3288,7 @@ msgstr "MPC-HC v%s er nu tilgængelig. Du bruger v%s.\n\nØnsker du at besøge M
 
 msgctxt "IDS_UPDATE_ERROR"
 msgid "Update server not found.\n\nPlease check your internet connection or try again later."
-msgstr "Opdateringsserver ikke fundet.\n\nKontroller din internetforbindelse eller prøv igen senere."
+msgstr "Opdateringsserveren blev ikke fundet.\n\nTjek din internetforbindelse eller prøv igen senere."
 
 msgctxt "IDS_UPDATE_CLOSE"
 msgid "&Close"

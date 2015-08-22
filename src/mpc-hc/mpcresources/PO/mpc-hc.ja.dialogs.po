@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-08-06 16:05:43+0000\n"
-"PO-Revision-Date: 2015-08-08 02:16+0000\n"
+"PO-Revision-Date: 2015-09-10 15:58+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/mpc-hc/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -354,7 +354,7 @@ msgstr "常に既定の場所を開く:"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "Preferred language for DVD Navigator and the external OGM Splitter"
-msgstr "DVD ナビゲータと外部 OGM スプリッタでの優先言語"
+msgstr "DVD ナビゲータおよび外部 OGM スプリッタでの優先言語"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO3"
 msgid "Menu"
@@ -574,7 +574,7 @@ msgstr "字幕の配置を強制的に指定し、ビデオカードの設定で
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
 msgid "File extensions"
-msgstr "拡張子"
+msgstr "ファイル拡張子"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON2"
 msgid "Default"
@@ -618,7 +618,7 @@ msgstr "DirectShow"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK5"
 msgid "Check file extension first"
-msgstr "最初に拡張子を判別する"
+msgstr "最初にファイル拡張子を判別する"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Explorer Context Menu"
@@ -930,7 +930,7 @@ msgstr "ミリ秒"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_CHECK1"
 msgid "Save custom style"
-msgstr "ユーザー設定のスタイルを保存"
+msgstr "カスタム スタイルを保存する"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
@@ -1070,7 +1070,7 @@ msgstr "アルファ チャンネルを連動させる"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "If you would like to use the stand-alone versions of these filters or another replacement, disable them here."
-msgstr "スタンドアロン版や代替フィルタを使用する場合、該当する箇所を無効にしてください。"
+msgstr "スタンドアロン版や代替フィルタを使用したい場合、ここで該当する箇所を無効にしてください。"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Source Filters"
@@ -1126,7 +1126,7 @@ msgstr "オーディオ レンダラ"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
-msgstr "VMR-7/VMR-9 (レンダーレス) と EVR (カスタム プレゼンタ) の設定"
+msgstr "VMR-7/VMR-9 (レンダーレス) および EVR (カスタム プレゼンタ) の設定"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"
@@ -1534,7 +1534,7 @@ msgstr "埋め込まれた字幕ではなく外部字幕を優先する"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK3"
 msgid "Ignore embedded subtitles"
-msgstr "埋め込まれた字幕を読み込まない"
+msgstr "埋め込まれた字幕を無視する"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Autoload paths"
@@ -1722,7 +1722,7 @@ msgstr "申し訳ありません。 MPC-HC がクラッシュしました。"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_CHECK1"
 msgid "Send a bug report to help us diagnose and fix the problem."
-msgstr "問題を診断し、解決しやすくするためにバグ レポートを送信する。"
+msgstr "問題の診断と修正に役立てるためにバグ レポートを送信する。"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
 msgid "Optional information"

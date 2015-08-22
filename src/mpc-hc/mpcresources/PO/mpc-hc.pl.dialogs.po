@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # kasper93, 2013-2015
-# M T <michtrz@gmail.com>, 2014
+# M T <michtrz@gmail.com>, 2014-2015
 # Rafał Urbanek <urbis92@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-07-21 23:39:26+0000\n"
-"PO-Revision-Date: 2015-07-25 13:02+0000\n"
+"POT-Creation-Date: 2015-08-06 16:05:43+0000\n"
+"PO-Revision-Date: 2015-09-24 18:26+0000\n"
 "Last-Translator: kasper93\n"
-"Language-Team: Polish (http://www.transifex.com/projects/p/mpc-hc/language/pl/)\n"
+"Language-Team: Polish (http://www.transifex.com/mpc-hc/mpc-hc/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1208,7 +1208,7 @@ msgstr "Dostęp tylko z lokalnego komputera"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK6"
 msgid "Enable preview"
-msgstr ""
+msgstr "Włącz podgląd"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
 msgid "Print debug information"
@@ -1696,7 +1696,7 @@ msgstr "Poziom:"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
 msgid "Note"
-msgstr ""
+msgstr "Porada"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
 msgid "To minimize audio distortion, it is recommended to keep player volume at around 85% when playing loud lossy-encoded content."
