@@ -28,7 +28,7 @@ SET "MPCHC_MSYS=C:\MSYS"
 SET "MPCHC_MINGW32=%MPCHC_MSYS%\mingw"
 SET "MPCHC_MINGW64=%MPCHC_MINGW32%"
 REM Git is optional to set if you chose to add it in PATH when installing it
-SET "MPCHC_GIT=C:\Program Files (x86)\Git"
+SET "MPCHC_GIT=C:\Program Files\Git"
 REM Optional, if you plan to modify the translations, install Python 2.7 or set the variable to its path
 SET "MPCHC_PYTHON=C:\Python27"
 
@@ -36,7 +36,7 @@ SET "MPCHC_PYTHON=C:\Python27"
 Part C: Downloading and compiling the MPC-HC source
 
 1. Use Git to clone MPC-HC's repository to "C:\mpc-hc" (or anywhere else you like)
-    Download Git from http://msysgit.github.io/
+    Download Git from https://git-for-windows.github.io/
     Run:
       git clone --recursive https://github.com/mpc-hc/mpc-hc.git
 
