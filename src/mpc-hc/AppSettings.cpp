@@ -202,6 +202,7 @@ CAppSettings::CAppSettings()
     , bEnableCoverArt(true)
     , nCoverArtSizeLimit(600)
     , bEnableLogging(false)
+    , iLAVGPUDevice(DWORD_MAX)
 {
     // Internal source filter
 #if INTERNAL_SOURCEFILTER_CDDA
@@ -2082,6 +2083,8 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
                 nCLSwitches |= CLSW_MONITOROFF;
             } else if (sw == _T("playnext")) {
                 nCLSwitches |= CLSW_PLAYNEXT;
+            } else if (sw == _T("hwgpu")) {
+                iLAVGPUDevice = _tcstol(cmdln.GetNext(pos), nullptr, 10);
             } else {
                 nCLSwitches |= CLSW_HELP | CLSW_UNRECOGNIZEDSWITCH;
             }

@@ -684,6 +684,8 @@ public:
 
     CComPtr<SaneAudioRenderer::ISettings> sanear;
 
+    DWORD           iLAVGPUDevice;
+
 private:
     struct FilterKey {
         CString name;
