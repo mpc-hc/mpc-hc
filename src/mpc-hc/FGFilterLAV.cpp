@@ -801,6 +801,10 @@ bool CFGFilterLAVVideo::Settings::SetSettings(CComQIPtr<ILAVVideoSettings> pLAVF
         pLAVFSettingsMPCHCCustom->SetPropertyPageCallback(PropertyPageCallback);
     }
 
+    if (AfxGetAppSettings().iLAVGPUDevice != DWORD_MAX) {
+        pLAVFSettings->SetGPUDeviceIndex(AfxGetAppSettings().iLAVGPUDevice);
+    }
+
     return true;
 }
 
