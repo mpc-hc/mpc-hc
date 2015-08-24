@@ -3101,7 +3101,7 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
 {
     if (GetLoadState() == MLS::LOADING) {
         m_wndStatusBar.SetStatusMessage(ResStr(IDS_CONTROLS_OPENING));
-        if (AfxGetAppSettings().fUseWin7TaskBar && m_pTaskbarList) {
+        if (AfxGetAppSettings().bUseEnhancedTaskBar && m_pTaskbarList) {
             m_pTaskbarList->SetProgressState(m_hWnd, TBPF_INDETERMINATE);
         }
     } else if (GetLoadState() == MLS::LOADED) {
@@ -3214,7 +3214,7 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
         m_wndStatusBar.SetStatusMessage(UI_Text);
     } else if (GetLoadState() == MLS::CLOSING) {
         m_wndStatusBar.SetStatusMessage(ResStr(IDS_CONTROLS_CLOSING));
-        if (AfxGetAppSettings().fUseWin7TaskBar && m_pTaskbarList) {
+        if (AfxGetAppSettings().bUseEnhancedTaskBar && m_pTaskbarList) {
             m_pTaskbarList->SetProgressState(m_hWnd, TBPF_INDETERMINATE);
         }
     } else {
@@ -15872,7 +15872,7 @@ void CMainFrame::OnFileOpendirectory()
 
 HRESULT CMainFrame::CreateThumbnailToolbar()
 {
-    if (!AfxGetAppSettings().fUseWin7TaskBar || !SysVersion::Is7OrLater()) {
+    if (!AfxGetAppSettings().bUseEnhancedTaskBar || !SysVersion::Is7OrLater()) {
         return E_FAIL;
     }
 
@@ -15987,7 +15987,7 @@ HRESULT CMainFrame::UpdateThumbarButton(MPC_PLAYSTATE iPlayState)
 
     const CAppSettings& s = AfxGetAppSettings();
 
-    if (!s.fUseWin7TaskBar) {
+    if (!s.bUseEnhancedTaskBar) {
         m_pTaskbarList->SetOverlayIcon(m_hWnd, nullptr, L"");
         m_pTaskbarList->SetProgressState(m_hWnd, TBPF_NOPROGRESS);
 
@@ -16092,7 +16092,7 @@ HRESULT CMainFrame::UpdateThumbnailClip()
         r.OffsetRect(0, GetSystemMetrics(SM_CYMENU));
     }
 
-    if (!s.fUseWin7TaskBar || (GetLoadState() != MLS::LOADED) || m_fFullScreen || IsD3DFullScreenMode() || r.Width() <= 0 || r.Height() <= 0) {
+    if (!s.bUseEnhancedTaskBar || (GetLoadState() != MLS::LOADED) || m_fFullScreen || IsD3DFullScreenMode() || r.Width() <= 0 || r.Height() <= 0) {
         return m_pTaskbarList->SetThumbnailClip(m_hWnd, nullptr);
     }
 

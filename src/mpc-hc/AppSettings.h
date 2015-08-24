@@ -596,7 +596,7 @@ public:
     bool            fShowChapters;
     bool            bNotifySkype;
     bool            fPreventMinimize;
-    bool            fUseWin7TaskBar;
+    bool            bUseEnhancedTaskBar;
     bool            fLCDSupport;
     bool            fUseSearchInFolder;
     bool            fUseTimeTooltip;

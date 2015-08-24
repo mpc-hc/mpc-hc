@@ -200,7 +200,7 @@
 #define IDS_RS_ENABLEEDLEDITOR              _T("EnableEDLEditor")
 #define IDS_RS_FULLSCREENMONITOR            _T("FullScreenMonitor")
 #define IDS_RS_PREVENT_MINIMIZE             _T("PreventMinimize")
-#define IDS_RS_WIN7TASKBAR                  _T("UseWin7TaskBar")
+#define IDS_RS_ENHANCED_TASKBAR             _T("UseWin7TaskBar")
 #define IDS_RS_SEARCH_IN_FOLDER             _T("UseSearchInFolder")
 #define IDS_RS_USE_TIME_TOOLTIP             _T("UseTimeTooltip")
 #define IDS_RS_TIME_TOOLTIP_POSITION        _T("TimeTooltipPosition")
