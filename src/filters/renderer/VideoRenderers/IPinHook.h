@@ -76,8 +76,8 @@ extern bool HookNewSegmentAndReceive(IPinC* pPinC, IMemInputPinC* pMemInputPin);
 extern void UnhookNewSegmentAndReceive();
 extern REFERENCE_TIME g_tSegmentStart, g_tSampleStart, g_rtTimePerFrame;
 
-extern void HookWorkAroundVideoDriversBug(IBaseFilter* pBF);
-extern void UnhookWorkAroundVideoDriversBug();
+extern void HookWorkAround10BitBug(IBaseFilter* pBF);
+extern void UnhookWorkAround10BitBug();
 
 //
 

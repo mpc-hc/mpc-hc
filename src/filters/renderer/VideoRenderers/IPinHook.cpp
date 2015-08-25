@@ -29,6 +29,8 @@
 #include "IPinHook.h"
 #include "AllocatorCommon.h"
 
+#include "../../../mpc-hc/FGFilterLAV.h"
+
 #define DXVA_LOGFILE_A 0 // set to 1 for logging DXVA data to a file
 #define LOG_BITSTREAM  0 // set to 1 for logging DXVA bitstream data to a file
 #define LOG_MATRIX     0 // set to 1 for logging DXVA matrix data to a file
@@ -47,7 +49,7 @@ GUID g_guidDXVADecoder = GUID_NULL;
 int  g_nDXVAVersion = 0;
 
 IPinCVtbl* g_pPinCVtbl = nullptr;
-IPinCVtbl* g_pPinCVtblVideoDriverWorkAround = nullptr;
+IPinCVtbl* g_pPinCVtbl10BitWorkAround = nullptr;
 IMemInputPinCVtbl* g_pMemInputPinCVtbl = nullptr;
 
 struct D3DFORMAT_TYPE {
@@ -153,12 +155,15 @@ static HRESULT(STDMETHODCALLTYPE* ReceiveConnectionOrg)(IPinC* This, /* [in] */ 
 
 static HRESULT STDMETHODCALLTYPE ReceiveConnectionMine(IPinC* This, /* [in] */ IPinC* pConnector, /* [in] */ const AM_MEDIA_TYPE* pmt)
 {
-    // Force the renderer to always reject the P010 and P016 pixel formats
+    // Force-reject P010 and P016 pixel formats due to Microsoft bug ...
     if (pmt && (pmt->subtype == MEDIASUBTYPE_P010 || pmt->subtype == MEDIASUBTYPE_P016)) {
-        return VFW_E_TYPE_NOT_ACCEPTED;
-    } else {
-        return ReceiveConnectionOrg(This, pConnector, pmt);
+        // ... but allow LAV Video Decoder to do that itself in order to support 10bit DXVA.
+        if (GetCLSID((IPin*)pConnector) != GUID_LAVVideo) {
+            return VFW_E_TYPE_NOT_ACCEPTED;
+        }
     }
+
+    return ReceiveConnectionOrg(This, pConnector, pmt);
 }
 
 
@@ -184,15 +189,8 @@ static HRESULT STDMETHODCALLTYPE ReceiveMine(IMemInputPinC* This, IMediaSample* 
     return ReceiveMineI(This, pSample);
 }
 
-void HookWorkAroundVideoDriversBug(IBaseFilter* pBF)
+void HookWorkAround10BitBug(IBaseFilter* pBF)
 {
-    // Work-around a bug in some video drivers: some drivers mistakenly
-    // accepts P010 and P016 pixel formats as input for VMR/EVR renderers
-    // so use the pin hook to add our own level of verification.
-#if MPC_VERSION_MAJOR > 1 || MPC_VERSION_MINOR > 7 || MPC_VERSION_PATCH > 9
-#pragma message("WARNING: Check if this bug is fixed in currently distributed drivers")
-#endif
-
     if (CComPtr<IPin> pPin = GetFirstPin(pBF)) {
         IPinC* pPinC = (IPinC*)(IPin*)pPin;
 
@@ -204,7 +202,7 @@ void HookWorkAroundVideoDriversBug(IBaseFilter* pBF)
             pPinC->lpVtbl->ReceiveConnection = ReceiveConnectionMine;
             FlushInstructionCache(GetCurrentProcess(), pPinC->lpVtbl, sizeof(IPinCVtbl));
             VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
-            g_pPinCVtblVideoDriverWorkAround = pPinC->lpVtbl;
+            g_pPinCVtbl10BitWorkAround = pPinC->lpVtbl;
         } else {
             TRACE(_T("HookWorkAroundVideoDriversBug: Could not hook the VTable"));
             ASSERT(FALSE);
@@ -212,19 +210,19 @@ void HookWorkAroundVideoDriversBug(IBaseFilter* pBF)
     }
 }
 
-void UnhookWorkAroundVideoDriversBug()
+void UnhookWorkAround10BitBug()
 {
     // Unhook previous VTable
-    if (g_pPinCVtblVideoDriverWorkAround) {
+    if (g_pPinCVtbl10BitWorkAround) {
         DWORD flOldProtect = 0;
-        if (VirtualProtect(g_pPinCVtblVideoDriverWorkAround, sizeof(IPinCVtbl), PAGE_EXECUTE_WRITECOPY, &flOldProtect)) {
-            if (g_pPinCVtblVideoDriverWorkAround->ReceiveConnection == ReceiveConnectionMine) {
-                g_pPinCVtblVideoDriverWorkAround->ReceiveConnection = ReceiveConnectionOrg;
+        if (VirtualProtect(g_pPinCVtbl10BitWorkAround, sizeof(IPinCVtbl), PAGE_EXECUTE_WRITECOPY, &flOldProtect)) {
+            if (g_pPinCVtbl10BitWorkAround->ReceiveConnection == ReceiveConnectionMine) {
+                g_pPinCVtbl10BitWorkAround->ReceiveConnection = ReceiveConnectionOrg;
             }
             ReceiveConnectionOrg = nullptr;
-            FlushInstructionCache(GetCurrentProcess(), g_pPinCVtblVideoDriverWorkAround, sizeof(IPinCVtbl));
-            VirtualProtect(g_pPinCVtblVideoDriverWorkAround, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
-            g_pPinCVtblVideoDriverWorkAround = nullptr;
+            FlushInstructionCache(GetCurrentProcess(), g_pPinCVtbl10BitWorkAround, sizeof(IPinCVtbl));
+            VirtualProtect(g_pPinCVtbl10BitWorkAround, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
+            g_pPinCVtbl10BitWorkAround = nullptr;
         } else {
             TRACE(_T("UnhookWorkAroundVideoDriversBug: Could not unhook previous VTable"));
             ASSERT(FALSE);
