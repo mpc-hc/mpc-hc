@@ -39,6 +39,7 @@ next version - not released yet
 ! QuickTime: Fix a crash when using system default renderer
 ! Fix "snap to desktop edge" and "autofit zoom" on Windows 10
 ! Ticket #4086, Logitech LCD: Correctly initialize the volume at start-up
+! Ticket #5248, Adjust mouse behavior for Windows 10
 ! Ticket #5454, Deleting an item from the playlist sometimes did not work when shuffle mode was enabled
 ! Ticket #5464, If the main window was minimized while the D3D Fullscreen window was displayed on another screen,
   it was impossible to use the mouse buttons to play, pause, exit fullscreen, etc.

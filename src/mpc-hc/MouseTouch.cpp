@@ -1,5 +1,5 @@
 /*
- * (C) 2013-2014 see Authors.txt
+ * (C) 2013-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -635,15 +635,15 @@ void CMouseWnd::OnDestroy()
     CWnd::OnDestroy();
 }
 
-std::vector<CWnd*> CMainFrameMouseHook::GetRoots()
+std::unordered_set<const CWnd*> CMainFrameMouseHook::GetRoots()
 {
-    std::vector<CWnd*> ret;
-    ret.reserve(2);
-    CMainFrame* pMainFrame = AfxGetMainFrame();
+    std::unordered_set<const CWnd*> ret;
+    const CMainFrame* pMainFrame = AfxGetMainFrame();
+    ASSERT(pMainFrame);
     if (pMainFrame) {
-        ret.emplace_back(pMainFrame);
+        ret.emplace(pMainFrame);
         if (pMainFrame->IsD3DFullScreenMode()) {
-            ret.emplace_back(pMainFrame->m_pFullscreenWnd);
+            ret.emplace(pMainFrame->m_pFullscreenWnd);
         }
     }
     return ret;

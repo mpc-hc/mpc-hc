@@ -21,9 +21,10 @@
 #pragma once
 
 #include <map>
-#include <vector>
+#include <unordered_set>
 
 #include "EventDispatcher.h"
+#include "SysVersion.h"
 
 // TODO: handle touch gestures
 
@@ -169,45 +170,45 @@ private:
 template <class T>
 class CMouseWheelHook
 {
-    HHOOK m_hHook;
+    HHOOK m_hHook = NULL;
 
     static LRESULT CALLBACK MouseProc(int nCode, WPARAM wParam, LPARAM lParam) {
         if (nCode == HC_ACTION && wParam == WM_MOUSEWHEEL) {
             const auto& msex = *reinterpret_cast<MOUSEHOOKSTRUCTEX*>(lParam);
-            if (CWnd* pFocus = CWnd::FromHandlePermanent(msex.hwnd)) {
-                if (CWnd* pFocusRoot = pFocus->GetAncestor(GA_ROOT)) {
-                    for (CWnd* pRoot : T::GetRoots()) {
-                        ASSERT(pRoot);
-                        // only intercept messages to focused windows that have white-listed root windows
-                        if (pRoot && *pRoot == *pFocusRoot) {
-                            if (CWnd* pUnder = CWnd::WindowFromPoint(msex.pt)) {
-                                if (CWnd* pUnderRoot = pUnder->GetAncestor(GA_ROOT)) {
-                                    if (*pUnderRoot == *pFocusRoot &&
-                                            GetCurrentThreadId() == GetWindowThreadProcessId(pUnder->m_hWnd, nullptr)) {
-                                        // prepare MSG struct
-                                        MSG msg = {
-                                            pUnder->m_hWnd,
-                                            wParam,
-                                            CMouse::GetMouseFlags() | msex.mouseData,
-                                            MAKELPARAM(msex.pt.x, msex.pt.y),
-                                            GetMessageTime(),
-                                            msex.pt
-                                        };
+            if (const CWnd* pFocus = CWnd::FromHandlePermanent(msex.hwnd)) {
+                if (const CWnd* pFocusRoot = pFocus->GetAncestor(GA_ROOT)) {
+                    // only intercept messages to focused windows that have white-listed root windows
+                    if (T::GetRoots().count(pFocusRoot)) {
+                        if (const CWnd* pUnder = CWnd::WindowFromPoint(msex.pt)) {
+                            if (pFocusRoot == pUnder->GetAncestor(GA_ROOT) &&
+                                    GetCurrentThreadId() == GetWindowThreadProcessId(pUnder->m_hWnd, nullptr)) {
+                                MSG msg = {
+                                    NULL,
+                                    static_cast<UINT>(wParam),
+                                    CMouse::GetMouseFlags() | msex.mouseData,
+                                    MAKELPARAM(msex.pt.x, msex.pt.y),
+                                    GetMessageTime(),
+                                    msex.pt
+                                };
 
-                                        // walk through pre-translate
-                                        if (CWnd::WalkPreTranslateTree(pUnderRoot->m_hWnd, &msg)) {
-                                            // the message shouldn't be dispatched
-                                            return TRUE;
-                                        }
+                                for (const CWnd* pTarget : { pUnder, pFocusRoot }) {
+                                    msg.hwnd = pTarget->m_hWnd;
+                                    if (!msg.hwnd) {
+                                        ASSERT(FALSE);
+                                        continue;
+                                    }
 
-                                        // dispatch the message
-                                        if (msg.hwnd) {
-                                            DispatchMessage(&msg);
-                                        }
+                                    // walk through pre-translate
+                                    if (CWnd::WalkPreTranslateTree(pFocusRoot->m_hWnd, &msg)) {
+                                        // the message shouldn't be dispatched
+                                        continue;
+                                    }
+
+                                    if (DispatchMessage(&msg)) {
+                                        return TRUE;
                                     }
                                 }
                             }
-                            return TRUE;
                         }
                     }
                 }
@@ -218,8 +219,10 @@ class CMouseWheelHook
 
 public:
     CMouseWheelHook() {
-        m_hHook = SetWindowsHookEx(WH_MOUSE, MouseProc, nullptr, GetCurrentThreadId());
-        ASSERT(m_hHook);
+        if (SysVersion::Is10OrLater()) {
+            m_hHook = SetWindowsHookEx(WH_MOUSE, MouseProc, nullptr, GetCurrentThreadId());
+            ASSERT(m_hHook);
+        }
     }
 
     virtual ~CMouseWheelHook() {
@@ -230,5 +233,5 @@ public:
 };
 
 struct CMainFrameMouseHook : CMouseWheelHook<CMainFrameMouseHook> {
-    static std::vector<CWnd*> GetRoots();
+    static std::unordered_set<const CWnd*> GetRoots();
 };
