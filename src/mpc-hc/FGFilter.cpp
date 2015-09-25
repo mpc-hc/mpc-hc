@@ -481,10 +481,10 @@ HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnkno
             pConfig->SetNumberOfStreams(3);
 
             if (CComQIPtr<IMFGetService> pMFGS = pBF) {
-              CComPtr<IMFVideoDisplayControl> pMFVDC;
-              if (SUCCEEDED(pMFGS->GetService(MR_VIDEO_RENDER_SERVICE, IID_PPV_ARGS(&pMFVDC)))) {
-                pMFVDC->SetVideoWindow(m_hWnd);
-              }
+                CComPtr<IMFVideoDisplayControl> pMFVDC;
+                if (SUCCEEDED(pMFGS->GetService(MR_VIDEO_RENDER_SERVICE, IID_PPV_ARGS(&pMFVDC)))) {
+                    pMFVDC->SetVideoWindow(m_hWnd);
+                }
             }
         }
 
