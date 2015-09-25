@@ -210,7 +210,10 @@ STDMETHODIMP_(SIZE) CmadVRAllocatorPresenter::GetVideoSize(bool bCorrectAR) cons
 
 STDMETHODIMP_(bool) CmadVRAllocatorPresenter::Paint(bool bAll)
 {
-    return false; // TODO
+    if (CComQIPtr<IMadVRCommand> pMVRC = m_pDXR) {
+        return SUCCEEDED(pMVRC->SendCommand("redraw"));
+    }
+    return false;
 }
 
 STDMETHODIMP CmadVRAllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
