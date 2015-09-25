@@ -172,6 +172,7 @@ STDMETHODIMP CmadVRAllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
     m_pBV2 = m_pDXR;
     m_pMVRC = m_pDXR;
     m_pMVREPS = m_pDXR;
+    m_pMVRI = m_pDXR;
     m_pVW = m_pDXR;
 
     return S_OK;

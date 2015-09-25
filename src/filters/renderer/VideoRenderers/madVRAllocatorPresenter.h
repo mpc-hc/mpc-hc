@@ -78,6 +78,7 @@ namespace DSObjects
         CComQIPtr<IBasicVideo> m_pBV;
         CComQIPtr<IMadVRCommand> m_pMVRC;
         CComQIPtr<IMadVRExternalPixelShaders> m_pMVREPS;
+        CComQIPtr<IMadVRInfo> m_pMVRI;
         CComQIPtr<IVideoWindow> m_pVW;
 
         CSize m_ScreenSize;
@@ -106,7 +107,11 @@ namespace DSObjects
 
         // ISubPicAllocatorPresenter2
         STDMETHODIMP_(bool) IsRendering() {
-            return false; // For testing
+            int playbackState;
+            if (SUCCEEDED(m_pMVRI->GetInt("playbackState", &playbackState))) {
+                return playbackState == State_Running;
+            }
+            return false;
         }
     };
 }
