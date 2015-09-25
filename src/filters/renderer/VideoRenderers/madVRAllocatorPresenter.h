@@ -74,13 +74,6 @@ namespace DSObjects
 
         CComPtr<IUnknown> m_pDXR;
         CComPtr<ISubRenderCallback2> m_pSRCB;
-        CComQIPtr<IBasicVideo2> m_pBV2;
-        CComQIPtr<IBasicVideo> m_pBV;
-        CComQIPtr<IMadVRCommand> m_pMVRC;
-        CComQIPtr<IMadVRExternalPixelShaders> m_pMVREPS;
-        CComQIPtr<IMadVRInfo> m_pMVRI;
-        CComQIPtr<IVideoWindow> m_pVW;
-
         CSize m_ScreenSize;
         bool  m_bIsFullscreen;
 
@@ -107,9 +100,11 @@ namespace DSObjects
 
         // ISubPicAllocatorPresenter2
         STDMETHODIMP_(bool) IsRendering() {
-            int playbackState;
-            if (SUCCEEDED(m_pMVRI->GetInt("playbackState", &playbackState))) {
-                return playbackState == State_Running;
+            if (CComQIPtr<IMadVRInfo> pMVRI = m_pDXR) {
+                int playbackState;
+                if (SUCCEEDED(pMVRI->GetInt("playbackState", &playbackState))) {
+                    return playbackState == State_Running;
+                }
             }
             return false;
         }
