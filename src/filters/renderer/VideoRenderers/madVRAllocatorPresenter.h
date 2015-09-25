@@ -22,6 +22,7 @@
 
 #include "../SubPic/SubPicAllocatorPresenterImpl.h"
 #include "../SubPic/ISubRender.h"
+#include <mvrInterfaces.h>
 
 namespace DSObjects
 {
@@ -73,6 +74,12 @@ namespace DSObjects
 
         CComPtr<IUnknown> m_pDXR;
         CComPtr<ISubRenderCallback2> m_pSRCB;
+        CComQIPtr<IBasicVideo2> m_pBV2;
+        CComQIPtr<IBasicVideo> m_pBV;
+        CComQIPtr<IMadVRCommand> m_pMVRC;
+        CComQIPtr<IMadVRExternalPixelShaders> m_pMVREPS;
+        CComQIPtr<IVideoWindow> m_pVW;
+
         CSize m_ScreenSize;
         bool  m_bIsFullscreen;
 

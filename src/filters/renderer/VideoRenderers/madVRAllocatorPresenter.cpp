@@ -23,13 +23,8 @@
 #include "../../../SubPic/DX9SubPic.h"
 #include "../../../SubPic/SubPicQueueImpl.h"
 #include "RenderersSettings.h"
-#include <mvrInterfaces.h>
-
 
 using namespace DSObjects;
-
-#define ShaderStage_PreScale 0
-#define ShaderStage_PostScale 1
 
 extern bool g_bExternalSubtitleTime;
 
@@ -168,24 +163,29 @@ STDMETHODIMP CmadVRAllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 
     (*ppRenderer = (IUnknown*)(INonDelegatingUnknown*)(this))->AddRef();
 
-    MONITORINFO mi;
-    mi.cbSize = sizeof(MONITORINFO);
+    MONITORINFO mi = { sizeof(MONITORINFO) };
     if (GetMonitorInfo(MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST), &mi)) {
         m_ScreenSize.SetSize(mi.rcMonitor.right - mi.rcMonitor.left, mi.rcMonitor.bottom - mi.rcMonitor.top);
     }
+
+    m_pBV = m_pDXR;
+    m_pBV2 = m_pDXR;
+    m_pMVRC = m_pDXR;
+    m_pMVREPS = m_pDXR;
+    m_pVW = m_pDXR;
 
     return S_OK;
 }
 
 STDMETHODIMP_(void) CmadVRAllocatorPresenter::SetPosition(RECT w, RECT v)
 {
-    if (CComQIPtr<IBasicVideo> pBV = m_pDXR) {
-        pBV->SetDefaultSourcePosition();
-        pBV->SetDestinationPosition(v.left, v.top, v.right - v.left, v.bottom - v.top);
+    if (m_pBV) {
+        m_pBV->SetDefaultSourcePosition();
+        m_pBV->SetDestinationPosition(v.left, v.top, v.right - v.left, v.bottom - v.top);
     }
 
-    if (CComQIPtr<IVideoWindow> pVW = m_pDXR) {
-        pVW->SetWindowPosition(w.left, w.top, w.right - w.left, w.bottom - w.top);
+    if (m_pVW) {
+        m_pVW->SetWindowPosition(w.left, w.top, w.right - w.left, w.bottom - w.top);
     }
 
     SetVideoSize(GetVideoSize(), GetVideoSize(true));
@@ -196,22 +196,22 @@ STDMETHODIMP_(SIZE) CmadVRAllocatorPresenter::GetVideoSize(bool bCorrectAR) cons
     SIZE size = {0, 0};
 
     if (!bCorrectAR) {
-        if (CComQIPtr<IBasicVideo> pBV = m_pDXR) {
-            pBV->GetVideoSize(&size.cx, &size.cy);
+        if (m_pBV) {
+            m_pBV->GetVideoSize(&size.cx, &size.cy);
         }
     } else {
-        if (CComQIPtr<IBasicVideo2> pBV2 = m_pDXR) {
-            pBV2->GetPreferredAspectRatio(&size.cx, &size.cy);
+        if (m_pBV2) {
+            m_pBV2->GetPreferredAspectRatio(&size.cx, &size.cy);
         }
     }
 
     return size;
 }
 
-STDMETHODIMP_(bool) CmadVRAllocatorPresenter::Paint(bool bAll)
+STDMETHODIMP_(bool) CmadVRAllocatorPresenter::Paint(bool /*bAll*/)
 {
-    if (CComQIPtr<IMadVRCommand> pMVRC = m_pDXR) {
-        return SUCCEEDED(pMVRC->SendCommand("redraw"));
+    if (m_pMVRC) {
+        return SUCCEEDED(m_pMVRC->SendCommand("redraw"));
     }
     return false;
 }
@@ -219,8 +219,8 @@ STDMETHODIMP_(bool) CmadVRAllocatorPresenter::Paint(bool bAll)
 STDMETHODIMP CmadVRAllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
 {
     HRESULT hr = E_NOTIMPL;
-    if (CComQIPtr<IBasicVideo> pBV = m_pDXR) {
-        hr = pBV->GetCurrentImage((long*)size, (long*)lpDib);
+    if (m_pBV) {
+        hr = m_pBV->GetCurrentImage((long*)size, (long*)lpDib);
     }
     return hr;
 }
@@ -233,11 +233,11 @@ STDMETHODIMP CmadVRAllocatorPresenter::SetPixelShader(LPCSTR pSrcData, LPCSTR pT
 STDMETHODIMP CmadVRAllocatorPresenter::SetPixelShader2(LPCSTR pSrcData, LPCSTR pTarget, bool bScreenSpace)
 {
     HRESULT hr = E_NOTIMPL;
-    if (CComQIPtr<IMadVRExternalPixelShaders> pEPS = m_pDXR) {
+    if (m_pMVREPS) {
         if (!pSrcData && !pTarget) {
-            hr = pEPS->ClearPixelShaders(bScreenSpace ? ShaderStage_PostScale : ShaderStage_PreScale);
+            hr = m_pMVREPS->ClearPixelShaders(bScreenSpace ? ShaderStage_PostScale : ShaderStage_PreScale);
         } else {
-            hr = pEPS->AddPixelShader(pSrcData, pTarget, bScreenSpace ? ShaderStage_PostScale : ShaderStage_PreScale, nullptr);
+            hr = m_pMVREPS->AddPixelShader(pSrcData, pTarget, bScreenSpace ? ShaderStage_PostScale : ShaderStage_PreScale, nullptr);
         }
     }
     return hr;
