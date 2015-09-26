@@ -28,7 +28,6 @@ namespace DSObjects
     class CmadVRAllocatorPresenter : public CSubPicAllocatorPresenterImpl, ISubRenderCallback2
     {
         CComPtr<IUnknown> m_pMVR;
-        CSize m_ScreenSize;
 
     public:
         CmadVRAllocatorPresenter(HWND hWnd, HRESULT& hr, CString& _Error);

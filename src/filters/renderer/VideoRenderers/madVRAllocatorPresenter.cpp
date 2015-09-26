@@ -71,8 +71,14 @@ HRESULT CmadVRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
         return S_OK;
     }
 
+    CSize screenSize;
+    MONITORINFO mi = { sizeof(MONITORINFO) };
+    if (GetMonitorInfo(MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST), &mi)) {
+        screenSize.SetSize(mi.rcMonitor.right - mi.rcMonitor.left, mi.rcMonitor.bottom - mi.rcMonitor.top);
+    }
+
     const CRenderersSettings& r = GetRenderersSettings();
-    InitMaxSubtitleTextureSize(r.subPicQueueSettings.nMaxRes, m_ScreenSize);
+    InitMaxSubtitleTextureSize(r.subPicQueueSettings.nMaxRes, screenSize);
 
     if (m_pAllocator) {
         m_pAllocator->ChangeDevice(pD3DDev);
@@ -132,11 +138,6 @@ STDMETHODIMP CmadVRAllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
     }
 
     (*ppRenderer = (IUnknown*)(INonDelegatingUnknown*)(this))->AddRef();
-
-    MONITORINFO mi = { sizeof(MONITORINFO) };
-    if (GetMonitorInfo(MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST), &mi)) {
-        m_ScreenSize.SetSize(mi.rcMonitor.right - mi.rcMonitor.left, mi.rcMonitor.bottom - mi.rcMonitor.top);
-    }
 
     return S_OK;
 }
