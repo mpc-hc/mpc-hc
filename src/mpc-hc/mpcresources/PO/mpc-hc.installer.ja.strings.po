@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-07-20 20:29:41+0000\n"
-"PO-Revision-Date: 2015-08-17 01:23+0000\n"
+"PO-Revision-Date: 2015-09-26 22:46+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/mpc-hc/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -46,7 +46,7 @@ msgstr "このバージョンの MPC-HC には CPU の SSE2 拡張サポート�
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
-msgstr "Wiki ページに移動してツールバーの画像をダウンロードする"
+msgstr "Wiki ページに移動してツール バーの画像をダウンロードする"
 
 msgctxt "CustomMessages_tsk_AllUsers"
 msgid "For all users"

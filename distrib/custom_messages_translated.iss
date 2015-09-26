@@ -577,7 +577,7 @@ ja.msg_simd_sse=このバージョンの MPC-HC には CPU の SSE 拡張サポ�
 #elif defined(sse2_required)
 ja.msg_simd_sse2=このバージョンの MPC-HC には CPU の SSE2 拡張サポートが必要です。%n%nご使用の CPU はこれらの機能を満たしていません。
 #endif
-ja.run_DownloadToolbarImages=Wiki ページに移動してツールバーの画像をダウンロードする
+ja.run_DownloadToolbarImages=Wiki ページに移動してツール バーの画像をダウンロードする
 ja.tsk_AllUsers=すべてのユーザーにインストールする
 ja.tsk_CurrentUser=現在実行しているユーザーにのみインストールする
 ja.tsk_Other=他のタスク:
