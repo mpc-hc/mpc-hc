@@ -9223,24 +9223,25 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
         windowSize.cy = windowRect.Height() - clientRect.Height() + logoSize.cy + uTop + uBottom;
     }
 
+    CMonitors monitors;
+    CMonitor monitor;
+    if (iMonitor > 0 && iMonitor <= monitors.GetCount()) {
+        monitor = monitors.GetMonitor(iMonitor - 1);
+    } else {
+        monitor = CMonitors::GetNearestMonitor(this);
+    }
+
     bool bRestoredWindowPosition = false;
     if (s.fRememberWindowPos) {
         CRect windowRect(rcLastWindowPos.TopLeft(), windowSize);
-        if (CMonitors::IsOnScreen(windowRect)) {
+        if ((!iMonitor && CMonitors::IsOnScreen(windowRect))
+                || (iMonitor && monitor.IsOnMonitor(windowRect))) {
             MoveWindow(windowRect);
             bRestoredWindowPosition = true;
         }
     }
 
     if (!bRestoredWindowPosition) {
-        CMonitors monitors;
-        CMonitor monitor;
-        if (iMonitor > 0 && iMonitor <= monitors.GetCount()) {
-            monitor = monitors.GetMonitor(--iMonitor);
-        } else {
-            monitor = CMonitors::GetNearestMonitor(this);
-        }
-
         MINMAXINFO mmi;
         OnGetMinMaxInfo(&mmi);
         CRect windowRect(0, 0, std::max(windowSize.cx, mmi.ptMinTrackSize.x), std::max(windowSize.cy, mmi.ptMinTrackSize.y));

@@ -39,6 +39,7 @@ next version - not released yet
 ! Fix a rare crash when exiting DVB mode
 ! QuickTime: Fix a crash when using system default renderer
 ! Fix "snap to desktop edge" and "autofit zoom" on Windows 10
+! Fix reliability and stability of the D3D Fullscreen mode
 ! Ticket #4086, Logitech LCD: Correctly initialize the volume at start-up
 ! Ticket #5248, Adjust mouse behavior for Windows 10
 ! Ticket #5454, Deleting an item from the playlist sometimes did not work when shuffle mode was enabled
@@ -48,4 +49,4 @@ next version - not released yet
 ! Ticket #5496, Subtitle downloader dialog: the preferred languages were sometimes not displayed first
 ! Ticket #5515, Blu-ray (PGS) subtitles were sometimes not displayed
 ! Ticket #5519, SRT subtitles: Support parsing files with negative timecodes
-! Fix reliability and stability of the D3D Fullscreen mode
+! Ticket #5573, /monitor command line was ignored when remember window position was enabled
