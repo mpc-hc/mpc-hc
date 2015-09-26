@@ -50,3 +50,5 @@ next version - not released yet
 ! Ticket #5515, Blu-ray (PGS) subtitles were sometimes not displayed
 ! Ticket #5519, SRT subtitles: Support parsing files with negative timecodes
 ! Ticket #5573, /monitor command line was ignored when remember window position was enabled
+! Ticket #5573, The window could return to the wrong monitor when started fullscreen using the command line
+  `/monitor N /fullscreen` if "remember window size" was enabled and "remember window position" was disabled
