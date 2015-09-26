@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2013, 2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -32,7 +32,7 @@ public IUnknown {
     // destination video rectangle, will be inside (0, 0)-(width, height)
     // width,height is the size of the entire output window
     STDMETHOD(Render)(REFERENCE_TIME rtStart,
-    int left, int top, int bottom, int right,
+    int left, int top, int right, int bottom,
     int width, int height) PURE;
 };
 
