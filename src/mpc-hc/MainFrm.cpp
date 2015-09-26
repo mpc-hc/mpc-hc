@@ -5244,13 +5244,14 @@ void CMainFrame::OnFileSavesubtitle()
             return;
         }
 
-        CPath suggestedFileName(GetFileName());
-        suggestedFileName.RemoveExtension(); // exclude the extension, it will be auto-completed
+        // exclude the extension, it will be auto-completed
+        CString suggestedFileName(PathUtils::FileName(GetFileName()));
 
         // Try to detect the directory of the current playlist item, and prepend it if it's valid
         CPath path(m_wndPlaylistBar.GetCurFileName());
-        if (path.RemoveFileSpec() && path.IsDirectory() && path.Append(suggestedFileName)) {
-            suggestedFileName = path;
+        if (path.RemoveFileSpec() && path.IsDirectory()) {
+            path.AddBackslash();
+            suggestedFileName = CString(path) + suggestedFileName;
         }
 
         if (clsid == __uuidof(CVobSubFile)) {

@@ -44,6 +44,7 @@ next version - not released yet
 ! Ticket #5454, Deleting an item from the playlist sometimes did not work when shuffle mode was enabled
 ! Ticket #5464, If the main window was minimized while the D3D Fullscreen window was displayed on another screen,
   it was impossible to use the mouse buttons to play, pause, exit fullscreen, etc.
+! Ticket #5488, Suggested filename was wrong when saving subtitles in specific cases
 ! Ticket #5496, Subtitle downloader dialog: the preferred languages were sometimes not displayed first
 ! Ticket #5515, Blu-ray (PGS) subtitles were sometimes not displayed
 ! Ticket #5519, SRT subtitles: Support parsing files with negative timecodes
