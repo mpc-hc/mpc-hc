@@ -337,6 +337,9 @@ BOOL CPPageExternalFilters::OnInitDialog()
 {
     __super::OnInitDialog();
 
+    // Initialize item height to the minimum possible value.
+    m_filters.SetItemHeight(0, 0);
+
     m_dropTarget.Register(this);
 
     const CAppSettings& s = AfxGetAppSettings();
