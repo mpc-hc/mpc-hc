@@ -859,6 +859,11 @@
     </ProjectReference>
     <ProjectReference Include="CrashReporterDialog\CrashReporterDialog.vcxproj">
       <Project>{5db958dd-8b25-45ef-8072-3356caf8ccd7}</Project>
+      <Private>false</Private>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
