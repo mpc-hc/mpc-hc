@@ -25,7 +25,7 @@
 
 namespace DSObjects
 {
-    class CmadVRAllocatorPresenter : public CSubPicAllocatorPresenterImpl, ISubRenderCallback2
+    class CmadVRAllocatorPresenter : public CSubPicAllocatorPresenterImpl, ISubRenderCallback3
     {
         CComPtr<IUnknown> m_pMVR;
 
@@ -45,7 +45,16 @@ namespace DSObjects
 
         // ISubRenderCallback2
         STDMETHODIMP RenderEx(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, REFERENCE_TIME atpf,
-                              int left, int top, int right, int bottom, int width, int height) override;
+                              int left, int top, int right, int bottom, int width, int height) override {
+            return RenderEx2(rtStart, rtStop, atpf, { left, top, right, bottom },
+            { left, top, right, bottom }, { 0, 0, width, height });
+        };
+
+        // ISubRenderCallback3
+        STDMETHODIMP RenderEx2(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop,
+                               REFERENCE_TIME atpf, RECT croppedVideoRect,
+                               RECT originalVideoRect, RECT viewportRect,
+                               const double videoStretchFactor = 1.0) override;
 
         // ISubPicAllocatorPresenter
         STDMETHODIMP CreateRenderer(IUnknown** ppRenderer) override;

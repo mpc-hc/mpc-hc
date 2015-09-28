@@ -57,7 +57,10 @@ STDMETHODIMP CmadVRAllocatorPresenter::NonDelegatingQueryInterface(REFIID riid, 
         }
     }
 
-    return __super::NonDelegatingQueryInterface(riid, ppv);
+    return QI(ISubRenderCallback)
+           QI(ISubRenderCallback2)
+           QI(ISubRenderCallback3)
+           __super::NonDelegatingQueryInterface(riid, ppv);
 }
 
 // ISubRenderCallback
@@ -105,12 +108,15 @@ HRESULT CmadVRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
 
 // ISubRenderCallback2
 
-HRESULT CmadVRAllocatorPresenter::RenderEx(REFERENCE_TIME rtStart, REFERENCE_TIME /*rtStop*/, REFERENCE_TIME atpf,
-                                           int left, int top, int right, int bottom, int width, int height)
+HRESULT CmadVRAllocatorPresenter::RenderEx2(REFERENCE_TIME rtStart,
+                                            REFERENCE_TIME /*rtStop*/,
+                                            REFERENCE_TIME atpf,
+                                            RECT croppedVideoRect,
+                                            RECT /*originalVideoRect*/,
+                                            RECT viewportRect,
+                                            const double /*videoStretchFactor*/)
 {
-    CRect wndRect(0, 0, width, height);
-    CRect videoRect(left, top, right, bottom);
-    __super::SetPosition(wndRect, videoRect);
+    __super::SetPosition(viewportRect, croppedVideoRect);
     if (!g_bExternalSubtitleTime) {
         SetTime(rtStart);
     }
@@ -118,7 +124,7 @@ HRESULT CmadVRAllocatorPresenter::RenderEx(REFERENCE_TIME rtStart, REFERENCE_TIM
         m_fps = 10000000.0 / atpf;
         m_pSubPicQueue->SetFPS(m_fps);
     }
-    AlphaBltSubPic(wndRect, videoRect);
+    AlphaBltSubPic(viewportRect, croppedVideoRect);
     return S_OK;
 }
 
