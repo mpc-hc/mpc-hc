@@ -781,7 +781,6 @@ CMainFrame::CMainFrame()
     , m_bShowingFloatingMenubar(false)
     , m_bAllowWindowZoom(false)
     , m_dLastVideoScaleFactor(0)
-    , m_nLastVideoWidth(0)
     , m_bExtOnTop(false)
     , m_bIsBDPlay(false)
 {
@@ -2662,8 +2661,9 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                     if (!m_fAudioOnly && !m_bAllowWindowZoom) {
                         videoSize = GetVideoSize();
                     }
-                    if (videoSize.cx) {
-                        ZoomVideoWindow(m_dLastVideoScaleFactor * m_nLastVideoWidth / videoSize.cx);
+                    if (videoSize.cx && videoSize.cy) {
+                        ZoomVideoWindow(m_dLastVideoScaleFactor * std::sqrt(((double)m_lastVideoSize.cx * m_lastVideoSize.cy)
+                                                                            / ((double)videoSize.cx * videoSize.cy)));
                     } else {
                         ZoomVideoWindow();
                     }
@@ -9791,7 +9791,7 @@ void CMainFrame::AutoChangeMonitorMode()
 void CMainFrame::MoveVideoWindow(bool fShowStats/* = false*/, bool bSetStoppedVideoRect/* = false*/)
 {
     m_dLastVideoScaleFactor = 0;
-    m_nLastVideoWidth = 0;
+    m_lastVideoSize.SetSize(0, 0);
 
     if (!m_bDelaySetOutputRect && GetLoadState() == MLS::LOADED && !m_fAudioOnly && IsWindowVisible()) {
         CRect windowRect(0, 0, 0, 0);
@@ -9825,7 +9825,7 @@ void CMainFrame::MoveVideoWindow(bool fShowStats/* = false*/, bool bSetStoppedVi
 
             m_dLastVideoScaleFactor = std::min((double)windowRect.Size().cx / szVideo.cx,
                                                (double)windowRect.Size().cy / szVideo.cy);
-            m_nLastVideoWidth = szVideo.cx;
+            m_lastVideoSize = szVideo;
 
             const double dVideoAR = double(szVideo.cx) / szVideo.cy;
 
