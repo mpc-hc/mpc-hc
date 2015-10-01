@@ -9829,19 +9829,18 @@ void CMainFrame::MoveVideoWindow(bool fShowStats/* = false*/, bool bSetStoppedVi
 
             const double dVideoAR = double(szVideo.cx) / szVideo.cy;
 
-            dvstype iDefaultVideoSize = static_cast<dvstype>(AfxGetAppSettings().iDefaultVideoSize);
+            // because we don't have a way to get .swf size reliably,
+            // other modes don't make sense
+            const dvstype iDefaultVideoSize = m_fShockwaveGraph ? DVS_STRETCH :
+                                              static_cast<dvstype>(AfxGetAppSettings().iDefaultVideoSize);
 
-            if (m_fShockwaveGraph) {
-                // because we don't have a way to get .swf size reliably,
-                // other modes don't make sense
-                iDefaultVideoSize = DVS_STRETCH;
-            }
-
-            double dWRWidth  = windowRect.Width();
-            double dWRHeight = windowRect.Height();
+            const double dWRWidth  = windowRect.Width();
+            const double dWRHeight = windowRect.Height();
 
             double dVRWidth = dWRHeight * dVideoAR;
             double dVRHeight;
+
+            double madVRZoomFactor = 1.0;
 
             switch (iDefaultVideoSize) {
                 case DVS_HALF:
@@ -9865,7 +9864,7 @@ void CMainFrame::MoveVideoWindow(bool fShowStats/* = false*/, bool bSetStoppedVi
                 // Fallback to "Touch Window From Inside" if settings were corrupted.
                 case DVS_FROMINSIDE:
                 case DVS_FROMOUTSIDE:
-                    if ((windowRect.Width() < dVRWidth) != (iDefaultVideoSize == DVS_FROMOUTSIDE)) {
+                    if ((dWRWidth < dVRWidth) != (iDefaultVideoSize == DVS_FROMOUTSIDE)) {
                         dVRWidth = dWRWidth;
                         dVRHeight = dVRWidth / dVideoAR;
                     } else {
@@ -9874,11 +9873,11 @@ void CMainFrame::MoveVideoWindow(bool fShowStats/* = false*/, bool bSetStoppedVi
                     break;
                 case DVS_ZOOM1:
                 case DVS_ZOOM2: {
-                    double minw = dWRWidth < dVRWidth ? dWRWidth : dVRWidth;
-                    double maxw = dWRWidth > dVRWidth ? dWRWidth : dVRWidth;
-
                     double scale = iDefaultVideoSize == DVS_ZOOM1 ? 1.0 / 3.0 : 2.0 / 3.0;
-                    dVRWidth = minw + (maxw - minw) * scale;
+                    double minw = std::min(dWRWidth, dVRWidth);
+                    double zoomValue = (std::max(dWRWidth, dVRWidth) - minw) * scale;
+                    madVRZoomFactor = (minw + zoomValue) / minw;
+                    dVRWidth = minw + zoomValue;
                     dVRHeight = dVRWidth / dVideoAR;
                     break;
                 }
@@ -9899,11 +9898,32 @@ void CMainFrame::MoveVideoWindow(bool fShowStats/* = false*/, bool bSetStoppedVi
             ASSERT(videoRect.Width()  == lround(dScaledVRWidth));
             ASSERT(videoRect.Height() == lround(dScaledVRHeight));
 
+            if (m_pMVRC) {
+                static const std::map<const dvstype, const LPWSTR> madVRModesMap = {
+                    { DVS_HALF,        L"50%"          },
+                    { DVS_NORMAL,      L"100%"         },
+                    { DVS_DOUBLE,      L"200%"         },
+                    { DVS_STRETCH,     L"stretch"      },
+                    { DVS_FROMINSIDE,  L"touchInside"  },
+                    { DVS_FROMOUTSIDE, L"touchOutside" },
+                    { DVS_ZOOM1,       L"touchInside"  },
+                    { DVS_ZOOM2,       L"touchInside"  }
+                };
+
+                m_pMVRC->SendCommandString("setZoomMode", madVRModesMap.at(iDefaultVideoSize));
+                m_pMVRC->SendCommandDouble("setZoomFactorX", madVRZoomFactor * m_ZoomX);
+                m_pMVRC->SendCommandDouble("setZoomFactorY", madVRZoomFactor * m_ZoomY);
+                m_pMVRC->SendCommandDouble("setZoomOffsetX", 2 * m_PosX - 1.0);
+                m_pMVRC->SendCommandDouble("setZoomOffsetY", 2 * m_PosY - 1.0);
+            }
+
             if (fShowStats) {
                 CString info;
                 info.Format(_T("Pos %.3f %.3f, Zoom %.3f %.3f, AR %.3f"), m_PosX, m_PosY, m_ZoomX, m_ZoomY, double(videoRect.Width()) / videoRect.Height());
                 SendStatusMessage(info, 3000);
             }
+        } else if (m_pMVRC) {
+            m_pMVRC->SendCommandString("setZoomMode", L"autoDetect");
         }
 
         windowRect.top -= nCompensateForMenubar;
@@ -9914,11 +9934,10 @@ void CMainFrame::MoveVideoWindow(bool fShowStats/* = false*/, bool bSetStoppedVi
             Vector v(Vector::DegToRad(m_AngleX), Vector::DegToRad(m_AngleY), Vector::DegToRad(m_AngleZ));
             m_pCAP->SetVideoAngle(v);
             UpdateSubAspectRatioCompensation();
-        } else {
-            HRESULT hr;
-            hr = m_pBV->SetDefaultSourcePosition();
-            hr = m_pBV->SetDestinationPosition(videoRect.left, videoRect.top, videoRect.Width(), videoRect.Height());
-            hr = m_pVW->SetWindowPosition(windowRect.left, windowRect.top, windowRect.Width(), windowRect.Height());
+        } else  {
+            m_pBV->SetDefaultSourcePosition();
+            m_pBV->SetDestinationPosition(videoRect.left, videoRect.top, videoRect.Width(), videoRect.Height());
+            m_pVW->SetWindowPosition(windowRect.left, windowRect.top, windowRect.Width(), windowRect.Height());
 
             if (m_pMFVDC) {
                 m_pMFVDC->SetVideoPosition(nullptr, &windowRect);
@@ -11868,8 +11887,9 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         m_pGB->FindInterface(IID_PPV_ARGS(&m_pVMRMC), TRUE);
         m_pGB->FindInterface(IID_PPV_ARGS(&pVMB), TRUE);
         m_pGB->FindInterface(IID_PPV_ARGS(&pMFVMB), TRUE);
-        m_pMVRSR = m_pCAP;
+        m_pMVRC = m_pCAP;
         m_pMVRS = m_pCAP;
+        m_pMVRSR = m_pCAP;
         pMVTO = m_pCAP;
 
         if (s.fShowOSD || s.fShowDebugInfo) { // Force OSD on when the debug switch is used
@@ -12038,8 +12058,9 @@ void CMainFrame::CloseMediaPrivate()
 
     // IMPORTANT: IVMRSurfaceAllocatorNotify/IVMRSurfaceAllocatorNotify9 has to be released before the VMR/VMR9, otherwise it will crash in Release()
     m_OSD.Stop();
-    m_pMVRS.Release();
     m_pMVRSR.Release();
+    m_pMVRS.Release();
+    m_pMVRC.Release();
     m_pCAP2.Release();
     m_pCAP.Release();
     m_pVMRWC.Release();
