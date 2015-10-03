@@ -168,9 +168,12 @@ STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetPosition(RECT w, RECT v)
 
     m_windowRect = w;
 
-    bool bVideoRectChanged = !!(m_videoRect != v);
+    CRect videoRect(v);
+    videoRect.OffsetRect(-m_windowRect.TopLeft());
 
-    m_videoRect = v;
+    bool bVideoRectChanged = !!(m_videoRect != videoRect);
+
+    m_videoRect = videoRect;
 
     if (bWindowSizeChanged || bVideoRectChanged) {
         if (m_pAllocator) {
