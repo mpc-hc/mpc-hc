@@ -106,7 +106,7 @@ HRESULT CmadVRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
     return hr;
 }
 
-// ISubRenderCallback2
+// ISubRenderCallback3
 
 HRESULT CmadVRAllocatorPresenter::RenderEx2(REFERENCE_TIME rtStart,
                                             REFERENCE_TIME /*rtStop*/,
@@ -114,7 +114,7 @@ HRESULT CmadVRAllocatorPresenter::RenderEx2(REFERENCE_TIME rtStart,
                                             RECT croppedVideoRect,
                                             RECT /*originalVideoRect*/,
                                             RECT viewportRect,
-                                            const double /*videoStretchFactor*/)
+                                            const double videoStretchFactor)
 {
     __super::SetPosition(viewportRect, croppedVideoRect);
     if (!g_bExternalSubtitleTime) {
@@ -124,7 +124,7 @@ HRESULT CmadVRAllocatorPresenter::RenderEx2(REFERENCE_TIME rtStart,
         m_fps = 10000000.0 / atpf;
         m_pSubPicQueue->SetFPS(m_fps);
     }
-    AlphaBltSubPic(viewportRect, croppedVideoRect);
+    AlphaBltSubPic(viewportRect, croppedVideoRect, nullptr, videoStretchFactor);
     return S_OK;
 }
 

@@ -66,7 +66,10 @@ protected:
     SubtitleTextureLimit m_SubtitleTextureLimit;
     void InitMaxSubtitleTextureSize(int maxSize, CSize desktopSize);
 
-    void AlphaBltSubPic(const CRect& windowRect, const CRect& videoRect, SubPicDesc* pTarget = nullptr);
+    void AlphaBltSubPic(const CRect& windowRect,
+                        const CRect& videoRect,
+                        SubPicDesc* pTarget = nullptr,
+                        const double videoStretchFactor = 1.0);
 
     XForm m_xform;
     void Transform(CRect r, Vector v[4]);

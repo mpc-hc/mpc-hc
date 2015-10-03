@@ -59,7 +59,7 @@ enum RelativeTo {
 // ISubPic
 //
 
-interface __declspec(uuid("449E11F3-52D1-4a27-AA61-E2733AC92CC0"))
+interface __declspec(uuid("DA3A5B51-958C-4C28-BF66-68D7947577A2"))
 ISubPic :
 public IUnknown {
     static const REFERENCE_TIME INVALID_TIME = -1;
@@ -85,7 +85,9 @@ public IUnknown {
     STDMETHOD(Unlock)(RECT* pDirtyRect /*[in]*/) PURE;
 
     STDMETHOD(AlphaBlt)(RECT * pSrc, RECT * pDst, SubPicDesc* pTarget = nullptr /*[in]*/) PURE;
-    STDMETHOD(GetSourceAndDest)(RECT rcWindow /*[in]*/, RECT rcVideo /*[in]*/, RECT* pRcSource /*[out]*/, RECT* pRcDest /*[out]*/) const PURE;
+    STDMETHOD(GetSourceAndDest)(RECT rcWindow /*[in]*/, RECT rcVideo /*[in]*/,
+                                RECT* pRcSource /*[out]*/,  RECT* pRcDest /*[out]*/,
+                                const double videoStretchFactor = 1.0 /*[in]*/) const PURE;
     STDMETHOD(SetVirtualTextureSize)(const SIZE pSize, const POINT pTopLeft) PURE;
     STDMETHOD(GetRelativeTo)(RelativeTo* pRelativeTo /*[out]*/) const PURE;
     STDMETHOD(SetRelativeTo)(RelativeTo relativeTo /*[in]*/) PURE;

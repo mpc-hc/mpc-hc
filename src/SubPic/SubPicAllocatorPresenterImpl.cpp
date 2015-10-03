@@ -117,12 +117,15 @@ void CSubPicAllocatorPresenterImpl::InitMaxSubtitleTextureSize(int maxSize, CSiz
     }
 }
 
-void CSubPicAllocatorPresenterImpl::AlphaBltSubPic(const CRect& windowRect, const CRect& videoRect, SubPicDesc* pTarget)
+void CSubPicAllocatorPresenterImpl::AlphaBltSubPic(const CRect& windowRect,
+                                                   const CRect& videoRect,
+                                                   SubPicDesc* pTarget /*= nullptr*/,
+                                                   const double videoStretchFactor /*= 1.0*/)
 {
     CComPtr<ISubPic> pSubPic;
     if (m_pSubPicQueue->LookupSubPic(m_rtNow, !IsRendering(), pSubPic)) {
         CRect rcSource, rcDest;
-        if (SUCCEEDED(pSubPic->GetSourceAndDest(windowRect, videoRect, rcSource, rcDest))) {
+        if (SUCCEEDED(pSubPic->GetSourceAndDest(windowRect, videoRect, rcSource, rcDest, videoStretchFactor))) {
             pSubPic->AlphaBlt(rcSource, rcDest, pTarget);
         }
     }

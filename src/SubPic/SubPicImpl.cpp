@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -118,7 +118,9 @@ STDMETHODIMP CSubPicImpl::GetDirtyRect(RECT* pDirtyRect) const
     return S_OK;
 }
 
-STDMETHODIMP CSubPicImpl::GetSourceAndDest(RECT rcWindow, RECT rcVideo, RECT* pRcSource, RECT* pRcDest) const
+STDMETHODIMP CSubPicImpl::GetSourceAndDest(RECT rcWindow, RECT rcVideo,
+                                           RECT* pRcSource, RECT* pRcDest,
+                                           const double videoStretchFactor /*= 1.0*/) const
 {
     CheckPointer(pRcSource, E_POINTER);
     CheckPointer(pRcDest,   E_POINTER);
@@ -131,7 +133,11 @@ STDMETHODIMP CSubPicImpl::GetSourceAndDest(RECT rcWindow, RECT rcVideo, RECT* pR
         // are often anamorphic and thus break the auto-fit logic
         if (m_relativeTo == BEST_FIT && m_virtualTextureSize.cx > 720) {
             double scaleFactor = 1.0;
-            CSize szVideo = CRect(rcVideo).Size();
+            CRect videoRect(rcVideo);
+            LONG stretch = lround(videoRect.Width() * (1.0 - videoStretchFactor) / 2.0);
+            videoRect.left += stretch;
+            videoRect.right -= stretch;
+            CSize szVideo = videoRect.Size();
 
             double subtitleAR = double(m_virtualTextureSize.cx) / m_virtualTextureSize.cy;
             double videoAR = double(szVideo.cx) / szVideo.cy;
@@ -148,7 +154,7 @@ STDMETHODIMP CSubPicImpl::GetSourceAndDest(RECT rcWindow, RECT rcVideo, RECT* pR
             }
 
             scaleX = scaleY = scaleFactor;
-            offset += CRect(rcVideo).TopLeft();
+            offset += videoRect.TopLeft();
         } else {
             CRect rcTarget = (m_relativeTo == WINDOW) ? rcWindow : rcVideo;
             CSize szTarget = rcTarget.Size();
@@ -166,6 +172,11 @@ STDMETHODIMP CSubPicImpl::GetSourceAndDest(RECT rcWindow, RECT rcVideo, RECT* pR
                        lround(rcTemp.right  * scaleX),
                        lround(rcTemp.bottom * scaleY));
         rcTemp.OffsetRect(offset);
+
+        LONG stretch = lround(rcTemp.Width() * (1.0 - 1.0 / videoStretchFactor) / 2.0);
+        rcTemp.left += stretch;
+        rcTemp.right -= stretch;
+
         *pRcDest = rcTemp;
 
         return S_OK;
