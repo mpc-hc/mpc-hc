@@ -277,10 +277,6 @@ BOOL CPPageInternalFilters::OnInitDialog()
 
     const CAppSettings& s = AfxGetAppSettings();
 
-    // Initialize item height to the minimum possible value.
-    m_listSrc.SetItemHeight(0, 0);
-    m_listTra.SetItemHeight(0, 0);
-
     InitFiltersList();
 
     for (int i = 0; i < m_filters.GetCount(); i++) {
