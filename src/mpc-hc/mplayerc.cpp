@@ -37,7 +37,7 @@
 #include "FileAssoc.h"
 #include "UpdateChecker.h"
 #include "winddk/ntddcdvd.h"
-#include "mhook/mhook-lib/mhook.h"
+#include "MhookHelper.h"
 #include <afxsock.h>
 #include <atlsync.h>
 #include <atlutil.h>
@@ -1472,7 +1472,7 @@ BOOL CMPlayerCApp::InitInstance()
     // At this point only main thread should be present, mhook is custom-hacked accordingly
     bool bHookingSuccessful = true;
 
-    bHookingSuccessful &= !!Mhook_SetHook(&(PVOID&)Real_IsDebuggerPresent, (PVOID)Mine_IsDebuggerPresent);
+    bHookingSuccessful &= !!Mhook_SetHookEx(&Real_IsDebuggerPresent, Mine_IsDebuggerPresent);
 
     m_hNTDLL = LoadLibrary(_T("ntdll.dll"));
 #ifndef _DEBUG  // Disable NtQueryInformationProcess in debug (prevent VS debugger to stop on crash address)
@@ -1480,13 +1480,13 @@ BOOL CMPlayerCApp::InitInstance()
         Real_NtQueryInformationProcess = (decltype(Real_NtQueryInformationProcess))GetProcAddress(m_hNTDLL, "NtQueryInformationProcess");
 
         if (Real_NtQueryInformationProcess) {
-            bHookingSuccessful &= !!Mhook_SetHook(&(PVOID&)Real_NtQueryInformationProcess, (PVOID)Mine_NtQueryInformationProcess);
+            bHookingSuccessful &= !!Mhook_SetHookEx(&Real_NtQueryInformationProcess, Mine_NtQueryInformationProcess);
         }
     }
 #endif
 
-    bHookingSuccessful &= !!Mhook_SetHook(&(PVOID&)Real_CreateFileW, (PVOID)Mine_CreateFileW);
-    bHookingSuccessful &= !!Mhook_SetHook(&(PVOID&)Real_DeviceIoControl, (PVOID)Mine_DeviceIoControl);
+    bHookingSuccessful &= !!Mhook_SetHookEx(&Real_CreateFileW, Mine_CreateFileW);
+    bHookingSuccessful &= !!Mhook_SetHookEx(&Real_DeviceIoControl, Mine_DeviceIoControl);
 
     if (!bHookingSuccessful) {
         if (AfxMessageBox(IDS_HOOKS_FAILED, MB_ICONWARNING | MB_YESNO, 0) == IDYES) {
@@ -1495,11 +1495,11 @@ BOOL CMPlayerCApp::InitInstance()
     }
 
     // If those hooks fail it's annoying but try to run anyway without reporting any error in release mode
-    VERIFY(Mhook_SetHook(&(PVOID&)Real_ChangeDisplaySettingsExA, (PVOID)Mine_ChangeDisplaySettingsExA));
-    VERIFY(Mhook_SetHook(&(PVOID&)Real_ChangeDisplaySettingsExW, (PVOID)Mine_ChangeDisplaySettingsExW));
-    VERIFY(Mhook_SetHook(&(PVOID&)Real_CreateFileA, (PVOID)Mine_CreateFileA)); // The internal splitter uses the right share mode anyway so this is no big deal
-    VERIFY(Mhook_SetHook(&(PVOID&)Real_LockWindowUpdate, (PVOID)Mine_LockWindowUpdate));
-    VERIFY(Mhook_SetHook(&(PVOID&)Real_mixerSetControlDetails, (PVOID)Mine_mixerSetControlDetails));
+    VERIFY(Mhook_SetHookEx(&Real_ChangeDisplaySettingsExA, Mine_ChangeDisplaySettingsExA));
+    VERIFY(Mhook_SetHookEx(&Real_ChangeDisplaySettingsExW, Mine_ChangeDisplaySettingsExW));
+    VERIFY(Mhook_SetHookEx(&Real_CreateFileA, Mine_CreateFileA)); // The internal splitter uses the right share mode anyway so this is no big deal
+    VERIFY(Mhook_SetHookEx(&Real_LockWindowUpdate, Mine_LockWindowUpdate));
+    VERIFY(Mhook_SetHookEx(&Real_mixerSetControlDetails, Mine_mixerSetControlDetails));
 
     CFilterMapper2::Init();
 

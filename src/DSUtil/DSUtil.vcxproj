@@ -143,6 +143,7 @@
     <ClInclude Include="HdmvClipInfo.h" />
     <ClInclude Include="MediaTypeEx.h" />
     <ClInclude Include="MediaTypes.h" />
+    <ClInclude Include="MhookHelper.h" />
     <ClInclude Include="Mpeg2Def.h" />
     <ClInclude Include="NullRenderers.h" />
     <ClInclude Include="PathUtils.h" />

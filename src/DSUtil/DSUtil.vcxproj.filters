@@ -136,5 +136,8 @@
     <ClInclude Include="ArrayUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MhookHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
