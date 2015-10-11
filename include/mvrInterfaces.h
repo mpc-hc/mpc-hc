@@ -28,6 +28,69 @@
 DEFINE_GUID(CLSID_madVR, 0xe1a8b82a, 0x32ce, 0x4b0d, 0xbe, 0x0d, 0xaa, 0x68, 0xc7, 0x72, 0xe4, 0x23);
 
 // ---------------------------------------------------------------------------
+// video size/position setup
+// ---------------------------------------------------------------------------
+
+// madVR supports "IVideoWindow" and "IBasicVideo". Both need to be used in
+// a specific way to achieve the best results. You should always use
+// IVideoWindow::SetWindowPosition() to make madVR cover the whole rendering
+// client area of your media player's window.
+
+// Some media players offer different zoom modes. Here's what madVR supports:
+// 1) touchInside:
+//    The video is zoomed, maintaining the correct AR (aspect ratio), in such
+//    a way that the video is displayed as large as possible, without losing
+//    any image content. There may be black bars, either left/right, or
+//    top/bottom.
+// 2) touchOutside:
+//    The video is zoomed, maintaining the correct AR, in such a way that the
+//    video is displayed as large as possible, without any black bars. Some
+//    image content may be cut off.
+// 3) stretch:
+//    The video is zoomed and stretched to perfectly fill the rendering
+//    client area. The AR might be distorted, but there will be no black bars.
+// 4) 100% (or 50% or 200% or some other percent number):
+//    The video is displayed at 100% (or 50% or ...) of the original size,
+//    maintaining the correct AR.
+
+// Some media players offers different X/Y video alignments/positions. Here's
+// what madVR supports:
+// 1) left/top:
+//    The video is positioned left/top aligned.
+// 2) center:
+//    The video is rendered in centered positioned.
+// 3) right/bottom:
+//    The video is positioned right/bottom aligned.
+
+// In addition to these zoom and alignment modes, some media players allow
+// further fine tuning the zoom/position by increasing/decreasing the zoom
+// factor, or by offsetting the image position. madVR supports that as well,
+// of course.
+
+// When using madVR, you have 3 options to setup zoom modes and positions:
+// a) You can calculate a specific target rect for the video yourself and
+//    tell madVR about it by calling IBasicVideo::SetDestinationPosition().
+// b) You can use the "IMadVRCommand" interface (described in detail below)
+//    to tell madVR which zoom & alignment modes to use.
+// c) Don't do anything. In that case madVR will default to "touchInside"
+//    and "center" zoom/alignment modes.
+
+// In case of a) madVR will actually try to "understand" your target rect
+// and map it internally to one of the supported zoom modes. This is done
+// because madVR has complex options for the user to decide how zooming
+// should be performed exactly. In order to process these options, madVR
+// may have to dynamically adjust the target rect to things like screen
+// masking, or detected hard coded subtitles in the black bars.
+
+// Usually madVR's interpretation of your target rect works just fine. But
+// there are situations when madVR has no way to know which zoom mode is really
+// active in the media player. E.g. playing a 720p movie in a 720p window
+// would match any of the available zoom or alignment modes. Because of that
+// it is usually recommended to use options b) or c) described above.
+// If you set a specific zoom mode (option b), madVR will ignore any calls
+// to IBasicVideo::SetDestinationPosition().
+
+// ---------------------------------------------------------------------------
 // IMadVROsdServices
 // ---------------------------------------------------------------------------
 
@@ -76,7 +139,7 @@ interface IOsdRenderCallback : public IUnknown
 
   // "ClearBackground" is called after madVR cleared the render target
   // "RenderOsd" is called after madVR is fully done with rendering
-  // fullOutputRect  = (0, 0, outputSurfaceWidth, outputSurfaceHeight)
+  // fullOutputRect  = for fullscreen drawing, this is the rect you want to stay in (left/top can be non-zero!)
   // activeVideoRect = active video rendering rect inside of fullOutputRect
   // background area = the part of fullOutputRect which isn't covered by activeVideoRect
   // possible return values: CALLBACK_EMPTY etc, see definitions above
@@ -88,6 +151,7 @@ interface IOsdRenderCallback : public IUnknown
 const static int BITMAP_STRETCH_TO_OUTPUT = 1;  // stretch OSD bitmap to video/output rect
 const static int BITMAP_INFO_DISPLAY      = 2;  // info display, doesn't need low latency
 const static int BITMAP_USER_INTERFACE    = 4;  // user interface, switches madVR into low latency mode
+const static int BITMAP_MASKING_AWARE     = 8;  // caller is aware of screen masking, bitmaps are positioned properly inside of "fullOutputRect"
 
 // this is the main interface which madVR provides to you
 [uuid("3AE03A88-F613-4BBA-AD3E-EE236976BF9A")]
@@ -112,7 +176,7 @@ interface IMadVROsdServices : public IUnknown
 
   // this API allows you to ask the current video rectangles
   STDMETHOD(OsdGetVideoRects)(
-    RECT *fullOutputRect,                  // (0, 0, outputSurfaceWidth, outputSurfaceHeight)
+    RECT *fullOutputRect,                  // for fullscreen drawing, this is the rect you want to stay in (left/top can be non-zero!)
     RECT *activeVideoRect                  // active video rendering rect inside of fullOutputRect
   ) = 0;
 
@@ -123,8 +187,7 @@ interface IMadVROsdServices : public IUnknown
     LPVOID reserved = NULL                 // undefined - set to NULL
   ) = 0;
 
-  // this API allows you to force madVR to redraw the current video frame
-  // useful when using the (2) render callback method, when the graph is paused
+  // this API is obselete, calling it has no effect
   STDMETHOD(OsdRedrawFrame)(void) = 0;
 };
 
@@ -239,8 +302,11 @@ interface IMadVRInfo : public IUnknown
 // version,                 string,    madVR version number
 // originalVideoSize,       size,      size of the video before scaling and AR adjustments
 // arAdjustedVideoSize,     size,      size of the video after AR adjustments
+// videoCropRect,           rect,      crops "originalVideoSize" down, e.g. because of detected black bars
 // videoOutputRect,         rect,      final pos/size of the video after all scaling operations
+// croppedVideoOutputRect,  rect,      final pos/size of the "videoCropRect", after all scaling operations
 // subtitleTargetRect,      rect,      consumer wish for where to place the subtitles
+// fullscreenRect,          rect,      for fullscreen drawing, this is the rect you want to stay in (left/top can be non-zero!)
 // frameRate,               ulonglong, frame rate of the video after deinterlacing (REFERENCE_TIME)
 // refreshRate,             double,    display refresh rate (0, if unknown)
 // displayModeSize,         size,      display mode width/height
@@ -252,6 +318,7 @@ interface IMadVRInfo : public IUnknown
 // dxvaScalingActive,       bool,      is DXVA2 scaling       being used at the moment?
 // ivtcActive,              bool,      is madVR's IVTC algorithm active at the moment?
 // osdLatency,              int,       how much milliseconds will pass for an OSD change to become visible?
+// seekbarRect,             rect,      where exactly would (or does) madVR draw its seekbar?
 
 // ---------------------------------------------------------------------------
 // IMadVRCommand
@@ -280,6 +347,15 @@ interface IMadVRCommand : public IUnknown
 // -------------------
 // disableSeekbar,          bool,      turn madVR's automatic exclusive mode on/off
 // disableExclusiveMode,    bool,      turn madVR's automatic exclusive mode on/off
+// keyPress                 int,       interpret as "BYTE keyPress[4]"; keyPress[0] = key code (e.g. VK_F1); keyPress[1-3] = BOOLEAN "shift/ctrl/menu" state
+// setZoomMode,             LPWSTR,    video target size: "autoDetect|touchInside|touchOutside|stretch|100%|10%|20%|25%|30%|33%|40%|50%|60%|66%|70%|75%|80%|90%|110%|120%|125%|130%|140%|150%|160%|170%|175%|180%|190%|200%|225%|250%|300%|350%|400%|450%|500%|600%|700%|800%"
+// setZoomFactorX,          double,    additional X zoom factor (applied after zoom mode), default/neutral = 1.0
+// setZoomFactorY,          double,    additional Y zoom factor (applied after zoom mode), default/neutral = 1.0
+// setZoomAlignX,           LPWSTR,    video X pos alignment: left|center|right
+// setZoomAlignY,           LPWSTR,    video Y pos alignment: top|center|bottom
+// setZoomOffsetX,          double,    additional X pos offset in percent, default/neutral = 0.0
+// setZoomOffsetY,          double,    additional Y pos offset in percent, default/neutral = 0.0
+// redraw,                             forces madVR to redraw the current frame (in paused mode)
 // restoreDisplayModeNow,              makes madVR immediately restore the original display mode
 
 // ---------------------------------------------------------------------------
@@ -651,6 +727,11 @@ interface ISubRenderCallback : public IUnknown
 interface ISubRenderCallback2 : public ISubRenderCallback
 {
   STDMETHOD(RenderEx)(REFERENCE_TIME frameStart, REFERENCE_TIME frameStop, REFERENCE_TIME avgTimePerFrame, int left, int top, int right, int bottom, int width, int height) = 0;
+};
+[uuid("BAC4273A-3EAD-47F5-9710-8488E52AC618")]
+interface ISubRenderCallback3 : public ISubRenderCallback2
+{
+  STDMETHOD(RenderEx2)(REFERENCE_TIME frameStart, REFERENCE_TIME frameStop, REFERENCE_TIME avgTimePerFrame, RECT croppedVideoRect, RECT originalVideoRect, RECT viewportRect, const double videoStretchFactor = 1.0) = 0;
 };
 */
 
