@@ -157,6 +157,7 @@ struct SubtitleInput {
 interface IMadVRCommand;
 interface IMadVRSettings;
 interface IMadVRSubclassReplacement;
+interface IMadVRInfo;
 interface ISubClock;
 
 class CMainFrame : public CFrameWnd, public CDropClient
@@ -244,6 +245,7 @@ private:
     CComPtr<IMadVRSettings> m_pMVRS;
     CComPtr<IMadVRSubclassReplacement> m_pMVRSR;
     CComPtr<IMadVRCommand> m_pMVRC;
+    CComPtr<IMadVRInfo> m_pMVRI;
 
     CComQIPtr<IDvdControl2> m_pDVDC;
     CComQIPtr<IDvdInfo2> m_pDVDI;

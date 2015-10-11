@@ -397,17 +397,21 @@ void CMainFrameControls::UpdateToolbarsVisibility()
                 if (bOnWindow) {
                     unsigned uTop, uLeft, uRight, uBottom;
                     GetDockZones(uTop, uLeft, uRight, uBottom, bEnumedPanelZones ? false : (bEnumedPanelZones = true));
-                    unsigned uExclSeekbarHeight = 0;
+                    CRect clientRect;
+                    m_pMainFrame->GetClientRect(clientRect);
+                    CRect exclSeekbarRect;
                     if (bExclSeekbar) {
-                        uExclSeekbarHeight = 56; // TODO: query this through IMadVRInfo
+                        if (!m_pMainFrame->m_pMVRI
+                                || FAILED(m_pMainFrame->m_pMVRI->GetRect("seekbarRect", exclSeekbarRect))) {
+                            exclSeekbarRect = clientRect;
+                            exclSeekbarRect.top = 56;
+                        }
                         uBottom = 0;
                     }
                     if (!bCanHideDockedPanels) {
                         uTop = uLeft = uRight = 0;
                     }
-                    CRect clientRect;
-                    m_pMainFrame->GetClientRect(clientRect);
-                    const bool bHoveringExclSeekbar = (bExclSeekbar && clientPoint.y + (int)uExclSeekbarHeight >= clientRect.Height());
+                    const bool bHoveringExclSeekbar = (bExclSeekbar && exclSeekbarRect.PtInRect(clientPoint));
                     ret = true;
                     if (clientRect.PtInRect(clientPoint)) {
                         if (ePolicy == CAppSettings::HideFullscreenControlsPolicy::SHOW_WHEN_CURSOR_MOVED) {

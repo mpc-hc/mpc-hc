@@ -11886,6 +11886,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         m_pGB->FindInterface(IID_PPV_ARGS(&pVMB), TRUE);
         m_pGB->FindInterface(IID_PPV_ARGS(&pMFVMB), TRUE);
         m_pMVRC = m_pCAP;
+        m_pMVRI = m_pCAP;
         m_pMVRS = m_pCAP;
         m_pMVRSR = m_pCAP;
         pMVTO = m_pCAP;
@@ -12059,6 +12060,7 @@ void CMainFrame::CloseMediaPrivate()
     m_pMVRSR.Release();
     m_pMVRS.Release();
     m_pMVRC.Release();
+    m_pMVRI.Release();
     m_pCAP2.Release();
     m_pCAP.Release();
     m_pVMRWC.Release();
