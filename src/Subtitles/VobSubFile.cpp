@@ -1818,7 +1818,7 @@ bool CVobSubFile::SaveWinSubMux(CString fn, int delay)
         }
 
         CString bmpfn;
-        bmpfn.Format(_T("%s_%06u.bmp"), fn, i + 1);
+        bmpfn.Format(_T("%s_%06Iu.bmp"), fn, i + 1);
 
         CString str;
         str.Format(_T("%s\t%02d:%02d:%02d:%02d %02d:%02d:%02d:%02d\t%03d %03d %03d %03d %d %d %d %d\n"),
@@ -2012,7 +2012,7 @@ bool CVobSubFile::SaveScenarist(CString fn, int delay)
         }
 
         CString bmpfn;
-        bmpfn.Format(_T("%s_%04u.bmp"), fn, i + 1);
+        bmpfn.Format(_T("%s_%04Iu.bmp"), fn, i + 1);
         title = bmpfn.Mid(bmpfn.ReverseFind('/') + 1);
 
         // E1, E2, P, Bg
@@ -2242,7 +2242,7 @@ bool CVobSubFile::SaveMaestro(CString fn, int delay)
         }
 
         CString bmpfn;
-        bmpfn.Format(_T("%s_%04u.bmp"), fn, i + 1);
+        bmpfn.Format(_T("%s_%04Iu.bmp"), fn, i + 1);
         title = bmpfn.Mid(bmpfn.ReverseFind('/') + 1);
 
         // E1, E2, P, Bg

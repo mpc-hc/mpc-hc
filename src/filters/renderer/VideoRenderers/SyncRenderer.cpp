@@ -2087,7 +2087,7 @@ void CBaseAP::DrawStats()
             DrawText(rc, strText, 1);
             OffsetRect(&rc, 0, TextHeight);
 
-            strText.Format(L"Buffering    : Buffered %3ld    Free %3d    Current Surface %3d", m_nUsedBuffer, m_nDXSurface - m_nUsedBuffer, m_nCurSurface);
+            strText.Format(L"Buffering    : Buffered %3ld    Free %3ld    Current Surface %3d", m_nUsedBuffer, m_nDXSurface - m_nUsedBuffer, m_nCurSurface);
             DrawText(rc, strText, 1);
             OffsetRect(&rc, 0, TextHeight);
 
