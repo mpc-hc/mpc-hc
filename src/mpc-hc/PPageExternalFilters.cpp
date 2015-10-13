@@ -33,36 +33,35 @@
 #include "moreuuids.h"
 
 
-IMPLEMENT_DYNAMIC(CPPageExternalFiltersListBox, CCheckListBox)
+IMPLEMENT_DYNAMIC(CPPageExternalFiltersListBox, CListCtrl)
 CPPageExternalFiltersListBox::CPPageExternalFiltersListBox()
-    : CCheckListBox()
 {
 }
 
 void CPPageExternalFiltersListBox::PreSubclassWindow()
 {
     __super::PreSubclassWindow();
+    GetToolTips()->Activate(FALSE);
     EnableToolTips(TRUE);
 }
 
 INT_PTR CPPageExternalFiltersListBox::OnToolHitTest(CPoint point, TOOLINFO* pTI) const
 {
-    BOOL out = FALSE;
-    UINT item = ItemFromPoint(point, out);
-    if (out) {
+    int item = HitTest(point);
+    if (item < 0) {
         return -1;
     }
 
     pTI->uFlags |= TTF_ALWAYSTIP;
     pTI->hwnd = m_hWnd;
-    pTI->uId = item;
-    VERIFY(GetItemRect(item, &pTI->rect) != LB_ERR);
+    pTI->uId = (UINT)item;
+    VERIFY(GetItemRect(item, &pTI->rect, LVIR_BOUNDS));
     pTI->lpszText = LPSTR_TEXTCALLBACK;
 
     return pTI->uId;
 }
 
-BEGIN_MESSAGE_MAP(CPPageExternalFiltersListBox, CCheckListBox)
+BEGIN_MESSAGE_MAP(CPPageExternalFiltersListBox, CListCtrl)
     ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify)
 END_MESSAGE_MAP()
 
@@ -100,52 +99,74 @@ void CPPageExternalFilters::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_TREE1, m_tree);
 }
 
-void CPPageExternalFilters::StepUp(CCheckListBox& list)
+void CPPageExternalFilters::Exchange(CListCtrl& list, int i, int j)
 {
-    int i = list.GetCurSel();
-    if (i < 1) {
+    CString text = list.GetItemText(i, 0);
+    DWORD_PTR data = list.GetItemData(i);
+    int check = list.GetCheck(i);
+    bool selected = !!list.GetItemState(i, LVIS_SELECTED);
+
+    list.SetItemText(i, 0, list.GetItemText(j, 0));
+    list.SetItemData(i, list.GetItemData(j));
+    list.SetCheck(i, list.GetCheck(j));
+    list.SetItemState(i, LVIS_SELECTED, list.GetItemState(j, LVIS_SELECTED));
+
+    list.SetItemText(j, 0, text);
+    list.SetItemData(j, data);
+    list.SetCheck(j, check);
+    list.SetItemState(j, LVIS_SELECTED, selected ? LVIS_SELECTED : 0);
+
+    int mark = list.GetSelectionMark();
+    if (mark == i) {
+        list.SetSelectionMark(j);
+    } else if (mark == j) {
+        list.SetSelectionMark(i);
+    }
+}
+
+void CPPageExternalFilters::StepUp(CListCtrl& list)
+{
+    POSITION pos = list.GetFirstSelectedItemPosition();
+
+    if (!pos) {
         return;
     }
 
-    CString str;
-    list.GetText(i, str);
-    DWORD_PTR dwItemData = list.GetItemData(i);
-    int nCheck = list.GetCheck(i);
-    list.DeleteString(i);
-    i--;
-    list.InsertString(i, str);
-    list.SetItemData(i, dwItemData);
-    list.SetCheck(i, nCheck);
-    list.SetCurSel(i);
+    int i = list.GetNextSelectedItem(pos);
+
+    ASSERT(i > 0);
+
+    Exchange(list, i, i - 1);
 
     SetModified();
 }
 
-void CPPageExternalFilters::StepDown(CCheckListBox& list)
+void CPPageExternalFilters::StepDown(CListCtrl& list)
 {
-    int i = list.GetCurSel();
-    if (i < 0 || i >= list.GetCount() - 1) {
+    POSITION pos = list.GetFirstSelectedItemPosition();
+
+    if (!pos) {
         return;
     }
 
-    CString str;
-    list.GetText(i, str);
-    DWORD_PTR dwItemData = list.GetItemData(i);
-    int nCheck = list.GetCheck(i);
-    list.DeleteString(i);
-    i++;
-    list.InsertString(i, str);
-    list.SetItemData(i, dwItemData);
-    list.SetCheck(i, nCheck);
-    list.SetCurSel(i);
+    int i = list.GetNextSelectedItem(pos);
+
+    ASSERT(i + 1 < list.GetItemCount());
+
+    Exchange(list, i, i + 1);
 
     SetModified();
 }
 
 FilterOverride* CPPageExternalFilters::GetCurFilter()
 {
-    int i = m_filters.GetCurSel();
-    return i >= 0 ? (FilterOverride*)m_pFilters.GetAt((POSITION)m_filters.GetItemDataPtr(i)) : (FilterOverride*)nullptr;
+    POSITION pos = m_filters.GetFirstSelectedItemPosition();
+
+    if (!pos) {
+        return nullptr;
+    }
+
+    return m_pFilters.GetAt((POSITION)m_filters.GetItemData(m_filters.GetNextSelectedItem(pos)));
 }
 
 void CPPageExternalFilters::SetupMajorTypes(CAtlArray<GUID>& guids)
@@ -312,14 +333,13 @@ BEGIN_MESSAGE_MAP(CPPageExternalFilters, CPPageBase)
     ON_BN_CLICKED(IDC_BUTTON2, OnRemoveFilter)
     ON_BN_CLICKED(IDC_BUTTON3, OnMoveFilterUp)
     ON_BN_CLICKED(IDC_BUTTON4, OnMoveFilterDown)
-    ON_LBN_DBLCLK(IDC_LIST1, OnDoubleClickFilter)
+    ON_NOTIFY(NM_DBLCLK, IDC_LIST1, OnDoubleClickFilter)
     ON_WM_VKEYTOITEM()
     ON_BN_CLICKED(IDC_BUTTON5, OnAddMajorType)
     ON_BN_CLICKED(IDC_BUTTON6, OnAddSubType)
     ON_BN_CLICKED(IDC_BUTTON7, OnDeleteType)
     ON_BN_CLICKED(IDC_BUTTON8, OnResetTypes)
-    ON_LBN_SELCHANGE(IDC_LIST1, OnFilterSelectionChange)
-    ON_CLBN_CHKCHANGE(IDC_LIST1, OnFilterCheckChange)
+    ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, OnFilterChanged)
     ON_BN_CLICKED(IDC_RADIO1, OnClickedMeritRadioButton)
     ON_BN_CLICKED(IDC_RADIO2, OnClickedMeritRadioButton)
     ON_BN_CLICKED(IDC_RADIO3, OnClickedMeritRadioButton)
@@ -336,6 +356,9 @@ END_MESSAGE_MAP()
 BOOL CPPageExternalFilters::OnInitDialog()
 {
     __super::OnInitDialog();
+
+    m_filters.InsertColumn(0, _T(""));
+    m_filters.SetExtendedStyle(m_filters.GetExtendedStyle() | LVS_EX_CHECKBOXES | LVS_EX_DOUBLEBUFFER);
 
     m_dropTarget.Register(this);
 
@@ -364,10 +387,12 @@ BOOL CPPageExternalFilters::OnInitDialog()
             }
         }
 
-        int i = m_filters.AddString(name);
+        int i = m_filters.InsertItem(m_filters.GetItemCount(), name);
         m_filters.SetCheck(i, f->fDisabled ? 0 : 1);
-        m_filters.SetItemDataPtr(i, m_pFilters.AddTail(f));
+        m_filters.SetItemData(i, reinterpret_cast<DWORD_PTR>(m_pFilters.AddTail(f)));
     }
+
+    m_filters.SetColumnWidth(0, LVSCW_AUTOSIZE);
 
     UpdateData(FALSE);
 
@@ -389,7 +414,7 @@ BOOL CPPageExternalFilters::OnApply()
 
     s.m_filters.RemoveAll();
 
-    for (int i = 0; i < m_filters.GetCount(); i++) {
+    for (int i = 0; i < m_filters.GetItemCount(); i++) {
         if (POSITION pos = (POSITION)m_filters.GetItemData(i)) {
             CAutoPtr<FilterOverride> f(DEBUG_NEW FilterOverride(m_pFilters.GetAt(pos)));
             f->fDisabled = !m_filters.GetCheck(i);
@@ -413,12 +438,14 @@ void CPPageExternalFilters::OnUpdateFilter(CCmdUI* pCmdUI)
 
 void CPPageExternalFilters::OnUpdateFilterUp(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(m_filters.GetCurSel() > 0);
+    POSITION pos = m_filters.GetFirstSelectedItemPosition();
+    pCmdUI->Enable(pos && m_filters.GetNextSelectedItem(pos) > 0);
 }
 
 void CPPageExternalFilters::OnUpdateFilterDown(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(m_filters.GetCurSel() >= 0 && m_filters.GetCurSel() < m_filters.GetCount() - 1);
+    POSITION pos = m_filters.GetFirstSelectedItemPosition();
+    pCmdUI->Enable(pos && m_filters.GetNextSelectedItem(pos) < m_filters.GetItemCount() - 1);
 }
 
 void CPPageExternalFilters::OnUpdateFilterMerit(CCmdUI* pCmdUI)
@@ -454,14 +481,17 @@ void CPPageExternalFilters::OnAddRegistered()
                     }
                 }
 
-                int i = m_filters.AddString(name);
-                m_filters.SetItemDataPtr(i, m_pFilters.AddTail(p));
+                int i = m_filters.InsertItem(m_filters.GetItemCount(), name);
+                m_filters.SetItemData(i, reinterpret_cast<DWORD_PTR>(m_pFilters.AddTail(p)));
                 m_filters.SetCheck(i, 1);
 
                 if (dlg.m_filters.IsEmpty()) {
-                    m_filters.SetCurSel(i);
+                    m_filters.SetItemState(i, LVIS_SELECTED, LVIS_SELECTED);
+                    m_filters.SetSelectionMark(i);
                     OnFilterSelectionChange();
                 }
+
+                m_filters.SetColumnWidth(0, LVSCW_AUTOSIZE);
 
                 SetModified();
             }
@@ -471,14 +501,17 @@ void CPPageExternalFilters::OnAddRegistered()
 
 void CPPageExternalFilters::OnRemoveFilter()
 {
-    int i = m_filters.GetCurSel();
-    m_pFilters.RemoveAt((POSITION)m_filters.GetItemDataPtr(i));
-    m_filters.DeleteString(i);
+    POSITION pos = m_filters.GetFirstSelectedItemPosition();
+    ASSERT(pos);
+    int i = m_filters.GetNextSelectedItem(pos);
+    m_pFilters.RemoveAt((POSITION)m_filters.GetItemData(i));
+    m_filters.DeleteItem(i);
 
-    if (i >= m_filters.GetCount()) {
+    if (i >= m_filters.GetItemCount()) {
         i--;
     }
-    m_filters.SetCurSel(i);
+    m_filters.SetItemState(i, LVIS_SELECTED, LVIS_SELECTED);
+    m_filters.SetSelectionMark(i);
     OnFilterSelectionChange();
 
     SetModified();
@@ -494,8 +527,11 @@ void CPPageExternalFilters::OnMoveFilterDown()
     StepDown(m_filters);
 }
 
-void CPPageExternalFilters::OnDoubleClickFilter()
+void CPPageExternalFilters::OnDoubleClickFilter(NMHDR* pNMHDR, LRESULT* pResult)
 {
+    ASSERT(pNMHDR);
+    ASSERT(pResult);
+
     if (FilterOverride* f = GetCurFilter()) {
         CComPtr<IBaseFilter> pBF;
         CString name;
@@ -523,6 +559,8 @@ void CPPageExternalFilters::OnDoubleClickFilter()
             }
         }
     }
+
+    *pResult = 0;
 }
 
 int CPPageExternalFilters::OnVKeyToItem(UINT nKey, CListBox* pListBox, UINT nIndex)
@@ -695,6 +733,25 @@ void CPPageExternalFilters::OnResetTypes()
     }
 }
 
+void CPPageExternalFilters::OnFilterChanged(NMHDR* pNMHDR, LRESULT* pResult)
+{
+    ASSERT(pNMHDR);
+    ASSERT(pResult);
+
+    auto pNMLV = reinterpret_cast<NMLISTVIEW*>(pNMHDR);
+
+    if (pNMLV->lParam && (pNMLV->uChanged & LVIF_STATE)) {
+        if (pNMLV->uNewState & LVIS_SELECTED) {
+            OnFilterSelectionChange();
+        }
+        if (pNMLV->uNewState & LVIS_STATEIMAGEMASK) {
+            OnFilterCheckChange();
+        }
+    }
+
+    *pResult = 0;
+}
+
 void CPPageExternalFilters::OnFilterSelectionChange()
 {
     if (FilterOverride* f = GetCurFilter()) {
@@ -847,14 +904,17 @@ void CPPageExternalFilters::OnDropFiles(CAtlList<CString>& slFiles, DROPEFFECT)
         while (!fm2.m_filters.IsEmpty()) {
             if (FilterOverride* f = fm2.m_filters.RemoveHead()) {
                 CAutoPtr<FilterOverride> p(f);
-                int i = m_filters.AddString(f->name);
-                m_filters.SetItemDataPtr(i, m_pFilters.AddTail(p));
+                int i = m_filters.InsertItem(m_filters.GetItemCount(), f->name);
+                m_filters.SetItemData(i, reinterpret_cast<DWORD_PTR>(m_pFilters.AddTail(p)));
                 m_filters.SetCheck(i, 1);
 
                 if (fm2.m_filters.IsEmpty()) {
-                    m_filters.SetCurSel(i);
+                    m_filters.SetItemState(i, LVIS_SELECTED, LVIS_SELECTED);
+                    m_filters.SetSelectionMark(i);
                     OnFilterSelectionChange();
                 }
+
+                m_filters.SetColumnWidth(0, LVSCW_AUTOSIZE);
 
                 SetModified();
             }
@@ -867,7 +927,7 @@ BOOL CPPageExternalFilters::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pRe
     TOOLTIPTEXT* pTTT = (TOOLTIPTEXT*)pNMHDR;
 
     int nIndex = (int)pNMHDR->idFrom;
-    if (0 <= nIndex && nIndex < m_filters.GetCount()) {
+    if (0 <= nIndex && nIndex < m_filters.GetItemCount()) {
         if (POSITION pos = (POSITION)m_filters.GetItemData(nIndex)) {
             CAutoPtr<FilterOverride>& f = m_pFilters.GetAt(pos);
 

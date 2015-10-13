@@ -27,7 +27,7 @@
 #include "DropTarget.h"
 
 
-class CPPageExternalFiltersListBox : public CCheckListBox
+class CPPageExternalFiltersListBox : public CListCtrl
 {
     DECLARE_DYNAMIC(CPPageExternalFiltersListBox)
 
@@ -70,8 +70,9 @@ private:
     void OnDropFiles(CAtlList<CString>& slFiles, DROPEFFECT) override;
     DROPEFFECT OnDropAccept(COleDataObject*, DWORD, CPoint) override;
 
-    void StepUp(CCheckListBox& list);
-    void StepDown(CCheckListBox& list);
+    void Exchange(CListCtrl& list, int i, int j);
+    void StepUp(CListCtrl& list);
+    void StepDown(CListCtrl& list);
 
     FilterOverride* GetCurFilter();
 
@@ -95,12 +96,13 @@ protected:
     afx_msg void OnRemoveFilter();
     afx_msg void OnMoveFilterUp();
     afx_msg void OnMoveFilterDown();
-    afx_msg void OnDoubleClickFilter();
+    void OnDoubleClickFilter(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg int OnVKeyToItem(UINT nKey, CListBox* pListBox, UINT nIndex);
     afx_msg void OnAddMajorType();
     afx_msg void OnAddSubType();
     afx_msg void OnDeleteType();
     afx_msg void OnResetTypes();
+    void OnFilterChanged(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnFilterSelectionChange();
     afx_msg void OnFilterCheckChange();
     afx_msg void OnClickedMeritRadioButton();
