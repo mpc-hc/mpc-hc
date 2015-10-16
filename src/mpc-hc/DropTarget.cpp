@@ -67,7 +67,7 @@ BOOL CDropTarget::OnDrop(CWnd* pWnd, COleDataObject* pDataObject, DROPEFFECT dro
     if (auto pClient = dynamic_cast<CDropClient*>(pWnd)) {
         if (pDataObject->IsDataAvailable(CF_HDROP)) {
             if (HGLOBAL hGlobal = pDataObject->GetGlobalData(CF_HDROP)) {
-                if (HDROP hDrop = (HDROP)GlobalLock(hGlobal)) {
+                if (HDROP hDrop = static_cast<HDROP>(GlobalLock(hGlobal))) {
                     UINT nFiles = ::DragQueryFile(hDrop, UINT_MAX, nullptr, 0);
                     for (UINT iFile = 0; iFile < nFiles; iFile++) {
                         CString fn;
@@ -83,11 +83,10 @@ BOOL CDropTarget::OnDrop(CWnd* pWnd, COleDataObject* pDataObject, DROPEFFECT dro
         } else if (pDataObject->IsDataAvailable(CF_URL)) {
             FORMATETC fmt = { CF_URL, nullptr, DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
             if (HGLOBAL hGlobal = pDataObject->GetGlobalData(CF_URL, &fmt)) {
-                LPCSTR pText = (LPCSTR)GlobalLock(hGlobal);
+                LPCSTR pText = static_cast<LPCSTR>(GlobalLock(hGlobal));
                 if (AfxIsValidString(pText)) {
-                    CAtlList<CString> sl;
-                    sl.AddTail(pText);
-                    pClient->OnDropFiles(sl, dropEffect);
+                    slFiles.AddTail(pText);
+                    pClient->OnDropFiles(slFiles, dropEffect);
                     GlobalUnlock(hGlobal);
                     bResult = TRUE;
                 }
@@ -121,6 +120,3 @@ DROPEFFECT CDropTarget::OnDragScroll(CWnd* pWnd, DWORD dwKeyState, CPoint point)
 {
     return DROPEFFECT_NONE;
 }
-
-BEGIN_MESSAGE_MAP(CDropTarget, COleDropTarget)
-END_MESSAGE_MAP()

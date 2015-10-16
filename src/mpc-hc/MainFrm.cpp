@@ -4349,7 +4349,7 @@ DROPEFFECT CMainFrame::OnDropAccept(COleDataObject* pDataObject, DWORD dwKeyStat
     ClientToScreen(&point);
     if (CMouse::CursorOnRootWindow(point, *this)) {
         UpdateControlState(UPDATE_CONTROLS_VISIBILITY);
-        return (dwKeyState & MK_CONTROL) ? DROPEFFECT_COPY : DROPEFFECT_MOVE;
+        return (dwKeyState & MK_CONTROL) ? DROPEFFECT_COPY : (DROPEFFECT_MOVE | DROPEFFECT_LINK);
     }
 
     return DROPEFFECT_NONE;
