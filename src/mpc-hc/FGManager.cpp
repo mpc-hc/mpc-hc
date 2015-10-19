@@ -2199,14 +2199,24 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     // mainconcept color space converter
     m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(GUIDFromCString(_T("{272D77A0-A852-4851-ADA4-9091FEAD4C86}")), MERIT64_DO_NOT_USE));
 
-    // VSFilter blocking routines
-    if (s.fBlockVSFilter && s.IsISRAutoLoadEnabled()) {
-        // Prevent VSFilter from connecting while the ISR is active
-        m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VSFilter, MERIT64_DO_NOT_USE));
-        // Prevent XySubFilter from connecting while the ISR is active
-        m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter, MERIT64_DO_NOT_USE));
-        // Prevent XySubFilter's loader from connecting while the ISR is active
-        m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter_AutoLoader, MERIT64_DO_NOT_USE));
+    if (s.fBlockVSFilter) {
+        switch (s.eSubtitleRenderer) {
+            case CAppSettings::SubtitleRenderer::INTERNAL:
+                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VSFilter, MERIT64_DO_NOT_USE));
+                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter, MERIT64_DO_NOT_USE));
+                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter_AutoLoader, MERIT64_DO_NOT_USE));
+                break;
+            case CAppSettings::SubtitleRenderer::VS_FILTER:
+                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter, MERIT64_DO_NOT_USE));
+                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter_AutoLoader, MERIT64_DO_NOT_USE));
+                break;
+            case CAppSettings::SubtitleRenderer::XY_SUB_FILTER:
+                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VSFilter, MERIT64_DO_NOT_USE));
+                break;
+            default:
+                ASSERT(FALSE);
+                break;
+        }
     }
 
     // Blacklist Accusoft PICVideo M-JPEG Codec 2.1 since causes a DEP crash

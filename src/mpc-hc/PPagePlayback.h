@@ -54,7 +54,6 @@ public:
     int m_nAutoFitFactor;
     CSpinButtonCtrl m_AutoFitFactorCtrl;
     BOOL m_fAutoloadAudio;
-    BOOL m_fAutoloadSubtitles;
     BOOL m_fEnableWorkerThreadForOpening;
     BOOL m_fReportFailedPins;
     CString m_subtitlesLanguageOrder;
@@ -80,7 +79,6 @@ public:
     afx_msg void OnUpdateLoopNum(CCmdUI* pCmdUI);
     afx_msg void OnUpdateAutoZoomCombo(CCmdUI* pCmdUI);
     afx_msg void OnUpdateAfterPlayback(CCmdUI* pCmdUI);
-    afx_msg void OnUpdateISREnabled(CCmdUI* pCmdUI);
     afx_msg void OnUpdateSpeedStep(CCmdUI* pCmdUI);
 
     afx_msg void OnBalanceTextDblClk();

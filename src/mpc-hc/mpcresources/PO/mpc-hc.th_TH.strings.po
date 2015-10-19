@@ -1402,6 +1402,10 @@ msgctxt "IDS_WEBUI_PREVIEW_WARNING"
 msgid "This option can be used to preview media files from remote location. Use it only on a properly secured private network.\n\nDo you really want to enable this option?"
 msgstr "ตัวเลือกนี้สามารถใช้เพื่อแสดงตัวอย่างไฟล์สื่อจากที่ตั้งระยะไกล ใช้เฉพาะเมื่อเครือข่ายส่วนตัวได้รักษาความปลอดภัยไว้อย่างเหมาะสม\n\nคุณต้องการเปิดใช้งานตัวเลือกนี้่หรือไม่?"
 
+msgctxt "IDS_SUBTITLE_RENDERER_INTERNAL"
+msgid "Internal Subtitle Renderer"
+msgstr ""
+
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
 msgstr "เปิดอุปกรณ์"
@@ -3605,4 +3609,12 @@ msgstr "ล้างความสัมพันธ์ทั้งหมด"
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"
 msgstr "การตั้งค่า"
+
+msgctxt "IDS_SUBTITLE_RENDERER_VS_FILTER"
+msgid "VSFilter / DirectVobSub"
+msgstr ""
+
+msgctxt "IDS_SUBTITLE_RENDERER_XY_SUB_FILTER"
+msgid "XySubFilter"
+msgstr ""
 

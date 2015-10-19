@@ -1400,6 +1400,10 @@ msgctxt "IDS_WEBUI_PREVIEW_WARNING"
 msgid "This option can be used to preview media files from remote location. Use it only on a properly secured private network.\n\nDo you really want to enable this option?"
 msgstr "Pilihan ini boleh digunakan untuk membuat pratonton pada fail media dari lokasi jauh. Guna ia hanya pada rangkaian persendirian yang selamat.\n\nAnda mahu benarkan pilihan ini?"
 
+msgctxt "IDS_SUBTITLE_RENDERER_INTERNAL"
+msgid "Internal Subtitle Renderer"
+msgstr ""
+
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
 msgstr "Buka Peranti"
@@ -3603,4 +3607,12 @@ msgstr "Kosongkan semua perkaitan"
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"
 msgstr "Tetapan"
+
+msgctxt "IDS_SUBTITLE_RENDERER_VS_FILTER"
+msgid "VSFilter / DirectVobSub"
+msgstr ""
+
+msgctxt "IDS_SUBTITLE_RENDERER_XY_SUB_FILTER"
+msgid "XySubFilter"
+msgstr ""
 

@@ -84,8 +84,8 @@ CAppSettings::CAppSettings()
     , nCmdlnWebServerPort(-1)
     , fWebServerUseCompression(true)
     , fWebServerLocalhostOnly(false)
-    , fWebServerPrintDebugInfo(false)
     , bWebUIEnablePreview(false)
+    , fWebServerPrintDebugInfo(false)
     , nVolume(100)
     , fMute(false)
     , nBalance(0)
@@ -97,7 +97,6 @@ CAppSettings::CAppSettings()
     , fEnableWorkerThreadForOpening(true)
     , fReportFailedPins(true)
     , fAutoloadAudio(true)
-    , fAutoloadSubtitles(true)
     , fBlockVSFilter(true)
     , nVolumeStep(5)
     , nSpeedStep(0)
@@ -203,6 +202,7 @@ CAppSettings::CAppSettings()
     , nCoverArtSizeLimit(600)
     , bEnableLogging(false)
     , iLAVGPUDevice(DWORD_MAX)
+    , eSubtitleRenderer(SubtitleRenderer::INTERNAL)
 {
     // Internal source filter
 #if INTERNAL_SOURCEFILTER_CDDA
@@ -622,6 +622,11 @@ bool CAppSettings::IsD3DFullscreen() const
 
 bool CAppSettings::IsISRAvailable() const
 {
+    return IsISRAvailable(iDSVideoRendererType);
+}
+
+bool CAppSettings::IsISRAvailable(int iDSVideoRendererType)
+{
     return (iDSVideoRendererType == VIDRNDT_DS_VMR7RENDERLESS ||
             iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS ||
             iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
@@ -632,7 +637,22 @@ bool CAppSettings::IsISRAvailable() const
 
 bool CAppSettings::IsISRAutoLoadEnabled() const
 {
-    return fAutoloadSubtitles && IsISRAvailable();
+    return eSubtitleRenderer == SubtitleRenderer::INTERNAL && IsISRAvailable();
+}
+
+bool CAppSettings::IsSubtitleRendererRegistered(SubtitleRenderer eSubtitleRenderer)
+{
+    switch (eSubtitleRenderer) {
+        case SubtitleRenderer::INTERNAL:
+            return true;
+        case SubtitleRenderer::VS_FILTER:
+            return IsCLSIDRegistered(CLSID_VSFilter);
+        case SubtitleRenderer::XY_SUB_FILTER:
+            return IsCLSIDRegistered(CLSID_XySubFilter);
+        default:
+            ASSERT(FALSE);
+            return false;
+    }
 }
 
 bool CAppSettings::IsVideoRendererAvailable(int iVideoRendererType)
@@ -748,7 +768,6 @@ void CAppSettings::SaveSettings()
 
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_AUDIORENDERERTYPE, CString(strAudioRendererDisplayName));
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUTOLOADAUDIO, fAutoloadAudio);
-    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUTOLOADSUBTITLES, fAutoloadSubtitles);
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLESLANGORDER, CString(strSubtitlesLanguageOrder));
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_AUDIOSLANGORDER, CString(strAudiosLanguageOrder));
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_BLOCKVSFILTER, fBlockVSFilter);
@@ -984,6 +1003,9 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_COVER_ART_SIZE_LIMIT, nCoverArtSizeLimit);
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LOGGING, bEnableLogging);
+
+    VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SUBTITLE_RENDERER,
+                                 static_cast<int>(eSubtitleRenderer)));
 
     {
         CComHeapPtr<WCHAR> pDeviceId;
@@ -1268,7 +1290,6 @@ void CAppSettings::LoadSettings()
 
     strAudioRendererDisplayName = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_AUDIORENDERERTYPE);
     fAutoloadAudio = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUTOLOADAUDIO, TRUE);
-    fAutoloadSubtitles = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUTOLOADSUBTITLES, TRUE);
     strSubtitlesLanguageOrder = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLESLANGORDER);
     strAudiosLanguageOrder = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_AUDIOSLANGORDER);
     fBlockVSFilter = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_BLOCKVSFILTER, TRUE);
@@ -1718,6 +1739,9 @@ void CAppSettings::LoadSettings()
     nCoverArtSizeLimit = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_COVER_ART_SIZE_LIMIT, 600);
 
     bEnableLogging = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LOGGING, FALSE);
+
+    eSubtitleRenderer = static_cast<SubtitleRenderer>(pApp->GetProfileInt(IDS_R_SETTINGS,
+                                                      IDS_RS_SUBTITLE_RENDERER, static_cast<int>(SubtitleRenderer::INTERNAL)));
 
     if (fLaunchfullscreen) {
         nCLSwitches |= CLSW_FULLSCREEN;

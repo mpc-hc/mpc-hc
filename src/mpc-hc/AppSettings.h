@@ -485,7 +485,6 @@ public:
     bool            fEnableWorkerThreadForOpening;
     bool            fReportFailedPins;
     bool            fAutoloadAudio;
-    bool            fAutoloadSubtitles;
     bool            fBlockVSFilter;
     UINT            nVolumeStep;
     UINT            nSpeedStep;
@@ -677,6 +676,7 @@ public:
     CString         SelectedAudioRenderer() const;
     bool            IsISRAutoLoadEnabled() const;
     bool            IsISRAvailable() const;
+    static bool     IsISRAvailable(int iDSVideoRenderer);
     bool            IsInitialized() const;
     static bool     IsVideoRendererAvailable(int iVideoRendererType);
 
@@ -685,6 +685,13 @@ public:
     CComPtr<SaneAudioRenderer::ISettings> sanear;
 
     DWORD           iLAVGPUDevice;
+
+    enum class SubtitleRenderer {
+        INTERNAL,
+        VS_FILTER,
+        XY_SUB_FILTER,
+    } eSubtitleRenderer;
+    static bool     IsSubtitleRendererRegistered(SubtitleRenderer eSubtitleRenderer);
 
 private:
     struct FilterKey {

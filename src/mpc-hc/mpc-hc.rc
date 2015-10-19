@@ -319,7 +319,6 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,185,276,8
     CONTROL         "Report pins which fail to render",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,197,276,8
     CONTROL         "Auto-load audio files",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,209,276,8
-    CONTROL         "Use the built-in subtitle renderer",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,221,276,8
     GROUPBOX        "Control",IDC_STATIC,5,55,126,46
     LTEXT           "Volume step:",IDC_STATIC,11,67,68,8
     EDITTEXT        IDC_VOLUMESTEP,81,64,35,14,ES_CENTER | ES_AUTOHSCROLL | ES_NUMBER
@@ -421,7 +420,8 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,78,286,8
     CONTROL         "Prevent minimizing the player when in fullscreen on a non default monitor",IDC_CHECK6,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,90,290,8
-    CONTROL         "Use enhanced taskbar features",IDC_CHECK_ENHANCED_TASKBAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,102,286,8
+    CONTROL         "Use enhanced taskbar features",IDC_CHECK_ENHANCED_TASKBAR,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,102,286,8
     CONTROL         "Open previous/next file in folder on ""Skip back/forward"" when there is only one item in playlist",IDC_CHECK7,
                     "Button",BS_AUTOCHECKBOX | BS_VCENTER | BS_MULTILINE | WS_TABSTOP,5,125,290,18
     CONTROL         "Show time tooltip:",IDC_CHECK8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,149,135,8
@@ -760,46 +760,47 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "DirectShow Video",IDC_STATIC,5,5,285,43
     COMBOBOX        IDC_VIDRND_COMBO,10,16,276,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "RealMedia Video",IDC_STATIC,5,52,139,40
-    COMBOBOX        IDC_RMRND_COMBO,10,62,131,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "QuickTime Video",IDC_STATIC,151,52,139,40
-    COMBOBOX        IDC_QTRND_COMBO,155,62,131,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "Audio Renderer",IDC_STATIC,5,96,285,30
-    COMBOBOX        IDC_AUDRND_COMBO,10,108,276,46,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "VMR-7/VMR-9 (renderless) and EVR (CP) settings",IDC_STATIC,5,131,285,91
-    RTEXT           "Surface:",IDC_STATIC,118,164,60,8
-    COMBOBOX        IDC_DX_SURFACE,181,161,105,49,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    RTEXT           "Resizer:",IDC_STATIC,118,180,60,8
-    COMBOBOX        IDC_DX9RESIZER_COMBO,181,179,105,49,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Select D3D9 Render Device",IDC_D3D9DEVICE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,144,137,10
-    COMBOBOX        IDC_D3D9DEVICE_COMBO,147,143,139,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "RealMedia Video",IDC_STATIC,5,49,139,40
+    COMBOBOX        IDC_RMRND_COMBO,10,59,131,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "QuickTime Video",IDC_STATIC,151,49,139,40
+    COMBOBOX        IDC_QTRND_COMBO,155,59,131,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Audio Renderer",IDC_STATIC,5,90,285,30
+    COMBOBOX        IDC_AUDRND_COMBO,10,102,276,46,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "VMR-7/VMR-9 (renderless) and EVR (CP) settings",IDC_STATIC,5,153,285,83
+    RTEXT           "Surface:",IDC_STATIC,118,184,60,8
+    COMBOBOX        IDC_DX_SURFACE,181,181,105,49,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "Resizer:",IDC_STATIC,118,200,60,8
+    COMBOBOX        IDC_DX9RESIZER_COMBO,181,197,105,49,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Select D3D9 Render Device",IDC_D3D9DEVICE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,166,137,10
+    COMBOBOX        IDC_D3D9DEVICE_COMBO,147,165,139,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Reinitialize when changing display",IDC_RESETDEVICE,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,204,171,10
-    CONTROL         "D3D Fullscreen",IDC_FULLSCREEN_MONITOR_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,192,171,10
-    CONTROL         "Alternative VSync",IDC_DSVMR9ALTERNATIVEVSYNC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,180,108,10
-    CONTROL         "VMR-9 Mixer Mode",IDC_DSVMR9LOADMIXER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,156,108,10
-    CONTROL         "YUV Mixing",IDC_DSVMR9YUVMIXER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,168,108,10
-    RTEXT           "EVR Buffers:",IDC_EVR_BUFFERS_TXT,168,199,81,8
-    COMBOBOX        IDC_EVR_BUFFERS,252,196,34,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,222,171,10
+    CONTROL         "D3D Fullscreen",IDC_FULLSCREEN_MONITOR_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,210,171,10
+    CONTROL         "Alternative VSync",IDC_DSVMR9ALTERNATIVEVSYNC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,199,108,10
+    CONTROL         "VMR-9 Mixer Mode",IDC_DSVMR9LOADMIXER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,177,108,10
+    CONTROL         "YUV Mixing",IDC_DSVMR9YUVMIXER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,188,108,10
+    RTEXT           "EVR Buffers:",IDC_EVR_BUFFERS_TXT,168,216,81,8
+    COMBOBOX        IDC_EVR_BUFFERS,252,213,34,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "DXVA",IDC_STATIC,24,34,30,8
-    ICON            "",IDC_VIDRND_DXVA_SUPPORT,10,33,21,20
-    LTEXT           "Subtitles *",IDC_STATIC,69,34,45,8
-    ICON            "",IDC_VIDRND_SUBTITLE_SUPPORT,54,33,21,20
+    ICON            "",IDC_VIDRND_DXVA_SUPPORT,10,33,20,20
+    LTEXT           "Subtitles",IDC_STATIC,69,34,45,8
+    ICON            "",IDC_VIDRND_SUBTITLE_SUPPORT,54,33,20,20
     LTEXT           "Screenshot",IDC_STATIC,129,34,45,8
-    ICON            "",IDC_VIDRND_SAVEIMAGE_SUPPORT,114,33,21,20
+    ICON            "",IDC_VIDRND_SAVEIMAGE_SUPPORT,114,33,20,20
     LTEXT           "Shaders",IDC_STATIC,189,34,35,8
-    ICON            "",IDC_VIDRND_SHADER_SUPPORT,174,33,21,20
+    ICON            "",IDC_VIDRND_SHADER_SUPPORT,174,33,20,20
     LTEXT           "Rotation",IDC_STATIC,240,34,45,8
-    ICON            "",IDC_VIDRND_ROTATION_SUPPORT,225,33,21,20
-    LTEXT           "Subtitles *",IDC_STATIC,24,79,50,8
-    ICON            "",IDC_RMRND_SUBTITLE_SUPPORT,10,78,21,20
-    LTEXT           "Screenshot",IDC_STATIC,88,79,50,8
-    ICON            "",IDC_RMRND_SAVEIMAGE_SUPPORT,74,78,21,20
-    LTEXT           "Subtitles *",IDC_STATIC,170,79,50,8
-    ICON            "",IDC_QTRND_SUBTITLE_SUPPORT,155,78,21,20
-    LTEXT           "Screenshot",IDC_STATIC,235,79,50,8
-    ICON            "",IDC_QTRND_SAVEIMAGE_SUPPORT,221,78,21,20
-    LTEXT           "* External filters (such as VSFilter) can display subtitles on all renderers.",IDC_STATIC,10,224,276,16
+    ICON            "",IDC_VIDRND_ROTATION_SUPPORT,225,33,20,20
+    LTEXT           "Subtitles",IDC_STATIC,24,76,50,8
+    ICON            "",IDC_RMRND_SUBTITLE_SUPPORT,10,75,20,20
+    LTEXT           "Screenshot",IDC_STATIC,88,76,50,8
+    ICON            "",IDC_RMRND_SAVEIMAGE_SUPPORT,74,75,20,20
+    LTEXT           "Subtitles",IDC_STATIC,170,76,50,8
+    ICON            "",IDC_QTRND_SUBTITLE_SUPPORT,155,75,20,20
+    LTEXT           "Screenshot",IDC_STATIC,235,76,50,8
+    ICON            "",IDC_QTRND_SAVEIMAGE_SUPPORT,221,75,20,20
+    GROUPBOX        "Subtitle Renderer",IDC_STATIC,5,121,285,30
+    COMBOBOX        IDC_COMBO1,10,133,276,46,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 END
 
 IDD_PPAGEWEBSERVER DIALOGEX 0, 0, 296, 241
@@ -2703,8 +2704,11 @@ BEGIN
     IDS_AFTERPLAYBACK_CLOSE "After Playback: Close"
     IDS_FRAME_INIT_FAILED   "MPC-HC encountered a problem during initialization. With your help we might be able to fix the issue.\n\nDo you want to report it?"
     IDS_TIME_SHIFT_TOOLTIP  "Enter a positive value if the audio is early, a negative value if it is late."
-    IDS_WEBUI_DISABLED_PREVIEW_MSG "Preview is currently disabled. You can enable it in MPC-HC's options."
-    IDS_WEBUI_PREVIEW_WARNING "This option can be used to preview media files from remote location. Use it only on a properly secured private network.\n\nDo you really want to enable this option?"
+    IDS_WEBUI_DISABLED_PREVIEW_MSG 
+                            "Preview is currently disabled. You can enable it in MPC-HC's options."
+    IDS_WEBUI_PREVIEW_WARNING 
+                            "This option can be used to preview media files from remote location. Use it only on a properly secured private network.\n\nDo you really want to enable this option?"
+    IDS_SUBTITLE_RENDERER_INTERNAL "Internal Subtitle Renderer"
 END
 
 STRINGTABLE
@@ -3488,6 +3492,12 @@ END
 STRINGTABLE
 BEGIN
     IDS_FILTER_SETTINGS_CAPTION "Settings"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_SUBTITLE_RENDERER_VS_FILTER "VSFilter / DirectVobSub"
+    IDS_SUBTITLE_RENDERER_XY_SUB_FILTER "XySubFilter"
 END
 
 #endif    // English (United States) resources
