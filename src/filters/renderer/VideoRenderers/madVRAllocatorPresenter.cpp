@@ -116,11 +116,13 @@ HRESULT CmadVRAllocatorPresenter::RenderEx2(REFERENCE_TIME rtStart,
                                             RECT viewportRect,
                                             const double videoStretchFactor)
 {
+    CheckPointer(m_pSubPicQueue, E_UNEXPECTED);
+
     __super::SetPosition(viewportRect, croppedVideoRect);
     if (!g_bExternalSubtitleTime) {
         SetTime(rtStart);
     }
-    if (atpf > 0 && m_pSubPicQueue) {
+    if (atpf > 0) {
         m_fps = 10000000.0 / atpf;
         m_pSubPicQueue->SetFPS(m_fps);
     }
