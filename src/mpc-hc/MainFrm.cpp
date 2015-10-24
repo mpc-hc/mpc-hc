@@ -4348,7 +4348,8 @@ DROPEFFECT CMainFrame::OnDropAccept(COleDataObject* pDataObject, DWORD dwKeyStat
     ClientToScreen(&point);
     if (CMouse::CursorOnRootWindow(point, *this)) {
         UpdateControlState(UPDATE_CONTROLS_VISIBILITY);
-        return (dwKeyState & MK_CONTROL) ? DROPEFFECT_COPY : (DROPEFFECT_MOVE | DROPEFFECT_LINK);
+        return (dwKeyState & MK_CONTROL) ? (DROPEFFECT_COPY | DROPEFFECT_APPEND)
+               : (DROPEFFECT_MOVE | DROPEFFECT_LINK | DROPEFFECT_COPY);
     }
 
     return DROPEFFECT_NONE;
@@ -4400,7 +4401,7 @@ void CMainFrame::OnDropFiles(CAtlList<CString>& slFiles, DROPEFFECT dropEffect)
         }
         SendStatusMessage(filenames + ResStr(IDS_SUB_LOADED_SUCCESS), 3000);
     } else {
-        if (dropEffect & DROPEFFECT_COPY) {
+        if (dropEffect & DROPEFFECT_APPEND) {
             m_wndPlaylistBar.Append(slFiles, true);
         } else {
             m_wndPlaylistBar.Open(slFiles, true);

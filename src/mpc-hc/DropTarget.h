@@ -23,6 +23,7 @@
 
 #include <afxole.h>
 
+#define DROPEFFECT_APPEND 16
 
 struct CDropClient {
     virtual void OnDropFiles(CAtlList<CString>& slFiles, DROPEFFECT dropEffect) PURE;
