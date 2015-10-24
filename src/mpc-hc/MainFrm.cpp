@@ -13151,116 +13151,120 @@ IBaseFilter* CMainFrame::FindSourceSelectableFilter()
 
 void CMainFrame::SetupNavStreamSelectSubMenu(CMenu& subMenu, UINT id, DWORD dwSelGroup)
 {
-    CComQIPtr<IAMStreamSelect> pSS = FindSourceSelectableFilter();
-    if (!pSS) {
-        pSS = m_pGB;
-    }
-    if (!pSS) {
-        return;
-    }
+    CComQIPtr<IAMStreamSelect> pSS;
+    bool bAddSeparator = false;
 
-    DWORD cStreams;
-    if (FAILED(pSS->Count(&cStreams))) {
-        return;
-    }
-
-    DWORD dwPrevGroup = DWORD_MAX;
-
-    for (int i = 0, j = cStreams; i < j; i++) {
-        DWORD dwFlags, dwGroup;
-        LCID lcid;
-        WCHAR* pszName = nullptr;
-
-        if (FAILED(pSS->Info(i, nullptr, &dwFlags, &lcid, &dwGroup, &pszName, nullptr, nullptr))
-                || !pszName) {
+    BeginEnumFilters(m_pGB, pEF, pBF) {
+        if (GetCLSID(pBF) == __uuidof(CAudioSwitcherFilter) || GetCLSID(pBF) == CLSID_MorganStreamSwitcher) {
             continue;
         }
 
-        CString name(pszName);
-        CString lcname = CString(name).MakeLower();
-
-        if (pszName) {
-            CoTaskMemFree(pszName);
-        }
-
-        if (dwGroup != dwSelGroup) {
+        if (!(pSS = pBF)) {
             continue;
         }
 
-        if (dwPrevGroup != -1 && dwPrevGroup != dwGroup) {
-            VERIFY(subMenu.AppendMenu(MF_SEPARATOR));
+        DWORD cStreams;
+        if (FAILED(pSS->Count(&cStreams))) {
+            continue;
         }
-        dwPrevGroup = dwGroup;
 
-        CString str;
+        bool bAdded = false;
+        for (DWORD i = 0; i < cStreams; i++) {
+            DWORD dwFlags, dwGroup;
+            LCID lcid;
+            CComHeapPtr<WCHAR> pszName;
 
-        if (lcname.Find(_T(" off")) >= 0) {
-            str.LoadString(IDS_AG_DISABLED);
-        } else {
-            if (lcid != 0) {
-                int len = GetLocaleInfo(lcid, LOCALE_SENGLANGUAGE, str.GetBuffer(64), 64);
-                str.ReleaseBufferSetLength(std::max(len - 1, 0));
+            if (FAILED(pSS->Info(i, nullptr, &dwFlags, &lcid, &dwGroup, &pszName, nullptr, nullptr))
+                    || !pszName) {
+                continue;
             }
 
-            CString lcstr = CString(str).MakeLower();
-
-            if (str.IsEmpty() || lcname.Find(lcstr) >= 0) {
-                str = name;
-            } else if (!name.IsEmpty()) {
-                str = CString(name) + _T(" (") + str + _T(")");
+            if (dwGroup != dwSelGroup) {
+                continue;
             }
-        }
 
-        UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
-        if (dwFlags) {
-            flags |= MF_CHECKED;
-        }
+            CString str;
+            CString lcname(pszName);
+            lcname.MakeLower();
 
-        str.Replace(_T("&"), _T("&&"));
-        VERIFY(subMenu.AppendMenu(flags, id++, str));
+            if (lcname.Find(_T(" off")) >= 0) {
+                str.LoadString(IDS_AG_DISABLED);
+            } else {
+                if (lcid && lcid != LCID(-1)) {
+                    int len = GetLocaleInfo(lcid, LOCALE_SENGLANGUAGE, str.GetBuffer(64), 64);
+                    str.ReleaseBufferSetLength(std::max(len - 1, 0));
+                }
+
+                CString lcstr(str);
+                lcstr.MakeLower();
+
+                if (str.IsEmpty() || lcname.Find(lcstr) >= 0) {
+                    str = pszName;
+                } else if (wcslen(pszName)) {
+                    str = CString(pszName) + _T(" (") + str + _T(")");
+                }
+            }
+
+            UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
+            if (dwFlags) {
+                flags |= MF_CHECKED;
+            }
+
+            if (bAddSeparator) {
+                VERIFY(subMenu.AppendMenu(MF_SEPARATOR));
+                bAddSeparator = false;
+            }
+            bAdded = true;
+
+            str.Replace(_T("&"), _T("&&"));
+            VERIFY(subMenu.AppendMenu(flags, id++, str));
+        }
+        bAddSeparator = bAdded;
     }
+    EndEnumFilters
 }
 
 void CMainFrame::OnNavStreamSelectSubMenu(UINT id, DWORD dwSelGroup)
 {
-    CComQIPtr<IAMStreamSelect> pSS = FindSourceSelectableFilter();
-    if (!pSS) {
-        pSS = m_pGB;
-    }
-    if (!pSS) {
-        return;
-    }
+    CComQIPtr<IAMStreamSelect> pSS;
 
-    DWORD cStreams;
-    if (FAILED(pSS->Count(&cStreams))) {
-        return;
-    }
-
-    for (int i = 0, j = cStreams; i < j; i++) {
-        DWORD dwFlags, dwGroup;
-        LCID lcid;
-        WCHAR* pszName = nullptr;
-
-        if (FAILED(pSS->Info(i, nullptr, &dwFlags, &lcid, &dwGroup, &pszName, nullptr, nullptr))
-                || !pszName) {
+    BeginEnumFilters(m_pGB, pEF, pBF) {
+        if (GetCLSID(pBF) == __uuidof(CAudioSwitcherFilter) || GetCLSID(pBF) == CLSID_MorganStreamSwitcher) {
             continue;
         }
 
-        if (pszName) {
-            CoTaskMemFree(pszName);
-        }
-
-        if (dwGroup != dwSelGroup) {
+        if (!(pSS = pBF)) {
             continue;
         }
 
-        if (id == 0) {
-            pSS->Enable(i, AMSTREAMSELECTENABLE_ENABLE);
-            break;
+        DWORD cStreams;
+        if (FAILED(pSS->Count(&cStreams))) {
+            return;
         }
 
-        id--;
+        for (int i = 0, j = cStreams; i < j; i++) {
+            DWORD dwFlags, dwGroup;
+            LCID lcid;
+            CComHeapPtr<WCHAR> pszName;
+
+            if (FAILED(pSS->Info(i, nullptr, &dwFlags, &lcid, &dwGroup, &pszName, nullptr, nullptr))
+                    || !pszName) {
+                continue;
+            }
+
+            if (dwGroup != dwSelGroup) {
+                continue;
+            }
+
+            if (id == 0) {
+                pSS->Enable(i, AMSTREAMSELECTENABLE_ENABLE);
+                break;
+            }
+
+            id--;
+        }
     }
+    EndEnumFilters
 }
 
 void CMainFrame::SetupRecentFilesSubMenu()
