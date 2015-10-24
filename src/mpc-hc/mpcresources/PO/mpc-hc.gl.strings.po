@@ -2001,22 +2001,6 @@ msgctxt "IDS_MPLAYERC_86"
 msgid "Reload Subtitles"
 msgstr "Recargar Subtítulos"
 
-msgctxt "IDS_MPLAYERC_87"
-msgid "Next Audio Track (OGM)"
-msgstr "Pista de audio seguinte (OGM)"
-
-msgctxt "IDS_MPLAYERC_88"
-msgid "Prev Audio Track (OGM)"
-msgstr "Pista de audio anterior (OGM)"
-
-msgctxt "IDS_MPLAYERC_89"
-msgid "Next Subtitle Track (OGM)"
-msgstr "Pista de subtítulos seguinte (OGM)"
-
-msgctxt "IDS_MPLAYERC_90"
-msgid "Prev Subtitle Track (OGM)"
-msgstr "Pista de subtítulos anterior (OGM)"
-
 msgctxt "IDS_MPLAYERC_91"
 msgid "Next Angle (DVD)"
 msgstr "Ángulo seguinte (DVD)"

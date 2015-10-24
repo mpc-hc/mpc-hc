@@ -2004,22 +2004,6 @@ msgctxt "IDS_MPLAYERC_86"
 msgid "Reload Subtitles"
 msgstr "Perkrauti subtitrus"
 
-msgctxt "IDS_MPLAYERC_87"
-msgid "Next Audio Track (OGM)"
-msgstr "Sekantis garso takelis (OGM)"
-
-msgctxt "IDS_MPLAYERC_88"
-msgid "Prev Audio Track (OGM)"
-msgstr "Ankstesnis garso takelis (OGM)"
-
-msgctxt "IDS_MPLAYERC_89"
-msgid "Next Subtitle Track (OGM)"
-msgstr "Sekantys subtitrai (OGM)"
-
-msgctxt "IDS_MPLAYERC_90"
-msgid "Prev Subtitle Track (OGM)"
-msgstr "Ankstesni subtitrai (OGM)"
-
 msgctxt "IDS_MPLAYERC_91"
 msgid "Next Angle (DVD)"
 msgstr "Kitas kampas (DVD)"

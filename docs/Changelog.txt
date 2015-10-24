@@ -26,6 +26,7 @@ next version - not released yet
 * Use internal audio decoder by default for Opus decoding
 * Ticket #5450/#5479, Improved crash reporting dialog for better stability and user experience
 * Ticket #5472, Make it easier to input value to the "Audio time shift" field in options
+* OGM stream switching hotkeys were unified with generic ones
 * Updated MediaInfoLib to v0.7.75
 * Updated Little CMS to v2.7 (git 07da965)
 * Updated LAV Filters to stable version 0.66.0:

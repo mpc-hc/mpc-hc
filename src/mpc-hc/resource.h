@@ -228,10 +228,6 @@
 #define ID_STREAM_SUB_NEXT              954
 #define ID_STREAM_SUB_PREV              955
 #define ID_STREAM_SUB_ONOFF             956
-#define ID_OGM_AUDIO_NEXT               957
-#define ID_OGM_AUDIO_PREV               958
-#define ID_OGM_SUB_NEXT                 959
-#define ID_OGM_SUB_PREV                 960
 #define ID_DVD_ANGLE_NEXT               961
 #define ID_DVD_ANGLE_PREV               962
 #define ID_DVD_AUDIO_NEXT               963
@@ -790,10 +786,6 @@
 #define IDS_AG_PREV_SUBTITLE            32961
 #define IDS_MPLAYERC_85                 32962
 #define IDS_MPLAYERC_86                 32963
-#define IDS_MPLAYERC_87                 32964
-#define IDS_MPLAYERC_88                 32965
-#define IDS_MPLAYERC_89                 32966
-#define IDS_MPLAYERC_90                 32967
 #define IDS_MPLAYERC_91                 32968
 #define IDS_MPLAYERC_92                 32969
 #define IDS_MPLAYERC_93                 32970

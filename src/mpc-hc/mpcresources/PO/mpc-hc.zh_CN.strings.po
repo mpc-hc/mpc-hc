@@ -2003,22 +2003,6 @@ msgctxt "IDS_MPLAYERC_86"
 msgid "Reload Subtitles"
 msgstr "重新装载字幕"
 
-msgctxt "IDS_MPLAYERC_87"
-msgid "Next Audio Track (OGM)"
-msgstr "下一条音频轨 (OGM)"
-
-msgctxt "IDS_MPLAYERC_88"
-msgid "Prev Audio Track (OGM)"
-msgstr "上一条音频轨 (OGM)"
-
-msgctxt "IDS_MPLAYERC_89"
-msgid "Next Subtitle Track (OGM)"
-msgstr "下一个字幕轨 (OGM)"
-
-msgctxt "IDS_MPLAYERC_90"
-msgid "Prev Subtitle Track (OGM)"
-msgstr "上一个字幕轨 (OGM)"
-
 msgctxt "IDS_MPLAYERC_91"
 msgid "Next Angle (DVD)"
 msgstr "下一视角 (DVD)"

@@ -235,8 +235,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_COMMAND_RANGE(ID_STREAM_AUDIO_NEXT, ID_STREAM_AUDIO_PREV, OnStreamAudio)
     ON_COMMAND_RANGE(ID_STREAM_SUB_NEXT, ID_STREAM_SUB_PREV, OnStreamSub)
     ON_COMMAND(ID_STREAM_SUB_ONOFF, OnStreamSubOnOff)
-    ON_COMMAND_RANGE(ID_OGM_AUDIO_NEXT, ID_OGM_AUDIO_PREV, OnOgmAudio)
-    ON_COMMAND_RANGE(ID_OGM_SUB_NEXT, ID_OGM_SUB_PREV, OnOgmSub)
     ON_COMMAND_RANGE(ID_DVD_ANGLE_NEXT, ID_DVD_ANGLE_PREV, OnDvdAngle)
     ON_COMMAND_RANGE(ID_DVD_AUDIO_NEXT, ID_DVD_AUDIO_PREV, OnDvdAudio)
     ON_COMMAND_RANGE(ID_DVD_SUB_NEXT, ID_DVD_SUB_PREV, OnDvdSub)
@@ -3570,7 +3568,6 @@ void CMainFrame::OnStreamAudio(UINT nID)
             }
         }
     } else if (GetPlaybackMode() == PM_FILE) {
-        SendMessage(WM_COMMAND, ID_OGM_AUDIO_NEXT + nID);
     } else if (GetPlaybackMode() == PM_DVD) {
         SendMessage(WM_COMMAND, ID_DVD_AUDIO_NEXT + nID);
     }
@@ -3588,7 +3585,6 @@ void CMainFrame::OnStreamSub(UINT nID)
         SetSubtitle(nID == 0 ? 1 : -1, true, true);
         SetFocus();
     } else if (GetPlaybackMode() == PM_FILE) {
-        SendMessage(WM_COMMAND, ID_OGM_SUB_NEXT + nID);
     } else if (GetPlaybackMode() == PM_DVD) {
         SendMessage(WM_COMMAND, ID_DVD_SUB_NEXT + nID);
     }
@@ -3605,159 +3601,6 @@ void CMainFrame::OnStreamSubOnOff()
         SetFocus();
     } else if (GetPlaybackMode() == PM_DVD) {
         SendMessage(WM_COMMAND, ID_DVD_SUB_ONOFF);
-    }
-}
-
-void CMainFrame::OnOgmAudio(UINT nID)
-{
-    nID -= ID_OGM_AUDIO_NEXT;
-
-    if (GetLoadState() != MLS::LOADED) {
-        return;
-    }
-
-    CComQIPtr<IAMStreamSelect> pSS = FindSourceSelectableFilter();
-    if (!pSS) {
-        return;
-    }
-
-    CAtlArray<int> snds;
-
-    DWORD cStreams = 0;
-    if (SUCCEEDED(pSS->Count(&cStreams)) && cStreams > 1) {
-        INT_PTR iSel = -1;
-        for (int i = 0; i < (int)cStreams; i++) {
-            AM_MEDIA_TYPE* pmt = nullptr;
-            DWORD dwFlags = 0;
-            LCID lcid = 0;
-            DWORD dwGroup = 0;
-            WCHAR* pszName = nullptr;
-            if (FAILED(pSS->Info(i, &pmt, &dwFlags, &lcid, &dwGroup, &pszName, nullptr, nullptr))) {
-                return;
-            }
-
-            if (dwGroup == 1) {
-                if (dwFlags & (AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE)) {
-                    iSel = snds.GetCount();
-                }
-                snds.Add(i);
-            }
-
-            if (pmt) {
-                DeleteMediaType(pmt);
-            }
-            if (pszName) {
-                CoTaskMemFree(pszName);
-            }
-
-        }
-
-        size_t cnt = snds.GetCount();
-        if (cnt > 1 && iSel >= 0) {
-            int nNewStream = snds[(iSel + (nID == 0 ? 1 : cnt - 1)) % cnt];
-            pSS->Enable(nNewStream, AMSTREAMSELECTENABLE_ENABLE);
-
-            AM_MEDIA_TYPE* pmt = nullptr;
-            DWORD dwFlags = 0;
-            LCID lcid = 0;
-            DWORD dwGroup = 0;
-            WCHAR* pszName = nullptr;
-
-            if (SUCCEEDED(pSS->Info(nNewStream, &pmt, &dwFlags, &lcid, &dwGroup, &pszName, nullptr, nullptr))) {
-                CString strMessage;
-                CString audio_stream = pszName;
-                int k = audio_stream.Find(_T("Audio - "));
-                if (k >= 0) {
-                    audio_stream = audio_stream.Right(audio_stream.GetLength() - k - 8);
-                }
-                strMessage.Format(IDS_AUDIO_STREAM, audio_stream);
-                m_OSD.DisplayMessage(OSD_TOPLEFT, strMessage);
-
-                if (pmt) {
-                    DeleteMediaType(pmt);
-                }
-                if (pszName) {
-                    CoTaskMemFree(pszName);
-                }
-            }
-        }
-    }
-}
-
-void CMainFrame::OnOgmSub(UINT nID)
-{
-    nID -= ID_OGM_SUB_NEXT;
-
-    if (GetLoadState() != MLS::LOADED) {
-        return;
-    }
-
-    CComQIPtr<IAMStreamSelect> pSS = FindSourceSelectableFilter();
-    if (!pSS) {
-        return;
-    }
-
-    CArray<int> subs;
-
-    DWORD cStreams = 0;
-    if (SUCCEEDED(pSS->Count(&cStreams)) && cStreams > 1) {
-        INT_PTR iSel = -1;
-        for (int i = 0; i < (int)cStreams; i++) {
-            AM_MEDIA_TYPE* pmt = nullptr;
-            DWORD dwFlags = 0;
-            LCID lcid = 0;
-            DWORD dwGroup = 0;
-            WCHAR* pszName = nullptr;
-            if (FAILED(pSS->Info(i, &pmt, &dwFlags, &lcid, &dwGroup, &pszName, nullptr, nullptr))) {
-                return;
-            }
-
-            if (dwGroup == 2) {
-                if (dwFlags & (AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE)) {
-                    iSel = subs.GetCount();
-                }
-                subs.Add(i);
-            }
-
-            if (pmt) {
-                DeleteMediaType(pmt);
-            }
-            if (pszName) {
-                CoTaskMemFree(pszName);
-            }
-
-        }
-
-        INT_PTR cnt = subs.GetCount();
-        if (cnt > 1 && iSel >= 0) {
-            int nNewStream = subs[(iSel + (nID == 0 ? 1 : cnt - 1)) % cnt];
-            pSS->Enable(nNewStream, AMSTREAMSELECTENABLE_ENABLE);
-
-            AM_MEDIA_TYPE* pmt = nullptr;
-            DWORD dwFlags = 0;
-            LCID lcid = 0;
-            DWORD dwGroup = 0;
-            WCHAR* pszName = nullptr;
-            if (SUCCEEDED(pSS->Info(nNewStream, &pmt, &dwFlags, &lcid, &dwGroup, &pszName, nullptr, nullptr))) {
-                CString lang;
-                CString strMessage;
-                if (lcid == 0) {
-                    lang = pszName;
-                } else {
-                    int len = GetLocaleInfo(lcid, LOCALE_SENGLANGUAGE, lang.GetBuffer(64), 64);
-                    lang.ReleaseBufferSetLength(std::max(len - 1, 0));
-                }
-
-                strMessage.Format(IDS_SUBTITLE_STREAM, lang);
-                m_OSD.DisplayMessage(OSD_TOPLEFT, strMessage);
-                if (pmt) {
-                    DeleteMediaType(pmt);
-                }
-                if (pszName) {
-                    CoTaskMemFree(pszName);
-                }
-            }
-        }
     }
 }
 
@@ -13114,39 +12957,6 @@ void CMainFrame::SetupJumpToSubMenus(CMenu* parentMenu /*= nullptr*/, int iInser
         menuEndRadioSection(m_channelsMenu);
         addSubMenuIfPossible(ResStr(IDS_NAVIGATE_CHANNELS), m_channelsMenu);
     }
-}
-
-IBaseFilter* CMainFrame::FindSourceSelectableFilter()
-{
-    // splitters for video files (MPEG files with only audio track is very rare)
-    IBaseFilter* pSF = FindFilter(CLSID_MPCMpegSplitter, m_pGB);
-    if (!pSF) {
-        pSF = FindFilter(CLSID_MPCMpegSplitterSource, m_pGB);
-    }
-    // universal splitters
-    if (!pSF) {
-        pSF = FindFilter(CLSID_OggSplitter, m_pGB);
-    }
-    if (!pSF) {
-        pSF = FindFilter(L"{171252A0-8820-4AFE-9DF8-5C92B2D66B04}", m_pGB); // LAV Splitter
-    }
-    if (!pSF) {
-        pSF = FindFilter(L"{B98D13E7-55DB-4385-A33D-09FD1BA26338}", m_pGB); // LAV Splitter Source
-    }
-    if (!pSF) {
-        pSF = FindFilter(L"{55DA30FC-F16B-49fc-BAA5-AE59FC65F82D}", m_pGB); // Haali Media Source
-    }
-    if (!pSF) {
-        pSF = FindFilter(L"{564FD788-86C9-4444-971E-CC4A243DA150}", m_pGB); // Haali Media Splitter with previous file source (like rarfilesource)
-    }
-    if (!pSF) {
-        pSF = FindFilter(L"{529A00DB-0C43-4f5b-8EF2-05004CBE0C6F}", m_pGB); // AV Splitter
-    }
-    if (!pSF) {
-        pSF = FindFilter(L"{D8980E15-E1F6-4916-A10F-D7EB4E9E10B8}", m_pGB); // AV Source
-    }
-
-    return pSF;
 }
 
 void CMainFrame::SetupNavStreamSelectSubMenu(CMenu& subMenu, UINT id, DWORD dwSelGroup)

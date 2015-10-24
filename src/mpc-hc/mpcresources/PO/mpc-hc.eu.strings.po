@@ -2000,22 +2000,6 @@ msgctxt "IDS_MPLAYERC_86"
 msgid "Reload Subtitles"
 msgstr "Birgertatu Azpidatzia"
 
-msgctxt "IDS_MPLAYERC_87"
-msgid "Next Audio Track (OGM)"
-msgstr "Hurrengo Audio Bidea (OGM)"
-
-msgctxt "IDS_MPLAYERC_88"
-msgid "Prev Audio Track (OGM)"
-msgstr "Aurreko Audio Bidea (OGM)"
-
-msgctxt "IDS_MPLAYERC_89"
-msgid "Next Subtitle Track (OGM)"
-msgstr "Hurrengo Azpidatzi Bidea (OGM)"
-
-msgctxt "IDS_MPLAYERC_90"
-msgid "Prev Subtitle Track (OGM)"
-msgstr "Aurreko Azpidatzi Bidea (OGM)"
-
 msgctxt "IDS_MPLAYERC_91"
 msgid "Next Angle (DVD)"
 msgstr "Hurrengo Angelua (DVD)"

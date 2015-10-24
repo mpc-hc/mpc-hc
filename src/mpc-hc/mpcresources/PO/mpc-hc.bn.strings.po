@@ -2003,22 +2003,6 @@ msgctxt "IDS_MPLAYERC_86"
 msgid "Reload Subtitles"
 msgstr "সাবটাইটেল পুনরায় লোড করি"
 
-msgctxt "IDS_MPLAYERC_87"
-msgid "Next Audio Track (OGM)"
-msgstr "পরবর্তী অডিও ট্র্যাক (OGM)"
-
-msgctxt "IDS_MPLAYERC_88"
-msgid "Prev Audio Track (OGM)"
-msgstr "পূর্ববর্তী অডিও ট্র্যাক (OGM)"
-
-msgctxt "IDS_MPLAYERC_89"
-msgid "Next Subtitle Track (OGM)"
-msgstr "পরবর্তী সাবটাইটেল ট্র্যাক (OGM)"
-
-msgctxt "IDS_MPLAYERC_90"
-msgid "Prev Subtitle Track (OGM)"
-msgstr "পূর্ববর্তী সাবটাইটেল ট্র্যাক (OGM)"
-
 msgctxt "IDS_MPLAYERC_91"
 msgid "Next Angle (DVD)"
 msgstr "পরবর্তী ক্যামেরা অ্যাঙ্গেল (DVD)"
