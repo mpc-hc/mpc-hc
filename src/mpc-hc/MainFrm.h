@@ -315,6 +315,7 @@ private:
 
     void SetupNavStreamSelectSubMenu(CMenu& subMenu, UINT id, DWORD dwSelGroup);
     void OnNavStreamSelectSubMenu(UINT id, DWORD dwSelGroup);
+    void OnStreamSelect(bool forward, DWORD dwSelGroup);
 
     CMenu m_mainPopupMenu, m_popupMenu;
     CMenu m_openCDsMenu;

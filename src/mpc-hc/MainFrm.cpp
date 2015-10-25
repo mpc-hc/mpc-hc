@@ -3568,6 +3568,7 @@ void CMainFrame::OnStreamAudio(UINT nID)
             }
         }
     } else if (GetPlaybackMode() == PM_FILE) {
+        OnStreamSelect(nID == 0, 1);
     } else if (GetPlaybackMode() == PM_DVD) {
         SendMessage(WM_COMMAND, ID_DVD_AUDIO_NEXT + nID);
     }
@@ -3585,6 +3586,7 @@ void CMainFrame::OnStreamSub(UINT nID)
         SetSubtitle(nID == 0 ? 1 : -1, true, true);
         SetFocus();
     } else if (GetPlaybackMode() == PM_FILE) {
+        OnStreamSelect(nID == 0, 2);
     } else if (GetPlaybackMode() == PM_DVD) {
         SendMessage(WM_COMMAND, ID_DVD_SUB_NEXT + nID);
     }
@@ -13072,6 +13074,79 @@ void CMainFrame::OnNavStreamSelectSubMenu(UINT id, DWORD dwSelGroup)
             }
 
             id--;
+        }
+    }
+    EndEnumFilters
+}
+
+void CMainFrame::OnStreamSelect(bool bForward, DWORD dwSelGroup)
+{
+    ASSERT(dwSelGroup == 1 || dwSelGroup == 2);
+    CComQIPtr<IAMStreamSelect> pSS;
+
+    BeginEnumFilters(m_pGB, pEF, pBF) {
+        if (GetCLSID(pBF) == __uuidof(CAudioSwitcherFilter) || GetCLSID(pBF) == CLSID_MorganStreamSwitcher) {
+            continue;
+        }
+
+        if (!(pSS = pBF)) {
+            continue;
+        }
+
+        DWORD cStreams;
+        if (FAILED(pSS->Count(&cStreams))) {
+            continue;
+        }
+
+        std::vector<std::tuple<DWORD, LCID, CString>> streams;
+        size_t currentSel = SIZE_MAX;
+        for (DWORD i = 0; i < cStreams; i++) {
+            DWORD dwFlags, dwGroup;
+            LCID lcid;
+            CComHeapPtr<WCHAR> pszName;
+
+            if (FAILED(pSS->Info(i, nullptr, &dwFlags, &lcid, &dwGroup, &pszName, nullptr, nullptr))
+                    || !pszName) {
+                continue;
+            }
+
+            if (dwGroup != dwSelGroup) {
+                continue;
+            }
+
+            if (dwFlags) {
+                currentSel = streams.size();
+            }
+            streams.emplace_back(i, lcid, CString(pszName));
+        }
+
+        size_t count = streams.size();
+        if (count && currentSel != SIZE_MAX) {
+            size_t requested = (bForward ? currentSel + 1 : currentSel - 1) % count;
+            DWORD id;
+            LCID lcid;
+            CString name;
+            std::tie(id, lcid, name) = streams.at(requested);
+            pSS->Enable(id, AMSTREAMSELECTENABLE_ENABLE);
+
+            CString sLcid;
+            if (lcid && lcid != LCID(-1)) {
+                int len = GetLocaleInfo(lcid, LOCALE_SENGLANGUAGE, sLcid.GetBuffer(64), 64);
+                sLcid.ReleaseBufferSetLength(std::max(len - 1, 0));
+            }
+
+            if (!sLcid.IsEmpty() && CString(name).MakeLower().Find(CString(sLcid).MakeLower()) < 0) {
+                name += _T(" (") + sLcid + _T(")");
+            }
+
+            CString strMessage;
+            if (dwSelGroup == 1) {
+                strMessage.Format(IDS_AUDIO_STREAM, name.TrimLeft(_T("A:")).Trim());
+            } else if (dwSelGroup == 2) {
+                strMessage.Format(IDS_SUBTITLE_STREAM, name.TrimLeft(_T("S:")).Trim());
+            }
+            m_OSD.DisplayMessage(OSD_TOPLEFT, strMessage);
+            break;
         }
     }
     EndEnumFilters
