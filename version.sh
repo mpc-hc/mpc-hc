@@ -60,18 +60,18 @@ else
   echo "Hash:      $hash"
   echo "Revision:  $ver"
 
-  # If we are on another branch that isn't master, we want extra info like on
-  # which commit from master it is based on. This assumes we
+  # If we are on another branch that isn't develop or master, we want extra info like on
+  # which commit from develop it is based on. This assumes we
   # won't ever branch from a changeset from before the move to git
-  if [[ "$branch" != "master" ]]; then
+  if [ "$branch" != "develop" ] && [ "$branch" != "master" ]; then
     version_info="#define MPCHC_BRANCH _T(\"$branch\")"$'\n'
     ver_additional+=" ($branch)"
-    if git show-ref --verify --quiet refs/heads/master; then
-      # Get where the branch is based on master
-      base=$(git merge-base master HEAD)
+    if git show-ref --verify --quiet refs/heads/develop; then
+      # Get where the branch is based on develop
+      base=$(git merge-base develop HEAD)
       base=${base:0:7}
-      ver_additional+=" (master@${base})"
-      echo "Mergebase: master@${base}"
+      ver_additional+=" (develop@${base})"
+      echo "Mergebase: develop@${base}"
     fi
   fi
 fi
