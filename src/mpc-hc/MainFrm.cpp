@@ -3534,35 +3534,18 @@ void CMainFrame::OnStreamAudio(UINT nID)
     DWORD cStreams = 0;
     if (pSS && SUCCEEDED(pSS->Count(&cStreams)) && cStreams > 1) {
         for (DWORD i = 0; i < cStreams; i++) {
-            AM_MEDIA_TYPE* pmt = nullptr;
             DWORD dwFlags = 0;
             LCID lcid = 0;
             DWORD dwGroup = 0;
-            WCHAR* pszName = nullptr;
-            if (FAILED(pSS->Info(i, &pmt, &dwFlags, &lcid, &dwGroup, &pszName, nullptr, nullptr))) {
+            CComHeapPtr<WCHAR> pszName;
+            if (FAILED(pSS->Info(i, nullptr, &dwFlags, &lcid, &dwGroup, &pszName, nullptr, nullptr))) {
                 return;
             }
-
-            if (pmt) {
-                DeleteMediaType(pmt);
-            }
-            if (pszName) {
-                CoTaskMemFree(pszName);
-            }
-
             if (dwFlags & (AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE)) {
                 long stream_index = (i + (nID == 0 ? 1 : cStreams - 1)) % cStreams;
                 pSS->Enable(stream_index, AMSTREAMSELECTENABLE_ENABLE);
-                if (SUCCEEDED(pSS->Info(stream_index, &pmt, &dwFlags, &lcid, &dwGroup, &pszName, nullptr, nullptr))) {
-                    CString strMessage;
-                    strMessage.Format(IDS_AUDIO_STREAM, pszName);
-                    m_OSD.DisplayMessage(OSD_TOPLEFT, strMessage);
-                    if (pmt) {
-                        DeleteMediaType(pmt);
-                    }
-                    if (pszName) {
-                        CoTaskMemFree(pszName);
-                    }
+                if (SUCCEEDED(pSS->Info(stream_index, nullptr, &dwFlags, &lcid, &dwGroup, &pszName, nullptr, nullptr))) {
+                    m_OSD.DisplayMessage(OSD_TOPLEFT, GetStreamOSDString(CString(pszName), lcid, 1));
                 }
                 break;
             }
@@ -13128,28 +13111,34 @@ void CMainFrame::OnStreamSelect(bool bForward, DWORD dwSelGroup)
             CString name;
             std::tie(id, lcid, name) = streams.at(requested);
             pSS->Enable(id, AMSTREAMSELECTENABLE_ENABLE);
-
-            CString sLcid;
-            if (lcid && lcid != LCID(-1)) {
-                int len = GetLocaleInfo(lcid, LOCALE_SENGLANGUAGE, sLcid.GetBuffer(64), 64);
-                sLcid.ReleaseBufferSetLength(std::max(len - 1, 0));
-            }
-
-            if (!sLcid.IsEmpty() && CString(name).MakeLower().Find(CString(sLcid).MakeLower()) < 0) {
-                name += _T(" (") + sLcid + _T(")");
-            }
-
-            CString strMessage;
-            if (dwSelGroup == 1) {
-                strMessage.Format(IDS_AUDIO_STREAM, name.TrimLeft(_T("A:")).Trim());
-            } else if (dwSelGroup == 2) {
-                strMessage.Format(IDS_SUBTITLE_STREAM, name.TrimLeft(_T("S:")).Trim());
-            }
-            m_OSD.DisplayMessage(OSD_TOPLEFT, strMessage);
+            m_OSD.DisplayMessage(OSD_TOPLEFT, GetStreamOSDString(name, lcid, dwSelGroup));
             break;
         }
     }
     EndEnumFilters
+}
+
+CString CMainFrame::GetStreamOSDString(CString name, LCID lcid, DWORD dwSelGroup)
+{
+    CString sLcid;
+    if (lcid && lcid != LCID(-1)) {
+        int len = GetLocaleInfo(lcid, LOCALE_SENGLANGUAGE, sLcid.GetBuffer(64), 64);
+        sLcid.ReleaseBufferSetLength(std::max(len - 1, 0));
+    }
+    if (!sLcid.IsEmpty() && CString(name).MakeLower().Find(CString(sLcid).MakeLower()) < 0) {
+        name += _T(" (") + sLcid + _T(")");
+    }
+    CString strMessage;
+    if (dwSelGroup == 1) {
+        int n = 0;
+        if (name.Find(_T("A:")) == 0) { n = 2; }
+        strMessage.Format(IDS_AUDIO_STREAM, name.Mid(n).Trim());
+    } else if (dwSelGroup == 2) {
+        int n = 0;
+        if (name.Find(_T("S:")) == 0) { n = 2; }
+        strMessage.Format(IDS_SUBTITLE_STREAM, name.Mid(n).Trim());
+    }
+    return strMessage;
 }
 
 void CMainFrame::SetupRecentFilesSubMenu()
@@ -13501,12 +13490,11 @@ bool CMainFrame::SetSubtitle(int i, bool bIsOffset /*= false*/, bool bDisplayMes
     bool success = false;
 
     if (pSubInput) {
-        WCHAR* pName = nullptr;
+        CComHeapPtr<WCHAR> pName;
         if (CComQIPtr<IAMStreamSelect> pSSF = pSubInput->pSourceFilter) {
             DWORD dwFlags;
             if (FAILED(pSSF->Info(i, nullptr, &dwFlags, nullptr, nullptr, &pName, nullptr, nullptr))) {
                 dwFlags = 0;
-                pName = nullptr;
             }
             // Enable the track only if it isn't already the only selected track in the group
             if (!(dwFlags & AMSTREAMSELECTINFO_EXCLUSIVE)) {
@@ -13523,15 +13511,9 @@ bool CMainFrame::SetSubtitle(int i, bool bIsOffset /*= false*/, bool bDisplayMes
 
         if (bDisplayMessage) {
             if (pName || SUCCEEDED(pSubInput->pSubStream->GetStreamInfo(0, &pName, nullptr))) {
-                CString strMessage;
-                strMessage.Format(IDS_SUBTITLE_STREAM, pName);
-                m_OSD.DisplayMessage(OSD_TOPLEFT, strMessage);
+                m_OSD.DisplayMessage(OSD_TOPLEFT, GetStreamOSDString(CString(pName), LCID(-1), 2));
             }
         }
-        if (pName) {
-            CoTaskMemFree(pName);
-        }
-
         success = true;
     }
 
