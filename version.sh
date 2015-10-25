@@ -41,7 +41,7 @@ if ! git rev-parse --git-dir > /dev/null 2>&1; then
   echo "Warning: Git not available or not a git repo. Using dummy values for hash and version number."
 else
   # Get information about the current version
-  describe=$(git describe --long)
+  describe=$(git describe --long --dirty)
   echo "Describe:  $describe"
 
   # Get the abbreviated hash of the current changeset
@@ -49,7 +49,7 @@ else
 
   # Get the number changesets since the last tag
   ver=${describe#*-}
-  ver=${ver%-*}
+  ver=${ver%-g*}
 
   ver_additional=" ($hash)"
 
@@ -58,11 +58,7 @@ else
 
   echo "On branch: $branch"
   echo "Hash:      $hash"
-  if ! git diff-index --quiet HEAD; then
-    echo "Revision:  $ver (Local modifications found)"
-  else
-    echo "Revision:  $ver"
-  fi
+  echo "Revision:  $ver"
 
   # If we are on another branch that isn't master, we want extra info like on
   # which commit from master it is based on. This assumes we
