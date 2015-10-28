@@ -273,19 +273,10 @@ EXIT /B
 :SubMPCRresources
 IF %ERRORLEVEL% NEQ 0 EXIT /B
 
-FOR %%G IN (
- "Arabic" "Armenian" "Basque" "Belarusian" "Bengali" "Catalan" "Chinese Simplified"
- "Chinese Traditional" "Croatian" "Czech" "Danish" "Dutch" "English (British)"
- "Finnish" "French" "Galician" "German" "Greek" "Hebrew" "Hungarian" "Indonesian"
- "Italian" "Japanese" "Korean" "Lithuanian" "Malay" "Polish" "Portuguese (Brazil)"
- "Punjabi" "Romanian" "Russian" "Serbian" "Slovak" "Slovenian" "Spanish" "Swedish"
- "Tatar" "Thai" "Turkish" "Ukrainian" "Vietnamese"
-) DO (
- TITLE Compiling mpcresources %COMPILER% - %%~G^|%1...
- MSBuild.exe mpcresources.sln %MSBUILD_SWITCHES%^
- /target:%BUILDTYPE% /property:Configuration="Release %%~G";Platform=%1
- IF %ERRORLEVEL% NEQ 0 CALL "%COMMON%" :SubMsg "ERROR" "Compilation failed!" & EXIT /B
-)
+TITLE Compiling mpcresources %COMPILER%...
+MSBuild.exe mpcresources.sln %MSBUILD_SWITCHES%^
+ /target:%BUILDTYPE% /property:Configuration="Release";Platform=%1
+IF %ERRORLEVEL% NEQ 0 CALL "%COMMON%" :SubMsg "ERROR" "Compilation failed!" & EXIT /B
 IF /I "%SIGN%" == "True" CALL :SubSign MPC-HC mpcresources.??.dll Lang
 IF /I "%SIGN%" == "True" CALL :SubSign MPC-HC mpcresources.??_??.dll Lang
 EXIT /B

@@ -20,12 +20,21 @@ REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 SETLOCAL
 PUSHD %~dp0
 
+SET SILENT=%1
+
 CALL "common_python.bat"
 IF %ERRORLEVEL% NEQ 0 GOTO END
 
 python.exe sync.py
 
 :END
-PAUSE
-ENDLOCAL
-EXIT /B
+IF NOT DEFINED SILENT (
+  PAUSE
+)
+IF %ERRORLEVEL% NEQ 0 (
+  ENDLOCAL
+  EXIT /B 1
+) ELSE (
+  ENDLOCAL
+  EXIT /B
+)
