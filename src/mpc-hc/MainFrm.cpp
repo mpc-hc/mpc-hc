@@ -6511,6 +6511,9 @@ void CMainFrame::OnViewPanNScan(UINT nID)
             m_ZoomX = m_ZoomY = 1.0;
             m_PosX = m_PosY = 0.5;
             m_AngleX = m_AngleY = m_AngleZ = 0;
+            if (m_pMVRC) {
+                m_pMVRC->SendCommandInt("rotate", 0);
+            }
             break;
         case ID_VIEW_INCSIZE:
             x = y = 1;
@@ -6670,34 +6673,68 @@ void CMainFrame::OnUpdateViewPanNScanPresets(CCmdUI* pCmdUI)
 
 void CMainFrame::OnViewRotate(UINT nID)
 {
-    if (!m_pCAP) {
+    HRESULT hr = E_NOTIMPL;
+
+    if (m_pMVRC && m_pMVRI) {
+        int rotation;
+        if (FAILED(m_pMVRI->GetInt("rotation", &rotation))) {
+            return;
+        }
+
+        switch (nID) {
+            case ID_PANSCAN_ROTATEZP:
+                rotation += 270;
+                break;
+            case ID_PANSCAN_ROTATEZM:
+                rotation += 90;
+                break;
+            default:
+                return;
+        }
+        rotation %= 360;
+        ASSERT(rotation >= 0);
+
+        if (SUCCEEDED(hr = m_pMVRC->SendCommandInt("rotate", rotation))) {
+            m_AngleZ = (360 - rotation) % 360;
+        }
+    } else if (m_pCAP) {
+        switch (nID) {
+            case ID_PANSCAN_ROTATEXP:
+                m_AngleX += 2;
+                break;
+            case ID_PANSCAN_ROTATEXM:
+                m_AngleX += 360 - 2;
+                break;
+            case ID_PANSCAN_ROTATEYP:
+                m_AngleY += 2;
+                break;
+            case ID_PANSCAN_ROTATEYM:
+                m_AngleY += 360 - 2;
+                break;
+            case ID_PANSCAN_ROTATEZP:
+                m_AngleZ += 2;
+                break;
+            case ID_PANSCAN_ROTATEZM:
+                m_AngleZ += 360 - 2;
+                break;
+            default:
+                return;
+        }
+        m_AngleX %= 360;
+        m_AngleY %= 360;
+        m_AngleZ %= 360;
+
+        hr = m_pCAP->SetVideoAngle(Vector(Vector::DegToRad(m_AngleX), Vector::DegToRad(m_AngleY), Vector::DegToRad(m_AngleZ)));
+    }
+
+    if (FAILED(hr)) {
+        m_AngleX = m_AngleY = m_AngleZ = 0;
         return;
     }
 
-    switch (nID) {
-        case ID_PANSCAN_ROTATEXP:
-            m_AngleX += 2;
-            break;
-        case ID_PANSCAN_ROTATEXM:
-            m_AngleX -= 2;
-            break;
-        case ID_PANSCAN_ROTATEYP:
-            m_AngleY += 2;
-            break;
-        case ID_PANSCAN_ROTATEYM:
-            m_AngleY -= 2;
-            break;
-        case ID_PANSCAN_ROTATEZP:
-            m_AngleZ += 2;
-            break;
-        case ID_PANSCAN_ROTATEZM:
-            m_AngleZ -= 2;
-            break;
-        default:
-            return;
-    }
-
-    m_pCAP->SetVideoAngle(Vector(Vector::DegToRad(m_AngleX), Vector::DegToRad(m_AngleY), Vector::DegToRad(m_AngleZ)));
+    ASSERT(m_AngleX >= 0 && m_AngleX < 360);
+    ASSERT(m_AngleY >= 0 && m_AngleY < 360);
+    ASSERT(m_AngleZ >= 0 && m_AngleZ < 360);
 
     CString info;
     info.Format(_T("x: %d, y: %d, z: %d"), m_AngleX, m_AngleY, m_AngleZ);
@@ -6706,7 +6743,7 @@ void CMainFrame::OnViewRotate(UINT nID)
 
 void CMainFrame::OnUpdateViewRotate(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(GetLoadState() == MLS::LOADED && !m_fAudioOnly && m_pCAP);
+    pCmdUI->Enable(GetLoadState() == MLS::LOADED && !m_fAudioOnly && (m_pCAP || (m_pMVRC && m_pMVRI)));
 }
 
 // FIXME

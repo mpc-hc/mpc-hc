@@ -535,7 +535,7 @@ void CPPageOutput::OnSurfaceChange()
                 m_iDSRotationSupport.SetIcon(m_tick);
             } else if (m_iDSVideoRendererType == VIDRNDT_DS_MADVR) {
                 m_iDSShaderSupport.SetIcon(m_tick);
-                m_iDSRotationSupport.SetIcon(m_cross);
+                m_iDSRotationSupport.SetIcon(m_tick);
             } else {
                 m_iDSShaderSupport.SetIcon(m_cross);
                 m_iDSRotationSupport.SetIcon(m_cross);
@@ -686,6 +686,7 @@ void CPPageOutput::OnDSRendererChange()
             m_iDSDXVASupport.SetIcon(m_tick);
             m_iDSSaveImageSupport.SetIcon(m_tick);
             m_iDSShaderSupport.SetIcon(m_tick);
+            m_iDSRotationSupport.SetIcon(m_tick);
             m_wndToolTip.UpdateTipText(ResStr(IDC_DSMADVR), GetDlgItem(IDC_VIDRND_COMBO));
             break;
         case VIDRNDT_DS_DXR:
