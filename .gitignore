@@ -21,7 +21,7 @@
 /contrib/MPC-HC.tar
 /contrib/MPC-HC.tgz
 /distrib/*.exe
-/include/version_rev.h
+/build/version_rev.h
 /signinfo.txt
 /src/filters/transform/VSFilter/installer/*.exe
 /src/mpc-hc/mpcresources/backup

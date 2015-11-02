@@ -1,6 +1,6 @@
 #ifndef ISPP_INVOKED
 /*
- * (C) 2010-2015 see Authors.txt
+ * (C) 2010-2013, 2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -45,7 +45,7 @@
 #endif
 
 #ifndef NO_VERSION_REV_NEEDED
-#include "version_rev.h"
+#include "..\build\version_rev.h"
 #endif
 
 #define DO_MAKE_STR(x)          _T(#x)

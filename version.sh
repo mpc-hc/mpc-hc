@@ -17,8 +17,10 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 versionfile_fixed="./include/version.h"
-versionfile="./include/version_rev.h"
+versionfile="./build/version_rev.h"
 manifestfile="./src/mpc-hc/res/mpc-hc.exe.manifest"
+
+[[ "$1" == "--quiet" ]] && quiet="yes" || quiet=""
 
 # Read major, minor and patch version numbers from static version.h file
 while read -r _ var value; do
@@ -31,7 +33,7 @@ while read -r _ var value; do
   fi
 done < "$versionfile_fixed"
 ver_fixed="${ver_fixed_major}.${ver_fixed_minor}.${ver_fixed_patch}"
-echo "Version:   $ver_fixed"
+[[ -z "$quiet" ]] && echo "Version:   $ver_fixed"
 
 # If we are not inside a git repo use hardcoded values
 if ! git rev-parse --git-dir > /dev/null 2>&1; then
@@ -42,7 +44,7 @@ if ! git rev-parse --git-dir > /dev/null 2>&1; then
 else
   # Get information about the current version
   describe=$(git describe --long --dirty)
-  echo "Describe:  $describe"
+  [[ -z "$quiet" ]] && echo "Describe:  $describe"
 
   # Get the abbreviated hash of the current changeset
   hash=${describe##*-g}
@@ -56,9 +58,11 @@ else
   # Get the current branch name
   branch=$(git symbolic-ref -q HEAD) && branch=${branch##refs/heads/} || branch="no branch"
 
-  echo "On branch: $branch"
-  echo "Hash:      $hash"
-  echo "Revision:  $ver"
+  if [[ -z "$quiet" ]]; then
+    echo "On branch: $branch"
+    echo "Hash:      $hash"
+    echo "Revision:  $ver"
+  fi
 
   # If we are on another branch that isn't develop or master, we want extra info like on
   # which commit from develop it is based on. This assumes we
@@ -71,7 +75,7 @@ else
       base=$(git merge-base develop HEAD)
       base=${base:0:7}
       ver_additional+=" (develop@${base})"
-      echo "Mergebase: develop@${base}"
+      [[ -z "$quiet" ]] && echo "Mergebase: develop@${base}"
     fi
   fi
 fi
