@@ -22,6 +22,7 @@
 
 #include <mutex>
 #include <sys/timeb.h>
+#include "AppSettings.h"
 #include "mplayerc.h"
 
 enum class LogTargets {
