@@ -399,6 +399,7 @@ private:
     MLS m_eMediaLoadState;
 
     REFTIME GetAvgTimePerFrame() const;
+    void OnVideoSizeChanged(const bool bWasAudioOnly = false);
 
     CDropTarget m_dropTarget;
     void OnDropFiles(CAtlList<CString>& slFiles, DROPEFFECT dropEffect) override;

@@ -2648,25 +2648,9 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
             case EC_VIDEO_SIZE_CHANGED: {
                 CSize size((DWORD)evParam1);
                 TRACE(_T("\t%ldx%ld\n"), size.cx, size.cy);
-
                 const bool bWasAudioOnly = m_fAudioOnly;
                 m_fAudioOnly = (size.cx <= 0 || size.cy <= 0);
-
-                if (GetLoadState() == MLS::LOADED &&
-                        ((s.fRememberZoomLevel && (s.fLimitWindowProportions || m_bAllowWindowZoom)) || m_fAudioOnly || bWasAudioOnly) &&
-                        !(m_fFullScreen || IsD3DFullScreenMode() || IsZoomed() || IsIconic() || IsAeroSnapped())) {
-                    CSize videoSize;
-                    if (!m_fAudioOnly && !m_bAllowWindowZoom) {
-                        videoSize = GetVideoSize();
-                    }
-                    if (videoSize.cx && videoSize.cy) {
-                        ZoomVideoWindow(m_dLastVideoScaleFactor * std::sqrt(((double)m_lastVideoSize.cx * m_lastVideoSize.cy)
-                                                                            / ((double)videoSize.cx * videoSize.cy)));
-                    } else {
-                        ZoomVideoWindow();
-                    }
-                }
-                MoveVideoWindow();
+                OnVideoSizeChanged(bWasAudioOnly);
             }
             break;
             case EC_LENGTH_CHANGED: {
@@ -6472,7 +6456,7 @@ void CMainFrame::OnViewKeepaspectratio()
     CAppSettings& s = AfxGetAppSettings();
 
     s.fKeepAspectRatio = !s.fKeepAspectRatio;
-    MoveVideoWindow();
+    OnVideoSizeChanged();
 }
 
 void CMainFrame::OnUpdateViewKeepaspectratio(CCmdUI* pCmdUI)
@@ -6486,14 +6470,19 @@ void CMainFrame::OnViewCompMonDeskARDiff()
     CAppSettings& s = AfxGetAppSettings();
 
     s.fCompMonDeskARDiff = !s.fCompMonDeskARDiff;
-    MoveVideoWindow();
+    OnVideoSizeChanged();
 }
 
 void CMainFrame::OnUpdateViewCompMonDeskARDiff(CCmdUI* pCmdUI)
 {
     const CAppSettings& s = AfxGetAppSettings();
 
-    pCmdUI->Enable(GetLoadState() == MLS::LOADED && !m_fAudioOnly && s.iDSVideoRendererType != VIDRNDT_DS_EVR);
+    pCmdUI->Enable(GetLoadState() == MLS::LOADED
+                   && !m_fAudioOnly
+                   && s.iDSVideoRendererType != VIDRNDT_DS_EVR
+                   // This doesn't work with madVR due to the fact that it positions video itself.
+                   // And it has exactly the same option built in.
+                   && s.iDSVideoRendererType != VIDRNDT_DS_MADVR);
     pCmdUI->SetCheck(s.fCompMonDeskARDiff);
 }
 
@@ -6764,7 +6753,7 @@ void CMainFrame::OnViewAspectRatio(UINT nID)
 
     m_OSD.DisplayMessage(OSD_TOPLEFT, info, 3000);
 
-    MoveVideoWindow();
+    OnVideoSizeChanged();
 }
 
 void CMainFrame::OnUpdateViewAspectRatio(CCmdUI* pCmdUI)
@@ -9223,53 +9212,66 @@ CSize CMainFrame::GetVideoSize() const
 {
     const CAppSettings& s = AfxGetAppSettings();
 
-    bool fKeepAspectRatio = s.fKeepAspectRatio;
-    bool fCompMonDeskARDiff = s.fCompMonDeskARDiff;
-
-    CSize ret(0, 0);
+    CSize ret;
     if (GetLoadState() != MLS::LOADED || m_fAudioOnly) {
         return ret;
     }
 
-    CSize wh(0, 0), arxy(0, 0);
+    CSize videoSize, preferedAR;
 
     if (m_pCAP) {
-        wh = m_pCAP->GetVideoSize(false);
-        arxy = m_pCAP->GetVideoSize(fKeepAspectRatio);
+        videoSize = m_pCAP->GetVideoSize(false);
+        preferedAR = m_pCAP->GetVideoSize(s.fKeepAspectRatio);
     } else if (m_pMFVDC) {
-        m_pMFVDC->GetNativeVideoSize(&wh, &arxy);   // TODO : check AR !!
+        m_pMFVDC->GetNativeVideoSize(&videoSize, &preferedAR);   // TODO : check AR !!
     } else {
-        m_pBV->GetVideoSize(&wh.cx, &wh.cy);
+        m_pBV->GetVideoSize(&videoSize.cx, &videoSize.cy);
 
         long arx = 0, ary = 0;
         CComQIPtr<IBasicVideo2> pBV2 = m_pBV;
         // FIXME: It can hang here, for few seconds (CPU goes to 100%), after the window have been moving over to another screen,
         // due to GetPreferredAspectRatio, if it happens before CAudioSwitcherFilter::DeliverEndFlush, it seems.
         if (pBV2 && SUCCEEDED(pBV2->GetPreferredAspectRatio(&arx, &ary)) && arx > 0 && ary > 0) {
-            arxy.SetSize(arx, ary);
+            preferedAR.SetSize(arx, ary);
         }
     }
 
-    if (wh.cx <= 0 || wh.cy <= 0) {
+    if (videoSize.cx <= 0 || videoSize.cy <= 0) {
         return ret;
     }
 
-    // with the overlay mixer IBasicVideo2 won't tell the new AR when changed dynamically
+    CSize overrideAR = s.sizeAspectRatio;
     DVD_VideoAttributes VATR;
-    if (GetPlaybackMode() == PM_DVD && SUCCEEDED(m_pDVDI->GetCurrentVideoAttributes(&VATR))) {
-        arxy.SetSize(VATR.ulAspectX, VATR.ulAspectY);
+    // with the overlay mixer IBasicVideo2 won't tell the new AR when changed dynamically
+    if ((!overrideAR.cx || !overrideAR.cy) && GetPlaybackMode() == PM_DVD && SUCCEEDED(m_pDVDI->GetCurrentVideoAttributes(&VATR))) {
+        overrideAR.SetSize(VATR.ulAspectX, VATR.ulAspectY);
     }
 
-    const CSize& ar = s.sizeAspectRatio;
-    if (ar.cx && ar.cy) {
-        arxy = ar;
+    if (s.fKeepAspectRatio) {
+        if (overrideAR.cx > 0 && overrideAR.cy > 0) {
+            if (m_pMVRC && SUCCEEDED(m_pMVRC->SendCommandDouble("setArOverride", double(overrideAR.cx) / overrideAR.cy))) {
+                ret = m_pCAP->GetVideoSize(false);
+            } else {
+                ret = CSize(MulDiv(videoSize.cy, overrideAR.cx, overrideAR.cy), videoSize.cy);
+            }
+        } else {
+            if (m_pMVRC && SUCCEEDED(m_pMVRC->SendCommandDouble("setArOverride", 0.0))) {
+                ret = m_pCAP->GetVideoSize(false);
+            } else {
+                ret = CSize(MulDiv(videoSize.cy, preferedAR.cx, preferedAR.cy), videoSize.cy);
+            }
+        }
+    } else {
+        if (m_pMVRC && SUCCEEDED(m_pMVRC->SendCommandDouble("setArOverride", 0.0))) {
+            ret = m_pCAP->GetVideoSize(false);
+        } else {
+            ret = videoSize;
+        }
     }
 
-    ret = (!fKeepAspectRatio || arxy.cx <= 0 || arxy.cy <= 0)
-          ? wh
-          : CSize(MulDiv(wh.cy, arxy.cx, arxy.cy), wh.cy);
-
-    if (fCompMonDeskARDiff)
+    if (s.fCompMonDeskARDiff
+            && s.iDSVideoRendererType != VIDRNDT_DS_EVR
+            && s.iDSVideoRendererType != VIDRNDT_DS_MADVR)
         if (HDC hDC = ::GetDC(nullptr)) {
             int _HORZSIZE = GetDeviceCaps(hDC, HORZSIZE);
             int _VERTSIZE = GetDeviceCaps(hDC, VERTSIZE);
@@ -16701,4 +16703,24 @@ REFTIME CMainFrame::GetAvgTimePerFrame() const
     }
 
     return refAvgTimePerFrame;
+}
+
+void CMainFrame::OnVideoSizeChanged(const bool bWasAudioOnly /*= false*/)
+{
+    const auto& s = AfxGetAppSettings();
+    if (GetLoadState() == MLS::LOADED &&
+            ((s.fRememberZoomLevel && (s.fLimitWindowProportions || m_bAllowWindowZoom)) || m_fAudioOnly || bWasAudioOnly) &&
+            !(m_fFullScreen || IsD3DFullScreenMode() || IsZoomed() || IsIconic() || IsAeroSnapped())) {
+        CSize videoSize;
+        if (!m_fAudioOnly && !m_bAllowWindowZoom) {
+            videoSize = GetVideoSize();
+        }
+        if (videoSize.cx && videoSize.cy) {
+            ZoomVideoWindow(m_dLastVideoScaleFactor * std::sqrt((static_cast<double>(m_lastVideoSize.cx) * m_lastVideoSize.cy)
+                                                                / (static_cast<double>(videoSize.cx) * videoSize.cy)));
+        } else {
+            ZoomVideoWindow();
+        }
+    }
+    MoveVideoWindow();
 }
