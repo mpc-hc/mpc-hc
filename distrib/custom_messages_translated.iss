@@ -337,7 +337,7 @@ el.tsk_Other=Επιπλέον ενέργειες:
 el.tsk_ResetSettings=Επαναφορά ρυθμίσεων
 el.types_DefaultInstallation=Προκαθορισμένη εγκατάσταση
 el.types_CustomInstallation=Προσαρμοσμένη εγκατάσταση
-el.ViewChangelog=Εμφάνιση λίστας αλλαγών
+el.ViewChangelog=Εμφάνιση μητρώου αλλαγών
 
 ; English (United Kingdom)
 en_GB.langid=00002057

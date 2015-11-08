@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-09-08 19:47:48+0000\n"
-"PO-Revision-Date: 2015-09-30 09:26+0000\n"
+"POT-Creation-Date: 2015-10-19 19:15:11+0000\n"
+"PO-Revision-Date: 2015-10-21 11:14+0000\n"
 "Last-Translator: M. Somsak\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/mpc-hc/mpc-hc/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -1167,7 +1167,7 @@ msgstr "DXVA"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitles"
-msgstr ""
+msgstr "ศัพท์บรรยาย"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Screenshot"
@@ -1183,7 +1183,7 @@ msgstr "การหมุน"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
-msgstr ""
+msgstr "ตัวแปลผลศัพท์บรรยาย"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
@@ -1675,11 +1675,11 @@ msgstr "ใช้งานการครอสฟีดสเตอริโอ
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON1"
 msgid "C. Moy"
-msgstr ""
+msgstr "C. Moy"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON2"
 msgid "J. Meier"
-msgstr ""
+msgstr "J. Meier"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC1"
 msgid "Cut-off:"

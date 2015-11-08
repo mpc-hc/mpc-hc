@@ -6,6 +6,7 @@
 # Alex Luís Silva <alex.mooca@hotmail.com>, 2014
 # Charles Fernando da Silva <eu.charles@hotmail.com>, 2015
 # Edgar Peres <edgarvperes@gmail.com>, 2015
+# Erick Simões <erick.simoes@yahoo.com.br>, 2015
 # Gustavo Cegolini Togni <gustavotogni@gmail.com>, 2015
 # Roger Filipe <lipe2000@outlook.com>, 2013-2014
 # Luis Henrique <henriqlh@gmail.com>, 2014
@@ -15,9 +16,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-08-06 16:05:43+0000\n"
-"PO-Revision-Date: 2015-08-12 14:12+0000\n"
-"Last-Translator: Charles Fernando da Silva <eu.charles@hotmail.com>\n"
+"POT-Creation-Date: 2015-10-19 19:15:11+0000\n"
+"PO-Revision-Date: 2015-10-21 14:38+0000\n"
+"Last-Translator: Erick Simões <erick.simoes@yahoo.com.br>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/mpc-hc/mpc-hc/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -683,7 +684,7 @@ msgstr "Evitar MINIMIZAR quando estiver em tela cheia ou em monitor não-padrão
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
 msgid "Use enhanced taskbar features"
-msgstr ""
+msgstr "Usar recursos da barra de tarefas aprimorada"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
@@ -1175,7 +1176,7 @@ msgstr "DXVA"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitles"
-msgstr ""
+msgstr "Legendas"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Screenshot"
@@ -1191,7 +1192,7 @@ msgstr "Rotação"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
-msgstr ""
+msgstr "Renderizar Legendas"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"

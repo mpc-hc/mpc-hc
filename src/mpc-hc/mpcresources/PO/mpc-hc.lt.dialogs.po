@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-08-06 16:05:43+0000\n"
-"PO-Revision-Date: 2015-09-21 11:32+0000\n"
+"POT-Creation-Date: 2015-10-19 19:15:11+0000\n"
+"PO-Revision-Date: 2015-11-06 12:02+0000\n"
 "Last-Translator: linasmi <linasmi@mail.ru>\n"
 "Language-Team: Lithuanian (http://www.transifex.com/mpc-hc/mpc-hc/language/lt/)\n"
 "MIME-Version: 1.0\n"
@@ -675,7 +675,7 @@ msgstr "Neminimizuoti lango papildomame monitoriuje pilnaekranėje veiksenoje"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
 msgid "Use enhanced taskbar features"
-msgstr ""
+msgstr "Naudoti patobulintas užduočių juostos funkcijas"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
@@ -1167,7 +1167,7 @@ msgstr "DXVA"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitles"
-msgstr ""
+msgstr "Subtitrai"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Screenshot"
@@ -1183,7 +1183,7 @@ msgstr "Pasukimas"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
-msgstr ""
+msgstr "Subtitrų renderis"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"

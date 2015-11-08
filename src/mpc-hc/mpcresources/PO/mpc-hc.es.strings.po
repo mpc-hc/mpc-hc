@@ -15,8 +15,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-08-06 16:05:43+0000\n"
-"PO-Revision-Date: 2015-09-30 05:03+0000\n"
+"POT-Creation-Date: 2015-10-25 00:51:15+0000\n"
+"PO-Revision-Date: 2015-11-10 11:31+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos\n"
 "Language-Team: Spanish (http://www.transifex.com/mpc-hc/mpc-hc/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -271,7 +271,7 @@ msgstr "No se pudo abrir el dispositivo de captura."
 
 msgctxt "IDS_INVALID_PARAMS_ERROR"
 msgid "Can't open, invalid input parameters"
-msgstr "No se puede abrir, parámetros de entrada inválidos"
+msgstr "No se puede abrir: los parámetros de entrada no son válidos"
 
 msgctxt "IDS_EDIT_LIST_EDITOR"
 msgid "Edit List Editor"
@@ -1411,7 +1411,7 @@ msgstr "Esta opción puede usarse para previsualizar archivos audiovisuales desd
 
 msgctxt "IDS_SUBTITLE_RENDERER_INTERNAL"
 msgid "Internal Subtitle Renderer"
-msgstr ""
+msgstr "Motor interno de visualización de subtítulos"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -3603,9 +3603,9 @@ msgstr "Configuración"
 
 msgctxt "IDS_SUBTITLE_RENDERER_VS_FILTER"
 msgid "VSFilter / DirectVobSub"
-msgstr ""
+msgstr "VSFilter / DirectVobSub"
 
 msgctxt "IDS_SUBTITLE_RENDERER_XY_SUB_FILTER"
 msgid "XySubFilter"
-msgstr ""
+msgstr "XySubFilter"
 

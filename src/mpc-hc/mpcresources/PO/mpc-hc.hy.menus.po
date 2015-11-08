@@ -2,14 +2,14 @@
 # Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Hrant Ohanyan <h.ohanyan@haysoft.org>, 2014
+# Hrant Ohanyan <h.ohanyan@haysoft.org>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-22 20:53:41+0000\n"
-"PO-Revision-Date: 2015-06-03 08:10+0000\n"
-"Last-Translator: Hrant Ohanyan <h.ohanyan@haysoft.org>\n"
-"Language-Team: Armenian (http://www.transifex.com/projects/p/mpc-hc/language/hy/)\n"
+"POT-Creation-Date: 2015-05-30 00:33:30+0000\n"
+"PO-Revision-Date: 2015-09-24 20:13+0000\n"
+"Last-Translator: Underground78\n"
+"Language-Team: Armenian (http://www.transifex.com/mpc-hc/mpc-hc/language/hy/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"

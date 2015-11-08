@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-08-06 16:05:43+0000\n"
-"PO-Revision-Date: 2015-09-24 20:33+0000\n"
-"Last-Translator: Underground78\n"
+"POT-Creation-Date: 2015-10-25 00:51:15+0000\n"
+"PO-Revision-Date: 2015-11-08 09:31+0000\n"
+"Last-Translator: JellyFrog\n"
 "Language-Team: Galician (http://www.transifex.com/mpc-hc/mpc-hc/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1403,7 +1403,7 @@ msgstr "Esta opción pode usarse para previsualizar ficheiros audiovisuais dende
 
 msgctxt "IDS_SUBTITLE_RENDERER_INTERNAL"
 msgid "Internal Subtitle Renderer"
-msgstr ""
+msgstr "Renderizador interno de subtítulos"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -3595,9 +3595,9 @@ msgstr "Axustes"
 
 msgctxt "IDS_SUBTITLE_RENDERER_VS_FILTER"
 msgid "VSFilter / DirectVobSub"
-msgstr ""
+msgstr "VSFilter / DirectVobSub"
 
 msgctxt "IDS_SUBTITLE_RENDERER_XY_SUB_FILTER"
 msgid "XySubFilter"
-msgstr ""
+msgstr "XySubFilter"
 

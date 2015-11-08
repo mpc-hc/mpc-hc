@@ -11,10 +11,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-21 13:30:54+0000\n"
-"PO-Revision-Date: 2015-06-04 23:41+0000\n"
+"POT-Creation-Date: 2015-10-25 00:51:15+0000\n"
+"PO-Revision-Date: 2015-11-12 12:09+0000\n"
 "Last-Translator: papu <papu@openmailbox.org>\n"
-"Language-Team: Catalan (http://www.transifex.com/projects/p/mpc-hc/language/ca/)\n"
+"Language-Team: Catalan (http://www.transifex.com/mpc-hc/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -495,7 +495,7 @@ msgstr "Reproducció::Pantalla completa"
 
 msgctxt "IDD_PPAGEAUDIORENDERER"
 msgid "Internal Filters::Audio Renderer"
-msgstr ""
+msgstr "Filtres Interns::Renderitzador d'Àudio"
 
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
@@ -739,7 +739,7 @@ msgstr "Null (sense comprimir)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
 msgid "Internal Audio Renderer"
-msgstr ""
+msgstr "Renderitzador d'Audio Intern"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
@@ -1391,23 +1391,23 @@ msgstr "Després de la Reproducció:Tanca"
 
 msgctxt "IDS_FRAME_INIT_FAILED"
 msgid "MPC-HC encountered a problem during initialization. With your help we might be able to fix the issue.\n\nDo you want to report it?"
-msgstr ""
+msgstr "MPC-HC ha trobat un problema durant la inicialització. Amb la seva ajuda podem ser capaços de solucionar el problema.\n\nVols informar d'aquest problema?"
 
 msgctxt "IDS_TIME_SHIFT_TOOLTIP"
 msgid "Enter a positive value if the audio is early, a negative value if it is late."
-msgstr ""
+msgstr "Introdueix un valor positiu o negatiu segons l'àudio s'escolti retrasat o avançat respecta a la imatge."
 
 msgctxt "IDS_WEBUI_DISABLED_PREVIEW_MSG"
 msgid "Preview is currently disabled. You can enable it in MPC-HC's options."
-msgstr ""
+msgstr "La vista prèvia està actualment deshabilitada. Pots habilitar-la en les opcions de l'MPC-HC."
 
 msgctxt "IDS_WEBUI_PREVIEW_WARNING"
 msgid "This option can be used to preview media files from remote location. Use it only on a properly secured private network.\n\nDo you really want to enable this option?"
-msgstr ""
+msgstr "Aquesta opció es pot utilitzar per a una vista prèvia dels arxius multimèdia des d' una ubicació remota. Utilitza-ho només en un xarxa privada segura.\n\nSegur que voleu activar aquesta opció?"
 
 msgctxt "IDS_SUBTITLE_RENDERER_INTERNAL"
 msgid "Internal Subtitle Renderer"
-msgstr ""
+msgstr "Renderitzador de Subtítols Intern"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1655,7 +1655,7 @@ msgstr "Següent"
 
 msgctxt "IDS_AG_PREVIOUS"
 msgid "Previous"
-msgstr "Anterior"
+msgstr "Previ"
 
 msgctxt "IDS_AG_NEXT_FILE"
 msgid "Next File"
@@ -1663,7 +1663,7 @@ msgstr "Fitxer següent"
 
 msgctxt "IDS_AG_PREVIOUS_FILE"
 msgid "Previous File"
-msgstr "Fitxer Anterior"
+msgstr "Fitxer Previ"
 
 msgctxt "IDS_MPLAYERC_99"
 msgid "Toggle Direct3D fullscreen"
@@ -1695,11 +1695,11 @@ msgstr "OSD: Mostra el Nom del Fixer"
 
 msgctxt "IDS_PLAY_DVD"
 msgid "Play DVD"
-msgstr ""
+msgstr "Reprodueix el DVD"
 
 msgctxt "IDS_PLAY_BD"
 msgid "Play BD"
-msgstr ""
+msgstr "Reprodueix el BD"
 
 msgctxt "IDS_OSD_DISPLAY_RENDERER_STATS"
 msgid "OSD: Display Renderer Statistics"
@@ -1983,19 +1983,19 @@ msgstr "Opcions"
 
 msgctxt "IDS_AG_NEXT_AUDIO"
 msgid "Next Audio Track"
-msgstr ""
+msgstr "Pista d'Àudio Següent"
 
 msgctxt "IDS_AG_PREV_AUDIO"
 msgid "Prev Audio Track"
-msgstr ""
+msgstr " Pista d'Àudio Prèvia"
 
 msgctxt "IDS_AG_NEXT_SUBTITLE"
 msgid "Next Subtitle Track"
-msgstr ""
+msgstr "Pista de Subtítols  Següent "
 
 msgctxt "IDS_AG_PREV_SUBTITLE"
 msgid "Prev Subtitle Track"
-msgstr ""
+msgstr "Pista de Subtítols Prèvia"
 
 msgctxt "IDS_MPLAYERC_85"
 msgid "On/Off Subtitle"
@@ -2015,19 +2015,19 @@ msgstr "Angle Previ (DVD)"
 
 msgctxt "IDS_MPLAYERC_93"
 msgid "Next Audio Track (DVD)"
-msgstr ""
+msgstr "Pista d'Àudio Següent (DVD)"
 
 msgctxt "IDS_MPLAYERC_94"
 msgid "Prev Audio Track (DVD)"
-msgstr ""
+msgstr "Pista d'Àudio Prèvia (DVD)"
 
 msgctxt "IDS_MPLAYERC_95"
 msgid "Next Subtitle Track (DVD)"
-msgstr ""
+msgstr "Pista de Subtítols Següent (DVD)"
 
 msgctxt "IDS_MPLAYERC_96"
 msgid "Prev Subtitle Track (DVD)"
-msgstr ""
+msgstr "Pista de Subtítols Prèvia (DVD)"
 
 msgctxt "IDS_MPLAYERC_97"
 msgid "On/Off Subtitle (DVD)"
@@ -2191,7 +2191,7 @@ msgstr "DVD: Disc i Decodificador de Regions Incompatibles"
 
 msgctxt "IDS_D3DFS_WARNING"
 msgid "This option is designed to avoid tearing. However, it will also prevent MPC-HC from displaying the context menu and any dialog box during playback.\n\nDo you really want to activate this option?"
-msgstr "Aquesta opció és per eliminar el pipelleig, però evita que MPC-HC mostri el menú contextual i caixes de diàleg mentre reprodueix.\n\nEstas segur vols activar aquesta opció?"
+msgstr "Aquesta opció està dissenyada per eliminar el pipelleig, no obstant això, també evitarà al MPC-HC de mostrar el menú de context i qualsevol quadre de diàleg durant la reproducció.\n\n\nSegur que voleu activar aquesta opció?"
 
 msgctxt "IDS_MAINFRM_139"
 msgid "Sub delay: %ld ms"
@@ -3599,9 +3599,9 @@ msgstr "Paràmetres"
 
 msgctxt "IDS_SUBTITLE_RENDERER_VS_FILTER"
 msgid "VSFilter / DirectVobSub"
-msgstr ""
+msgstr "VSFilter / DirectVobSub"
 
 msgctxt "IDS_SUBTITLE_RENDERER_XY_SUB_FILTER"
 msgid "XySubFilter"
-msgstr ""
+msgstr "XySubFilter"
 
