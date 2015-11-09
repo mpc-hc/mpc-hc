@@ -60,6 +60,8 @@ private:
 
     void UpdateSubtitleSupport();
 
+    void UpdateSubtitleRendererList();
+
 public:
     CPPageOutput();
     virtual ~CPPageOutput();
@@ -71,7 +73,7 @@ public:
     int m_iQTVideoRendererType;
     int m_iAPSurfaceUsage;
     int m_iAudioRendererType;
-    int m_iSubtitleRenderer;
+    std::pair<bool, CAppSettings::SubtitleRenderer> m_lastSubrenderer;
     int m_iDX9Resizer;
     BOOL m_fVMR9MixerMode;
     BOOL m_fVMR9MixerYUV;

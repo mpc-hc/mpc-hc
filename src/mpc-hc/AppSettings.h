@@ -675,8 +675,6 @@ public:
     bool            IsD3DFullscreen() const;
     CString         SelectedAudioRenderer() const;
     bool            IsISRAutoLoadEnabled() const;
-    bool            IsISRAvailable() const;
-    static bool     IsISRAvailable(int iDSVideoRenderer);
     bool            IsInitialized() const;
     static bool     IsVideoRendererAvailable(int iVideoRendererType);
 
@@ -692,10 +690,12 @@ public:
         XY_SUB_FILTER,
     };
 
-    SubtitleRenderer GetSubtitleRenderer() const { return eSubtitleRenderer; }
+    SubtitleRenderer GetSubtitleRenderer() const;
     void  SetSubtitleRenderer(SubtitleRenderer renderer) { eSubtitleRenderer = renderer; }
 
     static bool IsSubtitleRendererRegistered(SubtitleRenderer eSubtitleRenderer);
+
+    static bool IsSubtitleRendererSupported(SubtitleRenderer eSubtitleRenderer, int videoRenderer);
 
 private:
     struct FilterKey {

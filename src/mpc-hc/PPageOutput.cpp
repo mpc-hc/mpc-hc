@@ -39,7 +39,7 @@ CPPageOutput::CPPageOutput()
     , m_iQTVideoRendererType(VIDRNDT_QT_DEFAULT)
     , m_iAPSurfaceUsage(0)
     , m_iAudioRendererType(0)
-    , m_iSubtitleRenderer(static_cast<int>(CAppSettings::SubtitleRenderer::INTERNAL))
+    , m_lastSubrenderer{false, CAppSettings::SubtitleRenderer::INTERNAL}
     , m_iDX9Resizer(0)
     , m_fVMR9MixerMode(FALSE)
     , m_fVMR9MixerYUV(FALSE)
@@ -82,7 +82,6 @@ void CPPageOutput::DoDataExchange(CDataExchange* pDX)
     DDX_CBIndex(pDX, IDC_RMRND_COMBO, m_iRMVideoRendererType);
     DDX_CBIndex(pDX, IDC_QTRND_COMBO, m_iQTVideoRendererType);
     DDX_CBIndex(pDX, IDC_AUDRND_COMBO, m_iAudioRendererType);
-    DDX_CBIndex(pDX, IDC_COMBO1, m_iSubtitleRenderer);
     DDX_CBIndex(pDX, IDC_DX_SURFACE, m_iAPSurfaceUsage);
     DDX_CBIndex(pDX, IDC_DX9RESIZER_COMBO, m_iDX9Resizer);
     DDX_CBIndex(pDX, IDC_D3D9DEVICE_COMBO, m_iD3D9RenderDevice);
@@ -223,39 +222,7 @@ BOOL CPPageOutput::OnInitDialog()
     m_iAudioRendererTypeCtrl.Invalidate();
     m_iAudioRendererTypeCtrl.UpdateWindow();
 
-    auto addSubtitleRenderer = [&](CAppSettings::SubtitleRenderer nID) {
-        CString sName;
-        switch (nID) {
-            case CAppSettings::SubtitleRenderer::INTERNAL:
-                sName = ResStr(IDS_SUBTITLE_RENDERER_INTERNAL);
-                break;
-            case CAppSettings::SubtitleRenderer::VS_FILTER:
-                sName = ResStr(IDS_SUBTITLE_RENDERER_VS_FILTER);
-                break;
-            case CAppSettings::SubtitleRenderer::XY_SUB_FILTER:
-                sName = ResStr(IDS_SUBTITLE_RENDERER_XY_SUB_FILTER);
-                break;
-            default:
-                ASSERT(FALSE);
-                break;
-        }
-
-        if (!CAppSettings::IsSubtitleRendererRegistered(nID)) {
-            sName.AppendFormat(_T(" %s"), ResStr(IDS_PPAGE_OUTPUT_UNAVAILABLE));
-        }
-
-        m_SubtitleRendererCtrl.SetItemData(m_SubtitleRendererCtrl.AddString(sName), static_cast<int>(nID));
-    };
-
-    m_SubtitleRendererCtrl.SetRedraw(FALSE);
-    addSubtitleRenderer(CAppSettings::SubtitleRenderer::INTERNAL);
-    addSubtitleRenderer(CAppSettings::SubtitleRenderer::VS_FILTER);
-    addSubtitleRenderer(CAppSettings::SubtitleRenderer::XY_SUB_FILTER);
-    m_iSubtitleRenderer = static_cast<int>(s.GetSubtitleRenderer());
-    CorrectComboListWidth(m_SubtitleRendererCtrl);
-    m_SubtitleRendererCtrl.SetRedraw(TRUE);
-    m_SubtitleRendererCtrl.Invalidate();
-    m_SubtitleRendererCtrl.UpdateWindow();
+    UpdateSubtitleRendererList();
 
     IDirect3D9* pD3D = Direct3DCreate9(D3D_SDK_VERSION);
     if (pD3D) {
@@ -469,21 +436,6 @@ BOOL CPPageOutput::OnApply()
         return FALSE;
     }
 
-    if (!CAppSettings::IsSubtitleRendererRegistered(static_cast<CAppSettings::SubtitleRenderer>(m_iSubtitleRenderer))) {
-        static_cast<CPropertySheet*>(GetParent())->SetActivePage(this);
-        AfxMessageBox(IDS_PPAGE_OUTPUT_UNAVAILABLEMSG, MB_ICONEXCLAMATION | MB_OK, 0);
-
-        m_SubtitleRendererCtrl.SetCurSel(0);
-        for (int i = 0; i < m_SubtitleRendererCtrl.GetCount(); ++i) {
-            if (static_cast<DWORD_PTR>(s.GetSubtitleRenderer()) == m_SubtitleRendererCtrl.GetItemData(i)) {
-                m_SubtitleRendererCtrl.SetCurSel(i);
-                break;
-            }
-        }
-        OnSubtitleRendererChange();
-        return FALSE;
-    }
-
     CRenderersSettings& r                   = s.m_RenderersSettings;
     s.iDSVideoRendererType                  = m_iDSVideoRendererType;
     s.iRMVideoRendererType                  = m_iRMVideoRendererType;
@@ -496,7 +448,12 @@ BOOL CPPageOutput::OnApply()
     s.strAudioRendererDisplayName           = m_AudioRendererDisplayNames[m_iAudioRendererType];
     s.fD3DFullscreen                        = m_fD3DFullscreen ? true : false;
 
-    s.SetSubtitleRenderer(static_cast<CAppSettings::SubtitleRenderer>(m_iSubtitleRenderer));
+    if (m_SubtitleRendererCtrl.IsWindowEnabled()) {
+        auto subrenderer = static_cast<CAppSettings::SubtitleRenderer>(m_SubtitleRendererCtrl.GetItemData(m_SubtitleRendererCtrl.GetCurSel()));
+        m_lastSubrenderer.first = true;
+        m_lastSubrenderer.second = subrenderer;
+        s.SetSubtitleRenderer(subrenderer);
+    }
 
     r.fResetDevice = !!m_fResetDevice;
 
@@ -709,6 +666,7 @@ void CPPageOutput::OnDSRendererChange()
     m_iDSRotationSupport.Invalidate();
     m_iDSRotationSupport.UpdateWindow();
 
+    UpdateSubtitleRendererList();
     UpdateSubtitleSupport();
     SetModified();
 }
@@ -770,6 +728,9 @@ void CPPageOutput::OnSubtitleRendererChange()
     UpdateData();
     UpdateSubtitleSupport();
     SetModified();
+
+    m_lastSubrenderer.first = true;
+    m_lastSubrenderer.second = static_cast<CAppSettings::SubtitleRenderer>(m_SubtitleRendererCtrl.GetItemData(m_SubtitleRendererCtrl.GetCurSel()));
 }
 
 void CPPageOutput::OnFullscreenCheck()
@@ -786,34 +747,69 @@ void CPPageOutput::OnFullscreenCheck()
 
 void CPPageOutput::UpdateSubtitleSupport()
 {
-    if (m_iSubtitleRenderer == static_cast<int>(CAppSettings::SubtitleRenderer::INTERNAL)
-            && m_iQTVideoRendererType != VIDRNDT_QT_DEFAULT) {
-        m_iQTSubtitleSupport.SetIcon(m_tick);
-    } else {
-        m_iQTSubtitleSupport.SetIcon(m_cross);
-    }
+    auto subrenderer = static_cast<CAppSettings::SubtitleRenderer>(m_SubtitleRendererCtrl.GetItemData(m_SubtitleRendererCtrl.GetCurSel()));
 
-    if (m_iSubtitleRenderer == static_cast<int>(CAppSettings::SubtitleRenderer::INTERNAL)
-            && m_iRMVideoRendererType != VIDRNDT_QT_DEFAULT) {
-        m_iRMSubtitleSupport.SetIcon(m_tick);
-    } else {
-        m_iRMSubtitleSupport.SetIcon(m_cross);
-    }
+    bool supported = (m_iDSVideoRendererType != VIDRNDT_DS_NULL_COMP &&
+                      m_iDSVideoRendererType != VIDRNDT_DS_NULL_UNCOMP &&
+                      CAppSettings::IsSubtitleRendererRegistered(subrenderer) &&
+                      CAppSettings::IsSubtitleRendererSupported(subrenderer, m_iDSVideoRendererType));
 
-    if (m_iSubtitleRenderer == static_cast<int>(CAppSettings::SubtitleRenderer::VS_FILTER)
-            && m_iDSVideoRendererType != VIDRNDT_DS_NULL_COMP
-            && m_iDSVideoRendererType != VIDRNDT_DS_NULL_UNCOMP
-            || m_iSubtitleRenderer == static_cast<int>(CAppSettings::SubtitleRenderer::XY_SUB_FILTER)
-            && (m_iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM
-                || m_iDSVideoRendererType == VIDRNDT_DS_MADVR
-                || m_iDSVideoRendererType == VIDRNDT_DS_SYNC
-                || m_iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS)
-            || m_iSubtitleRenderer == static_cast<int>(CAppSettings::SubtitleRenderer::INTERNAL)
-            && CAppSettings::IsISRAvailable(m_iDSVideoRendererType)) {
-        m_iDSSubtitleSupport.SetIcon(m_tick);
-    } else {
-        m_iDSSubtitleSupport.SetIcon(m_cross);
+    m_iDSSubtitleSupport.SetIcon(supported ? m_tick : m_cross);
+
+    m_iQTSubtitleSupport.SetIcon((m_iQTVideoRendererType != VIDRNDT_QT_DEFAULT && subrenderer == CAppSettings::SubtitleRenderer::INTERNAL) ? m_tick : m_cross);
+    m_iRMSubtitleSupport.SetIcon((m_iRMVideoRendererType != VIDRNDT_RM_DEFAULT && subrenderer == CAppSettings::SubtitleRenderer::INTERNAL) ? m_tick : m_cross);
+}
+
+void CPPageOutput::UpdateSubtitleRendererList()
+{
+    const auto& s = AfxGetAppSettings();
+
+    auto addSubtitleRenderer = [&](CAppSettings::SubtitleRenderer nID) {
+        if (!CAppSettings::IsSubtitleRendererSupported(nID, m_iDSVideoRendererType)) {
+            return;
+        }
+
+        CString sName;
+        switch (nID) {
+            case CAppSettings::SubtitleRenderer::INTERNAL:
+                sName = ResStr(IDS_SUBTITLE_RENDERER_INTERNAL);
+                break;
+            case CAppSettings::SubtitleRenderer::VS_FILTER:
+                sName = ResStr(IDS_SUBTITLE_RENDERER_VS_FILTER);
+                break;
+            case CAppSettings::SubtitleRenderer::XY_SUB_FILTER:
+                sName = ResStr(IDS_SUBTITLE_RENDERER_XY_SUB_FILTER);
+                break;
+            default:
+                ASSERT(FALSE);
+                break;
+        }
+
+        if (!CAppSettings::IsSubtitleRendererRegistered(nID)) {
+            sName.AppendFormat(_T(" %s"), ResStr(IDS_PPAGE_OUTPUT_UNAVAILABLE));
+        }
+
+        m_SubtitleRendererCtrl.SetItemData(m_SubtitleRendererCtrl.AddString(sName), static_cast<int>(nID));
+    };
+
+    m_SubtitleRendererCtrl.SetRedraw(FALSE);
+    while (m_SubtitleRendererCtrl.DeleteString(0) != CB_ERR);
+    addSubtitleRenderer(CAppSettings::SubtitleRenderer::INTERNAL);
+    addSubtitleRenderer(CAppSettings::SubtitleRenderer::VS_FILTER);
+    addSubtitleRenderer(CAppSettings::SubtitleRenderer::XY_SUB_FILTER);
+    m_SubtitleRendererCtrl.SetCurSel(0);
+    auto subrenderer = m_lastSubrenderer.first ? m_lastSubrenderer.second : s.GetSubtitleRenderer();
+    for (int j = 0; j < m_SubtitleRendererCtrl.GetCount(); ++j) {
+        if ((UINT)subrenderer == m_SubtitleRendererCtrl.GetItemData(j)) {
+            m_SubtitleRendererCtrl.SetCurSel(j);
+            break;
+        }
     }
+    m_SubtitleRendererCtrl.EnableWindow(m_SubtitleRendererCtrl.GetCount() > 1);
+    CorrectComboListWidth(m_SubtitleRendererCtrl);
+    m_SubtitleRendererCtrl.SetRedraw(TRUE);
+    m_SubtitleRendererCtrl.Invalidate();
+    m_SubtitleRendererCtrl.UpdateWindow();
 }
 
 void CPPageOutput::OnD3D9DeviceCheck()

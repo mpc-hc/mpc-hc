@@ -616,24 +616,19 @@ bool CAppSettings::IsD3DFullscreen() const
     }
 }
 
-bool CAppSettings::IsISRAvailable() const
-{
-    return IsISRAvailable(iDSVideoRendererType);
-}
-
-bool CAppSettings::IsISRAvailable(int iDSVideoRendererType)
-{
-    return (iDSVideoRendererType == VIDRNDT_DS_VMR7RENDERLESS ||
-            iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS ||
-            iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
-            iDSVideoRendererType == VIDRNDT_DS_DXR ||
-            iDSVideoRendererType == VIDRNDT_DS_SYNC ||
-            iDSVideoRendererType == VIDRNDT_DS_MADVR);
-}
-
 bool CAppSettings::IsISRAutoLoadEnabled() const
 {
-    return eSubtitleRenderer == SubtitleRenderer::INTERNAL && IsISRAvailable();
+    return eSubtitleRenderer == SubtitleRenderer::INTERNAL &&
+           IsSubtitleRendererSupported(eSubtitleRenderer, iDSVideoRendererType);
+}
+
+CAppSettings::SubtitleRenderer CAppSettings::GetSubtitleRenderer() const
+{
+    if (IsSubtitleRendererSupported(SubtitleRenderer::INTERNAL, iDSVideoRendererType) ||
+            IsSubtitleRendererSupported(SubtitleRenderer::XY_SUB_FILTER, iDSVideoRendererType)) {
+        return eSubtitleRenderer;
+    }
+    return SubtitleRenderer::VS_FILTER;
 }
 
 bool CAppSettings::IsSubtitleRendererRegistered(SubtitleRenderer eSubtitleRenderer)
@@ -649,6 +644,41 @@ bool CAppSettings::IsSubtitleRendererRegistered(SubtitleRenderer eSubtitleRender
             ASSERT(FALSE);
             return false;
     }
+}
+
+bool CAppSettings::IsSubtitleRendererSupported(SubtitleRenderer eSubtitleRenderer, int videoRenderer)
+{
+    switch (eSubtitleRenderer) {
+        case SubtitleRenderer::INTERNAL:
+            switch (videoRenderer) {
+                case VIDRNDT_DS_VMR7RENDERLESS:
+                case VIDRNDT_DS_VMR9RENDERLESS:
+                case VIDRNDT_DS_EVR_CUSTOM:
+                case VIDRNDT_DS_DXR:
+                case VIDRNDT_DS_SYNC:
+                case VIDRNDT_DS_MADVR:
+                    return true;
+            }
+            break;
+
+        case SubtitleRenderer::VS_FILTER:
+            return true;
+
+        case SubtitleRenderer::XY_SUB_FILTER:
+            switch (videoRenderer) {
+                case VIDRNDT_DS_VMR9RENDERLESS:
+                case VIDRNDT_DS_EVR_CUSTOM:
+                case VIDRNDT_DS_SYNC:
+                case VIDRNDT_DS_MADVR:
+                    return true;
+            }
+            break;
+
+        default:
+            ASSERT(FALSE);
+    }
+
+    return false;
 }
 
 bool CAppSettings::IsVideoRendererAvailable(int iVideoRendererType)
@@ -2485,12 +2515,9 @@ void CAppSettings::UpdateSettings()
                 }
                 if (IsSubtitleRendererRegistered(SubtitleRenderer::XY_SUB_FILTER)) {
                     int renderer = SysVersion::IsVistaOrLater() ? (IsVideoRendererAvailable(VIDRNDT_DS_EVR_CUSTOM) ? VIDRNDT_DS_EVR_CUSTOM : VIDRNDT_DS_VMR9RENDERLESS) : VIDRNDT_DS_VMR7RENDERLESS;
-                    switch (pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DSVIDEORENDERERTYPE, renderer)) {
-                        case VIDRNDT_DS_VMR9RENDERLESS:
-                        case VIDRNDT_DS_EVR_CUSTOM:
-                        case VIDRNDT_DS_MADVR:
-                        case VIDRNDT_DS_SYNC:
-                            subrenderer = SubtitleRenderer::XY_SUB_FILTER;
+                    renderer = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DSVIDEORENDERERTYPE, renderer);
+                    if (IsSubtitleRendererSupported(SubtitleRenderer::XY_SUB_FILTER, renderer)) {
+                        subrenderer = SubtitleRenderer::XY_SUB_FILTER;
                     }
                 }
             }
