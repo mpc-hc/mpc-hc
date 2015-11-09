@@ -2021,15 +2021,15 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_DX50);
     pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_dx50);
 #endif
-#if INTERNAL_DECODER_WMV
-    pFGF = tra[TRA_WMV] ? pFGLAVVideo : pFGLAVVideoLM;
+#if INTERNAL_DECODER_WMV12
+    pFGF = tra[TRA_WMV12] ? pFGLAVVideo : pFGLAVVideoLM;
     pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_WMV1);
     pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_wmv1);
     pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_WMV2);
     pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_wmv2);
 #endif
-#if INTERNAL_DECODER_WMV
-    pFGF = tra[TRA_WMV] ? pFGLAVVideo : pFGLAVVideoLM;
+#if INTERNAL_DECODER_WMV3
+    pFGF = tra[TRA_WMV3] ? pFGLAVVideo : pFGLAVVideoLM;
     pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_WMV3);
     pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_wmv3);
 #endif

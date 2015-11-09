@@ -373,8 +373,11 @@ CAppSettings::CAppSettings()
 #if INTERNAL_DECODER_MSMPEG4
     TraFiltersKeys[TRA_MSMPEG4] = FilterKey(_T("TRA_MSMPEG4"), true);
 #endif
-#if INTERNAL_DECODER_WMV
-    TraFiltersKeys[TRA_WMV] = FilterKey(_T("TRA_WMV"), false);
+#if INTERNAL_DECODER_WMV12
+    TraFiltersKeys[TRA_WMV12] = FilterKey(_T("TRA_WMV12"), false);
+#endif
+#if INTERNAL_DECODER_WMV3
+    TraFiltersKeys[TRA_WMV3] = FilterKey(_T("TRA_WMV3"), true);
 #endif
 #if INTERNAL_DECODER_SVQ
     TraFiltersKeys[TRA_SVQ3] = FilterKey(_T("TRA_SVQ3"), true);
@@ -2391,8 +2394,8 @@ void CAppSettings::UpdateSettings()
         }
         // no break
         case 1: {
-            // Internal decoding of WMV 1/2/3 is now disabled by default so we reinitialize its value
-            pApp->WriteProfileInt(IDS_R_INTERNAL_FILTERS, _T("TRA_WMV"), FALSE);
+            // Internal decoding of WMV 1/2 is now disabled by default so we reinitialize its value
+            pApp->WriteProfileInt(IDS_R_INTERNAL_FILTERS, _T("TRA_WMV12"), FALSE);
         }
         // no break
         case 2: {
