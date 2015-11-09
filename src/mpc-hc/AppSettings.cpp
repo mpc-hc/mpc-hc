@@ -2477,6 +2477,26 @@ void CAppSettings::UpdateSettings()
             copyInt(IDS_R_INTERNAL_FILTERS, _T("SRC_DTSAC3"), IDS_R_INTERNAL_FILTERS, _T("SRC_DTS"));
             copyInt(IDS_R_INTERNAL_FILTERS, _T("SRC_DTSAC3"), IDS_R_INTERNAL_FILTERS, _T("SRC_AC3"));
         // no break
+        case 6: {
+            SubtitleRenderer subrenderer = SubtitleRenderer::INTERNAL;
+            if (!pApp->GetProfileInt(IDS_R_SETTINGS, _T("AutoloadSubtitles"), TRUE)) {
+                if (IsSubtitleRendererRegistered(SubtitleRenderer::VS_FILTER)) {
+                    subrenderer = SubtitleRenderer::VS_FILTER;
+                }
+                if (IsSubtitleRendererRegistered(SubtitleRenderer::XY_SUB_FILTER)) {
+                    int renderer = SysVersion::IsVistaOrLater() ? (IsVideoRendererAvailable(VIDRNDT_DS_EVR_CUSTOM) ? VIDRNDT_DS_EVR_CUSTOM : VIDRNDT_DS_VMR9RENDERLESS) : VIDRNDT_DS_VMR7RENDERLESS;
+                    switch (pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DSVIDEORENDERERTYPE, renderer)) {
+                        case VIDRNDT_DS_VMR9RENDERLESS:
+                        case VIDRNDT_DS_EVR_CUSTOM:
+                        case VIDRNDT_DS_MADVR:
+                        case VIDRNDT_DS_SYNC:
+                            subrenderer = SubtitleRenderer::XY_SUB_FILTER;
+                    }
+                }
+            }
+            VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SUBTITLE_RENDERER, static_cast<int>(subrenderer)));
+        }
+        // no break
         default:
             pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_R_VERSION, APPSETTINGS_VERSION);
     }
