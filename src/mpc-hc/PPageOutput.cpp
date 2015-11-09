@@ -251,7 +251,7 @@ BOOL CPPageOutput::OnInitDialog()
     addSubtitleRenderer(CAppSettings::SubtitleRenderer::INTERNAL);
     addSubtitleRenderer(CAppSettings::SubtitleRenderer::VS_FILTER);
     addSubtitleRenderer(CAppSettings::SubtitleRenderer::XY_SUB_FILTER);
-    m_iSubtitleRenderer = static_cast<int>(s.eSubtitleRenderer);
+    m_iSubtitleRenderer = static_cast<int>(s.GetSubtitleRenderer());
     CorrectComboListWidth(m_SubtitleRendererCtrl);
     m_SubtitleRendererCtrl.SetRedraw(TRUE);
     m_SubtitleRendererCtrl.Invalidate();
@@ -475,7 +475,7 @@ BOOL CPPageOutput::OnApply()
 
         m_SubtitleRendererCtrl.SetCurSel(0);
         for (int i = 0; i < m_SubtitleRendererCtrl.GetCount(); ++i) {
-            if (static_cast<DWORD_PTR>(s.eSubtitleRenderer) == m_SubtitleRendererCtrl.GetItemData(i)) {
+            if (static_cast<DWORD_PTR>(s.GetSubtitleRenderer()) == m_SubtitleRendererCtrl.GetItemData(i)) {
                 m_SubtitleRendererCtrl.SetCurSel(i);
                 break;
             }
@@ -494,8 +494,9 @@ BOOL CPPageOutput::OnApply()
     r.fVMR9MixerYUV                         = !!m_fVMR9MixerYUV;
     r.m_AdvRendSets.bVMR9AlterativeVSync    = m_fVMR9AlterativeVSync != FALSE;
     s.strAudioRendererDisplayName           = m_AudioRendererDisplayNames[m_iAudioRendererType];
-    s.eSubtitleRenderer                     = static_cast<CAppSettings::SubtitleRenderer>(m_iSubtitleRenderer);
     s.fD3DFullscreen                        = m_fD3DFullscreen ? true : false;
+
+    s.SetSubtitleRenderer(static_cast<CAppSettings::SubtitleRenderer>(m_iSubtitleRenderer));
 
     r.fResetDevice = !!m_fResetDevice;
 

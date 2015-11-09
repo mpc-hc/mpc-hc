@@ -690,8 +690,12 @@ public:
         INTERNAL,
         VS_FILTER,
         XY_SUB_FILTER,
-    } eSubtitleRenderer;
-    static bool     IsSubtitleRendererRegistered(SubtitleRenderer eSubtitleRenderer);
+    };
+
+    SubtitleRenderer GetSubtitleRenderer() const { return eSubtitleRenderer; }
+    void  SetSubtitleRenderer(SubtitleRenderer renderer) { eSubtitleRenderer = renderer; }
+
+    static bool IsSubtitleRendererRegistered(SubtitleRenderer eSubtitleRenderer);
 
 private:
     struct FilterKey {
@@ -725,6 +729,8 @@ private:
 
     void            UpdateRenderersData(bool fSave);
     friend void     CRenderersSettings::UpdateData(bool bSave);
+
+    SubtitleRenderer eSubtitleRenderer;
 
 public:
     CAppSettings();
