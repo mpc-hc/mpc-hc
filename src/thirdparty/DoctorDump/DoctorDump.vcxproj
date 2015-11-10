@@ -51,6 +51,7 @@
     <OutDir>$(SolutionDir)bin\mpc-hc_x64 Lite\</OutDir>
   </PropertyGroup>
   <PropertyGroup>
+    <BaseIntermediateOutputPath>$(IntDir)</BaseIntermediateOutputPath>
     <NMakeBuildCommandLine>$(ProjectDir)deploy.bat $(Platform) "$(OutDir)"</NMakeBuildCommandLine>
     <NMakeReBuildCommandLine>$(ProjectDir)deploy.bat $(Platform) "$(OutDir)"</NMakeReBuildCommandLine>
   </PropertyGroup>

@@ -25,7 +25,7 @@
     <Import Project="..\..\common.props" />
   </ImportGroup>
   <PropertyGroup>
-  <BaseIntermediateOutputPath>$(IntDir)</BaseIntermediateOutputPath>
+    <BaseIntermediateOutputPath>$(IntDir)</BaseIntermediateOutputPath>
     <NMakeBuildCommandLine>sync.bat Silent</NMakeBuildCommandLine>
     <NMakeCleanCommandLine>del *.rc 2> NUL</NMakeCleanCommandLine>
     <NMakeReBuildCommandLine>sync.bat Silent</NMakeReBuildCommandLine>
