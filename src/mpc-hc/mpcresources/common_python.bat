@@ -40,9 +40,9 @@ IF NOT DEFINED PYTHON_PATH GOTO MissingVar
 
 ECHO Backing up current translation files...
 IF NOT EXIST backup MD backup
-COPY /Y ..\mpc-hc.rc backup
+XCOPY /I /D /Y /Q ..\mpc-hc.rc backup
 IF NOT EXIST backup\PO MD backup\PO
-COPY /Y PO backup\PO
+XCOPY /I /D /Y /Q PO backup\PO
 ECHO ----------------------
 
 EXIT /B
