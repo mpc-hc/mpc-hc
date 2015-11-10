@@ -20,20 +20,16 @@
   </PropertyGroup>
   <Import Project="..\..\platform.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+  <ImportGroup Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\common.props" />
   </ImportGroup>
   <PropertyGroup>
+  <BaseIntermediateOutputPath>$(IntDir)</BaseIntermediateOutputPath>
     <NMakeBuildCommandLine>sync.bat Silent</NMakeBuildCommandLine>
     <NMakeCleanCommandLine>del *.rc 2> NUL</NMakeCleanCommandLine>
     <NMakeReBuildCommandLine>sync.bat Silent</NMakeReBuildCommandLine>
     <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IntDir>$(SolutionDir)bin\obj\Release_$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IntDir>$(SolutionDir)bin\obj\Release_$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>
