@@ -34,10 +34,6 @@
     <OutDir Condition="'$(Platform)'=='Win32'">$(SolutionDir)bin\mpc-hc_x86\</OutDir>
     <OutDir Condition="'$(Platform)'=='x64'">$(SolutionDir)bin\mpc-hc_x64\</OutDir>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(PlatformToolsetVersion)'=='140'">
-    <OutDir Condition="'$(Platform)'=='Win32'">$(SolutionDir)bin15\mpc-hc_x86\</OutDir>
-    <OutDir Condition="'$(Platform)'=='x64'">$(SolutionDir)bin15\mpc-hc_x64\</OutDir>
-  </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -45,7 +41,7 @@
     <Link>
       <NoEntryPoint>true</NoEntryPoint>
       <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
-      <AdditionalDependencies Condition="'$(PlatformToolsetVersion)'=='140'">libcmt.lib;libvcruntime.lib;libucrt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libcmt.lib;libvcruntime.lib;libucrt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\..\include</AdditionalIncludeDirectories>

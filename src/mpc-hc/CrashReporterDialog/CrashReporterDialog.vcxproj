@@ -44,12 +44,6 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)bin\mpc-hc_x64\CrashReporter\</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Lite|x64'">$(SolutionDir)bin\mpc-hc_x64 Lite\CrashReporter\</OutDir>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(PlatformToolsetVersion)'=='140'">
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)bin15\mpc-hc_x86\CrashReporter\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Lite|Win32'">$(SolutionDir)bin15\mpc-hc_x86 Lite\CrashReporter\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)bin15\mpc-hc_x64\CrashReporter\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Lite|x64'">$(SolutionDir)bin15\mpc-hc_x64 Lite\CrashReporter\</OutDir>
-  </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>

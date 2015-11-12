@@ -55,7 +55,6 @@ FOR %%G IN (%ARG%) DO (
   IF /I "%%G" == "Translations" SET "CONFIG=Translation" & SET /A ARGC+=1  & SET "NO_INST=True" & SET "NO_ZIP=True" & SET "NO_LITE=True"
   IF /I "%%G" == "Debug"        SET "BUILDCFG=Debug"     & SET /A ARGBC+=1 & SET "NO_INST=True"
   IF /I "%%G" == "Release"      SET "BUILDCFG=Release"   & SET /A ARGBC+=1
-  IF /I "%%G" == "VS2013"       SET "COMPILER=VS2013"    & SET /A ARGCOMP+=1
   IF /I "%%G" == "VS2015"       SET "COMPILER=VS2015"    & SET /A ARGCOMP+=1
   IF /I "%%G" == "Packages"     SET "PACKAGES=True"      & SET /A VALID+=1
   IF /I "%%G" == "Installer"    SET "INSTALLER=True"     & SET /A VALID+=1
@@ -92,15 +91,9 @@ IF /I "%ZIP%" == "True"         IF "%NO_ZIP%" == "True"  GOTO UnsupportedSwitch
 IF /I "%MPCHC_LITE%" == "True"  IF "%NO_LITE%" == "True" GOTO UnsupportedSwitch
 IF /I "%CLEAN%" == "LAVFilters" IF "%NO_LAV%" == "True"  GOTO UnsupportedSwitch
 
-IF /I "%COMPILER%" == "VS2015" (
-  IF NOT DEFINED VS140COMNTOOLS GOTO MissingVar
-  SET "TOOLSET=%VS140COMNTOOLS%..\..\VC\vcvarsall.bat"
-  SET "BIN_DIR=bin15"
-) ELSE (
-  IF NOT DEFINED VS120COMNTOOLS GOTO MissingVar
-  SET "TOOLSET=%VS120COMNTOOLS%..\..\VC\vcvarsall.bat"
-  SET "BIN_DIR=bin"
-)
+IF NOT DEFINED VS140COMNTOOLS GOTO MissingVar
+SET "TOOLSET=%VS140COMNTOOLS%..\..\VC\vcvarsall.bat"
+SET "BIN_DIR=bin"
 
 IF EXIST "%FILE_DIR%signinfo.txt" (
   IF /I "%INSTALLER%" == "True" SET "SIGN=True"
@@ -352,10 +345,6 @@ IF DEFINED MPCHC_LITE (
 
 CALL :SubCopyDXDll %MPCHC_COPY_DX_DLL_ARGS%
 
-IF /I "%COMPILER%" == "VS2015" (
-  SET MPCHC_INNO_DEF=%MPCHC_INNO_DEF% /DVS2015
-)
-
 CALL "%COMMON%" :SubDetectInnoSetup
 
 IF NOT DEFINED InnoSetupPath (
@@ -407,10 +396,6 @@ IF DEFINED MPCHC_LITE (
 IF /I "%BUILDCFG%" == "Debug" (
   SET "PCKG_NAME=%PCKG_NAME%.dbg"
   SET "VS_OUT_DIR=%VS_OUT_DIR%_Debug"
-)
-
-IF /I "%COMPILER%" == "VS2015" (
-  SET "PCKG_NAME=%PCKG_NAME%.%COMPILER%"
 )
 
 IF EXIST "%PCKG_NAME%.7z"     DEL "%PCKG_NAME%.7z"
@@ -492,14 +477,14 @@ EXIT /B
 TITLE %~nx0 Help
 ECHO.
 ECHO Usage:
-ECHO %~nx0 [Clean^|Build^|Rebuild] [x86^|x64^|Both] [Main^|Resources^|MPCHC^|IconLib^|Translations^|Filters^|API^|All] [Debug^|Release] [Lite] [Packages^|Installer^|7z] [LAVFilters] [VS2013^|VS2015] [Analyze]
+ECHO %~nx0 [Clean^|Build^|Rebuild] [x86^|x64^|Both] [Main^|Resources^|MPCHC^|IconLib^|Translations^|Filters^|API^|All] [Debug^|Release] [Lite] [Packages^|Installer^|7z] [LAVFilters] [VS2015] [Analyze]
 ECHO.
 ECHO Notes: You can also prefix the commands with "-", "--" or "/".
 ECHO        Debug only applies to mpc-hc.sln.
 ECHO        The arguments are not case sensitive and can be ommitted.
 ECHO. & ECHO.
 ECHO Executing %~nx0 without any arguments will use the default ones:
-ECHO "%~nx0 Build Both MPCHC Release VS2013"
+ECHO "%~nx0 Build Both MPCHC Release VS2015"
 ECHO. & ECHO.
 ECHO Examples:
 ECHO %~nx0 x86 Resources     -Builds the x86 resources

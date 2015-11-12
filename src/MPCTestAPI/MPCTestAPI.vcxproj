@@ -41,7 +41,6 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <OutDir>$(SolutionDir)bin\$(Configuration)_$(Platform)\</OutDir>
-    <OutDir Condition="'$(PlatformToolsetVersion)'=='140'">$(SolutionDir)bin15\$(Configuration)_$(Platform)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>

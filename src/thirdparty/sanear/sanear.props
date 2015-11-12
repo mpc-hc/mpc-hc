@@ -6,8 +6,4 @@
       <AdditionalIncludeDirectories>$(SolutionDir)src\thirdparty\BaseClasses;$(SolutionDir)src\thirdparty\soxr\libsoxr\src;$(SolutionDir)src\thirdparty\bs2b\libbs2b\src;$(SolutionDir)src\thirdparty\SoundTouch\soundtouch\include;$(SolutionDir)src\thirdparty\zita-resampler\zita-resampler\libs;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
-  <PropertyGroup Condition="'$(DefaultPlatformToolset)'=='v140'">
-    <IntDir>$(SolutionDir)bin15\obj\$(Configuration)_$(PlatformName)\$(ProjectName)\</IntDir>
-    <OutDir>$(SolutionDir)bin15\lib\$(Configuration)_$(PlatformName)\</OutDir>
-  </PropertyGroup>
 </Project>

@@ -10,14 +10,6 @@
     <LinkIncremental Condition="$(Configuration.Contains('Debug'))">true</LinkIncremental>
     <LinkIncremental Condition="$(Configuration.Contains('Release'))">false</LinkIncremental>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(PlatformToolsetVersion)'=='140'">
-    <IntDir>$(SolutionDir)bin15\obj\$(Configuration)_$(PlatformName)\$(ProjectName)\</IntDir>
-    <OutDir>$(SolutionDir)bin15\lib\$(Configuration)_$(PlatformName)\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'">$(SolutionDir)bin15\Filters_x86_Debug\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'">$(SolutionDir)bin15\Filters_x64_Debug\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'">$(SolutionDir)bin15\Filters_x86\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'">$(SolutionDir)bin15\Filters_x64\</OutDir>
-  </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalOptions>/w34701 /w34706 /Zo /Zc:rvalueCast %(AdditionalOptions)</AdditionalOptions>
@@ -43,8 +35,7 @@
     </Lib>
     <Link>
       <DataExecutionPrevention>true</DataExecutionPrevention>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <GenerateDebugInformation Condition="'$(PlatformToolsetVersion)'=='140'">Debug</GenerateDebugInformation>
+      <GenerateDebugInformation>Debug</GenerateDebugInformation>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <SubSystem>Windows</SubSystem>
       <TargetMachine Condition="'$(Platform)'=='Win32'">MachineX86</TargetMachine>
@@ -70,7 +61,7 @@
     </ResourceCompile>
     <Link>
       <ImageHasSafeExceptionHandlers Condition="'$(Platform)'=='Win32'">false</ImageHasSafeExceptionHandlers>
-      <GenerateDebugInformation Condition="'$(PlatformToolsetVersion)'=='140'">DebugFastLink</GenerateDebugInformation>
+      <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="$(Configuration.Contains('Release'))">
@@ -94,8 +85,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <LargeAddressAware Condition="'$(Platform)'=='Win32'">true</LargeAddressAware>
-      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
-      <LinkTimeCodeGeneration Condition="'$(PlatformToolsetVersion)'=='140'">UseFastLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <LinkTimeCodeGeneration>UseFastLinkTimeCodeGeneration</LinkTimeCodeGeneration>
       <MergeSections>.rdata=.text</MergeSections>
       <OptimizeReferences>true</OptimizeReferences>
       <SetChecksum>true</SetChecksum>
