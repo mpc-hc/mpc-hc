@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Release Arabic|Win32">
       <Configuration>Release Arabic</Configuration>
@@ -554,6 +554,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\res\toolbar.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="SyncTranslations.vcxproj">
+      <Project>{904017f7-ee7a-49b6-a000-0d2fe5d5809a}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

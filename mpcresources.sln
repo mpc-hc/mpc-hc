@@ -1,11 +1,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpcresources", "src\mpc-hc\mpcresources\mpcresources.vcxproj", "{A57CBE1A-3703-4237-950A-FC5F594FDB43}"
-	ProjectSection(ProjectDependencies) = postProject
-		{904017F7-EE7A-49B6-A000-0D2FE5D5809A} = {904017F7-EE7A-49B6-A000-0D2FE5D5809A}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BuildAll", "src\mpc-hc\mpcresources\BuildAll.vcxproj", "{F0D412BF-C98E-48C7-A032-607AE043B0F7}"
 EndProject
