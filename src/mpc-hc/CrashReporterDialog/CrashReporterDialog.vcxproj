@@ -89,6 +89,11 @@
   <ItemGroup>
     <ResourceCompile Include="CrashReporterDialog.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\build\BuildConfig.vcxproj">
+      <Project>{981574ae-5a5e-4f27-bdf1-1b841e374cff}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

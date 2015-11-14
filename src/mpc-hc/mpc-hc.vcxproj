@@ -683,6 +683,9 @@
     <ResourceCompile Include="mpc-hc.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\build\BuildConfig.vcxproj">
+      <Project>{981574ae-5a5e-4f27-bdf1-1b841e374cff}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\DeCSS\DeCSS.vcxproj">
       <Project>{1a2dfd1a-3c6c-44d1-909d-294af646b575}</Project>
     </ProjectReference>
