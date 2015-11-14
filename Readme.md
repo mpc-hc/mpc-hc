@@ -36,7 +36,7 @@ See [CONTRIBUTING.md](/CONTRIBUTING.md) for more info.
 
 ## System Requirements:
 * An SSE capable CPU
-* Windows XP SP3, Vista, 7, 8, 8.1 32-bit/64-bit
+* Windows XP SP3, Vista, 7, 8, 8.1, 10 32-bit/64-bit
 
 
 ## Links:
@@ -65,7 +65,7 @@ MPC-HC makes use of the following third-party code:
 | ----------------- | ------------------------- | ----------------- |
 | bs2b              | MIT License               | http://bs2b.sourceforge.net |
 | CSizingControlBar | -                         | http://www.datamekanix.com/sizecbar/ |
-| LAV Filters       | GPLv2+                    | https://code.google.com/p/lavfilters/ |
+| LAV Filters       | GPLv2+                    | https://github.com/Nevcairiel/LAVFilters |
 | libdivide         | zlib License              | http://libdivide.com/ |
 | Little CMS        | MIT License               | http://www.littlecms.com/ |
 | Logitech SDK      | -                         | - |
