@@ -414,7 +414,7 @@ void CPPageInternalFilters::InitFiltersList()
 #endif
 #if INTERNAL_SOURCEFILTER_HTTP
     if (bLAVSplitterIsAvailable) {
-        m_filters.Add(filter_t(_T("HTTP"), SOURCE_FILTER, SRC_HTTP, IDS_INTERNAL_LAVF));
+        m_filters.Add(filter_t(_T("HTTP(S)"), SOURCE_FILTER, SRC_HTTP, IDS_INTERNAL_LAVF));
     }
 #endif
 #if INTERNAL_SOURCEFILTER_RTSP

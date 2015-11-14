@@ -8,6 +8,14 @@ Legend:
 ! Fixed
 
 
+next version - not released yet
+===============================
+* Updated LAV Filters to v0.66.0.39:
+    - LAV Splitter: Support https protocol
+    - LAV Splitter: Switch back to the old asf demuxer until it can be improved further
+    - LAV Video Decoder: Enable hardware decoding for HEVC and 4k/UHD by default
+
+
 1.7.10 - 14 November 2015
 =========================
 + Add Indonesian, Lithuanian and Punjabi translations

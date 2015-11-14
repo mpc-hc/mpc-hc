@@ -1566,6 +1566,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 #if INTERNAL_SOURCEFILTER_HTTP
     if (src[SRC_HTTP]) {
         pFGLAVSplitterSource->m_protocols.AddTail(_T("http"));
+        pFGLAVSplitterSource->m_protocols.AddTail(_T("https"));
         pFGLAVSplitterSource->m_protocols.AddTail(_T("icyx"));
         pFGLAVSplitterSource->AddEnabledFormat("http");
     }
