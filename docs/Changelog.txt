@@ -8,8 +8,8 @@ Legend:
 ! Fixed
 
 
-next version - not released yet
-===============================
+1.7.10 - 14 November 2015
+=========================
 + Add Indonesian, Lithuanian and Punjabi translations
 + Ticket #5411, Add an option to disable the preview in the web interface. This option is
   disabled by default since it must be used only on a properly secured private network
