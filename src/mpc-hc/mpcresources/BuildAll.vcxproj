@@ -71,6 +71,9 @@
       <AdditionalProperties>Configuration=Release Galician</AdditionalProperties>
     </ProjectToBuild>
     <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release German</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
       <AdditionalProperties>Configuration=Release Greek</AdditionalProperties>
     </ProjectToBuild>
     <ProjectToBuild Include="mpcresources.vcxproj">
