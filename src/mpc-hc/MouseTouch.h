@@ -21,8 +21,10 @@
 #pragma once
 
 #include <map>
+#include <unordered_set>
 
 #include "EventDispatcher.h"
+#include "SysVersion.h"
 
 // TODO: handle touch gestures
 
@@ -163,4 +165,73 @@ private:
     virtual ULONG GetGestureStatus(CPoint) override {
         return m_bD3DFS ? TABLET_DISABLE_PRESSANDHOLD : 0;
     }
+};
+
+template <class T>
+class CMouseWheelHook
+{
+    HHOOK m_hHook = NULL;
+
+    static LRESULT CALLBACK MouseProc(int nCode, WPARAM wParam, LPARAM lParam) {
+        if (nCode == HC_ACTION && wParam == WM_MOUSEWHEEL) {
+            const auto& msex = *reinterpret_cast<MOUSEHOOKSTRUCTEX*>(lParam);
+            if (const CWnd* pFocus = CWnd::FromHandlePermanent(msex.hwnd)) {
+                if (const CWnd* pFocusRoot = pFocus->GetAncestor(GA_ROOT)) {
+                    // only intercept messages to focused windows that have white-listed root windows
+                    if (T::GetRoots().count(pFocusRoot)) {
+                        if (const CWnd* pUnder = CWnd::WindowFromPoint(msex.pt)) {
+                            if (pFocusRoot == pUnder->GetAncestor(GA_ROOT) &&
+                                    GetCurrentThreadId() == GetWindowThreadProcessId(pUnder->m_hWnd, nullptr)) {
+                                MSG msg = {
+                                    NULL,
+                                    static_cast<UINT>(wParam),
+                                    CMouse::GetMouseFlags() | msex.mouseData,
+                                    MAKELPARAM(msex.pt.x, msex.pt.y),
+                                    GetMessageTime(),
+                                    msex.pt
+                                };
+
+                                for (const CWnd* pTarget : { pUnder, pFocusRoot }) {
+                                    msg.hwnd = pTarget->m_hWnd;
+                                    if (!msg.hwnd) {
+                                        ASSERT(FALSE);
+                                        continue;
+                                    }
+
+                                    // walk through pre-translate
+                                    if (CWnd::WalkPreTranslateTree(pFocusRoot->m_hWnd, &msg)) {
+                                        // the message shouldn't be dispatched
+                                        continue;
+                                    }
+
+                                    if (DispatchMessage(&msg)) {
+                                        return TRUE;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return CallNextHookEx(nullptr, nCode, wParam, lParam);
+    }
+
+public:
+    CMouseWheelHook() {
+        if (SysVersion::Is10OrLater()) {
+            m_hHook = SetWindowsHookEx(WH_MOUSE, MouseProc, nullptr, GetCurrentThreadId());
+            ASSERT(m_hHook);
+        }
+    }
+
+    virtual ~CMouseWheelHook() {
+        if (m_hHook) {
+            VERIFY(UnhookWindowsHookEx(m_hHook));
+        }
+    }
+};
+
+struct CMainFrameMouseHook : CMouseWheelHook<CMainFrameMouseHook> {
+    static std::unordered_set<const CWnd*> GetRoots();
 };

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -36,7 +36,7 @@ CPPageTweaks::CPPageTweaks()
     , m_nJumpDistL(0)
     , m_fNotifySkype(TRUE)
     , m_fPreventMinimize(FALSE)
-    , m_fUseWin7TaskBar(TRUE)
+    , m_bUseEnhancedTaskBar(TRUE)
     , m_fUseSearchInFolder(FALSE)
     , m_fUseTimeTooltip(TRUE)
     , m_bHideWindowedMousePointer(TRUE)
@@ -59,7 +59,7 @@ void CPPageTweaks::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDIT3, m_nJumpDistL);
     DDX_Check(pDX, IDC_CHECK4, m_fNotifySkype);
     DDX_Check(pDX, IDC_CHECK6, m_fPreventMinimize);
-    DDX_Check(pDX, IDC_CHECK_WIN7, m_fUseWin7TaskBar);
+    DDX_Check(pDX, IDC_CHECK_ENHANCED_TASKBAR, m_bUseEnhancedTaskBar);
     DDX_Check(pDX, IDC_CHECK7, m_fUseSearchInFolder);
     DDX_Check(pDX, IDC_CHECK8, m_fUseTimeTooltip);
     DDX_Control(pDX, IDC_COMBO3, m_TimeTooltipPosition);
@@ -96,9 +96,9 @@ BOOL CPPageTweaks::OnInitDialog()
 
     m_fPreventMinimize = s.fPreventMinimize;
 
-    m_fUseWin7TaskBar = s.fUseWin7TaskBar;
+    m_bUseEnhancedTaskBar = s.bUseEnhancedTaskBar;
     if (!SysVersion::Is7OrLater()) {
-        GetDlgItem(IDC_CHECK_WIN7)->EnableWindow(FALSE);
+        GetDlgItem(IDC_CHECK_ENHANCED_TASKBAR)->EnableWindow(FALSE);
     }
 
     m_fUseSearchInFolder = s.fUseSearchInFolder;
@@ -173,7 +173,7 @@ BOOL CPPageTweaks::OnApply()
     s.bNotifySkype = !!m_fNotifySkype;
 
     s.fPreventMinimize = !!m_fPreventMinimize;
-    s.fUseWin7TaskBar = !!m_fUseWin7TaskBar;
+    s.bUseEnhancedTaskBar = !!m_bUseEnhancedTaskBar;
     s.fUseSearchInFolder = !!m_fUseSearchInFolder;
     s.fUseTimeTooltip = !!m_fUseTimeTooltip;
     s.nTimeTooltipPosition = m_TimeTooltipPosition.GetCurSel();
@@ -190,7 +190,7 @@ BOOL CPPageTweaks::OnApply()
     s.fLCDSupport = !!m_fLCDSupport;
 
     CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
-    if (m_fUseWin7TaskBar) {
+    if (m_bUseEnhancedTaskBar) {
         pFrame->CreateThumbnailToolbar();
     }
     pFrame->UpdateThumbarButton();

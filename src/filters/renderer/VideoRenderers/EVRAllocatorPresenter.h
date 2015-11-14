@@ -24,6 +24,7 @@
 #include <mfapi.h>  // API Media Foundation
 #include <evr9.h>
 #include "../../../DSUtil/WinapiFunc.h"
+#include "AsyncCallback.h"
 
 namespace DSObjects
 {
@@ -144,6 +145,7 @@ namespace DSObjects
         STDMETHODIMP GetVideoService(HANDLE hDevice, REFIID riid, void** ppService);
 
     protected:
+        STDMETHODIMP_(bool) Paint(IMFSample* pMFSample);
         void OnResetDevice();
         virtual void OnVBlankFinished(bool bAll, LONGLONG PerformanceCounter);
 
@@ -193,10 +195,10 @@ namespace DSObjects
         CCritSec                         m_ImageProcessingLock;
         CCritSec                         m_MediaTypeLock;
 
-        CInterfaceList<IMFSample, &IID_IMFSample> m_FreeSamples;
-        CInterfaceList<IMFSample, &IID_IMFSample> m_ScheduledSamples;
-        IMFSample*                       m_pCurrentDisplaydSample;
-        bool                             m_bWaitingSample;
+        UINT32                           m_nCurrentGroupId;
+        CInterfaceList<IMFSample>        m_FreeSamples;
+        CInterfaceList<IMFSample>        m_ScheduledSamples;
+        CComPtr<IMFSample>               m_pCurrentlyDisplayedSample;
         bool                             m_bLastSampleOffsetValid;
         LONGLONG                         m_LastScheduledSampleTime;
         double                           m_LastScheduledSampleTimeFP;
@@ -232,17 +234,21 @@ namespace DSObjects
         void                             StopWorkerThreads();
         HRESULT                          CheckShutdown() const;
         void                             CompleteFrameStep(bool bCancel);
-        void                             CheckWaitingSampleFromMixer();
         static DWORD WINAPI              VSyncThreadStatic(LPVOID lpParam);
         void                             VSyncThread();
 
         void                             RemoveAllSamples();
         HRESULT                          GetFreeSample(IMFSample** ppSample);
-        HRESULT                          GetScheduledSample(IMFSample** ppSample, int& _Count);
-        void                             MoveToFreeList(IMFSample* pSample, bool bTail);
-        void                             MoveToScheduledList(IMFSample* pSample, bool _bSorted);
+        HRESULT                          GetScheduledSample(IMFSample** ppSample, int& count);
+        void                             AddToFreeList(IMFSample* pSample, bool bTail);
+        void                             AddToScheduledList(IMFSample* pSample, bool bSorted);
         void                             FlushSamples();
-        void                             FlushSamplesInternal();
+
+        HRESULT TrackSample(IMFSample* pSample);
+
+        // Callback when a video sample is released.
+        HRESULT OnSampleFree(IMFAsyncResult* pResult);
+        AsyncCallback<CEVRAllocatorPresenter> m_SampleFreeCallback;
 
         // === Media type negotiation functions
         HRESULT                          RenegotiateMediaType();

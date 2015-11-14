@@ -1,15 +1,18 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2014 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# 洪嘉鴻 <jerry9030@gmail.com>, 2015
+# Ken <ken670128@yahoo.com.tw>, 2015
 # Peter Chen <petercpg@gmail.com>, 2014
+# 洪嘉鴻 <jerry9030@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-06-17 15:23:34+0000\n"
-"PO-Revision-Date: 2014-07-07 08:49+0000\n"
-"Last-Translator: JellyFrog\n"
-"Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/mpc-hc/language/zh_TW/)\n"
+"POT-Creation-Date: 2015-07-20 20:29:41+0000\n"
+"PO-Revision-Date: 2015-08-11 02:59+0000\n"
+"Last-Translator: 洪嘉鴻 <jerry9030@gmail.com>\n"
+"Language-Team: Chinese (Taiwan) (http://www.transifex.com/mpc-hc/mpc-hc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -18,7 +21,7 @@ msgstr ""
 
 msgctxt "Messages_WelcomeLabel2"
 msgid "This will install [name] on your computer.\n\nIt is recommended that you close all other applications before continuing."
-msgstr "這將會安裝 [name] 在你的電腦中。\n\n建議您關閉所有其它應用程序後再繼續。"
+msgstr "這將會安裝 [name] 在您的電腦中。\n\n建議您關閉所有其它應用程式後再繼續。"
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows XP Service Pack 3 or newer to run."
@@ -36,10 +39,6 @@ msgctxt "CustomMessages_msg_DeleteSettings"
 msgid "Do you also want to delete MPC-HC settings?\n\nIf you plan on installing MPC-HC again then you do not have to delete them."
 msgstr "您是否也要刪除 MPC-HC 設定？\n\n如果您打算再次安裝 MPC-HC 則無需刪除。"
 
-msgctxt "CustomMessages_msg_SetupIsRunningWarning"
-msgid "MPC-HC setup is already running!"
-msgstr "已在執行 MPC-HC 安裝程式！"
-
 msgctxt "CustomMessages_msg_simd_sse"
 msgid "This build of MPC-HC requires a CPU with SSE extension support.\n\nYour CPU does not have those capabilities."
 msgstr "此版的 MPC-HC 需要有支援 SSE 延伸指令集的 CPU。\n\n您的 CPU 並未相容這些功能。"
@@ -50,7 +49,7 @@ msgstr "此版的 MPC-HC 須要有支援 SSE2 延伸指令集的 CPU。\n\n您�
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
-msgstr ""
+msgstr "參觀我們的 Wiki 頁面以下載工具列圖示"
 
 msgctxt "CustomMessages_tsk_AllUsers"
 msgid "For all users"

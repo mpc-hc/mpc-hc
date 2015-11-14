@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -31,11 +31,11 @@
 
 CSubtitleDlDlg::CSubtitleDlDlg(CWnd* pParent, const CStringA& url, const CString& filename)
     : CResizableDialog(CSubtitleDlDlg::IDD, pParent)
-    , m_ps(nullptr, 0, TRUE)
-    , m_defps(nullptr, filename)
+    , m_ps(&m_list, 0, TRUE)
+    , m_defps(&m_list, filename)
     , m_pTA(nullptr)
     , m_url(url)
-    , m_fReplaceSubs(false)
+    , m_bReplaceSubs(false)
     , m_status()
 {
 }
@@ -54,16 +54,13 @@ void CSubtitleDlDlg::DoDataExchange(CDataExchange* pDX)
 size_t CSubtitleDlDlg::StrMatch(LPCTSTR a, LPCTSTR b)
 {
     size_t count = 0;
-    size_t alen = _tcslen(a);
-    size_t blen = _tcslen(b);
 
-    for (size_t i = 0; i < alen && i < blen; i++) {
-        if (_totlower(a[i]) != _totlower(b[i])) {
+    for (; *a && *b; a++, b++, count++) {
+        if (_totlower(*a) != _totlower(*b)) {
             break;
-        } else {
-            count++;
         }
     }
+
     return count;
 }
 
@@ -77,7 +74,7 @@ CString CSubtitleDlDlg::LangCodeToName(LPCSTR code)
 
     CString name = ISO6392ToLanguage(code);
     if (!name.IsEmpty()) {
-        // workaround for ISO6392ToLanguage function behaivior
+        // workaround for ISO6392ToLanguage function behavior
         // for unknown language code it returns the code parameter back
         if (code != name) {
             return name;
@@ -113,18 +110,19 @@ CString CSubtitleDlDlg::LangCodeToName(LPCSTR code)
 int CALLBACK CSubtitleDlDlg::DefSortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
     PDEFPARAMSORT defps = reinterpret_cast<PDEFPARAMSORT>(lParamSort);
-    TCHAR left[MAX_PATH] = _T("");
-    TCHAR right[MAX_PATH] = _T("");
+    int nLeft = (int)lParam1, nRight = (int)lParam2;
 
     // sort by language first
-    ListView_GetItemText(defps->m_hWnd, lParam1, COL_LANGUAGE, left, sizeof(left));
-    ListView_GetItemText(defps->m_hWnd, lParam2, COL_LANGUAGE, right, sizeof(right));
+    ISDb::subtitle* lSub = (ISDb::subtitle*)defps->m_list->GetItemData(nLeft);
+    ISDb::subtitle* rSub = (ISDb::subtitle*)defps->m_list->GetItemData(nRight);
+    CString left  = defps->m_list->GetItemText(nLeft, COL_LANGUAGE);
+    CString right = defps->m_list->GetItemText(nRight, COL_LANGUAGE);
     // user-provided sort order
     int lpos, rpos;
-    if (!defps->m_langPos.Lookup(left, lpos)) {
+    if (!defps->m_langPos.Lookup(CString(lSub->iso639_2), lpos) && !defps->m_langPos.Lookup(left, lpos)) {
         lpos = INT_MAX;
     }
-    if (!defps->m_langPos.Lookup(right, rpos)) {
+    if (!defps->m_langPos.Lookup(CString(rSub->iso639_2), rpos) && !defps->m_langPos.Lookup(right, rpos)) {
         rpos = INT_MAX;
     }
     if (lpos < rpos) {
@@ -140,8 +138,8 @@ int CALLBACK CSubtitleDlDlg::DefSortCompare(LPARAM lParam1, LPARAM lParam2, LPAR
     }
 
     // sort by filename
-    ListView_GetItemText(defps->m_hWnd, lParam1, COL_FILENAME, left, sizeof(left));
-    ListView_GetItemText(defps->m_hWnd, lParam2, COL_FILENAME, right, sizeof(right));
+    left  = defps->m_list->GetItemText(nLeft, COL_FILENAME);
+    right = defps->m_list->GetItemText(nRight, COL_FILENAME);
     size_t lmatch = StrMatch(defps->m_filename, left);
     size_t rmatch = StrMatch(defps->m_filename, right);
 
@@ -153,8 +151,8 @@ int CALLBACK CSubtitleDlDlg::DefSortCompare(LPARAM lParam1, LPARAM lParam2, LPAR
     }
 
     // prefer shorter names
-    size_t llen = _tcslen(left);
-    size_t rlen = _tcslen(right);
+    int llen = left.GetLength();
+    int rlen = right.GetLength();
     if (llen < rlen) {
         return -1;
     } else if (llen > rlen) {
@@ -180,8 +178,7 @@ void CSubtitleDlDlg::LoadList()
     }
 
     // sort by language and filename
-    m_defps.m_hWnd = m_list.GetSafeHwnd();
-    ListView_SortItemsEx(m_list.GetSafeHwnd(), DefSortCompare, &m_defps);
+    m_list.SortItemsEx(DefSortCompare, (DWORD_PTR)&m_defps);
 
     m_list.SetRedraw(TRUE);
     m_list.Invalidate();
@@ -202,7 +199,7 @@ bool CSubtitleDlDlg::Parse()
     while (pos) {
         str = sl.GetNext(pos);
 
-        CStringA param = str.Left(max(0, str.Find('=')));
+        CStringA param = str.Left(std::max(0, str.Find('=')));
         CStringA value = str.Mid(str.Find('=') + 1);
 
         if (param == "ticket") {
@@ -292,16 +289,11 @@ UINT CSubtitleDlDlg::RunThread(LPVOID pParam)
 int CALLBACK CSubtitleDlDlg::SortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
     PPARAMSORT ps = reinterpret_cast<PPARAMSORT>(lParamSort);
-    TCHAR left[MAX_PATH] = _T(""), right[MAX_PATH] = _T("");
 
-    ListView_GetItemText(ps->m_hWnd, lParam1, ps->m_colIndex, left, sizeof(left));
-    ListView_GetItemText(ps->m_hWnd, lParam2, ps->m_colIndex, right, sizeof(right));
+    CString left  = ps->m_list->GetItemText((int)lParam1, ps->m_colIndex);
+    CString right = ps->m_list->GetItemText((int)lParam2, ps->m_colIndex);
 
-    if (ps->m_ascending) {
-        return _tcscmp(left, right);
-    } else {
-        return _tcscmp(right, left);
-    }
+    return ps->m_ascending ? left.Compare(right) : right.Compare(left);
 }
 
 BOOL CSubtitleDlDlg::OnInitDialog()
@@ -361,14 +353,17 @@ BOOL CSubtitleDlDlg::OnInitDialog()
     int tPos = 0;
     CString langCode = order.Tokenize(_T(",; "), tPos);
     while (tPos != -1) {
+        int pos;
+        CString langCodeISO6391 = ISO6392To6391(CStringA(langCode));
+        if (!langCodeISO6391.IsEmpty() && !m_defps.m_langPos.Lookup(langCodeISO6391, pos)) {
+            m_defps.m_langPos[langCodeISO6391] = listPos;
+        }
         CString langName = LangCodeToName(CStringA(langCode));
-        if (!langName.IsEmpty()) {
-            int pos;
-            if (!m_defps.m_langPos.Lookup(langName, pos)) {
-                m_defps.m_langPos[langName] = listPos++;
-            }
+        if (!langName.IsEmpty() && !m_defps.m_langPos.Lookup(langName, pos)) {
+            m_defps.m_langPos[langName] = listPos;
         }
         langCode = order.Tokenize(_T(",; "), tPos);
+        listPos++;
     }
 
     // start new worker thread to download the list of subtitles
@@ -403,11 +398,11 @@ void CSubtitleDlDlg::OnOK()
         }
     }
 
-    m_fReplaceSubs = IsDlgButtonChecked(IDC_CHECK1) == BST_CHECKED;
+    m_bReplaceSubs = IsDlgButtonChecked(IDC_CHECK1) == BST_CHECKED;
 
     CMainFrame* pMF = static_cast<CMainFrame*>(GetParentFrame());
 
-    if (m_fReplaceSubs) {
+    if (m_bReplaceSubs) {
         pMF->m_pSubStreams.RemoveAll();
     }
 
@@ -482,10 +477,9 @@ void CSubtitleDlDlg::OnColumnClick(NMHDR* pNMHDR, LRESULT* pResult)
         m_ps.m_ascending = true;
     }
     m_ps.m_colIndex = phdr->iItem;
-    m_ps.m_hWnd = m_list.GetSafeHwnd();
 
     SetRedraw(FALSE);
-    ListView_SortItemsEx(m_list.GetSafeHwnd(), SortCompare, &m_ps);
+    m_list.SortItemsEx(SortCompare, (DWORD_PTR)&m_ps);
     SetRedraw(TRUE);
     m_list.Invalidate();
     m_list.UpdateWindow();

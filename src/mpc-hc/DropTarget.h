@@ -23,6 +23,7 @@
 
 #include <afxole.h>
 
+#define DROPEFFECT_APPEND 16
 
 struct CDropClient {
     virtual void OnDropFiles(CAtlList<CString>& slFiles, DROPEFFECT dropEffect) PURE;
@@ -31,21 +32,18 @@ struct CDropClient {
 
 class CDropTarget : public COleDropTarget
 {
+    const CLIPFORMAT CF_URL = static_cast<CLIPFORMAT>(RegisterClipboardFormat(_T("UniformResourceLocator")));
+    CComPtr<IDropTargetHelper> m_pDropHelper;
+
 public:
     CDropTarget();
     virtual ~CDropTarget() = default;
 
-private:
-    const CLIPFORMAT CF_URL = (CLIPFORMAT)RegisterClipboardFormat(_T("UniformResourceLocator"));
-    CComPtr<IDropTargetHelper> m_pDropHelper;
-
 protected:
-    DECLARE_MESSAGE_MAP()
-
-    DROPEFFECT OnDragEnter(CWnd* pWnd, COleDataObject* pDataObject, DWORD dwKeyState, CPoint point);
-    DROPEFFECT OnDragOver(CWnd* pWnd, COleDataObject* pDataObject, DWORD dwKeyState, CPoint point);
-    BOOL OnDrop(CWnd* pWnd, COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point);
-    DROPEFFECT OnDropEx(CWnd* pWnd, COleDataObject* pDataObject, DROPEFFECT dropDefault, DROPEFFECT dropList, CPoint point);
-    void OnDragLeave(CWnd* pWnd);
-    DROPEFFECT OnDragScroll(CWnd* pWnd, DWORD dwKeyState, CPoint point);
+    DROPEFFECT OnDragEnter(CWnd* pWnd, COleDataObject* pDataObject, DWORD dwKeyState, CPoint point) override;
+    DROPEFFECT OnDragOver(CWnd* pWnd, COleDataObject* pDataObject, DWORD dwKeyState, CPoint point) override;
+    BOOL OnDrop(CWnd* pWnd, COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point) override;
+    DROPEFFECT OnDropEx(CWnd* pWnd, COleDataObject* pDataObject, DROPEFFECT dropDefault, DROPEFFECT dropList, CPoint point) override;
+    void OnDragLeave(CWnd* pWnd) override;
+    DROPEFFECT OnDragScroll(CWnd* pWnd, DWORD dwKeyState, CPoint point) override;
 };

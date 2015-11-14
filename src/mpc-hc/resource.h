@@ -228,10 +228,6 @@
 #define ID_STREAM_SUB_NEXT              954
 #define ID_STREAM_SUB_PREV              955
 #define ID_STREAM_SUB_ONOFF             956
-#define ID_OGM_AUDIO_NEXT               957
-#define ID_OGM_AUDIO_PREV               958
-#define ID_OGM_SUB_NEXT                 959
-#define ID_OGM_SUB_PREV                 960
 #define ID_DVD_ANGLE_NEXT               961
 #define ID_DVD_ANGLE_PREV               962
 #define ID_DVD_AUDIO_NEXT               963
@@ -293,9 +289,6 @@
 #define ID_NAVIGATE_JUMPTO_SUBITEM_END  4899
 #define ID_VIEW_ZOOM_AUTOFIT_LARGER     4900
 #define IDS_FILTER_SETTINGS_CAPTION     7000
-#define IDS_ARS_WASAPI_MODE             7100
-#define IDS_ARS_MUTE_FAST_FORWARD       7101
-#define IDS_ARS_SOUND_DEVICE            7102
 #define IDD_OPEN_DLG                    10000
 #define IDD_MEDIATYPES_DLG              10002
 #define IDD_SAVE_DLG                    10004
@@ -340,6 +333,7 @@
 #define IDD_PPAGESYNC                   10055
 #define IDD_PPAGEFULLSCREEN             10056
 #define IDD_RFS_FILELIST_EXT            10057
+#define IDD_PPAGEAUDIORENDERER          10058
 #define IDC_COMBO1                      11000
 #define IDC_COMBO2                      11001
 #define IDC_COMBO3                      11002
@@ -792,10 +786,6 @@
 #define IDS_AG_PREV_SUBTITLE            32961
 #define IDS_MPLAYERC_85                 32962
 #define IDS_MPLAYERC_86                 32963
-#define IDS_MPLAYERC_87                 32964
-#define IDS_MPLAYERC_88                 32965
-#define IDS_MPLAYERC_89                 32966
-#define IDS_MPLAYERC_90                 32967
 #define IDS_MPLAYERC_91                 32968
 #define IDS_MPLAYERC_92                 32969
 #define IDS_MPLAYERC_93                 32970
@@ -811,6 +801,8 @@
 #define IDS_MPLAYERC_103                32980
 #define IDS_AG_SEEKSET                  32982
 #define IDS_OSD_SHOW_FILENAME           32983
+#define IDS_PLAY_DVD                    32984
+#define IDS_PLAY_BD                     32985
 #define IDS_PPAGEWEBSERVER_0            32996
 #define IDS_MAINFRM_2                   33014
 #define IDS_AG_SUBTITLES_SAVED          33015
@@ -927,8 +919,6 @@
 #define IDS_BOOST_OSD                   33203
 #define IDS_BALANCE_OSD                 33204
 #define IDS_FULLSCREENMONITOR_CURRENT   33205
-#define IDS_MPC_CRASH                   33206
-#define IDS_MPC_MINIDUMP_FAIL           33207
 #define ID_FILE_OPENDIRECTORY           33208
 #define IDS_MAINFRM_DIR_TITLE           33209
 #define IDS_MAINFRM_DIR_CHECK           33210
@@ -998,7 +988,7 @@
 #define IDC_RESETDEVICE                 33400
 #define IDS_NAVIGATE_TUNERSCAN          33401
 #define IDS_SUBTITLES_ERROR             33402
-#define IDC_CHECK_WIN7                  33403
+#define IDC_CHECK_ENHANCED_TASKBAR      33403
 #define ID_VIEW_SYNCHRONIZEVIDEO        33408
 #define ID_VIEW_SYNCHRONIZEDISPLAY      33409
 #define ID_VIEW_SYNCHRONIZENEAREST      33410
@@ -1345,8 +1335,6 @@
 #define IDS_PPAGE_OUTPUT_NULL_UNCOMP    41422
 #define IDS_PPAGE_OUTPUT_MADVR          41423
 #define IDS_PPAGE_OUTPUT_SYNC           41424
-#define IDS_MPC_BUG_REPORT_TITLE        41425
-#define IDS_MPC_BUG_REPORT              41426
 #define IDS_PPAGE_OUTPUT_SURF_OFFSCREEN 41427
 #define IDS_PPAGE_OUTPUT_SURF_2D        41428
 #define IDS_PPAGE_OUTPUT_SURF_3D        41429
@@ -1360,7 +1348,7 @@
 #define IDS_PPAGE_OUTPUT_UNAVAILABLEMSG 41437
 #define IDS_PPAGE_OUTPUT_AUD_NULL_COMP  41438
 #define IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP 41439
-#define IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND 41440
+#define IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND 41440
 #define IDS_EMB_RESOURCES_VIEWER_NAME   41441
 #define IDS_EMB_RESOURCES_VIEWER_TYPE   41442
 #define IDS_EMB_RESOURCES_VIEWER_INFO   41443
@@ -1473,6 +1461,13 @@
 #define IDS_TIMER_HIGH_PRECISION        57432
 #define IDS_AFTERPLAYBACK_REWIND        57433
 #define IDS_AFTERPLAYBACK_CLOSE         57434
+#define IDS_FRAME_INIT_FAILED           57435
+#define IDS_TIME_SHIFT_TOOLTIP          57436
+#define IDS_WEBUI_DISABLED_PREVIEW_MSG  57437
+#define IDS_WEBUI_PREVIEW_WARNING       57438
+#define IDS_SUBTITLE_RENDERER_INTERNAL  57439
+#define IDS_SUBTITLE_RENDERER_VS_FILTER 57440
+#define IDS_SUBTITLE_RENDERER_XY_SUB_FILTER 57441
 
 // Next default values for new objects
 // 

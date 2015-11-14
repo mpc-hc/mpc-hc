@@ -29,14 +29,13 @@
 #include "SeparableFilter.h"
 
 // Statics constants for use by alpha_blend_sse2
-static __m128i low_mask = _mm_set1_epi16(0xFF);
-static __m128i red_mask = _mm_set1_epi32(0xFF);
-static __m128i green_mask = _mm_set1_epi32(0xFF00);
-static __m128i blue_mask = _mm_set1_epi32(0xFF0000);
-static __m128i alpha_bit_mask = _mm_set1_epi32(0xFF000000);
-static __m128i one = _mm_set1_epi16(1);
-static __m128i inv_one = _mm_set1_epi16(0x100);
-static __m128i zero = _mm_setzero_si128();
+static const __m128i low_mask = _mm_set1_epi16(0xFF);
+static const __m128i red_mask = _mm_set1_epi32(0xFF);
+static const __m128i green_mask = _mm_set1_epi32(0xFF00);
+static const __m128i blue_mask = _mm_set1_epi32(0xFF0000);
+static const __m128i alpha_bit_mask = _mm_set1_epi32(0xFF000000);
+static const __m128i one = _mm_set1_epi16(1);
+static const __m128i inv_one = _mm_set1_epi16(0x100);
 
 int Rasterizer::getOverlayWidth()
 {
@@ -53,9 +52,11 @@ Rasterizer::Rasterizer()
     , mEdgeNext(0)
     , mpScanBuffer(0)
 {
+#if defined(_M_IX86_FP) && _M_IX86_FP < 2
     int cpuInfo[4] = { -1 };
     __cpuid(cpuInfo, 1);
     m_bUseSSE2 = !!(cpuInfo[3] & (1 << 26));
+#endif
 }
 
 Rasterizer::~Rasterizer()
@@ -894,16 +895,19 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
 
             byte* src = m_pOutlineData->mWideOutline.empty() ? m_pOverlayData->mpOverlayBufferBody : m_pOverlayData->mpOverlayBufferBorder;
 
-            if (m_bUseSSE2) {
-                SeparableFilterX_SSE2(src, tmp, m_pOverlayData->mOverlayWidth, m_pOverlayData->mOverlayHeight, pitch,
-                                      filter.kernel, filter.width, filter.divisor);
-                SeparableFilterY_SSE2(tmp, src, m_pOverlayData->mOverlayWidth, m_pOverlayData->mOverlayHeight, pitch,
-                                      filter.kernel, filter.width, filter.divisor);
-            } else {
+#if defined(_M_IX86_FP) && _M_IX86_FP < 2
+            if (!m_bUseSSE2) {
                 SeparableFilterX<1>(src, tmp, m_pOverlayData->mOverlayWidth, m_pOverlayData->mOverlayHeight, pitch,
                                     filter.kernel, filter.width, filter.divisor);
                 SeparableFilterY<1>(tmp, src, m_pOverlayData->mOverlayWidth, m_pOverlayData->mOverlayHeight, pitch,
                                     filter.kernel, filter.width, filter.divisor);
+            } else
+#endif
+            {
+                SeparableFilterX_SSE2(src, tmp, m_pOverlayData->mOverlayWidth, m_pOverlayData->mOverlayHeight, pitch,
+                                      filter.kernel, filter.width, filter.divisor);
+                SeparableFilterY_SSE2(tmp, src, m_pOverlayData->mOverlayWidth, m_pOverlayData->mOverlayHeight, pitch,
+                                      filter.kernel, filter.width, filter.divisor);
             }
 
             _aligned_free(tmp);
@@ -972,6 +976,7 @@ static __forceinline void pixmix2(DWORD* dst, DWORD color, DWORD shapealpha, DWO
 // Alpha blend 8 pixels at once. This is just pixmix_sse2, but done in a more vectorized manner.
 static __forceinline void alpha_blend_sse2(DWORD* dst, DWORD original_color, BYTE* s, int wt)
 {
+    __m128i zero = _mm_setzero_si128();
     __m128i srcR = _mm_set1_epi32(original_color & 0xFF);
     __m128i srcG = _mm_set1_epi32((original_color & 0xFF00) >> 8);
     __m128i srcB = _mm_set1_epi32((original_color & 0xFF0000) >> 16);
@@ -1592,18 +1597,24 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
         if (switchpts[1] == DWORD_MAX) {
             // fBody is true if we're rendering a fill or a shadow.
             if (fBody) {
-                if (m_bUseSSE2) {
-                    Draw_noAlpha_spFF_Body_sse2(rnfo);
-                } else {
+#if defined(_M_IX86_FP) && _M_IX86_FP < 2
+                if (!m_bUseSSE2) {
                     Draw_noAlpha_spFF_Body_0(rnfo);
+                } else
+#endif
+                {
+                    Draw_noAlpha_spFF_Body_sse2(rnfo);
                 }
             }
             // Not painting body, ie. painting border without fill in it
             else {
-                if (m_bUseSSE2) {
-                    Draw_noAlpha_spFF_noBody_sse2(rnfo);
-                } else {
+#if defined(_M_IX86_FP) && _M_IX86_FP < 2
+                if (!m_bUseSSE2) {
                     Draw_noAlpha_spFF_noBody_0(rnfo);
+                } else
+#endif
+                {
+                    Draw_noAlpha_spFF_noBody_sse2(rnfo);
                 }
             }
         }
@@ -1613,18 +1624,24 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
             //const long *sw = switchpts;
 
             if (fBody) {
-                if (m_bUseSSE2) {
-                    Draw_noAlpha_sp_Body_sse2(rnfo);
-                } else {
+#if defined(_M_IX86_FP) && _M_IX86_FP < 2
+                if (!m_bUseSSE2) {
                     Draw_noAlpha_sp_Body_0(rnfo);
+                } else
+#endif
+                {
+                    Draw_noAlpha_sp_Body_sse2(rnfo);
                 }
             }
             // Not body
             else {
-                if (m_bUseSSE2) {
-                    Draw_noAlpha_sp_noBody_sse2(rnfo);
-                } else {
+#if defined(_M_IX86_FP) && _M_IX86_FP < 2
+                if (!m_bUseSSE2) {
                     Draw_noAlpha_sp_noBody_0(rnfo);
+                } else
+#endif
+                {
+                    Draw_noAlpha_sp_noBody_sse2(rnfo);
                 }
             }
         }
@@ -1633,32 +1650,44 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
     else {
         if (switchpts[1] == DWORD_MAX) {
             if (fBody) {
-                if (m_bUseSSE2) {
-                    Draw_Alpha_spFF_Body_sse2(rnfo);
-                } else {
+#if defined(_M_IX86_FP) && _M_IX86_FP < 2
+                if (!m_bUseSSE2) {
                     Draw_Alpha_spFF_Body_0(rnfo);
+                } else
+#endif
+                {
+                    Draw_Alpha_spFF_Body_sse2(rnfo);
                 }
             } else {
-                if (m_bUseSSE2) {
-                    Draw_Alpha_spFF_noBody_sse2(rnfo);
-                } else {
+#if defined(_M_IX86_FP) && _M_IX86_FP < 2
+                if (!m_bUseSSE2) {
                     Draw_Alpha_spFF_noBody_0(rnfo);
+                } else
+#endif
+                {
+                    Draw_Alpha_spFF_noBody_sse2(rnfo);
                 }
             }
         } else {
             //const long *sw = switchpts;
 
             if (fBody) {
-                if (m_bUseSSE2) {
-                    Draw_Alpha_sp_Body_sse2(rnfo);
-                } else {
+#if defined(_M_IX86_FP) && _M_IX86_FP < 2
+                if (!m_bUseSSE2) {
                     Draw_Alpha_sp_Body_0(rnfo);
+                } else
+#endif
+                {
+                    Draw_Alpha_sp_Body_sse2(rnfo);
                 }
             } else {
-                if (m_bUseSSE2) {
-                    Draw_Alpha_sp_noBody_sse2(rnfo);
-                } else {
+#if defined(_M_IX86_FP) && _M_IX86_FP < 2
+                if (!m_bUseSSE2) {
                     Draw_Alpha_sp_noBody_0(rnfo);
+                } else
+#endif
+                {
+                    Draw_Alpha_sp_noBody_sse2(rnfo);
                 }
             }
         }
@@ -1679,10 +1708,13 @@ void Rasterizer::FillSolidRect(SubPicDesc& spd, int x, int y, int nWidth, int nH
     for (int wy = y; wy < y + nHeight; wy++) {
         DWORD* dst = (DWORD*)((BYTE*)spd.bits + spd.pitch * wy) + x;
         for (int wt = 0; wt < nWidth; ++wt) {
-            if (m_bUseSSE2) {
-                pixmix_sse2(&dst[wt], lColor, 0x40); // 0x40 because >> 6 in pixmix (to preserve tranparency)
-            } else {
+#if defined(_M_IX86_FP) && _M_IX86_FP < 2
+            if (!m_bUseSSE2) {
                 pixmix(&dst[wt], lColor, 0x40);
+            } else
+#endif
+            {
+                pixmix_sse2(&dst[wt], lColor, 0x40); // 0x40 because >> 6 in pixmix (to preserve tranparency)
             }
         }
     }

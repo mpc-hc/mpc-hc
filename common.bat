@@ -55,7 +55,7 @@ FOR /F "tokens=2,3" %%A IN ('FINDSTR /R /C:"define MPC_VERSION_[M,P]" "include\v
   SET "%%A=%%B"
 )
 
-FOR /F "tokens=2,3" %%A IN ('FINDSTR /R /C:"define MPC" "include\version_rev.h"') DO (
+FOR /F "tokens=2,3" %%A IN ('FINDSTR /R /C:"define MPC" "build\version_rev.h"') DO (
   SET "%%A=%%B"
 )
 

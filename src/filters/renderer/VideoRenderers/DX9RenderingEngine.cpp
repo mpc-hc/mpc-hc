@@ -25,6 +25,9 @@
 #include "Dither.h"
 #include "DX9RenderingEngine.h"
 
+// UUID for vorpX hack
+static const IID IID_D3D9VorpVideoCaptureTexture = { 0x8a49d79, 0x8646, 0x4867, { 0xb9, 0x34, 0x13, 0x12, 0xe4, 0x4b, 0x23, 0xdb } };
+
 #pragma pack(push, 1)
 template<int texcoords>
 struct MYD3DVERTEX {
@@ -434,6 +437,10 @@ HRESULT CDX9RenderingEngine::RenderVideoDrawPath(IDirect3DSurface9* pRenderTarge
 
         pVideoTexture = m_pTemporaryVideoTextures[src];
     }
+
+    // Hack to send the pre-resize video texture to vorpX.
+    void* pVorpTex = pVideoTexture; // Prevent the pointer being overwritten.
+    m_pD3DDev->QueryInterface(IID_D3D9VorpVideoCaptureTexture, (void**)&pVorpTex);
 
     // Resize the frame
     Vector dst[4];

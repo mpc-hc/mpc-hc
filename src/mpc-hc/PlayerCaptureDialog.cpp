@@ -294,9 +294,9 @@ static void SetupMediaTypes(IAMStreamConfig* pAMSC, CFormatArray<T>& tfa, CCombo
                             vih2->dwPictAspectRatioX = 4;
                             vih2->dwPictAspectRatioY = 3;
 
-                            AM_MEDIA_TYPE* pmt = (AM_MEDIA_TYPE*)CoTaskMemAlloc(sizeof(AM_MEDIA_TYPE));
-                            CopyMediaType(pmt, &mtCap);
-                            tfa.AddFormat(pmt, pcaps, sizeof(*pcaps));
+                            AM_MEDIA_TYPE* pmt2 = (AM_MEDIA_TYPE*)CoTaskMemAlloc(sizeof(AM_MEDIA_TYPE));
+                            CopyMediaType(pmt2, &mtCap);
+                            tfa.AddFormat(pmt2, pcaps, sizeof(*pcaps));
                         }
                     } else if (mtCap.formattype == FORMAT_VideoInfo2) {
                         VIDEOINFOHEADER2* vih2 = (VIDEOINFOHEADER2*)mtCap.pbFormat;
@@ -338,12 +338,12 @@ static void SetupMediaTypes(IAMStreamConfig* pAMSC, CFormatArray<T>& tfa, CCombo
     }
 
     CFormat<T>* pf = nullptr;
-    CFormatElem<T>* pfe = nullptr;
+    CFormatElem<T>* pfeCurrent = nullptr;
 
     if (!pcurmt) {
         pf = tfa[0];
-        pfe = pf->GetAt(0);
-    } else if (!tfa.FindFormat(pcurmt, nullptr, &pf, &pfe) && !tfa.FindFormat(pcurmt, &pf)) {
+        pfeCurrent = pf->GetAt(0);
+    } else if (!tfa.FindFormat(pcurmt, nullptr, &pf, &pfeCurrent) && !tfa.FindFormat(pcurmt, &pf)) {
         if (pcurmt) {
             DeleteMediaType(pcurmt);
         }
@@ -360,7 +360,7 @@ static void SetupMediaTypes(IAMStreamConfig* pAMSC, CFormatArray<T>& tfa, CCombo
     if (iType < 0 && type.GetCount()) {
         type.SetCurSel(0);
     }
-    int iDim = dim.SetCurSel(dim.FindStringExact(0, tfa.MakeDimensionName(pfe)));
+    int iDim = dim.SetCurSel(dim.FindStringExact(0, tfa.MakeDimensionName(pfeCurrent)));
     //  if (iDim < 0 && dim.GetCount()) dim.SetCurSel(iDim = 0);
 
     CorrectComboListWidth(type);
@@ -1072,7 +1072,6 @@ void CPlayerCaptureDialog::UpdateVideoControls()
         if (m_vidinput.GetCount() > 0) {
             m_vidinput.EnableWindow(TRUE);
 
-            long OutputPinCount, InputPinCount;
             if (SUCCEEDED(m_pAMXB->get_PinCounts(&OutputPinCount, &InputPinCount))) {
                 for (int i = 0; i < OutputPinCount; i++) {
                     long InputPinIndex;
@@ -1612,18 +1611,18 @@ void CPlayerCaptureDialog::OnRecord()
         if (m_fSepAudio && m_fAudOutput && m_pAudMux && !audfn.IsEmpty()) {
             audfn += _T("wav");
 
-            CComQIPtr<IFileSinkFilter2> pFSF = m_pAudMux;
-            if (pFSF) {
+            CComQIPtr<IFileSinkFilter2> pFSFAudioMux = m_pAudMux;
+            if (pFSFAudioMux) {
                 m_pAudDst = m_pAudMux;
             } else {
                 m_pAudDst = nullptr;
                 m_pAudDst.CoCreateInstance(CLSID_FileWriter);
-                pFSF = m_pAudDst;
+                pFSFAudioMux = m_pAudDst;
             }
 
-            if (!pFSF
-                    || FAILED(pFSF->SetFileName(CStringW(audfn), nullptr))
-                    || FAILED(pFSF->SetMode(AM_FILE_OVERWRITE))) {
+            if (!pFSFAudioMux
+                    || FAILED(pFSFAudioMux->SetFileName(CStringW(audfn), nullptr))
+                    || FAILED(pFSFAudioMux->SetMode(AM_FILE_OVERWRITE))) {
                 MessageBox(ResStr(IDS_CAPTURE_ERROR_AUD_OUT_FILE), ResStr(IDS_CAPTURE_ERROR), MB_ICONERROR | MB_OK);
                 return;
             }
@@ -1661,13 +1660,13 @@ void CPlayerCaptureDialog::OnRecord()
 void CPlayerCaptureDialog::OnChangeVideoBuffers()
 {
     UpdateData();
-    AfxGetApp()->WriteProfileInt(IDS_R_CAPTURE, _T("VidBuffers"), max(m_nVidBuffers, 0));
+    AfxGetApp()->WriteProfileInt(IDS_R_CAPTURE, _T("VidBuffers"), std::max(m_nVidBuffers, 0));
 }
 
 void CPlayerCaptureDialog::OnChangeAudioBuffers()
 {
     UpdateData();
-    AfxGetApp()->WriteProfileInt(IDS_R_CAPTURE, _T("AudBuffers"), max(m_nAudBuffers, 0));
+    AfxGetApp()->WriteProfileInt(IDS_R_CAPTURE, _T("AudBuffers"), std::max(m_nAudBuffers, 0));
 }
 
 void CPlayerCaptureDialog::OnTimer(UINT_PTR nIDEvent)

@@ -222,6 +222,7 @@ IF %ERRORLEVEL% NEQ 0 (
 IF /I "%SIGN%" == "True" CALL :SubSign MPC-HC mpc-hc*.exe
 IF /I "%SIGN%" == "True" CALL :SubSign MPC-HC *.dll %LAVFILTERSDIR%
 IF /I "%SIGN%" == "True" CALL :SubSign MPC-HC *.ax %LAVFILTERSDIR%
+IF /I "%SIGN%" == "True" CALL :SubSign MPC-HC CrashReporterDialog.dll CrashReporter
 
 EXIT /B
 
@@ -272,19 +273,10 @@ EXIT /B
 :SubMPCRresources
 IF %ERRORLEVEL% NEQ 0 EXIT /B
 
-FOR %%G IN (
- "Arabic" "Armenian" "Basque" "Belarusian" "Bengali" "Catalan" "Chinese Simplified"
- "Chinese Traditional" "Croatian" "Czech" "Danish" "Dutch" "English (British)"
- "Finnish" "French" "Galician" "German" "Greek" "Hebrew" "Hungarian" "Italian"
- "Japanese" "Korean" "Malay" "Polish" "Portuguese (Brazil)" "Romanian" "Russian"
- "Serbian" "Slovak" "Slovenian" "Spanish" "Swedish" "Tatar" "Thai" "Turkish"
- "Ukrainian" "Vietnamese"
-) DO (
- TITLE Compiling mpcresources %COMPILER% - %%~G^|%1...
- MSBuild.exe mpcresources.sln %MSBUILD_SWITCHES%^
- /target:%BUILDTYPE% /property:Configuration="Release %%~G";Platform=%1
- IF %ERRORLEVEL% NEQ 0 CALL "%COMMON%" :SubMsg "ERROR" "Compilation failed!" & EXIT /B
-)
+TITLE Compiling mpcresources %COMPILER%...
+MSBuild.exe mpcresources.sln %MSBUILD_SWITCHES%^
+ /target:%BUILDTYPE% /property:Configuration="Release";Platform=%1
+IF %ERRORLEVEL% NEQ 0 CALL "%COMMON%" :SubMsg "ERROR" "Compilation failed!" & EXIT /B
 IF /I "%SIGN%" == "True" CALL :SubSign MPC-HC mpcresources.??.dll Lang
 IF /I "%SIGN%" == "True" CALL :SubSign MPC-HC mpcresources.??_??.dll Lang
 EXIT /B
@@ -452,11 +444,12 @@ IF /I "%NAME%" == "MPC-HC" (
   COPY /Y /V "%VS_OUT_DIR%\d3dx9_43.dll"                  "%PCKG_NAME%\d3dx9_43.dll" >NUL
   IF NOT EXIST "%PCKG_NAME%\Shaders" MD "%PCKG_NAME%\Shaders"
   COPY /Y /V "..\src\mpc-hc\res\shaders\external\*.hlsl" "%PCKG_NAME%\Shaders" >NUL
-  IF /I "%BUILDCFG%" NEQ "Debug" IF /I "%BUILDCFG%" NEQ "Debug Lite" IF EXIST "%VS_OUT_DIR%\CrashReporter" (
+  IF /I "%BUILDCFG%" NEQ "Debug" IF /I "%BUILDCFG%" NEQ "Debug Lite" IF EXIST "%VS_OUT_DIR%\CrashReporter\crashrpt.dll" (
     IF NOT EXIST "%PCKG_NAME%\CrashReporter" MD "%PCKG_NAME%\CrashReporter"
-    COPY /Y /V "%VS_OUT_DIR%\CrashReporter\crashrpt.dll" "%PCKG_NAME%\CrashReporter"
-    COPY /Y /V "%VS_OUT_DIR%\CrashReporter\dbghelp.dll"  "%PCKG_NAME%\CrashReporter"
-    COPY /Y /V "%VS_OUT_DIR%\CrashReporter\sendrpt.exe"  "%PCKG_NAME%\CrashReporter"
+    COPY /Y /V "%VS_OUT_DIR%\CrashReporter\crashrpt.dll"            "%PCKG_NAME%\CrashReporter"
+    COPY /Y /V "%VS_OUT_DIR%\CrashReporter\dbghelp.dll"             "%PCKG_NAME%\CrashReporter"
+    COPY /Y /V "%VS_OUT_DIR%\CrashReporter\sendrpt.exe"             "%PCKG_NAME%\CrashReporter"
+    COPY /Y /V "%VS_OUT_DIR%\CrashReporter\CrashReporterDialog.dll" "%PCKG_NAME%\CrashReporter"
   )
 ) ELSE (
   COPY /Y /V "%VS_OUT_DIR%\*.ax"           "%PCKG_NAME%\*.ax" >NUL

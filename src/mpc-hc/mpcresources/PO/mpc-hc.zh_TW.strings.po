@@ -1,19 +1,22 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# 洪嘉鴻 <jerry9030@gmail.com>, 2015
 # Jeff Huang <s8321414@gmail.com>, 2014
 # kenelin <kenelin@gmail.com>, 2013
+# Ken <ken670128@yahoo.com.tw>, 2015
 # Peter Chen <petercpg@gmail.com>, 2014
 # roytam1 <roytam@gmail.com>, 2014
 # Zakk <zakk0610@gmail.com>, 2014
+# 洪嘉鴻 <jerry9030@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-19 22:15:16+0000\n"
-"PO-Revision-Date: 2014-10-20 10:21+0000\n"
-"Last-Translator: JellyFrog\n"
-"Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/mpc-hc/language/zh_TW/)\n"
+"POT-Creation-Date: 2015-08-06 16:05:43+0000\n"
+"PO-Revision-Date: 2015-08-09 09:13+0000\n"
+"Last-Translator: 洪嘉鴻 <jerry9030@gmail.com>\n"
+"Language-Team: Chinese (Taiwan) (http://www.transifex.com/mpc-hc/mpc-hc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -102,7 +105,7 @@ msgstr "位元率"
 
 msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
 msgid "(avg/cur)"
-msgstr "(平均/現時)"
+msgstr "(平均/目前)"
 
 msgctxt "IDS_STATSBAR_SIGNAL"
 msgid "Signal"
@@ -118,7 +121,7 @@ msgstr "樣式"
 
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
-msgstr ""
+msgstr "如果繪製目標未被定義, SSA/ASS 字幕會參考視訊畫幀來繪製, 而其他文字字幕則會參考視窗畫面來繪製。"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -134,7 +137,7 @@ msgstr "總是 (最慢的選項)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
 msgid "Not supported by some devices. Two video decoders always present in the filter graph."
-msgstr "不被某些設備支援。在篩選器圖中總會出現兩個視訊解碼器。"
+msgstr "不被某些裝置支援。在篩選器圖中總會出現兩個視訊解碼器。"
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
 msgid "Fast except when switching between different video streams. Only one video decoder present in the filter graph."
@@ -154,7 +157,7 @@ msgstr "僅在切換至不同的視訊類型時 (預設)"
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG2"
 msgid "Always (may be required by some devices)"
-msgstr "總是 (某些設備可能需要)"
+msgstr "總是 (某些裝置可能需要)"
 
 msgctxt "IDS_INFOBAR_PARENTAL_RATING"
 msgid "Parental rating"
@@ -329,12 +332,12 @@ msgid "On/Off"
 msgstr "開/關"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
-msgid "From FPS"
-msgstr "由 FPS"
+msgid "From (FPS)"
+msgstr "由 (FPS)"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
-msgid "To FPS"
-msgstr "至 FPS"
+msgid "To (FPS)"
+msgstr "至 (FPS)"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
@@ -468,6 +471,34 @@ msgctxt "IDD_PPAGESHADERS"
 msgid "Playback::Shaders"
 msgstr "播放::Shaders"
 
+msgctxt "IDD_FILEPROPRES"
+msgid "Resources"
+msgstr "資源"
+
+msgctxt "IDD_PPAGEMISC"
+msgid "Miscellaneous"
+msgstr "其它"
+
+msgctxt "IDD_FILEMEDIAINFO"
+msgid "MediaInfo"
+msgstr "媒體資訊"
+
+msgctxt "IDD_PPAGECAPTURE"
+msgid "Playback::Capture"
+msgstr "播放::擷取"
+
+msgctxt "IDD_PPAGESYNC"
+msgid "Playback::Sync Renderer Settings"
+msgstr "播放::同步繪製器設定"
+
+msgctxt "IDD_PPAGEFULLSCREEN"
+msgid "Playback::Fullscreen"
+msgstr "播放::全螢幕"
+
+msgctxt "IDD_PPAGEAUDIORENDERER"
+msgid "Internal Filters::Audio Renderer"
+msgstr ""
+
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
 msgstr "音訊切換器"
@@ -478,7 +509,7 @@ msgstr "新版本的圖示庫"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_INSTR"
 msgid "Do you want to reassociate the icons?"
-msgstr "你要重新關聯圖示嗎？"
+msgstr "您要重新關聯圖示嗎？"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_CONTENT"
 msgid "This will fix the icons being incorrectly displayed after an update of the icon library.\nThe file associations will not be modified, only the corresponding icons will be refreshed."
@@ -560,30 +591,6 @@ msgctxt "IDD_PPAGESUBDB"
 msgid "Subtitles::Database"
 msgstr "字幕::資料庫"
 
-msgctxt "IDD_FILEPROPRES"
-msgid "Resources"
-msgstr "資源"
-
-msgctxt "IDD_PPAGEMISC"
-msgid "Miscellaneous"
-msgstr "其它"
-
-msgctxt "IDD_FILEMEDIAINFO"
-msgid "MediaInfo"
-msgstr "MediaInfo 媒體資訊"
-
-msgctxt "IDD_PPAGECAPTURE"
-msgid "Playback::Capture"
-msgstr "播放::擷取"
-
-msgctxt "IDD_PPAGESYNC"
-msgid "Playback::Sync Renderer Settings"
-msgstr "播放::同步繪製器設定"
-
-msgctxt "IDD_PPAGEFULLSCREEN"
-msgid "Playback::Fullscreen"
-msgstr "播放::全螢幕"
-
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
 msgstr "詳細資訊"
@@ -602,7 +609,7 @@ msgstr "這是 Windows 9x/ME/2K 的預設繪製器。依據視訊視窗的可見
 
 msgctxt "IDC_DSOVERLAYMIXER"
 msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
-msgstr "總是以覆疊模式繪製。一般說來只允許使用 YUV 格式，但這不會進行任何 RGB 色彩轉換而直接呈現。這是最快速的繪製方法，而且是你唯一能確保以全螢幕鏡射輸出到電視的方法。"
+msgstr "總是以覆疊模式繪製。一般說來只允許使用 YUV 格式，但這不會進行任何 RGB 色彩轉換而直接呈現。這是最快速的繪製方法，而且是您唯一能確保以全螢幕鏡射輸出到電視的方法。"
 
 msgctxt "IDC_DSVMR7WIN"
 msgid "The default renderer of Windows XP. Very stable and just a little slower than the Overlay mixer. Uses DirectDraw and runs in Overlay when it can."
@@ -626,7 +633,7 @@ msgstr "和 VMR-9 (無轉換) 相同，但使用了真正的 two-pass bicubic �
 
 msgctxt "IDC_DSNULL_COMP"
 msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the CPU from working unnecessarily."
-msgstr "連到任何視訊媒體類型，並且不傳送傳進來的取樣資料。當你不需要任何視訊顯示而又想節省不必要的 CPU 工作時可以用。"
+msgstr "連到任何視訊媒體類型，並且不傳送傳進來的取樣資料。當您不需要任何視訊顯示而又想節省不必要的 CPU 工作時可以用。"
 
 msgctxt "IDC_DSNULL_UNCOMP"
 msgid "Same as the normal Null renderer, but this will only connect to uncompressed types."
@@ -676,21 +683,9 @@ msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
 msgstr "螢幕繪圖頁會配置成一般幕後繪圖頁。"
 
-msgctxt "IDC_AUDRND_COMBO"
-msgid "MPC Audio Renderer is broken, do not use."
-msgstr "MPC Audio Renderer 是損壞的，請不要使用。"
-
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
 msgstr "同步繪製器"
-
-msgctxt "IDS_MPC_BUG_REPORT_TITLE"
-msgid "MPC-HC - Reporting a bug"
-msgstr "MPC-HC - 回報錯誤"
-
-msgctxt "IDS_MPC_BUG_REPORT"
-msgid "MPC-HC just crashed but this build was compiled without debug information.\nIf you want to report this bug, you should first try an official build.\n\nDo you want to visit the download page now?"
-msgstr "MPC-HC 未預期終止但是這個版本並未編入除錯資訊。\n如果您想回報這個錯誤, 您需要先嘗試使用官方版本。\n\n您要立即前往下載頁面嗎？"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
 msgid "Regular offscreen plain surface"
@@ -744,9 +739,9 @@ msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP"
 msgid "Null (uncompressed)"
 msgstr "無 (非壓縮)"
 
-msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND"
-msgid "MPC-HC Audio Renderer"
-msgstr "MPC-HC 音訊繪製器"
+msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
+msgid "Internal Audio Renderer"
+msgstr ""
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
@@ -846,15 +841,15 @@ msgstr "精確式垂直同步"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid "If the rendering target is left undefined, it will be inherited from the default style."
-msgstr ""
+msgstr "若繪製目標未被定義, 將會使用預設樣式來繪製。"
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
-msgstr ""
+msgstr "停用字幕動畫化。 啟用此選項可以降低 CPU 的使用資源。若你的字幕會閃爍, 您可以啟用這個選項來解決。"
 
 msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
-msgstr ""
+msgstr "增加緩衝的子畫面數一般能改善繪製效能, 但是會增加 GPU 的顯示記憶體使用量。"
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
@@ -862,7 +857,7 @@ msgstr "按下此按鈕後, 格式群組中有選取的狀態會反映到 MPC-HC
 
 msgctxt "IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Disabling this option will prevent the subtitles from blinking but it may cause the video renderer to skip some video frames."
-msgstr ""
+msgstr "停用此選項將可以防止字幕閃爍, 但是可能會導致視訊繪製器忽略掉一些視訊幀數幀。"
 
 msgctxt "ID_PLAY_PLAY"
 msgid "Play\nPlay"
@@ -942,11 +937,11 @@ msgstr "選項"
 
 msgctxt "IDS_SHADERS_SELECT"
 msgid "&Select Shaders..."
-msgstr "選擇 Shaders(&S)..."
+msgstr "選擇著色器 (Shaders) (&S)..."
 
 msgctxt "IDS_SHADERS_DEBUG"
 msgid "&Debug Shaders..."
-msgstr "偵錯 Shader... (&D)"
+msgstr "著色器 (Shader) 偵錯(&D)... "
 
 msgctxt "IDS_FAVORITES_ADD"
 msgid "&Add to Favorites..."
@@ -982,7 +977,7 @@ msgstr "EDL 新影片"
 
 msgctxt "IDS_RECENT_FILES_CLEAR"
 msgid "&Clear list"
-msgstr "清除清單"
+msgstr "清除清單(&C)"
 
 msgctxt "IDS_RECENT_FILES_QUESTION"
 msgid "Are you sure that you want to delete recent files list?"
@@ -1086,7 +1081,7 @@ msgstr "啟用(&E)"
 
 msgctxt "IDS_PANSCAN_EDIT"
 msgid "&Edit..."
-msgstr "編輯..."
+msgstr "編輯(&E)..."
 
 msgctxt "IDS_INFOBAR_TITLE"
 msgid "Title"
@@ -1266,15 +1261,15 @@ msgstr "保存自訂樣式"
 
 msgctxt "IDS_CONTENT_EDUCATION_SCIENCE"
 msgid "Education/Science/Factual topics"
-msgstr ""
+msgstr "教育/科學/事實話題"
 
 msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
 msgid "Hides controls and panels also in windowed mode."
-msgstr ""
+msgstr "在視窗模式同樣也隱藏控制項及面板。"
 
 msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
 msgid "Prevent external subtitle renderer to be loaded when internal is in use."
-msgstr ""
+msgstr "當內部字幕繪製器使用時, 防止載入外部字幕繪製器。"
 
 msgctxt "IDS_PPAGEADVANCED_COL_NAME"
 msgid "Name"
@@ -1282,31 +1277,31 @@ msgstr "名稱"
 
 msgctxt "IDS_PPAGEADVANCED_COL_VALUE"
 msgid "Value"
-msgstr ""
+msgstr "數值"
 
 msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
-msgstr ""
+msgstr "\"最近的檔案\"選單項目中所能顯示的最大檔案數量及可被儲存的位置。"
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
-msgstr ""
+msgstr "記住檔案播放時間大於 N 分鐘的檔案位置。"
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
 msgid "Remember file position also for audio files."
-msgstr ""
+msgstr "對音訊檔案也記住檔案位置。"
 
 msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
 msgid "Do Nothing"
-msgstr ""
+msgstr "什麼都不做"
 
 msgctxt "IDS_AFTER_PLAYBACK_PLAY_NEXT"
 msgid "Play next file in the folder"
-msgstr ""
+msgstr "播放此資料夾的下一個檔案"
 
 msgctxt "IDS_AFTER_PLAYBACK_REWIND"
 msgid "Rewind current file"
-msgstr ""
+msgstr "倒帶目前檔案"
 
 msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
 msgid "Close"
@@ -1318,31 +1313,31 @@ msgstr "離開"
 
 msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
 msgid "Turn off the monitor"
-msgstr ""
+msgstr "關閉螢幕"
 
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
 msgid "JPEG Image"
-msgstr ""
+msgstr "JPEG 影像"
 
 msgctxt "IDS_IMAGE_QUALITY"
 msgid "Quality (%):"
-msgstr ""
+msgstr "品質 (%):"
 
 msgctxt "IDS_PPAGEADVANCED_COVER_SIZE_LIMIT"
 msgid "Maximum size (NxNpx) of a cover-art loaded in the audio only mode."
-msgstr ""
+msgstr "音訊播放模式下, 所載入專輯封面的最大尺吋 (NxNpx)。"
 
 msgctxt "IDS_SUBTITLE_DELAY_STEP_TOOLTIP"
 msgid "The subtitle delay will be decreased/increased by this value each time the corresponding hotkeys are used (%s/%s)."
-msgstr ""
+msgstr "按下字幕延遲快速鍵時, 字幕延遲的時間將依此數值來減少/增加 (%s/%s)。"
 
 msgctxt "IDS_HOTKEY_NOT_DEFINED"
 msgid "<not defined>"
-msgstr ""
+msgstr "<尚未定義>"
 
 msgctxt "IDS_NAVIGATION_WATCH"
 msgid "Watch"
-msgstr ""
+msgstr "觀看"
 
 msgctxt "IDS_NAVIGATION_MOVE_UP"
 msgid "Move Up"
@@ -1354,46 +1349,66 @@ msgstr "下移"
 
 msgctxt "IDS_NAVIGATION_SORT"
 msgid "Sort by LCN"
-msgstr ""
+msgstr "以 LCN 排序"
 
 msgctxt "IDS_NAVIGATION_REMOVE_ALL"
 msgid "Remove all"
-msgstr ""
+msgstr "移除全部"
 
 msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
 msgid "Are you sure you want to remove all channels from the list?"
-msgstr ""
+msgstr "您確定要移除此清單裡的所有頻道?"
 
 msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"
 msgid "No information available"
-msgstr ""
+msgstr "沒有可用的資訊"
 
 msgctxt "IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS"
 msgid "Please wait, analysis in progress..."
-msgstr ""
+msgstr "請等待, 正在進行分析..."
 
 msgctxt "IDS_ASPECT_RATIO_FMT"
 msgid "AR %d:%d"
-msgstr ""
+msgstr "長寬比例 %d:%d"
 
 msgctxt "IDS_PPAGEADVANCED_LOGGER"
 msgid "Enables logging to file (requires restart)"
-msgstr ""
+msgstr "啟用日誌記錄檔案 (需重新啟動)"
 
 msgctxt "IDS_TIMER_REMAINING_TIME"
 msgid "Remaining time"
-msgstr ""
+msgstr "剩餘時間"
 
 msgctxt "IDS_TIMER_HIGH_PRECISION"
 msgid "High precision"
-msgstr ""
+msgstr "高精確度"
 
 msgctxt "IDS_AFTERPLAYBACK_REWIND"
 msgid "After Playback: Rewind current file"
-msgstr ""
+msgstr "播放完後: 倒帶目前檔案"
 
 msgctxt "IDS_AFTERPLAYBACK_CLOSE"
 msgid "After Playback: Close"
+msgstr "播放完後: 關閉"
+
+msgctxt "IDS_FRAME_INIT_FAILED"
+msgid "MPC-HC encountered a problem during initialization. With your help we might be able to fix the issue.\n\nDo you want to report it?"
+msgstr ""
+
+msgctxt "IDS_TIME_SHIFT_TOOLTIP"
+msgid "Enter a positive value if the audio is early, a negative value if it is late."
+msgstr ""
+
+msgctxt "IDS_WEBUI_DISABLED_PREVIEW_MSG"
+msgid "Preview is currently disabled. You can enable it in MPC-HC's options."
+msgstr "目前已停用預覽功能。您可以於 MPC-HC 的選項中將其啟用。"
+
+msgctxt "IDS_WEBUI_PREVIEW_WARNING"
+msgid "This option can be used to preview media files from remote location. Use it only on a properly secured private network.\n\nDo you really want to enable this option?"
+msgstr ""
+
+msgctxt "IDS_SUBTITLE_RENDERER_INTERNAL"
+msgid "Internal Subtitle Renderer"
 msgstr ""
 
 msgctxt "IDS_AG_OPEN_DEVICE"
@@ -1506,7 +1521,7 @@ msgstr "最接近的關鍵幀"
 
 msgctxt "IDS_HOOKS_FAILED"
 msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
-msgstr "MPC-HC 在初始化時遇到了一個問題。DVD 播放可能會不正常。這可能與某些安全工具的不兼容性所致。\n\n你要報告這個問題嗎?"
+msgstr "MPC-HC 在初始化時遇到了一個問題。DVD 播放可能會不正常。這可能與某些安全工具的不相容性所致。\n\n您要回報這個問題嗎?"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
 msgid "Never show"
@@ -1550,7 +1565,7 @@ msgstr "縮圖已成功儲存"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
 msgid "&Video Track"
-msgstr ""
+msgstr "視訊軌道(&V)"
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
 msgid "Video Ang&le"
@@ -1574,7 +1589,7 @@ msgstr "匯出設定"
 
 msgctxt "IDS_EXPORT_SETTINGS_WARNING"
 msgid "Some changes have not been saved yet.\nDo you want to save them before exporting?"
-msgstr "有些設定尚未儲存。\n你要先儲存它們後才匯出嗎?"
+msgstr "有些設定尚未儲存。\n您要先儲存它們後才匯出嗎?"
 
 msgctxt "IDS_EXPORT_SETTINGS_SUCCESS"
 msgid "The settings have been successfully exported."
@@ -1582,7 +1597,7 @@ msgstr "設定已經成功匯出。"
 
 msgctxt "IDS_EXPORT_SETTINGS_FAILED"
 msgid "The export failed! This can happen when you don't have the correct rights."
-msgstr "匯出失敗! 當你沒有正確的權限時會出現此情況。"
+msgstr "匯出失敗! 當您沒有正確的權限時會出現此情況。"
 
 msgctxt "IDS_BDA_ERROR"
 msgid "BDA Error"
@@ -1678,15 +1693,23 @@ msgstr "跳至起始點"
 
 msgctxt "IDS_OSD_SHOW_FILENAME"
 msgid "OSD: Show File Name"
-msgstr ""
+msgstr "OSD: 顯示檔案名稱"
+
+msgctxt "IDS_PLAY_DVD"
+msgid "Play DVD"
+msgstr "播放 DVD"
+
+msgctxt "IDS_PLAY_BD"
+msgid "Play BD"
+msgstr "播放 BD"
 
 msgctxt "IDS_OSD_DISPLAY_RENDERER_STATS"
 msgid "OSD: Display Renderer Statistics"
-msgstr ""
+msgstr "OSD: 顯示繪製器統計"
 
 msgctxt "IDS_OSD_RESET_RENDERER_STATS"
 msgid "OSD: Reset Renderer Statistics"
-msgstr ""
+msgstr "OSD: 重置繪製器統計"
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
@@ -1694,11 +1717,11 @@ msgstr "字幕::其它"
 
 msgctxt "IDS_VIEW_BORDERLESS"
 msgid "Hide &borders"
-msgstr "隱藏邊框"
+msgstr "隱藏邊框(&B)"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
 msgid "Fra&me Only"
-msgstr "僅影格"
+msgstr "僅影格(&M)"
 
 msgctxt "IDS_VIEW_CAPTIONMENU"
 msgid "Sho&w Caption&&Menu"
@@ -1706,11 +1729,11 @@ msgstr "顯示標題選單"
 
 msgctxt "IDS_VIEW_HIDEMENU"
 msgid "Hide &Menu"
-msgstr "隱藏選單"
+msgstr "隱藏選單(&M)"
 
 msgctxt "IDD_PPAGEADVANCED"
 msgid "Advanced"
-msgstr ""
+msgstr "進階"
 
 msgctxt "IDS_AG_VIEW_MINIMAL"
 msgid "View Minimal"
@@ -1946,11 +1969,11 @@ msgstr "老闆鍵"
 
 msgctxt "IDS_MPLAYERC_77"
 msgid "Player Menu"
-msgstr ""
+msgstr "播放器選單"
 
 msgctxt "IDS_MPLAYERC_78"
 msgid "Player Menu (full)"
-msgstr ""
+msgstr "播放器選單 (完整)"
 
 msgctxt "IDS_AG_FILTERS_MENU"
 msgid "Filters Menu"
@@ -1961,20 +1984,20 @@ msgid "Options"
 msgstr "選單"
 
 msgctxt "IDS_AG_NEXT_AUDIO"
-msgid "Next Audio"
-msgstr "次一音訊"
+msgid "Next Audio Track"
+msgstr "下一段音軌"
 
 msgctxt "IDS_AG_PREV_AUDIO"
-msgid "Prev Audio"
-msgstr "前一音訊"
+msgid "Prev Audio Track"
+msgstr "上一段音軌"
 
 msgctxt "IDS_AG_NEXT_SUBTITLE"
-msgid "Next Subtitle"
-msgstr "次一字幕"
+msgid "Next Subtitle Track"
+msgstr ""
 
 msgctxt "IDS_AG_PREV_SUBTITLE"
-msgid "Prev Subtitle"
-msgstr "前一字幕"
+msgid "Prev Subtitle Track"
+msgstr ""
 
 msgctxt "IDS_MPLAYERC_85"
 msgid "On/Off Subtitle"
@@ -1983,22 +2006,6 @@ msgstr "開啟/關閉字幕"
 msgctxt "IDS_MPLAYERC_86"
 msgid "Reload Subtitles"
 msgstr "重新載入字幕"
-
-msgctxt "IDS_MPLAYERC_87"
-msgid "Next Audio (OGM)"
-msgstr "次一音訊 (OGM)"
-
-msgctxt "IDS_MPLAYERC_88"
-msgid "Prev Audio (OGM)"
-msgstr "前一音訊 (OGM)"
-
-msgctxt "IDS_MPLAYERC_89"
-msgid "Next Subtitle (OGM)"
-msgstr "次一字幕 (OGM)"
-
-msgctxt "IDS_MPLAYERC_90"
-msgid "Prev Subtitle (OGM)"
-msgstr "前一字幕 (OGM)"
 
 msgctxt "IDS_MPLAYERC_91"
 msgid "Next Angle (DVD)"
@@ -2009,20 +2016,20 @@ msgid "Prev Angle (DVD)"
 msgstr "前一角度 (DVD)"
 
 msgctxt "IDS_MPLAYERC_93"
-msgid "Next Audio (DVD)"
-msgstr "次一音訊 (DVD)"
+msgid "Next Audio Track (DVD)"
+msgstr "下一段音軌 (DVD)"
 
 msgctxt "IDS_MPLAYERC_94"
-msgid "Prev Audio (DVD)"
-msgstr "前一音訊 (DVD)"
+msgid "Prev Audio Track (DVD)"
+msgstr "上一段音軌 (DVD)"
 
 msgctxt "IDS_MPLAYERC_95"
-msgid "Next Subtitle (DVD)"
-msgstr "次一字幕 (DVD)"
+msgid "Next Subtitle Track (DVD)"
+msgstr ""
 
 msgctxt "IDS_MPLAYERC_96"
-msgid "Prev Subtitle (DVD)"
-msgstr "前一字幕 (DVD)"
+msgid "Prev Subtitle Track (DVD)"
+msgstr ""
 
 msgctxt "IDS_MPLAYERC_97"
 msgid "On/Off Subtitle (DVD)"
@@ -2030,7 +2037,7 @@ msgstr "開啟/關閉字幕 (DVD)"
 
 msgctxt "IDS_OSD_DISPLAY_CURRENT_TIME"
 msgid "OSD: Display Current Time"
-msgstr ""
+msgstr "OSD: 顯示目前時間"
 
 msgctxt "IDS_PPAGEWEBSERVER_0"
 msgid "Select the directory"
@@ -2122,7 +2129,7 @@ msgstr "角度: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
 
 msgctxt "IDS_MAINFRM_11"
 msgid "%s, %s %u Hz %d bits %d %s"
-msgstr ""
+msgstr "%s, %s %u Hz %d bits %d %s"
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
@@ -2134,7 +2141,7 @@ msgstr "以 MPC-HC 播放"
 
 msgctxt "IDS_CANNOT_CHANGE_FORMAT"
 msgid "MPC-HC has not enough privileges to change files formats associations. Please click on the \"Run as administrator\" button."
-msgstr ""
+msgstr "MPC-HC 沒有足夠的權限變更檔案格式關聯。請點擊 \"以系統管理員身分執行\" 按鈕取得管理者權限。"
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
@@ -2318,7 +2325,7 @@ msgstr "要載入字幕您必須變更視訊繪製器類型並重新開啟檔案
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
-msgstr ""
+msgstr "字幕檔案"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %ld:%ld"
@@ -2388,14 +2395,6 @@ msgctxt "IDS_FULLSCREENMONITOR_CURRENT"
 msgid "Current"
 msgstr "目前的"
 
-msgctxt "IDS_MPC_CRASH"
-msgid "MPC-HC terminated unexpectedly. To help us fix this problem, please send this file \"%s\" to our bug tracker.\n\nDo you want to open the folder containing the minidump file and visit the bug tracker now?"
-msgstr "MPC-HC 未預期終止。為了幫助我們修正這個問題, 請傳送 '%s' 這個檔案到我們的 Bug Tracker。\n\n您要開啟內含 minidump 傾印檔案的資料夾並立即拜訪 Bug Tracker?"
-
-msgctxt "IDS_MPC_MINIDUMP_FAIL"
-msgid "Failed to create dump file to \"%s\" (error %u)"
-msgstr "無法建立傾印檔案到 '%s' (錯誤 %u)"
-
 msgctxt "IDS_MAINFRM_DIR_TITLE"
 msgid "Select Directory"
 msgstr "選擇目錄"
@@ -2410,7 +2409,7 @@ msgstr "暫停"
 
 msgctxt "IDS_AG_TOGGLE_CAPTION"
 msgid "Toggle Caption&Menu"
-msgstr "切換標題選單"
+msgstr "切換標題選單(&M)"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
 msgid "Toggle Seek Bar"
@@ -2569,8 +2568,8 @@ msgid "Volume boost Max"
 msgstr "最大音量增幅"
 
 msgctxt "IDS_USAGE"
-msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/randomize\tRandomize the playlist\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tUse MPC-HC as slave\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "用法: mpc-hc.exe \"路徑名稱\" [選項]\n\n\"路徑名稱\"\t要載入的主要檔案或資料夾。(可使用萬用字元, \"-\" 表示標準輸入)\n/dub \"音源名稱\"\t載入額外的音訊檔案\n/dubdelay \"檔案\"\t以平移 XXms 的時間載入額外的音訊檔案。\n\t\t(如果檔案含有 \"...DELAY XXms...\")\n/d3dfs\t\t在 D3D 全螢幕模式啟動繪製\n/sub \"字幕名稱\"\t載入額外的字幕檔\n/filter \"篩選器名\"\t從動態連結函式庫載入 DirectShow 篩選器。\n\t\t(允許萬用字元)\n/dvd\t\t執行 DVD 模式, \"路徑名稱\" 代表該 DVD 資料夾\n\t\t(選用)\n/dvdpos T#C\t從第 T 標題, 第 C 章節開始播放\n/dvdpos T#hh:mm\t從第 T 標題, 時間 hh:mm:ss 開始播放\n/cd\t\t載入音樂 CD 或是 (S)VCD 的所有音軌, \"路徑名稱\"\n\t\t表示光碟機路徑 (選用)\n/device\t\t開啟預設視訊設備\n/open\t\t開啟檔案, 但不自動播放\n/play\t\t播放程式一啟動就播放檔案\n/close\t\t播放完畢後就關閉播放程式 (搭配 /play\n\t\t一起用才有效)\n/shutdown\t播放完之後關閉作業系統\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\t以全螢幕模式啟動\n/minimized\t以最小化模式啟動\n/new\t\t使用新的播放程式實體\n/add\t\t新增 \"路徑名稱\" 到播放清單, 可與 /open 和 /play\n\t\t合併使用\n/randomize\tRandomize the playlist\n/regvid\t\t建立視訊格式檔案關聯\n/regaud\t\t建立音訊格式檔案關聯\n/regpl\t\t建立播放清單檔案關聯\n/regall\t\t建立所有支援格式的檔案關聯\n/unregall\t\t移除所有檔案關聯\n/start ms\t\t從第 ms 毫秒開始播放\n/startpos hh:mm:ss\t從時間 hh:mm:ss 開始播放\n/fixedsize w,h\t設定固定的視窗大小\n/monitor N\t在第 N 顯示器啟動, N 從 1 開始\n/audiorenderer N\t使用第 N 音訊譜製器啟動, N 從 1 開始\n\t\t(請見 \"輸出\" 設定)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tUse MPC-HC as slave\n/reset\t\t回復預設設定\n/help /h /?\t顯示命令列選項的說明\n"
+msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/randomize\tRandomize the playlist\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tUse MPC-HC as slave\n/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding\n\t\tOnly available for CUVID and DXVA2 (copy-back)\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
+msgstr "用法: mpc-hc.exe \"路徑名稱\" [選項]\n\n\"路徑名稱\"\t要載入的主要檔案或資料夾。(可使用萬用字元, \"-\" 表示標準輸入)\n/dub \"音源名稱\"\t載入額外的音訊檔案\n/dubdelay \"檔案\"\t以平移 XXms 的時間載入額外的音訊檔案。\n\t\t(如果檔案含有 \"...DELAY XXms...\")\n/d3dfs\t\t在 D3D 全螢幕模式啟動繪製\n/sub \"字幕名稱\"\t載入額外的字幕檔\n/filter \"篩選器名\"\t從動態連結函式庫載入 DirectShow 篩選器。\n\t\t(允許萬用字元)\n/dvd\t\t執行 DVD 模式, \"路徑名稱\" 代表該 DVD 資料夾\n\t\t(選用)\n/dvdpos T#C\t從第 T 標題, 第 C 章節開始播放\n/dvdpos T#hh:mm\t從第 T 標題, 時間 hh:mm:ss 開始播放\n/cd\t\t載入音樂 CD 或是 (S)VCD 的所有音軌, \"路徑名稱\"\n\t\t表示光碟機路徑 (選用)\n/device\t\t開啟預設視訊裝置/open\t\t開啟檔案, 但不自動播放\n/play\t\t播放程式一啟動就播放檔案\n/close\t\t播放完畢後就關閉播放程式 (搭配 /play\n\t\t一起用才有效)\n/shutdown\t播放完之後關閉作業系統\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\t播放完後開啟資料夾的下個檔案\n/fullscreen\t以全螢幕模式啟動\n/minimized\t以最小化模式啟動\n/new\t\t使用新的播放程式實體\n/add\t\t新增 \"路徑名稱\" 到播放清單, 可與 /open 和 /play\n\t\t合併使用\n/randomize\tRandomize the playlist\n/regvid\t\t建立視訊格式檔案關聯\n/regaud\t\t建立音訊格式檔案關聯\n/regpl\t\t建立播放清單檔案關聯\n/regall\t\t建立所有支援格式的檔案關聯\n/unregall\t\t移除所有檔案關聯\n/start ms\t\t從第 ms 毫秒開始播放\n/startpos hh:mm:ss\t從時間 hh:mm:ss 開始播放\n/fixedsize w,h\t設定固定的視窗大小\n/monitor N\t在第 N 顯示器啟動, N 從 1 開始\n/audiorenderer N\t使用第 N 音訊譜製器啟動, N 從 1 開始\n\t\t(請見 \"輸出\" 設定)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\t於背景開啟 MPC-HC\n/webport N\tStart web interface on specified port\n/debug\t\t於視控調整功能 (OSD) 中顯示偵錯資訊\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tUse MPC-HC as slave\n/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding\n\t\tOnly available for CUVID and DXVA2 (copy-back)\n/reset\t\t回復預設設定\n/help /h /?\t顯示命令列選項的說明\n"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -2926,7 +2925,7 @@ msgstr "其他音訊"
 
 msgctxt "IDS_MFMT_AC3"
 msgid "AC-3"
-msgstr ""
+msgstr "AC-3"
 
 msgctxt "IDS_MFMT_AIFF"
 msgid "AIFF"
@@ -2954,7 +2953,7 @@ msgstr "Opus 音訊"
 
 msgctxt "IDS_MFMT_DTS"
 msgid "DTS/DTS-HD"
-msgstr ""
+msgstr "DTS/DTS-HD"
 
 msgctxt "IDS_MFMT_AMR"
 msgid "AMR"
@@ -3043,18 +3042,6 @@ msgstr "解析度"
 msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
 msgid "Aspect Ratio"
 msgstr "長寬比"
-
-msgctxt "IDS_ARS_WASAPI_MODE"
-msgid "Use WASAPI (restart playback)"
-msgstr "使用 WASAPI (會重新播放)"
-
-msgctxt "IDS_ARS_MUTE_FAST_FORWARD"
-msgid "Mute on fast forward"
-msgstr "快轉時靜音"
-
-msgctxt "IDS_ARS_SOUND_DEVICE"
-msgid "Sound Device:"
-msgstr "聲音裝置:"
 
 msgctxt "IDS_OSD_RS_VSYNC_ON"
 msgid "VSync: On"
@@ -3346,7 +3333,7 @@ msgstr "回復音量: 關閉"
 
 msgctxt "IDS_SIZE_UNIT_BYTES"
 msgid "bytes"
-msgstr ""
+msgstr "位元組"
 
 msgctxt "IDS_SIZE_UNIT_K"
 msgid "KB"
@@ -3522,15 +3509,15 @@ msgstr "播放完後: 鎖定"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
-msgstr ""
+msgstr "播放完後: 關閉螢幕"
 
 msgctxt "IDS_AFTERPLAYBACK_PLAYNEXT"
 msgid "After Playback: Play next file in the folder"
-msgstr ""
+msgstr "播放完後: 播放此資料夾的下一個檔案"
 
 msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
 msgid "After Playback: Do nothing"
-msgstr ""
+msgstr "播放完後: 什麼都不做"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
@@ -3570,7 +3557,7 @@ msgstr "外部分離器可能有它們自己的語言偏好選項所以 MPC-HC �
 
 msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
 msgid "&Blu-Ray playlists"
-msgstr "&Blu-Ray 播放清單"
+msgstr "藍光播放清單(&B)"
 
 msgctxt "IDS_NAVIGATE_PLAYLIST"
 msgid "&Playlist"
@@ -3590,25 +3577,33 @@ msgstr "頻道 (&C)"
 
 msgctxt "IDC_FASTSEEK_CHECK"
 msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."
-msgstr ""
+msgstr "若選擇 \"最近的關鍵幀\", 在搜索時會選擇實際搜索時間點前最近的關鍵幀。\n若選擇 \"最接近的關鍵幀\" , 在搜索時會根據前後關鍵幀選擇最近的關鍵幀。"
 
 msgctxt "IDC_ASSOCIATE_ALL_FORMATS"
 msgid "Associate with all formats"
-msgstr ""
+msgstr "關聯所有格式"
 
 msgctxt "IDC_ASSOCIATE_VIDEO_FORMATS"
 msgid "Associate with video formats only"
-msgstr ""
+msgstr "僅關聯視訊格式"
 
 msgctxt "IDC_ASSOCIATE_AUDIO_FORMATS"
 msgid "Associate with audio formats only"
-msgstr ""
+msgstr "僅關聯音訊格式"
 
 msgctxt "IDC_CLEAR_ALL_ASSOCIATIONS"
 msgid "Clear all associations"
-msgstr ""
+msgstr "清除所有檔案關聯"
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"
 msgstr "設置"
+
+msgctxt "IDS_SUBTITLE_RENDERER_VS_FILTER"
+msgid "VSFilter / DirectVobSub"
+msgstr ""
+
+msgctxt "IDS_SUBTITLE_RENDERER_XY_SUB_FILTER"
+msgid "XySubFilter"
+msgstr ""
 

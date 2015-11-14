@@ -23,18 +23,23 @@
 #include "mplayerc.h"
 #include "MainFrm.h"
 #include "PlayerSubresyncBar.h"
+#include "WinAPIUtils.h"
 
 
 // CPlayerSubresyncBar
 
 IMPLEMENT_DYNAMIC(CPlayerSubresyncBar, CPlayerBar)
-CPlayerSubresyncBar::CPlayerSubresyncBar()
+CPlayerSubresyncBar::CPlayerSubresyncBar(CMainFrame* pMainFrame)
     : m_pSubLock(nullptr)
+    , m_pMainFrame(pMainFrame)
     , m_fps(0.0)
     , m_lastSegment(-1)
     , m_rt(0)
     , m_mode(NONE)
 {
+    GetEventd().Connect(m_eventc, {
+        MpcEvent::DPI_CHANGED,
+    }, std::bind(&CPlayerSubresyncBar::EventCallback, this, std::placeholders::_1));
 }
 
 CPlayerSubresyncBar::~CPlayerSubresyncBar()
@@ -53,6 +58,8 @@ BOOL CPlayerSubresyncBar::Create(CWnd* pParentWnd, UINT defDockBarID, CCritSec* 
         WS_EX_DLGMODALFRAME | WS_EX_CLIENTEDGE,
         WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_TABSTOP | LVS_REPORT | LVS_OWNERDATA /*|LVS_SHOWSELALWAYS*/ | LVS_AUTOARRANGE | LVS_NOSORTHEADER,
         CRect(0, 0, 100, 100), this, IDC_SUBRESYNCLIST);
+
+    ScaleFont();
 
     m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER);
 
@@ -327,6 +334,31 @@ void CPlayerSubresyncBar::SaveSubtitle()
     }
 }
 
+void CPlayerSubresyncBar::ScaleFont()
+{
+    LOGFONT lf;
+    GetMessageFont(&lf);
+    lf.lfHeight = m_pMainFrame->m_dpi.ScaleSystemToOverrideY(lf.lfHeight);
+
+    m_font.DeleteObject();
+    if (m_font.CreateFontIndirect(&lf)) {
+        m_list.SetFont(&m_font);
+    }
+}
+
+void CPlayerSubresyncBar::EventCallback(MpcEvent ev)
+{
+    switch (ev) {
+        case MpcEvent::DPI_CHANGED:
+            ScaleFont();
+            m_list.SetWindowPos(nullptr, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
+            break;
+
+        default:
+            ASSERT(FALSE);
+    }
+}
+
 void CPlayerSubresyncBar::UpdatePreview()
 {
     if (m_mode == VOBSUB || m_mode == TEXTSUB) {
@@ -536,6 +568,7 @@ bool CPlayerSubresyncBar::ModEnd(int iItem, int t, bool bReset)
 }
 
 BEGIN_MESSAGE_MAP(CPlayerSubresyncBar, CPlayerBar)
+    ON_WM_MEASUREITEM()
     ON_WM_SIZE()
     ON_NOTIFY(LVN_GETDISPINFO, IDC_SUBRESYNCLIST, OnGetDisplayInfo)
     ON_NOTIFY(LVN_BEGINLABELEDIT, IDC_SUBRESYNCLIST, OnBeginlabeleditList)
@@ -860,7 +893,7 @@ void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
             EFFECTFIRST, EFFECTLAST = EFFECTFIRST + 1000
         };
 
-        CStringArray styles;
+        CStringArray stylesNames;
         CStringArray actors;
         CStringArray effects;
 
@@ -904,7 +937,7 @@ void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
                         CString key;
                         STSStyle* val;
                         m_sts.m_styles.GetNextAssoc(pos, key, val);
-                        styles.Add(key);
+                        stylesNames.Add(key);
                         m.AppendMenu(MF_STRING | MF_ENABLED, id++, key);
                     }
 
@@ -1091,7 +1124,7 @@ void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
                     break;
                 default:
                     if (STYLEFIRST <= id && id <= STYLELAST) {
-                        CString s = styles[id - STYLEFIRST];
+                        CString s = stylesNames[id - STYLEFIRST];
                         if (m_sts[iItem].style != s) {
                             m_sts[iItem].style = s;
                             bNeedsUpdate = true;
@@ -1103,11 +1136,11 @@ void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
                         STSStyle* stss = m_sts.GetStyle(iItem);
                         int iSelPage = 0;
 
-                        POSITION pos = m_sts.m_styles.GetStartPosition();
-                        for (int i = 0; pos; i++) {
+                        POSITION posStyles = m_sts.m_styles.GetStartPosition();
+                        for (int i = 0; posStyles; i++) {
                             CString key;
                             STSStyle* val;
-                            m_sts.m_styles.GetNextAssoc(pos, key, val);
+                            m_sts.m_styles.GetNextAssoc(posStyles, key, val);
 
                             CAutoPtr<CPPageSubStyle> page(DEBUG_NEW CPPageSubStyle());
                             page->InitStyle(key, *val);
@@ -1369,6 +1402,15 @@ bool CPlayerSubresyncBar::HandleShortCuts(const MSG* pMsg)
     }
 
     return bHandled;
+}
+
+void CPlayerSubresyncBar::OnMeasureItem(int nIDCtl, LPMEASUREITEMSTRUCT lpMeasureItemStruct)
+{
+    __super::OnMeasureItem(nIDCtl, lpMeasureItemStruct);
+    if (m_itemHeight == 0) {
+        m_itemHeight = lpMeasureItemStruct->itemHeight;
+    }
+    lpMeasureItemStruct->itemHeight = m_pMainFrame->m_dpi.ScaleSystemToOverrideY(m_itemHeight);
 }
 
 int CPlayerSubresyncBar::FindNearestSub(REFERENCE_TIME& rtPos, bool bForward)

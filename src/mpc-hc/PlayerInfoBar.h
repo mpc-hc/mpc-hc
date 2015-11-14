@@ -40,6 +40,9 @@ private:
 
     CToolTipCtrl m_tooltip;
 
+    EventClient m_eventc;
+    void EventCallback(MpcEvent ev);
+
     void Relayout();
 
 public:

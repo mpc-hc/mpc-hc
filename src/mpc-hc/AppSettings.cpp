@@ -25,7 +25,6 @@
 #include "FGFilter.h"
 #include "FileAssoc.h"
 #include "CrashReporter.h"
-#include "CrashReporterDialog.h"
 #include "VersionInfo.h"
 #include "SysVersion.h"
 #include "WinAPIUtils.h"
@@ -34,112 +33,19 @@
 #include "UpdateChecker.h"
 #include "moreuuids.h"
 #include <mvrInterfaces.h>
-
+#include "../thirdparty/sanear/sanear/src/Factory.h"
 
 #pragma warning(push)
 #pragma warning(disable: 4351) // new behavior: elements of array 'array' will be default initialized
 CAppSettings::CAppSettings()
     : bInitialized(false)
-    , hAccel(nullptr)
-    , nCmdlnWebServerPort(-1)
-    , fShowDebugInfo(false)
-    , hMasterWnd(nullptr)
     , nCLSwitches(0)
-    , iMonitor(0)
-    , fMute(false)
-    , fPreventMinimize(false)
-    , fUseWin7TaskBar(true)
-    , fUseSearchInFolder(false)
-    , fUseTimeTooltip(true)
-    , nTimeTooltipPosition(TIME_TOOLTIP_ABOVE_SEEKBAR)
-    , nOSDSize(0)
-    , nSpeakerChannels(2)
-    , fRemainingTime(false)
-    , bHighPrecisionTimer(false)
-    , nUpdaterAutoCheck(-1)
-    , nUpdaterDelay(7)
-    , fBDAUseOffset(false)
-    , iBDABandwidth(8)
-    , iBDAOffset(166)
-    , iBDAScanFreqStart(474000)
-    , iBDAScanFreqEnd(858000)
-    , fBDAIgnoreEncryptedChannels(false)
-    , nDVBLastChannel(INT_ERROR)
-    , nDVBStopFilterGraph(DVB_STOP_FG_WHEN_SWITCHING)
-    , nDVBRebuildFilterGraph(DVB_REBUILD_FG_WHEN_SWITCHING)
-    , fEnableAudioSwitcher(true)
-    , fAudioNormalize(false)
-    , fAudioNormalizeRecover(true)
-    , nAudioBoost(0)
-    , fDownSampleTo441(false)
-    , fAudioTimeShift(false)
-    , iAudioTimeShift(0)
-    , fCustomChannelMapping(false)
-    , fOverridePlacement(false)
-    , nHorPos(50)
-    , nVerPos(90)
-    , bSubtitleARCompensation(true)
-    , nSubDelayStep(500)
-    , fPrioritizeExternalSubtitles(true)
-    , fDisableInternalSubtitles(true)
-    , bPreferDefaultForcedSubtitles(true)
-    , nJumpDistS(DEFAULT_JUMPDISTANCE_1)
-    , nJumpDistM(DEFAULT_JUMPDISTANCE_2)
-    , nJumpDistL(DEFAULT_JUMPDISTANCE_3)
-    , bFastSeek(true)
-    , eFastSeekMethod(FASTSEEK_NEAREST_KEYFRAME)
-    , fShowChapters(true)
-    , fLCDSupport(false)
-    , iBrightness(0)
-    , iContrast(0)
-    , iHue(0)
-    , iSaturation(0)
-    , eCaptionMenuMode(MODE_SHOWCAPTIONMENU)
-    , fHideNavigation(false)
-    , nCS(CS_SEEKBAR | CS_TOOLBAR | CS_STATUSBAR)
-    , language(LANGID(-1))
-    , fEnableSubtitles(true)
-    , fUseDefaultSubtitlesStyle(false)
-    , iDefaultVideoSize(DVS_FROMINSIDE)
-    , fKeepAspectRatio(true)
-    , fCompMonDeskARDiff(false)
-    , iOnTop(0)
-    , bFavRememberPos(true)
-    , bFavRelativeDrive(false)
-    , iThumbRows(4)
-    , iThumbCols(4)
-    , iThumbWidth(1024)
-    , bSubSaveExternalStyleFile(false)
-    , bShufflePlaylistItems(false)
-    , bHidePlaylistFullScreen(false)
-    , nLastWindowType(SIZE_RESTORED)
-    , nLastUsedPage(0)
-    , fLastFullScreen(false)
-    , fIntRealMedia(false)
-    , fEnableEDLEditor(false)
-    , bNotifySkype(false)
-    , nAudioMaxNormFactor(400)
-    , bAllowOverridingExternalSplitterChoice(false)
-    , iAnalogCountry(1)
-    , iDefaultCaptureDevice(0)
-    , fExitFullScreenAtTheEnd(true)
-    , fLaunchfullscreen(false)
-    , fD3DFullscreen(false)
-    , iDSVideoRendererType(VIDRNDT_DS_DEFAULT)
-    , iRMVideoRendererType(VIDRNDT_RM_DEFAULT)
-    , iQTVideoRendererType(VIDRNDT_QT_DEFAULT)
-    , fClosedCaptions(false)
-    , idMenuLang(0)
-    , idAudioLang(0)
-    , idSubtitlesLang(0)
-    , nVolumeStep(5)
-    , nSpeedStep(0)
-    , eAfterPlayback(AfterPlayback::DO_NOTHING)
-    , fUseDVDPath(false)
     , rtShift(0)
     , rtStart(0)
     , lDVDTitle(0)
     , lDVDChapter(0)
+    , iMonitor(0)
+    , fShowDebugInfo(false)
     , iAdminOption(0)
     , fAllowMultipleInst(false)
     , fTrayIcon(false)
@@ -167,6 +73,7 @@ CAppSettings::CAppSettings()
     , dZoomX(1.0)
     , dZoomY(1.0)
     , fAssociatedWithIcons(true)
+    , hAccel(nullptr)
     , fWinLirc(false)
     , fUIce(false)
     , fGlobalMedia(true)
@@ -174,10 +81,13 @@ CAppSettings::CAppSettings()
     , fLogoExternal(false)
     , fEnableWebServer(false)
     , nWebServerPort(13579)
+    , nCmdlnWebServerPort(-1)
     , fWebServerUseCompression(true)
     , fWebServerLocalhostOnly(false)
+    , bWebUIEnablePreview(false)
     , fWebServerPrintDebugInfo(false)
     , nVolume(100)
+    , fMute(false)
     , nBalance(0)
     , nLoops(1)
     , fLoopForever(false)
@@ -187,21 +97,112 @@ CAppSettings::CAppSettings()
     , fEnableWorkerThreadForOpening(true)
     , fReportFailedPins(true)
     , fAutoloadAudio(true)
-    , fAutoloadSubtitles(true)
     , fBlockVSFilter(true)
-    , pSpeakerToChannelMap()
-    , TraFilters()
-    , SrcFilters()
+    , nVolumeStep(5)
+    , nSpeedStep(0)
+    , eAfterPlayback(AfterPlayback::DO_NOTHING)
+    , fUseDVDPath(false)
+    , idMenuLang(0)
+    , idAudioLang(0)
+    , idSubtitlesLang(0)
+    , fClosedCaptions(false)
+    , iDSVideoRendererType(VIDRNDT_DS_DEFAULT)
+    , iRMVideoRendererType(VIDRNDT_RM_DEFAULT)
+    , iQTVideoRendererType(VIDRNDT_QT_DEFAULT)
+    , fD3DFullscreen(false)
+    , fLaunchfullscreen(false)
     , bHideFullscreenControls(true)
     , eHideFullscreenControlsPolicy(HideFullscreenControlsPolicy::SHOW_WHEN_HOVERED)
     , uHideFullscreenControlsDelay(0)
     , bHideFullscreenDockedPanels(true)
-    , bHideWindowedControls(false)
+    , fExitFullScreenAtTheEnd(true)
+    , iDefaultCaptureDevice(0)
+    , iAnalogCountry(1)
+    , iBDAScanFreqStart(474000)
+    , iBDAScanFreqEnd(858000)
+    , iBDABandwidth(8)
+    , fBDAUseOffset(false)
+    , iBDAOffset(166)
+    , fBDAIgnoreEncryptedChannels(false)
+    , nDVBLastChannel(INT_ERROR)
+    , nDVBRebuildFilterGraph(DVB_REBUILD_FG_WHEN_SWITCHING)
+    , nDVBStopFilterGraph(DVB_STOP_FG_WHEN_SWITCHING)
+    , SrcFilters()
+    , TraFilters()
+    , fEnableAudioSwitcher(true)
+    , fAudioNormalize(false)
+    , nAudioMaxNormFactor(400)
+    , fAudioNormalizeRecover(true)
+    , nAudioBoost(0)
+    , fDownSampleTo441(false)
+    , fAudioTimeShift(false)
+    , iAudioTimeShift(0)
+    , fCustomChannelMapping(false)
+    , nSpeakerChannels(2)
+    , pSpeakerToChannelMap()
+    , fOverridePlacement(false)
+    , nHorPos(50)
+    , nVerPos(90)
+    , bSubtitleARCompensation(true)
+    , nSubDelayStep(500)
+    , bPreferDefaultForcedSubtitles(true)
+    , fPrioritizeExternalSubtitles(true)
+    , fDisableInternalSubtitles(true)
+    , bAllowOverridingExternalSplitterChoice(false)
+    , nJumpDistS(DEFAULT_JUMPDISTANCE_1)
+    , nJumpDistM(DEFAULT_JUMPDISTANCE_2)
+    , nJumpDistL(DEFAULT_JUMPDISTANCE_3)
+    , bFastSeek(true)
+    , eFastSeekMethod(FASTSEEK_NEAREST_KEYFRAME)
+    , fShowChapters(true)
+    , bNotifySkype(false)
+    , fPreventMinimize(false)
+    , bUseEnhancedTaskBar(true)
+    , fLCDSupport(false)
+    , fUseSearchInFolder(false)
+    , fUseTimeTooltip(true)
+    , nTimeTooltipPosition(TIME_TOOLTIP_ABOVE_SEEKBAR)
+    , nOSDSize(0)
     , bHideWindowedMousePointer(true)
+    , iBrightness(0)
+    , iContrast(0)
+    , iHue(0)
+    , iSaturation(0)
+    , nUpdaterAutoCheck(-1)
+    , nUpdaterDelay(7)
+    , eCaptionMenuMode(MODE_SHOWCAPTIONMENU)
+    , fHideNavigation(false)
+    , nCS(CS_SEEKBAR | CS_TOOLBAR | CS_STATUSBAR)
+    , language(LANGID(-1))
+    , fEnableSubtitles(true)
+    , fUseDefaultSubtitlesStyle(false)
+    , iDefaultVideoSize(DVS_FROMINSIDE)
+    , fKeepAspectRatio(true)
+    , fCompMonDeskARDiff(false)
+    , iOnTop(0)
+    , bFavRememberPos(true)
+    , bFavRelativeDrive(false)
+    , iThumbRows(4)
+    , iThumbCols(4)
+    , iThumbWidth(1024)
+    , bSubSaveExternalStyleFile(false)
+    , bShufflePlaylistItems(false)
+    , bHidePlaylistFullScreen(false)
+    , nLastWindowType(SIZE_RESTORED)
+    , nLastUsedPage(0)
+    , fRemainingTime(false)
+    , bHighPrecisionTimer(false)
+    , fLastFullScreen(false)
+    , fIntRealMedia(false)
+    , fEnableEDLEditor(false)
+    , hMasterWnd(nullptr)
+    , bHideWindowedControls(false)
     , nJpegQuality(90)
     , bEnableCoverArt(true)
     , nCoverArtSizeLimit(600)
     , bEnableLogging(false)
+    , iLAVGPUDevice(DWORD_MAX)
+    , eSubtitleRenderer(SubtitleRenderer::INTERNAL)
 {
     // Internal source filter
 #if INTERNAL_SOURCEFILTER_CDDA
@@ -336,6 +337,9 @@ CAppSettings::CAppSettings()
 #if INTERNAL_DECODER_AMR
     TraFiltersKeys[TRA_AMR] = FilterKey(_T("TRA_AMR"), true);
 #endif
+#if INTERNAL_DECODER_OPUS
+    TraFiltersKeys[TRA_OPUS] = FilterKey(_T("TRA_OPUS"), true);
+#endif
 #if INTERNAL_DECODER_PCM
     TraFiltersKeys[TRA_PCM] = FilterKey(_T("TRA_PCM"), true);
 #endif
@@ -401,6 +405,8 @@ CAppSettings::CAppSettings()
 #endif
 
     ZeroMemory(&DVDPosition, sizeof(DVDPosition));
+
+    ENSURE(SUCCEEDED(SaneAudioRenderer::Factory::CreateSettings(&sanear)));
 }
 #pragma warning(pop)
 
@@ -548,10 +554,6 @@ void CAppSettings::CreateCommands()
     wmcmds.AddTail({ID_STREAM_SUB_ONOFF,                'W', FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_85});
     wmcmds.AddTail({ID_SUBTITLES_SUBITEM_START + 2,       0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_86});
     wmcmds.AddTail({ID_FILE_ISDB_DOWNLOAD,              'D', FVIRTKEY | FNOINVERT,                    IDS_DOWNLOAD_SUBS});
-    wmcmds.AddTail({ID_OGM_AUDIO_NEXT,                    0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_87});
-    wmcmds.AddTail({ID_OGM_AUDIO_PREV,                    0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_88});
-    wmcmds.AddTail({ID_OGM_SUB_NEXT,                      0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_89});
-    wmcmds.AddTail({ID_OGM_SUB_PREV,                      0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_90});
     wmcmds.AddTail({ID_DVD_ANGLE_NEXT,                    0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_91});
     wmcmds.AddTail({ID_DVD_ANGLE_PREV,                    0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_92});
     wmcmds.AddTail({ID_DVD_AUDIO_NEXT,                    0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_93});
@@ -614,19 +616,69 @@ bool CAppSettings::IsD3DFullscreen() const
     }
 }
 
-bool CAppSettings::IsISRAvailable() const
-{
-    return (iDSVideoRendererType == VIDRNDT_DS_VMR7RENDERLESS ||
-            iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS ||
-            iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
-            iDSVideoRendererType == VIDRNDT_DS_DXR ||
-            iDSVideoRendererType == VIDRNDT_DS_SYNC ||
-            iDSVideoRendererType == VIDRNDT_DS_MADVR);
-}
-
 bool CAppSettings::IsISRAutoLoadEnabled() const
 {
-    return fAutoloadSubtitles && IsISRAvailable();
+    return eSubtitleRenderer == SubtitleRenderer::INTERNAL &&
+           IsSubtitleRendererSupported(eSubtitleRenderer, iDSVideoRendererType);
+}
+
+CAppSettings::SubtitleRenderer CAppSettings::GetSubtitleRenderer() const
+{
+    if (IsSubtitleRendererSupported(SubtitleRenderer::INTERNAL, iDSVideoRendererType) ||
+            IsSubtitleRendererSupported(SubtitleRenderer::XY_SUB_FILTER, iDSVideoRendererType)) {
+        return eSubtitleRenderer;
+    }
+    return SubtitleRenderer::VS_FILTER;
+}
+
+bool CAppSettings::IsSubtitleRendererRegistered(SubtitleRenderer eSubtitleRenderer)
+{
+    switch (eSubtitleRenderer) {
+        case SubtitleRenderer::INTERNAL:
+            return true;
+        case SubtitleRenderer::VS_FILTER:
+            return IsCLSIDRegistered(CLSID_VSFilter);
+        case SubtitleRenderer::XY_SUB_FILTER:
+            return IsCLSIDRegistered(CLSID_XySubFilter);
+        default:
+            ASSERT(FALSE);
+            return false;
+    }
+}
+
+bool CAppSettings::IsSubtitleRendererSupported(SubtitleRenderer eSubtitleRenderer, int videoRenderer)
+{
+    switch (eSubtitleRenderer) {
+        case SubtitleRenderer::INTERNAL:
+            switch (videoRenderer) {
+                case VIDRNDT_DS_VMR7RENDERLESS:
+                case VIDRNDT_DS_VMR9RENDERLESS:
+                case VIDRNDT_DS_EVR_CUSTOM:
+                case VIDRNDT_DS_DXR:
+                case VIDRNDT_DS_SYNC:
+                case VIDRNDT_DS_MADVR:
+                    return true;
+            }
+            break;
+
+        case SubtitleRenderer::VS_FILTER:
+            return true;
+
+        case SubtitleRenderer::XY_SUB_FILTER:
+            switch (videoRenderer) {
+                case VIDRNDT_DS_VMR9RENDERLESS:
+                case VIDRNDT_DS_EVR_CUSTOM:
+                case VIDRNDT_DS_SYNC:
+                case VIDRNDT_DS_MADVR:
+                    return true;
+            }
+            break;
+
+        default:
+            ASSERT(FALSE);
+    }
+
+    return false;
 }
 
 bool CAppSettings::IsVideoRendererAvailable(int iVideoRendererType)
@@ -742,7 +794,6 @@ void CAppSettings::SaveSettings()
 
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_AUDIORENDERERTYPE, CString(strAudioRendererDisplayName));
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUTOLOADAUDIO, fAutoloadAudio);
-    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUTOLOADSUBTITLES, fAutoloadSubtitles);
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLESLANGORDER, CString(strSubtitlesLanguageOrder));
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_AUDIOSLANGORDER, CString(strAudiosLanguageOrder));
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_BLOCKVSFILTER, fBlockVSFilter);
@@ -786,7 +837,7 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_FULLSCREENMONITOR, CString(strFullScreenMonitor));
     // Prevent Minimize when in Fullscreen mode on non default monitor
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_PREVENT_MINIMIZE, fPreventMinimize);
-    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_WIN7TASKBAR, fUseWin7TaskBar);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ENHANCED_TASKBAR, bUseEnhancedTaskBar);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SEARCH_IN_FOLDER, fUseSearchInFolder);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_USE_TIME_TOOLTIP, fUseTimeTooltip);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_TIME_TOOLTIP_POSITION, nTimeTooltipPosition);
@@ -920,9 +971,10 @@ void CAppSettings::SaveSettings()
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEWEBSERVER, fEnableWebServer);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_WEBSERVERPORT, nWebServerPort);
-    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_WEBSERVERPRINTDEBUGINFO, fWebServerPrintDebugInfo);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_WEBSERVERUSECOMPRESSION, fWebServerUseCompression);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_WEBSERVERLOCALHOSTONLY, fWebServerLocalhostOnly);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_WEBUI_ENABLE_PREVIEW, bWebUIEnablePreview);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_WEBSERVERPRINTDEBUGINFO, fWebServerPrintDebugInfo);
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_WEBROOT, strWebRoot);
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_WEBDEFINDEX, strWebDefIndex);
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_WEBSERVERCGI, strWebServerCGI);
@@ -977,6 +1029,33 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_COVER_ART_SIZE_LIMIT, nCoverArtSizeLimit);
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LOGGING, bEnableLogging);
+
+    VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SUBTITLE_RENDERER,
+                                 static_cast<int>(eSubtitleRenderer)));
+
+    {
+        CComHeapPtr<WCHAR> pDeviceId;
+        BOOL bExclusive;
+        UINT32 uBufferDuration;
+        if (SUCCEEDED(sanear->GetOuputDevice(&pDeviceId, &bExclusive, &uBufferDuration))) {
+            pApp->WriteProfileString(IDS_R_SANEAR, IDS_RS_SANEAR_DEVICE_ID, pDeviceId);
+            pApp->WriteProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_DEVICE_EXCLUSIVE, bExclusive);
+            pApp->WriteProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_DEVICE_BUFFER, uBufferDuration);
+        }
+
+        BOOL bAllowBitstreaming;
+        sanear->GetAllowBitstreaming(&bAllowBitstreaming);
+        pApp->WriteProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_ALLOW_BITSTREAMING, bAllowBitstreaming);
+
+        BOOL bCrossfeedEnabled;
+        sanear->GetCrossfeedEnabled(&bCrossfeedEnabled);
+        pApp->WriteProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_CROSSFEED_ENABLED, bCrossfeedEnabled);
+
+        UINT32 uCutoffFrequency, uCrossfeedLevel;
+        sanear->GetCrossfeedSettings(&uCutoffFrequency, &uCrossfeedLevel);
+        pApp->WriteProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_CROSSFEED_CUTOFF_FREQ, uCutoffFrequency);
+        pApp->WriteProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_CROSSFEED_LEVEL, uCrossfeedLevel);
+    }
 
     pApp->FlushProfile();
 }
@@ -1208,13 +1287,9 @@ void CAppSettings::LoadSettings()
             language = 0;
         }
     }
-#ifndef DEBUG
-    if (language) {
-        auto pCrashReporterUIThread = CCrashReporterUIThread::GetInstance();
-        pCrashReporterUIThread->WaitThreadReady();
-        pCrashReporterUIThread->GetCrashDialog().LoadTranslatableResources();
+    if (language && CrashReporter::IsEnabled()) {
+        CrashReporter::Enable(Translations::GetLanguageResourceByLocaleID(language).dllPath);
     }
-#endif
 
     CreateCommands();
 
@@ -1241,7 +1316,6 @@ void CAppSettings::LoadSettings()
 
     strAudioRendererDisplayName = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_AUDIORENDERERTYPE);
     fAutoloadAudio = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUTOLOADAUDIO, TRUE);
-    fAutoloadSubtitles = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUTOLOADSUBTITLES, TRUE);
     strSubtitlesLanguageOrder = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLESLANGORDER);
     strAudiosLanguageOrder = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_AUDIOSLANGORDER);
     fBlockVSFilter = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_BLOCKVSFILTER, TRUE);
@@ -1269,7 +1343,7 @@ void CAppSettings::LoadSettings()
     strFullScreenMonitor = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_FULLSCREENMONITOR);
     // Prevent Minimize when in fullscreen mode on non default monitor
     fPreventMinimize = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_PREVENT_MINIMIZE, FALSE);
-    fUseWin7TaskBar = SysVersion::Is7OrLater() ? !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_WIN7TASKBAR, TRUE) : FALSE;
+    bUseEnhancedTaskBar = SysVersion::Is7OrLater() ? !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENHANCED_TASKBAR, TRUE) : FALSE;
     fUseSearchInFolder = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SEARCH_IN_FOLDER, TRUE);
     fUseTimeTooltip = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USE_TIME_TOOLTIP, TRUE);
     nTimeTooltipPosition = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_TIME_TOOLTIP_POSITION, TIME_TOOLTIP_ABOVE_SEEKBAR);
@@ -1543,9 +1617,10 @@ void CAppSettings::LoadSettings()
 
     fEnableWebServer = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEWEBSERVER, FALSE);
     nWebServerPort = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_WEBSERVERPORT, 13579);
-    fWebServerPrintDebugInfo = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_WEBSERVERPRINTDEBUGINFO, FALSE);
     fWebServerUseCompression = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_WEBSERVERUSECOMPRESSION, TRUE);
     fWebServerLocalhostOnly = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_WEBSERVERLOCALHOSTONLY, FALSE);
+    bWebUIEnablePreview = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_WEBUI_ENABLE_PREVIEW, FALSE);
+    fWebServerPrintDebugInfo = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_WEBSERVERPRINTDEBUGINFO, FALSE);
     strWebRoot = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_WEBROOT, _T("*./webroot"));
     strWebDefIndex = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_WEBDEFINDEX, _T("index.html;index.php"));
     strWebServerCGI = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_WEBSERVERCGI);
@@ -1557,9 +1632,9 @@ void CAppSettings::LoadSettings()
     // if (!SHGetSpecialFolderPath(nullptr, MyPictures.GetBufferSetLength(MAX_PATH), CSIDL_MYPICTURES, TRUE)) MyPictures.Empty();
     // else MyPictures.ReleaseBuffer();
     if (ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders"), KEY_READ)) {
-        ULONG len = MAX_PATH;
-        if (ERROR_SUCCESS == key.QueryStringValue(_T("My Pictures"), MyPictures.GetBuffer(MAX_PATH), &len)) {
-            MyPictures.ReleaseBufferSetLength(len);
+        ULONG lenValue = MAX_PATH;
+        if (ERROR_SUCCESS == key.QueryStringValue(_T("My Pictures"), MyPictures.GetBuffer(MAX_PATH), &lenValue)) {
+            MyPictures.ReleaseBufferSetLength(lenValue);
         } else {
             MyPictures.Empty();
         }
@@ -1691,9 +1766,26 @@ void CAppSettings::LoadSettings()
 
     bEnableLogging = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LOGGING, FALSE);
 
+    eSubtitleRenderer = static_cast<SubtitleRenderer>(pApp->GetProfileInt(IDS_R_SETTINGS,
+                                                      IDS_RS_SUBTITLE_RENDERER, static_cast<int>(SubtitleRenderer::INTERNAL)));
+
     if (fLaunchfullscreen) {
         nCLSwitches |= CLSW_FULLSCREEN;
     }
+
+    sanear->SetOuputDevice(pApp->GetProfileString(IDS_R_SANEAR, IDS_RS_SANEAR_DEVICE_ID),
+                           pApp->GetProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_DEVICE_EXCLUSIVE, FALSE),
+                           pApp->GetProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_DEVICE_BUFFER,
+                                               SaneAudioRenderer::ISettings::OUTPUT_DEVICE_BUFFER_DEFAULT_MS));
+
+    sanear->SetAllowBitstreaming(pApp->GetProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_ALLOW_BITSTREAMING, TRUE));
+
+    sanear->SetCrossfeedEnabled(pApp->GetProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_CROSSFEED_ENABLED, FALSE));
+
+    sanear->SetCrossfeedSettings(pApp->GetProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_CROSSFEED_CUTOFF_FREQ,
+                                                     SaneAudioRenderer::ISettings::CROSSFEED_CUTOFF_FREQ_CMOY),
+                                 pApp->GetProfileInt(IDS_R_SANEAR, IDS_RS_SANEAR_CROSSFEED_LEVEL,
+                                                     SaneAudioRenderer::ISettings::CROSSFEED_LEVEL_CMOY));
 
     bInitialized = true;
 }
@@ -2041,6 +2133,8 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
                 nCLSwitches |= CLSW_MONITOROFF;
             } else if (sw == _T("playnext")) {
                 nCLSwitches |= CLSW_PLAYNEXT;
+            } else if (sw == _T("hwgpu")) {
+                iLAVGPUDevice = _tcstol(cmdln.GetNext(pos), nullptr, 10);
             } else {
                 nCLSwitches |= CLSW_HELP | CLSW_UNRECOGNIZEDSWITCH;
             }
@@ -2240,18 +2334,18 @@ void CAppSettings::UpdateSettings()
     // so that all incremental updates are applied.
     switch (version) {
         case 0: {
-            UINT nAudioBoost = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOBOOST, -1);
-            if (nAudioBoost == UINT(-1)) {
+            UINT nAudioBoostTmp = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOBOOST, -1);
+            if (nAudioBoostTmp == UINT(-1)) {
                 double dAudioBoost_dB = _tstof(pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_AUDIOBOOST, _T("0")));
                 if (dAudioBoost_dB < 0 || dAudioBoost_dB > 10) {
                     dAudioBoost_dB = 0;
                 }
-                nAudioBoost = UINT(100 * pow(10.0, dAudioBoost_dB / 20.0) + 0.5) - 100;
+                nAudioBoostTmp = UINT(100 * pow(10.0, dAudioBoost_dB / 20.0) + 0.5) - 100;
             }
-            if (nAudioBoost > 300) { // Max boost is 300%
-                nAudioBoost = 300;
+            if (nAudioBoostTmp > 300) { // Max boost is 300%
+                nAudioBoostTmp = 300;
             }
-            pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOBOOST, nAudioBoost);
+            pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOBOOST, nAudioBoostTmp);
 
             ConvertOldExternalFiltersList();
         }
@@ -2412,6 +2506,23 @@ void CAppSettings::UpdateSettings()
         case 5:
             copyInt(IDS_R_INTERNAL_FILTERS, _T("SRC_DTSAC3"), IDS_R_INTERNAL_FILTERS, _T("SRC_DTS"));
             copyInt(IDS_R_INTERNAL_FILTERS, _T("SRC_DTSAC3"), IDS_R_INTERNAL_FILTERS, _T("SRC_AC3"));
+        // no break
+        case 6: {
+            SubtitleRenderer subrenderer = SubtitleRenderer::INTERNAL;
+            if (!pApp->GetProfileInt(IDS_R_SETTINGS, _T("AutoloadSubtitles"), TRUE)) {
+                if (IsSubtitleRendererRegistered(SubtitleRenderer::VS_FILTER)) {
+                    subrenderer = SubtitleRenderer::VS_FILTER;
+                }
+                if (IsSubtitleRendererRegistered(SubtitleRenderer::XY_SUB_FILTER)) {
+                    int renderer = SysVersion::IsVistaOrLater() ? (IsVideoRendererAvailable(VIDRNDT_DS_EVR_CUSTOM) ? VIDRNDT_DS_EVR_CUSTOM : VIDRNDT_DS_VMR9RENDERLESS) : VIDRNDT_DS_VMR7RENDERLESS;
+                    renderer = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DSVIDEORENDERERTYPE, renderer);
+                    if (IsSubtitleRendererSupported(SubtitleRenderer::XY_SUB_FILTER, renderer)) {
+                        subrenderer = SubtitleRenderer::XY_SUB_FILTER;
+                    }
+                }
+            }
+            VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SUBTITLE_RENDERER, static_cast<int>(subrenderer)));
+        }
         // no break
         default:
             pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_R_VERSION, APPSETTINGS_VERSION);

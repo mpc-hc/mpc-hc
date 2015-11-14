@@ -30,6 +30,7 @@
 #define VMRBITMAP_UPDATE 0x80000000
 #define MAX_PICTURE_SLOTS (60 + 2) // Last 2 for pixels shader!
 #define NB_JITTER 126
+#include "AsyncCallback.h"
 
 extern bool g_bNoDuration; // Defined in MainFrm.cpp
 extern bool g_bExternalSubtitleTime;
@@ -68,6 +69,8 @@ class CFocusThread;
 #define PIXELCLOCK  8
 #define UNKNOWN     9
 
+// Guid to tag IMFSample with a group id
+static const GUID GUID_GROUP_ID = { 0x309e32cc, 0x9b23, 0x4c6c, { 0x86, 0x63, 0xcd, 0xd9, 0xad, 0x49, 0x7f, 0x8a } };
 // Guid to tag IMFSample with DirectX surface index
 static const GUID GUID_SURFACE_INDEX = { 0x30c8e9f6, 0x415, 0x4b81, { 0xa3, 0x15, 0x1, 0xa, 0xc6, 0xa9, 0xda, 0x19 } };
 
@@ -154,7 +157,7 @@ namespace GothSync
         D3DFORMAT m_DisplayType;
         D3DTEXTUREFILTERTYPE m_filter;
         D3DCAPS9 m_caps;
-        D3DPRESENT_PARAMETERS pp;
+        D3DPRESENT_PARAMETERS m_pp;
 
         bool SettingsNeedResetDevice();
         void SendResetRequest();
@@ -315,6 +318,8 @@ namespace GothSync
         bool ExtractInterlaced(const AM_MEDIA_TYPE* pmt);
 
         CFocusThread* m_FocusThread;
+        HWND          m_hFocusWindow;
+
     public:
         CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error);
         ~CBaseAP();
@@ -446,6 +451,7 @@ namespace GothSync
         STDMETHODIMP GetD3DFullscreen(bool* pfEnabled);
 
     protected:
+        STDMETHODIMP_(bool) Paint(IMFSample* pMFSample);
         void OnResetDevice();
         MFCLOCK_STATE m_LastClockState;
 
@@ -487,9 +493,10 @@ namespace GothSync
         CCritSec m_SampleQueueLock;
         CCritSec m_ImageProcessingLock;
 
-        CInterfaceList<IMFSample, &IID_IMFSample> m_FreeSamples;
-        CInterfaceList<IMFSample, &IID_IMFSample> m_ScheduledSamples;
-        IMFSample* m_pCurrentDisplaydSample;
+        UINT32                    m_nCurrentGroupId;
+        CInterfaceList<IMFSample> m_FreeSamples;
+        CInterfaceList<IMFSample> m_ScheduledSamples;
+        CComPtr<IMFSample>        m_pCurrentlyDisplayedSample;
         UINT m_nResetToken;
         int m_nStepCount;
 
@@ -508,11 +515,16 @@ namespace GothSync
         STDMETHODIMP AdviseSyncClock(ISyncClock* sC);
         HRESULT BeginStreaming();
         HRESULT GetFreeSample(IMFSample** ppSample);
-        HRESULT GetScheduledSample(IMFSample** ppSample, int& _Count);
-        void MoveToFreeList(IMFSample* pSample, bool bTail);
-        void MoveToScheduledList(IMFSample* pSample, bool _bSorted);
+        HRESULT GetScheduledSample(IMFSample** ppSample, int& count);
+        void AddToFreeList(IMFSample* pSample, bool bTail);
+        void AddToScheduledList(IMFSample* pSample, bool bSorted);
         void FlushSamples();
-        void FlushSamplesInternal();
+
+        HRESULT TrackSample(IMFSample* pSample);
+
+        // Callback when a video sample is released.
+        HRESULT OnSampleFree(IMFAsyncResult* pResult);
+        AsyncCallback<CSyncAP> m_SampleFreeCallback;
 
         LONGLONG GetMediaTypeMerit(IMFMediaType* pMediaType);
         HRESULT RenegotiateMediaType();

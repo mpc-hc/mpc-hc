@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-17 20:47:27+0000\n"
+"POT-Creation-Date: 2015-10-19 19:15:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -469,10 +469,6 @@ msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
 msgstr ""
 
-msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
-msgid "Use the built-in subtitle renderer"
-msgstr ""
-
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Control"
 msgstr ""
@@ -673,8 +669,8 @@ msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
 msgstr ""
 
-msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_WIN7"
-msgid "Use Windows 7 Taskbar features"
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
+msgid "Use enhanced taskbar features"
 msgstr ""
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
@@ -1166,7 +1162,7 @@ msgid "DXVA"
 msgstr ""
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "Subtitles *"
+msgid "Subtitles"
 msgstr ""
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
@@ -1182,7 +1178,7 @@ msgid "Rotation"
 msgstr ""
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "* External filters (such as VSFilter) can display subtitles on all renderers."
+msgid "Subtitle Renderer"
 msgstr ""
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
@@ -1199,6 +1195,10 @@ msgstr ""
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK5"
 msgid "Allow access from localhost only"
+msgstr ""
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK6"
+msgid "Enable preview"
 msgstr ""
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
@@ -1649,6 +1649,50 @@ msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
 msgstr ""
 
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "Device"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK1"
+msgid "Exclusive mode"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK2"
+msgid "Allow bitstreaming"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "Options"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK3"
+msgid "Enable stereo crossfeed (for headphones)"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON1"
+msgid "C. Moy"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON2"
+msgid "J. Meier"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC1"
+msgid "Cut-off:"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC3"
+msgid "Level:"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "Note"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "To minimize audio distortion, it is recommended to keep player volume at around 85% when playing loud lossy-encoded content."
+msgstr ""
+
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
 msgstr ""
@@ -1665,8 +1709,16 @@ msgctxt "IDD_CRASH_REPORTER_CAPTION"
 msgid "Crash reporter"
 msgstr ""
 
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC"
+msgid "We are sorry, it seems MPC-HC just crashed. :("
+msgstr ""
+
+msgctxt "IDD_CRASH_REPORTER_IDC_CHECK1"
+msgid "Send a bug report to help us diagnose and fix the problem."
+msgstr ""
+
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
-msgid "We are sorry, it seems MPC-HC just crashed. :(\n\nTo help us diagnose and fix the problem, a bug report will be sent. You can provide additional information if you want."
+msgid "Optional information"
 msgstr ""
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
@@ -1681,7 +1733,11 @@ msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
 msgid "Problem description (use English only):"
 msgstr ""
 
-msgctxt "IDD_CRASH_REPORTER_IDOK"
-msgid "OK"
+msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON1"
+msgid "Restart MPC-HC"
+msgstr ""
+
+msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON2"
+msgid "Quit MPC-HC"
 msgstr ""
 

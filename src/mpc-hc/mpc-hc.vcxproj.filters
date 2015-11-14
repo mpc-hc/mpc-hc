@@ -440,8 +440,11 @@
     <ClCompile Include="CrashReporter.cpp">
       <Filter>Crash Reporter</Filter>
     </ClCompile>
-    <ClCompile Include="CrashReporterDialog.cpp">
-      <Filter>Crash Reporter</Filter>
+    <ClCompile Include="PPageAudioRenderer.cpp">
+      <Filter>Property Dialogs\Player Options\Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="DpiHelper.cpp">
+      <Filter>Helpers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -825,8 +828,11 @@
     <ClInclude Include="CrashReporter.h">
       <Filter>Crash Reporter</Filter>
     </ClInclude>
-    <ClInclude Include="CrashReporterDialog.h">
-      <Filter>Crash Reporter</Filter>
+    <ClInclude Include="PPageAudioRenderer.h">
+      <Filter>Property Dialogs\Player Options\Pages</Filter>
+    </ClInclude>
+    <ClInclude Include="DpiHelper.h">
+      <Filter>Helpers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

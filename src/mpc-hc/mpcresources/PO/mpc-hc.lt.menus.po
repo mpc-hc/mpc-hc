@@ -1,0 +1,700 @@
+# MPC-HC - Strings extracted from menus
+# Copyright (C) 2002 - 2013 see Authors.txt
+# This file is distributed under the same license as the MPC-HC package.
+# Translators:
+# linasmi <linasmi@mail.ru>, 2015
+# Linas Tamašauskas, 2014-2015
+# Martynas Kybartas <maky@super.lt>, 2015
+msgid ""
+msgstr ""
+"Project-Id-Version: MPC-HC\n"
+"POT-Creation-Date: 2015-05-30 00:33:30+0000\n"
+"PO-Revision-Date: 2015-09-11 11:11+0000\n"
+"Last-Translator: linasmi <linasmi@mail.ru>\n"
+"Language-Team: Lithuanian (http://www.transifex.com/mpc-hc/mpc-hc/language/lt/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: lt\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+msgctxt "POPUP"
+msgid "&File"
+msgstr "&Failas"
+
+msgctxt "ID_FILE_OPENQUICK"
+msgid "&Quick Open File..."
+msgstr "&Greitai atverti failą..."
+
+msgctxt "ID_FILE_OPENMEDIA"
+msgid "&Open File..."
+msgstr "&Atverti failą..."
+
+msgctxt "ID_FILE_OPENDVDBD"
+msgid "Open &DVD/BD..."
+msgstr "Atverti D&VD/BD..."
+
+msgctxt "ID_FILE_OPENDEVICE"
+msgid "Open De&vice..."
+msgstr "Atverti į&renginį"
+
+msgctxt "ID_FILE_OPENDIRECTORY"
+msgid "Open Dir&ectory..."
+msgstr "Atverti &katalogą"
+
+msgctxt "ID_FILE_OPENDISC"
+msgid "O&pen Disc"
+msgstr "Atverti &diską"
+
+msgctxt "ID_RECENT_FILES"
+msgid "Recent &Files"
+msgstr "&Paskiausiai naudoti failai"
+
+msgctxt "ID_FILE_CLOSE_AND_RESTORE"
+msgid "&Close"
+msgstr "&Uždaryti"
+
+msgctxt "ID_FILE_SAVE_COPY"
+msgid "&Save a Copy..."
+msgstr "Įrašyti k&opiją"
+
+msgctxt "ID_FILE_SAVE_IMAGE"
+msgid "Save &Image..."
+msgstr "Įrašyti at&vaizdą"
+
+msgctxt "ID_FILE_SAVE_THUMBNAILS"
+msgid "Save &Thumbnails..."
+msgstr "Įrašyti &miniatiūras"
+
+msgctxt "ID_FILE_LOAD_SUBTITLE"
+msgid "&Load Subtitle..."
+msgstr "Įkelti &subtitrus..."
+
+msgctxt "ID_FILE_SAVE_SUBTITLE"
+msgid "Save S&ubtitle..."
+msgstr "Įrašyti s&ubtitrus..."
+
+msgctxt "POPUP"
+msgid "Subtitle Data&base"
+msgstr "Subtitrų d&uomenų bazė"
+
+msgctxt "ID_FILE_ISDB_SEARCH"
+msgid "&Search..."
+msgstr "&Ieškoti..."
+
+msgctxt "ID_FILE_ISDB_UPLOAD"
+msgid "&Upload..."
+msgstr "Įk&elti..."
+
+msgctxt "ID_FILE_ISDB_DOWNLOAD"
+msgid "&Download..."
+msgstr "At&sisiųsti"
+
+msgctxt "ID_FILE_PROPERTIES"
+msgid "P&roperties"
+msgstr "Sa&vybės"
+
+msgctxt "ID_FILE_EXIT"
+msgid "E&xit"
+msgstr "&Baigti"
+
+msgctxt "POPUP"
+msgid "&View"
+msgstr "&Rodymas"
+
+msgctxt "ID_VIEW_CAPTIONMENU"
+msgid "Caption&&Menu"
+msgstr "Įrašų&&meniu"
+
+msgctxt "ID_VIEW_SEEKER"
+msgid "See&k Bar"
+msgstr "Slan&kjuostė"
+
+msgctxt "ID_VIEW_CONTROLS"
+msgid "&Controls"
+msgstr "&Valdymo mygtukai"
+
+msgctxt "ID_VIEW_INFORMATION"
+msgid "&Information"
+msgstr "&Informacija"
+
+msgctxt "ID_VIEW_STATISTICS"
+msgid "&Statistics"
+msgstr "&Statistika"
+
+msgctxt "ID_VIEW_STATUS"
+msgid "St&atus"
+msgstr "&Būsenos juosta"
+
+msgctxt "ID_VIEW_SUBRESYNC"
+msgid "Su&bresync"
+msgstr "Subtitrų sin&chronizavimas"
+
+msgctxt "ID_VIEW_PLAYLIST"
+msgid "Pla&ylist"
+msgstr "&Grojaraštis"
+
+msgctxt "ID_VIEW_CAPTURE"
+msgid "Captu&re"
+msgstr "Už&fiksuoti"
+
+msgctxt "ID_VIEW_NAVIGATION"
+msgid "Na&vigation"
+msgstr "Na&vigacija"
+
+msgctxt "ID_VIEW_DEBUGSHADERS"
+msgid "&Debug Shaders"
+msgstr "Tamsinimų &derinimas"
+
+msgctxt "POPUP"
+msgid "&Presets..."
+msgstr "&Sąsajos parinktys..."
+
+msgctxt "ID_VIEW_PRESETS_MINIMAL"
+msgid "&Minimal"
+msgstr "&Minimalus"
+
+msgctxt "ID_VIEW_PRESETS_COMPACT"
+msgid "&Compact"
+msgstr "&Kompaktiškas"
+
+msgctxt "ID_VIEW_PRESETS_NORMAL"
+msgid "&Normal"
+msgstr "&Normalus"
+
+msgctxt "ID_VIEW_FULLSCREEN"
+msgid "F&ull Screen"
+msgstr "Pilno &ekrano veiksena"
+
+msgctxt "POPUP"
+msgid "&Zoom"
+msgstr "&Mastelis"
+
+msgctxt "ID_VIEW_ZOOM_50"
+msgid "&50%"
+msgstr "&50%"
+
+msgctxt "ID_VIEW_ZOOM_100"
+msgid "&100%"
+msgstr "&100%"
+
+msgctxt "ID_VIEW_ZOOM_200"
+msgid "&200%"
+msgstr "&200%"
+
+msgctxt "ID_VIEW_ZOOM_AUTOFIT"
+msgid "Auto &Fit"
+msgstr "&Automatinis pritaikymas"
+
+msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
+msgid "Auto Fit (&Larger Only)"
+msgstr "Automatinis pritaikymas (tik &didesniems)"
+
+msgctxt "POPUP"
+msgid "R&enderer Settings"
+msgstr "At&vaizdavimo nuostatos"
+
+msgctxt "ID_VIEW_TEARING_TEST"
+msgid "&Tearing Test"
+msgstr "&Trūkčiojimo testas"
+
+msgctxt "ID_VIEW_DISPLAY_RENDERER_STATS"
+msgid "&Display Statistics"
+msgstr "&Rodyti statistiką"
+
+msgctxt "ID_VIEW_OSD_DISPLAY_TIME"
+msgid "Display Current T&ime"
+msgstr "Rodyti esamą l&aiką"
+
+msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
+msgid "Show &File Name"
+msgstr "Rodyti &failo vardą"
+
+msgctxt "POPUP"
+msgid "&Output Range"
+msgstr "Išvesties &diapazonas"
+
+msgctxt "ID_VIEW_EVROUTPUTRANGE_0_255"
+msgid "&0 - 255"
+msgstr "&0 - 255"
+
+msgctxt "ID_VIEW_EVROUTPUTRANGE_16_235"
+msgid "&16 - 235"
+msgstr "&16 - 235"
+
+msgctxt "POPUP"
+msgid "&Presentation"
+msgstr "&Pateikimas"
+
+msgctxt "ID_VIEW_D3DFULLSCREEN"
+msgid "D3D Fullscreen &Mode"
+msgstr "D3D &pilno ekrano veiksena"
+
+msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
+msgid "D3D Fullscreen &GUI Support"
+msgstr "D3D pilno ekrano &GUI palaikymas"
+
+msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
+msgid "10-bit &RGB Output"
+msgstr "10-bitų &RGB išvestis"
+
+msgctxt "ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION"
+msgid "Force 10-bit RGB &Input"
+msgstr "Priverstinė 10-bitų RGB į&vestis"
+
+msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
+msgid "&Full Floating Point Processing"
+msgstr "&Pilnas slankiojo kablelio vyksmas"
+
+msgctxt "ID_VIEW_HALFFLOATINGPOINTPROCESSING"
+msgid "&Half Floating Point Processing"
+msgstr "&Pusė slankiojo kablelio vyksmo"
+
+msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
+msgid "Disable desktop composition (&Aero)"
+msgstr "Išjungti darbalaukio komponavimą (&Aero)"
+
+msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
+msgid "Enable Frame Time &Correction"
+msgstr "Įgalinti kadro &laiko korekciją"
+
+msgctxt "POPUP"
+msgid "&Color Management"
+msgstr "&Spalvų valdymas"
+
+msgctxt "ID_VIEW_CM_ENABLE"
+msgid "&Enable"
+msgstr "Į&galinti"
+
+msgctxt "POPUP"
+msgid "&Input Type"
+msgstr "Į&vesties tipas"
+
+msgctxt "ID_VIEW_CM_INPUT_AUTO"
+msgid "&Auto-Detect"
+msgstr "&Automatinis aptikimas"
+
+msgctxt "ID_VIEW_CM_INPUT_HDTV"
+msgid "&HDTV"
+msgstr "&HDTV"
+
+msgctxt "ID_VIEW_CM_INPUT_SDTV_NTSC"
+msgid "SDTV &NTSC"
+msgstr "SDTV &NTSC"
+
+msgctxt "ID_VIEW_CM_INPUT_SDTV_PAL"
+msgid "SDTV &PAL"
+msgstr "SDTV &PAL"
+
+msgctxt "POPUP"
+msgid "Ambient &Light"
+msgstr "&Aplinkos apšvietimas"
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
+msgid "&Bright (2.2 Gamma)"
+msgstr "Š&viesus (2.2 Gama)"
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DIM"
+msgid "&Dim (2.35 Gamma)"
+msgstr "&Pritemdytas (2.35 Gama)"
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DARK"
+msgid "D&ark (2.4 Gamma)"
+msgstr "&Tamsus (2.4 Gama)"
+
+msgctxt "POPUP"
+msgid "&Rendering Intent"
+msgstr "&Atvaizdavimo būdas"
+
+msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
+msgid "&Perceptual"
+msgstr "&Suvokiaminis"
+
+msgctxt "ID_VIEW_CM_INTENT_RELATIVECOLORIMETRIC"
+msgid "&Relative Colorimetric"
+msgstr "&Santykinis kolorimetrinis"
+
+msgctxt "ID_VIEW_CM_INTENT_SATURATION"
+msgid "&Saturation"
+msgstr "&Sodrumas"
+
+msgctxt "ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC"
+msgid "&Absolute Colorimetric"
+msgstr "&Absoliutus kolorimetrinis"
+
+msgctxt "POPUP"
+msgid "&VSync"
+msgstr "&Vertikali sinchronizacija"
+
+msgctxt "ID_VIEW_VSYNC"
+msgid "&VSync"
+msgstr "&Vertikali sinchronizacija"
+
+msgctxt "ID_VIEW_VSYNCACCURATE"
+msgid "&Accurate VSync"
+msgstr "&Tiksli vert. sinchr."
+
+msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
+msgid "A&lternative VSync"
+msgstr "&Alternatyvi vert. sinchr."
+
+msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
+msgid "&Decrease VSync Offset"
+msgstr "&Sumažinti vert. sinchr. atsvarą"
+
+msgctxt "ID_VIEW_VSYNCOFFSET_INCREASE"
+msgid "&Increase VSync Offset"
+msgstr "&Padidinti vert. sinchr. atsvarą"
+
+msgctxt "POPUP"
+msgid "&GPU Control"
+msgstr "&Grafinio procesoriaus kontrolė"
+
+msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
+msgid "Flush GPU &before VSync"
+msgstr "Išvalyti atmintį prieš vert. sinchr."
+
+msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
+msgid "Flush GPU &after Present"
+msgstr "Išvalyti atmintį po vert. sinchr."
+
+msgctxt "ID_VIEW_FLUSHGPU_WAIT"
+msgid "&Wait for flushes"
+msgstr "Laukti atminties valymų"
+
+msgctxt "POPUP"
+msgid "R&eset"
+msgstr "Atstatyti"
+
+msgctxt "ID_VIEW_RESET_DEFAULT"
+msgid "Reset to &default renderer settings"
+msgstr "Atstatyti numatytuosius atvaizdavimo nustatymus"
+
+msgctxt "ID_VIEW_RESET_OPTIMAL"
+msgid "Reset to &optimal renderer settings"
+msgstr "Nustatyti optimalius atvaizdavimo nustatymus"
+
+msgctxt "POPUP"
+msgid "Video &Frame"
+msgstr "Vaizdo &kadras"
+
+msgctxt "ID_VIEW_VF_HALF"
+msgid "&Half Size"
+msgstr "&Pusinis dydis"
+
+msgctxt "ID_VIEW_VF_NORMAL"
+msgid "&Normal Size"
+msgstr "&Normalus dydis"
+
+msgctxt "ID_VIEW_VF_DOUBLE"
+msgid "&Double Size"
+msgstr "&Dvigubas dydis"
+
+msgctxt "ID_VIEW_VF_STRETCH"
+msgid "&Stretch To Window"
+msgstr "&Ištemptas pagal langą"
+
+msgctxt "ID_VIEW_VF_FROMINSIDE"
+msgid "Touch Window From &Inside"
+msgstr "Į&terptas lango viduje"
+
+msgctxt "ID_VIEW_VF_ZOOM1"
+msgid "Zoom &1"
+msgstr "Mastelis &1"
+
+msgctxt "ID_VIEW_VF_ZOOM2"
+msgid "Zoom &2"
+msgstr "Mastelis &2"
+
+msgctxt "ID_VIEW_VF_FROMOUTSIDE"
+msgid "Touch Window From &Outside"
+msgstr "&Apkarpytas pagal langą"
+
+msgctxt "ID_VIEW_VF_KEEPASPECTRATIO"
+msgid "&Keep Aspect Ratio"
+msgstr "Iš&laikyti kraštinių santykį"
+
+msgctxt "POPUP"
+msgid "Override &Aspect Ratio"
+msgstr "&Pakeisti proporciją"
+
+msgctxt "ID_ASPECTRATIO_SOURCE"
+msgid "&Default"
+msgstr "&Numatytoji"
+
+msgctxt "ID_ASPECTRATIO_4_3"
+msgid "&4:3"
+msgstr "&4:3"
+
+msgctxt "ID_ASPECTRATIO_5_4"
+msgid "&5:4"
+msgstr "&5:4"
+
+msgctxt "ID_ASPECTRATIO_16_9"
+msgid "&16:9"
+msgstr "&16:9"
+
+msgctxt "ID_ASPECTRATIO_235_100"
+msgid "&235:100"
+msgstr "&235:100"
+
+msgctxt "ID_ASPECTRATIO_185_100"
+msgid "1&85:100"
+msgstr "1&85:100"
+
+msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
+msgid "&Correct Monitor/Desktop AR Diff"
+msgstr "&Taisyti monitoriaus / darbalaukio kraštinių santykio skirtumą"
+
+msgctxt "POPUP"
+msgid "Pa&n&&Scan"
+msgstr "Padėtis ir dydis"
+
+msgctxt "ID_VIEW_INCSIZE"
+msgid "&Increase Size"
+msgstr "Pa&didinti"
+
+msgctxt "ID_VIEW_DECSIZE"
+msgid "&Decrease Size"
+msgstr "Su&mažinti"
+
+msgctxt "ID_VIEW_INCWIDTH"
+msgid "I&ncrease Width"
+msgstr "Iš&tempti"
+
+msgctxt "ID_VIEW_DECWIDTH"
+msgid "D&ecrease Width"
+msgstr "Su&traukti"
+
+msgctxt "ID_VIEW_INCHEIGHT"
+msgid "In&crease Height"
+msgstr "Iš&plėsti"
+
+msgctxt "ID_VIEW_DECHEIGHT"
+msgid "Decre&ase Height"
+msgstr "Su&spausti"
+
+msgctxt "ID_PANSCAN_MOVERIGHT"
+msgid "Move &Right"
+msgstr "Pastumti dešinėn"
+
+msgctxt "ID_PANSCAN_MOVELEFT"
+msgid "Move &Left"
+msgstr "Pastumti kairėn"
+
+msgctxt "ID_PANSCAN_MOVEUP"
+msgid "Move &Up"
+msgstr "Pastumti aukštyn"
+
+msgctxt "ID_PANSCAN_MOVEDOWN"
+msgid "Move &Down"
+msgstr "Pastumti žemyn"
+
+msgctxt "ID_PANSCAN_CENTER"
+msgid "Cen&ter"
+msgstr "Centruoti"
+
+msgctxt "ID_VIEW_RESET"
+msgid "Re&set"
+msgstr "Atstatyti"
+
+msgctxt "POPUP"
+msgid "On &Top"
+msgstr "Viršuje"
+
+msgctxt "ID_ONTOP_DEFAULT"
+msgid "&Default"
+msgstr "&Numatyta"
+
+msgctxt "ID_ONTOP_ALWAYS"
+msgid "&Always"
+msgstr "Visada"
+
+msgctxt "ID_ONTOP_WHILEPLAYING"
+msgid "While &Playing"
+msgstr "&Grojant"
+
+msgctxt "ID_ONTOP_WHILEPLAYINGVIDEO"
+msgid "While Playing &Video"
+msgstr "Grojant &vaizdo įrašus;"
+
+msgctxt "ID_VIEW_OPTIONS"
+msgid "&Options..."
+msgstr "&Nustatymai..."
+
+msgctxt "POPUP"
+msgid "&Play"
+msgstr "&Groti"
+
+msgctxt "ID_PLAY_PLAYPAUSE"
+msgid "&Play/Pause"
+msgstr "Groti/&Pauzė"
+
+msgctxt "ID_PLAY_STOP"
+msgid "&Stop"
+msgstr "&Stabdyti"
+
+msgctxt "ID_PLAY_FRAMESTEP"
+msgid "F&rame Step"
+msgstr "&Kadro žingsnis"
+
+msgctxt "ID_PLAY_DECRATE"
+msgid "&Decrease Rate"
+msgstr "Su&lėtinti"
+
+msgctxt "ID_PLAY_INCRATE"
+msgid "&Increase Rate"
+msgstr "Pa&greitinti"
+
+msgctxt "ID_PLAY_RESETRATE"
+msgid "R&eset Rate"
+msgstr "&Atstatyti greitį"
+
+msgctxt "ID_FILTERS"
+msgid "&Filters"
+msgstr "&Filtrai"
+
+msgctxt "ID_SHADERS"
+msgid "S&haders"
+msgstr "T&amsinimai"
+
+msgctxt "ID_AUDIOS"
+msgid "&Audio Track"
+msgstr "&Garso takelis"
+
+msgctxt "ID_SUBTITLES"
+msgid "Su&btitle Track"
+msgstr "Su&btitrai"
+
+msgctxt "ID_VIDEO_STREAMS"
+msgid "&Video Track"
+msgstr "&Vaizdo takelis"
+
+msgctxt "POPUP"
+msgid "&Volume"
+msgstr "Ga&rsumas"
+
+msgctxt "ID_VOLUME_UP"
+msgid "&Up"
+msgstr "Pa&garsinti"
+
+msgctxt "ID_VOLUME_DOWN"
+msgid "&Down"
+msgstr "Pa&tylinti"
+
+msgctxt "ID_VOLUME_MUTE"
+msgid "&Mute"
+msgstr "&Nutildyti"
+
+msgctxt "POPUP"
+msgid "Af&ter Playback"
+msgstr "P&o grojimo"
+
+msgctxt "ID_AFTERPLAYBACK_DONOTHING"
+msgid "Do no&thing"
+msgstr "Nieko ne&daryti"
+
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "Groti &kitą aplanko failą"
+
+msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
+msgid "Turn off the &monitor"
+msgstr "Išjungti &monitorių"
+
+msgctxt "ID_AFTERPLAYBACK_EXIT"
+msgid "&Exit"
+msgstr "&Uždaryti"
+
+msgctxt "ID_AFTERPLAYBACK_STANDBY"
+msgid "&Stand By"
+msgstr "&Pristabdyti"
+
+msgctxt "ID_AFTERPLAYBACK_HIBERNATE"
+msgid "&Hibernate"
+msgstr "&Užmigdyti"
+
+msgctxt "ID_AFTERPLAYBACK_SHUTDOWN"
+msgid "Shut&down"
+msgstr "&Išjungti"
+
+msgctxt "ID_AFTERPLAYBACK_LOGOFF"
+msgid "Log &Off"
+msgstr "&Išsiregistruoti"
+
+msgctxt "ID_AFTERPLAYBACK_LOCK"
+msgid "&Lock"
+msgstr "Už&rakinti"
+
+msgctxt "POPUP"
+msgid "&Navigate"
+msgstr "&Valdyti"
+
+msgctxt "ID_NAVIGATE_SKIPBACK"
+msgid "&Previous"
+msgstr "&Ankstesnis"
+
+msgctxt "ID_NAVIGATE_SKIPFORWARD"
+msgid "&Next"
+msgstr "&Sekantis"
+
+msgctxt "ID_NAVIGATE_GOTO"
+msgid "&Go To..."
+msgstr "Š&okti į laiką..."
+
+msgctxt "ID_NAVIGATE_TITLEMENU"
+msgid "&Title Menu"
+msgstr "&Titulinis meniu"
+
+msgctxt "ID_NAVIGATE_ROOTMENU"
+msgid "&Root Menu"
+msgstr "&Pagrindinis meniu"
+
+msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
+msgid "&Subtitle Menu"
+msgstr "Su&btitrų meniu"
+
+msgctxt "ID_NAVIGATE_AUDIOMENU"
+msgid "&Audio Menu"
+msgstr "&Garso meniu"
+
+msgctxt "ID_NAVIGATE_ANGLEMENU"
+msgid "An&gle Menu"
+msgstr "&Kampinis meniu"
+
+msgctxt "ID_NAVIGATE_CHAPTERMENU"
+msgid "&Chapter Menu"
+msgstr "&Skyriaus meniu"
+
+msgctxt "ID_FAVORITES"
+msgid "F&avorites"
+msgstr "&Parankiniai"
+
+msgctxt "POPUP"
+msgid "&Help"
+msgstr "&Pagalba"
+
+msgctxt "ID_HELP_HOMEPAGE"
+msgid "&Home Page"
+msgstr "&Namų puslapis"
+
+msgctxt "ID_HELP_CHECKFORUPDATE"
+msgid "Check for &updates"
+msgstr "&Tikrinti ar yra atnaujinimų"
+
+msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
+msgid "&Command Line Switches"
+msgstr "&Komandinės eilutės parametrai"
+
+msgctxt "ID_HELP_TOOLBARIMAGES"
+msgid "Download &Toolbar Images"
+msgstr "Atsisiųsti &įrankių juostos paveikslėlius"
+
+msgctxt "ID_HELP_DONATE"
+msgid "&Donate"
+msgstr "&Paremti"
+
+msgctxt "ID_HELP_ABOUT"
+msgid "&About..."
+msgstr "&Apie..."
+

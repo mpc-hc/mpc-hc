@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Burak <burakgarci@gmail.com>, 2013
+# Mesut Aktaş <mesuthan_42@hotmail.com>, 2015
 # Sinan H., 2014-2015
 # Sinan H., 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-04-15 21:44:52+0000\n"
-"PO-Revision-Date: 2015-04-18 17:45+0000\n"
-"Last-Translator: Sinan H.\n"
-"Language-Team: Turkish (http://www.transifex.com/projects/p/mpc-hc/language/tr/)\n"
+"POT-Creation-Date: 2015-10-25 00:51:15+0000\n"
+"PO-Revision-Date: 2015-11-08 09:31+0000\n"
+"Last-Translator: JellyFrog\n"
+"Language-Team: Turkish (http://www.transifex.com/mpc-hc/mpc-hc/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -327,12 +328,12 @@ msgid "On/Off"
 msgstr "Aç/Kapat"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
-msgid "From FPS"
-msgstr "İlk FPS"
+msgid "From (FPS)"
+msgstr "İlk (FPS)"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
-msgid "To FPS"
-msgstr "Son FPS"
+msgid "To (FPS)"
+msgstr "Son (FPS)"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
@@ -466,6 +467,34 @@ msgctxt "IDD_PPAGESHADERS"
 msgid "Playback::Shaders"
 msgstr "Yürütme::Tonlamalar"
 
+msgctxt "IDD_FILEPROPRES"
+msgid "Resources"
+msgstr "Kaynaklar"
+
+msgctxt "IDD_PPAGEMISC"
+msgid "Miscellaneous"
+msgstr "Çeşitli"
+
+msgctxt "IDD_FILEMEDIAINFO"
+msgid "MediaInfo"
+msgstr "Medya Bilgisi"
+
+msgctxt "IDD_PPAGECAPTURE"
+msgid "Playback::Capture"
+msgstr "Yürütme::Yakalama"
+
+msgctxt "IDD_PPAGESYNC"
+msgid "Playback::Sync Renderer Settings"
+msgstr "Yürütme::Eşzamanlılık Ayarları"
+
+msgctxt "IDD_PPAGEFULLSCREEN"
+msgid "Playback::Fullscreen"
+msgstr "Yürütme::Tam Ekran"
+
+msgctxt "IDD_PPAGEAUDIORENDERER"
+msgid "Internal Filters::Audio Renderer"
+msgstr "Dahili Süzgeçler::Ses İşleyicisi"
+
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
 msgstr "Ses Değiştiricisi"
@@ -557,30 +586,6 @@ msgstr "Oynatıcı::İnternet Arabirimi"
 msgctxt "IDD_PPAGESUBDB"
 msgid "Subtitles::Database"
 msgstr "Alt Yazılar::Veritabanı"
-
-msgctxt "IDD_FILEPROPRES"
-msgid "Resources"
-msgstr "Kaynaklar"
-
-msgctxt "IDD_PPAGEMISC"
-msgid "Miscellaneous"
-msgstr "Çeşitli"
-
-msgctxt "IDD_FILEMEDIAINFO"
-msgid "MediaInfo"
-msgstr "Medya Bilgisi"
-
-msgctxt "IDD_PPAGECAPTURE"
-msgid "Playback::Capture"
-msgstr "Yürütme::Yakalama"
-
-msgctxt "IDD_PPAGESYNC"
-msgid "Playback::Sync Renderer Settings"
-msgstr "Yürütme::Eşzamanlılık Ayarları"
-
-msgctxt "IDD_PPAGEFULLSCREEN"
-msgid "Playback::Fullscreen"
-msgstr "Yürütme::Tam Ekran"
 
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
@@ -674,21 +679,9 @@ msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
 msgstr "Video yüzeyi düzgün bir dış ekran olarak ayrılacaktır."
 
-msgctxt "IDC_AUDRND_COMBO"
-msgid "MPC Audio Renderer is broken, do not use."
-msgstr "MPC Ses İşleyicisi bozuk durumda, lütfen kullanmayınız."
-
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
 msgstr "Eşzamanlama İşleyicisi"
-
-msgctxt "IDS_MPC_BUG_REPORT_TITLE"
-msgid "MPC-HC - Reporting a bug"
-msgstr "MPC-HC - Bir hata oluştu"
-
-msgctxt "IDS_MPC_BUG_REPORT"
-msgid "MPC-HC just crashed but this build was compiled without debug information.\nIf you want to report this bug, you should first try an official build.\n\nDo you want to visit the download page now?"
-msgstr "MPC-HC beklenmeyen bir şekilde sonlandırıldı, ancak bu sürümde hata ayrıştırma desteği bulunmamaktadır.\nBu hatayı bildirmek istiyorsanız, resmi bir sürüm kullanmanız gerekmekte.\n\ninnDirme sayfamızı ziyaret etmek ister misiniz?"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
 msgid "Regular offscreen plain surface"
@@ -742,9 +735,9 @@ msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP"
 msgid "Null (uncompressed)"
 msgstr "Boş (sıkıştırılmadan)"
 
-msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND"
-msgid "MPC-HC Audio Renderer"
-msgstr "MPC-HC Ses İşleyicisi"
+msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
+msgid "Internal Audio Renderer"
+msgstr "Dahili Ses İşleyicisi"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
@@ -1316,7 +1309,7 @@ msgstr "Çıkış"
 
 msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
 msgid "Turn off the monitor"
-msgstr "Ekranı Kapat"
+msgstr "Ekranı kapat"
 
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
 msgid "JPEG Image"
@@ -1388,11 +1381,31 @@ msgstr "Yüksek hassasiyet"
 
 msgctxt "IDS_AFTERPLAYBACK_REWIND"
 msgid "After Playback: Rewind current file"
-msgstr ""
+msgstr "Oynatmadan Sonra: Geçerli dosyayı tekrar oynat"
 
 msgctxt "IDS_AFTERPLAYBACK_CLOSE"
 msgid "After Playback: Close"
-msgstr ""
+msgstr "Oynatmadan Sonra: Kapat"
+
+msgctxt "IDS_FRAME_INIT_FAILED"
+msgid "MPC-HC encountered a problem during initialization. With your help we might be able to fix the issue.\n\nDo you want to report it?"
+msgstr "MPC-HC açılırken bir hata ile karşılaştı. Neyseki değerli yardımlarınız ile bu hatayı gidermemiz mümkün olacaktır.\n\nBu durumu tarafımıza bildirmek istiyor musunuz?"
+
+msgctxt "IDS_TIME_SHIFT_TOOLTIP"
+msgid "Enter a positive value if the audio is early, a negative value if it is late."
+msgstr "Ses erken geliyorsa artı, geç geliyorsa eksi bir değer giriniz."
+
+msgctxt "IDS_WEBUI_DISABLED_PREVIEW_MSG"
+msgid "Preview is currently disabled. You can enable it in MPC-HC's options."
+msgstr "Önizleme kapalı durumda. MPC-HC ayarları içinden açabilirsiniz."
+
+msgctxt "IDS_WEBUI_PREVIEW_WARNING"
+msgid "This option can be used to preview media files from remote location. Use it only on a properly secured private network.\n\nDo you really want to enable this option?"
+msgstr "Bu ayar medya dosyalarını her yerden önizleyebilmenizi sağlar. Uzak herkes erişebileceği için sadece güvenli bir ağda kullanmanız önerilir.\n\nBu özelliği kullanmak istediğinizden emin misiniz?"
+
+msgctxt "IDS_SUBTITLE_RENDERER_INTERNAL"
+msgid "Internal Subtitle Renderer"
+msgstr "Dahili Alt Yazı İşleyicisi"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1676,15 +1689,23 @@ msgstr "Başa dön"
 
 msgctxt "IDS_OSD_SHOW_FILENAME"
 msgid "OSD: Show File Name"
-msgstr ""
+msgstr "OSD: Dosya Adını Göster"
+
+msgctxt "IDS_PLAY_DVD"
+msgid "Play DVD"
+msgstr "DVD Oynat"
+
+msgctxt "IDS_PLAY_BD"
+msgid "Play BD"
+msgstr "BD Oynat"
 
 msgctxt "IDS_OSD_DISPLAY_RENDERER_STATS"
 msgid "OSD: Display Renderer Statistics"
-msgstr ""
+msgstr "OSD: İşleyici İstatistiklerini Göster"
 
 msgctxt "IDS_OSD_RESET_RENDERER_STATS"
 msgid "OSD: Reset Renderer Statistics"
-msgstr ""
+msgstr "OSD : İşleyici İstatistiklerini Sıfırla"
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
@@ -1696,7 +1717,7 @@ msgstr "Kenarları gizle"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
 msgid "Fra&me Only"
-msgstr "Sadece çerçevede"
+msgstr "Sad&ece Çerçevede"
 
 msgctxt "IDS_VIEW_CAPTIONMENU"
 msgid "Sho&w Caption&&Menu"
@@ -1959,19 +1980,19 @@ msgid "Options"
 msgstr "Ayarlar"
 
 msgctxt "IDS_AG_NEXT_AUDIO"
-msgid "Next Audio"
-msgstr "Sonraki Ses"
+msgid "Next Audio Track"
+msgstr "Sonraki Ses Parçası"
 
 msgctxt "IDS_AG_PREV_AUDIO"
-msgid "Prev Audio"
-msgstr "Önceki Ses"
+msgid "Prev Audio Track"
+msgstr "Önceki Ses Parçası"
 
 msgctxt "IDS_AG_NEXT_SUBTITLE"
-msgid "Next Subtitle"
+msgid "Next Subtitle Track"
 msgstr "Sonraki Alt Yazı"
 
 msgctxt "IDS_AG_PREV_SUBTITLE"
-msgid "Prev Subtitle"
+msgid "Prev Subtitle Track"
 msgstr "Önceki Alt Yazı"
 
 msgctxt "IDS_MPLAYERC_85"
@@ -1982,22 +2003,6 @@ msgctxt "IDS_MPLAYERC_86"
 msgid "Reload Subtitles"
 msgstr "Alt Yazıları Tekrar Yükle"
 
-msgctxt "IDS_MPLAYERC_87"
-msgid "Next Audio (OGM)"
-msgstr "Sonraki Ses (OGM)"
-
-msgctxt "IDS_MPLAYERC_88"
-msgid "Prev Audio (OGM)"
-msgstr "Önceki Ses (OGM)"
-
-msgctxt "IDS_MPLAYERC_89"
-msgid "Next Subtitle (OGM)"
-msgstr "Sonraki Alt Yazı (OGM)"
-
-msgctxt "IDS_MPLAYERC_90"
-msgid "Prev Subtitle (OGM)"
-msgstr "Önceki Alt Yazı (OGM)"
-
 msgctxt "IDS_MPLAYERC_91"
 msgid "Next Angle (DVD)"
 msgstr "Sonraki Açı (DVD)"
@@ -2007,19 +2012,19 @@ msgid "Prev Angle (DVD)"
 msgstr "Önceki Açı (DVD)"
 
 msgctxt "IDS_MPLAYERC_93"
-msgid "Next Audio (DVD)"
-msgstr "Sonraki Ses (DVD)"
+msgid "Next Audio Track (DVD)"
+msgstr "Sonraki Ses Parçası (DVD)"
 
 msgctxt "IDS_MPLAYERC_94"
-msgid "Prev Audio (DVD)"
-msgstr "Önceki Ses (DVD)"
+msgid "Prev Audio Track (DVD)"
+msgstr "Önceki Ses Parçası (DVD)"
 
 msgctxt "IDS_MPLAYERC_95"
-msgid "Next Subtitle (DVD)"
+msgid "Next Subtitle Track (DVD)"
 msgstr "Sonraki Alt Yazı (DVD)"
 
 msgctxt "IDS_MPLAYERC_96"
-msgid "Prev Subtitle (DVD)"
+msgid "Prev Subtitle Track (DVD)"
 msgstr "Önceki Alt Yazı (DVD)"
 
 msgctxt "IDS_MPLAYERC_97"
@@ -2028,7 +2033,7 @@ msgstr "Alt Yazıyı Aç/Kapat (DVD)"
 
 msgctxt "IDS_OSD_DISPLAY_CURRENT_TIME"
 msgid "OSD: Display Current Time"
-msgstr ""
+msgstr "OSD : Geçerli Süreyi Göster"
 
 msgctxt "IDS_PPAGEWEBSERVER_0"
 msgid "Select the directory"
@@ -2386,14 +2391,6 @@ msgctxt "IDS_FULLSCREENMONITOR_CURRENT"
 msgid "Current"
 msgstr "Geçerli"
 
-msgctxt "IDS_MPC_CRASH"
-msgid "MPC-HC terminated unexpectedly. To help us fix this problem, please send this file \"%s\" to our bug tracker.\n\nDo you want to open the folder containing the minidump file and visit the bug tracker now?"
-msgstr "MPC-HC beklenmeyen bir şekilde sonlandırıldı. Bu sorunu giderebilmemiz için lütfen \"%s\" dosyasını hata izleyici adresimize gönderiniz.\n\nDöküm dosyasının kaydedildiği klasörü açıp, hata izleyicisi sayfamızı ziyaret etmek istiyor musunuz?"
-
-msgctxt "IDS_MPC_MINIDUMP_FAIL"
-msgid "Failed to create dump file to \"%s\" (error %u)"
-msgstr "%u hatası yüzünden \"%s\" döküm dosyası oluşturulamadı"
-
 msgctxt "IDS_MAINFRM_DIR_TITLE"
 msgid "Select Directory"
 msgstr "Lütfen bir konum seçiniz"
@@ -2567,8 +2564,8 @@ msgid "Volume boost Max"
 msgstr "Ses yüksekliği en fazla"
 
 msgctxt "IDS_USAGE"
-msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/randomize\tRandomize the playlist\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tUse MPC-HC as slave\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "Kullanım: mpc-hc.exe \"konum\" [anahtarlar]\n\n\"yol_adı\"\t\tYüklenecek dosya veya klasör (özel\n\t\tkarakterler desteklenir, \"-\" varsayılan girişi gösterir)\n/dub \"dublaj_adı\"\tHarici bir ses dosyası yüklemek için\n/dubdelay \"dosya\"\tXXms olarak atlanacak harici bir ses dosyası yüklemek\n                için (eğer dosya \"...GECİKME_XXms...\" içeriyorsa)\n/d3dfs\t\tTam ekran D3D kipinde oynatmak için\n/sub \"alt_yazı\"\t  Harici bir alt yazı kullanmak için\n/filter \"filtre_adı\"      Değişken bir bağlantıdan DirectShow süzgeçlerini\n\t\tyüklemek için (karakterler desteklenir)\n/dvd\t\tDVD kipinde çalıştırmak için, \"konum\" DVD klasörünü\n                gösterir (seçmeli)\n/dvdpos T#C\tOynatma T başlığının, C bölümünden başlar\n/dvdpos T#ss:dd\t Oynatma T başlığının, ss:dd:ss süresinden başlar\n/cd\t\tSes veya (s)vcd'den tüm parçaları yüklemek için,\n\t\t\"konum\" Sürücü yolunu gösterir (seçmeli)\n/device\t\tVarsayılan video aygıtını açar\n/open\t\tDosya açılır, ancak otomatik olarak oynatılmaz\n/play \t\tOynatıcı açılır açılmaz yürütme \n\t\tbaşlatılır\n/close \t\tYürütmeden sonra oynatıcı kapatılır (sadece /play komutuyla\n\t\t kullanılır)\n/shutdown\t Oynatmadan sonra bilgisayar kapatılır\n/standby\t\tOynatmadan sonra bilgisayar beklemeye alınır\n/hibernate\tOynatmadan sonra bilgisayar uykuya alınır\n/logoff\t\tOynatmadan sonra oturum kapatılır\n/lock\t\tOynatmadan sonra bilgisayar kilitlenir\n/monitoroff\tOynatmadan sonra ekran kapatılır\n/playnext\t\tOynatmadan sonra klasördeki sıradaki dosyayı yürüt\n/fullscreen \tTam ekran kipinde başlatılır\n/minimized \tSimge durumunda başlatılır\n/new \t\tYeni bir oynatıcı penceresi kullanılır\n/add \t\t\"konum\" oynatma listesine eklenir, bu komutlarla birlikte\n\t\tkullanılabilir: /open ve /play\n/randomize\tOynatma listesini rastgele yürütür\n/regvid\t\t Video biçimleri ilişkilendirilir\n/regaud \t\tSes biçimleri ilişkilendirilir\n/regpl\t\tOynatma listesi uygulamayla ilişkilendirilir\n/regall\t\tTüm dosya biçimleri uygulamayla ilişkilendirilir\n/unregall\t\tVideo biçimleri geri alınır\n/start ms \t\tOynatmaya \"ms\" (= mili saniye) sonra başlanılır\n/startpos ss:dd:ss \tOynatmaya ss:dd:ss süresinden başlanılır\n/fixedsize w,h\t Sabit pencere boyutu kullanılır\n/monitor N\tN monitöründe başlatılır; N, 1'den başlar\n/audiorenderer N \tSes çeviricisi N ile başlanılır; N, 1 ile başlar\n\t\t(\"Çıkış\" ayarlarına bakınız)\n/shaderpreset \"Pr\" \tKomut ile \"Pr\" tonlayıcı hazır ayarı kullanılır\n/pns \"name\"\tKullanılacak Süzme&Tarama varsayılanını ayarlar\n/iconsassoc\tSimgeleri yeniden ilişkilendirir\n/nofocus\t\tUygulamayı arka planda çalıştırır\n/webport N\tİnternet arayüzünü istenen bağlantı noktasında çalıştırır\n/debug\t\tHata ayıklamasını OSD olarak gösterir\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tProgramın ikincil olarak kullanılabilmesini sağlar\n/reset\t\t Varsayılan ayarlara geri dönülür\n/help /h /? \tKomut satırı anahtarları yardımı görüntülenir\n"
+msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/randomize\tRandomize the playlist\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tUse MPC-HC as slave\n/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding\n\t\tOnly available for CUVID and DXVA2 (copy-back)\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
+msgstr "Kullanım: mpc-hc.exe \"konum\" [anahtarlar]\n\n\"yol_adı\"\t\tYüklenecek dosya veya klasör (özel\n\t\tkarakterler desteklenir, \"-\" varsayılan girişi gösterir)\n/dub \"dublaj_adı\"\tHarici bir ses dosyası yüklemek için seçilir\n/dubdelay \"dosya\"\tXXms olarak atlanacak harici bir ses dosyası yüklemek\n                için (eğer dosya \"...GECİKME_XXms...\" içeriyorsa)\n/d3dfs\t\tTam ekran D3D kipinde oynatmak için kullanılır\n/sub \"alt_yazı\"\t Harici bir alt yazı kullanmak için seçilir\n/filter \"filtre_adı\"      Değişken bir bağlantıdan DirectShow süzgeçlerini\n\t\tyüklemek için kullanılır (karakterler desteklenir)\n/dvd\t\tDVD kipinde çalıştırmak için, \"konum\" DVD klasörünü\n                gösterir (seçmeli)\n/dvdpos T#C\tOynatma T başlığının, C bölümünden başlar\n/dvdpos T#hh:mm\t Oynatma T başlığının, hh:mm:ss süresinden başlar\n/cd\t\tSes veya (s)vcd'den tüm parçaları yüklemek için,\n\t\t\"konum\" Sürücü yolunu gösterir (seçmeli)\n/device\t\tVarsayılan video aygıtını açar\n/open\t\tDosya açılır, ancak otomatik olarak oynatılmaz\n/play \t\tOynatıcı açılır açılmaz yürütme \n\t\tbaşlatılır\n/close \t\tYürütmeden sonra oynatıcı kapatılır (sadece /play komutuyla\n\t\t kullanılır)\n/shutdown\tOynatmadan sonra bilgisayar kapatılır\n/standby\t\tOynatmadan sonra bilgisayar beklemeye alınır\n/hibernate\tOynatmadan sonra bilgisayar uykuya alınır\n/logoff\t\tOynatmadan sonra oturum kapatılır\n/lock\t\tOynatmadan sonra bilgisayar kilitlenir\n/monitoroff\tOynatmadan sonra ekran kapatılır\n/playnext\t\tOynatmadan sonra klasördeki sıradaki dosyayı yürüt\n/fullscreen \tTam ekran kipinde başlatılır\n/minimized \tSimge durumunda başlatılır\n/new \t\tYeni bir oynatıcı penceresi kullanılır\n/add \t\t\"konum\" oynatma listesine eklenir, bu komutlarla birlikte\n\t\tkullanılabilir: /open ve /play\n/randomize\tOynatma listesini rastgele yürütür\n/regvid\t\tVideo biçimleri ilişkilendirilir\n/regaud \t\tSes biçimleri ilişkilendirilir\n/regpl\t\tOynatma listesi uygulamayla ilişkilendirilir\n/regall\t\tTüm dosya biçimleri uygulamayla ilişkilendirilir\n/unregall\t\tVideo biçimleri geri alınır\n/start ms \t\tOynatmaya \"ms\" (= mili saniye) sonra başlanılır\n/startpos ss:dd:ss \tOynatmaya ss:dd:ss süresinden başlanılır\n/fixedsize w,h\tSabit pencere boyutu kullanılır\n/monitor N\tN monitöründe başlatılır; N, 1'den başlar\n/audiorenderer N \tSes çeviricisi N ile başlanılır; N, 1 ile başlar\n\t\t(\"Çıkış\" ayarlarına bakınız)\n/shaderpreset \"Pr\" \tKomut ile \"Pr\" tonlayıcı hazır ayarı kullanılır\n/pns \"name\"\tKullanılacak Süzme&Tarama varsayılanını ayarlar\n/iconsassoc\tSimgeleri yeniden ilişkilendirir\n/nofocus\t\tUygulamayı arka planda çalıştırır\n/webport N\tİnternet arayüzünü istenen bağlantı noktasında çalıştırır\n/debug\t\tHata ayıklamasını OSD olarak gösterir\n/nocrashreporter\tÇökme bildirimini kapatır\n/slave \"hWnd\"\tProgramın ikincil olarak kullanılabilmesini sağlar\n/hwgpu \"index\"\tDonanımsal çözücü olarak kullanılan GPU 'nun içeriğini ayarlar\n\t\tSadece CUVID ve DXVA2 için kullanılabilir (kopyalama)\n/reset\t\tVarsayılan ayarlara geri dönülür\n/help /h /? \tKomut satırı anahtarları yardımı görüntülenir\n"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -3042,18 +3039,6 @@ msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
 msgid "Aspect Ratio"
 msgstr "Taraf Oranı"
 
-msgctxt "IDS_ARS_WASAPI_MODE"
-msgid "Use WASAPI (restart playback)"
-msgstr "WASAPI kullan (yeniden başlatın)"
-
-msgctxt "IDS_ARS_MUTE_FAST_FORWARD"
-msgid "Mute on fast forward"
-msgstr "İleri alırken sesi kıs"
-
-msgctxt "IDS_ARS_SOUND_DEVICE"
-msgid "Sound Device:"
-msgstr "Ses Aygıtı:"
-
 msgctxt "IDS_OSD_RS_VSYNC_ON"
 msgid "VSync: On"
 msgstr "Eşzamanlama: Açık"
@@ -3496,7 +3481,7 @@ msgstr "Önce yeni ayarları uygulamanız gerekmektedir."
 
 msgctxt "IDS_AFTERPLAYBACK_EXIT"
 msgid "After Playback: Exit"
-msgstr "Oynatmadan Sonra: Kapat"
+msgstr "Oynatmadan Sonra: Çıkış"
 
 msgctxt "IDS_AFTERPLAYBACK_STANDBY"
 msgid "After Playback: Stand By"
@@ -3520,7 +3505,7 @@ msgstr "Oynatmadan Sonra: Kilitle"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
-msgstr "Oynatmadan Sonra: Ekranı kapat"
+msgstr "Oynatmadan Sonra: Ekranı Kapat"
 
 msgctxt "IDS_AFTERPLAYBACK_PLAYNEXT"
 msgid "After Playback: Play next file in the folder"
@@ -3609,4 +3594,12 @@ msgstr "Tüm ilişkilendirmeleri temizle"
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"
 msgstr "Ayarlar"
+
+msgctxt "IDS_SUBTITLE_RENDERER_VS_FILTER"
+msgid "VSFilter / DirectVobSub"
+msgstr "VSFilter / DirectVobSub"
+
+msgctxt "IDS_SUBTITLE_RENDERER_XY_SUB_FILTER"
+msgid "XySubFilter"
+msgstr "XySubFilter"
 

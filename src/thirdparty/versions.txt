@@ -1,19 +1,23 @@
 Project             Version
 ----------------------------------------
+bs2b                3.1.0 (modified)
 CSizingControlBar   2.45 (modified)
-LAV Filters         0.65-13-79ba86d (custom build based on 0.65-9-5c5ff95)
-Little CMS          2.7 (git 6e33faa)
+LAV Filters         0.66-4-0745609 (custom build based on 0.66.0)
+Little CMS          2.7 (git 07da965)
 Logitech SDK        3.01 (driver 8.00.100)
-MediaInfoLib        0.7.73
+MediaInfoLib        0.7.75
 Mhook               2.3 (modified)
 MultiMon            28 Aug '03 (modified)
 QuickTime SDK       7.3
 RARFileSource       0.9.3 (modified)
 RealMedia SDK       -
 ResizableLib        1.3
+sanear              0.2
 SoundTouch          1.9.0
+soxr                0.1.2
 TreePropSheet       7 Mar '03 (modified)
 UnRAR               5.2.7
 VirtualDub          1.10.4
 ZenLib              0.4.31
+zita-resampler      1.3.0
 zlib                1.2.8

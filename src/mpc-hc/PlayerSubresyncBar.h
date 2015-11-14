@@ -24,6 +24,7 @@
 #include <afxcview.h>
 #include <vector>
 #include <map>
+#include "EventDispatcher.h"
 #include "PlayerBar.h"
 #include "PlayerListCtrl.h"
 #include "../Subtitles/RTS.h"
@@ -42,7 +43,14 @@ private:
 
     CPlayerListCtrl m_list;
 
+    CMainFrame* m_pMainFrame;
+
     CFont m_font;
+    void ScaleFont();
+
+    int m_itemHeight = 0;
+    EventClient m_eventc;
+    void EventCallback(MpcEvent ev);
 
     CCritSec* m_pSubLock;
     CComPtr<ISubStream> m_pSubStream;
@@ -123,7 +131,7 @@ private:
     void OnGetDisplayInfoVobSub(LV_ITEM* pItem);
 
 public:
-    CPlayerSubresyncBar();
+    CPlayerSubresyncBar(CMainFrame* pMainFrame);
     virtual ~CPlayerSubresyncBar();
 
     BOOL Create(CWnd* pParentWnd, UINT defDockBarID, CCritSec* pSubLock);
@@ -150,6 +158,7 @@ protected:
 
     DECLARE_MESSAGE_MAP()
 
+    void OnMeasureItem(int nIDCtl, LPMEASUREITEMSTRUCT lpMeasureItemStruct);
     afx_msg void OnSize(UINT nType, int cx, int cy);
     afx_msg void OnGetDisplayInfo(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnBeginlabeleditList(NMHDR* pNMHDR, LRESULT* pResult);

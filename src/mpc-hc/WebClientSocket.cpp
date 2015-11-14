@@ -100,10 +100,10 @@ void CWebClientSocket::HandleRequest()
 {
     // remember new cookies
 
-    CStringA value;
-    if (m_hdrlines.Lookup("cookie", value)) {
+    CStringA cookie;
+    if (m_hdrlines.Lookup("cookie", cookie)) {
         CAtlList<CStringA> sl;
-        Explode(value, sl, ';');
+        Explode(cookie, sl, ';');
         POSITION pos = sl.GetHeadPosition();
         while (pos) {
             CAtlList<CStringA> sl2;
@@ -190,16 +190,16 @@ void CWebClientSocket::HandleRequest()
                 reshdr += "Set-Cookie: " + key + "=" + TToA(value);
                 POSITION pos2 = m_cookieattribs.GetStartPosition();
                 while (pos2) {
-                    cookie_attribs value;
-                    m_cookieattribs.GetNextAssoc(pos2, key, value);
-                    if (!value.path.IsEmpty()) {
-                        reshdr += "; path=" + value.path;
+                    cookie_attribs attribs;
+                    m_cookieattribs.GetNextAssoc(pos2, key, attribs);
+                    if (!attribs.path.IsEmpty()) {
+                        reshdr += "; path=" + attribs.path;
                     }
-                    if (!value.expire.IsEmpty()) {
-                        reshdr += "; expire=" + value.expire;
+                    if (!attribs.expire.IsEmpty()) {
+                        reshdr += "; expire=" + attribs.expire;
                     }
-                    if (!value.domain.IsEmpty()) {
-                        reshdr += "; domain=" + value.domain;
+                    if (!attribs.domain.IsEmpty()) {
+                        reshdr += "; domain=" + attribs.domain;
                     }
                 }
                 reshdr += "\r\n";
@@ -324,7 +324,7 @@ void CWebClientSocket::OnReceive(int nErrorCode)
                         }
 
                         headerEnd += 4;
-                        m_buffLen = max(int(m_buff + m_buffLen - headerEnd), 0);
+                        m_buffLen = std::max(int(m_buff + m_buffLen - headerEnd), 0);
                         if (m_buffLen > 0) {
                             memcpy(m_buff, headerEnd, m_buffLen + 1);
                             if (m_buffLen >= m_dataLen) {
@@ -398,7 +398,7 @@ bool CWebClientSocket::OnCommand(CStringA& hdr, CStringA& body, CStringA& mime)
                 }
             } else if (arg == CMD_SETVOLUME && m_request.Lookup("volume", arg)) {
                 int volume = _tcstol(arg, nullptr, 10);
-                m_pMainFrame->m_wndToolBar.Volume = min(max(volume, 0), 100);
+                m_pMainFrame->m_wndToolBar.Volume = std::min(std::max(volume, 0), 100);
                 m_pMainFrame->OnPlayVolume(0);
             }
         }
@@ -490,7 +490,7 @@ bool CWebClientSocket::OnBrowser(CStringA& hdr, CStringA& body, CStringA& mime)
                 *(DWORD*)p = (DWORD)cmdln.GetCount();
                 p += sizeof(DWORD);
 
-                POSITION pos = cmdln.GetHeadPosition();
+                pos = cmdln.GetHeadPosition();
                 while (pos) {
                     CString& str = cmdln.GetNext(pos);
                     len = (str.GetLength() + 1) * sizeof(TCHAR);
@@ -800,6 +800,12 @@ bool CWebClientSocket::OnError404(CStringA& hdr, CStringA& body, CStringA& mime)
 bool CWebClientSocket::OnPlayer(CStringA& hdr, CStringA& body, CStringA& mime)
 {
     m_pWebServer->LoadPage(IDR_HTML_PLAYER, body, AToT(m_path));
+    if (AfxGetAppSettings().bWebUIEnablePreview) {
+        body.Replace("[preview]",
+                     "<img src=\"snapshot.jpg\" id=\"snapshot\" alt=\"snapshot\" onload=\"onLoadSnapshot()\" onabort=\"onAbortErrorSnapshot()\" onerror=\"onAbortErrorSnapshot()\">");
+    } else {
+        body.Replace("[preview]", UTF8(ResStr(IDS_WEBUI_DISABLED_PREVIEW_MSG)));
+    }
     return true;
 }
 
@@ -807,11 +813,14 @@ bool CWebClientSocket::OnSnapshotJpeg(CStringA& hdr, CStringA& body, CStringA& m
 {
     // TODO: add quality control and return logo when nothing is loaded
 
-    bool fRet = false;
+    bool bRet = false;
 
     BYTE* pData = nullptr;
     long size = 0;
-    if (m_pMainFrame->GetDIB(&pData, size, true)) {
+    if (!AfxGetAppSettings().bWebUIEnablePreview) {
+        hdr = "HTTP/1.0 403 Forbidden\r\n";
+        bRet = true;
+    } else if (m_pMainFrame->GetDIB(&pData, size, true)) {
         PBITMAPINFO bi = reinterpret_cast<PBITMAPINFO>(pData);
         PBITMAPINFOHEADER bih = &bi->bmiHeader;
 
@@ -863,11 +872,11 @@ bool CWebClientSocket::OnSnapshotJpeg(CStringA& hdr, CStringA& body, CStringA& m
                 "Pragma: no-cache\r\n";
             body = CStringA((char*)ba.GetData(), (int)ba.GetCount());
             mime = "image/jpeg";
-            fRet = true;
+            bRet = true;
         }
     }
 
-    return fRet;
+    return bRet;
 }
 
 bool CWebClientSocket::OnViewRes(CStringA& hdr, CStringA& body, CStringA& mime)

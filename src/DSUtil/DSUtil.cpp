@@ -152,8 +152,13 @@ bool IsAudioWaveRenderer(IBaseFilter* pBF)
     memcpy(&clsid, &GUID_NULL, sizeof(clsid));
     pBF->GetClassID(&clsid);
 
-    return (clsid == CLSID_DSoundRender || clsid == CLSID_AudioRender || clsid == CLSID_ReClock
-            || clsid == __uuidof(CNullAudioRenderer) || clsid == __uuidof(CNullUAudioRenderer));
+    return clsid == CLSID_DSoundRender ||
+           clsid == CLSID_AudioRender ||
+           clsid == CLSID_ReClock ||
+           clsid == __uuidof(CNullAudioRenderer) ||
+           clsid == __uuidof(CNullUAudioRenderer) ||
+           clsid == CLSID_SANEAR_INTERNAL ||
+           clsid == CLSID_SANEAR;
 }
 
 IBaseFilter* GetUpStreamFilter(IBaseFilter* pBF, IPin* pInputPin)
@@ -914,7 +919,7 @@ void memsetd(void* dst, unsigned int c, size_t nbytes)
 {
     size_t n = nbytes / 4;
 
-#ifndef _WIN64
+#if defined(_M_IX86_FP) && _M_IX86_FP < 2
     if (!(g_cpuid.m_flags & g_cpuid.sse2)) { // No SSE2
         __stosd((unsigned long*)dst, c, n);
         return;
@@ -1157,13 +1162,13 @@ IBaseFilter* AppendFilter(IPin* pPin, IMoniker* pMoniker, IGraphBuilder* pGB)
             break;
         }
 
-        BeginEnumPins(pBF, pEP, pPinTo) {
+        BeginEnumPins(pBF, pEP, pPinTo2) {
             PIN_DIRECTION dir2;
-            if (FAILED(pPinTo->QueryDirection(&dir2)) || dir2 != PINDIR_INPUT) {
+            if (FAILED(pPinTo2->QueryDirection(&dir2)) || dir2 != PINDIR_INPUT) {
                 continue;
             }
 
-            if (SUCCEEDED(pGB->ConnectDirect(pPin, pPinTo, nullptr))) {
+            if (SUCCEEDED(pGB->ConnectDirect(pPin, pPinTo2, nullptr))) {
                 return pBF;
             }
         }
@@ -2416,7 +2421,7 @@ REFERENCE_TIME StringToReftime(LPCTSTR strVal)
     int lMillisec = 0;
 
     if (_stscanf_s(strVal, _T("%02d:%02d:%02d,%03d"), &lHour, &lMinute, &lSecond, &lMillisec) == 4) {
-        rt = ((((lHour * 24) + lMinute) * 60 + lSecond) * MILLISECONDS + lMillisec) * (UNITS / MILLISECONDS);
+        rt = ((((lHour * 60) + lMinute) * 60 + lSecond) * MILLISECONDS + lMillisec) * (UNITS / MILLISECONDS);
     }
 
     return rt;

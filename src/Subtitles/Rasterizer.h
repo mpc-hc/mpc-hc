@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -173,7 +173,9 @@ protected:
     BYTE* mpPathTypes;
     POINT* mpPathPoints;
     int mPathPoints;
+#if defined(_M_IX86_FP) && _M_IX86_FP < 2
     bool m_bUseSSE2;
+#endif
 
 private:
     enum {

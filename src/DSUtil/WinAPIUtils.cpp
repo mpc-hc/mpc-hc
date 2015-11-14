@@ -1,5 +1,5 @@
 /*
- * (C) 2011-2014 see Authors.txt
+ * (C) 2011-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -206,30 +206,33 @@ int CALLBACK EnumFontFamExProc(ENUMLOGFONTEX* /*lpelfe*/, NEWTEXTMETRICEX* /*lpn
     return TRUE;
 }
 
+namespace
+{
+    void GetNonClientMetrics(NONCLIENTMETRICS* ncm)
+    {
+        ZeroMemory(ncm, sizeof(NONCLIENTMETRICS));
+        ncm->cbSize = sizeof(NONCLIENTMETRICS);
+        if (!SysVersion::IsVistaOrLater()) {
+            ncm->cbSize -= sizeof(ncm->iPaddedBorderWidth);
+        }
+        VERIFY(SystemParametersInfo(SPI_GETNONCLIENTMETRICS, ncm->cbSize, ncm, 0));
+    }
+}
+
 void GetMessageFont(LOGFONT* lf)
 {
-    ZeroMemory(lf, sizeof(LOGFONT));
     NONCLIENTMETRICS ncm;
-    ncm.cbSize = sizeof(NONCLIENTMETRICS);
-    if (!SysVersion::IsVistaOrLater()) {
-        ncm.cbSize -= sizeof(ncm.iPaddedBorderWidth);
-    }
-
-    SystemParametersInfo(SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0);
+    GetNonClientMetrics(&ncm);
     *lf = ncm.lfMessageFont;
+    ASSERT(lf->lfHeight);
 }
 
 void GetStatusFont(LOGFONT* lf)
 {
-    ZeroMemory(lf, sizeof(LOGFONT));
     NONCLIENTMETRICS ncm;
-    ncm.cbSize = sizeof(NONCLIENTMETRICS);
-    if (!SysVersion::IsVistaOrLater()) {
-        ncm.cbSize -= sizeof(ncm.iPaddedBorderWidth);
-    }
-
-    SystemParametersInfo(SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0);
+    GetNonClientMetrics(&ncm);
     *lf = ncm.lfStatusFont;
+    ASSERT(lf->lfHeight);
 }
 
 bool IsFontInstalled(LPCTSTR lpszFont)

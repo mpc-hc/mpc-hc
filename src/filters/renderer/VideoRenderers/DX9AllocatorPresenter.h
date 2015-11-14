@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -288,6 +288,8 @@ namespace DSObjects
         CString                 m_Decoder;
 
         CFocusThread*           m_FocusThread;
+        HWND                    m_hFocusWindow;
+
     public:
         CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRESULT& hr, bool bIsEVR, CString& _Error);
         ~CDX9AllocatorPresenter();

@@ -1,19 +1,22 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# 洪嘉鴻 <jerry9030@gmail.com>, 2015
 # Jeff Huang <s8321414@gmail.com>, 2014
 # kenelin <kenelin@gmail.com>, 2013
+# Ken <ken670128@yahoo.com.tw>, 2015
 # Peter Chen <petercpg@gmail.com>, 2014
 # roytam1 <roytam@gmail.com>, 2014
 # Zakk <zakk0610@gmail.com>, 2014
+# 洪嘉鴻 <jerry9030@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2014-10-20 10:21+0000\n"
-"Last-Translator: Underground78\n"
-"Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/mpc-hc/language/zh_TW/)\n"
+"POT-Creation-Date: 2015-08-06 16:05:43+0000\n"
+"PO-Revision-Date: 2015-09-20 06:00+0000\n"
+"Last-Translator: 洪嘉鴻 <jerry9030@gmail.com>\n"
+"Language-Team: Chinese (Taiwan) (http://www.transifex.com/mpc-hc/mpc-hc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -150,7 +153,7 @@ msgstr "影格:"
 
 msgctxt "IDD_GOTO_DLG_IDC_OK2"
 msgid "Go!"
-msgstr "前往"
+msgstr "前往!"
 
 msgctxt "IDD_OPEN_DLG_CAPTION"
 msgid "Open"
@@ -202,7 +205,7 @@ msgstr "本程式是自由軟體, 並依 GNU General Public License 發行。"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
-msgstr "譯者: Kene Lin"
+msgstr "譯者: Kene Lin、Chiahong Hong"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build information"
@@ -234,7 +237,7 @@ msgstr "名稱:"
 
 msgctxt "IDD_ABOUTBOX_IDC_BUTTON1"
 msgid "Copy to clipboard"
-msgstr "複製到剪貼板"
+msgstr "複製到剪貼簿"
 
 msgctxt "IDD_ABOUTBOX_IDOK"
 msgid "OK"
@@ -310,7 +313,7 @@ msgstr "程式優先權調成高於一般"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK14"
 msgid "Enable cover-art support"
-msgstr ""
+msgstr "啟用專輯封面支援"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "History"
@@ -426,7 +429,7 @@ msgstr "次"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
-msgstr ""
+msgstr "播放完後"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Output"
@@ -476,10 +479,6 @@ msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
 msgstr "自動載入音訊檔案"
 
-msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
-msgid "Use the built-in subtitle renderer"
-msgstr "使用內建的字幕渲染器"
-
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Control"
 msgstr "控制"
@@ -518,7 +517,7 @@ msgstr "%"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Delay step"
-msgstr ""
+msgstr "延遲間隔"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "ms"
@@ -538,27 +537,27 @@ msgstr "最大材質解析度:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_NO_SUB_ANIM"
 msgid "Never animate the subtitles"
-msgstr ""
+msgstr "永不動畫化字幕"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC5"
 msgid "Render at"
-msgstr ""
+msgstr "繪製到"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC6"
 msgid "% of the animation"
-msgstr ""
+msgstr "% 的動畫"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC7"
 msgid "Animate at"
-msgstr ""
+msgstr "動畫化"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC8"
 msgid "% of the video frame rate"
-msgstr ""
+msgstr "的視訊幀率"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Allow dropping some subpictures if the queue is running late"
-msgstr ""
+msgstr "若佇列延遲時允許丟棄一些子畫面"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Renderer Layout"
@@ -594,15 +593,15 @@ msgstr "檔案關聯"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK8"
 msgid "Use the format-specific icons"
-msgstr ""
+msgstr "為不同格式使用對應的圖示"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON1"
 msgid "Run as &administrator"
-msgstr ""
+msgstr "以系統管理員身分執行 (&a)"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON7"
 msgid "Set as &default program"
-msgstr ""
+msgstr "以預設關聯程式來設定 (&d)"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Real-Time Streaming Protocol handler (for rtsp://... URLs)"
@@ -680,9 +679,9 @@ msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
 msgstr "避免在非預設顯示器全螢幕時最小化"
 
-msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_WIN7"
-msgid "Use Windows 7 Taskbar features"
-msgstr "使用 Windows 7 工作列功能"
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
+msgid "Use enhanced taskbar features"
+msgstr ""
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
@@ -910,7 +909,7 @@ msgstr "關閉"
 
 msgctxt "IDD_SAVE_DLG_CAPTION"
 msgid "Saving..."
-msgstr "儲存..."
+msgstr "正在儲存..."
 
 msgctxt "IDD_SAVE_DLG_IDCANCEL"
 msgid "Cancel"
@@ -938,7 +937,7 @@ msgstr "保存自訂樣式"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
-msgstr ""
+msgstr "JPEG 品質:"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "Thumbnails:"
@@ -1173,8 +1172,8 @@ msgid "DXVA"
 msgstr "DXVA"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "Subtitles *"
-msgstr "字幕 *"
+msgid "Subtitles"
+msgstr ""
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Screenshot"
@@ -1189,8 +1188,8 @@ msgid "Rotation"
 msgstr "旋轉"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "* External filters (such as VSFilter) can display subtitles on all renderers."
-msgstr "* 外部篩選器 (例如 VSFilter) 可以在任何繪製器中顯示字幕。"
+msgid "Subtitle Renderer"
+msgstr ""
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
@@ -1207,6 +1206,10 @@ msgstr "啟用壓縮"
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK5"
 msgid "Allow access from localhost only"
 msgstr "只允許從本機存取"
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK6"
+msgid "Enable preview"
+msgstr "啟用預覽"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
 msgid "Print debug information"
@@ -1282,7 +1285,7 @@ msgstr "啟用自動更新檢查"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
 msgid "Check every:"
-msgstr ""
+msgstr "檢查頻率:"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"
@@ -1642,27 +1645,71 @@ msgstr "PS 3.0"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_STATIC"
 msgid "Advanced Settings, do not edit unless you know what you are doing."
-msgstr ""
+msgstr "進階設定, 除非您已了解項目的功能, 否則請不要編輯任何項目。"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO1"
 msgid "True"
-msgstr ""
+msgstr "啟用"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO2"
 msgid "False"
-msgstr ""
+msgstr "停用"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
 msgstr "預設"
 
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "Device"
+msgstr "裝置"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK1"
+msgid "Exclusive mode"
+msgstr "獨佔模式"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK2"
+msgid "Allow bitstreaming"
+msgstr "允許位元流"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "Options"
+msgstr "選項"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK3"
+msgid "Enable stereo crossfeed (for headphones)"
+msgstr "啟用立體聲 Crossfeed (適用於耳機)"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON1"
+msgid "C. Moy"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON2"
+msgid "J. Meier"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC1"
+msgid "Cut-off:"
+msgstr ""
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC3"
+msgid "Level:"
+msgstr "層級:"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "Note"
+msgstr "備註"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "To minimize audio distortion, it is recommended to keep player volume at around 85% when playing loud lossy-encoded content."
+msgstr ""
+
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
-msgstr ""
+msgstr "JPEG 品質:"
 
 msgctxt "IDD_CMD_LINE_HELP_CAPTION"
 msgid "Command line help"
-msgstr ""
+msgstr "命令行說明"
 
 msgctxt "IDD_CMD_LINE_HELP_IDOK"
 msgid "OK"
@@ -1670,25 +1717,37 @@ msgstr "確認"
 
 msgctxt "IDD_CRASH_REPORTER_CAPTION"
 msgid "Crash reporter"
-msgstr ""
+msgstr "崩潰回報"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC"
+msgid "We are sorry, it seems MPC-HC just crashed. :("
+msgstr "我們十分抱歉，MPC-HC 看來剛剛崩潰。:("
+
+msgctxt "IDD_CRASH_REPORTER_IDC_CHECK1"
+msgid "Send a bug report to help us diagnose and fix the problem."
+msgstr "傳送錯誤報告以幫助我們診斷並修復此問題。"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
-msgid "We are sorry, it seems MPC-HC just crashed. :(\n\nTo help us diagnose and fix the problem, a bug report will be sent. You can provide additional information if you want."
-msgstr ""
+msgid "Optional information"
+msgstr "選用資訊"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
 msgid "Email:"
-msgstr ""
+msgstr "電子郵件:"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC3"
 msgid "Your email address is optional and will only be used if the developers need to contact you for more information."
-msgstr ""
+msgstr "您可以選擇性填寫電子郵件地址, 然而只有在開發人員需要聯絡您以取得更多資訊時, 才會向您傳送郵件。"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
 msgid "Problem description (use English only):"
-msgstr ""
+msgstr "問題描述 (請使用英文進行撰寫):"
 
-msgctxt "IDD_CRASH_REPORTER_IDOK"
-msgid "OK"
-msgstr ""
+msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON1"
+msgid "Restart MPC-HC"
+msgstr "重新啟動 MPC-HC"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON2"
+msgid "Quit MPC-HC"
+msgstr "結束 MPC-HC"
 

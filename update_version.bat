@@ -33,7 +33,7 @@ IF %ERRORLEVEL% NEQ 0 GOTO MissingVar
 CALL "%COMMON%" :SubDoesExist bash.exe
 IF %ERRORLEVEL% NEQ 0 GOTO MissingVar
 
-bash.exe ./version.sh
+bash.exe ./version.sh %*
 
 
 :END

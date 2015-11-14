@@ -723,7 +723,6 @@ DWORD ColorConvTable::A8Y8U8V8_To_ARGB_PC_BT709(int a8, int y8, int u8, int v8)
 
 DWORD ColorConvTable::A8Y8U8V8_PC_To_TV(int a8, int y8, int u8, int v8)
 {
-    const int FRACTION_SCALE = 1 << 16;
     const int YUV_MIN = 16;
     const int cy = int(219.0 / 255 * FRACTION_SCALE + 0.5);
     const int cuv = int(224.0 / 255 * FRACTION_SCALE + 0.5);
@@ -735,7 +734,6 @@ DWORD ColorConvTable::A8Y8U8V8_PC_To_TV(int a8, int y8, int u8, int v8)
 
 DWORD ColorConvTable::A8Y8U8V8_TV_To_PC(int a8, int y8, int u8, int v8)
 {
-    const int FRACTION_SCALE = 1 << 16;
     const int YUV_MIN = 16;
     const int cy = int(255 / 219.0 * FRACTION_SCALE + 0.5);
     const int cuv = int(255 / 224.0 * FRACTION_SCALE + 0.5);

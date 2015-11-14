@@ -598,6 +598,8 @@ bool CVobSubFile::ReadIdx(CString fn, int& ver)
             }
             m_nLang = (iLang < 0 && size_t(iLang) >= m_langs.size()) ? SIZE_T_ERROR : size_t(iLang);
         } else if (entry == _T("palette")) {
+            // The assert guarantees that the shortcut we use will work as expected
+            static_assert(sizeof(RGBQUAD) == 4, "Packing error");
             if (_stscanf_s(str, _T("%x,%x,%x,%x,%x,%x,%x,%x,%x,%x,%x,%x,%x,%x,%x,%x"),
                            &m_orgpal[0], &m_orgpal[1], &m_orgpal[2], &m_orgpal[3],
                            &m_orgpal[4], &m_orgpal[5], &m_orgpal[6], &m_orgpal[7],
@@ -1940,7 +1942,7 @@ bool CVobSubFile::SaveScenarist(CString fn, int delay)
     BITMAPINFOHEADER ihdr = {
         sizeof(BITMAPINFOHEADER),
         720, m_size.cy - 2, 1, 4, 0,
-        360 * (m_size.cy - 2),
+        DWORD(360 * (m_size.cy - 2)),
         0, 0,
         16, 4
     };
@@ -2176,7 +2178,7 @@ bool CVobSubFile::SaveMaestro(CString fn, int delay)
     BITMAPINFOHEADER ihdr = {
         sizeof(BITMAPINFOHEADER),
         720, m_size.cy - 2, 1, 4, 0,
-        360 * (m_size.cy - 2),
+        DWORD(360 * (m_size.cy - 2)),
         0, 0,
         16, 4
     };
@@ -2400,7 +2402,7 @@ void CVobSubStream::Open(CString name, BYTE* pData, int len)
                 m_alignver = ver == _T("TOP") ? 0 : ver == _T("CENTER") ? 1 : /*ver == _T("BOTTOM") ? 2 :*/ 2;
             }
         } else if (key == _T("fade in/out")) {
-            _stscanf_s(value, _T("%d%, %d%"), &m_fadein, &m_fadeout);
+            _stscanf_s(value, _T("%d, %d"), &m_fadein, &m_fadeout);
         } else if (key == _T("time offset")) {
             m_toff = _tcstol(value, nullptr, 10);
         } else if (key == _T("forced subs")) {

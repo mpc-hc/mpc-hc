@@ -1,11 +1,12 @@
 // ***************************************************************
-//  mvrInterfaces.h           version: 1.0.7  ·  date: 2014-01-18
+//  mvrInterfaces.h           version: 1.0.8  ·  date: 2015-06-21
 //  -------------------------------------------------------------
 //  various interfaces exported by madVR
 //  -------------------------------------------------------------
-//  Copyright (C) 2011 - 2014 www.madshi.net, BSD license
+//  Copyright (C) 2011 - 2015 www.madshi.net, BSD license
 // ***************************************************************
 
+// 2015-06-21 1.0.8 added IMadVRCommand
 // 2014-01-18 1.0.7 added IMadVRSettings2
 // 2013-06-04 1.0.6 added IMadVRInfo
 // 2013-01-23 1.0.5 added IMadVRSubclassReplacement
@@ -25,6 +26,69 @@
 // use this CLSID to create a madVR instance
 
 DEFINE_GUID(CLSID_madVR, 0xe1a8b82a, 0x32ce, 0x4b0d, 0xbe, 0x0d, 0xaa, 0x68, 0xc7, 0x72, 0xe4, 0x23);
+
+// ---------------------------------------------------------------------------
+// video size/position setup
+// ---------------------------------------------------------------------------
+
+// madVR supports "IVideoWindow" and "IBasicVideo". Both need to be used in
+// a specific way to achieve the best results. You should always use
+// IVideoWindow::SetWindowPosition() to make madVR cover the whole rendering
+// client area of your media player's window.
+
+// Some media players offer different zoom modes. Here's what madVR supports:
+// 1) touchInside:
+//    The video is zoomed, maintaining the correct AR (aspect ratio), in such
+//    a way that the video is displayed as large as possible, without losing
+//    any image content. There may be black bars, either left/right, or
+//    top/bottom.
+// 2) touchOutside:
+//    The video is zoomed, maintaining the correct AR, in such a way that the
+//    video is displayed as large as possible, without any black bars. Some
+//    image content may be cut off.
+// 3) stretch:
+//    The video is zoomed and stretched to perfectly fill the rendering
+//    client area. The AR might be distorted, but there will be no black bars.
+// 4) 100% (or 50% or 200% or some other percent number):
+//    The video is displayed at 100% (or 50% or ...) of the original size,
+//    maintaining the correct AR.
+
+// Some media players offers different X/Y video alignments/positions. Here's
+// what madVR supports:
+// 1) left/top:
+//    The video is positioned left/top aligned.
+// 2) center:
+//    The video is rendered in centered positioned.
+// 3) right/bottom:
+//    The video is positioned right/bottom aligned.
+
+// In addition to these zoom and alignment modes, some media players allow
+// further fine tuning the zoom/position by increasing/decreasing the zoom
+// factor, or by offsetting the image position. madVR supports that as well,
+// of course.
+
+// When using madVR, you have 3 options to setup zoom modes and positions:
+// a) You can calculate a specific target rect for the video yourself and
+//    tell madVR about it by calling IBasicVideo::SetDestinationPosition().
+// b) You can use the "IMadVRCommand" interface (described in detail below)
+//    to tell madVR which zoom & alignment modes to use.
+// c) Don't do anything. In that case madVR will default to "touchInside"
+//    and "center" zoom/alignment modes.
+
+// In case of a) madVR will actually try to "understand" your target rect
+// and map it internally to one of the supported zoom modes. This is done
+// because madVR has complex options for the user to decide how zooming
+// should be performed exactly. In order to process these options, madVR
+// may have to dynamically adjust the target rect to things like screen
+// masking, or detected hard coded subtitles in the black bars.
+
+// Usually madVR's interpretation of your target rect works just fine. But
+// there are situations when madVR has no way to know which zoom mode is really
+// active in the media player. E.g. playing a 720p movie in a 720p window
+// would match any of the available zoom or alignment modes. Because of that
+// it is usually recommended to use options b) or c) described above.
+// If you set a specific zoom mode (option b), madVR will ignore any calls
+// to IBasicVideo::SetDestinationPosition().
 
 // ---------------------------------------------------------------------------
 // IMadVROsdServices
@@ -56,6 +120,11 @@ DEFINE_GUID(CLSID_madVR, 0xe1a8b82a, 0x32ce, 0x4b0d, 0xbe, 0x0d, 0xaa, 0x68, 0xc
 // if you want the mouse message to be "eaten" (instead of passed on)
 typedef void (__stdcall *OSDMOUSECALLBACK)(LPCSTR name, LPVOID context, UINT message, WPARAM wParam, int posX, int posY);
 
+// return values for IOsdRenderCallback::ClearBackground/RenderOsd callbacks
+const static HRESULT CALLBACK_EMPTY          = 4306;   // the render callback didn't do anything at all
+const static HRESULT CALLBACK_INFO_DISPLAY   = 0;      // info display, doesn't need low latency
+const static HRESULT CALLBACK_USER_INTERFACE = 77001;  // user interface, switches madVR into low latency mode
+
 // when using the (2) render callbacks method, you need to provide
 // madVR with an instance of the IOsdRenderCallback interface
 // it contains three callbacks you have to provide
@@ -70,14 +139,19 @@ interface IOsdRenderCallback : public IUnknown
 
   // "ClearBackground" is called after madVR cleared the render target
   // "RenderOsd" is called after madVR is fully done with rendering
-  // fullOutputRect  = (0, 0, outputSurfaceWidth, outputSurfaceHeight)
+  // fullOutputRect  = for fullscreen drawing, this is the rect you want to stay in (left/top can be non-zero!)
   // activeVideoRect = active video rendering rect inside of fullOutputRect
   // background area = the part of fullOutputRect which isn't covered by activeVideoRect
-  // you can return ERROR_EMPTY to indicate that you didn't actually do anything
-  // in that case madVR will skip some Direct3D state changes to save performance
+  // possible return values: CALLBACK_EMPTY etc, see definitions above
   STDMETHOD(ClearBackground)(LPCSTR name, REFERENCE_TIME frameStart, RECT *fullOutputRect, RECT *activeVideoRect) = 0;
   STDMETHOD(RenderOsd      )(LPCSTR name, REFERENCE_TIME frameStart, RECT *fullOutputRect, RECT *activeVideoRect) = 0;
 };
+
+// flags for IMadVROsdServices::OsdSetBitmap
+const static int BITMAP_STRETCH_TO_OUTPUT = 1;  // stretch OSD bitmap to video/output rect
+const static int BITMAP_INFO_DISPLAY      = 2;  // info display, doesn't need low latency
+const static int BITMAP_USER_INTERFACE    = 4;  // user interface, switches madVR into low latency mode
+const static int BITMAP_MASKING_AWARE     = 8;  // caller is aware of screen masking, bitmaps are positioned properly inside of "fullOutputRect"
 
 // this is the main interface which madVR provides to you
 [uuid("3AE03A88-F613-4BBA-AD3E-EE236976BF9A")]
@@ -94,7 +168,7 @@ interface IMadVROsdServices : public IUnknown
     bool posRelativeToVideoRect = false,   // draw relative to TRUE: the active video rect; FALSE: the full output rect
     int zOrder = 0,                        // high zOrder OSD elements are drawn on top of those with smaller zOrder values
     DWORD duration = 0,                    // how many milliseconds shall the OSD element be shown (0 = infinite)?
-    DWORD flags = 0,                       // 0x00000001 = stretch OSD bitmap to video/output rect
+    DWORD flags = 0,                       // see definitions above
     OSDMOUSECALLBACK callback = NULL,      // optional callback for mouse events
     LPVOID callbackContext = NULL,         // this context is passed to the callback
     LPVOID reserved = NULL                 // undefined - set to NULL
@@ -102,7 +176,7 @@ interface IMadVROsdServices : public IUnknown
 
   // this API allows you to ask the current video rectangles
   STDMETHOD(OsdGetVideoRects)(
-    RECT *fullOutputRect,                  // (0, 0, outputSurfaceWidth, outputSurfaceHeight)
+    RECT *fullOutputRect,                  // for fullscreen drawing, this is the rect you want to stay in (left/top can be non-zero!)
     RECT *activeVideoRect                  // active video rendering rect inside of fullOutputRect
   ) = 0;
 
@@ -113,8 +187,7 @@ interface IMadVROsdServices : public IUnknown
     LPVOID reserved = NULL                 // undefined - set to NULL
   ) = 0;
 
-  // this API allows you to force madVR to redraw the current video frame
-  // useful when using the (2) render callback method, when the graph is paused
+  // this API is obselete, calling it has no effect
   STDMETHOD(OsdRedrawFrame)(void) = 0;
 };
 
@@ -167,33 +240,6 @@ interface IMadVRSubclassReplacement : public IUnknown
 };
 
 // ---------------------------------------------------------------------------
-// IMadVRSeekbarControl
-// ---------------------------------------------------------------------------
-
-// if you draw your own seekbar and absolutely insist on disliking madVR's
-// own seekbar, you can forcefully hide it by using this interface
-// using this interface only affects the current madVR instance
-
-[uuid("D2D3A520-7CFA-46EB-BA3B-6194A028781C")]
-interface IMadVRSeekbarControl : public IUnknown
-{
-  STDMETHOD(DisableSeekbar)(BOOL disable) = 0;
-};
-
-// ---------------------------------------------------------------------------
-// IMadVRExclusiveModeControl
-// ---------------------------------------------------------------------------
-
-// you can use this interface to turn madVR's automatic exclusive mode on/off
-// using this interface only affects the current madVR instance
-
-[uuid("88A69329-3CD3-47D6-ADEF-89FA23AFC7F3")]
-interface IMadVRExclusiveModeControl : public IUnknown
-{
-  STDMETHOD(DisableExclusiveMode)(BOOL disable) = 0;
-};
-
-// ---------------------------------------------------------------------------
 // IMadVRExclusiveModeCallback
 // ---------------------------------------------------------------------------
 
@@ -210,36 +256,6 @@ interface IMadVRExclusiveModeCallback : public IUnknown
 {
   STDMETHOD(  Register)(EXCLUSIVEMODECALLBACK exclusiveModeCallback, LPVOID context) = 0;
   STDMETHOD(Unregister)(EXCLUSIVEMODECALLBACK exclusiveModeCallback, LPVOID context) = 0;
-};
-
-// ---------------------------------------------------------------------------
-// IMadVRDirect3D9Manager
-// ---------------------------------------------------------------------------
-
-// You can make madVR use your Direct3D9 device(s) instead of creating its
-// own. If you do that, madVR will not automatically switch between
-// fullscreen and windowed mode, anymore. It's your duty then to enter
-// fullscreen exclusive mode, if you want madVR to use it. madVR will still
-// reset the devices, though, if necessary (lost device etc).
-
-[uuid("1CAEE23B-D14B-4DB4-8AEA-F3528CB78922")]
-interface IMadVRDirect3D9Manager : public IUnknown
-{
-  // Creating 3 different devices for scanline reading, rendering and
-  // presentation can improve overall performance. If you don't like that
-  // idea, just feed madVR with the same device for all tasks.
-  // You can't create new devices if one device is already in fullscreen
-  // exclusive mode. So if you want to provide madVR with 3 different
-  // devices, while still using exclusive mode, make sure you create the
-  // scanline reading and rendering devices before setting the presentation
-  // device to fullscreen exclusive mode.
-  STDMETHOD(UseTheseDevices)(LPDIRECT3DDEVICE9 scanlineReading, LPDIRECT3DDEVICE9 rendering, LPDIRECT3DDEVICE9 presentation) = 0;
-
-  // madVR contains a display mode changer which, depending on the video
-  // size and frame rate, may decide to switch display modes. If you don't
-  // want madVR to change either resolution or refresh rates, you can
-  // disable this functionality partially or completely.
-  STDMETHOD(ConfigureDisplayModeChanger)(BOOL allowResolutionChanges, BOOL allowRefreshRateChanges) = 0;
 };
 
 // ---------------------------------------------------------------------------
@@ -286,8 +302,11 @@ interface IMadVRInfo : public IUnknown
 // version,                 string,    madVR version number
 // originalVideoSize,       size,      size of the video before scaling and AR adjustments
 // arAdjustedVideoSize,     size,      size of the video after AR adjustments
+// videoCropRect,           rect,      crops "originalVideoSize" down, e.g. because of detected black bars
 // videoOutputRect,         rect,      final pos/size of the video after all scaling operations
+// croppedVideoOutputRect,  rect,      final pos/size of the "videoCropRect", after all scaling operations
 // subtitleTargetRect,      rect,      consumer wish for where to place the subtitles
+// fullscreenRect,          rect,      for fullscreen drawing, this is the rect you want to stay in (left/top can be non-zero!)
 // frameRate,               ulonglong, frame rate of the video after deinterlacing (REFERENCE_TIME)
 // refreshRate,             double,    display refresh rate (0, if unknown)
 // displayModeSize,         size,      display mode width/height
@@ -299,6 +318,45 @@ interface IMadVRInfo : public IUnknown
 // dxvaScalingActive,       bool,      is DXVA2 scaling       being used at the moment?
 // ivtcActive,              bool,      is madVR's IVTC algorithm active at the moment?
 // osdLatency,              int,       how much milliseconds will pass for an OSD change to become visible?
+// seekbarRect,             rect,      where exactly would (or does) madVR draw its seekbar?
+
+// ---------------------------------------------------------------------------
+// IMadVRCommand
+// ---------------------------------------------------------------------------
+
+// This interface allows you to give commands to madVR. These commands only
+// affect the current madVR instance. They don't change permanent settings.
+
+[uuid("5E9599D1-C5DB-4A84-98A9-09BC5F8F1B79")]
+interface IMadVRCommand : public IUnknown
+{
+  // Command names and LPWSTR values are treated case insensitive.
+  STDMETHOD(SendCommand         )(LPCSTR command) = 0;
+  STDMETHOD(SendCommandBool     )(LPCSTR command, bool      parameter) = 0;
+  STDMETHOD(SendCommandInt      )(LPCSTR command, int       parameter) = 0;
+  STDMETHOD(SendCommandSize     )(LPCSTR command, SIZE      parameter) = 0;
+  STDMETHOD(SendCommandRect     )(LPCSTR command, RECT      parameter) = 0;
+  STDMETHOD(SendCommandUlonglong)(LPCSTR command, ULONGLONG parameter) = 0;
+  STDMETHOD(SendCommandDouble   )(LPCSTR command, double    parameter) = 0;
+  STDMETHOD(SendCommandString   )(LPCSTR command, LPWSTR    parameter) = 0;
+  STDMETHOD(SendCommandBin      )(LPCSTR command, LPVOID    parameter,
+                                                  int       size     ) = 0;
+};
+
+// available commands:
+// -------------------
+// disableSeekbar,          bool,      turn madVR's automatic exclusive mode on/off
+// disableExclusiveMode,    bool,      turn madVR's automatic exclusive mode on/off
+// keyPress                 int,       interpret as "BYTE keyPress[4]"; keyPress[0] = key code (e.g. VK_F1); keyPress[1-3] = BOOLEAN "shift/ctrl/menu" state
+// setZoomMode,             LPWSTR,    video target size: "autoDetect|touchInside|touchOutside|stretch|100%|10%|20%|25%|30%|33%|40%|50%|60%|66%|70%|75%|80%|90%|110%|120%|125%|130%|140%|150%|160%|170%|175%|180%|190%|200%|225%|250%|300%|350%|400%|450%|500%|600%|700%|800%"
+// setZoomFactorX,          double,    additional X zoom factor (applied after zoom mode), default/neutral = 1.0
+// setZoomFactorY,          double,    additional Y zoom factor (applied after zoom mode), default/neutral = 1.0
+// setZoomAlignX,           LPWSTR,    video X pos alignment: left|center|right
+// setZoomAlignY,           LPWSTR,    video Y pos alignment: top|center|bottom
+// setZoomOffsetX,          double,    additional X pos offset in percent, default/neutral = 0.0
+// setZoomOffsetY,          double,    additional Y pos offset in percent, default/neutral = 0.0
+// redraw,                             forces madVR to redraw the current frame (in paused mode)
+// restoreDisplayModeNow,              makes madVR immediately restore the original display mode
 
 // ---------------------------------------------------------------------------
 // IMadVRSettings
@@ -670,6 +728,11 @@ interface ISubRenderCallback2 : public ISubRenderCallback
 {
   STDMETHOD(RenderEx)(REFERENCE_TIME frameStart, REFERENCE_TIME frameStop, REFERENCE_TIME avgTimePerFrame, int left, int top, int right, int bottom, int width, int height) = 0;
 };
+[uuid("BAC4273A-3EAD-47F5-9710-8488E52AC618")]
+interface ISubRenderCallback3 : public ISubRenderCallback2
+{
+  STDMETHOD(RenderEx2)(REFERENCE_TIME frameStart, REFERENCE_TIME frameStop, REFERENCE_TIME avgTimePerFrame, RECT croppedVideoRect, RECT originalVideoRect, RECT viewportRect, const double videoStretchFactor = 1.0) = 0;
+};
 */
 
 // ---------------------------------------------------------------------------
@@ -720,6 +783,48 @@ interface IMadVRExclusiveModeInfo : public IUnknown
 interface IMadVRRefreshRateInfo : public IUnknown
 {
   STDMETHOD(GetRefreshRate)(double *refreshRate) = 0;
+};
+
+// ---------------------------------------------------------------------------
+// IMadVRSeekbarControl (obsolete)
+// ---------------------------------------------------------------------------
+
+// CAUTION: This interface is obsolete. Use IMadVRCommand instead:
+// IMadVRCommand::SendCommandBool("disableSeekbar", true)
+
+[uuid("D2D3A520-7CFA-46EB-BA3B-6194A028781C")]
+interface IMadVRSeekbarControl : public IUnknown
+{
+  STDMETHOD(DisableSeekbar)(BOOL disable) = 0;
+};
+
+// ---------------------------------------------------------------------------
+// IMadVRExclusiveModeControl (obsolete)
+// ---------------------------------------------------------------------------
+
+// CAUTION: This interface is obsolete. Use IMadVRCommand instead:
+// IMadVRCommand::SendCommandBool("disableExclusiveMode", true)
+
+[uuid("88A69329-3CD3-47D6-ADEF-89FA23AFC7F3")]
+interface IMadVRExclusiveModeControl : public IUnknown
+{
+  STDMETHOD(DisableExclusiveMode)(BOOL disable) = 0;
+};
+
+// ---------------------------------------------------------------------------
+// IMadVRDirect3D9Manager (obsolete)
+// ---------------------------------------------------------------------------
+
+// CAUTION: This interface is obsolete. Instead use texture/surface sharing,
+// so that both media player and madVR can render to their own devices. You
+// can then blend the media player's GUI on top of madVR's rendered video
+// frames in madVR's OSD callback function.
+
+[uuid("1CAEE23B-D14B-4DB4-8AEA-F3528CB78922")]
+interface IMadVRDirect3D9Manager : public IUnknown
+{
+  STDMETHOD(UseTheseDevices)(LPDIRECT3DDEVICE9 scanlineReading, LPDIRECT3DDEVICE9 rendering, LPDIRECT3DDEVICE9 presentation) = 0;
+  STDMETHOD(ConfigureDisplayModeChanger)(BOOL allowResolutionChanges, BOOL allowRefreshRateChanges) = 0;
 };
 
 // ---------------------------------------------------------------------------

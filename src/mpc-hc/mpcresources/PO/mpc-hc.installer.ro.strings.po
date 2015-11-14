@@ -1,15 +1,16 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2014 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Daniel <danny34ever@yahoo.com>, 2014-2015
+# lordkag <lord.kagula@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-06-17 15:23:34+0000\n"
-"PO-Revision-Date: 2015-05-31 16:51+0000\n"
-"Last-Translator: Daniel <danny34ever@yahoo.com>\n"
-"Language-Team: Romanian (http://www.transifex.com/projects/p/mpc-hc/language/ro/)\n"
+"POT-Creation-Date: 2015-07-20 20:29:41+0000\n"
+"PO-Revision-Date: 2015-08-01 13:50+0000\n"
+"Last-Translator: lordkag <lord.kagula@gmail.com>\n"
+"Language-Team: Romanian (http://www.transifex.com/mpc-hc/mpc-hc/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -18,7 +19,7 @@ msgstr ""
 
 msgctxt "Messages_WelcomeLabel2"
 msgid "This will install [name] on your computer.\n\nIt is recommended that you close all other applications before continuing."
-msgstr "Se va instala [name] pe calculatorul dumneavoastră.\n\nEste recomandat să închideţi toate celelalte aplicații înainte de a continua."
+msgstr "Se va instala [name] pe calculatorul dumneavoastră.\n\nEste recomandat să închideți toate celelalte aplicații înainte de a continua."
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows XP Service Pack 3 or newer to run."
@@ -35,10 +36,6 @@ msgstr "Traduceri"
 msgctxt "CustomMessages_msg_DeleteSettings"
 msgid "Do you also want to delete MPC-HC settings?\n\nIf you plan on installing MPC-HC again then you do not have to delete them."
 msgstr "Doriţi de asemenea să ştergeţi setările MPC-HC?\n\nDacă doriţi a reinstala MPC-HC, atunci nu este necesar să le ştergeţi."
-
-msgctxt "CustomMessages_msg_SetupIsRunningWarning"
-msgid "MPC-HC setup is already running!"
-msgstr "Instalatorul MPC-HC rulează deja!"
 
 msgctxt "CustomMessages_msg_simd_sse"
 msgid "This build of MPC-HC requires a CPU with SSE extension support.\n\nYour CPU does not have those capabilities."

@@ -84,7 +84,7 @@ private:
     struct HDMV_CLUT {
         BYTE id = 0;
         BYTE version_number = 0;
-        BYTE size = 0;
+        WORD size = 0;
 
         std::array<HDMV_PALETTE, 256> palette;
 

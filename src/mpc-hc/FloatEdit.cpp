@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2013, 2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -91,21 +91,18 @@ void CIntEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
         return;
     }
 
-    CString str;
-    GetWindowText(str);
-
-    if (nChar == '-' && !str.IsEmpty() && str[0] == '-') {
-        return;
-    }
-
     int nStartChar, nEndChar;
     GetSel(nStartChar, nEndChar);
 
-    if (nChar == '\b' && nStartChar <= 0) {
-        return;
+    if (nChar == '-' && nEndChar == 0) {
+        CString str;
+        GetWindowText(str);
+        if (!str.IsEmpty() && str[0] == '-') {
+            return;
+        }
     }
 
-    if (nChar == '-' && (nStartChar != 0 || nEndChar != 0)) {
+    if (nChar == '-' && nStartChar != 0) {
         return;
     }
 

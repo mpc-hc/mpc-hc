@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include "EventDispatcher.h"
 #include "DSMPropertyBag.h"
 #include <memory>
 
@@ -47,6 +48,9 @@ private:
     CPoint m_hoverPoint;
     HCURSOR m_cursor;
     bool m_bDraggingThumb;
+
+    EventClient m_eventc;
+    void EventCallback(MpcEvent ev);
 
     CToolTipCtrl m_tooltip;
     enum { TOOLTIP_HIDDEN, TOOLTIP_TRIGGERED, TOOLTIP_VISIBLE } m_tooltipState;

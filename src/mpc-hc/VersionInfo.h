@@ -25,6 +25,7 @@ namespace VersionInfo
     bool IsNightly();
     CString GetNightlyWord();
     bool Is64Bit();
+    bool IsLite();
     CString GetVersionString();
     CString GetFullVersionString();
     CString GetBuildDateString();

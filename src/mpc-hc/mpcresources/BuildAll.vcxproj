@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{F0D412BF-C98E-48C7-A032-607AE043B0F7}</ProjectGuid>
+    <RootNamespace>BuildAll</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="..\..\platform.props" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\common.props" />
+  </ImportGroup>
+  <ItemGroup>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Arabic</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Armenian</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Basque</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Belarusian</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Bengali</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Catalan</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Chinese Simplified</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Chinese Traditional</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Croatian</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Czech</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Danish</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Dutch</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release English (British)</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Finnish</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release French</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Galician</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release German</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Greek</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Hebrew</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Hungarian</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Indonesian</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Italian</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Japanese</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Korean</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Lithuanian</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Malay</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Polish</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Portuguese (Brazil)</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Polish</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Punjabi</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Romanian</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Russian</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Serbian</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Slovak</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Slovenian</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Spanish</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Swedish</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Tatar</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Thai</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Turkish</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Ukrainian</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Vietnamese</AdditionalProperties>
+    </ProjectToBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="SyncTranslations.vcxproj">
+      <Project>{904017f7-ee7a-49b6-a000-0d2fe5d5809a}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Target Name="Build">
+    <MSBuild Projects="@(ProjectToBuild)" Targets="Build" BuildInParallel="true" />
+  </Target>
+  <Target Name="Rebuild">
+    <MSBuild Projects="@(ProjectToBuild)" Targets="Rebuild" BuildInParallel="true" />
+  </Target>
+  <Target Name="Clean">
+    <MSBuild Projects="@(ProjectToBuild)" Targets="Clean" BuildInParallel="true" />
+  </Target>
+</Project>

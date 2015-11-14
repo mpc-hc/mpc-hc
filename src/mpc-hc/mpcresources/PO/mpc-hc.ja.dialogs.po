@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-17 20:47:27+0000\n"
-"PO-Revision-Date: 2015-05-23 10:20+0000\n"
+"POT-Creation-Date: 2015-10-19 19:15:11+0000\n"
+"PO-Revision-Date: 2015-10-21 10:43+0000\n"
 "Last-Translator: ever_green\n"
-"Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
+"Language-Team: Japanese (http://www.transifex.com/mpc-hc/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -66,7 +66,7 @@ msgstr "V/A バッファ:"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK5"
 msgid "Audio to wav"
-msgstr "音声: wav"
+msgstr "音声: WAV 形式"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_BUTTON2"
 msgid "Record"
@@ -126,7 +126,7 @@ msgstr "指定位置に移動..."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time. You do not need to enter the separators explicitly."
-msgstr "指定した時間にジャンプするには [hh:]mm:ss.ms の形式を使用してタイムコードを入力してください。区切り文字を入力する必要はありません。"
+msgstr "指定した時間にジャンプするには [hh:]mm:ss.ms の形式を使用してタイムコードを入力してください。区切り記号を入力する必要はありません。"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Time"
@@ -354,7 +354,7 @@ msgstr "常に既定の場所を開く:"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "Preferred language for DVD Navigator and the external OGM Splitter"
-msgstr "DVD ナビゲータと外部 OGM スプリッタでの優先言語"
+msgstr "DVD ナビゲータおよび外部 OGM スプリッタでの優先言語"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO3"
 msgid "Menu"
@@ -472,10 +472,6 @@ msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
 msgstr "オーディオ ファイルを自動で読み込む"
 
-msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
-msgid "Use the built-in subtitle renderer"
-msgstr "内蔵の字幕レンダラを使用する"
-
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Control"
 msgstr "コントロール"
@@ -554,7 +550,7 @@ msgstr "% でアニメーション化する"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Allow dropping some subpictures if the queue is running late"
-msgstr "キューが遅れて実行されている場合、サブピクチャの脱落を許可する"
+msgstr "キューが遅れて実行されている場合、サブピクチャの欠落を許可する"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Renderer Layout"
@@ -574,7 +570,7 @@ msgstr "字幕の配置を強制的に指定し、ビデオカードの設定で
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
 msgid "File extensions"
-msgstr "拡張子"
+msgstr "ファイル拡張子"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON2"
 msgid "Default"
@@ -618,7 +614,7 @@ msgstr "DirectShow"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK5"
 msgid "Check file extension first"
-msgstr "最初に拡張子を判別する"
+msgstr "最初にファイル拡張子を判別する"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Explorer Context Menu"
@@ -676,9 +672,9 @@ msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
 msgstr "既定のモニタ以外で全画面表示している場合、プレーヤーを最小化できないようにする"
 
-msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_WIN7"
-msgid "Use Windows 7 Taskbar features"
-msgstr "Windows 7 のタスクバーの機能を使用する"
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
+msgid "Use enhanced taskbar features"
+msgstr "タスク バーの拡張機能を使用する"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
@@ -930,7 +926,7 @@ msgstr "ミリ秒"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_CHECK1"
 msgid "Save custom style"
-msgstr "ユーザー設定のスタイルを保存"
+msgstr "カスタム スタイルを保存する"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
@@ -990,15 +986,15 @@ msgstr "角度 (z,°)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Scale (x,%)"
-msgstr "サイズ (x,%)"
+msgstr "スケール (x,%)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Scale (y,%)"
-msgstr "サイズ (y,%)"
+msgstr "スケール (y,%)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Border Style"
-msgstr "境界のスタイル"
+msgstr "境界線のスタイル"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO1"
 msgid "Outline"
@@ -1010,7 +1006,7 @@ msgstr "不透明な四角"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Width"
-msgstr "境界の幅"
+msgstr "太さ"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Shadow"
@@ -1070,7 +1066,7 @@ msgstr "アルファ チャンネルを連動させる"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "If you would like to use the stand-alone versions of these filters or another replacement, disable them here."
-msgstr "スタンドアロン版や代替フィルタを使用する場合、該当する箇所を無効にしてください。"
+msgstr "スタンドアロン版や代替フィルタを使用したい場合、ここで該当する箇所を無効にしてください。"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Source Filters"
@@ -1126,7 +1122,7 @@ msgstr "オーディオ レンダラ"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
-msgstr "VMR-7/VMR-9 (レンダーレス) と EVR (カスタム プレゼンタ) の設定"
+msgstr "VMR-7/VMR-9 (レンダーレス) および EVR (カスタム プレゼンタ) の設定"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"
@@ -1169,8 +1165,8 @@ msgid "DXVA"
 msgstr "DXVA"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "Subtitles *"
-msgstr "字幕 *"
+msgid "Subtitles"
+msgstr "字幕"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Screenshot"
@@ -1185,8 +1181,8 @@ msgid "Rotation"
 msgstr "回転"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "* External filters (such as VSFilter) can display subtitles on all renderers."
-msgstr "* 外部フィルタ (例えば VSFilter) は、すべてのレンダラに字幕を表示できます。"
+msgid "Subtitle Renderer"
+msgstr "字幕レンダラ"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
@@ -1203,6 +1199,10 @@ msgstr "圧縮を有効にする"
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK5"
 msgid "Allow access from localhost only"
 msgstr "ローカルホストからの接続のみを許可する"
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK6"
+msgid "Enable preview"
+msgstr "プレビューを有効にする"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
 msgid "Print debug information"
@@ -1274,7 +1274,7 @@ msgstr "更新の確認"
 
 msgctxt "IDD_PPAGEMISC_IDC_CHECK1"
 msgid "Enable automatic update check"
-msgstr "更新の自動確認を有効にする"
+msgstr "更新を自動的に確認する"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
 msgid "Check every:"
@@ -1530,7 +1530,7 @@ msgstr "埋め込まれた字幕ではなく外部字幕を優先する"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK3"
 msgid "Ignore embedded subtitles"
-msgstr "埋め込まれた字幕を読み込まない"
+msgstr "埋め込まれた字幕を無視する"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Autoload paths"
@@ -1652,6 +1652,50 @@ msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
 msgstr "既定"
 
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "Device"
+msgstr "デバイス"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK1"
+msgid "Exclusive mode"
+msgstr "排他モード"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK2"
+msgid "Allow bitstreaming"
+msgstr "ビットストリーミングを許可する"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "Options"
+msgstr "オプション"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK3"
+msgid "Enable stereo crossfeed (for headphones)"
+msgstr "ステレオ クロスフィードを有効にする (ヘッドフォン用)"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON1"
+msgid "C. Moy"
+msgstr "C. Moy"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON2"
+msgid "J. Meier"
+msgstr "J. Meier"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC1"
+msgid "Cut-off:"
+msgstr "カットオフ:"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC3"
+msgid "Level:"
+msgstr "レベル:"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "Note"
+msgstr "注意"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "To minimize audio distortion, it is recommended to keep player volume at around 85% when playing loud lossy-encoded content."
+msgstr "音声の歪みを最小限に抑えるために、大音量の非可逆エンコードされたコンテンツを再生する場合、プレーヤーの音量を約 85% に維持することを推奨します。"
+
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
 msgstr "JPEG の品質:"
@@ -1668,9 +1712,17 @@ msgctxt "IDD_CRASH_REPORTER_CAPTION"
 msgid "Crash reporter"
 msgstr "クラッシュ レポート"
 
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC"
+msgid "We are sorry, it seems MPC-HC just crashed. :("
+msgstr "申し訳ありません。 MPC-HC がクラッシュしました。"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_CHECK1"
+msgid "Send a bug report to help us diagnose and fix the problem."
+msgstr "問題の診断と修正に役立てるためにバグ レポートを送信する。"
+
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
-msgid "We are sorry, it seems MPC-HC just crashed. :(\n\nTo help us diagnose and fix the problem, a bug report will be sent. You can provide additional information if you want."
-msgstr "申し訳ございませんが、 MPC-HC がクラッシュしました。\n\nこの問題を診断し、解決しやすくするために、バグ レポートが送信されます。必要に応じて、追加情報を提供することができます。"
+msgid "Optional information"
+msgstr "オプションの情報"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
 msgid "Email:"
@@ -1684,7 +1736,11 @@ msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
 msgid "Problem description (use English only):"
 msgstr "問題の詳細 (英語のみを使用してください):"
 
-msgctxt "IDD_CRASH_REPORTER_IDOK"
-msgid "OK"
-msgstr "OK"
+msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON1"
+msgid "Restart MPC-HC"
+msgstr "MPC-HC を再起動"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON2"
+msgid "Quit MPC-HC"
+msgstr "MPC-HC を終了"
 

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -46,7 +46,7 @@ struct filter_t {
     };
 };
 
-class CPPageInternalFiltersListBox : public CCheckListBox
+class CPPageInternalFiltersListBox : public CListCtrl
 {
     DECLARE_DYNAMIC(CPPageInternalFiltersListBox)
 
@@ -100,8 +100,7 @@ protected:
 
     DECLARE_MESSAGE_MAP()
 
-    afx_msg void OnSelChange();
-    afx_msg void OnCheckBoxChange();
+    void OnItemChanged(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnBnClickedSplitterConf();
     afx_msg void OnBnClickedVideoDecConf();
     afx_msg void OnBnClickedAudioDecConf();

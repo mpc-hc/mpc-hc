@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -1195,3 +1195,11 @@ DEFINE_GUID(CLSID_XySubFilter, 0x2DFCB782, 0xEC20, 0x4A7C, 0xB5, 0x30, 0x45, 0x7
 
 // XySubFilterAutoLoader - {6B237877-902B-4C6C-92F6-E63169A5166C}
 DEFINE_GUID(CLSID_XySubFilter_AutoLoader, 0x6B237877, 0x902B, 0x4C6C, 0x92, 0xF6, 0xE6, 0x31, 0x69, 0xA5, 0x16, 0x6C);
+
+// sanear (internal version)
+// SaneAudioRenderer::Factory::GetFilterGuid() is the right way do optain it,
+// but we link DSUtil to everything and consequently will have to link sanear to everything.
+DEFINE_GUID(CLSID_SANEAR_INTERNAL, 0x2AE00773, 0x819A, 0x40FB, 0xA5, 0x54, 0x54, 0x82, 0x7E, 0x11, 0x63, 0x59);
+
+// sanear (standalone version) - {DF557071-C9FD-433A-9627-81E0D3640ED9}
+DEFINE_GUID(CLSID_SANEAR, 0xdf557071, 0xc9fd, 0x433a, 0x96, 0x27, 0x81, 0xe0, 0xd3, 0x64, 0xe, 0xd9);

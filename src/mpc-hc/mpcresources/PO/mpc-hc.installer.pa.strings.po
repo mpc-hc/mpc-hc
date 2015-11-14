@@ -1,0 +1,78 @@
+# MPC-HC - Strings extracted from string tables
+# Copyright (C) 2002 - 2013 see Authors.txt
+# This file is distributed under the same license as the MPC-HC package.
+# Translators:
+# A S Alam <apreet.alam@gmail.com>, 2015
+msgid ""
+msgstr ""
+"Project-Id-Version: MPC-HC\n"
+"POT-Creation-Date: 2015-07-20 20:29:41+0000\n"
+"PO-Revision-Date: 2015-07-24 08:44+0000\n"
+"Last-Translator: JellyFrog\n"
+"Language-Team: Panjabi (Punjabi) (http://www.transifex.com/mpc-hc/mpc-hc/language/pa/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: pa\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgctxt "Messages_WelcomeLabel2"
+msgid "This will install [name] on your computer.\n\nIt is recommended that you close all other applications before continuing."
+msgstr "ਇਹ ਤੁਹਾਡੇ ਕੰਪਿਊਟਰ ਉੱਤੇ [name] ਇੰਸਟਾਲ ਕਰੇਗਾ।\n\nਜਾਰੀ ਰੱਖਣ ਤੋਂ ਪਹਿਲਾਂ ਤੁਹਾਨੂੰ ਸਭ ਪਰੋਗਰਾਮ ਬੰਦ ਕਰਨ ਦੀ ਸਲਾਹ ਦਿੱਤੀ ਜਾਂਦੀ ਹੈ।"
+
+msgctxt "Messages_WinVersionTooLowError"
+msgid "[name] requires Windows XP Service Pack 3 or newer to run."
+msgstr ""
+
+msgctxt "CustomMessages_comp_mpciconlib"
+msgid "Icon Library"
+msgstr "ਆਈਕਾਨ ਲਾਇਬਰੇਰੀ"
+
+msgctxt "CustomMessages_comp_mpcresources"
+msgid "Translations"
+msgstr "ਅਨੁਵਾਦ"
+
+msgctxt "CustomMessages_msg_DeleteSettings"
+msgid "Do you also want to delete MPC-HC settings?\n\nIf you plan on installing MPC-HC again then you do not have to delete them."
+msgstr "ਕੀ ਤੁਸੀਂ MPC-HC ਸੈਟਿੰਗਾਂ ਨੂੰ ਹਟਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ?\n\nਜੇ ਤੁਸੀਂ MPC-HC ਨੂੰ ਵਾਪਿਸ ਇੰਸਟਾਲ ਕਰਨ ਬਾਰੇ ਸੋਚਦੇ ਹੋ ਤਾਂ ਤੁਹਾਨੂੰ ਉਹਨਾਂ ਨੂੰ ਹਟਾਉਣਾ ਨਹੀਂ ਚਾਹੀਦਾ ਹੈ।"
+
+msgctxt "CustomMessages_msg_simd_sse"
+msgid "This build of MPC-HC requires a CPU with SSE extension support.\n\nYour CPU does not have those capabilities."
+msgstr ""
+
+msgctxt "CustomMessages_msg_simd_sse2"
+msgid "This build of MPC-HC requires a CPU with SSE2 extension support.\n\nYour CPU does not have those capabilities."
+msgstr ""
+
+msgctxt "CustomMessages_run_DownloadToolbarImages"
+msgid "Visit our Wiki page to download toolbar images"
+msgstr "ਟੂਲਬਾਰ ਚਿੱਤਰ ਡਾਊਨਲੋਡ ਕਰਨ ਲਈ ਸਾਡੇ ਵਿਕੀ ਸਫ਼ੇ ਨੂੰ ਖੋਲ੍ਹੋ"
+
+msgctxt "CustomMessages_tsk_AllUsers"
+msgid "For all users"
+msgstr "ਸਭ ਵਰਤੋਂਕਾਰਾਂ ਲਈ"
+
+msgctxt "CustomMessages_tsk_CurrentUser"
+msgid "For the current user only"
+msgstr "ਕੇਵਲ ਮੌਜੂਦਾ ਵਰਤੋਂਕਾਰ ਲਈ ਹੀ"
+
+msgctxt "CustomMessages_tsk_Other"
+msgid "Other tasks:"
+msgstr "ਹੋਰ ਟਾਸਕ:"
+
+msgctxt "CustomMessages_tsk_ResetSettings"
+msgid "Reset settings"
+msgstr "ਸੈਟਿੰਗਾਂ ਮੁੜ-ਸੈਟ ਕਰੋ"
+
+msgctxt "CustomMessages_types_DefaultInstallation"
+msgid "Default installation"
+msgstr "ਡਿਫਾਲਟ ਇੰਸਟਾਲੇਸ਼ਨ"
+
+msgctxt "CustomMessages_types_CustomInstallation"
+msgid "Custom installation"
+msgstr "ਕਸਟਮ ਇੰਸਟਾਲੇਸ਼ਨ"
+
+msgctxt "CustomMessages_ViewChangelog"
+msgid "View Changelog"
+msgstr "ਚੇਜ਼ਲਾਗ ਦੇਖੋ"
+

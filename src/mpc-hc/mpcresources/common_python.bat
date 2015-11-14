@@ -40,10 +40,9 @@ IF NOT DEFINED PYTHON_PATH GOTO MissingVar
 
 ECHO Backing up current translation files...
 IF NOT EXIST backup MD backup
-COPY /Y ..\mpc-hc.rc backup
-COPY /Y *.rc backup
+XCOPY /I /D /Y /Q ..\mpc-hc.rc backup
 IF NOT EXIST backup\PO MD backup\PO
-COPY /Y PO backup\PO
+XCOPY /I /D /Y /Q PO backup\PO
 ECHO ----------------------
 
 EXIT /B
@@ -58,5 +57,4 @@ EXIT /B
 ECHO Not all build dependencies were found.
 ECHO.
 ECHO See "%ROOT_DIR%\docs\Compilation.txt" for more information.
-ENDLOCAL
 EXIT /B 1

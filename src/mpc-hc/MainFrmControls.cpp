@@ -1,5 +1,5 @@
 /*
- * (C) 2013-2014 see Authors.txt
+ * (C) 2013-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -244,7 +244,7 @@ CSize CMainFrameControls::GetDockZonesMinSize(unsigned uSaneFallback)
             auto pBar = static_cast<CPlayerBar*>(pDock->m_arrBars[i]);
             if (!pBar && !bNewRow) {
                 bNewRow = true;
-                maxRowSize = max(maxRowSize, rowSize);
+                maxRowSize = std::max(maxRowSize, rowSize);
                 rowSize = 0;
             }
             if (pBar) {
@@ -272,8 +272,8 @@ CSize CMainFrameControls::GetDockZonesMinSize(unsigned uSaneFallback)
     const CSize sizeBottom(m_panelZones.find(DOCK_BOTTOM) != std::end(m_panelZones) ? calcDock(DOCK_BOTTOM) : 0);
 
     CSize ret;
-    ret.cx = max(sizeLeft.cx + sizeRight.cx, max(sizeTop.cx, sizeBottom.cx));
-    ret.cy = sizeTop.cy + sizeBottom.cy + max(sizeLeft.cy, sizeRight.cy);
+    ret.cx = std::max(sizeLeft.cx + sizeRight.cx, std::max(sizeTop.cx, sizeBottom.cx));
+    ret.cy = sizeTop.cy + sizeBottom.cy + std::max(sizeLeft.cy, sizeRight.cy);
     const unsigned uToolbars = GetToolbarsHeight();
     if (uToolbars) {
         ret.cx = std::max(ret.cx, saneX);
@@ -397,17 +397,21 @@ void CMainFrameControls::UpdateToolbarsVisibility()
                 if (bOnWindow) {
                     unsigned uTop, uLeft, uRight, uBottom;
                     GetDockZones(uTop, uLeft, uRight, uBottom, bEnumedPanelZones ? false : (bEnumedPanelZones = true));
-                    unsigned uExclSeekbarHeight = 0;
+                    CRect clientRect;
+                    m_pMainFrame->GetClientRect(clientRect);
+                    CRect exclSeekbarRect;
                     if (bExclSeekbar) {
-                        uExclSeekbarHeight = 56; // TODO: query this through IMadVRInfo
+                        if (!m_pMainFrame->m_pMVRI
+                                || FAILED(m_pMainFrame->m_pMVRI->GetRect("seekbarRect", exclSeekbarRect))) {
+                            exclSeekbarRect = clientRect;
+                            exclSeekbarRect.top = 56;
+                        }
                         uBottom = 0;
                     }
                     if (!bCanHideDockedPanels) {
                         uTop = uLeft = uRight = 0;
                     }
-                    CRect clientRect;
-                    m_pMainFrame->GetClientRect(clientRect);
-                    const bool bHoveringExclSeekbar = (bExclSeekbar && clientPoint.y + (int)uExclSeekbarHeight >= clientRect.Height());
+                    const bool bHoveringExclSeekbar = (bExclSeekbar && exclSeekbarRect.PtInRect(clientPoint));
                     ret = true;
                     if (clientRect.PtInRect(clientPoint)) {
                         if (ePolicy == CAppSettings::HideFullscreenControlsPolicy::SHOW_WHEN_CURSOR_MOVED) {

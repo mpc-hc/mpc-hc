@@ -1,5 +1,5 @@
 /*
- * (C) 2012-2014 see Authors.txt
+ * (C) 2012-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -88,6 +88,16 @@ bool SysVersion::Is8()
 bool SysVersion::Is8OrLater()
 {
     return (GetVersion() >= 0x0602);
+}
+
+bool SysVersion::Is81OrLater()
+{
+    return (GetVersion() >= 0x0603);
+}
+
+bool SysVersion::Is10OrLater()
+{
+    return (GetVersion() >= 0x0A00);
 }
 
 bool SysVersion::Is64Bit()

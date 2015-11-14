@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -125,16 +125,14 @@ void CGoToDlg::OnParseTimeCode()
 
     AfxGetApp()->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_GOTO_LAST_USED, TYPE_TIME);
 
-    // The hh and mm are declared volatile to work around a compiler bug with ICL 13.
-    // It prevents the compiler to optimize out those variables from the computation.
-    volatile unsigned int hh = 0;
-    volatile unsigned int mm = 0;
+    unsigned int hh = 0;
+    unsigned int mm = 0;
     float ss = 0.0f;
-    wchar_t c[2]; // unnecessary character
+    WCHAR c; // extra character to ensure the end of string was reached
 
-    if (((swscanf_s(m_timestr, L"%f%1s", &ss, c, _countof(c)) == 1) // ss[.ms]
-            || (swscanf_s(m_timestr, L"%u:%f%1s", &mm, &ss, c, _countof(c)) == 2 && ss < 60.0f) // mm:ss[.ms]
-            || (swscanf_s(m_timestr, L"%u:%u:%f%1s", &hh, &mm, &ss, c, _countof(c)) == 3 && mm < 60  && ss < 60.0f)) // hh:mm:ss[.ms]
+    if (((swscanf_s(m_timestr, L"%f%c", &ss, &c, 1) == 1) // ss[.ms]
+            || (swscanf_s(m_timestr, L"%u:%f%c", &mm, &ss, &c, 1) == 2 && ss < 60.0f) // mm:ss[.ms]
+            || (swscanf_s(m_timestr, L"%u:%u:%f%c", &hh, &mm, &ss, &c, 1) == 3 && mm < 60  && ss < 60.0f)) // hh:mm:ss[.ms]
             && ss >= 0.0f) {
 
         int time = (int)(1000.0f * ((hh * 60 + mm) * 60 + ss) + 0.5f);
@@ -154,17 +152,17 @@ void CGoToDlg::OnParseFrameCode()
 
     unsigned int frame;
     float fps;
-    wchar_t c1[2]; // delimiter character
-    wchar_t c2[2]; // unnecessary character
+    WCHAR c1; // delimiter character
+    WCHAR c2; // extra character to ensure the end of string was reached
 
-    int result = swscanf_s(m_framestr, L"%u%1s%f%1s", &frame, c1, _countof(c1), &fps, c2, _countof(c2));
+    int result = swscanf_s(m_framestr, L"%u%c%f%c", &frame, &c1, 1, &fps, &c2, 1);
     if (result == 1) {
         m_time = (REFERENCE_TIME)ceil(10000000.0 * frame / m_fps);
         OnOK();
-    } else if (result == 3 && c1[0] == L',') {
+    } else if (result == 3 && c1 == L',') {
         m_time = (REFERENCE_TIME)ceil(10000000.0 * frame / fps);
         OnOK();
-    } else if (result == 0 || c1[0] != L',') {
+    } else if (result == 0 || c1 != L',') {
         AfxMessageBox(IDS_GOTO_ERROR_PARSING_TEXT, MB_ICONEXCLAMATION | MB_OK, 0);
     } else {
         AfxMessageBox(IDS_GOTO_ERROR_PARSING_FPS, MB_ICONEXCLAMATION | MB_OK, 0);

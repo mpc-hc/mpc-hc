@@ -223,7 +223,7 @@ STDMETHODIMP CSubPicQueue::SetTime(REFERENCE_TIME rtNow)
 
 STDMETHODIMP CSubPicQueue::Invalidate(REFERENCE_TIME rtInvalidate /*= -1*/)
 {
-    std::unique_lock<std::mutex> lock(m_mutexQueue);
+    std::unique_lock<std::mutex> lockQueue(m_mutexQueue);
 
 #if SUBPIC_TRACE_LEVEL > 0
     TRACE(_T("Invalidate: %f\n"), double(rtInvalidate) / 10000000.0);
@@ -234,7 +234,7 @@ STDMETHODIMP CSubPicQueue::Invalidate(REFERENCE_TIME rtInvalidate /*= -1*/)
     m_rtNowLast = LONGLONG_ERROR;
 
     {
-        std::lock_guard<std::mutex> lock(m_mutexSubpic);
+        std::lock_guard<std::mutex> lockSubpic(m_mutexSubpic);
         if (m_pSubPic && m_pSubPic->GetStop() > rtInvalidate) {
             m_pSubPic.Release();
         }
@@ -256,7 +256,7 @@ STDMETHODIMP CSubPicQueue::Invalidate(REFERENCE_TIME rtInvalidate /*= -1*/)
         m_rtNow = rtInvalidate;
     }
 
-    lock.unlock();
+    lockQueue.unlock();
     m_condQueueFull.notify_one();
     m_runQueueEvent.Set();
 

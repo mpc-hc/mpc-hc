@@ -631,36 +631,36 @@ void CMediaTypeEx::Dump(CAtlList<CString>& sl)
             if (wfe.wFormatTag == WAVE_FORMAT_EXTENSIBLE && wfe.cbSize == sizeof(WAVEFORMATEXTENSIBLE) - sizeof(WAVEFORMATEX)) {
                 fmtsize = sizeof(WAVEFORMATEXTENSIBLE);
 
-                WAVEFORMATEXTENSIBLE& wfe = *(WAVEFORMATEXTENSIBLE*)pbFormat;
+                WAVEFORMATEXTENSIBLE& wfextensible = *(WAVEFORMATEXTENSIBLE*)pbFormat;
 
                 sl.AddTail(_T("WAVEFORMATEXTENSIBLE:"));
-                if (wfe.Format.wBitsPerSample != 0) {
-                    str.Format(_T("wValidBitsPerSample: %u"), wfe.Samples.wValidBitsPerSample);
+                if (wfextensible.Format.wBitsPerSample != 0) {
+                    str.Format(_T("wValidBitsPerSample: %u"), wfextensible.Samples.wValidBitsPerSample);
                 } else {
-                    str.Format(_T("wSamplesPerBlock: %u"), wfe.Samples.wSamplesPerBlock);
+                    str.Format(_T("wSamplesPerBlock: %u"), wfextensible.Samples.wSamplesPerBlock);
                 }
                 sl.AddTail(str);
-                str.Format(_T("dwChannelMask: 0x%08x"), wfe.dwChannelMask);
+                str.Format(_T("dwChannelMask: 0x%08x"), wfextensible.dwChannelMask);
                 sl.AddTail(str);
-                str.Format(_T("SubFormat: %s"), CStringFromGUID(wfe.SubFormat));
+                str.Format(_T("SubFormat: %s"), CStringFromGUID(wfextensible.SubFormat));
                 sl.AddTail(str);
 
                 sl.AddTail(_T(""));
             } else if (wfe.wFormatTag == WAVE_FORMAT_DOLBY_AC3 && wfe.cbSize == sizeof(DOLBYAC3WAVEFORMAT) - sizeof(WAVEFORMATEX)) {
                 fmtsize = sizeof(DOLBYAC3WAVEFORMAT);
 
-                DOLBYAC3WAVEFORMAT& wfe = *(DOLBYAC3WAVEFORMAT*)pbFormat;
+                DOLBYAC3WAVEFORMAT& dawf = *(DOLBYAC3WAVEFORMAT*)pbFormat;
 
                 sl.AddTail(_T("DOLBYAC3WAVEFORMAT:"));
-                str.Format(_T("bBigEndian: %u"), wfe.bBigEndian);
+                str.Format(_T("bBigEndian: %u"), dawf.bBigEndian);
                 sl.AddTail(str);
-                str.Format(_T("bsid: %u"), wfe.bsid);
+                str.Format(_T("bsid: %u"), dawf.bsid);
                 sl.AddTail(str);
-                str.Format(_T("lfeon: %u"), wfe.lfeon);
+                str.Format(_T("lfeon: %u"), dawf.lfeon);
                 sl.AddTail(str);
-                str.Format(_T("copyrightb: %u"), wfe.copyrightb);
+                str.Format(_T("copyrightb: %u"), dawf.copyrightb);
                 sl.AddTail(str);
-                str.Format(_T("nAuxBitsCode: %u"), wfe.nAuxBitsCode);
+                str.Format(_T("nAuxBitsCode: %u"), dawf.nAuxBitsCode);
                 sl.AddTail(str);
 
                 sl.AddTail(_T(""));

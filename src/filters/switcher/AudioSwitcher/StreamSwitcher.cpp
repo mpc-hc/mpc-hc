@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -1301,12 +1301,12 @@ HRESULT CStreamSwitcherFilter::CompleteConnect(PIN_DIRECTION dir, CBasePin* pPin
             name.Format(L"Channel %ld", ++m_PinVersion);
 
             HRESULT hr = S_OK;
-            CStreamSwitcherInputPin* pPin = DEBUG_NEW CStreamSwitcherInputPin(this, &hr, name);
-            if (!pPin || FAILED(hr)) {
-                delete pPin;
+            CStreamSwitcherInputPin* pInputPin = DEBUG_NEW CStreamSwitcherInputPin(this, &hr, name);
+            if (!pInputPin || FAILED(hr)) {
+                delete pInputPin;
                 return E_FAIL;
             }
-            m_pInputs.AddTail(pPin);
+            m_pInputs.AddTail(pInputPin);
         }
     }
 

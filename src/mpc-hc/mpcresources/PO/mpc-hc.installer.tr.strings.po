@@ -1,16 +1,16 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2014 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Sinan H., 2014
+# Sinan H., 2014-2015
 # Sinan H., 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-06-17 15:23:34+0000\n"
-"PO-Revision-Date: 2014-07-20 12:41+0000\n"
+"POT-Creation-Date: 2015-07-20 20:29:41+0000\n"
+"PO-Revision-Date: 2015-07-31 06:16+0000\n"
 "Last-Translator: Sinan H.\n"
-"Language-Team: Turkish (http://www.transifex.com/projects/p/mpc-hc/language/tr/)\n"
+"Language-Team: Turkish (http://www.transifex.com/mpc-hc/mpc-hc/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -23,7 +23,7 @@ msgstr "[name] medya oynatıcısı programı bilgisayarınıza kurulacaktır.\n\
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows XP Service Pack 3 or newer to run."
-msgstr "[name] kurulumu, Windows XP Servis Paketi 3 veya daha yenisi ile çalışabilir."
+msgstr "[name] kurulumu, ancak Windows XP Servis Paketi 3 veya daha yenisi ile çalışabilir."
 
 msgctxt "CustomMessages_comp_mpciconlib"
 msgid "Icon Library"
@@ -37,17 +37,13 @@ msgctxt "CustomMessages_msg_DeleteSettings"
 msgid "Do you also want to delete MPC-HC settings?\n\nIf you plan on installing MPC-HC again then you do not have to delete them."
 msgstr "MPC-HC ayarlarını da silmek istiyor musunuz?\n\nMPC-HC 'yi tekrar yüklemeyi planlıyorsanız, bu ayarları silmemenizi öneririz."
 
-msgctxt "CustomMessages_msg_SetupIsRunningWarning"
-msgid "MPC-HC setup is already running!"
-msgstr "MPC-HC kurulumu zaten çalışıyor!"
-
 msgctxt "CustomMessages_msg_simd_sse"
 msgid "This build of MPC-HC requires a CPU with SSE extension support.\n\nYour CPU does not have those capabilities."
-msgstr "Bu MPC-HC sürümü, SSE eklentisi destekleyen bir işlemci gerektirmektedir.\n\nİşlemciniz bu özelliği desteklemiyor."
+msgstr "Bu MPC-HC sürümü, SSE eklentisi destekleyen bir işlemci gerektirmektedir.\n\nİşlemciniz malesef bu özelliği desteklemiyor."
 
 msgctxt "CustomMessages_msg_simd_sse2"
 msgid "This build of MPC-HC requires a CPU with SSE2 extension support.\n\nYour CPU does not have those capabilities."
-msgstr "Bu MPC-HC sürümü, SSE2 eklentisi destekleyen bir işlemci gerektirmektedir.\n\nİşlemciniz bu özelliği desteklemiyor."
+msgstr "Bu MPC-HC sürümü, SSE2 eklentisi destekleyen bir işlemci gerektirmektedir.\n\nİşlemciniz malesef bu özelliği desteklemiyor."
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"

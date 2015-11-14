@@ -204,9 +204,10 @@ CFGFilterRegistry::CFGFilterRegistry(const CLSID& clsid, UINT64 merit)
             DWORD len = _countof(buff);
             for (DWORD i = 0; ERROR_SUCCESS == catkey.EnumKey(i, buff, &len, &ft); i++, len = _countof(buff)) {
                 if (ERROR_SUCCESS == key.Open(catkey, buff, KEY_READ)) {
-                    TCHAR clsid[256];
-                    len = _countof(clsid);
-                    if (ERROR_SUCCESS == key.QueryStringValue(_T("CLSID"), clsid, &len) && GUIDFromCString(clsid) == m_clsid) {
+                    TCHAR clsidString[256];
+                    len = _countof(clsidString);
+                    if (ERROR_SUCCESS == key.QueryStringValue(_T("CLSID"), clsidString, &len)
+                            && GUIDFromCString(clsidString) == m_clsid) {
                         break;
                     }
 
@@ -365,7 +366,7 @@ void CFGFilterRegistry::ExtractFilterData(BYTE* p, UINT len)
             p += 12;
             while (nTypes-- > 0) {
                 ChkLen(1)
-                BYTE n = *p - 0x30;
+                n = *p - 0x30;
                 p++;
                 UNREFERENCED_PARAMETER(n);
 
@@ -376,7 +377,7 @@ void CFGFilterRegistry::ExtractFilterData(BYTE* p, UINT len)
                 UNREFERENCED_PARAMETER(ty);
 
                 ChkLen(5)
-                BYTE x33 = *p;
+                x33 = *p;
                 p++;
                 ASSERT(x33 == 0x33);
                 UNREFERENCED_PARAMETER(x33);
@@ -427,15 +428,15 @@ HRESULT CFGFilterFile::Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_
 CFGFilterVideoRenderer::CFGFilterVideoRenderer(HWND hWnd, const CLSID& clsid, CStringW name, UINT64 merit)
     : CFGFilter(clsid, name, merit)
     , m_hWnd(hWnd)
-    , m_bHasVideoDriverWorkAround(false)
+    , m_bHas10BitWorkAround(false)
 {
     AddType(MEDIATYPE_Video, MEDIASUBTYPE_NULL);
 }
 
 CFGFilterVideoRenderer::~CFGFilterVideoRenderer()
 {
-    if (m_bHasVideoDriverWorkAround) {
-        UnhookWorkAroundVideoDriversBug();
+    if (m_bHas10BitWorkAround) {
+        UnhookWorkAround10BitBug();
     }
 }
 
@@ -444,64 +445,76 @@ HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnkno
     TRACE(_T("--> CFGFilterVideoRenderer::Create on thread: %lu\n"), GetCurrentThreadId());
     CheckPointer(ppBF, E_POINTER);
 
-    HRESULT hr = S_OK;
-
+    HRESULT hr;
     CComPtr<ISubPicAllocatorPresenter> pCAP;
 
-    if (m_clsid == CLSID_VMR7AllocatorPresenter
-            || m_clsid == CLSID_VMR9AllocatorPresenter
-            || m_clsid == CLSID_DXRAllocatorPresenter
-            || m_clsid == CLSID_madVRAllocatorPresenter
-            || m_clsid == CLSID_EVRAllocatorPresenter
-            || m_clsid == CLSID_SyncAllocatorPresenter) {
-        bool bFullscreen = (AfxGetApp()->m_pMainWnd != nullptr) && (((CMainFrame*)AfxGetApp()->m_pMainWnd)->IsD3DFullScreenMode());
-        if (SUCCEEDED(CreateAP7(m_clsid, m_hWnd, &pCAP))
-                || SUCCEEDED(CreateAP9(m_clsid, m_hWnd, bFullscreen, &pCAP))
-                || SUCCEEDED(CreateEVR(m_clsid, m_hWnd, bFullscreen, &pCAP))
-                || SUCCEEDED(CreateSyncRenderer(m_clsid, m_hWnd, bFullscreen, &pCAP))) {
-            CComPtr<IUnknown> pRenderer;
-            if (SUCCEEDED(hr = pCAP->CreateRenderer(&pRenderer))) {
-                *ppBF = CComQIPtr<IBaseFilter>(pRenderer).Detach();
-                pUnks.AddTail(pCAP);
-                if (CComQIPtr<ISubPicAllocatorPresenter2> pCAP2 = pCAP) {
-                    pUnks.AddTail(pCAP2);
-                }
-                // madVR supports calling IVideoWindow::put_Owner before the pins are connected
-                if (m_clsid == CLSID_madVRAllocatorPresenter) {
-                    if (CComQIPtr<IMadVRSubclassReplacement> pMVRSR = pCAP) {
-                        VERIFY(SUCCEEDED(pMVRSR->DisableSubclassing()));
-                    }
-                    if (CComQIPtr<IVideoWindow> pVW = pCAP) {
-                        pVW->put_Owner((OAHWND)m_hWnd);
-                    }
+    auto isD3DFullScreenMode = []() {
+        auto pMainFrame = dynamic_cast<const CMainFrame*>(AfxGetApp()->m_pMainWnd);
+        ASSERT(pMainFrame);
+        return pMainFrame && pMainFrame->IsD3DFullScreenMode();
+    };
+
+    if (m_clsid == CLSID_EVRAllocatorPresenter) {
+        CheckNoLog(CreateEVR(m_clsid, m_hWnd, isD3DFullScreenMode(), &pCAP));
+    } else if (m_clsid == CLSID_SyncAllocatorPresenter) {
+        CheckNoLog(CreateSyncRenderer(m_clsid, m_hWnd, isD3DFullScreenMode(), &pCAP));
+    } else if (m_clsid == CLSID_madVRAllocatorPresenter) {
+        CheckNoLog(CreateAP9(m_clsid, m_hWnd, isD3DFullScreenMode(), &pCAP));
+
+        if (CComQIPtr<IMadVRSubclassReplacement> pMVRSR = pCAP) {
+            VERIFY(SUCCEEDED(pMVRSR->DisableSubclassing()));
+        }
+        // madVR supports calling IVideoWindow::put_Owner before the pins are connected
+        if (CComQIPtr<IVideoWindow> pVW = pCAP) {
+            VERIFY(SUCCEEDED(pVW->put_Owner((OAHWND)m_hWnd)));
+        }
+    } else if (m_clsid == CLSID_VMR9AllocatorPresenter || m_clsid == CLSID_DXRAllocatorPresenter) {
+        CheckNoLog(CreateAP9(m_clsid, m_hWnd, isD3DFullScreenMode(), &pCAP));
+    } else if (m_clsid == CLSID_VMR7AllocatorPresenter) {
+        CheckNoLog(CreateAP7(m_clsid, m_hWnd, &pCAP));
+    } else {
+        CComPtr<IBaseFilter> pBF;
+        CheckNoLog(pBF.CoCreateInstance(m_clsid));
+
+        if (m_clsid == CLSID_EnhancedVideoRenderer) {
+            CComQIPtr<IEVRFilterConfig> pConfig = pBF;
+            pConfig->SetNumberOfStreams(3);
+
+            if (CComQIPtr<IMFGetService> pMFGS = pBF) {
+                CComPtr<IMFVideoDisplayControl> pMFVDC;
+                if (SUCCEEDED(pMFGS->GetService(MR_VIDEO_RENDER_SERVICE, IID_PPV_ARGS(&pMFVDC)))) {
+                    pMFVDC->SetVideoWindow(m_hWnd);
                 }
             }
         }
-    } else {
-        CComPtr<IBaseFilter> pBF;
-        if (SUCCEEDED(pBF.CoCreateInstance(m_clsid))) {
-            if (m_clsid == CLSID_EnhancedVideoRenderer) {
-                CComQIPtr<IEVRFilterConfig> pConfig = pBF;
-                pConfig->SetNumberOfStreams(3);
-            }
 
-            BeginEnumPins(pBF, pEP, pPin) {
-                if (CComQIPtr<IMixerPinConfig, &IID_IMixerPinConfig> pMPC = pPin) {
-                    pUnks.AddTail(pMPC);
-                    break;
-                }
+        BeginEnumPins(pBF, pEP, pPin) {
+            if (CComQIPtr<IMixerPinConfig, &IID_IMixerPinConfig> pMPC = pPin) {
+                pUnks.AddTail(pMPC);
+                break;
             }
-            EndEnumPins;
+        }
+        EndEnumPins;
 
-            *ppBF = pBF.Detach();
+        *ppBF = pBF.Detach();
+    }
+
+    if (pCAP) {
+        CComPtr<IUnknown> pRenderer;
+        CheckNoLog(pCAP->CreateRenderer(&pRenderer));
+
+        *ppBF = CComQIPtr<IBaseFilter>(pRenderer).Detach();
+        pUnks.AddTail(pCAP);
+        if (CComQIPtr<ISubPicAllocatorPresenter2> pCAP2 = pCAP) {
+            pUnks.AddTail(pCAP2);
         }
     }
 
-    if (!*ppBF) {
-        hr = E_FAIL;
-    } else if (m_clsid != CLSID_madVRAllocatorPresenter) {
-        HookWorkAroundVideoDriversBug(*ppBF);
-        m_bHasVideoDriverWorkAround = true;
+    CheckPointer(*ppBF, E_FAIL);
+
+    if (m_clsid != CLSID_madVRAllocatorPresenter) {
+        HookWorkAround10BitBug(*ppBF);
+        m_bHas10BitWorkAround = true;
     }
 
     return hr;

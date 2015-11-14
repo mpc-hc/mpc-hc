@@ -27,7 +27,6 @@
 #include "LCDText.h"
 
 #include <string>
-using namespace std;
 
 class CLCDStreamingText: public CLCDCollection
 {

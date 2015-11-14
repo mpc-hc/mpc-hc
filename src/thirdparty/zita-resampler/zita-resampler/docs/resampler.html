@@ -1,0 +1,574 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<title>Zita-resampler.</title>
+	<meta name="Author"      content="Fons Adriaensen (fons@linuxaudio.org)">
+	<meta name="Description" content="The zita-resampler library.">
+	<meta name="Keywords"    content="resampling sound audio dsp linux">
+	<link rel=StyleSheet href="zitadocs.css" type="text/css" media="all">
+</head>
+
+<body>
+
+
+<h1>Libzita-resampler</h1>
+<ul>
+<li><a href = "#introduction">Introduction</a>
+<li><a href = "#algorithm">The algorithm</a>
+<li><a href = "#description">API description</a>
+<li><a href = "#reference">API reference</a>
+</ul>
+
+<br>
+<a name = "introduction"></a>
+<h2>Introduction</h2>
+<p>
+Libzita-resampler is a C++ library for resampling audio signals. It is designed
+to be used within a real-time processing context, to be fast, and to provide
+high-quality sample rate conversion.
+</p>
+<p>
+The library operates on signals represented in single-precision floating point
+format. For multichannel operation both the input and output signals are
+assumed to be stored as interleaved samples.
+</p>
+<p>
+The API allows a trade-off between quality and CPU load. For the latter
+a range of approximately 1:6 is available. Even at the highest quality
+setting libzita-resampler will be faster than most similar libraries
+providing the same quality, e.g. libsamplerate.
+</p>
+<p>
+In many real-time resampling applications (e.g. an audio player), processing
+is driven by the ouput sample rate: each processing period requires a fixed
+number of output samples, and the input side has to adapt, providing whatever
+number of samples required. The inverse situation (less common, but possible)
+would be e.g. a recording application that writes an audio file at a rate that
+is different from the hardware sample rate. In that case the number of input
+samples is fixed for each processing period. The API provided by libzita-resampler
+is fully symmetric in this respect - it handles both situations in the exactly the
+same way, using the same application code.
+</p>
+<p>
+Libzita-resampler provides two classes:
+</p>
+<p>
+The <b>Resampler</b> class performs resampling at a fixed ratio <b>F_out / F_in</b>
+which is required to be <b>&ge; 1/16</b>  and be reducible to the form <b> b / a</b>
+with <b>a, b</b> integer and <b>b &le; 1000</b>. This includes all the 'standard'
+ratios, e.g. 96000 / 44100 = 320 / 147. These restrictions allow for a more efficient
+implementation.
+</p>
+<p>
+The <b>VResampler</b> class provides an arbitrary ratio <b>r</b> in the range
+<b>1/16 &le; r &le; 64</b> and which can variable within a range of <b>0.95 to
+16.0</b> w.r.t. the originally configured one. The lower limit here is necessary
+because this class still uses a fixed multiphase filter, with only the phase step
+being variable. This class was developed for converting between two nominally fixed
+sample rates with a ratio which is not known exactly and may even drift slowly, e.g.
+when combining sound cards wich do not have a common word clock. This resampler is
+somewhat less efficient than the fixed ratio one since it has to interpolate filter
+coefficients, but the difference is marginal when used on multichannel signals.
+</p>
+<p>
+Both classes provide essentially the same API, with only small differences
+where necessary.
+
+<br>
+<a name = "algorithm"></a>
+<h2>The algorithm</h2>
+<p>
+Libzita-resampler implements <b>constant bandwidth resampling</b>. In contrast
+to e.g. cubic interpolation it does not consider the actual shape of the
+waveform represented by the input samples, but rather operates in the spectral
+domain.
+</p>
+<p>
+Let
+<ul>
+<li><b>F_in, F_out</b>&nbsp &nbsp be the input and output sample rates,</li>
+<li><b>F_min</b>&nbsp &nbsp  the lower of the two,</li>
+<li><b>F_lcm</b>&nbsp &nbsp  their lowest common multiple,</li>
+<li><b>b = F_lcm / F_in</b>,</li>
+<li><b>a = F_lcm / F_out</b></li>.
+</ul>
+<p>
+Then the calculation performed by zita-resampler is equivalent to:
+</p>
+<ul>
+<li>upsampling to a rate of <b>F_lcm</b> by inserting <b>b - 1</b>
+zero-valued samples after each input sample,</li>
+<li>low-pass filtering of the upsampled signal to remove everything
+above <b>F_min / 2</b>,</li>
+<li>retaining only the first of each series of <b>a</b> filtered
+samples.</li>
+</ul>
+<p>
+This is of course not how things are implemented in the resampler code.
+Only those samples that are actually output are computed, and the inserted
+zeros are never used. In practice this means there is a set of <b>b</b> 
+different FIR filters that each output one sample in turn, in round-robin
+fashion. All these filters have the same frequency response, but different
+delays that correspond to the relative position in time of the input and
+output samples.
+</p>
+<p>
+A real-world filter can't be perfect, it is always a compromise between
+complexity (CPU load) and performance. In the context of resampling this
+compromise manifests itself as deviations from the ideally flat frequency
+response, and as aliasing - the same phenomenon that occurs with AD and
+DA conversion. For aliasing, two cases need to be considered:
+</p>
+<p>
+<b>Upsampling.</b> In this case <b>F_min = F_in</b>, and input signals
+below but near to <b>F_in / 2</b> will also appear in the output
+just above this frequency. This is similar to DA conversion.
+</p>
+<p>
+<b>Downsampling.</b> In this case <b>F_min = F_out</b>, and input signals
+above but near to <b>F_out / 2</b> will also appear in the output
+just below this frequency. This is similar to AD conversion.
+</p>
+<p>
+In the design of zita-resampler it was assumed that in most cases
+conversion will be between the 'standard' audio sample rates (44.1,
+48, 88.2, 96, 192 kHz), and that consequently frequency response
+errors and aliasing will occur only above the upper limit of the
+audible frequency range. Given this assumption, some pragmatic
+trade-offs can be made. 
+</p>
+<p>
+The filter used by libzita-resampler is dimensioned to reach an
+attenuation of 60dB at the Nyquist frequency. The initialisation
+function takes a parameter named <b>hlen</b> that is in fact half
+the length of the symmetrical FIR filter expressend in samples at
+the rate <b>F_min</b>. The valid range for <b>hlen</b> is 16 to 96.
+The figure below shows the filter responses for <b>hlen</b> = 32,
+48, and 96. The <b>x</b> axis is <b>F / F_min</b>, the <b>y</b> axis
+is in dB. The lower part of the traces is the mirrored continuation
+of the response above the Nyquist frequency, i.e. the aliasing.
+Note that 20 kHz corresponds to x = 0.416 for a sample rate of 48 kHz,
+and to x = 0.454 for a sample rate of 44.1 kHz.
+</p>
+<p>
+<img src="filt1.png">
+</p>
+<p>
+<br>
+The same traces with a reduced vertical range, showing the passband
+response.
+</p>
+<p>
+<img src="filt2.png">
+</p>
+<p>
+From these figures it should be clear that <b>hlen = 32</b> should
+provide very high quality for <b>F_min</b> equal to 48 kHz or higher,
+while <b>hlen = 48</b> should be sufficient for an <b>F_min</b> of
+44.1 kHz. The validity of these assumptions was confirmed by a series
+of listening tests. If fact the conclusion of these test was that even
+at 44.1 kHz the subjects (all audio specialists or musicians) could not
+detect any significant difference between <b>hlen</b> values of 32 and 96.
+</p>
+
+<br>
+<a name = "description"></a>
+<h2>API description</h2>
+<p>
+The constructors of both classes do not initialise the object for a particular
+resampling rate, quality or number of channels - this is done by a separate
+function member which can be used as many times as necessary. This means you
+can allocate <b>(V)Resampler</b> objects before the actual resampling parameters
+are known.
+</p>
+<p>
+The <b>setup ()</b> member initialises a resampler for a combination of input
+sample rate, output sample rate, number of channels, and filter length. This
+function allocates and computes the filter coefficient tables and is definitely
+not RT-safe. The actual tables will be shared with other resampler instances if
+possible - the library maintains a reference-counted collection of them. After
+the initialisation by <b>setup ()</b>, the <b>process ()</b> member can be called
+repeatedly to actually resample audio signals. This function is RT-safe and
+can be used within e.g. a JACK callback. The <b>clear ()</b> member restores
+the object to the initial state it has after construction, and is also called
+from the destructor. You can safely call <b>setup ()</b> again without first
+calling <b>clear ()</b> - doing this avoids recomputation of the filter
+coefficients in some cases.
+</p>
+<p>
+Both classes have four public data members which are used as input and output
+parameters of <b>process ()</b>, in the same way as you would use a C struct
+to pass parameters. These are:
+</p>
+<pre>
+      unsigned int     inp_count;   // number of frames in the input buffer
+      unsigned int     out_count;   // number of frames in the output buffer
+      float           *inp_data;    // pointer to first input frame
+      float           *out_data;    // pointer to first output frame
+</pre>
+<p>
+As <b>process ()</b> does its work, it increments the pointers and decrements the
+counts. The call returns when either of the counts is zero, i.e. when the input
+buffer is empty or the output buffer is full. You should then take appropriate
+action and if necessary call <b>process ()</b> again.
+</p>
+<p>
+When <b>process ()</b> returns, the four parameter values exactly reflect
+those parts of both buffers <b>that have not yet been used</b>.
+One of them will be fully used, with the corresponding count being zero.
+The remaining part of the other, pointed to by the returned pointer, can
+always be replaced before the next call to <b>process ()</b>, but this is
+entirely optional.
+</p>
+<p>
+When for example <b>inp_count</b> is zero, you have to fill the input buffer
+again, or provide a new one, and re-initialise the input count and pointer.
+If at that time <b>out_count</b> is not zero, you can either leave the output
+parameters as they are for the next call to <b>process ()</b>, or you could
+empty the part of the output buffer that has been filled and re-use it from
+the start, or provide a completely different one.
+</p>
+<p>
+The same applies to the input buffer when it is not empty on return of
+<b>process ()</b>: it can be left alone or be replaced. A number of input
+samples is stored internally between <b>process ()</b> calls as part of the
+resampler state, but this never includes samples that have not yet been used.
+So you can 'revise' the input data, starting from the frame pointed to by the
+returned <b>inp_data</b>, up to the last moment.
+</p>
+<p>
+All this means that both classes will interface easily with fixed input and
+output buffers, with dynamically generated input signals, and also with
+lock-free circular buffers.
+</p>
+<p>
+Either of the two pointers can be NULL. When <b>inp_data</b> is zero, the effect
+is to insert zero-valued input samples, as if you had supplied a zero-filled
+buffer of length <b>inp_count</b>. When <b>out_data</b> is zero, input samples
+will be consumed, the internal state of the resampler will advance normally
+and <b>out_count</b> will decrement, but no output samples are written (in
+fact they are not even computed).
+</p>
+<a name = "padding"></a>
+<p>
+Note that libzita-resampler does <b>not</b> automatically insert zero-valued
+input samples at the start and end of the resampling process. The API makes it
+easy to add such padding, and doing this is left entirely up to the user.
+</p>
+<p>
+The <b>inpsize ()</b> member returns the lenght of the FIR filter expressed in
+input samples. At least this number of samples is required to produce an output
+sample. If <b>k</b> is the value returned by this function, then
+</p>
+<ul>
+<li>inserting <b>k / 2 - 1</b> zero-valued samples at the start will align the
+first input and output samples,</li>
+<li>inserting <b>k - 1</b> zero valued samples will ensure that the output
+includes the full filter response for the first input sample.</li>
+</ul>
+<p>
+Similar considerations apply at the end of the input data:
+</p>
+<ul>
+<li>inserting <b>k / 2</b> zero-valued samples at the end will ensure
+that the last output sample produced will correspond to a position as close
+as possible but not past the last real input sample,</li>
+<li>inserting <b>k - 1</b> zero valued samples will ensure that the output
+includes the full filter response for the last real input sample.</li>
+</ul>
+<p>
+<a name = "inpdist"></a>
+The <b>inpdist ()</b> member returns the distance or delay expressed in sample
+periods at the input rate, between the first output sample that will be ouput
+by the next call to <b>process ()</b> and the first input sample that will be
+read (i.e. that is not yet part of the internal state).
+<br><br>
+In the picture below, the red dots represent input samples and the blue ones
+are the output. Solid dots are samples already used or output. After a call
+to process () the resampler object remains in a state ready to produce the next
+output sample, except that it may have to input one or more new samples first.
+The filter is aligned with the next output sample. In this case one more input
+sample is required to compute it, and the input distance is 2.7. 
+</p>
+<p>
+<img src="inpdist.png">
+</p>
+<p>
+After a resampler is prefilled with <b>inpsize () / 2 - 1</b> samples as described
+above, <b>inpdist ()</b> will be zero - the first output sample corresponds exactly
+to the first input. Note that without prefilling the distance is negative, which
+means that the first output sample corresponds to some point past the start of the
+input data.
+</p>
+<p>
+The 'resample' application supplied with the library sources provides
+an example of how to use the <b>Resampler</b> class. For an example 
+using <b>VResampler</b> you can have a look at zita_a2j and zita_ja2.
+</p>
+
+<br>
+<a name = "reference"></a>
+<h2>API reference</h2>
+<p>
+Public function members of the <b>Resampler</b> and <b>VResampler</b> classes.
+Functions listed without a class prefix are available for both classes.
+</p>
+<ul>
+<li><a href = "#resampler">Resampler ()</a>
+<li><a href = "#resampler">~Resampler ()</a>
+<li><a href = "#vresampler">VResampler ()</a>
+<li><a href = "#vresampler">~VResampler ()</a>
+<li><a href = "#res_setup">Reampler::setup ()</a>
+<li><a href = "#vres_setup">VResampler::setup ()</a>
+<li><a href = "#clear">clear ()</a>
+<li><a href = "#reset">reset ()</a>
+<li><a href = "#process">process ()</a>
+<li><a href = "#nchan">nchan ()</a>
+<li><a href = "#inpsize">inpsize ()</a>
+<li><a href = "#inpdist">inpdist ()</a>
+<li><a href = "#vres_set_rratio">VResampler::set_rratio ()</a>
+<li><a href = "#vres_set_rrfilt">VResampler::set_rrfilt ()</a>
+</ul>
+<p>
+Public data members of the <b>Resampler</b> and <b>VResampler</b> classes.
+</p>
+<ul>
+<li><a href = "#inp_count">inp_count</a>
+<li><a href = "#out_count">out_count</a>
+<li><a href = "#inp_data">inp_data</a>
+<li><a href = "#out_data">out_data</a>
+</ul>
+
+<a name="resampler"></a>
+<br><p class="apihdr">Resampler (void);<br>~Resampler (void);</p>
+<p>
+<b>Description:</b> Constructor and destructor. The constructor just creates an object that takes
+almost no memory but needs to be configured by <a href="#setup"><b>setup ()</b></a> before it
+can be used. The destructor calls <a href="#clear"><b>clear ()</b></a>.
+<br><br>
+<b>RT-safe:</b> No
+</p>
+
+<a name="vresampler"></a>
+<br><p class="apihdr">VResampler (void);<br>~VResampler (void);</p>
+<p>
+<b>Description:</b> Constructor and destructor. The constructor just creates an object that takes
+almost no memory but needs to be configured by <a href="#setup"><b>setup ()</b></a> before it
+can be used. The destructor calls <a href="#clear"><b>clear ()</b></a>.
+<br><br>
+<b>RT-safe:</b> No
+</p>
+
+<a name="res_setup"></a>
+<br><p class="apihdr">int &nbsp Resampler::setup (unsigned int &nbsp fs_inp, unsigned int fs_out, unsigned int nchan, unsigned int hlen);</p>
+<p>
+<b>Description:</b> Configures the object for a combination of input / output sample rates, number
+of channels, and filter lenght.<br>If the parameters are OK, creates the filter coefficient tables
+or re-uses existing ones, allocates some internal resources, and returns via <a href="#reset">
+<b>reset ()</b></a>.
+<br><br>
+<b>Parameters:</b>
+</p>
+<p class="indent">
+<b>fs_inp, fs_out:</b> The input and output sample rates. The ratio <b>fs_out
+/ fs_inp</b> must be <b> &ge; 1/16</b> and reducible to the form <b>b / a</b>
+with <b>a, b</b> integer and <b>b &le; 1000</b>.
+<br><br>
+<b>nchan:</b> Number of channels, must not be zero.
+<br><br>
+<b>hlen:</b> Half the lenght of the filter expressed in samples at the lower of
+input and output rates. This parameter determines the 'quality' as explained
+<a href="#algorithm">here</a>. For any fixed combination of the other parameters,
+cpu load will be roughly proportional to <b>hlen</b>. The valid range is
+<b>16 &le; hlen &le; 96</b>.
+</p>
+<p>
+<b>Returns:</b> Zero on success, non-zero otherwise.
+<br><br>
+<b>Remark:</b> It is perfectly safe to call this function again without 
+having called <a href="#clear"><b>clear ()</b></a> first. If only the number
+of channels is changed, doing this will avoid recalculation of the filter tables
+even if they are not shared.
+<br><br>
+<b>RT-safe:</b> No
+</p>
+
+<a name="vres_setup"></a>
+<br><p class="apihdr">int &nbsp VResampler::setup (double ratio, unsigned int nchan, unsigned int hlen);</p>
+<p>
+<b>Description:</b> Configures the object for a combination of resampling ratio, number of channels,
+and filter lenght.<br>If the parameters are OK, creates the filter coefficient tables or re-uses
+existing ones, allocates some internal resources, and returns via <a href="#reset">
+<b>reset ()</b></a>.
+<br><br>
+<b>Parameters:</b>
+</p>
+<p class="indent">
+<b>ratio:</b> The resampling ratio wich must be between <b>1/16</b> and <b>64</b>.
+<br><br>
+<b>nchan:</b> Number of channels, must not be zero.
+<br><br>
+<b>hlen:</b> Half the lenght of the filter expressed in samples at the lower of
+the input and output rates. This parameter determines the 'quality' as explained
+<a href="#algorithm">here</a>. For any fixed combination of the other parameters,
+cpu load will be roughly proportional to <b>hlen</b>. The valid range is
+<b>16 &le; hlen &le; 96</b>.
+</p>
+<p>
+<b>Returns:</b> Zero on success, non-zero otherwise.
+<br><br>
+<b>Remark:</b> It is perfectly safe to call this function again without 
+having called <a href="#clear"><b>clear ()</b></a> first. If only the number
+of channels is changed, doing this will avoid recalculation of the filter tables
+even if they are not shared.
+<br><br>
+<b>RT-safe:</b> No
+</p>
+
+<a name="clear"></a>
+<br><p class="apihdr">void &nbsp clear (void);</p>
+<p>
+<b>Description:</b> Deallocates resources (if not shared) and returns the object to
+the unconfigured state as after construction. Also called by the destructor.
+<br><br>
+<b>RT-safe:</b> No
+</p>
+
+<a name="reset"></a>
+<br><p class="apihdr">int &nbsp reset (void);</p>
+<p>
+<b>Description:</b> Resets the internal state of the resampler. Any stored
+input samples are cleared, the filter phase and the four <a href="#inp_count">
+public data members</a> are set to zero. This should be called before starting
+resampling a new stream with the same configuration as the previous one.
+<br><br>
+<b>Returns:</b> Zero if the resampler is configured , non-zero otherwise.
+<br><br>
+<b>RT-safe:</b> Yes.
+</p>
+
+<a name="process"></a>
+<br><p class="apihdr">int &nbsp process (void);</p>
+<p>
+<b>Description:</b> Resamles the input signal until either the input buffer
+is empty or the output buffer is full. Information on the input and output
+buffers is passed to this function using the four <a href="#inp_count"> public
+data members</a> described below. The same four values are updated on return. 
+<br><br>
+<b>Returns:</b> Zero if the resampler is configured, non-zero otherwise.
+<br><br>
+<b>RT-safe:</b> Yes.
+</p>
+
+<a name="nchan"></a>
+<br><p class="apihdr">int &nbsp nchan (void);</p>
+<p>
+<b>Description:</b> Accessor.
+<br><br>
+<b>Returns:</b> The number of channels the resampler is configured for,
+or zero if it is unconfigured. Input and output buffers are assumed to contain
+this number of channels in interleaved format.
+<br><br>
+<b>RT-safe:</b> Yes
+</p>
+
+<a name="inpsize"></a>
+<br><p class="apihdr">int &nbsp inpisze (void);</p>
+<p>
+<b>Description:</b> Accessor.
+<br><br>
+<b>Returns:</b> If the resampler is configured, the lenght of the
+finite impulse filter expressed in samples at the input sample rate,
+or zero otherwise. This value may be used to determine the number of
+silence samples to insert at the start and end when resampling e.g.
+an impulse response. See <a href="#padding">here</a> for more about this.
+This function was called 'filtlen ()' in previous releases.
+<br><br>
+<b>RT-safe:</b> Yes
+</p>
+
+<a name="inpdist"></a>
+<br><p class="apihdr">double &nbsp inpdist (void);</p>
+<p>
+<b>Description:</b> Accessor.
+<br><br>
+<b>Returns:</b> If the resampler is configured, the distance between
+the next output sample and the next input sample, expressed in sample
+periods at the input rate, zero otherwise. See <a href="#inpdist">
+here</a> for more about this.
+<br><br>
+<b>RT-safe:</b> Yes
+</p>
+
+<a name="vres_set_rratio"></a>
+<br><p class="apihdr">void &nbsp VResampler::set_rratio (double ratio);</p>
+<p>
+<b>Description:</b> Sets the resampling ratio relative to the one configured
+by <a href="#vres_setup"> setup ()</a>. The valid range is <b>0.95 &le;
+ratio &le; 16</b>.
+<br><br>
+<b>Parameters:</b>
+</p>
+<p class="indent">
+<b>ratio:</b> The relative resampling ratio.
+</p>
+<p>
+<b>RT-safe:</b> Yes
+</p>
+
+<a name="vres_set_rrfilt"></a>
+<br><p class="apihdr">void &nbsp VResampler::set_rrfilt (double time);</p>
+<p>
+<b>Description:</b> Sets the time constant of the first order filter applied
+on values set by <a href="#vres_set_rratio"> set_rratio ()</a>. The time is
+expressed as sample periods at the output rate. The default is zero, which
+means changes are applied instantly.
+<br><br>
+<b>Parameters:</b>
+</p>
+<p class="indent">
+<b>time:</b> The filter time constant.
+</p>
+<p>
+<b>RT-safe:</b> Yes
+</p>
+
+<a name="inp_count"></a>
+<br><p class="apihdr">unsigned int &nbsp inp_count;</p> 
+<p>
+<b>Description:</b> Data member, input / output parameter of the <a href="#process">
+process ()</a> function. This value is always equal to the number of frames in the
+input buffer that have not yet been read by the process () function. It should be set
+to the number of available frames before calling process ().
+</p>
+
+<a name="out_count"></a>
+<br><p class="apihdr">unsigned int &nbsp out_count;</p>
+<p>
+<b>Description:</b> Data member, input / output parameter of the <a href="#process">
+process ()</a> function. This value is always equal to the number of frames in the
+output buffer that have not yet been written by the process () function. It should be
+set to the size of the output buffer before calling process ().
+</p>
+
+<a name="inp_data"></a>
+<br><p class="apihdr">float &nbsp *inp_data;</p>
+<p>
+<b>Description:</b> Data member, input / output parameter of the <a href="#process">
+process ()</a> function. If not zero (NULL), this points to the next frame in the
+input buffer that will be read by process (). If set to zero (NULL), the resampler
+will proceed normally but use zero-valued samples as input (still counted by
+<b>inp_count</b>).
+</p>
+
+<a name="out_data"></a>
+<br><p class="apihdr">float &nbsp *out_data;</p>
+<p>
+<b>Description:</b> Data member, input / output parameter of the <a href="#process">
+process ()</a> function. If not zero (NULL), this points to the next frame in the
+output buffer that will be written by process (). If set to zero (NULL), the resampler
+will proceed normally but the output is discarded (but still counted by <b>out_count</b>).
+</p>
+
+</body>
+</html>

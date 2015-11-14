@@ -7,10 +7,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-03-26 22:39:02+0000\n"
-"PO-Revision-Date: 2015-03-27 09:08+0000\n"
+"POT-Creation-Date: 2015-08-06 16:05:43+0000\n"
+"PO-Revision-Date: 2015-09-24 22:04+0000\n"
 "Last-Translator: JellyFrog\n"
-"Language-Team: Swedish (http://www.transifex.com/projects/p/mpc-hc/language/sv/)\n"
+"Language-Team: Swedish (http://www.transifex.com/mpc-hc/mpc-hc/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -326,12 +326,12 @@ msgid "On/Off"
 msgstr "Aktiverat"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
-msgid "From FPS"
-msgstr "Från FPS"
+msgid "From (FPS)"
+msgstr "Från (FPS)"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
-msgid "To FPS"
-msgstr "Till FPS"
+msgid "To (FPS)"
+msgstr "Till (FPS)"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
@@ -465,6 +465,34 @@ msgctxt "IDD_PPAGESHADERS"
 msgid "Playback::Shaders"
 msgstr "Uppspelning::Shaders"
 
+msgctxt "IDD_FILEPROPRES"
+msgid "Resources"
+msgstr "Resurser"
+
+msgctxt "IDD_PPAGEMISC"
+msgid "Miscellaneous"
+msgstr "Diverse"
+
+msgctxt "IDD_FILEMEDIAINFO"
+msgid "MediaInfo"
+msgstr "MediaInfo"
+
+msgctxt "IDD_PPAGECAPTURE"
+msgid "Playback::Capture"
+msgstr "Uppspelning::Spela in"
+
+msgctxt "IDD_PPAGESYNC"
+msgid "Playback::Sync Renderer Settings"
+msgstr "Uppspelning::Sync Renderer-inställningar"
+
+msgctxt "IDD_PPAGEFULLSCREEN"
+msgid "Playback::Fullscreen"
+msgstr "Uppspelning::Helskärm"
+
+msgctxt "IDD_PPAGEAUDIORENDERER"
+msgid "Internal Filters::Audio Renderer"
+msgstr "Interna Filter::Ljudrenderare"
+
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
 msgstr "Ljudomkopplare"
@@ -475,7 +503,7 @@ msgstr "Ny version av ikonbiblioteket"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_INSTR"
 msgid "Do you want to reassociate the icons?"
-msgstr "Vill du återansluta ikonerna?"
+msgstr "Vill du omassociera ikonerna?"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_CONTENT"
 msgid "This will fix the icons being incorrectly displayed after an update of the icon library.\nThe file associations will not be modified, only the corresponding icons will be refreshed."
@@ -556,30 +584,6 @@ msgstr "Spelare::Webbgränssnitt"
 msgctxt "IDD_PPAGESUBDB"
 msgid "Subtitles::Database"
 msgstr "Undertexter::Databas"
-
-msgctxt "IDD_FILEPROPRES"
-msgid "Resources"
-msgstr "Resurser"
-
-msgctxt "IDD_PPAGEMISC"
-msgid "Miscellaneous"
-msgstr "Diverse"
-
-msgctxt "IDD_FILEMEDIAINFO"
-msgid "MediaInfo"
-msgstr "MediaInfo"
-
-msgctxt "IDD_PPAGECAPTURE"
-msgid "Playback::Capture"
-msgstr "Uppspelning::Spela in"
-
-msgctxt "IDD_PPAGESYNC"
-msgid "Playback::Sync Renderer Settings"
-msgstr "Uppspelning::Sync Renderer-inställningar"
-
-msgctxt "IDD_PPAGEFULLSCREEN"
-msgid "Playback::Fullscreen"
-msgstr "Uppspelning::Helskärm"
 
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
@@ -673,21 +677,9 @@ msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
 msgstr "Videoytan kommer att allokeras som en vanlig offscreen yta."
 
-msgctxt "IDC_AUDRND_COMBO"
-msgid "MPC Audio Renderer is broken, do not use."
-msgstr "MPC Audio Renderer är trasig, använd ej!"
-
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
 msgstr "Sync Renderer"
-
-msgctxt "IDS_MPC_BUG_REPORT_TITLE"
-msgid "MPC-HC - Reporting a bug"
-msgstr "MPC-HC - Rapportera en bugg"
-
-msgctxt "IDS_MPC_BUG_REPORT"
-msgid "MPC-HC just crashed but this build was compiled without debug information.\nIf you want to report this bug, you should first try an official build.\n\nDo you want to visit the download page now?"
-msgstr "MPC-HC krashade precis, men den här versionen har kompilerats utan felsökningsverktyg.\nOm du vill rapportera det här programfelet bör du först och främst försöka med en officiell version.\n\nVill du besöka nedladdningsplatsen nu?"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
 msgid "Regular offscreen plain surface"
@@ -741,9 +733,9 @@ msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP"
 msgid "Null (uncompressed)"
 msgstr "Null (okomprimerat)"
 
-msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND"
-msgid "MPC-HC Audio Renderer"
-msgstr "MPC-HC Audio Renderer"
+msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
+msgid "Internal Audio Renderer"
+msgstr "Intern Ljudrenderare"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
@@ -815,7 +807,7 @@ msgstr "Reducerar \"tearing\" men förhindrar att verktygsfältet kan visas."
 
 msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Reduces tearing by bypassing the default VSync built into D3D."
-msgstr "Reducerar \"tearing\" genom att kringgå standard-vertikalsynken inbyggt i D3D."
+msgstr "Reducerar \"tearing\" genom att kringgå standard-VSync inbyggt i D3D."
 
 msgctxt "IDS_SRC_VTS"
 msgid "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"
@@ -839,7 +831,7 @@ msgstr "Växla Navigeringsfält"
 
 msgctxt "IDS_AG_VSYNCACCURATE"
 msgid "Accurate VSync"
-msgstr "Noggrann vertikalsynk"
+msgstr "Noggrann VSync"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid "If the rendering target is left undefined, it will be inherited from the default style."
@@ -911,7 +903,7 @@ msgstr "&Original"
 
 msgctxt "IDS_SUBRESYNC_CURRENT"
 msgid "&Current"
-msgstr "&Nuvarande"
+msgstr "&Aktuell"
 
 msgctxt "IDS_SUBRESYNC_EDIT"
 msgid "&Edit"
@@ -1303,7 +1295,7 @@ msgstr "Spela nästa fil i mappen"
 
 msgctxt "IDS_AFTER_PLAYBACK_REWIND"
 msgid "Rewind current file"
-msgstr "Spola tillbaka nuvarande fil"
+msgstr "Spola tillbaka aktuell fil"
 
 msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
 msgid "Close"
@@ -1343,11 +1335,11 @@ msgstr "Kolla"
 
 msgctxt "IDS_NAVIGATION_MOVE_UP"
 msgid "Move Up"
-msgstr "Flytta Upp"
+msgstr "Flytta upp"
 
 msgctxt "IDS_NAVIGATION_MOVE_DOWN"
 msgid "Move Down"
-msgstr "Flytta Ner"
+msgstr "Flytta ned"
 
 msgctxt "IDS_NAVIGATION_SORT"
 msgid "Sort by LCN"
@@ -1375,22 +1367,42 @@ msgstr "Bildformat %d:%d"
 
 msgctxt "IDS_PPAGEADVANCED_LOGGER"
 msgid "Enables logging to file (requires restart)"
-msgstr ""
+msgstr "Aktiverar loggning till fil (omstart krävs)"
 
 msgctxt "IDS_TIMER_REMAINING_TIME"
 msgid "Remaining time"
-msgstr ""
+msgstr "Återstående tid"
 
 msgctxt "IDS_TIMER_HIGH_PRECISION"
 msgid "High precision"
-msgstr ""
+msgstr "Hög precision"
 
 msgctxt "IDS_AFTERPLAYBACK_REWIND"
 msgid "After Playback: Rewind current file"
-msgstr ""
+msgstr "Efter Uppspelning: Spola tillbaka aktuell fil"
 
 msgctxt "IDS_AFTERPLAYBACK_CLOSE"
 msgid "After Playback: Close"
+msgstr "Efter Uppspelning: Stäng"
+
+msgctxt "IDS_FRAME_INIT_FAILED"
+msgid "MPC-HC encountered a problem during initialization. With your help we might be able to fix the issue.\n\nDo you want to report it?"
+msgstr "MPC-HC stötte på ett fel vid uppstart. Med din hjälp kan vi kanske lösa det.\n\nVill du rapportera felet?"
+
+msgctxt "IDS_TIME_SHIFT_TOOLTIP"
+msgid "Enter a positive value if the audio is early, a negative value if it is late."
+msgstr "Ange ett positivt värde om ljudet är för tidigt, negativt värde om det är för sent."
+
+msgctxt "IDS_WEBUI_DISABLED_PREVIEW_MSG"
+msgid "Preview is currently disabled. You can enable it in MPC-HC's options."
+msgstr "Förhandsvisningen är avstängd, du kan aktivera den i MPC-HCs inställningar"
+
+msgctxt "IDS_WEBUI_PREVIEW_WARNING"
+msgid "This option can be used to preview media files from remote location. Use it only on a properly secured private network.\n\nDo you really want to enable this option?"
+msgstr ""
+
+msgctxt "IDS_SUBTITLE_RENDERER_INTERNAL"
+msgid "Internal Subtitle Renderer"
 msgstr ""
 
 msgctxt "IDS_AG_OPEN_DEVICE"
@@ -1547,7 +1559,7 @@ msgstr "Miniatyrerna har sparats"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
 msgid "&Video Track"
-msgstr ""
+msgstr "&Videospår"
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
 msgid "Video Ang&le"
@@ -1559,7 +1571,7 @@ msgstr "Återställ inställningar"
 
 msgctxt "IDS_RESET_SETTINGS_WARNING"
 msgid "Are you sure you want to restore MPC-HC to its default settings?\nBe warned that ALL your current settings will be lost!"
-msgstr "Är du säker att du du vill återställa alla MPC-HC:s inställningar till standardvärden?\nVarning: ALLA nuvarande inställningar kommer försvinna! "
+msgstr "Är du säker att du du vill återställa alla MPC-HC:s inställningar till standardvärden?\nVarning: ALLA aktuella inställningar kommer försvinna! "
 
 msgctxt "IDS_RESET_SETTINGS_MUTEX"
 msgid "Please close all instances of MPC-HC so that the default settings can be restored."
@@ -1675,15 +1687,23 @@ msgstr "Hoppa till början"
 
 msgctxt "IDS_OSD_SHOW_FILENAME"
 msgid "OSD: Show File Name"
-msgstr ""
+msgstr "OSD: Visa Filnamn"
+
+msgctxt "IDS_PLAY_DVD"
+msgid "Play DVD"
+msgstr "Spela DVD"
+
+msgctxt "IDS_PLAY_BD"
+msgid "Play BD"
+msgstr "Spela Blu-ray"
 
 msgctxt "IDS_OSD_DISPLAY_RENDERER_STATS"
 msgid "OSD: Display Renderer Statistics"
-msgstr ""
+msgstr "OSD: Visa Renderar-statistik"
 
 msgctxt "IDS_OSD_RESET_RENDERER_STATS"
 msgid "OSD: Reset Renderer Statistics"
-msgstr ""
+msgstr "OSD: Återställ Renderar-statistik"
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
@@ -1843,19 +1863,19 @@ msgstr "PnS Center"
 
 msgctxt "IDS_AG_PNS_LEFT"
 msgid "PnS Left"
-msgstr "PnS Vänster"
+msgstr "PnS vänster"
 
 msgctxt "IDS_AG_PNS_RIGHT"
 msgid "PnS Right"
-msgstr "PnS Höger"
+msgstr "PnS höger"
 
 msgctxt "IDS_AG_PNS_UP"
 msgid "PnS Up"
-msgstr "PnS Upp"
+msgstr "PnS upp"
 
 msgctxt "IDS_AG_PNS_DOWN"
 msgid "PnS Down"
-msgstr "PnS Ner"
+msgstr "PnS ned"
 
 msgctxt "IDS_AG_PNS_UPLEFT"
 msgid "PnS Up/Left"
@@ -1958,19 +1978,19 @@ msgid "Options"
 msgstr "Inställningar"
 
 msgctxt "IDS_AG_NEXT_AUDIO"
-msgid "Next Audio"
-msgstr "Nästa Ljud"
+msgid "Next Audio Track"
+msgstr "Nästa Ljudspår"
 
 msgctxt "IDS_AG_PREV_AUDIO"
-msgid "Prev Audio"
-msgstr "Föregående Ljud"
+msgid "Prev Audio Track"
+msgstr "Föregående Ljudspår"
 
 msgctxt "IDS_AG_NEXT_SUBTITLE"
-msgid "Next Subtitle"
+msgid "Next Subtitle Track"
 msgstr "Nästa Undertext"
 
 msgctxt "IDS_AG_PREV_SUBTITLE"
-msgid "Prev Subtitle"
+msgid "Prev Subtitle Track"
 msgstr "Föregående Undertext"
 
 msgctxt "IDS_MPLAYERC_85"
@@ -1981,22 +2001,6 @@ msgctxt "IDS_MPLAYERC_86"
 msgid "Reload Subtitles"
 msgstr "Ladda om Undertext"
 
-msgctxt "IDS_MPLAYERC_87"
-msgid "Next Audio (OGM)"
-msgstr "Nästa Ljud (OGM)"
-
-msgctxt "IDS_MPLAYERC_88"
-msgid "Prev Audio (OGM)"
-msgstr "Föregående Ljud (OGM)"
-
-msgctxt "IDS_MPLAYERC_89"
-msgid "Next Subtitle (OGM)"
-msgstr "Nästa Undertext (OGM)"
-
-msgctxt "IDS_MPLAYERC_90"
-msgid "Prev Subtitle (OGM)"
-msgstr "Föregående Undertext (OGM)"
-
 msgctxt "IDS_MPLAYERC_91"
 msgid "Next Angle (DVD)"
 msgstr "Nästa Vinkel (DVD)"
@@ -2006,19 +2010,19 @@ msgid "Prev Angle (DVD)"
 msgstr "Föregående Vinkel (DVD)"
 
 msgctxt "IDS_MPLAYERC_93"
-msgid "Next Audio (DVD)"
-msgstr "Nästa Ljud (DVD)"
+msgid "Next Audio Track (DVD)"
+msgstr "Nästa Ljudspår (DVD)"
 
 msgctxt "IDS_MPLAYERC_94"
-msgid "Prev Audio (DVD)"
-msgstr "Föregående Ljud (DVD)"
+msgid "Prev Audio Track (DVD)"
+msgstr "Föregående Ljudspår (DVD)"
 
 msgctxt "IDS_MPLAYERC_95"
-msgid "Next Subtitle (DVD)"
+msgid "Next Subtitle Track (DVD)"
 msgstr "Nästa Undertext (DVD)"
 
 msgctxt "IDS_MPLAYERC_96"
-msgid "Prev Subtitle (DVD)"
+msgid "Prev Subtitle Track (DVD)"
 msgstr "Föregående Undertext (DVD)"
 
 msgctxt "IDS_MPLAYERC_97"
@@ -2027,7 +2031,7 @@ msgstr "På/Av Undertext (DVD)"
 
 msgctxt "IDS_OSD_DISPLAY_CURRENT_TIME"
 msgid "OSD: Display Current Time"
-msgstr ""
+msgstr "OSD: Visa Aktuell tid"
 
 msgctxt "IDS_PPAGEWEBSERVER_0"
 msgid "Select the directory"
@@ -2383,15 +2387,7 @@ msgstr "Balans: %s"
 
 msgctxt "IDS_FULLSCREENMONITOR_CURRENT"
 msgid "Current"
-msgstr "Nuvarande"
-
-msgctxt "IDS_MPC_CRASH"
-msgid "MPC-HC terminated unexpectedly. To help us fix this problem, please send this file \"%s\" to our bug tracker.\n\nDo you want to open the folder containing the minidump file and visit the bug tracker now?"
-msgstr "MPC-HC avbröts oväntat. För att hjälpa oss fixa problemet, var vänlig skicka denna fil, \"%s\", till våran felrapportsdatabas.\n\nVill du öppna mappen med minidump-filen och besöka felrapportsdatabasen nu?"
-
-msgctxt "IDS_MPC_MINIDUMP_FAIL"
-msgid "Failed to create dump file to \"%s\" (error %u)"
-msgstr "Misslyckade att skapa dump-fil i \"%s\" (fel %u)"
+msgstr "Aktuell"
 
 msgctxt "IDS_MAINFRM_DIR_TITLE"
 msgid "Select Directory"
@@ -2479,7 +2475,7 @@ msgstr "Kunde inte öppna någon enhet"
 
 msgctxt "IDS_AG_SOUND"
 msgid "Sound"
-msgstr "LJud"
+msgstr "Ljud"
 
 msgctxt "IDS_MAINFRM_114"
 msgid "%s was not found, please insert media containing this file."
@@ -2566,8 +2562,8 @@ msgid "Volume boost Max"
 msgstr "Volym-boost Max"
 
 msgctxt "IDS_USAGE"
-msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/randomize\tRandomize the playlist\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tUse MPC-HC as slave\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "Användning: mpc-hc.exe \"sökväg\" [växlar]\n\n\"sökväg\"\t\tHuvudfilen eller katalog för att ladda (jokertecken\n\t\tstödjs, \"-\" denotes standard input)\n/dub \"fil\"\t\tLägg till ytterligare en ljudfil\n/dubdelay \"fil\"\tLägg till ytterligare en ljudfil skiftat med XXms (om\n\t\tfilen innehåller \"...DELAY XXms...\")\n/d3dfs\t\tBörja rendering i D3D helskärmsläge\n/sub \"fil\"\t\tLägg till ytterligare en undertextfil\n/filter \"filternamn\"\tLadda DirectShow filter från ett dynamiskt länk\n\t\tbibliotek (jokertecken stödjs)\n/dvd\t\tKör i DVD-läge, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStarta uppspelningen vid titel T, kapitel C\n/dvdpos T#hh:mm\tStarta uppspelningen vid titel T, tid hh:mm:ss\n/cd\t\tLadda alla spår av en ljud-CD eller (S)VCD,\n\t\t\"pathname\" innebär att enhetssökväg (valfritt)\n/device\t\tOpen the default video device\n/open\t\tÖppna filen, börja inte spela automatiskt\n/play\t\tBörja spela filen så fort spelaren\n\t\tstartar\n/close\t\tStäng spelaren efter uppspelningen (fungerar bara när\n\t\tanvänds med /play)\n/shutdown\tStänga av operativsystemet efter uppspelningen\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStarta i fullskärmsläge\n/minimerad\tStarta i minimerat läge\n/ny\t\tAnvänd en ny instans av spelaren\n/add\t\tLägg till \"pathname\" i spelningslista, kan kombineras\n\t\tmed /open och /play\n/randomize\tRandomize the playlist\n/regvid\t\tCreate file associations for video files\n/regaud\t\tSkapa filassociationer för ljudfiler\n/regpl\t\tSkapa filassociationer för spelningslista\n/regall\t\tSkapa filassociationer för för alla filtyper som stödjs\n/unregall\t\tTa bort alla filassociationer \n/start ms\t\tBörja spela vid \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tBörja spela vid tid hh:mm:ss\n/fixedsize w,h\tSätt fast fönsterstorlek\n/monitor N\tStart på bildskärm N, där N börjar från 1\n/ljudrenderare N\tBörja användaljudrenderare N, där N börjar från 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tUse MPC-HC as slave\n/reset\t\tÅterställ standardinställningar\n/help /h /?\tVisa hjälp för kommandoradsväxlar\n"
+msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/randomize\tRandomize the playlist\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tUse MPC-HC as slave\n/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding\n\t\tOnly available for CUVID and DXVA2 (copy-back)\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
+msgstr "Användning: mpc-hc.exe \"sökväg\" [växlar]\n\n\"sökväg\"\t\tHuvudfilen eller katalog för att ladda (jokertecken\n\t\tstödjs, \"-\" denotes standard input)\n/dub \"fil\"\t\tLägg till ytterligare en ljudfil\n/dubdelay \"fil\"\tLägg till ytterligare en ljudfil skiftat med XXms (om\n\t\tfilen innehåller \"...DELAY XXms...\")\n/d3dfs\t\tBörja rendering i D3D helskärmsläge\n/sub \"fil\"\t\tLägg till ytterligare en undertextfil\n/filter \"filternamn\"\tLadda DirectShow filter från ett dynamiskt länk\n\t\tbibliotek (jokertecken stödjs)\n/dvd\t\tKör i DVD-läge, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStarta uppspelningen vid titel T, kapitel C\n/dvdpos T#hh:mm\tStarta uppspelningen vid titel T, tid hh:mm:ss\n/cd\t\tLadda alla spår av en ljud-CD eller (S)VCD,\n\t\t\"pathname\" innebär att enhetssökväg (valfritt)\n/device\t\tOpen the default video device\n/open\t\tÖppna filen, börja inte spela automatiskt\n/play\t\tBörja spela filen så fort spelaren\n\t\tstartar\n/close\t\tStäng spelaren efter uppspelningen (fungerar bara när\n\t\tanvänds med /play)\n/shutdown\tStänga av operativsystemet efter uppspelningen\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStarta i fullskärmsläge\n/minimerad\tStarta i minimerat läge\n/ny\t\tAnvänd en ny instans av spelaren\n/add\t\tLägg till \"pathname\" i spelningslista, kan kombineras\n\t\tmed /open och /play\n/randomize\tRandomize the playlist\n/regvid\t\tCreate file associations for video files\n/regaud\t\tSkapa filassociationer för ljudfiler\n/regpl\t\tSkapa filassociationer för spelningslista\n/regall\t\tSkapa filassociationer för för alla filtyper som stödjs\n/unregall\t\tTa bort alla filassociationer \n/start ms\t\tBörja spela vid \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tBörja spela vid tid hh:mm:ss\n/fixedsize w,h\tSätt fast fönsterstorlek\n/monitor N\tStart på bildskärm N, där N börjar från 1\n/ljudrenderare N\tBörja användaljudrenderare N, där N börjar från 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tUse MPC-HC as slave\n/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding\n\t\tOnly available for CUVID and DXVA2 (copy-back)\n/reset\t\tÅterställ standardinställningar\n/help /h /?\tVisa hjälp för kommandoradsväxlar\n"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -2923,7 +2919,7 @@ msgstr "Annat ljudformat"
 
 msgctxt "IDS_MFMT_AC3"
 msgid "AC-3"
-msgstr ""
+msgstr "AC-3"
 
 msgctxt "IDS_MFMT_AIFF"
 msgid "AIFF"
@@ -2951,7 +2947,7 @@ msgstr "Opus Audio Codec"
 
 msgctxt "IDS_MFMT_DTS"
 msgid "DTS/DTS-HD"
-msgstr ""
+msgstr "DTS/DTS-HD"
 
 msgctxt "IDS_MFMT_AMR"
 msgid "AMR"
@@ -3041,18 +3037,6 @@ msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
 msgid "Aspect Ratio"
 msgstr "Bildförhållande"
 
-msgctxt "IDS_ARS_WASAPI_MODE"
-msgid "Use WASAPI (restart playback)"
-msgstr "Använd WASAPI (starta om uppspelning)"
-
-msgctxt "IDS_ARS_MUTE_FAST_FORWARD"
-msgid "Mute on fast forward"
-msgstr "Dämpa ljud vid snabbspolning"
-
-msgctxt "IDS_ARS_SOUND_DEVICE"
-msgid "Sound Device:"
-msgstr "Ljudenhet:"
-
 msgctxt "IDS_OSD_RS_VSYNC_ON"
 msgid "VSync: On"
 msgstr "VSync: På"
@@ -3095,11 +3079,11 @@ msgstr "Visa vid närmaste VSync: Av"
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_ON"
 msgid "Color Management: On"
-msgstr "&Färghantering: På"
+msgstr "Färghantering: På"
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_OFF"
 msgid "Color Management: Off"
-msgstr "&Färghantering: Av"
+msgstr "Färghantering: Av"
 
 msgctxt "IDS_OSD_RS_INPUT_TYPE_AUTO"
 msgid "Input Type: Auto-Detect"
@@ -3283,7 +3267,7 @@ msgstr "\nDu använder redan den senaste stabila versionen."
 
 msgctxt "IDS_USING_NEWER_VERSION"
 msgid "Your current version is v%s.\n\nThe latest stable version is v%s."
-msgstr "Din nuvarande version är v%s.\n\nDen senaste stabila versionen är v%s."
+msgstr "Din aktuella version är v%s.\n\nDen senaste stabila versionen är v%s."
 
 msgctxt "IDS_NEW_UPDATE_AVAILABLE"
 msgid "MPC-HC v%s is now available. You are using v%s.\n\nDo you want to visit MPC-HC's website to download it?"
@@ -3527,7 +3511,7 @@ msgstr "Efter Uppspelning: Spela nästa fil i mappen"
 
 msgctxt "IDS_AFTERPLAYBACK_DONOTHING"
 msgid "After Playback: Do nothing"
-msgstr "Efter Uppspelning: Gör inget"
+msgstr "Efter Uppspelning: Gör ingenting"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
@@ -3603,9 +3587,17 @@ msgstr "Associera enbart med ljudformat"
 
 msgctxt "IDC_CLEAR_ALL_ASSOCIATIONS"
 msgid "Clear all associations"
-msgstr "Rensa alla associeringar"
+msgstr "Radera alla associeringar"
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"
 msgstr "Inställningar"
+
+msgctxt "IDS_SUBTITLE_RENDERER_VS_FILTER"
+msgid "VSFilter / DirectVobSub"
+msgstr ""
+
+msgctxt "IDS_SUBTITLE_RENDERER_XY_SUB_FILTER"
+msgid "XySubFilter"
+msgstr ""
 

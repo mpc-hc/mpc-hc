@@ -32,6 +32,7 @@
 #include "Shaders.h"
 #include "FileAssoc.h"
 #include "FakeFilterMapper2.h"
+#include "../thirdparty/sanear/sanear/src/Interfaces.h"
 
 #include <afxadv.h>
 #include <afxsock.h>
@@ -139,7 +140,7 @@ enum MCE_RAW_INPUT {
 
 #define AUDRNDT_NULL_COMP       _T("Null Audio Renderer (Any)")
 #define AUDRNDT_NULL_UNCOMP     _T("Null Audio Renderer (Uncompressed)")
-#define AUDRNDT_MPC             _T("MPC-HC Audio Renderer")
+#define AUDRNDT_INTERNAL        _T("Internal Audio Renderer")
 
 #define DEFAULT_SUBTITLE_PATHS  _T(".;.\\subtitles;.\\subs")
 #define DEFAULT_JUMPDISTANCE_1  1000
@@ -368,7 +369,7 @@ public:
     CUIceClient();
 };
 
-#define APPSETTINGS_VERSION 6
+#define APPSETTINGS_VERSION 7
 
 class CAppSettings
 {
@@ -465,6 +466,7 @@ public:
     int             nCmdlnWebServerPort;
     bool            fWebServerUseCompression;
     bool            fWebServerLocalhostOnly;
+    bool            bWebUIEnablePreview;
     bool            fWebServerPrintDebugInfo;
     CString         strWebRoot, strWebDefIndex;
     CString         strWebServerCGI;
@@ -483,7 +485,6 @@ public:
     bool            fEnableWorkerThreadForOpening;
     bool            fReportFailedPins;
     bool            fAutoloadAudio;
-    bool            fAutoloadSubtitles;
     bool            fBlockVSFilter;
     UINT            nVolumeStep;
     UINT            nSpeedStep;
@@ -594,7 +595,7 @@ public:
     bool            fShowChapters;
     bool            bNotifySkype;
     bool            fPreventMinimize;
-    bool            fUseWin7TaskBar;
+    bool            bUseEnhancedTaskBar;
     bool            fLCDSupport;
     bool            fUseSearchInFolder;
     bool            fUseTimeTooltip;
@@ -674,11 +675,27 @@ public:
     bool            IsD3DFullscreen() const;
     CString         SelectedAudioRenderer() const;
     bool            IsISRAutoLoadEnabled() const;
-    bool            IsISRAvailable() const;
     bool            IsInitialized() const;
     static bool     IsVideoRendererAvailable(int iVideoRendererType);
 
     CFileAssoc      fileAssoc;
+
+    CComPtr<SaneAudioRenderer::ISettings> sanear;
+
+    DWORD           iLAVGPUDevice;
+
+    enum class SubtitleRenderer {
+        INTERNAL,
+        VS_FILTER,
+        XY_SUB_FILTER,
+    };
+
+    SubtitleRenderer GetSubtitleRenderer() const;
+    void  SetSubtitleRenderer(SubtitleRenderer renderer) { eSubtitleRenderer = renderer; }
+
+    static bool IsSubtitleRendererRegistered(SubtitleRenderer eSubtitleRenderer);
+
+    static bool IsSubtitleRendererSupported(SubtitleRenderer eSubtitleRenderer, int videoRenderer);
 
 private:
     struct FilterKey {
@@ -712,6 +729,8 @@ private:
 
     void            UpdateRenderersData(bool fSave);
     friend void     CRenderersSettings::UpdateData(bool bSave);
+
+    SubtitleRenderer eSubtitleRenderer;
 
 public:
     CAppSettings();

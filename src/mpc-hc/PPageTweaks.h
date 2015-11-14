@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2013, 2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -42,7 +42,7 @@ public:
     BOOL m_fNotifySkype;
 
     BOOL m_fPreventMinimize;
-    BOOL m_fUseWin7TaskBar;
+    BOOL m_bUseEnhancedTaskBar;
     BOOL m_fUseSearchInFolder;
     BOOL m_fUseTimeTooltip;
     BOOL m_bHideWindowedMousePointer;

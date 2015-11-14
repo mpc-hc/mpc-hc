@@ -4,17 +4,20 @@
 # Translators:
 # Alexander Gorishnyak <kefir500@gmail.com>, 2014
 # Arkady Shapkin <arkadiy_s@inbox.ru>, 2015
+# birkoff <birkoff.anarchist@gmail.com>, 2015
 # Pavel Otchertsov <pavel.otchertsov@gmail.com>, 2015
 # sayanvd <sayanvd@yandex.ru>, 2014-2015
 # stryaponoff <stryaponoff@gmail.com>, 2014
 # SmilyCarrot <twisted-transistor@yandex.ru>, 2014
+# Victor Bychek, 2015
+# Денис <denyspokhylenko@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-17 20:47:27+0000\n"
-"PO-Revision-Date: 2015-05-30 20:50+0000\n"
-"Last-Translator: sayanvd <sayanvd@yandex.ru>\n"
-"Language-Team: Russian (http://www.transifex.com/projects/p/mpc-hc/language/ru/)\n"
+"POT-Creation-Date: 2015-10-19 19:15:11+0000\n"
+"PO-Revision-Date: 2015-10-24 11:16+0000\n"
+"Last-Translator: Victor Bychek\n"
+"Language-Team: Russian (http://www.transifex.com/mpc-hc/mpc-hc/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -477,10 +480,6 @@ msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
 msgstr "Автозагрузка аудио файлов"
 
-msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
-msgid "Use the built-in subtitle renderer"
-msgstr "Использовать встроенный рендерер субтитров"
-
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Control"
 msgstr "Регулировка"
@@ -681,9 +680,9 @@ msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
 msgstr "Не сворачивать окно на дополнительном дисплее в полноэкранном режиме"
 
-msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_WIN7"
-msgid "Use Windows 7 Taskbar features"
-msgstr "Использовать возможности таскбара Windows 7"
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
+msgid "Use enhanced taskbar features"
+msgstr "Использовать расширенные опции панели задач"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
@@ -1174,8 +1173,8 @@ msgid "DXVA"
 msgstr "DXVA"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "Subtitles *"
-msgstr "Субтитры *"
+msgid "Subtitles"
+msgstr "Субтитры"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Screenshot"
@@ -1190,8 +1189,8 @@ msgid "Rotation"
 msgstr "Поворот"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "* External filters (such as VSFilter) can display subtitles on all renderers."
-msgstr "* Внешние фильтры (например VSFilter) могут отображать субтитры на всех рендерерах."
+msgid "Subtitle Renderer"
+msgstr "Обработчик субтитров"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
@@ -1208,6 +1207,10 @@ msgstr "Использовать сжатие"
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK5"
 msgid "Allow access from localhost only"
 msgstr "Разрешить доступ только с локального компьютера"
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK6"
+msgid "Enable preview"
+msgstr "Включить просмотр"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
 msgid "Print debug information"
@@ -1657,6 +1660,50 @@ msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
 msgstr "По умолчанию"
 
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "Device"
+msgstr "Устройство"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK1"
+msgid "Exclusive mode"
+msgstr "Монопольный режим"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK2"
+msgid "Allow bitstreaming"
+msgstr "Разрешить Потоковый"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "Options"
+msgstr "Настройки"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK3"
+msgid "Enable stereo crossfeed (for headphones)"
+msgstr "Включить стерео кольцевание (для наушников)"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON1"
+msgid "C. Moy"
+msgstr "С. Мой"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON2"
+msgid "J. Meier"
+msgstr "Дж Мейер"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC1"
+msgid "Cut-off:"
+msgstr "Отсечение:"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC3"
+msgid "Level:"
+msgstr "Уровень:"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "Note"
+msgstr "Заметка"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "To minimize audio distortion, it is recommended to keep player volume at around 85% when playing loud lossy-encoded content."
+msgstr "Для сокращения до минимума звуковых искажений рекомендуется держать уровень громкости около 85% при проигрывании громкого содержимого закодированного с потерями."
+
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
 msgstr "Качество JPEG:"
@@ -1673,9 +1720,17 @@ msgctxt "IDD_CRASH_REPORTER_CAPTION"
 msgid "Crash reporter"
 msgstr "Отчет о сбое"
 
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC"
+msgid "We are sorry, it seems MPC-HC just crashed. :("
+msgstr "Мы сожалеем, кажется, в MPC-HC произошел сбой. :("
+
+msgctxt "IDD_CRASH_REPORTER_IDC_CHECK1"
+msgid "Send a bug report to help us diagnose and fix the problem."
+msgstr "Отправить отчёт об ошибке, чтобы помочь нам диагностировать и исправить проблему."
+
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
-msgid "We are sorry, it seems MPC-HC just crashed. :(\n\nTo help us diagnose and fix the problem, a bug report will be sent. You can provide additional information if you want."
-msgstr "Сожалеем, но кажется MPC-HC только что потерпел сбой. :(\n\nЧтобы помочь нам диагностировать и устранить проблему, будет отправлен отчет об ошибке. Если желаете, то Вы можете предоставить дополнительную информацию."
+msgid "Optional information"
+msgstr "Дополнительная информация"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
 msgid "Email:"
@@ -1689,7 +1744,11 @@ msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
 msgid "Problem description (use English only):"
 msgstr "Описание проблемы (только на английском):"
 
-msgctxt "IDD_CRASH_REPORTER_IDOK"
-msgid "OK"
-msgstr "OK"
+msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON1"
+msgid "Restart MPC-HC"
+msgstr "Перезапустить MPC-HC"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON2"
+msgid "Quit MPC-HC"
+msgstr "Выйти из MPC-HC"
 

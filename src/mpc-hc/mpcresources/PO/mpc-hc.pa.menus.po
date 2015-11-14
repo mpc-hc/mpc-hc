@@ -1,0 +1,698 @@
+# MPC-HC - Strings extracted from menus
+# Copyright (C) 2002 - 2013 see Authors.txt
+# This file is distributed under the same license as the MPC-HC package.
+# Translators:
+# A S Alam <apreet.alam@gmail.com>, 2015
+msgid ""
+msgstr ""
+"Project-Id-Version: MPC-HC\n"
+"POT-Creation-Date: 2015-05-30 00:33:30+0000\n"
+"PO-Revision-Date: 2015-06-07 15:02+0000\n"
+"Last-Translator: A S Alam <apreet.alam@gmail.com>\n"
+"Language-Team: Panjabi (Punjabi) (http://www.transifex.com/mpc-hc/mpc-hc/language/pa/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: pa\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgctxt "POPUP"
+msgid "&File"
+msgstr "ਫਾਈਲ(&F)"
+
+msgctxt "ID_FILE_OPENQUICK"
+msgid "&Quick Open File..."
+msgstr "...ਤੁਰੰਤ ਫਾਈਲ ਖੋਲ੍ਹੋ(&Q)"
+
+msgctxt "ID_FILE_OPENMEDIA"
+msgid "&Open File..."
+msgstr "...ਫਾਈਲ ਖੋਲ੍ਹੋ(&O)"
+
+msgctxt "ID_FILE_OPENDVDBD"
+msgid "Open &DVD/BD..."
+msgstr "....&DVD/BD ਖੋਲ੍ਹੋ"
+
+msgctxt "ID_FILE_OPENDEVICE"
+msgid "Open De&vice..."
+msgstr "...ਡਿਵਾਇਸ ਖੋਲ੍ਹੋ(&v)"
+
+msgctxt "ID_FILE_OPENDIRECTORY"
+msgid "Open Dir&ectory..."
+msgstr "...ਡਾਇਰੈਕਟਰੀ ਖੋਲ੍ਹੋ(&e)"
+
+msgctxt "ID_FILE_OPENDISC"
+msgid "O&pen Disc"
+msgstr "ਡਿਸਕ ਖੋਲ੍ਹੋ(&p)"
+
+msgctxt "ID_RECENT_FILES"
+msgid "Recent &Files"
+msgstr "ਤਾਜ਼ਾ ਫਾਈਲਾਂ(&F)"
+
+msgctxt "ID_FILE_CLOSE_AND_RESTORE"
+msgid "&Close"
+msgstr "ਬੰਦ ਕਰੋ(&C)"
+
+msgctxt "ID_FILE_SAVE_COPY"
+msgid "&Save a Copy..."
+msgstr "...ਕਾਪੀ ਸੰਭਾਲੋ(&S)"
+
+msgctxt "ID_FILE_SAVE_IMAGE"
+msgid "Save &Image..."
+msgstr "...ਚਿੱਤਰ ਸੰਭਾਲੋ(&I)"
+
+msgctxt "ID_FILE_SAVE_THUMBNAILS"
+msgid "Save &Thumbnails..."
+msgstr "...ਥੰਮਨੇਲ ਸੰਭਾਲੋ(&T)"
+
+msgctxt "ID_FILE_LOAD_SUBTITLE"
+msgid "&Load Subtitle..."
+msgstr "...ਸਬਟਾਈਟਲ ਲੋਡ ਕਰੋ(&L)"
+
+msgctxt "ID_FILE_SAVE_SUBTITLE"
+msgid "Save S&ubtitle..."
+msgstr "...ਸਬਟਾਈਟਲ ਸੰਭਾਲੋ(&u)"
+
+msgctxt "POPUP"
+msgid "Subtitle Data&base"
+msgstr "ਸਬਟਾਈਟਲ ਡਾਟਾਬੇਸ(&b)"
+
+msgctxt "ID_FILE_ISDB_SEARCH"
+msgid "&Search..."
+msgstr "...ਖੋਜ(&S)"
+
+msgctxt "ID_FILE_ISDB_UPLOAD"
+msgid "&Upload..."
+msgstr "...ਅੱਪਲੋਡ ਕਰੋ(&U)"
+
+msgctxt "ID_FILE_ISDB_DOWNLOAD"
+msgid "&Download..."
+msgstr "...ਖੋਲ੍ਹੋ(&D)"
+
+msgctxt "ID_FILE_PROPERTIES"
+msgid "P&roperties"
+msgstr "ਵਿਸ਼ੇਸ਼ਤਾ(&r)"
+
+msgctxt "ID_FILE_EXIT"
+msgid "E&xit"
+msgstr "ਬਾਹਰ(&x)"
+
+msgctxt "POPUP"
+msgid "&View"
+msgstr "ਵੇਖੋ(&V)"
+
+msgctxt "ID_VIEW_CAPTIONMENU"
+msgid "Caption&&Menu"
+msgstr "ਸੁਰਖੀ ਤੇ ਮੀਨੂ"
+
+msgctxt "ID_VIEW_SEEKER"
+msgid "See&k Bar"
+msgstr "ਸੀਕ ਬਾਰ(&k)"
+
+msgctxt "ID_VIEW_CONTROLS"
+msgid "&Controls"
+msgstr "ਕੰਟਰੋਲ(&C)"
+
+msgctxt "ID_VIEW_INFORMATION"
+msgid "&Information"
+msgstr "ਜਾਣਕਾਰੀ(&I)"
+
+msgctxt "ID_VIEW_STATISTICS"
+msgid "&Statistics"
+msgstr "ਅੰਕੜੇ(&S)"
+
+msgctxt "ID_VIEW_STATUS"
+msgid "St&atus"
+msgstr "ਸਥਿਤੀ(&a)"
+
+msgctxt "ID_VIEW_SUBRESYNC"
+msgid "Su&bresync"
+msgstr "ਸਬ-ਰੀਸਿੰਕ(&b)"
+
+msgctxt "ID_VIEW_PLAYLIST"
+msgid "Pla&ylist"
+msgstr "ਪਲੇਅਲਿਸਟ(&y)"
+
+msgctxt "ID_VIEW_CAPTURE"
+msgid "Captu&re"
+msgstr "ਕੈਪਚਰ(&r)"
+
+msgctxt "ID_VIEW_NAVIGATION"
+msgid "Na&vigation"
+msgstr "ਨੇਵੀਗੇਸ਼ਨ(&v)"
+
+msgctxt "ID_VIEW_DEBUGSHADERS"
+msgid "&Debug Shaders"
+msgstr "ਡੀਬੱਗਰ ਸ਼ੇਡਰ(&D)"
+
+msgctxt "POPUP"
+msgid "&Presets..."
+msgstr "...ਪ੍ਰੀਸੈਟ(&P)"
+
+msgctxt "ID_VIEW_PRESETS_MINIMAL"
+msgid "&Minimal"
+msgstr "ਘੱਟੋ-ਘੱਟ(&M)"
+
+msgctxt "ID_VIEW_PRESETS_COMPACT"
+msgid "&Compact"
+msgstr "ਨਿੰਮਾ(&C)"
+
+msgctxt "ID_VIEW_PRESETS_NORMAL"
+msgid "&Normal"
+msgstr "ਆਮ(&N)"
+
+msgctxt "ID_VIEW_FULLSCREEN"
+msgid "F&ull Screen"
+msgstr "ਪੂਰਾ ਸਕਰੀਨ(&u)"
+
+msgctxt "POPUP"
+msgid "&Zoom"
+msgstr "ਜ਼ੂਮ(&Z)"
+
+msgctxt "ID_VIEW_ZOOM_50"
+msgid "&50%"
+msgstr "&50%"
+
+msgctxt "ID_VIEW_ZOOM_100"
+msgid "&100%"
+msgstr "&100%"
+
+msgctxt "ID_VIEW_ZOOM_200"
+msgid "&200%"
+msgstr "&200%"
+
+msgctxt "ID_VIEW_ZOOM_AUTOFIT"
+msgid "Auto &Fit"
+msgstr "ਆਟੋ ਫਿੱਟ(&F)"
+
+msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
+msgid "Auto Fit (&Larger Only)"
+msgstr "ਆਟੋ ਫਿੱਟ (ਕੇਵਲ ਵੱਡਾ)(&L)"
+
+msgctxt "POPUP"
+msgid "R&enderer Settings"
+msgstr "ਰੈਂਡਰਰ ਸੈਟਿੰਗਾਂ(&e)"
+
+msgctxt "ID_VIEW_TEARING_TEST"
+msgid "&Tearing Test"
+msgstr "ਟੀਅਰਿੰਗ ਟੈਸਟ(&T)"
+
+msgctxt "ID_VIEW_DISPLAY_RENDERER_STATS"
+msgid "&Display Statistics"
+msgstr "ਡਿਸਪਲੇਅ ਸੈਟਿੰਗਾਂ(&D)"
+
+msgctxt "ID_VIEW_OSD_DISPLAY_TIME"
+msgid "Display Current T&ime"
+msgstr "ਮੌਜੂਦਾ ਸਮਾਂ ਦਿਖਾਉ(&i)"
+
+msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
+msgid "Show &File Name"
+msgstr "ਫਾਈਲ ਨਾਂ ਵੇਖਾਓ(&F)"
+
+msgctxt "POPUP"
+msgid "&Output Range"
+msgstr "ਆਉਟਪੁੱਟ ਰੇਜ਼(&O)"
+
+msgctxt "ID_VIEW_EVROUTPUTRANGE_0_255"
+msgid "&0 - 255"
+msgstr "&0 - 255"
+
+msgctxt "ID_VIEW_EVROUTPUTRANGE_16_235"
+msgid "&16 - 235"
+msgstr "&16 - 235"
+
+msgctxt "POPUP"
+msgid "&Presentation"
+msgstr "ਪਰਿਜੈਂਟੇਸ਼ਨ(&P)"
+
+msgctxt "ID_VIEW_D3DFULLSCREEN"
+msgid "D3D Fullscreen &Mode"
+msgstr "D3D ਪੂਰੀ-ਸਕਰੀਨ ਮੋਡ(&M)"
+
+msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
+msgid "D3D Fullscreen &GUI Support"
+msgstr "D3D ਪੂਰੀ-ਸਕਰੀਨ &GUI ਸਹਿਯੋਗ"
+
+msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
+msgid "10-bit &RGB Output"
+msgstr "10-ਬਿੱਟ &RGB ਆਉਟਪੁੱਟ"
+
+msgctxt "ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION"
+msgid "Force 10-bit RGB &Input"
+msgstr ""
+
+msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
+msgid "&Full Floating Point Processing"
+msgstr ""
+
+msgctxt "ID_VIEW_HALFFLOATINGPOINTPROCESSING"
+msgid "&Half Floating Point Processing"
+msgstr ""
+
+msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
+msgid "Disable desktop composition (&Aero)"
+msgstr "ਡੈਸਕਟਾਪ ਕੰਪੋਜ਼ਿਸ਼ਨ ਅਸਮਰੱਥ ਕਰੋ (ਏਰੋ)(&A)"
+
+msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
+msgid "Enable Frame Time &Correction"
+msgstr "ਫਰੇਮ ਸਮਾਂ ਸੋਧ ਸਮਰੱਥ ਕਰੋ(&C)"
+
+msgctxt "POPUP"
+msgid "&Color Management"
+msgstr "ਰੰਗ ਪਰਬੰਧ(&C)"
+
+msgctxt "ID_VIEW_CM_ENABLE"
+msgid "&Enable"
+msgstr "ਸਮਰੱਥ ਕਰੋ(&E)"
+
+msgctxt "POPUP"
+msgid "&Input Type"
+msgstr "ਇਨਪੁਟ ਕਿਸਮ(&I)"
+
+msgctxt "ID_VIEW_CM_INPUT_AUTO"
+msgid "&Auto-Detect"
+msgstr "ਆਟੋ-ਖੋਜ(&A)"
+
+msgctxt "ID_VIEW_CM_INPUT_HDTV"
+msgid "&HDTV"
+msgstr "&HDTV"
+
+msgctxt "ID_VIEW_CM_INPUT_SDTV_NTSC"
+msgid "SDTV &NTSC"
+msgstr "SDTV &NTSC"
+
+msgctxt "ID_VIEW_CM_INPUT_SDTV_PAL"
+msgid "SDTV &PAL"
+msgstr "SDTV &PAL"
+
+msgctxt "POPUP"
+msgid "Ambient &Light"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
+msgid "&Bright (2.2 Gamma)"
+msgstr "ਚਮਕ (2.2 ਗਾਮਾ)(&B)"
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DIM"
+msgid "&Dim (2.35 Gamma)"
+msgstr "ਫਿੱਕਾ (2.35 ਗਾਮਾ)(&D)"
+
+msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DARK"
+msgid "D&ark (2.4 Gamma)"
+msgstr "ਗੂੜ੍ਹਾ (2.4 ਗਾਮਾ)(&a)"
+
+msgctxt "POPUP"
+msgid "&Rendering Intent"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
+msgid "&Perceptual"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_RELATIVECOLORIMETRIC"
+msgid "&Relative Colorimetric"
+msgstr ""
+
+msgctxt "ID_VIEW_CM_INTENT_SATURATION"
+msgid "&Saturation"
+msgstr "ਸੰਤ੍ਰਿਪਤਾ(&S)"
+
+msgctxt "ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC"
+msgid "&Absolute Colorimetric"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&VSync"
+msgstr "&V-ਸਿੰਕ"
+
+msgctxt "ID_VIEW_VSYNC"
+msgid "&VSync"
+msgstr "&V-ਸਿੰਕ"
+
+msgctxt "ID_VIEW_VSYNCACCURATE"
+msgid "&Accurate VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
+msgid "A&lternative VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
+msgid "&Decrease VSync Offset"
+msgstr ""
+
+msgctxt "ID_VIEW_VSYNCOFFSET_INCREASE"
+msgid "&Increase VSync Offset"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "&GPU Control"
+msgstr "&GPU ਕੰਟਰੋਲ"
+
+msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
+msgid "Flush GPU &before VSync"
+msgstr ""
+
+msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
+msgid "Flush GPU &after Present"
+msgstr ""
+
+msgctxt "ID_VIEW_FLUSHGPU_WAIT"
+msgid "&Wait for flushes"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "R&eset"
+msgstr "ਮੁੜ-ਸੈਟ ਕਰੋ(&e)"
+
+msgctxt "ID_VIEW_RESET_DEFAULT"
+msgid "Reset to &default renderer settings"
+msgstr ""
+
+msgctxt "ID_VIEW_RESET_OPTIMAL"
+msgid "Reset to &optimal renderer settings"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Video &Frame"
+msgstr "ਵਿਡੀਓ ਫਰੇਮ(&F)"
+
+msgctxt "ID_VIEW_VF_HALF"
+msgid "&Half Size"
+msgstr "ਅੱਧਾ ਆਕਾਰ(&H)"
+
+msgctxt "ID_VIEW_VF_NORMAL"
+msgid "&Normal Size"
+msgstr "ਆਮ ਆਕਾਰ(&N)"
+
+msgctxt "ID_VIEW_VF_DOUBLE"
+msgid "&Double Size"
+msgstr "ਦੁੱਗਣਾ ਆਕਾਰ(&D)"
+
+msgctxt "ID_VIEW_VF_STRETCH"
+msgid "&Stretch To Window"
+msgstr "ਵਿੰਡੋ ਲਈ ਖਿੱਚੋ(&S)"
+
+msgctxt "ID_VIEW_VF_FROMINSIDE"
+msgid "Touch Window From &Inside"
+msgstr "ਪਾਸੇ ਤੋਂ ਵਿੰਡੋ ਨੂੰ ਟੱਚ ਕਰੋ(&I)"
+
+msgctxt "ID_VIEW_VF_ZOOM1"
+msgid "Zoom &1"
+msgstr "ਜ਼ੂਮ &1"
+
+msgctxt "ID_VIEW_VF_ZOOM2"
+msgid "Zoom &2"
+msgstr "ਜ਼ੂਮ &2"
+
+msgctxt "ID_VIEW_VF_FROMOUTSIDE"
+msgid "Touch Window From &Outside"
+msgstr "ਬਾਹਰ ਤੋਂ ਵਿੰਡੋ ਟੱਚ ਕਰੋ(&O)"
+
+msgctxt "ID_VIEW_VF_KEEPASPECTRATIO"
+msgid "&Keep Aspect Ratio"
+msgstr "ਆਕਾਰ ਅਨੁਪਾਤ ਰੱਖੋ(&K)"
+
+msgctxt "POPUP"
+msgid "Override &Aspect Ratio"
+msgstr "ਆਕਾਰ ਅਨੁਪਾਤ ਅਣਡਿੱਠਾ ਕਰੋ(&A)"
+
+msgctxt "ID_ASPECTRATIO_SOURCE"
+msgid "&Default"
+msgstr "ਡਿਫਾਲਟ(&D)"
+
+msgctxt "ID_ASPECTRATIO_4_3"
+msgid "&4:3"
+msgstr "&4:3"
+
+msgctxt "ID_ASPECTRATIO_5_4"
+msgid "&5:4"
+msgstr "&5:4"
+
+msgctxt "ID_ASPECTRATIO_16_9"
+msgid "&16:9"
+msgstr "&16:9"
+
+msgctxt "ID_ASPECTRATIO_235_100"
+msgid "&235:100"
+msgstr "&235:100"
+
+msgctxt "ID_ASPECTRATIO_185_100"
+msgid "1&85:100"
+msgstr "1&85:100"
+
+msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
+msgid "&Correct Monitor/Desktop AR Diff"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Pa&n&&Scan"
+msgstr "ਪੈਨ ਤੇ ਆਕਾਰ(&n)"
+
+msgctxt "ID_VIEW_INCSIZE"
+msgid "&Increase Size"
+msgstr "ਆਕਾਰ ਵਧਾਓ(&I)"
+
+msgctxt "ID_VIEW_DECSIZE"
+msgid "&Decrease Size"
+msgstr "ਆਕਾਰ ਘਟਾਓ(&D)"
+
+msgctxt "ID_VIEW_INCWIDTH"
+msgid "I&ncrease Width"
+msgstr "ਚੌੜਾਈ ਵਧਾਓ(&n)"
+
+msgctxt "ID_VIEW_DECWIDTH"
+msgid "D&ecrease Width"
+msgstr "ਚੌੜਾਈ ਘਟਾਓ(&e)"
+
+msgctxt "ID_VIEW_INCHEIGHT"
+msgid "In&crease Height"
+msgstr "ਉਚਾਈ ਵਧਾਓ(&c)"
+
+msgctxt "ID_VIEW_DECHEIGHT"
+msgid "Decre&ase Height"
+msgstr "ਉਚਾਈ ਘਟਾਓ(&a)"
+
+msgctxt "ID_PANSCAN_MOVERIGHT"
+msgid "Move &Right"
+msgstr "ਸੱਜੇ ਪਾਸੇ ਖਿਸਕਾਓ(&R)"
+
+msgctxt "ID_PANSCAN_MOVELEFT"
+msgid "Move &Left"
+msgstr "ਖੱਬੇ ਪਾਸੇ ਖਿਸਕਾਓ(&L)"
+
+msgctxt "ID_PANSCAN_MOVEUP"
+msgid "Move &Up"
+msgstr "ਉੱਤੇ ਵੱਲ ਖਿਸਕਾਓ(&U)"
+
+msgctxt "ID_PANSCAN_MOVEDOWN"
+msgid "Move &Down"
+msgstr "ਹੇਠਾਂ ਵੱਲ ਖਿਸਕਾਓ(&D)"
+
+msgctxt "ID_PANSCAN_CENTER"
+msgid "Cen&ter"
+msgstr "ਸੈਂਟਰ(&t)"
+
+msgctxt "ID_VIEW_RESET"
+msgid "Re&set"
+msgstr "ਮੁੜ-ਸੈੱਟ ਕਰੋ(&s)"
+
+msgctxt "POPUP"
+msgid "On &Top"
+msgstr "ਉੱਤੇ(&T)"
+
+msgctxt "ID_ONTOP_DEFAULT"
+msgid "&Default"
+msgstr "ਡਿਫਾਲਟ(&D)"
+
+msgctxt "ID_ONTOP_ALWAYS"
+msgid "&Always"
+msgstr "ਹਮੇਸ਼ਾ(&A)"
+
+msgctxt "ID_ONTOP_WHILEPLAYING"
+msgid "While &Playing"
+msgstr "ਚਲਾਉਣ ਦੇ ਦੌਰਾਨ(&P)"
+
+msgctxt "ID_ONTOP_WHILEPLAYINGVIDEO"
+msgid "While Playing &Video"
+msgstr "ਵਿਡੀਓ ਚਲਾਉਣ ਦੇ ਦੌਰਾਨ(&V)"
+
+msgctxt "ID_VIEW_OPTIONS"
+msgid "&Options..."
+msgstr "...ਚੋਣਾਂ(&O)"
+
+msgctxt "POPUP"
+msgid "&Play"
+msgstr "ਚਲਾਓ(&P)"
+
+msgctxt "ID_PLAY_PLAYPAUSE"
+msgid "&Play/Pause"
+msgstr "ਚਲਾਓ/ਰੋਕੋ(&P)"
+
+msgctxt "ID_PLAY_STOP"
+msgid "&Stop"
+msgstr "ਰੋਕੋ(&S)"
+
+msgctxt "ID_PLAY_FRAMESTEP"
+msgid "F&rame Step"
+msgstr "ਫਰੇਮ ਸਟੈਪ(&r)"
+
+msgctxt "ID_PLAY_DECRATE"
+msgid "&Decrease Rate"
+msgstr "ਦਰ ਘਟਾਓ(&D)"
+
+msgctxt "ID_PLAY_INCRATE"
+msgid "&Increase Rate"
+msgstr "ਦਰ ਵਧਾਓ(&I)"
+
+msgctxt "ID_PLAY_RESETRATE"
+msgid "R&eset Rate"
+msgstr "ਦਰ ਮੁੜ-ਸੈਟ ਕਰੋ(&e)"
+
+msgctxt "ID_FILTERS"
+msgid "&Filters"
+msgstr "ਫਿਲਟਰ(&F)"
+
+msgctxt "ID_SHADERS"
+msgid "S&haders"
+msgstr "ਸ਼ੇਡ(&h)"
+
+msgctxt "ID_AUDIOS"
+msgid "&Audio Track"
+msgstr "ਆਡੀਓ ਟਰੈਕ(&A)"
+
+msgctxt "ID_SUBTITLES"
+msgid "Su&btitle Track"
+msgstr "ਸਬਟਾਈਟਲ ਟਰੈਕ(&b)"
+
+msgctxt "ID_VIDEO_STREAMS"
+msgid "&Video Track"
+msgstr "ਵਿਡੀਓ ਟਰੈਕ(&V)"
+
+msgctxt "POPUP"
+msgid "&Volume"
+msgstr "ਵਾਲੀਅਮ(&V)"
+
+msgctxt "ID_VOLUME_UP"
+msgid "&Up"
+msgstr "ਉੱਤੇ(&U)"
+
+msgctxt "ID_VOLUME_DOWN"
+msgid "&Down"
+msgstr "ਹੇਠਾਂ(&D)"
+
+msgctxt "ID_VOLUME_MUTE"
+msgid "&Mute"
+msgstr "ਚੁੱਪ(&M)"
+
+msgctxt "POPUP"
+msgid "Af&ter Playback"
+msgstr "ਚਲਾਉਣ ਦੇ ਬਾਅਦ(&t)"
+
+msgctxt "ID_AFTERPLAYBACK_DONOTHING"
+msgid "Do no&thing"
+msgstr "ਕੁਝ ਨਾ ਕਰੋ(&t)"
+
+msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
+msgid "Play &next file in the folder"
+msgstr "ਫੋਲਡਰ ਵਿੱਚ ਅਗਲੀ ਫਾਈਲ ਚਲਾਓ(&n)"
+
+msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
+msgid "Turn off the &monitor"
+msgstr "ਮਾਨੀਟਰ ਬੰਦ ਕਰੋ(&m)"
+
+msgctxt "ID_AFTERPLAYBACK_EXIT"
+msgid "&Exit"
+msgstr "ਬਾਹਰ ਨਿਕਲੋ(&E)"
+
+msgctxt "ID_AFTERPLAYBACK_STANDBY"
+msgid "&Stand By"
+msgstr "ਸਟੈਂਡਬਾਏ(&S)"
+
+msgctxt "ID_AFTERPLAYBACK_HIBERNATE"
+msgid "&Hibernate"
+msgstr "ਹਾਈਬਰਨੇਟ(&H)"
+
+msgctxt "ID_AFTERPLAYBACK_SHUTDOWN"
+msgid "Shut&down"
+msgstr "ਬੰਦ ਕਰੋ(&d)"
+
+msgctxt "ID_AFTERPLAYBACK_LOGOFF"
+msgid "Log &Off"
+msgstr "ਲਾਗ ਆਫ਼(&O)"
+
+msgctxt "ID_AFTERPLAYBACK_LOCK"
+msgid "&Lock"
+msgstr "ਲਾਕ ਕਰੋ(&L)"
+
+msgctxt "POPUP"
+msgid "&Navigate"
+msgstr "ਨੇਵੀਗੇਸ਼ਨ(&N)"
+
+msgctxt "ID_NAVIGATE_SKIPBACK"
+msgid "&Previous"
+msgstr "ਪਿੱਛੇ(&P)"
+
+msgctxt "ID_NAVIGATE_SKIPFORWARD"
+msgid "&Next"
+msgstr "ਅੱਗੇ(&N)"
+
+msgctxt "ID_NAVIGATE_GOTO"
+msgid "&Go To..."
+msgstr "...ਉੱਤੇ ਜਾਓ(&G)"
+
+msgctxt "ID_NAVIGATE_TITLEMENU"
+msgid "&Title Menu"
+msgstr "ਟਾਈਟਲ ਮੀਨੂ(&T)"
+
+msgctxt "ID_NAVIGATE_ROOTMENU"
+msgid "&Root Menu"
+msgstr "ਰੂਟ ਮੀਨੂ(&R)"
+
+msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
+msgid "&Subtitle Menu"
+msgstr "ਸਬ-ਟਾਈਟਲ ਮੀਨੂ(&S)"
+
+msgctxt "ID_NAVIGATE_AUDIOMENU"
+msgid "&Audio Menu"
+msgstr "ਆਡੀਓ ਮੀਨੂ(&A)"
+
+msgctxt "ID_NAVIGATE_ANGLEMENU"
+msgid "An&gle Menu"
+msgstr "ਐਂਗਲ ਮੀਨੂ(&g)"
+
+msgctxt "ID_NAVIGATE_CHAPTERMENU"
+msgid "&Chapter Menu"
+msgstr "ਚੈਪਟਰ ਮੀਨੂ(&C)"
+
+msgctxt "ID_FAVORITES"
+msgid "F&avorites"
+msgstr "ਮਨਪਸੰਦ(&a)"
+
+msgctxt "POPUP"
+msgid "&Help"
+msgstr "ਮਦਦ(&H)"
+
+msgctxt "ID_HELP_HOMEPAGE"
+msgid "&Home Page"
+msgstr "ਮੁੱਖ ਸਫ਼ਾ(&H)"
+
+msgctxt "ID_HELP_CHECKFORUPDATE"
+msgid "Check for &updates"
+msgstr "ਅੱਪਡੇਟ ਲਈ ਜਾਂਚ ਕਰੋ(&u)"
+
+msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
+msgid "&Command Line Switches"
+msgstr "ਕਮਾਂਡ ਲਾਈਨ ਸਵਿੱਚਾਂ(&C)"
+
+msgctxt "ID_HELP_TOOLBARIMAGES"
+msgid "Download &Toolbar Images"
+msgstr "ਟੂਲਬਾਰ ਚਿੱਤਰ ਡਾਊਨਲੋਡ ਕਰੋ(&T)"
+
+msgctxt "ID_HELP_DONATE"
+msgid "&Donate"
+msgstr "ਦਾਨ ਦਿਓ(&D)"
+
+msgctxt "ID_HELP_ABOUT"
+msgid "&About..."
+msgstr "...ਇਸ ਬਾਰੇ(&A)"
+

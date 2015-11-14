@@ -44,7 +44,6 @@ CPPagePlayback::CPPagePlayback()
     , m_iRememberZoomLevel(FALSE)
     , m_nAutoFitFactor(75)
     , m_fAutoloadAudio(FALSE)
-    , m_fAutoloadSubtitles(FALSE)
     , m_fEnableWorkerThreadForOpening(FALSE)
     , m_fReportFailedPins(FALSE)
     , m_fAllowOverridingExternalSplitterChoice(FALSE)
@@ -71,7 +70,6 @@ void CPPagePlayback::DoDataExchange(CDataExchange* pDX)
     DDX_CBIndex(pDX, IDC_COMBO1, m_iZoomLevel);
     DDX_Check(pDX, IDC_CHECK5, m_iRememberZoomLevel);
     DDX_Check(pDX, IDC_CHECK2, m_fAutoloadAudio);
-    DDX_Check(pDX, IDC_CHECK3, m_fAutoloadSubtitles);
     DDX_Check(pDX, IDC_CHECK7, m_fEnableWorkerThreadForOpening);
     DDX_Check(pDX, IDC_CHECK6, m_fReportFailedPins);
     DDX_Text(pDX, IDC_EDIT2, m_subtitlesLanguageOrder);
@@ -92,8 +90,6 @@ BEGIN_MESSAGE_MAP(CPPagePlayback, CPPageBase)
     ON_UPDATE_COMMAND_UI(IDC_COMBO1, OnUpdateAutoZoomCombo)
     ON_UPDATE_COMMAND_UI(IDC_COMBO2, OnUpdateAfterPlayback)
     ON_UPDATE_COMMAND_UI(IDC_SPEEDSTEP_SPIN, OnUpdateSpeedStep)
-    ON_UPDATE_COMMAND_UI(IDC_CHECK3, OnUpdateISREnabled)
-
     ON_STN_DBLCLK(IDC_STATIC_BALANCE, OnBalanceTextDblClk)
     ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify)
 END_MESSAGE_MAP()
@@ -129,7 +125,6 @@ BOOL CPPagePlayback::OnInitDialog()
     m_AutoFitFactorCtrl.SetPos32(m_nAutoFitFactor);
     m_AutoFitFactorCtrl.SetRange32(25, 100);
     m_fAutoloadAudio = s.fAutoloadAudio;
-    m_fAutoloadSubtitles = s.fAutoloadSubtitles;
     m_fEnableWorkerThreadForOpening = s.fEnableWorkerThreadForOpening;
     m_fReportFailedPins = s.fReportFailedPins;
     m_subtitlesLanguageOrder = s.strSubtitlesLanguageOrder;
@@ -176,16 +171,15 @@ BOOL CPPagePlayback::OnApply()
 
     s.nVolume = m_oldVolume = m_nVolume;
     s.nBalance = m_nBalance;
-    s.nVolumeStep = min(max(m_nVolumeStep, 1), 100);
+    s.nVolumeStep = std::min(std::max(m_nVolumeStep, 1), 100);
     s.nSpeedStep = m_nSpeedStep;
     s.fLoopForever = !!m_iLoopForever;
     s.nLoops = m_nLoops;
     s.eAfterPlayback = static_cast<CAppSettings::AfterPlayback>(m_iAfterPlayback);
     s.iZoomLevel = m_iZoomLevel;
     s.fRememberZoomLevel = !!m_iRememberZoomLevel;
-    s.nAutoFitFactor = m_nAutoFitFactor = min(max(m_nAutoFitFactor, 25), 100);
+    s.nAutoFitFactor = m_nAutoFitFactor = std::min(std::max(m_nAutoFitFactor, 25), 100);
     s.fAutoloadAudio = !!m_fAutoloadAudio;
-    s.fAutoloadSubtitles = !!m_fAutoloadSubtitles;
     s.fEnableWorkerThreadForOpening = !!m_fEnableWorkerThreadForOpening;
     s.fReportFailedPins = !!m_fReportFailedPins;
     s.strSubtitlesLanguageOrder = m_subtitlesLanguageOrder;
@@ -233,11 +227,6 @@ void CPPagePlayback::OnUpdateAutoZoomCombo(CCmdUI* pCmdUI)
 void CPPagePlayback::OnUpdateAfterPlayback(CCmdUI* pCmdUI)
 {
     pCmdUI->Enable(!IsDlgButtonChecked(IDC_RADIO2));
-}
-
-void CPPagePlayback::OnUpdateISREnabled(CCmdUI* pCmdUI)
-{
-    pCmdUI->Enable(AfxGetAppSettings().IsISRAvailable());
 }
 
 void CPPagePlayback::OnUpdateSpeedStep(CCmdUI* pCmdUI)

@@ -144,6 +144,7 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     , m_LastFrameDuration(0)
     , m_LastSampleTime(0)
     , m_FocusThread(nullptr)
+    , m_hFocusWindow(nullptr)
 {
     ZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap));
 
@@ -623,8 +624,11 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
     m_bCompositionEnabled = !!bCompositionEnabled;
     m_bAlternativeVSync = r.m_AdvRendSets.bVMR9AlterativeVSync;
 
-    // detect FP textures support
-    rd->m_bFP16Support = SUCCEEDED(m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, D3DFMT_X8R8G8B8, D3DUSAGE_QUERY_FILTER, D3DRTYPE_VOLUMETEXTURE, D3DFMT_A32B32G32R32F));
+    // detect FP16 textures support
+    rd->m_bFP16Support = SUCCEEDED(m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, D3DFMT_X8R8G8B8, D3DUSAGE_QUERY_FILTER, D3DRTYPE_VOLUMETEXTURE, D3DFMT_A16B16G16R16F));
+
+    // detect FP32 textures support
+    rd->m_bFP32Support = SUCCEEDED(m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, D3DFMT_X8R8G8B8, D3DUSAGE_QUERY_FILTER, D3DRTYPE_VOLUMETEXTURE, D3DFMT_A32B32G32R32F));
 
     // detect 10-bit textures support
     rd->m_b10bitSupport = SUCCEEDED(m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, D3DFMT_X8R8G8B8, D3DUSAGE_QUERY_FILTER, D3DRTYPE_TEXTURE, D3DFMT_A2R10G10B10));
@@ -635,7 +639,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
     // set settings that depend on hardware feature support
     m_bForceInputHighColorResolution = r.m_AdvRendSets.bEVRForceInputHighColorResolution && m_bIsEVR && rd->m_b10bitSupport;
     m_bHighColorResolution = r.m_AdvRendSets.bEVRHighColorResolution && m_bIsEVR && rd->m_b10bitSupport && bHighColorSupport;
-    m_bFullFloatingPointProcessing = r.m_AdvRendSets.bVMR9FullFloatingPointProcessing && rd->m_bFP16Support;
+    m_bFullFloatingPointProcessing = r.m_AdvRendSets.bVMR9FullFloatingPointProcessing && rd->m_bFP32Support;
     m_bHalfFloatingPointProcessing = r.m_AdvRendSets.bVMR9HalfFloatingPointProcessing && rd->m_bFP16Support && !m_bFullFloatingPointProcessing;
 
     // set color formats
@@ -678,6 +682,10 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
             m_FocusThread = (CFocusThread*)AfxBeginThread(RUNTIME_CLASS(CFocusThread), 0, 0, 0);
         }
 
+        HWND hFocusWindow = m_FocusThread->GetFocusWindow();
+        bTryToReset &= m_hFocusWindow == hFocusWindow;
+        m_hFocusWindow = hFocusWindow;
+
         if (m_pD3DEx) {
             m_pD3DEx->GetAdapterDisplayModeEx(m_CurrentAdapter, &DisplayMode, nullptr);
 
@@ -687,16 +695,13 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
             pp.BackBufferWidth = m_ScreenSize.cx;
             pp.BackBufferHeight = m_ScreenSize.cy;
 
-            if (bTryToReset) {
-                if (!m_pD3DDevEx || FAILED(hr = m_pD3DDevEx->ResetEx(&pp, &DisplayMode))) {
-                    bTryToReset = false;
-                    m_pD3DDev = nullptr;
-                    m_pD3DDevEx = nullptr;
-                }
-            }
+            bTryToReset = bTryToReset && m_pD3DDevEx && SUCCEEDED(hr = m_pD3DDevEx->ResetEx(&pp, &DisplayMode));
+
             if (!bTryToReset) {
+                m_pD3DDev = nullptr;
+                m_pD3DDevEx = nullptr;
                 hr = m_pD3DEx->CreateDeviceEx(
-                         m_CurrentAdapter, D3DDEVTYPE_HAL, m_FocusThread->GetFocusWindow(),
+                         m_CurrentAdapter, D3DDEVTYPE_HAL, m_hFocusWindow,
                          GetVertexProcessing() | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS | D3DCREATE_NOWINDOWCHANGES, //D3DCREATE_MANAGED
                          &pp, &DisplayMode, &m_pD3DDevEx);
             }
@@ -722,7 +727,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
             pp.BackBufferHeight = m_ScreenSize.cy;
 
             hr = m_pD3D->CreateDevice(
-                     m_CurrentAdapter, D3DDEVTYPE_HAL, m_FocusThread->GetFocusWindow(),
+                     m_CurrentAdapter, D3DDEVTYPE_HAL, m_hFocusWindow,
                      GetVertexProcessing() | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_NOWINDOWCHANGES, //D3DCREATE_MANAGED
                      &pp, &m_pD3DDev);
             m_DisplayType = d3ddm.Format;
@@ -744,6 +749,9 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
             pp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
         }
 
+        bTryToReset &= m_hFocusWindow == m_hWnd;
+        m_hFocusWindow = m_hWnd;
+
         if (m_pD3DEx) {
             m_pD3DEx->GetAdapterDisplayModeEx(m_CurrentAdapter, &DisplayMode, nullptr);
             m_ScreenSize.SetSize(DisplayMode.Width, DisplayMode.Height);
@@ -751,18 +759,15 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
             pp.BackBufferWidth = szDesktopSize.cx;
             pp.BackBufferHeight = szDesktopSize.cy;
 
-            if (bTryToReset) {
-                if (!m_pD3DDevEx || FAILED(hr = m_pD3DDevEx->ResetEx(&pp, nullptr))) {
-                    bTryToReset = false;
-                    m_pD3DDev = nullptr;
-                    m_pD3DDevEx = nullptr;
-                }
-            }
+            bTryToReset = bTryToReset && m_pD3DDevEx && SUCCEEDED(hr = m_pD3DDevEx->ResetEx(&pp, nullptr));
+
             if (!bTryToReset) {
+                m_pD3DDev = nullptr;
+                m_pD3DDevEx = nullptr;
                 // We can get 0x8876086a here when switching from two displays to one display using Win + P (Windows 7)
                 // Cause: We might not reinitialize dx correctly during the switch
                 hr = m_pD3DEx->CreateDeviceEx(
-                         m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
+                         m_CurrentAdapter, D3DDEVTYPE_HAL, m_hFocusWindow,
                          GetVertexProcessing() | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS, //D3DCREATE_MANAGED
                          &pp, nullptr, &m_pD3DDevEx);
             }
@@ -784,7 +789,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
             pp.BackBufferHeight = szDesktopSize.cy;
 
             hr = m_pD3D->CreateDevice(
-                     m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
+                     m_CurrentAdapter, D3DDEVTYPE_HAL, m_hFocusWindow,
                      GetVertexProcessing() | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED, //D3DCREATE_MANAGED
                      &pp, &m_pD3DDev);
             m_DisplayType = d3ddm.Format;
@@ -1127,7 +1132,7 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int& _RasterStart, int _RasterSi
                 if (!GetVBlank(ScanLine, InVBlank, _bMeasure)) {
                     break;
                 }
-                int ScanLineDiff = long(ScanLine) - _RasterStart;
+                ScanLineDiff = long(ScanLine) - _RasterStart;
                 if (ScanLineDiff > m_ScreenSize.cy / 2) {
                     ScanLineDiff -= m_ScreenSize.cy;
                 } else if (ScanLineDiff < -m_ScreenSize.cy / 2) {
@@ -1189,7 +1194,7 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int& _RasterStart, int _RasterSi
         if (!GetVBlank(ScanLine, InVBlank, _bMeasure)) {
             break;
         }
-        int ScanLineDiff = long(ScanLine) - _RasterStart;
+        ScanLineDiff = long(ScanLine) - _RasterStart;
         if (ScanLineDiff > m_ScreenSize.cy / 2) {
             ScanLineDiff -= m_ScreenSize.cy;
         } else if (ScanLineDiff < -m_ScreenSize.cy / 2) {
@@ -1203,7 +1208,7 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int& _RasterStart, int _RasterSi
 
         bWaited = true;
 
-        int ScanLineDiffLock = long(ScanLine) - D3DDevLockStart;
+        ScanLineDiffLock = long(ScanLine) - D3DDevLockStart;
         if (ScanLineDiffLock > m_ScreenSize.cy / 2) {
             ScanLineDiffLock -= m_ScreenSize.cy;
         } else if (ScanLineDiffLock < -m_ScreenSize.cy / 2) {
@@ -1220,7 +1225,7 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int& _RasterStart, int _RasterSi
         LastLineDiffLock = ScanLineDiffLock;
 
 
-        int ScanLineDiffSleep = long(ScanLine) - NoSleepStart;
+        ScanLineDiffSleep = long(ScanLine) - NoSleepStart;
         if (ScanLineDiffSleep > m_ScreenSize.cy / 2) {
             ScanLineDiffSleep -= m_ScreenSize.cy;
         } else if (ScanLineDiffSleep < -m_ScreenSize.cy / 2) {
@@ -1456,19 +1461,18 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool bAll)
 
     bool bDoVSyncInPresent = (!bCompositionEnabled && !m_bAlternativeVSync) || !r.m_AdvRendSets.bVMR9VSync;
 
-    CComPtr<IDirect3DQuery9> pEventQuery;
-
-    m_pD3DDev->CreateQuery(D3DQUERYTYPE_EVENT, &pEventQuery);
-    if (pEventQuery) {
-        pEventQuery->Issue(D3DISSUE_END);
+    CComPtr<IDirect3DQuery9> pEventQueryFlushBeforeVSync;
+    m_pD3DDev->CreateQuery(D3DQUERYTYPE_EVENT, &pEventQueryFlushBeforeVSync);
+    if (pEventQueryFlushBeforeVSync) {
+        pEventQueryFlushBeforeVSync->Issue(D3DISSUE_END);
     }
 
-    if (r.m_AdvRendSets.bVMRFlushGPUBeforeVSync && pEventQuery) {
+    if (r.m_AdvRendSets.bVMRFlushGPUBeforeVSync && pEventQueryFlushBeforeVSync) {
         LONGLONG llPerf = rd->GetPerfCounter();
         BOOL Data;
         //Sleep(5);
         LONGLONG FlushStartTime = rd->GetPerfCounter();
-        while (S_FALSE == pEventQuery->GetData(&Data, sizeof(Data), D3DGETDATA_FLUSH)) {
+        while (S_FALSE == pEventQueryFlushBeforeVSync->GetData(&Data, sizeof(Data), D3DGETDATA_FLUSH)) {
             if (!r.m_AdvRendSets.bVMRFlushGPUWait) {
                 break;
             }
@@ -1511,8 +1515,8 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool bAll)
 
     // Create a query object
     {
-        CComPtr<IDirect3DQuery9> pEventQuery;
-        m_pD3DDev->CreateQuery(D3DQUERYTYPE_EVENT, &pEventQuery);
+        CComPtr<IDirect3DQuery9> pEventQueryFlushAfterVSync;
+        m_pD3DDev->CreateQuery(D3DQUERYTYPE_EVENT, &pEventQueryFlushAfterVSync);
 
         LONGLONG llPerf = rd->GetPerfCounter();
         CRect presentationSrcRect(rDstPri), presentationDestRect(m_windowRect);
@@ -1533,15 +1537,15 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool bAll)
             }
         }
         // Issue an End event
-        if (pEventQuery) {
-            pEventQuery->Issue(D3DISSUE_END);
+        if (pEventQueryFlushAfterVSync) {
+            pEventQueryFlushAfterVSync->Issue(D3DISSUE_END);
         }
 
         BOOL Data;
 
-        if (r.m_AdvRendSets.bVMRFlushGPUAfterPresent && pEventQuery) {
+        if (r.m_AdvRendSets.bVMRFlushGPUAfterPresent && pEventQueryFlushAfterVSync) {
             LONGLONG FlushStartTime = rd->GetPerfCounter();
-            while (S_FALSE == pEventQuery->GetData(&Data, sizeof(Data), D3DGETDATA_FLUSH)) {
+            while (S_FALSE == pEventQueryFlushAfterVSync->GetData(&Data, sizeof(Data), D3DGETDATA_FLUSH)) {
                 if (!r.m_AdvRendSets.bVMRFlushGPUWait) {
                     break;
                 }

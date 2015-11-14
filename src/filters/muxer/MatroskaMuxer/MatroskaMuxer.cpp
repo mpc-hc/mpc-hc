@@ -546,12 +546,12 @@ DWORD CMatroskaMuxerFilter::ThreadProc()
                     if (!fTracksWritten) {
                         CNode<Track> Tracks;
                         CAutoPtr<Track> pT(DEBUG_NEW Track());
-                        POSITION pos = pActivePins.GetHeadPosition();
+                        pos = pActivePins.GetHeadPosition();
                         for (int i = 1; pos; i++) {
-                            CMatroskaMuxerInputPin* pPin = pActivePins.GetNext(pos);
+                            CMatroskaMuxerInputPin* pActivePin = pActivePins.GetNext(pos);
 
                             CAutoPtr<TrackEntry> pTE(DEBUG_NEW TrackEntry());
-                            *pTE = *pPin->GetTrackEntry();
+                            *pTE = *pActivePin->GetTrackEntry();
                             if (TrackNumber == 0 && pTE->TrackType == TrackEntry::TypeVideo) {
                                 TrackNumber = pTE->TrackNumber;
                             }
@@ -1228,7 +1228,7 @@ STDMETHODIMP CMatroskaMuxerInputPin::Receive(IMediaSample* pSample)
         return hr;
     }
 
-    long len = pSample->GetActualDataLength();
+    long inputLen = pSample->GetActualDataLength();
 
     REFERENCE_TIME rtStart = -1, rtStop = -1;
     hr = pSample->GetTime(&rtStart, &rtStop);
@@ -1245,15 +1245,15 @@ STDMETHODIMP CMatroskaMuxerInputPin::Receive(IMediaSample* pSample)
     TRACE(_T("Received (%u): %I64d-%I64d (c=%d, co=%dms), len=%ld, d%d p%d s%d\n"),
           (static_cast<CMatroskaMuxerFilter*>(m_pFilter))->GetTrackNumber(this),
           rtStart, rtStop, (int)((rtStart / 10000) / MAXCLUSTERTIME), (int)((rtStart / 10000) % MAXCLUSTERTIME),
-          len,
+          inputLen,
           pSample->IsDiscontinuity() == S_OK ? 1 : 0,
           pSample->IsPreroll() == S_OK ? 1 : 0,
           pSample->IsSyncPoint() == S_OK ? 1 : 0);
 
     if (m_mt.subtype == MEDIASUBTYPE_Vorbis && m_pVorbisHdrs.GetCount() < 3) {
         CAutoPtr<CBinary> data(DEBUG_NEW CBinary(0));
-        data->SetCount(len);
-        memcpy(data->GetData(), pData, len);
+        data->SetCount(inputLen);
+        memcpy(data->GetData(), pData, inputLen);
         m_pVorbisHdrs.Add(data);
 
         if (m_pVorbisHdrs.GetCount() == 3) {
@@ -1270,8 +1270,8 @@ STDMETHODIMP CMatroskaMuxerInputPin::Receive(IMediaSample* pSample)
 
             *dst++ = 2;
             for (size_t i = 0; i < 2; i++) {
-                for (INT_PTR len = m_pVorbisHdrs[i]->GetCount(); len >= 0; len -= 255) {
-                    *dst++ = (BYTE)std::min<INT_PTR>(len, 255);
+                for (INT_PTR len2 = m_pVorbisHdrs[i]->GetCount(); len2 >= 0; len2 -= 255) {
+                    *dst++ = (BYTE)std::min<INT_PTR>(len2, 255);
                 }
             }
 
@@ -1315,8 +1315,8 @@ STDMETHODIMP CMatroskaMuxerInputPin::Receive(IMediaSample* pSample)
     }
 
     CAutoPtr<CBinary> data(DEBUG_NEW CBinary(0));
-    data->SetCount(len);
-    memcpy(data->GetData(), pData, len);
+    data->SetCount(inputLen);
+    memcpy(data->GetData(), pData, inputLen);
     b->Block.BlockData.AddTail(data);
 
     CAutoLock cAutoLock2(&m_csQueue);

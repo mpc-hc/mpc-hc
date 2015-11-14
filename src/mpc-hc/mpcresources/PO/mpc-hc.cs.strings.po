@@ -7,10 +7,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-21 13:30:54+0000\n"
-"PO-Revision-Date: 2015-05-27 15:31+0000\n"
-"Last-Translator: khagaroth\n"
-"Language-Team: Czech (http://www.transifex.com/projects/p/mpc-hc/language/cs/)\n"
+"POT-Creation-Date: 2015-10-25 00:51:15+0000\n"
+"PO-Revision-Date: 2015-11-08 09:31+0000\n"
+"Last-Translator: JellyFrog\n"
+"Language-Team: Czech (http://www.transifex.com/mpc-hc/mpc-hc/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -326,12 +326,12 @@ msgid "On/Off"
 msgstr "Zap/Vyp"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
-msgid "From FPS"
-msgstr "Od FPS"
+msgid "From (FPS)"
+msgstr "Od (FPS)"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
-msgid "To FPS"
-msgstr "Do FPS"
+msgid "To (FPS)"
+msgstr "Do (FPS)"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
@@ -465,6 +465,34 @@ msgctxt "IDD_PPAGESHADERS"
 msgid "Playback::Shaders"
 msgstr "Přehrávání::Shadery"
 
+msgctxt "IDD_FILEPROPRES"
+msgid "Resources"
+msgstr "Zdroje"
+
+msgctxt "IDD_PPAGEMISC"
+msgid "Miscellaneous"
+msgstr "Ostatní"
+
+msgctxt "IDD_FILEMEDIAINFO"
+msgid "MediaInfo"
+msgstr "MediaInfo"
+
+msgctxt "IDD_PPAGECAPTURE"
+msgid "Playback::Capture"
+msgstr "Přehrávání::Záznam"
+
+msgctxt "IDD_PPAGESYNC"
+msgid "Playback::Sync Renderer Settings"
+msgstr "Přehrávání::Sync renderer"
+
+msgctxt "IDD_PPAGEFULLSCREEN"
+msgid "Playback::Fullscreen"
+msgstr "Přehrávání::Na celou obrazovku"
+
+msgctxt "IDD_PPAGEAUDIORENDERER"
+msgid "Internal Filters::Audio Renderer"
+msgstr "Interní filtry::Audio Renderer"
+
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
 msgstr "Audio switcher"
@@ -556,30 +584,6 @@ msgstr "Přehrávač::WWW rozhraní"
 msgctxt "IDD_PPAGESUBDB"
 msgid "Subtitles::Database"
 msgstr "Titulky::Databáze"
-
-msgctxt "IDD_FILEPROPRES"
-msgid "Resources"
-msgstr "Zdroje"
-
-msgctxt "IDD_PPAGEMISC"
-msgid "Miscellaneous"
-msgstr "Ostatní"
-
-msgctxt "IDD_FILEMEDIAINFO"
-msgid "MediaInfo"
-msgstr "MediaInfo"
-
-msgctxt "IDD_PPAGECAPTURE"
-msgid "Playback::Capture"
-msgstr "Přehrávání::Záznam"
-
-msgctxt "IDD_PPAGESYNC"
-msgid "Playback::Sync Renderer Settings"
-msgstr "Přehrávání::Sync renderer"
-
-msgctxt "IDD_PPAGEFULLSCREEN"
-msgid "Playback::Fullscreen"
-msgstr "Přehrávání::Na celou obrazovku"
 
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
@@ -673,21 +677,9 @@ msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
 msgstr "Plocha videa bude vymezena jako běžná mimoobrazovková plocha."
 
-msgctxt "IDC_AUDRND_COMBO"
-msgid "MPC Audio Renderer is broken, do not use."
-msgstr "MPC Audio Renderer není funkční, nepoužívejte ho."
-
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
 msgstr "Sync Renderer"
-
-msgctxt "IDS_MPC_BUG_REPORT_TITLE"
-msgid "MPC-HC - Reporting a bug"
-msgstr "MPC-HC - nahlášení chyby"
-
-msgctxt "IDS_MPC_BUG_REPORT"
-msgid "MPC-HC just crashed but this build was compiled without debug information.\nIf you want to report this bug, you should first try an official build.\n\nDo you want to visit the download page now?"
-msgstr "V programu MPC-HC došlo k chybě, vámi použitá verze byla bohužel zkompilována bez informací potřebných pro ladění.\nPokud chcete chybu nahlásit, zkuste napřed použít oficiální verzi programu.\n\nChcete otevřít stránku pro stažení programu?"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
 msgid "Regular offscreen plain surface"
@@ -741,9 +733,9 @@ msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP"
 msgid "Null (uncompressed)"
 msgstr "Null (nekomprimované)"
 
-msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND"
-msgid "MPC-HC Audio Renderer"
-msgstr "MPC-HC Audio Renderer"
+msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
+msgid "Internal Audio Renderer"
+msgstr "Vestavěný syntezátor zvuku"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
@@ -1393,6 +1385,26 @@ msgctxt "IDS_AFTERPLAYBACK_CLOSE"
 msgid "After Playback: Close"
 msgstr "Po přehrání: Zavřít"
 
+msgctxt "IDS_FRAME_INIT_FAILED"
+msgid "MPC-HC encountered a problem during initialization. With your help we might be able to fix the issue.\n\nDo you want to report it?"
+msgstr "Během inicializace došlo k chybě. S vaší pomocí by se nám mohlo podařit tuto chybu opravit.\n\nChcete tuto chybu nahlásit?"
+
+msgctxt "IDS_TIME_SHIFT_TOOLTIP"
+msgid "Enter a positive value if the audio is early, a negative value if it is late."
+msgstr "Pokud se zvuk předchází, zadejte kladnou hodnotu, pokud se zpožďuje, tak zápornou."
+
+msgctxt "IDS_WEBUI_DISABLED_PREVIEW_MSG"
+msgid "Preview is currently disabled. You can enable it in MPC-HC's options."
+msgstr "Náhled je zakázán. Můžete ho povolit v možnostech MPC-HC."
+
+msgctxt "IDS_WEBUI_PREVIEW_WARNING"
+msgid "This option can be used to preview media files from remote location. Use it only on a properly secured private network.\n\nDo you really want to enable this option?"
+msgstr "Tato volba umožňuje náhled souborů ze vzdáleného umístění. Použijte ji pouze na řádně zabezpečené privátní síti.\n\nOpravdu chcete tuto volbu povolit?"
+
+msgctxt "IDS_SUBTITLE_RENDERER_INTERNAL"
+msgid "Internal Subtitle Renderer"
+msgstr "Vestavěný zobrazovač titulků"
+
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
 msgstr "Otevřít zařízení"
@@ -1677,6 +1689,14 @@ msgctxt "IDS_OSD_SHOW_FILENAME"
 msgid "OSD: Show File Name"
 msgstr "OSD: Zobrazit název souboru"
 
+msgctxt "IDS_PLAY_DVD"
+msgid "Play DVD"
+msgstr "Přehrát DVD"
+
+msgctxt "IDS_PLAY_BD"
+msgid "Play BD"
+msgstr "Přehrát BD"
+
 msgctxt "IDS_OSD_DISPLAY_RENDERER_STATS"
 msgid "OSD: Display Renderer Statistics"
 msgstr "OSD: Zobrazit statistiku rendereru"
@@ -1958,19 +1978,19 @@ msgid "Options"
 msgstr "Možnosti"
 
 msgctxt "IDS_AG_NEXT_AUDIO"
-msgid "Next Audio"
+msgid "Next Audio Track"
 msgstr "Další zvuková stopa"
 
 msgctxt "IDS_AG_PREV_AUDIO"
-msgid "Prev Audio"
+msgid "Prev Audio Track"
 msgstr "Předchozí zvuková stopa"
 
 msgctxt "IDS_AG_NEXT_SUBTITLE"
-msgid "Next Subtitle"
+msgid "Next Subtitle Track"
 msgstr "Další titulky"
 
 msgctxt "IDS_AG_PREV_SUBTITLE"
-msgid "Prev Subtitle"
+msgid "Prev Subtitle Track"
 msgstr "Předchozí titulky"
 
 msgctxt "IDS_MPLAYERC_85"
@@ -1981,22 +2001,6 @@ msgctxt "IDS_MPLAYERC_86"
 msgid "Reload Subtitles"
 msgstr "Znovu načíst titulky"
 
-msgctxt "IDS_MPLAYERC_87"
-msgid "Next Audio (OGM)"
-msgstr "Další zvuková stopa (OGM)"
-
-msgctxt "IDS_MPLAYERC_88"
-msgid "Prev Audio (OGM)"
-msgstr "Předchozí zvuková stopa (OGM)"
-
-msgctxt "IDS_MPLAYERC_89"
-msgid "Next Subtitle (OGM)"
-msgstr "Další titulky (OGM)"
-
-msgctxt "IDS_MPLAYERC_90"
-msgid "Prev Subtitle (OGM)"
-msgstr "Předchozí titulky (OGM)"
-
 msgctxt "IDS_MPLAYERC_91"
 msgid "Next Angle (DVD)"
 msgstr "Další úhel pohledu (DVD)"
@@ -2006,19 +2010,19 @@ msgid "Prev Angle (DVD)"
 msgstr "Předchozí úhel pohledu (DVD)"
 
 msgctxt "IDS_MPLAYERC_93"
-msgid "Next Audio (DVD)"
+msgid "Next Audio Track (DVD)"
 msgstr "Další zvuková stopa (DVD)"
 
 msgctxt "IDS_MPLAYERC_94"
-msgid "Prev Audio (DVD)"
+msgid "Prev Audio Track (DVD)"
 msgstr "Předchozí zvuková stopa (DVD)"
 
 msgctxt "IDS_MPLAYERC_95"
-msgid "Next Subtitle (DVD)"
+msgid "Next Subtitle Track (DVD)"
 msgstr "Další titulky (DVD)"
 
 msgctxt "IDS_MPLAYERC_96"
-msgid "Prev Subtitle (DVD)"
+msgid "Prev Subtitle Track (DVD)"
 msgstr "Předchozí titulky (DVD)"
 
 msgctxt "IDS_MPLAYERC_97"
@@ -2385,14 +2389,6 @@ msgctxt "IDS_FULLSCREENMONITOR_CURRENT"
 msgid "Current"
 msgstr "Aktuální"
 
-msgctxt "IDS_MPC_CRASH"
-msgid "MPC-HC terminated unexpectedly. To help us fix this problem, please send this file \"%s\" to our bug tracker.\n\nDo you want to open the folder containing the minidump file and visit the bug tracker now?"
-msgstr "MPC-HC byl neočekávaně ukončen. Pokud nám chcete pomoci tento problém odstranit, nahrajte prosím soubor '%s' na náš bugtracker.\n\nChcete otevřít adresář s tímto souborem a přejít na stránku bugtrackeru?"
-
-msgctxt "IDS_MPC_MINIDUMP_FAIL"
-msgid "Failed to create dump file to \"%s\" (error %u)"
-msgstr "Nepodařilo se vytvořit soubor výpisu paměti „%s“ (chyba %u)"
-
 msgctxt "IDS_MAINFRM_DIR_TITLE"
 msgid "Select Directory"
 msgstr "Vyberte adresář"
@@ -2566,8 +2562,8 @@ msgid "Volume boost Max"
 msgstr "Zesílení - maximální"
 
 msgctxt "IDS_USAGE"
-msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/randomize\tRandomize the playlist\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tUse MPC-HC as slave\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "Použití: mpc-hc.exe \"cesta\" [parametry]\n\n\"cesta\"\t\tSoubor nebo adresář, který má být otevřen\n\t\t(povoleny masky, \"-\" označuje standardní vstup)\n/dub \"soubor\"\tNačte soubor se zvukovou stopou\n/dubdelay \"soubor\"\tNačte soubor se zvukovou stopou posunutou\n\t\to XXms (pokud název souboru obsahuje\n\t\t\"...DELAY XXms...\")\n/d3dfs\t\tSpustí vykreslování v D3D fullscreen režimu\n/sub \"soubor\"\tNačte soubor s titulky\n/filter \"soubor\"\tNačte DirectShow filtr (*.ax nebo *.dll, povoleny\n\t\tmasky)\n/dvd\t\tSpustí MPC-HC v DVD režimu, volitelný parametr\n\t\t\"cesta\" určuje DVD adresář\n/dvdpos T#K\tSpustí přehrávání titulu T, kapitoly K\n/dvdpos T#hh:mm\tSpustí přehrávání titulu T, pozice hh:mm:ss\n/cd\t\tNačte všechny stopy AudioCD/(S)VCD, volitelný\n\t\tparametr \"cesta\" udává písmeno CD mechaniky\n/device\t\tOtevře výchozí video zařízení\n/open\t\tNačte soubor, ale nespustí přehrávání\n/play\t\tNačte soubor a přehraje ho\n/close\t\tPo ukončení přehrávání zavře přehrávač (funkční\n\t\tjen v kombinaci s /play)\n/shutdown\tPo ukončení přehrávání vypne počítač\n/standby\t\tPo přehrání přepne systém do úsporného režimu\n/hibernate\tPo přehrání přepne systém do režimu hibernace\n/logoff\t\tPo přehrání odhlásí aktuálně přihlášeného uživatele\n/lock\t\tPo přehrání uzamkne aktivní uživatelský účet\n/monitoroff\tPo přehrání vypne obrazovku\n/playnext\t\tPo přehrání otevře další soubor v adresáři\n/fullscreen\tSpustí přehrávač v režimu na celou obrazovku\n/minimized\tSpustí přehrávač minimalizovaný\n/new\t\tOtevře novou instanci MPC-HC\n/add\t\tPřidá \"cestu\" do playlistu, může být kombinován\n\t\ts /open a /play\n/randomize⇥Náhodně seřadí seznam stop\n/regvid\t\tNastaví MPC-HC jako výchozí přehrávač pro\n\t\tpodporované video formáty\n/regaud\t\tNastaví MPC-HC jako výchozí přehrávač pro\n\t\tpodporované zvukové formáty\n/regpl\t\tNastaví MPC-HC jako výchozí přehrávač pro\n\t\tpodporované seznamy stop\n/regall\t\tNastaví MPC-HC jako výchozí přehrávač pro\n\t\tvšechny podporované formáty\n/unregall\t\tZruší asociaci MPC-HC se všemi formáty\n\t\t(včetně playlistů)\n/start ms\t\tSpustí přehrávání od zadané pozice\n\t\t(ms = milisekundy)\n/startpos hh:mm:ss\tSpustí přehrávání od pozice hh:mm:ss\n/fixedsize w,h\tSpustí přehrávač se zadanou velikostí okna\n/monitor N\tSpustí přehrávání na monitoru N, kde N\n\t\tzačíná od 1\n/audiorenderer N\tPoužije audiorenderer N, kde N začíná od 1\n\t\t(viz nastavení \"Výstup\")\n/shaderpreset \"Př\"\tPoužije předvolbu shaderů \"Př\"\n/pns \"název\"\tPoužije předvolbu Pan&Scan určitého názvu\n/iconsassoc\tZnovu přiřadí ikony formátů souborů\n/nofocus\t\tSpustí MPC-HC v pozadí\n/webport N\tSpustí webové rozhraní na zadaném portu\n/debug\t\tZobrazí ladicí informace v OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tPoužije MPC-HC jako podřízený proces\n/reset\t\tObnoví výchozí nastavení\n/help /h /?\tZobrazí tento dialog\n"
+msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/randomize\tRandomize the playlist\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tUse MPC-HC as slave\n/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding\n\t\tOnly available for CUVID and DXVA2 (copy-back)\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
+msgstr "Použití: mpc-hc.exe \"cesta\" [parametry]\n\n\"cesta\"\t\tSoubor nebo adresář, který má být otevřen\n\t\t(povoleny masky, \"-\" označuje standardní vstup)\n/dub \"soubor\"\tNačte soubor se zvukovou stopou\n/dubdelay \"soubor\"\tNačte soubor se zvukovou stopou posunutou\n\t\to XXms (pokud název souboru obsahuje\n\t\t\"...DELAY XXms...\")\n/d3dfs\t\tSpustí vykreslování v D3D fullscreen režimu\n/sub \"soubor\"\tNačte soubor s titulky\n/filter \"soubor\"\tNačte DirectShow filtr (*.ax nebo *.dll, povoleny\n\t\tmasky)\n/dvd\t\tSpustí MPC-HC v DVD režimu, volitelný parametr\n\t\t\"cesta\" určuje DVD adresář\n/dvdpos T#K\tSpustí přehrávání titulu T, kapitoly K\n/dvdpos T#hh:mm\tSpustí přehrávání titulu T, pozice hh:mm:ss\n/cd\t\tNačte všechny stopy AudioCD/(S)VCD, volitelný\n\t\tparametr \"cesta\" udává písmeno CD mechaniky\n/device\t\tOtevře výchozí video zařízení\n/open\t\tNačte soubor, ale nespustí přehrávání\n/play\t\tNačte soubor a přehraje ho\n/close\t\tPo ukončení přehrávání zavře přehrávač (funkční\n\t\tjen v kombinaci s /play)\n/shutdown\tPo ukončení přehrávání vypne počítač\n/standby\t\tPo přehrání přepne systém do úsporného režimu\n/hibernate\tPo přehrání přepne systém do režimu hibernace\n/logoff\t\tPo přehrání odhlásí aktuálně přihlášeného uživatele\n/lock\t\tPo přehrání uzamkne aktivní uživatelský účet\n/monitoroff\tPo přehrání vypne obrazovku\n/playnext\t\tPo přehrání otevře další soubor v adresáři\n/fullscreen\tSpustí přehrávač v režimu na celou obrazovku\n/minimized\tSpustí přehrávač minimalizovaný\n/new\t\tOtevře novou instanci MPC-HC\n/add\t\tPřidá \"cestu\" do playlistu, může být kombinován\n\t\ts /open a /play\n/randomize⇥Náhodně seřadí seznam stop\n/regvid\t\tNastaví MPC-HC jako výchozí přehrávač pro\n\t\tpodporované video formáty\n/regaud\t\tNastaví MPC-HC jako výchozí přehrávač pro\n\t\tpodporované zvukové formáty\n/regpl\t\tNastaví MPC-HC jako výchozí přehrávač pro\n\t\tpodporované seznamy stop\n/regall\t\tNastaví MPC-HC jako výchozí přehrávač pro\n\t\tvšechny podporované formáty\n/unregall\t\tZruší asociaci MPC-HC se všemi formáty\n\t\t(včetně playlistů)\n/start ms\t\tSpustí přehrávání od zadané pozice\n\t\t(ms = milisekundy)\n/startpos hh:mm:ss\tSpustí přehrávání od pozice hh:mm:ss\n/fixedsize w,h\tSpustí přehrávač se zadanou velikostí okna\n/monitor N\tSpustí přehrávání na monitoru N, kde N\n\t\tzačíná od 1\n/audiorenderer N\tPoužije audiorenderer N, kde N začíná od 1\n\t\t(viz nastavení \"Výstup\")\n/shaderpreset \"Př\"\tPoužije předvolbu shaderů \"Př\"\n/pns \"název\"\tPoužije předvolbu Pan&Scan určitého názvu\n/iconsassoc\tZnovu přiřadí ikony formátů souborů\n/nofocus\t\tSpustí MPC-HC v pozadí\n/webport N\tSpustí webové rozhraní na zadaném portu\n/debug\t\tZobrazí ladicí informace v OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tPoužije MPC-HC jako podřízený proces\n/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding\n\t\tOnly available for CUVID and DXVA2 (copy-back)\n/reset\t\tObnoví výchozí nastavení\n/help /h /?\tZobrazí tento dialog\n"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -3040,18 +3036,6 @@ msgstr "Rozlišení"
 msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
 msgid "Aspect Ratio"
 msgstr "Poměr stran"
-
-msgctxt "IDS_ARS_WASAPI_MODE"
-msgid "Use WASAPI (restart playback)"
-msgstr "Použit WASAPI (znovu spustit přehrávání)"
-
-msgctxt "IDS_ARS_MUTE_FAST_FORWARD"
-msgid "Mute on fast forward"
-msgstr "Ztlumit během přetáčení"
-
-msgctxt "IDS_ARS_SOUND_DEVICE"
-msgid "Sound Device:"
-msgstr "Zvukové zařízení:"
 
 msgctxt "IDS_OSD_RS_VSYNC_ON"
 msgid "VSync: On"
@@ -3608,4 +3592,12 @@ msgstr "Zrušit všechny asociace"
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"
 msgstr "Nastavení"
+
+msgctxt "IDS_SUBTITLE_RENDERER_VS_FILTER"
+msgid "VSFilter / DirectVobSub"
+msgstr "VSFilter / DirectVobSub"
+
+msgctxt "IDS_SUBTITLE_RENDERER_XY_SUB_FILTER"
+msgid "XySubFilter"
+msgstr "XySubFilter"
 

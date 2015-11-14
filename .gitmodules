@@ -1,9 +1,28 @@
-[submodule "lcms2"]
-    path = src/thirdparty/lcms2/library
-    url = https://github.com/mm2/Little-CMS.git
-[submodule "RARFileSource"]
-    path = src/thirdparty/RARFileSource/library
-    url = https://github.com/mpc-hc/rarfilesource.git
 [submodule "LAVFilters"]
     path = src/thirdparty/LAVFilters/src
     url = https://github.com/mpc-hc/LAVFilters.git
+[submodule "lcms2"]
+    path = src/thirdparty/lcms2/library
+    url = https://github.com/mm2/Little-CMS.git
+[submodule "MediaInfoLib"]
+    path = src/thirdparty/MediaInfo/library
+    url = https://github.com/MediaArea/MediaInfoLib.git
+[submodule "RARFileSource"]
+    path = src/thirdparty/RARFileSource/library
+    url = https://github.com/mpc-hc/rarfilesource.git
+[submodule "ZenLib"]
+    path = src/thirdparty/ZenLib/library
+    url = https://github.com/MediaArea/ZenLib.git
+[submodule "soxr"]
+    path = src/thirdparty/soxr/libsoxr
+    url = https://github.com/alexmarsev/soxr.git
+[submodule "bs2b"]
+    path = src/thirdparty/bs2b/libbs2b
+    url = https://github.com/alexmarsev/libbs2b.git
+[submodule "soundtouch"]
+    path = src/thirdparty/SoundTouch/soundtouch
+    url = https://github.com/alexmarsev/soundtouch.git
+[submodule "sanear"]
+    path = src/thirdparty/sanear/sanear
+    url = https://github.com/alexmarsev/sanear.git
+    branch = core

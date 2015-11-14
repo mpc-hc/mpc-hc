@@ -13,10 +13,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-21 13:30:54+0000\n"
-"PO-Revision-Date: 2015-05-30 10:40+0000\n"
-"Last-Translator: Luan <luanmail@gmx.net>\n"
-"Language-Team: German (http://www.transifex.com/projects/p/mpc-hc/language/de/)\n"
+"POT-Creation-Date: 2015-10-25 00:51:15+0000\n"
+"PO-Revision-Date: 2015-11-08 09:31+0000\n"
+"Last-Translator: JellyFrog\n"
+"Language-Team: German (http://www.transifex.com/mpc-hc/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -189,11 +189,11 @@ msgstr "GB/s"
 
 msgctxt "IDS_FILE_FAV_ADDED"
 msgid "File added to favorites"
-msgstr "Datei zu Favoriten hinzugefügt."
+msgstr "Datei zu Favoriten hinzugefügt"
 
 msgctxt "IDS_DVD_FAV_ADDED"
 msgid "DVD added to favorites"
-msgstr "DVD zu Favoriten hinzugefügt."
+msgstr "DVD zu Favoriten hinzugefügt"
 
 msgctxt "IDS_CAPTURE_SETTINGS"
 msgid "Capture Settings"
@@ -245,11 +245,11 @@ msgstr "Schriftart"
 
 msgctxt "IDS_DVD_NAV_SOME_PINS_ERROR"
 msgid "Failed to render some of the pins of the DVD Navigator filter"
-msgstr "Rendering einiger DVD-Navigator-Filter-Pins fehlgeschlagen"
+msgstr "Kann einige DVD-Navigator-Filter-Pins nicht rendern"
 
 msgctxt "IDS_DVD_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for DVD playback"
-msgstr "Interface-Abfrage für DVD-Wiedergabe fehlgeschlagen"
+msgstr "Kann DVD-Wiedergabe-Interface nicht abfragen"
 
 msgctxt "IDS_CAPTURE_LIVE"
 msgid "Live"
@@ -269,7 +269,7 @@ msgstr "Kann Aufnahmegerät nicht öffnen"
 
 msgctxt "IDS_INVALID_PARAMS_ERROR"
 msgid "Can't open, invalid input parameters"
-msgstr "Öffnen fehlgeschlagen, unzulässige Eingabeparameter"
+msgstr "Ungültiger Eingabeparameter"
 
 msgctxt "IDS_EDIT_LIST_EDITOR"
 msgid "Edit List Editor"
@@ -277,11 +277,11 @@ msgstr "List-Editor bearbeiten"
 
 msgctxt "IDS_GOTO_ERROR_INVALID_TIME"
 msgid "The entered time is greater than the file duration."
-msgstr "Die angegebene Position überschreitet die Laufzeit der Mediendatei."
+msgstr "Der angegebene Zeitpunkt ist ungültig. Die vorgegebene Laufzeit kann nicht überschritten werden."
 
 msgctxt "IDS_MISSING_ICONS_LIB"
 msgid "The icons library \"mpciconlib.dll\" is missing.\nThe player's default icon will be used for file associations.\nPlease, reinstall MPC-HC to get \"mpciconlib.dll\"."
-msgstr "Icon-Bibliothek \"mpciconlib.dll\" nicht gefunden. Bitte den MPC-HC neu installieren, um die Darstellung der Dateizuordnung wiederherzustellen."
+msgstr "Die Icon-Bibliotheksdatei \"mpciconlib.dll\" konnte nicht gefunden werden. Bitte den MPC-HC neu installieren, um die Darstellung der Dateizuordnung wiederherzustellen."
 
 msgctxt "IDS_SUBDL_DLG_FILENAME_COL"
 msgid "File"
@@ -329,14 +329,14 @@ msgstr "Wiedergabeliste"
 
 msgctxt "IDS_PPAGE_FS_CLN_ON_OFF"
 msgid "On/Off"
-msgstr "Ein/Aus"
+msgstr "Priorität"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
-msgid "From FPS"
+msgid "From (FPS)"
 msgstr "Von (fps)"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
-msgid "To FPS"
+msgid "To (FPS)"
 msgstr "Bis (fps)"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
@@ -357,15 +357,15 @@ msgstr "System-Standard"
 
 msgctxt "IDS_GRAPH_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for playback"
-msgstr "Interface-Abfrage für Wiedergabe fehlgeschlagen"
+msgstr "Kann Wiedergabe-Interface nicht abfragen"
 
 msgctxt "IDS_GRAPH_TARGET_WND_ERROR"
 msgid "Could not set target window for graph notification"
-msgstr "Kann Zielfenster für Filtergraph-Benachrichtigung nicht einrichten"
+msgstr "Kann Fenster für Filtergraph-Benachrichtigung nicht einrichten"
 
 msgctxt "IDS_DVD_NAV_ALL_PINS_ERROR"
 msgid "Failed to render all pins of the DVD Navigator filter"
-msgstr "Rendering aller DVD-Navigator-Filter-Pins fehlgeschlagen"
+msgstr "Kann keine DVD-Navigator-Filter-Pins rendern"
 
 msgctxt "IDS_PLAYLIST_OPEN"
 msgid "&Open"
@@ -471,9 +471,37 @@ msgctxt "IDD_PPAGESHADERS"
 msgid "Playback::Shaders"
 msgstr "Wiedergabe::Shader"
 
+msgctxt "IDD_FILEPROPRES"
+msgid "Resources"
+msgstr "Ressourcen"
+
+msgctxt "IDD_PPAGEMISC"
+msgid "Miscellaneous"
+msgstr "Verschiedenes"
+
+msgctxt "IDD_FILEMEDIAINFO"
+msgid "MediaInfo"
+msgstr "MediaInfo"
+
+msgctxt "IDD_PPAGECAPTURE"
+msgid "Playback::Capture"
+msgstr "Wiedergabe::Erfassung"
+
+msgctxt "IDD_PPAGESYNC"
+msgid "Playback::Sync Renderer Settings"
+msgstr "Wiedergabe::Sync-Renderer"
+
+msgctxt "IDD_PPAGEFULLSCREEN"
+msgid "Playback::Fullscreen"
+msgstr "Wiedergabe::Vollbild"
+
+msgctxt "IDD_PPAGEAUDIORENDERER"
+msgid "Internal Filters::Audio Renderer"
+msgstr "Interne Filter::Audio-Renderer"
+
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
-msgstr "Audio-Switcher"
+msgstr "Audio Switcher"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_TITLE"
 msgid "New version of the icon library"
@@ -481,7 +509,7 @@ msgstr "Neue Version der Icon-Bibliothek"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_INSTR"
 msgid "Do you want to reassociate the icons?"
-msgstr "Icons neu zuordnen?"
+msgstr "Icons wirklich neu zuordnen?"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_CONTENT"
 msgid "This will fix the icons being incorrectly displayed after an update of the icon library.\nThe file associations will not be modified, only the corresponding icons will be refreshed."
@@ -562,30 +590,6 @@ msgstr "Programm::Web-Interface"
 msgctxt "IDD_PPAGESUBDB"
 msgid "Subtitles::Database"
 msgstr "Untertitel::Datenbank"
-
-msgctxt "IDD_FILEPROPRES"
-msgid "Resources"
-msgstr "Ressourcen"
-
-msgctxt "IDD_PPAGEMISC"
-msgid "Miscellaneous"
-msgstr "Verschiedenes"
-
-msgctxt "IDD_FILEMEDIAINFO"
-msgid "MediaInfo"
-msgstr "MediaInfo"
-
-msgctxt "IDD_PPAGECAPTURE"
-msgid "Playback::Capture"
-msgstr "Wiedergabe::Erfassung"
-
-msgctxt "IDD_PPAGESYNC"
-msgid "Playback::Sync Renderer Settings"
-msgstr "Wiedergabe::Sync Renderer"
-
-msgctxt "IDD_PPAGEFULLSCREEN"
-msgid "Playback::Fullscreen"
-msgstr "Wiedergabe::Vollbild"
 
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
@@ -679,21 +683,9 @@ msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
 msgstr "Die Video-Oberfläche ist eine gleichmäßige Offscreen-Oberfläche."
 
-msgctxt "IDC_AUDRND_COMBO"
-msgid "MPC Audio Renderer is broken, do not use."
-msgstr "Stellt die verschiedenen Audio-Renderer bereit. Bitte den MPC-HC Audio Renderer vorerst nicht verwenden."
-
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
-msgstr "Sync Renderer (EVR-CP)"
-
-msgctxt "IDS_MPC_BUG_REPORT_TITLE"
-msgid "MPC-HC - Reporting a bug"
-msgstr "Fehler melden"
-
-msgctxt "IDS_MPC_BUG_REPORT"
-msgid "MPC-HC just crashed but this build was compiled without debug information.\nIf you want to report this bug, you should first try an official build.\n\nDo you want to visit the download page now?"
-msgstr "MPC-HC unerwartet beendet. Zur Meldung des Problems bitte eine offizielle Version mit Debug-Information verwenden.\n\nDiese Programmversion jetzt herunterladen?"
+msgstr "Sync-Renderer (EVR-CP)"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
 msgid "Regular offscreen plain surface"
@@ -737,7 +729,7 @@ msgstr "* nicht verfügbar *"
 
 msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLEMSG"
 msgid "The selected renderer is not installed."
-msgstr "Ausgewählter Renderer nicht installiert."
+msgstr "Der gewählte Renderer ist nicht verfügbar."
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_COMP"
 msgid "Null (anything)"
@@ -747,9 +739,9 @@ msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP"
 msgid "Null (uncompressed)"
 msgstr "Null Audio Device (uncompressed)"
 
-msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND"
-msgid "MPC-HC Audio Renderer"
-msgstr "MPC-HC Audio Renderer"
+msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
+msgid "Internal Audio Renderer"
+msgstr "Interner Audio-Renderer"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
@@ -761,7 +753,7 @@ msgstr "MIME-Typ"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_INFO"
 msgid "In order to view an embedded resource in your browser you have to enable the web interface.\n\nUse the \"Save As\" button if you only want to save the information."
-msgstr "Zur Anzeige eingebetteter Ressourcen im Browser muss das Web-Interface aktiviert werden. Um nur die Information zu speichern, bitte den Button \"Speichern unter\" verwenden."
+msgstr "Zur Darstellung eingebetteter Ressourcen bitte das Web-Interface aktivieren. Um nur die Informationen zu speichern, bitte den Button \"Speichern unter\" verwenden."
 
 msgctxt "IDS_DOWNLOAD_SUBS"
 msgid "Download subtitles"
@@ -777,11 +769,11 @@ msgstr "Auto"
 
 msgctxt "IDS_EXPORT_SETTINGS_NO_KEYS"
 msgid "There are no customized keys to export."
-msgstr "Keine benutzerdefinierten Tastenbefehle verfügbar."
+msgstr "Keine benutzerdefinierten Tasten verfügbar."
 
 msgctxt "IDS_RFS_NO_FILES"
 msgid "No media files found in the archive"
-msgstr "Keine Mediendatei im Archiv gefunden"
+msgstr "Kann keine Mediendatei im Archiv finden"
 
 msgctxt "IDS_RFS_COMPRESSED"
 msgid "Compressed files are not supported"
@@ -793,7 +785,7 @@ msgstr "Verschlüsselte Archive werden nicht unterstützt"
 
 msgctxt "IDS_RFS_MISSING_VOLS"
 msgid "Couldn't find all archive volumes"
-msgstr "Archiv-Volumen unvollständig"
+msgstr "Kann Archiv-Volumen nicht finden"
 
 msgctxt "IDC_TEXTURESURF2D"
 msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
@@ -1173,23 +1165,23 @@ msgstr "DVD/BD öffnen"
 
 msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
 msgid "Failed to set post-resize shaders"
-msgstr "Shader-Einrichtung für Post-Resize fehlgeschlagen"
+msgstr "Kann Shader für Post-Resize nicht einrichten"
 
 msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
 msgid "Failed to set both pre-resize and post-resize shaders"
-msgstr "Shader-Einrichtung für Pre-Resize und Post-Resize fehlgeschlagen"
+msgstr "Kann Shader für Pre-Resize und Post-Resize nicht einrichten"
 
 msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
 msgid "Shaders are recompiled automatically when the corresponding files are modified."
-msgstr "Shader werden bei Änderung der zugehörigen Dateien automatisch neu kompiliert."
+msgstr "Shader werden bei Änderung zugehöriger Dateien automatisch neu kompiliert."
 
 msgctxt "IDS_SHADER_DLL_ERR_0"
 msgid "Cannot load %s, pixel shaders will not work."
-msgstr "Kann %s nicht laden, Shader bleiben inaktiv"
+msgstr "Kann %s nicht laden, Shader inaktiv"
 
 msgctxt "IDS_SHADER_DLL_ERR_1"
 msgid "Cannot find necessary function entry points in %s, pixel shaders will not work."
-msgstr "Kann Funktionseinsprünge in %s nicht finden, Shader bleiben inaktiv"
+msgstr "Kann Funktionseinsprünge in %s nicht finden, Shader inaktiv"
 
 msgctxt "IDS_OSD_SHADERS_PRESET"
 msgid "Shader preset: %s"
@@ -1293,11 +1285,11 @@ msgstr "Bestimmt die Maximalanzahl gespeicherter Einträge der zuletzt geöffnet
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
-msgstr "Merkt sich die Wiedergabeposition nur für Dateien länger als N Minuten."
+msgstr "Beschränkt das Merken der Datei-Wiedergabeposition auf Dateien mit einer Laufzeit länger als N Minuten."
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
 msgid "Remember file position also for audio files."
-msgstr "Merkt sich die Wiedergabeposition auch bei Audiodateien."
+msgstr "Sieht das Merken der Datei-Wiedergabeposition auch für Audiodateien vor."
 
 msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
 msgid "Do Nothing"
@@ -1399,6 +1391,26 @@ msgctxt "IDS_AFTERPLAYBACK_CLOSE"
 msgid "After Playback: Close"
 msgstr "Nach Wiedergabe: Medien schließen"
 
+msgctxt "IDS_FRAME_INIT_FAILED"
+msgid "MPC-HC encountered a problem during initialization. With your help we might be able to fix the issue.\n\nDo you want to report it?"
+msgstr "Ein Initialisierungsfehler ist aufgetreten. Das geladene Videobild ist ungültig.\n\nDiesen Fehler jetzt melden?"
+
+msgctxt "IDS_TIME_SHIFT_TOOLTIP"
+msgid "Enter a positive value if the audio is early, a negative value if it is late."
+msgstr "Positive Werte erlauben eine spätere, negative Werte eine frühere Audiowiedergabe."
+
+msgctxt "IDS_WEBUI_DISABLED_PREVIEW_MSG"
+msgid "Preview is currently disabled. You can enable it in MPC-HC's options."
+msgstr "Medienvorschau nicht verfügbar, kann aber aktiviert werden"
+
+msgctxt "IDS_WEBUI_PREVIEW_WARNING"
+msgid "This option can be used to preview media files from remote location. Use it only on a properly secured private network.\n\nDo you really want to enable this option?"
+msgstr "Mit dieser Option kann die Vorschau einer Mediendatei von einem Remote-Standort aus eingesehen werden. Deshalb bitte nur in einem gut gesicherten privaten Netzwerk verwenden.\n\nMedienvorschau wirklich aktivieren?"
+
+msgctxt "IDS_SUBTITLE_RENDERER_INTERNAL"
+msgid "Internal Subtitle Renderer"
+msgstr "Interner Untertitel-Renderer"
+
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
 msgstr "Gerät öffnen"
@@ -1417,7 +1429,7 @@ msgstr "Bild schnell speichern"
 
 msgctxt "IDS_OSD_IMAGE_SAVED"
 msgid "Image saved successfully"
-msgstr "Bild erfolgreich gespeichert."
+msgstr "Bild gespeichert"
 
 msgctxt "IDS_AG_LOAD_SUBTITLE"
 msgid "Load Subtitle"
@@ -1509,7 +1521,7 @@ msgstr "Mit näherem Keyframe"
 
 msgctxt "IDS_HOOKS_FAILED"
 msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
-msgstr "Initialisierungsfehler aufgetreten. Möglicherweise arbeitet die DVD-Wiedergabe nicht korrekt. Dies kann ein Hinweis auf Inkompatibilität mit bestimmten Sicherheitsprogrammen sein.\n\nDiesen Fehler jetzt melden?"
+msgstr "Ein Initialisierungsfehler ist aufgetreten. Möglicherweise arbeitet die DVD-Wiedergabe nicht korrekt. Dies kann ein Hinweis auf Inkompatibilität mit bestimmten Sicherheitsprogrammen sein.\n\nDiesen Fehler jetzt melden?"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
 msgid "Never show"
@@ -1525,7 +1537,7 @@ msgstr "Steuerleiste unter dem Mauszeiger ausblenden nach"
 
 msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
 msgid "Failed to set pre-resize shaders"
-msgstr "Shader-Einrichtung für Pre-Resize fehlgeschlagen"
+msgstr "Kann Shader für Pre-Resize nicht einrichten"
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
 msgid "Frame Time Correction: On"
@@ -1549,7 +1561,7 @@ msgstr "Tempo: %.2lfx"
 
 msgctxt "IDS_OSD_THUMBS_SAVED"
 msgid "Thumbnails saved successfully"
-msgstr "Miniaturansichten erfolgreich gespeichert."
+msgstr "Miniaturansichten gespeichert"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
 msgid "&Video Track"
@@ -1565,27 +1577,27 @@ msgstr "Programm-Einstellungen zurücksetzen"
 
 msgctxt "IDS_RESET_SETTINGS_WARNING"
 msgid "Are you sure you want to restore MPC-HC to its default settings?\nBe warned that ALL your current settings will be lost!"
-msgstr "Alle aktuellen Einstellungen gehen verloren!\n\nEinstellungen wirklich auf Standard-Einstellungen zurücksetzen?"
+msgstr "Alle aktuellen Einstellungen gehen verloren!\n\nProgramm-Einstellungen wirklich vollständig zurücksetzen?"
 
 msgctxt "IDS_RESET_SETTINGS_MUTEX"
 msgid "Please close all instances of MPC-HC so that the default settings can be restored."
-msgstr "Standard-Einstellungen konnten nicht wiederhergestellt werden. Bitte alle Programminstanzen schließen."
+msgstr "Einstellungen konnten nicht zurückgesetzt werden. Bitte alle Programminstanzen schließen."
 
 msgctxt "IDS_EXPORT_SETTINGS"
 msgid "Export settings"
-msgstr "Programm-Einstellungen sichern"
+msgstr "Programm-Einstellungen exportieren"
 
 msgctxt "IDS_EXPORT_SETTINGS_WARNING"
 msgid "Some changes have not been saved yet.\nDo you want to save them before exporting?"
-msgstr "Bisher nicht gespeicherte Einstellungen vor der Sicherung übernehmen?"
+msgstr "Nicht übernommene Einstellungen zuvor speichern?"
 
 msgctxt "IDS_EXPORT_SETTINGS_SUCCESS"
 msgid "The settings have been successfully exported."
-msgstr "Einstellungen erfolgreich gesichert."
+msgstr "Einstellungen wurden erfolgreich exportiert."
 
 msgctxt "IDS_EXPORT_SETTINGS_FAILED"
 msgid "The export failed! This can happen when you don't have the correct rights."
-msgstr "Sicherung fehlgeschlagen! Möglicherweise fehlen die dafür nötigen Zugriffsrechte."
+msgstr "Einstellungen konnten nicht exportiert werden. Möglicherweise fehlen die dafür nötigen Zugriffsrechte."
 
 msgctxt "IDS_BDA_ERROR"
 msgid "BDA Error"
@@ -1683,6 +1695,14 @@ msgctxt "IDS_OSD_SHOW_FILENAME"
 msgid "OSD: Show File Name"
 msgstr "Namensanzeige"
 
+msgctxt "IDS_PLAY_DVD"
+msgid "Play DVD"
+msgstr "DVD-Wiedergabe"
+
+msgctxt "IDS_PLAY_BD"
+msgid "Play BD"
+msgstr "BD-Wiedergabe"
+
 msgctxt "IDS_OSD_DISPLAY_RENDERER_STATS"
 msgid "OSD: Display Renderer Statistics"
 msgstr "Anzeigestatistik (ein/aus)"
@@ -1737,7 +1757,7 @@ msgstr "Vollbild ohne Auflösungsänderung (ein/aus)"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT"
 msgid "Zoom Auto Fit"
-msgstr "Zoom: Auto-Anpassung"
+msgstr "Zoom: Eingepasst"
 
 msgctxt "IDS_AG_VIDFRM_HALF"
 msgid "VidFrm Half"
@@ -1789,7 +1809,7 @@ msgstr "Analysiere..."
 
 msgctxt "IDS_SUBDL_DLG_NOT_FOUND"
 msgid "No subtitles found."
-msgstr "Keinen Untertitel gefunden"
+msgstr "Keine Untertitel gefunden"
 
 msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
 msgid "%d subtitle(s) available."
@@ -1813,19 +1833,19 @@ msgstr "200 %"
 
 msgctxt "IDS_ZOOM_AUTOFIT"
 msgid "Auto Fit"
-msgstr "Auto-Anpassung"
+msgstr "Eingepasst"
 
 msgctxt "IDS_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (Larger Only)"
-msgstr "Auto-Verkleinerung"
+msgstr "Nur verkleinert"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT_LARGER"
 msgid "Zoom Auto Fit (Larger Only)"
-msgstr "Zoom: Auto-Verkleinerung"
+msgstr "Zoom: Nur verkleinert"
 
 msgctxt "IDS_OSD_ZOOM_AUTO_LARGER"
 msgid "Zoom: Auto (Larger Only)"
-msgstr "Zoom: Auto-Verkleinerung"
+msgstr "Zoom: Nur verkleinert"
 
 msgctxt "IDS_TOOLTIP_EXPLORE_TO_FILE"
 msgid "Double click to open file location"
@@ -1889,7 +1909,7 @@ msgstr "Lautstärke verringern"
 
 msgctxt "IDS_AG_VOLUME_MUTE"
 msgid "Volume Mute"
-msgstr "Stummschaltung (ein/aus)"
+msgstr "Ton (ein/aus)"
 
 msgctxt "IDS_MPLAYERC_63"
 msgid "DVD Title Menu"
@@ -1964,19 +1984,19 @@ msgid "Options"
 msgstr "Optionen"
 
 msgctxt "IDS_AG_NEXT_AUDIO"
-msgid "Next Audio"
+msgid "Next Audio Track"
 msgstr "Audiospur vor"
 
 msgctxt "IDS_AG_PREV_AUDIO"
-msgid "Prev Audio"
+msgid "Prev Audio Track"
 msgstr "Audiospur zurück"
 
 msgctxt "IDS_AG_NEXT_SUBTITLE"
-msgid "Next Subtitle"
+msgid "Next Subtitle Track"
 msgstr "Untertitelspur vor"
 
 msgctxt "IDS_AG_PREV_SUBTITLE"
-msgid "Prev Subtitle"
+msgid "Prev Subtitle Track"
 msgstr "Untertitelspur zurück"
 
 msgctxt "IDS_MPLAYERC_85"
@@ -1987,22 +2007,6 @@ msgctxt "IDS_MPLAYERC_86"
 msgid "Reload Subtitles"
 msgstr "Untertitel neu laden"
 
-msgctxt "IDS_MPLAYERC_87"
-msgid "Next Audio (OGM)"
-msgstr "OGM: Audiospur vor"
-
-msgctxt "IDS_MPLAYERC_88"
-msgid "Prev Audio (OGM)"
-msgstr "OGM: Audiospur zurück"
-
-msgctxt "IDS_MPLAYERC_89"
-msgid "Next Subtitle (OGM)"
-msgstr "OGM: Untertitelspur vor"
-
-msgctxt "IDS_MPLAYERC_90"
-msgid "Prev Subtitle (OGM)"
-msgstr "OGM: Untertitelspur zurück"
-
 msgctxt "IDS_MPLAYERC_91"
 msgid "Next Angle (DVD)"
 msgstr "DVD: Blickwinkel vor"
@@ -2012,19 +2016,19 @@ msgid "Prev Angle (DVD)"
 msgstr "DVD: Blickwinkel zurück"
 
 msgctxt "IDS_MPLAYERC_93"
-msgid "Next Audio (DVD)"
+msgid "Next Audio Track (DVD)"
 msgstr "DVD: Audiospur vor"
 
 msgctxt "IDS_MPLAYERC_94"
-msgid "Prev Audio (DVD)"
+msgid "Prev Audio Track (DVD)"
 msgstr "DVD: Audiospur zurück"
 
 msgctxt "IDS_MPLAYERC_95"
-msgid "Next Subtitle (DVD)"
+msgid "Next Subtitle Track (DVD)"
 msgstr "DVD: Untertitelspur vor"
 
 msgctxt "IDS_MPLAYERC_96"
-msgid "Prev Subtitle (DVD)"
+msgid "Prev Subtitle Track (DVD)"
 msgstr "DVD: Untertitelspur zurück"
 
 msgctxt "IDS_MPLAYERC_97"
@@ -2097,7 +2101,7 @@ msgstr "Untertitel gespeichert"
 
 msgctxt "IDS_MAINFRM_4"
 msgid "Cannot save subtitles"
-msgstr "Untertitel konnten nicht gespeichert werden"
+msgstr "Kann Untertitel nicht speichern"
 
 msgctxt "IDS_AG_FRAMERATE"
 msgid "Frame rate"
@@ -2165,11 +2169,11 @@ msgstr "DVD: Kopierschutz-Problem"
 
 msgctxt "IDS_MAINFRM_18"
 msgid "DVD: Invalid DVD 1.x Disc"
-msgstr "DVD: Unzulässige DVD 1.x"
+msgstr "DVD: Ungültige DVD 1.x"
 
 msgctxt "IDS_MAINFRM_19"
 msgid "DVD: Invalid Disc Region"
-msgstr "DVD: Unzulässiger Disc-Regionalcode"
+msgstr "DVD: Ungültiger Disc-Regionalcode"
 
 msgctxt "IDS_MAINFRM_20"
 msgid "DVD: Low Parental Level"
@@ -2189,7 +2193,7 @@ msgstr "DVD: Regionalcode-Konflikt zwischen Disc und Decoder"
 
 msgctxt "IDS_D3DFS_WARNING"
 msgid "This option is designed to avoid tearing. However, it will also prevent MPC-HC from displaying the context menu and any dialog box during playback.\n\nDo you really want to activate this option?"
-msgstr "Der Direct3D-Vollbildmodus dient dazu, Tearing-Effekte während der Videowiedergabe zu vermeiden. Allerdings werden dabei keine Dialoge und Menüs angezeigt.\n\nDiese Option wirklich aktivieren?"
+msgstr "Mit dieser Option können störende Tearing-Effekte während der Videowiedergabe vermieden werden. Allerdings werden dabei keine Dialogboxen und Menüs angezeigt.\n\nDirect3D-Vollbildmodus aktivieren?"
 
 msgctxt "IDS_MAINFRM_139"
 msgid "Sub delay: %ld ms"
@@ -2217,11 +2221,11 @@ msgstr "Bildbreite"
 
 msgctxt "IDS_PPSDB_URLCORRECT"
 msgid "The URL appears to be correct!"
-msgstr "URL erfolgreich getestet."
+msgstr "Die angegebene URL ist gültig."
 
 msgctxt "IDS_PPSDB_PROTOCOLERR"
 msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
-msgstr "Protokollversionen stimmen nicht überein. Bitte den Player aktualisieren oder eine alternative Adresse verwenden."
+msgstr "Protokollversionen stimmen nicht überein. Nach Möglichkeit bitte eine neuere Programmversion oder eine alternative Adresse verwenden."
 
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
@@ -2269,7 +2273,7 @@ msgstr "DVD/BD öffnen"
 
 msgctxt "IDS_SUB_LOADED_SUCCESS"
 msgid " loaded successfully"
-msgstr " erfolgreich geladen"
+msgstr " geladen"
 
 msgctxt "IDS_ALL_FILES_FILTER"
 msgid "All files (*.*)|*.*||"
@@ -2277,11 +2281,11 @@ msgstr "Alle Dateien (*.*)|*.*||"
 
 msgctxt "IDS_GETDIB_FAILED"
 msgid "GetDIB failed, hr = %08x"
-msgstr "GetDIB fehlgeschlagen, hr = %08x."
+msgstr "GetDIB ist fehlgeschlagen, hr = %08x."
 
 msgctxt "IDS_GETCURRENTIMAGE_FAILED"
 msgid "GetCurrentImage failed, hr = %08x"
-msgstr "GetCurrentImage fehlgeschlagen, hr = %08x."
+msgstr "GetCurrentImage ist fehlgeschlagen, hr = %08x."
 
 msgctxt "IDS_SCREENSHOT_ERROR"
 msgid "Cannot create file"
@@ -2289,19 +2293,19 @@ msgstr "Datei konnte nicht erstellt werden."
 
 msgctxt "IDS_THUMBNAILS_NO_DURATION"
 msgid "Cannot create thumbnails for files with no duration"
-msgstr "Miniaturansichten können für Dateien ohne Laufzeit nicht erstellt werden."
+msgstr "Das vorgegebene Bildformat ist ungültig. Miniaturansichten können für Dateien ohne Laufzeit nicht erstellt werden."
 
 msgctxt "IDS_THUMBNAILS_NO_FRAME_SIZE"
 msgid "Failed to get video frame size"
-msgstr "Erkennung der Videobildgröße fehlgeschlagen."
+msgstr "Videobildgröße konnte nicht erkannt werden."
 
 msgctxt "IDS_OUT_OF_MEMORY"
 msgid "Out of memory, go buy some more!"
-msgstr "Zu wenig Arbeitsspeicher verfügbar!"
+msgstr "Zu wenig Arbeitsspeicher verfügbar."
 
 msgctxt "IDS_THUMBNAILS_INVALID_FORMAT"
 msgid "Invalid image format, cannot create thumbnails out of %d bpp dibs."
-msgstr "Bildformat unzulässig. Miniaturansichten können aus geräteunabhängigem Bitmap mit %d bpp nicht erstellt werden."
+msgstr "Das vorgegebene Bildformat ist ungültig. Miniaturansichten können aus geräteunabhängigem Bitmap mit %d bpp nicht erstellt werden."
 
 msgctxt "IDS_THUMBNAILS_INFO_FILESIZE"
 msgid "File Size: %s (%s bytes)\\N"
@@ -2313,7 +2317,7 @@ msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Dateiname: %s\\N%sAuflösung
 
 msgctxt "IDS_THUMBNAIL_TOO_SMALL"
 msgid "The thumbnails would be too small, impossible to create the file.\n\nTry lowering the number of thumbnails or increasing the total size."
-msgstr "Miniaturansichten können in dieser geringen Größe nicht erstellt werden. Bitte die Anzahl der Miniaturansichten verringern oder deren Gesamtgröße erhöhen."
+msgstr "Das vorgegebene Bildformat ist ungültig. Miniaturansichten können in dieser geringen Größe nicht erstellt werden. Bitte die Anzahl der Miniaturansichten verringern oder deren Gesamtgröße erhöhen."
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
@@ -2345,31 +2349,31 @@ msgstr "Zu wenig Arbeitsspeicher verfügbar"
 
 msgctxt "IDS_MAINFRM_77"
 msgid "Error: Adobe Flash Player for Internet Explorer is required"
-msgstr "Adobe Flash Player für Internet Explorer wird benötigt."
+msgstr "Kann Adobe Flash Player für Internet Explorer nicht finden"
 
 msgctxt "IDS_MAINFRM_78"
 msgid "QuickTime not yet supported for X64 (apple library not available)"
-msgstr "QuickTime wird in 64-Bit-Umgebung nicht unterstützt."
+msgstr "QuickTime kann mit 64-Bit nicht ausgeführt werden"
 
 msgctxt "IDS_MAINFRM_80"
 msgid "Failed to create the filter graph object"
-msgstr "Erstellung des Filtergraph-Objekts fehlgeschlagen"
+msgstr "Kann Filtergraph-Objekt nicht erstellen"
 
 msgctxt "IDS_MAINFRM_81"
 msgid "Invalid argument"
-msgstr "Argument unzulässig"
+msgstr "Ungültiges Argument"
 
 msgctxt "IDS_MAINFRM_82"
 msgid "Opening aborted"
-msgstr "Öffnen abgebrochen"
+msgstr "Abbruch"
 
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
-msgstr "Datei-Rendering fehlgeschlagen"
+msgstr "Kann Datei nicht verarbeiten"
 
 msgctxt "IDS_PPSDB_BADURL"
 msgid "Bad URL, could not locate subtitle database there!"
-msgstr "URL ungültig. Verbindung zur Untertiteldatenbank konnte nicht hergestellt werden."
+msgstr "Die angegebene URL ist ungültig. Die Verbindung zur Untertiteldatenbank konnte nicht hergestellt werden."
 
 msgctxt "IDS_AG_CHAPTER2"
 msgid "Chapter: "
@@ -2390,14 +2394,6 @@ msgstr "Balance: %s"
 msgctxt "IDS_FULLSCREENMONITOR_CURRENT"
 msgid "Current"
 msgstr "Aktueller Monitor"
-
-msgctxt "IDS_MPC_CRASH"
-msgid "MPC-HC terminated unexpectedly. To help us fix this problem, please send this file \"%s\" to our bug tracker.\n\nDo you want to open the folder containing the minidump file and visit the bug tracker now?"
-msgstr "MPC-HC unerwartet beendet. Zur Lösung des Problems bitte die Datei \"%s\" an den Bugtracker senden.\n\nDateiordner jetzt öffnen und den Bugtracker aufrufen?"
-
-msgctxt "IDS_MPC_MINIDUMP_FAIL"
-msgid "Failed to create dump file to \"%s\" (error %u)"
-msgstr "Erstellung der Minidump-Datei \"%s\" fehlgeschlagen. (Fehler %u)"
 
 msgctxt "IDS_MAINFRM_DIR_TITLE"
 msgid "Select Directory"
@@ -2425,7 +2421,7 @@ msgstr "Ansicht: Steuerelemente (ein/aus)"
 
 msgctxt "IDS_MAINFRM_84"
 msgid "Invalid file name"
-msgstr "Dateiname unzulässig"
+msgstr "Ungültiger Dateiname"
 
 msgctxt "IDS_MAINFRM_86"
 msgid "Cannot connect the filters"
@@ -2433,27 +2429,27 @@ msgstr "Kann Filter nicht verbinden"
 
 msgctxt "IDS_MAINFRM_87"
 msgid "Cannot load any source filter"
-msgstr "Kann Quellen-Filter nicht laden"
+msgstr "Kann keine Quellen-Filter laden"
 
 msgctxt "IDS_MAINFRM_88"
 msgid "Cannot render the file"
-msgstr "Kann Datei nicht rendern"
+msgstr "Kann Datei nicht verarbeiten"
 
 msgctxt "IDS_MAINFRM_89"
 msgid "Invalid file format"
-msgstr "Dateiformat unzulässig"
+msgstr "Ungültiges Dateiformat"
 
 msgctxt "IDS_MAINFRM_90"
 msgid "File not found"
-msgstr "Datei nicht gefunden"
+msgstr "Kann Datei nicht finden"
 
 msgctxt "IDS_MAINFRM_91"
 msgid "Unknown file type"
-msgstr "Dateityp unbekannt"
+msgstr "Ungültiger Dateityp"
 
 msgctxt "IDS_MAINFRM_92"
 msgid "Unsupported stream"
-msgstr "Stream wird nicht unterstützt"
+msgstr "Ungültiger Stream"
 
 msgctxt "IDS_MAINFRM_93"
 msgid "Cannot find DVD directory"
@@ -2465,7 +2461,7 @@ msgstr "Kann DVD-Navigator-Filter nicht erstellen"
 
 msgctxt "IDS_AG_FAILED"
 msgid "Failed"
-msgstr "Fehlgeschlagen"
+msgstr "Fehler"
 
 msgctxt "IDS_MAINFRM_96"
 msgid "Can't create video capture filter"
@@ -2473,7 +2469,7 @@ msgstr "Kann Videoaufnahme-Filter nicht erstellen"
 
 msgctxt "IDS_MAINFRM_98"
 msgid "No capture filters"
-msgstr "Kein Aufnahme-Filter verfügbar"
+msgstr "Kann keine Aufnahme-Filter laden"
 
 msgctxt "IDS_MAINFRM_99"
 msgid "Can't create capture graph builder object"
@@ -2481,7 +2477,7 @@ msgstr "Kann Aufnahmegraph-Builder-Objekt nicht erstellen"
 
 msgctxt "IDS_MAINFRM_108"
 msgid "Couldn't open any device"
-msgstr "Kann kein Gerät öffnen"
+msgstr "Kann Gerät nicht öffnen"
 
 msgctxt "IDS_AG_SOUND"
 msgid "Sound"
@@ -2489,11 +2485,11 @@ msgstr "Audio"
 
 msgctxt "IDS_MAINFRM_114"
 msgid "%s was not found, please insert media containing this file."
-msgstr "%s nicht gefunden. Bitte zugehöriges Medium verfügbar machen."
+msgstr "Kann %s nicht finden"
 
 msgctxt "IDS_AG_ABORTED"
 msgid "Aborted"
-msgstr "Abgebrochen"
+msgstr "Abbruch"
 
 msgctxt "IDS_MAINFRM_116"
 msgid "&Properties..."
@@ -2505,11 +2501,11 @@ msgstr " (Pin-)Eigenschaften..."
 
 msgctxt "IDS_AG_UNKNOWN_STREAM"
 msgid "Unknown Stream"
-msgstr "Stream unbekannt"
+msgstr "Unbekannter Stream"
 
 msgctxt "IDS_AG_UNKNOWN"
 msgid "Unknown %u"
-msgstr "%u unbekannt"
+msgstr "Unbekannt %u"
 
 msgctxt "IDS_AG_VSYNC"
 msgid "VSync"
@@ -2549,7 +2545,7 @@ msgstr "Direct3D-Vollbildmodus"
 
 msgctxt "IDS_MAINFRM_137"
 msgid "Unknown format"
-msgstr "Format unbekannt"
+msgstr "Unbekanntes Format"
 
 msgctxt "IDS_MAINFRM_138"
 msgid "Sub shift: %ld ms"
@@ -2572,12 +2568,12 @@ msgid "Volume boost Max"
 msgstr "Tonverstärkung: +300 % (max)"
 
 msgctxt "IDS_USAGE"
-msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/randomize\tRandomize the playlist\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tUse MPC-HC as slave\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "Aufruf: mpc-hc.exe \"Pfadname\" [Optionen]\n\n\"Pfadname\"\tGibt Mediendatei oder Verzeichnis an\n\t\t(Wildcards sind möglich, Standardeingabe kann\n\t\tals \"-\" angegeben werden).\n/dub \"Datei\"\tÖffnet zusätzliche Audiodatei.\n/dubdelay \"Datei\"\tÖffnet zusätzliche Audiodatei, deren Wiedergabe\n\t\tum X ms versetzt wird (Dateiname muss\n\t\t\"DELAY Xms\" enthalten).\n/d3dfs\t\tStartet Player im Direct3D-Vollbildmodus.\n/sub \"Datei\"\tÖffnet zusätzliche Untertiteldatei.\n/filter \"F\"\t\tLädt DirectShow-Filter \"F\" aus Laufzeitbibliothek\n\t\t(Wildcards sind möglich).\n/dvd\t\tStartet Player im DVD-Modus (DVD-Verzeichnis\n\t\tkann als \"Pfadname\" angegeben werden).\n/dvdpos T#C\tStartet DVD-Wiedergabe bei Titel T, Kapitel C.\n/dvdpos T#P\tStartet DVD-Wiedergabe bei Titel T, Position P\n\t\t(hh:mm:ss).\n/cd\t\tÖffnet Audio-CD oder (S)VCD (Laufwerk kann\n\t\tals \"Pfadname\" angegeben werden).\n/device\t\tÖffnet Gerät.\n/open\t\tÖffnet Mediendatei und pausiert Wiedergabe.\n/play\t\tÖffnet Mediendatei und startet Wiedergabe.\n/close\t\tBeendet Player (nach Wiedergabe) (in\n\t\tKombination mit \"/play\").\n/shutdown\tFährt Computer herunter (nach Wiedergabe).\n/standby\t\tSpart Energie (nach Wiedergabe).\n/hibernate\tWechselt in Ruhezustand (nach Wiedergabe).\n/logoff\t\tMeldet Benutzer ab (nach Wiedergabe).\n/lock\t\tSperrt Computer (nach Wiedergabe).\n/monitoroff\tSchaltet Bildschirm aus (nach Wiedergabe).\n/playnext\t\tÖffnet nächste Ordnerdatei (nach Wiedergabe).\n/fullscreen\tStartet Player im Vollbild.\n/minimized\tStartet Player minimiert.\n/new\t\tÖffnet Mediendatei mit neuem Player.\n/add\t\tFügt \"Pfadname\" zur Wiedergabeliste hinzu\n\t\t(in Kombination mit \"/open\" oder \"/play\").\n/randomize\tSortiert Wiedergabeliste nach Zufall.\n/regvid\t\tRegistriert alle Videoformate.\n/regaud\t\tRegistriert alle Audioformate.\n/regpl\t\tRegistriert alle Wiedergabelisten.\n/regall\t\tRegistriert alle Medienformate.\n/unregall\t\tDeregistriert alle Medienformate.\n/start X\t\tStartet Wiedergabe bei X ms.\n/startpos P\tStartet Wiedergabe bei Position P (hh:mm:ss).\n/fixedsize W,H\tFixiert Fenstergröße bei Breite W und Höhe H.\n/monitor N\tStartet Player auf Monitor N (wobei N > 0).\n/audiorenderer N\tLädt Audio-Renderer N (wobei N > 0, siehe\n\t\tAusgabe-Optionen).\n/shaderpreset \"P\"\tLädt Shader-Profil \"P\".\n/pns \"P\"\t\tLädt Pan&Scan-Profil \"P\".\n/iconsassoc\tOrdnet Format-Icons neu zu.\n/nofocus\t\tStartet Player im Hintergrund.\n/webport N\tVerwendet Web-Interface mit Portnummer N.\n/debug\t\tZeigt Debug-Information im OSD an.\n/nocrashreporter\tDeaktiviert Fehlerberichterstattung.\n/slave \"T\"\t\tÖffnet Mediendatei mit gestartetem Player,\n\t\tversehen mit Fenstertitel \"T\".\n/reset\t\tSetzt alle Programm-Einstellungen zurück.\n/help /h /?\tZeigt diese Hilfe an.\n"
+msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/randomize\tRandomize the playlist\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tUse MPC-HC as slave\n/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding\n\t\tOnly available for CUVID and DXVA2 (copy-back)\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
+msgstr "Aufruf: mpc-hc.exe \"Pfadname\" [Optionen]\n\n\"Pfadname\"\tGibt Mediendatei oder Verzeichnis an\n\t\t(Wildcards sind möglich, Standardeingabe kann\n\t\tals \"-\" angegeben werden).\n/dub \"Datei\"\tÖffnet zusätzliche Audiodatei.\n/dubdelay \"Datei\"\tÖffnet zusätzliche Audiodatei, deren Wiedergabe\n\t\tum X ms versetzt wird (Dateiname muss\n\t\t\"DELAY Xms\" enthalten).\n/d3dfs\t\tStartet Player im Direct3D-Vollbildmodus.\n/sub \"Datei\"\tÖffnet zusätzliche Untertiteldatei.\n/filter \"F\"\t\tLädt DirectShow-Filter \"F\" aus Laufzeitbibliothek\n\t\t(Wildcards sind möglich).\n/dvd\t\tStartet Player im DVD-Modus (DVD-Verzeichnis\n\t\tkann als \"Pfadname\" angegeben werden).\n/dvdpos T#C\tStartet DVD-Wiedergabe bei Titel T, Kapitel C.\n/dvdpos T#P\tStartet DVD-Wiedergabe bei Titel T, Position P\n\t\t(hh:mm:ss).\n/cd\t\tÖffnet Audio-CD oder (S)VCD (Laufwerk kann\n\t\tals \"Pfadname\" angegeben werden).\n/device\t\tÖffnet Gerät.\n/open\t\tÖffnet Mediendatei und pausiert Wiedergabe.\n/play\t\tÖffnet Mediendatei und startet Wiedergabe.\n/close\t\tBeendet Player (nach Wiedergabe) (in\n\t\tKombination mit \"/play\").\n/shutdown\tFährt Computer herunter (nach Wiedergabe).\n/standby\t\tSpart Energie (nach Wiedergabe).\n/hibernate\tWechselt in Ruhezustand (nach Wiedergabe).\n/logoff\t\tMeldet Benutzer ab (nach Wiedergabe).\n/lock\t\tSperrt Computer (nach Wiedergabe).\n/monitoroff\tSchaltet Bildschirm aus (nach Wiedergabe).\n/playnext\t\tÖffnet nächste Ordnerdatei (nach Wiedergabe).\n/fullscreen\tStartet Player im Vollbild.\n/minimized\tStartet Player minimiert.\n/new\t\tÖffnet Mediendatei mit neuem Player.\n/add\t\tFügt \"Pfadname\" zur Wiedergabeliste hinzu\n\t\t(in Kombination mit \"/open\" oder \"/play\").\n/randomize\tSortiert Wiedergabeliste nach Zufall.\n/regvid\t\tRegistriert alle Videoformate.\n/regaud\t\tRegistriert alle Audioformate.\n/regpl\t\tRegistriert alle Wiedergabelisten.\n/regall\t\tRegistriert alle Medienformate.\n/unregall\t\tDeregistriert alle Medienformate.\n/start X\t\tStartet Wiedergabe bei X ms.\n/startpos P\tStartet Wiedergabe bei Position P (hh:mm:ss).\n/fixedsize W,H\tFixiert Fenstergröße bei Breite W und Höhe H.\n/monitor N\tStartet Player auf Monitor N (wobei N > 0).\n/audiorenderer N\tLädt Audio-Renderer N (wobei N > 0, siehe\n\t\tAusgabe-Optionen).\n/shaderpreset \"P\"\tLädt Shader-Profil \"P\".\n/pns \"P\"\t\tLädt Pan&Scan-Profil \"P\".\n/iconsassoc\tOrdnet Format-Icons neu zu.\n/nofocus\t\tStartet Player im Hintergrund.\n/webport N\tStartet Web-Interface mit Portnummer N.\n/debug\t\tZeigt Debug-Information im OSD an.\n/nocrashreporter\tDeaktiviert Fehlerberichterstattung.\n/slave \"T\"\t\tÖffnet Mediendatei mit gestartetem Player,\n\t\tversehen mit Fenstertitel \"T\".\n/hwgpu \"I\"\tVerwendet GPU-Index \"I\" für Hardware-Decoding,\n\t\tnur für CUVID und DXVA2 (copy-back) verfügbar\n/reset\t\tSetzt alle Programm-Einstellungen zurück.\n/help /h /?\tZeigt diese Hilfe an.\n"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
-msgstr "Unbekannte Option in der Befehlszeile:\n\n"
+msgstr "Unbekannte Option in der Befehlszeile:\n"
 
 msgctxt "IDS_AG_TOGGLE_INFO"
 msgid "Toggle Information"
@@ -2665,7 +2661,7 @@ msgstr "Frequenzbereich scannen"
 
 msgctxt "IDS_SUBTITLES_ERROR"
 msgid "Subtitles are not loaded or unsupported renderer."
-msgstr "Untertitel nicht geladen oder werden vom Renderer nicht unterstützt."
+msgstr "Kann Untertitel nicht laden oder mit Renderer darstellen"
 
 msgctxt "IDS_LOGO_AUTHOR"
 msgid "Author unknown. Contact us if you made this logo!"
@@ -2673,15 +2669,15 @@ msgstr "Autor unbekannt. Als Verfasser bitte melden!"
 
 msgctxt "IDS_NO_MORE_MEDIA"
 msgid "No more media in the current folder."
-msgstr "Keine weitere Ordnerdatei verfügbar."
+msgstr "Keine weitere Ordnerdatei verfügbar"
 
 msgctxt "IDS_FIRST_IN_FOLDER"
 msgid "The first file of the folder is already loaded."
-msgstr "Erste Ordnerdatei bereits geöffnet."
+msgstr "Erste Ordnerdatei bereits erreicht"
 
 msgctxt "IDS_LAST_IN_FOLDER"
 msgid "The last file of the folder is already loaded."
-msgstr "Letzte Ordnerdatei bereits geöffnet."
+msgstr "Letzte Ordnerdatei bereits erreicht"
 
 msgctxt "IDS_FRONT_LEFT"
 msgid "Front Left"
@@ -3047,18 +3043,6 @@ msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
 msgid "Aspect Ratio"
 msgstr "Seitenverhältnis"
 
-msgctxt "IDS_ARS_WASAPI_MODE"
-msgid "Use WASAPI (restart playback)"
-msgstr "WASAPI verwenden (Wiedergabe neu starten)"
-
-msgctxt "IDS_ARS_MUTE_FAST_FORWARD"
-msgid "Mute on fast forward"
-msgstr "Stummschaltung bei schnellem Vorlauf"
-
-msgctxt "IDS_ARS_SOUND_DEVICE"
-msgid "Sound Device:"
-msgstr "Soundgerät:"
-
 msgctxt "IDS_OSD_RS_VSYNC_ON"
 msgid "VSync: On"
 msgstr "VSync: Ein"
@@ -3205,19 +3189,19 @@ msgstr "Alternativer VSync: Aus"
 
 msgctxt "IDS_OSD_RS_RESET_DEFAULT"
 msgid "Renderer settings reset to default"
-msgstr "Standard-Einstellungen für Video-Renderer geladen."
+msgstr "Standard-Einstellungen für Video-Renderer geladen"
 
 msgctxt "IDS_OSD_RS_RESET_OPTIMAL"
 msgid "Renderer settings reset to optimal"
-msgstr "Optimierte Einstellungen für Video-Renderer geladen."
+msgstr "Optimierte Einstellungen für Video-Renderer geladen"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
 msgid "D3D Fullscreen GUI Support: On"
-msgstr "GUI-Unterstützung bei Direct3D-Vollbildmodus: Ein"
+msgstr "GUI-Unterstützung für Direct3D-Vollbildmodus: Ein"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF"
 msgid "D3D Fullscreen GUI Support: Off"
-msgstr "GUI-Unterstützung bei Direct3D-Vollbildmodus: Aus"
+msgstr "GUI-Unterstützung für Direct3D-Vollbildmodus: Aus"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_ON"
 msgid "10-bit RGB Output: On"
@@ -3253,39 +3237,39 @@ msgstr "Gleitkommaverarbeitung mit halber Genauigkeit: Aus"
 
 msgctxt "IDS_BRIGHTNESS_DEC"
 msgid "Brightness decrease"
-msgstr "Helligkeit verringern"
+msgstr "Farbsteuerung: Helligkeit verringern"
 
 msgctxt "IDS_CONTRAST_INC"
 msgid "Contrast increase"
-msgstr "Kontrast erhöhen"
+msgstr "Farbsteuerung: Kontrast erhöhen"
 
 msgctxt "IDS_CONTRAST_DEC"
 msgid "Contrast decrease"
-msgstr "Kontrast verringern"
+msgstr "Farbsteuerung: Kontrast verringern"
 
 msgctxt "IDS_HUE_INC"
 msgid "Hue increase"
-msgstr "Farbton erhöhen"
+msgstr "Farbsteuerung: Farbton erhöhen"
 
 msgctxt "IDS_HUE_DEC"
 msgid "Hue decrease"
-msgstr "Farbton verringern"
+msgstr "Farbsteuerung: Farbton verringern"
 
 msgctxt "IDS_SATURATION_INC"
 msgid "Saturation increase"
-msgstr "Sättigung erhöhen"
+msgstr "Farbsteuerung: Sättigung erhöhen"
 
 msgctxt "IDS_SATURATION_DEC"
 msgid "Saturation decrease"
-msgstr "Sättigung verringern"
+msgstr "Farbsteuerung: Sättigung verringern"
 
 msgctxt "IDS_RESET_COLOR"
 msgid "Reset color settings"
-msgstr "Farbeinstellungen zurücksetzen"
+msgstr "Farbsteuerung: Zurücksetzen"
 
 msgctxt "IDS_USING_LATEST_STABLE"
 msgid "\nYou are already using the latest stable version."
-msgstr "\nAktuelle stabile Version wird bereits verwendet."
+msgstr "\nKeine neuere stabile Version verfügbar."
 
 msgctxt "IDS_USING_NEWER_VERSION"
 msgid "Your current version is v%s.\n\nThe latest stable version is v%s."
@@ -3293,11 +3277,11 @@ msgstr "Vorliegende Version:\t%s\n\nAktuelle stabile Version:\t%s"
 
 msgctxt "IDS_NEW_UPDATE_AVAILABLE"
 msgid "MPC-HC v%s is now available. You are using v%s.\n\nDo you want to visit MPC-HC's website to download it?"
-msgstr "MPC-HC %s ist verfügbar. Zurzeit wird noch Version %s verwendet.\n\nAktuelle Version jetzt herunterladen?"
+msgstr "Der MPC-HC %s ist verfügbar. Zurzeit wird noch Version %s verwendet.\n\nAktuelle Version jetzt herunterladen?"
 
 msgctxt "IDS_UPDATE_ERROR"
 msgid "Update server not found.\n\nPlease check your internet connection or try again later."
-msgstr "Update-Server nicht erreichbar. Bitte die Internetverbindung prüfen oder später erneut versuchen."
+msgstr "Update-Server ist nicht erreichbar. Bitte die Internetverbindung prüfen oder später erneut versuchen."
 
 msgctxt "IDS_UPDATE_CLOSE"
 msgid "&Close"
@@ -3309,7 +3293,7 @@ msgstr "Zoom: %.0lf %%"
 
 msgctxt "IDS_OSD_ZOOM_AUTO"
 msgid "Zoom: Auto"
-msgstr "Zoom: Auto-Anpassung"
+msgstr "Zoom: Eingepasst"
 
 msgctxt "IDS_CUSTOM_CHANNEL_MAPPING"
 msgid "Toggle custom channel mapping"
@@ -3373,63 +3357,63 @@ msgstr "MB/s"
 
 msgctxt "IDS_BDA_ERROR_CREATE_TUNER"
 msgid "Could not create the tuner."
-msgstr "Tuner konnte nicht erstellt werden."
+msgstr "Kann Tuner nicht erstellen"
 
 msgctxt "IDS_BDA_ERROR_CREATE_RECEIVER"
 msgid "Could not create the receiver."
-msgstr "Receiver konnte nicht erstellt werden."
+msgstr "Kann Receiver nicht erstellen"
 
 msgctxt "IDS_BDA_ERROR_CONNECT_NW_TUNER"
 msgid "Could not connect the network and the tuner."
-msgstr "Netzwerk und Tuner konnten nicht verbunden werden."
+msgstr "Kann Netzwerk und Tuner nicht verbinden"
 
 msgctxt "IDS_BDA_ERROR_CONNECT_TUNER_REC"
 msgid "Could not connect the tuner and the receiver."
-msgstr "Tuner und Receiver konnten nicht verbunden werden."
+msgstr "Kann Tuner und Receiver nicht verbinden"
 
 msgctxt "IDS_BDA_ERROR_CONNECT_TUNER"
 msgid "Could not connect the tuner."
-msgstr "Tuner konnte nicht verbunden werden."
+msgstr "Kann Tuner nicht verbinden"
 
 msgctxt "IDS_BDA_ERROR_DEMULTIPLEXER"
 msgid "Could not create the demultiplexer."
-msgstr "Demultiplexer konnte nicht erstellt werden."
+msgstr "Kann Demultiplexer nicht erstellen"
 
 msgctxt "IDS_GOTO_ERROR_PARSING_TIME"
 msgid "Error parsing the entered time!"
-msgstr "Parser-Fehler bei angegebener Zeit."
+msgstr "Der angegebene Zeitpunkt ist ungültig."
 
 msgctxt "IDS_GOTO_ERROR_PARSING_TEXT"
 msgid "Error parsing the entered text!"
-msgstr "Parser-Fehler bei angegebenem Text."
+msgstr "Das angegebene Videobild ist ungültig."
 
 msgctxt "IDS_GOTO_ERROR_PARSING_FPS"
 msgid "Error parsing the entered frame rate!"
-msgstr "Parser-Fehler bei angegebener Bildrate."
+msgstr "Die angegebene Bildrate ist ungültig."
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
 msgid "Cannot frame-step, try a different video renderer."
-msgstr "Einzelbildschaltung nicht möglich. Bitte einen anderen Video-Renderer verwenden."
+msgstr "Einzelbildschaltung ist nicht möglich. Bitte einen geeigneten Video-Renderer wählen und die Mediendatei erneut öffnen."
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for RealMedia.\nSelect one of the DirectX renderers for RealMedia in MPC-HC's output options and reopen the file."
-msgstr "Die Funktionen \"Bild speichern\" und \"Miniaturansichten speichern\" können mit dem Standard-Renderer von RealMedia nicht verwendet werden. Bitte einen VMR-Renderer für RealMedia-Video in den Ausgabe-Optionen wählen und die Mediendatei erneut öffnen."
+msgstr "Die Funktionen \"Bild speichern\" und \"Miniaturansichten speichern\" können mit dem Standard-Renderer von RealMedia nicht verwendet werden. Für RealMedia-Video bitte einen VMR-Renderer wählen und die Mediendatei erneut öffnen."
 
 msgctxt "IDS_SCREENSHOT_ERROR_QT"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for QuickTime.\nSelect one of the DirectX renderers for QuickTime in MPC-HC's output options and reopen the file."
-msgstr "Die Funktionen \"Bild speichern\" und \"Miniaturansichten speichern\" können mit dem Standard-Renderer von QuickTime nicht verwendet werden. Bitte einen VMR-Renderer für QuickTime-Video in den Ausgabe-Optionen wählen und die Mediendatei erneut öffnen."
+msgstr "Die Funktionen \"Bild speichern\" und \"Miniaturansichten speichern\" können mit dem Standard-Renderer von QuickTime nicht verwendet werden. Für QuickTime-Video bitte einen VMR-Renderer wählen und die Mediendatei erneut öffnen."
 
 msgctxt "IDS_SCREENSHOT_ERROR_SHOCKWAVE"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work for Shockwave files."
-msgstr "Die Funktionen \"Bild speichern\" und \"Miniaturansichten speichern\" können mit Shockwave-Dateien nicht verwendet werden."
+msgstr "Die Funktionen \"Bild speichern\" und \"Miniaturansichten speichern\" können mit Shockwave-Dateien generell nicht verwendet werden."
 
 msgctxt "IDS_SCREENSHOT_ERROR_OVERLAY"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the Overlay Mixer video renderer.\nChange the video renderer in MPC's output options and reopen the file."
-msgstr "Die Funktionen \"Bild speichern\" und \"Miniaturansichten speichern\" können mit dem Overlay-Mixer nicht verwendet werden. Bitte einen geeigneten Video-Renderer in den Ausgabe-Optionen wählen und die Mediendatei erneut öffnen."
+msgstr "Die Funktionen \"Bild speichern\" und \"Miniaturansichten speichern\" können mit dem Overlay-Mixer nicht verwendet werden. Bitte einen geeigneten Video-Renderer wählen und die Mediendatei erneut öffnen."
 
 msgctxt "IDS_SUBDL_DLG_CONNECT_ERROR"
 msgid "Cannot connect to the online subtitles database."
-msgstr "Kann Verbindung zur Untertiteldatenbank nicht herstellen"
+msgstr "Kann Untertiteldatenbank nicht finden"
 
 msgctxt "IDS_MB_SHOW_EDL_EDITOR"
 msgid "Do you want to activate the EDL editor?"
@@ -3437,67 +3421,67 @@ msgstr "EDL-Editor aktivieren?"
 
 msgctxt "IDS_CAPTURE_ERROR"
 msgid "Capture Error"
-msgstr "Aufnahmefehler!"
+msgstr "Ein Aufnahmefehler ist aufgetreten."
 
 msgctxt "IDS_CAPTURE_ERROR_VIDEO"
 msgid "video"
-msgstr "Videofehler!"
+msgstr "Ein Videofehler ist aufgetreten."
 
 msgctxt "IDS_CAPTURE_ERROR_AUDIO"
 msgid "audio"
-msgstr "Audiofehler!"
+msgstr "Ein Audiofehler ist aufgetreten."
 
 msgctxt "IDS_CAPTURE_ERROR_ADD_BUFFER"
 msgid "Can't add the %s buffer filter to the graph."
-msgstr "Puffer-Filter %s konnte zum Filtergraphen nicht hinzugefügt werden."
+msgstr "Kann Puffer-Filter %s zum Filtergraphen nicht hinzufügen"
 
 msgctxt "IDS_CAPTURE_ERROR_CONNECT_BUFF"
 msgid "Can't connect the %s buffer filter to the graph."
-msgstr "Puffer-Filter %s konnte mit Filtergraphen nicht verbunden werden."
+msgstr "Kann Puffer-Filter %s mit Filtergraphen nicht verbinden"
 
 msgctxt "IDS_CAPTURE_ERROR_ADD_ENCODER"
 msgid "Can't add the %s encoder filter to the graph."
-msgstr "Encoder-Filter %s konnte zum Filtergraphen nicht hinzugefügt werden."
+msgstr "Kann Encoder-Filter %s zum Filtergraphen nicht hinzufügen"
 
 msgctxt "IDS_CAPTURE_ERROR_CONNECT_ENC"
 msgid "Can't connect the %s encoder filter to the graph."
-msgstr "Encoder-Filter %s konnte mit Filtergraphen nicht verbunden werden."
+msgstr "Kann Encoder-Filter %s mit Filtergraphen nicht verbinden"
 
 msgctxt "IDS_CAPTURE_ERROR_COMPRESSION"
 msgid "Can't set the compression format on the %s encoder filter."
-msgstr "Kompressionsformat konnte auf Encoder-Filter %s nicht angewandt werden."
+msgstr "Kann Kompressionsformat mit Encoder-Filter %s nicht einrichten"
 
 msgctxt "IDS_CAPTURE_ERROR_MULTIPLEXER"
 msgid "Can't connect the %s stream to the multiplexer filter."
-msgstr "Stream %s konnte mit Multiplexer-Filter nicht verbunden werden."
+msgstr "Kann Stream %s mit Multiplexer-Filter nicht verbinden"
 
 msgctxt "IDS_CAPTURE_ERROR_VID_CAPT_PIN"
 msgid "No video capture pin was found."
-msgstr "Keinen Videoaufnahme-Pin gefunden."
+msgstr "Kann keine Videoaufnahme-Pins rendern"
 
 msgctxt "IDS_CAPTURE_ERROR_AUD_CAPT_PIN"
 msgid "No audio capture pin was found."
-msgstr "Keinen Audioaufnahme-Pin gefunden."
+msgstr "Kann keine Audioaufnahme-Pins rendern"
 
 msgctxt "IDS_CAPTURE_ERROR_OUT_FILE"
 msgid "Error initializing the output file."
-msgstr "Initialisierung der Ausgabedatei fehlgeschlagen."
+msgstr "Ausgabedatei konnte nicht initialisiert werden."
 
 msgctxt "IDS_CAPTURE_ERROR_AUD_OUT_FILE"
 msgid "Error initializing the audio output file."
-msgstr "Initialisierung der Audio-Ausgabedatei fehlgeschlagen."
+msgstr "Audio-Ausgabedatei konnte nicht initialisiert werden."
 
 msgctxt "IDS_SUBRESYNC_TIME_FORMAT"
 msgid "The correct time format is [-]hh:mm:ss.ms (e.g. 01:23:45.678)."
-msgstr "Gültiges Zeitformat: [-]hh:mm:ss.ms (bspw. 01:23:45.678)"
+msgstr "Gültiges Zeitformat: [-]hh:mm:ss.ms"
 
 msgctxt "IDS_EXTERNAL_FILTERS_ERROR_MT"
 msgid "This type is already in the list!"
-msgstr "Typ in der Liste bereits vermerkt."
+msgstr "Der gewählte Typ wird bereits verwendet."
 
 msgctxt "IDS_WEBSERVER_ERROR_TEST"
 msgid "You need to apply the new settings before testing them."
-msgstr "Bitte bisher nicht gespeicherte Einstellungen zuvor übernehmen."
+msgstr "Bitte nicht gespeicherte Einstellungen zuvor übernehmen."
 
 msgctxt "IDS_AFTERPLAYBACK_EXIT"
 msgid "After Playback: Exit"
@@ -3553,15 +3537,15 @@ msgstr "Sättigung: %s"
 
 msgctxt "IDS_OSD_RESET_COLOR"
 msgid "Color settings restored"
-msgstr "Farbeinstellungen zurückgesetzt."
+msgstr "Standard-Einstellungen für Farbsteuerung geladen"
 
 msgctxt "IDS_OSD_NO_COLORCONTROL"
 msgid "Color control is not supported"
-msgstr "Farbeinstellungen werden nicht unterstützt."
+msgstr "Farbsteuerung nicht verfügbar"
 
 msgctxt "IDS_BRIGHTNESS_INC"
 msgid "Brightness increase"
-msgstr "Helligkeit erhöhen"
+msgstr "Farbsteuerung: Helligkeit erhöhen"
 
 msgctxt "IDS_LANG_PREF_EXAMPLE"
 msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
@@ -3614,4 +3598,12 @@ msgstr "Abwahl aller Medienformate"
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"
 msgstr "Einstellungen"
+
+msgctxt "IDS_SUBTITLE_RENDERER_VS_FILTER"
+msgid "VSFilter / DirectVobSub"
+msgstr "VSFilter / DirectVobSub"
+
+msgctxt "IDS_SUBTITLE_RENDERER_XY_SUB_FILTER"
+msgid "XySubFilter"
+msgstr "XySubFilter"
 

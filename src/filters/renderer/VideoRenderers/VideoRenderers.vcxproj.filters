@@ -169,5 +169,8 @@
     <ClInclude Include="FocusThread.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="AsyncCallback.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

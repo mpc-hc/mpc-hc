@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -36,9 +36,10 @@ CPPageWebServer::CPPageWebServer()
     , m_fEnableWebServer(FALSE)
     , m_nWebServerPort(0)
     , m_launch(_T("http://localhost:13579/"))
-    , m_fWebServerPrintDebugInfo(FALSE)
     , m_fWebServerUseCompression(FALSE)
     , m_fWebServerLocalhostOnly(FALSE)
+    , m_bWebUIEnablePreview(FALSE)
+    , m_fWebServerPrintDebugInfo(FALSE)
     , m_fWebRoot(FALSE)
 {
 }
@@ -53,12 +54,14 @@ void CPPageWebServer::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECK1, m_fEnableWebServer);
     DDX_Text(pDX, IDC_EDIT1, m_nWebServerPort);
     DDX_Control(pDX, IDC_EDIT1, m_nWebServerPortCtrl);
+    DDV_MinMaxInt(pDX, m_nWebServerPort, 1, 65535);
     DDX_Control(pDX, IDC_STATIC1, m_launch);
-    DDX_Check(pDX, IDC_CHECK2, m_fWebServerPrintDebugInfo);
     DDX_Check(pDX, IDC_CHECK3, m_fWebServerUseCompression);
+    DDX_Check(pDX, IDC_CHECK5, m_fWebServerLocalhostOnly);
+    DDX_Check(pDX, IDC_CHECK6, m_bWebUIEnablePreview);
+    DDX_Check(pDX, IDC_CHECK2, m_fWebServerPrintDebugInfo);
     DDX_Check(pDX, IDC_CHECK4, m_fWebRoot);
     DDX_Text(pDX, IDC_EDIT2, m_WebRoot);
-    DDX_Check(pDX, IDC_CHECK5, m_fWebServerLocalhostOnly);
     DDX_Text(pDX, IDC_EDIT3, m_WebServerCGI);
     DDX_Text(pDX, IDC_EDIT9, m_WebDefIndex);
 }
@@ -87,9 +90,10 @@ BOOL CPPageWebServer::OnInitDialog()
 
     m_fEnableWebServer = s.fEnableWebServer;
     m_nWebServerPort = s.nWebServerPort;
-    m_fWebServerPrintDebugInfo = s.fWebServerPrintDebugInfo;
-    m_fWebServerLocalhostOnly = s.fWebServerLocalhostOnly;
     m_fWebServerUseCompression = s.fWebServerUseCompression;
+    m_fWebServerLocalhostOnly = s.fWebServerLocalhostOnly;
+    m_bWebUIEnablePreview = s.bWebUIEnablePreview;
+    m_fWebServerPrintDebugInfo = s.fWebServerPrintDebugInfo;
     m_fWebRoot = s.strWebRoot.Find('*') < 0;
     m_WebRoot = s.strWebRoot;
     m_WebRoot.TrimLeft(_T('*'));
@@ -122,9 +126,10 @@ BOOL CPPageWebServer::OnApply()
 
     s.fEnableWebServer = !!m_fEnableWebServer;
     s.nWebServerPort = m_nWebServerPort;
-    s.fWebServerPrintDebugInfo = !!m_fWebServerPrintDebugInfo;
-    s.fWebServerLocalhostOnly = !!m_fWebServerLocalhostOnly;
     s.fWebServerUseCompression = !!m_fWebServerUseCompression;
+    s.fWebServerLocalhostOnly = !!m_fWebServerLocalhostOnly;
+    s.bWebUIEnablePreview = !!m_bWebUIEnablePreview;
+    s.fWebServerPrintDebugInfo = !!m_fWebServerPrintDebugInfo;
     s.strWebRoot = NewWebRoot;
     s.strWebDefIndex = m_WebDefIndex;
     s.strWebServerCGI = m_WebServerCGI;
@@ -220,6 +225,7 @@ BEGIN_MESSAGE_MAP(CPPageWebServer, CPPageBase)
     ON_BN_CLICKED(IDC_BUTTON1, OnBnClickedButton1)
     ON_BN_CLICKED(IDC_BUTTON2, OnBnClickedButton2)
     ON_UPDATE_COMMAND_UI(IDC_BUTTON1, OnUpdateButton2)
+    ON_BN_CLICKED(IDC_CHECK6, OnEnablePreviewChecked)
 END_MESSAGE_MAP()
 
 
@@ -263,4 +269,14 @@ void CPPageWebServer::OnBnClickedButton2()
 void CPPageWebServer::OnUpdateButton2(CCmdUI* pCmdUI)
 {
     pCmdUI->Enable(GetDlgItem(IDC_EDIT2)->GetWindowTextLength() > 0);
+}
+
+void CPPageWebServer::OnEnablePreviewChecked()
+{
+    if (IsDlgButtonChecked(IDC_CHECK6)
+            && (MessageBox(ResStr(IDS_WEBUI_PREVIEW_WARNING), nullptr, MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON2) == IDNO)) {
+        CheckDlgButton(IDC_CHECK6, BST_UNCHECKED);
+    } else {
+        SetModified();
+    }
 }

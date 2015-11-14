@@ -1,15 +1,15 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2014 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # ever_green, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-06-17 15:23:34+0000\n"
-"PO-Revision-Date: 2015-03-21 23:10+0000\n"
+"POT-Creation-Date: 2015-07-20 20:29:41+0000\n"
+"PO-Revision-Date: 2015-09-26 22:46+0000\n"
 "Last-Translator: ever_green\n"
-"Language-Team: Japanese (http://www.transifex.com/projects/p/mpc-hc/language/ja/)\n"
+"Language-Team: Japanese (http://www.transifex.com/mpc-hc/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -18,7 +18,7 @@ msgstr ""
 
 msgctxt "Messages_WelcomeLabel2"
 msgid "This will install [name] on your computer.\n\nIt is recommended that you close all other applications before continuing."
-msgstr "このプログラムはあなたのコンピュータ上に [name] をインストールします。\n\nセットアップを続行する前に他のすべてのアプリケーションを閉じることが推奨されます。"
+msgstr "このプログラムはご使用のコンピュータ上に [name] をインストールします。\n\nセットアップを続行する前に他のすべてのアプリケーションを閉じることを推奨します。"
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows XP Service Pack 3 or newer to run."
@@ -36,21 +36,17 @@ msgctxt "CustomMessages_msg_DeleteSettings"
 msgid "Do you also want to delete MPC-HC settings?\n\nIf you plan on installing MPC-HC again then you do not have to delete them."
 msgstr "MPC-HC の設定を削除してもよろしいですか？\n\nMPC-HC を再度インストールする場合、設定を削除する必要はありません。"
 
-msgctxt "CustomMessages_msg_SetupIsRunningWarning"
-msgid "MPC-HC setup is already running!"
-msgstr "MPC-HC のセットアップは既に実行されています！"
-
 msgctxt "CustomMessages_msg_simd_sse"
 msgid "This build of MPC-HC requires a CPU with SSE extension support.\n\nYour CPU does not have those capabilities."
-msgstr "このバージョンの MPC-HC には CPU の SSE 拡張サポートが必要です。\n\nお使いの CPU はこれらの機能を満たしていません。"
+msgstr "このバージョンの MPC-HC には CPU の SSE 拡張サポートが必要です。\n\nご使用の CPU はこれらの機能を満たしていません。"
 
 msgctxt "CustomMessages_msg_simd_sse2"
 msgid "This build of MPC-HC requires a CPU with SSE2 extension support.\n\nYour CPU does not have those capabilities."
-msgstr "このバージョンの MPC-HC には CPU の SSE2 拡張サポートが必要です。\n\nお使いの CPU はこれらの機能を満たしていません。"
+msgstr "このバージョンの MPC-HC には CPU の SSE2 拡張サポートが必要です。\n\nご使用の CPU はこれらの機能を満たしていません。"
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
-msgstr "Wiki ページに移動してツールバーの画像をダウンロードする"
+msgstr "Wiki ページに移動してツール バーの画像をダウンロードする"
 
 msgctxt "CustomMessages_tsk_AllUsers"
 msgid "For all users"

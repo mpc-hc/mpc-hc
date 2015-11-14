@@ -7,10 +7,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-15 16:53:42+0000\n"
-"PO-Revision-Date: 2015-05-18 07:12+0000\n"
-"Last-Translator: arestarh1986 <arestarh@ukr.net>\n"
-"Language-Team: Ukrainian (http://www.transifex.com/projects/p/mpc-hc/language/uk/)\n"
+"POT-Creation-Date: 2015-08-06 16:05:43+0000\n"
+"PO-Revision-Date: 2015-08-06 16:46+0000\n"
+"Last-Translator: Underground78\n"
+"Language-Team: Ukrainian (http://www.transifex.com/mpc-hc/mpc-hc/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -326,11 +326,11 @@ msgid "On/Off"
 msgstr "Ввімк./Вимк."
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
-msgid "From FPS"
+msgid "From (FPS)"
 msgstr "Від (кадри/с)"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
-msgid "To FPS"
+msgid "To (FPS)"
 msgstr "До (кадри/с)"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
@@ -465,6 +465,34 @@ msgctxt "IDD_PPAGESHADERS"
 msgid "Playback::Shaders"
 msgstr "Відтворення::Шейдери"
 
+msgctxt "IDD_FILEPROPRES"
+msgid "Resources"
+msgstr "Ресурси"
+
+msgctxt "IDD_PPAGEMISC"
+msgid "Miscellaneous"
+msgstr "Різне"
+
+msgctxt "IDD_FILEMEDIAINFO"
+msgid "MediaInfo"
+msgstr "MediaInfo"
+
+msgctxt "IDD_PPAGECAPTURE"
+msgid "Playback::Capture"
+msgstr "Відтворення::Захоплення"
+
+msgctxt "IDD_PPAGESYNC"
+msgid "Playback::Sync Renderer Settings"
+msgstr "Відтворення::Налаштування Sync Renderer"
+
+msgctxt "IDD_PPAGEFULLSCREEN"
+msgid "Playback::Fullscreen"
+msgstr "Відтворення::Повноекранний режим"
+
+msgctxt "IDD_PPAGEAUDIORENDERER"
+msgid "Internal Filters::Audio Renderer"
+msgstr ""
+
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
 msgstr "Аудіоперемикач"
@@ -556,30 +584,6 @@ msgstr "Програвач::Web-інтерфейс"
 msgctxt "IDD_PPAGESUBDB"
 msgid "Subtitles::Database"
 msgstr "Субтитри::База"
-
-msgctxt "IDD_FILEPROPRES"
-msgid "Resources"
-msgstr "Ресурси"
-
-msgctxt "IDD_PPAGEMISC"
-msgid "Miscellaneous"
-msgstr "Різне"
-
-msgctxt "IDD_FILEMEDIAINFO"
-msgid "MediaInfo"
-msgstr "MediaInfo"
-
-msgctxt "IDD_PPAGECAPTURE"
-msgid "Playback::Capture"
-msgstr "Відтворення::Захоплення"
-
-msgctxt "IDD_PPAGESYNC"
-msgid "Playback::Sync Renderer Settings"
-msgstr "Відтворення::Налаштування Sync Renderer"
-
-msgctxt "IDD_PPAGEFULLSCREEN"
-msgid "Playback::Fullscreen"
-msgstr "Відтворення::Повноекранний режим"
 
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
@@ -673,21 +677,9 @@ msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
 msgstr "Поверхня для відео виділяється як звичайна поверхня за межами екрану."
 
-msgctxt "IDC_AUDRND_COMBO"
-msgid "MPC Audio Renderer is broken, do not use."
-msgstr "Рендерер аудіо MPC є непрацюючим, не використовуйте його."
-
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
 msgstr "Sync Renderer"
-
-msgctxt "IDS_MPC_BUG_REPORT_TITLE"
-msgid "MPC-HC - Reporting a bug"
-msgstr "MPC-HC - Повідомлення про помилку"
-
-msgctxt "IDS_MPC_BUG_REPORT"
-msgid "MPC-HC just crashed but this build was compiled without debug information.\nIf you want to report this bug, you should first try an official build.\n\nDo you want to visit the download page now?"
-msgstr "Роботу MPC-HC несподівано перервано, але данна збірка була скомпільована без підтримки відлагоджувальної інформації.\nЯкщо ви хочете повідомити про помилку, вам необхідно спочатку завантажити офіційну збірку.\n\nВи хочете зараз відвідати сторінку для завантаження?"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
 msgid "Regular offscreen plain surface"
@@ -741,9 +733,9 @@ msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP"
 msgid "Null (uncompressed)"
 msgstr "Null (нестиснений)"
 
-msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_HC_REND"
-msgid "MPC-HC Audio Renderer"
-msgstr "Аудіорендерер MPC-HC"
+msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
+msgid "Internal Audio Renderer"
+msgstr ""
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
@@ -1387,10 +1379,30 @@ msgstr "Висока точність"
 
 msgctxt "IDS_AFTERPLAYBACK_REWIND"
 msgid "After Playback: Rewind current file"
-msgstr ""
+msgstr "Наприкінці відтворення: Перемотати файл на початок"
 
 msgctxt "IDS_AFTERPLAYBACK_CLOSE"
 msgid "After Playback: Close"
+msgstr "Наприкінці відтворення: Закрити файл"
+
+msgctxt "IDS_FRAME_INIT_FAILED"
+msgid "MPC-HC encountered a problem during initialization. With your help we might be able to fix the issue.\n\nDo you want to report it?"
+msgstr ""
+
+msgctxt "IDS_TIME_SHIFT_TOOLTIP"
+msgid "Enter a positive value if the audio is early, a negative value if it is late."
+msgstr ""
+
+msgctxt "IDS_WEBUI_DISABLED_PREVIEW_MSG"
+msgid "Preview is currently disabled. You can enable it in MPC-HC's options."
+msgstr ""
+
+msgctxt "IDS_WEBUI_PREVIEW_WARNING"
+msgid "This option can be used to preview media files from remote location. Use it only on a properly secured private network.\n\nDo you really want to enable this option?"
+msgstr ""
+
+msgctxt "IDS_SUBTITLE_RENDERER_INTERNAL"
+msgid "Internal Subtitle Renderer"
 msgstr ""
 
 msgctxt "IDS_AG_OPEN_DEVICE"
@@ -1675,15 +1687,23 @@ msgstr "Перейти на початок"
 
 msgctxt "IDS_OSD_SHOW_FILENAME"
 msgid "OSD: Show File Name"
+msgstr "OSD: Показ назви файла"
+
+msgctxt "IDS_PLAY_DVD"
+msgid "Play DVD"
+msgstr ""
+
+msgctxt "IDS_PLAY_BD"
+msgid "Play BD"
 msgstr ""
 
 msgctxt "IDS_OSD_DISPLAY_RENDERER_STATS"
 msgid "OSD: Display Renderer Statistics"
-msgstr ""
+msgstr "OSD: Показ статистики рендерера"
 
 msgctxt "IDS_OSD_RESET_RENDERER_STATS"
 msgid "OSD: Reset Renderer Statistics"
-msgstr ""
+msgstr "OSD: Скидання статистики рендерера"
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
@@ -1958,20 +1978,20 @@ msgid "Options"
 msgstr "Опції"
 
 msgctxt "IDS_AG_NEXT_AUDIO"
-msgid "Next Audio"
-msgstr "Наступне аудіо"
+msgid "Next Audio Track"
+msgstr ""
 
 msgctxt "IDS_AG_PREV_AUDIO"
-msgid "Prev Audio"
-msgstr "Попереднє аудіо"
+msgid "Prev Audio Track"
+msgstr ""
 
 msgctxt "IDS_AG_NEXT_SUBTITLE"
-msgid "Next Subtitle"
-msgstr "Наступні субтитри"
+msgid "Next Subtitle Track"
+msgstr ""
 
 msgctxt "IDS_AG_PREV_SUBTITLE"
-msgid "Prev Subtitle"
-msgstr "Попередні субтитри"
+msgid "Prev Subtitle Track"
+msgstr ""
 
 msgctxt "IDS_MPLAYERC_85"
 msgid "On/Off Subtitle"
@@ -1980,22 +2000,6 @@ msgstr "Ввімк./Вимк. субтитри"
 msgctxt "IDS_MPLAYERC_86"
 msgid "Reload Subtitles"
 msgstr "Перечитати субтитри"
-
-msgctxt "IDS_MPLAYERC_87"
-msgid "Next Audio (OGM)"
-msgstr "Наступне аудіо (OGM)"
-
-msgctxt "IDS_MPLAYERC_88"
-msgid "Prev Audio (OGM)"
-msgstr "Попереднє аудіо (OGM)"
-
-msgctxt "IDS_MPLAYERC_89"
-msgid "Next Subtitle (OGM)"
-msgstr "Наступні субтитри (OGM)"
-
-msgctxt "IDS_MPLAYERC_90"
-msgid "Prev Subtitle (OGM)"
-msgstr "Попередні субтитри (OGM)"
 
 msgctxt "IDS_MPLAYERC_91"
 msgid "Next Angle (DVD)"
@@ -2006,20 +2010,20 @@ msgid "Prev Angle (DVD)"
 msgstr "Попередній кут зору (DVD)"
 
 msgctxt "IDS_MPLAYERC_93"
-msgid "Next Audio (DVD)"
-msgstr "Наступне аудіо (DVD)"
+msgid "Next Audio Track (DVD)"
+msgstr ""
 
 msgctxt "IDS_MPLAYERC_94"
-msgid "Prev Audio (DVD)"
-msgstr "Попереднє аудіо (DVD)"
+msgid "Prev Audio Track (DVD)"
+msgstr ""
 
 msgctxt "IDS_MPLAYERC_95"
-msgid "Next Subtitle (DVD)"
-msgstr "Наступні субтитри (DVD)"
+msgid "Next Subtitle Track (DVD)"
+msgstr ""
 
 msgctxt "IDS_MPLAYERC_96"
-msgid "Prev Subtitle (DVD)"
-msgstr "Попередні субтитри (DVD)"
+msgid "Prev Subtitle Track (DVD)"
+msgstr ""
 
 msgctxt "IDS_MPLAYERC_97"
 msgid "On/Off Subtitle (DVD)"
@@ -2027,7 +2031,7 @@ msgstr "Ввімк./Вимк. субтитри (DVD)"
 
 msgctxt "IDS_OSD_DISPLAY_CURRENT_TIME"
 msgid "OSD: Display Current Time"
-msgstr ""
+msgstr "OSD: Показ поточного часу"
 
 msgctxt "IDS_PPAGEWEBSERVER_0"
 msgid "Select the directory"
@@ -2385,14 +2389,6 @@ msgctxt "IDS_FULLSCREENMONITOR_CURRENT"
 msgid "Current"
 msgstr "Поточний"
 
-msgctxt "IDS_MPC_CRASH"
-msgid "MPC-HC terminated unexpectedly. To help us fix this problem, please send this file \"%s\" to our bug tracker.\n\nDo you want to open the folder containing the minidump file and visit the bug tracker now?"
-msgstr "Роботу MPC-HC несподівано перервано. Щоб допомогти нам виправити проблему, надішліть цей файл '%s' на наш трекер з розв'язання помилок.\n\nВи хочете відкрити теку, що містить файл мінідампу і відвідати трекер?"
-
-msgctxt "IDS_MPC_MINIDUMP_FAIL"
-msgid "Failed to create dump file to \"%s\" (error %u)"
-msgstr "Неможливо створити файл-дамп \"%s\" (код помилки %u)"
-
 msgctxt "IDS_MAINFRM_DIR_TITLE"
 msgid "Select Directory"
 msgstr "Оберіть теку"
@@ -2566,8 +2562,8 @@ msgid "Volume boost Max"
 msgstr "Підсилення - Макс."
 
 msgctxt "IDS_USAGE"
-msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/randomize\tRandomize the playlist\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tUse MPC-HC as slave\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "Використання: mpc-hc.exe \"шлях\" [перемикачі]\n\n\"шлях\"\tФайл або тека для завантаження (дозволені маски, \"-\" перевизначають стандартне введення)\n/dub \"dubname\"\tЗавантажити додатковий дубляж\n/dubdelay \"file\"\tЗавантажити додатковий дубляж з затримкою XXмс\n(якщо ім'я файлу містить \"...DELAY XXms...\")\n/d3dfs\t\tСтартувати в повноекранному D3D режимі\n/sub \"subname\"\tЗавантажити додаткові субтитри\n/filter \"filtername\"\tЗавантажити фільтри DirectShow з бібліотеки (дозволені маски)\n/dvd\t\tЗапуск в режимі DVD, \"шлях\" вказує на вміст DVD (опціонально)\n/dvdpos T#C\tПочинати відтворення з заголовку T, розділу C\n/dvdpos T#hh:mm\tПочинати відтворення з заголовку T, позиції hh:mm:ss\n/cd\t\tЗавантажити всі доріжки Audio CD або (S)VCD, \"шлях\" вказує на вміст диску (опціонально)\n/device\t\tВідкрити типовий пристрій відображення відео\n/open\t\tЛише відкрити файл, не відтворювати\n/play\t\tПочинати відтворення відразу після запуску\n/close\t\tЗакрити після завершення відтворення (працює лише з /play)\n/shutdown\tВимкнути комп'ютер після завершення відтворення\n/standby\t\tПеревести систему в режим очікування після завершення відтворення\n/hibernate\t\tПеревести систему в режим сну після завершення відтворення\n/logoff\t\tЗавершити сеанс поточного користувача після завершення відтворення\n/lock\t\tЗаблокувати комп'ютер після завершення відтворення\n/monitoroff\tВимкнути монітор після завершення відтворення\n/playnext\t\tВідкрити наступний файл в теці після завершення відтворення\n/fullscreen\t\tЗапуск в повноекранному режимі\n/minimized\tЗапуск в згорнутому вигляді\n/new\t\tЗапускати нову копію програвача\n/add\t\tДодати \"шлях\" в список відтворення, можна спільно з /open та /play\n/randomize\tЗапускати з перемішаними файлами у списку відтворення\n/regvid\t\tЗареєструвати асоціації відеоформатів\n/regaud\t\tЗареєструвати асоціації аудіоформатів\n/regpl\t\tЗареєструвати асоціації для файлів списків відтворення\n/regall\t\tЗареєструвати асоціації для всіх підтримуваних типів файлів\n/unregall\t\tВідмінити реєстрацію асоціацій відеоформатів\n/start ms\t\tВідтворювати починаючи з позиції \"ms\" (= мілісекунди)\n/startpos hh:mm:ss\tПочинати відтворення з позиції hh:mm:ss\n/fixedsize w,h\tВстановити фіксований розмір вікна\n/monitor N\tЗапустити на моніторі N, нумерація з 1\n/audiorenderer N\tЗапустити з аудіорендерером N, нумерація з 1\n\t\t(див. \"Вивід\" в налаштуваннях)\n/shaderpreset \"Pr\"\tЗапустити з використанням \"Pr\" профіля шейдерів\n/pns \"name\"\tЗадати пресет \"name\" Pan&Scan\n/iconsassoc\tПовторно асоціювати іконки форматів\n/nofocus\t\tВідкрити MPC-HC у фоні\n/webport N\tЗапустити веб-інтерфейс на вказаному порті\n/debug\t\tВідображати відлагоджувальну інформацію у OSD\n/nocrashreporter\tЗапустити з вимкненим повідомленням про падіння\n/slave \"hWnd\"\tВикористовувати MPC-HC іншим вікном з дескриптором \"hWnd\"\n/reset\t\tВідновити типові налаштування\n/help /h /?\tПоказати цю довідку\n"
+msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/randomize\tRandomize the playlist\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tUse MPC-HC as slave\n/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding\n\t\tOnly available for CUVID and DXVA2 (copy-back)\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
+msgstr "Використання: mpc-hc.exe \"шлях\" [перемикачі]\n\n\"шлях\"\tФайл або тека для завантаження (дозволені маски, \"-\" перевизначають стандартне введення)\n/dub \"dubname\"\tЗавантажити додатковий дубляж\n/dubdelay \"file\"\tЗавантажити додатковий дубляж з затримкою XXмс\n(якщо ім'я файлу містить \"...DELAY XXms...\")\n/d3dfs\t\tСтартувати в повноекранному D3D режимі\n/sub \"subname\"\tЗавантажити додаткові субтитри\n/filter \"filtername\"\tЗавантажити фільтри DirectShow з бібліотеки (дозволені маски)\n/dvd\t\tЗапуск в режимі DVD, \"шлях\" вказує на вміст DVD (опціонально)\n/dvdpos T#C\tПочинати відтворення з заголовку T, розділу C\n/dvdpos T#hh:mm\tПочинати відтворення з заголовку T, позиції hh:mm:ss\n/cd\t\tЗавантажити всі доріжки Audio CD або (S)VCD, \"шлях\" вказує на вміст диску (опціонально)\n/device\t\tВідкрити типовий пристрій відображення відео\n/open\t\tЛише відкрити файл, не відтворювати\n/play\t\tПочинати відтворення відразу після запуску\n/close\t\tЗакрити після завершення відтворення (працює лише з /play)\n/shutdown\tВимкнути комп'ютер після завершення відтворення\n/standby\t\tПеревести систему в режим очікування після завершення відтворення\n/hibernate\t\tПеревести систему в режим сну після завершення відтворення\n/logoff\t\tЗавершити сеанс поточного користувача після завершення відтворення\n/lock\t\tЗаблокувати комп'ютер після завершення відтворення\n/monitoroff\tВимкнути монітор після завершення відтворення\n/playnext\t\tВідкрити наступний файл в теці після завершення відтворення\n/fullscreen\t\tЗапуск в повноекранному режимі\n/minimized\tЗапуск в згорнутому вигляді\n/new\t\tЗапускати нову копію програвача\n/add\t\tДодати \"шлях\" в список відтворення, можна спільно з /open та /play\n/randomize\tЗапускати з перемішаними файлами у списку відтворення\n/regvid\t\tЗареєструвати асоціації відеоформатів\n/regaud\t\tЗареєструвати асоціації аудіоформатів\n/regpl\t\tЗареєструвати асоціації для файлів списків відтворення\n/regall\t\tЗареєструвати асоціації для всіх підтримуваних типів файлів\n/unregall\t\tВідмінити реєстрацію асоціацій відеоформатів\n/start ms\t\tВідтворювати починаючи з позиції \"ms\" (= мілісекунди)\n/startpos hh:mm:ss\tПочинати відтворення з позиції hh:mm:ss\n/fixedsize w,h\tВстановити фіксований розмір вікна\n/monitor N\tЗапустити на моніторі N, нумерація з 1\n/audiorenderer N\tЗапустити з аудіорендерером N, нумерація з 1\n\t\t(див. \"Вивід\" в налаштуваннях)\n/shaderpreset \"Pr\"\tЗапустити з використанням \"Pr\" профіля шейдерів\n/pns \"name\"\tЗадати пресет \"name\" Pan&Scan\n/iconsassoc\tПовторно асоціювати іконки форматів\n/nofocus\t\tВідкрити MPC-HC у фоні\n/webport N\tЗапустити веб-інтерфейс на вказаному порті\n/debug\t\tВідображати відлагоджувальну інформацію у OSD\n/nocrashreporter\tЗапустити з вимкненим повідомленням про падіння\n/slave \"hWnd\"\tВикористовувати MPC-HC іншим вікном з дескриптором \"hWnd\"\n/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding\n\t\tOnly available for CUVID and DXVA2 (copy-back)\n/reset\t\tВідновити типові налаштування\n/help /h /?\tПоказати цю довідку\n"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -3040,18 +3036,6 @@ msgstr "Роздільна здатність"
 msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
 msgid "Aspect Ratio"
 msgstr "Співвіднош. сторін"
-
-msgctxt "IDS_ARS_WASAPI_MODE"
-msgid "Use WASAPI (restart playback)"
-msgstr "Використовувати WASAPI (необхідний перезапуск)"
-
-msgctxt "IDS_ARS_MUTE_FAST_FORWARD"
-msgid "Mute on fast forward"
-msgstr "Вимикати звук при прискореному перемотуванні вперед"
-
-msgctxt "IDS_ARS_SOUND_DEVICE"
-msgid "Sound Device:"
-msgstr "Пристрій виведення звуку:"
 
 msgctxt "IDS_OSD_RS_VSYNC_ON"
 msgid "VSync: On"
@@ -3608,4 +3592,12 @@ msgstr "Скинути усі асоціації"
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"
 msgstr "Налаштування"
+
+msgctxt "IDS_SUBTITLE_RENDERER_VS_FILTER"
+msgid "VSFilter / DirectVobSub"
+msgstr ""
+
+msgctxt "IDS_SUBTITLE_RENDERER_XY_SUB_FILTER"
+msgid "XySubFilter"
+msgstr ""
 

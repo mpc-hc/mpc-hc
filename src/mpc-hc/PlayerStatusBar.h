@@ -38,6 +38,7 @@ private:
     CStatusLabel m_status, m_time;
     CBitmap m_bm;
     UINT m_bmid;
+    CString m_typeExt;
     HICON m_hIcon;
 
     CRect m_time_rect;
@@ -46,6 +47,7 @@ private:
     CToolTipCtrl m_tooltip;
 
     EventClient m_eventc;
+    void EventCallback(MpcEvent ev);
 
     void Relayout();
 
@@ -56,7 +58,7 @@ public:
     void Clear();
 
     void SetStatusBitmap(UINT id);
-    void SetStatusTypeIcon(HICON hIcon);
+    void SetMediaType(CString ext);
     void SetStatusMessage(CString str);
     void SetStatusTimer(CString str);
     void SetStatusTimer(REFERENCE_TIME rtNow, REFERENCE_TIME rtDur, bool fHighPrecision,
@@ -77,6 +79,9 @@ public:
     DECLARE_MESSAGE_MAP()
 
 protected:
+
+    void SetMediaTypeIcon();
+
     afx_msg BOOL OnEraseBkgnd(CDC* pDC);
     afx_msg void OnPaint();
     afx_msg void OnSize(UINT nType, int cx, int cy);

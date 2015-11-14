@@ -1,0 +1,81 @@
+# MPC-HC - Strings extracted from string tables
+# Copyright (C) 2002 - 2013 see Authors.txt
+# This file is distributed under the same license as the MPC-HC package.
+# Translators:
+# Hatta.z, 2014
+# yoga.mardia <made.yoga12@gmail.com>, 2014
+# Reza Septyan .R. <ainofuyuumI@outlook.com>, 2014
+# zk <zamani.karmana@gmail.com>, 2015
+msgid ""
+msgstr ""
+"Project-Id-Version: MPC-HC\n"
+"POT-Creation-Date: 2015-07-20 20:29:41+0000\n"
+"PO-Revision-Date: 2015-08-02 13:18+0000\n"
+"Last-Translator: zk <zamani.karmana@gmail.com>\n"
+"Language-Team: Indonesian (http://www.transifex.com/mpc-hc/mpc-hc/language/id/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: id\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgctxt "Messages_WelcomeLabel2"
+msgid "This will install [name] on your computer.\n\nIt is recommended that you close all other applications before continuing."
+msgstr "Ini akan memasang [name] di komputer Anda.\n\nSangat disarankan untuk menutup semua aplikasi lain sebelum melanjutkan."
+
+msgctxt "Messages_WinVersionTooLowError"
+msgid "[name] requires Windows XP Service Pack 3 or newer to run."
+msgstr "[name] membutuhkan Windows XP Service Pack 3 atau yang lebih baru agar bisa dijalankan."
+
+msgctxt "CustomMessages_comp_mpciconlib"
+msgid "Icon Library"
+msgstr "Pustaka Ikon"
+
+msgctxt "CustomMessages_comp_mpcresources"
+msgid "Translations"
+msgstr "Terjemahan"
+
+msgctxt "CustomMessages_msg_DeleteSettings"
+msgid "Do you also want to delete MPC-HC settings?\n\nIf you plan on installing MPC-HC again then you do not have to delete them."
+msgstr "Apakah Anda juga ingin menghapus pengaturan MPC-HC?\n\nJika Anda berencana untuk memasang MPC-HC lagi maka Anda tidak perlu menghapusnya."
+
+msgctxt "CustomMessages_msg_simd_sse"
+msgid "This build of MPC-HC requires a CPU with SSE extension support.\n\nYour CPU does not have those capabilities."
+msgstr "Versi MPC-HC ini membutuhkan CPU dengan dukungan ekstensi SSE.\n\nCPU Anda tidak memiliki kemampuan tersebut."
+
+msgctxt "CustomMessages_msg_simd_sse2"
+msgid "This build of MPC-HC requires a CPU with SSE2 extension support.\n\nYour CPU does not have those capabilities."
+msgstr "Versi MPC-HC ini membutuhkan CPU dengan dukungan ekstensi SSE2.\n\nCPU Anda tidak memiliki kemampuan tersebut."
+
+msgctxt "CustomMessages_run_DownloadToolbarImages"
+msgid "Visit our Wiki page to download toolbar images"
+msgstr "Kunjungi halaman Wiki kami untuk mengunduh gambar bilah alat"
+
+msgctxt "CustomMessages_tsk_AllUsers"
+msgid "For all users"
+msgstr "Untuk semua pengguna"
+
+msgctxt "CustomMessages_tsk_CurrentUser"
+msgid "For the current user only"
+msgstr "Hanya untuk pengguna ini saja"
+
+msgctxt "CustomMessages_tsk_Other"
+msgid "Other tasks:"
+msgstr "Tugas lain:"
+
+msgctxt "CustomMessages_tsk_ResetSettings"
+msgid "Reset settings"
+msgstr "Setel ulang pengaturan"
+
+msgctxt "CustomMessages_types_DefaultInstallation"
+msgid "Default installation"
+msgstr "Pemasangan bawaan"
+
+msgctxt "CustomMessages_types_CustomInstallation"
+msgid "Custom installation"
+msgstr "Pemasangan ubahsuai"
+
+msgctxt "CustomMessages_ViewChangelog"
+msgid "View Changelog"
+msgstr "Lihat Catatan Perubahan"
+

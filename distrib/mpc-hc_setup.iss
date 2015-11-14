@@ -154,7 +154,7 @@ CloseApplications         = true
 #ifexist "..\signinfo.txt"
 SignTool                  = MySignTool
 #endif
-
+SetupMutex                = 'mpchc_setup_mutex'
 
 [Languages]
 Name: en;    MessagesFile: compiler:Default.isl
@@ -178,9 +178,11 @@ Name: he;    MessagesFile: compiler:Languages\Hebrew.isl
 Name: hr;    MessagesFile: Languages\Croatian.isl
 Name: hu;    MessagesFile: compiler:Languages\Hungarian.isl
 Name: hy;    MessagesFile: Languages\Armenian.islu
+Name: id;    MessagesFile: Languages\Indonesian.isl
 Name: it;    MessagesFile: compiler:Languages\Italian.isl
 Name: ja;    MessagesFile: compiler:Languages\Japanese.isl
 Name: ko;    MessagesFile: Languages\Korean.isl
+Name: lt;    MessagesFile: Languages\Lithuanian.isl
 Name: ms_MY; MessagesFile: Languages\Malaysian.isl
 Name: nl;    MessagesFile: compiler:Languages\Dutch.isl
 Name: pl;    MessagesFile: compiler:Languages\Polish.isl
@@ -248,10 +250,11 @@ Source: ..\docs\Authors.txt;                    DestDir: {app}; Components: main
 Source: ..\docs\Changelog.txt;                  DestDir: {app}; Components: main;         Flags: ignoreversion
 Source: ..\docs\Readme.txt;                     DestDir: {app}; Components: main;         Flags: ignoreversion
 Source: ..\src\mpc-hc\res\shaders\external\*.hlsl; DestDir: {app}\Shaders; Components: main; Flags: ignoreversion
-#if DirExists(crashreporter_dir)
-Source: {#bindir}\CrashReporter\crashrpt.dll;   DestDir: {app}\CrashReporter; Components: main; Flags: ignoreversion
-Source: {#bindir}\CrashReporter\dbghelp.dll;    DestDir: {app}\CrashReporter; Components: main; Flags: ignoreversion
-Source: {#bindir}\CrashReporter\sendrpt.exe;    DestDir: {app}\CrashReporter; Components: main; Flags: ignoreversion
+#ifexist AddBackslash(crashreporter_dir) + "crashrpt.dll"
+Source: {#crashreporter_dir}\crashrpt.dll;            DestDir: {app}\CrashReporter; Components: main; Flags: ignoreversion
+Source: {#crashreporter_dir}\dbghelp.dll;             DestDir: {app}\CrashReporter; Components: main; Flags: ignoreversion
+Source: {#crashreporter_dir}\sendrpt.exe;             DestDir: {app}\CrashReporter; Components: main; Flags: ignoreversion
+Source: {#crashreporter_dir}\CrashReporterDialog.dll; DestDir: {app}\CrashReporter; Components: main; Flags: ignoreversion
 #endif
 
 
@@ -362,8 +365,6 @@ Type: files; Name: {app}\Lang\mpcresources.ua.dll
 function IsProcessorFeaturePresent(Feature: Integer): Boolean;
 external 'IsProcessorFeaturePresent@kernel32.dll stdcall';
 #endif
-
-const installer_mutex = 'mpchc_setup_mutex';
 
 
 function GetInstallFolder(Default: String): String;
@@ -502,14 +503,7 @@ end;
 
 function InitializeSetup(): Boolean;
 begin
-  // Create a mutex for the installer and if it's already running display a message and stop installation
-  if CheckForMutexes(installer_mutex) and not WizardSilent() then begin
-    SuppressibleMsgBox(CustomMessage('msg_SetupIsRunningWarning'), mbError, MB_OK, MB_OK);
-    Result := False;
-  end
-  else begin
     Result := True;
-    CreateMutex(installer_mutex);
 
 #if defined(sse2_required)
     if not Is_SSE2_Supported() then begin
@@ -523,18 +517,4 @@ begin
     end;
 #endif
 
-  end;
-end;
-
-
-function InitializeUninstall(): Boolean;
-begin
-  if CheckForMutexes(installer_mutex) then begin
-    SuppressibleMsgBox(CustomMessage('msg_SetupIsRunningWarning'), mbError, MB_OK, MB_OK);
-    Result := False;
-  end
-  else begin
-    Result := True;
-    CreateMutex(installer_mutex);
-  end;
 end;

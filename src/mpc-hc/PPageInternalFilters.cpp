@@ -26,10 +26,9 @@
 #include "../filters/Filters.h"
 #include "InternalFiltersConfig.h"
 
-IMPLEMENT_DYNAMIC(CPPageInternalFiltersListBox, CCheckListBox)
+IMPLEMENT_DYNAMIC(CPPageInternalFiltersListBox, CListCtrl)
 CPPageInternalFiltersListBox::CPPageInternalFiltersListBox(int n, const CArray<filter_t>& filters)
-    : CCheckListBox()
-    , m_filters(filters)
+    : m_filters(filters)
     , m_n(n)
 {
     for (int i = 0; i < FILTER_TYPE_NB; i++) {
@@ -40,19 +39,19 @@ CPPageInternalFiltersListBox::CPPageInternalFiltersListBox(int n, const CArray<f
 void CPPageInternalFiltersListBox::PreSubclassWindow()
 {
     __super::PreSubclassWindow();
+    GetToolTips()->Activate(FALSE);
     EnableToolTips(TRUE);
 }
 
 INT_PTR CPPageInternalFiltersListBox::OnToolHitTest(CPoint point, TOOLINFO* pTI) const
 {
-    BOOL b = FALSE;
-    int row = ItemFromPoint(point, b);
+    int row = HitTest(point);
     if (row < 0) {
         return -1;
     }
 
     CRect r;
-    GetItemRect(row, r);
+    GetItemRect(row, r, LVIR_BOUNDS);
     pTI->rect = r;
     pTI->hwnd = m_hWnd;
     pTI->uId = (UINT)row;
@@ -62,7 +61,7 @@ INT_PTR CPPageInternalFiltersListBox::OnToolHitTest(CPoint point, TOOLINFO* pTI)
     return pTI->uId;
 }
 
-BEGIN_MESSAGE_MAP(CPPageInternalFiltersListBox, CCheckListBox)
+BEGIN_MESSAGE_MAP(CPPageInternalFiltersListBox, CListCtrl)
     ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify)
     ON_WM_CONTEXTMENU()
 END_MESSAGE_MAP()
@@ -71,7 +70,7 @@ BOOL CPPageInternalFiltersListBox::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESU
 {
     TOOLTIPTEXT* pTTT = (TOOLTIPTEXT*)pNMHDR;
 
-    filter_t* f = (filter_t*)GetItemDataPtr(static_cast<int>(pNMHDR->idFrom));
+    filter_t* f = (filter_t*)GetItemData(static_cast<int>(pNMHDR->idFrom));
     if (f->nHintID == 0) {
         return FALSE;
     }
@@ -89,9 +88,9 @@ BOOL CPPageInternalFiltersListBox::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESU
 
 int CPPageInternalFiltersListBox::AddFilter(filter_t* filter, bool checked)
 {
-    int index = AddString(filter->label);
+    int index = InsertItem(GetItemCount(), filter->label);
     // SetItemDataPtr must be called before SetCheck
-    SetItemDataPtr(index, filter);
+    SetItemData(index, reinterpret_cast<DWORD_PTR>(filter));
     SetCheck(index, checked);
 
     return index;
@@ -103,8 +102,8 @@ void CPPageInternalFiltersListBox::UpdateCheckState()
         m_nbFiltersPerType[i] = m_nbChecked[i] = 0;
     }
 
-    for (int i = 0; i < GetCount(); i++) {
-        filter_t* filter = (filter_t*) GetItemDataPtr(i);
+    for (int i = 0; i < GetItemCount(); i++) {
+        filter_t* filter = (filter_t*) GetItemData(i);
 
         m_nbFiltersPerType[filter->type]++;
 
@@ -116,30 +115,20 @@ void CPPageInternalFiltersListBox::UpdateCheckState()
 
 void CPPageInternalFiltersListBox::OnContextMenu(CWnd* pWnd, CPoint point)
 {
-    BOOL bOutside;
-
     if (point.x == -1 && point.y == -1) {
         // The context menu was triggered using the keyboard,
         // get the coordinates of the currently selected item.
-        int iSel = GetCurSel();
-        CRect r;
-        if (GetItemRect(iSel, &r) != LB_ERR) {
-            point.SetPoint(r.left, r.bottom);
-        } else {
-            point.SetPoint(0, 0);
+        POSITION pos = GetFirstSelectedItemPosition();
+        if (pos) {
+            CRect r;
+            if (GetItemRect(GetNextSelectedItem(pos), &r, LVIR_BOUNDS)) {
+                point.SetPoint(r.left, r.bottom);
+            } else {
+                point.SetPoint(0, 0);
+            }
         }
-        bOutside = iSel == LB_ERR;
     } else {
         ScreenToClient(&point);
-        ItemFromPoint(point, bOutside);
-    }
-
-    // Check that we really inside the list
-    if (bOutside) {
-        // Trigger the default behavior
-        ClientToScreen(&point);
-        __super::OnContextMenu(pWnd, point);
-        return;
     }
 
     CMenu m;
@@ -260,10 +249,8 @@ void CPPageInternalFilters::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CPPageInternalFilters, CPPageBase)
-    ON_LBN_SELCHANGE(IDC_LIST1, OnSelChange)
-    ON_LBN_SELCHANGE(IDC_LIST2, OnSelChange)
-    ON_CLBN_CHKCHANGE(IDC_LIST1, OnCheckBoxChange)
-    ON_CLBN_CHKCHANGE(IDC_LIST2, OnCheckBoxChange)
+    ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, OnItemChanged)
+    ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST2, OnItemChanged)
     ON_BN_CLICKED(IDC_SPLITTER_CONF, OnBnClickedSplitterConf)
     ON_BN_CLICKED(IDC_VIDEO_DEC_CONF, OnBnClickedVideoDecConf)
     ON_BN_CLICKED(IDC_AUDIO_DEC_CONF, OnBnClickedAudioDecConf)
@@ -276,6 +263,12 @@ BOOL CPPageInternalFilters::OnInitDialog()
     __super::OnInitDialog();
 
     const CAppSettings& s = AfxGetAppSettings();
+
+    m_listSrc.InsertColumn(0, _T(""));
+    m_listTra.InsertColumn(0, _T(""));
+
+    m_listSrc.SetExtendedStyle(m_listSrc.GetExtendedStyle() | LVS_EX_CHECKBOXES | LVS_EX_DOUBLEBUFFER);
+    m_listTra.SetExtendedStyle(m_listTra.GetExtendedStyle() | LVS_EX_CHECKBOXES | LVS_EX_DOUBLEBUFFER);
 
     InitFiltersList();
 
@@ -305,6 +298,9 @@ BOOL CPPageInternalFilters::OnInitDialog()
 
     m_listSrc.UpdateCheckState();
     m_listTra.UpdateCheckState();
+
+    m_listSrc.SetColumnWidth(0, LVSCW_AUTOSIZE);
+    m_listTra.SetColumnWidth(0, LVSCW_AUTOSIZE);
 
     UpdateData(FALSE);
 
@@ -403,7 +399,7 @@ void CPPageInternalFilters::InitFiltersList()
 #endif
 #if INTERNAL_SOURCEFILTER_WTV
     if (bLAVSplitterIsAvailable) {
-        m_filters.Add(filter_t(_T("WTV"), SOURCE_FILTER, SRC_WTV, IDS_INTERNAL_LAVF_WMV));
+        m_filters.Add(filter_t(_T("WTV"), SOURCE_FILTER, SRC_WTV, IDS_INTERNAL_LAVF));
     }
 #endif
 #if INTERNAL_SOURCEFILTER_OGG
@@ -503,6 +499,11 @@ void CPPageInternalFilters::InitFiltersList()
 #if INTERNAL_DECODER_AMR
     if (bLAVAudioIsAvailable) {
         m_filters.Add(filter_t(_T("AMR"), AUDIO_DECODER, TRA_AMR, IDS_INTERNAL_LAVF));
+    }
+#endif
+#if INTERNAL_DECODER_OPUS
+    if (bLAVAudioIsAvailable) {
+        m_filters.Add(filter_t(_T("Opus"), AUDIO_DECODER, TRA_OPUS, IDS_INTERNAL_LAVF));
     }
 #endif
 #if INTERNAL_DECODER_REALAUDIO
@@ -645,8 +646,8 @@ BOOL CPPageInternalFilters::OnApply()
 
     CPPageInternalFiltersListBox* list = &m_listSrc;
     for (int l = 0; l < 2; l++) {
-        for (int i = 0; i < list->GetCount(); i++) {
-            filter_t* f = (filter_t*) list->GetItemDataPtr(i);
+        for (int i = 0; i < list->GetItemCount(); i++) {
+            filter_t* f = (filter_t*) list->GetItemData(i);
 
             switch (f->type) {
                 case SOURCE_FILTER:
@@ -664,17 +665,20 @@ BOOL CPPageInternalFilters::OnApply()
     return __super::OnApply();
 }
 
-void CPPageInternalFilters::OnSelChange()
+void CPPageInternalFilters::OnItemChanged(NMHDR* pNMHDR, LRESULT* pResult)
 {
-    // We only catch the message so that the page is not marked as modified.
-}
+    ASSERT(pNMHDR);
+    ASSERT(pResult);
 
-void CPPageInternalFilters::OnCheckBoxChange()
-{
-    m_listSrc.UpdateCheckState();
-    m_listTra.UpdateCheckState();
+    auto pNMLV = reinterpret_cast<NMLISTVIEW*>(pNMHDR);
 
-    SetModified();
+    if (pNMLV->lParam && (pNMLV->uChanged & LVIF_STATE) && (pNMLV->uNewState & LVIS_STATEIMAGEMASK)) {
+        m_listSrc.UpdateCheckState();
+        m_listTra.UpdateCheckState();
+        SetModified();
+    }
+
+    *pResult = 0;
 }
 
 void CPPageInternalFilters::OnBnClickedSplitterConf()

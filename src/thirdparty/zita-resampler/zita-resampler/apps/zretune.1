@@ -1,0 +1,73 @@
+.TH zretune 1  "Sect 2012" "version 0.0.1" "USER COMMANDS"
+.SH NAME
+zretune \- resample an audio file in order to change its pitch
+.SH SYNOPSIS
+.B zretune
+[options] input-file output-file
+.SH DESCRIPTION
+.B zretune
+resamples an audio file by a the inverse of a ratio expressed in cents,
+without changing the nominal sample rate. The result is to change the
+musical pitch and lenght of the file. Input can be any audio file
+readable by the libsndfile library. The output file type is either
+WAV or CAF.
+.SH OPTIONS
+.TP
+.B --help
+Display a short help text.
+.TP
+.B --cent pitch change in cents
+The number of cents by which the pitch is changed. The accepted
+range is +/- 1200 cents, the useful range in practice will be 
+something like +/- 100 cents.
+.SS Output file type
+.TP
+.B --wav
+Produce a WAV file, or for more than 2 channels, a WAVEX file.
+This is the default.  
+.TP
+.B --amb
+Produce a WAVEX file with the Ambisonic GUID. Such files should
+have the
+.B .amb
+filename extension.
+.TP
+.B --caf
+Produce a Core Audio file.
+.SS Output sample format
+.TP
+.B --16bit
+Output sample format is signed 16-bit. This option also
+enables the use of dithering, described below.
+.TP
+.B --24bit
+Output sample format is 24-bit. This is the default.
+.TP
+.B --float
+Output sample format is 32-bit floating point.
+.SS Dithering
+.TP
+.B --rec
+Add white dithering noise with a rectangular distribution. This
+is the best option if the output data is going to processed again,
+but in that case it would be advisable to use 24-bit or float.
+.TP
+.B --tri
+Add filtered noise with a triangular distribution. Compared to the
+rectangular dither this reduces the noise density in the lower
+frequency range.
+.TP
+.B --lips
+This uses the optimal error feedback filter described by 
+Stanley Lipschitz. This is recommended is the output is the
+final distribution format, e.g. for a CD.
+.SS Timing
+.TP
+.B --pad
+Insert zero valued input samples at the start and end so that the output
+includes the full symmetric filter response even for the first and last
+samples. 
+.SH EXIT STATUS
+Zero in case there are no errors, non-zero otherwise.
+.SH AUTHOR
+Fons Adriaensen (fons (at) linuxaudio.org)

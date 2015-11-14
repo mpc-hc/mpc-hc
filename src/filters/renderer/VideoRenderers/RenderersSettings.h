@@ -145,6 +145,7 @@ public:
 
     // Hardware feature support
     bool        m_bFP16Support;
+    bool        m_bFP32Support;
     bool        m_b10bitSupport;
     CString     m_strDXVAInfo;
 

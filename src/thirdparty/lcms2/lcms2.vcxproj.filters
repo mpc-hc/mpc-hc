@@ -22,6 +22,9 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="library\src\cmsalpha.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="library\src\cmscam02.c">
       <Filter>Source Files</Filter>
     </ClCompile>

@@ -161,6 +161,14 @@
       <Configuration>Release Hungarian</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Indonesian|Win32">
+      <Configuration>Release Indonesian</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Indonesian|x64">
+      <Configuration>Release Indonesian</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release Italian|Win32">
       <Configuration>Release Italian</Configuration>
       <Platform>Win32</Platform>
@@ -185,6 +193,14 @@
       <Configuration>Release Korean</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Lithuanian|Win32">
+      <Configuration>Release Lithuanian</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Lithuanian|x64">
+      <Configuration>Release Lithuanian</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release Malay|Win32">
       <Configuration>Release Malay</Configuration>
       <Platform>Win32</Platform>
@@ -207,6 +223,14 @@
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release Portuguese (Brazil)|x64">
       <Configuration>Release Portuguese (Brazil)</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Punjabi|Win32">
+      <Configuration>Release Punjabi</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Punjabi|x64">
+      <Configuration>Release Punjabi</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release Romanian|Win32">
@@ -350,12 +374,15 @@
     <TargetName Condition="'$(Configuration)'=='Release Greek'">$(ProjectName).el</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Hebrew'">$(ProjectName).he</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Hungarian'">$(ProjectName).hu</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Indonesian'">$(ProjectName).id</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Italian'">$(ProjectName).it</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Japanese'">$(ProjectName).ja</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Korean'">$(ProjectName).ko</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Lithuanian'">$(ProjectName).lt</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Malay'">$(ProjectName).ms_MY</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Polish'">$(ProjectName).pl</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Portuguese (Brazil)'">$(ProjectName).pt_BR</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Punjabi'">$(ProjectName).pa</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Romanian'">$(ProjectName).ro</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Russian'">$(ProjectName).ru</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Serbian'">$(ProjectName).sr</TargetName>
@@ -435,6 +462,9 @@
     <ResourceCompile Include="mpc-hc.hy.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Armenian'">true</ExcludedFromBuild>
     </ResourceCompile>
+    <ResourceCompile Include="mpc-hc.id.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Indonesian'">true</ExcludedFromBuild>
+    </ResourceCompile>
     <ResourceCompile Include="mpc-hc.it.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Italian'">true</ExcludedFromBuild>
     </ResourceCompile>
@@ -444,11 +474,17 @@
     <ResourceCompile Include="mpc-hc.ko.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Korean'">true</ExcludedFromBuild>
     </ResourceCompile>
+    <ResourceCompile Include="mpc-hc.lt.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Lithuanian'">true</ExcludedFromBuild>
+    </ResourceCompile>
     <ResourceCompile Include="mpc-hc.ms_MY.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Malay'">true</ExcludedFromBuild>
     </ResourceCompile>
     <ResourceCompile Include="mpc-hc.nl.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Dutch'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="mpc-hc.pa.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Punjabi'">true</ExcludedFromBuild>
     </ResourceCompile>
     <ResourceCompile Include="mpc-hc.pl.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Polish'">true</ExcludedFromBuild>

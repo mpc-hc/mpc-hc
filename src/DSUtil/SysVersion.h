@@ -1,5 +1,5 @@
 /*
- * (C) 2012-2014 see Authors.txt
+ * (C) 2012-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -34,6 +34,8 @@ namespace SysVersion
     bool Is7OrLater();
     bool Is8();
     bool Is8OrLater();
+    bool Is81OrLater();
+    bool Is10OrLater();
 
     bool Is64Bit();
 };

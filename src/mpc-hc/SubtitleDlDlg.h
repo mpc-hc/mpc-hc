@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -51,23 +51,23 @@ private:
     typedef THREADSTRUCT* PTHREADSTRUCT;
 
     struct PARAMSORT {
-        PARAMSORT(HWND hWnd, int colIndex, bool ascending) :
-            m_hWnd(hWnd),
+        PARAMSORT(CListCtrl* list, int colIndex, bool ascending) :
+            m_list(list),
             m_colIndex(colIndex),
             m_ascending(ascending)
         {}
-        HWND m_hWnd;
+        CListCtrl* const m_list;
         int m_colIndex;
         bool m_ascending;
     };
     typedef PARAMSORT* PPARAMSORT;
 
     struct DEFPARAMSORT {
-        DEFPARAMSORT(HWND hWnd, CString filename) :
-            m_hWnd(hWnd),
+        DEFPARAMSORT(CListCtrl* list, CString filename) :
+            m_list(list),
             m_filename(filename)
         {}
-        HWND m_hWnd;
+        CListCtrl* const m_list;
         CString m_filename;
         CMap <CString, LPCTSTR, int, int> m_langPos;
     };
@@ -86,7 +86,7 @@ private:
 
     CArray<isdb_movie_parsed> m_parsed_movies;
     CString m_url;
-    bool m_fReplaceSubs;
+    bool m_bReplaceSubs;
 
     CListCtrl m_list;
     CList<ISDb::subtitle> m_selsubs;

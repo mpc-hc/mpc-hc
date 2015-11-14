@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2013, 2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -25,22 +25,23 @@
 
 class CMainFrame;
 
-class CFullscreenWnd : public CMouseWnd
+class CFullscreenWnd final : public CMouseWnd
 {
     DECLARE_DYNAMIC(CFullscreenWnd)
 
+    explicit CFullscreenWnd(CMainFrame* pMainFrame);
+    bool IsWindow() const;
+
+private:
     CMainFrame* m_pMainFrame;
 
-public:
-    CFullscreenWnd(CMainFrame* pMainFrame);
-    virtual ~CFullscreenWnd();
-    bool IsWindow();
-
 protected:
-    virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-    virtual BOOL PreTranslateMessage(MSG* pMsg);
+    BOOL PreCreateWindow(CREATESTRUCT& cs) override;
+    BOOL PreTranslateMessage(MSG* pMsg) override;
+    LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam) override;
 
     DECLARE_MESSAGE_MAP()
 
     afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+    afx_msg void OnDestroy();
 };

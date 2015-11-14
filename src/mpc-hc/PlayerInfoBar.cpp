@@ -31,6 +31,9 @@ IMPLEMENT_DYNAMIC(CPlayerInfoBar, CDialogBar)
 CPlayerInfoBar::CPlayerInfoBar(CMainFrame* pMainFrame)
     : m_pMainFrame(pMainFrame)
 {
+    GetEventd().Connect(m_eventc, {
+        MpcEvent::DPI_CHANGED,
+    }, std::bind(&CPlayerInfoBar::EventCallback, this, std::placeholders::_1));
 }
 
 CPlayerInfoBar::~CPlayerInfoBar()
@@ -57,11 +60,11 @@ bool CPlayerInfoBar::SetLine(CString label, CString info)
         }
     }
 
-    CAutoPtr<CStatusLabel> l(DEBUG_NEW CStatusLabel(true, false));
+    CAutoPtr<CStatusLabel> l(DEBUG_NEW CStatusLabel(m_pMainFrame->m_dpi, true, false));
     l->Create(label, WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | SS_OWNERDRAW, CRect(0, 0, 0, 0), this);
     m_label.Add(l);
 
-    CAutoPtr<CStatusLabel> i(DEBUG_NEW CStatusLabel(false, true));
+    CAutoPtr<CStatusLabel> i(DEBUG_NEW CStatusLabel(m_pMainFrame->m_dpi, false, true));
     i->Create(info, WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | SS_OWNERDRAW | SS_NOTIFY, CRect(0, 0, 0, 0), this);
     m_tooltip.AddTool(i, info);
     m_info.Add(i);
@@ -145,6 +148,23 @@ CSize CPlayerInfoBar::CalcFixedLayout(BOOL bStretch, BOOL bHorz)
     return r.Size();
 }
 
+void CPlayerInfoBar::EventCallback(MpcEvent ev)
+{
+    switch (ev) {
+        case MpcEvent::DPI_CHANGED:
+            for (size_t i = 0; i < m_label.GetCount(); i++) {
+                m_label[i]->ScaleFont(m_pMainFrame->m_dpi);
+            }
+            for (size_t i = 0; i < m_info.GetCount(); i++) {
+                m_info[i]->ScaleFont(m_pMainFrame->m_dpi);
+            }
+            break;
+
+        default:
+            ASSERT(FALSE);
+    }
+}
+
 void CPlayerInfoBar::Relayout()
 {
     CRect r;
@@ -158,7 +178,7 @@ void CPlayerInfoBar::Relayout()
         CDC* pDC = m_label[i]->GetDC();
         CString str;
         m_label[i]->GetWindowText(str);
-        w = max<int>(w, pDC->GetTextExtent(str).cx);
+        w = std::max<int>(w, pDC->GetTextExtent(str).cx);
         m_label[i]->ReleaseDC(pDC);
     }
 

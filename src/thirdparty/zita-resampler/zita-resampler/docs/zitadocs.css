@@ -1,0 +1,18 @@
+body { background: white; color: black; font-family: arial, helvetica, sans-serif; }
+center { font-family: arial, helvetica, sans-serif; }
+p  { font-family: arial, helvetica, sans-serif; text-align: left; margin-left: 3%; margin-right: 3%; }
+td { font-family: arial, helvetica, sans-serif;	background: white; color: black; }
+ul { font-family: arial, helvetica, sans-serif;	text-align: left; margin-left: 3%; margin-right: 6%; }
+ol { font-family: arial, helvetica, sans-serif;	text-align: left; margin-left: 3%; margin-right: 6%; }
+dl { font-family: arial, helvetica, sans-serif;	text-align: left; margin-left: 3%; margin-right: 3%; }
+h1 { font-size: xx-large; background: #8080FF; color: white; text-align: left; padding-left: 20; }
+h2 { font-size: x-large;  background: #8080FF; color: white; text-align: left; padding-left: 20; }
+h3 { font-size: large;    background: #8080FF; color: white; text-align: left; padding-left: 20; }
+pre { font-family: courier, monospace; font-size: medium; }
+a:link    { color: #008000; }
+a:visited { color: #008000; }
+a:active  { color: #FF00FF; }
+a:hover   { background-color: #80FF80; color: black; }
+.apihdr   { background: #E0E0FF; color: black; text-align: left; padding: 5; }
+.indent   { font-family: arial, helvetica, sans-serif; text-align: left; margin-left: 50; margin-right: 50; }
+

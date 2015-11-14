@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012, 2014 see Authors.txt
+ * (C) 2006-2012, 2014-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -40,6 +40,7 @@ private:
 
     CComboBox m_iDSVideoRendererTypeCtrl;
     CComboBox m_iAudioRendererTypeCtrl;
+    CComboBox m_SubtitleRendererCtrl;
     CComboBox m_iRMVideoRendererTypeCtrl;
     CComboBox m_iQTVideoRendererTypeCtrl;
     CComboBox m_iD3D9RenderDeviceCtrl;
@@ -56,6 +57,11 @@ private:
     CStatic m_iRMSaveImageSupport;
     CStatic m_iQTSubtitleSupport;
     CStatic m_iQTSaveImageSupport;
+
+    void UpdateSubtitleSupport();
+
+    void UpdateSubtitleRendererList();
+
 public:
     CPPageOutput();
     virtual ~CPPageOutput();
@@ -67,6 +73,7 @@ public:
     int m_iQTVideoRendererType;
     int m_iAPSurfaceUsage;
     int m_iAudioRendererType;
+    std::pair<bool, CAppSettings::SubtitleRenderer> m_lastSubrenderer;
     int m_iDX9Resizer;
     BOOL m_fVMR9MixerMode;
     BOOL m_fVMR9MixerYUV;
@@ -92,6 +99,7 @@ public:
     afx_msg void OnDSRendererChange();
     afx_msg void OnRMRendererChange();
     afx_msg void OnQTRendererChange();
+    afx_msg void OnSubtitleRendererChange();
     afx_msg void OnFullscreenCheck();
     afx_msg void OnD3D9DeviceCheck();
 };

@@ -11,10 +11,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-17 20:47:27+0000\n"
-"PO-Revision-Date: 2015-05-27 18:10+0000\n"
+"POT-Creation-Date: 2015-10-19 19:15:11+0000\n"
+"PO-Revision-Date: 2015-10-20 17:47+0000\n"
 "Last-Translator: Luan <luanmail@gmx.net>\n"
-"Language-Team: German (http://www.transifex.com/projects/p/mpc-hc/language/de/)\n"
+"Language-Team: German (http://www.transifex.com/mpc-hc/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -307,7 +307,7 @@ msgstr "Disc-Wiedergabe deaktivieren"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK9"
 msgid "Process priority above normal"
-msgstr "Prozesspriorität höher als \"normal\""
+msgstr "Prozesspriorität höher als normal"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK14"
 msgid "Enable cover-art support"
@@ -379,7 +379,7 @@ msgstr "Weitere Einstellungen"
 
 msgctxt "IDD_PPAGEDVD_IDC_CHECK2"
 msgid "Allow closed captions in \"Line 21 Decoder\""
-msgstr "Untertitel im Line 21 Decoder erlauben"
+msgstr "Erweiterte Untertitel über Line 21 Decoder ausgeben"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Audio"
@@ -431,7 +431,7 @@ msgstr "Nach Wiedergabe"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Output"
-msgstr "Standard-Ansicht"
+msgstr "Fensteransicht"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
@@ -439,7 +439,7 @@ msgstr "Zoom verwenden:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC2"
 msgid "Auto fit factor:"
-msgstr "Faktor für Auto-Zoom:"
+msgstr "In Desktop einpassen mit:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC3"
 msgid "%"
@@ -476,10 +476,6 @@ msgstr "Fehlerhafte Filtergraphen-Pins melden"
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
 msgstr "Audiodateien automatisch laden"
-
-msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK3"
-msgid "Use the built-in subtitle renderer"
-msgstr "Internen Untertitel-Renderer verwenden"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Control"
@@ -575,7 +571,7 @@ msgstr "Hinweis"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
-msgstr "Wird hier \"Untertitelposition anpassen\" zusammen mit Vollbild-Antialiasing in den Einstellungen der Grafikkarte aktiviert, bleibt die Bildqualität unverändert. Dabei steigt die CPU-Auslastung aber deutlich an."
+msgstr "Wird Vollbild-Antialiasing in den Einstellungen der Grafikkarte aktiviert, bleibt die Darstellungsqualität der Untertitel unverändert. Auch kann die CPU-Auslastung deutlich ansteigen."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
 msgid "File extensions"
@@ -681,9 +677,9 @@ msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
 msgstr "Minimieren des Fensters auf sekundärem Anzeigegerät bei Vollbild verhindern"
 
-msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_WIN7"
-msgid "Use Windows 7 Taskbar features"
-msgstr "Windows-Taskbarfunktionen verwenden (ab Windows 7)"
+msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
+msgid "Use enhanced taskbar features"
+msgstr "Erweiterte Taskleistenfunktionen verwenden"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
@@ -883,7 +879,7 @@ msgstr "Zoom: 0.2 -> 3.0"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_CHECK2"
 msgid "Global Media Keys"
-msgstr "Tasten global abfragen"
+msgstr "Multimedia-Tasten global abfragen"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON1"
 msgid "Select All"
@@ -891,7 +887,7 @@ msgstr "&Alle auswählen"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON2"
 msgid "Reset Selected"
-msgstr "&Befehl zurücksetzen"
+msgstr "&Eintrag zurücksetzen"
 
 msgctxt "IDD_MEDIATYPES_DLG_CAPTION"
 msgid "Warning"
@@ -1174,8 +1170,8 @@ msgid "DXVA"
 msgstr "DXVA"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "Subtitles *"
-msgstr "Untertitel *"
+msgid "Subtitles"
+msgstr "Untertitel"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Screenshot"
@@ -1190,8 +1186,8 @@ msgid "Rotation"
 msgstr "Rotation"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "* External filters (such as VSFilter) can display subtitles on all renderers."
-msgstr "* Externe Filter (z.B. VSFilter) können Untertitel mit allen Renderern darstellen."
+msgid "Subtitle Renderer"
+msgstr "Untertitel-Renderer"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
@@ -1208,6 +1204,10 @@ msgstr "Komprimierung aktivieren"
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK5"
 msgid "Allow access from localhost only"
 msgstr "Nur lokalen Zugriff erlauben"
+
+msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK6"
+msgid "Enable preview"
+msgstr "Medienvorschau aktivieren"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
 msgid "Print debug information"
@@ -1251,7 +1251,7 @@ msgstr "&Speichern..."
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Color controls (for VMR-9, EVR and madVR)"
-msgstr "Farbeinstellungen für VMR-9, EVR und madVR"
+msgstr "Farbsteuerung für VMR-9, EVR und madVR"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Brightness"
@@ -1283,7 +1283,7 @@ msgstr "Automatische Update-Prüfung aktivieren"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
 msgid "Check every:"
-msgstr "Tagesintervall:"
+msgstr "Tage zwischen den Prüfungen:"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"
@@ -1295,15 +1295,15 @@ msgstr "Programm-Einstellungen verwalten"
 
 msgctxt "IDD_PPAGEMISC_IDC_RESET_SETTINGS"
 msgid "Reset"
-msgstr "&Zurücksetzen..."
+msgstr "&Zurücksetzen"
 
 msgctxt "IDD_PPAGEMISC_IDC_EXPORT_SETTINGS"
 msgid "Export"
-msgstr "S&ichern..."
+msgstr "&Exportieren..."
 
 msgctxt "IDD_PPAGEMISC_IDC_EXPORT_KEYS"
 msgid "Export keys"
-msgstr "&Tastenbefehle sichern..."
+msgstr "&Tasten exportieren..."
 
 msgctxt "IDD_TUNER_SCAN_CAPTION"
 msgid "Tuner scan"
@@ -1611,11 +1611,11 @@ msgstr "L&öschen"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active pre-resize shaders"
-msgstr "Aktive Pre-Resize-Shader"
+msgstr "Aktive Shader für Pre-Resize"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active post-resize shaders"
-msgstr "Aktive Post-Resize-Shader"
+msgstr "Aktive Shader für Post-Resize"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_CAPTION"
 msgid "Debug Shaders"
@@ -1657,6 +1657,50 @@ msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
 msgstr "Standard"
 
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "Device"
+msgstr "Audio-Gerät"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK1"
+msgid "Exclusive mode"
+msgstr "Exklusiver Modus"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK2"
+msgid "Allow bitstreaming"
+msgstr "Bitstreaming erlauben"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "Options"
+msgstr "Weitere Einstellungen"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK3"
+msgid "Enable stereo crossfeed (for headphones)"
+msgstr "Crossfeed für Kopfhörer aktivieren"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON1"
+msgid "C. Moy"
+msgstr "Chu Moy"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON2"
+msgid "J. Meier"
+msgstr "Jan Meier"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC1"
+msgid "Cut-off:"
+msgstr "Grenze:"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC3"
+msgid "Level:"
+msgstr "Pegel:"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "Note"
+msgstr "Hinweis"
+
+msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
+msgid "To minimize audio distortion, it is recommended to keep player volume at around 85% when playing loud lossy-encoded content."
+msgstr "Bei Wiedergabe lauter verlustbehaftet encodierter Audioinhalte können hörbare Tonstörungen auftreten. Um diese möglichst zu vermeiden, sollte die Lautstärke maximal rund 85 % betragen."
+
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
 msgstr "JPEG-Qualität:"
@@ -1673,13 +1717,21 @@ msgctxt "IDD_CRASH_REPORTER_CAPTION"
 msgid "Crash reporter"
 msgstr "Fehlerberichterstattung"
 
+msgctxt "IDD_CRASH_REPORTER_IDC_STATIC"
+msgid "We are sorry, it seems MPC-HC just crashed. :("
+msgstr "Der MPC-HC wurde leider unerwartet beendet."
+
+msgctxt "IDD_CRASH_REPORTER_IDC_CHECK1"
+msgid "Send a bug report to help us diagnose and fix the problem."
+msgstr "Zur Diagnose des Problems einen Fehlerbericht senden"
+
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
-msgid "We are sorry, it seems MPC-HC just crashed. :(\n\nTo help us diagnose and fix the problem, a bug report will be sent. You can provide additional information if you want."
-msgstr "MPC-HC leider unerwartet beendet. Zur näheren Bestimmung und Lösung des Problems wurde ein Fehlerbericht zum Versand vorbereitet. Dazu sind weitere Angaben möglich."
+msgid "Optional information"
+msgstr "Optionale Angaben"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
 msgid "Email:"
-msgstr "E-Mail:"
+msgstr "E-Mail-Adresse:"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC3"
 msgid "Your email address is optional and will only be used if the developers need to contact you for more information."
@@ -1689,7 +1741,11 @@ msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
 msgid "Problem description (use English only):"
 msgstr "Problembeschreibung (englisch):"
 
-msgctxt "IDD_CRASH_REPORTER_IDOK"
-msgid "OK"
-msgstr "OK"
+msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON1"
+msgid "Restart MPC-HC"
+msgstr "&Neu starten"
+
+msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON2"
+msgid "Quit MPC-HC"
+msgstr "&Beenden"
 

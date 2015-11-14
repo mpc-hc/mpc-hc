@@ -29,6 +29,8 @@
 #include "IPinHook.h"
 #include "AllocatorCommon.h"
 
+#include "../../../mpc-hc/FGFilterLAV.h"
+
 #define DXVA_LOGFILE_A 0 // set to 1 for logging DXVA data to a file
 #define LOG_BITSTREAM  0 // set to 1 for logging DXVA bitstream data to a file
 #define LOG_MATRIX     0 // set to 1 for logging DXVA matrix data to a file
@@ -47,7 +49,7 @@ GUID g_guidDXVADecoder = GUID_NULL;
 int  g_nDXVAVersion = 0;
 
 IPinCVtbl* g_pPinCVtbl = nullptr;
-IPinCVtbl* g_pPinCVtblVideoDriverWorkAround = nullptr;
+IPinCVtbl* g_pPinCVtbl10BitWorkAround = nullptr;
 IMemInputPinCVtbl* g_pMemInputPinCVtbl = nullptr;
 
 struct D3DFORMAT_TYPE {
@@ -153,12 +155,15 @@ static HRESULT(STDMETHODCALLTYPE* ReceiveConnectionOrg)(IPinC* This, /* [in] */ 
 
 static HRESULT STDMETHODCALLTYPE ReceiveConnectionMine(IPinC* This, /* [in] */ IPinC* pConnector, /* [in] */ const AM_MEDIA_TYPE* pmt)
 {
-    // Force the renderer to always reject the P010 and P016 pixel formats
+    // Force-reject P010 and P016 pixel formats due to Microsoft bug ...
     if (pmt && (pmt->subtype == MEDIASUBTYPE_P010 || pmt->subtype == MEDIASUBTYPE_P016)) {
-        return VFW_E_TYPE_NOT_ACCEPTED;
-    } else {
-        return ReceiveConnectionOrg(This, pConnector, pmt);
+        // ... but allow LAV Video Decoder to do that itself in order to support 10bit DXVA.
+        if (GetCLSID((IPin*)pConnector) != GUID_LAVVideo) {
+            return VFW_E_TYPE_NOT_ACCEPTED;
+        }
     }
+
+    return ReceiveConnectionOrg(This, pConnector, pmt);
 }
 
 
@@ -184,26 +189,20 @@ static HRESULT STDMETHODCALLTYPE ReceiveMine(IMemInputPinC* This, IMediaSample* 
     return ReceiveMineI(This, pSample);
 }
 
-void HookWorkAroundVideoDriversBug(IBaseFilter* pBF)
+void HookWorkAround10BitBug(IBaseFilter* pBF)
 {
-    // Work-around a bug in some video drivers: some drivers mistakenly
-    // accepts P010 and P016 pixel formats as input for VMR/EVR renderers
-    // so use the pin hook to add our own level of verification.
-#if MPC_VERSION_MAJOR > 1 || MPC_VERSION_MINOR > 7 || MPC_VERSION_PATCH > 9
-#pragma message("WARNING: Check if this bug is fixed in currently distributed drivers")
-#endif
-
     if (CComPtr<IPin> pPin = GetFirstPin(pBF)) {
         IPinC* pPinC = (IPinC*)(IPin*)pPin;
 
         DWORD flOldProtect = 0;
-        if (VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), PAGE_WRITECOPY, &flOldProtect)) {
+        if (VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), PAGE_EXECUTE_WRITECOPY, &flOldProtect)) {
             if (ReceiveConnectionOrg == nullptr) {
                 ReceiveConnectionOrg = pPinC->lpVtbl->ReceiveConnection;
             }
             pPinC->lpVtbl->ReceiveConnection = ReceiveConnectionMine;
+            FlushInstructionCache(GetCurrentProcess(), pPinC->lpVtbl, sizeof(IPinCVtbl));
             VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
-            g_pPinCVtblVideoDriverWorkAround = pPinC->lpVtbl;
+            g_pPinCVtbl10BitWorkAround = pPinC->lpVtbl;
         } else {
             TRACE(_T("HookWorkAroundVideoDriversBug: Could not hook the VTable"));
             ASSERT(FALSE);
@@ -211,18 +210,19 @@ void HookWorkAroundVideoDriversBug(IBaseFilter* pBF)
     }
 }
 
-void UnhookWorkAroundVideoDriversBug()
+void UnhookWorkAround10BitBug()
 {
     // Unhook previous VTable
-    if (g_pPinCVtblVideoDriverWorkAround) {
+    if (g_pPinCVtbl10BitWorkAround) {
         DWORD flOldProtect = 0;
-        if (VirtualProtect(g_pPinCVtblVideoDriverWorkAround, sizeof(IPinCVtbl), PAGE_WRITECOPY, &flOldProtect)) {
-            if (g_pPinCVtblVideoDriverWorkAround->ReceiveConnection == ReceiveConnectionMine) {
-                g_pPinCVtblVideoDriverWorkAround->ReceiveConnection = ReceiveConnectionOrg;
+        if (VirtualProtect(g_pPinCVtbl10BitWorkAround, sizeof(IPinCVtbl), PAGE_EXECUTE_WRITECOPY, &flOldProtect)) {
+            if (g_pPinCVtbl10BitWorkAround->ReceiveConnection == ReceiveConnectionMine) {
+                g_pPinCVtbl10BitWorkAround->ReceiveConnection = ReceiveConnectionOrg;
             }
             ReceiveConnectionOrg = nullptr;
-            VirtualProtect(g_pPinCVtblVideoDriverWorkAround, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
-            g_pPinCVtblVideoDriverWorkAround = nullptr;
+            FlushInstructionCache(GetCurrentProcess(), g_pPinCVtbl10BitWorkAround, sizeof(IPinCVtbl));
+            VirtualProtect(g_pPinCVtbl10BitWorkAround, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
+            g_pPinCVtbl10BitWorkAround = nullptr;
         } else {
             TRACE(_T("UnhookWorkAroundVideoDriversBug: Could not unhook previous VTable"));
             ASSERT(FALSE);
@@ -236,10 +236,11 @@ void UnhookNewSegmentAndReceive()
 
     // Unhook previous VTables
     if (g_pPinCVtbl) {
-        if (VirtualProtect(g_pPinCVtbl, sizeof(IPinCVtbl), PAGE_WRITECOPY, &flOldProtect)) {
+        if (VirtualProtect(g_pPinCVtbl, sizeof(IPinCVtbl), PAGE_EXECUTE_WRITECOPY, &flOldProtect)) {
             if (g_pPinCVtbl->NewSegment == NewSegmentMine) {
                 g_pPinCVtbl->NewSegment = NewSegmentOrg;
             }
+            FlushInstructionCache(GetCurrentProcess(), g_pPinCVtbl, sizeof(IPinCVtbl));
             VirtualProtect(g_pPinCVtbl, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
             g_pPinCVtbl = nullptr;
             NewSegmentOrg = nullptr;
@@ -250,10 +251,11 @@ void UnhookNewSegmentAndReceive()
     }
 
     if (g_pMemInputPinCVtbl) {
-        if (VirtualProtect(g_pMemInputPinCVtbl, sizeof(IMemInputPinCVtbl), PAGE_WRITECOPY, &flOldProtect)) {
+        if (VirtualProtect(g_pMemInputPinCVtbl, sizeof(IMemInputPinCVtbl), PAGE_EXECUTE_WRITECOPY, &flOldProtect)) {
             if (g_pMemInputPinCVtbl->Receive == ReceiveMine) {
                 g_pMemInputPinCVtbl->Receive = ReceiveOrg;
             }
+            FlushInstructionCache(GetCurrentProcess(), g_pMemInputPinCVtbl, sizeof(IMemInputPinCVtbl));
             VirtualProtect(g_pMemInputPinCVtbl, sizeof(IMemInputPinCVtbl), flOldProtect, &flOldProtect);
             g_pMemInputPinCVtbl = nullptr;
             ReceiveOrg = nullptr;
@@ -278,11 +280,12 @@ bool HookNewSegmentAndReceive(IPinC* pPinC, IMemInputPinC* pMemInputPinC)
     DWORD flOldProtect = 0;
 
     if (!g_pPinCVtbl) {
-        if (VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), PAGE_WRITECOPY, &flOldProtect)) {
+        if (VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), PAGE_EXECUTE_WRITECOPY, &flOldProtect)) {
             if (NewSegmentOrg == nullptr) {
                 NewSegmentOrg = pPinC->lpVtbl->NewSegment;
             }
             pPinC->lpVtbl->NewSegment = NewSegmentMine; // Function sets global variable(s)
+            FlushInstructionCache(GetCurrentProcess(), pPinC->lpVtbl, sizeof(IPinCVtbl));
             VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
             g_pPinCVtbl = pPinC->lpVtbl;
         } else {
@@ -292,11 +295,12 @@ bool HookNewSegmentAndReceive(IPinC* pPinC, IMemInputPinC* pMemInputPinC)
     }
 
     if (!g_pMemInputPinCVtbl) {
-        if (VirtualProtect(pMemInputPinC->lpVtbl, sizeof(IMemInputPinCVtbl), PAGE_WRITECOPY, &flOldProtect)) {
+        if (VirtualProtect(pMemInputPinC->lpVtbl, sizeof(IMemInputPinCVtbl), PAGE_EXECUTE_WRITECOPY, &flOldProtect)) {
             if (ReceiveOrg == nullptr) {
                 ReceiveOrg = pMemInputPinC->lpVtbl->Receive;
             }
             pMemInputPinC->lpVtbl->Receive = ReceiveMine; // Function sets global variable(s)
+            FlushInstructionCache(GetCurrentProcess(), pMemInputPinC->lpVtbl, sizeof(IMemInputPinCVtbl));
             VirtualProtect(pMemInputPinC->lpVtbl, sizeof(IMemInputPinCVtbl), flOldProtect, &flOldProtect);
             g_pMemInputPinCVtbl = pMemInputPinC->lpVtbl;
         } else {
@@ -1052,7 +1056,7 @@ void HookAMVideoAccelerator(IAMVideoAcceleratorC* pAMVideoAcceleratorC)
     g_nDXVAVersion = 0;
     DWORD flOldProtect = 0;
 
-    if (VirtualProtect(pAMVideoAcceleratorC->lpVtbl, sizeof(IAMVideoAcceleratorC), PAGE_WRITECOPY, &flOldProtect)) {
+    if (VirtualProtect(pAMVideoAcceleratorC->lpVtbl, sizeof(IAMVideoAcceleratorCVtbl), PAGE_EXECUTE_WRITECOPY, &flOldProtect)) {
 
 #ifdef _DEBUG
         if (GetVideoAcceleratorGUIDsOrg == nullptr) {
@@ -1110,7 +1114,8 @@ void HookAMVideoAccelerator(IAMVideoAcceleratorC* pAMVideoAcceleratorC)
         pAMVideoAcceleratorC->lpVtbl->DisplayFrame = DisplayFrameMine;
 #endif
 
-        VirtualProtect(pAMVideoAcceleratorC->lpVtbl, sizeof(IAMVideoAcceleratorC), PAGE_EXECUTE, &flOldProtect);
+        FlushInstructionCache(GetCurrentProcess(), pAMVideoAcceleratorC->lpVtbl, sizeof(IAMVideoAcceleratorCVtbl));
+        VirtualProtect(pAMVideoAcceleratorC->lpVtbl, sizeof(IAMVideoAcceleratorCVtbl), flOldProtect, &flOldProtect);
     } else {
         TRACE(_T("HookAMVideoAccelerator: Could not hook the VTable"));
         ASSERT(FALSE);
@@ -1559,7 +1564,7 @@ void HookDirectXVideoDecoderService(void* pIDirectXVideoDecoderService)
 
     // Unhook previous VTable
     if (g_pIDirectXVideoDecoderServiceCVtbl) {
-        if (VirtualProtect(g_pIDirectXVideoDecoderServiceCVtbl, sizeof(IDirectXVideoDecoderServiceCVtbl), PAGE_WRITECOPY, &flOldProtect)) {
+        if (VirtualProtect(g_pIDirectXVideoDecoderServiceCVtbl, sizeof(IDirectXVideoDecoderServiceCVtbl), PAGE_EXECUTE_WRITECOPY, &flOldProtect)) {
             if (g_pIDirectXVideoDecoderServiceCVtbl->CreateVideoDecoder == CreateVideoDecoderMine) {
                 g_pIDirectXVideoDecoderServiceCVtbl->CreateVideoDecoder = CreateVideoDecoderOrg;
             }
@@ -1574,6 +1579,7 @@ void HookDirectXVideoDecoderService(void* pIDirectXVideoDecoderService)
             //}
 #endif
 
+            FlushInstructionCache(GetCurrentProcess(), g_pIDirectXVideoDecoderServiceCVtbl, sizeof(IDirectXVideoDecoderServiceCVtbl));
             VirtualProtect(g_pIDirectXVideoDecoderServiceCVtbl, sizeof(IDirectXVideoDecoderServiceCVtbl), flOldProtect, &flOldProtect);
 
             g_pIDirectXVideoDecoderServiceCVtbl = nullptr;
@@ -1597,7 +1603,7 @@ void HookDirectXVideoDecoderService(void* pIDirectXVideoDecoderService)
 #endif
 
     if (!g_pIDirectXVideoDecoderServiceCVtbl && pIDirectXVideoDecoderService) {
-        if (VirtualProtect(pIDirectXVideoDecoderServiceC->lpVtbl, sizeof(IDirectXVideoDecoderServiceCVtbl), PAGE_WRITECOPY, &flOldProtect)) {
+        if (VirtualProtect(pIDirectXVideoDecoderServiceC->lpVtbl, sizeof(IDirectXVideoDecoderServiceCVtbl), PAGE_EXECUTE_WRITECOPY, &flOldProtect)) {
 
             CreateVideoDecoderOrg = pIDirectXVideoDecoderServiceC->lpVtbl->CreateVideoDecoder;
             pIDirectXVideoDecoderServiceC->lpVtbl->CreateVideoDecoder = CreateVideoDecoderMine;
@@ -1610,6 +1616,7 @@ void HookDirectXVideoDecoderService(void* pIDirectXVideoDecoderService)
             //pIDirectXVideoDecoderServiceC->lpVtbl->GetDecoderDeviceGuids = GetDecoderDeviceGuidsMine;
 #endif
 
+            FlushInstructionCache(GetCurrentProcess(), pIDirectXVideoDecoderServiceC->lpVtbl, sizeof(IDirectXVideoDecoderServiceCVtbl));
             VirtualProtect(pIDirectXVideoDecoderServiceC->lpVtbl, sizeof(IDirectXVideoDecoderServiceCVtbl), flOldProtect, &flOldProtect);
 
             g_pIDirectXVideoDecoderServiceCVtbl = pIDirectXVideoDecoderServiceC->lpVtbl;

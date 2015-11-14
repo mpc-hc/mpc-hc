@@ -8,10 +8,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-22 20:53:41+0000\n"
-"PO-Revision-Date: 2015-05-30 21:41+0000\n"
+"POT-Creation-Date: 2015-05-30 00:33:30+0000\n"
+"PO-Revision-Date: 2015-11-10 15:00+0000\n"
 "Last-Translator: streger <stjepan.treger@gmail.com>\n"
-"Language-Team: Croatian (http://www.transifex.com/projects/p/mpc-hc/language/hr/)\n"
+"Language-Team: Croatian (http://www.transifex.com/mpc-hc/mpc-hc/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -40,7 +40,7 @@ msgstr "Otvori &uređaj..."
 
 msgctxt "ID_FILE_OPENDIRECTORY"
 msgid "Open Dir&ectory..."
-msgstr "Otvori &direktorij..."
+msgstr "Otvori dir&ektorij..."
 
 msgctxt "ID_FILE_OPENDISC"
 msgid "O&pen Disc"
@@ -60,11 +60,11 @@ msgstr "&Spremi kao kopiju..."
 
 msgctxt "ID_FILE_SAVE_IMAGE"
 msgid "Save &Image..."
-msgstr "Spremi &sliku..."
+msgstr "Spremi sli&ku..."
 
 msgctxt "ID_FILE_SAVE_THUMBNAILS"
 msgid "Save &Thumbnails..."
-msgstr "Spremi &sličice..."
+msgstr "Spremi sliči&ce..."
 
 msgctxt "ID_FILE_LOAD_SUBTITLE"
 msgid "&Load Subtitle..."
@@ -88,15 +88,15 @@ msgstr "&Pošalji..."
 
 msgctxt "ID_FILE_ISDB_DOWNLOAD"
 msgid "&Download..."
-msgstr "&Preuzmi..."
+msgstr "P&reuzmi..."
 
 msgctxt "ID_FILE_PROPERTIES"
 msgid "P&roperties"
-msgstr "S&vojstva"
+msgstr "Svo&jstva"
 
 msgctxt "ID_FILE_EXIT"
 msgid "E&xit"
-msgstr "I&zlaz"
+msgstr "&Izlaz"
 
 msgctxt "POPUP"
 msgid "&View"
@@ -564,7 +564,7 @@ msgstr "&Audio zapis"
 
 msgctxt "ID_SUBTITLES"
 msgid "Su&btitle Track"
-msgstr "Zap&is podnapisa"
+msgstr "Zapis &titlova"
 
 msgctxt "ID_VIDEO_STREAMS"
 msgid "&Video Track"
@@ -676,15 +676,15 @@ msgstr "&Pomoć"
 
 msgctxt "ID_HELP_HOMEPAGE"
 msgid "&Home Page"
-msgstr "&Početna stranica"
+msgstr "Poče&tna stranica"
 
 msgctxt "ID_HELP_CHECKFORUPDATE"
 msgid "Check for &updates"
-msgstr "Provjeri &ažuriranja"
+msgstr "Provjeri až&uriranja"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"
-msgstr "&Naredbe komandne linije"
+msgstr "Naredbe &komandne linije"
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"
@@ -696,5 +696,5 @@ msgstr "&Doniraj"
 
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
-msgstr "&O programu..."
+msgstr "O progr&amu..."
 

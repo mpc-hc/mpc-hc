@@ -40,7 +40,7 @@ static long revcolor(long c)
 
 // CMyFont
 
-CMyFont::CMyFont(STSStyle& style)
+CMyFont::CMyFont(const STSStyle& style)
 {
     LOGFONT lf;
     ZeroMemory(&lf, sizeof(lf));
@@ -66,7 +66,7 @@ CMyFont::CMyFont(STSStyle& style)
 
 // CWord
 
-CWord::CWord(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley,
+CWord::CWord(const STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley,
              RenderingCaches& renderingCaches)
     : m_fDrawn(false)
     , m_p(INT_MAX, INT_MAX)
@@ -187,10 +187,13 @@ void CWord::Paint(const CPoint& p, const CPoint& org)
 
 void CWord::Transform(CPoint org)
 {
-    if (m_bUseSSE2) {    // SSE code
-        Transform_SSE2(org);
-    } else {        // C-code
+#if defined(_M_IX86_FP) && _M_IX86_FP < 2
+    if (!m_bUseSSE2) {
         Transform_C(org);
+    } else
+#endif
+    {
+        Transform_SSE2(org);
     }
 }
 
@@ -419,7 +422,7 @@ void CWord::Transform_SSE2(const CPoint& org)
 
 // CText
 
-CText::CText(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley,
+CText::CText(const STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley,
              RenderingCaches& renderingCaches)
     : CWord(style, str, ktype, kstart, kend, scalex, scaley, renderingCaches)
 {
@@ -530,7 +533,7 @@ bool CText::CreatePath()
 
 // CPolygon
 
-CPolygon::CPolygon(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley, int baseline,
+CPolygon::CPolygon(const STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley, int baseline,
                    RenderingCaches& renderingCaches)
     : CWord(style, str, ktype, kstart, kend, scalex, scaley, renderingCaches)
     , m_baseline(baseline)
@@ -1968,8 +1971,8 @@ bool CRenderedTextSubtitle::ParseSSATag(SSATagsList& tagsList, const CStringW& s
                     tag.paramsInt.Add(wcstol(tag.params[0], nullptr, 10));
                     tag.params.RemoveAt(0);
                 } else if (nParams == 4) {
-                    for (size_t i = 0; i < nParams; i++) {
-                        tag.paramsInt.Add(wcstol(tag.params[i], nullptr, 10));
+                    for (size_t n = 0; n < nParams; n++) {
+                        tag.paramsInt.Add(wcstol(tag.params[n], nullptr, 10));
                     }
                     tag.params.RemoveAll();
                 }
@@ -1978,8 +1981,8 @@ bool CRenderedTextSubtitle::ParseSSATag(SSATagsList& tagsList, const CStringW& s
             case SSA_fade: {
                 size_t nParams = tag.params.GetCount();
                 if (nParams == 7 || nParams == 2) {
-                    for (size_t i = 0; i < nParams; i++) {
-                        tag.paramsInt.Add(wcstol(tag.params[i], nullptr, 10));
+                    for (size_t n = 0; n < nParams; n++) {
+                        tag.paramsInt.Add(wcstol(tag.params[n], nullptr, 10));
                     }
                     tag.params.RemoveAll();
                 }
@@ -1988,11 +1991,11 @@ bool CRenderedTextSubtitle::ParseSSATag(SSATagsList& tagsList, const CStringW& s
             case SSA_move: {
                 size_t nParams = tag.params.GetCount();
                 if (nParams == 4 || nParams == 6) {
-                    for (size_t i = 0; i < 4; i++) {
-                        tag.paramsReal.Add(wcstod(tag.params[i], nullptr));
+                    for (size_t n = 0; n < 4; n++) {
+                        tag.paramsReal.Add(wcstod(tag.params[n], nullptr));
                     }
-                    for (size_t i = 4; i < nParams; i++) {
-                        tag.paramsInt.Add(wcstol(tag.params[i], nullptr, 10));
+                    for (size_t n = 4; n < nParams; n++) {
+                        tag.paramsInt.Add(wcstol(tag.params[n], nullptr, 10));
                     }
                     tag.params.RemoveAll();
                 }
@@ -2002,8 +2005,8 @@ bool CRenderedTextSubtitle::ParseSSATag(SSATagsList& tagsList, const CStringW& s
             case SSA_pos: {
                 size_t nParams = tag.params.GetCount();
                 if (nParams == 2) {
-                    for (size_t i = 0; i < nParams; i++) {
-                        tag.paramsReal.Add(wcstod(tag.params[i], nullptr));
+                    for (size_t n = 0; n < nParams; n++) {
+                        tag.paramsReal.Add(wcstod(tag.params[n], nullptr));
                     }
                     tag.params.RemoveAll();
                 }
@@ -2921,10 +2924,10 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
         Init(CSize(spd.w, spd.h), spd.vidrect);
     }
 
-    int t = (int)(rt / 10000);
+    int time = (int)(rt / 10000);
 
     int segment;
-    const STSSegment* stss = SearchSubs(t, fps, &segment);
+    const STSSegment* stss = SearchSubs(time, fps, &segment);
     if (!stss) {
         return S_FALSE;
     }
@@ -2938,7 +2941,7 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
             m_subtitleCache.GetNextAssoc(pos, entry, pSub);
 
             STSEntry& stse = GetAt(entry);
-            if (stse.end < t) {
+            if (stse.end < time) {
                 delete pSub;
                 m_subtitleCache.RemoveKey(entry);
             }
@@ -2966,7 +2969,7 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
 
         {
             int start = TranslateStart(entry, fps);
-            m_time = t - start;
+            m_time = time - start;
             m_delay = TranslateEnd(entry, fps) - start;
         }
 
@@ -3003,9 +3006,7 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
                     int t2 = s->m_effects[k]->t[1];
 
                     if (t2 < t1) {
-                        int t = t1;
-                        t1 = t2;
-                        t2 = t;
+                        std::swap(t1, t2);
                     }
 
                     if (t1 <= 0 && t2 <= 0) {

@@ -1,16 +1,19 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2013 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# 洪嘉鴻 <jerry9030@gmail.com>, 2015
 # kenelin <kenelin@gmail.com>, 2013
+# Ken <ken670128@yahoo.com.tw>, 2015
 # Peter Chen <petercpg@gmail.com>, 2014
+# 洪嘉鴻 <jerry9030@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-08-19 21:10:25+0000\n"
-"PO-Revision-Date: 2014-08-20 10:01+0000\n"
-"Last-Translator: JellyFrog\n"
-"Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/mpc-hc/language/zh_TW/)\n"
+"POT-Creation-Date: 2015-05-30 00:33:30+0000\n"
+"PO-Revision-Date: 2015-08-09 09:11+0000\n"
+"Last-Translator: 洪嘉鴻 <jerry9030@gmail.com>\n"
+"Language-Team: Chinese (Taiwan) (http://www.transifex.com/mpc-hc/mpc-hc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -39,7 +42,7 @@ msgstr "開啟裝置(&V)..."
 
 msgctxt "ID_FILE_OPENDIRECTORY"
 msgid "Open Dir&ectory..."
-msgstr "開啟目錄..."
+msgstr "開啟目錄(&E)..."
 
 msgctxt "ID_FILE_OPENDISC"
 msgid "O&pen Disc"
@@ -47,7 +50,7 @@ msgstr "開啟光碟(&P)"
 
 msgctxt "ID_RECENT_FILES"
 msgid "Recent &Files"
-msgstr "最近的檔案"
+msgstr "最近的檔案(&F)"
 
 msgctxt "ID_FILE_CLOSE_AND_RESTORE"
 msgid "&Close"
@@ -95,7 +98,7 @@ msgstr "內容(&R)"
 
 msgctxt "ID_FILE_EXIT"
 msgid "E&xit"
-msgstr "離開(&X)"
+msgstr "結束(&X)"
 
 msgctxt "POPUP"
 msgid "&View"
@@ -103,15 +106,15 @@ msgstr "檢視(&V)"
 
 msgctxt "ID_VIEW_CAPTIONMENU"
 msgid "Caption&&Menu"
-msgstr "標題選單"
+msgstr "標題選單(&M)"
 
 msgctxt "ID_VIEW_SEEKER"
 msgid "See&k Bar"
-msgstr "搜尋列(&S)"
+msgstr "搜尋列(&K)"
 
 msgctxt "ID_VIEW_CONTROLS"
 msgid "&Controls"
-msgstr "控制項(&R)"
+msgstr "控制項(&C)"
 
 msgctxt "ID_VIEW_INFORMATION"
 msgid "&Information"
@@ -119,7 +122,7 @@ msgstr "資訊列(&I)"
 
 msgctxt "ID_VIEW_STATISTICS"
 msgid "&Statistics"
-msgstr "統計列(&T)"
+msgstr "統計列(&S)"
 
 msgctxt "ID_VIEW_STATUS"
 msgid "St&atus"
@@ -127,27 +130,27 @@ msgstr "狀態列(&A)"
 
 msgctxt "ID_VIEW_SUBRESYNC"
 msgid "Su&bresync"
-msgstr "字幕同步"
+msgstr "字幕同步(&B)"
 
 msgctxt "ID_VIEW_PLAYLIST"
 msgid "Pla&ylist"
-msgstr "播放清單"
+msgstr "播放清單(&Y)"
 
 msgctxt "ID_VIEW_CAPTURE"
 msgid "Captu&re"
-msgstr "擷取"
+msgstr "擷取(&R)"
 
 msgctxt "ID_VIEW_NAVIGATION"
 msgid "Na&vigation"
-msgstr "導覽"
+msgstr "導覽(&V)"
 
 msgctxt "ID_VIEW_DEBUGSHADERS"
 msgid "&Debug Shaders"
-msgstr "偵錯 Shader (&D)"
+msgstr "著色器 (Shader) 偵錯(&D)"
 
 msgctxt "POPUP"
 msgid "&Presets..."
-msgstr "先期設定(&P)..."
+msgstr "先前設定(&P)..."
 
 msgctxt "ID_VIEW_PRESETS_MINIMAL"
 msgid "&Minimal"
@@ -183,15 +186,15 @@ msgstr "200% (&2)"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT"
 msgid "Auto &Fit"
-msgstr "自動調整"
+msgstr "自動調整(&F)"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (&Larger Only)"
-msgstr "自動調整 (僅限解像度過大時)"
+msgstr "自動調整 (僅限解像度過大時) (&L)"
 
 msgctxt "POPUP"
 msgid "R&enderer Settings"
-msgstr "繪製器設定"
+msgstr "繪製器設定(&E)"
 
 msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
@@ -199,51 +202,51 @@ msgstr "抖動測試(&T)"
 
 msgctxt "ID_VIEW_DISPLAY_RENDERER_STATS"
 msgid "&Display Statistics"
-msgstr ""
+msgstr "顯示統計(&D)"
 
 msgctxt "ID_VIEW_OSD_DISPLAY_TIME"
 msgid "Display Current T&ime"
-msgstr ""
+msgstr "顯示目前時間(&I)"
 
 msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
 msgid "Show &File Name"
-msgstr ""
+msgstr "顯示檔案名稱(&F)"
 
 msgctxt "POPUP"
 msgid "&Output Range"
-msgstr "輸出範圍"
+msgstr "輸出範圍(&O)"
 
 msgctxt "ID_VIEW_EVROUTPUTRANGE_0_255"
 msgid "&0 - 255"
-msgstr "0 - 255"
+msgstr "&0 - 255"
 
 msgctxt "ID_VIEW_EVROUTPUTRANGE_16_235"
 msgid "&16 - 235"
-msgstr "16 - 235"
+msgstr "&16 - 235"
 
 msgctxt "POPUP"
 msgid "&Presentation"
-msgstr "呈現"
+msgstr "呈現(&P)"
 
 msgctxt "ID_VIEW_D3DFULLSCREEN"
 msgid "D3D Fullscreen &Mode"
-msgstr "D3D 全螢幕模式"
+msgstr "D3D 全螢幕模式(&M)"
 
 msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
 msgid "D3D Fullscreen &GUI Support"
-msgstr "D3D 全螢幕 GUI 支援"
+msgstr "D3D 全螢幕 GUI 支援(&G)"
 
 msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
 msgid "10-bit &RGB Output"
-msgstr "10-bit RGB 輸出"
+msgstr "10位元 RGB 輸出(&R)"
 
 msgctxt "ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION"
 msgid "Force 10-bit RGB &Input"
-msgstr "強制 10-bit RGB 輸入"
+msgstr "強制 10位元 RGB 輸入(&I)"
 
 msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
 msgid "&Full Floating Point Processing"
-msgstr "全浮點處理"
+msgstr "全浮點處理(&F)"
 
 msgctxt "ID_VIEW_HALFFLOATINGPOINTPROCESSING"
 msgid "&Half Floating Point Processing"
@@ -251,79 +254,79 @@ msgstr "半浮點處理"
 
 msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
 msgid "Disable desktop composition (&Aero)"
-msgstr "停用桌面轉譯 (Aero)"
+msgstr "停用桌面佈景 (&Aero)"
 
 msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time &Correction"
-msgstr "啟用影格時間校正"
+msgstr "啟用影格時間校正(&C)"
 
 msgctxt "POPUP"
 msgid "&Color Management"
-msgstr "色彩管理"
+msgstr "色彩管理(&C)"
 
 msgctxt "ID_VIEW_CM_ENABLE"
 msgid "&Enable"
-msgstr "啟用"
+msgstr "啟用(&E)"
 
 msgctxt "POPUP"
 msgid "&Input Type"
-msgstr "輸入類型"
+msgstr "輸入類型(&I)"
 
 msgctxt "ID_VIEW_CM_INPUT_AUTO"
 msgid "&Auto-Detect"
-msgstr "自動偵測"
+msgstr "自動偵測(&A)"
 
 msgctxt "ID_VIEW_CM_INPUT_HDTV"
 msgid "&HDTV"
-msgstr "HDTV"
+msgstr "高畫質顯示器(&H)"
 
 msgctxt "ID_VIEW_CM_INPUT_SDTV_NTSC"
 msgid "SDTV &NTSC"
-msgstr "SDTV NTSC"
+msgstr "NTSC 標準畫質顯示器(&N)"
 
 msgctxt "ID_VIEW_CM_INPUT_SDTV_PAL"
 msgid "SDTV &PAL"
-msgstr "SDTV PAL"
+msgstr "PAL 標準畫質顯示器(&P)"
 
 msgctxt "POPUP"
 msgid "Ambient &Light"
-msgstr "環境光"
+msgstr "環境光(&L)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
 msgid "&Bright (2.2 Gamma)"
-msgstr "明亮 (2.2 Gamma)"
+msgstr "明亮 (2.2 Gamma) (&B)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DIM"
 msgid "&Dim (2.35 Gamma)"
-msgstr "微暗 (2.35 Gamma)"
+msgstr "微暗 (2.35 Gamma) (&D)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DARK"
 msgid "D&ark (2.4 Gamma)"
-msgstr "暗 (2.4 Gamma)"
+msgstr "暗 (2.4 Gamma) (&A)"
 
 msgctxt "POPUP"
 msgid "&Rendering Intent"
-msgstr "色彩對應方式"
+msgstr "色彩對應方式(&R)"
 
 msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
 msgid "&Perceptual"
-msgstr "知覺"
+msgstr "知覺(&P)"
 
 msgctxt "ID_VIEW_CM_INTENT_RELATIVECOLORIMETRIC"
 msgid "&Relative Colorimetric"
-msgstr "相對色度"
+msgstr "相對色度(&R)"
 
 msgctxt "ID_VIEW_CM_INTENT_SATURATION"
 msgid "&Saturation"
-msgstr "飽和度"
+msgstr "飽和度(&S)"
 
 msgctxt "ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC"
 msgid "&Absolute Colorimetric"
-msgstr "絕對色度"
+msgstr "絕對色度(&A)"
 
 msgctxt "POPUP"
 msgid "&VSync"
-msgstr "垂直同步"
+msgstr "垂直同步(&V)"
 
 msgctxt "ID_VIEW_VSYNC"
 msgid "&VSync"
@@ -331,11 +334,11 @@ msgstr "垂直同步(&V)"
 
 msgctxt "ID_VIEW_VSYNCACCURATE"
 msgid "&Accurate VSync"
-msgstr "精確式垂直同步"
+msgstr "精確式垂直同步(&A)"
 
 msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
 msgid "A&lternative VSync"
-msgstr "替代式垂直同步"
+msgstr "替代式垂直同步(&L)"
 
 msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
 msgid "&Decrease VSync Offset"
@@ -347,31 +350,31 @@ msgstr "增加垂直同步偏移量(&I)"
 
 msgctxt "POPUP"
 msgid "&GPU Control"
-msgstr "GPU 控制"
+msgstr "GPU 控制(&G)"
 
 msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
 msgid "Flush GPU &before VSync"
-msgstr "在垂直同步之前清空 GPU"
+msgstr "在垂直同步之前清空 GPU (&B)"
 
 msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
 msgid "Flush GPU &after Present"
-msgstr "在呈現之後清空 GPU"
+msgstr "在呈現之後清空 GPU (&A)"
 
 msgctxt "ID_VIEW_FLUSHGPU_WAIT"
 msgid "&Wait for flushes"
-msgstr "等待清空"
+msgstr "等待清空(&W)"
 
 msgctxt "POPUP"
 msgid "R&eset"
-msgstr "重設"
+msgstr "重設(&E)"
 
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
-msgstr "重設為預設的繪製器設定"
+msgstr "重設為預設的繪製器設定(˙&D)"
 
 msgctxt "ID_VIEW_RESET_OPTIMAL"
 msgid "Reset to &optimal renderer settings"
-msgstr "重設為最佳的繪製器設定"
+msgstr "重設為最佳的繪製器設定(&O)"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
@@ -415,35 +418,35 @@ msgstr "維持長寬比例(&K)"
 
 msgctxt "POPUP"
 msgid "Override &Aspect Ratio"
-msgstr "覆寫長寬比例"
+msgstr "覆寫長寬比例(&A)"
 
 msgctxt "ID_ASPECTRATIO_SOURCE"
 msgid "&Default"
-msgstr "預設值"
+msgstr "預設值(&D)"
 
 msgctxt "ID_ASPECTRATIO_4_3"
 msgid "&4:3"
-msgstr "4:3"
+msgstr "&4:3"
 
 msgctxt "ID_ASPECTRATIO_5_4"
 msgid "&5:4"
-msgstr "5:4"
+msgstr "&5:4"
 
 msgctxt "ID_ASPECTRATIO_16_9"
 msgid "&16:9"
-msgstr "16:9"
+msgstr "&16:9"
 
 msgctxt "ID_ASPECTRATIO_235_100"
 msgid "&235:100"
-msgstr "235:100"
+msgstr "&235:100"
 
 msgctxt "ID_ASPECTRATIO_185_100"
 msgid "1&85:100"
-msgstr "185:100"
+msgstr "1&85:100"
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"
-msgstr "修正顯示器/桌面的長寬比例差異"
+msgstr "修正顯示器/桌面的長寬比例差異(&C)"
 
 msgctxt "POPUP"
 msgid "Pa&n&&Scan"
@@ -451,55 +454,55 @@ msgstr "平移掃描(&C)"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"
-msgstr "增加大小"
+msgstr "增加大小(&I)"
 
 msgctxt "ID_VIEW_DECSIZE"
 msgid "&Decrease Size"
-msgstr "降低大小"
+msgstr "降低大小(&D)"
 
 msgctxt "ID_VIEW_INCWIDTH"
 msgid "I&ncrease Width"
-msgstr "增加寬度"
+msgstr "增加寬度(&N)"
 
 msgctxt "ID_VIEW_DECWIDTH"
 msgid "D&ecrease Width"
-msgstr "降低寬度"
+msgstr "降低寬度(&E)"
 
 msgctxt "ID_VIEW_INCHEIGHT"
 msgid "In&crease Height"
-msgstr "增加高度"
+msgstr "增加高度(&C)"
 
 msgctxt "ID_VIEW_DECHEIGHT"
 msgid "Decre&ase Height"
-msgstr "降低高度"
+msgstr "降低高度(&A)"
 
 msgctxt "ID_PANSCAN_MOVERIGHT"
 msgid "Move &Right"
-msgstr "右移"
+msgstr "右移(&R)"
 
 msgctxt "ID_PANSCAN_MOVELEFT"
 msgid "Move &Left"
-msgstr "左移"
+msgstr "左移(&L)"
 
 msgctxt "ID_PANSCAN_MOVEUP"
 msgid "Move &Up"
-msgstr "上移"
+msgstr "上移(&U)"
 
 msgctxt "ID_PANSCAN_MOVEDOWN"
 msgid "Move &Down"
-msgstr "下移"
+msgstr "下移(&D)"
 
 msgctxt "ID_PANSCAN_CENTER"
 msgid "Cen&ter"
-msgstr "置中"
+msgstr "置中(&T)"
 
 msgctxt "ID_VIEW_RESET"
 msgid "Re&set"
-msgstr "重設"
+msgstr "重設(&S)"
 
 msgctxt "POPUP"
 msgid "On &Top"
-msgstr "最上層顯示"
+msgstr "最上層顯示(&T)"
 
 msgctxt "ID_ONTOP_DEFAULT"
 msgid "&Default"
@@ -507,15 +510,15 @@ msgstr "預設(&D)"
 
 msgctxt "ID_ONTOP_ALWAYS"
 msgid "&Always"
-msgstr "總是如此"
+msgstr "總是如此(&A)"
 
 msgctxt "ID_ONTOP_WHILEPLAYING"
 msgid "While &Playing"
-msgstr "當播放時"
+msgstr "當正在播放時(&P)"
 
 msgctxt "ID_ONTOP_WHILEPLAYINGVIDEO"
 msgid "While Playing &Video"
-msgstr "當播放影片時"
+msgstr "當播放影片時(&V)"
 
 msgctxt "ID_VIEW_OPTIONS"
 msgid "&Options..."
@@ -547,7 +550,7 @@ msgstr "增加頻率(&I)"
 
 msgctxt "ID_PLAY_RESETRATE"
 msgid "R&eset Rate"
-msgstr "重設頻率"
+msgstr "重設頻率(&E)"
 
 msgctxt "ID_FILTERS"
 msgid "&Filters"
@@ -555,19 +558,19 @@ msgstr "篩選器(&F)"
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"
-msgstr "Shaders (&H)"
+msgstr "著色器 (Shaders) (&H)"
 
 msgctxt "ID_AUDIOS"
 msgid "&Audio Track"
-msgstr ""
+msgstr "音訊軌道(&A)"
 
 msgctxt "ID_SUBTITLES"
 msgid "Su&btitle Track"
-msgstr ""
+msgstr "字幕軌道(&B)"
 
 msgctxt "ID_VIDEO_STREAMS"
 msgid "&Video Track"
-msgstr ""
+msgstr "視訊軌道(&V)"
 
 msgctxt "POPUP"
 msgid "&Volume"
@@ -587,43 +590,43 @@ msgstr "靜音(&M)"
 
 msgctxt "POPUP"
 msgid "Af&ter Playback"
-msgstr "播放完後"
+msgstr "播放完後(&T)"
 
 msgctxt "ID_AFTERPLAYBACK_DONOTHING"
 msgid "Do no&thing"
-msgstr ""
+msgstr "什麼都不做(&T)"
 
 msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
 msgid "Play &next file in the folder"
-msgstr ""
+msgstr "播放此資料夾的下一個檔案(&N)"
 
 msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
 msgid "Turn off the &monitor"
-msgstr ""
+msgstr "關閉螢幕(&M)"
 
 msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
-msgstr "離開"
+msgstr "結束(&E)"
 
 msgctxt "ID_AFTERPLAYBACK_STANDBY"
 msgid "&Stand By"
-msgstr "待命"
+msgstr "待命(&S)"
 
 msgctxt "ID_AFTERPLAYBACK_HIBERNATE"
 msgid "&Hibernate"
-msgstr "休眠"
+msgstr "休眠(&H)"
 
 msgctxt "ID_AFTERPLAYBACK_SHUTDOWN"
 msgid "Shut&down"
-msgstr "關機"
+msgstr "關機(&D)"
 
 msgctxt "ID_AFTERPLAYBACK_LOGOFF"
 msgid "Log &Off"
-msgstr "登出"
+msgstr "登出(&O)"
 
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
-msgstr "鎖定"
+msgstr "鎖定(&L)"
 
 msgctxt "POPUP"
 msgid "&Navigate"

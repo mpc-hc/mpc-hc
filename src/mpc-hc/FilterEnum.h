@@ -165,6 +165,9 @@ enum DECODER {
 #if INTERNAL_DECODER_AMR
     TRA_AMR,
 #endif
+#if INTERNAL_DECODER_OPUS
+    TRA_OPUS,
+#endif
 #if INTERNAL_DECODER_PCM
     TRA_PCM,
 #endif

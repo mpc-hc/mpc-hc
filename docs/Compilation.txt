@@ -28,7 +28,7 @@ SET "MPCHC_MSYS=C:\MSYS"
 SET "MPCHC_MINGW32=%MPCHC_MSYS%\mingw"
 SET "MPCHC_MINGW64=%MPCHC_MINGW32%"
 REM Git is optional to set if you chose to add it in PATH when installing it
-SET "MPCHC_GIT=C:\Program Files (x86)\Git"
+SET "MPCHC_GIT=C:\Program Files\Git"
 REM Optional, if you plan to modify the translations, install Python 2.7 or set the variable to its path
 SET "MPCHC_PYTHON=C:\Python27"
 
@@ -36,7 +36,7 @@ SET "MPCHC_PYTHON=C:\Python27"
 Part C: Downloading and compiling the MPC-HC source
 
 1. Use Git to clone MPC-HC's repository to "C:\mpc-hc" (or anywhere else you like)
-    Download Git from http://msysgit.github.io/
+    Download Git from https://git-for-windows.github.io/
     Run:
       git clone --recursive https://github.com/mpc-hc/mpc-hc.git
 
@@ -60,7 +60,7 @@ Part C: Downloading and compiling the MPC-HC source
 6. Press F7 to build the solution.
 7. You now have "mpciconlib.dll" under "C:\mpc-hc\bin\mpc-hc_x86"
 8. Open the solution file "C:\mpc-hc\mpcresources.sln"
-    In Visual Studio go to Build->Batch Build->Press Select All->Press Build
+7. Build "BuildAll" project
 9. You now have "mpcresources.XX.dll" under "C:\mpc-hc\bin\mpc-hc_x86\Lang"
 
 Alternatively, you can use "build.bat" that can build everything for you
@@ -69,7 +69,7 @@ Alternatively, you can use "build.bat" that can build everything for you
 
 Part D: Building the installer
 
-Download Inno Setup Unicode v5.5.5 or newer from: http://www.jrsoftware.org/isdl.php
+Download Inno Setup Unicode v5.5.6 or newer from: http://www.jrsoftware.org/isdl.php
 Install everything and then go to "C:\mpc-hc\distrib", open "mpc-hc_setup.iss" with Inno Setup,
 read the first comments in the script and compile it.
 Notes:

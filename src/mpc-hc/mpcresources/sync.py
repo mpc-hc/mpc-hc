@@ -52,9 +52,9 @@ if __name__ == '__main__':
 
     pool = Pool()
     results = []
-    for file in os.listdir('.'):
-        if fnmatch.fnmatch(file, '*.rc'):
-            results.append(pool.apply_async(processRC, [os.path.splitext(file)[0]]));
+    for file in os.listdir('PO'):
+        if fnmatch.fnmatch(file, 'mpc-hc.*.menus.po'):
+            results.append(pool.apply_async(processRC, [file[:-9]]));
 
     pool.close()
 

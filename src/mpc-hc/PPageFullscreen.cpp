@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -470,7 +470,7 @@ void CPPageFullscreen::OnRemove()
         // Remove the item
         VERIFY(m_list.DeleteItem(nItem));
         // Select the next one
-        nItem = min(nItem, m_list.GetItemCount() - 1);
+        nItem = std::min(nItem, m_list.GetItemCount() - 1);
         m_list.SetSelectionMark(nItem);
         VERIFY(m_list.SetItemState(nItem, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED));
         m_list.SetFocus();
