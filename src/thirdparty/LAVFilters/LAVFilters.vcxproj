@@ -39,34 +39,14 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <BaseIntermediateOutputPath>$(IntDir)</BaseIntermediateOutputPath>
-  </PropertyGroup>
-  <PropertyGroup>
-    <NMakeBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">build_lavfilters.bat Build x86 Debug Silent Nocolors</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">build_lavfilters.bat Rebuild x86 Debug Silent Nocolors</NMakeReBuildCommandLine>
-    <NMakeCleanCommandLine Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">build_lavfilters.bat Clean x86 Debug Silent Nocolors</NMakeCleanCommandLine>
-    <NMakeBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">build_lavfilters.bat Build x64 Debug Silent Nocolors</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">build_lavfilters.bat Rebuild x64 Debug Silent Nocolors</NMakeReBuildCommandLine>
-    <NMakeCleanCommandLine Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">build_lavfilters.bat Clean x64 Debug Silent Nocolors</NMakeCleanCommandLine>
-    <NMakeBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">build_lavfilters.bat Build x86 Silent Nocolors</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">build_lavfilters.bat Rebuild x86 Silent Nocolors</NMakeReBuildCommandLine>
-    <NMakeCleanCommandLine Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">build_lavfilters.bat Clean x86 Silent Nocolors</NMakeCleanCommandLine>
-    <NMakeBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='Release|x64'">build_lavfilters.bat Build x64 Silent Nocolors</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='Release|x64'">build_lavfilters.bat Rebuild x64 Silent Nocolors</NMakeReBuildCommandLine>
-    <NMakeCleanCommandLine Condition="'$(Configuration)|$(Platform)'=='Release|x64'">build_lavfilters.bat Clean x64 Silent Nocolors</NMakeCleanCommandLine>
+    <NMakeBuildCommandLine>build_lavfilters.bat Build $(Platform) $(Configuration) Silent Nocolors</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>build_lavfilters.bat Rebuild $(Platform) $(Configuration) Silent Nocolors</NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine>build_lavfilters.bat Clean $(Platform) $(Configuration) Silent Nocolors</NMakeCleanCommandLine>
   </PropertyGroup>
   <PropertyGroup Condition="'$(PlatformToolsetVersion)'=='140'">
-    <NMakeBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">build_lavfilters.bat Build x86 Debug VS2015 Silent Nocolors</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">build_lavfilters.bat Rebuild x86 Debug VS2015 Silent Nocolors</NMakeReBuildCommandLine>
-    <NMakeCleanCommandLine Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">build_lavfilters.bat Clean x86 Debug VS2015 Silent Nocolors</NMakeCleanCommandLine>
-    <NMakeBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">build_lavfilters.bat Build x64 Debug VS2015 Silent Nocolors</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">build_lavfilters.bat Rebuild x64 Debug VS2015 Silent Nocolors</NMakeReBuildCommandLine>
-    <NMakeCleanCommandLine Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">build_lavfilters.bat Clean x64 Debug VS2015 Silent Nocolors</NMakeCleanCommandLine>
-    <NMakeBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">build_lavfilters.bat Build x86 VS2015 Silent Nocolors</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">build_lavfilters.bat Rebuild x86 VS2015 Silent Nocolors</NMakeReBuildCommandLine>
-    <NMakeCleanCommandLine Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">build_lavfilters.bat Clean x86 VS2015 Silent Nocolors</NMakeCleanCommandLine>
-    <NMakeBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='Release|x64'">build_lavfilters.bat Build x64 VS2015 Silent Nocolors</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='Release|x64'">build_lavfilters.bat Rebuild x64 VS2015 Silent Nocolors</NMakeReBuildCommandLine>
-    <NMakeCleanCommandLine Condition="'$(Configuration)|$(Platform)'=='Release|x64'">build_lavfilters.bat Clean x64 VS2015 Silent Nocolors</NMakeCleanCommandLine>
+    <NMakeBuildCommandLine>build_lavfilters.bat Build $(Platform) $(Configuration) VS2015 Silent Nocolors</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>build_lavfilters.bat Rebuild $(Platform) $(Configuration) VS2015 Silent Nocolors</NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine>build_lavfilters.bat Clean $(Platform) $(Configuration) VS2015 Silent Nocolors</NMakeCleanCommandLine>
   </PropertyGroup>
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
