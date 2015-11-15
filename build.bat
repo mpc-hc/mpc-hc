@@ -42,7 +42,7 @@ FOR %%G IN (%ARG%) DO (
   IF /I "%%G" == "Win32"        SET "PPLATFORM=Win32"    & SET /A ARGPL+=1
   IF /I "%%G" == "x86"          SET "PPLATFORM=Win32"    & SET /A ARGPL+=1
   IF /I "%%G" == "x64"          SET "PPLATFORM=x64"      & SET /A ARGPL+=1
-  IF /I "%%G" == "All"          SET "CONFIG=All"         & SET /A ARGC+=1
+  IF /I "%%G" == "All"          SET "CONFIG=All"         & SET /A ARGC+=1  & SET "NO_LITE=True"
   IF /I "%%G" == "Main"         SET "CONFIG=Main"        & SET /A ARGC+=1  & SET "NO_INST=True" & SET "NO_ZIP=True"
   IF /I "%%G" == "Filters"      SET "CONFIG=Filters"     & SET /A ARGC+=1  & SET "NO_INST=True" & SET "NO_LITE=True"
   IF /I "%%G" == "Filter"       SET "CONFIG=Filters"     & SET /A ARGC+=1  & SET "NO_INST=True" & SET "NO_LITE=True"
