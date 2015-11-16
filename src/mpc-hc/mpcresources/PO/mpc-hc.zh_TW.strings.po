@@ -523,17 +523,9 @@ msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
 msgstr "覆疊合成器"
 
-msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
-msgid "Video Mixing Renderer 7 (windowed)"
-msgstr "VMR 7 (視窗)"
-
 msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
 msgid "Video Mixing Renderer 9 (windowed)"
 msgstr "VMR 9 (視窗)"
-
-msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
-msgid "Video Mixing Renderer 7 (renderless)"
-msgstr "VMR 7 (無轉換)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
 msgid "Video Mixing Renderer 9 (renderless)"
@@ -611,17 +603,9 @@ msgctxt "IDC_DSOVERLAYMIXER"
 msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
 msgstr "總是以覆疊模式繪製。一般說來只允許使用 YUV 格式，但這不會進行任何 RGB 色彩轉換而直接呈現。這是最快速的繪製方法，而且是您唯一能確保以全螢幕鏡射輸出到電視的方法。"
 
-msgctxt "IDC_DSVMR7WIN"
-msgid "The default renderer of Windows XP. Very stable and just a little slower than the Overlay mixer. Uses DirectDraw and runs in Overlay when it can."
-msgstr "Windows XP 的預設繪製器。非常穩定，只比覆疊合成器慢一點。使用 DirectDraw，可以的話會在覆疊模式下運行。"
-
 msgctxt "IDC_DSVMR9WIN"
-msgid "Only available if you have DirectX 9 installed. Has the same abilities as VMR-7 (windowed), but it will never use Overlay rendering and because of this it may be a little slower than VMR-7 (windowed)."
-msgstr "只有在您安裝了 DirectX 9 之後才能用。它有著和 VMR-7 (視窗式) 相同的能力，但永遠不會使用覆疊模式繪製。因此這可能會比 VMR-7 (視窗式) 慢一點。"
-
-msgctxt "IDC_DSVMR7REN"
-msgid "Same as the VMR-7 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring WILL NOT work. \"True Color\" desktop color space recommended."
-msgstr "和 VMR-7 (視窗式) 相同，但藉助 MPC-HC 的配置呈現器顯示字幕。覆疊式視訊鏡射輸出將不會運作。建議使用「全彩」顯示桌面。"
+msgid "Only available if you have DirectX 9 installed. Very stable but it will never use Overlay rendering and because of this it may be a little slower than Overlay mixer."
+msgstr ""
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
@@ -659,10 +643,6 @@ msgctxt "IDC_RMSYSDEF"
 msgid "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
 msgstr "Real 自己的繪製器。SMIL 腳本檔可以運作, 但可能無法互動。使用 DirectDraw, 並且可以的話會在覆疊模式下運行。"
 
-msgctxt "IDC_RMDX7"
-msgid "The output of Real's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "Real 引擎的輸出由基於 DX7 的 VMR-7 (無轉換) 配置呈現器繪製。"
-
 msgctxt "IDC_RMDX9"
 msgid "The output of Real's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
 msgstr "Real 引擎的輸出由基於 DX9 的 VMR-9 (無轉換) 配置呈現器繪製。"
@@ -670,10 +650,6 @@ msgstr "Real 引擎的輸出由基於 DX9 的 VMR-9 (無轉換) 配置呈現器�
 msgctxt "IDC_QTSYSDEF"
 msgid "QuickTime's own renderer. Gets a little slow when its video area is resized or partially covered by another window. When Overlay is not available it likes to fall back to GDI."
 msgstr "QuickTime 自己的繪製器。當視訊區域有變更大小或是部分被其它視窗蓋住時會稍微變慢。當覆疊模式不能用的時候會回復到 GDI。"
-
-msgctxt "IDC_QTDX7"
-msgid "The output of QuickTime's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "QuickTime 引擎的輸出由基於 DX7 的 VMR-7 (無轉換) 配置呈現器繪製。"
 
 msgctxt "IDC_QTDX9"
 msgid "The output of QuickTime's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
@@ -2320,8 +2296,8 @@ msgid "The thumbnails would be too small, impossible to create the file.\n\nTry 
 msgstr "縮圖太小了，無法創建檔案。\n\n嘗試減少縮圖的數量或是增加整體大小。"
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
-msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "要載入字幕您必須變更視訊繪製器類型並重新開啟檔案。\n- DirectShow: VMR-7/VMR-9 (無轉換), EVR 自訂呈現, 同步, madVR 或是 Haali\n- RealMedia: 給 RealMedia 用的特殊繪製器, 或是透過 DirectShow 開啟\n- QuickTime: 給 QuickTime 用的 DX7 或 DX9 繪製器\n- ShockWave: n/a"
+msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+msgstr "要載入字幕您必須變更視訊繪製器類型並重新開啟檔案。\n- DirectShow: VMR-9 (無轉換), EVR 自訂呈現, 同步, madVR 或是 Haali\n- RealMedia: 給 RealMedia 用的特殊繪製器, 或是透過 DirectShow 開啟\n- QuickTime: 給 QuickTime 用的 DX7 或 DX9 繪製器\n- ShockWave: n/a"
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"

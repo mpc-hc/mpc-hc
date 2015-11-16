@@ -83,7 +83,6 @@
 #include "../filters/Filters.h"
 #include "../filters/PinInfoWnd.h"
 
-#include "AllocatorCommon7.h"
 #include "AllocatorCommon.h"
 #include "SyncAllocatorPresenter.h"
 
@@ -12357,7 +12356,7 @@ void CMainFrame::SetupFiltersSubMenu()
                     CString streamName;
                     if (!wname) {
                         streamName.LoadString(IDS_AG_UNKNOWN_STREAM);
-                        streamName.AppendFormat(_T(" %u"), i + 1);
+                        streamName.AppendFormat(_T(" %lu"), i + 1);
                     } else {
                         streamName = wname;
                         streamName.Replace(_T("&"), _T("&&"));

@@ -576,11 +576,6 @@ CRealMediaPlayerWindowless::CRealMediaPlayerWindowless(HWND hWndParent, CRealMed
     bool bFullscreen = (AfxGetApp()->m_pMainWnd != nullptr) && (((CMainFrame*)AfxGetApp()->m_pMainWnd)->IsD3DFullScreenMode());
     switch (s.iRMVideoRendererType) {
         default:
-        case VIDRNDT_RM_DX7:
-            if (FAILED(CreateAP7(CLSID_RM7AllocatorPresenter, hWndParent, &pRMAP))) {
-                return;
-            }
-            break;
         case VIDRNDT_RM_DX9:
             if (FAILED(CreateAP9(CLSID_RM9AllocatorPresenter, hWndParent, bFullscreen, &pRMAP))) {
                 return;

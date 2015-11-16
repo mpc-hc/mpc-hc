@@ -517,17 +517,9 @@ msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
 msgstr "오버레이 믹서 렌더러"
 
-msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
-msgid "Video Mixing Renderer 7 (windowed)"
-msgstr "비디오 믹싱 렌더러 7 (윈도우)"
-
 msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
 msgid "Video Mixing Renderer 9 (windowed)"
 msgstr "비디오 믹싱 렌더러 9 (윈도우)"
-
-msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
-msgid "Video Mixing Renderer 7 (renderless)"
-msgstr "비디오 믹싱 렌더러 7 (렌더 적게)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
 msgid "Video Mixing Renderer 9 (renderless)"
@@ -605,17 +597,9 @@ msgctxt "IDC_DSOVERLAYMIXER"
 msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
 msgstr "항상 비디오를 오버레이상태로 렌더링합니다. 일반적으로 YUV의 색공간만을 허용하고, RGB색상변환을 하지않고 그대로 표현하게 됩니다. 다른 모드들과 비교해서 가장 빠른속도를 가졌지만 TV-OUT 기능을 활성화했을때만 전체화면 미러링이 작동합니다."
 
-msgctxt "IDC_DSVMR7WIN"
-msgid "The default renderer of Windows XP. Very stable and just a little slower than the Overlay mixer. Uses DirectDraw and runs in Overlay when it can."
-msgstr "이것은 윈도우XP의 기본 렌러더입니다. 모든 렌더러 중에서 가장 안정적이지만 오버레이믹서보다는 약간 느립니다. 오버레이상태에서 실행될때 DirectDraw만 사용합니다."
-
 msgctxt "IDC_DSVMR9WIN"
-msgid "Only available if you have DirectX 9 installed. Has the same abilities as VMR-7 (windowed), but it will never use Overlay rendering and because of this it may be a little slower than VMR-7 (windowed)."
-msgstr "이것은 DirectX 9을 설치했을때만 사용할수 있습니다. 성능이나 품질은 VMR-7(창화면)과 같습니다. 그러나 오버레이 비디오 미러링이 불가능하고 VMR-7(창화면)보다 조금 느립니다."
-
-msgctxt "IDC_DSVMR7REN"
-msgid "Same as the VMR-7 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring WILL NOT work. \"True Color\" desktop color space recommended."
-msgstr "VMR-7 (창화면)과 같으나, 자막표시를 위해서 MPC-HC의 플러그인이 동작하는 렌더러입니다. 오버레이 비디오 미러링이 불가능합니다. TV-OUT기능을 사용할수 없고 바탕화면배색이 32비트로 설정되어있을때만 정상작동합니다. (YUY2출력만 가능)"
+msgid "Only available if you have DirectX 9 installed. Very stable but it will never use Overlay rendering and because of this it may be a little slower than Overlay mixer."
+msgstr ""
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
@@ -653,10 +637,6 @@ msgctxt "IDC_RMSYSDEF"
 msgid "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
 msgstr "리얼미디어의 고유렌더러입니다. SMIL형식은 작동하지만 안정적이지는 않습니다. 오버레이상태에서 실행될때 DirectDraw를 사용합니다."
 
-msgctxt "IDC_RMDX7"
-msgid "The output of Real's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "리얼미디어의 엔진을 이용해서 DX7기반의 VMR-7 (렌더리스)모드에서 렌더링합니다."
-
 msgctxt "IDC_RMDX9"
 msgid "The output of Real's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
 msgstr "리얼미디어의 엔진을 이용해서 DX9기반의 VMR-9 (렌더리스)모드에서 렌더링합니다."
@@ -664,10 +644,6 @@ msgstr "리얼미디어의 엔진을 이용해서 DX9기반의 VMR-9 (렌더리�
 msgctxt "IDC_QTSYSDEF"
 msgid "QuickTime's own renderer. Gets a little slow when its video area is resized or partially covered by another window. When Overlay is not available it likes to fall back to GDI."
 msgstr "퀵타임의 고유렌더러입니다. 비디오화면을 조절할때 화면갱신속도가 느려질수 있고 다른 창의 뒤로 가려질수도 있습니다. 오버레이를 사용하지 못할 경우 GDI를 사용하게 됩니다."
-
-msgctxt "IDC_QTDX7"
-msgid "The output of QuickTime's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "퀵타임의 엔진을 이용해서 DX7기반의 VMR-7 (렌더리스)모드에서 렌더링합니다."
 
 msgctxt "IDC_QTDX9"
 msgid "The output of QuickTime's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
@@ -2314,7 +2290,7 @@ msgid "The thumbnails would be too small, impossible to create the file.\n\nTry 
 msgstr ""
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
-msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
 msgstr ""
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"

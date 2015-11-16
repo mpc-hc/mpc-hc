@@ -27,7 +27,6 @@
 #include "FileVersionInfo.h"
 #include "PathUtils.h"
 #include "../filters/Filters.h"
-#include "AllocatorCommon7.h"
 #include "AllocatorCommon.h"
 #include "SyncAllocatorPresenter.h"
 #include "DeinterlacerFilter.h"
@@ -1566,6 +1565,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 #if INTERNAL_SOURCEFILTER_HTTP
     if (src[SRC_HTTP]) {
         pFGLAVSplitterSource->m_protocols.AddTail(_T("http"));
+        pFGLAVSplitterSource->m_protocols.AddTail(_T("https"));
         pFGLAVSplitterSource->m_protocols.AddTail(_T("icyx"));
         pFGLAVSplitterSource->AddEnabledFormat("http");
     }
@@ -2396,14 +2396,8 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
         case VIDRNDT_DS_OVERLAYMIXER:
             m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_OverlayMixer, ResStr(IDS_PPAGE_OUTPUT_OVERLAYMIXER), m_vrmerit));
             break;
-        case VIDRNDT_DS_VMR7WINDOWED:
-            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_VideoMixingRenderer, ResStr(IDS_PPAGE_OUTPUT_VMR7WINDOWED), m_vrmerit));
-            break;
         case VIDRNDT_DS_VMR9WINDOWED:
             m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_VideoMixingRenderer9, ResStr(IDS_PPAGE_OUTPUT_VMR9WINDOWED), m_vrmerit));
-            break;
-        case VIDRNDT_DS_VMR7RENDERLESS:
-            m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_VMR7AllocatorPresenter, ResStr(IDS_PPAGE_OUTPUT_VMR7RENDERLESS), m_vrmerit));
             break;
         case VIDRNDT_DS_VMR9RENDERLESS:
             m_transform.AddTail(DEBUG_NEW CFGFilterVideoRenderer(m_hWnd, CLSID_VMR9AllocatorPresenter, ResStr(IDS_PPAGE_OUTPUT_VMR9RENDERLESS), m_vrmerit));

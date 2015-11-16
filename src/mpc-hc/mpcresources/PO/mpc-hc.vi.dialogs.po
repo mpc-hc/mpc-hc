@@ -1122,8 +1122,8 @@ msgid "Audio Renderer"
 msgstr "Tự động render"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
-msgstr "Thiết lập VMR-7/VMR-9 (Renderless) và EVR (CP)"
+msgid "VMR-9 (renderless) and EVR (CP) settings"
+msgstr "Thiết lập VMR-9 (Renderless) và EVR (CP)"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"

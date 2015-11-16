@@ -79,8 +79,6 @@ void CPPageOutput::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_RMRND_SAVEIMAGE_SUPPORT, m_iRMSaveImageSupport);
     DDX_Control(pDX, IDC_QTRND_SUBTITLE_SUPPORT, m_iQTSubtitleSupport);
     DDX_Control(pDX, IDC_QTRND_SAVEIMAGE_SUPPORT, m_iQTSaveImageSupport);
-    DDX_CBIndex(pDX, IDC_RMRND_COMBO, m_iRMVideoRendererType);
-    DDX_CBIndex(pDX, IDC_QTRND_COMBO, m_iQTVideoRendererType);
     DDX_CBIndex(pDX, IDC_AUDRND_COMBO, m_iAudioRendererType);
     DDX_CBIndex(pDX, IDC_DX_SURFACE, m_iAPSurfaceUsage);
     DDX_CBIndex(pDX, IDC_DX9RESIZER_COMBO, m_iDX9Resizer);
@@ -275,14 +273,8 @@ BOOL CPPageOutput::OnInitDialog()
             case VIDRNDT_DS_OVERLAYMIXER:
                 sName = ResStr(IDS_PPAGE_OUTPUT_OVERLAYMIXER);
                 break;
-            case VIDRNDT_DS_VMR7WINDOWED:
-                sName = ResStr(IDS_PPAGE_OUTPUT_VMR7WINDOWED);
-                break;
             case VIDRNDT_DS_VMR9WINDOWED:
                 sName = ResStr(IDS_PPAGE_OUTPUT_VMR9WINDOWED);
-                break;
-            case VIDRNDT_DS_VMR7RENDERLESS:
-                sName = ResStr(IDS_PPAGE_OUTPUT_VMR7RENDERLESS);
                 break;
             case VIDRNDT_DS_VMR9RENDERLESS:
                 sName = ResStr(IDS_PPAGE_OUTPUT_VMR9RENDERLESS);
@@ -325,9 +317,7 @@ BOOL CPPageOutput::OnInitDialog()
     addRenderer(VIDRNDT_DS_DEFAULT);
     addRenderer(VIDRNDT_DS_OLDRENDERER);
     addRenderer(VIDRNDT_DS_OVERLAYMIXER);
-    addRenderer(VIDRNDT_DS_VMR7WINDOWED);
     addRenderer(VIDRNDT_DS_VMR9WINDOWED);
-    addRenderer(VIDRNDT_DS_VMR7RENDERLESS);
     addRenderer(VIDRNDT_DS_VMR9RENDERLESS);
     addRenderer(VIDRNDT_DS_EVR);
     addRenderer(VIDRNDT_DS_EVR_CUSTOM);
@@ -350,16 +340,24 @@ BOOL CPPageOutput::OnInitDialog()
 
     CComboBox& m_iQTVRTC = m_iQTVideoRendererTypeCtrl;
     m_iQTVRTC.SetItemData(m_iQTVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_SYS_DEF)), VIDRNDT_QT_DEFAULT);
-    m_iQTVRTC.SetItemData(m_iQTVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_VMR7RENDERLESS)), VIDRNDT_QT_DX7);
     m_iQTVRTC.SetItemData(m_iQTVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_VMR9RENDERLESS)), VIDRNDT_QT_DX9);
-    m_iQTVRTC.SetCurSel(m_iQTVideoRendererType);
+    for (int j = 0; j < m_iQTVRTC.GetCount(); ++j) {
+        if ((UINT)m_iQTVideoRendererType == m_iQTVRTC.GetItemData(j)) {
+            m_iQTVRTC.SetCurSel(j);
+            break;
+        }
+    }
     CorrectComboListWidth(m_iQTVRTC);
 
     CComboBox& m_iRMVRTC = m_iRMVideoRendererTypeCtrl;
     m_iRMVideoRendererTypeCtrl.SetItemData(m_iRMVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_SYS_DEF)), VIDRNDT_RM_DEFAULT);
-    m_iRMVRTC.SetItemData(m_iRMVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_VMR7RENDERLESS)), VIDRNDT_RM_DX7);
     m_iRMVRTC.SetItemData(m_iRMVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_VMR9RENDERLESS)), VIDRNDT_RM_DX9);
-    m_iRMVRTC.SetCurSel(m_iRMVideoRendererType);
+    for (int j = 0; j < m_iRMVRTC.GetCount(); ++j) {
+        if ((UINT)m_iRMVideoRendererType == m_iRMVRTC.GetItemData(j)) {
+            m_iRMVRTC.SetCurSel(j);
+            break;
+        }
+    }
     CorrectComboListWidth(m_iRMVRTC);
 
     UpdateData(FALSE);
@@ -548,10 +546,6 @@ void CPPageOutput::OnDSRendererChange()
                 m_iDSDXVASupport.SetIcon(m_tick);
             }
             break;
-        case VIDRNDT_DS_VMR7WINDOWED:
-            m_iDSSaveImageSupport.SetIcon(m_tick);
-            m_wndToolTip.UpdateTipText(ResStr(IDC_DSVMR7WIN), GetDlgItem(IDC_VIDRND_COMBO));
-            break;
         case VIDRNDT_DS_VMR9WINDOWED:
             m_iDSSaveImageSupport.SetIcon(m_tick);
             m_wndToolTip.UpdateTipText(ResStr(IDC_DSVMR9WIN), GetDlgItem(IDC_VIDRND_COMBO));
@@ -568,15 +562,6 @@ void CPPageOutput::OnDSRendererChange()
             break;
         case VIDRNDT_DS_NULL_UNCOMP:
             m_wndToolTip.UpdateTipText(ResStr(IDC_DSNULL_UNCOMP), GetDlgItem(IDC_VIDRND_COMBO));
-            break;
-        case VIDRNDT_DS_VMR7RENDERLESS:
-            GetDlgItem(IDC_DX_SURFACE)->EnableWindow(TRUE);
-
-            if (!SysVersion::IsVistaOrLater()) {
-                m_iDSDXVASupport.SetIcon(m_tick);
-            }
-            m_iDSSaveImageSupport.SetIcon(m_tick);
-            m_wndToolTip.UpdateTipText(ResStr(IDC_DSVMR7REN), GetDlgItem(IDC_VIDRND_COMBO));
             break;
         case VIDRNDT_DS_VMR9RENDERLESS:
             GetDlgItem(IDC_DSVMR9LOADMIXER)->EnableWindow(TRUE);
@@ -674,17 +659,13 @@ void CPPageOutput::OnDSRendererChange()
 void CPPageOutput::OnRMRendererChange()
 {
     UpdateData();
+    m_iRMVideoRendererType = (int)m_iRMVideoRendererTypeCtrl.GetItemData(m_iRMVideoRendererTypeCtrl.GetCurSel());
 
     switch (m_iRMVideoRendererType) {
         case VIDRNDT_RM_DEFAULT:
             m_iRMSaveImageSupport.SetIcon(m_cross);
 
             m_wndToolTip.UpdateTipText(ResStr(IDC_RMSYSDEF), GetDlgItem(IDC_RMRND_COMBO));
-            break;
-        case VIDRNDT_RM_DX7:
-            m_iRMSaveImageSupport.SetIcon(m_tick);
-
-            m_wndToolTip.UpdateTipText(ResStr(IDC_RMDX7), GetDlgItem(IDC_RMRND_COMBO));
             break;
         case VIDRNDT_RM_DX9:
             m_iRMSaveImageSupport.SetIcon(m_tick);
@@ -700,17 +681,13 @@ void CPPageOutput::OnRMRendererChange()
 void CPPageOutput::OnQTRendererChange()
 {
     UpdateData();
+    m_iQTVideoRendererType = (int)m_iQTVideoRendererTypeCtrl.GetItemData(m_iQTVideoRendererTypeCtrl.GetCurSel());
 
     switch (m_iQTVideoRendererType) {
         case VIDRNDT_QT_DEFAULT:
             m_iQTSaveImageSupport.SetIcon(m_cross);
 
             m_wndToolTip.UpdateTipText(ResStr(IDC_QTSYSDEF), GetDlgItem(IDC_QTRND_COMBO));
-            break;
-        case VIDRNDT_QT_DX7:
-            m_iQTSaveImageSupport.SetIcon(m_tick);
-
-            m_wndToolTip.UpdateTipText(ResStr(IDC_QTDX7), GetDlgItem(IDC_QTRND_COMBO));
             break;
         case VIDRNDT_QT_DX9:
             m_iQTSaveImageSupport.SetIcon(m_tick);

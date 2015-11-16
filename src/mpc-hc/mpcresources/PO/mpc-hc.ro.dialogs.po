@@ -1122,8 +1122,8 @@ msgid "Audio Renderer"
 msgstr "Randor audio"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
-msgstr "Setări pentru VMR-7/VMR-9 (fără randare) și EVR (CP)"
+msgid "VMR-9 (renderless) and EVR (CP) settings"
+msgstr "Setări pentru VMR-9 (fără randare) și EVR (CP)"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"

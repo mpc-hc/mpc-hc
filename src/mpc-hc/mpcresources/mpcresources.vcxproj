@@ -396,8 +396,17 @@
     <TargetName Condition="'$(Configuration)'=='Release Ukrainian'">$(ProjectName).uk</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Vietnamese'">$(ProjectName).vi</TargetName>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(PlatformToolsetVersion)'=='140'">
+    <OutDir Condition="'$(Platform)'=='Win32'">$(SolutionDir)bin15\mpc-hc_x86\Lang\</OutDir>
+    <OutDir Condition="'$(Platform)'=='x64'">$(SolutionDir)bin15\mpc-hc_x64\Lang\</OutDir>
+    <IntDir>$(SolutionDir)bin15\obj\Release_$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
   <ItemDefinitionGroup>
+    <Lib>
+      <LinkTimeCodeGeneration>false</LinkTimeCodeGeneration>
+    </Lib>
     <Link>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <NoEntryPoint>true</NoEntryPoint>
       <SetChecksum>true</SetChecksum>

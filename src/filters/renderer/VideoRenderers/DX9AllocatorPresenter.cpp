@@ -687,7 +687,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
         m_hFocusWindow = hFocusWindow;
 
         if (m_pD3DEx) {
-            m_pD3DEx->GetAdapterDisplayModeEx(m_CurrentAdapter, &DisplayMode, nullptr);
+            CHECK_HR(m_pD3DEx->GetAdapterDisplayModeEx(m_CurrentAdapter, &DisplayMode, nullptr));
 
             DisplayMode.Format = pp.BackBufferFormat;
             m_ScreenSize.SetSize(DisplayMode.Width, DisplayMode.Height);
@@ -719,7 +719,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
             }
         }
         if (!m_pD3DDev) {
-            m_pD3D->GetAdapterDisplayMode(m_CurrentAdapter, &d3ddm);
+            CHECK_HR(m_pD3D->GetAdapterDisplayMode(m_CurrentAdapter, &d3ddm));
             d3ddm.Format = pp.BackBufferFormat;
             m_ScreenSize.SetSize(d3ddm.Width, d3ddm.Height);
             pp.FullScreen_RefreshRateInHz = m_refreshRate = d3ddm.RefreshRate;
@@ -753,7 +753,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
         m_hFocusWindow = m_hWnd;
 
         if (m_pD3DEx) {
-            m_pD3DEx->GetAdapterDisplayModeEx(m_CurrentAdapter, &DisplayMode, nullptr);
+            CHECK_HR(m_pD3DEx->GetAdapterDisplayModeEx(m_CurrentAdapter, &DisplayMode, nullptr));
             m_ScreenSize.SetSize(DisplayMode.Width, DisplayMode.Height);
             m_refreshRate = DisplayMode.RefreshRate;
             pp.BackBufferWidth = szDesktopSize.cx;
@@ -782,7 +782,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
             }
         }
         if (!m_pD3DDev) {
-            m_pD3D->GetAdapterDisplayMode(m_CurrentAdapter, &d3ddm);
+            CHECK_HR(m_pD3D->GetAdapterDisplayMode(m_CurrentAdapter, &d3ddm));
             m_ScreenSize.SetSize(d3ddm.Width, d3ddm.Height);
             m_refreshRate = d3ddm.RefreshRate;
             pp.BackBufferWidth = szDesktopSize.cx;
@@ -822,6 +822,11 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
     }
 
     ASSERT(m_pD3DDev);
+
+    if (m_ScreenSize.cx <= 0 || m_ScreenSize.cy <= 0) {
+        _Error += L"Invalid screen size\n";
+        return E_FAIL;
+    }
 
     m_MainThreadId = GetCurrentThreadId();
 
@@ -2012,7 +2017,7 @@ void CDX9AllocatorPresenter::DrawStats()
 
         if (iDetailedStats > 1) {
             if (m_bIsEVR) {
-                strText.Format(L"Buffering    : Buffered %3ld    Free %3d    Current Surface %3d", m_nUsedBuffer, m_nNbDXSurface - m_nUsedBuffer, m_nCurSurface);
+                strText.Format(L"Buffering    : Buffered %3ld    Free %3ld    Current Surface %3d", m_nUsedBuffer, m_nNbDXSurface - m_nUsedBuffer, m_nCurSurface);
             } else {
                 strText.Format(L"Buffering    : VMR9Surfaces %3d   VMR9Surface %3d", m_nVMR9Surfaces, m_iVMR9Surface);
             }

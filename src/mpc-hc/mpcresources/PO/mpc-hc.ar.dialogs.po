@@ -1128,8 +1128,8 @@ msgid "Audio Renderer"
 msgstr "عارض الصوت"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
-msgstr "ضبط VMR-7/VMR-9 (عارض أقل) و EVR (CP)"
+msgid "VMR-9 (renderless) and EVR (CP) settings"
+msgstr "ضبط VMR-9 (عارض أقل) و EVR (CP)"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"

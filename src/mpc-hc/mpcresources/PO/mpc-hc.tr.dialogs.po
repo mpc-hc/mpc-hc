@@ -1124,8 +1124,8 @@ msgid "Audio Renderer"
 msgstr "Ses İşleyicisi"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
-msgstr "VKI-7/VKI-9 (çevrilmeden) ve GVI (CP) ayarları"
+msgid "VMR-9 (renderless) and EVR (CP) settings"
+msgstr "VKI-9 (çevrilmeden) ve GVI (CP) ayarları"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"

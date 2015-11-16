@@ -462,7 +462,8 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
 
     D3DDISPLAYMODE d3ddm;
     ZeroMemory(&d3ddm, sizeof(d3ddm));
-    if (FAILED(m_pD3D->GetAdapterDisplayMode(m_CurrentAdapter, &d3ddm))) {
+    if (FAILED(m_pD3D->GetAdapterDisplayMode(m_CurrentAdapter, &d3ddm))
+            || m_ScreenSize.cx <= 0 || m_ScreenSize.cy <= 0) {
         _Error += L"Can not retrieve display mode data\n";
         return E_UNEXPECTED;
     }
@@ -774,7 +775,8 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
 
     D3DDISPLAYMODE d3ddm;
     ZeroMemory(&d3ddm, sizeof(d3ddm));
-    if (FAILED(m_pD3D->GetAdapterDisplayMode(GetAdapter(m_pD3D, m_hWnd), &d3ddm))) {
+    if (FAILED(m_pD3D->GetAdapterDisplayMode(GetAdapter(m_pD3D, m_hWnd), &d3ddm))
+            || m_ScreenSize.cx <= 0 || m_ScreenSize.cy <= 0) {
         _Error += L"Can not retrieve display mode data\n";
         return E_UNEXPECTED;
     }
@@ -2087,7 +2089,7 @@ void CBaseAP::DrawStats()
             DrawText(rc, strText, 1);
             OffsetRect(&rc, 0, TextHeight);
 
-            strText.Format(L"Buffering    : Buffered %3ld    Free %3d    Current Surface %3d", m_nUsedBuffer, m_nDXSurface - m_nUsedBuffer, m_nCurSurface);
+            strText.Format(L"Buffering    : Buffered %3ld    Free %3ld    Current Surface %3d", m_nUsedBuffer, m_nDXSurface - m_nUsedBuffer, m_nCurSurface);
             DrawText(rc, strText, 1);
             OffsetRect(&rc, 0, TextHeight);
 

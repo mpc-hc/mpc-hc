@@ -136,7 +136,7 @@ bool ExportRegistryKey(CStdioFile& file, HKEY hKeyRoot, CString keyName)
                 file.WriteString(_T("\n"));
                 break;
             case REG_DWORD:
-                buffer.Format(_T("\"%s\"=dword:%08x\n"), valueName, *((DWORD*)data));
+                buffer.Format(_T("\"%s\"=dword:%08lx\n"), valueName, *((DWORD*)data));
                 file.WriteString(buffer);
                 break;
             default: {

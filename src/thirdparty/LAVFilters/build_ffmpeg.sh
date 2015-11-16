@@ -3,6 +3,12 @@
 echo "$(pwd)" | grep -q '[[:blank:]]' &&
   echo "Out of tree builds are impossible with whitespace in source path." && exit 1
 
+if [ "${4}" == "VS2015" ]; then
+  bin_folder=bin15
+else
+  bin_folder=bin
+fi
+
 if [ "${1}" == "x64" ]; then
   arch=x86_64
   archdir=x64
@@ -18,10 +24,10 @@ else
 fi
 
 if [ "${2}" == "Debug" ]; then
-  FFMPEG_DLL_PATH=$(readlink -f ../../..)/bin/${mpc_hc_folder}_Debug/${lav_folder}
+  FFMPEG_DLL_PATH=$(readlink -f ../../..)/${bin_folder}/${mpc_hc_folder}_Debug/${lav_folder}
   BASEDIR=$(pwd)/src/bin_${archdir}d
 else
-  FFMPEG_DLL_PATH=$(readlink -f ../../..)/bin/${mpc_hc_folder}/${lav_folder}
+  FFMPEG_DLL_PATH=$(readlink -f ../../..)/${bin_folder}/${mpc_hc_folder}/${lav_folder}
   BASEDIR=$(pwd)/src/bin_${archdir}
 fi
 
@@ -61,21 +67,11 @@ configure() {
     --disable-static                \
     --enable-version3               \
     --enable-w32threads             \
-    --disable-demuxer=asf           \
     --disable-demuxer=matroska      \
     --disable-filters               \
     --enable-filter=yadif           \
     --enable-filter=scale           \
-    --disable-protocols             \
-    --enable-protocol=file          \
-    --enable-protocol=pipe          \
-    --enable-protocol=mmsh          \
-    --enable-protocol=mmst          \
-    --enable-protocol=rtp           \
-    --enable-protocol=http          \
-    --enable-protocol=crypto        \
-    --enable-protocol=rtmp          \
-    --enable-protocol=rtmpt         \
+    --disable-protocol=async,cache,concat,httpproxy,icecast,md5,subfile \
     --disable-muxers                \
     --enable-muxer=spdif            \
     --disable-hwaccels              \

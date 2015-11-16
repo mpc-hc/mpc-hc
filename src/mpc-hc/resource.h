@@ -463,9 +463,7 @@
 #define IDC_DSSYSDEF                    12100
 #define IDC_DSOLD                       12101
 #define IDC_DSOVERLAYMIXER              12102
-#define IDC_DSVMR7WIN                   12103
 #define IDC_DSVMR9WIN                   12104
-#define IDC_DSVMR7REN                   12105
 #define IDC_DSVMR9REN                   12106
 #define IDC_DSDXR                       12107
 #define IDC_DSNULL_COMP                 12108
@@ -475,10 +473,8 @@
 #define IDC_DSMADVR                     12112
 #define IDC_DSSYNC                      12113
 #define IDC_RMSYSDEF                    12120
-#define IDC_RMDX7                       12121
 #define IDC_RMDX9                       12122
 #define IDC_QTSYSDEF                    12123
-#define IDC_QTDX7                       12124
 #define IDC_QTDX9                       12125
 #define IDC_REGULARSURF                 12127
 #define IDC_TEXTURESURF2D               12128
@@ -1324,9 +1320,7 @@
 #define IDS_ICONS_REASSOC_DLG_CONTENT   41411
 #define IDS_PPAGE_OUTPUT_OLDRENDERER    41412
 #define IDS_PPAGE_OUTPUT_OVERLAYMIXER   41413
-#define IDS_PPAGE_OUTPUT_VMR7WINDOWED   41414
 #define IDS_PPAGE_OUTPUT_VMR9WINDOWED   41415
-#define IDS_PPAGE_OUTPUT_VMR7RENDERLESS 41416
 #define IDS_PPAGE_OUTPUT_VMR9RENDERLESS 41417
 #define IDS_PPAGE_OUTPUT_EVR            41418
 #define IDS_PPAGE_OUTPUT_EVR_CUSTOM     41419
