@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-10-25 00:51:15+0000\n"
-"PO-Revision-Date: 2015-11-08 09:31+0000\n"
-"Last-Translator: JellyFrog\n"
+"PO-Revision-Date: 2015-11-16 15:26+0000\n"
+"Last-Translator: Xabier Aramendi <azpidatziak@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/mpc-hc/mpc-hc/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -598,7 +598,7 @@ msgstr "Betik aurkezten du gainjarpenean. Orokorrean YUV heuskarriak bakarrik da
 
 msgctxt "IDC_DSVMR9WIN"
 msgid "Only available if you have DirectX 9 installed. Very stable but it will never use Overlay rendering and because of this it may be a little slower than Overlay mixer."
-msgstr ""
+msgstr "Eskuragarri bakarrik DirectX 9 ezarrita baduzu. Oso egonkorra baina inoiz ez du erabiltzen Gainjarpen aurkezpena eta horregaitik Gainjarpen nahastzailea baino apur bat astiroagoa izan daiteke."
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
@@ -2290,7 +2290,7 @@ msgstr "Txikirudiak txikiegiak dira, ezinezkoa agiria sortzea.\n\nSaiatu txikiru
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "Azpidatziak gertatzeko bideo aurkezlea aldatu eta agiria berrireki behar duzu.\n- DirectShow: VMR-9 (aurkezgabe), EVR Egile, EVR Aldib, edo Haali\n- RealMedia: RealMediarako aurkezle berezia, edo ireki DirectShow bidez\n- QuickTime: DX7 edo DX9 aurkezleak QuickTimerako\n- ShockWave: n/a"
+msgstr "Azpidatziak gertatzeko bideo aurkezle mota aldatu eta agiria berrireki behar duzu.\n- DirectShow: VMR-9 (aurkezgabe), EVR (CP), Aldib, madVR edo Haali\n- RealMedia: RealMedia-rako aurkezle berezia, edo ireki DirectShow bidez\n- QuickTime: DX7 edo DX9 aurkezleak QuickTime-rako\n- ShockWave: e/g"
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"

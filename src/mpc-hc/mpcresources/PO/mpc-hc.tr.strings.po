@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-10-25 00:51:15+0000\n"
-"PO-Revision-Date: 2015-11-08 09:31+0000\n"
-"Last-Translator: JellyFrog\n"
+"PO-Revision-Date: 2015-11-17 20:57+0000\n"
+"Last-Translator: Sinan H.\n"
 "Language-Team: Turkish (http://www.transifex.com/mpc-hc/mpc-hc/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -601,7 +601,7 @@ msgstr "Daima ters süzme olarak dönüştürülür. Genellikle sadece YUV biçi
 
 msgctxt "IDC_DSVMR9WIN"
 msgid "Only available if you have DirectX 9 installed. Very stable but it will never use Overlay rendering and because of this it may be a little slower than Overlay mixer."
-msgstr ""
+msgstr "Sadece DirectX 9 yüklüyse çalışır. Oldukça uyumludur, ancak Üst süzme işleyicisini kullanmaz. Bu yüzden Üst süzme karıştırıcısından biraz daha yavaştır."
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
@@ -2293,7 +2293,7 @@ msgstr "Küçük resim boyutları çok sınırlı olduğundan dosya yaratılamı
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "Altyazıları yüklemek için video işleyicisi biçimini değiştirip, dosyayı yeniden açmanız gerekmektedir.\n- DirectShow: VKI-9 (çevrilmeden), GVI (CP), Senk., madVR veya Haali\n- RealMedia: RealMedia için özel işleyici gereklidir, veya DirectShow üzerinden oynatabilirsiniz\n- QuickTime: Quicktime için DX7 veya DX9 işleyicisi gereklidir\n- ShockWave: boş"
+msgstr "Altyazıları yüklemek için Video işleyicisini değiştirip, dosyayı yeniden açmanız gerekmektedir.\n- DirectShow: VMR-9 (çevrilmeden), GVI (CP), Senk., madVR veya Haali\n- RealMedia: RealMedia için özel işleyici gereklidir, veya DirectShow üzerinden oynatabilirsiniz\n- QuickTime: Quicktime için DX7 veya DX9 işleyicisi gereklidir\n- ShockWave: boş"
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"

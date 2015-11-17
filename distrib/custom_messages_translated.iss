@@ -138,8 +138,8 @@ ro.WelcomeLabel2=Se va instala [name] pe calculatorul dumneavoastră.%n%nEste re
 ro.WinVersionTooLowError=[name] necesită Windows XP Service Pack 3 sau mai nou pentru a rula.
 
 ; Russian
-ru.WelcomeLabel2=Программа установит [name] на ваш компьютер.%n%nРекомендуется закрыть все прочие приложения перед тем, как продолжить.
-ru.WinVersionTooLowError=[name] Эта программа требует Windows XP Service Pack 3 или выше.
+ru.WelcomeLabel2=Эта программа установит [name] на ваш компьютер.%n%nПеред тем, как продолжить, рекомендуется закрыть все прочие приложения.
+ru.WinVersionTooLowError=[name] требует Windows XP Service Pack 3 или новее.
 
 ; Slovak
 sk.WelcomeLabel2=Teraz sa nainštaluje [name] do Vášho počítača.%n%nPredtým než budete pokračovať, odporúčame ukončiť všetky ostatné programy.
@@ -723,20 +723,20 @@ ro.ViewChangelog=Vezi istoricul modificărilor
 ru.langid=00001049
 ru.comp_mpciconlib=Библиотека значков
 ru.comp_mpcresources=Локализации
-ru.msg_DeleteSettings=Удалить также настроенные параметры MPC-HC?%n%nЕсли запланирована переустановка MPC-HC, эти параметры не нужно удалять.
+ru.msg_DeleteSettings=Желаете ли вы также удалить настройки MPC-HC?%n%nЕсли вы собираетесь установить MPC-HC повторно, их не нужно удалять.
 #if defined(sse_required)
-ru.msg_simd_sse=Для этой сборки MPC-HC требуется процессор с поддержкой SSE-инструкций.%n%nВ данном процессоре они не поддерживаются.
+ru.msg_simd_sse=Для этой сборки MPC-HC необходим процессор с поддержкой SSE-инструкций.%n%nВаш процессор не соответствует данным требованиям.
 #elif defined(sse2_required)
-ru.msg_simd_sse2=Для этой сборки MPC-HC требуется процессор с поддержкой SSE2-инструкций.%n%nВ данном процессоре они не поддерживаются.
+ru.msg_simd_sse2=Для этой сборки MPC-HC необходим процессор с поддержкой SSE2-инструкций.%n%nВаш процессор не соответствует данным требованиям.
 #endif
-ru.run_DownloadToolbarImages=Посетите нашу Вики, чтобы скачать темы для панели управления
-ru.tsk_AllUsers=Для всех пользователей данного компьютера
+ru.run_DownloadToolbarImages=Посетить нашу Вики, чтобы загрузить темы для панели инструментов
+ru.tsk_AllUsers=Для всех пользователей
 ru.tsk_CurrentUser=Только для текущего пользователя
 ru.tsk_Other=Другие задачи:
-ru.tsk_ResetSettings=Восстановить параметры по умолчанию
+ru.tsk_ResetSettings=Восстановить настройки по умолчанию
 ru.types_DefaultInstallation=Установка по умолчанию
 ru.types_CustomInstallation=Выборочная установка
-ru.ViewChangelog=Просмотреть журнал изменений
+ru.ViewChangelog=Посмотреть список изменений
 
 ; Slovak
 sk.langid=00001051

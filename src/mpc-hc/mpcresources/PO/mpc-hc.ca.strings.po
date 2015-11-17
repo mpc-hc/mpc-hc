@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-10-25 00:51:15+0000\n"
-"PO-Revision-Date: 2015-11-12 12:09+0000\n"
+"PO-Revision-Date: 2015-11-17 22:30+0000\n"
 "Last-Translator: papu <papu@openmailbox.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/mpc-hc/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -195,7 +195,7 @@ msgstr "DVD afegit a les Adreces d'Interès"
 
 msgctxt "IDS_CAPTURE_SETTINGS"
 msgid "Capture Settings"
-msgstr "Configuració de la Captació"
+msgstr "Configuració de la Captura"
 
 msgctxt "IDS_NAVIGATION_BAR"
 msgid "Navigation Bar"
@@ -495,7 +495,7 @@ msgstr "Reproducció::Pantalla completa"
 
 msgctxt "IDD_PPAGEAUDIORENDERER"
 msgid "Internal Filters::Audio Renderer"
-msgstr "Filtres Interns::Renderitzador d'Àudio"
+msgstr "Filtres Interns::Renderitzador de l' Àudio"
 
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
@@ -527,7 +527,7 @@ msgstr "Video Mixing Renderer 9 (de finestra)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
 msgid "Video Mixing Renderer 9 (renderless)"
-msgstr "Video Mixing Renderer 9 (sense res)"
+msgstr "Video Mixing Renderer 9 (renderless)"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR"
 msgid "Enhanced Video Renderer"
@@ -603,7 +603,7 @@ msgstr "Sempre renderitzador amb Overlay. Generalment només es permeten els for
 
 msgctxt "IDC_DSVMR9WIN"
 msgid "Only available if you have DirectX 9 installed. Very stable but it will never use Overlay rendering and because of this it may be a little slower than Overlay mixer."
-msgstr ""
+msgstr "Només està disponible si té el DirectX 9 instal·lat. És molt estable, però mai usarà l' Overlay per renderitzar i per això, pot ser una mica més lent que  l' Overlay mixer."
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
@@ -611,7 +611,7 @@ msgstr "El mateix que VMR-9 (de finestra), però amb el plugin  \"Asignador-Pres
 
 msgctxt "IDC_DSDXR"
 msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
-msgstr "Igual que VMR-9 (sense res), pero usa un redimensionador real de dues passades."
+msgstr "Igual que VMR-9 (renderless), pero usa un redimensionador real de dues passades."
 
 msgctxt "IDC_DSNULL_COMP"
 msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the CPU from working unnecessarily."
@@ -643,7 +643,7 @@ msgstr "Renderitzat propi real. Els scripts SMIL funcionaran, però la interacci
 
 msgctxt "IDC_RMDX9"
 msgid "The output of Real's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
-msgstr "La sortida del motor Real serà renderitzat per l' \"Asignador-Presentador\" basat en DX9 del VMR-9 (sense renderitzar)."
+msgstr "La sortida del motor Real serà renderitzat per l' \"Asignador-Presentador\" basat en DX9 del VMR-9 (renderless)."
 
 msgctxt "IDC_QTSYSDEF"
 msgid "QuickTime's own renderer. Gets a little slow when its video area is resized or partially covered by another window. When Overlay is not available it likes to fall back to GDI."
@@ -651,7 +651,7 @@ msgstr "El renderitzador propi del Quictime, es torna una mica lent quant l'àre
 
 msgctxt "IDC_QTDX9"
 msgid "The output of QuickTime's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
-msgstr "La Sortida del motor de QuickTime será renderitzat per l \"Allocator-Presenter\" basat en DX9 del VMR-9 (sense renderitzar)."
+msgstr "La Sortida del motor de QuickTime será renderitzat per l \"Allocator-Presenter\" basat en DX9 del VMR-9 (renderless)."
 
 msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
@@ -715,7 +715,7 @@ msgstr "Null (sense comprimir)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
 msgid "Internal Audio Renderer"
-msgstr "Renderitzador d'Audio Intern"
+msgstr "Renderitzador Intern de l' Àudio "
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
@@ -2295,7 +2295,7 @@ msgstr "Les miniatures serien massa petites, no es possible de crear el fitxer.\
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "Per carregar subtítols has de canviar el tipus de processador de vídeo i tornar a obrir el fitxer.\n-DirectShow: VMR-9(sense render), EVR(CP),Sync,madVR o Halli\n-RealMedia: Renderitzador especial per RealMedia, o obrir-lo a través de DirectShow\n-QuickTime: DX7 or DX9 renderitzador pel QuickTime\n-ShockWave: n/a"
+msgstr "Per carregar els subtítols has de canviar el tipus de renderitzador de vídeo i reobrir el fitxer.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
@@ -3163,11 +3163,11 @@ msgstr "VSync Alternativa: Desactivat"
 
 msgctxt "IDS_OSD_RS_RESET_DEFAULT"
 msgid "Renderer settings reset to default"
-msgstr "Renicialitzar ajustos predeterminats del renderitzador"
+msgstr "Renicia les configuracions predeterminades del renderitzador"
 
 msgctxt "IDS_OSD_RS_RESET_OPTIMAL"
 msgid "Renderer settings reset to optimal"
-msgstr "Renicialitzar ajustos òptims del renderitzador"
+msgstr "Renicia les configuracions òptimes del renderitzador"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
 msgid "D3D Fullscreen GUI Support: On"

@@ -17,6 +17,8 @@ next version - not released yet
     - Ticket #5666, LAV Video Decoder: YADIF deinterlacing sometimes caused black screen in DVD menus
 * Old DirectX 7 renderers have been removed. Settings will be updated automatically to use the corresponding VMR-9 renderers.
   If you really want to use a renderer similar to VMR-7 (windowed), use Overlay mixer or the "system default" renderer
+* Updated Basque, Catalan, Chinese (China), Czech, French, German, Greek, Indonesian, Japanese, Lithuanian, Romanian,
+  Russian, Slovak, Swedish and Turkish translations
 
 
 1.7.10 - 14 November 2015
