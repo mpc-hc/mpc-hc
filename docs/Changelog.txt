@@ -10,11 +10,12 @@ Legend:
 
 next version - not released yet
 ===============================
-* Updated LAV Filters to v0.66.0.39:
-    - LAV Splitter: Support https protocol
-    - LAV Splitter: Switch back to the old asf demuxer until it can be improved further
+* Updated LAV Filters to v0.67.0.3:
+    - LAV Splitter: Support HTTPS protocol
+    - LAV Splitter: Switch back to an improved version of old asf demuxer
     - LAV Video Decoder: Enable hardware decoding for HEVC and 4k/UHD by default
     - Ticket #5666, LAV Video Decoder: YADIF deinterlacing sometimes caused black screen in DVD menus
+    - LAV Audio Decoder: Fix a possible crash when using bitstreaming
 * Old DirectX 7 renderers have been removed. Settings will be updated automatically to use the corresponding VMR-9 renderers.
   If you really want to use a renderer similar to VMR-7 (windowed), use Overlay mixer or the "system default" renderer
 * Updated Basque, Catalan, Chinese (China), Czech, French, German, Greek, Indonesian, Japanese, Lithuanian, Romanian,
