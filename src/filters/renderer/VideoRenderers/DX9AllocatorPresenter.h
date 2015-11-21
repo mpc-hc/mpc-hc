@@ -155,8 +155,7 @@ namespace DSObjects
             LPCWSTR         pFaceName,
             LPD3DXFONT*     ppFont);
 
-
-        void                DrawText(const RECT& rc, const CString& strText, int _Priority);
+        void                InitStats();
         void                ResetStats();
         void                DrawStats();
         virtual void        OnResetDevice() {};
@@ -236,8 +235,6 @@ namespace DSObjects
         int                     m_DetectedFrameTimePos;
         int                     m_bInterlaced;
         FF_FIELD_TYPE           m_nFrameType;
-
-        double                  m_TextScale;
 
         int                     m_VBlankEndWait;
         int                     m_VBlankStartWait;
