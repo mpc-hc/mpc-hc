@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -3213,25 +3213,37 @@ STDMETHODIMP_(int) CRenderedTextSubtitle::GetStreamCount()
 
 STDMETHODIMP CRenderedTextSubtitle::GetStreamInfo(int iStream, WCHAR** ppName, LCID* pLCID)
 {
+    CheckPointer(ppName, E_POINTER);
     if (iStream != 0) {
         return E_INVALIDARG;
     }
 
-    if (ppName) {
-        *ppName = (WCHAR*)CoTaskMemAlloc((m_name.GetLength() + 1) * sizeof(WCHAR));
-        if (!(*ppName)) {
-            return E_OUTOFMEMORY;
-        }
-
-        wcscpy_s(*ppName, m_name.GetLength() + 1, CStringW(m_name));
-
-        if (pLCID) {
-            *pLCID = ISO6391ToLcid(CW2A(*ppName));
-            if (*pLCID == 0) {
-                *pLCID = ISO6392ToLcid(CW2A(*ppName));
-            }
+    if (pLCID) {
+        *pLCID = ISO6391ToLcid(CW2A(m_name));
+        if (*pLCID == 0) {
+            *pLCID = ISO6392ToLcid(CW2A(m_name));
         }
     }
+
+    CString strLanguage;
+    if (m_lcid && m_lcid != LCID(-1)) {
+        int len = GetLocaleInfo(m_lcid, LOCALE_SENGLANGUAGE, strLanguage.GetBuffer(64), 64);
+        strLanguage.ReleaseBufferSetLength(std::max(len - 1, 0));
+    }
+
+    if (!strLanguage.IsEmpty() && m_eHearingImpaired == HI_YES) {
+        strLanguage = '[' + strLanguage + ']';
+    }
+    CStringW strName;
+    if (!m_provider.IsEmpty()) {
+        strName.Format(L"[%s] %s\t%s", m_provider, m_name, strLanguage);
+    } else {
+        strName.Format(L"%s\t%s", m_name, strLanguage);
+    }
+
+    *ppName = (WCHAR*)CoTaskMemAlloc((strName.GetLength() + 1) * sizeof(WCHAR));
+    CheckPointer(*ppName, E_OUTOFMEMORY);
+    wcscpy_s(*ppName, strName.GetLength() + 1, strName);
 
     return S_OK;
 }

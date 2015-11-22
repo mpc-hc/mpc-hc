@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -149,6 +149,11 @@ CAppSettings::CAppSettings()
     , fPrioritizeExternalSubtitles(true)
     , fDisableInternalSubtitles(true)
     , bAllowOverridingExternalSplitterChoice(false)
+    , bAutoDownloadSubtitles(false)
+    , nAutoDownloadScoreMovies(0x16)
+    , nAutoDownloadScoreSeries(0x18)
+    , bAutoUploadSubtitles(false)
+    , bPreferHearingImpairedSubtitles(false)
     , nJumpDistS(DEFAULT_JUMPDISTANCE_1)
     , nJumpDistM(DEFAULT_JUMPDISTANCE_2)
     , nJumpDistL(DEFAULT_JUMPDISTANCE_3)
@@ -424,8 +429,8 @@ void CAppSettings::CreateCommands()
     wmcmds.AddTail({ID_FILE_SAVE_IMAGE_AUTO,          VK_F5, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_6});
     wmcmds.AddTail({ID_FILE_SAVE_THUMBNAILS,              0, FVIRTKEY | FNOINVERT,                    IDS_FILE_SAVE_THUMBNAILS});
 
-    wmcmds.AddTail({ID_FILE_LOAD_SUBTITLE,              'L', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_LOAD_SUBTITLE});
-    wmcmds.AddTail({ID_FILE_SAVE_SUBTITLE,              'S', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_SAVE_SUBTITLE});
+    wmcmds.AddTail({ID_FILE_SUBTITLES_LOAD,             'L', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_LOAD_SUBTITLE});
+    wmcmds.AddTail({ID_FILE_SUBTITLES_SAVE,             'S', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_SAVE_SUBTITLE});
     wmcmds.AddTail({ID_FILE_CLOSE_AND_RESTORE,          'C', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_CLOSE});
     wmcmds.AddTail({ID_FILE_PROPERTIES,              VK_F10, FVIRTKEY | FSHIFT | FNOINVERT,           IDS_AG_PROPERTIES});
     wmcmds.AddTail({ID_FILE_EXIT,                       'X', FVIRTKEY | FALT | FNOINVERT,             IDS_AG_EXIT});
@@ -553,7 +558,8 @@ void CAppSettings::CreateCommands()
     wmcmds.AddTail({ID_STREAM_SUB_PREV,                 'S', FVIRTKEY | FSHIFT | FNOINVERT,           IDS_AG_PREV_SUBTITLE});
     wmcmds.AddTail({ID_STREAM_SUB_ONOFF,                'W', FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_85});
     wmcmds.AddTail({ID_SUBTITLES_SUBITEM_START + 2,       0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_86});
-    wmcmds.AddTail({ID_FILE_ISDB_DOWNLOAD,              'D', FVIRTKEY | FNOINVERT,                    IDS_DOWNLOAD_SUBS});
+    wmcmds.AddTail({ID_FILE_SUBTITLES_DOWNLOAD,         'D', FVIRTKEY | FNOINVERT,                    IDS_SUBTITLES_DOWNLOAD});
+    wmcmds.AddTail({ID_FILE_SUBTITLES_UPLOAD,           'U', FVIRTKEY | FNOINVERT,                    IDS_SUBTITLES_UPLOAD});
     wmcmds.AddTail({ID_DVD_ANGLE_NEXT,                    0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_91});
     wmcmds.AddTail({ID_DVD_ANGLE_PREV,                    0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_92});
     wmcmds.AddTail({ID_DVD_AUDIO_NEXT,                    0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_93});
@@ -814,6 +820,14 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_PRIORITIZEEXTERNALSUBTITLES, fPrioritizeExternalSubtitles);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DISABLEINTERNALSUBTITLES, fDisableInternalSubtitles);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ALLOW_OVERRIDING_EXT_SPLITTER, bAllowOverridingExternalSplitterChoice);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUTODOWNLOADSUBTITLES, bAutoDownloadSubtitles);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUTODOWNLOADSCOREMOVIES, nAutoDownloadScoreMovies);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUTODOWNLOADSCORESERIES, nAutoDownloadScoreSeries);
+    pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_AUTODOWNLOADSUBTITLESEXCLUDE, strAutoDownloadSubtitlesExclude);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUTOUPLOADSUBTITLES, bAutoUploadSubtitles);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_PREFERHEARINGIMPAIREDSUBTITLES, bPreferHearingImpairedSubtitles);
+    pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLESPROVIDERS, strSubtitlesProviders);
+
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLEPATHS, strSubtitlePaths);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_USEDEFAULTSUBTITLESSTYLE, fUseDefaultSubtitlesStyle);
 
@@ -984,9 +998,6 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_THUMBWIDTH, iThumbWidth);
 
     VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SUBSAVEEXTERNALSTYLEFILE, bSubSaveExternalStyleFile));
-
-    pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_ISDB, strISDb);
-
     {
         // Save the list of extra (non-default) shader files
         VERIFY(pApp->WriteProfileString(IDS_R_SHADERS, IDS_RS_SHADERS_EXTRA, m_ShadersExtraList.ToString()));
@@ -1455,6 +1466,13 @@ void CAppSettings::LoadSettings()
     fPrioritizeExternalSubtitles = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_PRIORITIZEEXTERNALSUBTITLES, TRUE);
     fDisableInternalSubtitles = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DISABLEINTERNALSUBTITLES, FALSE);
     bAllowOverridingExternalSplitterChoice = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ALLOW_OVERRIDING_EXT_SPLITTER, FALSE);
+    bAutoDownloadSubtitles = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUTODOWNLOADSUBTITLES, FALSE);
+    nAutoDownloadScoreMovies = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUTODOWNLOADSCOREMOVIES, 0x16);
+    nAutoDownloadScoreSeries = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUTODOWNLOADSCORESERIES, 0x18);
+    strAutoDownloadSubtitlesExclude = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_AUTODOWNLOADSUBTITLESEXCLUDE);
+    bAutoUploadSubtitles = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUTOUPLOADSUBTITLES, FALSE);
+    bPreferHearingImpairedSubtitles = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_PREFERHEARINGIMPAIREDSUBTITLES, FALSE);
+    strSubtitlesProviders = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLESPROVIDERS, _T("<|OpenSubtitles|||1|1|>"));
     strSubtitlePaths = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLEPATHS, DEFAULT_SUBTITLE_PATHS);
     fUseDefaultSubtitlesStyle = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USEDEFAULTSUBTITLESSTYLE, FALSE);
     fEnableAudioSwitcher = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEAUDIOSWITCHER, TRUE);
@@ -1644,9 +1662,6 @@ void CAppSettings::LoadSettings()
     iThumbWidth = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_THUMBWIDTH, 1024);
 
     bSubSaveExternalStyleFile = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SUBSAVEEXTERNALSTYLEFILE, FALSE);
-
-    strISDb = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_ISDB, _T("www.opensubtitles.org/isdb"));
-
     nLastUsedPage = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LASTUSEDPAGE, 0);
 
     {

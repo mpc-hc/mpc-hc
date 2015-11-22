@@ -56,6 +56,12 @@
     <ClCompile Include="zutil.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="minizip\unzip.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="minizip\ioapi.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="crc32.h">
