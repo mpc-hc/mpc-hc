@@ -459,7 +459,6 @@ protected:
     bool m_fAudioOnly;
     CString m_LastOpenBDPath;
     CAutoPtr<OpenMediaData> m_lastOMD;
-    HMONITOR m_LastWindow_HM;
 
     DVD_DOMAIN m_iDVDDomain;
     DWORD m_iDVDTitle;

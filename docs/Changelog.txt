@@ -21,6 +21,8 @@ next version - not released yet
 * Make video renderer statistic scalable to window size and unify graph look for Sync and other renderers
 * Updated Basque, Catalan, Chinese (China), Czech, French, German, Greek, Indonesian, Japanese, Lithuanian, Romanian,
   Russian, Slovak, Swedish and Turkish translations
+! Window position and/or size could be wrong when exiting fullscreen mode for the first time and
+  "Launch files in fullscreen" option is enabled.
 
 
 1.7.10 - 14 November 2015

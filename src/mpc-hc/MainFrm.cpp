@@ -731,7 +731,6 @@ CMainFrame::CMainFrame()
     , m_bOpeningInAutochangedMonitorMode(false)
     , m_bPausedForAutochangeMonitorMode(false)
     , m_fAudioOnly(true)
-    , m_LastWindow_HM(nullptr)
     , m_iDVDDomain(DVD_DOMAIN_Stop)
     , m_iDVDTitle(0)
     , m_dSpeedRate(1.0)
@@ -757,8 +756,8 @@ CMainFrame::CMainFrame()
     , m_wndInfoBar(this)
     , m_wndStatsBar(this)
     , m_wndStatusBar(this)
-    , m_wndPlaylistBar(this)
     , m_wndSubresyncBar(this)
+    , m_wndPlaylistBar(this)
     , m_wndCaptureBar(this)
     , m_wndNavigationBar(this)
     , m_pVideoWnd(nullptr)
@@ -9297,20 +9296,15 @@ CSize CMainFrame::GetVideoSize() const
 void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasTo)
 {
     if (IsD3DFullScreenMode()) {
+        ASSERT(FALSE);
         return;
     }
 
     CAppSettings& s = AfxGetAppSettings();
-    CRect r;
+    CMonitor currentMonitor = CMonitors::GetNearestMonitor(this);
+    const CWnd* pInsertAfter = nullptr;
+    CRect windowRect;
     DWORD dwRemove = 0, dwAdd = 0;
-    DWORD dwRemoveEx = 0, dwAddEx = 0;
-    MONITORINFO mi;
-    mi.cbSize = sizeof(MONITORINFO);
-
-    HMONITOR hm     = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
-    HMONITOR hm_cur = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
-
-    CMonitors monitors;
 
     if (!m_fFullScreen) {
         SetCursor(nullptr); // prevents cursor flickering when our window is not under the cursor
@@ -9321,40 +9315,45 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
             ShowControlBar(&m_wndPlaylistBar, FALSE, FALSE);
         }
 
-        if (!m_fFirstFSAfterLaunchOnFS) {
-            GetWindowRect(&m_lastWindowRect);
-        }
-        if (s.autoChangeFSMode.bEnabled && fSwitchScreenResWhenHasTo && (GetPlaybackMode() != PM_NONE)) {
+        GetWindowRect(&m_lastWindowRect);
+
+        if (s.autoChangeFSMode.bEnabled && fSwitchScreenResWhenHasTo && GetPlaybackMode() != PM_NONE) {
             AutoChangeMonitorMode();
         }
-        m_LastWindow_HM = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
 
-        CString str;
         CMonitor monitor;
-        if (s.strFullScreenMonitor == _T("Current")) {
-            hm = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
-        } else {
+        if (s.strFullScreenMonitor != _T("Current")) {
+            CMonitors monitors;
             for (int i = 0; i < monitors.GetCount(); i++) {
                 monitor = monitors.GetMonitor(i);
+                if (!monitor.IsMonitor()) {
+                    continue;
+                }
+                CString str;
                 monitor.GetName(str);
-                if ((monitor.IsMonitor()) && (s.strFullScreenMonitor == str)) {
-                    hm = monitor;
+                if (s.strFullScreenMonitor == str) {
                     break;
                 }
+                monitor.Detach();
             }
-            if (!hm) {
-                hm = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
-            }
+        }
+        if (!monitor.IsMonitor()) {
+            monitor = currentMonitor;
         }
 
-        dwRemove = WS_CAPTION | WS_THICKFRAME;
-        GetMonitorInfo(hm, &mi);
-        if (fToNearest) {
-            r = mi.rcMonitor;
-        } else {
-            GetDesktopWindow()->GetWindowRect(&r);
+        dwRemove |= WS_CAPTION | WS_THICKFRAME;
+        if (s.fPreventMinimize && monitor != currentMonitor) {
+            dwRemove |= WS_MINIMIZEBOX;
         }
-        SetMenuBarVisibility(AFX_MBV_DISPLAYONFOCUS);
+
+        m_bExtOnTop = !s.iOnTop && (GetExStyle() & WS_EX_TOPMOST);
+        pInsertAfter = &wndTopMost;
+
+        if (fToNearest) {
+            monitor.GetMonitorRect(windowRect);
+        } else {
+            GetDesktopWindow()->GetWindowRect(windowRect);
+        }
     } else {
         m_eventc.FireEvent(MpcEvent::SWITCHING_FROM_FULLSCREEN);
 
@@ -9362,98 +9361,61 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
             SetDispMode(s.strFullScreenMonitor, s.autoChangeFSMode.modes[0].dm);
         }
 
-        dwAdd = (s.eCaptionMenuMode == MODE_BORDERLESS ? 0 : s.eCaptionMenuMode == MODE_FRAMEONLY ? WS_THICKFRAME : WS_CAPTION | WS_THICKFRAME);
-        if (!m_fFirstFSAfterLaunchOnFS) {
-            r = m_lastWindowRect;
+        windowRect = m_lastWindowRect;
+
+        dwAdd |= WS_MINIMIZEBOX;
+        if (s.eCaptionMenuMode != MODE_BORDERLESS) {
+            dwAdd |= WS_THICKFRAME;
+            if (s.eCaptionMenuMode != MODE_FRAMEONLY) {
+                dwAdd |= WS_CAPTION;
+            }
         }
 
         if (m_wndPlaylistBar.IsHiddenDueToFullscreen() && !m_controls.ControlChecked(CMainFrameControls::Panel::PLAYLIST)) {
             m_wndPlaylistBar.SetHiddenDueToFullscreen(false);
             m_controls.ToggleControl(CMainFrameControls::Panel::PLAYLIST);
         }
-    }
 
-    bool fAudioOnly = m_fAudioOnly;
-    m_fAudioOnly = true;
-
-    m_fFullScreen     = !m_fFullScreen;
-    s.fLastFullScreen = m_fFullScreen;
-
-    ModifyStyle(dwRemove, dwAdd, SWP_NOZORDER);
-    ModifyStyleEx(dwRemoveEx, dwAddEx, SWP_NOZORDER);
-
-    if (m_fFullScreen) {
-        if (s.fPreventMinimize) {
-            if (hm != hm_cur) {
-                ModifyStyle(WS_MINIMIZEBOX, 0, SWP_NOZORDER);
-            }
+        // If MPC-HC wasn't previously set "on top" by an external tool,
+        // we restore the current internal on top state. (1/2)
+        if (!m_bExtOnTop) {
+            pInsertAfter = &wndNoTopMost;
         }
-
-        m_bExtOnTop = (!s.iOnTop && (GetExStyle() & WS_EX_TOPMOST));
-        SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
-    } else {
-        ModifyStyle(0, WS_MINIMIZEBOX, SWP_NOZORDER);
     }
 
-    m_fAudioOnly = fAudioOnly;
+    bool bZoomVideoWindow = false;
+    if (m_fFirstFSAfterLaunchOnFS) {
+        ASSERT(m_fFullScreen);
+        bZoomVideoWindow = s.fRememberZoomLevel;
+        m_fFirstFSAfterLaunchOnFS = false;
+    }
+
+    m_fFullScreen = !m_fFullScreen;
+    s.fLastFullScreen = m_fFullScreen;
 
     // Temporarily hide the OSD message if there is one, it will
     // be restored after. This avoid positioning problems.
     m_OSD.HideMessage(true);
 
-    if (m_fFirstFSAfterLaunchOnFS) { //Play started in Fullscreen
-        if (s.fRememberWindowSize || s.fRememberWindowPos) {
-            r = s.rcLastWindowPos;
-            if (!s.fRememberWindowPos) {
-                CMonitor mon;
-                mon.Attach(m_LastWindow_HM);
-                mon.CenterRectToMonitor(r, TRUE);
-            }
-            if (!s.fRememberWindowSize) {
-                CSize vsize = GetVideoSize();
-                r = CRect(r.left, r.top, r.left + vsize.cx, r.top + vsize.cy);
-                // COMMENTED OUT: it releases mouse capture, we may lose the second mouse up event in doubleclick
-                //ShowWindow(SW_HIDE);
-            }
-            SetWindowPos(nullptr, r.left, r.top, r.Width(), r.Height(), SWP_NOZORDER | SWP_NOSENDCHANGING);
-            if (!s.fRememberWindowSize) {
-                ZoomVideoWindow();
-                //ShowWindow(SW_SHOW);
-            }
-        } else {
-            if (m_LastWindow_HM != hm_cur) {
-                GetMonitorInfo(m_LastWindow_HM, &mi);
-                r = mi.rcMonitor;
-                // COMMENTED OUT: it releases mouse capture, we may lose the second mouse up event in doubleclick
-                //ShowWindow(SW_HIDE);
-                SetWindowPos(nullptr, r.left, r.top, r.Width(), r.Height(), SWP_NOZORDER | SWP_NOSENDCHANGING);
-            }
-            ZoomVideoWindow();
-            //if (m_LastWindow_HM != hm_cur) {
-            //    ShowWindow(SW_SHOW);
-            //}
-        }
-        m_fFirstFSAfterLaunchOnFS = false;
-    } else {
-        SetWindowPos(nullptr, r.left, r.top, r.Width(), r.Height(), SWP_NOZORDER | SWP_NOSENDCHANGING | SWP_FRAMECHANGED);
-    }
+    const bool bNoMove = bZoomVideoWindow && CMonitors::GetNearestMonitor(windowRect) == currentMonitor;
+    ModifyStyle(dwRemove, dwAdd, SWP_NOZORDER);
+    SetWindowPos(pInsertAfter, windowRect.left, windowRect.top, windowRect.Width(), windowRect.Height(),
+                 SWP_NOSENDCHANGING | SWP_FRAMECHANGED | (bNoMove ? SWP_NOMOVE : 0) | (bZoomVideoWindow ? SWP_NOSIZE : 0));
 
     // If MPC-HC wasn't previously set "on top" by an external tool,
-    // we restore the current internal on top state.
-    // Note that this should be called after m_fAudioOnly is restored
-    // to its initial value.
+    // we restore the current internal on top state. (2/2)
     if (!m_fFullScreen && !m_bExtOnTop) {
-        SetWindowPos(&wndNoTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
         SetAlwaysOnTop(s.iOnTop);
     }
 
-    if (!m_fFullScreen) {
-        SetMenuBarVisibility(s.eCaptionMenuMode == MODE_SHOWCAPTIONMENU ?
-                             AFX_MBV_KEEPVISIBLE : AFX_MBV_DISPLAYONFOCUS);
-    }
+    SetMenuBarVisibility((!m_fFullScreen && s.eCaptionMenuMode == MODE_SHOWCAPTIONMENU)
+                         ? AFX_MBV_KEEPVISIBLE : AFX_MBV_DISPLAYONFOCUS);
 
     UpdateControlState(UPDATE_CONTROLS_VISIBILITY);
 
+    if (bZoomVideoWindow) {
+        ZoomVideoWindow();
+    }
     MoveVideoWindow();
 
     m_OSD.HideMessage(false);
@@ -9502,13 +9464,14 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
 
             // Destroy the D3D Fullscreen window and zoom the windowed video frame
             m_pFullscreenWnd->DestroyWindow();
-            m_OSD.EnableShowMessage(true);
             if (m_fFirstFSAfterLaunchOnFS) {
-                ZoomVideoWindow();
+                if (s.fRememberZoomLevel) {
+                    ZoomVideoWindow();
+                }
                 m_fFirstFSAfterLaunchOnFS = false;
-            } else {
-                MoveVideoWindow();
             }
+            MoveVideoWindow();
+            m_OSD.EnableShowMessage(true);
         } else {
             // Set the fullscreen display mode
             if (s.autoChangeFSMode.bEnabled && fSwitchScreenResWhenHasTo) {
