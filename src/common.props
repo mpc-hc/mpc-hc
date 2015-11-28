@@ -21,6 +21,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalOptions>/w34701 /w34706 /Zo /Zc:rvalueCast %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(PlatformToolsetVersion)'=='140'">/Zc:throwingNew %(AdditionalOptions)</AdditionalOptions>
       <AdditionalOptions Condition="'$(ANALYZE)'=='true'">/wd4005 /wd6031 /wd6246 /wd6309 /wd6387 /wd28204 %(AdditionalOptions)</AdditionalOptions>
       <EnablePREfast Condition="'$(ANALYZE)'=='true'">true</EnablePREfast>
       <BufferSecurityCheck>true</BufferSecurityCheck>
