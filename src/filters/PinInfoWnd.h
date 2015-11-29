@@ -22,7 +22,8 @@
 #pragma once
 
 #include "InternalPropertyPage.h"
-#include <afxcmn.h>
+#include "../mpc-hc/DpiHelper.h"
+#include <atlcoll.h>
 
 class __declspec(uuid("A1EB391C-6089-4A87-9988-BE50872317D4"))
     CPinInfoWnd : public CInternalPropertyPageWnd
@@ -38,6 +39,8 @@ class __declspec(uuid("A1EB391C-6089-4A87-9988-BE50872317D4"))
     CComboBox m_pin_combo;
     CEdit m_info_edit;
 
+    DpiHelper m_dpi;
+
     void AddLine(CString str);
 
 public:
@@ -50,7 +53,7 @@ public:
     bool OnApply();
 
     static LPCTSTR GetWindowTitle() { return _T("Pin Info"); }
-    static CSize GetWindowSize() { return CSize(500, 300); }
+    static CSize GetWindowSize() { return { 0, 0 }; }
 
     DECLARE_MESSAGE_MAP()
 

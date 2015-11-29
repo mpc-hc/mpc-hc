@@ -50,7 +50,7 @@ void DpiHelper::Override(HWND hWindow)
     const WinapiFunc<decltype(GetDpiForMonitor)>
     fnGetDpiForMonitor = { "Shcore.dll", "GetDpiForMonitor" };
 
-    if (fnGetDpiForMonitor) {
+    if (hWindow && fnGetDpiForMonitor) {
         if (fnGetDpiForMonitor(MonitorFromWindow(hWindow, MONITOR_DEFAULTTONULL),
                                MDT_EFFECTIVE_DPI, (UINT*)&m_dpix, (UINT*)&m_dpiy) != S_OK) {
             m_dpix = m_sdpix;
