@@ -269,7 +269,7 @@ void ComprDataIO::GetUnpackedData(byte **Data,size_t *Size)
 
 void ComprDataIO::SetEncryption(bool Encrypt,CRYPT_METHOD Method,
      SecPassword *Password,const byte *Salt,const byte *InitV,
-     uint Lg2Cnt,byte *PswCheck,byte *HashKey)
+     uint Lg2Cnt,byte *HashKey,byte *PswCheck)
 {
 #ifndef RAR_NOCRYPT
   if (Encrypt)

@@ -42,9 +42,13 @@ bool FileCreate(RAROptions *Cmd,File *NewFile,wchar *Name,size_t MaxNameSize,
     if (Choice==UIASKREP_R_CANCEL)
       ErrHandler.Exit(RARX_USERBREAK);
   }
+
+  // Try to truncate the existing file first instead of delete,
+  // so we preserve existing file permissions such as NTFS permissions.
   uint FileMode=WriteOnly ? FMF_WRITE|FMF_SHAREREAD:FMF_UPDATE|FMF_SHAREREAD;
   if (NewFile!=NULL && NewFile->Create(Name,FileMode))
     return true;
+
   CreatePath(Name,true);
   return NewFile!=NULL ? NewFile->Create(Name,FileMode):DelFile(Name);
 }
@@ -63,13 +67,13 @@ bool GetAutoRenamedName(wchar *Name,size_t MaxNameSize)
     Ext=Name+NameLength;
   for (uint FileVer=1;;FileVer++)
   {
-#ifdef _ANDROID // No swprintf in Android NDK r9.
+#ifdef _ANDROID // No swprintf in Android prior to Android 5.0.
     uint NamePrefixLength=Ext-Name;
     wcsncpy(NewName,Name,NamePrefixLength);
     wcscpy(NewName+NamePrefixLength,L"(");
-    itoa(FileVer,NewName+NamePrefixLength+1);
-    wcscat(NewName,L")");
-    wcscat(NewName,Ext);
+    itoa(FileVer,NewName+NamePrefixLength+1,ASIZE(NewName)-NamePrefixLength-1);
+    wcsncatz(NewName,L")",ASIZE(NewName));
+    wcsncatz(NewName,Ext,ASIZE(NewName));
 #else
     swprintf(NewName,ASIZE(NewName),L"%.*ls(%u)%ls",uint(Ext-Name),Name,FileVer,Ext);
 #endif

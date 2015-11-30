@@ -2,6 +2,8 @@
 #include "log.cpp"
 
 static MESSAGE_TYPE MsgStream=MSG_STDOUT;
+static RAR_CHARSET RedirectCharset=RCH_DEFAULT;
+
 const int MaxMsgSize=2*NM+2048;
 
 #ifdef _WIN_ALL
@@ -46,9 +48,10 @@ void InitConsole()
 }
 
 
-void InitConsoleOptions(MESSAGE_TYPE MsgStream)
+void InitConsoleOptions(MESSAGE_TYPE MsgStream,RAR_CHARSET RedirectCharset)
 {
   ::MsgStream=MsgStream;
+  ::RedirectCharset=RedirectCharset;
 }
 
 
@@ -63,17 +66,23 @@ static void cvt_wprintf(FILE *dest,const wchar *fmt,va_list arglist)
   safebuf wchar Msg[MaxMsgSize];
   if (dest==stdout && StdoutRedirected || dest==stderr && StderrRedirected)
   {
-    // Avoid Unicode for redirect in Windows, it does not work with pipes.
-    vswprintf(Msg,ASIZE(Msg),fmtw,arglist);
-    safebuf char MsgA[MaxMsgSize];
-    WideToChar(Msg,MsgA,ASIZE(MsgA));
-    CharToOemA(MsgA,MsgA); // Console tools like 'more' expect OEM encoding.
-
-    // We already converted \n to \r\n above, so we use WriteFile instead
-    // of C library to avoid unnecessary additional conversion.
     HANDLE hOut=GetStdHandle(dest==stdout ? STD_OUTPUT_HANDLE:STD_ERROR_HANDLE);
+    vswprintf(Msg,ASIZE(Msg),fmtw,arglist);
     DWORD Written;
-    WriteFile(hOut,MsgA,(DWORD)strlen(MsgA),&Written,NULL);
+    if (RedirectCharset==RCH_UNICODE)
+      WriteFile(hOut,Msg,(DWORD)wcslen(Msg)*sizeof(*Msg),&Written,NULL);
+    else
+    {
+      // Avoid Unicode for redirect in Windows, it does not work with pipes.
+      safebuf char MsgA[MaxMsgSize];
+      WideToChar(Msg,MsgA,ASIZE(MsgA));
+      if (RedirectCharset!=RCH_ANSI)
+        CharToOemA(MsgA,MsgA); // Console tools like 'more' expect OEM encoding.
+
+      // We already converted \n to \r\n above, so we use WriteFile instead
+      // of C library to avoid unnecessary additional conversion.
+      WriteFile(hOut,MsgA,(DWORD)strlen(MsgA),&Written,NULL);
+    }
     return;
   }
   // MSVC2008 vfwprintf writes every character to console separately

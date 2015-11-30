@@ -310,11 +310,11 @@ bool Unpack::ReadVMCode()
     // Try to read the new buffer if only one byte is left.
     // But if we read all bytes except the last, one byte is enough.
     if (Inp.InAddr>=ReadTop-1 && !UnpReadBuf30() && I<Length-1)
-      return(false);
+      return false;
     VMCode[I]=Inp.getbits()>>8;
     Inp.addbits(8);
   }
-  return(AddVMCode(FirstByte,&VMCode[0],Length));
+  return AddVMCode(FirstByte,&VMCode[0],Length);
 }
 
 
@@ -322,7 +322,7 @@ bool Unpack::ReadVMCodePPM()
 {
   unsigned int FirstByte=SafePPMDecodeChar();
   if ((int)FirstByte==-1)
-    return(false);
+    return false;
   int Length=(FirstByte & 7)+1;
   if (Length==7)
   {
@@ -336,10 +336,10 @@ bool Unpack::ReadVMCodePPM()
     {
       int B1=SafePPMDecodeChar();
       if (B1==-1)
-        return(false);
+        return false;
       int B2=SafePPMDecodeChar();
       if (B2==-1)
-        return(false);
+        return false;
       Length=B1*256+B2;
     }
   Array<byte> VMCode(Length);
@@ -350,7 +350,7 @@ bool Unpack::ReadVMCodePPM()
       return(false);
     VMCode[I]=Ch;
   }
-  return(AddVMCode(FirstByte,&VMCode[0],Length));
+  return AddVMCode(FirstByte,&VMCode[0],Length);
 }
 
 
@@ -361,11 +361,11 @@ bool Unpack::AddVMCode(uint FirstByte,byte *Code,int CodeSize)
   VM.Init();
 
   uint FiltPos;
-  if (FirstByte & 0x80)
+  if ((FirstByte & 0x80)!=0)
   {
     FiltPos=RarVM::ReadData(VMCodeInp);
     if (FiltPos==0)
-      InitFilters30();
+      InitFilters30(false);
     else
       FiltPos--;
   }
@@ -373,7 +373,7 @@ bool Unpack::AddVMCode(uint FirstByte,byte *Code,int CodeSize)
     FiltPos=LastFilter; // Use the same filter as last time.
 
   if (FiltPos>Filters30.Size() || FiltPos>OldFilterLengths.Size())
-    return(false);
+    return false;
   LastFilter=FiltPos;
   bool NewFilter=(FiltPos==Filters30.Size());
 
@@ -382,7 +382,7 @@ bool Unpack::AddVMCode(uint FirstByte,byte *Code,int CodeSize)
   UnpackFilter30 *Filter;
   if (NewFilter) // New filter code, never used before since VM reset.
   {
-    if (FiltPos>MAX3_FILTERS)
+    if (FiltPos>MAX3_UNPACK_FILTERS)
     {
       // Too many different filters, corrupt archive.
       delete StackFilter;
@@ -418,6 +418,8 @@ bool Unpack::AddVMCode(uint FirstByte,byte *Code,int CodeSize)
   }
   if (EmptyCount==0)
   {
+    if (PrgStack.Size()>MAX3_UNPACK_FILTERS)
+      return false;
     PrgStack.Add(1);
     EmptyCount=1;
   }
@@ -426,10 +428,10 @@ bool Unpack::AddVMCode(uint FirstByte,byte *Code,int CodeSize)
   StackFilter->ExecCount=Filter->ExecCount;
  
   uint BlockStart=RarVM::ReadData(VMCodeInp);
-  if (FirstByte & 0x40)
+  if ((FirstByte & 0x40)!=0)
     BlockStart+=258;
   StackFilter->BlockStart=(uint)((BlockStart+UnpPtr)&MaxWinMask);
-  if (FirstByte & 0x20)
+  if ((FirstByte & 0x20)!=0)
   {
     StackFilter->BlockLength=RarVM::ReadData(VMCodeInp);
 
@@ -454,9 +456,9 @@ bool Unpack::AddVMCode(uint FirstByte,byte *Code,int CodeSize)
   StackFilter->Prg.InitR[4]=StackFilter->BlockLength;
   StackFilter->Prg.InitR[5]=StackFilter->ExecCount;
 
-  if (FirstByte & 0x10)   // set registers to optional parameters if any
+  if ((FirstByte & 0x10)!=0) // Set registers to optional parameters if any.
   {
-    unsigned int InitMask=VMCodeInp.fgetbits()>>9;
+    uint InitMask=VMCodeInp.fgetbits()>>9;
     VMCodeInp.faddbits(7);
     for (int I=0;I<7;I++)
       if (InitMask & (1<<I))
@@ -467,12 +469,12 @@ bool Unpack::AddVMCode(uint FirstByte,byte *Code,int CodeSize)
   {
     uint VMCodeSize=RarVM::ReadData(VMCodeInp);
     if (VMCodeSize>=0x10000 || VMCodeSize==0)
-      return(false);
+      return false;
     Array<byte> VMCode(VMCodeSize);
     for (uint I=0;I<VMCodeSize;I++)
     {
       if (VMCodeInp.Overflow(3))
-        return(false);
+        return false;
       VMCode[I]=VMCodeInp.fgetbits()>>8;
       VMCodeInp.faddbits(8);
     }
@@ -502,13 +504,13 @@ bool Unpack::AddVMCode(uint FirstByte,byte *Code,int CodeSize)
   VM.SetLowEndianValue((uint *)&GlobalData[0x2c],StackFilter->ExecCount);
   memset(&GlobalData[0x30],0,16);
 
-  if (FirstByte & 8) // Put the data block passed as parameter if any.
+  if ((FirstByte & 8)!=0) // Put the data block passed as parameter if any.
   {
     if (VMCodeInp.Overflow(3))
-      return(false);
+      return false;
     uint DataSize=RarVM::ReadData(VMCodeInp);
     if (DataSize>VM_GLOBALMEMSIZE-VM_FIXEDGLOBALSIZE)
-      return(false);
+      return false;
     size_t CurSize=StackFilter->Prg.GlobalData.Size();
     if (CurSize<DataSize+VM_FIXEDGLOBALSIZE)
       StackFilter->Prg.GlobalData.Add(DataSize+VM_FIXEDGLOBALSIZE-CurSize);
@@ -516,12 +518,12 @@ bool Unpack::AddVMCode(uint FirstByte,byte *Code,int CodeSize)
     for (uint I=0;I<DataSize;I++)
     {
       if (VMCodeInp.Overflow(3))
-        return(false);
+        return false;
       GlobalData[I]=VMCodeInp.fgetbits()>>8;
       VMCodeInp.faddbits(8);
     }
   }
-  return(true);
+  return true;
 }
 
 
@@ -529,7 +531,7 @@ bool Unpack::UnpReadBuf30()
 {
   int DataSize=ReadTop-Inp.InAddr; // Data left to process.
   if (DataSize<0)
-    return(false);
+    return false;
   if (Inp.InAddr>BitInput::MAX_SIZE/2)
   {
     // If we already processed more than half of buffer, let's move
@@ -549,7 +551,7 @@ bool Unpack::UnpReadBuf30()
   if (ReadCode>0)
     ReadTop+=ReadCode;
   ReadBorder=ReadTop-30;
-  return(ReadCode!=-1);
+  return ReadCode!=-1;
 }
 
 
@@ -625,6 +627,7 @@ void Unpack::UnpWriteBuf30()
         while (I+1<PrgStack.Size())
         {
           UnpackFilter30 *NextFilter=PrgStack[I+1];
+          // It is required to check NextWindow here.
           if (NextFilter==NULL || NextFilter->BlockStart!=BlockStart ||
               NextFilter->BlockLength!=FilteredDataSize || NextFilter->NextWindow)
             break;
@@ -816,21 +819,23 @@ void Unpack::UnpInitData30(bool Solid)
     memset(UnpOldTable,0,sizeof(UnpOldTable));
     PPMEscChar=2;
     UnpBlockType=BLOCK_LZ;
-
-    InitFilters30();
   }
+  InitFilters30(Solid);
 }
 
 
-void Unpack::InitFilters30()
+void Unpack::InitFilters30(bool Solid)
 {
-  OldFilterLengths.Reset();
-  LastFilter=0;
+  if (!Solid)
+  {
+    OldFilterLengths.SoftReset();
+    LastFilter=0;
 
-  for (size_t I=0;I<Filters30.Size();I++)
-    delete Filters30[I];
-  Filters30.Reset();
+    for (size_t I=0;I<Filters30.Size();I++)
+      delete Filters30[I];
+    Filters30.SoftReset();
+  }
   for (size_t I=0;I<PrgStack.Size();I++)
     delete PrgStack[I];
-  PrgStack.Reset();
+  PrgStack.SoftReset();
 }

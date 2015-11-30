@@ -12,6 +12,7 @@ bool CmpExt(const wchar *Name,const wchar *Ext);
 bool IsWildcard(const wchar *Str);
 bool IsPathDiv(int Ch);
 bool IsDriveDiv(int Ch);
+bool IsDriveLetter(const wchar *Path);
 int GetPathDisk(const wchar *Path);
 void AddEndSlash(wchar *Path,size_t MaxLength);
 void MakeName(const wchar *Path,const wchar *Name,wchar *Pathname,size_t MaxSize);
@@ -57,7 +58,6 @@ inline void SlashToNative(const wchar *SrcName,wchar *DestName,size_t MaxLength)
 void ConvertNameToFull(const wchar *Src,wchar *Dest,size_t MaxSize);
 bool IsFullPath(const wchar *Path);
 bool IsFullRootPath(const wchar *Path);
-bool IsDiskLetter(const wchar *Path);
 void GetPathRoot(const wchar *Path,wchar *Root,size_t MaxSize);
 int ParseVersionFileName(wchar *Name,bool Truncate);
 wchar* VolNameToFirstName(const wchar *VolName,wchar *FirstName,size_t MaxSize,bool NewNumbering);
@@ -69,6 +69,7 @@ void GenerateArchiveName(wchar *ArcName,size_t MaxSize,const wchar *GenerateMask
 
 #ifdef _WIN_ALL
 bool GetWinLongPath(const wchar *Src,wchar *Dest,size_t MaxSize);
+void ConvertToPrecomposed(wchar *Name,size_t NameSize);
 #endif
 
 #endif

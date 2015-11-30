@@ -90,6 +90,7 @@ class File
     byte GetByte();
     void PutByte(byte Byte);
     bool Truncate();
+    void Flush();
     void SetOpenFileTime(RarTime *ftm,RarTime *ftc=NULL,RarTime *fta=NULL);
     void SetCloseFileTime(RarTime *ftm,RarTime *fta=NULL);
     static void SetCloseFileTimeByName(const wchar *Name,RarTime *ftm,RarTime *fta);

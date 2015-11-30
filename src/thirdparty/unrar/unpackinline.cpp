@@ -44,6 +44,11 @@ _forceinline void Unpack::CopyString(uint Length,uint Distance)
     else
       while (Length>=8)
       {
+        // In theory we still could overlap here.
+        // Supposing Distance == MaxWinSize - 1 we have memcpy(Src, Src + 1, 8).
+        // But for real RAR archives Distance <= MaxWinSize - MAX_LZ_MATCH
+        // always, so overlap here is impossible.
+
         // This memcpy expanded inline by MSVC. We could also use uint64
         // assignment, which seems to provide about the same speed.
         memcpy(Dest,Src,8); 

@@ -95,6 +95,7 @@ class RAROptions
     RAR_CHARSET CommentCharset;
     RAR_CHARSET FilelistCharset;
     RAR_CHARSET ErrlogCharset;
+    RAR_CHARSET RedirectCharset;
 
     wchar ArcPath[NM];
     SecPassword Password;

@@ -247,7 +247,8 @@ bool DllVolChange(RAROptions *Cmd,wchar *NextName,size_t NameSize)
   // We quit only on 'abort' condition, but not on 'name not changed'.
   // It is legitimate for program to return the same name when waiting
   // for currently non-existent volume.
-  if (DllVolAborted)
+  // Also we quit to prevent an infinite loop if no callback is defined.
+  if (DllVolAborted || Cmd->Callback==NULL && Cmd->ChangeVolProc==NULL)
   {
     Cmd->DllError=ERAR_EOPEN;
     return false;

@@ -32,6 +32,8 @@ MKDIR_CODE MakeDir(const wchar *Name,bool SetAttr,uint Attr)
 #ifdef _ANDROID
   if (ErrCode==-1 && errno!=ENOENT)
     ErrCode=JniMkdir(Name) ? 0 : -1;  // If external card is read-only for usual file API.
+  if (ErrCode!=-1)
+    JniFileNotify(Name,false);
 #endif
   if (ErrCode==-1)
     return errno==ENOENT ? MKDIR_BADPATH:MKDIR_ERROR;
@@ -420,6 +422,11 @@ bool RenameFile(const wchar *SrcName,const wchar *DestName)
 #ifdef _ANDROID
   if (!Success)
     Success=JniRename(SrcName,DestName); // If external card is read-only for usual file API.
+  if (Success)
+  {
+    JniFileNotify(SrcName,true);
+    JniFileNotify(DestName,false);
+  }
 #endif
   return Success;
 #endif
@@ -444,6 +451,8 @@ bool DelFile(const wchar *Name)
 #ifdef _ANDROID
   if (!Success)
     Success=JniDelete(Name);
+  if (Success)
+    JniFileNotify(Name,true);
 #endif
   return Success;
 #endif

@@ -18,6 +18,8 @@ class CommandData;
 class ScanTree
 {
   private:
+    bool ExpandFolderMask();
+    bool GetFilteredMask();
     bool GetNextMask();
     SCAN_CODE FindProc(FindData *FD);
     void ScanError(bool &Error);
@@ -33,11 +35,21 @@ class ScanTree
     SCAN_DIRS GetDirs;
     int Errors;
 
-    // set when processing paths like c:\ (root directory without wildcards)
+    // Set when processing paths like c:\ (root directory without wildcards).
     bool ScanEntireDisk;
 
     wchar CurMask[NM];
     wchar OrigCurMask[NM];
+
+    // Store all folder masks generated from folder wildcard mask in non-recursive mode.
+    StringList ExpandedFolderList;
+
+    // Store a filter string for folder wildcard in recursive mode.
+    StringList FilterList;
+
+    // Set if processing a folder wildcard mask.
+    bool FolderWildcards;
+
     bool SearchAllInRoot;
     size_t SpecPathLength;
 

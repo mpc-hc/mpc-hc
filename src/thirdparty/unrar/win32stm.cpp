@@ -78,7 +78,7 @@ void ExtractStreams20(Archive &Arc,const wchar *FileName)
 
 
 #ifdef _WIN_ALL
-void ExtractStreams(Archive &Arc,const wchar *FileName)
+void ExtractStreams(Archive &Arc,const wchar *FileName,bool TestMode)
 {
   wchar FullName[NM+2];
   if (FileName[0]!=0 && FileName[1]==0)
@@ -98,6 +98,12 @@ void ExtractStreams(Archive &Arc,const wchar *FileName)
   {
     uiMsg(UIERROR_STREAMBROKEN,Arc.FileName,FileName);
     ErrHandler.SetErrorCode(RARX_CRC);
+    return;
+  }
+
+  if (TestMode)
+  {
+    Arc.ReadSubData(NULL,NULL);
     return;
   }
 

@@ -401,6 +401,14 @@ void Unpack::GetFlagsBuf()
   unsigned int Flags,NewFlagsPlace;
   unsigned int FlagsPlace=DecodeNum(Inp.fgetbits(),STARTHF2,DecHf2,PosHf2);
 
+  // Our Huffman table stores 257 items and needs all them in other parts
+  // of code such as when StMode is on, so the first item is control item.
+  // While normally we do not use the last item to code the flags byte here,
+  // we need to check for value 256 when unpacking in case we unpack
+  // a corrupt archive.
+  if (FlagsPlace>=sizeof(ChSetC)/sizeof(ChSetC[0]))
+    return;
+
   while (1)
   {
     Flags=ChSetC[FlagsPlace];
