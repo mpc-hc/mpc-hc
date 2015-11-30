@@ -95,7 +95,9 @@ BOOL CAboutDlg::OnInitDialog()
 #endif
 #elif defined(_MSC_VER)
 #if (_MSC_VER == 1900)                // 2015
-#if (_MSC_FULL_VER == 190023026)
+#if (_MSC_FULL_VER == 190023506)
+    m_MPCCompiler = _T("MSVC 2015 Update 1");
+#else
     m_MPCCompiler = _T("MSVC 2015");
 #endif
 #elif (_MSC_VER == 1800)              // 2013
