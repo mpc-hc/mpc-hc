@@ -47,8 +47,6 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="library\Source\MediaInfo\Export\Export_EbuCore.h" />
-    <ClInclude Include="library\Source\MediaInfo\Export\Export_PBCore2.h" />
     <ClInclude Include="library\Source\MediaInfo\Multiple\File_Aaf.h" />
     <ClInclude Include="library\Source\MediaInfo\Multiple\File_DashMpd.h" />
     <ClInclude Include="library\Source\MediaInfo\Multiple\File_DcpAm.h" />
@@ -69,16 +67,6 @@
     <ClInclude Include="library\Source\MediaInfo\Video\File_HuffYuv.h" />
     <ClInclude Include="library\Source\ThirdParty\base64\base64.h" />
     <ClInclude Include="library\Source\ThirdParty\tinyxml2\tinyxml2.h" />
-    <ClInclude Include="library\Source\MediaInfo\Archive\File_7z.h" />
-    <ClInclude Include="library\Source\MediaInfo\Archive\File_Ace.h" />
-    <ClInclude Include="library\Source\MediaInfo\Archive\File_Bzip2.h" />
-    <ClInclude Include="library\Source\MediaInfo\Archive\File_Elf.h" />
-    <ClInclude Include="library\Source\MediaInfo\Archive\File_Gzip.h" />
-    <ClInclude Include="library\Source\MediaInfo\Archive\File_Iso9660.h" />
-    <ClInclude Include="library\Source\MediaInfo\Archive\File_Mz.h" />
-    <ClInclude Include="library\Source\MediaInfo\Archive\File_Rar.h" />
-    <ClInclude Include="library\Source\MediaInfo\Archive\File_Tar.h" />
-    <ClInclude Include="library\Source\MediaInfo\Archive\File_Zip.h" />
     <ClInclude Include="library\Source\MediaInfo\Audio\File_Aac.h" />
     <ClInclude Include="library\Source\MediaInfo\Audio\File_Aac_GeneralAudio.h" />
     <ClInclude Include="library\Source\MediaInfo\Audio\File_Aac_GeneralAudio_Sbr.h" />
@@ -124,16 +112,12 @@
     <ClInclude Include="library\Source\MediaInfo\Duplicate\File__Duplicate_MpegTs.h" />
     <ClInclude Include="library\Source\MediaInfo\Duplicate\File__Duplicate__Base.h" />
     <ClInclude Include="library\Source\MediaInfo\Duplicate\File__Duplicate__Writer.h" />
-    <ClInclude Include="library\Source\MediaInfo\Export\Export_Mpeg7.h" />
-    <ClInclude Include="library\Source\MediaInfo\Export\Export_PBCore.h" />
-    <ClInclude Include="library\Source\MediaInfo\File_Dummy.h" />
     <ClInclude Include="library\Source\MediaInfo\File_Other.h" />
     <ClInclude Include="library\Source\MediaInfo\File_Unknown.h" />
     <ClInclude Include="library\Source\MediaInfo\File__Analyse_Automatic.h" />
     <ClInclude Include="library\Source\MediaInfo\File__Analyze.h" />
     <ClInclude Include="library\Source\MediaInfo\File__Analyze_MinimizeSize.h" />
     <ClInclude Include="library\Source\MediaInfo\File__Base.h" />
-    <ClInclude Include="library\Source\MediaInfo\File__Duplicate.h" />
     <ClInclude Include="library\Source\MediaInfo\File__MultipleParsing.h" />
     <ClInclude Include="library\Source\MediaInfo\Image\File_ArriRaw.h" />
     <ClInclude Include="library\Source\MediaInfo\Image\File_Bmp.h" />
@@ -177,8 +161,6 @@
     <ClInclude Include="library\Source\MediaInfo\Multiple\File_Gxf.h" />
     <ClInclude Include="library\Source\MediaInfo\Multiple\File_Gxf_TimeCode.h" />
     <ClInclude Include="library\Source\MediaInfo\Multiple\File_Hls.h" />
-    <ClInclude Include="library\Source\MediaInfo\Multiple\File_Ibi.h" />
-    <ClInclude Include="library\Source\MediaInfo\Multiple\File_Ibi_Creation.h" />
     <ClInclude Include="library\Source\MediaInfo\Multiple\File_Ism.h" />
     <ClInclude Include="library\Source\MediaInfo\Multiple\File_Ivf.h" />
     <ClInclude Include="library\Source\MediaInfo\Multiple\File_Lxf.h" />
@@ -206,9 +188,6 @@
     <ClInclude Include="library\Source\MediaInfo\PreComp.h" />
     <ClInclude Include="library\Source\MediaInfo\Reader\Reader_Directory.h" />
     <ClInclude Include="library\Source\MediaInfo\Reader\Reader_File.h" />
-    <ClInclude Include="library\Source\MediaInfo\Reader\Reader_libcurl.h" />
-    <ClInclude Include="library\Source\MediaInfo\Reader\Reader_libcurl_Include.h" />
-    <ClInclude Include="library\Source\MediaInfo\Reader\Reader_libmms.h" />
     <ClInclude Include="library\Source\MediaInfo\Reader\Reader__Base.h" />
     <ClInclude Include="library\Source\MediaInfo\Setup.h" />
     <ClInclude Include="library\Source\MediaInfo\TimeCode.h" />
@@ -227,8 +206,6 @@
     <ClInclude Include="library\Source\MediaInfo\Text\File_Eia608.h" />
     <ClInclude Include="library\Source\MediaInfo\Text\File_Eia708.h" />
     <ClInclude Include="library\Source\MediaInfo\Text\File_Kate.h" />
-    <ClInclude Include="library\Source\MediaInfo\Text\File_N19.h" />
-    <ClInclude Include="library\Source\MediaInfo\Text\File_OtherText.h" />
     <ClInclude Include="library\Source\MediaInfo\Text\File_Pgs.h" />
     <ClInclude Include="library\Source\MediaInfo\Text\File_Scc.h" />
     <ClInclude Include="library\Source\MediaInfo\Text\File_Scte20.h" />
@@ -253,16 +230,6 @@
     <ClInclude Include="library\Source\MediaInfo\Video\File_Y4m.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="library\Source\MediaInfo\Archive\File_7z.cpp" />
-    <ClCompile Include="library\Source\MediaInfo\Archive\File_Ace.cpp" />
-    <ClCompile Include="library\Source\MediaInfo\Archive\File_Bzip2.cpp" />
-    <ClCompile Include="library\Source\MediaInfo\Archive\File_Elf.cpp" />
-    <ClCompile Include="library\Source\MediaInfo\Archive\File_Gzip.cpp" />
-    <ClCompile Include="library\Source\MediaInfo\Archive\File_Iso9660.cpp" />
-    <ClCompile Include="library\Source\MediaInfo\Archive\File_Mz.cpp" />
-    <ClCompile Include="library\Source\MediaInfo\Archive\File_Rar.cpp" />
-    <ClCompile Include="library\Source\MediaInfo\Archive\File_Tar.cpp" />
-    <ClCompile Include="library\Source\MediaInfo\Archive\File_Zip.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Audio\File_Aac.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Audio\File_Aac_GeneralAudio.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Audio\File_Aac_GeneralAudio_Sbr.cpp" />
@@ -310,20 +277,13 @@
     <ClCompile Include="library\Source\MediaInfo\Duplicate\File__Duplicate_MpegTs.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Duplicate\File__Duplicate__Base.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Duplicate\File__Duplicate__Writer.cpp" />
-    <ClCompile Include="library\Source\MediaInfo\Export\Export_EbuCore.cpp" />
-    <ClCompile Include="library\Source\MediaInfo\Export\Export_Mpeg7.cpp" />
-    <ClCompile Include="library\Source\MediaInfo\Export\Export_PBCore.cpp" />
-    <ClCompile Include="library\Source\MediaInfo\Export\Export_PBCore2.cpp" />
-    <ClCompile Include="library\Source\MediaInfo\File_Dummy.cpp" />
     <ClCompile Include="library\Source\MediaInfo\File_Other.cpp" />
     <ClCompile Include="library\Source\MediaInfo\File_Unknown.cpp" />
     <ClCompile Include="library\Source\MediaInfo\File__Analyze.cpp" />
-    <ClCompile Include="library\Source\MediaInfo\File__Analyze_Buffer.cpp" />
     <ClCompile Include="library\Source\MediaInfo\File__Analyze_Buffer_MinimizeSize.cpp" />
     <ClCompile Include="library\Source\MediaInfo\File__Analyze_Streams.cpp" />
     <ClCompile Include="library\Source\MediaInfo\File__Analyze_Streams_Finish.cpp" />
     <ClCompile Include="library\Source\MediaInfo\File__Base.cpp" />
-    <ClCompile Include="library\Source\MediaInfo\File__Duplicate.cpp" />
     <ClCompile Include="library\Source\MediaInfo\File__MultipleParsing.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Image\File_ArriRaw.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Image\File_Bmp.cpp" />
@@ -377,15 +337,12 @@
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_Cdxa.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_Dpg.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_DvDif.cpp" />
-    <ClCompile Include="library\Source\MediaInfo\Multiple\File_DvDif_Analysis.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_Dvdv.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_Dxw.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_Flv.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_Gxf.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_Gxf_TimeCode.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_Hls.cpp" />
-    <ClCompile Include="library\Source\MediaInfo\Multiple\File_Ibi.cpp" />
-    <ClCompile Include="library\Source\MediaInfo\Multiple\File_Ibi_Creation.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_Ism.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_Ivf.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_Lxf.cpp" />
@@ -414,10 +371,7 @@
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_Wm.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_Wm_Elements.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_Xdcam_Clip.cpp" />
-    <ClCompile Include="library\Source\MediaInfo\Reader\Reader_Directory.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Reader\Reader_File.cpp" />
-    <ClCompile Include="library\Source\MediaInfo\Reader\Reader_libcurl.cpp" />
-    <ClCompile Include="library\Source\MediaInfo\Reader\Reader_libmms.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Tag\File_ApeTag.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Tag\File_Id3.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Tag\File_Id3v2.cpp" />
@@ -433,8 +387,6 @@
     <ClCompile Include="library\Source\MediaInfo\Text\File_Eia608.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Text\File_Eia708.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Text\File_Kate.cpp" />
-    <ClCompile Include="library\Source\MediaInfo\Text\File_N19.cpp" />
-    <ClCompile Include="library\Source\MediaInfo\Text\File_OtherText.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Text\File_Pgs.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Text\File_Scc.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Text\File_Scte20.cpp" />

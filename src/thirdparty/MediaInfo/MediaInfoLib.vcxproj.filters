@@ -92,13 +92,7 @@
     <ClInclude Include="library\Source\MediaInfo\File__Base.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="library\Source\MediaInfo\File__Duplicate.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="library\Source\MediaInfo\File__MultipleParsing.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="library\Source\MediaInfo\File_Dummy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="library\Source\MediaInfo\File_Other.h">
@@ -149,33 +143,6 @@
     <ClInclude Include="library\Source\MediaInfo\TimeCode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="library\Source\MediaInfo\Archive\File_7z.h">
-      <Filter>Header Files\Archive</Filter>
-    </ClInclude>
-    <ClInclude Include="library\Source\MediaInfo\Archive\File_Ace.h">
-      <Filter>Header Files\Archive</Filter>
-    </ClInclude>
-    <ClInclude Include="library\Source\MediaInfo\Archive\File_Bzip2.h">
-      <Filter>Header Files\Archive</Filter>
-    </ClInclude>
-    <ClInclude Include="library\Source\MediaInfo\Archive\File_Elf.h">
-      <Filter>Header Files\Archive</Filter>
-    </ClInclude>
-    <ClInclude Include="library\Source\MediaInfo\Archive\File_Gzip.h">
-      <Filter>Header Files\Archive</Filter>
-    </ClInclude>
-    <ClInclude Include="library\Source\MediaInfo\Archive\File_Mz.h">
-      <Filter>Header Files\Archive</Filter>
-    </ClInclude>
-    <ClInclude Include="library\Source\MediaInfo\Archive\File_Rar.h">
-      <Filter>Header Files\Archive</Filter>
-    </ClInclude>
-    <ClInclude Include="library\Source\MediaInfo\Archive\File_Tar.h">
-      <Filter>Header Files\Archive</Filter>
-    </ClInclude>
-    <ClInclude Include="library\Source\MediaInfo\Archive\File_Zip.h">
-      <Filter>Header Files\Archive</Filter>
-    </ClInclude>
     <ClInclude Include="library\Source\MediaInfo\Duplicate\File__Duplicate__Base.h">
       <Filter>Header Files\Duplicate</Filter>
     </ClInclude>
@@ -184,12 +151,6 @@
     </ClInclude>
     <ClInclude Include="library\Source\MediaInfo\Duplicate\File__Duplicate_MpegTs.h">
       <Filter>Header Files\Duplicate</Filter>
-    </ClInclude>
-    <ClInclude Include="library\Source\MediaInfo\Export\Export_Mpeg7.h">
-      <Filter>Header Files\Export</Filter>
-    </ClInclude>
-    <ClInclude Include="library\Source\MediaInfo\Export\Export_PBCore.h">
-      <Filter>Header Files\Export</Filter>
     </ClInclude>
     <ClInclude Include="library\Source\MediaInfo\Image\File_ArriRaw.h">
       <Filter>Header Files\Image</Filter>
@@ -356,15 +317,6 @@
     <ClInclude Include="library\Source\MediaInfo\Reader\Reader_File.h">
       <Filter>Header Files\Reader</Filter>
     </ClInclude>
-    <ClInclude Include="library\Source\MediaInfo\Reader\Reader_libcurl.h">
-      <Filter>Header Files\Reader</Filter>
-    </ClInclude>
-    <ClInclude Include="library\Source\MediaInfo\Reader\Reader_libcurl_Include.h">
-      <Filter>Header Files\Reader</Filter>
-    </ClInclude>
-    <ClInclude Include="library\Source\MediaInfo\Reader\Reader_libmms.h">
-      <Filter>Header Files\Reader</Filter>
-    </ClInclude>
     <ClInclude Include="library\Source\MediaInfo\Tag\File__Tags.h">
       <Filter>Header Files\Tag</Filter>
     </ClInclude>
@@ -408,12 +360,6 @@
       <Filter>Header Files\Text</Filter>
     </ClInclude>
     <ClInclude Include="library\Source\MediaInfo\Text\File_Kate.h">
-      <Filter>Header Files\Text</Filter>
-    </ClInclude>
-    <ClInclude Include="library\Source\MediaInfo\Text\File_N19.h">
-      <Filter>Header Files\Text</Filter>
-    </ClInclude>
-    <ClInclude Include="library\Source\MediaInfo\Text\File_OtherText.h">
       <Filter>Header Files\Text</Filter>
     </ClInclude>
     <ClInclude Include="library\Source\MediaInfo\Text\File_Pgs.h">
@@ -602,17 +548,8 @@
     <ClInclude Include="library\Source\MediaInfo\Audio\File_Wvpk.h">
       <Filter>Header Files\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="library\Source\MediaInfo\Archive\File_Iso9660.h">
-      <Filter>Header Files\Archive</Filter>
-    </ClInclude>
     <ClInclude Include="library\Source\MediaInfo\Audio\File_ChannelGrouping.h">
       <Filter>Header Files\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="library\Source\MediaInfo\Multiple\File_Ibi.h">
-      <Filter>Header Files\Multiple</Filter>
-    </ClInclude>
-    <ClInclude Include="library\Source\MediaInfo\Multiple\File_Ibi_Creation.h">
-      <Filter>Header Files\Multiple</Filter>
     </ClInclude>
     <ClInclude Include="library\Source\MediaInfo\Multiple\File_Ism.h">
       <Filter>Header Files\Multiple</Filter>
@@ -656,9 +593,6 @@
     <ClInclude Include="library\Source\MediaInfo\Multiple\File_HdsF4m.h">
       <Filter>Source Files\Multiple</Filter>
     </ClInclude>
-    <ClInclude Include="library\Source\MediaInfo\Export\Export_EbuCore.h">
-      <Filter>Header Files\Export</Filter>
-    </ClInclude>
     <ClInclude Include="library\Source\MediaInfo\Multiple\File_Aaf.h">
       <Filter>Header Files\Multiple</Filter>
     </ClInclude>
@@ -677,9 +611,6 @@
     <ClInclude Include="library\Source\MediaInfo\Video\File_HuffYuv.h">
       <Filter>Header Files\Video</Filter>
     </ClInclude>
-    <ClInclude Include="library\Source\MediaInfo\Export\Export_PBCore2.h">
-      <Filter>Header Files\Export</Filter>
-    </ClInclude>
     <ClInclude Include="library\Source\MediaInfo\Tag\File_PropertyList.h">
       <Filter>Header Files\Tag</Filter>
     </ClInclude>
@@ -694,9 +625,6 @@
     <ClCompile Include="library\Source\MediaInfo\File__Analyze.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="library\Source\MediaInfo\File__Analyze_Buffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="library\Source\MediaInfo\File__Analyze_Buffer_MinimizeSize.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -709,13 +637,7 @@
     <ClCompile Include="library\Source\MediaInfo\File__Base.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="library\Source\MediaInfo\File__Duplicate.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="library\Source\MediaInfo\File__MultipleParsing.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="library\Source\MediaInfo\File_Dummy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="library\Source\MediaInfo\File_Other.cpp">
@@ -759,33 +681,6 @@
     </ClCompile>
     <ClCompile Include="library\Source\MediaInfo\TimeCode.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="library\Source\MediaInfo\Archive\File_7z.cpp">
-      <Filter>Source Files\Archive</Filter>
-    </ClCompile>
-    <ClCompile Include="library\Source\MediaInfo\Archive\File_Ace.cpp">
-      <Filter>Source Files\Archive</Filter>
-    </ClCompile>
-    <ClCompile Include="library\Source\MediaInfo\Archive\File_Bzip2.cpp">
-      <Filter>Source Files\Archive</Filter>
-    </ClCompile>
-    <ClCompile Include="library\Source\MediaInfo\Archive\File_Elf.cpp">
-      <Filter>Source Files\Archive</Filter>
-    </ClCompile>
-    <ClCompile Include="library\Source\MediaInfo\Archive\File_Gzip.cpp">
-      <Filter>Source Files\Archive</Filter>
-    </ClCompile>
-    <ClCompile Include="library\Source\MediaInfo\Archive\File_Mz.cpp">
-      <Filter>Source Files\Archive</Filter>
-    </ClCompile>
-    <ClCompile Include="library\Source\MediaInfo\Archive\File_Rar.cpp">
-      <Filter>Source Files\Archive</Filter>
-    </ClCompile>
-    <ClCompile Include="library\Source\MediaInfo\Archive\File_Tar.cpp">
-      <Filter>Source Files\Archive</Filter>
-    </ClCompile>
-    <ClCompile Include="library\Source\MediaInfo\Archive\File_Zip.cpp">
-      <Filter>Source Files\Archive</Filter>
     </ClCompile>
     <ClCompile Include="library\Source\MediaInfo\Image\File_ArriRaw.cpp">
       <Filter>Source Files\Image</Filter>
@@ -851,9 +746,6 @@
       <Filter>Source Files\Multiple</Filter>
     </ClCompile>
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_DvDif.cpp">
-      <Filter>Source Files\Multiple</Filter>
-    </ClCompile>
-    <ClCompile Include="library\Source\MediaInfo\Multiple\File_DvDif_Analysis.cpp">
       <Filter>Source Files\Multiple</Filter>
     </ClCompile>
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_Dvdv.cpp">
@@ -961,12 +853,6 @@
     <ClCompile Include="library\Source\MediaInfo\Duplicate\File__Duplicate_MpegTs.cpp">
       <Filter>Source Files\Duplicate</Filter>
     </ClCompile>
-    <ClCompile Include="library\Source\MediaInfo\Export\Export_Mpeg7.cpp">
-      <Filter>Source Files\Export</Filter>
-    </ClCompile>
-    <ClCompile Include="library\Source\MediaInfo\Export\Export_PBCore.cpp">
-      <Filter>Source Files\Export</Filter>
-    </ClCompile>
     <ClCompile Include="library\Source\MediaInfo\Video\File_AfdBarData.cpp">
       <Filter>Source Files\Video</Filter>
     </ClCompile>
@@ -1048,12 +934,6 @@
     <ClCompile Include="library\Source\MediaInfo\Text\File_Kate.cpp">
       <Filter>Source Files\Text</Filter>
     </ClCompile>
-    <ClCompile Include="library\Source\MediaInfo\Text\File_N19.cpp">
-      <Filter>Source Files\Text</Filter>
-    </ClCompile>
-    <ClCompile Include="library\Source\MediaInfo\Text\File_OtherText.cpp">
-      <Filter>Source Files\Text</Filter>
-    </ClCompile>
     <ClCompile Include="library\Source\MediaInfo\Text\File_Pgs.cpp">
       <Filter>Source Files\Text</Filter>
     </ClCompile>
@@ -1066,16 +946,7 @@
     <ClCompile Include="library\Source\MediaInfo\Text\File_Teletext.cpp">
       <Filter>Source Files\Text</Filter>
     </ClCompile>
-    <ClCompile Include="library\Source\MediaInfo\Reader\Reader_Directory.cpp">
-      <Filter>Source Files\Reader</Filter>
-    </ClCompile>
     <ClCompile Include="library\Source\MediaInfo\Reader\Reader_File.cpp">
-      <Filter>Source Files\Reader</Filter>
-    </ClCompile>
-    <ClCompile Include="library\Source\MediaInfo\Reader\Reader_libcurl.cpp">
-      <Filter>Source Files\Reader</Filter>
-    </ClCompile>
-    <ClCompile Include="library\Source\MediaInfo\Reader\Reader_libmms.cpp">
       <Filter>Source Files\Reader</Filter>
     </ClCompile>
     <ClCompile Include="library\Source\MediaInfo\Tag\File__Tags.cpp">
@@ -1225,20 +1096,11 @@
     <ClCompile Include="library\Source\MediaInfo\Audio\File_Wvpk.cpp">
       <Filter>Source Files\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="library\Source\MediaInfo\Archive\File_Iso9660.cpp">
-      <Filter>Source Files\Archive</Filter>
-    </ClCompile>
     <ClCompile Include="library\Source\MediaInfo\Audio\File_ChannelGrouping.cpp">
       <Filter>Source Files\Audio</Filter>
     </ClCompile>
     <ClCompile Include="library\Source\MediaInfo\Image\File_Tga.cpp">
       <Filter>Source Files\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="library\Source\MediaInfo\Multiple\File_Ibi.cpp">
-      <Filter>Source Files\Multiple</Filter>
-    </ClCompile>
-    <ClCompile Include="library\Source\MediaInfo\Multiple\File_Ibi_Creation.cpp">
-      <Filter>Source Files\Multiple</Filter>
     </ClCompile>
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_Ism.cpp">
       <Filter>Source Files\Multiple</Filter>
@@ -1279,9 +1141,6 @@
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_HdsF4m.cpp">
       <Filter>Source Files\Multiple</Filter>
     </ClCompile>
-    <ClCompile Include="library\Source\MediaInfo\Export\Export_EbuCore.cpp">
-      <Filter>Source Files\Export</Filter>
-    </ClCompile>
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_Aaf.cpp">
       <Filter>Source Files\Multiple</Filter>
     </ClCompile>
@@ -1305,9 +1164,6 @@
     </ClCompile>
     <ClCompile Include="library\Source\MediaInfo\Tag\File_PropertyList.cpp">
       <Filter>Source Files\Tag</Filter>
-    </ClCompile>
-    <ClCompile Include="library\Source\MediaInfo\Export\Export_PBCore2.cpp">
-      <Filter>Source Files\Export</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
