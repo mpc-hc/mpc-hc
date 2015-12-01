@@ -20,29 +20,32 @@
  */
 
 #include "stdafx.h"
-#include <io.h>
-#include <vector>
-#include <regex>
-#include "TextFile.h"
 #include "SubtitleHelpers.h"
+#include "TextFile.h"
+#include "../DSUtil/ArrayUtils.h"
+#include "../DSUtil/Constexpr.h"
+#include <regex>
 
-static const std::vector<LPCTSTR> subTypesExt = {
-    _T("srt"), _T("sub"), _T("smi"), _T("psb"),
-    _T("ssa"), _T("ass"), _T("idx"), _T("usf"),
-    _T("xss"), _T("txt"), _T("rt"), _T("sup")
-};
+namespace
+{
+    MPCHC_CONSTEXPR auto subTypesExt = make_array(
+                                           _T("srt"), _T("sub"), _T("smi"), _T("psb"),
+                                           _T("ssa"), _T("ass"), _T("idx"), _T("usf"),
+                                           _T("xss"), _T("txt"), _T("rt"), _T("sup")
+                                       );
 
-static LPCTSTR separators = _T(".\\-_");
-static LPCTSTR extListVid = _T("(avi)|(mkv)|(mp4)|((m2)?ts)");
+    LPCTSTR separators = _T(".\\-_");
+    LPCTSTR extListVid = _T("(avi)|(mkv)|(mp4)|((m2)?ts)");
+
+    int SubFileCompare(const void* elem1, const void* elem2)
+    {
+        return ((Subtitle::SubFile*)elem1)->fn.CompareNoCase(((Subtitle::SubFile*)elem2)->fn);
+    }
+}
 
 LPCTSTR Subtitle::GetSubtitleFileExt(SubType type)
 {
     return (type >= 0 && size_t(type) < subTypesExt.size()) ? subTypesExt[type] : nullptr;
-}
-
-static int SubFileCompare(const void* elem1, const void* elem2)
-{
-    return ((Subtitle::SubFile*)elem1)->fn.CompareNoCase(((Subtitle::SubFile*)elem2)->fn);
 }
 
 void Subtitle::GetSubFileNames(CString fn, const CAtlArray<CString>& paths, CAtlArray<SubFile>& ret)

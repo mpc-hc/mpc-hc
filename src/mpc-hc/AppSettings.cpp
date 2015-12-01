@@ -1279,7 +1279,7 @@ void CAppSettings::LoadSettings()
         if (language <= 23) {
             // We must be updating from a really old version, use the default language
             language = Translations::SetDefaultLanguage();
-        } else if (!Translations::SetLanguage(Translations::GetLanguageResourceByLocaleID(language))) {
+        } else if (!Translations::SetLanguage(language)) {
             // In case of error, reset the language to English
             language = 0;
         }
