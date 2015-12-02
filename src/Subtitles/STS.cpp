@@ -30,6 +30,7 @@
 
 #include "../DSUtil/PathUtils.h"
 
+#define Comp(t)       (((t) < 0) ? -1 : (((t) > 0) ? 1 : 0))
 
 static struct htmlcolor {
     TCHAR* name;
@@ -942,7 +943,7 @@ static bool OpenMicroDVD(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
         if (c == 2) {
             if (fCheck2 && ret.GetCount()) {
                 STSEntry& stse = ret[ret.GetCount() - 1];
-                stse.end = std::min(stse.end, start);
+                stse.end = std::min(stse.end, (LONGLONG)start);
                 fCheck2 = false;
             }
 
@@ -1866,7 +1867,7 @@ void CSimpleTextSubtitle::Copy(CSimpleTextSubtitle& sts)
     }
 }
 
-void CSimpleTextSubtitle::Append(CSimpleTextSubtitle& sts, int timeoff)
+void CSimpleTextSubtitle::Append(CSimpleTextSubtitle& sts, LONGLONG timeoff)
 {
     if (timeoff < 0) {
         timeoff = !IsEmpty() ? GetAt(GetCount() - 1).end : 0;
@@ -1943,7 +1944,7 @@ static bool SegmentCompStart(const STSSegment& segment, int start)
     return (segment.start < start);
 }
 
-void CSimpleTextSubtitle::Add(CStringW str, bool fUnicode, int start, int end, CString style, CString actor, CString effect, const CRect& marginRect, int layer, int readorder)
+void CSimpleTextSubtitle::Add(CStringW str, bool fUnicode, LONGLONG start, LONGLONG end, CString style, CString actor, CString effect, const CRect& marginRect, int layer, int readorder)
 {
     FastTrim(str);
     if (str.IsEmpty() || start > end) {
@@ -2008,7 +2009,7 @@ void CSimpleTextSubtitle::Add(CStringW str, bool fUnicode, int start, int end, C
             i++;
         }
 
-        int lastEnd = INT_MAX;
+        LONGLONG lastEnd = LONGLONG_MAX;
         for (; i < m_segments.GetCount() && m_segments[i].start < end; i++) {
             STSSegment& s = m_segments[i];
 
@@ -2212,7 +2213,7 @@ void CSimpleTextSubtitle::ConvertToFrameBased(double fps)
     CreateSegments();
 }
 
-int CSimpleTextSubtitle::SearchSub(int t, double fps)
+int CSimpleTextSubtitle::SearchSub(LONGLONG t, double fps)
 {
     int i = 0, j = (int)GetCount() - 1, ret = -1;
 
@@ -2223,7 +2224,7 @@ int CSimpleTextSubtitle::SearchSub(int t, double fps)
     while (i < j) {
         int mid = (i + j) >> 1;
 
-        int midt = TranslateStart(mid, fps);
+        LONGLONG midt = TranslateStart(mid, fps);
 
         if (t == midt) {
             while (mid > 0 && t == TranslateStart(mid - 1, fps)) {
@@ -2249,7 +2250,7 @@ int CSimpleTextSubtitle::SearchSub(int t, double fps)
     return ret;
 }
 
-const STSSegment* CSimpleTextSubtitle::SearchSubs(int t, double fps, /*[out]*/ int* iSegment, int* nSegments)
+const STSSegment* CSimpleTextSubtitle::SearchSubs(LONGLONG t, double fps, /*[out]*/ int* iSegment, int* nSegments)
 {
     int i = 0, j = (int)m_segments.GetCount() - 1, ret = -1;
 
@@ -2284,7 +2285,7 @@ const STSSegment* CSimpleTextSubtitle::SearchSubs(int t, double fps, /*[out]*/ i
     while (i < j) {
         int mid = (i + j) >> 1;
 
-        int midt = TranslateSegmentStart(mid, fps);
+        LONGLONG midt = TranslateSegmentStart(mid, fps);
 
         if (t == midt) {
             ret = mid;
@@ -2319,35 +2320,35 @@ const STSSegment* CSimpleTextSubtitle::SearchSubs(int t, double fps, /*[out]*/ i
     return nullptr;
 }
 
-int CSimpleTextSubtitle::TranslateStart(int i, double fps)
+LONGLONG CSimpleTextSubtitle::TranslateStart(int i, double fps)
 {
     return (i < 0 || GetCount() <= (size_t)i ? -1 :
             m_mode == TIME ? GetAt(i).start :
-            m_mode == FRAME ? (int)(GetAt(i).start * 1000 / fps) :
+            m_mode == FRAME ? (LONGLONG)(GetAt(i).start * 1000 / fps) :
             0);
 }
 
-int CSimpleTextSubtitle::TranslateEnd(int i, double fps)
+LONGLONG CSimpleTextSubtitle::TranslateEnd(int i, double fps)
 {
     return (i < 0 || GetCount() <= (size_t)i ? -1 :
             m_mode == TIME ? GetAt(i).end :
-            m_mode == FRAME ? (int)(GetAt(i).end * 1000 / fps) :
+            m_mode == FRAME ? (LONGLONG)(GetAt(i).end * 1000 / fps) :
             0);
 }
 
-int CSimpleTextSubtitle::TranslateSegmentStart(int i, double fps)
+LONGLONG CSimpleTextSubtitle::TranslateSegmentStart(int i, double fps)
 {
     return (i < 0 || m_segments.GetCount() <= (size_t)i ? -1 :
             m_mode == TIME ? m_segments[i].start :
-            m_mode == FRAME ? (int)(m_segments[i].start * 1000 / fps) :
+            m_mode == FRAME ? (LONGLONG)(m_segments[i].start * 1000 / fps) :
             0);
 }
 
-int CSimpleTextSubtitle::TranslateSegmentEnd(int i, double fps)
+LONGLONG CSimpleTextSubtitle::TranslateSegmentEnd(int i, double fps)
 {
     return (i < 0 || m_segments.GetCount() <= (size_t)i ? -1 :
             m_mode == TIME ? m_segments[i].end :
-            m_mode == FRAME ? (int)(m_segments[i].end * 1000 / fps) :
+            m_mode == FRAME ? (LONGLONG)(m_segments[i].end * 1000 / fps) :
             0);
 }
 
@@ -2518,7 +2519,7 @@ void CSimpleTextSubtitle::SetStr(int i, CStringW str, bool fUnicode)
 
 static int comp1(const void* a, const void* b)
 {
-    int ret = ((STSEntry*)a)->start - ((STSEntry*)b)->start;
+    int ret = Comp(((STSEntry*)a)->start - ((STSEntry*)b)->start);
     if (ret == 0) {
         ret = ((STSEntry*)a)->layer - ((STSEntry*)b)->layer;
     }
@@ -2540,10 +2541,10 @@ void CSimpleTextSubtitle::Sort(bool fRestoreReadorder)
 }
 
 struct Breakpoint {
-    int t;
+    LONGLONG t;
     bool isStart;
 
-    Breakpoint(int t, bool isStart) : t(t), isStart(isStart) {};
+    Breakpoint(LONGLONG t, bool isStart) : t(t), isStart(isStart) {};
 };
 
 static int BreakpointComp(const void* e1, const void* e2)
@@ -2551,7 +2552,7 @@ static int BreakpointComp(const void* e1, const void* e2)
     const Breakpoint* bp1 = (const Breakpoint*)e1;
     const Breakpoint* bp2 = (const Breakpoint*)e2;
 
-    return (bp1->t - bp2->t);
+    return Comp(bp1->t - bp2->t);
 }
 
 void CSimpleTextSubtitle::CreateSegments()
@@ -2713,7 +2714,7 @@ bool CSimpleTextSubtitle::Open(BYTE* data, int len, int CharSet, CString name)
 }
 
 bool CSimpleTextSubtitle::SaveAs(CString fn, Subtitle::SubType type,
-                                 double fps /*= -1*/, int delay /*= 0*/,
+                                 double fps /*= -1*/, LONGLONG delay /*= 0*/,
                                  CTextFile::enc e /*= CTextFile::DEFAULT_ENCODING*/, bool bCreateExternalStyleFile /*= true*/)
 {
     LPCTSTR ext = Subtitle::GetSubtitleFileExt(type);
@@ -2846,13 +2847,13 @@ bool CSimpleTextSubtitle::SaveAs(CString fn, Subtitle::SubType type,
     for (int i = 0, j = (int)GetCount(), k = 0; i < j; i++) {
         STSEntry& stse = GetAt(i);
 
-        int t1 = TranslateStart(i, fps) + delay;
+        int t1 = (int)(TranslateStart(i, fps) + delay);
         if (t1 < 0) {
             k++;
             continue;
         }
 
-        int t2 = TranslateEnd(i, fps) + delay;
+        int t2 = (int)(TranslateEnd(i, fps) + delay);
 
         int hh1 = (t1 / 60 / 60 / 1000);
         int mm1 = (t1 / 60 / 1000) % 60;

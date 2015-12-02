@@ -184,10 +184,10 @@ void CDirectVobSubFilter::PrintMessages(BYTE* pOut)
                bihOut.biWidth, bihOut.biHeight,
                Subtype2String(m_pOutput->CurrentMediaType().subtype));
 
-    msg.AppendFormat(_T("real fps: %.3f, current fps: %.3f\nmedia time: %d, subtitle time: %I64d [ms]\nframe number: %d (calculated)\nrate: %.4lf\n"),
+    msg.AppendFormat(_T("real fps: %.3f, current fps: %.3f\nmedia time: %I64d, subtitle time: %I64d [ms]\nframe number: %I64d (calculated)\nrate: %.4lf\n"),
                      m_fps, m_fMediaFPSEnabled ? m_MediaFPS : fabs(m_fps),
-                     m_tPrev.Millisecs(), CalcCurrentTime() / 10000,
-                     (int)(m_tPrev.m_time * m_fps / 10000000),
+                     m_tPrev.GetUnits() / MILLISECONDS, CalcCurrentTime() / 10000,
+                     (LONGLONG)(m_tPrev.m_time * m_fps / 10000000),
                      m_pInput->CurrentRate());
 
     CAutoLock cAutoLock(&m_csQueueLock);

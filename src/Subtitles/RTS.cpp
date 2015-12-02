@@ -2854,7 +2854,7 @@ STDMETHODIMP CRenderedTextSubtitle::NonDelegatingQueryInterface(REFIID riid, voi
 STDMETHODIMP_(POSITION) CRenderedTextSubtitle::GetStartPosition(REFERENCE_TIME rt, double fps)
 {
     int iSegment = -1;
-    SearchSubs((int)(rt / 10000), fps, &iSegment, nullptr);
+    SearchSubs((rt / 10000), fps, &iSegment, nullptr);
 
     if (iSegment < 0) {
         iSegment = 0;
@@ -2924,7 +2924,7 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
         Init(CSize(spd.w, spd.h), spd.vidrect);
     }
 
-    int time = (int)(rt / 10000);
+    LONGLONG time = (rt / 10000);
 
     int segment;
     const STSSegment* stss = SearchSubs(time, fps, &segment);
@@ -2968,9 +2968,9 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
         STSEntry stse = GetAt(entry);
 
         {
-            int start = TranslateStart(entry, fps);
-            m_time = time - start;
-            m_delay = TranslateEnd(entry, fps) - start;
+            LONGLONG start = TranslateStart(entry, fps);
+            m_time = (int)(time - start);
+            m_delay = (int)(TranslateEnd(entry, fps) - start);
         }
 
         CSubtitle* s = GetSubtitle(entry);

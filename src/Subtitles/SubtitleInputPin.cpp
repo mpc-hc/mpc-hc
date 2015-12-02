@@ -350,7 +350,7 @@ void  CSubtitleInputPin::DecodeSamples()
         }
 
         if (rtInvalidate >= 0) {
-            TRACE(_T("NewSegment: InvalidateSubtitle(%I64d, ...)\n"), rtInvalidate);
+            TRACE(_T("DecodeSamples: InvalidateSubtitle(%I64d, ...)\n"), rtInvalidate);
             // IMPORTANT: m_pSubLock must not be locked when calling this
             InvalidateSubtitle(rtInvalidate, m_pSubStream);
         }
@@ -416,7 +416,7 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSam
             str.Trim();
 
             if (!str.IsEmpty()) {
-                pRTS->Add(AToW(str), false, (int)(pSample->rtStart / 10000), (int)(pSample->rtStop / 10000));
+                pRTS->Add(AToW(str), false, (pSample->rtStart / 10000), (pSample->rtStop / 10000));
                 bInvalidate = true;
             }
         }
@@ -426,7 +426,7 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSam
 
             CStringW str = UTF8To16(CStringA((LPCSTR)pSample->data.data(), (int)pSample->data.size())).Trim();
             if (!str.IsEmpty()) {
-                pRTS->Add(str, true, (int)(pSample->rtStart / 10000), (int)(pSample->rtStop / 10000));
+                pRTS->Add(str, true, (pSample->rtStart / 10000), (pSample->rtStop / 10000));
                 bInvalidate = true;
             }
         } else if (m_mt.subtype == MEDIASUBTYPE_SSA || m_mt.subtype == MEDIASUBTYPE_ASS || m_mt.subtype == MEDIASUBTYPE_ASS2) {
@@ -456,7 +456,7 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSam
                 }
 
                 if (!stse.str.IsEmpty()) {
-                    pRTS->Add(stse.str, true, (int)(pSample->rtStart / 10000), (int)(pSample->rtStop / 10000),
+                    pRTS->Add(stse.str, true, (pSample->rtStart / 10000), (pSample->rtStop / 10000),
                               stse.style, stse.actor, stse.effect, stse.marginRect, stse.layer, stse.readorder);
                     bInvalidate = true;
                 }
