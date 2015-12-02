@@ -48,7 +48,7 @@ protected:
     bool m_fFlipPicture, m_fFlipSubtitles;
     bool m_fOSD;
     int m_nReloaderDisableCount;
-    int m_SubtitleDelay, m_SubtitleSpeedMul, m_SubtitleSpeedDiv;
+    int m_SubtitleDelay, m_SubtitleSpeedMul, m_SubtitleSpeedDiv, m_SubtitleSpeedNormalizedMul, m_SubtitleSpeedNormalizedDiv;
     bool m_fMediaFPSEnabled;
     double m_MediaFPS;
     bool m_fSaveFullPath;
