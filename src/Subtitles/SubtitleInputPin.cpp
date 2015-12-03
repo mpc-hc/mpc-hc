@@ -379,12 +379,12 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSam
                 if (tag == __GAB1_LANGUAGE__) {
                     pRTS->m_name = CString(ptr);
                 } else if (tag == __GAB1_ENTRY__) {
-                    pRTS->Add(AToW(&ptr[8]), false, 10000i64 * (*(int*)ptr), 10000i64 * (*(int*)(ptr + 4)));
+                    pRTS->Add(AToW(&ptr[8]), false, MS2RT(*(int*)ptr), MS2RT(*(int*)(ptr + 4)));
                     bInvalidate = true;
                 } else if (tag == __GAB1_LANGUAGE_UNICODE__) {
                     pRTS->m_name = (WCHAR*)ptr;
                 } else if (tag == __GAB1_ENTRY_UNICODE__) {
-                    pRTS->Add((WCHAR*)(ptr + 8), true, 10000i64 * (*(int*)ptr), 10000i64 * (*(int*)(ptr + 4)));
+                    pRTS->Add((WCHAR*)(ptr + 8), true, MS2RT(*(int*)ptr), MS2RT(*(int*)(ptr + 4)));
                     bInvalidate = true;
                 }
 
