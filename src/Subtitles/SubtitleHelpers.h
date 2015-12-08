@@ -24,6 +24,10 @@
 #include <afx.h>
 #include <atlcoll.h>
 
+#define MS2RT(t)        (10000i64 * (t))
+#define RT2MS(t)        ((t) / 10000)
+#define UNITS_FLOAT     (10000000.0)
+
 namespace Subtitle
 {
     enum SubType {

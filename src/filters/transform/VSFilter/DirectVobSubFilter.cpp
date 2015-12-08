@@ -518,7 +518,7 @@ HRESULT CDirectVobSubFilter::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tS
 REFERENCE_TIME CDirectVobSubFilter::CalcCurrentTime()
 {
     REFERENCE_TIME rt = m_pSubClock ? m_pSubClock->GetTime() : m_tPrev;
-    return (rt - 10000i64 * m_SubtitleDelay) * m_SubtitleSpeedMul / m_SubtitleSpeedDiv; // no, it won't overflow if we use normal parameters (__int64 is enough for about 2000 hours if we multiply it by the max: 65536 as m_SubtitleSpeedMul)
+    return (rt - 10000i64 * m_SubtitleDelay) * m_SubtitleSpeedNormalizedMul / m_SubtitleSpeedNormalizedDiv; // no, it won't overflow if we use normal parameters (__int64 is enough for about 2000 hours if we multiply it by the max: 65536 as m_SubtitleSpeedMul)
 }
 
 void CDirectVobSubFilter::InitSubPicQueue()
