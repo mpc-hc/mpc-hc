@@ -88,10 +88,10 @@ private:
     };
     MODE m_mode;
 
-    std::multimap<int, size_t> m_newStartsIndex;
+    std::multimap<REFERENCE_TIME, size_t> m_newStartsIndex;
     struct SubTime {
-        int orgStart, newStart, orgEnd, newEnd;
-        std::multimap<int, size_t>::iterator itIndex;
+        REFERENCE_TIME orgStart, newStart, orgEnd, newEnd;
+        std::multimap<REFERENCE_TIME, size_t>::iterator itIndex;
     };
     std::vector<SubTime> m_subtimes;
 
@@ -99,7 +99,7 @@ private:
     CAtlArray<CVobSubFile::SubPos> m_vobSub;
 
     struct DisplayData {
-        int tStart, tPrevStart, tEnd, tPrevEnd;
+        REFERENCE_TIME tStart, tPrevStart, tEnd, tPrevEnd;
         int flags;
     };
     std::vector<DisplayData> m_displayData;
@@ -115,14 +115,14 @@ private:
         TSEP  = 0x80000000
     };
 
-    void SetSTS0(int& start, int end, int ti0);
-    void SetSTS1(int& start, int end, int ti0, double m, int i0);
+    void SetSTS0(int& start, int end, REFERENCE_TIME ti0);
+    void SetSTS1(int& start, int end, REFERENCE_TIME ti0, double m, int i0);
 
     void GetCheck(int iItem, bool& fStartMod, bool& fEndMod, bool& fStartAdj, bool& fEndAdj) const;
     void SetCheck(int iItem, bool fStart, bool fEnd);
 
-    bool ModStart(int iItem, int t, bool fReset = false);
-    bool ModEnd(int iItem, int t, bool fReset = false);
+    bool ModStart(int iItem, REFERENCE_TIME t, bool fReset = false);
+    bool ModEnd(int iItem, REFERENCE_TIME t, bool fReset = false);
 
     void OnGetDisplayInfoTextSub(LV_ITEM* pItem);
     void OnGetDisplayInfoVobSub(LV_ITEM* pItem);

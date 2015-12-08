@@ -93,20 +93,20 @@ struct STSEntry {
     CString style, actor, effect;
     CRect marginRect;
     int layer;
-    int start, end;
+    REFERENCE_TIME start, end;
     int readorder;
 };
 
 class STSSegment
 {
 public:
-    int start, end;
+    REFERENCE_TIME start, end;
     CAtlArray<int> subs;
 
     STSSegment()
         : start(0)
         , end(0) {}
-    STSSegment(int s, int e) {
+    STSSegment(REFERENCE_TIME s, REFERENCE_TIME e) {
         start = s;
         end = e;
     }
@@ -170,14 +170,14 @@ public:
     void Sort(bool fRestoreReadorder = false);
     void CreateSegments();
 
-    void Append(CSimpleTextSubtitle& sts, int timeoff = -1);
+    void Append(CSimpleTextSubtitle& sts, REFERENCE_TIME timeoff = -1);
 
     bool Open(CString fn, int CharSet, CString name = _T(""), CString videoName = _T(""));
     bool Open(CTextFile* f, int CharSet, CString name);
     bool Open(BYTE* data, int len, int CharSet, CString name);
-    bool SaveAs(CString fn, Subtitle::SubType type, double fps = -1, int delay = 0, CTextFile::enc e = CTextFile::DEFAULT_ENCODING, bool bCreateExternalStyleFile = true);
+    bool SaveAs(CString fn, Subtitle::SubType type, double fps = -1, LONGLONG delay = 0, CTextFile::enc e = CTextFile::DEFAULT_ENCODING, bool bCreateExternalStyleFile = true);
 
-    void Add(CStringW str, bool fUnicode, int start, int end, CString style = _T("Default"), CString actor = _T(""), CString effect = _T(""), const CRect& marginRect = CRect(0, 0, 0, 0), int layer = 0, int readorder = -1);
+    void Add(CStringW str, bool fUnicode, REFERENCE_TIME start, REFERENCE_TIME end, CString style = _T("Default"), CString actor = _T(""), CString effect = _T(""), const CRect& marginRect = CRect(0, 0, 0, 0), int layer = 0, int readorder = -1);
     STSStyle* CreateDefaultStyle(int CharSet);
     void ChangeUnknownStylesToDefault();
     void AddStyle(CString name, STSStyle* style); // style will be stored and freed in Empty() later
@@ -189,13 +189,13 @@ public:
     void ConvertToTimeBased(double fps);
     void ConvertToFrameBased(double fps);
 
-    int TranslateStart(int i, double fps);
-    int TranslateEnd(int i, double fps);
-    int SearchSub(int t, double fps);
+    REFERENCE_TIME TranslateStart(int i, double fps);
+    REFERENCE_TIME TranslateEnd(int i, double fps);
+    int SearchSub(REFERENCE_TIME t, double fps);
 
-    int TranslateSegmentStart(int i, double fps);
-    int TranslateSegmentEnd(int i, double fps);
-    const STSSegment* SearchSubs(int t, double fps, /*[out]*/ int* iSegment = nullptr, int* nSegments = nullptr);
+    REFERENCE_TIME TranslateSegmentStart(int i, double fps);
+    REFERENCE_TIME TranslateSegmentEnd(int i, double fps);
+    const STSSegment* SearchSubs(REFERENCE_TIME t, double fps, /*[out]*/ int* iSegment = nullptr, int* nSegments = nullptr);
     const STSSegment* GetSegment(int iSegment) {
         return iSegment >= 0 && iSegment < (int)m_segments.GetCount() ? &m_segments[iSegment] : nullptr;
     }

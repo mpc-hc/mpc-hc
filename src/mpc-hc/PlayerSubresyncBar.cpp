@@ -139,7 +139,7 @@ void CPlayerSubresyncBar::SetTime(REFERENCE_TIME rt)
         m_rt = rt;
         int curSegment;
 
-        if (!m_sts.SearchSubs((int)(rt / 10000), 25, &curSegment)) {
+        if (!m_sts.SearchSubs(rt, 25, &curSegment)) {
             curSegment = -1;
         }
 
@@ -258,7 +258,7 @@ void CPlayerSubresyncBar::ResetSubtitle()
     m_list.DeleteAllItems();
 
     if (m_mode == VOBSUB || m_mode == TEXTSUB) {
-        int prevstart = INT_MIN;
+        REFERENCE_TIME prevstart = INT64_MIN;
 
         size_t nCount = m_sts.GetCount();
         m_displayData.resize(nCount);
@@ -386,7 +386,7 @@ void CPlayerSubresyncBar::UpdatePreview()
                 }
             } else if (schk.GetCount() == 1) {
                 int k = schk[0];
-                int dt = m_subtimes[k].newStart - m_subtimes[k].orgStart;
+                REFERENCE_TIME dt = m_subtimes[k].newStart - m_subtimes[k].orgStart;
                 for (; start < end; start++) {
                     m_sts[start].start = m_subtimes[start].orgStart + dt;
                     m_sts[start].end = (m_displayData[start].flags & TEMOD)
@@ -396,8 +396,8 @@ void CPlayerSubresyncBar::UpdatePreview()
             } else if (schk.GetCount() >= 2) {
                 int i0 = 0;
                 int i1 = 0;
-                int ti0 = 0;
-                int ds = 0;
+                REFERENCE_TIME ti0 = 0;
+                REFERENCE_TIME ds = 0;
                 double m = 0;
 
                 int k, l;
@@ -443,11 +443,11 @@ void CPlayerSubresyncBar::UpdatePreview()
     }
 }
 
-void CPlayerSubresyncBar::SetSTS0(int& start, int end, int ti0)
+void CPlayerSubresyncBar::SetSTS0(int& start, int end, REFERENCE_TIME ti0)
 {
     for (; start < end; start++) {
         m_sts[start].start = ti0;
-        int endpos;
+        REFERENCE_TIME endpos;
         if (m_displayData[start].flags & TEMOD) {
             endpos = m_subtimes[start].newEnd;
         } else {
@@ -457,19 +457,19 @@ void CPlayerSubresyncBar::SetSTS0(int& start, int end, int ti0)
     }
 }
 
-void CPlayerSubresyncBar::SetSTS1(int& start, int end, int ti0, double m, int i0)
+void CPlayerSubresyncBar::SetSTS1(int& start, int end, REFERENCE_TIME ti0, double m, int i0)
 {
     for (; start < end; start++) {
-        m_sts[start].start = int((m_subtimes[start].orgStart - ti0) * m + m_subtimes[i0].newStart);
-        int endpos;
+        m_sts[start].start = REFERENCE_TIME((m_subtimes[start].orgStart - ti0) * m + m_subtimes[i0].newStart);
+        REFERENCE_TIME endpos;
         if (m_displayData[start].flags & TEMOD) {
             endpos = m_subtimes[start].newEnd;
         } else {
-            int diff = m_subtimes[start].orgEnd - m_subtimes[start].orgStart;
+            REFERENCE_TIME diff = m_subtimes[start].orgEnd - m_subtimes[start].orgStart;
             if (m_mode == VOBSUB) {
                 endpos = m_sts[start].start + diff;
             } else {
-                endpos = m_sts[start].start + int(diff * m);
+                endpos = m_sts[start].start + REFERENCE_TIME(diff * m);
             }
         }
         m_sts[start].end = endpos;
@@ -511,7 +511,7 @@ void CPlayerSubresyncBar::SetCheck(int iItem, bool bStart, bool bEnd)
     }
 }
 
-bool CPlayerSubresyncBar::ModStart(int iItem, int t, bool bReset)
+bool CPlayerSubresyncBar::ModStart(int iItem, REFERENCE_TIME t, bool bReset)
 {
     bool bRet = false;
     bool bStartMod, bEndMod, bStartAdj, bEndAdj;
@@ -539,7 +539,7 @@ bool CPlayerSubresyncBar::ModStart(int iItem, int t, bool bReset)
     return bRet;
 }
 
-bool CPlayerSubresyncBar::ModEnd(int iItem, int t, bool bReset)
+bool CPlayerSubresyncBar::ModEnd(int iItem, REFERENCE_TIME t, bool bReset)
 {
     bool bRet = false;
     bool bStartMod, bEndMod, bStartAdj, bEndAdj;
@@ -605,14 +605,17 @@ void CPlayerSubresyncBar::OnGetDisplayInfo(NMHDR* pNMHDR, LRESULT* pResult)
     }
 
     if (pItem->mask & LVIF_TEXT) {
-        auto formatTime = [](int t, TCHAR * buff, size_t buffLen) {
+        auto formatTime = [](REFERENCE_TIME t, TCHAR * buff, size_t buffLen) {
+            int ms = int(RT2MS(abs(t)));
+            int s = ms / 1000;
+            int m = s / 60;
             _stprintf_s(buff, buffLen, t >= 0
                         ? _T("%02d:%02d:%02d.%03d")
                         : _T("-%02d:%02d:%02d.%03d"),
-                        abs(t) / 60 / 60 / 1000,
-                        (abs(t) / 60 / 1000) % 60,
-                        (abs(t) / 1000) % 60,
-                        abs(t) % 1000);
+                        m / 60,
+                        m % 60,
+                        s % 60,
+                        ms % 1000);
         };
 
         switch (pItem->iSubItem) {
@@ -703,7 +706,7 @@ void CPlayerSubresyncBar::OnGetDisplayInfoVobSub(LV_ITEM* pItem)
     }
 }
 
-static bool ParseTime(CString str, int& ret, bool bWarn = true)
+static bool ParseTime(CString str, REFERENCE_TIME& ret, bool bWarn = true)
 {
     int sign = 1, h, m, s, ms;
     TCHAR c;
@@ -722,7 +725,7 @@ static bool ParseTime(CString str, int& ret, bool bWarn = true)
             && 0 <= m && m < 60
             && 0 <= s && s < 60
             && 0 <= ms && ms < 1000) {
-        ret = sign * (h * 60 * 60 * 1000 + m * 60 * 1000 + s * 1000 + ms);
+        ret = MS2RT(sign * (h * 60 * 60 * 1000 + m * 60 * 1000 + s * 1000 + ms));
         return true;
     }
 
@@ -790,7 +793,7 @@ void CPlayerSubresyncBar::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 
         switch (pItem->iSubItem) {
             case COL_START: {
-                int t;
+                REFERENCE_TIME t;
                 if (ParseTime(pItem->pszText, t)) {
                     bNeedsUpdate = ModStart(pItem->iItem, t);
 
@@ -800,7 +803,7 @@ void CPlayerSubresyncBar::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
             break;
             case COL_END:
                 if (m_mode == TEXTSUB) {
-                    int t;
+                    REFERENCE_TIME t;
                     if (ParseTime(pItem->pszText, t)) {
                         bNeedsUpdate = ModEnd(pItem->iItem, t);
 
@@ -1107,7 +1110,7 @@ void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
                     bNeedsUpdate = true;
                     break;
                 case SETCS:
-                    ModStart(iItem, (int)(m_rt / 10000));
+                    ModStart(iItem, m_rt);
                     bNeedsUpdate = true;
                     break;
                 case RESETE:
@@ -1119,7 +1122,7 @@ void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
                     bNeedsUpdate = true;
                     break;
                 case SETCE:
-                    ModEnd(iItem, (int)(m_rt / 10000));
+                    ModEnd(iItem, m_rt);
                     bNeedsUpdate = true;
                     break;
                 default:
@@ -1205,13 +1208,10 @@ void CPlayerSubresyncBar::OnNMDblclkList(NMHDR* pNMHDR, LRESULT* pResult)
 
     if (lpnmlv->iItem >= 0 && lpnmlv->iSubItem >= 0 && (m_mode == VOBSUB || m_mode == TEXTSUB)) {
         if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
-            int t = 0;
-            if (lpnmlv->iSubItem > COL_PREVEND || !ParseTime(m_list.GetItemText(lpnmlv->iItem, lpnmlv->iSubItem), t, false)) {
-                t = m_sts[lpnmlv->iItem].start;
+            REFERENCE_TIME rt;
+            if (lpnmlv->iSubItem > COL_PREVEND || !ParseTime(m_list.GetItemText(lpnmlv->iItem, lpnmlv->iSubItem), rt, false)) {
+                rt = m_sts[lpnmlv->iItem].start;
             }
-
-            REFERENCE_TIME rt = (REFERENCE_TIME)t * 10000;
-
             pMainFrame->SeekTo(rt);
         }
     }
@@ -1270,7 +1270,7 @@ void CPlayerSubresyncBar::OnCustomdrawList(NMHDR* pNMHDR, LRESULT* pResult)
         //      if (m_totalGroups > 0)
         clrTextBk -= ((m_itemGroups[pLVCD->nmcd.dwItemSpec] & 1) ? 0x100010 : 0x200020);
 
-        if (m_sts[pLVCD->nmcd.dwItemSpec].start <= m_rt / 10000 && m_rt / 10000 < m_sts[pLVCD->nmcd.dwItemSpec].end) {
+        if (m_sts[pLVCD->nmcd.dwItemSpec].start <= m_rt && m_rt < m_sts[pLVCD->nmcd.dwItemSpec].end) {
             clrText |= 0xFF;
         }
 
@@ -1367,7 +1367,7 @@ bool CPlayerSubresyncBar::HandleShortCuts(const MSG* pMsg)
                     bHandled = true;
                     break;
                 case VK_F5:
-                    ModStart(iItem, (int)(m_rt / 10000));
+                    ModStart(iItem, m_rt);
                     bHandled = true;
                     break;
                 case VK_F2:
@@ -1379,7 +1379,7 @@ bool CPlayerSubresyncBar::HandleShortCuts(const MSG* pMsg)
                     bHandled = true;
                     break;
                 case VK_F6:
-                    ModEnd(iItem, (int)(m_rt / 10000));
+                    ModEnd(iItem, m_rt);
                     bHandled = bStep = true;
                     break;
             }
@@ -1419,21 +1419,21 @@ int CPlayerSubresyncBar::FindNearestSub(REFERENCE_TIME& rtPos, bool bForward)
         return -2;
     }
 
-    int lCurTime = int(rtPos / 10000) + (bForward ? 1 : -1);
+    REFERENCE_TIME lCurTime = rtPos + (bForward ? 1 : -1);
 
     if (lCurTime < m_newStartsIndex.begin()->first) {
         size_t i = m_newStartsIndex.begin()->second;
-        rtPos = m_subtimes[i].newStart * 10000i64;
+        rtPos = m_subtimes[i].newStart;
         return bForward ? int(i) : -1;
     } else if (lCurTime > m_newStartsIndex.rbegin()->first) {
         size_t i = m_newStartsIndex.rbegin()->second;
-        rtPos = m_subtimes[i].newStart * 10000i64;
+        rtPos = m_subtimes[i].newStart;
         return bForward ? -1 : int(i);
     }
 
     for (auto it = m_newStartsIndex.begin(), itPrec = it++; it != m_newStartsIndex.end(); it++, itPrec++) {
         if (lCurTime >= itPrec->first && lCurTime < it->first) {
-            rtPos = bForward ? it->first * 10000i64 : itPrec->first * 10000i64;
+            rtPos = bForward ? it->first : itPrec->first;
             return int(bForward ? it->second : itPrec->second);
         }
     }
@@ -1455,7 +1455,7 @@ bool CPlayerSubresyncBar::ShiftSubtitle(int nItem, long lValue, REFERENCE_TIME& 
         UpdatePreview();
         SaveSubtitle();
         bRet = true;
-        rtPos = (REFERENCE_TIME)m_subtimes[nItem].newStart * 10000;
+        rtPos = m_subtimes[nItem].newStart;
     }
     return bRet;
 }

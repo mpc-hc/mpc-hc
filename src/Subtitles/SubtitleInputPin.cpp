@@ -379,12 +379,12 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSam
                 if (tag == __GAB1_LANGUAGE__) {
                     pRTS->m_name = CString(ptr);
                 } else if (tag == __GAB1_ENTRY__) {
-                    pRTS->Add(AToW(&ptr[8]), false, *(int*)ptr, *(int*)(ptr + 4));
+                    pRTS->Add(AToW(&ptr[8]), false, MS2RT(*(int*)ptr), MS2RT(*(int*)(ptr + 4)));
                     bInvalidate = true;
                 } else if (tag == __GAB1_LANGUAGE_UNICODE__) {
                     pRTS->m_name = (WCHAR*)ptr;
                 } else if (tag == __GAB1_ENTRY_UNICODE__) {
-                    pRTS->Add((WCHAR*)(ptr + 8), true, *(int*)ptr, *(int*)(ptr + 4));
+                    pRTS->Add((WCHAR*)(ptr + 8), true, MS2RT(*(int*)ptr), MS2RT(*(int*)(ptr + 4)));
                     bInvalidate = true;
                 }
 
@@ -416,7 +416,7 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSam
             str.Trim();
 
             if (!str.IsEmpty()) {
-                pRTS->Add(AToW(str), false, (int)(pSample->rtStart / 10000), (int)(pSample->rtStop / 10000));
+                pRTS->Add(AToW(str), false, pSample->rtStart, pSample->rtStop);
                 bInvalidate = true;
             }
         }
@@ -426,7 +426,7 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSam
 
             CStringW str = UTF8To16(CStringA((LPCSTR)pSample->data.data(), (int)pSample->data.size())).Trim();
             if (!str.IsEmpty()) {
-                pRTS->Add(str, true, (int)(pSample->rtStart / 10000), (int)(pSample->rtStop / 10000));
+                pRTS->Add(str, true, pSample->rtStart, pSample->rtStop);
                 bInvalidate = true;
             }
         } else if (m_mt.subtype == MEDIASUBTYPE_SSA || m_mt.subtype == MEDIASUBTYPE_ASS || m_mt.subtype == MEDIASUBTYPE_ASS2) {
@@ -456,7 +456,7 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSam
                 }
 
                 if (!stse.str.IsEmpty()) {
-                    pRTS->Add(stse.str, true, (int)(pSample->rtStart / 10000), (int)(pSample->rtStop / 10000),
+                    pRTS->Add(stse.str, true, pSample->rtStart, pSample->rtStop,
                               stse.style, stse.actor, stse.effect, stse.marginRect, stse.layer, stse.readorder);
                     bInvalidate = true;
                 }

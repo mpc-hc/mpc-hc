@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2015 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -23,6 +23,10 @@
 
 #include <afx.h>
 #include <atlcoll.h>
+
+#define MS2RT(t)        (10000i64 * (t))
+#define RT2MS(t)        ((t) / 10000)
+#define UNITS_FLOAT     (10000000.0)
 
 namespace Subtitle
 {

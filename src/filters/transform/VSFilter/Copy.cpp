@@ -184,10 +184,10 @@ void CDirectVobSubFilter::PrintMessages(BYTE* pOut)
                bihOut.biWidth, bihOut.biHeight,
                Subtype2String(m_pOutput->CurrentMediaType().subtype));
 
-    msg.AppendFormat(_T("real fps: %.3f, current fps: %.3f\nmedia time: %d, subtitle time: %I64d [ms]\nframe number: %d (calculated)\nrate: %.4lf\n"),
+    msg.AppendFormat(_T("real fps: %.3f, current fps: %.3f\nmedia time: %I64d, subtitle time: %I64d [ms]\nframe number: %I64d (calculated)\nrate: %.4lf\n"),
                      m_fps, m_fMediaFPSEnabled ? m_MediaFPS : fabs(m_fps),
-                     m_tPrev.Millisecs(), CalcCurrentTime() / 10000,
-                     (int)(m_tPrev.m_time * m_fps / 10000000),
+                     RT2MS(m_tPrev.GetUnits()), RT2MS(CalcCurrentTime()),
+                     std::llround(m_tPrev.m_time * m_fps / UNITS_FLOAT),
                      m_pInput->CurrentRate());
 
     CAutoLock cAutoLock(&m_csQueueLock);
@@ -196,11 +196,11 @@ void CDirectVobSubFilter::PrintMessages(BYTE* pOut)
         int nSubPics = -1;
         REFERENCE_TIME rtNow = -1, rtStart = -1, rtStop = -1;
         m_pSubPicQueue->GetStats(nSubPics, rtNow, rtStart, rtStop);
-        msg.AppendFormat(_T("queue stats: %I64d - %I64d [ms]\n"), rtStart / 10000, rtStop / 10000);
+        msg.AppendFormat(_T("queue stats: %I64d - %I64d [ms]\n"), RT2MS(rtStart), RT2MS(rtStop));
 
         for (int i = 0; i < nSubPics; i++) {
             m_pSubPicQueue->GetStats(i, rtStart, rtStop);
-            msg.AppendFormat(_T("%d: %I64d - %I64d [ms]\n"), i, rtStart / 10000, rtStop / 10000);
+            msg.AppendFormat(_T("%d: %I64d - %I64d [ms]\n"), i, RT2MS(rtStart), RT2MS(rtStop));
         }
     }
 
