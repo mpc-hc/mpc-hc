@@ -14,9 +14,10 @@ next version - not released yet
 * Updated Little CMS to v2.7 (git 40c6403)
 * Updated MediaInfoLib to v0.7.80-1-g3fc28610
 * Updated ZenLib to v0.4.32
-* Updated LAV Filters to v0.67.0.3:
+* Updated LAV Filters to v0.67.0.30:
     - LAV Splitter: Support HTTPS protocol
     - LAV Splitter: Switch back to an improved version of old asf demuxer
+    - LAV Video Decoder: Add experimental support for VP9 DXVA2 decoding (disabled by default)
     - LAV Video Decoder: Enable hardware decoding for HEVC and 4k/UHD by default
     - Ticket #5666, LAV Video Decoder: YADIF deinterlacing sometimes caused black screen in DVD menus
     - LAV Audio Decoder: Fix a possible crash when using bitstreaming

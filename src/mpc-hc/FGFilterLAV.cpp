@@ -650,6 +650,8 @@ void CFGFilterLAVVideo::Settings::LoadSettings()
 
     bHWFormats[HWCodec_HEVC] = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("hevc"), bHWFormats[HWCodec_HEVC]);
 
+    bHWFormats[HWCodec_VP9] = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("vp9"), bHWFormats[HWCodec_VP9]);
+
     dwHWAccelResFlags = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWResFlags"), dwHWAccelResFlags);
 
     dwHWDeintMode = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWDeintMode"), dwHWDeintMode);
@@ -699,6 +701,8 @@ void CFGFilterLAVVideo::Settings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("dvd"), bHWFormats[HWCodec_MPEG2DVD]);
 
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("hevc"), bHWFormats[HWCodec_HEVC]);
+
+    pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("vp9"), bHWFormats[HWCodec_VP9]);
 
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWResFlags"), dwHWAccelResFlags);
 
