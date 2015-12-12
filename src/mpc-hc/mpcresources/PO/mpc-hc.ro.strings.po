@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-10-25 00:51:15+0000\n"
-"PO-Revision-Date: 2015-11-17 16:12+0000\n"
-"Last-Translator: lordkag <lord.kagula@gmail.com>\n"
+"PO-Revision-Date: 2015-12-18 18:13+0000\n"
+"Last-Translator: Daniel <danny34ever@yahoo.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/mpc-hc/mpc-hc/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -191,7 +191,7 @@ msgstr "DVD adăugat la favorite"
 
 msgctxt "IDS_CAPTURE_SETTINGS"
 msgid "Capture Settings"
-msgstr "Setări pentru captură"
+msgstr "Stabiliri captură"
 
 msgctxt "IDS_NAVIGATION_BAR"
 msgid "Navigation Bar"
@@ -383,7 +383,7 @@ msgstr "&Copiază în clipboard"
 
 msgctxt "IDS_PLAYLIST_SAVEAS"
 msgid "&Save As..."
-msgstr "&Salvează ca..."
+msgstr "&Salvare ca..."
 
 msgctxt "IDS_PLAYLIST_SORTBYLABEL"
 msgid "Sort by &label"
@@ -415,7 +415,7 @@ msgstr "D&uplică"
 
 msgctxt "IDS_SUBRESYNC_RESET"
 msgid "&Reset"
-msgstr "&Resetează"
+msgstr "&Restabilește"
 
 msgctxt "IDS_MPLAYERC_104"
 msgid "Subtitle Delay -"
@@ -463,7 +463,7 @@ msgstr "Filtre externe"
 
 msgctxt "IDD_PPAGESHADERS"
 msgid "Playback::Shaders"
-msgstr "Redare::Shadere"
+msgstr "Redare::Nuanțatoare"
 
 msgctxt "IDD_FILEPROPRES"
 msgid "Resources"
@@ -483,7 +483,7 @@ msgstr "Redare::Captură"
 
 msgctxt "IDD_PPAGESYNC"
 msgid "Playback::Sync Renderer Settings"
-msgstr "Redare::Setările randorului Sync"
+msgstr "Redare::Stabiliri randor Sync"
 
 msgctxt "IDD_PPAGEFULLSCREEN"
 msgid "Playback::Fullscreen"
@@ -763,11 +763,11 @@ msgstr "Suprafața video va fi alocată ca o textură, dar tot funcțiile 2D vor
 
 msgctxt "IDC_TEXTURESURF3D"
 msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
-msgstr "Suprafața video va fi alocată ca o textură și desenată ca două triunghiuri în 3D. Activarea dezimțuirii (antialiasing) din setările de afișare ar putea avea un efect negativ asupra vitezei de randare."
+msgstr "Suprafața video va fi alocată ca o textură și desenată ca două triunghiuri în 3D. Activarea dezimțuirii (antialiasing) din stabilirile de afișare ar putea avea un efect negativ asupra vitezei de randare."
 
 msgctxt "IDC_DX9RESIZER_COMBO"
 msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
-msgstr "Dacă nu există suport pentru Pixel Shader 2.0, biliniar simplu este folosit automat."
+msgstr "Dacă nu există suport pentru Nuanțator de pixel 2.0, biliniar simplu este folosit automat."
 
 msgctxt "IDC_DSVMR9LOADMIXER"
 msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
@@ -847,11 +847,11 @@ msgstr "Avansează câte un cadru\nAvansează câte un cadru"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "Decrease speed\nDecrease speed"
-msgstr "Micșorează viteză\nMicșorează viteză"
+msgstr "Micșorează viteza\nMicșorează viteză"
 
 msgctxt "ID_PLAY_INCRATE"
 msgid "Increase speed\nIncrease speed"
-msgstr "Mărește viteză\nMărește viteză"
+msgstr "Mărește viteza\nMărește viteză"
 
 msgctxt "ID_VOLUME_MUTE"
 msgid "Mute"
@@ -907,11 +907,11 @@ msgstr "Opțiuni"
 
 msgctxt "IDS_SHADERS_SELECT"
 msgid "&Select Shaders..."
-msgstr "&Selectare shadere..."
+msgstr "&Selectare nuanțatoare..."
 
 msgctxt "IDS_SHADERS_DEBUG"
 msgid "&Debug Shaders..."
-msgstr "&Depanare shadere..."
+msgstr "&Depanare nuanțatoare..."
 
 msgctxt "IDS_FAVORITES_ADD"
 msgid "&Add to Favorites..."
@@ -1135,35 +1135,35 @@ msgstr "Deschide DVD/BD"
 
 msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
 msgid "Failed to set post-resize shaders"
-msgstr "Eșuare la setarea shaderelor post-redimensionare"
+msgstr "Eșuare la stabilirea nuanțatoarelor post-redimensionare"
 
 msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
 msgid "Failed to set both pre-resize and post-resize shaders"
-msgstr "Eșuare la setarea shaderelor pre-redimensionare și post-redimensionare"
+msgstr "Eșuare la stabilirea nuanțatoarelor pre-redimensionare și post-redimensionare"
 
 msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
 msgid "Shaders are recompiled automatically when the corresponding files are modified."
-msgstr "Shaderele sunt recompilate automat atunci când fișierele corespunzătoare sunt modificate."
+msgstr "Nuanțatoarele sunt recompilate automat atunci când fișierele corespunzătoare sunt modificate."
 
 msgctxt "IDS_SHADER_DLL_ERR_0"
 msgid "Cannot load %s, pixel shaders will not work."
-msgstr "Nu se poate încărca %s, shaderele pixeli nu vor funcționa."
+msgstr "Nu se poate încărca %s, nuanțatoarele de pixeli nu vor funcționa."
 
 msgctxt "IDS_SHADER_DLL_ERR_1"
 msgid "Cannot find necessary function entry points in %s, pixel shaders will not work."
-msgstr "Nu se pot găsi punctele de intrare necesare ale funcției în %s, shaderele pixeli nu vor funcționa."
+msgstr "Nu se pot găsi punctele de intrare ale funcției necesare în %s, nuanțatoarele de pixeli nu vor funcționa."
 
 msgctxt "IDS_OSD_SHADERS_PRESET"
 msgid "Shader preset: %s"
-msgstr "Setare prestabilită pentru shader: %s"
+msgstr "Prestabilire nuanțator: %s"
 
 msgctxt "IDS_AG_SHADERS_PRESET_NEXT"
 msgid "Next Shader Preset"
-msgstr "Următoarea setare prestabilită pentru shader"
+msgstr "Următoarea prestabilire nuanțator"
 
 msgctxt "IDS_AG_SHADERS_PRESET_PREV"
 msgid "Prev Shader Preset"
-msgstr "Precedenta setare prestabilită pentru shader"
+msgstr "Precedenta prestabilire nuanțator"
 
 msgctxt "IDS_STRING_COLON"
 msgid "%s:"
@@ -1423,7 +1423,7 @@ msgstr "Redă/Pauză"
 
 msgctxt "IDS_AG_PLAY"
 msgid "Play"
-msgstr "Redă"
+msgstr "Redare"
 
 msgctxt "IDS_AG_STOP"
 msgid "Stop"
@@ -1507,7 +1507,7 @@ msgstr "Arată când se trece peste controale, ascunde după:"
 
 msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
 msgid "Failed to set pre-resize shaders"
-msgstr "Eșuare la setarea shaderelor pre-redimensionare"
+msgstr "Eșuare la stabilirea nuanțatoarelor pre-redimensionare"
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
 msgid "Frame Time Correction: On"
@@ -1543,19 +1543,19 @@ msgstr "Un&ghi video"
 
 msgctxt "IDS_RESET_SETTINGS"
 msgid "Reset settings"
-msgstr "Resetează setările"
+msgstr "Restabilește stabilirile"
 
 msgctxt "IDS_RESET_SETTINGS_WARNING"
 msgid "Are you sure you want to restore MPC-HC to its default settings?\nBe warned that ALL your current settings will be lost!"
-msgstr "Sigur doriți să restaurați MPC-HC la setările implicite?\nTrebuie să știți că TOATE setările curente vor fi pierdute!"
+msgstr "Sigur doriți să restaurați MPC-HC la stabilirile lui implicite?\nTrebuie să știți că TOATE configurările curente vor fi pierdute!"
 
 msgctxt "IDS_RESET_SETTINGS_MUTEX"
 msgid "Please close all instances of MPC-HC so that the default settings can be restored."
-msgstr "Închideți toate instanțele programului MPC-HC pentru ca setările implicite să poată fi restaurate."
+msgstr "Închideți toate instanțele programului MPC-HC pentru ca stabilirile implicite să poată fi restaurate."
 
 msgctxt "IDS_EXPORT_SETTINGS"
 msgid "Export settings"
-msgstr "Exportă setările"
+msgstr "Exportă stabilirile"
 
 msgctxt "IDS_EXPORT_SETTINGS_WARNING"
 msgid "Some changes have not been saved yet.\nDo you want to save them before exporting?"
@@ -1563,7 +1563,7 @@ msgstr "Unele modificări nu au fost încă salvate.\nDoriți să le salvați î
 
 msgctxt "IDS_EXPORT_SETTINGS_SUCCESS"
 msgid "The settings have been successfully exported."
-msgstr "Setările au fost exportate cu succes."
+msgstr "Stabilirile au fost exportate cu succes."
 
 msgctxt "IDS_EXPORT_SETTINGS_FAILED"
 msgid "The export failed! This can happen when you don't have the correct rights."
@@ -1579,7 +1579,7 @@ msgstr "Micșorează rata"
 
 msgctxt "IDS_AG_RESET_RATE"
 msgid "Reset Rate"
-msgstr "Resetează rata"
+msgstr "Restabilește rata"
 
 msgctxt "IDS_MPLAYERC_21"
 msgid "Audio Delay +10 ms"
@@ -1679,7 +1679,7 @@ msgstr "OSD: Afișează statistici randor"
 
 msgctxt "IDS_OSD_RESET_RENDERER_STATS"
 msgid "OSD: Reset Renderer Statistics"
-msgstr "OSD: Resetează statistici randor"
+msgstr "OSD: Restabilire statistici randor"
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
@@ -1699,7 +1699,7 @@ msgstr "&Arată Titlu && Meniu"
 
 msgctxt "IDS_VIEW_HIDEMENU"
 msgid "Hide &Menu"
-msgstr "Ascunde &meniu"
+msgstr "Ascunde &meniul"
 
 msgctxt "IDD_PPAGEADVANCED"
 msgid "Advanced"
@@ -2507,7 +2507,7 @@ msgstr "Dezactivat"
 
 msgctxt "IDS_AG_VSYNCOFFSET_DECREASE"
 msgid "Decrease VSync Offset"
-msgstr "Micșorează decalaj VSync"
+msgstr "Micșorează decalajul VSync"
 
 msgctxt "IDS_MAINFRM_136"
 msgid "MPC-HC D3D Fullscreen"
@@ -2539,7 +2539,7 @@ msgstr "Amplificare volum maximă"
 
 msgctxt "IDS_USAGE"
 msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/randomize\tRandomize the playlist\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tUse MPC-HC as slave\n/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding\n\t\tOnly available for CUVID and DXVA2 (copy-back)\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "Utilizare: mpc-hc.exe \"cale\" [comutatoare]\n\n\"cale\"\t\tFișierul principal sau directorul ce trebuie încărcat (metacaractere\n\t\tpermise, \"-\" indică intrare standard)\n/dub \"dublaj\"\tÎncarcă un fișier audio adițional\n/dubdelay \"fișier\"\tÎncarcă un fișier audio adițional decalat cu XXms (dacă\n\t\tfișierul conține \"...DELAY XXms...\")\n/d3dfs\t\tPornește randarea în mod ecran complet D3D\n/sub \"subtitrare\"\tÎncarcă o subtitrare adițională\n/filter \"filtru\"\tÎncarcă filtre DirectShow dintr-o librărie\n\t\tcu încărcare dinamică (metacaractere permise)\n/dvd\t\tRulează în mod DVD, \"cale\" înseamnă dosarul\n\t\tdvd-ului (opțional)\n/dvdpos T#C\tPornește redarea de la titlul T, capitolul C\n/dvdpos T#hh:mm\tPornește redarea de la titlul T, poziția hh:mm:ss\n/cd\t\tÎncarcă toate pistele unui CD audio sau (S)VCD,\n\t\t\"cale\" înseamnă calea unității (opțional)\n/device\t\tDeschide dispozitivul video implicit\n/open\t\tDeschide fișierul, nu porni redarea în mod automat\n/play\t\tÎncepe redarea fișierului imediat ce playerul este lansat\n/close\t\tÎnchide playerul după redare (funcționează doar când\n\t\teste folosit cu /play)\n/shutdown\tÎnchide sistemul după redare\n/standby\t\tIntră în repaus după redare\n/hibernate\tIntră în hibernare după redare\n/logoff\t\tÎnchide sesiunea după redare\n/lock\t\tBlochează desktopul după redare\n/monitoroff\tÎnchide monitorul după redare\n/playnext\t\tRedă următorul fișier din dosar după redare\n/fullscreen\tPornește în modul ecran complet\n/minimized\tPornește în modul minimizat\n/new\t\tFolosește o instanță nouă a playerului\n/add\t\tAdaugă \"cale\" la lista de redare, poate fi combinat\n\t\tcu /open și /play\n/randomize\tRedă lista aleatoriu\n/regvid\t\tCreează asocieri de fișiere pentru fișiere video\n/regaud\t\tCreează asocieri de fișiere pentru fișiere audio\n/regpl\t\tCreează asocieri de fișiere pentru fișiere listă de redare\n/regall\t\tCreează asocieri de fișiere pentru toate tipurile de fișiere suportate\n/unregall\t\tElimină toate asocierile de fișiere\n/start ms\t\tPornește redarea la \"ms\" (= milisecunde)\n/startpos hh:mm:ss\tPornește redarea la poziția hh:mm:ss\n/fixedsize L,l\tSetează o dimensiune fixă Lxl pentru fereastră\n/monitor N\tPornește redarea pe monitorul N, unde N începe de la 1\n/audiorenderer N\tPornește folosind randorul audio N, unde N începe de la 1\n\t\t(vedeți setările \"Ieșire\")\n/shaderpreset \"Pr\"\tPornește folosind setarea predefinită \"Pr\" pentru shader\n/pns \"nume\"\tSpecifică numele setării predefinite Pan&Scan ce va fi folosită\n/iconsassoc\tReasociază iconițele specifice formatelor\n/nofocus\t\tDeschide MPC-HC în fundal\n/webport N\tPornește interfața web pe portul specificat\n/debug\t\tArată informații de depanare în OSD\n/nocrashreporter\tDezactivează raportorul de defecte\n/slave \"hWnd\"\tFolosește MPC-HC în modul sclav sau dependent\n/hwgpu \"index\"\tSetează indexul plăcii grafice (GPU)  ce va fi folosită pentru decodare hardware\n\t\tDisponibil doar pentru CUVID și DXVA2 (copy-back)\n/reset\t\tRestaurează setări implicite\n/help /h /?\tArată ajutor pentru comutatoarele din linia de comandă\n"
+msgstr "Utilizare: mpc-hc.exe \"cale\" [comutatoare]\n\n\"cale\"\t\tFișierul principal sau directorul ce trebuie încărcat (metacaractere\n\t\tpermise, \"-\" indică intrare standard)\n/dub \"dublaj\"\tÎncarcă un fișier audio adițional\n/dubdelay \"fișier\"\tÎncarcă un fișier audio adițional decalat cu XXms (dacă\n\t\tfișierul conține \"...DELAY XXms...\")\n/d3dfs\t\tPornește randarea în mod ecran complet D3D\n/sub \"subtitrare\"\tÎncarcă o subtitrare adițională\n/filter \"filtru\"\tÎncarcă filtre DirectShow dintr-o librărie\n\t\tcu încărcare dinamică (metacaractere permise)\n/dvd\t\tRulează în mod DVD, \"cale\" înseamnă dosarul\n\t\tdvd-ului (opțional)\n/dvdpos T#C\tPornește redarea de la titlul T, capitolul C\n/dvdpos T#hh:mm\tPornește redarea de la titlul T, poziția hh:mm:ss\n/cd\t\tÎncarcă toate pistele unui CD audio sau (S)VCD,\n\t\t\"cale\" înseamnă calea unității (opțional)\n/device\t\tDeschide dispozitivul video implicit\n/open\t\tDeschide fișierul, nu porni redarea în mod automat\n/play\t\tÎncepe redarea fișierului imediat ce playerul este lansat\n/close\t\tÎnchide playerul după redare (funcționează doar când\n\t\teste folosit cu /play)\n/shutdown\tÎnchide sistemul după redare\n/standby\t\tIntră în repaus după redare\n/hibernate\tIntră în hibernare după redare\n/logoff\t\tÎnchide sesiunea după redare\n/lock\t\tBlochează desktopul după redare\n/monitoroff\tÎnchide monitorul după redare\n/playnext\t\tRedă următorul fișier din dosar după redare\n/fullscreen\tPornește în modul ecran complet\n/minimized\tPornește în modul minimizat\n/new\t\tFolosește o instanță nouă a playerului\n/add\t\tAdaugă \"cale\" la lista de redare, poate fi combinat\n\t\tcu /open și /play\n/randomize\tRedă lista aleatoriu\n/regvid\t\tCreează asocieri de fișiere pentru fișiere video\n/regaud\t\tCreează asocieri de fișiere pentru fișiere audio\n/regpl\t\tCreează asocieri de fișiere pentru fișiere listă de redare\n/regall\t\tCreează asocieri de fișiere pentru toate tipurile de fișiere suportate\n/unregall\t\tElimină toate asocierile de fișiere\n/start ms\t\tPornește redarea la \"ms\" (= milisecunde)\n/startpos hh:mm:ss\tPornește redarea la poziția hh:mm:ss\n/fixedsize L,l\tSetează o dimensiune fixă Lxl pentru fereastră\n/monitor N\tPornește redarea pe monitorul N, unde N începe de la 1\n/audiorenderer N\tPornește folosind randorul audio N, unde N începe de la 1\n\t\t(vedeți setările \"Ieșire\")\n/shaderpreset \"Pr\"\tPornește folosind prestabilirea „Pr” pentru nuanțator\n/pns \"nume\"\tSpecifică numele prestabilirii panoramării trunchiate ce va fi folosită\n/iconsassoc\tReasociază pictogramele specifice formatelor\n/nofocus\t\tDeschide MPC-HC în fundal\n/webport N\tPornește interfața web pe portul specificat\n/debug\t\tArată informații de depanare în OSD\n/nocrashreporter\tDezactivează raportorul de defecte\n/slave \"hWnd\"\tFolosește MPC-HC în modul sclav sau dependent\n/hwgpu \"index\"\tSetează indexul plăcii grafice (GPU)  ce va fi folosită pentru decodare hardware\n\t\tDisponibil doar pentru CUVID și DXVA2 (copy-back)\n/reset\t\tRestaurează stabilirile implicite\n/help /h /?\tArată ajutor pentru comutatoarele din linia de comandă\n"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -2571,7 +2571,7 @@ msgstr "Comută bara de captură"
 
 msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
 msgid "Toggle Debug Shaders"
-msgstr "Comută depanatorul de shadere"
+msgstr "Comută depanatorul de nuanțatoare"
 
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
@@ -2603,7 +2603,7 @@ msgstr "Cadru video: Atinge fereastra din exterior"
 
 msgctxt "IDS_AG_PNS_RESET"
 msgid "PnS Reset"
-msgstr "Reseteză PnS (Pan & Scan)"
+msgstr "Restabilește PnS (Pan & Scan)"
 
 msgctxt "IDS_AG_PNS_ROTATEX_P"
 msgid "PnS Rotate X+"
@@ -3159,11 +3159,11 @@ msgstr "VSync alternativ: Dezactivat"
 
 msgctxt "IDS_OSD_RS_RESET_DEFAULT"
 msgid "Renderer settings reset to default"
-msgstr "Setările randorului resetate la implicit"
+msgstr "Stabilirile randorului restabilite la implicite"
 
 msgctxt "IDS_OSD_RS_RESET_OPTIMAL"
 msgid "Renderer settings reset to optimal"
-msgstr "Setările randorului resetate la optim"
+msgstr "Stabilirile randorului restabilite la optime"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
 msgid "D3D Fullscreen GUI Support: On"
@@ -3235,7 +3235,7 @@ msgstr "Micșorare saturație"
 
 msgctxt "IDS_RESET_COLOR"
 msgid "Reset color settings"
-msgstr "Resetează setările de culoare"
+msgstr "Restabilește stabilirile de culoare"
 
 msgctxt "IDS_USING_LATEST_STABLE"
 msgid "\nYou are already using the latest stable version."
@@ -3451,7 +3451,7 @@ msgstr "Acest tip se află deja în listă!"
 
 msgctxt "IDS_WEBSERVER_ERROR_TEST"
 msgid "You need to apply the new settings before testing them."
-msgstr "Trebuie să aplicați noile setări înainte de a le testa."
+msgstr "Trebuie să aplicați noile stabiliri înainte de a le testa."
 
 msgctxt "IDS_AFTERPLAYBACK_EXIT"
 msgid "After Playback: Exit"
@@ -3507,7 +3507,7 @@ msgstr "Saturație: %s"
 
 msgctxt "IDS_OSD_RESET_COLOR"
 msgid "Color settings restored"
-msgstr "Setările de culoare au fost restaurate"
+msgstr "Stabilirile de culoare au fost restaurate"
 
 msgctxt "IDS_OSD_NO_COLORCONTROL"
 msgid "Color control is not supported"
@@ -3567,7 +3567,7 @@ msgstr "Anulează toate asocierile"
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"
-msgstr "Setări"
+msgstr "Stabiliri"
 
 msgctxt "IDS_SUBTITLE_RENDERER_VS_FILTER"
 msgid "VSFilter / DirectVobSub"

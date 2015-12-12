@@ -8,6 +8,7 @@
 # Charles Fernando da Silva <eu.charles@hotmail.com>, 2015
 # Edgar Peres <edgarvperes@gmail.com>, 2015
 # Erick Simões <erick.simoes@yahoo.com.br>, 2014-2015
+# Everton Leite <etcholeite@gmail.com>, 2015
 # Gustavo Cegolini Togni <gustavotogni@gmail.com>, 2015
 # Roger Filipe <lipe2000@outlook.com>, 2013-2014
 # Luis Henrique <henriqlh@gmail.com>, 2014
@@ -19,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-10-25 00:51:15+0000\n"
-"PO-Revision-Date: 2015-11-08 09:31+0000\n"
-"Last-Translator: JellyFrog\n"
+"PO-Revision-Date: 2015-12-07 00:57+0000\n"
+"Last-Translator: Everton Leite <etcholeite@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/mpc-hc/mpc-hc/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -610,7 +611,7 @@ msgstr "Sempre renderiza em Overlay. Geralmente só é permitido nos formatos YU
 
 msgctxt "IDC_DSVMR9WIN"
 msgid "Only available if you have DirectX 9 installed. Very stable but it will never use Overlay rendering and because of this it may be a little slower than Overlay mixer."
-msgstr ""
+msgstr "Disponível apenas se você possuir o DirectX 9 instalado. É muito estável, mas nunca usará renderização Overlay e por isso pode ser ligeiramente mais lento que um mixer Overlay."
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
@@ -2302,7 +2303,7 @@ msgstr "As miniaturas seriam muito pequenas, impossível criar o arquivo.\n\nTen
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "Para carregar legendas voce deve mudar o tipo de processador de vídeo e reabrir o arquivo.\n- DirectShow: VMR-9 (Sem processamento), EVR (CP), Sync, madVR or Haali\n- RealMedia: Processador especial para RealMedia, ou o abra atraves do DirectShow\n- QuickTime: Processador DX7 ou DX9 para QuickTime\n- ShockWave: n/a"
+msgstr "Para carregar legendas você deve mudar o tipo de processador de vídeo e reabrir o arquivo.\n- DirectShow: VMR-9 (Sem processamento), EVR (CP), Sync, madVR or Haali\n- RealMedia: Processador especial para RealMedia, ou o abra através do DirectShow\n- QuickTime: Processador DX7 ou DX9 para QuickTime\n- ShockWave: n/a"
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"

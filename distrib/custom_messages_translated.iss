@@ -30,8 +30,8 @@ ar.WelcomeLabel2=سوف يتم تثبيت [name] على جهازك.%n%nيستح�
 ar.WinVersionTooLowError=يتطلب [name] نظام تشغيل windows XP Service Pack 3 أو إصدار أحدث منه.
 
 ; Belarusian
-be.WelcomeLabel2=Зараз будзе ўстаноўлена [name].%n%nРэкамендуецца закрыць усе прыкладанні перад працягам.
-be.WinVersionTooLowError=[name] патрабуецца Windows XP Service Pack 3 або навей.
+be.WelcomeLabel2=Зараз на ваш кампутар будзе ўсталявана праграма [name].%n%nПерш чым працягнуць, рэкамендуцца закрыць усе астатнія праграмы.
+be.WinVersionTooLowError=Для запуску [name] патрабуецца Windows XP SP3 або навейшая.
 
 ; Bengali
 bn.WelcomeLabel2=এর মাধ্যমে আপনার কম্পিউটারে [name] ইনস্টল করা হবে। %n%nপ্রক্রিয়াটি চালিয়ে যাওয়ার পূর্বে অন্যান্য সকল অ্যাপ্লিকেশন বন্ধ করার পরামর্শ দেয়া যাচ্ছে।
@@ -210,20 +210,20 @@ ar.ViewChangelog=عرض سجل التغيرات
 be.langid=00001059
 be.comp_mpciconlib=Бібліятэка значкоў
 be.comp_mpcresources=Пераклады
-be.msg_DeleteSettings=Ці хочаце таксама выдаліць налады MPC-HC?%n%nКалі вы збіраецеся зноў усталяваць MPC-HC, тады іх можна пакінуць.
+be.msg_DeleteSettings=Ці выдаліць налады MPC-HC?%n%nКалі вы збіраецеся ўсталяваць MPC-HC зноў, можна іх пакінуць.
 #if defined(sse_required)
-be.msg_simd_sse=Гэтая будова MPC-HC вымагае працэсар, здольны выконваць інструкцыі SSE.%n%nВаш працэсар гэтага не ўмее.
+be.msg_simd_sse=Гэта зборка MPC-HC патрабуе працэсар, з падтрымкай SSE-інструкцый.%n%nВаш працэсар не адпавядае патрабаванням.
 #elif defined(sse2_required)
-be.msg_simd_sse2=Гэтая будова MPC-HC вымагае працэсар, здольны выконваць інструкцыі SSE2.%n%nВаш працэсар гэтага не ўмее.
+be.msg_simd_sse2=Гэта зборка MPC-HC патрабуе працэсар, з падтрымкай SSE2-інструкцый.%n%nВаш працэсар не адпавядае патрабаванням.
 #endif
-be.run_DownloadToolbarImages=Visit our Wiki page to download toolbar images
+be.run_DownloadToolbarImages=Наведайце нашу Wiki-старонку каб спампаваць выявы для панелі навігацыі
 be.tsk_AllUsers=Для ўсіх карыстальнікаў
-be.tsk_CurrentUser=Толькі для дзейнага карыстальніка
+be.tsk_CurrentUser=Толькі для гэтага карыстальніка
 be.tsk_Other=Іншыя заданні:
-be.tsk_ResetSettings=Вярнуць налады
-be.types_DefaultInstallation=Перадвызначанае ўсталяванне
-be.types_CustomInstallation=Адмысловае ўсталяванне
-be.ViewChangelog=Спіс зменаў
+be.tsk_ResetSettings=Скінуць налады
+be.types_DefaultInstallation=Усталяванне па змаўчанні
+be.types_CustomInstallation=Адвольнае ўсталяванне
+be.ViewChangelog=Праглядзець спіс зменаў
 
 ; Bengali
 bn.langid=00001093
@@ -704,7 +704,7 @@ pt_BR.ViewChangelog=Ver registro de alterações
 ro.langid=00001048
 ro.comp_mpciconlib=Bibliotecă de pictograme
 ro.comp_mpcresources=Traduceri
-ro.msg_DeleteSettings=Doriţi de asemenea să ştergeţi setările MPC-HC?%n%nDacă doriţi a reinstala MPC-HC, atunci nu este necesar să le ştergeţi.
+ro.msg_DeleteSettings=Doriţi de asemenea să ștergeți stabilirile MPC-HC?%n%nDacă doriţi să reinstalați MPC-HC, atunci nu este necesar să le ștergeți.
 #if defined(sse_required)
 ro.msg_simd_sse=Această versiune de MPC-HC necesită un procesor cu suport pentru extensii SSE.%n%nProcesorul dumneavoastră nu are aceste capacităţi.
 #elif defined(sse2_required)
@@ -714,7 +714,7 @@ ro.run_DownloadToolbarImages=Vizitați pagina noastră Wiki pentru a descărca i
 ro.tsk_AllUsers=Pentru toţi utilizatorii
 ro.tsk_CurrentUser=Doar pentru utilizatorul curent
 ro.tsk_Other=Alte activităţi:
-ro.tsk_ResetSettings=Resetează setările
+ro.tsk_ResetSettings=Restabilește stabilirile
 ro.types_DefaultInstallation=Instalare implicită
 ro.types_CustomInstallation=Instalare personalizată
 ro.ViewChangelog=Vezi istoricul modificărilor
@@ -729,7 +729,7 @@ ru.msg_simd_sse=Для этой сборки MPC-HC необходим проц�
 #elif defined(sse2_required)
 ru.msg_simd_sse2=Для этой сборки MPC-HC необходим процессор с поддержкой SSE2-инструкций.%n%nВаш процессор не соответствует данным требованиям.
 #endif
-ru.run_DownloadToolbarImages=Посетить нашу Вики, чтобы загрузить темы для панели инструментов
+ru.run_DownloadToolbarImages=Посетить нашу вики для загрузии темы панели инструментов
 ru.tsk_AllUsers=Для всех пользователей
 ru.tsk_CurrentUser=Только для текущего пользователя
 ru.tsk_Other=Другие задачи:

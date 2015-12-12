@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-10-25 00:51:15+0000\n"
-"PO-Revision-Date: 2015-11-08 09:31+0000\n"
-"Last-Translator: JellyFrog\n"
+"PO-Revision-Date: 2015-12-22 18:31+0000\n"
+"Last-Translator: kasper93\n"
 "Language-Team: Polish (http://www.transifex.com/mpc-hc/mpc-hc/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -600,7 +600,7 @@ msgstr "Renderuje zawsze w trybie nakładki. Obsługuje formaty YUV, ale bez upr
 
 msgctxt "IDC_DSVMR9WIN"
 msgid "Only available if you have DirectX 9 installed. Very stable but it will never use Overlay rendering and because of this it may be a little slower than Overlay mixer."
-msgstr ""
+msgstr "Dostępny tylko gdy w systemie jest zainstalowany DirectX 9. Bardzo stabilne, ale nigdy nie używa trybu nakładki przez co może być trochę wolniejszy niż Overlay mixer."
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
@@ -2292,7 +2292,7 @@ msgstr "Miniatury są zbyt małe, nie można utworzyć pliku.\n\nSpróbuj zmniej
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "Aby wczytać napisy, należy ponownie otworzyć plik, zmieniając wcześniej filtr renderujący na jeden z poniższych:\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR lub Haali\n- RealMedia: specjalny filtr renderujący dla RealMedia albo otwarcie za pośrednictwem DirectShow\n- QuickTime: renderer DX7 lub DX9 dla QuickTime\n- ShockWave: brak"
+msgstr "Aby załadować napisy musisz zmienić renderer obrazu, a następnie otworzyć ponownie plik.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Specjalny renderer dla RealMedia lub otwarcie za pośrednictwem DirectShow\n- QuickTime: DX7 lub DX9 renderer dla QuickTime\n- ShockWave: brak"
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"

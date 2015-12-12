@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-05-30 00:33:30+0000\n"
-"PO-Revision-Date: 2015-11-18 12:51+0000\n"
+"PO-Revision-Date: 2015-12-21 19:57+0000\n"
 "Last-Translator: Sergey <player54@mail.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/mpc-hc/mpc-hc/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -108,11 +108,11 @@ msgstr "За&головок и меню"
 
 msgctxt "ID_VIEW_SEEKER"
 msgid "See&k Bar"
-msgstr "&Полоса прокрутки"
+msgstr "&Ползунок"
 
 msgctxt "ID_VIEW_CONTROLS"
 msgid "&Controls"
-msgstr "&Управление"
+msgstr "&Элементы управления"
 
 msgctxt "ID_VIEW_INFORMATION"
 msgid "&Information"
@@ -140,7 +140,7 @@ msgstr "&Захват"
 
 msgctxt "ID_VIEW_NAVIGATION"
 msgid "Na&vigation"
-msgstr "Список каналов"
+msgstr "Навигация"
 
 msgctxt "ID_VIEW_DEBUGSHADERS"
 msgid "&Debug Shaders"
@@ -184,11 +184,11 @@ msgstr "&200%"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT"
 msgid "Auto &Fit"
-msgstr "Вписать"
+msgstr "Подогнать"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (&Larger Only)"
-msgstr "Вписать (только большие)"
+msgstr "Подогнать (только большие)"
 
 msgctxt "POPUP"
 msgid "R&enderer Settings"
@@ -224,31 +224,31 @@ msgstr "16 - 235"
 
 msgctxt "POPUP"
 msgid "&Presentation"
-msgstr "Представление"
+msgstr "Вывод"
 
 msgctxt "ID_VIEW_D3DFULLSCREEN"
 msgid "D3D Fullscreen &Mode"
-msgstr "Полноэкранный D3D режим"
+msgstr "Полноэкранный D3D-режим"
 
 msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
 msgid "D3D Fullscreen &GUI Support"
-msgstr "Полноэкранный D3D режим с поддержкой GUI"
+msgstr "Полноэкранный D3D-режим с поддержкой GUI"
 
 msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
 msgid "10-bit &RGB Output"
-msgstr "10-битный RGB вывод"
+msgstr "10-битный RGB-вывод"
 
 msgctxt "ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION"
 msgid "Force 10-bit RGB &Input"
-msgstr "Принудительный 10-битный RGB ввод"
+msgstr "Принудительный 10-битный RGB-ввод"
 
 msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
 msgid "&Full Floating Point Processing"
-msgstr "Точные расчеты в числах с плавающей точкой"
+msgstr "Полные расчеты чисел с плавающей точкой"
 
 msgctxt "ID_VIEW_HALFFLOATINGPOINTPROCESSING"
 msgid "&Half Floating Point Processing"
-msgstr "Быстрые расчеты в числах с плавающей точкой"
+msgstr "Половинчатые расчеты чисел с плавающей точкой"
 
 msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
 msgid "Disable desktop composition (&Aero)"
@@ -308,7 +308,7 @@ msgstr "Метод пересчета"
 
 msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
 msgid "&Perceptual"
-msgstr "Восприятие"
+msgstr "Перцептуальный"
 
 msgctxt "ID_VIEW_CM_INTENT_RELATIVECOLORIMETRIC"
 msgid "&Relative Colorimetric"
@@ -340,11 +340,11 @@ msgstr "Альтернативная VSync"
 
 msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
 msgid "&Decrease VSync Offset"
-msgstr "У&меньшить смещение VSync"
+msgstr "У&меньшить сдвиг VSync"
 
 msgctxt "ID_VIEW_VSYNCOFFSET_INCREASE"
 msgid "&Increase VSync Offset"
-msgstr "У&величить смещение VSync"
+msgstr "У&величить сдвиг VSync"
 
 msgctxt "POPUP"
 msgid "&GPU Control"
@@ -352,15 +352,15 @@ msgstr "Управление GPU"
 
 msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
 msgid "Flush GPU &before VSync"
-msgstr "Заполнить GPU перед VSync"
+msgstr "Опустошать GPU перед VSync"
 
 msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
 msgid "Flush GPU &after Present"
-msgstr "Заполнить GPU после представления"
+msgstr "Опустошать GPU после вывода"
 
 msgctxt "ID_VIEW_FLUSHGPU_WAIT"
 msgid "&Wait for flushes"
-msgstr "Ожидать заполнения"
+msgstr "Ожидать опустошения"
 
 msgctxt "POPUP"
 msgid "R&eset"
@@ -684,7 +684,7 @@ msgstr "Проверить доступные обновления"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"
-msgstr "Параметры командной строки"
+msgstr "Переключатели командной строки"
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"
