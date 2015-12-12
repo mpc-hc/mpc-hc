@@ -105,9 +105,6 @@ private:
     std::vector<DisplayData> m_displayData;
     CString m_displayBuffer;
 
-    int GetStartTime(int iItem);
-    int GetEndTime(int iItem);
-
     void UpdatePreview();
 
     enum {
