@@ -23,6 +23,7 @@
 
 #include <afxstr.h>
 #include <atlpath.h>
+#include "Constexpr.h"
 #include "NullRenderers.h"
 #include "HdmvClipInfo.h"
 #include "H264Nalu.h"
@@ -290,6 +291,18 @@ typename std::enable_if<std::is_signed<T>::value, T>::type GCD(T a, T b)
     using uT = typename std::make_unsigned<T>::type;
 
     return T(GCD(uT(std::abs(a)), uT(std::abs(b))));
+}
+
+template <class T>
+MPCHC_CONSTEXPR typename std::enable_if<std::is_unsigned<T>::value, int>::type SGN(T n)
+{
+    return T(0) < n;
+}
+
+template <typename T>
+MPCHC_CONSTEXPR typename std::enable_if<std::is_signed<T>::value, int>::type SGN(T n)
+{
+    return (T(0) < n) - (n < T(0));
 }
 
 namespace CStringUtils
