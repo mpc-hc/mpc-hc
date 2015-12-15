@@ -39,6 +39,7 @@ void SubtitlesProviders::RegisterProviders()
     Register<titlovi>(this);
     Register<SubDB>(this);
     Register<ysubs>(this);
+    Register<Napisy24>(this);
 }
 
 #define CheckAbortAndReturn() { if (IsAborting()) return SR_ABORTED; }
@@ -846,4 +847,109 @@ std::string ysubs::Languages()
         }
     }
     return result;
+}
+
+/******************************************************************************
+** Napisy24
+******************************************************************************/
+
+SRESULT Napisy24::Search(const SubtitlesInfo& pFileInfo)
+{
+    stringMap headers({
+        { "User-Agent", UserAgent() },
+        { "Content-Type", "application/x-www-form-urlencoded" }
+    });
+    std::string data;
+    std::string content = "postAction=CheckSub";
+    content += "&ua=mpc-hc";
+    content += "&ap=mpc-hc";
+    content += "&fh=" + pFileInfo.fileHash;
+    content += "&fs=" + std::to_string(pFileInfo.fileSize);
+    content += "&fn=" + pFileInfo.fileName;
+
+    StringUpload("http://napisy24.pl/run/CheckSubAgent.php", headers, content, data);
+
+    if (data.length() < 4) {
+        return SR_FAILED;
+    }
+
+    // Get status
+    std::string status = data.substr(0, 4);
+    if (status != "OK-2" && status != "OK-3") {
+        return SR_FAILED;
+    }
+    data.erase(0, 5);
+
+    size_t infoEnd = data.find("||");
+    if (infoEnd == std::string::npos) {
+        return SR_FAILED;
+    }
+
+    // Search already returns whole file
+    SubtitlesInfo subtitleInfo;
+    subtitleInfo.fileContents = data.substr(infoEnd + 2);
+    subtitleInfo.languageCode = "pl"; // API doesn't support other languages yet.
+
+    // Remove subtitle data
+    data.erase(infoEnd);
+
+    std::unordered_map<std::string, std::string> subtitleInfoMap;
+    std::istringstream stringStream(data);
+    std::string entry;
+    while (std::getline(stringStream, entry, '|')) {
+        auto delimPos = entry.find(':');
+        if (delimPos == std::string::npos) {
+            continue;
+        }
+        std::string key = entry.substr(0, delimPos);
+        if (entry.length() <= delimPos + 1) {
+            continue;
+        }
+        std::string value = entry.substr(delimPos + 1);
+        subtitleInfoMap[key] = value;
+    }
+
+    subtitleInfo.url = "http://napisy24.pl/komentarze?napisId=" + subtitleInfoMap["napisId"];
+    subtitleInfo.title = subtitleInfoMap["ftitle"];
+    subtitleInfo.imdbid = subtitleInfoMap["fimdb"];
+
+    auto it = subtitleInfoMap.find("fyear");
+    if (it != subtitleInfoMap.end()) {
+        subtitleInfo.year = std::stoi(it->second);
+    }
+
+    it = subtitleInfoMap.find("fps");
+    if (it != subtitleInfoMap.end()) {
+        subtitleInfo.frameRate = std::stod(it->second);
+    }
+
+    int hour, minute, second;
+    if (sscanf_s(subtitleInfoMap["time"].c_str(), "%02d:%02d:%02d", &hour, &minute, &second) == 3) {
+        subtitleInfo.lengthMs = ((hour * 60 + minute) * 60 + second) * 1000;
+    }
+
+    subtitleInfo.fileName = pFileInfo.fileName + "." + pFileInfo.fileExtension;
+    subtitleInfo.discNumber = 1;
+    subtitleInfo.discCount = 1;
+
+    Set(subtitleInfo);
+
+    return SR_SUCCEEDED;
+}
+
+SRESULT Napisy24::Hash(SubtitlesInfo& pFileInfo)
+{
+    pFileInfo.fileHash = StringFormat("%016I64x", GenerateOSHash(pFileInfo));
+    TRACE(_T("%S::Hash = %S\n"), Name().c_str(), pFileInfo.fileHash.c_str());
+    return SR_SUCCEEDED;
+}
+
+SRESULT Napisy24::Download(SubtitlesInfo& subtitlesInfo)
+{
+    return subtitlesInfo.fileContents.empty() ? SR_FAILED : SR_SUCCEEDED;
+}
+
+std::string Napisy24::Languages()
+{
+    return "pl";
 }

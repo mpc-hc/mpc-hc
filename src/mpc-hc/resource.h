@@ -585,6 +585,7 @@
 #define IDI_SUBDB                       21003
 #define IDI_TITLOVI                     21004
 #define IDI_YSUBS                       21005
+#define IDI_N24                         21006
 #define IDC_FULLSCREEN_MONITOR_CHECK    22002
 #define IDC_SLI_CONTRAST                22003
 #define IDC_RESET                       22004

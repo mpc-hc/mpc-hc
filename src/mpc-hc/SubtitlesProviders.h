@@ -81,7 +81,7 @@ struct SubtitlesInfo {
         , corrected(0)
         , frameRate(-1.0)
         , framesNumber(INT_ERROR)
-        , length(ULONGLONG_ERROR) {}
+        , lengthMs(ULONGLONG_ERROR) {}
     bool operator<(const SubtitlesInfo& rhs) const { return score > rhs.score; }
     HRESULT GetFileInfo(const std::string& sFileName = std::string());
     void Download(bool bActivate);
@@ -160,7 +160,7 @@ public:
     // video properties
     double frameRate;
     int framesNumber;
-    ULONGLONG length;
+    ULONGLONG lengthMs;
 };
 
 

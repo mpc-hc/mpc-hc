@@ -25,8 +25,8 @@ next version - not released yet
   If you really want to use a renderer similar to VMR-7 (windowed), use Overlay mixer or the "system default" renderer
 * Make video renderer statistic scalable to window size and unify graph look for Sync and other renderers
 * Rewrite subtitles downloading framework
-    - Support for multiple subtitle providers including default OpenSubtitles as well as podnapisi, titlovi, SubDB and ysubs
-      which can be enabled in options (Subtitles->Misc)
+    - Support for multiple subtitle providers including default OpenSubtitles as well as
+      podnapisi, titlovi, SubDB, ysubs and Napisy24 which can be enabled in options (Subtitles->Misc)
     - Ability to login into OpenSubtitles
     - Ability to filter subtitle list by selected languages
     - Option to automatically search and download subtitles at the beginning of playback without user interaction

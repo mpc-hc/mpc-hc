@@ -85,6 +85,9 @@ DEFINE_SUBTITLESPROVIDER_END
 DEFINE_SUBTITLESPROVIDER_BEGIN(ysubs, "http://www.yifysubtitles.com", IDI_YSUBS, SPF_SEARCH)
 DEFINE_SUBTITLESPROVIDER_END
 
+DEFINE_SUBTITLESPROVIDER_BEGIN(Napisy24, "http://napisy24.pl/", IDI_N24, SPF_HASH | SPF_SEARCH)
+SRESULT Hash(SubtitlesInfo& pFileInfo) override;
+DEFINE_SUBTITLESPROVIDER_END
 
 static const struct { const char* code; const char* name; } podnapisi_languages[] = {
     { /* 0*/ "",   "" },                        { /* 1*/ "sl", "Slovenian" },              { /* 2*/ "en", "English" },
