@@ -315,8 +315,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_COMMAND_RANGE(ID_VIEW_VF_HALF, ID_VIEW_VF_ZOOM2, OnViewDefaultVideoFrame)
     ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_VF_HALF, ID_VIEW_VF_ZOOM2, OnUpdateViewDefaultVideoFrame)
     ON_COMMAND(ID_VIEW_VF_SWITCHZOOM, OnViewSwitchVideoFrame)
-    ON_COMMAND(ID_VIEW_VF_KEEPASPECTRATIO, OnViewKeepaspectratio)
-    ON_UPDATE_COMMAND_UI(ID_VIEW_VF_KEEPASPECTRATIO, OnUpdateViewKeepaspectratio)
     ON_COMMAND(ID_VIEW_VF_COMPMONDESKARDIFF, OnViewCompMonDeskARDiff)
     ON_UPDATE_COMMAND_UI(ID_VIEW_VF_COMPMONDESKARDIFF, OnUpdateViewCompMonDeskARDiff)
     ON_COMMAND_RANGE(ID_VIEW_RESET, ID_PANSCAN_CENTER, OnViewPanNScan)
@@ -2872,7 +2870,7 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
         }
         if (firstSubItemID == ID_VIEW_VF_HALF               // is "Video Frame" submenu
                 || firstSubItemID == ID_VIEW_INCSIZE        // is "Pan&Scan" submenu
-                || firstSubItemID == ID_ASPECTRATIO_SOURCE  // is "Override Aspect Ratio" submenu
+                || firstSubItemID == ID_ASPECTRATIO_START   // is "Override Aspect Ratio" submenu
                 || firstSubItemID == ID_VIEW_ZOOM_50) {     // is "Zoom" submenu
             UINT fState = (GetLoadState() == MLS::LOADED && !m_fAudioOnly)
                           ? MF_ENABLED
@@ -6439,20 +6437,6 @@ void CMainFrame::OnViewSwitchVideoFrame()
     MoveVideoWindow();
 }
 
-void CMainFrame::OnViewKeepaspectratio()
-{
-    CAppSettings& s = AfxGetAppSettings();
-
-    s.fKeepAspectRatio = !s.fKeepAspectRatio;
-    OnVideoSizeChanged();
-}
-
-void CMainFrame::OnUpdateViewKeepaspectratio(CCmdUI* pCmdUI)
-{
-    pCmdUI->Enable(GetLoadState() == MLS::LOADED && !m_fAudioOnly);
-    pCmdUI->SetCheck(AfxGetAppSettings().fKeepAspectRatio);
-}
-
 void CMainFrame::OnViewCompMonDeskARDiff()
 {
     CAppSettings& s = AfxGetAppSettings();
@@ -6728,17 +6712,24 @@ const static SIZE s_ar[] = {{0, 0}, {4, 3}, {5, 4}, {16, 9}, {235, 100}, {185, 1
 
 void CMainFrame::OnViewAspectRatio(UINT nID)
 {
-    CSize& ar = AfxGetAppSettings().sizeAspectRatio;
-    ar = s_ar[nID - ID_ASPECTRATIO_START];
+    auto& s = AfxGetAppSettings();
+
     CString info;
-
-    if (ar.cx && ar.cy) {
-        info.Format(IDS_MAINFRM_68, ar.cx, ar.cy);
+    if (nID == ID_ASPECTRATIO_SAR) {
+        s.fKeepAspectRatio = false;
+        info.LoadString(IDS_ASPECT_RATIO_SAR);
     } else {
-        info.LoadString(IDS_MAINFRM_69);
+        s.fKeepAspectRatio = true;
+        CSize ar = s_ar[nID - ID_ASPECTRATIO_START];
+        s.SetAspectRatioOverride(ar);
+        if (ar.cx && ar.cy) {
+            info.Format(IDS_MAINFRM_68, ar.cx, ar.cy);
+        } else {
+            info.LoadString(IDS_MAINFRM_69);
+        }
     }
-    SendStatusMessage(info, 3000);
 
+    SendStatusMessage(info, 3000);
     m_OSD.DisplayMessage(OSD_TOPLEFT, info, 3000);
 
     OnVideoSizeChanged();
@@ -6748,7 +6739,13 @@ void CMainFrame::OnUpdateViewAspectRatio(CCmdUI* pCmdUI)
 {
     const CAppSettings& s = AfxGetAppSettings();
 
-    if (s.sizeAspectRatio == s_ar[pCmdUI->m_nID - ID_ASPECTRATIO_START] && pCmdUI->m_pMenu) {
+    bool bSelected;
+    if (pCmdUI->m_nID == ID_ASPECTRATIO_SAR) {
+        bSelected = s.fKeepAspectRatio == false;
+    } else {
+        bSelected = s.fKeepAspectRatio == true && s.GetAspectRatioOverride() == s_ar[pCmdUI->m_nID - ID_ASPECTRATIO_START];
+    }
+    if (bSelected && pCmdUI->m_pMenu) {
         pCmdUI->m_pMenu->CheckMenuRadioItem(ID_ASPECTRATIO_START, ID_ASPECTRATIO_END, pCmdUI->m_nID, MF_BYCOMMAND);
     }
 
@@ -6757,13 +6754,18 @@ void CMainFrame::OnUpdateViewAspectRatio(CCmdUI* pCmdUI)
 
 void CMainFrame::OnViewAspectRatioNext()
 {
-    CSize& ar = AfxGetAppSettings().sizeAspectRatio;
-    UINT nID = ID_ASPECTRATIO_START;
+    static_assert(ID_ASPECTRATIO_SAR - ID_ASPECTRATIO_START == _countof(s_ar) && ID_ASPECTRATIO_SAR == ID_ASPECTRATIO_END,
+                  "ID_ASPECTRATIO_SAR needs to be last item in the menu.");
 
-    for (int i = 0; i < _countof(s_ar); i++) {
-        if (ar == s_ar[i]) {
-            nID += (i + 1) % _countof(s_ar);
-            break;
+    const auto& s = AfxGetAppSettings();
+    UINT nID = ID_ASPECTRATIO_START;
+    if (s.fKeepAspectRatio) {
+        const CSize ar = s.GetAspectRatioOverride();
+        for (int i = 0; i < _countof(s_ar); i++) {
+            if (ar == s_ar[i]) {
+                nID += (i + 1) % ((ID_ASPECTRATIO_END - ID_ASPECTRATIO_START) + 1);
+                break;
+            }
         }
     }
 
@@ -9228,14 +9230,13 @@ CSize CMainFrame::GetVideoSize() const
         return ret;
     }
 
-    CSize overrideAR = s.sizeAspectRatio;
-    DVD_VideoAttributes VATR;
-    // with the overlay mixer IBasicVideo2 won't tell the new AR when changed dynamically
-    if ((!overrideAR.cx || !overrideAR.cy) && GetPlaybackMode() == PM_DVD && SUCCEEDED(m_pDVDI->GetCurrentVideoAttributes(&VATR))) {
-        overrideAR.SetSize(VATR.ulAspectX, VATR.ulAspectY);
-    }
-
     if (s.fKeepAspectRatio) {
+        CSize overrideAR = s.GetAspectRatioOverride();
+        DVD_VideoAttributes VATR;
+        if ((!overrideAR.cx || !overrideAR.cy) && GetPlaybackMode() == PM_DVD
+                && SUCCEEDED(m_pDVDI->GetCurrentVideoAttributes(&VATR))) {
+            overrideAR.SetSize(VATR.ulAspectX, VATR.ulAspectY);
+        }
         if (overrideAR.cx > 0 && overrideAR.cy > 0) {
             if (m_pMVRC && SUCCEEDED(m_pMVRC->SendCommandDouble("setArOverride", double(overrideAR.cx) / overrideAR.cy))) {
                 ret = m_pCAP->GetVideoSize(false);

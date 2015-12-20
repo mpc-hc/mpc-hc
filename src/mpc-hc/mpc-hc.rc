@@ -1561,15 +1561,15 @@ BEGIN
             MENUITEM "Zoom &2",                     ID_VIEW_VF_ZOOM2
             MENUITEM "Touch Window From &Outside",  ID_VIEW_VF_FROMOUTSIDE
             MENUITEM SEPARATOR
-            MENUITEM "&Keep Aspect Ratio",          ID_VIEW_VF_KEEPASPECTRATIO
-            POPUP "Override &Aspect Ratio"
+            POPUP "&Aspect Ratio"
             BEGIN
-                MENUITEM "&Default",                    ID_ASPECTRATIO_SOURCE
+                MENUITEM "&Default (DAR)",              ID_ASPECTRATIO_DAR
                 MENUITEM "&4:3",                        ID_ASPECTRATIO_4_3
                 MENUITEM "&5:4",                        ID_ASPECTRATIO_5_4
                 MENUITEM "&16:9",                       ID_ASPECTRATIO_16_9
                 MENUITEM "&235:100",                    ID_ASPECTRATIO_235_100
                 MENUITEM "1&85:100",                    ID_ASPECTRATIO_185_100
+                MENUITEM "Assume &square pixels (SAR)", ID_ASPECTRATIO_SAR
             END
             MENUITEM "&Correct Monitor/Desktop AR Diff", ID_VIEW_VF_COMPMONDESKARDIFF
         END
@@ -1720,15 +1720,15 @@ BEGIN
             MENUITEM "Zoom &2",                     ID_VIEW_VF_ZOOM2
             MENUITEM "Touch Window From &Outside",  ID_VIEW_VF_FROMOUTSIDE
             MENUITEM SEPARATOR
-            MENUITEM "&Keep Aspect Ratio",          ID_VIEW_VF_KEEPASPECTRATIO
-            POPUP "Override &Aspect Ratio"
+            POPUP "&Aspect Ratio"
             BEGIN
-                MENUITEM "&Default",                    ID_ASPECTRATIO_SOURCE
+                MENUITEM "&Default (DAR)",              ID_ASPECTRATIO_DAR
                 MENUITEM "&4:3",                        ID_ASPECTRATIO_4_3
                 MENUITEM "&5:4",                        ID_ASPECTRATIO_5_4
                 MENUITEM "&16:9",                       ID_ASPECTRATIO_16_9
                 MENUITEM "&235:100",                    ID_ASPECTRATIO_235_100
                 MENUITEM "1&85:100",                    ID_ASPECTRATIO_185_100
+                MENUITEM "Assume &square pixels (SAR)", ID_ASPECTRATIO_SAR
             END
             MENUITEM "&Correct Monitor/Desktop AR Diff", ID_VIEW_VF_COMPMONDESKARDIFF
         END
@@ -2034,15 +2034,15 @@ BEGIN
                 MENUITEM "Zoom &2",                     ID_VIEW_VF_ZOOM2
                 MENUITEM "Touch Window From &Outside",  ID_VIEW_VF_FROMOUTSIDE
                 MENUITEM SEPARATOR
-                MENUITEM "&Keep Aspect Ratio",          ID_VIEW_VF_KEEPASPECTRATIO
-                POPUP "Override &Aspect Ratio"
+                POPUP "&Aspect Ratio"
                 BEGIN
-                    MENUITEM "&Default",                    ID_ASPECTRATIO_SOURCE
+                    MENUITEM "&Default (DAR)",              ID_ASPECTRATIO_DAR
                     MENUITEM "&4:3",                        ID_ASPECTRATIO_4_3
                     MENUITEM "&5:4",                        ID_ASPECTRATIO_5_4
                     MENUITEM "&16:9",                       ID_ASPECTRATIO_16_9
                     MENUITEM "&235:100",                    ID_ASPECTRATIO_235_100
                     MENUITEM "1&85:100",                    ID_ASPECTRATIO_185_100
+                    MENUITEM "Assume &square pixels (SAR)", ID_ASPECTRATIO_SAR
                 END
                 MENUITEM "&Correct Monitor/Desktop AR Diff", ID_VIEW_VF_COMPMONDESKARDIFF
             END
@@ -3059,7 +3059,7 @@ END
 STRINGTABLE
 BEGIN
     IDS_MAINFRM_68          "Aspect Ratio: %ld:%ld"
-    IDS_MAINFRM_69          "Aspect Ratio: Default"
+    IDS_MAINFRM_69          "Aspect Ratio: Default (DAR)"
     IDS_MAINFRM_70          "Audio delay: %I64d ms"
     IDS_AG_CHAPTER          "Chapter %d"
     IDS_AG_OUT_OF_MEMORY    "Out of memory"
@@ -3564,6 +3564,7 @@ BEGIN
                             "ERROR: Internet connection could not be established."
     IDS_SUB_CREDENTIALS_TITLE "Enter website credentitals"
     IDS_SUB_CREDENTIALS_MSG "Enter your credentials to connect to: "
+    IDS_ASPECT_RATIO_SAR    "Aspect Ratio: Assume square pixels (SAR)"
 END
 
 #endif    // English (United States) resources

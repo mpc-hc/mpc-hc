@@ -629,7 +629,6 @@ public:
     // Video Frame
     int             iDefaultVideoSize;
     bool            fKeepAspectRatio;
-    CSize           sizeAspectRatio;
     bool            fCompMonDeskARDiff;
     // Pan&Scan
     CString         strPnSPreset;
@@ -701,6 +700,12 @@ public:
 
     static bool IsSubtitleRendererSupported(SubtitleRenderer eSubtitleRenderer, int videoRenderer);
 
+    CSize GetAspectRatioOverride() const {
+        ASSERT(fKeepAspectRatio && "Keep Aspect Ratio option have to be enabled if override value is used.");
+        return sizeAspectRatio;
+    };
+    void SetAspectRatioOverride(const CSize& ar) { sizeAspectRatio = ar; }
+
 private:
     struct FilterKey {
         CString name;
@@ -735,6 +740,7 @@ private:
     friend void     CRenderersSettings::UpdateData(bool bSave);
 
     SubtitleRenderer eSubtitleRenderer;
+    CSize            sizeAspectRatio;
 
 public:
     CAppSettings();

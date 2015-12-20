@@ -115,20 +115,20 @@
 #define ID_VIEW_VF_ZOOM1                841
 #define ID_VIEW_VF_ZOOM2                842
 #define ID_VIEW_VF_SWITCHZOOM           843
-#define ID_VIEW_VF_KEEPASPECTRATIO      844
 #define ID_VIEW_VF_COMPMONDESKARDIFF    845
 #define ID_VIEW_EDITLISTEDITOR          846
 #define ID_EDL_IN                       847
 #define ID_EDL_OUT                      848
 #define ID_EDL_NEWCLIP                  849
 #define ID_ASPECTRATIO_START            850
-#define ID_ASPECTRATIO_SOURCE           850
+#define ID_ASPECTRATIO_DAR              850
 #define ID_ASPECTRATIO_4_3              851
 #define ID_ASPECTRATIO_5_4              852
 #define ID_ASPECTRATIO_16_9             853
 #define ID_ASPECTRATIO_235_100          854
 #define ID_ASPECTRATIO_185_100          855
-#define ID_ASPECTRATIO_END              858
+#define ID_ASPECTRATIO_SAR              856
+#define ID_ASPECTRATIO_END              856
 #define ID_ASPECTRATIO_NEXT             859
 #define ID_EDL_SAVE                     860
 #define ID_VIEW_RESET                   861
@@ -1502,6 +1502,7 @@
 #define IDS_SUBPP_DLG_LANGUAGES_ERROR   57473
 #define IDS_SUB_CREDENTIALS_TITLE       57474
 #define IDS_SUB_CREDENTIALS_MSG         57475
+#define IDS_ASPECT_RATIO_SAR            57476
 
 // Next default values for new objects
 // 

@@ -2308,8 +2308,8 @@ msgid "Aspect Ratio: %ld:%ld"
 msgstr "অ্যাসপেক্ট রেশিও: %ld:%ld"
 
 msgctxt "IDS_MAINFRM_69"
-msgid "Aspect Ratio: Default"
-msgstr "অ্যাসপেক্ট রেশিও: ডিফল্ট"
+msgid "Aspect Ratio: Default (DAR)"
+msgstr ""
 
 msgctxt "IDS_MAINFRM_70"
 msgid "Audio delay: %I64d ms"
@@ -3713,5 +3713,9 @@ msgstr ""
 
 msgctxt "IDS_SUB_CREDENTIALS_MSG"
 msgid "Enter your credentials to connect to: "
+msgstr ""
+
+msgctxt "IDS_ASPECT_RATIO_SAR"
+msgid "Aspect Ratio: Assume square pixels (SAR)"
 msgstr ""
 

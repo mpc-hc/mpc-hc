@@ -404,17 +404,13 @@ msgctxt "ID_VIEW_VF_FROMOUTSIDE"
 msgid "Touch Window From &Outside"
 msgstr "縦か横に合わせてカット(&O)"
 
-msgctxt "ID_VIEW_VF_KEEPASPECTRATIO"
-msgid "&Keep Aspect Ratio"
-msgstr "縦横比を保持(&K)"
-
 msgctxt "POPUP"
-msgid "Override &Aspect Ratio"
-msgstr "縦横比を調整(&A)"
+msgid "&Aspect Ratio"
+msgstr ""
 
-msgctxt "ID_ASPECTRATIO_SOURCE"
-msgid "&Default"
-msgstr "標準(&D)"
+msgctxt "ID_ASPECTRATIO_DAR"
+msgid "&Default (DAR)"
+msgstr ""
 
 msgctxt "ID_ASPECTRATIO_4_3"
 msgid "&4:3"
@@ -435,6 +431,10 @@ msgstr "235:100(&2)"
 msgctxt "ID_ASPECTRATIO_185_100"
 msgid "1&85:100"
 msgstr "185:100(&8)"
+
+msgctxt "ID_ASPECTRATIO_SAR"
+msgid "Assume &square pixels (SAR)"
+msgstr ""
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"

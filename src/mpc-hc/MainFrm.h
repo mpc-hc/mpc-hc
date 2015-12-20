@@ -832,8 +832,6 @@ public:
     afx_msg void OnUpdateViewDefaultVideoFrame(CCmdUI* pCmdUI);
     afx_msg void OnViewSwitchVideoFrame();
     afx_msg void OnUpdateViewSwitchVideoFrame(CCmdUI* pCmdUI);
-    afx_msg void OnViewKeepaspectratio();
-    afx_msg void OnUpdateViewKeepaspectratio(CCmdUI* pCmdUI);
     afx_msg void OnViewCompMonDeskARDiff();
     afx_msg void OnUpdateViewCompMonDeskARDiff(CCmdUI* pCmdUI);
     afx_msg void OnViewPanNScan(UINT nID);

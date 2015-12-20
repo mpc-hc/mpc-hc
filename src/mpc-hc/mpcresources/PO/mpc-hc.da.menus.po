@@ -406,17 +406,13 @@ msgctxt "ID_VIEW_VF_FROMOUTSIDE"
 msgid "Touch Window From &Outside"
 msgstr "Rør vindue &udefra"
 
-msgctxt "ID_VIEW_VF_KEEPASPECTRATIO"
-msgid "&Keep Aspect Ratio"
-msgstr "&Bevar højde-bredde-forhold"
-
 msgctxt "POPUP"
-msgid "Override &Aspect Ratio"
-msgstr "Tilsidesæt &højde-bredde-forhold"
+msgid "&Aspect Ratio"
+msgstr ""
 
-msgctxt "ID_ASPECTRATIO_SOURCE"
-msgid "&Default"
-msgstr "&Standard"
+msgctxt "ID_ASPECTRATIO_DAR"
+msgid "&Default (DAR)"
+msgstr ""
 
 msgctxt "ID_ASPECTRATIO_4_3"
 msgid "&4:3"
@@ -437,6 +433,10 @@ msgstr "&235:100"
 msgctxt "ID_ASPECTRATIO_185_100"
 msgid "1&85:100"
 msgstr "1&85:100"
+
+msgctxt "ID_ASPECTRATIO_SAR"
+msgid "Assume &square pixels (SAR)"
+msgstr ""
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"
