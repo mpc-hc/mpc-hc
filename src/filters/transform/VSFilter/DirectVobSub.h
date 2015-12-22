@@ -49,6 +49,9 @@ protected:
     bool m_fOSD;
     int m_nReloaderDisableCount;
     int m_SubtitleDelay, m_SubtitleSpeedMul, m_SubtitleSpeedDiv;
+    // User could specify any values for m_SubtitleSpeedMul and m_SubtitleSpeedDiv.
+    // We want to normalize the user input to minimize the chance of overflow later when we do calculations.
+    int m_SubtitleSpeedNormalizedMul, m_SubtitleSpeedNormalizedDiv;
     bool m_fMediaFPSEnabled;
     double m_MediaFPS;
     bool m_fSaveFullPath;
