@@ -912,11 +912,11 @@ static bool OpenMicroDVD(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
             continue;
         }
 
-        int start, end;
-        int c = swscanf_s(buff, L"{%d}{%d}", &start, &end);
+        LONGLONG start, end;
+        int c = swscanf_s(buff, L"{%lld}{%lld}", &start, &end);
 
         if (c != 2) {
-            c = swscanf_s(buff, L"{%d}{}", &start) + 1;
+            c = swscanf_s(buff, L"{%lld}{}", &start) + 1;
             end = start + 60;
             fCheck = true;
         }
@@ -942,15 +942,12 @@ static bool OpenMicroDVD(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
         if (c == 2) {
             if (fCheck2 && ret.GetCount()) {
                 STSEntry& stse = ret[ret.GetCount() - 1];
-                stse.end = std::min(stse.end, MS2RT(start));
+                stse.end = std::min(stse.end, start);
                 fCheck2 = false;
             }
 
-            ret.Add(
-                MicroDVD2SSA(buff.Mid(buff.Find('}', buff.Find('}') + 1) + 1), file->IsUnicode(), CharSet),
-                file->IsUnicode(),
-                MS2RT(start), MS2RT(end),
-                style);
+            ret.Add(MicroDVD2SSA(buff.Mid(buff.Find('}', buff.Find('}') + 1) + 1), file->IsUnicode(), CharSet),
+                    file->IsUnicode(), start, end, style);
 
             if (fCheck) {
                 fCheck = false;
