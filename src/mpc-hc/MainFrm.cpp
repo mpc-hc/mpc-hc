@@ -9353,6 +9353,9 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
         }
 
         windowRect = m_lastWindowRect;
+        if (!CMonitors::IsOnScreen(windowRect)) {
+            currentMonitor.CenterRectToMonitor(windowRect, TRUE);
+        }
 
         dwAdd |= WS_MINIMIZEBOX;
         if (s.eCaptionMenuMode != MODE_BORDERLESS) {
