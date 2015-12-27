@@ -361,6 +361,7 @@ struct GaussianKernel {
         for (int x = width / 2 - 1; x >= 0; x--) {
             short val = (short)(NormalDist(sigma, width / 2 - x) * 255 + 0.5);
             divisor += val * 2;
+			if (divisor == 0) divisor = 1;
             kernel[x] = val;
             kernel[width - x - 1] = val;
         }
