@@ -74,7 +74,7 @@ Alternatively, you can use "build.bat" that can build everything for you
 
 Part D: Building the installer
 
-Download Inno Setup Unicode v5.5.6 or newer from: http://www.jrsoftware.org/isdl.php
+Download Inno Setup Unicode v5.5.7 or newer from: http://www.jrsoftware.org/isdl.php
 Install everything and then go to "C:\mpc-hc\distrib", open "mpc-hc_setup.iss" with Inno Setup,
 read the first comments in the script and compile it.
 Notes:

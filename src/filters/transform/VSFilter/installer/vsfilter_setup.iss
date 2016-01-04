@@ -20,8 +20,8 @@
 ; Inno Setup: http://www.jrsoftware.org/isdl.php
 
 
-#if VER < EncodeVer(5,5,4)
-  #error Update your Inno Setup version (5.5.4 or newer)
+#if VER < EncodeVer(5,5,7)
+  #error Update your Inno Setup version (5.5.7 or newer)
 #endif
 
 ; If you want to compile the 64-bit version define "x64Build" (uncomment the define below or use build.bat)

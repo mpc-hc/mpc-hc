@@ -1,4 +1,4 @@
-; (C) 2009-2015 see Authors.txt
+; (C) 2009-2016 see Authors.txt
 ;
 ; This file is part of MPC-HC.
 ;
@@ -20,8 +20,8 @@
 ; Inno Setup Unicode: http://www.jrsoftware.org/isdl.php
 
 
-#if VER < EncodeVer(5,5,5)
-  #error Update your Inno Setup version (5.5.5 or newer)
+#if VER < EncodeVer(5,5,7)
+  #error Update your Inno Setup version (5.5.7 or newer)
 #endif
 
 #ifndef UNICODE
