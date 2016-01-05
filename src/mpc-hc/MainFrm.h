@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -956,6 +956,10 @@ public:
     afx_msg void OnPlayColor(UINT nID);
     afx_msg void OnAfterplayback(UINT nID);
     afx_msg void OnUpdateAfterplayback(CCmdUI* pCmdUI);
+    afx_msg void OnPlayRepeat(UINT nID);
+    afx_msg void OnUpdatePlayRepeat(CCmdUI* pCmdUI);
+    afx_msg void OnPlayRepeatForever();
+    afx_msg void OnUpdatePlayRepeatForever(CCmdUI* pCmdUI);
 
     afx_msg void OnNavigateSkip(UINT nID);
     afx_msg void OnUpdateNavigateSkip(CCmdUI* pCmdUI);

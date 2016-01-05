@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2015 see Authors.txt
+ * (C) 2009-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -55,6 +55,7 @@
 #define IDS_RS_TITLEBARTEXTSTYLE            _T("TitleBarTextStyle")
 #define IDS_RS_CONTROLSTATE                 _T("ControlState")
 #define IDS_RS_LOOP                         _T("Loop")
+#define IDS_RS_LOOPMODE                     _T("LoopMode")
 #define IDS_RS_LOOPNUM                      _T("LoopNum")
 #define IDS_RS_SNAPTODESKTOPEDGES           _T("SnapToDesktopEdges")
 #define IDS_RS_ENABLESUBTITLES              _T("EnableSubtitles")
