@@ -91,6 +91,7 @@ CAppSettings::CAppSettings()
     , nBalance(0)
     , nLoops(1)
     , fLoopForever(false)
+    , eLoopMode(LoopMode::PLAYLIST)
     , fRememberZoomLevel(true)
     , nAutoFitFactor(75)
     , iZoomLevel(1)
@@ -455,6 +456,9 @@ void CAppSettings::CreateCommands()
     wmcmds.AddTail({ID_PLAY_SEEKKEYFORWARD,        VK_RIGHT, FVIRTKEY | FSHIFT | FNOINVERT,           IDS_MPLAYERC_29});
     wmcmds.AddTail({ID_PLAY_SEEKKEYBACKWARD,        VK_LEFT, FVIRTKEY | FSHIFT | FNOINVERT,           IDS_MPLAYERC_30});
     wmcmds.AddTail({ID_PLAY_SEEKSET,                VK_HOME, FVIRTKEY | FNOINVERT,                    IDS_AG_SEEKSET});
+    wmcmds.AddTail({ID_PLAY_REPEAT_FOREVER,               0, FVIRTKEY | FNOINVERT,                    IDS_PLAYLOOP_FOREVER});
+    wmcmds.AddTail({ID_PLAY_REPEAT_ONEFILE,               0, FVIRTKEY | FNOINVERT,                    IDS_PLAYLOOPMODE_FILE});
+    wmcmds.AddTail({ID_PLAY_REPEAT_WHOLEPLAYLIST,         0, FVIRTKEY | FNOINVERT,                    IDS_PLAYLOOPMODE_PLAYLIST});
     wmcmds.AddTail({ID_NAVIGATE_SKIPFORWARD,        VK_NEXT, FVIRTKEY | FNOINVERT,                    IDS_AG_NEXT,        APPCOMMAND_MEDIA_NEXTTRACK, wmcmd::X2DOWN, wmcmd::X2DOWN});
     wmcmds.AddTail({ID_NAVIGATE_SKIPBACK,          VK_PRIOR, FVIRTKEY | FNOINVERT,                    IDS_AG_PREVIOUS,    APPCOMMAND_MEDIA_PREVIOUSTRACK, wmcmd::X1DOWN, wmcmd::X1DOWN});
     wmcmds.AddTail({ID_NAVIGATE_SKIPFORWARDFILE,    VK_NEXT, FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_NEXT_FILE});
@@ -741,6 +745,7 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_MUTE, fMute);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LOOPNUM, nLoops);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LOOP, fLoopForever);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LOOPMODE, static_cast<int>(eLoopMode));
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ZOOM, iZoomLevel);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_MULTIINST, fAllowMultipleInst);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_TITLEBARTEXTSTYLE, iTitleBarTextStyle);
@@ -1312,6 +1317,7 @@ void CAppSettings::LoadSettings()
     fMute = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MUTE, FALSE);
     nLoops = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LOOPNUM, 1);
     fLoopForever = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LOOP, FALSE);
+    eLoopMode = static_cast<LoopMode>(pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LOOPMODE, static_cast<int>(LoopMode::PLAYLIST)));
     iZoomLevel = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ZOOM, 1);
     iDSVideoRendererType = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DSVIDEORENDERERTYPE,
                                                (SysVersion::IsVistaOrLater() && IsVideoRendererAvailable(VIDRNDT_DS_EVR_CUSTOM)) ? VIDRNDT_DS_EVR_CUSTOM : VIDRNDT_DS_VMR9RENDERLESS);

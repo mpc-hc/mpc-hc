@@ -422,6 +422,10 @@ msgid "time(s)"
 msgstr "thời gian(s)"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Repeat mode:"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
 msgstr "Sau khi phát lại"
 

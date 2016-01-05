@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-08 18:34:52+0000\n"
+"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -527,6 +527,22 @@ msgstr ""
 
 msgctxt "ID_PLAY_FRAMESTEP"
 msgid "F&rame Step"
+msgstr ""
+
+msgctxt "POPUP"
+msgid "Repeat"
+msgstr ""
+
+msgctxt "ID_PLAY_REPEAT_FOREVER"
+msgid "F&orever"
+msgstr ""
+
+msgctxt "ID_PLAY_REPEAT_ONEFILE"
+msgid "&File"
+msgstr ""
+
+msgctxt "ID_PLAY_REPEAT_WHOLEPLAYLIST"
+msgid "&Playlist"
 msgstr ""
 
 msgctxt "ID_PLAY_DECRATE"

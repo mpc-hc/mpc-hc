@@ -534,6 +534,22 @@ msgctxt "ID_PLAY_FRAMESTEP"
 msgid "F&rame Step"
 msgstr "K&orak okvira"
 
+msgctxt "POPUP"
+msgid "Repeat"
+msgstr ""
+
+msgctxt "ID_PLAY_REPEAT_FOREVER"
+msgid "F&orever"
+msgstr ""
+
+msgctxt "ID_PLAY_REPEAT_ONEFILE"
+msgid "&File"
+msgstr ""
+
+msgctxt "ID_PLAY_REPEAT_WHOLEPLAYLIST"
+msgid "&Playlist"
+msgstr ""
+
 msgctxt "ID_PLAY_DECRATE"
 msgid "&Decrease Rate"
 msgstr "&Smanji stopu"

@@ -475,6 +475,12 @@ public:
     int             nBalance;
     int             nLoops;
     bool            fLoopForever;
+
+    enum class LoopMode {
+        FILE,
+        PLAYLIST
+    } eLoopMode;
+
     bool            fRememberZoomLevel;
     int             nAutoFitFactor;
     int             iZoomLevel;

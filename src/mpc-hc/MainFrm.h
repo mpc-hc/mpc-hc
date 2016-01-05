@@ -969,6 +969,10 @@ public:
     afx_msg void OnPlayColor(UINT nID);
     afx_msg void OnAfterplayback(UINT nID);
     afx_msg void OnUpdateAfterplayback(CCmdUI* pCmdUI);
+    afx_msg void OnPlayRepeat(UINT nID);
+    afx_msg void OnUpdatePlayRepeat(CCmdUI* pCmdUI);
+    afx_msg void OnPlayRepeatForever();
+    afx_msg void OnUpdatePlayRepeatForever(CCmdUI* pCmdUI);
 
     afx_msg void OnNavigateSkip(UINT nID);
     afx_msg void OnUpdateNavigateSkip(CCmdUI* pCmdUI);

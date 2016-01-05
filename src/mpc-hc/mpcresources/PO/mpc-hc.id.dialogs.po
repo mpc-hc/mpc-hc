@@ -427,6 +427,10 @@ msgid "time(s)"
 msgstr "waktu"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Repeat mode:"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
 msgstr "Setelah Pemutaran"
 

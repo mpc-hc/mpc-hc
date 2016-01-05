@@ -426,6 +426,10 @@ msgid "time(s)"
 msgstr "Mal ab"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Repeat mode:"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
 msgstr "Nach Wiedergabe"
 

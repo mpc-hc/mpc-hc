@@ -472,6 +472,10 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_COMMAND_RANGE(ID_AFTERPLAYBACK_EXIT, ID_AFTERPLAYBACK_MONITOROFF, OnAfterplayback)
     ON_UPDATE_COMMAND_UI_RANGE(ID_AFTERPLAYBACK_PLAYNEXT, ID_AFTERPLAYBACK_DONOTHING, OnUpdateAfterplayback)
     ON_COMMAND_RANGE(ID_AFTERPLAYBACK_PLAYNEXT, ID_AFTERPLAYBACK_DONOTHING, OnAfterplayback)
+    ON_COMMAND_RANGE(ID_PLAY_REPEAT_ONEFILE, ID_PLAY_REPEAT_WHOLEPLAYLIST, OnPlayRepeat)
+    ON_UPDATE_COMMAND_UI_RANGE(ID_PLAY_REPEAT_ONEFILE, ID_PLAY_REPEAT_WHOLEPLAYLIST, OnUpdatePlayRepeat)
+    ON_COMMAND(ID_PLAY_REPEAT_FOREVER, OnPlayRepeatForever)
+    ON_UPDATE_COMMAND_UI(ID_PLAY_REPEAT_FOREVER, OnUpdatePlayRepeatForever)
 
     ON_COMMAND_RANGE(ID_NAVIGATE_SKIPBACK, ID_NAVIGATE_SKIPFORWARD, OnNavigateSkip)
     ON_UPDATE_COMMAND_UI_RANGE(ID_NAVIGATE_SKIPBACK, ID_NAVIGATE_SKIPFORWARD, OnUpdateNavigateSkip)
@@ -2317,7 +2321,7 @@ void CMainFrame::GraphEventComplete()
     }
 
     bool bBreak = false;
-    if (m_wndPlaylistBar.IsAtEnd()) {
+    if (m_wndPlaylistBar.IsAtEnd() || s.eLoopMode == CAppSettings::LoopMode::FILE) {
         ++m_nLoops;
         bBreak = !!(s.nCLSwitches & CLSW_AFTERPLAYBACK_MASK);
     }
@@ -2332,7 +2336,7 @@ void CMainFrame::GraphEventComplete()
     if (s.fLoopForever || m_nLoops < s.nLoops) {
         if (bBreak) {
             DoAfterPlaybackEvent();
-        } else if (m_wndPlaylistBar.GetCount() > 1) {
+        } else if ((m_wndPlaylistBar.GetCount() > 1) && (s.eLoopMode == CAppSettings::LoopMode::PLAYLIST)) {
             int nLoops = m_nLoops;
             SendMessage(WM_COMMAND, ID_NAVIGATE_SKIPFORWARDFILE);
             m_nLoops = nLoops;
@@ -8137,6 +8141,64 @@ void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
         mii.fState = (bRadio ? MFS_DISABLED : 0) | (bChecked || bRadio ? MFS_CHECKED : 0);
         VERIFY(pCmdUI->m_pMenu->SetMenuItemInfo(pCmdUI->m_nID, &mii));
     }
+}
+
+void CMainFrame::OnPlayRepeat(UINT nID)
+{
+    CAppSettings& s = AfxGetAppSettings();
+    WORD osdMsg = 0;
+
+    switch (nID) {
+        case ID_PLAY_REPEAT_ONEFILE:
+            s.eLoopMode = CAppSettings::LoopMode::FILE;
+            osdMsg = IDS_PLAYLOOPMODE_FILE;
+            break;
+        case ID_PLAY_REPEAT_WHOLEPLAYLIST:
+            s.eLoopMode = CAppSettings::LoopMode::PLAYLIST;
+            osdMsg = IDS_PLAYLOOPMODE_PLAYLIST;
+            break;
+        default:
+            ASSERT(FALSE);
+            return;
+    }
+
+    m_nLoops = 0;
+    m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(osdMsg));
+}
+
+void CMainFrame::OnUpdatePlayRepeat(CCmdUI* pCmdUI)
+{
+    CAppSettings::LoopMode loopmode;
+
+    switch (pCmdUI->m_nID) {
+        case ID_PLAY_REPEAT_ONEFILE:
+            loopmode = CAppSettings::LoopMode::FILE;
+            break;
+        case ID_PLAY_REPEAT_WHOLEPLAYLIST:
+            loopmode = CAppSettings::LoopMode::PLAYLIST;
+            break;
+        default:
+            ASSERT(FALSE);
+            return;
+    }
+    if (AfxGetAppSettings().eLoopMode == loopmode && pCmdUI->m_pMenu) {
+        pCmdUI->m_pMenu->CheckMenuRadioItem(ID_PLAY_REPEAT_ONEFILE, ID_PLAY_REPEAT_WHOLEPLAYLIST, pCmdUI->m_nID, MF_BYCOMMAND);
+    }
+}
+
+void CMainFrame::OnPlayRepeatForever()
+{
+    CAppSettings& s = AfxGetAppSettings();
+
+    s.fLoopForever = !s.fLoopForever;
+
+    m_nLoops = 0;
+    m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(s.fLoopForever ? IDS_PLAYLOOP_FOREVER_ON : IDS_PLAYLOOP_FOREVER_OFF));
+}
+
+void CMainFrame::OnUpdatePlayRepeatForever(CCmdUI* pCmdUI)
+{
+    pCmdUI->SetCheck(AfxGetAppSettings().fLoopForever);
 }
 
 bool CMainFrame::SeekToFileChapter(int iChapter, bool bRelative /*= false*/)

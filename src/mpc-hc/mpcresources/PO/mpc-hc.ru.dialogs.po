@@ -430,6 +430,10 @@ msgid "time(s)"
 msgstr "раз(а)"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Repeat mode:"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
 msgstr "По окончании воспроизведения"
 

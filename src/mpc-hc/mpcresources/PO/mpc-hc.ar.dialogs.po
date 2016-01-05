@@ -428,6 +428,10 @@ msgid "time(s)"
 msgstr "مرة (مرات)"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Repeat mode:"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
 msgstr "بعد التشغيل"
 
