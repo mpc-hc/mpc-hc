@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2015 see Authors.txt
+ * (C) 2009-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -2309,7 +2309,7 @@ void CMainFrame::GraphEventComplete()
     }
 
     bool bBreak = false;
-    if (m_wndPlaylistBar.IsAtEnd()) {
+    if (m_wndPlaylistBar.IsAtEnd() || s.eLoopMode == CAppSettings::LoopMode::FILE) {
         ++m_nLoops;
         bBreak = !!(s.nCLSwitches & CLSW_AFTERPLAYBACK_MASK);
     }
@@ -8170,6 +8170,7 @@ void CMainFrame::OnPlayRepeat(UINT nID)
             return;
     }
 
+    m_nLoops = 0;
     m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(osdMsg));
 }
 
@@ -8199,6 +8200,7 @@ void CMainFrame::OnPlayRepeatForever()
 
     s.fLoopForever = !s.fLoopForever;
 
+    m_nLoops=0;
     m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(s.fLoopForever ? IDS_PLAYLOOP_FOREVER_ON : IDS_PLAYLOOP_FOREVER_OFF));
 
 }
