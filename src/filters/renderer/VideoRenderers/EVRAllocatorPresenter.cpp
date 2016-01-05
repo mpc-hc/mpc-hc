@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -1197,27 +1197,33 @@ STDMETHODIMP CEVRAllocatorPresenter::GetCurrentMediaType(__deref_out  IMFVideoMe
 // IMFTopologyServiceLookupClient
 STDMETHODIMP CEVRAllocatorPresenter::InitServicePointers(/* [in] */ __in  IMFTopologyServiceLookup* pLookup)
 {
+    HRESULT hr = S_OK;
     DWORD dwObjects = 1;
 
-    TRACE_EVR("EVR: CEVRAllocatorPresenter::InitServicePointers\n");
-    pLookup->LookupService(MF_SERVICE_LOOKUP_GLOBAL, 0, MR_VIDEO_MIXER_SERVICE,
-                           IID_PPV_ARGS(&m_pMixer), &dwObjects);
+    CAutoLock cThreadsLock(&m_ThreadsLock);
 
-    pLookup->LookupService(MF_SERVICE_LOOKUP_GLOBAL, 0, MR_VIDEO_RENDER_SERVICE,
-                           IID_PPV_ARGS(&m_pSink), &dwObjects);
+    TRACE_EVR("EVR: CEVRAllocatorPresenter::InitServicePointers\n");
+    CHECK_HR(pLookup->LookupService(MF_SERVICE_LOOKUP_GLOBAL, 0, MR_VIDEO_MIXER_SERVICE,
+                                    IID_PPV_ARGS(&m_pMixer), &dwObjects));
+
+    CHECK_HR(pLookup->LookupService(MF_SERVICE_LOOKUP_GLOBAL, 0, MR_VIDEO_RENDER_SERVICE,
+                                    IID_PPV_ARGS(&m_pSink), &dwObjects));
 
     pLookup->LookupService(MF_SERVICE_LOOKUP_GLOBAL, 0, MR_VIDEO_RENDER_SERVICE,
                            IID_PPV_ARGS(&m_pClock), &dwObjects);
 
 
     StartWorkerThreads();
-    return S_OK;
+    return hr;
 }
 
 STDMETHODIMP CEVRAllocatorPresenter::ReleaseServicePointers()
 {
     TRACE_EVR("EVR: CEVRAllocatorPresenter::ReleaseServicePointers\n");
+    CAutoLock cThreadsLock(&m_ThreadsLock);
+
     StopWorkerThreads();
+
     m_pMixer = nullptr;
     m_pSink  = nullptr;
     m_pClock = nullptr;
@@ -1904,6 +1910,8 @@ void CEVRAllocatorPresenter::OnVBlankFinished(bool bAll, LONGLONG PerformanceCou
 
 STDMETHODIMP_(bool) CEVRAllocatorPresenter::ResetDevice()
 {
+    CAutoLock cThreadsLock(&m_ThreadsLock);
+
     StopWorkerThreads();
 
     CAutoLock lock(this);
