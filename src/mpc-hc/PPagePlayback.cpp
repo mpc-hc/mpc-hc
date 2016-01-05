@@ -38,6 +38,7 @@ CPPagePlayback::CPPagePlayback()
     , m_nVolumeStep(0)
     , m_nSpeedStep(0)
     , m_iLoopForever(0)
+    , m_iLoopMode(0)
     , m_nLoops(0)
     , m_iAfterPlayback(0)
     , m_iZoomLevel(0)
@@ -80,6 +81,8 @@ void CPPagePlayback::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_VOLUMESTEP_SPIN, m_VolumeStepCtrl);
     DDX_Control(pDX, IDC_SPEEDSTEP_SPIN, m_SpeedStepCtrl);
     DDX_Control(pDX, IDC_SPIN1, m_AutoFitFactorCtrl);
+    DDX_Control(pDX, IDC_COMBO_LOOPMODE, m_LoopMode);
+    DDX_CBIndex(pDX, IDC_COMBO_LOOPMODE, m_iLoopMode);
 }
 
 BEGIN_MESSAGE_MAP(CPPagePlayback, CPPageBase)
@@ -117,6 +120,7 @@ BOOL CPPagePlayback::OnInitDialog()
     m_SpeedStepCtrl.SetPos32(m_nSpeedStep);
     m_SpeedStepCtrl.SetRange32(0, 100);
     m_iLoopForever = s.fLoopForever ? 1 : 0;
+    m_iLoopMode = static_cast<int>(s.eLoopMode);
     m_nLoops = s.nLoops;
     m_iAfterPlayback = static_cast<int>(s.eAfterPlayback);
     m_iZoomLevel = s.iZoomLevel;
@@ -146,6 +150,10 @@ BOOL CPPagePlayback::OnInitDialog()
     m_afterPlayback.AddString(ResStr(IDS_AFTER_PLAYBACK_EXIT));
     CorrectComboListWidth(m_afterPlayback);
 
+    m_LoopMode.AddString(ResStr(IDS_PLAY_LOOPMODE_FILE));
+    m_LoopMode.AddString(ResStr(IDS_PLAY_LOOPMODE_PLAYLIST));
+    CorrectComboListWidth(m_LoopMode);
+
     // set the spinner acceleration value
     UDACCEL accel = { 0, 10 };
     m_SpeedStepCtrl.SetAccel(1, &accel);
@@ -174,6 +182,7 @@ BOOL CPPagePlayback::OnApply()
     s.nVolumeStep = std::min(std::max(m_nVolumeStep, 1), 100);
     s.nSpeedStep = m_nSpeedStep;
     s.fLoopForever = !!m_iLoopForever;
+    s.eLoopMode = static_cast<CAppSettings::LoopMode>(m_iLoopMode);
     s.nLoops = m_nLoops;
     s.eAfterPlayback = static_cast<CAppSettings::AfterPlayback>(m_iAfterPlayback);
     s.iZoomLevel = m_iZoomLevel;

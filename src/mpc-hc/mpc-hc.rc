@@ -284,50 +284,52 @@ IDD_PPAGEPLAYBACK DIALOGEX 0, 0, 296, 241
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    GROUPBOX        "Audio",IDC_STATIC,5,5,286,47
-    CTEXT           "Volume",IDC_STATIC,45,15,55,8
-    RTEXT           "Min",IDC_STATIC,10,31,20,8
     CONTROL         "",IDC_SLIDER1,"msctls_trackbar32",TBS_AUTOTICKS | TBS_BOTH | TBS_TOOLTIPS | WS_TABSTOP | 0x400,30,23,85,24
-    LTEXT           "Max",IDC_STATIC,116,31,23,8
-    CTEXT           "Balance",IDC_STATIC_BALANCE,190,15,55,8,SS_NOTIFY
-    RTEXT           "L",IDC_STATIC,145,31,30,8
     CONTROL         "",IDC_SLIDER2,"msctls_trackbar32",TBS_AUTOTICKS | TBS_BOTH | TBS_TOOLTIPS | WS_TABSTOP | 0x400,175,23,85,24
-    LTEXT           "R",IDC_STATIC,261,31,27,8
-    GROUPBOX        "Playback",IDC_STATIC,5,104,126,36
-    CONTROL         "Play",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,10,117,55,8
-    CONTROL         "Repeat forever",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,10,129,116,8
-    EDITTEXT        IDC_EDIT1,65,115,20,13,ES_AUTOHSCROLL | ES_NUMBER
-    LTEXT           "time(s)",IDC_STATIC1,90,117,40,8
-    GROUPBOX        "After Playback",IDC_STATIC,5,143,126,27
-    COMBOBOX        IDC_COMBO2,10,153,116,47,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "Output",IDC_STATIC,137,55,154,46
+    EDITTEXT        IDC_VOLUMESTEP,81,64,35,14,ES_CENTER | ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_VOLUMESTEP_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,106,63,11,14
+    EDITTEXT        IDC_SPEEDSTEP,81,81,35,14,ES_CENTER | ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPEEDSTEP_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,106,81,11,14
     CONTROL         "Auto-zoom:",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,142,67,75,8
     COMBOBOX        IDC_COMBO1,219,65,65,47,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Auto fit factor:",IDC_STATIC2,142,84,94,8
     EDITTEXT        IDC_EDIT4,238,81,35,14,ES_CENTER | ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,273,81,11,14
-    LTEXT           "%",IDC_STATIC3,277,84,8,8
-    GROUPBOX        "Default track preference",IDC_STATIC,137,104,154,66
-    LTEXT           "Subtitles:",IDC_STATIC,142,117,44,8
+    CONTROL         "Play",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,10,117,55,8
+    CONTROL         "Repeat forever",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,10,129,116,8
+    EDITTEXT        IDC_EDIT1,65,115,20,13,ES_AUTOHSCROLL | ES_NUMBER
+    COMBOBOX        IDC_COMBO_LOOPMODE,65,141,60,47,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     EDITTEXT        IDC_EDIT2,190,115,94,13,ES_AUTOHSCROLL
-    LTEXT           "Audio:",IDC_STATIC,142,134,44,8
     EDITTEXT        IDC_EDIT3,190,132,94,13,ES_AUTOHSCROLL
     CONTROL         "Allow overriding external splitter choice",IDC_CHECK4,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,142,150,142,18
-    GROUPBOX        "Open settings",IDC_STATIC,5,173,286,63
+    COMBOBOX        IDC_COMBO2,10,170,116,47,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Use worker thread to construct the filter graph",IDC_CHECK7,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,185,276,8
-    CONTROL         "Report pins which fail to render",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,197,276,8
-    CONTROL         "Auto-load audio files",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,209,276,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,197,276,8
+    CONTROL         "Report pins which fail to render",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,209,276,8
+    CONTROL         "Auto-load audio files",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,221,276,8
+    LTEXT           "Auto fit factor:",IDC_STATIC2,142,84,94,8
+    GROUPBOX        "Audio",IDC_STATIC,5,5,286,47
+    CTEXT           "Volume",IDC_STATIC,45,15,55,8
+    RTEXT           "Min",IDC_STATIC,10,31,20,8
+    LTEXT           "Max",IDC_STATIC,116,31,23,8
+    CTEXT           "Balance",IDC_STATIC_BALANCE,190,15,55,8,SS_NOTIFY
+    RTEXT           "L",IDC_STATIC,145,31,30,8
+    LTEXT           "R",IDC_STATIC,261,31,27,8
+    GROUPBOX        "Playback",IDC_STATIC,5,104,126,54
+    LTEXT           "time(s)",IDC_STATIC1,90,117,40,8
+    GROUPBOX        "After Playback",IDC_STATIC,5,160,126,27
+    GROUPBOX        "Output",IDC_STATIC,137,55,154,46
+    LTEXT           "%",IDC_STATIC3,277,84,8,8
+    GROUPBOX        "Default track preference",IDC_STATIC,137,104,154,83
+    LTEXT           "Subtitles:",IDC_STATIC,142,117,44,8
+    LTEXT           "Audio:",IDC_STATIC,142,134,44,8
+    GROUPBOX        "Open settings",IDC_STATIC,5,187,286,46
     GROUPBOX        "Control",IDC_STATIC,5,55,126,46
     LTEXT           "Volume step:",IDC_STATIC,11,67,68,8
-    EDITTEXT        IDC_VOLUMESTEP,81,64,35,14,ES_CENTER | ES_AUTOHSCROLL | ES_NUMBER
-    CONTROL         "",IDC_VOLUMESTEP_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,106,63,11,14
     LTEXT           "%",IDC_STATIC,119,66,8,8
     LTEXT           "Speed step:",IDC_STATIC,11,84,68,8
-    EDITTEXT        IDC_SPEEDSTEP,81,81,35,14,ES_CENTER | ES_AUTOHSCROLL | ES_NUMBER
-    CONTROL         "",IDC_SPEEDSTEP_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,106,81,11,14
     LTEXT           "%",IDC_STATIC,119,84,8,8
+    LTEXT           "Repeat mode:",IDC_STATIC,10,143,48,8
 END
 
 IDD_PPAGESUBTITLES DIALOGEX 0, 0, 296, 241
@@ -1357,6 +1359,7 @@ END
 
 IDB_PLAYERTOOLBAR       BITMAP                  "res\\toolbar.bmp"
 
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Toolbar
@@ -1571,6 +1574,13 @@ BEGIN
         MENUITEM "&Play/Pause",                 ID_PLAY_PLAYPAUSE
         MENUITEM "&Stop",                       ID_PLAY_STOP
         MENUITEM "F&rame Step",                 ID_PLAY_FRAMESTEP
+        POPUP "Repeat"
+        BEGIN
+            MENUITEM "F&orever",                    ID_PLAY_REPEAT_FOREVER
+            MENUITEM SEPARATOR
+            MENUITEM "&File",                       ID_PLAY_REPEAT_ONEFILE
+            MENUITEM "&Playlist",                   ID_PLAY_REPEAT_WHOLEPLAYLIST
+        END
         MENUITEM SEPARATOR
         MENUITEM "&Decrease Rate",              ID_PLAY_DECRATE
         MENUITEM "&Increase Rate",              ID_PLAY_INCRATE
@@ -1664,6 +1674,13 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "&Play/Pause",                 ID_PLAY_PLAYPAUSE
         MENUITEM "&Stop",                       ID_PLAY_STOP
+        POPUP "Repeat"
+        BEGIN
+            MENUITEM "F&orever",                    ID_PLAY_REPEAT_FOREVER
+            MENUITEM SEPARATOR
+            MENUITEM "&File",                       ID_PLAY_REPEAT_ONEFILE
+            MENUITEM "&Playlist",                   ID_PLAY_REPEAT_WHOLEPLAYLIST
+        END
         MENUITEM SEPARATOR
         MENUITEM "F&ull Screen",                ID_VIEW_FULLSCREEN
         POPUP "&Zoom"
@@ -2044,10 +2061,18 @@ BEGIN
             MENUITEM "&Play/Pause",                 ID_PLAY_PLAYPAUSE
             MENUITEM "&Stop",                       ID_PLAY_STOP
             MENUITEM "F&rame Step",                 ID_PLAY_FRAMESTEP
+            POPUP "Repeat"
+            BEGIN
+                MENUITEM "F&orever",                    ID_PLAY_REPEAT_FOREVER
+                MENUITEM SEPARATOR
+                MENUITEM "&File",                       ID_PLAY_REPEAT_ONEFILE
+                MENUITEM "&Playlist",                   ID_PLAY_REPEAT_WHOLEPLAYLIST
+            END
             MENUITEM SEPARATOR
             MENUITEM "&Decrease Rate",              ID_PLAY_DECRATE
             MENUITEM "&Increase Rate",              ID_PLAY_INCRATE
             MENUITEM "R&eset Rate",                 ID_PLAY_RESETRATE
+            MENUITEM SEPARATOR
         END
         POPUP "&Navigate"
         BEGIN
@@ -2178,6 +2203,17 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_PPAGEPLAYBACK AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
 // String Table
 //
 
@@ -2194,7 +2230,9 @@ BEGIN
     IDS_AUTOPLAY_PLAYAUDIOCD "Play Audio CD"
     IDS_AUTOPLAY_PLAYDVDMOVIE "Play DVD Movie"
     IDS_PROPSHEET_PROPERTIES "Properties"
+    IDS_PLAY_LOOPMODE_FILE  "File"
     IDS_SUBTITLES_DEFAULT_STYLE "&Default Style"
+    IDS_PLAY_LOOPMODE_PLAYLIST "Playlist"
     IDS_FAVFILES            "Files"
     IDS_FAVDVDS             "DVDs"
 END
@@ -2213,6 +2251,11 @@ BEGIN
     IDS_SUBTITLES_STYLES_CAPTION "Styles"
     IDS_TEXT_SUB_RENDERING_TARGET 
                             "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
+    IDS_PLAYLOOPMODE_PLAYLIST "Repeat Mode: Playlist"
+    IDS_PLAYLOOPMODE_FILE   "Repeat Mode: File"
+    IDS_PLAYLOOP_FOREVER_ON "Repeat Forever: On"
+    IDS_PLAYLOOP_FOREVER_OFF "Repeat Forever: Off"
+    IDS_PLAYLOOP_FOREVER    "Repeat Forever"
 END
 
 STRINGTABLE

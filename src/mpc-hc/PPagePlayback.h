@@ -22,6 +22,7 @@
 #pragma once
 
 #include "PPageBase.h"
+#include "afxwin.h"
 
 
 // CPPagePlayback dialog
@@ -46,6 +47,8 @@ public:
     int m_nSpeedStep;
     CSpinButtonCtrl m_SpeedStepCtrl;
     int m_iLoopForever;
+    int m_iLoopMode;
+    CComboBox m_LoopMode;
     CEdit m_loopnumctrl;
     int m_nLoops;
     int m_iAfterPlayback;
