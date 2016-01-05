@@ -13570,9 +13570,9 @@ void CMainFrame::SetSubtitle(const SubtitleInput& subInput)
                     bool bKeepAspectRatio = s.fKeepAspectRatio;
                     CSize szAspectRatio = m_pCAP->GetVideoSize(true);
                     CSize szVideoFrame;
-                    if (CComQIPtr<IMadVRInfo> pMVRI = m_pCAP) {
+                    if (m_pMVRI) {
                         // Use IMadVRInfo to get size. See http://bugs.madshi.net/view.php?id=180
-                        pMVRI->GetSize("originalVideoSize", &szVideoFrame);
+                        m_pMVRI->GetSize("originalVideoSize", &szVideoFrame);
                         bKeepAspectRatio = true;
                     } else {
                         szVideoFrame = m_pCAP->GetVideoSize(false);
@@ -13593,12 +13593,11 @@ void CMainFrame::SetSubtitle(const SubtitleInput& subInput)
             }
 
             CComQIPtr<ISubRenderOptions> pSRO = m_pCAP;
-            CComQIPtr<IMadVRInfo> pMVRI = m_pCAP;
 
             LPWSTR yuvMatrix = nullptr;
             int nLen;
-            if (pMVRI) {
-                pMVRI->GetString("yuvMatrix", &yuvMatrix, &nLen);
+            if (m_pMVRI) {
+                m_pMVRI->GetString("yuvMatrix", &yuvMatrix, &nLen);
             } else if (pSRO) {
                 pSRO->GetString("yuvMatrix", &yuvMatrix, &nLen);
             }
@@ -16593,9 +16592,9 @@ void CMainFrame::UpdateSubAspectRatioCompensation()
             bool bKeepAspectRatio = s.fKeepAspectRatio;
             CSize szAspectRatio = m_pCAP->GetVideoSize(true);
             CSize szVideoFrame;
-            if (CComQIPtr<IMadVRInfo> pMVRI = m_pCAP) {
+            if (m_pMVRI) {
                 // Use IMadVRInfo to get size. See http://bugs.madshi.net/view.php?id=180
-                pMVRI->GetSize("originalVideoSize", &szVideoFrame);
+                m_pMVRI->GetSize("originalVideoSize", &szVideoFrame);
                 bKeepAspectRatio = true;
             } else {
                 szVideoFrame = m_pCAP->GetVideoSize(false);
