@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -170,6 +170,8 @@ STDMETHODIMP_(SIZE) CmadVRAllocatorPresenter::GetVideoSize(bool bCorrectAR) cons
 
     if (!bCorrectAR) {
         if (CComQIPtr<IBasicVideo> pBV = m_pMVR) {
+            // Final size of the video, after all scaling and cropping operations
+            // This is also aspect ratio adjusted
             pBV->GetVideoSize(&size.cx, &size.cy);
         }
     } else {

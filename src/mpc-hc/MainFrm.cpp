@@ -9251,7 +9251,12 @@ CSize CMainFrame::GetVideoSize() const
             }
         }
     } else {
-        if (m_pMVRC && SUCCEEDED(m_pMVRC->SendCommandDouble("setArOverride", 0.0))) {
+        CSize originalVideoSize(0, 1);
+        if (m_pMVRI) {
+            m_pMVRI->GetSize("originalVideoSize", &originalVideoSize);
+        }
+        if (m_pMVRC && SUCCEEDED(m_pMVRC->SendCommandDouble("setArOverride",
+                                                            double(originalVideoSize.cx) / originalVideoSize.cy))) {
             ret = m_pCAP->GetVideoSize(false);
         } else {
             ret = videoSize;
