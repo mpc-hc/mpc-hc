@@ -14,7 +14,7 @@ next version - not released yet
 * Updated Little CMS to v2.7 (git 40c6403)
 * Updated MediaInfoLib to v0.7.80-1-g3fc28610
 * Updated ZenLib to v0.4.32
-* Updated LAV Filters to v0.67.0.30:
+* Updated LAV Filters to v0.67.0.44:
     - LAV Splitter: Support HTTPS protocol
     - LAV Splitter: Switch back to an improved version of old asf demuxer
     - LAV Video Decoder: Add experimental support for VP9 DXVA2 decoding (disabled by default)
