@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-05-30 00:33:30+0000\n"
-"PO-Revision-Date: 2015-12-18 22:34+0000\n"
+"PO-Revision-Date: 2015-12-30 20:57+0000\n"
 "Last-Translator: Yauhen Bugamol <haxycgm@gmail.com>\n"
 "Language-Team: Belarusian (http://www.transifex.com/mpc-hc/mpc-hc/language/be/)\n"
 "MIME-Version: 1.0\n"
@@ -46,7 +46,7 @@ msgstr "Адкрыць &дыск"
 
 msgctxt "ID_RECENT_FILES"
 msgid "Recent &Files"
-msgstr "Апошнія &файлы"
+msgstr "Нядаўнія &файлы"
 
 msgctxt "ID_FILE_CLOSE_AND_RESTORE"
 msgid "&Close"
@@ -118,7 +118,7 @@ msgstr "&Статыстыка"
 
 msgctxt "ID_VIEW_STATUS"
 msgid "St&atus"
-msgstr "С&татусны радок"
+msgstr "Радок с&тану "
 
 msgctxt "ID_VIEW_SUBRESYNC"
 msgid "Su&bresync"
@@ -154,7 +154,7 @@ msgstr "&Кампактная"
 
 msgctxt "ID_VIEW_PRESETS_NORMAL"
 msgid "&Normal"
-msgstr "&Нармалёвая"
+msgstr "&Нармальная"
 
 msgctxt "ID_VIEW_FULLSCREEN"
 msgid "F&ull Screen"
@@ -162,7 +162,7 @@ msgstr "Ва ўвесь &экран"
 
 msgctxt "POPUP"
 msgid "&Zoom"
-msgstr "Zoom"
+msgstr "Ма&штаб"
 
 msgctxt "ID_VIEW_ZOOM_50"
 msgid "&50%"
@@ -378,7 +378,7 @@ msgstr "&Палавінны памер"
 
 msgctxt "ID_VIEW_VF_NORMAL"
 msgid "&Normal Size"
-msgstr "&Нармалёвы памер"
+msgstr "&Нармальны памер"
 
 msgctxt "ID_VIEW_VF_DOUBLE"
 msgid "&Double Size"
@@ -682,7 +682,7 @@ msgstr "&Параметры каманднага радка"
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"
-msgstr "&Спампаваць выявы для панелі навігацыі"
+msgstr "&Спампаваць выявы для панелі інструментаў"
 
 msgctxt "ID_HELP_DONATE"
 msgid "&Donate"

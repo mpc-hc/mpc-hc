@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-05-30 00:33:30+0000\n"
-"PO-Revision-Date: 2015-12-19 03:27+0000\n"
+"PO-Revision-Date: 2015-12-29 06:14+0000\n"
 "Last-Translator: Daniel <danny34ever@yahoo.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/mpc-hc/mpc-hc/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -91,7 +91,7 @@ msgstr "Pr&oprietăți"
 
 msgctxt "ID_FILE_EXIT"
 msgid "E&xit"
-msgstr "I&eșire"
+msgstr "&Ieși"
 
 msgctxt "POPUP"
 msgid "&View"
@@ -299,7 +299,7 @@ msgstr "În&tunecat (2.4 Gamma)"
 
 msgctxt "POPUP"
 msgid "&Rendering Intent"
-msgstr "&Intenţie de randare"
+msgstr "&Intenție de randare"
 
 msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
 msgid "&Perceptual"
@@ -551,7 +551,7 @@ msgstr "&Filtre"
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"
-msgstr "S&hadere"
+msgstr "&Nuanțatoare"
 
 msgctxt "ID_AUDIOS"
 msgid "&Audio Track"
@@ -619,7 +619,7 @@ msgstr "Închide &sesiunea"
 
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
-msgstr "&Blochează desktopul"
+msgstr "&Blochează spațiul de lucru"
 
 msgctxt "POPUP"
 msgid "&Navigate"
@@ -647,7 +647,7 @@ msgstr "Meniu &rădăcină"
 
 msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
 msgid "&Subtitle Menu"
-msgstr "Meniu &subtitrări"
+msgstr "Meniu &subtitluri"
 
 msgctxt "ID_NAVIGATE_AUDIOMENU"
 msgid "&Audio Menu"
@@ -679,7 +679,7 @@ msgstr "Caută act&ualizări"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"
-msgstr "&Comutatoare în linie de comandă"
+msgstr "&Comutatoare linie de comandă"
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"

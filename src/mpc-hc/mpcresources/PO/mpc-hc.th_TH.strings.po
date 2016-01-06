@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-10-25 00:51:15+0000\n"
-"PO-Revision-Date: 2015-11-08 09:31+0000\n"
-"Last-Translator: JellyFrog\n"
+"PO-Revision-Date: 2015-12-26 08:12+0000\n"
+"Last-Translator: M. Somsak\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/mpc-hc/mpc-hc/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -600,7 +600,7 @@ msgstr "แปลผลใน overlay เสมอ โดยทั่วไป�
 
 msgctxt "IDC_DSVMR9WIN"
 msgid "Only available if you have DirectX 9 installed. Very stable but it will never use Overlay rendering and because of this it may be a little slower than Overlay mixer."
-msgstr ""
+msgstr "จะมีพร้อมใช้ถ้าคุณได้การติดตั้ง DirectX 9 ไว้เท่านั้น เสถียรมากแต่จะไม่มีการใช้การแปลผล Overlay เพราะสิ่งนี้อาจช้ากว่า Overlay mixer"
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
@@ -2296,7 +2296,7 @@ msgstr "รูปย่ออาจจะเล็กมาก จึงเป�
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "เพื่อโหลดศัพท์บรรยาย คุณต้องเปลี่ยนชนิดตัวแปลผลวิดีโอและเปิดไฟล์อีกครั้ง\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR หรือ Haali\n- RealMedia: ตัวแปลผลพิเศษสำหรับr RealMedia, หรือเปิดมันผ่าน DirectShow\n- QuickTime: ตัวแปลผล DX7 หรือ DX9 สำหรับ QuickTime\n- ShockWave: ไม่มีข้อมูล"
+msgstr "เพื่อโหลดศัพท์บรรยายคุณจำเป็นต้องเปลี่ยนชนิดตัวแปลผลวิดีโอและเปิดไฟล์ใหม่อีกครั้ง\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR หรือ Haali\n- RealMedia: Special renderer สำหรับ RealMedia, หรือเปิดมันผ่าน DirectShow\n- QuickTime: DX7 หรือ DX9 renderer สำหรับ QuickTime\n- ShockWave: ไม่มีอยู่"
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"

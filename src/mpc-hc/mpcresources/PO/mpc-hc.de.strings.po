@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-10-25 00:51:15+0000\n"
-"PO-Revision-Date: 2015-11-16 18:49+0000\n"
+"PO-Revision-Date: 2016-01-01 10:24+0000\n"
 "Last-Translator: Luan <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/mpc-hc/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -593,31 +593,31 @@ msgstr "Daten"
 
 msgctxt "IDC_DSSYSDEF"
 msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason. On Windown XP this is the same as VMR-7 (windowed)."
-msgstr "Andere Video-Renderer fallen auf diesen Renderer zurück, wenn sie nicht geladen werden können. Unter Windows XP gleichbedeutend mit dem VMR-7 (windowed)."
+msgstr "Verwendet den Standard-Renderer für DirectShow-Video. Alle anderen Renderer fallen auf diesen Renderer zurück, wenn sie nicht geladen werden können. Entspricht unter Windows XP dem VMR 7 (windowed)."
 
 msgctxt "IDC_DSOLD"
 msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
-msgstr "Verwendet je nach Grafikkarte und Sichtbarkeit des Videofensters das GDI, DirectDraw oder den Overlay-Modus. Standard-Renderer von Windows 9x/ME/2000."
+msgstr "Verwendet je nach Eigenschaften der Grafikkarte und Sichtbarkeit des Videofensters das GDI, DirectDraw oder den Overlay-Modus. Entspricht dem Standard-Renderer von Windows 9x/ME/2000."
 
 msgctxt "IDC_DSOVERLAYMIXER"
 msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
-msgstr "Rendert im Overlay-Modus. Normalerweise sind nur YUV-Formate erlaubt, diese werden aber ohne Farbumwandlung direkt in RGB dargestellt. Ist die schnellste und zuverlässigste Methode, mit der ein Vollbild über TV-Ausgang gespiegelt ausgegeben werden kann."
+msgstr "Rendert im Overlay-Modus. Normalerweise sind nur YUV-Formate erlaubt. Diese werden aber ohne Farbumwandlung direkt in RGB dargestellt. Ist die schnellste und zuverlässigste Methode, um ein gespiegeltes Vollbild über TV-Ausgang auzugeben."
 
 msgctxt "IDC_DSVMR9WIN"
 msgid "Only available if you have DirectX 9 installed. Very stable but it will never use Overlay rendering and because of this it may be a little slower than Overlay mixer."
-msgstr "Sehr stabil, bietet aber keinen Overlay-Modus und kann somit etwas langsamer sein. Nur unter DirectX 9 verfügbar."
+msgstr "Arbeitet sehr stabil, bietet aber keinen Overlay-Modus und kann dadurch etwas langsamer sein. Ist nur unter DirectX 9 verfügbar."
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
-msgstr "Bietet im Unterschied zum VMR-9 (windowed) eine Unterstützung für Untertitel. Gespiegelte Darstellung eines Overlay-Videos KANN funktionieren! Desktop-Farbtiefe sollte auf Echtfarben eingestellt sein."
+msgstr "Bietet im Unterschied zum VMR-9 (windowed) eine Unterstützung für Untertitel. Die gespiegelte Darstellung eines Overlay-Videos KÖNNTE funktionieren. Desktop-Farbtiefe sollte auf Echtfarben eingestellt sein. Wird für Windows XP empfohlen."
 
 msgctxt "IDC_DSDXR"
 msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
-msgstr "Bietet im Unterschied zum VMR-9 einen echten bikubischen Zwei-Pass-Resizer."
+msgstr "Bietet im Unterschied zum VMR-9 (renderless) einen echten bikubischen Zwei-Pass-Resizer."
 
 msgctxt "IDC_DSNULL_COMP"
 msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the CPU from working unnecessarily."
-msgstr "Verbindet sich mit allen Videotypen, um den eingehenden Stream zu verwerfen. Soll die CPU entlasten, falls keine Videoausgabe benötigt wird."
+msgstr "Verbindet sich mit sämtlichen Videotypen, um die eingehenden Samples zu verwerfen. Kann die CPU entlasten, falls keine Videoausgabe benötigt wird."
 
 msgctxt "IDC_DSNULL_UNCOMP"
 msgid "Same as the normal Null renderer, but this will only connect to uncompressed types."
@@ -625,19 +625,19 @@ msgstr "Unterstützt im Unterschied zum Null Video Renderer (anything) nur unkom
 
 msgctxt "IDC_DSEVR"
 msgid "Only available on Vista or later or on XP with at least .NET Framework 3.5 installed."
-msgstr "Grundsätzlich unter Windows Vista/7/8 verfügbar. Setzt unter Windows XP die Installation eines .NET Framework 3.5 oder höher voraus."
+msgstr "Ist generell ab Windows Vista verfügbar. Setzt unter Windows XP die Installation des .NET Framework 3.5 oder höher voraus."
 
 msgctxt "IDC_DSEVR_CUSTOM"
 msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
-msgstr "Bietet im Unterschied zum EVR eine Unterstützung für Untertitel und Postprocessing. Empfohlene Einstellung für Windows Vista/7/8."
+msgstr "Bietet im Unterschied zum EVR eine Unterstützung für Untertitel und Postprocessing. Wird ab Windows Vista empfohlen."
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
-msgstr "Renderer für höchste Videoqualität. Benötigt eine Grafikkarte, die Direct3D 9 oder höher unterstützt."
+msgstr "Bietet diverse Optionen für eine bessere Bildqualität. Benötigt eine Grafikkarte, die Direct3D 9 sowie Pixel-Shader 3.0 unterstützt."
 
 msgctxt "IDC_DSSYNC"
 msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
-msgstr "Bietet im Unterschied zum EVR (CP) mehrere Optionen für die Synchronisierung der Videobildrate mit der Bildwiederholfrequenz des Anzeigegeräts, um übersprungene oder duplizierte Videobilder zu entfernen."
+msgstr "Bietet Optionen für die Synchronisierung der Bildrate mit der Bildwiederholfrequenz der Anzeige, um übergangene und duplizierte Videobilder zu vermeiden."
 
 msgctxt "IDC_RMSYSDEF"
 msgid "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
@@ -657,7 +657,7 @@ msgstr "Gibt QuickTime-Video über den VMR-9 (renderless) aus."
 
 msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
-msgstr "Die Video-Oberfläche ist eine gleichmäßige Offscreen-Oberfläche."
+msgstr "Stellt die Video-Oberfläche als gleichmäßige Offscreen-Oberfläche bereit."
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
@@ -769,11 +769,11 @@ msgstr "Kann Archiv-Volumen nicht finden"
 
 msgctxt "IDC_TEXTURESURF2D"
 msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
-msgstr "Die Video-Oberfläche ist eine Textur-Oberfläche. 2D-Funktionen werden aber noch genutzt, um das Bild in den Hintergrundpuffer zu kopieren und zu strecken. Benötigt eine Grafikkarte, die 32-Bit, RGBA und Nicht-Zweierpotenztexturen in Auflösung des Videos oder höher unterstützt."
+msgstr "Stellt die Video-Oberfläche als Textur bereit. Dennoch werden 2D-Funktionen genutzt, um das Bild in den Hintergrundpuffer zu kopieren und zu strecken. Benötigt eine Grafikkarte, die 32-Bit, RGBA und Nicht-Zweierpotenztexturen in Auflösung des Videos oder höher unterstützt."
 
 msgctxt "IDC_TEXTURESURF3D"
 msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
-msgstr "Die Video-Oberfläche ist eine Textur-Oberfläche und wird als zwei Dreiecke in 3D gezeichnet. Ein in den Anzeige-Einstellungen aktiviertes Antialiasing kann die Rendergeschwindigkeit herabsetzen."
+msgstr "Stellt die Video-Oberfläche als Textur bereit, die mittels paarweiser Dreiecke in 3D gezeichnet wird. Ein in den Anzeige-Einstellungen aktiviertes Antialiasing kann die Rendergeschwindigkeit herabsetzen."
 
 msgctxt "IDC_DX9RESIZER_COMBO"
 msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."

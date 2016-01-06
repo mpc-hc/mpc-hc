@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # sayanvd <sayanvd@yandex.ru>, 2014-2015
-# Sergey <player54@mail.ru>, 2015
+# Sergey <player54@mail.ru>, 2015-2016
 # SmilyCarrot <twisted-transistor@yandex.ru>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-05-30 00:33:30+0000\n"
-"PO-Revision-Date: 2015-12-21 19:57+0000\n"
+"PO-Revision-Date: 2016-01-08 19:29+0000\n"
 "Last-Translator: Sergey <player54@mail.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/mpc-hc/mpc-hc/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -20,23 +20,23 @@ msgstr ""
 
 msgctxt "POPUP"
 msgid "&File"
-msgstr "&Файл"
+msgstr "Файл"
 
 msgctxt "ID_FILE_OPENQUICK"
 msgid "&Quick Open File..."
-msgstr "&Быстро открыть файл..."
+msgstr "Быстро открыть файл..."
 
 msgctxt "ID_FILE_OPENMEDIA"
 msgid "&Open File..."
-msgstr "&Открыть файл..."
+msgstr "Открыть файл..."
 
 msgctxt "ID_FILE_OPENDVDBD"
 msgid "Open &DVD/BD..."
-msgstr "О&ткрыть DVD/BD..."
+msgstr "Открыть DVD/BD..."
 
 msgctxt "ID_FILE_OPENDEVICE"
 msgid "Open De&vice..."
-msgstr "Открыть &устройство..."
+msgstr "Открыть устройство..."
 
 msgctxt "ID_FILE_OPENDIRECTORY"
 msgid "Open Dir&ectory..."
@@ -44,7 +44,7 @@ msgstr "Открыть папку..."
 
 msgctxt "ID_FILE_OPENDISC"
 msgid "O&pen Disc"
-msgstr "Открыть &диск"
+msgstr "Открыть диск"
 
 msgctxt "ID_RECENT_FILES"
 msgid "Recent &Files"
@@ -52,19 +52,19 @@ msgstr "Недавние файлы"
 
 msgctxt "ID_FILE_CLOSE_AND_RESTORE"
 msgid "&Close"
-msgstr "&Закрыть"
+msgstr "Закрыть"
 
 msgctxt "ID_FILE_SAVE_COPY"
 msgid "&Save a Copy..."
-msgstr "&Сохранить копию..."
+msgstr "Сохранить копию..."
 
 msgctxt "ID_FILE_SAVE_IMAGE"
 msgid "Save &Image..."
-msgstr "Сохранить &изображение..."
+msgstr "Сохранить изображение..."
 
 msgctxt "ID_FILE_SAVE_THUMBNAILS"
 msgid "Save &Thumbnails..."
-msgstr "Сохранить &миниатюры изображений..."
+msgstr "Сохранить миниатюры изображений..."
 
 msgctxt "POPUP"
 msgid "Subtitles"
@@ -88,51 +88,51 @@ msgstr ""
 
 msgctxt "ID_FILE_PROPERTIES"
 msgid "P&roperties"
-msgstr "С&войства"
+msgstr "Свойства"
 
 msgctxt "ID_FILE_EXIT"
 msgid "E&xit"
-msgstr "В&ыход"
+msgstr "Выход"
 
 msgctxt "POPUP"
 msgid "&View"
-msgstr "&Вид"
+msgstr "Вид"
 
 msgctxt "ID_VIEW_CAPTIONMENU"
 msgid "Caption&&Menu"
-msgstr "За&головок и меню"
+msgstr "Заголовок и меню"
 
 msgctxt "ID_VIEW_SEEKER"
 msgid "See&k Bar"
-msgstr "&Ползунок"
+msgstr "Ползунок"
 
 msgctxt "ID_VIEW_CONTROLS"
 msgid "&Controls"
-msgstr "&Элементы управления"
+msgstr "Элементы управления"
 
 msgctxt "ID_VIEW_INFORMATION"
 msgid "&Information"
-msgstr "&Информация"
+msgstr "Информация"
 
 msgctxt "ID_VIEW_STATISTICS"
 msgid "&Statistics"
-msgstr "&Статистика"
+msgstr "Статистика"
 
 msgctxt "ID_VIEW_STATUS"
 msgid "St&atus"
-msgstr "С&татусная строка"
+msgstr "Статусная строка"
 
 msgctxt "ID_VIEW_SUBRESYNC"
 msgid "Su&bresync"
-msgstr "Синхронизация су&бтитров"
+msgstr "Синхронизация субтитров"
 
 msgctxt "ID_VIEW_PLAYLIST"
 msgid "Pla&ylist"
-msgstr "Список во&спроизведения"
+msgstr "Список воспроизведения"
 
 msgctxt "ID_VIEW_CAPTURE"
 msgid "Captu&re"
-msgstr "&Захват"
+msgstr "Захват"
 
 msgctxt "ID_VIEW_NAVIGATION"
 msgid "Na&vigation"
@@ -140,27 +140,27 @@ msgstr "Навигация"
 
 msgctxt "ID_VIEW_DEBUGSHADERS"
 msgid "&Debug Shaders"
-msgstr "&Отладка шейдеров"
+msgstr "Отладка шейдеров"
 
 msgctxt "POPUP"
 msgid "&Presets..."
-msgstr "Пре&дустановки"
+msgstr "Предустановки"
 
 msgctxt "ID_VIEW_PRESETS_MINIMAL"
 msgid "&Minimal"
-msgstr "&Минимальная"
+msgstr "Минимальная"
 
 msgctxt "ID_VIEW_PRESETS_COMPACT"
 msgid "&Compact"
-msgstr "&Компактная"
+msgstr "Компактная"
 
 msgctxt "ID_VIEW_PRESETS_NORMAL"
 msgid "&Normal"
-msgstr "&Нормальная"
+msgstr "Нормальная"
 
 msgctxt "ID_VIEW_FULLSCREEN"
 msgid "F&ull Screen"
-msgstr "Во весь &экран"
+msgstr "Во весь экран"
 
 msgctxt "POPUP"
 msgid "&Zoom"
@@ -168,15 +168,15 @@ msgstr "Масштаб"
 
 msgctxt "ID_VIEW_ZOOM_50"
 msgid "&50%"
-msgstr "&50%"
+msgstr "50%"
 
 msgctxt "ID_VIEW_ZOOM_100"
 msgid "&100%"
-msgstr "&100%"
+msgstr "100%"
 
 msgctxt "ID_VIEW_ZOOM_200"
 msgid "&200%"
-msgstr "&200%"
+msgstr "200%"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT"
 msgid "Auto &Fit"
@@ -192,11 +192,11 @@ msgstr "Настройки рендера"
 
 msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
-msgstr "&Тест разрыва изображения"
+msgstr "Тест разрыва изображения"
 
 msgctxt "ID_VIEW_DISPLAY_RENDERER_STATS"
 msgid "&Display Statistics"
-msgstr "&Отображать статистику"
+msgstr "Отображать статистику"
 
 msgctxt "ID_VIEW_OSD_DISPLAY_TIME"
 msgid "Display Current T&ime"
@@ -220,7 +220,7 @@ msgstr "16 - 235"
 
 msgctxt "POPUP"
 msgid "&Presentation"
-msgstr "Вывод"
+msgstr "Презентация"
 
 msgctxt "ID_VIEW_D3DFULLSCREEN"
 msgid "D3D Fullscreen &Mode"
@@ -240,7 +240,7 @@ msgstr "Принудительный 10-битный RGB-ввод"
 
 msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
 msgid "&Full Floating Point Processing"
-msgstr "Полные расчеты чисел с плавающей точкой"
+msgstr "Full Floating Point Processing"
 
 msgctxt "ID_VIEW_HALFFLOATINGPOINTPROCESSING"
 msgid "&Half Floating Point Processing"
@@ -336,11 +336,11 @@ msgstr "Альтернативная VSync"
 
 msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
 msgid "&Decrease VSync Offset"
-msgstr "У&меньшить сдвиг VSync"
+msgstr "Уменьшить сдвиг VSync"
 
 msgctxt "ID_VIEW_VSYNCOFFSET_INCREASE"
 msgid "&Increase VSync Offset"
-msgstr "У&величить сдвиг VSync"
+msgstr "Увеличить сдвиг VSync"
 
 msgctxt "POPUP"
 msgid "&GPU Control"
@@ -364,7 +364,7 @@ msgstr "Сброс"
 
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
-msgstr "Установить &настройки по умолчанию"
+msgstr "Установить настройки по умолчанию"
 
 msgctxt "ID_VIEW_RESET_OPTIMAL"
 msgid "Reset to &optimal renderer settings"
@@ -376,35 +376,35 @@ msgstr "&Видеокадр"
 
 msgctxt "ID_VIEW_VF_HALF"
 msgid "&Half Size"
-msgstr "&Половинный размер"
+msgstr "Половинный размер"
 
 msgctxt "ID_VIEW_VF_NORMAL"
 msgid "&Normal Size"
-msgstr "&Нормальный размер"
+msgstr "Нормальный размер"
 
 msgctxt "ID_VIEW_VF_DOUBLE"
 msgid "&Double Size"
-msgstr "&Двойной размер"
+msgstr "Двойной размер"
 
 msgctxt "ID_VIEW_VF_STRETCH"
 msgid "&Stretch To Window"
-msgstr "&Растянуть до размера окна"
+msgstr "Растянуть до размера окна"
 
 msgctxt "ID_VIEW_VF_FROMINSIDE"
 msgid "Touch Window From &Inside"
-msgstr "&Вписать в окно"
+msgstr "Вписать в окно"
 
 msgctxt "ID_VIEW_VF_ZOOM1"
 msgid "Zoom &1"
-msgstr "Масштаб &1"
+msgstr "Масштаб 1"
 
 msgctxt "ID_VIEW_VF_ZOOM2"
 msgid "Zoom &2"
-msgstr "Масштаб &2"
+msgstr "Масштаб 2"
 
 msgctxt "ID_VIEW_VF_FROMOUTSIDE"
 msgid "Touch Window From &Outside"
-msgstr "&Заполнить экран и обрезать кадр"
+msgstr "Заполнить экран и обрезать кадр"
 
 msgctxt "POPUP"
 msgid "&Aspect Ratio"
@@ -440,11 +440,11 @@ msgstr ""
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"
-msgstr "&Учитывать разницу соотношения сторон монитора/раб. стола"
+msgstr "Корректировать разницу соотношения сторон монитора/раб. стола"
 
 msgctxt "POPUP"
 msgid "Pa&n&&Scan"
-msgstr "Поло&жение и размер кадра"
+msgstr "Положение и размер кадра"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"
@@ -496,7 +496,7 @@ msgstr "Сброс"
 
 msgctxt "POPUP"
 msgid "On &Top"
-msgstr "П&оверх всех окон"
+msgstr "Поверх всех окон"
 
 msgctxt "ID_ONTOP_DEFAULT"
 msgid "&Default"
@@ -516,43 +516,43 @@ msgstr "При воспроизведении видео"
 
 msgctxt "ID_VIEW_OPTIONS"
 msgid "&Options..."
-msgstr "&Настройки..."
+msgstr "Настройки..."
 
 msgctxt "POPUP"
 msgid "&Play"
-msgstr "&Воспроизведение"
+msgstr "Воспроизведение"
 
 msgctxt "ID_PLAY_PLAYPAUSE"
 msgid "&Play/Pause"
-msgstr "&Воспроизведение/Пауза"
+msgstr "Воспроизведение/Пауза"
 
 msgctxt "ID_PLAY_STOP"
 msgid "&Stop"
-msgstr "&Стоп"
+msgstr "Стоп"
 
 msgctxt "ID_PLAY_FRAMESTEP"
 msgid "F&rame Step"
-msgstr "По &кадрам"
+msgstr "Шаг на кадр вперед"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "&Decrease Rate"
-msgstr "У&меньшить скорость"
+msgstr "Уменьшить скорость"
 
 msgctxt "ID_PLAY_INCRATE"
 msgid "&Increase Rate"
-msgstr "Ув&еличить скорость"
+msgstr "Увеличить скорость"
 
 msgctxt "ID_PLAY_RESETRATE"
 msgid "R&eset Rate"
-msgstr "С&корость по умолчанию"
+msgstr "Скорость по умолчанию"
 
 msgctxt "ID_FILTERS"
 msgid "&Filters"
-msgstr "&Фильтры"
+msgstr "Фильтры"
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"
-msgstr "&Шейдеры"
+msgstr "Шейдеры"
 
 msgctxt "ID_AUDIOS"
 msgid "&Audio Track"
@@ -560,27 +560,27 @@ msgstr "Дорожка аудио"
 
 msgctxt "ID_SUBTITLES"
 msgid "Su&btitle Track"
-msgstr "Дорожка с&убтитров"
+msgstr "Дорожка субтитров"
 
 msgctxt "ID_VIDEO_STREAMS"
 msgid "&Video Track"
-msgstr "Дорожка &видео"
+msgstr "Дорожка видео"
 
 msgctxt "POPUP"
 msgid "&Volume"
-msgstr "&Громкость"
+msgstr "Громкость"
 
 msgctxt "ID_VOLUME_UP"
 msgid "&Up"
-msgstr "&Повысить"
+msgstr "Повысить"
 
 msgctxt "ID_VOLUME_DOWN"
 msgid "&Down"
-msgstr "&Понизить"
+msgstr "Понизить"
 
 msgctxt "ID_VOLUME_MUTE"
 msgid "&Mute"
-msgstr "&Отключить"
+msgstr "Отключить"
 
 msgctxt "POPUP"
 msgid "Af&ter Playback"
@@ -592,11 +592,11 @@ msgstr "Ничего не делать"
 
 msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
 msgid "Play &next file in the folder"
-msgstr "Воспроизвести &следующий файл в папке"
+msgstr "Воспроизвести следующий файл в папке"
 
 msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
 msgid "Turn off the &monitor"
-msgstr "Выключить &монитор"
+msgstr "Выключить монитор"
 
 msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
@@ -624,51 +624,51 @@ msgstr "Блокировать компьютер"
 
 msgctxt "POPUP"
 msgid "&Navigate"
-msgstr "&Навигация"
+msgstr "Навигация"
 
 msgctxt "ID_NAVIGATE_SKIPBACK"
 msgid "&Previous"
-msgstr "П&редыдущий"
+msgstr "Предыдущий"
 
 msgctxt "ID_NAVIGATE_SKIPFORWARD"
 msgid "&Next"
-msgstr "&Следующий"
+msgstr "Следующий"
 
 msgctxt "ID_NAVIGATE_GOTO"
 msgid "&Go To..."
-msgstr "&Переход..."
+msgstr "Переход..."
 
 msgctxt "ID_NAVIGATE_TITLEMENU"
 msgid "&Title Menu"
-msgstr "&Заглавное меню"
+msgstr "Заглавное меню"
 
 msgctxt "ID_NAVIGATE_ROOTMENU"
 msgid "&Root Menu"
-msgstr "&Корневое меню"
+msgstr "Корневое меню"
 
 msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
 msgid "&Subtitle Menu"
-msgstr "Меню суб&титров"
+msgstr "Меню субтитров"
 
 msgctxt "ID_NAVIGATE_AUDIOMENU"
 msgid "&Audio Menu"
-msgstr "Меню ау&дио"
+msgstr "Меню аудио"
 
 msgctxt "ID_NAVIGATE_ANGLEMENU"
 msgid "An&gle Menu"
-msgstr "Меню углов в&идео"
+msgstr "Меню углов видео"
 
 msgctxt "ID_NAVIGATE_CHAPTERMENU"
 msgid "&Chapter Menu"
-msgstr "Меню с&цен"
+msgstr "Меню глав"
 
 msgctxt "ID_FAVORITES"
 msgid "F&avorites"
-msgstr "&Закладки"
+msgstr "Закладки"
 
 msgctxt "POPUP"
 msgid "&Help"
-msgstr "&Помощь"
+msgstr "Помощь"
 
 msgctxt "ID_HELP_HOMEPAGE"
 msgid "&Home Page"
@@ -692,5 +692,5 @@ msgstr "Сделать пожертвование"
 
 msgctxt "ID_HELP_ABOUT"
 msgid "&About..."
-msgstr "&О программе..."
+msgstr "О программе..."
 

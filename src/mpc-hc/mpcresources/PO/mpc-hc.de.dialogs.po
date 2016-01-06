@@ -4,7 +4,7 @@
 # Translators:
 # Gaugg_Markus, 2014
 # Gaugg_Markus, 2014
-# Luan <luanmail@gmx.net>, 2014-2015
+# Luan <luanmail@gmx.net>, 2014-2016
 # Luan <luanmail@gmx.net>, 2014
 # Luan <luanmail@gmx.net>, 2014
 # M T <michtrz@gmail.com>, 2013-2014
@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-10-19 19:15:11+0000\n"
-"PO-Revision-Date: 2015-11-16 18:45+0000\n"
+"PO-Revision-Date: 2016-01-05 19:12+0000\n"
 "Last-Translator: Luan <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/mpc-hc/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -203,7 +203,7 @@ msgstr "Dieses Programm ist Freeware und steht unter der GNU General Public Lice
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
-msgstr "Übersetzung: alexW, Markus Gaugg und Luan"
+msgstr "Übersetzung von Luan und Markus Gaugg"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build information"
@@ -819,7 +819,7 @@ msgstr "Favoriten verwalten"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON1"
 msgid "Rename"
-msgstr "&Umbenennen"
+msgstr "U&mbenennen"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON3"
 msgid "Move Up"
@@ -883,11 +883,11 @@ msgstr "Multimedia-Tasten global abfragen"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON1"
 msgid "Select All"
-msgstr "&Alle auswählen"
+msgstr "&Alle markieren"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON2"
 msgid "Reset Selected"
-msgstr "&Eintrag zurücksetzen"
+msgstr "Markierte &zurücksetzen"
 
 msgctxt "IDD_MEDIATYPES_DLG_CAPTION"
 msgid "Warning"
