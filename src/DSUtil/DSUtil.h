@@ -251,12 +251,6 @@ public:
 
 #define ResStr(id)  CString(MAKEINTRESOURCE(id))
 
-template <typename T> __inline void INITDDSTRUCT(T& dd)
-{
-    ZeroMemory(&dd, sizeof(dd));
-    dd.dwSize = sizeof(dd);
-}
-
 template <class T>
 static CUnknown* WINAPI CreateInstance(LPUNKNOWN lpunk, HRESULT* phr)
 {
@@ -293,16 +287,34 @@ typename std::enable_if<std::is_signed<T>::value, T>::type GCD(T a, T b)
     return T(GCD(uT(std::abs(a)), uT(std::abs(b))));
 }
 
+template<class T>
+MPCHC_CONSTEXPR typename std::enable_if<std::is_integral<T>::value, bool>::type IsEqual(T a, T b)
+{
+    return a == b;
+}
+
+template<class T>
+MPCHC_CONSTEXPR typename std::enable_if<std::is_floating_point<T>::value, bool>::type IsEqual(T a, T b)
+{
+    return std::abs(a - b) < std::numeric_limits<T>::epsilon();
+}
+
 template <class T>
-MPCHC_CONSTEXPR typename std::enable_if<std::is_unsigned<T>::value, int>::type SGN(T n)
+MPCHC_CONSTEXPR typename std::enable_if < std::is_integral<T>::value&& std::is_unsigned<T>::value, int >::type SGN(T n)
 {
     return T(0) < n;
 }
 
 template <typename T>
-MPCHC_CONSTEXPR typename std::enable_if<std::is_signed<T>::value, int>::type SGN(T n)
+MPCHC_CONSTEXPR typename std::enable_if < std::is_integral<T>::value&& std::is_signed<T>::value, int >::type SGN(T n)
 {
     return (T(0) < n) - (n < T(0));
+}
+
+template <typename T>
+MPCHC_CONSTEXPR typename std::enable_if <std::is_floating_point<T>::value, int>::type SGN(T n)
+{
+    return IsEqual(n, T(0)) ? 0 : (n > 0 ? 1 : -1);
 }
 
 namespace CStringUtils

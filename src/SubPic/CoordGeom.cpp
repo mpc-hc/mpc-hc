@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2014, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,8 +20,14 @@
  */
 
 #include "stdafx.h"
-#include <math.h>
 #include "CoordGeom.h"
+#include "../DSUtil/DSUtil.h"
+#include <math.h>
+
+static bool IsZero(float d)
+{
+    return IsEqual(d, 0.0f);
+}
 
 //
 // Vector
@@ -101,11 +107,11 @@ void Vector::Angle(float& u, float& v) const
     u = asin(n.y);
 
     if (IsZero(n.z)) {
-        v = (float)M_PI_2 * Sgn(n.x);
+        v = (float)M_PI_2 * SGN(n.x);
     } else if (n.z > 0) {
         v = atan(n.x / n.z);
     } else if (n.z < 0) {
-        v = IsZero(n.x) ? (float)M_PI : ((float)M_PI * Sgn(n.x) + atan(n.x / n.z));
+        v = IsZero(n.x) ? (float)M_PI : ((float)M_PI * SGN(n.x) + atan(n.x / n.z));
     }
 }
 
@@ -359,7 +365,7 @@ float Ray::GetDistanceFrom(const Ray& r) const
 {
     float t = (d | r.d);
     if (IsZero(t)) {
-        return -BIGNUMBER;    // plane is parallel to the ray, return -infinite
+        return -std::numeric_limits<float>::infinity();    // plane is parallel to the ray, return -infinite
     }
     return (((r.p - p) | r.d) / t);
 }
