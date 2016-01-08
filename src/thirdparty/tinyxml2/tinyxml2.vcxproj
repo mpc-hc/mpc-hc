@@ -26,7 +26,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E02F0C35-FB01-4059-90F9-9AC19DC22FBA}</ProjectGuid>
-    <RootNamespace>mhook</RootNamespace>
+    <ProjectName>tinyxml2</ProjectName>
+    <RootNamespace>tinyxml2</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <Import Project="..\..\platform.props" />
