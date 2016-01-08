@@ -26,6 +26,9 @@
     path = src/thirdparty/sanear/sanear
     url = https://github.com/alexmarsev/sanear.git
     branch = core
-[submodule "src/thirdparty/rapidjson"]
+[submodule "rapidjson"]
     path = src/thirdparty/rapidjson
     url = https://github.com/miloyip/rapidjson.git
+[submodule "tinyxml2"]
+    path = src/thirdparty/tinyxml2/library
+    url = https://github.com/leethomason/tinyxml2.git

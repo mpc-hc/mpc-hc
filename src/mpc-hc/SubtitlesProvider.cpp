@@ -22,7 +22,7 @@
 #include "SubtitlesProvider.h"
 #include "mplayerc.h"
 #include "MediaInfo/library/Source/ThirdParty/base64/base64.h"
-#include "MediaInfo/library/Source/ThirdParty/tinyxml2/tinyxml2.h"
+#include "tinyxml2/library/tinyxml2.h"
 #include "rapidjson/include/rapidjson/document.h"
 
 using namespace SubtitlesProvidersUtils;

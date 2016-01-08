@@ -70,6 +70,7 @@ sanear              LGPLv2.1                    https://github.com/alexmarsev/sa
 Silk Icons          CC Attribution 2.5          http://www.famfamfam.com/lab/icons/silk/
 SoundTouch          LGPLv2.1                    http://www.surina.net/soundtouch/
 soxr                LGPLv2.1+                   https://sourceforge.net/projects/soxr/
+tinyxml2            zlib License                http://www.grinninglizard.com/tinyxml2/
 TreePropSheet       -                           http://www.codeproject.com/Articles/3709/
 UnRAR               freeware                    http://www.rarlab.com/rar_add.htm
 VirtualDub          GPLv2+                      http://www.virtualdub.org/
