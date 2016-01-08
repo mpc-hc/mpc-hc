@@ -1,5 +1,5 @@
 @ECHO OFF
-REM (C) 2013-2016 see Authors.txt
+REM (C) 2013-2015 see Authors.txt
 REM
 REM This file is part of MPC-HC.
 REM
@@ -37,14 +37,14 @@ IF EXIST "cov_upload.log" DEL "cov_upload.log"
 
 
 :Main
-CALL "..\build.bat" clean Lite Both Main Release VS2015 silent
-CALL "..\build.bat" clean Filters Both Release VS2015 silent
-CALL "..\build.bat" clean IconLib Both Release VS2015 silent
-CALL "..\build.bat" clean Api Both Release VS2015 silent
-"%COV_PATH%\bin\cov-build.exe" --dir cov-int "..\build.bat" Build Lite Both Main Release VS2015 silent
-"%COV_PATH%\bin\cov-build.exe" --dir cov-int "..\build.bat" Build Filters Both Release VS2015 silent
-"%COV_PATH%\bin\cov-build.exe" --dir cov-int "..\build.bat" Build IconLib Both Release VS2015 silent
-"%COV_PATH%\bin\cov-build.exe" --dir cov-int "..\build.bat" Build Api Both Release VS2015 silent
+CALL "..\build.bat" clean Lite Both Main Release silent
+CALL "..\build.bat" clean Filters Both Release silent
+CALL "..\build.bat" clean IconLib Both Release silent
+CALL "..\build.bat" clean Api Both Release silent
+"%COV_PATH%\bin\cov-build.exe" --dir cov-int "..\build.bat" Build Lite Both Main Release silent
+"%COV_PATH%\bin\cov-build.exe" --dir cov-int "..\build.bat" Build Filters Both Release silent
+"%COV_PATH%\bin\cov-build.exe" --dir cov-int "..\build.bat" Build IconLib Both Release silent
+"%COV_PATH%\bin\cov-build.exe" --dir cov-int "..\build.bat" Build Api Both Release silent
 IF %ERRORLEVEL% NEQ 0 (CALL "%COMMON%" :SubMsg "ERROR" "Build failed." & EXIT /B)
 
 
