@@ -3694,7 +3694,7 @@ msgid "Move Down"
 msgstr "Ніжэй"
 
 msgctxt "IDS_SUBMENU_OPENURL"
-msgid "Open Url"
+msgid "Open URL"
 msgstr "Адкрыць спасылку"
 
 msgctxt "IDS_SUBPP_DLG_LANGUAGES_COL"
@@ -3706,7 +3706,7 @@ msgid "ERROR: Internet connection could not be established."
 msgstr "Памылка. Не атрымалася злучыцца з Інтэрнэтам."
 
 msgctxt "IDS_SUB_CREDENTIALS_TITLE"
-msgid "Enter website credentitals"
+msgid "Enter website credentials"
 msgstr "Увядзіце дадзеныя вэб-сайта "
 
 msgctxt "IDS_SUB_CREDENTIALS_MSG"

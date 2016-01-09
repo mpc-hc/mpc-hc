@@ -3704,7 +3704,7 @@ msgid "Move Down"
 msgstr "Вниз"
 
 msgctxt "IDS_SUBMENU_OPENURL"
-msgid "Open Url"
+msgid "Open URL"
 msgstr "Открыть Url"
 
 msgctxt "IDS_SUBPP_DLG_LANGUAGES_COL"
@@ -3716,7 +3716,7 @@ msgid "ERROR: Internet connection could not be established."
 msgstr "ОШИБКА: Интернет соединение не может быть установлено."
 
 msgctxt "IDS_SUB_CREDENTIALS_TITLE"
-msgid "Enter website credentitals"
+msgid "Enter website credentials"
 msgstr "Введите данные сайта"
 
 msgctxt "IDS_SUB_CREDENTIALS_MSG"

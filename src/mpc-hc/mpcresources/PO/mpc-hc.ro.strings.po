@@ -3694,7 +3694,7 @@ msgid "Move Down"
 msgstr "Mută în jos"
 
 msgctxt "IDS_SUBMENU_OPENURL"
-msgid "Open Url"
+msgid "Open URL"
 msgstr "Deschide URL-ul"
 
 msgctxt "IDS_SUBPP_DLG_LANGUAGES_COL"
@@ -3706,7 +3706,7 @@ msgid "ERROR: Internet connection could not be established."
 msgstr "EROARE: Conexiunea la Internet nu a putut fi stabilită."
 
 msgctxt "IDS_SUB_CREDENTIALS_TITLE"
-msgid "Enter website credentitals"
+msgid "Enter website credentials"
 msgstr "Introduceți datele de autentificare pe site web"
 
 msgctxt "IDS_SUB_CREDENTIALS_MSG"

@@ -1586,7 +1586,7 @@ msgid "Ignore files containing any of the following word(s):"
 msgstr "Ignorer les fichiers contenant le(s) mot(s) suivant(s) :"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Languages in order of preference (i.e. \"eng ell spa\"):"
+msgid "Languages in order of preference (e.g. \"eng ell spa\"):"
 msgstr "Ordre de préférence des langues (ex. : \"eng ell spa\") :"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"

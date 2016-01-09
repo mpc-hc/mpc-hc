@@ -3696,7 +3696,7 @@ msgid "Move Down"
 msgstr "向下移动"
 
 msgctxt "IDS_SUBMENU_OPENURL"
-msgid "Open Url"
+msgid "Open URL"
 msgstr "打开链接"
 
 msgctxt "IDS_SUBPP_DLG_LANGUAGES_COL"
@@ -3708,7 +3708,7 @@ msgid "ERROR: Internet connection could not be established."
 msgstr "错误：无法建立网络连接。"
 
 msgctxt "IDS_SUB_CREDENTIALS_TITLE"
-msgid "Enter website credentitals"
+msgid "Enter website credentials"
 msgstr "输入网输入网站认证信息站认证信息"
 
 msgctxt "IDS_SUB_CREDENTIALS_MSG"

@@ -3701,7 +3701,7 @@ msgid "Move Down"
 msgstr "Pindah ke Bawah"
 
 msgctxt "IDS_SUBMENU_OPENURL"
-msgid "Open Url"
+msgid "Open URL"
 msgstr "Buka Url"
 
 msgctxt "IDS_SUBPP_DLG_LANGUAGES_COL"
@@ -3713,7 +3713,7 @@ msgid "ERROR: Internet connection could not be established."
 msgstr "GALAT: Tidak bisa tersambung ke jaringan internet."
 
 msgctxt "IDS_SUB_CREDENTIALS_TITLE"
-msgid "Enter website credentitals"
+msgid "Enter website credentials"
 msgstr "Masukkan kredensial situs web"
 
 msgctxt "IDS_SUB_CREDENTIALS_MSG"

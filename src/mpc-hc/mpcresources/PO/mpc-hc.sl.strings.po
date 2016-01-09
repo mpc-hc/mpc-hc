@@ -3695,7 +3695,7 @@ msgid "Move Down"
 msgstr "Premakni dol"
 
 msgctxt "IDS_SUBMENU_OPENURL"
-msgid "Open Url"
+msgid "Open URL"
 msgstr "Odpri Url"
 
 msgctxt "IDS_SUBPP_DLG_LANGUAGES_COL"
@@ -3707,7 +3707,7 @@ msgid "ERROR: Internet connection could not be established."
 msgstr "NAPAKA: Internetne povezave ni moč vzpostaviti."
 
 msgctxt "IDS_SUB_CREDENTIALS_TITLE"
-msgid "Enter website credentitals"
+msgid "Enter website credentials"
 msgstr "Vnesi poverilnice spletne strani"
 
 msgctxt "IDS_SUB_CREDENTIALS_MSG"

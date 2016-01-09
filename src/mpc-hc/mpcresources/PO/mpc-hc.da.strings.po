@@ -3696,7 +3696,7 @@ msgid "Move Down"
 msgstr "Flyt ned"
 
 msgctxt "IDS_SUBMENU_OPENURL"
-msgid "Open Url"
+msgid "Open URL"
 msgstr ""
 
 msgctxt "IDS_SUBPP_DLG_LANGUAGES_COL"
@@ -3708,7 +3708,7 @@ msgid "ERROR: Internet connection could not be established."
 msgstr ""
 
 msgctxt "IDS_SUB_CREDENTIALS_TITLE"
-msgid "Enter website credentitals"
+msgid "Enter website credentials"
 msgstr ""
 
 msgctxt "IDS_SUB_CREDENTIALS_MSG"

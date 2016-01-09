@@ -3694,7 +3694,7 @@ msgid "Move Down"
 msgstr "Posunúť dole"
 
 msgctxt "IDS_SUBMENU_OPENURL"
-msgid "Open Url"
+msgid "Open URL"
 msgstr "Otvoriť URL"
 
 msgctxt "IDS_SUBPP_DLG_LANGUAGES_COL"
@@ -3706,7 +3706,7 @@ msgid "ERROR: Internet connection could not be established."
 msgstr "CHYBA: nepodarilo sa vytvoriť internetové pripojenie."
 
 msgctxt "IDS_SUB_CREDENTIALS_TITLE"
-msgid "Enter website credentitals"
+msgid "Enter website credentials"
 msgstr "Zadajte prihlasovacie údaje pre stránku"
 
 msgctxt "IDS_SUB_CREDENTIALS_MSG"

@@ -3693,7 +3693,7 @@ msgid "Move Down"
 msgstr "下へ移動"
 
 msgctxt "IDS_SUBMENU_OPENURL"
-msgid "Open Url"
+msgid "Open URL"
 msgstr "URL を開く"
 
 msgctxt "IDS_SUBPP_DLG_LANGUAGES_COL"
@@ -3705,7 +3705,7 @@ msgid "ERROR: Internet connection could not be established."
 msgstr "エラー: インターネット接続が確立できませんでした。"
 
 msgctxt "IDS_SUB_CREDENTIALS_TITLE"
-msgid "Enter website credentitals"
+msgid "Enter website credentials"
 msgstr "Web サイトの資格情報を入力します"
 
 msgctxt "IDS_SUB_CREDENTIALS_MSG"

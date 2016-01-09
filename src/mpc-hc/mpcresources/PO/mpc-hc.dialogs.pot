@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-07 20:33:06+0000\n"
+"POT-Creation-Date: 2016-01-10 09:08:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1582,7 +1582,7 @@ msgid "Ignore files containing any of the following word(s):"
 msgstr ""
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Languages in order of preference (i.e. \"eng ell spa\"):"
+msgid "Languages in order of preference (e.g. \"eng ell spa\"):"
 msgstr ""
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
