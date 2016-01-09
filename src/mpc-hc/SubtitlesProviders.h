@@ -202,8 +202,10 @@ class SubtitlesThread final : public CWinThreadProc
     friend class SubtitlesProvider;
     friend class SubtitlesTask;
 public:
-    SubtitlesThread(SubtitlesTask* pTask, SubtitlesInfo pFileInfo, std::shared_ptr<SubtitlesProvider> pProvider)
-        : m_pTask(pTask), m_pFileInfo(pFileInfo) { m_pFileInfo.Provider(pProvider); }
+    SubtitlesThread(SubtitlesTask* pTask, const SubtitlesInfo& pFileInfo, std::shared_ptr<SubtitlesProvider> pProvider)
+        : m_pTask(pTask)
+        , m_pFileInfo(pFileInfo)
+    { m_pFileInfo.Provider(pProvider); }
 
 private:
     void Set(SubtitlesInfo& pSubtitlesInfo);
