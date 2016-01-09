@@ -1105,8 +1105,8 @@
 #define IDS_DVB_CHANNEL_NAME            41110
 #define IDS_DVB_CHANNEL_FREQUENCY       41111
 #define IDS_DVB_CHANNEL_ENCRYPTION      41112
-#define IDS_DVB_CHANNEL_ENCRYPTED       41113
-#define IDS_DVB_CHANNEL_NOT_ENCRYPTED   41114
+#define IDS_YES                         41113
+#define IDS_NO                          41114
 #define IDS_DVB_CHANNEL_START_SCAN      41115
 #define IDS_DVB_CHANNEL_STOP_SCAN       41116
 #define IDS_DVB_TVNAV_SEERADIO          41117

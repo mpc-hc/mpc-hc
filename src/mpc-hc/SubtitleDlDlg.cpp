@@ -538,7 +538,7 @@ afx_msg LRESULT CSubtitleDlDlg::OnCompleted(WPARAM wParam, LPARAM lParam)
             CString disc;
             disc.Format(_T("%d/%d"), subInfo.discNumber, subInfo.discCount);
             m_list.SetItemText(iItem, COL_DISC, disc);
-            m_list.SetItemText(iItem, COL_HEARINGIMPAIRED, subInfo.hearingImpaired == -1 ? _T("-") : subInfo.hearingImpaired > 0 ? _T("Y") : _T("N"));
+            m_list.SetItemText(iItem, COL_HEARINGIMPAIRED, subInfo.hearingImpaired == -1 ? _T("-") : subInfo.hearingImpaired > 0 ? ResStr(IDS_YES) : ResStr(IDS_NO));
             CString downloads(_T("-"));
             if (subInfo.downloadCount != -1) {
                 downloads.Format(_T("%d"), subInfo.downloadCount);

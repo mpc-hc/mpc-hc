@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2015 see Authors.txt
+ * (C) 2009-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -244,7 +244,7 @@ LRESULT CTunerScanDlg::OnNewChannel(WPARAM wParam, LPARAM lParam)
             strTemp.Format(_T("%lu"), channel.GetFrequency());
             m_ChannelList.SetItemText(nItem, TSCC_FREQUENCY, strTemp);
 
-            strTemp = channel.IsEncrypted() ? ResStr(IDS_DVB_CHANNEL_ENCRYPTED) : ResStr(IDS_DVB_CHANNEL_NOT_ENCRYPTED);
+            strTemp = channel.IsEncrypted() ? ResStr(IDS_YES) : ResStr(IDS_NO);
             m_ChannelList.SetItemText(nItem, TSCC_ENCRYPTED, strTemp);
             if (channel.GetVideoType() == DVB_H264) {
                 strTemp = _T("H.264");
