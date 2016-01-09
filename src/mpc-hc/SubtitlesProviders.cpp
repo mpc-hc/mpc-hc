@@ -573,7 +573,7 @@ SubtitlesTask::SubtitlesTask(CMainFrame* pMainFrame, bool bAutoDownload, const s
         }
         m_LangPriority[iter] = i--;
     }
-
+    m_bActivate = false;
     CreateThread();
 }
 
@@ -584,6 +584,7 @@ SubtitlesTask::SubtitlesTask(CMainFrame* pMainFrame, SubtitlesInfo& pSubtitlesIn
 
     m_pFileInfo = pSubtitlesInfo;
     m_bActivate = bActivate;
+    m_bAutoDownload = false;
     CreateThread();
 }
 
@@ -593,6 +594,8 @@ SubtitlesTask::SubtitlesTask(CMainFrame* pMainFrame, const SubtitlesInfo& pSubti
     m_nType = STT_UPLOAD;
 
     m_pFileInfo = pSubtitlesInfo;
+    m_bActivate = false;
+    m_bAutoDownload = false;
     CreateThread();
 }
 
