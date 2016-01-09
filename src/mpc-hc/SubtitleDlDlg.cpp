@@ -530,33 +530,29 @@ afx_msg LRESULT CSubtitleDlDlg::OnCompleted(WPARAM wParam, LPARAM lParam)
         SetStatusText(ResStr(IDS_SUBDL_DLG_ABORTING));
     } else if (!_subtitlesList.empty()) {
         m_list.SetRedraw(FALSE);
-        SubtitlesList::const_iterator _begin = std::next(m_Subtitles.begin(), !m_Subtitles.empty() ? m_Subtitles.size() - 1 : 0);
-        std::copy(_subtitlesList.begin(), _subtitlesList.end(), std::back_inserter(m_Subtitles));
-        _begin = (_begin == m_Subtitles.end()) ? _begin = m_Subtitles.begin() : ++_begin;
-        SubtitlesList::const_iterator _end = std::next(_begin, _subtitlesList.size());
 
-        SubtitlesList::const_iterator iter = _begin;
-        for (; iter != _end; ++iter) {
-            int iItem = m_list.InsertItem(0, UTF8To16(iter->Provider()->Name().c_str()), iter->Provider()->GetIconIndex());
-            m_list.SetItemText(iItem, COL_FILENAME, UTF8To16(iter->fileName.c_str()));
-            m_list.SetItemText(iItem, COL_LANGUAGE, ISO639XToLanguage(iter->languageCode.c_str()));
+        for (const auto& subInfo : _subtitlesList) {
+            int iItem = m_list.InsertItem(0, UTF8To16(subInfo.Provider()->Name().c_str()), subInfo.Provider()->GetIconIndex());
+            m_list.SetItemText(iItem, COL_FILENAME, UTF8To16(subInfo.fileName.c_str()));
+            m_list.SetItemText(iItem, COL_LANGUAGE, ISO639XToLanguage(subInfo.languageCode.c_str()));
             CString disc;
-            disc.Format(_T("%d/%d"), iter->discNumber, iter->discCount);
+            disc.Format(_T("%d/%d"), subInfo.discNumber, subInfo.discCount);
             m_list.SetItemText(iItem, COL_DISC, disc);
-            m_list.SetItemText(iItem, COL_HEARINGIMPAIRED, iter->hearingImpaired == -1 ? _T("-") : iter->hearingImpaired > 0 ? _T("Y") : _T("N"));
+            m_list.SetItemText(iItem, COL_HEARINGIMPAIRED, subInfo.hearingImpaired == -1 ? _T("-") : subInfo.hearingImpaired > 0 ? _T("Y") : _T("N"));
             CString downloads(_T("-"));
-            if (iter->downloadCount != -1) {
-                downloads.Format(_T("%d"), iter->downloadCount);
+            if (subInfo.downloadCount != -1) {
+                downloads.Format(_T("%d"), subInfo.downloadCount);
                 downloads = FormatNumber(downloads);
             }
             m_list.SetItemText(iItem, COL_DOWNLOADS, downloads);
-            m_list.SetItemText(iItem, COL_TITLES, UTF8To16(iter->DisplayTitle().c_str()));
+            m_list.SetItemText(iItem, COL_TITLES, UTF8To16(subInfo.DisplayTitle().c_str()));
 #ifdef _DEBUG
             CString score;
-            score.Format(_T("%d"), (SHORT)LOWORD(iter->Score()));
+            score.Format(_T("%d"), (SHORT)LOWORD(subInfo.Score()));
             m_list.SetItemText(iItem, COL_SCORE, score);
 #endif
-            m_list.SetItemData(iItem, (DWORD_PTR) & ((SubtitlesInfo&)*iter));
+            m_Subtitles.emplace_back(subInfo);
+            m_list.SetItemData(iItem, (DWORD_PTR)&m_Subtitles.back());
         }
 
         // sort
