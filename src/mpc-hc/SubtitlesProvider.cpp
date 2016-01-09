@@ -149,7 +149,7 @@ SRESULT OpenSubtitles::Upload(const SubtitlesInfo& pSubtitlesInfo)
     args[1]["cd1"]["subhash"] = StringToHash(pSubtitlesInfo.fileContents, CALG_MD5);
     args[1]["cd1"]["subfilename"] = pSubtitlesInfo.fileName + ".srt";
     args[1]["cd1"]["moviehash"] = pSubtitlesInfo.fileHash;
-    args[1]["cd1"]["moviebytesize"] = (int)pSubtitlesInfo.fileSize;
+    args[1]["cd1"]["moviebytesize"] = std::to_string(pSubtitlesInfo.fileSize);
     //args[1]["cd1"]["movietimems"];
     //args[1]["cd1"]["movieframes"];
     //args[1]["cd1"]["moviefps"];
