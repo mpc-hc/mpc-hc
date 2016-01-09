@@ -157,12 +157,12 @@ std::string SubtitlesProvidersUtils::StringEncrypt(const std::string& data, cons
 {
     std::string result;
     HCRYPTPROV hCryptProv = NULL;
-    if (CryptAcquireContext(&hCryptProv, nullptr, nullptr, PROV_RSA_AES, 0)) {
+    if (CryptAcquireContext(&hCryptProv, nullptr, nullptr, PROV_RSA_AES, CRYPT_VERIFYCONTEXT)) {
         HCRYPTHASH hHash = NULL;
-        if (CryptCreateHash(hCryptProv, CALG_MD5, NULL, 0, &hHash)) {
+        if (CryptCreateHash(hCryptProv, CALG_SHA_256, NULL, 0, &hHash)) {
             HCRYPTKEY hKey = NULL;
             if (CryptHashData(hHash, (const BYTE*)key.c_str(), (DWORD)key.length(), 0)) {
-                if (CryptDeriveKey(hCryptProv, Algid, hHash, CRYPT_KEYLENGTH, &hKey)) {
+                if (CryptDeriveKey(hCryptProv, Algid, hHash, CRYPT_KEYLENGTH | CRYPT_EXPORTABLE, &hKey)) {
                     DWORD dwCount = (DWORD)data.length();
                     std::vector<BYTE> buffer(data.begin(), data.end());
                     if (CryptEncrypt(hKey, NULL, TRUE, 0, nullptr, &dwCount, NULL)) {
@@ -187,12 +187,12 @@ std::string SubtitlesProvidersUtils::StringDecrypt(const std::string& data, cons
     std::string result;
     if (!data.empty()) {
         HCRYPTPROV hCryptProv = NULL;
-        if (CryptAcquireContext(&hCryptProv, nullptr, nullptr, PROV_RSA_AES, 0)) {
+        if (CryptAcquireContext(&hCryptProv, nullptr, nullptr, PROV_RSA_AES, CRYPT_VERIFYCONTEXT)) {
             HCRYPTHASH hHash = NULL;
-            if (CryptCreateHash(hCryptProv, CALG_MD5, NULL, 0, &hHash)) {
+            if (CryptCreateHash(hCryptProv, CALG_SHA_256, NULL, 0, &hHash)) {
                 HCRYPTKEY hKey = NULL;
                 if (CryptHashData(hHash, (const BYTE*)key.c_str(), (DWORD)key.length(), 0)) {
-                    if (CryptDeriveKey(hCryptProv, Algid, hHash, CRYPT_KEYLENGTH, &hKey)) {
+                    if (CryptDeriveKey(hCryptProv, Algid, hHash, CRYPT_KEYLENGTH | CRYPT_EXPORTABLE, &hKey)) {
                         DWORD dwCount = (DWORD)data.length();
                         std::vector<BYTE> buffer(data.begin(), data.end());
                         if (CryptDecrypt(hKey, NULL, TRUE, 0, (BYTE*)(&buffer[0]), &dwCount)) {

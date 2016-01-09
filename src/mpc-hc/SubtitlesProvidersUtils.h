@@ -25,7 +25,7 @@
 #include <unordered_map>
 #include <vector>
 
-#define CRYPT_KEYLENGTH 0x00800000
+#define CRYPT_KEYLENGTH 0x01000000
 #define Z_ENCODING_GZIP 16
 #define Z_DECODING_ZLIB_GZIP 32
 #define PROBE_SIZE 64 * 1024
@@ -48,8 +48,8 @@ namespace SubtitlesProvidersUtils
     std::string StringToHash(const std::string& data, ALG_ID Algid = CALG_MD5);
 
 
-    std::string StringEncrypt(const std::string& data, const std::string& key, ALG_ID Algid = CALG_AES_128);
-    std::string StringDecrypt(const std::string& data, const std::string& key, ALG_ID Algid = CALG_AES_128);
+    std::string StringEncrypt(const std::string& data, const std::string& key, ALG_ID Algid = CALG_AES_256);
+    std::string StringDecrypt(const std::string& data, const std::string& key, ALG_ID Algid = CALG_AES_256);
 
     std::string StringFormat(char const* fmt, ...);
 
