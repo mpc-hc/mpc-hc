@@ -1504,6 +1504,7 @@
 #define IDS_SUB_CREDENTIALS_TITLE       57474
 #define IDS_SUB_CREDENTIALS_MSG         57475
 #define IDS_ASPECT_RATIO_SAR            57476
+#define IDS_SUBDL_DLG_DOWNLOADED        57477
 
 // Next default values for new objects
 // 

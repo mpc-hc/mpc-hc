@@ -505,9 +505,9 @@ afx_msg LRESULT CSubtitleDlDlg::OnDownloaded(WPARAM /*wParam*/, LPARAM lParam)
 {
     SubtitlesInfo& _fileInfo = *(SubtitlesInfo*)lParam;
 
-    if (!GetDlgItem(IDC_BUTTON1)->IsWindowEnabled()) {
-        SetStatusText(ResStr(IDS_SUBDL_DLG_SEARCHING), FALSE);
-    }
+    CString statusMessage;
+    statusMessage.Format(ResStr(IDS_SUBDL_DLG_DOWNLOADED), CString(_fileInfo.Provider()->Name().c_str()), CString(_fileInfo.fileName.c_str()));
+    SetStatusText(statusMessage);
 
     for (int i = 0; i < m_list.GetItemCount(); ++i) {
         SubtitlesInfo& iter = *(SubtitlesInfo*)m_list.GetItemData(i);

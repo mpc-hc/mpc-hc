@@ -3717,3 +3717,7 @@ msgctxt "IDS_ASPECT_RATIO_SAR"
 msgid "Aspect Ratio: Assume square pixels (SAR)"
 msgstr ""
 
+msgctxt "IDS_SUBDL_DLG_DOWNLOADED"
+msgid "Downloaded [%s] \"%s\""
+msgstr ""
+

@@ -3565,6 +3565,7 @@ BEGIN
     IDS_SUB_CREDENTIALS_TITLE "Enter website credentitals"
     IDS_SUB_CREDENTIALS_MSG "Enter your credentials to connect to: "
     IDS_ASPECT_RATIO_SAR    "Aspect Ratio: Assume square pixels (SAR)"
+    IDS_SUBDL_DLG_DOWNLOADED  "Downloaded [%s] ""%s"""
 END
 
 #endif    // English (United States) resources
