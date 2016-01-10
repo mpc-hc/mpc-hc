@@ -26,7 +26,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Transform", "Transform", "{
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpc-hc", "src\mpc-hc\mpc-hc.vcxproj", "{8CE7E5D0-C821-47AC-A247-28EC95B34670}"
 	ProjectSection(ProjectDependencies) = postProject
-		{E02F0C35-FB01-4059-90F9-9AC19DC22FBA} = {E02F0C35-FB01-4059-90F9-9AC19DC22FBA}
 		{981574AE-5A5E-4F27-BDF1-1B841E374CFF} = {981574AE-5A5E-4F27-BDF1-1B841E374CFF}
 	EndProjectSection
 EndProject

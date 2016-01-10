@@ -653,6 +653,9 @@
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
+    <ProjectReference Include="..\thirdparty\tinyxml2\tinyxml2.vcxproj">
+      <Project>{e02f0c35-fb01-4059-90f9-9ac19dc22fba}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\thirdparty\unrar\unrar.vcxproj">
       <Project>{da8461c4-7683-4360-9372-2a9e0f1795c2}</Project>
     </ProjectReference>
