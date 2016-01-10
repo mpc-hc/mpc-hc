@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -46,6 +46,7 @@ namespace Subtitle
     };
 
     LPCTSTR GetSubtitleFileExt(SubType type);
+    bool IsTextSubtitleFileName(CString filename);
 
     struct SubFile {
         CString fn; /*SubType type;*/

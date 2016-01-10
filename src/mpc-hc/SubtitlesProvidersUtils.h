@@ -25,9 +25,10 @@
 #include <unordered_map>
 #include <vector>
 
-#define CRYPT_KEYLENGTH  0x00800000
+#define CRYPT_KEYLENGTH 0x00800000
 #define Z_ENCODING_GZIP 16
 #define Z_DECODING_ZLIB_GZIP 32
+#define PROBE_SIZE 64 * 1024
 
 struct SubtitlesInfo;
 
@@ -62,7 +63,7 @@ namespace SubtitlesProvidersUtils
     std::string StringGzipInflate(const std::string& data);
     std::string StringGzipUncompress(const std::string& data);
 
-    int FileUnzip(CStringA file, CStringA fn, stringMap& dataOut);
+    int FileUnzip(CStringA fn, stringMap& dataOut);
     bool FileUnRar(CString fn, stringMap& dataOut);
     int CALLBACK UnRarProc(UINT msg, LPARAM UserData, LPARAM P1, LPARAM P2);
 

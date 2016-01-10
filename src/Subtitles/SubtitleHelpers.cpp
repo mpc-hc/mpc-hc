@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -24,6 +24,7 @@
 #include "TextFile.h"
 #include "../DSUtil/ArrayUtils.h"
 #include "../DSUtil/Constexpr.h"
+#include "../DSUtil/PathUtils.h"
 #include <regex>
 
 namespace
@@ -46,6 +47,12 @@ namespace
 LPCTSTR Subtitle::GetSubtitleFileExt(SubType type)
 {
     return (type >= 0 && size_t(type) < subTypesExt.size()) ? subTypesExt[type] : nullptr;
+}
+
+bool Subtitle::IsTextSubtitleFileName(CString fileName)
+{
+    auto fileExt = PathUtils::FileExt(fileName).TrimLeft('.');
+    return std::any_of(subTypesExt.cbegin(), subTypesExt.cend(), [&](LPCTSTR ext) { return fileExt == ext; });
 }
 
 void Subtitle::GetSubFileNames(CString fn, const CAtlArray<CString>& paths, CAtlArray<SubFile>& ret)

@@ -23,8 +23,6 @@
 #include "SubtitlesProvidersUtils.h"
 #include "VersionInfo.h"
 
-#define PROBE_SIZE  64 * 1024
-
 class CMainFrame;
 struct SubtitlesInfo;
 class SubtitlesThread;

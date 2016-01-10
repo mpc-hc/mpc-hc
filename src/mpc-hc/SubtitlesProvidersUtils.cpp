@@ -19,9 +19,9 @@
  */
 
 #include "stdafx.h"
-#include <afxinet.h>
-#include <WinCrypt.h>
-#include <sstream>
+#include "SubtitlesProvidersUtils.h"
+#include "SubtitlesProviders.h"
+#include "mplayerc.h"
 
 #if !USE_STATIC_UNRAR
 #include "unrar.h"
@@ -33,9 +33,9 @@
 #include "zlib/zutil.h"
 #include "zlib/minizip/unzip.h"
 
-#include "SubtitlesProvidersUtils.h"
-#include "mplayerc.h"
-#include "SubtitlesProviders.h"
+#include <afxinet.h>
+#include <WinCrypt.h>
+#include <sstream>
 
 int SubtitlesProvidersUtils::LevenshteinDistance(std::string s, std::string t)
 {
@@ -368,13 +368,13 @@ std::string SubtitlesProvidersUtils::StringGzipUncompress(const std::string& dat
     return result;
 }
 
-int SubtitlesProvidersUtils::FileUnzip(CStringA file, CStringA fn, stringMap& dataOut)
+int SubtitlesProvidersUtils::FileUnzip(CStringA fn, stringMap& dataOut)
 {
 #define MAX_FILENAME 512
 #define READ_SIZE 8192
 
     // Open the zip file
-    unzFile zipfile = unzOpen(file);
+    unzFile zipfile = unzOpen(fn);
     if (zipfile == nullptr) {
         return -1;
     }
@@ -398,9 +398,8 @@ int SubtitlesProvidersUtils::FileUnzip(CStringA file, CStringA fn, stringMap& da
             unzClose(zipfile);
             return -1;
         }
-        CStringA subfn = filename;
-        if ((fn.GetLength() && fn == filename) || (/*!fn.GetLength() && */(!subfn.Right(4).CompareNoCase(".sub") || !subfn.Right(4).CompareNoCase(".srt")))) {
-            // Entry is a file, so extract it.
+
+        if (strlen(filename) >= 4 && Subtitle::IsTextSubtitleFileName(filename)) {
             if (unzOpenCurrentFile(zipfile) != UNZ_OK) {
                 unzClose(zipfile);
                 return -1;
@@ -509,9 +508,7 @@ bool SubtitlesProvidersUtils::FileUnRar(CString fn, stringMap& dataOut)
     HeaderDataEx.CmtBuf = nullptr;
 
     while (ReadHeaderEx(hArcData, &HeaderDataEx) == 0) {
-        CString subfn(HeaderDataEx.FileNameW);
-
-        if (!subfn.Right(4).CompareNoCase(_T(".sub")) || !subfn.Right(4).CompareNoCase(_T(".srt"))) {
+        if (wcslen(HeaderDataEx.FileNameW) >= 4 && Subtitle::IsTextSubtitleFileName(HeaderDataEx.FileNameW)) {
             data.clear();
             data.reserve(std::max(data.capacity(), (size_t)HeaderDataEx.UnpSize));
             if (ProcessFile(hArcData, RAR_TEST, nullptr, nullptr)) {
@@ -561,7 +558,7 @@ SubtitlesProvidersUtils::stringMap SubtitlesProvidersUtils::StringUncompress(con
             f.Close();
         }
 
-        FileUnzip(CStringA(file), fileName.c_str(), result);
+        FileUnzip(CStringA(file), result);
         DeleteFile(file);
     } else if ((data.compare(0, sizeof(rar4), rar4, sizeof(rar4)) == 0) || (data.compare(0, sizeof(rar5), rar5, sizeof(rar5)) == 0)) {
         TCHAR path[MAX_PATH], file[MAX_PATH];
