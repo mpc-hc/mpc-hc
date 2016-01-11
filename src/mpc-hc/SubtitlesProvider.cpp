@@ -25,6 +25,8 @@
 #include "tinyxml2/library/tinyxml2.h"
 #include "rapidjson/include/rapidjson/document.h"
 
+#define GUESSED_NAME_POSTFIX " (*)"
+
 using namespace SubtitlesProvidersUtils;
 
 /******************************************************************************
@@ -330,7 +332,7 @@ SRESULT SubDB::Search(const SubtitlesInfo& pFileInfo)
                 SubtitlesInfo pSubtitlesInfo;
                 pSubtitlesInfo.id = pFileInfo.fileHash;
                 pSubtitlesInfo.fileExtension = "srt";
-                pSubtitlesInfo.fileName = pFileInfo.fileName + " (*)." + pSubtitlesInfo.fileExtension;
+                pSubtitlesInfo.fileName = pFileInfo.fileName + GUESSED_NAME_POSTFIX;
                 pSubtitlesInfo.languageCode = iter;
                 pSubtitlesInfo.languageName = UTF16To8(ISO639XToLanguage(iter.c_str()));
                 pSubtitlesInfo.discNumber = 1;
@@ -537,7 +539,7 @@ SRESULT podnapisi::Search(const SubtitlesInfo& pFileInfo)
                             if (!year.empty()) { str += " " + year; }
                             if (pSubtitlesInfo.seasonNumber > 0) { str += StringFormat(" S%02d", pSubtitlesInfo.seasonNumber); }
                             if (pSubtitlesInfo.episodeNumber > 0) { str += StringFormat("%sE%02d", (pSubtitlesInfo.seasonNumber > 0) ? "" : " ", pSubtitlesInfo.episodeNumber); }
-                            str += " (*)";
+                            str += GUESSED_NAME_POSTFIX;
                             fileNames.push_back(str);
                         }
                         pSubtitlesInfo.fileName = fileNames[0] + "." + pSubtitlesInfo.fileExtension;
@@ -696,7 +698,7 @@ SRESULT titlovi::Search(const SubtitlesInfo& pFileInfo)
                     if (pSubtitlesInfo.seasonNumber > 0) { pSubtitlesInfo.fileName += StringFormat(" S%02d", pSubtitlesInfo.seasonNumber); }
                     if (pSubtitlesInfo.episodeNumber > 0) { pSubtitlesInfo.fileName += StringFormat("%sE%02d", (pSubtitlesInfo.seasonNumber > 0) ? "" : " ", pSubtitlesInfo.episodeNumber); }
                     pSubtitlesInfo.fileName += " " + pSubtitlesInfo.releaseName;
-                    pSubtitlesInfo.fileName += " (*)";
+                    pSubtitlesInfo.fileName += GUESSED_NAME_POSTFIX;
 
                     Set(pSubtitlesInfo);
                     pSubtitleElmt = pSubtitleElmt->NextSiblingElement();
@@ -809,7 +811,7 @@ SRESULT ysubs::Search(const SubtitlesInfo& pFileInfo)
                                             pSubtitlesInfo.corrected = elem2->FindMember("rating")->value.GetInt();
 
                                             pSubtitlesInfo.fileName = pFileInfo.fileName;
-                                            pSubtitlesInfo.fileName += " (*)";
+                                            pSubtitlesInfo.fileName += GUESSED_NAME_POSTFIX;
 
                                             Set(pSubtitlesInfo);
                                         }

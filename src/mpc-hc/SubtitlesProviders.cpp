@@ -19,9 +19,10 @@
  */
 
 #include "stdafx.h"
-#include "mplayerc.h"
-#include "MainFrm.h"
 #include "SubtitlesProviders.h"
+#include "MainFrm.h"
+#include "mplayerc.h"
+#include "PathUtils.h"
 #include "MediaInfo/library/Source/ThirdParty/base64/base64.h"
 #include <wininet.h>
 
@@ -285,11 +286,9 @@ HRESULT SubtitlesInfo::GetFileInfo(const std::string& sFileName /*= std::string(
         filePath = sFileName;
     }
 
-    CPath p(UTF8To16(filePath.c_str()));
-    fileExtension = UTF16To8((LPCTSTR)(p.GetExtension()) + 1);
-    p.StripPath();
-    p.RemoveExtension();
-    fileName = UTF16To8(p);
+    auto fPath = UTF8To16(filePath.c_str());
+    fileExtension = UTF16To8(PathUtils::FileExt(fPath).TrimLeft('.'));
+    fileName = UTF16To8(PathUtils::FileName(fPath));
 
     regexResult result;
 
