@@ -23,10 +23,7 @@
 #include "SubtitlesProviders.h"
 #include "VersionInfo.h"
 
-#pragma warning(push)
-#pragma warning(disable: 4238)
-#include "TimXmlRpc/TimXmlRpc.h"
-#pragma warning(pop)
+#include "XmlRpc4Win/TimXmlRpc.h"
 
 #define DEFINE_SUBTITLESPROVIDER_BEGIN(P, U, I, F)                                     \
 class P final : public SubtitlesProvider {                                             \

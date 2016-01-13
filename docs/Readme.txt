@@ -74,7 +74,7 @@ tinyxml2            zlib License                http://www.grinninglizard.com/ti
 TreePropSheet       -                           http://www.codeproject.com/Articles/3709/
 UnRAR               freeware                    http://www.rarlab.com/rar_add.htm
 VirtualDub          GPLv2+                      http://www.virtualdub.org/
-XmlRpcC4Win         LGPLv2                      https://sourceforge.net/projects/xmlrpcc4win/
+XmlRpcC4Win         LGPLv2                      https://github.com/drtimcooper/XmlRpc4Win
 ZenLib              zlib License                https://sourceforge.net/projects/zenlib/
 zita-resampler      GPLv3                       http://kokkinizita.linuxaudio.org/linuxaudio/
 zlib                zlib License                http://zlib.net/

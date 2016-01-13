@@ -343,9 +343,6 @@
     <ClCompile Include="StatusLabel.cpp">
       <Filter>Custom Controls</Filter>
     </ClCompile>
-    <ClCompile Include="..\thirdparty\TimXmlRpc\TimXmlRpc.cpp">
-      <Filter>Subtitles</Filter>
-    </ClCompile>
     <ClCompile Include="SubtitlesProvider.cpp">
       <Filter>Subtitles</Filter>
     </ClCompile>
@@ -460,6 +457,9 @@
     </ClCompile>
     <ClCompile Include="DpiHelper.cpp">
       <Filter>Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\XmlRpc4Win\TimXmlRpc.cpp">
+      <Filter>Subtitles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -727,9 +727,6 @@
     <ClInclude Include="Struct.h">
       <Filter>Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="..\thirdparty\TimXmlRpc\TimXmlRpc.h">
-      <Filter>Subtitles</Filter>
-    </ClInclude>
     <ClInclude Include="SubtitlesProvider.h">
       <Filter>Subtitles</Filter>
     </ClInclude>
@@ -860,6 +857,9 @@
     </ClInclude>
     <ClInclude Include="DpiHelper.h">
       <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\XmlRpc4Win\timxmlrpc.h">
+      <Filter>Subtitles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

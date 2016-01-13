@@ -29,6 +29,9 @@
 [submodule "tinyxml2"]
     path = src/thirdparty/tinyxml2/library
     url = https://github.com/leethomason/tinyxml2.git
+[submodule "XmlRpc4Win"]
+    path = src/thirdparty/XmlRpc4Win
+    url = https://github.com/drtimcooper/XmlRpc4Win.git
 [submodule "ZenLib"]
     path = src/thirdparty/ZenLib/library
     url = https://github.com/MediaArea/ZenLib.git

@@ -142,7 +142,6 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\thirdparty\TimXmlRpc\TimXmlRpc.cpp" />
     <ClCompile Include="AboutDlg.cpp" />
     <ClCompile Include="AppSettings.cpp" />
     <ClCompile Include="AuthDlg.cpp" />
@@ -274,9 +273,11 @@
     <ClCompile Include="WebServer.cpp" />
     <ClCompile Include="WebServerSocket.cpp" />
     <ClCompile Include="WinHotkeyCtrl.cpp" />
+    <ClCompile Include="..\thirdparty\XmlRpc4Win\TimXmlRpc.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\thirdparty\TimXmlRpc\TimXmlRpc.h" />
     <ClInclude Include="AboutDlg.h" />
     <ClInclude Include="AppSettings.h" />
     <ClInclude Include="AuthDlg.h" />
@@ -416,6 +417,7 @@
     <ClInclude Include="WebServer.h" />
     <ClInclude Include="WebServerSocket.h" />
     <ClInclude Include="WinHotkeyCtrl.h" />
+    <ClInclude Include="..\thirdparty\XmlRpc4Win\timxmlrpc.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\ani.avi" />
