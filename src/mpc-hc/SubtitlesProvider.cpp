@@ -265,9 +265,8 @@ SRESULT OpenSubtitles::Upload(const SubtitlesInfo& pSubtitlesInfo)
             args[1]["cd1"]["subcontent"] = Base64::encode(StringGzipCompress(pSubtitlesInfo.fileContents));
 
             if (!xmlrpc->execute("UploadSubtitles", args, result)) { return SR_FAILED; }
-            //#ifdef _DEBUG
-            ShellExecute((HWND)AfxGetMyApp()->GetMainWnd(), _T("open"), UTF8To16(result["data"]), nullptr, nullptr, SW_SHOWDEFAULT);
-            //#endif
+            TRACE(_T("OpenSubtitles: Subtitle file successfully uploaded (%s)"), UTF8To16(result["data"]));
+
             return SR_SUCCEEDED;
         }
     }
