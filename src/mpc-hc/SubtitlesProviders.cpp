@@ -364,6 +364,23 @@ void SubtitlesProvider::OpenUrl()
     ShellExecute((HWND)AfxGetMyApp()->GetMainWnd(), _T("open"), UTF8To16(Url().c_str()), nullptr, nullptr, SW_SHOWDEFAULT);
 }
 
+std::list<std::string> SubtitlesProvider::GetLanguagesIntersection(std::list<std::string>&& userSelectedLangauges) const
+{
+    userSelectedLangauges.sort();
+    const auto& providerSupportedLanguages = Languages();
+
+    std::list<std::string> intersection;
+    std::set_intersection(userSelectedLangauges.cbegin(), userSelectedLangauges.cend(),
+                          providerSupportedLanguages.cbegin(), providerSupportedLanguages.cend(), std::back_inserter(intersection));
+
+    return intersection;
+}
+
+std::list<std::string> SubtitlesProvider::GetLanguagesIntersection() const
+{
+    return GetLanguagesIntersection(LanguagesISO6391());
+}
+
 bool SubtitlesProvider::LoginInternal()
 {
     HRESULT hr = S_OK;
@@ -376,10 +393,17 @@ bool SubtitlesProvider::LoginInternal()
 }
 
 
-bool SubtitlesProvider::CheckLanguage(const std::string& sLanguageCode) const
+bool SubtitlesProvider::CheckLanguage(const std::string& sLanguageCode)
 {
-    SubtitlesThread& pThread = *((SubtitlesThread*)AfxGetThread()->m_pThreadParams);
-    return ((pThread.Languages().empty()) || (pThread.Languages().find(sLanguageCode) != std::string::npos));
+    auto&& selectedLanguages = LanguagesISO6391();
+    return !selectedLanguages.size()
+           || (std::find(selectedLanguages.cbegin(), selectedLanguages.cend(), sLanguageCode) != selectedLanguages.cend());
+}
+
+bool SubtitlesProvider::SupportsUserSelectedLanguages()
+{
+    auto&& selectedLanguages = LanguagesISO6391();
+    return !selectedLanguages.size() || GetLanguagesIntersection(std::move(selectedLanguages)).size();
 }
 
 void SubtitlesProvider::Set(SubtitlesInfo& pSubtitlesInfo)
@@ -394,7 +418,7 @@ bool SubtitlesProvider::IsAborting()
     return pThread.IsThreadAborting();
 }
 
-SRESULT SubtitlesProvider::DownloadInternal(std::string url, std::string referer, std::string& data)
+SRESULT SubtitlesProvider::DownloadInternal(std::string url, std::string referer, std::string& data) const
 {
     stringMap headers({
         { "User-Agent", UserAgent() },
@@ -535,19 +559,21 @@ std::string SubtitlesProviders::WriteSettings()
 ** SubtitlesTask
 ******************************************************************************/
 
-SubtitlesTask::SubtitlesTask(CMainFrame* pMainFrame, bool bAutoDownload, std::string sLanguages)
+SubtitlesTask::SubtitlesTask(CMainFrame* pMainFrame, bool bAutoDownload, const std::list<std::string>& sLanguages)
 {
     m_pMainFrame = pMainFrame;
     m_nType = SubtitlesThreadType(STT_SEARCH | (bAutoDownload ? STT_DOWNLOAD : NULL));
 
     m_bAutoDownload = bAutoDownload;
-    m_sLanguages = sLanguages;
-    if (bAutoDownload) {
-        stringArray _languages(StringTokenize(sLanguages, ","));
-        for (const auto& iter : _languages) {
-            m_AutoDownload[iter] = FALSE;
+
+    BYTE i = BYTE(sLanguages.size());
+    for (const auto& iter : sLanguages) {
+        if (bAutoDownload) {
+            m_AutoDownload[iter] = false;
         }
+        m_LangPriority[iter] = i--;
     }
+
     CreateThread();
 }
 
@@ -627,9 +653,9 @@ void SubtitlesTask::ThreadProc()
     while (!m_pThreads.empty()) { Sleep(0); }
 
     if (m_nType & STT_SEARCH) {
-        BOOL bShowDialog = !m_AutoDownload.empty() ? TRUE : m_bAutoDownload;
+        BOOL bShowDialog = !m_AutoDownload.empty() || m_bAutoDownload;
         for (const auto& iter : m_AutoDownload) {
-            if (iter.second == TRUE) {
+            if (iter.second) {
                 bShowDialog = FALSE;
                 break;
             }
@@ -680,6 +706,8 @@ void SubtitlesThread::ThreadProc()
 void SubtitlesThread::Search()
 {
     CheckAbortAndThrow();
+    if (!m_pFileInfo.Provider()->SupportsUserSelectedLanguages()) { return; }
+    CheckAbortAndThrow();
     m_pFileInfo.Provider()->Hash(m_pFileInfo);
     CheckAbortAndThrow();
     m_pTask->m_pMainFrame->m_wndSubtitlesDownloadDialog.DoSearching(m_pFileInfo);
@@ -700,18 +728,18 @@ void SubtitlesThread::Download()
     CheckAbortAndThrow();
     for (auto& iter : m_pSubtitlesList) {
         CheckAbortAndThrow();
-        BOOL bDownload = FALSE;
+        bool bDownload = false;
         for (const auto& language : m_pTask->m_AutoDownload) {
             if (language.first == iter.languageCode) {
-                if (language.second == FALSE) {
-                    bDownload = TRUE;
+                if (!language.second) {
+                    bDownload = true;
                     break;
                 }
-            } else if (language.second == TRUE) {
+            } else if (language.second) {
                 break;
             }
         }
-        if (bDownload == TRUE) {
+        if (bDownload) {
             const auto& s = AfxGetAppSettings();
             if ((iter.episodeNumber != -1 && (SHORT)LOWORD(iter.Score()) >= s.nAutoDownloadScoreSeries) || (iter.episodeNumber == -1 && (SHORT)LOWORD(iter.Score()) >= s.nAutoDownloadScoreMovies)) {
                 CheckAbortAndThrow();
@@ -740,7 +768,7 @@ void SubtitlesThread::Download(SubtitlesInfo& pSubtitlesInfo, BOOL bActivate)
 
             if (m_pTask->m_pMainFrame->SendMessage(WM_LOADSUBTITLES, (BOOL)bActivate, (LPARAM)&data) == TRUE) {
                 if (!m_pTask->m_AutoDownload.empty()) {
-                    m_pTask->m_AutoDownload[pSubtitlesInfo.languageCode] = TRUE;
+                    m_pTask->m_AutoDownload[pSubtitlesInfo.languageCode] = true;
                 }
             }
         }
@@ -756,12 +784,6 @@ void SubtitlesThread::Upload()
     SRESULT uploadResult = m_pFileInfo.Provider()->Upload(m_pFileInfo);
     m_pTask->m_pMainFrame->m_wndSubtitlesUploadDialog.DoCompleted(uploadResult, m_pFileInfo.Provider());
 }
-
-std::string& SubtitlesThread::Languages() const
-{
-    return m_pTask->m_sLanguages;
-}
-
 
 void SubtitlesThread::Set(SubtitlesInfo& pSubtitlesInfo)
 {
@@ -795,7 +817,7 @@ void SubtitlesThread::Set(SubtitlesInfo& pSubtitlesInfo)
     if (IsThreadAborting()) { return; }
 
     pSubtitlesInfo.Set(m_pFileInfo.Provider(),
-                       (BYTE)((Languages().length() - Languages().find(pSubtitlesInfo.languageCode) + 1) / 3),
+                       m_pTask->GetLangPriority(pSubtitlesInfo.languageCode),
                        (BYTE)(pSubtitlesInfo.hearingImpaired == (int)s.bPreferHearingImpairedSubtitles),
                        score);
 

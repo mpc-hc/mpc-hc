@@ -21,6 +21,7 @@
 #pragma once
 
 #include <regex>
+#include <sstream>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -79,7 +80,18 @@ namespace SubtitlesProvidersUtils
     std::string StringTrim(const std::string& text, const std::string& characters = " ", int side = 0);
     std::string StringReplace(const std::string& text, const std::string& find, const std::string& replace);
 
-    std::string LanguagesISO6391(const char delimiter = ',');
-    std::string LanguagesISO6392(const char delimiter = ',');
+    std::list<std::string> LanguagesISO6391();
+    std::list<std::string> LanguagesISO6392();
     UINT64 GenerateOSHash(SubtitlesInfo& pFileInfo);
+
+    template <typename T>
+    std::string JoinContainer(const T& c, LPCSTR delim)
+    {
+        std::ostringstream stringStream;
+        if (c.cbegin() != c.cend()) {
+            std::copy(c.cbegin(), std::prev(c.cend()), std::ostream_iterator<typename T::value_type>(stringStream, delim));
+            stringStream << *c.crbegin();
+        }
+        return stringStream.str();
+    }
 }

@@ -20,6 +20,7 @@
 
 #include "stdafx.h"
 #include "SubtitlesProvider.h"
+#include "SubtitlesProvidersUtils.h"
 #include "mplayerc.h"
 #include "MediaInfo/library/Source/ThirdParty/base64/base64.h"
 #include "tinyxml2/library/tinyxml2.h"
@@ -78,10 +79,10 @@ SRESULT OpenSubtitles::Hash(SubtitlesInfo& pFileInfo)
 
 SRESULT OpenSubtitles::Search(const SubtitlesInfo& pFileInfo)
 {
-    std::string languages(LanguagesISO6392());
+    const auto languages = LanguagesISO6392();
     XmlRpcValue args, result;
     args[0] = token;
-    args[1][0]["sublanguageid"] = !languages.empty() ? languages : "all";
+    args[1][0]["sublanguageid"] = !languages.empty() ? JoinContainer(languages, ",") : "all";
     args[1][0]["moviehash"] = pFileInfo.fileHash;
     args[1][0]["moviebytesize"] = std::to_string(pFileInfo.fileSize);
     //args[1][1]["sublanguageid"] = !languages.empty() ? languages : "all";
@@ -273,23 +274,26 @@ SRESULT OpenSubtitles::Upload(const SubtitlesInfo& pSubtitlesInfo)
     return SR_FAILED;
 }
 
-std::string OpenSubtitles::Languages()
+const std::set<std::string>& OpenSubtitles::Languages() const
 {
-    static std::string data;
-    if (data.empty() && CheckInternetConnection()) {
-        XmlRpcValue args, result;
-        args = "en";
-        if (!xmlrpc->execute("GetSubLanguages", args, result)) { return data; }
-
-        if (result["data"].getType() != XmlRpcValue::Type::TypeArray) { return data; }
-
-        int count = result["data"].size();
-        for (int i = 0; i < count; ++i) {
-            if (i != 0) { data.append(","); }
-            data.append(result["data"][i]["SubLanguageID"]);
-        }
+    static bool bInitialized = false;
+    static std::set<std::string> result;
+    if (bInitialized) {
+        return result;
     }
-    return data;
+    if (CheckInternetConnection()) {
+        XmlRpcValue args, res;
+        args = "en";
+        if (!xmlrpc->execute("GetSubLanguages", args, res)) { return result; }
+        if (res["data"].getType() != XmlRpcValue::Type::TypeArray) { return result; }
+
+        int count = res["data"].size();
+        for (int i = 0; i < count; ++i) {
+            result.emplace(CStringA(ISO6392To6391(res["data"][i]["SubLanguageID"])).GetString());
+        }
+        bInitialized = true;
+    }
+    return result;
 }
 
 /******************************************************************************
@@ -326,8 +330,7 @@ SRESULT SubDB::Search(const SubtitlesInfo& pFileInfo)
     searchResult = DownloadInternal(StringFormat("http://api.thesubdb.com/?action=search&hash=%s", pFileInfo.fileHash.c_str()), "", data);
 
     if (!data.empty()) {
-        stringArray result(StringTokenize(data, ","));
-        for (const auto& iter : result) {
+        for (const auto& iter : StringTokenize(data, ",")) {
             CheckAbortAndReturn();
             if (CheckLanguage(iter)) {
                 SubtitlesInfo pSubtitlesInfo;
@@ -387,11 +390,20 @@ SRESULT SubDB::Upload(const SubtitlesInfo& pSubtitlesInfo)
     }
 }
 
-std::string SubDB::Languages()
+const std::set<std::string>& SubDB::Languages() const
 {
-    static std::string result;
-    if (result.empty() && CheckInternetConnection()) {
-        DownloadInternal("http://api.thesubdb.com/?action=languages", "", result);
+    static bool bInitialized = false;
+    static std::set<std::string> result;
+    if (bInitialized) {
+        return result;
+    }
+    if (CheckInternetConnection()) {
+        std::string data;
+        DownloadInternal("http://api.thesubdb.com/?action=languages", "", data);
+        for (const auto& str : StringTokenize(data, ",")) {
+            result.emplace(str);
+        }
+        bInitialized = true;
     }
     return result;
 }
@@ -452,8 +464,7 @@ SRESULT podnapisi::Search(const SubtitlesInfo& pFileInfo)
     do {
         CheckAbortAndReturn();
 
-        std::string languages(GetLanguagesString());
-
+        const auto languages = LanguagesISO6391();
         std::string search(pFileInfo.title);
         if (!pFileInfo.country.empty()) { search += " " + pFileInfo.country; }
         search = std::regex_replace(search, std::regex(" and | *[!?&':] *", RegexFlags), " ");
@@ -467,7 +478,7 @@ SRESULT podnapisi::Search(const SubtitlesInfo& pFileInfo)
         url += (pFileInfo.episodeNumber != -1 ? "&sTE=" + std::to_string(pFileInfo.episodeNumber) : "");
         url += "&sMH=" + pFileInfo.fileHash;
         //url += "&sR=" + UrlEncode(pFileInfo.fileName.c_str());
-        url += (!languages.empty() ? "&sJ=" + languages : "");
+        url += (!languages.empty() ? "&sL=" + JoinContainer(languages, ",") : "");
         url += "&page=" + std::to_string(page);
         TRACE(_T("%S::Search => %S\n"), Name().c_str(), url.c_str());
 
@@ -569,37 +580,25 @@ SRESULT podnapisi::Hash(SubtitlesInfo& pFileInfo)
 
 SRESULT podnapisi::Download(SubtitlesInfo& pSubtitlesInfo)
 {
-    std::string url = StringFormat("http://www.podnapisi.net/subtitles/%s/download", pSubtitlesInfo.id);
+    std::string url = StringFormat("http://www.podnapisi.net/subtitles/%s/download", pSubtitlesInfo.id.c_str());
     TRACE(_T("%S::Download => %S\n"), Name().c_str(), url.c_str());
 
     return DownloadInternal(url, "", pSubtitlesInfo.fileContents);
 }
 
-std::string podnapisi::Languages()
+const std::set<std::string>& podnapisi::Languages() const
 {
-    static std::string result;
-    if (result.empty()) {
-        for (const auto& iter : podnapisi_languages) {
-            if (strlen(iter.code) && result.find(iter.code) == std::string::npos) {
-                result += (result.empty() ? "" : ",");
-                result += iter.code;
-            }
+    static bool bInitialized = false;
+    static std::set<std::string> result;
+    if (bInitialized) {
+        return result;
+    }
+    for (const auto& iter : podnapisi_languages) {
+        if (strlen(iter.code)) {
+            result.emplace(iter.code);
         }
     }
-    return result;
-}
-
-std::string podnapisi::GetLanguagesString() const
-{
-    std::string result;
-    std::string languages(LanguagesISO6391());
-    if (!languages.empty()) {
-        for (const auto& iter : podnapisi_languages) {
-            if (strlen(iter.code) && languages.find(iter.code) != std::string::npos) {
-                result += (result.empty() ? "" : ",") + std::to_string(&iter - &podnapisi_languages[0]);
-            }
-        }
-    }
+    bInitialized = true;
     return result;
 }
 
@@ -623,11 +622,10 @@ SRESULT titlovi::Search(const SubtitlesInfo& pFileInfo)
 {
     SRESULT searchResult = SR_UNDEFINED;
 
-    std::string languages = GetLanguagesString();
-    if (!LanguagesISO6391().empty() && languages.empty()) {
-        return searchResult;
-    }
-
+    // Need to filter not supported languages, because their API returns .hr language otherwise.
+    auto selectedLanguages = LanguagesISO6391();
+    bool userSelectedLanguage = !selectedLanguages.empty();
+    const auto languagesIntersection = GetLanguagesIntersection(std::move(selectedLanguages));
     std::string KEY = "WC1ERVYtREVTS1RPUF9maWUyYS1hMVJzYS1hSHc0UA==";
     std::string url(StringFormat("http://api.titlovi.com/xml_get_api.ashx?x-dev_api_id=%s&uiculture=en&forcefilename=true", Base64::decode(KEY).c_str()));
     url += "&mt=" + (pFileInfo.seasonNumber != -1 ? std::to_string(2) : std::to_string(1));
@@ -635,7 +633,7 @@ SRESULT titlovi::Search(const SubtitlesInfo& pFileInfo)
     url += (pFileInfo.seasonNumber != -1 ? "&season=" + std::to_string(pFileInfo.seasonNumber) : "");
     url += (pFileInfo.episodeNumber != -1 ? "&episode=" + std::to_string(pFileInfo.episodeNumber) : "");
     url += (pFileInfo.year != -1 ? "&year=" + std::to_string(pFileInfo.year) : "");
-    url += (!languages.empty() ? "&language=" + languages : "");
+    url += (userSelectedLanguage ? "&language=" + JoinContainer(languagesIntersection, ",") : "");
 
     std::string data;
     searchResult = DownloadInternal(url, "", data);
@@ -715,31 +713,19 @@ SRESULT titlovi::Download(SubtitlesInfo& pSubtitlesInfo)
     return DownloadInternal(pSubtitlesInfo.id.c_str(), "", pSubtitlesInfo.fileContents);
 }
 
-std::string titlovi::Languages()
+const std::set<std::string>& titlovi::Languages() const
 {
-    static std::string result;
-    if (result.empty()) {
-        for (const auto& iter : titlovi_languages) {
-            if (strlen(iter.name) && result.find(iter.name) == std::string::npos) {
-                result += (result.empty() ? "" : ",");
-                result += iter.name;
-            }
+    static bool bInitialized = false;
+    static std::set<std::string> result;
+    if (bInitialized) {
+        return result;
+    }
+    for (const auto& iter : titlovi_languages) {
+        if (strlen(iter.name)) {
+            result.emplace(iter.name);
         }
     }
-    return result; // "hr,sr,sl,bs,en,mk";
-}
-
-std::string titlovi::GetLanguagesString()
-{
-    std::string result;
-    std::string languages(LanguagesISO6391());
-    if (!languages.empty()) {
-        for (const auto& iter : titlovi_languages) {
-            if (strlen(iter.name) && languages.find(iter.name) != std::string::npos) {
-                result += (result.empty() ? "" : ",") + std::string(iter.code);
-            }
-        }
-    }
+    bInitialized = true;
     return result;
 }
 
@@ -835,17 +821,19 @@ SRESULT ysubs::Download(SubtitlesInfo& pSubtitlesInfo)
     return DownloadInternal(pSubtitlesInfo.id.c_str(), "", pSubtitlesInfo.fileContents);
 }
 
-std::string ysubs::Languages()
+const std::set<std::string>& ysubs::Languages() const
 {
-    static std::string result;
-    if (result.empty()) {
-        for (const auto& iter : ysubs_languages) {
-            if (strlen(iter.code) && result.find(iter.code) == std::string::npos) {
-                result += (result.empty() ? "" : ",");
-                result += iter.code;
-            }
+    static bool bInitialized = false;
+    static std::set<std::string> result;
+    if (bInitialized) {
+        return result;
+    }
+    for (const auto& iter : ysubs_languages) {
+        if (strlen(iter.code)) {
+            result.emplace(iter.code);
         }
     }
+    bInitialized = true;
     return result;
 }
 
@@ -949,7 +937,8 @@ SRESULT Napisy24::Download(SubtitlesInfo& subtitlesInfo)
     return subtitlesInfo.fileContents.empty() ? SR_FAILED : SR_SUCCEEDED;
 }
 
-std::string Napisy24::Languages()
+const std::set<std::string>& Napisy24::Languages() const
 {
-    return "pl";
+    static std::set<std::string> result = {"pl"};
+    return result;
 }

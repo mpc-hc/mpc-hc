@@ -44,7 +44,7 @@ public:                                                                         
 private:                                                                               \
     virtual std::string Name() override { return #P; }                                 \
     virtual std::string Url() override { return U; }                                   \
-    virtual std::string Languages() override;                                          \
+    virtual const std::set<std::string>& Languages() const override;                   \
     virtual bool Flags(DWORD dwFlags) override { return (dwFlags & (F)) == dwFlags; }  \
     virtual int Icon() override { return I; }                                          \
 private:                                                                               \
@@ -65,7 +65,7 @@ DEFINE_SUBTITLESPROVIDER_END
 DEFINE_SUBTITLESPROVIDER_BEGIN(SubDB, "http://api.thesubdb.com", IDI_SUBDB, SPF_HASH | SPF_UPLOAD)
 SRESULT Hash(SubtitlesInfo& pFileInfo) override;
 SRESULT Upload(const SubtitlesInfo& pSubtitlesInfo) override;
-std::string UserAgent() override
+std::string UserAgent() const override
 {
     return SubtitlesProvidersUtils::StringFormat("SubDB/1.0 (MPC-HC/%s; http://mpc-hc.org)",
                                                  VersionInfo::GetVersionString());
@@ -75,11 +75,9 @@ DEFINE_SUBTITLESPROVIDER_END
 DEFINE_SUBTITLESPROVIDER_BEGIN(podnapisi, "http://www.podnapisi.net", IDI_PODNAPISI, SPF_SEARCH)
 SRESULT Login(const std::string& sUserName, const std::string& sPassword) override;
 SRESULT Hash(SubtitlesInfo& pFileInfo) override;
-std::string GetLanguagesString() const;
 DEFINE_SUBTITLESPROVIDER_END
 
 DEFINE_SUBTITLESPROVIDER_BEGIN(titlovi, "http://www.titlovi.com", IDI_TITLOVI, SPF_SEARCH)
-static std::string GetLanguagesString();
 DEFINE_SUBTITLESPROVIDER_END
 
 DEFINE_SUBTITLESPROVIDER_BEGIN(ysubs, "http://www.yifysubtitles.com", IDI_YSUBS, SPF_SEARCH)

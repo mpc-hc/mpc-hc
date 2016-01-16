@@ -748,28 +748,20 @@ std::string SubtitlesProvidersUtils::StringReplace(const std::string& text, cons
     return result;
 }
 
-std::string SubtitlesProvidersUtils::LanguagesISO6391(const char delimiter/* = ','*/)
+std::list<std::string> SubtitlesProvidersUtils::LanguagesISO6391()
 {
-    std::string result;
-    stringArray languages = StringTokenize((const char*)UTF16To8(AfxGetAppSettings().strSubtitlesLanguageOrder), ",; ");
-    for (const auto& iter : languages) {
-        result += (iter.length() > 2) ? (const char*)CStringA(ISO6392To6391(iter.c_str())) : iter;
-        if (iter != languages.back()) {
-            result += delimiter;
-        }
+    std::list<std::string> result;
+    for (const auto& iter : StringTokenize(UTF16To8(AfxGetAppSettings().strSubtitlesLanguageOrder).GetString(), ",; ")) {
+        result.push_back(iter.length() > 2 ? CStringA(ISO6392To6391(iter.c_str())).GetString() : iter);
     }
     return result;
 }
 
-std::string SubtitlesProvidersUtils::LanguagesISO6392(const char delimiter/* = ','*/)
+std::list<std::string> SubtitlesProvidersUtils::LanguagesISO6392()
 {
-    std::string result;
-    stringArray languages = StringTokenize((const char*)UTF16To8(AfxGetAppSettings().strSubtitlesLanguageOrder), ",; ");
-    for (const auto& iter : languages) {
-        result += (iter.length() < 3) ? (const char*)ISO6391To6392(iter.c_str()) : iter;
-        if (iter != languages.back()) {
-            result += delimiter;
-        }
+    std::list<std::string> result;
+    for (const auto& iter : StringTokenize(UTF16To8(AfxGetAppSettings().strSubtitlesLanguageOrder).GetString(), ",; ")) {
+        result.push_back(iter.length() < 3 ? ISO6391To6392(iter.c_str()).GetString() : iter);
     }
     return result;
 }

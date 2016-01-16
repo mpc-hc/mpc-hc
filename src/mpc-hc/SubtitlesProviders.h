@@ -207,7 +207,6 @@ public:
 
 private:
     void Set(SubtitlesInfo& pSubtitlesInfo);
-    std::string& Languages() const;
 
     void ThreadProc() override;
     void Search();
@@ -228,14 +227,16 @@ class SubtitlesTask final : public CWinThreadProc
     friend class SubtitlesThread;
 public:
     // Search
-    SubtitlesTask(CMainFrame* pMainFrame, bool bAutoDownload, std::string sLanguages);
+    SubtitlesTask(CMainFrame* pMainFrame, bool bAutoDownload, const std::list<std::string>& sLanguages);
     // Download
     SubtitlesTask(CMainFrame* pMainFrame, SubtitlesInfo& pSubtitlesInfo, bool bActivate);
     // Upload
     SubtitlesTask(CMainFrame* pMainFrame, const SubtitlesInfo& pSubtitlesInfo);
 
-    SubtitlesThreadType Type() { return m_nType; }
-    std::string Languages() const { return m_sLanguages; };
+    SubtitlesThreadType Type() const { return m_nType; };
+    BYTE GetLangPriority(const std::string& sLanguage) {
+        return m_LangPriority.count(sLanguage) ? m_LangPriority[sLanguage] : 0;
+    }
 
     void InsertThread(SubtitlesThread* pThread) {
         CAutoLock cAutoLock(&m_csThreads);
@@ -269,7 +270,7 @@ private:
     SubtitlesThreadType m_nType;
     bool m_bAutoDownload;
     std::unordered_map<std::string, bool> m_AutoDownload;
-    std::string m_sLanguages;
+    std::unordered_map<std::string, BYTE> m_LangPriority;
 };
 
 class SubtitlesProvider
@@ -281,7 +282,7 @@ public:
 public: // implemented
     virtual std::string Name() PURE;
     virtual std::string Url() PURE;
-    virtual std::string Languages() PURE;
+    virtual const std::set<std::string>& Languages() const PURE;
     virtual bool Flags(DWORD dwFlags) PURE;
     virtual int Icon() PURE;
     virtual SRESULT Search(const SubtitlesInfo& pFileInfo) PURE;
@@ -294,7 +295,7 @@ public: // overridden
     virtual SRESULT Login(const std::string&, const std::string&) { return SR_UNDEFINED; }
     virtual SRESULT Hash(SubtitlesInfo&) { return SR_UNDEFINED; }
     virtual SRESULT Upload(const SubtitlesInfo&) { return SR_UNDEFINED; };
-    virtual std::string UserAgent() {
+    virtual std::string UserAgent() const {
         return SubtitlesProvidersUtils::StringFormat("MPC-HC v%u.%u.%u",
                                                      VersionInfo::GetMajorNumber(),
                                                      VersionInfo::GetMinorNumber(),
@@ -304,9 +305,12 @@ public: // overridden
     bool LoginInternal();
     void OpenUrl();
     size_t Index() const;
-    bool CheckInternetConnection();
-    bool CheckLanguage(const std::string& sLanguageCode) const;
-    SRESULT DownloadInternal(std::string url, std::string referer, std::string& data);
+    static bool CheckInternetConnection();
+    bool CheckLanguage(const std::string& sLanguageCode);
+    std::list<std::string> GetLanguagesIntersection() const;
+    std::list<std::string> GetLanguagesIntersection(std::list<std::string>&& userSelectedLangauges) const;
+    bool SupportsUserSelectedLanguages();
+    SRESULT DownloadInternal(std::string url, std::string referer, std::string& data) const;
     void Set(SubtitlesInfo& pSubtitlesInfo);
     bool IsAborting();
 
@@ -368,7 +372,8 @@ private:
 
 public:
     const std::vector<std::shared_ptr<SubtitlesProvider>>& Providers() const { return m_pProviders; };
-    BOOL SubtitlesProviders::CheckInternetConnection();
+    static BOOL SubtitlesProviders::CheckInternetConnection();
+
     void ReadSettings();
     std::string WriteSettings();
 

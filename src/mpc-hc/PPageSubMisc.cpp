@@ -110,7 +110,7 @@ BOOL CPPageSubMisc::OnInitDialog()
     for (const auto& iter : m_subtitlesProviders.Providers()) {
         int iItem = m_list.InsertItem((int)i++, CString(iter->Name().c_str()), iter->GetIconIndex());
         m_list.SetItemText(iItem, COL_USERNAME, UTF8To16(iter->UserName().c_str()));
-        CString languages(UTF8To16(iter->Languages().c_str()));
+        CString languages(SubtitlesProvidersUtils::JoinContainer(iter->Languages(), ",").c_str());
         m_list.SetItemText(iItem, COL_LANGUAGES, languages.GetLength() ? languages : ResStr(IDS_SUBPP_DLG_LANGUAGES_ERROR));
         m_list.SetCheck(iItem, iter->Enabled(SPF_SEARCH));
         m_list.SetItemData(iItem, (DWORD_PTR)(iter.get()));
