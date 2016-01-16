@@ -244,7 +244,6 @@ void CSubtitleDlDlg::OnRefresh()
 {
     m_list.DeleteAllItems();
     m_pMainFrame->m_pSubtitlesProviders->Search(FALSE);
-    m_bIsRefreshed = true;
 }
 
 void CSubtitleDlDlg::OnAbort()
@@ -567,6 +566,7 @@ afx_msg LRESULT CSubtitleDlDlg::OnCompleted(WPARAM wParam, LPARAM lParam)
         m_list.Invalidate();
         m_list.UpdateWindow();
     }
+    m_bIsRefreshed = true;
     UpdateWindow();
 
     return S_OK;
