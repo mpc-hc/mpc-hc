@@ -2,15 +2,15 @@
 # Copyright (C) 2002 - 2016 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Dat Luong Anh <datanhlg@gmail.com>, 2014
+# Dat Luong Anh, 2014
 # TRẦN ANH MINH <anhminhvks@yahoo.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-21 13:30:54+0000\n"
-"PO-Revision-Date: 2015-06-05 10:03+0000\n"
-"Last-Translator: TRẦN ANH MINH <anhminhvks@yahoo.com>\n"
-"Language-Team: Vietnamese (http://www.transifex.com/projects/p/mpc-hc/language/vi/)\n"
+"POT-Creation-Date: 2016-01-08 18:51:35+0000\n"
+"PO-Revision-Date: 2016-01-08 23:23+0000\n"
+"Last-Translator: Underground78\n"
+"Language-Team: Vietnamese (http://www.transifex.com/mpc-hc/mpc-hc/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3611,7 +3611,7 @@ msgstr ""
 
 msgctxt "IDS_SUBDL_DLG_TITLE"
 msgid "Download subtitles"
-msgstr ""
+msgstr "Tải phụ đề"
 
 msgctxt "IDS_SUBDL_DLG_SEARCHING"
 msgid "Searching for subtitles online, please wait..."
@@ -3675,7 +3675,7 @@ msgstr ""
 
 msgctxt "IDS_SUBMENU_DOWNLOAD"
 msgid "Download && Open"
-msgstr ""
+msgstr "Tải về && Mở "
 
 msgctxt "IDS_SUBMENU_SETUP"
 msgid "Setup"
@@ -3683,15 +3683,15 @@ msgstr ""
 
 msgctxt "IDS_SUBMENU_RESET"
 msgid "Reset"
-msgstr ""
+msgstr "Đặt lại"
 
 msgctxt "IDS_SUBMENU_MOVEUP"
 msgid "Move Up"
-msgstr ""
+msgstr "Lên trên"
 
 msgctxt "IDS_SUBMENU_MOVEDOWN"
 msgid "Move Down"
-msgstr ""
+msgstr "Xuống dưới"
 
 msgctxt "IDS_SUBMENU_OPENURL"
 msgid "Open Url"

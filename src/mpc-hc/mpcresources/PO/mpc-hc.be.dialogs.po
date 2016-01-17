@@ -2,12 +2,12 @@
 # Copyright (C) 2002 - 2016 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Yauhen Bugamol <haxycgm@gmail.com>, 2015
+# Yauhen Bugamol <haxycgm@gmail.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-10-19 19:15:11+0000\n"
-"PO-Revision-Date: 2015-12-29 19:48+0000\n"
+"POT-Creation-Date: 2016-01-07 20:33:06+0000\n"
+"PO-Revision-Date: 2016-01-13 16:47+0000\n"
 "Last-Translator: Yauhen Bugamol <haxycgm@gmail.com>\n"
 "Language-Team: Belarusian (http://www.transifex.com/mpc-hc/mpc-hc/language/be/)\n"
 "MIME-Version: 1.0\n"
@@ -126,7 +126,7 @@ msgstr "Перайсці..."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time. You do not need to enter the separators explicitly."
-msgstr "Увядзіце не больш 4 лікаў, падзеленых чым заўгодна, акрамя лічбаў. Адзін лік значыць мс, два ліку - сек і мс, і г.д."
+msgstr "Каб перайсці на патрэбную пазіцыю, увядзіце час у фармаце [гг:]хв:сс.мс. "
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Time"
@@ -134,11 +134,11 @@ msgstr "Час"
 
 msgctxt "IDD_GOTO_DLG_IDC_OK1"
 msgid "Go!"
-msgstr "Наперад!"
+msgstr "Перайсці"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Enter two numbers to jump to a specified frame, the first is the frame number, the second is the frame rate."
-msgstr "Увядзіце два ліка для пераходу да зададзенага кадра: першы - нумар кадра, другі - лік кадраў у секунду."
+msgstr "Каб перайсці да патрэбнага кадра, увядзіце два лікі: першы - нумар кадра, другі - колькасць кадраў у секунду."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Frame"
@@ -146,7 +146,7 @@ msgstr "Кадр"
 
 msgctxt "IDD_GOTO_DLG_IDC_OK2"
 msgid "Go!"
-msgstr "Наперад!"
+msgstr "Перайсці"
 
 msgctxt "IDD_OPEN_DLG_CAPTION"
 msgid "Open"
@@ -158,7 +158,7 @@ msgstr "Увядзіце адрас фільма або аўдыяфайла (у
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Open:"
-msgstr "Адкрыць"
+msgstr "Адкрыць:"
 
 msgctxt "IDD_OPEN_DLG_IDC_BUTTON1"
 msgid "Browse..."
@@ -386,11 +386,11 @@ msgstr "Гучнасць"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Min"
-msgstr "Мін"
+msgstr "Менш"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Max"
-msgstr "Макс"
+msgstr "Больш"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC_BALANCE"
 msgid "Balance"
@@ -558,7 +558,7 @@ msgstr "Апрацоўшчык відэа"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SUB_AR_COMPENSATION"
 msgid "Apply aspect ratio compensation for anamorphic videos"
-msgstr "Каррэктаваць прапорцыі анамарфаванага відэафармата."
+msgstr "Карэктаваць прапорцыі анамарфаванага відэафармата."
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Warning"
@@ -666,7 +666,7 @@ msgstr "Паказваць пазначнікі сцэн на паласе пр�
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK4"
 msgid "Display \"Now Playing\" information in Skype's mood message"
-msgstr "Адпраўляць у статус Skype звесткі пра што \"Зараз прайграецца\" "
+msgstr "Адпраўляць у статус Skype звесткі пра што «Зараз прайграецца» "
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
@@ -1230,7 +1230,7 @@ msgstr "Інтэрпрэтатары CGI: (.ext1=path1;.ext2=path2;...)"
 
 msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
 msgid "Download subtitles"
-msgstr ""
+msgstr "Спампаваць субтытры"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
 msgid "Replace currently loaded subtitles"
@@ -1238,35 +1238,35 @@ msgstr "Замяняць ужо адкрытыя субтытры"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
 msgid "Download"
-msgstr ""
+msgstr "Спампаваць"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON1"
 msgid "Refresh"
-msgstr ""
+msgstr "Абнавіць"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON2"
 msgid "Abort"
-msgstr ""
+msgstr "Спыніць"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON3"
 msgid "Options"
-msgstr ""
+msgstr "Параметры"
 
 msgctxt "IDD_SUBTITLEUP_DLG_CAPTION"
 msgid "Upload subtitles"
-msgstr ""
+msgstr "Запампаваць субтытры"
 
 msgctxt "IDD_SUBTITLEUP_DLG_IDOK"
 msgid "Upload"
-msgstr ""
+msgstr "Запампаваць"
 
 msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
 msgid "Abort"
-msgstr ""
+msgstr "Спыніць"
 
 msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON2"
 msgid "Options"
-msgstr ""
+msgstr "Параметры"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
@@ -1570,27 +1570,27 @@ msgstr "Скід"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Online search, download and upload subtitles"
-msgstr ""
+msgstr "Пошук у інтэрнэце, спампоўка і запампоўка субтытраў"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
 msgid "Automatically search and download subtitles if none are found locally"
-msgstr ""
+msgstr "Калі субтытраў няма, знайсці і спампаваць іх аўтаматычна"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
 msgid "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
-msgstr ""
+msgstr "Пажаданы субтытры  для людзей з парушэннем слыху"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
 msgid "Ignore files containing any of the following word(s):"
-msgstr ""
+msgstr "Ігнараваць файлы з наступнымі словамі:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Languages in order of preference (i.e. \"eng ell spa\"):"
-msgstr ""
+msgstr "Пажаданыя мовы (напр. «bel rus eng»)"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
 msgid "Automatically upload active subtitles at the end of video playback"
-msgstr ""
+msgstr "Па сканчэнні відэа, аўтаматычна запампаваць актыўныя субтытры"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
@@ -1630,7 +1630,7 @@ msgstr "Дадаць у post-resize"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shader presets"
-msgstr "Зададзеныя налады шэйдараў"
+msgstr "Налады шэйдараў"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON3"
 msgid "Load"

@@ -5,13 +5,13 @@
 # Burak <burakgarci@gmail.com>, 2013
 # Devrim, 2013
 # kasper93, 2013
-# Sinan H., 2014-2015
+# Sinan H., 2014-2016
 # Sinan H., 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-30 00:33:30+0000\n"
-"PO-Revision-Date: 2015-06-02 20:41+0000\n"
+"POT-Creation-Date: 2016-01-08 18:34:52+0000\n"
+"PO-Revision-Date: 2016-01-11 18:13+0000\n"
 "Last-Translator: Sinan H.\n"
 "Language-Team: Turkish (http://www.transifex.com/mpc-hc/mpc-hc/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -70,23 +70,23 @@ msgstr "Küçük &Resim Kaydet..."
 
 msgctxt "POPUP"
 msgid "Subtitles"
-msgstr ""
+msgstr "Alt Yazılar"
 
 msgctxt "ID_FILE_SUBTITLES_LOAD"
 msgid "&Load Subtitles..."
-msgstr ""
+msgstr "&Alt Yazı Yükle..."
 
 msgctxt "ID_FILE_SUBTITLES_SAVE"
 msgid "Save S&ubtitles..."
-msgstr ""
+msgstr "Alt Yazı K&aydet.."
 
 msgctxt "ID_FILE_SUBTITLES_DOWNLOAD"
 msgid "&Download Subtitles..."
-msgstr ""
+msgstr "&Alt Yazı indir..."
 
 msgctxt "ID_FILE_SUBTITLES_UPLOAD"
 msgid "&Upload Subtitles..."
-msgstr ""
+msgstr "&Alt Yazı Gönder..."
 
 msgctxt "ID_FILE_PROPERTIES"
 msgid "P&roperties"
@@ -410,11 +410,11 @@ msgstr "Pencereye Dışarıdan U&yarla"
 
 msgctxt "POPUP"
 msgid "&Aspect Ratio"
-msgstr ""
+msgstr "&Taraf Oranı"
 
 msgctxt "ID_ASPECTRATIO_DAR"
 msgid "&Default (DAR)"
-msgstr ""
+msgstr "&Varsayılan (DAR)"
 
 msgctxt "ID_ASPECTRATIO_4_3"
 msgid "&4:3"
@@ -438,7 +438,7 @@ msgstr "1&85:100"
 
 msgctxt "ID_ASPECTRATIO_SAR"
 msgid "Assume &square pixels (SAR)"
-msgstr ""
+msgstr "Kare &çerçeve oranını kullan (SAR)"
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"
@@ -510,7 +510,7 @@ msgstr "&Her zaman"
 
 msgctxt "ID_ONTOP_WHILEPLAYING"
 msgid "While &Playing"
-msgstr "O&ynatılırken"
+msgstr "Medya o&ynatılırken"
 
 msgctxt "ID_ONTOP_WHILEPLAYINGVIDEO"
 msgid "While Playing &Video"
@@ -594,11 +594,11 @@ msgstr "Bir &İşlem Yapma"
 
 msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
 msgid "Play &next file in the folder"
-msgstr "Klasördeki &sıradaki dosyayı yürüt"
+msgstr "Klasördeki &Sıradaki Dosyayı Yürüt"
 
 msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
 msgid "Turn off the &monitor"
-msgstr "E&kranı kapat"
+msgstr "E&kranı Kapat"
 
 msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
@@ -622,7 +622,7 @@ msgstr "Oturumu &Kapat"
 
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
-msgstr "&Kilitle"
+msgstr "&Bilgisayarı Kilitle"
 
 msgctxt "POPUP"
 msgid "&Navigate"

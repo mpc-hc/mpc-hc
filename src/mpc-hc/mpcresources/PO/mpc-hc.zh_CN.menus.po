@@ -5,12 +5,12 @@
 # bruce55 <bruce.luo+transifex@nyu.edu>, 2014
 # Dean Lee <xslidian@gmail.com>, 2015
 # kasper93, 2013
-# Ming Chen <yzonline@gmail.com>, 2013-2015
+# Ming Chen <yzonline@gmail.com>, 2013-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-30 00:33:30+0000\n"
-"PO-Revision-Date: 2015-07-20 08:01+0000\n"
+"POT-Creation-Date: 2016-01-08 18:34:52+0000\n"
+"PO-Revision-Date: 2016-01-09 20:32+0000\n"
 "Last-Translator: Ming Chen <yzonline@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/mpc-hc/mpc-hc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -69,23 +69,23 @@ msgstr "保存缩略图(&T)..."
 
 msgctxt "POPUP"
 msgid "Subtitles"
-msgstr ""
+msgstr "字幕"
 
 msgctxt "ID_FILE_SUBTITLES_LOAD"
 msgid "&Load Subtitles..."
-msgstr ""
+msgstr "载入字幕(&L)..."
 
 msgctxt "ID_FILE_SUBTITLES_SAVE"
 msgid "Save S&ubtitles..."
-msgstr ""
+msgstr "保存字幕(&U)..."
 
 msgctxt "ID_FILE_SUBTITLES_DOWNLOAD"
 msgid "&Download Subtitles..."
-msgstr ""
+msgstr "载入字幕(&D)..."
 
 msgctxt "ID_FILE_SUBTITLES_UPLOAD"
 msgid "&Upload Subtitles..."
-msgstr ""
+msgstr "上传字幕(&U)..."
 
 msgctxt "ID_FILE_PROPERTIES"
 msgid "P&roperties"
@@ -409,11 +409,11 @@ msgstr "缩放以填满窗口(&O)"
 
 msgctxt "POPUP"
 msgid "&Aspect Ratio"
-msgstr ""
+msgstr "高宽比(&A)"
 
 msgctxt "ID_ASPECTRATIO_DAR"
 msgid "&Default (DAR)"
-msgstr ""
+msgstr "默认 (DAR)(&D)"
 
 msgctxt "ID_ASPECTRATIO_4_3"
 msgid "&4:3"
@@ -437,7 +437,7 @@ msgstr "1&85:100"
 
 msgctxt "ID_ASPECTRATIO_SAR"
 msgid "Assume &square pixels (SAR)"
-msgstr ""
+msgstr "猜测是方形像素 (SAR)(&S)"
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"

@@ -6,13 +6,13 @@
 # Muhammad Wahyu Dwinash <Dwinash@gmail.com>, 2014
 # Reza Septyan .R. <ainofuyuumI@outlook.com>, 2014
 # rizqiromadhon <rizqi-romadhon@outlook.com>, 2014
-# zk <zamani.karmana@gmail.com>, 2015
+# zk <zamani.karmana@gmail.com>, 2015-2016
 # zk <zamani.karmana@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-30 00:33:30+0000\n"
-"PO-Revision-Date: 2015-09-20 11:16+0000\n"
+"POT-Creation-Date: 2016-01-08 18:34:52+0000\n"
+"PO-Revision-Date: 2016-01-12 15:37+0000\n"
 "Last-Translator: zk <zamani.karmana@gmail.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/mpc-hc/mpc-hc/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -71,23 +71,23 @@ msgstr "Simpan Mi&niatur Gambar..."
 
 msgctxt "POPUP"
 msgid "Subtitles"
-msgstr ""
+msgstr "Subtitel"
 
 msgctxt "ID_FILE_SUBTITLES_LOAD"
 msgid "&Load Subtitles..."
-msgstr ""
+msgstr "&Muat Subtitel..."
 
 msgctxt "ID_FILE_SUBTITLES_SAVE"
 msgid "Save S&ubtitles..."
-msgstr ""
+msgstr "Simpan S&ubtitel..."
 
 msgctxt "ID_FILE_SUBTITLES_DOWNLOAD"
 msgid "&Download Subtitles..."
-msgstr ""
+msgstr "Un&duh Subtitel..."
 
 msgctxt "ID_FILE_SUBTITLES_UPLOAD"
 msgid "&Upload Subtitles..."
-msgstr ""
+msgstr "&Unggah Subtitel..."
 
 msgctxt "ID_FILE_PROPERTIES"
 msgid "P&roperties"
@@ -411,11 +411,11 @@ msgstr "Sentuh Jendela Dari L&uar"
 
 msgctxt "POPUP"
 msgid "&Aspect Ratio"
-msgstr ""
+msgstr "Nisb&ah Bidang"
 
 msgctxt "ID_ASPECTRATIO_DAR"
 msgid "&Default (DAR)"
-msgstr ""
+msgstr "&Bawaan (DAR)"
 
 msgctxt "ID_ASPECTRATIO_4_3"
 msgid "&4:3"
@@ -439,7 +439,7 @@ msgstr "1&85:100"
 
 msgctxt "ID_ASPECTRATIO_SAR"
 msgid "Assume &square pixels (SAR)"
-msgstr ""
+msgstr "Asumsi Piksel Bujur&sangkar (SAR)"
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"

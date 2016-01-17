@@ -4,12 +4,12 @@
 # Translators:
 # kasper93, 2013-2014
 # fubuzz <knedlc@gmail.com>, 2014
-# shvala <simon.hvala@hotmail.com>, 2013,2015
+# shvala <simon.hvala@hotmail.com>, 2013,2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-30 00:33:30+0000\n"
-"PO-Revision-Date: 2015-05-31 14:58+0000\n"
+"POT-Creation-Date: 2016-01-08 18:34:52+0000\n"
+"PO-Revision-Date: 2016-01-17 18:46+0000\n"
 "Last-Translator: shvala <simon.hvala@hotmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/mpc-hc/mpc-hc/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -68,23 +68,23 @@ msgstr "Shrani predo&gledno sličico..."
 
 msgctxt "POPUP"
 msgid "Subtitles"
-msgstr ""
+msgstr "Podnapisi"
 
 msgctxt "ID_FILE_SUBTITLES_LOAD"
 msgid "&Load Subtitles..."
-msgstr ""
+msgstr "Na&loži podnapise..."
 
 msgctxt "ID_FILE_SUBTITLES_SAVE"
 msgid "Save S&ubtitles..."
-msgstr ""
+msgstr "Shrani pod&napise..."
 
 msgctxt "ID_FILE_SUBTITLES_DOWNLOAD"
 msgid "&Download Subtitles..."
-msgstr ""
+msgstr "Prenesi po&dnapise"
 
 msgctxt "ID_FILE_SUBTITLES_UPLOAD"
 msgid "&Upload Subtitles..."
-msgstr ""
+msgstr "Prenesi &gor podnapise"
 
 msgctxt "ID_FILE_PROPERTIES"
 msgid "P&roperties"
@@ -408,11 +408,11 @@ msgstr "D&otik okna od zunaj"
 
 msgctxt "POPUP"
 msgid "&Aspect Ratio"
-msgstr ""
+msgstr "R&azmerje stranic"
 
 msgctxt "ID_ASPECTRATIO_DAR"
 msgid "&Default (DAR)"
-msgstr ""
+msgstr "&Privzeto (DAR)"
 
 msgctxt "ID_ASPECTRATIO_4_3"
 msgid "&4:3"
@@ -436,7 +436,7 @@ msgstr "1&85:100"
 
 msgctxt "ID_ASPECTRATIO_SAR"
 msgid "Assume &square pixels (SAR)"
-msgstr ""
+msgstr "Predvidevaj kvadratne pik&sle (SAR)"
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"

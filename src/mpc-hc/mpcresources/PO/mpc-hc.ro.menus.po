@@ -2,13 +2,13 @@
 # Copyright (C) 2002 - 2016 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Daniel <danny34ever@yahoo.com>, 2014-2015
+# Daniel <danny34ever@yahoo.com>, 2014-2016
 # lordkag <lord.kagula@gmail.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-30 00:33:30+0000\n"
-"PO-Revision-Date: 2015-12-29 06:14+0000\n"
+"POT-Creation-Date: 2016-01-08 18:34:52+0000\n"
+"PO-Revision-Date: 2016-01-11 00:43+0000\n"
 "Last-Translator: Daniel <danny34ever@yahoo.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/mpc-hc/mpc-hc/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -67,23 +67,23 @@ msgstr "Salvare &miniaturi..."
 
 msgctxt "POPUP"
 msgid "Subtitles"
-msgstr ""
+msgstr "Subtitluri"
 
 msgctxt "ID_FILE_SUBTITLES_LOAD"
 msgid "&Load Subtitles..."
-msgstr ""
+msgstr "Î&ncărcare subtitluri..."
 
 msgctxt "ID_FILE_SUBTITLES_SAVE"
 msgid "Save S&ubtitles..."
-msgstr ""
+msgstr "Salvare s&ubtitluri..."
 
 msgctxt "ID_FILE_SUBTITLES_DOWNLOAD"
 msgid "&Download Subtitles..."
-msgstr ""
+msgstr "&Descărcare subtitluri..."
 
 msgctxt "ID_FILE_SUBTITLES_UPLOAD"
 msgid "&Upload Subtitles..."
-msgstr ""
+msgstr "&Urcare subtitluri..."
 
 msgctxt "ID_FILE_PROPERTIES"
 msgid "P&roperties"
@@ -407,11 +407,11 @@ msgstr "Atinge fereastra din exteri&or"
 
 msgctxt "POPUP"
 msgid "&Aspect Ratio"
-msgstr ""
+msgstr "Raport de &aspect"
 
 msgctxt "ID_ASPECTRATIO_DAR"
 msgid "&Default (DAR)"
-msgstr ""
+msgstr "&Implicit (DAR)"
 
 msgctxt "ID_ASPECTRATIO_4_3"
 msgid "&4:3"
@@ -435,7 +435,7 @@ msgstr "185:100"
 
 msgctxt "ID_ASPECTRATIO_SAR"
 msgid "Assume &square pixels (SAR)"
-msgstr ""
+msgstr "Presupune că pixelii sunt &pătrați (SAR)"
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"

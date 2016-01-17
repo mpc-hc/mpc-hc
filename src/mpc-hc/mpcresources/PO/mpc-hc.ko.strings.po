@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-08-06 16:05:43+0000\n"
-"PO-Revision-Date: 2015-09-20 03:35+0000\n"
+"POT-Creation-Date: 2016-01-08 18:51:35+0000\n"
+"PO-Revision-Date: 2016-01-08 23:23+0000\n"
 "Last-Translator: Underground78\n"
 "Language-Team: Korean (http://www.transifex.com/mpc-hc/mpc-hc/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -3611,7 +3611,7 @@ msgstr ""
 
 msgctxt "IDS_SUBDL_DLG_TITLE"
 msgid "Download subtitles"
-msgstr ""
+msgstr "자막 다운로드"
 
 msgctxt "IDS_SUBDL_DLG_SEARCHING"
 msgid "Searching for subtitles online, please wait..."
@@ -3675,7 +3675,7 @@ msgstr ""
 
 msgctxt "IDS_SUBMENU_DOWNLOAD"
 msgid "Download && Open"
-msgstr ""
+msgstr "다운로드 && 열기"
 
 msgctxt "IDS_SUBMENU_SETUP"
 msgid "Setup"
@@ -3683,15 +3683,15 @@ msgstr ""
 
 msgctxt "IDS_SUBMENU_RESET"
 msgid "Reset"
-msgstr ""
+msgstr "초기화"
 
 msgctxt "IDS_SUBMENU_MOVEUP"
 msgid "Move Up"
-msgstr ""
+msgstr "위로"
 
 msgctxt "IDS_SUBMENU_MOVEDOWN"
 msgid "Move Down"
-msgstr ""
+msgstr "아래로"
 
 msgctxt "IDS_SUBMENU_OPENURL"
 msgid "Open Url"

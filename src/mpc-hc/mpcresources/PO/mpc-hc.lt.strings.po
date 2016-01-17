@@ -2,7 +2,7 @@
 # Copyright (C) 2002 - 2016 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# linasmi <linasmi@mail.ru>, 2014-2015
+# linasmi <linasmi@mail.ru>, 2014-2016
 # Linas Tamašauskas, 2014
 # Linas Tamašauskas, 2014-2015
 # Martynas Kybartas <maky@super.lt>, 2014
@@ -10,8 +10,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-10-25 00:51:15+0000\n"
-"PO-Revision-Date: 2015-11-18 12:35+0000\n"
+"POT-Creation-Date: 2016-01-08 18:51:35+0000\n"
+"PO-Revision-Date: 2016-01-11 23:18+0000\n"
 "Last-Translator: linasmi <linasmi@mail.ru>\n"
 "Language-Team: Lithuanian (http://www.transifex.com/mpc-hc/mpc-hc/language/lt/)\n"
 "MIME-Version: 1.0\n"
@@ -3614,7 +3614,7 @@ msgstr ""
 
 msgctxt "IDS_SUBDL_DLG_TITLE"
 msgid "Download subtitles"
-msgstr ""
+msgstr "Atsisiųsti subtitrus"
 
 msgctxt "IDS_SUBDL_DLG_SEARCHING"
 msgid "Searching for subtitles online, please wait..."
@@ -3678,7 +3678,7 @@ msgstr ""
 
 msgctxt "IDS_SUBMENU_DOWNLOAD"
 msgid "Download && Open"
-msgstr ""
+msgstr "Atsiųsti ir atverti"
 
 msgctxt "IDS_SUBMENU_SETUP"
 msgid "Setup"
@@ -3686,15 +3686,15 @@ msgstr ""
 
 msgctxt "IDS_SUBMENU_RESET"
 msgid "Reset"
-msgstr ""
+msgstr "Atstatyti numatytuosius"
 
 msgctxt "IDS_SUBMENU_MOVEUP"
 msgid "Move Up"
-msgstr ""
+msgstr "Kelti Aukštyn"
 
 msgctxt "IDS_SUBMENU_MOVEDOWN"
 msgid "Move Down"
-msgstr ""
+msgstr "Kelti Žemyn"
 
 msgctxt "IDS_SUBMENU_OPENURL"
 msgid "Open Url"
@@ -3702,7 +3702,7 @@ msgstr ""
 
 msgctxt "IDS_SUBPP_DLG_LANGUAGES_COL"
 msgid "Languages"
-msgstr ""
+msgstr "Kalbos"
 
 msgctxt "IDS_SUBPP_DLG_LANGUAGES_ERROR"
 msgid "ERROR: Internet connection could not be established."

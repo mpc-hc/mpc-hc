@@ -2,12 +2,12 @@
 # Copyright (C) 2002 - 2016 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Yauhen Bugamol <haxycgm@gmail.com>, 2015
+# Yauhen Bugamol <haxycgm@gmail.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-30 00:33:30+0000\n"
-"PO-Revision-Date: 2015-12-30 20:57+0000\n"
+"POT-Creation-Date: 2016-01-08 18:34:52+0000\n"
+"PO-Revision-Date: 2016-01-13 00:28+0000\n"
 "Last-Translator: Yauhen Bugamol <haxycgm@gmail.com>\n"
 "Language-Team: Belarusian (http://www.transifex.com/mpc-hc/mpc-hc/language/be/)\n"
 "MIME-Version: 1.0\n"
@@ -66,23 +66,23 @@ msgstr "Захаваць &мініяцюры кадраў..."
 
 msgctxt "POPUP"
 msgid "Subtitles"
-msgstr ""
+msgstr "Субтытры"
 
 msgctxt "ID_FILE_SUBTITLES_LOAD"
 msgid "&Load Subtitles..."
-msgstr ""
+msgstr "Адкрыць су&бтытры..."
 
 msgctxt "ID_FILE_SUBTITLES_SAVE"
 msgid "Save S&ubtitles..."
-msgstr ""
+msgstr "Захаваць суб&тытры..."
 
 msgctxt "ID_FILE_SUBTITLES_DOWNLOAD"
 msgid "&Download Subtitles..."
-msgstr ""
+msgstr "С&пампаваць субтытры..."
 
 msgctxt "ID_FILE_SUBTITLES_UPLOAD"
 msgid "&Upload Subtitles..."
-msgstr ""
+msgstr "&Запампаваць субтытры..."
 
 msgctxt "ID_FILE_PROPERTIES"
 msgid "P&roperties"
@@ -106,7 +106,7 @@ msgstr "&Паласа прагорткі"
 
 msgctxt "ID_VIEW_CONTROLS"
 msgid "&Controls"
-msgstr "&Кіраванне"
+msgstr "Панэль наві&гацыі"
 
 msgctxt "ID_VIEW_INFORMATION"
 msgid "&Information"
@@ -134,7 +134,7 @@ msgstr "&Захоп"
 
 msgctxt "ID_VIEW_NAVIGATION"
 msgid "Na&vigation"
-msgstr "Навігацыя"
+msgstr "&Навігацыя"
 
 msgctxt "ID_VIEW_DEBUGSHADERS"
 msgid "&Debug Shaders"
@@ -250,7 +250,7 @@ msgstr "Адкл. эфекты прац. стала"
 
 msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time &Correction"
-msgstr "Укл. карэкцыю часу кадра"
+msgstr "Уключыць &карэкцыю часу кадра"
 
 msgctxt "POPUP"
 msgid "&Color Management"
@@ -402,15 +402,15 @@ msgstr "Маштаб &2"
 
 msgctxt "ID_VIEW_VF_FROMOUTSIDE"
 msgid "Touch Window From &Outside"
-msgstr "&Апісаць звонку акна"
+msgstr "&Запоўніць акно і абрэзаць відэакадр"
 
 msgctxt "POPUP"
 msgid "&Aspect Ratio"
-msgstr ""
+msgstr "&Прапорцыі"
 
 msgctxt "ID_ASPECTRATIO_DAR"
 msgid "&Default (DAR)"
-msgstr ""
+msgstr "Па &змаўчанні (DAR)"
 
 msgctxt "ID_ASPECTRATIO_4_3"
 msgid "&4:3"
@@ -434,11 +434,11 @@ msgstr "1&85:100"
 
 msgctxt "ID_ASPECTRATIO_SAR"
 msgid "Assume &square pixels (SAR)"
-msgstr ""
+msgstr "Дапускаць квадратныя пікселі (SAR)"
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"
-msgstr "&Улічваць розніцу аспекту манітора/прац.стала"
+msgstr "&Выпраўляць розніцу прапорцый экрана і працоўнага стала"
 
 msgctxt "POPUP"
 msgid "Pa&n&&Scan"
@@ -494,7 +494,7 @@ msgstr "Скінуць"
 
 msgctxt "POPUP"
 msgid "On &Top"
-msgstr "П&аверх усіх вокнаў"
+msgstr "Па-над &усімі вокнамі"
 
 msgctxt "ID_ONTOP_DEFAULT"
 msgid "&Default"
@@ -682,7 +682,7 @@ msgstr "&Параметры каманднага радка"
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"
-msgstr "&Спампаваць выявы для панелі інструментаў"
+msgstr "&Спампаваць выявы для панелі навігацыі"
 
 msgctxt "ID_HELP_DONATE"
 msgid "&Donate"
