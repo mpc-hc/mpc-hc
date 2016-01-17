@@ -286,9 +286,22 @@ const std::set<std::string>& OpenSubtitles::Languages() const
         if (!xmlrpc->execute("GetSubLanguages", args, res)) { return result; }
         if (res["data"].getType() != XmlRpcValue::Type::TypeArray) { return result; }
 
-        int count = res["data"].size();
+        auto& data = res["data"];
+        int count = data.size();
         for (int i = 0; i < count; ++i) {
-            result.emplace(CStringA(ISO6392To6391(res["data"][i]["SubLanguageID"])).GetString());
+#ifdef _DEBUG
+            // Validate if language code conversion is in sync with OpenSubtitles database.
+            std::string subLanguageID = data[i]["SubLanguageID"];
+            std::string ISO6391 = data[i]["ISO639"];
+            ASSERT(!ISO6391.empty());
+            ASSERT(!subLanguageID.empty());
+            ASSERT(ISO6391To6392(ISO6391.c_str()) == subLanguageID.c_str());
+            ASSERT(ISO6392To6391(subLanguageID.c_str()) == ISO6391.c_str());
+            //std::string languageName = data[i]["LanguageName"];
+            //ASSERT(ISO639XToLanguage(ISO6391.c_str()) == languageName.c_str());
+            //ASSERT(ISO639XToLanguage(subLanguageID.c_str()) == languageName.c_str());
+#endif
+            result.emplace(data[i]["ISO639"]);
         }
         bInitialized = true;
     }
