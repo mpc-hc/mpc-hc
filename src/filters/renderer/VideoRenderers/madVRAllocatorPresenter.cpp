@@ -71,6 +71,7 @@ HRESULT CmadVRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
         // release all resources
         m_pSubPicQueue = nullptr;
         m_pAllocator = nullptr;
+        __super::SetPosition(CRect(), CRect());
         return S_OK;
     }
 
