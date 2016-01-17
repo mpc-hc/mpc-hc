@@ -1,5 +1,5 @@
 /*
- * (C) 2010-2015 see Authors.txt
+ * (C) 2010-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -221,19 +221,17 @@ CBaseAP::~CBaseAP()
 
     m_pFont = nullptr;
     m_pLine = nullptr;
+    m_pSprite = nullptr;
+    m_pOSDTexture = nullptr;
+    m_pOSDSurface = nullptr;
     m_pD3DDev = nullptr;
     m_pD3DDevEx = nullptr;
     m_pPSC.Free();
     m_pD3D = nullptr;
     m_pD3DEx = nullptr;
-    if (m_hDWMAPI) {
-        FreeLibrary(m_hDWMAPI);
-        m_hDWMAPI = nullptr;
-    }
-    if (m_hD3D9) {
-        FreeLibrary(m_hD3D9);
-        m_hD3D9 = nullptr;
-    }
+    m_pSubPicQueue = nullptr;
+    m_pAllocator = nullptr;
+
     m_pAudioStats = nullptr;
     SAFE_DELETE(m_pGenlock);
 
@@ -243,6 +241,15 @@ CBaseAP::~CBaseAP()
             ASSERT(FALSE);
             TerminateThread(m_FocusThread->m_hThread, 0xDEAD);
         }
+    }
+
+    if (m_hDWMAPI) {
+        FreeLibrary(m_hDWMAPI);
+        m_hDWMAPI = nullptr;
+    }
+    if (m_hD3D9) {
+        FreeLibrary(m_hD3D9);
+        m_hD3D9 = nullptr;
     }
 }
 

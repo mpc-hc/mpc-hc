@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -238,14 +238,8 @@ CDX9AllocatorPresenter::~CDX9AllocatorPresenter()
 
     m_pD3D   = nullptr;
     m_pD3DEx = nullptr;
-    if (m_hDWMAPI) {
-        FreeLibrary(m_hDWMAPI);
-        m_hDWMAPI = nullptr;
-    }
-    if (m_hD3D9) {
-        FreeLibrary(m_hD3D9);
-        m_hD3D9 = nullptr;
-    }
+    m_pSubPicQueue = nullptr;
+    m_pAllocator = nullptr;
 
     if (m_FocusThread) {
         m_FocusThread->PostThreadMessage(WM_QUIT, 0, 0);
@@ -253,6 +247,15 @@ CDX9AllocatorPresenter::~CDX9AllocatorPresenter()
             ASSERT(FALSE);
             TerminateThread(m_FocusThread->m_hThread, 0xDEAD);
         }
+    }
+
+    if (m_hDWMAPI) {
+        FreeLibrary(m_hDWMAPI);
+        m_hDWMAPI = nullptr;
+    }
+    if (m_hD3D9) {
+        FreeLibrary(m_hD3D9);
+        m_hD3D9 = nullptr;
     }
 }
 
