@@ -495,7 +495,7 @@ void SubtitlesProviders::Download(SubtitlesInfo& pSubtitlesInfo, bool bActivate)
     }
 }
 
-void SubtitlesProviders::Upload()
+void SubtitlesProviders::Upload(bool bShowConfirm)
 {
     if (CheckInternetConnection()) {
         // We get all the information we need within the main thread, to delay closing the file
@@ -505,7 +505,12 @@ void SubtitlesProviders::Upload()
         //pSubtitlesInfo.GetCurrentSubtitles();
 
         if (!pSubtitlesInfo.fileContents.empty()) {
-            InsertTask(DEBUG_NEW SubtitlesTask(&m_MainFrame, pSubtitlesInfo));
+            CString msg;
+            msg.Format(ResStr(IDS_SUBUL_DLG_CONFIRM), UTF8To16(pSubtitlesInfo.releaseName.c_str()));
+            if (!bShowConfirm
+                    || IDYES == MessageBox(m_MainFrame.m_wndSubtitlesUploadDialog, msg, ResStr(IDS_SUBUL_DLG_TITLE), MB_YESNO)) {
+                InsertTask(DEBUG_NEW SubtitlesTask(&m_MainFrame, pSubtitlesInfo));
+            }
         }
     }
 }

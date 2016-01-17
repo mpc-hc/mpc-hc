@@ -3566,6 +3566,8 @@ BEGIN
     IDS_SUB_CREDENTIALS_MSG "Enter your credentials to connect to: "
     IDS_ASPECT_RATIO_SAR    "Aspect Ratio: Assume square pixels (SAR)"
     IDS_SUBDL_DLG_DOWNLOADED  "Downloaded [%s] ""%s"""
+    IDS_SUBUL_DLG_TITLE     "Upload subtitles"
+    IDS_SUBUL_DLG_CONFIRM   "Are you sure you want to upload the subtitle file ""%s""?"
 END
 
 #endif    // English (United States) resources

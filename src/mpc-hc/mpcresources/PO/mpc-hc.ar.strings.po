@@ -3726,3 +3726,11 @@ msgctxt "IDS_SUBDL_DLG_DOWNLOADED"
 msgid "Downloaded [%s] \"%s\""
 msgstr ""
 
+msgctxt "IDS_SUBUL_DLG_TITLE"
+msgid "Upload subtitles"
+msgstr ""
+
+msgctxt "IDS_SUBUL_DLG_CONFIRM"
+msgid "Are you sure you want to upload the subtitle file \"%s\"?"
+msgstr ""
+

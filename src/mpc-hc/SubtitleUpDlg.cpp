@@ -141,7 +141,7 @@ BOOL CSubtitleUpDlg::PreTranslateMessage(MSG* pMsg)
 
 void CSubtitleUpDlg::OnOK()
 {
-    m_pMainFrame->m_pSubtitlesProviders->Upload();
+    m_pMainFrame->m_pSubtitlesProviders->Upload(true);
 }
 
 void CSubtitleUpDlg::OnAbort()

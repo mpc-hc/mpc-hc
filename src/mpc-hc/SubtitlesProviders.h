@@ -380,7 +380,7 @@ public:
     std::string WriteSettings();
 
     void Search(bool bAutoDownload);
-    void Upload();
+    void Upload(bool bShowConfirm);
     void Download(SubtitlesInfo& pSubtitlesInfo, bool bActivate);
     void Abort(SubtitlesThreadType nType);
 

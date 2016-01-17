@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-10 02:25:37+0000\n"
+"POT-Creation-Date: 2016-01-17 20:40:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3715,5 +3715,13 @@ msgstr ""
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADED"
 msgid "Downloaded [%s] \"%s\""
+msgstr ""
+
+msgctxt "IDS_SUBUL_DLG_TITLE"
+msgid "Upload subtitles"
+msgstr ""
+
+msgctxt "IDS_SUBUL_DLG_CONFIRM"
+msgid "Are you sure you want to upload the subtitle file \"%s\"?"
 msgstr ""
 
