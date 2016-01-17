@@ -38,8 +38,9 @@ next version - not released yet
     - Ability to filter subtitle list by selected languages
     - Option to automatically search and download subtitles at the beginning of playback without user interaction
     - Prioritize subtitles for hearing impaired where indicated
-* Updated Basque, Belarusian, Bengali, Catalan, Chinese (China), Czech, Danish, Finnish, French, German, Greek,
-  Hungarian, Indonesian, Japanese, Lithuanian, Malay, Romanian, Polish, Portuguese (Brazil), Punjabi, Russian,
-  Slovak, Spanish, Swedish, Thai, Turkish and Ukrainian translations
+* Updated Arabic, Armenian, Basque, Belarusian, Bengali, British English, Catalan, Chinese (Simplified and Traditional),
+  Croatian, Czech, Danish, Dutch, Finnish, French, Galician, German, Greek, Hebrew, Hungarian, Indonesian, Italian,
+  Japanese, Korean, Lithuanian, Malay, Polish, Portuguese (Brazil), Punjabi, Romanian, Russian, Serbian, Slovak,
+  Slovenian, Swedish, Spanish, Tatar, Thai, Turkish, Ukrainian and Vietnamese translations
 ! Window position and/or size could be wrong when exiting fullscreen mode for the first time and
   "Launch files in fullscreen" option is enabled.
