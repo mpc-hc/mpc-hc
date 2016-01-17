@@ -573,7 +573,7 @@ SubtitlesTask::SubtitlesTask(CMainFrame* pMainFrame, bool bAutoDownload, const s
         m_LangPriority[iter] = i--;
     }
     m_bActivate = false;
-    CreateThread();
+    VERIFY(CreateThread());
 }
 
 SubtitlesTask::SubtitlesTask(CMainFrame* pMainFrame, SubtitlesInfo& pSubtitlesInfo, bool bActivate)
@@ -584,7 +584,7 @@ SubtitlesTask::SubtitlesTask(CMainFrame* pMainFrame, SubtitlesInfo& pSubtitlesIn
     m_pFileInfo = pSubtitlesInfo;
     m_bActivate = bActivate;
     m_bAutoDownload = false;
-    CreateThread();
+    VERIFY(CreateThread());
 }
 
 SubtitlesTask::SubtitlesTask(CMainFrame* pMainFrame, const SubtitlesInfo& pSubtitlesInfo)
@@ -595,7 +595,7 @@ SubtitlesTask::SubtitlesTask(CMainFrame* pMainFrame, const SubtitlesInfo& pSubti
     m_pFileInfo = pSubtitlesInfo;
     m_bActivate = false;
     m_bAutoDownload = false;
-    CreateThread();
+    VERIFY(CreateThread());
 }
 
 void SubtitlesTask::ThreadProc()
@@ -642,7 +642,7 @@ void SubtitlesTask::ThreadProc()
 
         CAutoLock cAutoLock(&m_csThreads);
         for (auto& iter : m_pThreads) {
-            iter->CreateThread();
+            VERIFY(iter->CreateThread());
 
             // Provide a timing advantage for providers with higher priority
             if (m_nType & STT_SEARCH) {
