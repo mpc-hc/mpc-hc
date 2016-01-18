@@ -12,7 +12,7 @@ next version - not released yet
 ===============================
 + Ability to control playback repeat mode
 * Updated Unrar to v5.3.8
-* Updated Little CMS to v2.7 (git 40c6403)
+* Updated Little CMS to v2.7 (git 0a78f85)
 * Updated MediaInfoLib to v0.7.80-1-g3fc28610
 * Updated ZenLib to v0.4.32
 * Updated LAV Filters to v0.67.0.62:
