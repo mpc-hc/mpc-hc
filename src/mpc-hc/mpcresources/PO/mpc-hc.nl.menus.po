@@ -72,7 +72,7 @@ msgid "Save &Thumbnails..."
 msgstr "Miniatuurweergaven opslaan..."
 
 msgctxt "POPUP"
-msgid "Subtitles"
+msgid "S&ubtitles"
 msgstr "Ondertiteling"
 
 msgctxt "ID_FILE_SUBTITLES_LOAD"

@@ -1441,7 +1441,7 @@ BEGIN
         MENUITEM "Save &Image...",              ID_FILE_SAVE_IMAGE
         MENUITEM "Save &Thumbnails...",         ID_FILE_SAVE_THUMBNAILS
         MENUITEM SEPARATOR
-        POPUP "Subtitles"
+        POPUP "S&ubtitles"
         BEGIN
             MENUITEM "&Load Subtitles...",          ID_FILE_SUBTITLES_LOAD
             MENUITEM "Save S&ubtitles...",          ID_FILE_SUBTITLES_SAVE
@@ -1691,7 +1691,7 @@ BEGIN
             MENUITEM "Save &Image...",              ID_FILE_SAVE_IMAGE
             MENUITEM "Save &Thumbnails...",         ID_FILE_SAVE_THUMBNAILS
             MENUITEM SEPARATOR
-            POPUP "Subtitles"
+            POPUP "S&ubtitles"
             BEGIN
                 MENUITEM "&Load Subtitles...",          ID_FILE_SUBTITLES_LOAD
                 MENUITEM "Save S&ubtitles...",          ID_FILE_SUBTITLES_SAVE
@@ -1930,7 +1930,7 @@ BEGIN
             MENUITEM "Save &Image...",              ID_FILE_SAVE_IMAGE
             MENUITEM "Save &Thumbnails...",         ID_FILE_SAVE_THUMBNAILS
             MENUITEM SEPARATOR
-            POPUP "Subtitles"
+            POPUP "S&ubtitles"
             BEGIN
                 MENUITEM "&Load Subtitles...",          ID_FILE_SUBTITLES_LOAD
                 MENUITEM "Save S&ubtitles...",          ID_FILE_SUBTITLES_SAVE

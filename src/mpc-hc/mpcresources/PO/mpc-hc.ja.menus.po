@@ -65,7 +65,7 @@ msgid "Save &Thumbnails..."
 msgstr "サムネイルを保存(&T)..."
 
 msgctxt "POPUP"
-msgid "Subtitles"
+msgid "S&ubtitles"
 msgstr "字幕"
 
 msgctxt "ID_FILE_SUBTITLES_LOAD"

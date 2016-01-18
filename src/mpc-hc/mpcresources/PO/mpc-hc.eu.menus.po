@@ -65,7 +65,7 @@ msgid "Save &Thumbnails..."
 msgstr "Gorde &Txikirudiak..."
 
 msgctxt "POPUP"
-msgid "Subtitles"
+msgid "S&ubtitles"
 msgstr "Azpidatziak"
 
 msgctxt "ID_FILE_SUBTITLES_LOAD"

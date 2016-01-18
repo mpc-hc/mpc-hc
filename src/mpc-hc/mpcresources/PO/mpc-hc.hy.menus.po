@@ -65,7 +65,7 @@ msgid "Save &Thumbnails..."
 msgstr "Պահպանել մանրապատկերներով..."
 
 msgctxt "POPUP"
-msgid "Subtitles"
+msgid "S&ubtitles"
 msgstr ""
 
 msgctxt "ID_FILE_SUBTITLES_LOAD"

@@ -69,7 +69,7 @@ msgid "Save &Thumbnails..."
 msgstr "Tallenna pienoiskuvat..."
 
 msgctxt "POPUP"
-msgid "Subtitles"
+msgid "S&ubtitles"
 msgstr "Tekstitykset"
 
 msgctxt "ID_FILE_SUBTITLES_LOAD"

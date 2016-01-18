@@ -65,7 +65,7 @@ msgid "Save &Thumbnails..."
 msgstr "...ਥੰਮਨੇਲ ਸੰਭਾਲੋ(&T)"
 
 msgctxt "POPUP"
-msgid "Subtitles"
+msgid "S&ubtitles"
 msgstr "ਸਬ-ਟਾਈਟਲ"
 
 msgctxt "ID_FILE_SUBTITLES_LOAD"

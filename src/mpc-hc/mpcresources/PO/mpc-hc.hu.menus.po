@@ -65,7 +65,7 @@ msgid "Save &Thumbnails..."
 msgstr "Ikonkép mentése..."
 
 msgctxt "POPUP"
-msgid "Subtitles"
+msgid "S&ubtitles"
 msgstr "Feliratok"
 
 msgctxt "ID_FILE_SUBTITLES_LOAD"

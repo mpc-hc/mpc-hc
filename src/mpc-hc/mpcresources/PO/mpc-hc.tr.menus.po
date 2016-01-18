@@ -69,7 +69,7 @@ msgid "Save &Thumbnails..."
 msgstr "Küçük &Resim Kaydet..."
 
 msgctxt "POPUP"
-msgid "Subtitles"
+msgid "S&ubtitles"
 msgstr "Alt yazılar"
 
 msgctxt "ID_FILE_SUBTITLES_LOAD"

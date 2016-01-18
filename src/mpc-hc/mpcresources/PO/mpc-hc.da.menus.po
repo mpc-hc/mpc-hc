@@ -67,7 +67,7 @@ msgid "Save &Thumbnails..."
 msgstr "Gem &miniaturer..."
 
 msgctxt "POPUP"
-msgid "Subtitles"
+msgid "S&ubtitles"
 msgstr "Undertekster"
 
 msgctxt "ID_FILE_SUBTITLES_LOAD"

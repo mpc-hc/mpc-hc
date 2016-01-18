@@ -67,7 +67,7 @@ msgid "Save &Thumbnails..."
 msgstr "Spremi sliči&ce..."
 
 msgctxt "POPUP"
-msgid "Subtitles"
+msgid "S&ubtitles"
 msgstr "Titlovi"
 
 msgctxt "ID_FILE_SUBTITLES_LOAD"
