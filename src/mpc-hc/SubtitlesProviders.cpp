@@ -564,12 +564,11 @@ std::string SubtitlesProviders::WriteSettings()
 ******************************************************************************/
 
 SubtitlesTask::SubtitlesTask(CMainFrame* pMainFrame, bool bAutoDownload, const std::list<std::string>& sLanguages)
+    : m_pMainFrame(pMainFrame)
+    , m_nType(SubtitlesThreadType(STT_SEARCH | (bAutoDownload ? STT_DOWNLOAD : NULL)))
+    , m_bAutoDownload(bAutoDownload)
+    , m_bActivate(false)
 {
-    m_pMainFrame = pMainFrame;
-    m_nType = SubtitlesThreadType(STT_SEARCH | (bAutoDownload ? STT_DOWNLOAD : NULL));
-
-    m_bAutoDownload = bAutoDownload;
-
     BYTE i = BYTE(sLanguages.size());
     for (const auto& iter : sLanguages) {
         if (bAutoDownload) {
@@ -577,29 +576,27 @@ SubtitlesTask::SubtitlesTask(CMainFrame* pMainFrame, bool bAutoDownload, const s
         }
         m_LangPriority[iter] = i--;
     }
-    m_bActivate = false;
+
     VERIFY(CreateThread());
 }
 
 SubtitlesTask::SubtitlesTask(CMainFrame* pMainFrame, SubtitlesInfo& pSubtitlesInfo, bool bActivate)
+    : m_pMainFrame(pMainFrame)
+    , m_nType(STT_DOWNLOAD)
+    , m_pFileInfo(pSubtitlesInfo)
+    , m_bActivate(bActivate)
+    , m_bAutoDownload(false)
 {
-    m_pMainFrame = pMainFrame;
-    m_nType = STT_DOWNLOAD;
-
-    m_pFileInfo = pSubtitlesInfo;
-    m_bActivate = bActivate;
-    m_bAutoDownload = false;
     VERIFY(CreateThread());
 }
 
 SubtitlesTask::SubtitlesTask(CMainFrame* pMainFrame, const SubtitlesInfo& pSubtitlesInfo)
+    : m_pMainFrame(pMainFrame)
+    , m_nType(STT_UPLOAD)
+    , m_pFileInfo(pSubtitlesInfo)
+    , m_bActivate(false)
+    , m_bAutoDownload(false)
 {
-    m_pMainFrame = pMainFrame;
-    m_nType = STT_UPLOAD;
-
-    m_pFileInfo = pSubtitlesInfo;
-    m_bActivate = false;
-    m_bAutoDownload = false;
     VERIFY(CreateThread());
 }
 
