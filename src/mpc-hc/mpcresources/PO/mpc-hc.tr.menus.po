@@ -581,7 +581,7 @@ msgid "Su&btitle Track"
 msgstr "Al&t Yazı Parçası"
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Track"
+msgid "Vide&o Track"
 msgstr "&Video Parçası"
 
 msgctxt "POPUP"

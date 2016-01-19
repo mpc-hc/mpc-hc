@@ -1572,7 +1572,7 @@ msgid "Thumbnails saved successfully"
 msgstr "Miniaturansichten gespeichert"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
-msgid "&Video Track"
+msgid "Vide&o Track"
 msgstr "Videos&pur"
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"

@@ -579,7 +579,7 @@ msgid "Su&btitle Track"
 msgstr "Su&btitrai"
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Track"
+msgid "Vide&o Track"
 msgstr "&Vaizdo takelis"
 
 msgctxt "POPUP"

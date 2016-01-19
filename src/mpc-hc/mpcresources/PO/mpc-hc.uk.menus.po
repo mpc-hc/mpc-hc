@@ -577,7 +577,7 @@ msgid "Su&btitle Track"
 msgstr "Доріжка су&бтитрів"
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Track"
+msgid "Vide&o Track"
 msgstr "&Відеодоріжка"
 
 msgctxt "POPUP"

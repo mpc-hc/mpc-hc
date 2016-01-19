@@ -580,7 +580,7 @@ msgid "Su&btitle Track"
 msgstr "Faixa de Legenda"
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Track"
+msgid "Vide&o Track"
 msgstr "Faixa de &Vídeo"
 
 msgctxt "POPUP"

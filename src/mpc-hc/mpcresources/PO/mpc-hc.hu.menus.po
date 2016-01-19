@@ -577,7 +577,7 @@ msgid "Su&btitle Track"
 msgstr "Felirat sáv"
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Track"
+msgid "Vide&o Track"
 msgstr "Videó sáv"
 
 msgctxt "POPUP"

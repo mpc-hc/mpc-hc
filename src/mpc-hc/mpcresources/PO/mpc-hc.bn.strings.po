@@ -1568,7 +1568,7 @@ msgid "Thumbnails saved successfully"
 msgstr "থাম্ব্‌নেইলসমূহ সফলভাবে সেইভ হয়েছে"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
-msgid "&Video Track"
+msgid "Vide&o Track"
 msgstr "ভিডিও ট্র্যাক(&V)"
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"

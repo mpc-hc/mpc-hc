@@ -1565,7 +1565,7 @@ msgid "Thumbnails saved successfully"
 msgstr "Մանրապատկերները հաջողությամբ պահպանվեցին"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
-msgid "&Video Track"
+msgid "Vide&o Track"
 msgstr "&Տեսանյութ"
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"

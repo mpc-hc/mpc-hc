@@ -1565,7 +1565,7 @@ msgid "Thumbnails saved successfully"
 msgstr "サムネイルは正常に保存されました"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
-msgid "&Video Track"
+msgid "Vide&o Track"
 msgstr "映像トラック(&O)"
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"

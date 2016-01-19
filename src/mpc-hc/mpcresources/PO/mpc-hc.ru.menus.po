@@ -581,7 +581,7 @@ msgid "Su&btitle Track"
 msgstr "Дорожка субтитров"
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Track"
+msgid "Vide&o Track"
 msgstr "Дорожка видео"
 
 msgctxt "POPUP"
