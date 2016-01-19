@@ -530,11 +530,11 @@ msgid "&Stop"
 msgstr "ห&ยุด"
 
 msgctxt "ID_PLAY_FRAMESTEP"
-msgid "F&rame Step"
+msgid "Fra&me Step"
 msgstr "เดินเ&ฟรม"
 
 msgctxt "POPUP"
-msgid "Repeat"
+msgid "&Repeat"
 msgstr "การวนซ้ำ"
 
 msgctxt "ID_PLAY_REPEAT_FOREVER"

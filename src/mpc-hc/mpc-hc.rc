@@ -1606,8 +1606,8 @@ BEGIN
     BEGIN
         MENUITEM "&Play/Pause",                 ID_PLAY_PLAYPAUSE
         MENUITEM "&Stop",                       ID_PLAY_STOP
-        MENUITEM "F&rame Step",                 ID_PLAY_FRAMESTEP
-        POPUP "Repeat"
+        MENUITEM "Fra&me Step",                 ID_PLAY_FRAMESTEP
+        POPUP "&Repeat"
         BEGIN
             MENUITEM "F&orever",                    ID_PLAY_REPEAT_FOREVER
             MENUITEM SEPARATOR
@@ -1707,7 +1707,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "&Play/Pause",                 ID_PLAY_PLAYPAUSE
         MENUITEM "&Stop",                       ID_PLAY_STOP
-        POPUP "Repeat"
+        POPUP "&Repeat"
         BEGIN
             MENUITEM "F&orever",                    ID_PLAY_REPEAT_FOREVER
             MENUITEM SEPARATOR
@@ -2093,8 +2093,8 @@ BEGIN
         BEGIN
             MENUITEM "&Play/Pause",                 ID_PLAY_PLAYPAUSE
             MENUITEM "&Stop",                       ID_PLAY_STOP
-            MENUITEM "F&rame Step",                 ID_PLAY_FRAMESTEP
-            POPUP "Repeat"
+            MENUITEM "Fra&me Step",                 ID_PLAY_FRAMESTEP
+            POPUP "&Repeat"
             BEGIN
                 MENUITEM "F&orever",                    ID_PLAY_REPEAT_FOREVER
                 MENUITEM SEPARATOR

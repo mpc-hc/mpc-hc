@@ -533,11 +533,11 @@ msgid "&Stop"
 msgstr "停止(&S)"
 
 msgctxt "ID_PLAY_FRAMESTEP"
-msgid "F&rame Step"
+msgid "Fra&me Step"
 msgstr "單格步進(&R)"
 
 msgctxt "POPUP"
-msgid "Repeat"
+msgid "&Repeat"
 msgstr "重複"
 
 msgctxt "ID_PLAY_REPEAT_FOREVER"

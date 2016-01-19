@@ -530,11 +530,11 @@ msgid "&Stop"
 msgstr "&Oprește"
 
 msgctxt "ID_PLAY_FRAMESTEP"
-msgid "F&rame Step"
+msgid "Fra&me Step"
 msgstr "Cad&rul următor"
 
 msgctxt "POPUP"
-msgid "Repeat"
+msgid "&Repeat"
 msgstr "Repetă"
 
 msgctxt "ID_PLAY_REPEAT_FOREVER"

@@ -530,11 +530,11 @@ msgid "&Stop"
 msgstr "정지(&S)"
 
 msgctxt "ID_PLAY_FRAMESTEP"
-msgid "F&rame Step"
+msgid "Fra&me Step"
 msgstr "한 프레임씩 재생(&R)"
 
 msgctxt "POPUP"
-msgid "Repeat"
+msgid "&Repeat"
 msgstr ""
 
 msgctxt "ID_PLAY_REPEAT_FOREVER"

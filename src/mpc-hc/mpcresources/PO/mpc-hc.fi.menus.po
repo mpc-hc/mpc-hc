@@ -533,11 +533,11 @@ msgid "&Stop"
 msgstr "Pysäytä"
 
 msgctxt "ID_PLAY_FRAMESTEP"
-msgid "F&rame Step"
+msgid "Fra&me Step"
 msgstr "Kehyksen askel"
 
 msgctxt "POPUP"
-msgid "Repeat"
+msgid "&Repeat"
 msgstr "Toista"
 
 msgctxt "ID_PLAY_REPEAT_FOREVER"

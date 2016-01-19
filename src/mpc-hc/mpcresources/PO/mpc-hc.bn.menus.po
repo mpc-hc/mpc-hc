@@ -529,11 +529,11 @@ msgid "&Stop"
 msgstr "বন্ধ করি (&S)"
 
 msgctxt "ID_PLAY_FRAMESTEP"
-msgid "F&rame Step"
+msgid "Fra&me Step"
 msgstr "ফ্রেমের পদক্ষেপ (&R)"
 
 msgctxt "POPUP"
-msgid "Repeat"
+msgid "&Repeat"
 msgstr ""
 
 msgctxt "ID_PLAY_REPEAT_FOREVER"

@@ -532,11 +532,11 @@ msgid "&Stop"
 msgstr "&Parar"
 
 msgctxt "ID_PLAY_FRAMESTEP"
-msgid "F&rame Step"
+msgid "Fra&me Step"
 msgstr "Avançar um &quadro"
 
 msgctxt "POPUP"
-msgid "Repeat"
+msgid "&Repeat"
 msgstr "Repetir"
 
 msgctxt "ID_PLAY_REPEAT_FOREVER"

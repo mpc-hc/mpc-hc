@@ -530,11 +530,11 @@ msgid "&Stop"
 msgstr "&Zastavit"
 
 msgctxt "ID_PLAY_FRAMESTEP"
-msgid "F&rame Step"
+msgid "Fra&me Step"
 msgstr "&Krokovat po snímcích"
 
 msgctxt "POPUP"
-msgid "Repeat"
+msgid "&Repeat"
 msgstr "Opakovat"
 
 msgctxt "ID_PLAY_REPEAT_FOREVER"

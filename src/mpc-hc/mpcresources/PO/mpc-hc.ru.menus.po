@@ -533,11 +533,11 @@ msgid "&Stop"
 msgstr "Стоп"
 
 msgctxt "ID_PLAY_FRAMESTEP"
-msgid "F&rame Step"
+msgid "Fra&me Step"
 msgstr "Шаг на кадр вперед"
 
 msgctxt "POPUP"
-msgid "Repeat"
+msgid "&Repeat"
 msgstr "Повтор"
 
 msgctxt "ID_PLAY_REPEAT_FOREVER"

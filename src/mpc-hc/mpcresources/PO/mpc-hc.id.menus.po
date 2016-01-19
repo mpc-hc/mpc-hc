@@ -534,11 +534,11 @@ msgid "&Stop"
 msgstr "&Hentikan"
 
 msgctxt "ID_PLAY_FRAMESTEP"
-msgid "F&rame Step"
+msgid "Fra&me Step"
 msgstr "Tahap F&rame"
 
 msgctxt "POPUP"
-msgid "Repeat"
+msgid "&Repeat"
 msgstr "Ulangi"
 
 msgctxt "ID_PLAY_REPEAT_FOREVER"
