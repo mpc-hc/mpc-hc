@@ -432,7 +432,7 @@ SRESULT podnapisi::Login(const std::string& sUserName, const std::string& sPassw
 
 /*
 UPDATED
-http://www.podnapisi.net/forum/viewtopic.php?f=62&t=26164#p212652
+https://www.podnapisi.net/forum/viewtopic.php?f=62&t=26164#p212652
 RESULTS ------------------------------------------------
 "/sXML/1/"  //Reply in XML format
 "/page//"   //Return nth page of results
@@ -481,7 +481,7 @@ SRESULT podnapisi::Search(const SubtitlesInfo& pFileInfo)
         if (!pFileInfo.country.empty()) { search += " " + pFileInfo.country; }
         search = std::regex_replace(search, std::regex(" and | *[!?&':] *", RegexFlags), " ");
 
-        std::string url("http://www.podnapisi.net/ppodnapisi/search");
+        std::string url("https://www.podnapisi.net/ppodnapisi/search");
         url += "?sXML=1";
         url += "&sAKA=1";
         url += (!search.empty() ? "&sK=" + UrlEncode(search.c_str()) : "");
@@ -592,7 +592,7 @@ SRESULT podnapisi::Hash(SubtitlesInfo& pFileInfo)
 
 SRESULT podnapisi::Download(SubtitlesInfo& pSubtitlesInfo)
 {
-    std::string url = StringFormat("http://www.podnapisi.net/subtitles/%s/download", pSubtitlesInfo.id.c_str());
+    std::string url = StringFormat("https://www.podnapisi.net/subtitles/%s/download", pSubtitlesInfo.id.c_str());
     TRACE(_T("%S::Download => %S\n"), Name().c_str(), url.c_str());
 
     return DownloadInternal(url, "", pSubtitlesInfo.fileContents);
