@@ -1,5 +1,5 @@
 @ECHO OFF
-REM (C) 2013, 2015 see Authors.txt
+REM (C) 2013, 2015-2016 see Authors.txt
 REM
 REM This file is part of MPC-HC.
 REM
@@ -38,12 +38,6 @@ IF NOT EXIST "%FILE_DIR%..\signinfo.txt" (
   GOTO END
 )
 
-SET SIGN_CMD=
-SET /P SIGN_CMD=<"%FILE_DIR%..\signinfo.txt"
-
-TITLE Signing "%~1"...
-ECHO. & ECHO Signing "%~1"...
-
 signtool /? 2>NUL || CALL "%VS120COMNTOOLS%..\..\VC\vcvarsall.bat" 2>NUL
 IF %ERRORLEVEL% NEQ 0 (
   ECHO vcvarsall.bat call failed.
@@ -52,21 +46,7 @@ IF %ERRORLEVEL% NEQ 0 (
 
 REM Repeat n times when signing fails
 SET REPEAT=5
-SET TRY=0
-
-:SIGN
-signtool sign %SIGN_CMD% "%~1"
-SET /A TRY+=1
-IF %ERRORLEVEL% NEQ 0 (
-  IF TRY LSS REPEAT (
-    REM Wait 5 seconds before next try
-    PING -n 5 127.0.0.1 >NUL
-    GOTO SIGN
-  )
-  SET SIGN_ERROR=True
-  GOTO END
-)
-
+FOR /F "delims=" %%A IN (%FILE_DIR%..\signinfo.txt) DO (SET "SIGN_CMD=%%A" && CALL :START_SIGN %1)
 
 :END
 IF /I "%SIGN_ERROR%" == "True" (
@@ -76,3 +56,21 @@ IF /I "%SIGN_ERROR%" == "True" (
 )
 ENDLOCAL
 EXIT /B
+
+:START_SIGN
+IF /I "%SIGN_ERROR%" == "True" EXIT /B
+REM %1 is name of the file to sign
+TITLE Signing "%~1"...
+ECHO. & ECHO Signing "%~1"...
+SET TRY=0
+
+:SIGN
+SET /A TRY+=1
+signtool sign %SIGN_CMD% %1
+IF %ERRORLEVEL% EQU 0 EXIT /B
+IF %TRY% LSS %REPEAT% (
+  REM Wait 5 seconds before next try
+  PING -n 5 127.0.0.1 > NUL
+  GOTO SIGN
+)
+SET SIGN_ERROR=True
