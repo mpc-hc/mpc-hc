@@ -609,10 +609,6 @@ msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
 msgstr "Speler::Web Interface"
 
-msgctxt "IDD_PPAGESUBDB"
-msgid "Subtitles::Database"
-msgstr "Ondertiteling::Database"
-
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
 msgstr "Details"
@@ -2229,14 +2225,6 @@ msgctxt "IDS_THUMB_IMAGE_WIDTH"
 msgid "Image width"
 msgstr "Beeldbreedte"
 
-msgctxt "IDS_PPSDB_URLCORRECT"
-msgid "The URL appears to be correct!"
-msgstr "URL geverifieerd!"
-
-msgctxt "IDS_PPSDB_PROTOCOLERR"
-msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
-msgstr "Protocolversie komt niet overeen, s.v.p. uw speler updaten of een andere server ingeven!"
-
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
 msgstr "Beeldverhouding"
@@ -2380,10 +2368,6 @@ msgstr "Openen gestopt"
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
 msgstr "Kon bestand niet renderen"
-
-msgctxt "IDS_PPSDB_BADURL"
-msgid "Bad URL, could not locate subtitle database there!"
-msgstr "Ondertitelings-database kon op deze URL niet gevonden worden!"
 
 msgctxt "IDS_AG_CHAPTER2"
 msgid "Chapter: "

@@ -603,10 +603,6 @@ msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
 msgstr "Afspiller::Webgrænseflade"
 
-msgctxt "IDD_PPAGESUBDB"
-msgid "Subtitles::Database"
-msgstr "Undertekster::Database"
-
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
 msgstr "Detaljer"
@@ -2223,14 +2219,6 @@ msgctxt "IDS_THUMB_IMAGE_WIDTH"
 msgid "Image width"
 msgstr "Billedbredde"
 
-msgctxt "IDS_PPSDB_URLCORRECT"
-msgid "The URL appears to be correct!"
-msgstr "URL'en ser ud til at være korrekt!"
-
-msgctxt "IDS_PPSDB_PROTOCOLERR"
-msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
-msgstr "Uoverensstemmelse i protokol-version, opdater venligst din afspiller eller vælg en anden adresse!"
-
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
 msgstr "Højde-bredde-forhold"
@@ -2374,10 +2362,6 @@ msgstr "Åbning afbrudt"
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
 msgstr "Kunne ikke rendere filen"
-
-msgctxt "IDS_PPSDB_BADURL"
-msgid "Bad URL, could not locate subtitle database there!"
-msgstr "Forkert URL, der blev ikke fundet en database med undertekster!"
 
 msgctxt "IDS_AG_CHAPTER2"
 msgid "Chapter: "

@@ -601,10 +601,6 @@ msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
 msgstr "Prehrávač::Webové rozhranie"
 
-msgctxt "IDD_PPAGESUBDB"
-msgid "Subtitles::Database"
-msgstr "Titulky::Databáza"
-
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
 msgstr "Podrobnosti"
@@ -2221,14 +2217,6 @@ msgctxt "IDS_THUMB_IMAGE_WIDTH"
 msgid "Image width"
 msgstr "Šírka obrázka"
 
-msgctxt "IDS_PPSDB_URLCORRECT"
-msgid "The URL appears to be correct!"
-msgstr "URL adresa je pravdepodobne správna!"
-
-msgctxt "IDS_PPSDB_PROTOCOLERR"
-msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
-msgstr "Nesprávna verzia protokolu, aktualizujte prehrávač alebo zadajte inú adresu!"
-
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
 msgstr "Stranový pomer"
@@ -2372,10 +2360,6 @@ msgstr "Otváranie bolo prerušené"
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
 msgstr "Nepodarilo sa vykresliť súbor"
-
-msgctxt "IDS_PPSDB_BADURL"
-msgid "Bad URL, could not locate subtitle database there!"
-msgstr "Nesprávna URL adresa, databáza titulkov sa nedá nájsť!"
 
 msgctxt "IDS_AG_CHAPTER2"
 msgid "Chapter: "

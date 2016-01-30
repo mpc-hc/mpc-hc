@@ -602,10 +602,6 @@ msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
 msgstr "Αναπαραγωγός::Διεπαφή διαδικτύου"
 
-msgctxt "IDD_PPAGESUBDB"
-msgid "Subtitles::Database"
-msgstr "Υπότιτλοι::Βάση δεδομένων"
-
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
 msgstr "Λεπτομέρειες"
@@ -2222,14 +2218,6 @@ msgctxt "IDS_THUMB_IMAGE_WIDTH"
 msgid "Image width"
 msgstr "Πλάτος εικόνας:"
 
-msgctxt "IDS_PPSDB_URLCORRECT"
-msgid "The URL appears to be correct!"
-msgstr "Η διεύθυνση URL φαίνεται να είναι σωστή!"
-
-msgctxt "IDS_PPSDB_PROTOCOLERR"
-msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
-msgstr "Ασυμφωνία έκδοσης πρωτοκόλλου. Παρακαλώ να αναβαθμίσετε το πρόγραμμα αναπαραγωγής ή να επιλέξετε μια διαφορετική διεύθυνση!"
-
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
 msgstr "Αναλογία πλευρών"
@@ -2373,10 +2361,6 @@ msgstr "Το άνοιγμα ματαιώθηκε"
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
 msgstr "Η απόδοση του αρχείου απέτυχε"
-
-msgctxt "IDS_PPSDB_BADURL"
-msgid "Bad URL, could not locate subtitle database there!"
-msgstr "Εσφαλμένη διεύθυνση. Δεν υπάρχει βάση δεδομένων υποτίτλων εδώ!"
 
 msgctxt "IDS_AG_CHAPTER2"
 msgid "Chapter: "

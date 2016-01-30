@@ -603,10 +603,6 @@ msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
 msgstr "播放器::Web 界面"
 
-msgctxt "IDD_PPAGESUBDB"
-msgid "Subtitles::Database"
-msgstr "字幕::数据库"
-
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
 msgstr "详细信息"
@@ -2223,14 +2219,6 @@ msgctxt "IDS_THUMB_IMAGE_WIDTH"
 msgid "Image width"
 msgstr "图像宽度"
 
-msgctxt "IDS_PPSDB_URLCORRECT"
-msgid "The URL appears to be correct!"
-msgstr "URL 看上去不正确！"
-
-msgctxt "IDS_PPSDB_PROTOCOLERR"
-msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
-msgstr "协议版本不匹配, 请升级您的播放器或选择一个不同的地址！"
-
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
 msgstr "高宽比"
@@ -2374,10 +2362,6 @@ msgstr "放弃打开"
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
 msgstr "渲染文件失败"
-
-msgctxt "IDS_PPSDB_BADURL"
-msgid "Bad URL, could not locate subtitle database there!"
-msgstr "错误的 URL，无法在该位置找到字幕数据库！"
 
 msgctxt "IDS_AG_CHAPTER2"
 msgid "Chapter: "

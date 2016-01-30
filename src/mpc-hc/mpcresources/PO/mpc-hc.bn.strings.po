@@ -603,10 +603,6 @@ msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
 msgstr "প্লেয়ার::ওয়েব ইন্টারফেস"
 
-msgctxt "IDD_PPAGESUBDB"
-msgid "Subtitles::Database"
-msgstr "সাবটাইটেল::ডেটাবেস"
-
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
 msgstr "বিস্তারিত"
@@ -2223,14 +2219,6 @@ msgctxt "IDS_THUMB_IMAGE_WIDTH"
 msgid "Image width"
 msgstr "ছবির প্রস্থ"
 
-msgctxt "IDS_PPSDB_URLCORRECT"
-msgid "The URL appears to be correct!"
-msgstr "URLটি সঠিক বলেই মনে হচ্ছে!"
-
-msgctxt "IDS_PPSDB_PROTOCOLERR"
-msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
-msgstr "প্রোটোকল সংস্করণসমূহ মিলে নাই, অনুগ্রহপূর্বক আপনার প্লেয়ারটি হালনাগাদ করুন কিংবা ভিন্ন ঠিকানা নির্ধারণ করুন।"
-
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
 msgstr "অ্যাসপেক্ট রেশিও"
@@ -2374,10 +2362,6 @@ msgstr "চালনা রহিত করা হয়েছে"
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
 msgstr "ফাইলটি রেনডার করতে ব্যর্থ হয়েছে"
-
-msgctxt "IDS_PPSDB_BADURL"
-msgid "Bad URL, could not locate subtitle database there!"
-msgstr "URLটি অকার্যকর, সেটাতে সাবটাইটেল ডেটাবেস খুঁজে পাওয়া যায় নি!"
 
 msgctxt "IDS_AG_CHAPTER2"
 msgid "Chapter: "

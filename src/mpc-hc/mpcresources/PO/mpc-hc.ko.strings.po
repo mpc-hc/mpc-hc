@@ -601,10 +601,6 @@ msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
 msgstr "플레이어::웹 인터페이스"
 
-msgctxt "IDD_PPAGESUBDB"
-msgid "Subtitles::Database"
-msgstr "자막::데이터베이스"
-
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
 msgstr "자세히"
@@ -2221,14 +2217,6 @@ msgctxt "IDS_THUMB_IMAGE_WIDTH"
 msgid "Image width"
 msgstr "이미지 너비"
 
-msgctxt "IDS_PPSDB_URLCORRECT"
-msgid "The URL appears to be correct!"
-msgstr "URL이 정확합니다!"
-
-msgctxt "IDS_PPSDB_PROTOCOLERR"
-msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
-msgstr "프로토콜 버전이 다릅니다. 플레이어를 업그레이드하거나 다른 주소를 선택하세요!"
-
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
 msgstr "화면 비율"
@@ -2372,10 +2360,6 @@ msgstr "열기 취소"
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
 msgstr "파일을 렌더하는데 실패"
-
-msgctxt "IDS_PPSDB_BADURL"
-msgid "Bad URL, could not locate subtitle database there!"
-msgstr "부정확한 URL, 자막 데이터베이스를 위치시킬수 없습니다!"
 
 msgctxt "IDS_AG_CHAPTER2"
 msgid "Chapter: "

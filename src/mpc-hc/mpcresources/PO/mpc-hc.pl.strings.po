@@ -603,10 +603,6 @@ msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
 msgstr "Program::Interfejs internetowy"
 
-msgctxt "IDD_PPAGESUBDB"
-msgid "Subtitles::Database"
-msgstr "Napisy::Baza napisów"
-
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
 msgstr "Szczegóły"
@@ -2223,14 +2219,6 @@ msgctxt "IDS_THUMB_IMAGE_WIDTH"
 msgid "Image width"
 msgstr "Szerokość obrazu"
 
-msgctxt "IDS_PPSDB_URLCORRECT"
-msgid "The URL appears to be correct!"
-msgstr "Adres internetowy jest poprawny."
-
-msgctxt "IDS_PPSDB_PROTOCOLERR"
-msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
-msgstr "Niezgodna wersja protokołu. Proszę zaktualizować program lub wybrać inny adres."
-
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
 msgstr "Proporcje obrazu"
@@ -2374,10 +2362,6 @@ msgstr "Otwieranie zostało anulowane"
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
 msgstr "Nie udało się renderować pliku"
-
-msgctxt "IDS_PPSDB_BADURL"
-msgid "Bad URL, could not locate subtitle database there!"
-msgstr "Niepoprawny adres internetowy. Nie można odnaleźć bazy napisów."
 
 msgctxt "IDS_AG_CHAPTER2"
 msgid "Chapter: "

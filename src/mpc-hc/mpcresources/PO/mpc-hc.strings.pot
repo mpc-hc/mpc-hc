@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
+"POT-Creation-Date: 2016-01-30 22:54:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -595,10 +595,6 @@ msgstr ""
 
 msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
-msgstr ""
-
-msgctxt "IDD_PPAGESUBDB"
-msgid "Subtitles::Database"
 msgstr ""
 
 msgctxt "IDD_FILEPROPDETAILS"
@@ -2217,14 +2213,6 @@ msgctxt "IDS_THUMB_IMAGE_WIDTH"
 msgid "Image width"
 msgstr ""
 
-msgctxt "IDS_PPSDB_URLCORRECT"
-msgid "The URL appears to be correct!"
-msgstr ""
-
-msgctxt "IDS_PPSDB_PROTOCOLERR"
-msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
-msgstr ""
-
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
 msgstr ""
@@ -2367,10 +2355,6 @@ msgstr ""
 
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
-msgstr ""
-
-msgctxt "IDS_PPSDB_BADURL"
-msgid "Bad URL, could not locate subtitle database there!"
 msgstr ""
 
 msgctxt "IDS_AG_CHAPTER2"

@@ -604,10 +604,6 @@ msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
 msgstr "Уйнаткыч::Web-интерфейс"
 
-msgctxt "IDD_PPAGESUBDB"
-msgid "Subtitles::Database"
-msgstr "Субтитрлар::Нигез"
-
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
 msgstr "Тулырак"
@@ -2224,14 +2220,6 @@ msgctxt "IDS_THUMB_IMAGE_WIDTH"
 msgid "Image width"
 msgstr "Киңлек"
 
-msgctxt "IDS_PPSDB_URLCORRECT"
-msgid "The URL appears to be correct!"
-msgstr "Кертелгән URL дөрес түгел!"
-
-msgctxt "IDS_PPSDB_PROTOCOLERR"
-msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
-msgstr "Версия протокола не совпадает. Пожалуйста, обновите ваш плеер или выберите другой адрес!"
-
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
 msgstr "Пропорция"
@@ -2375,10 +2363,6 @@ msgstr "Ачу туктатылды"
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
 msgstr "Файлны уйнатып булмый"
-
-msgctxt "IDS_PPSDB_BADURL"
-msgid "Bad URL, could not locate subtitle database there!"
-msgstr "URL неверный, невозможно обнаружить базу субтитров!"
 
 msgctxt "IDS_AG_CHAPTER2"
 msgid "Chapter: "

@@ -601,10 +601,6 @@ msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
 msgstr "Lejátszó::Webes felület"
 
-msgctxt "IDD_PPAGESUBDB"
-msgid "Subtitles::Database"
-msgstr "Feliratok::Adatbázis"
-
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
 msgstr "Jellemzők"
@@ -2221,14 +2217,6 @@ msgctxt "IDS_THUMB_IMAGE_WIDTH"
 msgid "Image width"
 msgstr "Kép szélessége"
 
-msgctxt "IDS_PPSDB_URLCORRECT"
-msgid "The URL appears to be correct!"
-msgstr "AZ URL érvényesnek tűnik!"
-
-msgctxt "IDS_PPSDB_PROTOCOLERR"
-msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
-msgstr "Eltérő protokoll verzió, kérem frissítse a lejátszóját, vagy válasszon egy másik címet!"
-
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
 msgstr "Képméretarány"
@@ -2372,10 +2360,6 @@ msgstr "Megnyitás elvetve"
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
 msgstr "Nem sikerült megjeleníteni a fájlt"
-
-msgctxt "IDS_PPSDB_BADURL"
-msgid "Bad URL, could not locate subtitle database there!"
-msgstr "Rossz URL, a megadott címen nem található felirat adatbázis!"
 
 msgctxt "IDS_AG_CHAPTER2"
 msgid "Chapter: "

@@ -601,10 +601,6 @@ msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
 msgstr "Reprodutor::Interface Web"
 
-msgctxt "IDD_PPAGESUBDB"
-msgid "Subtitles::Database"
-msgstr "Subtítulos::Base de Datos"
-
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
 msgstr "Detalles"
@@ -2221,14 +2217,6 @@ msgctxt "IDS_THUMB_IMAGE_WIDTH"
 msgid "Image width"
 msgstr "Ancho da imaxe"
 
-msgctxt "IDS_PPSDB_URLCORRECT"
-msgid "The URL appears to be correct!"
-msgstr "A URL semella correcta!"
-
-msgctxt "IDS_PPSDB_PROTOCOLERR"
-msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
-msgstr "Versión do protocolo non compatible, actualiza o teu reprodutor ou escolle outro enderezo!"
-
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
 msgstr "Relación de aspecto"
@@ -2372,10 +2360,6 @@ msgstr "Apertura abortada"
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
 msgstr "Imposible renderizar o ficheiro"
-
-msgctxt "IDS_PPSDB_BADURL"
-msgid "Bad URL, could not locate subtitle database there!"
-msgstr "URL incorrecta, non se atopou a base de datos de subtítulos!"
 
 msgctxt "IDS_AG_CHAPTER2"
 msgid "Chapter: "

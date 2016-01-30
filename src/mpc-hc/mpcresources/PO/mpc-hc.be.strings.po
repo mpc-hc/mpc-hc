@@ -601,10 +601,6 @@ msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
 msgstr "Прайгравальнік::Вэб-інтэрфейс"
 
-msgctxt "IDD_PPAGESUBDB"
-msgid "Subtitles::Database"
-msgstr "Субтытры::База"
-
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
 msgstr "Падрабязныя"
@@ -2221,14 +2217,6 @@ msgctxt "IDS_THUMB_IMAGE_WIDTH"
 msgid "Image width"
 msgstr "Шырыня малюнка:"
 
-msgctxt "IDS_PPSDB_URLCORRECT"
-msgid "The URL appears to be correct!"
-msgstr "Уведзены URL дакладны!"
-
-msgctxt "IDS_PPSDB_PROTOCOLERR"
-msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
-msgstr "Версія пратакола не супадае. Калі ласка абнавіце ваш прайгравальнік або выберыце іншы адрас."
-
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
 msgstr "Прапорцыі"
@@ -2372,10 +2360,6 @@ msgstr "Адкрыццё перапынена"
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
 msgstr "Не атрымліваецца прайграць файл"
-
-msgctxt "IDS_PPSDB_BADURL"
-msgid "Bad URL, could not locate subtitle database there!"
-msgstr "URL няслушны немагчыма выявіць базу субтытраў!"
 
 msgctxt "IDS_AG_CHAPTER2"
 msgid "Chapter: "

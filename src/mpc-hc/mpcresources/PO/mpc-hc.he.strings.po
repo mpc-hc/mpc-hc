@@ -601,10 +601,6 @@ msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
 msgstr "נגן::ממשק אתר רשת"
 
-msgctxt "IDD_PPAGESUBDB"
-msgid "Subtitles::Database"
-msgstr "כתוביות::מסד נתונים"
-
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
 msgstr "פרטים"
@@ -2221,14 +2217,6 @@ msgctxt "IDS_THUMB_IMAGE_WIDTH"
 msgid "Image width"
 msgstr "רוחב תמונה"
 
-msgctxt "IDS_PPSDB_URLCORRECT"
-msgid "The URL appears to be correct!"
-msgstr "כתובת ה-URL נראית תקינה!"
-
-msgctxt "IDS_PPSDB_PROTOCOLERR"
-msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
-msgstr "גרסה פרוטוקול לא תואמת, אנא שדרג את הנגן שלך או בחר כתובת אחרת!"
-
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
 msgstr "יחס גובה-רוחב"
@@ -2372,10 +2360,6 @@ msgstr "פתיחה הופסקה"
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
 msgstr "הגשת הקובץ נכשלה"
-
-msgctxt "IDS_PPSDB_BADURL"
-msgid "Bad URL, could not locate subtitle database there!"
-msgstr "כתובת URL לא תקינה, לא מצליח למצוא מסד נתונים של כתוביות שם!"
 
 msgctxt "IDS_AG_CHAPTER2"
 msgid "Chapter: "

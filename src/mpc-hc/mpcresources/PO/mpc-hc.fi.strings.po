@@ -603,10 +603,6 @@ msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
 msgstr "Soitin::Nettiliittymä"
 
-msgctxt "IDD_PPAGESUBDB"
-msgid "Subtitles::Database"
-msgstr "Tekstitykset::Tietokanta"
-
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
 msgstr "Yksityiskohdat"
@@ -2223,14 +2219,6 @@ msgctxt "IDS_THUMB_IMAGE_WIDTH"
 msgid "Image width"
 msgstr "Kuvan leveys"
 
-msgctxt "IDS_PPSDB_URLCORRECT"
-msgid "The URL appears to be correct!"
-msgstr "URL vaikuttaa olevan oikein!"
-
-msgctxt "IDS_PPSDB_PROTOCOLERR"
-msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
-msgstr "Protokollien versiot eivät täsmää, ole hyvä ja päivitä soittimesi tai valitse toinen osoite!"
-
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
 msgstr "Kuvasuhde"
@@ -2374,10 +2362,6 @@ msgstr "Avaaminen keskeytetty"
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
 msgstr "Tiedoston muunto epäonnistui"
-
-msgctxt "IDS_PPSDB_BADURL"
-msgid "Bad URL, could not locate subtitle database there!"
-msgstr "Huono URL, tekstitystietokantaa ei löydy!"
 
 msgctxt "IDS_AG_CHAPTER2"
 msgid "Chapter: "

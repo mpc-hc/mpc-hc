@@ -600,10 +600,6 @@ msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
 msgstr "Irakurgailua::Web Interfazea"
 
-msgctxt "IDD_PPAGESUBDB"
-msgid "Subtitles::Database"
-msgstr "Azpidatziak::Datubasea"
-
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
 msgstr "Xehetasunak"
@@ -2220,14 +2216,6 @@ msgctxt "IDS_THUMB_IMAGE_WIDTH"
 msgid "Image width"
 msgstr "Irudi zabalera"
 
-msgctxt "IDS_PPSDB_URLCORRECT"
-msgid "The URL appears to be correct!"
-msgstr "URL-a zuzen bezala agertzen da!"
-
-msgctxt "IDS_PPSDB_PROTOCOLERR"
-msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
-msgstr "Protokolo bertsioa ez dator bat, mesedez eguneratu zure irakurgailua edo hautatu beste helbide bat!"
-
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
 msgstr "Ikuspegi Maila"
@@ -2371,10 +2359,6 @@ msgstr "Irekitzea utzita"
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
 msgstr "Hutsegitea agiria aurkezterakoan"
-
-msgctxt "IDS_PPSDB_BADURL"
-msgid "Bad URL, could not locate subtitle database there!"
-msgstr "URL gaitza, ezin da azpidatzi datubasea hor aurkitu!"
 
 msgctxt "IDS_AG_CHAPTER2"
 msgid "Chapter: "

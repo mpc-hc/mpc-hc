@@ -605,10 +605,6 @@ msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
 msgstr "Reproductor::Interfície Web"
 
-msgctxt "IDD_PPAGESUBDB"
-msgid "Subtitles::Database"
-msgstr "Subtítols::Base de Dades"
-
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
 msgstr "Detalls"
@@ -2225,14 +2221,6 @@ msgctxt "IDS_THUMB_IMAGE_WIDTH"
 msgid "Image width"
 msgstr "Amplada de la imatge"
 
-msgctxt "IDS_PPSDB_URLCORRECT"
-msgid "The URL appears to be correct!"
-msgstr "L’URL sembla correcte!"
-
-msgctxt "IDS_PPSDB_PROTOCOLERR"
-msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
-msgstr "Versió del protocol diferent, actualitza el teu reproductor o escull una altre direcció!"
-
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
 msgstr "Relació d’aspecte"
@@ -2376,10 +2364,6 @@ msgstr "S’ha interromput l’obertura"
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
 msgstr "Fallada en renderizar el fitxer"
-
-msgctxt "IDS_PPSDB_BADURL"
-msgid "Bad URL, could not locate subtitle database there!"
-msgstr "URL errònia, no s'hi pot localitzar la base de dades dels subtítols!"
 
 msgctxt "IDS_AG_CHAPTER2"
 msgid "Chapter: "

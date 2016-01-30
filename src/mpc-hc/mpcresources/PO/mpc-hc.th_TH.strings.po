@@ -602,10 +602,6 @@ msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
 msgstr "เครื่องเล่น::ส่วนประสานเว็บ"
 
-msgctxt "IDD_PPAGESUBDB"
-msgid "Subtitles::Database"
-msgstr "ศัพท์บรรยาย::ฐานข้อมูล"
-
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
 msgstr "รายละเอียด"
@@ -2222,14 +2218,6 @@ msgctxt "IDS_THUMB_IMAGE_WIDTH"
 msgid "Image width"
 msgstr "ความกว้างรูปภาพ"
 
-msgctxt "IDS_PPSDB_URLCORRECT"
-msgid "The URL appears to be correct!"
-msgstr "URL ดูเหมือนจะถูกต้อง!"
-
-msgctxt "IDS_PPSDB_PROTOCOLERR"
-msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
-msgstr "เวอร์ชันโปรโตคอลไม่ตรงกัน โปรดปรับปรุงรุ่นเครื่องเล่นของคุณ หรือเลือกที่อยู่อื่น!"
-
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
 msgstr "อัตราส่วนภาพ"
@@ -2373,10 +2361,6 @@ msgstr "การเปิดถูกยกเลิก"
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
 msgstr "ล้มเหลวในการแปลผลไฟล์"
-
-msgctxt "IDS_PPSDB_BADURL"
-msgid "Bad URL, could not locate subtitle database there!"
-msgstr "URL ที่แย่, ไม่สามารถหาที่ตั้งฐานข้อมูลศัพท์บรรยายที่นั่นได้!"
 
 msgctxt "IDS_AG_CHAPTER2"
 msgid "Chapter: "

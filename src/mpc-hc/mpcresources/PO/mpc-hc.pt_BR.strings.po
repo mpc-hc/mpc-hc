@@ -613,10 +613,6 @@ msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
 msgstr "Programa::Interface Web"
 
-msgctxt "IDD_PPAGESUBDB"
-msgid "Subtitles::Database"
-msgstr "Legendas::Banco de Dados"
-
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
 msgstr "Detalhes"
@@ -2233,14 +2229,6 @@ msgctxt "IDS_THUMB_IMAGE_WIDTH"
 msgid "Image width"
 msgstr "Largura da Imagem"
 
-msgctxt "IDS_PPSDB_URLCORRECT"
-msgid "The URL appears to be correct!"
-msgstr "A URL parece estar correta!"
-
-msgctxt "IDS_PPSDB_PROTOCOLERR"
-msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
-msgstr "Versão do protocolo não compatível, atualize o MPC-HC ou escolha outro endereço."
-
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
 msgstr "Razão de aspecto"
@@ -2384,10 +2372,6 @@ msgstr "Abertura abortada"
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
 msgstr "Falha ao renderizar o arquivo"
-
-msgctxt "IDS_PPSDB_BADURL"
-msgid "Bad URL, could not locate subtitle database there!"
-msgstr "URL ruim, não foi encontrado o banco de dados de legendas!"
 
 msgctxt "IDS_AG_CHAPTER2"
 msgid "Chapter: "

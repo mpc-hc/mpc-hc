@@ -601,10 +601,6 @@ msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
 msgstr "Player::Interfață web"
 
-msgctxt "IDD_PPAGESUBDB"
-msgid "Subtitles::Database"
-msgstr "Subtitluri::Bază de date"
-
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
 msgstr "Detalii"
@@ -2221,14 +2217,6 @@ msgctxt "IDS_THUMB_IMAGE_WIDTH"
 msgid "Image width"
 msgstr "Lățime imagine:"
 
-msgctxt "IDS_PPSDB_URLCORRECT"
-msgid "The URL appears to be correct!"
-msgstr "URL-ul este corect."
-
-msgctxt "IDS_PPSDB_PROTOCOLERR"
-msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
-msgstr "Nepotrivire versiune protocol, actualizați playerul sau alegeți o altă adresă!"
-
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
 msgstr "Raport de aspect"
@@ -2372,10 +2360,6 @@ msgstr "Deschidere abandonată"
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
 msgstr "Fișierul nu a putut fi randat"
-
-msgctxt "IDS_PPSDB_BADURL"
-msgid "Bad URL, could not locate subtitle database there!"
-msgstr "URL nevalid, baza de date a subtitlurilor nu a putut fi localizată!"
 
 msgctxt "IDS_AG_CHAPTER2"
 msgid "Chapter: "

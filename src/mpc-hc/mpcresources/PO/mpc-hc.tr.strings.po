@@ -603,10 +603,6 @@ msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
 msgstr "Oynatıcı::İnternet Arabirimi"
 
-msgctxt "IDD_PPAGESUBDB"
-msgid "Subtitles::Database"
-msgstr "Alt Yazılar::Veritabanı"
-
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
 msgstr "Ayrıntılar"
@@ -2223,14 +2219,6 @@ msgctxt "IDS_THUMB_IMAGE_WIDTH"
 msgid "Image width"
 msgstr "Görüntü eni"
 
-msgctxt "IDS_PPSDB_URLCORRECT"
-msgid "The URL appears to be correct!"
-msgstr "Adres doğru gözüküyor!"
-
-msgctxt "IDS_PPSDB_PROTOCOLERR"
-msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
-msgstr "Uyumsuz iletişim kuralı sürümü, lütfen oynatıcınızı güncelleyiniz ya da farklı bir adres deneyiniz!"
-
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
 msgstr "Taraf Oranı"
@@ -2374,10 +2362,6 @@ msgstr "Açılış durduruldu"
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
 msgstr "Dosya çözülemedi"
-
-msgctxt "IDS_PPSDB_BADURL"
-msgid "Bad URL, could not locate subtitle database there!"
-msgstr "Hatalı adres, alt yazı veritabanı açılamıyor!"
 
 msgctxt "IDS_AG_CHAPTER2"
 msgid "Chapter: "

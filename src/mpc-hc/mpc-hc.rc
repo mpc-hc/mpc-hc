@@ -2440,7 +2440,6 @@ BEGIN
     IDD_PPAGELOGO           "Player::Logo"
     IDD_PPAGEOUTPUT         "Playback::Output"
     IDD_PPAGEWEBSERVER      "Player::Web Interface"
-    IDD_PPAGESUBDB          "Subtitles::Database"
 END
 
 STRINGTABLE
@@ -3046,8 +3045,6 @@ BEGIN
     IDS_THUMB_ROWNUMBER     "Rows:"
     IDS_THUMB_COLNUMBER     "Columns:"
     IDS_THUMB_IMAGE_WIDTH   "Image width"
-    IDS_PPSDB_URLCORRECT    "The URL appears to be correct!"
-    IDS_PPSDB_PROTOCOLERR   "Protocol version mismatch, please upgrade your player or choose a different address!"
 END
 
 STRINGTABLE
@@ -3103,7 +3100,6 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_PPSDB_BADURL        "Bad URL, could not locate subtitle database there!"
     IDS_AG_CHAPTER2         "Chapter: "
     IDS_VOLUME_OSD          "Vol: %d%%"
     IDS_BOOST_OSD           "Boost: +%u%%"

@@ -602,10 +602,6 @@ msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
 msgstr "Плејер::Веб-интерфејс"
 
-msgctxt "IDD_PPAGESUBDB"
-msgid "Subtitles::Database"
-msgstr "Титлови::База"
-
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
 msgstr "Подаци"
@@ -2222,14 +2218,6 @@ msgctxt "IDS_THUMB_IMAGE_WIDTH"
 msgid "Image width"
 msgstr "Ширина слике"
 
-msgctxt "IDS_PPSDB_URLCORRECT"
-msgid "The URL appears to be correct!"
-msgstr "URL је исправан."
-
-msgctxt "IDS_PPSDB_PROTOCOLERR"
-msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
-msgstr "Верзија протокола се не подудара. Ажурирајте плејер или изаберите другу адресу."
-
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
 msgstr "Однос ширина/висина"
@@ -2373,10 +2361,6 @@ msgstr "Отварање је прекинуто"
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
 msgstr "Не могу да обрадим датотеку"
-
-msgctxt "IDS_PPSDB_BADURL"
-msgid "Bad URL, could not locate subtitle database there!"
-msgstr "Неисправан URL. Не могу да пронађем базу титлова одатле."
 
 msgctxt "IDS_AG_CHAPTER2"
 msgid "Chapter: "

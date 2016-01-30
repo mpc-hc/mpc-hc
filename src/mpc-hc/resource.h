@@ -318,7 +318,6 @@
 #define IDD_PPAGELOGO                   10037
 #define IDD_PPAGEOUTPUT                 10039
 #define IDD_PPAGEWEBSERVER              10040
-#define IDD_PPAGESUBDB                  10042
 #define IDD_SAVETEXTFILEDIALOGTEMPL     10043
 #define IDD_SAVESUBTITLESFILEDIALOGTEMPL 10044
 #define IDD_CAPTURE_DLG                 10045
@@ -920,9 +919,6 @@
 #define IDS_THUMB_ROWNUMBER             33195
 #define IDS_THUMB_COLNUMBER             33196
 #define IDS_THUMB_IMAGE_WIDTH           33197
-#define IDS_PPSDB_URLCORRECT            33198
-#define IDS_PPSDB_PROTOCOLERR           33199
-#define IDS_PPSDB_BADURL                33200
 #define IDS_AG_CHAPTER2                 33201
 #define IDS_VOLUME_OSD                  33202
 #define IDS_BOOST_OSD                   33203

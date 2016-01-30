@@ -605,10 +605,6 @@ msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
 msgstr "Izvođač::Web sučelje"
 
-msgctxt "IDD_PPAGESUBDB"
-msgid "Subtitles::Database"
-msgstr "Titlovi::Baza podataka"
-
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
 msgstr "Detalji"
@@ -2225,14 +2221,6 @@ msgctxt "IDS_THUMB_IMAGE_WIDTH"
 msgid "Image width"
 msgstr "Širina slike"
 
-msgctxt "IDS_PPSDB_URLCORRECT"
-msgid "The URL appears to be correct!"
-msgstr "URL adresa je točna!"
-
-msgctxt "IDS_PPSDB_PROTOCOLERR"
-msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
-msgstr "Verzija protokola se ne podudara, molimo nadogradite vaš player ili odaberite drugu adresu!"
-
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
 msgstr "Omjer slike"
@@ -2376,10 +2364,6 @@ msgstr "Otvaranje prekinuto"
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
 msgstr "Greška pri renderiranju datoteke"
-
-msgctxt "IDS_PPSDB_BADURL"
-msgid "Bad URL, could not locate subtitle database there!"
-msgstr "Nevaljali URL - nemoguće locirati data-bazu titlove!"
 
 msgctxt "IDS_AG_CHAPTER2"
 msgid "Chapter: "
