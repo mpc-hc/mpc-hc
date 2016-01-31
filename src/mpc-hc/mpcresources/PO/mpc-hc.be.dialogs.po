@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-07 20:33:06+0000\n"
-"PO-Revision-Date: 2016-01-13 16:47+0000\n"
+"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
+"PO-Revision-Date: 2016-01-28 19:28+0000\n"
 "Last-Translator: Yauhen Bugamol <haxycgm@gmail.com>\n"
 "Language-Team: Belarusian (http://www.transifex.com/mpc-hc/mpc-hc/language/be/)\n"
 "MIME-Version: 1.0\n"
@@ -42,7 +42,7 @@ msgstr "Аўдыя"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
 msgid "Output"
-msgstr "Захаванне"
+msgstr "Вывад"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK1"
 msgid "Record Video"
@@ -78,7 +78,7 @@ msgstr "Уключыць убудаваны пераключальнік аўд�
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK5"
 msgid "Normalize"
-msgstr "Нармалізав."
+msgstr "Нармалізацыя"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC4"
 msgid "Max amplification:"
@@ -118,7 +118,7 @@ msgstr "уваходных каналаў:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
 msgid "Hold shift for immediate changes when clicking something"
-msgstr "Утрымлівайце shift для неадкладнага прыняцця змен пры націску"
+msgstr "Утрымлівайце shift для неадкладнага ўжывання змен пры націсканні"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."
@@ -422,7 +422,7 @@ msgstr "раз(ы)"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Repeat mode:"
-msgstr ""
+msgstr "Паўтараць:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
@@ -446,7 +446,7 @@ msgstr "%"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Default track preference"
-msgstr "Парадак загрузкі гуку"
+msgstr "Пажаданыя мовы"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Subtitles:"
@@ -474,7 +474,7 @@ msgstr "Справазд. аб памылках рэндэрынгу струм�
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
-msgstr "Аўтазагрузка гуку"
+msgstr "Аўтаматычна загружаць аўдыяфайлы"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Control"
@@ -498,7 +498,7 @@ msgstr "Змяніць размяшчэнне"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC1"
 msgid "Horizontal:"
-msgstr "Па гарызанталі:"
+msgstr "Гарызанталь:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC2"
 msgid "%"
@@ -506,7 +506,7 @@ msgstr "%"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC3"
 msgid "Vertical:"
-msgstr "Па вертыкалі:"
+msgstr "Вертыкаль:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC4"
 msgid "%"
@@ -674,7 +674,7 @@ msgstr "Адпраўляць у статус Skype звесткі пра што 
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
-msgstr "Не згортваць акно на дадатковым дысплеі ў поўнаэкранным рэжыме"
+msgstr "Не згортваць прайгравальнік на дадатковым экране ў поўнаэкранным рэжыме"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
 msgid "Use enhanced taskbar features"
@@ -682,7 +682,7 @@ msgstr "Пашыраныя функцыі панелі заданняў"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
-msgstr "Адкрыць наступны/папярэднi файл у папцы пры нацiску папярэднi/наступны, калi у плэйлiсце адзiн файл"
+msgstr "Калі ў спісе прайгравання адзін файл, пры націсканні кнопак «Наперад/Назад» адкрываць наступны/папярэдні файл у папцы "
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
 msgid "Show time tooltip:"
@@ -690,11 +690,11 @@ msgstr "Паказваць час:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "OSD font:"
-msgstr "OSD Шрыфт"
+msgstr "Шрыфт OSD:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_LCD"
 msgid "Enable Logitech LCD support (experimental)"
-msgstr "Укл падтрымку Logitech LCD (эксперыментальна)"
+msgstr "Уключыць падтрымку Logitech LCD (эксперыментальная)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
 msgid "Auto-hide the mouse pointer during playback in windowed mode"
@@ -734,7 +734,7 @@ msgstr "Новы тып..."
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON6"
 msgid "Add Sub Type..."
-msgstr "Новы субтып..."
+msgstr "Новы падтып..."
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON7"
 msgid "Delete"
@@ -794,7 +794,7 @@ msgstr "Дадаць у абранае"
 
 msgctxt "IDD_FAVADD_IDC_STATIC"
 msgid "Choose a name for your shortcut:"
-msgstr "Абярыце імя для цэтліка:"
+msgstr "Выберыце імя для ярлыка:"
 
 msgctxt "IDD_FAVADD_IDC_CHECK1"
 msgid "Remember position"
@@ -838,7 +838,7 @@ msgstr "Добра"
 
 msgctxt "IDD_PNSPRESET_DLG_CAPTION"
 msgid "Pan&Scan Presets"
-msgstr "Перадусталёўкі памераў і станаў"
+msgstr "Перадусталёўкі памеру і становішча"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"
 msgid "New"
@@ -862,7 +862,7 @@ msgstr "&Усталяваць"
 
 msgctxt "IDD_PNSPRESET_DLG_IDCANCEL"
 msgid "&Cancel"
-msgstr "&Адмена"
+msgstr "&Скасаваць"
 
 msgctxt "IDD_PNSPRESET_DLG_IDOK"
 msgid "&Save"
@@ -882,11 +882,11 @@ msgstr "Глабальныя мультымедыйныя клавішы"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON1"
 msgid "Select All"
-msgstr "Абраць усё"
+msgstr "Выбраць усё"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON2"
 msgid "Reset Selected"
-msgstr "Скінуць абраныя"
+msgstr "Скінуць выбраныя"
 
 msgctxt "IDD_MEDIATYPES_DLG_CAPTION"
 msgid "Warning"
@@ -958,7 +958,7 @@ msgstr "пікселяў"
 
 msgctxt "IDD_ADDREGFILTER_CAPTION"
 msgid "Select Filter"
-msgstr "Абярыце фільтр"
+msgstr "Выберыце фільтр"
 
 msgctxt "IDD_ADDREGFILTER_IDC_BUTTON1"
 msgid "Browse..."
@@ -1006,11 +1006,11 @@ msgstr "Контур"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO2"
 msgid "Opaque box"
-msgstr "Заліванне"
+msgstr "Запаўненне фону"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Width"
-msgstr "Шырыня мяжы"
+msgstr "Шырыня"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Shadow"
@@ -1018,7 +1018,7 @@ msgstr "Цень"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Screen Alignment && Margins"
-msgstr "Выраўніванне і водступы"
+msgstr "Выраўноўванне і водступы"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Left"
@@ -1038,7 +1038,7 @@ msgstr "Знізу"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK_RELATIVETO"
 msgid "Position subtitles relative to the video frame"
-msgstr "Пазіцыянаваць адносна кадра"
+msgstr "Размяшчаць адносна відэакадра"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Colors && Transparency"
@@ -1078,7 +1078,7 @@ msgstr "Фільтры крыніц"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Transform Filters"
-msgstr "Дэкодэры"
+msgstr "Фільтры пераўтварэння"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Internal LAV Filters settings"
@@ -1086,7 +1086,7 @@ msgstr "Налады LAV Filters"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_SPLITTER_CONF"
 msgid "Splitter"
-msgstr "Splitter"
+msgstr "Сплітар"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_VIDEO_DEC_CONF"
 msgid "Video decoder"
@@ -1106,7 +1106,7 @@ msgstr "Знешні:"
 
 msgctxt "IDD_PPAGELOGO_IDC_BUTTON2"
 msgid "Browse..."
-msgstr "Абраць..."
+msgstr "Агляд..."
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "DirectShow Video"
@@ -1146,7 +1146,7 @@ msgstr "Рэініцыалізацыя пры змене манітора"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "D3D Fullscreen"
-msgstr "Поўнаэкранны Direct3D (ухіляе дрыгаценне)"
+msgstr "Поўнаэкранны Direct3D"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Alternative VSync"
@@ -1158,7 +1158,7 @@ msgstr "Рэжым VMR-9 Mixer"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9YUVMIXER"
 msgid "YUV Mixing"
-msgstr "Змешванне ў YUV"
+msgstr "YUV Mixing"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_EVR_BUFFERS_TXT"
 msgid "EVR Buffers:"
@@ -1194,7 +1194,7 @@ msgstr "Слухаць порт:"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC1"
 msgid "Launch in web browser..."
-msgstr "Запусціць у web-браўзэры..."
+msgstr "Запусціць у вэб-браўзеры..."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK3"
 msgid "Enable compression"
@@ -1218,7 +1218,7 @@ msgstr "Браць старонкі з:"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_BUTTON1"
 msgid "Browse..."
-msgstr "Абраць..."
+msgstr "Агляд..."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_BUTTON2"
 msgid "Deploy..."
@@ -1250,7 +1250,7 @@ msgstr "Абнавіць"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON2"
 msgid "Abort"
-msgstr "Спыніць"
+msgstr "Перарваць"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON3"
 msgid "Options"
@@ -1266,7 +1266,7 @@ msgstr "Запампаваць"
 
 msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
 msgid "Abort"
-msgstr "Спыніць"
+msgstr "Перарваць"
 
 msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON2"
 msgid "Options"
@@ -1298,7 +1298,7 @@ msgstr "Насычанасць"
 
 msgctxt "IDD_PPAGEMISC_IDC_RESET"
 msgid "Reset"
-msgstr "Скід"
+msgstr "Скінуць"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Update check"
@@ -1306,11 +1306,11 @@ msgstr "Праверка абнаўленняў"
 
 msgctxt "IDD_PPAGEMISC_IDC_CHECK1"
 msgid "Enable automatic update check"
-msgstr "Укл. аўтаматычную праверку абнаўленняў"
+msgstr "Уключыць аўтаматычную праверку абнаўленняў"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
 msgid "Check every:"
-msgstr "Правяраць кожныя:"
+msgstr "Правяраць праз кожныя:"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"
@@ -1346,15 +1346,15 @@ msgstr "Скасаваць"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Freq. Start"
-msgstr "Част. Пачатку"
+msgstr "Пачатковая частата"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Bandwidth"
-msgstr "Шыр. пропуску"
+msgstr "Паласа прапускання"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Freq. End"
-msgstr "Част. Канчатку"
+msgstr "Канцавая частата"
 
 msgctxt "IDD_TUNER_SCAN_IDC_CHECK_IGNORE_ENCRYPTED"
 msgid "Ignore encrypted channels"
@@ -1374,11 +1374,11 @@ msgstr "Я"
 
 msgctxt "IDD_TUNER_SCAN_IDC_CHECK_OFFSET"
 msgid "Use an offset"
-msgstr "Выкарыстоўваць змяшчэнне"
+msgstr "Выкарыстоўваць зрух"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Default Device"
-msgstr "Стандартная прылада"
+msgstr "Прылада па змаўчанні"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_RADIO1"
 msgid "Analog"
@@ -1418,7 +1418,7 @@ msgstr "Цюнер"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC6"
 msgid "Receiver"
-msgstr "Рэсівер"
+msgstr "Прыёмнік"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST10"
 msgid "Channel switching approach:"
@@ -1426,15 +1426,15 @@ msgstr "Змяненне канала:"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST11"
 msgid "Rebuild filter graph"
-msgstr "Перарабіць графік"
+msgstr "Перарабіць граф"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST12"
 msgid "Stop filter graph"
-msgstr "Спыніць адрысоўку графіка."
+msgstr "Спыніць граф"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCVIDEO"
 msgid "Sync video to display"
-msgstr "Сінхр. відэа да дысплэя"
+msgstr "Сінхранізаваць відэа з дысплэем"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC1"
 msgid "Frequency adjustment:"
@@ -1442,7 +1442,7 @@ msgstr "Карэкцыя частаты:"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCDISPLAY"
 msgid "Sync display to video"
-msgstr "Сінхр. дысплэй да відэа"
+msgstr "Сінхранізаваць дысплэй з відэа"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC2"
 msgid "Frequency adjustment:"
@@ -1482,15 +1482,15 @@ msgstr "мс"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC10"
 msgid "Changes take effect after the playback has been closed and restarted."
-msgstr "Змены ўступяць у моц пасля перазагрузкі відэа."
+msgstr "Змены ажыццявяцца толькі пасля перазапуску прайгравання."
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK1"
 msgid "Launch files in fullscreen"
-msgstr "Запуск файлаў на поўны экран"
+msgstr "Запуск файлаў у поўнаэкранным рэжыме"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK4"
 msgid "Hide controls in fullscreen"
-msgstr "Схаваць элементы кіравання у поўнаэкраннам рэжыме."
+msgstr "Схаваць элементы кіравання ў поўнаэкранным рэжыме."
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC1"
 msgid "ms"
@@ -1502,15 +1502,15 @@ msgstr "Схаваць замацаваныя панэлі"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK5"
 msgid "Exit fullscreen at the end of playback"
-msgstr "Выхад з поўнаэкр. рэжыму па канч. прайгравання"
+msgstr "Выйсці з поўнаэкраннага рэжыму па сканчэнні прайгравання"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Fullscreen monitor"
-msgstr "Манітор для поўнаэкраннага вываду"
+msgstr "Манітор для поўнаэкраннага рэжыму"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK2"
 msgid "Use autochange fullscreen monitor mode"
-msgstr "Ужываць аўтазменты поўнаэкр. рэжыму"
+msgstr "Выкарыстаўваць аўтазмену рэжыму манітора ў поўнаэкранным рэжыме"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON1"
 msgid "Add"
@@ -1518,7 +1518,7 @@ msgstr "Дадаць"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON2"
 msgid "Del"
-msgstr "Выдал"
+msgstr "Выдаліць"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON3"
 msgid "Up"
@@ -1530,7 +1530,7 @@ msgstr "Уніз"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK3"
 msgid "Apply default monitor mode on fullscreen exit"
-msgstr "Устал. стандарт. налады пры выхадзе з поўнаэкр. рэжыму"
+msgstr "Ужыць рэжым манітора па змаўчанні пасля выхаду з поўнаэкраннага рэжыму"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_RESTORERESCHECK"
 msgid "Restore resolution on program exit"
@@ -1554,11 +1554,11 @@ msgstr "Сканір."
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK1"
 msgid "Prefer forced and/or default subtitles tracks"
-msgstr "Аддаваць перавагу фарсіраваным і/або звычайным субтытрам"
+msgstr "Аддаваць перавагу фарсіраваным і/або субтытрам па змаўчанні"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK2"
 msgid "Prefer external subtitles over embedded subtitles"
-msgstr "Заўсёды выкарыстоўваць знешнія субтытры як асноўныя"
+msgstr "Выкарыстоўваць знешнія субтытры замест убудаваных"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK3"
 msgid "Ignore embedded subtitles"
@@ -1570,7 +1570,7 @@ msgstr "Шлях да знешніх субтытраў"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON1"
 msgid "Reset"
-msgstr "Скід"
+msgstr "Скінуць"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Online search, download and upload subtitles"
@@ -1582,7 +1582,7 @@ msgstr "Калі субтытраў няма, знайсці і спампава
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
 msgid "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
-msgstr "Пажаданы субтытры  для людзей з парушэннем слыху"
+msgstr "Пажаданыя субтытры  для людзей з парушэннем слыху (калі ёсць)"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
 msgid "Ignore files containing any of the following word(s):"
@@ -1590,7 +1590,7 @@ msgstr "Ігнараваць файлы з наступнымі словамі:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Languages in order of preference (e.g. \"eng ell spa\"):"
-msgstr "Пажаданыя мовы (напр. «bel rus eng»)"
+msgstr "Пажаданыя мовы (напрыклад «bel rus eng»)"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
 msgid "Automatically upload active subtitles at the end of video playback"
@@ -1610,7 +1610,7 @@ msgstr "Напомніць пазней"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_IGNORE_BUTTON"
 msgid "&Ignore this update"
-msgstr "Ігнараваць гэтае абнаўленне"
+msgstr "Ігна&раваць гэтае абнаўленне"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shaders contain special effects which can be added to the video rendering process."
@@ -1686,11 +1686,11 @@ msgstr "Пашыраныя налады. Не змяняйце іх, калі н
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO1"
 msgid "True"
-msgstr "Верна"
+msgstr "True"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO2"
 msgid "False"
-msgstr "Няверна"
+msgstr "False"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
@@ -1766,7 +1766,7 @@ msgstr "Адпраўце справаздачу пра збой, каб мы в�
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
 msgid "Optional information"
-msgstr "Дадатковая інфармацыя"
+msgstr "Дадатковыя звесткі"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
 msgid "Email:"

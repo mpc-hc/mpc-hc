@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-07 20:33:06+0000\n"
-"PO-Revision-Date: 2016-01-11 12:21+0000\n"
+"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
+"PO-Revision-Date: 2016-01-21 12:46+0000\n"
 "Last-Translator: Daniel <danny34ever@yahoo.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/mpc-hc/mpc-hc/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -423,7 +423,7 @@ msgstr "dată(ori)"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Repeat mode:"
-msgstr ""
+msgstr "Mod de repetare:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
@@ -1415,7 +1415,7 @@ msgstr "Furnizor rețea"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC5"
 msgid "Tuner"
-msgstr "Tuner"
+msgstr "Prinzător"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC6"
 msgid "Receiver"
@@ -1431,7 +1431,7 @@ msgstr "Reconstruieşte graficul filtrelor"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST12"
 msgid "Stop filter graph"
-msgstr "Opreşte graficul filtrelor"
+msgstr "Oprește graficul filtrelor"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCVIDEO"
 msgid "Sync video to display"

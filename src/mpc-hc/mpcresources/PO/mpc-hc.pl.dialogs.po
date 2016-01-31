@@ -2,15 +2,15 @@
 # Copyright (C) 2002 - 2016 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# kasper93, 2013-2015
+# kasper93, 2013-2016
 # M T <michtrz@gmail.com>, 2014-2015
 # Rafał Urbanek <urbis92@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-07 20:33:06+0000\n"
-"PO-Revision-Date: 2016-01-08 23:23+0000\n"
-"Last-Translator: Underground78\n"
+"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
+"PO-Revision-Date: 2016-01-31 18:33+0000\n"
+"Last-Translator: kasper93\n"
 "Language-Team: Polish (http://www.transifex.com/mpc-hc/mpc-hc/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -424,7 +424,7 @@ msgstr "raz(y)"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Repeat mode:"
-msgstr ""
+msgstr "Powtarzanie:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
@@ -1244,15 +1244,15 @@ msgstr "Zastąp aktualnie załadowane napisy"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
 msgid "Download"
-msgstr ""
+msgstr "Pobierz"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON1"
 msgid "Refresh"
-msgstr ""
+msgstr "Odśwież"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON2"
 msgid "Abort"
-msgstr ""
+msgstr "Przerwij"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON3"
 msgid "Options"
@@ -1260,15 +1260,15 @@ msgstr "Opcje"
 
 msgctxt "IDD_SUBTITLEUP_DLG_CAPTION"
 msgid "Upload subtitles"
-msgstr ""
+msgstr "Wysili napisy"
 
 msgctxt "IDD_SUBTITLEUP_DLG_IDOK"
 msgid "Upload"
-msgstr ""
+msgstr "Wyślij"
 
 msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
 msgid "Abort"
-msgstr ""
+msgstr "Przerwij"
 
 msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON2"
 msgid "Options"
@@ -1576,27 +1576,27 @@ msgstr "Domyślne"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Online search, download and upload subtitles"
-msgstr ""
+msgstr "Wyszukiwanie, pobieranie oraz wysyłanie napisów"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
 msgid "Automatically search and download subtitles if none are found locally"
-msgstr ""
+msgstr "Automatycznie pobieraj napisy, gdy nie znaleziono lokalnych"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
 msgid "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
-msgstr ""
+msgstr "Preferuj napisy dla niedosłyszący (gdy taka informacja jest udostępniona)"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
 msgid "Ignore files containing any of the following word(s):"
-msgstr ""
+msgstr "Ignoruj pliki zawierające którekolwiek z poniższych słów:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Languages in order of preference (e.g. \"eng ell spa\"):"
-msgstr ""
+msgstr "Języki w kolejności preferencji (np. \"eng ell spa\"):"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
 msgid "Automatically upload active subtitles at the end of video playback"
-msgstr ""
+msgstr "Automatycznie wysyłaj napisy po zakończeniu odtwarzania"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"

@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-08 18:51:35+0000\n"
-"PO-Revision-Date: 2016-01-10 11:10+0000\n"
+"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
+"PO-Revision-Date: 2016-01-19 11:21+0000\n"
 "Last-Translator: Marián Hikaník <podnety@mojepreklady.net>\n"
 "Language-Team: Slovak (http://www.transifex.com/mpc-hc/mpc-hc/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -63,7 +63,7 @@ msgstr "Nastavenia"
 
 msgctxt "IDS_PLAY_LOOPMODE_FILE"
 msgid "File"
-msgstr ""
+msgstr "Súbor"
 
 msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
 msgid "&Default Style"
@@ -71,7 +71,7 @@ msgstr "Pre&dvolený štýl"
 
 msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
 msgid "Playlist"
-msgstr ""
+msgstr "Playlist"
 
 msgctxt "IDS_FAVFILES"
 msgid "Files"
@@ -127,23 +127,23 @@ msgstr "Ak zostane cieľ vykresľovania nedefinovaný, titulky SSA/ASS budú vyk
 
 msgctxt "IDS_PLAYLOOPMODE_PLAYLIST"
 msgid "Repeat Mode: Playlist"
-msgstr ""
+msgstr "Režim opakovania: playlist"
 
 msgctxt "IDS_PLAYLOOPMODE_FILE"
 msgid "Repeat Mode: File"
-msgstr ""
+msgstr "Režim opakovania: súbor"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_ON"
 msgid "Repeat Forever: On"
-msgstr ""
+msgstr "Opakovať neustále: zapnuté"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_OFF"
 msgid "Repeat Forever: Off"
-msgstr ""
+msgstr "Opakovať neustále: vypnuté"
 
 msgctxt "IDS_PLAYLOOP_FOREVER"
 msgid "Repeat Forever"
-msgstr ""
+msgstr "Opakovať neustále"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -3747,13 +3747,13 @@ msgstr "Stranový pomer: Predpokladať štvorcové pixely (SAR)"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADED"
 msgid "Downloaded [%s] \"%s\""
-msgstr ""
+msgstr "Stiahnutý súbor [%s] \"%s\""
 
 msgctxt "IDS_SUBUL_DLG_TITLE"
 msgid "Upload subtitles"
-msgstr ""
+msgstr "Odoslať titulky"
 
 msgctxt "IDS_SUBUL_DLG_CONFIRM"
 msgid "Are you sure you want to upload the subtitle file \"%s\"?"
-msgstr ""
+msgstr "Naozaj chcete odoslať súbor titulkov \"%s\"?"
 

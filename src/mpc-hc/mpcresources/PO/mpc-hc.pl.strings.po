@@ -2,15 +2,16 @@
 # Copyright (C) 2002 - 2016 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# kasper93, 2013-2015
+# kasper93, 2013-2016
 # M T <michtrz@gmail.com>, 2013-2015
+# Peter Korowacki <piotr.korowacki@gmail.com>, 2016
 # Rafał Urbanek <urbis92@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-08 18:51:35+0000\n"
-"PO-Revision-Date: 2016-01-08 23:23+0000\n"
-"Last-Translator: Underground78\n"
+"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
+"PO-Revision-Date: 2016-01-31 18:32+0000\n"
+"Last-Translator: kasper93\n"
 "Language-Team: Polish (http://www.transifex.com/mpc-hc/mpc-hc/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -64,7 +65,7 @@ msgstr "Właściwości"
 
 msgctxt "IDS_PLAY_LOOPMODE_FILE"
 msgid "File"
-msgstr ""
+msgstr "Plik"
 
 msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
 msgid "&Default Style"
@@ -72,7 +73,7 @@ msgstr "&Domyślny styl"
 
 msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
 msgid "Playlist"
-msgstr ""
+msgstr "Lista odtwarzania"
 
 msgctxt "IDS_FAVFILES"
 msgid "Files"
@@ -128,23 +129,23 @@ msgstr "Jeśli cel renderowania nie został określony, napisy SSA/ASS będą re
 
 msgctxt "IDS_PLAYLOOPMODE_PLAYLIST"
 msgid "Repeat Mode: Playlist"
-msgstr ""
+msgstr "Tryb Powtarzania: Lista odtwarzania"
 
 msgctxt "IDS_PLAYLOOPMODE_FILE"
 msgid "Repeat Mode: File"
-msgstr ""
+msgstr "Tryb Powtarzania: Plik"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_ON"
 msgid "Repeat Forever: On"
-msgstr ""
+msgstr "Powtarzanie Ciągłe: Włączone"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_OFF"
 msgid "Repeat Forever: Off"
-msgstr ""
+msgstr "Powtarzanie Ciągłe: Wyłączone"
 
 msgctxt "IDS_PLAYLOOP_FOREVER"
 msgid "Repeat Forever"
-msgstr ""
+msgstr "Odtwarzanie ciągłe"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -756,11 +757,11 @@ msgstr "Aby wyświetlić zasoby w przeglądarce należy włączyć interfejs int
 
 msgctxt "IDS_SUBTITLES_DOWNLOAD"
 msgid "Download Subtitles..."
-msgstr ""
+msgstr "Pobierz napisy..."
 
 msgctxt "IDS_SUBTITLES_UPLOAD"
 msgid "Upload Subtitles..."
-msgstr ""
+msgstr "Wyślij napisy..."
 
 msgctxt "IDS_SUBFILE_DELAY"
 msgid "Delay (ms):"
@@ -1804,7 +1805,7 @@ msgstr "Zmniejsz wysokość obrazu"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
 msgid "Downloading [%s] \"%s\""
-msgstr ""
+msgstr "Pobieranie [%s] \"%s\""
 
 msgctxt "IDS_SUBDL_DLG_PARSING"
 msgid "Parsing list..."
@@ -2336,7 +2337,7 @@ msgstr "Proporcje obrazu: %ld:%ld"
 
 msgctxt "IDS_MAINFRM_69"
 msgid "Aspect Ratio: Default (DAR)"
-msgstr ""
+msgstr "Proporcje obrazu: Domyślne (DAR)"
 
 msgctxt "IDS_MAINFRM_70"
 msgid "Audio delay: %I64d ms"
@@ -3608,35 +3609,35 @@ msgstr "XySubFilter"
 
 msgctxt "IDS_SUBDL_DLG_PROVIDER_COL"
 msgid "Provider"
-msgstr ""
+msgstr "Dostawca"
 
 msgctxt "IDS_SUBDL_DLG_HI_COL"
 msgid "Hearing Impaired"
-msgstr ""
+msgstr "Dla niedosłyszących"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADS_COL"
 msgid "Downloads"
-msgstr ""
+msgstr "Pobrania"
 
 msgctxt "IDS_SUBDL_DLG_SCORE_COL"
 msgid "Score"
-msgstr ""
+msgstr "Punkty"
 
 msgctxt "IDS_SUBDL_DLG_FAILED"
 msgid "Online subtitles search failed."
-msgstr ""
+msgstr "Wyszukiwanie napisów w internetowej bazie nie powiodło się."
 
 msgctxt "IDS_SUBDL_DLG_ABORTED"
 msgid "Online subtitles search aborted."
-msgstr ""
+msgstr "Wyszukiwanie napisów w internetowej bazie przerwane."
 
 msgctxt "IDS_SUBDL_DLG_FOUND"
 msgid "Online subtitles search completed, %d subtitles found."
-msgstr ""
+msgstr "Wyszukiwanie napisów w internetowej bazie zakończone, znaleziono %d napisów."
 
 msgctxt "IDS_SUBDL_DLG_NOTFOUND"
 msgid "Online subtitles search completed, no subtitles found."
-msgstr ""
+msgstr "Wyszukiwanie napisów w internetowej bazie zakończone, nie znaleziono napisów."
 
 msgctxt "IDS_SUBDL_DLG_TITLE"
 msgid "Download subtitles"
@@ -3644,63 +3645,63 @@ msgstr "Pobierz napisy"
 
 msgctxt "IDS_SUBDL_DLG_SEARCHING"
 msgid "Searching for subtitles online, please wait..."
-msgstr ""
+msgstr "Wyszukiwanie napisów, proszę czekać..."
 
 msgctxt "IDS_SUBDL_DLG_ABORTING"
 msgid "Online subtitles search aborting..."
-msgstr ""
+msgstr "Przerywanie wyszukiwania napisów..."
 
 msgctxt "IDS_SUBUL_DLG_USERNAME_COL"
 msgid "Username"
-msgstr ""
+msgstr "Użytkownik:"
 
 msgctxt "IDS_SUBUL_DLG_STATUS_COL"
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 msgctxt "IDS_SUBUL_DLG_STATUS_READY"
 msgid "Ready..."
-msgstr ""
+msgstr "Gotowe..."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_NOTIMPLEMENTED"
 msgid "Not implemented."
-msgstr ""
+msgstr "Niezaimplementowane."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADING"
 msgid "Uploading..."
-msgstr ""
+msgstr "Wysyłanie..."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADED"
 msgid "Subtitles uploaded succeessfuly."
-msgstr ""
+msgstr "Napisy wysłane poprawnie."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_FAILED"
 msgid "Subtitles upload failed."
-msgstr ""
+msgstr "Wysyłanie napisów nie powiodło się."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_ABORTED"
 msgid "Subtitles upload aborted."
-msgstr ""
+msgstr "Wysyłanie napisów przerwane."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_ALREADYEXISTS"
 msgid "Subtitles already exist."
-msgstr ""
+msgstr "Napisy już istnieją."
 
 msgctxt "IDS_SUBUL_DLG_UPLOADING"
 msgid "Uploading subtitles, please wait..."
-msgstr ""
+msgstr "Wysyłanie napisów, proszę czekać..."
 
 msgctxt "IDS_SUBUL_DLG_UPLOADED"
 msgid "Upload finished."
-msgstr ""
+msgstr "Wysyłanie zakończone."
 
 msgctxt "IDS_SUBUL_DLG_ABORTED"
 msgid "Upload aborted."
-msgstr ""
+msgstr "Wysyłanie przerwane."
 
 msgctxt "IDS_SUBUL_DLG_FAILED"
 msgid "Upload failed."
-msgstr ""
+msgstr "Wysyłanie nie powiodło się."
 
 msgctxt "IDS_SUBMENU_DOWNLOAD"
 msgid "Download && Open"
@@ -3708,7 +3709,7 @@ msgstr "Pobierz i otwórz"
 
 msgctxt "IDS_SUBMENU_SETUP"
 msgid "Setup"
-msgstr ""
+msgstr "Opcje"
 
 msgctxt "IDS_SUBMENU_RESET"
 msgid "Reset"
@@ -3724,37 +3725,37 @@ msgstr "W dół"
 
 msgctxt "IDS_SUBMENU_OPENURL"
 msgid "Open URL"
-msgstr ""
+msgstr "Otwórz URL"
 
 msgctxt "IDS_SUBPP_DLG_LANGUAGES_COL"
 msgid "Languages"
-msgstr ""
+msgstr "Język"
 
 msgctxt "IDS_SUBPP_DLG_LANGUAGES_ERROR"
 msgid "ERROR: Internet connection could not be established."
-msgstr ""
+msgstr "Błąd: Nie można nawiązać połączenia z Internetem."
 
 msgctxt "IDS_SUB_CREDENTIALS_TITLE"
 msgid "Enter website credentials"
-msgstr ""
+msgstr "Wprowadź poświadczenia dla strony"
 
 msgctxt "IDS_SUB_CREDENTIALS_MSG"
 msgid "Enter your credentials to connect to: "
-msgstr ""
+msgstr "Wprowadź poświadczenie użytkownika"
 
 msgctxt "IDS_ASPECT_RATIO_SAR"
 msgid "Aspect Ratio: Assume square pixels (SAR)"
-msgstr ""
+msgstr "Proporcje obrazu: Załóż kwadratowe piksele (SAR)"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADED"
 msgid "Downloaded [%s] \"%s\""
-msgstr ""
+msgstr "Pobrano [%s] \"%s\""
 
 msgctxt "IDS_SUBUL_DLG_TITLE"
 msgid "Upload subtitles"
-msgstr ""
+msgstr "Wyślij napisy"
 
 msgctxt "IDS_SUBUL_DLG_CONFIRM"
 msgid "Are you sure you want to upload the subtitle file \"%s\"?"
-msgstr ""
+msgstr "Czy na pewno chcesz wysłać napisy \"%s\"?"
 

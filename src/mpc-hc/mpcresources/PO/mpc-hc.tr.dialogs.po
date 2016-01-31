@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-07 20:33:06+0000\n"
-"PO-Revision-Date: 2016-01-11 18:13+0000\n"
+"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
+"PO-Revision-Date: 2016-01-18 12:52+0000\n"
 "Last-Translator: Sinan H.\n"
 "Language-Team: Turkish (http://www.transifex.com/mpc-hc/mpc-hc/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -425,7 +425,7 @@ msgstr "kez oynat"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Repeat mode:"
-msgstr ""
+msgstr "Tekrar kipi:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
@@ -1585,7 +1585,7 @@ msgstr "Geçerli konumda bulunmuyorsa alt yazıları otomatik olarak ara ve indi
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
 msgid "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
-msgstr "İşitme engelliler için hazırlanmış alt yazıları tercih et (alt yazı sağlayıcısı tarafından belirtilmişse)"
+msgstr "İşitme engelliler için hazırlanmış alt yazıları tercih et (sağlayıcı tanımlamışsa)"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
 msgid "Ignore files containing any of the following word(s):"

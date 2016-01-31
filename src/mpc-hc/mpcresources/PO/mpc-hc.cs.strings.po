@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Jan Košata <kosata6@seznam.cz>, 2014
-# khagaroth, 2013-2015
+# khagaroth, 2013-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-08 18:51:35+0000\n"
-"PO-Revision-Date: 2016-01-08 23:23+0000\n"
-"Last-Translator: Underground78\n"
+"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
+"PO-Revision-Date: 2016-01-30 12:46+0000\n"
+"Last-Translator: khagaroth\n"
 "Language-Team: Czech (http://www.transifex.com/mpc-hc/mpc-hc/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -63,7 +63,7 @@ msgstr "Vlastnosti"
 
 msgctxt "IDS_PLAY_LOOPMODE_FILE"
 msgid "File"
-msgstr ""
+msgstr "Soubor"
 
 msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
 msgid "&Default Style"
@@ -71,7 +71,7 @@ msgstr "&Výchozí styl"
 
 msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
 msgid "Playlist"
-msgstr ""
+msgstr "Seznam stop"
 
 msgctxt "IDS_FAVFILES"
 msgid "Files"
@@ -127,23 +127,23 @@ msgstr "Pokud není určen cíl vykreslování, budou SSA/ASS titulky vykreslov�
 
 msgctxt "IDS_PLAYLOOPMODE_PLAYLIST"
 msgid "Repeat Mode: Playlist"
-msgstr ""
+msgstr "Režim opakování: Seznam stop"
 
 msgctxt "IDS_PLAYLOOPMODE_FILE"
 msgid "Repeat Mode: File"
-msgstr ""
+msgstr "Režim opakování: Soubor"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_ON"
 msgid "Repeat Forever: On"
-msgstr ""
+msgstr "Opakovat donekonečna: Aktivní"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_OFF"
 msgid "Repeat Forever: Off"
-msgstr ""
+msgstr "Opakovat donekonečna: Neaktivní"
 
 msgctxt "IDS_PLAYLOOP_FOREVER"
 msgid "Repeat Forever"
-msgstr ""
+msgstr "Opakovat donekonečna"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -755,11 +755,11 @@ msgstr "Pro zobrazení vložených zdrojů v prohlížeči musíte povolit webov
 
 msgctxt "IDS_SUBTITLES_DOWNLOAD"
 msgid "Download Subtitles..."
-msgstr ""
+msgstr "Stáhnout titulky..."
 
 msgctxt "IDS_SUBTITLES_UPLOAD"
 msgid "Upload Subtitles..."
-msgstr ""
+msgstr "Odeslat titulky..."
 
 msgctxt "IDS_SUBFILE_DELAY"
 msgid "Delay (ms):"
@@ -1803,7 +1803,7 @@ msgstr "P&S zmenšit výšku"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
 msgid "Downloading [%s] \"%s\""
-msgstr ""
+msgstr "Stahování [%s] \"%s\""
 
 msgctxt "IDS_SUBDL_DLG_PARSING"
 msgid "Parsing list..."
@@ -2335,7 +2335,7 @@ msgstr "Poměr stran: %ld:%ld"
 
 msgctxt "IDS_MAINFRM_69"
 msgid "Aspect Ratio: Default (DAR)"
-msgstr ""
+msgstr "Poměr stran: Výchozí (DAR)"
 
 msgctxt "IDS_MAINFRM_70"
 msgid "Audio delay: %I64d ms"
@@ -3607,35 +3607,35 @@ msgstr "XySubFilter"
 
 msgctxt "IDS_SUBDL_DLG_PROVIDER_COL"
 msgid "Provider"
-msgstr ""
+msgstr "Poskytovatel"
 
 msgctxt "IDS_SUBDL_DLG_HI_COL"
 msgid "Hearing Impaired"
-msgstr ""
+msgstr "Neslišící"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADS_COL"
 msgid "Downloads"
-msgstr ""
+msgstr "Stahování"
 
 msgctxt "IDS_SUBDL_DLG_SCORE_COL"
 msgid "Score"
-msgstr ""
+msgstr "Hodnocení"
 
 msgctxt "IDS_SUBDL_DLG_FAILED"
 msgid "Online subtitles search failed."
-msgstr ""
+msgstr "Hledání titulků online se nezdařilo."
 
 msgctxt "IDS_SUBDL_DLG_ABORTED"
 msgid "Online subtitles search aborted."
-msgstr ""
+msgstr "Hledání titulků online bylo zrušeno."
 
 msgctxt "IDS_SUBDL_DLG_FOUND"
 msgid "Online subtitles search completed, %d subtitles found."
-msgstr ""
+msgstr "Hledání titulků bylo dokončeno, nalezeno %d titulků."
 
 msgctxt "IDS_SUBDL_DLG_NOTFOUND"
 msgid "Online subtitles search completed, no subtitles found."
-msgstr ""
+msgstr "Hledání titulků bylo dokončeno, nebyly nalezeny žádné titulky."
 
 msgctxt "IDS_SUBDL_DLG_TITLE"
 msgid "Download subtitles"
@@ -3643,63 +3643,63 @@ msgstr "Stáhnout titulky"
 
 msgctxt "IDS_SUBDL_DLG_SEARCHING"
 msgid "Searching for subtitles online, please wait..."
-msgstr ""
+msgstr "Probíhá hledání titulků online, prosím čekejte..."
 
 msgctxt "IDS_SUBDL_DLG_ABORTING"
 msgid "Online subtitles search aborting..."
-msgstr ""
+msgstr "Rušení hledání titulků..."
 
 msgctxt "IDS_SUBUL_DLG_USERNAME_COL"
 msgid "Username"
-msgstr ""
+msgstr "Uživatelské jméno"
 
 msgctxt "IDS_SUBUL_DLG_STATUS_COL"
 msgid "Status"
-msgstr ""
+msgstr "Stav"
 
 msgctxt "IDS_SUBUL_DLG_STATUS_READY"
 msgid "Ready..."
-msgstr ""
+msgstr "Připraveno..."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_NOTIMPLEMENTED"
 msgid "Not implemented."
-msgstr ""
+msgstr "Není podporováno."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADING"
 msgid "Uploading..."
-msgstr ""
+msgstr "Odesílání..."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADED"
 msgid "Subtitles uploaded succeessfuly."
-msgstr ""
+msgstr "Titulky byly úspěšně odeslány."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_FAILED"
 msgid "Subtitles upload failed."
-msgstr ""
+msgstr "Odeslání titulků se nezdařilo."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_ABORTED"
 msgid "Subtitles upload aborted."
-msgstr ""
+msgstr "Odeslání titulků bylo zrušeno."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_ALREADYEXISTS"
 msgid "Subtitles already exist."
-msgstr ""
+msgstr "Titulky již existují."
 
 msgctxt "IDS_SUBUL_DLG_UPLOADING"
 msgid "Uploading subtitles, please wait..."
-msgstr ""
+msgstr "Probíhá odesílání titulků, prosím čekejte..."
 
 msgctxt "IDS_SUBUL_DLG_UPLOADED"
 msgid "Upload finished."
-msgstr ""
+msgstr "Odesílání dokončeno."
 
 msgctxt "IDS_SUBUL_DLG_ABORTED"
 msgid "Upload aborted."
-msgstr ""
+msgstr "Odesílání přerušeno."
 
 msgctxt "IDS_SUBUL_DLG_FAILED"
 msgid "Upload failed."
-msgstr ""
+msgstr "Odesílání se nezdařilo."
 
 msgctxt "IDS_SUBMENU_DOWNLOAD"
 msgid "Download && Open"
@@ -3707,7 +3707,7 @@ msgstr "Stáhnout a otevřít"
 
 msgctxt "IDS_SUBMENU_SETUP"
 msgid "Setup"
-msgstr ""
+msgstr "Nastavení"
 
 msgctxt "IDS_SUBMENU_RESET"
 msgid "Reset"
@@ -3723,37 +3723,37 @@ msgstr "Dolů"
 
 msgctxt "IDS_SUBMENU_OPENURL"
 msgid "Open URL"
-msgstr ""
+msgstr "Otevřít adresu"
 
 msgctxt "IDS_SUBPP_DLG_LANGUAGES_COL"
 msgid "Languages"
-msgstr ""
+msgstr "Jazyky"
 
 msgctxt "IDS_SUBPP_DLG_LANGUAGES_ERROR"
 msgid "ERROR: Internet connection could not be established."
-msgstr ""
+msgstr "Chyba: Nepodařilo se navázat spojení."
 
 msgctxt "IDS_SUB_CREDENTIALS_TITLE"
 msgid "Enter website credentials"
-msgstr ""
+msgstr "Zadejte přihlašovací údaje"
 
 msgctxt "IDS_SUB_CREDENTIALS_MSG"
 msgid "Enter your credentials to connect to: "
-msgstr ""
+msgstr "Zadejte přihlašovací údaje spojení:"
 
 msgctxt "IDS_ASPECT_RATIO_SAR"
 msgid "Aspect Ratio: Assume square pixels (SAR)"
-msgstr ""
+msgstr "Poměr stran: Předpokládat čtvercové pixely (SAR)"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADED"
 msgid "Downloaded [%s] \"%s\""
-msgstr ""
+msgstr "Staženo [%s] „%s“"
 
 msgctxt "IDS_SUBUL_DLG_TITLE"
 msgid "Upload subtitles"
-msgstr ""
+msgstr "Odeslat titulky"
 
 msgctxt "IDS_SUBUL_DLG_CONFIRM"
 msgid "Are you sure you want to upload the subtitle file \"%s\"?"
-msgstr ""
+msgstr "Opravdu chcete odeslat soubor titulků „%s?"
 

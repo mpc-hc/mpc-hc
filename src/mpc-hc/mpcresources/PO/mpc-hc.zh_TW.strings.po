@@ -10,13 +10,13 @@
 # roytam1 <roytam@gmail.com>, 2014
 # YukiSakura <nijiko_fukada@163.com>, 2015
 # Zakk <zakk0610@gmail.com>, 2014
-# 洪嘉鴻 <jerry9030@gmail.com>, 2015
+# 洪嘉鴻 <jerry9030@gmail.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-08 18:51:35+0000\n"
-"PO-Revision-Date: 2016-01-08 23:23+0000\n"
-"Last-Translator: Underground78\n"
+"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
+"PO-Revision-Date: 2016-01-29 08:03+0000\n"
+"Last-Translator: 洪嘉鴻 <jerry9030@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/mpc-hc/mpc-hc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -70,7 +70,7 @@ msgstr "內容"
 
 msgctxt "IDS_PLAY_LOOPMODE_FILE"
 msgid "File"
-msgstr ""
+msgstr "檔案"
 
 msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
 msgid "&Default Style"
@@ -78,7 +78,7 @@ msgstr "預設樣式(&D)"
 
 msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
 msgid "Playlist"
-msgstr ""
+msgstr "播放清單"
 
 msgctxt "IDS_FAVFILES"
 msgid "Files"
@@ -134,23 +134,23 @@ msgstr "如果繪製目標未被定義, SSA/ASS 字幕會參考視訊畫幀來�
 
 msgctxt "IDS_PLAYLOOPMODE_PLAYLIST"
 msgid "Repeat Mode: Playlist"
-msgstr ""
+msgstr "重複模式: 播放清單"
 
 msgctxt "IDS_PLAYLOOPMODE_FILE"
 msgid "Repeat Mode: File"
-msgstr ""
+msgstr "重複模式: 檔案"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_ON"
 msgid "Repeat Forever: On"
-msgstr ""
+msgstr "永遠重複: 開啟"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_OFF"
 msgid "Repeat Forever: Off"
-msgstr ""
+msgstr "永遠重複: 關閉"
 
 msgctxt "IDS_PLAYLOOP_FOREVER"
 msgid "Repeat Forever"
-msgstr ""
+msgstr "永遠重複"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -762,11 +762,11 @@ msgstr "如要瀏覽器中檢視內嵌資源，您須要開啟網頁介面。\n\
 
 msgctxt "IDS_SUBTITLES_DOWNLOAD"
 msgid "Download Subtitles..."
-msgstr ""
+msgstr "下載字幕..."
 
 msgctxt "IDS_SUBTITLES_UPLOAD"
 msgid "Upload Subtitles..."
-msgstr ""
+msgstr "上傳字幕..."
 
 msgctxt "IDS_SUBFILE_DELAY"
 msgid "Delay (ms):"
@@ -1810,7 +1810,7 @@ msgstr "平移掃描 - 減少高度"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
 msgid "Downloading [%s] \"%s\""
-msgstr ""
+msgstr "正在下載 [%s] \"%s\""
 
 msgctxt "IDS_SUBDL_DLG_PARSING"
 msgid "Parsing list..."
@@ -3622,7 +3622,7 @@ msgstr ""
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADS_COL"
 msgid "Downloads"
-msgstr ""
+msgstr "下載"
 
 msgctxt "IDS_SUBDL_DLG_SCORE_COL"
 msgid "Score"
@@ -3630,19 +3630,19 @@ msgstr ""
 
 msgctxt "IDS_SUBDL_DLG_FAILED"
 msgid "Online subtitles search failed."
-msgstr ""
+msgstr "線上字幕搜尋失敗。"
 
 msgctxt "IDS_SUBDL_DLG_ABORTED"
 msgid "Online subtitles search aborted."
-msgstr ""
+msgstr "線上字幕搜尋已中止。"
 
 msgctxt "IDS_SUBDL_DLG_FOUND"
 msgid "Online subtitles search completed, %d subtitles found."
-msgstr ""
+msgstr "線上字幕搜尋已完成，共找到 %d 筆相符的字幕。"
 
 msgctxt "IDS_SUBDL_DLG_NOTFOUND"
 msgid "Online subtitles search completed, no subtitles found."
-msgstr ""
+msgstr "線上字幕搜尋已完成，找不到任何相符字幕。"
 
 msgctxt "IDS_SUBDL_DLG_TITLE"
 msgid "Download subtitles"
@@ -3650,7 +3650,7 @@ msgstr "下載字幕"
 
 msgctxt "IDS_SUBDL_DLG_SEARCHING"
 msgid "Searching for subtitles online, please wait..."
-msgstr ""
+msgstr "正在由線上搜尋字幕，請稍候..."
 
 msgctxt "IDS_SUBDL_DLG_ABORTING"
 msgid "Online subtitles search aborting..."
@@ -3658,11 +3658,11 @@ msgstr ""
 
 msgctxt "IDS_SUBUL_DLG_USERNAME_COL"
 msgid "Username"
-msgstr ""
+msgstr "使用者名稱"
 
 msgctxt "IDS_SUBUL_DLG_STATUS_COL"
 msgid "Status"
-msgstr ""
+msgstr "狀態"
 
 msgctxt "IDS_SUBUL_DLG_STATUS_READY"
 msgid "Ready..."
@@ -3674,39 +3674,39 @@ msgstr ""
 
 msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADING"
 msgid "Uploading..."
-msgstr ""
+msgstr "正在上傳..."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADED"
 msgid "Subtitles uploaded succeessfuly."
-msgstr ""
+msgstr "字幕已成功上傳。"
 
 msgctxt "IDS_SUBUL_DLG_STATUS_FAILED"
 msgid "Subtitles upload failed."
-msgstr ""
+msgstr "上傳字幕失敗。"
 
 msgctxt "IDS_SUBUL_DLG_STATUS_ABORTED"
 msgid "Subtitles upload aborted."
-msgstr ""
+msgstr "字幕上傳已中止。"
 
 msgctxt "IDS_SUBUL_DLG_STATUS_ALREADYEXISTS"
 msgid "Subtitles already exist."
-msgstr ""
+msgstr "字幕已存在。"
 
 msgctxt "IDS_SUBUL_DLG_UPLOADING"
 msgid "Uploading subtitles, please wait..."
-msgstr ""
+msgstr "正在上傳字幕，請稍候..."
 
 msgctxt "IDS_SUBUL_DLG_UPLOADED"
 msgid "Upload finished."
-msgstr ""
+msgstr "上傳已完成。"
 
 msgctxt "IDS_SUBUL_DLG_ABORTED"
 msgid "Upload aborted."
-msgstr ""
+msgstr "上傳已中止。"
 
 msgctxt "IDS_SUBUL_DLG_FAILED"
 msgid "Upload failed."
-msgstr ""
+msgstr "上傳失敗。"
 
 msgctxt "IDS_SUBMENU_DOWNLOAD"
 msgid "Download && Open"
@@ -3730,11 +3730,11 @@ msgstr "下移"
 
 msgctxt "IDS_SUBMENU_OPENURL"
 msgid "Open URL"
-msgstr ""
+msgstr "開啟網址"
 
 msgctxt "IDS_SUBPP_DLG_LANGUAGES_COL"
 msgid "Languages"
-msgstr ""
+msgstr "語言"
 
 msgctxt "IDS_SUBPP_DLG_LANGUAGES_ERROR"
 msgid "ERROR: Internet connection could not be established."
@@ -3758,9 +3758,9 @@ msgstr ""
 
 msgctxt "IDS_SUBUL_DLG_TITLE"
 msgid "Upload subtitles"
-msgstr ""
+msgstr "上傳字幕"
 
 msgctxt "IDS_SUBUL_DLG_CONFIRM"
 msgid "Are you sure you want to upload the subtitle file \"%s\"?"
-msgstr ""
+msgstr "您確定要上傳字幕檔案 \"%s\" 嗎?"
 

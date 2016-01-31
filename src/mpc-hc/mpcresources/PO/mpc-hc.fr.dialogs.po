@@ -2,13 +2,13 @@
 # Copyright (C) 2002 - 2016 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Jean van Kasteel <vankasteelj@gmail.com>, 2015
+# Jean van Kasteel <vankasteelj@gmail.com>, 2015-2016
 # Underground78, 2013-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-07 20:33:06+0000\n"
-"PO-Revision-Date: 2016-01-10 23:29+0000\n"
+"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
+"PO-Revision-Date: 2016-01-31 21:47+0000\n"
 "Last-Translator: Underground78\n"
 "Language-Team: French (http://www.transifex.com/mpc-hc/mpc-hc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -423,7 +423,7 @@ msgstr "fois"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Repeat mode:"
-msgstr ""
+msgstr "Mode de répétition :"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"

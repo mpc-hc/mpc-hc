@@ -9,7 +9,7 @@
 # Pavel Otchertsov <pavel.otchertsov@gmail.com>, 2015
 # sayanvd <sayanvd@yandex.ru>, 2014-2015
 # Sergey <player54@mail.ru>, 2015-2016
-# stryaponoff <stryaponoff@gmail.com>, 2014
+# stryaponoff <stryaponoff@gmail.com>, 2014,2016
 # SmilyCarrot <twisted-transistor@yandex.ru>, 2014-2015
 # Underground78, 2014
 # Victor Bychek, 2015-2016
@@ -17,9 +17,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-08 18:51:35+0000\n"
-"PO-Revision-Date: 2016-01-15 17:25+0000\n"
-"Last-Translator: Victor Bychek\n"
+"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
+"PO-Revision-Date: 2016-01-24 15:21+0000\n"
+"Last-Translator: stryaponoff <stryaponoff@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/mpc-hc/mpc-hc/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -73,7 +73,7 @@ msgstr "Свойства"
 
 msgctxt "IDS_PLAY_LOOPMODE_FILE"
 msgid "File"
-msgstr ""
+msgstr "Файл"
 
 msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
 msgid "&Default Style"
@@ -81,7 +81,7 @@ msgstr "Стиль по умолчанию"
 
 msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
 msgid "Playlist"
-msgstr ""
+msgstr "Плейлист"
 
 msgctxt "IDS_FAVFILES"
 msgid "Files"
@@ -137,23 +137,23 @@ msgstr "Если цель рендеринга не определена, SSA/AS
 
 msgctxt "IDS_PLAYLOOPMODE_PLAYLIST"
 msgid "Repeat Mode: Playlist"
-msgstr ""
+msgstr "Режим повтора: Плейлист"
 
 msgctxt "IDS_PLAYLOOPMODE_FILE"
 msgid "Repeat Mode: File"
-msgstr ""
+msgstr "Режим повтора: Файл"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_ON"
 msgid "Repeat Forever: On"
-msgstr ""
+msgstr "Повторять бесконечно: Вкл."
 
 msgctxt "IDS_PLAYLOOP_FOREVER_OFF"
 msgid "Repeat Forever: Off"
-msgstr ""
+msgstr "Повторять бесконечно: Выкл."
 
 msgctxt "IDS_PLAYLOOP_FOREVER"
 msgid "Repeat Forever"
-msgstr ""
+msgstr "Повторять бесконечно"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -557,7 +557,7 @@ msgstr "Overlay Mixer Renderer"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
 msgid "Video Mixing Renderer 9 (windowed)"
-msgstr "Video Mixing Renderer 9 (windowed)"
+msgstr "Video Mixing Renderer 9 (оконный)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
 msgid "Video Mixing Renderer 9 (renderless)"
@@ -565,11 +565,11 @@ msgstr "Video Mixing Renderer 9 (renderless)"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR"
 msgid "Enhanced Video Renderer"
-msgstr "Расширенный рендер видео"
+msgstr "Расширенный рендер видео (EVR)"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR_CUSTOM"
 msgid "Enhanced Video Renderer (custom presenter)"
-msgstr "Расшир. рендер видео (custom presenter)"
+msgstr "Расширенный рендер видео (EVR custom presenter)"
 
 msgctxt "IDS_PPAGE_OUTPUT_DXR"
 msgid "Haali Video Renderer"
@@ -1249,7 +1249,7 @@ msgstr "[H/W]"
 
 msgctxt "IDS_TOOLTIP_SOFTWARE_DECODING"
 msgid "Software Decoding"
-msgstr "Программы декодирования"
+msgstr "Программное декодирование"
 
 msgctxt "IDS_STATSBAR_PLAYBACK_RATE"
 msgid "Playback rate"
@@ -1813,7 +1813,7 @@ msgstr "Уменьшить высоту кадра"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
 msgid "Downloading [%s] \"%s\""
-msgstr "Скачивание [%s] \"%s\""
+msgstr "Загрузка [%s] \"%s\""
 
 msgctxt "IDS_SUBDL_DLG_PARSING"
 msgid "Parsing list..."
@@ -3185,11 +3185,11 @@ msgstr "Полноэкранный D3D: откл"
 
 msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_ON"
 msgid "Disable desktop composition: On"
-msgstr "Эффекты рабочего стола: вкл"
+msgstr "Эффекты рабочего стола: Вкл."
 
 msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_OFF"
 msgid "Disable desktop composition: Off"
-msgstr "Эффекты рабочего стола: откл"
+msgstr "Эффекты рабочего стола: Выкл."
 
 msgctxt "IDS_OSD_RS_ALT_VSYNC_ON"
 msgid "Alternative VSync: On"
@@ -3209,11 +3209,11 @@ msgstr "Установлены оптимальные настройки рен�
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
 msgid "D3D Fullscreen GUI Support: On"
-msgstr "Полноэкранный D3D с поддержкой GUI: вкл"
+msgstr "Поддержка интерфейса в полноэкранном режиме: Вкл."
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF"
 msgid "D3D Fullscreen GUI Support: Off"
-msgstr "Полноэкранный D3D с поддержкой GUI: откл"
+msgstr "Поддержка интерфейса в полноэкранном режиме: Выкл."
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_ON"
 msgid "10-bit RGB Output: On"
@@ -3261,11 +3261,11 @@ msgstr "Уменьшить контрастность"
 
 msgctxt "IDS_HUE_INC"
 msgid "Hue increase"
-msgstr "Увеличить цветовой тон"
+msgstr "Увеличить тон"
 
 msgctxt "IDS_HUE_DEC"
 msgid "Hue decrease"
-msgstr "Уменьшение цв. тона"
+msgstr "Уменьшить тон"
 
 msgctxt "IDS_SATURATION_INC"
 msgid "Saturation increase"
@@ -3621,7 +3621,7 @@ msgstr "Провайдер"
 
 msgctxt "IDS_SUBDL_DLG_HI_COL"
 msgid "Hearing Impaired"
-msgstr ""
+msgstr "С нарушениями слуха"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADS_COL"
 msgid "Downloads"
@@ -3673,7 +3673,7 @@ msgstr "Готов..."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_NOTIMPLEMENTED"
 msgid "Not implemented."
-msgstr "Не выполняется."
+msgstr "В разработке."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADING"
 msgid "Uploading..."
@@ -3757,13 +3757,13 @@ msgstr ""
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADED"
 msgid "Downloaded [%s] \"%s\""
-msgstr ""
+msgstr "Загружено [%s] \"%s\""
 
 msgctxt "IDS_SUBUL_DLG_TITLE"
 msgid "Upload subtitles"
-msgstr ""
+msgstr "Загрузить субтитры"
 
 msgctxt "IDS_SUBUL_DLG_CONFIRM"
 msgid "Are you sure you want to upload the subtitle file \"%s\"?"
-msgstr ""
+msgstr "Вы уверены, что хотите выгрузить файл субтитров \"%s\"?"
 

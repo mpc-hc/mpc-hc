@@ -2,15 +2,15 @@
 # Copyright (C) 2002 - 2016 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# M. Somsak, 2014-2015
+# M. Somsak, 2014-2016
 # M. Somsak, 2014
 # M. Somsak, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-08 18:51:35+0000\n"
-"PO-Revision-Date: 2016-01-08 23:23+0000\n"
-"Last-Translator: Underground78\n"
+"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
+"PO-Revision-Date: 2016-01-23 13:16+0000\n"
+"Last-Translator: M. Somsak\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/mpc-hc/mpc-hc/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -64,7 +64,7 @@ msgstr "คุณสมบัติ"
 
 msgctxt "IDS_PLAY_LOOPMODE_FILE"
 msgid "File"
-msgstr ""
+msgstr "ไฟล์"
 
 msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
 msgid "&Default Style"
@@ -72,7 +72,7 @@ msgstr "&ลักษณะตั้งต้น"
 
 msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
 msgid "Playlist"
-msgstr ""
+msgstr "บัญชีการเล่น"
 
 msgctxt "IDS_FAVFILES"
 msgid "Files"
@@ -128,23 +128,23 @@ msgstr "ถ้าเป้าหมายการแปลผลไม่ถู
 
 msgctxt "IDS_PLAYLOOPMODE_PLAYLIST"
 msgid "Repeat Mode: Playlist"
-msgstr ""
+msgstr "โหมดวนซ้ำ: บัญชีการเล่น"
 
 msgctxt "IDS_PLAYLOOPMODE_FILE"
 msgid "Repeat Mode: File"
-msgstr ""
+msgstr "โหมดวนซ้ำ: ไฟล์"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_ON"
 msgid "Repeat Forever: On"
-msgstr ""
+msgstr "วนซ้ำตลอดไป: เปิด"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_OFF"
 msgid "Repeat Forever: Off"
-msgstr ""
+msgstr "วนซ้ำตลอดไป: ปิด"
 
 msgctxt "IDS_PLAYLOOP_FOREVER"
 msgid "Repeat Forever"
-msgstr ""
+msgstr "วนซ้ำตลอดไป"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -756,11 +756,11 @@ msgstr "เพื่อที่จะดูทรัพยากรที่ฝ
 
 msgctxt "IDS_SUBTITLES_DOWNLOAD"
 msgid "Download Subtitles..."
-msgstr ""
+msgstr "ดาวน์โหลดศัพท์บรรยาย..."
 
 msgctxt "IDS_SUBTITLES_UPLOAD"
 msgid "Upload Subtitles..."
-msgstr ""
+msgstr "อัพโหลดศัพท์บรรยาย..."
 
 msgctxt "IDS_SUBFILE_DELAY"
 msgid "Delay (ms):"
@@ -1804,7 +1804,7 @@ msgstr "ส่องกวาด ลดสูง"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
 msgid "Downloading [%s] \"%s\""
-msgstr ""
+msgstr "กำลังดาวน์โหลด [%s] \"%s\""
 
 msgctxt "IDS_SUBDL_DLG_PARSING"
 msgid "Parsing list..."
@@ -2336,7 +2336,7 @@ msgstr "อัตราส่วนภาพ: %ld:%ld"
 
 msgctxt "IDS_MAINFRM_69"
 msgid "Aspect Ratio: Default (DAR)"
-msgstr ""
+msgstr "อัตราส่วนภาพ: ค่าตั้งต้น (ค่าแสดงผล)"
 
 msgctxt "IDS_MAINFRM_70"
 msgid "Audio delay: %I64d ms"
@@ -3608,31 +3608,31 @@ msgstr "XySubFilter"
 
 msgctxt "IDS_SUBDL_DLG_PROVIDER_COL"
 msgid "Provider"
-msgstr ""
+msgstr "ผู้จัดหา"
 
 msgctxt "IDS_SUBDL_DLG_HI_COL"
 msgid "Hearing Impaired"
-msgstr ""
+msgstr "ผู้บกพร่องการได้ยิน"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADS_COL"
 msgid "Downloads"
-msgstr ""
+msgstr "ดาวน์โหลด"
 
 msgctxt "IDS_SUBDL_DLG_SCORE_COL"
 msgid "Score"
-msgstr ""
+msgstr "คะแนน"
 
 msgctxt "IDS_SUBDL_DLG_FAILED"
 msgid "Online subtitles search failed."
-msgstr ""
+msgstr "การค้นหาศัพท์บรรยายออนไลน์ล้มเหลว"
 
 msgctxt "IDS_SUBDL_DLG_ABORTED"
 msgid "Online subtitles search aborted."
-msgstr ""
+msgstr "การค้นหาศัพท์บรรยายออนไลน์ถูกยกเลิก"
 
 msgctxt "IDS_SUBDL_DLG_FOUND"
 msgid "Online subtitles search completed, %d subtitles found."
-msgstr ""
+msgstr "การค้นหาศัพท์บรรยายออนไลน์เสร็จสิ้น, พบ %d ศัพท์บรรยาย"
 
 msgctxt "IDS_SUBDL_DLG_NOTFOUND"
 msgid "Online subtitles search completed, no subtitles found."
@@ -3644,23 +3644,23 @@ msgstr "ดาวน์โหลดศัพท์บรรยาย"
 
 msgctxt "IDS_SUBDL_DLG_SEARCHING"
 msgid "Searching for subtitles online, please wait..."
-msgstr ""
+msgstr "กำลังค้นหาศัพท์บรรยายออนไลน์, โปรดรอ..."
 
 msgctxt "IDS_SUBDL_DLG_ABORTING"
 msgid "Online subtitles search aborting..."
-msgstr ""
+msgstr "กำลังยกเลิกการค้นหาศัพท์บรรยายออนไลน์..."
 
 msgctxt "IDS_SUBUL_DLG_USERNAME_COL"
 msgid "Username"
-msgstr ""
+msgstr "ชื่อผู้ใช้"
 
 msgctxt "IDS_SUBUL_DLG_STATUS_COL"
 msgid "Status"
-msgstr ""
+msgstr "สถานะ"
 
 msgctxt "IDS_SUBUL_DLG_STATUS_READY"
 msgid "Ready..."
-msgstr ""
+msgstr "พร้อม..."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_NOTIMPLEMENTED"
 msgid "Not implemented."
@@ -3668,39 +3668,39 @@ msgstr ""
 
 msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADING"
 msgid "Uploading..."
-msgstr ""
+msgstr "กำลังอัพโหลด..."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADED"
 msgid "Subtitles uploaded succeessfuly."
-msgstr ""
+msgstr "ศัพท์บรรยายถูกอัพโหลดสำเร็จแล้ว"
 
 msgctxt "IDS_SUBUL_DLG_STATUS_FAILED"
 msgid "Subtitles upload failed."
-msgstr ""
+msgstr "ศัพท์บรรยายอัพโหลดล้มเหลว"
 
 msgctxt "IDS_SUBUL_DLG_STATUS_ABORTED"
 msgid "Subtitles upload aborted."
-msgstr ""
+msgstr "ศัพท์บรรยายถูกยกเลิกการอัพโหลด"
 
 msgctxt "IDS_SUBUL_DLG_STATUS_ALREADYEXISTS"
 msgid "Subtitles already exist."
-msgstr ""
+msgstr "ศัพท์บรรยายมีอยู่แล้ว"
 
 msgctxt "IDS_SUBUL_DLG_UPLOADING"
 msgid "Uploading subtitles, please wait..."
-msgstr ""
+msgstr "กำลังอัพโหลดศัพท์บรรยาย, โปรดรอ..."
 
 msgctxt "IDS_SUBUL_DLG_UPLOADED"
 msgid "Upload finished."
-msgstr ""
+msgstr "อัพโหลดเสร็จแล้ว"
 
 msgctxt "IDS_SUBUL_DLG_ABORTED"
 msgid "Upload aborted."
-msgstr ""
+msgstr "ยกเลิกอัพโหลดแล้ว"
 
 msgctxt "IDS_SUBUL_DLG_FAILED"
 msgid "Upload failed."
-msgstr ""
+msgstr "อัพโหลดล้มเหลว"
 
 msgctxt "IDS_SUBMENU_DOWNLOAD"
 msgid "Download && Open"
@@ -3728,11 +3728,11 @@ msgstr ""
 
 msgctxt "IDS_SUBPP_DLG_LANGUAGES_COL"
 msgid "Languages"
-msgstr ""
+msgstr "ภาษา"
 
 msgctxt "IDS_SUBPP_DLG_LANGUAGES_ERROR"
 msgid "ERROR: Internet connection could not be established."
-msgstr ""
+msgstr "ผิดพลาด; ไม่สามารถสร้างการเชื่อมต่ออินเตอร์เน็ต"
 
 msgctxt "IDS_SUB_CREDENTIALS_TITLE"
 msgid "Enter website credentials"
@@ -3748,13 +3748,13 @@ msgstr ""
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADED"
 msgid "Downloaded [%s] \"%s\""
-msgstr ""
+msgstr "ดาวน์โหลดแล้ว [%s] \"%s\""
 
 msgctxt "IDS_SUBUL_DLG_TITLE"
 msgid "Upload subtitles"
-msgstr ""
+msgstr "อัพโหลดศัพท์บรรยาย"
 
 msgctxt "IDS_SUBUL_DLG_CONFIRM"
 msgid "Are you sure you want to upload the subtitle file \"%s\"?"
-msgstr ""
+msgstr "คุณต้องการอัพโหลดไฟล์ศัพท์บรรยาย \"%s\" หรือไม่?"
 

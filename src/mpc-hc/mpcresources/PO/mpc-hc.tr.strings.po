@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-08 18:51:35+0000\n"
-"PO-Revision-Date: 2016-01-11 18:13+0000\n"
+"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
+"PO-Revision-Date: 2016-01-18 12:52+0000\n"
 "Last-Translator: Sinan H.\n"
 "Language-Team: Turkish (http://www.transifex.com/mpc-hc/mpc-hc/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -65,7 +65,7 @@ msgstr "Özellikler"
 
 msgctxt "IDS_PLAY_LOOPMODE_FILE"
 msgid "File"
-msgstr ""
+msgstr "Dosya"
 
 msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
 msgid "&Default Style"
@@ -73,7 +73,7 @@ msgstr "&Görünüm"
 
 msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
 msgid "Playlist"
-msgstr ""
+msgstr "Oynatma listesi"
 
 msgctxt "IDS_FAVFILES"
 msgid "Files"
@@ -129,23 +129,23 @@ msgstr "İşleyici seçimi tanımlanmamışsa, SSA/ASS alt yazıları video çer
 
 msgctxt "IDS_PLAYLOOPMODE_PLAYLIST"
 msgid "Repeat Mode: Playlist"
-msgstr ""
+msgstr "Tekrarlama Yöntemi: Oynatma listesi"
 
 msgctxt "IDS_PLAYLOOPMODE_FILE"
 msgid "Repeat Mode: File"
-msgstr ""
+msgstr "Tekrarlama Yöntemi: Dosya"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_ON"
 msgid "Repeat Forever: On"
-msgstr ""
+msgstr "Sürekli Tekrar: Açık"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_OFF"
 msgid "Repeat Forever: Off"
-msgstr ""
+msgstr "Sürekli Tekrar: Kapalı"
 
 msgctxt "IDS_PLAYLOOP_FOREVER"
 msgid "Repeat Forever"
-msgstr ""
+msgstr "Sürekli Tekrarla"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -757,7 +757,7 @@ msgstr "Bütünleşik bir kaynağı internet tarayıcınızda görüntüleyebilm
 
 msgctxt "IDS_SUBTITLES_DOWNLOAD"
 msgid "Download Subtitles..."
-msgstr "Alt Yazı indir..."
+msgstr "Alt Yazı İndir..."
 
 msgctxt "IDS_SUBTITLES_UPLOAD"
 msgid "Upload Subtitles..."
@@ -3749,13 +3749,13 @@ msgstr "Taraf Oranı: Kare çerçeve oranını kullan (SAR)"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADED"
 msgid "Downloaded [%s] \"%s\""
-msgstr ""
+msgstr "[%s] \"%s\" indirilidi"
 
 msgctxt "IDS_SUBUL_DLG_TITLE"
 msgid "Upload subtitles"
-msgstr ""
+msgstr "Alt yazı gönder"
 
 msgctxt "IDS_SUBUL_DLG_CONFIRM"
 msgid "Are you sure you want to upload the subtitle file \"%s\"?"
-msgstr ""
+msgstr "\"%s\" adlı alt yazı dosyasını göndermek istediğinizden emin misiniz?"
 

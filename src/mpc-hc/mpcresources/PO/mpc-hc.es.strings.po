@@ -11,13 +11,13 @@
 # Johan Ramirez <idonthumanbeing@gmail.com>, 2014
 # Alpha120 <juanhc120@gmail.com>, 2014
 # squallmx <squallmx@users.sourceforge.net>, 2014
-# strel, 2014-2015
+# strel, 2014-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-08 18:51:35+0000\n"
-"PO-Revision-Date: 2016-01-09 20:32+0000\n"
-"Last-Translator: Adolfo Jayme Barrientos\n"
+"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
+"PO-Revision-Date: 2016-01-18 10:36+0000\n"
+"Last-Translator: strel\n"
 "Language-Team: Spanish (http://www.transifex.com/mpc-hc/mpc-hc/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -71,7 +71,7 @@ msgstr "Propiedades"
 
 msgctxt "IDS_PLAY_LOOPMODE_FILE"
 msgid "File"
-msgstr ""
+msgstr "Fichero"
 
 msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
 msgid "&Default Style"
@@ -79,7 +79,7 @@ msgstr "Estilo pre&determinado"
 
 msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
 msgid "Playlist"
-msgstr ""
+msgstr "Lista de reproducción"
 
 msgctxt "IDS_FAVFILES"
 msgid "Files"
@@ -135,23 +135,23 @@ msgstr "Si se deja sin definir el objetivo de representación, los subtítulos S
 
 msgctxt "IDS_PLAYLOOPMODE_PLAYLIST"
 msgid "Repeat Mode: Playlist"
-msgstr ""
+msgstr "Modo de repetición: Lista de reproducción"
 
 msgctxt "IDS_PLAYLOOPMODE_FILE"
 msgid "Repeat Mode: File"
-msgstr ""
+msgstr "Modo de repetición: Fichero"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_ON"
 msgid "Repeat Forever: On"
-msgstr ""
+msgstr "Repetir permanentemente: Activado"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_OFF"
 msgid "Repeat Forever: Off"
-msgstr ""
+msgstr "Repetir permanentemente: Desactivado"
 
 msgctxt "IDS_PLAYLOOP_FOREVER"
 msgid "Repeat Forever"
-msgstr ""
+msgstr "Repetir permanentemente"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -3755,13 +3755,13 @@ msgstr "Relación de aspecto: asumir píxeles cuadrados (SAR)"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADED"
 msgid "Downloaded [%s] \"%s\""
-msgstr ""
+msgstr "Descargado [%s] \"%s\""
 
 msgctxt "IDS_SUBUL_DLG_TITLE"
 msgid "Upload subtitles"
-msgstr ""
+msgstr "Subir subtítulos"
 
 msgctxt "IDS_SUBUL_DLG_CONFIRM"
 msgid "Are you sure you want to upload the subtitle file \"%s\"?"
-msgstr ""
+msgstr "¿Está seguro de que quiere subir el fichero de subtítulo \"%s\"?"
 

@@ -2,12 +2,13 @@
 # Copyright (C) 2002 - 2016 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# Jean van Kasteel <vankasteelj@gmail.com>, 2016
 # Underground78, 2013-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-08 18:51:35+0000\n"
-"PO-Revision-Date: 2016-01-10 23:38+0000\n"
+"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
+"PO-Revision-Date: 2016-01-31 21:48+0000\n"
 "Last-Translator: Underground78\n"
 "Language-Team: French (http://www.transifex.com/mpc-hc/mpc-hc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -62,7 +63,7 @@ msgstr "Propriétés"
 
 msgctxt "IDS_PLAY_LOOPMODE_FILE"
 msgid "File"
-msgstr ""
+msgstr "Fichier"
 
 msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
 msgid "&Default Style"
@@ -70,7 +71,7 @@ msgstr "Style par &défaut"
 
 msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
 msgid "Playlist"
-msgstr ""
+msgstr "Liste de lecture"
 
 msgctxt "IDS_FAVFILES"
 msgid "Files"
@@ -126,23 +127,23 @@ msgstr "Si la case à cocher est laissée indéfinie, les sous-titres SSA/ASS se
 
 msgctxt "IDS_PLAYLOOPMODE_PLAYLIST"
 msgid "Repeat Mode: Playlist"
-msgstr ""
+msgstr "Mode de répétition : liste de lecture"
 
 msgctxt "IDS_PLAYLOOPMODE_FILE"
 msgid "Repeat Mode: File"
-msgstr ""
+msgstr "Mode de répétition : fichier"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_ON"
 msgid "Repeat Forever: On"
-msgstr ""
+msgstr "Répéter indéfiniment : activé"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_OFF"
 msgid "Repeat Forever: Off"
-msgstr ""
+msgstr "Répéter indéfiniment : désactivé"
 
 msgctxt "IDS_PLAYLOOP_FOREVER"
 msgid "Repeat Forever"
-msgstr ""
+msgstr "Répéter indéfiniment"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -3746,13 +3747,13 @@ msgstr "Ratio d'affichage : supposer des pixels carrés (SAR)"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADED"
 msgid "Downloaded [%s] \"%s\""
-msgstr ""
+msgstr "Téléchargé [%s] \"%s\""
 
 msgctxt "IDS_SUBUL_DLG_TITLE"
 msgid "Upload subtitles"
-msgstr ""
+msgstr "Envoyer des sous-titres"
 
 msgctxt "IDS_SUBUL_DLG_CONFIRM"
 msgid "Are you sure you want to upload the subtitle file \"%s\"?"
-msgstr ""
+msgstr "Êtes-vous sûr de vouloir envoyer le fichier de sous-titres \"%s\" ?"
 

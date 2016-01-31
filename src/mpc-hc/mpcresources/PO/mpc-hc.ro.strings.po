@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-08 18:51:35+0000\n"
-"PO-Revision-Date: 2016-01-11 12:21+0000\n"
+"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
+"PO-Revision-Date: 2016-01-21 12:48+0000\n"
 "Last-Translator: Daniel <danny34ever@yahoo.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/mpc-hc/mpc-hc/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -63,7 +63,7 @@ msgstr "Proprietăți"
 
 msgctxt "IDS_PLAY_LOOPMODE_FILE"
 msgid "File"
-msgstr ""
+msgstr "Fișier"
 
 msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
 msgid "&Default Style"
@@ -71,7 +71,7 @@ msgstr "&Stil implicit"
 
 msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
 msgid "Playlist"
-msgstr ""
+msgstr "Listă de redare"
 
 msgctxt "IDS_FAVFILES"
 msgid "Files"
@@ -127,23 +127,23 @@ msgstr "Dacă zona ţintă pentru randare este nedefinită, subtitlurile SSA/ASS
 
 msgctxt "IDS_PLAYLOOPMODE_PLAYLIST"
 msgid "Repeat Mode: Playlist"
-msgstr ""
+msgstr "Mod de repetare: Listă de redare"
 
 msgctxt "IDS_PLAYLOOPMODE_FILE"
 msgid "Repeat Mode: File"
-msgstr ""
+msgstr "Mod de repetare: Fișier"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_ON"
 msgid "Repeat Forever: On"
-msgstr ""
+msgstr "Repetare la nesfârșit: Pornită"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_OFF"
 msgid "Repeat Forever: Off"
-msgstr ""
+msgstr "Repetare la nesfârșit: Oprită"
 
 msgctxt "IDS_PLAYLOOP_FOREVER"
 msgid "Repeat Forever"
-msgstr ""
+msgstr "Repetă la nesfârșit"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -207,7 +207,7 @@ msgstr "Ştiri/Evenimente curente"
 
 msgctxt "IDS_SPEED_UNIT_G"
 msgid "GB/s"
-msgstr "GB/s"
+msgstr "GO/s"
 
 msgctxt "IDS_FILE_FAV_ADDED"
 msgid "File added to favorites"
@@ -871,7 +871,7 @@ msgstr "Pauză\nPauză"
 
 msgctxt "ID_PLAY_STOP"
 msgid "Stop\nStop"
-msgstr "Stop\nStop"
+msgstr "Oprește\nOprește"
 
 msgctxt "ID_PLAY_FRAMESTEP"
 msgid "Step\nStep"
@@ -1263,7 +1263,7 @@ msgstr "Salvează stil personalizat"
 
 msgctxt "IDS_CONTENT_EDUCATION_SCIENCE"
 msgid "Education/Science/Factual topics"
-msgstr "Educaţie/Ştiinţă/Subiecte actuale"
+msgstr "Educaţie/Știinţă/Subiecte actuale"
 
 msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
 msgid "Hides controls and panels also in windowed mode."
@@ -1963,7 +1963,7 @@ msgstr "Meniu DVD: înapoi"
 
 msgctxt "IDS_MPLAYERC_75"
 msgid "DVD Menu Leave"
-msgstr "Meniu DVD: ieşire"
+msgstr "Meniu DVD: ieșire"
 
 msgctxt "IDS_AG_BOSS_KEY"
 msgid "Boss key"
@@ -3339,23 +3339,23 @@ msgstr "octeți"
 
 msgctxt "IDS_SIZE_UNIT_K"
 msgid "KB"
-msgstr "KB"
+msgstr "KO"
 
 msgctxt "IDS_SIZE_UNIT_M"
 msgid "MB"
-msgstr "MB"
+msgstr "MO"
 
 msgctxt "IDS_SIZE_UNIT_G"
 msgid "GB"
-msgstr "GB"
+msgstr "GO"
 
 msgctxt "IDS_SPEED_UNIT_K"
 msgid "KB/s"
-msgstr "KB/s"
+msgstr "KO/s"
 
 msgctxt "IDS_SPEED_UNIT_M"
 msgid "MB/s"
-msgstr "MB/s"
+msgstr "MO/s"
 
 msgctxt "IDS_BDA_ERROR_CREATE_TUNER"
 msgid "Could not create the tuner."
@@ -3747,13 +3747,13 @@ msgstr "Raport de aspect: Presupune că pixelii sunt pătrați (SAR)"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADED"
 msgid "Downloaded [%s] \"%s\""
-msgstr ""
+msgstr "Descărcat [%s] „%s”"
 
 msgctxt "IDS_SUBUL_DLG_TITLE"
 msgid "Upload subtitles"
-msgstr ""
+msgstr "Încarcă subtitluri"
 
 msgctxt "IDS_SUBUL_DLG_CONFIRM"
 msgid "Are you sure you want to upload the subtitle file \"%s\"?"
-msgstr ""
+msgstr "Sigur doriți să încărcați fișierul subtitlu „%s”?"
 

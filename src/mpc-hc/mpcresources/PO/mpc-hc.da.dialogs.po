@@ -6,15 +6,15 @@
 # Chreddy <chreddy1@gmail.com>, 2016
 # Xebika <fidodkk@gmail.com>, 2014-2015
 # Jatyrael <cbf_x@hotmail.com>, 2014
-# scootergrisen, 2015
+# scootergrisen, 2015-2016
 # Stoffi, 2014-2015
 # Xebika <fidodkk@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-07 20:33:06+0000\n"
-"PO-Revision-Date: 2016-01-08 23:23+0000\n"
-"Last-Translator: Underground78\n"
+"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
+"PO-Revision-Date: 2016-01-28 14:40+0000\n"
+"Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/mpc-hc/mpc-hc/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -428,7 +428,7 @@ msgstr "gang(e)"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Repeat mode:"
-msgstr ""
+msgstr "Gentagelsestilstand:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
@@ -1192,7 +1192,7 @@ msgstr "Rotation"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
-msgstr ""
+msgstr "Undertekst renderer"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
@@ -1248,15 +1248,15 @@ msgstr "Erstat nuværende indlæste undertekster"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
 msgid "Download"
-msgstr ""
+msgstr "Download"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON1"
 msgid "Refresh"
-msgstr ""
+msgstr "Opdater"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON2"
 msgid "Abort"
-msgstr ""
+msgstr "Om"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON3"
 msgid "Options"
@@ -1264,15 +1264,15 @@ msgstr "Indstillinger"
 
 msgctxt "IDD_SUBTITLEUP_DLG_CAPTION"
 msgid "Upload subtitles"
-msgstr ""
+msgstr "Upload undertekster"
 
 msgctxt "IDD_SUBTITLEUP_DLG_IDOK"
 msgid "Upload"
-msgstr ""
+msgstr "Upload"
 
 msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
 msgid "Abort"
-msgstr ""
+msgstr "Om"
 
 msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON2"
 msgid "Options"
@@ -1580,27 +1580,27 @@ msgstr "Nulstil"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Online search, download and upload subtitles"
-msgstr ""
+msgstr "Online søgning, download og upload af undertekster"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
 msgid "Automatically search and download subtitles if none are found locally"
-msgstr ""
+msgstr "Automatisk søgning og download af undertekster hvis der ikke findes nogen lokalt"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
 msgid "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
-msgstr ""
+msgstr "Foretræk undertekster for hørehæmmet (når indikeret af undertekstudbyderen)"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
 msgid "Ignore files containing any of the following word(s):"
-msgstr ""
+msgstr "Ignorér filer med de følgende ord:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Languages in order of preference (e.g. \"eng ell spa\"):"
-msgstr ""
+msgstr "Sprog i foretrukne rækkefølge (f.eks. \"eng ell spa\"):"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
 msgid "Automatically upload active subtitles at the end of video playback"
-msgstr ""
+msgstr "Upload automatisk aktive undertekster ved slutningen af videospilning"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"

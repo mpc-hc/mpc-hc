@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-08 18:51:35+0000\n"
-"PO-Revision-Date: 2016-01-09 20:32+0000\n"
+"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
+"PO-Revision-Date: 2016-01-18 10:20+0000\n"
 "Last-Translator: Ming Chen <yzonline@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/mpc-hc/mpc-hc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -65,7 +65,7 @@ msgstr "属性"
 
 msgctxt "IDS_PLAY_LOOPMODE_FILE"
 msgid "File"
-msgstr ""
+msgstr "文件"
 
 msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
 msgid "&Default Style"
@@ -73,7 +73,7 @@ msgstr "默认样式(&D)"
 
 msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
 msgid "Playlist"
-msgstr ""
+msgstr "播放列表"
 
 msgctxt "IDS_FAVFILES"
 msgid "Files"
@@ -129,23 +129,23 @@ msgstr "如果渲染目标没有被定义，SSA/ASS字幕会以视频帧为参�
 
 msgctxt "IDS_PLAYLOOPMODE_PLAYLIST"
 msgid "Repeat Mode: Playlist"
-msgstr ""
+msgstr "重复模式: 播放列表"
 
 msgctxt "IDS_PLAYLOOPMODE_FILE"
 msgid "Repeat Mode: File"
-msgstr ""
+msgstr "重复模式: 文件"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_ON"
 msgid "Repeat Forever: On"
-msgstr ""
+msgstr "循环播放: 开"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_OFF"
 msgid "Repeat Forever: Off"
-msgstr ""
+msgstr "循环播放: 关"
 
 msgctxt "IDS_PLAYLOOP_FOREVER"
 msgid "Repeat Forever"
-msgstr ""
+msgstr "循环播放"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -3649,7 +3649,7 @@ msgstr "正在在线搜索字幕，请稍后.."
 
 msgctxt "IDS_SUBDL_DLG_ABORTING"
 msgid "Online subtitles search aborting..."
-msgstr "在线字幕搜索已中止。"
+msgstr "正在中止在线字幕搜索..."
 
 msgctxt "IDS_SUBUL_DLG_USERNAME_COL"
 msgid "Username"
@@ -3673,7 +3673,7 @@ msgstr "上传中..."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADED"
 msgid "Subtitles uploaded succeessfuly."
-msgstr "字幕上传成功"
+msgstr "字幕上传成功。"
 
 msgctxt "IDS_SUBUL_DLG_STATUS_FAILED"
 msgid "Subtitles upload failed."
@@ -3701,7 +3701,7 @@ msgstr "上传中止。"
 
 msgctxt "IDS_SUBUL_DLG_FAILED"
 msgid "Upload failed."
-msgstr "上传失败"
+msgstr "上传失败。"
 
 msgctxt "IDS_SUBMENU_DOWNLOAD"
 msgid "Download && Open"
@@ -3737,7 +3737,7 @@ msgstr "错误：无法建立网络连接。"
 
 msgctxt "IDS_SUB_CREDENTIALS_TITLE"
 msgid "Enter website credentials"
-msgstr "输入网输入网站认证信息站认证信息"
+msgstr "输入网站认证信息"
 
 msgctxt "IDS_SUB_CREDENTIALS_MSG"
 msgid "Enter your credentials to connect to: "
@@ -3749,13 +3749,13 @@ msgstr "高宽比: 猜测是方形像素 (SAR)"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADED"
 msgid "Downloaded [%s] \"%s\""
-msgstr ""
+msgstr "已下载 [%s] \"%s\""
 
 msgctxt "IDS_SUBUL_DLG_TITLE"
 msgid "Upload subtitles"
-msgstr ""
+msgstr "上传字幕"
 
 msgctxt "IDS_SUBUL_DLG_CONFIRM"
 msgid "Are you sure you want to upload the subtitle file \"%s\"?"
-msgstr ""
+msgstr "您确认要上传字幕文件 \"%s\"?"
 

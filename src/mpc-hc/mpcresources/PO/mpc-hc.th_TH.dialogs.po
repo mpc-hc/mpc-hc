@@ -2,14 +2,14 @@
 # Copyright (C) 2002 - 2016 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# M. Somsak, 2014-2015
+# M. Somsak, 2014-2016
 # M. Somsak, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-07 20:33:06+0000\n"
-"PO-Revision-Date: 2016-01-08 23:23+0000\n"
-"Last-Translator: Underground78\n"
+"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
+"PO-Revision-Date: 2016-01-23 12:14+0000\n"
+"Last-Translator: M. Somsak\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/mpc-hc/mpc-hc/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -423,7 +423,7 @@ msgstr "ครั้ง"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Repeat mode:"
-msgstr ""
+msgstr "โหมดวนซ้ำ:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
@@ -1243,15 +1243,15 @@ msgstr "แทนที่ศัพท์บรรยายที่โหลด
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
 msgid "Download"
-msgstr ""
+msgstr "ดาวน์โหลด"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON1"
 msgid "Refresh"
-msgstr ""
+msgstr "เรียกใหม่"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON2"
 msgid "Abort"
-msgstr ""
+msgstr "ยกเลิก"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON3"
 msgid "Options"
@@ -1259,15 +1259,15 @@ msgstr "ตัวเลือก"
 
 msgctxt "IDD_SUBTITLEUP_DLG_CAPTION"
 msgid "Upload subtitles"
-msgstr ""
+msgstr "อัพโหลดศัพท์บรรยาย"
 
 msgctxt "IDD_SUBTITLEUP_DLG_IDOK"
 msgid "Upload"
-msgstr ""
+msgstr "อัพโหลด"
 
 msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
 msgid "Abort"
-msgstr ""
+msgstr "ยกเลิก"
 
 msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON2"
 msgid "Options"
@@ -1575,27 +1575,27 @@ msgstr "คืนค่า"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Online search, download and upload subtitles"
-msgstr ""
+msgstr "ค้นหา, ดาวน์โหลด และอัพโหลดศัพท์บรรยายออนไลน์"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
 msgid "Automatically search and download subtitles if none are found locally"
-msgstr ""
+msgstr "ค้นหาและดาวน์โหลดศัพท์บรรยายอัตโนมัติ ถ้าค้นหาในท้องถิ่นแล้วไม่มี"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
 msgid "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
-msgstr ""
+msgstr "ศัพท์บรรยายที่ชอบสำหรับผู้บกพร่องทางการได้ยิน (เมื่อได้ระบุไว้โดยผู้จัดหาศัพท์บรรยาย)"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
 msgid "Ignore files containing any of the following word(s):"
-msgstr ""
+msgstr "ไม่สนใจไฟล์ที่ประกอบด้วยคำใดก็ตามต่อไปนี้:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Languages in order of preference (e.g. \"eng ell spa\"):"
-msgstr ""
+msgstr "ภาษาตามลำดับความชอบ (เช่น \"tha eng spa\"):"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
 msgid "Automatically upload active subtitles at the end of video playback"
-msgstr ""
+msgstr "อัพโหลดศัพท์บรรยายที่แอ็คทีฟอัตโนมัติ เมื่อจบการเล่นวิดีโอ"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
@@ -1731,7 +1731,7 @@ msgstr ""
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC3"
 msgid "Level:"
-msgstr ""
+msgstr "ระดับ:"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
 msgid "Note"

@@ -2,8 +2,8 @@
 # Copyright (C) 2002 - 2016 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Gaugg_Markus, 2014
-# Gaugg_Markus, 2014
+# Gaugg_Markus, 2014,2016
+# Gaugg_Markus, 2014,2016
 # Luan <luanmail@gmx.net>, 2014-2016
 # Luan <luanmail@gmx.net>, 2014
 # Luan <luanmail@gmx.net>, 2014
@@ -11,9 +11,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-07 20:33:06+0000\n"
-"PO-Revision-Date: 2016-01-08 23:23+0000\n"
-"Last-Translator: Underground78\n"
+"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
+"PO-Revision-Date: 2016-01-30 12:23+0000\n"
+"Last-Translator: Luan <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/mpc-hc/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -411,7 +411,7 @@ msgstr "R"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Playback"
-msgstr "Wiedergabesteuerung"
+msgstr "Wiederholung"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_RADIO1"
 msgid "Play"
@@ -427,7 +427,7 @@ msgstr "Mal ab"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Repeat mode:"
-msgstr ""
+msgstr "Modus:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
@@ -451,7 +451,7 @@ msgstr "%"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Default track preference"
-msgstr "Bevorzugte Sprachspuren"
+msgstr "Bevorzugte Spuren"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Subtitles:"
@@ -483,7 +483,7 @@ msgstr "Audiodateien automatisch laden"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Control"
-msgstr "Steuerungskontrolle"
+msgstr "Steuerung"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Volume step:"
@@ -1247,35 +1247,35 @@ msgstr "Aktuell geladene Untertitel ersetzen"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
 msgid "Download"
-msgstr ""
+msgstr "&Herunterladen"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON1"
 msgid "Refresh"
-msgstr ""
+msgstr "&Aktualisieren"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON2"
 msgid "Abort"
-msgstr ""
+msgstr "&Abbrechen"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON3"
 msgid "Options"
-msgstr "Weitere Einstellungen"
+msgstr "&Optionen..."
 
 msgctxt "IDD_SUBTITLEUP_DLG_CAPTION"
 msgid "Upload subtitles"
-msgstr ""
+msgstr "Untertitel hochladen"
 
 msgctxt "IDD_SUBTITLEUP_DLG_IDOK"
 msgid "Upload"
-msgstr ""
+msgstr "&Hochladen"
 
 msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
 msgid "Abort"
-msgstr ""
+msgstr "&Abbrechen"
 
 msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON2"
 msgid "Options"
-msgstr "Weitere Einstellungen"
+msgstr "&Optionen..."
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
@@ -1507,7 +1507,7 @@ msgstr "Zusatzfenster ausblenden"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK5"
 msgid "Exit fullscreen at the end of playback"
-msgstr "Vollbild bei Beendigung der Wiedergabe verlassen"
+msgstr "Vollbild am Ende der Wiedergabe verlassen"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Fullscreen monitor"
@@ -1579,27 +1579,27 @@ msgstr "&Standard"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Online search, download and upload subtitles"
-msgstr ""
+msgstr "Online-Untertitel"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
 msgid "Automatically search and download subtitles if none are found locally"
-msgstr ""
+msgstr "Untertitel für untertitellose Mediendateien automatisch herunterladen"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
 msgid "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
-msgstr ""
+msgstr "Ausgewiesene Untertitel für Hörgeschädigte bevorzugen"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
 msgid "Ignore files containing any of the following word(s):"
-msgstr ""
+msgstr "Mit einem der Wörter im Namen nicht verwenden:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Languages in order of preference (e.g. \"eng ell spa\"):"
-msgstr ""
+msgstr "Sprachauswahl nach Priorität (bspw. \"ger eng swe\"):"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
 msgid "Automatically upload active subtitles at the end of video playback"
-msgstr ""
+msgstr "Wiedergegebene Untertitel automatisch hochladen"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"

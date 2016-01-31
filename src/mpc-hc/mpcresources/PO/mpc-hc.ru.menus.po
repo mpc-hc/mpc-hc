@@ -4,14 +4,15 @@
 # Translators:
 # sayanvd <sayanvd@yandex.ru>, 2014-2015
 # Sergey <player54@mail.ru>, 2015-2016
+# stryaponoff <stryaponoff@gmail.com>, 2016
 # SmilyCarrot <twisted-transistor@yandex.ru>, 2014
 # Victor Bychek, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-08 18:34:52+0000\n"
-"PO-Revision-Date: 2016-01-12 06:45+0000\n"
-"Last-Translator: Victor Bychek\n"
+"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
+"PO-Revision-Date: 2016-01-24 14:29+0000\n"
+"Last-Translator: stryaponoff <stryaponoff@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/mpc-hc/mpc-hc/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -537,19 +538,19 @@ msgstr "Шаг на кадр вперед"
 
 msgctxt "POPUP"
 msgid "Repeat"
-msgstr ""
+msgstr "Повтор"
 
 msgctxt "ID_PLAY_REPEAT_FOREVER"
 msgid "F&orever"
-msgstr ""
+msgstr "Бесконечно"
 
 msgctxt "ID_PLAY_REPEAT_ONEFILE"
 msgid "&File"
-msgstr ""
+msgstr "&Файл"
 
 msgctxt "ID_PLAY_REPEAT_WHOLEPLAYLIST"
 msgid "&Playlist"
-msgstr ""
+msgstr "&Плейлист"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "&Decrease Rate"

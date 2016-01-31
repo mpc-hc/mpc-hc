@@ -4,13 +4,14 @@
 # Translators:
 # geogeo.gr <geogeo.gr@gmail.com>, 2014-2015
 # firespin <dartworldgr@hotmail.com>, 2014
+# geogeo.gr <geogeo.gr@gmail.com>, 2016
 # kasper93, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-08 18:34:52+0000\n"
-"PO-Revision-Date: 2016-01-08 23:23+0000\n"
-"Last-Translator: Underground78\n"
+"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
+"PO-Revision-Date: 2016-01-30 20:32+0000\n"
+"Last-Translator: geogeo.gr <geogeo.gr@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/mpc-hc/mpc-hc/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -72,19 +73,19 @@ msgstr "Υπότιτλοι"
 
 msgctxt "ID_FILE_SUBTITLES_LOAD"
 msgid "&Load Subtitles..."
-msgstr ""
+msgstr "&Φόρτωση υποτίτλων..."
 
 msgctxt "ID_FILE_SUBTITLES_SAVE"
 msgid "Save S&ubtitles..."
-msgstr ""
+msgstr "Απο&θήκευση υποτίτλων..."
 
 msgctxt "ID_FILE_SUBTITLES_DOWNLOAD"
 msgid "&Download Subtitles..."
-msgstr ""
+msgstr "&Λήψη υποτίτλων..."
 
 msgctxt "ID_FILE_SUBTITLES_UPLOAD"
 msgid "&Upload Subtitles..."
-msgstr ""
+msgstr "&Αποστολή υποτίτλων..."
 
 msgctxt "ID_FILE_PROPERTIES"
 msgid "P&roperties"
@@ -180,11 +181,11 @@ msgstr "&200%"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT"
 msgid "Auto &Fit"
-msgstr "Αυτόματη προσαρμογή"
+msgstr "Αυτόματη &προσαρμογή"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (&Larger Only)"
-msgstr "Αυτόματη προσαρμογή (μόνο για μεγαλύτερα)"
+msgstr "Αυτόματη προσαρμογή (μόνο για &μεγαλύτερα)"
 
 msgctxt "POPUP"
 msgid "R&enderer Settings"
@@ -208,99 +209,99 @@ msgstr "Εμφάνιση ονόματος &αρχείου"
 
 msgctxt "POPUP"
 msgid "&Output Range"
-msgstr "Εύρος εξαγωγής"
+msgstr "Εύρος ε&ξαγωγής"
 
 msgctxt "ID_VIEW_EVROUTPUTRANGE_0_255"
 msgid "&0 - 255"
-msgstr "0 - 255"
+msgstr "&0 - 255"
 
 msgctxt "ID_VIEW_EVROUTPUTRANGE_16_235"
 msgid "&16 - 235"
-msgstr "16 - 235"
+msgstr "&16 - 235"
 
 msgctxt "POPUP"
 msgid "&Presentation"
-msgstr "Παρουσίαση"
+msgstr "&Παρουσίαση"
 
 msgctxt "ID_VIEW_D3DFULLSCREEN"
 msgid "D3D Fullscreen &Mode"
-msgstr "D3D Λειτουργία πλήρους οθόνης"
+msgstr "D3D &Λειτουργία πλήρους οθόνης"
 
 msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
 msgid "D3D Fullscreen &GUI Support"
-msgstr "D3D Πλήρους οθόνης με γραφικό περιβάλλον"
+msgstr "D3D Πλήρους οθόνης με &γραφικό περιβάλλον"
 
 msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
 msgid "10-bit &RGB Output"
-msgstr "Έξοδος RGB 10-bit"
+msgstr "Έ&ξοδος RGB 10-bit"
 
 msgctxt "ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION"
 msgid "Force 10-bit RGB &Input"
-msgstr "Δυναμική είσοδος RGB 10-bit"
+msgstr "Δυναμική &είσοδος RGB 10-bit"
 
 msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
 msgid "&Full Floating Point Processing"
-msgstr "Επεξεργασία 32 bit κινητής υποδιαστολής"
+msgstr "Επεξεργασία &32 bit κινητής υποδιαστολής"
 
 msgctxt "ID_VIEW_HALFFLOATINGPOINTPROCESSING"
 msgid "&Half Floating Point Processing"
-msgstr "Επεξεργασία 16 bit κινητής υποδιαστολής"
+msgstr "Επεξεργασία &16 bit κινητής υποδιαστολής"
 
 msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
 msgid "Disable desktop composition (&Aero)"
-msgstr "Απενεργοποίηση σύνθεσης επιφάνειας εργασίας (Aero)"
+msgstr "Απενεργοποίηση σύνθεσης επιφάνειας εργασίας (&Αero)"
 
 msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time &Correction"
-msgstr "Ενεργοποίηση διόρθωσης χρόνου καρέ"
+msgstr "Ενεργοποίηση &διόρθωσης χρόνου καρέ"
 
 msgctxt "POPUP"
 msgid "&Color Management"
-msgstr "Διαχείριση χρωμάτων"
+msgstr "Διαχείριση χ&ρωμάτων"
 
 msgctxt "ID_VIEW_CM_ENABLE"
 msgid "&Enable"
-msgstr "Ενεργοποίηση"
+msgstr "&Ενεργοποίηση"
 
 msgctxt "POPUP"
 msgid "&Input Type"
-msgstr "Τύπος εισόδου"
+msgstr "&Τύπος εισόδου"
 
 msgctxt "ID_VIEW_CM_INPUT_AUTO"
 msgid "&Auto-Detect"
-msgstr "Αυτόματη ανίχνευση"
+msgstr "&Αυτόματη ανίχνευση"
 
 msgctxt "ID_VIEW_CM_INPUT_HDTV"
 msgid "&HDTV"
-msgstr "HDTV"
+msgstr "&ΗDTV"
 
 msgctxt "ID_VIEW_CM_INPUT_SDTV_NTSC"
 msgid "SDTV &NTSC"
-msgstr "SDTV NTSC"
+msgstr "SDTV &ΝTSC"
 
 msgctxt "ID_VIEW_CM_INPUT_SDTV_PAL"
 msgid "SDTV &PAL"
-msgstr "SDTV PAL"
+msgstr "SDTV &ΡAL"
 
 msgctxt "POPUP"
 msgid "Ambient &Light"
-msgstr "Περιβάλλον φωτισμού"
+msgstr "Περιβάλλον &φωτισμού"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
 msgid "&Bright (2.2 Gamma)"
-msgstr "Φωτεινό (2.2 Gamma)"
+msgstr "&Φωτεινό (2.2 Gamma)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DIM"
 msgid "&Dim (2.35 Gamma)"
-msgstr "Μέσο (2.35 Gamma)"
+msgstr "&Μέσο (2.35 Gamma)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DARK"
 msgid "D&ark (2.4 Gamma)"
-msgstr "Σκοτεινό (2.4 Gamma)"
+msgstr "&Σκοτεινό (2.4 Gamma)"
 
 msgctxt "POPUP"
 msgid "&Rendering Intent"
-msgstr "Στόχος φωτοαπόδοσης"
+msgstr "&Στόχος φωτοαπόδοσης"
 
 msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
 msgid "&Perceptual"
@@ -312,7 +313,7 @@ msgstr "Σχετική μέτρηση χρωμάτων"
 
 msgctxt "ID_VIEW_CM_INTENT_SATURATION"
 msgid "&Saturation"
-msgstr "Κορεσμός"
+msgstr "&Κορεσμός"
 
 msgctxt "ID_VIEW_CM_INTENT_ABSOLUTECOLORIMETRIC"
 msgid "&Absolute Colorimetric"
@@ -320,19 +321,19 @@ msgstr "Απόλυτη μέτρηση χρωμάτων"
 
 msgctxt "POPUP"
 msgid "&VSync"
-msgstr "Κατακόρυφος συγχρονισμός (VSync)"
+msgstr "&Κατακόρυφος συγχρονισμός (VSync)"
 
 msgctxt "ID_VIEW_VSYNC"
 msgid "&VSync"
-msgstr "Κατακόρυφος συγχρονισμός (VSync)"
+msgstr "&Κατακόρυφος συγχρονισμός (VSync)"
 
 msgctxt "ID_VIEW_VSYNCACCURATE"
 msgid "&Accurate VSync"
-msgstr "Ακριβής VSync"
+msgstr "Α&κριβής VSync"
 
 msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
 msgid "A&lternative VSync"
-msgstr "Εναλλακτικός VSync"
+msgstr "&Εναλλακτικός VSync"
 
 msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
 msgid "&Decrease VSync Offset"
@@ -344,31 +345,31 @@ msgstr "&Αύξηση μετάθεσης του VSync"
 
 msgctxt "POPUP"
 msgid "&GPU Control"
-msgstr "Έλεγχος GPU"
+msgstr "Έ&λεγχος GPU"
 
 msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
 msgid "Flush GPU &before VSync"
-msgstr "Εκκαθάριση GPU πριν το VSync"
+msgstr "Εκκαθάριση GPU &πριν το VSync"
 
 msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
 msgid "Flush GPU &after Present"
-msgstr "Εκκαθάριση GPU μετά την Παρουσίαση"
+msgstr "Εκκαθάριση GPU &μετά την Παρουσίαση"
 
 msgctxt "ID_VIEW_FLUSHGPU_WAIT"
 msgid "&Wait for flushes"
-msgstr "Αναμονή για εκκαθαρίσεις"
+msgstr "&Αναμονή για εκκαθαρίσεις"
 
 msgctxt "POPUP"
 msgid "R&eset"
-msgstr "Επαναφορά"
+msgstr "Επανα&φορά"
 
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
-msgstr "Επαναφορά στις προεπιλεγμένες ρυθμίσεις απόδοσης"
+msgstr "Επαναφορά στις &προεπιλεγμένες ρυθμίσεις απόδοσης"
 
 msgctxt "ID_VIEW_RESET_OPTIMAL"
 msgid "Reset to &optimal renderer settings"
-msgstr "Επαναφορά στις βέλτιστες ρυθμίσεις απόδοσης"
+msgstr "Επαναφορά στις &βέλτιστες ρυθμίσεις απόδοσης"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
@@ -408,35 +409,35 @@ msgstr "Άγγιγμα παραθύρου ε&ξωτερικά"
 
 msgctxt "POPUP"
 msgid "&Aspect Ratio"
-msgstr ""
+msgstr "Α&ναλογίες πλευρών"
 
 msgctxt "ID_ASPECTRATIO_DAR"
 msgid "&Default (DAR)"
-msgstr ""
+msgstr "&Προεπιλογή (DAR)"
 
 msgctxt "ID_ASPECTRATIO_4_3"
 msgid "&4:3"
-msgstr "4:3"
+msgstr "&4:3"
 
 msgctxt "ID_ASPECTRATIO_5_4"
 msgid "&5:4"
-msgstr "5:4"
+msgstr "&5:4"
 
 msgctxt "ID_ASPECTRATIO_16_9"
 msgid "&16:9"
-msgstr "16:9"
+msgstr "&16:9"
 
 msgctxt "ID_ASPECTRATIO_235_100"
 msgid "&235:100"
-msgstr "235:100"
+msgstr "&235:100"
 
 msgctxt "ID_ASPECTRATIO_185_100"
 msgid "1&85:100"
-msgstr "185:100"
+msgstr "1&85:100"
 
 msgctxt "ID_ASPECTRATIO_SAR"
 msgid "Assume &square pixels (SAR)"
-msgstr ""
+msgstr "Να θεωρούνται &τετράγονα πίξελ (SAR)"
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"
@@ -448,51 +449,51 @@ msgstr "Πανοραμική οπτική && Σάρ&ωση"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"
-msgstr "Αύξηση μεγέθους"
+msgstr "Αύξηση &μεγέθους"
 
 msgctxt "ID_VIEW_DECSIZE"
 msgid "&Decrease Size"
-msgstr "Μείωση μεγέθους"
+msgstr "Μείωση μεγέ&θους"
 
 msgctxt "ID_VIEW_INCWIDTH"
 msgid "I&ncrease Width"
-msgstr "Αύξηση πλάτους"
+msgstr "Αύξηση &πλάτους"
 
 msgctxt "ID_VIEW_DECWIDTH"
 msgid "D&ecrease Width"
-msgstr "Μείωση πλάτους"
+msgstr "Μείωση π&λάτους"
 
 msgctxt "ID_VIEW_INCHEIGHT"
 msgid "In&crease Height"
-msgstr "Αύξηση ύψους"
+msgstr "Αύξηση ύ&ψους"
 
 msgctxt "ID_VIEW_DECHEIGHT"
 msgid "Decre&ase Height"
-msgstr "Μείωση ύψους"
+msgstr "Μείωση ύψ&ους"
 
 msgctxt "ID_PANSCAN_MOVERIGHT"
 msgid "Move &Right"
-msgstr "Μετακίνηση δεξιά"
+msgstr "Μετακίνηση &δεξιά"
 
 msgctxt "ID_PANSCAN_MOVELEFT"
 msgid "Move &Left"
-msgstr "Μετακίνηση αριστερά"
+msgstr "Μετακίνηση α&ριστερά"
 
 msgctxt "ID_PANSCAN_MOVEUP"
 msgid "Move &Up"
-msgstr "Μετακίνηση πάνω"
+msgstr "Μετακίνηση πά&νω"
 
 msgctxt "ID_PANSCAN_MOVEDOWN"
 msgid "Move &Down"
-msgstr "Μετακίνηση κάτω"
+msgstr "Μετακίνηση κά&τω"
 
 msgctxt "ID_PANSCAN_CENTER"
 msgid "Cen&ter"
-msgstr "Κέντρο"
+msgstr "&Κέντρο"
 
 msgctxt "ID_VIEW_RESET"
 msgid "Re&set"
-msgstr "Επαναφορά"
+msgstr "Επανα&φορά"
 
 msgctxt "POPUP"
 msgid "On &Top"
@@ -504,15 +505,15 @@ msgstr "&Προεπιλογή"
 
 msgctxt "ID_ONTOP_ALWAYS"
 msgid "&Always"
-msgstr "Πάντα"
+msgstr "Πάν&τα"
 
 msgctxt "ID_ONTOP_WHILEPLAYING"
 msgid "While &Playing"
-msgstr "Στην αναπαραγωγή"
+msgstr "Στην &αναπαραγωγή"
 
 msgctxt "ID_ONTOP_WHILEPLAYINGVIDEO"
 msgid "While Playing &Video"
-msgstr "Στην αναπαραγωγή βίντεο"
+msgstr "Στην αναπαραγωγή &βίντεο"
 
 msgctxt "ID_VIEW_OPTIONS"
 msgid "&Options..."
@@ -536,19 +537,19 @@ msgstr "Βήμα κα&ρέ"
 
 msgctxt "POPUP"
 msgid "Repeat"
-msgstr ""
+msgstr "Επανάληψη"
 
 msgctxt "ID_PLAY_REPEAT_FOREVER"
 msgid "F&orever"
-msgstr ""
+msgstr "&Συνεχής"
 
 msgctxt "ID_PLAY_REPEAT_ONEFILE"
 msgid "&File"
-msgstr ""
+msgstr "&Αρχείο"
 
 msgctxt "ID_PLAY_REPEAT_WHOLEPLAYLIST"
 msgid "&Playlist"
-msgstr ""
+msgstr "&Λίστα αναπαραγωγής"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "&Decrease Rate"
@@ -616,27 +617,27 @@ msgstr "Απενεργοποίηση &οθόνης"
 
 msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
-msgstr "Έξοδος"
+msgstr "Έ&ξοδος"
 
 msgctxt "ID_AFTERPLAYBACK_STANDBY"
 msgid "&Stand By"
-msgstr "Αναμονή"
+msgstr "&Αναμονή"
 
 msgctxt "ID_AFTERPLAYBACK_HIBERNATE"
 msgid "&Hibernate"
-msgstr "Αδρανοποίηση"
+msgstr "Α&δρανοποίηση"
 
 msgctxt "ID_AFTERPLAYBACK_SHUTDOWN"
 msgid "Shut&down"
-msgstr "Τερματισμός"
+msgstr "&Τερματισμός"
 
 msgctxt "ID_AFTERPLAYBACK_LOGOFF"
 msgid "Log &Off"
-msgstr "Αποσύνδεση"
+msgstr "Απο&σύνδεση"
 
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
-msgstr "Κλείδωμα"
+msgstr "&Κλείδωμα"
 
 msgctxt "POPUP"
 msgid "&Navigate"

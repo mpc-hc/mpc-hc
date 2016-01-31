@@ -70,8 +70,8 @@ eu.WelcomeLabel2=Honek [name] zure ordenagailuan ezarriko du.%n%nGomendatzen da 
 eu.WinVersionTooLowError=[name] Windows XP Service Pack 3 edo berriagoa behar du lan egiteko.
 
 ; Finnish
-fi.WelcomeLabel2=Tämä asentaa [name] tietokoneellesi.%n%n On suositeltavaa, että suljet kaikki muut ohjelmat ennenkuin jatkat.
-fi.WinVersionTooLowError=[name] vaatii toimiakseen Windows XP Service Pack 3 tai uudempaa 
+fi.WelcomeLabel2=Tämä asentaa [name] tietokoneellesi.%n%nOn suositeltavaa, että suljet kaikki muut ohjelmat ennen kuin jatkat.
+fi.WinVersionTooLowError=[name] vaatii toimiakseen Windows XP Service Pack 3 tai uudemman.
 
 ; French (France)
 fr.WelcomeLabel2=Vous allez installer [name] sur votre ordinateur.%n%nIl est recommandé de fermer toutes les autres applications avant de continuer.
@@ -210,7 +210,7 @@ ar.ViewChangelog=عرض سجل التغيرات
 be.langid=00001059
 be.comp_mpciconlib=Бібліятэка значкоў
 be.comp_mpcresources=Пераклады
-be.msg_DeleteSettings=Ці выдаліць налады MPC-HC?%n%nКалі вы збіраецеся ўсталяваць MPC-HC зноў, можна іх пакінуць.
+be.msg_DeleteSettings=Ці выдаліць налады MPC-HC?%n%nКалі вы збіраецеся ўсталяваць MPC-HC зноў, выдаляць іх не трэба.
 #if defined(sse_required)
 be.msg_simd_sse=Гэта зборка MPC-HC патрабуе працэсар, з падтрымкай SSE-інструкцый.%n%nВаш працэсар не адпавядае патрабаванням.
 #elif defined(sse2_required)
@@ -406,13 +406,13 @@ fi.msg_simd_sse=MPC-HC:n tämä versio edellyttää CPU:lta SSE-laajennusten tuk
 #elif defined(sse2_required)
 fi.msg_simd_sse2=MPC-HC:n tämä versio edellyttää CPU:lta SSE2-laajennusten tukea.%n%nProsessorissasi ei ole niitä ominaisuuksia.
 #endif
-fi.run_DownloadToolbarImages=Vieraile Wiki-sivustollamme imuroidaksesi työkalupalkin kuvat
+fi.run_DownloadToolbarImages=Vieraile Wiki-sivustollamme ladataksesi työkalupalkin kuvat
 fi.tsk_AllUsers=Kaikille käyttäjille
 fi.tsk_CurrentUser=Vain nykyiselle käyttäjälle
 fi.tsk_Other=Muut tehtävät:
-fi.tsk_ResetSettings=Nollaa asetukset
+fi.tsk_ResetSettings=Palauta asetukset
 fi.types_DefaultInstallation=Oletusasennus
-fi.types_CustomInstallation=Yksilöllinen asennus
+fi.types_CustomInstallation=Mukautettu asennus
 fi.ViewChangelog=Näytä muutosloki
 
 ; French (France)
