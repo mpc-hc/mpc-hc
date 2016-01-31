@@ -1,5 +1,5 @@
 @ECHO OFF
-REM (C) 2013-2015 see Authors.txt
+REM (C) 2013-2016 see Authors.txt
 REM
 REM This file is part of MPC-HC.
 REM
@@ -66,7 +66,7 @@ IF %VALID% NEQ %INPUT% GOTO UnsupportedSwitch
 IF %ARGB%    GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGB% == 0    (SET "BUILDTYPE=Build")
 IF %ARGPL%   GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGPL% == 0   (SET "ARCH=Both")
 IF %ARGBC%   GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGBC% == 0   (SET "RELEASETYPE=Release")
-IF %ARGCOMP% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGCOMP% == 0 (SET "COMPILER=VS2013")
+IF %ARGCOMP% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGCOMP% == 0 (SET "COMPILER=VS2015")
 
 IF /I "%COMPILER%" == "VS2015" (
   IF NOT DEFINED VS140COMNTOOLS GOTO MissingVar
