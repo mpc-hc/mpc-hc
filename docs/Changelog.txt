@@ -15,18 +15,19 @@ next version - not released yet
 * Updated Little CMS to v2.7 (git 0a78f85)
 * Updated MediaInfoLib to v0.7.80-1-g3fc28610
 * Updated ZenLib to v0.4.32
-* Updated LAV Filters to v0.67.0.62:
+* Updated LAV Filters to v0.67.0.70:
     - LAV Splitter: Support HTTPS protocol
     - LAV Splitter: Switch back to an improved version of old asf demuxer
+    - LAV Splitter: Support demuxing H264 MVC.
     - LAV Video Decoder: Add experimental support for VP9 DXVA2 decoding (disabled by default)
     - LAV Video Decoder: Enable hardware decoding for HEVC and 4k/UHD by default
-    - LAV Splitter: Support demuxing H264 MVC.
     - LAV Video Decoder: Add a basic H264 MVC decoder based on Intel MediaSDK.
       Note that for now the Intel MediaSDK library is not distributed with MPC-HC.
       If you want to use this new decoder, you have to download the library
        - 32-bit: http://files.1f0.de/lavf/plugins/libmfxsw32-v1.7z
        - 64-bit: http://files.1f0.de/lavf/plugins/libmfxsw64-v1.7z
       and decompress it to the LAVFilters(64) folder.
+    - LAV Video Decoder: Offer Weston Three Field Deinterlacing (w3fdif) as an alternative to YADIF
     - Ticket #5666, LAV Video Decoder: YADIF deinterlacing sometimes caused black screen in DVD menus
     - LAV Audio Decoder: Fix a possible crash when using bitstreaming
 * Old DirectX 7 renderers have been removed. Settings will be updated automatically to use the corresponding VMR-9 renderers.
