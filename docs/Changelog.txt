@@ -17,10 +17,10 @@ next version - not released yet
 * Updated ZenLib to v0.4.32
 * Updated LAV Filters to v0.67.0.70:
     - LAV Splitter: Support HTTPS protocol
-    - LAV Splitter: Switch back to an improved version of old asf demuxer
-    - LAV Splitter: Support demuxing H264 MVC.
+    - LAV Splitter: Switch back to an improved version of the old ASF demuxer
+    - LAV Splitter: Support demuxing H264 MVC
     - LAV Video Decoder: Add experimental support for VP9 DXVA2 decoding (disabled by default)
-    - LAV Video Decoder: Enable hardware decoding for HEVC and 4k/UHD by default
+    - LAV Video Decoder: Enable hardware decoding for HEVC and 4K/UHD by default
     - LAV Video Decoder: Add a basic H264 MVC decoder based on Intel MediaSDK.
       Note that for now the Intel MediaSDK library is not distributed with MPC-HC.
       If you want to use this new decoder, you have to download the library
@@ -32,10 +32,10 @@ next version - not released yet
     - LAV Audio Decoder: Fix a possible crash when using bitstreaming
 * Old DirectX 7 renderers have been removed. Settings will be updated automatically to use the corresponding VMR-9 renderers.
   If you really want to use a renderer similar to VMR-7 (windowed), use Overlay mixer or the "system default" renderer
-* Make video renderer statistic scalable to window size and unify graph look for Sync and other renderers
+* Make Video Renderer statistics scalable to window size and unify graph look for EVR Sync and other renderers
 * Rewrite subtitles downloading framework
-    - Support for multiple subtitle providers including default OpenSubtitles as well as
-      podnapisi, titlovi, SubDB, ysubs and Napisy24 which can be enabled in options (Subtitles->Misc)
+    - Support for multiple subtitle providers including the default OpenSubtitles as well as
+      podnapisi, titlovi, SubDB, ysubs and Napisy24 which can be enabled in options (Subtitles -> Misc)
     - Ability to login into OpenSubtitles
     - Ability to filter subtitle list by selected languages
     - Option to automatically search and download subtitles at the beginning of playback without user interaction
