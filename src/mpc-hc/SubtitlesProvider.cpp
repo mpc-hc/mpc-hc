@@ -722,7 +722,7 @@ SRESULT titlovi::Search(const SubtitlesInfo& pFileInfo)
 
 SRESULT titlovi::Download(SubtitlesInfo& pSubtitlesInfo)
 {
-    return DownloadInternal(pSubtitlesInfo.id.c_str(), "", pSubtitlesInfo.fileContents);
+    return DownloadInternal(pSubtitlesInfo.id, "", pSubtitlesInfo.fileContents);
 }
 
 const std::set<std::string>& titlovi::Languages() const
@@ -830,7 +830,7 @@ SRESULT ysubs::Search(const SubtitlesInfo& pFileInfo)
 SRESULT ysubs::Download(SubtitlesInfo& pSubtitlesInfo)
 {
     TRACE(_T("%S::Download => %S\n"), Name().c_str(), pSubtitlesInfo.id.c_str());
-    return DownloadInternal(pSubtitlesInfo.id.c_str(), "", pSubtitlesInfo.fileContents);
+    return DownloadInternal(pSubtitlesInfo.id, "", pSubtitlesInfo.fileContents);
 }
 
 const std::set<std::string>& ysubs::Languages() const
