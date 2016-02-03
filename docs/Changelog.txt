@@ -48,3 +48,4 @@ next version - not released yet
   Slovenian, Swedish, Spanish, Tatar, Thai, Turkish, Ukrainian and Vietnamese translations
 ! Window position and/or size could be wrong when exiting fullscreen mode for the first time and
   "Launch files in fullscreen" option is enabled.
+! Ticket #5748, Track selection menus did not work when using DVB capture

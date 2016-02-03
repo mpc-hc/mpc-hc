@@ -13019,21 +13019,12 @@ void CMainFrame::SetupJumpToSubMenus(CMenu* parentMenu /*= nullptr*/, int iInser
 
 void CMainFrame::SetupNavStreamSelectSubMenu(CMenu& subMenu, UINT id, DWORD dwSelGroup)
 {
-    CComQIPtr<IAMStreamSelect> pSS;
     bool bAddSeparator = false;
 
-    BeginEnumFilters(m_pGB, pEF, pBF) {
-        if (GetCLSID(pBF) == __uuidof(CAudioSwitcherFilter) || GetCLSID(pBF) == CLSID_MorganStreamSwitcher) {
-            continue;
-        }
-
-        if (!(pSS = pBF)) {
-            continue;
-        }
-
+    auto addStreamSelectFilter = [&](CComPtr<IAMStreamSelect> pSS) {
         DWORD cStreams;
-        if (FAILED(pSS->Count(&cStreams))) {
-            continue;
+        if (!pSS || FAILED(pSS->Count(&cStreams))) {
+            return;
         }
 
         bool bAdded = false;
@@ -13087,13 +13078,12 @@ void CMainFrame::SetupNavStreamSelectSubMenu(CMenu& subMenu, UINT id, DWORD dwSe
             str.Replace(_T("&"), _T("&&"));
             VERIFY(subMenu.AppendMenu(flags, id++, str));
         }
-        bAddSeparator = bAdded;
-    }
-    EndEnumFilters
-}
 
-void CMainFrame::OnNavStreamSelectSubMenu(UINT id, DWORD dwSelGroup)
-{
+        if (bAdded) {
+            bAddSeparator = true;
+        }
+    };
+
     CComQIPtr<IAMStreamSelect> pSS;
 
     BeginEnumFilters(m_pGB, pEF, pBF) {
@@ -13101,38 +13091,69 @@ void CMainFrame::OnNavStreamSelectSubMenu(UINT id, DWORD dwSelGroup)
             continue;
         }
 
-        if (!(pSS = pBF)) {
-            continue;
-        }
-
-        DWORD cStreams;
-        if (FAILED(pSS->Count(&cStreams))) {
-            return;
-        }
-
-        for (int i = 0, j = cStreams; i < j; i++) {
-            DWORD dwFlags, dwGroup;
-            LCID lcid;
-            CComHeapPtr<WCHAR> pszName;
-
-            if (FAILED(pSS->Info(i, nullptr, &dwFlags, &lcid, &dwGroup, &pszName, nullptr, nullptr))
-                    || !pszName) {
-                continue;
-            }
-
-            if (dwGroup != dwSelGroup) {
-                continue;
-            }
-
-            if (id == 0) {
-                pSS->Enable(i, AMSTREAMSELECTENABLE_ENABLE);
-                break;
-            }
-
-            id--;
+        if (pSS = pBF) {
+            addStreamSelectFilter(pSS);
         }
     }
     EndEnumFilters
+
+    if (pSS = m_pGB) {
+        addStreamSelectFilter(pSS);
+    }
+}
+
+void CMainFrame::OnNavStreamSelectSubMenu(UINT id, DWORD dwSelGroup)
+{
+    auto processStreamSelectFilter = [&](CComPtr<IAMStreamSelect> pSS) {
+        bool bSelected = false;
+
+        DWORD cStreams;
+        if (SUCCEEDED(pSS->Count(&cStreams))) {
+            for (int i = 0, j = cStreams; i < j; i++) {
+                DWORD dwFlags, dwGroup;
+                LCID lcid;
+                CComHeapPtr<WCHAR> pszName;
+
+                if (FAILED(pSS->Info(i, nullptr, &dwFlags, &lcid, &dwGroup, &pszName, nullptr, nullptr))
+                        || !pszName) {
+                    continue;
+                }
+
+                if (dwGroup != dwSelGroup) {
+                    continue;
+                }
+
+                if (id == 0) {
+                    pSS->Enable(i, AMSTREAMSELECTENABLE_ENABLE);
+                    bSelected = true;
+                    break;
+                }
+
+                id--;
+            }
+        }
+
+        return bSelected;
+    };
+
+    CComQIPtr<IAMStreamSelect> pSS;
+
+    BeginEnumFilters(m_pGB, pEF, pBF) {
+        if (GetCLSID(pBF) == __uuidof(CAudioSwitcherFilter) || GetCLSID(pBF) == CLSID_MorganStreamSwitcher) {
+            continue;
+        }
+
+        if (pSS = pBF) {
+            if (processStreamSelectFilter(pSS)) {
+                return;
+            }
+        }
+    }
+    EndEnumFilters
+
+    if (pSS = m_pGB) {
+        processStreamSelectFilter(pSS);
+    }
 }
 
 void CMainFrame::OnStreamSelect(bool bForward, DWORD dwSelGroup)
