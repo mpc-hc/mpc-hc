@@ -715,8 +715,8 @@
 #define IDS_AG_SAVE_IMAGE               32882
 #define IDS_MPLAYERC_6                  32883
 #define IDS_OSD_IMAGE_SAVED             32884
-#define IDS_AG_LOAD_SUBTITLE            32885
-#define IDS_AG_SAVE_SUBTITLE            32886
+#define IDS_AG_LOAD_SUBTITLES           32885
+#define IDS_AG_SAVE_SUBTITLES           32886
 #define IDS_AG_PROPERTIES               32887
 #define IDS_AG_EXIT                     32888
 #define IDS_AG_PLAYPAUSE                32889
