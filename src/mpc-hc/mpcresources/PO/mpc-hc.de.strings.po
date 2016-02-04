@@ -956,11 +956,11 @@ msgid "&Organize Favorites..."
 msgstr "Favoriten &verwalten..."
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
-msgid "Shuffle"
+msgid "Sh&uffle"
 msgstr "&Zufallswiedergabe"
 
 msgctxt "IDS_PLAYLIST_SHOWFOLDER"
-msgid "Open file location"
+msgid "Ope&n file location"
 msgstr "&Dateiordner öffnen"
 
 msgctxt "IDS_CONTROLS_CLOSING"
@@ -1044,7 +1044,7 @@ msgid "Zoom To Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
 msgstr "Zoom für Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_PLAYLIST_HIDEFS"
-msgid "Hide on Fullscreen"
+msgid "&Hide on Fullscreen"
 msgstr "&Bei Vollbild ausblenden"
 
 msgctxt "IDS_CONTROLS_STOPPED"
@@ -1232,7 +1232,7 @@ msgid "+%d%%"
 msgstr "+%d %%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
-msgid "Add containing folder"
+msgid "Add containing &folder"
 msgstr "&Ordnerdateien hinzufügen"
 
 msgctxt "IDS_HW_INDICATOR"

@@ -949,11 +949,11 @@ msgid "&Organize Favorites..."
 msgstr "...ਮਨਪਸੰਦ ਦਾ ਪਰਬੰਧ ਕਰੋ(&O)"
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
-msgid "Shuffle"
+msgid "Sh&uffle"
 msgstr "ਰਲਾਓ"
 
 msgctxt "IDS_PLAYLIST_SHOWFOLDER"
-msgid "Open file location"
+msgid "Ope&n file location"
 msgstr "ਫ਼ਾਈਲ ਟਿਕਾਣਾ ਖੋਲ੍ਹੋ"
 
 msgctxt "IDS_CONTROLS_CLOSING"
@@ -1037,7 +1037,7 @@ msgid "Zoom To Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
 msgstr "ਅਲਟਰਾ-ਵਾਈਡ-ਸਕਰੀਨ ਲਈ ਜ਼ੂਮ ਕਰੋ,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_PLAYLIST_HIDEFS"
-msgid "Hide on Fullscreen"
+msgid "&Hide on Fullscreen"
 msgstr "ਪੂਰੀ ਸਕਰੀਨ ਉੱਤੇ ਓਹਲੇ ਕਰੋ"
 
 msgctxt "IDS_CONTROLS_STOPPED"
@@ -1225,7 +1225,7 @@ msgid "+%d%%"
 msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
-msgid "Add containing folder"
+msgid "Add containing &folder"
 msgstr "ਰੱਖਣ ਵਾਲਾ ਫੋਲਡਰ ਜੋੜੋ"
 
 msgctxt "IDS_HW_INDICATOR"

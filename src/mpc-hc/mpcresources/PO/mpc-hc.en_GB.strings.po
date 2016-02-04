@@ -949,12 +949,12 @@ msgid "&Organize Favorites..."
 msgstr "&Organise Favourites..."
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
-msgid "Shuffle"
-msgstr "Shuffle"
+msgid "Sh&uffle"
+msgstr "Sh&uffle"
 
 msgctxt "IDS_PLAYLIST_SHOWFOLDER"
-msgid "Open file location"
-msgstr "Open file location"
+msgid "Ope&n file location"
+msgstr "Ope&n file location"
 
 msgctxt "IDS_CONTROLS_CLOSING"
 msgid "Closing..."
@@ -1037,8 +1037,8 @@ msgid "Zoom To Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
 msgstr "Zoom To Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_PLAYLIST_HIDEFS"
-msgid "Hide on Fullscreen"
-msgstr "Hide on Fullscreen"
+msgid "&Hide on Fullscreen"
+msgstr "&Hide on Fullscreen"
 
 msgctxt "IDS_CONTROLS_STOPPED"
 msgid "Stopped"
@@ -1225,8 +1225,8 @@ msgid "+%d%%"
 msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
-msgid "Add containing folder"
-msgstr "Add containing folder"
+msgid "Add containing &folder"
+msgstr "Add containing &folder"
 
 msgctxt "IDS_HW_INDICATOR"
 msgid "[H/W]"

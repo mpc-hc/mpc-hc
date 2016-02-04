@@ -950,11 +950,11 @@ msgid "&Organize Favorites..."
 msgstr "&Kedvencek rendezése..."
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
-msgid "Shuffle"
+msgid "Sh&uffle"
 msgstr "Keverés"
 
 msgctxt "IDS_PLAYLIST_SHOWFOLDER"
-msgid "Open file location"
+msgid "Ope&n file location"
 msgstr "Fájl mappa megnyitása"
 
 msgctxt "IDS_CONTROLS_CLOSING"
@@ -1038,7 +1038,7 @@ msgid "Zoom To Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
 msgstr "Nagyítás Ultra-Szélesvásznúra,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_PLAYLIST_HIDEFS"
-msgid "Hide on Fullscreen"
+msgid "&Hide on Fullscreen"
 msgstr "Elrejtés Teljes képernyős módban"
 
 msgctxt "IDS_CONTROLS_STOPPED"
@@ -1226,7 +1226,7 @@ msgid "+%d%%"
 msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
-msgid "Add containing folder"
+msgid "Add containing &folder"
 msgstr "Tartalmazó mappa hozzáadása"
 
 msgctxt "IDS_HW_INDICATOR"

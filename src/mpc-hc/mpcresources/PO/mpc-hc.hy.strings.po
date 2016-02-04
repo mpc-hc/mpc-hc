@@ -949,11 +949,11 @@ msgid "&Organize Favorites..."
 msgstr "&Դասավորել ընտրյալները..."
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
-msgid "Shuffle"
+msgid "Sh&uffle"
 msgstr "Պատահական"
 
 msgctxt "IDS_PLAYLIST_SHOWFOLDER"
-msgid "Open file location"
+msgid "Ope&n file location"
 msgstr ""
 
 msgctxt "IDS_CONTROLS_CLOSING"
@@ -1037,7 +1037,7 @@ msgid "Zoom To Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
 msgstr "Նշել չափը Ամենա-Լայնէկրան,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_PLAYLIST_HIDEFS"
-msgid "Hide on Fullscreen"
+msgid "&Hide on Fullscreen"
 msgstr "Թաքցնել, եթե ամբողջ էկրանով է"
 
 msgctxt "IDS_CONTROLS_STOPPED"
@@ -1225,7 +1225,7 @@ msgid "+%d%%"
 msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
-msgid "Add containing folder"
+msgid "Add containing &folder"
 msgstr "Ավելացնել պարունակող թղթապանակ"
 
 msgctxt "IDS_HW_INDICATOR"

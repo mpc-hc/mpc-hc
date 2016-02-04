@@ -952,11 +952,11 @@ msgid "&Organize Favorites..."
 msgstr "পছন্দেরতালিকা বিন্যস্ত করি...(&O)"
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
-msgid "Shuffle"
+msgid "Sh&uffle"
 msgstr "এলোমেলো করি"
 
 msgctxt "IDS_PLAYLIST_SHOWFOLDER"
-msgid "Open file location"
+msgid "Ope&n file location"
 msgstr "ফাইলটির অবস্থানে যাই"
 
 msgctxt "IDS_CONTROLS_CLOSING"
@@ -1040,7 +1040,7 @@ msgid "Zoom To Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
 msgstr "Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f এ জূম করি"
 
 msgctxt "IDS_PLAYLIST_HIDEFS"
-msgid "Hide on Fullscreen"
+msgid "&Hide on Fullscreen"
 msgstr "ফুলস্ক্রীনে লুকিয়ে যাওয়া সক্রিয়করণ"
 
 msgctxt "IDS_CONTROLS_STOPPED"
@@ -1228,7 +1228,7 @@ msgid "+%d%%"
 msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
-msgid "Add containing folder"
+msgid "Add containing &folder"
 msgstr "ধারণকারী ফোল্ডার যোগ করি"
 
 msgctxt "IDS_HW_INDICATOR"

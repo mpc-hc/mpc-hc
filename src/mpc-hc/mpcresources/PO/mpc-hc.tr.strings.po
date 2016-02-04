@@ -952,11 +952,11 @@ msgid "&Organize Favorites..."
 msgstr "&Sık Kullanılanları Düzenle..."
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
-msgid "Shuffle"
+msgid "Sh&uffle"
 msgstr "Rastgele sırala"
 
 msgctxt "IDS_PLAYLIST_SHOWFOLDER"
-msgid "Open file location"
+msgid "Ope&n file location"
 msgstr "Dosya yerleşimini aç"
 
 msgctxt "IDS_CONTROLS_CLOSING"
@@ -1040,7 +1040,7 @@ msgid "Zoom To Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
 msgstr "Çok geniş ekrana sığdır,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_PLAYLIST_HIDEFS"
-msgid "Hide on Fullscreen"
+msgid "&Hide on Fullscreen"
 msgstr "Tam ekranda gizle"
 
 msgctxt "IDS_CONTROLS_STOPPED"
@@ -1228,7 +1228,7 @@ msgid "+%d%%"
 msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
-msgid "Add containing folder"
+msgid "Add containing &folder"
 msgstr "İçeren klasörü ekle"
 
 msgctxt "IDS_HW_INDICATOR"

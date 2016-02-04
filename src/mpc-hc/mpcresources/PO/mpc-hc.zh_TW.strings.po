@@ -957,11 +957,11 @@ msgid "&Organize Favorites..."
 msgstr "組織我的最愛(&O)..."
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
-msgid "Shuffle"
+msgid "Sh&uffle"
 msgstr "打亂"
 
 msgctxt "IDS_PLAYLIST_SHOWFOLDER"
-msgid "Open file location"
+msgid "Ope&n file location"
 msgstr "開啟檔案位置"
 
 msgctxt "IDS_CONTROLS_CLOSING"
@@ -1045,7 +1045,7 @@ msgid "Zoom To Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
 msgstr "縮放至 Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_PLAYLIST_HIDEFS"
-msgid "Hide on Fullscreen"
+msgid "&Hide on Fullscreen"
 msgstr "全螢幕時隱藏"
 
 msgctxt "IDS_CONTROLS_STOPPED"
@@ -1233,7 +1233,7 @@ msgid "+%d%%"
 msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
-msgid "Add containing folder"
+msgid "Add containing &folder"
 msgstr "加入包含的資料夾"
 
 msgctxt "IDS_HW_INDICATOR"

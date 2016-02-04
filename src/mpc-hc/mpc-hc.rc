@@ -2595,8 +2595,8 @@ STRINGTABLE
 BEGIN
     IDS_FAVORITES_ADD       "&Add to Favorites..."
     IDS_FAVORITES_ORGANIZE  "&Organize Favorites..."
-    IDS_PLAYLIST_SHUFFLE    "Shuffle"
-    IDS_PLAYLIST_SHOWFOLDER "Open file location"
+    IDS_PLAYLIST_SHUFFLE    "Sh&uffle"
+    IDS_PLAYLIST_SHOWFOLDER "Ope&n file location"
     IDS_CONTROLS_CLOSING    "Closing..."
     IDS_CONTROLS_PLAYING    "Playing"
     IDS_CONTROLS_PAUSED     "Paused"
@@ -2630,7 +2630,7 @@ BEGIN
     IDS_SCALE_16_9          "Scale to 16:9 TV,%.3f,%.3f,%.3f,%.3f"
     IDS_SCALE_WIDESCREEN    "Zoom To Widescreen,%.3f,%.3f,%.3f,%.3f"
     IDS_SCALE_ULTRAWIDE     "Zoom To Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
-    IDS_PLAYLIST_HIDEFS     "Hide on Fullscreen"
+    IDS_PLAYLIST_HIDEFS     "&Hide on Fullscreen"
 END
 
 STRINGTABLE
@@ -2703,7 +2703,7 @@ STRINGTABLE
 BEGIN
     IDS_VOLUME              "%d%%"
     IDS_BOOST               "+%d%%"
-    IDS_PLAYLIST_ADDFOLDER  "Add containing folder"
+    IDS_PLAYLIST_ADDFOLDER  "Add containing &folder"
     IDS_HW_INDICATOR        "[H/W]"
     IDS_TOOLTIP_SOFTWARE_DECODING "Software Decoding"
     IDS_STATSBAR_PLAYBACK_RATE "Playback rate"

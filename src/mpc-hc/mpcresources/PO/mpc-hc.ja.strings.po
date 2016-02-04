@@ -949,11 +949,11 @@ msgid "&Organize Favorites..."
 msgstr "お気に入りの整理(&O)..."
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
-msgid "Shuffle"
+msgid "Sh&uffle"
 msgstr "シャッフル"
 
 msgctxt "IDS_PLAYLIST_SHOWFOLDER"
-msgid "Open file location"
+msgid "Ope&n file location"
 msgstr "ファイルの場所を開く"
 
 msgctxt "IDS_CONTROLS_CLOSING"
@@ -1037,7 +1037,7 @@ msgid "Zoom To Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
 msgstr "ウルトラワイド画面に拡大,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_PLAYLIST_HIDEFS"
-msgid "Hide on Fullscreen"
+msgid "&Hide on Fullscreen"
 msgstr "全画面表示で隠す"
 
 msgctxt "IDS_CONTROLS_STOPPED"
@@ -1225,7 +1225,7 @@ msgid "+%d%%"
 msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
-msgid "Add containing folder"
+msgid "Add containing &folder"
 msgstr "このアイテムのフォルダを追加"
 
 msgctxt "IDS_HW_INDICATOR"
