@@ -65,7 +65,17 @@ SRESULT OpenSubtitles::Login(const std::string& sUserName, const std::string& sP
         std::string strUA = UserAgent();
         args[3] = strUA.c_str(); // Test with "OSTestUserAgent"
         if (!xmlrpc->execute("LogIn", args, result)) { return SR_FAILED; }
-        token = result["token"];
+
+        if (result["status"].getType() == XmlRpcValue::Type::TypeString) {
+            if (result["status"] == std::string("200 OK")) {
+                token = result["token"];
+            } else if (result["status"] == std::string("401 Unauthorized")) {
+                // Notify user that User/Pass provided are invalid.
+                CString msg;
+                msg.Format(IDS_SUB_CREDENTIALS_ERROR, Name().c_str(), UserName().c_str());
+                AfxMessageBox(msg, MB_ICONERROR | MB_OK);
+            }
+        }
     }
     return token.valid() ? SR_SUCCEEDED : SR_FAILED;
 }
@@ -307,6 +317,27 @@ const std::set<std::string>& OpenSubtitles::Languages() const
     }
     return result;
 }
+
+bool OpenSubtitles::NeedLogin()
+{
+    // return true to call Login() or false to skip Login()
+    if (!token.valid()) {
+        return true;
+    }
+
+    XmlRpcValue args, result;
+    args[0] = token;
+    if (!xmlrpc->execute("NoOperation", args, result)) {
+        return false;
+    }
+
+    if ((result["status"].getType() == XmlRpcValue::Type::TypeString) && (result["status"] == std::string("200 OK"))) {
+        return false;
+    }
+
+    return true;
+}
+
 
 /******************************************************************************
 ** SubDB

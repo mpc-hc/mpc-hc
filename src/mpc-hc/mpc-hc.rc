@@ -3590,6 +3590,7 @@ BEGIN
                             "ERROR: Internet connection could not be established."
     IDS_SUB_CREDENTIALS_TITLE "Enter website credentials"
     IDS_SUB_CREDENTIALS_MSG "Enter your credentials to connect to: "
+    IDS_SUB_CREDENTIALS_ERROR "Failed to log in on ""%S"" with username ""%S"".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
     IDS_ASPECT_RATIO_SAR    "Aspect Ratio: Assume square pixels (SAR)"
     IDS_SUBDL_DLG_DOWNLOADED "Downloaded [%s] ""%s"""
     IDS_SUBUL_DLG_TITLE     "Upload subtitles"

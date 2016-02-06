@@ -52,6 +52,7 @@ private:                                                                        
 
 DEFINE_SUBTITLESPROVIDER_BEGIN(OpenSubtitles, "http://www.opensubtitles.org", IDI_OPENSUBTITLES, SPF_LOGIN | SPF_HASH | SPF_UPLOAD)
 void Initialize() override;
+bool NeedLogin() override;
 SRESULT Login(const std::string& sUserName, const std::string& sPassword) override;
 SRESULT Hash(SubtitlesInfo& pFileInfo) override;
 SRESULT Upload(const SubtitlesInfo& pSubtitlesInfo) override;

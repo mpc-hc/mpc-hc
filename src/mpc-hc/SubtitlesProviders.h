@@ -294,6 +294,7 @@ protected: // overridden
     virtual void Initialize() {}
     virtual void Uninitialize() {}
 public: // overridden
+    virtual bool NeedLogin() { return !(m_nLoggedIn & (SPL_REGISTERED | SPL_ANONYMOUS)); }
     virtual SRESULT Login(const std::string&, const std::string&) { return SR_UNDEFINED; }
     virtual SRESULT Hash(SubtitlesInfo&) { return SR_UNDEFINED; }
     virtual SRESULT Upload(const SubtitlesInfo&) { return SR_UNDEFINED; };

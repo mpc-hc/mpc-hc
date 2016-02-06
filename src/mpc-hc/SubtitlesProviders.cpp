@@ -383,7 +383,7 @@ std::list<std::string> SubtitlesProvider::GetLanguagesIntersection() const
 
 bool SubtitlesProvider::LoginInternal()
 {
-    if (!(m_nLoggedIn & (SPL_REGISTERED | SPL_ANONYMOUS))) {
+    if (NeedLogin()) {
         SRESULT result = Login(UserName(), Password());
         m_nLoggedIn = (result == SR_SUCCEEDED) ? (!UserName().empty() ? SPL_REGISTERED : SPL_ANONYMOUS) :
                       (result == SR_UNDEFINED) ? SPL_ANONYMOUS : SPL_FAILED;

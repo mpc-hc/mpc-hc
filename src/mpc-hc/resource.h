@@ -1514,6 +1514,7 @@
 #define IDS_SUBUL_DLG_TITLE             57478
 #define IDS_SUBUL_DLG_CONFIRM           57479
 #define IDS_SUBPP_DLG_FETCHING_LANGUAGES 57480
+#define IDS_SUB_CREDENTIALS_ERROR       57481
 
 // Next default values for new objects
 // 
