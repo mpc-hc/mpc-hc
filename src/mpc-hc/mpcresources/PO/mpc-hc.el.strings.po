@@ -3742,3 +3742,7 @@ msgctxt "IDS_SUBUL_DLG_CONFIRM"
 msgid "Are you sure you want to upload the subtitle file \"%s\"?"
 msgstr "Είστε βέβαιος ότι θέλετε να ανεβάσετε το αρχείο υποτίτλων \"%s\";"
 
+msgctxt "IDS_SUBPP_DLG_FETCHING_LANGUAGES"
+msgid "Fetching supported languages..."
+msgstr ""
+

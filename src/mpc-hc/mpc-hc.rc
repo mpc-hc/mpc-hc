@@ -3594,6 +3594,7 @@ BEGIN
     IDS_SUBDL_DLG_DOWNLOADED "Downloaded [%s] ""%s"""
     IDS_SUBUL_DLG_TITLE     "Upload subtitles"
     IDS_SUBUL_DLG_CONFIRM   "Are you sure you want to upload the subtitle file ""%s""?"
+    IDS_SUBPP_DLG_FETCHING_LANGUAGES "Fetching supported languages..."
 END
 
 #endif    // English (United States) resources

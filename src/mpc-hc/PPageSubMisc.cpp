@@ -108,10 +108,9 @@ BOOL CPPageSubMisc::OnInitDialog()
 
     int i = 0;
     for (const auto& iter : m_subtitlesProviders.Providers()) {
-        int iItem = m_list.InsertItem((int)i++, CString(iter->Name().c_str()), iter->GetIconIndex());
+        int iItem = m_list.InsertItem(i++, CString(iter->Name().c_str()), iter->GetIconIndex());
         m_list.SetItemText(iItem, COL_USERNAME, UTF8To16(iter->UserName().c_str()));
-        CString languages(SubtitlesProvidersUtils::JoinContainer(iter->Languages(), ",").c_str());
-        m_list.SetItemText(iItem, COL_LANGUAGES, languages.GetLength() ? languages : ResStr(IDS_SUBPP_DLG_LANGUAGES_ERROR));
+        m_list.SetItemText(iItem, COL_LANGUAGES, ResStr(IDS_SUBPP_DLG_FETCHING_LANGUAGES));
         m_list.SetCheck(iItem, iter->Enabled(SPF_SEARCH));
         m_list.SetItemData(iItem, (DWORD_PTR)(iter.get()));
     }
@@ -119,6 +118,13 @@ BOOL CPPageSubMisc::OnInitDialog()
     m_list.SetRedraw(TRUE);
     m_list.Invalidate();
     m_list.UpdateWindow();
+
+    m_threadFetchSupportedLanguages = std::thread([this]() {
+        for (const auto& iter : m_subtitlesProviders.Providers()) {
+            iter->Languages();
+        }
+        PostMessage(WM_SUPPORTED_LANGUAGES_READY); // Notify the window that languages have been fetched
+    });
 
     //TODO: Remove when Auto Upload is finalised
     CheckDlgButton(IDC_CHECK6, FALSE);
@@ -157,11 +163,29 @@ BOOL CPPageSubMisc::OnApply()
 
 
 BEGIN_MESSAGE_MAP(CPPageSubMisc, CPPageBase)
+    ON_MESSAGE_VOID(WM_SUPPORTED_LANGUAGES_READY, OnSupportedLanguagesReady)
+    ON_WM_DESTROY()
     ON_BN_CLICKED(IDC_BUTTON1, OnBnClickedResetSubsPath)
     ON_BN_CLICKED(IDC_CHECK4, OnAutoDownloadSubtitlesClicked)
     ON_NOTIFY(NM_RCLICK, IDC_LIST1, OnRightClick)
     ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, OnItemChanged)
 END_MESSAGE_MAP()
+
+void CPPageSubMisc::OnSupportedLanguagesReady()
+{
+    int i = 0;
+    for (const auto& iter : m_subtitlesProviders.Providers()) {
+        CString languages(SubtitlesProvidersUtils::JoinContainer(iter->Languages(), ",").c_str());
+        m_list.SetItemText(i++, COL_LANGUAGES, languages.IsEmpty() ? ResStr(IDS_SUBPP_DLG_LANGUAGES_ERROR) : languages);
+    }
+}
+
+void CPPageSubMisc::OnDestroy()
+{
+    if (m_threadFetchSupportedLanguages.joinable()) {
+        m_threadFetchSupportedLanguages.join();
+    }
+}
 
 void CPPageSubMisc::OnRightClick(NMHDR* pNMHDR, LRESULT* pResult)
 {
