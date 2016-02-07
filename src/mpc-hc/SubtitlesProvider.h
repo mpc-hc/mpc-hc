@@ -54,6 +54,7 @@ DEFINE_SUBTITLESPROVIDER_BEGIN(OpenSubtitles, "http://www.opensubtitles.org", ID
 void Initialize() override;
 bool NeedLogin() override;
 SRESULT Login(const std::string& sUserName, const std::string& sPassword) override;
+SRESULT LogOut() override;
 SRESULT Hash(SubtitlesInfo& pFileInfo) override;
 SRESULT Upload(const SubtitlesInfo& pSubtitlesInfo) override;
 std::unique_ptr<XmlRpcClient> xmlrpc;

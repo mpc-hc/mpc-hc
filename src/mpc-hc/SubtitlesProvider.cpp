@@ -80,6 +80,18 @@ SRESULT OpenSubtitles::Login(const std::string& sUserName, const std::string& sP
     return token.valid() ? SR_SUCCEEDED : SR_FAILED;
 }
 
+SRESULT OpenSubtitles::LogOut()
+{
+    if (xmlrpc && token.valid()) {
+        XmlRpcValue args, result;
+        args[0] = token;
+        VERIFY(xmlrpc->execute("LogOut", args, result));
+        token.clear();
+    }
+
+    return SR_SUCCEEDED;
+}
+
 SRESULT OpenSubtitles::Hash(SubtitlesInfo& pFileInfo)
 {
     pFileInfo.fileHash = StringFormat("%016I64x", GenerateOSHash(pFileInfo));
