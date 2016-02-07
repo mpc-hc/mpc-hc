@@ -226,6 +226,7 @@ void CPPageSubMisc::OnRightClick(NMHDR* pNMHDR, LRESULT* pResult)
                 if (ERROR_SUCCESS == PromptForCredentials(GetSafeHwnd(),
                                                           ResStr(IDS_SUB_CREDENTIALS_TITLE), ResStr(IDS_SUB_CREDENTIALS_MSG) + CString(provider.Url().c_str()),
                                                           szDomain, szUser, szPass, /*&bSave*/nullptr)) {
+                    provider.LogOut();
                     provider.UserName(static_cast<const char*>(UTF16To8(szUser)));
                     provider.Password(static_cast<const char*>(UTF16To8(szPass)));
                     m_list.SetItemText(lpnmlv->iItem, 1, szUser);
@@ -234,6 +235,7 @@ void CPPageSubMisc::OnRightClick(NMHDR* pNMHDR, LRESULT* pResult)
                 break;
             }
             case RESET_CREDENTIALS:
+                provider.LogOut();
                 provider.UserName("");
                 provider.Password("");
                 m_list.SetItemText(lpnmlv->iItem, 1, _T(""));
