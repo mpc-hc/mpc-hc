@@ -122,6 +122,7 @@ void RarTime::SetLocal(RarLocalTime *lt)
   st.wMinute=lt->Minute;
   st.wSecond=lt->Second;
   st.wMilliseconds=0;
+  st.wDayOfWeek=0;
   FILETIME lft;
   if (SystemTimeToFileTime(&st,&lft))
   {

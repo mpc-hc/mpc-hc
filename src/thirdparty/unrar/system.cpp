@@ -130,6 +130,21 @@ void Shutdown()
 
 
 
+
+#ifdef _WIN_ALL
+// Load library from Windows System32 folder. Use this function to prevent
+// loading a malicious code from current folder or same folder as exe.
+HMODULE WINAPI LoadSysLibrary(const wchar *Name)
+{
+  wchar SysDir[NM];
+  if (GetSystemDirectory(SysDir,ASIZE(SysDir))==0)
+    return NULL;
+  MakeName(SysDir,Name,SysDir,ASIZE(SysDir));
+  return LoadLibrary(SysDir);
+}
+#endif
+
+
 #ifdef USE_SSE
 SSE_VERSION _SSE_Version=GetSSEVersion();
 

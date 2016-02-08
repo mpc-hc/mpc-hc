@@ -35,7 +35,7 @@ class CryptLoader
     {
       if (!LoadCalled)
       {
-        hCrypt = LoadLibraryW(L"Crypt32.dll");
+        hCrypt = LoadSysLibrary(L"Crypt32.dll");
         if (hCrypt != NULL)
         {
           pCryptProtectMemory = (CRYPTPROTECTMEMORY)GetProcAddress(hCrypt, "CryptProtectMemory");
