@@ -61,6 +61,7 @@ Logitech SDK        -                           -
 MediaInfoLib        Simplified BSD License      https://mediaarea.net/MediaInfo
 Mhook               MIT License                 https://github.com/martona/mhook
 MultiMon            CPOL                        http://www.codeproject.com/Articles/3690/
+NanoSVG             zlib License                https://github.com/memononen/nanosvg
 QuickTime SDK       -                           http://developer.apple.com/quicktime/
 RapidJSON           MIT License                 https://github.com/miloyip/rapidjson
 RARFileSource       GPLv2+                      http://www.v12pwr.com/RARFileSource/

@@ -8,6 +8,7 @@ Logitech SDK        3.01 (driver 8.00.100)
 MediaInfoLib        0.7.75
 Mhook               2.3 (modified)
 MultiMon            28 Aug '03 (modified)
+NanoSVG             git dc12d90
 QuickTime SDK       7.3
 RapidJSON           1.0.2
 RARFileSource       0.9.3 (modified)

@@ -10,6 +10,9 @@
 [submodule "MediaInfoLib"]
     path = src/thirdparty/MediaInfo/library
     url = https://github.com/MediaArea/MediaInfoLib.git
+[submodule "NanoSVG"]
+    path = src/thirdparty/nanosvg
+    url = https://github.com/memononen/nanosvg.git
 [submodule "rapidjson"]
     path = src/thirdparty/rapidjson
     url = https://github.com/miloyip/rapidjson.git
