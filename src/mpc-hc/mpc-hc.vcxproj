@@ -233,6 +233,7 @@
     <ClCompile Include="Shaders.cpp" />
     <ClCompile Include="ShockwaveGraph.cpp" />
     <ClCompile Include="SkypeMoodMsgHandler.cpp" />
+    <ClCompile Include="SVGImage.cpp" />
     <ClCompile Include="Translations.cpp" />
     <ClCompile Include="StaticLink.cpp" />
     <ClCompile Include="StatusLabel.cpp" />
@@ -385,6 +386,7 @@
     <ClInclude Include="SubtitlesProviders.h" />
     <ClInclude Include="SubtitlesProvidersUtils.h" />
     <ClInclude Include="SubtitleUpDlg.h" />
+    <ClInclude Include="SVGImage.h" />
     <ClInclude Include="TextPassThruFilter.h" />
     <ClInclude Include="TimerWrappers.h" />
     <ClInclude Include="Translations.h" />

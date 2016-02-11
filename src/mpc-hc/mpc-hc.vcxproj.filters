@@ -461,6 +461,9 @@
     <ClCompile Include="..\thirdparty\XmlRpc4Win\TimXmlRpc.cpp">
       <Filter>Subtitles</Filter>
     </ClCompile>
+    <ClCompile Include="SVGImage.cpp">
+      <Filter>Helpers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h">
@@ -860,6 +863,9 @@
     </ClInclude>
     <ClInclude Include="..\thirdparty\XmlRpc4Win\timxmlrpc.h">
       <Filter>Subtitles</Filter>
+    </ClInclude>
+    <ClInclude Include="SVGImage.h">
+      <Filter>Helpers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -28,6 +28,7 @@
 #include "PlayerToolBar.h"
 #include "MainFrm.h"
 #include "PathUtils.h"
+#include "SVGImage.h"
 
 // CPlayerToolBar
 
@@ -45,7 +46,7 @@ CPlayerToolBar::~CPlayerToolBar()
     SAFE_DELETE(m_pButtonsImages);
 }
 
-bool CPlayerToolBar::LoadExternalToolBar(CImage* image)
+bool CPlayerToolBar::LoadExternalToolBar(CImage& image)
 {
     // Paths and extensions to try (by order of preference)
     std::vector<CString> paths({ PathUtils::GetProgramPath() });
@@ -57,8 +58,12 @@ bool CPlayerToolBar::LoadExternalToolBar(CImage* image)
 
     // Try loading the external toolbar
     for (const auto& path : paths) {
+        if (SUCCEEDED(SVGImage::Load(PathUtils::CombinePaths(path, _T("toolbar.svg")), image))) {
+            return true;
+        }
+
         for (const auto& ext : extensions) {
-            if (SUCCEEDED(image->Load(PathUtils::CombinePaths(path, _T("toolbar.") + ext)))) {
+            if (SUCCEEDED(image.Load(PathUtils::CombinePaths(path, _T("toolbar.") + ext)))) {
                 return true;
             }
         }
@@ -110,7 +115,7 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
 
     m_nButtonHeight = 16; // reset m_nButtonHeight
     CImage image;
-    if (LoadExternalToolBar(&image)) {
+    if (LoadExternalToolBar(image)) {
         CBitmap* bmp = CBitmap::FromHandle(image);
         int width = image.GetWidth();
         int height = image.GetHeight();

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2014, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -37,7 +37,7 @@ private:
     bool IsMuted() const;
     void SetMute(bool fMute = true);
     int getHitButtonIdx(CPoint point);
-    bool LoadExternalToolBar(CImage* image);
+    bool LoadExternalToolBar(CImage& image);
 
     int m_nButtonHeight;
     CImageList* m_pButtonsImages;

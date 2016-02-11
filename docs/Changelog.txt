@@ -12,6 +12,7 @@ next version - not released yet
 ===============================
 + Ability to control playback repeat mode
 + Add a cache to avoid recompiling pixel shaders when possible
++ Add SVG support for custom toolbars
 + Add Bosnian translation
 + Option to set audio delay values for each display mode
 * Updated Little CMS to v2.7 (git 154e30a)
