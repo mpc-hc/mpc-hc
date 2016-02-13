@@ -237,7 +237,15 @@ void CSubtitleDlDlg::OnOK()
         }
     }
 
-    __super::OnOK();
+    // Just hide the dialog, since it's modeless we don't want to call EndDialog
+    ShowWindow(SW_HIDE);
+}
+
+
+void CSubtitleDlDlg::OnCancel()
+{
+    // Just hide the dialog, since it's modeless we don't want to call EndDialog
+    ShowWindow(SW_HIDE);
 }
 
 void CSubtitleDlDlg::OnRefresh()

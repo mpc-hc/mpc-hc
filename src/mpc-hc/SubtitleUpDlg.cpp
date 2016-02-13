@@ -144,6 +144,12 @@ void CSubtitleUpDlg::OnOK()
     m_pMainFrame->m_pSubtitlesProviders->Upload(true);
 }
 
+void CSubtitleUpDlg::OnCancel()
+{
+    // Just hide the dialog, since it's modeless we don't want to call EndDialog
+    ShowWindow(SW_HIDE);
+}
+
 void CSubtitleUpDlg::OnAbort()
 {
     m_pMainFrame->m_pSubtitlesProviders->Abort(SubtitlesThreadType(STT_UPLOAD));
