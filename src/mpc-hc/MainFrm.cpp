@@ -1036,7 +1036,9 @@ LRESULT CMainFrame::OnNotifyIcon(WPARAM wParam, LPARAM lParam)
 
     switch ((UINT)lParam) {
         case WM_LBUTTONDOWN:
-            ShowWindow(SW_SHOW);
+            if (IsIconic()) {
+                ShowWindow(SW_RESTORE);
+            }
             CreateThumbnailToolbar();
             MoveVideoWindow();
             SetForegroundWindow();
@@ -1093,9 +1095,9 @@ void CMainFrame::ShowTrayIcon(bool bShow)
         if (m_bTrayIcon) {
             Shell_NotifyIcon(NIM_DELETE, &nid);
             m_bTrayIcon = false;
-            if (!IsWindowVisible()) {
+            if (IsIconic()) {
                 // if the window was minimized to tray - show it
-                ShowWindow(SW_SHOW);
+                ShowWindow(SW_RESTORE);
             }
         }
     }
@@ -1385,18 +1387,18 @@ void CMainFrame::OnMoving(UINT fwSide, LPRECT pRect)
 
 void CMainFrame::OnSize(UINT nType, int cx, int cy)
 {
-    __super::OnSize(nType, cx, cy);
+    if (m_bTrayIcon && nType == SIZE_MINIMIZED) {
+        ShowWindow(SW_HIDE);
+    } else {
+        __super::OnSize(nType, cx, cy);
 
-    if (nType == SIZE_RESTORED && m_bTrayIcon) {
-        ShowWindow(SW_SHOW);
-    }
-
-    if (!m_fFirstFSAfterLaunchOnFS && IsWindowVisible() && !m_fFullScreen) {
-        CAppSettings& s = AfxGetAppSettings();
-        if (nType != SIZE_MAXIMIZED && nType != SIZE_MINIMIZED) {
-            GetWindowRect(s.rcLastWindowPos);
+        if (!m_fFirstFSAfterLaunchOnFS && IsWindowVisible() && !m_fFullScreen) {
+            CAppSettings& s = AfxGetAppSettings();
+            if (nType != SIZE_MAXIMIZED && nType != SIZE_MINIMIZED) {
+                GetWindowRect(s.rcLastWindowPos);
+            }
+            s.nLastWindowType = nType;
         }
-        s.nLastWindowType = nType;
     }
 }
 
@@ -1576,9 +1578,6 @@ void CMainFrame::OnSysCommand(UINT nID, LPARAM lParam)
     if ((GetMediaState() == State_Running && !m_fEndOfStream && !m_fAudioOnly)
             && (((nID & 0xFFF0) == SC_SCREENSAVE) || ((nID & 0xFFF0) == SC_MONITORPOWER))) {
         TRACE(_T("SC_SCREENSAVE, nID = %u, lParam = %d\n"), nID, lParam);
-        return;
-    } else if ((nID & 0xFFF0) == SC_MINIMIZE && m_bTrayIcon) {
-        ShowWindow(SW_HIDE);
         return;
     }
 
@@ -3763,7 +3762,9 @@ void CMainFrame::OnFileOpenQuick()
 
     SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
 
-    ShowWindow(SW_SHOW);
+    if (IsIconic()) {
+        ShowWindow(SW_RESTORE);
+    }
     SetForegroundWindow();
 
     if (fns.GetCount() == 1) {
@@ -3796,7 +3797,9 @@ void CMainFrame::OnFileOpenmedia()
         SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
     }
 
-    ShowWindow(SW_SHOW);
+    if (IsIconic()) {
+        ShowWindow(SW_RESTORE);
+    }
     SetForegroundWindow();
 
     CAtlList<CString> filenames;
@@ -4109,7 +4112,9 @@ void CMainFrame::OnFileOpendevice()
     SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
     SetForegroundWindow();
 
-    ShowWindow(SW_SHOW);
+    if (IsIconic()) {
+        ShowWindow(SW_RESTORE);
+    }
 
     m_wndPlaylistBar.Empty();
 
@@ -4144,7 +4149,9 @@ void CMainFrame::OnFileOpenOpticalDisk(UINT nID)
             SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
             SetForegroundWindow();
 
-            ShowWindow(SW_SHOW);
+            if (IsIconic()) {
+                ShowWindow(SW_RESTORE);
+            }
 
             m_wndPlaylistBar.Open(sl, true);
             OpenCurPlaylistItem();
