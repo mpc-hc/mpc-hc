@@ -101,6 +101,7 @@
 #include "../Subtitles/STS.h"
 #include "../Subtitles/RLECodedSubtitle.h"
 #include "../Subtitles/PGSSub.h"
+#include "../Subtitles/SubtitleHelpers.h"
 
 #include <mvrInterfaces.h>
 #include <SubRenderIntf.h>
@@ -5116,6 +5117,17 @@ void CMainFrame::OnFileSubtitlesSave()
             filter += _T("|");
 
             CAppSettings& s = AfxGetAppSettings();
+
+            if (pRTS->m_lcid && pRTS->m_lcid != LCID(-1)) {
+                CString str;
+                int len = GetLocaleInfo(pRTS->m_lcid, LOCALE_SISO639LANGNAME, str.GetBuffer(64), 64);
+                str.ReleaseBufferSetLength(std::max(len - 1, 0));
+                suggestedFileName += "." + str;
+
+                if (pRTS->m_eHearingImpaired == Subtitle::HI_YES) {
+                    suggestedFileName += ".hi";
+                }
+            }
 
             // same thing as in the case of CVobSubFile above for lpszDefExt
             CSaveSubtitlesFileDialog fd(pRTS->m_encoding, m_pCAP->GetSubtitleDelay(), s.bSubSaveExternalStyleFile,
@@ -16758,7 +16770,7 @@ LRESULT CMainFrame::OnLoadSubtitles(WPARAM wParam, LPARAM lParam)
     CAutoPtr<CRenderedTextSubtitle> pRTS(DEBUG_NEW CRenderedTextSubtitle(&m_csSubLock));
     if (pRTS && pRTS->Open(CString(data.pSubtitlesInfo->Provider()->Name().c_str()),
                            (BYTE*)(LPCSTR)data.fileContents.c_str(), (int)data.fileContents.length(), DEFAULT_CHARSET,
-                           UTF8To16(data.fileName.c_str()), HearingImpairedType(data.pSubtitlesInfo->hearingImpaired),
+                           UTF8To16(data.fileName.c_str()), Subtitle::HearingImpairedType(data.pSubtitlesInfo->hearingImpaired),
                            ISO6391ToLcid(data.pSubtitlesInfo->languageCode.c_str())) && pRTS->GetStreamCount() > 0) {
         m_wndSubtitlesDownloadDialog.DoDownloaded(*data.pSubtitlesInfo);
 
@@ -16796,7 +16808,7 @@ LRESULT CMainFrame::OnGetSubtitles(WPARAM, LPARAM lParam)
 
     pSubtitlesInfo->GetFileInfo();
     pSubtitlesInfo->releaseName = UTF16To8(pRTS->m_name);
-    if (pSubtitlesInfo->hearingImpaired == HI_UNKNOWN) {
+    if (pSubtitlesInfo->hearingImpaired == Subtitle::HI_UNKNOWN) {
         pSubtitlesInfo->hearingImpaired = pRTS->m_eHearingImpaired;
     }
 

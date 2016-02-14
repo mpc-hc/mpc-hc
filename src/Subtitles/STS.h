@@ -123,12 +123,6 @@ public:
     }
 };
 
-enum HearingImpairedType {
-    HI_UNKNOWN = -1,
-    HI_NO = 0,
-    HI_YES = 1
-};
-
 class CSimpleTextSubtitle : public CAtlArray<STSEntry>
 {
     friend class CSubtitleEditorDlg;
@@ -148,7 +142,7 @@ public:
 
     CString m_provider;
 
-    HearingImpairedType m_eHearingImpaired;
+    Subtitle::HearingImpairedType m_eHearingImpaired;
 
     CSize m_dstScreenSize;
     int m_defaultWrapStyle;
@@ -186,7 +180,7 @@ public:
     bool Open(CString fn, int CharSet, CString name = _T(""), CString videoName = _T(""));
     bool Open(CTextFile* f, int CharSet, CString name);
     bool Open(BYTE* data, int len, int CharSet, CString name);
-    bool Open(CString provider, BYTE* data, int len, int CharSet, CString name, HearingImpairedType eHearingImpaired, LCID lcid);
+    bool Open(CString provider, BYTE* data, int len, int CharSet, CString name, Subtitle::HearingImpairedType eHearingImpaired, LCID lcid);
     bool SaveAs(CString fn, Subtitle::SubType type, double fps = -1, LONGLONG delay = 0, CTextFile::enc e = CTextFile::DEFAULT_ENCODING, bool bCreateExternalStyleFile = true);
 
     void Add(CStringW str, bool fUnicode, REFERENCE_TIME start, REFERENCE_TIME end, CString style = _T("Default"), CString actor = _T(""), CString effect = _T(""), const CRect& marginRect = CRect(0, 0, 0, 0), int layer = 0, int readorder = -1);

@@ -41,6 +41,7 @@ next version - not released yet
     - Ability to filter subtitle list by selected languages
     - Option to automatically search and download subtitles at the beginning of playback without user interaction
     - Prioritize subtitles for hearing impaired where indicated
+* Ticket #5472, Append language code when saving subtitles file
 * Updated Arabic, Armenian, Basque, Belarusian, Bengali, British English, Catalan, Chinese (Simplified and Traditional),
   Croatian, Czech, Danish, Dutch, Finnish, French, Galician, German, Greek, Hebrew, Hungarian, Indonesian, Italian,
   Japanese, Korean, Lithuanian, Malay, Polish, Portuguese (Brazil), Punjabi, Romanian, Russian, Serbian, Slovak,

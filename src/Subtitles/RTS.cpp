@@ -3231,7 +3231,7 @@ STDMETHODIMP CRenderedTextSubtitle::GetStreamInfo(int iStream, WCHAR** ppName, L
         strLanguage.ReleaseBufferSetLength(std::max(len - 1, 0));
     }
 
-    if (!strLanguage.IsEmpty() && m_eHearingImpaired == HI_YES) {
+    if (!strLanguage.IsEmpty() && m_eHearingImpaired == Subtitle::HI_YES) {
         strLanguage = '[' + strLanguage + ']';
     }
     CStringW strName;

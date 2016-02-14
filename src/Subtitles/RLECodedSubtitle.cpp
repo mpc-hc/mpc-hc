@@ -1,5 +1,5 @@
 /*
- * (C) 2008-2015 see Authors.txt
+ * (C) 2008-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -27,6 +27,7 @@ CRLECodedSubtitle::CRLECodedSubtitle(CCritSec* pLock, const CString& name, LCID 
     : CSubPicProviderImpl(pLock)
     , m_name(name)
     , m_lcid(lcid)
+    , m_eHearingImpaired(Subtitle::HI_UNKNOWN)
 {
 }
 

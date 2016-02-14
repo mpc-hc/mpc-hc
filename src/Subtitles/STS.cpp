@@ -1823,7 +1823,7 @@ CSimpleTextSubtitle::CSimpleTextSubtitle()
     , m_ePARCompensationType(EPCTDisabled)
     , m_dPARCompensation(1.0)
     , m_provider(_T("Local"))
-    , m_eHearingImpaired(HI_UNKNOWN)
+    , m_eHearingImpaired(Subtitle::HI_UNKNOWN)
 {
 }
 
@@ -2613,8 +2613,9 @@ bool CSimpleTextSubtitle::Open(CString fn, int CharSet, CString name, CString vi
         return false;
     }
 
+    CString guessed = Subtitle::GuessSubtitleName(fn, videoName, m_lcid, m_eHearingImpaired);
     if (name.IsEmpty()) {
-        name = Subtitle::GuessSubtitleName(fn, videoName);
+        name = guessed;
     }
 
     return Open(&f, CharSet, name);
@@ -2680,7 +2681,7 @@ bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name)
     return false;
 }
 
-bool CSimpleTextSubtitle::Open(CString provider, BYTE* data, int len, int CharSet, CString name, HearingImpairedType eHearingImpaired, LCID lcid)
+bool CSimpleTextSubtitle::Open(CString provider, BYTE* data, int len, int CharSet, CString name, Subtitle::HearingImpairedType eHearingImpaired, LCID lcid)
 {
     bool fRet = Open(data, len, CharSet, name);
 

@@ -75,7 +75,7 @@ struct SubtitlesInfo {
         , seasonNumber(INT_ERROR)
         , episodeNumber(INT_ERROR)
         , discNumber(INT_ERROR)
-        , hearingImpaired(HI_UNKNOWN)
+        , hearingImpaired(Subtitle::HI_UNKNOWN)
         , discCount(INT_ERROR)
         , downloadCount(INT_ERROR)
         , corrected(0)

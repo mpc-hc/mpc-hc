@@ -171,10 +171,9 @@ void Subtitle::GetSubFileNames(CString fn, const CAtlArray<CString>& paths, CAtl
     qsort(ret.GetData(), ret.GetCount(), sizeof(SubFile), SubFileCompare);
 }
 
-CString Subtitle::GuessSubtitleName(CString fn, CString videoName)
+CString Subtitle::GuessSubtitleName(const CString& fn, CString videoName, LCID& lcid, HearingImpairedType& hi)
 {
     CString name, lang;
-    bool bHearingImpaired = false;
 
     // The filename of the subtitle file
     int iExtStart = fn.ReverseFind('.');
@@ -212,8 +211,18 @@ CString Subtitle::GuessSubtitleName(CString fn, CString videoName)
                 ASSERT(mc[1].matched);
                 lang = ISO639XToLanguage(CStringA(mc[1].str().c_str()), true);
 
-                if (!lang.IsEmpty() && mc[2].matched) {
-                    bHearingImpaired = (CString(mc[2].str().c_str()).CompareNoCase(_T("hi")) == 0);
+                if (!lang.IsEmpty()) {
+                    size_t len = mc[1].str().size();
+                    if (len == 3) {
+                        lcid = ISO6392ToLcid(CStringA(mc[1].str().c_str()));
+                    } else if (len == 2) {
+                        lcid = ISO6391ToLcid(CStringA(mc[1].str().c_str()));
+                    }
+                    if (mc[2].matched) {
+                        if (CString(mc[2].str().c_str()).CompareNoCase(_T("hi")) == 0) {
+                            hi = HI_YES;
+                        }
+                    }
                 }
             }
         }
@@ -227,6 +236,14 @@ CString Subtitle::GuessSubtitleName(CString fn, CString videoName)
             ASSERT(mc.size() == 3);
             ASSERT(mc[1].matched);
             lang = ISO639XToLanguage(CStringA(mc[1].str().c_str()), true);
+            if (!lang.IsEmpty()) {
+                size_t len = mc[1].str().size();
+                if (len == 3) {
+                    lcid = ISO6392ToLcid(CStringA(mc[1].str().c_str()));
+                } else if (len == 2) {
+                    lcid = ISO6391ToLcid(CStringA(mc[1].str().c_str()));
+                }
+            }
 
             CStringA str;
             if (mc[2].matched) {
@@ -234,9 +251,17 @@ CString Subtitle::GuessSubtitleName(CString fn, CString videoName)
             }
 
             if (!lang.IsEmpty() && str.CompareNoCase("hi") == 0) {
-                bHearingImpaired = true;
+                hi = HI_YES;
             } else {
                 lang = ISO639XToLanguage(str, true);
+                if (!lang.IsEmpty()) {
+                    size_t len = str.GetLength();
+                    if (len == 3) {
+                        lcid = ISO6392ToLcid(str.GetString());
+                    } else if (len == 2) {
+                        lcid = ISO6391ToLcid(str.GetString());
+                    }
+                }
             }
         }
     }
@@ -244,12 +269,6 @@ CString Subtitle::GuessSubtitleName(CString fn, CString videoName)
     name = fn.Mid(fn.ReverseFind('\\') + 1);
     if (name.GetLength() > 100) { // Cut some part of the filename if it's too long
         name.Format(_T("%s...%s"), name.Left(50).TrimRight(_T(".-_ ")), name.Right(50).TrimLeft(_T(".-_ ")));
-    }
-    if (!lang.IsEmpty()) {
-        name.AppendFormat(_T(" [%s]"), lang);
-        if (bHearingImpaired) {
-            name.Append(_T(" [hearing impaired]"));
-        }
     }
 
     return name;
