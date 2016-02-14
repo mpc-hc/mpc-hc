@@ -1590,8 +1590,8 @@ msgid "Ignore files containing any of the following word(s):"
 msgstr "Ignoră fișierele care conțin oricare din următoarele cuvinte:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Languages in order of preference (e.g. \"eng ell spa\"):"
-msgstr "Limbile în ordinea preferinței (de ex.: „eng ell spa”):"
+msgid "Languages in order of preference:"
+msgstr "Limbile în ordinea preferinței:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
 msgid "Automatically upload active subtitles at the end of video playback"

@@ -1600,8 +1600,8 @@ msgid "Ignore files containing any of the following word(s):"
 msgstr "Ignorar arquivos que contenham qualquer uma da(s) seguinte(s) palavra(s):"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Languages in order of preference (e.g. \"eng ell spa\"):"
-msgstr "Idiomas em ordem de preferência (por exemplo, \"eng pt spa\"):"
+msgid "Languages in order of preference:"
+msgstr "Idiomas em ordem de preferência:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
 msgid "Automatically upload active subtitles at the end of video playback"

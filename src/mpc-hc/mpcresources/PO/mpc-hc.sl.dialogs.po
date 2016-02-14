@@ -1590,8 +1590,8 @@ msgid "Ignore files containing any of the following word(s):"
 msgstr "Prezri datoteke, ki vsebujejo katero izmed naslednjih besed:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Languages in order of preference (e.g. \"eng ell spa\"):"
-msgstr "Jeziki v želenem vrstnem redu (npr. \"eng ell spa\"):"
+msgid "Languages in order of preference:"
+msgstr "Jeziki v želenem vrstnem redu:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
 msgid "Automatically upload active subtitles at the end of video playback"

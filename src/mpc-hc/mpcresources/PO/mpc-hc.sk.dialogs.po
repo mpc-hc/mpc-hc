@@ -1590,8 +1590,8 @@ msgid "Ignore files containing any of the following word(s):"
 msgstr "Ignorovať súbory obsahujúce niektoré z týchto slov:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Languages in order of preference (e.g. \"eng ell spa\"):"
-msgstr "Uprednostňované jazyky v poradí (napr. \"eng ell spa\"):"
+msgid "Languages in order of preference:"
+msgstr "Uprednostňované jazyky v poradí:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
 msgid "Automatically upload active subtitles at the end of video playback"

@@ -130,6 +130,10 @@ BOOL CPPageSubMisc::OnInitDialog()
     CheckDlgButton(IDC_CHECK6, FALSE);
     GetDlgItem(IDC_CHECK6)->EnableWindow(FALSE);
 
+    EnableToolTips(TRUE);
+    CreateToolTip();
+    m_wndToolTip.AddTool(GetDlgItem(IDC_EDIT3), ResStr(IDS_LANG_PREF_EXAMPLE));
+
     UpdateData(FALSE);
 
     return TRUE;

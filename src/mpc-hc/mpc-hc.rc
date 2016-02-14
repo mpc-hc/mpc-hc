@@ -1040,7 +1040,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,102,255,8
     LTEXT           "Ignore files containing any of the following word(s):",IDC_STATIC1,22,117,170,8
     EDITTEXT        IDC_EDIT2,194,114,90,14,ES_AUTOHSCROLL
-    LTEXT           "Languages in order of preference (e.g. ""eng ell spa""):",IDC_STATIC,12,133,180,8
+    LTEXT           "Languages in order of preference:",IDC_STATIC,12,133,180,8
     EDITTEXT        IDC_EDIT3,194,130,90,14,ES_AUTOHSCROLL
     CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_SHAREIMAGELISTS | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,12,146,272,73
     CONTROL         "Automatically upload active subtitles at the end of video playback",IDC_CHECK6,

@@ -1591,8 +1591,8 @@ msgid "Ignore files containing any of the following word(s):"
 msgstr "忽略包含以下任何字词的文件:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Languages in order of preference (e.g. \"eng ell spa\"):"
-msgstr "语言偏好顺序 (如 \"eng ell spa\"):"
+msgid "Languages in order of preference:"
+msgstr "语言偏好顺序:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
 msgid "Automatically upload active subtitles at the end of video playback"
