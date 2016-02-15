@@ -9458,10 +9458,9 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
     // be restored after. This avoid positioning problems.
     m_OSD.HideMessage(true);
 
-    const bool bNoMove = bZoomVideoWindow && CMonitors::GetNearestMonitor(windowRect) == currentMonitor;
     ModifyStyle(dwRemove, dwAdd, SWP_NOZORDER);
     SetWindowPos(pInsertAfter, windowRect.left, windowRect.top, windowRect.Width(), windowRect.Height(),
-                 SWP_NOSENDCHANGING | SWP_FRAMECHANGED | (bNoMove ? SWP_NOMOVE : 0) | (bZoomVideoWindow ? SWP_NOSIZE : 0));
+                 SWP_NOSENDCHANGING | SWP_FRAMECHANGED);
 
     // If MPC-HC wasn't previously set "on top" by an external tool,
     // we restore the current internal on top state. (2/2)
