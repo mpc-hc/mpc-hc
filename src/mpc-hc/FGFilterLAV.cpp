@@ -1,5 +1,5 @@
 /*
- * (C) 2013-2015 see Authors.txt
+ * (C) 2013-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -33,9 +33,9 @@
 #include "../filters/PinInfoWnd.h"
 
 #define LAV_FILTERS_VERSION_MAJOR      0
-#define LAV_FILTERS_VERSION_MINOR      66
+#define LAV_FILTERS_VERSION_MINOR      67
 #define LAV_FILTERS_VERSION_REVISION   0
-#define LAV_FILTERS_VERSION_COMMIT_NUM 0
+#define LAV_FILTERS_VERSION_COMMIT_NUM 82
 #define LAV_FILTERS_VERSION ((QWORD)LAV_FILTERS_VERSION_MAJOR << 48 | (QWORD)LAV_FILTERS_VERSION_MINOR << 32 | (QWORD)LAV_FILTERS_VERSION_REVISION << 16 | LAV_FILTERS_VERSION_COMMIT_NUM)
 
 #define IDS_R_INTERNAL_LAVSPLITTER           IDS_R_INTERNAL_FILTERS  _T("\\LAVSplitter")
@@ -612,8 +612,6 @@ void CFGFilterLAVVideo::Settings::LoadSettings()
     for (int i = 0; i < LAVOutPixFmt_NB; ++i) {
         bPixFmts[i] = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_OUTPUTFORMAT, pixFmtSettingsMap[i], bPixFmts[i]);
     }
-    // Force disable, for future use
-    bPixFmts[LAVOutPixFmt_YV16] = FALSE;
 
     dwHWAccel = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccel"), -1);
     if (dwHWAccel == DWORD(-1)) {
@@ -658,7 +656,9 @@ void CFGFilterLAVVideo::Settings::LoadSettings()
 
     dwHWDeintOutput = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWDeintOutput"), dwHWDeintOutput);
 
-    bHWDeintHQ = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWDeintHQ"), bHWDeintHQ);
+    dwHWAccelDeviceDXVA2 = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceDXVA2"), dwHWAccelDeviceDXVA2);
+
+    dwHWAccelDeviceDXVA2Desc = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceDXVA2Desc"), dwHWAccelDeviceDXVA2Desc);
 }
 
 void CFGFilterLAVVideo::Settings::SaveSettings()
@@ -710,7 +710,9 @@ void CFGFilterLAVVideo::Settings::SaveSettings()
 
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWDeintOutput"), dwHWDeintOutput);
 
-    pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWDeintHQ"), bHWDeintHQ);
+    pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceDXVA2"), dwHWAccelDeviceDXVA2);
+
+    pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceDXVA2Desc"), dwHWAccelDeviceDXVA2Desc);
 }
 
 bool CFGFilterLAVVideo::Settings::GetSettings(CComQIPtr<ILAVVideoSettings> pLAVFSettings)
@@ -753,7 +755,7 @@ bool CFGFilterLAVVideo::Settings::GetSettings(CComQIPtr<ILAVVideoSettings> pLAVF
 
     dwHWDeintOutput = pLAVFSettings->GetHWAccelDeintOutput();
 
-    bHWDeintHQ = pLAVFSettings->GetHWAccelDeintHQ();
+    dwHWAccelDeviceDXVA2 = pLAVFSettings->GetHWAccelDeviceIndex(HWAccel_DXVA2CopyBack, &dwHWAccelDeviceDXVA2Desc);
 
     return true;
 }
@@ -798,7 +800,7 @@ bool CFGFilterLAVVideo::Settings::SetSettings(CComQIPtr<ILAVVideoSettings> pLAVF
 
     pLAVFSettings->SetHWAccelDeintOutput((LAVDeintOutput)dwHWDeintOutput);
 
-    pLAVFSettings->SetHWAccelDeintHQ(bHWDeintHQ);
+    pLAVFSettings->SetHWAccelDeviceIndex(HWAccel_DXVA2CopyBack, dwHWAccelDeviceDXVA2, dwHWAccelDeviceDXVA2Desc);
 
     // Force RV1/2 and v210/v410 enabled, the user can control it from our own options
     pLAVFSettings->SetFormatConfiguration(Codec_RV12, TRUE);

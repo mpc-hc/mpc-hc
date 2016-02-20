@@ -34,14 +34,10 @@ fi
 THIRDPARTYPREFIX=${BASEDIR}/thirdparty
 FFMPEG_BUILD_PATH=${THIRDPARTYPREFIX}/ffmpeg
 FFMPEG_LIB_PATH=${BASEDIR}/lib
-DCADEC_SOURCE_PATH=$(pwd)/src/thirdparty/dcadec
-DCADEC_BUILD_PATH=${THIRDPARTYPREFIX}/dcadec
-export PKG_CONFIG_PATH="${DCADEC_BUILD_PATH}"
 
 make_dirs() {
   mkdir -p ${FFMPEG_LIB_PATH}
   mkdir -p ${FFMPEG_BUILD_PATH}
-  mkdir -p ${DCADEC_BUILD_PATH}
   mkdir -p ${FFMPEG_DLL_PATH}
 }
 
@@ -80,8 +76,6 @@ configure() {
     --enable-hwaccel=wmv3_dxva2     \
     --enable-hwaccel=mpeg2_dxva2    \
     --enable-hwaccel=vp9_dxva2      \
-    --disable-decoder=dca           \
-    --enable-libdcadec              \
     --enable-libspeex               \
     --enable-libopencore-amrnb      \
     --enable-libopencore-amrwb      \
@@ -146,19 +140,6 @@ configureAndBuild() {
   cd ${BASEDIR}
 }
 
-build_dcadec() {
-  cd ${DCADEC_BUILD_PATH}
-  make -f "${DCADEC_SOURCE_PATH}/Makefile" -j$NUMBER_OF_PROCESSORS CONFIG_WINDOWS=1 CONFIG_SMALL=1 CC=${cross_prefix}gcc AR=${cross_prefix}ar lib
-  make -f "${DCADEC_SOURCE_PATH}/Makefile" PREFIX="${THIRDPARTYPREFIX}" LIBDIR="${DCADEC_BUILD_PATH}/libdcadec" INCLUDEDIR="${DCADEC_SOURCE_PATH}" dcadec.pc
-  cd ${BASEDIR}
-}
-
-clean_dcadec() {
-  cd ${DCADEC_BUILD_PATH}
-  make -f "${DCADEC_SOURCE_PATH}/Makefile" CONFIG_WINDOWS=1 clean
-  cd ${BASEDIR}
-}
-
 echo Building ffmpeg in GCC ${arch} Release config...
 
 make_dirs
@@ -166,7 +147,6 @@ make_dirs
 CONFIGRETVAL=0
 
 if [ "${3}" == "Clean" ]; then
-  clean_dcadec
   clean
   CONFIGRETVAL=$?
 else
@@ -177,15 +157,12 @@ else
     CLEANBUILD=1
   fi
 
-  build_dcadec
-
   configureAndBuild
 
   ## In case of error and only if we didn't start with a clean build,
   ## we try to rebuild from scratch including a full reconfigure
   if [ ! ${CONFIGRETVAL} -eq 0 ] && [ ${CLEANBUILD} -eq 0 ]; then
     echo Trying again with forced reconfigure...
-    clean_dcadec && build_dcadec
     clean && configureAndBuild
   fi
 fi
