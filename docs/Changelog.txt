@@ -34,11 +34,12 @@ next version - not released yet
 * Old DirectX 7 renderers have been removed. Settings will be updated automatically to use the corresponding VMR-9 renderers.
   If you really want to use a renderer similar to VMR-7 (windowed), use Overlay mixer or the "system default" renderer
 * Make Video Renderer statistics scalable to window size and unify graph look for EVR Sync and other renderers
-* Rewrite subtitles downloading framework
+* Ticket #2022/#4779: Rewrite subtitles downloading framework
     - Support for multiple subtitle providers including the default OpenSubtitles as well as
       podnapisi, titlovi, SubDB, ysubs and Napisy24 which can be enabled in options (Subtitles -> Misc)
+    - Ticket #5193, Ability to upload subtitles to OpenSubtitles and SubDB
     - Ability to login into OpenSubtitles
-    - Ability to filter subtitle list by selected languages
+    - Ticket #5406, Ability to filter subtitle list by selected languages
     - Option to automatically search and download subtitles at the beginning of playback without user interaction
     - Prioritize subtitles for hearing impaired where indicated
 * Ticket #5472, Append language code when saving subtitles file
