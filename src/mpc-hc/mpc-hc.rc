@@ -3596,6 +3596,7 @@ BEGIN
     IDS_SUBUL_DLG_TITLE     "Upload subtitles"
     IDS_SUBUL_DLG_CONFIRM   "Are you sure you want to upload the subtitle file ""%s""?"
     IDS_SUBPP_DLG_FETCHING_LANGUAGES "Fetching supported languages..."
+    IDS_SUB_AUTODL_IGNORE_TOOLTIP "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\nFor example, type: ""private dir\\videos|work\\""."
 END
 
 #endif    // English (United States) resources

@@ -3749,3 +3749,7 @@ msgctxt "IDS_SUBPP_DLG_FETCHING_LANGUAGES"
 msgid "Fetching supported languages..."
 msgstr ""
 
+msgctxt "IDS_SUB_AUTODL_IGNORE_TOOLTIP"
+msgid "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\nFor example, type: \"private dir\\videos|work\\\"."
+msgstr ""
+

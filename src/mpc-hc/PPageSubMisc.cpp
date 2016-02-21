@@ -132,6 +132,7 @@ BOOL CPPageSubMisc::OnInitDialog()
 
     EnableToolTips(TRUE);
     CreateToolTip();
+    m_wndToolTip.AddTool(GetDlgItem(IDC_EDIT2), ResStr(IDS_SUB_AUTODL_IGNORE_TOOLTIP));
     m_wndToolTip.AddTool(GetDlgItem(IDC_EDIT3), ResStr(IDS_LANG_PREF_EXAMPLE));
 
     UpdateData(FALSE);
