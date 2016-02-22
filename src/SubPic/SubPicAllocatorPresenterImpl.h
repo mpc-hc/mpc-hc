@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -69,7 +69,8 @@ protected:
     void AlphaBltSubPic(const CRect& windowRect,
                         const CRect& videoRect,
                         SubPicDesc* pTarget = nullptr,
-                        const double videoStretchFactor = 1.0);
+                        const double videoStretchFactor = 1.0,
+                        int xOffsetInPixels = 0);
 
     XForm m_xform;
     void Transform(CRect r, Vector v[4]);
