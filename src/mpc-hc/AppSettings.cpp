@@ -1858,6 +1858,8 @@ void CAppSettings::UpdateRenderersData(bool fSave)
         pApp->WriteProfileBinary(IDS_R_SETTINGS, _T("TargetSyncOffset"), (LPBYTE) & (ars.fTargetSyncOffset), sizeof(ars.fTargetSyncOffset));
         pApp->WriteProfileBinary(IDS_R_SETTINGS, _T("ControlLimit"), (LPBYTE) & (ars.fControlLimit), sizeof(ars.fControlLimit));
 
+        pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_CACHESHADERS, ars.bCacheShaders);
+
         pApp->WriteProfileInt(IDS_R_SETTINGS, _T("ResetDevice"), r.fResetDevice);
 
         pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SPCSIZE, r.subPicQueueSettings.nSize);
@@ -1920,6 +1922,11 @@ void CAppSettings::UpdateRenderersData(bool fSave)
         if (pApp->GetProfileBinary(IDS_R_SETTINGS, _T("ControlLimit"), (LPBYTE*)&dPtr, &dSize)) {
             ars.fControlLimit = *dPtr;
             delete [] dPtr;
+        }
+
+        ars.bCacheShaders = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_CACHESHADERS, DefaultSettings.bCacheShaders);
+        if (AfxGetMyApp()->GetAppSavePath(ars.sShaderCachePath)) {
+            ars.sShaderCachePath = PathUtils::CombinePaths(ars.sShaderCachePath, IDS_R_SHADER_CACHE);
         }
 
         r.fResetDevice = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("ResetDevice"), !SysVersion::IsVistaOrLater());

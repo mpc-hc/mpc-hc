@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012, 2014-2015 see Authors.txt
+ * (C) 2006-2012, 2014-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -80,6 +80,7 @@ public:
     BOOL m_fD3DFullscreen;
     BOOL m_fVMR9AlterativeVSync;
     BOOL m_fResetDevice;
+    BOOL m_fCacheShaders;
     CString m_iEvrBuffers;
 
     BOOL m_fD3D9RenderDevice;
