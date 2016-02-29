@@ -186,6 +186,7 @@
     <ClInclude Include="library\Source\MediaInfo\Multiple\File_Wm.h" />
     <ClInclude Include="library\Source\MediaInfo\Multiple\File_Xdcam_Clip.h" />
     <ClInclude Include="library\Source\MediaInfo\PreComp.h" />
+    <ClInclude Include="library\Source\MediaInfo\XmlUtils.h" />
     <ClInclude Include="library\Source\MediaInfo\Reader\Reader_Directory.h" />
     <ClInclude Include="library\Source\MediaInfo\Reader\Reader_File.h" />
     <ClInclude Include="library\Source\MediaInfo\Reader\Reader__Base.h" />
@@ -332,6 +333,7 @@
     <ClCompile Include="library\Source\MediaInfo\Text\File_TimedText.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Text\File_Ttml.cpp" />
     <ClCompile Include="library\Source\MediaInfo\TimeCode.cpp" />
+    <ClCompile Include="library\Source\MediaInfo\XmlUtils.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_Ancillary.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_Bdmv.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_Cdxa.cpp" />
