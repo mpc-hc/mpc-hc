@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -46,6 +46,7 @@ CPPageOutput::CPPageOutput()
     , m_fD3DFullscreen(FALSE)
     , m_fVMR9AlterativeVSync(FALSE)
     , m_fResetDevice(FALSE)
+    , m_fCacheShaders(FALSE)
     , m_iEvrBuffers(_T("5"))
     , m_fD3D9RenderDevice(FALSE)
     , m_iD3D9RenderDevice(-1)
@@ -85,6 +86,7 @@ void CPPageOutput::DoDataExchange(CDataExchange* pDX)
     DDX_CBIndex(pDX, IDC_D3D9DEVICE_COMBO, m_iD3D9RenderDevice);
     DDX_Check(pDX, IDC_D3D9DEVICE, m_fD3D9RenderDevice);
     DDX_Check(pDX, IDC_RESETDEVICE, m_fResetDevice);
+    DDX_Check(pDX, IDC_CACHESHADERS, m_fCacheShaders);
     DDX_Check(pDX, IDC_FULLSCREEN_MONITOR_CHECK, m_fD3DFullscreen);
     DDX_Check(pDX, IDC_DSVMR9ALTERNATIVEVSYNC, m_fVMR9AlterativeVSync);
     DDX_Check(pDX, IDC_DSVMR9LOADMIXER, m_fVMR9MixerMode);
@@ -147,6 +149,7 @@ BOOL CPPageOutput::OnInitDialog()
 
     m_iAudioRendererTypeCtrl.SetRedraw(FALSE);
     m_fResetDevice = s.m_RenderersSettings.fResetDevice;
+    m_fCacheShaders = s.m_RenderersSettings.m_AdvRendSets.bCacheShaders;
     m_AudioRendererDisplayNames.Add(_T(""));
     m_iAudioRendererTypeCtrl.AddString(_T("1: ") + ResStr(IDS_PPAGE_OUTPUT_SYS_DEF));
     m_iAudioRendererType = 0;
@@ -454,6 +457,7 @@ BOOL CPPageOutput::OnApply()
     }
 
     r.fResetDevice = !!m_fResetDevice;
+    r.m_AdvRendSets.bCacheShaders = !!m_fCacheShaders;
 
     if (m_iEvrBuffers.IsEmpty() || _stscanf_s(m_iEvrBuffers, _T("%d"), &r.iEvrBuffers) != 1) {
         r.iEvrBuffers = 5;
@@ -515,6 +519,7 @@ void CPPageOutput::OnDSRendererChange()
     GetDlgItem(IDC_DSVMR9YUVMIXER)->EnableWindow(FALSE);
     GetDlgItem(IDC_DSVMR9ALTERNATIVEVSYNC)->EnableWindow(FALSE);
     GetDlgItem(IDC_RESETDEVICE)->EnableWindow(FALSE);
+    GetDlgItem(IDC_CACHESHADERS)->EnableWindow(FALSE);
     GetDlgItem(IDC_EVR_BUFFERS)->EnableWindow(m_iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM);
     GetDlgItem(IDC_EVR_BUFFERS_TXT)->EnableWindow(m_iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM);
 
@@ -568,6 +573,7 @@ void CPPageOutput::OnDSRendererChange()
             GetDlgItem(IDC_DSVMR9YUVMIXER)->EnableWindow(TRUE);
             GetDlgItem(IDC_DSVMR9ALTERNATIVEVSYNC)->EnableWindow(TRUE);
             GetDlgItem(IDC_RESETDEVICE)->EnableWindow(TRUE);
+            GetDlgItem(IDC_CACHESHADERS)->EnableWindow(TRUE);
             GetDlgItem(IDC_DX_SURFACE)->EnableWindow(TRUE);
             GetDlgItem(IDC_DX9RESIZER_COMBO)->EnableWindow(TRUE);
             GetDlgItem(IDC_FULLSCREEN_MONITOR_CHECK)->EnableWindow(TRUE);
@@ -593,6 +599,7 @@ void CPPageOutput::OnDSRendererChange()
             GetDlgItem(IDC_FULLSCREEN_MONITOR_CHECK)->EnableWindow(TRUE);
             GetDlgItem(IDC_DSVMR9ALTERNATIVEVSYNC)->EnableWindow(TRUE);
             GetDlgItem(IDC_RESETDEVICE)->EnableWindow(TRUE);
+            GetDlgItem(IDC_CACHESHADERS)->EnableWindow(TRUE);
 
             // Force 3D surface with EVR Custom
             GetDlgItem(IDC_DX_SURFACE)->EnableWindow(FALSE);
@@ -612,6 +619,7 @@ void CPPageOutput::OnDSRendererChange()
             GetDlgItem(IDC_DX9RESIZER_COMBO)->EnableWindow(TRUE);
             GetDlgItem(IDC_FULLSCREEN_MONITOR_CHECK)->EnableWindow(TRUE);
             GetDlgItem(IDC_RESETDEVICE)->EnableWindow(TRUE);
+            GetDlgItem(IDC_CACHESHADERS)->EnableWindow(TRUE);
 
             // Force 3D surface with EVR Sync
             GetDlgItem(IDC_DX_SURFACE)->EnableWindow(FALSE);

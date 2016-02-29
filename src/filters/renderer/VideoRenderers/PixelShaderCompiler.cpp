@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -29,6 +29,7 @@ CPixelShaderCompiler::CPixelShaderCompiler(IDirect3DDevice9* pD3DDev, bool fStay
     , m_pD3DCompile(nullptr)
     , m_pD3DDisassemble(nullptr)
     , m_pD3DDev(pD3DDev)
+    , m_Cache(pD3DDev)
 {
     m_hDll = LoadLibrary(D3DCOMPILER_DLL);
 
@@ -120,6 +121,11 @@ HRESULT CPixelShaderCompiler::InternalCompile(
     } else {
         defProfileVal = "-1";
     }
+
+    if (ppPixelShader && SUCCEEDED(m_Cache.CreatePixelShader(defProfileVal, pSrcData, SrcDataSize, ppPixelShader))) {
+        return S_OK;
+    }
+
     D3D_SHADER_MACRO macros[] = { { defProfile, defProfileVal }, { 0 } };
 
     CComPtr<ID3DBlob> pShaderBlob, pErrorBlob;
@@ -145,6 +151,9 @@ HRESULT CPixelShaderCompiler::InternalCompile(
         if (FAILED(hr)) {
             return hr;
         }
+
+        m_Cache.SavePixelShader(defProfileVal, pSrcData, SrcDataSize,
+                                (void*)pShaderBlob->GetBufferPointer(), pShaderBlob->GetBufferSize());
     }
 
     if (pDisasm) {

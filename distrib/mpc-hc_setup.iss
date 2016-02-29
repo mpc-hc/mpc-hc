@@ -444,6 +444,7 @@ end;
 procedure CleanUpSettingsAndFiles();
 begin
   DeleteFile(ExpandConstant('{app}\{#mpchc_ini}'));
+  DelTree(ExpandConstant('{userappdata}\MPC-HC\ShaderCache'), True, True, True);  
   DeleteFile(ExpandConstant('{userappdata}\MPC-HC\default.mpcpl'));
   RemoveDir(ExpandConstant('{userappdata}\MPC-HC'));
   RegDeleteKeyIncludingSubkeys(HKCU, 'Software\MPC-HC\Filters');

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -61,6 +61,7 @@ void CRenderersSettings::CAdvRendererSettings::SetDefault()
     fCycleDelta                       = 0.0012;
     fTargetSyncOffset                 = 12.0;
     fControlLimit                     = 2.0;
+    bCacheShaders                     = false;
 }
 
 void CRenderersSettings::CAdvRendererSettings::SetOptimal()
@@ -92,6 +93,7 @@ void CRenderersSettings::CAdvRendererSettings::SetOptimal()
     fCycleDelta                       = 0.0012;
     fTargetSyncOffset                 = 12.0;
     fControlLimit                     = 2.0;
+    bCacheShaders                     = false;
 }
 
 /////////////////////////////////////////////////////////////////////////////
