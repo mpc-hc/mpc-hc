@@ -3660,7 +3660,7 @@ msgid "Uploading..."
 msgstr "Lade hoch..."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADED"
-msgid "Subtitles uploaded succeessfuly."
+msgid "Subtitles uploaded successfully."
 msgstr "Untertitel erfolgreich hochgeladen"
 
 msgctxt "IDS_SUBUL_DLG_STATUS_FAILED"

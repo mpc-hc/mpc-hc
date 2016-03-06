@@ -3658,7 +3658,7 @@ msgid "Uploading..."
 msgstr ""
 
 msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADED"
-msgid "Subtitles uploaded succeessfuly."
+msgid "Subtitles uploaded successfully."
 msgstr ""
 
 msgctxt "IDS_SUBUL_DLG_STATUS_FAILED"

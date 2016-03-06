@@ -3654,7 +3654,7 @@ msgid "Uploading..."
 msgstr "Odosiela sa na server..."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADED"
-msgid "Subtitles uploaded succeessfuly."
+msgid "Subtitles uploaded successfully."
 msgstr "Titulky boli úspešne odoslané."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_FAILED"

@@ -3666,7 +3666,7 @@ msgid "Uploading..."
 msgstr "Enviando..."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADED"
-msgid "Subtitles uploaded succeessfuly."
+msgid "Subtitles uploaded successfully."
 msgstr "Legendas enviadas com sucesso."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_FAILED"

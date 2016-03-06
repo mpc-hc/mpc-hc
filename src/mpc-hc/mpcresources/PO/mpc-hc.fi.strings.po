@@ -3656,7 +3656,7 @@ msgid "Uploading..."
 msgstr "Lähetetään..."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADED"
-msgid "Subtitles uploaded succeessfuly."
+msgid "Subtitles uploaded successfully."
 msgstr "Tekstitysten lähetys onnistui."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_FAILED"

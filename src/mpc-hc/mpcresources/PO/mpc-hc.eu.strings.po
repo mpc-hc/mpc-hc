@@ -3653,7 +3653,7 @@ msgid "Uploading..."
 msgstr "Igotzen..."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADED"
-msgid "Subtitles uploaded succeessfuly."
+msgid "Subtitles uploaded successfully."
 msgstr "Azpidatzia ongi igo da."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_FAILED"

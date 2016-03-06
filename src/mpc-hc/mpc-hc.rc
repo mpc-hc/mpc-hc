@@ -3567,7 +3567,7 @@ STRINGTABLE
 BEGIN
     IDS_SUBUL_DLG_STATUS_NOTIMPLEMENTED "Not implemented."
     IDS_SUBUL_DLG_STATUS_UPLOADING "Uploading..."
-    IDS_SUBUL_DLG_STATUS_UPLOADED "Subtitles uploaded succeessfuly."
+    IDS_SUBUL_DLG_STATUS_UPLOADED "Subtitles uploaded successfully."
     IDS_SUBUL_DLG_STATUS_FAILED "Subtitles upload failed."
     IDS_SUBUL_DLG_STATUS_ABORTED "Subtitles upload aborted."
     IDS_SUBUL_DLG_STATUS_ALREADYEXISTS "Subtitles already exist."

@@ -3664,7 +3664,7 @@ msgid "Uploading..."
 msgstr "Загрузка..."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADED"
-msgid "Subtitles uploaded succeessfuly."
+msgid "Subtitles uploaded successfully."
 msgstr "Субтитры успешно загружены."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_FAILED"
