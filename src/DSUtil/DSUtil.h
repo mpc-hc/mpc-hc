@@ -299,6 +299,12 @@ MPCHC_CONSTEXPR typename std::enable_if<std::is_floating_point<T>::value, bool>:
     return std::abs(a - b) < std::numeric_limits<T>::epsilon();
 }
 
+template<class T>
+MPCHC_CONSTEXPR typename std::enable_if<std::is_floating_point<T>::value, bool>::type IsNearlyEqual(T a, T b, T epsilon)
+{
+    return std::abs(a - b) < epsilon;
+}
+
 template <class T>
 MPCHC_CONSTEXPR typename std::enable_if < std::is_integral<T>::value&& std::is_unsigned<T>::value, int >::type SGN(T n)
 {

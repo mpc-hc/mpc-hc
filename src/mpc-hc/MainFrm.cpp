@@ -107,12 +107,6 @@
 
 #include <strsafe.h>
 
-template<typename T>
-bool NEARLY_EQ(T a, T b, T tol)
-{
-    return (abs(a - b) < tol);
-}
-
 #define MIN_LOGO_WIDTH 304
 #define MIN_LOGO_HEIGHT 171
 
@@ -16719,14 +16713,14 @@ REFTIME CMainFrame::GetAvgTimePerFrame() const
         if (VATR.ulFrameRate == 50) {
             ratio = 25.0 * refAvgTimePerFrame;
             // Accept 25 or 50 fps
-            if (!NEARLY_EQ(ratio, 1.0, 1e-2) && !NEARLY_EQ(ratio, 2.0, 1e-2)) {
+            if (!IsNearlyEqual(ratio, 1.0, 1e-2) && !IsNearlyEqual(ratio, 2.0, 1e-2)) {
                 refAvgTimePerFrame = 1.0 / 25.0;
             }
         } else {
             ratio = 29.97 * refAvgTimePerFrame;
             // Accept 29,97, 59.94, 23.976 or 47.952 fps
-            if (!NEARLY_EQ(ratio, 1.0, 1e-2) && !NEARLY_EQ(ratio, 2.0, 1e-2)
-                    && !NEARLY_EQ(ratio, 1.25, 1e-2) && !NEARLY_EQ(ratio, 2.5, 1e-2)) {
+            if (!IsNearlyEqual(ratio, 1.0, 1e-2) && !IsNearlyEqual(ratio, 2.0, 1e-2)
+                    && !IsNearlyEqual(ratio, 1.25, 1e-2) && !IsNearlyEqual(ratio, 2.5, 1e-2)) {
                 refAvgTimePerFrame = 1.0 / 29.97;
             }
         }
