@@ -207,7 +207,13 @@ STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetTime(REFERENCE_TIME rtNow)
 
 STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetSubtitleDelay(int delayMs)
 {
-    m_rtSubtitleDelay = delayMs * 10000i64;
+    REFERENCE_TIME delay = MILLISECONDS_TO_100NS_UNITS(delayMs);
+    if (m_rtSubtitleDelay != delay) {
+        REFERENCE_TIME oldDelay = m_rtSubtitleDelay;
+        m_rtSubtitleDelay = delay;
+        SetTime(m_rtNow + oldDelay);
+        Paint(false);
+    }
 }
 
 STDMETHODIMP_(int) CSubPicAllocatorPresenterImpl::GetSubtitleDelay() const
