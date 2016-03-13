@@ -17,9 +17,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
-"PO-Revision-Date: 2016-01-24 15:21+0000\n"
-"Last-Translator: stryaponoff <stryaponoff@gmail.com>\n"
+"POT-Creation-Date: 2016-03-13 21:29:13+0000\n"
+"PO-Revision-Date: 2016-03-13 21:59+0000\n"
+"Last-Translator: Underground78\n"
 "Language-Team: Russian (http://www.transifex.com/mpc-hc/mpc-hc/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -145,15 +145,15 @@ msgstr "Режим повтора: Файл"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_ON"
 msgid "Repeat Forever: On"
-msgstr "Повторять бесконечно: Вкл."
+msgstr "Повторять бесконечно: Вкл"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_OFF"
 msgid "Repeat Forever: Off"
-msgstr "Повторять бесконечно: Выкл."
+msgstr "Повторять бесконечно: Откл"
 
 msgctxt "IDS_PLAYLOOP_FOREVER"
 msgid "Repeat Forever"
-msgstr "Повторять бесконечно"
+msgstr "Бесконечное повторение"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -521,7 +521,7 @@ msgstr "Воспроизведение::Захват"
 
 msgctxt "IDD_PPAGESYNC"
 msgid "Playback::Sync Renderer Settings"
-msgstr "Воспроизведение::Sync Renderer"
+msgstr "Воспроизведение::Настройки Sync Renderer"
 
 msgctxt "IDD_PPAGEFULLSCREEN"
 msgid "Playback::Fullscreen"
@@ -765,7 +765,7 @@ msgstr "Скачать субтитры..."
 
 msgctxt "IDS_SUBTITLES_UPLOAD"
 msgid "Upload Subtitles..."
-msgstr "Загрузить субтитры..."
+msgstr "Разместить субтитры..."
 
 msgctxt "IDS_SUBFILE_DELAY"
 msgid "Delay (ms):"
@@ -1573,7 +1573,7 @@ msgstr "Миниатюры успешно сохранены"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
 msgid "Vide&o Track"
-msgstr "Дорожка &видео"
+msgstr "Дорожка видео"
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
 msgid "Video Ang&le"
@@ -3637,11 +3637,11 @@ msgstr "Загрузить субтитры"
 
 msgctxt "IDS_SUBDL_DLG_SEARCHING"
 msgid "Searching for subtitles online, please wait..."
-msgstr "Поиск субтитров онлайн, пожалуйста подождите..."
+msgstr "Поиск субтитров онлайн, подождите..."
 
 msgctxt "IDS_SUBDL_DLG_ABORTING"
 msgid "Online subtitles search aborting..."
-msgstr "Онлайн поиск субтитров прерывается..."
+msgstr "Отмена поиска субтитров онлайн..."
 
 msgctxt "IDS_SUBUL_DLG_USERNAME_COL"
 msgid "Username"
@@ -3661,19 +3661,19 @@ msgstr "В разработке."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADING"
 msgid "Uploading..."
-msgstr "Загрузка..."
+msgstr "Размещение..."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADED"
 msgid "Subtitles uploaded successfully."
-msgstr "Субтитры успешно загружены."
+msgstr "Субтитры успешно размещены."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_FAILED"
 msgid "Subtitles upload failed."
-msgstr "Загрузка субтитров не удалась."
+msgstr "Размещение субтитров не удалась."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_ABORTED"
 msgid "Subtitles upload aborted."
-msgstr "Загрузка субтитров прервана."
+msgstr "Размещение субтитров отменено."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_ALREADYEXISTS"
 msgid "Subtitles already exist."
@@ -3681,19 +3681,19 @@ msgstr "Субтитры уже существуют."
 
 msgctxt "IDS_SUBUL_DLG_UPLOADING"
 msgid "Uploading subtitles, please wait..."
-msgstr "Загрузка субтитров, пожалуйста подождите..."
+msgstr "Размещение субтитров, подождите..."
 
 msgctxt "IDS_SUBUL_DLG_UPLOADED"
 msgid "Upload finished."
-msgstr "Загрузка завершена."
+msgstr "Размещение завершено."
 
 msgctxt "IDS_SUBUL_DLG_ABORTED"
 msgid "Upload aborted."
-msgstr "Загрузка отменена."
+msgstr "Размещение отменено."
 
 msgctxt "IDS_SUBUL_DLG_FAILED"
 msgid "Upload failed."
-msgstr "Загрузка не удалась."
+msgstr "Размещение не удалось."
 
 msgctxt "IDS_SUBMENU_DOWNLOAD"
 msgid "Download && Open"
@@ -3717,7 +3717,7 @@ msgstr "Вниз"
 
 msgctxt "IDS_SUBMENU_OPENURL"
 msgid "Open URL"
-msgstr "Открыть Url"
+msgstr "Открыть URL"
 
 msgctxt "IDS_SUBPP_DLG_LANGUAGES_COL"
 msgid "Languages"
@@ -3749,11 +3749,11 @@ msgstr "Загружено [%s] \"%s\""
 
 msgctxt "IDS_SUBUL_DLG_TITLE"
 msgid "Upload subtitles"
-msgstr "Загрузить субтитры"
+msgstr "Разместить субтитры"
 
 msgctxt "IDS_SUBUL_DLG_CONFIRM"
 msgid "Are you sure you want to upload the subtitle file \"%s\"?"
-msgstr "Вы уверены, что хотите выгрузить файл субтитров \"%s\"?"
+msgstr "Вы уверены, что хотите разместить файл субтитров \"%s\"?"
 
 msgctxt "IDS_SUBPP_DLG_FETCHING_LANGUAGES"
 msgid "Fetching supported languages..."

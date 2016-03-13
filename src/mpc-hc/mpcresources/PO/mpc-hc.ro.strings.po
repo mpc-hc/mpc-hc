@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
-"PO-Revision-Date: 2016-01-21 12:48+0000\n"
-"Last-Translator: Daniel <danny34ever@yahoo.com>\n"
+"POT-Creation-Date: 2016-03-13 21:29:13+0000\n"
+"PO-Revision-Date: 2016-03-13 22:00+0000\n"
+"Last-Translator: Underground78\n"
 "Language-Team: Romanian (http://www.transifex.com/mpc-hc/mpc-hc/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -203,7 +203,7 @@ msgstr "Film/Dramă"
 
 msgctxt "IDS_CONTENT_NEWS_CURRENTAFFAIRS"
 msgid "News/Current affairs"
-msgstr "Ştiri/Evenimente curente"
+msgstr "Ştiri/Evenimente actuale"
 
 msgctxt "IDS_SPEED_UNIT_G"
 msgid "GB/s"
@@ -907,7 +907,7 @@ msgstr "&Original"
 
 msgctxt "IDS_SUBRESYNC_CURRENT"
 msgid "&Current"
-msgstr "&Curent"
+msgstr "&Actual"
 
 msgctxt "IDS_SUBRESYNC_EDIT"
 msgid "&Edit"
@@ -1299,7 +1299,7 @@ msgstr "Redă următorul fișier din dosar"
 
 msgctxt "IDS_AFTER_PLAYBACK_REWIND"
 msgid "Rewind current file"
-msgstr "Derulează înapoi fișierul curent"
+msgstr "Derulează înapoi fișierul actual"
 
 msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
 msgid "Close"
@@ -1383,7 +1383,7 @@ msgstr "Precizie ridicată"
 
 msgctxt "IDS_AFTERPLAYBACK_REWIND"
 msgid "After Playback: Rewind current file"
-msgstr "După redare: Derulează înapoi fișierul curent"
+msgstr "După redare: Derulează înapoi fișierul actual"
 
 msgctxt "IDS_AFTERPLAYBACK_CLOSE"
 msgid "After Playback: Close"
@@ -1575,7 +1575,7 @@ msgstr "Restabilește stabilirile"
 
 msgctxt "IDS_RESET_SETTINGS_WARNING"
 msgid "Are you sure you want to restore MPC-HC to its default settings?\nBe warned that ALL your current settings will be lost!"
-msgstr "Sigur doriți să restaurați MPC-HC la stabilirile lui implicite?\nTrebuie să știți că TOATE configurările curente vor fi pierdute!"
+msgstr "Sigur doriți să restaurați MPC-HC la stabilirile lui implicite?\nTrebuie să știți că TOATE stabilirile (configurările) actuale vor fi pierdute!"
 
 msgctxt "IDS_RESET_SETTINGS_MUTEX"
 msgid "Please close all instances of MPC-HC so that the default settings can be restored."
@@ -2035,7 +2035,7 @@ msgstr "Activare/Dezactivare subtitlu (DVD)"
 
 msgctxt "IDS_OSD_DISPLAY_CURRENT_TIME"
 msgid "OSD: Display Current Time"
-msgstr "OSD: Afișează ora curentă"
+msgstr "OSD: Afișează ora actuală"
 
 msgctxt "IDS_PPAGEWEBSERVER_0"
 msgid "Select the directory"
@@ -2275,7 +2275,7 @@ msgstr "GetDIB a eșuat, hr = %08x"
 
 msgctxt "IDS_GETCURRENTIMAGE_FAILED"
 msgid "GetCurrentImage failed, hr = %08x"
-msgstr "Obţinerea cadrului curent a eșuat, hr = %08x"
+msgstr "Obţinerea cadrului actual a eșuat, hr = %08x"
 
 msgctxt "IDS_SCREENSHOT_ERROR"
 msgid "Cannot create file"
@@ -2379,7 +2379,7 @@ msgstr "Balans: %s"
 
 msgctxt "IDS_FULLSCREENMONITOR_CURRENT"
 msgid "Current"
-msgstr "Curent"
+msgstr "Actual"
 
 msgctxt "IDS_MAINFRM_DIR_TITLE"
 msgid "Select Directory"
@@ -3259,7 +3259,7 @@ msgstr "\nFolosiţi deja ultima versiune stabilă."
 
 msgctxt "IDS_USING_NEWER_VERSION"
 msgid "Your current version is v%s.\n\nThe latest stable version is v%s."
-msgstr "Versiunea dumneavoastră curentă este v%s.\n\nUltima versiune stabilă este v%s."
+msgstr "Versiunea dumneavoastră actuală este v%s.\n\nUltima versiune stabilă este v%s."
 
 msgctxt "IDS_NEW_UPDATE_AVAILABLE"
 msgid "MPC-HC v%s is now available. You are using v%s.\n\nDo you want to visit MPC-HC's website to download it?"

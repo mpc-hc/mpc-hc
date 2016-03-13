@@ -2,16 +2,17 @@
 # Copyright (C) 2002 - 2016 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# Mehzad Galib, 2014
 # Mehedi Hussain, 2014
-# Mehedi Hussain, 2014
-# Mehedi Hussain, 2015
+# Mehzad Galib, 2015
 # mehzad, 2014
+# Mehzad Galib, 2016
 # Tapu Afrad (তপু আফ্রাদ) <tapu_afrad@hotmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-07 20:33:06+0000\n"
-"PO-Revision-Date: 2016-01-08 23:23+0000\n"
+"POT-Creation-Date: 2016-03-13 21:25:13+0000\n"
+"PO-Revision-Date: 2016-03-13 21:54+0000\n"
 "Last-Translator: Underground78\n"
 "Language-Team: Bengali (http://www.transifex.com/mpc-hc/mpc-hc/language/bn/)\n"
 "MIME-Version: 1.0\n"
@@ -426,7 +427,7 @@ msgstr "বার"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Repeat mode:"
-msgstr ""
+msgstr "পুনরাবৃত্তির ধরন:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
@@ -674,7 +675,7 @@ msgstr "সীক বারে পরিচ্ছেদ নির্দেশক
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK4"
 msgid "Display \"Now Playing\" information in Skype's mood message"
-msgstr "\"এখন প্লে হচ্ছে\" সম্পর্কে তথ্যাদি স্কাইপের মুড ম্যাসেজে প্রদর্শন"
+msgstr "\"এখন প্লে হচ্ছে\" সম্পর্কে তথ্যাদি স্কাইপের মোড ম্যাসেজে প্রদর্শন"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
@@ -702,7 +703,7 @@ msgstr "Logitech LCD সমর্থন সক্রিয়করণ (পরী�
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
 msgid "Auto-hide the mouse pointer during playback in windowed mode"
-msgstr "উইন্ডো'ড মুডে প্লেব্যাকের সময় স্বয়ংক্রিয়ভাবে মাউস পয়েন্টার লুকিয়ে যাওয়া"
+msgstr "উইন্ডো'ড মোডে প্লেব্যাকের সময় স্বয়ংক্রিয়ভাবে মাউস পয়েন্টার লুকিয়ে যাওয়া"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
 msgid "Add Filter..."
@@ -1158,7 +1159,7 @@ msgstr "বিকল্প VSync"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9LOADMIXER"
 msgid "VMR-9 Mixer Mode"
-msgstr "VMR-9 মিক্সার মুড"
+msgstr "VMR-9 মিক্সার মোড"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9YUVMIXER"
 msgid "YUV Mixing"
@@ -1246,15 +1247,15 @@ msgstr "এই মুহূর্তে লোডকৃত সাবটাইট
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
 msgid "Download"
-msgstr ""
+msgstr "ডাউনলোড"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON1"
 msgid "Refresh"
-msgstr ""
+msgstr "পুনঃবিন্যস্ত করি"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON2"
 msgid "Abort"
-msgstr ""
+msgstr "রহিত করি"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON3"
 msgid "Options"
@@ -1262,15 +1263,15 @@ msgstr "অপশনসমূহ"
 
 msgctxt "IDD_SUBTITLEUP_DLG_CAPTION"
 msgid "Upload subtitles"
-msgstr ""
+msgstr "সাবটাইটেল আপলোড করি"
 
 msgctxt "IDD_SUBTITLEUP_DLG_IDOK"
 msgid "Upload"
-msgstr ""
+msgstr "আপলোড করি"
 
 msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
 msgid "Abort"
-msgstr ""
+msgstr "রহিত করি"
 
 msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON2"
 msgid "Options"
@@ -1514,7 +1515,7 @@ msgstr "ফুলস্ক্রীনের মনিটর"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK2"
 msgid "Use autochange fullscreen monitor mode"
-msgstr "ফুলস্ক্রীন মনিটরের মুড স্বয়ংক্রিয়ভাবে-পরিবর্তন ব্যবহার"
+msgstr "ফুলস্ক্রীন মনিটরের মোড স্বয়ংক্রিয়ভাবে-পরিবর্তন ব্যবহার"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON1"
 msgid "Add"
@@ -1534,7 +1535,7 @@ msgstr "নিচে নামাই"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK3"
 msgid "Apply default monitor mode on fullscreen exit"
-msgstr "ফুলস্ক্রীন থেকে প্রস্থানে ডিফল্ট মনিটর মুড প্রয়োগ করণ"
+msgstr "ফুলস্ক্রীন থেকে প্রস্থানে ডিফল্ট মনিটর মোড প্রয়োগ করণ"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_RESTORERESCHECK"
 msgid "Restore resolution on program exit"
@@ -1578,27 +1579,27 @@ msgstr "পুনর্বিন্যাস করি"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Online search, download and upload subtitles"
-msgstr ""
+msgstr "অনলাইনে সাবটাইটেল অনুসন্ধান, ডাউনলোড এবং আপলোড করতে"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
 msgid "Automatically search and download subtitles if none are found locally"
-msgstr ""
+msgstr "স্থানীয় ডাইরেক্টরি সমূহতে পাওয়া না গেলে, স্বয়ংক্রিয়ভাবে সাবটাইটেল অনুসন্ধান এবং ডাউনলোড করণ"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
 msgid "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
-msgstr ""
+msgstr "শ্রবণ প্রতিবন্ধীদের জন্য সাবটাইটেল সমূহকে প্রাধান্য (সাবটাইটেল সরবরাহকারী দ্বারা নির্দেশিত করা হলে)"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
 msgid "Ignore files containing any of the following word(s):"
-msgstr ""
+msgstr "নিম্নোক্ত শব্দ(সমূহ) ধারণকারী ফাইলসমূহকে উপেক্ষা করি:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Languages in order of preference:"
-msgstr ""
+msgstr "পছন্দনীয় ভাষাসমূহের অগ্রাধিকার ক্রম (উদাহরণ- \"eng ell spa\"):"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
 msgid "Automatically upload active subtitles at the end of video playback"
-msgstr ""
+msgstr "ভিডিওর প্লেব্যাকের শেষে স্বয়ংক্রিয়ভাবে সক্রিয় সাবটাইটেলটিকে আপলোড করি"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
@@ -1706,11 +1707,11 @@ msgstr "ডিভাইস"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK1"
 msgid "Exclusive mode"
-msgstr ""
+msgstr "স্বতন্ত্র মোড"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK2"
 msgid "Allow bitstreaming"
-msgstr ""
+msgstr "বিটস্ট্রিমিং অনুমোদন করি"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
 msgid "Options"
@@ -1718,31 +1719,31 @@ msgstr "অপশনসমূহ"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK3"
 msgid "Enable stereo crossfeed (for headphones)"
-msgstr ""
+msgstr "স্টেরিও ক্রসফিড সক্রিয় করি (হেডফোনের জন্য)"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON1"
 msgid "C. Moy"
-msgstr ""
+msgstr "C. Moy"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON2"
 msgid "J. Meier"
-msgstr ""
+msgstr "J. Meier"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC1"
 msgid "Cut-off:"
-msgstr ""
+msgstr "বিছিন্ন-করণ হার:"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC3"
 msgid "Level:"
-msgstr ""
+msgstr "মান:"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
 msgid "Note"
-msgstr ""
+msgstr "দ্রষ্টব্য"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
 msgid "To minimize audio distortion, it is recommended to keep player volume at around 85% when playing loud lossy-encoded content."
-msgstr ""
+msgstr "অডিও বিকৃতি রোধ করার জন্য, লসি-এনকোডেড অডিও জোরে প্লে করার সময় প্লেয়ারের ভলিউম ৮৫% এর আশে-পাশে রাখার জন্য পরামর্শ দেওয়া যাচ্ছে।"
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
@@ -1762,15 +1763,15 @@ msgstr "আকস্মিক বন্ধ হওয়ার প্রতিবে
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC"
 msgid "We are sorry, it seems MPC-HC just crashed. :("
-msgstr ""
+msgstr "আমরা অত্যন্ত দুঃখিত, মনে হচ্ছে MPC-HC এইমাত্র চালনা বন্ধ হয়ে গিয়েছিল। :("
 
 msgctxt "IDD_CRASH_REPORTER_IDC_CHECK1"
 msgid "Send a bug report to help us diagnose and fix the problem."
-msgstr ""
+msgstr "এই যান্ত্রিক-ত্রুটিটি নির্ণয় এবং সমাধানে আমাদেরকে সাহায্য করতে একটি প্রতিবেদন পেশ করুন।"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
 msgid "Optional information"
-msgstr ""
+msgstr "অতিরিক্ত তথ্যাদি"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
 msgid "Email:"

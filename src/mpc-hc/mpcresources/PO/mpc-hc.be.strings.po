@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
-"PO-Revision-Date: 2016-01-29 17:11+0000\n"
-"Last-Translator: Yauhen Bugamol <haxycgm@gmail.com>\n"
+"POT-Creation-Date: 2016-03-13 21:29:13+0000\n"
+"PO-Revision-Date: 2016-03-13 21:58+0000\n"
+"Last-Translator: Underground78\n"
 "Language-Team: Belarusian (http://www.transifex.com/mpc-hc/mpc-hc/language/be/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -287,7 +287,7 @@ msgstr "Немагчыма дадаць аўдыяфільтр захопу да
 
 msgctxt "IDS_CAPTURE_ERROR_DEVICE"
 msgid "Could not open capture device."
-msgstr "Немагчыма адкрыць прыладу захопу."
+msgstr "Не атрымалася адкрыць прыладу захопу."
 
 msgctxt "IDS_INVALID_PARAMS_ERROR"
 msgid "Can't open, invalid input parameters"
@@ -383,7 +383,7 @@ msgstr "Не атрымалася запытаць неабходныя для �
 
 msgctxt "IDS_GRAPH_TARGET_WND_ERROR"
 msgid "Could not set target window for graph notification"
-msgstr ""
+msgstr "Не атрымалася стварыць акно для вываду графу"
 
 msgctxt "IDS_DVD_NAV_ALL_PINS_ERROR"
 msgid "Failed to render all pins of the DVD Navigator filter"
@@ -1055,7 +1055,7 @@ msgstr "Ідзе захоп..."
 
 msgctxt "IDS_CONTROLS_OPENING"
 msgid "Opening..."
-msgstr "Адкрываецца..."
+msgstr "Адкрыццё..."
 
 msgctxt "IDS_CONTROLS_CLOSED"
 msgid "Closed"
@@ -1091,7 +1091,7 @@ msgstr "Аўтар"
 
 msgctxt "IDS_INFOBAR_COPYRIGHT"
 msgid "Copyright"
-msgstr "Правы"
+msgstr "Аўтарскае права"
 
 msgctxt "IDS_INFOBAR_RATING"
 msgid "Rating"
@@ -1111,11 +1111,11 @@ msgstr "Закрыць"
 
 msgctxt "IDS_AG_NONE"
 msgid "None"
-msgstr "Адсутнічае"
+msgstr "Няма"
 
 msgctxt "IDS_AG_COMMAND"
 msgid "Command"
-msgstr "Каманда"
+msgstr "Дзеянне"
 
 msgctxt "IDS_AG_KEY"
 msgid "Key"
@@ -1123,15 +1123,15 @@ msgstr "Клавіша"
 
 msgctxt "IDS_AG_MOUSE"
 msgid "Mouse Windowed"
-msgstr "Курсор мышы ў аконным рэжыме"
+msgstr "Мыш (аконны рэжым)"
 
 msgctxt "IDS_AG_MOUSE_FS"
 msgid "Mouse Fullscreen"
-msgstr "Курсор мышы ў поўнаэкранным рэжыме"
+msgstr "Мыш (поўнаэкранны рэжым)"
 
 msgctxt "IDS_AG_APP_COMMAND"
 msgid "App Command"
-msgstr "Каманда прыкладання"
+msgstr "Каманда праграмы"
 
 msgctxt "IDS_AG_MEDIAFILES"
 msgid "Media files (all types)"
@@ -1171,7 +1171,7 @@ msgstr "Не атрымалася ўстанавіць шэйдары pre-resize
 
 msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
 msgid "Shaders are recompiled automatically when the corresponding files are modified."
-msgstr ""
+msgstr "Шэйдары перакампілююца аўтаматычна, пасля змены адпаведных файлаў."
 
 msgctxt "IDS_SHADER_DLL_ERR_0"
 msgid "Cannot load %s, pixel shaders will not work."
@@ -1179,7 +1179,7 @@ msgstr "Немагчыма загрузіць %s, піксельныя шэйд�
 
 msgctxt "IDS_SHADER_DLL_ERR_1"
 msgid "Cannot find necessary function entry points in %s, pixel shaders will not work."
-msgstr "Не атрымліваецца знайсці пункты ўваходу неабходнай функцыі %s, піксельныя шэйдары працаваць не будуць. "
+msgstr "Не атрымліваецца знайсці пункты ўваходу неабходнай функцыі ў %s, піксельныя шэйдары працаваць не будуць. "
 
 msgctxt "IDS_OSD_SHADERS_PRESET"
 msgid "Shader preset: %s"
@@ -1311,7 +1311,7 @@ msgstr "Выйсці"
 
 msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
 msgid "Turn off the monitor"
-msgstr "Выключыць манітор"
+msgstr "Адключыць манітор"
 
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
 msgid "JPEG Image"
@@ -1391,7 +1391,7 @@ msgstr "Па сканчэнні прайгравання: закрыць"
 
 msgctxt "IDS_FRAME_INIT_FAILED"
 msgid "MPC-HC encountered a problem during initialization. With your help we might be able to fix the issue.\n\nDo you want to report it?"
-msgstr "Падчас ініцыалізацыі MPC-HC сутыкнуўся з праблемай. Вы можаце дапамагчы нам вырашыць яе.\n\nПаведаміць пра гэту праблему?"
+msgstr "Падчас ініцыялізацыі MPC-HC сутыкнуўся з праблемай. Вы можаце дапамагчы нам вырашыць яе.\n\nПаведаміць пра гэту праблему?"
 
 msgctxt "IDS_TIME_SHIFT_TOOLTIP"
 msgid "Enter a positive value if the audio is early, a negative value if it is late."
@@ -1543,7 +1543,7 @@ msgstr "Карэкцыя часу кадра: Укл"
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_OFF"
 msgid "Frame Time Correction: Off"
-msgstr "Карэкцыя часу кадра: Выкл"
+msgstr "Карэкцыя часу кадра: Адкл"
 
 msgctxt "IDS_OSD_RS_TARGET_VSYNC_OFFSET"
 msgid "Target VSync Offset: %.1f"
@@ -1587,7 +1587,7 @@ msgstr "Экспартаваць налады"
 
 msgctxt "IDS_EXPORT_SETTINGS_WARNING"
 msgid "Some changes have not been saved yet.\nDo you want to save them before exporting?"
-msgstr "Некаторыя змены не захаваны.\nЦі жадаеце захаваць іх перад экспартам?"
+msgstr "Некаторыя змены не захаваны.\nЗахаваць іх перад экспартам?"
 
 msgctxt "IDS_EXPORT_SETTINGS_SUCCESS"
 msgid "The settings have been successfully exported."
@@ -1979,7 +1979,7 @@ msgstr "Меню фільтраў"
 
 msgctxt "IDS_AG_OPTIONS"
 msgid "Options"
-msgstr "Параметры"
+msgstr "Налады"
 
 msgctxt "IDS_AG_NEXT_AUDIO"
 msgid "Next Audio Track"
@@ -2191,7 +2191,7 @@ msgstr "DVD: Несумяшчальныя рэгіёны дэкодэра і д�
 
 msgctxt "IDS_D3DFS_WARNING"
 msgid "This option is designed to avoid tearing. However, it will also prevent MPC-HC from displaying the context menu and any dialog box during playback.\n\nDo you really want to activate this option?"
-msgstr "Гэтая опцыя служыць для ўхілення дрыгацення але ў гэтым рэжыме, калі відэа загружана, MPC-HC не можа адлюстроўваць кантэкстнае меню і дыялогі.\n\nПрацягнуць?"
+msgstr "Гэтая опцыя служыць для ўхілення дрыгацення, але ў гэтым рэжыме, калі відэа загружана, MPC-HC не можа адлюстроўваць кантэкстнае меню і дыялогі.\n\nПрацягнуць?"
 
 msgctxt "IDS_MAINFRM_139"
 msgid "Sub delay: %ld ms"
@@ -2287,7 +2287,7 @@ msgstr "Немагчыма стварыць мініяцюры для файла
 
 msgctxt "IDS_THUMBNAILS_NO_FRAME_SIZE"
 msgid "Failed to get video frame size"
-msgstr "Не атрымліваецца атрымаць памер відэакадра"
+msgstr "Не атрымалася вызначыць памер відэакадра"
 
 msgctxt "IDS_OUT_OF_MEMORY"
 msgid "Out of memory, go buy some more!"
@@ -2307,7 +2307,7 @@ msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Імя файла: %s\\N%sР
 
 msgctxt "IDS_THUMBNAIL_TOO_SMALL"
 msgid "The thumbnails would be too small, impossible to create the file.\n\nTry lowering the number of thumbnails or increasing the total size."
-msgstr ""
+msgstr "Замалы памер мініяцюр, немагчыма стварыць файл.\n\nПаменшыце колькасць мініяцюр або павялічце агульны памер выявы."
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
@@ -2359,7 +2359,7 @@ msgstr "Адкрыццё перапынена"
 
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
-msgstr "Не атрымліваецца прайграць файл"
+msgstr "Не атрымалася апрацаваць файл"
 
 msgctxt "IDS_AG_CHAPTER2"
 msgid "Chapter: "
@@ -2435,11 +2435,11 @@ msgstr "Невядомы тып файла"
 
 msgctxt "IDS_MAINFRM_92"
 msgid "Unsupported stream"
-msgstr "Непадтрымліваемы струмень"
+msgstr "Непадтрымліваемы паток"
 
 msgctxt "IDS_MAINFRM_93"
 msgid "Cannot find DVD directory"
-msgstr "Не атрымліваецца знайсці каталог DVD"
+msgstr "Вызначаная для DVD/BD папка не знойдзена"
 
 msgctxt "IDS_MAINFRM_94"
 msgid "Can't create the DVD Navigator filter"
@@ -2487,7 +2487,7 @@ msgstr " (pin) уласцівасці..."
 
 msgctxt "IDS_AG_UNKNOWN_STREAM"
 msgid "Unknown Stream"
-msgstr "Невядомы струмень"
+msgstr "Невядомы паток"
 
 msgctxt "IDS_AG_UNKNOWN"
 msgid "Unknown %u"
@@ -2535,7 +2535,7 @@ msgstr "Невядомы фармат"
 
 msgctxt "IDS_MAINFRM_138"
 msgid "Sub shift: %ld ms"
-msgstr "Зрушэнне субтытраў: %ld"
+msgstr "Зрух субтытраў: %ld"
 
 msgctxt "IDS_VOLUME_BOOST_INC"
 msgid "Volume boost increase"
@@ -2655,7 +2655,7 @@ msgstr "Аўтар невядомы. Паведаміце нам, калі гэ�
 
 msgctxt "IDS_NO_MORE_MEDIA"
 msgid "No more media in the current folder."
-msgstr "Прайграванне медыя-файлаў з каталога скончана"
+msgstr "Прайграванне медыяфайлаў з папкі скончана"
 
 msgctxt "IDS_FIRST_IN_FOLDER"
 msgid "The first file of the folder is already loaded."
@@ -3035,7 +3035,7 @@ msgstr "VSync: Укл"
 
 msgctxt "IDS_OSD_RS_VSYNC_OFF"
 msgid "VSync: Off"
-msgstr "VSync: Выкл"
+msgstr "VSync: Адкл"
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_ON"
 msgid "Accurate VSync: On"
@@ -3043,7 +3043,7 @@ msgstr "Дакладная VSync: Укл"
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_OFF"
 msgid "Accurate VSync: Off"
-msgstr "Дакладная VSync: Выкл"
+msgstr "Дакладная VSync: Адкл"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_ON"
 msgid "Synchronize Video to Display: On"
@@ -3051,7 +3051,7 @@ msgstr "Сінхранізацыя відэа да дысплэя: Укл"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_OFF"
 msgid "Synchronize Video to Display: Off"
-msgstr "Сінхранізацыя відэа да дысплэя: Выкл"
+msgstr "Сінхранізацыя відэа да дысплэя: Адкл"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_ON"
 msgid "Synchronize Display to Video: On"
@@ -3059,7 +3059,7 @@ msgstr "Сінхранізацыя дысплэя да відэа: Укл"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_OFF"
 msgid "Synchronize Display to Video: Off"
-msgstr "Сінхранізацыя дысплэя да відэа: Выкл"
+msgstr "Сінхранізацыя дысплэя да відэа: Адкл"
 
 msgctxt "IDS_OSD_RS_PRESENT_NEAREST_ON"
 msgid "Present at Nearest VSync: On"
@@ -3067,7 +3067,7 @@ msgstr "Паказ пры бліжэшай VSync пры бліжэшай VSync: 
 
 msgctxt "IDS_OSD_RS_PRESENT_NEAREST_OFF"
 msgid "Present at Nearest VSync: Off"
-msgstr "Паказ пры бліжэшай VSync: Выкл"
+msgstr "Паказ пры бліжэйшай VSync: Адкл"
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_ON"
 msgid "Color Management: On"
@@ -3075,7 +3075,7 @@ msgstr "Кіраванне колерам: Укл"
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_OFF"
 msgid "Color Management: Off"
-msgstr "Кіраванне колерам: Выкл"
+msgstr "Кіраванне колерам: Адкл"
 
 msgctxt "IDS_OSD_RS_INPUT_TYPE_AUTO"
 msgid "Input Type: Auto-Detect"
@@ -3131,7 +3131,7 @@ msgstr "Напаўняць GPU перад VSync: Укл"
 
 msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_OFF"
 msgid "Flush GPU before VSync: Off"
-msgstr "Напаўняць GPU перад VSync: Выкл"
+msgstr "Напаўняць GPU перад VSync: Адкл"
 
 msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_ON"
 msgid "Flush GPU after Present: On"
@@ -3139,7 +3139,7 @@ msgstr "Напаўняць GPU пасля Present: Укл"
 
 msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_OFF"
 msgid "Flush GPU after Present: Off"
-msgstr "Напаўняць GPU пасля Present: Выкл"
+msgstr "Напаўняць GPU пасля Present: Адкл"
 
 msgctxt "IDS_OSD_RS_WAIT_ON"
 msgid "Wait for GPU Flush: On"
@@ -3147,7 +3147,7 @@ msgstr "Чаканне запаўнення GPU: Укл"
 
 msgctxt "IDS_OSD_RS_WAIT_OFF"
 msgid "Wait for GPU Flush: Off"
-msgstr "Чаканне запаўнення GPU: Выкл"
+msgstr "Чаканне запаўнення GPU: Адкл"
 
 msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_ON"
 msgid "D3D Fullscreen: On"
@@ -3155,7 +3155,7 @@ msgstr "Поўнаэкранны D3D: Укл"
 
 msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_OFF"
 msgid "D3D Fullscreen: Off"
-msgstr "Поўнаэкранны D3D: Выкл"
+msgstr "Поўнаэкранны D3D: Адкл"
 
 msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_ON"
 msgid "Disable desktop composition: On"
@@ -3163,7 +3163,7 @@ msgstr "Адключыць эфект прац. сталу: Укл"
 
 msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_OFF"
 msgid "Disable desktop composition: Off"
-msgstr "Адключыць эфект прац. сталу: Выкл"
+msgstr "Адключыць эфект прац. сталу: Адкл"
 
 msgctxt "IDS_OSD_RS_ALT_VSYNC_ON"
 msgid "Alternative VSync: On"
@@ -3171,7 +3171,7 @@ msgstr "Альтэрнатыўная VSync: Укл"
 
 msgctxt "IDS_OSD_RS_ALT_VSYNC_OFF"
 msgid "Alternative VSync: Off"
-msgstr "Альтэрнатыўная VSync: Выкл"
+msgstr "Альтэрнатыўная VSync: Адкл"
 
 msgctxt "IDS_OSD_RS_RESET_DEFAULT"
 msgid "Renderer settings reset to default"
@@ -3187,7 +3187,7 @@ msgstr "Поўнаэкранны D3D з падтрымкай GUI: Укл"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF"
 msgid "D3D Fullscreen GUI Support: Off"
-msgstr "Поўнаэкранны D3D з падтрымкай GUI: Выкл"
+msgstr "Поўнаэкранны D3D з падтрымкай GUI: Адкл"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_ON"
 msgid "10-bit RGB Output: On"
@@ -3195,7 +3195,7 @@ msgstr "10-бітны RGB вывад: Укл"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_OFF"
 msgid "10-bit RGB Output: Off"
-msgstr "10-бітны RGB вывад: Выкл"
+msgstr "10-бітны RGB вывад: Адкл"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_IN_ON"
 msgid "Force 10-bit RGB Input: On"
@@ -3203,23 +3203,23 @@ msgstr "Прымусовы 10-бітны RGB увод: Укл"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_IN_OFF"
 msgid "Force 10-bit RGB Input: Off"
-msgstr "Прымусовы 10-бітны RGB увод: Выкл"
+msgstr "Прымусовы 10-бітны RGB увод: Адкл"
 
 msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_ON"
 msgid "Full Floating Point Processing: On"
-msgstr "Поўная апрацоўка плыўнай кропкі: Укл"
+msgstr "Поўная апрацоўка лікаў з нефіксаванай коскай: Укл"
 
 msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_OFF"
 msgid "Full Floating Point Processing: Off"
-msgstr "Поўная апрацоўка плыўнай кропкі: Выкл"
+msgstr "Поўная апрацоўка лікаў з нефіксаванай коскай: Адкл"
 
 msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_ON"
 msgid "Half Floating Point Processing: On"
-msgstr "Палавінная апрацоўка плыўнай кропкі: Укл"
+msgstr "Палавінная апрацоўка лікаў з нефіксаванай коскай: Укл"
 
 msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_OFF"
 msgid "Half Floating Point Processing: Off"
-msgstr "Палавінная апрацоўка плыўнай кропкі: Выкл"
+msgstr "Палавінная апрацоўка лікаў з нефіксаванай коскай: Адкл"
 
 msgctxt "IDS_BRIGHTNESS_DEC"
 msgid "Brightness decrease"
@@ -3343,27 +3343,27 @@ msgstr "Мб/с"
 
 msgctxt "IDS_BDA_ERROR_CREATE_TUNER"
 msgid "Could not create the tuner."
-msgstr "Немагчыма стварыць цюнер."
+msgstr "Не атрымалася стварыць цюнер."
 
 msgctxt "IDS_BDA_ERROR_CREATE_RECEIVER"
 msgid "Could not create the receiver."
-msgstr "Немагчыма падлучыцца да рэсівера."
+msgstr "Не атрымалася стварыць прыёмнік."
 
 msgctxt "IDS_BDA_ERROR_CONNECT_NW_TUNER"
 msgid "Could not connect the network and the tuner."
-msgstr "Немагчыма падлучыцца да сеткі і цюнера."
+msgstr "Не атрымалася злучыць сетку і цюнер."
 
 msgctxt "IDS_BDA_ERROR_CONNECT_TUNER_REC"
 msgid "Could not connect the tuner and the receiver."
-msgstr "Немагчыма падлучыцца да цюнера і рэсівера."
+msgstr "Не атрымалася злучыць цюнер і прыёмнік."
 
 msgctxt "IDS_BDA_ERROR_CONNECT_TUNER"
 msgid "Could not connect the tuner."
-msgstr "Немагчыма падлучыцца да цюнера."
+msgstr "Не атрымалася падлучыць цюнер."
 
 msgctxt "IDS_BDA_ERROR_DEMULTIPLEXER"
 msgid "Could not create the demultiplexer."
-msgstr "Немагчыма стварыць дэмультыплексар."
+msgstr "Не атрымалася стварыць дэмультыплексар."
 
 msgctxt "IDS_GOTO_ERROR_PARSING_TIME"
 msgid "Error parsing the entered time!"
@@ -3399,7 +3399,7 @@ msgstr "Функцыі «Захаваць кадр» і «Захаваць мі�
 
 msgctxt "IDS_MB_SHOW_EDL_EDITOR"
 msgid "Do you want to activate the EDL editor?"
-msgstr "Хочаце актывіраваць рэдактар EDL?"
+msgstr "Актываваць рэдактар EDL?"
 
 msgctxt "IDS_CAPTURE_ERROR"
 msgid "Capture Error"
@@ -3435,7 +3435,7 @@ msgstr "Не атрымоўваецца ўсталяваць фармат сці
 
 msgctxt "IDS_CAPTURE_ERROR_MULTIPLEXER"
 msgid "Can't connect the %s stream to the multiplexer filter."
-msgstr "Немагчыма падлучыць струмень %s фільтру-мультыплексару."
+msgstr "Немагчыма падлучыць паток %s фільтру-мультыплексару."
 
 msgctxt "IDS_CAPTURE_ERROR_VID_CAPT_PIN"
 msgid "No video capture pin was found."

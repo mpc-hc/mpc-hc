@@ -4,12 +4,13 @@
 # Translators:
 # Adolfo Jayme Barrientos, 2014
 # Adolfo Jayme Barrientos, 2014
+# strel, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-07-20 20:29:41+0000\n"
-"PO-Revision-Date: 2016-01-09 03:47+0000\n"
-"Last-Translator: Adolfo Jayme Barrientos\n"
+"PO-Revision-Date: 2016-03-07 06:04+0000\n"
+"Last-Translator: strel\n"
 "Language-Team: Spanish (http://www.transifex.com/mpc-hc/mpc-hc/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,7 +20,7 @@ msgstr ""
 
 msgctxt "Messages_WelcomeLabel2"
 msgid "This will install [name] on your computer.\n\nIt is recommended that you close all other applications before continuing."
-msgstr "Este programa instalará [name] en el equipo.\n\nSe recomienda que cierre el resto de las aplicaciones antes de continuar."
+msgstr "Esto instalará [name] en el equipo.\n\nSe recomienda que cierre el resto de las aplicaciones antes de continuar."
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows XP Service Pack 3 or newer to run."
@@ -55,7 +56,7 @@ msgstr "Para todos los usuarios"
 
 msgctxt "CustomMessages_tsk_CurrentUser"
 msgid "For the current user only"
-msgstr "Solo para el usuario actual"
+msgstr "Sólo para el usuario actual"
 
 msgctxt "CustomMessages_tsk_Other"
 msgid "Other tasks:"

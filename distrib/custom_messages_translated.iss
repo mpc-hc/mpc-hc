@@ -62,7 +62,7 @@ en_GB.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommen
 en_GB.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
 
 ; Spanish
-es.WelcomeLabel2=Este programa instalará [name] en el equipo.%n%nSe recomienda que cierre el resto de las aplicaciones antes de continuar.
+es.WelcomeLabel2=Esto instalará [name] en el equipo.%n%nSe recomienda que cierre el resto de las aplicaciones antes de continuar.
 es.WinVersionTooLowError=[name] necesita Windows XP Service Pack 3 o posterior para funcionar.
 
 ; Basque
@@ -292,7 +292,7 @@ da.msg_simd_sse=Denne version af MPC-HC kræver en CPU der understøtter SSE-udv
 #elif defined(sse2_required)
 da.msg_simd_sse2=Denne version af MPC-HC kræver en CPU der understøtter SSE2-udvidelsen.%n%nDin CPU understøtter det ikke.
 #endif
-da.run_DownloadToolbarImages=Besøg vores wiki-side for at hente værktøjslinjebilleder
+da.run_DownloadToolbarImages=Besøg vores wiki-side for at downloade værktøjslinjebilleder
 da.tsk_AllUsers=For alle brugere
 da.tsk_CurrentUser=Kun for denne bruger
 da.tsk_Other=Andre opgaver:
@@ -370,7 +370,7 @@ es.msg_simd_sse2=Esta versión de MPC-HC requiere una CPU compatible con extensi
 #endif
 es.run_DownloadToolbarImages=Visite nuestra página de wiki para descargar imágenes de la barra de herramientas
 es.tsk_AllUsers=Para todos los usuarios
-es.tsk_CurrentUser=Solo para el usuario actual
+es.tsk_CurrentUser=Sólo para el usuario actual
 es.tsk_Other=Otras tareas:
 es.tsk_ResetSettings=Restablecer configuración
 es.types_DefaultInstallation=Instalación predeterminada
@@ -712,7 +712,7 @@ ro.msg_simd_sse2=Această versiune de MPC-HC necesită un procesor cu suport pen
 #endif
 ro.run_DownloadToolbarImages=Vizitați pagina noastră Wiki pentru a descărca imagini pentru bara de instrumente
 ro.tsk_AllUsers=Pentru toţi utilizatorii
-ro.tsk_CurrentUser=Doar pentru utilizatorul curent
+ro.tsk_CurrentUser=Doar pentru utilizatorul actual
 ro.tsk_Other=Alte activităţi:
 ro.tsk_ResetSettings=Restabilește stabilirile
 ro.types_DefaultInstallation=Instalare implicită

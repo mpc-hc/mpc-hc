@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
-"PO-Revision-Date: 2016-01-31 16:15+0000\n"
-"Last-Translator: Luan <luanmail@gmx.net>\n"
+"POT-Creation-Date: 2016-03-13 21:29:13+0000\n"
+"PO-Revision-Date: 2016-03-13 21:59+0000\n"
+"Last-Translator: Underground78\n"
 "Language-Team: German (http://www.transifex.com/mpc-hc/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -313,7 +313,7 @@ msgstr "Die Icon-Bibliotheksdatei \"mpciconlib.dll\" konnte nicht gefunden werde
 
 msgctxt "IDS_SUBDL_DLG_FILENAME_COL"
 msgid "File"
-msgstr "Name"
+msgstr "Dateiname"
 
 msgctxt "IDS_SUBDL_DLG_LANGUAGE_COL"
 msgid "Language"
@@ -3537,7 +3537,7 @@ msgstr "Farbsteuerung: Helligkeit erhöhen"
 
 msgctxt "IDS_LANG_PREF_EXAMPLE"
 msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
-msgstr "Erlaubt eine bevorzugte Sprachauswahl nach Priorität durch bspw. \"ger eng swe\"."
+msgstr "Erlaubt eine automatische Sprachauswahl nach Priorität durch bspw. \"ger eng swe\"."
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."

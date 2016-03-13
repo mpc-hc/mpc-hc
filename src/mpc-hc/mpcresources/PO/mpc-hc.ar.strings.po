@@ -4,7 +4,9 @@
 # Translators:
 # Abubakr Mohammed <bcs2610@hotmail.com>, 2014
 # Ahmad Abd-Elghany <tolpa1@gmail.com>, 2014
+# Khaled Saleem Baleesh <Kbaleesh@gmail.com>, 2016
 # manxx55 <w6txz2@gmail.com>, 2014
+# Mubarak Qahtani <abu-q76@hotmail.com>, 2016
 # nour nader <thenino2013@gmail.com>, 2014
 # Tariq <tariq-mz@hotmail.com>, 2014
 # Tariq <tariq-mz@hotmail.com>, 2014
@@ -12,8 +14,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-08 18:51:35+0000\n"
-"PO-Revision-Date: 2016-01-08 23:23+0000\n"
+"POT-Creation-Date: 2016-03-13 21:29:13+0000\n"
+"PO-Revision-Date: 2016-03-13 21:59+0000\n"
 "Last-Translator: Underground78\n"
 "Language-Team: Arabic (http://www.transifex.com/mpc-hc/mpc-hc/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -68,7 +70,7 @@ msgstr "الخصائص"
 
 msgctxt "IDS_PLAY_LOOPMODE_FILE"
 msgid "File"
-msgstr ""
+msgstr "ملف"
 
 msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
 msgid "&Default Style"
@@ -76,7 +78,7 @@ msgstr "&الاستايل الافتراضي"
 
 msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
 msgid "Playlist"
-msgstr ""
+msgstr "قائمة التشغيل"
 
 msgctxt "IDS_FAVFILES"
 msgid "Files"
@@ -132,23 +134,23 @@ msgstr "إذا ترك الـ rendering targeh غير معروف، سيتم إخ�
 
 msgctxt "IDS_PLAYLOOPMODE_PLAYLIST"
 msgid "Repeat Mode: Playlist"
-msgstr ""
+msgstr "وضع الإعادة: حسب قائمة التشغيل"
 
 msgctxt "IDS_PLAYLOOPMODE_FILE"
 msgid "Repeat Mode: File"
-msgstr ""
+msgstr "وضع الإعادة: ملف"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_ON"
 msgid "Repeat Forever: On"
-msgstr ""
+msgstr "إعادة إلى الأبد: نعم"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_OFF"
 msgid "Repeat Forever: Off"
-msgstr ""
+msgstr "إعادة إلى الأبد: لا"
 
 msgctxt "IDS_PLAYLOOP_FOREVER"
 msgid "Repeat Forever"
-msgstr ""
+msgstr "إعادة إلى الأبد"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -628,7 +630,7 @@ msgstr "دائماً يعيد في التغطية. عموما فقط صيغ YUV 
 
 msgctxt "IDC_DSVMR9WIN"
 msgid "Only available if you have DirectX 9 installed. Very stable but it will never use Overlay rendering and because of this it may be a little slower than Overlay mixer."
-msgstr ""
+msgstr "متاح فقط إذا كان لديك DirectX 9 على الجهاز، مستقر جدًا ولكن لن يستخدم \"Overlay rendering\"  ولهذا يمكن ان يكون أبطأ من \"Overlay mixer\""
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
@@ -756,11 +758,11 @@ msgstr "ليكون مصدر العرض في المتصفح يجب أن تمكّ�
 
 msgctxt "IDS_SUBTITLES_DOWNLOAD"
 msgid "Download Subtitles..."
-msgstr ""
+msgstr "تحميل الترجمة ..."
 
 msgctxt "IDS_SUBTITLES_UPLOAD"
 msgid "Upload Subtitles..."
-msgstr ""
+msgstr "رفع الترجمة ..."
 
 msgctxt "IDS_SUBFILE_DELAY"
 msgid "Delay (ms):"
@@ -1216,11 +1218,11 @@ msgstr "L = R"
 
 msgctxt "IDS_BALANCE_L"
 msgid "L +%d%%"
-msgstr "L +%d%%"
+msgstr "يسار +%d%%"
 
 msgctxt "IDS_BALANCE_R"
 msgid "R +%d%%"
-msgstr "R +%d%%"
+msgstr "يمين +%d%%"
 
 msgctxt "IDS_VOLUME"
 msgid "%d%%"
@@ -1388,31 +1390,31 @@ msgstr "دقة عالية"
 
 msgctxt "IDS_AFTERPLAYBACK_REWIND"
 msgid "After Playback: Rewind current file"
-msgstr "بعد نهاية التشغيل: إعادة الملف الحالي"
+msgstr "بعد نهاية التشغيل: أعد تشغيل الملف الحالي"
 
 msgctxt "IDS_AFTERPLAYBACK_CLOSE"
 msgid "After Playback: Close"
-msgstr "بعد نهاية التشغيل: إغلاق"
+msgstr "بعد نهاية التشغيل: أغلق"
 
 msgctxt "IDS_FRAME_INIT_FAILED"
 msgid "MPC-HC encountered a problem during initialization. With your help we might be able to fix the issue.\n\nDo you want to report it?"
-msgstr "إذا كنت تواجهة مشكلة أثناء تهيئة MPC-HC. بمساعدتكم نحن قد نكون قادرين على إصلاح المشكلة. \n\nهل تريد الإبلاغ عن ذلك؟"
+msgstr "MPC-HC واجه مشكلة في بداية تشغيله. بمساعدتك قد نكون قادرين على إصلاح المشكلة. \n\nهل تريد الإبلاغ عن ذلك؟"
 
 msgctxt "IDS_TIME_SHIFT_TOOLTIP"
 msgid "Enter a positive value if the audio is early, a negative value if it is late."
-msgstr "أدخل قيمة موجبة إذا كان الصوت سابق، وقيمة سالبة إذا كان متأخر."
+msgstr "أدخل قيمة موجبة إذا كان الصوت متقدم، وقيمة سالبة إذا كان متأخر."
 
 msgctxt "IDS_WEBUI_DISABLED_PREVIEW_MSG"
 msgid "Preview is currently disabled. You can enable it in MPC-HC's options."
-msgstr ""
+msgstr "الإستعراض، غير متاح حاليًا. يمكنك تفعيله عن طريق الخيارات"
 
 msgctxt "IDS_WEBUI_PREVIEW_WARNING"
 msgid "This option can be used to preview media files from remote location. Use it only on a properly secured private network.\n\nDo you really want to enable this option?"
-msgstr ""
+msgstr "هذه الخاصية تمكنك من استعراض ملفات عن طريق الشبكة. استخدم هذه الخدمة فقط إذا كنت متأكد من ان الشبكة آمنة.\n\nهل ترغب فعلًا ان تسمح بهذه الخدمة؟"
 
 msgctxt "IDS_SUBTITLE_RENDERER_INTERNAL"
 msgid "Internal Subtitle Renderer"
-msgstr ""
+msgstr "تصيير ( Renderer ) الترجمة عن طريق البرنامج"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1464,11 +1466,11 @@ msgstr "توقف"
 
 msgctxt "IDS_AG_FRAMESTEP"
 msgid "Frame-step"
-msgstr "خطوة إطار"
+msgstr "خطوة للأمام بالإطار"
 
 msgctxt "IDS_MPLAYERC_16"
 msgid "Frame-step back"
-msgstr "خطوة خلفية للإطار"
+msgstr "خطوة للخلف بالإطار"
 
 msgctxt "IDS_AG_GO_TO"
 msgid "Go To"
@@ -1804,7 +1806,7 @@ msgstr "بان اند سكان تقليل الإرتفاع"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
 msgid "Downloading [%s] \"%s\""
-msgstr ""
+msgstr "تحميل [%s] \"%s\""
 
 msgctxt "IDS_SUBDL_DLG_PARSING"
 msgid "Parsing list..."
@@ -2144,7 +2146,7 @@ msgstr "تشغيل مع MPC-HC"
 
 msgctxt "IDS_CANNOT_CHANGE_FORMAT"
 msgid "MPC-HC has not enough privileges to change files formats associations. Please click on the \"Run as administrator\" button."
-msgstr "MPC-HC ليس لديه إمتيازات كافيه حتى يغيّر روابط صيغ الملفات. الرجاء إنقر على زر \"تشغيل كمستخدم\"."
+msgstr "MPC-HC ليس لديه إمتيازات كافيه حتى يغيّر روابط صيغ الملفات. الرجاء إنقر على زر \"تشغيل كمسؤول\"."
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
@@ -2328,7 +2330,7 @@ msgstr "النسبة الباعية: %ld:%ld"
 
 msgctxt "IDS_MAINFRM_69"
 msgid "Aspect Ratio: Default (DAR)"
-msgstr ""
+msgstr "نسبة العرض إلى الإرتفاع: حسب الشاشة (DAR)"
 
 msgctxt "IDS_MAINFRM_70"
 msgid "Audio delay: %I64d ms"
@@ -3588,43 +3590,43 @@ msgstr "الضبط"
 
 msgctxt "IDS_SUBTITLE_RENDERER_VS_FILTER"
 msgid "VSFilter / DirectVobSub"
-msgstr ""
+msgstr "VSFilter / DirectVobSub"
 
 msgctxt "IDS_SUBTITLE_RENDERER_XY_SUB_FILTER"
 msgid "XySubFilter"
-msgstr ""
+msgstr "تمكين الــ XySubFilter"
 
 msgctxt "IDS_SUBDL_DLG_PROVIDER_COL"
 msgid "Provider"
-msgstr ""
+msgstr "المزوّد"
 
 msgctxt "IDS_SUBDL_DLG_HI_COL"
 msgid "Hearing Impaired"
-msgstr ""
+msgstr "ضعاف السمع"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADS_COL"
 msgid "Downloads"
-msgstr ""
+msgstr "التنزيلات"
 
 msgctxt "IDS_SUBDL_DLG_SCORE_COL"
 msgid "Score"
-msgstr ""
+msgstr "نتيجة"
 
 msgctxt "IDS_SUBDL_DLG_FAILED"
 msgid "Online subtitles search failed."
-msgstr ""
+msgstr "فشل البحث عن ترجمة عن طريق الإنترنت"
 
 msgctxt "IDS_SUBDL_DLG_ABORTED"
 msgid "Online subtitles search aborted."
-msgstr ""
+msgstr "تم إلغاء البحث عن ترجمة عن طريق الإنترنت"
 
 msgctxt "IDS_SUBDL_DLG_FOUND"
 msgid "Online subtitles search completed, %d subtitles found."
-msgstr ""
+msgstr "تم البحث عن ترجمة عن طريق الإنترنت. %d تراجم موجودة"
 
 msgctxt "IDS_SUBDL_DLG_NOTFOUND"
 msgid "Online subtitles search completed, no subtitles found."
-msgstr ""
+msgstr "تم البحث عن ترجمة عن طريق الإنترنت. لا يوجد تراجم."
 
 msgctxt "IDS_SUBDL_DLG_TITLE"
 msgid "Download subtitles"
@@ -3632,63 +3634,63 @@ msgstr "تحميل الترجمات"
 
 msgctxt "IDS_SUBDL_DLG_SEARCHING"
 msgid "Searching for subtitles online, please wait..."
-msgstr ""
+msgstr "البحث عن ترجمة عن طريق الإنترنت. الرجاء الإنتظار"
 
 msgctxt "IDS_SUBDL_DLG_ABORTING"
 msgid "Online subtitles search aborting..."
-msgstr ""
+msgstr "جاري البحث عن ترجمة عن طريق الإنترنت ..."
 
 msgctxt "IDS_SUBUL_DLG_USERNAME_COL"
 msgid "Username"
-msgstr ""
+msgstr "اسم المستخدم"
 
 msgctxt "IDS_SUBUL_DLG_STATUS_COL"
 msgid "Status"
-msgstr ""
+msgstr "الحالة"
 
 msgctxt "IDS_SUBUL_DLG_STATUS_READY"
 msgid "Ready..."
-msgstr ""
+msgstr "مستعد ..."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_NOTIMPLEMENTED"
 msgid "Not implemented."
-msgstr ""
+msgstr "تمكين الـ XySubFilter"
 
 msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADING"
 msgid "Uploading..."
-msgstr ""
+msgstr "رفع ..."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADED"
 msgid "Subtitles uploaded successfully."
-msgstr ""
+msgstr "تم رفع الترجمة بنجاح"
 
 msgctxt "IDS_SUBUL_DLG_STATUS_FAILED"
 msgid "Subtitles upload failed."
-msgstr ""
+msgstr "فشل في رفع الترجمة"
 
 msgctxt "IDS_SUBUL_DLG_STATUS_ABORTED"
 msgid "Subtitles upload aborted."
-msgstr ""
+msgstr "تم إلغاء رفع الترجمة"
 
 msgctxt "IDS_SUBUL_DLG_STATUS_ALREADYEXISTS"
 msgid "Subtitles already exist."
-msgstr ""
+msgstr "الترجمة موجودة مسبقًا"
 
 msgctxt "IDS_SUBUL_DLG_UPLOADING"
 msgid "Uploading subtitles, please wait..."
-msgstr ""
+msgstr "يتم رفع الترجمة، الرجاء الإنتظار"
 
 msgctxt "IDS_SUBUL_DLG_UPLOADED"
 msgid "Upload finished."
-msgstr ""
+msgstr "تم رفع الترجمة"
 
 msgctxt "IDS_SUBUL_DLG_ABORTED"
 msgid "Upload aborted."
-msgstr ""
+msgstr "الرفع تم إلغائه"
 
 msgctxt "IDS_SUBUL_DLG_FAILED"
 msgid "Upload failed."
-msgstr ""
+msgstr "فشل الرفع"
 
 msgctxt "IDS_SUBMENU_DOWNLOAD"
 msgid "Download && Open"
@@ -3696,7 +3698,7 @@ msgstr "تنزيل وفتح"
 
 msgctxt "IDS_SUBMENU_SETUP"
 msgid "Setup"
-msgstr ""
+msgstr "إعداد"
 
 msgctxt "IDS_SUBMENU_RESET"
 msgid "Reset"
@@ -3712,23 +3714,23 @@ msgstr "تحريك لإسفل"
 
 msgctxt "IDS_SUBMENU_OPENURL"
 msgid "Open URL"
-msgstr ""
+msgstr "افتح الرابط"
 
 msgctxt "IDS_SUBPP_DLG_LANGUAGES_COL"
 msgid "Languages"
-msgstr ""
+msgstr "اللغات"
 
 msgctxt "IDS_SUBPP_DLG_LANGUAGES_ERROR"
 msgid "ERROR: Internet connection could not be established."
-msgstr ""
+msgstr "خطأ: لا يمكن الوصول إلى الأنترنت"
 
 msgctxt "IDS_SUB_CREDENTIALS_TITLE"
 msgid "Enter website credentials"
-msgstr ""
+msgstr "ادخل بيانات الموقع"
 
 msgctxt "IDS_SUB_CREDENTIALS_MSG"
 msgid "Enter your credentials to connect to: "
-msgstr ""
+msgstr "ادخل بياناتك للإتصال بــ :"
 
 msgctxt "IDS_SUB_CREDENTIALS_ERROR"
 msgid "Failed to log in on \"%S\" with username \"%S\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
@@ -3736,19 +3738,19 @@ msgstr ""
 
 msgctxt "IDS_ASPECT_RATIO_SAR"
 msgid "Aspect Ratio: Assume square pixels (SAR)"
-msgstr ""
+msgstr "نسبة العرض إلى الإرتفاع: بكسل مربع (SAR)"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADED"
 msgid "Downloaded [%s] \"%s\""
-msgstr ""
+msgstr "تحميل [%s] \"%s\""
 
 msgctxt "IDS_SUBUL_DLG_TITLE"
 msgid "Upload subtitles"
-msgstr ""
+msgstr "رفع ترجمة"
 
 msgctxt "IDS_SUBUL_DLG_CONFIRM"
 msgid "Are you sure you want to upload the subtitle file \"%s\"?"
-msgstr ""
+msgstr "هل ترغب فعلًا أن ترفع ملف الترجمة \"%s\"؟"
 
 msgctxt "IDS_SUBPP_DLG_FETCHING_LANGUAGES"
 msgid "Fetching supported languages..."

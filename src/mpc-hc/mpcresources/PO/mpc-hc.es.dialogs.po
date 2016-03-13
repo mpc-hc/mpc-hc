@@ -12,9 +12,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
-"PO-Revision-Date: 2016-01-18 10:37+0000\n"
-"Last-Translator: strel\n"
+"POT-Creation-Date: 2016-03-13 21:25:13+0000\n"
+"PO-Revision-Date: 2016-03-13 21:55+0000\n"
+"Last-Translator: Underground78\n"
 "Language-Team: Spanish (http://www.transifex.com/mpc-hc/mpc-hc/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -124,7 +124,7 @@ msgstr "canales de entrada:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
 msgid "Hold shift for immediate changes when clicking something"
-msgstr "Mantenga presionada Mayús para aplicar los cambios de inmediato"
+msgstr "Mantenga pulsada Mayús al hacer clic para aplicar los cambios de inmediato"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."
@@ -200,7 +200,7 @@ msgstr "© 2002-2016. Consulte el archivo Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
-msgstr "Este programa es gratuito y está publicado bajo la Licencia Pública General de GNU."
+msgstr "Este programa es gratuito y está publicado bajo la Licencia Pública General de GNU (GPL)."
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
@@ -236,7 +236,7 @@ msgstr "Nombre:"
 
 msgctxt "IDD_ABOUTBOX_IDC_BUTTON1"
 msgid "Copy to clipboard"
-msgstr "Copiar en el portapapeles"
+msgstr "Copiar al portapapeles"
 
 msgctxt "IDD_ABOUTBOX_IDOK"
 msgid "OK"
@@ -248,11 +248,11 @@ msgstr "Opciones de apertura"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO1"
 msgid "Use the same player for each media file"
-msgstr "Usar el mismo reproductor para cada archivo multimedia"
+msgstr "Usar el mismo reproductor para cada archivo audiovisual"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO2"
 msgid "Open a new player for each media file played"
-msgstr "Abrir un reproductor nuevo por cada archivo multimedia"
+msgstr "Abrir un reproductor nuevo para cada archivo audiovisual"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Language"
@@ -268,7 +268,7 @@ msgstr "Mostrar la ruta completa"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO4"
 msgid "File name only"
-msgstr "Solo el nombre de archivo"
+msgstr "Sólo nombre del archivo"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO5"
 msgid "Don't prefix anything"
@@ -284,7 +284,7 @@ msgstr "Otros"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK3"
 msgid "Tray icon"
-msgstr "Icono del área de notificación"
+msgstr "Icono de bandeja de sistema"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_SHOW_OSD"
 msgid "Show OSD (requires restart)"
@@ -328,11 +328,11 @@ msgstr "Recordar última lista de reproducción"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_FILE_POS"
 msgid "Remember File position"
-msgstr "Recordar la posición del archivo"
+msgstr "Recordar posición del archivo"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_DVD_POS"
 msgid "Remember DVD position"
-msgstr "Recordar la posición del DVD"
+msgstr "Recordar posición del DVD"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK6"
 msgid "Remember last window position"
@@ -344,11 +344,11 @@ msgstr "Recordar tamaño de la ventana"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
 msgid "Remember last Pan-n-Scan Zoom"
-msgstr "Recordar el último reencuadramiento"
+msgstr "Recordar zoom del último reencuadre"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
-msgstr "Comportamiento de «Abrir DVD/BD»"
+msgstr "Actuar con «Abrir DVD/BD»"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO1"
 msgid "Prompt for location"
@@ -360,7 +360,7 @@ msgstr "Siempre abrir la ubicación predefinida:"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "Preferred language for DVD Navigator and the external OGM Splitter"
-msgstr "Idioma favorito para menús de DVD y el «OGM Splitter» externo"
+msgstr "Idioma preferido para «DVD Navigator» y el «OGM Splitter» externo"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO3"
 msgid "Menu"
@@ -584,7 +584,7 @@ msgstr "Extensiones de archivo"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON2"
 msgid "Default"
-msgstr "Original"
+msgstr "Predeterminado"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON_EXT_SET"
 msgid "Set"
@@ -624,7 +624,7 @@ msgstr "DirectShow"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK5"
 msgid "Check file extension first"
-msgstr "Basarse primero en extensión"
+msgstr "Basarse primero en la extensión"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Explorer Context Menu"
@@ -684,7 +684,7 @@ msgstr "Evitar minimizar el reproductor en modo a pantalla completa al usar otro
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
 msgid "Use enhanced taskbar features"
-msgstr "Usar características mejoradas de barra de tareas"
+msgstr "Usar características de la barra de tareas mejorada"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
@@ -692,15 +692,15 @@ msgstr "Saltar al archivo anterior/siguiente en la carpeta en «Saltar siguiente
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
 msgid "Show time tooltip:"
-msgstr "Burbuja de tiempo:"
+msgstr "Mostrar etiqueta emergente de tiempo:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "OSD font:"
-msgstr "Tipo de letra de OSD:"
+msgstr "Tipo de letra de la sobreimpresión (OSD):"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_LCD"
 msgid "Enable Logitech LCD support (experimental)"
-msgstr "Activar compatibilidad con LCD Logitech (experimental)"
+msgstr "Activar compatibilidad con LCD de Logitech (experimental)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
 msgid "Auto-hide the mouse pointer during playback in windowed mode"
@@ -740,7 +740,7 @@ msgstr "Añadir tipo de medio…"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON6"
 msgid "Add Sub Type..."
-msgstr "Añadir tipo de sub.…"
+msgstr "Añadir tipo de subtítulo.…"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON7"
 msgid "Delete"
@@ -780,11 +780,11 @@ msgstr "Autor:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Copyright:"
-msgstr "Derechos del autor:"
+msgstr "Copyright:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Rating:"
-msgstr "Clasificación:"
+msgstr "Valoración:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Location:"
@@ -1088,7 +1088,7 @@ msgstr "Filtros de transformación"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Internal LAV Filters settings"
-msgstr "Ajustes de los filtros LAV internos"
+msgstr "Ajustes de los LAV Filters internos"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_SPLITTER_CONF"
 msgid "Splitter"
@@ -1156,7 +1156,7 @@ msgstr "D3D a pantalla completa"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Alternative VSync"
-msgstr "VSync alternativo"
+msgstr "VSync alternativa"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9LOADMIXER"
 msgid "VMR-9 Mixer Mode"
@@ -1272,7 +1272,7 @@ msgstr "Subir"
 
 msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
 msgid "Abort"
-msgstr "Interrumpir"
+msgstr "Abandonar"
 
 msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON2"
 msgid "Options"
@@ -1464,7 +1464,7 @@ msgstr "columnas"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCNEAREST"
 msgid "Present at nearest VSync"
-msgstr "Presentar al vsync más cercano"
+msgstr "Presentar al valor VSync más próximo"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC5"
 msgid "Target sync offset:"
@@ -1580,7 +1580,7 @@ msgstr "Restablecer"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Online search, download and upload subtitles"
-msgstr "Búsqueda en línea y carga y descarga de subtítulos"
+msgstr "Búsqueda en línea, descargar y subir subtítulos"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
 msgid "Automatically search and download subtitles if none are found locally"
@@ -1600,7 +1600,7 @@ msgstr "Idiomas en orden de preferencia:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
 msgid "Automatically upload active subtitles at the end of video playback"
-msgstr "Subir los subtítulos activos automáticamente al finalizar la reproducción"
+msgstr "Subir subtítulos activos automáticamente al finalizar la reproducción"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
@@ -1744,7 +1744,7 @@ msgstr "Nota"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
 msgid "To minimize audio distortion, it is recommended to keep player volume at around 85% when playing loud lossy-encoded content."
-msgstr "Para minimizar la distorsión del sonido, se recomienda mantener el volumen del reproductor en torno al 85 % al reproducir contenido ruidoso codificado con pérdidas."
+msgstr "Para minimizar la distorsión del sonido, se recomienda mantener el volumen del reproductor en torno al 85 % al reproducir contenido ruidoso con compresión a pérdida."
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
