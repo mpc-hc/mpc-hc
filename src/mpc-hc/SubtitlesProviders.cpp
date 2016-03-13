@@ -610,7 +610,7 @@ void SubtitlesTask::ThreadProc()
 
         const auto& s = AfxGetAppSettings();
         std::string exclude = UTF16To8(s.strAutoDownloadSubtitlesExclude);
-        stringArray exclude_array = StringTokenize(exclude, "|;, ");
+        stringArray exclude_array = StringTokenize(exclude, "|");
 
         if (!pFileInfo.title.empty()
         && std::none_of(exclude_array.cbegin(), exclude_array.cend(), [&](const std::string & str) {
