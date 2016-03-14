@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -183,6 +183,7 @@ public IUnknown {
     STDMETHOD_(bool, Paint)(bool bAll) PURE;
 
     STDMETHOD_(void, SetTime)(REFERENCE_TIME rtNow) PURE;
+    STDMETHOD_(void, SetDuration)(REFERENCE_TIME rtDuration) PURE;
     STDMETHOD_(void, SetSubtitleDelay)(int delayMs) PURE;
     STDMETHOD_(int, GetSubtitleDelay)() const PURE;
     STDMETHOD_(double, GetFPS)() const PURE;

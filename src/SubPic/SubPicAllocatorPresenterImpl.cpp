@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -46,6 +46,7 @@ CSubPicAllocatorPresenterImpl::CSubPicAllocatorPresenterImpl(HWND hWnd, HRESULT&
     , m_bDeviceResetRequested(false)
     , m_bPendingResetDevice(false)
     , m_SubtitleTextureLimit(STATIC)
+    , m_rtDuration(0)
 {
     if (!IsWindow(m_hWnd)) {
         hr = E_INVALIDARG;
@@ -201,6 +202,11 @@ STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetTime(REFERENCE_TIME rtNow)
     if (m_pSubPicQueue) {
         m_pSubPicQueue->SetTime(m_rtNow);
     }
+}
+
+STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetDuration(REFERENCE_TIME rtDuration)
+{
+    m_rtDuration = rtDuration;
 }
 
 STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetSubtitleDelay(int delayMs)
