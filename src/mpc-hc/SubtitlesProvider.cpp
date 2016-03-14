@@ -90,6 +90,7 @@ SRESULT OpenSubtitles::LogOut()
         VERIFY(xmlrpc->execute("LogOut", args, result));
         token.clear();
     }
+    m_nLoggedIn = SPL_UNDEFINED;
 
     return SR_SUCCEEDED;
 }

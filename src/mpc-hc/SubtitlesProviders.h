@@ -317,7 +317,10 @@ protected: // overridden
 public: // overridden
     virtual bool NeedLogin() { return !(m_nLoggedIn & (SPL_REGISTERED | SPL_ANONYMOUS)); }
     virtual SRESULT Login(const std::string&, const std::string&) { return SR_UNDEFINED; }
-    virtual SRESULT LogOut() { return SR_UNDEFINED; }
+    virtual SRESULT LogOut() {
+        m_nLoggedIn = SPL_UNDEFINED;
+        return SR_SUCCEEDED;
+    }
     virtual SRESULT Hash(SubtitlesInfo&) { return SR_UNDEFINED; }
     virtual SRESULT Upload(const SubtitlesInfo&) { return SR_UNDEFINED; };
     virtual std::string UserAgent() const {
@@ -369,8 +372,9 @@ private:
     std::string m_sUserName;
     std::string m_sPassword;
     SubtitlesProviders* m_pOwner;
-    SubtitlesProviderLogin m_nLoggedIn;
     int m_nIconIndex;
+protected:
+    SubtitlesProviderLogin m_nLoggedIn;
 };
 
 class SubtitlesProviders final
