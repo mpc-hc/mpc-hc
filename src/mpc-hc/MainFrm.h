@@ -582,6 +582,9 @@ public:
     CString GetCaptureTitle();
 
     // shaders
+private:
+    bool SetShaderListP2(const ShaderList& shaderList, bool bScreenSpace);
+public:
     void SetShaders(bool bSetPreResize = true, bool bSetPostResize = true);
 
     // capturing

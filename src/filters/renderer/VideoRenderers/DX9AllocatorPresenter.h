@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -308,5 +308,9 @@ namespace DSObjects
         // ID3DFullscreenControl
         STDMETHODIMP SetD3DFullscreen(bool fEnabled);
         STDMETHODIMP GetD3DFullscreen(bool* pfEnabled);
+
+        // ISubPicShaderPresenter
+        STDMETHODIMP SetPixelShaderTexture(int registerId, const CString& path, int filter, int wrap);
+        STDMETHODIMP SetPixelShaderParameter(int registerId, const float values[4]);
     };
 }

@@ -83,23 +83,46 @@ namespace DSObjects
         HRESULT AlphaBlt(const RECT* pSrc, const RECT* pDst, IDirect3DTexture9* pTexture);
 
         HRESULT SetCustomPixelShader(LPCSTR pSrcData, LPCSTR pTarget, bool bScreenSpace);
-
+        HRESULT SetCustomPixelShaderTexture(int registerId, const CString& path, int filter, int wrap);
+        HRESULT SetCustomPixelShaderParameter(int registerId, const float values[4]);
 
     private:
+
+        struct ExternalTexture {
+            CComPtr<IDirect3DTexture9> pTexture;
+            CTime timeStamp;
+            bool bUsed;
+        };
+
+        CMap<CString, LPCTSTR, ExternalTexture*, ExternalTexture*> m_ExternalTextures;
+
+        ExternalTexture* LoadExternalTexture(CString filePath);
+        void DestroyExternalTextures();
+        void UpdateExternalTextures();
+
+        struct PixelShaderTexture {
+            int registerId;
+            ExternalTexture* texture;
+            int filter;
+            int wrap;
+        };
+
+        struct PixelShaderParameter {
+            int registerId;
+            float values[4];
+        };
+
         class CExternalPixelShader
         {
         public:
             CComPtr<IDirect3DPixelShader9> m_pPixelShader;
             CStringA m_SourceData;
             CStringA m_SourceTarget;
-            HRESULT Compile(CPixelShaderCompiler* pCompiler) {
-                HRESULT hr = pCompiler->CompileShader(m_SourceData, "main", m_SourceTarget, 0, &m_pPixelShader);
-                if (FAILED(hr)) {
-                    return hr;
-                }
+            CList<PixelShaderTexture> m_Textures;
+            CList<PixelShaderParameter> m_Parameters;
 
-                return S_OK;
-            }
+            HRESULT Compile(CPixelShaderCompiler* pCompiler);
+            HRESULT Apply(IDirect3DDevice9* pD3DDev);
         };
 
         // D3DX functions
@@ -108,6 +131,7 @@ namespace DSObjects
             CONST float* pIn,
             UINT         n);
 
+        CExternalPixelShader* m_LatestCustomPixelShader;
 
         CAutoPtr<CPixelShaderCompiler>   m_pPSC;
 
@@ -117,7 +141,7 @@ namespace DSObjects
         ColorRenderingIntent             m_RenderingIntent;
 
         // Custom pixel shaders
-        CAtlList<CExternalPixelShader>   m_pCustomPixelShaders;
+        CAutoPtrList<CExternalPixelShader>   m_pCustomPixelShaders;
         CComPtr<IDirect3DTexture9>       m_pTemporaryVideoTextures[2];
 
         // Screen space pipeline
@@ -141,7 +165,7 @@ namespace DSObjects
         CComPtr<IDirect3DPixelShader9>   m_pFinalPixelShader;
 
         // Custom screen space pixel shaders
-        CAtlList<CExternalPixelShader>   m_pCustomScreenSpacePixelShaders;
+        CAutoPtrList<CExternalPixelShader> m_pCustomScreenSpacePixelShaders;
 
         // StetchRect rendering path
         D3DTEXTUREFILTERTYPE             m_StretchRectFilter;

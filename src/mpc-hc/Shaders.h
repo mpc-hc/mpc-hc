@@ -1,5 +1,5 @@
 /*
- * (C) 2013-2014 see Authors.txt
+ * (C) 2013-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -29,13 +29,48 @@
 
 #include "EventDispatcher.h"
 
-struct Shader {
-    Shader();
+struct ShaderTexture {
+    int id;
+    CString path;
+    int filter;
+    int wrap;
+};
+
+struct ShaderParameter {
+    int id;
+    float values[4];
+};
+
+class Shader
+{
+public:
     Shader(const CString& path);
-    CString filePath;
+
     bool operator==(const Shader& rhs) const;
     bool IsDefault() const;
-    CStringA GetCode() const;
+    bool IsUsing(const CString& filePath) const;
+
+    const CString& GetFilePath() const;
+    const CStringA GetCode() const;
+    const std::vector<CString>& GetPathes() const;
+    const std::vector<ShaderTexture>& GetTextures() const;
+    const std::vector<ShaderParameter>& GetParameters() const;
+
+    void Reload();
+
+private:
+
+    bool Load(const CString& path);
+    bool LoadConfig(const CString& path);
+
+    bool StripComments(std::string& code) const;
+    void Log(std::string message);
+
+    CString m_FilePath;
+    std::string m_Code;
+    std::vector<CString> m_Pathes;
+    std::vector<ShaderTexture> m_Textures;
+    std::vector<ShaderParameter> m_Parameters;
 };
 
 class ShaderList : public std::vector<Shader>
@@ -118,6 +153,7 @@ protected:
         virtual FileSet GetWatchedList() override;
         virtual void WatchedFilesChanged(const FileSet& changes) override;
         void WatchedFilesCooldownCallback();
+        bool CheckWatchedFiles(ShaderList& shaders);
         FileSet m_changes;
         EventClient m_eventc;
     };

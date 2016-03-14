@@ -33,6 +33,7 @@ class CSubPicAllocatorPresenterImpl
     , public CCritSec
     , public ISubPicAllocatorPresenter2
     , public ISubRenderConsumer2
+    , public ISubPicShaderPresenter
 {
 private:
     CCritSec m_csSubPicProvider;
@@ -153,4 +154,14 @@ public:
     // ISubRenderConsumer2
 
     STDMETHODIMP Clear(REFERENCE_TIME clearNewerThan = 0);
+
+    // ISubPicShaderPresenter
+
+    STDMETHODIMP SetPixelShaderTexture(int registerId, const CString& path, int filter, int wrap) {
+        return E_NOTIMPL;
+    }
+
+    STDMETHODIMP SetPixelShaderParameter(int registerId, const float values[4]) {
+        return E_NOTIMPL;
+    }
 };

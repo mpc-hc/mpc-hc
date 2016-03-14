@@ -33,32 +33,12 @@ class CPixelShaderCompiler
 
     CComPtr<IDirect3DDevice9> m_pD3DDev;
 
-    HRESULT InternalCompile(
-        LPCSTR pSrcData,
-        SIZE_T SrcDataSize,
-        LPCSTR pSourceName,
-        LPCSTR pEntrypoint,
-        LPCSTR pProfile,
-        DWORD Flags,
-        IDirect3DPixelShader9** ppPixelShader,
-        CString* pDisasm,
-        CString* pErrMsg);
-
 public:
     CPixelShaderCompiler(IDirect3DDevice9* pD3DDev, bool fStaySilent = false);
     ~CPixelShaderCompiler();
 
     HRESULT CompileShader(
         LPCSTR pSrcData,
-        LPCSTR pEntrypoint,
-        LPCSTR pProfile,
-        DWORD Flags,
-        IDirect3DPixelShader9** ppPixelShader,
-        CString* pDisasm = nullptr,
-        CString* pErrMsg = nullptr);
-
-    HRESULT CompileShaderFromFile(
-        LPCTSTR pSrcFile,
         LPCSTR pEntrypoint,
         LPCSTR pProfile,
         DWORD Flags,

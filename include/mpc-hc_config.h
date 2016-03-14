@@ -1,6 +1,6 @@
 #ifndef ISPP_INVOKED
 /*
- * (C) 2013-2015 see Authors.txt
+ * (C) 2013-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -46,6 +46,7 @@
 
 #define SHADERS_DIR _T("Shaders")
 #define SHADERS_EXT _T(".hlsl")
+#define SHADERS_CFG _T(".json")
 
 // If this is enabled, the registered LAV Filters can be loaded as internal filters
 #define ENABLE_LOAD_EXTERNAL_LAVF_AS_INTERNAL 0

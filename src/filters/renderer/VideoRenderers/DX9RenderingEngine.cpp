@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -192,6 +192,8 @@ void CDX9RenderingEngine::InitRenderingEngine()
 
 void CDX9RenderingEngine::CleanupRenderingEngine()
 {
+    DestroyExternalTextures();
+
     m_pPSC.Free();
 
     for (int i = 0; i < 4; i++) {
@@ -202,12 +204,12 @@ void CDX9RenderingEngine::CleanupRenderingEngine()
 
     POSITION pos = m_pCustomScreenSpacePixelShaders.GetHeadPosition();
     while (pos) {
-        CExternalPixelShader& Shader = m_pCustomScreenSpacePixelShaders.GetNext(pos);
+        CExternalPixelShader& Shader = *m_pCustomScreenSpacePixelShaders.GetNext(pos);
         Shader.m_pPixelShader = nullptr;
     }
     pos = m_pCustomPixelShaders.GetHeadPosition();
     while (pos) {
-        CExternalPixelShader& Shader = m_pCustomPixelShaders.GetNext(pos);
+        CExternalPixelShader& Shader = *m_pCustomPixelShaders.GetNext(pos);
         Shader.m_pPixelShader = nullptr;
     }
 
@@ -419,11 +421,11 @@ HRESULT CDX9RenderingEngine::RenderVideoDrawPath(IDirect3DSurface9* pRenderTarge
             hr = m_pTemporaryVideoTextures[dest]->GetSurfaceLevel(0, &pTemporarySurface);
             hr = m_pD3DDev->SetRenderTarget(0, pTemporarySurface);
 
-            CExternalPixelShader& Shader = m_pCustomPixelShaders.GetNext(pos);
+            CExternalPixelShader& Shader = *m_pCustomPixelShaders.GetNext(pos);
             if (!Shader.m_pPixelShader) {
                 Shader.Compile(m_pPSC);
             }
-            hr = m_pD3DDev->SetPixelShader(Shader.m_pPixelShader);
+            hr = Shader.Apply(m_pD3DDev);
 
             if (first) {
                 TextureCopy(m_pVideoTexture[m_nCurSurface]);
@@ -488,11 +490,11 @@ HRESULT CDX9RenderingEngine::RenderVideoDrawPath(IDirect3DSurface9* pRenderTarge
         while (pos) {
             BeginScreenSpacePass();
 
-            CExternalPixelShader& Shader = m_pCustomScreenSpacePixelShaders.GetNext(pos);
+            CExternalPixelShader& Shader = *m_pCustomScreenSpacePixelShaders.GetNext(pos);
             if (!Shader.m_pPixelShader) {
                 Shader.Compile(m_pPSC);
             }
-            hr = m_pD3DDev->SetPixelShader(Shader.m_pPixelShader);
+            hr = Shader.Apply(m_pD3DDev);
             TextureCopy(m_pTemporaryScreenSpaceTextures[m_ScreenSpacePassSrc]);
         }
     }
@@ -1700,7 +1702,7 @@ HRESULT CDX9RenderingEngine::AlphaBlt(const RECT* pSrc, const RECT* pDst, IDirec
 
 HRESULT CDX9RenderingEngine::SetCustomPixelShader(LPCSTR pSrcData, LPCSTR pTarget, bool bScreenSpace)
 {
-    CAtlList<CExternalPixelShader>* pPixelShaders;
+    CAutoPtrList<CExternalPixelShader>* pPixelShaders;
     if (bScreenSpace) {
         pPixelShaders = &m_pCustomScreenSpacePixelShaders;
     } else {
@@ -1710,6 +1712,7 @@ HRESULT CDX9RenderingEngine::SetCustomPixelShader(LPCSTR pSrcData, LPCSTR pTarge
     if (!pSrcData && !pTarget) {
         pPixelShaders->RemoveAll();
         m_pD3DDev->SetPixelShader(nullptr);
+        UpdateExternalTextures();
         return S_OK;
     }
 
@@ -1717,20 +1720,163 @@ HRESULT CDX9RenderingEngine::SetCustomPixelShader(LPCSTR pSrcData, LPCSTR pTarge
         return E_INVALIDARG;
     }
 
-    CExternalPixelShader Shader;
-    Shader.m_SourceData = pSrcData;
-    Shader.m_SourceTarget = pTarget;
+    CAutoPtr<CExternalPixelShader> shader;
+    shader.Attach(DEBUG_NEW CExternalPixelShader());
+    shader->m_SourceData = pSrcData;
+    shader->m_SourceTarget = pTarget;
 
-    CComPtr<IDirect3DPixelShader9> pPixelShader;
-
-    HRESULT hr = Shader.Compile(m_pPSC);
+    HRESULT hr = shader->Compile(m_pPSC);
     if (FAILED(hr)) {
         return hr;
     }
 
-    pPixelShaders->AddTail(Shader);
+    m_LatestCustomPixelShader = shader;
+    pPixelShaders->AddTail(shader);
 
     Paint(false);
 
     return S_OK;
+}
+
+HRESULT CDX9RenderingEngine::SetCustomPixelShaderTexture(int registerId, const CString& path, int filter, int wrap)
+{
+    PixelShaderTexture texture;
+    texture.texture = LoadExternalTexture(path);
+    if (texture.texture == NULL) {
+        return E_FAIL;
+    }
+    texture.registerId = registerId;
+    texture.filter = filter;
+    texture.wrap = wrap;
+    m_LatestCustomPixelShader->m_Textures.AddTail(texture);
+    return S_OK;
+}
+
+HRESULT CDX9RenderingEngine::SetCustomPixelShaderParameter(int registerId, const float values[4])
+{
+    PixelShaderParameter parameter;
+    memcpy(parameter.values, values, sizeof(float) * 4);
+    parameter.registerId = registerId;
+    m_LatestCustomPixelShader->m_Parameters.AddTail(parameter);
+    return S_OK;
+}
+
+CDX9RenderingEngine::ExternalTexture* CDX9RenderingEngine::LoadExternalTexture(CString filePath)
+{
+    ExternalTexture* pTexture;
+    if (m_ExternalTextures.Lookup(filePath, pTexture) != 0) {
+        CFileStatus status;
+        if (!CFile::GetStatus(filePath, status) || status.m_mtime != pTexture->timeStamp) {
+            delete pTexture;
+            m_ExternalTextures.RemoveKey(filePath);
+        } else {
+            pTexture->bUsed = true;
+            return pTexture;
+        }
+    }
+
+    pTexture = DEBUG_NEW ExternalTexture();
+    if (FAILED(D3DXCreateTextureFromFile(m_pD3DDev, filePath, &pTexture->pTexture))) {
+        return NULL;
+    }
+
+    CFileStatus status;
+    if (CFile::GetStatus(filePath, status)) {
+        pTexture->timeStamp = status.m_mtime;
+    }
+
+    pTexture->bUsed = true;
+    m_ExternalTextures[filePath] = pTexture;
+    return pTexture;
+}
+
+void CDX9RenderingEngine::DestroyExternalTextures()
+{
+    POSITION pos = m_ExternalTextures.GetStartPosition();
+    while (pos != NULL) {
+        CString filePath;
+        ExternalTexture* texture;
+        m_ExternalTextures.GetNextAssoc(pos, filePath, texture);
+        delete texture;
+    }
+    m_ExternalTextures.RemoveAll();
+}
+
+void CDX9RenderingEngine::UpdateExternalTextures()
+{
+    POSITION pos = m_ExternalTextures.GetStartPosition();
+    while (pos) {
+        CString filePath;
+        ExternalTexture* texture;
+        m_ExternalTextures.GetNextAssoc(pos, filePath, texture);
+
+        if (texture->bUsed) {
+            texture->bUsed = false;
+        } else {
+            delete texture;
+            m_ExternalTextures.RemoveKey(filePath);
+        }
+    }
+}
+
+HRESULT CDX9RenderingEngine::CExternalPixelShader::Compile(CPixelShaderCompiler* pCompiler)
+{
+    HRESULT hr = pCompiler->CompileShader(m_SourceData, "main", m_SourceTarget, 0, &m_pPixelShader);
+    if (FAILED(hr)) {
+        return hr;
+    }
+
+    return S_OK;
+}
+
+HRESULT CDX9RenderingEngine::CExternalPixelShader::Apply(IDirect3DDevice9* pD3DDev)
+{
+    HRESULT res = pD3DDev->SetPixelShader(m_pPixelShader);
+    if (res != S_OK) {
+        return res;
+    }
+
+    // Apply textures
+    POSITION pos = m_Textures.GetHeadPosition();
+    while (pos) {
+        PixelShaderTexture& texture = m_Textures.GetNext(pos);
+        res = pD3DDev->SetTexture(texture.registerId, texture.texture->pTexture);
+        if (res != S_OK) {
+            return res;
+        }
+
+        if (texture.wrap == 1) {
+            pD3DDev->SetSamplerState(texture.registerId, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
+            pD3DDev->SetSamplerState(texture.registerId, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
+        } else {
+            pD3DDev->SetSamplerState(texture.registerId, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+            pD3DDev->SetSamplerState(texture.registerId, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+        }
+
+        if (texture.filter == 2) {
+            pD3DDev->SetSamplerState(texture.registerId, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+            pD3DDev->SetSamplerState(texture.registerId, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+            pD3DDev->SetSamplerState(texture.registerId, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
+        } else if (texture.filter == 3) {
+            pD3DDev->SetSamplerState(texture.registerId, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+            pD3DDev->SetSamplerState(texture.registerId, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+            pD3DDev->SetSamplerState(texture.registerId, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+        } else {
+            pD3DDev->SetSamplerState(texture.registerId, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
+            pD3DDev->SetSamplerState(texture.registerId, D3DSAMP_MINFILTER, D3DTEXF_POINT);
+            pD3DDev->SetSamplerState(texture.registerId, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
+        }
+    }
+
+    // Apply parameters
+    pos = m_Parameters.GetHeadPosition();
+    while (pos) {
+        PixelShaderParameter& parameter = m_Parameters.GetNext(pos);
+        res = pD3DDev->SetPixelShaderConstantF(parameter.registerId, parameter.values, 4);
+        if (res != S_OK) {
+            return res;
+        }
+    }
+
+    return res;
 }

@@ -1,5 +1,5 @@
 /*
- * (C) 2013-2015 see Authors.txt
+ * (C) 2013-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -182,10 +182,10 @@ void CDebugShadersDlg::OnListRefresh()
     list.insert(list.cend(), s.m_ShadersExtraList.cbegin(), s.m_ShadersExtraList.cend());
     m_Shaders.ResetContent();
     for (const auto& shader : list) {
-        ASSERT(!shader.filePath.IsEmpty());
-        int idx = m_Shaders.InsertString(-1, shader.filePath);
+        ASSERT(!shader.GetFilePath().IsEmpty());
+        int idx = m_Shaders.InsertString(-1, shader.GetFilePath());
         if (idx >= 0) {
-            if (shader.filePath == path) {
+            if (shader.GetFilePath() == path) {
                 VERIFY(m_Shaders.SetCurSel(idx) != CB_ERR);
             }
         } else {
@@ -227,9 +227,10 @@ void CDebugShadersDlg::OnRecompileShader()
     }
     int sel = m_Shaders.GetCurSel();
     if (sel != CB_ERR) {
-        Shader shader;
-        m_Shaders.GetLBText(sel, shader.filePath);
-        if (PathUtils::IsFile(shader.filePath)) {
+        CString shaderPath;
+        m_Shaders.GetLBText(sel, shaderPath);
+        if (PathUtils::IsFile(shaderPath)) {
+            Shader shader(shaderPath);
             CStringA profile;
             switch (m_iVersion) {
                 case ps_2_0:
@@ -250,8 +251,8 @@ void CDebugShadersDlg::OnRecompileShader()
                     break;
             }
             CString disasm, compilerMsg;
-            if (SUCCEEDED(m_Compiler.CompileShaderFromFile(shader.filePath, "main", profile,
-                                                           D3DXSHADER_DEBUG, nullptr, &disasm, &compilerMsg))) {
+            if (SUCCEEDED(m_Compiler.CompileShader(shader.GetCode(), "main", profile,
+                                                   D3DXSHADER_DEBUG, nullptr, &disasm, &compilerMsg))) {
                 if (!compilerMsg.IsEmpty()) {
                     compilerMsg += _T("\n");
                 }

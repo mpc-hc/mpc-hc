@@ -155,8 +155,8 @@ bool CShaderListBox::DeleteCurrentShader()
 
 CString CShaderListBox::GetTitle(const Shader& shader)
 {
-    CString ret = PathUtils::FileName(shader.filePath);
-    if (!PathUtils::IsFile(shader.filePath)) {
+    CString ret = PathUtils::FileName(shader.GetFilePath());
+    if (!PathUtils::IsFile(shader.GetFilePath())) {
         ret += _T(" <not found!>"); // TODO: externalize this string and merge it with the one in PPageExternalFilters
     }
     return ret;
@@ -190,7 +190,7 @@ BOOL CShaderListBox::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
         int item = (int)pNMHDR->idFrom;
         ASSERT(m_List.size() <= INT_MAX);
         if ((item < GetCount()) && (item < (int)m_List.size())) {
-            text = m_List.at(item).filePath;
+            text = m_List.at(item).GetFilePath();
             ((TOOLTIPTEXT*)pNMHDR)->lpszText = (LPTSTR)(LPCTSTR)text;
         } else {
             ASSERT(FALSE);
