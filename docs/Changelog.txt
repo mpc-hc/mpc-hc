@@ -49,5 +49,6 @@ next version - not released yet
   Slovenian, Swedish, Spanish, Tatar, Thai, Turkish, Ukrainian and Vietnamese translations
 ! Window position and/or size could be wrong when exiting fullscreen mode for the first time and
   "Launch files in fullscreen" option is enabled
+! Ticket #2202, Automatically rotate MP4/MOV/FLV files when the rotation info is available
 ! Ticket #5557, Show the correct language name for Serbian subtitles. They used to show as Croatian
 ! Ticket #5748, Track selection menus did not work when using DVB capture

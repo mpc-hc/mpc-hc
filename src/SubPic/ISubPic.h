@@ -208,6 +208,8 @@ public ISubPicAllocatorPresenter {
 
     STDMETHOD_(bool, IsRendering)() PURE;
     STDMETHOD(SetIsRendering)(bool bIsRendering) PURE;
+
+    STDMETHOD(SetDefaultVideoAngle)(Vector v) PURE;
 };
 
 //

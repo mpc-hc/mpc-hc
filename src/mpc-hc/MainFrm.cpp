@@ -11859,6 +11859,18 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
             if (rtPos) {
                 m_pMS->SetPositions(&rtPos, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning);
             }
+
+            if (m_pCAP2 && m_pFSF) {
+                CComQIPtr<IBaseFilter> pBF = m_pFSF;
+                if (GetCLSID(pBF) == GUID_LAVSplitter || GetCLSID(pBF) == GUID_LAVSplitterSource) {
+                    if (CComQIPtr<IPropertyBag> pPB = pBF) {
+                        CComVariant var;
+                        if (SUCCEEDED(pPB->Read(_T("rotation"), &var, nullptr)) && var.vt == VT_BSTR) {
+                            m_pCAP2->SetDefaultVideoAngle(Vector(0, 0, Vector::DegToRad(_tcstol(var.bstrVal, nullptr, 10) % 360)));
+                        }
+                    }
+                }
+            }
         }
 
         if (m_pCAP && s.IsISRAutoLoadEnabled() && (!m_fAudioOnly || m_fRealMediaGraph)) {

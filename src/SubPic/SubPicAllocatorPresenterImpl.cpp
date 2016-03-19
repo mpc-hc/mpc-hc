@@ -274,15 +274,46 @@ void CSubPicAllocatorPresenterImpl::Transform(CRect r, Vector v[4])
     }
 }
 
-STDMETHODIMP CSubPicAllocatorPresenterImpl::SetVideoAngle(Vector v)
+STDMETHODIMP CSubPicAllocatorPresenterImpl::SetDefaultVideoAngle(Vector v)
 {
-    XForm xform(Ray(Vector(), v), Vector(1, 1, 1), false);
-    if (m_xform != xform) {
-        m_xform = xform;
-        Paint(false);
+    if (m_defaultVideoAngle != v) {
+        m_defaultVideoAngle = v;
+        UpdateXForm();
         return S_OK;
     }
     return S_FALSE;
+}
+
+STDMETHODIMP CSubPicAllocatorPresenterImpl::SetVideoAngle(Vector v)
+{
+    if (m_videoAngle != v) {
+        m_videoAngle = v;
+        UpdateXForm();
+        return S_OK;
+    }
+    return S_FALSE;
+}
+
+void CSubPicAllocatorPresenterImpl::UpdateXForm()
+{
+    Vector v = m_defaultVideoAngle + m_videoAngle;
+
+    auto normalizeAngle = [](float & rad) {
+        while (rad < 0.0f) {
+            rad += 2 * M_PI;
+        }
+        while (rad > 2 * M_PI) {
+            rad -= 2 * M_PI;
+        }
+    };
+
+    normalizeAngle(v.x);
+    normalizeAngle(v.y);
+    normalizeAngle(v.z);
+
+    m_xform = XForm(Ray(Vector(), v), Vector(1, 1, 1), false);
+
+    Paint(false);
 }
 
 // ISubRenderOptions
