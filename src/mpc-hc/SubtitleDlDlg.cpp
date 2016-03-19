@@ -216,8 +216,6 @@ BOOL CSubtitleDlDlg::PreTranslateMessage(MSG* pMsg)
 
 void CSubtitleDlDlg::OnOK()
 {
-    SetStatusText(ResStr(IDS_SUBDL_DLG_DOWNLOADING));
-
     if (IsDlgButtonChecked(IDC_CHECK1) == BST_CHECKED) {
         m_pMainFrame->SetSubtitle(SubtitleInput(nullptr));
         CAutoLock cAutoLock(&m_pMainFrame->m_csSubLock);
