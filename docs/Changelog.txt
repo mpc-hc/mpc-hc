@@ -35,6 +35,7 @@ next version - not released yet
 * Old DirectX 7 renderers have been removed. Settings will be updated automatically to use the corresponding VMR-9 renderers.
   If you really want to use a renderer similar to VMR-7 (windowed), use Overlay mixer or the "system default" renderer
 * Make Video Renderer statistics scalable to window size and unify graph look for EVR Sync and other renderers
+* "Replace currently loaded subtitles" option no longer removes subtitles provided by splitter
 * Ticket #2022/#4779: Rewrite subtitles downloading framework
     - Support for multiple subtitle providers including the default OpenSubtitles as well as
       podnapisi, titlovi, SubDB, ysubs and Napisy24 which can be enabled in Options (Subtitles -> Misc)

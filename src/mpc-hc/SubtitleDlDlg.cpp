@@ -41,7 +41,6 @@ enum {
 CSubtitleDlDlg::CSubtitleDlDlg(CMainFrame* pParentWnd)
     : CResizableDialog(IDD, pParentWnd)
     , m_ps(nullptr, 0, 0)
-    , m_bReplaceSubs(false)
     , m_bIsRefreshed(false)
     , m_pMainFrame(pParentWnd)
 {
@@ -219,11 +218,17 @@ void CSubtitleDlDlg::OnOK()
 {
     SetStatusText(ResStr(IDS_SUBDL_DLG_DOWNLOADING));
 
-    m_bReplaceSubs = IsDlgButtonChecked(IDC_CHECK1) == BST_CHECKED;
-
-    if (m_bReplaceSubs) {
+    if (IsDlgButtonChecked(IDC_CHECK1) == BST_CHECKED) {
+        m_pMainFrame->SetSubtitle(SubtitleInput(nullptr));
         CAutoLock cAutoLock(&m_pMainFrame->m_csSubLock);
-        m_pMainFrame->m_pSubStreams.RemoveAll();
+        auto& subStreams = m_pMainFrame->m_pSubStreams;
+        POSITION pos = subStreams.GetHeadPosition();
+        while (pos) {
+            POSITION currentPos = pos;
+            if (!subStreams.GetNext(pos).pSourceFilter) {
+                subStreams.RemoveAt(currentPos);
+            }
+        }
     }
 
     bool bActivate = true;

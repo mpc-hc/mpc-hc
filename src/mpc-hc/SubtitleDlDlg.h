@@ -57,7 +57,6 @@ class CSubtitleDlDlg : public CResizableDialog
     typedef PARAMSORT* PPARAMSORT;
 
     PARAMSORT m_ps;
-    bool m_bReplaceSubs;
     bool m_bIsRefreshed;
 
     CListCtrl m_list;
