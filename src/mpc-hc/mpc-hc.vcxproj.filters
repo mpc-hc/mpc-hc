@@ -464,6 +464,9 @@
     <ClCompile Include="SVGImage.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
+    <ClCompile Include="ImageGrayer.cpp">
+      <Filter>Helpers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h">
@@ -865,6 +868,9 @@
       <Filter>Subtitles</Filter>
     </ClInclude>
     <ClInclude Include="SVGImage.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageGrayer.h">
       <Filter>Helpers</Filter>
     </ClInclude>
   </ItemGroup>

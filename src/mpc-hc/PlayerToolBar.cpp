@@ -29,6 +29,7 @@
 #include "MainFrm.h"
 #include "PathUtils.h"
 #include "SVGImage.h"
+#include "ImageGrayer.h"
 
 // CPlayerToolBar
 
@@ -37,6 +38,7 @@ CPlayerToolBar::CPlayerToolBar(CMainFrame* pMainFrame)
     : m_pMainFrame(pMainFrame)
     , m_nButtonHeight(16)
     , m_pButtonsImages(nullptr)
+    , m_pDisabledButtonsImages(nullptr)
     , m_volumeMinSizeInc(0)
 {
 }
@@ -44,6 +46,7 @@ CPlayerToolBar::CPlayerToolBar(CMainFrame* pMainFrame)
 CPlayerToolBar::~CPlayerToolBar()
 {
     SAFE_DELETE(m_pButtonsImages);
+    SAFE_DELETE(m_pDisabledButtonsImages);
 }
 
 bool CPlayerToolBar::LoadExternalToolBar(CImage& image)
@@ -128,6 +131,14 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
             if (bpp == 32) {
                 m_pButtonsImages->Create(height, height, ILC_COLOR32 | ILC_MASK, 1, 0);
                 m_pButtonsImages->Add(bmp, nullptr); // alpha is the mask
+
+                CImage imageDisabled;
+                if (ImageGrayer::Gray(image, imageDisabled)) {
+                    m_pDisabledButtonsImages = DEBUG_NEW CImageList();
+                    m_pDisabledButtonsImages->Create(height, height, ILC_COLOR32 | ILC_MASK, 1, 0);
+                    m_pDisabledButtonsImages->Add(CBitmap::FromHandle(imageDisabled), nullptr); // alpha is the mask
+                    GetToolBarCtrl().SetDisabledImageList(m_pDisabledButtonsImages);
+                }
             } else {
                 m_pButtonsImages->Create(height, height, ILC_COLOR24 | ILC_MASK, 1, 0);
                 m_pButtonsImages->Add(bmp, RGB(255, 0, 255));

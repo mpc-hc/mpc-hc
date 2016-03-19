@@ -41,6 +41,7 @@ private:
 
     int m_nButtonHeight;
     CImageList* m_pButtonsImages;
+    CImageList* m_pDisabledButtonsImages;
     int m_volumeMinSizeInc;
 
 public:
