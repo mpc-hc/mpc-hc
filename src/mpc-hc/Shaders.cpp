@@ -191,10 +191,12 @@ bool Shader::LoadConfig(const CString& path)
     }
 
     for (rapidjson::Value::ConstMemberIterator member = document.MemberBegin(); member != document.MemberEnd(); ++member) {
-        if (member->name == "texture") {
-            rapidjson::Value::ConstMemberIterator id = member->value.FindMember("id");
-            rapidjson::Value::ConstMemberIterator path = member->value.FindMember("path");
-            if (path != member->value.MemberEnd() && id != member->value.MemberEnd()) {
+        rapidjson::Value::ConstMemberIterator id = member->value.FindMember("id");
+        rapidjson::Value::ConstMemberIterator path = member->value.FindMember("path");
+        rapidjson::Value::ConstMemberIterator values = member->value.FindMember("values");
+
+        if (id != member->value.MemberEnd()) {
+            if (path != member->value.MemberEnd()) {
                 ShaderTexture texture;
                 texture.id = id->value.GetInt();
                 texture.path = path->value.GetString();
@@ -226,20 +228,18 @@ bool Shader::LoadConfig(const CString& path)
                 }
 
                 m_Textures.push_back(texture);
-            }
-        } else if (member->name == "float4") {
-            rapidjson::Value::ConstMemberIterator values = member->value.FindMember("values");
-            rapidjson::Value::ConstMemberIterator id = member->value.FindMember("id");
-            if (values != member->value.MemberEnd() && values->value.IsArray() && values->value.Size() == 4 && id != member->value.MemberEnd()) {
-                ShaderParameter param;
-                param.id = id->value.GetInt();
-                memset(param.values, 0, sizeof(float) * 4);
+            } else if (values != member->value.MemberEnd()) {
+                if (values != member->value.MemberEnd() && values->value.IsArray() && values->value.Size() == 4 && id != member->value.MemberEnd()) {
+                    ShaderParameter param;
+                    param.id = id->value.GetInt();
+                    memset(param.values, 0, sizeof(float) * 4);
 
-                for (rapidjson::SizeType comp = 0; comp < values->value.Size(); ++comp) {
-                    param.values[comp] = (float)values->value[comp].GetDouble();
+                    for (rapidjson::SizeType comp = 0; comp < values->value.Size(); ++comp) {
+                        param.values[comp] = (float)values->value[comp].GetDouble();
+                    }
+
+                    m_Parameters.push_back(param);
                 }
-
-                m_Parameters.push_back(param);
             }
         }
     }
