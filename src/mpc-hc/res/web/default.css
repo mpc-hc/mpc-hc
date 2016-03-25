@@ -1,41 +1,44 @@
-/*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
-img,legend{border:0}
-legend,td,th{padding:0}
+/*! normalize.css v4.0.0 | MIT License | github.com/necolas/normalize.css */
+progress,sub,sup{vertical-align:baseline}
+button,hr,input,select{overflow:visible}
+[type=checkbox],[type=radio],legend{box-sizing:border-box;padding:0}
 html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
 body{margin:0}
-article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary{display:block}
-audio,canvas,progress,video{display:inline-block;vertical-align:baseline}
+article,aside,details,figcaption,figure,footer,header,main,menu,nav,section,summary{display:block}
+audio,canvas,progress,video{display:inline-block}
 audio:not([controls]){display:none;height:0}
 [hidden],template{display:none}
 a{background-color:transparent}
-a:active,a:hover{outline:0}
-abbr[title]{border-bottom:1px dotted}
-b,optgroup,strong{font-weight:700}
+a:active,a:hover{outline-width:0}
+abbr[title]{border-bottom:none;text-decoration:underline;text-decoration:underline dotted}
+b,strong{font-weight:bolder}
 dfn{font-style:italic}
 h1{font-size:2em;margin:.67em 0}
-mark{background:#ff0;color:#000}
+mark{background-color:#ff0;color:#000}
 small{font-size:80%}
-sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
-sup{top:-.5em}
+sub,sup{font-size:75%;line-height:0;position:relative}
 sub{bottom:-.25em}
+sup{top:-.5em}
+img{border-style:none}
 svg:not(:root){overflow:hidden}
+code,kbd,pre,samp{font-family:monospace,monospace;font-size:1em}
 figure{margin:1em 40px}
 hr{box-sizing:content-box;height:0}
-pre,textarea{overflow:auto}
-code,kbd,pre,samp{font-family:monospace,monospace;font-size:1em}
-button,input,optgroup,select,textarea{color:inherit;font:inherit;margin:0}
-button{overflow:visible}
+button,input,select,textarea{font:inherit;margin:0}
+optgroup{font-weight:700}
 button,select{text-transform:none}
-button,html input[type=button],input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer}
-button[disabled],html input[disabled]{cursor:default}
+[type=button],[type=reset],[type=submit],button{cursor:pointer}
+[disabled]{cursor:default}
+[type=reset],[type=submit],button,html [type=button]{-webkit-appearance:button}
 button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
-input{line-height:normal}
-input[type=checkbox],input[type=radio]{box-sizing:border-box;padding:0}
-input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{height:auto}
-input[type=search]{-webkit-appearance:textfield;box-sizing:content-box}
-input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-search-decoration{-webkit-appearance:none}
+button:-moz-focusring,input:-moz-focusring{outline:ButtonText dotted 1px}
 fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
-/* END OF normalize.css 3.0.3 */
+legend{color:inherit;display:table;max-width:100%;white-space:normal}
+textarea{overflow:auto}
+[type=number]::-webkit-inner-spin-button,[type=number]::-webkit-outer-spin-button{height:auto}
+[type=search]{-webkit-appearance:textfield}
+[type=search]::-webkit-search-cancel-button,[type=search]::-webkit-search-decoration{-webkit-appearance:none}
+/* END OF normalize.css v4.0.0 */
 
 
 /* common */
@@ -104,6 +107,10 @@ img {
 
 
 /* controls.html */
+td,
+th {
+  padding: 0;
+}
 #slider {
     background: url(img/sliderback.png) no-repeat;
     width: 515px;
