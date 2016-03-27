@@ -60,6 +60,7 @@
     <ClCompile Include="GolombBuffer.cpp" />
     <ClCompile Include="H264Nalu.cpp" />
     <ClCompile Include="HdmvClipInfo.cpp" />
+    <ClCompile Include="ISOLang.cpp" />
     <ClCompile Include="MediaTypeEx.cpp" />
     <ClCompile Include="MediaTypes.cpp" />
     <ClCompile Include="NullRenderers.cpp" />
@@ -86,6 +87,7 @@
     <ClInclude Include="GolombBuffer.h" />
     <ClInclude Include="H264Nalu.h" />
     <ClInclude Include="HdmvClipInfo.h" />
+    <ClInclude Include="ISOLang.h" />
     <ClInclude Include="MediaTypeEx.h" />
     <ClInclude Include="MediaTypes.h" />
     <ClInclude Include="MhookHelper.h" />

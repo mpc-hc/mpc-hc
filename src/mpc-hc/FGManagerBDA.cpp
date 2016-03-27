@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2015 see Authors.txt
+ * (C) 2009-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -32,6 +32,7 @@
 #include "GolombBuffer.h"
 #include "../filters/switcher/AudioSwitcher/AudioSwitcher.h"
 #include "moreuuids.h"
+#include "ISOLang.h"
 #include "mplayerc.h"
 #include "FGManagerBDA.h"
 #include "DVBChannel.h"
@@ -921,7 +922,7 @@ STDMETHODIMP CFGManagerBDA::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFl
 
                 if (!pStreamInfo->sLanguage.IsEmpty() && pStreamInfo->GetLCID() == 0) {
                     // Try to convert language code even if LCID was not found.
-                    str += _T(" [") + ISO6392ToLanguage(CStringA(pStreamInfo->sLanguage)) + _T("]");
+                    str += _T(" [") + ISOLang::ISO6392ToLanguage(CStringA(pStreamInfo->sLanguage)) + _T("]");
                 }
 
                 *ppszName = (WCHAR*)CoTaskMemAlloc((str.GetLength() + 1) * sizeof(WCHAR));

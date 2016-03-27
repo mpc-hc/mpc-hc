@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013, 2015 see Authors.txt
+ * (C) 2006-2013, 2015-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -29,6 +29,7 @@
 
 #include <InitGuid.h>
 #include "moreuuids.h"
+#include "../DSUtil/ISOLang.h"
 
 //
 // CBaseMuxerOutputPin
@@ -459,7 +460,7 @@ void CBaseMuxerRawOutputPin::MuxFooter(const CMediaType& mt)
 
                     fwrite(mt.Format() + si->dwOffset, mt.FormatLength() - si->dwOffset, 1, f);
 
-                    CString iso6391 = ISO6392To6391(si->IsoLang);
+                    CString iso6391 = ISOLang::ISO6392To6391(si->IsoLang);
                     if (iso6391.IsEmpty()) {
                         iso6391 = _T("--");
                     }

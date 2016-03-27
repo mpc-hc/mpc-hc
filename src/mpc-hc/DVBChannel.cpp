@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2015 see Authors.txt
+ * (C) 2009-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,7 +21,13 @@
 
 #include "stdafx.h"
 #include "DVBChannel.h"
+#include "ISOLang.h"
 
+
+LCID DVBStreamInfo::GetLCID() const
+{
+    return ISOLang::ISO6392ToLcid(CStringA(sLanguage));
+};
 
 CDVBChannel::CDVBChannel(CString strChannel)
 {

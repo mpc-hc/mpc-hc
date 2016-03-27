@@ -94,7 +94,7 @@ struct DVBStreamInfo {
     PES_STREAM_TYPE nPesType = INVALID;
     CString         sLanguage;
 
-    LCID GetLCID() { return ISO6392ToLcid(CStringA(sLanguage)); };
+    LCID GetLCID() const;
 };
 
 class CDVBChannel

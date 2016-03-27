@@ -29,6 +29,7 @@
 #include <InitGuid.h>
 #include <uuids.h>
 #include "moreuuids.h"
+#include "../DSUtil/ISOLang.h"
 
 // our first format id
 #define __GAB1__ "GAB1"
@@ -103,8 +104,8 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
         if (psi != nullptr) {
             dwOffset = psi->dwOffset;
 
-            name = ISO6392ToLanguage(psi->IsoLang);
-            lcid = ISO6392ToLcid(psi->IsoLang);
+            name = ISOLang::ISO6392ToLanguage(psi->IsoLang);
+            lcid = ISOLang::ISO6392ToLcid(psi->IsoLang);
 
             CString trackName(psi->TrackName);
             trackName.Trim();

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2013, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,6 +22,7 @@
 #include "stdafx.h"
 #include "DSMSplitter.h"
 #include "../../../DSUtil/DSUtil.h"
+#include "../../../DSUtil/ISOLang.h"
 
 #ifdef STANDALONE_FILTER
 #include <InitGuid.h>
@@ -170,7 +171,7 @@ HRESULT CDSMSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
             if (key == "NAME") {
                 name = value;
             }
-            if (key == "LANG") if ((lang = ISO6392ToLanguage(CStringA(CString(value)))).IsEmpty()) {
+            if (key == "LANG") if ((lang = ISOLang::ISO6392ToLanguage(CStringA(CString(value)))).IsEmpty()) {
                     lang = value;
                 }
         }

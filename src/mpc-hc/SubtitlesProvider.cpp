@@ -22,6 +22,7 @@
 #include "SubtitlesProvider.h"
 #include "SubtitlesProvidersUtils.h"
 #include "mplayerc.h"
+#include "ISOLang.h"
 #include "MediaInfo/library/Source/ThirdParty/base64/base64.h"
 #include "tinyxml2/library/tinyxml2.h"
 #include "rapidjson/include/rapidjson/document.h"
@@ -344,8 +345,8 @@ const std::set<std::string>& OpenSubtitles::Languages() const
             std::string ISO6391 = data[i]["ISO639"];
             ASSERT(!ISO6391.empty());
             ASSERT(!subLanguageID.empty());
-            ASSERT(ISO6391To6392(ISO6391.c_str()) == subLanguageID.c_str());
-            ASSERT(ISO6392To6391(subLanguageID.c_str()) == ISO6391.c_str());
+            ASSERT(ISOLang::ISO6391To6392(ISO6391.c_str()) == subLanguageID.c_str());
+            ASSERT(ISOLang::ISO6392To6391(subLanguageID.c_str()) == ISO6391.c_str());
             //std::string languageName = data[i]["LanguageName"];
             //ASSERT(ISO639XToLanguage(ISO6391.c_str()) == languageName.c_str());
             //ASSERT(ISO639XToLanguage(subLanguageID.c_str()) == languageName.c_str());
@@ -420,7 +421,7 @@ SRESULT SubDB::Search(const SubtitlesInfo& pFileInfo)
                 pSubtitlesInfo.fileExtension = "srt";
                 pSubtitlesInfo.fileName = pFileInfo.fileName + GUESSED_NAME_POSTFIX;
                 pSubtitlesInfo.languageCode = iter;
-                pSubtitlesInfo.languageName = UTF16To8(ISO639XToLanguage(iter.c_str()));
+                pSubtitlesInfo.languageName = UTF16To8(ISOLang::ISO639XToLanguage(iter.c_str()));
                 pSubtitlesInfo.discNumber = 1;
                 pSubtitlesInfo.discCount = 1;
                 pSubtitlesInfo.title = pFileInfo.title;
@@ -766,7 +767,7 @@ SRESULT titlovi::Search(const SubtitlesInfo& pFileInfo)
                             pSubtitlesInfo.languageCode = language.name;
                         }
                     }
-                    pSubtitlesInfo.languageName = UTF16To8(ISO639XToLanguage(pSubtitlesInfo.languageCode.c_str()));
+                    pSubtitlesInfo.languageName = UTF16To8(ISOLang::ISO639XToLanguage(pSubtitlesInfo.languageCode.c_str()));
                     pSubtitlesInfo.releaseName = GetChildElementText(pSubtitleElmt, "release");
                     pSubtitlesInfo.imdbid = GetChildElementText(pSubtitleElmt, "imdbId");
                     pSubtitlesInfo.frameRate = atof(GetChildElementText(pSubtitleElmt, "fps").c_str());
@@ -892,7 +893,7 @@ SRESULT ysubs::Search(const SubtitlesInfo& pFileInfo)
 
                                             pSubtitlesInfo.title = elem->FindMember("title")->value.GetString();
                                             pSubtitlesInfo.languageCode = lang_code;
-                                            pSubtitlesInfo.languageName = UTF16To8(ISO639XToLanguage(pSubtitlesInfo.languageCode.c_str()));
+                                            pSubtitlesInfo.languageName = UTF16To8(ISOLang::ISO639XToLanguage(pSubtitlesInfo.languageCode.c_str()));
                                             pSubtitlesInfo.releaseName = "YIFY";
                                             pSubtitlesInfo.imdbid = imdb;
                                             pSubtitlesInfo.year = elem->FindMember("year")->value.GetInt();

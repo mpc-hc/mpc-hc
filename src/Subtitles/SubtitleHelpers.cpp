@@ -25,6 +25,7 @@
 #include "../DSUtil/ArrayUtils.h"
 #include "../DSUtil/Constexpr.h"
 #include "../DSUtil/PathUtils.h"
+#include "../DSUtil/ISOLang.h"
 #include <regex>
 
 namespace
@@ -211,14 +212,14 @@ CString Subtitle::GuessSubtitleName(const CString& fn, CString videoName, LCID& 
             if (std::regex_search((LPCTSTR)subName, mc, re)) {
                 ASSERT(mc.size() == 3);
                 ASSERT(mc[1].matched);
-                lang = ISO639XToLanguage(CStringA(mc[1].str().c_str()), true);
+                lang = ISOLang::ISO639XToLanguage(CStringA(mc[1].str().c_str()), true);
 
                 if (!lang.IsEmpty()) {
                     size_t len = mc[1].str().size();
                     if (len == 3) {
-                        lcid = ISO6392ToLcid(CStringA(mc[1].str().c_str()));
+                        lcid = ISOLang::ISO6392ToLcid(CStringA(mc[1].str().c_str()));
                     } else if (len == 2) {
-                        lcid = ISO6391ToLcid(CStringA(mc[1].str().c_str()));
+                        lcid = ISOLang::ISO6391ToLcid(CStringA(mc[1].str().c_str()));
                     }
                     if (mc[2].matched) {
                         if (CString(mc[2].str().c_str()).CompareNoCase(_T("hi")) == 0) {
@@ -237,13 +238,13 @@ CString Subtitle::GuessSubtitleName(const CString& fn, CString videoName, LCID& 
         if (std::regex_search((LPCTSTR)subName, mc, re)) {
             ASSERT(mc.size() == 3);
             ASSERT(mc[1].matched);
-            lang = ISO639XToLanguage(CStringA(mc[1].str().c_str()), true);
+            lang = ISOLang::ISO639XToLanguage(CStringA(mc[1].str().c_str()), true);
             if (!lang.IsEmpty()) {
                 size_t len = mc[1].str().size();
                 if (len == 3) {
-                    lcid = ISO6392ToLcid(CStringA(mc[1].str().c_str()));
+                    lcid = ISOLang::ISO6392ToLcid(CStringA(mc[1].str().c_str()));
                 } else if (len == 2) {
-                    lcid = ISO6391ToLcid(CStringA(mc[1].str().c_str()));
+                    lcid = ISOLang::ISO6391ToLcid(CStringA(mc[1].str().c_str()));
                 }
             }
 
@@ -255,13 +256,13 @@ CString Subtitle::GuessSubtitleName(const CString& fn, CString videoName, LCID& 
             if (!lang.IsEmpty() && str.CompareNoCase("hi") == 0) {
                 hi = HI_YES;
             } else {
-                lang = ISO639XToLanguage(str, true);
+                lang = ISOLang::ISO639XToLanguage(str, true);
                 if (!lang.IsEmpty()) {
                     size_t len = str.GetLength();
                     if (len == 3) {
-                        lcid = ISO6392ToLcid(str.GetString());
+                        lcid = ISOLang::ISO6392ToLcid(str.GetString());
                     } else if (len == 2) {
-                        lcid = ISO6391ToLcid(str.GetString());
+                        lcid = ISOLang::ISO6391ToLcid(str.GetString());
                     }
                 }
             }

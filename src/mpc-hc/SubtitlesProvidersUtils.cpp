@@ -22,6 +22,7 @@
 #include "SubtitlesProvidersUtils.h"
 #include "SubtitlesProviders.h"
 #include "mplayerc.h"
+#include "ISOLang.h"
 
 #if !USE_STATIC_UNRAR
 #include "unrar.h"
@@ -766,7 +767,7 @@ std::list<std::string> SubtitlesProvidersUtils::LanguagesISO6391()
 {
     std::list<std::string> result;
     for (const auto& iter : StringTokenize(UTF16To8(AfxGetAppSettings().strSubtitlesLanguageOrder).GetString(), ",; ")) {
-        result.push_back(iter.length() > 2 ? CStringA(ISO6392To6391(iter.c_str())).GetString() : iter);
+        result.push_back(iter.length() > 2 ? CStringA(ISOLang::ISO6392To6391(iter.c_str())).GetString() : iter);
     }
     return result;
 }
@@ -775,7 +776,7 @@ std::list<std::string> SubtitlesProvidersUtils::LanguagesISO6392()
 {
     std::list<std::string> result;
     for (const auto& iter : StringTokenize(UTF16To8(AfxGetAppSettings().strSubtitlesLanguageOrder).GetString(), ",; ")) {
-        result.push_back(iter.length() < 3 ? ISO6391To6392(iter.c_str()).GetString() : iter);
+        result.push_back(iter.length() < 3 ? ISOLang::ISO6391To6392(iter.c_str()).GetString() : iter);
     }
     return result;
 }

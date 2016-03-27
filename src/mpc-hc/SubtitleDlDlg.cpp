@@ -24,6 +24,7 @@
 #include "SubtitlesProvider.h"
 #include "mplayerc.h"
 #include "MainFrm.h"
+#include "ISOLang.h"
 
 // User Defined Window Messages
 enum {
@@ -542,7 +543,7 @@ afx_msg LRESULT CSubtitleDlDlg::OnCompleted(WPARAM wParam, LPARAM lParam)
         for (const auto& subInfo : _subtitlesList) {
             int iItem = m_list.InsertItem(0, UTF8To16(subInfo.Provider()->Name().c_str()), subInfo.Provider()->GetIconIndex());
             m_list.SetItemText(iItem, COL_FILENAME, UTF8To16(subInfo.fileName.c_str()));
-            m_list.SetItemText(iItem, COL_LANGUAGE, ISO639XToLanguage(subInfo.languageCode.c_str()));
+            m_list.SetItemText(iItem, COL_LANGUAGE, ISOLang::ISO639XToLanguage(subInfo.languageCode.c_str()));
             CString disc;
             disc.Format(_T("%d/%d"), subInfo.discNumber, subInfo.discCount);
             m_list.SetItemText(iItem, COL_DISC, disc);

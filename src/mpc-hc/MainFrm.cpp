@@ -74,6 +74,7 @@
 
 #include "DSUtil.h"
 #include "text.h"
+#include "ISOLang.h"
 #include "FGManager.h"
 #include "FGManagerBDA.h"
 
@@ -10598,7 +10599,7 @@ void CMainFrame::SetupChapters()
 
         CHAR iso6391[3];
         ::GetLocaleInfoA(LOCALE_USER_DEFAULT, LOCALE_SISO639LANGNAME, iso6391, 3);
-        CStringA iso6392 = ISO6391To6392(iso6391);
+        CStringA iso6392 = ISOLang::ISO6391To6392(iso6391);
         if (iso6392.GetLength() < 3) {
             iso6392 = "eng";
         }
@@ -11477,7 +11478,7 @@ int CMainFrame::SetupAudioStreams()
             lang.MakeLower();
             langs.Add(lang);
             // Try to match the full language if possible
-            lang = ISO639XToLanguage(CStringA(lang)).MakeLower();
+            lang = ISOLang::ISO639XToLanguage(CStringA(lang)).MakeLower();
             if (!lang.IsEmpty()) {
                 langs.Add(lang);
             }
@@ -11590,7 +11591,7 @@ int CMainFrame::SetupSubtitleStreams()
             lang.MakeLower();
             langs.Add(lang);
             // Try to match the full language if possible
-            lang = ISO639XToLanguage(CStringA(lang)).MakeLower();
+            lang = ISOLang::ISO639XToLanguage(CStringA(lang)).MakeLower();
             if (!lang.IsEmpty()) {
                 langs.Add(lang);
             }
@@ -16820,7 +16821,7 @@ LRESULT CMainFrame::OnLoadSubtitles(WPARAM wParam, LPARAM lParam)
     if (pRTS && pRTS->Open(CString(data.pSubtitlesInfo->Provider()->Name().c_str()),
                            (BYTE*)(LPCSTR)data.fileContents.c_str(), (int)data.fileContents.length(), DEFAULT_CHARSET,
                            UTF8To16(data.fileName.c_str()), Subtitle::HearingImpairedType(data.pSubtitlesInfo->hearingImpaired),
-                           ISO6391ToLcid(data.pSubtitlesInfo->languageCode.c_str())) && pRTS->GetStreamCount() > 0) {
+                           ISOLang::ISO6391ToLcid(data.pSubtitlesInfo->languageCode.c_str())) && pRTS->GetStreamCount() > 0) {
         m_wndSubtitlesDownloadDialog.DoDownloaded(*data.pSubtitlesInfo);
 
         SubtitleInput subElement = pRTS.Detach();

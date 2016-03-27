@@ -26,6 +26,7 @@
 #include "ColorConvTable.h"
 #include "RTS.h"
 #include "../DSUtil/PathUtils.h"
+#include "../DSUtil/ISOLang.h"
 
 // WARNING: this isn't very thread safe, use only one RTS a time. We should use TLS in future.
 static HDC g_hDC;
@@ -3219,9 +3220,9 @@ STDMETHODIMP CRenderedTextSubtitle::GetStreamInfo(int iStream, WCHAR** ppName, L
     }
 
     if (pLCID) {
-        *pLCID = ISO6391ToLcid(CW2A(m_name));
+        *pLCID = ISOLang::ISO6391ToLcid(CW2A(m_name));
         if (*pLCID == 0) {
-            *pLCID = ISO6392ToLcid(CW2A(m_name));
+            *pLCID = ISOLang::ISO6392ToLcid(CW2A(m_name));
         }
     }
 
