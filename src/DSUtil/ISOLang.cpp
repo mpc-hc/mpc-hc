@@ -715,3 +715,47 @@ CString ISOLang::LanguageToISO6392(LPCTSTR lang)
     }
     return _T("");
 }
+
+ISOLang ISOLang::ISO6391ToISOLang(LPCSTR code)
+{
+    CHAR tmp[2 + 1];
+    strncpy_s(tmp, code, 2);
+    tmp[2] = 0;
+    _strlwr_s(tmp);
+    for (size_t i = 0, cnt = _countof(s_isolangs); i < cnt; i++) {
+        if (!strcmp(s_isolangs[i].iso6391, tmp)) {
+            return s_isolangs[i];
+        }
+    }
+    return ISOLang();
+}
+
+ISOLang ISOLang::ISO6392ToISOLang(LPCSTR code)
+{
+    CHAR tmp[3 + 1];
+    strncpy_s(tmp, code, 3);
+    tmp[3] = 0;
+    _strlwr_s(tmp);
+    for (size_t i = 0, cnt = _countof(s_isolangs); i < cnt; i++) {
+        if (!strcmp(s_isolangs[i].iso6392, tmp)) {
+            return s_isolangs[i];
+        }
+    }
+    return ISOLang();
+}
+
+ISOLang ISOLang::ISO639XToISOLang(LPCSTR code)
+{
+    ISOLang lang;
+
+    switch (size_t nLen = strlen(code)) {
+        case 2:
+            lang = ISO6391ToISOLang(code);
+            break;
+        case 3:
+            lang = ISO6392ToISOLang(code);
+            break;
+    }
+
+    return lang;
+}

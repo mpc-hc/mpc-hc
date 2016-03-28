@@ -22,9 +22,33 @@
 
 #include <afxstr.h>
 
-struct ISOLang {
-    LPCSTR name = nullptr, iso6392 = nullptr, iso6391 = nullptr;
-    LCID lcid = 0;
+template<typename StringType>
+struct ISOLangT {
+    StringType name, iso6392, iso6391;
+    LCID lcid;
+
+    ISOLangT(StringType name = nullptr, StringType iso6392 = nullptr, StringType iso6391 = nullptr, LCID lcid = 0)
+        : name(name), iso6392(iso6392), iso6391(iso6391), lcid(lcid)
+    {};
+
+    template<typename StringType2>
+    ISOLangT(const ISOLangT<StringType2>& isoLang)
+        : name(isoLang.name), iso6392(isoLang.iso6392), iso6391(isoLang.iso6391), lcid(isoLang.lcid)
+    {};
+
+    template<typename StringType2>
+    ISOLangT& operator=(const ISOLangT<StringType2>& isoLang) {
+        name = isoLang.name;
+        iso6392 = isoLang.iso6392;
+        iso6391 = isoLang.iso6391;
+        lcid = isoLang.lcid;
+
+        return *this;
+    };
+};
+
+struct ISOLang : public ISOLangT<LPCSTR> {
+    using ISOLangT::ISOLangT;
 
     static CString ISO6391ToLanguage(LPCSTR code);
     static CString ISO6392ToLanguage(LPCSTR code);
@@ -35,4 +59,7 @@ struct ISOLang {
     static CStringA ISO6391To6392(LPCSTR code);
     static CString ISO6392To6391(LPCSTR code);
     static CString LanguageToISO6392(LPCTSTR lang);
+    static ISOLang ISO6391ToISOLang(LPCSTR code);
+    static ISOLang ISO6392ToISOLang(LPCSTR code);
+    static ISOLang ISO639XToISOLang(LPCSTR code);
 };

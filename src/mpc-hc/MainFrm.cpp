@@ -11584,17 +11584,19 @@ int CMainFrame::SetupSubtitleStreams()
 
     if (!m_pSubStreams.IsEmpty()) {
         bool externalPriority = false;
-        CAtlArray<CString> langs;
+        std::list<ISOLangT<CString>> langs;
         int tPos = 0;
         CString lang = s.strSubtitlesLanguageOrder.Tokenize(_T(",; "), tPos);
         while (tPos != -1) {
             lang.MakeLower();
-            langs.Add(lang);
-            // Try to match the full language if possible
-            lang = ISOLang::ISO639XToLanguage(CStringA(lang)).MakeLower();
-            if (!lang.IsEmpty()) {
-                langs.Add(lang);
+            ISOLangT<CString> l = ISOLang::ISO639XToISOLang(CStringA(lang));
+            if (l.name.IsEmpty()) {
+                l.name = lang;
+            } else {
+                l.name.MakeLower();
             }
+            langs.emplace_back(l);
+
             lang = s.strSubtitlesLanguageOrder.Tokenize(_T(",; "), tPos);
         }
 
@@ -11638,13 +11640,15 @@ int CMainFrame::SetupSubtitleStreams()
                 count = pSubStream->GetStreamCount();
             }
 
+
             for (int j = 0; j < count; j++) {
-                WCHAR* pName;
                 HRESULT hr;
+                WCHAR* pName;
+                LCID lcid = 0;
                 int rating = 0;
                 if (pSSF) {
                     DWORD dwFlags, dwGroup = 2;
-                    hr = pSSF->Info(j, nullptr, &dwFlags, nullptr, &dwGroup, &pName, nullptr, nullptr);
+                    hr = pSSF->Info(j, nullptr, &dwFlags, &lcid, &dwGroup, &pName, nullptr, nullptr);
                     if (dwGroup != 2) { // If the track isn't a subtitle track, we skip it
                         CoTaskMemFree(pName);
                         continue;
@@ -11660,30 +11664,40 @@ int CMainFrame::SetupSubtitleStreams()
                         continue;
                     }
                 } else {
-                    hr = pSubStream->GetStreamInfo(j, &pName, nullptr);
+                    hr = pSubStream->GetStreamInfo(j, &pName, &lcid);
                 }
                 CString name(pName);
                 CoTaskMemFree(pName);
                 name.Trim();
                 name.MakeLower();
 
-                for (size_t k = 0; k < langs.GetCount(); k++) {
-                    int num = _tstoi(langs[k]) - 1;
+                size_t k = 0;
+                for (const auto& l : langs) {
+                    int num = _tstoi(l.name) - 1;
                     if (num >= 0) { // this is track number
                         if (i != num) {
                             continue;  // not matched
                         }
                     } else { // this is lang string
-                        int len = langs[k].GetLength();
-                        if (name.Left(len) != langs[k] && name.Find(_T("[") + langs[k]) < 0) {
-                            continue; // not matched
+                        // check the LCID first but keep looking if it doesn't match
+                        if (lcid == 0 || lcid == LCID(-1) || lcid != l.lcid) {
+                            auto findCode = [](const CString & name, const CString & code) {
+                                int nPos = code.IsEmpty() ? -1 : name.Find(code);
+                                return ((nPos == 0 && name.GetLength() == code.GetLength())
+                                        || (nPos > 0 && (name[nPos - 1] == _T('[') || name[nPos - 1] == _T('\t'))));
+                            };
+                            // match anything that starts with the language name or that seems to use a code that matches
+                            if (name.Find(l.name) != 0 && !findCode(name, l.name) && !findCode(name, l.iso6392) && !findCode(name, l.iso6391)) {
+                                continue; // not matched
+                            }
                         }
                     }
-                    rating += 16 * int(langs.GetCount() - k);
+                    rating += 16 * int(langs.size() - k);
+                    k++;
                     break;
                 }
                 if (externalPriority) { // External tracks are given a higher priority than language matches
-                    rating += 16 * int(langs.GetCount() + 1);
+                    rating += 16 * int(langs.size() + 1);
                 }
                 if (s.bPreferDefaultForcedSubtitles) {
                     if (name.Find(_T("[default,forced]")) != -1) { // for LAV Splitter
