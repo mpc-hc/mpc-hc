@@ -28,7 +28,7 @@
 
 namespace
 {
-    HRESULT NSVGimageToCImage(NSVGimage* svgImage, CImage& image)
+    HRESULT NSVGimageToCImage(NSVGimage* svgImage, CImage& image, float scale)
     {
         image.Destroy();
 
@@ -41,11 +41,11 @@ namespace
             return E_FAIL;
         }
 
-        if (!image.Create(int(svgImage->width), int(svgImage->height), 32)) {
+        if (!image.Create(int(svgImage->width * scale), int(svgImage->height * scale), 32)) {
             return E_FAIL;
         }
 
-        nsvgRasterize(rasterizer, svgImage, 0.0f, 0.0f, 1.0f,
+        nsvgRasterize(rasterizer, svgImage, 0.0f, 0.0f, scale,
                       static_cast<unsigned char*>(image.GetBits()),
                       image.GetWidth(), image.GetHeight(), image.GetPitch());
 
@@ -65,17 +65,17 @@ namespace
     }
 }
 
-HRESULT SVGImage::Load(LPCTSTR filename, CImage& image)
+HRESULT SVGImage::Load(LPCTSTR filename, CImage& image, float scale /*= 1.0f*/)
 {
-    return NSVGimageToCImage(nsvgParseFromFile(CStringA(filename), "px", 96.0f), image);
+    return NSVGimageToCImage(nsvgParseFromFile(CStringA(filename), "px", 96.0f), image, scale);
 }
 
-HRESULT SVGImage::Load(UINT uResId, CImage& image)
+HRESULT SVGImage::Load(UINT uResId, CImage& image, float scale /*= 1.0f*/)
 {
     CStringA svg;
     if (!LoadResource(uResId, svg, _T("SVG"))) {
         return E_FAIL;
     }
 
-    return NSVGimageToCImage(nsvgParse(svg.GetBuffer(), "px", 96.0f), image);
+    return NSVGimageToCImage(nsvgParse(svg.GetBuffer(), "px", 96.0f), image, scale);
 }

@@ -59,9 +59,12 @@ bool CPlayerToolBar::LoadExternalToolBar(CImage& image)
     }
     const std::vector<CString> extensions({ _T("png"), _T("bmp") });
 
+    // TODO: Find a better solution?
+    float dpiScaling = (float)std::min(m_pMainFrame->m_dpi.ScaleFactorX(), m_pMainFrame->m_dpi.ScaleFactorY());
+
     // Try loading the external toolbar
     for (const auto& path : paths) {
-        if (SUCCEEDED(SVGImage::Load(PathUtils::CombinePaths(path, _T("toolbar.svg")), image))) {
+        if (SUCCEEDED(SVGImage::Load(PathUtils::CombinePaths(path, _T("toolbar.svg")), image, dpiScaling))) {
             return true;
         }
 
@@ -118,8 +121,11 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
 
     m_nButtonHeight = 16; // reset m_nButtonHeight
 
+    // We are currently not aware of any cases where the scale factors are different
+    float dpiScaling = (float)std::min(m_pMainFrame->m_dpi.ScaleFactorX(), m_pMainFrame->m_dpi.ScaleFactorY());
+
     CImage image;
-    if (LoadExternalToolBar(image) || SUCCEEDED(SVGImage::Load(IDF_SVG_TOOLBAR, image))) {
+    if (LoadExternalToolBar(image) || SUCCEEDED(SVGImage::Load(IDF_SVG_TOOLBAR, image, dpiScaling))) {
         CBitmap* bmp = CBitmap::FromHandle(image);
         int width = image.GetWidth();
         int height = image.GetHeight();
