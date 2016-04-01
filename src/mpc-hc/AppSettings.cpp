@@ -25,7 +25,6 @@
 #include "FGFilter.h"
 #include "FileAssoc.h"
 #include "CrashReporter.h"
-#include "VersionInfo.h"
 #include "SysVersion.h"
 #include "WinAPIUtils.h"
 #include "PathUtils.h"
