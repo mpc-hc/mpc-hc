@@ -1,5 +1,5 @@
 /*
- * (C) 2010-2015 see Authors.txt
+ * (C) 2010-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -236,7 +236,7 @@ void CPlayerNavigationDialog::OnContextMenu(CWnd* pWnd, CPoint point)
         it1->SetPrefNumber(nPrefNumber2);
         it2->SetPrefNumber(nPrefNumber1);
         // Actually swap the channels
-        iter_swap(it1, it2);
+        std::iter_swap(it1, it2);
     };
 
     if (!bOutside) {
