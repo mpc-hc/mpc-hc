@@ -1,5 +1,5 @@
 /*
- * (C) 2015 see Authors.txt
+ * (C) 2015-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -48,7 +48,7 @@ DpiHelper::DpiHelper()
 void DpiHelper::Override(HWND hWindow)
 {
     const WinapiFunc<decltype(GetDpiForMonitor)>
-    fnGetDpiForMonitor = { "Shcore.dll", "GetDpiForMonitor" };
+    fnGetDpiForMonitor = { _T("Shcore.dll"), "GetDpiForMonitor" };
 
     if (hWindow && fnGetDpiForMonitor) {
         if (fnGetDpiForMonitor(MonitorFromWindow(hWindow, MONITOR_DEFAULTTONULL),

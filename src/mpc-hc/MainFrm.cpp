@@ -828,7 +828,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
     }
 
     const WinapiFunc<decltype(ChangeWindowMessageFilterEx)>
-    fnChangeWindowMessageFilterEx = { "user32.dll", "ChangeWindowMessageFilterEx" };
+    fnChangeWindowMessageFilterEx = { _T("user32.dll"), "ChangeWindowMessageFilterEx" };
 
     // allow taskbar messages through UIPI
     if (fnChangeWindowMessageFilterEx) {
@@ -9242,7 +9242,7 @@ CRect CMainFrame::GetInvisibleBorderSize() const
 
     if (SysVersion::Is10OrLater()) {
         static const WinapiFunc<decltype(DwmGetWindowAttribute)>
-        fnDwmGetWindowAttribute = { "Dwmapi.dll", "DwmGetWindowAttribute" };
+        fnDwmGetWindowAttribute = { _T("Dwmapi.dll"), "DwmGetWindowAttribute" };
 
         if (fnDwmGetWindowAttribute) {
             if (SUCCEEDED(fnDwmGetWindowAttribute(GetSafeHwnd(), DWMWA_EXTENDED_FRAME_BOUNDS, &invisibleBorders, sizeof(RECT)))) {
@@ -16251,7 +16251,7 @@ void CMainFrame::OnSessionChange(UINT nSessionState, UINT nId)
 void CMainFrame::WTSRegisterSessionNotification()
 {
     const WinapiFunc<BOOL WINAPI(HWND, DWORD)>
-    fnWtsRegisterSessionNotification = { "wtsapi32.dll", "WTSRegisterSessionNotification" };
+    fnWtsRegisterSessionNotification = { _T("wtsapi32.dll"), "WTSRegisterSessionNotification" };
 
     if (fnWtsRegisterSessionNotification) {
         fnWtsRegisterSessionNotification(m_hWnd, NOTIFY_FOR_THIS_SESSION);
@@ -16261,7 +16261,7 @@ void CMainFrame::WTSRegisterSessionNotification()
 void CMainFrame::WTSUnRegisterSessionNotification()
 {
     const WinapiFunc<BOOL WINAPI(HWND)>
-    fnWtsUnRegisterSessionNotification = { "wtsapi32.dll", "WTSUnRegisterSessionNotification" };
+    fnWtsUnRegisterSessionNotification = { _T("wtsapi32.dll"), "WTSUnRegisterSessionNotification" };
 
     if (fnWtsUnRegisterSessionNotification) {
         fnWtsUnRegisterSessionNotification(m_hWnd);

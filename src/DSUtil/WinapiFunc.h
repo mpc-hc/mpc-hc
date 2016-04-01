@@ -1,5 +1,5 @@
 /*
- * (C) 2014 see Authors.txt
+ * (C) 2014, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -24,27 +24,23 @@ template <typename>
 class WinapiFunc;
 
 template <typename ReturnType, typename...Args>
-class WinapiFunc<ReturnType WINAPI(Args...)> final
-{
-public:
+struct WinapiFunc<ReturnType WINAPI(Args...)> final {
     typedef ReturnType(WINAPI* WinapiFuncType)(Args...);
 
     WinapiFunc() = delete;
     WinapiFunc(const WinapiFunc&) = delete;
     WinapiFunc& operator=(const WinapiFunc&) = delete;
 
-    WinapiFunc(const CString& dll, const CStringA& func) {
-        ASSERT(!dll.IsEmpty());
-        ASSERT(!func.IsEmpty());
-        m_hLib = LoadLibrary(dll);
-        m_pWinapiFunc = reinterpret_cast<WinapiFuncType>(GetProcAddress(m_hLib, func));
+    inline WinapiFunc(LPCTSTR dll, LPCSTR func)
+        : m_hLib(LoadLibrary(dll))
+        , m_pWinapiFunc(reinterpret_cast<WinapiFuncType>(GetProcAddress(m_hLib, func))) {
     }
 
-    ~WinapiFunc() {
+    inline ~WinapiFunc() {
         FreeLibrary(m_hLib);
     }
 
-    explicit inline operator bool() const {
+    inline explicit operator bool() const {
         return !!m_pWinapiFunc;
     }
 
@@ -53,6 +49,6 @@ public:
     }
 
 private:
-    HMODULE m_hLib = nullptr;
-    WinapiFuncType m_pWinapiFunc = nullptr;
+    const HMODULE m_hLib;
+    const WinapiFuncType m_pWinapiFunc;
 };
