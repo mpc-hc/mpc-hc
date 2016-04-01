@@ -34,7 +34,7 @@ struct SubPicDesc {
     BYTE* bitsV;
     RECT vidrect; // video rectangle
 
-    struct SubPicDesc()
+    SubPicDesc()
         : type(0)
         , w(0)
         , h(0)

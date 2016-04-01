@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -380,7 +380,7 @@ DEFINE_GUID(MEDIASUBTYPE_ADPCM_AMV,
 struct WAVEFORMATEXPS2 : public WAVEFORMATEX {
     DWORD dwInterleave;
 
-    struct WAVEFORMATEXPS2() {
+    WAVEFORMATEXPS2() {
         ZeroMemory(this, sizeof(*this));
         cbSize = sizeof(WAVEFORMATEXPS2) - sizeof(WAVEFORMATEX);
     }
@@ -1049,7 +1049,7 @@ DEFINE_GUID(MEDIASUBTYPE_HDMV_LPCM_AUDIO,
 struct WAVEFORMATEX_HDMV_LPCM : public WAVEFORMATEX {
     BYTE channel_conf;
 
-    struct WAVEFORMATEX_HDMV_LPCM() {
+    WAVEFORMATEX_HDMV_LPCM() {
         ZeroMemory(this, sizeof(*this));
         cbSize = sizeof(WAVEFORMATEX_HDMV_LPCM) - sizeof(WAVEFORMATEX);
     }
@@ -1077,7 +1077,7 @@ struct WAVEFORMATEXFFMPEG {
     int nCodecId;
     WAVEFORMATEX wfex;
 
-    struct WAVEFORMATEXFFMPEG() {
+    WAVEFORMATEXFFMPEG() {
         nCodecId = 0;
     }
 };
