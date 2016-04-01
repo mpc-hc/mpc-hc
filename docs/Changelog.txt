@@ -11,7 +11,7 @@ Legend:
 next version - not released yet
 ===============================
 + Ability to control playback repeat mode
-* Updated Little CMS to v2.7 (git 0a78f85)
+* Updated Little CMS to v2.7 (git 154e30a)
 * Updated MediaInfoLib to v0.7.83
 * Updated ZenLib to v0.4.33
 * Updated Unrar to v5.3.11
