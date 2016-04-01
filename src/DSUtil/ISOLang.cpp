@@ -645,12 +645,12 @@ CString ISOLang::ISO639XToLanguage(LPCSTR code, bool bCheckForFullLangName /*= f
 
 LCID ISOLang::ISO6391ToLcid(LPCSTR code)
 {
-    CHAR tmp[3 + 1];
-    strncpy_s(tmp, code, 3);
-    tmp[3] = 0;
+    CHAR tmp[2 + 1];
+    strncpy_s(tmp, code, 2);
+    tmp[2] = 0;
     _strlwr_s(tmp);
     for (size_t i = 0, cnt = _countof(s_isolangs); i < cnt; i++) {
-        if (!strcmp(s_isolangs[i].iso6391, code)) {
+        if (!strcmp(s_isolangs[i].iso6391, tmp)) {
             return s_isolangs[i].lcid;
         }
     }
