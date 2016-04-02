@@ -32,7 +32,7 @@ See [CONTRIBUTING.md](/CONTRIBUTING.md) for more info.
 * Multi-Monitor support
 * Various [pixel shaders](https://en.wikipedia.org/wiki/Shader#Pixel_shaders)
 * [Color management](https://en.wikipedia.org/wiki/Color_management)
-* 41 translations available
+* 42 translations available
 
 
 ## System Requirements:

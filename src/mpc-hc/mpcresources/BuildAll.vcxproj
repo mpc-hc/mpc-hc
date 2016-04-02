@@ -38,6 +38,9 @@
       <AdditionalProperties>Configuration=Release Bengali</AdditionalProperties>
     </ProjectToBuild>
     <ProjectToBuild Include="mpcresources.vcxproj">
+      <AdditionalProperties>Configuration=Release Bosnian</AdditionalProperties>
+    </ProjectToBuild>
+    <ProjectToBuild Include="mpcresources.vcxproj">
       <AdditionalProperties>Configuration=Release Catalan</AdditionalProperties>
     </ProjectToBuild>
     <ProjectToBuild Include="mpcresources.vcxproj">

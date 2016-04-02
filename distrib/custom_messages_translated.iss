@@ -37,6 +37,10 @@ be.WinVersionTooLowError=Для запуску [name] патрабуецца Win
 bn.WelcomeLabel2=এর মাধ্যমে আপনার কম্পিউটারে [name] ইনস্টল করা হবে। %n%nপ্রক্রিয়াটি চালিয়ে যাওয়ার পূর্বে অন্যান্য সকল অ্যাপ্লিকেশন বন্ধ করার পরামর্শ দেয়া যাচ্ছে।
 bn.WinVersionTooLowError=[NAME] চালানোর জন্য Windows XP Service Pack 3 অথবা ঊর্ধ্বতন সংস্করণ প্রয়োজন।
 
+; Bosnian
+bs_BA.WelcomeLabel2=Ovo će instalirati  [name] na vaš računar.%n%nPreporučljivo je da, prije nastavka, zatvorite sve ostale programe.
+bs_BA.WinVersionTooLowError=[name] za pokretanje zahtijeva Windows XP Service Pack 3 ili noviji.
+
 ; Catalan
 ca.WelcomeLabel2=Aquest auxiliar instal·larà el [name] al vostre ordinador%n%nEs recomana tancar totes les aplicacions abans de continuar.
 ca.WinVersionTooLowError=[name] cal Windows XP Service Pack 3 o superior per que funcioni.
@@ -243,6 +247,25 @@ bn.tsk_ResetSettings=সেটিংসমূহ পুনর্বিন্য�
 bn.types_DefaultInstallation=ডিফল্ট ইনস্টল প্রক্রিয়া
 bn.types_CustomInstallation=ব্যক্তি-নির্ধারিত ইনস্টল প্রক্রিয়া
 bn.ViewChangelog=পরিবর্তনতালিকা দেখুন
+
+; Bosnian
+bs_BA.langid=00005146
+bs_BA.comp_mpciconlib=Biblioteka Ikonica
+bs_BA.comp_mpcresources=Prijevodi
+bs_BA.msg_DeleteSettings=Da li želite izbristai i MPC-HC podešenja?%n%nAko planirate ponovo instalirati MPC-HC onda ih ne trebate brisati.
+#if defined(sse_required)
+bs_BA.msg_simd_sse=Ova verzija MPC-HC zahtijeva CPU sa SSE podrškom.%n%nVaš CPU nema tu mogućnost.
+#elif defined(sse2_required)
+bs_BA.msg_simd_sse2=Ova verzija MPC-HC zahtijeva CPU sa SSE2 podrškom.%n%nVaš CPU nema tu mogućnost.
+#endif
+bs_BA.run_DownloadToolbarImages=Posjetite našu Wiki stranicu da preuzmete slike alatne trake
+bs_BA.tsk_AllUsers=Za sve korisnike
+bs_BA.tsk_CurrentUser=Samo za trenutnog korisnika
+bs_BA.tsk_Other=Drugi zadaci:
+bs_BA.tsk_ResetSettings=Resetuj podešenja
+bs_BA.types_DefaultInstallation=Podrazumijevana instalacija
+bs_BA.types_CustomInstallation=Instalacija po želji
+bs_BA.ViewChangelog=Pogledaj listu izmjena
 
 ; Catalan
 ca.langid=00001027

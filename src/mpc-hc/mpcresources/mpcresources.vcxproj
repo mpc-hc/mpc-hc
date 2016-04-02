@@ -41,6 +41,14 @@
       <Configuration>Release Bengali</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Bosnian|Win32">
+      <Configuration>Release Bosnian</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Bosnian|x64">
+      <Configuration>Release Bosnian</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release Catalan|Win32">
       <Configuration>Release Catalan</Configuration>
       <Platform>Win32</Platform>
@@ -359,6 +367,7 @@
     <TargetName Condition="'$(Configuration)'=='Release Basque'">$(ProjectName).eu</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Belarusian'">$(ProjectName).be</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Bengali'">$(ProjectName).bn</TargetName>
+    <TargetName Condition="'$(Configuration)'=='Release Bosnian'">$(ProjectName).bs_BA</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Catalan'">$(ProjectName).ca</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Chinese Simplified'">$(ProjectName).zh_CN</TargetName>
     <TargetName Condition="'$(Configuration)'=='Release Chinese Traditional'">$(ProjectName).zh_TW</TargetName>
@@ -425,6 +434,9 @@
     </ResourceCompile>
     <ResourceCompile Include="mpc-hc.bn.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Bengali'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="mpc-hc.bs_BA.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)'!='Release Bosnian'">true</ExcludedFromBuild>
     </ResourceCompile>
     <ResourceCompile Include="mpc-hc.ca.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'!='Release Catalan'">true</ExcludedFromBuild>
