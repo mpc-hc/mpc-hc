@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # bruce55 <bruce.luo+transifex@nyu.edu>, 2014-2015
-# Dean Lee <xslidian@gmail.com>, 2015
+# Dean Lee <xslidian@gmail.com>, 2015-2016
 # hkenneth <extremekeny@hotmail.com>, 2013
+# kongfl888 <kongfl888@outlook.com>, 2016
 # Ming Chen <yzonline@gmail.com>, 2013-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-03-13 21:29:13+0000\n"
-"PO-Revision-Date: 2016-03-13 21:59+0000\n"
-"Last-Translator: Underground78\n"
+"PO-Revision-Date: 2016-03-14 07:21+0000\n"
+"Last-Translator: Ming Chen <yzonline@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/mpc-hc/mpc-hc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -953,11 +954,11 @@ msgstr "管理收藏夹(&O)..."
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
 msgid "Sh&uffle"
-msgstr "乱序"
+msgstr "乱序(&U)"
 
 msgctxt "IDS_PLAYLIST_SHOWFOLDER"
 msgid "Ope&n file location"
-msgstr "打开文件位置"
+msgstr "打开文件位置(&N)"
 
 msgctxt "IDS_CONTROLS_CLOSING"
 msgid "Closing..."
@@ -1041,7 +1042,7 @@ msgstr "缩放至超宽屏幕,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_PLAYLIST_HIDEFS"
 msgid "&Hide on Fullscreen"
-msgstr "在全屏幕中隐藏"
+msgstr "在全屏幕中隐藏(&H)"
 
 msgctxt "IDS_CONTROLS_STOPPED"
 msgid "Stopped"
@@ -1229,7 +1230,7 @@ msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
 msgid "Add containing &folder"
-msgstr "添加子文件夹"
+msgstr "添加子文件夹(&F)"
 
 msgctxt "IDS_HW_INDICATOR"
 msgid "[H/W]"
@@ -1433,11 +1434,11 @@ msgstr "已成功保存图像"
 
 msgctxt "IDS_AG_LOAD_SUBTITLES"
 msgid "Load Subtitles..."
-msgstr ""
+msgstr "载入字幕..."
 
 msgctxt "IDS_AG_SAVE_SUBTITLES"
 msgid "Save Subtitles..."
-msgstr ""
+msgstr "保存字幕..."
 
 msgctxt "IDS_AG_PROPERTIES"
 msgid "Properties"
@@ -3729,7 +3730,7 @@ msgstr "输入认证信息以连接到:"
 
 msgctxt "IDS_SUB_CREDENTIALS_ERROR"
 msgid "Failed to log in on \"%S\" with username \"%S\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
-msgstr ""
+msgstr "无法登录 \"%S\" 当前用户名 \"%S\"。\n\n请输入正确的用户名和密码或重置凭据后作为匿名用户登录。"
 
 msgctxt "IDS_ASPECT_RATIO_SAR"
 msgid "Aspect Ratio: Assume square pixels (SAR)"
@@ -3749,9 +3750,9 @@ msgstr "您确认要上传字幕文件 \"%s\"?"
 
 msgctxt "IDS_SUBPP_DLG_FETCHING_LANGUAGES"
 msgid "Fetching supported languages..."
-msgstr ""
+msgstr "正在获取受支持的语言..."
 
 msgctxt "IDS_SUB_AUTODL_IGNORE_TOOLTIP"
 msgid "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\nFor example, type: \"private dir\\videos|work\\\"."
-msgstr ""
+msgstr "当路径中包含有任何这里所输入的模式时所有媒体文件的自动搜索和下载的功能将被禁用。\n例如，类型：\"私有目录\\视频|工作\\\"。"
 

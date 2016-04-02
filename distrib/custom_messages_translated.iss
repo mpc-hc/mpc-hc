@@ -370,7 +370,7 @@ es.msg_simd_sse2=Esta versión de MPC-HC requiere una CPU compatible con extensi
 #endif
 es.run_DownloadToolbarImages=Visite nuestra página de wiki para descargar imágenes de la barra de herramientas
 es.tsk_AllUsers=Para todos los usuarios
-es.tsk_CurrentUser=Sólo para el usuario actual
+es.tsk_CurrentUser=Solo para el usuario actual
 es.tsk_Other=Otras tareas:
 es.tsk_ResetSettings=Restablecer configuración
 es.types_DefaultInstallation=Instalación predeterminada

@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-03-13 21:29:13+0000\n"
-"PO-Revision-Date: 2016-03-13 21:59+0000\n"
-"Last-Translator: Underground78\n"
+"PO-Revision-Date: 2016-03-19 00:22+0000\n"
+"Last-Translator: Adolfo Jayme Barrientos\n"
 "Language-Team: Spanish (http://www.transifex.com/mpc-hc/mpc-hc/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -299,7 +299,7 @@ msgstr "No se pudo abrir el dispositivo de captura."
 
 msgctxt "IDS_INVALID_PARAMS_ERROR"
 msgid "Can't open, invalid input parameters"
-msgstr "No se pudo abrir: Parámetros de entrada no válidos"
+msgstr "No se puede abrir: los parámetros de entrada no son válidos"
 
 msgctxt "IDS_EDIT_LIST_EDITOR"
 msgid "Edit List Editor"
@@ -311,7 +311,7 @@ msgstr "El tiempo insertado es mayor que la duración del archivo."
 
 msgctxt "IDS_MISSING_ICONS_LIB"
 msgid "The icons library \"mpciconlib.dll\" is missing.\nThe player's default icon will be used for file associations.\nPlease, reinstall MPC-HC to get \"mpciconlib.dll\"."
-msgstr "No se encuentró la colección de iconos «mpciconlib.dll».\nSe usará el icono predeterminado del reproductor en las asociaciones de archivos.\nReinstale MPC-HC para obtener «mpciconlib.dll»."
+msgstr "No se encuentra la colección de iconos «mpciconlib.dll».\nSe usará el icono predeterminado del reproductor en las asociaciones de archivos.\nReinstale MPC-HC para obtener «mpciconlib.dll»."
 
 msgctxt "IDS_SUBDL_DLG_FILENAME_COL"
 msgid "File"
@@ -415,7 +415,7 @@ msgstr "&Vaciar"
 
 msgctxt "IDS_PLAYLIST_COPYTOCLIPBOARD"
 msgid "&Copy to clipboard"
-msgstr "&Copiar al portapapeles"
+msgstr "&Copiar en el portapapeles"
 
 msgctxt "IDS_PLAYLIST_SAVEAS"
 msgid "&Save As..."
@@ -1439,11 +1439,11 @@ msgstr "Imagen guardada satisfactoriamente"
 
 msgctxt "IDS_AG_LOAD_SUBTITLES"
 msgid "Load Subtitles..."
-msgstr ""
+msgstr "Cargar subtítulos..."
 
 msgctxt "IDS_AG_SAVE_SUBTITLES"
 msgid "Save Subtitles..."
-msgstr ""
+msgstr "Guardar subtítulos..."
 
 msgctxt "IDS_AG_PROPERTIES"
 msgid "Properties"
@@ -3735,7 +3735,7 @@ msgstr "Proporcione sus datos de acceso para conectarse con:"
 
 msgctxt "IDS_SUB_CREDENTIALS_ERROR"
 msgid "Failed to log in on \"%S\" with username \"%S\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
-msgstr ""
+msgstr "No se pudo guardar en \"%S\" con el nombre de usuario \"%S\".\n\nPor favor, introduzca el nombre de usuario y contraseña correctos o restablezca las credenciales para iniciar sesión como un usuario anónimo."
 
 msgctxt "IDS_ASPECT_RATIO_SAR"
 msgid "Aspect Ratio: Assume square pixels (SAR)"
@@ -3755,9 +3755,9 @@ msgstr "¿Está seguro de que quiere subir el fichero de subtítulo \"%s\"?"
 
 msgctxt "IDS_SUBPP_DLG_FETCHING_LANGUAGES"
 msgid "Fetching supported languages..."
-msgstr ""
+msgstr "Descargando idiomas soportados..."
 
 msgctxt "IDS_SUB_AUTODL_IGNORE_TOOLTIP"
 msgid "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\nFor example, type: \"private dir\\videos|work\\\"."
-msgstr ""
+msgstr "La búsqueda automática y la descarga se deshabilitarán para todos los ficheros audiovisuales cuya ruta contenga cualquiera de los patrones introducidos aquí.\nPor ejemplo, escriba: \"private dir\\videos|work\\\"."
 

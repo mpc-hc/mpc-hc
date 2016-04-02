@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-03-13 21:29:13+0000\n"
-"PO-Revision-Date: 2016-03-13 21:58+0000\n"
-"Last-Translator: Underground78\n"
+"PO-Revision-Date: 2016-03-28 09:20+0000\n"
+"Last-Translator: TRẦN ANH MINH <anhminhvks@yahoo.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/mpc-hc/mpc-hc/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -951,11 +951,11 @@ msgstr "Tổ &chức ưa thích"
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
 msgid "Sh&uffle"
-msgstr "Xáo trộn"
+msgstr "&Xáo trộn"
 
 msgctxt "IDS_PLAYLIST_SHOWFOLDER"
 msgid "Ope&n file location"
-msgstr "Mở vị trí tệp"
+msgstr "&Mở vị trí tập tin"
 
 msgctxt "IDS_CONTROLS_CLOSING"
 msgid "Closing..."
@@ -1039,7 +1039,7 @@ msgstr "Phóng cho màn hình rộng,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_PLAYLIST_HIDEFS"
 msgid "&Hide on Fullscreen"
-msgstr "Ẩn toàn màn hình"
+msgstr "&Ẩn trên toàn màn hình"
 
 msgctxt "IDS_CONTROLS_STOPPED"
 msgid "Stopped"
@@ -1227,7 +1227,7 @@ msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
 msgid "Add containing &folder"
-msgstr "Thêm thư mục chứa"
+msgstr "&Thêm thư mục chứa"
 
 msgctxt "IDS_HW_INDICATOR"
 msgid "[H/W]"
@@ -1431,11 +1431,11 @@ msgstr "Hình đã được lưu thành công"
 
 msgctxt "IDS_AG_LOAD_SUBTITLES"
 msgid "Load Subtitles..."
-msgstr ""
+msgstr "Nạp phụ đề..."
 
 msgctxt "IDS_AG_SAVE_SUBTITLES"
 msgid "Save Subtitles..."
-msgstr ""
+msgstr "Lưu phụ đề..."
 
 msgctxt "IDS_AG_PROPERTIES"
 msgid "Properties"
@@ -3727,7 +3727,7 @@ msgstr "Nhập các chứng nhận của bạn để kết nối đến:"
 
 msgctxt "IDS_SUB_CREDENTIALS_ERROR"
 msgid "Failed to log in on \"%S\" with username \"%S\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
-msgstr ""
+msgstr "Không thể đăng nhập vào \"% S\" bằng tên người dùng \"% S\".\n\nVui lòng nhập tên người dùng và mật khẩu chính xác hoặc thiết lập lại các thông tin đăng nhập như một người dùng vô danh."
 
 msgctxt "IDS_ASPECT_RATIO_SAR"
 msgid "Aspect Ratio: Assume square pixels (SAR)"
@@ -3747,9 +3747,9 @@ msgstr "Bạn có chắc là muốn tải tập tin phụ đề \"%s\" lên?"
 
 msgctxt "IDS_SUBPP_DLG_FETCHING_LANGUAGES"
 msgid "Fetching supported languages..."
-msgstr ""
+msgstr "Đang tìm và nạp ngôn ngữ được hỗ trợ..."
 
 msgctxt "IDS_SUB_AUTODL_IGNORE_TOOLTIP"
 msgid "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\nFor example, type: \"private dir\\videos|work\\\"."
-msgstr ""
+msgstr "Tự động tìm kiếm và tải về sẽ bị vô hiệu hóa đối với mọi tập tin đa phương tiện có chứa đoạn đường dẫn như đã nhập vào đây.\nVí dụ, gõ: \"private dir\\videos|work\\\"."
 

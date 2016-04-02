@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-03-13 21:29:13+0000\n"
-"PO-Revision-Date: 2016-03-13 21:59+0000\n"
-"Last-Translator: Underground78\n"
+"PO-Revision-Date: 2016-04-02 14:07+0000\n"
+"Last-Translator: Sergey <player54@mail.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/mpc-hc/mpc-hc/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -277,7 +277,7 @@ msgstr "Шрифт"
 
 msgctxt "IDS_DVD_NAV_SOME_PINS_ERROR"
 msgid "Failed to render some of the pins of the DVD Navigator filter"
-msgstr "Не удалось обработать некоторые пины фильтра DVD Navigator"
+msgstr "Не удалось обработать некоторые потоки фильтра-навигатора DVD"
 
 msgctxt "IDS_DVD_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for DVD playback"
@@ -397,7 +397,7 @@ msgstr "Не удалось создать окно для вывода граф
 
 msgctxt "IDS_DVD_NAV_ALL_PINS_ERROR"
 msgid "Failed to render all pins of the DVD Navigator filter"
-msgstr "Не удалось обработать все пины фильтра DVD Navigator"
+msgstr "Не удалось обработать все потоки фильтра-навигатора DVD"
 
 msgctxt "IDS_PLAYLIST_OPEN"
 msgid "&Open"
@@ -761,7 +761,7 @@ msgstr "Для того, чтобы просмотреть внедренный 
 
 msgctxt "IDS_SUBTITLES_DOWNLOAD"
 msgid "Download Subtitles..."
-msgstr "Скачать субтитры..."
+msgstr "Загрузить субтитры..."
 
 msgctxt "IDS_SUBTITLES_UPLOAD"
 msgid "Upload Subtitles..."
@@ -797,7 +797,7 @@ msgstr "Не удалось найти все архивные тома"
 
 msgctxt "IDC_TEXTURESURF2D"
 msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
-msgstr "Поверхность видео выделяется как текстура, но для копирования и растяжения видео в буфер используются функции 2D. Требует наличия видеокарты, которая может выделять 32bit RGBA текстуры, с размерами не кратными 2, хотя бы в разрешении видео."
+msgstr "Поверхность видео выделяется как текстура, но для копирования и растяжения видео в буфер используются функции 2D. Требует наличия видеокарты, которая может выделять 32bit RGBA-текстуры с размерами, не кратными 2, хотя бы в разрешении видео."
 
 msgctxt "IDC_TEXTURESURF3D"
 msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
@@ -805,11 +805,11 @@ msgstr "Поверхность видео выделяется как текст
 
 msgctxt "IDC_DX9RESIZER_COMBO"
 msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
-msgstr "При отсутствии поддержки пиксельных шейдеров версии 2.0, будет автоматически использован простой билинейный метод."
+msgstr "При отсутствии поддержки пиксельных шейдеров версии 2.0,  используется простой билинейный метод."
 
 msgctxt "IDC_DSVMR9LOADMIXER"
 msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
-msgstr "Переводит режим VMR-9 (renderless) в режим микшера, это значит, что большинство элементов управления на странице свойств будут работать и будут использовать отдельный рабочий поток для обработки кадров."
+msgstr "Переводит VMR-9 (renderless) в режим микшера. Большинство элементов управления на странице свойств будут работать, а для обработки кадров будет выделен отдельный рабочий поток."
 
 msgctxt "IDC_DSVMR9YUVMIXER"
 msgid "Improves performance at the cost of some compatibility of the renderer."
@@ -1081,7 +1081,7 @@ msgstr "&Стили..."
 
 msgctxt "IDS_SUBTITLES_RELOAD"
 msgid "&Reload"
-msgstr "&Перезагрузить"
+msgstr "Перезагрузить"
 
 msgctxt "IDS_SUBTITLES_ENABLE"
 msgid "&Enable"
@@ -1333,7 +1333,7 @@ msgstr "Качество (%):"
 
 msgctxt "IDS_PPAGEADVANCED_COVER_SIZE_LIMIT"
 msgid "Maximum size (NxNpx) of a cover-art loaded in the audio only mode."
-msgstr "Максимальный размер (NxNpx) обложки загружать только в режиме аудио."
+msgstr "Максимальный размер (NxNpx) загружаемой обложки в режиме аудио."
 
 msgctxt "IDS_SUBTITLE_DELAY_STEP_TOOLTIP"
 msgid "The subtitle delay will be decreased/increased by this value each time the corresponding hotkeys are used (%s/%s)."
@@ -1441,11 +1441,11 @@ msgstr "Изображение успешно сохранено"
 
 msgctxt "IDS_AG_LOAD_SUBTITLES"
 msgid "Load Subtitles..."
-msgstr ""
+msgstr "Открыть субтитры..."
 
 msgctxt "IDS_AG_SAVE_SUBTITLES"
 msgid "Save Subtitles..."
-msgstr ""
+msgstr "Сохранить субтитры..."
 
 msgctxt "IDS_AG_PROPERTIES"
 msgid "Properties"
@@ -1521,11 +1521,11 @@ msgstr "Сохранить копию"
 
 msgctxt "IDS_FASTSEEK_LATEST"
 msgid "Latest keyframe"
-msgstr "Последний ключевой кадр"
+msgstr "Посл. ключевой кадр"
 
 msgctxt "IDS_FASTSEEK_NEAREST"
 msgid "Nearest keyframe"
-msgstr "Ближайший ключевой кадр"
+msgstr "Ближайш. ключевой кадр"
 
 msgctxt "IDS_HOOKS_FAILED"
 msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
@@ -1841,11 +1841,11 @@ msgstr "200%"
 
 msgctxt "IDS_ZOOM_AUTOFIT"
 msgid "Auto Fit"
-msgstr "Вписать"
+msgstr "Подогнать"
 
 msgctxt "IDS_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (Larger Only)"
-msgstr "Вписать (только большие)"
+msgstr "Подогнать (только большие)"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT_LARGER"
 msgid "Zoom Auto Fit (Larger Only)"
@@ -2013,7 +2013,7 @@ msgstr "Вкл/откл субтитры"
 
 msgctxt "IDS_MPLAYERC_86"
 msgid "Reload Subtitles"
-msgstr "Перезагрузить субтитры"
+msgstr "Перезапустить субтитры"
 
 msgctxt "IDS_MPLAYERC_91"
 msgid "Next Angle (DVD)"
@@ -2393,7 +2393,7 @@ msgstr "Текущий"
 
 msgctxt "IDS_MAINFRM_DIR_TITLE"
 msgid "Select Directory"
-msgstr "Выберите папку"
+msgstr "Выбор папки"
 
 msgctxt "IDS_MAINFRM_DIR_CHECK"
 msgid "Include subdirectories"
@@ -2453,7 +2453,7 @@ msgstr "Не удается найти каталог DVD"
 
 msgctxt "IDS_MAINFRM_94"
 msgid "Can't create the DVD Navigator filter"
-msgstr "Не удается создать фильтр DVD-навигатора"
+msgstr "Не удается создать фильтр-навигатор DVD"
 
 msgctxt "IDS_AG_FAILED"
 msgid "Failed"
@@ -2493,7 +2493,7 @@ msgstr "&Свойства..."
 
 msgctxt "IDS_MAINFRM_117"
 msgid " (pin) properties..."
-msgstr " (pin) свойства..."
+msgstr " Свойства (pin) ..."
 
 msgctxt "IDS_AG_UNKNOWN_STREAM"
 msgid "Unknown Stream"
@@ -2613,15 +2613,15 @@ msgstr "Масштаб 200%"
 
 msgctxt "IDS_AG_NEXT_AR_PRESET"
 msgid "Next AR Preset"
-msgstr "Следующая предустановка пропорций"
+msgstr "След. предустановка пропорций"
 
 msgctxt "IDS_AG_VIDFRM_STRETCH"
 msgid "VidFrm Stretch"
-msgstr "Видеокадр. Растянуть до размера экрана"
+msgstr "Растянуть видеокадр до размеров экрана"
 
 msgctxt "IDS_AG_VIDFRM_INSIDE"
 msgid "VidFrm Inside"
-msgstr "Видеокадр. Вписать в размер экрана"
+msgstr "Вписать видеокадр в размер экрана"
 
 msgctxt "IDS_AG_VIDFRM_OUTSIDE"
 msgid "VidFrm Outside"
@@ -2637,15 +2637,15 @@ msgstr "Вращение кадра X+"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "VidFrm Zoom 1"
-msgstr "Видеокадр. Zoom 1"
+msgstr "Масштаб видеокадра 1"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM2"
 msgid "VidFrm Zoom 2"
-msgstr "Видеокадр. Zoom 2"
+msgstr "Масштаб видеокадра 2"
 
 msgctxt "IDS_AG_VIDFRM_SWITCHZOOM"
 msgid "VidFrm Switch Zoom"
-msgstr "Видеокадр. Изменить масштаб"
+msgstr "Изменить масштаб видеокадра"
 
 msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
@@ -3169,11 +3169,11 @@ msgstr "Полноэкранный D3D: откл"
 
 msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_ON"
 msgid "Disable desktop composition: On"
-msgstr "Эффекты рабочего стола: Вкл."
+msgstr "Эффекты рабочего стола: вкл."
 
 msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_OFF"
 msgid "Disable desktop composition: Off"
-msgstr "Эффекты рабочего стола: Выкл."
+msgstr "Эффекты рабочего стола: откл."
 
 msgctxt "IDS_OSD_RS_ALT_VSYNC_ON"
 msgid "Alternative VSync: On"
@@ -3193,11 +3193,11 @@ msgstr "Установлены оптимальные настройки рен�
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
 msgid "D3D Fullscreen GUI Support: On"
-msgstr "Поддержка интерфейса в полноэкранном режиме: Вкл."
+msgstr "Поддержка интерфейса в полноэкранном режиме: вкл."
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF"
 msgid "D3D Fullscreen GUI Support: Off"
-msgstr "Поддержка интерфейса в полноэкранном режиме: Выкл."
+msgstr "Поддержка интерфейса в полноэкранном режиме: откл"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_ON"
 msgid "10-bit RGB Output: On"
@@ -3449,11 +3449,11 @@ msgstr "Невозможно подключить поток %s фильтру-�
 
 msgctxt "IDS_CAPTURE_ERROR_VID_CAPT_PIN"
 msgid "No video capture pin was found."
-msgstr "Не найден пин для видео захвата."
+msgstr "Не найден поток видео захвата."
 
 msgctxt "IDS_CAPTURE_ERROR_AUD_CAPT_PIN"
 msgid "No audio capture pin was found."
-msgstr "Не найден пин для аудио захвата."
+msgstr "Не найден поток аудио захвата."
 
 msgctxt "IDS_CAPTURE_ERROR_OUT_FILE"
 msgid "Error initializing the output file."
@@ -3741,7 +3741,7 @@ msgstr ""
 
 msgctxt "IDS_ASPECT_RATIO_SAR"
 msgid "Aspect Ratio: Assume square pixels (SAR)"
-msgstr ""
+msgstr "Соотношение сторон: Assume square pixels (SAR)"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADED"
 msgid "Downloaded [%s] \"%s\""
@@ -3757,7 +3757,7 @@ msgstr "Вы уверены, что хотите разместить файл �
 
 msgctxt "IDS_SUBPP_DLG_FETCHING_LANGUAGES"
 msgid "Fetching supported languages..."
-msgstr ""
+msgstr "Запрос поддерживаемых языков..."
 
 msgctxt "IDS_SUB_AUTODL_IGNORE_TOOLTIP"
 msgid "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\nFor example, type: \"private dir\\videos|work\\\"."
