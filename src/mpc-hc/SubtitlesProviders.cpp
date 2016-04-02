@@ -102,7 +102,7 @@ void SubtitlesInfo::OpenUrl() const
 //"(?:([^\\\\]+?)"_RE_DEAD "+)?"
 
 #define _RE_RESOLUTION                                                        \
-    "(?:480|720|1080)[pi]?"
+    "(?:360|480|576|720|1080|2160)[pi]?"
 
 #define _RE_FORMAT                                                            \
     "HD-?Rip|HD-?DVD(?:-?Rip)?"                                               \
