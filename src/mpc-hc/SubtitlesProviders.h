@@ -303,11 +303,11 @@ public:
     virtual ~SubtitlesProvider() = default;
 
 public: // implemented
-    virtual std::string Name() PURE;
-    virtual std::string Url() PURE;
+    virtual std::string Name() const PURE;
+    virtual std::string Url() const PURE;
     virtual const std::set<std::string>& Languages() const PURE;
-    virtual bool Flags(DWORD dwFlags) PURE;
-    virtual int Icon() PURE;
+    virtual bool Flags(DWORD dwFlags) const PURE;
+    virtual int Icon() const PURE;
     virtual SRESULT Search(const SubtitlesInfo& pFileInfo) PURE;
     virtual SRESULT Download(SubtitlesInfo& pSubtitlesInfo) PURE;
 

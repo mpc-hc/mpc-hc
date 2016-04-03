@@ -31,6 +31,11 @@
 
 using namespace SubtitlesProvidersUtils;
 
+class LanguageDownloadException : public std::exception
+{
+    using exception::exception;
+};
+
 /******************************************************************************
 ** Register providers
 ******************************************************************************/
@@ -321,39 +326,43 @@ SRESULT OpenSubtitles::Upload(const SubtitlesInfo& pSubtitlesInfo)
 
 const std::set<std::string>& OpenSubtitles::Languages() const
 {
-    static bool bInitialized = false;
+    static std::once_flag initialized;
     static std::set<std::string> result;
-    if (bInitialized) {
-        return result;
-    }
-    if (CheckInternetConnection()) {
-        XmlRpcValue args, res;
-        args = "en";
-        if (!xmlrpc->execute("GetSubLanguages", args, res)) {
-            return result;
-        }
-        if (res["data"].getType() != XmlRpcValue::Type::TypeArray) {
-            return result;
-        }
 
-        auto& data = res["data"];
-        int count = data.size();
-        for (int i = 0; i < count; ++i) {
+    try {
+        std::call_once(initialized, [this]() {
+            if (!CheckInternetConnection()) {
+                throw LanguageDownloadException("No internet connection.");
+            }
+            XmlRpcValue args, res;
+            args = "en";
+            if (!xmlrpc->execute("GetSubLanguages", args, res)) {
+                throw LanguageDownloadException("Failed to execute xmlrpc command.");
+            }
+            if (res["data"].getType() != XmlRpcValue::Type::TypeArray) {
+                throw LanguageDownloadException("Response is not an array.");
+            }
+
+            auto& data = res["data"];
+            int count = data.size();
+            for (int i = 0; i < count; ++i) {
 #ifdef _DEBUG
-            // Validate if language code conversion is in sync with OpenSubtitles database.
-            std::string subLanguageID = data[i]["SubLanguageID"];
-            std::string ISO6391 = data[i]["ISO639"];
-            ASSERT(!ISO6391.empty());
-            ASSERT(!subLanguageID.empty());
-            ASSERT(ISOLang::ISO6391To6392(ISO6391.c_str()) == subLanguageID.c_str());
-            ASSERT(ISOLang::ISO6392To6391(subLanguageID.c_str()) == ISO6391.c_str());
-            //std::string languageName = data[i]["LanguageName"];
-            //ASSERT(ISO639XToLanguage(ISO6391.c_str()) == languageName.c_str());
-            //ASSERT(ISO639XToLanguage(subLanguageID.c_str()) == languageName.c_str());
+                // Validate if language code conversion is in sync with OpenSubtitles database.
+                std::string subLanguageID = data[i]["SubLanguageID"];
+                std::string ISO6391 = data[i]["ISO639"];
+                ASSERT(!ISO6391.empty());
+                ASSERT(!subLanguageID.empty());
+                ASSERT(ISOLang::ISO6391To6392(ISO6391.c_str()) == subLanguageID.c_str());
+                ASSERT(ISOLang::ISO6392To6391(subLanguageID.c_str()) == ISO6391.c_str());
+                //std::string languageName = data[i]["LanguageName"];
+                //ASSERT(ISO639XToLanguage(ISO6391.c_str()) == languageName.c_str());
+                //ASSERT(ISO639XToLanguage(subLanguageID.c_str()) == languageName.c_str());
 #endif
-            result.emplace(data[i]["ISO639"]);
-        }
-        bInitialized = true;
+                result.emplace(data[i]["ISO639"]);
+            }
+        });
+    } catch (const LanguageDownloadException& e) {
+        TRACE(_T("%S: %S\n"), Name().c_str(), e.what());
     }
     return result;
 }
@@ -475,18 +484,23 @@ SRESULT SubDB::Upload(const SubtitlesInfo& pSubtitlesInfo)
 
 const std::set<std::string>& SubDB::Languages() const
 {
-    static bool bInitialized = false;
+    static std::once_flag initialized;
     static std::set<std::string> result;
-    if (bInitialized) {
-        return result;
-    }
-    if (CheckInternetConnection()) {
-        std::string data;
-        DownloadInternal("http://api.thesubdb.com/?action=languages", "", data);
-        for (const auto& str : StringTokenize(data, ",")) {
-            result.emplace(str);
-        }
-        bInitialized = true;
+    try {
+        std::call_once(initialized, [this]() {
+            if (!CheckInternetConnection()) {
+                throw LanguageDownloadException("No internet connection.");
+            }
+            std::string data;
+            if (DownloadInternal("http://api.thesubdb.com/?action=languages", "", data) != SR_SUCCEEDED) {
+                throw LanguageDownloadException("Failed to download language list.");
+            }
+            for (const auto& str : StringTokenize(data, ",")) {
+                result.emplace(str);
+            }
+        });
+    } catch (const LanguageDownloadException& e) {
+        TRACE(_T("%S: %S\n"), Name().c_str(), e.what());
     }
     return result;
 }
@@ -683,17 +697,16 @@ SRESULT podnapisi::Download(SubtitlesInfo& pSubtitlesInfo)
 
 const std::set<std::string>& podnapisi::Languages() const
 {
-    static bool bInitialized = false;
+    static std::once_flag initialized;
     static std::set<std::string> result;
-    if (bInitialized) {
-        return result;
-    }
-    for (const auto& iter : podnapisi_languages) {
-        if (strlen(iter.code)) {
-            result.emplace(iter.code);
+
+    std::call_once(initialized, [this]() {
+        for (const auto& iter : podnapisi_languages) {
+            if (strlen(iter.code)) {
+                result.emplace(iter.code);
+            }
         }
-    }
-    bInitialized = true;
+    });
     return result;
 }
 
@@ -820,17 +833,16 @@ SRESULT titlovi::Download(SubtitlesInfo& pSubtitlesInfo)
 
 const std::set<std::string>& titlovi::Languages() const
 {
-    static bool bInitialized = false;
+    static std::once_flag initialized;
     static std::set<std::string> result;
-    if (bInitialized) {
-        return result;
-    }
-    for (const auto& iter : titlovi_languages) {
-        if (strlen(iter.name)) {
-            result.emplace(iter.name);
+
+    std::call_once(initialized, [this]() {
+        for (const auto& iter : titlovi_languages) {
+            if (strlen(iter.name)) {
+                result.emplace(iter.name);
+            }
         }
-    }
-    bInitialized = true;
+    });
     return result;
 }
 
@@ -932,17 +944,16 @@ SRESULT ysubs::Download(SubtitlesInfo& pSubtitlesInfo)
 
 const std::set<std::string>& ysubs::Languages() const
 {
-    static bool bInitialized = false;
+    static std::once_flag initialized;
     static std::set<std::string> result;
-    if (bInitialized) {
-        return result;
-    }
-    for (const auto& iter : ysubs_languages) {
-        if (strlen(iter.code)) {
-            result.emplace(iter.code);
+
+    std::call_once(initialized, [this]() {
+        for (const auto& iter : ysubs_languages) {
+            if (strlen(iter.code)) {
+                result.emplace(iter.code);
+            }
         }
-    }
-    bInitialized = true;
+    });
     return result;
 }
 

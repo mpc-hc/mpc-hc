@@ -39,11 +39,11 @@ public:                                                                         
         return std::make_shared<P>(pOwner);                                            \
     }                                                                                  \
 private:                                                                               \
-    virtual std::string Name() override { return #P; }                                 \
-    virtual std::string Url() override { return U; }                                   \
+    virtual std::string Name() const override { return #P; }                           \
+    virtual std::string Url() const override { return U; }                             \
     virtual const std::set<std::string>& Languages() const override;                   \
-    virtual bool Flags(DWORD dwFlags) override { return (dwFlags & (F)) == dwFlags; }  \
-    virtual int Icon() override { return I; }                                          \
+    virtual bool Flags(DWORD dwFlags) const override { return (dwFlags & (F)) == dwFlags; }  \
+    virtual int Icon() const override { return I; }                                    \
 private:                                                                               \
     virtual SRESULT Search(const SubtitlesInfo& pFileInfo) override;                   \
     virtual SRESULT Download(SubtitlesInfo& pSubtitlesInfo) override;
