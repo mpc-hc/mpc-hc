@@ -503,7 +503,9 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::Connect(ISubRenderProvider* subtitle
         if (!m_pAllocator) {
             std::mutex mutexAllocator;
             std::unique_lock<std::mutex> lock(mutexAllocator);
-            if (!m_condAllocatorReady.wait_for(lock, std::chrono::seconds(1), [&]() {return !!m_pAllocator;})) {
+            if (!m_condAllocatorReady.wait_for(lock, std::chrono::seconds(1), [&]() {
+            return !!m_pAllocator;
+        })) {
                 // Return early, CXySubPicQueueNoThread ctor would fail anyway.
                 ASSERT(FALSE);
                 return E_FAIL;

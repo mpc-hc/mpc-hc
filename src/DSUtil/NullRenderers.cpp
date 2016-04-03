@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -86,25 +86,55 @@ public:
 
 
     // IMFVideoDisplayControl
-    STDMETHODIMP GetNativeVideoSize(SIZE* pszVideo, SIZE* pszARVideo) { return E_NOTIMPL; };
-    STDMETHODIMP GetIdealVideoSize(SIZE* pszMin, SIZE* pszMax) { return E_NOTIMPL; };
+    STDMETHODIMP GetNativeVideoSize(SIZE* pszVideo, SIZE* pszARVideo) {
+        return E_NOTIMPL;
+    };
+    STDMETHODIMP GetIdealVideoSize(SIZE* pszMin, SIZE* pszMax) {
+        return E_NOTIMPL;
+    };
     STDMETHODIMP SetVideoPosition(const MFVideoNormalizedRect* pnrcSource,
-                                  const LPRECT prcDest) { return E_NOTIMPL; };
+                                  const LPRECT prcDest) {
+        return E_NOTIMPL;
+    };
     STDMETHODIMP GetVideoPosition(MFVideoNormalizedRect* pnrcSource,
-                                  LPRECT prcDest) { return E_NOTIMPL; };
-    STDMETHODIMP SetAspectRatioMode(DWORD dwAspectRatioMode) { return E_NOTIMPL; };
-    STDMETHODIMP GetAspectRatioMode(DWORD* pdwAspectRatioMode) { return E_NOTIMPL; };
-    STDMETHODIMP SetVideoWindow(HWND hwndVideo) { return E_NOTIMPL; };
+                                  LPRECT prcDest) {
+        return E_NOTIMPL;
+    };
+    STDMETHODIMP SetAspectRatioMode(DWORD dwAspectRatioMode) {
+        return E_NOTIMPL;
+    };
+    STDMETHODIMP GetAspectRatioMode(DWORD* pdwAspectRatioMode) {
+        return E_NOTIMPL;
+    };
+    STDMETHODIMP SetVideoWindow(HWND hwndVideo) {
+        return E_NOTIMPL;
+    };
     STDMETHODIMP GetVideoWindow(HWND* phwndVideo);
-    STDMETHODIMP RepaintVideo() { return E_NOTIMPL; };
+    STDMETHODIMP RepaintVideo() {
+        return E_NOTIMPL;
+    };
     STDMETHODIMP GetCurrentImage(BITMAPINFOHEADER* pBih, BYTE** pDib,
-                                 DWORD* pcbDib, LONGLONG* pTimeStamp) { return E_NOTIMPL; };
-    STDMETHODIMP SetBorderColor(COLORREF Clr) { return E_NOTIMPL; };
-    STDMETHODIMP GetBorderColor(COLORREF* pClr) { return E_NOTIMPL; };
-    STDMETHODIMP SetRenderingPrefs(DWORD dwRenderFlags) { return E_NOTIMPL; };
-    STDMETHODIMP GetRenderingPrefs(DWORD* pdwRenderFlags) { return E_NOTIMPL; };
-    STDMETHODIMP SetFullscreen(BOOL fFullscreen) { return E_NOTIMPL; };
-    STDMETHODIMP GetFullscreen(BOOL* pfFullscreen) { return E_NOTIMPL; };
+                                 DWORD* pcbDib, LONGLONG* pTimeStamp) {
+        return E_NOTIMPL;
+    };
+    STDMETHODIMP SetBorderColor(COLORREF Clr) {
+        return E_NOTIMPL;
+    };
+    STDMETHODIMP GetBorderColor(COLORREF* pClr) {
+        return E_NOTIMPL;
+    };
+    STDMETHODIMP SetRenderingPrefs(DWORD dwRenderFlags) {
+        return E_NOTIMPL;
+    };
+    STDMETHODIMP GetRenderingPrefs(DWORD* pdwRenderFlags) {
+        return E_NOTIMPL;
+    };
+    STDMETHODIMP SetFullscreen(BOOL fFullscreen) {
+        return E_NOTIMPL;
+    };
+    STDMETHODIMP GetFullscreen(BOOL* pfFullscreen) {
+        return E_NOTIMPL;
+    };
 
 private:
     HMODULE m_hDXVA2Lib;

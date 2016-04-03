@@ -52,7 +52,9 @@ LPCTSTR Subtitle::GetSubtitleFileExt(SubType type)
 bool Subtitle::IsTextSubtitleFileName(CString fileName)
 {
     auto fileExt = PathUtils::FileExt(fileName).TrimLeft('.');
-    return std::any_of(subTypesExt.cbegin(), subTypesExt.cend(), [&](LPCTSTR ext) { return fileExt == ext; });
+    return std::any_of(subTypesExt.cbegin(), subTypesExt.cend(), [&](LPCTSTR ext) {
+        return fileExt == ext;
+    });
 }
 
 void Subtitle::GetSubFileNames(CString fn, const CAtlArray<CString>& paths, CAtlArray<SubFile>& ret)

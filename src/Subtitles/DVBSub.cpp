@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2015 see Authors.txt
+ * (C) 2009-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -430,7 +430,9 @@ CDVBSub::RegionList::const_iterator CDVBSub::FindRegion(const CAutoPtr<DVB_PAGE>
     ENSURE(pPage);
 
     return std::find_if(pPage->regions.cbegin(), pPage->regions.cend(),
-    [bRegionId](const std::unique_ptr<DVB_REGION>& pRegion) { return pRegion->id == bRegionId; });
+    [bRegionId](const std::unique_ptr<DVB_REGION>& pRegion) {
+        return pRegion->id == bRegionId;
+    });
 }
 
 CDVBSub::ClutList::const_iterator CDVBSub::FindClut(const CAutoPtr<DVB_PAGE>& pPage, BYTE bClutId) const
@@ -438,7 +440,9 @@ CDVBSub::ClutList::const_iterator CDVBSub::FindClut(const CAutoPtr<DVB_PAGE>& pP
     ENSURE(pPage);
 
     return std::find_if(pPage->CLUTs.cbegin(), pPage->CLUTs.cend(),
-    [bClutId](const std::unique_ptr<DVB_CLUT>& pCLUT) { return pCLUT->id == bClutId; });
+    [bClutId](const std::unique_ptr<DVB_CLUT>& pCLUT) {
+        return pCLUT->id == bClutId;
+    });
 }
 
 CDVBSub::CompositionObjectList::const_iterator CDVBSub::FindObject(const CAutoPtr<DVB_PAGE>& pPage, short sObjectId) const
@@ -446,7 +450,9 @@ CDVBSub::CompositionObjectList::const_iterator CDVBSub::FindObject(const CAutoPt
     ENSURE(pPage);
 
     return std::find_if(pPage->objects.cbegin(), pPage->objects.cend(),
-    [sObjectId](const std::unique_ptr<CompositionObject>& pObject) { return pObject->m_object_id_ref == sObjectId; });
+    [sObjectId](const std::unique_ptr<CompositionObject>& pObject) {
+        return pObject->m_object_id_ref == sObjectId;
+    });
 }
 
 HRESULT CDVBSub::ParsePage(CGolombBuffer& gb, WORD wSegLength, CAutoPtr<DVB_PAGE>& pPage)

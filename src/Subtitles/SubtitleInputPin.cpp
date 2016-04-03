@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -57,7 +57,9 @@ CSubtitleInputPin::CSubtitleInputPin(CBaseFilter* pFilter, CCritSec* pLock, CCri
     , m_bStopDecoding(false)
 {
     m_bCanReconnectWhenActive = true;
-    m_decodeThread = std::thread([this]() { DecodeSamples(); });
+    m_decodeThread = std::thread([this]() {
+        DecodeSamples();
+    });
 }
 
 CSubtitleInputPin::~CSubtitleInputPin()

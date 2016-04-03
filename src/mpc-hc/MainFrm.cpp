@@ -13232,11 +13232,15 @@ CString CMainFrame::GetStreamOSDString(CString name, LCID lcid, DWORD dwSelGroup
     CString strMessage;
     if (dwSelGroup == 1) {
         int n = 0;
-        if (name.Find(_T("A:")) == 0) { n = 2; }
+        if (name.Find(_T("A:")) == 0) {
+            n = 2;
+        }
         strMessage.Format(IDS_AUDIO_STREAM, name.Mid(n).Trim());
     } else if (dwSelGroup == 2) {
         int n = 0;
-        if (name.Find(_T("S:")) == 0) { n = 2; }
+        if (name.Find(_T("S:")) == 0) {
+            n = 2;
+        }
         strMessage.Format(IDS_SUBTITLE_STREAM, name.Mid(n).Trim());
     }
     return strMessage;
@@ -16789,7 +16793,12 @@ void CMainFrame::OnVideoSizeChanged(const bool bWasAudioOnly /*= false*/)
     MoveVideoWindow();
 }
 
-typedef struct { SubtitlesInfo* pSubtitlesInfo; BOOL bActivate; std::string fileName; std::string fileContents; } SubtitlesData;
+typedef struct {
+    SubtitlesInfo* pSubtitlesInfo;
+    BOOL bActivate;
+    std::string fileName;
+    std::string fileContents;
+} SubtitlesData;
 
 LRESULT CMainFrame::OnLoadSubtitles(WPARAM wParam, LPARAM lParam)
 {

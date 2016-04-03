@@ -293,40 +293,90 @@ HRESULT SubtitlesInfo::GetFileInfo(const std::string& sFileName /*= std::string(
     regexResult result;
 
     if (std::regex_search(fileName, std::regex("addic[7t]ed", RegexFlags)) && stringMatch(regex_pattern[5], filePath, result)) {
-        if (title.empty()) { title = result[0]; }
-        if (country.empty()) { country = result[1]; }
-        if (year == -1) { year = result[2].empty() ? -1 : atoi(result[2].c_str()); }
-        if (seasonNumber == -1) { seasonNumber = atoi(result[3].c_str()); }
-        if (episodeNumber == -1) { episodeNumber = atoi(result[4].c_str()); }
-        if (title2.empty()) { title2 = result[5]; }
-        if (releaseGroup.empty()) { releaseGroup = result[6]; }
-        if (languageName.empty()) { languageName = result[7]; }
-        if (hearingImpaired == -1) { hearingImpaired = result[8].empty() ? FALSE : TRUE; }
+        if (title.empty()) {
+            title = result[0];
+        }
+        if (country.empty()) {
+            country = result[1];
+        }
+        if (year == -1) {
+            year = result[2].empty() ? -1 : atoi(result[2].c_str());
+        }
+        if (seasonNumber == -1) {
+            seasonNumber = atoi(result[3].c_str());
+        }
+        if (episodeNumber == -1) {
+            episodeNumber = atoi(result[4].c_str());
+        }
+        if (title2.empty()) {
+            title2 = result[5];
+        }
+        if (releaseGroup.empty()) {
+            releaseGroup = result[6];
+        }
+        if (languageName.empty()) {
+            languageName = result[7];
+        }
+        if (hearingImpaired == -1) {
+            hearingImpaired = result[8].empty() ? FALSE : TRUE;
+        }
     } else if (stringMatch(regex_pattern[0], filePath, result)) {
-        if (title.empty()) { title = result[0]; }
-        if (country.empty()) { country = result[1]; }
-        if (year == -1) { year = result[2].empty() ? -1 : atoi(result[2].c_str()); }
-        if (episode.empty()) { episode = result[3] + result[4]; }
+        if (title.empty()) {
+            title = result[0];
+        }
+        if (country.empty()) {
+            country = result[1];
+        }
+        if (year == -1) {
+            year = result[2].empty() ? -1 : atoi(result[2].c_str());
+        }
+        if (episode.empty()) {
+            episode = result[3] + result[4];
+        }
         //bool b = IsISO639Language(match_pieces[5].str().c_str());
         //bool b1 = IsISO639Language("french");
         //CString lang = LanguageToISO6392(CString(match_pieces[5].str().c_str()));
         //std::string tt = match_pieces[5].str();
-        if (title2.empty()) { title2 = result[5]; }
-        if (resolution.empty()) { resolution = result[6]; }
-        if (format.empty()) { format = result[7]; }
-        if (audioCodec.empty()) { audioCodec = result[8]; }
-        if (videoCodec.empty()) { videoCodec = result[9]; }
-        if (releaseGroup.empty()) { releaseGroup = result[10]; }
+        if (title2.empty()) {
+            title2 = result[5];
+        }
+        if (resolution.empty()) {
+            resolution = result[6];
+        }
+        if (format.empty()) {
+            format = result[7];
+        }
+        if (audioCodec.empty()) {
+            audioCodec = result[8];
+        }
+        if (videoCodec.empty()) {
+            videoCodec = result[9];
+        }
+        if (releaseGroup.empty()) {
+            releaseGroup = result[10];
+        }
         //if (languageCode.empty()) languageCode = result[11];
     } else if (stringMatch(regex_pattern[1], filePath, result)) {
-        if (title.empty()) { title = result[0]; }
-        if (country.empty()) { country = result[1]; }
-        if (year == -1) { year = result[2].empty() ? -1 : atoi(result[2].c_str()); }
-        if (episode.empty()) { episode = result[3] + result[4]; }
+        if (title.empty()) {
+            title = result[0];
+        }
+        if (country.empty()) {
+            country = result[1];
+        }
+        if (year == -1) {
+            year = result[2].empty() ? -1 : atoi(result[2].c_str());
+        }
+        if (episode.empty()) {
+            episode = result[3] + result[4];
+        }
     }
 
-    if (!title.empty()) { title = std::regex_replace(title, regex_pattern[6], " "); }
-    if (!title2.empty()) { title2 = std::regex_replace(title2, regex_pattern[6], " "); }
+    if (!title.empty()) {
+        title = std::regex_replace(title, regex_pattern[6], " ");
+    }
+    if (!title2.empty()) {
+        title2 = std::regex_replace(title2, regex_pattern[6], " ");
+    }
 
     if ((seasonNumber == -1) && (episodeNumber == -1) && !episode.empty()) {
         if (stringMatch(regex_pattern[2], episode, result)) {
@@ -654,7 +704,9 @@ void SubtitlesTask::ThreadProc()
     }
 
     // Wait here until all threads have finished
-    while (!m_pThreads.empty()) { Sleep(0); }
+    while (!m_pThreads.empty()) {
+        Sleep(0);
+    }
 
     if (m_nType & STT_SEARCH) {
         BOOL bShowDialog = !m_AutoDownload.empty() || m_bAutoDownload;
@@ -710,7 +762,9 @@ void SubtitlesThread::ThreadProc()
 void SubtitlesThread::Search()
 {
     CheckAbortAndThrow();
-    if (!m_pFileInfo.Provider()->SupportsUserSelectedLanguages()) { return; }
+    if (!m_pFileInfo.Provider()->SupportsUserSelectedLanguages()) {
+        return;
+    }
     CheckAbortAndThrow();
     m_pFileInfo.Provider()->Hash(m_pFileInfo);
     CheckAbortAndThrow();
@@ -791,10 +845,14 @@ void SubtitlesThread::Upload()
 
 void SubtitlesThread::Set(SubtitlesInfo& pSubtitlesInfo)
 {
-    if (IsThreadAborting()) { return; }
+    if (IsThreadAborting()) {
+        return;
+    }
 
     std::string _title = pSubtitlesInfo.title;
-    if (!_title.empty()) { pSubtitlesInfo.title.clear(); }
+    if (!_title.empty()) {
+        pSubtitlesInfo.title.clear();
+    }
     pSubtitlesInfo.GetFileInfo(pSubtitlesInfo.fileName);
 
     //iter.score = 0; //LevenshteinDistance(m_pFileInfo.fileName, string_(subtitlesName)) * 100;
@@ -804,7 +862,9 @@ void SubtitlesThread::Set(SubtitlesInfo& pSubtitlesInfo)
               ((!_title.empty() && _stricmp(m_pFileInfo.NormalizeTitle().c_str(), pSubtitlesInfo.NormalizeString(_title).c_str()) == 0)))
              ? 3 : !m_pFileInfo.title.empty() || !_title.empty() ? -3 : 0;
 
-    if (!_title.empty()) { pSubtitlesInfo.title = _title; }
+    if (!_title.empty()) {
+        pSubtitlesInfo.title = _title;
+    }
 
     score += (!m_pFileInfo.country.empty() && _stricmp(m_pFileInfo.country.c_str(), pSubtitlesInfo.country.c_str()) == 0) ? 2 : !m_pFileInfo.country.empty() ? -2 : 0;
     score += (m_pFileInfo.year != -1 && m_pFileInfo.year == pSubtitlesInfo.year) ? 1 : 0;
@@ -818,14 +878,18 @@ void SubtitlesThread::Set(SubtitlesInfo& pSubtitlesInfo)
     score += (!m_pFileInfo.releaseGroup.empty() && _stricmp(m_pFileInfo.releaseGroup.c_str(), pSubtitlesInfo.releaseGroup.c_str()) == 0) ? 1 : 0;
     const auto& s = AfxGetAppSettings();
 
-    if (IsThreadAborting()) { return; }
+    if (IsThreadAborting()) {
+        return;
+    }
 
     pSubtitlesInfo.Set(m_pFileInfo.Provider(),
                        m_pTask->GetLangPriority(pSubtitlesInfo.languageCode),
                        (BYTE)(pSubtitlesInfo.hearingImpaired == (int)s.bPreferHearingImpairedSubtitles),
                        score);
 
-    if (IsThreadAborting()) { return; }
+    if (IsThreadAborting()) {
+        return;
+    }
 
     m_pSubtitlesList.push_back(pSubtitlesInfo);
 }

@@ -1756,7 +1756,9 @@ void CDX9AllocatorPresenter::InitStats()
 
     if (m_pD3DXCreateFont && (!m_pFont || currentHeight != newHeight)) {
         m_pFont = nullptr;
-        if (newHeight <= 0) { ASSERT(FALSE); }
+        if (newHeight <= 0) {
+            ASSERT(FALSE);
+        }
         m_pD3DXCreateFont(m_pD3DDev, newHeight, 0, newHeight < BOLD_THRESHOLD ? FW_NORMAL : FW_BOLD,
                           0, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS,
                           SysVersion::IsXPOrLater() ? CLEARTYPE_NATURAL_QUALITY : ANTIALIASED_QUALITY,

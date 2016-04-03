@@ -92,15 +92,24 @@ struct SubtitlesInfo {
     void Set(std::shared_ptr<SubtitlesProvider> pProvider, BYTE nLanguage, BYTE nHearingImpaired, SHORT nScore) {
         static UINT i(0);
         // run twice to check whether i has reached MAXUINT32 which is invalid
-        if (uid == -1) { uid = ++i; if (uid == -1) { uid = ++i; } }
+        if (uid == -1) {
+            uid = ++i;
+            if (uid == -1) {
+                uid = ++i;
+            }
+        }
         fileProvider = pProvider;
         score = MAKELONG(nScore + 0x10, MAKEWORD(nHearingImpaired, nLanguage));
     }
 
     std::string DisplayTitle() const {
         std::string _title(title);
-        if (!title2.empty()) { _title.append(": " + title2); }
-        if (year != -1) { _title.append(" (" + std::to_string(year) + ")"); }
+        if (!title2.empty()) {
+            _title.append(": " + title2);
+        }
+        if (year != -1) {
+            _title.append(" (" + std::to_string(year) + ")");
+        }
         return _title;
     }
 
@@ -181,8 +190,16 @@ public:
         }
         return m_pThread;
     }
-    void AbortThread() { if (IsThreadRunning()) { m_bAbort = true; } }
-    void WaitThread() const { if (IsThreadRunning()) { ::WaitForSingleObjectEx(*m_pThread, INFINITE, TRUE); } }
+    void AbortThread() {
+        if (IsThreadRunning()) {
+            m_bAbort = true;
+        }
+    }
+    void WaitThread() const {
+        if (IsThreadRunning()) {
+            ::WaitForSingleObjectEx(*m_pThread, INFINITE, TRUE);
+        }
+    }
 
 private:
     static UINT _ThreadProc(LPVOID pThreadParams) {
@@ -216,7 +233,11 @@ private:
     void Download();
     void Upload();
 
-    void CheckAbortAndThrow() { if (IsThreadAborting()) { throw E_ABORT; } }
+    void CheckAbortAndThrow() {
+        if (IsThreadAborting()) {
+            throw E_ABORT;
+        }
+    }
 
     SubtitlesTask* m_pTask;
     SubtitlesInfo m_pFileInfo;
@@ -361,7 +382,10 @@ public:
     SubtitlesProviders& operator=(SubtitlesProviders const&) = delete;
 
     // Instantiated on first use and guaranteed to be destroyed.
-    static SubtitlesProviders& Instance() { static SubtitlesProviders that; return that; }
+    static SubtitlesProviders& Instance() {
+        static SubtitlesProviders that;
+        return that;
+    }
 
 private:
     void RegisterProviders();
@@ -375,7 +399,9 @@ private:
     }
 
 public:
-    const std::vector<std::shared_ptr<SubtitlesProvider>>& Providers() const { return m_pProviders; };
+    const std::vector<std::shared_ptr<SubtitlesProvider>>& Providers() const {
+        return m_pProviders;
+    };
     static BOOL SubtitlesProviders::CheckInternetConnection();
 
     void ReadSettings();

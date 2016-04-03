@@ -42,9 +42,15 @@ int SubtitlesProvidersUtils::LevenshteinDistance(std::string s, std::string t)
     s = CStringA(s.c_str()).MakeLower();
     t = CStringA(t.c_str()).MakeLower();
     // degenerate cases
-    if (s == t) { return 0; }
-    if (s.length() == size_t(0)) { return (int)t.length(); }
-    if (t.length() == size_t(0)) { return (int)s.length(); }
+    if (s == t) {
+        return 0;
+    }
+    if (s.length() == size_t(0)) {
+        return (int)t.length();
+    }
+    if (t.length() == size_t(0)) {
+        return (int)s.length();
+    }
 
     // create two work vectors of integer distances
     std::vector<int> v0(t.length() + 1);
@@ -285,7 +291,9 @@ std::string SubtitlesProvidersUtils::StringGzipDeflate(const std::string& data)
             deflate_stream.avail_out = buffer_len;
             if ((ret = deflate(&deflate_stream, Z_FINISH)) >= Z_OK) {
                 result.append((char*)&buffer[0], buffer_len - deflate_stream.avail_out);
-            } else { break; }
+            } else {
+                break;
+            }
         } while (deflate_stream.avail_out == 0);
         ret = deflateEnd(&deflate_stream);
     }
@@ -311,7 +319,9 @@ std::string SubtitlesProvidersUtils::StringGzipCompress(const std::string& data)
             deflate_stream.avail_out = buffer_len;
             if ((ret = deflate(&deflate_stream, Z_FINISH)) >= Z_OK) {
                 result.append((char*)&buffer[0], buffer_len - deflate_stream.avail_out);
-            } else { break; }
+            } else {
+                break;
+            }
         } while (deflate_stream.avail_out == 0);
         ret = deflateEnd(&deflate_stream);
     }
@@ -335,7 +345,9 @@ std::string SubtitlesProvidersUtils::StringGzipInflate(const std::string& data)
             inflate_stream.avail_out = buffer_len;
             if (inflate(&inflate_stream, Z_NO_FLUSH) >= Z_OK) {
                 result.append((char*)&buffer[0], buffer_len - inflate_stream.avail_out);
-            } else { break; }
+            } else {
+                break;
+            }
         } while (inflate_stream.avail_out == 0);
         inflateEnd(&inflate_stream);
     }
@@ -361,7 +373,9 @@ std::string SubtitlesProvidersUtils::StringGzipUncompress(const std::string& dat
             inflate_stream.avail_out = buffer_len;
             if ((ret = inflate(&inflate_stream, Z_NO_FLUSH)) >= Z_OK) {
                 result.append((char*)&buffer[0], buffer_len - inflate_stream.avail_out);
-            } else { break; }
+            } else {
+                break;
+            }
         } while (inflate_stream.avail_out == 0);
         ret = inflateEnd(&inflate_stream);
     }
