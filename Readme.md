@@ -85,7 +85,7 @@ MPC-HC makes use of the following third-party code:
 | TreePropSheet     | -                         | http://www.codeproject.com/Articles/3709/ |
 | UnRAR             | freeware                  | http://www.rarlab.com/rar_add.htm |
 | VirtualDub        | GPLv2+                    | http://www.virtualdub.org/ |
-| XmlRpcC4Win       | LGPLv2                    | https://github.com/drtimcooper/XmlRpc4Win |
+| XmlRpc4Win        | LGPLv2                    | https://github.com/drtimcooper/XmlRpc4Win |
 | ZenLib            | zlib License              | https://sourceforge.net/projects/zenlib/ |
 | zita-resampler    | GPLv3                     | http://kokkinizita.linuxaudio.org/linuxaudio/ |
 | zlib              | zlib License              | http://zlib.net/ |
