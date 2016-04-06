@@ -30,7 +30,6 @@ var cpf;
 var cp;
 var s;
 var m;
-var rpt;
 var sb1;
 var sb2;
 var sb3;
@@ -61,7 +60,7 @@ function getOffsetX(m) {
 function timeSyntax(ts) {
     "use strict";
     var b = "";
-    for (var a = 0; a < ts.length; a++) {
+    for (var a = 0, len = ts.length; a < len; a++) {
         switch (ts.charAt(a)) {
             case "0":
                 b += "0";
@@ -167,7 +166,7 @@ function update(a, b) {
 
 function pad(number, len) {
     "use strict";
-    var str = "" + number;
+    var str = String(number);
     while (str.length < len) {
         str = "0" + str;
     }
@@ -240,7 +239,6 @@ function autoplay(a) {
     }
     var gg = " " + secondsToTS(cap, 5) + " ";
     cp.innerHTML = gg;
-    rpt = cap;
     return true;
 }
 
@@ -310,7 +308,7 @@ function controlsInit(_filePath, _curPos, _length, _state, _pbr, _eta, _volume, 
         }, 1000 * eta);
     }
     Live = len < 1;
-    startTime = startTime - curPos;
+    startTime -= curPos;
     rdirt = len * pbr / sliderSize;
     rdirt = Math.floor(rdirt > 1000 ? 1000 : (rdirt < 300 ? 300 : rdirt));
     cpf = getById("pos");
@@ -338,7 +336,6 @@ function controlsInit(_filePath, _curPos, _length, _state, _pbr, _eta, _volume, 
     vs1.onclick = vs2.onclick = vs3.onclick = volSliderClick;
     sas.checked = true;
     cp.innerHTML = cpf.value = secondsToTS(curPos, 5);
-    rpt = curPos;
     if (state === 2 && pbr !== 0) {
         autoplay();
     }
@@ -486,7 +483,7 @@ function loadSnapshot() {
     "use strict";
     var img = getById("snapshot");
     if (img) {
-        img.src = "snapshot.jpg" + "?" + snapshotCounter++;
+        img.src = "snapshot.jpg?" + snapshotCounter++;
     }
 }
 
