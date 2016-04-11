@@ -10168,6 +10168,33 @@ void CMainFrame::RepaintVideo()
     }
 }
 
+bool CMainFrame::SetShaderListP2(const ShaderList& shaderList, bool bScreenSpace)
+{
+    bool result = true;
+    const auto& s = AfxGetAppSettings();
+    ISubPicShaderPresenter* pShaderPresenter = nullptr;
+    m_pCAP2.QueryInterface<ISubPicShaderPresenter>(&pShaderPresenter);
+
+    m_pCAP2->SetPixelShader2(nullptr, nullptr, bScreenSpace);
+    for (const auto& shader : shaderList) {
+        if (FAILED(m_pCAP2->SetPixelShader2(shader.GetCode(), nullptr, bScreenSpace))) {
+            result = false;
+            m_pCAP2->SetPixelShader2(nullptr, nullptr, bScreenSpace);
+            break;
+        } else if ((pShaderPresenter != nullptr)) {
+            for (const ShaderTexture& texture : shader.GetTextures()) {
+                pShaderPresenter->SetPixelShaderTexture(texture.id, texture.path, texture.filter, texture.wrap);
+            }
+            for (const ShaderParameter& param : shader.GetParameters()) {
+                pShaderPresenter->SetPixelShaderParameter(param.id, param.values);
+            }
+        }
+    }
+
+    SAFE_RELEASE(pShaderPresenter);
+    return result;
+}
+
 void CMainFrame::SetShaders(bool bSetPreResize/* = true*/, bool bSetPostResize/* = true*/)
 {
     if (GetLoadState() != MLS::LOADED) {
@@ -10181,25 +10208,12 @@ void CMainFrame::SetShaders(bool bSetPreResize/* = true*/, bool bSetPostResize/*
     // internal video renderers select maximum available profile and madVR (the only external renderer that
     // supports shader part of ISubPicAllocatorPresenter2 interface) seems to ignore it altogether.
     if (m_pCAP2) {
+
         if (bSetPreResize) {
-            m_pCAP2->SetPixelShader2(nullptr, nullptr, false);
-            for (const auto& shader : s.m_Shaders.GetCurrentPreset().GetPreResize()) {
-                if (FAILED(m_pCAP2->SetPixelShader2(shader.GetCode(), nullptr, false))) {
-                    preFailed = true;
-                    m_pCAP2->SetPixelShader2(nullptr, nullptr, false);
-                    break;
-                }
-            }
+            preFailed = !SetShaderListP2(s.m_Shaders.GetCurrentPreset().GetPreResize(), false);
         }
         if (bSetPostResize) {
-            m_pCAP2->SetPixelShader2(nullptr, nullptr, true);
-            for (const auto& shader : s.m_Shaders.GetCurrentPreset().GetPostResize()) {
-                if (FAILED(m_pCAP2->SetPixelShader2(shader.GetCode(), nullptr, true))) {
-                    postFailed = true;
-                    m_pCAP2->SetPixelShader2(nullptr, nullptr, true);
-                    break;
-                }
-            }
+            postFailed = !SetShaderListP2(s.m_Shaders.GetCurrentPreset().GetPostResize(), true);
         }
     } else if (m_pCAP) {
         // shouldn't happen, all knows renderers that support ISubPicAllocatorPresenter interface

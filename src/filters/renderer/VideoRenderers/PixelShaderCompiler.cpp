@@ -57,10 +57,8 @@ CPixelShaderCompiler::~CPixelShaderCompiler()
     }
 }
 
-HRESULT CPixelShaderCompiler::InternalCompile(
+HRESULT CPixelShaderCompiler::CompileShader(
     LPCSTR pSrcData,
-    SIZE_T SrcDataSize,
-    LPCSTR pSourceName,
     LPCSTR pEntrypoint,
     LPCSTR pProfile,
     DWORD Flags,
@@ -123,7 +121,7 @@ HRESULT CPixelShaderCompiler::InternalCompile(
     D3D_SHADER_MACRO macros[] = { { defProfile, defProfileVal }, { 0 } };
 
     CComPtr<ID3DBlob> pShaderBlob, pErrorBlob;
-    HRESULT hr = m_pD3DCompile(pSrcData, SrcDataSize, pSourceName, macros, nullptr, pEntrypoint,
+    HRESULT hr = m_pD3DCompile(pSrcData, strlen(pSrcData), nullptr, macros, nullptr, pEntrypoint,
                                pSelProfile, Flags, 0, &pShaderBlob, &pErrorBlob);
 
     if (pErrMsg) {
@@ -169,50 +167,4 @@ HRESULT CPixelShaderCompiler::InternalCompile(
     }
 
     return S_OK;
-}
-
-HRESULT CPixelShaderCompiler::CompileShader(
-    LPCSTR pSrcData,
-    LPCSTR pEntrypoint,
-    LPCSTR pProfile,
-    DWORD Flags,
-    IDirect3DPixelShader9** ppPixelShader,
-    CString* pDisasm,
-    CString* pErrMsg)
-{
-    return InternalCompile(pSrcData, strlen(pSrcData), nullptr, pEntrypoint,
-                           pProfile, Flags, ppPixelShader, pDisasm, pErrMsg);
-}
-
-HRESULT CPixelShaderCompiler::CompileShaderFromFile(
-    LPCTSTR pSrcFile,
-    LPCSTR pEntrypoint,
-    LPCSTR pProfile,
-    DWORD Flags,
-    IDirect3DPixelShader9** ppPixelShader,
-    CString* pDisasm,
-    CString* pErrMsg)
-{
-    HRESULT ret = E_FAIL;
-    if (FILE* fp = _tfsopen(pSrcFile, _T("rb"), _SH_SECURE)) {
-        VERIFY(fseek(fp, 0, SEEK_END) == 0);
-        long size = ftell(fp);
-        rewind(fp);
-        if (size > 0) {
-            auto data = new(std::nothrow) char[(size_t)size];
-            if (data) {
-                if (fread(data, size, 1, fp) == 1) {
-                    ret = InternalCompile(data, (size_t)size, CT2A(pSrcFile), pEntrypoint,
-                                          pProfile, Flags, ppPixelShader, pDisasm, pErrMsg);
-                } else {
-                    ASSERT(FALSE);
-                }
-                delete[] data;
-            } else {
-                ASSERT(FALSE);
-            }
-        }
-        VERIFY(fclose(fp) == 0);
-    }
-    return ret;
 }

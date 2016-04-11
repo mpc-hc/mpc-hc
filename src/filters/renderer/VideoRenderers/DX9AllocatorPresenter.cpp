@@ -2289,3 +2289,17 @@ STDMETHODIMP CDX9AllocatorPresenter::GetD3DFullscreen(bool* pfEnabled)
     *pfEnabled = m_bIsFullscreen;
     return S_OK;
 }
+
+STDMETHODIMP CDX9AllocatorPresenter::SetPixelShaderTexture(int registerId, const CString& path, int filter, int wrap)
+{
+    CAutoLock cRenderLock(&m_RenderLock);
+
+    return SetCustomPixelShaderTexture(registerId, path, filter, wrap);
+}
+
+STDMETHODIMP CDX9AllocatorPresenter::SetPixelShaderParameter(int registerId, const float values[4])
+{
+    CAutoLock cRenderLock(&m_RenderLock);
+
+    return SetCustomPixelShaderParameter(registerId, values);
+}

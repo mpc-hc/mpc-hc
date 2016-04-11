@@ -1,5 +1,5 @@
 /*
- * (C) 2013-2014 see Authors.txt
+ * (C) 2013-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -23,51 +23,254 @@
 #include "MainFrm.h"
 #include "mplayerc.h"
 #include "PathUtils.h"
+#include "rapidjson/include/rapidjson/document.h"
+#include "rapidjson/include/rapidjson/error/en.h"
+#include <sstream>
+#include <iostream>
 
 #define SHADER_MAX_FILE_SIZE (4 * 1024 * 1024)
 
-Shader::Shader()
-{
-}
-
 Shader::Shader(const CString& path)
-    : filePath(path)
+    : m_FilePath(path)
 {
+    Reload();
 }
 
 bool Shader::operator==(const Shader& rhs) const
 {
-    return filePath.CompareNoCase(rhs.filePath) == 0;
+    return m_FilePath.CompareNoCase(rhs.m_FilePath) == 0;
 }
 
 bool Shader::IsDefault() const
 {
-    ASSERT(!PathUtils::IsRelative(filePath));
+    ASSERT(!PathUtils::IsRelative(m_FilePath));
     ASSERT(!PathUtils::IsRelative(ShaderList::GetShadersDir()));
-    return PathUtils::IsInDir(filePath, ShaderList::GetShadersDir());
+    return PathUtils::IsInDir(m_FilePath, ShaderList::GetShadersDir());
 }
 
-CStringA Shader::GetCode() const
+bool Shader::IsUsing(const CString& filePath) const
 {
-    CStringA code;
-    if (FILE* fp = _tfsopen(filePath, _T("rb"), _SH_SECURE)) {
-        fseek(fp, 0, SEEK_END);
-        size_t codeSize = ftell(fp);
-        rewind(fp);
-        if (codeSize > SHADER_MAX_FILE_SIZE) {
-            // reject shader code that is larger than SHADER_MAX_FILE_SIZE bytes,
-            // we need to limit it to some sane value in case the user tries to feed MPC-HC
-            // something large and bogus
-            ASSERT(FALSE);
-        } else if (fread(code.GetBufferSetLength((int)codeSize), codeSize, 1, fp) == 1) {
-            code.ReleaseBuffer((int)codeSize);
-        } else {
-            code.ReleaseBuffer(0);
-            ASSERT(FALSE);
+    for (const CString& path : m_Pathes) {
+        if (path.CompareNoCase(filePath) == 0) {
+            return true;
         }
-        VERIFY(fclose(fp) == 0);
     }
-    return code;
+
+    return false;
+}
+
+const CString& Shader::GetFilePath() const
+{
+    return m_FilePath;
+}
+
+const CStringA Shader::GetCode() const
+{
+    return m_Code.c_str();
+}
+
+const std::vector<CString>& Shader::GetPathes() const
+{
+    return m_Pathes;
+}
+
+const std::vector<ShaderTexture>& Shader::GetTextures() const
+{
+    return m_Textures;
+}
+
+const std::vector<ShaderParameter>& Shader::GetParameters() const
+{
+    return m_Parameters;
+}
+
+void Shader::Reload()
+{
+    m_Code.clear();
+    m_Pathes.clear();
+    m_Textures.clear();
+    m_Parameters.clear();
+
+    Load(m_FilePath);
+}
+
+bool Shader::Load(const CString& path)
+{
+    const std::string include_token = "#include";
+    const std::string filePath = CT2CA(path);
+
+    m_Pathes.push_back(path);
+    CFile file;
+    if (!file.Open(path, CFile::modeRead | CFile::typeBinary)) {
+        Log("file is missing : " + filePath);
+        return false;
+    }
+
+    if (file.GetLength() + m_Code.size() >= SHADER_MAX_FILE_SIZE) {
+        Log("file too large : " + filePath);
+        return false;
+    }
+
+    std::string content;
+    content.resize(file.GetLength());
+    if (file.Read(&content[0], file.GetLength()) != file.GetLength()) {
+        Log("failed to read : " + filePath);
+        return false;
+    }
+
+    if (!StripComments(content)) {
+        Log("invalid comments : " + filePath);
+        return false;
+    }
+
+    m_Code.reserve(m_Code.size() + content.size());
+    std::istringstream stream(content);
+    std::string line;
+    while (std::getline(stream, line)) {
+        size_t pos = line.find(include_token);
+        if (pos != std::string::npos) {
+            size_t start = line.find('\"', pos + include_token.size());
+            size_t stop;
+            if (start == std::string::npos) {
+                start = line.find('<', pos + include_token.size());
+                stop = line.find('>', pos + include_token.size());
+            } else {
+                stop = line.find('\"', start + 1);
+            }
+
+            if (start == std::string::npos || stop == std::string::npos) {
+                Log("invalid include : " + line);
+                return false;
+            }
+
+            CString includePath = PathUtils::CombinePaths(PathUtils::DirName(path), CString(line.substr(start + 1, stop - start - 1).c_str()));
+
+            if (!Load(includePath)) {
+                return false;
+            }
+        } else {
+            m_Code += line;
+        }
+        m_Code += '\n';
+    }
+    return LoadConfig(path);
+}
+
+bool Shader::LoadConfig(const CString& path)
+{
+    CString folder = PathUtils::DirName(path);
+    CString configPath = PathUtils::CombinePaths(folder, PathUtils::FileName(path) + SHADERS_CFG);
+    if (!PathUtils::IsFile(configPath)) {
+        return true;
+    }
+    const std::string filePath = CT2CA(configPath);
+
+    m_Pathes.push_back(configPath);
+    CFile file;
+    if (!file.Open(configPath, CFile::modeRead | CFile::osSequentialScan | CFile::typeBinary) || file.GetLength() > SHADER_MAX_FILE_SIZE) {
+        Log("failed to access : " + filePath);
+        return false;
+    }
+
+    std::string content;
+    content.resize(file.GetLength());
+    if (file.Read(&content[0], file.GetLength()) != file.GetLength()) {
+        Log("failed to read : " + filePath);
+        return false;
+    }
+
+    if (!StripComments(content)) {
+        Log("invalid comments : " + filePath);
+        return false;
+    }
+
+    rapidjson::Document document;
+    if (document.Parse(content.c_str()).HasParseError()) {
+        Log(filePath + " : " + rapidjson::GetParseError_En(document.GetParseError()));
+        return false;
+    }
+
+    for (rapidjson::Value::ConstMemberIterator member = document.MemberBegin(); member != document.MemberEnd(); ++member) {
+        rapidjson::Value::ConstMemberIterator id = member->value.FindMember("id");
+        rapidjson::Value::ConstMemberIterator path = member->value.FindMember("path");
+        rapidjson::Value::ConstMemberIterator values = member->value.FindMember("values");
+
+        if (id != member->value.MemberEnd()) {
+            if (path != member->value.MemberEnd()) {
+                ShaderTexture texture;
+                texture.id = id->value.GetInt();
+                texture.path = path->value.GetString();
+                texture.path.Replace(_T("/"), _T("\\"));
+
+                if (PathUtils::IsFile(texture.path)) {
+                    m_Pathes.push_back(texture.path);
+                } else {
+                    CString texturePath = PathUtils::CombinePaths(folder, texture.path);
+                    if (PathUtils::IsFile(CString(texturePath))) {
+                        texture.path = texturePath;
+                        m_Pathes.push_back(texture.path);
+                    } else {
+                        Log(std::string(CT2CA(texture.path)) + " not found");
+                    }
+                }
+
+                texture.filter = 3;
+                texture.wrap = 0;
+
+                rapidjson::Value::ConstMemberIterator filter = member->value.FindMember("filter");
+                if (filter != member->value.MemberEnd()) {
+                    texture.filter = filter->value.GetInt();
+                }
+
+                rapidjson::Value::ConstMemberIterator wrap = member->value.FindMember("wrap");
+                if (wrap != member->value.MemberEnd()) {
+                    texture.wrap = filter->value.GetInt();
+                }
+
+                m_Textures.push_back(texture);
+            } else if (values != member->value.MemberEnd()) {
+                if (values != member->value.MemberEnd() && values->value.IsArray() && values->value.Size() == 4 && id != member->value.MemberEnd()) {
+                    ShaderParameter param;
+                    param.id = id->value.GetInt();
+                    memset(param.values, 0, sizeof(float) * 4);
+
+                    for (rapidjson::SizeType comp = 0; comp < values->value.Size(); ++comp) {
+                        param.values[comp] = (float)values->value[comp].GetDouble();
+                    }
+
+                    m_Parameters.push_back(param);
+                }
+            }
+        }
+    }
+
+    return true;
+}
+
+bool Shader::StripComments(std::string& code) const
+{
+    size_t pos;
+    while ((pos = code.find("/*")) != std::string::npos) {
+        size_t end = code.find("*/", pos);
+        if (end == -1) {
+            return false;
+        }
+        code.erase(pos, (end - pos) + 2);
+    }
+    while ((pos = code.find("//")) != std::string::npos) {
+        size_t end = code.find('\n', pos);
+        if (end != std::string::npos) {
+            code.erase(pos, end - pos);
+        } else {
+            code.erase(pos);
+        }
+    }
+    return true;
+}
+
+void Shader::Log(std::string message)
+{
+    m_Code += "#error " + message + "\n";
 }
 
 ShaderList::ShaderList()
@@ -94,7 +297,7 @@ CString ShaderList::ToString() const
 {
     CString ret, tok, dir = GetShadersDir();
     for (auto it = cbegin(); it != cend(); ++it) {
-        tok = it->filePath;
+        tok = it->GetFilePath();
         // convert path to relative when possible
         if (PathUtils::IsInDir(tok, dir)) {
             bool rel;
@@ -339,10 +542,14 @@ FileChangeNotifier::FileSet ShaderSelection::ShaderCurrentPreset::GetWatchedList
 {
     FileSet ret;
     for (const auto& shader : m_PreResize) {
-        ret.emplace(shader.filePath);
+        for (const CString& path : shader.GetPathes()) {
+            ret.emplace(path);
+        }
     }
     for (const auto& shader : m_PostResize) {
-        ret.emplace(shader.filePath);
+        for (const CString& path : shader.GetPathes()) {
+            ret.emplace(path);
+        }
     }
     return ret;
 }
@@ -364,16 +571,9 @@ void ShaderSelection::ShaderCurrentPreset::WatchedFilesChanged(const FileSet& ch
 
 void ShaderSelection::ShaderCurrentPreset::WatchedFilesCooldownCallback()
 {
-    bool setPre = false, setPost = false;
-    for (const auto& change : m_changes) {
-        Shader shader(change);
-        if (!setPre && std::find(m_PreResize.begin(), m_PreResize.end(), shader) != std::end(m_PreResize)) {
-            setPre = true;
-        }
-        if (!setPost && std::find(m_PostResize.begin(), m_PostResize.end(), shader) != std::end(m_PostResize)) {
-            setPost = true;
-        }
-    }
+    bool setPre = CheckWatchedFiles(m_PreResize);
+    bool setPost = CheckWatchedFiles(m_PostResize);
+
     if (setPre && setPost) {
         m_eventc.FireEvent(MpcEvent::SHADER_SELECTION_CHANGED);
     } else if (setPre) {
@@ -382,6 +582,30 @@ void ShaderSelection::ShaderCurrentPreset::WatchedFilesCooldownCallback()
         m_eventc.FireEvent(MpcEvent::SHADER_POSTRESIZE_SELECTION_CHANGED);
     }
     m_changes.clear();
+
+    if (setPre || setPost) {
+        UpdateNotifierState();
+    }
+}
+
+bool ShaderSelection::ShaderCurrentPreset::CheckWatchedFiles(ShaderList& shaders)
+{
+    bool ret = false;
+    for (Shader& shader : shaders) {
+        bool modified = false;
+        for (const CString& change : m_changes) {
+            if (shader.IsUsing(change)) {
+                modified = true;
+                break;
+            }
+        }
+
+        if (modified) {
+            ret = true;
+            shader.Reload();
+        }
+    }
+    return ret;
 }
 
 bool ShaderSelection::NextPreset(bool bWrap/* = true*/)

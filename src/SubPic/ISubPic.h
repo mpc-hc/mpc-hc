@@ -227,3 +227,13 @@ public IPersist {
     // TODO: get rid of IPersist to identify type and use only
     // interface functions to modify the settings of the substream
 };
+
+//
+// ISubPicShaderPresenter
+//
+interface __declspec(uuid("212C1425-F407-4FF6-B0A0-8335FA46ABA8"))
+ISubPicShaderPresenter :
+public IUnknown {
+    STDMETHOD(SetPixelShaderTexture)(int registerId, const CString& path, int filter, int wrap) PURE;
+    STDMETHOD(SetPixelShaderParameter)(int registerId, const float values[4]) PURE;
+};
