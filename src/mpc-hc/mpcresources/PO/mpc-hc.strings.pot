@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-03-13 21:29:13+0000\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -807,6 +807,10 @@ msgstr ""
 
 msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Reduces tearing by bypassing the default VSync built into D3D."
+msgstr ""
+
+msgctxt "IDC_CACHESHADERS"
+msgid "Stores compiled shaders in local AppData to speed up load time."
 msgstr ""
 
 msgctxt "IDS_SRC_VTS"

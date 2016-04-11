@@ -1197,6 +1197,10 @@ msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
 msgstr "إعادة طباعة الترجمة"
 
+msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
+msgid "Cache compiled Shaders"
+msgstr ""
+
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
 msgstr "الإستماع عبر المنفذ:"

@@ -1189,6 +1189,10 @@ msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
 msgstr "Renderizador de subtítulos"
 
+msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
+msgid "Cache compiled Shaders"
+msgstr ""
+
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
 msgstr "Escoitar en porto:"

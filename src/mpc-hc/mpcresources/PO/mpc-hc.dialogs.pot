@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-03-13 21:25:13+0000\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1183,6 +1183,10 @@ msgstr ""
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
+msgstr ""
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
+msgid "Cache compiled Shaders"
 msgstr ""
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"

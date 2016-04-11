@@ -813,6 +813,10 @@ msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Reduces tearing by bypassing the default VSync built into D3D."
 msgstr "Reduce o tearing (rachamento da imaxe) pasando por alto o VSync incoporado por defecto ao D3D."
 
+msgctxt "IDC_CACHESHADERS"
+msgid "Stores compiled shaders in local AppData to speed up load time."
+msgstr ""
+
 msgctxt "IDS_SRC_VTS"
 msgid "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"
 msgstr "Abre VTS_xx_0.ifo para cargar todos os ficheiros VTS_xx_x.vob de golpe"
