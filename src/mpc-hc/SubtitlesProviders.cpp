@@ -372,9 +372,13 @@ HRESULT SubtitlesInfo::GetFileInfo(const std::string& sFileName /*= std::string(
     }
 
     // Use the filename as title if we couldn't do better
-    if (title.empty()) { title = fileName; }
+    if (title.empty()) {
+        title = fileName;
+    }
     title = std::regex_replace(title, regex_pattern[6], " ");
-    if (!title2.empty()) { title2 = std::regex_replace(title2, regex_pattern[6], " "); }
+    if (!title2.empty()) {
+        title2 = std::regex_replace(title2, regex_pattern[6], " ");
+    }
 
     if (seasonNumber == -1 && episodeNumber == -1) {
         if (stringMatch(regex_pattern[2], !episode.empty() ? episode : fileName, result)) {
