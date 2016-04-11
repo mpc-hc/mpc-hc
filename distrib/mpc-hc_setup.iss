@@ -172,7 +172,7 @@ Name: en;    MessagesFile: compiler:Default.isl
 Name: ar;    MessagesFile: Languages\Arabic.isl
 Name: be;    MessagesFile: Languages\Belarusian.isl
 Name: bn;    MessagesFile: Languages\Bengali.islu
-Name: bs_BA; MessagesFile: Languages\Bosnian.islu
+Name: bs_BA; MessagesFile: Languages\Bosnian.isl
 Name: ca;    MessagesFile: compiler:Languages\Catalan.isl
 Name: cs;    MessagesFile: compiler:Languages\Czech.isl
 Name: da;    MessagesFile: compiler:Languages\Danish.isl
