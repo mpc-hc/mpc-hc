@@ -13248,6 +13248,7 @@ void CMainFrame::OnStreamSelect(bool bForward, DWORD dwSelGroup)
 
 CString CMainFrame::GetStreamOSDString(CString name, LCID lcid, DWORD dwSelGroup)
 {
+    name.Replace(_T("\t"), _T(" - "));
     CString sLcid;
     if (lcid && lcid != LCID(-1)) {
         int len = GetLocaleInfo(lcid, LOCALE_SENGLANGUAGE, sLcid.GetBuffer(64), 64);
