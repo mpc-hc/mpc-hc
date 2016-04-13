@@ -11676,6 +11676,7 @@ int CMainFrame::SetupSubtitleStreams()
                     int num = _tstoi(l.name) - 1;
                     if (num >= 0) { // this is track number
                         if (i != num) {
+                            k++;
                             continue;  // not matched
                         }
                     } else { // this is lang string
@@ -11688,12 +11689,12 @@ int CMainFrame::SetupSubtitleStreams()
                             };
                             // match anything that starts with the language name or that seems to use a code that matches
                             if (name.Find(l.name) != 0 && !findCode(name, l.name) && !findCode(name, l.iso6392) && !findCode(name, l.iso6391)) {
+                                k++;
                                 continue; // not matched
                             }
                         }
                     }
                     rating += 16 * int(langs.size() - k);
-                    k++;
                     break;
                 }
                 if (externalPriority) { // External tracks are given a higher priority than language matches
