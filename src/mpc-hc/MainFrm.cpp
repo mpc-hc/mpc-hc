@@ -11616,15 +11616,14 @@ int CMainFrame::SetupSubtitleStreams()
             if (pSSF && CFGFilterLAV::IsInternalInstance(subInput.pSourceFilter)) {
                 bAllowOverridingSplitterChoice = true;
                 if (CComQIPtr<ILAVFSettings> pLAVFSettings = subInput.pSourceFilter) {
-                    LPWSTR langPrefs = nullptr;
+                    CComHeapPtr<WCHAR> pLangPrefs;
                     LAVSubtitleMode subtitleMode = pLAVFSettings->GetSubtitleMode();
-                    if ((((subtitleMode == LAVSubtitleMode_Default && SUCCEEDED(pLAVFSettings->GetPreferredSubtitleLanguages(&langPrefs)))
-                            || (subtitleMode == LAVSubtitleMode_Advanced && SUCCEEDED(pLAVFSettings->GetAdvancedSubtitleConfig(&langPrefs))))
-                            && langPrefs && wcslen(langPrefs))
+                    if ((((subtitleMode == LAVSubtitleMode_Default && SUCCEEDED(pLAVFSettings->GetPreferredSubtitleLanguages(&pLangPrefs)))
+                            || (subtitleMode == LAVSubtitleMode_Advanced && SUCCEEDED(pLAVFSettings->GetAdvancedSubtitleConfig(&pLangPrefs))))
+                            && pLangPrefs && wcslen(pLangPrefs))
                             || subtitleMode == LAVSubtitleMode_ForcedOnly || subtitleMode == LAVSubtitleMode_NoSubs) {
                         bAllowOverridingSplitterChoice = false;
                     }
-                    CoTaskMemFree(langPrefs);
                 }
             } else {
                 bAllowOverridingSplitterChoice = s.bAllowOverridingExternalSplitterChoice;
@@ -11640,17 +11639,14 @@ int CMainFrame::SetupSubtitleStreams()
                 count = pSubStream->GetStreamCount();
             }
 
-
             for (int j = 0; j < count; j++) {
-                HRESULT hr;
-                WCHAR* pName;
+                CComHeapPtr<WCHAR> pName;
                 LCID lcid = 0;
                 int rating = 0;
                 if (pSSF) {
                     DWORD dwFlags, dwGroup = 2;
-                    hr = pSSF->Info(j, nullptr, &dwFlags, &lcid, &dwGroup, &pName, nullptr, nullptr);
+                    pSSF->Info(j, nullptr, &dwFlags, &lcid, &dwGroup, &pName, nullptr, nullptr);
                     if (dwGroup != 2) { // If the track isn't a subtitle track, we skip it
-                        CoTaskMemFree(pName);
                         continue;
                     } else if (dwFlags & (AMSTREAMSELECTINFO_ENABLED | AMSTREAMSELECTINFO_EXCLUSIVE)) {
                         // Give slightly higher priority to the track selected by splitter so that
@@ -11659,15 +11655,13 @@ int CMainFrame::SetupSubtitleStreams()
                     } else if (!bAllowOverridingSplitterChoice) {
                         // If we aren't allowed to modify the splitter choice and the current
                         // track isn't already selected at splitter level we need to skip it.
-                        CoTaskMemFree(pName);
                         i++;
                         continue;
                     }
                 } else {
-                    hr = pSubStream->GetStreamInfo(j, &pName, &lcid);
+                    pSubStream->GetStreamInfo(j, &pName, &lcid);
                 }
                 CString name(pName);
-                CoTaskMemFree(pName);
                 name.Trim();
                 name.MakeLower();
 
