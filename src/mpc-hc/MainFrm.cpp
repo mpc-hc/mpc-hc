@@ -11876,7 +11876,8 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
                     if (CComQIPtr<IPropertyBag> pPB = pBF) {
                         CComVariant var;
                         if (SUCCEEDED(pPB->Read(_T("rotation"), &var, nullptr)) && var.vt == VT_BSTR) {
-                            m_pCAP2->SetDefaultVideoAngle(Vector(0, 0, Vector::DegToRad(_tcstol(var.bstrVal, nullptr, 10) % 360)));
+                            // We need to convert the angle to use trigonomeric conventions
+                            m_pCAP2->SetDefaultVideoAngle(Vector(0, 0, Vector::DegToRad((360 - _tcstol(var.bstrVal, nullptr, 10) % 360) % 360)));
                         }
                     }
                 }
