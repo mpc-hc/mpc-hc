@@ -11,15 +11,16 @@
 # Gustavo Cegolini Togni <gustavotogni@gmail.com>, 2015
 # Roger Filipe <lipe2000@outlook.com>, 2013-2014
 # Luis Henrique <henriqlh@gmail.com>, 2014
+# Michael Moser <michi.celin@gmail.com>, 2016
 # mvpetri <mvpetri@gmail.com>, 2014
 # Raphael Mendonça, 2014
 # Roger Filipe <lipe2000@outlook.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-03-13 21:25:13+0000\n"
-"PO-Revision-Date: 2016-03-15 06:17+0000\n"
-"Last-Translator: Alex Luís Silva <alex.mooca@hotmail.com>\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2016-04-28 18:43+0000\n"
+"Last-Translator: Michael Moser <michi.celin@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/mpc-hc/mpc-hc/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1201,7 +1202,7 @@ msgstr "Renderizar Legendas"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
 msgid "Cache compiled Shaders"
-msgstr ""
+msgstr "Shaders Compilados em Cache"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"

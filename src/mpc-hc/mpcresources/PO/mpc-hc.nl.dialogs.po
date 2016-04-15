@@ -7,13 +7,14 @@
 # Dennis Gerritsen <frostflame@hotmail.com>, 2014
 # Devrim, 2013-2015
 # DennisW, 2014
+# mark van tilburg <markvantilburg@gmail.com>, 2016
 # rjongejan <ruben.jongejan@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-03-13 21:25:13+0000\n"
-"PO-Revision-Date: 2016-03-23 17:59+0000\n"
-"Last-Translator: reneweesp <bmom43@hotmail.com>\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2016-04-13 11:29+0000\n"
+"Last-Translator: mark van tilburg <markvantilburg@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/mpc-hc/mpc-hc/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1195,7 +1196,7 @@ msgstr "Ondertitel opbouwer"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
 msgid "Cache compiled Shaders"
-msgstr ""
+msgstr "Gecompileerde shaders cachen"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"

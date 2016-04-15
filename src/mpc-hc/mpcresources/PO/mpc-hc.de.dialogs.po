@@ -11,8 +11,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-03-13 21:25:13+0000\n"
-"PO-Revision-Date: 2016-03-16 19:29+0000\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2016-04-30 17:10+0000\n"
 "Last-Translator: Luan <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/mpc-hc/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -79,7 +79,7 @@ msgstr "&Aufnahme"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK2"
 msgid "Enable built-in audio switcher filter (requires restart)"
-msgstr "Internen Audio-Switcher aktivieren (Neustart erforderlich)"
+msgstr "Interner Audio-Switcher (Neustart erforderlich)"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK5"
 msgid "Normalize"
@@ -111,7 +111,7 @@ msgstr "Audioverzögerung (ms):"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK1"
 msgid "Enable custom channel mapping"
-msgstr "Benutzerdefinierte Kanalzuordnung aktivieren"
+msgstr "Benutzerdefinierte Kanalzuordnung"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
 msgid "Speaker configuration for"
@@ -435,7 +435,7 @@ msgstr "Nach Wiedergabe"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Default zoom"
-msgstr "Fensteransicht"
+msgstr "Standard-Ansicht"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
@@ -699,7 +699,7 @@ msgstr "OSD-Schrift:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_LCD"
 msgid "Enable Logitech LCD support (experimental)"
-msgstr "LCD-Unterstützung für Logitech-Tastaturen aktivieren (experimentell)"
+msgstr "LCD-Unterstützung für Logitech-Tastaturen (experimentell)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
 msgid "Auto-hide the mouse pointer during playback in windowed mode"
@@ -943,7 +943,7 @@ msgstr "JPEG-Qualität:"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "Thumbnails:"
-msgstr "Miniaturansichten:"
+msgstr "Layout:"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "rows"
@@ -1195,11 +1195,11 @@ msgstr "Untertitel-Renderer"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
 msgid "Cache compiled Shaders"
-msgstr ""
+msgstr "Shader zwischenspeichern"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
-msgstr "Portnummer verwenden:"
+msgstr "Port überwachen:"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC1"
 msgid "Launch in web browser..."
@@ -1207,7 +1207,7 @@ msgstr "Im Browser öffnen..."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK3"
 msgid "Enable compression"
-msgstr "Komprimierung aktivieren"
+msgstr "Inhalte komprimieren"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK5"
 msgid "Allow access from localhost only"
@@ -1215,7 +1215,7 @@ msgstr "Nur lokalen Zugriff erlauben"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK6"
 msgid "Enable preview"
-msgstr "Medienvorschau aktivieren"
+msgstr "Medienvorschau anzeigen"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
 msgid "Print debug information"
@@ -1315,7 +1315,7 @@ msgstr "Programm-Update"
 
 msgctxt "IDD_PPAGEMISC_IDC_CHECK1"
 msgid "Enable automatic update check"
-msgstr "Automatische Update-Prüfung aktivieren"
+msgstr "Automatische Update-Prüfung"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
 msgid "Check every:"
@@ -1623,7 +1623,7 @@ msgstr "&Update ignorieren"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shaders contain special effects which can be added to the video rendering process."
-msgstr "Mit den hier aufgeführten Shader-Modulen können verschiedene Effekte in das laufende Bild des Video-Renderers eingebunden werden."
+msgstr "Mit den hier aufgeführten Shadern können verschiedene Effekte in das laufende Bild des Video-Renderers eingebunden werden."
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON12"
 msgid "Add shader file"
@@ -1691,7 +1691,7 @@ msgstr "PS 3.0"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_STATIC"
 msgid "Advanced Settings, do not edit unless you know what you are doing."
-msgstr "Folgende Werte bitte nur bei genauer Kenntnis der jeweiligen Einstellung anpassen."
+msgstr "Folgende Werte bitte nur bei genauer Kenntnis der jeweiligen Einstellung anpassen:"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO1"
 msgid "True"
@@ -1723,7 +1723,7 @@ msgstr "Weitere Einstellungen"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK3"
 msgid "Enable stereo crossfeed (for headphones)"
-msgstr "Crossfeed für Kopfhörer aktivieren"
+msgstr "Crossfeed für Kopfhörer"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON1"
 msgid "C. Moy"

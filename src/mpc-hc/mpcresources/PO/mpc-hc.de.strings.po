@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-03-13 21:29:13+0000\n"
-"PO-Revision-Date: 2016-03-18 18:36+0000\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2016-04-30 17:16+0000\n"
 "Last-Translator: Luan <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/mpc-hc/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -821,7 +821,7 @@ msgstr "Reduziert Tearing-Effekte unter Umgehung des von Direct3D verwendeten VS
 
 msgctxt "IDC_CACHESHADERS"
 msgid "Stores compiled shaders in local AppData to speed up load time."
-msgstr ""
+msgstr "Verkürzt den Ladevorgang bereits kompilierter Shader."
 
 msgctxt "IDS_SRC_VTS"
 msgid "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"
@@ -1181,7 +1181,7 @@ msgstr "Kann Shader für Pre-Resize und Post-Resize nicht einrichten"
 
 msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
 msgid "Shaders are recompiled automatically when the corresponding files are modified."
-msgstr "Shader werden bei Änderung zugehöriger Dateien automatisch neu kompiliert."
+msgstr "Shader werden bei Änderung der zugehörigen Dateien neu kompiliert."
 
 msgctxt "IDS_SHADER_DLL_ERR_0"
 msgid "Cannot load %s, pixel shaders will not work."
@@ -1409,11 +1409,11 @@ msgstr "Positive Werte erlauben eine spätere, negative Werte eine frühere Audi
 
 msgctxt "IDS_WEBUI_DISABLED_PREVIEW_MSG"
 msgid "Preview is currently disabled. You can enable it in MPC-HC's options."
-msgstr "Medienvorschau nicht verfügbar, kann aber aktiviert werden"
+msgstr "Medienvorschau wird nicht angezeigt"
 
 msgctxt "IDS_WEBUI_PREVIEW_WARNING"
 msgid "This option can be used to preview media files from remote location. Use it only on a properly secured private network.\n\nDo you really want to enable this option?"
-msgstr "Mit dieser Option kann die Vorschau einer Mediendatei von einem Remote-Standort aus eingesehen werden. Deshalb bitte nur in einem gut gesicherten privaten Netzwerk verwenden.\n\nMedienvorschau wirklich aktivieren?"
+msgstr "Mit dieser Option können Mediendateien von anderen Orten aus eingesehen werden. Deshalb bitte nur in gut gesicherten privaten Netzwerken verwenden.\n\nMedienvorschau wirklich anzeigen?"
 
 msgctxt "IDS_SUBTITLE_RENDERER_INTERNAL"
 msgid "Internal Subtitle Renderer"
@@ -2201,7 +2201,7 @@ msgstr "DVD: Regionalcode-Konflikt zwischen Disc und Decoder"
 
 msgctxt "IDS_D3DFS_WARNING"
 msgid "This option is designed to avoid tearing. However, it will also prevent MPC-HC from displaying the context menu and any dialog box during playback.\n\nDo you really want to activate this option?"
-msgstr "Mit dieser Option können störende Tearing-Effekte während der Videowiedergabe vermieden werden. Allerdings werden dabei keine Dialogboxen und Menüs angezeigt.\n\nDirect3D-Vollbildmodus aktivieren?"
+msgstr "Mit dieser Option können störende Tearing-Effekte vermieden werden. Allerdings werden damit während des Vollbilds keine Dialogboxen und Menüs angezeigt.\n\nDirect3D-Vollbildmodus aktivieren?"
 
 msgctxt "IDS_MAINFRM_139"
 msgid "Sub delay: %ld ms"
@@ -2773,7 +2773,7 @@ msgstr "Abbrechen"
 
 msgctxt "IDS_THUMB_THUMBNAILS"
 msgid "Layout"
-msgstr "Miniaturansichten"
+msgstr "Layout"
 
 msgctxt "IDS_THUMB_PIXELS"
 msgid "Pixels:"

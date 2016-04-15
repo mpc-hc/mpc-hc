@@ -10,8 +10,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-03-13 21:29:13+0000\n"
-"PO-Revision-Date: 2016-03-20 00:12+0000\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2016-04-24 18:33+0000\n"
 "Last-Translator: Mehzad Galib\n"
 "Language-Team: Bengali (http://www.transifex.com/mpc-hc/mpc-hc/language/bn/)\n"
 "MIME-Version: 1.0\n"
@@ -818,7 +818,7 @@ msgstr "D3Dএ নির্মাণকৃত ডিফল্ট VSyncকে ব
 
 msgctxt "IDC_CACHESHADERS"
 msgid "Stores compiled shaders in local AppData to speed up load time."
-msgstr ""
+msgstr "লোড হওয়ার সময় দ্রুত করার জন্যে সংকলিত শেইডারসমূহ স্থানীয় AppDataতে সংরক্ষণ।"
 
 msgctxt "IDS_SRC_VTS"
 msgid "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"

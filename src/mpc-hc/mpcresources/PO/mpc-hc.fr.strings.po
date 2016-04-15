@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-03-13 21:29:13+0000\n"
-"PO-Revision-Date: 2016-03-19 15:09+0000\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2016-04-12 16:42+0000\n"
 "Last-Translator: Underground78\n"
 "Language-Team: French (http://www.transifex.com/mpc-hc/mpc-hc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -815,7 +815,7 @@ msgstr "Réduit l'effet de déchirement en évitant d'utiliser la synchronisatio
 
 msgctxt "IDC_CACHESHADERS"
 msgid "Stores compiled shaders in local AppData to speed up load time."
-msgstr ""
+msgstr "Stocke les shaders compilés dans le dossier AppData pour accélérer leur chargement."
 
 msgctxt "IDS_SRC_VTS"
 msgid "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"

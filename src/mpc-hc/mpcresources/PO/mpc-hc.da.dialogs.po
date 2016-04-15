@@ -2,19 +2,20 @@
 # Copyright (C) 2002 - 2016 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Jatyrael <cbf_x@hotmail.com>, 2014
+# Jatyrael <cbf_x@hotmail.com>, 2014,2016
 # Chreddy <chreddy1@gmail.com>, 2016
 # Xebika <fidodkk@gmail.com>, 2014-2015
 # Jatyrael <cbf_x@hotmail.com>, 2014
+# NemoHJ <nemohj@gmail.com>, 2016
 # scootergrisen, 2015-2016
 # Stoffi, 2014-2015
 # Xebika <fidodkk@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-03-13 21:25:13+0000\n"
-"PO-Revision-Date: 2016-03-16 15:21+0000\n"
-"Last-Translator: scootergrisen\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2016-04-17 15:07+0000\n"
+"Last-Translator: NemoHJ <nemohj@gmail.com>\n"
 "Language-Team: Danish (http://www.transifex.com/mpc-hc/mpc-hc/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,7 +45,7 @@ msgstr "Anvend"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
 msgid "Audio"
-msgstr "Lyd"
+msgstr "Audio"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
 msgid "Output"
@@ -52,7 +53,7 @@ msgstr "Output"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK1"
 msgid "Record Video"
-msgstr "Indspil video"
+msgstr "Optag video"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK2"
 msgid "Preview"
@@ -72,7 +73,7 @@ msgstr "V/A buffere:"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK5"
 msgid "Audio to wav"
-msgstr "Lyd til wav"
+msgstr "Audio til wav"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_BUTTON2"
 msgid "Record"
@@ -204,7 +205,7 @@ msgstr "Dette program er freeware og udgivet under GNU General Public License."
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
-msgstr "Dansk oversættelse af dansk MPC-HC team"
+msgstr "Dansk oversættelse af scootergrisen, Jatyrael"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build information"
@@ -1196,7 +1197,7 @@ msgstr "Undertekst renderer"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
 msgid "Cache compiled Shaders"
-msgstr ""
+msgstr "Cachekompilerede shadere"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"

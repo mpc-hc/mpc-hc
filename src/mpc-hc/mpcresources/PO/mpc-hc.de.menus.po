@@ -6,14 +6,14 @@
 # Gaugg_Markus, 2016
 # JellyFrog, 2014
 # JellyFrog, 2014
-# Luan <luanmail@gmx.net>, 2014-2015
+# Luan <luanmail@gmx.net>, 2014-2016
 # Luan <luanmail@gmx.net>, 2014
 # M T <michtrz@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
-"PO-Revision-Date: 2016-03-13 22:26+0000\n"
+"PO-Revision-Date: 2016-04-30 17:16+0000\n"
 "Last-Translator: Luan <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/mpc-hc/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -48,7 +48,7 @@ msgstr "&Verzeichnis öffnen..."
 
 msgctxt "ID_FILE_OPENDISC"
 msgid "O&pen Disc"
-msgstr "Disc-&Wiedergabe"
+msgstr "Dis&c-Wiedergabe"
 
 msgctxt "ID_RECENT_FILES"
 msgid "Recent &Files"
@@ -56,7 +56,7 @@ msgstr "&Zuletzt geöffnete Dateien"
 
 msgctxt "ID_FILE_CLOSE_AND_RESTORE"
 msgid "&Close"
-msgstr "S&chließen"
+msgstr "&Schließen"
 
 msgctxt "ID_FILE_SAVE_COPY"
 msgid "&Save a Copy..."
@@ -68,7 +68,7 @@ msgstr "B&ild speichern..."
 
 msgctxt "ID_FILE_SAVE_THUMBNAILS"
 msgid "Save &Thumbnails..."
-msgstr "Miniatur&ansichten speichern..."
+msgstr "Mi&niaturansichten speichern..."
 
 msgctxt "POPUP"
 msgid "S&ubtitles"

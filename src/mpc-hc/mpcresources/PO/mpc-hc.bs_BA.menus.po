@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Samir Gutić <amicussamir@amicus.ba>, 2016
+# smajo burek <smajo@mail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
-"PO-Revision-Date: 2016-03-29 09:04+0000\n"
-"Last-Translator: Samir Gutić <amicussamir@amicus.ba>\n"
+"PO-Revision-Date: 2016-04-29 17:30+0000\n"
+"Last-Translator: smajo burek <smajo@mail.com>\n"
 "Language-Team: Bosnian (Bosnia and Herzegovina) (http://www.transifex.com/mpc-hc/mpc-hc/language/bs_BA/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +23,7 @@ msgstr "&Dokument"
 
 msgctxt "ID_FILE_OPENQUICK"
 msgid "&Quick Open File..."
-msgstr "&Brzo Otvaranje Dokumenta..."
+msgstr "Brzo Otvaranje Dokumenta..."
 
 msgctxt "ID_FILE_OPENMEDIA"
 msgid "&Open File..."
@@ -34,19 +35,19 @@ msgstr "Otvori &DVD/BD..."
 
 msgctxt "ID_FILE_OPENDEVICE"
 msgid "Open De&vice..."
-msgstr "Otvori Ur&eđaj"
+msgstr "Otvori Uređaj"
 
 msgctxt "ID_FILE_OPENDIRECTORY"
 msgid "Open Dir&ectory..."
-msgstr "Otvori &Dokument..."
+msgstr "Otvori Dokument..."
 
 msgctxt "ID_FILE_OPENDISC"
 msgid "O&pen Disc"
-msgstr "Otvo&ri Disk"
+msgstr "Otvori Disk"
 
 msgctxt "ID_RECENT_FILES"
 msgid "Recent &Files"
-msgstr "Skorašnji &Dokumenti"
+msgstr "Skorašnji Dokumenti"
 
 msgctxt "ID_FILE_CLOSE_AND_RESTORE"
 msgid "&Close"
@@ -54,11 +55,11 @@ msgstr "Zatvori"
 
 msgctxt "ID_FILE_SAVE_COPY"
 msgid "&Save a Copy..."
-msgstr "&Snimi Kopiju..."
+msgstr "&Spasi Kopiju..."
 
 msgctxt "ID_FILE_SAVE_IMAGE"
 msgid "Save &Image..."
-msgstr "Snimi Sl&iku..."
+msgstr "Spasi Sliku..."
 
 msgctxt "ID_FILE_SAVE_THUMBNAILS"
 msgid "Save &Thumbnails..."
@@ -98,7 +99,7 @@ msgstr "Prikaz"
 
 msgctxt "ID_VIEW_CAPTIONMENU"
 msgid "Caption&&Menu"
-msgstr "Naslovi i Meni"
+msgstr "Naslov i Meni"
 
 msgctxt "ID_VIEW_SEEKER"
 msgid "See&k Bar"
@@ -146,15 +147,15 @@ msgstr "&Podešenja..."
 
 msgctxt "ID_VIEW_PRESETS_MINIMAL"
 msgid "&Minimal"
-msgstr "&Minimalno"
+msgstr "&Minimalni"
 
 msgctxt "ID_VIEW_PRESETS_COMPACT"
 msgid "&Compact"
-msgstr "Kompaktno"
+msgstr "Kompaktni"
 
 msgctxt "ID_VIEW_PRESETS_NORMAL"
 msgid "&Normal"
-msgstr "&Normalno"
+msgstr "&Normalni"
 
 msgctxt "ID_VIEW_FULLSCREEN"
 msgid "F&ull Screen"
@@ -162,7 +163,7 @@ msgstr "Na cijeli ekran"
 
 msgctxt "POPUP"
 msgid "&Zoom"
-msgstr "&Zoom"
+msgstr "&Zum"
 
 msgctxt "ID_VIEW_ZOOM_50"
 msgid "&50%"

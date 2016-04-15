@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-03-13 21:29:13+0000\n"
-"PO-Revision-Date: 2016-03-13 21:58+0000\n"
-"Last-Translator: Underground78\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2016-04-12 21:58+0000\n"
+"Last-Translator: Yauhen Bugamol <haxycgm@gmail.com>\n"
 "Language-Team: Belarusian (http://www.transifex.com/mpc-hc/mpc-hc/language/be/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1435,11 +1435,11 @@ msgstr "Кадр захаваны"
 
 msgctxt "IDS_AG_LOAD_SUBTITLES"
 msgid "Load Subtitles..."
-msgstr ""
+msgstr "Адкрыць субтытры..."
 
 msgctxt "IDS_AG_SAVE_SUBTITLES"
 msgid "Save Subtitles..."
-msgstr ""
+msgstr "Захаваць субтытры..."
 
 msgctxt "IDS_AG_PROPERTIES"
 msgid "Properties"
@@ -3607,7 +3607,7 @@ msgstr "Спамповак"
 
 msgctxt "IDS_SUBDL_DLG_SCORE_COL"
 msgid "Score"
-msgstr ""
+msgstr "Лік"
 
 msgctxt "IDS_SUBDL_DLG_FAILED"
 msgid "Online subtitles search failed."
@@ -3751,7 +3751,7 @@ msgstr "Сапраўды запампаваць файл субтытраў «%s
 
 msgctxt "IDS_SUBPP_DLG_FETCHING_LANGUAGES"
 msgid "Fetching supported languages..."
-msgstr ""
+msgstr "Запыт даступных моў"
 
 msgctxt "IDS_SUB_AUTODL_IGNORE_TOOLTIP"
 msgid "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\nFor example, type: \"private dir\\videos|work\\\"."

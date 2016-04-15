@@ -13,15 +13,16 @@
 # Roger Filipe <lipe2000@outlook.com>, 2013-2014
 # Luis Henrique <henriqlh@gmail.com>, 2014
 # Matheus Clemente <matheus.xb@gmail.com>, 2015
+# Michael Moser <michi.celin@gmail.com>, 2016
 # mvpetri <mvpetri@gmail.com>, 2014
 # Raphael Mendonça, 2014
 # Underground78, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-03-13 21:29:13+0000\n"
-"PO-Revision-Date: 2016-03-15 06:41+0000\n"
-"Last-Translator: Alex Luís Silva <alex.mooca@hotmail.com>\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2016-04-28 18:43+0000\n"
+"Last-Translator: Michael Moser <michi.celin@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/mpc-hc/mpc-hc/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -827,7 +828,7 @@ msgstr "Reduz tearing ignorando o VSync padrão construído em D3D."
 
 msgctxt "IDC_CACHESHADERS"
 msgid "Stores compiled shaders in local AppData to speed up load time."
-msgstr ""
+msgstr "Armazena os Shaders Compilados na pasta local AppData para acelerar o tempo de carregamento."
 
 msgctxt "IDS_SRC_VTS"
 msgid "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"

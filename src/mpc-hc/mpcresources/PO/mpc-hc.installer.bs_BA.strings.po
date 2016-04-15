@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Samir Gutić <amicussamir@amicus.ba>, 2016
+# smajo burek <smajo@mail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-07-20 20:29:41+0000\n"
-"PO-Revision-Date: 2016-03-28 08:08+0000\n"
-"Last-Translator: Samir Gutić <amicussamir@amicus.ba>\n"
+"PO-Revision-Date: 2016-04-29 17:30+0000\n"
+"Last-Translator: smajo burek <smajo@mail.com>\n"
 "Language-Team: Bosnian (Bosnia and Herzegovina) (http://www.transifex.com/mpc-hc/mpc-hc/language/bs_BA/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -34,15 +35,15 @@ msgstr "Prijevodi"
 
 msgctxt "CustomMessages_msg_DeleteSettings"
 msgid "Do you also want to delete MPC-HC settings?\n\nIf you plan on installing MPC-HC again then you do not have to delete them."
-msgstr "Da li želite izbristai i MPC-HC podešenja?\n\nAko planirate ponovo instalirati MPC-HC onda ih ne trebate brisati."
+msgstr "Da li želite izbrisati i MPC-HC podešenja?\n\nAko planirate ponovo instalirati MPC-HC onda ih ne trebate brisati."
 
 msgctxt "CustomMessages_msg_simd_sse"
 msgid "This build of MPC-HC requires a CPU with SSE extension support.\n\nYour CPU does not have those capabilities."
-msgstr "Ova verzija MPC-HC zahtijeva CPU sa SSE podrškom.\n\nVaš CPU nema tu mogućnost."
+msgstr "Ova verzija MPC-HC zahtijeva CPU sa SSE podrškom.\n\nVaš CPU nema te mogućnosti."
 
 msgctxt "CustomMessages_msg_simd_sse2"
 msgid "This build of MPC-HC requires a CPU with SSE2 extension support.\n\nYour CPU does not have those capabilities."
-msgstr "Ova verzija MPC-HC zahtijeva CPU sa SSE2 podrškom.\n\nVaš CPU nema tu mogućnost."
+msgstr "Ova verzija MPC-HC zahtijeva CPU sa SSE2 podrškom.\n\nVaš CPU nema te mogućnosti."
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
@@ -62,7 +63,7 @@ msgstr "Drugi zadaci:"
 
 msgctxt "CustomMessages_tsk_ResetSettings"
 msgid "Reset settings"
-msgstr "Resetuj podešenja"
+msgstr "Resetuj podešavanja"
 
 msgctxt "CustomMessages_types_DefaultInstallation"
 msgid "Default installation"

@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-03-13 21:29:13+0000\n"
-"PO-Revision-Date: 2016-03-16 09:59+0000\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2016-04-12 10:16+0000\n"
 "Last-Translator: geogeo.gr <geogeo.gr@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/mpc-hc/mpc-hc/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -816,7 +816,7 @@ msgstr "Μειώνει το σχίσιμο παρακάμπτοντας την �
 
 msgctxt "IDC_CACHESHADERS"
 msgid "Stores compiled shaders in local AppData to speed up load time."
-msgstr ""
+msgstr "Αποθήκευση μεταγλωττισμένων σκιάσεων στο τοπικό AppData για επιτάχυνση του χρόνου φόρτωσης."
 
 msgctxt "IDS_SRC_VTS"
 msgid "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"

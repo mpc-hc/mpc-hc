@@ -2,16 +2,16 @@
 # Copyright (C) 2002 - 2016 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Jatyrael <cbf_x@hotmail.com>, 2015
+# Jatyrael <cbf_x@hotmail.com>, 2015-2016
 # Chreddy <chreddy1@gmail.com>, 2016
 # Xebika <fidodkk@gmail.com>, 2015
 # scootergrisen, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-03-13 21:29:13+0000\n"
-"PO-Revision-Date: 2016-03-21 11:56+0000\n"
-"Last-Translator: scootergrisen\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2016-04-17 12:25+0000\n"
+"Last-Translator: Jatyrael <cbf_x@hotmail.com>\n"
 "Language-Team: Danish (http://www.transifex.com/mpc-hc/mpc-hc/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -817,7 +817,7 @@ msgstr "Reducere iturivning ved at omgå standard lodret synkroniseringen indbyg
 
 msgctxt "IDC_CACHESHADERS"
 msgid "Stores compiled shaders in local AppData to speed up load time."
-msgstr ""
+msgstr "Gemmer kompilerede shadere i den lokale AppData for at forbedre indlæsningstiden."
 
 msgctxt "IDS_SRC_VTS"
 msgid "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"
@@ -1821,7 +1821,7 @@ msgstr "%d tilgængelige undertekst(er)."
 
 msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
-msgstr "Vil du periodisk søge efter opdateringer til MPC-HC?\n\nFunktionen kan deaktiveres senere på siden med Diverse indstillinger."
+msgstr "Vil du periodisk søge efter opdateringer til MPC-HC?\n\nFunktionen kan deaktiveres senere på indstillingssiden Diverse."
 
 msgctxt "IDS_ZOOM_50"
 msgid "50%"

@@ -252,17 +252,17 @@ bn.ViewChangelog=পরিবর্তনতালিকা দেখুন
 bs_BA.langid=00005146
 bs_BA.comp_mpciconlib=Biblioteka Ikonica
 bs_BA.comp_mpcresources=Prijevodi
-bs_BA.msg_DeleteSettings=Da li želite izbristai i MPC-HC podešenja?%n%nAko planirate ponovo instalirati MPC-HC onda ih ne trebate brisati.
+bs_BA.msg_DeleteSettings=Da li želite izbrisati i MPC-HC podešenja?%n%nAko planirate ponovo instalirati MPC-HC onda ih ne trebate brisati.
 #if defined(sse_required)
-bs_BA.msg_simd_sse=Ova verzija MPC-HC zahtijeva CPU sa SSE podrškom.%n%nVaš CPU nema tu mogućnost.
+bs_BA.msg_simd_sse=Ova verzija MPC-HC zahtijeva CPU sa SSE podrškom.%n%nVaš CPU nema te mogućnosti.
 #elif defined(sse2_required)
-bs_BA.msg_simd_sse2=Ova verzija MPC-HC zahtijeva CPU sa SSE2 podrškom.%n%nVaš CPU nema tu mogućnost.
+bs_BA.msg_simd_sse2=Ova verzija MPC-HC zahtijeva CPU sa SSE2 podrškom.%n%nVaš CPU nema te mogućnosti.
 #endif
 bs_BA.run_DownloadToolbarImages=Posjetite našu Wiki stranicu da preuzmete slike alatne trake
 bs_BA.tsk_AllUsers=Za sve korisnike
 bs_BA.tsk_CurrentUser=Samo za trenutnog korisnika
 bs_BA.tsk_Other=Drugi zadaci:
-bs_BA.tsk_ResetSettings=Resetuj podešenja
+bs_BA.tsk_ResetSettings=Resetuj podešavanja
 bs_BA.types_DefaultInstallation=Podrazumijevana instalacija
 bs_BA.types_CustomInstallation=Instalacija po želji
 bs_BA.ViewChangelog=Pogledaj listu izmjena
@@ -311,9 +311,9 @@ da.comp_mpciconlib=Ikon-bibliotek
 da.comp_mpcresources=Oversættelser
 da.msg_DeleteSettings=Vil du også slette MPC-HC indstillinger?%n%nHvis du har tænkt dig at installere MPC-HC igen, så behøves du ikke slette dem.
 #if defined(sse_required)
-da.msg_simd_sse=Denne version af MPC-HC kræver en CPU der understøtter SSE-udvidelsen.%n%nDin CPU understøtter det ikke.
+da.msg_simd_sse=Denne version af MPC-HC kræver en CPU der understøtter SSE CPU-anvisninger.%n%nDin CPU understøtter det ikke.
 #elif defined(sse2_required)
-da.msg_simd_sse2=Denne version af MPC-HC kræver en CPU der understøtter SSE2-udvidelsen.%n%nDin CPU understøtter det ikke.
+da.msg_simd_sse2=Denne version af MPC-HC kræver en CPU der understøtter SSE2 CPU-anvisninger.%n%nDin CPU understøtter det ikke.
 #endif
 da.run_DownloadToolbarImages=Besøg vores wiki-side for at downloade værktøjslinjebilleder
 da.tsk_AllUsers=For alle brugere
