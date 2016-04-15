@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2014, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -422,14 +422,9 @@ STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9Prese
         }
     }
 
-    CSize VideoSize = GetVisibleVideoSize();
-    int arx = lpPresInfo->szAspectRatio.cx;
-    int ary = lpPresInfo->szAspectRatio.cy;
-    if (arx > 0 && ary > 0) {
-        VideoSize.cx = VideoSize.cy * arx / ary;
-    }
-    if (VideoSize != GetVideoSize()) {
-        SetVideoSize(m_nativeVideoSize, CSize(arx, ary));
+    CSize ar(lpPresInfo->szAspectRatio.cx, lpPresInfo->szAspectRatio.cy);
+    if (ar != m_aspectRatio) {
+        SetVideoSize(m_nativeVideoSize, ar);
         AfxGetApp()->m_pMainWnd->PostMessage(WM_REARRANGERENDERLESS);
     }
 
