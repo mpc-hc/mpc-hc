@@ -696,7 +696,7 @@ bool CVobFile::Authenticate()
                 break;
             }
 
-            if (tp_udf_file f = udf_find_file(m_hDrive, 0, CStringA(m_files[i].fn.Mid(m_files[i].fn.Find(':') + 1)))) {
+            if (tp_udf_file f = udf_find_file(m_hDrive, 0, CStringA(m_files[i].fn.Mid(m_files[i].fn.Find(_T(':')) + 1)))) {
                 DWORD start, end;
                 if (udf_get_lba(m_hDrive, f, &start, &end)) {
                     if (BeginSession()) {
@@ -722,7 +722,7 @@ bool CVobFile::Authenticate()
                     break;
                 }
 
-                if (tp_udf_file f = udf_find_file(m_hDrive, 0, CStringA(m_files[i].fn.Mid(m_files[i].fn.Find(':') + 1)))) {
+                if (tp_udf_file f = udf_find_file(m_hDrive, 0, CStringA(m_files[i].fn.Mid(m_files[i].fn.Find(_T(':')) + 1)))) {
                     DWORD start, end;
                     if (udf_get_lba(m_hDrive, f, &start, &end)) {
                         if (BeginSession()) {

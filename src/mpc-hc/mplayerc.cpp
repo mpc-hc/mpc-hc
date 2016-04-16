@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -380,8 +380,9 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
         if (s.Connect(
                     ProxyEnable ? ProxyServer : url.GetHostName(),
                     ProxyEnable ? ProxyPort : url.GetPortNumber())) {
-            CStringA host = CStringA(url.GetHostName());
-            CStringA path = CStringA(url.GetUrlPath()) + CStringA(url.GetExtraInfo());
+            CStringA host = url.GetHostName();
+            CStringA path = url.GetUrlPath();
+            path += url.GetExtraInfo();
 
             if (ProxyEnable) {
                 path = "http://" + host + path;
@@ -2143,7 +2144,7 @@ void CRemoteCtrlClient::OnReceive(int nErrorCode)
     }
     str.ReleaseBuffer(ret);
 
-    TRACE(_T("CRemoteCtrlClient (OnReceive): %s\n"), CString(str));
+    TRACE(_T("CRemoteCtrlClient (OnReceive): %S\n"), str);
 
     OnCommand(str);
 
@@ -2181,7 +2182,7 @@ CWinLircClient::CWinLircClient()
 
 void CWinLircClient::OnCommand(CStringA str)
 {
-    TRACE(_T("CWinLircClient (OnCommand): %s\n"), CString(str));
+    TRACE(_T("CWinLircClient (OnCommand): %S\n"), str);
 
     int i = 0, j = 0, repcnt = 0;
     for (CStringA token = str.Tokenize(" ", i);
@@ -2203,7 +2204,7 @@ CUIceClient::CUIceClient()
 
 void CUIceClient::OnCommand(CStringA str)
 {
-    TRACE(_T("CUIceClient (OnCommand): %s\n"), CString(str));
+    TRACE(_T("CUIceClient (OnCommand): %S\n"), str);
 
     CStringA cmd;
     int i = 0, j = 0;

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -969,7 +969,7 @@ STDMETHODIMP CVobSubFileRipper::LoadParamFile(CString fn)
             if (line.Find('v') >= 0) {
                 int vob = 0, cell = 0;
 
-                line += ' ';
+                line += _T(' ');
 
                 TCHAR* s = (LPTSTR)(LPCTSTR)line;
                 TCHAR* e = s + line.GetLength();
@@ -1015,7 +1015,7 @@ STDMETHODIMP CVobSubFileRipper::LoadParamFile(CString fn)
                 m_rd.bClosedCaption = true;
                 phase = P_OPTIONS;
             } else {
-                line += ' ';
+                line += _T(' ');
 
                 while (!line.IsEmpty()) {
                     int n = line.Find(_T(" "));

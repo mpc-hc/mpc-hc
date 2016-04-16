@@ -106,7 +106,7 @@ void Subtitle::GetSubFileNames(CString fn, const CAtlArray<CString>& paths, CAtl
 
             l = path.GetLength();
             if (l > 0 && path[l - 1] != '/') {
-                path += '/';
+                path += _T('/');
             }
 
             if (path.Find(':') == -1 && path.Find(_T("\\\\")) != 0) {

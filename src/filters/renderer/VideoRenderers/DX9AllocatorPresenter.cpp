@@ -1860,75 +1860,75 @@ void CDX9AllocatorPresenter::DrawStats()
         }
 
         if (iDetailedStats > 1) {
-            strText = L"Settings     : ";
+            strText = _T("Settings     : ");
 
             if (m_bIsEVR) {
-                strText += "EVR ";
+                strText += _T("EVR ");
             } else {
-                strText += "VMR9 ";
+                strText += _T("VMR9 ");
             }
 
             if (m_bIsFullscreen) {
-                strText += "FS ";
+                strText += _T("FS ");
             }
             if (r.m_AdvRendSets.bVMR9FullscreenGUISupport) {
-                strText += "FSGui ";
+                strText += _T("FSGui ");
             }
 
             if (r.m_AdvRendSets.bVMRDisableDesktopComposition) {
-                strText += "DisDC ";
+                strText += _T("DisDC ");
             }
 
             if (m_bColorManagement) {
-                strText += "ColorMan ";
+                strText += _T("ColorMan ");
             }
 
             if (r.m_AdvRendSets.bVMRFlushGPUBeforeVSync) {
-                strText += "GPUFlushBV ";
+                strText += _T("GPUFlushBV ");
             }
             if (r.m_AdvRendSets.bVMRFlushGPUAfterPresent) {
-                strText += "GPUFlushAP ";
+                strText += _T("GPUFlushAP ");
             }
 
             if (r.m_AdvRendSets.bVMRFlushGPUWait) {
-                strText += "GPUFlushWt ";
+                strText += _T("GPUFlushWt ");
             }
 
             if (r.m_AdvRendSets.bVMR9VSync) {
-                strText += "VS ";
+                strText += _T("VS ");
             }
             if (r.m_AdvRendSets.bVMR9AlterativeVSync) {
-                strText += "AltVS ";
+                strText += _T("AltVS ");
             }
             if (r.m_AdvRendSets.bVMR9VSyncAccurate) {
-                strText += "AccVS ";
+                strText += _T("AccVS ");
             }
             if (r.m_AdvRendSets.iVMR9VSyncOffset) {
-                strText.AppendFormat(L"VSOfst(%d)", r.m_AdvRendSets.iVMR9VSyncOffset);
+                strText.AppendFormat(_T("VSOfst(%d)"), r.m_AdvRendSets.iVMR9VSyncOffset);
             }
 
             if (m_bFullFloatingPointProcessing) {
-                strText += "FullFP ";
+                strText += _T("FullFP ");
             }
 
             if (m_bHalfFloatingPointProcessing) {
-                strText += "HalfFP ";
+                strText += _T("HalfFP ");
             }
 
             if (m_bIsEVR) {
                 if (m_bHighColorResolution) {
-                    strText += "10bitOut ";
+                    strText += _T("10bitOut ");
                 }
                 if (m_bForceInputHighColorResolution) {
-                    strText += "For10bitIn ";
+                    strText += _T("For10bitIn ");
                 }
                 if (r.m_AdvRendSets.bEVREnableFrameTimeCorrection) {
-                    strText += "FTC ";
+                    strText += _T("FTC ");
                 }
                 if (r.m_AdvRendSets.iEVROutputRange == 0) {
-                    strText += "0-255 ";
+                    strText += _T("0-255 ");
                 } else if (r.m_AdvRendSets.iEVROutputRange == 1) {
-                    strText += "16-235 ";
+                    strText += _T("16-235 ");
                 }
             }
 
@@ -1943,30 +1943,30 @@ void CDX9AllocatorPresenter::DrawStats()
 
             if (m_bIsEVR) {
                 if (r.m_AdvRendSets.bVMR9VSync) {
-                    strText.Format(L"Refresh rate : %.05f Hz    SL: %4d     (%3u Hz)      ",
+                    strText.Format(_T("Refresh rate : %.05f Hz    SL: %4d     (%3u Hz)      "),
                                    m_DetectedRefreshRate, int(m_DetectedScanlinesPerFrame + 0.5), m_refreshRate);
                 } else {
-                    strText.Format(L"Refresh rate : %3u Hz      ", m_refreshRate);
+                    strText.Format(_T("Refresh rate : %3u Hz      "), m_refreshRate);
                 }
-                strText.AppendFormat(L"Last Duration: %10.6f      Corrected Frame Time: %s",
-                                     double(m_LastFrameDuration) / 10000.0, m_bCorrectedFrameTime ? L"Yes" : L"No");
+                strText.AppendFormat(_T("Last Duration: %10.6f      Corrected Frame Time: %s"),
+                                     double(m_LastFrameDuration) / 10000.0, m_bCorrectedFrameTime ? _T("Yes") : _T("No"));
                 drawText(rc, strText);
             }
         }
 
         if (m_bSyncStatsAvailable) {
             if (iDetailedStats > 1) {
-                strText.Format(L"Sync offset  : Min = %+8.3f ms, Max = %+8.3f ms, StdDev = %7.3f ms, Avr = %7.3f ms, Mode = %d",
+                strText.Format(_T("Sync offset  : Min = %+8.3f ms, Max = %+8.3f ms, StdDev = %7.3f ms, Avr = %7.3f ms, Mode = %d"),
                                (double(llMinSyncOffset) / 10000.0), (double(llMaxSyncOffset) / 10000.0),
                                m_fSyncOffsetStdDev / 10000.0, m_fSyncOffsetAvr / 10000.0, m_VSyncMode);
             } else {
-                strText.Format(L"Sync offset  : Mode = %d", m_VSyncMode);
+                strText.Format(_T("Sync offset  : Mode = %d"), m_VSyncMode);
             }
             drawText(rc, strText);
         }
 
         if (iDetailedStats > 1) {
-            strText.Format(L"Jitter       : Min = %+8.3f ms, Max = %+8.3f ms, StdDev = %7.3f ms",
+            strText.Format(_T("Jitter       : Min = %+8.3f ms, Max = %+8.3f ms, StdDev = %7.3f ms"),
                            (double(llMinJitter) / 10000.0),
                            (double(llMaxJitter) / 10000.0),
                            m_fJitterStdDev / 10000.0);
@@ -1987,7 +1987,7 @@ void CDX9AllocatorPresenter::DrawStats()
             }
 
             pAlloc->GetStats(nFree, nAlloc);
-            strText.Format(L"Subtitles    : Free %d     Allocated %d     Buffered %d     QueueStart %7.3f     QueueEnd %7.3f",
+            strText.Format(_T("Subtitles    : Free %d     Allocated %d     Buffered %d     QueueStart %7.3f     QueueEnd %7.3f"),
                            nFree, nAlloc, nSubPic, (double(rtQueueStart) / 10000000.0),
                            (double(rtQueueEnd) / 10000000.0));
             drawText(rc, strText);
@@ -1995,13 +1995,13 @@ void CDX9AllocatorPresenter::DrawStats()
 
         if (iDetailedStats > 1) {
             if (m_VBlankEndPresent == -100000) {
-                strText.Format(L"VBlank Wait  : Start %4d   End %4d   Wait %7.3f ms   Lock %7.3f ms   Offset %4d   Max %4d",
+                strText.Format(_T("VBlank Wait  : Start %4d   End %4d   Wait %7.3f ms   Lock %7.3f ms   Offset %4d   Max %4d"),
                                m_VBlankStartWait, m_VBlankEndWait,
                                (double(m_VBlankWaitTime) / 10000.0),
                                (double(m_VBlankLockTime) / 10000.0),
                                m_VBlankMin, m_VBlankMax - m_VBlankMin);
             } else {
-                strText.Format(L"VBlank Wait  : Start %4d   End %4d   Wait %7.3f ms   Lock %7.3f ms   Offset %4d   Max %4d   EndPresent %4d",
+                strText.Format(_T("VBlank Wait  : Start %4d   End %4d   Wait %7.3f ms   Lock %7.3f ms   Offset %4d   Max %4d   EndPresent %4d"),
                                m_VBlankStartWait, m_VBlankEndWait,
                                (double(m_VBlankWaitTime) / 10000.0),
                                (double(m_VBlankLockTime) / 10000.0),
@@ -2011,9 +2011,9 @@ void CDX9AllocatorPresenter::DrawStats()
             }
         } else {
             if (m_VBlankEndPresent == -100000) {
-                strText.Format(L"VBlank Wait  : Start %4d   End %4d", m_VBlankStartWait, m_VBlankEndWait);
+                strText.Format(_T("VBlank Wait  : Start %4d   End %4d"), m_VBlankStartWait, m_VBlankEndWait);
             } else {
-                strText.Format(L"VBlank Wait  : Start %4d   End %4d   EP %4d", m_VBlankStartWait, m_VBlankEndWait,
+                strText.Format(_T("VBlank Wait  : Start %4d   End %4d   EP %4d"), m_VBlankStartWait, m_VBlankEndWait,
                                m_VBlankEndPresent);
             }
         }
@@ -2024,7 +2024,7 @@ void CDX9AllocatorPresenter::DrawStats()
         bool bDoVSyncInPresent = (!bCompositionEnabled && !m_bAlternativeVSync) || !r.m_AdvRendSets.bVMR9VSync;
 
         if (iDetailedStats > 1 && bDoVSyncInPresent) {
-            strText.Format(L"Present Wait : Wait %7.3f ms   Min %7.3f ms   Max %7.3f ms",
+            strText.Format(_T("Present Wait : Wait %7.3f ms   Min %7.3f ms   Max %7.3f ms"),
                            (double(m_PresentWaitTime) / 10000.0),
                            (double(m_PresentWaitTimeMin) / 10000.0),
                            (double(m_PresentWaitTimeMax) / 10000.0));
@@ -2033,31 +2033,31 @@ void CDX9AllocatorPresenter::DrawStats()
 
         if (iDetailedStats > 1) {
             if (m_WaitForGPUTime) {
-                strText.Format(L"Paint Time   : Draw %7.3f ms   Min %7.3f ms   Max %7.3f ms   GPU %7.3f ms",
+                strText.Format(_T("Paint Time   : Draw %7.3f ms   Min %7.3f ms   Max %7.3f ms   GPU %7.3f ms"),
                                (double(m_PaintTime - m_WaitForGPUTime) / 10000.0),
                                (double(m_PaintTimeMin) / 10000.0),
                                (double(m_PaintTimeMax) / 10000.0),
                                (double(m_WaitForGPUTime) / 10000.0));
             } else {
-                strText.Format(L"Paint Time   : Draw %7.3f ms   Min %7.3f ms   Max %7.3f ms",
+                strText.Format(_T("Paint Time   : Draw %7.3f ms   Min %7.3f ms   Max %7.3f ms"),
                                (double(m_PaintTime - m_WaitForGPUTime) / 10000.0),
                                (double(m_PaintTimeMin) / 10000.0),
                                (double(m_PaintTimeMax) / 10000.0));
             }
         } else {
             if (m_WaitForGPUTime) {
-                strText.Format(L"Paint Time   : Draw %7.3f ms   GPU %7.3f ms",
+                strText.Format(_T("Paint Time   : Draw %7.3f ms   GPU %7.3f ms"),
                                (double(m_PaintTime - m_WaitForGPUTime) / 10000.0),
                                (double(m_WaitForGPUTime) / 10000.0));
             } else {
-                strText.Format(L"Paint Time   : Draw %7.3f ms",
+                strText.Format(_T("Paint Time   : Draw %7.3f ms"),
                                (double(m_PaintTime - m_WaitForGPUTime) / 10000.0));
             }
         }
         drawText(rc, strText);
 
         if (iDetailedStats > 1 && r.m_AdvRendSets.bVMR9VSync) {
-            strText.Format(L"Raster Status: Wait %7.3f ms   Min %7.3f ms   Max %7.3f ms",
+            strText.Format(_T("Raster Status: Wait %7.3f ms   Min %7.3f ms   Max %7.3f ms"),
                            (double(m_RasterStatusWaitTime) / 10000.0),
                            (double(m_RasterStatusWaitTimeMin) / 10000.0),
                            (double(m_RasterStatusWaitTimeMax) / 10000.0));
@@ -2066,20 +2066,20 @@ void CDX9AllocatorPresenter::DrawStats()
 
         if (iDetailedStats > 1) {
             if (m_bIsEVR) {
-                strText.Format(L"Buffering    : Buffered %3ld    Free %3ld    Current Surface %3d",
+                strText.Format(_T("Buffering    : Buffered %3ld    Free %3ld    Current Surface %3d"),
                                m_nUsedBuffer, m_nNbDXSurface - m_nUsedBuffer, m_nCurSurface);
             } else {
-                strText.Format(L"Buffering    : VMR9Surfaces %3d   VMR9Surface %3d",
+                strText.Format(_T("Buffering    : VMR9Surfaces %3d   VMR9Surface %3d"),
                                m_nVMR9Surfaces, m_iVMR9Surface);
             }
         } else {
-            strText.Format(L"Buffered     : %3ld", m_nUsedBuffer);
+            strText.Format(_T("Buffered     : %3ld"), m_nUsedBuffer);
         }
         drawText(rc, strText);
 
 
         if (iDetailedStats > 1) {
-            strText.Format(L"Video size   : %ld x %ld  (AR = %ld : %ld)",
+            strText.Format(_T("Video size   : %ld x %ld  (AR = %ld : %ld)"),
                            m_nativeVideoSize.cx, m_nativeVideoSize.cy, m_aspectRatio.cx, m_aspectRatio.cy);
             drawText(rc, strText);
             if (m_pVideoTexture[0] || m_pVideoSurface[0]) {
@@ -2092,7 +2092,7 @@ void CDX9AllocatorPresenter::DrawStats()
                 }
 
                 if (desc.Width != (UINT)m_nativeVideoSize.cx || desc.Height != (UINT)m_nativeVideoSize.cy) {
-                    strText.Format(L"Texture size : %u x %u", desc.Width, desc.Height);
+                    strText.Format(_T("Texture size : %u x %u"), desc.Width, desc.Height);
                     drawText(rc, strText);
                 }
             }
@@ -2100,16 +2100,16 @@ void CDX9AllocatorPresenter::DrawStats()
 
             drawText(rc, rd->m_strDXVAInfo);
 
-            strText.Format(L"DirectX SDK  : %u", rd->GetDXSdkRelease());
+            strText.Format(_T("DirectX SDK  : %u"), rd->GetDXSdkRelease());
             drawText(rc, strText);
 
             if (!m_D3D9Device.IsEmpty()) {
-                strText = "Render device: " + m_D3D9Device;
+                strText = _T("Render device: ") + m_D3D9Device;
                 drawText(rc, strText);
             }
 
             if (!m_Decoder.IsEmpty()) {
-                strText = "Decoder      : " + m_Decoder;
+                strText = _T("Decoder      : ") + m_Decoder;
                 drawText(rc, strText);
             }
 

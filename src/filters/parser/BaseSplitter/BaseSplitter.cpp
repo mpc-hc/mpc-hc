@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -1253,7 +1253,7 @@ STDMETHODIMP CBaseSplitterFilter::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYP
     if (FAILED(hr)
             || FAILED(hr = DeleteOutputs())
             || FAILED(hr = CreateOutputs(pAsyncReader))) {
-        m_fn = "";
+        m_fn.Empty();
         return hr;
     }
 

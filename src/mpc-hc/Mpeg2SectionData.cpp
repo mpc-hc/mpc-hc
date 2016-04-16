@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2015 see Authors.txt
+ * (C) 2009-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -472,7 +472,7 @@ HRESULT CMpeg2DataParser::ParsePMT(CDVBChannel& Channel)
 
 HRESULT CMpeg2DataParser::SetTime(CGolombBuffer& gb, EventDescriptor& NowNext)
 {
-    char    descBuffer[10];
+    wchar_t descBuffer[10];
     time_t  tNow, tTime;
     tm      tmTime;
     long    timezone;
@@ -502,7 +502,7 @@ HRESULT CMpeg2DataParser::SetTime(CGolombBuffer& gb, EventDescriptor& NowNext)
     }
 
     localtime_s(&tmTime, &tTime);
-    strftime(descBuffer, 6, "%H:%M", &tmTime);
+    wcsftime(descBuffer, 6, L"%H:%M", &tmTime);
     descBuffer[6] = '\0';
     NowNext.strStartTime = descBuffer;
 
@@ -516,7 +516,7 @@ HRESULT CMpeg2DataParser::SetTime(CGolombBuffer& gb, EventDescriptor& NowNext)
 
     tTime += NowNext.duration;
     localtime_s(&tmTime, &tTime);
-    strftime(descBuffer, 6, "%H:%M", &tmTime);
+    wcsftime(descBuffer, 6, L"%H:%M", &tmTime);
     descBuffer[6] = '\0';
     NowNext.strEndTime = descBuffer;
 

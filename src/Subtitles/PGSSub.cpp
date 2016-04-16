@@ -41,7 +41,7 @@ CPGSSub::CPGSSub(CCritSec* pLock, const CString& name, LCID lcid)
     , m_nSegSize(0)
 {
     if (m_name.IsEmpty() || m_name == _T("Unknown")) {
-        m_name = "PGS Embedded Subtitle";
+        m_name = _T("PGS Embedded Subtitle");
     }
 }
 

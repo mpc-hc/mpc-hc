@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -154,7 +154,7 @@ bool CFGManager::CheckBytes(HANDLE hFile, CString chkbytes)
 
         // LAME
         while (maskstr.GetLength() < valstr.GetLength()) {
-            maskstr += 'F';
+            maskstr += _T('F');
         }
 
         CAtlArray<BYTE> mask, val;

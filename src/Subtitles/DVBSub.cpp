@@ -40,7 +40,7 @@ CDVBSub::CDVBSub(CCritSec* pLock, const CString& name, LCID lcid)
     , m_pBuffer(nullptr)
 {
     if (m_name.IsEmpty() || m_name == _T("Unknown")) {
-        m_name = "DVB Embedded Subtitle";
+        m_name = _T("DVB Embedded Subtitle");
     }
 }
 

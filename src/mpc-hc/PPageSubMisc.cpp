@@ -161,7 +161,7 @@ BOOL CPPageSubMisc::OnApply()
         provider->Enabled(SPF_SEARCH, m_list.GetCheck(i));
     }
 
-    s.strSubtitlesProviders = CString(m_subtitlesProviders.WriteSettings().c_str());
+    s.strSubtitlesProviders = m_subtitlesProviders.WriteSettings().c_str();
 
     return __super::OnApply();
 }

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -469,11 +469,11 @@ void CMediaTypeEx::Dump(CAtlList<CString>& sl)
     sl.AddTail(ToString() + _T("\n"));
 
     sl.AddTail(_T("AM_MEDIA_TYPE: "));
-    str.Format(_T("majortype: %s %s"), CString(GuidNames[majortype]), major);
+    str.Format(_T("majortype: %S %s"), GuidNames[majortype], major);
     sl.AddTail(str);
-    str.Format(_T("subtype: %s %s"), CString(GuidNames[subtype]), sub);
+    str.Format(_T("subtype: %S %s"), GuidNames[subtype], sub);
     sl.AddTail(str);
-    str.Format(_T("formattype: %s %s"), CString(GuidNames[formattype]), format);
+    str.Format(_T("formattype: %S %s"), GuidNames[formattype], format);
     sl.AddTail(str);
     str.Format(_T("bFixedSizeSamples: %d"), bFixedSizeSamples);
     sl.AddTail(str);
@@ -734,12 +734,12 @@ void CMediaTypeEx::Dump(CAtlList<CString>& sl)
                 str += _T("   ");
             }
 
-            str += ' ';
+            str += _T(' ');
 
             for (ptrdiff_t k = i, l = std::min(i + 16, (ptrdiff_t)cbFormat); k < l; k++) {
                 unsigned char c = (unsigned char)pbFormat[k];
-                CStringA ch;
-                ch.Format("%c", c >= 0x20 ? c : '.');
+                CString ch;
+                ch.Format(_T("%C"), c >= 0x20 ? c : '.');
                 str += ch;
             }
 

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -147,7 +147,7 @@ BOOL CPPageFileInfoClip::OnInitDialog()
         m_fn = m_fn.Mid(i + 1);
 
         if (m_location.GetLength() == 2 && m_location[1] == ':') {
-            m_location += '\\';
+            m_location += _T('\\');
         }
     }
 

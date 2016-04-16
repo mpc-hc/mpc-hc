@@ -1978,7 +1978,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 
                 // Location
 
-                CString Location('-');
+                CString Location(_T('-'));
 
                 DVD_PLAYBACK_LOCATION2 loc;
                 ULONG ulNumOfVolumes, ulVolume;
@@ -2014,7 +2014,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 
                 // Video
 
-                CString Video('-');
+                CString Video(_T('-'));
 
                 DVD_VideoAttributes VATR;
 
@@ -2030,7 +2030,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 
                 // Audio
 
-                CString Audio('-');
+                CString Audio(_T('-'));
 
                 DVD_AudioAttributes AATR;
 
@@ -2082,7 +2082,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 
                 // Subtitles
 
-                CString Subtitles('-');
+                CString Subtitles(_T('-'));
 
                 BOOL bIsDisabled;
                 DVD_SubpictureAttributes SATR;
@@ -2435,7 +2435,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                 OpenDVDData* pDVDData = dynamic_cast<OpenDVDData*>(m_lastOMD.m_p);
                 ASSERT(pDVDData);
 
-                CString Domain('-');
+                CString Domain(_T('-'));
 
                 switch (m_iDVDDomain) {
                     case DVD_DOMAIN_FirstPlay:
@@ -3640,7 +3640,7 @@ void CMainFrame::OnDvdAudio(UINT nID)
                 }
 
                 CString format = GetDVDAudioFormatName(AATR);
-                CString str("");
+                CString str;
 
                 if (!format.IsEmpty()) {
                     str.Format(IDS_MAINFRM_11,
@@ -4094,7 +4094,7 @@ void CMainFrame::OnFileOpendvd()
             p->path = path;
             p->path.Replace(_T('/'), _T('\\'));
             if (p->path[p->path.GetLength() - 1] != '\\') {
-                p->path += '\\';
+                p->path += _T('\\');
             }
 
             OpenMedia(p);
@@ -5138,10 +5138,10 @@ void CMainFrame::OnFileSubtitlesSave()
                 CString str;
                 int len = GetLocaleInfo(pRTS->m_lcid, LOCALE_SISO639LANGNAME, str.GetBuffer(64), 64);
                 str.ReleaseBufferSetLength(std::max(len - 1, 0));
-                suggestedFileName += "." + str;
+                suggestedFileName += _T('.') + str;
 
                 if (pRTS->m_eHearingImpaired == Subtitle::HI_YES) {
-                    suggestedFileName += ".hi";
+                    suggestedFileName += _T(".hi");
                 }
             }
 
@@ -11252,7 +11252,7 @@ void CMainFrame::OpenSetupInfoBar(bool bClear /*= true*/)
         bRecalcLayout |= m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_RATING), rating);
         bRecalcLayout |= m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_DESCRIPTION), description);
     } else if (GetPlaybackMode() == PM_DVD) {
-        CString info('-');
+        CString info(_T('-'));
         bRecalcLayout |= m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_DOMAIN), info);
         bRecalcLayout |= m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_LOCATION), info);
         bRecalcLayout |= m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_VIDEO), info);
@@ -11294,7 +11294,7 @@ void CMainFrame::OpenSetupStatsBar()
     m_wndStatsBar.RemoveAllLines();
 
     if (GetLoadState() == MLS::LOADED) {
-        CString info('-');
+        CString info(_T('-'));
         bool bFoundIBitRateInfo = false;
 
         BeginEnumFilters(m_pGB, pEF, pBF) {
@@ -11486,9 +11486,9 @@ int CMainFrame::SetupAudioStreams()
             lang.MakeLower();
             langs.Add(lang);
             // Try to match the full language if possible
-            lang = ISOLang::ISO639XToLanguage(CStringA(lang)).MakeLower();
+            lang = ISOLang::ISO639XToLanguage(CStringA(lang));
             if (!lang.IsEmpty()) {
-                langs.Add(lang);
+                langs.Add(lang.MakeLower());
             }
             lang = s.strAudiosLanguageOrder.Tokenize(_T(",; "), tPos);
         }
@@ -14652,10 +14652,10 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
         CString ext = filename.Mid(filename.ReverseFind('.') + 1);
         m_wndStatusBar.SetMediaType(ext);
     } else if (pDVDData) {
-        m_wndStatusBar.SetMediaType(".ifo");
+        m_wndStatusBar.SetMediaType(_T(".ifo"));
     } else {
         // TODO: Create icons for pDeviceData
-        m_wndStatusBar.SetMediaType(".unknown");
+        m_wndStatusBar.SetMediaType(_T(".unknown"));
     }
 
     // initiate graph creation, OpenMediaPrivate() will call OnFilePostOpenmedia()
@@ -15882,7 +15882,7 @@ void CMainFrame::OnFileOpendirectory()
     }
 
     if (path[path.GetLength() - 1] != '\\') {
-        path += '\\';
+        path += _T('\\');
     }
 
     CAtlList<CString> sl;

@@ -470,7 +470,7 @@ afx_msg LRESULT CSubtitleUpDlg::OnFailed(WPARAM /*wParam*/, LPARAM /*lParam*/)
 afx_msg LRESULT CSubtitleUpDlg::OnClear(WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
     m_progress.SetPos(0);
-    SetStatusText("");
+    SetStatusText(_T(""));
 
     for (int i = 0; i < m_list.GetItemCount(); ++i) {
         SubtitlesProvider& iter = *(SubtitlesProvider*)m_list.GetItemData(i);

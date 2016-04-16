@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2014, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -137,7 +137,7 @@ bool CFileAssoc::RegisterApp()
     bool success = false;
 
     if (m_pAAR) {
-        CString appIcon = "\"" + PathUtils::GetProgramPath(true) + "\",0";
+        CString appIcon = _T("\"") + PathUtils::GetProgramPath(true) + _T("\",0");
 
         // Register MPC-HC for the windows "Default application" manager
         CRegKey key;
@@ -191,7 +191,7 @@ bool CFileAssoc::Register(CString ext, CString strLabel, bool bRegister, bool bR
             key.DeleteValue(_T("NoRecentDocs"));
         }
 
-        CString appIcon = "\"" + PathUtils::GetProgramPath(true) + "\",0";
+        CString appIcon = _T("\"") + PathUtils::GetProgramPath(true) + _T("\",0");
 
         // Add to playlist option
         if (bRegisterContextMenuEntries) {
@@ -526,7 +526,7 @@ bool CFileAssoc::RegisterFolderContextMenuEntries(bool bRegister)
     if (bRegister) {
         success = false;
 
-        CString appIcon = "\"" + PathUtils::GetProgramPath(true) + "\",0";
+        CString appIcon = _T("\"") + PathUtils::GetProgramPath(true) + _T("\",0");
 
         if (ERROR_SUCCESS == key.Create(HKEY_CLASSES_ROOT, _T("Directory\\shell\\") PROGID _T(".enqueue"))) {
             key.SetStringValue(nullptr, ResStr(IDS_ADD_TO_PLAYLIST));
@@ -614,7 +614,7 @@ bool CFileAssoc::RegisterAutoPlay(autoplay_t ap, bool bRegister)
                                         _T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\AutoplayHandlers\\EventHandlers\\Play") + m_handlers[i].verb + _T("OnArrival"))) {
             return false;
         }
-        key.SetStringValue(CString("MPCPlay") + m_handlers[i].verb + _T("OnArrival"), _T(""));
+        key.SetStringValue(_T("MPCPlay") + m_handlers[i].verb + _T("OnArrival"), _T(""));
         key.Close();
     } else {
         if (ERROR_SUCCESS != key.Create(HKEY_LOCAL_MACHINE,
@@ -746,7 +746,7 @@ bool CFileAssoc::ReAssocIcons(const CAtlList<CString>& exts)
 
         /* no icon was found for the file extension, so use MPC-HC's icon */
         if (appIcon.IsEmpty()) {
-            appIcon = "\"" + progPath + "\",0";
+            appIcon = _T("\"") + progPath + _T("\",0");
         }
 
         if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\DefaultIcon"))

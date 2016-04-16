@@ -51,7 +51,7 @@ CSubPicAllocatorPresenterImpl::CSubPicAllocatorPresenterImpl(HWND hWnd, HRESULT&
     if (!IsWindow(m_hWnd)) {
         hr = E_INVALIDARG;
         if (_pError) {
-            *_pError += "Invalid window handle in ISubPicAllocatorPresenterImpl\n";
+            *_pError += _T("Invalid window handle in ISubPicAllocatorPresenterImpl\n");
         }
         return;
     }

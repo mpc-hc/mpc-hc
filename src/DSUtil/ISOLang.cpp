@@ -704,7 +704,7 @@ CString ISOLang::LanguageToISO6392(LPCTSTR lang)
     str.MakeLower();
     for (size_t i = 0, cnt = _countof(s_isolangs); i < cnt; i++) {
         CAtlList<CString> sl;
-        Explode(CString(s_isolangs[i].name), sl, ';');
+        Explode(CString(s_isolangs[i].name), sl, _T(';'));
         POSITION pos = sl.GetHeadPosition();
         while (pos) {
             if (!str.CompareNoCase(sl.GetNext(pos))) {

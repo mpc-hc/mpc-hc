@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2012 see Authors.txt
+ * (C) 2006-2012, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -401,7 +401,7 @@ UINT VIHSIZE = _countof(vihs);
 
 CString VIH2String(int i)
 {
-    CString ret = CString(GuidNames[*vihs[i].subtype]);
+    CString ret(GuidNames[*vihs[i].subtype]);
     if (!ret.Left(13).CompareNoCase(_T("MEDIASUBTYPE_"))) {
         ret = ret.Mid(13);
     }
@@ -416,7 +416,7 @@ CString VIH2String(int i)
 
 CString Subtype2String(const GUID& subtype)
 {
-    CString ret = CString(GuidNames[subtype]);
+    CString ret(GuidNames[subtype]);
     if (!ret.Left(13).CompareNoCase(_T("MEDIASUBTYPE_"))) {
         ret = ret.Mid(13);
     }

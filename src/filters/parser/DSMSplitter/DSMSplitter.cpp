@@ -171,9 +171,12 @@ HRESULT CDSMSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
             if (key == "NAME") {
                 name = value;
             }
-            if (key == "LANG") if ((lang = ISOLang::ISO6392ToLanguage(CStringA(CString(value)))).IsEmpty()) {
+            if (key == "LANG") {
+                lang = ISOLang::ISO6392ToLanguage(CStringA(value));
+                if (lang.IsEmpty()) {
                     lang = value;
                 }
+            }
         }
 
         if (!name.IsEmpty() || !lang.IsEmpty()) {
@@ -200,9 +203,9 @@ HRESULT CDSMSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
     for (size_t i = 0; i < m_resources.GetCount(); i++) {
         const CDSMResource& r = m_resources[i];
-        if (r.mime == "application/x-truetype-font" ||
-                r.mime == "application/x-font-ttf" ||
-                r.mime == "application/vnd.ms-opentype") {
+        if (r.mime == L"application/x-truetype-font" ||
+                r.mime == L"application/x-font-ttf" ||
+                r.mime == L"application/vnd.ms-opentype") {
             //m_fontinst.InstallFont(r.data);
             m_fontinst.InstallFontMemory(r.data.GetData(), (UINT)r.data.GetCount());
         }

@@ -302,7 +302,7 @@ static CStringW ToMBCS(CStringW str, DWORD CharSet)
                 ret += (WCHAR)(BYTE)c[k];
             }
         } else {
-            ret += '?';
+            ret += L'?';
         }
     }
 
@@ -819,7 +819,7 @@ static CStringW MicroDVD2SSA(CStringW str, bool fUnicode, int CharSet)
 
                     code.MakeLower();
 
-                    ret += '{';
+                    ret += L'{';
                     if (code.Find('b') >= 0) {
                         ret += L"\\b1";
                         fRestore[BOLD] = f;
@@ -836,7 +836,7 @@ static CStringW MicroDVD2SSA(CStringW str, bool fUnicode, int CharSet)
                         ret += L"\\s1";
                         fRestore[STRIKEOUT] = f;
                     }
-                    ret += '}';
+                    ret += L'}';
                 } else if (!_wcsnicmp(code, L"{o:", 3)) {
                     code.MakeLower();
 

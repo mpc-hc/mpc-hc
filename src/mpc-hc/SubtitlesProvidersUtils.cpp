@@ -573,7 +573,7 @@ SubtitlesProvidersUtils::stringMap SubtitlesProvidersUtils::StringUncompress(con
             f.Close();
         }
 
-        FileUnzip(CStringA(file), result);
+        FileUnzip(file, result);
         DeleteFile(file);
     } else if ((data.compare(0, sizeof(rar4), rar4, sizeof(rar4)) == 0) || (data.compare(0, sizeof(rar5), rar5, sizeof(rar5)) == 0)) {
         TCHAR path[MAX_PATH], file[MAX_PATH];

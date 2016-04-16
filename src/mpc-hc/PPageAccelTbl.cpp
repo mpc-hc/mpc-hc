@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -854,7 +854,7 @@ CString CPPageAccelTbl::MakeAppCommandLabel(UINT id)
             return CString(g_CommandList[i].cmdname);
         }
     }
-    return CString("");
+    return _T("");
 }
 
 void CPPageAccelTbl::DoDataExchange(CDataExchange* pDX)
@@ -1197,15 +1197,18 @@ void CPPageAccelTbl::OnEndListLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
             m_list.SetItemText(pItem->iItem, COL_MOUSE_FS, pItem->pszText);
             *pResult = TRUE;
             break;
-        case COL_RMCMD:
-            wc.rmcmd = CStringA(CString(pItem->pszText)).Trim();
-            wc.rmcmd.Replace(' ', '_');
-            m_list.SetItemText(pItem->iItem, pItem->iSubItem, CString(wc.rmcmd));
+        case COL_RMCMD: {
+            CString cmd = pItem->pszText;
+            cmd.Trim();
+            cmd.Replace(_T(' '), ('_'));
+            m_list.SetItemText(pItem->iItem, pItem->iSubItem, cmd);
+            wc.rmcmd = cmd;
             *pResult = TRUE;
             break;
+        }
         case COL_RMREPCNT:
-            CString str = CString(pItem->pszText).Trim();
-            wc.rmrepcnt = _tcstol(str, nullptr, 10);
+            CString str = pItem->pszText;
+            wc.rmrepcnt = _tcstol(str.Trim(), nullptr, 10);
             str.Format(_T("%d"), wc.rmrepcnt);
             m_list.SetItemText(pItem->iItem, pItem->iSubItem, str);
             *pResult = TRUE;

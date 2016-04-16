@@ -119,11 +119,11 @@ int CALLBACK CSubtitleDlDlg::SortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM 
 
     CString left(list->GetItemText((int)lParam1, ps->m_nSortColumn));
     CString right(list->GetItemText((int)lParam2, ps->m_nSortColumn));
-    if (left == "-" && right != "-") {
+    if (left == _T("-") && right != _T("-")) {
         return 1;
     }
 
-    if (left != "-" && right == "-") {
+    if (left != _T("-") && right == _T("-")) {
         return -1;
     }
 
@@ -627,7 +627,7 @@ afx_msg LRESULT CSubtitleDlDlg::OnClear(WPARAM /*wParam*/, LPARAM /*lParam*/)
     SetWindowText(title);
 
     m_progress.SetPos(0);
-    SetStatusText("");
+    SetStatusText(_T(""));
     m_list.DeleteAllItems();
     m_Subtitles.clear();
 
