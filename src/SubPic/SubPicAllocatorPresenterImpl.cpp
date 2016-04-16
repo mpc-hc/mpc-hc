@@ -299,11 +299,13 @@ void CSubPicAllocatorPresenterImpl::UpdateXForm()
     Vector v = m_defaultVideoAngle + m_videoAngle;
 
     auto normalizeAngle = [](float & rad) {
+        constexpr float twoPi = float(2.0 * M_PI);
+
         while (rad < 0.0f) {
-            rad += 2 * M_PI;
+            rad += twoPi;
         }
         while (rad > 2 * M_PI) {
-            rad -= 2 * M_PI;
+            rad -= twoPi;
         }
     };
 
