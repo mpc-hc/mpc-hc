@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -55,7 +55,7 @@ bool CVolumeCtrl::Create(CWnd* pParentWnd)
 void CVolumeCtrl::SetPosInternal(int pos)
 {
     SetPos(pos);
-    GetParent()->PostMessage(WM_HSCROLL, MAKEWPARAM((short)pos, SB_THUMBPOSITION), (LPARAM)m_hWnd); // this will be reflected back on us
+    GetParent()->PostMessage(WM_HSCROLL, MAKEWPARAM(static_cast<WORD>(pos), SB_THUMBPOSITION), reinterpret_cast<LPARAM>(m_hWnd)); // this will be reflected back on us
 }
 
 void CVolumeCtrl::IncreaseVolume()
@@ -189,7 +189,7 @@ void CVolumeCtrl::HScroll(UINT nSBCode, UINT nPos)
 
     CFrameWnd* pFrame = GetParentFrame();
     if (pFrame && pFrame != GetParent()) {
-        pFrame->PostMessage(WM_HSCROLL, MAKEWPARAM((short)nPos, nSBCode), (LPARAM)m_hWnd);
+        pFrame->PostMessage(WM_HSCROLL, MAKEWPARAM(static_cast<WORD>(nPos), static_cast<WORD>(nSBCode)), reinterpret_cast<LPARAM>(m_hWnd));
     }
 }
 
