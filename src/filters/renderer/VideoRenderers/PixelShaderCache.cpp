@@ -126,19 +126,18 @@ void CPixelShaderCache::DestroyCache()
 {
     CString cacheFolder;
     if (GetCacheFolder(cacheFolder)) {
-        CFileFind finder;
-        BOOL working = finder.FindFile(cacheFolder + _T("\\*"));
-
-        while (working) {
-            working = finder.FindNextFile();
-            if (!finder.IsDirectory() && !finder.IsDots()) {
-                CFile::Remove(finder.GetFilePath());
-            }
-        }
+        SHFILEOPSTRUCT fileop = {};
+        fileop.wFunc = FO_DELETE;
+        // The last file name is terminated with a double NULL character ("\0\0") to indicate the end of the buffer.
+        // We add one char to CString. GetBufferSetLength adds NULL at the end and since previous end was also NULL
+        // returned buffer have double NULL character at the end in result.
+        fileop.pFrom = cacheFolder.GetBufferSetLength(cacheFolder.GetLength() + 1);
+        fileop.fFlags = FOF_NOCONFIRMATION | FOF_SILENT;
+        VERIFY(SHFileOperation(&fileop) == 0);
     }
 }
 
-bool CPixelShaderCache::IsEnabled() const
+bool CPixelShaderCache::IsEnabled()
 {
     return GetRenderersSettings().m_AdvRendSets.bCacheShaders;
 }
@@ -217,11 +216,11 @@ bool CPixelShaderCache::GetCacheFilePath(CString& CacheFilePath, uint64_t Hash) 
     return false;
 }
 
-bool CPixelShaderCache::GetCacheFolder(CString& CacheFolder) const
+bool CPixelShaderCache::GetCacheFolder(CString& CacheFolder)
 {
     CacheFolder = GetRenderersSettings().m_AdvRendSets.sShaderCachePath;
 
-    return CacheFolder.GetLength() > 0 && (PathFileExists(CacheFolder) || CreateDirectory(CacheFolder, nullptr));
+    return !CacheFolder.IsEmpty() && (PathFileExists(CacheFolder) || (IsEnabled() && CreateDirectory(CacheFolder, nullptr)));
 }
 
 uint64_t CPixelShaderCache::Hash(LPCSTR pProfile, LPCSTR pSourceData, SIZE_T SourceDataSize) const

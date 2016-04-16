@@ -52,14 +52,14 @@ public:
 
 private:
     void LoadCache();
-    void DestroyCache();
-    bool IsEnabled() const;
+    static void DestroyCache();
+    static bool IsEnabled();
     void TouchFile(const CString& FileName) const;
     bool IsFileOutdated(const CString& FileName) const;
     bool LoadCache(const CString& FileName, const CString& FilePath);
     void DeleteCache(uint64_t Hash);
     bool GetCacheFilePath(CString& CacheFilePath, uint64_t Hash) const;
-    bool GetCacheFolder(CString& CacheFolder) const;
+    static bool GetCacheFolder(CString& CacheFolder);
 
     uint64_t Hash(LPCSTR pProfile, LPCSTR pSourceData, SIZE_T SourceDataSize) const;
     uint64_t Hash(LPCSTR pStr) const;
