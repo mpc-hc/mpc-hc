@@ -61,7 +61,7 @@ private:
     CMainFrame* m_pMainFrame;
     bool m_bMouseHiderStarted;
     CPoint m_mouseHiderStartScreenPoint;
-    DWORD m_dwMouseHiderStartTick;
+    ULONGLONG m_dwMouseHiderStartTick;
     bool m_bTrackingMouseLeave;
     enum class Drag { NO_DRAG, BEGIN_DRAG, DRAGGED } m_drag;
     enum class Cursor { NONE, ARROW, HAND };

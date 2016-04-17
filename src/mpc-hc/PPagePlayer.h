@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2014, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -54,7 +54,7 @@ public:
     BOOL m_bRememberPlaylistItems;
     BOOL m_bEnableCoverArt;
 
-    DWORD m_dwCheckIniLastTick;
+    ULONGLONG m_dwCheckIniLastTick;
 
     EventClient m_eventc;
 

@@ -147,7 +147,7 @@ private:
     bool m_bQueuedProfileFlush;
     void InitProfile();
     std::recursive_mutex m_profileMutex;
-    DWORD m_dwProfileLastAccessTick;
+    ULONGLONG m_dwProfileLastAccessTick;
 
 public:
     void FlushProfile(bool bForce = true);

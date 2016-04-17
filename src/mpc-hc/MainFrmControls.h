@@ -1,5 +1,5 @@
 /*
- * (C) 2013-2014 see Authors.txt
+ * (C) 2013-2014, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -107,6 +107,6 @@ private:
     void LockHideZone(DockZone zone);
     std::map<DockZone, std::vector<Panel>> m_panelZones;
     std::map<DockZone, CDockBar*> m_panelDocks;
-    std::map<DockZone, DWORD> m_zoneHideTicks;
+    std::map<DockZone, ULONGLONG> m_zoneHideTicks;
     std::set<DockZone> m_zoneHideLocks;
 };

@@ -1,5 +1,5 @@
 /*
- * (C) 2013-2016 see Authors.txt
+ * (C) 2013-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -498,7 +498,7 @@ void CMainFrameControls::UpdateToolbarsVisibility()
     }
 
     const bool bNoTimer = m_zoneHideTicks.empty();
-    const DWORD dwTick = GetTickCount();
+    const ULONGLONG dwTick = GetTickCount64();
 
     for (const auto& pair : m_zoneHideTicks) {
         if (pair.second <= dwTick && !(mask.maskShow & pair.first)) {
@@ -572,8 +572,8 @@ void CMainFrameControls::UpdateToolbarsVisibility()
                     } else {
                         // delay hiding locked zone for at least current timeout
                         ASSERT(m_zoneHideTicks.find(zone) != m_zoneHideTicks.end());
-                        DWORD dwNewHideTick = dwTick + uTimeout;
-                        DWORD& dwHideTick = m_zoneHideTicks[zone];
+                        ULONGLONG dwNewHideTick = dwTick + uTimeout;
+                        ULONGLONG& dwHideTick = m_zoneHideTicks[zone];
                         if (dwNewHideTick > dwHideTick) {
                             m_zoneHideLocks.erase(zone);
                             dwHideTick = dwNewHideTick;
@@ -784,9 +784,9 @@ void CMainFrameControls::LockHideZone(DockZone zone)
     ASSERT(zone != DOCK_NONE);
     m_zoneHideLocks.insert(zone);
     auto it = m_zoneHideTicks.find(zone);
-    const DWORD dwNewHideTick = GetTickCount() + 1000;
+    const ULONGLONG dwNewHideTick = GetTickCount64() + 1000ULL;
     if (it != m_zoneHideTicks.end()) {
-        DWORD& dwHideTick = it->second;
+        ULONGLONG& dwHideTick = it->second;
         if (dwHideTick < dwNewHideTick) {
             dwHideTick = dwNewHideTick;
         }

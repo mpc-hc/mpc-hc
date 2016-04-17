@@ -2234,7 +2234,8 @@ void CMainFrame::DoAfterPlaybackEvent()
         SendMessage(WM_COMMAND, ID_FILE_EXIT);
     } else if (s.nCLSwitches & CLSW_SHUTDOWN) {
         SetPrivilege(SE_SHUTDOWN_NAME);
-        ExitWindowsEx(EWX_SHUTDOWN | EWX_POWEROFF | EWX_FORCEIFHUNG, 0);
+        InitiateSystemShutdownEx(nullptr, nullptr, 0, TRUE, FALSE,
+                                 SHTDN_REASON_MAJOR_APPLICATION | SHTDN_REASON_MINOR_MAINTENANCE | SHTDN_REASON_FLAG_PLANNED);
         SendMessage(WM_COMMAND, ID_FILE_EXIT);
     } else if (s.nCLSwitches & CLSW_LOGOFF) {
         SetPrivilege(SE_SHUTDOWN_NAME);
@@ -3989,10 +3990,10 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
             }
             OpenMedia(p);
         } else {
-            if (m_dwLastRun && ((GetTickCount() - m_dwLastRun) < 500)) {
+            if (m_dwLastRun && ((GetTickCount64() - m_dwLastRun) < 500ULL)) {
                 s.nCLSwitches |= CLSW_ADD;
             }
-            m_dwLastRun = GetTickCount();
+            m_dwLastRun = GetTickCount64();
 
             if ((s.nCLSwitches & CLSW_ADD) && !IsPlaylistEmpty()) {
                 m_wndPlaylistBar.Append(sl, fMulti, &s.slSubs);
@@ -15865,7 +15866,6 @@ void CMainFrame::OnFileOpendirectory()
         return;
     }
 
-    const CAppSettings& s = AfxGetAppSettings();
     CString strTitle(StrRes(IDS_MAINFRM_DIR_TITLE));
     CString path;
 

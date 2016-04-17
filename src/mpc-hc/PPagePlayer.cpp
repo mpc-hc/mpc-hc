@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2015, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -264,9 +264,9 @@ void CPPagePlayer::OnUpdatePos(CCmdUI* pCmdUI)
 
 void CPPagePlayer::OnUpdateSaveToIni(CCmdUI* pCmdUI)
 {
-    DWORD dwTick = GetTickCount();
+    ULONGLONG dwTick = GetTickCount64();
     // run this check no often than once per second
-    if (dwTick - m_dwCheckIniLastTick >= 1000) {
+    if (dwTick - m_dwCheckIniLastTick >= 1000ULL) {
         CPath iniDirPath(AfxGetMyApp()->GetIniPath());
         VERIFY(iniDirPath.RemoveFileSpec());
         HANDLE hDir = CreateFile(iniDirPath, GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr,
