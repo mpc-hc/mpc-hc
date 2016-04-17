@@ -23,7 +23,6 @@
 #include "RenderersSettings.h"
 #include "../../../mpc-hc/AppSettings.h"
 #include "../../../mpc-hc/mplayerc.h"
-#include "../../../DSUtil/SysVersion.h"
 #include <d3d9.h>
 #include <d3d10.h>
 #include <dxgi.h>
@@ -40,7 +39,7 @@ void CRenderersSettings::CAdvRendererSettings::SetDefault()
     iVMR9VSyncOffset                  = 0;
     bVMR9VSyncAccurate                = false;
     bVMR9FullscreenGUISupport         = false;
-    bVMR9VSync                        = !SysVersion::IsVistaOrLater();
+    bVMR9VSync                        = false;
     bVMR9FullFloatingPointProcessing  = false;
     bVMR9HalfFloatingPointProcessing  = false;
     bVMR9ColorManagementEnable        = false;

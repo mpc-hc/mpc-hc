@@ -1,5 +1,5 @@
 /*
- * (C) 2014 see Authors.txt
+ * (C) 2014, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -38,7 +38,6 @@ protected:
     CEdit m_jpegQualityEdit;
 
     DECLARE_MESSAGE_MAP()
-    virtual void DoDataExchange(CDataExchange* pDX);
     virtual BOOL OnInitDialog();
     virtual BOOL OnFileNameOK();
     virtual void OnTypeChange();

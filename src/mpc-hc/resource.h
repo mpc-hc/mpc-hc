@@ -481,7 +481,6 @@
 #define IDC_DX9RESIZER_COMBO            12130
 #define IDC_DSVMR9LOADMIXER             12131
 #define IDC_DX_SURFACE                  12133
-#define IDC_DSVMR9YUVMIXER              12134
 #define IDC_BUTTON_MI                   12136
 #define IDC_MIEDIT                      12137
 #define IDC_LISTCHANNELS                12138

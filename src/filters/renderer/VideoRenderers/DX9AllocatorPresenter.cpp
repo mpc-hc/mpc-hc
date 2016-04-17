@@ -28,7 +28,6 @@
 #include "../../../SubPic/SubPicQueueImpl.h"
 #include "IPinHook.h"
 #include "FocusThread.h"
-#include "../../../DSUtil/SysVersion.h"
 #include "../../../DSUtil/vd.h"
 #include <mpc-hc_config.h>
 
@@ -1763,8 +1762,7 @@ void CDX9AllocatorPresenter::InitStats()
             ASSERT(FALSE);
         }
         m_pD3DXCreateFont(m_pD3DDev, newHeight, 0, newHeight < BOLD_THRESHOLD ? FW_NORMAL : FW_BOLD,
-                          0, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS,
-                          SysVersion::IsXPOrLater() ? CLEARTYPE_NATURAL_QUALITY : ANTIALIASED_QUALITY,
+                          0, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLEARTYPE_NATURAL_QUALITY,
                           FIXED_PITCH | FF_DONTCARE, L"Lucida Console", &m_pFont);
         currentHeight = newHeight;
     }

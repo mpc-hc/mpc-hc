@@ -28,7 +28,6 @@
 #include "FakeFilterMapper2.h"
 #include "FileAssoc.h"
 #include "FileVersionInfo.h"
-#include "SysVersion.h"
 #include "Ifo.h"
 #include "MainFrm.h"
 #include "MhookHelper.h"
@@ -1443,7 +1442,8 @@ MMRESULT WINAPI Mine_mixerSetControlDetails(HMIXEROBJ hmxobj, LPMIXERCONTROLDETA
 BOOL (WINAPI* Real_LockWindowUpdate)(HWND) = LockWindowUpdate;
 BOOL WINAPI Mine_LockWindowUpdate(HWND hWndLock)
 {
-    if (SysVersion::IsVistaOrLater() && hWndLock == ::GetDesktopWindow()) {
+    // TODO: Check if needed on Windows 8+
+    if (hWndLock == ::GetDesktopWindow()) {
         // locking the desktop window with aero active locks the entire compositor,
         // unfortunately MFC does that (when dragging CControlBar) and we want to prevent it
         return FALSE;

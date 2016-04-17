@@ -1,5 +1,5 @@
 /*
- * (C) 2012-2014, 2016 see Authors.txt
+ * (C) 2012-2014, 2016-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,7 +21,6 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "SaveSubtitlesFileDialog.h"
-#include "SysVersion.h"
 
 
 // CSaveSubtitlesFileDialog
@@ -58,65 +57,36 @@ CSaveSubtitlesFileDialog::CSaveSubtitlesFileDialog(
 
 void CSaveSubtitlesFileDialog::InitCustomization()
 {
-    if (SysVersion::IsVistaOrLater()) {
-        // customization has to be done before OnInitDialog
-        IFileDialogCustomize* pfdc = GetIFileDialogCustomize();
-        ASSERT(pfdc);
+    // customization has to be done before OnInitDialog
+    IFileDialogCustomize* pfdc = GetIFileDialogCustomize();
+    ASSERT(pfdc);
 
-        VERIFY(SUCCEEDED(pfdc->StartVisualGroup(IDS_SUBFILE_DELAY, ResStr(IDS_SUBFILE_DELAY))));
+    VERIFY(SUCCEEDED(pfdc->StartVisualGroup(IDS_SUBFILE_DELAY, ResStr(IDS_SUBFILE_DELAY))));
 
-        CString strDelay;
-        strDelay.Format(_T("%d"), m_delay);
-        VERIFY(SUCCEEDED(pfdc->AddEditBox(IDC_EDIT1, strDelay)));
+    CString strDelay;
+    strDelay.Format(_T("%d"), m_delay);
+    VERIFY(SUCCEEDED(pfdc->AddEditBox(IDC_EDIT1, strDelay)));
 
-        VERIFY(SUCCEEDED(pfdc->EndVisualGroup()));
+    VERIFY(SUCCEEDED(pfdc->EndVisualGroup()));
 
-        VERIFY(SUCCEEDED(pfdc->AddCheckButton(IDC_CHECK1, ResStr(IDS_SUB_SAVE_EXTERNAL_STYLE_FILE), m_bSaveExternalStyleFile)));
-        VERIFY(SUCCEEDED(pfdc->SetControlState(IDC_CHECK1, m_bDisableExternalStyleCheckBox ? CDCS_INACTIVE : CDCS_ENABLEDVISIBLE)));
+    VERIFY(SUCCEEDED(pfdc->AddCheckButton(IDC_CHECK1, ResStr(IDS_SUB_SAVE_EXTERNAL_STYLE_FILE), m_bSaveExternalStyleFile)));
+    VERIFY(SUCCEEDED(pfdc->SetControlState(IDC_CHECK1, m_bDisableExternalStyleCheckBox ? CDCS_INACTIVE : CDCS_ENABLEDVISIBLE)));
 
-        if (m_bDisableEncoding) {
-            VERIFY(SUCCEEDED(pfdc->SetControlState(IDS_TEXTFILE_ENC, CDCS_INACTIVE)));
-            VERIFY(SUCCEEDED(pfdc->SetControlState(IDC_COMBO1, CDCS_INACTIVE)));
-        }
-
-        pfdc->Release();
-    } else {
-        SetTemplate(0, IDD_SAVESUBTITLESFILEDIALOGTEMPL);
+    if (m_bDisableEncoding) {
+        VERIFY(SUCCEEDED(pfdc->SetControlState(IDS_TEXTFILE_ENC, CDCS_INACTIVE)));
+        VERIFY(SUCCEEDED(pfdc->SetControlState(IDC_COMBO1, CDCS_INACTIVE)));
     }
+
+    pfdc->Release();
 }
 
 CSaveSubtitlesFileDialog::~CSaveSubtitlesFileDialog()
 {
 }
 
-void CSaveSubtitlesFileDialog::DoDataExchange(CDataExchange* pDX)
-{
-    if (!SysVersion::IsVistaOrLater()) {
-        DDX_Control(pDX, IDC_SPIN1, m_delayCtrl);
-        DDX_Text(pDX, IDC_EDIT1, m_delay);
-        DDX_Check(pDX, IDC_CHECK1, m_bSaveExternalStyleFile);
-    }
-    __super::DoDataExchange(pDX);
-}
-
 BOOL CSaveSubtitlesFileDialog::OnInitDialog()
 {
     __super::OnInitDialog();
-
-    if (!SysVersion::IsVistaOrLater()) {
-        m_delayCtrl.SetRange32(INT_MIN, INT_MAX);
-        m_delayCtrl.SetPos32(m_delay);
-
-        if (m_bDisableEncoding) {
-            GetDlgItem(IDC_STATIC1)->EnableWindow(FALSE);
-            GetDlgItem(IDC_COMBO1)->EnableWindow(FALSE);
-        }
-
-        if (m_bDisableExternalStyleCheckBox) {
-            GetDlgItem(IDC_CHECK1)->EnableWindow(FALSE);
-        }
-    }
-
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
 }
@@ -128,23 +98,19 @@ END_MESSAGE_MAP()
 
 BOOL CSaveSubtitlesFileDialog::OnFileNameOK()
 {
-    if (SysVersion::IsVistaOrLater()) {
-        IFileDialogCustomize* pfdc = GetIFileDialogCustomize();
-        ASSERT(pfdc);
+    IFileDialogCustomize* pfdc = GetIFileDialogCustomize();
+    ASSERT(pfdc);
 
-        WCHAR* strDelay = nullptr;
-        VERIFY(SUCCEEDED(pfdc->GetEditBoxText(IDC_EDIT1, &strDelay)));
-        if (strDelay) {
-            m_delay = _tcstol(strDelay, nullptr, 10);
-            CoTaskMemFree(strDelay);
-        }
-
-        VERIFY(SUCCEEDED(pfdc->GetCheckButtonState(IDC_CHECK1, &m_bSaveExternalStyleFile)));
-
-        pfdc->Release();
-    } else {
-        UpdateData();
+    WCHAR* strDelay = nullptr;
+    VERIFY(SUCCEEDED(pfdc->GetEditBoxText(IDC_EDIT1, &strDelay)));
+    if (strDelay) {
+        m_delay = _tcstol(strDelay, nullptr, 10);
+        CoTaskMemFree(strDelay);
     }
+
+    VERIFY(SUCCEEDED(pfdc->GetCheckButtonState(IDC_CHECK1, &m_bSaveExternalStyleFile)));
+
+    pfdc->Release();
 
     return __super::OnFileNameOK();
 }
@@ -159,15 +125,11 @@ void CSaveSubtitlesFileDialog::OnTypeChange()
         Subtitle::SubType subType = m_types[m_ofn.nFilterIndex - 1];
         bool bDisableExternalStyleCheckBox = (subType == Subtitle::SSA || subType == Subtitle::ASS);
 
-        if (SysVersion::IsVistaOrLater()) {
-            IFileDialogCustomize* pfdc = GetIFileDialogCustomize();
-            ASSERT(pfdc);
+        IFileDialogCustomize* pfdc = GetIFileDialogCustomize();
+        ASSERT(pfdc);
 
-            VERIFY(SUCCEEDED(pfdc->SetControlState(IDC_CHECK1, bDisableExternalStyleCheckBox ? (CDCS_INACTIVE | CDCS_VISIBLE) : CDCS_ENABLEDVISIBLE)));
+        VERIFY(SUCCEEDED(pfdc->SetControlState(IDC_CHECK1, bDisableExternalStyleCheckBox ? (CDCS_INACTIVE | CDCS_VISIBLE) : CDCS_ENABLEDVISIBLE)));
 
-            pfdc->Release();
-        } else {
-            GetDlgItem(IDC_CHECK1)->EnableWindow(!bDisableExternalStyleCheckBox);
-        }
+        pfdc->Release();
     }
 }

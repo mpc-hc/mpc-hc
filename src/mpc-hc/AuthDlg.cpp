@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,8 +21,6 @@
 
 #include "stdafx.h"
 #include "AuthDlg.h"
-#include "SysVersion.h"
-#include "VersionInfo.h"
 
 // We need to dynamically link to the functions provided by CredUI.lib in order
 // to be able to use the features available to the OS.
@@ -40,88 +38,55 @@ HRESULT PromptForCredentials(HWND hWnd, const CString& strCaptionText, const CSt
     DWORD dwPassword = CREDUI_MAX_PASSWORD_LENGTH + 1;
     DWORD dwDomain = CREDUI_MAX_GENERIC_TARGET_LENGTH + 1;
 
-    if (SysVersion::IsVistaOrLater()) {
-        // Define CredUI.dll functions for Windows Vista+
-        const WinapiFunc<decltype(CredPackAuthenticationBufferW)>
-        fnCredPackAuthenticationBufferW = { _T("CREDUI.DLL"), "CredPackAuthenticationBufferW" };
+    // Define CredUI.dll functions for Windows Vista+
+    const WinapiFunc<decltype(CredPackAuthenticationBufferW)>
+    fnCredPackAuthenticationBufferW = { _T("CREDUI.DLL"), "CredPackAuthenticationBufferW" };
 
-        const WinapiFunc<decltype(CredUIPromptForWindowsCredentialsW)>
-        fnCredUIPromptForWindowsCredentialsW = { _T("CREDUI.DLL"), "CredUIPromptForWindowsCredentialsW" };
+    const WinapiFunc<decltype(CredUIPromptForWindowsCredentialsW)>
+    fnCredUIPromptForWindowsCredentialsW = { _T("CREDUI.DLL"), "CredUIPromptForWindowsCredentialsW" };
 
-        const WinapiFunc<decltype(CredUnPackAuthenticationBufferW)>
-        fnCredUnPackAuthenticationBufferW = { _T("CREDUI.DLL"), "CredUnPackAuthenticationBufferW" };
+    const WinapiFunc<decltype(CredUnPackAuthenticationBufferW)>
+    fnCredUnPackAuthenticationBufferW = { _T("CREDUI.DLL"), "CredUnPackAuthenticationBufferW" };
 
-        if (fnCredPackAuthenticationBufferW && fnCredUIPromptForWindowsCredentialsW && fnCredUnPackAuthenticationBufferW) {
-            PVOID pvInAuthBlob = nullptr;
-            ULONG cbInAuthBlob = 0;
-            PVOID pvAuthBlob = nullptr;
-            ULONG cbAuthBlob = 0;
-            ULONG ulAuthPackage = 0;
+    if (fnCredPackAuthenticationBufferW && fnCredUIPromptForWindowsCredentialsW && fnCredUnPackAuthenticationBufferW) {
+        PVOID pvInAuthBlob = nullptr;
+        ULONG cbInAuthBlob = 0;
+        PVOID pvAuthBlob = nullptr;
+        ULONG cbAuthBlob = 0;
+        ULONG ulAuthPackage = 0;
 
-            // Call CredPackAuthenticationBufferW once to determine the size, in bytes, of the authentication buffer.
-            if (strUsername.GetLength()) {
-                BOOL bResult = fnCredPackAuthenticationBufferW(0, (LPTSTR)(LPCTSTR)strUsername, (LPTSTR)(LPCTSTR)strPassword, nullptr, &cbInAuthBlob);
-                if (!bResult && GetLastError() == ERROR_INSUFFICIENT_BUFFER) {
-                    if ((pvInAuthBlob = CoTaskMemAlloc(cbInAuthBlob)) != nullptr) {
-                        VERIFY(fnCredPackAuthenticationBufferW(0, (LPTSTR)(LPCTSTR)strUsername, (LPTSTR)(LPCTSTR)strPassword, (PBYTE)pvInAuthBlob, &cbInAuthBlob));
-                    }
+        // Call CredPackAuthenticationBufferW once to determine the size, in bytes, of the authentication buffer.
+        if (strUsername.GetLength()) {
+            BOOL bResult = fnCredPackAuthenticationBufferW(0, (LPTSTR)(LPCTSTR)strUsername, (LPTSTR)(LPCTSTR)strPassword, nullptr, &cbInAuthBlob);
+            if (!bResult && GetLastError() == ERROR_INSUFFICIENT_BUFFER) {
+                if ((pvInAuthBlob = CoTaskMemAlloc(cbInAuthBlob)) != nullptr) {
+                    VERIFY(fnCredPackAuthenticationBufferW(0, (LPTSTR)(LPCTSTR)strUsername, (LPTSTR)(LPCTSTR)strPassword, (PBYTE)pvInAuthBlob, &cbInAuthBlob));
                 }
             }
-            const DWORD dwFlags = CREDUIWIN_GENERIC | CREDUIWIN_ENUMERATE_CURRENT_USER | (bSave ? CREDUIWIN_CHECKBOX : 0);
-            DWORD dwResult = fnCredUIPromptForWindowsCredentialsW(&info, 0, &ulAuthPackage, pvInAuthBlob, cbInAuthBlob, &pvAuthBlob, &cbAuthBlob, bSave, dwFlags);
-            if (dwResult == ERROR_SUCCESS) {
-                VERIFY(fnCredUnPackAuthenticationBufferW(0, pvAuthBlob, cbAuthBlob, strUsername.GetBufferSetLength(dwUsername), &dwUsername, strDomain.GetBufferSetLength(dwDomain), &dwDomain, strPassword.GetBufferSetLength(dwPassword), &dwPassword));
-                strUsername.ReleaseBuffer();
-                strPassword.ReleaseBuffer();
-                strDomain.ReleaseBuffer();
-            }
-
-            // Delete the input authentication byte array.
-            if (pvInAuthBlob) {
-                SecureZeroMemory(pvInAuthBlob, cbInAuthBlob);
-                CoTaskMemFree(pvInAuthBlob);
-                pvInAuthBlob = nullptr;
-            }
-            // Delete the output authentication byte array.
-            if (pvAuthBlob) {
-                SecureZeroMemory(pvAuthBlob, cbAuthBlob);
-                CoTaskMemFree(pvAuthBlob);
-                pvAuthBlob = nullptr;
-            }
-            return dwResult; // ERROR_SUCCESS / ERROR_CANCELLED
         }
-    } else if (SysVersion::IsXPOrLater()) {
-        // Define CredUI.dll functions for Windows XP
-        const WinapiFunc<decltype(CredUIPromptForCredentialsW)>
-        fnCredUIPromptForCredentialsW = { _T("CREDUI.DLL"), "CredUIPromptForCredentialsW" };
-
-        const WinapiFunc<decltype(CredUIParseUserNameW)>
-        fnCredUIParseUserNameW = { _T("CREDUI.DLL"), "CredUIParseUserNameW" };
-
-        if (fnCredUIPromptForCredentialsW && fnCredUIParseUserNameW) {
-            const DWORD dwAuthError = 0;
-            const DWORD dwFlags = CREDUI_FLAGS_ALWAYS_SHOW_UI | CREDUI_FLAGS_GENERIC_CREDENTIALS/* | CREDUI_FLAGS_EXPECT_CONFIRMATION*/ | CREDUI_FLAGS_COMPLETE_USERNAME | CREDUI_FLAGS_DO_NOT_PERSIST | (bSave ? CREDUI_FLAGS_SHOW_SAVE_CHECK_BOX : 0);
-            CString strUserDomain(strUsername);
-            if (!strDomain.GetLength()) {
-                strDomain = _T("mpc-hc/") + VersionInfo::GetVersionString();
-            }
-
-            DWORD dwResult = fnCredUIPromptForCredentialsW(&info, strDomain.Left(dwDomain), nullptr, dwAuthError,
-                                                           strUserDomain.GetBufferSetLength(dwUsername), dwUsername, strPassword.GetBufferSetLength(dwPassword), dwPassword, bSave, dwFlags);
-            strUserDomain.ReleaseBuffer();
-            strPassword.ReleaseBuffer();
-
-            fnCredUIParseUserNameW(strUserDomain, strUsername.GetBufferSetLength(dwUsername), dwUsername, strDomain.GetBufferSetLength(dwDomain), dwDomain);
+        const DWORD dwFlags = CREDUIWIN_GENERIC | CREDUIWIN_ENUMERATE_CURRENT_USER | (bSave ? CREDUIWIN_CHECKBOX : 0);
+        DWORD dwResult = fnCredUIPromptForWindowsCredentialsW(&info, 0, &ulAuthPackage, pvInAuthBlob, cbInAuthBlob, &pvAuthBlob, &cbAuthBlob, bSave, dwFlags);
+        if (dwResult == ERROR_SUCCESS) {
+            VERIFY(fnCredUnPackAuthenticationBufferW(0, pvAuthBlob, cbAuthBlob, strUsername.GetBufferSetLength(dwUsername), &dwUsername, strDomain.GetBufferSetLength(dwDomain), &dwDomain, strPassword.GetBufferSetLength(dwPassword), &dwPassword));
             strUsername.ReleaseBuffer();
+            strPassword.ReleaseBuffer();
             strDomain.ReleaseBuffer();
-            //dwResult = CredUIConfirmCredentials(szDomain.Left(cchDomain), TRUE);
-
-            if (strDomain == _T("mpc-hc/") + VersionInfo::GetVersionString()) {
-                strDomain.Empty();
-            }
-
-            return dwResult; // ERROR_SUCCESS / ERROR_CANCELLED
         }
+
+        // Delete the input authentication byte array.
+        if (pvInAuthBlob) {
+            SecureZeroMemory(pvInAuthBlob, cbInAuthBlob);
+            CoTaskMemFree(pvInAuthBlob);
+            pvInAuthBlob = nullptr;
+        }
+        // Delete the output authentication byte array.
+        if (pvAuthBlob) {
+            SecureZeroMemory(pvAuthBlob, cbAuthBlob);
+            CoTaskMemFree(pvAuthBlob);
+            pvAuthBlob = nullptr;
+        }
+        return dwResult; // ERROR_SUCCESS / ERROR_CANCELLED
     }
+
     return ERROR_CALL_NOT_IMPLEMENTED;
 }

@@ -22,7 +22,6 @@
 #include <d3d9.h>
 #include <Shlobj.h>
 #include "WinAPIUtils.h"
-#include "SysVersion.h"
 #include "PathUtils.h"
 
 
@@ -212,9 +211,6 @@ namespace
     {
         ZeroMemory(ncm, sizeof(NONCLIENTMETRICS));
         ncm->cbSize = sizeof(NONCLIENTMETRICS);
-        if (!SysVersion::IsVistaOrLater()) {
-            ncm->cbSize -= sizeof(ncm->iPaddedBorderWidth);
-        }
         VERIFY(SystemParametersInfo(SPI_GETNONCLIENTMETRICS, ncm->cbSize, ncm, 0));
     }
 }

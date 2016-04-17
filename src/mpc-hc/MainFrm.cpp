@@ -100,6 +100,7 @@
 #include <dvdevcod.h>
 #include <dvdmedia.h>
 #include <strsafe.h>
+#include <VersionHelpers.h>
 
 #include <initguid.h>
 #include <qnetwork.h>
@@ -833,7 +834,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
         return -1;
     }
 
-    if (SysVersion::Is81OrLater()) {
+    if (IsWindows8Point1OrGreater()) {
         m_dpi.Override(m_hWnd);
     }
 
@@ -4056,7 +4057,7 @@ void CMainFrame::OnFileOpendvd()
 
     if (s.fUseDVDPath && !s.strDVDPath.IsEmpty()) {
         path = s.strDVDPath;
-    } else if (SysVersion::IsVistaOrLater()) {
+    } else {
         CFileDialog dlg(TRUE);
         IFileOpenDialog* openDlgPtr = dlg.GetIFileOpenDialog();
 
@@ -4070,25 +4071,6 @@ void CMainFrame::OnFileOpendvd()
             openDlgPtr->Release();
 
             path = dlg.GetFolderPath();
-        }
-    } else {
-        TCHAR _path[MAX_PATH];
-
-        BROWSEINFO bi;
-        bi.hwndOwner = m_hWnd;
-        bi.pidlRoot = nullptr;
-        bi.pszDisplayName = _path;
-        bi.lpszTitle = strTitle;
-        bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_VALIDATE | BIF_USENEWUI | BIF_NONEWFOLDERBUTTON;
-        bi.lpfn = BrowseCallbackProc;
-        bi.lParam = 0;
-        bi.iImage = 0;
-
-        static PIDLIST_ABSOLUTE iil;
-        iil = SHBrowseForFolder(&bi);
-        if (iil) {
-            SHGetPathFromIDList(iil, _path);
-            path = _path;
         }
     }
 
@@ -5505,7 +5487,7 @@ void CMainFrame::OnUpdateViewDisableDesktopComposition(CCmdUI* pCmdUI)
                        || s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM
                        || s.iDSVideoRendererType == VIDRNDT_DS_SYNC)
                       && r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D
-                      && (SysVersion::IsVista() || SysVersion::Is7()));
+                      && !IsWindows8OrGreater());
 
     pCmdUI->Enable(supported);
     pCmdUI->SetCheck(supported && r.m_AdvRendSets.bVMRDisableDesktopComposition);
@@ -9258,7 +9240,7 @@ CRect CMainFrame::GetInvisibleBorderSize() const
 {
     CRect invisibleBorders;
 
-    if (SysVersion::Is10OrLater()) {
+    if (IsWindows10OrGreater()) {
         static const WinapiFunc<decltype(DwmGetWindowAttribute)>
         fnDwmGetWindowAttribute = { _T("Dwmapi.dll"), "DwmGetWindowAttribute" };
 
@@ -9971,7 +9953,7 @@ CSize CMainFrame::GetZoomWindowSize(double dScale)
         if (workRect.Width() && workRect.Height()) {
             // account for invisible borders on Windows 10 by allowing
             // the window to go out of screen a bit
-            if (SysVersion::Is10OrLater()) {
+            if (IsWindows10OrGreater()) {
                 workRect.InflateRect(GetInvisibleBorderSize());
             }
 
@@ -10020,7 +10002,7 @@ CRect CMainFrame::GetZoomWindowRect(const CSize& size)
         CRect rcWork = mi.rcWork;
         // account for invisible borders on Windows 10 by allowing
         // the window to go out of screen a bit
-        if (SysVersion::Is10OrLater()) {
+        if (IsWindows10OrGreater()) {
             rcWork.InflateRect(GetInvisibleBorderSize());
         }
 
@@ -10144,7 +10126,7 @@ double CMainFrame::GetZoomAutoFitScale(bool bLargerOnly)
         decorationsSize.cy += 2 * ::GetSystemMetrics(SM_CYSIZEFRAME);
 
         // account for invisible borders on Windows 10
-        if (SysVersion::Is10OrLater()) {
+        if (IsWindows10OrGreater()) {
             RECT invisibleBorders = GetInvisibleBorderSize();
 
             decorationsSize.cx -= (invisibleBorders.left + invisibleBorders.right);
@@ -13995,11 +13977,7 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool bShowOSD /*= true*/)
         m_pMS->SetPositions(&rtPos, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning);
         UpdateChapterInInfoBar();
     } else if (GetPlaybackMode() == PM_DVD && m_iDVDDomain == DVD_DOMAIN_Title) {
-        if (!SysVersion::IsVistaOrLater() && fs != State_Running) {
-            // DVD Navigator hangs on XP if we call IDvdControl2::PlayAtTime twice in paused state.
-            SendMessage(WM_COMMAND, ID_PLAY_PLAY);
-            fs = State_Running;
-        } else if (fs == State_Stopped) {
+        if (fs == State_Stopped) {
             SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
             fs = State_Paused;
         }
@@ -15891,56 +15869,26 @@ void CMainFrame::OnFileOpendirectory()
     CString strTitle(StrRes(IDS_MAINFRM_DIR_TITLE));
     CString path;
 
-    if (SysVersion::IsVistaOrLater()) {
-        CFileDialog dlg(TRUE);
-        dlg.AddCheckButton(IDS_MAINFRM_DIR_CHECK, ResStr(IDS_MAINFRM_DIR_CHECK), TRUE);
-        IFileOpenDialog* openDlgPtr = dlg.GetIFileOpenDialog();
+    CFileDialog dlg(TRUE);
+    dlg.AddCheckButton(IDS_MAINFRM_DIR_CHECK, ResStr(IDS_MAINFRM_DIR_CHECK), TRUE);
+    IFileOpenDialog* openDlgPtr = dlg.GetIFileOpenDialog();
 
-        if (openDlgPtr != nullptr) {
-            openDlgPtr->SetTitle(strTitle);
-            openDlgPtr->SetOptions(FOS_PICKFOLDERS | FOS_FORCEFILESYSTEM | FOS_PATHMUSTEXIST);
-            if (FAILED(openDlgPtr->Show(m_hWnd))) {
-                openDlgPtr->Release();
-                return;
-            }
+    if (openDlgPtr != nullptr) {
+        openDlgPtr->SetTitle(strTitle);
+        openDlgPtr->SetOptions(FOS_PICKFOLDERS | FOS_FORCEFILESYSTEM | FOS_PATHMUSTEXIST);
+        if (FAILED(openDlgPtr->Show(m_hWnd))) {
             openDlgPtr->Release();
-
-            path = dlg.GetFolderPath();
-
-            BOOL recur = TRUE;
-            dlg.GetCheckButtonState(IDS_MAINFRM_DIR_CHECK, recur);
-            COpenDirHelper::m_incl_subdir = !!recur;
-        } else {
             return;
         }
+        openDlgPtr->Release();
+
+        path = dlg.GetFolderPath();
+
+        BOOL recur = TRUE;
+        dlg.GetCheckButtonState(IDS_MAINFRM_DIR_CHECK, recur);
+        COpenDirHelper::m_incl_subdir = !!recur;
     } else {
-        CString filter;
-        CAtlArray<CString> mask;
-        s.m_Formats.GetFilter(filter, mask);
-
-        COpenDirHelper::strLastOpenDir = s.strLastOpenDir;
-
-        TCHAR _path[MAX_PATH];
-        COpenDirHelper::m_incl_subdir = TRUE;
-
-        BROWSEINFO bi;
-        bi.hwndOwner      = m_hWnd;
-        bi.pidlRoot       = nullptr;
-        bi.pszDisplayName = _path;
-        bi.lpszTitle      = strTitle;
-        bi.ulFlags        = BIF_RETURNONLYFSDIRS | BIF_VALIDATE | BIF_STATUSTEXT;
-        bi.lpfn           = COpenDirHelper::BrowseCallbackProcDIR;
-        bi.lParam         = 0;
-        bi.iImage         = 0;
-
-        static PIDLIST_ABSOLUTE iil;
-        iil = SHBrowseForFolder(&bi);
-        if (iil) {
-            SHGetPathFromIDList(iil, _path);
-        } else {
-            return;
-        }
-        path = _path;
+        return;
     }
 
     // If we got a link file that points to a directory, follow the link
@@ -15967,7 +15915,7 @@ void CMainFrame::OnFileOpendirectory()
 
 HRESULT CMainFrame::CreateThumbnailToolbar()
 {
-    if (!AfxGetAppSettings().bUseEnhancedTaskBar || !SysVersion::Is7OrLater()) {
+    if (!AfxGetAppSettings().bUseEnhancedTaskBar || !IsWindows7OrGreater()) {
         return E_FAIL;
     }
 

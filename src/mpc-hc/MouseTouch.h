@@ -1,5 +1,5 @@
 /*
- * (C) 2013-2015 see Authors.txt
+ * (C) 2013-2015, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,9 +22,9 @@
 
 #include <map>
 #include <unordered_set>
+#include <VersionHelpers.h>
 
 #include "EventDispatcher.h"
-#include "SysVersion.h"
 
 // TODO: handle touch gestures
 
@@ -219,7 +219,7 @@ class CMouseWheelHook
 
 public:
     CMouseWheelHook() {
-        if (SysVersion::Is10OrLater()) {
+        if (IsWindows10OrGreater()) {
             m_hHook = SetWindowsHookEx(WH_MOUSE, MouseProc, nullptr, GetCurrentThreadId());
             ASSERT(m_hHook);
         }

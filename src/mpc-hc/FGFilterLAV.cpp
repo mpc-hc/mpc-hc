@@ -21,7 +21,6 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "PathUtils.h"
-#include "SysVersion.h"
 #include "../filters/InternalPropertyPage.h"
 #include "../filters/PinInfoWnd.h"
 #include <FileVersionInfo.h>
@@ -612,26 +611,7 @@ void CFGFilterLAVVideo::Settings::LoadSettings()
 
     dwHWAccel = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccel"), -1);
     if (dwHWAccel == DWORD(-1)) {
-        dwHWAccel = HWAccel_None; // Ensure that a valid state is selected if no HW acceleration is available
-
-        // We enable by default DXVA2 native on Vista+ and CUVID on XP if an NVIDIA adapter is found
-        if (SysVersion::IsVistaOrLater()) {
-            dwHWAccel = HWAccel_DXVA2Native;
-        } else {
-            const WinapiFunc<decltype(Direct3DCreate9)> fnDirect3DCreate9 = { _T("d3d9.dll"), "Direct3DCreate9" };
-            CComPtr<IDirect3D9> pD3D9;
-            if (fnDirect3DCreate9 && (pD3D9 = fnDirect3DCreate9(D3D_SDK_VERSION))) {
-                D3DADAPTER_IDENTIFIER9 adapterIdentifier;
-
-                for (UINT adp = 0, num_adp = pD3D9->GetAdapterCount(); adp < num_adp; ++adp) {
-                    if (pD3D9->GetAdapterIdentifier(adp, 0, &adapterIdentifier) == S_OK
-                            && adapterIdentifier.VendorId == 0x10DE) {
-                        dwHWAccel = HWAccel_CUDA;
-                        break;
-                    }
-                }
-            }
-        }
+        dwHWAccel = HWAccel_DXVA2Native;
     }
 
     bHWFormats[HWCodec_H264] = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("h264"), bHWFormats[HWCodec_H264]);

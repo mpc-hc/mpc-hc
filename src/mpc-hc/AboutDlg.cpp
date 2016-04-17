@@ -27,7 +27,6 @@
 #include "mplayerc.h"
 #include "FileVersionInfo.h"
 #include "PathUtils.h"
-#include "SysVersion.h"
 #include "VersionInfo.h"
 #include "WinapiFunc.h"
 #include <afxole.h>
@@ -156,7 +155,12 @@ BOOL CAboutDlg::OnInitDialog()
 
     m_buildDate = VersionInfo::GetBuildDateString();
 
-    OSVERSIONINFOEX osVersion = SysVersion::GetFullVersion();
+#pragma warning(push)
+#pragma warning(disable: 4996)
+    OSVERSIONINFOEX osVersion = { sizeof(OSVERSIONINFOEX) };
+    GetVersionEx(reinterpret_cast<LPOSVERSIONINFO>(&osVersion));
+#pragma warning(pop)
+
     m_OSName.Format(_T("Windows NT %1u.%1u (build %u"),
                     osVersion.dwMajorVersion, osVersion.dwMinorVersion, osVersion.dwBuildNumber);
     if (osVersion.szCSDVersion[0]) {
@@ -165,7 +169,14 @@ BOOL CAboutDlg::OnInitDialog()
         m_OSName += _T(")");
     }
     m_OSVersion.Format(_T("%1u.%1u"), osVersion.dwMajorVersion, osVersion.dwMinorVersion);
-    if (SysVersion::Is64Bit()) {
+
+#if !defined(_WIN64)
+    // 32-bit programs run on both 32-bit and 64-bit Windows
+    // so must sniff
+    BOOL f64 = FALSE;
+    if (IsWow64Process(GetCurrentProcess(), &f64) && f64)
+#endif
+    {
         m_OSVersion += _T(" (64-bit)");
     }
 

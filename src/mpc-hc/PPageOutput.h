@@ -75,7 +75,6 @@ public:
     std::pair<bool, CAppSettings::SubtitleRenderer> m_lastSubrenderer;
     int m_iDX9Resizer;
     BOOL m_fVMR9MixerMode;
-    BOOL m_fVMR9MixerYUV;
     BOOL m_fD3DFullscreen;
     BOOL m_fVMR9AlterativeVSync;
     BOOL m_fResetDevice;
@@ -94,7 +93,6 @@ protected:
     DECLARE_MESSAGE_MAP()
 
 public:
-    afx_msg void OnUpdateMixerYUV(CCmdUI* pCmdUI);
     afx_msg void OnSurfaceChange();
     afx_msg void OnDSRendererChange();
     afx_msg void OnRMRendererChange();

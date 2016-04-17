@@ -1,5 +1,5 @@
 /*
- * (C) 2012-2014 see Authors.txt
+ * (C) 2012-2014, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -26,7 +26,6 @@
 #include "UpdateCheckerDlg.h"
 #include "SettingsDefines.h"
 #include "mplayerc.h"
-#include "SysVersion.h"
 #include "AppSettings.h"
 
 #include <afxinet.h>
@@ -59,10 +58,21 @@ Update_Status UpdateChecker::IsUpdateAvailable(const Version& currentVersion)
     try {
         CInternetSession internet;
 
-        OSVERSIONINFOEX osVersion = SysVersion::GetFullVersion();
+#pragma warning(push)
+#pragma warning(disable: 4996)
+        OSVERSIONINFOEX osVersion = { sizeof(OSVERSIONINFOEX) };
+        GetVersionEx(reinterpret_cast<LPOSVERSIONINFO>(&osVersion));
+#pragma warning(pop)
         CString osVersionStr;
         osVersionStr.Format(_T("Windows %1u.%1u"), osVersion.dwMajorVersion, osVersion.dwMinorVersion);
-        if (SysVersion::Is64Bit()) {
+
+#if !defined(_WIN64)
+        // 32-bit programs run on both 32-bit and 64-bit Windows
+        // so must sniff
+        BOOL f64 = FALSE;
+        if (IsWow64Process(GetCurrentProcess(), &f64) && f64)
+#endif
+        {
             osVersionStr += _T(" x64");
         }
 

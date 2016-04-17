@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2015, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,10 +20,10 @@
  */
 
 #include "stdafx.h"
+#include <VersionHelpers.h>
 #include "mplayerc.h"
 #include "PPageTweaks.h"
 #include "MainFrm.h"
-#include "SysVersion.h"
 
 
 // CPPageTweaks dialog
@@ -97,7 +97,7 @@ BOOL CPPageTweaks::OnInitDialog()
     m_fPreventMinimize = s.fPreventMinimize;
 
     m_bUseEnhancedTaskBar = s.bUseEnhancedTaskBar;
-    if (!SysVersion::Is7OrLater()) {
+    if (!IsWindows7OrGreater()) {
         GetDlgItem(IDC_CHECK_ENHANCED_TASKBAR)->EnableWindow(FALSE);
     }
 

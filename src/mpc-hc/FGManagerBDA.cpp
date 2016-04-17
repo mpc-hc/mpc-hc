@@ -24,7 +24,6 @@
 #include "MainFrm.h"
 #include "Logger.h"
 #include <ISOLang.h>
-#include <SysVersion.h>
 #include <moreuuids.h>
 #include <dvdmedia.h>
 #include <ks.h>
@@ -342,13 +341,7 @@ CFGManagerBDA::CFGManagerBDA(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
     m_DVBStreams[DVB_PSI]  = CDVBStream(L"psi",  &mt_Psi, true, MEDIA_MPEG2_PSI);
     m_DVBStreams[DVB_TIF]  = CDVBStream(L"tif",  &mt_Tif, true);
     m_DVBStreams[DVB_EPG]  = CDVBStream(L"epg",  &mt_Epg);
-
-    // Warning : MEDIA_ELEMENTARY_STREAM didn't work for subtitles with Windows XP!
-    if (SysVersion::IsVistaOrLater()) {
-        m_DVBStreams[DVB_SUB] = CDVBStream(L"sub", &mt_Subtitle/*, false, MEDIA_TRANSPORT_PAYLOAD*/);
-    } else {
-        m_DVBStreams[DVB_SUB] = CDVBStream(L"sub", &mt_Subtitle, false, MEDIA_TRANSPORT_PAYLOAD);
-    }
+    m_DVBStreams[DVB_SUB] = CDVBStream(L"sub", &mt_Subtitle/*, false, MEDIA_TRANSPORT_PAYLOAD*/);
 
     if (pChannel) {
         m_nCurVideoType = pChannel->GetVideoType();

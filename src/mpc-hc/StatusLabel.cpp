@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2015, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -23,7 +23,6 @@
 #include "mplayerc.h"
 #include "StatusLabel.h"
 #include "WinAPIUtils.h"
-#include "SysVersion.h"
 
 
 // CStatusLabel
@@ -43,20 +42,10 @@ CStatusLabel::~CStatusLabel()
 void CStatusLabel::ScaleFont(const DpiHelper& dpiHelper)
 {
     m_font.DeleteObject();
-
-    if (SysVersion::IsVistaOrLater()) {
-        LOGFONT lf;
-        GetStatusFont(&lf);
-        lf.lfHeight = dpiHelper.ScaleSystemToOverrideY(lf.lfHeight);
-        VERIFY(m_font.CreateFontIndirect(&lf));
-    } else {
-        HDC hdc = ::GetDC(nullptr);
-        double scale = 1.0 * GetDeviceCaps(hdc, LOGPIXELSY) / 96.0;
-        ::ReleaseDC(nullptr, hdc);
-        VERIFY(m_font.CreateFont(int(14 * scale), 0, 0, 0, FW_NORMAL, 0, 0, 0, DEFAULT_CHARSET,
-                                 OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE,
-                                 _T("Microsoft Sans Serif")));
-    }
+    LOGFONT lf;
+    GetStatusFont(&lf);
+    lf.lfHeight = dpiHelper.ScaleSystemToOverrideY(lf.lfHeight);
+    VERIFY(m_font.CreateFontIndirect(&lf));
 }
 
 BEGIN_MESSAGE_MAP(CStatusLabel, CStatic)

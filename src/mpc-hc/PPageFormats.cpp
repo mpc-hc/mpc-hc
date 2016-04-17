@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2015, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,11 +20,11 @@
  */
 
 #include "stdafx.h"
+#include <VersionHelpers.h>
 #include "mplayerc.h"
 #include "PPageFormats.h"
 #include "FileAssoc.h"
 #include "PathUtils.h"
-#include "SysVersion.h"
 #include <psapi.h>
 #include <string>
 #include <atlimage.h>
@@ -223,7 +223,7 @@ BOOL CPPageFormats::OnInitDialog()
     SetButtonIcon(IDC_ASSOCIATE_VIDEO_FORMATS, IDB_CHECK_VIDEO);
     SetButtonIcon(IDC_CLEAR_ALL_ASSOCIATIONS,  IDB_UNCHECK_ALL);
 
-    if (SysVersion::IsVistaOrLater() && !IsUserAnAdmin()) {
+    if (!IsUserAnAdmin()) {
         GetDlgItem(IDC_EDIT1)->EnableWindow(FALSE);
         GetDlgItem(IDC_ASSOCIATE_ALL_FORMATS)->EnableWindow(FALSE);
         GetDlgItem(IDC_ASSOCIATE_AUDIO_FORMATS)->EnableWindow(FALSE);
@@ -251,7 +251,7 @@ BOOL CPPageFormats::OnInitDialog()
         GetDlgItem(IDC_BUTTON1)->ShowWindow(SW_HIDE);
     }
 
-    if (SysVersion::Is8OrLater()) {
+    if (IsWindows8OrGreater()) {
         GetDlgItem(IDC_BUTTON7)->ShowWindow(SW_SHOW);
 
         auto offsetControlBottomRight = [this](int nID, int dx, int dy) {

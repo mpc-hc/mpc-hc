@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2014, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -23,7 +23,6 @@
 #include "ShockwaveGraph.h"
 #include "resource.h"
 #include "DSUtil.h"
-#include "SysVersion.h"
 #include <cmath>
 #include <Audiopolicy.h>
 #include <Mmdeviceapi.h>
@@ -49,22 +48,20 @@ CShockwaveGraph::CShockwaveGraph(HWND hParent, HRESULT& hr)
     }
     m_wndDestFrame.put_BackgroundColor(0);
 
-    if (SysVersion::IsVistaOrLater()) {
-        CComPtr<IMMDeviceEnumerator> pDeviceEnumerator;
-        if (SUCCEEDED(pDeviceEnumerator.CoCreateInstance(__uuidof(MMDeviceEnumerator)))) {
-            CComPtr<IMMDevice> pDevice;
-            if (SUCCEEDED(pDeviceEnumerator->GetDefaultAudioEndpoint(eRender, eConsole, &pDevice))) {
-                CComPtr<IAudioSessionManager> pSessionManager;
-                if (SUCCEEDED(pDevice->Activate(__uuidof(IAudioSessionManager), CLSCTX_ALL, nullptr,
-                                                reinterpret_cast<void**>(&pSessionManager)))) {
-                    if (SUCCEEDED(pSessionManager->GetSimpleAudioVolume(nullptr, FALSE, &m_pSimpleVolume))) {
-                        VERIFY(SUCCEEDED(m_pSimpleVolume->GetMasterVolume(&m_fInitialVolume)));
-                    }
+    CComPtr<IMMDeviceEnumerator> pDeviceEnumerator;
+    if (SUCCEEDED(pDeviceEnumerator.CoCreateInstance(__uuidof(MMDeviceEnumerator)))) {
+        CComPtr<IMMDevice> pDevice;
+        if (SUCCEEDED(pDeviceEnumerator->GetDefaultAudioEndpoint(eRender, eConsole, &pDevice))) {
+            CComPtr<IAudioSessionManager> pSessionManager;
+            if (SUCCEEDED(pDevice->Activate(__uuidof(IAudioSessionManager), CLSCTX_ALL, nullptr,
+                                            reinterpret_cast<void**>(&pSessionManager)))) {
+                if (SUCCEEDED(pSessionManager->GetSimpleAudioVolume(nullptr, FALSE, &m_pSimpleVolume))) {
+                    VERIFY(SUCCEEDED(m_pSimpleVolume->GetMasterVolume(&m_fInitialVolume)));
                 }
             }
         }
-        ASSERT(m_pSimpleVolume);
     }
+    ASSERT(m_pSimpleVolume);
 }
 
 CShockwaveGraph::~CShockwaveGraph()

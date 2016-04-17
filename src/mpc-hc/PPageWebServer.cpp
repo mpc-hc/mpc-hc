@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2015, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -23,7 +23,6 @@
 #include "mplayerc.h"
 #include "MainFrm.h"
 #include "PPageWebServer.h"
-#include "SysVersion.h"
 #include "PathUtils.h"
 #include <afxglobals.h>
 #include "WebServer.h"
@@ -175,47 +174,26 @@ bool CPPageWebServer::PickDir(CString& dir)
     CString strTitle(StrRes(IDS_PPAGEWEBSERVER_0));
     bool success = false;
 
-    if (SysVersion::IsVistaOrLater()) {
-        CFileDialog dlg(TRUE);
-        IFileOpenDialog* openDlgPtr = dlg.GetIFileOpenDialog();
+    CFileDialog dlg(TRUE);
+    IFileOpenDialog* openDlgPtr = dlg.GetIFileOpenDialog();
 
-        if (openDlgPtr != nullptr) {
-            openDlgPtr->SetTitle(strTitle);
-            openDlgPtr->SetOptions(FOS_PICKFOLDERS | FOS_FORCEFILESYSTEM | FOS_PATHMUSTEXIST);
+    if (openDlgPtr != nullptr) {
+        openDlgPtr->SetTitle(strTitle);
+        openDlgPtr->SetOptions(FOS_PICKFOLDERS | FOS_FORCEFILESYSTEM | FOS_PATHMUSTEXIST);
 
-            if (!dir.IsEmpty()) {
-                CComPtr<IShellItem> psiFolder;
-                if (SUCCEEDED(afxGlobalData.ShellCreateItemFromParsingName(dir, nullptr, IID_PPV_ARGS(&psiFolder)))) {
-                    openDlgPtr->SetFolder(psiFolder);
-                }
+        if (!dir.IsEmpty()) {
+            CComPtr<IShellItem> psiFolder;
+            if (SUCCEEDED(afxGlobalData.ShellCreateItemFromParsingName(dir, nullptr, IID_PPV_ARGS(&psiFolder)))) {
+                openDlgPtr->SetFolder(psiFolder);
             }
-
-            if (SUCCEEDED(openDlgPtr->Show(m_hWnd))) {
-                dir = dlg.GetFolderPath();
-                success = true;
-            }
-
-            openDlgPtr->Release();
         }
-    } else {
-        TCHAR buff[MAX_PATH];
 
-        BROWSEINFO bi;
-        bi.hwndOwner = m_hWnd;
-        bi.pidlRoot = nullptr;
-        bi.pszDisplayName = buff;
-        bi.lpszTitle = strTitle;
-        bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_VALIDATE | BIF_USENEWUI;
-        bi.lpfn = BrowseCtrlCallback;
-        bi.lParam = (LPARAM)(LPCTSTR)dir;
-        bi.iImage = 0;
-
-        PIDLIST_ABSOLUTE iil = SHBrowseForFolder(&bi);
-        if (iil) {
-            SHGetPathFromIDList(iil, buff);
-            dir = buff;
+        if (SUCCEEDED(openDlgPtr->Show(m_hWnd))) {
+            dir = dlg.GetFolderPath();
             success = true;
         }
+
+        openDlgPtr->Release();
     }
 
     return success;

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2014, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,7 +22,6 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "SaveThumbnailsDialog.h"
-#include "SysVersion.h"
 
 
 // CSaveThumbnailsDialog
@@ -37,60 +36,36 @@ CSaveThumbnailsDialog::CSaveThumbnailsDialog(
     m_cols(cols),
     m_width(width)
 {
-    if (SysVersion::IsVistaOrLater()) {
-        // customization has to be done before OnInitDialog
-        IFileDialogCustomize* pfdc = GetIFileDialogCustomize();
-        CStringW str;
+    // customization has to be done before OnInitDialog
+    IFileDialogCustomize* pfdc = GetIFileDialogCustomize();
+    CStringW str;
 
-        pfdc->StartVisualGroup(IDS_THUMB_IMAGE_WIDTH, ResStr(IDS_THUMB_IMAGE_WIDTH));
-        pfdc->AddText(IDS_THUMB_PIXELS, ResStr(IDS_THUMB_PIXELS));
-        str.Format(L"%d", std::max(256, std::min(2560, m_width)));
-        pfdc->AddEditBox(IDC_EDIT4, str);
-        pfdc->EndVisualGroup();
+    pfdc->StartVisualGroup(IDS_THUMB_IMAGE_WIDTH, ResStr(IDS_THUMB_IMAGE_WIDTH));
+    pfdc->AddText(IDS_THUMB_PIXELS, ResStr(IDS_THUMB_PIXELS));
+    str.Format(L"%d", std::max(256, std::min(2560, m_width)));
+    pfdc->AddEditBox(IDC_EDIT4, str);
+    pfdc->EndVisualGroup();
 
-        pfdc->StartVisualGroup(IDS_THUMB_THUMBNAILS, ResStr(IDS_THUMB_THUMBNAILS));
-        pfdc->AddText(IDS_THUMB_ROWNUMBER, ResStr(IDS_THUMB_ROWNUMBER));
-        str.Format(L"%d", std::max(1, std::min(20, m_rows)));
-        pfdc->AddEditBox(IDC_EDIT2, str);
+    pfdc->StartVisualGroup(IDS_THUMB_THUMBNAILS, ResStr(IDS_THUMB_THUMBNAILS));
+    pfdc->AddText(IDS_THUMB_ROWNUMBER, ResStr(IDS_THUMB_ROWNUMBER));
+    str.Format(L"%d", std::max(1, std::min(20, m_rows)));
+    pfdc->AddEditBox(IDC_EDIT2, str);
 
-        pfdc->AddText(IDS_THUMB_COLNUMBER, ResStr(IDS_THUMB_COLNUMBER));
-        str.Format(L"%d", std::max(1, std::min(10, m_cols)));
-        pfdc->AddEditBox(IDC_EDIT3, str);
-        pfdc->EndVisualGroup();
+    pfdc->AddText(IDS_THUMB_COLNUMBER, ResStr(IDS_THUMB_COLNUMBER));
+    str.Format(L"%d", std::max(1, std::min(10, m_cols)));
+    pfdc->AddEditBox(IDC_EDIT3, str);
+    pfdc->EndVisualGroup();
 
-        pfdc->Release();
-    } else {
-        SetTemplate(0, IDD_SAVETHUMBSDIALOGTEMPL);
-    }
+    pfdc->Release();
 }
 
 CSaveThumbnailsDialog::~CSaveThumbnailsDialog()
 {
 }
 
-void CSaveThumbnailsDialog::DoDataExchange(CDataExchange* pDX)
-{
-    if (!SysVersion::IsVistaOrLater()) {
-        DDX_Control(pDX, IDC_SPIN2, m_rowsctrl);
-        DDX_Control(pDX, IDC_SPIN3, m_colsctrl);
-        DDX_Control(pDX, IDC_SPIN4, m_widthctrl);
-    }
-    __super::DoDataExchange(pDX);
-}
-
 BOOL CSaveThumbnailsDialog::OnInitDialog()
 {
     __super::OnInitDialog();
-
-    if (!SysVersion::IsVistaOrLater()) {
-        m_rowsctrl.SetRange32(1, 20);
-        m_colsctrl.SetRange32(1, 10);
-        m_widthctrl.SetRange32(256, 2560);
-        m_rowsctrl.SetPos32(m_rows);
-        m_colsctrl.SetPos32(m_cols);
-        m_widthctrl.SetPos32(m_width);
-    }
-
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
 }
@@ -102,27 +77,21 @@ END_MESSAGE_MAP()
 
 BOOL CSaveThumbnailsDialog::OnFileNameOK()
 {
-    if (SysVersion::IsVistaOrLater()) {
-        CComPtr<IFileDialogCustomize> pfdc = GetIFileDialogCustomize();
-        CComHeapPtr<WCHAR> result;
+    CComPtr<IFileDialogCustomize> pfdc = GetIFileDialogCustomize();
+    CComHeapPtr<WCHAR> result;
 
-        if (SUCCEEDED(pfdc->GetEditBoxText(IDC_EDIT2, &result))) {
-            m_rows = _wtoi(result);
-        }
+    if (SUCCEEDED(pfdc->GetEditBoxText(IDC_EDIT2, &result))) {
+        m_rows = _wtoi(result);
+    }
 
-        result.Free();
-        if (SUCCEEDED(pfdc->GetEditBoxText(IDC_EDIT3, &result))) {
-            m_cols = _wtoi(result);
-        }
+    result.Free();
+    if (SUCCEEDED(pfdc->GetEditBoxText(IDC_EDIT3, &result))) {
+        m_cols = _wtoi(result);
+    }
 
-        result.Free();
-        if (SUCCEEDED(pfdc->GetEditBoxText(IDC_EDIT4, &result))) {
-            m_width = _wtoi(result);
-        }
-    } else {
-        m_rows = m_rowsctrl.GetPos32();
-        m_cols = m_colsctrl.GetPos32();
-        m_width = m_widthctrl.GetPos32();
+    result.Free();
+    if (SUCCEEDED(pfdc->GetEditBoxText(IDC_EDIT4, &result))) {
+        m_width = _wtoi(result);
     }
 
     return __super::OnFileNameOK();

@@ -23,7 +23,6 @@
 #include "mplayerc.h"
 #include "MainFrm.h"
 #include "PPageDVD.h"
-#include "SysVersion.h"
 
 
 struct {
@@ -283,40 +282,19 @@ void CPPageDVD::OnBnClickedButton1()
 {
     CString path;
     CString strTitle(StrRes(IDS_MAINFRM_46));
+    CFileDialog dlg(TRUE);
+    IFileOpenDialog* openDlgPtr = dlg.GetIFileOpenDialog();
 
-    if (SysVersion::IsVistaOrLater()) {
-        CFileDialog dlg(TRUE);
-        IFileOpenDialog* openDlgPtr = dlg.GetIFileOpenDialog();
-
-        if (openDlgPtr != nullptr) {
-            openDlgPtr->SetTitle(strTitle);
-            openDlgPtr->SetOptions(FOS_PICKFOLDERS | FOS_FORCEFILESYSTEM | FOS_PATHMUSTEXIST);
-            if (FAILED(openDlgPtr->Show(m_hWnd))) {
-                openDlgPtr->Release();
-                return;
-            }
+    if (openDlgPtr != nullptr) {
+        openDlgPtr->SetTitle(strTitle);
+        openDlgPtr->SetOptions(FOS_PICKFOLDERS | FOS_FORCEFILESYSTEM | FOS_PATHMUSTEXIST);
+        if (FAILED(openDlgPtr->Show(m_hWnd))) {
             openDlgPtr->Release();
-
-            path = dlg.GetFolderPath();
+            return;
         }
-    } else {
-        TCHAR _path[MAX_PATH];
+        openDlgPtr->Release();
 
-        BROWSEINFO bi;
-        bi.hwndOwner = m_hWnd;
-        bi.pidlRoot = nullptr;
-        bi.pszDisplayName = _path;
-        bi.lpszTitle = strTitle;
-        bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_VALIDATE | BIF_USENEWUI | BIF_NONEWFOLDERBUTTON;
-        bi.lpfn = nullptr;
-        bi.lParam = 0;
-        bi.iImage = 0;
-
-        PIDLIST_ABSOLUTE iil = SHBrowseForFolder(&bi);
-        if (iil) {
-            SHGetPathFromIDList(iil, _path);
-            path = _path;
-        }
+        path = dlg.GetFolderPath();
     }
 
     if (!path.IsEmpty()) {

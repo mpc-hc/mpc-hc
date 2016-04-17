@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2014, 2016 see Authors.txt
+ * (C) 2006-2014, 2016-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -26,7 +26,6 @@
 #include "IPinHook.h"
 #include "MacrovisionKicker.h"
 
-#include "../../../DSUtil/SysVersion.h"
 
 // ISubPicAllocatorPresenter
 
@@ -126,10 +125,6 @@ STDMETHODIMP CVMR9AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
             // See http://msdn.microsoft.com/en-us/library/dd390928(VS.85).aspx
             dwPrefs |= MixerPref9_NonSquareMixing;
             dwPrefs |= MixerPref9_NoDecimation;
-            if (r.fVMR9MixerYUV && !SysVersion::IsVistaOrLater()) {
-                dwPrefs &= ~MixerPref9_RenderTargetMask;
-                dwPrefs |= MixerPref9_RenderTargetYUV;
-            }
             pMC->SetMixingPrefs(dwPrefs);
         }
     }

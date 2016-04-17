@@ -21,7 +21,6 @@
 #include "PropPageFrameDefault.h"
 // <MPC-HC Custom Code>
 #include "../../DSUtil/WinAPIUtils.h"
-#include "../../DSUtil/SysVersion.h"
 // </MPC-HC Custom Code>
 
 
@@ -299,10 +298,6 @@ void CPropPageFrameDefault::DrawCaption(CDC *pDc, CRect rect, LPCTSTR lpszCaptio
     GetMessageFont(&lf);
     lf.lfHeight = rect.Height();
     lf.lfWeight = FW_BOLD;
-
-    if (!SysVersion::IsVistaOrLater()) {
-        _tcscpy_s(lf.lfFaceName, _T("Arial"));
-    }
     // <MPC-HC Custom Code>
     CFont f;
     f.CreateFontIndirect(&lf);

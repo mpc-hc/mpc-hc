@@ -1,5 +1,5 @@
 /*
- * (C) 2014 see Authors.txt
+ * (C) 2014, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,7 +21,6 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "SaveImageDialog.h"
-#include "SysVersion.h"
 
 
 IMPLEMENT_DYNAMIC(CSaveImageDialog, CFileDialog)
@@ -34,46 +33,25 @@ CSaveImageDialog::CSaveImageDialog(
                 lpszFilter, pParentWnd, 0),
     m_nJpegQuality(nJpegQuality)
 {
-    if (SysVersion::IsVistaOrLater()) {
-        IFileDialogCustomize* pfdc = GetIFileDialogCustomize();
-        CString str;
+    IFileDialogCustomize* pfdc = GetIFileDialogCustomize();
+    CString str;
 
-        pfdc->StartVisualGroup(IDS_IMAGE_JPEG_QUALITY, ResStr(IDS_IMAGE_JPEG_QUALITY));
-        pfdc->AddText(IDS_IMAGE_QUALITY, ResStr(IDS_IMAGE_QUALITY));
-        str.Format(L"%d", std::max(0, std::min(100, m_nJpegQuality)));
-        pfdc->AddEditBox(IDC_EDIT1, str);
-        pfdc->EndVisualGroup();
+    pfdc->StartVisualGroup(IDS_IMAGE_JPEG_QUALITY, ResStr(IDS_IMAGE_JPEG_QUALITY));
+    pfdc->AddText(IDS_IMAGE_QUALITY, ResStr(IDS_IMAGE_QUALITY));
+    str.Format(L"%d", std::max(0, std::min(100, m_nJpegQuality)));
+    pfdc->AddEditBox(IDC_EDIT1, str);
+    pfdc->EndVisualGroup();
 
-        pfdc->Release();
-    } else {
-        SetTemplate(0, IDD_SAVEIMAGEDIALOGTEMPL);
-    }
+    pfdc->Release();
 }
 
 CSaveImageDialog::~CSaveImageDialog()
 {
 }
 
-void CSaveImageDialog::DoDataExchange(CDataExchange* pDX)
-{
-    if (!SysVersion::IsVistaOrLater()) {
-        DDX_Control(pDX, IDC_SPIN1, m_jpegQualitySpin);
-        DDX_Control(pDX, IDC_EDIT1, m_jpegQualityEdit);
-    }
-    __super::DoDataExchange(pDX);
-}
-
 BOOL CSaveImageDialog::OnInitDialog()
 {
     __super::OnInitDialog();
-
-    if (!SysVersion::IsVistaOrLater()) {
-        m_jpegQualitySpin.SetRange32(0, 100);
-        m_jpegQualitySpin.SetPos(m_nJpegQuality);
-
-        OnTypeChange();
-    }
-
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
 }
@@ -83,15 +61,11 @@ END_MESSAGE_MAP()
 
 BOOL CSaveImageDialog::OnFileNameOK()
 {
-    if (SysVersion::IsVistaOrLater()) {
-        CComPtr<IFileDialogCustomize> pfdc = GetIFileDialogCustomize();
-        CComHeapPtr<WCHAR> result;
+    CComPtr<IFileDialogCustomize> pfdc = GetIFileDialogCustomize();
+    CComHeapPtr<WCHAR> result;
 
-        if (SUCCEEDED(pfdc->GetEditBoxText(IDC_EDIT1, &result))) {
-            m_nJpegQuality = _wtoi(result);
-        }
-    } else {
-        m_nJpegQuality = m_jpegQualitySpin.GetPos32();
+    if (SUCCEEDED(pfdc->GetEditBoxText(IDC_EDIT1, &result))) {
+        m_nJpegQuality = _wtoi(result);
     }
 
     m_nJpegQuality = std::max(0, std::min(100, m_nJpegQuality));
@@ -103,27 +77,17 @@ void CSaveImageDialog::OnTypeChange()
 {
     __super::OnTypeChange();
 
-    if (SysVersion::IsVistaOrLater()) {
-        IFileDialogCustomize* pfdc = GetIFileDialogCustomize();
+    IFileDialogCustomize* pfdc = GetIFileDialogCustomize();
 
-        if (m_pOFN->nFilterIndex == 2) { // JPEG encoding is chosen
-            pfdc->SetControlState(IDS_IMAGE_JPEG_QUALITY, CDCS_ENABLEDVISIBLE);
-            pfdc->SetControlState(IDS_IMAGE_QUALITY, CDCS_ENABLEDVISIBLE);
-            pfdc->SetControlState(IDC_EDIT1, CDCS_ENABLEDVISIBLE);
-        } else {
-            pfdc->SetControlState(IDS_IMAGE_JPEG_QUALITY, CDCS_INACTIVE);
-            pfdc->SetControlState(IDS_IMAGE_QUALITY, CDCS_INACTIVE);
-            pfdc->SetControlState(IDC_EDIT1, CDCS_INACTIVE);
-        }
-
-        pfdc->Release();
+    if (m_pOFN->nFilterIndex == 2) { // JPEG encoding is chosen
+        pfdc->SetControlState(IDS_IMAGE_JPEG_QUALITY, CDCS_ENABLEDVISIBLE);
+        pfdc->SetControlState(IDS_IMAGE_QUALITY, CDCS_ENABLEDVISIBLE);
+        pfdc->SetControlState(IDC_EDIT1, CDCS_ENABLEDVISIBLE);
     } else {
-        if (m_pOFN->nFilterIndex == 2) { // JPEG encoding is chosen
-            m_jpegQualitySpin.EnableWindow(TRUE);
-            m_jpegQualityEdit.EnableWindow(TRUE);
-        } else {
-            m_jpegQualitySpin.EnableWindow(FALSE);
-            m_jpegQualityEdit.EnableWindow(FALSE);
-        }
+        pfdc->SetControlState(IDS_IMAGE_JPEG_QUALITY, CDCS_INACTIVE);
+        pfdc->SetControlState(IDS_IMAGE_QUALITY, CDCS_INACTIVE);
+        pfdc->SetControlState(IDC_EDIT1, CDCS_INACTIVE);
     }
+
+    pfdc->Release();
 }
