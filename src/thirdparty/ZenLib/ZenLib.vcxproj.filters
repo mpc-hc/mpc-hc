@@ -193,5 +193,8 @@
     <ClInclude Include="library\Source\ZenLib\PreComp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="library\Source\ZenLib\MemoryUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
