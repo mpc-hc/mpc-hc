@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2013, 2016 see Authors.txt
+ * (C) 2006-2013, 2016-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -23,6 +23,8 @@
 #include "AllocatorCommon.h"
 #include "RenderersSettings.h"
 #include <d3d9.h>
+#include <d3d10.h>
+#include <dxgi.h>
 #include <d3dx9.h>
 #include "../SubPic/SubPicAllocatorPresenterImpl.h"
 

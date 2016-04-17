@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,12 +22,15 @@
 #include "stdafx.h"
 #include "NullRenderers.h"
 #include "moreuuids.h"
+#include "WinapiFunc.h"
 
 #define USE_DXVA
 
 #ifdef USE_DXVA
 
 #include <d3d9.h>
+#include <d3d10.h>
+#include <dxgi.h>
 #include <dxva.h>
 #include <dxva2api.h>   // DXVA2
 #include <evr.h>
@@ -179,9 +182,12 @@ CNullVideoRendererInputPin::CNullVideoRendererInputPin(CBaseRenderer* pRenderer,
 
 void CNullVideoRendererInputPin::CreateSurface()
 {
-    m_pD3D.Attach(Direct3DCreate9(D3D_SDK_VERSION));
-    if (!m_pD3D) {
-        m_pD3D.Attach(Direct3DCreate9(D3D9b_SDK_VERSION));
+    const WinapiFunc<decltype(Direct3DCreate9)> fnDirect3DCreate9 = { _T("d3d9.dll"), "Direct3DCreate9" };
+    if (fnDirect3DCreate9) {
+        m_pD3D.Attach(fnDirect3DCreate9(D3D_SDK_VERSION));
+        if (!m_pD3D) {
+            m_pD3D.Attach(fnDirect3DCreate9(D3D9b_SDK_VERSION));
+        }
     }
 
     m_hWnd = nullptr;  // TODO : put true window

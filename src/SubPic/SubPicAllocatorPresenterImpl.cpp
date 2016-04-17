@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -28,6 +28,8 @@
 #include "XySubPicQueueImpl.h"
 #include "XySubPicProvider.h"
 #include <d3d9.h>
+#include <d3d10.h>
+#include <dxgi.h>
 #include <evr.h>
 #include <dxva2api.h>
 

@@ -1,5 +1,5 @@
 /*
- * (C) 2011-2015 see Authors.txt
+ * (C) 2011-2015, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -19,7 +19,7 @@
  */
 
 #include "stdafx.h"
-#include <d3dx9.h>
+#include <d3d9.h>
 #include <Shlobj.h>
 #include "WinAPIUtils.h"
 #include "SysVersion.h"

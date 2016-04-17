@@ -81,12 +81,10 @@
       <AdditionalIncludeDirectories>..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>d3d9.lib;delayimp.lib;dsound.lib;dxguid.lib;GdiPlus.lib;Psapi.lib;SetupAPI.lib;UxTheme.lib;Vfw32.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <DelayLoadDLLs>d3d9.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
-      <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
+      <AdditionalDependencies>delayimp.lib;dsound.lib;dxguid.lib;GdiPlus.lib;Psapi.lib;SetupAPI.lib;UxTheme.lib;Vfw32.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\include;..\DSUtil;..\filters\renderer\VideoRenderers;..\thirdparty;..\thirdparty\MediaInfo\library\Source;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\DSUtil;..\filters\renderer\VideoRenderers;..\thirdparty;..\thirdparty\MediaInfo\library\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Manifest>
       <AdditionalManifestFiles>$(ProjectDir)res\mpc-hc.exe.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
@@ -95,13 +93,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Platform)'=='x64'">
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib;$(DXSDK_DIR)Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>strmiids.lib;Uuid.Lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Platform)'=='Win32'">
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib;$(DXSDK_DIR)Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>QTMLClient.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

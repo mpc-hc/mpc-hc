@@ -1,5 +1,5 @@
 ﻿/*
- * (C) 2016 see Authors.txt
+ * (C) 2016-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -25,6 +25,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <wincrypt.h>
 
 #define CRYPT_KEYLENGTH 0x01000000
 #define Z_ENCODING_GZIP 16

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -813,7 +813,7 @@ CMainFrame::~CMainFrame()
 
 int CMainFrame::OnNcCreate(LPCREATESTRUCT lpCreateStruct)
 {
-    if (SysVersion::Is10OrLater()) {
+    if (IsWindows10OrGreater()) {
         // Tell Windows to automatically handle scaling of non-client areas
         // such as the caption bar. EnableNonClientDpiScaling was introduced in Windows 10
         const WinapiFunc<BOOL WINAPI(HWND)>
@@ -1508,14 +1508,13 @@ void CMainFrame::OnDisplayChange() // untested, not sure if it's working...
     const CAppSettings& s = AfxGetAppSettings();
     if (s.iDSVideoRendererType != VIDRNDT_DS_MADVR && s.iDSVideoRendererType != VIDRNDT_DS_DXR && !s.IsD3DFullscreen()) {
         DWORD nPCIVendor = 0;
-        IDirect3D9* pD3D9 = Direct3DCreate9(D3D_SDK_VERSION);
-
-        if (pD3D9) {
+        const WinapiFunc<decltype(Direct3DCreate9)> fnDirect3DCreate9 = { _T("d3d9.dll"), "Direct3DCreate9" };
+        CComPtr<IDirect3D9> pD3D9;
+        if (fnDirect3DCreate9 && (pD3D9 = fnDirect3DCreate9(D3D_SDK_VERSION))) {
             D3DADAPTER_IDENTIFIER9 adapterIdentifier;
             if (pD3D9->GetAdapterIdentifier(GetAdapter(pD3D9, m_hWnd), 0, &adapterIdentifier) == S_OK) {
                 nPCIVendor = adapterIdentifier.VendorId;
             }
-            pD3D9->Release();
         }
 
         if (nPCIVendor == 0x8086) { // Disable ResetDevice for Intel, until can fix ...

@@ -26,9 +26,10 @@
 #endif
 #include "mplayerc.h"
 #include "FileVersionInfo.h"
-#include "VersionInfo.h"
-#include "SysVersion.h"
 #include "PathUtils.h"
+#include "SysVersion.h"
+#include "VersionInfo.h"
+#include "WinapiFunc.h"
 #include <afxole.h>
 
 
@@ -250,7 +251,9 @@ void CAboutDlg::OnCopyToClipboard()
         }
     }
 
-    if (CComPtr<IDirect3D9> pD3D9 = Direct3DCreate9(D3D_SDK_VERSION)) {
+    const WinapiFunc<decltype(Direct3DCreate9)> fnDirect3DCreate9 = { _T("d3d9.dll"), "Direct3DCreate9" };
+    CComPtr<IDirect3D9> pD3D9;
+    if (fnDirect3DCreate9 && (pD3D9 = fnDirect3DCreate9(D3D_SDK_VERSION))) {
         for (UINT adapter = 0, adapterCount = pD3D9->GetAdapterCount(); adapter < adapterCount; adapter++) {
             D3DADAPTER_IDENTIFIER9 adapterIdentifier;
             if (pD3D9->GetAdapterIdentifier(adapter, 0, &adapterIdentifier) == D3D_OK) {

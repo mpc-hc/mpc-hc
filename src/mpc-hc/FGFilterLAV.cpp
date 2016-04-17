@@ -1,5 +1,5 @@
 /*
- * (C) 2013-2016 see Authors.txt
+ * (C) 2013-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -618,8 +618,9 @@ void CFGFilterLAVVideo::Settings::LoadSettings()
         if (SysVersion::IsVistaOrLater()) {
             dwHWAccel = HWAccel_DXVA2Native;
         } else {
-            CComPtr<IDirect3D9> pD3D9 = Direct3DCreate9(D3D_SDK_VERSION);
-            if (pD3D9) {
+            const WinapiFunc<decltype(Direct3DCreate9)> fnDirect3DCreate9 = { _T("d3d9.dll"), "Direct3DCreate9" };
+            CComPtr<IDirect3D9> pD3D9;
+            if (fnDirect3DCreate9 && (pD3D9 = fnDirect3DCreate9(D3D_SDK_VERSION))) {
                 D3DADAPTER_IDENTIFIER9 adapterIdentifier;
 
                 for (UINT adp = 0, num_adp = pD3D9->GetAdapterCount(); adp < num_adp; ++adp) {

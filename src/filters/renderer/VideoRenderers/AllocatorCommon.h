@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2013, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,7 +22,6 @@
 #pragma once
 
 #include <d3d9.h>
-#include <d3dx9.h>
 #include <vmr9.h>
 #include "../../../SubPic/ISubPic.h"
 #include "PixelShaderCompiler.h"

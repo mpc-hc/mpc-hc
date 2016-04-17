@@ -333,8 +333,8 @@ EXIT /B
 :SubCopyDXDll
 IF /I "%BUILDCFG%" == "Debug" EXIT /B
 PUSHD "%BIN_DIR%"
-EXPAND "%DXSDK_DIR%\Redist\Jun2010_D3DCompiler_43_%~1.cab" -F:D3DCompiler_43.dll "mpc-hc_%~1%~2"
-IF %ERRORLEVEL% NEQ 0 CALL "%COMMON%" :SubMsg "ERROR" "Problem when extracting %DXSDK_DIR%\Redist\Jun2010_D3DCompiler_43_%~1.cab" & EXIT /B
+COPY /Y /V "%WindowsSdkDir%\Redist\D3D\%~1\d3dcompiler_47.dll" "mpc-hc_%~1%~2" >NUL
+IF %ERRORLEVEL% NEQ 0 CALL "%COMMON%" :SubMsg "ERROR" "Problem when copying %WindowsSdkDir%\Redist\D3D\%~1\d3dcompiler_47.dll" & EXIT /B
 EXPAND "%DXSDK_DIR%\Redist\Jun2010_d3dx9_43_%~1.cab" -F:d3dx9_43.dll "mpc-hc_%~1%~2"
 IF %ERRORLEVEL% NEQ 0 CALL "%COMMON%" :SubMsg "ERROR" "Problem when extracting Jun2010_d3dx9_43_%~1.cab" & EXIT /B
 POPD
@@ -458,7 +458,7 @@ IF /I "%NAME%" == "MPC-HC" (
     COPY /Y /V "%VS_OUT_DIR%\%LAVFILTERSDIR%\*.dll"       "%PCKG_NAME%\%LAVFILTERSDIR%" >NUL
     COPY /Y /V "%VS_OUT_DIR%\%LAVFILTERSDIR%\*.manifest"  "%PCKG_NAME%\%LAVFILTERSDIR%" >NUL
   )
-  COPY /Y /V "%VS_OUT_DIR%\D3DCompiler_43.dll"            "%PCKG_NAME%\D3DCompiler_43.dll" >NUL
+  COPY /Y /V "%VS_OUT_DIR%\d3dcompiler_47.dll"            "%PCKG_NAME%\d3dcompiler_47.dll" >NUL
   COPY /Y /V "%VS_OUT_DIR%\d3dx9_43.dll"                  "%PCKG_NAME%\d3dx9_43.dll" >NUL
   IF NOT EXIST "%PCKG_NAME%\Shaders" MD "%PCKG_NAME%\Shaders"
   COPY /Y /V "..\src\mpc-hc\res\shaders\external\*.hlsl" "%PCKG_NAME%\Shaders" >NUL

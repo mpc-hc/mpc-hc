@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2014, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -23,6 +23,9 @@
 #include <stdio.h>
 #include <tchar.h>
 #include <algorithm>
+#include <d3d9.h>
+#include <d3d10.h>
+#include <dxgi.h>
 #include <d3dx9.h>
 #include "D3DFont.h"
 #include "../../../DSUtil/DSUtil.h"

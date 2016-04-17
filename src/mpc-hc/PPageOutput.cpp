@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -26,6 +26,7 @@
 #include "moreuuids.h"
 #include "Monitors.h"
 #include "MPCPngImage.h"
+#include <WinapiFunc.h>
 
 // CPPageOutput dialog
 
@@ -225,16 +226,17 @@ BOOL CPPageOutput::OnInitDialog()
 
     UpdateSubtitleRendererList();
 
-    IDirect3D9* pD3D = Direct3DCreate9(D3D_SDK_VERSION);
-    if (pD3D) {
+    const WinapiFunc<decltype(Direct3DCreate9)> fnDirect3DCreate9 = { _T("d3d9.dll"), "Direct3DCreate9" };
+    CComPtr<IDirect3D9> pD3D9;
+    if (fnDirect3DCreate9 && (pD3D9 = fnDirect3DCreate9(D3D_SDK_VERSION))) {
         TCHAR strGUID[50];
         CString cstrGUID;
         CString d3ddevice_str = _T("");
 
         D3DADAPTER_IDENTIFIER9 adapterIdentifier;
 
-        for (UINT adp = 0; adp < pD3D->GetAdapterCount(); ++adp) {
-            if (SUCCEEDED(pD3D->GetAdapterIdentifier(adp, 0, &adapterIdentifier))) {
+        for (UINT adp = 0; adp < pD3D9->GetAdapterCount(); ++adp) {
+            if (SUCCEEDED(pD3D9->GetAdapterIdentifier(adp, 0, &adapterIdentifier))) {
                 d3ddevice_str = adapterIdentifier.Description;
                 d3ddevice_str += _T(" - ");
                 d3ddevice_str += adapterIdentifier.DeviceName;
@@ -259,7 +261,6 @@ BOOL CPPageOutput::OnInitDialog()
                 }
             }
         }
-        pD3D->Release();
     }
     CorrectComboListWidth(m_iD3D9RenderDeviceCtrl);
 

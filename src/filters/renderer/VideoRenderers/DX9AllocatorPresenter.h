@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2015, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -62,6 +62,7 @@ namespace DSObjects
         HRESULT(__stdcall* m_pDwmIsCompositionEnabled)(__out BOOL* pfEnabled);
         HRESULT(__stdcall* m_pDwmEnableComposition)(UINT uCompositionAction);
         HRESULT(__stdcall* m_pDirect3DCreate9Ex)(UINT SDKVersion, IDirect3D9Ex**);
+        decltype(&Direct3DCreate9) m_pDirect3DCreate9;
 
         CCritSec m_RenderLock;
         CComPtr<IDirectDraw> m_pDirectDraw;

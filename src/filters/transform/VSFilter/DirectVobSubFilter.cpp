@@ -35,6 +35,8 @@
 #include "../../../Subtitles/PGSSub.h"
 
 #include <d3d9.h>
+#include <d3d10.h>
+#include <dxgi.h>
 #include <dxva2api.h>
 #include "moreuuids.h"
 

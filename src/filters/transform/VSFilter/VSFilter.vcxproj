@@ -41,11 +41,6 @@
   <PropertyGroup Label="UserMacros" />
   <ItemDefinitionGroup>
     <ClCompile>
-      <!--
-        Remove /Zc:threadSafeInit- once Windows XP in no longer supported. TLS doesn't work on this system with dynamically loaded libraries.
-        And it will not be fixed. https://connect.microsoft.com/VisualStudio/feedback/details/1789709
-      -->
-      <AdditionalOptions>/Zc:threadSafeInit- %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\thirdparty;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>ISOLATION_AWARE_ENABLED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>

@@ -27,6 +27,7 @@
 #include "MediaInfo/library/Source/ThirdParty/base64/base64.h"
 #include "tinyxml2/library/tinyxml2.h"
 #include "rapidjson/include/rapidjson/document.h"
+#include <wincrypt.h>
 
 #define LOG if (AfxGetAppSettings().bEnableLogging) SUBTITLES_LOG
 #define LOG_NONE    _T("()")

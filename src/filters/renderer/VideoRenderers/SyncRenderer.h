@@ -1,5 +1,5 @@
 /*
- * (C) 2010-2015 see Authors.txt
+ * (C) 2010-2015, 2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -24,8 +24,12 @@
 #include "RenderersSettings.h"
 #include "SyncAllocatorPresenter.h"
 #include "AllocatorCommon.h"
-#include <dxva2api.h>
 #include "../../../DSUtil/WinapiFunc.h"
+#include <d3d9.h>
+#include <d3d10.h>
+#include <dxgi.h>
+#include <dxva2api.h>
+#include <d3dx9.h>
 
 #define VMRBITMAP_UPDATE 0x80000000
 #define MAX_PICTURE_SLOTS (60 + 2) // Last 2 for pixels shader!
@@ -115,6 +119,7 @@ namespace GothSync
         HRESULT(__stdcall* m_pDwmEnableComposition)(UINT uCompositionAction);
         HMODULE m_hD3D9;
         HRESULT(__stdcall* m_pDirect3DCreate9Ex)(UINT SDKVersion, IDirect3D9Ex**);
+        decltype(&Direct3DCreate9) m_pDirect3DCreate9;
 
         CCritSec m_allocatorLock;
         CComPtr<IDirect3D9Ex> m_pD3DEx;
