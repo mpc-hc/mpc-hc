@@ -109,7 +109,9 @@ BOOL CAboutDlg::OnInitDialog()
 #error Please add support for your compiler
 #endif
 
-#if (__AVX__)
+#if (__AVX2__)
+    m_MPCCompiler += _T(" (AVX2)");
+#elif (__AVX__)
     m_MPCCompiler += _T(" (AVX)");
 #elif (__SSSE3__)
     m_MPCCompiler += _T(" (SSSE3)");
