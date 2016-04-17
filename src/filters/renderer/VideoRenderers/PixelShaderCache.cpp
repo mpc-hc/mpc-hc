@@ -92,7 +92,7 @@ void CPixelShaderCache::SavePixelShader(
 
         file.Write(&m_Version, sizeof(m_Version));
         file.Write(&CompiledDataSize, sizeof(CompiledDataSize));
-        file.Write(pCompiledData, CompiledDataSize);
+        file.Write(pCompiledData, UINT(CompiledDataSize));
 
         bool res = file.GetLength() == (sizeof(m_Version) + sizeof(CompiledDataSize) + CompiledDataSize);
 
@@ -181,7 +181,7 @@ bool CPixelShaderCache::LoadCache(const CString& FileName, const CString& FilePa
             if (file.Read(&size, sizeof(size)) == sizeof(size)) {
                 CAutoVectorPtr<DWORD> buffer;
                 if (buffer.Allocate(size)) {
-                    ret = (file.Read(buffer.m_p, size) == size);
+                    ret = (file.Read(buffer.m_p, UINT(size)) == size);
 
                     m_PixelShaders.SetAt(hash, buffer);
                 }

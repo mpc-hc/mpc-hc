@@ -2860,12 +2860,14 @@ STDMETHODIMP_(POSITION) CRenderedTextSubtitle::GetStartPosition(REFERENCE_TIME r
         iSegment = 0;
     }
 
-    return GetNext((POSITION)iSegment);
+    __assume((INT_PTR)iSegment >= INT_MIN && (INT_PTR)iSegment <= INT_MAX);
+    return GetNext((POSITION)(INT_PTR)iSegment);
 }
 
 STDMETHODIMP_(POSITION) CRenderedTextSubtitle::GetNext(POSITION pos)
 {
-    int iSegment = (int)pos;
+    __assume((INT_PTR)pos >= INT_MIN && (INT_PTR)pos <= INT_MAX);
+    int iSegment = (int)(INT_PTR)pos;
 
     const STSSegment* stss = GetSegment(iSegment);
     while (stss && stss->subs.IsEmpty()) {
@@ -2873,22 +2875,25 @@ STDMETHODIMP_(POSITION) CRenderedTextSubtitle::GetNext(POSITION pos)
         stss = GetSegment(iSegment);
     }
 
-    return (stss ? (POSITION)(iSegment + 1) : nullptr);
+    return (stss ? (POSITION)(INT_PTR)(iSegment + 1) : nullptr);
 }
 
 STDMETHODIMP_(REFERENCE_TIME) CRenderedTextSubtitle::GetStart(POSITION pos, double fps)
 {
-    return TranslateSegmentStart((int)pos - 1, fps);
+    __assume((INT_PTR)pos - 1 >= INT_MIN && (INT_PTR)pos <= INT_MAX);
+    return TranslateSegmentStart((int)(INT_PTR)pos - 1, fps);
 }
 
 STDMETHODIMP_(REFERENCE_TIME) CRenderedTextSubtitle::GetStop(POSITION pos, double fps)
 {
-    return TranslateSegmentEnd((int)pos - 1, fps);
+    __assume((INT_PTR)pos - 1 >= INT_MIN && (INT_PTR)pos <= INT_MAX);
+    return TranslateSegmentEnd((int)(INT_PTR)pos - 1, fps);
 }
 
 STDMETHODIMP_(bool) CRenderedTextSubtitle::IsAnimated(POSITION pos)
 {
-    int iSegment = (int)pos - 1;
+    __assume((INT_PTR)pos - 1 >= INT_MIN && (INT_PTR)pos <= INT_MAX);
+    int iSegment = (int)(INT_PTR)pos - 1;
 
     const STSSegment* stss = GetSegment(iSegment);
     if (stss) {

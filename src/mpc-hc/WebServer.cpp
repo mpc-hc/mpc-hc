@@ -656,7 +656,7 @@ bool CWebServer::CallCGI(CWebClientSocket* pClient, CStringA& hdr, CStringA& bod
     }
 
     TCHAR* cmdln = DEBUG_NEW TCHAR[32768];
-    _sntprintf_s(cmdln, 32768, 32768, _T("\"%s\" \"%s\""), cgi, path);
+    _sntprintf_s(cmdln, 32768, 32768, _T("\"%s\" \"%s\""), cgi.GetString(), path.GetString());
 
     if (hChildStdinRd && hChildStdoutWr)
         if (CreateProcess(

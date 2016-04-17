@@ -1592,10 +1592,10 @@ void CDirectVobSubFilter::UpdateSubtitle()
 
 void CDirectVobSubFilter::SetSubtitle(ISubStream* pSubStream)
 {
-    CAutoLock cAutolock(&m_csQueueLock);
+    CAutoLock cQueueLock(&m_csQueueLock);
 
     if (pSubStream) {
-        CAutoLock cAutolock(&m_csSubLock);
+        CAutoLock cSubLock(&m_csSubLock);
 
         CLSID clsid;
         pSubStream->GetClassID(&clsid);

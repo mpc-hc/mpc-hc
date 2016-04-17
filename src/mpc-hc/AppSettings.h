@@ -662,7 +662,7 @@ public:
     // OTHER STATES
     CStringW        strLastOpenDir;
     UINT            nLastWindowType;
-    UINT            nLastUsedPage;
+    WORD            nLastUsedPage;
     bool            fRemainingTime;
     bool            bHighPrecisionTimer;
     bool            fLastFullScreen;

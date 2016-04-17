@@ -464,11 +464,11 @@ void CBaseMuxerRawOutputPin::MuxFooter(const CMediaType& mt)
                     if (iso6391.IsEmpty()) {
                         iso6391 = _T("--");
                     }
-                    _ftprintf_s(f, _T("\nlangidx: 0\n\nid: %s, index: 0\n"), iso6391);
+                    _ftprintf_s(f, _T("\nlangidx: 0\n\nid: %s, index: 0\n"), iso6391.GetString());
 
                     CString alt = CString(CStringW(si->TrackName));
                     if (!alt.IsEmpty()) {
-                        _ftprintf_s(f, _T("alt: %s\n"), alt);
+                        _ftprintf_s(f, _T("alt: %s\n"), alt.GetString());
                     }
 
                     POSITION pos = m_idx.GetHeadPosition();

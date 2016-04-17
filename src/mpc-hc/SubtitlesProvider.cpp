@@ -362,6 +362,7 @@ const std::set<std::string>& OpenSubtitles::Languages() const
             }
         });
     } catch (const LanguageDownloadException& e) {
+        UNREFERENCED_PARAMETER(e);
         TRACE(_T("%S: %S\n"), Name().c_str(), e.what());
     }
     return result;
@@ -500,6 +501,7 @@ const std::set<std::string>& SubDB::Languages() const
             }
         });
     } catch (const LanguageDownloadException& e) {
+        UNREFERENCED_PARAMETER(e);
         TRACE(_T("%S: %S\n"), Name().c_str(), e.what());
     }
     return result;
