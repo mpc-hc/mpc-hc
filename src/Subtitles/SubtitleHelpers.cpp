@@ -23,18 +23,17 @@
 #include "SubtitleHelpers.h"
 #include "TextFile.h"
 #include "../DSUtil/ArrayUtils.h"
-#include "../DSUtil/Constexpr.h"
 #include "../DSUtil/PathUtils.h"
 #include "../DSUtil/ISOLang.h"
 #include <regex>
 
 namespace
 {
-    MPCHC_CONSTEXPR auto subTypesExt = make_array(
-                                           _T("srt"), _T("sub"), _T("smi"), _T("psb"),
-                                           _T("ssa"), _T("ass"), _T("idx"), _T("usf"),
-                                           _T("xss"), _T("txt"), _T("rt"), _T("sup")
-                                       );
+    constexpr auto subTypesExt = make_array(
+                                     _T("srt"), _T("sub"), _T("smi"), _T("psb"),
+                                     _T("ssa"), _T("ass"), _T("idx"), _T("usf"),
+                                     _T("xss"), _T("txt"), _T("rt"), _T("sup")
+                                 );
 
     LPCTSTR separators = _T(".\\-_");
     LPCTSTR extListVid = _T("(avi)|(mkv)|(mp4)|((m2)?ts)");

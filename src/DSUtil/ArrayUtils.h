@@ -1,5 +1,5 @@
 /*
-* (C) 2015 see Authors.txt
+* (C) 2015-2016 see Authors.txt
 *
 * This file is part of MPC-HC.
 *
@@ -20,10 +20,8 @@
 
 #pragma once
 
-#include "Constexpr.h"
-
 template <typename... T>
-MPCHC_CONSTEXPR std::array<typename std::common_type<T...>::type, sizeof...(T)> make_array(T&& ... values)
+constexpr std::array<typename std::common_type<T...>::type, sizeof...(T)> make_array(T&& ... values)
 {
     return { std::forward<T>(values)... };
 }
