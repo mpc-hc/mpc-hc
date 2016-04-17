@@ -2533,8 +2533,9 @@ END
 
 STRINGTABLE
 BEGIN
-    IDC_CACHESHADERS
-                            "Stores compiled shaders in local AppData to speed up load time."
+    IDS_NAVIGATE_TUNERSCAN  "Tuner scan"
+    IDS_SUBTITLES_ERROR     "Subtitles are not loaded or unsupported renderer."
+    IDC_CACHESHADERS        "Stores compiled shaders in local AppData to speed up load time."
 END
 
 STRINGTABLE
@@ -3167,7 +3168,7 @@ BEGIN
     IDS_VOLUME_BOOST_DEC    "Volume boost decrease"
     IDS_VOLUME_BOOST_MIN    "Volume boost Min"
     IDS_VOLUME_BOOST_MAX    "Volume boost Max"
-    IDS_USAGE               "Usage: mpc-hc.exe ""pathname"" [switches]\n\n""pathname""\tThe main file or directory to be loaded (wildcards\n\t\tallowed, ""-"" denotes standard input)\n/dub ""dubname""\tLoad an additional audio file\n/dubdelay ""file""\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains ""...DELAY XXms..."")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub ""subname""\tLoad an additional subtitle file\n/filter ""filtername""\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, ""pathname"" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t""pathname"" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd ""pathname"" to playlist, can be combined\n\t\twith /open and /play\n/randomize\tRandomize the playlist\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at ""ms"" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see ""Output"" settings)\n/shaderpreset ""Pr""\tStart using ""Pr"" shader preset\n/pns ""name""\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nocrashreporter\tDisable the crash reporter\n/slave ""hWnd""\tUse MPC-HC as slave\n/hwgpu ""index""\tSet the index of the GPU used for hardware decoding\n\t\tOnly available for CUVID and DXVA2 (copy-back)\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
+    IDS_USAGE               "Usage: mpc-hc.exe ""pathname"" [switches]"
     IDS_UNKNOWN_SWITCH      "Unrecognized switch(es) found in command line string: \n\n"
 END
 
@@ -3197,12 +3198,6 @@ BEGIN
     IDS_AG_VIDFRM_ZOOM2     "VidFrm Zoom 2"
     IDS_AG_VIDFRM_SWITCHZOOM "VidFrm Switch Zoom"
     IDS_ENABLE_ALL_FILTERS  "&Enable all filters"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_NAVIGATE_TUNERSCAN  "Tuner scan"
-    IDS_SUBTITLES_ERROR     "Subtitles are not loaded or unsupported renderer."
 END
 
 STRINGTABLE
@@ -3597,13 +3592,74 @@ BEGIN
                             "ERROR: Internet connection could not be established."
     IDS_SUB_CREDENTIALS_TITLE "Enter website credentials"
     IDS_SUB_CREDENTIALS_MSG "Enter your credentials to connect to: "
-    IDS_SUB_CREDENTIALS_ERROR "Failed to log in on ""%S"" with username ""%S"".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
     IDS_ASPECT_RATIO_SAR    "Aspect Ratio: Assume square pixels (SAR)"
     IDS_SUBDL_DLG_DOWNLOADED "Downloaded [%s] ""%s"""
     IDS_SUBUL_DLG_TITLE     "Upload subtitles"
     IDS_SUBUL_DLG_CONFIRM   "Are you sure you want to upload the subtitle file ""%s""?"
     IDS_SUBPP_DLG_FETCHING_LANGUAGES "Fetching supported languages..."
-    IDS_SUB_AUTODL_IGNORE_TOOLTIP "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\nFor example, type: ""private dir\\videos|work\\""."
+    IDS_SUB_CREDENTIALS_ERROR 
+                            "Failed to log in on ""%S"" with username ""%S"".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
+    IDS_SUB_AUTODL_IGNORE_TOOLTIP 
+                            "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\nFor example, type: ""private dir\\videos|work\\""."
+    IDS_CMD_PATHNAME        """pathname""\tThe main file or directory to be loaded\n\t\t(wildcards allowed, ""-"" denotes standard input)"
+    IDS_CMD_DUB             "/dub ""dubname""\tLoad an additional audio file"
+    IDS_CMD_DUBDELAY        "/dubdelay ""file""\tLoad an additional audio file shifted with XXms\n\t\t(if the file contains ""...DELAY XXms..."")"
+    IDS_CMD_D3DFS           "/d3dfs\t\tStart rendering in D3D fullscreen mode"
+    IDS_CMD_SUB             "/sub ""subname""\tLoad an additional subtitle file"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_CMD_FILTER          "/filter ""filtername""\tLoad DirectShow filters from a dynamic link ibrary (wildcards allowed)"
+    IDS_CMD_DVD             "/dvd\t\tRun in dvd mode, ""pathname"" means the dvd folder (optional)"
+    IDS_CMD_DVDPOS_TC       "/dvdpos T#C\tStart playback at title T, chapter C"
+    IDS_CMD_DVDPOS_TIME     "/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss"
+    IDS_CMD_CD              "/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t""pathname"" means the drive path (optional)"
+    IDS_CMD_DEVICE          "/device\t\tOpen the default video device"
+    IDS_CMD_OPEN            "/open\t\tOpen the file, don't automatically start playback"
+    IDS_CMD_PLAY            "/play\t\tStart playing the file as soon the player is launched"
+    IDS_CMD_CLOSE           "/close\t\tClose the player after playback (only works when used with /play)"
+    IDS_CMD_SHUTDOWN        "/shutdown\tShutdown the operating system after playback"
+    IDS_CMD_STANDBY         "/standby\t\tPut the operating system in standby mode after playback"
+    IDS_CMD_HIBERNATE       "/hibernate\tHibernate operating system after playback"
+    IDS_CMD_LOGOFF          "/logoff\t\tLog off after playback"
+    IDS_CMD_LOCK            "/lock\t\tLock workstation after playback"
+    IDS_CMD_MONITOROFF      "/monitoroff\tTurn off the monitor after playback"
+    IDS_CMD_PLAYNEXT        "/playnext\t\tOpen next file in the folder after playback"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_CMD_FULLSCREEN      "/fullscreen\tStart in full-screen mode"
+    IDS_CMD_MINIMIZED       "/minimized\tStart in minimized mode"
+    IDS_CMD_NEW             "/new\t\tUse a new instance of the player"
+    IDS_CMD_ADD             "/add\t\tAdd ""pathname"" to playlist, can be combined with /open and /play"
+    IDS_CMD_RANDOMIZE       "/randomize\tRandomize the playlist"
+    IDS_CMD_REGVID          "/regvid\t\tCreate file associations for video files"
+    IDS_CMD_REGAUD          "/regaud\t\tCreate file associations for audio files"
+    IDS_CMD_REGPL           "/regpl\t\tCreate file associations for playlist files"
+    IDS_CMD_REGALL          "/regall\t\tCreate file associations for all supported file types"
+    IDS_CMD_UNREGALL        "/unregall\t\tRemove all file associations"
+    IDS_CMD_START           "/start ms\t\tStart playing at ""ms"" (= milliseconds)"
+    IDS_CMD_STARTPOS        "/startpos hh:mm:ss\tStart playing at position hh:mm:ss"
+    IDS_CMD_FIXEDSIZE       "/fixedsize w,h\tSet a fixed window size"
+    IDS_CMD_MONITOR         "/monitor N\tStart player on monitor N, where N starts from 1"
+    IDS_CMD_AUDIORENDERER   "/audiorenderer N\tStart using audiorenderer N, where N starts from 1 (see ""Output"" settings)"
+    IDS_CMD_SHADERPRESET    "/shaderpreset ""Pr""\tStart using ""Pr"" shader preset"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_CMD_PNS             "/pns ""name""\tSpecify Pan&Scan preset name to use"
+    IDS_CMD_ICONASSOC       "/iconsassoc\tReassociate format icons"
+    IDS_CMD_NOFOCUS         "/nofocus\t\tOpen MPC-HC in background"
+    IDS_CMD_WEBPORT         "/webport N\tStart web interface on specified port"
+    IDS_CMD_DEBUG           "/debug\t\tShow debug information in OSD"
+    IDS_CMD_NOCRASHREPORTER "/nocrashreporter\tDisable the crash reporter"
+    IDS_CMD_SLAVE           "/slave ""hWnd""\tUse MPC-HC as slave"
+    IDS_CMD_HWGPU           "/hwgpu ""index""\tSet the index of the GPU used for hardware decoding.\n\t\tOnly available for CUVID and DXVA2 (copy-back)"
+    IDS_CMD_RESET           "/reset\t\tRestore default settings"
+    IDS_CMD_HELP            "/help /h /?\tShow help about command line switches"
 END
 
 #endif    // English (United States) resources
