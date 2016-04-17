@@ -281,11 +281,10 @@ bool CFileAssoc::SetFileAssociation(CString strExt, CString strProgID, bool bReg
                 return false;
             }
 
-            LPTSTR pszCurrentAssociation;
+            CComHeapPtr<WCHAR> pszCurrentAssociation;
             // Save the application currently associated
             if (SUCCEEDED(m_pAAR->QueryCurrentDefault(strExt, AT_FILEEXTENSION, AL_EFFECTIVE, &pszCurrentAssociation))) {
                 if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID)) {
-                    CoTaskMemFree(pszCurrentAssociation);
                     return false;
                 }
 
@@ -304,7 +303,6 @@ bool CFileAssoc::SetFileAssociation(CString strExt, CString strProgID, bool bReg
                     }
                 }
                 */
-                CoTaskMemFree(pszCurrentAssociation);
             }
             strNewApp = m_strRegisteredAppName;
         } else {

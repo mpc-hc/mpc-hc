@@ -259,7 +259,7 @@ HRESULT CMpeg2DataParser::ParseSDT(ULONG ulFreq)
     WORD wTSID;
     WORD wONID;
     WORD wSectionLength;
-    WORD serviceType;
+    WORD serviceType = 0;
 
     CheckNoLog(m_pData->GetSection(PID_SDT, SI_SDT, &m_Filter, 15000, &pSectionList));
     CheckNoLog(pSectionList->GetSectionData(0, &dwLength, &data));
