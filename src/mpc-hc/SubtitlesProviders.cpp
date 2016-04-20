@@ -380,8 +380,8 @@ HRESULT SubtitlesInfo::GetFileInfo(const std::string& sFileName /*= std::string(
         title2 = std::regex_replace(title2, regex_pattern[6], " ");
     }
 
-    if (seasonNumber == -1 && episodeNumber == -1) {
-        if (stringMatch(regex_pattern[2], !episode.empty() ? episode : fileName, result)) {
+    if (seasonNumber == -1 && episodeNumber == -1 && !episode.empty()) {
+        if (stringMatch(regex_pattern[2], episode, result)) {
             std::string _seasonNumber(result[0] + result[3] + result[5] + result[7]);
             seasonNumber = atoi(_seasonNumber.c_str());
             if (!seasonNumber) {
