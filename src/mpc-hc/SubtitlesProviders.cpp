@@ -119,7 +119,7 @@ void SubtitlesInfo::OpenUrl() const
     "AC3|DTS(?:[-._ ]?ES)?|He-AAC|AAC-He|AAC"
 
 #define _RE_VIDEOCODEC                                                        \
-    "XviD|DivX|DVDivX|[hx][-._ ]?264|Rv10|Mpeg2"
+    "XviD|DivX|DVDivX|[hx][-._ ]?26[45]|HEVC|Rv10|Mpeg2"
 
 #define _RE_CAPTURE_RELEASEGROUP                                              \
     "("_RE_NOTDEAD"+)[\\[(-._ )\\]\\\\]+"
@@ -131,13 +131,13 @@ void SubtitlesInfo::OpenUrl() const
     "(?:CD|DIS[CK])[-._ ]?(\\d)"_RE_DEAD "+"
 
 #define _RE_IGNORE                                                            \
-    "(?:DD)?5[-._ ]1|[AS]E|[WF]S|\\d{3}MB|5CH|AUDIO[-._ ]?FIXED|CHRONO|COLORIZED|DC|DUAL[-._ ]?AUDIO|DUBBED|DUPE|DVD[-._ ]?[59]|EXTENDED|FESTIVAL|FINAL|INTERNAL|LIMITED|NFO|PROPER|RATED|READ|REAL|REMASTERED|REMUX|REPACK|RERIP|R[1-6]|RETAIL|RETORRENT|S?TV|SUBBED|THEATRICAL|UNCUT|UNRATED"
+    "(?:DD)?5[-._ ]1|[AS]E|[WF]S|\\d{3}MB|5CH|AUDIO[-._ ]?FIXED|CHRONO|COLORIZED|DC|DUAL[-._ ]?AUDIO|DUBBED|DUPE|DVD[-._ ]?[59]|EXTENDED|FESTIVAL|FINAL|INTERNAL|LIMITED|NFO|PROPER|RATED|READ|REAL|REMASTERED|REMUX|REPACK|RERIP|R[1-6]|RETAIL|RETORRENT|S?TV|SUBBED|THEATRICAL|UNCUT|UNRATED|MPEG4"
 
 #define _RE_CAPTURE_HEARINGIMPAIRED                                           \
     _RE_DEAD"(HI)"_RE_DEAD".*(srt|idx|sub|ssa)$"
 
 #define _RE_CAPTURE_MEDIAEXTENSIONS                                           \
-    _RE_DEAD "(3g2|3gp2?|asf|avi|divx|flv|m4v|mk[2av]|mov|mp4a?|mpe?g|og[gvm]|qt|ram?|rm|ts|wav|webm|wm[av])$"
+    _RE_DEAD "(3g2|3gp2?|asf|avi|divx|flv|m2ts|m4v|mk[2av]|mov|mp4a?|mpe?g|og[gvm]|qt|ram?|rm|rmvb|ts|wav|webm|wm[av])$"
 
 #define _RE_CAPTURE_SUBTITLESEXTENSION                                        \
     _RE_DEAD "(srt|idx|sub|ssa)$"
