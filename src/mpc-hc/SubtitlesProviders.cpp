@@ -168,7 +168,7 @@ void SubtitlesInfo::OpenUrl() const
 #define _RE_ORNCG(_expr)  "(?:(?:" _RE_NCG(_expr) ")+)?"
 
 
-std::regex regex_pattern[] = {
+static const std::regex regex_pattern[] = {
     //--------------------------------------
     std::regex(
         _RE_CAPTURE_TITLE _RE_ORNCG(_RE_IGNORE)
@@ -272,7 +272,7 @@ HRESULT SubtitlesInfo::GetFileInfo(const std::string& sFileName /*= std::string(
                 CFileException fileException;
                 if (file.Open(p, CFile::modeRead | CFile::osSequentialScan | CFile::shareDenyNone | CFile::typeBinary, &fileException)) {
                     std::string buffer;
-                    buffer.resize((std::string::size_type)file.GetLength());
+                    buffer.resize(static_cast<std::string::size_type>(file.GetLength()));
                     file.Read(&buffer[0], (UINT)buffer.size());
 
                     std::smatch match_pieces;
@@ -376,6 +376,7 @@ HRESULT SubtitlesInfo::GetFileInfo(const std::string& sFileName /*= std::string(
         title = fileName;
     }
     title = std::regex_replace(title, regex_pattern[6], " ");
+
     if (!title2.empty()) {
         title2 = std::regex_replace(title2, regex_pattern[6], " ");
     }
@@ -407,11 +408,11 @@ HRESULT SubtitlesInfo::GetFileInfo(const std::string& sFileName /*= std::string(
 ******************************************************************************/
 
 SubtitlesProvider::SubtitlesProvider(SubtitlesProviders* pOwner)
-    : m_bSearch(FALSE), m_bUpload(FALSE), m_pOwner(pOwner), m_nLoggedIn(SPL_UNDEFINED), m_nIconIndex(0)
+    : m_bSearch(FALSE), m_bUpload(FALSE), m_pOwner(pOwner), m_nIconIndex(0), m_nLoggedIn(SPL_UNDEFINED)
 {
 }
 
-void SubtitlesProvider::OpenUrl()
+void SubtitlesProvider::OpenUrl() const
 {
     ShellExecute((HWND)AfxGetMyApp()->GetMainWnd(), _T("open"), UTF8To16(Url().c_str()), nullptr, nullptr, SW_SHOWDEFAULT);
 }
@@ -451,7 +452,7 @@ bool SubtitlesProvider::CheckLanguage(const std::string& sLanguageCode)
            || (std::find(selectedLanguages.cbegin(), selectedLanguages.cend(), sLanguageCode) != selectedLanguages.cend());
 }
 
-bool SubtitlesProvider::SupportsUserSelectedLanguages()
+bool SubtitlesProvider::SupportsUserSelectedLanguages() const
 {
     auto&& selectedLanguages = LanguagesISO6391();
     return !selectedLanguages.size() || GetLanguagesIntersection(std::move(selectedLanguages)).size();
@@ -634,9 +635,9 @@ SubtitlesTask::SubtitlesTask(CMainFrame* pMainFrame, bool bAutoDownload, const s
 
 SubtitlesTask::SubtitlesTask(CMainFrame* pMainFrame, SubtitlesInfo& pSubtitlesInfo, bool bActivate)
     : m_pMainFrame(pMainFrame)
-    , m_nType(STT_DOWNLOAD)
     , m_pFileInfo(pSubtitlesInfo)
     , m_bActivate(bActivate)
+    , m_nType(STT_DOWNLOAD)
     , m_bAutoDownload(false)
 {
     VERIFY(CreateThread());
@@ -644,9 +645,9 @@ SubtitlesTask::SubtitlesTask(CMainFrame* pMainFrame, SubtitlesInfo& pSubtitlesIn
 
 SubtitlesTask::SubtitlesTask(CMainFrame* pMainFrame, const SubtitlesInfo& pSubtitlesInfo)
     : m_pMainFrame(pMainFrame)
-    , m_nType(STT_UPLOAD)
     , m_pFileInfo(pSubtitlesInfo)
     , m_bActivate(false)
+    , m_nType(STT_UPLOAD)
     , m_bAutoDownload(false)
 {
     VERIFY(CreateThread());
@@ -661,7 +662,7 @@ void SubtitlesTask::ThreadProc()
         pFileInfo.GetFileInfo();
 
         const auto& s = AfxGetAppSettings();
-        std::string exclude = UTF16To8(s.strAutoDownloadSubtitlesExclude);
+        std::string exclude = UTF16To8(s.strAutoDownloadSubtitlesExclude).GetString();
         stringArray exclude_array = StringTokenize(exclude, "|");
 
         if (!pFileInfo.title.empty()

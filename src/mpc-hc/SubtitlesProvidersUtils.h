@@ -40,7 +40,7 @@ namespace SubtitlesProvidersUtils
     using stringMap = std::unordered_map<std::string, std::string>;
     using stringArray = std::vector<std::string>;
 
-    const std::regex::flag_type RegexFlags(std::regex_constants::ECMAScript | std::regex_constants::icase | std::regex_constants::optimize);
+    static constexpr std::regex::flag_type RegexFlags(std::regex_constants::ECMAScript | std::regex_constants::icase | std::regex_constants::optimize);
 
     int LevenshteinDistance(std::string s, std::string t);
 

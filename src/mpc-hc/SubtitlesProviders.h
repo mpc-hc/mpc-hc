@@ -92,9 +92,9 @@ struct SubtitlesInfo {
     void Set(std::shared_ptr<SubtitlesProvider> pProvider, BYTE nLanguage, BYTE nHearingImpaired, SHORT nScore) {
         static UINT i(0);
         // run twice to check whether i has reached MAXUINT32 which is invalid
-        if (uid == -1) {
+        if (uid == UINT_ERROR) {
             uid = ++i;
-            if (uid == -1) {
+            if (uid == UINT_ERROR) {
                 uid = ++i;
             }
         }
@@ -331,16 +331,16 @@ public: // overridden
     }
 
     bool LoginInternal();
-    void OpenUrl();
+    void OpenUrl() const;
     size_t Index() const;
     static bool CheckInternetConnection();
-    bool CheckLanguage(const std::string& sLanguageCode);
+    static bool CheckLanguage(const std::string& sLanguageCode);
     std::list<std::string> GetLanguagesIntersection() const;
     std::list<std::string> GetLanguagesIntersection(std::list<std::string>&& userSelectedLangauges) const;
-    bool SupportsUserSelectedLanguages();
+    bool SupportsUserSelectedLanguages() const;
     SRESULT DownloadInternal(std::string url, std::string referer, std::string& data) const;
-    void Set(SubtitlesInfo& pSubtitlesInfo);
-    bool IsAborting();
+    static void Set(SubtitlesInfo& pSubtitlesInfo);
+    static bool IsAborting();
 
     BOOL Enabled(SubtitlesProviderFlags nFlag) { return nFlag == SPF_UPLOAD ? m_bUpload : m_bSearch; }
     void Enabled(SubtitlesProviderFlags nFlag, BOOL bEnabled) {
