@@ -51,7 +51,7 @@ BOOL CmdLineHelpDlg::OnInitDialog()
     m_icon.SetIcon(LoadIcon(nullptr, IDI_INFORMATION));
 
     if (!m_cmdLine.IsEmpty()) {
-        m_text = ResStr(IDS_UNKNOWN_SWITCH);
+        m_text.LoadString(IDS_UNKNOWN_SWITCH);
         m_text.AppendFormat(_T("%s\n\n"), m_cmdLine);
     }
     m_text.AppendFormat(_T("%s\n"), ResStr(IDS_USAGE));

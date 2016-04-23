@@ -1875,7 +1875,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                     break;
                     case PM_ANALOG_CAPTURE:
                         if (!m_fCapturing) {
-                            CString str = ResStr(IDS_CAPTURE_LIVE);
+                            CString str(StrRes(IDS_CAPTURE_LIVE));
                             long lChannel = 0, lVivSub = 0, lAudSub = 0;
                             if (m_pAMTuner
                                     && m_wndCaptureBar.m_capdlg.IsTunerActive()
@@ -1903,7 +1903,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                 } else {
                     info = _T("-");
                 }
-                m_wndStatsBar.SetLine(ResStr(IDS_AG_FRAMERATE), info);
+                m_wndStatsBar.SetLine(StrRes(IDS_AG_FRAMERATE), info);
 
                 if (SUCCEEDED(m_pQP->get_AvgSyncOffset(&tmp))
                         && SUCCEEDED(m_pQP->get_DevSyncOffset(&tmp1))) {
@@ -1911,7 +1911,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                 } else {
                     info = _T("-");
                 }
-                m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_SYNC_OFFSET), info);
+                m_wndStatsBar.SetLine(StrRes(IDS_STATSBAR_SYNC_OFFSET), info);
 
                 if (SUCCEEDED(m_pQP->get_FramesDrawn(&tmp))
                         && SUCCEEDED(m_pQP->get_FramesDroppedInRenderer(&tmp1))) {
@@ -1919,16 +1919,16 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                 } else {
                     info = _T("-");
                 }
-                m_wndStatsBar.SetLine(ResStr(IDS_AG_FRAMES), info);
+                m_wndStatsBar.SetLine(StrRes(IDS_AG_FRAMES), info);
 
                 if (SUCCEEDED(m_pQP->get_Jitter(&tmp))) {
                     info.Format(_T("%d ms"), tmp);
                 } else {
                     info = _T("-");
                 }
-                m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_JITTER), info);
+                m_wndStatsBar.SetLine(StrRes(IDS_STATSBAR_JITTER), info);
             } else {
-                m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_PLAYBACK_RATE), rate);
+                m_wndStatsBar.SetLine(StrRes(IDS_STATSBAR_PLAYBACK_RATE), rate);
             }
 
             if (m_pBI) {
@@ -1943,7 +1943,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 
                 if (!sInfo.IsEmpty()) {
                     sInfo.AppendFormat(_T("(p%lu)"), m_pBI->GetPriority());
-                    m_wndStatsBar.SetLine(ResStr(IDS_AG_BUFFERS), sInfo);
+                    m_wndStatsBar.SetLine(StrRes(IDS_AG_BUFFERS), sInfo);
                 }
             }
 
@@ -1965,7 +1965,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                     EndEnumPins;
 
                     if (!sInfo.IsEmpty()) {
-                        m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_BITRATE), sInfo + ResStr(IDS_STATSBAR_BITRATE_AVG_CUR));
+                        m_wndStatsBar.SetLine(StrRes(IDS_STATSBAR_BITRATE), sInfo + ResStr(IDS_STATSBAR_BITRATE_AVG_CUR));
                         sInfo.Empty();
                     }
                 }
@@ -2009,7 +2009,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                     }
                 }
 
-                m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_LOCATION), Location);
+                m_wndInfoBar.SetLine(StrRes(IDS_INFOBAR_LOCATION), Location);
 
                 // Video
 
@@ -2025,7 +2025,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                                  VATR.ulAspectX, VATR.ulAspectY);
                 }
 
-                m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_VIDEO), Video);
+                m_wndInfoBar.SetLine(StrRes(IDS_INFOBAR_VIDEO), Video);
 
                 // Audio
 
@@ -2069,7 +2069,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                                  AATR.dwFrequency,
                                  AATR.bQuantization,
                                  AATR.bNumberOfChannels,
-                                 (AATR.bNumberOfChannels > 1 ? ResStr(IDS_MAINFRM_13) : ResStr(IDS_MAINFRM_12)));
+                                 ResStr(AATR.bNumberOfChannels > 1 ? IDS_MAINFRM_13 : IDS_MAINFRM_12));
 
                     m_wndStatusBar.SetStatusBitmap(
                         AATR.bNumberOfChannels == 1 ? IDB_AUDIOTYPE_MONO
@@ -2077,7 +2077,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                         : IDB_AUDIOTYPE_NOAUDIO);
                 }
 
-                m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_AUDIO), Audio);
+                m_wndInfoBar.SetLine(StrRes(IDS_INFOBAR_AUDIO), Audio);
 
                 // Subtitles
 
@@ -2136,7 +2136,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                                      lang);
                 }
 
-                m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_SUBTITLES), Subtitles);
+                m_wndInfoBar.SetLine(StrRes(IDS_INFOBAR_SUBTITLES), Subtitles);
             } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
                 if (m_pDVBState->bActive) {
                     CComQIPtr<IBDATuner> pTun = m_pGB;
@@ -2145,11 +2145,11 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                     CString Signal;
 
                     if (SUCCEEDED(pTun->GetStats(bPresent, bLocked, lDbStrength, lPercentQuality)) && bPresent) {
-                        Signal.Format(ResStr(IDS_STATSBAR_SIGNAL_FORMAT), (int)lDbStrength, lPercentQuality);
-                        m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_SIGNAL), Signal);
+                        Signal.Format(IDS_STATSBAR_SIGNAL_FORMAT, (int)lDbStrength, lPercentQuality);
+                        m_wndStatsBar.SetLine(StrRes(IDS_STATSBAR_SIGNAL), Signal);
                     }
                 } else {
-                    m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_SIGNAL), _T("-"));
+                    m_wndStatsBar.SetLine(StrRes(IDS_STATSBAR_SIGNAL), _T("-"));
                 }
             } else if (GetPlaybackMode() == PM_FILE) {
                 OpenSetupInfoBar(false);
@@ -2422,7 +2422,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                     if (m_iDVDDomain == DVD_DOMAIN_Title) {
                         CString Domain;
                         Domain.Format(IDS_AG_TITLE, m_iDVDTitle);
-                        m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_DOMAIN), Domain);
+                        m_wndInfoBar.SetLine(StrRes(IDS_INFOBAR_DOMAIN), Domain);
                     }
 
                     SetupDVDChapters();
@@ -2588,7 +2588,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                         break;
                 }
 
-                m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_DOMAIN), Domain);
+                m_wndInfoBar.SetLine(StrRes(IDS_INFOBAR_DOMAIN), Domain);
 
                 if (GetPlaybackMode() == PM_FILE) {
                     SetupChapters();
@@ -3097,7 +3097,7 @@ void CMainFrame::OnMenuFilters()
 void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
 {
     if (GetLoadState() == MLS::LOADING) {
-        m_wndStatusBar.SetStatusMessage(ResStr(IDS_CONTROLS_OPENING));
+        m_wndStatusBar.SetStatusMessage(StrRes(IDS_CONTROLS_OPENING));
         if (AfxGetAppSettings().bUseEnhancedTaskBar && m_pTaskbarList) {
             m_pTaskbarList->SetProgressState(m_hWnd, TBPF_INDETERMINATE);
         }
@@ -3201,16 +3201,16 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
         OAFilterState fs = GetMediaState();
         CString UI_Text =
             !msg.IsEmpty() ? msg :
-            fs == State_Stopped ? ResStr(IDS_CONTROLS_STOPPED) :
-            (fs == State_Paused || m_fFrameSteppingActive) ? ResStr(IDS_CONTROLS_PAUSED) :
-            fs == State_Running ? ResStr(IDS_CONTROLS_PLAYING) :
+            fs == State_Stopped ? StrRes(IDS_CONTROLS_STOPPED) :
+            (fs == State_Paused || m_fFrameSteppingActive) ? StrRes(IDS_CONTROLS_PAUSED) :
+            fs == State_Running ? StrRes(IDS_CONTROLS_PLAYING) :
             _T("");
         if (m_bUsingDXVA && (UI_Text == ResStr(IDS_CONTROLS_PAUSED) || UI_Text == ResStr(IDS_CONTROLS_PLAYING))) {
             UI_Text.AppendFormat(_T(" %s"), ResStr(IDS_HW_INDICATOR));
         }
         m_wndStatusBar.SetStatusMessage(UI_Text);
     } else if (GetLoadState() == MLS::CLOSING) {
-        m_wndStatusBar.SetStatusMessage(ResStr(IDS_CONTROLS_CLOSING));
+        m_wndStatusBar.SetStatusMessage(StrRes(IDS_CONTROLS_CLOSING));
         if (AfxGetAppSettings().bUseEnhancedTaskBar && m_pTaskbarList) {
             m_pTaskbarList->SetProgressState(m_hWnd, TBPF_INDETERMINATE);
         }
@@ -3648,7 +3648,7 @@ void CMainFrame::OnDvdAudio(UINT nID)
                                AATR.dwFrequency,
                                AATR.bQuantization,
                                AATR.bNumberOfChannels,
-                               (AATR.bNumberOfChannels > 1 ? ResStr(IDS_MAINFRM_13) : ResStr(IDS_MAINFRM_12)));
+                               ResStr(AATR.bNumberOfChannels > 1 ? IDS_MAINFRM_13 : IDS_MAINFRM_12));
                     str += FAILED(hr) ? _T(" [") + ResStr(IDS_AG_ERROR) + _T("] ") : _T("");
                     strMessage.Format(IDS_AUDIO_STREAM, str);
                     m_OSD.DisplayMessage(OSD_TOPLEFT, strMessage);
@@ -4045,7 +4045,7 @@ void CMainFrame::OnFileOpendvd()
     }
 
     CAppSettings& s = AfxGetAppSettings();
-    CString strTitle = ResStr(IDS_MAINFRM_46);
+    CString strTitle(StrRes(IDS_MAINFRM_46));
     CString path;
 
     if (s.fUseDVDPath && !s.strDVDPath.IsEmpty()) {
@@ -5618,9 +5618,8 @@ void CMainFrame::OnViewVSync()
     CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
     r.m_AdvRendSets.bVMR9VSync = !r.m_AdvRendSets.bVMR9VSync;
     r.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.bVMR9VSync
-                         ? ResStr(IDS_OSD_RS_VSYNC_ON)
-                         : ResStr(IDS_OSD_RS_VSYNC_OFF));
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(r.m_AdvRendSets.bVMR9VSync
+                                              ? IDS_OSD_RS_VSYNC_ON : IDS_OSD_RS_VSYNC_OFF));
 }
 
 void CMainFrame::OnViewVSyncAccurate()
@@ -5628,9 +5627,8 @@ void CMainFrame::OnViewVSyncAccurate()
     CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
     r.m_AdvRendSets.bVMR9VSyncAccurate = !r.m_AdvRendSets.bVMR9VSyncAccurate;
     r.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.bVMR9VSyncAccurate
-                         ? ResStr(IDS_OSD_RS_ACCURATE_VSYNC_ON)
-                         : ResStr(IDS_OSD_RS_ACCURATE_VSYNC_OFF));
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(r.m_AdvRendSets.bVMR9VSyncAccurate
+                                              ? IDS_OSD_RS_ACCURATE_VSYNC_ON : IDS_OSD_RS_ACCURATE_VSYNC_OFF));
 }
 
 void CMainFrame::OnViewSynchronizeVideo()
@@ -5646,9 +5644,8 @@ void CMainFrame::OnViewSynchronizeVideo()
     }
 
     r.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.bSynchronizeVideo
-                         ? ResStr(IDS_OSD_RS_SYNC_TO_DISPLAY_ON)
-                         : ResStr(IDS_OSD_RS_SYNC_TO_DISPLAY_ON));
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(r.m_AdvRendSets.bSynchronizeVideo
+                                              ? IDS_OSD_RS_SYNC_TO_DISPLAY_ON : IDS_OSD_RS_SYNC_TO_DISPLAY_ON));
 }
 
 void CMainFrame::OnViewSynchronizeDisplay()
@@ -5664,9 +5661,8 @@ void CMainFrame::OnViewSynchronizeDisplay()
     }
 
     r.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.bSynchronizeDisplay
-                         ? ResStr(IDS_OSD_RS_SYNC_TO_VIDEO_ON)
-                         : ResStr(IDS_OSD_RS_SYNC_TO_VIDEO_ON));
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(r.m_AdvRendSets.bSynchronizeDisplay
+                                              ? IDS_OSD_RS_SYNC_TO_VIDEO_ON : IDS_OSD_RS_SYNC_TO_VIDEO_ON));
 }
 
 void CMainFrame::OnViewSynchronizeNearest()
@@ -5682,9 +5678,8 @@ void CMainFrame::OnViewSynchronizeNearest()
     }
 
     r.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.bSynchronizeNearest
-                         ? ResStr(IDS_OSD_RS_PRESENT_NEAREST_ON)
-                         : ResStr(IDS_OSD_RS_PRESENT_NEAREST_OFF));
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(r.m_AdvRendSets.bSynchronizeNearest
+                                              ? IDS_OSD_RS_PRESENT_NEAREST_ON : IDS_OSD_RS_PRESENT_NEAREST_OFF));
 }
 
 void CMainFrame::OnViewColorManagementEnable()
@@ -5692,9 +5687,8 @@ void CMainFrame::OnViewColorManagementEnable()
     CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
     r.m_AdvRendSets.bVMR9ColorManagementEnable = !r.m_AdvRendSets.bVMR9ColorManagementEnable;
     r.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.bVMR9ColorManagementEnable
-                         ? ResStr(IDS_OSD_RS_COLOR_MANAGEMENT_ON)
-                         : ResStr(IDS_OSD_RS_COLOR_MANAGEMENT_OFF));
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(r.m_AdvRendSets.bVMR9ColorManagementEnable
+                                              ? IDS_OSD_RS_COLOR_MANAGEMENT_ON : IDS_OSD_RS_COLOR_MANAGEMENT_OFF));
 }
 
 void CMainFrame::OnViewColorManagementInputAuto()
@@ -5810,9 +5804,8 @@ void CMainFrame::OnViewFlushGPUBeforeVSync()
     CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
     r.m_AdvRendSets.bVMRFlushGPUBeforeVSync = !r.m_AdvRendSets.bVMRFlushGPUBeforeVSync;
     r.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.bVMRFlushGPUBeforeVSync
-                         ? ResStr(IDS_OSD_RS_FLUSH_BEF_VSYNC_ON)
-                         : ResStr(IDS_OSD_RS_FLUSH_BEF_VSYNC_OFF));
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(r.m_AdvRendSets.bVMRFlushGPUBeforeVSync
+                                              ? IDS_OSD_RS_FLUSH_BEF_VSYNC_ON : IDS_OSD_RS_FLUSH_BEF_VSYNC_OFF));
 }
 
 void CMainFrame::OnViewFlushGPUAfterVSync()
@@ -5820,9 +5813,8 @@ void CMainFrame::OnViewFlushGPUAfterVSync()
     CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
     r.m_AdvRendSets.bVMRFlushGPUAfterPresent = !r.m_AdvRendSets.bVMRFlushGPUAfterPresent;
     r.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.bVMRFlushGPUAfterPresent
-                         ? ResStr(IDS_OSD_RS_FLUSH_AFT_PRES_ON)
-                         : ResStr(IDS_OSD_RS_FLUSH_AFT_PRES_OFF));
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(r.m_AdvRendSets.bVMRFlushGPUAfterPresent
+                                              ? IDS_OSD_RS_FLUSH_AFT_PRES_ON : IDS_OSD_RS_FLUSH_AFT_PRES_OFF));
 }
 
 void CMainFrame::OnViewFlushGPUWait()
@@ -5830,9 +5822,8 @@ void CMainFrame::OnViewFlushGPUWait()
     CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
     r.m_AdvRendSets.bVMRFlushGPUWait = !r.m_AdvRendSets.bVMRFlushGPUWait;
     r.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.bVMRFlushGPUWait
-                         ? ResStr(IDS_OSD_RS_WAIT_ON)
-                         : ResStr(IDS_OSD_RS_WAIT_OFF));
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(r.m_AdvRendSets.bVMRFlushGPUWait
+                                              ? IDS_OSD_RS_WAIT_ON : IDS_OSD_RS_WAIT_OFF));
 }
 
 void CMainFrame::OnViewD3DFullScreen()
@@ -5840,9 +5831,8 @@ void CMainFrame::OnViewD3DFullScreen()
     CAppSettings& r = AfxGetAppSettings();
     r.fD3DFullscreen = !r.fD3DFullscreen;
     r.SaveSettings();
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.fD3DFullscreen
-                         ? ResStr(IDS_OSD_RS_D3D_FULLSCREEN_ON)
-                         : ResStr(IDS_OSD_RS_D3D_FULLSCREEN_OFF));
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(r.fD3DFullscreen
+                                              ? IDS_OSD_RS_D3D_FULLSCREEN_ON : IDS_OSD_RS_D3D_FULLSCREEN_OFF));
 }
 
 void CMainFrame::OnViewDisableDesktopComposition()
@@ -5850,9 +5840,8 @@ void CMainFrame::OnViewDisableDesktopComposition()
     CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
     r.m_AdvRendSets.bVMRDisableDesktopComposition = !r.m_AdvRendSets.bVMRDisableDesktopComposition;
     r.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.bVMRDisableDesktopComposition
-                         ? ResStr(IDS_OSD_RS_NO_DESKTOP_COMP_ON)
-                         : ResStr(IDS_OSD_RS_NO_DESKTOP_COMP_OFF));
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(r.m_AdvRendSets.bVMRDisableDesktopComposition
+                                              ? IDS_OSD_RS_NO_DESKTOP_COMP_ON : IDS_OSD_RS_NO_DESKTOP_COMP_OFF));
 }
 
 void CMainFrame::OnViewAlternativeVSync()
@@ -5860,9 +5849,8 @@ void CMainFrame::OnViewAlternativeVSync()
     CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
     r.m_AdvRendSets.bVMR9AlterativeVSync = !r.m_AdvRendSets.bVMR9AlterativeVSync;
     r.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.bVMR9AlterativeVSync
-                         ? ResStr(IDS_OSD_RS_ALT_VSYNC_ON)
-                         : ResStr(IDS_OSD_RS_ALT_VSYNC_OFF));
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(r.m_AdvRendSets.bVMR9AlterativeVSync
+                                              ? IDS_OSD_RS_ALT_VSYNC_ON : IDS_OSD_RS_ALT_VSYNC_OFF));
 }
 
 void CMainFrame::OnViewResetDefault()
@@ -5886,9 +5874,8 @@ void CMainFrame::OnViewFullscreenGUISupport()
     CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
     r.m_AdvRendSets.bVMR9FullscreenGUISupport = !r.m_AdvRendSets.bVMR9FullscreenGUISupport;
     r.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.bVMR9FullscreenGUISupport
-                         ? ResStr(IDS_OSD_RS_D3D_FS_GUI_SUPP_ON)
-                         : ResStr(IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF));
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(r.m_AdvRendSets.bVMR9FullscreenGUISupport
+                                              ? IDS_OSD_RS_D3D_FS_GUI_SUPP_ON : IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF));
 }
 
 void CMainFrame::OnViewHighColorResolution()
@@ -5896,9 +5883,8 @@ void CMainFrame::OnViewHighColorResolution()
     CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
     r.m_AdvRendSets.bEVRHighColorResolution = !r.m_AdvRendSets.bEVRHighColorResolution;
     r.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.bEVRHighColorResolution
-                         ? ResStr(IDS_OSD_RS_10BIT_RBG_OUT_ON)
-                         : ResStr(IDS_OSD_RS_10BIT_RBG_OUT_OFF));
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(r.m_AdvRendSets.bEVRHighColorResolution
+                                              ? IDS_OSD_RS_10BIT_RBG_OUT_ON : IDS_OSD_RS_10BIT_RBG_OUT_OFF));
 }
 
 void CMainFrame::OnViewForceInputHighColorResolution()
@@ -5906,9 +5892,8 @@ void CMainFrame::OnViewForceInputHighColorResolution()
     CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
     r.m_AdvRendSets.bEVRForceInputHighColorResolution = !r.m_AdvRendSets.bEVRForceInputHighColorResolution;
     r.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.bEVRForceInputHighColorResolution
-                         ? ResStr(IDS_OSD_RS_10BIT_RBG_IN_ON)
-                         : ResStr(IDS_OSD_RS_10BIT_RBG_IN_OFF));
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(r.m_AdvRendSets.bEVRForceInputHighColorResolution
+                                              ? IDS_OSD_RS_10BIT_RBG_IN_ON : IDS_OSD_RS_10BIT_RBG_IN_OFF));
 }
 
 void CMainFrame::OnViewFullFloatingPointProcessing()
@@ -5919,9 +5904,8 @@ void CMainFrame::OnViewFullFloatingPointProcessing()
         r.m_AdvRendSets.bVMR9HalfFloatingPointProcessing = false;
     }
     r.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.bVMR9FullFloatingPointProcessing
-                         ? ResStr(IDS_OSD_RS_FULL_FP_PROCESS_ON)
-                         : ResStr(IDS_OSD_RS_FULL_FP_PROCESS_OFF));
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(r.m_AdvRendSets.bVMR9FullFloatingPointProcessing
+                                              ? IDS_OSD_RS_FULL_FP_PROCESS_ON : IDS_OSD_RS_FULL_FP_PROCESS_OFF));
 }
 
 void CMainFrame::OnViewHalfFloatingPointProcessing()
@@ -5932,9 +5916,8 @@ void CMainFrame::OnViewHalfFloatingPointProcessing()
         r.m_AdvRendSets.bVMR9FullFloatingPointProcessing = false;
     }
     r.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.bVMR9HalfFloatingPointProcessing
-                         ? ResStr(IDS_OSD_RS_HALF_FP_PROCESS_ON)
-                         : ResStr(IDS_OSD_RS_HALF_FP_PROCESS_OFF));
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(r.m_AdvRendSets.bVMR9HalfFloatingPointProcessing
+                                              ? IDS_OSD_RS_HALF_FP_PROCESS_ON : IDS_OSD_RS_HALF_FP_PROCESS_OFF));
 }
 
 void CMainFrame::OnViewEnableFrameTimeCorrection()
@@ -5942,9 +5925,8 @@ void CMainFrame::OnViewEnableFrameTimeCorrection()
     CRenderersSettings& r = AfxGetAppSettings().m_RenderersSettings;
     r.m_AdvRendSets.bEVREnableFrameTimeCorrection = !r.m_AdvRendSets.bEVREnableFrameTimeCorrection;
     r.UpdateData(true);
-    m_OSD.DisplayMessage(OSD_TOPRIGHT, r.m_AdvRendSets.bEVREnableFrameTimeCorrection
-                         ? ResStr(IDS_OSD_RS_FT_CORRECTION_ON)
-                         : ResStr(IDS_OSD_RS_FT_CORRECTION_OFF));
+    m_OSD.DisplayMessage(OSD_TOPRIGHT, ResStr(r.m_AdvRendSets.bEVREnableFrameTimeCorrection
+                                              ? IDS_OSD_RS_FT_CORRECTION_ON : IDS_OSD_RS_FT_CORRECTION_OFF));
 }
 
 void CMainFrame::OnViewVSyncOffsetIncrease()
@@ -6046,8 +6028,7 @@ void CMainFrame::OnD3DFullscreenToggle()
     CString strMsg;
 
     s.fD3DFullscreen = !s.fD3DFullscreen;
-    strMsg = s.fD3DFullscreen ? ResStr(IDS_OSD_RS_D3D_FULLSCREEN_ON) : ResStr(IDS_OSD_RS_D3D_FULLSCREEN_OFF);
-
+    strMsg.LoadString(s.fD3DFullscreen ? IDS_OSD_RS_D3D_FULLSCREEN_ON : IDS_OSD_RS_D3D_FULLSCREEN_OFF);
     if (GetLoadState() == MLS::CLOSED) {
         m_closingmsg = strMsg;
     } else {
@@ -6894,7 +6875,7 @@ void CMainFrame::OnPlayPlay()
     SetupEVRColorControl(); // can be configured when streaming begins
 
     CString strOSD;
-    CString strPlay = ResStr(ID_PLAY_PLAY);
+    CString strPlay(StrRes(ID_PLAY_PLAY));
     int i = strPlay.Find(_T("\n"));
     if (i > 0) {
         strPlay.Delete(i, strPlay.GetLength() - i);
@@ -6905,7 +6886,7 @@ void CMainFrame::OnPlayPlay()
 
         if (GetPlaybackMode() == PM_FILE) {
             if (!m_LastOpenBDPath.IsEmpty()) {
-                strOSD = ResStr(IDS_PLAY_BD);
+                strOSD.LoadString(IDS_PLAY_BD);
             } else {
                 strOSD = GetFileName();
                 if (!strOSD.IsEmpty()) {
@@ -6915,7 +6896,7 @@ void CMainFrame::OnPlayPlay()
                 }
             }
         } else if (GetPlaybackMode() == PM_DVD) {
-            strOSD = ResStr(IDS_PLAY_DVD);
+            strOSD.LoadString(IDS_PLAY_DVD);
         }
     }
 
@@ -6950,7 +6931,7 @@ void CMainFrame::OnPlayPauseI()
         SetAlwaysOnTop(AfxGetAppSettings().iOnTop);
     }
 
-    CString strOSD = ResStr(ID_PLAY_PAUSE);
+    CString strOSD(StrRes(ID_PLAY_PAUSE));
     int i = strOSD.Find(_T("\n"));
     if (i > 0) {
         strOSD.Delete(i, strOSD.GetLength() - i);
@@ -7036,7 +7017,7 @@ void CMainFrame::OnPlayStop()
             m_pMC->Stop();
             m_pDVBState->bActive = false;
             OpenSetupWindowTitle();
-            m_wndStatusBar.SetStatusTimer(ResStr(IDS_CAPTURE_LIVE));
+            m_wndStatusBar.SetStatusTimer(StrRes(IDS_CAPTURE_LIVE));
         } else if (GetPlaybackMode() == PM_ANALOG_CAPTURE) {
             m_pMC->Stop();
         }
@@ -7074,7 +7055,7 @@ void CMainFrame::OnPlayStop()
     }
 
     if (!m_fEndOfStream && GetLoadState() == MLS::LOADED) {
-        CString strOSD = ResStr(ID_PLAY_STOP);
+        CString strOSD(StrRes(ID_PLAY_STOP));
         int i = strOSD.Find(_T("\n"));
         if (i > 0) {
             strOSD.Delete(i, strOSD.GetLength() - i);
@@ -7594,7 +7575,7 @@ void CMainFrame::OnPlayFilters(UINT nID)
 
     CComPtr<IUnknown> pUnk = m_pparray[nID - ID_FILTERS_SUBITEM_START];
 
-    CComPropertySheet ps(ResStr(IDS_PROPSHEET_PROPERTIES), GetModalParent());
+    CComPropertySheet ps(IDS_PROPSHEET_PROPERTIES, GetModalParent());
 
     // Find out if we are opening the property page for an internal filter
     CComQIPtr<IBaseFilter> pBF = pUnk;
@@ -7782,7 +7763,7 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
                         styles.Add(val);
                     }
 
-                    CPropertySheet dlg(ResStr(IDS_SUBTITLES_STYLES_CAPTION), GetModalParent());
+                    CPropertySheet dlg(IDS_SUBTITLES_STYLES_CAPTION, GetModalParent());
                     for (size_t l = 0; l < pages.GetCount(); l++) {
                         dlg.AddPage(pages[l]);
                     }
@@ -8862,7 +8843,7 @@ void CMainFrame::AddFavorite(bool fDisplayMessage, bool fShowDialog)
     } // TODO: PM_ANALOG_CAPTURE and PM_DIGITAL_CAPTURE
 
     if (fDisplayMessage && osdMsg) {
-        CString osdMsgStr = ResStr(osdMsg);
+        CString osdMsgStr(StrRes(osdMsg));
         SendStatusMessage(osdMsgStr, 3000);
         m_OSD.DisplayMessage(OSD_TOPLEFT, osdMsgStr, 3000);
     }
@@ -10255,11 +10236,11 @@ void CMainFrame::SetBalance(int balance)
         m_pBA->put_Balance(balance_dB);
 
         if (balance == 0) {
-            strBalance = ResStr(IDS_BALANCE);
+            strBalance.LoadString(IDS_BALANCE);
         } else if (balance < 0) {
-            strBalance.Format(ResStr(IDS_BALANCE_L), -balance);
+            strBalance.Format(IDS_BALANCE_L, -balance);
         } else { //if (m_nBalance > 0)
-            strBalance.Format(ResStr(IDS_BALANCE_R), balance);
+            strBalance.Format(IDS_BALANCE_R, balance);
         }
 
         strBalanceOSD.Format(IDS_BALANCE_OSD, strBalance);
@@ -11054,7 +11035,7 @@ void CMainFrame::OpenCustomizeGraph()
                         DWORD dwGroup = 0;
                         WCHAR* pszName = nullptr;
                         if (SUCCEEDED(pSS->Info((long)i, &pmt, &dwFlags, &lcid, &dwGroup, &pszName, nullptr, nullptr))) {
-                            CStringW name(pszName), sound(ResStr(IDS_AG_SOUND)), subtitle(L"Subtitle");
+                            CStringW name(pszName), sound(StrRes(IDS_AG_SOUND)), subtitle(L"Subtitle");
 
                             if (idAudio != (LCID) - 1 && (idAudio & 0x3ff) == (lcid & 0x3ff) // sublang seems to be zeroed out in ogm...
                                     && name.GetLength() > sound.GetLength()
@@ -11244,19 +11225,19 @@ void CMainFrame::OpenSetupInfoBar(bool bClear /*= true*/)
         }
         EndEnumFilters;
 
-        bRecalcLayout |= m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_TITLE), title);
+        bRecalcLayout |= m_wndInfoBar.SetLine(StrRes(IDS_INFOBAR_TITLE), title);
         UpdateChapterInInfoBar();
-        bRecalcLayout |= m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_AUTHOR), author);
-        bRecalcLayout |= m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_COPYRIGHT), copyright);
-        bRecalcLayout |= m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_RATING), rating);
-        bRecalcLayout |= m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_DESCRIPTION), description);
+        bRecalcLayout |= m_wndInfoBar.SetLine(StrRes(IDS_INFOBAR_AUTHOR), author);
+        bRecalcLayout |= m_wndInfoBar.SetLine(StrRes(IDS_INFOBAR_COPYRIGHT), copyright);
+        bRecalcLayout |= m_wndInfoBar.SetLine(StrRes(IDS_INFOBAR_RATING), rating);
+        bRecalcLayout |= m_wndInfoBar.SetLine(StrRes(IDS_INFOBAR_DESCRIPTION), description);
     } else if (GetPlaybackMode() == PM_DVD) {
         CString info(_T('-'));
-        bRecalcLayout |= m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_DOMAIN), info);
-        bRecalcLayout |= m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_LOCATION), info);
-        bRecalcLayout |= m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_VIDEO), info);
-        bRecalcLayout |= m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_AUDIO), info);
-        bRecalcLayout |= m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_SUBTITLES), info);
+        bRecalcLayout |= m_wndInfoBar.SetLine(StrRes(IDS_INFOBAR_DOMAIN), info);
+        bRecalcLayout |= m_wndInfoBar.SetLine(StrRes(IDS_INFOBAR_LOCATION), info);
+        bRecalcLayout |= m_wndInfoBar.SetLine(StrRes(IDS_INFOBAR_VIDEO), info);
+        bRecalcLayout |= m_wndInfoBar.SetLine(StrRes(IDS_INFOBAR_AUDIO), info);
+        bRecalcLayout |= m_wndInfoBar.SetLine(StrRes(IDS_INFOBAR_SUBTITLES), info);
     }
 
     if (bRecalcLayout) {
@@ -11282,7 +11263,7 @@ void CMainFrame::UpdateChapterInInfoBar()
             }
         }
     }
-    if (m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_CHAPTER), chapter)) {
+    if (m_wndInfoBar.SetLine(StrRes(IDS_INFOBAR_CHAPTER), chapter)) {
         RecalcLayout();
     }
 }
@@ -11319,21 +11300,21 @@ void CMainFrame::OpenSetupStatsBar()
         EndEnumFilters;
 
         if (m_pQP) {
-            m_wndStatsBar.SetLine(ResStr(IDS_AG_FRAMERATE), info);
-            m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_SYNC_OFFSET), info);
-            m_wndStatsBar.SetLine(ResStr(IDS_AG_FRAMES), info);
-            m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_JITTER), info);
+            m_wndStatsBar.SetLine(StrRes(IDS_AG_FRAMERATE), info);
+            m_wndStatsBar.SetLine(StrRes(IDS_STATSBAR_SYNC_OFFSET), info);
+            m_wndStatsBar.SetLine(StrRes(IDS_AG_FRAMES), info);
+            m_wndStatsBar.SetLine(StrRes(IDS_STATSBAR_JITTER), info);
         } else {
-            m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_PLAYBACK_RATE), info);
+            m_wndStatsBar.SetLine(StrRes(IDS_STATSBAR_PLAYBACK_RATE), info);
         }
         if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-            m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_SIGNAL), info);
+            m_wndStatsBar.SetLine(StrRes(IDS_STATSBAR_SIGNAL), info);
         }
         if (m_pBI) {
-            m_wndStatsBar.SetLine(ResStr(IDS_AG_BUFFERS), info);
+            m_wndStatsBar.SetLine(StrRes(IDS_AG_BUFFERS), info);
         }
         if (bFoundIBitRateInfo) {
-            m_wndStatsBar.SetLine(ResStr(IDS_STATSBAR_BITRATE), info);
+            m_wndStatsBar.SetLine(StrRes(IDS_STATSBAR_BITRATE), info);
         }
     }
 }
@@ -11388,7 +11369,7 @@ void CMainFrame::OpenSetupStatusBar()
 // Called from GraphThread
 void CMainFrame::OpenSetupWindowTitle(bool reset /*= false*/)
 {
-    CString title = ResStr(IDR_MAINFRAME);
+    CString title(StrRes(IDR_MAINFRAME));
 #ifdef MPCHC_LITE
     title += _T(" Lite");
 #endif
@@ -12161,8 +12142,8 @@ void CMainFrame::SendNowPlayingToSkype()
     if (GetLoadState() == MLS::LOADED) {
         CString title, author;
 
-        m_wndInfoBar.GetLine(ResStr(IDS_INFOBAR_TITLE), title);
-        m_wndInfoBar.GetLine(ResStr(IDS_INFOBAR_AUTHOR), author);
+        m_wndInfoBar.GetLine(StrRes(IDS_INFOBAR_TITLE), title);
+        m_wndInfoBar.GetLine(StrRes(IDS_INFOBAR_AUTHOR), author);
 
         if (title.IsEmpty()) {
             CPlaylistItem pli;
@@ -12541,10 +12522,10 @@ void CMainFrame::SetupAudioSubMenu()
                         str += _T(" (Visually Impaired)");
                         break;
                     case DVD_AUD_EXT_DirectorComments1:
-                        str += ResStr(IDS_MAINFRM_121);
+                        str.AppendFormat(IDS_MAINFRM_121);
                         break;
                     case DVD_AUD_EXT_DirectorComments2:
-                        str += ResStr(IDS_MAINFRM_122);
+                        str.AppendFormat(IDS_MAINFRM_122);
                         break;
                 }
 
@@ -12913,7 +12894,7 @@ void CMainFrame::SetupJumpToSubMenus(CMenu* parentMenu /*= nullptr*/, int iInser
                                            idStart >= ID_NAVIGATE_JUMPTO_SUBITEM_START ? MF_BYCOMMAND : MF_BYPOSITION));
         }
     };
-    auto addSubMenuIfPossible = [&](const CString & subMenuName, CMenu & subMenu) {
+    auto addSubMenuIfPossible = [&](CString subMenuName, CMenu & subMenu) {
         if (parentMenu && iInsertPos >= 0) {
             if (parentMenu->InsertMenu(iInsertPos + m_nJumpToSubMenusCount, MF_POPUP | MF_BYPOSITION,
                                        (UINT_PTR)(HMENU)subMenu, subMenuName)) {
@@ -12942,7 +12923,7 @@ void CMainFrame::SetupJumpToSubMenus(CMenu* parentMenu /*= nullptr*/, int iInser
                 VERIFY(m_BDPlaylistMenu.AppendMenu(flags, id++, name + '\t' + time));
             }
             menuEndRadioSection(m_BDPlaylistMenu);
-            addSubMenuIfPossible(ResStr(IDS_NAVIGATE_BD_PLAYLISTS), m_BDPlaylistMenu);
+            addSubMenuIfPossible(StrRes(IDS_NAVIGATE_BD_PLAYLISTS), m_BDPlaylistMenu);
         }
 
         SetupChapters();
@@ -12972,7 +12953,7 @@ void CMainFrame::SetupJumpToSubMenus(CMenu* parentMenu /*= nullptr*/, int iInser
                 VERIFY(m_chaptersMenu.AppendMenu(flags, id, name + '\t' + time));
             }
             menuEndRadioSection(m_chaptersMenu);
-            addSubMenuIfPossible(ResStr(IDS_NAVIGATE_CHAPTERS), m_chaptersMenu);
+            addSubMenuIfPossible(StrRes(IDS_NAVIGATE_CHAPTERS), m_chaptersMenu);
         }
 
         if (m_wndPlaylistBar.GetCount() > 1) {
@@ -12989,7 +12970,7 @@ void CMainFrame::SetupJumpToSubMenus(CMenu* parentMenu /*= nullptr*/, int iInser
                 VERIFY(m_playlistMenu.AppendMenu(flags, id++, name));
             }
             menuEndRadioSection(m_playlistMenu);
-            addSubMenuIfPossible(ResStr(IDS_NAVIGATE_PLAYLIST), m_playlistMenu);
+            addSubMenuIfPossible(StrRes(IDS_NAVIGATE_PLAYLIST), m_playlistMenu);
         }
     } else if (GetPlaybackMode() == PM_DVD) {
         ULONG ulNumOfVolumes, ulVolume, ulNumOfTitles, ulNumOfChapters, ulUOPs;
@@ -13016,7 +12997,7 @@ void CMainFrame::SetupJumpToSubMenus(CMenu* parentMenu /*= nullptr*/, int iInser
                 VERIFY(m_titlesMenu.AppendMenu(flags, id++, str));
             }
             menuEndRadioSection(m_titlesMenu);
-            addSubMenuIfPossible(ResStr(IDS_NAVIGATE_TITLES), m_titlesMenu);
+            addSubMenuIfPossible(StrRes(IDS_NAVIGATE_TITLES), m_titlesMenu);
 
             menuStartRadioSection();
             for (ULONG i = 1; i <= ulNumOfChapters; i++) {
@@ -13034,7 +13015,7 @@ void CMainFrame::SetupJumpToSubMenus(CMenu* parentMenu /*= nullptr*/, int iInser
                 VERIFY(m_chaptersMenu.AppendMenu(flags, id++, str));
             }
             menuEndRadioSection(m_chaptersMenu);
-            addSubMenuIfPossible(ResStr(IDS_NAVIGATE_CHAPTERS), m_chaptersMenu);
+            addSubMenuIfPossible(StrRes(IDS_NAVIGATE_CHAPTERS), m_chaptersMenu);
         }
     } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
         const CAppSettings& s = AfxGetAppSettings();
@@ -13050,7 +13031,7 @@ void CMainFrame::SetupJumpToSubMenus(CMenu* parentMenu /*= nullptr*/, int iInser
             id++;
         }
         menuEndRadioSection(m_channelsMenu);
-        addSubMenuIfPossible(ResStr(IDS_NAVIGATE_CHANNELS), m_channelsMenu);
+        addSubMenuIfPossible(StrRes(IDS_NAVIGATE_CHANNELS), m_channelsMenu);
     }
 }
 
@@ -14445,7 +14426,7 @@ bool CMainFrame::StopCapture()
         return false;
     }
 
-    m_wndStatusBar.SetStatusMessage(ResStr(IDS_CONTROLS_COMPLETING));
+    m_wndStatusBar.SetStatusMessage(StrRes(IDS_CONTROLS_COMPLETING));
     m_fCapturing = false;
 
     BuildGraphVideoAudio(
@@ -14936,7 +14917,7 @@ LRESULT CMainFrame::OnCurrentChannelInfoUpdated(WPARAM wParam, LPARAM lParam)
 
         CString sChannelInfo = m_pDVBState->sChannelName;
         m_wndInfoBar.RemoveAllLines();
-        m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_CHANNEL), sChannelInfo);
+        m_wndInfoBar.SetLine(StrRes(IDS_INFOBAR_CHANNEL), sChannelInfo);
 
         if (infoData.hr == S_OK) {
             // EIT information parsed correctly
@@ -14944,8 +14925,8 @@ LRESULT CMainFrame::OnCurrentChannelInfoUpdated(WPARAM wParam, LPARAM lParam)
                 sChannelInfo.AppendFormat(_T(" | %s (%s - %s)"), NowNext.eventName, NowNext.strStartTime, NowNext.strEndTime);
             }
 
-            m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_TITLE), NowNext.eventName);
-            m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_TIME), NowNext.strStartTime + _T(" - ") + NowNext.strEndTime);
+            m_wndInfoBar.SetLine(StrRes(IDS_INFOBAR_TITLE), NowNext.eventName);
+            m_wndInfoBar.SetLine(StrRes(IDS_INFOBAR_TIME), NowNext.strStartTime + _T(" - ") + NowNext.strEndTime);
 
             if (NowNext.parentalRating >= 0) {
                 CString parentRating;
@@ -14954,11 +14935,11 @@ LRESULT CMainFrame::OnCurrentChannelInfoUpdated(WPARAM wParam, LPARAM lParam)
                 } else {
                     parentRating.Format(IDS_PARENTAL_RATING, NowNext.parentalRating);
                 }
-                m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_PARENTAL_RATING), parentRating);
+                m_wndInfoBar.SetLine(StrRes(IDS_INFOBAR_PARENTAL_RATING), parentRating);
             }
 
             if (!NowNext.content.IsEmpty()) {
-                m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_CONTENT), NowNext.content);
+                m_wndInfoBar.SetLine(StrRes(IDS_INFOBAR_CONTENT), NowNext.content);
             }
 
             CString description = NowNext.eventDesc;
@@ -14968,7 +14949,7 @@ LRESULT CMainFrame::OnCurrentChannelInfoUpdated(WPARAM wParam, LPARAM lParam)
                 }
                 description += NowNext.extendedDescriptorsText;
             }
-            m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_DESCRIPTION), description);
+            m_wndInfoBar.SetLine(StrRes(IDS_INFOBAR_DESCRIPTION), description);
 
             for (const auto& item : NowNext.extendedDescriptorsItems) {
                 m_wndInfoBar.SetLine(item.first, item.second);
@@ -15231,7 +15212,7 @@ afx_msg void CMainFrame::OnSubtitleDelay(UINT nID)
 {
     if (m_pCAP) {
         if (m_pSubStreams.IsEmpty()) {
-            SendStatusMessage(ResStr(IDS_SUBTITLES_ERROR), 3000);
+            SendStatusMessage(StrRes(IDS_SUBTITLES_ERROR), 3000);
             return;
         }
 
@@ -15405,9 +15386,9 @@ void CMainFrame::SendNowPlayingToApi()
         CString strDur;
 
         if (GetPlaybackMode() == PM_FILE) {
-            m_wndInfoBar.GetLine(ResStr(IDS_INFOBAR_TITLE), title);
-            m_wndInfoBar.GetLine(ResStr(IDS_INFOBAR_AUTHOR), author);
-            m_wndInfoBar.GetLine(ResStr(IDS_INFOBAR_DESCRIPTION), description);
+            m_wndInfoBar.GetLine(StrRes(IDS_INFOBAR_TITLE), title);
+            m_wndInfoBar.GetLine(StrRes(IDS_INFOBAR_AUTHOR), author);
+            m_wndInfoBar.GetLine(StrRes(IDS_INFOBAR_DESCRIPTION), description);
 
             m_wndPlaylistBar.GetCur(pli);
             if (!pli.m_fns.IsEmpty()) {
@@ -15817,7 +15798,7 @@ void CMainFrame::OnFileOpendirectory()
     }
 
     const CAppSettings& s = AfxGetAppSettings();
-    CString strTitle = ResStr(IDS_MAINFRM_DIR_TITLE);
+    CString strTitle(StrRes(IDS_MAINFRM_DIR_TITLE));
     CString path;
 
     if (SysVersion::IsVistaOrLater()) {
@@ -16321,7 +16302,7 @@ void CMainFrame::UpdateControlState(UpdateControlTarget target)
                 path.RemoveFileSpec();
 
                 CString author;
-                m_wndInfoBar.GetLine(ResStr(IDS_INFOBAR_AUTHOR), author);
+                m_wndInfoBar.GetLine(StrRes(IDS_INFOBAR_AUTHOR), author);
                 CString strPath = path;
 
                 CComQIPtr<IFilterGraph> pFilterGraph = m_pGB;
@@ -16669,7 +16650,7 @@ void CMainFrame::UpdateDXVAStatus()
 bool CMainFrame::GetDecoderType(CString& type) const
 {
     if (!m_fAudioOnly) {
-        type = m_bUsingDXVA ? m_HWAccelType : ResStr(IDS_TOOLTIP_SOFTWARE_DECODING);
+        type = m_bUsingDXVA ? m_HWAccelType : StrRes(IDS_TOOLTIP_SOFTWARE_DECODING);
         return true;
     }
     return false;

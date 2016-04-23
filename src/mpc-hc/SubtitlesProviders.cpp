@@ -559,7 +559,7 @@ void SubtitlesProviders::Upload(bool bShowConfirm)
 
         if (!pSubtitlesInfo.fileContents.empty()) {
             CString msg;
-            msg.Format(ResStr(IDS_SUBUL_DLG_CONFIRM), UTF8To16(pSubtitlesInfo.releaseName.c_str()));
+            msg.Format(IDS_SUBUL_DLG_CONFIRM, UTF8To16(pSubtitlesInfo.releaseName.c_str()));
             if (!bShowConfirm
                     || IDYES == MessageBox(m_MainFrame.m_wndSubtitlesUploadDialog, msg, ResStr(IDS_SUBUL_DLG_TITLE), MB_YESNO)) {
                 InsertTask(DEBUG_NEW SubtitlesTask(&m_MainFrame, pSubtitlesInfo));

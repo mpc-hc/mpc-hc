@@ -434,7 +434,7 @@ bool CFileAssoc::AreRegisteredFileContextMenuEntries(CString strExt) const
     bool    registered = false;
 
     if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\open"), KEY_READ)) {
-        CString strCommand = ResStr(IDS_OPEN_WITH_MPC);
+        CString strCommand(StrRes(IDS_OPEN_WITH_MPC));
         if (ERROR_SUCCESS == key.QueryStringValue(nullptr, buff, &len)) {
             registered = (strCommand.CompareNoCase(CString(buff)) == 0);
         }

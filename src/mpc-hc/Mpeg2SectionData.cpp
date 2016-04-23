@@ -656,7 +656,7 @@ HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, EventDescriptor& NowNext)
                                             IDS_CONTENT_LEISURE
                                         };
 
-                                        NowNext.content.Append(ResStr(contents[content - 1]));
+                                        NowNext.content.AppendFormat(contents[content - 1]);
                                     }
                                     nLength -= 2;
                                 }

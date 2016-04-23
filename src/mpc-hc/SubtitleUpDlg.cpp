@@ -449,9 +449,9 @@ afx_msg LRESULT CSubtitleUpDlg::OnFinished(WPARAM wParam, LPARAM /*lParam*/)
     BOOL _bAborted = (BOOL)wParam;
 
     if (_bAborted == FALSE) {
-        SetStatusText(ResStr(IDS_SUBUL_DLG_UPLOADED));
+        SetStatusText(StrRes(IDS_SUBUL_DLG_UPLOADED));
     } else {
-        SetStatusText(ResStr(IDS_SUBUL_DLG_ABORTED));
+        SetStatusText(StrRes(IDS_SUBUL_DLG_ABORTED));
     }
 
     GetDlgItem(IDC_BUTTON1)->EnableWindow(FALSE);
@@ -462,7 +462,7 @@ afx_msg LRESULT CSubtitleUpDlg::OnFinished(WPARAM wParam, LPARAM /*lParam*/)
 
 afx_msg LRESULT CSubtitleUpDlg::OnFailed(WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
-    SetStatusText(ResStr(IDS_SUBUL_DLG_FAILED));
+    SetStatusText(StrRes(IDS_SUBUL_DLG_FAILED));
 
     return S_OK;
 }

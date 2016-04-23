@@ -37,11 +37,11 @@ CPPageFileInfoClip::CPPageFileInfoClip(CString path, IFilterGraph* pFG, IFileSou
     , m_hIcon(nullptr)
     , m_fn(path)
     , m_path(path)
-    , m_clip(ResStr(IDS_AG_NONE))
-    , m_author(ResStr(IDS_AG_NONE))
-    , m_copyright(ResStr(IDS_AG_NONE))
-    , m_rating(ResStr(IDS_AG_NONE))
-    , m_location(ResStr(IDS_AG_NONE))
+    , m_clip(StrRes(IDS_AG_NONE))
+    , m_author(StrRes(IDS_AG_NONE))
+    , m_copyright(StrRes(IDS_AG_NONE))
+    , m_rating(StrRes(IDS_AG_NONE))
+    , m_location(StrRes(IDS_AG_NONE))
 {
     if (pFSF) {
         CComHeapPtr<OLECHAR> pFN;

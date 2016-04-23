@@ -282,7 +282,7 @@ BOOL CPPageDVD::OnApply()
 void CPPageDVD::OnBnClickedButton1()
 {
     CString path;
-    CString strTitle = ResStr(IDS_MAINFRM_46);
+    CString strTitle(StrRes(IDS_MAINFRM_46));
 
     if (SysVersion::IsVistaOrLater()) {
         CFileDialog dlg(TRUE);

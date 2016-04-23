@@ -264,50 +264,51 @@ BOOL CPPageOutput::OnInitDialog()
     CorrectComboListWidth(m_iD3D9RenderDeviceCtrl);
 
     auto addRenderer = [&](int nID) {
-        CString sName;
+        WORD resName;
 
         switch (nID) {
             case VIDRNDT_DS_DEFAULT:
-                sName = ResStr(IDS_PPAGE_OUTPUT_SYS_DEF);
+                resName = IDS_PPAGE_OUTPUT_SYS_DEF;
                 break;
             case VIDRNDT_DS_OLDRENDERER:
-                sName = ResStr(IDS_PPAGE_OUTPUT_OLDRENDERER);
+                resName = IDS_PPAGE_OUTPUT_OLDRENDERER;
                 break;
             case VIDRNDT_DS_OVERLAYMIXER:
-                sName = ResStr(IDS_PPAGE_OUTPUT_OVERLAYMIXER);
+                resName = IDS_PPAGE_OUTPUT_OVERLAYMIXER;
                 break;
             case VIDRNDT_DS_VMR9WINDOWED:
-                sName = ResStr(IDS_PPAGE_OUTPUT_VMR9WINDOWED);
+                resName = IDS_PPAGE_OUTPUT_VMR9WINDOWED;
                 break;
             case VIDRNDT_DS_VMR9RENDERLESS:
-                sName = ResStr(IDS_PPAGE_OUTPUT_VMR9RENDERLESS);
+                resName = IDS_PPAGE_OUTPUT_VMR9RENDERLESS;
                 break;
             case VIDRNDT_DS_DXR:
-                sName = ResStr(IDS_PPAGE_OUTPUT_DXR);
+                resName = IDS_PPAGE_OUTPUT_DXR;
                 break;
             case VIDRNDT_DS_NULL_COMP:
-                sName = ResStr(IDS_PPAGE_OUTPUT_NULL_COMP);
+                resName = IDS_PPAGE_OUTPUT_NULL_COMP;
                 break;
             case VIDRNDT_DS_NULL_UNCOMP:
-                sName = ResStr(IDS_PPAGE_OUTPUT_NULL_UNCOMP);
+                resName = IDS_PPAGE_OUTPUT_NULL_UNCOMP;
                 break;
             case VIDRNDT_DS_EVR:
-                sName = ResStr(IDS_PPAGE_OUTPUT_EVR);
+                resName = IDS_PPAGE_OUTPUT_EVR;
                 break;
             case VIDRNDT_DS_EVR_CUSTOM:
-                sName = ResStr(IDS_PPAGE_OUTPUT_EVR_CUSTOM);
+                resName = IDS_PPAGE_OUTPUT_EVR_CUSTOM;
                 break;
             case VIDRNDT_DS_MADVR:
-                sName = ResStr(IDS_PPAGE_OUTPUT_MADVR);
+                resName = IDS_PPAGE_OUTPUT_MADVR;
                 break;
             case VIDRNDT_DS_SYNC:
-                sName = ResStr(IDS_PPAGE_OUTPUT_SYNC);
+                resName = IDS_PPAGE_OUTPUT_SYNC;
                 break;
             default:
                 ASSERT(FALSE);
                 return;
         }
 
+        CString sName(StrRes(resName));
         if (!s.IsVideoRendererAvailable(nID)) {
             sName.AppendFormat(_T(" %s"), ResStr(IDS_PPAGE_OUTPUT_UNAVAILABLE));
         }

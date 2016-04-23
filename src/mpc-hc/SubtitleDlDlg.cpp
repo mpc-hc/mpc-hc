@@ -481,7 +481,7 @@ afx_msg LRESULT CSubtitleDlDlg::OnSearch(WPARAM wParam, LPARAM /*lParam*/)
 {
     INT _nCount = (INT)wParam;
 
-    SetStatusText(ResStr(IDS_SUBDL_DLG_SEARCHING));
+    SetStatusText(StrRes(IDS_SUBDL_DLG_SEARCHING));
     GetDlgItem(IDC_BUTTON1)->EnableWindow(FALSE);
     GetDlgItem(IDC_BUTTON1)->ShowWindow(FALSE);
     GetDlgItem(IDC_BUTTON2)->ShowWindow(TRUE);
@@ -506,7 +506,7 @@ afx_msg LRESULT CSubtitleDlDlg::OnDownloading(WPARAM /*wParam*/, LPARAM lParam)
     SubtitlesInfo& _fileInfo = *(SubtitlesInfo*)lParam;
 
     CString statusMessage;
-    statusMessage.Format(ResStr(IDS_SUBDL_DLG_DOWNLOADING), CString(_fileInfo.Provider()->Name().c_str()), CString(_fileInfo.fileName.c_str()));
+    statusMessage.Format(IDS_SUBDL_DLG_DOWNLOADING, CString(_fileInfo.Provider()->Name().c_str()), CString(_fileInfo.fileName.c_str()));
     SetStatusText(statusMessage);
 
     return S_OK;
@@ -517,7 +517,7 @@ afx_msg LRESULT CSubtitleDlDlg::OnDownloaded(WPARAM /*wParam*/, LPARAM lParam)
     SubtitlesInfo& _fileInfo = *(SubtitlesInfo*)lParam;
 
     CString statusMessage;
-    statusMessage.Format(ResStr(IDS_SUBDL_DLG_DOWNLOADED), CString(_fileInfo.Provider()->Name().c_str()), CString(_fileInfo.fileName.c_str()));
+    statusMessage.Format(IDS_SUBDL_DLG_DOWNLOADED, CString(_fileInfo.Provider()->Name().c_str()), CString(_fileInfo.fileName.c_str()));
     SetStatusText(statusMessage);
 
     for (int i = 0; i < m_list.GetItemCount(); ++i) {
@@ -539,7 +539,7 @@ afx_msg LRESULT CSubtitleDlDlg::OnCompleted(WPARAM wParam, LPARAM lParam)
     m_progress.StepIt();
 
     if (_result == SR_ABORTED) {
-        SetStatusText(ResStr(IDS_SUBDL_DLG_ABORTING));
+        SetStatusText(StrRes(IDS_SUBDL_DLG_ABORTING));
     } else if (!_subtitlesList.empty()) {
         m_list.SetRedraw(FALSE);
 
@@ -592,13 +592,13 @@ afx_msg LRESULT CSubtitleDlDlg::OnFinished(WPARAM wParam, LPARAM lParam)
             }
 
             CString message;
-            message.Format(ResStr(IDS_SUBDL_DLG_FOUND), (int)m_Subtitles.size());
+            message.Format(IDS_SUBDL_DLG_FOUND, (int)m_Subtitles.size());
             SetStatusText(message);
         } else {
-            SetStatusText(ResStr(IDS_SUBDL_DLG_NOTFOUND));
+            SetStatusText(StrRes(IDS_SUBDL_DLG_NOTFOUND));
         }
     } else {
-        SetStatusText(ResStr(IDS_SUBDL_DLG_ABORTED));
+        SetStatusText(StrRes(IDS_SUBDL_DLG_ABORTED));
     }
 
     int nLower = 0, nUpper = 0;
@@ -615,7 +615,7 @@ afx_msg LRESULT CSubtitleDlDlg::OnFinished(WPARAM wParam, LPARAM lParam)
 
 afx_msg LRESULT CSubtitleDlDlg::OnFailed(WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
-    SetStatusText(ResStr(IDS_SUBDL_DLG_FAILED));
+    SetStatusText(StrRes(IDS_SUBDL_DLG_FAILED));
 
     return S_OK;
 }
@@ -623,7 +623,7 @@ afx_msg LRESULT CSubtitleDlDlg::OnFailed(WPARAM /*wParam*/, LPARAM /*lParam*/)
 
 afx_msg LRESULT CSubtitleDlDlg::OnClear(WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
-    CString title = ResStr(IDS_SUBDL_DLG_TITLE);
+    CString title(StrRes(IDS_SUBDL_DLG_TITLE));
     SetWindowText(title);
 
     m_progress.SetPos(0);

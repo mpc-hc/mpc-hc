@@ -804,7 +804,7 @@ bool CWebClientSocket::OnPlayer(CStringA& hdr, CStringA& body, CStringA& mime)
         body.Replace("[preview]",
                      "<img src=\"snapshot.jpg\" id=\"snapshot\" alt=\"snapshot\" onload=\"onLoadSnapshot()\" onabort=\"onAbortErrorSnapshot()\" onerror=\"onAbortErrorSnapshot()\">");
     } else {
-        body.Replace("[preview]", UTF8(ResStr(IDS_WEBUI_DISABLED_PREVIEW_MSG)));
+        body.Replace("[preview]", UTF8(StrRes(IDS_WEBUI_DISABLED_PREVIEW_MSG)));
     }
     return true;
 }

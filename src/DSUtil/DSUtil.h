@@ -239,7 +239,8 @@ public:
 #define SAFE_RELEASE(p)      { if (p) { (p)->Release(); (p) = nullptr; } }
 #define SAFE_CLOSE_HANDLE(p) { if (p) { if ((p) != INVALID_HANDLE_VALUE) VERIFY(CloseHandle(p)); (p) = nullptr; } }
 
-#define ResStr(id)  CString(MAKEINTRESOURCE(id))
+#define StrRes(id)  MAKEINTRESOURCE(id)
+#define ResStr(id)  CString(StrRes(id))
 
 #define UNREACHABLE_CODE()  \
     do {                    \
