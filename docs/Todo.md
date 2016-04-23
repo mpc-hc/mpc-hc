@@ -9,7 +9,7 @@
 5. Improve nightly builds script to skip rebuilding LAV Filters if no relevant change has been committed
 6. Investigate using AppVeyor for nightlies
 7. Remove VirtualDub??
-8. Drop DX SDK 9, probably along with XP drop
+8. Drop DX SDK 9 dependency
 9. Do we need include qt, realmedia, vd2, winddk?
 10. Remove some obsolete or unused stuff. DSUtil/vd\*, deinterlace, NullRenderers, filters/muxers, LCDUI, Struct.h, Line21 decoder, WinLIRC, uICE.
 11. Remove VS2015 support
@@ -17,7 +17,6 @@
 ## MPC-HC
 
 1. Remove support for unneeded/obsolete renderers
-2. Drop XP support after its EOL
 
 ## MPCIconLib
 

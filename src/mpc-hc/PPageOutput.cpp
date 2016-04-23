@@ -561,7 +561,6 @@ void CPPageOutput::OnDSRendererChange()
                 m_iDSDXVASupport.SetIcon(m_tick);
             }
             m_iDSSaveImageSupport.SetIcon(m_tick);
-            m_wndToolTip.UpdateTipText(ResStr(IDC_DSEVR), GetDlgItem(IDC_VIDRND_COMBO));
             break;
         case VIDRNDT_DS_NULL_COMP:
             m_wndToolTip.UpdateTipText(ResStr(IDC_DSNULL_COMP), GetDlgItem(IDC_VIDRND_COMBO));

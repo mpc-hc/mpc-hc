@@ -468,7 +468,6 @@
 #define IDC_DSDXR                       12107
 #define IDC_DSNULL_COMP                 12108
 #define IDC_DSNULL_UNCOMP               12109
-#define IDC_DSEVR                       12110
 #define IDC_DSEVR_CUSTOM                12111
 #define IDC_DSMADVR                     12112
 #define IDC_DSSYNC                      12113
