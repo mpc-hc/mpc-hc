@@ -1,5 +1,5 @@
 /*
-* (C) 2015 see Authors.txt
+* (C) 2015-2016 see Authors.txt
 *
 * This file is part of MPC-HC.
 *
@@ -144,7 +144,9 @@ private:
         FILE_POS_LONGER,
         FILE_POS_AUDIO,
         COVER_SIZE_LIMIT,
-        LOGGING
+        LOGGING,
+        AUTO_DOWNLOAD_SCORE_MOVIES,
+        AUTO_DOWNLOAD_SCORE_SERIES,
     };
 
     enum {

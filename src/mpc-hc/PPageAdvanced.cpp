@@ -1,5 +1,5 @@
 /*
-* (C) 2014-2015 see Authors.txt
+* (C) 2014-2016 see Authors.txt
 *
 * This file is part of MPC-HC.
 *
@@ -129,6 +129,10 @@ void CPPageAdvanced::InitSettings()
     addBoolItem(FILE_POS_AUDIO, IDS_RS_FILEPOSAUDIO, true, s.bRememberPosForAudioFiles, ResStr(IDS_PPAGEADVANCED_FILE_POS_AUDIO));
     addIntItem(COVER_SIZE_LIMIT, IDS_RS_COVER_ART_SIZE_LIMIT, 600, s.nCoverArtSizeLimit, std::make_pair(0, INT_MAX), ResStr(IDS_PPAGEADVANCED_COVER_SIZE_LIMIT));
     addBoolItem(LOGGING, IDS_RS_LOGGING, false, s.bEnableLogging, ResStr(IDS_PPAGEADVANCED_LOGGER));
+    addIntItem(AUTO_DOWNLOAD_SCORE_MOVIES, IDS_RS_AUTODOWNLOADSCOREMOVIES, 0x16, s.nAutoDownloadScoreMovies,
+               std::make_pair(10, 30), StrRes(IDS_PPAGEADVANCED_SCORE));
+    addIntItem(AUTO_DOWNLOAD_SCORE_SERIES, IDS_RS_AUTODOWNLOADSCORESERIES, 0x18, s.nAutoDownloadScoreSeries,
+               std::make_pair(10, 30), StrRes(IDS_PPAGEADVANCED_SCORE));
 }
 
 BOOL CPPageAdvanced::OnApply()

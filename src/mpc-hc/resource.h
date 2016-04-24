@@ -1565,6 +1565,7 @@
 #define IDS_CMD_HWGPU                   57527
 #define IDS_CMD_RESET                   57528
 #define IDS_CMD_HELP                    57529
+#define IDS_PPAGEADVANCED_SCORE         57530
 
 // Next default values for new objects
 // 

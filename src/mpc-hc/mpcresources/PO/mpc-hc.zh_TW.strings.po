@@ -3953,3 +3953,7 @@ msgctxt "IDS_CMD_HELP"
 msgid "/help /h /?\tShow help about command line switches"
 msgstr ""
 
+msgctxt "IDS_PPAGEADVANCED_SCORE"
+msgid "Threshold value for subtitles score which are going to be automatically downloaded. Higher values means that more accurately matched subtitles will be loaded, lower values could result in incorrect subtitles being loaded, but there is no one perfect value. Pick one that works best for you."
+msgstr ""
+
