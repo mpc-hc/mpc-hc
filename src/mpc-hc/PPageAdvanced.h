@@ -156,6 +156,7 @@ private:
 
     CFont m_fontBold;
     CComboBox m_comboBox;
+    CSpinButtonCtrl m_spinButtonCtrl;
 
     std::map<ADVANCED_SETTINGS, std::shared_ptr<SettingsBase>> m_hiddenOptions;
 

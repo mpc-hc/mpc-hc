@@ -35,6 +35,7 @@ void CPPageAdvanced::DoDataExchange(CDataExchange* pDX)
     __super::DoDataExchange(pDX);
     DDX_Control(pDX, IDC_LIST1, m_list);
     DDX_Control(pDX, IDC_COMBO1, m_comboBox);
+    DDX_Control(pDX, IDC_SPIN1, m_spinButtonCtrl);
 }
 
 BOOL CPPageAdvanced::OnInitDialog()
@@ -58,11 +59,14 @@ BOOL CPPageAdvanced::OnInitDialog()
         pToolTip->SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOREDRAW | SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOCOPYBITS | SWP_NOOWNERZORDER);
     }
 
+    m_spinButtonCtrl.SetBuddy(GetDlgItem(IDC_EDIT1));
+
     GetDlgItem(IDC_EDIT1)->ShowWindow(SW_HIDE);
     GetDlgItem(IDC_COMBO1)->ShowWindow(SW_HIDE);
     GetDlgItem(IDC_RADIO1)->ShowWindow(SW_HIDE);
     GetDlgItem(IDC_RADIO2)->ShowWindow(SW_HIDE);
     GetDlgItem(IDC_BUTTON1)->ShowWindow(SW_HIDE);
+    GetDlgItem(IDC_SPIN1)->ShowWindow(SW_HIDE);
 
     GetDlgItemText(IDC_RADIO1, m_strTrue);
     GetDlgItemText(IDC_RADIO2, m_strFalse);
@@ -299,6 +303,7 @@ void CPPageAdvanced::OnLvnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult)
         GetDlgItem(IDC_RADIO1)->ShowWindow(SW_HIDE);
         GetDlgItem(IDC_RADIO2)->ShowWindow(SW_HIDE);
         GetDlgItem(IDC_BUTTON1)->ShowWindow(SW_HIDE);
+        GetDlgItem(IDC_SPIN1)->ShowWindow(SW_HIDE);
         if (pNMLV->iItem >= 0) {
             m_lastSelectedItem = pNMLV->iItem;
             auto eSetting = static_cast<ADVANCED_SETTINGS>(m_list.GetItemData(pNMLV->iItem));
@@ -322,7 +327,10 @@ void CPPageAdvanced::OnLvnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult)
                 m_comboBox.ShowWindow(SW_SHOW);
             } else if (auto pItemInt = std::dynamic_pointer_cast<SettingsInt>(pItem)) {
                 GetDlgItem(IDC_EDIT1)->ModifyStyle(0, ES_NUMBER, 0);
-                SetDlgItemInt(IDC_EDIT1, pItemInt->GetValue());
+                const auto& range = pItemInt->GetRange();
+                m_spinButtonCtrl.SetRange32(range.first, range.second);
+                m_spinButtonCtrl.SetPos32(pItemInt->GetValue());
+                m_spinButtonCtrl.ShowWindow(SW_SHOW);
                 GetDlgItem(IDC_EDIT1)->ShowWindow(SW_SHOW);
             } else if (auto pItemCString = std::dynamic_pointer_cast<SettingsCString>(pItem)) {
                 GetDlgItem(IDC_EDIT1)->ModifyStyle(ES_NUMBER, 0, 0);
