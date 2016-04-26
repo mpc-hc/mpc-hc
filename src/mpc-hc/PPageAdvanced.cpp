@@ -185,7 +185,6 @@ void CPPageAdvanced::OnBnClickedDefaultButton()
 
     const int iItem = GetListSelectionMark();
     if (iItem >= 0) {
-        SetRedraw(FALSE);
         CString str;
         auto eSetting = static_cast<ADVANCED_SETTINGS>(m_list.GetItemData(iItem));
         auto pItem = m_hiddenOptions.at(eSetting);
@@ -210,14 +209,12 @@ void CPPageAdvanced::OnBnClickedDefaultButton()
             str = pItemCString->GetValue();
             SetDlgItemText(IDC_EDIT1, pItemCString->GetValue());
         } else {
-            ASSERT(FALSE);
-            return;
+            UNREACHABLE_CODE();
         }
 
         m_list.SetItemText(iItem, COL_VALUE, str);
         UpdateData(FALSE);
-        SetRedraw(TRUE);
-        Invalidate();
+        m_list.Update(iItem);
         SetModified();
     }
 }
@@ -240,7 +237,6 @@ void CPPageAdvanced::OnNMDblclk(NMHDR* pNMHDR, LRESULT* pResult)
         auto eSetting = static_cast<ADVANCED_SETTINGS>(m_list.GetItemData(pNMItemActivate->iItem));
         auto pItem = m_hiddenOptions.at(eSetting);
         if (auto pItemBool = std::dynamic_pointer_cast<SettingsBool>(pItem)) {
-            SetRedraw(FALSE);
             pItemBool->Toggle();
             m_list.SetItemText(pNMItemActivate->iItem, COL_VALUE,
                                pItemBool->GetValue() ? m_strTrue : m_strFalse);
@@ -250,8 +246,7 @@ void CPPageAdvanced::OnNMDblclk(NMHDR* pNMHDR, LRESULT* pResult)
                 CheckRadioButton(IDC_RADIO1, IDC_RADIO2, IDC_RADIO2);
             }
             UpdateData(FALSE);
-            SetRedraw(TRUE);
-            Invalidate();
+            m_list.Update(pNMItemActivate->iItem);
             SetModified();
         }
     }
@@ -297,13 +292,6 @@ void CPPageAdvanced::OnLvnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult)
     LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
 
     if ((pNMLV->uChanged & LVIF_STATE) && (pNMLV->uNewState & LVNI_SELECTED)) {
-        SetRedraw(FALSE);
-        GetDlgItem(IDC_EDIT1)->ShowWindow(SW_HIDE);
-        GetDlgItem(IDC_COMBO1)->ShowWindow(SW_HIDE);
-        GetDlgItem(IDC_RADIO1)->ShowWindow(SW_HIDE);
-        GetDlgItem(IDC_RADIO2)->ShowWindow(SW_HIDE);
-        GetDlgItem(IDC_BUTTON1)->ShowWindow(SW_HIDE);
-        GetDlgItem(IDC_SPIN1)->ShowWindow(SW_HIDE);
         if (pNMLV->iItem >= 0) {
             m_lastSelectedItem = pNMLV->iItem;
             auto eSetting = static_cast<ADVANCED_SETTINGS>(m_list.GetItemData(pNMLV->iItem));
@@ -311,6 +299,9 @@ void CPPageAdvanced::OnLvnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult)
             GetDlgItem(IDC_BUTTON1)->ShowWindow(SW_SHOW);
 
             if (auto pItemBool = std::dynamic_pointer_cast<SettingsBool>(pItem)) {
+                for (const auto& nID : { IDC_EDIT1, IDC_COMBO1, IDC_SPIN1 }) {
+                    GetDlgItem(nID)->ShowWindow(SW_HIDE);
+                }
                 if (pItemBool->GetValue()) {
                     CheckRadioButton(IDC_RADIO1, IDC_RADIO2, IDC_RADIO1);
                 } else {
@@ -319,6 +310,9 @@ void CPPageAdvanced::OnLvnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult)
                 GetDlgItem(IDC_RADIO1)->ShowWindow(SW_SHOW);
                 GetDlgItem(IDC_RADIO2)->ShowWindow(SW_SHOW);
             } else if (auto pItemCombo = std::dynamic_pointer_cast<SettingsCombo>(pItem)) {
+                for (const auto& nID : { IDC_EDIT1, IDC_RADIO1, IDC_RADIO2, IDC_SPIN1 }) {
+                    GetDlgItem(nID)->ShowWindow(SW_HIDE);
+                }
                 m_comboBox.ResetContent();
                 for (const auto& str : pItemCombo->GetList()) {
                     m_comboBox.AddString(str);
@@ -326,6 +320,9 @@ void CPPageAdvanced::OnLvnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult)
                 m_comboBox.SetCurSel(pItemCombo->GetValue());
                 m_comboBox.ShowWindow(SW_SHOW);
             } else if (auto pItemInt = std::dynamic_pointer_cast<SettingsInt>(pItem)) {
+                for (const auto& nID : { IDC_COMBO1, IDC_RADIO1, IDC_RADIO2 }) {
+                    GetDlgItem(nID)->ShowWindow(SW_HIDE);
+                }
                 GetDlgItem(IDC_EDIT1)->ModifyStyle(0, ES_NUMBER, 0);
                 const auto& range = pItemInt->GetRange();
                 m_spinButtonCtrl.SetRange32(range.first, range.second);
@@ -333,13 +330,20 @@ void CPPageAdvanced::OnLvnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult)
                 m_spinButtonCtrl.ShowWindow(SW_SHOW);
                 GetDlgItem(IDC_EDIT1)->ShowWindow(SW_SHOW);
             } else if (auto pItemCString = std::dynamic_pointer_cast<SettingsCString>(pItem)) {
+                for (const auto& nID : { IDC_COMBO1, IDC_RADIO1, IDC_RADIO2, IDC_BUTTON1, IDC_SPIN1 }) {
+                    GetDlgItem(nID)->ShowWindow(SW_HIDE);
+                }
                 GetDlgItem(IDC_EDIT1)->ModifyStyle(ES_NUMBER, 0, 0);
                 SetDlgItemText(IDC_EDIT1, pItemCString->GetValue());
                 GetDlgItem(IDC_EDIT1)->ShowWindow(SW_SHOW);
+            } else {
+                UNREACHABLE_CODE();
+            }
+        } else {
+            for (const auto& nID : { IDC_EDIT1, IDC_COMBO1, IDC_RADIO1, IDC_RADIO2, IDC_BUTTON1, IDC_SPIN1 }) {
+                GetDlgItem(nID)->ShowWindow(SW_HIDE);
             }
         }
-        SetRedraw(TRUE);
-        Invalidate();
     }
 
     *pResult = 0;
@@ -353,12 +357,10 @@ void CPPageAdvanced::OnBnClickedRadio1()
         auto pItem = m_hiddenOptions.at(eSetting);
 
         if (auto pItemBool = std::dynamic_pointer_cast<SettingsBool>(pItem)) {
-            SetRedraw(FALSE);
             pItemBool->SetValue(true);
             m_list.SetItemText(iItem, COL_VALUE, m_strTrue);
             UpdateData(FALSE);
-            SetRedraw(TRUE);
-            Invalidate();
+            m_list.Update(iItem);
             SetModified();
         }
     }
@@ -372,12 +374,10 @@ void CPPageAdvanced::OnBnClickedRadio2()
         auto pItem = m_hiddenOptions.at(eSetting);
 
         if (auto pItemBool = std::dynamic_pointer_cast<SettingsBool>(pItem)) {
-            SetRedraw(FALSE);
             pItemBool->SetValue(false);
             m_list.SetItemText(iItem, COL_VALUE, m_strFalse);
             UpdateData(FALSE);
-            SetRedraw(TRUE);
-            Invalidate();
+            m_list.Update(iItem);
             SetModified();
         }
     }
@@ -396,7 +396,7 @@ void CPPageAdvanced::OnCbnSelchangeCombobox()
             pItemCombo->SetValue(iItem);
             m_list.SetItemText(nItem, COL_VALUE, list.at(iItem));
             UpdateData(FALSE);
-            Invalidate();
+            m_list.Update(nItem);
             if (m_comboBox.IsWindowVisible()) {
                 SetModified();
             }
@@ -440,8 +440,8 @@ void CPPageAdvanced::OnEnChangeEdit()
 
         if (bChanged) {
             m_list.SetItemText(iItem, COL_VALUE, str);
+            m_list.Update(iItem);
             UpdateData(FALSE);
-            Invalidate();
             SetModified();
         }
     }
