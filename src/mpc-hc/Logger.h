@@ -24,19 +24,25 @@
 #include "mplayerc.h"
 
 enum class LogTargets {
-    BDA
+    BDA,
+    SUBTITLES
 };
 
 namespace
 {
     template<LogTargets TARGET>
-    constexpr LPCTSTR GetFileName()
+    constexpr LPCTSTR GetFileName();
+
+    template<>
+    constexpr LPCTSTR GetFileName<LogTargets::BDA>()
     {
-        switch (TARGET) {
-            case LogTargets::BDA:
-                return _T("bda.log");
-        }
-        __assume(false);
+        return _T("bda.log");
+    }
+
+    template<>
+    constexpr LPCTSTR GetFileName<LogTargets::SUBTITLES>()
+    {
+        return _T("subtitles.log");
     }
 
     void WriteToFile(FILE* f, LPCSTR function, LPCSTR file, int line, _In_z_ _Printf_format_string_ LPCTSTR fmt, va_list& args)
@@ -89,3 +95,4 @@ private:
 
 #define MPCHC_LOG(TARGET, fmt, ...) Logger<LogTargets::TARGET>::Log(__FUNCTION__, __FILE__, __LINE__, fmt, __VA_ARGS__)
 #define BDA_LOG(...) MPCHC_LOG(BDA, __VA_ARGS__)
+#define SUBTITLES_LOG(...) MPCHC_LOG(SUBTITLES, __VA_ARGS__)

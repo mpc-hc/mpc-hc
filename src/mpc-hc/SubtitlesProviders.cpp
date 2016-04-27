@@ -23,6 +23,7 @@
 #include "MainFrm.h"
 #include "mplayerc.h"
 #include "PathUtils.h"
+#include "Logger.h"
 #include "MediaInfo/library/Source/ThirdParty/base64/base64.h"
 #include <wininet.h>
 
@@ -290,9 +291,11 @@ HRESULT SubtitlesInfo::GetFileInfo(const std::string& sFileName /*= std::string(
     fileExtension = UTF16To8(PathUtils::FileExt(fPath).TrimLeft('.'));
     fileName = UTF16To8(PathUtils::FileName(fPath));
 
+    int matchPattern = -1;
     regexResult result;
 
     if (std::regex_search(fileName, std::regex("addic[7t]ed", RegexFlags)) && stringMatch(regex_pattern[5], filePath, result)) {
+        matchPattern = 5;
         if (title.empty()) {
             title = result[0];
         }
@@ -321,6 +324,7 @@ HRESULT SubtitlesInfo::GetFileInfo(const std::string& sFileName /*= std::string(
             hearingImpaired = result[8].empty() ? FALSE : TRUE;
         }
     } else if (stringMatch(regex_pattern[0], filePath, result)) {
+        matchPattern = 0;
         if (title.empty()) {
             title = result[0];
         }
@@ -357,6 +361,7 @@ HRESULT SubtitlesInfo::GetFileInfo(const std::string& sFileName /*= std::string(
         }
         //if (languageCode.empty()) languageCode = result[11];
     } else if (stringMatch(regex_pattern[1], filePath, result)) {
+        matchPattern = 1;
         if (title.empty()) {
             title = result[0];
         }
@@ -373,6 +378,7 @@ HRESULT SubtitlesInfo::GetFileInfo(const std::string& sFileName /*= std::string(
 
     // Use the filename as title if we couldn't do better
     if (title.empty()) {
+        matchPattern = -1;
         title = fileName;
     }
     title = std::regex_replace(title, regex_pattern[6], " ");
@@ -399,6 +405,38 @@ HRESULT SubtitlesInfo::GetFileInfo(const std::string& sFileName /*= std::string(
 
     if ((hearingImpaired == -1) && stringMatch(regex_pattern[4], filePath, result)) {
         hearingImpaired = TRUE;
+    }
+
+    // Enable logging for the video filename detection
+    if (sFileName.empty()) {
+        static LPCTSTR log =
+            _T("GetFileInfo(): Deducing video information from file path\n")  \
+            // file properties
+            _T("filePath=\"%S\"\n")                                           \
+            _T("fileName=\"%S\"\n")                                           \
+            _T("fileExtension=\"%S\"\n")                                      \
+            _T("fileSize=%lu\n")                                              \
+            // file name properties
+            _T("matchPattern=%d\n")                                           \
+            _T("title=\"%S\"\n")                                              \
+            _T("country=\"%S\"\n")                                            \
+            _T("year=%d\n")                                                   \
+            _T("episode=\"%S\"\n")                                            \
+            _T("seasonNumber=%d\n")                                           \
+            _T("episodeNumber=%d\n")                                          \
+            _T("title2=\"%S\"\n")                                             \
+            _T("resolution=\"%S\"\n")                                         \
+            _T("format=\"%S\"\n")                                             \
+            _T("audioCodec=\"%S\"\n")                                         \
+            _T("videoCodec=\"%S\"\n")                                         \
+            _T("releaseGroup=\"%S\"\n")                                       \
+            _T("discNumber=%d");
+
+        SUBTITLES_LOG(log, filePath.c_str(), fileName.c_str(), fileExtension.c_str(), fileSize,
+                      matchPattern, title.c_str(), country.c_str(), year, episode.c_str(),
+                      seasonNumber, episodeNumber, title2.c_str(), resolution.c_str(),
+                      format.c_str(), audioCodec.c_str(), videoCodec.c_str(), releaseGroup.c_str(),
+                      discNumber);
     }
     return S_OK;
 }

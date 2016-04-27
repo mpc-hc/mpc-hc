@@ -23,9 +23,17 @@
 #include "SubtitlesProvidersUtils.h"
 #include "mplayerc.h"
 #include "ISOLang.h"
+#include "Logger.h"
 #include "MediaInfo/library/Source/ThirdParty/base64/base64.h"
 #include "tinyxml2/library/tinyxml2.h"
 #include "rapidjson/include/rapidjson/document.h"
+
+#define LOG if (AfxGetAppSettings().bEnableLogging) SUBTITLES_LOG
+#define LOG_NONE    _T("()")
+#define LOG_INPUT   _T("(\"%S\")")
+#define LOG_OUTPUT  _T("()=%S")
+#define LOG_BOTH    _T("(\"%S\")=%S")
+#define LOG_ERROR   _T("() ERROR: %S")
 
 #define GUESSED_NAME_POSTFIX " (*)"
 
@@ -85,6 +93,8 @@ SRESULT OpenSubtitles::Login(const std::string& sUserName, const std::string& sP
             }
         }
     }
+
+    LOG(LOG_BOTH, sUserName.c_str(), token.valid() ? (LPCSTR)token : "failed");
     return token.valid() ? SR_SUCCEEDED : SR_FAILED;
 }
 
@@ -98,13 +108,14 @@ SRESULT OpenSubtitles::LogOut()
     }
     m_nLoggedIn = SPL_UNDEFINED;
 
+    LOG(LOG_NONE);
     return SR_SUCCEEDED;
 }
 
 SRESULT OpenSubtitles::Hash(SubtitlesInfo& pFileInfo)
 {
     pFileInfo.fileHash = StringFormat("%016I64x", GenerateOSHash(pFileInfo));
-    TRACE(_T("%S::Hash = %S\n"), Name().c_str(), pFileInfo.fileHash.c_str());
+    LOG(LOG_OUTPUT, pFileInfo.fileHash.c_str());
     return SR_SUCCEEDED;
 }
 
@@ -119,6 +130,10 @@ SRESULT OpenSubtitles::Search(const SubtitlesInfo& pFileInfo)
     //args[1][1]["sublanguageid"] = !languages.empty() ? languages : "all";
     //args[1][1]["tag"] = pFileInfo.fileName + "." + pFileInfo.fileExtension;
     args[2]["limit"] = 500;
+
+    LOG(LOG_INPUT,
+        StringFormat("{ sublanguageid=\"%S\", moviehash=\"%S\", moviebytesize=\"%S\", limit=%d }",
+                     (LPCSTR)args[1][0]["sublanguageid"], (LPCSTR)args[1][0]["moviehash"], (LPCSTR)args[1][0]["moviebytesize"], (int)args[2]["limit"]).c_str());
 
     if (!xmlrpc->execute("SearchSubtitles", args, result)) {
         return SR_FAILED;
@@ -171,6 +186,8 @@ SRESULT OpenSubtitles::Download(SubtitlesInfo& pSubtitlesInfo)
     if (!xmlrpc->execute("DownloadSubtitles", args, result)) {
         return SR_FAILED;
     }
+
+    LOG(LOG_INPUT, pSubtitlesInfo.id.c_str());
 
     if (result["data"].getType() != XmlRpcValue::Type::TypeArray) {
         return SR_FAILED;
@@ -316,7 +333,7 @@ SRESULT OpenSubtitles::Upload(const SubtitlesInfo& pSubtitlesInfo)
             if (!xmlrpc->execute("UploadSubtitles", args, result)) {
                 return SR_FAILED;
             }
-            TRACE(_T("OpenSubtitles: Subtitle file successfully uploaded (%s)"), UTF8To16(result["data"]));
+            LOG(LOG_OUTPUT, (LPCSTR)result["data"]);
 
             return SR_SUCCEEDED;
         }
@@ -363,7 +380,7 @@ const std::set<std::string>& OpenSubtitles::Languages() const
         });
     } catch (const LanguageDownloadException& e) {
         UNREFERENCED_PARAMETER(e);
-        TRACE(_T("%S: %S\n"), Name().c_str(), e.what());
+        LOG(LOG_ERROR, e.what());
     }
     return result;
 }
@@ -413,14 +430,18 @@ SRESULT SubDB::Hash(SubtitlesInfo& pFileInfo)
         }
     }
     pFileInfo.fileHash = StringToHash(std::string((char*)&buffer[0], buffer.size()), CALG_MD5);
+    LOG(LOG_OUTPUT, pFileInfo.fileHash.c_str());
     return SR_SUCCEEDED;
 }
 
 SRESULT SubDB::Search(const SubtitlesInfo& pFileInfo)
 {
     SRESULT searchResult = SR_UNDEFINED;
+    std::string url(StringFormat("http://api.thesubdb.com/?action=search&hash=%s", pFileInfo.fileHash.c_str()));
+    LOG(LOG_INPUT, url.c_str());
+
     std::string data;
-    searchResult = DownloadInternal(StringFormat("http://api.thesubdb.com/?action=search&hash=%s", pFileInfo.fileHash.c_str()), "", data);
+    searchResult = DownloadInternal(url, "", data);
 
     if (!data.empty()) {
         for (const auto& iter : StringTokenize(data, ",")) {
@@ -445,7 +466,9 @@ SRESULT SubDB::Search(const SubtitlesInfo& pFileInfo)
 
 SRESULT SubDB::Download(SubtitlesInfo& pSubtitlesInfo)
 {
-    return DownloadInternal(StringFormat("http://api.thesubdb.com/?action=download&hash=%s&language=%s", pSubtitlesInfo.id.c_str(), pSubtitlesInfo.languageCode.c_str()), "", pSubtitlesInfo.fileContents);
+    std::string url(StringFormat("http://api.thesubdb.com/?action=download&hash=%s&language=%s", pSubtitlesInfo.id.c_str(), pSubtitlesInfo.languageCode.c_str()));
+    LOG(LOG_INPUT, url.c_str());
+    return DownloadInternal(url, "", pSubtitlesInfo.fileContents);
 }
 
 SRESULT SubDB::Upload(const SubtitlesInfo& pSubtitlesInfo)
@@ -468,6 +491,8 @@ SRESULT SubDB::Upload(const SubtitlesInfo& pSubtitlesInfo)
 
     DWORD dwStatusCode = NULL;
     StringUpload(url, headers, content, data, FALSE, &dwStatusCode);
+
+    LOG(LOG_BOTH, url.c_str(), std::to_string(dwStatusCode).c_str());
 
     switch (dwStatusCode) {
         case 201:
@@ -502,7 +527,7 @@ const std::set<std::string>& SubDB::Languages() const
         });
     } catch (const LanguageDownloadException& e) {
         UNREFERENCED_PARAMETER(e);
-        TRACE(_T("%S: %S\n"), Name().c_str(), e.what());
+        LOG(LOG_ERROR, e.what());
     }
     return result;
 }
@@ -581,7 +606,7 @@ SRESULT podnapisi::Search(const SubtitlesInfo& pFileInfo)
         //url += "&sR=" + UrlEncode(pFileInfo.fileName.c_str());
         url += (!languages.empty() ? "&sL=" + JoinContainer(languages, ",") : "");
         url += "&page=" + std::to_string(page);
-        TRACE(_T("%S::Search => %S\n"), Name().c_str(), url.c_str());
+        LOG(LOG_INPUT, url.c_str());
 
         std::string data;
         searchResult = DownloadInternal(url, "", data);
@@ -699,15 +724,14 @@ SRESULT podnapisi::Search(const SubtitlesInfo& pFileInfo)
 SRESULT podnapisi::Hash(SubtitlesInfo& pFileInfo)
 {
     pFileInfo.fileHash = StringFormat("%016I64x", GenerateOSHash(pFileInfo));
-    TRACE(_T("%S::Hash = %S\n"), Name().c_str(), pFileInfo.fileHash.c_str());
+    LOG(LOG_OUTPUT, pFileInfo.fileHash.c_str());
     return SR_SUCCEEDED;
 }
 
 SRESULT podnapisi::Download(SubtitlesInfo& pSubtitlesInfo)
 {
     std::string url = StringFormat("https://www.podnapisi.net/subtitles/%s/download", pSubtitlesInfo.id.c_str());
-    TRACE(_T("%S::Download => %S\n"), Name().c_str(), url.c_str());
-
+    LOG(LOG_INPUT, url.c_str());
     return DownloadInternal(url, "", pSubtitlesInfo.fileContents);
 }
 
@@ -756,6 +780,7 @@ SRESULT titlovi::Search(const SubtitlesInfo& pFileInfo)
     url += (pFileInfo.episodeNumber != -1 ? "&episode=" + std::to_string(pFileInfo.episodeNumber) : "");
     url += (pFileInfo.year != -1 ? "&year=" + std::to_string(pFileInfo.year) : "");
     url += (userSelectedLanguage ? "&language=" + JoinContainer(languagesIntersection, ",") : "");
+    LOG(LOG_INPUT, url.c_str());
 
     std::string data;
     SRESULT searchResult = DownloadInternal(url, "", data);
@@ -852,6 +877,7 @@ SRESULT titlovi::Search(const SubtitlesInfo& pFileInfo)
 
 SRESULT titlovi::Download(SubtitlesInfo& pSubtitlesInfo)
 {
+    LOG(LOG_INPUT, pSubtitlesInfo.id.c_str());
     return DownloadInternal(pSubtitlesInfo.id, "", pSubtitlesInfo.fileContents);
 }
 
@@ -881,7 +907,7 @@ SRESULT ysubs::Search(const SubtitlesInfo& pFileInfo)
 
     if (pFileInfo.year && pFileInfo.seasonNumber == -1 && pFileInfo.episodeNumber == -1) {
         std::string urlApi(StringFormat("https://yts.ag/api/v2/list_movies.json?query_term=%s", UrlEncode(pFileInfo.title.c_str())));
-        TRACE(_T("%S::Search => %S\n"), Name().c_str(), urlApi.c_str());
+        LOG(LOG_INPUT, urlApi.c_str());
 
         std::string data;
         searchResult = DownloadInternal(urlApi, "", data);
@@ -902,7 +928,7 @@ SRESULT ysubs::Search(const SubtitlesInfo& pFileInfo)
                         imdb_ids.insert(imdb);
 
                         std::string urlSubs(StringFormat("http://api.ysubs.com/subs/%s", imdb.c_str()));
-                        TRACE(_T("%S::Search => %S\n"), Name().c_str(), urlSubs.c_str());
+                        LOG(LOG_INPUT, urlSubs.c_str());
 
                         std::string data1;
                         searchResult = DownloadInternal(urlSubs, "", data1);
@@ -962,7 +988,7 @@ SRESULT ysubs::Search(const SubtitlesInfo& pFileInfo)
 
 SRESULT ysubs::Download(SubtitlesInfo& pSubtitlesInfo)
 {
-    TRACE(_T("%S::Download => %S\n"), Name().c_str(), pSubtitlesInfo.id.c_str());
+    LOG(LOG_INPUT, pSubtitlesInfo.id.c_str());
     return DownloadInternal(pSubtitlesInfo.id, "", pSubtitlesInfo.fileContents);
 }
 
@@ -992,6 +1018,7 @@ SRESULT Napisy24::Search(const SubtitlesInfo& pFileInfo)
         { "Content-Type", "application/x-www-form-urlencoded" }
     });
     std::string data;
+    std::string url = "http://napisy24.pl/run/CheckSubAgent.php";
     std::string content = "postAction=CheckSub";
     content += "&ua=mpc-hc";
     content += "&ap=mpc-hc";
@@ -999,7 +1026,8 @@ SRESULT Napisy24::Search(const SubtitlesInfo& pFileInfo)
     content += "&fs=" + std::to_string(pFileInfo.fileSize);
     content += "&fn=" + pFileInfo.fileName;
 
-    StringUpload("http://napisy24.pl/run/CheckSubAgent.php", headers, content, data);
+    LOG(LOG_INPUT, std::string(url + "?" + content).c_str());
+    StringUpload(url, headers, content, data);
 
     if (data.length() < 4) {
         return SR_FAILED;
@@ -1072,12 +1100,13 @@ SRESULT Napisy24::Search(const SubtitlesInfo& pFileInfo)
 SRESULT Napisy24::Hash(SubtitlesInfo& pFileInfo)
 {
     pFileInfo.fileHash = StringFormat("%016I64x", GenerateOSHash(pFileInfo));
-    TRACE(_T("%S::Hash = %S\n"), Name().c_str(), pFileInfo.fileHash.c_str());
+    LOG(LOG_OUTPUT, pFileInfo.fileHash.c_str());
     return SR_SUCCEEDED;
 }
 
 SRESULT Napisy24::Download(SubtitlesInfo& subtitlesInfo)
 {
+    LOG(LOG_INPUT, subtitlesInfo.url.c_str());
     return subtitlesInfo.fileContents.empty() ? SR_FAILED : SR_SUCCEEDED;
 }
 
