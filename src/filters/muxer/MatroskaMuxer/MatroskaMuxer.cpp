@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -359,6 +359,8 @@ ULONGLONG SetStreamPosition(IStream* pStream, ULONGLONG seekpos)
     return posnew.QuadPart;
 }
 
+#pragma warning(push)
+#pragma warning(disable: 4702)
 DWORD CMatroskaMuxerFilter::ThreadProc()
 {
     CComQIPtr<IStream> pStream;
@@ -704,11 +706,8 @@ DWORD CMatroskaMuxerFilter::ThreadProc()
                 break;
         }
     }
-
-    ASSERT(0); // we should only exit via CMD_EXIT
-
-    CAMThread::m_hThread = nullptr;
-    return 0;
+    UNREACHABLE_CODE(); // we should only exit via CMD_EXIT
+#pragma warning(pop)
 }
 
 //

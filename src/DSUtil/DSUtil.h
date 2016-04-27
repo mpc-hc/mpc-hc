@@ -241,6 +241,12 @@ public:
 
 #define ResStr(id)  CString(MAKEINTRESOURCE(id))
 
+#define UNREACHABLE_CODE()  \
+    do {                    \
+        ASSERT(false);      \
+        __assume(false);    \
+    } while (false)
+
 template <class T>
 static CUnknown* WINAPI CreateInstance(LPUNKNOWN lpunk, HRESULT* phr)
 {

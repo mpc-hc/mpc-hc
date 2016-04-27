@@ -417,6 +417,8 @@ bool CVobSubFileRipper::LoadVob(CString fn)
     return true;
 }
 
+#pragma warning(push)
+#pragma warning(disable: 4702)
 DWORD CVobSubFileRipper::ThreadProc()
 {
     SetThreadPriority(m_hThread, THREAD_PRIORITY_BELOW_NORMAL);
@@ -449,8 +451,8 @@ DWORD CVobSubFileRipper::ThreadProc()
         m_bBreakThread = false;
         m_bThreadActive = false;
     }
-
-    return 1;
+    UNREACHABLE_CODE(); // we should only exit via CMD_EXIT
+#pragma warning(pop)
 }
 
 static int SubPosSortProc(const void* e1, const void* e2)

@@ -950,6 +950,8 @@ void CBaseSplitterFilter::DeliverEndFlush()
     m_eEndFlush.Set();
 }
 
+#pragma warning(push)
+#pragma warning(disable: 4702)
 DWORD CBaseSplitterFilter::ThreadProc()
 {
     if (m_pSyncReader) {
@@ -1012,11 +1014,8 @@ DWORD CBaseSplitterFilter::ThreadProc()
             m_pActivePins.GetNext(pos)->QueueEndOfStream();
         }
     }
-
-    ASSERT(0); // we should only exit via CMD_EXIT
-
-    m_hThread = nullptr;
-    return 0;
+    UNREACHABLE_CODE(); // we should only exit via CMD_EXIT
+#pragma warning(pop)
 }
 
 HRESULT CBaseSplitterFilter::DeliverPacket(CAutoPtr<Packet> p)
