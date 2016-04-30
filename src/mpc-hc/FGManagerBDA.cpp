@@ -41,7 +41,7 @@
 #include "SysVersion.h"
 #include "Logger.h"
 
-#define LOG Logger<LogTargets::BDA>::LOG
+#define LOG(...) MPCHC_LOG(BDA, __VA_ARGS__)
 #define CheckAndLogBDA(x, msg)  hr = ##x; if (FAILED(hr)) { LOG(msg _T(": 0x%08x\n"), hr); return hr; }
 #define CheckAndLogBDANoRet(x, msg)  hr = ##x; if (FAILED(hr)) { LOG(msg _T(": 0x%08x\n"), hr); }
 

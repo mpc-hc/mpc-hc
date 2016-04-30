@@ -28,8 +28,6 @@
 #include "resource.h"
 #include "Logger.h"
 
-#define BDA_LOG Logger<LogTargets::BDA>::LOG
-
 #define BeginEnumDescriptors(gb, nType, nLength)                    \
 {                                                                   \
     BYTE DescBuffer[256];                                           \
