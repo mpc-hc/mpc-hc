@@ -40,6 +40,7 @@ CSubPicAllocatorPresenterImpl::CSubPicAllocatorPresenterImpl(HWND hWnd, HRESULT&
     , m_aspectRatio(0, 0)
     , m_videoRect(0, 0, 0, 0)
     , m_windowRect(0, 0, 0, 0)
+    , m_bDefaultVideoAngleSwitchAR(false)
     , m_rtNow(0)
     , m_fps(25.0)
     , m_refreshRate(0)
@@ -157,13 +158,17 @@ STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetVideoSize(CSize szVideo, C
 
 STDMETHODIMP_(SIZE) CSubPicAllocatorPresenterImpl::GetVideoSize(bool bCorrectAR) const
 {
-    CSize VideoSize(GetVisibleVideoSize());
+    CSize videoSize(GetVisibleVideoSize());
 
     if (bCorrectAR && m_aspectRatio.cx > 0 && m_aspectRatio.cy > 0) {
-        VideoSize.cx = (LONGLONG(VideoSize.cy) * LONGLONG(m_aspectRatio.cx)) / LONGLONG(m_aspectRatio.cy);
+        videoSize.cx = (LONGLONG(videoSize.cy) * LONGLONG(m_aspectRatio.cx)) / LONGLONG(m_aspectRatio.cy);
     }
 
-    return VideoSize;
+    if (m_bDefaultVideoAngleSwitchAR) {
+        std::swap(videoSize.cx, videoSize.cy);
+    }
+
+    return videoSize;
 }
 
 STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetPosition(RECT w, RECT v)
@@ -277,6 +282,22 @@ void CSubPicAllocatorPresenterImpl::Transform(CRect r, Vector v[4])
 STDMETHODIMP CSubPicAllocatorPresenterImpl::SetDefaultVideoAngle(Vector v)
 {
     if (m_defaultVideoAngle != v) {
+        constexpr float pi_2 = float(M_PI_2);
+
+        // In theory it should be a multiple of 90°
+        int zAnglePi2 = std::lround(v.z / pi_2);
+        ASSERT(zAnglePi2 * pi_2 == v.z);
+
+        // Normalize the Z angle
+        zAnglePi2 %= 4;
+        if (zAnglePi2 < 0) {
+            zAnglePi2 += 4;
+        }
+        v.z = zAnglePi2 * pi_2;
+
+        // Check if the default rotation change the AR
+        m_bDefaultVideoAngleSwitchAR = (v.z == pi_2 || v.z == 3.0f * pi_2);
+
         m_defaultVideoAngle = v;
         UpdateXForm();
         return S_OK;
@@ -313,7 +334,10 @@ void CSubPicAllocatorPresenterImpl::UpdateXForm()
     normalizeAngle(v.y);
     normalizeAngle(v.z);
 
-    m_xform = XForm(Ray(Vector(), v), Vector(1, 1, 1), false);
+    CSize AR = GetVideoSize(true);
+    float fARCorrection = m_bDefaultVideoAngleSwitchAR ? float(AR.cx) / AR.cy : 1.0f;
+
+    m_xform = XForm(Ray(Vector(), v), Vector(1.0f / fARCorrection, fARCorrection, 1.0f), false);
 
     Paint(false);
 }

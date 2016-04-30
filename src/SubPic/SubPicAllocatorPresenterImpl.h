@@ -75,6 +75,7 @@ protected:
     void UpdateXForm();
 
     Vector m_defaultVideoAngle, m_videoAngle;
+    bool m_bDefaultVideoAngleSwitchAR;
     XForm m_xform;
     void Transform(CRect r, Vector v[4]);
 
