@@ -17,10 +17,11 @@ next version - not released yet
 * Updated MediaInfoLib to v0.7.84
 * Updated ZenLib to v0.4.33
 * Updated Unrar to v5.3.11
-* Updated LAV Filters to v0.68.0.16:
+* Updated LAV Filters to v0.68.0.32:
     - LAV Splitter: Support HTTPS protocol
     - LAV Splitter: Switch back to an improved version of the old ASF demuxer
     - LAV Splitter: Support demuxing H264 MVC
+    - Ticket #5815, LAV Splitter: Improve the detection of the forced flag for some MP4 subtitle tracks
     - LAV Video Decoder: Add experimental support for VP9 DXVA2 decoding (disabled by default)
     - LAV Video Decoder: Enable hardware decoding for HEVC and 4K/UHD by default
     - LAV Video Decoder: Add a basic H264 MVC decoder based on Intel MediaSDK.
