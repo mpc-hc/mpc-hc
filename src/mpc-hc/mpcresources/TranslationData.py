@@ -129,7 +129,6 @@ class TranslationData:
         context = None
         id = None
         str = None
-        show = False
 
         prevLineType = None
         for line in f:

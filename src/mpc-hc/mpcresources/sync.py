@@ -25,20 +25,21 @@ from UpdatePOT import *
 from UpdatePO import *
 from UpdateRC import *
 
+
 def processRC(file):
     ret = file + '\n'
     result = True
     try:
         ret += '--> Updating PO file\n'
         UpdatePO(file)
-    except Exception as e:
+    except Exception:
         ret += ''.join(traceback.format_exception(*sys.exc_info()))
         result = False
     else:
         try:
             ret += '--> Updating RC file\n'
             UpdateRC(file, False)
-        except Exception as e:
+        except Exception:
             ret += ''.join(traceback.format_exception(*sys.exc_info()))
             result = False
 
@@ -54,7 +55,7 @@ if __name__ == '__main__':
     results = []
     for file in os.listdir('PO'):
         if fnmatch.fnmatch(file, 'mpc-hc.*.menus.po'):
-            results.append(pool.apply_async(processRC, [file[:-9]]));
+            results.append(pool.apply_async(processRC, [file[:-9]]))
 
     pool.close()
 
