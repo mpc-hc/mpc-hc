@@ -4639,6 +4639,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
         DVD_HMSF_TIMECODE hmsf = RT2HMS_r(rt);
 
         SeekTo(rt);
+        UpdateWindow();
 
         m_nVolumeBeforeFrameStepping = m_wndToolBar.Volume;
         m_pBA->put_Volume(-10000);
