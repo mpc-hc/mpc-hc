@@ -26,40 +26,56 @@
 #define NANOSVGRAST_IMPLEMENTATION
 #include <nanosvg/src/nanosvgrast.h>
 
+namespace
+{
+    HRESULT NSVGimageToCImage(NSVGimage* svgImage, CImage& image)
+    {
+        image.Destroy();
+
+        if (!svgImage) {
+            return E_FAIL;
+        }
+
+        NSVGrasterizer* rasterizer = nsvgCreateRasterizer();
+        if (!rasterizer) {
+            return E_FAIL;
+        }
+
+        if (!image.Create(int(svgImage->width), int(svgImage->height), 32)) {
+            return E_FAIL;
+        }
+
+        nsvgRasterize(rasterizer, svgImage, 0.0f, 0.0f, 1.0f,
+                      static_cast<unsigned char*>(image.GetBits()),
+                      image.GetWidth(), image.GetHeight(), image.GetPitch());
+
+        // NanoSVG outputs RGBA but we need BGRA so we swap red and blue
+        BYTE* bits = static_cast<BYTE*>(image.GetBits());
+        for (int y = 0; y < image.GetHeight(); y++, bits += image.GetPitch()) {
+            RGBQUAD* p = reinterpret_cast<RGBQUAD*>(bits);
+            for (int x = 0; x < image.GetWidth(); x++) {
+                std::swap(p[x].rgbRed, p[x].rgbBlue);
+            }
+        }
+
+        nsvgDeleteRasterizer(rasterizer);
+        nsvgDelete(svgImage);
+
+        return S_OK;
+    }
+}
 
 HRESULT SVGImage::Load(LPCTSTR filename, CImage& image)
 {
-    image.Destroy();
+    return NSVGimageToCImage(nsvgParseFromFile(CStringA(filename), "px", 96.0f), image);
+}
 
-    NSVGimage* svgImage = nsvgParseFromFile(CStringA(filename), "px", 96.0f);
-    if (!svgImage) {
+HRESULT SVGImage::Load(UINT uResId, CImage& image)
+{
+    CStringA svg;
+    if (!LoadResource(uResId, svg, _T("SVG"))) {
         return E_FAIL;
     }
 
-    NSVGrasterizer* rasterizer = nsvgCreateRasterizer();
-    if (!rasterizer) {
-        return E_FAIL;
-    }
-
-    if (!image.Create(int(svgImage->width), int(svgImage->height), 32)) {
-        return E_FAIL;
-    }
-
-    nsvgRasterize(rasterizer, svgImage, 0.0f, 0.0f, 1.0f,
-                  static_cast<unsigned char*>(image.GetBits()),
-                  image.GetWidth(), image.GetHeight(), image.GetPitch());
-
-    // NanoSVG outputs RGBA but we need BGRA so we swap red and blue
-    BYTE* bits = static_cast<BYTE*>(image.GetBits());
-    for (int y = 0; y < image.GetHeight(); y++, bits += image.GetPitch()) {
-        RGBQUAD* p = reinterpret_cast<RGBQUAD*>(bits);
-        for (int x = 0; x < image.GetWidth(); x++) {
-            std::swap(p[x].rgbRed, p[x].rgbBlue);
-        }
-    }
-
-    nsvgDeleteRasterizer(rasterizer);
-    nsvgDelete(svgImage);
-
-    return S_OK;
+    return NSVGimageToCImage(nsvgParse(svg.GetBuffer(), "px", 96.0f), image);
 }

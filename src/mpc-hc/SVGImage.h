@@ -25,4 +25,5 @@ class ATL::CImage;
 namespace SVGImage
 {
     HRESULT Load(LPCTSTR filename, CImage& image);
+    HRESULT Load(UINT uResId, CImage& image);
 };
