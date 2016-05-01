@@ -4541,8 +4541,12 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
         return;
     }
 
-    m_pMC->Pause();
-    GetMediaState(); // wait for completion of the pause command
+    OAFilterState filterState = GetMediaState();
+    bool bWasStopped = (filterState == State_Stopped);
+    if (filterState != State_Paused) {
+        OnPlayPause();
+        GetMediaState(); // wait for completion of the pause command
+    }
 
     CSize szVideoARCorrected, szVideo, szAR;
 
@@ -4801,7 +4805,11 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 
     SaveDIB(fn, (BYTE*)dib, dibsize);
 
-    SeekTo(rtPos);
+    if (bWasStopped) {
+        OnPlayStop();
+    } else {
+        SeekTo(rtPos);
+    }
 
     m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_OSD_THUMBS_SAVED), 3000);
 }
