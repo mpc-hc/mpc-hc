@@ -13,6 +13,7 @@ next version - not released yet
 + Ability to control playback repeat mode
 + Add a cache to avoid recompiling pixel shaders when possible
 + Add Bosnian translation
++ Option to set audio delay values for each display mode
 * Updated Little CMS to v2.7 (git 154e30a)
 * Updated MediaInfoLib to v0.7.84
 * Updated ZenLib to v0.4.33

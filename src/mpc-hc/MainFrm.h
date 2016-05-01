@@ -495,7 +495,7 @@ public:
     static bool GetDispMode(CString displayName, int i, DisplayMode& dm);
 
 protected:
-    void SetDispMode(CString displayName, const DisplayMode& dm);
+    void SetDispMode(CString displayName, const DisplayMode& dm, int msAudioDelay);
     void AutoChangeMonitorMode();
 
     void GraphEventComplete();

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2014, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -60,7 +60,8 @@ private:
         COL_N,
         COL_FRAMERATE_START,
         COL_FRAMERATE_STOP,
-        COL_DISPLAY_MODE
+        COL_DISPLAY_MODE,
+        COL_AUDIO_DELAY
     };
 
     CSpinButtonCtrl m_delaySpinner;

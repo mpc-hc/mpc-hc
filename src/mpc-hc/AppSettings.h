@@ -217,16 +217,18 @@ struct DisplayMode {
 };
 
 struct AutoChangeMode {
-    AutoChangeMode(bool bChecked, double dFrameRateStart, double dFrameRateStop, DisplayMode dm)
-        : bChecked(bChecked)
-        , dFrameRateStart(dFrameRateStart)
-        , dFrameRateStop(dFrameRateStop)
-        , dm(dm) {
-    };
+    AutoChangeMode(bool _bChecked, double _dFrameRateStart, double _dFrameRateStop, int _msAudioDelay, DisplayMode _dm)
+        : bChecked(_bChecked)
+        , dFrameRateStart(_dFrameRateStart)
+        , dFrameRateStop(_dFrameRateStop)
+        , msAudioDelay(_msAudioDelay)
+        , dm(std::move(_dm)) {
+    }
 
     bool        bChecked;
     double      dFrameRateStart;
     double      dFrameRateStop;
+    int         msAudioDelay;
     DisplayMode dm;
 };
 

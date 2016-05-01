@@ -9419,7 +9419,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
         m_eventc.FireEvent(MpcEvent::SWITCHING_FROM_FULLSCREEN);
 
         if (s.autoChangeFSMode.bEnabled && s.autoChangeFSMode.bApplyDefaultModeAtFSExit && !s.autoChangeFSMode.modes.empty() && s.autoChangeFSMode.modes[0].bChecked) {
-            SetDispMode(s.strFullScreenMonitor, s.autoChangeFSMode.modes[0].dm);
+            SetDispMode(s.strFullScreenMonitor, s.autoChangeFSMode.modes[0].dm, s.fAudioTimeShift ? s.iAudioTimeShift : 0); // Restore default time shift
         }
 
         windowRect = m_lastWindowRect;
@@ -9522,7 +9522,7 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
             }
 
             if (s.autoChangeFSMode.bEnabled && s.autoChangeFSMode.bApplyDefaultModeAtFSExit && !s.autoChangeFSMode.modes.empty() && s.autoChangeFSMode.modes[0].bChecked) {
-                SetDispMode(s.strFullScreenMonitor, s.autoChangeFSMode.modes[0].dm);
+                SetDispMode(s.strFullScreenMonitor, s.autoChangeFSMode.modes[0].dm, s.fAudioTimeShift ? s.iAudioTimeShift : 0); // Restore default time shift
             }
 
             // Destroy the D3D Fullscreen window and zoom the windowed video frame
@@ -9592,10 +9592,18 @@ bool CMainFrame::GetDispMode(CString displayName, int i, DisplayMode& dm)
     return dm.bValid;
 }
 
-void CMainFrame::SetDispMode(CString displayName, const DisplayMode& dm)
+void CMainFrame::SetDispMode(CString displayName, const DisplayMode& dm, int msAudioDelay)
 {
     DisplayMode dmCurrent;
-    if (!GetCurDispMode(displayName, dmCurrent) || (dm.size == dmCurrent.size && dm.bpp == dmCurrent.bpp && dm.freq == dmCurrent.freq)) {
+    if (!GetCurDispMode(displayName, dmCurrent)) {
+        return;
+    }
+
+    CComQIPtr<IAudioSwitcherFilter> pASF = FindFilter(__uuidof(CAudioSwitcherFilter), m_pGB);
+    if (dm.size == dmCurrent.size && dm.bpp == dmCurrent.bpp && dm.freq == dmCurrent.freq) {
+        if (pASF) {
+            pASF->SetAudioTimeShift(msAudioDelay * 10000i64);
+        }
         return;
     }
 
@@ -9614,13 +9622,21 @@ void CMainFrame::SetDispMode(CString displayName, const DisplayMode& dm)
         monitor.GetName(displayName);
     }
 
+    const auto& s = AfxGetAppSettings();
+    LONG ret;
+
     m_eventc.FireEvent(MpcEvent::DISPLAY_MODE_AUTOCHANGING);
     if (AfxGetAppSettings().autoChangeFSMode.bRestoreResAfterProgExit) {
-        ChangeDisplaySettingsEx(displayName, &dmScreenSettings, nullptr, CDS_FULLSCREEN, nullptr);
+        ret = ChangeDisplaySettingsEx(displayName, &dmScreenSettings, nullptr, CDS_FULLSCREEN, nullptr);
     } else {
-        ChangeDisplaySettingsEx(displayName, &dmScreenSettings, nullptr, 0, nullptr);
+        ret = ChangeDisplaySettingsEx(displayName, &dmScreenSettings, nullptr, 0, nullptr);
     }
     m_eventc.FireEvent(MpcEvent::DISPLAY_MODE_AUTOCHANGED);
+
+    msAudioDelay = ret == DISP_CHANGE_SUCCESSFUL ? msAudioDelay : (s.fAudioTimeShift ? s.iAudioTimeShift  : 0);
+    if (pASF) {
+        pASF->SetAudioTimeShift(msAudioDelay * 10000i64);
+    }
 }
 
 void CMainFrame::AutoChangeMonitorMode()
@@ -9664,11 +9680,11 @@ void CMainFrame::AutoChangeMonitorMode()
 
     for (const auto& mode : s.autoChangeFSMode.modes) {
         if (mode.bChecked && dMediaFPS >= mode.dFrameRateStart && dMediaFPS <= mode.dFrameRateStop) {
-            SetDispMode(s.strFullScreenMonitor, mode.dm);
+            SetDispMode(s.strFullScreenMonitor, mode.dm, mode.msAudioDelay);
             return;
         }
     }
-    SetDispMode(s.strFullScreenMonitor, s.autoChangeFSMode.modes[0].dm);
+    SetDispMode(s.strFullScreenMonitor, s.autoChangeFSMode.modes[0].dm, s.fAudioTimeShift ? s.iAudioTimeShift : 0); // Restore default time shift
 }
 
 void CMainFrame::MoveVideoWindow(bool fShowStats/* = false*/, bool bSetStoppedVideoRect/* = false*/)
