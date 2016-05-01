@@ -160,7 +160,7 @@ DWORD CBaseMuxerFilter::ThreadProc()
                             continue;
                         }
 
-                        CAutoPtr<MuxerPacket> pPacket = GetPacket();
+                        CAutoPtr<MuxerPacket> pPacket(GetPacket().Detach());
                         if (!pPacket) {
                             Sleep(1);
                             continue;
@@ -297,7 +297,7 @@ CAutoPtr<MuxerPacket> CBaseMuxerFilter::GetPacket()
     CAutoPtr<MuxerPacket> pPacket;
 
     if (pPinMin && i == 0) {
-        pPacket = pPinMin->PopPacket();
+        pPacket.Attach(pPinMin->PopPacket().Detach());
     } else {
         pos = m_pActivePins.GetHeadPosition();
         while (pos) {

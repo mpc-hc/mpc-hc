@@ -65,7 +65,7 @@ CAutoPtr<Packet> CPacketQueue::Remove()
 {
     CAutoLock cAutoLock(this);
     ASSERT(__super::GetCount() > 0);
-    CAutoPtr<Packet> p = RemoveHead();
+    CAutoPtr<Packet> p(RemoveHead().Detach());
     if (p) {
         m_size -= p->GetDataSize();
     }
@@ -388,7 +388,8 @@ int CBaseSplitterOutputPin::QueueSize()
 
 HRESULT CBaseSplitterOutputPin::QueueEndOfStream()
 {
-    return QueuePacket(CAutoPtr<Packet>()); // NULL means EndOfStream
+    CAutoPtr<Packet> p;
+    return QueuePacket(p); // NULL means EndOfStream
 }
 
 HRESULT CBaseSplitterOutputPin::QueuePacket(CAutoPtr<Packet> p)
@@ -480,7 +481,7 @@ DWORD CBaseSplitterOutputPin::ThreadProc()
             {
                 CAutoLock cAutoLock(&m_queue);
                 if ((cnt = m_queue.GetCount()) > 0) {
-                    p = m_queue.Remove();
+                    p.Attach(m_queue.Remove().Detach());
                 }
             }
 
@@ -905,7 +906,7 @@ HRESULT CBaseSplitterFilter::DeleteOutputs()
     }
 
     while (m_pOutputs.GetCount()) {
-        CAutoPtr<CBaseSplitterOutputPin> pPin = m_pOutputs.RemoveHead();
+        CAutoPtr<CBaseSplitterOutputPin> pPin(m_pOutputs.RemoveHead().Detach());
         if (IPin* pPinTo = pPin->GetConnected()) {
             pPinTo->Disconnect();
         }

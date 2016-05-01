@@ -575,7 +575,7 @@ DWORD CMatroskaMuxerFilter::ThreadProc()
 
                     {
                         CAutoLock cAutoLock(&pPin->m_csQueue);
-                        b = pPin->m_blocks.RemoveHead();
+                        b.Attach(pPin->m_blocks.RemoveHead().Detach());
                     }
 
                     if (b) {
