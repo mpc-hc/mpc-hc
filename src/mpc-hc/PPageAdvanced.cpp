@@ -292,6 +292,12 @@ void CPPageAdvanced::OnLvnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult)
     LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
 
     if ((pNMLV->uChanged & LVIF_STATE) && (pNMLV->uNewState & LVNI_SELECTED)) {
+        auto setDialogItemsVisibility = [this](std::initializer_list<int>&& ids, int nCmdShow) {
+            for (const auto& nID : ids) {
+                GetDlgItem(nID)->ShowWindow(nCmdShow);
+            }
+        };
+
         if (pNMLV->iItem >= 0) {
             m_lastSelectedItem = pNMLV->iItem;
             auto eSetting = static_cast<ADVANCED_SETTINGS>(m_list.GetItemData(pNMLV->iItem));
@@ -299,20 +305,15 @@ void CPPageAdvanced::OnLvnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult)
             GetDlgItem(IDC_BUTTON1)->ShowWindow(SW_SHOW);
 
             if (auto pItemBool = std::dynamic_pointer_cast<SettingsBool>(pItem)) {
-                for (const auto& nID : { IDC_EDIT1, IDC_COMBO1, IDC_SPIN1 }) {
-                    GetDlgItem(nID)->ShowWindow(SW_HIDE);
-                }
+                setDialogItemsVisibility({ IDC_EDIT1, IDC_COMBO1, IDC_SPIN1 }, SW_HIDE);
                 if (pItemBool->GetValue()) {
                     CheckRadioButton(IDC_RADIO1, IDC_RADIO2, IDC_RADIO1);
                 } else {
                     CheckRadioButton(IDC_RADIO1, IDC_RADIO2, IDC_RADIO2);
                 }
-                GetDlgItem(IDC_RADIO1)->ShowWindow(SW_SHOW);
-                GetDlgItem(IDC_RADIO2)->ShowWindow(SW_SHOW);
+                setDialogItemsVisibility({ IDC_RADIO1, IDC_RADIO2 }, SW_SHOW);
             } else if (auto pItemCombo = std::dynamic_pointer_cast<SettingsCombo>(pItem)) {
-                for (const auto& nID : { IDC_EDIT1, IDC_RADIO1, IDC_RADIO2, IDC_SPIN1 }) {
-                    GetDlgItem(nID)->ShowWindow(SW_HIDE);
-                }
+                setDialogItemsVisibility({ IDC_EDIT1, IDC_RADIO1, IDC_RADIO2, IDC_SPIN1 }, SW_HIDE);
                 m_comboBox.ResetContent();
                 for (const auto& str : pItemCombo->GetList()) {
                     m_comboBox.AddString(str);
@@ -320,9 +321,7 @@ void CPPageAdvanced::OnLvnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult)
                 m_comboBox.SetCurSel(pItemCombo->GetValue());
                 m_comboBox.ShowWindow(SW_SHOW);
             } else if (auto pItemInt = std::dynamic_pointer_cast<SettingsInt>(pItem)) {
-                for (const auto& nID : { IDC_COMBO1, IDC_RADIO1, IDC_RADIO2 }) {
-                    GetDlgItem(nID)->ShowWindow(SW_HIDE);
-                }
+                setDialogItemsVisibility({ IDC_COMBO1, IDC_RADIO1, IDC_RADIO2 }, SW_HIDE);
                 GetDlgItem(IDC_EDIT1)->ModifyStyle(0, ES_NUMBER, 0);
                 const auto& range = pItemInt->GetRange();
                 m_spinButtonCtrl.SetRange32(range.first, range.second);
@@ -330,9 +329,7 @@ void CPPageAdvanced::OnLvnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult)
                 m_spinButtonCtrl.ShowWindow(SW_SHOW);
                 GetDlgItem(IDC_EDIT1)->ShowWindow(SW_SHOW);
             } else if (auto pItemCString = std::dynamic_pointer_cast<SettingsCString>(pItem)) {
-                for (const auto& nID : { IDC_COMBO1, IDC_RADIO1, IDC_RADIO2, IDC_BUTTON1, IDC_SPIN1 }) {
-                    GetDlgItem(nID)->ShowWindow(SW_HIDE);
-                }
+                setDialogItemsVisibility({ IDC_COMBO1, IDC_RADIO1, IDC_RADIO2, IDC_BUTTON1, IDC_SPIN1 }, SW_HIDE);
                 GetDlgItem(IDC_EDIT1)->ModifyStyle(ES_NUMBER, 0, 0);
                 SetDlgItemText(IDC_EDIT1, pItemCString->GetValue());
                 GetDlgItem(IDC_EDIT1)->ShowWindow(SW_SHOW);
@@ -340,9 +337,7 @@ void CPPageAdvanced::OnLvnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult)
                 UNREACHABLE_CODE();
             }
         } else {
-            for (const auto& nID : { IDC_EDIT1, IDC_COMBO1, IDC_RADIO1, IDC_RADIO2, IDC_BUTTON1, IDC_SPIN1 }) {
-                GetDlgItem(nID)->ShowWindow(SW_HIDE);
-            }
+            setDialogItemsVisibility({ IDC_EDIT1, IDC_COMBO1, IDC_RADIO1, IDC_RADIO2, IDC_BUTTON1, IDC_SPIN1 }, SW_HIDE);
         }
     }
 
