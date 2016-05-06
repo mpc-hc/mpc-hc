@@ -73,6 +73,7 @@ protected:
                         int xOffsetInPixels = 0);
 
     void UpdateXForm();
+    HRESULT CreateDIBFromSurfaceData(D3DSURFACE_DESC desc, D3DLOCKED_RECT r, BYTE* lpDib) const;
 
     Vector m_defaultVideoAngle, m_videoAngle;
     bool m_bDefaultVideoAngleSwitchAR;

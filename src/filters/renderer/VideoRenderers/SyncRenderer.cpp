@@ -2369,22 +2369,11 @@ STDMETHODIMP CBaseAP::GetDIB(BYTE* lpDib, DWORD* size)
         }
     }
 
-    BITMAPINFOHEADER* bih = (BITMAPINFOHEADER*)lpDib;
-    ZeroMemory(bih, sizeof(BITMAPINFOHEADER));
-    bih->biSize = sizeof(BITMAPINFOHEADER);
-    bih->biWidth = desc.Width;
-    bih->biHeight = desc.Height;
-    bih->biBitCount = 32;
-    bih->biPlanes = 1;
-    bih->biSizeImage = bih->biWidth * bih->biHeight * bih->biBitCount >> 3;
-
-    BitBltFromRGBToRGB(bih->biWidth, bih->biHeight,
-                       (BYTE*)(bih + 1), bih->biWidth * bih->biBitCount >> 3, bih->biBitCount,
-                       (BYTE*)r.pBits + r.Pitch * (desc.Height - 1), -(int)r.Pitch, 32);
+    hr = CreateDIBFromSurfaceData(desc, r, lpDib);
 
     pSurface->UnlockRect();
 
-    return S_OK;
+    return hr;
 }
 
 STDMETHODIMP CBaseAP::SetPixelShader(LPCSTR pSrcData, LPCSTR pTarget)

@@ -325,7 +325,7 @@ void CSubPicAllocatorPresenterImpl::UpdateXForm()
         while (rad < 0.0f) {
             rad += twoPi;
         }
-        while (rad > 2 * M_PI) {
+        while (rad > twoPi) {
             rad -= twoPi;
         }
     };
@@ -340,6 +340,69 @@ void CSubPicAllocatorPresenterImpl::UpdateXForm()
     m_xform = XForm(Ray(Vector(), v), Vector(1.0f / fARCorrection, fARCorrection, 1.0f), false);
 
     Paint(false);
+}
+
+HRESULT CSubPicAllocatorPresenterImpl::CreateDIBFromSurfaceData(D3DSURFACE_DESC desc, D3DLOCKED_RECT r, BYTE* lpDib) const
+{
+    bool bNeedRotation = !IsEqual(m_defaultVideoAngle.z, 0.0f);
+
+    BITMAPINFOHEADER* bih = (BITMAPINFOHEADER*)lpDib;
+    ZeroMemory(bih, sizeof(BITMAPINFOHEADER));
+    bih->biSize = sizeof(BITMAPINFOHEADER);
+    bih->biWidth = desc.Width;
+    bih->biHeight = desc.Height;
+    bih->biBitCount = 32;
+    bih->biPlanes = 1;
+    bih->biSizeImage = bih->biWidth * bih->biHeight * bih->biBitCount >> 3;
+
+    UINT* pBits;
+    if (bNeedRotation) {
+        pBits = (UINT*)malloc(bih->biSizeImage);
+        if (!pBits) {
+            return E_OUTOFMEMORY;
+        }
+    } else {
+        pBits = (UINT*)(bih + 1);
+    }
+
+    BitBltFromRGBToRGB(bih->biWidth, bih->biHeight,
+                       (BYTE*)pBits, bih->biWidth * bih->biBitCount >> 3, bih->biBitCount,
+                       (BYTE*)r.pBits + r.Pitch * (desc.Height - 1), -r.Pitch, 32);
+
+    if (bNeedRotation) {
+        constexpr float pi_2 = float(M_PI_2);
+
+        if (m_bDefaultVideoAngleSwitchAR) {
+            std::swap(bih->biWidth, bih->biHeight);
+        }
+
+        std::function<size_t(UINT, UINT)> convCoordinates;
+        if (IsEqual(m_defaultVideoAngle.z, pi_2)) {
+            convCoordinates = [desc](UINT x, UINT y) {
+                return x * desc.Height + desc.Height - 1 - y;
+            };
+        } else if (IsEqual(m_defaultVideoAngle.z, 2 * pi_2)) {
+            convCoordinates = [desc](UINT x, UINT y) {
+                return desc.Width - 1 - x + (desc.Height - 1 - y) * desc.Width;
+            };
+        } else {
+            ASSERT(IsEqual(m_defaultVideoAngle.z, 3 * pi_2));
+            convCoordinates = [desc](UINT x, UINT y) {
+                return (desc.Width - 1 - x) * desc.Height + y;
+            };
+        }
+
+        UINT* pBitsDest = (UINT*)(bih + 1);
+        for (UINT x = 0; x < desc.Width; x++) {
+            for (UINT y = 0; y < desc.Height; y++) {
+                pBitsDest[convCoordinates(x, y)] = pBits[x + y * desc.Width];
+            }
+        }
+
+        free(pBits);
+    }
+
+    return S_OK;
 }
 
 // ISubRenderOptions
