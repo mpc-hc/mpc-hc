@@ -99,8 +99,13 @@ BOOL CAboutDlg::OnInitDialog()
     m_MPCCompiler = _T("MSVC 2015 Update 2");
 #elif (_MSC_FULL_VER == 190023506)
     m_MPCCompiler = _T("MSVC 2015 Update 1");
-#else
+#elif (_MSC_FULL_VER == 190023026)
     m_MPCCompiler = _T("MSVC 2015");
+#else
+    m_MPCCompiler.Format(_T("MSVC v%.2d.%.2d.%.5d"), _MSC_VER / 100, _MSC_VER % 100, _MSC_FULL_VER % 100000);
+#if _MSC_BUILD
+    m_MPCCompiler.AppendFormat(_T(".%.2d"), _MSC_BUILD);
+#endif
 #endif
 #elif (_MSC_VER <= 1800)
 #error Compiler is not supported!
