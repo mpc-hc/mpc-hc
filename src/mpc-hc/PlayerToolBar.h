@@ -38,11 +38,15 @@ private:
     void SetMute(bool fMute = true);
     int getHitButtonIdx(CPoint point);
     bool LoadExternalToolBar(CImage& image);
+    void LoadToolbarImage();
 
     int m_nButtonHeight;
-    CImageList* m_pButtonsImages;
-    CImageList* m_pDisabledButtonsImages;
+    std::unique_ptr<CImageList> m_pButtonsImages;
+    std::unique_ptr<CImageList> m_pDisabledButtonsImages;
     int m_volumeMinSizeInc;
+
+    EventClient m_eventc;
+    void EventCallback(MpcEvent ev);
 
 public:
     CPlayerToolBar(CMainFrame* pMainFrame);
