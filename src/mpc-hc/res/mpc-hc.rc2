@@ -160,6 +160,15 @@ IDF_SHADER_EMPTY                 SHADER                  "res\\shaders\\empty.ps
 IDF_SHADER_FINAL                 SHADER                  "res\\shaders\\final.psh"
 IDF_SHADER_RESIZER               SHADER                  "res\\shaders\\resizer.psh"
 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// SVG
+//
+
+IDF_SVG_TOOLBAR                  SVG                     "res\\toolbar.svg"
+
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Version

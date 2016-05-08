@@ -117,8 +117,9 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
     m_volctrl.SetRange(0, 100);
 
     m_nButtonHeight = 16; // reset m_nButtonHeight
+
     CImage image;
-    if (LoadExternalToolBar(image)) {
+    if (LoadExternalToolBar(image) || SUCCEEDED(SVGImage::Load(IDF_SVG_TOOLBAR, image))) {
         CBitmap* bmp = CBitmap::FromHandle(image);
         int width = image.GetWidth();
         int height = image.GetHeight();

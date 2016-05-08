@@ -72,6 +72,7 @@
 #define IDF_SHADER_RESIZER              700
 #define IDF_SHADER_EMPTY                701
 #define IDF_SHADER_FINAL                702
+#define IDF_SVG_TOOLBAR                 703
 #define ID_FILE_OPENMEDIA               800
 #define ID_FILE_OPENDVDBD               801
 #define ID_FILE_OPENDEVICE              802
