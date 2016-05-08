@@ -21,9 +21,8 @@
 
 #pragma once
 
-#include <d3d9.h>
-#include <D3Dcompiler.h>
 #include "PixelShaderCache.h"
+#include <D3Dcompiler.h>
 
 class CPixelShaderCompiler
 {

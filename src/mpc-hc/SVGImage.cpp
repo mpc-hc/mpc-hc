@@ -20,6 +20,7 @@
 
 #include "stdafx.h"
 #include "SVGImage.h"
+#include "mplayerc.h"
 #include <atlimage.h>
 #define NANOSVG_IMPLEMENTATION
 #include <nanosvg/src/nanosvg.h>

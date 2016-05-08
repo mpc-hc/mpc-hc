@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -23,7 +23,7 @@
 
 #ifndef _WIN64
 
-#include <math.h>
+#include <cmath>
 #include "QuicktimeGraph.h"
 #include "IQTVideoSurface.h"
 #include "mplayerc.h"

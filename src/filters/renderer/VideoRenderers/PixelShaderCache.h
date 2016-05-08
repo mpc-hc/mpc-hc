@@ -20,9 +20,10 @@
 
 #pragma once
 
-#include <d3d9.h>
-#include <D3Dcompiler.h>
-#include <stdint.h>
+#include <cstdint>
+
+interface IDirect3DDevice9;
+interface IDirect3DPixelShader9;
 
 class CPixelShaderCache
 {

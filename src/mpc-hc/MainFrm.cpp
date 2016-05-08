@@ -20,94 +20,92 @@
  */
 
 #include "stdafx.h"
-#include "mplayerc.h"
 #include "MainFrm.h"
+#include "mplayerc.h"
 
-#include <math.h>
-#include <algorithm>
-#include <set>
-
-#include <afxglobals.h>
-#include <afxpriv.h>
-#include <atlconv.h>
-#include <atlsync.h>
-
-#include "mpc-hc_config.h"
-#include "SysVersion.h"
-#include "WinAPIUtils.h"
-#include "PathUtils.h"
-#include "OpenFileDlg.h"
-#include "OpenDlg.h"
-#include "SaveDlg.h"
-#include "GoToDlg.h"
-#include "PnSPresetsDlg.h"
-#include "MediaTypesDlg.h"
-#include "SaveTextFileDialog.h"
-#include "SaveSubtitlesFileDialog.h"
-#include "SaveImageDialog.h"
-#include "SaveThumbnailsDialog.h"
-#include "FavoriteAddDlg.h"
-#include "FavoriteOrganizeDlg.h"
-#include "FullscreenWnd.h"
-#include "TunerScanDlg.h"
-#include "OpenDirHelper.h"
-#include "UpdateChecker.h"
-#include "UpdateCheckerDlg.h"
-#include "WinapiFunc.h"
-#include "CrashReporter.h"
-#include "Translations.h"
-
-#include "../DeCSS/VobFile.h"
-
-#include "BaseClasses/mtype.h"
-#include <Mpconfig.h>
-#include <ks.h>
-#include <ksmedia.h>
-#include <dvdevcod.h>
-#include <dsound.h>
-
-#include <InitGuid.h>
-#include <uuids.h>
-#include "moreuuids.h"
-#include <qnetwork.h>
-#include <psapi.h>
-
-#include "DSUtil.h"
-#include "text.h"
-#include "ISOLang.h"
+#include "GraphThread.h"
+#include "FGFilterLAV.h"
 #include "FGManager.h"
 #include "FGManagerBDA.h"
-
+#include "QuicktimeGraph.h"
+#include "RealMediaGraph.h"
+#include "ShockwaveGraph.h"
 #include "TextPassThruFilter.h"
-#include "../filters/Filters.h"
-#include "../filters/PinInfoWnd.h"
+#include "FakeFilterMapper2.h"
 
-#include "AllocatorCommon.h"
-#include "SyncAllocatorPresenter.h"
+#include "FavoriteAddDlg.h"
+#include "FavoriteOrganizeDlg.h"
+#include "GoToDlg.h"
+#include "MediaTypesDlg.h"
+#include "OpenFileDlg.h"
+#include "PnSPresetsDlg.h"
+#include "SaveDlg.h"
+#include "SaveImageDialog.h"
+#include "SaveSubtitlesFileDialog.h"
+#include "SaveThumbnailsDialog.h"
+#include "OpenDirHelper.h"
+#include "OpenDlg.h"
+#include "TunerScanDlg.h"
 
 #include "ComPropertySheet.h"
-#include "LcdSupport.h"
-#include "SettingsDefines.h"
+#include "PPageAccelTbl.h"
+#include "PPageAudioSwitcher.h"
+#include "PPageFileInfoSheet.h"
+#include "PPageSheet.h"
+#include "PPageSubStyle.h"
+#include "PPageSubtitles.h"
 
-#include "IPinHook.h"
-
-#include <comdef.h>
-#include "MPCPngImage.h"
-#include "DSMPropertyBag.h"
 #include "CoverArt.h"
+#include "CrashReporter.h"
+#include "KeyProvider.h"
+#include "SkypeMoodMsgHandler.h"
+#include "Translations.h"
+#include "UpdateChecker.h"
+#include "WebServer.h"
+#include <ISOLang.h>
+#include <PathUtils.h>
 
-#include "SubtitlesProvider.h"
-
+#include "../DeCSS/VobFile.h"
+#include "../Subtitles/PGSSub.h"
+#include "../Subtitles/RLECodedSubtitle.h"
 #include "../Subtitles/RTS.h"
 #include "../Subtitles/STS.h"
-#include "../Subtitles/RLECodedSubtitle.h"
-#include "../Subtitles/PGSSub.h"
-#include "../Subtitles/SubtitleHelpers.h"
-
-#include <mvrInterfaces.h>
 #include <SubRenderIntf.h>
 
+#include "../filters/InternalPropertyPage.h"
+#include "../filters/PinInfoWnd.h"
+#include "../filters/renderer/SyncClock/SyncClock.h"
+#include "../filters/transform/BufferFilter/BufferFilter.h"
+#include "../filters/transform/VSFilter/IDirectVobSub.h"
+
+#include <AllocatorCommon.h>
+#include <NullRenderers.h>
+#include <RARFileSource/library/RFS.h>
+#include <SyncAllocatorPresenter.h>
+
+#include "FullscreenWnd.h"
+#include "Monitors.h"
+
+#include <WinAPIUtils.h>
+#include <WinapiFunc.h>
+#include <moreuuids.h>
+
+#include <IBitRateInfo.h>
+#include <IChapterInfo.h>
+#include <IPinHook.h>
+
+#include <mvrInterfaces.h>
+
+#include <Il21dec.h>
+#include <dvdevcod.h>
+#include <dvdmedia.h>
 #include <strsafe.h>
+
+#include <initguid.h>
+#include <qnetwork.h>
+
+// IID_IAMLine21Decoder
+DECLARE_INTERFACE_IID_(IAMLine21Decoder_2, IAMLine21Decoder, "6E8D4A21-310C-11d0-B79A-00AA003767A7") {};
 
 #define MIN_LOGO_WIDTH 304
 #define MIN_LOGO_HEIGHT 171
@@ -117,11 +115,6 @@
 static UINT s_uTaskbarRestart = RegisterWindowMessage(_T("TaskbarCreated"));
 static UINT WM_NOTIFYICON = RegisterWindowMessage(_T("MYWM_NOTIFYICON"));
 static UINT s_uTBBC = RegisterWindowMessage(_T("TaskbarButtonCreated"));
-
-#include "../filters/transform/VSFilter/IDirectVobSub.h"
-
-#include "Monitors.h"
-#include "MultiMonitor.h"
 
 #if USE_STATIC_MEDIAINFO
 #include "MediaInfo/MediaInfo.h"
@@ -14657,7 +14650,7 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
 
     // initiate graph creation, OpenMediaPrivate() will call OnFilePostOpenmedia()
     if (bUseThread) {
-        VERIFY(m_evOpenPrivateFinished.ResetEvent());
+        VERIFY(m_evOpenPrivateFinished.Reset());
         VERIFY(m_pGraphThread->PostThreadMessage(CGraphThread::TM_OPEN, 0, (LPARAM)pOMD.Detach()));
         m_bOpenedThroughThread = true;
     } else {
@@ -14762,7 +14755,7 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
     // initiate graph destruction
     if (m_pGraphThread && m_bOpenedThroughThread) {
         // either opening or closing has to be blocked to prevent reentering them, closing is the better choice
-        VERIFY(m_evClosePrivateFinished.ResetEvent());
+        VERIFY(m_evClosePrivateFinished.Reset());
         VERIFY(m_pGraphThread->PostThreadMessage(CGraphThread::TM_CLOSE, 0, 0));
 
         HANDLE handle = m_evClosePrivateFinished;
@@ -15065,10 +15058,41 @@ bool CMainFrame::CreateFullScreenWindow()
                                         WS_POPUP | WS_VISIBLE, monitorRect, nullptr, 0);
 }
 
+bool CMainFrame::IsFrameLessWindow() const
+{
+    return (m_fFullScreen || AfxGetAppSettings().eCaptionMenuMode == MODE_BORDERLESS);
+}
+
+bool CMainFrame::IsCaptionHidden() const
+{
+    // If no caption, there is no menu bar. But if is no menu bar, then the caption can be.
+    return (!m_fFullScreen && AfxGetAppSettings().eCaptionMenuMode > MODE_HIDEMENU); //!=MODE_SHOWCAPTIONMENU && !=MODE_HIDEMENU
+}
+
+bool CMainFrame::IsMenuHidden() const
+{
+    return (!m_fFullScreen && AfxGetAppSettings().eCaptionMenuMode != MODE_SHOWCAPTIONMENU);
+}
+
+bool CMainFrame::IsPlaylistEmpty() const
+{
+    return (m_wndPlaylistBar.GetCount() == 0);
+}
+
+bool CMainFrame::IsInteractiveVideo() const
+{
+    return (AfxGetAppSettings().fIntRealMedia && m_fRealMediaGraph || m_fShockwaveGraph);
+}
+
 bool CMainFrame::IsD3DFullScreenMode() const
 {
     return m_pFullscreenWnd && m_pFullscreenWnd->IsWindow();
 };
+
+bool CMainFrame::IsSubresyncBarVisible() const
+{
+    return !!m_wndSubresyncBar.IsWindowVisible();
+}
 
 void CMainFrame::SetupEVRColorControl()
 {

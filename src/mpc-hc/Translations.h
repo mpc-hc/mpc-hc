@@ -1,5 +1,5 @@
 /*
-* (C) 2014-2015 see Authors.txt
+* (C) 2014-2016 see Authors.txt
 *
 * This file is part of MPC-HC.
 *
@@ -20,7 +20,6 @@
 
 #pragma once
 
-#include <Windows.h>
 #include <list>
 
 namespace Translations

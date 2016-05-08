@@ -22,6 +22,7 @@
 #include "stdafx.h"
 #include "PlayerSeekBar.h"
 #include "MainFrm.h"
+#include "mplayerc.h"
 
 #define TOOLTIP_SHOW_DELAY 100
 #define TOOLTIP_HIDE_TIMEOUT 3000

@@ -20,32 +20,37 @@
  */
 
 #include "stdafx.h"
-#include <mpconfig.h>
-#include "mplayerc.h"
 #include "FGManager.h"
-#include "DSUtil.h"
-#include "FileVersionInfo.h"
-#include "PathUtils.h"
+#include "../DeCSS/VobFile.h"
 #include "../filters/Filters.h"
 #include "AllocatorCommon.h"
-#include "SyncAllocatorPresenter.h"
 #include "DeinterlacerFilter.h"
-#include "../DeCSS/VobFile.h"
-#include <InitGuid.h>
-#include <dmodshow.h>
+#include "FakeFilterMapper2.h"
+#include "FileVersionInfo.h"
+#include "IPinHook.h"
+#include "NullRenderers.h"
+#include "PathUtils.h"
+#include "SyncAllocatorPresenter.h"
+#include "mplayerc.h"
+#include "sanear/sanear/src/Factory.h"
 #include <d3d9.h>
-#include <vmr9.h>
 #include <evr.h>
 #include <evr9.h>
+#include <vmr9.h>
+#include <ks.h>
 #include <ksproxy.h>
-#include "IPinHook.h"
-#include "moreuuids.h"
+#include <mpconfig.h>
 #include <mvrInterfaces.h>
-#include "../thirdparty/sanear/sanear/src/Factory.h"
+
+#include <initguid.h>
+#include "moreuuids.h"
+#include <dmodshow.h>
 
 //
 // CFGManager
 //
+
+class CNullAudioRenderer;
 
 CFGManager::CFGManager(LPCTSTR pName, LPUNKNOWN pUnk)
     : CUnknown(pName, pUnk)

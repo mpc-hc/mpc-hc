@@ -20,7 +20,7 @@
  */
 
 #include "stdafx.h"
-#include <math.h>
+#include <cmath>
 #include <intrin.h>
 #include <algorithm>
 #include "ColorConvTable.h"

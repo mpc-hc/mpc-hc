@@ -22,6 +22,8 @@
 #include "stdafx.h"
 #include "CmdLineHelpDlg.h"
 #include <ArrayUtils.h>
+#include "SettingsDefines.h"
+#include <array>
 
 CmdLineHelpDlg::CmdLineHelpDlg(const CString& cmdLine /*= _T("")*/)
     : CResizableDialog(CmdLineHelpDlg::IDD)

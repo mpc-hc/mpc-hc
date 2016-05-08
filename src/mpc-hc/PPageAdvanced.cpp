@@ -19,11 +19,11 @@
 */
 
 #include "stdafx.h"
-#include <strsafe.h>
 #include "PPageAdvanced.h"
 #include "mplayerc.h"
 #include "MainFrm.h"
-#include "SettingsDefines.h"
+#include "EventDispatcher.h"
+#include <strsafe.h>
 
 CPPageAdvanced::CPPageAdvanced()
     : CPPageBase(IDD, IDD)

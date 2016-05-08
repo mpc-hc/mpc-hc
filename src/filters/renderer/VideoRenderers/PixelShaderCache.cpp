@@ -21,6 +21,7 @@
 #include "stdafx.h"
 #include "PixelShaderCache.h"
 #include "RenderersSettings.h"
+#include <d3d9.h>
 
 CPixelShaderCache::CPixelShaderCache(IDirect3DDevice9* pD3DDev)
     : m_pD3DDev(pD3DDev)

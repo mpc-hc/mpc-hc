@@ -22,7 +22,7 @@
 #include "stdafx.h"
 #include "CoordGeom.h"
 #include "../DSUtil/DSUtil.h"
-#include <math.h>
+#include <cmath>
 
 static bool IsZero(float d)
 {

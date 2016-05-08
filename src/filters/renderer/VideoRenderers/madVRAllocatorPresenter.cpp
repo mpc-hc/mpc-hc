@@ -23,6 +23,7 @@
 #include "../../../SubPic/DX9SubPic.h"
 #include "../../../SubPic/SubPicQueueImpl.h"
 #include "RenderersSettings.h"
+#include <initguid.h>
 #include <mvrInterfaces.h>
 
 

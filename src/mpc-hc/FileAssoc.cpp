@@ -816,7 +816,7 @@ void CFileAssoc::CheckIconsAssocThread()
         }
     }
 
-    m_checkIconsAssocInactiveEvent.SetEvent();
+    m_checkIconsAssocInactiveEvent.Set();
 }
 
 void CFileAssoc::CheckIconsAssoc()
@@ -825,7 +825,7 @@ void CFileAssoc::CheckIconsAssoc()
     HANDLE hEvent = m_checkIconsAssocInactiveEvent;
     DWORD dwEvent;
     VERIFY(CoWaitForMultipleHandles(0, INFINITE, 1, &hEvent, &dwEvent) == S_OK);
-    m_checkIconsAssocInactiveEvent.ResetEvent();
+    m_checkIconsAssocInactiveEvent.Reset();
     std::thread(
         [this] { CheckIconsAssocThread(); }
     ).detach();

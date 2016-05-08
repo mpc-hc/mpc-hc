@@ -22,7 +22,7 @@
 #include "stdafx.h"
 #include "PixelShaderCompiler.h"
 #include "../../../mpc-hc/resource.h"
-#include <share.h>
+#include <d3d9.h>
 
 CPixelShaderCompiler::CPixelShaderCompiler(IDirect3DDevice9* pD3DDev, bool fStaySilent)
     : m_hDll(nullptr)

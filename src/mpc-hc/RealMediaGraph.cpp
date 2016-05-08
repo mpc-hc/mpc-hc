@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,17 +22,27 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "MainFrm.h"
-#include <math.h>
-#include <atlbase.h>
-#include <atlcoll.h>
-#include <InitGuid.h>
+#include "AuthDlg.h"
+#include "AllocatorCommon.h"
+#include "BaseGraph.h"
+
+#include <initguid.h>
 #include "RealMediaGraph.h"
 #include "RealMediaWindowlessSite.h"
+#include "realmedia/pnresult.h"
+#include "realmedia/pntypes.h"
+#include "realmedia/rmaausvc.h"
+#include "realmedia/rmaauth.h"
+#include "realmedia/rmaclsnk.h"
+#include "realmedia/rmacomm.h"
+#include "realmedia/rmacore.h"
+#include "realmedia/rmaerror.h"
+#include "realmedia/rmapckts.h"
+#include "realmedia/rmasite2.h"
 #include "realmedia/rmavsurf.h"
-#include "realmedia/rmaevent.h"
-#include "realmedia/rmaprefs.h"
-#include "DSUtil.h"
-#include "AuthDlg.h"
+#include "realmedia/rmawin.h"
+
+#include <cmath>
 
 using namespace DSObjects;
 

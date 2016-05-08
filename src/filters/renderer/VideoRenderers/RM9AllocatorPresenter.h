@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2014, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,11 +21,9 @@
 #pragma once
 
 #include "DX9AllocatorPresenter.h"
-#include "realmedia/pntypes.h"
-#include "realmedia/pnwintyp.h"
 #include "realmedia/pncom.h"
+#include "realmedia/pnwintyp.h"
 #include "realmedia/rmavsurf.h"
-#include "IQTVideoSurface.h"
 
 namespace DSObjects
 {

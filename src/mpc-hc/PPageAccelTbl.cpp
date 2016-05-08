@@ -22,6 +22,7 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "PPageAccelTbl.h"
+#include "AppSettings.h"
 
 
 struct APP_COMMAND {

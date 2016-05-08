@@ -34,7 +34,6 @@
 #include "../../../Subtitles/RLECodedSubtitle.h"
 #include "../../../Subtitles/PGSSub.h"
 
-#include <InitGuid.h>
 #include <d3d9.h>
 #include <dxva2api.h>
 #include "moreuuids.h"

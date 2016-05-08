@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2015 see Authors.txt
+ * (C) 2009-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,11 +20,12 @@
 
 #pragma once
 
-#include <bdatypes.h>
-#include <bdamedia.h>
-#include <bdaiface.h>
 #include "FGManager.h"
+#include "DVBChannel.h"
+#include <bdaiface.h>
 
+enum DVB_RebuildFilterGraph;
+typedef struct tagVIDEOINFOHEADER2 VIDEOINFOHEADER2;
 
 class CDVBStream
 {

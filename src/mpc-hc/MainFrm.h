@@ -21,65 +21,51 @@
 
 #pragma once
 
-#include <atlbase.h>
-
 #include "ChildView.h"
+#include "DVBChannel.h"
 #include "DebugShadersDlg.h"
-#include "PlayerSeekBar.h"
-#include "PlayerToolBar.h"
+#include "DropTarget.h"
+#include "EditListEditor.h"
+#include "IBufferInfo.h"
+#include "IKeyFrameInfo.h"
+#include "MainFrmControls.h"
+#include "MouseTouch.h"
+#include "MpcApi.h"
+#include "PlayerCaptureBar.h"
 #include "PlayerInfoBar.h"
+#include "PlayerNavigationBar.h"
+#include "PlayerPlaylistBar.h"
+#include "PlayerSeekBar.h"
 #include "PlayerStatusBar.h"
 #include "PlayerSubresyncBar.h"
-#include "PlayerPlaylistBar.h"
-#include "PlayerCaptureBar.h"
-#include "PlayerNavigationBar.h"
-#include "EditListEditor.h"
-#include "PPageSheet.h"
-#include "PPageFileInfoSheet.h"
-#include "DropTarget.h"
-#include "KeyProvider.h"
-#include "GraphThread.h"
-#include "TimerWrappers.h"
-#include "MainFrmControls.h"
-
-#include "../SubPic/ISubPic.h"
-
-#include "IGraphBuilder2.h"
-
-#include "RealMediaGraph.h"
-#ifndef _WIN64
-// TODO: add QuickTime support for x64 when available!
-#include "QuicktimeGraph.h"
-#endif /* _WIN64 */
-#include "ShockwaveGraph.h"
-
-#include "IChapterInfo.h"
-#include "IKeyFrameInfo.h"
-#include "IBufferInfo.h"
-
-#include "WebServer.h"
-#include <afxmt.h>
-#include <d3d9.h>
-#include <vmr9.h>
-#include <evr.h>
-#include <evr9.h>
-#include <Il21dec.h>
-#include "VMROSD.h"
-#include "LcdSupport.h"
-#include "MpcApi.h"
-#include "../filters/renderer/SyncClock/SyncClock.h"
-#include "sizecbar/scbarg.h"
-#include "DSMPropertyBag.h"
-#include "SkypeMoodMsgHandler.h"
-#include "DpiHelper.h"
+#include "PlayerToolBar.h"
 #include "SubtitleDlDlg.h"
 #include "SubtitleUpDlg.h"
+#include "TimerWrappers.h"
+#include "VMROSD.h"
 
-#include <memory>
-#include <future>
+#define AfxGetMainFrame() dynamic_cast<CMainFrame*>(AfxGetMainWnd())
 
-
+class CDebugShadersDlg;
 class CFullscreenWnd;
+class SkypeMoodMsgHandler;
+struct DisplayMode;
+enum MpcCaptionState;
+
+interface IDSMChapterBag;
+interface IGraphBuilder2;
+interface IMFVideoDisplayControl;
+interface IMFVideoProcessor;
+interface IMadVRCommand;
+interface IMadVRInfo;
+interface IMadVRSettings;
+interface IMadVRSubclassReplacement;
+interface ISubClock;
+interface ISubPicAllocatorPresenter2;
+interface ISubPicAllocatorPresenter;
+interface ISubStream;
+interface ISyncClock;
+DECLARE_INTERFACE_IID(IAMLine21Decoder_2, "6E8D4A21-310C-11d0-B79A-00AA003767A7");
 
 enum class MLS {
     CLOSED,
@@ -96,10 +82,6 @@ enum {
     PM_ANALOG_CAPTURE,
     PM_DIGITAL_CAPTURE
 };
-
-interface __declspec(uuid("6E8D4A21-310C-11d0-B79A-00AA003767A7")) // IID_IAMLine21Decoder
-IAMLine21Decoder_2 :
-public IAMLine21Decoder {};
 
 class OpenMediaData
 {
@@ -155,12 +137,6 @@ struct SubtitleInput {
     SubtitleInput(CComQIPtr<ISubStream> pSubStream, CComPtr<IBaseFilter> pSourceFilter)
         : pSubStream(pSubStream), pSourceFilter(pSourceFilter) {};
 };
-
-interface IMadVRCommand;
-interface IMadVRSettings;
-interface IMadVRSubclassReplacement;
-interface IMadVRInfo;
-interface ISubClock;
 
 class CMainFrame : public CFrameWnd, public CDropClient
 {
@@ -430,26 +406,13 @@ public:
     CComPtr<IBaseFilter> m_pRefClock; // Adjustable reference clock. GothSync
     CComPtr<ISyncClock> m_pSyncClock;
 
-    bool IsFrameLessWindow() const {
-        return (m_fFullScreen || AfxGetAppSettings().eCaptionMenuMode == MODE_BORDERLESS);
-    }
-    bool IsCaptionHidden() const {//If no caption, there is no menu bar. But if is no menu bar, then the caption can be.
-        return (!m_fFullScreen && AfxGetAppSettings().eCaptionMenuMode > MODE_HIDEMENU); //!=MODE_SHOWCAPTIONMENU && !=MODE_HIDEMENU
-    }
-    bool IsMenuHidden() const {
-        return (!m_fFullScreen && AfxGetAppSettings().eCaptionMenuMode != MODE_SHOWCAPTIONMENU);
-    }
-    bool IsPlaylistEmpty() const {
-        return (m_wndPlaylistBar.GetCount() == 0);
-    }
-    bool IsInteractiveVideo() const {
-        return (AfxGetAppSettings().fIntRealMedia && m_fRealMediaGraph || m_fShockwaveGraph);
-    }
+    bool IsFrameLessWindow() const;
+    bool IsCaptionHidden() const;
+    bool IsMenuHidden() const;
+    bool IsPlaylistEmpty() const;
+    bool IsInteractiveVideo() const;
     bool IsD3DFullScreenMode() const;
-
-    bool IsSubresyncBarVisible() const {
-        return !!m_wndSubresyncBar.IsWindowVisible();
-    }
+    bool IsSubresyncBarVisible() const;
 
     CControlBar* m_pLastBar;
 

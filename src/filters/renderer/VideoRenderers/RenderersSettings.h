@@ -134,7 +134,7 @@ public:
 class CRenderersData
 {
     HINSTANCE     m_hD3DX9Dll;
-    UINT          m_nDXSdkRelease;
+    const UINT    m_nDXSdkRelease;
     LARGE_INTEGER llPerfFrequency;
 
 public:

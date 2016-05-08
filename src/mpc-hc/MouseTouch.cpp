@@ -21,6 +21,7 @@
 #include "stdafx.h"
 #include "MouseTouch.h"
 #include "MainFrm.h"
+#include "mplayerc.h"
 #include "FullscreenWnd.h"
 #include <mvrInterfaces.h>
 

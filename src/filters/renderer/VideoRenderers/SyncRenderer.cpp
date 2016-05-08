@@ -28,12 +28,10 @@
 #include "../../../DSUtil/WinAPIUtils.h"
 #include <strsafe.h> // Required in CGenlock
 #include <videoacc.h>
-#include <InitGuid.h>
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <vmr9.h>
 #include <evr.h>
-#include <mfapi.h>
 #include <Mferror.h>
 #include <vector>
 #include "../../../SubPic/DX9SubPic.h"
@@ -42,11 +40,15 @@
 #include "MacrovisionKicker.h"
 #include "IPinHook.h"
 #include "PixelShaderCompiler.h"
-#include "SyncRenderer.h"
-#include "version.h"
 #include "FocusThread.h"
 #include "../../../DSUtil/ArrayUtils.h"
 #include "../../../DSUtil/SysVersion.h"
+#include "../../../DSUtil/vd.h"
+#include <mpc-hc_config.h>
+
+#include <initguid.h>
+#include <mfapi.h>
+#include "SyncRenderer.h"
 
 #define REFERENCE_WIDTH 1920
 #define FONT_HEIGHT     21

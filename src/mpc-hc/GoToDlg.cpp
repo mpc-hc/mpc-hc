@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -23,7 +23,7 @@
 #include "mplayerc.h"
 #include "GoToDlg.h"
 #include "SettingsDefines.h"
-#include <math.h>
+#include <cmath>
 
 // CGoToDlg dialog
 

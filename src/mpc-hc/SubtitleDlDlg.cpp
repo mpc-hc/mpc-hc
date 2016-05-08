@@ -25,6 +25,7 @@
 #include "mplayerc.h"
 #include "MainFrm.h"
 #include "ISOLang.h"
+#include "PPageSubMisc.h"
 
 // User Defined Window Messages
 enum {

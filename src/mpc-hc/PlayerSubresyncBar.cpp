@@ -20,11 +20,12 @@
  */
 
 #include "stdafx.h"
+#include "PlayerSubresyncBar.h"
 #include "mplayerc.h"
 #include "MainFrm.h"
-#include "PlayerSubresyncBar.h"
 #include "WinAPIUtils.h"
-
+#include "PPageSubStyle.h"
+#include "../Subtitles/RTS.h"
 
 // CPlayerSubresyncBar
 

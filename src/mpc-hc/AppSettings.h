@@ -21,21 +21,22 @@
 
 #pragma once
 
-#include "SettingsDefines.h"
-#include "FilterEnum.h"
-#include "RenderersSettings.h"
 #include "../Subtitles/STS.h"
-#include "MediaFormats.h"
-#include "DVBChannel.h"
-#include "MediaPositionList.h"
 #include "../filters/switcher/AudioSwitcher/AudioSwitcher.h"
-#include "Shaders.h"
-#include "FileAssoc.h"
-#include "FakeFilterMapper2.h"
 #include "../thirdparty/sanear/sanear/src/Interfaces.h"
+#include "DVBChannel.h"
+#include "FileAssoc.h"
+#include "FilterEnum.h"
+#include "MediaFormats.h"
+#include "MediaPositionList.h"
+#include "RenderersSettings.h"
+#include "SettingsDefines.h"
+#include "Shaders.h"
 
 #include <afxadv.h>
 #include <afxsock.h>
+
+class FilterOverride;
 
 // flags for CAppSettings::nCS
 enum {

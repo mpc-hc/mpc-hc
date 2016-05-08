@@ -24,7 +24,7 @@
 #include "../DSUtil/DSUtil.h"
 #include "../filters/renderer/VideoRenderers/RenderersSettings.h"
 #include "../mpc-hc/VersionInfo.h"
-#include <math.h>
+#include <cmath>
 #include "XySubPicQueueImpl.h"
 #include "XySubPicProvider.h"
 #include <d3d9.h>

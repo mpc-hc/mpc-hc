@@ -22,8 +22,7 @@
 
 #include "PPageBase.h"
 #include "resource.h"
-#include <afxwin.h>
-#include <afxcmn.h>
+#include "EventDispatcher.h"
 #include <utility>
 #include <memory>
 #include <map>

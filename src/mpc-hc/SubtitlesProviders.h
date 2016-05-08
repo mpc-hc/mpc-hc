@@ -21,6 +21,7 @@
 #pragma once
 
 #include "SubtitlesProvidersUtils.h"
+#include "../Subtitles/SubtitleHelpers.h"
 #include "VersionInfo.h"
 
 class CMainFrame;

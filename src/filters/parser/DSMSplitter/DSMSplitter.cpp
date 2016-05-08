@@ -20,7 +20,6 @@
  */
 
 #include "stdafx.h"
-#include "DSMSplitter.h"
 #include "../../../DSUtil/DSUtil.h"
 #include "../../../DSUtil/ISOLang.h"
 
@@ -28,6 +27,7 @@
 #include <InitGuid.h>
 #endif
 #include "moreuuids.h"
+#include "DSMSplitter.h"
 
 #ifdef STANDALONE_FILTER
 

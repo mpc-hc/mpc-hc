@@ -23,6 +23,8 @@
 #include "SubtitlesProvider.h"
 #include "MainFrm.h"
 #include "AuthDlg.h"
+#include "PPageSubMisc.h"
+#include "mplayerc.h"
 
 // User Defined Window Messages
 enum {

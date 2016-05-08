@@ -24,10 +24,7 @@
    everything for every revision. It's currently used in mpcresources, mpciconlib
    and VideoRenderers projects.
  * MPC_VERSION_ARCH is currently used in VSFilter only.
- * MPC_DX_SDK_MONTH, MPC_DX_SDK_YEAR and MPC_DX_SDK_NUMBER is the month, year and the number
-   of the DirectX SDK used for compilation and it's used in the error message in mpc-hc and in
-   the installer when the DX runtime is out of date.
- * MPC_DX_SDK_NUMBER is used in the installer when the DirectX runtime is out of date.
+ * MPC_DX_SDK_NUMBER is used in the installer.
  */
 #endif // ISPP_INVOKED
 
@@ -47,9 +44,6 @@
 #ifndef NO_VERSION_REV_NEEDED
 #include "../build/version_rev.h"
 #endif
-
-#define DO_MAKE_STR(x)          _T(#x)
-#define MAKE_STR(x)             DO_MAKE_STR(x)
 
 #define MPC_VERSION_MAJOR       1
 #define MPC_VERSION_MINOR       7
@@ -122,10 +116,5 @@
 #else
 #define MPC_VERSION_ARCH        _T("x86")
 #endif
-
-#define MPC_DX_SDK_MONTH        _T("June")
-#define MPC_DX_SDK_YEAR         2010
-#define MPC_DX_SDK_NUMBER       43
-
 
 #endif // MPC_VERSION_H

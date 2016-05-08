@@ -26,7 +26,6 @@
 #include "DVBSub.h"
 #include "PGSSub.h"
 
-#include <InitGuid.h>
 #include <uuids.h>
 #include "moreuuids.h"
 #include "../DSUtil/ISOLang.h"

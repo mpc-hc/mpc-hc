@@ -25,7 +25,6 @@
 #include "MediaTypeEx.h"
 
 #include <MMReg.h>
-#include <InitGuid.h>
 #include "moreuuids.h"
 
 #pragma pack(push, 1)

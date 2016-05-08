@@ -20,17 +20,18 @@
  */
 
 #include "stdafx.h"
-#include "mplayerc.h"
 #include "AppSettings.h"
-#include "FGFilter.h"
-#include "FileAssoc.h"
 #include "CrashReporter.h"
+#include "FGFilter.h"
+#include "FakeFilterMapper2.h"
+#include "FileAssoc.h"
 #include "SysVersion.h"
-#include "WinAPIUtils.h"
 #include "PathUtils.h"
 #include "Translations.h"
 #include "UpdateChecker.h"
+#include "WinAPIUtils.h"
 #include "moreuuids.h"
+#include "mplayerc.h"
 #include <mvrInterfaces.h>
 #include "../thirdparty/sanear/sanear/src/Factory.h"
 

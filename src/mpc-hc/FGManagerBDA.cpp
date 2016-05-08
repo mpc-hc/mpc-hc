@@ -19,27 +19,17 @@
  */
 
 #include "stdafx.h"
-
-#include <ks.h>
-#include <ksmedia.h>
-#include "BaseClasses/streams.h"
-#include <mpeg2data.h>
-#include <tuner.h>
-#include <time.h>
-#include <dvbsiparser.h>
-
-#include "DSUtil.h"
-#include "GolombBuffer.h"
-#include "../filters/switcher/AudioSwitcher/AudioSwitcher.h"
-#include "moreuuids.h"
-#include "ISOLang.h"
-#include "mplayerc.h"
 #include "FGManagerBDA.h"
-#include "DVBChannel.h"
 #include "Mpeg2SectionData.h"
 #include "MainFrm.h"
-#include "SysVersion.h"
 #include "Logger.h"
+#include <ISOLang.h>
+#include <SysVersion.h>
+#include <moreuuids.h>
+#include <dvdmedia.h>
+#include <ks.h>
+#include <ksmedia.h>
+#include <bdamedia.h>
 
 #define LOG(...) MPCHC_LOG(BDA, __VA_ARGS__)
 #define CheckAndLogBDA(x, msg)  hr = ##x; if (FAILED(hr)) { LOG(msg _T(": 0x%08x\n"), hr); return hr; }

@@ -19,18 +19,15 @@
  */
 
 #include "stdafx.h"
-#include <mpconfig.h>
-#include "FGFilterLAV.h"
-#include "MainFrm.h"
-#include "DSUtil.h"
-#include "FileVersionInfo.h"
+#include "mplayerc.h"
 #include "PathUtils.h"
 #include "SysVersion.h"
-#include "AllocatorCommon.h"
-#include "SyncAllocatorPresenter.h"
-#include "moreuuids.h"
 #include "../filters/InternalPropertyPage.h"
 #include "../filters/PinInfoWnd.h"
+#include <FileVersionInfo.h>
+
+#include <initguid.h>
+#include "FGFilterLAV.h"
 
 #define LAV_FILTERS_VERSION_MAJOR      0
 #define LAV_FILTERS_VERSION_MINOR      67

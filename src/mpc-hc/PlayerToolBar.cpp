@@ -21,7 +21,7 @@
 
 #include "stdafx.h"
 #include "mplayerc.h"
-#include <math.h>
+#include <cmath>
 #include <atlbase.h>
 #include <afxpriv.h>
 #include "MPCPngImage.h"

@@ -27,6 +27,7 @@
 #include "SettingsDefines.h"
 #include "mplayerc.h"
 #include "SysVersion.h"
+#include "AppSettings.h"
 
 #include <afxinet.h>
 

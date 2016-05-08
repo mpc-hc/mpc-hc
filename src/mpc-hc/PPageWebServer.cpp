@@ -26,6 +26,7 @@
 #include "SysVersion.h"
 #include "PathUtils.h"
 #include <afxglobals.h>
+#include "WebServer.h"
 
 
 // CPPageWebServer dialog

@@ -27,7 +27,6 @@
 #include <aviriff.h>
 #include <atlpath.h>
 
-#include <InitGuid.h>
 #include "moreuuids.h"
 #include "../DSUtil/ISOLang.h"
 

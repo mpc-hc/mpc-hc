@@ -22,31 +22,29 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "AboutDlg.h"
-#include <Tlhelp32.h>
-#include "MainFrm.h"
-#include "DSUtil.h"
-#include "FileVersionInfo.h"
-#include "Struct.h"
-#include "SysVersion.h"
-#include <winternl.h>
-#include <psapi.h>
-#include "Ifo.h"
-#include "Monitors.h"
-#include "WinAPIUtils.h"
-#include "PathUtils.h"
-#include "FileAssoc.h"
-#include "UpdateChecker.h"
-#include "winddk/ntddcdvd.h"
-#include "MhookHelper.h"
-#include <afxsock.h>
-#include <atlsync.h>
-#include <atlutil.h>
-#include <regex>
-#include <share.h>
-#include "mpc-hc_config.h"
 #include "CmdLineHelpDlg.h"
 #include "CrashReporter.h"
-
+#include "DSUtil.h"
+#include "FakeFilterMapper2.h"
+#include "FileAssoc.h"
+#include "FileVersionInfo.h"
+#include "SysVersion.h"
+#include "Ifo.h"
+#include "MainFrm.h"
+#include "MhookHelper.h"
+#include "PPageFormats.h"
+#include "PPageSheet.h"
+#include "PathUtils.h"
+#include "Struct.h"
+#include "UpdateChecker.h"
+#include "WebServer.h"
+#include "WinAPIUtils.h"
+#include "mpc-hc_config.h"
+#include "winddk/ntddcdvd.h"
+#include <afxsock.h>
+#include <atlsync.h>
+#include <winternl.h>
+#include <regex>
 
 #define HOOKS_BUGS_URL _T("https://trac.mpc-hc.org/ticket/3739")
 

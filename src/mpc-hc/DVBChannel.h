@@ -21,6 +21,7 @@
 #pragma once
 
 #include <vector>
+#include <array>
 
 #define FORMAT_VERSION_0       0
 #define FORMAT_VERSION_1       1

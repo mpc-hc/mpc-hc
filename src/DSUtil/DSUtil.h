@@ -21,14 +21,13 @@
 
 #pragma once
 
-#include <afxstr.h>
-#include <atlpath.h>
-#include "NullRenderers.h"
 #include "HdmvClipInfo.h"
-#include "H264Nalu.h"
 #include "MediaTypeEx.h"
-#include "vd.h"
 #include "text.h"
+#include "vd.h"
+#include "BaseClasses/streams.h"
+#include <atlcoll.h>
+#include <atlpath.h>
 
 #define LCID_NOSUBTITLES -1
 

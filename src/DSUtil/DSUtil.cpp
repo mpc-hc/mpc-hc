@@ -26,15 +26,14 @@
 #include "winddk/ntddcdrm.h"
 #include "DSUtil.h"
 #include "Mpeg2Def.h"
-#include "vd.h"
-#include "moreuuids.h"
 #include <emmintrin.h>
-#include <math.h>
-#include <InitGuid.h>
 #include <d3d9types.h>
+#include "NullRenderers.h"
+
+#include <initguid.h>
+#include "moreuuids.h"
 #include <dxva.h>
 #include <dxva2api.h>
-#include <intrin.h>
 
 int CountPins(IBaseFilter* pBF, int& nIn, int& nOut, int& nInC, int& nOutC)
 {

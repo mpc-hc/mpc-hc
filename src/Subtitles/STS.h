@@ -23,7 +23,6 @@
 
 #include <atlcoll.h>
 #include <array>
-#include "BaseClasses/wxutil.h"
 #include "TextFile.h"
 #include "SubtitleHelpers.h"
 

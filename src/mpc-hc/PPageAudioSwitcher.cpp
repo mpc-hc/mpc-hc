@@ -20,7 +20,7 @@
  */
 
 #include "stdafx.h"
-#include <math.h>
+#include <cmath>
 #include "mplayerc.h"
 #include "MainFrm.h"
 #include "PPageAudioSwitcher.h"

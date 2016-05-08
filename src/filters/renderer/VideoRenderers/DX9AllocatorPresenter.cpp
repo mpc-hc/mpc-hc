@@ -23,14 +23,14 @@
 #include <algorithm>
 #include "RenderersSettings.h"
 #include "DX9AllocatorPresenter.h"
-#include <InitGuid.h>
 #include <utility>
 #include "../../../SubPic/DX9SubPic.h"
 #include "../../../SubPic/SubPicQueueImpl.h"
 #include "IPinHook.h"
-#include "version.h"
 #include "FocusThread.h"
 #include "../../../DSUtil/SysVersion.h"
+#include "../../../DSUtil/vd.h"
+#include <mpc-hc_config.h>
 
 CCritSec g_ffdshowReceive;
 bool queue_ffdshow_support = false;

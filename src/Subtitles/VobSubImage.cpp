@@ -22,7 +22,7 @@
 #include "stdafx.h"
 #include "VobSubImage.h"
 #include "RTS.h"
-#include <math.h>
+#include <cmath>
 #include <algorithm>
 
 CVobSubImage::CVobSubImage()

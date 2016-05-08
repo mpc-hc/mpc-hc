@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2014, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,23 +21,13 @@
 
 #pragma once
 
+#include "realmedia/pncom.h"
 #include "realmedia/pntypes.h"
 #include "realmedia/pnwintyp.h"
-#include "realmedia/pncom.h"
-#include "realmedia/rmapckts.h"
 #include "realmedia/rmacomm.h"
-#include "realmedia/rmamon.h"
-#include "realmedia/rmafiles.h"
-#include "realmedia/rmaengin.h"
-#include "realmedia/rmacore.h"
-#include "realmedia/rmaclsnk.h"
-#include "realmedia/rmaerror.h"
-#include "realmedia/rmaauth.h"
-#include "realmedia/rmawin.h"
 #include "realmedia/rmasite2.h"
-#include "realmedia/rmaausvc.h"
 #include "realmedia/rmavsurf.h"
-#include "realmedia/rmaevent.h"
+#include "realmedia/rmawin.h"
 
 
 namespace DSObjects
@@ -67,8 +57,6 @@ namespace DSObjects
     BOOL RMAEqualRegion(REGION* reg1, REGION* reg2);
     void RMADestroyRegion(REGION* reg);
     REGION* RMACreateRegion();
-
-    class CRealMediaWindowlessSite;
 
     //
     // CRealMediaVideoSurface

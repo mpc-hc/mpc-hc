@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,7 +21,6 @@
 
 #include "stdafx.h"
 #include <atlpath.h>
-#include <InitGuid.h>
 #include <dmoreg.h>
 #include "PathUtils.h"
 #include "mplayerc.h"
@@ -31,6 +30,7 @@
 #include "SelectMediaType.h"
 #include "FGFilter.h"
 #include "moreuuids.h"
+#include "FakeFilterMapper2.h"
 
 
 IMPLEMENT_DYNAMIC(CPPageExternalFiltersListBox, CListCtrl)
