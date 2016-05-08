@@ -2,13 +2,13 @@
 # Copyright (C) 2002 - 2016 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# A S Alam <apreet.alam@gmail.com>, 2015
+# A S Alam <apreet.alam@gmail.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-03-13 21:25:13+0000\n"
-"PO-Revision-Date: 2016-03-13 21:54+0000\n"
-"Last-Translator: Underground78\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2016-05-03 22:53+0000\n"
+"Last-Translator: A S Alam <apreet.alam@gmail.com>\n"
 "Language-Team: Panjabi (Punjabi) (http://www.transifex.com/mpc-hc/mpc-hc/language/pa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1246,15 +1246,15 @@ msgstr ""
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
 msgid "Download"
-msgstr ""
+msgstr "ਡਾਊਨਲੋਡ ਕਰੋ"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON1"
 msgid "Refresh"
-msgstr ""
+msgstr "ਤਾਜ਼ਾ ਕਰੋ"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON2"
 msgid "Abort"
-msgstr ""
+msgstr "ਅਧੂਰਾ ਛੱਡੋ"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON3"
 msgid "Options"
@@ -1266,11 +1266,11 @@ msgstr ""
 
 msgctxt "IDD_SUBTITLEUP_DLG_IDOK"
 msgid "Upload"
-msgstr ""
+msgstr "ਅੱਪਲੋਡ ਕਰੋ"
 
 msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
 msgid "Abort"
-msgstr ""
+msgstr "ਅਧੂਰਾ ਛੱਡੋ"
 
 msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON2"
 msgid "Options"

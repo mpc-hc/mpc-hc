@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-03-13 21:29:13+0000\n"
-"PO-Revision-Date: 2016-03-13 21:59+0000\n"
-"Last-Translator: Underground78\n"
+"POT-Creation-Date: 2016-05-01 21:13:57+0000\n"
+"PO-Revision-Date: 2016-05-05 18:05+0000\n"
+"Last-Translator: khagaroth\n"
 "Language-Team: Czech (http://www.transifex.com/mpc-hc/mpc-hc/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -823,7 +823,7 @@ msgstr "Titulky nejsou načteny nebo je použit nepodporovaný renderer."
 
 msgctxt "IDC_CACHESHADERS"
 msgid "Stores compiled shaders in local AppData to speed up load time."
-msgstr ""
+msgstr "Pro urychlení načítání uloží zkompilované shadery v adresáři AppData."
 
 msgctxt "IDS_SRC_VTS"
 msgid "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"
@@ -1443,11 +1443,11 @@ msgstr "Obrázek úspěšně uložen"
 
 msgctxt "IDS_AG_LOAD_SUBTITLES"
 msgid "Load Subtitles..."
-msgstr ""
+msgstr "Načíst titulky..."
 
 msgctxt "IDS_AG_SAVE_SUBTITLES"
 msgid "Save Subtitles..."
-msgstr ""
+msgstr "Uložit titulky..."
 
 msgctxt "IDS_AG_PROPERTIES"
 msgid "Properties"
@@ -2567,7 +2567,7 @@ msgstr "Zesílení - maximální"
 
 msgctxt "IDS_USAGE"
 msgid "Usage: mpc-hc.exe \"pathname\" [switches]"
-msgstr ""
+msgstr "Použití: mpc-hc.exe \"cesta\" [přepínače]"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -3747,209 +3747,209 @@ msgstr "Opravdu chcete odeslat soubor titulků „%s?"
 
 msgctxt "IDS_SUBPP_DLG_FETCHING_LANGUAGES"
 msgid "Fetching supported languages..."
-msgstr ""
+msgstr "Načítají se podporované jazyky..."
 
 msgctxt "IDS_SUB_CREDENTIALS_ERROR"
 msgid "Failed to log in on \"%S\" with username \"%S\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
-msgstr ""
+msgstr "Přihlášení k „%S“ pod uživatelským jménem „%S“ se nezdařilo.\n\nZadejte správné uživatelské jméno a heslo, nebo nastavte výchozí přihlašovací údaje a přihlaste se jako anonymní uživatel."
 
 msgctxt "IDS_SUB_AUTODL_IGNORE_TOOLTIP"
 msgid "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\nFor example, type: \"private dir\\videos|work\\\"."
-msgstr ""
+msgstr "Pro soubory jejichž cesta obsahuje některý ze zde zadaných řetězců bude zakázáno automatické vyhledávání a stahování.\nZadejte například: \"soukromá složka\\videa|práce\\\"."
 
 msgctxt "IDS_CMD_PATHNAME"
 msgid "\"pathname\"\tThe main file or directory to be loaded\n\t\t(wildcards allowed, \"-\" denotes standard input)"
-msgstr ""
+msgstr "\"cesta\"\t\tSoubor nebo adresář, který má být otevřen\n\t\t(povoleny masky, \"-\" označuje standardní vstup)"
 
 msgctxt "IDS_CMD_DUB"
 msgid "/dub \"dubname\"\tLoad an additional audio file"
-msgstr ""
+msgstr "/dub \"soubor\"\tNačte soubor se zvukovou stopou"
 
 msgctxt "IDS_CMD_DUBDELAY"
 msgid "/dubdelay \"file\"\tLoad an additional audio file shifted with XXms\n\t\t(if the file contains \"...DELAY XXms...\")"
-msgstr ""
+msgstr "/dubdelay \"soubor\"\tNačte soubor se zvukovou stopou posunutou\n\t\to XXms (pokud název souboru obsahuje\n\t\t\"...DELAY XXms...\")"
 
 msgctxt "IDS_CMD_D3DFS"
 msgid "/d3dfs\t\tStart rendering in D3D fullscreen mode"
-msgstr ""
+msgstr "/d3dfs\t\tSpustí vykreslování v D3D fullscreen režimu"
 
 msgctxt "IDS_CMD_SUB"
 msgid "/sub \"subname\"\tLoad an additional subtitle file"
-msgstr ""
+msgstr "/sub \"soubor\"\tNačte soubor s titulky"
 
 msgctxt "IDS_CMD_FILTER"
 msgid "/filter \"filtername\"\tLoad DirectShow filters from a dynamic link ibrary (wildcards allowed)"
-msgstr ""
+msgstr "/filter \"soubor\"\tNačte DirectShow filtr (*.ax nebo *.dll, povoleny\n\t\tmasky)"
 
 msgctxt "IDS_CMD_DVD"
 msgid "/dvd\t\tRun in dvd mode, \"pathname\" means the dvd folder (optional)"
-msgstr ""
+msgstr "/dvd\t\tSpustí MPC-HC v DVD režimu, volitelný parametr\n\t\t\"cesta\" určuje DVD adresář"
 
 msgctxt "IDS_CMD_DVDPOS_TC"
 msgid "/dvdpos T#C\tStart playback at title T, chapter C"
-msgstr ""
+msgstr "/dvdpos T#K\tSpustí přehrávání titulu T, kapitoly K"
 
 msgctxt "IDS_CMD_DVDPOS_TIME"
 msgid "/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss"
-msgstr ""
+msgstr "/dvdpos T#hh:mm\tSpustí přehrávání titulu T, pozice hh:mm:ss"
 
 msgctxt "IDS_CMD_CD"
 msgid "/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)"
-msgstr ""
+msgstr "/cd\t\tNačte všechny stopy AudioCD/(S)VCD, volitelný\n\t\tparametr \"cesta\" udává písmeno CD mechaniky"
 
 msgctxt "IDS_CMD_DEVICE"
 msgid "/device\t\tOpen the default video device"
-msgstr ""
+msgstr "/device\t\tOtevře výchozí video zařízení"
 
 msgctxt "IDS_CMD_OPEN"
 msgid "/open\t\tOpen the file, don't automatically start playback"
-msgstr ""
+msgstr "/open\t\tNačte soubor, ale nespustí přehrávání"
 
 msgctxt "IDS_CMD_PLAY"
 msgid "/play\t\tStart playing the file as soon the player is launched"
-msgstr ""
+msgstr "/play\t\tNačte soubor a přehraje ho"
 
 msgctxt "IDS_CMD_CLOSE"
 msgid "/close\t\tClose the player after playback (only works when used with /play)"
-msgstr ""
+msgstr "/close\t\tPo ukončení přehrávání zavře přehrávač (funkční\n\t\tjen v kombinaci s /play)"
 
 msgctxt "IDS_CMD_SHUTDOWN"
 msgid "/shutdown\tShutdown the operating system after playback"
-msgstr ""
+msgstr "/shutdown\tPo ukončení přehrávání vypne počítač"
 
 msgctxt "IDS_CMD_STANDBY"
 msgid "/standby\t\tPut the operating system in standby mode after playback"
-msgstr ""
+msgstr "/standby\t\tPo přehrání přepne systém do úsporného režimu"
 
 msgctxt "IDS_CMD_HIBERNATE"
 msgid "/hibernate\tHibernate operating system after playback"
-msgstr ""
+msgstr "/hibernate\tPo přehrání přepne systém do režimu hibernace"
 
 msgctxt "IDS_CMD_LOGOFF"
 msgid "/logoff\t\tLog off after playback"
-msgstr ""
+msgstr "/logoff\t\tPo přehrání odhlásí aktuálně přihlášeného uživatele"
 
 msgctxt "IDS_CMD_LOCK"
 msgid "/lock\t\tLock workstation after playback"
-msgstr ""
+msgstr "/lock\t\tPo přehrání uzamkne aktivní uživatelský účet"
 
 msgctxt "IDS_CMD_MONITOROFF"
 msgid "/monitoroff\tTurn off the monitor after playback"
-msgstr ""
+msgstr "/monitoroff\tPo přehrání vypne obrazovku"
 
 msgctxt "IDS_CMD_PLAYNEXT"
 msgid "/playnext\t\tOpen next file in the folder after playback"
-msgstr ""
+msgstr "/playnext\t\tPo přehrání otevře další soubor v adresáři"
 
 msgctxt "IDS_CMD_FULLSCREEN"
 msgid "/fullscreen\tStart in full-screen mode"
-msgstr ""
+msgstr "/fullscreen\tSpustí přehrávač v režimu na celou obrazovku"
 
 msgctxt "IDS_CMD_MINIMIZED"
 msgid "/minimized\tStart in minimized mode"
-msgstr ""
+msgstr "/minimized\tSpustí přehrávač minimalizovaný"
 
 msgctxt "IDS_CMD_NEW"
 msgid "/new\t\tUse a new instance of the player"
-msgstr ""
+msgstr "/new\t\tOtevře novou instanci MPC-HC"
 
 msgctxt "IDS_CMD_ADD"
 msgid "/add\t\tAdd \"pathname\" to playlist, can be combined with /open and /play"
-msgstr ""
+msgstr "/add\t\tPřidá \"cestu\" do playlistu, může být kombinován\n\t\ts /open a /play"
 
 msgctxt "IDS_CMD_RANDOMIZE"
 msgid "/randomize\tRandomize the playlist"
-msgstr ""
+msgstr "/randomize\tNáhodně seřadí seznam stop"
 
 msgctxt "IDS_CMD_REGVID"
 msgid "/regvid\t\tCreate file associations for video files"
-msgstr ""
+msgstr "/regvid\t\tNastaví MPC-HC jako výchozí přehrávač pro\n\t\tpodporované video formáty"
 
 msgctxt "IDS_CMD_REGAUD"
 msgid "/regaud\t\tCreate file associations for audio files"
-msgstr ""
+msgstr "/regaud\t\tNastaví MPC-HC jako výchozí přehrávač pro\n\t\tpodporované zvukové formáty"
 
 msgctxt "IDS_CMD_REGPL"
 msgid "/regpl\t\tCreate file associations for playlist files"
-msgstr ""
+msgstr "/regpl\t\tNastaví MPC-HC jako výchozí přehrávač pro\n\t\tpodporované seznamy stop"
 
 msgctxt "IDS_CMD_REGALL"
 msgid "/regall\t\tCreate file associations for all supported file types"
-msgstr ""
+msgstr "/regall\t\tNastaví MPC-HC jako výchozí přehrávač pro\n\t\tvšechny podporované formáty"
 
 msgctxt "IDS_CMD_UNREGALL"
 msgid "/unregall\t\tRemove all file associations"
-msgstr ""
+msgstr "/unregall\t\tZruší asociaci MPC-HC se všemi formáty\n\t\t(včetně playlistů)"
 
 msgctxt "IDS_CMD_START"
 msgid "/start ms\t\tStart playing at \"ms\" (= milliseconds)"
-msgstr ""
+msgstr "/start ms\t\tSpustí přehrávání od zadané pozice\n\t\t(ms = milisekundy)"
 
 msgctxt "IDS_CMD_STARTPOS"
 msgid "/startpos hh:mm:ss\tStart playing at position hh:mm:ss"
-msgstr ""
+msgstr "/startpos hh:mm:ss\tSpustí přehrávání od pozice hh:mm:ss"
 
 msgctxt "IDS_CMD_FIXEDSIZE"
 msgid "/fixedsize w,h\tSet a fixed window size"
-msgstr ""
+msgstr "/fixedsize w,h\tSpustí přehrávač se zadanou velikostí okna"
 
 msgctxt "IDS_CMD_MONITOR"
 msgid "/monitor N\tStart player on monitor N, where N starts from 1"
-msgstr ""
+msgstr "/monitor N\tSpustí přehrávání na monitoru N, kde N\n\t\tzačíná od 1"
 
 msgctxt "IDS_CMD_AUDIORENDERER"
 msgid "/audiorenderer N\tStart using audiorenderer N, where N starts from 1 (see \"Output\" settings)"
-msgstr ""
+msgstr "/audiorenderer N\tPoužije audiorenderer N, kde N začíná od 1\n\t\t(viz nastavení \"Výstup\")"
 
 msgctxt "IDS_CMD_SHADERPRESET"
 msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
-msgstr ""
+msgstr "/shaderpreset \"Př\"\tPoužije předvolbu shaderů \"Př\""
 
 msgctxt "IDS_CMD_PNS"
 msgid "/pns \"name\"\tSpecify Pan&Scan preset name to use"
-msgstr ""
+msgstr "/pns \"název\"\tPoužije předvolbu Pan&Scan určitého názvu"
 
 msgctxt "IDS_CMD_ICONASSOC"
 msgid "/iconsassoc\tReassociate format icons"
-msgstr ""
+msgstr "/iconsassoc\tZnovu přiřadí ikony formátů souborů"
 
 msgctxt "IDS_CMD_NOFOCUS"
 msgid "/nofocus\t\tOpen MPC-HC in background"
-msgstr ""
+msgstr "/nofocus\t\tSpustí MPC-HC v pozadí"
 
 msgctxt "IDS_CMD_WEBPORT"
 msgid "/webport N\tStart web interface on specified port"
-msgstr ""
+msgstr "/webport N\tSpustí webové rozhraní na zadaném portu"
 
 msgctxt "IDS_CMD_DEBUG"
 msgid "/debug\t\tShow debug information in OSD"
-msgstr ""
+msgstr "/debug\t\tZobrazí ladicí informace v OSD"
 
 msgctxt "IDS_CMD_NOCRASHREPORTER"
 msgid "/nocrashreporter\tDisable the crash reporter"
-msgstr ""
+msgstr "/nocrashreporter\tDisable the crash reporter"
 
 msgctxt "IDS_CMD_SLAVE"
 msgid "/slave \"hWnd\"\tUse MPC-HC as slave"
-msgstr ""
+msgstr "/slave \"hWnd\"\tPoužije MPC-HC jako podřízený proces"
 
 msgctxt "IDS_CMD_HWGPU"
 msgid "/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding.\n\t\tOnly available for CUVID and DXVA2 (copy-back)"
-msgstr ""
+msgstr "/hwgpu \"index\"\tNastaví index GPU použitého pro HW dekódování.\n\t\tDostupné pouze pro CUVID a DXVA2 (copy-back)"
 
 msgctxt "IDS_CMD_RESET"
 msgid "/reset\t\tRestore default settings"
-msgstr ""
+msgstr "/reset\t\tObnoví výchozí nastavení"
 
 msgctxt "IDS_CMD_HELP"
 msgid "/help /h /?\tShow help about command line switches"
-msgstr ""
+msgstr "/help /h /?\tZobrazí tento dialog"
 
 msgctxt "IDS_PPAGEADVANCED_SCORE"
 msgid "Threshold value for subtitles score which are going to be automatically downloaded. Higher values means that more accurately matched subtitles will be loaded, lower values could result in incorrect subtitles being loaded, but there is no one perfect value. Pick one that works best for you."
-msgstr ""
+msgstr "Prahová hodnota hodnocení pro automaticky stahované titulky. Vyšší hodnota zajistí přesnější výsledky přiřazení, ale sníží pravděpodobnost nalezení titulků, nižší hodnota zvýší pravděpodobnost nalezení titulků, ale zvýší pravděpodobnost načtení chybných titulků. Neexistuje ideální hodnota. Zvolte takovou, která bude fungovat vám."
 
 msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
 msgid "Audio Delay"
-msgstr ""
+msgstr "Zpoždění zvuku"
 

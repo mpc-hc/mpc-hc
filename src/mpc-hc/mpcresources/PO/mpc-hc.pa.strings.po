@@ -2,13 +2,13 @@
 # Copyright (C) 2002 - 2016 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# A S Alam <apreet.alam@gmail.com>, 2015
+# A S Alam <apreet.alam@gmail.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-03-13 21:29:13+0000\n"
-"PO-Revision-Date: 2016-03-13 21:59+0000\n"
-"Last-Translator: Underground78\n"
+"POT-Creation-Date: 2016-05-01 21:13:57+0000\n"
+"PO-Revision-Date: 2016-05-03 22:53+0000\n"
+"Last-Translator: A S Alam <apreet.alam@gmail.com>\n"
 "Language-Team: Panjabi (Punjabi) (http://www.transifex.com/mpc-hc/mpc-hc/language/pa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -62,7 +62,7 @@ msgstr "ਵਿਸ਼ੇਸ਼ਤਾ"
 
 msgctxt "IDS_PLAY_LOOPMODE_FILE"
 msgid "File"
-msgstr ""
+msgstr "ਫਾਈਲ"
 
 msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
 msgid "&Default Style"
@@ -750,11 +750,11 @@ msgstr ""
 
 msgctxt "IDS_SUBTITLES_DOWNLOAD"
 msgid "Download Subtitles..."
-msgstr ""
+msgstr "...ਸਬ-ਟਾਈਟਲ ਡਾਊਨਲੋਡ ਕਰੋ"
 
 msgctxt "IDS_SUBTITLES_UPLOAD"
 msgid "Upload Subtitles..."
-msgstr ""
+msgstr "...ਸਬ-ਟਾਈਟਲ ਅੱਪਲੋਡ ਕਰੋ"
 
 msgctxt "IDS_SUBFILE_DELAY"
 msgid "Delay (ms):"
@@ -1442,11 +1442,11 @@ msgstr "ਚਿੱਤਰ ਕਾਮਯਾਬੀ ਨਾਲ ਸੰਭਾਲਿਆ"
 
 msgctxt "IDS_AG_LOAD_SUBTITLES"
 msgid "Load Subtitles..."
-msgstr ""
+msgstr "...ਸਬਟਾਈਟਲ ਲੋਡ ਕਰੋ"
 
 msgctxt "IDS_AG_SAVE_SUBTITLES"
 msgid "Save Subtitles..."
-msgstr ""
+msgstr "...ਸਬ-ਟਾਈਟਲ ਸੰਭਾਲੋ"
 
 msgctxt "IDS_AG_PROPERTIES"
 msgid "Properties"
@@ -3638,11 +3638,11 @@ msgstr ""
 
 msgctxt "IDS_SUBUL_DLG_USERNAME_COL"
 msgid "Username"
-msgstr ""
+msgstr "ਵਰਤੋਂਕਾਰ-ਨਾਂ"
 
 msgctxt "IDS_SUBUL_DLG_STATUS_COL"
 msgid "Status"
-msgstr ""
+msgstr "ਹਾਲਤ"
 
 msgctxt "IDS_SUBUL_DLG_STATUS_READY"
 msgid "Ready..."
@@ -3654,7 +3654,7 @@ msgstr ""
 
 msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADING"
 msgid "Uploading..."
-msgstr ""
+msgstr "...ਅੱਪਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
 
 msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADED"
 msgid "Subtitles uploaded successfully."
@@ -3694,7 +3694,7 @@ msgstr "ਡਾਊਨਲੋਡ ਕਰੋ ਤੇ ਖੋਲ੍ਹੋ"
 
 msgctxt "IDS_SUBMENU_SETUP"
 msgid "Setup"
-msgstr ""
+msgstr "ਸੈਟਅੱਪ"
 
 msgctxt "IDS_SUBMENU_RESET"
 msgid "Reset"
@@ -3714,7 +3714,7 @@ msgstr ""
 
 msgctxt "IDS_SUBPP_DLG_LANGUAGES_COL"
 msgid "Languages"
-msgstr ""
+msgstr "ਭਾਸ਼ਾਵਾਂ"
 
 msgctxt "IDS_SUBPP_DLG_LANGUAGES_ERROR"
 msgid "ERROR: Internet connection could not be established."
@@ -3734,7 +3734,7 @@ msgstr ""
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADED"
 msgid "Downloaded [%s] \"%s\""
-msgstr ""
+msgstr " [%s] \"%s\" ਡਾਊਨਲੋਡ ਕੀਤੇ"
 
 msgctxt "IDS_SUBUL_DLG_TITLE"
 msgid "Upload subtitles"

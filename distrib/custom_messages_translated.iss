@@ -67,7 +67,7 @@ en_GB.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer t
 
 ; Spanish
 es.WelcomeLabel2=Esto instalará [name] en el equipo.%n%nSe recomienda que cierre el resto de las aplicaciones antes de continuar.
-es.WinVersionTooLowError=[name] necesita Windows XP Service Pack 3 o posterior para funcionar.
+es.WinVersionTooLowError=[name] requiere Windows XP Service Pack 3 o posterior para funcionar.
 
 ; Basque
 eu.WelcomeLabel2=Honek [name] zure ordenagailuan ezarriko du.%n%nGomendatzen da beste aplikazio guztiak istea jarraitu aurretik.
@@ -387,13 +387,13 @@ es.comp_mpciconlib=Colección de iconos
 es.comp_mpcresources=Traducciones
 es.msg_DeleteSettings=¿Quiere eliminar también las preferencias de MPC-HC?%n%nSi planea instalar de nuevo MPC-HC no necesita eliminarlas.
 #if defined(sse_required)
-es.msg_simd_sse=Esta versión de MPC-HC requiere una CPU compatible con extensiones SSE.%n%nSu CPU carece de esta característica.
+es.msg_simd_sse=Esta versión de MPC-HC requiere una CPU que soporte instrucciones SSE.%n%nSu CPU carece de esta característica.
 #elif defined(sse2_required)
-es.msg_simd_sse2=Esta versión de MPC-HC requiere una CPU compatible con extensiones SSE2.%n%nSu CPU carece de esta característica.
+es.msg_simd_sse2=Esta versión de MPC-HC requiere una CPU que soporte instrucciones SSE2.%n%nSu CPU carece de esta característica.
 #endif
-es.run_DownloadToolbarImages=Visite nuestra página de wiki para descargar imágenes de la barra de herramientas
+es.run_DownloadToolbarImages=Visite nuestra página wiki para descargar imágenes de barra de herramientas
 es.tsk_AllUsers=Para todos los usuarios
-es.tsk_CurrentUser=Solo para el usuario actual
+es.tsk_CurrentUser=Sólo para el usuario actual
 es.tsk_Other=Otras tareas:
 es.tsk_ResetSettings=Restablecer configuración
 es.types_DefaultInstallation=Instalación predeterminada

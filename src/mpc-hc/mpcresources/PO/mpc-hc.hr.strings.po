@@ -11,8 +11,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-03-13 21:29:13+0000\n"
-"PO-Revision-Date: 2016-03-16 16:33+0000\n"
+"POT-Creation-Date: 2016-05-01 21:13:57+0000\n"
+"PO-Revision-Date: 2016-05-18 18:09+0000\n"
 "Last-Translator: streger <stjepan.treger@gmail.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/mpc-hc/mpc-hc/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -827,7 +827,7 @@ msgstr "Titlovi nisu učitani ili nepodržani od prikazivača."
 
 msgctxt "IDC_CACHESHADERS"
 msgid "Stores compiled shaders in local AppData to speed up load time."
-msgstr ""
+msgstr "Sprema kompilirane shadere u lokalnu AppData mapu za ubrzano pokretanje."
 
 msgctxt "IDS_SRC_VTS"
 msgid "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"
@@ -967,11 +967,11 @@ msgstr "&Organiziraj omiljeno..."
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
 msgid "Sh&uffle"
-msgstr "Naizmjenično"
+msgstr "Nai&zmjenično"
 
 msgctxt "IDS_PLAYLIST_SHOWFOLDER"
 msgid "Ope&n file location"
-msgstr "Otvori lokaciju datoteke"
+msgstr "Otvori &lokaciju datoteke"
 
 msgctxt "IDS_CONTROLS_CLOSING"
 msgid "Closing..."
@@ -1055,7 +1055,7 @@ msgstr "Zumiraj na ultra široki ekran,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_PLAYLIST_HIDEFS"
 msgid "&Hide on Fullscreen"
-msgstr "Sakrij u cijelom zaslonu"
+msgstr "Sa&krij u cijelom zaslonu"
 
 msgctxt "IDS_CONTROLS_STOPPED"
 msgid "Stopped"
@@ -1243,7 +1243,7 @@ msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
 msgid "Add containing &folder"
-msgstr "Dodaj mapu sa sadržajem"
+msgstr "Dodaj &mapu sa sadržajem"
 
 msgctxt "IDS_HW_INDICATOR"
 msgid "[H/W]"
@@ -1451,7 +1451,7 @@ msgstr "Učitaj titlove..."
 
 msgctxt "IDS_AG_SAVE_SUBTITLES"
 msgid "Save Subtitles..."
-msgstr "Spremi titlove"
+msgstr "Spremi titlove..."
 
 msgctxt "IDS_AG_PROPERTIES"
 msgid "Properties"
@@ -2571,7 +2571,7 @@ msgstr "Pojačanje glasnoće max"
 
 msgctxt "IDS_USAGE"
 msgid "Usage: mpc-hc.exe \"pathname\" [switches]"
-msgstr ""
+msgstr "Upotreba: mpc-hc.exe \"putanja\" [prekidači]"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -3763,197 +3763,197 @@ msgstr "Automatsko traženje i preuzimanje će biti onemogućeno za sve datoteke
 
 msgctxt "IDS_CMD_PATHNAME"
 msgid "\"pathname\"\tThe main file or directory to be loaded\n\t\t(wildcards allowed, \"-\" denotes standard input)"
-msgstr ""
+msgstr "\"putanja\"\tGlavna datoteka ili mapa za pokretanje\n\t\t(višeznačnici dopušteni, \"-\" označava standardni ulaz)"
 
 msgctxt "IDS_CMD_DUB"
 msgid "/dub \"dubname\"\tLoad an additional audio file"
-msgstr ""
+msgstr "/dub \"naziv_duba\"\tPokreni dodatnu zvukovnu datoteku"
 
 msgctxt "IDS_CMD_DUBDELAY"
 msgid "/dubdelay \"file\"\tLoad an additional audio file shifted with XXms\n\t\t(if the file contains \"...DELAY XXms...\")"
-msgstr ""
+msgstr "/dubdelay \"datoteka\"\tPokreni dodatnu zvukovnu datoteku pomaknutu sa XXms\n\t\t(ako datoteka sadrži \"...DELAY XXms...\")"
 
 msgctxt "IDS_CMD_D3DFS"
 msgid "/d3dfs\t\tStart rendering in D3D fullscreen mode"
-msgstr ""
+msgstr "/d3dfs\t\tPočni prikazivnje u D3D načinu punog ekrana"
 
 msgctxt "IDS_CMD_SUB"
 msgid "/sub \"subname\"\tLoad an additional subtitle file"
-msgstr ""
+msgstr "/sub \"naziv_titla\"\tPokreni dodatnu titl datoteku"
 
 msgctxt "IDS_CMD_FILTER"
 msgid "/filter \"filtername\"\tLoad DirectShow filters from a dynamic link ibrary (wildcards allowed)"
-msgstr ""
+msgstr "/filter \"naziv_filtra\"\tPokreni DirectShow filtere iz dinamične vezane biblioteke (višeznačnici dopušteni)"
 
 msgctxt "IDS_CMD_DVD"
 msgid "/dvd\t\tRun in dvd mode, \"pathname\" means the dvd folder (optional)"
-msgstr ""
+msgstr "/dvd\t\tPokreni u dvd načinu, \"naziv_putanje\" označava dvd mapu (opcionalno)"
 
 msgctxt "IDS_CMD_DVDPOS_TC"
 msgid "/dvdpos T#C\tStart playback at title T, chapter C"
-msgstr ""
+msgstr "/dvdpos T#C\tPočni reprodukciju na naslovu T, poglavlju C"
 
 msgctxt "IDS_CMD_DVDPOS_TIME"
 msgid "/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss"
-msgstr ""
+msgstr "/dvdpos T#hh:mm\tPočni reprodukciju na naslovu T, poziciju hh:mm:ss"
 
 msgctxt "IDS_CMD_CD"
 msgid "/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)"
-msgstr ""
+msgstr "/cd\t\tPokreni sve trake s zvukovnog cd-a ili (s)vcd-a,\n\t\t\"naziv_putanje\" označava putanju uređaja (opcionalno)"
 
 msgctxt "IDS_CMD_DEVICE"
 msgid "/device\t\tOpen the default video device"
-msgstr ""
+msgstr "/device\t\tOtvori zadani video uređaj"
 
 msgctxt "IDS_CMD_OPEN"
 msgid "/open\t\tOpen the file, don't automatically start playback"
-msgstr ""
+msgstr "/open\t\tOtvora datoteku ali ne započinje automatsku reprodukciju"
 
 msgctxt "IDS_CMD_PLAY"
 msgid "/play\t\tStart playing the file as soon the player is launched"
-msgstr ""
+msgstr "/play\t\tPočni reprodukciju čim je pokrenut program"
 
 msgctxt "IDS_CMD_CLOSE"
 msgid "/close\t\tClose the player after playback (only works when used with /play)"
-msgstr ""
+msgstr "/close\t\tZatvori program nakon reprodukcije (radi samo kada se koristi i /play)"
 
 msgctxt "IDS_CMD_SHUTDOWN"
 msgid "/shutdown\tShutdown the operating system after playback"
-msgstr ""
+msgstr "/shutdown\tUgasi operativni sustav nakon reprodukcije"
 
 msgctxt "IDS_CMD_STANDBY"
 msgid "/standby\t\tPut the operating system in standby mode after playback"
-msgstr ""
+msgstr "/standby\t\tStavi operativni sustav u način mirovanja nakon reprodukcije"
 
 msgctxt "IDS_CMD_HIBERNATE"
 msgid "/hibernate\tHibernate operating system after playback"
-msgstr ""
+msgstr "/hibernate\tHiberniraj operativni sustav nakon reprodukcije"
 
 msgctxt "IDS_CMD_LOGOFF"
 msgid "/logoff\t\tLog off after playback"
-msgstr ""
+msgstr "/logoff\t\tOdjavi se nakon reprodukcije"
 
 msgctxt "IDS_CMD_LOCK"
 msgid "/lock\t\tLock workstation after playback"
-msgstr ""
+msgstr "/lock\t\tZaključaj operativni sustav nakon reprodukcije"
 
 msgctxt "IDS_CMD_MONITOROFF"
 msgid "/monitoroff\tTurn off the monitor after playback"
-msgstr ""
+msgstr "/monitoroff\tUgasi zaslon nakon reprodukcije"
 
 msgctxt "IDS_CMD_PLAYNEXT"
 msgid "/playnext\t\tOpen next file in the folder after playback"
-msgstr ""
+msgstr "/playnext\t\tOtvori slijedeću datoteku u mapi nakon reprodukcije"
 
 msgctxt "IDS_CMD_FULLSCREEN"
 msgid "/fullscreen\tStart in full-screen mode"
-msgstr ""
+msgstr "/fullscreen\tPokreni u načinu cijelog ekrana"
 
 msgctxt "IDS_CMD_MINIMIZED"
 msgid "/minimized\tStart in minimized mode"
-msgstr ""
+msgstr "/minimized\tPokreni u minimiziranom načinu"
 
 msgctxt "IDS_CMD_NEW"
 msgid "/new\t\tUse a new instance of the player"
-msgstr ""
+msgstr "/new\t\tKoristi novu instancu programa"
 
 msgctxt "IDS_CMD_ADD"
 msgid "/add\t\tAdd \"pathname\" to playlist, can be combined with /open and /play"
-msgstr ""
+msgstr "/add\t\tDodaj \"naziv_putanje\" u listu za izvođenje, može se kombinirati sa /open i /play"
 
 msgctxt "IDS_CMD_RANDOMIZE"
 msgid "/randomize\tRandomize the playlist"
-msgstr ""
+msgstr "/randomize\tIzmiješaj popis za izvođenje"
 
 msgctxt "IDS_CMD_REGVID"
 msgid "/regvid\t\tCreate file associations for video files"
-msgstr ""
+msgstr "/regvid\t\tStvori pridruživanje za datoteke za video datoteke"
 
 msgctxt "IDS_CMD_REGAUD"
 msgid "/regaud\t\tCreate file associations for audio files"
-msgstr ""
+msgstr "/regaud\t\tStvori pridruživanje za datoteke za audio datoteke"
 
 msgctxt "IDS_CMD_REGPL"
 msgid "/regpl\t\tCreate file associations for playlist files"
-msgstr ""
+msgstr "/regpl\t\tStvori pridruživanje za datoteke za datoteke listi za izvođenje"
 
 msgctxt "IDS_CMD_REGALL"
 msgid "/regall\t\tCreate file associations for all supported file types"
-msgstr ""
+msgstr "/regall\t\tStvori pridruživanje za datoteke za sve podržane tipove datoteka"
 
 msgctxt "IDS_CMD_UNREGALL"
 msgid "/unregall\t\tRemove all file associations"
-msgstr ""
+msgstr "/unregall\t\tUkloni sva pridruživanja datotekama"
 
 msgctxt "IDS_CMD_START"
 msgid "/start ms\t\tStart playing at \"ms\" (= milliseconds)"
-msgstr ""
+msgstr "/start ms\t\tPočni reprodukciju u \"ms\" (= milliseconde)"
 
 msgctxt "IDS_CMD_STARTPOS"
 msgid "/startpos hh:mm:ss\tStart playing at position hh:mm:ss"
-msgstr ""
+msgstr "/startpos hh:mm:ss\tPočni reprodukciju na poziciji hh:mm:ss"
 
 msgctxt "IDS_CMD_FIXEDSIZE"
 msgid "/fixedsize w,h\tSet a fixed window size"
-msgstr ""
+msgstr "/fixedsize w,h\tNamjesti fiksnu veličinu prozora"
 
 msgctxt "IDS_CMD_MONITOR"
 msgid "/monitor N\tStart player on monitor N, where N starts from 1"
-msgstr ""
+msgstr "/monitor N\tPočni izvođač na ekranu N, gdje N počinje od 1"
 
 msgctxt "IDS_CMD_AUDIORENDERER"
 msgid "/audiorenderer N\tStart using audiorenderer N, where N starts from 1 (see \"Output\" settings)"
-msgstr ""
+msgstr "/audiorenderer N\tPočni koristiti audiorenderer N, gdje N počinje od 1 (pogledaj \"Izlazne\" postavke)"
 
 msgctxt "IDS_CMD_SHADERPRESET"
 msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
-msgstr ""
+msgstr "/shaderpreset \"Pr\"\tPočni \"Pr\" shader postavku"
 
 msgctxt "IDS_CMD_PNS"
 msgid "/pns \"name\"\tSpecify Pan&Scan preset name to use"
-msgstr ""
+msgstr "/pns \"naziv\"\tNavedi Pan&Scan naziv postavke za korištenje"
 
 msgctxt "IDS_CMD_ICONASSOC"
 msgid "/iconsassoc\tReassociate format icons"
-msgstr ""
+msgstr "/iconsassoc\tPonovno postavi ikone"
 
 msgctxt "IDS_CMD_NOFOCUS"
 msgid "/nofocus\t\tOpen MPC-HC in background"
-msgstr ""
+msgstr "/nofocus\t\tOtvori MPC-HC u pozadini"
 
 msgctxt "IDS_CMD_WEBPORT"
 msgid "/webport N\tStart web interface on specified port"
-msgstr ""
+msgstr "/webport N\tPokreni web sučelje na specifičnom portu"
 
 msgctxt "IDS_CMD_DEBUG"
 msgid "/debug\t\tShow debug information in OSD"
-msgstr ""
+msgstr "/debug\t\tPrikaži debug informacije u OSD-u"
 
 msgctxt "IDS_CMD_NOCRASHREPORTER"
 msgid "/nocrashreporter\tDisable the crash reporter"
-msgstr ""
+msgstr "/nocrashreporter\tOnemogući izvjestitelja o rušenju programa"
 
 msgctxt "IDS_CMD_SLAVE"
 msgid "/slave \"hWnd\"\tUse MPC-HC as slave"
-msgstr ""
+msgstr "/slave \"hWnd\"\tKoristi MPC-HC kao roba"
 
 msgctxt "IDS_CMD_HWGPU"
 msgid "/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding.\n\t\tOnly available for CUVID and DXVA2 (copy-back)"
-msgstr ""
+msgstr "/hwgpu \"index\"\tNamjesti GPU indeks korišten za hardversko dekodiranje.\n\t\tDostupno samo za CUVID i DXVA2 (copy-back)"
 
 msgctxt "IDS_CMD_RESET"
 msgid "/reset\t\tRestore default settings"
-msgstr ""
+msgstr "/reset\t\tVrati zadane postavke"
 
 msgctxt "IDS_CMD_HELP"
 msgid "/help /h /?\tShow help about command line switches"
-msgstr ""
+msgstr "/help /h /?\tPrikaži pomoć o prekidačima komandne linije"
 
 msgctxt "IDS_PPAGEADVANCED_SCORE"
 msgid "Threshold value for subtitles score which are going to be automatically downloaded. Higher values means that more accurately matched subtitles will be loaded, lower values could result in incorrect subtitles being loaded, but there is no one perfect value. Pick one that works best for you."
-msgstr ""
+msgstr "Donja granična vrijednost rezultata titlova koji se planiraju automatski preuzeti. Veće vrijednosti znači da će se točnije podudarani titlovi učitati, niže vrijednosti mogu dovesti do pogrešno učitanih titlova, ali ne postoji jedna savršena vrijednost. Odaberite onu koji najbolje radi za vas."
 
 msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
 msgid "Audio Delay"
-msgstr ""
+msgstr "Zvukovni pomak"
 

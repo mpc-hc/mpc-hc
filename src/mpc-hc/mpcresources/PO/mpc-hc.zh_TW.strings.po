@@ -9,14 +9,15 @@
 # Ken <ken670128@yahoo.com.tw>, 2015
 # Peter Chen <petercpg@gmail.com>, 2014
 # roytam1 <roytam@gmail.com>, 2014
+# Timo Liu <timoliu@gmail.com>, 2016
 # YukiSakura <nijiko_fukada@163.com>, 2015
 # Zakk <zakk0610@gmail.com>, 2014
 # 洪嘉鴻 <jerry9030@gmail.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
-"PO-Revision-Date: 2016-04-28 09:45+0000\n"
+"POT-Creation-Date: 2016-05-01 21:13:57+0000\n"
+"PO-Revision-Date: 2016-05-02 16:20+0000\n"
 "Last-Translator: Chien Wei Lin <cwlin0416@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/mpc-hc/mpc-hc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -167,11 +168,11 @@ msgstr "總是 (最慢的選項)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
 msgid "Not supported by some devices. Two video decoders always present in the filter graph."
-msgstr "不被某些裝置支援。在篩選器圖中總會出現兩個視訊解碼器。"
+msgstr "某些裝置不支援。在 Filter Graph 中總會出現兩個視訊解碼器。"
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
 msgid "Fast except when switching between different video streams. Only one video decoder present in the filter graph."
-msgstr "除了在不同的視訊串流間切換時以外最快。篩選器圖中只有一個視訊解碼器。"
+msgstr "除了在不同的視訊串流間切換時以外最快。 Filter Graph 中只有一個視訊解碼器。"
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC2"
 msgid "Not recommended. Only for testing purposes."
@@ -287,11 +288,11 @@ msgstr "現場"
 
 msgctxt "IDS_CAPTURE_ERROR_VID_FILTER"
 msgid "Can't add video capture filter to the graph"
-msgstr "不能加入視訊擷取篩選器至篩選器圖。"
+msgstr "不能加入視訊擷取篩選器至該 Filter Graph。"
 
 msgctxt "IDS_CAPTURE_ERROR_AUD_FILTER"
 msgid "Can't add audio capture filter to the graph"
-msgstr "無法加入音訊擷取篩選器至篩選器圖。"
+msgstr "無法加入音訊擷取篩選器至該 Filter Graph。"
 
 msgctxt "IDS_CAPTURE_ERROR_DEVICE"
 msgid "Could not open capture device."
@@ -491,7 +492,7 @@ msgstr "調校"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER"
 msgid "Internal Filters::Audio Switcher"
-msgstr "內部篩選器::音訊切換器"
+msgstr "內部濾鏡::音訊切換器"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS"
 msgid "External Filters"
@@ -527,7 +528,7 @@ msgstr "播放::全螢幕"
 
 msgctxt "IDD_PPAGEAUDIORENDERER"
 msgid "Internal Filters::Audio Renderer"
-msgstr "內部篩選器::音訊繪製器"
+msgstr "內部篩選器::音訊渲染器"
 
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
@@ -631,7 +632,7 @@ msgstr "總是以覆疊模式繪製。一般說來只允許使用 YUV 格式，�
 
 msgctxt "IDC_DSVMR9WIN"
 msgid "Only available if you have DirectX 9 installed. Very stable but it will never use Overlay rendering and because of this it may be a little slower than Overlay mixer."
-msgstr ""
+msgstr "僅在您有安裝 DirectX 9 時可用。非常穩定，但永遠不會使用 Overlay 繪圖，也因此可能會比 Overlay 混合器還要慢一點。"
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
@@ -743,7 +744,7 @@ msgstr "無 (非壓縮)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
 msgid "Internal Audio Renderer"
-msgstr "內部音訊繪製器"
+msgstr "內部音訊渲染器"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
@@ -831,7 +832,7 @@ msgstr "字幕未載入或是未支援的繪製器。"
 
 msgctxt "IDC_CACHESHADERS"
 msgid "Stores compiled shaders in local AppData to speed up load time."
-msgstr ""
+msgstr "在本地端儲存已編輯的著色器來加速載入時間。"
 
 msgctxt "IDS_SRC_VTS"
 msgid "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"
@@ -1411,7 +1412,7 @@ msgstr "播放完後: 關閉"
 
 msgctxt "IDS_FRAME_INIT_FAILED"
 msgid "MPC-HC encountered a problem during initialization. With your help we might be able to fix the issue.\n\nDo you want to report it?"
-msgstr ""
+msgstr "MPC-HC 在初始化時遇到了一個問題。透過您的協助我們或許可以修復這個問題。\n\n您要回報這個問題嗎?"
 
 msgctxt "IDS_TIME_SHIFT_TOOLTIP"
 msgid "Enter a positive value if the audio is early, a negative value if it is late."
@@ -1423,7 +1424,7 @@ msgstr "目前已關閉預覽功能。您可以於 MPC-HC 的選項中將其開�
 
 msgctxt "IDS_WEBUI_PREVIEW_WARNING"
 msgid "This option can be used to preview media files from remote location. Use it only on a properly secured private network.\n\nDo you really want to enable this option?"
-msgstr ""
+msgstr "這個選項允許由遠端預覽媒體檔案。僅能在安全的私有網路中使用。\n\n您確定要啟用此選項嗎?"
 
 msgctxt "IDS_SUBTITLE_RENDERER_INTERNAL"
 msgid "Internal Subtitle Renderer"
@@ -2367,7 +2368,7 @@ msgstr "QuickTime 尚未支援 X64 (沒有 Apple 的函式庫)"
 
 msgctxt "IDS_MAINFRM_80"
 msgid "Failed to create the filter graph object"
-msgstr "無法建立篩選器圖 (Filter Graph) 物件"
+msgstr "無法建立 Filter Graph 物件"
 
 msgctxt "IDS_MAINFRM_81"
 msgid "Invalid argument"
@@ -2575,7 +2576,7 @@ msgstr "最大音量增幅"
 
 msgctxt "IDS_USAGE"
 msgid "Usage: mpc-hc.exe \"pathname\" [switches]"
-msgstr ""
+msgstr "用法: mpc-hc.exe \"pathname\" [參數]"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -3427,19 +3428,19 @@ msgstr "音訊"
 
 msgctxt "IDS_CAPTURE_ERROR_ADD_BUFFER"
 msgid "Can't add the %s buffer filter to the graph."
-msgstr "不能加入 %s 緩衝篩選器至篩選器圖。"
+msgstr "不能加入 %s 緩衝篩選器至 Filter Graph。"
 
 msgctxt "IDS_CAPTURE_ERROR_CONNECT_BUFF"
 msgid "Can't connect the %s buffer filter to the graph."
-msgstr "無法連接 %s 緩衝篩選器至篩選器圖。"
+msgstr "無法連接 %s 緩衝篩選器至 Filter Graph。"
 
 msgctxt "IDS_CAPTURE_ERROR_ADD_ENCODER"
 msgid "Can't add the %s encoder filter to the graph."
-msgstr "不能加入 %s 編碼篩選器至篩選器圖。"
+msgstr "不能加入 %s 編碼篩選器至 Filter Graph。"
 
 msgctxt "IDS_CAPTURE_ERROR_CONNECT_ENC"
 msgid "Can't connect the %s encoder filter to the graph."
-msgstr "無法連接 %s 編碼篩選器至篩選器圖。"
+msgstr "無法連接 %s 編碼篩選器至 Filter Graph。"
 
 msgctxt "IDS_CAPTURE_ERROR_COMPRESSION"
 msgid "Can't set the compression format on the %s encoder filter."
@@ -3767,197 +3768,197 @@ msgstr "將會關閉媒體檔所在的目錄中包含以下字詞的自動搜尋
 
 msgctxt "IDS_CMD_PATHNAME"
 msgid "\"pathname\"\tThe main file or directory to be loaded\n\t\t(wildcards allowed, \"-\" denotes standard input)"
-msgstr ""
+msgstr "\"pathname\"\t要載入的主要檔案或目錄\n\t\t(允許使用萬用字元，\"-\" 代表標準輸入)"
 
 msgctxt "IDS_CMD_DUB"
 msgid "/dub \"dubname\"\tLoad an additional audio file"
-msgstr ""
+msgstr "/dub \"dubname\"\t載入額外的音訊檔"
 
 msgctxt "IDS_CMD_DUBDELAY"
 msgid "/dubdelay \"file\"\tLoad an additional audio file shifted with XXms\n\t\t(if the file contains \"...DELAY XXms...\")"
-msgstr ""
+msgstr "/dubdelay \"file\"\t載入額外的音訊檔並偏移 XXms\n\t\t(若檔案含有 \"...DELAY XXms...\")"
 
 msgctxt "IDS_CMD_D3DFS"
 msgid "/d3dfs\t\tStart rendering in D3D fullscreen mode"
-msgstr ""
+msgstr "/d3dfs\t\t開啟 D3D 全螢幕模式繪圖"
 
 msgctxt "IDS_CMD_SUB"
 msgid "/sub \"subname\"\tLoad an additional subtitle file"
-msgstr ""
+msgstr "/sub \"subname\"\t載入額外的字幕檔"
 
 msgctxt "IDS_CMD_FILTER"
 msgid "/filter \"filtername\"\tLoad DirectShow filters from a dynamic link ibrary (wildcards allowed)"
-msgstr ""
+msgstr "/filter \"filtername\"\t從動態連結程式庫載入 DirectShow 篩選器 (允許使用萬用字元)"
 
 msgctxt "IDS_CMD_DVD"
 msgid "/dvd\t\tRun in dvd mode, \"pathname\" means the dvd folder (optional)"
-msgstr ""
+msgstr "/dvd\t\t使用 dvd 模式執行，\"pathname\" 為 dvd 的資料夾 (選填)"
 
 msgctxt "IDS_CMD_DVDPOS_TC"
 msgid "/dvdpos T#C\tStart playback at title T, chapter C"
-msgstr ""
+msgstr "/dvdpos T#C\t從標題 T 章節 C 開始播放"
 
 msgctxt "IDS_CMD_DVDPOS_TIME"
 msgid "/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss"
-msgstr ""
+msgstr "/dvdpos T#hh:mm\t從標題 T，位置 hh:mm:ss 開始播放"
 
 msgctxt "IDS_CMD_CD"
 msgid "/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)"
-msgstr ""
+msgstr "/cd\t\t載入所有音樂 cd 或 (s)vcd 的音軌，\n\t\t\"pathname\" 為磁碟機路徑 (選填)"
 
 msgctxt "IDS_CMD_DEVICE"
 msgid "/device\t\tOpen the default video device"
-msgstr ""
+msgstr "/device\t\t開啟預設的視訊裝置"
 
 msgctxt "IDS_CMD_OPEN"
 msgid "/open\t\tOpen the file, don't automatically start playback"
-msgstr ""
+msgstr "/open\t\t開啟檔案，不自動播放"
 
 msgctxt "IDS_CMD_PLAY"
 msgid "/play\t\tStart playing the file as soon the player is launched"
-msgstr ""
+msgstr "/play\t\t播放器執行後即開始播放檔案"
 
 msgctxt "IDS_CMD_CLOSE"
 msgid "/close\t\tClose the player after playback (only works when used with /play)"
-msgstr ""
+msgstr "/close\t\t播放結束後關閉播放器 (需配合 /play 使用)"
 
 msgctxt "IDS_CMD_SHUTDOWN"
 msgid "/shutdown\tShutdown the operating system after playback"
-msgstr ""
+msgstr "/shutdown\t播放結束後關機"
 
 msgctxt "IDS_CMD_STANDBY"
 msgid "/standby\t\tPut the operating system in standby mode after playback"
-msgstr ""
+msgstr "/standby\t\t播放結束後進入待命模式"
 
 msgctxt "IDS_CMD_HIBERNATE"
 msgid "/hibernate\tHibernate operating system after playback"
-msgstr ""
+msgstr "/hibernate\t播放結束後進入睡眠模式"
 
 msgctxt "IDS_CMD_LOGOFF"
 msgid "/logoff\t\tLog off after playback"
-msgstr ""
+msgstr "/logoff\t\t播放結束後登出"
 
 msgctxt "IDS_CMD_LOCK"
 msgid "/lock\t\tLock workstation after playback"
-msgstr ""
+msgstr "/lock\t\t播放結束後鎖定"
 
 msgctxt "IDS_CMD_MONITOROFF"
 msgid "/monitoroff\tTurn off the monitor after playback"
-msgstr ""
+msgstr "/monitoroff\t播放結束後關閉螢幕"
 
 msgctxt "IDS_CMD_PLAYNEXT"
 msgid "/playnext\t\tOpen next file in the folder after playback"
-msgstr ""
+msgstr "/playnext\t\t播放結束後開啟資料夾的下一個檔案"
 
 msgctxt "IDS_CMD_FULLSCREEN"
 msgid "/fullscreen\tStart in full-screen mode"
-msgstr ""
+msgstr "/fullscreen\t使用全螢幕模式啟動"
 
 msgctxt "IDS_CMD_MINIMIZED"
 msgid "/minimized\tStart in minimized mode"
-msgstr ""
+msgstr "/minimized\t使用最小化模式啟動"
 
 msgctxt "IDS_CMD_NEW"
 msgid "/new\t\tUse a new instance of the player"
-msgstr ""
+msgstr "/new\t\t使用新的程序開啟播放器"
 
 msgctxt "IDS_CMD_ADD"
 msgid "/add\t\tAdd \"pathname\" to playlist, can be combined with /open and /play"
-msgstr ""
+msgstr "/add\t\t加入 \"pathname\" 到播放清單，可與 /open 及 /play 合併使用"
 
 msgctxt "IDS_CMD_RANDOMIZE"
 msgid "/randomize\tRandomize the playlist"
-msgstr ""
+msgstr "/randomize\t隨機播放清單"
 
 msgctxt "IDS_CMD_REGVID"
 msgid "/regvid\t\tCreate file associations for video files"
-msgstr ""
+msgstr "/regvid\t\t建立視訊檔案關聯"
 
 msgctxt "IDS_CMD_REGAUD"
 msgid "/regaud\t\tCreate file associations for audio files"
-msgstr ""
+msgstr "/regaud\t\t建立音訊檔案關聯"
 
 msgctxt "IDS_CMD_REGPL"
 msgid "/regpl\t\tCreate file associations for playlist files"
-msgstr ""
+msgstr "/regpl\t\t建立播放清單檔案關聯"
 
 msgctxt "IDS_CMD_REGALL"
 msgid "/regall\t\tCreate file associations for all supported file types"
-msgstr ""
+msgstr "/regall\t\t建立所有支援的類型檔案關聯"
 
 msgctxt "IDS_CMD_UNREGALL"
 msgid "/unregall\t\tRemove all file associations"
-msgstr ""
+msgstr "/unregall\t\t移除所有檔案關聯"
 
 msgctxt "IDS_CMD_START"
 msgid "/start ms\t\tStart playing at \"ms\" (= milliseconds)"
-msgstr ""
+msgstr "/start ms\t\t從 \"ms\" (= 毫秒) 開始播放"
 
 msgctxt "IDS_CMD_STARTPOS"
 msgid "/startpos hh:mm:ss\tStart playing at position hh:mm:ss"
-msgstr ""
+msgstr "/startpos hh:mm:ss\t從位置 hh:mm:ss 開始播放"
 
 msgctxt "IDS_CMD_FIXEDSIZE"
 msgid "/fixedsize w,h\tSet a fixed window size"
-msgstr ""
+msgstr "/fixedsize w,h\t設定固定的視窗大小"
 
 msgctxt "IDS_CMD_MONITOR"
 msgid "/monitor N\tStart player on monitor N, where N starts from 1"
-msgstr ""
+msgstr "/monitor N\t於螢幕 N 啟動播放器，N 的範圍從 1  開始"
 
 msgctxt "IDS_CMD_AUDIORENDERER"
 msgid "/audiorenderer N\tStart using audiorenderer N, where N starts from 1 (see \"Output\" settings)"
-msgstr ""
+msgstr "/audiorenderer N\t使用音訊渲染器 N 啟動播放器，N 的範圍從 1 開始 (請參考 \"輸出\" 設定)"
 
 msgctxt "IDS_CMD_SHADERPRESET"
 msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
-msgstr ""
+msgstr "/shaderpreset \"Pr\"\t使用 \"Pr\" 著色器初始設定啟動播放器"
 
 msgctxt "IDS_CMD_PNS"
 msgid "/pns \"name\"\tSpecify Pan&Scan preset name to use"
-msgstr ""
+msgstr "/pns \"name\"\t指定要使用的 Pan&Scan 初始設定名稱"
 
 msgctxt "IDS_CMD_ICONASSOC"
 msgid "/iconsassoc\tReassociate format icons"
-msgstr ""
+msgstr "/iconsassoc\t重新關聯檔案格式圖示"
 
 msgctxt "IDS_CMD_NOFOCUS"
 msgid "/nofocus\t\tOpen MPC-HC in background"
-msgstr ""
+msgstr "/nofocus\t\t在背景開啟 MPC-HC"
 
 msgctxt "IDS_CMD_WEBPORT"
 msgid "/webport N\tStart web interface on specified port"
-msgstr ""
+msgstr "/webport N\t於指定埠號啟動網頁介面"
 
 msgctxt "IDS_CMD_DEBUG"
 msgid "/debug\t\tShow debug information in OSD"
-msgstr ""
+msgstr "/debug\t\t在 OSD 顯示除錯資訊"
 
 msgctxt "IDS_CMD_NOCRASHREPORTER"
 msgid "/nocrashreporter\tDisable the crash reporter"
-msgstr ""
+msgstr "/nocrashreporter\t關閉當機回報程式"
 
 msgctxt "IDS_CMD_SLAVE"
 msgid "/slave \"hWnd\"\tUse MPC-HC as slave"
-msgstr ""
+msgstr "/slave \"hWnd\"\t使用 MPC-HC 作為次要服務"
 
 msgctxt "IDS_CMD_HWGPU"
 msgid "/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding.\n\t\tOnly available for CUVID and DXVA2 (copy-back)"
-msgstr ""
+msgstr "/hwgpu \"index\"\t設定要用來硬體解碼的 GPU 索引。\n\t\t僅支援 CUVID 及 DXVA2 (copy-back)"
 
 msgctxt "IDS_CMD_RESET"
 msgid "/reset\t\tRestore default settings"
-msgstr ""
+msgstr "/reset\t\t還原預設設定"
 
 msgctxt "IDS_CMD_HELP"
 msgid "/help /h /?\tShow help about command line switches"
-msgstr ""
+msgstr "/help /h /?\t顯示有關指令列參數的說明"
 
 msgctxt "IDS_PPAGEADVANCED_SCORE"
 msgid "Threshold value for subtitles score which are going to be automatically downloaded. Higher values means that more accurately matched subtitles will be loaded, lower values could result in incorrect subtitles being loaded, but there is no one perfect value. Pick one that works best for you."
-msgstr ""
+msgstr "用來決定是否自動下載字幕的字幕分數門檻值。較高的數值將只有準確符合的字幕會被載入，較低的數值可能會載入不正確的字幕，這沒有絕對沒問題的數值。請選擇您覺得最佳的數值。"
 
 msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
 msgid "Audio Delay"
-msgstr ""
+msgstr "音訊延遲"
 

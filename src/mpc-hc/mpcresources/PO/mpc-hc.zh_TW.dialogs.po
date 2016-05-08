@@ -9,6 +9,7 @@
 # Ken <ken670128@yahoo.com.tw>, 2015
 # Peter Chen <petercpg@gmail.com>, 2014
 # roytam1 <roytam@gmail.com>, 2014
+# Timo Liu <timoliu@gmail.com>, 2016
 # YukiSakura <nijiko_fukada@163.com>, 2015
 # Zakk <zakk0610@gmail.com>, 2014
 # 洪嘉鴻 <jerry9030@gmail.com>, 2015-2016
@@ -16,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
-"PO-Revision-Date: 2016-04-28 04:50+0000\n"
-"Last-Translator: Chien Wei Lin <cwlin0416@gmail.com>\n"
+"PO-Revision-Date: 2016-05-04 09:04+0000\n"
+"Last-Translator: Timo Liu <timoliu@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/mpc-hc/mpc-hc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -475,7 +476,7 @@ msgstr "開啟設定"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK7"
 msgid "Use worker thread to construct the filter graph"
-msgstr "使用工作執行緒建立篩選器圖 (Filter Graph)"
+msgstr "使用 Worker 執行緒建立 Filter Graph"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK6"
 msgid "Report pins which fail to render"
@@ -903,7 +904,7 @@ msgstr "警告"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC1"
 msgid "MPC-HC could not render some of the pins in the graph, you may not have the needed codecs or filters installed on the system."
-msgstr "MPC-HC 無法繪製篩選器圖裡的某些腳位, 您的系統可能沒有安裝需要的編解碼器或篩選器。"
+msgstr "MPC-HC 無法繪製 Filter Graph 裡的某些腳位, 您的系統可能沒有安裝需要的編解碼器或篩選器。"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC2"
 msgid "The following pin(s) failed to find a connectable filter:"
@@ -1131,7 +1132,7 @@ msgstr "QuickTime 視訊"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Audio Renderer"
-msgstr "音訊譜製器"
+msgstr "音訊渲染器"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "VMR-9 (renderless) and EVR (CP) settings"
@@ -1439,11 +1440,11 @@ msgstr "切換頻道的方法:"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST11"
 msgid "Rebuild filter graph"
-msgstr "重建篩選器圖"
+msgstr "重建 Filter Graph"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST12"
 msgid "Stop filter graph"
-msgstr "停止篩選器圖"
+msgstr "停止 Filter Graph"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCVIDEO"
 msgid "Sync video to display"
@@ -1607,7 +1608,7 @@ msgstr "語言偏好順序:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
 msgid "Automatically upload active subtitles at the end of video playback"
-msgstr "於視訊播放結束時自動上傳開啟的字幕"
+msgstr "於視訊播放結束時自動上傳使用中的字幕"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
@@ -1663,11 +1664,11 @@ msgstr "移除"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active pre-resize shaders"
-msgstr "活躍的 pre-resize 著色器"
+msgstr "使用中的 pre-resize 著色器"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active post-resize shaders"
-msgstr "活躍的 post-resize 著色器"
+msgstr "使用中的 post-resize 著色器"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_CAPTION"
 msgid "Debug Shaders"
@@ -1731,15 +1732,15 @@ msgstr "開啟立體聲 Crossfeed (適用於耳機)"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON1"
 msgid "C. Moy"
-msgstr ""
+msgstr "C. Moy"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON2"
 msgid "J. Meier"
-msgstr ""
+msgstr "J. Meier"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC1"
 msgid "Cut-off:"
-msgstr ""
+msgstr "切斷："
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC3"
 msgid "Level:"

@@ -4,13 +4,14 @@
 # Translators:
 # geogeo.gr <geogeo.gr@gmail.com>, 2013-2015
 # firespin <dartworldgr@hotmail.com>, 2014-2015
+# Elena Sotiri <elenaph33@gmail.com>, 2016
 # geogeo.gr <geogeo.gr@gmail.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
-"PO-Revision-Date: 2016-04-12 10:16+0000\n"
-"Last-Translator: geogeo.gr <geogeo.gr@gmail.com>\n"
+"POT-Creation-Date: 2016-05-01 21:13:57+0000\n"
+"PO-Revision-Date: 2016-05-08 12:12+0000\n"
+"Last-Translator: Elena Sotiri <elenaph33@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/mpc-hc/mpc-hc/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2568,7 +2569,7 @@ msgstr "Μέγιστη ώθηση έντασης"
 
 msgctxt "IDS_USAGE"
 msgid "Usage: mpc-hc.exe \"pathname\" [switches]"
-msgstr ""
+msgstr "Χρήση: mpc-hc.exe \"διαδρομή\" [παράμετρος]"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -3760,7 +3761,7 @@ msgstr "Η αυτόματη αναζήτηση και λήψη θα απενερ
 
 msgctxt "IDS_CMD_PATHNAME"
 msgid "\"pathname\"\tThe main file or directory to be loaded\n\t\t(wildcards allowed, \"-\" denotes standard input)"
-msgstr ""
+msgstr "\"pathname\"⇥Το κύριο αρχείο ή φάκελος που θα ανοίξει\n\n⇥⇥(επιτρέπονται οι χαρακτήρες μπαλαντέρ, το \"-\" υποδηλώνει τυπική είσοδο)"
 
 msgctxt "IDS_CMD_DUB"
 msgid "/dub \"dubname\"\tLoad an additional audio file"
@@ -3944,7 +3945,7 @@ msgstr ""
 
 msgctxt "IDS_CMD_HELP"
 msgid "/help /h /?\tShow help about command line switches"
-msgstr ""
+msgstr "/help /h /?⇥Εμφάνιση βοήθειας για τις παραμέτρους της γραμμής εντολών"
 
 msgctxt "IDS_PPAGEADVANCED_SCORE"
 msgid "Threshold value for subtitles score which are going to be automatically downloaded. Higher values means that more accurately matched subtitles will be loaded, lower values could result in incorrect subtitles being loaded, but there is no one perfect value. Pick one that works best for you."
@@ -3952,5 +3953,5 @@ msgstr ""
 
 msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
 msgid "Audio Delay"
-msgstr ""
+msgstr "Καθυστέρηση Ήχου"
 

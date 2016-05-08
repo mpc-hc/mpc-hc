@@ -11,12 +11,13 @@
 # Tariq <tariq-mz@hotmail.com>, 2014
 # Tariq <tariq-mz@hotmail.com>, 2014
 # manxx55 <w6txz2@gmail.com>, 2014-2015
+# ‫ابو سليمان الشـمري‬‎ <mollthb@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-03-13 21:29:13+0000\n"
-"PO-Revision-Date: 2016-03-13 21:59+0000\n"
-"Last-Translator: Underground78\n"
+"POT-Creation-Date: 2016-05-01 21:13:57+0000\n"
+"PO-Revision-Date: 2016-05-04 20:15+0000\n"
+"Last-Translator: ‫ابو سليمان الشـمري‬‎ <mollthb@gmail.com>\n"
 "Language-Team: Arabic (http://www.transifex.com/mpc-hc/mpc-hc/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1450,11 +1451,11 @@ msgstr "تم حفظ الصورة"
 
 msgctxt "IDS_AG_LOAD_SUBTITLES"
 msgid "Load Subtitles..."
-msgstr ""
+msgstr " تحميل الترجمات..."
 
 msgctxt "IDS_AG_SAVE_SUBTITLES"
 msgid "Save Subtitles..."
-msgstr ""
+msgstr "حفظ الترجمات..."
 
 msgctxt "IDS_AG_PROPERTIES"
 msgid "Properties"
@@ -3958,5 +3959,5 @@ msgstr ""
 
 msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
 msgid "Audio Delay"
-msgstr ""
+msgstr "تأخير الصوت"
 

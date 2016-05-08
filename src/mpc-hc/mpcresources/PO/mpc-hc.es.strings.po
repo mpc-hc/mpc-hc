@@ -2,9 +2,9 @@
 # Copyright (C) 2002 - 2016 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Adolfo Jayme Barrientos, 2014-2015
-# Adolfo Jayme Barrientos, 2015-2016
-# Adolfo Jayme Barrientos, 2014
+# Fitoschido, 2014-2015
+# Fitoschido, 2015-2016
+# Fitoschido, 2014
 # Ernesto Avilés Vázquez <whippiii@gmail.com>, 2013
 # fdelacruz <inactive+fdelacruz@transifex.com>, 2014
 # Johan Ramirez <idonthumanbeing@gmail.com>, 2014
@@ -15,8 +15,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
-"PO-Revision-Date: 2016-04-13 02:13+0000\n"
+"POT-Creation-Date: 2016-05-01 21:13:57+0000\n"
+"PO-Revision-Date: 2016-05-19 14:51+0000\n"
 "Last-Translator: strel\n"
 "Language-Team: Spanish (http://www.transifex.com/mpc-hc/mpc-hc/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -71,7 +71,7 @@ msgstr "Propiedades"
 
 msgctxt "IDS_PLAY_LOOPMODE_FILE"
 msgid "File"
-msgstr "Fichero"
+msgstr "Archivo"
 
 msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
 msgid "&Default Style"
@@ -87,7 +87,7 @@ msgstr "Archivos"
 
 msgctxt "IDS_FAVDVDS"
 msgid "DVDs"
-msgstr "DVD"
+msgstr "DVDs"
 
 msgctxt "IDS_INFOBAR_CHANNEL"
 msgid "Channel"
@@ -115,7 +115,7 @@ msgstr "Tasa de bits"
 
 msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
 msgid "(avg/cur)"
-msgstr "(prom./act.)"
+msgstr "(promedio/actual)"
 
 msgctxt "IDS_STATSBAR_SIGNAL"
 msgid "Signal"
@@ -123,7 +123,7 @@ msgstr "Señal"
 
 msgctxt "IDS_STATSBAR_SIGNAL_FORMAT"
 msgid "Strength: %d dB, Quality: %ld%%"
-msgstr "Potencia: %d dB, calidad: %ld %%"
+msgstr "Potencia: %d dB, Calidad: %ld %%"
 
 msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
 msgid "Styles"
@@ -131,7 +131,7 @@ msgstr "Estilos"
 
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
-msgstr "Si se deja sin definir el objetivo de representación, los subtítulos SSA/ASS se mostrarán en relación al fotograma de vídeo y el resto se mostrará en relación a la ventana."
+msgstr "Si no se define el objetivo de renderizado, los subtítulos en formato SSA/ASS se representarán en relación al fotograma mientras el resto de subtítulos de texto se representarán en relación a la ventana."
 
 msgctxt "IDS_PLAYLOOPMODE_PLAYLIST"
 msgid "Repeat Mode: Playlist"
@@ -139,59 +139,59 @@ msgstr "Modo de repetición: Lista de reproducción"
 
 msgctxt "IDS_PLAYLOOPMODE_FILE"
 msgid "Repeat Mode: File"
-msgstr "Modo de repetición: Fichero"
+msgstr "Modo de repetición: Archivo"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_ON"
 msgid "Repeat Forever: On"
-msgstr "Repetir permanentemente: Activado"
+msgstr "Repetir continuamente: Activado"
 
 msgctxt "IDS_PLAYLOOP_FOREVER_OFF"
 msgid "Repeat Forever: Off"
-msgstr "Repetir permanentemente: Desactivado"
+msgstr "Repetir continuamente: Desactivado"
 
 msgctxt "IDS_PLAYLOOP_FOREVER"
 msgid "Repeat Forever"
-msgstr "Repetir permanentemente"
+msgstr "Repetir continuamente"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
-msgstr "Nunca (método más rápido)"
+msgstr "Nunca (opción más rápida)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG1"
 msgid "Only when switching different video types (default)"
-msgstr "Solo cuando se cambia entre vídeos de diferentes tipos (predeterminado)"
+msgstr "Sólo al cambiar entre distintos tipos de vídeo (por defecto)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG2"
 msgid "Always (slowest option)"
-msgstr "Siempre (la opción más lenta)"
+msgstr "Siempre (opción más lenta)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
 msgid "Not supported by some devices. Two video decoders always present in the filter graph."
-msgstr "Algunos dispositivos no lo admiten. Dos decodificadores de vídeo siempre presentes en el gráfico de filtros."
+msgstr "Algunos dispositivos no lo admiten. Dos decodificadores de vídeo siempre presentes en el diagrama de filtros."
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
 msgid "Fast except when switching between different video streams. Only one video decoder present in the filter graph."
-msgstr "Rápido excepto cuando se cambia entre diferentes flujos de vídeo. Solo un codificador de vídeo presente en el grafo de filtros."
+msgstr "Rápido excepto al cambiar entre distintos flujos de vídeo. Sólo hay un decodificador de vídeo en el diagrama de filtros."
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC2"
 msgid "Not recommended. Only for testing purposes."
-msgstr "No recomendado. Solo para propósitos de prueba."
+msgstr "No recomendado. Sólo para propósitos de prueba."
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG0"
 msgid "Never if possible (fastest, but not supported by most filters)"
-msgstr "Nunca si es posible (más rápido, pero no admitido por la mayoría de los filtros)"
+msgstr "Nunca si es posible (más rápido, pero no soportado por la mayoría de filtros)"
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG1"
 msgid "Only when switching different video types (default)"
-msgstr "Solo al cambiar entre diferentes tipos de vídeos (predeterminado)"
+msgstr "Sólo al cambiar entre distintos tipos de vídeo (por defecto)"
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG2"
 msgid "Always (may be required by some devices)"
-msgstr "Siempre (puede ser requerido por algunos dispositivos)"
+msgstr "Siempre (puede que sea requerido por algunos dispositivos)"
 
 msgctxt "IDS_INFOBAR_PARENTAL_RATING"
 msgid "Parental rating"
-msgstr "Clasificación parental"
+msgstr "Calificación parental"
 
 msgctxt "IDS_PARENTAL_RATING"
 msgid "%d+"
@@ -199,7 +199,7 @@ msgstr "%d+"
 
 msgctxt "IDS_NO_PARENTAL_RATING"
 msgid "Not rated"
-msgstr "Sin clasificar"
+msgstr "No calificado"
 
 msgctxt "IDS_INFOBAR_CONTENT"
 msgid "Content"
@@ -227,7 +227,7 @@ msgstr "DVD añadido a favoritos"
 
 msgctxt "IDS_CAPTURE_SETTINGS"
 msgid "Capture Settings"
-msgstr "Configuración de captura"
+msgstr "Ajustes de captura"
 
 msgctxt "IDS_NAVIGATION_BAR"
 msgid "Navigation Bar"
@@ -235,7 +235,7 @@ msgstr "Barra de navegación"
 
 msgctxt "IDS_SUBRESYNC_CAPTION"
 msgid "Subresync"
-msgstr "Subresync"
+msgstr "Resincronización de subtítulos"
 
 msgctxt "IDS_SUBRESYNC_CLN_TIME"
 msgid "Time"
@@ -275,11 +275,11 @@ msgstr "Tipo de letra"
 
 msgctxt "IDS_DVD_NAV_SOME_PINS_ERROR"
 msgid "Failed to render some of the pins of the DVD Navigator filter"
-msgstr "Fallo al renderizar algunos pines del filtro Navegador de DVD"
+msgstr "No se pudieron renderizar algunas de las etapas de filtro «DVD Navigator»"
 
 msgctxt "IDS_DVD_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for DVD playback"
-msgstr "Fallo al consultar las interfaces requeridas para la reproducción de DVD"
+msgstr "No se pudieron consultar las interfaces requeridas para la reproducción de DVD"
 
 msgctxt "IDS_CAPTURE_LIVE"
 msgid "Live"
@@ -287,11 +287,11 @@ msgstr "En vivo"
 
 msgctxt "IDS_CAPTURE_ERROR_VID_FILTER"
 msgid "Can't add video capture filter to the graph"
-msgstr "No se puede añadir el filtro de captura de vídeo al gráfico"
+msgstr "No se puede añadir el filtro de captura de vídeo al diagrama de filtros"
 
 msgctxt "IDS_CAPTURE_ERROR_AUD_FILTER"
 msgid "Can't add audio capture filter to the graph"
-msgstr "No se puede añadir el filtro de captura de audio al gráfico"
+msgstr "No se puede añadir el filtro de captura de audio al diagrama de filtros"
 
 msgctxt "IDS_CAPTURE_ERROR_DEVICE"
 msgid "Could not open capture device."
@@ -299,19 +299,19 @@ msgstr "No se pudo abrir el dispositivo de captura."
 
 msgctxt "IDS_INVALID_PARAMS_ERROR"
 msgid "Can't open, invalid input parameters"
-msgstr "No se puede abrir: los parámetros de entrada no son válidos"
+msgstr "No se puede abrir, parámetros de entrada no válidos"
 
 msgctxt "IDS_EDIT_LIST_EDITOR"
 msgid "Edit List Editor"
-msgstr "Editar editor de listas"
+msgstr "Editor de listas de edición (EDLs)"
 
 msgctxt "IDS_GOTO_ERROR_INVALID_TIME"
 msgid "The entered time is greater than the file duration."
-msgstr "El tiempo insertado es mayor que la duración del archivo."
+msgstr "El tiempo introducido es mayor que la duración del archivo."
 
 msgctxt "IDS_MISSING_ICONS_LIB"
 msgid "The icons library \"mpciconlib.dll\" is missing.\nThe player's default icon will be used for file associations.\nPlease, reinstall MPC-HC to get \"mpciconlib.dll\"."
-msgstr "No se encuentra la colección de iconos «mpciconlib.dll».\nSe usará el icono predeterminado del reproductor en las asociaciones de archivos.\nReinstale MPC-HC para obtener «mpciconlib.dll»."
+msgstr "No se encuentra la librería de iconos «mpciconlib.dll».\nSe usará el icono predeterminado del reproductor para las asociaciones de archivos.\nReinstale MPC-HC para obtener «mpciconlib.dll»."
 
 msgctxt "IDS_SUBDL_DLG_FILENAME_COL"
 msgid "File"
@@ -359,7 +359,7 @@ msgstr "Lista de reproducción"
 
 msgctxt "IDS_PPAGE_FS_CLN_ON_OFF"
 msgid "On/Off"
-msgstr "Activado/desactivado"
+msgstr "Activado/Desactivado"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
 msgid "From (FPS)"
@@ -371,7 +371,7 @@ msgstr "A (FPS)"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
-msgstr "Modo de visualización (Hz)"
+msgstr "Modo de pantalla (Hz)"
 
 msgctxt "IDS_PPAGE_FS_DEFAULT"
 msgid "Default"
@@ -383,19 +383,19 @@ msgstr "Otros"
 
 msgctxt "IDS_PPAGE_OUTPUT_SYS_DEF"
 msgid "System Default"
-msgstr "Predefinido del sistema"
+msgstr "Predeterminado del sistema"
 
 msgctxt "IDS_GRAPH_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for playback"
-msgstr "Fallo al consultar las interfaces requeridas para la reproducción"
+msgstr "No se pudieron consultar las interfaces requeridas para la reproducción"
 
 msgctxt "IDS_GRAPH_TARGET_WND_ERROR"
 msgid "Could not set target window for graph notification"
-msgstr "No se puede establecer la ventana destino para la notificación gráfica"
+msgstr "No se pudo establecer la ventana destino para las notificaciones del diagrama de filtros"
 
 msgctxt "IDS_DVD_NAV_ALL_PINS_ERROR"
 msgid "Failed to render all pins of the DVD Navigator filter"
-msgstr "Fallo al renderizar todos los pines del filtro Navegador de DVD"
+msgstr "No se pudieron renderizar todas las etapas de filtro «DVD Navigator»"
 
 msgctxt "IDS_PLAYLIST_OPEN"
 msgid "&Open"
@@ -407,7 +407,7 @@ msgstr "A&ñadir"
 
 msgctxt "IDS_PLAYLIST_REMOVE"
 msgid "&Remove"
-msgstr "&Quitar"
+msgstr "&Eliminar"
 
 msgctxt "IDS_PLAYLIST_CLEAR"
 msgid "C&lear"
@@ -431,7 +431,7 @@ msgstr "Ordenar por &ruta"
 
 msgctxt "IDS_PLAYLIST_RANDOMIZE"
 msgid "R&andomize"
-msgstr "&Aleatorio"
+msgstr "Orden &aleatorio"
 
 msgctxt "IDS_PLAYLIST_RESTORE"
 msgid "R&estore"
@@ -499,7 +499,7 @@ msgstr "Filtros externos"
 
 msgctxt "IDD_PPAGESHADERS"
 msgid "Playback::Shaders"
-msgstr "Reproducción::'Sombreadores' (shaders)"
+msgstr "Reproducción::Shaders"
 
 msgctxt "IDD_FILEPROPRES"
 msgid "Resources"
@@ -507,7 +507,7 @@ msgstr "Recursos"
 
 msgctxt "IDD_PPAGEMISC"
 msgid "Miscellaneous"
-msgstr "Variadas"
+msgstr "Varios"
 
 msgctxt "IDD_FILEMEDIAINFO"
 msgid "MediaInfo"
@@ -519,7 +519,7 @@ msgstr "Reproducción::Captura"
 
 msgctxt "IDD_PPAGESYNC"
 msgid "Playback::Sync Renderer Settings"
-msgstr "Reproducción::Config. de Sync Renderer"
+msgstr "Reproducción::Renderizador Sync"
 
 msgctxt "IDD_PPAGEFULLSCREEN"
 msgid "Playback::Fullscreen"
@@ -535,7 +535,7 @@ msgstr "Conmutador de audio"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_TITLE"
 msgid "New version of the icon library"
-msgstr "Nueva versión de la biblioteca de iconos"
+msgstr "Nueva versión de la librería de iconos"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_INSTR"
 msgid "Do you want to reassociate the icons?"
@@ -543,31 +543,31 @@ msgstr "¿Quiere volver a asociar los iconos?"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_CONTENT"
 msgid "This will fix the icons being incorrectly displayed after an update of the icon library.\nThe file associations will not be modified, only the corresponding icons will be refreshed."
-msgstr "Esto reparará los iconos que muestran incorrectamente después de una actualización de la biblioteca de icono.\nLas asociaciones de archivo no serán modificadas, solo los iconos correspondientes serán actualizados."
+msgstr "Esto repara los iconos que se muestran incorrectamente después de una actualización de la librería de de iconos.\nLas asociaciones de archivo no se modificarán, sólo se actualizarán los iconos correspondientes."
 
 msgctxt "IDS_PPAGE_OUTPUT_OLDRENDERER"
 msgid "Old Video Renderer"
-msgstr "Renderizador viejo de vídeo"
+msgstr "(old) Video Renderer"
 
 msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
-msgstr "Overlay Mixer Renderer"
+msgstr "Renderizador Overlay Mixer"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
 msgid "Video Mixing Renderer 9 (windowed)"
-msgstr "Video Mixing Renderer 9 (modo ventana)"
+msgstr "Video Mixing Renderer 9 (windowed) [VMR-9 (modo ventana)]"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
 msgid "Video Mixing Renderer 9 (renderless)"
-msgstr "Video Mixing Renderer 9 (sin renderización)"
+msgstr "Video Mixing Renderer 9 (renderless) [VMR-9 (sin renderizado)]"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR"
 msgid "Enhanced Video Renderer"
-msgstr "Renderizador de vídeo mejorado"
+msgstr "Enhanced Video Renderer [EVR]"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR_CUSTOM"
 msgid "Enhanced Video Renderer (custom presenter)"
-msgstr "Renderizador de vídeo mejorado (presentador personalizado)"
+msgstr "Enhanced Video Renderer (presentador personalizado) [EVR (CP)]"
 
 msgctxt "IDS_PPAGE_OUTPUT_DXR"
 msgid "Haali Video Renderer"
@@ -575,11 +575,11 @@ msgstr "Renderizador de vídeo Haali"
 
 msgctxt "IDS_PPAGE_OUTPUT_NULL_COMP"
 msgid "Null (anything)"
-msgstr "Nulo (cualquier compresión)"
+msgstr "Null (cualquier entrada)"
 
 msgctxt "IDS_PPAGE_OUTPUT_NULL_UNCOMP"
 msgid "Null (uncompressed)"
-msgstr "Nulo (sin compresión)"
+msgstr "Null (entrada no comprimida)"
 
 msgctxt "IDS_PPAGE_OUTPUT_MADVR"
 msgid "madVR"
@@ -619,71 +619,71 @@ msgstr "Clip"
 
 msgctxt "IDC_DSSYSDEF"
 msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason. On Windown XP this is the same as VMR-7 (windowed)."
-msgstr "Filtro renderizador de vídeo predeterminado para DirectShow. Otros lo utilizaran como recurso cuando no puedan cargarse adecuadamente por cualquier razón. En Windows XP es lo mismo que VMR-7 (ventana)."
+msgstr "Filtro renderizador de vídeo predeterminado para DirectShow. Otros filtros recurrirán a este cuando no puedan cargarse adecuadamente por cualquier motivo. En Windows XP es el propio VMR-7 (modo ventana)."
 
 msgctxt "IDC_DSOLD"
 msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
-msgstr "Este es el renderizador predeterminado para Windows 9x/Me/2K. Dependiendo de la visibilidad de la ventana de video y de las capacidades de su tarjeta gráfica, escogerá dinámicamente entre los modos de renderizado GDI, DirectDraw, y Overlay."
+msgstr "El antiguo Renderizador de Vídeo es el filtro renderizador predeterminado de Windows 9x/ME/2K. Dependiendo de la visibilidad de la ventana de vídeo y de las capacidades de su tarjeta gráfica, alternará dinámicamente entre los modos de renderizado GDI (interfaz [básica] del dispositivo gráfico), DirectDraw (una interfaz intensiva del entorno DirectX), y Overlay (hardware de renderizado directo)."
 
 msgctxt "IDC_DSOVERLAYMIXER"
 msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
-msgstr "Siempre se representa en un una capa. Generalmente sólo están permitidos los formatos YUV, pero se presentan directamente sin ningún color de conversión a RGB. Este es el método de representación más rápida de todo, y el único donde puede estar seguro acerca de la activación de la replicación del vídeo a pantalla completa hacia la salida de TV."
+msgstr "El filtro Overlay Mixer siempre renderiza en modo Overlay (hardware de renderizado directo). Generalmente sólo permite formatos de vídeo con codificación de color YUV, que se representan directamente sin ninguna conversión (bajo consumo) del color a RGB. Este es el modo de renderización más rápido de todos, y el único con el que puede estar seguro acerca de la activación de la replicación del vídeo en pantalla completa hacia la salida de TV."
 
 msgctxt "IDC_DSVMR9WIN"
 msgid "Only available if you have DirectX 9 installed. Very stable but it will never use Overlay rendering and because of this it may be a little slower than Overlay mixer."
-msgstr "Sólo disponible si tiene DirectX 9 instalado. Muy estable, pero nunca usará renderizado Overlay (sobreimpresionado) y a causa de esto puede ser un poco más lento que el mezclador Overlay."
+msgstr "El Renderizador Mezclador de Vídeo 9 sólo está disponible si tiene el entorno DirectX 9 instalado. Es muy estable, pero nunca usará renderizado Overlay (hardware de renderizado directo) y a causa de esto puede ser un poco más lento que que el filtro renderizador Overlay Mixer."
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
-msgstr "Lo mismo que VMR-9 (ventana), pero con el plugin \"Allocator-Presenter\" de MPC-HC para el subtitulado. El espejo de Overlay TALVEZ funcionara. Se recomienda la profundidad de color del escritorio \"Color Verdadero\"."
+msgstr "Lo mismo que el renderizador VMR-9 (modo ventana), pero con el componente Allocator-Presenter (asignador-presentador) de MPC-HC para el subtitulado. La replicación de vídeo en modo Overlay (hardware de renderizado directo) QUIZÁ funcione. Se recomienda la profundidad de color de escritorio «Color verdadero». Está indicado para Windows XP."
 
 msgctxt "IDC_DSDXR"
 msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
-msgstr "Igual que VMR-9 (sin renderizador), pero usa un redimensionador bicúbico de dos pasadas real. "
+msgstr "Lo mismo que el renderizador VMR-9 (sin renderizado), pero usa un redimensionador bicúbico en dos pasadas reales. "
 
 msgctxt "IDC_DSNULL_COMP"
 msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the CPU from working unnecessarily."
-msgstr "Funciona con cualquier tipo de vídeo e impide el envío de las muestras entrantes. Úselo si no necesita ver el vídeo y quiere evitar el uso innecesario de la CPU."
+msgstr "Renderizador nulo. Conecta con cualquier tipo de medio estilo-vídeo y envía el muestreo entrante a anulación. Úselo si no necesita mostrar el vídeo y quiere evitar el consumo innecesario de CPU."
 
 msgctxt "IDC_DSNULL_UNCOMP"
 msgid "Same as the normal Null renderer, but this will only connect to uncompressed types."
-msgstr "Igual que el renderizador Nulo normal, pero este sólo conectara a los tipos sin compresión."
+msgstr "Renderizador nulo igual que el normal, pero este sólo conectara con medios de tipos sin compresión."
 
 msgctxt "IDC_DSEVR"
 msgid "Only available on Vista or later or on XP with at least .NET Framework 3.5 installed."
-msgstr "Solo disponible en Vista o superior o en XP con al menos .NET Framework 3.5 instalado."
+msgstr "Solo disponible en Vista o superior, o en XP con .NET Framework 3.5 o superior instalado."
 
 msgctxt "IDC_DSEVR_CUSTOM"
 msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
-msgstr "Lo mismo que EVR, pero con el complemento «Allocator-Presenter» de MPC-HC para el subtitulado y el posprocesamiento. Recomendado para Windows Vista en o superior."
+msgstr "Lo mismo que el renderizador EVR, pero con el componente Allocator-Presenter (asignador-presentador) de MPC-HC para el subtitulado y postprocesado. Está indicado para Windows Vista o superior."
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
-msgstr "Renderizador de alta calidad, requiere una GPU que soporte D3D9 o superior."
+msgstr "Renderizador de alta calidad, requiere una GPU que soporte D3D9 (interfaz Direct3D del entorno DirectX 9) o superior."
 
 msgctxt "IDC_DSSYNC"
 msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
-msgstr "Lo ismo que EVR (CP), pero ofrece bastantes opciones para sincronizar la tasa de marcos del vídeo con la tasa de actualización de visualización para eliminar marcos de vídeo saltados o duplicados."
+msgstr "El renderizador de sincronización es lo mismo que el renderizador EVR (CP), pero ofrece bastantes opciones para sincronizar la tasa de fotogramas con la frecuencia de refresco de pantalla para eliminar fotogramas omitidos o duplicados."
 
 msgctxt "IDC_RMSYSDEF"
 msgid "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
-msgstr "El propio renderizador de Real. Los scripts SMIL funcionaran, pero la interacción probablemente no. Usa DirectDraw y corre en Overlay cuando puede."
+msgstr "El renderizador propio de Real. Los scripts SMIL funcionaran, pero la interactividad probablemente no. Usa la interfaz de renderizado DirectDraw (versiones antiguas de DirectX), y cuando puede el modo Overlay (hardware de renderizado directo)."
 
 msgctxt "IDC_RMDX9"
 msgid "The output of Real's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
-msgstr "La salida del mecanismo de Real será renderizada por el complemento Allocator-Presenter basado en DX9 de VMR-9 (sin render)."
+msgstr "La salida del motor de Real se expresará por el componente Allocator-Presenter (asignador-presentador) del renderizador VMR-9 (sin renderizado) del entorno DX9 (DirectX 9)."
 
 msgctxt "IDC_QTSYSDEF"
 msgid "QuickTime's own renderer. Gets a little slow when its video area is resized or partially covered by another window. When Overlay is not available it likes to fall back to GDI."
-msgstr "El renderizador propio de QuickTime. Se vuelve un poco lento cuando su área de video es redimensionada o parcialmente cubierta por otra ventana. Cuando el overlay no esta disponible le gusta regresarse a GDI."
+msgstr "El renderizador propio de QuickTime. Se vuelve un poco lento cuando su área de vídeo es redimensionada o es parcialmente cubierta por otra ventana. Cuando el modo Overlay (hardware de renderizado directo) no está disponible le gusta recurrir al modo GDI (interfaz [básica] del dispositivo gráfico)."
 
 msgctxt "IDC_QTDX9"
 msgid "The output of QuickTime's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
-msgstr "La salida del mecanismo de QuickTime será renderizado por el complemento Allocator-Presenter basado en DX9 de VMR-9 (sin render)."
+msgstr "La salida del motor de QuickTime será representada por el componente Allocator-Presenter (asignador-presentador) del renderizador VMR-9 (sin renderizado) del entorno DirectX 9 (DX9)."
 
 msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
-msgstr "La superficie de vídeo será distribuida como una superficie regular fuera de pantalla."
+msgstr "La superficie de vídeo será asignada como una superficie regular fuera de pantalla."
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
@@ -691,7 +691,7 @@ msgstr "Renderizador Sync"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
 msgid "Regular offscreen plain surface"
-msgstr "Superficie fuera de pantallas convencionales"
+msgstr "Superficie simple normal fuera de pantalla"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_2D"
 msgid "2D surfaces"
@@ -699,7 +699,7 @@ msgstr "Superficies 2D"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_3D"
 msgid "3D surfaces (recommended)"
-msgstr "Superficies 3D (recomendado)"
+msgstr "Superficies 3D (aconsejado)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZE_NN"
 msgid "Nearest neighbor"
@@ -711,19 +711,19 @@ msgstr "Bilineal"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BIL_PS"
 msgid "Bilinear (PS 2.0)"
-msgstr "Bilineal (PS 2.0)"
+msgstr "Bilineal (Pixel Shader 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB1"
 msgid "Bicubic A=-0.60 (PS 2.0)"
-msgstr "Bicúbica A=-0.60 (PS 2.0)"
+msgstr "Bicúbico A=-0.60 (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB2"
 msgid "Bicubic A=-0.75 (PS 2.0)"
-msgstr "Bicúbica A=-0.75 (PS 2.0)"
+msgstr "Bicúbico A=-0.75 (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB3"
 msgid "Bicubic A=-1.00 (PS 2.0)"
-msgstr "Bicúbica A=-1.00 (PS 2.0)"
+msgstr "Bicúbico A=-1.00 (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLE"
 msgid "**unavailable**"
@@ -735,11 +735,11 @@ msgstr "El renderizador seleccionado no está instalado."
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_COMP"
 msgid "Null (anything)"
-msgstr "Nulo (cualquier compresión)"
+msgstr "Renderizador nulo (cualquier entrada)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP"
 msgid "Null (uncompressed)"
-msgstr "Nulo (sin compresión)"
+msgstr "Renderizador nulo (entrada no comprimida)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
 msgid "Internal Audio Renderer"
@@ -771,11 +771,11 @@ msgstr "Retardo (ms):"
 
 msgctxt "IDS_SPEEDSTEP_AUTO"
 msgid "Auto"
-msgstr "Automático"
+msgstr "Auto"
 
 msgctxt "IDS_EXPORT_SETTINGS_NO_KEYS"
 msgid "There are no customized keys to export."
-msgstr "No hay teclas personalizadas para exportar."
+msgstr "No hay teclas personalizadas que exportar."
 
 msgctxt "IDS_RFS_NO_FILES"
 msgid "No media files found in the archive"
@@ -783,11 +783,11 @@ msgstr "No se encontraron ficheros audiovisuales en el archivo"
 
 msgctxt "IDS_RFS_COMPRESSED"
 msgid "Compressed files are not supported"
-msgstr "No se admiten los archivos comprimidos"
+msgstr "Los archivos comprimidos no están soportados"
 
 msgctxt "IDS_RFS_ENCRYPTED"
 msgid "Encrypted files are not supported"
-msgstr "No se admiten los archivos cifrados"
+msgstr "Los archivos cifrados no están soportados"
 
 msgctxt "IDS_RFS_MISSING_VOLS"
 msgid "Couldn't find all archive volumes"
@@ -795,31 +795,31 @@ msgstr "No se encontraron todas las partes del archivo"
 
 msgctxt "IDC_TEXTURESURF2D"
 msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
-msgstr "La superficie de video será distribuida como una textura pero aun así las funciones 2D serán usadas para copiar y alargar en el backbuffer. Requiere una tarjeta de video que pueda alocar RGBA de 32 bits, por lo menos a la resolución del video."
+msgstr "La superficie de vídeo se asignará como una textura pero todavía se usarán las funciones 2D para copiarla y ajustarla dentro del backbuffer (buffer no visible). Requiere una tarjeta gráfica que pueda asignar profundidades de color de 32 bits, patrón de color RGBA, texturas con dimensiones que no sean potencias de 2, y que pueda hacerlo al menos en la resolución del vídeo."
 
 msgctxt "IDC_TEXTURESURF3D"
 msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
-msgstr "La superficie del video será distribuida como una textura y dibujada como dos triángulos en 3D. Si el antialiasing esta activado en la configuración de la tarjeta grafica podría reducir la velocidad de renderización."
+msgstr "La superficie de vídeo se asignará como una textura y se dibujará como una malla de pares de triángulos en 3D. Si el suavizado (antialiasing) está activado en la configuración de pantalla, esto podría reducir la velocidad de renderización."
 
 msgctxt "IDC_DX9RESIZER_COMBO"
 msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
-msgstr "Si no hay soporte para Pixel Shader 2.0, se usará automáticamente el redimensionamiento bilinear simple."
+msgstr "Si no hay soporte para Pixel Shader 2.0 (PS 2.0), se usará automáticamente el redimensionamiento bilineal simple."
 
 msgctxt "IDC_DSVMR9LOADMIXER"
 msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
-msgstr "Pone a VMR-9 (sin render) en el modo del mezclador, esto significa que la mayoría de los controles de la página de propiedades funcionaran y usara un proceso de trabajo separado para renderizar cuadros."
+msgstr "Pone el renderizador VMR-9 (sin renderizado) en modo mezclador, esto significa que la mayoría de los controles de su página de propiedades funcionarán y usará un subproceso de trabajo aparte para renderizar fotogramas."
 
 msgctxt "IDC_DSVMR9YUVMIXER"
 msgid "Improves performance at the cost of some compatibility of the renderer."
-msgstr "Mejora el rendimiento a costa de cierta compatibilidad del renderizador."
+msgstr "Mejora el rendimiento a cambio de cierta compatibilidad del renderizador."
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."
-msgstr "Reduce el desgarre pero evita que se muestre la barra de herramientas."
+msgstr "Reduce el efecto desgarro (tearing) pero evita que se muestre la barra de herramientas."
 
 msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Reduces tearing by bypassing the default VSync built into D3D."
-msgstr "Reduce el parpadeo al ignorar el VSync predeterminado dentro de D3D."
+msgstr "Reduce el efecto desgarro (tearing) al evitar la sincronización vertical (VSync~acompasado de frecuencia de vídeo y pantalla) predeterminada integrada en D3D (Direct3D)."
 
 msgctxt "IDS_NAVIGATE_TUNERSCAN"
 msgid "Tuner scan"
@@ -831,15 +831,15 @@ msgstr "No se cargaron los subtítulos o el renderizador no es compatible."
 
 msgctxt "IDC_CACHESHADERS"
 msgid "Stores compiled shaders in local AppData to speed up load time."
-msgstr "Almacena los 'sombreadores' (shaders) compilados en el AppData local (caché) para acelerar el tiempo de carga."
+msgstr "Almacena los shaders ('sombreadores') compilados en el directorio AppData local para acelerar el tiempo de carga."
 
 msgctxt "IDS_SRC_VTS"
 msgid "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"
-msgstr "Abre VTS_xx_0.ifo para cargar todos los archivos VTS_xx_x.vob de golpe"
+msgstr "Abrir VTS_xx_0.ifo para cargar todos los archivos VTS_xx_x.vob de una vez"
 
 msgctxt "IDS_SRC_RFS"
 msgid "Based on RARFileSource, doesn't support compressed files"
-msgstr "Basado en RARFileSource, no admite archivos comprimidos"
+msgstr "Basado en RARFileSource, no soporta archivos comprimidos"
 
 msgctxt "IDS_INTERNAL_LAVF"
 msgid "Uses LAV Filters"
@@ -847,35 +847,35 @@ msgstr "Usa LAV Filters"
 
 msgctxt "IDS_INTERNAL_LAVF_WMV"
 msgid "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
-msgstr "Usa LAV Filters. Inhabilitado predeterminadamente desde que los filtros de Microsoft suelen ser más estables para esos tipos de formatos.\nSi eliges usar los filtros internos, habilítalos para origen y decodificación para tener una mejor experiencia de reproducción."
+msgstr "Usa LAV Filters. Deshabilitado por defecto ya que los filtros de Microsoft suelen ser más estables para esos formatos.\nSi elige usar los filtros internos, habilítelos tanto para la fuente como para la decodificación para tener una mejor experiencia de reproducción."
 
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
-msgstr "Conmutar barra de navegación"
+msgstr "Accionar barra de navegación"
 
 msgctxt "IDS_AG_VSYNCACCURATE"
 msgid "Accurate VSync"
-msgstr "VSync precisa"
+msgstr "Sincronización vertical (VSync) precisa"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid "If the rendering target is left undefined, it will be inherited from the default style."
-msgstr "Si se deja sin definir el objetivo de representación, se heredará a partir del estilo predeterminado."
+msgstr "Si no se define el objeto de la renderización, se heredará a partir del estilo predeterminado."
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
-msgstr "Desactiva la animación de subtítulos. Esta opción reduce el uso de la CPU. Actívela si los subtítulos parpadean."
+msgstr "Deshabilita la animación de subtítulos. Esta opción reduce el uso de CPU. Úsela si los subtítulos centellean."
 
 msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
-msgstr "Al incrementar la cantidad de subimágenes en búfer se mejorará el rendimiento de representación, pero aumentará el uso de la RAM de vídeo de la GPU."
+msgstr "Aumentar el número de subtítulos pre-renderizados en cola debería mejorar en general el rendimiento de la renderización a cambio de un mayor uso de la RAM de vídeo en la GPU."
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
-msgstr "Después de dar clic en este botón, el estado de comprobación del formato del grupo reflejara las asociaciones de archivo actuales para MPC-HC. Una extensión recién agregada usualmente aparecerá en gris, ¡así que no olvides marcarla de nuevo antes de cerrar este cuadro de dialogo!"
+msgstr "Tras pulsar este botón, el estado marcado del grupo del formato hará que se refleje la asociación del archivo actual con MPC-HC. Una extensión recién añadida aparecerá sombreada, ¡así que no olvide marcarla de nuevo antes de cerrar este cuadro de diálogo!"
 
 msgctxt "IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Disabling this option will prevent the subtitles from blinking but it may cause the video renderer to skip some video frames."
-msgstr "Al desactivar esta opción se evitará el parpadeo de los subtítulos, pero es posible que el representador de vídeo se salte algunos fotogramas del vídeo."
+msgstr "Deshabilitar esta opción prevendrá que los subtítulos centelleen, pero puede ocasionar que el renderizador de vídeo omita algunos fotogramas."
 
 msgctxt "ID_PLAY_PLAY"
 msgid "Play\nPlay"
@@ -895,11 +895,11 @@ msgstr "Paso\nPaso"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "Decrease speed\nDecrease speed"
-msgstr "Reducir la velocidad\nReducir la velocidad"
+msgstr "Reducir velocidad\nReducir velocidad"
 
 msgctxt "ID_PLAY_INCRATE"
 msgid "Increase speed\nIncrease speed"
-msgstr "Aumentar la velocidad\nAumentar la velocidad"
+msgstr "Aumentar velocidad\nAumentar velocidad"
 
 msgctxt "ID_VOLUME_MUTE"
 msgid "Mute"
@@ -955,11 +955,11 @@ msgstr "Opciones"
 
 msgctxt "IDS_SHADERS_SELECT"
 msgid "&Select Shaders..."
-msgstr "&Seleccionar 'sombreadores' (shaders)..."
+msgstr "&Seleccionar shaders..."
 
 msgctxt "IDS_SHADERS_DEBUG"
 msgid "&Debug Shaders..."
-msgstr "&Depurar 'sombreadores' (shaders)..."
+msgstr "&Depurar shaders..."
 
 msgctxt "IDS_FAVORITES_ADD"
 msgid "&Add to Favorites..."
@@ -991,7 +991,7 @@ msgstr "En pausa"
 
 msgctxt "IDS_AG_EDL_NEW_CLIP"
 msgid "EDL new clip"
-msgstr "Clip nuevo EDL"
+msgstr "Nuevo clip de lista de edición (EDL)"
 
 msgctxt "IDS_RECENT_FILES_CLEAR"
 msgid "&Clear list"
@@ -1003,23 +1003,23 @@ msgstr "¿Confirma que quiere vaciar la lista de archivos recientes?"
 
 msgctxt "IDS_AG_EDL_SAVE"
 msgid "EDL save"
-msgstr "Guardado de EDL"
+msgstr "Guardar lista de edición (EDL)"
 
 msgctxt "IDS_AG_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time Correction"
-msgstr "Activar corrección de tiempos de fotogramas"
+msgstr "Activar corrección de tiempo de fotogramas"
 
 msgctxt "IDS_AG_TOGGLE_EDITLISTEDITOR"
 msgid "Toggle EDL window"
-msgstr "Conmutar ventana EDL"
+msgstr "Accionar ventana de lista de edición (EDL)"
 
 msgctxt "IDS_AG_EDL_IN"
 msgid "EDL set In"
-msgstr "EDL Fijada En Entrada"
+msgstr "Fijar inicio de la edición (omisión) de lista de edición (EDL)"
 
 msgctxt "IDS_AG_EDL_OUT"
 msgid "EDL set Out"
-msgstr "EDL Fijada En Salida"
+msgstr "Fijar final de la edición (omisión) de lista de edición (EDL)"
 
 msgctxt "IDS_AG_PNS_ROTATEX_M"
 msgid "PnS Rotate X-"
@@ -1043,7 +1043,7 @@ msgstr "Rotar PnS Z-"
 
 msgctxt "IDS_AG_TEARING_TEST"
 msgid "Tearing Test"
-msgstr "Prueba de parpadeo"
+msgstr "Prueba de efecto rasgado (tearing)"
 
 msgctxt "IDS_SCALE_16_9"
 msgid "Scale to 16:9 TV,%.3f,%.3f,%.3f,%.3f"
@@ -1051,11 +1051,11 @@ msgstr "Escalar a 16:9 TV,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_SCALE_WIDESCREEN"
 msgid "Zoom To Widescreen,%.3f,%.3f,%.3f,%.3f"
-msgstr "Escalar a pantalla ancha,%.3f,%.3f,%.3f,%.3f"
+msgstr "Escalar a pantalla panorámica,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_SCALE_ULTRAWIDE"
 msgid "Zoom To Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
-msgstr "Escalar a pantalla ultraancha,%.3f,%.3f,%.3f,%.3f"
+msgstr "Escalar a pantalla ultrapanorámica,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_PLAYLIST_HIDEFS"
 msgid "&Hide on Fullscreen"
@@ -1067,7 +1067,7 @@ msgstr "Detenido"
 
 msgctxt "IDS_CONTROLS_BUFFERING"
 msgid "Buffering... (%d%%)"
-msgstr "Almacenando en buffer… (%d %%)"
+msgstr "Almacenando en buffer (cola)… (%d %%)"
 
 msgctxt "IDS_CONTROLS_CAPTURING"
 msgid "Capturing..."
@@ -1171,11 +1171,11 @@ msgstr "No conocido"
 
 msgctxt "IDS_MPLAYERC_0"
 msgid "Quick Open File"
-msgstr "Abrir archivo rápido"
+msgstr "Apertura rápida de archivo"
 
 msgctxt "IDS_AG_OPEN_FILE"
 msgid "Open File"
-msgstr "Abrir un archivo"
+msgstr "Abrir archivo"
 
 msgctxt "IDS_AG_OPEN_DVD"
 msgid "Open DVD/BD"
@@ -1183,27 +1183,27 @@ msgstr "Abrir DVD/BD"
 
 msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
 msgid "Failed to set post-resize shaders"
-msgstr "No se pudieron establecer los 'sombreadores' (shaders) post-redimensionado"
+msgstr "No se pudieron establecer los shaders ('sombreadores') de post-redimensionado"
 
 msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
 msgid "Failed to set both pre-resize and post-resize shaders"
-msgstr "No se pudieron establecer los 'sombreadores' (shaders) tanto pre-redimensionado como post-redimensionado"
+msgstr "No se pudieron establecer los shaders ('sombreadores') de pre-redimensionado ni de post-redimensionado"
 
 msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
 msgid "Shaders are recompiled automatically when the corresponding files are modified."
-msgstr "Los 'sombreadores' (shaders) son recompilados automáticamente cuando se modifican los archivos correspondientes."
+msgstr "Los shaders ('sombreadores') se vuelven a compilar automáticamente cuando se modifican los archivos correspondientes."
 
 msgctxt "IDS_SHADER_DLL_ERR_0"
 msgid "Cannot load %s, pixel shaders will not work."
-msgstr "No se puede cargar %s. Los 'sombreadores de píxel' (pixel shaders) no funcionarán."
+msgstr "No se puede cargar %s. Los pixel shaders (PS, 'sombreadores' de píxel) no funcionarán."
 
 msgctxt "IDS_SHADER_DLL_ERR_1"
 msgid "Cannot find necessary function entry points in %s, pixel shaders will not work."
-msgstr "No se pueden encontrar los puntos de entrada requeridos de la función en %s. Los 'sombreadores de píxel' (pixel shaders) no funcionarán."
+msgstr "No se pueden encontrar los puntos de entrada requeridos de la función en %s. Los pixel shaders (PS, 'sombreadores' de píxel) no funcionarán."
 
 msgctxt "IDS_OSD_SHADERS_PRESET"
 msgid "Shader preset: %s"
-msgstr "Preajuste del 'sombreador' (shader): %s"
+msgstr "Preajuste del shader: %s"
 
 msgctxt "IDS_AG_SHADERS_PRESET_NEXT"
 msgid "Next Shader Preset"
@@ -1299,7 +1299,7 @@ msgstr "Valor"
 
 msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
-msgstr "Cantidad máxima de archivos almacenados y mostrados en el menú «Archivos recientes»."
+msgstr "Número máximo de archivos almacenados y mostrados en el menú «Archivos recientes»."
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
@@ -1427,7 +1427,7 @@ msgstr "Esta opción puede usarse para previsualizar archivos audiovisuales desd
 
 msgctxt "IDS_SUBTITLE_RENDERER_INTERNAL"
 msgid "Internal Subtitle Renderer"
-msgstr "Motor interno de visualización de subtítulos"
+msgstr "Renderizador interno de subtítulos"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1447,7 +1447,7 @@ msgstr "Guardar imagen (automático)"
 
 msgctxt "IDS_OSD_IMAGE_SAVED"
 msgid "Image saved successfully"
-msgstr "Imagen guardada satisfactoriamente"
+msgstr "Imagen guardada con éxito"
 
 msgctxt "IDS_AG_LOAD_SUBTITLES"
 msgid "Load Subtitles..."
@@ -1467,7 +1467,7 @@ msgstr "Salir"
 
 msgctxt "IDS_AG_PLAYPAUSE"
 msgid "Play/Pause"
-msgstr "Reproducir/pausar"
+msgstr "Reproducir/Pausar"
 
 msgctxt "IDS_AG_PLAY"
 msgid "Play"
@@ -1479,11 +1479,11 @@ msgstr "Detener"
 
 msgctxt "IDS_AG_FRAMESTEP"
 msgid "Frame-step"
-msgstr "Avanzar un cuadro"
+msgstr "Avanzar un fotograma"
 
 msgctxt "IDS_MPLAYERC_16"
 msgid "Frame-step back"
-msgstr "Retroceder un cuadro"
+msgstr "Retroceder un fotograma"
 
 msgctxt "IDS_AG_GO_TO"
 msgid "Go To"
@@ -1531,11 +1531,11 @@ msgstr "Guardar una copia"
 
 msgctxt "IDS_FASTSEEK_LATEST"
 msgid "Latest keyframe"
-msgstr "Último fotograma clave"
+msgstr "más reciente"
 
 msgctxt "IDS_FASTSEEK_NEAREST"
 msgid "Nearest keyframe"
-msgstr "Fotograma clave más cercano"
+msgstr "más cercano"
 
 msgctxt "IDS_HOOKS_FAILED"
 msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
@@ -1547,15 +1547,15 @@ msgstr "Nunca mostrar"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWMOVED"
 msgid "Show when moving the cursor, hide after:"
-msgstr "Mostrar al mover el cursor, ocultar después de:"
+msgstr "Mostrar al mover el cursor, ocultar tras:"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOHHOVERED"
 msgid "Show when hovering control, hide after:"
-msgstr "Mostrar al pasar por encima del control, ocultar después:"
+msgstr "Mostrar al pasar el cursor sobre los controles, ocultar tras:"
 
 msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
 msgid "Failed to set pre-resize shaders"
-msgstr "No se pudieron establecer los 'sombreadores' (shaders) de pre-redimensionado"
+msgstr "No se pudieron establecer los shaders ('sombreadores') de pre-redimensionado"
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
 msgid "Frame Time Correction: On"
@@ -1567,11 +1567,11 @@ msgstr "Corrección de tiempo de marco: Apagado"
 
 msgctxt "IDS_OSD_RS_TARGET_VSYNC_OFFSET"
 msgid "Target VSync Offset: %.1f"
-msgstr "Desfase de sincronización vertical: %.1f"
+msgstr "Objetivo de desfase de la VSync: %.1f"
 
 msgctxt "IDS_OSD_RS_VSYNC_OFFSET"
 msgid "VSync Offset: %d"
-msgstr "Desfase de sincronización vertical: %d"
+msgstr "Desfase de sincronización vertical (VSync): %d"
 
 msgctxt "IDS_OSD_SPEED"
 msgid "Speed: %.2lfx"
@@ -1579,7 +1579,7 @@ msgstr "Velocidad: %.2lfx"
 
 msgctxt "IDS_OSD_THUMBS_SAVED"
 msgid "Thumbnails saved successfully"
-msgstr "Miniaturas guardadas satisfactoriamente"
+msgstr "Miniaturas guardadas con éxito"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
 msgid "Vide&o Track"
@@ -1611,7 +1611,7 @@ msgstr "Algunos cambios no han sido guardados todavía.\n¿Deseas guardarlos ant
 
 msgctxt "IDS_EXPORT_SETTINGS_SUCCESS"
 msgid "The settings have been successfully exported."
-msgstr "Las configuraciones han sido exportadas satisfactoriamente."
+msgstr "La configuración se ha exportado con éxito."
 
 msgctxt "IDS_EXPORT_SETTINGS_FAILED"
 msgid "The export failed! This can happen when you don't have the correct rights."
@@ -1619,7 +1619,7 @@ msgstr "¡La exportación ha fallado! Esto puede ocurrir cuando no se tiene los 
 
 msgctxt "IDS_BDA_ERROR"
 msgid "BDA Error"
-msgstr "Error de BDA"
+msgstr "Error de BDA (drivers de TV)"
 
 msgctxt "IDS_AG_DECREASE_RATE"
 msgid "Decrease Rate"
@@ -1631,43 +1631,43 @@ msgstr "Restablecer velocidad"
 
 msgctxt "IDS_MPLAYERC_21"
 msgid "Audio Delay +10 ms"
-msgstr "Retardo de audio de +10 ms"
+msgstr "Retardo de audio +10 ms"
 
 msgctxt "IDS_MPLAYERC_22"
 msgid "Audio Delay -10 ms"
-msgstr "Retardo de audio de -10 ms"
+msgstr "Retardo de audio -10 ms"
 
 msgctxt "IDS_MPLAYERC_23"
 msgid "Jump Forward (small)"
-msgstr "Salto Adelante (pequeño)"
+msgstr "Saltar adelante (corto)"
 
 msgctxt "IDS_MPLAYERC_24"
 msgid "Jump Backward (small)"
-msgstr "Salto Atrás (pequeño)"
+msgstr "Saltar atrás (corto)"
 
 msgctxt "IDS_MPLAYERC_25"
 msgid "Jump Forward (medium)"
-msgstr "Salto Adelante (medio"
+msgstr "Saltar adelante (medio)"
 
 msgctxt "IDS_MPLAYERC_26"
 msgid "Jump Backward (medium)"
-msgstr "Salto Atrás (medio)"
+msgstr "Saltar atrás (medio)"
 
 msgctxt "IDS_MPLAYERC_27"
 msgid "Jump Forward (large)"
-msgstr "Salto Adelante (largo)"
+msgstr "Saltar adelante (largo)"
 
 msgctxt "IDS_MPLAYERC_28"
 msgid "Jump Backward (large)"
-msgstr "Salto Atrás (largo)"
+msgstr "Saltar atrás (largo)"
 
 msgctxt "IDS_MPLAYERC_29"
 msgid "Jump Forward (keyframe)"
-msgstr "Salto Adelante (fotograma clave)"
+msgstr "Saltar adelante (fotograma clave)"
 
 msgctxt "IDS_MPLAYERC_30"
 msgid "Jump Backward (keyframe)"
-msgstr "Salto Atrás (fotograma clave)"
+msgstr "Saltar atrás (fotograma clave)"
 
 msgctxt "IDS_AG_NEXT"
 msgid "Next"
@@ -1707,7 +1707,7 @@ msgstr "Desplazar subtítulo a la derecha"
 
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"
-msgstr "Saltar al comienzo"
+msgstr "Saltar al principio"
 
 msgctxt "IDS_OSD_SHOW_FILENAME"
 msgid "OSD: Show File Name"
@@ -1731,7 +1731,7 @@ msgstr "Sobreimpresión: Restablecer estadísticas del renderizador"
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
-msgstr "Subtítulos::Variadas"
+msgstr "Subtítulos::Varias"
 
 msgctxt "IDS_VIEW_BORDERLESS"
 msgid "Hide &borders"
@@ -1739,11 +1739,11 @@ msgstr "Ocultar los &bordes"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
 msgid "Fra&me Only"
-msgstr "Solo el cuadro"
+msgstr "Sólo el fo&tograma"
 
 msgctxt "IDS_VIEW_CAPTIONMENU"
 msgid "Sho&w Caption&&Menu"
-msgstr "Mostrar &leyenda y menú"
+msgstr "Mostrar &barra de título y menú"
 
 msgctxt "IDS_VIEW_HIDEMENU"
 msgid "Hide &Menu"
@@ -1751,7 +1751,7 @@ msgstr "Ocultar el &menú"
 
 msgctxt "IDD_PPAGEADVANCED"
 msgid "Advanced"
-msgstr "Avanzado"
+msgstr "Avanzadas"
 
 msgctxt "IDS_AG_VIEW_MINIMAL"
 msgid "View Minimal"
@@ -1771,11 +1771,11 @@ msgstr "Pantalla completa"
 
 msgctxt "IDS_MPLAYERC_39"
 msgid "Fullscreen (w/o res.change)"
-msgstr "Pantalla completa (sin cambio de res.)"
+msgstr "Pantalla completa (sin cambiar resolución)"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT"
 msgid "Zoom Auto Fit"
-msgstr "Ajuste automático"
+msgstr "Auto ajuste de zoom"
 
 msgctxt "IDS_AG_VIDFRM_HALF"
 msgid "VidFrm Half"
@@ -1835,7 +1835,7 @@ msgstr "%d subtítulos disponibles."
 
 msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
-msgstr "¿Quiere que MPC-HC busque actualizaciones automáticamente?\n\nPuede desactivar esta función en la página «Variadas» de las opciones."
+msgstr "¿Quiere que MPC-HC busque actualizaciones automáticamente?\n\nPuede desactivar esta función en la página «Varios» de las opciones."
 
 msgctxt "IDS_ZOOM_50"
 msgid "50%"
@@ -1851,19 +1851,19 @@ msgstr "200 %"
 
 msgctxt "IDS_ZOOM_AUTOFIT"
 msgid "Auto Fit"
-msgstr "Ajuste automático"
+msgstr "Autoajustar"
 
 msgctxt "IDS_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (Larger Only)"
-msgstr "Ajuste automático (si es mayor)"
+msgstr "Auto ajuste (si es mayor)"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT_LARGER"
 msgid "Zoom Auto Fit (Larger Only)"
-msgstr "Ajuste automático (si es mayor)"
+msgstr "Auto ajuste de zoom (si es mayor)"
 
 msgctxt "IDS_OSD_ZOOM_AUTO_LARGER"
 msgid "Zoom: Auto (Larger Only)"
-msgstr "Escala: automática (si es mayor)"
+msgstr "Zoom: Automático (si es mayor)"
 
 msgctxt "IDS_TOOLTIP_EXPLORE_TO_FILE"
 msgid "Double click to open file location"
@@ -1871,7 +1871,7 @@ msgstr "Doble clic para abrir la ubicación del archivo"
 
 msgctxt "IDS_TOOLTIP_REMAINING_TIME"
 msgid "Toggle between elapsed and remaining time"
-msgstr "Conmutar entre tiempo transcurrido y restante"
+msgstr "Alternar entre tiempo transcurrido y tiempo restante"
 
 msgctxt "IDS_UPDATE_DELAY_ERROR_TITLE"
 msgid "Invalid delay"
@@ -2003,23 +2003,23 @@ msgstr "Opciones"
 
 msgctxt "IDS_AG_NEXT_AUDIO"
 msgid "Next Audio Track"
-msgstr "Pista de audio siguiente"
+msgstr "Siguiente pista de audio"
 
 msgctxt "IDS_AG_PREV_AUDIO"
 msgid "Prev Audio Track"
-msgstr "Pista de audio anterior"
+msgstr "Anterior pista de audio"
 
 msgctxt "IDS_AG_NEXT_SUBTITLE"
 msgid "Next Subtitle Track"
-msgstr "Pista de subtítulos siguiente"
+msgstr "Siguiente pista de subtítulos"
 
 msgctxt "IDS_AG_PREV_SUBTITLE"
 msgid "Prev Subtitle Track"
-msgstr "Pista de subtítulos anterior"
+msgstr "Anterior pista de subtítulos"
 
 msgctxt "IDS_MPLAYERC_85"
 msgid "On/Off Subtitle"
-msgstr "Activar/desactivar subtítulos"
+msgstr "Activar/Desactivar subtítulos"
 
 msgctxt "IDS_MPLAYERC_86"
 msgid "Reload Subtitles"
@@ -2035,19 +2035,19 @@ msgstr "Ángulo anterior (DVD)"
 
 msgctxt "IDS_MPLAYERC_93"
 msgid "Next Audio Track (DVD)"
-msgstr "Pista de audio siguiente (DVD)"
+msgstr "Siguiente pista de audio (DVD)"
 
 msgctxt "IDS_MPLAYERC_94"
 msgid "Prev Audio Track (DVD)"
-msgstr "Pista de audio anterior (DVD)"
+msgstr "Anterior pista de audio (DVD)"
 
 msgctxt "IDS_MPLAYERC_95"
 msgid "Next Subtitle Track (DVD)"
-msgstr "Pista de subtítulos siguiente (DVD)"
+msgstr "Siguiente pista de subtítulos (DVD)"
 
 msgctxt "IDS_MPLAYERC_96"
 msgid "Prev Subtitle Track (DVD)"
-msgstr "Pista de subtítulos anterior (DVD)"
+msgstr "Anterior pista de subtítulos (DVD)"
 
 msgctxt "IDS_MPLAYERC_97"
 msgid "On/Off Subtitle (DVD)"
@@ -2115,11 +2115,11 @@ msgstr "Se perdio el foco por: %s - %s"
 
 msgctxt "IDS_AG_SUBTITLES_SAVED"
 msgid "Subtitles saved"
-msgstr "Se guardaron los subtítulos"
+msgstr "Los subtítulos se han guardado"
 
 msgctxt "IDS_MAINFRM_4"
 msgid "Cannot save subtitles"
-msgstr "No se pueden guardar los subtítulos"
+msgstr "Los subtítulos no se pueden guardar"
 
 msgctxt "IDS_AG_FRAMERATE"
 msgid "Frame rate"
@@ -2163,7 +2163,7 @@ msgstr "MPC-HC no tiene privilegios suficientes para cambiar las asociaciones de
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
-msgstr "MPC-HC es un reproductor para Windows extremadamente ligero y de código abierto. Admite todos los formatos comunes de vídeo y audio. Estamos 100 % libres de «spyware», nada de anuncios ni barras de herramientas."
+msgstr "MPC-HC es un reproductor para Windows extremadamente ligero y de código abierto. Admite todos los formatos comunes de vídeo y audio. Estamos 100 % libres de «spyware», nada de publicidad ni barras de herramientas."
 
 msgctxt "IDS_MAINFRM_12"
 msgid "channel"
@@ -2211,11 +2211,11 @@ msgstr "DVD: Las regiones del disco y el decodificador no son compatibles"
 
 msgctxt "IDS_D3DFS_WARNING"
 msgid "This option is designed to avoid tearing. However, it will also prevent MPC-HC from displaying the context menu and any dialog box during playback.\n\nDo you really want to activate this option?"
-msgstr "Esta opción está diseñada para evitar el efecto de desgarre («tearing», imágenes entremezcladas). Sin embargo, también evitará que se muestre el menú contextual y cualquier cuadro de diálogo durante la reproducción.\n\n¿De verdad quiere activar esta opción?"
+msgstr "Esta opción está diseñada para evitar el efecto de desgarro («tearing», fotogramas entremezclados). Sin embargo, también evitará que se muestre el menú contextual y cualquier cuadro de diálogo durante la reproducción.\n\n¿De verdad quiere activar esta opción?"
 
 msgctxt "IDS_MAINFRM_139"
 msgid "Sub delay: %ld ms"
-msgstr "Retardo de subs.: %ld ms"
+msgstr "Retardo de subtítulos: %ld ms"
 
 msgctxt "IDS_AG_TITLE2"
 msgid "Title: %02d/%02d"
@@ -2239,7 +2239,7 @@ msgstr "Anchura de la imagen"
 
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
-msgstr "Relación de aspecto"
+msgstr "Relación de aspecto (AR)"
 
 msgctxt "IDS_MAINFRM_37"
 msgid ", Total: %ld, Dropped: %ld"
@@ -2307,7 +2307,7 @@ msgstr "Imposible crear miniaturas para los archivos sin duración"
 
 msgctxt "IDS_THUMBNAILS_NO_FRAME_SIZE"
 msgid "Failed to get video frame size"
-msgstr "No se pudo obtener el tamaño de fotograma de vídeo"
+msgstr "No se pudo obtener el tamaño de fotograma del vídeo"
 
 msgctxt "IDS_OUT_OF_MEMORY"
 msgid "Out of memory, go buy some more!"
@@ -2331,7 +2331,7 @@ msgstr "No se puede crear el archivo. Las miniaturas serían demasiado pequeñas
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "Para cargar subtítulos tiene que cambiar el tipo de renderizador de vídeo y reabrir el fichero.\n- DirectShow: VMR-9 (sin renderizado), EVR (CP), Sync, madVR o Haali\n- RealMedia: Renderizador especial para RealMedia, o ábralo mediante DirectShow\n- QuickTime: Renderizador DX7 o DX9 para QuickTime\n- ShockWave: n/a"
+msgstr "Para cargar subtítulos tiene que cambiar el tipo de renderizador de vídeo y reabrir el archivo.\n- DirectShow: VMR-9 (sin renderizado), EVR (CP), Sync, madVR o Haali\n- RealMedia: Renderizador especial para RealMedia, o ábralo mediante DirectShow\n- QuickTime: Renderizador DX7 o DX9 para QuickTime\n- ShockWave: n/a"
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
@@ -2367,7 +2367,7 @@ msgstr "QuickTime aún no es compatible con X64 (no hay bibliotecas de Apple dis
 
 msgctxt "IDS_MAINFRM_80"
 msgid "Failed to create the filter graph object"
-msgstr "Imposible crear el objeto del esquema de filtros"
+msgstr "No se pudo crear el objeto del diagrama de filtros"
 
 msgctxt "IDS_MAINFRM_81"
 msgid "Invalid argument"
@@ -2415,15 +2415,15 @@ msgstr "Pausa"
 
 msgctxt "IDS_AG_TOGGLE_CAPTION"
 msgid "Toggle Caption&Menu"
-msgstr "Alternar Menú de &Captura"
+msgstr "Accionar barra de título y menú"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
 msgid "Toggle Seek Bar"
-msgstr "Mostrar/ocultar barra de navegación"
+msgstr "Mostrar/Ocultar barra de navegación"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
 msgid "Toggle Controls"
-msgstr "Mostrar/ocultar controles"
+msgstr "Mostrar/Ocultar controles"
 
 msgctxt "IDS_MAINFRM_84"
 msgid "Invalid file name"
@@ -2471,7 +2471,7 @@ msgstr "Error"
 
 msgctxt "IDS_MAINFRM_96"
 msgid "Can't create video capture filter"
-msgstr "Imposible crear el filtro de captura de video"
+msgstr "No se puede crear el filtro de captura de vídeo"
 
 msgctxt "IDS_MAINFRM_98"
 msgid "No capture filters"
@@ -2479,7 +2479,7 @@ msgstr "No hay filtros de captura"
 
 msgctxt "IDS_MAINFRM_99"
 msgid "Can't create capture graph builder object"
-msgstr "Imposible crear objeto constructor del esquema de captura"
+msgstr "No se puede crear un objeto del constructor del diagrama de captura"
 
 msgctxt "IDS_MAINFRM_108"
 msgid "Couldn't open any device"
@@ -2503,7 +2503,7 @@ msgstr "&Propiedades…"
 
 msgctxt "IDS_MAINFRM_117"
 msgid " (pin) properties..."
-msgstr " Propiedades del Pin..."
+msgstr " Propiedades de la etapa..."
 
 msgctxt "IDS_AG_UNKNOWN_STREAM"
 msgid "Unknown Stream"
@@ -2515,7 +2515,7 @@ msgstr "%u desconocida"
 
 msgctxt "IDS_AG_VSYNC"
 msgid "VSync"
-msgstr "VSync (Sincronización Vertical)"
+msgstr "Sincronización vertical (VSync estándar)"
 
 msgctxt "IDS_MAINFRM_121"
 msgid " (Director Comments 1)"
@@ -2535,7 +2535,7 @@ msgstr "Ángulo n.º %u"
 
 msgctxt "IDS_AG_VSYNCOFFSET_INCREASE"
 msgid "Increase VSync Offset"
-msgstr "Aumentar desfase de sinc. vert."
+msgstr "Aumentar desfase de la VSync"
 
 msgctxt "IDS_AG_DISABLED"
 msgid "Disabled"
@@ -2543,7 +2543,7 @@ msgstr "Desactivado"
 
 msgctxt "IDS_AG_VSYNCOFFSET_DECREASE"
 msgid "Decrease VSync Offset"
-msgstr "Reducir desfase de sinc. vert."
+msgstr "Reducir desfase de la VSync"
 
 msgctxt "IDS_MAINFRM_136"
 msgid "MPC-HC D3D Fullscreen"
@@ -2575,7 +2575,7 @@ msgstr "Aumento de Volumen Maximo"
 
 msgctxt "IDS_USAGE"
 msgid "Usage: mpc-hc.exe \"pathname\" [switches]"
-msgstr ""
+msgstr "Uso: mpc-hc.exe \"ruta\" [parámetros]"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -2583,23 +2583,23 @@ msgstr "Se encontraron opciones no reconocidas en la orden ejecutada: \n\n"
 
 msgctxt "IDS_AG_TOGGLE_INFO"
 msgid "Toggle Information"
-msgstr "Mostrar/ocultar información"
+msgstr "Mostrar/Ocultar información"
 
 msgctxt "IDS_AG_TOGGLE_STATS"
 msgid "Toggle Statistics"
-msgstr "Mostrar/ocultar estadísticas"
+msgstr "Mostrar/Ocultar estadísticas"
 
 msgctxt "IDS_AG_TOGGLE_STATUS"
 msgid "Toggle Status"
-msgstr "Mostrar/ocultar estado"
+msgstr "Mostrar/Ocultar estado"
 
 msgctxt "IDS_AG_TOGGLE_SUBRESYNC"
 msgid "Toggle Subresync Bar"
-msgstr "Mostrar/ocultar barra de Subresync"
+msgstr "Accionar barra de resincronizado de subtítulos"
 
 msgctxt "IDS_AG_TOGGLE_PLAYLIST"
 msgid "Toggle Playlist Bar"
-msgstr "Mostrar/ocultar barra de lista"
+msgstr "Mostrar/Ocultar barra de lista de reproducción"
 
 msgctxt "IDS_AG_TOGGLE_CAPTURE"
 msgid "Toggle Capture Bar"
@@ -2607,19 +2607,19 @@ msgstr "Mostrar/ocultar barra de captura"
 
 msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
 msgid "Toggle Debug Shaders"
-msgstr "Accionar depuración de 'sombreadores' (shaders)"
+msgstr "Accionar «Depurar shaders»"
 
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
-msgstr "Escalar al 50 %"
+msgstr "Zoom al 50 %"
 
 msgctxt "IDS_AG_ZOOM_100"
 msgid "Zoom 100%"
-msgstr "Escalar al 100 %"
+msgstr "Zoom al 100 %"
 
 msgctxt "IDS_AG_ZOOM_200"
 msgid "Zoom 200%"
-msgstr "Escalar al 200 %"
+msgstr "Zoom al 200 %"
 
 msgctxt "IDS_AG_NEXT_AR_PRESET"
 msgid "Next AR Preset"
@@ -2647,15 +2647,15 @@ msgstr "Rotar PnS X+"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "VidFrm Zoom 1"
-msgstr "VidFrm Zoom 1"
+msgstr "Zoom 1 de fotograma"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM2"
 msgid "VidFrm Zoom 2"
-msgstr "VidFrm Zoom 2"
+msgstr "Zoom 2 de fotograma"
 
 msgctxt "IDS_AG_VIDFRM_SWITCHZOOM"
 msgid "VidFrm Switch Zoom"
-msgstr "Control de zoom de VidFrm (fotograma/frame de vídeo)"
+msgstr "Alternar zoom de fotograma"
 
 msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
@@ -2667,7 +2667,7 @@ msgstr "Autor desconocido. Contáctenos si es el autor."
 
 msgctxt "IDS_NO_MORE_MEDIA"
 msgid "No more media in the current folder."
-msgstr "No hay más archivos de multimedia en la carpeta actual."
+msgstr "No hay más archivos audiovisuales en la carpeta actual."
 
 msgctxt "IDS_FIRST_IN_FOLDER"
 msgid "The first file of the folder is already loaded."
@@ -2679,83 +2679,83 @@ msgstr "El último archivo de la carpeta ya está cargado."
 
 msgctxt "IDS_FRONT_LEFT"
 msgid "Front Left"
-msgstr "Delante Izq."
+msgstr "Delantero izquierdo"
 
 msgctxt "IDS_FRONT_RIGHT"
 msgid "Front Right"
-msgstr "Delante Der."
+msgstr "Delantero derecho"
 
 msgctxt "IDS_FRONT_CENTER"
 msgid "Front Center"
-msgstr "Delate Centro"
+msgstr "Delantero central"
 
 msgctxt "IDS_LOW_FREQUENCY"
 msgid "Low Frequency"
-msgstr "Baja Frecuencia"
+msgstr "De baja frecuencia"
 
 msgctxt "IDS_BACK_LEFT"
 msgid "Back Left"
-msgstr "Detrás Izq."
+msgstr "Trasero izquierdo"
 
 msgctxt "IDS_BACK_RIGHT"
 msgid "Back Right"
-msgstr "Detrás Der."
+msgstr "Trasero derecho"
 
 msgctxt "IDS_FRONT_LEFT_OF_CENTER"
 msgid "Front Left of Center"
-msgstr "Delante Izq. de Centro"
+msgstr "Delantero central izq."
 
 msgctxt "IDS_FRONT_RIGHT_OF_CENTER"
 msgid "Front Right of Center"
-msgstr "Delante Der. de Centro"
+msgstr "Delantero central der."
 
 msgctxt "IDS_BACK_CENTER"
 msgid "Back Center"
-msgstr "Detrás Centro"
+msgstr "Trasero central"
 
 msgctxt "IDS_SIDE_LEFT"
 msgid "Side Left"
-msgstr "Lado Izq."
+msgstr "Lateral izquierdo"
 
 msgctxt "IDS_SIDE_RIGHT"
 msgid "Side Right"
-msgstr "Lado Der."
+msgstr "Lateral derecho"
 
 msgctxt "IDS_TOP_CENTER"
 msgid "Top Center"
-msgstr "Encima Centro"
+msgstr "Superior central"
 
 msgctxt "IDS_TOP_FRONT_LEFT"
 msgid "Top Front Left"
-msgstr "Encima Delante Izq."
+msgstr "Delantero superior izq."
 
 msgctxt "IDS_TOP_FRONT_CENTER"
 msgid "Top Front Center"
-msgstr "Encima Delante Centro"
+msgstr "Delantero superior cen."
 
 msgctxt "IDS_TOP_FRONT_RIGHT"
 msgid "Top Front Right"
-msgstr "Encima Delante Der."
+msgstr "Delantero superior der."
 
 msgctxt "IDS_TOP_BACK_LEFT"
 msgid "Top Back Left"
-msgstr "Encima Detrás Izq."
+msgstr "Trasero superior izq."
 
 msgctxt "IDS_TOP_BACK_CENTER"
 msgid "Top Back Center"
-msgstr "Encima Detrás Centro"
+msgstr "Trasero superior cen."
 
 msgctxt "IDS_TOP_BACK_RIGHT"
 msgid "Top Back Right"
-msgstr "Encima Detrás Der."
+msgstr "Trasero superior der."
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
 msgid "Above seek bar"
-msgstr "Sobre la barra de desplazamiento"
+msgstr "Sobre la barra de navegación"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
 msgid "Below seek bar"
-msgstr "Bajo la barra de desplazamiento"
+msgstr "Bajo la barra de navegación"
 
 msgctxt "IDS_VIDEO_STREAM"
 msgid "Video: %s"
@@ -2811,19 +2811,19 @@ msgstr "Ajustar a ventana"
 
 msgctxt "IDS_TOUCH_WINDOW_FROM_INSIDE"
 msgid "Touch Window From Inside"
-msgstr "Tocar ventana desde interior"
+msgstr "Tocar ventana desde dentro"
 
 msgctxt "IDS_ZOOM1"
 msgid "Zoom 1"
-msgstr "Escala 1"
+msgstr "Zoom 1"
 
 msgctxt "IDS_ZOOM2"
 msgid "Zoom 2"
-msgstr "Escala 2"
+msgstr "Zoom 2"
 
 msgctxt "IDS_TOUCH_WINDOW_FROM_OUTSIDE"
 msgid "Touch Window From Outside"
-msgstr "Tocar ventana desde exterior"
+msgstr "Tocar ventana desde fuera"
 
 msgctxt "IDS_AUDIO_STREAM"
 msgid "Audio: %s"
@@ -2903,7 +2903,7 @@ msgstr "Animación FLIC"
 
 msgctxt "IDS_MFMT_DSM"
 msgid "DirectShow Media"
-msgstr "Multimedia de DirectShow"
+msgstr "Audiovisual de DirectShow"
 
 msgctxt "IDS_MFMT_IVF"
 msgid "Indeo Video Format"
@@ -3027,7 +3027,7 @@ msgstr "Lista de reproducción Blu-ray"
 
 msgctxt "IDS_MFMT_RAR"
 msgid "RAR Archive"
-msgstr "Archivador RAR"
+msgstr "Archivo RAR"
 
 msgctxt "IDS_DVB_CHANNEL_FPS"
 msgid "FPS"
@@ -3039,39 +3039,39 @@ msgstr "Resolución"
 
 msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
 msgid "Aspect Ratio"
-msgstr "Relación de aspecto"
+msgstr "Relación de aspecto (AR)"
 
 msgctxt "IDS_OSD_RS_VSYNC_ON"
 msgid "VSync: On"
-msgstr "VSync: Encendido"
+msgstr "VSync estándar: Activada"
 
 msgctxt "IDS_OSD_RS_VSYNC_OFF"
 msgid "VSync: Off"
-msgstr "VSync: Apagado"
+msgstr "VSync estándar: Desactivada"
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_ON"
 msgid "Accurate VSync: On"
-msgstr "VSync con precisión: Encendido"
+msgstr "VSync precisa: Activada"
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_OFF"
 msgid "Accurate VSync: Off"
-msgstr "VSync con precisión: Apagado"
+msgstr "VSync precisa: Desactivada"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_ON"
 msgid "Synchronize Video to Display: On"
-msgstr "Sincronizar vídeo a visualizar: activado"
+msgstr "Sincronizar vídeo a mostrar: Activado"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_OFF"
 msgid "Synchronize Video to Display: Off"
-msgstr "Sincronizar vídeo a visualizar: desactivado"
+msgstr "Sincronizar vídeo a mostrar: Desactivado"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_ON"
 msgid "Synchronize Display to Video: On"
-msgstr "Sincronizar pantalla a vídeo: activado"
+msgstr "Sincronizar pantalla con el vídeo: Activado"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_VIDEO_OFF"
 msgid "Synchronize Display to Video: Off"
-msgstr "Sincronizar pantalla a vídeo: desactivado"
+msgstr "Sincronizar pantalla con el vídeo: Desactivado"
 
 msgctxt "IDS_OSD_RS_PRESENT_NEAREST_ON"
 msgid "Present at Nearest VSync: On"
@@ -3083,11 +3083,11 @@ msgstr "Presentación en la VSync más próxima: Desactivado"
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_ON"
 msgid "Color Management: On"
-msgstr "Gestión de color: activada"
+msgstr "Gestión de color: Activada"
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_OFF"
 msgid "Color Management: Off"
-msgstr "Gestión de color: desactivada"
+msgstr "Gestión de color: Desactivada"
 
 msgctxt "IDS_OSD_RS_INPUT_TYPE_AUTO"
 msgid "Input Type: Auto-Detect"
@@ -3119,19 +3119,19 @@ msgstr "Luz ambiental: oscura (2,4 gamma)"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_PERCEPT"
 msgid "Rendering Intent: Perceptual"
-msgstr "Propósito de renderización: Perceptivo"
+msgstr "Gama (intent) de renderización: Perceptiva"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_RELATIVE"
 msgid "Rendering Intent: Relative Colorimetric"
-msgstr "Propósito de renderización: Colorimetría relativa"
+msgstr "Gama (intent) de renderización: Colorimétrica relativa"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_SATUR"
 msgid "Rendering Intent: Saturation"
-msgstr "Propósito de renderización: Saturación"
+msgstr "Gama (intent) de renderización: Saturación"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_ABSOLUTE"
 msgid "Rendering Intent: Absolute Colorimetric"
-msgstr "Propósito de renderización: Colorimetría absoluta"
+msgstr "Gama (intent) de renderización: Colorimétrica absoluta"
 
 msgctxt "IDS_OSD_RS_OUTPUT_RANGE"
 msgid "Output Range: %s"
@@ -3139,11 +3139,11 @@ msgstr "Rango de salida: %s"
 
 msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_ON"
 msgid "Flush GPU before VSync: On"
-msgstr "Vaciar GPU antes de sincr. v.: activado"
+msgstr "Vaciar GPU antes de la VSync: Activado"
 
 msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_OFF"
 msgid "Flush GPU before VSync: Off"
-msgstr "Vaciar GPU antes de sincr. v.: desactivado"
+msgstr "Vaciar GPU antes de la VSync: Desactivado"
 
 msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_ON"
 msgid "Flush GPU after Present: On"
@@ -3163,11 +3163,11 @@ msgstr "Esperar al vaciado de GPU: desactivado"
 
 msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_ON"
 msgid "D3D Fullscreen: On"
-msgstr "D3D a pantalla completa: activado"
+msgstr "D3D a pantalla completa: Activado"
 
 msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_OFF"
 msgid "D3D Fullscreen: Off"
-msgstr "D3D a pantalla completa: desactivado"
+msgstr "D3D a pantalla completa: Desactivado"
 
 msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_ON"
 msgid "Disable desktop composition: On"
@@ -3179,11 +3179,11 @@ msgstr "Desactivar composición del escritorio: Apagado"
 
 msgctxt "IDS_OSD_RS_ALT_VSYNC_ON"
 msgid "Alternative VSync: On"
-msgstr "VSync alternativo: Encendido"
+msgstr "VSync alternativa: Activada"
 
 msgctxt "IDS_OSD_RS_ALT_VSYNC_OFF"
 msgid "Alternative VSync: Off"
-msgstr "VSync alternativo: Apagado"
+msgstr "VSync alternativa: Desactivada"
 
 msgctxt "IDS_OSD_RS_RESET_DEFAULT"
 msgid "Renderer settings reset to default"
@@ -3195,11 +3195,11 @@ msgstr "Restablecer configuraciónes de renderizado a optimos"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
 msgid "D3D Fullscreen GUI Support: On"
-msgstr "D3D a pantalla completa con IGU: activado"
+msgstr "D3D a pantalla completa con interfaz gráfica (GUI): Activado"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF"
 msgid "D3D Fullscreen GUI Support: Off"
-msgstr "D3D a pantalla completa con IGU: desactivado"
+msgstr "D3D a pantalla completa con interfaz gráfica (GUI): Desactivado"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_ON"
 msgid "10-bit RGB Output: On"
@@ -3219,19 +3219,19 @@ msgstr "Forzar entrada 10-bit RGB: Apagado"
 
 msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_ON"
 msgid "Full Floating Point Processing: On"
-msgstr "Procesamiento Full Floating Point: Encendido"
+msgstr "Procesamiento Full Floating Point: Activado"
 
 msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_OFF"
 msgid "Full Floating Point Processing: Off"
-msgstr "Procesamiento Full Floating Point: Apagado"
+msgstr "Procesamiento Full Floating Point: Desactivado"
 
 msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_ON"
 msgid "Half Floating Point Processing: On"
-msgstr "Procesamiento Half Floating Point: Encendido"
+msgstr "Procesamiento Half Floating Point: Activado"
 
 msgctxt "IDS_OSD_RS_HALF_FP_PROCESS_OFF"
 msgid "Half Floating Point Processing: Off"
-msgstr "Procesamiento Half Floating Point: Apagado"
+msgstr "Procesamiento Half Floating Point: Desactivado"
 
 msgctxt "IDS_BRIGHTNESS_DEC"
 msgid "Brightness decrease"
@@ -3287,23 +3287,23 @@ msgstr "&Cerrar"
 
 msgctxt "IDS_OSD_ZOOM"
 msgid "Zoom: %.0lf%%"
-msgstr "Escala: %.0lf %%"
+msgstr "Zoom: %.0lf %%"
 
 msgctxt "IDS_OSD_ZOOM_AUTO"
 msgid "Zoom: Auto"
-msgstr "Escala: automática"
+msgstr "Zoom: Automático"
 
 msgctxt "IDS_CUSTOM_CHANNEL_MAPPING"
 msgid "Toggle custom channel mapping"
-msgstr "Personalizar canal de mapping"
+msgstr "Accionar mapeo personalizado del canal"
 
 msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_ON"
 msgid "Custom channel mapping: On"
-msgstr "Personalización del canal de mapping: Encendido"
+msgstr "Mapeo personalizado del canal: Activado"
 
 msgctxt "IDS_OSD_CUSTOM_CH_MAPPING_OFF"
 msgid "Custom channel mapping: Off"
-msgstr "Personalización del canal de mapping: Apagado"
+msgstr "Mapeo personalizado del canal: Desactivado"
 
 msgctxt "IDS_NORMALIZE"
 msgid "Toggle normalization"
@@ -3387,19 +3387,19 @@ msgstr "Error al analizar el texto introducido"
 
 msgctxt "IDS_GOTO_ERROR_PARSING_FPS"
 msgid "Error parsing the entered frame rate!"
-msgstr "Error al analizar la velocidad de cuadro introducido"
+msgstr "¡Error al procesar la tasa de fotogramas introducida!"
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
 msgid "Cannot frame-step, try a different video renderer."
-msgstr "No se puede enmarcar paso, pruebe con un render de vídeo diferente."
+msgstr "No es posible desplazarse fotograma a fotograma, pruebe con otro renderizador de vídeo."
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for RealMedia.\nSelect one of the DirectX renderers for RealMedia in MPC-HC's output options and reopen the file."
-msgstr "Las funciones «Guardar imagen» y «Guardar miniaturas» no funcionan con el representador de vídeo predeterminado para RealMedia.\nSeleccione uno de los representadores de DirectX para RealMedia en las opciones de salida de MPC-HC y abra el archivo de nuevo."
+msgstr "Las funciones «Guardar imagen» y «Guardar miniaturas» no funcionan con el renderizador de vídeo predeterminado para RealMedia.\nSeleccione uno de los renderizadores de DirectX para RealMedia en las opciones de salida de MPC-HC y abra de nuevo el archivo."
 
 msgctxt "IDS_SCREENSHOT_ERROR_QT"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for QuickTime.\nSelect one of the DirectX renderers for QuickTime in MPC-HC's output options and reopen the file."
-msgstr "Las funciones «Guardar imagen» y «Guardar miniaturas» no funcionan con el representador de vídeo predeterminado para QuickTime.\nSeleccione uno de los representadores de DirectX para QuickTime en las opciones de salida de MPC-HC y abra el archivo de nuevo."
+msgstr "Las funciones «Guardar imagen» y «Guardar miniaturas» no funcionan con el renderizador de vídeo predeterminado para QuickTime.\nSeleccione uno de los renderizadores de DirectX para QuickTime en las opciones de salida de MPC-HC y abra de nuevo el archivo."
 
 msgctxt "IDS_SCREENSHOT_ERROR_SHOCKWAVE"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work for Shockwave files."
@@ -3407,11 +3407,11 @@ msgstr "Las funciones «Guardar imagen» y «Guardar miniaturas» no funcionan p
 
 msgctxt "IDS_SCREENSHOT_ERROR_OVERLAY"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the Overlay Mixer video renderer.\nChange the video renderer in MPC's output options and reopen the file."
-msgstr "Las funciones «Guardar imagen» y «Guardar miniaturas» no funcionan con el representador de vídeo Overlay Mixer.\nCambie el representador de vídeo en las opciones de salida de MPC y abra el archivo de nuevo."
+msgstr "Las funciones «Guardar imagen» y «Guardar miniaturas» no funcionan con el renderizador de vídeo Overlay Mixer.\nCambie el renderizador de vídeo en las opciones de salida de MPC y abra de nuevo el archivo."
 
 msgctxt "IDS_MB_SHOW_EDL_EDITOR"
 msgid "Do you want to activate the EDL editor?"
-msgstr "¿Quiere activar el editor de EDL?"
+msgstr "¿Quiere activar el editor de listas de edición (EDL)?"
 
 msgctxt "IDS_CAPTURE_ERROR"
 msgid "Capture Error"
@@ -3427,19 +3427,19 @@ msgstr "audio"
 
 msgctxt "IDS_CAPTURE_ERROR_ADD_BUFFER"
 msgid "Can't add the %s buffer filter to the graph."
-msgstr "No se puede añadir el filtro búfer %s a la gráfica."
+msgstr "No se puede añadir el filtro del buffer %s al diagrama de filtros."
 
 msgctxt "IDS_CAPTURE_ERROR_CONNECT_BUFF"
 msgid "Can't connect the %s buffer filter to the graph."
-msgstr "No se puede conectar el filtro búfer %s a la gráfica."
+msgstr "No se puede conectar el filtro del buffer %s al diagrama de filtros."
 
 msgctxt "IDS_CAPTURE_ERROR_ADD_ENCODER"
 msgid "Can't add the %s encoder filter to the graph."
-msgstr "No se puede añadir el filtro codificador %s a la gráfica."
+msgstr "No se puede añadir el filtro del codificador %s al diagrama de filtros."
 
 msgctxt "IDS_CAPTURE_ERROR_CONNECT_ENC"
 msgid "Can't connect the %s encoder filter to the graph."
-msgstr "No se puede conectar el filtro codificador %s a la gráfica."
+msgstr "No se puede conectar el filtro del codificador %s al diagrama de filtros."
 
 msgctxt "IDS_CAPTURE_ERROR_COMPRESSION"
 msgid "Can't set the compression format on the %s encoder filter."
@@ -3451,11 +3451,11 @@ msgstr "No se puede conectar la transmisión %s al filtro multiplexor."
 
 msgctxt "IDS_CAPTURE_ERROR_VID_CAPT_PIN"
 msgid "No video capture pin was found."
-msgstr "No se ha encontrado pin capturador de video."
+msgstr "No se ha encontrado etapa de captura de vídeo."
 
 msgctxt "IDS_CAPTURE_ERROR_AUD_CAPT_PIN"
 msgid "No audio capture pin was found."
-msgstr "No se ha encontrado pin capturador de sonido."
+msgstr "No se ha encontrado etapa de captura de sonido."
 
 msgctxt "IDS_CAPTURE_ERROR_OUT_FILE"
 msgid "Error initializing the output file."
@@ -3543,11 +3543,11 @@ msgstr "Aumentar brillo"
 
 msgctxt "IDS_LANG_PREF_EXAMPLE"
 msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
-msgstr "Proporcione los idiomas que prefiera.\nPor ejemplo, escriba: «esp ita jap»"
+msgstr "Proporcione los idiomas que prefiera.\nPor ejemplo, escriba: «spa ita jap»"
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
-msgstr "Los fraccionadores (splitters) externos pueden tener sus propias opciones de preferencia de idioma, así pues el comportamiento por defecto de MPC-HC es no cambiar su elección inicial.\nHabilite esta opción si quiere que MPC-HC controle los fraccionadores externos."
+msgstr "Los demultiplexores (splitters) externos pueden tener opciones en sus propias preferencias de idioma, de modo que el comportamiento por defecto de MPC-HC es no cambiar sus configuraciones iniciales.\nHabilite esta opción si quiere que MPC-HC controle los demultiplexores externos."
 
 msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
 msgid "&Blu-Ray playlists"
@@ -3571,7 +3571,7 @@ msgstr "&Canales"
 
 msgctxt "IDC_FASTSEEK_CHECK"
 msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."
-msgstr "Si «Último fotograma clave» está seleccionado, se buscará el primer fotograma clave («keyframe») anterior al punto de búsqueda actual.\nSi «Fotograma clave más cercano» está seleccionado, se buscará el primer fotograma clave anterior o posterior al punto de búsqueda dependiendo de cuál sea el más cercano."
+msgstr "Al cambiar el punto de avance de la reproducción de vídeo, está característica habilita que la reproducción se retome desde un fotograma clave (keyframe).\nSi se selecciona la opción del fotograma clave «más reciente», la reproducción se retomará desde el primer fotograma clave anterior al punto de reposicionamiento.\nSi se selecciona el fotograma clave «más cercano», la reproducción se retomará desde el fotograma clave anterior o posterior más cercano al punto de reposicionamiento."
 
 msgctxt "IDC_ASSOCIATE_ALL_FORMATS"
 msgid "Associate with all formats"
@@ -3607,7 +3607,7 @@ msgstr "Proveedor"
 
 msgctxt "IDS_SUBDL_DLG_HI_COL"
 msgid "Hearing Impaired"
-msgstr "Dificultades de audición"
+msgstr "Sordos (CC)"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADS_COL"
 msgid "Downloads"
@@ -3739,7 +3739,7 @@ msgstr "Proporcione sus datos de acceso para conectarse con:"
 
 msgctxt "IDS_ASPECT_RATIO_SAR"
 msgid "Aspect Ratio: Assume square pixels (SAR)"
-msgstr "Relación de aspecto: asumir píxeles cuadrados (SAR)"
+msgstr "Relación de aspecto: Asumir píxeles cuadrados (SAR)"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADED"
 msgid "Downloaded [%s] \"%s\""
@@ -3751,7 +3751,7 @@ msgstr "Subir subtítulos"
 
 msgctxt "IDS_SUBUL_DLG_CONFIRM"
 msgid "Are you sure you want to upload the subtitle file \"%s\"?"
-msgstr "¿Está seguro de que quiere subir el fichero de subtítulo \"%s\"?"
+msgstr "¿Está seguro de que quiere subir el archivo de subtítulo \"%s\"?"
 
 msgctxt "IDS_SUBPP_DLG_FETCHING_LANGUAGES"
 msgid "Fetching supported languages..."
@@ -3763,201 +3763,201 @@ msgstr "No se pudo guardar en \"%S\" con el nombre de usuario \"%S\".\n\nPor fav
 
 msgctxt "IDS_SUB_AUTODL_IGNORE_TOOLTIP"
 msgid "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\nFor example, type: \"private dir\\videos|work\\\"."
-msgstr "La búsqueda automática y la descarga se deshabilitarán para todos los ficheros audiovisuales cuya ruta contenga cualquiera de los patrones introducidos aquí.\nPor ejemplo, escriba: \"private dir\\videos|work\\\"."
+msgstr "La búsqueda automática y la descarga se deshabilitarán para todos los archivos audiovisuales cuya ruta contenga cualquiera de los patrones introducidos aquí.\nPor ejemplo, escriba: \"private dir\\videos|work\\\"."
 
 msgctxt "IDS_CMD_PATHNAME"
 msgid "\"pathname\"\tThe main file or directory to be loaded\n\t\t(wildcards allowed, \"-\" denotes standard input)"
-msgstr ""
+msgstr "\"ruta\"\tEl archivo principal o carpeta a ser cargado\n\t\t(se permiten comodines, \"-\" denota entrada estándar)"
 
 msgctxt "IDS_CMD_DUB"
 msgid "/dub \"dubname\"\tLoad an additional audio file"
-msgstr ""
+msgstr "/dub \"nombredeldoblaje\"\tCarga un archivo de audio adicional"
 
 msgctxt "IDS_CMD_DUBDELAY"
 msgid "/dubdelay \"file\"\tLoad an additional audio file shifted with XXms\n\t\t(if the file contains \"...DELAY XXms...\")"
-msgstr ""
+msgstr "/dubdelay \"archivo\"\tCarga un archivo de audio adicional (doblaje) desplazado XXms\n\t\t(si el archivo contiene \"...DELAY XXms...\")"
 
 msgctxt "IDS_CMD_D3DFS"
 msgid "/d3dfs\t\tStart rendering in D3D fullscreen mode"
-msgstr ""
+msgstr "/d3dfs\t\tInicia el renderizado en modo D3D a pantalla completa"
 
 msgctxt "IDS_CMD_SUB"
 msgid "/sub \"subname\"\tLoad an additional subtitle file"
-msgstr ""
+msgstr "/sub \"nombredelsubtítulo\"\tCarga un archivo de subtítulo adicional"
 
 msgctxt "IDS_CMD_FILTER"
 msgid "/filter \"filtername\"\tLoad DirectShow filters from a dynamic link ibrary (wildcards allowed)"
-msgstr ""
+msgstr "/filter \"nombredelfiltro\"\tCarga los filtros DirectShow desde una librería de enlace dinámico (dll) (comodines permitidos)"
 
 msgctxt "IDS_CMD_DVD"
 msgid "/dvd\t\tRun in dvd mode, \"pathname\" means the dvd folder (optional)"
-msgstr ""
+msgstr "/dvd\t\tSe ejecuta en modo DVD, \"ruta\" indica la carpeta del DVD (opcional)"
 
 msgctxt "IDS_CMD_DVDPOS_TC"
 msgid "/dvdpos T#C\tStart playback at title T, chapter C"
-msgstr ""
+msgstr "/dvdpos T#C\tInicia la reproducción en el título T, capítulo C"
 
 msgctxt "IDS_CMD_DVDPOS_TIME"
 msgid "/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss"
-msgstr ""
+msgstr "/dvdpos T#hh:mm\tInicia la reproducción en el título T, posición hh:mm:ss"
 
 msgctxt "IDS_CMD_CD"
 msgid "/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)"
-msgstr ""
+msgstr "/cd\t\tCarga todas las pistas de un CD audio o un (S)VCD,\n\t\t\"ruta\" indica la ruta a la unidad (opcional)"
 
 msgctxt "IDS_CMD_DEVICE"
 msgid "/device\t\tOpen the default video device"
-msgstr ""
+msgstr "/device\t\tAbre el dispositivo de vídeo predeterminado"
 
 msgctxt "IDS_CMD_OPEN"
 msgid "/open\t\tOpen the file, don't automatically start playback"
-msgstr ""
+msgstr "/open\t\tAbre el archivo, no inicia su reproducción automáticamente"
 
 msgctxt "IDS_CMD_PLAY"
 msgid "/play\t\tStart playing the file as soon the player is launched"
-msgstr ""
+msgstr "/play\t\tComienza la reproducción del archivo tan pronto se inicia el reproductor"
 
 msgctxt "IDS_CMD_CLOSE"
 msgid "/close\t\tClose the player after playback (only works when used with /play)"
-msgstr ""
+msgstr "/close\t\tCierra el reproductor tras la reproducción (sólo funciona cuando se usa con /play)"
 
 msgctxt "IDS_CMD_SHUTDOWN"
 msgid "/shutdown\tShutdown the operating system after playback"
-msgstr ""
+msgstr "/shutdown\tCierra el sistema operativo tras la reproducción"
 
 msgctxt "IDS_CMD_STANDBY"
 msgid "/standby\t\tPut the operating system in standby mode after playback"
-msgstr ""
+msgstr "/standby\t\tPone el sistema operativo en modo suspensión tras la reproducción"
 
 msgctxt "IDS_CMD_HIBERNATE"
 msgid "/hibernate\tHibernate operating system after playback"
-msgstr ""
+msgstr "/hibernate\tHiberna el sistema operativo tras la reproducción"
 
 msgctxt "IDS_CMD_LOGOFF"
 msgid "/logoff\t\tLog off after playback"
-msgstr ""
+msgstr "/logoff\t\tCierra sesión tras la reproducción"
 
 msgctxt "IDS_CMD_LOCK"
 msgid "/lock\t\tLock workstation after playback"
-msgstr ""
+msgstr "/lock\t\tBloquea el equipo tras la reproducción"
 
 msgctxt "IDS_CMD_MONITOROFF"
 msgid "/monitoroff\tTurn off the monitor after playback"
-msgstr ""
+msgstr "/monitoroff\tApaga el monitor tras la reproducción"
 
 msgctxt "IDS_CMD_PLAYNEXT"
 msgid "/playnext\t\tOpen next file in the folder after playback"
-msgstr ""
+msgstr "/playnext\t\tAbre el siguiente archivo de la carpeta tras la reproducción"
 
 msgctxt "IDS_CMD_FULLSCREEN"
 msgid "/fullscreen\tStart in full-screen mode"
-msgstr ""
+msgstr "/fullscreen\tInicia el reproductor en pantalla completa"
 
 msgctxt "IDS_CMD_MINIMIZED"
 msgid "/minimized\tStart in minimized mode"
-msgstr ""
+msgstr "/minimized\tInicia el reproductor en modo minimizado"
 
 msgctxt "IDS_CMD_NEW"
 msgid "/new\t\tUse a new instance of the player"
-msgstr ""
+msgstr "/new\t\tUsa una nueva instancia del reproductorº"
 
 msgctxt "IDS_CMD_ADD"
 msgid "/add\t\tAdd \"pathname\" to playlist, can be combined with /open and /play"
-msgstr ""
+msgstr "/add\t\tAñade una \"ruta\" a la lista de reproducción, se puede combinar con /open y /play"
 
 msgctxt "IDS_CMD_RANDOMIZE"
 msgid "/randomize\tRandomize the playlist"
-msgstr ""
+msgstr "/randomize\tReproduce en orden aleatorio la lista de reproducción"
 
 msgctxt "IDS_CMD_REGVID"
 msgid "/regvid\t\tCreate file associations for video files"
-msgstr ""
+msgstr "/regvid\t\tCrea asociaciones de archivo para archivos de vídeo"
 
 msgctxt "IDS_CMD_REGAUD"
 msgid "/regaud\t\tCreate file associations for audio files"
-msgstr ""
+msgstr "/regaud\t\tCrea asociaciones de archivo para archivos de audio"
 
 msgctxt "IDS_CMD_REGPL"
 msgid "/regpl\t\tCreate file associations for playlist files"
-msgstr ""
+msgstr "/regpl\t\tCrea asociaciones de archivo para archivos de listas de reproducción"
 
 msgctxt "IDS_CMD_REGALL"
 msgid "/regall\t\tCreate file associations for all supported file types"
-msgstr ""
+msgstr "/regall\t\tCrea asociaciones de archivo para todos los tipos de archivo soportados"
 
 msgctxt "IDS_CMD_UNREGALL"
 msgid "/unregall\t\tRemove all file associations"
-msgstr ""
+msgstr "/unregall\t\tElimina todas las asociaciones de archivo"
 
 msgctxt "IDS_CMD_START"
 msgid "/start ms\t\tStart playing at \"ms\" (= milliseconds)"
-msgstr ""
+msgstr "/start ms\t\tComienza la reproducción en \"ms\" (= millisegundos)"
 
 msgctxt "IDS_CMD_STARTPOS"
 msgid "/startpos hh:mm:ss\tStart playing at position hh:mm:ss"
-msgstr ""
+msgstr "/startpos hh:mm:ss\tComienza la reproducción en la posición hh:mm:ss"
 
 msgctxt "IDS_CMD_FIXEDSIZE"
 msgid "/fixedsize w,h\tSet a fixed window size"
-msgstr ""
+msgstr "/fixedsize w,h\tEstablece un tamaño de ventana fijado"
 
 msgctxt "IDS_CMD_MONITOR"
 msgid "/monitor N\tStart player on monitor N, where N starts from 1"
-msgstr ""
+msgstr "/monitor N\tInicia el reproductor en el monitor N, donde N comienza desde 1"
 
 msgctxt "IDS_CMD_AUDIORENDERER"
 msgid "/audiorenderer N\tStart using audiorenderer N, where N starts from 1 (see \"Output\" settings)"
-msgstr ""
+msgstr "/audiorenderer N\tSe inicia usando el renderizador de audio N, donde N comienza desde 1 (vea configuración de \"Salida\")"
 
 msgctxt "IDS_CMD_SHADERPRESET"
 msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
-msgstr ""
+msgstr "/shaderpreset \"Pr\"\tSe inicia usando el preajuste \"Pr\" de shader ('sombreador')"
 
 msgctxt "IDS_CMD_PNS"
 msgid "/pns \"name\"\tSpecify Pan&Scan preset name to use"
-msgstr ""
+msgstr "/pns \"nombre\"\tEspecifica el nombre del modo de reencuadre (pan&scan) a usar"
 
 msgctxt "IDS_CMD_ICONASSOC"
 msgid "/iconsassoc\tReassociate format icons"
-msgstr ""
+msgstr "/iconsassoc\tVuelve a asociar los iconos de formato"
 
 msgctxt "IDS_CMD_NOFOCUS"
 msgid "/nofocus\t\tOpen MPC-HC in background"
-msgstr ""
+msgstr "/nofocus\t\tAbre MPC-HC en segundo plano"
 
 msgctxt "IDS_CMD_WEBPORT"
 msgid "/webport N\tStart web interface on specified port"
-msgstr ""
+msgstr "/webport N\tInicia la interfaz web en el puerto especificado"
 
 msgctxt "IDS_CMD_DEBUG"
 msgid "/debug\t\tShow debug information in OSD"
-msgstr ""
+msgstr "/debug\t\tMuestra información de depuración sobreimpresionada (OSD)"
 
 msgctxt "IDS_CMD_NOCRASHREPORTER"
 msgid "/nocrashreporter\tDisable the crash reporter"
-msgstr ""
+msgstr "/nocrashreporter\tDeshabilita el informe de fallo"
 
 msgctxt "IDS_CMD_SLAVE"
 msgid "/slave \"hWnd\"\tUse MPC-HC as slave"
-msgstr ""
+msgstr "/slave \"hWnd\"\tUsa MPC-HC en modo esclavo"
 
 msgctxt "IDS_CMD_HWGPU"
 msgid "/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding.\n\t\tOnly available for CUVID and DXVA2 (copy-back)"
-msgstr ""
+msgstr "/hwgpu \"index\"\tEstablece el índice que indica la GPU a usar para la decodificación por hardware.\n\t\tSólo disponible para los modos CUVID y DXVA2 (copy-back)"
 
 msgctxt "IDS_CMD_RESET"
 msgid "/reset\t\tRestore default settings"
-msgstr ""
+msgstr "/reset\t\tRestablece la configuración predeterminada"
 
 msgctxt "IDS_CMD_HELP"
 msgid "/help /h /?\tShow help about command line switches"
-msgstr ""
+msgstr "/help /h /?\tMuestra la ayuda de parámetros de línea de comandos"
 
 msgctxt "IDS_PPAGEADVANCED_SCORE"
 msgid "Threshold value for subtitles score which are going to be automatically downloaded. Higher values means that more accurately matched subtitles will be loaded, lower values could result in incorrect subtitles being loaded, but there is no one perfect value. Pick one that works best for you."
-msgstr ""
+msgstr "Valor umbral de puntuación para subtítulos que se van a descargar automáticamente. Valores más altos indican que se cargarán subtítulos con una coincidencia más precisa, valores más bajos podrían resultar en que se carguen subtítulos incorrectos, pero no hay un valor perfecto. Seleccione aquel que mejor le funcione."
 
 msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
 msgid "Audio Delay"
-msgstr ""
+msgstr "Retardo del audio"
 
