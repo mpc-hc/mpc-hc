@@ -99,6 +99,7 @@ CAppSettings::CAppSettings()
     , fAutoloadAudio(true)
     , fBlockVSFilter(true)
     , nVolumeStep(5)
+    , nDefaultToolbarSize(24)
     , nSpeedStep(0)
     , eAfterPlayback(AfterPlayback::DO_NOTHING)
     , fUseDVDPath(false)
@@ -1045,6 +1046,8 @@ void CAppSettings::SaveSettings()
     VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SUBTITLE_RENDERER,
                                  static_cast<int>(eSubtitleRenderer)));
 
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DEFAULTTOOLBARSIZE, nDefaultToolbarSize);
+
     {
         CComHeapPtr<WCHAR> pDeviceId;
         BOOL bExclusive;
@@ -1788,6 +1791,8 @@ void CAppSettings::LoadSettings()
 
     eSubtitleRenderer = static_cast<SubtitleRenderer>(pApp->GetProfileInt(IDS_R_SETTINGS,
                                                       IDS_RS_SUBTITLE_RENDERER, static_cast<int>(SubtitleRenderer::INTERNAL)));
+
+    nDefaultToolbarSize = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DEFAULTTOOLBARSIZE, 24);
 
     if (fLaunchfullscreen) {
         nCLSwitches |= CLSW_FULLSCREEN;

@@ -28,6 +28,9 @@
 CPPageAdvanced::CPPageAdvanced()
     : CPPageBase(IDD, IDD)
 {
+    EventRouter::EventSelection fires;
+    fires.insert(MpcEvent::DEFAULT_TOOLBAR_SIZE_CHANGED);
+    GetEventd().Connect(m_eventc, fires);
 }
 
 void CPPageAdvanced::DoDataExchange(CDataExchange* pDX)
@@ -137,16 +140,20 @@ void CPPageAdvanced::InitSettings()
                std::make_pair(10, 30), StrRes(IDS_PPAGEADVANCED_SCORE));
     addIntItem(AUTO_DOWNLOAD_SCORE_SERIES, IDS_RS_AUTODOWNLOADSCORESERIES, 0x18, s.nAutoDownloadScoreSeries,
                std::make_pair(10, 30), StrRes(IDS_PPAGEADVANCED_SCORE));
+    addIntItem(DEFAULT_TOOLBAR_SIZE, IDS_RS_DEFAULTTOOLBARSIZE, 24, s.nDefaultToolbarSize,
+               std::make_pair(16, 128), StrRes(IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE));
 }
 
 BOOL CPPageAdvanced::OnApply()
 {
+    auto& s = AfxGetAppSettings();
+
+    int nOldDefaultToolbarSize = s.nDefaultToolbarSize;
+
     for (int i = 0; i < m_list.GetItemCount(); i++) {
         auto eSetting = static_cast<ADVANCED_SETTINGS>(m_list.GetItemData(i));
         m_hiddenOptions.at(eSetting)->Apply();
     }
-
-    auto& s = AfxGetAppSettings();
 
     s.MRU.SetSize(s.iRecentFilesNumber);
     s.MRUDub.SetSize(s.iRecentFilesNumber);
@@ -156,6 +163,13 @@ BOOL CPPageAdvanced::OnApply()
     // There is no main frame when the option dialog is displayed stand-alone
     if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
         pMainFrame->UpdateControlState(CMainFrame::UPDATE_CONTROLS_VISIBILITY);
+    }
+
+    if (nOldDefaultToolbarSize != s.nDefaultToolbarSize) {
+        m_eventc.FireEvent(MpcEvent::DEFAULT_TOOLBAR_SIZE_CHANGED);
+        if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
+            pMainFrame->RecalcLayout();
+        }
     }
 
     return __super::OnApply();

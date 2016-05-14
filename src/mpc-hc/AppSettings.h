@@ -494,6 +494,7 @@ public:
     bool            fBlockVSFilter;
     UINT            nVolumeStep;
     UINT            nSpeedStep;
+    int             nDefaultToolbarSize;
 
     enum class AfterPlayback {
         DO_NOTHING,

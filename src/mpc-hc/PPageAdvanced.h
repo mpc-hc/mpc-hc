@@ -147,12 +147,15 @@ private:
         LOGGING,
         AUTO_DOWNLOAD_SCORE_MOVIES,
         AUTO_DOWNLOAD_SCORE_SERIES,
+        DEFAULT_TOOLBAR_SIZE,
     };
 
     enum {
         COL_NAME,
         COL_VALUE
     };
+
+    EventClient m_eventc;
 
     CFont m_fontBold;
     CComboBox m_comboBox;

@@ -41,6 +41,7 @@ CPlayerToolBar::CPlayerToolBar(CMainFrame* pMainFrame)
 {
     GetEventd().Connect(m_eventc, {
         MpcEvent::DPI_CHANGED,
+        MpcEvent::DEFAULT_TOOLBAR_SIZE_CHANGED,
     }, std::bind(&CPlayerToolBar::EventCallback, this, std::placeholders::_1));
 }
 
@@ -81,9 +82,10 @@ void CPlayerToolBar::LoadToolbarImage()
 {
     // We are currently not aware of any cases where the scale factors are different
     float dpiScaling = (float)std::min(m_pMainFrame->m_dpi.ScaleFactorX(), m_pMainFrame->m_dpi.ScaleFactorY());
+    float defaultToolbarScaling = AfxGetAppSettings().nDefaultToolbarSize / 16.0;
 
     CImage image;
-    if (LoadExternalToolBar(image) || SUCCEEDED(SVGImage::Load(IDF_SVG_TOOLBAR, image, dpiScaling))) {
+    if (LoadExternalToolBar(image) || SUCCEEDED(SVGImage::Load(IDF_SVG_TOOLBAR, image, dpiScaling * defaultToolbarScaling))) {
         CBitmap* bmp = CBitmap::FromHandle(image);
         int width = image.GetWidth();
         int height = image.GetHeight();
@@ -244,6 +246,7 @@ void CPlayerToolBar::EventCallback(MpcEvent ev)
 {
     switch (ev) {
         case MpcEvent::DPI_CHANGED:
+        case MpcEvent::DEFAULT_TOOLBAR_SIZE_CHANGED:
             LoadToolbarImage();
             break;
         default:

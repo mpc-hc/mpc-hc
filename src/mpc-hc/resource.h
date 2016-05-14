@@ -1568,6 +1568,7 @@
 #define IDS_CMD_HELP                    57529
 #define IDS_PPAGEADVANCED_SCORE         57530
 #define IDS_PPAGE_FS_CLN_AUDIO_DELAY    57531
+#define IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE 57532
 
 // Next default values for new objects
 // 
