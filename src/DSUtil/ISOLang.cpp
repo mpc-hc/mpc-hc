@@ -170,6 +170,7 @@ namespace
         { "English, Middle (1100-1500)", "enm", "" },
         { "English, Old (ca.450-1100)", "ang", "" },
         { "Erzya", "myv", "" },
+        { "Extremaduran", "ext", "ex" },
         { "Esperanto", "epo", "eo" },
         { "Estonian", "est", "et",                   MAKELCID(MAKELANGID(LANG_ESTONIAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Ewe", "ewe", "ee" },
@@ -416,6 +417,7 @@ namespace
         { "Pohnpeian", "pon", "" },
         { "Polish", "pol", "pl",                 MAKELCID(MAKELANGID(LANG_POLISH, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Portuguese", "por", "pt",             MAKELCID(MAKELANGID(LANG_PORTUGUESE, SUBLANG_DEFAULT), SORT_DEFAULT) },
+        { "Mozambican Portuguese", "pom", "pm" }, // Custom codes compatible with OpenSubtitles database
         { "Prakrit languages", "pra", "" },
         { "Provençal, Old (to 1500)", "pro", "" },
         { "Provençal; Occitan (post 1500)", "oci", "oc" },
@@ -747,7 +749,7 @@ ISOLang ISOLang::ISO639XToISOLang(LPCSTR code)
 {
     ISOLang lang;
 
-    switch (size_t nLen = strlen(code)) {
+    switch (strlen(code)) {
         case 2:
             lang = ISO6391ToISOLang(code);
             break;
