@@ -721,7 +721,7 @@ SubtitlesProvidersUtils::stringArray SubtitlesProvidersUtils::StringTokenize(con
         if (delimiters.find(iter) != std::string::npos) {
             if (!next.empty() || blank) {
                 // Add them to the result vector
-                result.push_back(next);
+                result.push_back(StringTrim(next));
                 next.clear();
             }
         } else {
@@ -729,7 +729,7 @@ SubtitlesProvidersUtils::stringArray SubtitlesProvidersUtils::StringTokenize(con
         }
     }
     if (!next.empty()) {
-        result.push_back(next);
+        result.push_back(StringTrim(next));
     }
     return result;
 }

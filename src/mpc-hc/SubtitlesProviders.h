@@ -161,7 +161,7 @@ public:
     std::string languageCode;
     std::string languageName;
     std::string url;
-    std::string releaseName;
+    std::list<std::string> releaseNames;
     int hearingImpaired;
     int discCount;
     int downloadCount;

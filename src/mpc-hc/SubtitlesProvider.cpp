@@ -155,7 +155,7 @@ SRESULT OpenSubtitles::Search(const SubtitlesInfo& pFileInfo)
         pSubtitlesInfo.episodeNumber = (int)data["SeriesEpisode"] == 0 ? -1 : (int)data["SeriesEpisode"];
         pSubtitlesInfo.hearingImpaired = data["SubHearingImpaired"];
         pSubtitlesInfo.url = (const char*)data["SubtitlesLink"];
-        pSubtitlesInfo.releaseName = (const char*)data["MovieReleaseName"];
+        pSubtitlesInfo.releaseNames.emplace_back((const char*)data["MovieReleaseName"]);
         pSubtitlesInfo.imdbid = (const char*)data["IDMovieImdb"];
         pSubtitlesInfo.corrected = (int)data["SubBad"] ? -1 : 0;
         Set(pSubtitlesInfo);
@@ -635,7 +635,6 @@ SRESULT podnapisi::Search(const SubtitlesInfo& pFileInfo)
                         std::string format = GetChildElementText(pSubtitleElmt, "format");
                         pSubtitlesInfo.fileExtension = (format == "SubRip" || format == "N/A") ? "srt" : format;
 
-                        pSubtitlesInfo.releaseName = GetChildElementText(pSubtitleElmt, "release");
                         pSubtitlesInfo.languageCode = podnapisi_languages[atoi(GetChildElementText(pSubtitleElmt, "languageId").c_str())].code;
                         pSubtitlesInfo.languageName = GetChildElementText(pSubtitleElmt, "languageName");
                         pSubtitlesInfo.seasonNumber = atoi(GetChildElementText(pSubtitleElmt, "tvSeason").c_str());
@@ -650,8 +649,28 @@ SRESULT podnapisi::Search(const SubtitlesInfo& pFileInfo)
                         pSubtitlesInfo.imdbid = GetChildElementText(pSubtitleElmt, "movieId");
                         pSubtitlesInfo.frameRate = atof(GetChildElementText(pSubtitleElmt, "fps").c_str());
 
-                        stringArray fileNames(StringTokenize(pSubtitlesInfo.releaseName, " "));
-                        if (fileNames.empty()) {
+                        XMLElement* pReleasesElem = pSubtitleElmt->FirstChildElement("releases");
+                        if (pReleasesElem) {
+                            XMLElement* pReleaseElem = pReleasesElem->FirstChildElement("release");
+
+                            while (pReleaseElem) {
+                                auto pText = pReleaseElem->GetText();
+
+                                if (!pText) {
+                                    continue;
+                                }
+
+                                pSubtitlesInfo.releaseNames.emplace_back(pText);
+
+                                if (pSubtitlesInfo.fileName.empty() || pFileInfo.fileName.find(pText) != std::string::npos) {
+                                    pSubtitlesInfo.fileName = pText;
+                                    pSubtitlesInfo.fileName += "." + pSubtitlesInfo.fileExtension;
+                                }
+                                pReleaseElem = pReleaseElem->NextSiblingElement();
+                            }
+                        }
+
+                        if (pSubtitlesInfo.fileName.empty()) {
                             std::string str = pSubtitlesInfo.title;
                             if (!year.empty()) {
                                 str += " " + year;
@@ -663,14 +682,9 @@ SRESULT podnapisi::Search(const SubtitlesInfo& pFileInfo)
                                 str += StringFormat("%sE%02d", (pSubtitlesInfo.seasonNumber > 0) ? "" : " ", pSubtitlesInfo.episodeNumber);
                             }
                             str += GUESSED_NAME_POSTFIX;
-                            fileNames.push_back(str);
+                            pSubtitlesInfo.fileName = str;
                         }
-                        pSubtitlesInfo.fileName = fileNames[0] + "." + pSubtitlesInfo.fileExtension;
-                        for (const auto& fileName : fileNames) {
-                            if (fileName == pFileInfo.fileName) {
-                                pSubtitlesInfo.fileName = fileName + "." + pSubtitlesInfo.fileExtension;
-                            }
-                        }
+
                         Set(pSubtitlesInfo);
                         pSubtitleElmt = pSubtitleElmt->NextSiblingElement();
                     }
@@ -730,8 +744,6 @@ const std::set<std::string>& podnapisi::Languages() const
 
 SRESULT titlovi::Search(const SubtitlesInfo& pFileInfo)
 {
-    SRESULT searchResult = SR_UNDEFINED;
-
     // Need to filter not supported languages, because their API returns .hr language otherwise.
     auto selectedLanguages = LanguagesISO6391();
     bool userSelectedLanguage = !selectedLanguages.empty();
@@ -746,7 +758,7 @@ SRESULT titlovi::Search(const SubtitlesInfo& pFileInfo)
     url += (userSelectedLanguage ? "&language=" + JoinContainer(languagesIntersection, ",") : "");
 
     std::string data;
-    searchResult = DownloadInternal(url, "", data);
+    SRESULT searchResult = DownloadInternal(url, "", data);
 
     tinyxml2::XMLDocument dxml;
     if (dxml.Parse(data.c_str()) == tinyxml2::XMLError::XML_SUCCESS) {
@@ -783,7 +795,8 @@ SRESULT titlovi::Search(const SubtitlesInfo& pFileInfo)
                         }
                     }
                     pSubtitlesInfo.languageName = UTF16To8(ISOLang::ISO639XToLanguage(pSubtitlesInfo.languageCode.c_str()));
-                    pSubtitlesInfo.releaseName = GetChildElementText(pSubtitleElmt, "release");
+                    auto releaseNames = StringTokenize(GetChildElementText(pSubtitleElmt, "release"), "/");
+                    pSubtitlesInfo.releaseNames = { releaseNames.begin(), releaseNames.end() };
                     pSubtitlesInfo.imdbid = GetChildElementText(pSubtitleElmt, "imdbId");
                     pSubtitlesInfo.frameRate = atof(GetChildElementText(pSubtitleElmt, "fps").c_str());
                     pSubtitlesInfo.year = atoi(GetChildElementText(pSubtitleElmt, "year").c_str());
@@ -816,7 +829,16 @@ SRESULT titlovi::Search(const SubtitlesInfo& pFileInfo)
                     if (pSubtitlesInfo.episodeNumber > 0) {
                         pSubtitlesInfo.fileName += StringFormat("%sE%02d", (pSubtitlesInfo.seasonNumber > 0) ? "" : " ", pSubtitlesInfo.episodeNumber);
                     }
-                    pSubtitlesInfo.fileName += " " + pSubtitlesInfo.releaseName;
+
+                    auto it = std::find_if(pSubtitlesInfo.releaseNames.begin(), pSubtitlesInfo.releaseNames.end(), [&fn = pFileInfo.fileName](const auto & str) {
+                        return fn.find(str) != std::string::npos;
+                    });
+
+                    if (it != pSubtitlesInfo.releaseNames.end()) {
+                        pSubtitlesInfo.fileName += " " + *it;
+                    } else if (!pSubtitlesInfo.releaseNames.empty()) {
+                        pSubtitlesInfo.fileName += " " + pSubtitlesInfo.releaseNames.front();
+                    }
                     pSubtitlesInfo.fileName += GUESSED_NAME_POSTFIX;
 
                     Set(pSubtitlesInfo);
@@ -908,7 +930,7 @@ SRESULT ysubs::Search(const SubtitlesInfo& pFileInfo)
                                             pSubtitlesInfo.title = elem->FindMember("title")->value.GetString();
                                             pSubtitlesInfo.languageCode = lang_code;
                                             pSubtitlesInfo.languageName = UTF16To8(ISOLang::ISO639XToLanguage(pSubtitlesInfo.languageCode.c_str()));
-                                            pSubtitlesInfo.releaseName = "YIFY";
+                                            pSubtitlesInfo.releaseNames.emplace_back("YIFY");
                                             pSubtitlesInfo.imdbid = imdb;
                                             pSubtitlesInfo.year = elem->FindMember("year")->value.GetInt();
                                             pSubtitlesInfo.discNumber = 1;

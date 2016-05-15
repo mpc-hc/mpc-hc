@@ -16897,7 +16897,7 @@ LRESULT CMainFrame::OnGetSubtitles(WPARAM, LPARAM lParam)
     SubtitlesInfo* pSubtitlesInfo = reinterpret_cast<SubtitlesInfo*>(lParam);
 
     pSubtitlesInfo->GetFileInfo();
-    pSubtitlesInfo->releaseName = UTF16To8(pRTS->m_name);
+    pSubtitlesInfo->releaseNames.emplace_back(UTF16To8(pRTS->m_name));
     if (pSubtitlesInfo->hearingImpaired == Subtitle::HI_UNKNOWN) {
         pSubtitlesInfo->hearingImpaired = pRTS->m_eHearingImpaired;
     }

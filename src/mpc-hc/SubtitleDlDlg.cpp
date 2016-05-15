@@ -27,6 +27,52 @@
 #include "ISOLang.h"
 #include "PPageSubMisc.h"
 
+BEGIN_MESSAGE_MAP(CSubtitleDlDlgListCtrl, CListCtrl)
+    ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolNeedText)
+END_MESSAGE_MAP()
+
+void CSubtitleDlDlgListCtrl::PreSubclassWindow()
+{
+    __super::PreSubclassWindow();
+    GetToolTips()->SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOREDRAW | SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOCOPYBITS | SWP_NOOWNERZORDER);
+}
+
+BOOL CSubtitleDlDlgListCtrl::OnToolNeedText(UINT id, NMHDR* pNMHDR, LRESULT*)
+{
+    CPoint pt(GetMessagePos());
+    ScreenToClient(&pt);
+
+    LVHITTESTINFO lvhti = { pt };
+    int nItem = SubItemHitTest(&lvhti);
+    int nSubItem = lvhti.iSubItem;
+
+    if (nItem == -1 || !(lvhti.flags & LVHT_ONITEMLABEL) || nSubItem != CSubtitleDlDlg::COL_FILENAME) {
+        return FALSE;
+    }
+
+    auto subtitleInfo = reinterpret_cast<SubtitlesInfo*>(GetItemData(nItem));
+    if (!subtitleInfo || subtitleInfo->releaseNames.empty()) {
+        return FALSE;
+    }
+
+    static CString tooltipText;
+    tooltipText = SubtitlesProvidersUtils::JoinContainer(subtitleInfo->releaseNames, "\n").c_str();
+    ASSERT(!tooltipText.IsEmpty());
+
+    auto pTTT = reinterpret_cast<TOOLTIPTEXT*>(pNMHDR);
+    pTTT->lpszText = tooltipText.GetBuffer();
+
+    // Needed for multiline tooltips.
+    GetToolTips()->SetMaxTipWidth(1000);
+
+    // Force ListView internal variables related to LABELTIP to invalidate. This is needed to use both custom tooltip and LABELTIP.
+    // When LABELTIP is enabled ListView internally changes tooltip to be draw in-place of text. Unfortunately it doesn't
+    // clear few variables when someone else handles TTN_NEEDTEXT.
+    SetColumnWidth(CSubtitleDlDlg::COL_FILENAME, GetColumnWidth(CSubtitleDlDlg::COL_FILENAME));
+
+    return TRUE;
+}
+
 // User Defined Window Messages
 enum {
     UWM_SEARCH = WM_USER + 100,
