@@ -3950,7 +3950,7 @@ msgid "Threshold value for subtitles score which are going to be automatically d
 msgstr ""
 
 msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
-msgid "Audio Delay"
+msgid "Audio Delay (ms)"
 msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE"

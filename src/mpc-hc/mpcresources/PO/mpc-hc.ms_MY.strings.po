@@ -3949,8 +3949,8 @@ msgid "Threshold value for subtitles score which are going to be automatically d
 msgstr "Nilai ambang untuk skor sarikata yang akan dimuat turun secara automatik.Lebih tinggi nilai bermaksud lebih tepat sarikata yang sepadan dimuatkan, manakala nilai lebih rendah akan menyebabkan sarikata yang salah dimuatkan, tiada nilai yang sempurna. Oleh itu pilih yang terbaik untuk anda."
 
 msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
-msgid "Audio Delay"
-msgstr "Lengah Audio"
+msgid "Audio Delay (ms)"
+msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE"
 msgid "Size in pixels of the default toolbar."

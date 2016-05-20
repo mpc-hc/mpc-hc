@@ -3953,8 +3953,8 @@ msgid "Threshold value for subtitles score which are going to be automatically d
 msgstr "自动下载字幕的评分阈值。该值设置得较高，则将加载匹配更为精确的字幕；设置得较低，则可能导致加载的字幕不正确；但没有一个确定的完美值。请根据实测情况决定该数值。"
 
 msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
-msgid "Audio Delay"
-msgstr "音频延迟"
+msgid "Audio Delay (ms)"
+msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE"
 msgid "Size in pixels of the default toolbar."

@@ -3950,8 +3950,8 @@ msgid "Threshold value for subtitles score which are going to be automatically d
 msgstr "Seuil pour le score des sous-titres automatiquement téléchargés. Plus la valeur est élevée moins le risque de télécharger des sous-titres ne correspondant pas au fichier est important. Il n'y a cependant pas de valeur parfaite, utilisez celle qui vous convient le mieux."
 
 msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
-msgid "Audio Delay"
-msgstr "Décalage audio"
+msgid "Audio Delay (ms)"
+msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE"
 msgid "Size in pixels of the default toolbar."

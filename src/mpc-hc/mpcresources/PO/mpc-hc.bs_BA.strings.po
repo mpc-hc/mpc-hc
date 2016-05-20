@@ -3949,8 +3949,8 @@ msgid "Threshold value for subtitles score which are going to be automatically d
 msgstr "Granična vrijednost za ocjenu titlova koji će biti automatski download-ovani. Viša vrijednost znači da će biti učitani titlovi koji tačnije odgovaraju, dok niža vrijednost može rezultirati učitavanjem pogrešnih titlova. Međutim, ne postoji savršena vrijednost. Izaberite onu vrijednost koja vam najbolje odgovara."
 
 msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
-msgid "Audio Delay"
-msgstr "Audio Odgoda"
+msgid "Audio Delay (ms)"
+msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE"
 msgid "Size in pixels of the default toolbar."

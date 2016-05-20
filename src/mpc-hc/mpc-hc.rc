@@ -3662,7 +3662,7 @@ BEGIN
     IDS_CMD_RESET           "/reset\t\tRestore default settings"
     IDS_CMD_HELP            "/help /h /?\tShow help about command line switches"
     IDS_PPAGEADVANCED_SCORE "Threshold value for subtitles score which are going to be automatically downloaded. Higher values means that more accurately matched subtitles will be loaded, lower values could result in incorrect subtitles being loaded, but there is no one perfect value. Pick one that works best for you."
-    IDS_PPAGE_FS_CLN_AUDIO_DELAY "Audio Delay"
+    IDS_PPAGE_FS_CLN_AUDIO_DELAY "Audio Delay (ms)"
     IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE "Size in pixels of the default toolbar."
 END
 

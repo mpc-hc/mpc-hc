@@ -3963,7 +3963,7 @@ msgid "Threshold value for subtitles score which are going to be automatically d
 msgstr "Nilai dari skor subtitel yang akan terunduh otomatis. Nilai yang lebih tinggi berarti semakin cocok subtitel yang dapat digunakan, semakin rendah nilainya kemungkinan subtitel untuk cocok juga rendah, tetapi sesungguhnya tidak ada nilai yang benar-benar sempurna. Pilihlah yang sesuai bagi anda."
 
 msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
-msgid "Audio Delay"
+msgid "Audio Delay (ms)"
 msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE"

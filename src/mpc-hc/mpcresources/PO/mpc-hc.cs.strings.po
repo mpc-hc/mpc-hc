@@ -3950,8 +3950,8 @@ msgid "Threshold value for subtitles score which are going to be automatically d
 msgstr "Prahová hodnota hodnocení pro automaticky stahované titulky. Vyšší hodnota zajistí přesnější výsledky přiřazení, ale sníží pravděpodobnost nalezení titulků, nižší hodnota zvýší pravděpodobnost nalezení titulků, ale zvýší pravděpodobnost načtení chybných titulků. Neexistuje ideální hodnota. Zvolte takovou, která bude fungovat vám."
 
 msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
-msgid "Audio Delay"
-msgstr "Zpoždění zvuku"
+msgid "Audio Delay (ms)"
+msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE"
 msgid "Size in pixels of the default toolbar."
