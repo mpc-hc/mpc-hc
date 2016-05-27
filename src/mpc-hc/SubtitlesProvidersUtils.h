@@ -52,7 +52,7 @@ namespace SubtitlesProvidersUtils
     std::string StringEncrypt(const std::string& data, const std::string& key, ALG_ID Algid = CALG_AES_256);
     std::string StringDecrypt(const std::string& data, const std::string& key, ALG_ID Algid = CALG_AES_256);
 
-    std::string StringFormat(char const* fmt, ...);
+    std::string StringFormat(_In_z_ _Printf_format_string_ char const* const fmt, ...);
 
     size_t stringMatch(const std::string& pattern, const std::string& text, regexResults& results);
     size_t stringMatch(const std::string& pattern, const std::string& text, regexResult& result);

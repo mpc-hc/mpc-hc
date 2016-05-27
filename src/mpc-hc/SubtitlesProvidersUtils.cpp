@@ -216,17 +216,24 @@ std::string SubtitlesProvidersUtils::StringDecrypt(const std::string& data, cons
     return result;
 }
 
-std::string SubtitlesProvidersUtils::StringFormat(const char* fmt, ...)
+std::string SubtitlesProvidersUtils::StringFormat(_In_z_ _Printf_format_string_ char const* const fmt, ...)
 {
-    int nSize = 0x400;
-    std::vector<char> buffer(nSize);
-    va_list vl;
-    va_start(vl, fmt);
-    while ((nSize = vsnprintf_s(&buffer[0], buffer.size(), _TRUNCATE, fmt, vl)) == _TRUNCATE) {
-        buffer.resize(buffer.size() * 2);
+    std::string str;
+    va_list args;
+    va_start(args, fmt);
+    auto len = _vscprintf(fmt, args);
+    ASSERT(len > 0);
+    if (len > 0) {
+        str.resize(len);
+#if _HAS_CXX17
+        auto data = str.data();
+#else
+        auto data = str._Myptr();
+#endif
+        VERIFY(len == vsnprintf_s(data, len + 1, len, fmt, args));
     }
-    va_end(vl);
-    return std::string(&buffer[0], nSize);
+    va_end(args);
+    return str;
 }
 
 size_t SubtitlesProvidersUtils::stringMatch(const std::string& pattern, const std::string& text, regexResults& results)
