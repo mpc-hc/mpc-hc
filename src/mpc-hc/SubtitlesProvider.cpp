@@ -76,7 +76,7 @@ SRESULT OpenSubtitles::Login(const std::string& sUserName, const std::string& sP
         args[0] = sUserName;
         args[1] = sPassword;
         args[2] = "en";
-        std::string strUA = UserAgent();
+        const auto& strUA = UserAgent();
         args[3] = strUA.c_str(); // Test with "OSTestUserAgent"
         if (!xmlrpc->execute("LogIn", args, result)) {
             return SR_FAILED;
@@ -124,16 +124,20 @@ SRESULT OpenSubtitles::Search(const SubtitlesInfo& pFileInfo)
     const auto languages = LanguagesISO6392();
     XmlRpcValue args, result;
     args[0] = token;
-    args[1][0]["sublanguageid"] = !languages.empty() ? JoinContainer(languages, ",") : "all";
-    args[1][0]["moviehash"] = pFileInfo.fileHash;
-    args[1][0]["moviebytesize"] = std::to_string(pFileInfo.fileSize);
+    auto& movieInfo = args[1][0];
+    movieInfo["sublanguageid"] = !languages.empty() ? JoinContainer(languages, ",") : "all";
+    movieInfo["moviehash"] = pFileInfo.fileHash;
+    movieInfo["moviebytesize"] = std::to_string(pFileInfo.fileSize);
     //args[1][1]["sublanguageid"] = !languages.empty() ? languages : "all";
     //args[1][1]["tag"] = pFileInfo.fileName + "." + pFileInfo.fileExtension;
     args[2]["limit"] = 500;
 
     LOG(LOG_INPUT,
-        StringFormat("{ sublanguageid=\"%S\", moviehash=\"%S\", moviebytesize=\"%S\", limit=%d }",
-                     (LPCSTR)args[1][0]["sublanguageid"], (LPCSTR)args[1][0]["moviehash"], (LPCSTR)args[1][0]["moviebytesize"], (int)args[2]["limit"]).c_str());
+        StringFormat("{ sublanguageid=\"%s\", moviehash=\"%s\", moviebytesize=\"%s\", limit=%d }",
+                     (LPCSTR)movieInfo["sublanguageid"],
+                     (LPCSTR)movieInfo["moviehash"],
+                     (LPCSTR)movieInfo["moviebytesize"],
+                     (int)args[2]["limit"]).c_str());
 
     if (!xmlrpc->execute("SearchSubtitles", args, result)) {
         return SR_FAILED;
