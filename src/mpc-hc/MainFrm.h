@@ -483,7 +483,7 @@ protected:
     friend class CPPageSubMisc;
 
     friend class SubtitlesProviders;
-    SubtitlesProviders* m_pSubtitlesProviders;
+    std::unique_ptr<SubtitlesProviders> m_pSubtitlesProviders;
     friend struct SubtitlesInfo;
     friend class SubtitlesTask;
     friend class SubtitlesThread;

@@ -510,8 +510,8 @@ bool SubtitlesProvider::CheckInternetConnection()
 ** SubtitlesProviders
 ******************************************************************************/
 
-SubtitlesProviders::SubtitlesProviders()
-    : m_MainFrame(*(CMainFrame*)(AfxGetMyApp()->GetMainWnd()))
+SubtitlesProviders::SubtitlesProviders(CMainFrame* pMainFrame)
+    : m_pMainFrame(pMainFrame)
 {
     m_himl.Create(16, 16, ILC_COLOR32, 0, 0);
     RegisterProviders();
@@ -532,19 +532,19 @@ BOOL SubtitlesProviders::CheckInternetConnection()
 void SubtitlesProviders::Search(bool bAutoDownload)
 {
     Abort(SubtitlesThreadType(STT_SEARCH | STT_DOWNLOAD));
-    m_MainFrame.m_wndSubtitlesDownloadDialog.DoClear();
+    m_pMainFrame->m_wndSubtitlesDownloadDialog.DoClear();
 
     if (CheckInternetConnection()) {
-        InsertTask(DEBUG_NEW SubtitlesTask(&m_MainFrame, bAutoDownload, LanguagesISO6391()));
+        InsertTask(DEBUG_NEW SubtitlesTask(m_pMainFrame, bAutoDownload, LanguagesISO6391()));
     } else if (bAutoDownload == FALSE) {
-        m_MainFrame.m_wndSubtitlesDownloadDialog.DoFailed();
+        m_pMainFrame->m_wndSubtitlesDownloadDialog.DoFailed();
     }
 }
 
 void SubtitlesProviders::Download(SubtitlesInfo& pSubtitlesInfo, bool bActivate)
 {
     if (CheckInternetConnection()) {
-        InsertTask(DEBUG_NEW SubtitlesTask(&m_MainFrame, pSubtitlesInfo, bActivate));
+        InsertTask(DEBUG_NEW SubtitlesTask(m_pMainFrame, pSubtitlesInfo, bActivate));
     }
 }
 
@@ -554,15 +554,15 @@ void SubtitlesProviders::Upload(bool bShowConfirm)
         // We get all the information we need within the main thread, to delay closing the file
         // until we have everything we need.
         SubtitlesInfo pSubtitlesInfo;
-        m_MainFrame.SendMessage(WM_GETSUBTITLES, 0, (LPARAM)&pSubtitlesInfo);
+        m_pMainFrame->SendMessage(WM_GETSUBTITLES, 0, (LPARAM)&pSubtitlesInfo);
         //pSubtitlesInfo.GetCurrentSubtitles();
 
         if (!pSubtitlesInfo.fileContents.empty()) {
             CString msg;
             msg.Format(IDS_SUBUL_DLG_CONFIRM, UTF8To16(pSubtitlesInfo.fileName.c_str()));
             if (!bShowConfirm
-                    || IDYES == MessageBox(m_MainFrame.m_wndSubtitlesUploadDialog, msg, ResStr(IDS_SUBUL_DLG_TITLE), MB_YESNO)) {
-                InsertTask(DEBUG_NEW SubtitlesTask(&m_MainFrame, pSubtitlesInfo));
+                    || IDYES == MessageBox(m_pMainFrame->m_wndSubtitlesUploadDialog, msg, ResStr(IDS_SUBUL_DLG_TITLE), MB_YESNO)) {
+                InsertTask(DEBUG_NEW SubtitlesTask(m_pMainFrame, pSubtitlesInfo));
             }
         }
     }

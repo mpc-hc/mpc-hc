@@ -38,7 +38,7 @@ private:
         COL_TOTAL_COLUMNS
     };
 
-    SubtitlesProviders& m_subtitlesProviders;
+    SubtitlesProviders* m_pSubtitlesProviders;
 
     std::thread m_threadFetchSupportedLanguages;
 

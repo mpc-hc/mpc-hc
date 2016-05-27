@@ -929,7 +929,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
         m_pGraphThread->SetMainFrame(this);
     }
 
-    m_pSubtitlesProviders = &SubtitlesProviders::Instance();
+    m_pSubtitlesProviders = std::make_unique<SubtitlesProviders>(this);
     m_wndSubtitlesDownloadDialog.Create(m_wndSubtitlesDownloadDialog.IDD, this);
     m_wndSubtitlesUploadDialog.Create(m_wndSubtitlesUploadDialog.IDD, this);
 

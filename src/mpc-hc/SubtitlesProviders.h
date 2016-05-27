@@ -380,17 +380,11 @@ protected:
 
 class SubtitlesProviders final
 {
-    SubtitlesProviders();
-    ~SubtitlesProviders();
 public:
+    explicit SubtitlesProviders(CMainFrame* pMainFrame);
+    ~SubtitlesProviders();
     SubtitlesProviders(SubtitlesProviders const&) = delete;
     SubtitlesProviders& operator=(SubtitlesProviders const&) = delete;
-
-    // Instantiated on first use and guaranteed to be destroyed.
-    static SubtitlesProviders& Instance() {
-        static SubtitlesProviders that;
-        return that;
-    }
 
 private:
     void RegisterProviders();
@@ -439,7 +433,7 @@ public:
     CImageList& GetImageList() { return m_himl; }
 
 private:
-    CMainFrame& m_MainFrame;
+    CMainFrame* m_pMainFrame;
 
     std::vector<std::shared_ptr<SubtitlesProvider>> m_pProviders;
 

@@ -20,6 +20,7 @@
 
 #include "stdafx.h"
 #include "mplayerc.h"
+#include "MainFrm.h"
 #include "AuthDlg.h"
 #include "PPageSubMisc.h"
 #include "SubtitlesProviders.h"
@@ -30,6 +31,8 @@ IMPLEMENT_DYNAMIC(CPPageSubMisc, CPPageBase)
 
 CPPageSubMisc::CPPageSubMisc()
     : CPPageBase(CPPageSubMisc::IDD, CPPageSubMisc::IDD)
+      // Do not check dynamic_cast, because if it fails we cannot recover from the error anyway.
+    , m_pSubtitlesProviders(AfxGetMainFrame()->m_pSubtitlesProviders.get())
     , m_fPreferDefaultForcedSubtitles(TRUE)
     , m_fPrioritizeExternalSubtitles(TRUE)
     , m_fDisableInternalSubtitles(FALSE)
@@ -40,8 +43,8 @@ CPPageSubMisc::CPPageSubMisc()
     , m_strSubtitlesProviders()
     , m_strSubtitlesLanguageOrder()
     , m_strAutoloadPaths()
-    , m_subtitlesProviders(SubtitlesProviders::Instance())
 {
+    ASSERT(m_pSubtitlesProviders);
 }
 
 CPPageSubMisc::~CPPageSubMisc()
@@ -88,7 +91,7 @@ BOOL CPPageSubMisc::OnInitDialog()
                             | LVS_EX_DOUBLEBUFFER | LVS_EX_FULLROWSELECT
                             | LVS_EX_CHECKBOXES | LVS_EX_LABELTIP);
 
-    m_list.SetImageList(&m_subtitlesProviders.GetImageList(), LVSIL_SMALL);
+    m_list.SetImageList(&m_pSubtitlesProviders->GetImageList(), LVSIL_SMALL);
 
     CArray<int> columnWidth;
     if (columnWidth.GetCount() != COL_TOTAL_COLUMNS) {
@@ -107,7 +110,7 @@ BOOL CPPageSubMisc::OnInitDialog()
     m_list.DeleteAllItems();
 
     int i = 0;
-    for (const auto& iter : m_subtitlesProviders.Providers()) {
+    for (const auto& iter : m_pSubtitlesProviders->Providers()) {
         int iItem = m_list.InsertItem(i++, CString(iter->Name().c_str()), iter->GetIconIndex());
         m_list.SetItemText(iItem, COL_USERNAME, UTF8To16(iter->UserName().c_str()));
         m_list.SetItemText(iItem, COL_LANGUAGES, ResStr(IDS_SUBPP_DLG_FETCHING_LANGUAGES));
@@ -120,7 +123,7 @@ BOOL CPPageSubMisc::OnInitDialog()
     m_list.UpdateWindow();
 
     m_threadFetchSupportedLanguages = std::thread([this]() {
-        for (const auto& iter : m_subtitlesProviders.Providers()) {
+        for (const auto& iter : m_pSubtitlesProviders->Providers()) {
             iter->Languages();
         }
         PostMessage(WM_SUPPORTED_LANGUAGES_READY); // Notify the window that languages have been fetched
@@ -161,7 +164,7 @@ BOOL CPPageSubMisc::OnApply()
         provider->Enabled(SPF_SEARCH, m_list.GetCheck(i));
     }
 
-    s.strSubtitlesProviders = m_subtitlesProviders.WriteSettings().c_str();
+    s.strSubtitlesProviders = m_pSubtitlesProviders->WriteSettings().c_str();
 
     return __super::OnApply();
 }
@@ -179,7 +182,7 @@ END_MESSAGE_MAP()
 void CPPageSubMisc::OnSupportedLanguagesReady()
 {
     int i = 0;
-    for (const auto& iter : m_subtitlesProviders.Providers()) {
+    for (const auto& iter : m_pSubtitlesProviders->Providers()) {
         CString languages(SubtitlesProvidersUtils::JoinContainer(iter->Languages(), ",").c_str());
         m_list.SetItemText(i++, COL_LANGUAGES, languages.IsEmpty() ? ResStr(IDS_SUBPP_DLG_LANGUAGES_ERROR) : languages);
     }
@@ -247,12 +250,12 @@ void CPPageSubMisc::OnRightClick(NMHDR* pNMHDR, LRESULT* pResult)
                 SetModified();
                 break;
             case MOVE_UP:
-                m_subtitlesProviders.MoveUp(lpnmlv->iItem);
+                m_pSubtitlesProviders->MoveUp(lpnmlv->iItem);
                 ListView_SortItemsEx(m_list.GetSafeHwnd(), SortCompare, m_list.GetSafeHwnd());
                 SetModified();
                 break;
             case MOVE_DOWN:
-                m_subtitlesProviders.MoveDown(lpnmlv->iItem);
+                m_pSubtitlesProviders->MoveDown(lpnmlv->iItem);
                 ListView_SortItemsEx(m_list.GetSafeHwnd(), SortCompare, m_list.GetSafeHwnd());
                 SetModified();
                 break;
