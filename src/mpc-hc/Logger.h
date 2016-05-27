@@ -39,7 +39,7 @@ namespace
         __assume(false);
     }
 
-    void WriteToFile(FILE* f, LPCSTR function, LPCSTR file, int line, LPCTSTR fmt, va_list& args)
+    void WriteToFile(FILE* f, LPCSTR function, LPCSTR file, int line, _In_z_ _Printf_format_string_ LPCTSTR fmt, va_list& args)
     {
         SYSTEMTIME local_time;
         GetLocalTime(&local_time);
