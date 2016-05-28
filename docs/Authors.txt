@@ -6,7 +6,6 @@ Goran 'vBm' Džaferi     <thevbm@users.sourceforge.net>          New website, Tr
 JellyFrog               -                                       Server and Trac admin, Swedish
 kasper93                <kasper93@users.sourceforge.net>        Trac moderator, Polish, Code
 nevcairiel              <nevcairiel@users.sourceforge.net>      Code, LAVFilters maintainer
-Underground78           <underground78@users.sourceforge.net>   Code, French, Project manager
 XhmikosR                <xhmikosr@users.sourceforge.net>        Various stuff, Project manager
 
 
@@ -31,6 +30,7 @@ namaiki                 <namaiki@users.sourceforge.net>         Trac moderator
 spec-chum               <spec-chum@users.sourceforge.net>       Code
 tetsuo55                <tetsuo55@users.sourceforge.net>        Project manager
 Tomas Sen               <tomasen@users.sourceforge.net>         Code
+Underground78           <underground78@users.sourceforge.net>   Code, French, Project manager
 v0lt                    <v0lt@users.sourceforge.net>            Code, Russian
 Vodyannikov Aleksandr   <aleksoid@users.sourceforge.net>        Code, Russian
 xpc1000                 <xpc1000@users.sourceforge.net>         Code
