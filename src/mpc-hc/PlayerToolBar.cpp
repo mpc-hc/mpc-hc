@@ -82,7 +82,7 @@ void CPlayerToolBar::LoadToolbarImage()
 {
     // We are currently not aware of any cases where the scale factors are different
     float dpiScaling = (float)std::min(m_pMainFrame->m_dpi.ScaleFactorX(), m_pMainFrame->m_dpi.ScaleFactorY());
-    float defaultToolbarScaling = AfxGetAppSettings().nDefaultToolbarSize / 16.0;
+    float defaultToolbarScaling = AfxGetAppSettings().nDefaultToolbarSize / 16.0f;
 
     CImage image;
     if (LoadExternalToolBar(image) || SUCCEEDED(SVGImage::Load(IDF_SVG_TOOLBAR, image, dpiScaling * defaultToolbarScaling))) {
