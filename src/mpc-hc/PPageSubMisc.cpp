@@ -31,8 +31,7 @@ IMPLEMENT_DYNAMIC(CPPageSubMisc, CPPageBase)
 
 CPPageSubMisc::CPPageSubMisc()
     : CPPageBase(CPPageSubMisc::IDD, CPPageSubMisc::IDD)
-      // Do not check dynamic_cast, because if it fails we cannot recover from the error anyway.
-    , m_pSubtitlesProviders(AfxGetMainFrame()->m_pSubtitlesProviders.get())
+    , m_pSubtitlesProviders(nullptr)
     , m_fPreferDefaultForcedSubtitles(TRUE)
     , m_fPrioritizeExternalSubtitles(TRUE)
     , m_fDisableInternalSubtitles(FALSE)
@@ -44,7 +43,6 @@ CPPageSubMisc::CPPageSubMisc()
     , m_strSubtitlesLanguageOrder()
     , m_strAutoloadPaths()
 {
-    ASSERT(m_pSubtitlesProviders);
 }
 
 CPPageSubMisc::~CPPageSubMisc()
@@ -90,6 +88,12 @@ BOOL CPPageSubMisc::OnInitDialog()
     m_list.SetExtendedStyle(m_list.GetExtendedStyle()
                             | LVS_EX_DOUBLEBUFFER | LVS_EX_FULLROWSELECT
                             | LVS_EX_CHECKBOXES | LVS_EX_LABELTIP);
+
+    // Do not check dynamic_cast, because if it fails we cannot recover from the error anyway.
+    const CMainFrame* pMainFrame = AfxGetMainFrame();
+    ASSERT(pMainFrame);
+    m_pSubtitlesProviders = pMainFrame->m_pSubtitlesProviders.get();
+    ASSERT(m_pSubtitlesProviders);
 
     m_list.SetImageList(&m_pSubtitlesProviders->GetImageList(), LVSIL_SMALL);
 
