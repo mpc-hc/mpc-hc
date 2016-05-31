@@ -17,6 +17,8 @@ ScanTree::ScanTree(StringList *FileMasks,RECURSE_MODE Recurse,bool GetLinks,SCAN
   Errors=0;
   *ErrArcName=0;
   Cmd=NULL;
+  ErrDirList=NULL;
+  ErrDirSpecPathLength=NULL;
 }
 
 
@@ -467,6 +469,10 @@ void ScanTree::ScanError(bool &Error)
 
   if (Error)
   {
+    if (ErrDirList!=NULL)
+      ErrDirList->AddString(CurMask);
+    if (ErrDirSpecPathLength!=NULL)
+      ErrDirSpecPathLength->Push((uint)SpecPathLength);
     wchar FullName[NM];
     // This conversion works for wildcard masks too.
     ConvertNameToFull(CurMask,FullName,ASIZE(FullName));

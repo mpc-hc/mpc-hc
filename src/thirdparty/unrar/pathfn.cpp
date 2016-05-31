@@ -873,7 +873,7 @@ wchar* GetWideName(const char *Name,const wchar *NameW,wchar *DestW,size_t DestS
   if (DestSize>0)
     DestW[DestSize-1]=0;
 
-  return(DestW);
+  return DestW;
 }
 
 
@@ -956,6 +956,28 @@ void ConvertToPrecomposed(wchar *Name,size_t NameSize)
   {
     FileName[ASIZE(FileName)-1]=0;
     wcsncpyz(Name,FileName,NameSize);
+  }
+}
+
+
+// Remove trailing spaces and dots in file name and in dir names in path.
+void MakeNameCompatible(wchar *Name)
+{
+  int Src=0,Dest=0;
+  while (true)
+  {
+    if (IsPathDiv(Name[Src]) || Name[Src]==0)
+      for (int I=Dest-1;I>0 && (Name[I]==' ' || Name[I]=='.');I--)
+      {
+        if (IsPathDiv(Name[I-1])) // Permit path1/./path2 paths.
+          break;
+        Dest--;
+      }
+    Name[Dest]=Name[Src];
+    if (Name[Src]==0)
+      break;
+    Src++;
+    Dest++;
   }
 }
 #endif

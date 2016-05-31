@@ -2,8 +2,9 @@
 
 static const uint MaxVolumes=65535;
 
-RecVolumes5::RecVolumes5()
+RecVolumes5::RecVolumes5(bool TestOnly)
 {
+  RealBuf=NULL;
   RealReadBuffer=NULL;
 
   DataCount=0;
@@ -16,13 +17,17 @@ RecVolumes5::RecVolumes5()
     ThreadData[I].RecRSPtr=this;
     ThreadData[I].RS=NULL;
   }
-#ifdef RAR_SMP
-  RecThreadPool=CreateThreadPool();
-#endif
 
-  RealBuf=NULL; // Might be needed in case of exception.
-  RealBuf=new byte[TotalBufferSize+SSE_ALIGNMENT];
-  Buf=(byte *)ALIGN_VALUE(RealBuf,SSE_ALIGNMENT);
+  if (TestOnly)
+    RecThreadPool=NULL;
+  else
+  {
+#ifdef RAR_SMP
+    RecThreadPool=CreateThreadPool();
+#endif
+    RealBuf=new byte[TotalBufferSize+SSE_ALIGNMENT];
+    Buf=(byte *)ALIGN_VALUE(RealBuf,SSE_ALIGNMENT);
+  }
 }
 
 
@@ -129,7 +134,7 @@ void RecVolumes5::ProcessAreaRS(RecRSThreadData *td)
 bool RecVolumes5::Restore(RAROptions *Cmd,const wchar *Name,bool Silent)
 {
   wchar ArcName[NM];
-  wcscpy(ArcName,Name);
+  wcsncpyz(ArcName,Name,ASIZE(ArcName));
 
   wchar *Num=GetVolNumPart(ArcName);
   while (Num>ArcName && IsDigit(*(Num-1)))
@@ -288,7 +293,7 @@ bool RecVolumes5::Restore(RAROptions *Cmd,const wchar *Name,bool Silent)
       Item->f=NULL;
     }
 
-    if (Item->New=(Item->f==NULL))
+    if ((Item->New=(Item->f==NULL))) // Additional parentheses to avoid GCC warning.
     {
       wcsncpyz(Item->Name,FirstVolName,ASIZE(Item->Name));
       uiMsg(UIMSG_CREATING,Item->Name);
@@ -461,4 +466,52 @@ uint RecVolumes5::ReadHeader(File *RecFile,bool FirstRev)
   RecItems[RecNum].CRC=RevCRC; // Assign it here, after allocating RecItems.
 
   return RecNum;
+}
+
+
+void RecVolumes5::Test(RAROptions *Cmd,const wchar *Name)
+{
+  wchar VolName[NM];
+  wcsncpyz(VolName,Name,ASIZE(VolName));
+
+  uint FoundRecVolumes=0;
+  while (FileExist(VolName))
+  {
+    File CurFile;
+    if (!CurFile.Open(VolName))
+    {
+      ErrHandler.OpenErrorMsg(VolName); // It also sets RARX_OPEN.
+      continue;
+    }
+    if (!uiStartFileExtract(VolName,false,true,false))
+      return;
+#ifndef GUI
+    mprintf(St(MExtrTestFile),VolName);
+    mprintf(L"     ");
+#endif
+    bool Valid=false;
+    uint RecNum=ReadHeader(&CurFile,FoundRecVolumes==0);
+    if (RecNum!=0)
+    {
+      FoundRecVolumes++;
+
+      uint RevCRC;
+      CalcFileSum(&CurFile,&RevCRC,NULL,1,INT64NDF,CALCFSUM_CURPOS|(Cmd->DisablePercentage ? 0 : CALCFSUM_SHOWPROGRESS));
+      Valid=RevCRC==RecItems[RecNum].CRC;
+    }
+
+    if (Valid)
+    {
+#ifndef GUI
+      mprintf(L"%s%s ",L"\b\b\b\b\b ",St(MOk));
+#endif
+    }
+    else
+    {
+      uiMsg(UIERROR_CHECKSUM,VolName,VolName);
+      ErrHandler.SetErrorCode(RARX_CRC);
+    }
+
+    NextVolumeName(VolName,ASIZE(VolName),false);
+  }
 }

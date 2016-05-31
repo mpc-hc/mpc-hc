@@ -38,13 +38,19 @@ THREAD_PROC(RSDecodeThread)
 }
 #endif
 
-RecVolumes3::RecVolumes3()
+RecVolumes3::RecVolumes3(bool TestOnly)
 {
-  Buf.Alloc(TotalBufferSize);
   memset(SrcFile,0,sizeof(SrcFile));
+  if (TestOnly)
+    RSThreadPool=NULL;
+  else
+  {
+    Buf.Alloc(TotalBufferSize);
+    memset(SrcFile,0,sizeof(SrcFile));
 #ifdef RAR_SMP
-  RSThreadPool=CreateThreadPool();
+    RSThreadPool=CreateThreadPool();
 #endif
+  }
 }
 
 
@@ -74,26 +80,34 @@ void RSEncode::EncodeBuf()
 }
 
 
+// Check for names like arc5_3_1.rev created by RAR 3.0.
+static bool IsNewStyleRev(const wchar *Name)
+{
+  wchar *Ext=GetExt(Name);
+  if (Ext==NULL)
+    return true;
+  int DigitGroup=0;
+  for (Ext--;Ext>Name;Ext--)
+    if (!IsDigit(*Ext))
+      if (*Ext=='_' && IsDigit(*(Ext-1)))
+        DigitGroup++;
+      else
+        break;
+  return DigitGroup<2;
+}
+
+
 bool RecVolumes3::Restore(RAROptions *Cmd,const wchar *Name,bool Silent)
 {
   wchar ArcName[NM];
   wcsncpyz(ArcName,Name,ASIZE(ArcName));
   wchar *Ext=GetExt(ArcName);
-  bool NewStyle=false;
+  bool NewStyle=false; // New style .rev volumes are supported since RAR 3.10.
   bool RevName=Ext!=NULL && wcsicomp(Ext,L".rev")==0;
   if (RevName)
   {
-    for (int DigitGroup=0;Ext>ArcName && DigitGroup<3;Ext--)
-      if (!IsDigit(*Ext))
-        if (IsDigit(*(Ext-1)) && (*Ext=='_' || DigitGroup<2))
-          DigitGroup++;
-        else
-          if (DigitGroup<2)
-          {
-            NewStyle=true;
-            break;
-          }
-    while (IsDigit(*Ext) && Ext>ArcName+1)
+    NewStyle=IsNewStyleRev(ArcName);
+    while (Ext>ArcName+1 && (IsDigit(*(Ext-1)) || *(Ext-1)=='_'))
       Ext--;
     wcscpy(Ext,L"*.*");
     
@@ -478,5 +492,56 @@ void RSEncode::DecodeBuf()
     RSC.Decode(Data,FileNumber,Erasures,EraSize);
     for (int I=0;I<EraSize;I++)
       Buf[Erasures[I]*RecBufferSize+BufPos]=Data[Erasures[I]];
+  }
+}
+
+
+void RecVolumes3::Test(RAROptions *Cmd,const wchar *Name)
+{
+  if (!IsNewStyleRev(Name)) // RAR 3.0 name#_#_#.rev do not include CRC32.
+  {
+    ErrHandler.UnknownMethodMsg(Name,Name);
+    return;
+  }
+
+  wchar VolName[NM];
+  wcsncpyz(VolName,Name,ASIZE(VolName));
+
+  while (FileExist(VolName))
+  {
+    File CurFile;
+    if (!CurFile.Open(VolName))
+    {
+      ErrHandler.OpenErrorMsg(VolName); // It also sets RARX_OPEN.
+      continue;
+    }
+    if (!uiStartFileExtract(VolName,false,true,false))
+      return;
+#ifndef GUI
+    mprintf(St(MExtrTestFile),VolName);
+    mprintf(L"     ");
+#endif
+    CurFile.Seek(0,SEEK_END);
+    int64 Length=CurFile.Tell();
+    CurFile.Seek(Length-4,SEEK_SET);
+    uint FileCRC=0;
+    for (int I=0;I<4;I++)
+      FileCRC|=CurFile.GetByte()<<(I*8);
+
+    uint CalcCRC;
+    CalcFileSum(&CurFile,&CalcCRC,NULL,1,Length-4,Cmd->DisablePercentage ? 0 : CALCFSUM_SHOWPROGRESS);
+    if (FileCRC==CalcCRC)
+    {
+#ifndef GUI
+      mprintf(L"%s%s ",L"\b\b\b\b\b ",St(MOk));
+#endif
+    }
+    else
+    {
+      uiMsg(UIERROR_CHECKSUM,VolName,VolName);
+      ErrHandler.SetErrorCode(RARX_CRC);
+    }
+
+    NextVolumeName(VolName,ASIZE(VolName),false);
   }
 }

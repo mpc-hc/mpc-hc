@@ -77,17 +77,20 @@ ThreadPool* CreateThreadPool()
 
 void DestroyThreadPool(ThreadPool *Pool)
 {
-  CriticalSectionStart(&PoolCreateSync.CritSection); 
+  if (Pool!=NULL)
+  {
+    CriticalSectionStart(&PoolCreateSync.CritSection); 
 
-  if (Pool!=NULL && Pool==GlobalPool && GlobalPoolUseCount > 0 && --GlobalPoolUseCount == 0)
-    delete GlobalPool;
+    if (Pool==GlobalPool && GlobalPoolUseCount > 0 && --GlobalPoolUseCount == 0)
+      delete GlobalPool;
 
-  // To correctly work in multithreaded environment UnRAR.dll creates
-  // new pools if global pool is already in use. We delete such pools here.
-  if (Pool!=NULL && Pool!=GlobalPool)
-    delete Pool;
+    // To correctly work in multithreaded environment UnRAR.dll creates
+    // new pools if global pool is already in use. We delete such pools here.
+    if (Pool!=GlobalPool)
+      delete Pool;
 
-  CriticalSectionEnd(&PoolCreateSync.CritSection); 
+    CriticalSectionEnd(&PoolCreateSync.CritSection); 
+  }
 }
 
 

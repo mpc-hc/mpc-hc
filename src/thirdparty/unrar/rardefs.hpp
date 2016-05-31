@@ -13,7 +13,9 @@
 // for CryptProtectMemory in SecPassword.
 #define  MAXPASSWORD       128
 
-#define  MAXSFXSIZE        0x100000
+#define  MAXSFXSIZE        0x200000
+
+#define  MAXCMTSIZE        0x40000
 
 #define  DefSFXName        L"default.sfx"
 #define  DefSortListName   L"rarfiles.lst"

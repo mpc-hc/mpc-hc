@@ -18,7 +18,7 @@ next version - not released yet
 * Updated Little CMS to v2.7 (git 154e30a)
 * Updated MediaInfoLib to v0.7.84
 * Updated ZenLib to v0.4.33
-* Updated Unrar to v5.3.11
+* Updated Unrar to v5.4.2
 * Updated LAV Filters to v0.68.1.29:
     - LAV Splitter: Support HTTPS protocol
     - LAV Splitter: Switch back to an improved version of the old ASF demuxer

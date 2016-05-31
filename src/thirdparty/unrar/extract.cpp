@@ -106,10 +106,31 @@ EXTRACT_ARC_CODE CmdExtract::ExtractArchive()
 
   if (!Arc.IsArchive(true))
   {
+#if !defined(SFX_MODULE) && !defined(RARDLL)
+    if (CmpExt(ArcName,L"rev"))
+    {
+      wchar FirstVolName[NM];
+      VolNameToFirstName(ArcName,FirstVolName,ASIZE(FirstVolName),true);
+
+      // If several volume names from same volume set are specified
+      // and current volume is not first in set and first volume is present
+      // and specified too, let's skip the current volume.
+      if (wcsicomp(ArcName,FirstVolName)!=0 && FileExist(FirstVolName) &&
+          Cmd->ArcNames.Search(FirstVolName,false))
+        return EXTRACT_ARC_NEXT;
+      RecVolumesTest(Cmd,NULL,ArcName);
+      TotalFileCount++; // Suppress "No files to extract" message.
+      return EXTRACT_ARC_NEXT;
+    }
+#endif
+
 #ifndef GUI
     mprintf(St(MNotRAR),ArcName);
 #endif
+
+#ifndef SFX_MODULE
     if (CmpExt(ArcName,L"rar"))
+#endif
       ErrHandler.SetErrorCode(RARX_WARNING);
     return EXTRACT_ARC_NEXT;
   }
@@ -199,6 +220,11 @@ EXTRACT_ARC_CODE CmdExtract::ExtractArchive()
         break;
   }
 
+
+#if !defined(SFX_MODULE) && !defined(RARDLL)
+  if (Cmd->Test && Arc.Volume)
+    RecVolumesTest(Cmd,&Arc,ArcName);
+#endif
 
   return EXTRACT_ARC_NEXT;
 }
@@ -319,6 +345,10 @@ bool CmdExtract::ExtractCurrentFile(Archive &Arc,size_t HeaderSize,bool &Repeat)
 
   wchar ArcFileName[NM];
   ConvertPath(Arc.FileHead.FileName,ArcFileName);
+#ifdef _WIN_ALL
+  if (!Cmd->AllowIncompatNames)
+    MakeNameCompatible(ArcFileName);
+#endif
 
   if (Arc.FileHead.Version)
   {

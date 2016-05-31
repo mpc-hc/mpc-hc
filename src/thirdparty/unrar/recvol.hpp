@@ -14,10 +14,11 @@ class RecVolumes3
     ThreadPool *RSThreadPool;
 #endif
   public:
-    RecVolumes3();
+    RecVolumes3(bool TestOnly);
     ~RecVolumes3();
     void Make(RAROptions *Cmd,wchar *ArcName);
     bool Restore(RAROptions *Cmd,const wchar *Name,bool Silent);
+    void Test(RAROptions *Cmd,const wchar *Name);
 };
 
 
@@ -74,11 +75,13 @@ class RecVolumes5
   public: // 'public' only because called from thread functions.
     void ProcessAreaRS(RecRSThreadData *td);
   public:
-    RecVolumes5();
+    RecVolumes5(bool TestOnly);
     ~RecVolumes5();
     bool Restore(RAROptions *Cmd,const wchar *Name,bool Silent);
+    void Test(RAROptions *Cmd,const wchar *Name);
 };
 
 bool RecVolumesRestore(RAROptions *Cmd,const wchar *Name,bool Silent);
+void RecVolumesTest(RAROptions *Cmd,Archive *Arc,const wchar *Name);
 
 #endif

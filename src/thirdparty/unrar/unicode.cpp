@@ -359,7 +359,7 @@ bool UtfToWide(const char *Src,wchar *Dest,size_t DestSize)
         continue;
       }
       if (Dest!=NULL)
-        if (sizeof(*Dest)==2) // Use the surrogate pair for 2 byte Unicode.
+        if (sizeof(*Dest)==2) // Use the surrogate pair.
         {
           *(Dest++)=((d-0x10000)>>10)+0xd800;
           *(Dest++)=(d&0x3ff)+0xdc00;
@@ -476,7 +476,7 @@ int toupperw(int ch)
   // CharUpper is more reliable than towupper in Windows, which seems to be
   // C locale dependent even in Unicode version. For example, towupper failed
   // to convert lowercase Russian characters.
-  return (int)CharUpper((wchar *)ch);
+  return (int)(INT_PTR)CharUpper((wchar *)(INT_PTR)ch);
 #else
   return towupper(ch);
 #endif
@@ -488,7 +488,7 @@ int tolowerw(int ch)
 #ifdef _WIN_ALL
   // CharLower is more reliable than towlower in Windows.
   // See comment for towupper above.
-  return (int)CharLower((wchar *)ch);
+  return (int)(INT_PTR)CharLower((wchar *)(INT_PTR)ch);
 #else
   return towlower(ch);
 #endif

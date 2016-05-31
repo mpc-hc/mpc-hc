@@ -37,15 +37,15 @@ static void InitTables()
 {
   InitCRC32(crc_tables[0]);
 
-	for (uint I=0;I<256;I++) // Build additional lookup tables.
+  for (uint I=0;I<256;I++) // Build additional lookup tables.
   {
-		uint C=crc_tables[0][I];
-		for (uint J=1;J<8;J++)
+    uint C=crc_tables[0][I];
+    for (uint J=1;J<8;J++)
     {
-			C=crc_tables[0][(byte)C]^(C>>8);
-			crc_tables[J][I]=C;
-		}
-	}
+      C=crc_tables[0][(byte)C]^(C>>8);
+      crc_tables[J][I]=C;
+    }
+  }
 }
 
 
@@ -62,13 +62,13 @@ uint CRC32(uint StartCRC,const void *Addr,size_t Size)
   for (;Size>=8;Size-=8,Data+=8)
   {
 #ifdef BIG_ENDIAN
-		StartCRC ^= Data[0]|(Data[1] << 8)|(Data[2] << 16)|(Data[3] << 24);
+    StartCRC ^= Data[0]|(Data[1] << 8)|(Data[2] << 16)|(Data[3] << 24);
     uint NextData = Data[4]|(Data[5] << 8)|(Data[6] << 16)|(Data[7] << 24);
 #else
-		StartCRC ^= *(uint32 *) Data;
+    StartCRC ^= *(uint32 *) Data;
     uint NextData = *(uint32 *) (Data +4);
 #endif
-		StartCRC = crc_tables[7][(byte) StartCRC       ] ^
+    StartCRC = crc_tables[7][(byte) StartCRC       ] ^
                crc_tables[6][(byte)(StartCRC >> 8) ] ^
                crc_tables[5][(byte)(StartCRC >> 16)] ^
                crc_tables[4][(byte)(StartCRC >> 24)] ^
@@ -76,7 +76,7 @@ uint CRC32(uint StartCRC,const void *Addr,size_t Size)
                crc_tables[2][(byte)(NextData >>8 ) ] ^
                crc_tables[1][(byte)(NextData >> 16)] ^
                crc_tables[0][(byte)(NextData >> 24)];
-	}
+  }
 
   for (;Size>0;Size--,Data++) // Process left data.
     StartCRC=crc_tables[0][(byte)(StartCRC^Data[0])]^(StartCRC>>8);
