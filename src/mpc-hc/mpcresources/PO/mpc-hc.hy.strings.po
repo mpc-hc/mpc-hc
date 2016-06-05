@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-03-13 21:29:13+0000\n"
-"PO-Revision-Date: 2016-03-13 21:58+0000\n"
-"Last-Translator: Underground78\n"
+"POT-Creation-Date: 2016-05-28 19:41:21+0000\n"
+"PO-Revision-Date: 2016-05-29 08:19+0000\n"
+"Last-Translator: JellyFrog\n"
 "Language-Team: Armenian (http://www.transifex.com/mpc-hc/mpc-hc/language/hy/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -70,7 +70,7 @@ msgstr "&Ոճը ըստ ծրագրայինի"
 
 msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
 msgid "Playlist"
-msgstr ""
+msgstr "Նվագացանկ"
 
 msgctxt "IDS_FAVFILES"
 msgid "Files"
@@ -126,7 +126,7 @@ msgstr ""
 
 msgctxt "IDS_PLAYLOOPMODE_PLAYLIST"
 msgid "Repeat Mode: Playlist"
-msgstr ""
+msgstr "Կրկնելու կերպը՝ Նվագացանկը"
 
 msgctxt "IDS_PLAYLOOPMODE_FILE"
 msgid "Repeat Mode: File"
@@ -346,7 +346,7 @@ msgstr "Էֆեկտ"
 
 msgctxt "IDS_PLAYLIST_CAPTION"
 msgid "Playlist"
-msgstr "Խաղացանկ"
+msgstr "Նվագացանկ"
 
 msgctxt "IDS_PPAGE_FS_CLN_ON_OFF"
 msgid "On/Off"
@@ -418,7 +418,7 @@ msgstr "Դասավորել &ըստ անվան"
 
 msgctxt "IDS_PLAYLIST_SORTBYPATH"
 msgid "Sort by &path"
-msgstr "Դասավորել ըստ &ճանապարհի"
+msgstr "Տեսակավորել ըստ &ուղու"
 
 msgctxt "IDS_PLAYLIST_RANDOMIZE"
 msgid "R&andomize"
@@ -442,7 +442,7 @@ msgstr "Կ&րկնօրինակել"
 
 msgctxt "IDS_SUBRESYNC_RESET"
 msgid "&Reset"
-msgstr "&Ետարկել"
+msgstr "&Վերակայել"
 
 msgctxt "IDS_MPLAYERC_104"
 msgid "Subtitle Delay -"
@@ -1582,7 +1582,7 @@ msgstr "Տեսանյութի անկ&յունը"
 
 msgctxt "IDS_RESET_SETTINGS"
 msgid "Reset settings"
-msgstr "Ետարկել կարգավորումները"
+msgstr "Վերակայել կարգավորումները"
 
 msgctxt "IDS_RESET_SETTINGS_WARNING"
 msgid "Are you sure you want to restore MPC-HC to its default settings?\nBe warned that ALL your current settings will be lost!"
@@ -1618,7 +1618,7 @@ msgstr "Փոքրացնել արագությունը"
 
 msgctxt "IDS_AG_RESET_RATE"
 msgid "Reset Rate"
-msgstr "Ետարկել"
+msgstr "Վերակայել"
 
 msgctxt "IDS_MPLAYERC_21"
 msgid "Audio Delay +10 ms"
@@ -2142,7 +2142,7 @@ msgstr "%s, %s %u Hz %d bits %d %s"
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
-msgstr "Ավելացնել MPC-HC-ի խաղացանկին"
+msgstr "Ավելացնել MPC-HC-ի նվագացանկին"
 
 msgctxt "IDS_OPEN_WITH_MPC"
 msgid "Play with MPC-HC"
@@ -2270,7 +2270,7 @@ msgstr "Տողագրեր: %s"
 
 msgctxt "IDS_MAINFRM_46"
 msgid "Select the path for the DVD/BD:"
-msgstr "Ընտրեք DVD/BD-ի ճանապարհը."
+msgstr "Ընտրեք DVD/BD-ի ուղին."
 
 msgctxt "IDS_SUB_LOADED_SUCCESS"
 msgid " loaded successfully"
@@ -2590,7 +2590,7 @@ msgstr "Միաց/Անջ Տողագրերի համաժեցման վահանակը
 
 msgctxt "IDS_AG_TOGGLE_PLAYLIST"
 msgid "Toggle Playlist Bar"
-msgstr "Միաց/Անջ Խաղացանկի վահանակը"
+msgstr "Միաց/Անջ Նվագացանկի վահանակը"
 
 msgctxt "IDS_AG_TOGGLE_CAPTURE"
 msgid "Toggle Capture Bar"
@@ -2630,7 +2630,7 @@ msgstr "Նկարագրել պատուհանից դուրս"
 
 msgctxt "IDS_AG_PNS_RESET"
 msgid "PnS Reset"
-msgstr "Ետարկել"
+msgstr "Վերակայել"
 
 msgctxt "IDS_AG_PNS_ROTATEX_P"
 msgid "PnS Rotate X+"
@@ -3010,11 +3010,11 @@ msgstr "True Audio"
 
 msgctxt "IDS_MFMT_PLS"
 msgid "Playlist"
-msgstr "Խաղացանկ"
+msgstr "Նվագացանկ"
 
 msgctxt "IDS_MFMT_BDPLS"
 msgid "Blu-ray playlist"
-msgstr "Blu-ray խաղացանկ"
+msgstr "Blu-ray նվագացանկ"
 
 msgctxt "IDS_MFMT_RAR"
 msgid "RAR Archive"
@@ -3254,7 +3254,7 @@ msgstr "Խտայնության փոքրացում"
 
 msgctxt "IDS_RESET_COLOR"
 msgid "Reset color settings"
-msgstr "Ետարկել գույնի կարգավորումները"
+msgstr "Վերակայել գույնի կարգավորումները"
 
 msgctxt "IDS_USING_LATEST_STABLE"
 msgid "\nYou are already using the latest stable version."
@@ -3542,11 +3542,11 @@ msgstr ""
 
 msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
 msgid "&Blu-Ray playlists"
-msgstr "&Blu-Ray խաղացանկեր"
+msgstr "&Blu-Ray նվագացանկեր"
 
 msgctxt "IDS_NAVIGATE_PLAYLIST"
 msgid "&Playlist"
-msgstr "&Խաղացանկ"
+msgstr "&Նվագացանկ"
 
 msgctxt "IDS_NAVIGATE_CHAPTERS"
 msgid "&Chapters"

@@ -2,14 +2,15 @@
 # Copyright (C) 2002 - 2016 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Rancher <djordje.vasiljevich@gmail.com>, 2014
+# Rancher, 2014
+# Rancher, 2016
 # Zlatan Vasović <legospace9876@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-07-20 20:29:41+0000\n"
-"PO-Revision-Date: 2015-07-24 08:44+0000\n"
-"Last-Translator: JellyFrog\n"
+"PO-Revision-Date: 2016-05-31 22:42+0000\n"
+"Last-Translator: Rancher\n"
 "Language-Team: Serbian (http://www.transifex.com/mpc-hc/mpc-hc/language/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,11 +20,11 @@ msgstr ""
 
 msgctxt "Messages_WelcomeLabel2"
 msgid "This will install [name] on your computer.\n\nIt is recommended that you close all other applications before continuing."
-msgstr "Овим ћете инсталирати [name] на ваш рачунар.\n\nПрепоручује се да затворите све друге програме пре него што наставите."
+msgstr "Овај програм ће инсталирати [name] на ваш рачунар.\n\nПре него што наставите, препоручује се да затворите све друге програме."
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows XP Service Pack 3 or newer to run."
-msgstr "[name] захтева Windows XP Service Pack 3 или новији за покретање."
+msgstr "[name] захтева Windows XP Service Pack 3 или новији."
 
 msgctxt "CustomMessages_comp_mpciconlib"
 msgid "Icon Library"
@@ -35,7 +36,7 @@ msgstr "Преводи"
 
 msgctxt "CustomMessages_msg_DeleteSettings"
 msgid "Do you also want to delete MPC-HC settings?\n\nIf you plan on installing MPC-HC again then you do not have to delete them."
-msgstr "Желите ли да обришете и поставке MPC-HC-а?\n\nНе морате их брисати ако планирате поново да инсталирате MPC-HC."
+msgstr "Желите ли да избришете и поставке MPC-HC-а?\n\nНе морате их брисати ако планирате поново да инсталирате MPC-HC."
 
 msgctxt "CustomMessages_msg_simd_sse"
 msgid "This build of MPC-HC requires a CPU with SSE extension support.\n\nYour CPU does not have those capabilities."

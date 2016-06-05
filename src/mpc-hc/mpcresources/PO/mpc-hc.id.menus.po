@@ -6,8 +6,8 @@
 # Muhammad Wahyu Dwinash <Dwinash@gmail.com>, 2014
 # Reza Septyan .R. <ainofuyuumI@outlook.com>, 2014
 # rizqiromadhon <rizqi-romadhon@outlook.com>, 2014
-# zk <zamani.karmana@gmail.com>, 2015-2016
-# zk <zamani.karmana@gmail.com>, 2015
+# zk, 2015-2016
+# zk, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"

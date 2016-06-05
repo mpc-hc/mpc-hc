@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-05-01 21:13:57+0000\n"
-"PO-Revision-Date: 2016-05-04 12:59+0000\n"
+"POT-Creation-Date: 2016-05-28 19:41:21+0000\n"
+"PO-Revision-Date: 2016-05-29 17:42+0000\n"
 "Last-Translator: Samir Gutić <amicussamir@amicus.ba>\n"
 "Language-Team: Bosnian (Bosnia and Herzegovina) (http://www.transifex.com/mpc-hc/mpc-hc/language/bs_BA/)\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 
 msgctxt "IDS_INFOBAR_LOCATION"
 msgid "Location"
-msgstr "LokacijaMiscellaneous"
+msgstr "Lokacija"
 
 msgctxt "IDS_INFOBAR_VIDEO"
 msgid "Video"
@@ -3950,9 +3950,9 @@ msgstr "Granična vrijednost za ocjenu titlova koji će biti automatski download
 
 msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
 msgid "Audio Delay (ms)"
-msgstr ""
+msgstr "Audio Odgoda (ms)"
 
 msgctxt "IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE"
 msgid "Size in pixels of the default toolbar."
-msgstr ""
+msgstr "Veličina podrazumijevane alatne trake u pikselima."
 

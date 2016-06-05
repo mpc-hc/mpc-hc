@@ -6,6 +6,7 @@
 # Fitoschido, 2015-2016
 # Fitoschido, 2014
 # Ernesto Avilés Vázquez <whippiii@gmail.com>, 2013
+# Fitoschido, 2016
 # fdelacruz <inactive+fdelacruz@transifex.com>, 2014
 # Johan Ramirez <idonthumanbeing@gmail.com>, 2014
 # Johan Ramirez <idonthumanbeing@gmail.com>, 2014
@@ -15,8 +16,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-05-01 21:13:57+0000\n"
-"PO-Revision-Date: 2016-05-19 14:51+0000\n"
+"POT-Creation-Date: 2016-05-28 19:41:21+0000\n"
+"PO-Revision-Date: 2016-05-30 11:26+0000\n"
 "Last-Translator: strel\n"
 "Language-Team: Spanish (http://www.transifex.com/mpc-hc/mpc-hc/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -47,7 +48,7 @@ msgstr "Capítulo"
 
 msgctxt "IDS_CONTROLS_COMPLETING"
 msgid "Completing..."
-msgstr "Completando..."
+msgstr "Completando…"
 
 msgctxt "IDS_AUTOPLAY_PLAYVIDEO"
 msgid "Play Video"
@@ -3959,9 +3960,9 @@ msgstr "Valor umbral de puntuación para subtítulos que se van a descargar auto
 
 msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
 msgid "Audio Delay (ms)"
-msgstr ""
+msgstr "Retardo del audio (ms)"
 
 msgctxt "IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE"
 msgid "Size in pixels of the default toolbar."
-msgstr ""
+msgstr "Tamaño en píxeles de la barra de herramientas predeterminada."
 

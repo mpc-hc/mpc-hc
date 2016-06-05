@@ -154,8 +154,8 @@ sl.WelcomeLabel2=[name] bo nameščen na tem računalniku.%n%nPriporočamo, da z
 sl.WinVersionTooLowError=[name] zahteva za delovanje Windows XP Service Pack 3 ali novejše
 
 ; Serbian (Cyrillic)
-sr.WelcomeLabel2=Овим ћете инсталирати [name] на ваш рачунар.%n%nПрепоручује се да затворите све друге програме пре него што наставите.
-sr.WinVersionTooLowError=[name] захтева Windows XP Service Pack 3 или новији за покретање.
+sr.WelcomeLabel2=Овај програм ће инсталирати [name] на ваш рачунар.%n%nПре него што наставите, препоручује се да затворите све друге програме.
+sr.WinVersionTooLowError=[name] захтева Windows XP Service Pack 3 или новији.
 
 ; Swedish
 sv.WelcomeLabel2=Detta kommer att installera [name] på din dator.%n%nDet rekommenderas att du stänger alla andra program innan du fortsätter.
@@ -803,7 +803,7 @@ sl.ViewChangelog=Poglej dnevnik sprememb
 sr.langid=00003098
 sr.comp_mpciconlib=Библиотека са иконама
 sr.comp_mpcresources=Преводи
-sr.msg_DeleteSettings=Желите ли да обришете и поставке MPC-HC-а?%n%nНе морате их брисати ако планирате поново да инсталирате MPC-HC.
+sr.msg_DeleteSettings=Желите ли да избришете и поставке MPC-HC-а?%n%nНе морате их брисати ако планирате поново да инсталирате MPC-HC.
 #if defined(sse_required)
 sr.msg_simd_sse=Ова верзија MPC-HC-а захтева процесор са подршком за SSE проширења.%n%nВаш процесор нема те могућности.
 #elif defined(sse2_required)

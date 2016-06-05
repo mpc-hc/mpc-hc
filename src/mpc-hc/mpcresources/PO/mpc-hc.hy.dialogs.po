@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-03-13 21:25:13+0000\n"
-"PO-Revision-Date: 2016-03-13 21:54+0000\n"
-"Last-Translator: Underground78\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2016-05-24 15:44+0000\n"
+"Last-Translator: Hrant Ohanyan <h.ohanyan@haysoft.org>\n"
 "Language-Team: Armenian (http://www.transifex.com/mpc-hc/mpc-hc/language/hy/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -182,7 +182,7 @@ msgstr "Մերժել"
 
 msgctxt "IDD_OPEN_DLG_IDC_CHECK1"
 msgid "Add to playlist without opening"
-msgstr "Միայն ավելացնել խաղացանկին"
+msgstr "Միայն ավելացնել նվագացանկին"
 
 msgctxt "IDD_ABOUTBOX_CAPTION"
 msgid "About"
@@ -318,7 +318,7 @@ msgstr "Պահպանել բացված ֆայլերի պատ-ը"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK2"
 msgid "Remember last playlist"
-msgstr "Հիշել վերջին խաղացանկը"
+msgstr "Հիշել վերջին նվագացանկը"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_FILE_POS"
 msgid "Remember File position"
@@ -422,7 +422,7 @@ msgstr "անգամ"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Repeat mode:"
-msgstr ""
+msgstr "Կրկնելու կերպը՝"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
@@ -682,7 +682,7 @@ msgstr ""
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
-msgstr "Բացել հաջորդ/նախորդ ֆայլը թղթապանակում \"Հետ/Առաջ\"-ի միջոցով, եթե խաղացանկում առկա է մեկ ֆայլ։"
+msgstr "Բացել հաջորդ/նախորդ ֆայլը թղթապանակում \"Հետ/Առաջ\"-ի միջոցով, եթե նվագացանկում առկա է մեկ ֆայլ։"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
 msgid "Show time tooltip:"
@@ -818,7 +818,7 @@ msgstr "Դասավորել ընտրյալները"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON1"
 msgid "Rename"
-msgstr "Անվանափոխել"
+msgstr "Վերանվանել"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON3"
 msgid "Move Up"
@@ -1574,7 +1574,7 @@ msgstr "Տողագրերի ճանապարհը"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON1"
 msgid "Reset"
-msgstr "Ետարկել"
+msgstr "Վերակայել "
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Online search, download and upload subtitles"
