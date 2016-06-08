@@ -766,6 +766,9 @@ void CPPageOutput::UpdateSubtitleRendererList()
             case CAppSettings::SubtitleRenderer::XY_SUB_FILTER:
                 sName = ResStr(IDS_SUBTITLE_RENDERER_XY_SUB_FILTER);
                 break;
+            case CAppSettings::SubtitleRenderer::ASS_FILTER:
+                sName = ResStr(IDS_SUBTITLE_RENDERER_ASS_FILTER);
+                break;
             default:
                 ASSERT(FALSE);
                 break;
@@ -783,6 +786,7 @@ void CPPageOutput::UpdateSubtitleRendererList()
     addSubtitleRenderer(CAppSettings::SubtitleRenderer::INTERNAL);
     addSubtitleRenderer(CAppSettings::SubtitleRenderer::VS_FILTER);
     addSubtitleRenderer(CAppSettings::SubtitleRenderer::XY_SUB_FILTER);
+    addSubtitleRenderer(CAppSettings::SubtitleRenderer::ASS_FILTER);
     m_SubtitleRendererCtrl.SetCurSel(0);
     auto subrenderer = m_lastSubrenderer.first ? m_lastSubrenderer.second : s.GetSubtitleRenderer();
     for (int j = 0; j < m_SubtitleRendererCtrl.GetCount(); ++j) {
