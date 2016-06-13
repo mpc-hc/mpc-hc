@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-05-28 19:41:21+0000\n"
-"PO-Revision-Date: 2016-05-29 10:44+0000\n"
+"PO-Revision-Date: 2016-07-02 22:29+0000\n"
 "Last-Translator: Luan <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/mpc-hc/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -537,11 +537,11 @@ msgstr "Neue Version der Icon-Bibliothek"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_INSTR"
 msgid "Do you want to reassociate the icons?"
-msgstr "Icons wirklich neu zuordnen?"
+msgstr "Icons wirklich erneut zuordnen?"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_CONTENT"
 msgid "This will fix the icons being incorrectly displayed after an update of the icon library.\nThe file associations will not be modified, only the corresponding icons will be refreshed."
-msgstr "Die Neuzuordnung der Icons behebt Darstellungsfehler, die durch eine Aktualisierung der Icon-Bibliothek verursacht wurden. Dabei bleiben zuvor festgelegte Dateizuordnungen aber unverändert."
+msgstr "Die erneute Zuordnung der Icons behebt Darstellungsfehler, die durch eine Aktualisierung der Icon-Bibliothek verursacht wurden. Dabei bleiben zuvor festgelegte Dateizuordnungen aber unverändert."
 
 msgctxt "IDS_PPAGE_OUTPUT_OLDRENDERER"
 msgid "Old Video Renderer"
@@ -1253,7 +1253,7 @@ msgstr "[H/W]"
 
 msgctxt "IDS_TOOLTIP_SOFTWARE_DECODING"
 msgid "Software Decoding"
-msgstr "Software Decoding"
+msgstr "Software-Decoding"
 
 msgctxt "IDS_STATSBAR_PLAYBACK_RATE"
 msgid "Playback rate"
@@ -1301,11 +1301,11 @@ msgstr "Bestimmt die Maximalanzahl gespeicherter Einträge der zuletzt geöffnet
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
-msgstr "Beschränkt das Merken der Datei-Wiedergabeposition auf Dateien mit einer Laufzeit länger als N Minuten."
+msgstr "Beschränkt gemerkte Datei-Wiedergabepositionen auf Dateien mit einer Laufzeit länger als N Minuten."
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
 msgid "Remember file position also for audio files."
-msgstr "Sieht das Merken der Datei-Wiedergabeposition auch für Audiodateien vor."
+msgstr "Sieht gemerkte Datei-Wiedergabepositionen auch für Audiodateien vor."
 
 msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
 msgid "Do Nothing"
@@ -3481,7 +3481,7 @@ msgstr "Nach Wiedergabe: Programm beenden"
 
 msgctxt "IDS_AFTERPLAYBACK_STANDBY"
 msgid "After Playback: Stand By"
-msgstr "Nach Wiedergabe: Energie sparen"
+msgstr "Nach Wiedergabe: Standby-Modus"
 
 msgctxt "IDS_AFTERPLAYBACK_HIBERNATE"
 msgid "After Playback: Hibernate"
@@ -3765,107 +3765,107 @@ msgstr "Deaktiviert den automatischen Download der Untertitel für Mediendateien
 
 msgctxt "IDS_CMD_PATHNAME"
 msgid "\"pathname\"\tThe main file or directory to be loaded\n\t\t(wildcards allowed, \"-\" denotes standard input)"
-msgstr "\"Pfadname\"\tGibt Mediendatei oder Verzeichnis an\n\t\t(Wildcards sind möglich, Standardeingabe kann\n\t\tals \"-\" angegeben werden)."
+msgstr "\"Pfadname\"\tGibt eine Mediendatei oder ein Verzeichnis an\n\t\t(Wildcards sind möglich, Standardeingabe kann als \"-\"\n\t\tangegeben werden)."
 
 msgctxt "IDS_CMD_DUB"
 msgid "/dub \"dubname\"\tLoad an additional audio file"
-msgstr "/dub \"Datei\"\tÖffnet zusätzliche Audiodatei."
+msgstr "/dub \"Datei\"\tLädt eine zusätzliche Audiodatei."
 
 msgctxt "IDS_CMD_DUBDELAY"
 msgid "/dubdelay \"file\"\tLoad an additional audio file shifted with XXms\n\t\t(if the file contains \"...DELAY XXms...\")"
-msgstr "/dubdelay \"Datei\"\tÖffnet zusätzliche Audiodatei, deren Wiedergabe\n\t\tum X ms versetzt wird (Dateiname muss\n\t\t\"DELAY Xms\" enthalten)."
+msgstr "/dubdelay \"Datei\"\tLädt eine zusätzliche Audiodatei, deren Wiedergabe\n\t\tum X ms versetzt wird (Dateiname muss \"DELAY Xms\"\n\t\tenthalten)."
 
 msgctxt "IDS_CMD_D3DFS"
 msgid "/d3dfs\t\tStart rendering in D3D fullscreen mode"
-msgstr "/d3dfs\t\tStartet Player im Direct3D-Vollbildmodus."
+msgstr "/d3dfs\t\tStartet den Player im Direct3D-Vollbildmodus."
 
 msgctxt "IDS_CMD_SUB"
 msgid "/sub \"subname\"\tLoad an additional subtitle file"
-msgstr "/sub \"Datei\"\tÖffnet zusätzliche Untertiteldatei."
+msgstr "/sub \"Datei\"\tLädt eine zusätzliche Untertiteldatei."
 
 msgctxt "IDS_CMD_FILTER"
 msgid "/filter \"filtername\"\tLoad DirectShow filters from a dynamic link ibrary (wildcards allowed)"
-msgstr "/filter \"F\"\t\tLädt DirectShow-Filter \"F\" aus Laufzeitbibliothek\n\t\t(Wildcards sind möglich)."
+msgstr "/filter \"B\"\t\tLädt die in der dynamischen Bibliothek \"B\" enthaltenen\n\t\tDirectShow-Filter (Wildcards sind möglich)."
 
 msgctxt "IDS_CMD_DVD"
 msgid "/dvd\t\tRun in dvd mode, \"pathname\" means the dvd folder (optional)"
-msgstr "/dvd\t\tStartet Player im DVD-Modus (DVD-Verzeichnis\n\t\tkann als \"Pfadname\" angegeben werden)."
+msgstr "/dvd\t\tStartet den Player im DVD-Modus (DVD-Verzeichnis kann\n\t\tals \"Pfadname\" angegeben werden)."
 
 msgctxt "IDS_CMD_DVDPOS_TC"
 msgid "/dvdpos T#C\tStart playback at title T, chapter C"
-msgstr "/dvdpos T#C\tStartet DVD-Wiedergabe bei Titel T, Kapitel C."
+msgstr "/dvdpos T#C\tStartet die DVD-Wiedergabe bei Titel T, Kapitel C."
 
 msgctxt "IDS_CMD_DVDPOS_TIME"
 msgid "/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss"
-msgstr "/dvdpos T#P\tStartet DVD-Wiedergabe bei Titel T, Position P\n\t\t(hh:mm:ss)."
+msgstr "/dvdpos T#P\tStartet die DVD-Wiedergabe bei Titel T, Position P\n\t\t(hh:mm:ss)."
 
 msgctxt "IDS_CMD_CD"
 msgid "/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)"
-msgstr "/cd\t\tÖffnet Audio-CD oder (S)VCD (Laufwerk kann\n\t\tals \"Pfadname\" angegeben werden)."
+msgstr "/cd\t\tÖffnet eine Audio-CD oder (S)VCD (Laufwerk kann als\n\t\t\"Pfadname\" angegeben werden)."
 
 msgctxt "IDS_CMD_DEVICE"
 msgid "/device\t\tOpen the default video device"
-msgstr "/device\t\tÖffnet Gerät."
+msgstr "/device\t\tÖffnet das Standard-Gerät."
 
 msgctxt "IDS_CMD_OPEN"
 msgid "/open\t\tOpen the file, don't automatically start playback"
-msgstr "/open\t\tÖffnet Mediendatei und pausiert Wiedergabe."
+msgstr "/open\t\tÖffnet eine Mediendatei und pausiert die Wiedergabe."
 
 msgctxt "IDS_CMD_PLAY"
 msgid "/play\t\tStart playing the file as soon the player is launched"
-msgstr "/play\t\tÖffnet Mediendatei und startet Wiedergabe."
+msgstr "/play\t\tÖffnet eine Mediendatei und startet die Wiedergabe."
 
 msgctxt "IDS_CMD_CLOSE"
 msgid "/close\t\tClose the player after playback (only works when used with /play)"
-msgstr "/close\t\tBeendet Player (nach Wiedergabe) (in\n\t\tKombination mit \"/play\")."
+msgstr "/close\t\tBeendet den Player (nach Wiedergabe) (nur in\n\t\tKombination mit \"/play\")."
 
 msgctxt "IDS_CMD_SHUTDOWN"
 msgid "/shutdown\tShutdown the operating system after playback"
-msgstr "/shutdown\tFährt Computer herunter (nach Wiedergabe)."
+msgstr "/shutdown\tFährt den Computer herunter (nach Wiedergabe)."
 
 msgctxt "IDS_CMD_STANDBY"
 msgid "/standby\t\tPut the operating system in standby mode after playback"
-msgstr "/standby\t\tSpart Energie (nach Wiedergabe)."
+msgstr "/standby\t\tWechselt in den Standby-Modus (nach Wiedergabe)."
 
 msgctxt "IDS_CMD_HIBERNATE"
 msgid "/hibernate\tHibernate operating system after playback"
-msgstr "/hibernate\tWechselt in Ruhezustand (nach Wiedergabe)."
+msgstr "/hibernate\tWechselt in den Ruhezustand (nach Wiedergabe)."
 
 msgctxt "IDS_CMD_LOGOFF"
 msgid "/logoff\t\tLog off after playback"
-msgstr "/logoff\t\tMeldet Benutzer ab (nach Wiedergabe)."
+msgstr "/logoff\t\tMeldet den Benutzer ab (nach Wiedergabe)."
 
 msgctxt "IDS_CMD_LOCK"
 msgid "/lock\t\tLock workstation after playback"
-msgstr "/lock\t\tSperrt Computer (nach Wiedergabe)."
+msgstr "/lock\t\tSperrt den Computer (nach Wiedergabe)."
 
 msgctxt "IDS_CMD_MONITOROFF"
 msgid "/monitoroff\tTurn off the monitor after playback"
-msgstr "/monitoroff\tSchaltet Bildschirm aus (nach Wiedergabe)."
+msgstr "/monitoroff\tSchaltet den Bildschirm aus (nach Wiedergabe)."
 
 msgctxt "IDS_CMD_PLAYNEXT"
 msgid "/playnext\t\tOpen next file in the folder after playback"
-msgstr "/playnext\t\tÖffnet nächste Ordnerdatei (nach Wiedergabe)."
+msgstr "/playnext\t\tÖffnet die nächste Ordnerdatei (nach Wiedergabe)."
 
 msgctxt "IDS_CMD_FULLSCREEN"
 msgid "/fullscreen\tStart in full-screen mode"
-msgstr "/fullscreen\tStartet Player im Vollbild."
+msgstr "/fullscreen\tStartet den Player im Vollbild."
 
 msgctxt "IDS_CMD_MINIMIZED"
 msgid "/minimized\tStart in minimized mode"
-msgstr "/minimized\tStartet Player minimiert."
+msgstr "/minimized\tStartet den Player minimiert."
 
 msgctxt "IDS_CMD_NEW"
 msgid "/new\t\tUse a new instance of the player"
-msgstr "/new\t\tÖffnet Mediendatei mit neuem Player."
+msgstr "/new\t\tVerwendet einen neuen Player."
 
 msgctxt "IDS_CMD_ADD"
 msgid "/add\t\tAdd \"pathname\" to playlist, can be combined with /open and /play"
-msgstr "/add\t\tFügt \"Pfadname\" zur Wiedergabeliste hinzu\n\t\t(in Kombination mit \"/open\" oder \"/play\")."
+msgstr "/add\t\tFügt \"Pfadname\" zur Wiedergabeliste hinzu (auch in\n\t\tKombination mit \"/open\" oder \"/play\")."
 
 msgctxt "IDS_CMD_RANDOMIZE"
 msgid "/randomize\tRandomize the playlist"
-msgstr "/randomize\tSortiert Wiedergabeliste nach Zufall."
+msgstr "/randomize\tSortiert die Wiedergabeliste nach Zufall."
 
 msgctxt "IDS_CMD_REGVID"
 msgid "/regvid\t\tCreate file associations for video files"
@@ -3889,59 +3889,59 @@ msgstr "/unregall\t\tDeregistriert alle Medienformate."
 
 msgctxt "IDS_CMD_START"
 msgid "/start ms\t\tStart playing at \"ms\" (= milliseconds)"
-msgstr "/start X\t\tStartet Wiedergabe bei X ms."
+msgstr "/start X\t\tStartet die Wiedergabe bei X ms."
 
 msgctxt "IDS_CMD_STARTPOS"
 msgid "/startpos hh:mm:ss\tStart playing at position hh:mm:ss"
-msgstr "/startpos P\tStartet Wiedergabe bei Position P (hh:mm:ss)."
+msgstr "/startpos P\tStartet die Wiedergabe bei Position P (hh:mm:ss)."
 
 msgctxt "IDS_CMD_FIXEDSIZE"
 msgid "/fixedsize w,h\tSet a fixed window size"
-msgstr "/fixedsize W,H\tFixiert Fenstergröße bei Breite W und Höhe H."
+msgstr "/fixedsize W,H\tFixiert die Fenstergröße bei Breite W und Höhe H."
 
 msgctxt "IDS_CMD_MONITOR"
 msgid "/monitor N\tStart player on monitor N, where N starts from 1"
-msgstr "/monitor N\tStartet Player auf Monitor N (wobei N > 0)."
+msgstr "/monitor N\tStartet den Player auf Monitor N (N > 0)."
 
 msgctxt "IDS_CMD_AUDIORENDERER"
 msgid "/audiorenderer N\tStart using audiorenderer N, where N starts from 1 (see \"Output\" settings)"
-msgstr "/audiorenderer N\tLädt Audio-Renderer N (wobei N > 0, siehe\n\t\tAusgabe-Optionen)."
+msgstr "/audiorenderer N\tLädt den Audio-Renderer N (N > 0, siehe\n\t\tAusgabe-Optionen)."
 
 msgctxt "IDS_CMD_SHADERPRESET"
 msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
-msgstr "/shaderpreset \"P\"\tLädt Shader-Profil \"P\"."
+msgstr "/shaderpreset \"P\"\tLädt das Shader-Profil \"P\"."
 
 msgctxt "IDS_CMD_PNS"
 msgid "/pns \"name\"\tSpecify Pan&Scan preset name to use"
-msgstr "/pns \"P\"\t\tLädt Pan&Scan-Profil \"P\"."
+msgstr "/pns \"P\"\t\tLädt das Pan&Scan-Profil \"P\"."
 
 msgctxt "IDS_CMD_ICONASSOC"
 msgid "/iconsassoc\tReassociate format icons"
-msgstr "/iconsassoc\tOrdnet Format-Icons neu zu."
+msgstr "/iconsassoc\tOrdnet die formateigenen Icons erneut zu."
 
 msgctxt "IDS_CMD_NOFOCUS"
 msgid "/nofocus\t\tOpen MPC-HC in background"
-msgstr "/nofocus\t\tStartet Player im Hintergrund."
+msgstr "/nofocus\t\tStartet den Player im Hintergrund."
 
 msgctxt "IDS_CMD_WEBPORT"
 msgid "/webport N\tStart web interface on specified port"
-msgstr "/webport N\tStartet Web-Interface mit Portnummer N."
+msgstr "/webport N\tStartet das Web-Interface mit Überwachung von Port N."
 
 msgctxt "IDS_CMD_DEBUG"
 msgid "/debug\t\tShow debug information in OSD"
-msgstr "/debug\t\tZeigt Debug-Information im OSD an."
+msgstr "/debug\t\tZeigt die Debug-Information im OSD an."
 
 msgctxt "IDS_CMD_NOCRASHREPORTER"
 msgid "/nocrashreporter\tDisable the crash reporter"
-msgstr "/nocrashreporter\tDeaktiviert Fehlerberichterstattung."
+msgstr "/nocrashreporter\tDeaktiviert die Fehlerberichterstattung."
 
 msgctxt "IDS_CMD_SLAVE"
 msgid "/slave \"hWnd\"\tUse MPC-HC as slave"
-msgstr "/slave \"T\"\t\tÖffnet Mediendatei mit gestartetem Player,\n\t\tversehen mit Fenstertitel \"T\"."
+msgstr "/slave \"H\"\t\tStartet den Player im Slave-Modus mit\n\t\tFensterhandle \"H\"."
 
 msgctxt "IDS_CMD_HWGPU"
 msgid "/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding.\n\t\tOnly available for CUVID and DXVA2 (copy-back)"
-msgstr "/hwgpu \"I\"\tVerwendet GPU-Index \"I\" für Hardware-Decoding,\n\t\tnur für CUVID und DXVA2 (copy-back) verfügbar."
+msgstr "/hwgpu \"I\"\tVerwendet für das Hardware-Decoding den\n\t\tGPU-Index \"I\" (nur CUVID und DXVA2 copy-back)."
 
 msgctxt "IDS_CMD_RESET"
 msgid "/reset\t\tRestore default settings"

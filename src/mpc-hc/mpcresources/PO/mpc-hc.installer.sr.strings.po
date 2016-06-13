@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-07-20 20:29:41+0000\n"
-"PO-Revision-Date: 2016-05-31 22:42+0000\n"
+"PO-Revision-Date: 2016-06-15 10:31+0000\n"
 "Last-Translator: Rancher\n"
 "Language-Team: Serbian (http://www.transifex.com/mpc-hc/mpc-hc/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -44,11 +44,11 @@ msgstr "Ова верзија MPC-HC-а захтева процесор са п�
 
 msgctxt "CustomMessages_msg_simd_sse2"
 msgid "This build of MPC-HC requires a CPU with SSE2 extension support.\n\nYour CPU does not have those capabilities."
-msgstr "Ова верзија MPC-HC-а захтева процесор са подршком за SSE2 проширења.\n\nВаш процесор нема те могућности."
+msgstr "За ову верзију MPC-HC-а је потребан процесор са подршком за SSE2 инструкције.\n\nВаш процесор не испуњава тај захтев."
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
-msgstr "Посети вики страницу ради преузимања слика траке са алаткама"
+msgstr "Посети наш вики ради преузимања тема траке са алаткама"
 
 msgctxt "CustomMessages_tsk_AllUsers"
 msgid "For all users"
@@ -60,7 +60,7 @@ msgstr "Само за тренутног корисника"
 
 msgctxt "CustomMessages_tsk_Other"
 msgid "Other tasks:"
-msgstr "Остали задаци:"
+msgstr "Други задаци:"
 
 msgctxt "CustomMessages_tsk_ResetSettings"
 msgid "Reset settings"

@@ -4,13 +4,13 @@
 # Translators:
 # arestarh1986 <arestarh@ukr.net>, 2014-2016
 # Денис <denyspokhylenko@gmail.com>, 2015
-# Невидомский Александр <neviksasha@gmail.com>, 2015
+# Александр Невидомский <neviksasha@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
-"PO-Revision-Date: 2016-04-12 08:14+0000\n"
-"Last-Translator: JellyFrog\n"
+"PO-Revision-Date: 2016-06-26 12:45+0000\n"
+"Last-Translator: arestarh1986 <arestarh@ukr.net>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/mpc-hc/mpc-hc/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1252,7 +1252,7 @@ msgstr "Завантажити"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON1"
 msgid "Refresh"
-msgstr ""
+msgstr "Оновити"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON2"
 msgid "Abort"

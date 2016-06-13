@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-05-28 19:41:21+0000\n"
-"PO-Revision-Date: 2016-05-30 00:33+0000\n"
+"PO-Revision-Date: 2016-06-13 02:12+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/mpc-hc/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -635,7 +635,7 @@ msgstr "VMR-9 (レンダーレス) と同じですが、有効な 2 パス バ�
 
 msgctxt "IDC_DSNULL_COMP"
 msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the CPU from working unnecessarily."
-msgstr "どんな動画のようなメディア タイプにも接続し、入力サンプルをどこにも出力しません。映像の表示が不要で、CPU に無駄な動作をさせたくない場合に使用してください。"
+msgstr "どんな動画のようなメディア タイプにも接続して入力サンプルをどこにも出力しません。映像の表示が不要で、CPU に無駄な動作をさせたくない場合に使用してください。"
 
 msgctxt "IDC_DSNULL_UNCOMP"
 msgid "Same as the normal Null renderer, but this will only connect to uncompressed types."
@@ -799,7 +799,7 @@ msgstr "ピクセル シェーダ 2.0 をサポートしていない場合、単
 
 msgctxt "IDC_DSVMR9LOADMIXER"
 msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
-msgstr "VMR-9 (レンダーレス) をミキサ モードに設定すると、プロパティ ページのコントロールの大部分が動作し、レンダラ フレームに別々のワーカー スレッドを使用します。"
+msgstr "VMR-9 (レンダーレス) をミキサ モードに設定すると、プロパティ ページのコントロールの大部分が動作してレンダラ フレームに別々のワーカー スレッドを使用します。"
 
 msgctxt "IDC_DSVMR9YUVMIXER"
 msgid "Improves performance at the cost of some compatibility of the renderer."
@@ -859,11 +859,11 @@ msgstr "字幕アニメーションを許可しません。このオプション
 
 msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
-msgstr "バッファリングされるサブピクチャ数を増やすと、一般的に GPU 上でビデオ RAM の使用率をより高くして、レンダリングのパフォーマンスを向上させる必要があります。 "
+msgstr "バッファリングされるサブピクチャ数を増やすと、一般的に GPU 上でビデオ RAM の使用率をより高くしてレンダリングのパフォーマンスを向上させる必要があります。 "
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
-msgstr "このボタンをクリックすると、MPC-HC の実際のファイル関連付けがファイル形式グループのチェック状態に反映されます。新しく拡張子が追加されると大抵チェック ボックスは灰色になりますので、このダイアログを閉じる前に必ずに再度チェックしてください。"
+msgstr "このボタンをクリックすると、MPC-HC の実際のファイルの関連付けが形式グループのチェックの状態に反映されます。新しく拡張子を追加すると、通常チェック ボックスは灰色表示になるので、このダイアログを閉じる前に必ず再度チェックしてください。"
 
 msgctxt "IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Disabling this option will prevent the subtitles from blinking but it may cause the video renderer to skip some video frames."
@@ -2323,7 +2323,7 @@ msgstr "サムネイルが小さすぎて、ファイルを作成できません
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "字幕を読み込むためにはビデオ レンダラを変更し、ファイルを再​​度開く必要があります。\n- DirectShow: VMR-9 (レンダーレス)、EVR (カスタム プレゼンタ)、同期、madVR または Haali\n- RealMedia: RealMedia 用の特別なレンダラまたは DirectShow を用いて開く\n- QuickTime: QuickTime 用の DirectX 7 または DirectX 9 レンダラ\n- ShockWave: n/a"
+msgstr "字幕を読み込むためにはビデオ レンダラを変更してファイルを開き直す必要があります。\n- DirectShow: VMR-9 (レンダーレス)、EVR (カスタム プレゼンタ)、同期、madVR または Haali\n- RealMedia: RealMedia 用の特別なレンダラまたは DirectShow を用いて開く\n- QuickTime: QuickTime 用の DirectX 7 または DirectX 9 レンダラ\n- ShockWave: n/a"
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
@@ -2823,7 +2823,7 @@ msgstr "音声: %s"
 
 msgctxt "IDS_AG_REOPEN"
 msgid "Reopen File"
-msgstr "ファイルを​​再度開く"
+msgstr "ファイルを​​開き直す"
 
 msgctxt "IDS_MFMT_AVI"
 msgid "AVI"
@@ -3271,7 +3271,7 @@ msgstr "MPC-HC v%s が使用できます。現在のバージョンは v%s. で�
 
 msgctxt "IDS_UPDATE_ERROR"
 msgid "Update server not found.\n\nPlease check your internet connection or try again later."
-msgstr "更新サーバーが見つかりません。\n\nインターネット接続を確認して、再試行してください。"
+msgstr "更新サーバーが見つかりません。\n\nインターネット接続を確認して再試行してください。"
 
 msgctxt "IDS_UPDATE_CLOSE"
 msgid "&Close"
@@ -3387,11 +3387,11 @@ msgstr "コマ送りできません。別のビデオ レンダラを試して�
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for RealMedia.\nSelect one of the DirectX renderers for RealMedia in MPC-HC's output options and reopen the file."
-msgstr "「画像を保存」 および 「サムネイルを保存」 の機能は、RealMedia 用の標準ビデオ レンダラでは動作しません。\nMPC-HC の出力オプションで、RealMedia 用の DirectX レンダラのいずれかを選択し、ファイルを再度開いてください。"
+msgstr "「画像を保存」 および 「サムネイルを保存」 の機能は、RealMedia 用の標準ビデオ レンダラでは動作しません。\nMPC-HC の出力オプションで、RealMedia 用の DirectX レンダラのいずれかを選択してファイルを開き直してください。"
 
 msgctxt "IDS_SCREENSHOT_ERROR_QT"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for QuickTime.\nSelect one of the DirectX renderers for QuickTime in MPC-HC's output options and reopen the file."
-msgstr "「画像を保存」 および 「サムネイルを保存」 の機能は、QuickTime 用の標準ビデオ レンダラでは動作しません。\nMPC-HC の出力オプションで、QuickTime 用の DirectX レンダラのいずれかを選択し、ファイルを再度開いてください。"
+msgstr "「画像を保存」 および 「サムネイルを保存」 の機能は、QuickTime 用の標準ビデオ レンダラでは動作しません。\nMPC-HC の出力オプションで、QuickTime 用の DirectX レンダラのいずれかを選択してファイルを開き直してください。"
 
 msgctxt "IDS_SCREENSHOT_ERROR_SHOCKWAVE"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work for Shockwave files."
@@ -3399,7 +3399,7 @@ msgstr "「画像を保存」 および 「サムネイルを保存」 の機能
 
 msgctxt "IDS_SCREENSHOT_ERROR_OVERLAY"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the Overlay Mixer video renderer.\nChange the video renderer in MPC's output options and reopen the file."
-msgstr "「画像を保存」 および 「サムネイルを保存」 の機能は、オーバーレイ ミキサ ビデオ レンダラでは動作しません。\nMPC-HC の出力オプションでビデオレンダラを変更し、ファイルを再度開いてください。"
+msgstr "「画像を保存」 および 「サムネイルを保存」 の機能は、オーバーレイ ミキサ ビデオ レンダラでは動作しません。\nMPC-HC の出力オプションでビデオ レンダラを変更してファイルを開き直してください。"
 
 msgctxt "IDS_MB_SHOW_EDL_EDITOR"
 msgid "Do you want to activate the EDL editor?"
