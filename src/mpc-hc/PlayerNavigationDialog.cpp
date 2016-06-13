@@ -123,7 +123,7 @@ void CPlayerNavigationDialog::UpdateElementList()
         m_channelList.ResetContent();
 
         for (const auto& channel : s.m_DVBChannels) {
-            if (channel.GetAudioCount() && (m_bTVStations && channel.GetVideoPID() || !m_bTVStations && !channel.GetVideoPID())) {
+            if (m_bTVStations && channel.GetVideoPID() || !m_bTVStations && !channel.GetVideoPID()) {
                 int nItem = m_channelList.AddString(channel.GetName());
                 if (nItem != LB_ERR) {
                     m_channelList.SetItemData(nItem, (DWORD_PTR)channel.GetPrefNumber());

@@ -27,7 +27,8 @@
 #define FORMAT_VERSION_1       1
 #define FORMAT_VERSION_2       2
 #define FORMAT_VERSION_3       3
-#define FORMAT_VERSION_CURRENT 4
+#define FORMAT_VERSION_4       4
+#define FORMAT_VERSION_CURRENT 5
 
 #define DVB_MAX_AUDIO    10
 #define DVB_MAX_SUBTITLE 10
@@ -117,6 +118,7 @@ public:
 
     LPCTSTR GetName() const { return m_strName; };
     ULONG GetFrequency() const { return m_ulFrequency; };
+    ULONG GetBandwidth() const { return m_ulBandwidth; }
     int GetPrefNumber() const { return m_nPrefNumber; };
     int GetOriginNumber() const { return m_nOriginNumber; };
     ULONG GetONID() const { return m_ulONID; };
@@ -152,6 +154,7 @@ public:
 
     void SetName(LPCTSTR Value) { m_strName = Value; };
     void SetFrequency(ULONG Value) { m_ulFrequency = Value; };
+    void SetBandwidth(ULONG ulBandwidth) { m_ulBandwidth = ulBandwidth; }
     void SetPrefNumber(int Value) { m_nPrefNumber = Value; };
     void SetOriginNumber(int Value) { m_nOriginNumber = Value; };
     void SetEncrypted(bool Value) { m_bEncrypted = Value; };
@@ -186,6 +189,7 @@ public:
 private:
     CString m_strName;
     ULONG m_ulFrequency             = 0;
+    ULONG m_ulBandwidth             = 0;
     int m_nPrefNumber               = 0;
     int m_nOriginNumber             = 0;
     bool m_bEncrypted               = false;

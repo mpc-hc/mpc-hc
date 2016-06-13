@@ -632,34 +632,33 @@ STDMETHODIMP CFGManagerBDA::SetAudio(int nAudioIndex)
     return E_NOTIMPL;
 }
 
-STDMETHODIMP CFGManagerBDA::SetFrequency(ULONG freq)
+STDMETHODIMP CFGManagerBDA::SetFrequency(ULONG ulFrequency, ULONG ulBandwidth)
 {
     HRESULT hr;
-    const CAppSettings& s = AfxGetAppSettings();
-    LOG(_T("SetFrequency to %u."), freq);
+    LOG(_T("Frequency %lu, Bandwidth %lu"), ulFrequency, ulBandwidth);
     CheckPointer(m_pBDAControl, E_FAIL);
     CheckPointer(m_pBDAFreq, E_FAIL);
 
     CheckAndLogBDA(m_pBDAControl->StartChanges(), _T("  SetFrequency StartChanges"));
     CheckAndLogBDANoRet(m_pBDAFreq->put_FrequencyMultiplier(1000), _T("  SetFrequency put_FrequencyMultiplier"));
-    CheckAndLogBDANoRet(m_pBDAFreq->put_Bandwidth(s.iBDABandwidth), _T("  SetFrequency put_Bandwidth"));
-    CheckAndLogBDA(m_pBDAFreq->put_Frequency(freq), _T("  SetFrequency put_Frequency"));
+    CheckAndLogBDANoRet(m_pBDAFreq->put_Bandwidth(ulBandwidth / 1000), _T("  SetFrequency put_Bandwidth"));
+    CheckAndLogBDA(m_pBDAFreq->put_Frequency(ulFrequency), _T("  SetFrequency put_Frequency"));
     CheckAndLogBDA(m_pBDAControl->CheckChanges(), _T("  SetFrequency CheckChanges"));
     CheckAndLogBDA(m_pBDAControl->CommitChanges(), _T("  SetFrequency CommitChanges"));
 
     int i = 50;
     ULONG pState = BDA_CHANGES_PENDING;
     while (SUCCEEDED(hr = m_pBDAControl->GetChangeState(&pState)) && pState == BDA_CHANGES_PENDING && i-- > 0) {
-        LOG(_T("SetFrequency changes pending, waiting for tuner..."));
+        LOG(_T("changes pending, waiting for tuner..."));
         Sleep(50);
     }
 
     if (SUCCEEDED(hr)) {
         if (pState == BDA_CHANGES_PENDING) {
-            LOG(_T("SetFrequency changes pending (timeout error----)"));
+            LOG(_T("changes pending (timeout error----)"));
             hr = VFW_E_TIMEOUT;
         } else {
-            LOG(_T("Frequency set to %u."), freq);
+            LOG(_T("Frequency changed: %lu / %lu."), ulFrequency, ulBandwidth);
 #ifdef _DEBUG
             BOOLEAN bPresent;
             BOOLEAN bLocked;
@@ -710,18 +709,18 @@ HRESULT CFGManagerBDA::ClearMaps()
     return hr;
 }
 
-STDMETHODIMP CFGManagerBDA::Scan(ULONG ulFrequency, HWND hWnd)
+STDMETHODIMP CFGManagerBDA::Scan(ULONG ulFrequency, ULONG ulBandwidth, HWND hWnd)
 {
     HRESULT hr = S_OK;
 
-    if (ulFrequency == 0) {
+    if (ulFrequency == 0 || ulBandwidth == 0) {
         ClearMaps();
     } else {
         CMpeg2DataParser Parser(m_DVBStreams[DVB_PSI].GetFilter());
 
         LOG(_T("Scanning frequency %u.........."), ulFrequency);
 
-        if (FAILED(hr = Parser.ParseSDT(ulFrequency))) {
+        if (FAILED(hr = Parser.ParseSDT(ulFrequency, ulBandwidth))) {
             LOG(_T("ParseSDT failed. Result: 0x%08x."), hr);
         } else if (FAILED(hr = Parser.ParsePAT())) {
             LOG(_T("ParsePAT failed. Result: 0x%08x."), hr);
@@ -1114,7 +1113,7 @@ HRESULT CFGManagerBDA::SetChannelInternal(CDVBChannel* pChannel)
         CheckNoLog(ChangeState(State_Running));
     }
 
-    CheckNoLog(SetFrequency(pChannel->GetFrequency()));
+    CheckNoLog(SetFrequency(pChannel->GetFrequency(), pChannel->GetBandwidth()));
 
     CheckNoLog(Flush(pChannel->GetVideoType(), pChannel->GetDefaultAudioType()));
 

@@ -22,6 +22,7 @@
 #include "stdafx.h"
 #include "DVBChannel.h"
 #include "ISOLang.h"
+#include "mplayerc.h"
 
 
 LCID DVBStreamInfo::GetLCID() const
@@ -46,6 +47,8 @@ void CDVBChannel::FromString(CString strValue)
 
     m_strName       = strValue.Tokenize(_T("|"), i);
     m_ulFrequency   = _tstol(strValue.Tokenize(_T("|"), i));
+    m_ulBandwidth   = (nVersion > FORMAT_VERSION_4) ? _tstol(strValue.Tokenize(_T("|"), i))
+                                                    : AfxGetAppSettings().iBDABandwidth * 1000;
     m_nPrefNumber   = _tstol(strValue.Tokenize(_T("|"), i));
     m_nOriginNumber = _tstol(strValue.Tokenize(_T("|"), i));
     if (nVersion > FORMAT_VERSION_0) {
@@ -104,10 +107,11 @@ CString CDVBChannel::ToString() const
     };
 
     CString strValue;
-    strValue.AppendFormat(_T("%d|%s|%lu|%d|%d|%d|%d|%lu|%lu|%lu|%lu|%lu|%lu|%d|%d|%d|%d|%d"),
+    strValue.AppendFormat(_T("%d|%s|%lu|%lu|%d|%d|%d|%d|%lu|%lu|%lu|%lu|%lu|%lu|%d|%d|%d|%d|%d"),
                           FORMAT_VERSION_CURRENT,
-                          m_strName,
+                          m_strName.GetString(),
                           m_ulFrequency,
+                          m_ulBandwidth,
                           m_nPrefNumber,
                           m_nOriginNumber,
                           m_bEncrypted,

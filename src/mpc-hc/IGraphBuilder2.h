@@ -51,8 +51,8 @@ IBDATuner :
 public IUnknown {
     STDMETHOD(SetChannel)(int nChannelPrefNumber) PURE;
     STDMETHOD(SetAudio)(int nAudioIndex) PURE;
-    STDMETHOD(SetFrequency)(ULONG ulFrequency) PURE;
-    STDMETHOD(Scan)(ULONG ulFrequency, HWND hWnd) PURE;
+    STDMETHOD(SetFrequency)(ULONG ulFrequency, ULONG ulBandwidth) PURE;
+    STDMETHOD(Scan)(ULONG ulFrequency, ULONG ulBandwidth, HWND hWnd) PURE;
     STDMETHOD(GetStats)(BOOLEAN & bPresent, BOOLEAN & bLocked, LONG & lDbStrength, LONG & lPercentQuality) PURE;
     STDMETHOD(UpdatePSI)(const class CDVBChannel * pChannel, struct EventDescriptor & NowNext) PURE;
 };

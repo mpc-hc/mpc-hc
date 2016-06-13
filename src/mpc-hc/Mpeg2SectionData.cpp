@@ -248,7 +248,7 @@ HRESULT CMpeg2DataParser::ParseSIHeader(CGolombBuffer& gb, DVB_SI SIType, WORD& 
     return S_OK;
 }
 
-HRESULT CMpeg2DataParser::ParseSDT(ULONG ulFreq)
+HRESULT CMpeg2DataParser::ParseSDT(ULONG ulFrequency, ULONG ulBandwidth)
 {
     HRESULT hr;
     CComPtr<ISectionList> pSectionList;
@@ -272,7 +272,8 @@ HRESULT CMpeg2DataParser::ParseSDT(ULONG ulFreq)
 
     while (gb.GetSize() - gb.GetPos() > 4) {
         CDVBChannel Channel;
-        Channel.SetFrequency(ulFreq);
+        Channel.SetFrequency(ulFrequency);
+        Channel.SetBandwidth(ulBandwidth);
         Channel.SetTSID(wTSID);
         Channel.SetONID(wONID);
         Channel.SetSID((ULONG)gb.BitRead(16));                  // service_id   uimsbf
