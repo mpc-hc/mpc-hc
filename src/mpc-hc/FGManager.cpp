@@ -2218,10 +2218,20 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
             case CAppSettings::SubtitleRenderer::XY_SUB_FILTER:
                 m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VSFilter, MERIT64_DO_NOT_USE));
                 break;
+            case CAppSettings::SubtitleRenderer::ASS_FILTER:
+                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VSFilter, MERIT64_DO_NOT_USE));
+                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter, MERIT64_DO_NOT_USE));
+                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter_AutoLoader, MERIT64_DO_NOT_USE));
+                break;
             default:
                 ASSERT(FALSE);
                 break;
         }
+    }
+    else if (s.GetSubtitleRenderer() == CAppSettings::SubtitleRenderer::ASS_FILTER) {
+        m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VSFilter, MERIT64_DO_NOT_USE));
+        m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter, MERIT64_DO_NOT_USE));
+        m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter_AutoLoader, MERIT64_DO_NOT_USE));
     }
 
     // Blacklist Accusoft PICVideo M-JPEG Codec 2.1 since causes a DEP crash
