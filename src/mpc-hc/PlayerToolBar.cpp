@@ -85,7 +85,7 @@ void CPlayerToolBar::LoadToolbarImage()
     float defaultToolbarScaling = AfxGetAppSettings().nDefaultToolbarSize / 16.0f;
 
     CImage image;
-    if (LoadExternalToolBar(image) || SUCCEEDED(SVGImage::Load(IDF_SVG_TOOLBAR, image, dpiScaling * defaultToolbarScaling))) {
+    if (LoadExternalToolBar(image) || (!AfxGetAppSettings().bUseLegacyToolbar && SUCCEEDED(SVGImage::Load(IDF_SVG_TOOLBAR, image, dpiScaling * defaultToolbarScaling)))) {
         CBitmap* bmp = CBitmap::FromHandle(image);
         int width = image.GetWidth();
         int height = image.GetHeight();

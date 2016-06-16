@@ -147,6 +147,7 @@ private:
         AUTO_DOWNLOAD_SCORE_MOVIES,
         AUTO_DOWNLOAD_SCORE_SERIES,
         DEFAULT_TOOLBAR_SIZE,
+        USE_LEGACY_TOOLBAR,
     };
 
     enum {

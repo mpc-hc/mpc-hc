@@ -142,6 +142,7 @@ void CPPageAdvanced::InitSettings()
                std::make_pair(10, 30), StrRes(IDS_PPAGEADVANCED_SCORE));
     addIntItem(DEFAULT_TOOLBAR_SIZE, IDS_RS_DEFAULTTOOLBARSIZE, 24, s.nDefaultToolbarSize,
                std::make_pair(16, 128), StrRes(IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE));
+    addBoolItem(USE_LEGACY_TOOLBAR, IDS_RS_USE_LEGACY_TOOLBAR, false, s.bUseLegacyToolbar, StrRes(IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR));
 }
 
 BOOL CPPageAdvanced::OnApply()
