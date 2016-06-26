@@ -3781,11 +3781,11 @@ msgid "/sub \"subname\"\tLoad an additional subtitle file"
 msgstr "/sub \"字幕文件名\"\t加载额外的字幕文件"
 
 msgctxt "IDS_CMD_FILTER"
-msgid "/filter \"filtername\"\tLoad DirectShow filters from a dynamic link ibrary (wildcards allowed)"
+msgid "/filter \"filtername\"\tLoad DirectShow filters from a dynamic link library (wildcards allowed)"
 msgstr "/filter \"滤镜文件名\"\t加载动态链接库中的 DirectShow 滤镜 (允许使用通配符)"
 
 msgctxt "IDS_CMD_DVD"
-msgid "/dvd\t\tRun in dvd mode, \"pathname\" means the dvd folder (optional)"
+msgid "/dvd\t\tRun in DVD mode, \"pathname\" means the DVD folder (optional)"
 msgstr "/dvd\t\t以 DVD 模式运行，“路径名称”表示 DVD 根目录 (可选)"
 
 msgctxt "IDS_CMD_DVDPOS_TC"
@@ -3793,11 +3793,11 @@ msgid "/dvdpos T#C\tStart playback at title T, chapter C"
 msgstr "/dvdpos T#C\t开始播放第 T 标题，第 C 章节"
 
 msgctxt "IDS_CMD_DVDPOS_TIME"
-msgid "/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss"
-msgstr "/dvdpos T#hh:mm\t开始播放第 T 标题的 hh:mm:ss 位置"
+msgid "/dvdpos T#hh:mm:ss\tStart playback at title T, position hh:mm:ss"
+msgstr "/dvdpos T#hh:mm:ss\t开始播放第 T 标题的 hh:mm:ss 位置"
 
 msgctxt "IDS_CMD_CD"
-msgid "/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)"
+msgid "/cd\t\tLoad all the tracks of an Audio CD or (S)VCD,\n\t\t\"pathname\" means the drive path (optional)"
 msgstr "/cd\t\t加载音频 CD 或 (S)VCD 的所有轨道，\n\t\t“路径名称”表示驱动器路径 (可选)"
 
 msgctxt "IDS_CMD_DEVICE"
@@ -3845,7 +3845,7 @@ msgid "/playnext\t\tOpen next file in the folder after playback"
 msgstr "/playnext\t\t播放完毕后打开文件夹中的下一个文件"
 
 msgctxt "IDS_CMD_FULLSCREEN"
-msgid "/fullscreen\tStart in full-screen mode"
+msgid "/fullscreen\tStart in fullscreen mode"
 msgstr "/fullscreen\t以全屏模式启动"
 
 msgctxt "IDS_CMD_MINIMIZED"

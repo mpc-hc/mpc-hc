@@ -3787,11 +3787,11 @@ msgid "/sub \"subname\"\tLoad an additional subtitle file"
 msgstr "/sub \"nombredelsubtítulo\"\tCarga un archivo de subtítulo adicional"
 
 msgctxt "IDS_CMD_FILTER"
-msgid "/filter \"filtername\"\tLoad DirectShow filters from a dynamic link ibrary (wildcards allowed)"
+msgid "/filter \"filtername\"\tLoad DirectShow filters from a dynamic link library (wildcards allowed)"
 msgstr "/filter \"nombredelfiltro\"\tCarga los filtros DirectShow desde una librería de enlace dinámico (dll) (comodines permitidos)"
 
 msgctxt "IDS_CMD_DVD"
-msgid "/dvd\t\tRun in dvd mode, \"pathname\" means the dvd folder (optional)"
+msgid "/dvd\t\tRun in DVD mode, \"pathname\" means the DVD folder (optional)"
 msgstr "/dvd\t\tSe ejecuta en modo DVD, \"ruta\" indica la carpeta del DVD (opcional)"
 
 msgctxt "IDS_CMD_DVDPOS_TC"
@@ -3799,11 +3799,11 @@ msgid "/dvdpos T#C\tStart playback at title T, chapter C"
 msgstr "/dvdpos T#C\tInicia la reproducción en el título T, capítulo C"
 
 msgctxt "IDS_CMD_DVDPOS_TIME"
-msgid "/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss"
-msgstr "/dvdpos T#hh:mm\tInicia la reproducción en el título T, posición hh:mm:ss"
+msgid "/dvdpos T#hh:mm:ss\tStart playback at title T, position hh:mm:ss"
+msgstr "/dvdpos T#hh:mm:ss\tInicia la reproducción en el título T, posición hh:mm:ss"
 
 msgctxt "IDS_CMD_CD"
-msgid "/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)"
+msgid "/cd\t\tLoad all the tracks of an Audio CD or (S)VCD,\n\t\t\"pathname\" means the drive path (optional)"
 msgstr "/cd\t\tCarga todas las pistas de un CD audio o un (S)VCD,\n\t\t\"ruta\" indica la ruta a la unidad (opcional)"
 
 msgctxt "IDS_CMD_DEVICE"
@@ -3851,7 +3851,7 @@ msgid "/playnext\t\tOpen next file in the folder after playback"
 msgstr "/playnext\t\tAbre el siguiente archivo de la carpeta tras la reproducción"
 
 msgctxt "IDS_CMD_FULLSCREEN"
-msgid "/fullscreen\tStart in full-screen mode"
+msgid "/fullscreen\tStart in fullscreen mode"
 msgstr "/fullscreen\tInicia el reproductor en pantalla completa"
 
 msgctxt "IDS_CMD_MINIMIZED"

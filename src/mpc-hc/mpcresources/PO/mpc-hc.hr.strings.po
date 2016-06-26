@@ -3782,24 +3782,24 @@ msgid "/sub \"subname\"\tLoad an additional subtitle file"
 msgstr "/sub \"naziv_titla\"\tPokreni dodatnu titl datoteku"
 
 msgctxt "IDS_CMD_FILTER"
-msgid "/filter \"filtername\"\tLoad DirectShow filters from a dynamic link ibrary (wildcards allowed)"
+msgid "/filter \"filtername\"\tLoad DirectShow filters from a dynamic link library (wildcards allowed)"
 msgstr "/filter \"naziv_filtra\"\tPokreni DirectShow filtere iz dinamične vezane biblioteke (višeznačnici dopušteni)"
 
 msgctxt "IDS_CMD_DVD"
-msgid "/dvd\t\tRun in dvd mode, \"pathname\" means the dvd folder (optional)"
-msgstr "/dvd\t\tPokreni u dvd načinu, \"naziv_putanje\" označava dvd mapu (opcionalno)"
+msgid "/dvd\t\tRun in DVD mode, \"pathname\" means the DVD folder (optional)"
+msgstr "/dvd\t\tPokreni u DVD načinu, \"naziv_putanje\" označava DVD mapu (opcionalno)"
 
 msgctxt "IDS_CMD_DVDPOS_TC"
 msgid "/dvdpos T#C\tStart playback at title T, chapter C"
 msgstr "/dvdpos T#C\tPočni reprodukciju na naslovu T, poglavlju C"
 
 msgctxt "IDS_CMD_DVDPOS_TIME"
-msgid "/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss"
-msgstr "/dvdpos T#hh:mm\tPočni reprodukciju na naslovu T, poziciju hh:mm:ss"
+msgid "/dvdpos T#hh:mm:ss\tStart playback at title T, position hh:mm:ss"
+msgstr "/dvdpos T#hh:mm:ss\tPočni reprodukciju na naslovu T, poziciju hh:mm:ss"
 
 msgctxt "IDS_CMD_CD"
-msgid "/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)"
-msgstr "/cd\t\tPokreni sve trake s zvukovnog cd-a ili (s)vcd-a,\n\t\t\"naziv_putanje\" označava putanju uređaja (opcionalno)"
+msgid "/cd\t\tLoad all the tracks of an Audio CD or (S)VCD,\n\t\t\"pathname\" means the drive path (optional)"
+msgstr "/cd\t\tPokreni sve trake s zvukovnog cd-a ili (S)VCD-a,\n\t\t\"naziv_putanje\" označava putanju uređaja (opcionalno)"
 
 msgctxt "IDS_CMD_DEVICE"
 msgid "/device\t\tOpen the default video device"
@@ -3846,7 +3846,7 @@ msgid "/playnext\t\tOpen next file in the folder after playback"
 msgstr "/playnext\t\tOtvori slijedeću datoteku u mapi nakon reprodukcije"
 
 msgctxt "IDS_CMD_FULLSCREEN"
-msgid "/fullscreen\tStart in full-screen mode"
+msgid "/fullscreen\tStart in fullscreen mode"
 msgstr "/fullscreen\tPokreni u načinu cijelog ekrana"
 
 msgctxt "IDS_CMD_MINIMIZED"

@@ -3778,11 +3778,11 @@ msgid "/sub \"subname\"\tLoad an additional subtitle file"
 msgstr "/sub \"názov_titulkov\"\tNačítať doplnkový súbor s titulkami"
 
 msgctxt "IDS_CMD_FILTER"
-msgid "/filter \"filtername\"\tLoad DirectShow filters from a dynamic link ibrary (wildcards allowed)"
+msgid "/filter \"filtername\"\tLoad DirectShow filters from a dynamic link library (wildcards allowed)"
 msgstr "/filter \"názov_filtra\"\tNačítať filtre DirectShow z dynamicky prepojenej knižnice (sú povolené zástupné znaky)"
 
 msgctxt "IDS_CMD_DVD"
-msgid "/dvd\t\tRun in dvd mode, \"pathname\" means the dvd folder (optional)"
+msgid "/dvd\t\tRun in DVD mode, \"pathname\" means the DVD folder (optional)"
 msgstr "/dvd\t\tSpustiť v režime DVD, \"cesta\" označuje priečinok DVD (voliteľne)"
 
 msgctxt "IDS_CMD_DVDPOS_TC"
@@ -3790,11 +3790,11 @@ msgid "/dvdpos T#C\tStart playback at title T, chapter C"
 msgstr "/dvdpos T#C\tSpustiť prehrávanie na titule T, v kapitole C"
 
 msgctxt "IDS_CMD_DVDPOS_TIME"
-msgid "/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss"
-msgstr "/dvdpos T#hh:mm\tSpustiť prehrávanie na titule T, na pozícii hh:mm:ss"
+msgid "/dvdpos T#hh:mm:ss\tStart playback at title T, position hh:mm:ss"
+msgstr "/dvdpos T#hh:mm:ss\tSpustiť prehrávanie na titule T, na pozícii hh:mm:ss"
 
 msgctxt "IDS_CMD_CD"
-msgid "/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)"
+msgid "/cd\t\tLoad all the tracks of an Audio CD or (S)VCD,\n\t\t\"pathname\" means the drive path (optional)"
 msgstr "/cd\t\tNačítať všetky stopy zvukového CD alebo (S)VCD,\n\t\t\"cesta\" označuje cestu k jednotke (voliteľne)"
 
 msgctxt "IDS_CMD_DEVICE"
@@ -3842,7 +3842,7 @@ msgid "/playnext\t\tOpen next file in the folder after playback"
 msgstr "/playnext\t\tPo prehraní otvoriť ďalší súbor v priečinku"
 
 msgctxt "IDS_CMD_FULLSCREEN"
-msgid "/fullscreen\tStart in full-screen mode"
+msgid "/fullscreen\tStart in fullscreen mode"
 msgstr "/fullscreen\tSpustiť v režime na celú obrazovku"
 
 msgctxt "IDS_CMD_MINIMIZED"

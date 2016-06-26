@@ -3781,11 +3781,11 @@ msgid "/sub \"subname\"\tLoad an additional subtitle file"
 msgstr "/sub \"sub dosya adı\"⇥İlave altyazı dosyası ekle"
 
 msgctxt "IDS_CMD_FILTER"
-msgid "/filter \"filtername\"\tLoad DirectShow filters from a dynamic link ibrary (wildcards allowed)"
+msgid "/filter \"filtername\"\tLoad DirectShow filters from a dynamic link library (wildcards allowed)"
 msgstr "/filter \"filtre adı\"⇥Dinamik bir bağlantı kitaplığından DirectShow filtreleri yükle(joker karakterler kullanılabilir)"
 
 msgctxt "IDS_CMD_DVD"
-msgid "/dvd\t\tRun in dvd mode, \"pathname\" means the dvd folder (optional)"
+msgid "/dvd\t\tRun in DVD mode, \"pathname\" means the DVD folder (optional)"
 msgstr "/dvd⇥⇥DVD modunda çalıştır, \"dosya yolu\" DVD klasörü anlamında(isteğe bağlı)"
 
 msgctxt "IDS_CMD_DVDPOS_TC"
@@ -3793,12 +3793,12 @@ msgid "/dvdpos T#C\tStart playback at title T, chapter C"
 msgstr "/dvdpos T#C⇥İsimden başlat T, bölüm C"
 
 msgctxt "IDS_CMD_DVDPOS_TIME"
-msgid "/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss"
+msgid "/dvdpos T#hh:mm:ss\tStart playback at title T, position hh:mm:ss"
 msgstr "/dvdpos T#sa:da⇥İsimden başlat T, konum sa:da:sn"
 
 msgctxt "IDS_CMD_CD"
-msgid "/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)"
-msgstr "/cd⇥⇥Ses CD'si ya da (s)vcd içerisindeki tüm ses izlerini yükle, ⇥⇥\"dosya yolu\" sürücü yolunu ifade eder(isteğe bağlı)"
+msgid "/cd\t\tLoad all the tracks of an Audio CD or (S)VCD,\n\t\t\"pathname\" means the drive path (optional)"
+msgstr "/cd⇥⇥Ses CD'si ya da (S)VCD içerisindeki tüm ses izlerini yükle, ⇥⇥\"dosya yolu\" sürücü yolunu ifade eder(isteğe bağlı)"
 
 msgctxt "IDS_CMD_DEVICE"
 msgid "/device\t\tOpen the default video device"
@@ -3845,7 +3845,7 @@ msgid "/playnext\t\tOpen next file in the folder after playback"
 msgstr "/playnext⇥⇥Yürütme işlemi sonrasında klasördeki sıradaki dosyayı yürüt"
 
 msgctxt "IDS_CMD_FULLSCREEN"
-msgid "/fullscreen\tStart in full-screen mode"
+msgid "/fullscreen\tStart in fullscreen mode"
 msgstr "/fullscreen⇥Tam ekran modunda başlat"
 
 msgctxt "IDS_CMD_MINIMIZED"

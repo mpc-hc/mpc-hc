@@ -3778,11 +3778,11 @@ msgid "/sub \"subname\"\tLoad an additional subtitle file"
 msgstr "/sub \"soubor\"\tNačte soubor s titulky"
 
 msgctxt "IDS_CMD_FILTER"
-msgid "/filter \"filtername\"\tLoad DirectShow filters from a dynamic link ibrary (wildcards allowed)"
+msgid "/filter \"filtername\"\tLoad DirectShow filters from a dynamic link library (wildcards allowed)"
 msgstr "/filter \"soubor\"\tNačte DirectShow filtr (*.ax nebo *.dll, povoleny\n\t\tmasky)"
 
 msgctxt "IDS_CMD_DVD"
-msgid "/dvd\t\tRun in dvd mode, \"pathname\" means the dvd folder (optional)"
+msgid "/dvd\t\tRun in DVD mode, \"pathname\" means the DVD folder (optional)"
 msgstr "/dvd\t\tSpustí MPC-HC v DVD režimu, volitelný parametr\n\t\t\"cesta\" určuje DVD adresář"
 
 msgctxt "IDS_CMD_DVDPOS_TC"
@@ -3790,11 +3790,11 @@ msgid "/dvdpos T#C\tStart playback at title T, chapter C"
 msgstr "/dvdpos T#K\tSpustí přehrávání titulu T, kapitoly K"
 
 msgctxt "IDS_CMD_DVDPOS_TIME"
-msgid "/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss"
-msgstr "/dvdpos T#hh:mm\tSpustí přehrávání titulu T, pozice hh:mm:ss"
+msgid "/dvdpos T#hh:mm:ss\tStart playback at title T, position hh:mm:ss"
+msgstr "/dvdpos T#hh:mm:ss\tSpustí přehrávání titulu T, pozice hh:mm:ss"
 
 msgctxt "IDS_CMD_CD"
-msgid "/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)"
+msgid "/cd\t\tLoad all the tracks of an Audio CD or (S)VCD,\n\t\t\"pathname\" means the drive path (optional)"
 msgstr "/cd\t\tNačte všechny stopy AudioCD/(S)VCD, volitelný\n\t\tparametr \"cesta\" udává písmeno CD mechaniky"
 
 msgctxt "IDS_CMD_DEVICE"
@@ -3842,7 +3842,7 @@ msgid "/playnext\t\tOpen next file in the folder after playback"
 msgstr "/playnext\t\tPo přehrání otevře další soubor v adresáři"
 
 msgctxt "IDS_CMD_FULLSCREEN"
-msgid "/fullscreen\tStart in full-screen mode"
+msgid "/fullscreen\tStart in fullscreen mode"
 msgstr "/fullscreen\tSpustí přehrávač v režimu na celou obrazovku"
 
 msgctxt "IDS_CMD_MINIMIZED"

@@ -371,7 +371,7 @@ BEGIN
     CONTROL         "Apply aspect ratio compensation for anamorphic videos",IDC_CHECK_SUB_AR_COMPENSATION,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,148,277,8
     GROUPBOX        "Warning",IDC_STATIC,5,165,286,43
-    LTEXT           "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU.",IDC_STATIC,10,176,267,27
+    LTEXT           "If you override and enable fullscreen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU.",IDC_STATIC,10,176,267,27
 END
 
 IDD_PPAGEFORMATS DIALOGEX 0, 0, 296, 241
@@ -3611,11 +3611,11 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_CMD_FILTER          "/filter ""filtername""\tLoad DirectShow filters from a dynamic link ibrary (wildcards allowed)"
-    IDS_CMD_DVD             "/dvd\t\tRun in dvd mode, ""pathname"" means the dvd folder (optional)"
+    IDS_CMD_FILTER          "/filter ""filtername""\tLoad DirectShow filters from a dynamic link library (wildcards allowed)"
+    IDS_CMD_DVD             "/dvd\t\tRun in DVD mode, ""pathname"" means the DVD folder (optional)"
     IDS_CMD_DVDPOS_TC       "/dvdpos T#C\tStart playback at title T, chapter C"
-    IDS_CMD_DVDPOS_TIME     "/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss"
-    IDS_CMD_CD              "/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t""pathname"" means the drive path (optional)"
+    IDS_CMD_DVDPOS_TIME     "/dvdpos T#hh:mm:ss\tStart playback at title T, position hh:mm:ss"
+    IDS_CMD_CD              "/cd\t\tLoad all the tracks of an Audio CD or (S)VCD,\n\t\t""pathname"" means the drive path (optional)"
     IDS_CMD_DEVICE          "/device\t\tOpen the default video device"
     IDS_CMD_OPEN            "/open\t\tOpen the file, don't automatically start playback"
     IDS_CMD_PLAY            "/play\t\tStart playing the file as soon the player is launched"
@@ -3631,7 +3631,7 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_CMD_FULLSCREEN      "/fullscreen\tStart in full-screen mode"
+    IDS_CMD_FULLSCREEN      "/fullscreen\tStart in fullscreen mode"
     IDS_CMD_MINIMIZED       "/minimized\tStart in minimized mode"
     IDS_CMD_NEW             "/new\t\tUse a new instance of the player"
     IDS_CMD_ADD             "/add\t\tAdd ""pathname"" to playlist, can be combined with /open and /play"

@@ -3777,24 +3777,24 @@ msgid "/sub \"subname\"\tLoad an additional subtitle file"
 msgstr "/sub \"subname\"\tGertatu azpidatzi agiri gehigarri bat"
 
 msgctxt "IDS_CMD_FILTER"
-msgid "/filter \"filtername\"\tLoad DirectShow filters from a dynamic link ibrary (wildcards allowed)"
+msgid "/filter \"filtername\"\tLoad DirectShow filters from a dynamic link library (wildcards allowed)"
 msgstr "/filter \"filtername\"\tGertatu DirectShow iragazkiak lotura dinamikoko liburutegi batetik (ordez-hizkiak ahalbidetuta)"
 
 msgctxt "IDS_CMD_DVD"
-msgid "/dvd\t\tRun in dvd mode, \"pathname\" means the dvd folder (optional)"
-msgstr "/dvd\t\tEkin dvd moduan, \"helburu-izena\" dvd agiritegia esanahi du (aukerazkoa)"
+msgid "/dvd\t\tRun in DVD mode, \"pathname\" means the DVD folder (optional)"
+msgstr "/dvd\t\tEkin DVD moduan, \"helburu-izena\" DVD agiritegia esanahi du (aukerazkoa)"
 
 msgctxt "IDS_CMD_DVDPOS_TC"
 msgid "/dvdpos T#C\tStart playback at title T, chapter C"
 msgstr "/dvdpos T#C\tHasi irakurketa T izenburuko, C atalean"
 
 msgctxt "IDS_CMD_DVDPOS_TIME"
-msgid "/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss"
-msgstr "/dvdpos T#hh:mm\tHasi irakurketa T izenburuko, oo:mm:ss kokapenean"
+msgid "/dvdpos T#hh:mm:ss\tStart playback at title T, position hh:mm:ss"
+msgstr "/dvdpos T#hh:mm:ss\tHasi irakurketa T izenburuko, oo:mm:ss kokapenean"
 
 msgctxt "IDS_CMD_CD"
-msgid "/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)"
-msgstr "/cd\t\tGertatu cd edo (s)vcd bateko audio bide guztiak,\n\t\t\"helburu-izena\"-k gidagailu helburua esanahi du esanahi du (aukerazkoa)"
+msgid "/cd\t\tLoad all the tracks of an Audio CD or (S)VCD,\n\t\t\"pathname\" means the drive path (optional)"
+msgstr "/cd\t\tGertatu cd edo (S)VCD bateko audio bide guztiak,\n\t\t\"helburu-izena\"-k gidagailu helburua esanahi du esanahi du (aukerazkoa)"
 
 msgctxt "IDS_CMD_DEVICE"
 msgid "/device\t\tOpen the default video device"
@@ -3841,7 +3841,7 @@ msgid "/playnext\t\tOpen next file in the folder after playback"
 msgstr "/playnext\t\tIreki agiritegiko hurrengo agiria irakurketaren ondoren"
 
 msgctxt "IDS_CMD_FULLSCREEN"
-msgid "/fullscreen\tStart in full-screen mode"
+msgid "/fullscreen\tStart in fullscreen mode"
 msgstr "/fullscreen\tHasi ikusleiho-osoko moduan"
 
 msgctxt "IDS_CMD_MINIMIZED"

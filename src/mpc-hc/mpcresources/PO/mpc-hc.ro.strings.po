@@ -3778,23 +3778,23 @@ msgid "/sub \"subname\"\tLoad an additional subtitle file"
 msgstr "/sub \"subtitlu\"\tÎncarcă un fișier subtitlu adițional"
 
 msgctxt "IDS_CMD_FILTER"
-msgid "/filter \"filtername\"\tLoad DirectShow filters from a dynamic link ibrary (wildcards allowed)"
+msgid "/filter \"filtername\"\tLoad DirectShow filters from a dynamic link library (wildcards allowed)"
 msgstr "/filter \"filtru\"\tÎncarcă filtre DirectShow dintr-o librărie cu încărcare dinamică (metacaractere permise)"
 
 msgctxt "IDS_CMD_DVD"
-msgid "/dvd\t\tRun in dvd mode, \"pathname\" means the dvd folder (optional)"
-msgstr "/dvd\t\tRulează în mod DVD, \"cale\" înseamnă dosarul dvd-ului (opțional)"
+msgid "/dvd\t\tRun in DVD mode, \"pathname\" means the DVD folder (optional)"
+msgstr "/dvd\t\tRulează în mod DVD, \"cale\" înseamnă dosarul DVD-ului (opțional)"
 
 msgctxt "IDS_CMD_DVDPOS_TC"
 msgid "/dvdpos T#C\tStart playback at title T, chapter C"
 msgstr "/dvdpos T#C\tPornește redarea de la titlul T, capitolul C"
 
 msgctxt "IDS_CMD_DVDPOS_TIME"
-msgid "/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss"
-msgstr "/dvdpos T#hh:mm\tPornește redarea de la titlul T, poziția hh:mm:ss"
+msgid "/dvdpos T#hh:mm:ss\tStart playback at title T, position hh:mm:ss"
+msgstr "/dvdpos T#hh:mm:ss\tPornește redarea de la titlul T, poziția hh:mm:ss"
 
 msgctxt "IDS_CMD_CD"
-msgid "/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)"
+msgid "/cd\t\tLoad all the tracks of an Audio CD or (S)VCD,\n\t\t\"pathname\" means the drive path (optional)"
 msgstr "/cd\t\tÎncarcă toate pistele unui CD audio sau (S)VCD,\n\t\t\"cale\" înseamnă calea unității (opțional)"
 
 msgctxt "IDS_CMD_DEVICE"
@@ -3842,7 +3842,7 @@ msgid "/playnext\t\tOpen next file in the folder after playback"
 msgstr "/playnext\t\tDeschide următorul fișier din dosar după redare"
 
 msgctxt "IDS_CMD_FULLSCREEN"
-msgid "/fullscreen\tStart in full-screen mode"
+msgid "/fullscreen\tStart in fullscreen mode"
 msgstr "/fullscreen\tPornește în modul ecran complet"
 
 msgctxt "IDS_CMD_MINIMIZED"
