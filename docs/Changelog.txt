@@ -16,7 +16,7 @@ next version - not released yet
 + Add Bosnian translation
 + Option to set audio delay values for each display mode
 * Updated Little CMS to v2.7 (git 5c23621)
-* Updated MediaInfoLib to v0.7.84
+* Updated MediaInfoLib to v0.7.87
 * Updated ZenLib to v0.4.33
 * Updated Unrar to v5.4.2
 * Updated LAV Filters to v0.68.1.29:
