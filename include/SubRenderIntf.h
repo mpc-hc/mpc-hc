@@ -183,8 +183,7 @@ interface ISubRenderFrame;
 
 // Base interface for both ISubRenderConsumer and ISubRenderProvider.
 
-[uuid("7CFD3728-235E-4430-9A2D-9F25F426BD70")]
-interface ISubRenderOptions : public IUnknown
+DECLARE_INTERFACE_IID_(ISubRenderOptions, IUnknown, "7CFD3728-235E-4430-9A2D-9F25F426BD70")
 {
   // Allows one party to get information from the other party.
   // The memory for strings and binary data is allocated by the callee
@@ -246,8 +245,7 @@ interface ISubRenderOptions : public IUnknown
 
 // This interface is exposed by every subtitle consumer.
 
-[uuid("9DF90966-FE9F-4F0E-881E-DAF8A572D900")]
-interface ISubRenderConsumer : public ISubRenderOptions
+DECLARE_INTERFACE_IID_(ISubRenderConsumer, ISubRenderOptions, "9DF90966-FE9F-4F0E-881E-DAF8A572D900")
 {
   // Called by the subtitle renderer to ask the merit of the consumer.
   // Recommended merits:
@@ -289,8 +287,7 @@ interface ISubRenderConsumer : public ISubRenderOptions
   STDMETHOD(DeliverFrame)(REFERENCE_TIME start, REFERENCE_TIME stop, LPVOID context, ISubRenderFrame *subtitleFrame) = 0;
 };
 
-[uuid("1A1737C8-2BF8-4BEA-97EA-3AB4FA8F7AC9")]
-interface ISubRenderConsumer2 : public ISubRenderConsumer
+DECLARE_INTERFACE_IID_(ISubRenderConsumer2, ISubRenderConsumer, "1A1737C8-2BF8-4BEA-97EA-3AB4FA8F7AC9")
 {
   // Called by the subtitle renderer e.g. when the user switches to a
   // different subtitle track. The consumer should immediately release
@@ -306,8 +303,7 @@ interface ISubRenderConsumer2 : public ISubRenderConsumer
 // The subtitle renderer provides the consumer with this interface, when
 // calling the "ISubRenderConsumer.Connect()" method.
 
-[uuid("20752113-C883-455A-BA7B-ABA4E9115CA8")]
-interface ISubRenderProvider : public ISubRenderOptions
+DECLARE_INTERFACE_IID_(ISubRenderProvider, ISubRenderOptions, "20752113-C883-455A-BA7B-ABA4E9115CA8")
 {
   // Called by the consumer to request a rendered subtitle frame.
   // The subtitle renderer will deliver the frame when it is completed, by
@@ -335,8 +331,7 @@ interface ISubRenderProvider : public ISubRenderOptions
 
 // This interface is the reply to a consumer's frame render request.
 
-[uuid("81746AB5-9407-4B43-A014-1FAAC340F973")]
-interface ISubRenderFrame : public IUnknown
+DECLARE_INTERFACE_IID_(ISubRenderFrame, IUnknown, "81746AB5-9407-4B43-A014-1FAAC340F973")
 {
   // "GetOutputRect()" specifies for which video rect the subtitles were
   // rendered. If the subtitle renderer doesn't scale the subtitles at all,
