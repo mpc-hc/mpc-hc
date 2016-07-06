@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
-"PO-Revision-Date: 2016-03-08 17:37+0000\n"
+"PO-Revision-Date: 2016-10-03 17:33+0000\n"
 "Last-Translator: Daniel <danny34ever@yahoo.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/mpc-hc/mpc-hc/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -31,7 +31,7 @@ msgstr "&Deschidere fișier..."
 
 msgctxt "ID_FILE_OPENDVDBD"
 msgid "Open &DVD/BD..."
-msgstr "Deschidere &DVD/BD..."
+msgstr "Deschidere disc &DVD/BD..."
 
 msgctxt "ID_FILE_OPENDEVICE"
 msgid "Open De&vice..."
@@ -319,19 +319,19 @@ msgstr "Colorimetric &absolut"
 
 msgctxt "POPUP"
 msgid "&VSync"
-msgstr "&VSync (Sincronizare verticală)"
+msgstr "Sincronizare &verticală"
 
 msgctxt "ID_VIEW_VSYNC"
 msgid "&VSync"
-msgstr "Activează &VSync"
+msgstr "Activează sincronizarea &verticală"
 
 msgctxt "ID_VIEW_VSYNCACCURATE"
 msgid "&Accurate VSync"
-msgstr "VSync &precis"
+msgstr "Sincronizare verticală &precisă"
 
 msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
 msgid "A&lternative VSync"
-msgstr "VSync &alternativ"
+msgstr "Sincronizare verticală &alternativă"
 
 msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
 msgid "&Decrease VSync Offset"
@@ -339,7 +339,7 @@ msgstr "&Micșorează decalajul sincronizării verticale"
 
 msgctxt "ID_VIEW_VSYNCOFFSET_INCREASE"
 msgid "&Increase VSync Offset"
-msgstr "&Mărește decalaj VSync"
+msgstr "&Mărește decalajul sincronizării verticale"
 
 msgctxt "POPUP"
 msgid "&GPU Control"
@@ -347,7 +347,7 @@ msgstr "Control al &GPU"
 
 msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
 msgid "Flush GPU &before VSync"
-msgstr "Golește GPU î&nainte de VSync"
+msgstr "&Golește unitatea grafică înainte de sincronizarea verticală"
 
 msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
 msgid "Flush GPU &after Present"
@@ -355,7 +355,7 @@ msgstr "Golește GPU &după prezentare"
 
 msgctxt "ID_VIEW_FLUSHGPU_WAIT"
 msgid "&Wait for flushes"
-msgstr "&Așteaptă pentru goliri"
+msgstr "&Așteaptă după goliri"
 
 msgctxt "POPUP"
 msgid "R&eset"

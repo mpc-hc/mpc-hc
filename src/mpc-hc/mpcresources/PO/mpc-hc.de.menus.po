@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
-"PO-Revision-Date: 2016-06-26 19:16+0000\n"
+"PO-Revision-Date: 2016-09-24 22:34+0000\n"
 "Last-Translator: Luan <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/mpc-hc/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -68,7 +68,7 @@ msgstr "B&ild speichern..."
 
 msgctxt "ID_FILE_SAVE_THUMBNAILS"
 msgid "Save &Thumbnails..."
-msgstr "Mi&niaturansicht speichern..."
+msgstr "Mi&niaturbilder speichern..."
 
 msgctxt "POPUP"
 msgid "S&ubtitles"
@@ -232,7 +232,7 @@ msgstr "&Direct3D-Vollbildmodus"
 
 msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
 msgid "D3D Fullscreen &GUI Support"
-msgstr "&GUI-Unterstützung bei Direct3D-Vollbildmodus"
+msgstr "&GUI bei Direct3D-Vollbildmodus"
 
 msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
 msgid "10-bit &RGB Output"
@@ -244,15 +244,15 @@ msgstr "10-Bit-RGB-&Eingabe erzwingen"
 
 msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
 msgid "&Full Floating Point Processing"
-msgstr "Gleitkommaverarbeitung mit &voller Genauigkeit"
+msgstr "&Volle Gleitkommagenauigkeit"
 
 msgctxt "ID_VIEW_HALFFLOATINGPOINTPROCESSING"
 msgid "&Half Floating Point Processing"
-msgstr "Gleitkommaverarbeitung mit &halber Genauigkeit"
+msgstr "&Halbe Gleitkommagenauigkeit"
 
 msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
 msgid "Disable desktop composition (&Aero)"
-msgstr "&Windows-Desktopgestaltung (Aero) deaktivieren"
+msgstr "De&sktopgestaltung deaktivieren"
 
 msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time &Correction"
@@ -656,7 +656,7 @@ msgstr "&Vorwärts"
 
 msgctxt "ID_NAVIGATE_GOTO"
 msgid "&Go To..."
-msgstr "&Gehe zu..."
+msgstr "&Springen zu..."
 
 msgctxt "ID_NAVIGATE_TITLEMENU"
 msgid "&Title Menu"
@@ -680,7 +680,7 @@ msgstr "&Blickwinkelmenü"
 
 msgctxt "ID_NAVIGATE_CHAPTERMENU"
 msgid "&Chapter Menu"
-msgstr "Ka&pitelmenü"
+msgstr "&Kapitelmenü"
 
 msgctxt "ID_FAVORITES"
 msgid "F&avorites"
@@ -700,11 +700,11 @@ msgstr "&Auf Update prüfen"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"
-msgstr "H&ilfe für Befehlszeile"
+msgstr "&Kommandozeile"
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"
-msgstr "&Toolbar-Bilder herunterladen"
+msgstr "&Toolbar-Bilder"
 
 msgctxt "ID_HELP_DONATE"
 msgid "&Donate"

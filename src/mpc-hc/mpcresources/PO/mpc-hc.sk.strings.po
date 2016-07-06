@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-05-28 19:41:21+0000\n"
-"PO-Revision-Date: 2016-06-04 08:04+0000\n"
+"POT-Creation-Date: 2016-06-16 18:17:40+0000\n"
+"PO-Revision-Date: 2016-07-07 08:10+0000\n"
 "Last-Translator: Marián Hikaník <podnety@mojepreklady.net>\n"
 "Language-Team: Slovak (http://www.transifex.com/mpc-hc/mpc-hc/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -3959,5 +3959,5 @@ msgstr "Veľkosť predvoleného panela nástrojov v (pix.)."
 
 msgctxt "IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR"
 msgid "Use legacy toolbar instead of new vectorized one."
-msgstr ""
+msgstr "Použiť pôvodný panel nástrojov namiesto vektorizovaného."
 

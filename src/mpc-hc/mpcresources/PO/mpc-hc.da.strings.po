@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-05-28 19:41:21+0000\n"
-"PO-Revision-Date: 2016-06-27 14:34+0000\n"
+"POT-Creation-Date: 2016-06-16 18:17:40+0000\n"
+"PO-Revision-Date: 2016-08-19 17:56+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/mpc-hc/mpc-hc/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -57,7 +57,7 @@ msgstr "Afspil lyd-CD"
 
 msgctxt "IDS_AUTOPLAY_PLAYDVDMOVIE"
 msgid "Play DVD Movie"
-msgstr "Afspil DVD film"
+msgstr "Afspil DVD-film"
 
 msgctxt "IDS_PROPSHEET_PROPERTIES"
 msgid "Properties"
@@ -165,7 +165,7 @@ msgstr "Understøttes ikke af alle enheder. To video-dekodere er altid tilstede 
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
 msgid "Fast except when switching between different video streams. Only one video decoder present in the filter graph."
-msgstr "Hurtig, undtagen når der skiftes mellem forskellige video-stream. Der er kun én video-dekoder tilstede i filtergrafen."
+msgstr "Hurtig, undtagen når der skiftes mellem forskellige video-strøm. Der er kun én video-dekoder tilstede i filtergrafen."
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC2"
 msgid "Not recommended. Only for testing purposes."
@@ -205,7 +205,7 @@ msgstr "Film/Drama"
 
 msgctxt "IDS_CONTENT_NEWS_CURRENTAFFAIRS"
 msgid "News/Current affairs"
-msgstr "Nyheder/Aktuelle begivenheder"
+msgstr "Nyheder/aktuelle begivenheder"
 
 msgctxt "IDS_SPEED_UNIT_G"
 msgid "GB/s"
@@ -993,7 +993,7 @@ msgstr "&Ryd liste"
 
 msgctxt "IDS_RECENT_FILES_QUESTION"
 msgid "Are you sure that you want to delete recent files list?"
-msgstr "Er du sikker på at du vil slette listen over seneste filer?"
+msgstr "Er du sikker på, at du vil slette listen over seneste filer?"
 
 msgctxt "IDS_AG_EDL_SAVE"
 msgid "EDL save"
@@ -1369,7 +1369,7 @@ msgstr "Fjern alle"
 
 msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
 msgid "Are you sure you want to remove all channels from the list?"
-msgstr "Er du sikker på at du vil fjerne alle kanalerne fra listen?"
+msgstr "Er du sikker på, at du vil fjerne alle kanalerne fra listen?"
 
 msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"
 msgid "No information available"
@@ -1589,7 +1589,7 @@ msgstr "Nulstil indstillinger"
 
 msgctxt "IDS_RESET_SETTINGS_WARNING"
 msgid "Are you sure you want to restore MPC-HC to its default settings?\nBe warned that ALL your current settings will be lost!"
-msgstr "Er du sikker på at du vil gendanne MPC-HC til sine standardindstillinger?\nBemærk at ALLE dine indstillinger vil gå tabt!"
+msgstr "Er du sikker på, at du vil gendanne MPC-HC til sine standardindstillinger?\nBemærk at ALLE dine indstillinger vil gå tabt!"
 
 msgctxt "IDS_RESET_SETTINGS_MUTEX"
 msgid "Please close all instances of MPC-HC so that the default settings can be restored."
@@ -2049,7 +2049,7 @@ msgstr "Til/Fra undertekst (DVD)"
 
 msgctxt "IDS_OSD_DISPLAY_CURRENT_TIME"
 msgid "OSD: Display Current Time"
-msgstr "OSD: Vis nuværende tid"
+msgstr "OSD: Vis aktuelle tid"
 
 msgctxt "IDS_PPAGEWEBSERVER_0"
 msgid "Select the directory"
@@ -2205,7 +2205,7 @@ msgstr "DVD: Inkompatibel disk og dekoder-regioner"
 
 msgctxt "IDS_D3DFS_WARNING"
 msgid "This option is designed to avoid tearing. However, it will also prevent MPC-HC from displaying the context menu and any dialog box during playback.\n\nDo you really want to activate this option?"
-msgstr "Denne indstilling er designet til at undgå iturivning. Det forhindre dog også MPC-HC i at vise genvejsmenuen og dialogbokse under afspilning.\n\nEr du sikker på at du vil aktivere denne indstilling?"
+msgstr "Denne indstilling er designet til at undgå iturivning. Det forhindre dog også MPC-HC i at vise genvejsmenuen og dialogbokse under afspilning.\n\nEr du sikker på, at du vil aktivere denne indstilling?"
 
 msgctxt "IDS_MAINFRM_139"
 msgid "Sub delay: %ld ms"
@@ -2449,7 +2449,7 @@ msgstr "Ukendt filtype"
 
 msgctxt "IDS_MAINFRM_92"
 msgid "Unsupported stream"
-msgstr "Ikke understøttede stream"
+msgstr "Ikke understøttede strøm"
 
 msgctxt "IDS_MAINFRM_93"
 msgid "Cannot find DVD directory"
@@ -2501,7 +2501,7 @@ msgstr " (pin) egenskaber..."
 
 msgctxt "IDS_AG_UNKNOWN_STREAM"
 msgid "Unknown Stream"
-msgstr "Ukendt stream"
+msgstr "Ukendt strøm"
 
 msgctxt "IDS_AG_UNKNOWN"
 msgid "Unknown %u"
@@ -2573,7 +2573,7 @@ msgstr "Brug: mpc-hc.exe \"stinavn\" [kontakter]"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
-msgstr "Ukendte parametre i kommandolinje streng: \n\n"
+msgstr "Ukendte kontakt(er) i kommandolinje streng: \n\n"
 
 msgctxt "IDS_AG_TOGGLE_INFO"
 msgid "Toggle Information"
@@ -3265,7 +3265,7 @@ msgstr "\nDu bruger allerede den seneste stabile version."
 
 msgctxt "IDS_USING_NEWER_VERSION"
 msgid "Your current version is v%s.\n\nThe latest stable version is v%s."
-msgstr "Din nuværende version er v%s.\n\nDen seneste stabile version er v%s."
+msgstr "Din aktuelle version er v%s.\n\nDen seneste stabile version er v%s."
 
 msgctxt "IDS_NEW_UPDATE_AVAILABLE"
 msgid "MPC-HC v%s is now available. You are using v%s.\n\nDo you want to visit MPC-HC's website to download it?"
@@ -3745,7 +3745,7 @@ msgstr "Upload undertekster"
 
 msgctxt "IDS_SUBUL_DLG_CONFIRM"
 msgid "Are you sure you want to upload the subtitle file \"%s\"?"
-msgstr "Er du sikker på at du vil uploade undertekstfilen \"%s\"?"
+msgstr "Er du sikker på, at du vil uploade undertekstfilen \"%s\"?"
 
 msgctxt "IDS_SUBPP_DLG_FETCHING_LANGUAGES"
 msgid "Fetching supported languages..."
@@ -3769,7 +3769,7 @@ msgstr "/dub \"dubnavn\"\tIndlæs en yderligere lydfil"
 
 msgctxt "IDS_CMD_DUBDELAY"
 msgid "/dubdelay \"file\"\tLoad an additional audio file shifted with XXms\n\t\t(if the file contains \"...DELAY XXms...\")"
-msgstr "/dubdelay \"fil\"\t\tIndlæs en yderligere lydfil forskudt med XXms\n\t\t(hvis filen indeholder \"...DELAY XXms...\")"
+msgstr "/dubdelay \"fil\"\tIndlæs en yderligere lydfil forskudt med XXms\n\t\t(hvis filen indeholder \"...DELAY XXms...\")"
 
 msgctxt "IDS_CMD_D3DFS"
 msgid "/d3dfs\t\tStart rendering in D3D fullscreen mode"
@@ -3777,7 +3777,7 @@ msgstr "/d3dfs\t\tStart rendering i D3D fuldskærm-tilstand"
 
 msgctxt "IDS_CMD_SUB"
 msgid "/sub \"subname\"\tLoad an additional subtitle file"
-msgstr "/sub \"undertekstnavn\"\tIndlæs en yderligere undertekstfil"
+msgstr "/sub \"undert.navn\"\tIndlæs en yderligere undertekstfil"
 
 msgctxt "IDS_CMD_FILTER"
 msgid "/filter \"filtername\"\tLoad DirectShow filters from a dynamic link library (wildcards allowed)"
@@ -3937,7 +3937,7 @@ msgstr "/slave \"hWnd\"\tBrug MPC-HC som slave"
 
 msgctxt "IDS_CMD_HWGPU"
 msgid "/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding.\n\t\tOnly available for CUVID and DXVA2 (copy-back)"
-msgstr "/hwgpu \"index\"\tIndstil indekset af GPU'en brugt til hardware-dekodning.\n\t\tKun tilgængelig for CUVID og DXVA2 (copy-back)"
+msgstr "/hwgpu \"indeks\"\tIndstil indekset af GPU'en brugt til hardware-dekodning.\n\t\tKun tilgængelig for CUVID og DXVA2 (copy-back)"
 
 msgctxt "IDS_CMD_RESET"
 msgid "/reset\t\tRestore default settings"
@@ -3961,5 +3961,5 @@ msgstr "Størrelse i pixels af standardværktøjslinjen."
 
 msgctxt "IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR"
 msgid "Use legacy toolbar instead of new vectorized one."
-msgstr ""
+msgstr "Brug forældet værktøjslinje i stedet for den nye vektoriseret."
 

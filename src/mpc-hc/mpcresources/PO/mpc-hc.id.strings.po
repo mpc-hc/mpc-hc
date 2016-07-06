@@ -22,8 +22,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-05-28 19:41:21+0000\n"
-"PO-Revision-Date: 2016-06-25 05:39+0000\n"
+"POT-Creation-Date: 2016-06-16 18:17:40+0000\n"
+"PO-Revision-Date: 2016-07-07 01:29+0000\n"
 "Last-Translator: Rachman <blackarcher21@yahoo.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/mpc-hc/mpc-hc/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -3810,7 +3810,7 @@ msgstr "/dvdpos T#hh:mm:ss\tMulai pemutaran pada judul T, posisi hh:mm:ss"
 
 msgctxt "IDS_CMD_CD"
 msgid "/cd\t\tLoad all the tracks of an Audio CD or (S)VCD,\n\t\t\"pathname\" means the drive path (optional)"
-msgstr "/cd\t\tMuat semua trek dari cd or (S)VCD audio,\n\t\t\"pathname\" berarti jalur disk (pilihan)"
+msgstr "/cd\t\tMuat semua trek dari CD or (S)VCD audio,\n\t\t\"pathname\" berarti jalur disk (pilihan)"
 
 msgctxt "IDS_CMD_DEVICE"
 msgid "/device\t\tOpen the default video device"
@@ -3974,5 +3974,5 @@ msgstr "Ukuran bilah alat bawaan dalam piksel."
 
 msgctxt "IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR"
 msgid "Use legacy toolbar instead of new vectorized one."
-msgstr ""
+msgstr "Gunakan bilah alat lawas bukan yang tervektorisasi yang baru."
 

@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-05-28 19:41:21+0000\n"
-"PO-Revision-Date: 2016-06-09 00:02+0000\n"
-"Last-Translator: lordkag <lord.kagula@gmail.com>\n"
+"POT-Creation-Date: 2016-06-16 18:17:40+0000\n"
+"PO-Revision-Date: 2016-10-17 12:31+0000\n"
+"Last-Translator: Daniel <danny34ever@yahoo.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/mpc-hc/mpc-hc/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -55,7 +55,7 @@ msgstr "Redă CD Audio"
 
 msgctxt "IDS_AUTOPLAY_PLAYDVDMOVIE"
 msgid "Play DVD Movie"
-msgstr "Redă film DVD"
+msgstr "Redă filmul de pe discul DVD"
 
 msgctxt "IDS_PROPSHEET_PROPERTIES"
 msgid "Properties"
@@ -211,7 +211,7 @@ msgstr "GO/s"
 
 msgctxt "IDS_FILE_FAV_ADDED"
 msgid "File added to favorites"
-msgstr "Fişier adăugat la favorite"
+msgstr "Fișier adăugat la favorite"
 
 msgctxt "IDS_DVD_FAV_ADDED"
 msgid "DVD added to favorites"
@@ -267,11 +267,11 @@ msgstr "Font"
 
 msgctxt "IDS_DVD_NAV_SOME_PINS_ERROR"
 msgid "Failed to render some of the pins of the DVD Navigator filter"
-msgstr "Eşuare la randarea unora dintre pinii filtrului DVD Navigator"
+msgstr "Eșuare la randarea unora dintre pinii filtrului navigator DVD"
 
 msgctxt "IDS_DVD_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for DVD playback"
-msgstr "Eşuare la interogarea interfeţelor necesare pentru redare DVD"
+msgstr "Eșuare la interogarea interfeţelor necesare pentru redare DVD"
 
 msgctxt "IDS_CAPTURE_LIVE"
 msgid "Live"
@@ -299,15 +299,15 @@ msgstr "Editorul listei de editare"
 
 msgctxt "IDS_GOTO_ERROR_INVALID_TIME"
 msgid "The entered time is greater than the file duration."
-msgstr "Timpul introdus este mai mare decât durata fişierului."
+msgstr "Timpul introdus este mai mare decât durata fișierului."
 
 msgctxt "IDS_MISSING_ICONS_LIB"
 msgid "The icons library \"mpciconlib.dll\" is missing.\nThe player's default icon will be used for file associations.\nPlease, reinstall MPC-HC to get \"mpciconlib.dll\"."
-msgstr "Biblioteca de pictograme „mpciconlib.dll” lipseşte.\nPictograma implicită a playerului va fi folosită pentru asocierile fişierelor.\nVă rugăm să reinstalaţi MPC-HC pentru a obţine „mpciconlib.dll”."
+msgstr "Biblioteca de pictograme „mpciconlib.dll” lipsește.\nPictograma implicită a playerului va fi folosită pentru asocierile fișierelor.\nVă rugăm să reinstalaţi MPC-HC pentru a obţine „mpciconlib.dll”."
 
 msgctxt "IDS_SUBDL_DLG_FILENAME_COL"
 msgid "File"
-msgstr "Fişier"
+msgstr "Fișier"
 
 msgctxt "IDS_SUBDL_DLG_LANGUAGE_COL"
 msgid "Language"
@@ -379,7 +379,7 @@ msgstr "Implicit al sistemului"
 
 msgctxt "IDS_GRAPH_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for playback"
-msgstr "Eşuare la interogarea interfeţelor necesare pentru redare"
+msgstr "Eșuare la interogarea interfeţelor necesare pentru redare"
 
 msgctxt "IDS_GRAPH_TARGET_WND_ERROR"
 msgid "Could not set target window for graph notification"
@@ -387,7 +387,7 @@ msgstr "Nu se poate seta fereastra ţintă pentru notificările graficului"
 
 msgctxt "IDS_DVD_NAV_ALL_PINS_ERROR"
 msgid "Failed to render all pins of the DVD Navigator filter"
-msgstr "Eşuare la randarea tuturor pinilor filtrului DVD Navigator"
+msgstr "Eșuare la randarea tuturor pinilor filtrului navigator DVD"
 
 msgctxt "IDS_PLAYLIST_OPEN"
 msgid "&Open"
@@ -511,7 +511,7 @@ msgstr "Redare::Captură"
 
 msgctxt "IDD_PPAGESYNC"
 msgid "Playback::Sync Renderer Settings"
-msgstr "Redare::Stabiliri randor Sync"
+msgstr "Redare::Stabiliri randor Sincronizare"
 
 msgctxt "IDD_PPAGEFULLSCREEN"
 msgid "Playback::Fullscreen"
@@ -543,7 +543,7 @@ msgstr "Randor video vechi"
 
 msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
-msgstr "Randor Mixare Overlay"
+msgstr "Randor amestecător strat suprapus"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
 msgid "Video Mixing Renderer 9 (windowed)"
@@ -619,19 +619,19 @@ msgstr "Acesta este randorul implicit pentru Windows 9x/me/2k. În funcție de v
 
 msgctxt "IDC_DSOVERLAYMIXER"
 msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
-msgstr "Randează întotdeauna în overlay (suprapunere). În mod normal doar formatele YUV sunt permise, dar ele sunt prezentate direct fără nicio conversie de culoare către RGB. Aceasta este cea mai rapidă metodă de randare dintre toate și singura în care puteți fi sigur(ă) de oglindirea/recopierea videoului în ecran complet la activarea tv-out (Ieşire TV)."
+msgstr "Randează întotdeauna într-un strat suprapus. În mod normal doar formatele YUV sunt permise, dar ele sunt prezentate direct fără nicio conversie de culoare către RGB. Aceasta este cea mai rapidă metodă de randare dintre toate și singura în care puteți fi sigur(ă) de oglindirea/recopierea videoului în ecran complet la activarea ieșirii tv (tv-out)."
 
 msgctxt "IDC_DSVMR9WIN"
 msgid "Only available if you have DirectX 9 installed. Very stable but it will never use Overlay rendering and because of this it may be a little slower than Overlay mixer."
-msgstr "Disponibil numai dacă aveți DirectX 9 instalat. Foarte stabil, dar nu va folosi niciodată randare în Overlay și din această cauză s-ar putea să fie puțin mai încet decât randorul mixare în Overlay."
+msgstr "Disponibil numai dacă aveți DirectX 9 instalat. Foarte stabil, dar nu va folosi niciodată randare în Overlay și din această cauză s-ar putea să fie puțin mai încet decât randorul amestecător strat suprapus."
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
-msgstr "Asemănător cu VMR-9 (în fereastră), dar cu modulul Allocator-Presenter din MPC-HC pentru subtitluri. Oglindirea video în overlay S-AR PUTEA să funcționeze. Spațiul de culori recomandat pentru desktop este „True Color”. Recomandat pentru Windows XP."
+msgstr "Asemănător cu VMR-9 (în fereastră), dar cu modulul Allocator-Presenter din MPC-HC pentru subtitluri. Oglindirea video în strat suprapus S-AR PUTEA să funcționeze. Spațiul de culori recomandat pentru desktop este „True Color”. Recomandat pentru Windows XP."
 
 msgctxt "IDC_DSDXR"
 msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
-msgstr "Asemănător cu VMR-9 (fără randare), dar foloseşte o redimensionare bicubică în doi paşi adevărată."
+msgstr "Asemănător cu VMR-9 (fără randare), dar folosește o redimensionare bicubică în doi pași adevărată."
 
 msgctxt "IDC_DSNULL_COMP"
 msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the CPU from working unnecessarily."
@@ -659,7 +659,7 @@ msgstr "Asemănător cu EVR (CP), dar oferă câteva opţiuni pentru a sincroniz
 
 msgctxt "IDC_RMSYSDEF"
 msgid "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
-msgstr "Randor propriu al Real. Scripturile SMIL vor funcționa, dar interacțiunea puțin probabil. Folosește DirectDraw și rulează în Overlay atunci când poate."
+msgstr "Randor propriu al lui Real. Scripturile SMIL vor funcționa, dar interacțiunea puțin probabil. Folosește DirectDraw și rulează în strat suprapus atunci când poate."
 
 msgctxt "IDC_RMDX9"
 msgid "The output of Real's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
@@ -679,11 +679,11 @@ msgstr "Suprafața video va fi alocată ca o suprafață normală offscreen."
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
-msgstr "Randor Sync"
+msgstr "Randor Sincronizare"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
 msgid "Regular offscreen plain surface"
-msgstr "Suprafaţă netedă offscreen obişnuită"
+msgstr "Suprafaţă netedă offscreen obișnuită"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_2D"
 msgid "2D surfaces"
@@ -699,23 +699,23 @@ msgstr "Cel mai apropiat vecin"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BILIN"
 msgid "Bilinear"
-msgstr "Biliniar"
+msgstr "Biliniară"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BIL_PS"
 msgid "Bilinear (PS 2.0)"
-msgstr "Biliniar (PS 2.0)"
+msgstr "Biliniară (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB1"
 msgid "Bicubic A=-0.60 (PS 2.0)"
-msgstr "Bicubic A=-0.60 (PS 2.0)"
+msgstr "Bicubică A=-0.60 (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB2"
 msgid "Bicubic A=-0.75 (PS 2.0)"
-msgstr "Bicubic A=-0.75 (PS 2.0)"
+msgstr "Bicubică A=-0.75 (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB3"
 msgid "Bicubic A=-1.00 (PS 2.0)"
-msgstr "Bicubic A=-1.00 (PS 2.0)"
+msgstr "Bicubică A=-1.00 (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLE"
 msgid "**unavailable**"
@@ -771,15 +771,15 @@ msgstr "Nu există taste rapide (scurtături) pentru exportare."
 
 msgctxt "IDS_RFS_NO_FILES"
 msgid "No media files found in the archive"
-msgstr "Nu s-au găsit fişiere media în arhivă"
+msgstr "Nu s-au găsit fișiere media în arhivă"
 
 msgctxt "IDS_RFS_COMPRESSED"
 msgid "Compressed files are not supported"
-msgstr "Fişierele comprimate nu sunt suportate"
+msgstr "Fișierele comprimate nu sunt suportate"
 
 msgctxt "IDS_RFS_ENCRYPTED"
 msgid "Encrypted files are not supported"
-msgstr "Fişierele criptate nu sunt suportate"
+msgstr "Fișierele criptate nu sunt suportate"
 
 msgctxt "IDS_RFS_MISSING_VOLS"
 msgid "Couldn't find all archive volumes"
@@ -795,7 +795,7 @@ msgstr "Suprafața video va fi alocată ca o textură și desenată ca două tri
 
 msgctxt "IDC_DX9RESIZER_COMBO"
 msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
-msgstr "Dacă nu există suport pentru Nuanțator de pixel 2.0, biliniar simplu este folosit automat."
+msgstr "Dacă nu există suport pentru Nuanțator de pixel 2.0, biliniară simplă este folosită automat."
 
 msgctxt "IDC_DSVMR9LOADMIXER"
 msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
@@ -811,7 +811,7 @@ msgstr "Reduce efectul de rupere (tearing), dar împiedică afișarea barei de i
 
 msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Reduces tearing by bypassing the default VSync built into D3D."
-msgstr "Reduce efectul de rupere (tearing) prin ocolirea sincronizării verticale (VSync) implicite încorporate în D3D."
+msgstr "Reduce efectul de rupere (tearing) prin ocolirea sincronizării verticale implicite încorporate în D3D."
 
 msgctxt "IDS_NAVIGATE_TUNERSCAN"
 msgid "Tuner scan"
@@ -831,7 +831,7 @@ msgstr "Deschideți VTS_xx_0.ifo pentru a încărca fișierele VTS_xx_x.vob dint
 
 msgctxt "IDS_SRC_RFS"
 msgid "Based on RARFileSource, doesn't support compressed files"
-msgstr "Bazat pe RARFileSource, nu suportă fişiere comprimate"
+msgstr "Bazat pe RARFileSource, nu suportă fișiere comprimate"
 
 msgctxt "IDS_INTERNAL_LAVF"
 msgid "Uses LAV Filters"
@@ -847,11 +847,11 @@ msgstr "Comută bara de navigare"
 
 msgctxt "IDS_AG_VSYNCACCURATE"
 msgid "Accurate VSync"
-msgstr "VSync precis"
+msgstr "Sincronizare verticală precisă"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid "If the rendering target is left undefined, it will be inherited from the default style."
-msgstr "Dacă zona ţintă pentru randare este nedefinită, aceasta va fi moştenită din stilul implicit."
+msgstr "Dacă zona ţintă pentru randare este nedefinită, aceasta va fi moștenită din stilul implicit."
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
@@ -1259,7 +1259,7 @@ msgstr "&Copiază lista de filtre în clipboard"
 
 msgctxt "IDS_CREDENTIALS_SERVER"
 msgid "Enter server credentials"
-msgstr "Introduceți datele de autentificare pe server"
+msgstr "Introduceți datele de autentificare pe servitor"
 
 msgctxt "IDS_CREDENTIALS_CONNECT"
 msgid "Enter your credentials to connect"
@@ -1275,7 +1275,7 @@ msgstr "Educaţie/Știinţă/Subiecte actuale"
 
 msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
 msgid "Hides controls and panels also in windowed mode."
-msgstr "Ascunde controale şi panouri de asemenea în modul fereastră."
+msgstr "Ascunde controale și panouri de asemenea în modul fereastră."
 
 msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
 msgid "Prevent external subtitle renderer to be loaded when internal is in use."
@@ -1291,7 +1291,7 @@ msgstr "Valoare"
 
 msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
-msgstr "Numărul maxim de fişiere afişate în meniul „Fişiere recente” şi a căror poziţie este posibil să fie salvată."
+msgstr "Numărul maxim de fișiere afișate în meniul „Fișiere recente” și a căror poziţie este posibil să fie salvată."
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
@@ -1559,11 +1559,11 @@ msgstr "Corecție de timp a cadrelor: Dezactivată"
 
 msgctxt "IDS_OSD_RS_TARGET_VSYNC_OFFSET"
 msgid "Target VSync Offset: %.1f"
-msgstr "Decalaj VSync vizat: %.1f"
+msgstr "Decalaj sincronizare verticală vizată: %.1f"
 
 msgctxt "IDS_OSD_RS_VSYNC_OFFSET"
 msgid "VSync Offset: %d"
-msgstr "Decalaj VSync: %d"
+msgstr "Decalaj sincronizare verticală: %d"
 
 msgctxt "IDS_OSD_SPEED"
 msgid "Speed: %.2lfx"
@@ -1743,7 +1743,7 @@ msgstr "Ascunde &meniul"
 
 msgctxt "IDD_PPAGEADVANCED"
 msgid "Advanced"
-msgstr "Avansat"
+msgstr "Avansate"
 
 msgctxt "IDS_AG_VIEW_MINIMAL"
 msgid "View Minimal"
@@ -1859,7 +1859,7 @@ msgstr "Scalare: Automată (doar cele mari)"
 
 msgctxt "IDS_TOOLTIP_EXPLORE_TO_FILE"
 msgid "Double click to open file location"
-msgstr "Dublu-clic pentru a deschide dosarul fişierului"
+msgstr "Clic dublu pentru a deschide dosarul fișierului"
 
 msgctxt "IDS_TOOLTIP_REMAINING_TIME"
 msgid "Toggle between elapsed and remaining time"
@@ -1871,7 +1871,7 @@ msgstr "Întârzierea nu este validă"
 
 msgctxt "IDS_UPDATE_DELAY_ERROR_MSG"
 msgid "Please enter a number between 1 and 365."
-msgstr "Introduceţi un număr între 1 şi 365."
+msgstr "Introduceţi un număr între 1 și 365."
 
 msgctxt "IDS_AG_PNS_CENTER"
 msgid "PnS Center"
@@ -2323,7 +2323,7 @@ msgstr "Miniaturile ar fi prea mici, imposibil de creat fișierul.\n\nÎncercaț
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
 msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "Pentru a încărca subtitluri trebuie să schimbați tipul randorului video și să redeschideți fișierul.\n- DirectShow: VMR-9 (fără randare), EVR (CP), Sync, madVR sau Haali\n- RealMedia: Randor special pentru RealMedia sau deschideți cu DirectShow\n- QuickTime: Randor DX7 sau DX9 pentru QuickTime\n- ShockWave: indisponibil"
+msgstr "Pentru a încărca subtitluri trebuie să schimbați tipul randorului video și să redeschideți fișierul.\n- DirectShow: VMR-9 (fără randare), EVR (CP), Sincronizare, madVR sau Haali\n- RealMedia: Randor special pentru RealMedia sau deschideți cu DirectShow\n- QuickTime: Randor DX7 sau DX9 pentru QuickTime\n- ShockWave: indisponibil"
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
@@ -2507,7 +2507,7 @@ msgstr "Necunoscut %u"
 
 msgctxt "IDS_AG_VSYNC"
 msgid "VSync"
-msgstr "Activează VSync (Sincronizare verticală)"
+msgstr "Activează sincronizarea verticală"
 
 msgctxt "IDS_MAINFRM_121"
 msgid " (Director Comments 1)"
@@ -2527,7 +2527,7 @@ msgstr "Unghi %u"
 
 msgctxt "IDS_AG_VSYNCOFFSET_INCREASE"
 msgid "Increase VSync Offset"
-msgstr "Mărește decalaj VSync"
+msgstr "Mărește decalajul sincronizării verticale"
 
 msgctxt "IDS_AG_DISABLED"
 msgid "Disabled"
@@ -2535,7 +2535,7 @@ msgstr "Dezactivat"
 
 msgctxt "IDS_AG_VSYNCOFFSET_DECREASE"
 msgid "Decrease VSync Offset"
-msgstr "Micșorează decalajul VSync"
+msgstr "Micșorează decalajul sincronizării verticale"
 
 msgctxt "IDS_MAINFRM_136"
 msgid "MPC-HC D3D Fullscreen"
@@ -2759,7 +2759,7 @@ msgstr "Aplică"
 
 msgctxt "IDS_CLEAR"
 msgid "Clear"
-msgstr "Goleşte"
+msgstr "Golește"
 
 msgctxt "IDS_CANCEL"
 msgid "Cancel"
@@ -3035,19 +3035,19 @@ msgstr "Raport de aspect"
 
 msgctxt "IDS_OSD_RS_VSYNC_ON"
 msgid "VSync: On"
-msgstr "VSync: Activat"
+msgstr "Sincronizare verticală: Activată"
 
 msgctxt "IDS_OSD_RS_VSYNC_OFF"
 msgid "VSync: Off"
-msgstr "VSync: oprit"
+msgstr "Sincronizare verticală: dezactivată"
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_ON"
 msgid "Accurate VSync: On"
-msgstr "VSync precis: Activat"
+msgstr "Sincronizare verticală precisă: Activată"
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_OFF"
 msgid "Accurate VSync: Off"
-msgstr "VSync precis: Dezactivat"
+msgstr "Sincronizare verticală precisă: dezactivată"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_ON"
 msgid "Synchronize Video to Display: On"
@@ -3067,11 +3067,11 @@ msgstr "Sincronizare afișare cu video: Dezactivată"
 
 msgctxt "IDS_OSD_RS_PRESENT_NEAREST_ON"
 msgid "Present at Nearest VSync: On"
-msgstr "Prezentare la cel mai apropiat VSync: Activată"
+msgstr "Prezentare la cel mai apropiată sincronizare verticală: Activată"
 
 msgctxt "IDS_OSD_RS_PRESENT_NEAREST_OFF"
 msgid "Present at Nearest VSync: Off"
-msgstr "Prezentare la cel mai apropiat VSync: Dezactivată"
+msgstr "Prezentare la cel mai apropiată sincronizare verticală: Dezactivată"
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_ON"
 msgid "Color Management: On"
@@ -3131,27 +3131,27 @@ msgstr "Interval de ieșire: %s"
 
 msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_ON"
 msgid "Flush GPU before VSync: On"
-msgstr "Golire GPU înainte de VSync: Activată"
+msgstr "Golire unitate grafică înainte de sincronizarea verticală: Activată"
 
 msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_OFF"
 msgid "Flush GPU before VSync: Off"
-msgstr "Golire GPU înainte de VSync: Dezactivată"
+msgstr "Golire unitate grafică înainte de sincronizarea verticală: Dezactivată"
 
 msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_ON"
 msgid "Flush GPU after Present: On"
-msgstr "Golire GPU după prezentare: Activată"
+msgstr "Golire unitate grafică după prezentare: Activată"
 
 msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_OFF"
 msgid "Flush GPU after Present: Off"
-msgstr "Golire GPU după prezentare: Dezactivată"
+msgstr "Golire unitate grafică după prezentare: Dezactivată"
 
 msgctxt "IDS_OSD_RS_WAIT_ON"
 msgid "Wait for GPU Flush: On"
-msgstr "Așteptare golire GPU: Activată"
+msgstr "Așteptare golire unitate grafică: Activată"
 
 msgctxt "IDS_OSD_RS_WAIT_OFF"
 msgid "Wait for GPU Flush: Off"
-msgstr "Așteptare golire GPU: Dezactivată"
+msgstr "Așteptare golire unitate grafică: Dezactivată"
 
 msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_ON"
 msgid "D3D Fullscreen: On"
@@ -3171,11 +3171,11 @@ msgstr "Dezactivare compoziție desktop (Aero): Nu"
 
 msgctxt "IDS_OSD_RS_ALT_VSYNC_ON"
 msgid "Alternative VSync: On"
-msgstr "VSync alternativ: Activat"
+msgstr "Sincronizare verticală alternativă: Activată"
 
 msgctxt "IDS_OSD_RS_ALT_VSYNC_OFF"
 msgid "Alternative VSync: Off"
-msgstr "VSync alternativ: Dezactivat"
+msgstr "Sincronizare verticală alternativă: Dezactivată"
 
 msgctxt "IDS_OSD_RS_RESET_DEFAULT"
 msgid "Renderer settings reset to default"
@@ -3271,7 +3271,7 @@ msgstr "MPC-HC v%s este disponibil acum. Folosiţi v%s.\n\nDoriţi să vizitaţi
 
 msgctxt "IDS_UPDATE_ERROR"
 msgid "Update server not found.\n\nPlease check your internet connection or try again later."
-msgstr "Serverul pentru actualizare nu a fost găsit.\n\nVerificaţi conexiunea la internet sau încercaţi mai târziu."
+msgstr "Servitorul de actualizări nu a fost găsit.\n\nVerificaţi conexiunea la internet sau încercaţi mai târziu."
 
 msgctxt "IDS_UPDATE_CLOSE"
 msgid "&Close"
@@ -3399,7 +3399,7 @@ msgstr "Funcțiile „Salvează imagine” și „Salvează miniaturi” nu func
 
 msgctxt "IDS_SCREENSHOT_ERROR_OVERLAY"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the Overlay Mixer video renderer.\nChange the video renderer in MPC's output options and reopen the file."
-msgstr "Funcțiile „Salvează imagine” și „Salvează miniaturi” nu funcționează cu randorul video Overlay Mixer.\nSchimbați randorul video în opțiunile de ieșire ale MPC și redeschideți fișierul."
+msgstr "Funcțiile „Salvează imagine” și „Salvează miniaturi” nu funcționează cu randorul video amestecător strat suprapus.\nSchimbați randorul video în opțiunile de ieșire ale MPC și redeschideți fișierul."
 
 msgctxt "IDS_MB_SHOW_EDL_EDITOR"
 msgid "Do you want to activate the EDL editor?"
@@ -3959,5 +3959,5 @@ msgstr "Mărimea în pixeli a barei de instrumente implicite."
 
 msgctxt "IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR"
 msgid "Use legacy toolbar instead of new vectorized one."
-msgstr ""
+msgstr "Folosește bara de instrumente tradițională în locul celei noi vectoriale."
 

@@ -4,7 +4,7 @@
 # Translators:
 # sayanvd <sayanvd@yandex.ru>, 2014-2015
 # Sergey <player54@mail.ru>, 2015-2016
-# stryaponoff <stryaponoff@gmail.com>, 2016
+# Kirill Stryaponoff <stryaponoff@gmail.com>, 2016
 # SmilyCarrot <twisted-transistor@yandex.ru>, 2014
 # Victor Bychek, 2016
 msgid ""

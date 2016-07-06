@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
-"PO-Revision-Date: 2016-05-15 10:41+0000\n"
+"PO-Revision-Date: 2016-10-14 17:14+0000\n"
 "Last-Translator: Luan <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/mpc-hc/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -127,7 +127,7 @@ msgstr "Um Änderungen umgehend zu übernehmen, bei der Auswahl bitte \"Shift\" 
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."
-msgstr "Gehe zu"
+msgstr "Springen zu"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time. You do not need to enter the separators explicitly."
@@ -139,7 +139,7 @@ msgstr "Zeitpunkt:"
 
 msgctxt "IDD_GOTO_DLG_IDC_OK1"
 msgid "Go!"
-msgstr "OK"
+msgstr "&Springen"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Enter two numbers to jump to a specified frame, the first is the frame number, the second is the frame rate."
@@ -151,7 +151,7 @@ msgstr "Videobild:"
 
 msgctxt "IDD_GOTO_DLG_IDC_OK2"
 msgid "Go!"
-msgstr "OK"
+msgstr "S&pringen"
 
 msgctxt "IDD_OPEN_DLG_CAPTION"
 msgid "Open"
@@ -587,7 +587,7 @@ msgstr "&Standard"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON_EXT_SET"
 msgid "Set"
-msgstr "&Übernehmen"
+msgstr "&Anwenden"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC3"
 msgid "Association"
@@ -707,7 +707,7 @@ msgstr "Mauszeiger bei Wiedergabe im Fenster automatisch ausblenden"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
 msgid "Add Filter..."
-msgstr "H&inzufügen..."
+msgstr "&Hinzufügen..."
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON2"
 msgid "Remove"
@@ -727,11 +727,11 @@ msgstr "Priorität setzen:"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON3"
 msgid "Up"
-msgstr "&Hoch"
+msgstr "H&öher"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON4"
 msgid "Down"
-msgstr "&Runter"
+msgstr "&Tiefer"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON5"
 msgid "Add Media Type..."
@@ -827,11 +827,11 @@ msgstr "U&mbenennen"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON3"
 msgid "Move Up"
-msgstr "Nach &oben"
+msgstr "&Höher"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON4"
 msgid "Move Down"
-msgstr "Nach &unten"
+msgstr "&Tiefer"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON2"
 msgid "Delete"
@@ -855,11 +855,11 @@ msgstr "&Löschen"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON4"
 msgid "Up"
-msgstr "&Hoch"
+msgstr "H&öher"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON5"
 msgid "Down"
-msgstr "&Runter"
+msgstr "&Tiefer"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON1"
 msgid "&Set"
@@ -1215,7 +1215,7 @@ msgstr "Nur lokalen Zugriff erlauben"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK6"
 msgid "Enable preview"
-msgstr "Medienvorschau anzeigen"
+msgstr "Medienvorschau"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
 msgid "Print debug information"
@@ -1523,7 +1523,7 @@ msgstr "Anzeigemodus bei Vollbild automatisch wechseln"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON1"
 msgid "Add"
-msgstr "&Hinzufügen"
+msgstr "&Neu"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON2"
 msgid "Del"
@@ -1531,11 +1531,11 @@ msgstr "&Entfernen"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON3"
 msgid "Up"
-msgstr "Nach &oben"
+msgstr "H&öher"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON4"
 msgid "Down"
-msgstr "Nach &unten"
+msgstr "&Tiefer"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK3"
 msgid "Apply default monitor mode on fullscreen exit"
@@ -1755,7 +1755,7 @@ msgstr "JPEG-Qualität:"
 
 msgctxt "IDD_CMD_LINE_HELP_CAPTION"
 msgid "Command line help"
-msgstr "Hilfe für Befehlszeile"
+msgstr "Kommandozeilenhilfe"
 
 msgctxt "IDD_CMD_LINE_HELP_IDOK"
 msgid "OK"

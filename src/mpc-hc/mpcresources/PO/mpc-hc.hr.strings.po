@@ -5,14 +5,14 @@
 # schop <aprcel00@fesb.hr>, 2014-2016
 # iivana24 <iivana24@gmail.com>, 2014
 # streger <stjepan.treger@gmail.com>, 2014-2016
-# vBm <the.vbm@gmail.com>, 2014
+# Goran Džaferi <the.vbm@gmail.com>, 2014
 # Underground78, 2014
 # Ico2005 <vukasinac@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-05-28 19:41:21+0000\n"
-"PO-Revision-Date: 2016-06-23 12:27+0000\n"
+"POT-Creation-Date: 2016-06-16 18:17:40+0000\n"
+"PO-Revision-Date: 2016-09-22 18:25+0000\n"
 "Last-Translator: streger <stjepan.treger@gmail.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/mpc-hc/mpc-hc/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -3963,5 +3963,5 @@ msgstr "Veličina zadane alatne trake u pikselima."
 
 msgctxt "IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR"
 msgid "Use legacy toolbar instead of new vectorized one."
-msgstr ""
+msgstr "Koristi zastarjelu alatnu traku umjesto nove vektorske."
 

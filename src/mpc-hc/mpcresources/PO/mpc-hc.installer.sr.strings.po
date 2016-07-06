@@ -4,7 +4,7 @@
 # Translators:
 # Rancher, 2014
 # Rancher, 2016
-# Zlatan Vasović <legospace9876@gmail.com>, 2014
+# Zlatan Vasović <inactive+ZDroid@transifex.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"

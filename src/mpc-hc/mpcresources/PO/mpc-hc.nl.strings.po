@@ -5,8 +5,8 @@
 # B512, 2015-2016
 # reneweesp <bmom43@hotmail.com>, 2016
 # Dennis Gerritsen <frostflame@hotmail.com>, 2014
-# dragnadh <dragnadh@gmail.com>, 2015
-# DennisW, 2014
+# dragnadh <dragnadh@gmail.com>, 2015-2016
+# DennisW, 2014,2016
 # hendrickbert <hendrickbert@gmail.com>, 2015
 # B512, 2015
 # Marco Brohet <therbom@gmail.com>, 2015
@@ -18,8 +18,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-05-28 19:41:21+0000\n"
-"PO-Revision-Date: 2016-07-04 10:34+0000\n"
+"POT-Creation-Date: 2016-06-16 18:17:40+0000\n"
+"PO-Revision-Date: 2016-10-07 20:12+0000\n"
 "Last-Translator: mark van tilburg <markvantilburg@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/mpc-hc/mpc-hc/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -3770,19 +3770,19 @@ msgstr "Automatisch zoeken en ophalen zal worden uitgeschakeld voor alle media b
 
 msgctxt "IDS_CMD_PATHNAME"
 msgid "\"pathname\"\tThe main file or directory to be loaded\n\t\t(wildcards allowed, \"-\" denotes standard input)"
-msgstr ""
+msgstr "\"pathname\""
 
 msgctxt "IDS_CMD_DUB"
 msgid "/dub \"dubname\"\tLoad an additional audio file"
-msgstr ""
+msgstr "/dub \"dubname\"\tLaad een additioneel audio bestand"
 
 msgctxt "IDS_CMD_DUBDELAY"
 msgid "/dubdelay \"file\"\tLoad an additional audio file shifted with XXms\n\t\t(if the file contains \"...DELAY XXms...\")"
-msgstr ""
+msgstr "/dubdelay \"file\"\tLaad een additioneel audio bestand met een vertraging van XXms\n\t\t(als het bestand ..DELAY XXms... bevat\")"
 
 msgctxt "IDS_CMD_D3DFS"
 msgid "/d3dfs\t\tStart rendering in D3D fullscreen mode"
-msgstr ""
+msgstr "/d3dfs\t\tStart afspelen in D3D volledig scherm modus"
 
 msgctxt "IDS_CMD_SUB"
 msgid "/sub \"subname\"\tLoad an additional subtitle file"
@@ -3790,35 +3790,35 @@ msgstr "/sub \"ondertitel bestandsnaam\"\tLaad een additioneel ondertitel bestan
 
 msgctxt "IDS_CMD_FILTER"
 msgid "/filter \"filtername\"\tLoad DirectShow filters from a dynamic link library (wildcards allowed)"
-msgstr ""
+msgstr "/filter \"filtername\"\tLaad DirectShow filters van een dll bestand (wildcards toegestaan)"
 
 msgctxt "IDS_CMD_DVD"
 msgid "/dvd\t\tRun in DVD mode, \"pathname\" means the DVD folder (optional)"
-msgstr ""
+msgstr "/dvd\t\tStarten in DVD modus, (optioneel) \"pathname\" met de DVD map"
 
 msgctxt "IDS_CMD_DVDPOS_TC"
 msgid "/dvdpos T#C\tStart playback at title T, chapter C"
-msgstr ""
+msgstr "/dvdpos T#C\tStart met afspelen vanaf titel T, hoofdstuk C"
 
 msgctxt "IDS_CMD_DVDPOS_TIME"
 msgid "/dvdpos T#hh:mm:ss\tStart playback at title T, position hh:mm:ss"
-msgstr ""
+msgstr "/dvdpos T#hh:mm:ss\tStart afspelen vanaf titel T, positie uu:mm:ss"
 
 msgctxt "IDS_CMD_CD"
 msgid "/cd\t\tLoad all the tracks of an Audio CD or (S)VCD,\n\t\t\"pathname\" means the drive path (optional)"
-msgstr ""
+msgstr "/cd\t\tLaad alle tracks van een Audio CD of (S)VCD,\n\t\t\"pathname\" is het drive pad (optioneel)"
 
 msgctxt "IDS_CMD_DEVICE"
 msgid "/device\t\tOpen the default video device"
-msgstr ""
+msgstr "/device\t\tOpen het standaard video apparaat"
 
 msgctxt "IDS_CMD_OPEN"
 msgid "/open\t\tOpen the file, don't automatically start playback"
-msgstr ""
+msgstr "/open\t\tBestand openen, niet automatisch beginnen met afspelen"
 
 msgctxt "IDS_CMD_PLAY"
 msgid "/play\t\tStart playing the file as soon the player is launched"
-msgstr ""
+msgstr "/play\t\tBegin met afspelen zodra de speler gestart is"
 
 msgctxt "IDS_CMD_CLOSE"
 msgid "/close\t\tClose the player after playback (only works when used with /play)"
@@ -3830,11 +3830,11 @@ msgstr "/shutdown\tSysteem afsluiten na afspelen"
 
 msgctxt "IDS_CMD_STANDBY"
 msgid "/standby\t\tPut the operating system in standby mode after playback"
-msgstr ""
+msgstr "/standby\t\tZet het besturingsysteem in standby stand na afspelen"
 
 msgctxt "IDS_CMD_HIBERNATE"
 msgid "/hibernate\tHibernate operating system after playback"
-msgstr ""
+msgstr "/hibernate\tSysteem in slaap stand zetten na afspelen"
 
 msgctxt "IDS_CMD_LOGOFF"
 msgid "/logoff\t\tLog off after playback"
@@ -3842,15 +3842,15 @@ msgstr "/logoff\t\tUitloggen na afspelen"
 
 msgctxt "IDS_CMD_LOCK"
 msgid "/lock\t\tLock workstation after playback"
-msgstr ""
+msgstr "/lock\t\tVergrendel na afspelen"
 
 msgctxt "IDS_CMD_MONITOROFF"
 msgid "/monitoroff\tTurn off the monitor after playback"
-msgstr ""
+msgstr "/monitoroff\t\t\tZet monitor uit na afspelen"
 
 msgctxt "IDS_CMD_PLAYNEXT"
 msgid "/playnext\t\tOpen next file in the folder after playback"
-msgstr ""
+msgstr "/playnext\t\tVolgend bestaand open na afspelen"
 
 msgctxt "IDS_CMD_FULLSCREEN"
 msgid "/fullscreen\tStart in fullscreen mode"
@@ -3866,27 +3866,27 @@ msgstr "/new\t\tGebruik een nieuwe instance van de speler"
 
 msgctxt "IDS_CMD_ADD"
 msgid "/add\t\tAdd \"pathname\" to playlist, can be combined with /open and /play"
-msgstr ""
+msgstr "/add\t\tVoeg \"pathname\" toe aan playlist, kan gecombineerd worden met open en play"
 
 msgctxt "IDS_CMD_RANDOMIZE"
 msgid "/randomize\tRandomize the playlist"
-msgstr ""
+msgstr "/randomize\tRandomizeer de speellijst"
 
 msgctxt "IDS_CMD_REGVID"
 msgid "/regvid\t\tCreate file associations for video files"
-msgstr ""
+msgstr "/regvid\t\tMaak de file associaties voor video bestanden"
 
 msgctxt "IDS_CMD_REGAUD"
 msgid "/regaud\t\tCreate file associations for audio files"
-msgstr ""
+msgstr "/regaud\t\tMaak de file associaties voor audio bestanden"
 
 msgctxt "IDS_CMD_REGPL"
 msgid "/regpl\t\tCreate file associations for playlist files"
-msgstr ""
+msgstr "/regpl\t\tMaak de file associaties voor playlist bestanden"
 
 msgctxt "IDS_CMD_REGALL"
 msgid "/regall\t\tCreate file associations for all supported file types"
-msgstr ""
+msgstr "/regall\t\tMaak file associaties voor alle ondersteunde bestandsformaten"
 
 msgctxt "IDS_CMD_UNREGALL"
 msgid "/unregall\t\tRemove all file associations"
@@ -3898,7 +3898,7 @@ msgstr "/start ms\t\tBegin met afspelen vanaf \"ms\" (= milliseconden)"
 
 msgctxt "IDS_CMD_STARTPOS"
 msgid "/startpos hh:mm:ss\tStart playing at position hh:mm:ss"
-msgstr ""
+msgstr "/startpos hh:mm:ss\t\tBegin met afspelen vanaf uu:mm:ss"
 
 msgctxt "IDS_CMD_FIXEDSIZE"
 msgid "/fixedsize w,h\tSet a fixed window size"
@@ -3910,19 +3910,19 @@ msgstr "/monitor N\tStart player op monitor N, waar N begint bij 1"
 
 msgctxt "IDS_CMD_AUDIORENDERER"
 msgid "/audiorenderer N\tStart using audiorenderer N, where N starts from 1 (see \"Output\" settings)"
-msgstr ""
+msgstr "/audiorenderer N\tGebruik audiorenderer N, waar N begint bij 1 (zie ook \"Output\" instellingen)"
 
 msgctxt "IDS_CMD_SHADERPRESET"
 msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
-msgstr ""
+msgstr "/shaderpreset \"Pr\"\tGebruik \"Pr\" shader instelling"
 
 msgctxt "IDS_CMD_PNS"
 msgid "/pns \"name\"\tSpecify Pan&Scan preset name to use"
-msgstr ""
+msgstr "/pns \"naam\"\tSpecificeer Pan&Scan instelling to gebruiken"
 
 msgctxt "IDS_CMD_ICONASSOC"
 msgid "/iconsassoc\tReassociate format icons"
-msgstr ""
+msgstr "/iconsassoc\tBestandsformaat iconen opnieuw koppelen"
 
 msgctxt "IDS_CMD_NOFOCUS"
 msgid "/nofocus\t\tOpen MPC-HC in background"
@@ -3942,11 +3942,11 @@ msgstr "/nocrashreporter\tCrash rapportage uitschakelen"
 
 msgctxt "IDS_CMD_SLAVE"
 msgid "/slave \"hWnd\"\tUse MPC-HC as slave"
-msgstr ""
+msgstr "/slave \"hWnd\"\tGebruik MPC-HC als slave"
 
 msgctxt "IDS_CMD_HWGPU"
 msgid "/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding.\n\t\tOnly available for CUVID and DXVA2 (copy-back)"
-msgstr ""
+msgstr "/hwgpu \"index\"\tSelecteer de index van de GPU te gebruiken voor hardware decoderen.\n\t\tAlleen beschikbaar voor CUVID en DXVA2 (copy-back)"
 
 msgctxt "IDS_CMD_RESET"
 msgid "/reset\t\tRestore default settings"
@@ -3958,7 +3958,7 @@ msgstr "/help /h /?\tToon help over de command line parameters"
 
 msgctxt "IDS_PPAGEADVANCED_SCORE"
 msgid "Threshold value for subtitles score which are going to be automatically downloaded. Higher values means that more accurately matched subtitles will be loaded, lower values could result in incorrect subtitles being loaded, but there is no one perfect value. Pick one that works best for you."
-msgstr ""
+msgstr "Drempelwaarde voor ondertitel score voor automatisch gedownloade ondertitels. Een hogere waarde betekend dat betere ondertitels geladen worden, lage waardes kunnen ertoe leiden dat verkeerde ondertitels geladen worden. Er is geen perfecte waarde. Neem de waarde die voor jou het best werkt."
 
 msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
 msgid "Audio Delay (ms)"
@@ -3970,5 +3970,5 @@ msgstr "Grootte in pixels van de standaard werkbalk."
 
 msgctxt "IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR"
 msgid "Use legacy toolbar instead of new vectorized one."
-msgstr ""
+msgstr "Gebruik de veroude werkbalk in plaats van de niewe vectorized werkbalk"
 
