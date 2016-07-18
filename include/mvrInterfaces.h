@@ -1,11 +1,12 @@
 // ***************************************************************
-//  mvrInterfaces.h           version: 1.0.8  ·  date: 2015-06-21
+//  mvrInterfaces.h           version: 1.0.9  ·  date: 2016-01-23
 //  -------------------------------------------------------------
 //  various interfaces exported by madVR
 //  -------------------------------------------------------------
-//  Copyright (C) 2011 - 2015 www.madshi.net, BSD license
+//  Copyright (C) 2011 - 2016 www.madshi.net, BSD license
 // ***************************************************************
 
+// 2016-01-23 1.0.9 added EC_VIDEO_SIZE_CHANGED "lParam" values
 // 2015-06-21 1.0.8 added IMadVRCommand
 // 2014-01-18 1.0.7 added IMadVRSettings2
 // 2013-06-04 1.0.6 added IMadVRInfo
@@ -128,6 +129,8 @@ const static HRESULT CALLBACK_USER_INTERFACE = 77001;  // user interface, switch
 // when using the (2) render callbacks method, you need to provide
 // madVR with an instance of the IOsdRenderCallback interface
 // it contains three callbacks you have to provide
+//[uuid("57FBF6DC-3E5F-4641-935A-CB62F00C9958")]
+//interface IOsdRenderCallback : public IUnknown
 DECLARE_INTERFACE_IID_(IOsdRenderCallback, IUnknown, "57FBF6DC-3E5F-4641-935A-CB62F00C9958")
 {
   // "SetDevice" is called when you register the callbacks
@@ -153,6 +156,8 @@ const static int BITMAP_USER_INTERFACE    = 4;  // user interface, switches madV
 const static int BITMAP_MASKING_AWARE     = 8;  // caller is aware of screen masking, bitmaps are positioned properly inside of "fullOutputRect"
 
 // this is the main interface which madVR provides to you
+//[uuid("3AE03A88-F613-4BBA-AD3E-EE236976BF9A")]
+//interface IMadVROsdServices : public IUnknown
 DECLARE_INTERFACE_IID_(IMadVROsdServices, IUnknown, "3AE03A88-F613-4BBA-AD3E-EE236976BF9A")
 {
   // this API provides the (1) bitmap based method
@@ -200,6 +205,8 @@ DECLARE_INTERFACE_IID_(IMadVROsdServices, IUnknown, "3AE03A88-F613-4BBA-AD3E-EE2
 // There can always be only one message active at the same time, so basically
 // the messages are overwriting each other.
 
+//[uuid("ABA34FDA-DD22-4E00-9AB4-4ABF927D0B0C")]
+//interface IMadVRTextOsd : public IUnknown
 DECLARE_INTERFACE_IID_(IMadVRTextOsd, IUnknown, "ABA34FDA-DD22-4E00-9AB4-4ABF927D0B0C")
 {
   STDMETHOD(OsdDisplayMessage)(LPCWSTR text, DWORD milliseconds) = 0;
@@ -229,6 +236,8 @@ DECLARE_INTERFACE_IID_(IMadVRTextOsd, IUnknown, "ABA34FDA-DD22-4E00-9AB4-4ABF927
 // If you use this interface, send the messages to madVR from the same window
 // that madVR would otherwise have subclassed.
 
+//[uuid("9B517604-2D86-4FA2-A20C-ECF88301B010")]
+//interface IMadVRSubclassReplacement : public IUnknown
 DECLARE_INTERFACE_IID_(IMadVRSubclassReplacement, IUnknown, "9B517604-2D86-4FA2-A20C-ECF88301B010")
 {
   STDMETHOD(DisableSubclassing)(void) = 0;
@@ -247,6 +256,8 @@ DECLARE_INTERFACE_IID_(IMadVRSubclassReplacement, IUnknown, "9B517604-2D86-4FA2-
 #define ExclusiveModeWasJustLeft        4
 typedef void (__stdcall *EXCLUSIVEMODECALLBACK)(LPVOID context, int event);
 
+//[uuid("51CA9252-ACC5-4EC5-A02E-0F9F8C42B536")]
+//interface IMadVRExclusiveModeCallback : public IUnknown
 DECLARE_INTERFACE_IID_(IMadVRExclusiveModeCallback, IUnknown, "51CA9252-ACC5-4EC5-A02E-0F9F8C42B536")
 {
   STDMETHOD(  Register)(EXCLUSIVEMODECALLBACK exclusiveModeCallback, LPVOID context) = 0;
@@ -262,6 +273,8 @@ DECLARE_INTERFACE_IID_(IMadVRExclusiveModeCallback, IUnknown, "51CA9252-ACC5-4EC
 #define ShaderStage_PreScale 0
 #define ShaderStage_PostScale 1
 
+//[uuid("B6A6D5D4-9637-4C7D-AAAE-BC0B36F5E433")]
+//interface IMadVRExternalPixelShaders : public IUnknown
 DECLARE_INTERFACE_IID_(IMadVRExternalPixelShaders, IUnknown, "B6A6D5D4-9637-4C7D-AAAE-BC0B36F5E433")
 {
   STDMETHOD(ClearPixelShaders)(int stage) = 0;
@@ -274,6 +287,8 @@ DECLARE_INTERFACE_IID_(IMadVRExternalPixelShaders, IUnknown, "B6A6D5D4-9637-4C7D
 
 // this interface allows you to get all kinds of information from madVR
 
+//[uuid("8FAB7F31-06EF-444C-A798-10314E185532")]
+//interface IMadVRInfo : public IUnknown
 DECLARE_INTERFACE_IID_(IMadVRInfo, IUnknown, "8FAB7F31-06EF-444C-A798-10314E185532")
 {
   // The memory for strings and binary data is allocated by the callee
@@ -300,6 +315,7 @@ DECLARE_INTERFACE_IID_(IMadVRInfo, IUnknown, "8FAB7F31-06EF-444C-A798-10314E1855
 // croppedVideoOutputRect,  rect,      final pos/size of the "videoCropRect", after all scaling operations
 // subtitleTargetRect,      rect,      consumer wish for where to place the subtitles
 // fullscreenRect,          rect,      for fullscreen drawing, this is the rect you want to stay in (left/top can be non-zero!)
+// rotation,                int,       current rotation of the video in degrees (0, 90, 180 or 270)
 // frameRate,               ulonglong, frame rate of the video after deinterlacing (REFERENCE_TIME)
 // refreshRate,             double,    display refresh rate (0, if unknown)
 // displayModeSize,         size,      display mode width/height
@@ -320,6 +336,8 @@ DECLARE_INTERFACE_IID_(IMadVRInfo, IUnknown, "8FAB7F31-06EF-444C-A798-10314E1855
 // This interface allows you to give commands to madVR. These commands only
 // affect the current madVR instance. They don't change permanent settings.
 
+//[uuid("5E9599D1-C5DB-4A84-98A9-09BC5F8F1B79")]
+//interface IMadVRCommand : public IUnknown
 DECLARE_INTERFACE_IID_(IMadVRCommand, IUnknown, "5E9599D1-C5DB-4A84-98A9-09BC5F8F1B79")
 {
   // Command names and LPWSTR values are treated case insensitive.
@@ -347,6 +365,8 @@ DECLARE_INTERFACE_IID_(IMadVRCommand, IUnknown, "5E9599D1-C5DB-4A84-98A9-09BC5F8
 // setZoomAlignY,           LPWSTR,    video Y pos alignment: top|center|bottom
 // setZoomOffsetX,          double,    additional X pos offset in percent, default/neutral = 0.0
 // setZoomOffsetY,          double,    additional Y pos offset in percent, default/neutral = 0.0
+// setArOverride,           double,    aspect ratio override (before cropping), default/neutral = 0.0
+// rotate,                  int,       rotates the video by 90, 180 or 270 degrees (0 = no rotation)
 // redraw,                             forces madVR to redraw the current frame (in paused mode)
 // restoreDisplayModeNow,              makes madVR immediately restore the original display mode
 
@@ -373,6 +393,8 @@ DECLARE_INTERFACE_IID_(IMadVRCommand, IUnknown, "5E9599D1-C5DB-4A84-98A9-09BC5F8
 // If you don't specify a path, you automatically access the currently active
 // profile.
 
+//[uuid("6F8A566C-4E19-439E-8F07-20E46ED06DEE")]
+//interface IMadVRSettings : public IUnknown
 DECLARE_INTERFACE_IID_(IMadVRSettings, IUnknown, "6F8A566C-4E19-439E-8F07-20E46ED06DEE")
 {
   // returns the revision number of the settings record
@@ -403,6 +425,8 @@ DECLARE_INTERFACE_IID_(IMadVRSettings, IUnknown, "6F8A566C-4E19-439E-8F07-20E46E
   STDMETHOD_(BOOL, SettingsGetBinary )(LPCWSTR path, LPVOID* value, int* bufLenInBytes) = 0;
 };
 
+//[uuid("1C3E03D6-F422-4D31-9424-75936F663BF7")]
+//interface IMadVRSettings2 : public IMadVRSettings
 DECLARE_INTERFACE_IID_(IMadVRSettings2, IMadVRSettings, "1C3E03D6-F422-4D31-9424-75936F663BF7")
 {
   // Enumerate the available settings stuff in the specified path.
@@ -525,7 +549,7 @@ DECLARE_INTERFACE_IID_(IMadVRSettings2, IMadVRSettings, "1C3E03D6-F422-4D31-9424
 //   lumaUp, image upscaling
 //     lumaUp,                      image upscaling,                                                    string,  Nearest Neighbor|Bilinear|Dxva|Mitchell-Netravali|Catmull-Rom|Bicubic50|Bicubic60|Bicubic75|Bicubic100|SoftCubic50|SoftCubic60|SoftCubic70|SoftCubic80|SoftCubic100|Lanczos3|Lanczos4|Lanczos8|Spline36|Spline64|Jinc3|Jinc4|Jinc8
 //     lumaUpAntiRinging,           activate anti-ringing filter for luma upsampling,                   boolean
-//     lumaUpLinear,                upscale luma in linear light,                                       boolean
+//     lumaUpSigmoidal,             upscale luma in sigmoidal light,                                    boolean
 //   lumaDown, image downscaling
 //     lumaDown,                    image downscaling,                                                  string,  Nearest Neighbor|Bilinear|Dxva|Mitchell-Netravali|Catmull-Rom|Bicubic50|Bicubic60|Bicubic75|Bicubic100|SoftCubic50|SoftCubic60|SoftCubic70|SoftCubic80|SoftCubic100|Lanczos3|Lanczos4|Lanczos8|Spline36|Spline64
 //     lumaDownAntiRinging,         activate anti-ringing filter for luma downsampling,                 boolean
@@ -658,7 +682,7 @@ DECLARE_INTERFACE_IID_(IMadVRSettings2, IMadVRSettings, "1C3E03D6-F422-4D31-9424
 //     keyImageUpAlgoParamInc,      image upscaling algorithm parameter - increase,                     string
 //     keyImageUpAlgoParamDec,      image upscaling algorithm parameter - decrease,                     string
 //     keyImageUpAntiRing,          image upscaling anti-ringing filter - toggle on/off,                string
-//     keyImageUpLinear,            image upscaling in linear light - toggle on/off,                    string
+//     keyImageUpSigmoidal,         image upscaling in sigmoidal light - toggle on/off,                 string
 //     keyImageDownAlgo,            image downscaling algorithm - toggle,                               string
 //     keyImageDownAlgoNearest,     image downscaling algorithm - set to "Nearest Neighbor",            string
 //     keyImageDownAlgoBilinear,    image downscaling algorithm - set to "Bilinear",                    string
@@ -700,26 +724,54 @@ DECLARE_INTERFACE_IID_(IMadVRSettings2, IMadVRSettings, "1C3E03D6-F422-4D31-9424
 interface ISubRenderCallback; // forward
 
 // interface exported by madVR
+//[uuid("9CC7F9F7-3ED1-493c-AF65-527EA1D9947F")]
+//interface ISubRender : public IUnknown
 DECLARE_INTERFACE_IID_(ISubRender, IUnknown, "9CC7F9F7-3ED1-493c-AF65-527EA1D9947F")
 {
   STDMETHOD(SetCallback)(ISubRenderCallback *callback) = 0;
 };
 
 // callback interfaces can provide madVR with
+//[uuid("CD6D2AA5-20D3-4ebe-A8A9-34D3B00CC253")]
+//interface ISubRenderCallback : public IUnknown
 DECLARE_INTERFACE_IID_(ISubRenderCallback, IUnknown, "CD6D2AA5-20D3-4ebe-A8A9-34D3B00CC253")
 {
   STDMETHOD(SetDevice)(IDirect3DDevice9 *device) = 0;
   STDMETHOD(Render)(REFERENCE_TIME frameStart, int left, int top, int right, int bottom, int width, int height) = 0;
 };
+//[uuid("E602585E-C05A-4828-AC69-AF92997F2E0C")]
+//interface ISubRenderCallback2 : public ISubRenderCallback
 DECLARE_INTERFACE_IID_(ISubRenderCallback2, ISubRenderCallback, "E602585E-C05A-4828-AC69-AF92997F2E0C")
 {
   STDMETHOD(RenderEx)(REFERENCE_TIME frameStart, REFERENCE_TIME frameStop, REFERENCE_TIME avgTimePerFrame, int left, int top, int right, int bottom, int width, int height) = 0;
 };
+//[uuid("BAC4273A-3EAD-47F5-9710-8488E52AC618")]
+//interface ISubRenderCallback3 : public ISubRenderCallback2
 DECLARE_INTERFACE_IID_(ISubRenderCallback3, ISubRenderCallback2, "BAC4273A-3EAD-47F5-9710-8488E52AC618")
 {
   STDMETHOD(RenderEx2)(REFERENCE_TIME frameStart, REFERENCE_TIME frameStop, REFERENCE_TIME avgTimePerFrame, RECT croppedVideoRect, RECT originalVideoRect, RECT viewportRect, const double videoStretchFactor = 1.0) = 0;
 };
+const static DWORD SUBRENDER_LEFT_EYE  = 1;
+const static DWORD SUBRENDER_RIGHT_EYE = 2;
+//[uuid("C89CF1D4-29C5-4A96-8AAC-528EC6F7AF1E")]
+//interface ISubRenderCallback4 : public ISubRenderCallback3
+DECLARE_INTERFACE_IID_(ISubRenderCallback4, ISubRenderCallback3, "C89CF1D4-29C5-4A96-8AAC-528EC6F7AF1E")
+{
+  STDMETHOD(RenderEx3)(REFERENCE_TIME frameStart, REFERENCE_TIME frameStop, REFERENCE_TIME avgTimePerFrame, RECT croppedVideoRect, RECT originalVideoRect, RECT viewportRect, const double videoStretchFactor = 1.0, int xOffsetInPixels = 0, DWORD flags = 0) = 0;
+};
 */
+
+// ---------------------------------------------------------------------------
+// EC_VIDEO_SIZE_CHANGED "lParam2" values sent by madVR
+// ---------------------------------------------------------------------------
+
+#define VIDEO_SIZE_CHANGED_INITIAL_SIZE                777  // initial size information
+#define VIDEO_SIZE_CHANGED_MEDIA_TYPE_CHANGED          778  // mediatype has changed
+#define VIDEO_SIZE_CHANGED_BLACK_BAR_DETECTION_CHANGED 779  // black bar detection has changed
+#define VIDEO_SIZE_CHANGED_DVD_AR_CHANGED              780  // DVD metadata caused an AR change
+#define VIDEO_SIZE_CHANGED_AR_OVERRIDE_CHANGED         781  // media player called SendCommandDouble("setArOverride")
+#define VIDEO_SIZE_CHANGED_ROTATION_CHANGED_KEY        782  // rotation changed - user pressed madVR keyboard shortcut
+#define VIDEO_SIZE_CHANGED_ROTATION_CHANGED_API        783  // rotation changed - media player called SendCommandInt("rotate")
 
 // ---------------------------------------------------------------------------
 // IMadVRExclusiveModeInfo (obsolete)
@@ -749,6 +801,8 @@ DECLARE_INTERFACE_IID_(ISubRenderCallback3, ISubRenderCallback2, "BAC4273A-3EAD-
 // disabled, you should still show your own seek bar, because otherwise
 // the user will have no way to seek at all.
 
+//[uuid("D6EE8031-214E-4E9E-A3A7-458925F933AB")]
+//interface IMadVRExclusiveModeInfo : public IUnknown
 DECLARE_INTERFACE_IID_(IMadVRExclusiveModeInfo, IUnknown, "D6EE8031-214E-4E9E-A3A7-458925F933AB")
 {
   STDMETHOD_(BOOL, IsExclusiveModeActive)(void) = 0;
@@ -764,6 +818,8 @@ DECLARE_INTERFACE_IID_(IMadVRExclusiveModeInfo, IUnknown, "D6EE8031-214E-4E9E-A3
 
 // this interface allows you to ask madVR about the detected refresh rate
 
+//[uuid("3F6580E8-8DE9-48D0-8E4E-1F26FE02413E")]
+//interface IMadVRRefreshRateInfo : public IUnknown
 DECLARE_INTERFACE_IID_(IMadVRRefreshRateInfo, IUnknown, "3F6580E8-8DE9-48D0-8E4E-1F26FE02413E")
 {
   STDMETHOD(GetRefreshRate)(double *refreshRate) = 0;
@@ -776,6 +832,8 @@ DECLARE_INTERFACE_IID_(IMadVRRefreshRateInfo, IUnknown, "3F6580E8-8DE9-48D0-8E4E
 // CAUTION: This interface is obsolete. Use IMadVRCommand instead:
 // IMadVRCommand::SendCommandBool("disableSeekbar", true)
 
+//[uuid("D2D3A520-7CFA-46EB-BA3B-6194A028781C")]
+//interface IMadVRSeekbarControl : public IUnknown
 DECLARE_INTERFACE_IID_(IMadVRSeekbarControl, IUnknown, "D2D3A520-7CFA-46EB-BA3B-6194A028781C")
 {
   STDMETHOD(DisableSeekbar)(BOOL disable) = 0;
@@ -788,6 +846,8 @@ DECLARE_INTERFACE_IID_(IMadVRSeekbarControl, IUnknown, "D2D3A520-7CFA-46EB-BA3B-
 // CAUTION: This interface is obsolete. Use IMadVRCommand instead:
 // IMadVRCommand::SendCommandBool("disableExclusiveMode", true)
 
+//[uuid("88A69329-3CD3-47D6-ADEF-89FA23AFC7F3")]
+//interface IMadVRExclusiveModeControl : public IUnknown
 DECLARE_INTERFACE_IID_(IMadVRExclusiveModeControl, IUnknown, "88A69329-3CD3-47D6-ADEF-89FA23AFC7F3")
 {
   STDMETHOD(DisableExclusiveMode)(BOOL disable) = 0;
@@ -802,6 +862,8 @@ DECLARE_INTERFACE_IID_(IMadVRExclusiveModeControl, IUnknown, "88A69329-3CD3-47D6
 // can then blend the media player's GUI on top of madVR's rendered video
 // frames in madVR's OSD callback function.
 
+//[uuid("1CAEE23B-D14B-4DB4-8AEA-F3528CB78922")]
+//interface IMadVRDirect3D9Manager : public IUnknown
 DECLARE_INTERFACE_IID_(IMadVRDirect3D9Manager, IUnknown, "1CAEE23B-D14B-4DB4-8AEA-F3528CB78922")
 {
   STDMETHOD(UseTheseDevices)(LPDIRECT3DDEVICE9 scanlineReading, LPDIRECT3DDEVICE9 rendering, LPDIRECT3DDEVICE9 presentation) = 0;

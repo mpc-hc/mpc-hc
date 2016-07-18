@@ -1,9 +1,10 @@
 // ***************************************************************
-//  SubRenderIntf.h           version: 1.0.8  -  date: 2014-03-06
+//  SubRenderIntf.h           version: 1.0.9  -  date: 2015-10-10
 //  -------------------------------------------------------------
-//  Copyright (C) 2011-2014, BSD license
+//  Copyright (C) 2011-2015, BSD license
 // ***************************************************************
 
+// 2015-10-10 1.0.9 added some optional information fields
 // 2014-03-06 1.0.8 added ISubRenderConsumer2::Clear() interface/method
 // 2014-03-05 1.0.7 auto-loading is now the provider's own responsibility
 // 2013-07-01 1.0.6 added support for TV level subtitle transport
@@ -183,6 +184,8 @@ interface ISubRenderFrame;
 
 // Base interface for both ISubRenderConsumer and ISubRenderProvider.
 
+//[uuid("7CFD3728-235E-4430-9A2D-9F25F426BD70")]
+//interface ISubRenderOptions : public IUnknown
 DECLARE_INTERFACE_IID_(ISubRenderOptions, IUnknown, "7CFD3728-235E-4430-9A2D-9F25F426BD70")
 {
   // Allows one party to get information from the other party.
@@ -215,28 +218,33 @@ DECLARE_INTERFACE_IID_(ISubRenderOptions, IUnknown, "7CFD3728-235E-4430-9A2D-9F2
   // "field" must be zero terminated
 
   // mandatory fields for consumers:
-  // "name",                LPWSTR,    info,   read only,  get name / description of the consumer
-  // "version",             LPWSTR,    info,   read only,  get version number of the consumer
-  // "originalVideoSize",   SIZE,      info,   read only,  size of the video before scaling and AR adjustments
-  // "arAdjustedVideoSize", SIZE,      info,   read only,  size of the video after AR adjustments
-  // "videoOutputRect",     RECT,      info,   read only,  final pos/size of the video after all scaling operations
-  // "subtitleTargetRect",  RECT,      info,   read only,  consumer wish for where to place the subtitles
-  // "frameRate",           ULONGLONG, info,   read only,  frame rate of the video after deinterlacing (REFERENCE_TIME)
-  // "refreshRate",         double,    info,   read only,  display refresh rate (0, if unknown)
+  // "name",                 LPWSTR,    info,   read only,  get name / description of the consumer
+  // "version",              LPWSTR,    info,   read only,  get version number of the consumer
+  // "originalVideoSize",    SIZE,      info,   read only,  size of the video before scaling and AR adjustments
+  // "arAdjustedVideoSize",  SIZE,      info,   read only,  size of the video after AR adjustments
+  // "videoOutputRect",      RECT,      info,   read only,  final pos/size of the video after all scaling operations
+  // "subtitleTargetRect",   RECT,      info,   read only,  consumer wish for where to place the subtitles
+  // "frameRate",            ULONGLONG, info,   read only,  frame rate of the video after deinterlacing (REFERENCE_TIME)
+  // "refreshRate",          double,    info,   read only,  display refresh rate (0, if unknown)
 
   // mandatory fields for providers:
-  // "name",                LPWSTR,    info,   read only,  get name / description of the provider
-  // "version",             LPWSTR,    info,   read only,  get version number of the provider
-  // "yuvMatrix",           LPWSTR,    info,   read only,  RGB Subtitles: "None" (fullrange); YCbCr Subtitles: "Levels.Matrix", Levels: TV|PC, Matrix: 601|709|240M|FCC|2020
-  // "combineBitmaps",      bool,      option, write/read, must the provider combine all bitmaps into one? (default: false)
+  // "name",                 LPWSTR,    info,   read only,  get name / description of the provider
+  // "version",              LPWSTR,    info,   read only,  get version number of the provider
+  // "yuvMatrix",            LPWSTR,    info,   read only,  RGB Subtitles: "None" (fullrange); YCbCr Subtitles: "Levels.Matrix", Levels: TV|PC, Matrix: 601|709|240M|FCC|2020
+  // "combineBitmaps",       bool,      option, write/read, must the provider combine all bitmaps into one? (default: false)
 
   // optional fields for consumers:
-  // "displayModeSize",     SIZE,      info,   read only,  display mode width/height
-  // "yuvMatrix",           LPWSTR,    info,   read only,  RGB Video: "None" (fullrange); YCbCr Video: "Levels.Matrix", Levels: TV|PC, Matrix: 601|709|240M|FCC|2020
-  // "supportedLevels",     int,       info,   read only,  0: PC only (default); 1: PC+TV, no preference; 2: PC+TV, PC preferred; 3: PC+TV, TV preferred
+  // "videoCropRect",        RECT,      info,   read only,  crops "originalVideoSize" down, e.g. because of detected black bars
+  // croppedVideoOutputRect, RECT,      info,   read only,  final pos/size of the "videoCropRect", after all scaling operations
+  // fullscreenRect,         RECT,      info,   read only,  for fullscreen drawing, this is the rect you want to stay in (left/top can be non-zero!)
+  // "displayModeSize",      SIZE,      info,   read only,  display mode width/height
+  // "yuvMatrix",            LPWSTR,    info,   read only,  RGB Video: "None" (fullrange); YCbCr Video: "Levels.Matrix", Levels: TV|PC, Matrix: 601|709|240M|FCC|2020
+  // "supportedLevels",      int,       info,   read only,  0: PC only (default); 1: PC+TV, no preference; 2: PC+TV, PC preferred; 3: PC+TV, TV preferred
 
   // optional fields for providers:
-  // "outputLevels",        LPWSTR,    info,   read only,  are subtitles rendered/output in RGB "PC" (default) or "TV" levels?
+  // "outputLevels",         LPWSTR,    info,   read only,  are subtitles rendered/output in RGB "PC" (default) or "TV" levels?
+  // "isBitmap",             bool,      info,   read only,  are the subtitles bitmap based or text based?
+  // "isMovable",            bool,      info,   read only,  can the subtitles be repositioned safely?
 };
 
 // ---------------------------------------------------------------------------
@@ -245,6 +253,8 @@ DECLARE_INTERFACE_IID_(ISubRenderOptions, IUnknown, "7CFD3728-235E-4430-9A2D-9F2
 
 // This interface is exposed by every subtitle consumer.
 
+//[uuid("9DF90966-FE9F-4F0E-881E-DAF8A572D900")]
+//interface ISubRenderConsumer : public ISubRenderOptions
 DECLARE_INTERFACE_IID_(ISubRenderConsumer, ISubRenderOptions, "9DF90966-FE9F-4F0E-881E-DAF8A572D900")
 {
   // Called by the subtitle renderer to ask the merit of the consumer.
@@ -287,6 +297,8 @@ DECLARE_INTERFACE_IID_(ISubRenderConsumer, ISubRenderOptions, "9DF90966-FE9F-4F0
   STDMETHOD(DeliverFrame)(REFERENCE_TIME start, REFERENCE_TIME stop, LPVOID context, ISubRenderFrame *subtitleFrame) = 0;
 };
 
+//[uuid("1A1737C8-2BF8-4BEA-97EA-3AB4FA8F7AC9")]
+//interface ISubRenderConsumer2 : public ISubRenderConsumer
 DECLARE_INTERFACE_IID_(ISubRenderConsumer2, ISubRenderConsumer, "1A1737C8-2BF8-4BEA-97EA-3AB4FA8F7AC9")
 {
   // Called by the subtitle renderer e.g. when the user switches to a
@@ -303,6 +315,8 @@ DECLARE_INTERFACE_IID_(ISubRenderConsumer2, ISubRenderConsumer, "1A1737C8-2BF8-4
 // The subtitle renderer provides the consumer with this interface, when
 // calling the "ISubRenderConsumer.Connect()" method.
 
+//[uuid("20752113-C883-455A-BA7B-ABA4E9115CA8")]
+//interface ISubRenderProvider : public ISubRenderOptions
 DECLARE_INTERFACE_IID_(ISubRenderProvider, ISubRenderOptions, "20752113-C883-455A-BA7B-ABA4E9115CA8")
 {
   // Called by the consumer to request a rendered subtitle frame.
@@ -331,6 +345,8 @@ DECLARE_INTERFACE_IID_(ISubRenderProvider, ISubRenderOptions, "20752113-C883-455
 
 // This interface is the reply to a consumer's frame render request.
 
+//[uuid("81746AB5-9407-4B43-A014-1FAAC340F973")]
+//interface ISubRenderFrame : public IUnknown
 DECLARE_INTERFACE_IID_(ISubRenderFrame, IUnknown, "81746AB5-9407-4B43-A014-1FAAC340F973")
 {
   // "GetOutputRect()" specifies for which video rect the subtitles were
