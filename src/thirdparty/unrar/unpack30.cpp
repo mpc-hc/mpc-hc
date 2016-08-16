@@ -419,7 +419,10 @@ bool Unpack::AddVMCode(uint FirstByte,byte *Code,int CodeSize)
   if (EmptyCount==0)
   {
     if (PrgStack.Size()>MAX3_UNPACK_FILTERS)
+    {
+      delete StackFilter;
       return false;
+    }
     PrgStack.Add(1);
     EmptyCount=1;
   }

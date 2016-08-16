@@ -19,7 +19,11 @@ RecVolumes5::RecVolumes5(bool TestOnly)
   }
 
   if (TestOnly)
+  {
+#ifdef RAR_SMP
     RecThreadPool=NULL;
+#endif
+  }
   else
   {
 #ifdef RAR_SMP
@@ -344,7 +348,11 @@ bool RecVolumes5::Restore(RAROptions *Cmd,const wchar *Name,bool Silent)
 
   RSCoder16 RS;
   if (!RS.Init(DataCount,RecCount,ValidFlags))
+  {
+    delete[] ValidFlags;
+    delete[] Data;
     return false; // Should not happen, we check parameter validity above.
+  }
 
   RealReadBuffer=new byte[RecBufferSize+SSE_ALIGNMENT];
   byte *ReadBuf=(byte *)ALIGN_VALUE(RealReadBuffer,SSE_ALIGNMENT);

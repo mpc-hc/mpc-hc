@@ -77,7 +77,7 @@ void ListArchive(CommandData *Cmd)
 #ifndef SFX_MODULE
             // Only RAR 1.5 archives store the volume number in end record.
             if (Arc.EndArcHead.StoreVolNumber && Arc.Format==RARFMT15)
-              swprintf(VolNumText,ASIZE(VolNumText),L"%.10ls %d",St(MListVolume),Arc.VolNumber+1);
+              swprintf(VolNumText,ASIZE(VolNumText),L"%.10ls %u",St(MListVolume),Arc.VolNumber+1);
 #endif
             if (Technical && ShowService)
             {
@@ -149,9 +149,7 @@ void ListArchive(CommandData *Cmd)
         if (Cmd->VolSize!=0 && (Arc.FileHead.SplitAfter ||
             Arc.GetHeaderType()==HEAD_ENDARC && Arc.EndArcHead.NextVolume) &&
             MergeArchive(Arc,NULL,false,Cmd->Command[0]))
-        {
           Arc.Seek(0,SEEK_SET);
-        }
         else
 #endif
           break;

@@ -42,7 +42,11 @@ RecVolumes3::RecVolumes3(bool TestOnly)
 {
   memset(SrcFile,0,sizeof(SrcFile));
   if (TestOnly)
+  {
+#ifdef RAR_SMP
     RSThreadPool=NULL;
+#endif
+  }
   else
   {
     Buf.Alloc(TotalBufferSize);

@@ -175,6 +175,51 @@ void RarTime::SetLocal(RarLocalTime *lt)
 }
 
 
+void RarTime::SetUTC(RarLocalTime *lt) // Input is in UTC format.
+{
+#ifdef _WIN_ALL
+  SYSTEMTIME st;
+  st.wYear=lt->Year;
+  st.wMonth=lt->Month;
+  st.wDay=lt->Day;
+  st.wHour=lt->Hour;
+  st.wMinute=lt->Minute;
+  st.wSecond=lt->Second;
+  st.wMilliseconds=0;
+  st.wDayOfWeek=0;
+  FILETIME ft;
+  if (SystemTimeToFileTime(&st,&ft))
+    *this=ft;
+  else
+    Reset();
+#else
+  struct tm t;
+
+  t.tm_sec=lt->Second;
+  t.tm_min=lt->Minute;
+  t.tm_hour=lt->Hour;
+  t.tm_mday=lt->Day;
+  t.tm_mon=lt->Month-1;
+  t.tm_year=lt->Year-1900;
+  t.tm_isdst=-1;
+
+  /* get the local time for Jan 2, 1900 00:00 UTC */
+  time_t zero = 24*60*60L;
+  struct tm *timeptr = localtime( &zero );
+  int gmtime_hours = timeptr->tm_hour;
+
+  /* if the local time is the "day before" the UTC, subtract 24 hours
+    from the hours to get the UTC offset */
+  if( timeptr->tm_mday < 2 )
+    gmtime_hours -= 24;
+  
+  *this=mktime(&t)+gmtime_hours*3600;
+  itime+=lt->Reminder;
+
+#endif
+}
+
+
 // Return the stored time as 64-bit number of 100-nanosecond intervals since 
 // 01.01.1601. Actually we do not care since which date this time starts from
 // as long as this date is the same for GetRaw and SetRaw. We use the value

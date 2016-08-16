@@ -733,16 +733,16 @@ static void GenArcName(wchar *ArcName,const wchar *GenerateMask,uint ArcNumber,b
 
   char Field[10][6];
 
-  sprintf(Field[0],"%04d",rlt.Year);
-  sprintf(Field[1],"%02d",rlt.Month);
-  sprintf(Field[2],"%02d",rlt.Day);
-  sprintf(Field[3],"%02d",rlt.Hour);
-  sprintf(Field[4],"%02d",rlt.Minute);
-  sprintf(Field[5],"%02d",rlt.Second);
-  sprintf(Field[6],"%02d",CurWeek);
-  sprintf(Field[7],"%d",WeekDay+1);
-  sprintf(Field[8],"%03d",rlt.yDay+1);
-  sprintf(Field[9],"%05d",ArcNumber);
+  sprintf(Field[0],"%04u",rlt.Year);
+  sprintf(Field[1],"%02u",rlt.Month);
+  sprintf(Field[2],"%02u",rlt.Day);
+  sprintf(Field[3],"%02u",rlt.Hour);
+  sprintf(Field[4],"%02u",rlt.Minute);
+  sprintf(Field[5],"%02u",rlt.Second);
+  sprintf(Field[6],"%02u",(uint)CurWeek);
+  sprintf(Field[7],"%u",(uint)WeekDay+1);
+  sprintf(Field[8],"%03u",rlt.yDay+1);
+  sprintf(Field[9],"%05u",ArcNumber);
 
   const wchar *MaskChars=L"YMDHISWAEN";
 
