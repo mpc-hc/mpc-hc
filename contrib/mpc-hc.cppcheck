@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="1">
     <root name="."/>
+    <importproject>../mpc-hc.sln</importproject>
     <includedir>
         <dir name="include/"/>
     </includedir>
@@ -17,8 +18,6 @@
         <suppression>cstyleCast</suppression>
         <suppression>noExplicitConstructor</suppression>
         <suppression>redundantAssignment</suppression>
-        <suppression>unreadVariable</suppression>
-        <suppression>unusedPrivateFunction</suppression>
         <suppression>variableScope</suppression>
     </suppressions>
 </project>
