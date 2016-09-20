@@ -3792,7 +3792,7 @@ msgid "/dvdpos T#C\tStart playback at title T, chapter C"
 msgstr ""
 
 msgctxt "IDS_CMD_DVDPOS_TIME"
-msgid "/dvdpos T#hh:mm:ss\tStart playback at title T, position hh:mm:ss"
+msgid "/dvdpos T#P\tStart playback at title T, position P (hh:mm:ss)"
 msgstr ""
 
 msgctxt "IDS_CMD_CD"

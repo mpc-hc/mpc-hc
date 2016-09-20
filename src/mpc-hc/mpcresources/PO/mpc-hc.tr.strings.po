@@ -3793,8 +3793,8 @@ msgid "/dvdpos T#C\tStart playback at title T, chapter C"
 msgstr "/dvdpos T#C⇥İsimden başlat T, bölüm C"
 
 msgctxt "IDS_CMD_DVDPOS_TIME"
-msgid "/dvdpos T#hh:mm:ss\tStart playback at title T, position hh:mm:ss"
-msgstr "/dvdpos T#sa:da⇥İsimden başlat T, konum sa:da:sn"
+msgid "/dvdpos T#P\tStart playback at title T, position P (hh:mm:ss)"
+msgstr ""
 
 msgctxt "IDS_CMD_CD"
 msgid "/cd\t\tLoad all the tracks of an Audio CD or (S)VCD,\n\t\t\"pathname\" means the drive path (optional)"
