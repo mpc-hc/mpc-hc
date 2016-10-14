@@ -8901,7 +8901,7 @@ void CMainFrame::OnRecentFileClear()
     CComPtr<IApplicationDestinations> pDests;
     HRESULT hr = pDests.CoCreateInstance(CLSID_ApplicationDestinations, nullptr, CLSCTX_INPROC_SERVER);
     if (SUCCEEDED(hr)) {
-        hr = pDests->RemoveAllDestinations();
+        pDests->RemoveAllDestinations();
     }
 
     // Remove the saved positions in media

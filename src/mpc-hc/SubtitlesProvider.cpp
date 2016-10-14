@@ -36,6 +36,7 @@
 #define LOG_ERROR   _T("() ERROR: %S")
 
 #define GUESSED_NAME_POSTFIX " (*)"
+#define CheckAbortAndReturn() { if (IsAborting()) return SR_ABORTED; }
 
 using namespace SubtitlesProvidersUtils;
 
@@ -56,8 +57,6 @@ void SubtitlesProviders::RegisterProviders()
     Register<ysubs>(this);
     Register<Napisy24>(this);
 }
-
-#define CheckAbortAndReturn() { if (IsAborting()) return SR_ABORTED; }
 
 /******************************************************************************
 ** OpenSubtitles
@@ -206,7 +205,7 @@ SRESULT OpenSubtitles::Upload(const SubtitlesInfo& pSubtitlesInfo)
     XmlRpcValue args, result;
     args[0] = token;
 
-    //TODO: Ask  how to obtain commented values !!!
+    //TODO: Ask how to obtain commented values !!!
     args[1]["cd1"]["subhash"] = StringToHash(pSubtitlesInfo.fileContents, CALG_MD5);
     args[1]["cd1"]["subfilename"] = pSubtitlesInfo.fileName + ".srt";
     args[1]["cd1"]["moviehash"] = pSubtitlesInfo.fileHash;
@@ -795,6 +794,7 @@ SRESULT titlovi::Search(const SubtitlesInfo& pFileInfo)
         auto GetChildElementText = [&](tinyxml2::XMLElement * pElement, const char* value) -> std::string {
             std::string str;
             auto pChildElement = pElement->FirstChildElement(value);
+
             if (pChildElement != nullptr)
             {
                 auto pText = pChildElement->GetText();
@@ -806,10 +806,10 @@ SRESULT titlovi::Search(const SubtitlesInfo& pFileInfo)
         };
 
         auto pRootElmt = dxml.FirstChildElement("subtitles");
+
         if (pRootElmt) {
-            std::string name = pRootElmt->Name();
-            std::string strAttr = pRootElmt->Attribute("resultsCount");
             int num = pRootElmt->IntAttribute("resultsCount");
+
             if (num > 0/* && num < 50*/) {
                 auto pSubtitleElmt = pRootElmt->FirstChildElement();
 
@@ -818,11 +818,13 @@ SRESULT titlovi::Search(const SubtitlesInfo& pFileInfo)
 
                     pSubtitlesInfo.title = GetChildElementText(pSubtitleElmt, "title");
                     pSubtitlesInfo.languageCode = GetChildElementText(pSubtitleElmt, "language");
+
                     for (const auto& language : titlovi_languages) {
                         if (pSubtitlesInfo.languageCode == language.code) {
                             pSubtitlesInfo.languageCode = language.name;
                         }
                     }
+
                     pSubtitlesInfo.languageName = UTF16To8(ISOLang::ISO639XToLanguage(pSubtitlesInfo.languageCode.c_str()));
                     auto releaseNames = StringTokenize(GetChildElementText(pSubtitleElmt, "release"), "/");
                     pSubtitlesInfo.releaseNames = { releaseNames.begin(), releaseNames.end() };
@@ -851,6 +853,7 @@ SRESULT titlovi::Search(const SubtitlesInfo& pFileInfo)
                         pSubtitlesInfo.seasonNumber = atoi(GetChildElementText(pSubtitleChildElmt, "season").c_str());
                         pSubtitlesInfo.episodeNumber = atoi(GetChildElementText(pSubtitleChildElmt, "episode").c_str());
                     }
+
                     pSubtitlesInfo.fileName = pSubtitlesInfo.title + " " + std::to_string(pSubtitlesInfo.year);
                     if (pSubtitlesInfo.seasonNumber > 0) {
                         pSubtitlesInfo.fileName += StringFormat(" S%02d", pSubtitlesInfo.seasonNumber);
