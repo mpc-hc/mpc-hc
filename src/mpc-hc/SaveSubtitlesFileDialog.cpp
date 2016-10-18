@@ -1,5 +1,5 @@
 /*
- * (C) 2012-2014 see Authors.txt
+ * (C) 2012-2014, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -34,7 +34,7 @@ CSaveSubtitlesFileDialog::CSaveSubtitlesFileDialog(
     LPCTSTR lpszFilter, std::vector<Subtitle::SubType> types,
     CWnd* pParentWnd)
     : CSaveTextFileDialog(e, lpszDefExt, lpszFileName, lpszFilter, pParentWnd)
-    , m_types(types)
+    , m_types(std::move(types))
     , m_bDisableEncoding(false)
     , m_bDisableExternalStyleCheckBox(false)
     , m_delay(delay)

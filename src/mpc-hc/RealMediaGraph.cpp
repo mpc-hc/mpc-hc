@@ -387,9 +387,6 @@ STDMETHODIMP CRealMediaPlayer::SitesNeeded(UINT32 uRequestID, IRMAValues* pProps
         return E_FAIL;
     }
 
-    ULONG refc = ((IRMASite*)m_pTheSite)->AddRef();
-    refc = ((IRMASite*)m_pTheSite)->Release();
-
     if (!(m_pTheSite2 = m_pTheSite)) {
         return E_NOINTERFACE;
     }

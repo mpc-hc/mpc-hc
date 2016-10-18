@@ -82,7 +82,7 @@ public:
         , defaultValue(defaultValue)
         , currentValue(settingReference)
         , settingReference(settingReference)
-        , range(range) {
+        , range(std::move(range)) {
     }
 
     bool IsDefault() const { return currentValue == defaultValue; }
@@ -100,7 +100,7 @@ class SettingsCombo : public SettingsInt
 public:
     SettingsCombo(CString name, int defaultValue, int& settingReference, std::deque<CString> list, CString toolTipText)
         : SettingsInt(name, defaultValue, settingReference, std::make_pair(0, (int)list.size() - 1), toolTipText)
-        , list(list) {
+        , list(std::move(list)) {
     }
 
     std::deque<CString> GetList() const { return list; }

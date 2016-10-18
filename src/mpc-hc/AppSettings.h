@@ -290,18 +290,18 @@ public:
     , rmrepcnt(0) {
     }
 
-    wmcmd(WORD cmd, WORD key, BYTE fVirt, DWORD dwname, UINT appcmd = 0, UINT mouse = NONE, UINT mouseFS = NONE, LPCSTR rmcmd = "", int rmrepcnt = 5)
-        : ACCEL( { fVirt, key, cmd })
-    , backup({ fVirt, key, cmd })
-    , appcmdorg(appcmd)
-    , mouseorg(mouse)
-    , mouseFSorg(mouseFS)
-    , dwname(dwname)
-    , appcmd(appcmd)
-    , mouse(mouse)
-    , mouseFS(mouseFS)
-    , rmcmd(rmcmd)
-    , rmrepcnt(rmrepcnt) {
+    wmcmd(WORD _cmd, WORD _key, BYTE _fVirt, DWORD _dwname, UINT _appcmd = 0, UINT _mouse = NONE, UINT _mouseFS = NONE, LPCSTR _rmcmd = "", int _rmrepcnt = 5)
+        : ACCEL( { _fVirt, _key, _cmd })
+    , backup({ _fVirt, _key, _cmd })
+    , appcmdorg(_appcmd)
+    , mouseorg(_mouse)
+    , mouseFSorg(_mouseFS)
+    , dwname(_dwname)
+    , appcmd(_appcmd)
+    , mouse(_mouse)
+    , mouseFS(_mouseFS)
+    , rmcmd(_rmcmd)
+    , rmrepcnt(_rmrepcnt) {
     }
 
     bool operator == (const wmcmd& wc) const {
