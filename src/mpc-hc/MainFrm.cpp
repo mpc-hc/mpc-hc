@@ -4925,6 +4925,13 @@ void CMainFrame::OnFileSaveImageAuto()
 {
     const CAppSettings& s = AfxGetAppSettings();
 
+    // If path doesn't exist, Save Image instead
+    if (GetFileAttributes(s.strSnapshotPath) == INVALID_FILE_ATTRIBUTES) {
+        AfxMessageBox(IDS_SCREENSHOT_ERROR, MB_ICONWARNING | MB_OK, 0);
+        OnFileSaveImage();
+        return;
+    }
+
     /* Check if a compatible renderer is being used */
     if (!IsRendererCompatibleWithSaveImage()) {
         return;
