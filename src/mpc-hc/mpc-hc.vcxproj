@@ -107,7 +107,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="$(Configuration.Contains('Lite'))">
     <Link>
-      <AdditionalDependencies>AudioSwitcher.lib;BaseClasses.lib;BaseMuxer.lib;BufferFilter.lib;CmdUI.lib;DeCSS.lib;DSMMuxer.lib;DSUtil.lib;Filters.lib;kasumi.lib;LCDUI.lib;lcms2.lib;MatroskaMuxer.lib;ResizableLib.lib;sizecbar.lib;StreamDriveThru.lib;SubPic.lib;Subtitles.lib;SubtitleSource.lib;SyncClock.lib;system.lib;TreePropSheet.lib;unrar.lib;VideoRenderers.lib;WavDest.lib;zlib.lib;mhook.lib;tinyxml2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>AudioSwitcher.lib;BaseClasses.lib;BaseMuxer.lib;BufferFilter.lib;CmdUI.lib;DeCSS.lib;DSMMuxer.lib;DSUtil.lib;Filters.lib;kasumi.lib;LCDUI.lib;lcms2.lib;MatroskaMuxer.lib;ResizableLib.lib;sizecbar.lib;StreamDriveThru.lib;SubPic.lib;Subtitles.lib;SubtitleSource.lib;SyncClock.lib;system.lib;TreePropSheet.lib;unrar.lib;VideoRenderers.lib;WavDest.lib;zlib.lib;mhook.lib;tinyxml2.lib;WinTrust.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile>
       <PreprocessorDefinitions>MPCHC_LITE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -118,7 +118,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="!$(Configuration.Contains('Lite'))">
     <Link>
-      <AdditionalDependencies>RARFileSource.res;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>RARFileSource.res;WinTrust.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile>
       <AdditionalIncludeDirectories>..\thirdparty\ZenLib\library\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>

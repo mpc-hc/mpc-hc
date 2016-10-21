@@ -251,8 +251,8 @@ void UpdateCheckerDlg::DownloadFinished(double total, const CString& file)
 
         CString strInitialDir;
 
-        const WinapiFunc<HRESULT(REFKNOWNFOLDERID, DWORD, HANDLE, PWSTR*)>
-        fnSHGetKnownFolderPath = { "Shell32.dll", "SHGetKnownFolderPath" };
+        const WinapiFunc<decltype(SHGetKnownFolderPath)>
+        fnSHGetKnownFolderPath = { _T("Shell32.dll"), "SHGetKnownFolderPath" };
 
         if (fnSHGetKnownFolderPath) {
             PWSTR ppszPath = nullptr;
