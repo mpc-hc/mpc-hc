@@ -3969,3 +3969,7 @@ msgctxt "IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR"
 msgid "Use legacy toolbar instead of new vectorized one."
 msgstr "Yeni vektörize edilmiş araç çubuğunu kullanmak yerine eski araç çubuğunu kullanın."
 
+msgctxt "IDS_SUBMENU_COPYURL"
+msgid "Copy URL"
+msgstr ""
+

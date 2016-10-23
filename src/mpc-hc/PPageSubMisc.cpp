@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2014, 2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -211,7 +211,8 @@ void CPPageSubMisc::OnRightClick(NMHDR* pNMHDR, LRESULT* pResult)
             RESET_CREDENTIALS,
             MOVE_UP,
             MOVE_DOWN,
-            OPEN_URL
+            OPEN_URL,
+            COPY_URL
         };
 
         CMenu m;
@@ -223,6 +224,7 @@ void CPPageSubMisc::OnRightClick(NMHDR* pNMHDR, LRESULT* pResult)
         m.AppendMenu(MF_STRING | (lpnmlv->iItem < m_list.GetItemCount() - 1  ? MF_ENABLED : MF_DISABLED), MOVE_DOWN, ResStr(IDS_SUBMENU_MOVEDOWN));
         m.AppendMenu(MF_SEPARATOR);
         m.AppendMenu(MF_STRING | MF_ENABLED, OPEN_URL, ResStr(IDS_SUBMENU_OPENURL));
+        m.AppendMenu(MF_STRING | MF_ENABLED, COPY_URL, ResStr(IDS_SUBMENU_COPYURL));
 
         CPoint pt = lpnmlv->ptAction;
         ::MapWindowPoints(lpnmlv->hdr.hwndFrom, HWND_DESKTOP, &pt, 1);
@@ -231,6 +233,35 @@ void CPPageSubMisc::OnRightClick(NMHDR* pNMHDR, LRESULT* pResult)
             case OPEN_URL:
                 provider.OpenUrl();
                 break;
+            case COPY_URL: {
+                if (!provider.Url().empty()) {
+                    size_t len = provider.Url().length() + 1;
+                    HGLOBAL hGlob = ::GlobalAlloc(GMEM_MOVEABLE, len * sizeof(CHAR));
+                    if (hGlob) {
+                        // Lock the handle and copy the text to the buffer
+                        LPVOID pData = ::GlobalLock(hGlob);
+                        if (pData) {
+                            ::strcpy_s((CHAR*)pData, len, (LPCSTR)provider.Url().c_str());
+                            ::GlobalUnlock(hGlob);
+
+                            if (GetParent()->OpenClipboard()) {
+                                // Place the handle on the clipboard, if the call succeeds
+                                // the system will take care of the allocated memory
+                                if (::EmptyClipboard() && ::SetClipboardData(CF_TEXT, hGlob)) {
+                                    hGlob = nullptr;
+                                }
+
+                                ::CloseClipboard();
+                            }
+                        }
+
+                        if (hGlob) {
+                            ::GlobalFree(hGlob);
+                        }
+                    }
+                }
+                break;
+            }
             case SET_CREDENTIALS: {
                 CString szUser(UTF8To16(provider.UserName().c_str()));
                 CString szPass(UTF8To16(provider.Password().c_str()));
