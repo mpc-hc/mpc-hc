@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
-"PO-Revision-Date: 2016-02-16 00:32+0000\n"
+"PO-Revision-Date: 2016-11-06 02:38+0000\n"
 "Last-Translator: Yauhen Bugamol <haxycgm@gmail.com>\n"
 "Language-Team: Belarusian (http://www.transifex.com/mpc-hc/mpc-hc/language/be/)\n"
 "MIME-Version: 1.0\n"
@@ -66,23 +66,23 @@ msgstr "Захаваць &мініяцюры кадраў..."
 
 msgctxt "POPUP"
 msgid "S&ubtitles"
-msgstr "Субтытры"
+msgstr "Субцітры"
 
 msgctxt "ID_FILE_SUBTITLES_LOAD"
 msgid "&Load Subtitles..."
-msgstr "Адкры&ць субтытры..."
+msgstr "Адкры&ць субцітры..."
 
 msgctxt "ID_FILE_SUBTITLES_SAVE"
 msgid "Save S&ubtitles..."
-msgstr "З&ахаваць субтытры..."
+msgstr "З&ахаваць субцітры..."
 
 msgctxt "ID_FILE_SUBTITLES_DOWNLOAD"
 msgid "&Download Subtitles..."
-msgstr "&Спампаваць субтытры..."
+msgstr "&Спампаваць субцітры..."
 
 msgctxt "ID_FILE_SUBTITLES_UPLOAD"
 msgid "&Upload Subtitles..."
-msgstr "За&пампаваць субтытры..."
+msgstr "За&пампаваць субцітры..."
 
 msgctxt "ID_FILE_PROPERTIES"
 msgid "P&roperties"
@@ -122,7 +122,7 @@ msgstr "Радок с&тану "
 
 msgctxt "ID_VIEW_SUBRESYNC"
 msgid "Su&bresync"
-msgstr "Сінхранізацыя су&бтытраў"
+msgstr "Сінхранізацыя су&бцітраў"
 
 msgctxt "ID_VIEW_PLAYLIST"
 msgid "Pla&ylist"
@@ -230,7 +230,7 @@ msgstr "Поўнаэкранны D3D з падтрымкай GUI"
 
 msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
 msgid "10-bit &RGB Output"
-msgstr "10-бітны RGB на выхадзе"
+msgstr "10-бітны RGB-вывад"
 
 msgctxt "ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION"
 msgid "Force 10-bit RGB &Input"
@@ -266,7 +266,7 @@ msgstr "Уваходны тып"
 
 msgctxt "ID_VIEW_CM_INPUT_AUTO"
 msgid "&Auto-Detect"
-msgstr "Аўта-вызначэнне"
+msgstr "Аўтавызначэнне"
 
 msgctxt "ID_VIEW_CM_INPUT_HDTV"
 msgid "&HDTV"
@@ -282,23 +282,23 @@ msgstr "SDTV &PAL"
 
 msgctxt "POPUP"
 msgid "Ambient &Light"
-msgstr "Знешняе Святло"
+msgstr "Знешняе &асвятленне"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
 msgid "&Bright (2.2 Gamma)"
-msgstr "Светлы (Гама 2.2)"
+msgstr "Светлае (Гама 2.2)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DIM"
 msgid "&Dim (2.35 Gamma)"
-msgstr "Цьмяны (Гама 2.35)"
+msgstr "Прыцемненае (Гама 2.35)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DARK"
 msgid "D&ark (2.4 Gamma)"
-msgstr "Цёмны (Гама 2.4)"
+msgstr "Цёмнае (Гама 2.4)"
 
 msgctxt "POPUP"
 msgid "&Rendering Intent"
-msgstr "Прызначэнне рэндэрэнгу"
+msgstr "&Мэта апрацоўкі"
 
 msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
 msgid "&Perceptual"
@@ -318,27 +318,27 @@ msgstr "Абсалютная каларыметрыя"
 
 msgctxt "POPUP"
 msgid "&VSync"
-msgstr "&VSync"
+msgstr "&Вертыкальная сінхранізацыя"
 
 msgctxt "ID_VIEW_VSYNC"
 msgid "&VSync"
-msgstr "&VSync"
+msgstr "VSyn&с"
 
 msgctxt "ID_VIEW_VSYNCACCURATE"
 msgid "&Accurate VSync"
-msgstr "Акуратны VSync"
+msgstr "&Дакладная VSync"
 
 msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
 msgid "A&lternative VSync"
-msgstr "Альтернатыўны VSync"
+msgstr "&Альтернатыўная VSync"
 
 msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
 msgid "&Decrease VSync Offset"
-msgstr "&Паменшыць зрух vsync"
+msgstr "&Паменшыць зрух VSync"
 
 msgctxt "ID_VIEW_VSYNCOFFSET_INCREASE"
 msgid "&Increase VSync Offset"
-msgstr "Павялічыць зрух vsync"
+msgstr "Па&вялічыць зрух VSync"
 
 msgctxt "POPUP"
 msgid "&GPU Control"
@@ -346,15 +346,15 @@ msgstr "GPU Кантроль"
 
 msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
 msgid "Flush GPU &before VSync"
-msgstr "Запоўніць GPU перад VSync"
+msgstr "Ачышчаць буфер GPU перад верт. сінх."
 
 msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
 msgid "Flush GPU &after Present"
-msgstr "Запоўніць GPU пасля паказу"
+msgstr "Ачышчаць буфер GPU пасля паказу"
 
 msgctxt "ID_VIEW_FLUSHGPU_WAIT"
 msgid "&Wait for flushes"
-msgstr "Чакаць запаўнення"
+msgstr "Чакаць ачышчэння буфера"
 
 msgctxt "POPUP"
 msgid "R&eset"
@@ -574,7 +574,7 @@ msgstr "Гукавая &дарожка"
 
 msgctxt "ID_SUBTITLES"
 msgid "Su&btitle Track"
-msgstr "Су&бтытры"
+msgstr "Су&бцітры"
 
 msgctxt "ID_VIDEO_STREAMS"
 msgid "Vide&o Track"
@@ -626,7 +626,7 @@ msgstr "Перайсці ў рэжым &сну"
 
 msgctxt "ID_AFTERPLAYBACK_SHUTDOWN"
 msgid "Shut&down"
-msgstr "В&ыключыць кампутар"
+msgstr "В&ыключыць камп'ютар"
 
 msgctxt "ID_AFTERPLAYBACK_LOGOFF"
 msgid "Log &Off"
@@ -634,7 +634,7 @@ msgstr "Зав&яршыць сеанс"
 
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
-msgstr "Заб&лакаваць кампутар"
+msgstr "Заб&лакаваць камп'ютар"
 
 msgctxt "POPUP"
 msgid "&Navigate"
@@ -662,7 +662,7 @@ msgstr "&Каранёвае меню"
 
 msgctxt "ID_NAVIGATE_SUBPICTUREMENU"
 msgid "&Subtitle Menu"
-msgstr "Меню суб&тытраў"
+msgstr "Меню суб&цітраў"
 
 msgctxt "ID_NAVIGATE_AUDIOMENU"
 msgid "&Audio Menu"
@@ -698,7 +698,7 @@ msgstr "&Параметры каманднага радка"
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"
-msgstr "&Спампаваць выявы для панелі навігацыі"
+msgstr "&Спампаваць выявы для панэлі навігацыі"
 
 msgctxt "ID_HELP_DONATE"
 msgid "&Donate"
