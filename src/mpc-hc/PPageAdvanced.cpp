@@ -307,7 +307,7 @@ void CPPageAdvanced::OnLvnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult)
     LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
 
     if ((pNMLV->uChanged & LVIF_STATE) && (pNMLV->uNewState & LVNI_SELECTED)) {
-        auto setDialogItemsVisibility = [this](std::initializer_list<int>&& ids, int nCmdShow) {
+        auto setDialogItemsVisibility = [this](std::initializer_list<int> && ids, int nCmdShow) {
             for (const auto& nID : ids) {
                 GetDlgItem(nID)->ShowWindow(nCmdShow);
             }

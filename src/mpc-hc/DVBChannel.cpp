@@ -48,7 +48,7 @@ void CDVBChannel::FromString(CString strValue)
     m_strName       = strValue.Tokenize(_T("|"), i);
     m_ulFrequency   = _tstol(strValue.Tokenize(_T("|"), i));
     m_ulBandwidth   = (nVersion > FORMAT_VERSION_4) ? _tstol(strValue.Tokenize(_T("|"), i))
-                                                    : AfxGetAppSettings().iBDABandwidth * 1000;
+                      : AfxGetAppSettings().iBDABandwidth * 1000;
     m_nPrefNumber   = _tstol(strValue.Tokenize(_T("|"), i));
     m_nOriginNumber = _tstol(strValue.Tokenize(_T("|"), i));
     if (nVersion > FORMAT_VERSION_0) {
