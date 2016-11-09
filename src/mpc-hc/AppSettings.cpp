@@ -646,7 +646,8 @@ bool CAppSettings::IsISRAutoLoadEnabled() const
 CAppSettings::SubtitleRenderer CAppSettings::GetSubtitleRenderer() const
 {
     if (IsSubtitleRendererSupported(SubtitleRenderer::INTERNAL, iDSVideoRendererType) ||
-            IsSubtitleRendererSupported(SubtitleRenderer::XY_SUB_FILTER, iDSVideoRendererType)) {
+            IsSubtitleRendererSupported(SubtitleRenderer::XY_SUB_FILTER, iDSVideoRendererType) ||
+            IsSubtitleRendererSupported(SubtitleRenderer::ASS_FILTER, iDSVideoRendererType)) {
         return eSubtitleRenderer;
     }
     return SubtitleRenderer::VS_FILTER;
@@ -661,6 +662,8 @@ bool CAppSettings::IsSubtitleRendererRegistered(SubtitleRenderer eSubtitleRender
             return IsCLSIDRegistered(CLSID_VSFilter);
         case SubtitleRenderer::XY_SUB_FILTER:
             return IsCLSIDRegistered(CLSID_XySubFilter);
+        case SubtitleRenderer::ASS_FILTER:
+            return IsCLSIDRegistered(CLSID_AssFilter);
         default:
             ASSERT(FALSE);
             return false;
@@ -685,6 +688,7 @@ bool CAppSettings::IsSubtitleRendererSupported(SubtitleRenderer eSubtitleRendere
             return true;
 
         case SubtitleRenderer::XY_SUB_FILTER:
+        case SubtitleRenderer::ASS_FILTER:
             switch (videoRenderer) {
                 case VIDRNDT_DS_VMR9RENDERLESS:
                 case VIDRNDT_DS_EVR_CUSTOM:
