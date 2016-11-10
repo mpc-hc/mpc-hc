@@ -30,7 +30,7 @@ ar.WelcomeLabel2=سوف يتم تثبيت [name] على جهازك.%n%nيستح�
 ar.WinVersionTooLowError=يتطلب [name] نظام تشغيل windows XP Service Pack 3 أو إصدار أحدث منه.
 
 ; Belarusian
-be.WelcomeLabel2=Зараз на ваш кампутар будзе ўсталявана праграма [name].%n%nПерш чым працягнуць, рэкамендуецца закрыць усе астатнія праграмы.
+be.WelcomeLabel2=Зараз на ваш камп'ютар будзе ўсталявана праграма [name].%n%nПерш чым працягнуць, рэкамендуецца закрыць усе астатнія праграмы.
 be.WinVersionTooLowError=Для запуску [name] патрабуецца Windows XP SP3 або навейшая.
 
 ; Bengali
@@ -220,7 +220,7 @@ be.msg_simd_sse=Гэта зборка MPC-HC патрабуе працэсар, 
 #elif defined(sse2_required)
 be.msg_simd_sse2=Гэта зборка MPC-HC патрабуе працэсар, з падтрымкай SSE2-інструкцый.%n%nВаш працэсар не адпавядае патрабаванням.
 #endif
-be.run_DownloadToolbarImages=Наведаць нашу Wiki-старонку каб спампаваць выявы для панелі навігацыі
+be.run_DownloadToolbarImages=Наведаць нашу Wiki-старонку каб спампаваць выявы для панэлі навігацыі
 be.tsk_AllUsers=Для ўсіх карыстальнікаў
 be.tsk_CurrentUser=Толькі для гэтага карыстальніка
 be.tsk_Other=Іншыя заданні:
@@ -271,11 +271,11 @@ bs_BA.ViewChangelog=Pogledaj listu izmjena
 ca.langid=00001027
 ca.comp_mpciconlib=Col·lecció d’icones
 ca.comp_mpcresources=Traduccions
-ca.msg_DeleteSettings=Voleu suprimir les preferències del MPC-HC?%n%nSi planegeu tornar-lo a instal·lar no cal que les elimineu.
+ca.msg_DeleteSettings=Voleu suprimir les preferències de l'MPC-HC?%n%nSi planegeu tornar-lo a instal·lar no cal que les elimineu.
 #if defined(sse_required)
-ca.msg_simd_sse=Aquesta versió de MPC-HC necessita una CPU amb suport d'extensions SSE.%n%nLa teva CPU no cumpleix aquestes característiques.
+ca.msg_simd_sse=Aquesta versió de l'MPC-HC necessita una CPU amb suport d'extensions SSE.%n%nLa seva CPU no compleix aquesta característica.
 #elif defined(sse2_required)
-ca.msg_simd_sse2=Aquesta versió de MPC-HC requereix una CPU amb suport d'extensions SSE2.%n%nLa teva CPU no cumpleix aquestes característiques.
+ca.msg_simd_sse2=Aquesta versió de l'MPC-HC requereix una CPU amb suport d'extensions SSE2.%n%nLa seva CPU no compleix aquesta característica.
 #endif
 ca.run_DownloadToolbarImages=Visita la nostra pàgina Wiki per descarregar imatges de la barra d'eines
 ca.tsk_AllUsers=Per a tots els usuaris
@@ -334,7 +334,7 @@ de.msg_simd_sse=Die verwendete CPU muss SSE unterstützen.
 #elif defined(sse2_required)
 de.msg_simd_sse2=Die verwendete CPU muss SSE2 unterstützen.
 #endif
-de.run_DownloadToolbarImages=Wikiseite mit Toolbar-Bildern besuchen
+de.run_DownloadToolbarImages=Wiki für Toolbar-Bilder öffnen
 de.tsk_AllUsers=Für alle Benutzer
 de.tsk_CurrentUser=Für den aktuellen Benutzer
 de.tsk_Other=Weitere Aufgaben:
@@ -729,9 +729,9 @@ ro.comp_mpciconlib=Bibliotecă de pictograme
 ro.comp_mpcresources=Traduceri
 ro.msg_DeleteSettings=Doriţi de asemenea să ștergeți stabilirile MPC-HC?%n%nDacă doriţi să reinstalați MPC-HC, atunci nu este necesar să le ștergeți.
 #if defined(sse_required)
-ro.msg_simd_sse=Această versiune de MPC-HC necesită un procesor cu suport pentru extensii SSE.%n%nProcesorul dumneavoastră nu are aceste capacităţi.
+ro.msg_simd_sse=Această versiune de MPC-HC necesită un procesor cu sprijin pentru extensii SSE.%n%nProcesorul dumneavoastră nu are aceste capacităţi.
 #elif defined(sse2_required)
-ro.msg_simd_sse2=Această versiune de MPC-HC necesită un procesor cu suport pentru extensii SSE2.%n%nProcesorul dumneavoastră nu are aceste capacităţi.
+ro.msg_simd_sse2=Această versiune de MPC-HC necesită un procesor cu sprijin pentru extensii SSE2.%n%nProcesorul dumneavoastră nu are aceste capacităţi.
 #endif
 ro.run_DownloadToolbarImages=Vizitați pagina noastră Wiki pentru a descărca imagini pentru bara de instrumente
 ro.tsk_AllUsers=Pentru toţi utilizatorii

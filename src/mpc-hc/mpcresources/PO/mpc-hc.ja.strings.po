@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-06-16 18:17:40+0000\n"
-"PO-Revision-Date: 2016-10-03 09:59+0000\n"
+"POT-Creation-Date: 2016-10-17 00:35:36+0000\n"
+"PO-Revision-Date: 2016-10-29 05:46+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/mpc-hc/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -987,11 +987,11 @@ msgstr "EDL 新しいクリップ"
 
 msgctxt "IDS_RECENT_FILES_CLEAR"
 msgid "&Clear list"
-msgstr "リストをクリア(&C)"
+msgstr "一覧をクリア(&C)"
 
 msgctxt "IDS_RECENT_FILES_QUESTION"
 msgid "Are you sure that you want to delete recent files list?"
-msgstr "最近使ったファイルのリストを削除してもよろしいですか？"
+msgstr "最近使ったファイルの一覧を削除してもよろしいですか？"
 
 msgctxt "IDS_AG_EDL_SAVE"
 msgid "EDL save"
@@ -1367,7 +1367,7 @@ msgstr "すべて削除"
 
 msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
 msgid "Are you sure you want to remove all channels from the list?"
-msgstr "リストからすべてのチャンネルを削除してもよろしいですか？"
+msgstr "一覧からすべてのチャンネルを削除してもよろしいですか？"
 
 msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"
 msgid "No information available"
@@ -1815,7 +1815,7 @@ msgstr "ダウンロード中 [%s] \"%s\""
 
 msgctxt "IDS_SUBDL_DLG_PARSING"
 msgid "Parsing list..."
-msgstr "リストを解析中..."
+msgstr "一覧を解析中..."
 
 msgctxt "IDS_SUBDL_DLG_NOT_FOUND"
 msgid "No subtitles found."
@@ -3099,31 +3099,31 @@ msgstr "入力タイプ: SDTV PAL"
 
 msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_BRIGHT"
 msgid "Ambient Light: Bright (2.2 Gamma)"
-msgstr "アンビエント ライト: 明るい (ガンマ 2.2)"
+msgstr "環境光: 明るい (ガンマ 2.2)"
 
 msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DIM"
 msgid "Ambient Light: Dim (2.35 Gamma)"
-msgstr "アンビエント ライト: 薄暗い (ガンマ 2.35)"
+msgstr "環境光: 薄暗い (ガンマ 2.35)"
 
 msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DARK"
 msgid "Ambient Light: Dark (2.4 Gamma)"
-msgstr "アンビエント ライト: 暗い (ガンマ 2.4)"
+msgstr "環境光: 暗い (ガンマ 2.4)"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_PERCEPT"
 msgid "Rendering Intent: Perceptual"
-msgstr "色空間変換の方法: 知覚的"
+msgstr "レンダリングの目的: 知覚的"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_RELATIVE"
 msgid "Rendering Intent: Relative Colorimetric"
-msgstr "色空間変換の方法: 相対的な色域を維持"
+msgstr "レンダリングの目的: 相対カラーメトリック"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_SATUR"
 msgid "Rendering Intent: Saturation"
-msgstr "色空間変換の方法: 彩度"
+msgstr "レンダリングの目的: 彩度"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_ABSOLUTE"
 msgid "Rendering Intent: Absolute Colorimetric"
-msgstr "色空間変換の方法: 絶対的な色域を維持"
+msgstr "レンダリングの目的: 絶対カラーメトリック"
 
 msgctxt "IDS_OSD_RS_OUTPUT_RANGE"
 msgid "Output Range: %s"
@@ -3463,7 +3463,7 @@ msgstr "正しい時間の形式は [-]hh:mm:ss.ms です。 (例: 01:23:45.678)
 
 msgctxt "IDS_EXTERNAL_FILTERS_ERROR_MT"
 msgid "This type is already in the list!"
-msgstr "このタイプは既にリストにあります！"
+msgstr "このタイプは既に一覧にあります！"
 
 msgctxt "IDS_WEBSERVER_ERROR_TEST"
 msgid "You need to apply the new settings before testing them."
@@ -3791,7 +3791,7 @@ msgstr "/dvdpos T#C\tタイトル T のチャプター C から再生を開始�
 
 msgctxt "IDS_CMD_DVDPOS_TIME"
 msgid "/dvdpos T#P\tStart playback at title T, position P (hh:mm:ss)"
-msgstr ""
+msgstr "/dvdpos T#P\tタイトル T の位置 P (hh:mm:ss) から再生を開始する"
 
 msgctxt "IDS_CMD_CD"
 msgid "/cd\t\tLoad all the tracks of an Audio CD or (S)VCD,\n\t\t\"pathname\" means the drive path (optional)"

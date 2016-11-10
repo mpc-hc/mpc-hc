@@ -6,12 +6,13 @@
 # firespin <dartworldgr@hotmail.com>, 2014-2016
 # Elena Sotiri <elenaph33@gmail.com>, 2016
 # geogeo.gr <geogeo.gr@gmail.com>, 2015-2016
+# Lampros Zouloumis <onebrand@hotmail.gr>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2016-06-16 18:17:40+0000\n"
-"PO-Revision-Date: 2016-10-11 05:10+0000\n"
-"Last-Translator: geogeo.gr <geogeo.gr@gmail.com>\n"
+"POT-Creation-Date: 2016-10-17 00:35:36+0000\n"
+"PO-Revision-Date: 2016-10-23 07:03+0000\n"
+"Last-Translator: Lampros Zouloumis <onebrand@hotmail.gr>\n"
 "Language-Team: Greek (http://www.transifex.com/mpc-hc/mpc-hc/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -965,11 +966,11 @@ msgstr "&Οργάνωση αγαπημένων..."
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
 msgid "Sh&uffle"
-msgstr "Τυχαία σειρά"
+msgstr "Τυχαία &σειρά"
 
 msgctxt "IDS_PLAYLIST_SHOWFOLDER"
 msgid "Ope&n file location"
-msgstr "Άνοιγμα θέσης αρχείου"
+msgstr "Άνοιγμα &θέσης αρχείου"
 
 msgctxt "IDS_CONTROLS_CLOSING"
 msgid "Closing..."
@@ -1053,7 +1054,7 @@ msgstr "Εστίαση σε υπερευρυγώνια οθόνη,%.3f,%.3f,%.3f
 
 msgctxt "IDS_PLAYLIST_HIDEFS"
 msgid "&Hide on Fullscreen"
-msgstr "Απόκρυψη σε πλήρη οθόνη"
+msgstr "&Απόκρυψη σε πλήρη οθόνη"
 
 msgctxt "IDS_CONTROLS_STOPPED"
 msgid "Stopped"
@@ -1241,7 +1242,7 @@ msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
 msgid "Add containing &folder"
-msgstr "Προσθήκη του φακέλου που περιέχει το αρχείο"
+msgstr "Προσθήκη του φακέλου που περιέχει το &αρχείο"
 
 msgctxt "IDS_HW_INDICATOR"
 msgid "[H/W]"
@@ -3765,201 +3766,201 @@ msgstr "\"pathname\"⇥Το κύριο αρχείο ή φάκελος που θ�
 
 msgctxt "IDS_CMD_DUB"
 msgid "/dub \"dubname\"\tLoad an additional audio file"
-msgstr ""
+msgstr "/dub \"dubname\"⇥Φόρτωση ενός πρόσθετου αρχείου ήχου"
 
 msgctxt "IDS_CMD_DUBDELAY"
 msgid "/dubdelay \"file\"\tLoad an additional audio file shifted with XXms\n\t\t(if the file contains \"...DELAY XXms...\")"
-msgstr ""
+msgstr "/dubdelay \"αρχείο\"\tΦόρτωση ενός πρόσθετου αρχείου ήχου μετατοπισμένο με XXms\n\t\t(εάν το αρχείο περιέχει \"...DELAY XXms...\")"
 
 msgctxt "IDS_CMD_D3DFS"
 msgid "/d3dfs\t\tStart rendering in D3D fullscreen mode"
-msgstr ""
+msgstr "/d3dfs\t\tΕκκίνηση απόδοσης σε λειτουργία D3D πλήρους οθόνης"
 
 msgctxt "IDS_CMD_SUB"
 msgid "/sub \"subname\"\tLoad an additional subtitle file"
-msgstr ""
+msgstr "/sub \"subname\"⇥Φόρτωση ενός πρόσθετου αρχείου υποτίτλων"
 
 msgctxt "IDS_CMD_FILTER"
 msgid "/filter \"filtername\"\tLoad DirectShow filters from a dynamic link library (wildcards allowed)"
-msgstr ""
+msgstr "/filter \"όνομα φίλτρου\"\tΦόρτωση φίλτρων DirectShow από ένα dll (τα wildcards επιτρέπονται)"
 
 msgctxt "IDS_CMD_DVD"
 msgid "/dvd\t\tRun in DVD mode, \"pathname\" means the DVD folder (optional)"
-msgstr ""
+msgstr "/dvd\t\tΕκτέλεση σε λειτουργία DVD. Ως \"κατάλογος\" εννοείται φάκελος του DVD (προαιρετικά)"
 
 msgctxt "IDS_CMD_DVDPOS_TC"
 msgid "/dvdpos T#C\tStart playback at title T, chapter C"
-msgstr ""
+msgstr "/dvdpos T#C\tΈναρξη αναπαραγωγής στον τίτλο T, κεφάλαιο C"
 
 msgctxt "IDS_CMD_DVDPOS_TIME"
 msgid "/dvdpos T#P\tStart playback at title T, position P (hh:mm:ss)"
-msgstr ""
+msgstr "/dvdpos T#P\tΈναρξη αναπαραγωγής στον τίτλο T, θέση P (hh:mm:ss)"
 
 msgctxt "IDS_CMD_CD"
 msgid "/cd\t\tLoad all the tracks of an Audio CD or (S)VCD,\n\t\t\"pathname\" means the drive path (optional)"
-msgstr ""
+msgstr "/cd\t\tΦόρτωση όλων των κομματιών από ένα CD ή (S)VCD. Ως \"κατάλογος\" εννοείται της συσκευής οδήγησης (προαιρετικά)"
 
 msgctxt "IDS_CMD_DEVICE"
 msgid "/device\t\tOpen the default video device"
-msgstr ""
+msgstr "/device\t\tΆνοιγμα της προεπιλεγμένης συσκευής βίντεο"
 
 msgctxt "IDS_CMD_OPEN"
 msgid "/open\t\tOpen the file, don't automatically start playback"
-msgstr ""
+msgstr "/open\t\tΆνοιγμα του αρχείου, χωρίς αυτόματη έναρξη αναπαραγωγής"
 
 msgctxt "IDS_CMD_PLAY"
 msgid "/play\t\tStart playing the file as soon the player is launched"
-msgstr ""
+msgstr "/play\t\tΈναρξη της αναπαραγωγής του αρχείου με την εκκίνηση του προγράμματος αναπαραγωγής"
 
 msgctxt "IDS_CMD_CLOSE"
 msgid "/close\t\tClose the player after playback (only works when used with /play)"
-msgstr ""
+msgstr "/close\t\tΚλείσιμο του προγράμματος μετά την αναπαραγωγή (δουλεύει μόνο όταν χρησιμοποιείται με το /play)"
 
 msgctxt "IDS_CMD_SHUTDOWN"
 msgid "/shutdown\tShutdown the operating system after playback"
-msgstr ""
+msgstr "/shutdown\tΤερματισμός του συστήματος μετά την αναπαραγωγή"
 
 msgctxt "IDS_CMD_STANDBY"
 msgid "/standby\t\tPut the operating system in standby mode after playback"
-msgstr ""
+msgstr "/standby\t\tΣε αναμονή μετά την αναπαραγωγή"
 
 msgctxt "IDS_CMD_HIBERNATE"
 msgid "/hibernate\tHibernate operating system after playback"
-msgstr ""
+msgstr "/hibernate\tΑδρανοποίηση μετά την αναπαραγωγή"
 
 msgctxt "IDS_CMD_LOGOFF"
 msgid "/logoff\t\tLog off after playback"
-msgstr ""
+msgstr "/logoff\t\tΑποσύνδεση μετά την αναπαραγωγή"
 
 msgctxt "IDS_CMD_LOCK"
 msgid "/lock\t\tLock workstation after playback"
-msgstr ""
+msgstr "/lock\t\tΚλείδωμα του σταθμού εργασίας μετά την αναπαραγωγή"
 
 msgctxt "IDS_CMD_MONITOROFF"
 msgid "/monitoroff\tTurn off the monitor after playback"
-msgstr ""
+msgstr "/monitoroff\tΑπενεργοποίηση της οθόνης μετά την αναπαραγωγή"
 
 msgctxt "IDS_CMD_PLAYNEXT"
 msgid "/playnext\t\tOpen next file in the folder after playback"
-msgstr ""
+msgstr "/playnext\t\tΆνοιγμα του επόμενου αρχείου στο φάκελο μετά την αναπαραγωγή"
 
 msgctxt "IDS_CMD_FULLSCREEN"
 msgid "/fullscreen\tStart in fullscreen mode"
-msgstr "/πλήρη οθόνη      Έναρξη σε λειτουργία πλήρους οθόνης"
+msgstr "/fullscreen\tΈναρξη σε λειτουργία πλήρους οθόνης"
 
 msgctxt "IDS_CMD_MINIMIZED"
 msgid "/minimized\tStart in minimized mode"
-msgstr ""
+msgstr "/minimized\tΈναρξη σε ελαχιστοποιημένη λειτουργία"
 
 msgctxt "IDS_CMD_NEW"
 msgid "/new\t\tUse a new instance of the player"
-msgstr ""
+msgstr "/new\t\tΕκκινεί μια νέα παρουσία του MPC-BE"
 
 msgctxt "IDS_CMD_ADD"
 msgid "/add\t\tAdd \"pathname\" to playlist, can be combined with /open and /play"
-msgstr ""
+msgstr "/add\t\tΠροσθήκη του \"\"κατάλογος\"\" στη λίστα αναπαραγωγής. Μπορεί να συνδυαστεί με /open and /play"
 
 msgctxt "IDS_CMD_RANDOMIZE"
 msgid "/randomize\tRandomize the playlist"
-msgstr ""
+msgstr "/randomize\tΤυχαία λίστα αναπαραγωγής"
 
 msgctxt "IDS_CMD_REGVID"
 msgid "/regvid\t\tCreate file associations for video files"
-msgstr ""
+msgstr "/regvid\t\tΔημιουργεί συσχετίσεις για αρχεία βίντεο"
 
 msgctxt "IDS_CMD_REGAUD"
 msgid "/regaud\t\tCreate file associations for audio files"
-msgstr ""
+msgstr "/regaud\t\tΔημιουργεί συσχετίσεις για αρχεία ήχου"
 
 msgctxt "IDS_CMD_REGPL"
 msgid "/regpl\t\tCreate file associations for playlist files"
-msgstr ""
+msgstr "/regpl\t\tΔημιουργεί συσχετίσεις για αρχεία λίστας αναπαραγωγής"
 
 msgctxt "IDS_CMD_REGALL"
 msgid "/regall\t\tCreate file associations for all supported file types"
-msgstr ""
+msgstr "/regall\t\tΔημιουργεί συσχετίσεις αρχείων για όλους τους υποστηριζόμενους τύπους αρχείων"
 
 msgctxt "IDS_CMD_UNREGALL"
 msgid "/unregall\t\tRemove all file associations"
-msgstr ""
+msgstr "/unregall\t\tΚαταργεί όλες τις συσχετίσεις αρχείων"
 
 msgctxt "IDS_CMD_START"
 msgid "/start ms\t\tStart playing at \"ms\" (= milliseconds)"
-msgstr ""
+msgstr "/start ms\t\tΈναρξη αναπαραγωγής στα \"ms\" (= χιλιοστά δευτερολέπτου)"
 
 msgctxt "IDS_CMD_STARTPOS"
 msgid "/startpos hh:mm:ss\tStart playing at position hh:mm:ss"
-msgstr ""
+msgstr "/startpos hh:mm:ss\tΈναρξη αναπαραγωγής στη θέση hh:mm:ss"
 
 msgctxt "IDS_CMD_FIXEDSIZE"
 msgid "/fixedsize w,h\tSet a fixed window size"
-msgstr ""
+msgstr "/fixedsize w,h\tΟρισμός σταθερού μεγέθους παραθύρου"
 
 msgctxt "IDS_CMD_MONITOR"
 msgid "/monitor N\tStart player on monitor N, where N starts from 1"
-msgstr ""
+msgstr "/monitor N\tΕκκίνηση του MPC-HC στην οθόνη N (όπου το N ξεκινά από 1)"
 
 msgctxt "IDS_CMD_AUDIORENDERER"
 msgid "/audiorenderer N\tStart using audiorenderer N, where N starts from 1 (see \"Output\" settings)"
-msgstr ""
+msgstr "/audiorenderer N\tΈναρξη απόδοσης ήχου με χρήση του N (όπου το N ξεκινά από 1)"
 
 msgctxt "IDS_CMD_SHADERPRESET"
 msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
-msgstr ""
+msgstr "/shaderpreset \"Pr\"\tΈναρξη με χρήση  \"Pr\" προκαθορισμένη σκίαση"
 
 msgctxt "IDS_CMD_PNS"
 msgid "/pns \"name\"\tSpecify Pan&Scan preset name to use"
-msgstr ""
+msgstr "/pns \"όνομα\"\tΚαθορισμός Pan&Scan προκαθορισμένου ονόματος για χρήση"
 
 msgctxt "IDS_CMD_ICONASSOC"
 msgid "/iconsassoc\tReassociate format icons"
-msgstr ""
+msgstr "/iconsassoc\tΣυσχέτιση ξανά της μορφής εικονιδίων"
 
 msgctxt "IDS_CMD_NOFOCUS"
 msgid "/nofocus\t\tOpen MPC-HC in background"
-msgstr ""
+msgstr "/nofocus\t\tΆνοιγμα του MPC-HC στο παρασκήνιο"
 
 msgctxt "IDS_CMD_WEBPORT"
 msgid "/webport N\tStart web interface on specified port"
-msgstr ""
+msgstr "/webport N\tΈναρξη της διεπαφής web στη καθορισμένη θύρα"
 
 msgctxt "IDS_CMD_DEBUG"
 msgid "/debug\t\tShow debug information in OSD"
-msgstr ""
+msgstr "/debug\t\tΕμφάνιση πληροφοριών εντοπισμού σφαλμάτων OSD"
 
 msgctxt "IDS_CMD_NOCRASHREPORTER"
 msgid "/nocrashreporter\tDisable the crash reporter"
-msgstr ""
+msgstr "/nocrashreporter\tΑπενεργοποίηση της αναφοράς κατάρρευσης"
 
 msgctxt "IDS_CMD_SLAVE"
 msgid "/slave \"hWnd\"\tUse MPC-HC as slave"
-msgstr ""
+msgstr "/slave \"hWnd\"\tΧρήση του MPC-HC ως δευτερεύον"
 
 msgctxt "IDS_CMD_HWGPU"
 msgid "/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding.\n\t\tOnly available for CUVID and DXVA2 (copy-back)"
-msgstr ""
+msgstr "/hwgpu \"index\"\tΟρισμός ευρετηρίου της GPU για χρήση αποκωδικοποίησης υλικού.\n\t\tΔιαθέσιμο μόνο για CUVID και DXVA2 (copy-back)"
 
 msgctxt "IDS_CMD_RESET"
 msgid "/reset\t\tRestore default settings"
-msgstr ""
+msgstr "/reset\t\tΕπαναφορά προεπιλεγμένων ρυθμίσεων"
 
 msgctxt "IDS_CMD_HELP"
 msgid "/help /h /?\tShow help about command line switches"
-msgstr "/help /h /?⇥Εμφάνιση βοήθειας για τις παραμέτρους της γραμμής εντολών"
+msgstr "/help /h /?\tΕμφάνιση βοήθειας για τις παραμέτρους της γραμμής εντολών"
 
 msgctxt "IDS_PPAGEADVANCED_SCORE"
 msgid "Threshold value for subtitles score which are going to be automatically downloaded. Higher values means that more accurately matched subtitles will be loaded, lower values could result in incorrect subtitles being loaded, but there is no one perfect value. Pick one that works best for you."
-msgstr ""
+msgstr "Η οριακή βαθμολογία για υπότιτλους, η οποία θα γίνει λήψη αυτόματα. Υψηλότερες τιμές σημαίνει ότι η φόρτωση των υποτίτλων θα έχουν μεγαλύτερη ακρίβεια, χαμηλότερες τιμές μπορεί να οδηγήσει σε εσφαλμένη φόρτωση υποτίτλων, αλλά δεν υπάρχει μία ακριβής τιμή. Διάλεξε αυτό που λειτουργεί καλύτερα για σένα."
 
 msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
 msgid "Audio Delay (ms)"
-msgstr ""
+msgstr "Καθυστέρηση ήχου (ms)"
 
 msgctxt "IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE"
 msgid "Size in pixels of the default toolbar."
-msgstr ""
+msgstr "Μέγεθος σε pixels της προεπιλεγμένης γραμμής εργαλείων."
 
 msgctxt "IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR"
 msgid "Use legacy toolbar instead of new vectorized one."
-msgstr ""
+msgstr "Χρήση της παλαιάς γραμμής εργαλείων αντί της νέας."
 

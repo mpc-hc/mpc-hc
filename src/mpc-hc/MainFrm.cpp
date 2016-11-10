@@ -4926,7 +4926,7 @@ void CMainFrame::OnFileSaveImageAuto()
     const CAppSettings& s = AfxGetAppSettings();
 
     // If path doesn't exist, Save Image instead
-    if (GetFileAttributes(s.strSnapshotPath) == INVALID_FILE_ATTRIBUTES) {
+    if (!PathUtils::IsDir(s.strSnapshotPath)) {
         AfxMessageBox(IDS_SCREENSHOT_ERROR, MB_ICONWARNING | MB_OK, 0);
         OnFileSaveImage();
         return;
@@ -8214,58 +8214,43 @@ bool CMainFrame::SeekToFileChapter(int iChapter, bool bRelative /*= false*/)
 
     bool ret = false;
 
-    bool restart = false;
+    if (DWORD nChapters = m_pCB->ChapGetCount()) {
+        REFERENCE_TIME rt;
 
-    DWORD nChapters = m_pCB->ChapGetCount();
-    REFERENCE_TIME rt;
-
-    if (bRelative) {
-        if (SUCCEEDED(m_pMS->GetCurrentPosition(&rt))) {
-            if (iChapter < 0) {
-                // Go the previous chapter only if more than PREV_CHAP_THRESHOLD seconds
-                // have passed since the beginning of the current chapter else restart it
-                rt -= PREV_CHAP_THRESHOLD * 10000000;
-                iChapter = 0;
-            } else if (iChapter > 0) {
-                iChapter = 1;
+        if (bRelative) {
+            if (SUCCEEDED(m_pMS->GetCurrentPosition(&rt))) {
+                if (iChapter < 0) {
+                    // Go the previous chapter only if more than PREV_CHAP_THRESHOLD seconds
+                    // have passed since the beginning of the current chapter else restart it
+                    rt -= PREV_CHAP_THRESHOLD * 10000000;
+                    iChapter = 0;
+                } else if (iChapter > 0) {
+                    iChapter = 1;
+                }
+                iChapter = m_pCB->ChapLookup(&rt, nullptr) + iChapter;
+            } else {
+                iChapter = -1;
             }
-            iChapter = m_pCB->ChapLookup(&rt, nullptr) + iChapter;
-
-            // When attempting to seek to the previous chapter and the file has no chapters,
-            // restart the "chapter" instead of skipping back to previous file
-            if (nChapters == 0 && iChapter == -1 && rt >= 0) {
-                nChapters = 1;
-                iChapter = 0;
-                restart = true;
-            }
-        } else {
-            iChapter = -1;
         }
-    }
 
-    CComBSTR name;
-    REFERENCE_TIME rtStart, rtStop;
-    m_wndSeekBar.GetRange(rtStart, rtStop);
+        CComBSTR name;
+        REFERENCE_TIME rtStart, rtStop;
+        m_wndSeekBar.GetRange(rtStart, rtStop);
+        if (iChapter >= 0 && DWORD(iChapter) < nChapters && SUCCEEDED(m_pCB->ChapGet(iChapter, &rt, &name)) && rt < rtStop) {
+            SeekTo(rt, false);
+            SendStatusMessage(ResStr(IDS_AG_CHAPTER2) + CString(name), 3000);
+            ret = true;
 
-    if (restart) {
-        rt = rtStart;
-        name = L"";
-    }
+            REFERENCE_TIME rtDur;
+            if (SUCCEEDED(m_pMS->GetDuration(&rtDur))) {
+                const CAppSettings& s = AfxGetAppSettings();
+                CString strOSD;
 
-    if (iChapter >= 0 && DWORD(iChapter) < nChapters && (restart || SUCCEEDED(m_pCB->ChapGet(iChapter, &rt, &name))) && rt < rtStop) {
-        SeekTo(rt, false);
-        SendStatusMessage(ResStr(IDS_AG_CHAPTER2) + CString(name), 3000);
-        ret = true;
-
-        REFERENCE_TIME rtDur;
-        if (SUCCEEDED(m_pMS->GetDuration(&rtDur))) {
-            const CAppSettings& s = AfxGetAppSettings();
-            CString strOSD;
-
-            strOSD.Format(_T("%s%s/%s %s%d/%u - \"%s\""),
-                          s.fRemainingTime ? _T("- ") : _T(""), ReftimeToString2(s.fRemainingTime ? rtDur - rt : rt), ReftimeToString2(rtDur),
-                          ResStr(IDS_AG_CHAPTER2), iChapter + 1, nChapters, name);
-            m_OSD.DisplayMessage(OSD_TOPLEFT, strOSD, 3000);
+                strOSD.Format(_T("%s%s/%s %s%d/%u - \"%s\""),
+                              s.fRemainingTime ? _T("- ") : _T(""), ReftimeToString2(s.fRemainingTime ? rtDur - rt : rt), ReftimeToString2(rtDur),
+                              ResStr(IDS_AG_CHAPTER2), iChapter + 1, nChapters, name);
+                m_OSD.DisplayMessage(OSD_TOPLEFT, strOSD, 3000);
+            }
         }
     }
 

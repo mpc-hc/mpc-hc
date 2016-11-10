@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
-"PO-Revision-Date: 2016-10-03 17:28+0000\n"
+"PO-Revision-Date: 2016-10-27 10:01+0000\n"
 "Last-Translator: Daniel <danny34ever@yahoo.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/mpc-hc/mpc-hc/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -119,7 +119,7 @@ msgstr "canale de intrare:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
 msgid "Hold shift for immediate changes when clicking something"
-msgstr "Țineți Shift apăsat pentru aplicarea imediată a schimbărilor când dați clic pe ceva"
+msgstr "Țineți apăsată tasta Shift pentru aplicarea imediată a schimbărilor când dați clic pe ceva"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."
@@ -195,7 +195,7 @@ msgstr "Drepturi de autor © 2002-2016 vedeți Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
-msgstr "Acest program este gratuit și distribuit sub licența GNU General Public License."
+msgstr "Acest program este gratuit și distribuit sub Licența Publică Generală GNU."
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
@@ -231,7 +231,7 @@ msgstr "Nume:"
 
 msgctxt "IDD_ABOUTBOX_IDC_BUTTON1"
 msgid "Copy to clipboard"
-msgstr "Copiază în clipboard"
+msgstr "Copiază în zona de transfer"
 
 msgctxt "IDD_ABOUTBOX_IDOK"
 msgid "OK"
@@ -303,11 +303,11 @@ msgstr "Dezactivează meniul „Deschide disc”"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK9"
 msgid "Process priority above normal"
-msgstr "Prioritatea procesării peste normal"
+msgstr "Prioritatea procesării peste normală"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK14"
 msgid "Enable cover-art support"
-msgstr "Activează suportul pentru coperți de albume"
+msgstr "Activează sprijinul pentru coperți de albume"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "History"
@@ -327,7 +327,7 @@ msgstr "Ține minte poziția în fișier"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_DVD_POS"
 msgid "Remember DVD position"
-msgstr "Ține minte poziția pe DVD"
+msgstr "Ține minte poziția pe discul DVD"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK6"
 msgid "Remember last window position"
@@ -339,11 +339,11 @@ msgstr "Ține minte ultima dimensiune a ferestrei"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
 msgid "Remember last Pan-n-Scan Zoom"
-msgstr "Ține minte ultima scalare pentru Pan && Scan"
+msgstr "Ține minte ultima scalare a panoramării trunchiate"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
-msgstr "Acţiuni pentru meniul „Deschide DVD/BD”"
+msgstr "Acţiuni pentru meniul „Deschide disc DVD/BD”"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO1"
 msgid "Prompt for location"
@@ -383,7 +383,7 @@ msgstr "Audio"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Volume"
-msgstr "Volum"
+msgstr "Volum sonor"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Min"
@@ -491,7 +491,7 @@ msgstr "%"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Speed step:"
-msgstr "Treaptă viteză:"
+msgstr "Treaptă de viteză:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK3"
 msgid "Override placement"
@@ -539,7 +539,7 @@ msgstr "Nu anima niciodată subtitlurile"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC5"
 msgid "Render at"
-msgstr "Randează după"
+msgstr "Randează la"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC6"
 msgid "% of the animation"
@@ -547,7 +547,7 @@ msgstr "% din animație"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC7"
 msgid "Animate at"
-msgstr "Animație la"
+msgstr "Animează la"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC8"
 msgid "% of the video frame rate"
@@ -695,11 +695,11 @@ msgstr "Fontul OSD:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_LCD"
 msgid "Enable Logitech LCD support (experimental)"
-msgstr "Activează suportul LCD pentru tastaturi Logitech (experimental)"
+msgstr "Activează sprijunul ecranelor LCD pentru tastaturi Logitech (experimental)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
 msgid "Auto-hide the mouse pointer during playback in windowed mode"
-msgstr "Ascunde automat indicatorul mouse-ului în timpul redării în mod fereastră"
+msgstr "Ascunde automat indicatorul mausului în timpul redării în mod fereastră"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
 msgid "Add Filter..."
@@ -1155,11 +1155,11 @@ msgstr "Sincronizare verticală alternativă"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9LOADMIXER"
 msgid "VMR-9 Mixer Mode"
-msgstr "VMR-9 în mod mixare"
+msgstr "Mod amestecător VMR-9"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9YUVMIXER"
 msgid "YUV Mixing"
-msgstr "Mixare YUV"
+msgstr "Amestecare YUV"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_EVR_BUFFERS_TXT"
 msgid "EVR Buffers:"
@@ -1199,7 +1199,7 @@ msgstr "Ascultă pe portul:"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC1"
 msgid "Launch in web browser..."
-msgstr "Lansează în navigator web..."
+msgstr "Lansează în navigatorul web..."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK3"
 msgid "Enable compression"
@@ -1323,7 +1323,7 @@ msgstr "zi(le)"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Settings management"
-msgstr "Administrare stabiliri"
+msgstr "Gestionare stabiliri"
 
 msgctxt "IDD_PPAGEMISC_IDC_RESET_SETTINGS"
 msgid "Reset"
@@ -1339,7 +1339,7 @@ msgstr "Exportă taste rapide"
 
 msgctxt "IDD_TUNER_SCAN_CAPTION"
 msgid "Tuner scan"
-msgstr "Scanare tuner"
+msgstr "Scanare prinzător"
 
 msgctxt "IDD_TUNER_SCAN_ID_START"
 msgid "Start"
@@ -1491,7 +1491,7 @@ msgstr "Modificările vor avea efect după ce redarea a fost oprită și reporni
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK1"
 msgid "Launch files in fullscreen"
-msgstr "Pornește fișierele în modul ecran complet"
+msgstr "Lansează fișierele în modul ecran complet (pe tot ecranul)"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK4"
 msgid "Hide controls in fullscreen"
