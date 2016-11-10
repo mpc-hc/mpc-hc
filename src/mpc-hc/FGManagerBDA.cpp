@@ -607,9 +607,9 @@ STDMETHODIMP CFGManagerBDA::SetChannel(int nChannelPrefNumber)
     LOG(_T("Start SetChannel %d."), nChannelPrefNumber);
     if (pChannel) {
         if (!((m_nCurAudioType == DVB_UNKNOWN) ^ (pChannel->GetDefaultAudioType() == DVB_UNKNOWN)) &&
-            ((m_nDVBRebuildFilterGraph == DVB_REBUILD_FG_NEVER) ||
-            ((m_nDVBRebuildFilterGraph == DVB_REBUILD_FG_WHEN_SWITCHING) && (m_nCurVideoType == pChannel->GetVideoType())) ||
-            ((m_nDVBRebuildFilterGraph == DVB_REBUILD_FG_ALWAYS) && (s.nDVBLastChannel == nChannelPrefNumber)))) {
+                ((m_nDVBRebuildFilterGraph == DVB_REBUILD_FG_NEVER) ||
+                 ((m_nDVBRebuildFilterGraph == DVB_REBUILD_FG_WHEN_SWITCHING) && (m_nCurVideoType == pChannel->GetVideoType())) ||
+                 ((m_nDVBRebuildFilterGraph == DVB_REBUILD_FG_ALWAYS) && (s.nDVBLastChannel == nChannelPrefNumber)))) {
             hr = SetChannelInternal(pChannel);
         } else {
             s.nDVBLastChannel = nChannelPrefNumber;
