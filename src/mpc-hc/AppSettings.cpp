@@ -408,6 +408,9 @@ CAppSettings::CAppSettings()
 #if INTERNAL_DECODER_FLIC
     TraFiltersKeys[TRA_FLIC] = FilterKey(_T("TRA_FLIC"), true);
 #endif
+#if INTERNAL_DECODER_MSVIDEO
+    TraFiltersKeys[TRA_MSVIDEO] = FilterKey(_T("TRA_MSVIDEO"), true);
+#endif
 #if INTERNAL_DECODER_V210_V410
     TraFiltersKeys[TRA_V210_V410] = FilterKey(_T("TRA_V210_V410"), false);
 #endif
