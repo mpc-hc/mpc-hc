@@ -20,7 +20,7 @@ next version - not released yet
 * Updated MediaInfoLib to v0.7.91
 * Updated ZenLib to v0.4.34
 * Updated Unrar to v5.4.5
-* Updated LAV Filters to v0.68.1.29:
+* Updated LAV Filters to v0.69.0.4:
     - LAV Splitter: Support HTTPS protocol
     - LAV Splitter: Switch back to an improved version of the old ASF demuxer
     - LAV Splitter: Support demuxing H264 MVC
