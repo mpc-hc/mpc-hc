@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
-"PO-Revision-Date: 2016-07-06 21:36+0000\n"
-"Last-Translator: kasper93\n"
+"PO-Revision-Date: 2016-11-12 00:53+0000\n"
+"Last-Translator: reneweesp <bmom43@hotmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/mpc-hc/mpc-hc/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -108,7 +108,7 @@ msgstr "Omzetten naar 44100 Hz"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK4"
 msgid "Audio time shift (ms):"
-msgstr "Audio tijdsverschuiving (ms):"
+msgstr "Audio tijd verschuiving (ms):"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK1"
 msgid "Enable custom channel mapping"
@@ -116,15 +116,15 @@ msgstr "Door gebruiker bepaalde kanaal instelling toepassen"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
 msgid "Speaker configuration for"
-msgstr "Luidspreker configuratie voor"
+msgstr "Luidspreker instelling voor"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
 msgid "input channels:"
-msgstr "ingangskanalen:"
+msgstr "ingang kanalen:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
 msgid "Hold shift for immediate changes when clicking something"
-msgstr "Druk op shift tijdens het klikken om de veranderingen direkt door te voeren"
+msgstr "Druk op shift tijdens het klikken om direct de veranderingen uit te voeren"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."
@@ -132,7 +132,7 @@ msgstr "Ga naar..."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time. You do not need to enter the separators explicitly."
-msgstr "Voer een tijdcode in, met een opmaak van [uu:]mm:ss.ms, om naar dat tijdstip te springen. De scheidingstekens hoeven niet expliciet ingevoerd te worden."
+msgstr "Voer een tijdcode in, met een opmaak van [uu:]mm:ss.ms, om naar dat tijdstip te springen. De scheiding tekens hoeven niet expliciet ingevoerd te worden."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Time"
@@ -160,7 +160,7 @@ msgstr "Openen"
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Type the address of a movie or audio file (on the Internet or your computer) and the player will open it for you."
-msgstr "Typ het adres van een film  of geluidsbestand (op het Internet of op uw computer), zodat de speler dit voor u kan openen."
+msgstr "Typ het adres van een film  of geluidsbestand (op Internet of op je computer), zodat de speler dit voor je kan openen."
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Open:"
@@ -188,7 +188,7 @@ msgstr "Annuleren"
 
 msgctxt "IDD_OPEN_DLG_IDC_CHECK1"
 msgid "Add to playlist without opening"
-msgstr "Toevoegen aan afspeellijst zonder te openen"
+msgstr "Voe toe aan afspeellijst zonder te openen"
 
 msgctxt "IDD_ABOUTBOX_CAPTION"
 msgid "About"
@@ -764,7 +764,7 @@ msgstr "Tijdsduur:"
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Video size:"
-msgstr "Videogrootte:"
+msgstr "Video grootte:"
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Created:"
@@ -800,7 +800,7 @@ msgstr "Aan favorieten toevoegen"
 
 msgctxt "IDD_FAVADD_IDC_STATIC"
 msgid "Choose a name for your shortcut:"
-msgstr "Naam:"
+msgstr "Kies naam voor je snelkoppeling:"
 
 msgctxt "IDD_FAVADD_IDC_CHECK1"
 msgid "Remember position"

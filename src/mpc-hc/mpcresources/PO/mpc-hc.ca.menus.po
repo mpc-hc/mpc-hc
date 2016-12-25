@@ -6,14 +6,16 @@
 # Adolfo Jayme-Barrientos, 2015
 # Adolfo Jayme-Barrientos, 2014
 # papu, 2014-2016
-# Roger Espolet <roger.espolet@gmail.com>, 2016
+# Roger <roger.espolet@gmail.com>, 2016
+# Roger <roger.espolet@gmail.com>, 2016
+# Roger <roger.espolet@gmail.com>, 2016
 # papu, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
-"PO-Revision-Date: 2016-11-05 20:51+0000\n"
-"Last-Translator: Roger Espolet <roger.espolet@gmail.com>\n"
+"PO-Revision-Date: 2016-11-17 12:02+0000\n"
+"Last-Translator: Roger <roger.espolet@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/mpc-hc/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,7 +29,7 @@ msgstr "&Fitxer"
 
 msgctxt "ID_FILE_OPENQUICK"
 msgid "&Quick Open File..."
-msgstr "Obre un fitxer &ràpid…"
+msgstr "Obertura &ràpida de fitxer..."
 
 msgctxt "ID_FILE_OPENMEDIA"
 msgid "&Open File..."
@@ -367,11 +369,11 @@ msgstr "Re&stableix"
 
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
-msgstr "Reinicia les configuracions &per defecte del renderitzador"
+msgstr "Restableix les configuracions &per defecte del renderitzador"
 
 msgctxt "ID_VIEW_RESET_OPTIMAL"
 msgid "Reset to &optimal renderer settings"
-msgstr "Reinicia les configuracions òpti&mes del renderitzador"
+msgstr "Restableix les configuracions òpti&mes del renderitzador"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
@@ -415,7 +417,7 @@ msgstr "Relació d'&aspecte"
 
 msgctxt "ID_ASPECTRATIO_DAR"
 msgid "&Default (DAR)"
-msgstr "&Predeterminada (DAR)"
+msgstr "Per &defecte (DAR)"
 
 msgctxt "ID_ASPECTRATIO_4_3"
 msgid "&4:3"
@@ -447,7 +449,7 @@ msgstr "Corregeix la diferència de &relació d'aspecte del monitor/escriptori"
 
 msgctxt "POPUP"
 msgid "Pa&n&&Scan"
-msgstr "Pan&&S&can"
+msgstr "Reenquadrament (pan&scan)"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"
@@ -619,7 +621,7 @@ msgstr "Apaga el &monitor"
 
 msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
-msgstr "&Tanca"
+msgstr "&Surt"
 
 msgctxt "ID_AFTERPLAYBACK_STANDBY"
 msgid "&Stand By"
@@ -631,7 +633,7 @@ msgstr "&Hiberna"
 
 msgctxt "ID_AFTERPLAYBACK_SHUTDOWN"
 msgid "Shut&down"
-msgstr "&Apaga"
+msgstr "&Tanca l'ordinador"
 
 msgctxt "ID_AFTERPLAYBACK_LOGOFF"
 msgid "Log &Off"
@@ -683,7 +685,7 @@ msgstr "Menú dels &capítols"
 
 msgctxt "ID_FAVORITES"
 msgid "F&avorites"
-msgstr "&Adreces d'Interès"
+msgstr "&Preferits"
 
 msgctxt "POPUP"
 msgid "&Help"
