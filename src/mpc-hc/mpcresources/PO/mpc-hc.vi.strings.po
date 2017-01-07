@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-10-17 00:35:36+0000\n"
-"PO-Revision-Date: 2016-11-01 08:04+0000\n"
+"PO-Revision-Date: 2016-11-10 02:40+0000\n"
 "Last-Translator: TRẦN ANH MINH <anhminhvks@yahoo.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/mpc-hc/mpc-hc/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -2155,7 +2155,7 @@ msgstr "MPC-HC không có đủ quyền để thay đổi hỗ trợ định d�
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
-msgstr "MPC-HC là một trình phát đa phương tiện truyền thông mã nguồn mở, cực kỳ nhỏ gọn dành cho Windows. Nó hỗ trợ phát lại tất cả các định dạng tập tin âm thanh và phim ảnh phổ biến. Phần mềm này 100% không chứa phần mềm gián điệp, không có quảng cáo hoặc các thanh công cụ đính kèm."
+msgstr "MPC-HC là một trình phát phương tiện truyền thông mã nguồn mở, cực kỳ nhỏ gọn dành cho Windows. Nó hỗ trợ phát lại tất cả các định dạng tập tin âm thanh và phim ảnh phổ biến. Phần mềm này 100% không chứa phần mềm gián điệp, không có quảng cáo hoặc các thanh công cụ đính kèm."
 
 msgctxt "IDS_MAINFRM_12"
 msgid "channel"

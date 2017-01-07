@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-10-17 00:35:36+0000\n"
-"PO-Revision-Date: 2016-10-19 12:53+0000\n"
+"PO-Revision-Date: 2016-11-25 15:51+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/mpc-hc/mpc-hc/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -125,7 +125,7 @@ msgstr "Typografi"
 
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
-msgstr "Hvis renderingsdestinationen er udefineret, vil SSA/ASS-undertekster blive rendereret i forhold til videobilledet, mens alle andre tekst-undertekster vil blive rendereret i forhold til vinduet."
+msgstr "Hvis renderingsdestinationen er udefineret, vil SSA-/ASS-undertekster blive rendereret i forhold til videobilledet, mens alle andre tekst-undertekster vil blive renderet i forhold til vinduet."
 
 msgctxt "IDS_PLAYLOOPMODE_PLAYLIST"
 msgid "Repeat Mode: Playlist"
@@ -293,7 +293,7 @@ msgstr "Kunne ikke åbne indspilningsenhed."
 
 msgctxt "IDS_INVALID_PARAMS_ERROR"
 msgid "Can't open, invalid input parameters"
-msgstr "Kan ikke åbne, ugyldige input parametre"
+msgstr "Kan ikke åbne, ugyldige input-parametre"
 
 msgctxt "IDS_EDIT_LIST_EDITOR"
 msgid "Edit List Editor"
@@ -505,7 +505,7 @@ msgstr "Diverse"
 
 msgctxt "IDD_FILEMEDIAINFO"
 msgid "MediaInfo"
-msgstr "MediaInfo"
+msgstr "Medie info"
 
 msgctxt "IDD_PPAGECAPTURE"
 msgid "Playback::Capture"
@@ -665,7 +665,7 @@ msgstr "Real's egen renderer. SMIL scripts vil virker, men interaktion vil formo
 
 msgctxt "IDC_RMDX9"
 msgid "The output of Real's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
-msgstr "Output fra Real's motor rendereret af den DX9-baseret allokationspræsentation fra VMR-9 (renderless)."
+msgstr "Output fra Real's motor renderet af den DX9-baseret allokationspræsentation fra VMR-9 (renderless)."
 
 msgctxt "IDC_QTSYSDEF"
 msgid "QuickTime's own renderer. Gets a little slow when its video area is resized or partially covered by another window. When Overlay is not available it likes to fall back to GDI."
@@ -673,7 +673,7 @@ msgstr "QuickTime's egen renderer. Bliver lidt langsom når videoens område æn
 
 msgctxt "IDC_QTDX9"
 msgid "The output of QuickTime's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
-msgstr "Output fra QuickTime's motor rendereret af den DX9-baseret allokationspræsentation fra VMR-9 (renderless)."
+msgstr "Output fra QuickTime's motor renderet af den DX9-baseret allokationspræsentation fra VMR-9 (renderless)."
 
 msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
@@ -817,7 +817,7 @@ msgstr "Reducere iturivning ved at omgå standard lodret synkroniseringen indbyg
 
 msgctxt "IDS_NAVIGATE_TUNERSCAN"
 msgid "Tuner scan"
-msgstr "Tuner scanning"
+msgstr "Tuner skanning"
 
 msgctxt "IDS_SUBTITLES_ERROR"
 msgid "Subtitles are not loaded or unsupported renderer."
@@ -857,7 +857,7 @@ msgstr "Hvis renderingsdestinationen er udefineret, vil det blive nedarvet fra s
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
-msgstr "Deaktiver animation af undertekst. CPU-forbruget vil blive mindre hvis denne indstilling slås til. Du kan bruge den hvis du oplever blinkende undertekster."
+msgstr "Forhindr animation af undertekst. CPU-forbruget vil blive mindre hvis denne indstilling slås til. Du kan bruge den hvis du oplever blinkende undertekster."
 
 msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
@@ -981,7 +981,7 @@ msgstr "Afspiller"
 
 msgctxt "IDS_CONTROLS_PAUSED"
 msgid "Paused"
-msgstr "Pauset"
+msgstr "Sat på pause"
 
 msgctxt "IDS_AG_EDL_NEW_CLIP"
 msgid "EDL new clip"
@@ -1213,7 +1213,7 @@ msgstr "%s:"
 
 msgctxt "IDS_RECORD_START"
 msgid "Record"
-msgstr "Indspil"
+msgstr "Optag"
 
 msgctxt "IDS_RECORD_STOP"
 msgid "Stop"
@@ -1977,7 +1977,7 @@ msgstr "DVD menu forlad"
 
 msgctxt "IDS_AG_BOSS_KEY"
 msgid "Boss key"
-msgstr "Chef tast"
+msgstr "Chef-tast"
 
 msgctxt "IDS_MPLAYERC_77"
 msgid "Player Menu"
@@ -2777,7 +2777,7 @@ msgstr "Pixels:"
 
 msgctxt "IDS_TEXTFILE_ENC"
 msgid "Encoding:"
-msgstr "Indkodning:"
+msgstr "Kodning:"
 
 msgctxt "IDS_DISABLE_ALL_FILTERS"
 msgid "&Disable all filters"
@@ -3205,11 +3205,11 @@ msgstr "10-bit RGB-output: Fra"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_IN_ON"
 msgid "Force 10-bit RGB Input: On"
-msgstr "Gennemtving 10-bit RGB input: Til"
+msgstr "Gennemtving 10-bit RGB-input: Til"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_IN_OFF"
 msgid "Force 10-bit RGB Input: Off"
-msgstr "Gennemtving 10-bit RGB input: Fra"
+msgstr "Gennemtving 10-bit RGB-input: Fra"
 
 msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_ON"
 msgid "Full Floating Point Processing: On"
@@ -3429,19 +3429,19 @@ msgstr "Kan ikke forbinde %s buffer filteret til grafen."
 
 msgctxt "IDS_CAPTURE_ERROR_ADD_ENCODER"
 msgid "Can't add the %s encoder filter to the graph."
-msgstr "Kan ikke tilføj %s indkodningsfilteret til grafen."
+msgstr "Kan ikke tilføj %s kodningsfilteret til grafen."
 
 msgctxt "IDS_CAPTURE_ERROR_CONNECT_ENC"
 msgid "Can't connect the %s encoder filter to the graph."
-msgstr "Kan ikke forbinde %s indkodningsfilteret til grafen."
+msgstr "Kan ikke forbinde %s kodningsfilteret til grafen."
 
 msgctxt "IDS_CAPTURE_ERROR_COMPRESSION"
 msgid "Can't set the compression format on the %s encoder filter."
-msgstr "Kan ikke anvende komprimeringsformatet på %s indkodningsfilteret."
+msgstr "Kan ikke anvende komprimeringsformatet på %s kodningsfilteret."
 
 msgctxt "IDS_CAPTURE_ERROR_MULTIPLEXER"
 msgid "Can't connect the %s stream to the multiplexer filter."
-msgstr "Kan ikke forbinde %s streamet til multiplekserfilteret."
+msgstr "Kan ikke forbinde %s strømmen til multiplekserfilteret."
 
 msgctxt "IDS_CAPTURE_ERROR_VID_CAPT_PIN"
 msgid "No video capture pin was found."
@@ -3685,7 +3685,7 @@ msgstr "Upload afsluttet."
 
 msgctxt "IDS_SUBUL_DLG_ABORTED"
 msgid "Upload aborted."
-msgstr "Upload afbrydt."
+msgstr "Upload afbrudt."
 
 msgctxt "IDS_SUBUL_DLG_FAILED"
 msgid "Upload failed."
@@ -3909,7 +3909,7 @@ msgstr "/shaderpreset \"Fo\"\tStart brug af \"Fo\" shader-forudindstilling"
 
 msgctxt "IDS_CMD_PNS"
 msgid "/pns \"name\"\tSpecify Pan&Scan preset name to use"
-msgstr "/pns \"navn\"\tAngiv det Panorering og scanning-forudindstillingsnavn som skal bruges"
+msgstr "/pns \"navn\"\tAngiv det Panorering og skanning-forudindstillingsnavn som skal bruges"
 
 msgctxt "IDS_CMD_ICONASSOC"
 msgid "/iconsassoc\tReassociate format icons"

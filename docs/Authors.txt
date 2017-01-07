@@ -1,11 +1,8 @@
 Active (sorted by name):
 ------------------------
-alexmarsev              <alexmarsev@users.sourceforge.net>      Code
-Armada                  <armada651@users.sourceforge.net>       Code
 Goran 'vBm' Džaferi     <thevbm@users.sourceforge.net>          New website, Trac moderator, IRC
 JellyFrog               -                                       Server and Trac admin, Swedish
 kasper93                <kasper93@users.sourceforge.net>        Trac moderator, Polish, Code
-nevcairiel              <nevcairiel@users.sourceforge.net>      Code, LAVFilters maintainer
 XhmikosR                <xhmikosr@users.sourceforge.net>        Various stuff, Project manager
 
 
@@ -13,6 +10,8 @@ Inactive:
 ---------
 _xxl                    <drevil_xxl@users.sourceforge.net>      FFmpeg
 Alexander Wild          <alexwild@users.sourceforge.net>        Code, German
+alexmarsev              <alexmarsev@users.sourceforge.net>      Code
+Armada                  <armada651@users.sourceforge.net>       Code
 Arto Jarvinen           <ar-jar@users.sourceforge.net>          Code
 Attila T. Afra          <attila.afra@gmail.com>                 Code
 Beliyaal                <beliyaal@users.sourceforge.net>        Code
@@ -27,6 +26,7 @@ KindDragon              <kinddragon@users.sourceforge.net>      Code
 Martin Panayotov        <mvpsoft@users.sourceforge.net>         Old website
 MatMaul                 <matmaul@users.sourceforge.net>         Code
 namaiki                 <namaiki@users.sourceforge.net>         Trac moderator
+nevcairiel              <nevcairiel@users.sourceforge.net>      Code, LAVFilters maintainer
 spec-chum               <spec-chum@users.sourceforge.net>       Code
 tetsuo55                <tetsuo55@users.sourceforge.net>        Project manager
 Tomas Sen               <tomasen@users.sourceforge.net>         Code

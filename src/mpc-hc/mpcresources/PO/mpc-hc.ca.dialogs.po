@@ -6,14 +6,17 @@
 # Adolfo Jayme-Barrientos, 2015
 # Adolfo Jayme-Barrientos, 2014
 # papu, 2014-2016
-# Roger Espolet <roger.espolet@gmail.com>, 2016
+# Roger <roger.espolet@gmail.com>, 2016
+# Roger <roger.espolet@gmail.com>, 2016
+# Roger <roger.espolet@gmail.com>, 2016
+# Roger <roger.espolet@gmail.com>, 2016
 # papu, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
-"PO-Revision-Date: 2016-11-07 00:06+0000\n"
-"Last-Translator: Roger Espolet <roger.espolet@gmail.com>\n"
+"PO-Revision-Date: 2016-11-29 12:03+0000\n"
+"Last-Translator: Roger <roger.espolet@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/mpc-hc/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -87,7 +90,7 @@ msgstr "Normalitza"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC4"
 msgid "Max amplification:"
-msgstr "Amplificació màx.:"
+msgstr "Amplificació màxima:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC5"
 msgid "%"
@@ -187,7 +190,7 @@ msgstr "Cancel·la"
 
 msgctxt "IDD_OPEN_DLG_IDC_CHECK1"
 msgid "Add to playlist without opening"
-msgstr "Afegeix a la llista de reproducció sense obrir-ho"
+msgstr "Afegeix-ho a la llista de reproducció sense obrir-ho"
 
 msgctxt "IDD_ABOUTBOX_CAPTION"
 msgid "About"
@@ -251,7 +254,7 @@ msgstr "Utilitza el mateix reproductor per a cada fitxer multimèdia"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO2"
 msgid "Open a new player for each media file played"
-msgstr "Obre un reproductor nou per a cada fitxer de mitjans"
+msgstr "Obre un reproductor nou per a cada fitxer multimèdia"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Language"
@@ -319,7 +322,7 @@ msgstr "Historial"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK1"
 msgid "Keep history of recently opened files"
-msgstr "Mantén l'historial dels fitxers oberts recentment"
+msgstr "Mantén historial dels fitxers oberts recentment"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK2"
 msgid "Remember last playlist"
@@ -343,7 +346,7 @@ msgstr "Recorda la mida de la finestra"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
 msgid "Remember last Pan-n-Scan Zoom"
-msgstr "Recorda el darrer zoom de Pan&Scan"
+msgstr "Recorda el darrer zoom de reenquadrament"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
@@ -359,7 +362,7 @@ msgstr "Obre sempre la ubicació per defecte:"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "Preferred language for DVD Navigator and the external OGM Splitter"
-msgstr "Idioma preferit pel menú del DVD i l'OGM Splitter extern"
+msgstr "Idioma preferit pel menú del DVD i el divisor extern de l'OGM"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO3"
 msgid "Menu"
@@ -463,7 +466,7 @@ msgstr "Àudio:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK4"
 msgid "Allow overriding external splitter choice"
-msgstr "Permet elecció manual del desmultiplexor (splitter) extern"
+msgstr "Permet elecció manual del divisor o \"splitter\" extern"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Open settings"
@@ -607,7 +610,7 @@ msgstr "Estableix com a programa per &defecte"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Real-Time Streaming Protocol handler (for rtsp://... URLs)"
-msgstr "Gestor del protocol de transmissions en temps real (per rtsp://... URLs)"
+msgstr "Gestor del protocol de transmissions en temps real (per a URL rtsp://)"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_RADIO1"
 msgid "RealMedia"
@@ -675,7 +678,7 @@ msgstr "Mostra les marques dels capítols a la barra de desplaçament"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK4"
 msgid "Display \"Now Playing\" information in Skype's mood message"
-msgstr "Mostra el títol \"En reproducció\" en els missatges d'estat d'ànim del Skype"
+msgstr "Mostra el títol del que s'estigui reproduïnt al missatge d'estat d'ànim de l'Skype"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
@@ -795,7 +798,7 @@ msgstr "Descripció:"
 
 msgctxt "IDD_FAVADD_CAPTION"
 msgid "Add Favorite"
-msgstr "Afegeix a les Adreces d'Interès"
+msgstr "Afegeix-ho a Preferits"
 
 msgctxt "IDD_FAVADD_IDC_STATIC"
 msgid "Choose a name for your shortcut:"
@@ -819,7 +822,7 @@ msgstr "Unitat relativa"
 
 msgctxt "IDD_FAVORGANIZE_CAPTION"
 msgid "Organize Favorites"
-msgstr "Organitzeu les Adreces d'Interès"
+msgstr "Organitza els Preferits"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON1"
 msgid "Rename"
@@ -827,11 +830,11 @@ msgstr "Canvia el nom"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON3"
 msgid "Move Up"
-msgstr "Puja"
+msgstr "Amunt"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON4"
 msgid "Move Down"
-msgstr "Baixa"
+msgstr "Avall"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON2"
 msgid "Delete"
@@ -843,7 +846,7 @@ msgstr "D’acord"
 
 msgctxt "IDD_PNSPRESET_DLG_CAPTION"
 msgid "Pan&Scan Presets"
-msgstr "Mode Pan&Scan"
+msgstr "Modes de reenquadrament (pan&scan)"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"
 msgid "New"
@@ -887,11 +890,11 @@ msgstr "Tecles multimèdia globals"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON1"
 msgid "Select All"
-msgstr "Selecciona-ho tot"
+msgstr "Selecciona-les totes"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON2"
 msgid "Reset Selected"
-msgstr "Inicialitza la Selecció"
+msgstr "Restableix les seleccionades"
 
 msgctxt "IDD_MEDIATYPES_DLG_CAPTION"
 msgid "Warning"
@@ -947,7 +950,7 @@ msgstr "Miniatures:"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "rows"
-msgstr "fileres"
+msgstr "files"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "columns"
@@ -1215,7 +1218,7 @@ msgstr "Permet l'accés només des d'aquest ordinador (localhost)"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK6"
 msgid "Enable preview"
-msgstr "Activa la vista prèvia"
+msgstr "Activa la previsualització"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
 msgid "Print debug information"
@@ -1515,7 +1518,7 @@ msgstr "Surt de la pantalla completa en acabar"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Fullscreen monitor"
-msgstr "Monitor a Pantalla completa"
+msgstr "Monitor a pantalla completa"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK2"
 msgid "Use autochange fullscreen monitor mode"
@@ -1567,11 +1570,11 @@ msgstr "Prefereix pistes de subtítols forçades/per defecte"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK2"
 msgid "Prefer external subtitles over embedded subtitles"
-msgstr "Prefereix subtítols externs als encastats"
+msgstr "Prefereix subtítols externs als incrustats"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK3"
 msgid "Ignore embedded subtitles"
-msgstr "Ignora els subtítols encastats"
+msgstr "Ignora els subtítols incrustats"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Autoload paths"
@@ -1591,11 +1594,11 @@ msgstr "Cerca i descarrega subtítols automàticament si no se'n troba cap local
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
 msgid "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
-msgstr "Prefereix subtítols per a problemes d'audició (quan siguin indicats pel proveïdor)"
+msgstr "Prefereix subtítols per a problemes d'audició (quan ho indiqui el proveïdor)"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
 msgid "Ignore files containing any of the following word(s):"
-msgstr "Ignora els fitxers els quals continguin les següents paraules:"
+msgstr "Ignora els fitxers que continguin les següents paraules:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Languages in order of preference:"

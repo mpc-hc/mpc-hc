@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-10-17 00:35:36+0000\n"
-"PO-Revision-Date: 2016-11-05 10:02+0000\n"
+"PO-Revision-Date: 2016-12-12 18:26+0000\n"
 "Last-Translator: Luan <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/mpc-hc/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -813,11 +813,11 @@ msgstr "Verbessert die Leistung auf Kosten der Kompatibilität einiger Renderer.
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."
-msgstr "Reduziert Tearing-Effekte. Allerdings werden dabei keine Steuerelemente angezeigt."
+msgstr "Reduziert Tearing-Effekte. Dabei werden Kontextmenüs und Dialoge jedoch nicht angezeigt."
 
 msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Reduces tearing by bypassing the default VSync built into D3D."
-msgstr "Reduziert Tearing-Effekte unter Umgehung des von Direct3D verwendeten VSync."
+msgstr "Reduziert Tearing-Effekte unter Umgehung der von Direct3D verwendeten vertikalen Synchronisation."
 
 msgctxt "IDS_NAVIGATE_TUNERSCAN"
 msgid "Tuner scan"
@@ -1093,7 +1093,7 @@ msgstr "&Erneut laden"
 
 msgctxt "IDS_SUBTITLES_ENABLE"
 msgid "&Enable"
-msgstr "&Aktivieren"
+msgstr "&Anzeigen"
 
 msgctxt "IDS_PANSCAN_EDIT"
 msgid "&Edit..."
@@ -1593,7 +1593,7 @@ msgstr "Programm-Einstellungen zurücksetzen"
 
 msgctxt "IDS_RESET_SETTINGS_WARNING"
 msgid "Are you sure you want to restore MPC-HC to its default settings?\nBe warned that ALL your current settings will be lost!"
-msgstr "Alle aktuellen Einstellungen gehen verloren!\n\nProgramm-Einstellungen wirklich vollständig zurücksetzen?"
+msgstr "Alle aktuellen Einstellungen gehen verloren!\n\nProgramm-Einstellungen wirklich zurücksetzen?"
 
 msgctxt "IDS_RESET_SETTINGS_MUTEX"
 msgid "Please close all instances of MPC-HC so that the default settings can be restored."
@@ -2017,7 +2017,7 @@ msgstr "Untertitelspur zurück"
 
 msgctxt "IDS_MPLAYERC_85"
 msgid "On/Off Subtitle"
-msgstr "Untertitel (ein/aus)"
+msgstr "Untertitelspur anzeigen (ein/aus)"
 
 msgctxt "IDS_MPLAYERC_86"
 msgid "Reload Subtitles"
@@ -2049,7 +2049,7 @@ msgstr "DVD: Untertitelspur zurück"
 
 msgctxt "IDS_MPLAYERC_97"
 msgid "On/Off Subtitle (DVD)"
-msgstr "DVD: Untertitel (ein/aus)"
+msgstr "DVD: Untertitelspur anzeigen (ein/aus)"
 
 msgctxt "IDS_OSD_DISPLAY_CURRENT_TIME"
 msgid "OSD: Display Current Time"
@@ -2209,7 +2209,7 @@ msgstr "DVD: Regionalcode-Konflikt zwischen Disc und Decoder"
 
 msgctxt "IDS_D3DFS_WARNING"
 msgid "This option is designed to avoid tearing. However, it will also prevent MPC-HC from displaying the context menu and any dialog box during playback.\n\nDo you really want to activate this option?"
-msgstr "Mit dieser Option können störende Tearing-Effekte vermieden werden. Allerdings werden damit während des Vollbilds keine Dialogboxen und Menüs angezeigt.\n\nDirect3D-Vollbildmodus aktivieren?"
+msgstr "Mit dieser Option können unerwünschte Tearing-Effekte bei Vollbild vermieden werden. Dabei werden Kontextmenüs und Dialoge jedoch nicht angezeigt.\n\nDirect3D-Vollbildmodus trotzdem aktivieren?"
 
 msgctxt "IDS_MAINFRM_139"
 msgid "Sub delay: %ld ms"
@@ -2269,7 +2269,7 @@ msgstr "Fehler"
 
 msgctxt "IDS_SUBTITLE_STREAM_OFF"
 msgid "Subtitle: off"
-msgstr "Untertitel: Aus"
+msgstr "Untertitelspur anzeigen: Aus"
 
 msgctxt "IDS_SUBTITLE_STREAM"
 msgid "Subtitle: %s"
@@ -2525,7 +2525,7 @@ msgstr " (Regie-Kommentar 2)"
 
 msgctxt "IDS_DVD_SUBTITLES_ENABLE"
 msgid "Enable DVD subtitles"
-msgstr "DVD-Untertitel"
+msgstr "&Anzeigen"
 
 msgctxt "IDS_AG_ANGLE"
 msgid "Angle %u"
@@ -3185,11 +3185,11 @@ msgstr "Alternativer VSync: Aus"
 
 msgctxt "IDS_OSD_RS_RESET_DEFAULT"
 msgid "Renderer settings reset to default"
-msgstr "Standard-Einstellungen für Video-Renderer geladen"
+msgstr "Video-Renderer: Standard-Einstellungen"
 
 msgctxt "IDS_OSD_RS_RESET_OPTIMAL"
 msgid "Renderer settings reset to optimal"
-msgstr "Optimierte Einstellungen für Video-Renderer geladen"
+msgstr "Video-Renderer: Optimierte Einstellungen"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
 msgid "D3D Fullscreen GUI Support: On"
@@ -3529,7 +3529,7 @@ msgstr "Sättigung: %s"
 
 msgctxt "IDS_OSD_RESET_COLOR"
 msgid "Color settings restored"
-msgstr "Standard-Einstellungen für Farbsteuerung geladen"
+msgstr "Farbsteuerung: Standard-Einstellungen"
 
 msgctxt "IDS_OSD_NO_COLORCONTROL"
 msgid "Color control is not supported"

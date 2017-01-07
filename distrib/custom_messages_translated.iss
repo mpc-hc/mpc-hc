@@ -42,8 +42,8 @@ bs_BA.WelcomeLabel2=Ovo će instalirati  [name] na vaš računar.%n%nPreporučlj
 bs_BA.WinVersionTooLowError=[name] za pokretanje zahtijeva Windows XP Service Pack 3 ili noviji.
 
 ; Catalan
-ca.WelcomeLabel2=Aquest auxiliar instal·larà el [name] al vostre ordinador%n%nSe recomana tancar totes les aplicacions abans de continuar.
-ca.WinVersionTooLowError=[name] cal Windows XP Service Pack 3 o superior perquè funcioni.
+ca.WelcomeLabel2=Aquest auxiliar instal·larà el [name] al vostre ordinador.%n%nSe recomana tancar totes les aplicacions abans de continuar.
+ca.WinVersionTooLowError=[name] requereix Windows XP Service Pack 3 o superior perquè funcioni.
 
 ; Czech
 cs.WelcomeLabel2=Produkt [name] bude nainstalován na Váš počítač.%n%nDříve než budete pokračovat, doporučuje se ukončit veškeré spuštěné aplikace.
@@ -127,7 +127,7 @@ ms_MY.WinVersionTooLowError=[name] memerlukan Windows XP Service Pack 3 atau yg 
 
 ; Dutch (Neutral)
 nl.WelcomeLabel2=Dit programma zal [name] op uw computer installeren.%n%nHet is aanbevolen dat u alle andere toepassingen sluit voordat u verder gaat.
-nl.WinVersionTooLowError=[name] vereist Windows XP Service Pack 3 of hoger om uit te voeren.
+nl.WinVersionTooLowError=[name] vereist Windows XP Service Pack 3 of hoger om te voeren werken.
 
 ; Polish
 pl.WelcomeLabel2=Zostanie zainstalowane [name] na Twoim komputerze.%n%nZaleca się zamknięcie wszystkich innych aplikacji przed kontynuowaniem.
@@ -273,9 +273,9 @@ ca.comp_mpciconlib=Col·lecció d’icones
 ca.comp_mpcresources=Traduccions
 ca.msg_DeleteSettings=Voleu suprimir les preferències de l'MPC-HC?%n%nSi planegeu tornar-lo a instal·lar no cal que les elimineu.
 #if defined(sse_required)
-ca.msg_simd_sse=Aquesta versió de l'MPC-HC necessita una CPU amb suport d'extensions SSE.%n%nLa seva CPU no compleix aquesta característica.
+ca.msg_simd_sse=Aquesta versió de l'MPC-HC necessita una CPU amb suport d'extensions SSE.%n%nLa vostra CPU no compleix aquesta característica.
 #elif defined(sse2_required)
-ca.msg_simd_sse2=Aquesta versió de l'MPC-HC requereix una CPU amb suport d'extensions SSE2.%n%nLa seva CPU no compleix aquesta característica.
+ca.msg_simd_sse2=Aquesta versió de l'MPC-HC requereix una CPU amb suport d'extensions SSE2.%n%nLa vostra CPU no compleix aquesta característica.
 #endif
 ca.run_DownloadToolbarImages=Visita la nostra pàgina Wiki per descarregar imatges de la barra d'eines
 ca.tsk_AllUsers=Per a tots els usuaris
@@ -668,22 +668,22 @@ ms_MY.ViewChangelog=Lihat Log Perubahan
 
 ; Dutch (Neutral)
 nl.langid=00001043
-nl.comp_mpciconlib=Iconen voor mediabestanden
-nl.comp_mpcresources=Taal
+nl.comp_mpciconlib=Iconen bibliotheek
+nl.comp_mpcresources=Talen
 nl.msg_DeleteSettings=Wilt u ook de instellingen van MPC-HC verwijderen?%n%nAls u van plan bent MPC-HC opnieuw te gaan installeren is dit niet nodig.
 #if defined(sse_required)
 nl.msg_simd_sse=Deze versie van MPC-HC heeft een processor nodig die SSE ondersteunt.%n%nUw processor ondersteunt dit niet.
 #elif defined(sse2_required)
 nl.msg_simd_sse2=Deze versie van MPC-HC heeft een processor nodig die SSE2 ondersteunt.%n%nUw processor ondersteunt dit niet.
 #endif
-nl.run_DownloadToolbarImages=Bezoek onze wiki om de werkbalkafbeeldingen te downloaden
+nl.run_DownloadToolbarImages=Bezoek onze wiki om de werkbalkafbeeldingen op te halen
 nl.tsk_AllUsers=Voor alle gebruikers
 nl.tsk_CurrentUser=Alleen voor de huidige gebruiker
 nl.tsk_Other=Andere taken:
 nl.tsk_ResetSettings=Instellingen resetten
-nl.types_DefaultInstallation=Standaardinstallatie
+nl.types_DefaultInstallation=Standaard installatie
 nl.types_CustomInstallation=Aangepaste installatie
-nl.ViewChangelog=Wijzigingsoverzicht bekijken
+nl.ViewChangelog=Toon wijziging geschiedenis
 
 ; Polish
 pl.langid=00001045

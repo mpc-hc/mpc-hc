@@ -9,18 +9,18 @@
 # Erick Simões <erick.simoes@yahoo.com.br>, 2015
 # Everton Leite <etcholeite@gmail.com>, 2016
 # Gustavo Cegolini Togni <gustavotogni@gmail.com>, 2015
-# Roger Filipe <lipe2000@outlook.com>, 2013-2014
+# Roger Filipe Barros <lipe2000@outlook.com>, 2013-2014
 # Luis Henrique <henriqlh@gmail.com>, 2014
 # Michael Moser <michi.celin@gmail.com>, 2016
 # mvpetri <mvpetri@gmail.com>, 2014
 # Raphael Mendonça, 2014
-# Roger Filipe <lipe2000@outlook.com>, 2014
+# Roger Filipe Barros <lipe2000@outlook.com>, 2014,2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
-"PO-Revision-Date: 2016-07-06 21:36+0000\n"
-"Last-Translator: kasper93\n"
+"PO-Revision-Date: 2016-12-22 21:43+0000\n"
+"Last-Translator: Roger Filipe Barros <lipe2000@outlook.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/mpc-hc/mpc-hc/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -210,7 +210,7 @@ msgstr "Este programa é gratuito e foi licenciado sob os termos da Licença Ger
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
-msgstr "Traduzido para o Português por Roger Filipe"
+msgstr "Traduzido para o Português por Roger Filipe Barros"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build information"
@@ -1010,7 +1010,7 @@ msgstr "Escala (y,%)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Border Style"
-msgstr "Estilo de Bordas"
+msgstr "Estilo de bordas"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO1"
 msgid "Outline"
@@ -1086,11 +1086,11 @@ msgstr "Se preferir utilizar filtros externos, desative os filtros internos aqui
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Source Filters"
-msgstr "Filtros Fonte"
+msgstr "Filtros fonte"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Transform Filters"
-msgstr "Filtros de Transformação"
+msgstr "Filtros de transformação"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Internal LAV Filters settings"
@@ -1102,11 +1102,11 @@ msgstr "Divisor"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_VIDEO_DEC_CONF"
 msgid "Video decoder"
-msgstr "Decodificador Vídeo"
+msgstr "Decodificador vídeo"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_AUDIO_DEC_CONF"
 msgid "Audio decoder"
-msgstr "Decodificador Áudio"
+msgstr "Decodificador áudio"
 
 msgctxt "IDD_PPAGELOGO_IDC_RADIO1"
 msgid "Internal:"
@@ -1198,11 +1198,11 @@ msgstr "Rotação"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
-msgstr "Renderizar Legendas"
+msgstr "Renderizar legendas"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
 msgid "Cache compiled Shaders"
-msgstr "Shaders Compilados em Cache"
+msgstr "Shaders compilados em cache"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
@@ -1394,7 +1394,7 @@ msgstr "Use um offset"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Default Device"
-msgstr "Dispositivo Padrão"
+msgstr "Dispositivo padrão"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_RADIO1"
 msgid "Analog"
@@ -1426,7 +1426,7 @@ msgstr "Configurações digitais (BDA)"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC4"
 msgid "Network Provider"
-msgstr "Provedor de Sinal"
+msgstr "Provedor de rede"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC5"
 msgid "Tuner"
@@ -1614,15 +1614,15 @@ msgstr "Enviar automaticamente as legendas ativas no fim da reprodução dos ví
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
-msgstr "Verificação de Atualizações"
+msgstr "Verificação de atualizações"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_DL_BUTTON"
 msgid "&Download now"
-msgstr "&Baixe agora"
+msgstr "Baixar agora"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_LATER_BUTTON"
 msgid "Remind me &later"
-msgstr "Lembre-me &depois"
+msgstr "Lembre-me depois"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_IGNORE_BUTTON"
 msgid "&Ignore this update"
@@ -1674,11 +1674,11 @@ msgstr "Ativar pós-redimensionamento de shaders"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_CAPTION"
 msgid "Debug Shaders"
-msgstr "Depurar Shaders"
+msgstr "Depurar shaders"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_STATIC"
 msgid "Debug Information"
-msgstr "Informação de Depuração"
+msgstr "Informação de depuração"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO1"
 msgid "PS 2.0"
@@ -1782,7 +1782,7 @@ msgstr "Envie-nos um relatório de erros para ajudar-nos a diagnosticar e corrig
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
 msgid "Optional information"
-msgstr "Informação Opcional"
+msgstr "Informação opcional"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
 msgid "Email:"
