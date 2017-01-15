@@ -6,7 +6,7 @@ LAV Filters         0.69-4-g1400993e (custom build based on stable v0.69)
 Little CMS          2.8 (1272acb)
 Logitech SDK        3.01 (driver 8.00.100)
 MediaInfoLib        0.7.92
-Mhook               2.3 (modified)
+MinHook             1.3.3
 MultiMon            28 Aug '03 (modified)
 NanoSVG             git dc12d90
 QuickTime SDK       7.3

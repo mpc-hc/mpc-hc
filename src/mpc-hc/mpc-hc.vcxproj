@@ -609,9 +609,6 @@
     <ProjectReference Include="..\thirdparty\MediaInfo\MediaInfoLib.vcxproj">
       <Project>{20e0f8d6-213c-460b-b361-9c725cb375c7}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\thirdparty\mhook\mhook.vcxproj">
-      <Project>{f841363c-a630-4716-8941-cddc1f32cfc3}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\thirdparty\RARFileSource\RARFileSource.vcxproj">
       <Project>{2b7f22d7-1750-47c5-8709-1a3688b62499}</Project>
     </ProjectReference>
@@ -687,6 +684,9 @@
       <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <ProjectReference Include="..\thirdparty\minhook\minhook.vcxproj">
+      <Project>{303B855A-137D-45E9-AF6D-B7241C6E66D6}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

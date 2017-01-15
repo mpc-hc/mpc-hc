@@ -1469,6 +1469,8 @@ BOOL CMPlayerCApp::InitInstance()
     // At this point only main thread should be present, mhook is custom-hacked accordingly
     bool bHookingSuccessful = true;
 
+    MH_Initialize();
+
     bHookingSuccessful &= !!Mhook_SetHookEx(&Real_IsDebuggerPresent, Mine_IsDebuggerPresent);
 
     m_hNTDLL = LoadLibrary(_T("ntdll.dll"));
@@ -2025,6 +2027,8 @@ int CMPlayerCApp::ExitInstance()
     }
 
     CMPCPngImage::CleanUp();
+
+    MH_Uninitialize();
 
     OleUninitialize();
 
