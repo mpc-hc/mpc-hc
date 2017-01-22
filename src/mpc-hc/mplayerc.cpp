@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -2018,9 +2018,11 @@ UINT CMPlayerCApp::GetVKFromAppCommand(UINT nAppCommand)
 
 int CMPlayerCApp::ExitInstance()
 {
-    m_s->SaveSettings();
-
-    m_s = nullptr;
+    // We might be exiting before m_s is initialized.
+    if (m_s) {
+        m_s->SaveSettings();
+        m_s = nullptr;
+    }
 
     CMPCPngImage::CleanUp();
 
