@@ -1,5 +1,5 @@
 ﻿/*
- * (C) 2016 see Authors.txt
+ * (C) 2016-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -862,13 +862,16 @@ SRESULT titlovi::Search(const SubtitlesInfo& pFileInfo)
                         pSubtitlesInfo.fileName += StringFormat("%sE%02d", (pSubtitlesInfo.seasonNumber > 0) ? "" : " ", pSubtitlesInfo.episodeNumber);
                     }
 
-                    auto it = std::find_if(pSubtitlesInfo.releaseNames.begin(), pSubtitlesInfo.releaseNames.end(), [&fn = pFileInfo.fileName](const auto & str) {
-                        return fn.find(str) != std::string::npos;
-                    });
+                    bool found = false;
+                    for (const auto& str : pSubtitlesInfo.releaseNames) {
+                        if (pFileInfo.fileName.find(str) != std::string::npos) {
+                            pSubtitlesInfo.fileName += " " + str;
+                            found = true;
+                            break;
+                        }
+                    }
 
-                    if (it != pSubtitlesInfo.releaseNames.end()) {
-                        pSubtitlesInfo.fileName += " " + *it;
-                    } else if (!pSubtitlesInfo.releaseNames.empty()) {
+                    if (!found && !pSubtitlesInfo.releaseNames.empty()) {
                         pSubtitlesInfo.fileName += " " + pSubtitlesInfo.releaseNames.front();
                     }
                     pSubtitlesInfo.fileName += GUESSED_NAME_POSTFIX;
