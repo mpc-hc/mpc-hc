@@ -9,7 +9,7 @@
 # Pavel Otchertsov <pavel.otchertsov@gmail.com>, 2015
 # sayanvd <sayanvd@yandex.ru>, 2014-2015
 # Sergey <player54@mail.ru>, 2015-2016
-# Kirill Stryaponoff <stryaponoff@gmail.com>, 2014,2016
+# Kirill <stryaponoff@gmail.com>, 2014,2016
 # SmilyCarrot <twisted-transistor@yandex.ru>, 2014
 # Victor Bychek, 2015-2016
 # Денис <denyspokhylenko@gmail.com>, 2015

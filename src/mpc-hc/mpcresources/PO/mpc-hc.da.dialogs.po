@@ -7,14 +7,14 @@
 # Xebika <fidodkk@gmail.com>, 2014-2015
 # Jatyrael <cbf_x@hotmail.com>, 2014
 # NemoHJ <nemohj@gmail.com>, 2016
-# scootergrisen, 2015-2016
+# scootergrisen, 2015-2017
 # Stoffi, 2014-2015
 # Xebika <fidodkk@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
-"PO-Revision-Date: 2016-11-24 12:44+0000\n"
+"PO-Revision-Date: 2017-01-14 15:09+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/mpc-hc/mpc-hc/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -1261,7 +1261,7 @@ msgstr "Opdater"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON2"
 msgid "Abort"
-msgstr "Om"
+msgstr "Afbryd"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON3"
 msgid "Options"
@@ -1277,7 +1277,7 @@ msgstr "Upload"
 
 msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
 msgid "Abort"
-msgstr "Om"
+msgstr "Afbryd"
 
 msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON2"
 msgid "Options"
