@@ -1,5 +1,5 @@
 /*
-* (C) 2016 see Authors.txt
+* (C) 2016-2017 see Authors.txt
 *
 * This file is part of MPC-HC.
 *
@@ -20,10 +20,13 @@
 
 #pragma once
 
-class ATL::CImage;
+namespace ATL
+{
+    class CImage;
+}
 
 namespace SVGImage
 {
-    HRESULT Load(LPCTSTR filename, CImage& image, float scale = 1.0f);
-    HRESULT Load(UINT uResId, CImage& image, float scale = 1.0f);
-};
+    HRESULT Load(LPCTSTR filename, ATL::CImage& image, float scale = 1.0f);
+    HRESULT Load(UINT uResId, ATL::CImage& image, float scale = 1.0f);
+}
