@@ -24,7 +24,6 @@
 #include "mplayerc.h"
 #include "PathUtils.h"
 #include "Logger.h"
-#include "MediaInfo/library/Source/ThirdParty/base64/base64.h"
 #include <wininet.h>
 
 #if USE_STATIC_MEDIAINFO
@@ -626,7 +625,7 @@ void SubtitlesProviders::ReadSettings()
             if (iter[0] == iter1->Name()) {
                 bFound = true;
                 iter1->UserName(iter[1]);
-                iter1->Password(Base64::decode(iter[2]).c_str(), false);
+                iter1->Password(iter[2].c_str(), false);
                 iter1->Enabled(SPF_SEARCH, atoi(iter[3].c_str()));
                 iter1->Enabled(SPF_UPLOAD, atoi(iter[4].c_str()));
                 std::iter_swap(&iter1, m_pProviders.begin() + std::min(index, m_pProviders.size() - 1));
@@ -642,7 +641,7 @@ std::string SubtitlesProviders::WriteSettings()
 {
     std::string result;
     for (const auto& iter : m_pProviders) {
-        result += "<|" + iter->Name() + "|" + iter->UserName() + "|" + Base64::encode(iter->Password(false)) + "|" + std::to_string(iter->Enabled(SPF_SEARCH)) + "|" + std::to_string(iter->Enabled(SPF_UPLOAD)) + "|>";
+        result += "<|" + iter->Name() + "|" + iter->UserName() + "|" + iter->Password(false) + "|" + std::to_string(iter->Enabled(SPF_SEARCH)) + "|" + std::to_string(iter->Enabled(SPF_UPLOAD)) + "|>";
     }
     return result;
 }
