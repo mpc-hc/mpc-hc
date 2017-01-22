@@ -10314,6 +10314,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 
         if (ct == "video/x-ms-asf") {
             // TODO: put something here to make the windows media source filter load later
+#ifndef _WIN64
         } else if (ct == "audio/x-pn-realaudio"
                    || ct == "audio/x-pn-realaudio-plugin"
                    || ct == "audio/x-realaudio-secure"
@@ -10323,17 +10324,28 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
                    || ct.Find("realaudio") >= 0
                    || ct.Find("realvideo") >= 0) {
             engine = RealMedia;
+#endif
         } else if (ct == "application/x-shockwave-flash") {
             engine = ShockWave;
+#ifndef _WIN64
         } else if (ct == "video/quicktime"
                    || ct == "application/x-quicktimeplayer") {
             engine = QuickTime;
+#endif
         }
+
+#ifdef _WIN64
+        // override
+        if (engine == RealMedia || engine == QuickTime) {
+            engine = DirectShow;
+        }
+#endif
 
         HRESULT hr = E_FAIL;
         CComPtr<IUnknown> pUnk;
 
         if (engine == RealMedia) {
+#ifndef _WIN64
             // TODO : see why Real SDK crash here ...
             //if (!IsRealEngineCompatible(p->fns.GetHead()))
             //  throw ResStr(IDS_REALVIDEO_INCOMPATIBLE);
@@ -10349,6 +10361,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
                     m_fRealMediaGraph = true;
                 }
             }
+#endif
         } else if (engine == ShockWave) {
             pUnk = (IUnknown*)(INonDelegatingUnknown*)DEBUG_NEW DSObjects::CShockwaveGraph(m_pVideoWnd->m_hWnd, hr);
             if (!pUnk) {
