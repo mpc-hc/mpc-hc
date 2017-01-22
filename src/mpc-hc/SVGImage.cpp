@@ -1,5 +1,5 @@
 /*
-* (C) 2016 see Authors.txt
+* (C) 2016-2017 see Authors.txt
 *
 * This file is part of MPC-HC.
 *
@@ -39,10 +39,13 @@ namespace
 
         NSVGrasterizer* rasterizer = nsvgCreateRasterizer();
         if (!rasterizer) {
+            nsvgDelete(svgImage);
             return E_FAIL;
         }
 
         if (!image.Create(int(svgImage->width * scale), int(svgImage->height * scale), 32)) {
+            nsvgDeleteRasterizer(rasterizer);
+            nsvgDelete(svgImage);
             return E_FAIL;
         }
 
