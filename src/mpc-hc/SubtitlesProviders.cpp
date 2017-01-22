@@ -1,5 +1,5 @@
 ﻿/*
- * (C) 2016 see Authors.txt
+ * (C) 2016-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -57,55 +57,53 @@ void SubtitlesInfo::OpenUrl() const
 }
 
 
-#define RE_ITE(_cond, _true, _false)  "(?(" _cond ")" _true "|" _false ")"
-#define RE_IT(_cond, _true)  "(?(" _cond ")" _true ")"
-#define RE_O(_expr)  _expr "?"
-#define RE_CG(_expr)  "(" _expr ")"
-#define RE_OCG(_expr)  RE_O(RE_CG(_expr))
-#define RE_NCG(_expr)  "(?:" _expr ")"
-#define RE_ONCG(_expr) RE_O(RE_NCG(_expr))
-#define RE_PLA(_cond, _expr)  "(?=" _cond ")" _expr
-#define RE_NLA(_cond, _expr)  "(?!" _cond ")" _expr
+#define RE_ITE(cond, re_true, re_false) "(?(" cond ")" re_true "|" re_false ")"
+#define RE_IT(cond, re_true) "(?(" cond ")" re_true ")"
+#define RE_O(expr) expr "?"
+#define RE_CG(expr) "(" expr ")"
+#define RE_OCG(expr) RE_O(RE_CG(expr))
+#define RE_NCG(expr) "(?:" expr ")"
+#define RE_ONCG(expr) RE_O(RE_NCG(expr))
+#define RE_PLA(cond, expr) "(?=" cond ")" expr
+#define RE_NLA(cond, expr) "(?!" cond ")" expr
 
 
-#define _RE_DEAD                                                              \
+#define REGEX_DEAD                                                              \
     "[-\\[('*:;.,_ /!@#$%?)\\]]"
 
-#define _RE_NOTDEAD                                                           \
+#define REGEX_NOTDEAD                                                           \
     "[^-\\[('*:;.,_ /!@#$%?)\\]\\\\]"
 
-#define _RE_CAPTURE_TITLE                                                     \
-    "([^\\\\]*?)(?:"_RE_DEAD"+(AU|CA|FR|JP|UK|US))??"_RE_DEAD"+"
-//    "([^\\\\]*?)"_RE_DEAD"+"
-//_RE_CG("[^\\\\]*?")_RE_OCG("AU|CA|FR|JP|UK|US")
+#define REGEX_CAPTURE_TITLE                                                     \
+    "([^\\\\]*?)(?:" REGEX_DEAD "+(AU|CA|FR|JP|UK|US))??" REGEX_DEAD "+"
 
-#define _RE_YEAR                                                              \
+#define REGEX_YEAR                                                              \
     "\\d{4}"
 
-#define _RE_SEASONEPISODE                                                     \
-    "S\\d{1,2}"RE_ONCG("E\\d{1,2}"RE_ONCG(RE_O(_RE_DEAD)"E\\d{1,2}"))         \
-    "|E\\d{1,2}"RE_ONCG(RE_O(_RE_DEAD)"E\\d{1,2}")                            \
-    "|\\d{1,2}[x#]\\d{1,2}"                                                   \
-    "|\\d{3}"                                                                 \
-    "|Part"_RE_DEAD"*\\d{1,2}"                                                \
-    "|"RE_ONCG("Season|Series"RE_O(_RE_DEAD)"\\d{1,2}"_RE_DEAD)"\\d{1,2}of\\d{1,2}"
+#define REGEX_SEASONEPISODE                                                     \
+    "S\\d{1,2}" RE_ONCG("E\\d{1,2}" RE_ONCG(RE_O(REGEX_DEAD) "E\\d{1,2}"))      \
+    "|E\\d{1,2}" RE_ONCG(RE_O(REGEX_DEAD) "E\\d{1,2}")                          \
+    "|\\d{1,2}[x#]\\d{1,2}"                                                     \
+    "|\\d{3}"                                                                   \
+    "|Part" REGEX_DEAD "*\\d{1,2}"                                              \
+    "|" RE_ONCG("Season|Series" RE_O(REGEX_DEAD) "\\d{1,2}" REGEX_DEAD) "\\d{1,2}of\\d{1,2}"
 
-#define _RE_CAPTURE_SEASONEPISODE                                             \
-    "S(\\d{1,2})"RE_ONCG("E(\\d{1,2})"RE_ONCG(RE_O(_RE_DEAD)"E\\d{1,2}"))     \
-    "|E(\\d{1,2})"RE_ONCG(RE_O(_RE_DEAD)"E\\d{1,2}")                          \
-    "|(\\d{1,2})[x#](\\d{1,2})"                                               \
-    "|(\\d)(\\d{2})"                                                          \
-    "|Part"_RE_DEAD"*()(\\d{1,2})"                                            \
-    "|"RE_ONCG("Season|Series"RE_O(_RE_DEAD)"(\\d{1,2})"_RE_DEAD)"(\\d{1,2})of\\d{1,2}"
+#define REGEX_CAPTURE_SEASONEPISODE                                             \
+    "S(\\d{1,2})" RE_ONCG("E(\\d{1,2})" RE_ONCG(RE_O(REGEX_DEAD) "E\\d{1,2}"))  \
+    "|E(\\d{1,2})" RE_ONCG(RE_O(REGEX_DEAD) "E\\d{1,2}")                        \
+    "|(\\d{1,2})[x#](\\d{1,2})"                                                 \
+    "|(\\d)(\\d{2})"                                                            \
+    "|Part" REGEX_DEAD "*()(\\d{1,2})"                                          \
+    "|" RE_ONCG("Season|Series" RE_O(REGEX_DEAD) "(\\d{1,2})" REGEX_DEAD) "(\\d{1,2})of\\d{1,2}"
 
-#define _RE_CAPTURE_TITLE2                                                    \
-    "(?:([^\\\\]+?)??"_RE_DEAD"+)??"
-//"(?:([^\\\\]+?)"_RE_DEAD "+)?"
+#define REGEX_CAPTURE_TITLE2                                                    \
+    "(?:([^\\\\]+?)??" REGEX_DEAD "+)??"
+//"(?:([^\\\\]+?)"REGEX_DEAD "+)?"
 
-#define _RE_RESOLUTION                                                        \
+#define REGEX_RESOLUTION                                                        \
     "(?:360|480|576|720|1080|2160)[pi]?"
 
-#define _RE_FORMAT                                                            \
+#define REGEX_FORMAT                                                          \
     "HD-?Rip|HD-?DVD(?:-?Rip)?"                                               \
     "|HD-?TV|PD-?TV|DVTV|DVB(?:-?Rip)?|TV-?Rip"                               \
     "|B[DR]Rip|Blu-?Ray"                                                      \
@@ -116,113 +114,112 @@ void SubtitlesInfo::OpenUrl() const
     "|CAM|TS"                                                                 \
     "|R5(?:[-._ ]?LiNE)?"
 
-#define _RE_AUDIOCODEC                                                        \
+#define REGEX_AUDIOCODEC                                                        \
     "AC3|DTS(?:[-._ ]?ES)?|He-AAC|AAC-He|AAC"
 
-#define _RE_VIDEOCODEC                                                        \
+#define REGEX_VIDEOCODEC                                                        \
     "XviD|DivX|DVDivX|[hx][-._ ]?26[45]|HEVC|Rv10|Mpeg2"
 
-#define _RE_CAPTURE_RELEASEGROUP                                              \
-    "("_RE_NOTDEAD"+)[\\[(-._ )\\]\\\\]+"
+#define REGEX_CAPTURE_RELEASEGROUP                                              \
+    "(" REGEX_NOTDEAD "+)[\\[(-._ )\\]\\\\]+"
 
-#define _RE_CAPTURE_LANGUAGE                                                  \
-    "(?:("_RE_NOTDEAD"+)[\\[(-._ )\\]\\\\]+)?"
+#define REGEX_CAPTURE_LANGUAGE                                                  \
+    "(?:(" REGEX_NOTDEAD "+)[\\[(-._ )\\]\\\\]+)?"
 
-#define _RE_CAPTURE_DISC                                                      \
-    "(?:CD|DIS[CK])[-._ ]?(\\d)"_RE_DEAD "+"
+#define REGEX_CAPTURE_DISC                                                      \
+    "(?:CD|DIS[CK])[-._ ]?(\\d)" REGEX_DEAD "+"
 
-#define _RE_IGNORE                                                            \
+#define REGEX_IGNORE                                                            \
     "(?:DD)?5[-._ ]1|[AS]E|[WF]S|\\d{3}MB|5CH|AUDIO[-._ ]?FIXED|CHRONO|COLORIZED|DC|DUAL[-._ ]?AUDIO|DUBBED|DUPE|DVD[-._ ]?[59]|EXTENDED|FESTIVAL|FINAL|INTERNAL|LIMITED|NFO|PROPER|RATED|READ|REAL|REMASTERED|REMUX|REPACK|RERIP|R[1-6]|RETAIL|RETORRENT|S?TV|SUBBED|THEATRICAL|UNCUT|UNRATED|MPEG4"
 
-#define _RE_CAPTURE_HEARINGIMPAIRED                                           \
-    _RE_DEAD"(HI)"_RE_DEAD".*(srt|idx|sub|ssa)$"
+#define REGEX_CAPTURE_HEARINGIMPAIRED                                           \
+    REGEX_DEAD "(HI)" REGEX_DEAD ".*(srt|idx|sub|ssa)$"
 
-#define _RE_CAPTURE_MEDIAEXTENSIONS                                           \
-    _RE_DEAD "(3g2|3gp2?|asf|avi|divx|flv|m2ts|m4v|mk[2av]|mov|mp4a?|mpe?g|og[gvm]|qt|ram?|rm|rmvb|ts|wav|webm|wm[av])$"
+#define REGEX_CAPTURE_MEDIAEXTENSIONS                                           \
+    REGEX_DEAD "(3g2|3gp2?|asf|avi|divx|flv|m2ts|m4v|mk[2av]|mov|mp4a?|mpe?g|og[gvm]|qt|ram?|rm|rmvb|ts|wav|webm|wm[av])$"
 
-#define _RE_CAPTURE_SUBTITLESEXTENSION                                        \
-    _RE_DEAD "(srt|idx|sub|ssa)$"
+#define REGEX_CAPTURE_SUBTITLESEXTENSION                                        \
+    REGEX_DEAD "(srt|idx|sub|ssa)$"
 
-#define _RE_ADDICT7ED_LANGUAGE                                                \
+#define REGEX_ADDICT7ED_LANGUAGE                                                \
     "Albanian|Arabic|Armenian|Azerbaijani|Bengali|Bosnian|Bulgarian|" + UTF16To8(_T("Català")) + "|Chinese \\(Simplified\\)|Chinese \\(Traditional\\)|Croatian|Czech|Danish|Dutch|English|Euskera|Finnish|French|Galego|German|Greek|Hebrew|Hungarian|Indonesian|Italian|Japanese|Korean|Macedonian|Malay|Norwegian|Persian|Polish|Portuguese|Portuguese \\(Brazilian\\)|Romanian|Russian|Serbian \\(Cyrillic\\)|Serbian \\(Latin\\)|Slovak|Slovenian|Spanish|Spanish \\(Latin America\\)|Spanish \\(Spain\\)|Swedish|Thai|Turkish|Urainian|Vietnamese"
 
-#define _RE_ADDICT7ED_CORRECTED                                               \
+#define REGEX_ADDICT7ED_CORRECTED                                               \
     "C[.]"
 
-#define _RE_ADDICT7ED_HEARINGIMPAIRED                                         \
+#define REGEX_ADDICT7ED_HEARINGIMPAIRED                                         \
     "HI[.]"
 
-#define _RE_ADDICT7ED_VERSION                                                 \
+#define REGEX_ADDICT7ED_VERSION                                                 \
     "(?:updated|orig)[.]"
 
-#define _RE_ADDICT7ED_SIGNATURE                                               \
+#define REGEX_ADDICT7ED_SIGNATURE                                               \
     "Addic[t7]ed[.]com"
 
 
-#define _RE_PLA(_expr, _group) "(?=(" _expr "))\\" #_group _RE_DEAD"+"
-#define _RE_OPLA(_expr, _group) "(?:(?=(" _expr "))\\" #_group _RE_DEAD"+)?"
-#define _RE_CG(_expr)  "(" _expr ")" _RE_DEAD "+"
-#define _RE_OCG(_expr)  RE_ONCG(RE_CG(_expr) _RE_DEAD "+")
-#define _RE_NCG(_expr)  "(?:" _expr ")" _RE_DEAD "+"
+#define REGEX_PLA(expr, group) "(?=(" expr "))\\" #group REGEX_DEAD "+"
+#define REGEX_OPLA(expr, group) "(?:(?=(" expr "))\\" #group REGEX_DEAD "+)?"
+#define REGEX_CG(expr)  "(" expr ")" REGEX_DEAD "+"
+#define REGEX_OCG(expr)  RE_ONCG(RE_CG(expr) REGEX_DEAD "+")
+#define REGEX_NCG(expr)  "(?:" expr ")" REGEX_DEAD "+"
 
-#define _RE_ONCG(_expr)  "(?:" _RE_NCG(_expr) ")?"
-#define _RE_ORNCG(_expr)  "(?:(?:" _RE_NCG(_expr) ")+)?"
-
+#define REGEX_ONCG(expr)  "(?:" REGEX_NCG(expr) ")?"
+#define REGEX_ORNCG(expr)  "(?:(?:" REGEX_NCG(expr) ")+)?"
 
 static const std::regex regex_pattern[] = {
     //--------------------------------------
     std::regex(
-        _RE_CAPTURE_TITLE _RE_ORNCG(_RE_IGNORE)
+        REGEX_CAPTURE_TITLE REGEX_ORNCG(REGEX_IGNORE)
         RE_ONCG(
-            RE_NCG(_RE_CG(_RE_YEAR) _RE_OCG(_RE_SEASONEPISODE) "|" _RE_CG(_RE_SEASONEPISODE))
-            _RE_ORNCG(_RE_IGNORE) _RE_CAPTURE_TITLE2
+            RE_NCG(REGEX_CG(REGEX_YEAR) REGEX_OCG(REGEX_SEASONEPISODE) "|" REGEX_CG(REGEX_SEASONEPISODE))
+            REGEX_ORNCG(REGEX_IGNORE) REGEX_CAPTURE_TITLE2
         )
-        RE_NCG(_RE_CG(_RE_RESOLUTION) "|" _RE_CG(_RE_FORMAT) "|" _RE_CG(_RE_AUDIOCODEC) "|" _RE_CG(_RE_VIDEOCODEC) "|" _RE_NCG(_RE_IGNORE))"+"
-        _RE_CAPTURE_RELEASEGROUP
-        //_RE_CAPTURE_LANGUAGE
+        RE_NCG(REGEX_CG(REGEX_RESOLUTION) "|" REGEX_CG(REGEX_FORMAT) "|" REGEX_CG(REGEX_AUDIOCODEC) "|" REGEX_CG(REGEX_VIDEOCODEC) "|" REGEX_NCG(REGEX_IGNORE)) "+"
+        REGEX_CAPTURE_RELEASEGROUP
+        //REGEX_CAPTURE_LANGUAGE
         , RegexFlags),
     //--------------------------------------
     std::regex(
-        _RE_CAPTURE_TITLE
-        RE_NCG(_RE_CG(_RE_YEAR) _RE_OCG(_RE_SEASONEPISODE) "|" _RE_CG(_RE_SEASONEPISODE))
+        REGEX_CAPTURE_TITLE
+        RE_NCG(REGEX_CG(REGEX_YEAR) REGEX_OCG(REGEX_SEASONEPISODE) "|" REGEX_CG(REGEX_SEASONEPISODE))
         , RegexFlags),
     //--------------------------------------
     std::regex(
-        _RE_CAPTURE_SEASONEPISODE
+        REGEX_CAPTURE_SEASONEPISODE
         , RegexFlags),
     //--------------------------------------
     std::regex(
-        _RE_CAPTURE_DISC
+        REGEX_CAPTURE_DISC
         , RegexFlags),
     //--------------------------------------
     std::regex(
-        _RE_CAPTURE_HEARINGIMPAIRED
+        REGEX_CAPTURE_HEARINGIMPAIRED
         , RegexFlags),
     //--------------------------------------
     std::regex(
-        "([^\\\\]+?)(?: (AU|CA|FR|JP|UK|US))?(?: [(](\\d{4})[)])? - (\\d{1,2})x(\\d{1,2}) - ([^.]+?)[.](.+?)[.]" _RE_CG(_RE_ADDICT7ED_LANGUAGE) RE_OCG(_RE_ADDICT7ED_HEARINGIMPAIRED) RE_OCG(_RE_ADDICT7ED_CORRECTED) _RE_ADDICT7ED_VERSION _RE_ADDICT7ED_SIGNATURE
+        "([^\\\\]+?)(?: (AU|CA|FR|JP|UK|US))?(?: [(](\\d{4})[)])? - (\\d{1,2})x(\\d{1,2}) - ([^.]+?)[.](.+?)[.]" REGEX_CG(REGEX_ADDICT7ED_LANGUAGE) RE_OCG(REGEX_ADDICT7ED_HEARINGIMPAIRED) RE_OCG(REGEX_ADDICT7ED_CORRECTED) REGEX_ADDICT7ED_VERSION REGEX_ADDICT7ED_SIGNATURE
         , RegexFlags),
     //--------------------------------------
-    std::regex(_RE_DEAD "+", RegexFlags),
+    std::regex(REGEX_DEAD "+", RegexFlags),
 
     //--------------------------------------
     //--------------------------------------
     std::regex(
-        _RE_CAPTURE_TITLE
+        REGEX_CAPTURE_TITLE
         RE_ONCG(
             RE_NCG(
-                _RE_PLA(_RE_YEAR, 2) _RE_OPLA(_RE_SEASONEPISODE, 3)
-                "|"_RE_PLA(_RE_SEASONEPISODE, 4)
+                REGEX_PLA(REGEX_YEAR, 2) REGEX_OPLA(REGEX_SEASONEPISODE, 3)
+                "|" REGEX_PLA(REGEX_SEASONEPISODE, 4)
             )
-            _RE_CAPTURE_TITLE2
+            REGEX_CAPTURE_TITLE2
         )
         RE_NCG(
-            _RE_PLA(_RE_RESOLUTION, 6)
-            "|"_RE_PLA(_RE_FORMAT, 7)
-            "|"_RE_PLA(_RE_AUDIOCODEC, 8)
-            "|"_RE_PLA(_RE_VIDEOCODEC, 9)
-        )"+"
-        _RE_CAPTURE_RELEASEGROUP
+            REGEX_PLA(REGEX_RESOLUTION, 6)
+            "|" REGEX_PLA(REGEX_FORMAT, 7)
+            "|" REGEX_PLA(REGEX_AUDIOCODEC, 8)
+            "|" REGEX_PLA(REGEX_VIDEOCODEC, 9)
+        ) "+"
+        REGEX_CAPTURE_RELEASEGROUP
         , RegexFlags),
     //--------------------------------------
 };
