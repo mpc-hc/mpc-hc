@@ -6671,19 +6671,35 @@ void CMainFrame::OnViewRotate(UINT nID)
                 m_AngleX += 2;
                 break;
             case ID_PANSCAN_ROTATEXM:
-                m_AngleX += 360 - 2;
+                if (m_AngleX >= 180) {
+                    m_AngleX = 0;
+                } else {
+                    m_AngleX = 180;
+                }
                 break;
             case ID_PANSCAN_ROTATEYP:
                 m_AngleY += 2;
                 break;
             case ID_PANSCAN_ROTATEYM:
-                m_AngleY += 360 - 2;
+                if (m_AngleY >= 180) {
+                    m_AngleY = 0;
+                } else {
+                    m_AngleY = 180;
+                }
                 break;
             case ID_PANSCAN_ROTATEZP:
                 m_AngleZ += 2;
                 break;
             case ID_PANSCAN_ROTATEZM:
-                m_AngleZ += 360 - 2;
+                if (m_AngleZ >= 270) {
+                    m_AngleZ = 0;
+                } else if (m_AngleZ >= 180) {
+                    m_AngleZ = 270;
+                } else if (m_AngleZ >= 90) {
+                    m_AngleZ = 180;
+                } else {
+                    m_AngleZ = 90;
+                }
                 break;
             default:
                 return;
