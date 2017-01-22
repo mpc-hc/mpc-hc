@@ -6324,7 +6324,7 @@ void CMainFrame::OnUpdateViewCompact(CCmdUI* pCmdUI)
 void CMainFrame::OnViewNormal()
 {
     SetCaptionState(MODE_SHOWCAPTIONMENU);
-    m_controls.SetToolbarsSelection(CS_SEEKBAR | CS_TOOLBAR | CS_STATUSBAR | CS_INFOBAR, true);
+    m_controls.SetToolbarsSelection(CS_SEEKBAR | CS_TOOLBAR | CS_STATUSBAR, true);
 }
 
 void CMainFrame::OnUpdateViewNormal(CCmdUI* pCmdUI)

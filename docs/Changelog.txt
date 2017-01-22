@@ -46,6 +46,7 @@ next version - not released yet
     - PnS Rotate X- now flips vertically
     - PnS Rotate Z- now rotates 90 degrees (counter-clockwise)
     - The postive rotate functions still do 1 degree rotation around their axis
+* Hide the infobar in normal view preset. This makes it equal to default view
 * Ticket #2022/#4779: Rewrite subtitles downloading framework
     - Support for multiple subtitle providers including the default OpenSubtitles as well as
       podnapisi, titlovi, SubDB, ysubs and Napisy24 which can be enabled in Options (Subtitles -> Misc)
