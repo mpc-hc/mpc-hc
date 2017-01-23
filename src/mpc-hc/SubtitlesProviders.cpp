@@ -223,6 +223,29 @@ static const std::regex regex_pattern[] = {
     //--------------------------------------
 };
 
+static constexpr LPCTSTR log_format =
+    _T("GetFileInfo(): Deducing video information from file path\n")  \
+    // file properties
+    _T("filePath=\"%S\"\n")                                           \
+    _T("fileName=\"%S\"\n")                                           \
+    _T("fileExtension=\"%S\"\n")                                      \
+    _T("fileSize=%llu\n")                                             \
+    // file name properties
+    _T("matchPattern=%d\n")                                           \
+    _T("title=\"%S\"\n")                                              \
+    _T("country=\"%S\"\n")                                            \
+    _T("year=%d\n")                                                   \
+    _T("episode=\"%S\"\n")                                            \
+    _T("seasonNumber=%d\n")                                           \
+    _T("episodeNumber=%d\n")                                          \
+    _T("title2=\"%S\"\n")                                             \
+    _T("resolution=\"%S\"\n")                                         \
+    _T("format=\"%S\"\n")                                             \
+    _T("audioCodec=\"%S\"\n")                                         \
+    _T("videoCodec=\"%S\"\n")                                         \
+    _T("releaseGroup=\"%S\"\n")                                       \
+    _T("discNumber=%d");
+
 HRESULT SubtitlesInfo::GetFileInfo(const std::string& sFileName /*= std::string()*/)
 {
     if (sFileName.empty()) {
@@ -405,30 +428,7 @@ HRESULT SubtitlesInfo::GetFileInfo(const std::string& sFileName /*= std::string(
 
     // Enable logging for the video filename detection
     if (sFileName.empty()) {
-        static LPCTSTR log =
-            _T("GetFileInfo(): Deducing video information from file path\n")  \
-            // file properties
-            _T("filePath=\"%S\"\n")                                           \
-            _T("fileName=\"%S\"\n")                                           \
-            _T("fileExtension=\"%S\"\n")                                      \
-            _T("fileSize=%lu\n")                                              \
-            // file name properties
-            _T("matchPattern=%d\n")                                           \
-            _T("title=\"%S\"\n")                                              \
-            _T("country=\"%S\"\n")                                            \
-            _T("year=%d\n")                                                   \
-            _T("episode=\"%S\"\n")                                            \
-            _T("seasonNumber=%d\n")                                           \
-            _T("episodeNumber=%d\n")                                          \
-            _T("title2=\"%S\"\n")                                             \
-            _T("resolution=\"%S\"\n")                                         \
-            _T("format=\"%S\"\n")                                             \
-            _T("audioCodec=\"%S\"\n")                                         \
-            _T("videoCodec=\"%S\"\n")                                         \
-            _T("releaseGroup=\"%S\"\n")                                       \
-            _T("discNumber=%d");
-
-        SUBTITLES_LOG(log, filePath.c_str(), fileName.c_str(), fileExtension.c_str(), fileSize,
+        SUBTITLES_LOG(log_format, filePath.c_str(), fileName.c_str(), fileExtension.c_str(), fileSize,
                       matchPattern, title.c_str(), country.c_str(), year, episode.c_str(),
                       seasonNumber, episodeNumber, title2.c_str(), resolution.c_str(),
                       format.c_str(), audioCodec.c_str(), videoCodec.c_str(), releaseGroup.c_str(),
