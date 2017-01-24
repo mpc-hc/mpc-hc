@@ -773,11 +773,11 @@ void CFileAssoc::CheckIconsAssocThread()
 
     if (auto iconLib = GetIconLib()) {
         UINT nCurrentVersion = iconLib->GetVersion();
-        iconLib->SaveVersion(); // Ensure we don't try to fix the icons more than once
 
         CAtlList<CString> registeredExts;
 
         if (nCurrentVersion != nLastVersion && GetAssociatedExtensionsFromRegistry(registeredExts)) {
+            iconLib->SaveVersion();
             if (SysVersion::IsVistaOrLater() && !IsUserAnAdmin()) {
                 TASKDIALOGCONFIG config;
                 ZeroMemory(&config, sizeof(TASKDIALOGCONFIG));

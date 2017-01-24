@@ -22,6 +22,7 @@
 
 #include "SubtitlesProvidersUtils.h"
 #include "../Subtitles/SubtitleHelpers.h"
+#include "MediaInfo/library/Source/ThirdParty/base64/base64.h"
 #include "VersionInfo.h"
 
 class CMainFrame;
@@ -355,12 +356,12 @@ public: // overridden
     void UserName(std::string sUserName) { m_sUserName = sUserName; };
     std::string Password(bool bDecrypt = true) {
         return bDecrypt
-               ? SubtitlesProvidersUtils::StringDecrypt(m_sPassword, SubtitlesProvidersUtils::StringGenerateUniqueKey())
+               ? SubtitlesProvidersUtils::StringDecrypt(Base64::decode(m_sPassword), SubtitlesProvidersUtils::StringGenerateUniqueKey())
                : m_sPassword;
     };
     void Password(LPCSTR sPassword, bool bEncrypt = true) {
         m_sPassword = bEncrypt
-                      ? SubtitlesProvidersUtils::StringEncrypt(sPassword, SubtitlesProvidersUtils::StringGenerateUniqueKey())
+                      ? Base64::encode(SubtitlesProvidersUtils::StringEncrypt(sPassword, SubtitlesProvidersUtils::StringGenerateUniqueKey()))
                       : sPassword;
     };
     SubtitlesProviders& Providers() const { return *m_pOwner; }

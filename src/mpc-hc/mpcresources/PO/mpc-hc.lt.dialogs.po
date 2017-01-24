@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2016 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # linasmi <linasmi@mail.ru>, 2014-2015
@@ -190,8 +190,8 @@ msgid "About"
 msgstr "Apie"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2016 see Authors.txt"
-msgstr "Autorinės teisės © 2002-2016 skaitykite Authors.txt"
+msgid "Copyright © 2002-2017 see Authors.txt"
+msgstr "Autorinės teisės © 2002-2017 skaitykite Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."

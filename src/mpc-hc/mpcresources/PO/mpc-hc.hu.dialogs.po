@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2016 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Evin <tomevin1@gmail.com>, 2016
@@ -190,8 +190,8 @@ msgid "About"
 msgstr "Névjegy"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2016 see Authors.txt"
-msgstr "Szerzői jog © 2002-2016 lásd Authors.txt fájl"
+msgid "Copyright © 2002-2017 see Authors.txt"
+msgstr "Szerzői jog © 2002-2017 lásd Authors.txt fájl"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
