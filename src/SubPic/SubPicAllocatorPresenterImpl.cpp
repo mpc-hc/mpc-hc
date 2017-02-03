@@ -40,13 +40,13 @@ CSubPicAllocatorPresenterImpl::CSubPicAllocatorPresenterImpl(HWND hWnd, HRESULT&
     , m_aspectRatio(0, 0)
     , m_videoRect(0, 0, 0, 0)
     , m_windowRect(0, 0, 0, 0)
-    , m_bDefaultVideoAngleSwitchAR(false)
     , m_rtNow(0)
     , m_fps(25.0)
     , m_refreshRate(0)
     , m_bDeviceResetRequested(false)
     , m_bPendingResetDevice(false)
     , m_SubtitleTextureLimit(STATIC)
+    , m_bDefaultVideoAngleSwitchAR(false)
 {
     if (!IsWindow(m_hWnd)) {
         hr = E_INVALIDARG;
