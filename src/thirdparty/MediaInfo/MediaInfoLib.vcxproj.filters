@@ -305,6 +305,9 @@
     <ClInclude Include="library\Source\MediaInfo\Multiple\File_Umf.h">
       <Filter>Header Files\Multiple</Filter>
     </ClInclude>
+    <ClInclude Include="library\Source\MediaInfo\Multiple\File_Vbi.h">
+      <Filter>Header Files\Multiple</Filter>
+    </ClInclude>
     <ClInclude Include="library\Source\MediaInfo\Multiple\File_Wm.h">
       <Filter>Header Files\Multiple</Filter>
     </ClInclude>
@@ -839,6 +842,9 @@
       <Filter>Source Files\Multiple</Filter>
     </ClCompile>
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_Umf.cpp">
+      <Filter>Source Files\Multiple</Filter>
+    </ClCompile>
+    <ClCompile Include="library\Source\MediaInfo\Multiple\File_Vbi.cpp">
       <Filter>Source Files\Multiple</Filter>
     </ClCompile>
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_Wm.cpp">

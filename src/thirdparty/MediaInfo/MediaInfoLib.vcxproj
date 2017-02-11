@@ -183,6 +183,7 @@
     <ClInclude Include="library\Source\MediaInfo\Multiple\File_Skm.h" />
     <ClInclude Include="library\Source\MediaInfo\Multiple\File_Swf.h" />
     <ClInclude Include="library\Source\MediaInfo\Multiple\File_Umf.h" />
+    <ClInclude Include="library\Source\MediaInfo\Multiple\File_Vbi.h" />
     <ClInclude Include="library\Source\MediaInfo\Multiple\File_Wm.h" />
     <ClInclude Include="library\Source\MediaInfo\Multiple\File_Xdcam_Clip.h" />
     <ClInclude Include="library\Source\MediaInfo\PreComp.h" />
@@ -370,6 +371,7 @@
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_Skm.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_Swf.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_Umf.cpp" />
+    <ClCompile Include="library\Source\MediaInfo\Multiple\File_Vbi.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_Wm.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_Wm_Elements.cpp" />
     <ClCompile Include="library\Source\MediaInfo\Multiple\File_Xdcam_Clip.cpp" />
