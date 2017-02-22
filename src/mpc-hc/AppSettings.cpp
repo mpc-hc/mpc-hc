@@ -2178,7 +2178,7 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
                 nCLSwitches |= CLSW_MONITOROFF;
             } else if (sw == _T("playnext")) {
                 nCLSwitches |= CLSW_PLAYNEXT;
-            } else if (sw == _T("hwgpu")) {
+            } else if (sw == _T("hwgpu") && pos) {
                 iLAVGPUDevice = _tcstol(cmdln.GetNext(pos), nullptr, 10);
             } else {
                 nCLSwitches |= CLSW_HELP | CLSW_UNRECOGNIZEDSWITCH;
