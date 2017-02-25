@@ -2,15 +2,15 @@
 # Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Arzach4, 2016
+# Arzach4, 2016-2017
 # Jean van Kasteel <vankasteelj@gmail.com>, 2016
 # Underground78, 2013-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-10-17 00:35:36+0000\n"
-"PO-Revision-Date: 2016-10-19 08:53+0000\n"
-"Last-Translator: JellyFrog\n"
+"PO-Revision-Date: 2017-01-27 14:30+0000\n"
+"Last-Translator: Arzach4\n"
 "Language-Team: French (http://www.transifex.com/mpc-hc/mpc-hc/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3792,7 +3792,7 @@ msgstr "/dvdpos T#C\tDémarre la lecture du titre T, à partir du chapitre C"
 
 msgctxt "IDS_CMD_DVDPOS_TIME"
 msgid "/dvdpos T#P\tStart playback at title T, position P (hh:mm:ss)"
-msgstr ""
+msgstr "/dvdpos T#P⇥Démarrer la lecture du titre T, à partir de la position P (hh:mm:ss)"
 
 msgctxt "IDS_CMD_CD"
 msgid "/cd\t\tLoad all the tracks of an Audio CD or (S)VCD,\n\t\t\"pathname\" means the drive path (optional)"

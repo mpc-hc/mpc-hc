@@ -4,7 +4,7 @@
 # Translators:
 # Gaugg_Markus, 2014,2016
 # Gaugg_Markus, 2014,2016
-# Luan <luanmail@gmx.net>, 2014-2016
+# Luan <luanmail@gmx.net>, 2014-2017
 # Luan <luanmail@gmx.net>, 2014
 # Luan <luanmail@gmx.net>, 2014
 # M T <michtrz@gmail.com>, 2013-2014
@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
-"PO-Revision-Date: 2016-10-14 17:14+0000\n"
+"PO-Revision-Date: 2017-01-29 09:18+0000\n"
 "Last-Translator: Luan <luanmail@gmx.net>\n"
 "Language-Team: German (http://www.transifex.com/mpc-hc/mpc-hc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -195,7 +195,7 @@ msgstr "Über"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
 msgid "Copyright © 2002-2017 see Authors.txt"
-msgstr "Copyright © 2002-2017 siehe Authors.txt"
+msgstr "Copyright © 2002-2017 siehe Authors.txt."
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -203,7 +203,7 @@ msgstr "Dieses Programm ist Freeware und steht unter der GNU General Public Lice
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
-msgstr "Übersetzung von Luan und Markus Gaugg"
+msgstr "Übersetzung von Luan und Markus Gaugg."
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build information"

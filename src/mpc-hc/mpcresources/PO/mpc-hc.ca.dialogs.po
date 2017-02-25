@@ -8,14 +8,14 @@
 # papu, 2014-2016
 # Roger <roger.espolet@gmail.com>, 2016
 # Roger <roger.espolet@gmail.com>, 2016
-# Roger <roger.espolet@gmail.com>, 2016
+# Roger <roger.espolet@gmail.com>, 2016-2017
 # Roger <roger.espolet@gmail.com>, 2016
 # papu, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
-"PO-Revision-Date: 2016-11-29 12:03+0000\n"
+"PO-Revision-Date: 2017-02-17 12:28+0000\n"
 "Last-Translator: Roger <roger.espolet@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/mpc-hc/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -126,7 +126,7 @@ msgstr "canals d’entrada:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
 msgid "Hold shift for immediate changes when clicking something"
-msgstr "Manteniu la techa shift en fer clic a les opcions per aplicar-les al moment"
+msgstr "Manteniu premuda la tecla Maj en fer clic per aplicar els canvis immediatament"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."

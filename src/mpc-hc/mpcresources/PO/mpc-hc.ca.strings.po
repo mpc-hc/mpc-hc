@@ -9,13 +9,14 @@
 # papu, 2014-2016
 # Roger <roger.espolet@gmail.com>, 2016
 # Roger <roger.espolet@gmail.com>, 2016
+# Roger <roger.espolet@gmail.com>, 2017
 # Roger <roger.espolet@gmail.com>, 2016
 # papu, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-10-17 00:35:36+0000\n"
-"PO-Revision-Date: 2016-11-20 18:16+0000\n"
+"PO-Revision-Date: 2017-02-17 12:22+0000\n"
 "Last-Translator: Roger <roger.espolet@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/mpc-hc/mpc-hc/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -674,7 +675,7 @@ msgstr "La sortida del motor Real serà renderitzat per l' \"Asignador-Presentad
 
 msgctxt "IDC_QTSYSDEF"
 msgid "QuickTime's own renderer. Gets a little slow when its video area is resized or partially covered by another window. When Overlay is not available it likes to fall back to GDI."
-msgstr "El renderitzador propi del Quictime, es torna una mica lent quan l'àrea del vídeo es redimensiona o bé queda parcialment coberta per una altre finestra. Quant l'Overlay no està disponible li agrada recorrer al mode GDI (interfície -bàsica- de dispositiu gràfic)."
+msgstr "El renderitzador propi del Quicktime, es torna una mica lent quan l'àrea del vídeo es redimensiona o bé queda parcialment coberta per una altre finestra. Quant l'Overlay no està disponible li agrada recórrer al mode GDI (interfície -bàsica- de dispositiu gràfic)."
 
 msgctxt "IDC_QTDX9"
 msgid "The output of QuickTime's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
@@ -1758,11 +1759,11 @@ msgstr "Format mínim"
 
 msgctxt "IDS_AG_VIEW_COMPACT"
 msgid "View Compact"
-msgstr "Format Compacte"
+msgstr "Format compacte"
 
 msgctxt "IDS_AG_VIEW_NORMAL"
 msgid "View Normal"
-msgstr "Format Normal"
+msgstr "Format normal"
 
 msgctxt "IDS_AG_FULLSCREEN"
 msgid "Fullscreen"
@@ -2362,7 +2363,7 @@ msgstr "Error: es necessita el reproductor Flash per al Internet Explorer"
 
 msgctxt "IDS_MAINFRM_78"
 msgid "QuickTime not yet supported for X64 (apple library not available)"
-msgstr "QuickTime encara no es compatible amb la versió X64 (no hi ha una llibreria d'apple disponible)"
+msgstr "El QuickTime encara no és compatible amb la versió X64 (no hi ha llibreries d'Apple disponible)"
 
 msgctxt "IDS_MAINFRM_80"
 msgid "Failed to create the filter graph object"
@@ -2554,7 +2555,7 @@ msgstr "Format desconegut"
 
 msgctxt "IDS_MAINFRM_138"
 msgid "Sub shift: %ld ms"
-msgstr "Sub Shift : %ld"
+msgstr "Desplaçament dels subt.: %ld ms"
 
 msgctxt "IDS_VOLUME_BOOST_INC"
 msgid "Volume boost increase"
