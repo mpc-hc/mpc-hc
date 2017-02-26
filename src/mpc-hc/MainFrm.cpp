@@ -11288,6 +11288,52 @@ void CMainFrame::UpdateChapterInInfoBar()
 
             CComBSTR bstr;
             long currentChap = m_pCB->ChapLookup(&rtNow, &bstr);
+
+			if (_wcsicmp(bstr, L"preview") == 0) {
+				if (!SeekToFileChapter(1, true)) {
+					/*if (GetPlaybackMode() == PM_FILE) {
+						SetupChapters();
+
+						bool ret = false;
+
+						bool restart = false;
+
+						DWORD nChapters = m_pCB->ChapGetCount();
+						REFERENCE_TIME rt;
+						m_pMS->GetDuration(&rt);
+						rt -= 10000000;
+
+						CComBSTR name;
+						REFERENCE_TIME rtStart, rtStop;
+						m_wndSeekBar.GetRange(rtStart, rtStop);
+
+						//if ((restart || SUCCEEDED(m_pCB->ChapGet(iChapter, &rt, &name))) && rt < rtStop) {
+						SeekTo(rt, false);
+						SendStatusMessage(ResStr(IDS_AG_CHAPTER2) + CString(name), 3000);
+						ret = true;
+
+						REFERENCE_TIME rtDur;
+						if (SUCCEEDED(m_pMS->GetDuration(&rtDur))) {
+							const CAppSettings& s = AfxGetAppSettings();
+							CString strOSD;
+
+							strOSD.Format(_T("%s%s/%s %s%d/%u - \"%s\""),
+								s.fRemainingTime ? _T("- ") : _T(""), ReftimeToString2(s.fRemainingTime ? rtDur - rt : rt), ReftimeToString2(rtDur),
+								ResStr(IDS_AG_CHAPTER2), nChapters, nChapters, name);
+							m_OSD.DisplayMessage(OSD_TOPLEFT, strOSD, 3000);
+						}
+						//}
+					}
+
+					/*
+					SeekTo(rtDur, false);*/
+
+					//SendAPICommand(CMD_NOTIFYENDOFSTREAM, L"\0");
+
+					OnPlayStop();
+				}
+			}
+
             if (bstr.Length()) {
                 chapter.Format(_T("%s (%ld/%lu)"), bstr.m_str, std::max(0l, currentChap + 1l), dwChapCount);
             } else {
