@@ -15,11 +15,13 @@ next version - not released yet
 + Add SVG support for custom toolbars
 + Add Bosnian translation
 + Option to set audio delay values for each display mode
-* Updated Little CMS to v2.8
-* Updated MediaInfoLib to v0.7.90
-* Updated ZenLib to v0.4.33
+* Updated Little CMS to v2.8 (1272acb)
+* Updated tinyxml2 to v4.0.1
+* Updated MediaInfoLib to v0.7.92
+* Updated ZenLib to v0.4.34
 * Updated Unrar to v5.4.5
-* Updated LAV Filters to v0.68.1.29:
+* Updated zlib to v1.2.11
+* Updated LAV Filters to v0.69:
     - LAV Splitter: Support HTTPS protocol
     - LAV Splitter: Switch back to an improved version of the old ASF demuxer
     - LAV Splitter: Support demuxing H264 MVC
@@ -40,6 +42,12 @@ next version - not released yet
   If you really want to use a renderer similar to VMR-7 (windowed), use Overlay mixer or the "system default" renderer
 * Make Video Renderer statistics scalable to window size and unify graph look for EVR Sync and other renderers
 * "Replace currently loaded subtitles" option no longer removes subtitles provided by splitter
+* Change Pan&Scan logic:
+    - PnS Rotate Y- now flips horizontally
+    - PnS Rotate X- now flips vertically
+    - PnS Rotate Z- now rotates 90 degrees (counter-clockwise)
+    - The postive rotate functions still do 1 degree rotation around their axis
+* Hide the infobar in normal view preset. This makes it equal to default view
 * Ticket #2022/#4779: Rewrite subtitles downloading framework
     - Support for multiple subtitle providers including the default OpenSubtitles as well as
       podnapisi, titlovi, SubDB, ysubs and Napisy24 which can be enabled in Options (Subtitles -> Misc)

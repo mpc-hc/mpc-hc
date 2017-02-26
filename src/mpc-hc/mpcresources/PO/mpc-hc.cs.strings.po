@@ -1,14 +1,14 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2016 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Jan Košata <kosata6@seznam.cz>, 2014
-# khagaroth, 2013-2016
+# khagaroth, 2013-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-10-17 00:35:36+0000\n"
-"PO-Revision-Date: 2016-10-22 08:23+0000\n"
+"PO-Revision-Date: 2017-01-28 11:34+0000\n"
 "Last-Translator: khagaroth\n"
 "Language-Team: Czech (http://www.transifex.com/mpc-hc/mpc-hc/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -3855,7 +3855,7 @@ msgstr "/new\t\tOtevře novou instanci MPC-HC"
 
 msgctxt "IDS_CMD_ADD"
 msgid "/add\t\tAdd \"pathname\" to playlist, can be combined with /open and /play"
-msgstr "/add\t\tPřidá \"cestu\" do playlistu, může být kombinován\n\t\ts /open a /play"
+msgstr "/add\t\tPřidá \"cestu\" do seznamu stop, může být kombinován\n\t\ts /open a /play"
 
 msgctxt "IDS_CMD_RANDOMIZE"
 msgid "/randomize\tRandomize the playlist"

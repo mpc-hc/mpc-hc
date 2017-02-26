@@ -1354,18 +1354,22 @@ bool CDirectVobSubFilter2::IsAppBlackListed()
         _T("wm8eutil."), // wmp8 encoder's dummy renderer releases the outputted media sample after calling Receive on its input pin (yes, even when dvobsub isn't registered at all)
         _T("explorer."), // as some users reported thumbnail preview loads dvobsub, I've never experienced this yet...
         _T("producer."), // this is real's producer
-        _T("googledesktopindex."), // Google Desktop
-        _T("googledesktopdisplay."), // Google Desktop
-        _T("googledesktopcrawl."), // Google Desktop
-        _T("subtitleworkshop."), // Subtitle Workshop
-        _T("subtitleworkshop4."),
+        _T("googledesktop"), // Google Desktop
+        _T("subtitleworkshop"), // Subtitle Workshop
         _T("darksouls."), // Dark Souls (Game)
         _T("rometw."), // Rome Total War (Game)
         _T("everquest2."), // EverQuest II (Game)
         _T("yso_win."), // Ys Origin (Game)
         _T("launcher_main."), // Logitech WebCam Software
-        _T("webcamdell2."), // Dell WebCam Software
+        _T("webcamdell"), // Dell WebCam Software
         _T("data."), // Dark Souls 1 (Game)
+        _T("unravel"), // Unravel (Game)
+        _T("mshta"), // MS Scripting Host
+#if WIN64
+        _T("ridex64.exe"), // Ride (Game)
+#else
+        _T("ride.exe"), // Ride (Game)
+#endif
     };
 
     for (size_t i = 0; i < _countof(blacklistedapps); i++) {

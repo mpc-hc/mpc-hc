@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2016 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Abubakr Mohammed <bcs2610@hotmail.com>, 2014
@@ -8,7 +8,7 @@
 # Khaled Saleem Baleesh <Kbaleesh@gmail.com>, 2016
 # manxx55 <w6txz2@gmail.com>, 2014
 # Mubarak Qahtani <abu-q76@hotmail.com>, 2016
-# Omar Anwar <omaraglan91@yahoo.com>, 2015
+# Omar Anwar <omaraglan91@yahoo.com>, 2015,2017
 # Tariq <tariq-mz@hotmail.com>, 2014
 # Tariq <tariq-mz@hotmail.com>, 2014
 # manxx55 <w6txz2@gmail.com>, 2014-2015
@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
-"PO-Revision-Date: 2016-07-06 21:36+0000\n"
-"Last-Translator: kasper93\n"
+"PO-Revision-Date: 2017-02-19 16:41+0000\n"
+"Last-Translator: Omar Anwar <omaraglan91@yahoo.com>\n"
 "Language-Team: Arabic (http://www.transifex.com/mpc-hc/mpc-hc/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -198,8 +198,8 @@ msgid "About"
 msgstr "حول"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2016 see Authors.txt"
-msgstr "Authors.txt حقوق طبع © 2002-2016 انظر"
+msgid "Copyright © 2002-2017 see Authors.txt"
+msgstr "Authors.txt حقوق طبع © 2002-2017 انظر"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -439,7 +439,7 @@ msgstr "بعد التشغيل"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Default zoom"
-msgstr ""
+msgstr "التقريب الافتراضى"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"

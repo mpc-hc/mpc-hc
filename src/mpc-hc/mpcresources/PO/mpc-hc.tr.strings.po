@@ -1,18 +1,19 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2016 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# Ali Kömesöğütlü <byzlo685@gmail.com>, 2017
 # Burak <burakgarci@gmail.com>, 2013
 # Kul Kuls <kul942849611@hotmail.com>, 2016
 # Mesut Aktaş <mesuthan_42@hotmail.com>, 2015
-# Sinan H., 2014-2016
+# Sinan H., 2014-2017
 # Sinan H., 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2016-10-17 00:35:36+0000\n"
-"PO-Revision-Date: 2016-10-19 08:53+0000\n"
-"Last-Translator: JellyFrog\n"
+"PO-Revision-Date: 2017-02-11 20:38+0000\n"
+"Last-Translator: Sinan H.\n"
 "Language-Team: Turkish (http://www.transifex.com/mpc-hc/mpc-hc/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2570,7 +2571,7 @@ msgstr "Ses yüksekliği en fazla"
 
 msgctxt "IDS_USAGE"
 msgid "Usage: mpc-hc.exe \"pathname\" [switches]"
-msgstr "Kullanım: mpc-hc \"dosya yolu\" [parametreler]"
+msgstr "Kullanım: mpc-hc.exe \"dosya yolu\" [anahtarlar]"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -3794,7 +3795,7 @@ msgstr "/dvdpos T#C⇥İsimden başlat T, bölüm C"
 
 msgctxt "IDS_CMD_DVDPOS_TIME"
 msgid "/dvdpos T#P\tStart playback at title T, position P (hh:mm:ss)"
-msgstr ""
+msgstr "/dvdpos T#P\tYürütmeyi T bölümü ile P konumundan başlat (sa:dk:sn)"
 
 msgctxt "IDS_CMD_CD"
 msgid "/cd\t\tLoad all the tracks of an Audio CD or (S)VCD,\n\t\t\"pathname\" means the drive path (optional)"
@@ -3962,5 +3963,5 @@ msgstr "Varsayılan araç çubuğu piksel boyutu."
 
 msgctxt "IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR"
 msgid "Use legacy toolbar instead of new vectorized one."
-msgstr ""
+msgstr "Yeni vektörize edilmiş araç çubuğunu kullanmak yerine eski araç çubuğunu kullanın."
 

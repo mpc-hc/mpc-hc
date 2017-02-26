@@ -1,5 +1,5 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2016 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Alex Luís Silva <alex.mooca@hotmail.com>, 2014-2016
@@ -11,7 +11,7 @@
 # Erick Simões <erick.simoes@yahoo.com.br>, 2014-2015
 # Everton Leite <etcholeite@gmail.com>, 2015-2016
 # Gustavo Cegolini Togni <gustavotogni@gmail.com>, 2015
-# Roger Filipe <lipe2000@outlook.com>, 2013-2014
+# Roger Filipe Barros <lipe2000@outlook.com>, 2013-2014
 # Luis Henrique <henriqlh@gmail.com>, 2014
 # Matheus Clemente <matheus.xb@gmail.com>, 2015
 # Michael Moser <michi.celin@gmail.com>, 2016

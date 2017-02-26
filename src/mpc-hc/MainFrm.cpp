@@ -6324,7 +6324,7 @@ void CMainFrame::OnUpdateViewCompact(CCmdUI* pCmdUI)
 void CMainFrame::OnViewNormal()
 {
     SetCaptionState(MODE_SHOWCAPTIONMENU);
-    m_controls.SetToolbarsSelection(CS_SEEKBAR | CS_TOOLBAR | CS_STATUSBAR | CS_INFOBAR, true);
+    m_controls.SetToolbarsSelection(CS_SEEKBAR | CS_TOOLBAR | CS_STATUSBAR, true);
 }
 
 void CMainFrame::OnUpdateViewNormal(CCmdUI* pCmdUI)
@@ -6671,19 +6671,35 @@ void CMainFrame::OnViewRotate(UINT nID)
                 m_AngleX += 2;
                 break;
             case ID_PANSCAN_ROTATEXM:
-                m_AngleX += 360 - 2;
+                if (m_AngleX >= 180) {
+                    m_AngleX = 0;
+                } else {
+                    m_AngleX = 180;
+                }
                 break;
             case ID_PANSCAN_ROTATEYP:
                 m_AngleY += 2;
                 break;
             case ID_PANSCAN_ROTATEYM:
-                m_AngleY += 360 - 2;
+                if (m_AngleY >= 180) {
+                    m_AngleY = 0;
+                } else {
+                    m_AngleY = 180;
+                }
                 break;
             case ID_PANSCAN_ROTATEZP:
                 m_AngleZ += 2;
                 break;
             case ID_PANSCAN_ROTATEZM:
-                m_AngleZ += 360 - 2;
+                if (m_AngleZ >= 270) {
+                    m_AngleZ = 0;
+                } else if (m_AngleZ >= 180) {
+                    m_AngleZ = 270;
+                } else if (m_AngleZ >= 90) {
+                    m_AngleZ = 180;
+                } else {
+                    m_AngleZ = 90;
+                }
                 break;
             default:
                 return;
@@ -10313,6 +10329,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 
         if (ct == "video/x-ms-asf") {
             // TODO: put something here to make the windows media source filter load later
+#ifndef _WIN64
         } else if (ct == "audio/x-pn-realaudio"
                    || ct == "audio/x-pn-realaudio-plugin"
                    || ct == "audio/x-realaudio-secure"
@@ -10322,17 +10339,28 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
                    || ct.Find("realaudio") >= 0
                    || ct.Find("realvideo") >= 0) {
             engine = RealMedia;
+#endif
         } else if (ct == "application/x-shockwave-flash") {
             engine = ShockWave;
+#ifndef _WIN64
         } else if (ct == "video/quicktime"
                    || ct == "application/x-quicktimeplayer") {
             engine = QuickTime;
+#endif
         }
+
+#ifdef _WIN64
+        // override
+        if (engine == RealMedia || engine == QuickTime) {
+            engine = DirectShow;
+        }
+#endif
 
         HRESULT hr = E_FAIL;
         CComPtr<IUnknown> pUnk;
 
         if (engine == RealMedia) {
+#ifndef _WIN64
             // TODO : see why Real SDK crash here ...
             //if (!IsRealEngineCompatible(p->fns.GetHead()))
             //  throw ResStr(IDS_REALVIDEO_INCOMPATIBLE);
@@ -10348,6 +10376,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
                     m_fRealMediaGraph = true;
                 }
             }
+#endif
         } else if (engine == ShockWave) {
             pUnk = (IUnknown*)(INonDelegatingUnknown*)DEBUG_NEW DSObjects::CShockwaveGraph(m_pVideoWnd->m_hWnd, hr);
             if (!pUnk) {

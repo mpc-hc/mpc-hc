@@ -1,4 +1,4 @@
-# (C) 2013, 2016 see Authors.txt
+# (C) 2013, 2016-2017 see Authors.txt
 #
 # This file is part of MPC-HC.
 #
@@ -50,7 +50,7 @@ def detectEncoding(filename):
 
 
 potHeader = u'''# MPC-HC - %s
-# Copyright (C) 2002 - 2016 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 msgid ""
 msgstr ""
