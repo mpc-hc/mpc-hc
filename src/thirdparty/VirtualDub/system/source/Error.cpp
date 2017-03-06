@@ -101,7 +101,7 @@ void MyError::post(HWND hWndParent, const char *title) const {
 		return;
 
 	VDDEBUG("*** %s: %s\n", title, buf);
-	VDLog(kVDLogError, VDswprintf(L"Error: %hs", 1, &buf));
+	//VDLog(kVDLogError, VDswprintf(L"Error: %hs", 1, &buf));
 
 	MessageBox(hWndParent, buf, title, MB_OK | MB_ICONERROR | MB_SETFOREGROUND);
 }
