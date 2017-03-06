@@ -22,7 +22,7 @@
 #include <vd2/Kasumi/pixmaputils.h>
 #include <vd2/system/memory.h>
 
-extern VDPixmapFormatInfo g_vdPixmapFormats[] = {
+extern VDPixmapFormatInfo const g_vdPixmapFormats[] = {
 									// name         qchnk qw qh qwb qhb  qs ab aw ah as   ps
 	/* Null */						{ "null",		false, 1, 1,  0,  0,  0, 0, 0, 0, 0,   0 },
 	/* Pal1 */						{ "Pal1",		 true, 8, 1,  3,  0,  1, 0, 0, 0, 0,   2 },

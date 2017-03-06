@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2016 see Authors.txt
+ * (C) 2009-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -61,7 +61,7 @@ static VIDEOINFOHEADER2 sMpv_fmt = {
 };
 
 /// Media type, Video MPEG2
-static AM_MEDIA_TYPE mt_Mpv = {
+static const AM_MEDIA_TYPE mt_Mpv = {
     MEDIATYPE_Video,                // majortype
     MEDIASUBTYPE_MPEG2_VIDEO,       // subtype
     FALSE,                          // bFixedSizeSamples
@@ -99,7 +99,7 @@ static VIDEOINFOHEADER2 vih2_H264 = {
 };
 
 /// Media type, Video H264
-static AM_MEDIA_TYPE mt_H264 = {
+static const AM_MEDIA_TYPE mt_H264 = {
     MEDIATYPE_Video,                // majortype
     MEDIASUBTYPE_H264,              // subtype
     FALSE,                          // bFixedSizeSamples
@@ -137,7 +137,7 @@ static VIDEOINFOHEADER2 vih2_HEVC = {
 };
 
 /// Media type, Video HEVC
-static AM_MEDIA_TYPE mt_HEVC = {
+static const AM_MEDIA_TYPE mt_HEVC = {
     MEDIATYPE_Video,                // majortype
     MEDIASUBTYPE_HEVC,              // subtype
     FALSE,                          // bFixedSizeSamples
@@ -309,7 +309,7 @@ static const AM_MEDIA_TYPE mt_Subtitle = {
 
 /// CLSID for TIF
 // FC772AB0-0C7F-11D3-8FF2-00A0C9224CF4
-static CLSID CLSID_BDA_MPEG2_TIF =
+static const CLSID CLSID_BDA_MPEG2_TIF =
 {0xFC772AB0, 0x0C7F, 0x11D3, {0x8F, 0xF2, 0x00, 0xA0, 0xC9, 0x22, 0x4C, 0xF4}};
 
 CFGManagerBDA::CFGManagerBDA(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)

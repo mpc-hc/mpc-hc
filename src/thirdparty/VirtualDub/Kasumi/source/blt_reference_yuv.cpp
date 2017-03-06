@@ -66,7 +66,7 @@ namespace {
 				cliptab16[i+277] = 0x801 * ((unsigned)i>>3) + 0x20 * ((unsigned)i>>2);
 			}
 		}
-	} colorconv;
+	} static const colorconv;
 
 	struct YCbCrFormatInfo {
 		ptrdiff_t	ystep;

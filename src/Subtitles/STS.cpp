@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -31,10 +31,12 @@
 #include "../DSUtil/PathUtils.h"
 
 
-static struct htmlcolor {
+struct htmlcolor {
     TCHAR* name;
     DWORD  color;
-} htmlcolors[] = {
+}
+
+static constexpr htmlcolors[] = {
     {_T("white"), 0xffffff},
     {_T("whitesmoke"), 0xf5f5f5},
     {_T("ghostwhite"), 0xf8f8ff},
@@ -188,11 +190,11 @@ CHtmlColorMap::CHtmlColorMap()
     }
 }
 
-CHtmlColorMap g_colors;
+const CHtmlColorMap g_colors;
 
 //
 
-BYTE CharSetList[] = {
+const BYTE CharSetList[] = {
     ANSI_CHARSET,
     DEFAULT_CHARSET,
     SYMBOL_CHARSET,
@@ -215,7 +217,7 @@ BYTE CharSetList[] = {
     BALTIC_CHARSET
 };
 
-TCHAR* CharSetNames[] = {
+const TCHAR* CharSetNames[] = {
     _T("ANSI"),
     _T("DEFAULT"),
     _T("SYMBOL"),
@@ -238,7 +240,7 @@ TCHAR* CharSetNames[] = {
     _T("BALTIC"),
 };
 
-int CharSetLen = _countof(CharSetList);
+const int CharSetLen = _countof(CharSetList);
 
 //
 
