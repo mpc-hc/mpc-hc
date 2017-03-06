@@ -80,7 +80,7 @@ MPC-HC makes use of the following third-party code:
 | RapidJSON         | MIT License               | <https://github.com/miloyip/rapidjson> |
 | RARFileSource     | GPLv2+                    | <http://www.v12pwr.com/RARFileSource/> |
 | RealMedia SDK     | -                         | - |
-| ResizableLib      | Artistic License          | <https://sourceforge.net/projects/resizablelib/> |
+| ResizableLib      | Artistic License          | <https://github.com/ppescher/resizablelib> |
 | sanear            | LGPLv2.1                  | <https://github.com/alexmarsev/sanear> |
 | Silk Icons        | CC Attribution 2.5        | <http://www.famfamfam.com/lab/icons/silk/> |
 | SoundTouch        | LGPLv2.1                  | <http://www.surina.net/soundtouch/> |
@@ -90,6 +90,6 @@ MPC-HC makes use of the following third-party code:
 | UnRAR             | freeware                  | <http://www.rarlab.com/rar_add.htm> |
 | VirtualDub        | GPLv2+                    | <http://www.virtualdub.org/> |
 | XmlRpc4Win        | LGPLv2                    | <https://github.com/drtimcooper/XmlRpc4Win> |
-| ZenLib            | zlib License              | <https://sourceforge.net/projects/zenlib/> |
+| ZenLib            | zlib License              | <https://github.com/MediaArea/ZenLib> |
 | zita-resampler    | GPLv3                     | <http://kokkinizita.linuxaudio.org/linuxaudio/> |
 | zlib              | zlib License              | <http://zlib.net/> |

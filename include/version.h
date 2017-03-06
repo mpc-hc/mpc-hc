@@ -47,7 +47,7 @@
 
 #define MPC_VERSION_MAJOR       1
 #define MPC_VERSION_MINOR       7
-#define MPC_VERSION_PATCH       10
+#define MPC_VERSION_PATCH       11
 
 #ifndef NO_VERSION_REV_NEEDED
 
