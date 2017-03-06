@@ -1,5 +1,5 @@
 /*
- * (C) 2016 see Authors.txt
+ * (C) 2016-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -27,24 +27,17 @@ struct ISOLangT {
     StringType name, iso6392, iso6391;
     LCID lcid;
 
-    ISOLangT(StringType name = nullptr, StringType iso6392 = nullptr, StringType iso6391 = nullptr, LCID lcid = 0)
+    constexpr ISOLangT(StringType name = nullptr, StringType iso6392 = nullptr, StringType iso6391 = nullptr, LCID lcid = 0)
         : name(name), iso6392(iso6392), iso6391(iso6391), lcid(lcid)
     {};
 
     template<typename StringType2>
-    ISOLangT(const ISOLangT<StringType2>& isoLang)
+    constexpr ISOLangT(const ISOLangT<StringType2>& isoLang)
         : name(isoLang.name), iso6392(isoLang.iso6392), iso6391(isoLang.iso6391), lcid(isoLang.lcid)
     {};
 
     template<typename StringType2>
-    ISOLangT& operator=(const ISOLangT<StringType2>& isoLang) {
-        name = isoLang.name;
-        iso6392 = isoLang.iso6392;
-        iso6391 = isoLang.iso6391;
-        lcid = isoLang.lcid;
-
-        return *this;
-    };
+    ISOLangT& operator=(const ISOLangT<StringType2>& isoLang) = delete;
 };
 
 struct ISOLang : public ISOLangT<LPCSTR> {
