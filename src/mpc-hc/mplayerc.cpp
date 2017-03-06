@@ -1952,7 +1952,7 @@ void CMPlayerCApp::RegisterHotkeys()
         POSITION pos = m_s->wmcmds.GetHeadPosition();
 
         while (pos) {
-            wmcmd& wc = m_s->wmcmds.GetNext(pos);
+            const wmcmd& wc = m_s->wmcmds.GetNext(pos);
             if (wc.appcmd != 0) {
                 RegisterHotKey(m_pMainWnd->m_hWnd, wc.appcmd, 0, GetVKFromAppCommand(wc.appcmd));
             }
@@ -1966,7 +1966,7 @@ void CMPlayerCApp::UnregisterHotkeys()
         POSITION pos = m_s->wmcmds.GetHeadPosition();
 
         while (pos) {
-            wmcmd& wc = m_s->wmcmds.GetNext(pos);
+            const wmcmd& wc = m_s->wmcmds.GetNext(pos);
             if (wc.appcmd != 0) {
                 UnregisterHotKey(m_pMainWnd->m_hWnd, wc.appcmd);
             }
@@ -2167,7 +2167,7 @@ void CRemoteCtrlClient::ExecuteCommand(CStringA cmd, int repcnt)
 
     POSITION pos = s.wmcmds.GetHeadPosition();
     while (pos) {
-        wmcmd wc = s.wmcmds.GetNext(pos);
+        const wmcmd& wc = s.wmcmds.GetNext(pos);
         if ((repcnt == 0 && wc.rmrepcnt == 0 || wc.rmrepcnt > 0 && (repcnt % wc.rmrepcnt) == 0)
                 && (!wc.rmcmd.CompareNoCase(cmd) || wc.cmd == (WORD)strtol(cmd, nullptr, 10))) {
             CAutoLock cAutoLock(&m_csLock);

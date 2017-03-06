@@ -1189,12 +1189,12 @@ void CPPageAccelTbl::OnEndListLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
         }
         break;
         case COL_MOUSE:
-            wc.mouse = (UINT)pItem->lParam;
+            wc.mouse = BYTE(pItem->lParam);
             m_list.SetItemText(pItem->iItem, COL_MOUSE, pItem->pszText);
             *pResult = TRUE;
             break;
         case COL_MOUSE_FS:
-            wc.mouseFS = (UINT)pItem->lParam;
+            wc.mouseFS = BYTE(pItem->lParam);
             m_list.SetItemText(pItem->iItem, COL_MOUSE_FS, pItem->pszText);
             *pResult = TRUE;
             break;
