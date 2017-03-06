@@ -1,5 +1,5 @@
 /*
- * (C) 2015 see Authors.txt
+ * (C) 2015-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -28,6 +28,9 @@ public:
 
     void Override(HWND hWindow);
     void Override(int dpix, int dpiy);
+
+    inline double ScaleFactorX() const { return m_dpix / 96.0; }
+    inline double ScaleFactorY() const { return m_dpiy / 96.0; }
 
     inline int ScaleFloorX(int x) const { return x * m_dpix / 96; }
     inline int ScaleFloorY(int y) const { return y * m_dpiy / 96; }

@@ -77,7 +77,7 @@ void ListArchive(CommandData *Cmd)
 #ifndef SFX_MODULE
             // Only RAR 1.5 archives store the volume number in end record.
             if (Arc.EndArcHead.StoreVolNumber && Arc.Format==RARFMT15)
-              swprintf(VolNumText,ASIZE(VolNumText),L"%.10ls %d",St(MListVolume),Arc.VolNumber+1);
+              swprintf(VolNumText,ASIZE(VolNumText),L"%.10ls %u",St(MListVolume),Arc.VolNumber+1);
 #endif
             if (Technical && ShowService)
             {
@@ -117,22 +117,22 @@ void ListArchive(CommandData *Cmd)
           if (TitleShown)
           {
             wchar UnpSizeText[20];
-            itoa(TotalUnpSize,UnpSizeText);
+            itoa(TotalUnpSize,UnpSizeText,ASIZE(UnpSizeText));
         
             wchar PackSizeText[20];
-            itoa(TotalPackSize,PackSizeText);
+            itoa(TotalPackSize,PackSizeText,ASIZE(PackSizeText));
         
             if (Verbose)
             {
-              mprintf(L"\n----------- ---------  -------- ----- -------- -----  --------  ----");
-              mprintf(L"\n%21ls %9ls %3d%%  %-25ls %u",UnpSizeText,
+              mprintf(L"\n----------- ---------  -------- ----- ---------- -----  --------  ----");
+              mprintf(L"\n%21ls %9ls %3d%%  %-27ls %u",UnpSizeText,
                       PackSizeText,ToPercentUnlim(TotalPackSize,TotalUnpSize),
                       VolNumText,FileCount);
             }
             else
             {
-              mprintf(L"\n----------- ---------  -------- -----  ----");
-              mprintf(L"\n%21ls  %-14ls  %u",UnpSizeText,VolNumText,FileCount);
+              mprintf(L"\n----------- ---------  ---------- -----  ----");
+              mprintf(L"\n%21ls  %-16ls  %u",UnpSizeText,VolNumText,FileCount);
             }
 
             SumFileCount+=FileCount;
@@ -149,9 +149,7 @@ void ListArchive(CommandData *Cmd)
         if (Cmd->VolSize!=0 && (Arc.FileHead.SplitAfter ||
             Arc.GetHeaderType()==HEAD_ENDARC && Arc.EndArcHead.NextVolume) &&
             MergeArchive(Arc,NULL,false,Cmd->Command[0]))
-        {
           Arc.Seek(0,SEEK_SET);
-        }
         else
 #endif
           break;
@@ -172,14 +170,14 @@ void ListArchive(CommandData *Cmd)
   if (ArcCount>1 && !Bare && !Technical)
   {
     wchar UnpSizeText[20],PackSizeText[20];
-    itoa(SumUnpSize,UnpSizeText);
-    itoa(SumPackSize,PackSizeText);
+    itoa(SumUnpSize,UnpSizeText,ASIZE(UnpSizeText));
+    itoa(SumPackSize,PackSizeText,ASIZE(PackSizeText));
 
     if (Verbose)
-      mprintf(L"%21ls %9ls %3d%% %26ls %u",UnpSizeText,PackSizeText,
+      mprintf(L"%21ls %9ls %3d%% %28ls %u",UnpSizeText,PackSizeText,
               ToPercentUnlim(SumPackSize,SumUnpSize),L"",SumFileCount);
     else
-      mprintf(L"%21ls %16s %lu",UnpSizeText,L"",SumFileCount);
+      mprintf(L"%21ls %18s %lu",UnpSizeText,L"",SumFileCount);
   }
 }
 
@@ -205,22 +203,22 @@ void ListFileHeader(Archive &Arc,FileHeader &hd,bool &TitleShown,bool Verbose,bo
     if (Verbose)
     {
       mprintf(L"\n%ls",St(MListTitleV));
-      mprintf(L"\n----------- ---------  -------- ----- -------- -----  --------  ----");
+      mprintf(L"\n----------- ---------  -------- ----- ---------- -----  --------  ----");
     }
     else
     {
       mprintf(L"\n%ls",St(MListTitleL));
-      mprintf(L"\n----------- ---------  -------- -----  ----");
+      mprintf(L"\n----------- ---------  ---------- -----  ----");
     }
     TitleShown=true;
   }
 
-  wchar UnpSizeText[20],PackSizeText[20];
+  wchar UnpSizeText[30],PackSizeText[30];
   if (hd.UnpSize==INT64NDF)
     wcscpy(UnpSizeText,L"?");
   else
-    itoa(hd.UnpSize,UnpSizeText);
-  itoa(hd.PackSize,PackSizeText);
+    itoa(hd.UnpSize,UnpSizeText,ASIZE(UnpSizeText));
+  itoa(hd.PackSize,PackSizeText,ASIZE(PackSizeText));
 
   wchar AttrStr[30];
   if (hd.HeaderType==HEAD_SERVICE)
@@ -242,7 +240,7 @@ void ListFileHeader(Archive &Arc,FileHeader &hd,bool &TitleShown,bool Verbose,bo
         swprintf(RatioStr,ASIZE(RatioStr),L"%d%%",ToPercentUnlim(hd.PackSize,hd.UnpSize));
 
   wchar DateStr[50];
-  hd.mtime.GetText(DateStr,ASIZE(DateStr),Technical,Technical);
+  hd.mtime.GetText(DateStr,ASIZE(DateStr),Technical);
 
   if (Technical)
   {
@@ -309,12 +307,12 @@ void ListFileHeader(Archive &Arc,FileHeader &hd,bool &TitleShown,bool Verbose,bo
       mprintf(L"\n%12ls: %ls",St(MListMtime),DateStr);
     if (hd.ctime.IsSet())
     {
-      hd.ctime.GetText(DateStr,ASIZE(DateStr),true,true);
+      hd.ctime.GetText(DateStr,ASIZE(DateStr),true);
       mprintf(L"\n%12ls: %ls",St(MListCtime),DateStr);
     }
     if (hd.atime.IsSet())
     {
-      hd.atime.GetText(DateStr,ASIZE(DateStr),true,true);
+      hd.atime.GetText(DateStr,ASIZE(DateStr),true);
       mprintf(L"\n%12ls: %ls",St(MListAtime),DateStr);
     }
     mprintf(L"\n%12ls: %ls",St(MListAttr),AttrStr);
@@ -405,7 +403,7 @@ void ListFileHeader(Archive &Arc,FileHeader &hd,bool &TitleShown,bool Verbose,bo
       else
         mprintf(L"????????  ");
   }
-  mprintf(L"%-12ls",Name);
+  mprintf(L"%ls",Name);
 }
 
 /*
@@ -435,13 +433,13 @@ void ListFileAttr(uint A,HOST_SYSTEM_TYPE HostType,wchar *AttrStr,size_t AttrSiz
   {
     case HSYS_WINDOWS:
       swprintf(AttrStr,AttrSize,L"%c%c%c%c%c%c%c",
-              (A & 0x2000) ? 'I' : '.',  // Not content indexed.
-              (A & 0x0800) ? 'C' : '.',  // Compressed.
-              (A & 0x0020) ? 'A' : '.',  // Archive.
-              (A & 0x0010) ? 'D' : '.',  // Directory.
-              (A & 0x0004) ? 'S' : '.',  // System.
-              (A & 0x0002) ? 'H' : '.',  // Hidden.
-              (A & 0x0001) ? 'R' : '.'); // Read-only.
+              (A & 0x2000)!=0 ? 'I' : '.',  // Not content indexed.
+              (A & 0x0800)!=0 ? 'C' : '.',  // Compressed.
+              (A & 0x0020)!=0 ? 'A' : '.',  // Archive.
+              (A & 0x0010)!=0 ? 'D' : '.',  // Directory.
+              (A & 0x0004)!=0 ? 'S' : '.',  // System.
+              (A & 0x0002)!=0 ? 'H' : '.',  // Hidden.
+              (A & 0x0001)!=0 ? 'R' : '.'); // Read-only.
       break;
     case HSYS_UNIX:
       switch (A & 0xF000)
@@ -459,13 +457,13 @@ void ListFileAttr(uint A,HOST_SYSTEM_TYPE HostType,wchar *AttrStr,size_t AttrSiz
       swprintf(AttrStr+1,AttrSize-1,L"%c%c%c%c%c%c%c%c%c",
               (A & 0x0100) ? 'r' : '-',
               (A & 0x0080) ? 'w' : '-',
-              (A & 0x0040) ? ((A & 0x0800) ? 's':'x'):((A & 0x0800) ? 'S':'-'),
+              (A & 0x0040) ? ((A & 0x0800)!=0 ? 's':'x'):((A & 0x0800)!=0 ? 'S':'-'),
               (A & 0x0020) ? 'r' : '-',
               (A & 0x0010) ? 'w' : '-',
-              (A & 0x0008) ? ((A & 0x0400) ? 's':'x'):((A & 0x0400) ? 'S':'-'),
+              (A & 0x0008) ? ((A & 0x0400)!=0 ? 's':'x'):((A & 0x0400)!=0 ? 'S':'-'),
               (A & 0x0004) ? 'r' : '-',
               (A & 0x0002) ? 'w' : '-',
-              (A & 0x0001) ? 'x' : '-');
+              (A & 0x0001) ? ((A & 0x200)!=0 ? 't' : 'x') : '-');
       break;
     case HSYS_UNKNOWN:
       wcscpy(AttrStr,L"?");

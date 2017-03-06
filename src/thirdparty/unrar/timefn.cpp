@@ -122,6 +122,7 @@ void RarTime::SetLocal(RarLocalTime *lt)
   st.wMinute=lt->Minute;
   st.wSecond=lt->Second;
   st.wMilliseconds=0;
+  st.wDayOfWeek=0;
   FILETIME lft;
   if (SystemTimeToFileTime(&st,&lft))
   {
@@ -140,7 +141,7 @@ void RarTime::SetLocal(RarLocalTime *lt)
     {
       // Reverse procedure which we do in GetLocal.
       SYSTEMTIME st1,st2;
-      FileTimeToSystemTime(&lft,&st2);
+      FileTimeToSystemTime(&lft,&st2); // st2 might be unequal to st, because we added lt->Reminder to lft.
       TzSpecificLocalTimeToSystemTime(NULL,&st2,&st1);
       SystemTimeToFileTime(&st1,&ft);
 
@@ -170,6 +171,51 @@ void RarTime::SetLocal(RarLocalTime *lt)
   t.tm_isdst=-1;
   *this=mktime(&t);
   itime+=lt->Reminder;
+#endif
+}
+
+
+void RarTime::SetUTC(RarLocalTime *lt) // Input is in UTC format.
+{
+#ifdef _WIN_ALL
+  SYSTEMTIME st;
+  st.wYear=lt->Year;
+  st.wMonth=lt->Month;
+  st.wDay=lt->Day;
+  st.wHour=lt->Hour;
+  st.wMinute=lt->Minute;
+  st.wSecond=lt->Second;
+  st.wMilliseconds=0;
+  st.wDayOfWeek=0;
+  FILETIME ft;
+  if (SystemTimeToFileTime(&st,&ft))
+    *this=ft;
+  else
+    Reset();
+#else
+  struct tm t;
+
+  t.tm_sec=lt->Second;
+  t.tm_min=lt->Minute;
+  t.tm_hour=lt->Hour;
+  t.tm_mday=lt->Day;
+  t.tm_mon=lt->Month-1;
+  t.tm_year=lt->Year-1900;
+  t.tm_isdst=-1;
+
+  /* get the local time for Jan 2, 1900 00:00 UTC */
+  time_t zero = 24*60*60L;
+  struct tm *timeptr = localtime( &zero );
+  int gmtime_hours = timeptr->tm_hour;
+
+  /* if the local time is the "day before" the UTC, subtract 24 hours
+    from the hours to get the UTC offset */
+  if( timeptr->tm_mday < 2 )
+    gmtime_hours -= 24;
+  
+  *this=mktime(&t)+gmtime_hours*3600;
+  itime+=lt->Reminder;
+
 #endif
 }
 
@@ -216,7 +262,7 @@ void RarTime::SetDos(uint DosTime)
 
 
 #if !defined(GUI) || !defined(SFX_MODULE)
-void RarTime::GetText(wchar *DateStr,size_t MaxSize,bool FullYear,bool FullMS)
+void RarTime::GetText(wchar *DateStr,size_t MaxSize,bool FullMS)
 {
   if (IsSet())
   {
@@ -225,15 +271,12 @@ void RarTime::GetText(wchar *DateStr,size_t MaxSize,bool FullYear,bool FullMS)
     if (FullMS)
       swprintf(DateStr,MaxSize,L"%u-%02u-%02u %02u:%02u:%02u,%03u",lt.Year,lt.Month,lt.Day,lt.Hour,lt.Minute,lt.Second,lt.Reminder/10000);
     else
-      if (FullYear)
-        swprintf(DateStr,MaxSize,L"%02u-%02u-%u %02u:%02u",lt.Day,lt.Month,lt.Year,lt.Hour,lt.Minute);
-      else
-        swprintf(DateStr,MaxSize,L"%02u-%02u-%02u %02u:%02u",lt.Day,lt.Month,lt.Year%100,lt.Hour,lt.Minute);
+      swprintf(DateStr,MaxSize,L"%u-%02u-%02u %02u:%02u",lt.Year,lt.Month,lt.Day,lt.Hour,lt.Minute);
   }
   else
   {
     // We use escape before '?' to avoid weird C trigraph characters.
-    wcscpy(DateStr,FullYear ? L"\?\?-\?\?-\?\?\?\? \?\?:\?\?":L"\?\?-\?\?-\?\? \?\?:\?\?");
+    wcscpy(DateStr,L"\?\?\?\?-\?\?-\?\? \?\?:\?\?");
   }
 }
 #endif

@@ -1,15 +1,15 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Jean van Kasteel <vankasteelj@gmail.com>, 2015
-# Underground78, 2013-2015
+# Jean van Kasteel <vankasteelj@gmail.com>, 2015-2016
+# Underground78, 2013-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-10-19 19:15:11+0000\n"
-"PO-Revision-Date: 2015-10-20 12:17+0000\n"
-"Last-Translator: Underground78\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2016-07-06 21:36+0000\n"
+"Last-Translator: kasper93\n"
 "Language-Team: French (http://www.transifex.com/mpc-hc/mpc-hc/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -190,8 +190,8 @@ msgid "About"
 msgstr "A propos"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2015 see Authors.txt"
-msgstr "Copyright © 2002-2015 voir le fichier Authors.txt"
+msgid "Copyright © 2002-2017 see Authors.txt"
+msgstr "Copyright © 2002-2017 voir le fichier Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -422,12 +422,16 @@ msgid "time(s)"
 msgstr "fois"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Repeat mode:"
+msgstr "Mode de répétition :"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
 msgstr "En fin de lecture"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Output"
-msgstr "Sortie"
+msgid "Default zoom"
+msgstr "Zoom par défaut"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
@@ -566,7 +570,7 @@ msgid "Warning"
 msgstr "Attention"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
+msgid "If you override and enable fullscreen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
 msgstr "Si vous activez l'anticrénelage en mode plein écran dans les paramètres de votre carte vidéo, cela n'améliorera pas l'affichage des sous-titres mais consommera davantage de ressources système."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
@@ -1122,8 +1126,8 @@ msgid "Audio Renderer"
 msgstr "Sortie audio"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
-msgstr "Paramètres des moteurs de rendu VMR-7/VMR-9 (sans rendu) et EVR (CP)"
+msgid "VMR-9 (renderless) and EVR (CP) settings"
+msgstr "Paramètres des moteurs de rendu VMR-9 (sans rendu) et EVR (CP)"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"
@@ -1185,6 +1189,10 @@ msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
 msgstr "Moteur de rendu des sous-titres"
 
+msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
+msgid "Cache compiled Shaders"
+msgstr "Mettre en cache les Shaders compilés"
+
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
 msgstr "Écouter le port :"
@@ -1230,16 +1238,44 @@ msgid "CGI handlers: (.ext1=path1;.ext2=path2;...)"
 msgstr "Gestionnaires CGI : (.ext1=chemin1;.ext2=chemin2;...)"
 
 msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
-msgid "Subtitles available online"
-msgstr "Sous-titres disponibles en ligne"
-
-msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
-msgid "Download && Open"
-msgstr "Télécharger && Charger"
+msgid "Download subtitles"
+msgstr "Télécharger des sous-titres"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
 msgid "Replace currently loaded subtitles"
 msgstr "Remplacer les sous-titres déjà chargés"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
+msgid "Download"
+msgstr "Télécharger"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON1"
+msgid "Refresh"
+msgstr "Actualiser"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON2"
+msgid "Abort"
+msgstr "Abandonner"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON3"
+msgid "Options"
+msgstr "Options"
+
+msgctxt "IDD_SUBTITLEUP_DLG_CAPTION"
+msgid "Upload subtitles"
+msgstr "Envoyer des sous-titres"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDOK"
+msgid "Upload"
+msgstr "Envoyer"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
+msgid "Abort"
+msgstr "Abandonner"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON2"
+msgid "Options"
+msgstr "Options"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
@@ -1542,16 +1578,28 @@ msgid "Reset"
 msgstr "Réinitialiser"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Online database"
-msgstr "Base de données en ligne"
+msgid "Online search, download and upload subtitles"
+msgstr "Recherche, téléchargement et envoi de sous-titres"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
+msgid "Automatically search and download subtitles if none are found locally"
+msgstr "Chercher et télécharger des sous-titres automatiquement si aucun sous-titre n'est disponible"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
+msgid "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
+msgstr "Préférer les sous-titres pour malentendants (lorsqu'indiqué par le fournisseur de sous-titres)"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
+msgid "Ignore files containing any of the following word(s):"
+msgstr "Ignorer les fichiers contenant le(s) mot(s) suivant(s) :"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Base URL of the online subtitle database:"
-msgstr "Adresse de la base de données de sous-titres :"
+msgid "Languages in order of preference:"
+msgstr "Ordre de préférence des langues :"
 
-msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON2"
-msgid "Test"
-msgstr "Tester"
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
+msgid "Automatically upload active subtitles at the end of video playback"
+msgstr "Envoyer les sous-titres actifs automatiquement à la fin de la lecture vidéo"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"

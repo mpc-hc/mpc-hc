@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013, 2015 see Authors.txt
+ * (C) 2006-2013, 2015-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -53,6 +53,18 @@ DECLARE_INTERFACE_IID_(ISubRenderCallback3, ISubRenderCallback2, "BAC4273A-3EAD-
                          REFERENCE_TIME avgTimePerFrame, RECT croppedVideoRect,
                          RECT originalVideoRect, RECT viewportRect,
                          const double videoStretchFactor = 1.0) PURE;
+};
+
+// const static DWORD SUBRENDER_LEFT_EYE = 1;
+// const static DWORD SUBRENDER_RIGHT_EYE = 2;
+
+DECLARE_INTERFACE_IID_(ISubRenderCallback4, ISubRenderCallback3, "C89CF1D4-29C5-4A96-8AAC-528EC6F7AF1E")
+{
+    STDMETHOD(RenderEx3)(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop,
+                         REFERENCE_TIME avgTimePerFrame, RECT croppedVideoRect,
+                         RECT originalVideoRect, RECT viewportRect,
+                         const double videoStretchFactor = 1.0,
+                         int xOffsetInPixels = 0, DWORD flags = 0) PURE;
 };
 
 DECLARE_INTERFACE_IID_(ISubRender, IUnknown, "9CC7F9F7-3ED1-493c-AF65-527EA1D9947F")

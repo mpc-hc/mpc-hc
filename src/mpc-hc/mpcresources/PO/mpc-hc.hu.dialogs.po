@@ -1,14 +1,15 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Máté <lang.mate@gmail.com>, 2014-2015
+# Evin <tomevin1@gmail.com>, 2016
+# Máté <lang.mate@gmail.com>, 2014-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-10-19 19:15:11+0000\n"
-"PO-Revision-Date: 2015-11-04 17:52+0000\n"
-"Last-Translator: Máté <lang.mate@gmail.com>\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2016-07-10 20:22+0000\n"
+"Last-Translator: Evin <tomevin1@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/mpc-hc/mpc-hc/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -189,8 +190,8 @@ msgid "About"
 msgstr "Névjegy"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2015 see Authors.txt"
-msgstr "Szerzői jog © 2002-2015 lásd Authors.txt fájl"
+msgid "Copyright © 2002-2017 see Authors.txt"
+msgstr "Szerzői jog © 2002-2017 lásd Authors.txt fájl"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -421,12 +422,16 @@ msgid "time(s)"
 msgstr "alkalommal"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Repeat mode:"
+msgstr "Ismétlés módja"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
 msgstr "Lejátszás után"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Output"
-msgstr "Kép"
+msgid "Default zoom"
+msgstr "Alapértelmezett nagyítás"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
@@ -565,7 +570,7 @@ msgid "Warning"
 msgstr "Figyelmeztetés"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
+msgid "If you override and enable fullscreen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
 msgstr "Ha felülbírálva engedélyezi a videokártyája beállításainál a teljes képernyős vonalsimítást, a feliratok akkor sem lesznek szebbek, viszont a processzorát teljesen leterheli vele."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
@@ -1121,8 +1126,8 @@ msgid "Audio Renderer"
 msgstr "DirectShow Audió"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
-msgstr "VMR-7/VMR-9 (renderless) és EVR (CP) beállítások"
+msgid "VMR-9 (renderless) and EVR (CP) settings"
+msgstr "VMR-9 (renderless) és EVR (CP) beállítások"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"
@@ -1184,6 +1189,10 @@ msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
 msgstr "Felirat renderelő"
 
+msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
+msgid "Cache compiled Shaders"
+msgstr ""
+
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
 msgstr "Port figyelése:"
@@ -1229,16 +1238,44 @@ msgid "CGI handlers: (.ext1=path1;.ext2=path2;...)"
 msgstr "CGI kezelők: (.ext1=path1;.ext2=path2;...)"
 
 msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
-msgid "Subtitles available online"
-msgstr "Online elérhető feliratok"
-
-msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
-msgid "Download && Open"
-msgstr "Letöltés && Megnyitás"
+msgid "Download subtitles"
+msgstr "Feliratok letöltése"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
 msgid "Replace currently loaded subtitles"
 msgstr "Jelenleg betöltött felirat lecserélése"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
+msgid "Download"
+msgstr "Letöltés"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON1"
+msgid "Refresh"
+msgstr "Frissítés"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON2"
+msgid "Abort"
+msgstr "Elvetés"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON3"
+msgid "Options"
+msgstr "Beállítások"
+
+msgctxt "IDD_SUBTITLEUP_DLG_CAPTION"
+msgid "Upload subtitles"
+msgstr "Feliratok feltöltése"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDOK"
+msgid "Upload"
+msgstr "Feltöltés"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
+msgid "Abort"
+msgstr "Elvetés"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON2"
+msgid "Options"
+msgstr "Beállítások"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
@@ -1541,16 +1578,28 @@ msgid "Reset"
 msgstr "Visszaállítás"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Online database"
-msgstr "Online adatbázis"
+msgid "Online search, download and upload subtitles"
+msgstr "Feliratok keresése, letöltése, feltöltése"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
+msgid "Automatically search and download subtitles if none are found locally"
+msgstr "Feliratok automatikus keresése és letöltése, ha helyben nem található"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
+msgid "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
+msgid "Ignore files containing any of the following word(s):"
+msgstr "A következő szavakat tartalmazó fájl kihagyása:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Base URL of the online subtitle database:"
-msgstr "Az internetről elérhető felirat adatbázis bázis URL címe:"
+msgid "Languages in order of preference:"
+msgstr "Nyelvek prioritási sorrendben (pl. \"eng hun spa\"):"
 
-msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON2"
-msgid "Test"
-msgstr "Tesztelés"
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
+msgid "Automatically upload active subtitles at the end of video playback"
+msgstr "Aktív feliratok automatikus feltöltése a videólejátszás végén"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
@@ -1674,15 +1723,15 @@ msgstr "Sztereó crossfeed engedélyezése (fejhallgatókhoz)"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON1"
 msgid "C. Moy"
-msgstr ""
+msgstr "C. Moy"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON2"
 msgid "J. Meier"
-msgstr ""
+msgstr "J. Meier"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC1"
 msgid "Cut-off:"
-msgstr ""
+msgstr "Levágás:"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC3"
 msgid "Level:"
@@ -1694,7 +1743,7 @@ msgstr "Megjegyzés"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
 msgid "To minimize audio distortion, it is recommended to keep player volume at around 85% when playing loud lossy-encoded content."
-msgstr ""
+msgstr "Az torzítás minimalizálásához ajánlott a lejátszó hangerejét 85% körül tartani hangos, veszteségesen kódolt tartalom lejátszásakor."
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"

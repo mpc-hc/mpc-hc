@@ -1,5 +1,5 @@
 /*
- * (C) 2010-2015 see Authors.txt
+ * (C) 2010-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -123,7 +123,7 @@ void CPlayerNavigationDialog::UpdateElementList()
         m_channelList.ResetContent();
 
         for (const auto& channel : s.m_DVBChannels) {
-            if (channel.GetAudioCount() && (m_bTVStations && channel.GetVideoPID() || !m_bTVStations && !channel.GetVideoPID())) {
+            if (m_bTVStations && channel.GetVideoPID() || !m_bTVStations && !channel.GetVideoPID()) {
                 int nItem = m_channelList.AddString(channel.GetName());
                 if (nItem != LB_ERR) {
                     m_channelList.SetItemData(nItem, (DWORD_PTR)channel.GetPrefNumber());
@@ -236,7 +236,7 @@ void CPlayerNavigationDialog::OnContextMenu(CWnd* pWnd, CPoint point)
         it1->SetPrefNumber(nPrefNumber2);
         it2->SetPrefNumber(nPrefNumber1);
         // Actually swap the channels
-        iter_swap(it1, it2);
+        std::iter_swap(it1, it2);
     };
 
     if (!bOutside) {

@@ -1,14 +1,15 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# stryaponoff <stryaponoff@gmail.com>, 2014
+# Sergey <player54@mail.ru>, 2015
+# Kirill <stryaponoff@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2015-07-20 20:29:41+0000\n"
-"PO-Revision-Date: 2015-07-24 08:44+0000\n"
-"Last-Translator: JellyFrog\n"
+"PO-Revision-Date: 2015-12-21 11:37+0000\n"
+"Last-Translator: Sergey <player54@mail.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/mpc-hc/mpc-hc/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,11 +19,11 @@ msgstr ""
 
 msgctxt "Messages_WelcomeLabel2"
 msgid "This will install [name] on your computer.\n\nIt is recommended that you close all other applications before continuing."
-msgstr "Программа установит [name] на ваш компьютер.\n\nРекомендуется закрыть все прочие приложения перед тем, как продолжить."
+msgstr "Эта программа установит [name] на ваш компьютер.\n\nПеред тем, как продолжить, рекомендуется закрыть все прочие приложения."
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows XP Service Pack 3 or newer to run."
-msgstr "[name] Эта программа требует Windows XP Service Pack 3 или выше."
+msgstr "[name] требует Windows XP Service Pack 3 или новее."
 
 msgctxt "CustomMessages_comp_mpciconlib"
 msgid "Icon Library"
@@ -34,23 +35,23 @@ msgstr "Локализации"
 
 msgctxt "CustomMessages_msg_DeleteSettings"
 msgid "Do you also want to delete MPC-HC settings?\n\nIf you plan on installing MPC-HC again then you do not have to delete them."
-msgstr "Удалить также настроенные параметры MPC-HC?\n\nЕсли запланирована переустановка MPC-HC, эти параметры не нужно удалять."
+msgstr "Желаете ли вы также удалить настройки MPC-HC?\n\nЕсли вы собираетесь установить MPC-HC повторно, их не нужно удалять."
 
 msgctxt "CustomMessages_msg_simd_sse"
 msgid "This build of MPC-HC requires a CPU with SSE extension support.\n\nYour CPU does not have those capabilities."
-msgstr "Для этой сборки MPC-HC требуется процессор с поддержкой SSE-инструкций.\n\nВ данном процессоре они не поддерживаются."
+msgstr "Для этой сборки MPC-HC необходим процессор с поддержкой SSE-инструкций.\n\nВаш процессор не соответствует данным требованиям."
 
 msgctxt "CustomMessages_msg_simd_sse2"
 msgid "This build of MPC-HC requires a CPU with SSE2 extension support.\n\nYour CPU does not have those capabilities."
-msgstr "Для этой сборки MPC-HC требуется процессор с поддержкой SSE2-инструкций.\n\nВ данном процессоре они не поддерживаются."
+msgstr "Для этой сборки MPC-HC необходим процессор с поддержкой SSE2-инструкций.\n\nВаш процессор не соответствует данным требованиям."
 
 msgctxt "CustomMessages_run_DownloadToolbarImages"
 msgid "Visit our Wiki page to download toolbar images"
-msgstr "Посетите нашу Вики, чтобы скачать темы для панели управления"
+msgstr "Посетить нашу вики для загрузии темы панели инструментов"
 
 msgctxt "CustomMessages_tsk_AllUsers"
 msgid "For all users"
-msgstr "Для всех пользователей данного компьютера"
+msgstr "Для всех пользователей"
 
 msgctxt "CustomMessages_tsk_CurrentUser"
 msgid "For the current user only"
@@ -62,7 +63,7 @@ msgstr "Другие задачи:"
 
 msgctxt "CustomMessages_tsk_ResetSettings"
 msgid "Reset settings"
-msgstr "Восстановить параметры по умолчанию"
+msgstr "Восстановить настройки по умолчанию"
 
 msgctxt "CustomMessages_types_DefaultInstallation"
 msgid "Default installation"
@@ -74,5 +75,5 @@ msgstr "Выборочная установка"
 
 msgctxt "CustomMessages_ViewChangelog"
 msgid "View Changelog"
-msgstr "Просмотреть журнал изменений"
+msgstr "Посмотреть список изменений"
 

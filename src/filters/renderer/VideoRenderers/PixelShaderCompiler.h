@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include <d3d9.h>
+#include "PixelShaderCache.h"
 #include <D3Dcompiler.h>
 
 class CPixelShaderCompiler
@@ -32,6 +32,8 @@ class CPixelShaderCompiler
     pD3DDisassemble m_pD3DDisassemble;
 
     CComPtr<IDirect3DDevice9> m_pD3DDev;
+
+    CPixelShaderCache m_Cache;
 
     HRESULT InternalCompile(
         LPCSTR pSrcData,

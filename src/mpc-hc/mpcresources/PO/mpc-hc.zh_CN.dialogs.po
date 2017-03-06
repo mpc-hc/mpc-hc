@@ -1,16 +1,17 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # bruce55 <bruce.luo+transifex@nyu.edu>, 2014-2015
-# Dean Lee <xslidian@gmail.com>, 2015
-# Ming Chen <yzonline@gmail.com>, 2013-2015
+# Dean Lee <xslidian@gmail.com>, 2015-2016
+# kongfl888 <kongfl888@outlook.com>, 2016
+# Ming Chen <yzonline@gmail.com>, 2013-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-10-19 19:15:11+0000\n"
-"PO-Revision-Date: 2015-10-20 10:21+0000\n"
-"Last-Translator: Ming Chen <yzonline@gmail.com>\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2016-10-20 12:51+0000\n"
+"Last-Translator: Dean Lee <xslidian@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/mpc-hc/mpc-hc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -191,8 +192,8 @@ msgid "About"
 msgstr "关于"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2015 see Authors.txt"
-msgstr "版权所有 © 2002-2015 请查看 Authors.txt"
+msgid "Copyright © 2002-2017 see Authors.txt"
+msgstr "版权所有 © 2002-2017 请查看 Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -423,12 +424,16 @@ msgid "time(s)"
 msgstr "次"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Repeat mode:"
+msgstr "重复模式:"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
 msgstr "回放结束后"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Output"
-msgstr "输出"
+msgid "Default zoom"
+msgstr "默认缩放"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
@@ -567,7 +572,7 @@ msgid "Warning"
 msgstr "警告"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
+msgid "If you override and enable fullscreen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
 msgstr "如果您在显卡设置的某处开启了全屏抗锯齿功能并覆盖程序本身设置的话，字幕并不会变得比以前好看但是却会一定大量吞噬您的 CPU 资源。"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
@@ -1123,8 +1128,8 @@ msgid "Audio Renderer"
 msgstr "音频渲染器"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
-msgstr "VMR-7/VMR-9 (未渲染) 与 EVR (CP) 设置"
+msgid "VMR-9 (renderless) and EVR (CP) settings"
+msgstr "VMR-9 (未渲染) 与 EVR (CP) 设置"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"
@@ -1132,7 +1137,7 @@ msgstr "表面:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Resizer:"
-msgstr "重设尺寸:"
+msgstr "缩放算法:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_D3D9DEVICE"
 msgid "Select D3D9 Render Device"
@@ -1186,6 +1191,10 @@ msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
 msgstr "字幕渲染器"
 
+msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
+msgid "Cache compiled Shaders"
+msgstr "缓存已编译的着色器"
+
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
 msgstr "监听端口:"
@@ -1231,16 +1240,44 @@ msgid "CGI handlers: (.ext1=path1;.ext2=path2;...)"
 msgstr "CGI 接管: (.扩展名1=路径1; .扩展名2=路径2; ...)"
 
 msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
-msgid "Subtitles available online"
-msgstr "可用的在线字幕"
-
-msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
-msgid "Download && Open"
-msgstr "下载并打开"
+msgid "Download subtitles"
+msgstr "下载字幕"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
 msgid "Replace currently loaded subtitles"
 msgstr "替换当前已装载的字幕"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
+msgid "Download"
+msgstr "下载"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON1"
+msgid "Refresh"
+msgstr "刷新"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON2"
+msgid "Abort"
+msgstr "中止"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON3"
+msgid "Options"
+msgstr "选项"
+
+msgctxt "IDD_SUBTITLEUP_DLG_CAPTION"
+msgid "Upload subtitles"
+msgstr "上传字幕"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDOK"
+msgid "Upload"
+msgstr "上传"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
+msgid "Abort"
+msgstr "中止"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON2"
+msgid "Options"
+msgstr "选项"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
@@ -1543,16 +1580,28 @@ msgid "Reset"
 msgstr "重置"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Online database"
-msgstr "在线数据库"
+msgid "Online search, download and upload subtitles"
+msgstr "在线搜索, 下载和上传字幕"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
+msgid "Automatically search and download subtitles if none are found locally"
+msgstr "如果本地未找到可用字幕, 自动搜索并下载字幕"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
+msgid "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
+msgstr "优先使用为听力障碍者提供的字幕 (由字母提供者标明)"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
+msgid "Ignore files containing any of the following word(s):"
+msgstr "忽略包含以下任何字词的文件:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Base URL of the online subtitle database:"
-msgstr "在线字幕数据库的基本 URL:"
+msgid "Languages in order of preference:"
+msgstr "语言偏好顺序:"
 
-msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON2"
-msgid "Test"
-msgstr "测试"
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
+msgid "Automatically upload active subtitles at the end of video playback"
+msgstr "在视频回放完成时自动上传启用的字幕"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"

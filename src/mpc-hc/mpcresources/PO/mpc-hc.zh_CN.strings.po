@@ -1,17 +1,18 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # bruce55 <bruce.luo+transifex@nyu.edu>, 2014-2015
-# Dean Lee <xslidian@gmail.com>, 2015
+# Dean Lee <xslidian@gmail.com>, 2015-2016
 # hkenneth <extremekeny@hotmail.com>, 2013
-# Ming Chen <yzonline@gmail.com>, 2013-2015
+# kongfl888 <kongfl888@outlook.com>, 2016
+# Ming Chen <yzonline@gmail.com>, 2013-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-10-25 00:51:15+0000\n"
-"PO-Revision-Date: 2015-11-08 09:31+0000\n"
-"Last-Translator: JellyFrog\n"
+"POT-Creation-Date: 2016-10-17 00:35:36+0000\n"
+"PO-Revision-Date: 2016-10-20 17:42+0000\n"
+"Last-Translator: Dean Lee <xslidian@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/mpc-hc/mpc-hc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -63,9 +64,17 @@ msgctxt "IDS_PROPSHEET_PROPERTIES"
 msgid "Properties"
 msgstr "属性"
 
+msgctxt "IDS_PLAY_LOOPMODE_FILE"
+msgid "File"
+msgstr "文件"
+
 msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
 msgid "&Default Style"
 msgstr "默认样式(&D)"
+
+msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
+msgid "Playlist"
+msgstr "播放列表"
 
 msgctxt "IDS_FAVFILES"
 msgid "Files"
@@ -118,6 +127,26 @@ msgstr "样式"
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
 msgstr "如果渲染目标没有被定义，SSA/ASS字幕会以视频帧为参照渲染，而其他文本字幕则会以窗口为参照。"
+
+msgctxt "IDS_PLAYLOOPMODE_PLAYLIST"
+msgid "Repeat Mode: Playlist"
+msgstr "重复模式: 播放列表"
+
+msgctxt "IDS_PLAYLOOPMODE_FILE"
+msgid "Repeat Mode: File"
+msgstr "重复模式: 文件"
+
+msgctxt "IDS_PLAYLOOP_FOREVER_ON"
+msgid "Repeat Forever: On"
+msgstr "循环播放: 开"
+
+msgctxt "IDS_PLAYLOOP_FOREVER_OFF"
+msgid "Repeat Forever: Off"
+msgstr "循环播放: 关"
+
+msgctxt "IDS_PLAYLOOP_FOREVER"
+msgid "Repeat Forever"
+msgstr "循环播放"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -519,17 +548,9 @@ msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
 msgstr "覆盖合成渲染器"
 
-msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
-msgid "Video Mixing Renderer 7 (windowed)"
-msgstr "VMR-7 (窗口化)"
-
 msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
 msgid "Video Mixing Renderer 9 (windowed)"
 msgstr "VMR-9 (窗口化)"
-
-msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
-msgid "Video Mixing Renderer 7 (renderless)"
-msgstr "VMR-7 (未渲染)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
 msgid "Video Mixing Renderer 9 (renderless)"
@@ -583,10 +604,6 @@ msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
 msgstr "播放器::Web 界面"
 
-msgctxt "IDD_PPAGESUBDB"
-msgid "Subtitles::Database"
-msgstr "字幕::数据库"
-
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
 msgstr "详细信息"
@@ -607,17 +624,9 @@ msgctxt "IDC_DSOVERLAYMIXER"
 msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
 msgstr "总是在覆盖模式渲染。通常情况下该模式仅允许 YUV 格式, 但是它们将不被转换为RGB色彩直接输出。它是所有渲染模式中最快的，且是唯一可以确保全屏视频镜像到电视输出被激活的渲染器。"
 
-msgctxt "IDC_DSVMR7WIN"
-msgid "The default renderer of Windows XP. Very stable and just a little slower than the Overlay mixer. Uses DirectDraw and runs in Overlay when it can."
-msgstr "Windows XP 的默认视频渲染器。非常稳定而且只比覆盖合成器稍慢。当可能时它将使用 DriectDraw 并运行在覆盖模式下。"
-
 msgctxt "IDC_DSVMR9WIN"
-msgid "Only available if you have DirectX 9 installed. Has the same abilities as VMR-7 (windowed), but it will never use Overlay rendering and because of this it may be a little slower than VMR-7 (windowed)."
-msgstr "仅在 DirectX 9 已被安装的情况下可用。与 VMR-7 (窗口化) 有相同的功能, 因为它决不会使用覆盖渲染所以这会导致比 VMR-7 (窗口化) 稍慢。"
-
-msgctxt "IDC_DSVMR7REN"
-msgid "Same as the VMR-7 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring WILL NOT work. \"True Color\" desktop color space recommended."
-msgstr "与 VMR-7 (窗口化) 相同,但是拥有 MPC-HC 字幕分配传输插件。覆盖视频镜像将不会工作。推荐使用 \"真彩色\" 为桌面颜色。"
+msgid "Only available if you have DirectX 9 installed. Very stable but it will never use Overlay rendering and because of this it may be a little slower than Overlay mixer."
+msgstr "仅在 DirectX 9 已安装的情况下可用。非常稳定，但是由于不使用覆盖渲染，会比覆盖合成器稍慢。"
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
@@ -655,10 +664,6 @@ msgctxt "IDC_RMSYSDEF"
 msgid "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
 msgstr "Real 自己的渲染器。SMIL 脚本将会被执行,但或许无法执行交互功能。当可能时将会使用 DirectDraw 并运行在覆盖模式下。"
 
-msgctxt "IDC_RMDX7"
-msgid "The output of Real's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "使用基于 DX7 的 VMR-7 (未渲染) 分配传输器渲染输出的 Real 引擎。"
-
 msgctxt "IDC_RMDX9"
 msgid "The output of Real's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
 msgstr "使用基于 DX9 的 VMR-9 (未渲染) 分配传输器渲染输出的 Real 引擎。"
@@ -666,10 +671,6 @@ msgstr "使用基于 DX9 的 VMR-9 (未渲染) 分配传输器渲染输出的 Re
 msgctxt "IDC_QTSYSDEF"
 msgid "QuickTime's own renderer. Gets a little slow when its video area is resized or partially covered by another window. When Overlay is not available it likes to fall back to GDI."
 msgstr "QuickTime 自己的渲染器。当视频区域被重新调整大小或被其它窗口部份覆盖时可能会变的稍慢一些。当覆盖不可用时它可能会完全返回至 GDI。"
-
-msgctxt "IDC_QTDX7"
-msgid "The output of QuickTime's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "使用基于 DX7 的 VMR-7 (未渲染) 分配传输器渲染输出的 QuickTime 引擎。"
 
 msgctxt "IDC_QTDX9"
 msgid "The output of QuickTime's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
@@ -751,9 +752,13 @@ msgctxt "IDS_EMB_RESOURCES_VIEWER_INFO"
 msgid "In order to view an embedded resource in your browser you have to enable the web interface.\n\nUse the \"Save As\" button if you only want to save the information."
 msgstr "为了在您的浏览器中能查看内嵌的资源您应该开启 web 界面。\n\n如果您只是希望保存信息请使用 \"另存为\" 按钮。"
 
-msgctxt "IDS_DOWNLOAD_SUBS"
-msgid "Download subtitles"
-msgstr "下载字幕"
+msgctxt "IDS_SUBTITLES_DOWNLOAD"
+msgid "Download Subtitles..."
+msgstr "下载字幕..."
+
+msgctxt "IDS_SUBTITLES_UPLOAD"
+msgid "Upload Subtitles..."
+msgstr "上传字幕..."
 
 msgctxt "IDS_SUBFILE_DELAY"
 msgid "Delay (ms):"
@@ -810,6 +815,18 @@ msgstr "减少图像撕裂但是会阻碍工具栏的显示。"
 msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Reduces tearing by bypassing the default VSync built into D3D."
 msgstr "通过绕过内建于 D3D 中的垂直同步来减少撕裂现象。"
+
+msgctxt "IDS_NAVIGATE_TUNERSCAN"
+msgid "Tuner scan"
+msgstr "调谐器扫描"
+
+msgctxt "IDS_SUBTITLES_ERROR"
+msgid "Subtitles are not loaded or unsupported renderer."
+msgstr "字幕未被载入或是不支持的渲染器。"
+
+msgctxt "IDC_CACHESHADERS"
+msgid "Stores compiled shaders in local AppData to speed up load time."
+msgstr "将已编译的着色器存储在本地的 AppData 目录，以此提高加载速度。"
 
 msgctxt "IDS_SRC_VTS"
 msgid "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"
@@ -948,12 +965,12 @@ msgid "&Organize Favorites..."
 msgstr "管理收藏夹(&O)..."
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
-msgid "Shuffle"
-msgstr "乱序"
+msgid "Sh&uffle"
+msgstr "乱序(&U)"
 
 msgctxt "IDS_PLAYLIST_SHOWFOLDER"
-msgid "Open file location"
-msgstr "打开文件位置"
+msgid "Ope&n file location"
+msgstr "打开文件位置(&N)"
 
 msgctxt "IDS_CONTROLS_CLOSING"
 msgid "Closing..."
@@ -1036,8 +1053,8 @@ msgid "Zoom To Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
 msgstr "缩放至超宽屏幕,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_PLAYLIST_HIDEFS"
-msgid "Hide on Fullscreen"
-msgstr "在全屏幕中隐藏"
+msgid "&Hide on Fullscreen"
+msgstr "在全屏幕中隐藏(&H)"
 
 msgctxt "IDS_CONTROLS_STOPPED"
 msgid "Stopped"
@@ -1224,8 +1241,8 @@ msgid "+%d%%"
 msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
-msgid "Add containing folder"
-msgstr "添加子文件夹"
+msgid "Add containing &folder"
+msgstr "添加子文件夹(&F)"
 
 msgctxt "IDS_HW_INDICATOR"
 msgid "[H/W]"
@@ -1427,13 +1444,13 @@ msgctxt "IDS_OSD_IMAGE_SAVED"
 msgid "Image saved successfully"
 msgstr "已成功保存图像"
 
-msgctxt "IDS_AG_LOAD_SUBTITLE"
-msgid "Load Subtitle"
-msgstr "载入字幕"
+msgctxt "IDS_AG_LOAD_SUBTITLES"
+msgid "Load Subtitles..."
+msgstr "载入字幕..."
 
-msgctxt "IDS_AG_SAVE_SUBTITLE"
-msgid "Save Subtitle"
-msgstr "保存字幕"
+msgctxt "IDS_AG_SAVE_SUBTITLES"
+msgid "Save Subtitles..."
+msgstr "保存字幕..."
 
 msgctxt "IDS_AG_PROPERTIES"
 msgid "Properties"
@@ -1560,8 +1577,8 @@ msgid "Thumbnails saved successfully"
 msgstr "成功保存缩略图"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
-msgid "&Video Track"
-msgstr "视频轨(&V)"
+msgid "Vide&o Track"
+msgstr "视频轨(&O)"
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
 msgid "Video Ang&le"
@@ -1796,8 +1813,8 @@ msgid "PnS Dec Height"
 msgstr "PnS Dec 高度"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
-msgid "Downloading subtitle(s), please wait."
-msgstr "正在下载字幕, 请稍候。"
+msgid "Downloading [%s] \"%s\""
+msgstr "正在下载 [%s] \"%s\""
 
 msgctxt "IDS_SUBDL_DLG_PARSING"
 msgid "Parsing list..."
@@ -2059,11 +2076,11 @@ msgctxt "IDS_DVB_CHANNEL_ENCRYPTION"
 msgid "Encrypted"
 msgstr "加密"
 
-msgctxt "IDS_DVB_CHANNEL_ENCRYPTED"
+msgctxt "IDS_YES"
 msgid "Yes"
 msgstr "是"
 
-msgctxt "IDS_DVB_CHANNEL_NOT_ENCRYPTED"
+msgctxt "IDS_NO"
 msgid "No"
 msgstr "否"
 
@@ -2215,14 +2232,6 @@ msgctxt "IDS_THUMB_IMAGE_WIDTH"
 msgid "Image width"
 msgstr "图像宽度"
 
-msgctxt "IDS_PPSDB_URLCORRECT"
-msgid "The URL appears to be correct!"
-msgstr "URL 看上去不正确！"
-
-msgctxt "IDS_PPSDB_PROTOCOLERR"
-msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
-msgstr "协议版本不匹配, 请升级您的播放器或选择一个不同的地址！"
-
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
 msgstr "高宽比"
@@ -2316,8 +2325,8 @@ msgid "The thumbnails would be too small, impossible to create the file.\n\nTry 
 msgstr "缩略图会太小, 而无法创建该文件。\n\n请尝试调低缩略图的数量或增加总大小。"
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
-msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "要载入字幕,您需要更改视频渲染器类型然后重新打开文件。\n- DirectShow: VMR-7/VMR-9 (未渲染)、EVR (CP)、同步、madVR 或 Haali\n- RealMedia: 用于 RealMedia 的特殊渲染器, 或通过 DirectShow 打开它\n- QuickTime: 用于 QuickTime 的 DX7 或 DX9 渲染器\n- ShockWave: n/a"
+msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+msgstr "要载入字幕,您需要更改视频渲染器类型然后重新打开文件。\n- DirectShow: VMR-9 (未渲染)、EVR (CP)、同步、madVR 或 Haali\n- RealMedia: 用于 RealMedia 的特殊渲染器, 或通过 DirectShow 打开它\n- QuickTime: 用于 QuickTime 的 DX7 或 DX9 渲染器\n- ShockWave: n/a"
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
@@ -2328,8 +2337,8 @@ msgid "Aspect Ratio: %ld:%ld"
 msgstr "高宽比: %ld:%ld"
 
 msgctxt "IDS_MAINFRM_69"
-msgid "Aspect Ratio: Default"
-msgstr "高宽比: 默认"
+msgid "Aspect Ratio: Default (DAR)"
+msgstr "高宽比: 默认(DAR)"
 
 msgctxt "IDS_MAINFRM_70"
 msgid "Audio delay: %I64d ms"
@@ -2366,10 +2375,6 @@ msgstr "放弃打开"
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
 msgstr "渲染文件失败"
-
-msgctxt "IDS_PPSDB_BADURL"
-msgid "Bad URL, could not locate subtitle database there!"
-msgstr "错误的 URL，无法在该位置找到字幕数据库！"
 
 msgctxt "IDS_AG_CHAPTER2"
 msgid "Chapter: "
@@ -2564,8 +2569,8 @@ msgid "Volume boost Max"
 msgstr "最大音量推进"
 
 msgctxt "IDS_USAGE"
-msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/randomize\tRandomize the playlist\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tUse MPC-HC as slave\n/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding\n\t\tOnly available for CUVID and DXVA2 (copy-back)\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "用法: mpc-hc.exe \"路径名\" [开关]\n\n\"路径名\"\t\t表示要载入的主文件或目录 (允许通配符, \"-\" 表示标准输入)\n/dub \"配音名\"\t载入一个附加的音频文件\n/dubdelay \t\"文件\"载入音频文件延迟 XXms (如果该文件包含 \"...DELAY XXms...\")\n/d3dfs\t\t在 D3D 全屏幕模式开始渲染\n/sub \"字幕名\"\t载入一个附加的字幕文件\n/filter \"滤镜名\"\t从一个动态链接库中载入 DirectShow 滤镜 (允许通配符)\n/dvd\t\t运行 DVD 模式, \"路径名\" 表示 dvd 文件夹 (可选)\n/dvdpos T#C\t从标题 T, 章节 C 开始播放\n/dvdpos T#hh:mm\t从标题 T, 位置 hh:mm:ss 开始播放\n/cd\t\t从一张音频 CD 或 (S)VCD 中载入所有音轨, \"路径名\" 表示驱动器路径 (可选)\n/device\t\t打开默认的视频设备\n/open\t\t打开文件, 不自动开始回放\n/play\t\t在播放器启动后播放文件\n/close\t\t回放结束后关闭播放器 (仅能和 /play 同时使用)\n/shutdown\t回放结束后关闭操作系统\n/standby\t\t回放结束后将操作系统设置为待机模式\n/hibernate\t回放结束后休眠操作系统\n/logoff\t\t回放结束后注销\n/lock\t\t回放结束后锁定计算机\n/monitoroff\t回放结束后关闭显示器\n/playnext\t\t回放结束后打开文件夹中的下一个文件\n/fullscreen\t以全屏幕模式启动\n/minimized\t以最小化模式启动\n/new\t\t启动一个新的播放器实例\n/add\t\t添加 \"路径名\" 到播放列表中,可以和 /open 与 /play 组合使用\n/randomize\t随机的播放列表\n/regvid\t\t为视频文件创建文件关联\n/regaud\t\t为音频文件创建文件关联\n/regpl\t\t为播放列表创建文件关联\n/regall\t\t为所有支持的文件类型创建文件关联\n/unregall\t\t移除所有文件关联\n/start ms\t\t在 \"ms\" (= 毫秒) 处开始播放\n/startpos hh:mm:ss\t在位置 hh:mm:ss 开始播放\n/fixedsize w,h\t设置一个固定的窗口大小\n/monitor N\t在显示器 N 上启动, N 从 1 开始\n/audiorenderer N\t使用音频渲染器 N 启动, N 从 1 开始\n\t\t(请查阅 \"输出\" 设置)\n/shaderpreset \"Pr\"\t开始使用 \"Pr\" 着色器预设\n/pns \"name\"\t指定要使用的全景和扫描预设名称\n/iconsassoc\t重新关联格式图标\n/nofocus\t\t在后台打开 MPC-HC\n/webport N\t在指定端口启动 web 界面\n/debug\t\t在 OSD 上显示调试信息\n/nocrashreporter\t关闭崩溃报告\n/slave \"hWnd\"\t使用MPC-HC为从\n/hwgpu \"index\"\t设置硬件解码用的GPU型号的索引\n\t\t仅适用于CUVID和DXVA2（copy-back）\n/reset\t\t恢复默认设置\n/help /h /?\t显示此命令行开关帮助对话框\n"
+msgid "Usage: mpc-hc.exe \"pathname\" [switches]"
+msgstr "用法: mpc-hc.exe \"路径名称\" [开关参数]"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -2650,14 +2655,6 @@ msgstr "VidFrm 切换缩放"
 msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
 msgstr "开启所有滤镜(&E)"
-
-msgctxt "IDS_NAVIGATE_TUNERSCAN"
-msgid "Tuner scan"
-msgstr "调谐器扫描"
-
-msgctxt "IDS_SUBTITLES_ERROR"
-msgid "Subtitles are not loaded or unsupported renderer."
-msgstr "字幕未被载入或是不支持的渲染器。"
 
 msgctxt "IDS_LOGO_AUTHOR"
 msgid "Author unknown. Contact us if you made this logo!"
@@ -3407,10 +3404,6 @@ msgctxt "IDS_SCREENSHOT_ERROR_OVERLAY"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the Overlay Mixer video renderer.\nChange the video renderer in MPC's output options and reopen the file."
 msgstr "\"保存图像\" 和 \"保存缩略图\" 功能无法工作于覆盖合成视频渲染器下。\n请在MPC的输出选项中更换视频渲染器,然后重新打开文件。"
 
-msgctxt "IDS_SUBDL_DLG_CONNECT_ERROR"
-msgid "Cannot connect to the online subtitles database."
-msgstr "无法连接到在线字幕数据库。"
-
 msgctxt "IDS_MB_SHOW_EDL_EDITOR"
 msgid "Do you want to activate the EDL editor?"
 msgstr "您要激活 EDL 编辑器吗？"
@@ -3602,4 +3595,372 @@ msgstr "VSFilter / DirectVobSub"
 msgctxt "IDS_SUBTITLE_RENDERER_XY_SUB_FILTER"
 msgid "XySubFilter"
 msgstr "XySubFilter"
+
+msgctxt "IDS_SUBDL_DLG_PROVIDER_COL"
+msgid "Provider"
+msgstr "提供者"
+
+msgctxt "IDS_SUBDL_DLG_HI_COL"
+msgid "Hearing Impaired"
+msgstr "听障者"
+
+msgctxt "IDS_SUBDL_DLG_DOWNLOADS_COL"
+msgid "Downloads"
+msgstr "下载量"
+
+msgctxt "IDS_SUBDL_DLG_SCORE_COL"
+msgid "Score"
+msgstr "评分"
+
+msgctxt "IDS_SUBDL_DLG_FAILED"
+msgid "Online subtitles search failed."
+msgstr "在线字幕搜索失败。"
+
+msgctxt "IDS_SUBDL_DLG_ABORTED"
+msgid "Online subtitles search aborted."
+msgstr "在线字幕搜索已中止。"
+
+msgctxt "IDS_SUBDL_DLG_FOUND"
+msgid "Online subtitles search completed, %d subtitles found."
+msgstr "在线字幕搜索已完成，找到 %d 个字幕。"
+
+msgctxt "IDS_SUBDL_DLG_NOTFOUND"
+msgid "Online subtitles search completed, no subtitles found."
+msgstr "在线字幕搜索已完成，未找到匹配字幕。"
+
+msgctxt "IDS_SUBDL_DLG_TITLE"
+msgid "Download subtitles"
+msgstr "下载字幕"
+
+msgctxt "IDS_SUBDL_DLG_SEARCHING"
+msgid "Searching for subtitles online, please wait..."
+msgstr "正在在线搜索字幕，请稍后.."
+
+msgctxt "IDS_SUBDL_DLG_ABORTING"
+msgid "Online subtitles search aborting..."
+msgstr "正在中止在线字幕搜索..."
+
+msgctxt "IDS_SUBUL_DLG_USERNAME_COL"
+msgid "Username"
+msgstr "用户名"
+
+msgctxt "IDS_SUBUL_DLG_STATUS_COL"
+msgid "Status"
+msgstr "状态"
+
+msgctxt "IDS_SUBUL_DLG_STATUS_READY"
+msgid "Ready..."
+msgstr "就绪..."
+
+msgctxt "IDS_SUBUL_DLG_STATUS_NOTIMPLEMENTED"
+msgid "Not implemented."
+msgstr "尚未实现。"
+
+msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADING"
+msgid "Uploading..."
+msgstr "上传中..."
+
+msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADED"
+msgid "Subtitles uploaded successfully."
+msgstr "字幕上传成功。"
+
+msgctxt "IDS_SUBUL_DLG_STATUS_FAILED"
+msgid "Subtitles upload failed."
+msgstr "字幕上传失败。"
+
+msgctxt "IDS_SUBUL_DLG_STATUS_ABORTED"
+msgid "Subtitles upload aborted."
+msgstr "字幕上传已中止。"
+
+msgctxt "IDS_SUBUL_DLG_STATUS_ALREADYEXISTS"
+msgid "Subtitles already exist."
+msgstr "字幕已存在。"
+
+msgctxt "IDS_SUBUL_DLG_UPLOADING"
+msgid "Uploading subtitles, please wait..."
+msgstr "正在上传字幕，请稍候..."
+
+msgctxt "IDS_SUBUL_DLG_UPLOADED"
+msgid "Upload finished."
+msgstr "上传完成。"
+
+msgctxt "IDS_SUBUL_DLG_ABORTED"
+msgid "Upload aborted."
+msgstr "上传中止。"
+
+msgctxt "IDS_SUBUL_DLG_FAILED"
+msgid "Upload failed."
+msgstr "上传失败。"
+
+msgctxt "IDS_SUBMENU_DOWNLOAD"
+msgid "Download && Open"
+msgstr "下载并打开"
+
+msgctxt "IDS_SUBMENU_SETUP"
+msgid "Setup"
+msgstr "设置"
+
+msgctxt "IDS_SUBMENU_RESET"
+msgid "Reset"
+msgstr "重置"
+
+msgctxt "IDS_SUBMENU_MOVEUP"
+msgid "Move Up"
+msgstr "向上移动"
+
+msgctxt "IDS_SUBMENU_MOVEDOWN"
+msgid "Move Down"
+msgstr "向下移动"
+
+msgctxt "IDS_SUBMENU_OPENURL"
+msgid "Open URL"
+msgstr "打开链接"
+
+msgctxt "IDS_SUBPP_DLG_LANGUAGES_COL"
+msgid "Languages"
+msgstr "语言"
+
+msgctxt "IDS_SUBPP_DLG_LANGUAGES_ERROR"
+msgid "ERROR: Internet connection could not be established."
+msgstr "错误：无法建立网络连接。"
+
+msgctxt "IDS_SUB_CREDENTIALS_TITLE"
+msgid "Enter website credentials"
+msgstr "输入网站认证信息"
+
+msgctxt "IDS_SUB_CREDENTIALS_MSG"
+msgid "Enter your credentials to connect to: "
+msgstr "输入认证信息以连接到:"
+
+msgctxt "IDS_ASPECT_RATIO_SAR"
+msgid "Aspect Ratio: Assume square pixels (SAR)"
+msgstr "高宽比: 猜测是方形像素 (SAR)"
+
+msgctxt "IDS_SUBDL_DLG_DOWNLOADED"
+msgid "Downloaded [%s] \"%s\""
+msgstr "已下载 [%s] \"%s\""
+
+msgctxt "IDS_SUBUL_DLG_TITLE"
+msgid "Upload subtitles"
+msgstr "上传字幕"
+
+msgctxt "IDS_SUBUL_DLG_CONFIRM"
+msgid "Are you sure you want to upload the subtitle file \"%s\"?"
+msgstr "您确认要上传字幕文件 \"%s\"?"
+
+msgctxt "IDS_SUBPP_DLG_FETCHING_LANGUAGES"
+msgid "Fetching supported languages..."
+msgstr "正在获取受支持的语言..."
+
+msgctxt "IDS_SUB_CREDENTIALS_ERROR"
+msgid "Failed to log in on \"%S\" with username \"%S\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
+msgstr "无法登录 \"%S\" 当前用户名 \"%S\"。\n\n请输入正确的用户名和密码或重置凭据后作为匿名用户登录。"
+
+msgctxt "IDS_SUB_AUTODL_IGNORE_TOOLTIP"
+msgid "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\nFor example, type: \"private dir\\videos|work\\\"."
+msgstr "当路径中包含有任何这里所输入的模式时所有媒体文件的自动搜索和下载的功能将被禁用。\n例如，类型：\"私有目录\\视频|工作\\\"。"
+
+msgctxt "IDS_CMD_PATHNAME"
+msgid "\"pathname\"\tThe main file or directory to be loaded\n\t\t(wildcards allowed, \"-\" denotes standard input)"
+msgstr "\"路径名称\"\t要加载的主文件或文件夹\n\t\t(允许使用通配符，“-”表示标准输入)"
+
+msgctxt "IDS_CMD_DUB"
+msgid "/dub \"dubname\"\tLoad an additional audio file"
+msgstr "/dub \"配音文件名\"\t加载额外的音频文件"
+
+msgctxt "IDS_CMD_DUBDELAY"
+msgid "/dubdelay \"file\"\tLoad an additional audio file shifted with XXms\n\t\t(if the file contains \"...DELAY XXms...\")"
+msgstr "/dubdelay \"文件\"\t加载额外的音频文件并延迟 XXms\n\t\t(若文件名包含“...DELAY XXms...”字样)"
+
+msgctxt "IDS_CMD_D3DFS"
+msgid "/d3dfs\t\tStart rendering in D3D fullscreen mode"
+msgstr "/d3dfs\t\t以 D3D 全屏模式开始渲染"
+
+msgctxt "IDS_CMD_SUB"
+msgid "/sub \"subname\"\tLoad an additional subtitle file"
+msgstr "/sub \"字幕文件名\"\t加载额外的字幕文件"
+
+msgctxt "IDS_CMD_FILTER"
+msgid "/filter \"filtername\"\tLoad DirectShow filters from a dynamic link library (wildcards allowed)"
+msgstr "/filter \"滤镜文件名\"\t加载动态链接库中的 DirectShow 滤镜 (允许使用通配符)"
+
+msgctxt "IDS_CMD_DVD"
+msgid "/dvd\t\tRun in DVD mode, \"pathname\" means the DVD folder (optional)"
+msgstr "/dvd\t\t以 DVD 模式运行，“路径名称”表示 DVD 根目录 (可选)"
+
+msgctxt "IDS_CMD_DVDPOS_TC"
+msgid "/dvdpos T#C\tStart playback at title T, chapter C"
+msgstr "/dvdpos T#C\t开始播放第 T 标题，第 C 章节"
+
+msgctxt "IDS_CMD_DVDPOS_TIME"
+msgid "/dvdpos T#P\tStart playback at title T, position P (hh:mm:ss)"
+msgstr "/dvdpos T#P\t开始播放标题 T、位置 P (hh:mm:ss)"
+
+msgctxt "IDS_CMD_CD"
+msgid "/cd\t\tLoad all the tracks of an Audio CD or (S)VCD,\n\t\t\"pathname\" means the drive path (optional)"
+msgstr "/cd\t\t加载音频 CD 或 (S)VCD 的所有轨道，\n\t\t“路径名称”表示驱动器路径 (可选)"
+
+msgctxt "IDS_CMD_DEVICE"
+msgid "/device\t\tOpen the default video device"
+msgstr "/device\t\t打开默认视频设备"
+
+msgctxt "IDS_CMD_OPEN"
+msgid "/open\t\tOpen the file, don't automatically start playback"
+msgstr "/open\t\t只打开文件，但不自动开始播放"
+
+msgctxt "IDS_CMD_PLAY"
+msgid "/play\t\tStart playing the file as soon the player is launched"
+msgstr "/play\t\t启动播放器并开始播放文件"
+
+msgctxt "IDS_CMD_CLOSE"
+msgid "/close\t\tClose the player after playback (only works when used with /play)"
+msgstr "/close\t\t播放完毕后关闭播放器 (仅当与 /play 同时使用时生效)"
+
+msgctxt "IDS_CMD_SHUTDOWN"
+msgid "/shutdown\tShutdown the operating system after playback"
+msgstr "/shutdown\t播放完毕后关闭操作系统"
+
+msgctxt "IDS_CMD_STANDBY"
+msgid "/standby\t\tPut the operating system in standby mode after playback"
+msgstr "/standby\t\t播放完毕后将操作系统置于待机模式"
+
+msgctxt "IDS_CMD_HIBERNATE"
+msgid "/hibernate\tHibernate operating system after playback"
+msgstr "/hibernate\t播放完毕后将操作系统置于休眠模式"
+
+msgctxt "IDS_CMD_LOGOFF"
+msgid "/logoff\t\tLog off after playback"
+msgstr "/logoff\t\t播放完毕后注销"
+
+msgctxt "IDS_CMD_LOCK"
+msgid "/lock\t\tLock workstation after playback"
+msgstr "/lock\t\t播放完毕后锁定工作站"
+
+msgctxt "IDS_CMD_MONITOROFF"
+msgid "/monitoroff\tTurn off the monitor after playback"
+msgstr "/monitoroff\t播放完毕后关闭显示器"
+
+msgctxt "IDS_CMD_PLAYNEXT"
+msgid "/playnext\t\tOpen next file in the folder after playback"
+msgstr "/playnext\t\t播放完毕后打开文件夹中的下一个文件"
+
+msgctxt "IDS_CMD_FULLSCREEN"
+msgid "/fullscreen\tStart in fullscreen mode"
+msgstr "/fullscreen\t以全屏模式启动"
+
+msgctxt "IDS_CMD_MINIMIZED"
+msgid "/minimized\tStart in minimized mode"
+msgstr "/minimized\t以最小化模式启动"
+
+msgctxt "IDS_CMD_NEW"
+msgid "/new\t\tUse a new instance of the player"
+msgstr "/new\t\t使用新的播放器实例"
+
+msgctxt "IDS_CMD_ADD"
+msgid "/add\t\tAdd \"pathname\" to playlist, can be combined with /open and /play"
+msgstr "/add\t\t将“路径名称”添加到播放列表，可与 /open 及 /play 组合使用"
+
+msgctxt "IDS_CMD_RANDOMIZE"
+msgid "/randomize\tRandomize the playlist"
+msgstr "/randomize\t播放列表随机排序"
+
+msgctxt "IDS_CMD_REGVID"
+msgid "/regvid\t\tCreate file associations for video files"
+msgstr "/regvid\t\t创建视频文件的文件关联"
+
+msgctxt "IDS_CMD_REGAUD"
+msgid "/regaud\t\tCreate file associations for audio files"
+msgstr "/regaud\t\t创建音频文件的文件关联"
+
+msgctxt "IDS_CMD_REGPL"
+msgid "/regpl\t\tCreate file associations for playlist files"
+msgstr "/regpl\t\t创建播放列表文件的文件关联"
+
+msgctxt "IDS_CMD_REGALL"
+msgid "/regall\t\tCreate file associations for all supported file types"
+msgstr "/regall\t\t为所有受支持的文件创建文件关联"
+
+msgctxt "IDS_CMD_UNREGALL"
+msgid "/unregall\t\tRemove all file associations"
+msgstr "/unregall\t\t移除所有文件关联"
+
+msgctxt "IDS_CMD_START"
+msgid "/start ms\t\tStart playing at \"ms\" (= milliseconds)"
+msgstr "/start ms\t\t从第 ms 毫秒开始播放"
+
+msgctxt "IDS_CMD_STARTPOS"
+msgid "/startpos hh:mm:ss\tStart playing at position hh:mm:ss"
+msgstr "/startpos hh:mm:ss\t从 hh:mm:ss 位置开始播放"
+
+msgctxt "IDS_CMD_FIXEDSIZE"
+msgid "/fixedsize w,h\tSet a fixed window size"
+msgstr "/fixedsize w,h\t设置固定的窗口尺寸"
+
+msgctxt "IDS_CMD_MONITOR"
+msgid "/monitor N\tStart player on monitor N, where N starts from 1"
+msgstr "/monitor N\t在第 N 个显示器上启动播放器，其中 N 从 1 开始计数"
+
+msgctxt "IDS_CMD_AUDIORENDERER"
+msgid "/audiorenderer N\tStart using audiorenderer N, where N starts from 1 (see \"Output\" settings)"
+msgstr "/audiorenderer N\t启动时使用第 N 个音频渲染器，其中 N 从 1 开始计数 (参见“输出”设置项)"
+
+msgctxt "IDS_CMD_SHADERPRESET"
+msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
+msgstr "/shaderpreset \"Pr\"\t启动时使用着色器预设“Pr”"
+
+msgctxt "IDS_CMD_PNS"
+msgid "/pns \"name\"\tSpecify Pan&Scan preset name to use"
+msgstr "/pns \"名称\"\t指定要使用的 Pan&Scan 预设名称"
+
+msgctxt "IDS_CMD_ICONASSOC"
+msgid "/iconsassoc\tReassociate format icons"
+msgstr "/iconsassoc\t重新关联格式图标"
+
+msgctxt "IDS_CMD_NOFOCUS"
+msgid "/nofocus\t\tOpen MPC-HC in background"
+msgstr "/nofocus\t\t在后台打开 MPC-HC"
+
+msgctxt "IDS_CMD_WEBPORT"
+msgid "/webport N\tStart web interface on specified port"
+msgstr "/webport N\t在指定端口启动 web 界面"
+
+msgctxt "IDS_CMD_DEBUG"
+msgid "/debug\t\tShow debug information in OSD"
+msgstr "/debug\t\t在屏幕上（OSD）显示调试信息"
+
+msgctxt "IDS_CMD_NOCRASHREPORTER"
+msgid "/nocrashreporter\tDisable the crash reporter"
+msgstr "/nocrashreporter\t禁用崩溃报告程序"
+
+msgctxt "IDS_CMD_SLAVE"
+msgid "/slave \"hWnd\"\tUse MPC-HC as slave"
+msgstr "/slave \"hWnd\"\t以从模式启动 MPC-HC"
+
+msgctxt "IDS_CMD_HWGPU"
+msgid "/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding.\n\t\tOnly available for CUVID and DXVA2 (copy-back)"
+msgstr "/hwgpu \"索引号\"\t设置要使用的 GPU 的索引号。\n\t\t只对 CUVID 与 DXVA2 (copy-back) 可用"
+
+msgctxt "IDS_CMD_RESET"
+msgid "/reset\t\tRestore default settings"
+msgstr "/reset\t\t恢复默认设置"
+
+msgctxt "IDS_CMD_HELP"
+msgid "/help /h /?\tShow help about command line switches"
+msgstr "/help /h /?\t显示命令行开关的帮助"
+
+msgctxt "IDS_PPAGEADVANCED_SCORE"
+msgid "Threshold value for subtitles score which are going to be automatically downloaded. Higher values means that more accurately matched subtitles will be loaded, lower values could result in incorrect subtitles being loaded, but there is no one perfect value. Pick one that works best for you."
+msgstr "自动下载字幕的评分阈值。该值设置得较高，则将加载匹配更为精确的字幕；设置得较低，则可能导致加载的字幕不正确；但没有一个确定的完美值。请根据实测情况决定该数值。"
+
+msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
+msgid "Audio Delay (ms)"
+msgstr "音频延迟 (ms)"
+
+msgctxt "IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE"
+msgid "Size in pixels of the default toolbar."
+msgstr "默认工具栏的大小，单位为像素。"
+
+msgctxt "IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR"
+msgid "Use legacy toolbar instead of new vectorized one."
+msgstr "使用经典版工具栏，而非新的矢量化图标。"
 

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,6 +22,8 @@
 #include "stdafx.h"
 #include "PinInfoWnd.h"
 #include "../DSUtil/DSUtil.h"
+#include "../mpc-hc/DpiHelper.h"
+#include "../DSUtil/MediaTypeEx.h"
 
 //
 // CPinInfoWnd
@@ -74,17 +76,23 @@ static LRESULT CALLBACK ControlProc(HWND control, UINT message, WPARAM wParam, L
 
 bool CPinInfoWnd::OnActivate()
 {
-    DWORD dwStyle = WS_VISIBLE | WS_CHILD | WS_TABSTOP;
-    CPoint p(10, 10);
+    m_dpi.Override(GetSafeHwnd());
 
-    m_pin_static.Create(_T("Pin:"), dwStyle, CRect(p + CPoint(0, 3), CSize(30, m_fontheight)), this);
-    m_pin_combo.Create(dwStyle | CBS_DROPDOWNLIST, CRect(p + CPoint(30, 0), CSize(450, 200)), this, IDC_PP_COMBO1);
+    DWORD dwStyle = WS_VISIBLE | WS_CHILD | WS_TABSTOP;
+    CPoint p(m_dpi.ScaleX(10), m_dpi.ScaleY(10));
+
+    m_pin_static.Create(_T("Pin:"), dwStyle,
+                        CRect(p + CPoint(m_dpi.ScaleX(0), m_dpi.ScaleY(3)), CSize(m_dpi.ScaleX(30), m_fontheight)),
+                        this);
+    m_pin_combo.Create(dwStyle | CBS_DROPDOWNLIST,
+                       CRect(p + CPoint(m_dpi.ScaleX(30), m_dpi.ScaleY(0)), CSize(m_dpi.ScaleX(520), m_dpi.ScaleY(200))),
+                       this, IDC_PP_COMBO1);
     BeginEnumPins(m_pBF, pEP, pPin) {
         CPinInfo pi;
         if (FAILED(pPin->QueryPinInfo(&pi))) {
             continue;
         }
-        CString str = CString(pi.achName);
+        CString str(pi.achName);
         if (!str.Find(_T("Apple"))) {
             str.Delete(0, 1);
         }
@@ -99,7 +107,7 @@ bool CPinInfoWnd::OnActivate()
     EndEnumPins;
     m_pin_combo.SetCurSel(0);
 
-    p.y += m_fontheight + 20;
+    p.y += m_fontheight + m_dpi.ScaleY(20);
 
     m_info_edit.CreateEx(WS_EX_CLIENTEDGE,
                          _T("EDIT"),
@@ -109,9 +117,8 @@ bool CPinInfoWnd::OnActivate()
                          WS_VSCROLL |
                          WS_HSCROLL |
                          ES_MULTILINE |
-                         ES_AUTOHSCROLL |
                          ES_READONLY,
-                         CRect(p, CSize(480, m_fontheight * 20)),
+                         CRect(p, CSize(m_dpi.ScaleX(550), m_fontheight * 30)),
                          this,
                          IDC_PP_EDIT1);
     m_info_edit.SetLimitText(60000);

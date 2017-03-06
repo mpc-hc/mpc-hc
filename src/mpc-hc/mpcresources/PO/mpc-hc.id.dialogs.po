@@ -1,20 +1,23 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Andy Martino <thegamers788@gmail.com>, 2015
 # Dwi Cahyono <dwexz_cie@yahoo.com>, 2015
 # Hatta.z, 2014
+# Hatta.z, 2014
 # yoga.mardia <made.yoga12@gmail.com>, 2014
 # Reza Septyan .R. <ainofuyuumI@outlook.com>, 2014
-# zk <zamani.karmana@gmail.com>, 2015
-# zk <zamani.karmana@gmail.com>, 2015
+# yoga.mardia <made.yoga12@gmail.com>, 2014
+# zk, 2015-2016
+# zk, 2015
+# zk, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-10-19 19:15:11+0000\n"
-"PO-Revision-Date: 2015-11-14 14:30+0000\n"
-"Last-Translator: Dwi Cahyono <dwexz_cie@yahoo.com>\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2016-07-06 21:36+0000\n"
+"Last-Translator: kasper93\n"
 "Language-Team: Indonesian (http://www.transifex.com/mpc-hc/mpc-hc/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -160,7 +163,7 @@ msgstr "Buka"
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Type the address of a movie or audio file (on the Internet or your computer) and the player will open it for you."
-msgstr "Ketik alamat berkas film atau audio (di Internet atau komputer anda) dan pemutar akan membukanya untuk anda."
+msgstr "Ketik alamat berkas film atau audio (di Internet atau komputer Anda) dan pemutar akan membukanya untuk Anda."
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Open:"
@@ -195,8 +198,8 @@ msgid "About"
 msgstr "Tentang"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2015 see Authors.txt"
-msgstr "Hak Cipta 2002-2015 lihat Authors.txt"
+msgid "Copyright © 2002-2017 see Authors.txt"
+msgstr "Hak Cipta 2002-2017 lihat Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -424,15 +427,19 @@ msgstr "Ulangi selamanya"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC1"
 msgid "time(s)"
-msgstr "waktu"
+msgstr "kali"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Repeat mode:"
+msgstr "Mode ulang:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
 msgstr "Setelah Pemutaran"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Output"
-msgstr "Keluaran"
+msgid "Default zoom"
+msgstr "Zum bawaan"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
@@ -520,7 +527,7 @@ msgstr "Tahap tundaan"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "ms"
-msgstr "md"
+msgstr "ms"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Texture settings (open the video again to see the changes)"
@@ -571,8 +578,8 @@ msgid "Warning"
 msgstr "Peringatan"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
-msgstr "Jika anda menimpa dan memfungsikan anti-alias layar penuh pada pengaturan kartu video anda, subtitel tidak akan nampak lebih baik tetapi pastinya akan meningkatkan kinerja CPU anda."
+msgid "If you override and enable fullscreen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
+msgstr "Jika Anda menimpa dan memfungsikan anti-alias layar penuh pada pengaturan kartu video Anda, subtitel tidak akan nampak lebih baik tetapi pastinya akan meningkatkan kinerja CPU Anda."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
 msgid "File extensions"
@@ -620,7 +627,7 @@ msgstr "DirectShow"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK5"
 msgid "Check file extension first"
-msgstr "Periksa dulu berkas ekstensi"
+msgstr "Periksa dulu ekstensi berkas"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Explorer Context Menu"
@@ -712,7 +719,7 @@ msgstr "Buang"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO1"
 msgid "Prefer"
-msgstr "DIutamakan"
+msgstr "Diutamakan"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO2"
 msgid "Block"
@@ -736,7 +743,7 @@ msgstr "Tambah Jenis Media..."
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON6"
 msgid "Add Sub Type..."
-msgstr "Tambah Jenis Subtitel..."
+msgstr "Tambah Sub Jenis..."
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON7"
 msgid "Delete"
@@ -796,7 +803,7 @@ msgstr "Tambah favorit"
 
 msgctxt "IDD_FAVADD_IDC_STATIC"
 msgid "Choose a name for your shortcut:"
-msgstr "Pilih nama untuk pintasan anda:"
+msgstr "Pilih nama untuk pintasan Anda:"
 
 msgctxt "IDD_FAVADD_IDC_CHECK1"
 msgid "Remember position"
@@ -896,7 +903,7 @@ msgstr "Peringatan"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC1"
 msgid "MPC-HC could not render some of the pins in the graph, you may not have the needed codecs or filters installed on the system."
-msgstr "MPC-HC tidak bisa merender beberapa pin pada grafik, anda mungkin tidak memiliki kodek atau filter yang diperlukan terpasang pada sistem."
+msgstr "MPC-HC tidak bisa merender beberapa pin pada grafik, Anda mungkin tidak memiliki kodek atau filter yang diperlukan terpasang pada sistem."
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC2"
 msgid "The following pin(s) failed to find a connectable filter:"
@@ -1072,7 +1079,7 @@ msgstr "Tautan saluran alfa"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "If you would like to use the stand-alone versions of these filters or another replacement, disable them here."
-msgstr "Jika anda ingin menggunakan versi mandiri dari filter ini atau pengganti yang lain, nonfungsikan filter tersebut di sini."
+msgstr "Jika Anda ingin menggunakan versi mandiri dari filter ini atau pengganti yang lain, nonfungsikan filter tersebut di sini."
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Source Filters"
@@ -1127,8 +1134,8 @@ msgid "Audio Renderer"
 msgstr "Perender Audio"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
-msgstr "Pengaturan VMR-7/VMR-9 (renderless) dan EVR (CP)"
+msgid "VMR-9 (renderless) and EVR (CP) settings"
+msgstr "Pengaturan VMR-9 (renderless) dan EVR (CP)"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"
@@ -1190,6 +1197,10 @@ msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
 msgstr "Perender Subtitel"
 
+msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
+msgid "Cache compiled Shaders"
+msgstr "Simpan tembolok kompilasi Shader"
+
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
 msgstr "Dengarkan di port:"
@@ -1235,16 +1246,44 @@ msgid "CGI handlers: (.ext1=path1;.ext2=path2;...)"
 msgstr "Penangan CGI: (.ext1=path1;.ext2=path2;...)"
 
 msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
-msgid "Subtitles available online"
-msgstr "Subtitel tersedia secara daring"
-
-msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
-msgid "Download && Open"
-msgstr "Unduh && Buka"
+msgid "Download subtitles"
+msgstr "Unduh subtitel"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
 msgid "Replace currently loaded subtitles"
 msgstr "Ganti subtitel yang sedang dimuat"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
+msgid "Download"
+msgstr "Unduh"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON1"
+msgid "Refresh"
+msgstr "Segarkan"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON2"
+msgid "Abort"
+msgstr "Batal"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON3"
+msgid "Options"
+msgstr "Opsi"
+
+msgctxt "IDD_SUBTITLEUP_DLG_CAPTION"
+msgid "Upload subtitles"
+msgstr "Unggah subtitel"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDOK"
+msgid "Upload"
+msgstr "Unggah"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
+msgid "Abort"
+msgstr "Batal"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON2"
+msgid "Options"
+msgstr "Opsi"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
@@ -1276,7 +1315,7 @@ msgstr "Setel Ulang"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Update check"
-msgstr "Perika pemutakhiran"
+msgstr "Periksa pemutakhiran"
 
 msgctxt "IDD_PPAGEMISC_IDC_CHECK1"
 msgid "Enable automatic update check"
@@ -1547,16 +1586,28 @@ msgid "Reset"
 msgstr "Setel Ulang"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Online database"
-msgstr "Basis Data Daring"
+msgid "Online search, download and upload subtitles"
+msgstr "Pencarian daring, unduh dan unggah subtitel"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
+msgid "Automatically search and download subtitles if none are found locally"
+msgstr "Otomatis mencari dan mengunduh subtitel jika tidak ada yang ditemukan secara lokal"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
+msgid "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
+msgstr "Lebih memilih subtitel untuk tuna rungu (jika ditandai oleh penyedia subtitel)"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
+msgid "Ignore files containing any of the following word(s):"
+msgstr "Abaikan berkas yang memuat kata-kata berikut:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Base URL of the online subtitle database:"
-msgstr "URL dari basis data subtitel daring:"
+msgid "Languages in order of preference:"
+msgstr "Bahasa dengan urutan sesuai pilihan:"
 
-msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON2"
-msgid "Test"
-msgstr "Uji Coba"
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
+msgid "Automatically upload active subtitles at the end of video playback"
+msgstr "Otomatis mengunggah subtitel aktif di akhir pemutaran video"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
@@ -1644,7 +1695,7 @@ msgstr "PS 3.0"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_STATIC"
 msgid "Advanced Settings, do not edit unless you know what you are doing."
-msgstr "Pengaturan Tingkat Lanjut, jangan sunting kecuali anda tahu apa yang anda lakukan."
+msgstr "Pengaturan Tingkat Lanjut, jangan sunting kecuali Anda tahu apa yang Anda lakukan."
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO1"
 msgid "True"
@@ -1736,7 +1787,7 @@ msgstr "Surel:"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC3"
 msgid "Your email address is optional and will only be used if the developers need to contact you for more information."
-msgstr "Alamat surel anda opsional dan hanya akan digunakan jika pengembang perlu untuk menghubungi anda untuk informasi lebih lanjut."
+msgstr "Alamat surel Anda opsional dan hanya akan digunakan jika pengembang perlu untuk menghubungi Anda untuk informasi lebih lanjut."
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
 msgid "Problem description (use English only):"

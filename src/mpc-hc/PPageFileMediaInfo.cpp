@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2015 see Authors.txt
+ * (C) 2009-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -145,7 +145,7 @@ CPPageFileMediaInfo::CPPageFileMediaInfo(CString path, IFileSourceFilter* pFSF, 
         CString info = MI.Inform().c_str();
 
         if (info.IsEmpty() || !info.Find(_T("Unable to load"))) {
-            info = ResStr(IDS_MEDIAINFO_NO_INFO_AVAILABLE);
+            info.LoadString(IDS_MEDIAINFO_NO_INFO_AVAILABLE);
         }
 
         return info;

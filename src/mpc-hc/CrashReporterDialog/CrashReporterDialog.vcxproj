@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Release Lite|Win32">
       <Configuration>Release Lite</Configuration>
@@ -38,17 +38,11 @@
     <Import Project="..\..\common.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)bin\mpc-hc_x86\CrashReporter\</OutDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Lite|Win32'">
-    <OutDir>$(SolutionDir)bin\mpc-hc_x86 Lite\CrashReporter\</OutDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)bin\mpc-hc_x64\CrashReporter\</OutDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Lite|x64'">
-    <OutDir>$(SolutionDir)bin\mpc-hc_x64 Lite\CrashReporter\</OutDir>
+  <PropertyGroup>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)bin\mpc-hc_x86\CrashReporter\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Lite|Win32'">$(SolutionDir)bin\mpc-hc_x86 Lite\CrashReporter\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)bin\mpc-hc_x64\CrashReporter\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Lite|x64'">$(SolutionDir)bin\mpc-hc_x64 Lite\CrashReporter\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
@@ -76,6 +70,11 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CrashReporterDialog.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\build\BuildConfig.vcxproj">
+      <Project>{981574ae-5a5e-4f27-bdf1-1b841e374cff}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

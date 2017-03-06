@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -24,7 +24,7 @@
 #include "../DSUtil/DSUtil.h"
 #include "../filters/renderer/VideoRenderers/RenderersSettings.h"
 #include "../mpc-hc/VersionInfo.h"
-#include <math.h>
+#include <cmath>
 #include "XySubPicQueueImpl.h"
 #include "XySubPicProvider.h"
 #include <d3d9.h>
@@ -46,11 +46,12 @@ CSubPicAllocatorPresenterImpl::CSubPicAllocatorPresenterImpl(HWND hWnd, HRESULT&
     , m_bDeviceResetRequested(false)
     , m_bPendingResetDevice(false)
     , m_SubtitleTextureLimit(STATIC)
+    , m_bDefaultVideoAngleSwitchAR(false)
 {
     if (!IsWindow(m_hWnd)) {
         hr = E_INVALIDARG;
         if (_pError) {
-            *_pError += "Invalid window handle in ISubPicAllocatorPresenterImpl\n";
+            *_pError += _T("Invalid window handle in ISubPicAllocatorPresenterImpl\n");
         }
         return;
     }
@@ -120,12 +121,14 @@ void CSubPicAllocatorPresenterImpl::InitMaxSubtitleTextureSize(int maxSize, CSiz
 void CSubPicAllocatorPresenterImpl::AlphaBltSubPic(const CRect& windowRect,
                                                    const CRect& videoRect,
                                                    SubPicDesc* pTarget /*= nullptr*/,
-                                                   const double videoStretchFactor /*= 1.0*/)
+                                                   const double videoStretchFactor /*= 1.0*/,
+                                                   int xOffsetInPixels /*= 0*/)
 {
     CComPtr<ISubPic> pSubPic;
     if (m_pSubPicQueue->LookupSubPic(m_rtNow, !IsRendering(), pSubPic)) {
         CRect rcSource, rcDest;
-        if (SUCCEEDED(pSubPic->GetSourceAndDest(windowRect, videoRect, rcSource, rcDest, videoStretchFactor))) {
+        if (SUCCEEDED(pSubPic->GetSourceAndDest(windowRect, videoRect, rcSource, rcDest,
+                                                videoStretchFactor, xOffsetInPixels))) {
             pSubPic->AlphaBlt(rcSource, rcDest, pTarget);
         }
     }
@@ -155,13 +158,17 @@ STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetVideoSize(CSize szVideo, C
 
 STDMETHODIMP_(SIZE) CSubPicAllocatorPresenterImpl::GetVideoSize(bool bCorrectAR) const
 {
-    CSize VideoSize(GetVisibleVideoSize());
+    CSize videoSize(GetVisibleVideoSize());
 
     if (bCorrectAR && m_aspectRatio.cx > 0 && m_aspectRatio.cy > 0) {
-        VideoSize.cx = (LONGLONG(VideoSize.cy) * LONGLONG(m_aspectRatio.cx)) / LONGLONG(m_aspectRatio.cy);
+        videoSize.cx = (LONGLONG(videoSize.cy) * LONGLONG(m_aspectRatio.cx)) / LONGLONG(m_aspectRatio.cy);
     }
 
-    return VideoSize;
+    if (m_bDefaultVideoAngleSwitchAR) {
+        std::swap(videoSize.cx, videoSize.cy);
+    }
+
+    return videoSize;
 }
 
 STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetPosition(RECT w, RECT v)
@@ -205,7 +212,13 @@ STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetTime(REFERENCE_TIME rtNow)
 
 STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetSubtitleDelay(int delayMs)
 {
-    m_rtSubtitleDelay = delayMs * 10000i64;
+    REFERENCE_TIME delay = MILLISECONDS_TO_100NS_UNITS(delayMs);
+    if (m_rtSubtitleDelay != delay) {
+        REFERENCE_TIME oldDelay = m_rtSubtitleDelay;
+        m_rtSubtitleDelay = delay;
+        SetTime(m_rtNow + oldDelay);
+        Paint(false);
+    }
 }
 
 STDMETHODIMP_(int) CSubPicAllocatorPresenterImpl::GetSubtitleDelay() const
@@ -266,15 +279,130 @@ void CSubPicAllocatorPresenterImpl::Transform(CRect r, Vector v[4])
     }
 }
 
-STDMETHODIMP CSubPicAllocatorPresenterImpl::SetVideoAngle(Vector v)
+STDMETHODIMP CSubPicAllocatorPresenterImpl::SetDefaultVideoAngle(Vector v)
 {
-    XForm xform(Ray(Vector(), v), Vector(1, 1, 1), false);
-    if (m_xform != xform) {
-        m_xform = xform;
-        Paint(false);
+    if (m_defaultVideoAngle != v) {
+        constexpr float pi_2 = float(M_PI_2);
+
+        // In theory it should be a multiple of 90°
+        int zAnglePi2 = std::lround(v.z / pi_2);
+        ASSERT(zAnglePi2 * pi_2 == v.z);
+
+        // Normalize the Z angle
+        zAnglePi2 %= 4;
+        if (zAnglePi2 < 0) {
+            zAnglePi2 += 4;
+        }
+        v.z = zAnglePi2 * pi_2;
+
+        // Check if the default rotation change the AR
+        m_bDefaultVideoAngleSwitchAR = (v.z == pi_2 || v.z == 3.0f * pi_2);
+
+        m_defaultVideoAngle = v;
+        UpdateXForm();
         return S_OK;
     }
     return S_FALSE;
+}
+
+STDMETHODIMP CSubPicAllocatorPresenterImpl::SetVideoAngle(Vector v)
+{
+    if (m_videoAngle != v) {
+        m_videoAngle = v;
+        UpdateXForm();
+        return S_OK;
+    }
+    return S_FALSE;
+}
+
+void CSubPicAllocatorPresenterImpl::UpdateXForm()
+{
+    Vector v = m_defaultVideoAngle + m_videoAngle;
+
+    auto normalizeAngle = [](float & rad) {
+        constexpr float twoPi = float(2.0 * M_PI);
+
+        while (rad < 0.0f) {
+            rad += twoPi;
+        }
+        while (rad > twoPi) {
+            rad -= twoPi;
+        }
+    };
+
+    normalizeAngle(v.x);
+    normalizeAngle(v.y);
+    normalizeAngle(v.z);
+
+    CSize AR = GetVideoSize(true);
+    float fARCorrection = m_bDefaultVideoAngleSwitchAR ? float(AR.cx) / AR.cy : 1.0f;
+
+    m_xform = XForm(Ray(Vector(), v), Vector(1.0f / fARCorrection, fARCorrection, 1.0f), false);
+
+    Paint(false);
+}
+
+HRESULT CSubPicAllocatorPresenterImpl::CreateDIBFromSurfaceData(D3DSURFACE_DESC desc, D3DLOCKED_RECT r, BYTE* lpDib) const
+{
+    bool bNeedRotation = !IsEqual(m_defaultVideoAngle.z, 0.0f);
+
+    BITMAPINFOHEADER* bih = (BITMAPINFOHEADER*)lpDib;
+    ZeroMemory(bih, sizeof(BITMAPINFOHEADER));
+    bih->biSize = sizeof(BITMAPINFOHEADER);
+    bih->biWidth = desc.Width;
+    bih->biHeight = desc.Height;
+    bih->biBitCount = 32;
+    bih->biPlanes = 1;
+    bih->biSizeImage = bih->biWidth * bih->biHeight * bih->biBitCount >> 3;
+
+    UINT* pBits;
+    if (bNeedRotation) {
+        pBits = (UINT*)malloc(bih->biSizeImage);
+        if (!pBits) {
+            return E_OUTOFMEMORY;
+        }
+    } else {
+        pBits = (UINT*)(bih + 1);
+    }
+
+    BitBltFromRGBToRGB(bih->biWidth, bih->biHeight,
+                       (BYTE*)pBits, bih->biWidth * bih->biBitCount >> 3, bih->biBitCount,
+                       (BYTE*)r.pBits + r.Pitch * (desc.Height - 1), -r.Pitch, 32);
+
+    if (bNeedRotation) {
+        constexpr float pi_2 = float(M_PI_2);
+
+        if (m_bDefaultVideoAngleSwitchAR) {
+            std::swap(bih->biWidth, bih->biHeight);
+        }
+
+        std::function<size_t(UINT, UINT)> convCoordinates;
+        if (IsEqual(m_defaultVideoAngle.z, pi_2)) {
+            convCoordinates = [desc](UINT x, UINT y) {
+                return x * desc.Height + desc.Height - 1 - y;
+            };
+        } else if (IsEqual(m_defaultVideoAngle.z, 2 * pi_2)) {
+            convCoordinates = [desc](UINT x, UINT y) {
+                return desc.Width - 1 - x + (desc.Height - 1 - y) * desc.Width;
+            };
+        } else {
+            ASSERT(IsEqual(m_defaultVideoAngle.z, 3 * pi_2));
+            convCoordinates = [desc](UINT x, UINT y) {
+                return (desc.Width - 1 - x) * desc.Height + y;
+            };
+        }
+
+        UINT* pBitsDest = (UINT*)(bih + 1);
+        for (UINT x = 0; x < desc.Width; x++) {
+            for (UINT y = 0; y < desc.Height; y++) {
+                pBitsDest[convCoordinates(x, y)] = pBits[x + y * desc.Width];
+            }
+        }
+
+        free(pBits);
+    }
+
+    return S_OK;
 }
 
 // ISubRenderOptions
@@ -495,7 +623,9 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::Connect(ISubRenderProvider* subtitle
         if (!m_pAllocator) {
             std::mutex mutexAllocator;
             std::unique_lock<std::mutex> lock(mutexAllocator);
-            if (!m_condAllocatorReady.wait_for(lock, std::chrono::seconds(1), [&]() {return !!m_pAllocator;})) {
+            if (!m_condAllocatorReady.wait_for(lock, std::chrono::seconds(1), [&]() {
+            return !!m_pAllocator;
+        })) {
                 // Return early, CXySubPicQueueNoThread ctor would fail anyway.
                 ASSERT(FALSE);
                 return E_FAIL;

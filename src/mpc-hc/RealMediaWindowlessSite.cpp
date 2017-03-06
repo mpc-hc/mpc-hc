@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2014, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,13 +20,19 @@
  */
 
 #include "stdafx.h"
-#include "mplayerc.h"
-#include <math.h>
-#include <atlbase.h>
-#include <atlcoll.h>
-#include <InitGuid.h>
 #include "RealMediaWindowlessSite.h"
 #include "DSUtil.h"
+
+#include "realmedia/pncom.h"
+#include "realmedia/pnresult.h"
+#include "realmedia/pntypes.h"
+#include "realmedia/pnwintyp.h"
+#include "realmedia/rmacomm.h"
+#include "realmedia/rmaevent.h"
+#include "realmedia/rmapckts.h"
+#include "realmedia/rmasite2.h"
+#include "realmedia/rmavsurf.h"
+#include "realmedia/rmawin.h"
 
 using namespace DSObjects;
 

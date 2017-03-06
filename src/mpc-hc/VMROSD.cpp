@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -371,7 +371,7 @@ void CVMROSD::UpdateSeekBarPos(CPoint point)
     }
 
     if (m_pWnd) {
-        AfxGetApp()->GetMainWnd()->PostMessage(WM_HSCROLL, MAKEWPARAM((short)m_llSeekPos, SB_THUMBTRACK), (LPARAM)m_pWnd->m_hWnd);
+        AfxGetApp()->GetMainWnd()->PostMessage(WM_HSCROLL, NULL, reinterpret_cast<LPARAM>(m_pWnd->m_hWnd));
     }
 }
 

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,15 +21,16 @@
 
 #pragma once
 
-#include <afxcview.h>
-#include <vector>
-#include <map>
-#include "EventDispatcher.h"
 #include "PlayerBar.h"
 #include "PlayerListCtrl.h"
-#include "../Subtitles/RTS.h"
+#include "../Subtitles/STS.h"
 #include "../Subtitles/VobSubFile.h"
+#include <map>
+#include <vector>
 
+
+class CMainFrame;
+interface ISubStream;
 
 // CPlayerSubresyncBar
 
@@ -88,10 +89,10 @@ private:
     };
     MODE m_mode;
 
-    std::multimap<int, size_t> m_newStartsIndex;
+    std::multimap<REFERENCE_TIME, size_t> m_newStartsIndex;
     struct SubTime {
-        int orgStart, newStart, orgEnd, newEnd;
-        std::multimap<int, size_t>::iterator itIndex;
+        REFERENCE_TIME orgStart, newStart, orgEnd, newEnd;
+        std::multimap<REFERENCE_TIME, size_t>::iterator itIndex;
     };
     std::vector<SubTime> m_subtimes;
 
@@ -99,14 +100,11 @@ private:
     CAtlArray<CVobSubFile::SubPos> m_vobSub;
 
     struct DisplayData {
-        int tStart, tPrevStart, tEnd, tPrevEnd;
+        REFERENCE_TIME tStart, tPrevStart, tEnd, tPrevEnd;
         int flags;
     };
     std::vector<DisplayData> m_displayData;
     CString m_displayBuffer;
-
-    int GetStartTime(int iItem);
-    int GetEndTime(int iItem);
 
     void UpdatePreview();
 
@@ -118,14 +116,14 @@ private:
         TSEP  = 0x80000000
     };
 
-    void SetSTS0(int& start, int end, int ti0);
-    void SetSTS1(int& start, int end, int ti0, double m, int i0);
+    void SetSTS0(int& start, int end, REFERENCE_TIME ti0);
+    void SetSTS1(int& start, int end, REFERENCE_TIME ti0, double m, int i0);
 
     void GetCheck(int iItem, bool& fStartMod, bool& fEndMod, bool& fStartAdj, bool& fEndAdj) const;
     void SetCheck(int iItem, bool fStart, bool fEnd);
 
-    bool ModStart(int iItem, int t, bool fReset = false);
-    bool ModEnd(int iItem, int t, bool fReset = false);
+    bool ModStart(int iItem, REFERENCE_TIME t, bool fReset = false);
+    bool ModEnd(int iItem, REFERENCE_TIME t, bool fReset = false);
 
     void OnGetDisplayInfoTextSub(LV_ITEM* pItem);
     void OnGetDisplayInfoVobSub(LV_ITEM* pItem);

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,18 +20,18 @@
  */
 
 #include "stdafx.h"
-#include "mplayerc.h"
 #include "AppSettings.h"
-#include "FGFilter.h"
-#include "FileAssoc.h"
 #include "CrashReporter.h"
-#include "VersionInfo.h"
+#include "FGFilter.h"
+#include "FakeFilterMapper2.h"
+#include "FileAssoc.h"
 #include "SysVersion.h"
-#include "WinAPIUtils.h"
 #include "PathUtils.h"
 #include "Translations.h"
 #include "UpdateChecker.h"
+#include "WinAPIUtils.h"
 #include "moreuuids.h"
+#include "mplayerc.h"
 #include <mvrInterfaces.h>
 #include "../thirdparty/sanear/sanear/src/Factory.h"
 
@@ -91,6 +91,7 @@ CAppSettings::CAppSettings()
     , nBalance(0)
     , nLoops(1)
     , fLoopForever(false)
+    , eLoopMode(LoopMode::PLAYLIST)
     , fRememberZoomLevel(true)
     , nAutoFitFactor(75)
     , iZoomLevel(1)
@@ -100,6 +101,7 @@ CAppSettings::CAppSettings()
     , fBlockVSFilter(true)
     , nVolumeStep(5)
     , nSpeedStep(0)
+    , nDefaultToolbarSize(24)
     , eAfterPlayback(AfterPlayback::DO_NOTHING)
     , fUseDVDPath(false)
     , idMenuLang(0)
@@ -149,6 +151,11 @@ CAppSettings::CAppSettings()
     , fPrioritizeExternalSubtitles(true)
     , fDisableInternalSubtitles(true)
     , bAllowOverridingExternalSplitterChoice(false)
+    , bAutoDownloadSubtitles(false)
+    , nAutoDownloadScoreMovies(0x16)
+    , nAutoDownloadScoreSeries(0x18)
+    , bAutoUploadSubtitles(false)
+    , bPreferHearingImpairedSubtitles(false)
     , nJumpDistS(DEFAULT_JUMPDISTANCE_1)
     , nJumpDistM(DEFAULT_JUMPDISTANCE_2)
     , nJumpDistL(DEFAULT_JUMPDISTANCE_3)
@@ -201,6 +208,7 @@ CAppSettings::CAppSettings()
     , bEnableCoverArt(true)
     , nCoverArtSizeLimit(600)
     , bEnableLogging(false)
+    , bUseLegacyToolbar(false)
     , iLAVGPUDevice(DWORD_MAX)
     , eSubtitleRenderer(SubtitleRenderer::INTERNAL)
 {
@@ -424,8 +432,10 @@ void CAppSettings::CreateCommands()
     wmcmds.AddTail({ID_FILE_SAVE_IMAGE_AUTO,          VK_F5, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_6});
     wmcmds.AddTail({ID_FILE_SAVE_THUMBNAILS,              0, FVIRTKEY | FNOINVERT,                    IDS_FILE_SAVE_THUMBNAILS});
 
-    wmcmds.AddTail({ID_FILE_LOAD_SUBTITLE,              'L', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_LOAD_SUBTITLE});
-    wmcmds.AddTail({ID_FILE_SAVE_SUBTITLE,              'S', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_SAVE_SUBTITLE});
+    wmcmds.AddTail({ID_FILE_SUBTITLES_LOAD,             'L', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_LOAD_SUBTITLES});
+    wmcmds.AddTail({ID_FILE_SUBTITLES_SAVE,             'S', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_SAVE_SUBTITLES});
+    wmcmds.AddTail({ID_FILE_SUBTITLES_DOWNLOAD,         'D', FVIRTKEY | FNOINVERT,                    IDS_SUBTITLES_DOWNLOAD});
+    wmcmds.AddTail({ID_FILE_SUBTITLES_UPLOAD,           'U', FVIRTKEY | FNOINVERT,                    IDS_SUBTITLES_UPLOAD});
     wmcmds.AddTail({ID_FILE_CLOSE_AND_RESTORE,          'C', FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_CLOSE});
     wmcmds.AddTail({ID_FILE_PROPERTIES,              VK_F10, FVIRTKEY | FSHIFT | FNOINVERT,           IDS_AG_PROPERTIES});
     wmcmds.AddTail({ID_FILE_EXIT,                       'X', FVIRTKEY | FALT | FNOINVERT,             IDS_AG_EXIT});
@@ -450,6 +460,9 @@ void CAppSettings::CreateCommands()
     wmcmds.AddTail({ID_PLAY_SEEKKEYFORWARD,        VK_RIGHT, FVIRTKEY | FSHIFT | FNOINVERT,           IDS_MPLAYERC_29});
     wmcmds.AddTail({ID_PLAY_SEEKKEYBACKWARD,        VK_LEFT, FVIRTKEY | FSHIFT | FNOINVERT,           IDS_MPLAYERC_30});
     wmcmds.AddTail({ID_PLAY_SEEKSET,                VK_HOME, FVIRTKEY | FNOINVERT,                    IDS_AG_SEEKSET});
+    wmcmds.AddTail({ID_PLAY_REPEAT_FOREVER,               0, FVIRTKEY | FNOINVERT,                    IDS_PLAYLOOP_FOREVER});
+    wmcmds.AddTail({ID_PLAY_REPEAT_ONEFILE,               0, FVIRTKEY | FNOINVERT,                    IDS_PLAYLOOPMODE_FILE});
+    wmcmds.AddTail({ID_PLAY_REPEAT_WHOLEPLAYLIST,         0, FVIRTKEY | FNOINVERT,                    IDS_PLAYLOOPMODE_PLAYLIST});
     wmcmds.AddTail({ID_NAVIGATE_SKIPFORWARD,        VK_NEXT, FVIRTKEY | FNOINVERT,                    IDS_AG_NEXT,        APPCOMMAND_MEDIA_NEXTTRACK, wmcmd::X2DOWN, wmcmd::X2DOWN});
     wmcmds.AddTail({ID_NAVIGATE_SKIPBACK,          VK_PRIOR, FVIRTKEY | FNOINVERT,                    IDS_AG_PREVIOUS,    APPCOMMAND_MEDIA_PREVIOUSTRACK, wmcmd::X1DOWN, wmcmd::X1DOWN});
     wmcmds.AddTail({ID_NAVIGATE_SKIPFORWARDFILE,    VK_NEXT, FVIRTKEY | FCONTROL | FNOINVERT,         IDS_AG_NEXT_FILE});
@@ -553,7 +566,6 @@ void CAppSettings::CreateCommands()
     wmcmds.AddTail({ID_STREAM_SUB_PREV,                 'S', FVIRTKEY | FSHIFT | FNOINVERT,           IDS_AG_PREV_SUBTITLE});
     wmcmds.AddTail({ID_STREAM_SUB_ONOFF,                'W', FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_85});
     wmcmds.AddTail({ID_SUBTITLES_SUBITEM_START + 2,       0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_86});
-    wmcmds.AddTail({ID_FILE_ISDB_DOWNLOAD,              'D', FVIRTKEY | FNOINVERT,                    IDS_DOWNLOAD_SUBS});
     wmcmds.AddTail({ID_DVD_ANGLE_NEXT,                    0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_91});
     wmcmds.AddTail({ID_DVD_ANGLE_PREV,                    0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_92});
     wmcmds.AddTail({ID_DVD_AUDIO_NEXT,                    0, FVIRTKEY | FNOINVERT,                    IDS_MPLAYERC_93});
@@ -651,7 +663,6 @@ bool CAppSettings::IsSubtitleRendererSupported(SubtitleRenderer eSubtitleRendere
     switch (eSubtitleRenderer) {
         case SubtitleRenderer::INTERNAL:
             switch (videoRenderer) {
-                case VIDRNDT_DS_VMR7RENDERLESS:
                 case VIDRNDT_DS_VMR9RENDERLESS:
                 case VIDRNDT_DS_EVR_CUSTOM:
                 case VIDRNDT_DS_DXR:
@@ -684,8 +695,6 @@ bool CAppSettings::IsSubtitleRendererSupported(SubtitleRenderer eSubtitleRendere
 bool CAppSettings::IsVideoRendererAvailable(int iVideoRendererType)
 {
     switch (iVideoRendererType) {
-        case VIDRNDT_DS_VMR7RENDERLESS:
-            return !VersionInfo::Is64Bit() && GetSystemMetrics(SM_CXVIRTUALSCREEN) < 2048 && GetSystemMetrics(SM_CYVIRTUALSCREEN) < 2048;
         case VIDRNDT_DS_DXR:
             return IsCLSIDRegistered(CLSID_DXR);
         case VIDRNDT_DS_EVR:
@@ -738,6 +747,7 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_MUTE, fMute);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LOOPNUM, nLoops);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LOOP, fLoopForever);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LOOPMODE, static_cast<int>(eLoopMode));
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ZOOM, iZoomLevel);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_MULTIINST, fAllowMultipleInst);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_TITLEBARTEXTSTYLE, iTitleBarTextStyle);
@@ -817,6 +827,14 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_PRIORITIZEEXTERNALSUBTITLES, fPrioritizeExternalSubtitles);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DISABLEINTERNALSUBTITLES, fDisableInternalSubtitles);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ALLOW_OVERRIDING_EXT_SPLITTER, bAllowOverridingExternalSplitterChoice);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUTODOWNLOADSUBTITLES, bAutoDownloadSubtitles);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUTODOWNLOADSCOREMOVIES, nAutoDownloadScoreMovies);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUTODOWNLOADSCORESERIES, nAutoDownloadScoreSeries);
+    pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_AUTODOWNLOADSUBTITLESEXCLUDE, strAutoDownloadSubtitlesExclude);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUTOUPLOADSUBTITLES, bAutoUploadSubtitles);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_PREFERHEARINGIMPAIREDSUBTITLES, bPreferHearingImpairedSubtitles);
+    pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLESPROVIDERS, strSubtitlesProviders);
+
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLEPATHS, strSubtitlePaths);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_USEDEFAULTSUBTITLESSTYLE, fUseDefaultSubtitlesStyle);
 
@@ -987,9 +1005,6 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_THUMBWIDTH, iThumbWidth);
 
     VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SUBSAVEEXTERNALSTYLEFILE, bSubSaveExternalStyleFile));
-
-    pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_ISDB, strISDb);
-
     {
         // Save the list of extra (non-default) shader files
         VERIFY(pApp->WriteProfileString(IDS_R_SHADERS, IDS_RS_SHADERS_EXTRA, m_ShadersExtraList.ToString()));
@@ -1029,9 +1044,12 @@ void CAppSettings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_COVER_ART_SIZE_LIMIT, nCoverArtSizeLimit);
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LOGGING, bEnableLogging);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_USE_LEGACY_TOOLBAR, bUseLegacyToolbar);
 
     VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SUBTITLE_RENDERER,
                                  static_cast<int>(eSubtitleRenderer)));
+
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DEFAULTTOOLBARSIZE, nDefaultToolbarSize);
 
     {
         CComHeapPtr<WCHAR> pDeviceId;
@@ -1254,6 +1272,7 @@ void CAppSettings::SaveSettingsAutoChangeFullScreenMode()
         VERIFY(pApp->WriteProfileInt(section, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_CHECKED, mode.bChecked));
         VERIFY(pApp->WriteProfileInt(section, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_FRAMERATESTART, std::lround(mode.dFrameRateStart * 1000000)));
         VERIFY(pApp->WriteProfileInt(section, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_FRAMERATESTOP, std::lround(mode.dFrameRateStop * 1000000)));
+        VERIFY(pApp->WriteProfileInt(section, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_AUDIODELAY, mode.msAudioDelay));
         VERIFY(pApp->WriteProfileInt(section, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_DM_BPP, mode.dm.bpp));
         VERIFY(pApp->WriteProfileInt(section, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_DM_FREQ, mode.dm.freq));
         VERIFY(pApp->WriteProfileInt(section, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_DM_SIZEX, mode.dm.size.cx));
@@ -1282,7 +1301,7 @@ void CAppSettings::LoadSettings()
         if (language <= 23) {
             // We must be updating from a really old version, use the default language
             language = Translations::SetDefaultLanguage();
-        } else if (!Translations::SetLanguage(Translations::GetLanguageResourceByLocaleID(language))) {
+        } else if (!Translations::SetLanguage(language)) {
             // In case of error, reset the language to English
             language = 0;
         }
@@ -1304,9 +1323,10 @@ void CAppSettings::LoadSettings()
     fMute = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MUTE, FALSE);
     nLoops = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LOOPNUM, 1);
     fLoopForever = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LOOP, FALSE);
+    eLoopMode = static_cast<LoopMode>(pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LOOPMODE, static_cast<int>(LoopMode::PLAYLIST)));
     iZoomLevel = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ZOOM, 1);
     iDSVideoRendererType = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DSVIDEORENDERERTYPE,
-                                               SysVersion::IsVistaOrLater() ? (IsVideoRendererAvailable(VIDRNDT_DS_EVR_CUSTOM) ? VIDRNDT_DS_EVR_CUSTOM : VIDRNDT_DS_VMR9RENDERLESS) : VIDRNDT_DS_VMR7RENDERLESS);
+                                               (SysVersion::IsVistaOrLater() && IsVideoRendererAvailable(VIDRNDT_DS_EVR_CUSTOM)) ? VIDRNDT_DS_EVR_CUSTOM : VIDRNDT_DS_VMR9RENDERLESS);
     iRMVideoRendererType = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_RMVIDEORENDERERTYPE, VIDRNDT_RM_DEFAULT);
     iQTVideoRendererType = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_QTVIDEORENDERERTYPE, VIDRNDT_QT_DEFAULT);
     nVolumeStep = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_VOLUMESTEP, 5);
@@ -1361,6 +1381,9 @@ void CAppSettings::LoadSettings()
     // Last Open Dir
     strLastOpenDir = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_LAST_OPEN_DIR, _T("C:\\"));
 
+    fAudioTimeShift = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEAUDIOTIMESHIFT, FALSE);
+    iAudioTimeShift = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOTIMESHIFT, 0);
+
     // Auto-change fullscreen mode
     autoChangeFSMode.bEnabled = !!pApp->GetProfileInt(IDS_R_SETTINGS_FULLSCREEN_AUTOCHANGE_MODE, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_ENABLE, FALSE);
     autoChangeFSMode.bApplyDefaultModeAtFSExit = !!pApp->GetProfileInt(IDS_R_SETTINGS_FULLSCREEN_AUTOCHANGE_MODE, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_APPLYDEFMODEATFSEXIT, TRUE);
@@ -1379,6 +1402,7 @@ void CAppSettings::LoadSettings()
 
         double dFrameRateStart = pApp->GetProfileInt(section, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_FRAMERATESTART, 0) / 1000000.0;
         double dFrameRateStop = pApp->GetProfileInt(section, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_FRAMERATESTOP, 0) / 1000000.0;
+        int msAudioDelay = pApp->GetProfileInt(section, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_AUDIODELAY, fAudioTimeShift ? iAudioTimeShift  : 0);
         DisplayMode dm;
         dm.bValid = true;
         dm.bpp = (int)pApp->GetProfileInt(section, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_DM_BPP, 0);
@@ -1387,7 +1411,7 @@ void CAppSettings::LoadSettings()
         dm.size.cy = (LONG)pApp->GetProfileInt(section, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_DM_SIZEY, 0);
         dm.dwDisplayFlags = pApp->GetProfileInt(section, IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_DM_FLAGS, 0);
 
-        autoChangeFSMode.modes.emplace_back(!!iChecked, dFrameRateStart, dFrameRateStop, dm);
+        autoChangeFSMode.modes.emplace_back(!!iChecked, dFrameRateStart, dFrameRateStop, msAudioDelay, std::move(dm));
     }
 
     fExitFullScreenAtTheEnd = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_EXITFULLSCREENATTHEEND, TRUE);
@@ -1458,11 +1482,16 @@ void CAppSettings::LoadSettings()
     fPrioritizeExternalSubtitles = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_PRIORITIZEEXTERNALSUBTITLES, TRUE);
     fDisableInternalSubtitles = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DISABLEINTERNALSUBTITLES, FALSE);
     bAllowOverridingExternalSplitterChoice = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ALLOW_OVERRIDING_EXT_SPLITTER, FALSE);
+    bAutoDownloadSubtitles = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUTODOWNLOADSUBTITLES, FALSE);
+    nAutoDownloadScoreMovies = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUTODOWNLOADSCOREMOVIES, 0x16);
+    nAutoDownloadScoreSeries = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUTODOWNLOADSCORESERIES, 0x18);
+    strAutoDownloadSubtitlesExclude = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_AUTODOWNLOADSUBTITLESEXCLUDE);
+    bAutoUploadSubtitles = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUTOUPLOADSUBTITLES, FALSE);
+    bPreferHearingImpairedSubtitles = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_PREFERHEARINGIMPAIREDSUBTITLES, FALSE);
+    strSubtitlesProviders = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLESPROVIDERS, _T("<|OpenSubtitles|||1|1|>"));
     strSubtitlePaths = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLEPATHS, DEFAULT_SUBTITLE_PATHS);
     fUseDefaultSubtitlesStyle = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USEDEFAULTSUBTITLESSTYLE, FALSE);
     fEnableAudioSwitcher = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEAUDIOSWITCHER, TRUE);
-    fAudioTimeShift = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEAUDIOTIMESHIFT, FALSE);
-    iAudioTimeShift = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOTIMESHIFT, 0);
     fDownSampleTo441 = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DOWNSAMPLETO441, FALSE);
     fCustomChannelMapping = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_CUSTOMCHANNELMAPPING, FALSE);
 
@@ -1647,10 +1676,7 @@ void CAppSettings::LoadSettings()
     iThumbWidth = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_THUMBWIDTH, 1024);
 
     bSubSaveExternalStyleFile = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SUBSAVEEXTERNALSTYLEFILE, FALSE);
-
-    strISDb = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_ISDB, _T("www.opensubtitles.org/isdb"));
-
-    nLastUsedPage = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LASTUSEDPAGE, 0);
+    nLastUsedPage = WORD(pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LASTUSEDPAGE, 0));
 
     {
         // Load the list of extra (non-default) shader files
@@ -1765,9 +1791,12 @@ void CAppSettings::LoadSettings()
     nCoverArtSizeLimit = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_COVER_ART_SIZE_LIMIT, 600);
 
     bEnableLogging = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LOGGING, FALSE);
+    bUseLegacyToolbar = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USE_LEGACY_TOOLBAR, FALSE);
 
     eSubtitleRenderer = static_cast<SubtitleRenderer>(pApp->GetProfileInt(IDS_R_SETTINGS,
                                                       IDS_RS_SUBTITLE_RENDERER, static_cast<int>(SubtitleRenderer::INTERNAL)));
+
+    nDefaultToolbarSize = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DEFAULTTOOLBARSIZE, 24);
 
     if (fLaunchfullscreen) {
         nCLSwitches |= CLSW_FULLSCREEN;
@@ -1840,6 +1869,8 @@ void CAppSettings::UpdateRenderersData(bool fSave)
         pApp->WriteProfileBinary(IDS_R_SETTINGS, _T("TargetSyncOffset"), (LPBYTE) & (ars.fTargetSyncOffset), sizeof(ars.fTargetSyncOffset));
         pApp->WriteProfileBinary(IDS_R_SETTINGS, _T("ControlLimit"), (LPBYTE) & (ars.fControlLimit), sizeof(ars.fControlLimit));
 
+        pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_CACHESHADERS, ars.bCacheShaders);
+
         pApp->WriteProfileInt(IDS_R_SETTINGS, _T("ResetDevice"), r.fResetDevice);
 
         pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SPCSIZE, r.subPicQueueSettings.nSize);
@@ -1902,6 +1933,11 @@ void CAppSettings::UpdateRenderersData(bool fSave)
         if (pApp->GetProfileBinary(IDS_R_SETTINGS, _T("ControlLimit"), (LPBYTE*)&dPtr, &dSize)) {
             ars.fControlLimit = *dPtr;
             delete [] dPtr;
+        }
+
+        ars.bCacheShaders = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_CACHESHADERS, DefaultSettings.bCacheShaders);
+        if (AfxGetMyApp()->GetAppSavePath(ars.sShaderCachePath)) {
+            ars.sShaderCachePath = PathUtils::CombinePaths(ars.sShaderCachePath, IDS_R_SHADER_CACHE);
         }
 
         r.fResetDevice = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("ResetDevice"), !SysVersion::IsVistaOrLater());
@@ -2478,7 +2514,7 @@ void CAppSettings::UpdateSettings()
                             dm.freq = modeOld.dmFSRes.freq;
                             dm.dwDisplayFlags = modeOld.dmFSRes.dmDisplayFlags & DM_INTERLACED;
 
-                            autoChangeFSMode.modes.emplace_back(modeOld.fChecked, modeOld.vfr_from, modeOld.vfr_to, dm);
+                            autoChangeFSMode.modes.emplace_back(modeOld.fChecked, modeOld.vfr_from, modeOld.vfr_to, 0, std::move(dm));
                         }
                     }
 
@@ -2514,7 +2550,7 @@ void CAppSettings::UpdateSettings()
                     subrenderer = SubtitleRenderer::VS_FILTER;
                 }
                 if (IsSubtitleRendererRegistered(SubtitleRenderer::XY_SUB_FILTER)) {
-                    int renderer = SysVersion::IsVistaOrLater() ? (IsVideoRendererAvailable(VIDRNDT_DS_EVR_CUSTOM) ? VIDRNDT_DS_EVR_CUSTOM : VIDRNDT_DS_VMR9RENDERLESS) : VIDRNDT_DS_VMR7RENDERLESS;
+                    int renderer = (SysVersion::IsVistaOrLater() && IsVideoRendererAvailable(VIDRNDT_DS_EVR_CUSTOM)) ? VIDRNDT_DS_EVR_CUSTOM : VIDRNDT_DS_VMR9RENDERLESS;
                     renderer = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DSVIDEORENDERERTYPE, renderer);
                     if (IsSubtitleRendererSupported(SubtitleRenderer::XY_SUB_FILTER, renderer)) {
                         subrenderer = SubtitleRenderer::XY_SUB_FILTER;
@@ -2523,6 +2559,23 @@ void CAppSettings::UpdateSettings()
             }
             VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SUBTITLE_RENDERER, static_cast<int>(subrenderer)));
         }
+        // no break
+        case 7:
+            // Update the settings after the removal of DirectX 7 renderers
+            switch (pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DSVIDEORENDERERTYPE, VIDRNDT_DS_DEFAULT)) {
+                case 3: // VIDRNDT_DS_VMR7WINDOWED
+                    VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DSVIDEORENDERERTYPE, VIDRNDT_DS_VMR9WINDOWED));
+                    break;
+                case 5: // VIDRNDT_DS_VMR7RENDERLESS
+                    VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DSVIDEORENDERERTYPE, VIDRNDT_DS_VMR9RENDERLESS));
+                    break;
+            }
+            if (pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_RMVIDEORENDERERTYPE, VIDRNDT_RM_DEFAULT) == 1) { // VIDRNDT_RM_DX7
+                VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_RMVIDEORENDERERTYPE, VIDRNDT_RM_DX9));
+            }
+            if (pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_QTVIDEORENDERERTYPE, VIDRNDT_QT_DEFAULT) == 1) { // VIDRNDT_QT_DX7
+                VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_QTVIDEORENDERERTYPE, VIDRNDT_QT_DX9));
+            }
         // no break
         default:
             pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_R_VERSION, APPSETTINGS_VERSION);

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,6 +22,7 @@
 #pragma once
 
 #include <atlcoll.h>
+#include <string>
 
 template<class T, typename SEP>
 T Explode(const T& str, CAtlList<T>& sl, SEP sep, size_t limit = 0)
@@ -133,6 +134,7 @@ extern CStringA UrlEncode(const CStringA& strIn);
 extern CStringA EscapeJSONString(const CStringA& str);
 extern CStringA UrlDecode(const CStringA& strIn);
 extern CStringA HtmlSpecialChars(CStringA str, bool bQuotes = false);
+extern CStringA HtmlSpecialCharsDecode(CStringA str);
 extern DWORD CharSetToCodePage(DWORD dwCharSet);
 extern CAtlList<CString>& MakeLower(CAtlList<CString>& sl);
 extern CAtlList<CString>& MakeUpper(CAtlList<CString>& sl);

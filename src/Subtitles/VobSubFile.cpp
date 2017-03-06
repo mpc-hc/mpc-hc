@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -600,12 +600,15 @@ bool CVobSubFile::ReadIdx(CString fn, int& ver)
         } else if (entry == _T("palette")) {
             // The assert guarantees that the shortcut we use will work as expected
             static_assert(sizeof(RGBQUAD) == 4, "Packing error");
+#pragma warning(push)
+#pragma warning(disable: 4477)
             if (_stscanf_s(str, _T("%x,%x,%x,%x,%x,%x,%x,%x,%x,%x,%x,%x,%x,%x,%x,%x"),
                            &m_orgpal[0], &m_orgpal[1], &m_orgpal[2], &m_orgpal[3],
                            &m_orgpal[4], &m_orgpal[5], &m_orgpal[6], &m_orgpal[7],
                            &m_orgpal[8], &m_orgpal[9], &m_orgpal[10], &m_orgpal[11],
                            &m_orgpal[12], &m_orgpal[13], &m_orgpal[14], &m_orgpal[15]
                           ) != 16) {
+#pragma warning(pop)
                 bError = true;
             }
         } else if (entry == _T("custom colors")) {
@@ -641,7 +644,10 @@ bool CVobSubFile::ReadIdx(CString fn, int& ver)
             str = str.Mid(i + (int)_tcslen(_T("colors:")));
 
             RGBQUAD pal[4];
+#pragma warning(push)
+#pragma warning(disable: 4477)
             if (_stscanf_s(str, _T("%x,%x,%x,%x"), &pal[0], &pal[1], &pal[2], &pal[3]) != 4) {
+#pragma warning(pop)
                 bError = true;
                 continue;
             }
@@ -1818,7 +1824,7 @@ bool CVobSubFile::SaveWinSubMux(CString fn, int delay)
         }
 
         CString bmpfn;
-        bmpfn.Format(_T("%s_%06u.bmp"), fn, i + 1);
+        bmpfn.Format(_T("%s_%06Iu.bmp"), fn, i + 1);
 
         CString str;
         str.Format(_T("%s\t%02d:%02d:%02d:%02d %02d:%02d:%02d:%02d\t%03d %03d %03d %03d %d %d %d %d\n"),
@@ -2012,7 +2018,7 @@ bool CVobSubFile::SaveScenarist(CString fn, int delay)
         }
 
         CString bmpfn;
-        bmpfn.Format(_T("%s_%04u.bmp"), fn, i + 1);
+        bmpfn.Format(_T("%s_%04Iu.bmp"), fn, i + 1);
         title = bmpfn.Mid(bmpfn.ReverseFind('/') + 1);
 
         // E1, E2, P, Bg
@@ -2242,7 +2248,7 @@ bool CVobSubFile::SaveMaestro(CString fn, int delay)
         }
 
         CString bmpfn;
-        bmpfn.Format(_T("%s_%04u.bmp"), fn, i + 1);
+        bmpfn.Format(_T("%s_%04Iu.bmp"), fn, i + 1);
         title = bmpfn.Mid(bmpfn.ReverseFind('/') + 1);
 
         // E1, E2, P, Bg
@@ -2367,7 +2373,7 @@ void CVobSubStream::Open(CString name, BYTE* pData, int len)
     m_name = name;
 
     CAtlList<CString> lines;
-    Explode(CString(CStringA((CHAR*)pData, len)), lines, '\n');
+    Explode(CString(CStringA((CHAR*)pData, len)), lines, _T('\n'));
     while (lines.GetCount()) {
         CAtlList<CString> sl;
         Explode(lines.RemoveHead(), sl, ':', 2);

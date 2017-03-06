@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,7 +20,7 @@
  */
 
 #include "stdafx.h"
-#include <math.h>
+#include <cmath>
 #include <intrin.h>
 #include <algorithm>
 #include "ColorConvTable.h"
@@ -2854,18 +2854,20 @@ STDMETHODIMP CRenderedTextSubtitle::NonDelegatingQueryInterface(REFIID riid, voi
 STDMETHODIMP_(POSITION) CRenderedTextSubtitle::GetStartPosition(REFERENCE_TIME rt, double fps)
 {
     int iSegment = -1;
-    SearchSubs((int)(rt / 10000), fps, &iSegment, nullptr);
+    SearchSubs(rt, fps, &iSegment, nullptr);
 
     if (iSegment < 0) {
         iSegment = 0;
     }
 
-    return GetNext((POSITION)iSegment);
+    __assume((INT_PTR)iSegment >= INT_MIN && (INT_PTR)iSegment <= INT_MAX);
+    return GetNext((POSITION)(INT_PTR)iSegment);
 }
 
 STDMETHODIMP_(POSITION) CRenderedTextSubtitle::GetNext(POSITION pos)
 {
-    int iSegment = (int)pos;
+    __assume((INT_PTR)pos >= INT_MIN && (INT_PTR)pos <= INT_MAX);
+    int iSegment = (int)(INT_PTR)pos;
 
     const STSSegment* stss = GetSegment(iSegment);
     while (stss && stss->subs.IsEmpty()) {
@@ -2873,22 +2875,25 @@ STDMETHODIMP_(POSITION) CRenderedTextSubtitle::GetNext(POSITION pos)
         stss = GetSegment(iSegment);
     }
 
-    return (stss ? (POSITION)(iSegment + 1) : nullptr);
+    return (stss ? (POSITION)(INT_PTR)(iSegment + 1) : nullptr);
 }
 
 STDMETHODIMP_(REFERENCE_TIME) CRenderedTextSubtitle::GetStart(POSITION pos, double fps)
 {
-    return (10000i64 * TranslateSegmentStart((int)pos - 1, fps));
+    __assume((INT_PTR)pos - 1 >= INT_MIN && (INT_PTR)pos <= INT_MAX);
+    return TranslateSegmentStart((int)(INT_PTR)pos - 1, fps);
 }
 
 STDMETHODIMP_(REFERENCE_TIME) CRenderedTextSubtitle::GetStop(POSITION pos, double fps)
 {
-    return (10000i64 * TranslateSegmentEnd((int)pos - 1, fps));
+    __assume((INT_PTR)pos - 1 >= INT_MIN && (INT_PTR)pos <= INT_MAX);
+    return TranslateSegmentEnd((int)(INT_PTR)pos - 1, fps);
 }
 
 STDMETHODIMP_(bool) CRenderedTextSubtitle::IsAnimated(POSITION pos)
 {
-    int iSegment = (int)pos - 1;
+    __assume((INT_PTR)pos - 1 >= INT_MIN && (INT_PTR)pos <= INT_MAX);
+    int iSegment = (int)(INT_PTR)pos - 1;
 
     const STSSegment* stss = GetSegment(iSegment);
     if (stss) {
@@ -2924,10 +2929,8 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
         Init(CSize(spd.w, spd.h), spd.vidrect);
     }
 
-    int time = (int)(rt / 10000);
-
     int segment;
-    const STSSegment* stss = SearchSubs(time, fps, &segment);
+    const STSSegment* stss = SearchSubs(rt, fps, &segment);
     if (!stss) {
         return S_FALSE;
     }
@@ -2941,7 +2944,7 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
             m_subtitleCache.GetNextAssoc(pos, entry, pSub);
 
             STSEntry& stse = GetAt(entry);
-            if (stse.end < time) {
+            if (stse.end < rt) {
                 delete pSub;
                 m_subtitleCache.RemoveKey(entry);
             }
@@ -2968,9 +2971,9 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
         STSEntry stse = GetAt(entry);
 
         {
-            int start = TranslateStart(entry, fps);
-            m_time = time - start;
-            m_delay = TranslateEnd(entry, fps) - start;
+            REFERENCE_TIME start = TranslateStart(entry, fps);
+            m_time = (int)RT2MS(rt - start);
+            m_delay = (int)RT2MS(TranslateEnd(entry, fps) - start);
         }
 
         CSubtitle* s = GetSubtitle(entry);
@@ -3215,25 +3218,34 @@ STDMETHODIMP_(int) CRenderedTextSubtitle::GetStreamCount()
 
 STDMETHODIMP CRenderedTextSubtitle::GetStreamInfo(int iStream, WCHAR** ppName, LCID* pLCID)
 {
+    CheckPointer(ppName, E_POINTER);
     if (iStream != 0) {
         return E_INVALIDARG;
     }
 
-    if (ppName) {
-        *ppName = (WCHAR*)CoTaskMemAlloc((m_name.GetLength() + 1) * sizeof(WCHAR));
-        if (!(*ppName)) {
-            return E_OUTOFMEMORY;
-        }
-
-        wcscpy_s(*ppName, m_name.GetLength() + 1, CStringW(m_name));
-
-        if (pLCID) {
-            *pLCID = ISO6391ToLcid(CW2A(*ppName));
-            if (*pLCID == 0) {
-                *pLCID = ISO6392ToLcid(CW2A(*ppName));
-            }
-        }
+    if (pLCID) {
+        *pLCID = m_lcid;
     }
+
+    CString strLanguage;
+    if (m_lcid && m_lcid != LCID(-1)) {
+        int len = GetLocaleInfo(m_lcid, LOCALE_SENGLANGUAGE, strLanguage.GetBuffer(64), 64);
+        strLanguage.ReleaseBufferSetLength(std::max(len - 1, 0));
+    }
+
+    if (!strLanguage.IsEmpty() && m_eHearingImpaired == Subtitle::HI_YES) {
+        strLanguage = '[' + strLanguage + ']';
+    }
+    CStringW strName;
+    if (!m_provider.IsEmpty()) {
+        strName.Format(L"[%s] %s\t%s", m_provider, m_name, strLanguage);
+    } else {
+        strName.Format(L"%s\t%s", m_name, strLanguage);
+    }
+
+    *ppName = (WCHAR*)CoTaskMemAlloc((strName.GetLength() + 1) * sizeof(WCHAR));
+    CheckPointer(*ppName, E_OUTOFMEMORY);
+    wcscpy_s(*ppName, strName.GetLength() + 1, strName);
 
     return S_OK;
 }

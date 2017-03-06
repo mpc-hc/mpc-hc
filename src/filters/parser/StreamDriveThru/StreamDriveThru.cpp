@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013, 2015 see Authors.txt
+ * (C) 2006-2013, 2015-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -105,6 +105,8 @@ STDMETHODIMP CStreamDriveThruFilter::NonDelegatingQueryInterface(REFIID riid, vo
 
 #define PACKETSIZE 65536
 
+#pragma warning(push)
+#pragma warning(disable: 4702)
 DWORD CStreamDriveThruFilter::ThreadProc()
 {
     for (;;) {
@@ -200,8 +202,8 @@ DWORD CStreamDriveThruFilter::ThreadProc()
                 break;
         }
     }
-
-    return 0;
+    UNREACHABLE_CODE(); // we should only exit via CMD_EXIT
+#pragma warning(pop)
 }
 
 int CStreamDriveThruFilter::GetPinCount()

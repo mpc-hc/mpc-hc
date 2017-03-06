@@ -1,16 +1,17 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Jatyrael <cbf_x@hotmail.com>, 2015
+# Jatyrael <cbf_x@hotmail.com>, 2015-2016
+# Chreddy <chreddy1@gmail.com>, 2016
 # Xebika <fidodkk@gmail.com>, 2015
-# scootergrisen, 2015
+# scootergrisen, 2015-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-08-06 16:05:43+0000\n"
-"PO-Revision-Date: 2015-09-24 20:31+0000\n"
-"Last-Translator: Underground78\n"
+"POT-Creation-Date: 2016-10-17 00:35:36+0000\n"
+"PO-Revision-Date: 2017-01-14 09:54+0000\n"
+"Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/mpc-hc/mpc-hc/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -52,19 +53,27 @@ msgstr "Afspil Musik"
 
 msgctxt "IDS_AUTOPLAY_PLAYAUDIOCD"
 msgid "Play Audio CD"
-msgstr "Afspil lyd CD"
+msgstr "Afspil lyd-CD"
 
 msgctxt "IDS_AUTOPLAY_PLAYDVDMOVIE"
 msgid "Play DVD Movie"
-msgstr "Afspil DVD film"
+msgstr "Afspil DVD-film"
 
 msgctxt "IDS_PROPSHEET_PROPERTIES"
 msgid "Properties"
 msgstr "Egenskaber"
 
+msgctxt "IDS_PLAY_LOOPMODE_FILE"
+msgid "File"
+msgstr "Fil"
+
 msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
 msgid "&Default Style"
 msgstr "&Standardtypografi"
+
+msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
+msgid "Playlist"
+msgstr "Spilleliste"
 
 msgctxt "IDS_FAVFILES"
 msgid "Files"
@@ -116,7 +125,27 @@ msgstr "Typografi"
 
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
-msgstr "Hvis renderingsdestinationen er udefineret, vil SSA/ASS-undertekster blive rendereret i forhold til videobilledet, mens alle andre tekst-undertekster vil blive rendereret i forhold til vinduet."
+msgstr "Hvis renderingsdestinationen er udefineret, vil SSA-/ASS-undertekster blive rendereret i forhold til videobilledet, mens alle andre tekst-undertekster vil blive renderet i forhold til vinduet."
+
+msgctxt "IDS_PLAYLOOPMODE_PLAYLIST"
+msgid "Repeat Mode: Playlist"
+msgstr "Gentagelsestilstand: Spilleliste"
+
+msgctxt "IDS_PLAYLOOPMODE_FILE"
+msgid "Repeat Mode: File"
+msgstr "Gentagelsestilstand: Fil"
+
+msgctxt "IDS_PLAYLOOP_FOREVER_ON"
+msgid "Repeat Forever: On"
+msgstr "Gentag uendeligt: Til"
+
+msgctxt "IDS_PLAYLOOP_FOREVER_OFF"
+msgid "Repeat Forever: Off"
+msgstr "Gentag uendeligt: Fra"
+
+msgctxt "IDS_PLAYLOOP_FOREVER"
+msgid "Repeat Forever"
+msgstr "Gentag uendeligt"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -136,7 +165,7 @@ msgstr "Understøttes ikke af alle enheder. To video-dekodere er altid tilstede 
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
 msgid "Fast except when switching between different video streams. Only one video decoder present in the filter graph."
-msgstr "Hurtig, undtagen når der skiftes mellem forskellige video-stream. Der er kun én video-dekoder tilstede i filtergrafen."
+msgstr "Hurtig, undtagen når der skiftes mellem forskellige video-strøm. Der er kun én video-dekoder tilstede i filtergrafen."
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC2"
 msgid "Not recommended. Only for testing purposes."
@@ -176,7 +205,7 @@ msgstr "Film/Drama"
 
 msgctxt "IDS_CONTENT_NEWS_CURRENTAFFAIRS"
 msgid "News/Current affairs"
-msgstr "Nyheder/Aktuelle begivenheder"
+msgstr "Nyheder/aktuelle begivenheder"
 
 msgctxt "IDS_SPEED_UNIT_G"
 msgid "GB/s"
@@ -204,7 +233,7 @@ msgstr "Undertekst gensynk."
 
 msgctxt "IDS_SUBRESYNC_CLN_TIME"
 msgid "Time"
-msgstr "Tid"
+msgstr "Tidspunkt"
 
 msgctxt "IDS_SUBRESYNC_CLN_END"
 msgid "End"
@@ -264,7 +293,7 @@ msgstr "Kunne ikke åbne indspilningsenhed."
 
 msgctxt "IDS_INVALID_PARAMS_ERROR"
 msgid "Can't open, invalid input parameters"
-msgstr "Kan ikke åbne, ugyldige input parametre"
+msgstr "Kan ikke åbne, ugyldige input-parametre"
 
 msgctxt "IDS_EDIT_LIST_EDITOR"
 msgid "Edit List Editor"
@@ -276,7 +305,7 @@ msgstr "Den indtastede tid er større end filens varighed."
 
 msgctxt "IDS_MISSING_ICONS_LIB"
 msgid "The icons library \"mpciconlib.dll\" is missing.\nThe player's default icon will be used for file associations.\nPlease, reinstall MPC-HC to get \"mpciconlib.dll\"."
-msgstr "Ikon-biblioteket \"mpciconlib.dll\" mangler.\nAfspillerens standard-ikon vil blive brugt ved filtilknytninger.\nGeninstaller venligst MPC-HC for at få \"mpciconlib.dll\"."
+msgstr "Ikon-biblioteket \"mpciconlib.dll\" mangler.\nAfspillerens standard-ikon vil blive brugt ved filtilknytninger.\nGeninstallér venligst MPC-HC for at få \"mpciconlib.dll\"."
 
 msgctxt "IDS_SUBDL_DLG_FILENAME_COL"
 msgid "File"
@@ -412,7 +441,7 @@ msgstr "&Slet"
 
 msgctxt "IDS_SUBRESYNC_DUPLICATE"
 msgid "D&uplicate"
-msgstr "D&uplikere"
+msgstr "D&uplikér"
 
 msgctxt "IDS_SUBRESYNC_RESET"
 msgid "&Reset"
@@ -476,7 +505,7 @@ msgstr "Diverse"
 
 msgctxt "IDD_FILEMEDIAINFO"
 msgid "MediaInfo"
-msgstr "Medieinfo"
+msgstr "Medie info"
 
 msgctxt "IDD_PPAGECAPTURE"
 msgid "Playback::Capture"
@@ -518,17 +547,9 @@ msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
 msgstr "Overlay Mixer Renderer"
 
-msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
-msgid "Video Mixing Renderer 7 (windowed)"
-msgstr "Video Mixing Renderer 7 (windowed)"
-
 msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
 msgid "Video Mixing Renderer 9 (windowed)"
 msgstr "Video Mixing Renderer 9 (windowed)"
-
-msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
-msgid "Video Mixing Renderer 7 (renderless)"
-msgstr "Video Mixing Renderer 7 (renderless)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
 msgid "Video Mixing Renderer 9 (renderless)"
@@ -548,11 +569,11 @@ msgstr "Haali Video Renderer"
 
 msgctxt "IDS_PPAGE_OUTPUT_NULL_COMP"
 msgid "Null (anything)"
-msgstr "Null (anything)"
+msgstr "Null (alt)"
 
 msgctxt "IDS_PPAGE_OUTPUT_NULL_UNCOMP"
 msgid "Null (uncompressed)"
-msgstr "Null (uncompressed)"
+msgstr "Null (ukomprimeret)"
 
 msgctxt "IDS_PPAGE_OUTPUT_MADVR"
 msgid "madVR"
@@ -582,10 +603,6 @@ msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
 msgstr "Afspiller::Webgrænseflade"
 
-msgctxt "IDD_PPAGESUBDB"
-msgid "Subtitles::Database"
-msgstr "Undertekster::Database"
-
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
 msgstr "Detaljer"
@@ -606,21 +623,13 @@ msgctxt "IDC_DSOVERLAYMIXER"
 msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
 msgstr "Renderer altid i Overlay. Generelt er kun YUV-formater tilladt, men de vises direkte uden konvertering til RGB. Dette er den hurtigste renderingsmetode af alle og den eneste hvor du kan være sikker på fuldskærm videospejlning til TV-out aktivering."
 
-msgctxt "IDC_DSVMR7WIN"
-msgid "The default renderer of Windows XP. Very stable and just a little slower than the Overlay mixer. Uses DirectDraw and runs in Overlay when it can."
-msgstr "Standard renderer i Windows XP. Meget stabil og kun lidt langsommere end den Overlay mixer. Bruger DirectDraw og køre i Overlay når den kan."
-
 msgctxt "IDC_DSVMR9WIN"
-msgid "Only available if you have DirectX 9 installed. Has the same abilities as VMR-7 (windowed), but it will never use Overlay rendering and because of this it may be a little slower than VMR-7 (windowed)."
-msgstr "Kun tilgængelig hvis du har DirectX 9 installeret. Har samme muligheder som VMR-7 (windowed), men den vil aldrig bruge Overlay-rendering og kan derfor være en smule langsommere end VMR-7 (windowed)."
-
-msgctxt "IDC_DSVMR7REN"
-msgid "Same as the VMR-7 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring WILL NOT work. \"True Color\" desktop color space recommended."
-msgstr "Samme som VMR-7 (windowed), men med allokationspræsentation-plugin'et fra MPC-HC til undertekster. Overlay videospejling VIL IKKE virke. Skrivebord-farverum med \"Ægte farver\" anbefales."
+msgid "Only available if you have DirectX 9 installed. Very stable but it will never use Overlay rendering and because of this it may be a little slower than Overlay mixer."
+msgstr "Kun tilgængelig hvis du har DirectX9 installeret. Meget stabil men den vil aldrig bruger Overlay rendering og kan derfor være en smule langsommere end Overlay mixer."
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
-msgstr "Samme som VMR-9 (windowed), men med allokationspræsentation-plugin'et fra MPC-HC til undertekster. Overlay videospejling VIL MÅSKE virke. Skrivebord-farverum med \"Ægte farver\" anbefales. Anbefales til Windows XP."
+msgstr "Samme som VMR-9 (windowed), men med allokationspræsentation-pluginet fra MPC-HC til undertekster. Overlay videospejling vil MÅSKE virke. Skrivebord-farverum med \"Ægte farver\" anbefales. Anbefales til Windows XP."
 
 msgctxt "IDC_DSDXR"
 msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
@@ -654,25 +663,17 @@ msgctxt "IDC_RMSYSDEF"
 msgid "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
 msgstr "Real's egen renderer. SMIL scripts vil virker, men interaktion vil formodentligt ikke virke. Bruger DirectDraw og køre i Overlay når den kan."
 
-msgctxt "IDC_RMDX7"
-msgid "The output of Real's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "Output fra Real's motor rendereret af den DX7-baseret allokationspræsentation fra VMR-7 (renderless)."
-
 msgctxt "IDC_RMDX9"
 msgid "The output of Real's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
-msgstr "Output fra Real's motor rendereret af den DX9-baseret allokationspræsentation fra VMR-9 (renderless)."
+msgstr "Output fra Real's motor renderet af den DX9-baseret allokationspræsentation fra VMR-9 (renderless)."
 
 msgctxt "IDC_QTSYSDEF"
 msgid "QuickTime's own renderer. Gets a little slow when its video area is resized or partially covered by another window. When Overlay is not available it likes to fall back to GDI."
 msgstr "QuickTime's egen renderer. Bliver lidt langsom når videoens område ændre størrelse eller delvist dækket af andre vinduer. Den kan godt lide at falde tilbage til GDI når Overlay ikke er tilgængelig."
 
-msgctxt "IDC_QTDX7"
-msgid "The output of QuickTime's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "Output fra QuickTime's motor rendereret af den DX7-baseret allokationspræsentation fra VMR-7 (renderless)."
-
 msgctxt "IDC_QTDX9"
 msgid "The output of QuickTime's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
-msgstr "Output fra QuickTime's motor rendereret af den DX9-baseret allokationspræsentation fra VMR-9 (renderless)."
+msgstr "Output fra QuickTime's motor renderet af den DX9-baseret allokationspræsentation fra VMR-9 (renderless)."
 
 msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
@@ -728,11 +729,11 @@ msgstr "Den valgte renderer er ikke installeret."
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_COMP"
 msgid "Null (anything)"
-msgstr "Null (anything)"
+msgstr "Null (alt)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP"
 msgid "Null (uncompressed)"
-msgstr "Null (uncompressed)"
+msgstr "Null (ukomprimeret)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
 msgid "Internal Audio Renderer"
@@ -744,15 +745,19 @@ msgstr "Navn"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_TYPE"
 msgid "MIME Type"
-msgstr "MIME type"
+msgstr "MIME-type"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_INFO"
 msgid "In order to view an embedded resource in your browser you have to enable the web interface.\n\nUse the \"Save As\" button if you only want to save the information."
 msgstr "For at kunne vise en indlejret ressource i din browser skal du aktivere webgrænsefladen.\n\nBrug \"Gem som\" knappen hvis du kun ønsker at gemme oplysningerne."
 
-msgctxt "IDS_DOWNLOAD_SUBS"
-msgid "Download subtitles"
-msgstr "Download undertekster"
+msgctxt "IDS_SUBTITLES_DOWNLOAD"
+msgid "Download Subtitles..."
+msgstr "Download undertekster..."
+
+msgctxt "IDS_SUBTITLES_UPLOAD"
+msgid "Upload Subtitles..."
+msgstr "Upload undertekster..."
 
 msgctxt "IDS_SUBFILE_DELAY"
 msgid "Delay (ms):"
@@ -810,6 +815,18 @@ msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Reduces tearing by bypassing the default VSync built into D3D."
 msgstr "Reducere iturivning ved at omgå standard lodret synkroniseringen indbygget i D3D."
 
+msgctxt "IDS_NAVIGATE_TUNERSCAN"
+msgid "Tuner scan"
+msgstr "Tuner skanning"
+
+msgctxt "IDS_SUBTITLES_ERROR"
+msgid "Subtitles are not loaded or unsupported renderer."
+msgstr "Undertekster er ikke indlæst eller ikke understøttet renderer."
+
+msgctxt "IDC_CACHESHADERS"
+msgid "Stores compiled shaders in local AppData to speed up load time."
+msgstr "Gemmer kompilerede shadere i den lokale AppData for at forbedre indlæsningstiden."
+
 msgctxt "IDS_SRC_VTS"
 msgid "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"
 msgstr "Åbn VTS_xx_0.ifo for at indlæse VTS_xx_x.vob filer i ét stykke"
@@ -840,7 +857,7 @@ msgstr "Hvis renderingsdestinationen er udefineret, vil det blive nedarvet fra s
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
-msgstr "Deaktiver animation af undertekst. CPU-forbruget vil blive mindre hvis denne indstilling slås til. Du kan bruge den hvis du oplever blinkende undertekster."
+msgstr "Forhindr animation af undertekst. CPU-forbruget vil blive mindre hvis denne indstilling slås til. Du kan bruge den hvis du oplever blinkende undertekster."
 
 msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
@@ -936,7 +953,7 @@ msgstr "&Vælg shadere..."
 
 msgctxt "IDS_SHADERS_DEBUG"
 msgid "&Debug Shaders..."
-msgstr "&Fejlfind shadere..."
+msgstr "Fejlfind &shadere..."
 
 msgctxt "IDS_FAVORITES_ADD"
 msgid "&Add to Favorites..."
@@ -944,15 +961,15 @@ msgstr "&Føj til favoritter..."
 
 msgctxt "IDS_FAVORITES_ORGANIZE"
 msgid "&Organize Favorites..."
-msgstr "&Håndter favoritter..."
+msgstr "&Håndtér favoritter..."
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
-msgid "Shuffle"
-msgstr "Bland"
+msgid "Sh&uffle"
+msgstr "&Bland"
 
 msgctxt "IDS_PLAYLIST_SHOWFOLDER"
-msgid "Open file location"
-msgstr "Åbn filplacering"
+msgid "Ope&n file location"
+msgstr "&Åbn filplacering"
 
 msgctxt "IDS_CONTROLS_CLOSING"
 msgid "Closing..."
@@ -964,7 +981,7 @@ msgstr "Afspiller"
 
 msgctxt "IDS_CONTROLS_PAUSED"
 msgid "Paused"
-msgstr "Pauset"
+msgstr "Sat på pause"
 
 msgctxt "IDS_AG_EDL_NEW_CLIP"
 msgid "EDL new clip"
@@ -976,7 +993,7 @@ msgstr "&Ryd liste"
 
 msgctxt "IDS_RECENT_FILES_QUESTION"
 msgid "Are you sure that you want to delete recent files list?"
-msgstr "Er du sikker på at du vil slette listen over seneste filer?"
+msgstr "Er du sikker på, at du vil slette listen over seneste filer?"
 
 msgctxt "IDS_AG_EDL_SAVE"
 msgid "EDL save"
@@ -1035,8 +1052,8 @@ msgid "Zoom To Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
 msgstr "Zoom til ultra-widescreen,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_PLAYLIST_HIDEFS"
-msgid "Hide on Fullscreen"
-msgstr "Skjul i fuldskærm"
+msgid "&Hide on Fullscreen"
+msgstr "&Skjul i fuldskærm"
 
 msgctxt "IDS_CONTROLS_STOPPED"
 msgid "Stopped"
@@ -1088,7 +1105,7 @@ msgstr "Forfatter"
 
 msgctxt "IDS_INFOBAR_COPYRIGHT"
 msgid "Copyright"
-msgstr "Copyright"
+msgstr "Ophavsret"
 
 msgctxt "IDS_INFOBAR_RATING"
 msgid "Rating"
@@ -1180,15 +1197,15 @@ msgstr "Kan ikke finde funktionsindgangspunkt i %s, pixel shadere vil ikke virke
 
 msgctxt "IDS_OSD_SHADERS_PRESET"
 msgid "Shader preset: %s"
-msgstr "Shader forudindstilling: %s"
+msgstr "Shader-forudindstilling: %s"
 
 msgctxt "IDS_AG_SHADERS_PRESET_NEXT"
 msgid "Next Shader Preset"
-msgstr "Næste shader forudindstilling"
+msgstr "Næste shader-forudindstilling"
 
 msgctxt "IDS_AG_SHADERS_PRESET_PREV"
 msgid "Prev Shader Preset"
-msgstr "Forrige shader forudindstilling"
+msgstr "Forrige shader-forudindstilling"
 
 msgctxt "IDS_STRING_COLON"
 msgid "%s:"
@@ -1196,7 +1213,7 @@ msgstr "%s:"
 
 msgctxt "IDS_RECORD_START"
 msgid "Record"
-msgstr "Indspil"
+msgstr "Optag"
 
 msgctxt "IDS_RECORD_STOP"
 msgid "Stop"
@@ -1223,8 +1240,8 @@ msgid "+%d%%"
 msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
-msgid "Add containing folder"
-msgstr "Tilføj overordnet mappe"
+msgid "Add containing &folder"
+msgstr "Tilføj indeholdende &mappe"
 
 msgctxt "IDS_HW_INDICATOR"
 msgid "[H/W]"
@@ -1352,7 +1369,7 @@ msgstr "Fjern alle"
 
 msgctxt "IDS_REMOVE_CHANNELS_QUESTION"
 msgid "Are you sure you want to remove all channels from the list?"
-msgstr "Er du sikker på at du vil fjerne alle kanalerne fra listen?"
+msgstr "Er du sikker på, at du vil fjerne alle kanalerne fra listen?"
 
 msgctxt "IDS_MEDIAINFO_NO_INFO_AVAILABLE"
 msgid "No information available"
@@ -1388,7 +1405,7 @@ msgstr "Efter afspilning: Luk"
 
 msgctxt "IDS_FRAME_INIT_FAILED"
 msgid "MPC-HC encountered a problem during initialization. With your help we might be able to fix the issue.\n\nDo you want to report it?"
-msgstr "MPC-HC støttet på et problem under initialisering. Med din hjælp, kan vi muligvis rette problemet.\n\nVil du rapporterer det? "
+msgstr "MPC-HC støttet på et problem under initialisering. Med din hjælp, kan vi muligvis rette problemet.\n\nVil du rapporterer det?"
 
 msgctxt "IDS_TIME_SHIFT_TOOLTIP"
 msgid "Enter a positive value if the audio is early, a negative value if it is late."
@@ -1404,7 +1421,7 @@ msgstr "Denne indstilling kan bruges til at forhåndsvise mediefiler fra fjern-p
 
 msgctxt "IDS_SUBTITLE_RENDERER_INTERNAL"
 msgid "Internal Subtitle Renderer"
-msgstr ""
+msgstr "Intern undertekst renderer"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1426,13 +1443,13 @@ msgctxt "IDS_OSD_IMAGE_SAVED"
 msgid "Image saved successfully"
 msgstr "Billedet blev gemt"
 
-msgctxt "IDS_AG_LOAD_SUBTITLE"
-msgid "Load Subtitle"
-msgstr "Indlæs undertekst"
+msgctxt "IDS_AG_LOAD_SUBTITLES"
+msgid "Load Subtitles..."
+msgstr "Indlæs undertekster..."
 
-msgctxt "IDS_AG_SAVE_SUBTITLE"
-msgid "Save Subtitle"
-msgstr "Gem undertekst"
+msgctxt "IDS_AG_SAVE_SUBTITLES"
+msgid "Save Subtitles..."
+msgstr "Gem undertekster..."
 
 msgctxt "IDS_AG_PROPERTIES"
 msgid "Properties"
@@ -1444,7 +1461,7 @@ msgstr "Afslut"
 
 msgctxt "IDS_AG_PLAYPAUSE"
 msgid "Play/Pause"
-msgstr "Afspil/Pause"
+msgstr "Afspil/pause"
 
 msgctxt "IDS_AG_PLAY"
 msgid "Play"
@@ -1544,7 +1561,7 @@ msgstr "Korrigering af billedtid: Fra"
 
 msgctxt "IDS_OSD_RS_TARGET_VSYNC_OFFSET"
 msgid "Target VSync Offset: %.1f"
-msgstr "Målret forskydning af lodret synkronisering: %.1f"
+msgstr "Ønsket forskydning af lodret synkronisering: %.1f"
 
 msgctxt "IDS_OSD_RS_VSYNC_OFFSET"
 msgid "VSync Offset: %d"
@@ -1559,7 +1576,7 @@ msgid "Thumbnails saved successfully"
 msgstr "Miniaturer blev gemt"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
-msgid "&Video Track"
+msgid "Vide&o Track"
 msgstr "&Videospor"
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
@@ -1572,7 +1589,7 @@ msgstr "Nulstil indstillinger"
 
 msgctxt "IDS_RESET_SETTINGS_WARNING"
 msgid "Are you sure you want to restore MPC-HC to its default settings?\nBe warned that ALL your current settings will be lost!"
-msgstr "Er du sikker på at du vil gendanne MPC-HC til sine standardindstillinger?\nBemærk at ALLE dine indstillinger vil gå tabt!"
+msgstr "Er du sikker på, at du vil gendanne MPC-HC til sine standardindstillinger?\nBemærk at ALLE dine indstillinger vil gå tabt!"
 
 msgctxt "IDS_RESET_SETTINGS_MUTEX"
 msgid "Please close all instances of MPC-HC so that the default settings can be restored."
@@ -1795,8 +1812,8 @@ msgid "PnS Dec Height"
 msgstr "PnS lavere"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
-msgid "Downloading subtitle(s), please wait."
-msgstr "Downloader undertekst(er), vent venligst."
+msgid "Downloading [%s] \"%s\""
+msgstr "Downloader [%s] \"%s\""
 
 msgctxt "IDS_SUBDL_DLG_PARSING"
 msgid "Parsing list..."
@@ -1812,7 +1829,7 @@ msgstr "%d tilgængelige undertekst(er)."
 
 msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
-msgstr "Vil du periodisk søge efter opdateringer til MPC-HC?\n\nFunktionen kan deaktiveres senere på siden med Diverse indstillinger."
+msgstr "Vil du periodisk søge efter opdateringer til MPC-HC?\n\nFunktionen kan deaktiveres senere på indstillingssiden Diverse."
 
 msgctxt "IDS_ZOOM_50"
 msgid "50%"
@@ -1836,11 +1853,11 @@ msgstr "Automatisk tilpasning (kun større)"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT_LARGER"
 msgid "Zoom Auto Fit (Larger Only)"
-msgstr "Zoom automatisk tilpasning (Kun større)"
+msgstr "Zoom automatisk tilpasning (kun større)"
 
 msgctxt "IDS_OSD_ZOOM_AUTO_LARGER"
 msgid "Zoom: Auto (Larger Only)"
-msgstr "Zoom: Automatisk (Kun større)"
+msgstr "Zoom: Automatisk (kun større)"
 
 msgctxt "IDS_TOOLTIP_EXPLORE_TO_FILE"
 msgid "Double click to open file location"
@@ -1960,7 +1977,7 @@ msgstr "DVD menu forlad"
 
 msgctxt "IDS_AG_BOSS_KEY"
 msgid "Boss key"
-msgstr "Chef tast"
+msgstr "Chef-tast"
 
 msgctxt "IDS_MPLAYERC_77"
 msgid "Player Menu"
@@ -2032,7 +2049,7 @@ msgstr "Til/Fra undertekst (DVD)"
 
 msgctxt "IDS_OSD_DISPLAY_CURRENT_TIME"
 msgid "OSD: Display Current Time"
-msgstr "OSD: Vis nuværende tid"
+msgstr "OSD: Vis aktuelle tid"
 
 msgctxt "IDS_PPAGEWEBSERVER_0"
 msgid "Select the directory"
@@ -2058,11 +2075,11 @@ msgctxt "IDS_DVB_CHANNEL_ENCRYPTION"
 msgid "Encrypted"
 msgstr "Krypteret"
 
-msgctxt "IDS_DVB_CHANNEL_ENCRYPTED"
+msgctxt "IDS_YES"
 msgid "Yes"
 msgstr "Ja"
 
-msgctxt "IDS_DVB_CHANNEL_NOT_ENCRYPTED"
+msgctxt "IDS_NO"
 msgid "No"
 msgstr "Nej"
 
@@ -2124,11 +2141,11 @@ msgstr "Vinkel: %02lu/%02lu, %lux%lu %lu Hz %lu:%lu"
 
 msgctxt "IDS_MAINFRM_11"
 msgid "%s, %s %u Hz %d bits %d %s"
-msgstr "%s, %s %u Hz %d bits %d %s"
+msgstr "%s, %s %u Hz %d bit %d %s"
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
-msgstr "Føj til MPC-HC spilleliste"
+msgstr "Føj til spilleliste i MPC-HC"
 
 msgctxt "IDS_OPEN_WITH_MPC"
 msgid "Play with MPC-HC"
@@ -2188,7 +2205,7 @@ msgstr "DVD: Inkompatibel disk og dekoder-regioner"
 
 msgctxt "IDS_D3DFS_WARNING"
 msgid "This option is designed to avoid tearing. However, it will also prevent MPC-HC from displaying the context menu and any dialog box during playback.\n\nDo you really want to activate this option?"
-msgstr "Denne indstilling er designet til at undgå iturivning. Det forhindre dog også MPC-HC i at vise genvejsmenuen og dialogbokse under afspilning.\n\nEr du sikker på at du vil aktivere denne indstilling?"
+msgstr "Denne indstilling er designet til at undgå iturivning. Det forhindre dog også MPC-HC i at vise genvejsmenuen og dialogbokse under afspilning.\n\nEr du sikker på, at du vil aktivere denne indstilling?"
 
 msgctxt "IDS_MAINFRM_139"
 msgid "Sub delay: %ld ms"
@@ -2213,14 +2230,6 @@ msgstr "Kolonner:"
 msgctxt "IDS_THUMB_IMAGE_WIDTH"
 msgid "Image width"
 msgstr "Billedbredde"
-
-msgctxt "IDS_PPSDB_URLCORRECT"
-msgid "The URL appears to be correct!"
-msgstr "URL'en ser ud til at være korrekt!"
-
-msgctxt "IDS_PPSDB_PROTOCOLERR"
-msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
-msgstr "Uoverensstemmelse i protokol-version, opdater venligst din afspiller eller vælg en anden adresse!"
 
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
@@ -2296,7 +2305,7 @@ msgstr "Kunne ikke finde videoens billedstørrelse"
 
 msgctxt "IDS_OUT_OF_MEMORY"
 msgid "Out of memory, go buy some more!"
-msgstr "Ikke mere hukommelse, køb noget mere!"
+msgstr "Ikke mere ledig hukommelse, køb noget mere!"
 
 msgctxt "IDS_THUMBNAILS_INVALID_FORMAT"
 msgid "Invalid image format, cannot create thumbnails out of %d bpp dibs."
@@ -2315,20 +2324,20 @@ msgid "The thumbnails would be too small, impossible to create the file.\n\nTry 
 msgstr "Miniaturerne ville blive for små, umuligt at oprette filen.\n\nPrøv at mindske antallet af miniaturer eller øge den samlede størrelse."
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
-msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "For at indlæse undertekster skal du skifte video-renderer typen og genåbne filen.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR eller Haali\n- RealMedia: Speciel renderer til RealMedia, eller åbn den gennem DirectShow\n- QuickTime: DX7 eller DX9 renderer til QuickTime\n- ShockWave: ikke tilgængelig"
+msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+msgstr "For at indlæse undertekster skal du skifte video-renderer typen og genåbne filen.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR eller Haali\n- RealMedia: Speciel renderer til RealMedia, eller åbn den gennem DirectShow\n- QuickTime: DX7 eller DX9 renderer til QuickTime\n- ShockWave: ikke tilgængelig"
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
-msgstr "Undertekst-filer"
+msgstr "Undertekstfiler"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %ld:%ld"
 msgstr "Højde-bredde-forhold: %ld:%ld"
 
 msgctxt "IDS_MAINFRM_69"
-msgid "Aspect Ratio: Default"
-msgstr "Højde-bredde-forhold: Standard"
+msgid "Aspect Ratio: Default (DAR)"
+msgstr "Højde-bredde-forhold: Standard (DAR)"
 
 msgctxt "IDS_MAINFRM_70"
 msgid "Audio delay: %I64d ms"
@@ -2340,7 +2349,7 @@ msgstr "Kapitel %d"
 
 msgctxt "IDS_AG_OUT_OF_MEMORY"
 msgid "Out of memory"
-msgstr "Ikke mere hukommelse"
+msgstr "Ikke mere ledig hukommelse"
 
 msgctxt "IDS_MAINFRM_77"
 msgid "Error: Adobe Flash Player for Internet Explorer is required"
@@ -2365,10 +2374,6 @@ msgstr "Åbning afbrudt"
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
 msgstr "Kunne ikke rendere filen"
-
-msgctxt "IDS_PPSDB_BADURL"
-msgid "Bad URL, could not locate subtitle database there!"
-msgstr "Forkert URL, der blev ikke fundet en database med undertekster!"
 
 msgctxt "IDS_AG_CHAPTER2"
 msgid "Chapter: "
@@ -2444,7 +2449,7 @@ msgstr "Ukendt filtype"
 
 msgctxt "IDS_MAINFRM_92"
 msgid "Unsupported stream"
-msgstr "Ikke understøttede stream"
+msgstr "Ikke understøttede strøm"
 
 msgctxt "IDS_MAINFRM_93"
 msgid "Cannot find DVD directory"
@@ -2496,7 +2501,7 @@ msgstr " (pin) egenskaber..."
 
 msgctxt "IDS_AG_UNKNOWN_STREAM"
 msgid "Unknown Stream"
-msgstr "Ukendt stream"
+msgstr "Ukendt strøm"
 
 msgctxt "IDS_AG_UNKNOWN"
 msgid "Unknown %u"
@@ -2524,7 +2529,7 @@ msgstr "Vinkel %u"
 
 msgctxt "IDS_AG_VSYNCOFFSET_INCREASE"
 msgid "Increase VSync Offset"
-msgstr "Forskyd lodret synkronisering +"
+msgstr "Lodret synkronisering +"
 
 msgctxt "IDS_AG_DISABLED"
 msgid "Disabled"
@@ -2532,7 +2537,7 @@ msgstr "Deaktiveret"
 
 msgctxt "IDS_AG_VSYNCOFFSET_DECREASE"
 msgid "Decrease VSync Offset"
-msgstr "Forskyd lodret synkronisering -"
+msgstr "Lodret synkronisering -"
 
 msgctxt "IDS_MAINFRM_136"
 msgid "MPC-HC D3D Fullscreen"
@@ -2563,12 +2568,12 @@ msgid "Volume boost Max"
 msgstr "Lydstyrke forstærk maksimum"
 
 msgctxt "IDS_USAGE"
-msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/randomize\tRandomize the playlist\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tUse MPC-HC as slave\n/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding\n\t\tOnly available for CUVID and DXVA2 (copy-back)\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "Anvendelse: mpc-hc.exe \"stinavn\" [parametre]\n\n\"stinavn\"\t\tHovedfilen eller mappen der skal indlæses\n\t\t(jokertegn er tilladt, \"-\" vælger standardinput)\n/dub \"dubnavn\"\tIndlæser en ekstra lydfil\n/dubdelay \"fil\"\tIndlæser en ekstra lydfil forskudt med XXms (hvis\n\t\tfilen indeholder \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering i D3D fuldskærm-tilstand\n/sub \"filnavn\"\tIndlæser en ekstra undertekstfil\n/filter \"filternavn\"\tIndlæser DirectShow-filtre fra et dynamisk linket\n\t\tbibliotek (jokertegn er tilladt)\n/dvd\t\tKør i DVD-tilstand, \"stinavn\" betyder\n\t\tDVD-mappen (valgfri)\n/dvdpos T#C\tStart afspilning ved titel T, kapitel C\n/dvdpos T#hh:mm\tStart afspilning ved titel T, tidspunkt hh:mm:ss\n/cd\t\tIndlæs alle spor fra en lyd-CD eller (S)VCD,\n\t\t\"stinavn\" betyder drevstien (valgfri)\n/device\t\tÅbn standard videoenheden\n/open\t\tÅbn filen, start ikke afspilning automatisk\n/play\t\tStart afspilning af filen så snart afspilleren er\n\t\tstartet\n/close\t\tLuk afspilleren når afspilning er slut (virker kun når\n\t\t/play bruges)\n/shutdown\tLuk styresystem når afspilning er slut\n/standby\t\tSæt styresystem i slumre når afspilning er slut\n/hibernate\tSæt styresystem i dvale når afspilning er slut\n/logoff\t\tLog af når afspilning er slut\n/lock\t\tLås arbejdsstation når afspilning er slut\n/monitoroff\tSluk skærmen når afspilning er slut\n/playnext\t\tÅbn næste fil i mappen når afspilning er slut\n/fullscreen\tStart i fuldskærm\n/minimized\tStart minimeret\n/new\t\tÅbn en ny forekomst af afspilleren\n/add\t\tTilføj \"stinavn\" til spilleliste, kan kombineres\n\t\tmed /open og /play\n/randomize\tTilfældig rækkefølge i spilleliste\n/regvid\t\tOpret filtilknytninger til videofiler\n/regaud\t\tOpret filtilknytninger til lydfiler\n/regpl\t\tOpret filtilknytninger til spillelistefiler\n/regall\t\tOpret filtilknytninger til alle understøttede filtyper\n/unregall\t\tFjern alle filtilknytninger\n/start ms\t\tStart afspilning ved \"ms\" (= millisekunder)\n/startpos\t\thh:mm:ss\tStart afspilning ved tidspunkt hh:mm:ss\n/fixedsize w,h\tBrug fast vinduesstørrelse\n/monitor N\tStart afspilning på skærm N, hvor N starter fra 1\n/audiorenderer N\tStart med lyd-rendereren N, hvor N starter fra 1\n\t\t(se \"Output\" indstillinger)\n/shaderpreset \"Pr\"\tStart med \"Pr\" shader forudindstilling\n/pns \"navn\"\tVælg panorering og scanning forudindstilling\n/iconsassoc\tTilknyt format-ikoner igen\n/nofocus\t\tÅbn MPC-HC i baggrunden\n/webport N\tStart webgrænsefladen på den valgte port\n/debug\t\tVis fejlfindingsoplysninger i OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tBrug MPC-HC som slave\n/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding\n\t\tOnly available for CUVID and DXVA2 (copy-back)\n/reset\t\tGendan standardindstillinger\n/help /h /?\tVis hjælp til kommandolinjeparametre\n"
+msgid "Usage: mpc-hc.exe \"pathname\" [switches]"
+msgstr "Brug: mpc-hc.exe \"stinavn\" [kontakter]"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
-msgstr "Ukendte parametre i kommandolinje streng: \n\n"
+msgstr "Ukendte kontakt(er) i kommandolinje streng: \n\n"
 
 msgctxt "IDS_AG_TOGGLE_INFO"
 msgid "Toggle Information"
@@ -2612,7 +2617,7 @@ msgstr "Zoom 200%"
 
 msgctxt "IDS_AG_NEXT_AR_PRESET"
 msgid "Next AR Preset"
-msgstr "Næste højde-bredde-forudindstilling"
+msgstr "Næste h-b-forudindstilling"
 
 msgctxt "IDS_AG_VIDFRM_STRETCH"
 msgid "VidFrm Stretch"
@@ -2649,14 +2654,6 @@ msgstr "VidRam skift zoom"
 msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
 msgstr "&Aktivér alle filtre"
-
-msgctxt "IDS_NAVIGATE_TUNERSCAN"
-msgid "Tuner scan"
-msgstr "Tuner scanning"
-
-msgctxt "IDS_SUBTITLES_ERROR"
-msgid "Subtitles are not loaded or unsupported renderer."
-msgstr "Undertekster er ikke indlæst eller ikke understøttet renderer."
 
 msgctxt "IDS_LOGO_AUTHOR"
 msgid "Author unknown. Contact us if you made this logo!"
@@ -2780,7 +2777,7 @@ msgstr "Pixels:"
 
 msgctxt "IDS_TEXTFILE_ENC"
 msgid "Encoding:"
-msgstr "Indkodning:"
+msgstr "Kodning:"
 
 msgctxt "IDS_DISABLE_ALL_FILTERS"
 msgid "&Disable all filters"
@@ -3088,19 +3085,19 @@ msgstr "Farvehåndtering: Fra"
 
 msgctxt "IDS_OSD_RS_INPUT_TYPE_AUTO"
 msgid "Input Type: Auto-Detect"
-msgstr "Input type: Automatisk"
+msgstr "Inputtype: Automatisk"
 
 msgctxt "IDS_OSD_RS_INPUT_TYPE_HDTV"
 msgid "Input Type: HDTV"
-msgstr "Input type: HDTV"
+msgstr "Inputtype: HDTV"
 
 msgctxt "IDS_OSD_RS_INPUT_TYPE_SD_NTSC"
 msgid "Input Type: SDTV NTSC"
-msgstr "Input type: SDTV NTSC"
+msgstr "Inputtype: SDTV NTSC"
 
 msgctxt "IDS_OSD_RS_INPUT_TYPE_SD_PAL"
 msgid "Input Type: SDTV PAL"
-msgstr "Input type: SDTV PAL"
+msgstr "Inputtype: SDTV PAL"
 
 msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_BRIGHT"
 msgid "Ambient Light: Bright (2.2 Gamma)"
@@ -3200,19 +3197,19 @@ msgstr "D3D fuldskærm GUI understøttelse: Fra"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_ON"
 msgid "10-bit RGB Output: On"
-msgstr "10-bit RGB output: Til"
+msgstr "10-bit RGB-output: Til"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_OFF"
 msgid "10-bit RGB Output: Off"
-msgstr "10-bit RGB output: Fra"
+msgstr "10-bit RGB-output: Fra"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_IN_ON"
 msgid "Force 10-bit RGB Input: On"
-msgstr "Gennemtving 10-bit RGB input: Til"
+msgstr "Gennemtving 10-bit RGB-input: Til"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_IN_OFF"
 msgid "Force 10-bit RGB Input: Off"
-msgstr "Gennemtving 10-bit RGB input: Fra"
+msgstr "Gennemtving 10-bit RGB-input: Fra"
 
 msgctxt "IDS_OSD_RS_FULL_FP_PROCESS_ON"
 msgid "Full Floating Point Processing: On"
@@ -3268,11 +3265,11 @@ msgstr "\nDu bruger allerede den seneste stabile version."
 
 msgctxt "IDS_USING_NEWER_VERSION"
 msgid "Your current version is v%s.\n\nThe latest stable version is v%s."
-msgstr "Din nuværende version er v%s.\n\nDen seneste stabile version er v%s."
+msgstr "Din aktuelle version er v%s.\n\nDen seneste stabile version er v%s."
 
 msgctxt "IDS_NEW_UPDATE_AVAILABLE"
 msgid "MPC-HC v%s is now available. You are using v%s.\n\nDo you want to visit MPC-HC's website to download it?"
-msgstr "MPC-HC v%s er nu tilgængelig. Du bruger v%s.\n\nØnsker du at besøge MPC-HC's hjemmeside for at hente den?"
+msgstr "MPC-HC v%s er nu tilgængelig. Du bruger v%s.\n\nØnsker du at besøge MPC-HC's hjemmeside for at downloade den?"
 
 msgctxt "IDS_UPDATE_ERROR"
 msgid "Update server not found.\n\nPlease check your internet connection or try again later."
@@ -3406,10 +3403,6 @@ msgctxt "IDS_SCREENSHOT_ERROR_OVERLAY"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the Overlay Mixer video renderer.\nChange the video renderer in MPC's output options and reopen the file."
 msgstr "\"Gem billede\" og \"Gem miniaturer\" virker ikke med Overlay Mixer video-rendereren.\nVælg en anden video-renderer i MPC's outputindstillinger og åbn filen på ny."
 
-msgctxt "IDS_SUBDL_DLG_CONNECT_ERROR"
-msgid "Cannot connect to the online subtitles database."
-msgstr "Kan ikke oprette forbindelse til online databasen med undertekster."
-
 msgctxt "IDS_MB_SHOW_EDL_EDITOR"
 msgid "Do you want to activate the EDL editor?"
 msgstr "Vil du aktivere EDL-editoren?"
@@ -3436,19 +3429,19 @@ msgstr "Kan ikke forbinde %s buffer filteret til grafen."
 
 msgctxt "IDS_CAPTURE_ERROR_ADD_ENCODER"
 msgid "Can't add the %s encoder filter to the graph."
-msgstr "Kan ikke tilføj %s indkodningsfilteret til grafen."
+msgstr "Kan ikke tilføj %s kodningsfilteret til grafen."
 
 msgctxt "IDS_CAPTURE_ERROR_CONNECT_ENC"
 msgid "Can't connect the %s encoder filter to the graph."
-msgstr "Kan ikke forbinde %s indkodningsfilteret til grafen."
+msgstr "Kan ikke forbinde %s kodningsfilteret til grafen."
 
 msgctxt "IDS_CAPTURE_ERROR_COMPRESSION"
 msgid "Can't set the compression format on the %s encoder filter."
-msgstr "Kan ikke anvende komprimeringsformatet på %s indkodningsfilteret."
+msgstr "Kan ikke anvende komprimeringsformatet på %s kodningsfilteret."
 
 msgctxt "IDS_CAPTURE_ERROR_MULTIPLEXER"
 msgid "Can't connect the %s stream to the multiplexer filter."
-msgstr "Kan ikke forbinde %s streamet til multiplekserfilteret."
+msgstr "Kan ikke forbinde %s strømmen til multiplekserfilteret."
 
 msgctxt "IDS_CAPTURE_ERROR_VID_CAPT_PIN"
 msgid "No video capture pin was found."
@@ -3468,7 +3461,7 @@ msgstr "Fejl ved initialisering af lyd output-fil."
 
 msgctxt "IDS_SUBRESYNC_TIME_FORMAT"
 msgid "The correct time format is [-]hh:mm:ss.ms (e.g. 01:23:45.678)."
-msgstr "Det korrekte tidsformat er [-]hh:mm:ss.ms (f.eks. 01:23:45.678)."
+msgstr "Det korrekte tidsformat er [-]tt:mm:ss.ms (f.eks. 01:23:45.678)."
 
 msgctxt "IDS_EXTERNAL_FILTERS_ERROR_MT"
 msgid "This type is already in the list!"
@@ -3596,9 +3589,377 @@ msgstr "Indstillinger"
 
 msgctxt "IDS_SUBTITLE_RENDERER_VS_FILTER"
 msgid "VSFilter / DirectVobSub"
-msgstr ""
+msgstr "VSFilter / DirectVobSub"
 
 msgctxt "IDS_SUBTITLE_RENDERER_XY_SUB_FILTER"
 msgid "XySubFilter"
-msgstr ""
+msgstr "XySubFilter"
+
+msgctxt "IDS_SUBDL_DLG_PROVIDER_COL"
+msgid "Provider"
+msgstr "Udbyder"
+
+msgctxt "IDS_SUBDL_DLG_HI_COL"
+msgid "Hearing Impaired"
+msgstr "Hørehæmmet"
+
+msgctxt "IDS_SUBDL_DLG_DOWNLOADS_COL"
+msgid "Downloads"
+msgstr "Downloads"
+
+msgctxt "IDS_SUBDL_DLG_SCORE_COL"
+msgid "Score"
+msgstr "Vurdering"
+
+msgctxt "IDS_SUBDL_DLG_FAILED"
+msgid "Online subtitles search failed."
+msgstr "Søgning efter undertekster online mislykkedes."
+
+msgctxt "IDS_SUBDL_DLG_ABORTED"
+msgid "Online subtitles search aborted."
+msgstr "Søgning efter undertekster online afbrudt."
+
+msgctxt "IDS_SUBDL_DLG_FOUND"
+msgid "Online subtitles search completed, %d subtitles found."
+msgstr "Søgning efter undertekster online fuldført, %d undertekster fundet."
+
+msgctxt "IDS_SUBDL_DLG_NOTFOUND"
+msgid "Online subtitles search completed, no subtitles found."
+msgstr "Søgning efter undertekster online fuldført, ingen undertekster fundet."
+
+msgctxt "IDS_SUBDL_DLG_TITLE"
+msgid "Download subtitles"
+msgstr "Download undertekster"
+
+msgctxt "IDS_SUBDL_DLG_SEARCHING"
+msgid "Searching for subtitles online, please wait..."
+msgstr "Søger efter undertekster online, vent venligst..."
+
+msgctxt "IDS_SUBDL_DLG_ABORTING"
+msgid "Online subtitles search aborting..."
+msgstr "Søgninger efter undertekster online afbrydes..."
+
+msgctxt "IDS_SUBUL_DLG_USERNAME_COL"
+msgid "Username"
+msgstr "Brugernavn"
+
+msgctxt "IDS_SUBUL_DLG_STATUS_COL"
+msgid "Status"
+msgstr "Status"
+
+msgctxt "IDS_SUBUL_DLG_STATUS_READY"
+msgid "Ready..."
+msgstr "Klar..."
+
+msgctxt "IDS_SUBUL_DLG_STATUS_NOTIMPLEMENTED"
+msgid "Not implemented."
+msgstr "Ikke implementeret."
+
+msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADING"
+msgid "Uploading..."
+msgstr "Uploader..."
+
+msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADED"
+msgid "Subtitles uploaded successfully."
+msgstr "Undertekster blev uploadet."
+
+msgctxt "IDS_SUBUL_DLG_STATUS_FAILED"
+msgid "Subtitles upload failed."
+msgstr "Upload af undertekster mislykkedes."
+
+msgctxt "IDS_SUBUL_DLG_STATUS_ABORTED"
+msgid "Subtitles upload aborted."
+msgstr "Upload af undertekster afbrudt."
+
+msgctxt "IDS_SUBUL_DLG_STATUS_ALREADYEXISTS"
+msgid "Subtitles already exist."
+msgstr "Undertekster findes allerede."
+
+msgctxt "IDS_SUBUL_DLG_UPLOADING"
+msgid "Uploading subtitles, please wait..."
+msgstr "Uploader undertekster, vent venligst..."
+
+msgctxt "IDS_SUBUL_DLG_UPLOADED"
+msgid "Upload finished."
+msgstr "Upload afsluttet."
+
+msgctxt "IDS_SUBUL_DLG_ABORTED"
+msgid "Upload aborted."
+msgstr "Upload afbrudt."
+
+msgctxt "IDS_SUBUL_DLG_FAILED"
+msgid "Upload failed."
+msgstr "Upload mislykkedes."
+
+msgctxt "IDS_SUBMENU_DOWNLOAD"
+msgid "Download && Open"
+msgstr "Download og åbn"
+
+msgctxt "IDS_SUBMENU_SETUP"
+msgid "Setup"
+msgstr "Opsætning"
+
+msgctxt "IDS_SUBMENU_RESET"
+msgid "Reset"
+msgstr "Nulstil"
+
+msgctxt "IDS_SUBMENU_MOVEUP"
+msgid "Move Up"
+msgstr "Flyt op"
+
+msgctxt "IDS_SUBMENU_MOVEDOWN"
+msgid "Move Down"
+msgstr "Flyt ned"
+
+msgctxt "IDS_SUBMENU_OPENURL"
+msgid "Open URL"
+msgstr "Åbn URL"
+
+msgctxt "IDS_SUBPP_DLG_LANGUAGES_COL"
+msgid "Languages"
+msgstr "Sprog"
+
+msgctxt "IDS_SUBPP_DLG_LANGUAGES_ERROR"
+msgid "ERROR: Internet connection could not be established."
+msgstr "FEJL: kunne ikke etablerer internetforbindelse."
+
+msgctxt "IDS_SUB_CREDENTIALS_TITLE"
+msgid "Enter website credentials"
+msgstr "Indtast loginoplysninger for websted"
+
+msgctxt "IDS_SUB_CREDENTIALS_MSG"
+msgid "Enter your credentials to connect to: "
+msgstr "Indtast dine loginoplysninger for at oprette forbindelse til: "
+
+msgctxt "IDS_ASPECT_RATIO_SAR"
+msgid "Aspect Ratio: Assume square pixels (SAR)"
+msgstr "Højde-bredde-forhold: Formod kvadratiske pixels (SAR)"
+
+msgctxt "IDS_SUBDL_DLG_DOWNLOADED"
+msgid "Downloaded [%s] \"%s\""
+msgstr "Downloadet [%s] \"%s\""
+
+msgctxt "IDS_SUBUL_DLG_TITLE"
+msgid "Upload subtitles"
+msgstr "Upload undertekster"
+
+msgctxt "IDS_SUBUL_DLG_CONFIRM"
+msgid "Are you sure you want to upload the subtitle file \"%s\"?"
+msgstr "Er du sikker på, at du vil uploade undertekstfilen \"%s\"?"
+
+msgctxt "IDS_SUBPP_DLG_FETCHING_LANGUAGES"
+msgid "Fetching supported languages..."
+msgstr "Henter understøttede sprog..."
+
+msgctxt "IDS_SUB_CREDENTIALS_ERROR"
+msgid "Failed to log in on \"%S\" with username \"%S\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
+msgstr "Kunne ikke logge ind på \"%S\" med brugernavnet \"%S\".\n\nIndtast venligst det korrekte brugernavn og adgangskode eller nulstil loginoplysningerne for at logge ind som en anonym bruger."
+
+msgctxt "IDS_SUB_AUTODL_IGNORE_TOOLTIP"
+msgid "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\nFor example, type: \"private dir\\videos|work\\\"."
+msgstr "Automatisk søgning og download vil blive deaktiveret for alle mediefiler som indeholder de mønstre som indtastes her.\nSkriv f.eks.: \"privat mappe\\videoer|arbejde\\\"."
+
+msgctxt "IDS_CMD_PATHNAME"
+msgid "\"pathname\"\tThe main file or directory to be loaded\n\t\t(wildcards allowed, \"-\" denotes standard input)"
+msgstr "\"stinavn\"\tHovedfilen eller -mappen som skal indlæses\n\t\t(jokertegn tilladt, \"-\" angiver standardinput)"
+
+msgctxt "IDS_CMD_DUB"
+msgid "/dub \"dubname\"\tLoad an additional audio file"
+msgstr "/dub \"dubnavn\"\tIndlæs en yderligere lydfil"
+
+msgctxt "IDS_CMD_DUBDELAY"
+msgid "/dubdelay \"file\"\tLoad an additional audio file shifted with XXms\n\t\t(if the file contains \"...DELAY XXms...\")"
+msgstr "/dubdelay \"fil\"\tIndlæs en yderligere lydfil forskudt med XXms\n\t\t(hvis filen indeholder \"...DELAY XXms...\")"
+
+msgctxt "IDS_CMD_D3DFS"
+msgid "/d3dfs\t\tStart rendering in D3D fullscreen mode"
+msgstr "/d3dfs\t\tStart rendering i D3D fuldskærm-tilstand"
+
+msgctxt "IDS_CMD_SUB"
+msgid "/sub \"subname\"\tLoad an additional subtitle file"
+msgstr "/sub \"undert.navn\"\tIndlæs en yderligere undertekstfil"
+
+msgctxt "IDS_CMD_FILTER"
+msgid "/filter \"filtername\"\tLoad DirectShow filters from a dynamic link library (wildcards allowed)"
+msgstr "/filter \"filternavn\"\tIndlæs DirectShow-filtre fra et dynamisk link bibliotek (jokertegn tilladt)"
+
+msgctxt "IDS_CMD_DVD"
+msgid "/dvd\t\tRun in DVD mode, \"pathname\" means the DVD folder (optional)"
+msgstr "/dvd\t\tKør i DVD-tilstand, \"stinavn\" betyder DVD-mappen (valgfri)"
+
+msgctxt "IDS_CMD_DVDPOS_TC"
+msgid "/dvdpos T#C\tStart playback at title T, chapter C"
+msgstr "/dvdpos T#C\tStart afspilning ved titel T, kapitel C"
+
+msgctxt "IDS_CMD_DVDPOS_TIME"
+msgid "/dvdpos T#P\tStart playback at title T, position P (hh:mm:ss)"
+msgstr "/dvdpos T#P\tStart afspilning ved titel T, position P (tt:mm:ss)"
+
+msgctxt "IDS_CMD_CD"
+msgid "/cd\t\tLoad all the tracks of an Audio CD or (S)VCD,\n\t\t\"pathname\" means the drive path (optional)"
+msgstr "/cd\t\tIndlæs alle spor fra en lyd-CD eller (S)VCD,\n\t\t\"stinavn\" betyder drevstien (valgfri)"
+
+msgctxt "IDS_CMD_DEVICE"
+msgid "/device\t\tOpen the default video device"
+msgstr "/device\t\tÅbn standard videoenheden"
+
+msgctxt "IDS_CMD_OPEN"
+msgid "/open\t\tOpen the file, don't automatically start playback"
+msgstr "/open\t\tÅbn filen, start ikke afspilning automatisk"
+
+msgctxt "IDS_CMD_PLAY"
+msgid "/play\t\tStart playing the file as soon the player is launched"
+msgstr "/play\t\tStart afspilning af filen så snart afspilleren køre"
+
+msgctxt "IDS_CMD_CLOSE"
+msgid "/close\t\tClose the player after playback (only works when used with /play)"
+msgstr "/close\t\tLuk afspilleren efter afspilning (virker kun når /play bruges)"
+
+msgctxt "IDS_CMD_SHUTDOWN"
+msgid "/shutdown\tShutdown the operating system after playback"
+msgstr "/shutdown\tLuk styresystemet efter afspilning"
+
+msgctxt "IDS_CMD_STANDBY"
+msgid "/standby\t\tPut the operating system in standby mode after playback"
+msgstr "/standby\t\tSæt styresystemet i standby-tilstand efter afspilning"
+
+msgctxt "IDS_CMD_HIBERNATE"
+msgid "/hibernate\tHibernate operating system after playback"
+msgstr "/hibernate\tSæt styresystemet i dvale efter afspilning"
+
+msgctxt "IDS_CMD_LOGOFF"
+msgid "/logoff\t\tLog off after playback"
+msgstr "/logoff\t\tLog af efter afspilning"
+
+msgctxt "IDS_CMD_LOCK"
+msgid "/lock\t\tLock workstation after playback"
+msgstr "/lock\t\tLås arbejdsstation efter afspilning"
+
+msgctxt "IDS_CMD_MONITOROFF"
+msgid "/monitoroff\tTurn off the monitor after playback"
+msgstr "/monitoroff\tSluk monitoren efter afspilning"
+
+msgctxt "IDS_CMD_PLAYNEXT"
+msgid "/playnext\t\tOpen next file in the folder after playback"
+msgstr "/playnext\t\tÅbn næste fil i mappen efter afspilning"
+
+msgctxt "IDS_CMD_FULLSCREEN"
+msgid "/fullscreen\tStart in fullscreen mode"
+msgstr "/fullscreen\tStart i fuldskærm-tilstand"
+
+msgctxt "IDS_CMD_MINIMIZED"
+msgid "/minimized\tStart in minimized mode"
+msgstr "/minimized\tStart i minimeret-tilstand"
+
+msgctxt "IDS_CMD_NEW"
+msgid "/new\t\tUse a new instance of the player"
+msgstr "/new\t\tBrug en ny instans af afspilleren"
+
+msgctxt "IDS_CMD_ADD"
+msgid "/add\t\tAdd \"pathname\" to playlist, can be combined with /open and /play"
+msgstr "/add\t\tTilføj \"stinavn\" til spilleliste. Kan kombineres med /open og /play"
+
+msgctxt "IDS_CMD_RANDOMIZE"
+msgid "/randomize\tRandomize the playlist"
+msgstr "/randomize\tGør spillelistens rækkefølge tilfældig"
+
+msgctxt "IDS_CMD_REGVID"
+msgid "/regvid\t\tCreate file associations for video files"
+msgstr "/regvid\t\tOpret filtilknytninger for videofiler"
+
+msgctxt "IDS_CMD_REGAUD"
+msgid "/regaud\t\tCreate file associations for audio files"
+msgstr "/regaud\t\tOpret filtilknytninger for lydfiler"
+
+msgctxt "IDS_CMD_REGPL"
+msgid "/regpl\t\tCreate file associations for playlist files"
+msgstr "/regpl\t\tOpret filtilknytninger for spillelistefiler"
+
+msgctxt "IDS_CMD_REGALL"
+msgid "/regall\t\tCreate file associations for all supported file types"
+msgstr "/regall\t\tOpret filtilknytninger for alle understøttede filtyper"
+
+msgctxt "IDS_CMD_UNREGALL"
+msgid "/unregall\t\tRemove all file associations"
+msgstr "/unregall\t\tFjern alle filtilknytninger"
+
+msgctxt "IDS_CMD_START"
+msgid "/start ms\t\tStart playing at \"ms\" (= milliseconds)"
+msgstr "/start ms\t\tStart afspilning ved \"ms\" (= millisekunder)"
+
+msgctxt "IDS_CMD_STARTPOS"
+msgid "/startpos hh:mm:ss\tStart playing at position hh:mm:ss"
+msgstr "/startpos tt:mm:ss\tStart afspilning ved placering tt:mm:ss"
+
+msgctxt "IDS_CMD_FIXEDSIZE"
+msgid "/fixedsize w,h\tSet a fixed window size"
+msgstr "/fixedsize b,h\tIndstil en fast vinduesstørrelse"
+
+msgctxt "IDS_CMD_MONITOR"
+msgid "/monitor N\tStart player on monitor N, where N starts from 1"
+msgstr "/monitor N\tStart afspiller på monitor N, hvor N starter fra 1"
+
+msgctxt "IDS_CMD_AUDIORENDERER"
+msgid "/audiorenderer N\tStart using audiorenderer N, where N starts from 1 (see \"Output\" settings)"
+msgstr "/audiorenderer N\tStart med brug af lyd-renderen N, hvor N starter fra 1 (se \"Output\" indstillinger)"
+
+msgctxt "IDS_CMD_SHADERPRESET"
+msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
+msgstr "/shaderpreset \"Fo\"\tStart brug af \"Fo\" shader-forudindstilling"
+
+msgctxt "IDS_CMD_PNS"
+msgid "/pns \"name\"\tSpecify Pan&Scan preset name to use"
+msgstr "/pns \"navn\"\tAngiv det Panorering og skanning-forudindstillingsnavn som skal bruges"
+
+msgctxt "IDS_CMD_ICONASSOC"
+msgid "/iconsassoc\tReassociate format icons"
+msgstr "/iconsassoc\tTilknyt format-ikoner igen"
+
+msgctxt "IDS_CMD_NOFOCUS"
+msgid "/nofocus\t\tOpen MPC-HC in background"
+msgstr "/nofocus\t\tÅbn MPC-HC i baggrunden"
+
+msgctxt "IDS_CMD_WEBPORT"
+msgid "/webport N\tStart web interface on specified port"
+msgstr "/webport N\tStart webgrænseflade på angivet port"
+
+msgctxt "IDS_CMD_DEBUG"
+msgid "/debug\t\tShow debug information in OSD"
+msgstr "/debug\t\tVis fejlfindingsoplysninger i OSD"
+
+msgctxt "IDS_CMD_NOCRASHREPORTER"
+msgid "/nocrashreporter\tDisable the crash reporter"
+msgstr "/nocrashreporter\tDeaktivér fejlrapporteringen"
+
+msgctxt "IDS_CMD_SLAVE"
+msgid "/slave \"hWnd\"\tUse MPC-HC as slave"
+msgstr "/slave \"hWnd\"\tBrug MPC-HC som slave"
+
+msgctxt "IDS_CMD_HWGPU"
+msgid "/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding.\n\t\tOnly available for CUVID and DXVA2 (copy-back)"
+msgstr "/hwgpu \"indeks\"\tIndstil indekset af GPU'en brugt til hardware-dekodning.\n\t\tKun tilgængelig for CUVID og DXVA2 (copy-back)"
+
+msgctxt "IDS_CMD_RESET"
+msgid "/reset\t\tRestore default settings"
+msgstr "/reset\t\tGendan standardindstillinger"
+
+msgctxt "IDS_CMD_HELP"
+msgid "/help /h /?\tShow help about command line switches"
+msgstr "/help /h /?\tVis hjælp om kommandolinjekontakter"
+
+msgctxt "IDS_PPAGEADVANCED_SCORE"
+msgid "Threshold value for subtitles score which are going to be automatically downloaded. Higher values means that more accurately matched subtitles will be loaded, lower values could result in incorrect subtitles being loaded, but there is no one perfect value. Pick one that works best for you."
+msgstr "Grænseværdi for undertekstervurdering som automatisk vil blive downloadet. Højere værdier betyder at mere præcise match vil blive indlæst, lavere værdi kan resulterer i indlæsning af forkerte undertekster, men der er ingen perfekt værdi. Vælg en som virker bedst for dig."
+
+msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
+msgid "Audio Delay (ms)"
+msgstr "Lydforsinkelse (ms)"
+
+msgctxt "IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE"
+msgid "Size in pixels of the default toolbar."
+msgstr "Størrelse i pixels af standardværktøjslinjen."
+
+msgctxt "IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR"
+msgid "Use legacy toolbar instead of new vectorized one."
+msgstr "Brug forældet værktøjslinje i stedet for den nye vektoriseret."
 

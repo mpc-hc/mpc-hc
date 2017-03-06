@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -46,6 +46,7 @@ CPPageOutput::CPPageOutput()
     , m_fD3DFullscreen(FALSE)
     , m_fVMR9AlterativeVSync(FALSE)
     , m_fResetDevice(FALSE)
+    , m_fCacheShaders(FALSE)
     , m_iEvrBuffers(_T("5"))
     , m_fD3D9RenderDevice(FALSE)
     , m_iD3D9RenderDevice(-1)
@@ -79,14 +80,13 @@ void CPPageOutput::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_RMRND_SAVEIMAGE_SUPPORT, m_iRMSaveImageSupport);
     DDX_Control(pDX, IDC_QTRND_SUBTITLE_SUPPORT, m_iQTSubtitleSupport);
     DDX_Control(pDX, IDC_QTRND_SAVEIMAGE_SUPPORT, m_iQTSaveImageSupport);
-    DDX_CBIndex(pDX, IDC_RMRND_COMBO, m_iRMVideoRendererType);
-    DDX_CBIndex(pDX, IDC_QTRND_COMBO, m_iQTVideoRendererType);
     DDX_CBIndex(pDX, IDC_AUDRND_COMBO, m_iAudioRendererType);
     DDX_CBIndex(pDX, IDC_DX_SURFACE, m_iAPSurfaceUsage);
     DDX_CBIndex(pDX, IDC_DX9RESIZER_COMBO, m_iDX9Resizer);
     DDX_CBIndex(pDX, IDC_D3D9DEVICE_COMBO, m_iD3D9RenderDevice);
     DDX_Check(pDX, IDC_D3D9DEVICE, m_fD3D9RenderDevice);
     DDX_Check(pDX, IDC_RESETDEVICE, m_fResetDevice);
+    DDX_Check(pDX, IDC_CACHESHADERS, m_fCacheShaders);
     DDX_Check(pDX, IDC_FULLSCREEN_MONITOR_CHECK, m_fD3DFullscreen);
     DDX_Check(pDX, IDC_DSVMR9ALTERNATIVEVSYNC, m_fVMR9AlterativeVSync);
     DDX_Check(pDX, IDC_DSVMR9LOADMIXER, m_fVMR9MixerMode);
@@ -149,6 +149,7 @@ BOOL CPPageOutput::OnInitDialog()
 
     m_iAudioRendererTypeCtrl.SetRedraw(FALSE);
     m_fResetDevice = s.m_RenderersSettings.fResetDevice;
+    m_fCacheShaders = s.m_RenderersSettings.m_AdvRendSets.bCacheShaders;
     m_AudioRendererDisplayNames.Add(_T(""));
     m_iAudioRendererTypeCtrl.AddString(_T("1: ") + ResStr(IDS_PPAGE_OUTPUT_SYS_DEF));
     m_iAudioRendererType = 0;
@@ -263,56 +264,51 @@ BOOL CPPageOutput::OnInitDialog()
     CorrectComboListWidth(m_iD3D9RenderDeviceCtrl);
 
     auto addRenderer = [&](int nID) {
-        CString sName;
+        WORD resName;
 
         switch (nID) {
             case VIDRNDT_DS_DEFAULT:
-                sName = ResStr(IDS_PPAGE_OUTPUT_SYS_DEF);
+                resName = IDS_PPAGE_OUTPUT_SYS_DEF;
                 break;
             case VIDRNDT_DS_OLDRENDERER:
-                sName = ResStr(IDS_PPAGE_OUTPUT_OLDRENDERER);
+                resName = IDS_PPAGE_OUTPUT_OLDRENDERER;
                 break;
             case VIDRNDT_DS_OVERLAYMIXER:
-                sName = ResStr(IDS_PPAGE_OUTPUT_OVERLAYMIXER);
-                break;
-            case VIDRNDT_DS_VMR7WINDOWED:
-                sName = ResStr(IDS_PPAGE_OUTPUT_VMR7WINDOWED);
+                resName = IDS_PPAGE_OUTPUT_OVERLAYMIXER;
                 break;
             case VIDRNDT_DS_VMR9WINDOWED:
-                sName = ResStr(IDS_PPAGE_OUTPUT_VMR9WINDOWED);
-                break;
-            case VIDRNDT_DS_VMR7RENDERLESS:
-                sName = ResStr(IDS_PPAGE_OUTPUT_VMR7RENDERLESS);
+                resName = IDS_PPAGE_OUTPUT_VMR9WINDOWED;
                 break;
             case VIDRNDT_DS_VMR9RENDERLESS:
-                sName = ResStr(IDS_PPAGE_OUTPUT_VMR9RENDERLESS);
+                resName = IDS_PPAGE_OUTPUT_VMR9RENDERLESS;
                 break;
             case VIDRNDT_DS_DXR:
-                sName = ResStr(IDS_PPAGE_OUTPUT_DXR);
+                resName = IDS_PPAGE_OUTPUT_DXR;
                 break;
             case VIDRNDT_DS_NULL_COMP:
-                sName = ResStr(IDS_PPAGE_OUTPUT_NULL_COMP);
+                resName = IDS_PPAGE_OUTPUT_NULL_COMP;
                 break;
             case VIDRNDT_DS_NULL_UNCOMP:
-                sName = ResStr(IDS_PPAGE_OUTPUT_NULL_UNCOMP);
+                resName = IDS_PPAGE_OUTPUT_NULL_UNCOMP;
                 break;
             case VIDRNDT_DS_EVR:
-                sName = ResStr(IDS_PPAGE_OUTPUT_EVR);
+                resName = IDS_PPAGE_OUTPUT_EVR;
                 break;
             case VIDRNDT_DS_EVR_CUSTOM:
-                sName = ResStr(IDS_PPAGE_OUTPUT_EVR_CUSTOM);
+                resName = IDS_PPAGE_OUTPUT_EVR_CUSTOM;
                 break;
             case VIDRNDT_DS_MADVR:
-                sName = ResStr(IDS_PPAGE_OUTPUT_MADVR);
+                resName = IDS_PPAGE_OUTPUT_MADVR;
                 break;
             case VIDRNDT_DS_SYNC:
-                sName = ResStr(IDS_PPAGE_OUTPUT_SYNC);
+                resName = IDS_PPAGE_OUTPUT_SYNC;
                 break;
             default:
                 ASSERT(FALSE);
                 return;
         }
 
+        CString sName(StrRes(resName));
         if (!s.IsVideoRendererAvailable(nID)) {
             sName.AppendFormat(_T(" %s"), ResStr(IDS_PPAGE_OUTPUT_UNAVAILABLE));
         }
@@ -325,9 +321,7 @@ BOOL CPPageOutput::OnInitDialog()
     addRenderer(VIDRNDT_DS_DEFAULT);
     addRenderer(VIDRNDT_DS_OLDRENDERER);
     addRenderer(VIDRNDT_DS_OVERLAYMIXER);
-    addRenderer(VIDRNDT_DS_VMR7WINDOWED);
     addRenderer(VIDRNDT_DS_VMR9WINDOWED);
-    addRenderer(VIDRNDT_DS_VMR7RENDERLESS);
     addRenderer(VIDRNDT_DS_VMR9RENDERLESS);
     addRenderer(VIDRNDT_DS_EVR);
     addRenderer(VIDRNDT_DS_EVR_CUSTOM);
@@ -350,16 +344,24 @@ BOOL CPPageOutput::OnInitDialog()
 
     CComboBox& m_iQTVRTC = m_iQTVideoRendererTypeCtrl;
     m_iQTVRTC.SetItemData(m_iQTVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_SYS_DEF)), VIDRNDT_QT_DEFAULT);
-    m_iQTVRTC.SetItemData(m_iQTVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_VMR7RENDERLESS)), VIDRNDT_QT_DX7);
     m_iQTVRTC.SetItemData(m_iQTVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_VMR9RENDERLESS)), VIDRNDT_QT_DX9);
-    m_iQTVRTC.SetCurSel(m_iQTVideoRendererType);
+    for (int j = 0; j < m_iQTVRTC.GetCount(); ++j) {
+        if ((UINT)m_iQTVideoRendererType == m_iQTVRTC.GetItemData(j)) {
+            m_iQTVRTC.SetCurSel(j);
+            break;
+        }
+    }
     CorrectComboListWidth(m_iQTVRTC);
 
     CComboBox& m_iRMVRTC = m_iRMVideoRendererTypeCtrl;
     m_iRMVideoRendererTypeCtrl.SetItemData(m_iRMVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_SYS_DEF)), VIDRNDT_RM_DEFAULT);
-    m_iRMVRTC.SetItemData(m_iRMVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_VMR7RENDERLESS)), VIDRNDT_RM_DX7);
     m_iRMVRTC.SetItemData(m_iRMVRTC.AddString(ResStr(IDS_PPAGE_OUTPUT_VMR9RENDERLESS)), VIDRNDT_RM_DX9);
-    m_iRMVRTC.SetCurSel(m_iRMVideoRendererType);
+    for (int j = 0; j < m_iRMVRTC.GetCount(); ++j) {
+        if ((UINT)m_iRMVideoRendererType == m_iRMVRTC.GetItemData(j)) {
+            m_iRMVRTC.SetCurSel(j);
+            break;
+        }
+    }
     CorrectComboListWidth(m_iRMVRTC);
 
     UpdateData(FALSE);
@@ -456,6 +458,7 @@ BOOL CPPageOutput::OnApply()
     }
 
     r.fResetDevice = !!m_fResetDevice;
+    r.m_AdvRendSets.bCacheShaders = !!m_fCacheShaders;
 
     if (m_iEvrBuffers.IsEmpty() || _stscanf_s(m_iEvrBuffers, _T("%d"), &r.iEvrBuffers) != 1) {
         r.iEvrBuffers = 5;
@@ -517,6 +520,7 @@ void CPPageOutput::OnDSRendererChange()
     GetDlgItem(IDC_DSVMR9YUVMIXER)->EnableWindow(FALSE);
     GetDlgItem(IDC_DSVMR9ALTERNATIVEVSYNC)->EnableWindow(FALSE);
     GetDlgItem(IDC_RESETDEVICE)->EnableWindow(FALSE);
+    GetDlgItem(IDC_CACHESHADERS)->EnableWindow(FALSE);
     GetDlgItem(IDC_EVR_BUFFERS)->EnableWindow(m_iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM);
     GetDlgItem(IDC_EVR_BUFFERS_TXT)->EnableWindow(m_iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM);
 
@@ -548,10 +552,6 @@ void CPPageOutput::OnDSRendererChange()
                 m_iDSDXVASupport.SetIcon(m_tick);
             }
             break;
-        case VIDRNDT_DS_VMR7WINDOWED:
-            m_iDSSaveImageSupport.SetIcon(m_tick);
-            m_wndToolTip.UpdateTipText(ResStr(IDC_DSVMR7WIN), GetDlgItem(IDC_VIDRND_COMBO));
-            break;
         case VIDRNDT_DS_VMR9WINDOWED:
             m_iDSSaveImageSupport.SetIcon(m_tick);
             m_wndToolTip.UpdateTipText(ResStr(IDC_DSVMR9WIN), GetDlgItem(IDC_VIDRND_COMBO));
@@ -569,20 +569,12 @@ void CPPageOutput::OnDSRendererChange()
         case VIDRNDT_DS_NULL_UNCOMP:
             m_wndToolTip.UpdateTipText(ResStr(IDC_DSNULL_UNCOMP), GetDlgItem(IDC_VIDRND_COMBO));
             break;
-        case VIDRNDT_DS_VMR7RENDERLESS:
-            GetDlgItem(IDC_DX_SURFACE)->EnableWindow(TRUE);
-
-            if (!SysVersion::IsVistaOrLater()) {
-                m_iDSDXVASupport.SetIcon(m_tick);
-            }
-            m_iDSSaveImageSupport.SetIcon(m_tick);
-            m_wndToolTip.UpdateTipText(ResStr(IDC_DSVMR7REN), GetDlgItem(IDC_VIDRND_COMBO));
-            break;
         case VIDRNDT_DS_VMR9RENDERLESS:
             GetDlgItem(IDC_DSVMR9LOADMIXER)->EnableWindow(TRUE);
             GetDlgItem(IDC_DSVMR9YUVMIXER)->EnableWindow(TRUE);
             GetDlgItem(IDC_DSVMR9ALTERNATIVEVSYNC)->EnableWindow(TRUE);
             GetDlgItem(IDC_RESETDEVICE)->EnableWindow(TRUE);
+            GetDlgItem(IDC_CACHESHADERS)->EnableWindow(TRUE);
             GetDlgItem(IDC_DX_SURFACE)->EnableWindow(TRUE);
             GetDlgItem(IDC_DX9RESIZER_COMBO)->EnableWindow(TRUE);
             GetDlgItem(IDC_FULLSCREEN_MONITOR_CHECK)->EnableWindow(TRUE);
@@ -608,6 +600,7 @@ void CPPageOutput::OnDSRendererChange()
             GetDlgItem(IDC_FULLSCREEN_MONITOR_CHECK)->EnableWindow(TRUE);
             GetDlgItem(IDC_DSVMR9ALTERNATIVEVSYNC)->EnableWindow(TRUE);
             GetDlgItem(IDC_RESETDEVICE)->EnableWindow(TRUE);
+            GetDlgItem(IDC_CACHESHADERS)->EnableWindow(TRUE);
 
             // Force 3D surface with EVR Custom
             GetDlgItem(IDC_DX_SURFACE)->EnableWindow(FALSE);
@@ -627,6 +620,7 @@ void CPPageOutput::OnDSRendererChange()
             GetDlgItem(IDC_DX9RESIZER_COMBO)->EnableWindow(TRUE);
             GetDlgItem(IDC_FULLSCREEN_MONITOR_CHECK)->EnableWindow(TRUE);
             GetDlgItem(IDC_RESETDEVICE)->EnableWindow(TRUE);
+            GetDlgItem(IDC_CACHESHADERS)->EnableWindow(TRUE);
 
             // Force 3D surface with EVR Sync
             GetDlgItem(IDC_DX_SURFACE)->EnableWindow(FALSE);
@@ -674,17 +668,13 @@ void CPPageOutput::OnDSRendererChange()
 void CPPageOutput::OnRMRendererChange()
 {
     UpdateData();
+    m_iRMVideoRendererType = (int)m_iRMVideoRendererTypeCtrl.GetItemData(m_iRMVideoRendererTypeCtrl.GetCurSel());
 
     switch (m_iRMVideoRendererType) {
         case VIDRNDT_RM_DEFAULT:
             m_iRMSaveImageSupport.SetIcon(m_cross);
 
             m_wndToolTip.UpdateTipText(ResStr(IDC_RMSYSDEF), GetDlgItem(IDC_RMRND_COMBO));
-            break;
-        case VIDRNDT_RM_DX7:
-            m_iRMSaveImageSupport.SetIcon(m_tick);
-
-            m_wndToolTip.UpdateTipText(ResStr(IDC_RMDX7), GetDlgItem(IDC_RMRND_COMBO));
             break;
         case VIDRNDT_RM_DX9:
             m_iRMSaveImageSupport.SetIcon(m_tick);
@@ -700,17 +690,13 @@ void CPPageOutput::OnRMRendererChange()
 void CPPageOutput::OnQTRendererChange()
 {
     UpdateData();
+    m_iQTVideoRendererType = (int)m_iQTVideoRendererTypeCtrl.GetItemData(m_iQTVideoRendererTypeCtrl.GetCurSel());
 
     switch (m_iQTVideoRendererType) {
         case VIDRNDT_QT_DEFAULT:
             m_iQTSaveImageSupport.SetIcon(m_cross);
 
             m_wndToolTip.UpdateTipText(ResStr(IDC_QTSYSDEF), GetDlgItem(IDC_QTRND_COMBO));
-            break;
-        case VIDRNDT_QT_DX7:
-            m_iQTSaveImageSupport.SetIcon(m_tick);
-
-            m_wndToolTip.UpdateTipText(ResStr(IDC_QTDX7), GetDlgItem(IDC_QTRND_COMBO));
             break;
         case VIDRNDT_QT_DX9:
             m_iQTSaveImageSupport.SetIcon(m_tick);

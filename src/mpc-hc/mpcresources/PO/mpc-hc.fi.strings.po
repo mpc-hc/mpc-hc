@@ -1,16 +1,18 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# Matti Ylönen <maanylon@gmail.com>, 2016
 # phewi <phewnix@gmail.com>, 2014
 # Raimo K. Talvio, 2014
+# Sauli Ketola <sauli.ketola@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-30 22:04:38+0000\n"
-"PO-Revision-Date: 2015-02-08 14:31+0000\n"
-"Last-Translator: Underground78\n"
-"Language-Team: Finnish (http://www.transifex.com/projects/p/mpc-hc/language/fi/)\n"
+"POT-Creation-Date: 2016-10-17 00:35:36+0000\n"
+"PO-Revision-Date: 2016-10-19 08:53+0000\n"
+"Last-Translator: JellyFrog\n"
+"Language-Team: Finnish (http://www.transifex.com/mpc-hc/mpc-hc/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -51,7 +53,7 @@ msgstr "Soita musiikkia"
 
 msgctxt "IDS_AUTOPLAY_PLAYAUDIOCD"
 msgid "Play Audio CD"
-msgstr "Soita audio-CD"
+msgstr "Soita Ääni-CD"
 
 msgctxt "IDS_AUTOPLAY_PLAYDVDMOVIE"
 msgid "Play DVD Movie"
@@ -61,9 +63,17 @@ msgctxt "IDS_PROPSHEET_PROPERTIES"
 msgid "Properties"
 msgstr "Ominaisuudet"
 
+msgctxt "IDS_PLAY_LOOPMODE_FILE"
+msgid "File"
+msgstr "Tiedosto"
+
 msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
 msgid "&Default Style"
 msgstr "Oletustyyli"
+
+msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
+msgid "Playlist"
+msgstr "Soittolista"
 
 msgctxt "IDS_FAVFILES"
 msgid "Files"
@@ -87,7 +97,7 @@ msgstr "Synkronointioffset"
 
 msgctxt "IDS_STATSBAR_SYNC_OFFSET_FORMAT"
 msgid "avg: %d ms, dev: %d ms"
-msgstr ""
+msgstr "ka.: %d ms, hajonta: %d ms"
 
 msgctxt "IDS_STATSBAR_JITTER"
 msgid "Jitter"
@@ -99,7 +109,7 @@ msgstr "Bittinopeus"
 
 msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
 msgid "(avg/cur)"
-msgstr "(keskim/nyk)"
+msgstr "(ka./nyk.)"
 
 msgctxt "IDS_STATSBAR_SIGNAL"
 msgid "Signal"
@@ -107,7 +117,7 @@ msgstr "Signaali"
 
 msgctxt "IDS_STATSBAR_SIGNAL_FORMAT"
 msgid "Strength: %d dB, Quality: %ld%%"
-msgstr "Voimakkuus: %d dB, laatu: %ld%%"
+msgstr "Voimakkuus: %d dB, Laatu: %ld%%"
 
 msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
 msgid "Styles"
@@ -115,7 +125,27 @@ msgstr "Tyylit"
 
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
-msgstr "Jos muunnoskohdetta ei ole määritetty, SSA/ASS -tekstitykset muunnetaan suhteessa videokehykseen, kun kaikki muut tekstimuotoiset tekstitykset muunnetaan suhteutettuna ikkunaan."
+msgstr "Jos renderöintikohdetta ei ole määritetty, SSA/ASS -tekstitykset renderöidään suhteessa videokehykseen ja kaikki muut tekstimuotoiset tekstitykset renderöidään suhteutettuna ikkunaan."
+
+msgctxt "IDS_PLAYLOOPMODE_PLAYLIST"
+msgid "Repeat Mode: Playlist"
+msgstr "Toistotila: Soittolista"
+
+msgctxt "IDS_PLAYLOOPMODE_FILE"
+msgid "Repeat Mode: File"
+msgstr "Toistotila: Tiedosto"
+
+msgctxt "IDS_PLAYLOOP_FOREVER_ON"
+msgid "Repeat Forever: On"
+msgstr "Toista ikuisesti: Päällä"
+
+msgctxt "IDS_PLAYLOOP_FOREVER_OFF"
+msgid "Repeat Forever: Off"
+msgstr "Toista ikuisesti: Pois"
+
+msgctxt "IDS_PLAYLOOP_FOREVER"
+msgid "Repeat Forever"
+msgstr "Toista ikuisesti"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -131,7 +161,7 @@ msgstr "Aina (hitain vaihtoehto)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
 msgid "Not supported by some devices. Two video decoders always present in the filter graph."
-msgstr "Jotkin laitteet eivät tue. Kaksi videodekooderia aina käytössä grafiikkasuotimessa."
+msgstr "Jotkin laitteet eivät tue. Videodekoodereita on aina kaksi suodinkaaviossa."
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
 msgid "Fast except when switching between different video streams. Only one video decoder present in the filter graph."
@@ -155,7 +185,7 @@ msgstr "Aina (jotkin laitteet edellyttävät)"
 
 msgctxt "IDS_INFOBAR_PARENTAL_RATING"
 msgid "Parental rating"
-msgstr "Ikäkausiluokitus"
+msgstr "Ikärajaluokitus"
 
 msgctxt "IDS_PARENTAL_RATING"
 msgid "%d+"
@@ -179,7 +209,7 @@ msgstr "Uutiset/Nykyiset asiat"
 
 msgctxt "IDS_SPEED_UNIT_G"
 msgid "GB/s"
-msgstr "GB/sek."
+msgstr "GB/s"
 
 msgctxt "IDS_FILE_FAV_ADDED"
 msgid "File added to favorites"
@@ -239,7 +269,7 @@ msgstr "Fontti"
 
 msgctxt "IDS_DVD_NAV_SOME_PINS_ERROR"
 msgid "Failed to render some of the pins of the DVD Navigator filter"
-msgstr "Joidenkin DVD-navigaattorin nastojen muunto epäonnistui"
+msgstr "Joidenkin DVD-navigaattorin pinnien renderöinti epäonnistui"
 
 msgctxt "IDS_DVD_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for DVD playback"
@@ -251,11 +281,11 @@ msgstr "Live"
 
 msgctxt "IDS_CAPTURE_ERROR_VID_FILTER"
 msgid "Can't add video capture filter to the graph"
-msgstr "Videokaappaussuodinta ei voi lisätä kaavioon"
+msgstr "Videokaappaussuodinta ei voitu lisätä kaavioon"
 
 msgctxt "IDS_CAPTURE_ERROR_AUD_FILTER"
 msgid "Can't add audio capture filter to the graph"
-msgstr "Audiokaappaussuodinta ei voi lisätä kaavioon"
+msgstr "Äänenkaappaussuodinta ei voitu lisätä kaavioon"
 
 msgctxt "IDS_CAPTURE_ERROR_DEVICE"
 msgid "Could not open capture device."
@@ -275,7 +305,7 @@ msgstr "Annettu aika on suurempi kuin tiedoston kesto."
 
 msgctxt "IDS_MISSING_ICONS_LIB"
 msgid "The icons library \"mpciconlib.dll\" is missing.\nThe player's default icon will be used for file associations.\nPlease, reinstall MPC-HC to get \"mpciconlib.dll\"."
-msgstr "Ikonikirjastoa \"mpciconlib.dll\" ei löydy.\nSoittimen oletusikonia käytetään tiedostojen kytkentään.\nOle hyvä ja asenna MPC-HC uudelleen \"mpciconlib.dll\":n saamiseksi."
+msgstr "Kuvakekirjastoa \"mpciconlib.dll\" ei löydy.\nSoittimen oletuskuvaketta käytetään tiedostojen kytkentään.\nOle hyvä ja asenna MPC-HC uudelleen \"mpciconlib.dll\":n saamiseksi."
 
 msgctxt "IDS_SUBDL_DLG_FILENAME_COL"
 msgid "File"
@@ -327,11 +357,11 @@ msgstr "Päällä/pois"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
 msgid "From (FPS)"
-msgstr "Kehysnopeudesta"
+msgstr "Kuvataajuudesta"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
 msgid "To (FPS)"
-msgstr "kehysnopeuteen"
+msgstr "Kuvataajuuteen"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
@@ -355,11 +385,11 @@ msgstr "Toiston vaatimien liittymien kysely epäonnistui."
 
 msgctxt "IDS_GRAPH_TARGET_WND_ERROR"
 msgid "Could not set target window for graph notification"
-msgstr "Kohdeikkunaa ei voi asettaa kaavion huomautukselle."
+msgstr "Kohdeikkunaa ei voitu asettaa kaavion huomautukselle"
 
 msgctxt "IDS_DVD_NAV_ALL_PINS_ERROR"
 msgid "Failed to render all pins of the DVD Navigator filter"
-msgstr "DVD-navigaattorisuotimen kaikkien nastojen muunnos epäonnistui."
+msgstr "DVD-navigaattorisuotimen kaikkien pinnien renderöinti epäonnistui."
 
 msgctxt "IDS_PLAYLIST_OPEN"
 msgid "&Open"
@@ -415,7 +445,7 @@ msgstr "Tuplaa"
 
 msgctxt "IDS_SUBRESYNC_RESET"
 msgid "&Reset"
-msgstr "Nollaa"
+msgstr "Palauta"
 
 msgctxt "IDS_MPLAYERC_104"
 msgid "Subtitle Delay -"
@@ -455,7 +485,7 @@ msgstr "Toimintavihjeet"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER"
 msgid "Internal Filters::Audio Switcher"
-msgstr "Sisäiset suotimet::Audiovaihtaja"
+msgstr "Sisäiset suotimet::Äänenvaihtaja"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS"
 msgid "External Filters"
@@ -483,19 +513,19 @@ msgstr "Toisto::Kaappaus"
 
 msgctxt "IDD_PPAGESYNC"
 msgid "Playback::Sync Renderer Settings"
-msgstr "Toisto::Sync -muuntimen asetukset"
+msgstr "Toisto::Sync-renderöijän asetukset"
 
 msgctxt "IDD_PPAGEFULLSCREEN"
 msgid "Playback::Fullscreen"
-msgstr "Toisto::Kokonäyttö"
+msgstr "Toisto::Koko näyttö"
 
 msgctxt "IDD_PPAGEAUDIORENDERER"
 msgid "Internal Filters::Audio Renderer"
-msgstr ""
+msgstr "Sisäiset suotimet::Äänen renderöijä"
 
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
-msgstr "Audiovaihtaja"
+msgstr "Äänenvaihtaja"
 
 msgctxt "IDS_ICONS_REASSOC_DLG_TITLE"
 msgid "New version of the icon library"
@@ -511,31 +541,23 @@ msgstr "Tämä korjaa ikonikirjaston päivityksen jälkeen virheellisesti näyte
 
 msgctxt "IDS_PPAGE_OUTPUT_OLDRENDERER"
 msgid "Old Video Renderer"
-msgstr "Vanha videomuunnin"
+msgstr "Vanha videorenderöijä"
 
 msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
-msgstr "Peittokuvamikserimuunnin"
-
-msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
-msgid "Video Mixing Renderer 7 (windowed)"
-msgstr "Videomiksausmuunnin 7 (ikkunoitu)"
+msgstr "Peittokuvamikserirenderöijä"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
 msgid "Video Mixing Renderer 9 (windowed)"
-msgstr "Videomiksausmuunnin 9 (ikkunoitu)"
-
-msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
-msgid "Video Mixing Renderer 7 (renderless)"
-msgstr "Videomiksausmuunnin 7 (ei muunnosta)"
+msgstr "Videomiksausrenderöijä 9 (ikkunoitu)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
 msgid "Video Mixing Renderer 9 (renderless)"
-msgstr "Videomiksausmuunnin 9 (ei muunnosta)"
+msgstr "Videomiksausrenderöijä 9 (renderöimätön)"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR"
 msgid "Enhanced Video Renderer"
-msgstr "Laajennettu videomuunnin"
+msgstr "Laajennettu videorenderöijä"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR_CUSTOM"
 msgid "Enhanced Video Renderer (custom presenter)"
@@ -543,7 +565,7 @@ msgstr "Laajennettu videomuunnin (oma esittäjä)"
 
 msgctxt "IDS_PPAGE_OUTPUT_DXR"
 msgid "Haali Video Renderer"
-msgstr "Haali Videomuunnin"
+msgstr "Haali Video -renderöijä"
 
 msgctxt "IDS_PPAGE_OUTPUT_NULL_COMP"
 msgid "Null (anything)"
@@ -575,15 +597,11 @@ msgstr "Soitin::Logo"
 
 msgctxt "IDD_PPAGEOUTPUT"
 msgid "Playback::Output"
-msgstr "Toisto::Lähtö"
+msgstr "Toisto::Ulostulo"
 
 msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
 msgstr "Soitin::Nettiliittymä"
-
-msgctxt "IDD_PPAGESUBDB"
-msgid "Subtitles::Database"
-msgstr "Tekstitykset::Tietokanta"
 
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
@@ -595,27 +613,19 @@ msgstr "Leike"
 
 msgctxt "IDC_DSSYSDEF"
 msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason. On Windown XP this is the same as VMR-7 (windowed)."
-msgstr "DirectShown oletusvideomuunnin. Jos muita ei voi jostain syystä ladata, käytetään oletusta. Windows XP:ssä tämä on sama kuin VMR-7 (ikkunoitu)."
+msgstr "Oletus DirectShow videon renderöijä. Jos muita ei voi jostain syystä ladata, käytetään oletusta. Windows XP:ssä tämä on sama kuin VMR-7 (ikkunoitu)."
 
 msgctxt "IDC_DSOLD"
 msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
-msgstr "Tämä on Windows 9x/ME/2K:n oletusmuunnin. Videoikkunan ja näytönohjaimen ominaisuuksista riippuen se vaihtaa dynaamisesti GDI-, DirectDraw- ja peittokovatilojen välillä."
+msgstr "Tämä on Windows 9x/ME/2K:n oletusrenderöijä. Videoikkunan ja näytönohjaimen ominaisuuksista riippuen se vaihtaa dynaamisesti GDI-, DirectDraw- ja peittokuvarenderöintien välillä."
 
 msgctxt "IDC_DSOVERLAYMIXER"
 msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
 msgstr "Muuntaa aina peittokuvamuodossa. Yleensä vain YUV-muodot on sallittu, mutta ne esiintyvät suodaan ilman värimuunnosta RGB:hen. Tämä on nopein muuntotapa ja ainoa, jossa voit varma täyskuvapeilauksesta TV:n aktivointiin."
 
-msgctxt "IDC_DSVMR7WIN"
-msgid "The default renderer of Windows XP. Very stable and just a little slower than the Overlay mixer. Uses DirectDraw and runs in Overlay when it can."
-msgstr "Windows XP:n oletusmuunnin. Hyvin vakaa ja vain vähän hitaampi kuin peittokuvamikseri. Käyttää DirectDraw:ta ja toimii peittokuvamuodossa, kun voi niin tehdä."
-
 msgctxt "IDC_DSVMR9WIN"
-msgid "Only available if you have DirectX 9 installed. Has the same abilities as VMR-7 (windowed), but it will never use Overlay rendering and because of this it may be a little slower than VMR-7 (windowed)."
-msgstr "Käytettävissä vain jos DirectX 9 on asennettu. Sisältää samat toiminnot kuin VMR-7 (ikkunoitu), mutta ei käytä koskaan peittokuvamuunnosta koska se voi olla hieman hitaampi kuin VMR-7 (ikkunoitu)"
-
-msgctxt "IDC_DSVMR7REN"
-msgid "Same as the VMR-7 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring WILL NOT work. \"True Color\" desktop color space recommended."
-msgstr "Sama kuin VMR-7 (ikkunoitu), mutta sisältää MPC-HC:n sijoitus-esittäjäpluginin tekstitystä varten. Peittokuvavideopeilaus EI toimi. \"True Color\"-näyttötilaa suositellaan. "
+msgid "Only available if you have DirectX 9 installed. Very stable but it will never use Overlay rendering and because of this it may be a little slower than Overlay mixer."
+msgstr "Käytettävissä vain jos sinulla on DirectX 9 asennettuna. Erittäin vakaa, mutta se ei voi käyttää peittokuvarenderöintiä ja tästä syystä se voi olla hiukan hitaampi kuin peittokuvamikseri."
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
@@ -623,7 +633,7 @@ msgstr "Sama kuin VMR-9 (ikkunoitu), mutta sisältää MPC-HC:n sijoittaja-esitt
 
 msgctxt "IDC_DSDXR"
 msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
-msgstr "Sama kuin VMR-9 (muuntamaton), mutta käyttää true two-pass bicubic-koon muuttajaa."
+msgstr "Sama kuin VMR-9 (renderöimätön), mutta käyttää aitoa 2-pass bicubic -koon muuttajaa."
 
 msgctxt "IDC_DSNULL_COMP"
 msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the CPU from working unnecessarily."
@@ -635,7 +645,7 @@ msgstr "Sama kuin normaali Nollamuunnin, mutta vämä yhdistää vain pakkaamatt
 
 msgctxt "IDC_DSEVR"
 msgid "Only available on Vista or later or on XP with at least .NET Framework 3.5 installed."
-msgstr "Käytettävissä vain Vistassa tai myöhemmissä tai Windows XP:ssä ja vähintään .NET Framework 3.5 asennettuna"
+msgstr "Käytettävissä vain Vistassa tai myöhemmissä tai Windows XP:ssä jossa vähintään .NET Framework 3.5 asennettuna"
 
 msgctxt "IDC_DSEVR_CUSTOM"
 msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
@@ -647,31 +657,23 @@ msgstr "Korkealaatuinen muunnin, edellyttää GPU:ta, joka tukee D3D9:ä tai my�
 
 msgctxt "IDC_DSSYNC"
 msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
-msgstr "Sama kuin EVR (CP), mutta tarjoaa useita vaihtoehtoja videon kehysnopeuden synkronointiin näytön virkistystaajuuteen ohitettujen tai kaksoisvideoruutujen välttämiseksi"
+msgstr "Sama kuin EVR (CP), mutta tarjoaa useita asetuksia videon kuvataajuuden ja näytön virkistystaajuuden synkronointiin ohitettujen tai tuplaantuneiden kuvien estämiseksi."
 
 msgctxt "IDC_RMSYSDEF"
 msgid "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
-msgstr "Realin oma muunnin. SMIL-skriptit toimivat, mutta vuorovaikutus luultavasti ei. Käyttää DirectDrawia ja toimii peittokuvassa, kun voi."
-
-msgctxt "IDC_RMDX7"
-msgid "The output of Real's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "VMR-7:n (muuntamaton) DX7-pohjaisen Sijoittaja-Esittäjän avulla muunnetun Realin koneen lähtö."
+msgstr "Realin oma muunnin. SMIL-skriptit toimivat, mutta vuorovaikutus luultavasti ei. Käyttää DirectDrawia ja toimii peittokuvassa kun se on mahdollista."
 
 msgctxt "IDC_RMDX9"
 msgid "The output of Real's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
-msgstr "VMR-9:n (muuntamaton) DX9-pohjaisen Sijoittaja-Esittäjän avulla muunnetun Realin koneen lähtö."
+msgstr "DX9-pohjaisen Sijoittaja-Esittäjän avulla muunnetun VMR-9 (renderöimätön) Real-moottorin ulostulo."
 
 msgctxt "IDC_QTSYSDEF"
 msgid "QuickTime's own renderer. Gets a little slow when its video area is resized or partially covered by another window. When Overlay is not available it likes to fall back to GDI."
 msgstr "QuickTimen oma muunnin. Hidastuu vähän, kun videon alueen kokoa muunnetaan tai toinen ikkuna varjostaa sitä. Kun peittokuvaa ei voi käyttöö, se tahtoo pudota takaisin GDI:hin."
 
-msgctxt "IDC_QTDX7"
-msgid "The output of QuickTime's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "DX7-pohjaisen Sijoittaja-Esittäjän avulla muunnetun VMR-7 (muuntamaton) QuickTimen koneen lähtö."
-
 msgctxt "IDC_QTDX9"
 msgid "The output of QuickTime's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
-msgstr "DX9-pohjaisen Sijoittaja-Esittäjän avulla muunnetun VMR-9 (muuntamaton) QuickTime-koneen lähtö."
+msgstr "DX9-pohjaisen Sijoittaja-Esittäjän avulla muunnetun VMR-9 (renderöimätön) QuickTime-moottorin ulostulo."
 
 msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
@@ -735,7 +737,7 @@ msgstr "Ei mitään (pakkaamaton)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
 msgid "Internal Audio Renderer"
-msgstr ""
+msgstr "Sisäinen äänen renderoija"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
@@ -749,9 +751,13 @@ msgctxt "IDS_EMB_RESOURCES_VIEWER_INFO"
 msgid "In order to view an embedded resource in your browser you have to enable the web interface.\n\nUse the \"Save As\" button if you only want to save the information."
 msgstr "Jos haluat näyttää selaimesi sisäisiä resursseja on web-liittymä otettava käyttöön.\n\nKäytä nappulaa \"Tallenna nimellä\" jos haluat ainoastaan tallentaa tiedot."
 
-msgctxt "IDS_DOWNLOAD_SUBS"
-msgid "Download subtitles"
-msgstr "Imuroi tekstitykset"
+msgctxt "IDS_SUBTITLES_DOWNLOAD"
+msgid "Download Subtitles..."
+msgstr "Lataa tekstitykset..."
+
+msgctxt "IDS_SUBTITLES_UPLOAD"
+msgid "Upload Subtitles..."
+msgstr "Lähetä tekstitykset..."
 
 msgctxt "IDS_SUBFILE_DELAY"
 msgid "Delay (ms):"
@@ -783,7 +789,7 @@ msgstr "Kaikkia arkistonimikkeitä ei löydy"
 
 msgctxt "IDC_TEXTURESURF2D"
 msgid "Video surface will be allocated as a texture but still the 2d functions will be used to copy and stretch it onto the backbuffer. Requires a video card which can allocate 32-bit, RGBA, non-power-of-two sized textures and at least in the resolution of the video."
-msgstr "Videotaso sijoitetaan pinnaksi mutta silti 2d-funktioita käytetään kopiointiin ja venyttämiseen taustapuskuriin. Vaatii näyttökortin, joka kykenee sijoittamaan 32-bittisiä RGBA, non-power-of-two -kokoisia pintoja ja viimein videon resoluutioon."
+msgstr "Videotaso sijoitetaan pinnaksi mutta silti 2d-funktioita käytetään kopiointiin ja venyttämiseen taustapuskuriin. Vaatii näytönohjaimen joka kykenee varaamaan 32-bittisiä, RGBA, non-power-of-two -kokoisia pintoja ja vähintään videon resoluutioon."
 
 msgctxt "IDC_TEXTURESURF3D"
 msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
@@ -795,7 +801,7 @@ msgstr "Jos Pixel Shader 2.0 tukea ei ole, yksinkertaista bilineaarista käytet�
 
 msgctxt "IDC_DSVMR9LOADMIXER"
 msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
-msgstr "Asettaa VMR-9 (muuntamaton) sekoitustilaan, jossa sen ominaisuussivun säädöt toimivat ja se käyttää erillistä toimintosäiettä kehysmuunnokseen."
+msgstr "Asettaa VMR-9 (renderöimätön) sekoitustilaan jossa sen ominaisuussivun säädöt toimivat ja se käyttää erillistä toimintosäiettä kehysrenderöintiin."
 
 msgctxt "IDC_DSVMR9YUVMIXER"
 msgid "Improves performance at the cost of some compatibility of the renderer."
@@ -803,11 +809,23 @@ msgstr "Lisää tehoa joidenkin muuntimen yhteensopivuuden kustannuksella."
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."
-msgstr "Rajoittaa kuvan hajoamista mutta estää työkalupalkin näkymisen."
+msgstr "Vähentää kuvan repeytymistä mutta estää työkalupalkin näkymisen."
 
 msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Reduces tearing by bypassing the default VSync built into D3D."
-msgstr "Rajoittaa kuvan hajoamista ohittamalla oletusarvoisen D3D:n sisäisen VSyncin"
+msgstr "Vähentää kuvan repeytymistä ohittamalla oletusarvoisen D3D:n sisäisen VSyncin."
+
+msgctxt "IDS_NAVIGATE_TUNERSCAN"
+msgid "Tuner scan"
+msgstr "Virittimen asemanhaku"
+
+msgctxt "IDS_SUBTITLES_ERROR"
+msgid "Subtitles are not loaded or unsupported renderer."
+msgstr "Tekstityksiä ei ladattu tai muunninta ei tueta."
+
+msgctxt "IDC_CACHESHADERS"
+msgid "Stores compiled shaders in local AppData to speed up load time."
+msgstr ""
 
 msgctxt "IDS_SRC_VTS"
 msgid "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"
@@ -823,7 +841,7 @@ msgstr "Käyttää LAV Filters-suotimia"
 
 msgctxt "IDS_INTERNAL_LAVF_WMV"
 msgid "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
-msgstr "Käyttää LAV Filters-suotimia. Ne on oletuksena poistettu käytöstä, koska Microsoftin suotimet ovat yleensä vakaampia noille formaateille.\nJos päätät käyttää sisäisiä suotimia, ota ne käyttöön sekä lähteeseen että dekoodaukseen paremman toistokokemuksen saamiseksi."
+msgstr "Käyttää LAV Filters -suotimia. Ne ovat oletuksena poistettu käytöstä, koska Microsoftin suotimet ovat yleensä vakaampia noille formaateille.\nJos päätät käyttää sisäisiä suotimia, ota ne käyttöön sekä lähteeseen että dekoodaukseen paremman toistokokemuksen saamiseksi."
 
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
@@ -843,7 +861,7 @@ msgstr "Poista käytöstä tekstitysten animointi. Tämän vaihtoehdon käyttö�
 
 msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
-msgstr "Puskuroitujen alikuvien määrän noston pitäisi periaatteessa lisätä muunnostehoa näyttökortin videomuistin korkeamman käytön kustannuksella."
+msgstr "Puskuroitujen tekstitysrivien määrän noston pitäisi periaatteessa lisätä renderöintitehokkuutta näytönohjaimen muistin korkeamman käytön kustannuksella."
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
@@ -863,7 +881,7 @@ msgstr "Tauko\nTauko"
 
 msgctxt "ID_PLAY_STOP"
 msgid "Stop\nStop"
-msgstr "Lopeta\nLopeta"
+msgstr "Pysäytä\nPysäytä"
 
 msgctxt "ID_PLAY_FRAMESTEP"
 msgid "Step\nStep"
@@ -887,7 +905,7 @@ msgstr "Poista vaimennus"
 
 msgctxt "ID_VOLUME_MUTE_DISABLED"
 msgid "No audio"
-msgstr "Ei audiota"
+msgstr "Ei ääntä"
 
 msgctxt "ID_NAVIGATE_SKIPBACK"
 msgid "Skip back\nSkip back"
@@ -927,7 +945,7 @@ msgstr "&Lisää"
 
 msgctxt "IDS_OPTIONS_CAPTION"
 msgid "Options"
-msgstr "Vaihtoehdot"
+msgstr "Asetukset"
 
 msgctxt "IDS_SHADERS_SELECT"
 msgid "&Select Shaders..."
@@ -946,11 +964,11 @@ msgid "&Organize Favorites..."
 msgstr "&Järjestä Suosikit"
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
-msgid "Shuffle"
-msgstr "Järjestä uudelleen"
+msgid "Sh&uffle"
+msgstr "Sekoita"
 
 msgctxt "IDS_PLAYLIST_SHOWFOLDER"
-msgid "Open file location"
+msgid "Ope&n file location"
 msgstr "Avaa tiedostosijainti"
 
 msgctxt "IDS_CONTROLS_CLOSING"
@@ -963,7 +981,7 @@ msgstr "Toistetaan"
 
 msgctxt "IDS_CONTROLS_PAUSED"
 msgid "Paused"
-msgstr "Pysäytetty"
+msgstr "Tauko"
 
 msgctxt "IDS_AG_EDL_NEW_CLIP"
 msgid "EDL new clip"
@@ -983,7 +1001,7 @@ msgstr "EDL tallennus"
 
 msgctxt "IDS_AG_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time Correction"
-msgstr "Salli kehyksen aikakorjaus"
+msgstr "Kehyksen aikakorjaus päällä"
 
 msgctxt "IDS_AG_TOGGLE_EDITLISTEDITOR"
 msgid "Toggle EDL window"
@@ -1019,7 +1037,7 @@ msgstr "PnS Käännä Z-"
 
 msgctxt "IDS_AG_TEARING_TEST"
 msgid "Tearing Test"
-msgstr "Särkymistesti"
+msgstr "Repeytymistesti"
 
 msgctxt "IDS_SCALE_16_9"
 msgid "Scale to 16:9 TV,%.3f,%.3f,%.3f,%.3f"
@@ -1034,7 +1052,7 @@ msgid "Zoom To Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
 msgstr "Zoomaa Ultra-laajakuvanäyttöön,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_PLAYLIST_HIDEFS"
-msgid "Hide on Fullscreen"
+msgid "&Hide on Fullscreen"
 msgstr "Piilota Kokonäytössä"
 
 msgctxt "IDS_CONTROLS_STOPPED"
@@ -1059,7 +1077,7 @@ msgstr "Suljettu"
 
 msgctxt "IDS_SUBTITLES_OPTIONS"
 msgid "&Options..."
-msgstr "Vaihtoehdot"
+msgstr "Asetukset..."
 
 msgctxt "IDS_SUBTITLES_STYLES"
 msgid "&Styles..."
@@ -1071,7 +1089,7 @@ msgstr "&Lataa uudelleen"
 
 msgctxt "IDS_SUBTITLES_ENABLE"
 msgid "&Enable"
-msgstr "Salli"
+msgstr "Päällä"
 
 msgctxt "IDS_PANSCAN_EDIT"
 msgid "&Edit..."
@@ -1139,7 +1157,7 @@ msgstr "Kaikki tiedostot (*.*)|*.*|"
 
 msgctxt "IDS_AG_AUDIOFILES"
 msgid "Audio files (all types)"
-msgstr "Audiotiedostot (kaikki tyypit)"
+msgstr "Äänitiedostot (kaikki tyypit)"
 
 msgctxt "IDS_AG_NOT_KNOWN"
 msgid "Not known"
@@ -1195,11 +1213,11 @@ msgstr "%s:"
 
 msgctxt "IDS_RECORD_START"
 msgid "Record"
-msgstr "Tallenna"
+msgstr "Nauhoita"
 
 msgctxt "IDS_RECORD_STOP"
 msgid "Stop"
-msgstr "Seis"
+msgstr "Pysäytä"
 
 msgctxt "IDS_BALANCE"
 msgid "L = R"
@@ -1222,7 +1240,7 @@ msgid "+%d%%"
 msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
-msgid "Add containing folder"
+msgid "Add containing &folder"
 msgstr "Lisää sisältökansio"
 
 msgctxt "IDS_HW_INDICATOR"
@@ -1263,7 +1281,7 @@ msgstr "Piilottaa säätimet ja panelit myös ikkunoidussa tilassa."
 
 msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
 msgid "Prevent external subtitle renderer to be loaded when internal is in use."
-msgstr "Estää ulkoisen tekstitysmuuntimen latauksen sisäistä käytettäessä."
+msgstr "Estää ulkoisen tekstitysrenderöijän latautumisen sisäistä käytettäessä."
 
 msgctxt "IDS_PPAGEADVANCED_COL_NAME"
 msgid "Name"
@@ -1283,7 +1301,7 @@ msgstr "Muista vain pidempien kuin N minuutin pituisten tiedostojen sijainti."
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
 msgid "Remember file position also for audio files."
-msgstr "Muista myös audiotiedostojen sijainti."
+msgstr "Muista myös äänitiedostojen sijainti."
 
 msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
 msgid "Do Nothing"
@@ -1303,11 +1321,11 @@ msgstr "Sulje"
 
 msgctxt "IDS_AFTER_PLAYBACK_EXIT"
 msgid "Exit"
-msgstr "Poistu"
+msgstr "Sulje"
 
 msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
 msgid "Turn off the monitor"
-msgstr "Sulje näyttö"
+msgstr "Sammuta näyttö"
 
 msgctxt "IDS_IMAGE_JPEG_QUALITY"
 msgid "JPEG Image"
@@ -1319,7 +1337,7 @@ msgstr "Laatu (%):"
 
 msgctxt "IDS_PPAGEADVANCED_COVER_SIZE_LIMIT"
 msgid "Maximum size (NxNpx) of a cover-art loaded in the audio only mode."
-msgstr "Vain audio-tilassa ladattavan kansikuvan enimmäiskoko (NxNpx)"
+msgstr "Vain ääni -tilassa ladattavan kansikuvan enimmäiskoko (NxNpx)"
 
 msgctxt "IDS_SUBTITLE_DELAY_STEP_TOOLTIP"
 msgid "The subtitle delay will be decreased/increased by this value each time the corresponding hotkeys are used (%s/%s)."
@@ -1359,7 +1377,7 @@ msgstr "Ei tietoa saatavilla"
 
 msgctxt "IDS_MEDIAINFO_ANALYSIS_IN_PROGRESS"
 msgid "Please wait, analysis in progress..."
-msgstr "Odota, analyysi on käynnissä..."
+msgstr "Ole hyvä ja odota, analyysi on käynnissä..."
 
 msgctxt "IDS_ASPECT_RATIO_FMT"
 msgid "AR %d:%d"
@@ -1367,43 +1385,43 @@ msgstr "Kuvasuhde %d:%d"
 
 msgctxt "IDS_PPAGEADVANCED_LOGGER"
 msgid "Enables logging to file (requires restart)"
-msgstr ""
+msgstr "Lokin kirjoitus tiedostoon päälle (vaatii uudelleenkäynnistyksen)"
 
 msgctxt "IDS_TIMER_REMAINING_TIME"
 msgid "Remaining time"
-msgstr ""
+msgstr "Jäljellä oleva aika"
 
 msgctxt "IDS_TIMER_HIGH_PRECISION"
 msgid "High precision"
-msgstr ""
+msgstr "Korkea tarkkuus"
 
 msgctxt "IDS_AFTERPLAYBACK_REWIND"
 msgid "After Playback: Rewind current file"
-msgstr ""
+msgstr "Toiston jälkeen: Mene nykyisen tiedoston alkuun"
 
 msgctxt "IDS_AFTERPLAYBACK_CLOSE"
 msgid "After Playback: Close"
-msgstr ""
+msgstr "Toiston jälkeen: Sulje"
 
 msgctxt "IDS_FRAME_INIT_FAILED"
 msgid "MPC-HC encountered a problem during initialization. With your help we might be able to fix the issue.\n\nDo you want to report it?"
-msgstr ""
+msgstr "MPC-HC kohtasi ongelman ohjelman alustuksen yhteydessä. Sinun avullasi voimme ehkä korjata tämän ongelman.\n\nHaluatko raportoida sen eteenpäin?"
 
 msgctxt "IDS_TIME_SHIFT_TOOLTIP"
 msgid "Enter a positive value if the audio is early, a negative value if it is late."
-msgstr ""
+msgstr "Syötä positiivinen arvo jos ääni tulee liian aikaisin ja negatiivinen jos se tulee liian myöhään."
 
 msgctxt "IDS_WEBUI_DISABLED_PREVIEW_MSG"
 msgid "Preview is currently disabled. You can enable it in MPC-HC's options."
-msgstr ""
+msgstr "Esikatselu on pois päältä. Voit laittaa sen päälle MPC-HC:n asetuksista."
 
 msgctxt "IDS_WEBUI_PREVIEW_WARNING"
 msgid "This option can be used to preview media files from remote location. Use it only on a properly secured private network.\n\nDo you really want to enable this option?"
-msgstr ""
+msgstr "Tämä asetus sallii mediatiedostojen etäesikatselun. Käytä tätä vain asianmukaisesti suojatussa yksityisessä verkossa.\n\nHaluatko varmasti laittaa tämän päälle?"
 
 msgctxt "IDS_SUBTITLE_RENDERER_INTERNAL"
 msgid "Internal Subtitle Renderer"
-msgstr ""
+msgstr "Sisäinen tekstitysrenderöijä"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1425,13 +1443,13 @@ msgctxt "IDS_OSD_IMAGE_SAVED"
 msgid "Image saved successfully"
 msgstr "Kuvan tallennus onnistui"
 
-msgctxt "IDS_AG_LOAD_SUBTITLE"
-msgid "Load Subtitle"
-msgstr "Lataa tekstitys"
+msgctxt "IDS_AG_LOAD_SUBTITLES"
+msgid "Load Subtitles..."
+msgstr ""
 
-msgctxt "IDS_AG_SAVE_SUBTITLE"
-msgid "Save Subtitle"
-msgstr "Tallenna tekstitys"
+msgctxt "IDS_AG_SAVE_SUBTITLES"
+msgid "Save Subtitles..."
+msgstr ""
 
 msgctxt "IDS_AG_PROPERTIES"
 msgid "Properties"
@@ -1439,7 +1457,7 @@ msgstr "Ominaisuudet"
 
 msgctxt "IDS_AG_EXIT"
 msgid "Exit"
-msgstr "Poistu"
+msgstr "Sulje"
 
 msgctxt "IDS_AG_PLAYPAUSE"
 msgid "Play/Pause"
@@ -1471,7 +1489,7 @@ msgstr "Lisää nopeutta"
 
 msgctxt "IDS_CONTENT_SHOW_GAMESHOW"
 msgid "Show/Game show"
-msgstr "Näytä/Pelinäyttö"
+msgstr "Esitys/Peliohjelma"
 
 msgctxt "IDS_CONTENT_SPORTS"
 msgid "Sports"
@@ -1535,11 +1553,11 @@ msgstr "Esi-koonmuutosvarjostimien asetus epäonnistui"
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
 msgid "Frame Time Correction: On"
-msgstr "Kehyksen aikakorjaus: päällä"
+msgstr "Kehyksen aikakorjaus: Päällä"
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_OFF"
 msgid "Frame Time Correction: Off"
-msgstr "Kehyksen aikakorjaus: pois päältä"
+msgstr "Kehyksen aikakorjaus: Pois päältä"
 
 msgctxt "IDS_OSD_RS_TARGET_VSYNC_OFFSET"
 msgid "Target VSync Offset: %.1f"
@@ -1558,8 +1576,8 @@ msgid "Thumbnails saved successfully"
 msgstr "Pienoiskuvien tallennus onnistui"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
-msgid "&Video Track"
-msgstr ""
+msgid "Vide&o Track"
+msgstr "&Videoraita"
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
 msgid "Video Ang&le"
@@ -1567,7 +1585,7 @@ msgstr "Videon Kulma"
 
 msgctxt "IDS_RESET_SETTINGS"
 msgid "Reset settings"
-msgstr "Nollaa asetukset"
+msgstr "Palauta asetukset"
 
 msgctxt "IDS_RESET_SETTINGS_WARNING"
 msgid "Are you sure you want to restore MPC-HC to its default settings?\nBe warned that ALL your current settings will be lost!"
@@ -1603,15 +1621,15 @@ msgstr "Pienennä nopeutta"
 
 msgctxt "IDS_AG_RESET_RATE"
 msgid "Reset Rate"
-msgstr "Nollaa nopeus"
+msgstr "Palauta nopeus"
 
 msgctxt "IDS_MPLAYERC_21"
 msgid "Audio Delay +10 ms"
-msgstr "Audion viive +10ms"
+msgstr "Äänen viive +10ms"
 
 msgctxt "IDS_MPLAYERC_22"
 msgid "Audio Delay -10 ms"
-msgstr "Audion viive -10ms"
+msgstr "Äänen viive -10ms"
 
 msgctxt "IDS_MPLAYERC_23"
 msgid "Jump Forward (small)"
@@ -1687,31 +1705,31 @@ msgstr "Hyppää alkuun"
 
 msgctxt "IDS_OSD_SHOW_FILENAME"
 msgid "OSD: Show File Name"
-msgstr ""
+msgstr "Kuvaruutunäyttö: Näytä tiedostonimi"
 
 msgctxt "IDS_PLAY_DVD"
 msgid "Play DVD"
-msgstr ""
+msgstr "Soita DVD"
 
 msgctxt "IDS_PLAY_BD"
 msgid "Play BD"
-msgstr ""
+msgstr "Soita BD"
 
 msgctxt "IDS_OSD_DISPLAY_RENDERER_STATS"
 msgid "OSD: Display Renderer Statistics"
-msgstr ""
+msgstr "Kuvaruutunäyttö: Näytä renderöijän statistiikat"
 
 msgctxt "IDS_OSD_RESET_RENDERER_STATS"
 msgid "OSD: Reset Renderer Statistics"
-msgstr ""
+msgstr "Kuvaruutunäyttö: Resetoi renderöijän statistiikka"
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
-msgstr "Tekstitykset::Sekal"
+msgstr "Tekstitykset::Sekalaiset"
 
 msgctxt "IDS_VIEW_BORDERLESS"
 msgid "Hide &borders"
-msgstr "Kätke &rajat"
+msgstr "Piilota &rajat"
 
 msgctxt "IDS_VIEW_FRAMEONLY"
 msgid "Fra&me Only"
@@ -1723,7 +1741,7 @@ msgstr "Näytä Caption&&Valikko"
 
 msgctxt "IDS_VIEW_HIDEMENU"
 msgid "Hide &Menu"
-msgstr "Kätke &valikko"
+msgstr "Piilota &valikko"
 
 msgctxt "IDD_PPAGEADVANCED"
 msgid "Advanced"
@@ -1743,7 +1761,7 @@ msgstr "Näytä normaalina"
 
 msgctxt "IDS_AG_FULLSCREEN"
 msgid "Fullscreen"
-msgstr "Kokonäyttö"
+msgstr "Koko näyttö"
 
 msgctxt "IDS_MPLAYERC_39"
 msgid "Fullscreen (w/o res.change)"
@@ -1794,8 +1812,8 @@ msgid "PnS Dec Height"
 msgstr "PnS Väh.Korkeutta"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
-msgid "Downloading subtitle(s), please wait."
-msgstr "Imuroidaan tekstityksiä, ole hyvä ja odota."
+msgid "Downloading [%s] \"%s\""
+msgstr "Ladataan [%s] \"%s\""
 
 msgctxt "IDS_SUBDL_DLG_PARSING"
 msgid "Parsing list..."
@@ -1855,7 +1873,7 @@ msgstr "Viive ei kelpaa"
 
 msgctxt "IDS_UPDATE_DELAY_ERROR_MSG"
 msgid "Please enter a number between 1 and 365."
-msgstr "Syötä numero väliltä 1 ja 365, ole hyvä."
+msgstr "Syötä numero väliltä 1-365."
 
 msgctxt "IDS_AG_PNS_CENTER"
 msgid "PnS Center"
@@ -1919,7 +1937,7 @@ msgstr "DVD Tekstitysvalikko"
 
 msgctxt "IDS_MPLAYERC_66"
 msgid "DVD Audio Menu"
-msgstr "DVD Äänivalikko"
+msgstr "DVD äänivalikko"
 
 msgctxt "IDS_MPLAYERC_67"
 msgid "DVD Angle Menu"
@@ -1963,11 +1981,11 @@ msgstr "Pomo-näppäin"
 
 msgctxt "IDS_MPLAYERC_77"
 msgid "Player Menu"
-msgstr ""
+msgstr "Soitinmenu"
 
 msgctxt "IDS_MPLAYERC_78"
 msgid "Player Menu (full)"
-msgstr ""
+msgstr "Soitinmenu (täydellinen)"
 
 msgctxt "IDS_AG_FILTERS_MENU"
 msgid "Filters Menu"
@@ -1975,23 +1993,23 @@ msgstr "Suodinvalikko"
 
 msgctxt "IDS_AG_OPTIONS"
 msgid "Options"
-msgstr "Vaihtoehdot"
+msgstr "Asetukset"
 
 msgctxt "IDS_AG_NEXT_AUDIO"
 msgid "Next Audio Track"
-msgstr ""
+msgstr "Seuraava ääniraita"
 
 msgctxt "IDS_AG_PREV_AUDIO"
 msgid "Prev Audio Track"
-msgstr ""
+msgstr "Edellinen ääniraita"
 
 msgctxt "IDS_AG_NEXT_SUBTITLE"
 msgid "Next Subtitle Track"
-msgstr ""
+msgstr "Seuraava tekstitysraita"
 
 msgctxt "IDS_AG_PREV_SUBTITLE"
 msgid "Prev Subtitle Track"
-msgstr ""
+msgstr "Edellinen tekstitysraita"
 
 msgctxt "IDS_MPLAYERC_85"
 msgid "On/Off Subtitle"
@@ -2011,19 +2029,19 @@ msgstr "Edellinen kulma (DVD)"
 
 msgctxt "IDS_MPLAYERC_93"
 msgid "Next Audio Track (DVD)"
-msgstr ""
+msgstr "Seuraava ääniraita (DVD)"
 
 msgctxt "IDS_MPLAYERC_94"
 msgid "Prev Audio Track (DVD)"
-msgstr ""
+msgstr "Edellinen ääniraita (DVD)"
 
 msgctxt "IDS_MPLAYERC_95"
 msgid "Next Subtitle Track (DVD)"
-msgstr ""
+msgstr "Seuraava tekstitysraita (DVD)"
 
 msgctxt "IDS_MPLAYERC_96"
 msgid "Prev Subtitle Track (DVD)"
-msgstr ""
+msgstr "Edellinen tekstitysraita (DVD)"
 
 msgctxt "IDS_MPLAYERC_97"
 msgid "On/Off Subtitle (DVD)"
@@ -2031,7 +2049,7 @@ msgstr "Tekstitys päällä/pois (DVD)"
 
 msgctxt "IDS_OSD_DISPLAY_CURRENT_TIME"
 msgid "OSD: Display Current Time"
-msgstr ""
+msgstr "Kuvaruutunäyttö: Näytä tämänhetkinen aika"
 
 msgctxt "IDS_PPAGEWEBSERVER_0"
 msgid "Select the directory"
@@ -2057,11 +2075,11 @@ msgctxt "IDS_DVB_CHANNEL_ENCRYPTION"
 msgid "Encrypted"
 msgstr "Salattu"
 
-msgctxt "IDS_DVB_CHANNEL_ENCRYPTED"
+msgctxt "IDS_YES"
 msgid "Yes"
 msgstr "Kyllä"
 
-msgctxt "IDS_DVB_CHANNEL_NOT_ENCRYPTED"
+msgctxt "IDS_NO"
 msgid "No"
 msgstr "Ei"
 
@@ -2071,7 +2089,7 @@ msgstr "Käynnistä"
 
 msgctxt "IDS_DVB_CHANNEL_STOP_SCAN"
 msgid "Stop"
-msgstr "Seis"
+msgstr "Pysäytä"
 
 msgctxt "IDS_DVB_TVNAV_SEERADIO"
 msgid "Radio stations"
@@ -2099,7 +2117,7 @@ msgstr "Tekstityksiä ei voi tallentaa"
 
 msgctxt "IDS_AG_FRAMERATE"
 msgid "Frame rate"
-msgstr "Kehysnopeus"
+msgstr "Kuvataajuus"
 
 msgctxt "IDS_MAINFRM_6"
 msgid "drawn: %d, dropped: %d"
@@ -2119,7 +2137,7 @@ msgstr "Levy: %02lu/%02lu, Nimike: %02lu/%02lu, Kappale: %02lu/%02lu"
 
 msgctxt "IDS_MAINFRM_10"
 msgid "Angle: %02lu/%02lu, %lux%lu %lu Hz %lu:%lu"
-msgstr "Kulma: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
+msgstr "Kulma: %02lu/%02lu, %lux%lu %lu Hz %lu:%lu"
 
 msgctxt "IDS_MAINFRM_11"
 msgid "%s, %s %u Hz %d bits %d %s"
@@ -2135,11 +2153,11 @@ msgstr "Toista MPC-HC:lla"
 
 msgctxt "IDS_CANNOT_CHANGE_FORMAT"
 msgid "MPC-HC has not enough privileges to change files formats associations. Please click on the \"Run as administrator\" button."
-msgstr "MPC-HC:n oikeudet eivät riitä tiedostomuotojen kytkentöjen vaihtamiseksi. Klikkaa \"Suorita järjestelmänvalvojana\"-vaihtoehtoa."
+msgstr "MPC-HC:n oikeudet eivät riitä tiedostomuotojen kytkentöjen muuttamiseen. Klikkaa \"Suorita järjestelmänvalvojana\" -painiketta."
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
-msgstr "MPC-HC on erittäin kevyt avoimen lähdekoodin mediasoitin Windowsille. Se tukee kaikkien yleisten video- ja audiotiedostomuotojen toistoa. Olemme 100% vapaita vakoiluohjelmista, mainoksia tai työkalupalkkeja ei ole."
+msgstr "MPC-HC on erittäin kevyt avoimen lähdekoodin mediasoitin Windowsille. Se tukee kaikkien yleisten video- ja äänitiedostomuotojen toistoa. Olemme 100% vapaita vakoiluohjelmista. Mainoksia tai työkalupalkkeja ei ole."
 
 msgctxt "IDS_MAINFRM_12"
 msgid "channel"
@@ -2155,7 +2173,7 @@ msgstr "Nimike %u"
 
 msgctxt "IDS_MAINFRM_16"
 msgid "DVD: Unexpected error"
-msgstr "DVD: odottamaton virhe"
+msgstr "DVD: Odottamaton virhe"
 
 msgctxt "IDS_MAINFRM_17"
 msgid "DVD: Copy-Protect Fail"
@@ -2171,7 +2189,7 @@ msgstr "DVD: Levyn aluekoodi ei kelpaa"
 
 msgctxt "IDS_MAINFRM_20"
 msgid "DVD: Low Parental Level"
-msgstr "DVD: alhainen ikäkausivalvontataso"
+msgstr "DVD: Alhainen ikärajaluokitustaso"
 
 msgctxt "IDS_MAINFRM_21"
 msgid "DVD: Macrovision Fail"
@@ -2187,11 +2205,11 @@ msgstr "DVD: Väärät levy- ja dekooderialueet"
 
 msgctxt "IDS_D3DFS_WARNING"
 msgid "This option is designed to avoid tearing. However, it will also prevent MPC-HC from displaying the context menu and any dialog box during playback.\n\nDo you really want to activate this option?"
-msgstr "Tämä vaihtoehto on suunniteltu hajoamisen välttämiseen. Kuitenkin se estää toistettaessa myöskin MPC-HC:ta näyttämästä pikavalikkoa ja mitään muutakaan valintaikkunaa.\n\nHaluatko tosiaan käyttää tätä vaihtoehtoa?"
+msgstr "Tämä asetus on suunniteltu kuvan repeämisen estämiseen. Se estää kuitenkin toistettaessa MPC-HC:ta näyttämästä pikavalikkoa tai mitään muutakaan valintaikkunaa.\n\nHaluatko varmasti laittaa tämän päälle?"
 
 msgctxt "IDS_MAINFRM_139"
 msgid "Sub delay: %ld ms"
-msgstr "Sub-viive: %ld ms"
+msgstr "Tekstin viive: %ld ms"
 
 msgctxt "IDS_AG_TITLE2"
 msgid "Title: %02d/%02d"
@@ -2213,21 +2231,13 @@ msgctxt "IDS_THUMB_IMAGE_WIDTH"
 msgid "Image width"
 msgstr "Kuvan leveys"
 
-msgctxt "IDS_PPSDB_URLCORRECT"
-msgid "The URL appears to be correct!"
-msgstr "URL tuntuu olevan oikea!"
-
-msgctxt "IDS_PPSDB_PROTOCOLERR"
-msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
-msgstr "Protokollan versio ei sovi, ole hyvä ja päivitä soittimesi tai valitse toinen osoite!"
-
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
 msgstr "Kuvasuhde"
 
 msgctxt "IDS_MAINFRM_37"
 msgid ", Total: %ld, Dropped: %ld"
-msgstr ", Kaikkiaan: %ld, Pudotettu: %ld"
+msgstr ", Yhteensä: %ld, Pudotettu: %ld"
 
 msgctxt "IDS_MAINFRM_38"
 msgid ", Size: %I64d KB"
@@ -2314,8 +2324,8 @@ msgid "The thumbnails would be too small, impossible to create the file.\n\nTry 
 msgstr "Pienoiskuvista tulisi liian pieniä, tiedostoa ei voi luoda .\n\nYritä vähentää pienoiskuvien määrää tai suurenna kokonaiskokoa."
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
-msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "Tekstityksien latausta varten on vaihdettava videomuunnintyyppiä ja avattava tiedosto uudelleen.\n- DirectShow: VMR-7/VMR-9 (muuntamaton), EVR (CP), Sync, madVR tai Haali\n- RealMedia: RealMedian erikoismuunnin, tai avaus DirectShow'n kautta.\n- QuickTime: QuickTimen DX7- tai DX9-muunnin\n - ShockWave: n/a"
+msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+msgstr "Tekstityksien latausta varten on vaihdettava videon renderöijän tyyppiä ja avattava tiedosto uudelleen.\n- DirectShow: VMR-9 (renderöimätön), EVR (CP), Sync, madVR tai Haali\n- RealMedia: RealMedian erikoisrenderöijä, tai avaus DirectShow'n kautta.\n- QuickTime: QuickTimen DX7- tai DX9-renderöijä\n - ShockWave: n/a"
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
@@ -2326,12 +2336,12 @@ msgid "Aspect Ratio: %ld:%ld"
 msgstr "Kuvasuhde: %ld:%ld"
 
 msgctxt "IDS_MAINFRM_69"
-msgid "Aspect Ratio: Default"
-msgstr "Kuvasuhde: Oletus"
+msgid "Aspect Ratio: Default (DAR)"
+msgstr "Kuvasuhde: Oletus (DAR)"
 
 msgctxt "IDS_MAINFRM_70"
 msgid "Audio delay: %I64d ms"
-msgstr "Audioviive: %I64dms"
+msgstr "Äänen viive: %I64dms"
 
 msgctxt "IDS_AG_CHAPTER"
 msgid "Chapter %d"
@@ -2351,7 +2361,7 @@ msgstr "QuickTime ei ole vielä tuettu X64:ssä (Apple-kirjastoa ei saatavissa)"
 
 msgctxt "IDS_MAINFRM_80"
 msgid "Failed to create the filter graph object"
-msgstr "Suotimen graph objektin luonti epäonnistui"
+msgstr "Suodinkaavion objektin luonti epäonnistui"
 
 msgctxt "IDS_MAINFRM_81"
 msgid "Invalid argument"
@@ -2364,10 +2374,6 @@ msgstr "Avaaminen keskeytetty"
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
 msgstr "Tiedoston muunto epäonnistui"
-
-msgctxt "IDS_PPSDB_BADURL"
-msgid "Bad URL, could not locate subtitle database there!"
-msgstr "Huono URL, tekstitystietokantaa ei löydy!"
 
 msgctxt "IDS_AG_CHAPTER2"
 msgid "Chapter: "
@@ -2475,7 +2481,7 @@ msgstr "Mitään laitetta ei voi avata"
 
 msgctxt "IDS_AG_SOUND"
 msgid "Sound"
-msgstr "Sointi"
+msgstr "Ääni"
 
 msgctxt "IDS_MAINFRM_114"
 msgid "%s was not found, please insert media containing this file."
@@ -2491,7 +2497,7 @@ msgstr "&Ominaisuudet..."
 
 msgctxt "IDS_MAINFRM_117"
 msgid " (pin) properties..."
-msgstr " (nasta) ominaisuudet..."
+msgstr " (pinnin) ominaisuudet..."
 
 msgctxt "IDS_AG_UNKNOWN_STREAM"
 msgid "Unknown Stream"
@@ -2543,7 +2549,7 @@ msgstr "Tuntematon formaatti"
 
 msgctxt "IDS_MAINFRM_138"
 msgid "Sub shift: %ld ms"
-msgstr "Sub-siirto: %ld ms"
+msgstr "Tekstityksen siirto: %ld ms"
 
 msgctxt "IDS_VOLUME_BOOST_INC"
 msgid "Volume boost increase"
@@ -2562,12 +2568,12 @@ msgid "Volume boost Max"
 msgstr "Äänenvoimakkuuden vahvistus Max."
 
 msgctxt "IDS_USAGE"
-msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/randomize\tRandomize the playlist\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tUse MPC-HC as slave\n/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding\n\t\tOnly available for CUVID and DXVA2 (copy-back)\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "Käyttö: mpc-hc.exe \"pathname\" [switsit]\n\n\"pathname\"\tLadattava tiedosto tai hakemisto\n\t\t(villit kortit sallittu, \"-\" tarkoittaa oletussyöttöä)\n/dub \"dubname\"\tLataa lisäaudiotiedoston\n/dubdelay \"file\"\tLataa XX ms viivästetyn lisäaudiotiedoston\n\t\t(jos tiedosto sisältää \"...DELAY XXms...\")\n/d3dfs\t\tAloittaa muunnon D3D kokoruututilassa\n/sub \"subname\"\tLataa lisätekstitystiedoston\n/filter \"filtername\"\tLataa -suotimet dynaamisesta linkkikirjastosta\n\t\t(villit kortit sallittu)\n/dvd\t\tToimii DVD-tilassa, \"pathname\" tarkoittaa\n\t\tkansiota (valinnainen)\n/dvdpos T#C\tAlkaa toiston nimikkeestä T,\n\t\tkappaleesta C\n/dvdpos T#hh:mm\tAlkaa toiston nimikkeestä T,\n\t\tsijainnista hh:mm:ss\n/cd\t\tLataa kaikki audio-CD:n tai (s)vcd:n raidat\n\t\t\"pathname\" tarkoittaa aseman polkua (valinnainen)\n/device\t\tAvaa oletusvideolaitteen\n/open\t\tAvaa tiedoston, ei aloita toistoa automaattisesti\n/play\t\tAloittaa toiston heti kun soitin on käynnistetty\n/close\t\tSulkee soittimen toiston jälkeen (toimii vain \n\t\tyhdessä /play:n kanssa)\n/shutdown\tSulkee käyttöjärjestelmän toiston jälkeen\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tKäynnistys kokonäyttö-tilassa\n/minimized\tKäynnistys minimitilassa\n/new\t\tKäyttää toista soittimen instanssia\n/add\t\tLisää \"pathname\" toistolistaan, voidaan\n\t\tkäyttää yhdessä /open ja /play kanssa\n/randomize\tRandomize the playlist\n/regvid\t\tLuo tiedostokytkennän videotietostoille \n/regaud\t\tLuo tiedostokytkennän audiotietostoille\n/regpl\t\tLuo tiedostokytkennän soittoluettelotiedostoille\n/regall\t\tLuo tiedostokytkennän kaikille tuetuille tiedostotyypeille\n/unregall\t\tPoistaa kaikki tiedostokytkennät\n/start ms\t\tAloittaa toiston kohdasta \"ms\" (= millisekuntia)\n/startpos hh:mm:ss\tAloittaa toiston kohdasta hh:mm:ss\n/fixedsize w,h\tAsettaa kiinteän ikkunakoon\n/monitor N\tKäynnistää soittimen näyttö N:llä, \n\t\tjossa N aloittaa 1:stä\n/audiorenderer N\tKäynnistää käyttäen audiomuunnin\n\t\tN:ää, jossa N alkaa 1:stä (katso \"Output\"-asetukset)\n/shaderpreset \"Pr\"\tKäynnistä käyttäen \"Pr\" varjostin-asetuksia\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tUse MPC-HC as slave\n/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding\n\t\tOnly available for CUVID and DXVA2 (copy-back)\n/reset\t\tPalauttaa oletusasetukset\n/help /h /?\tNäyttää komentorivin svitsien ohjeen\n"
+msgid "Usage: mpc-hc.exe \"pathname\" [switches]"
+msgstr ""
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
-msgstr "Komentorivin merkkijonosta löytynyt tuntematon (-ia)\nswitsi (-ejä)\n"
+msgstr "Komentorivin merkkijonosta löytyi tuntematon muuttuja:\n\n"
 
 msgctxt "IDS_AG_TOGGLE_INFO"
 msgid "Toggle Information"
@@ -2615,7 +2621,7 @@ msgstr "Seuraava AR -esiasetus"
 
 msgctxt "IDS_AG_VIDFRM_STRETCH"
 msgid "VidFrm Stretch"
-msgstr "VidFrm venytys"
+msgstr "VidFrm Venytys"
 
 msgctxt "IDS_AG_VIDFRM_INSIDE"
 msgid "VidFrm Inside"
@@ -2627,7 +2633,7 @@ msgstr "VidFrm Ulkopuoli"
 
 msgctxt "IDS_AG_PNS_RESET"
 msgid "PnS Reset"
-msgstr "PnS nollaus"
+msgstr "PnS Palautus"
 
 msgctxt "IDS_AG_PNS_ROTATEX_P"
 msgid "PnS Rotate X+"
@@ -2648,14 +2654,6 @@ msgstr "VidFrm Zoom vaihto"
 msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
 msgstr "&Ota käyttöön kaikki suotimet"
-
-msgctxt "IDS_NAVIGATE_TUNERSCAN"
-msgid "Tuner scan"
-msgstr "Virittimen asemanhaku"
-
-msgctxt "IDS_SUBTITLES_ERROR"
-msgid "Subtitles are not loaded or unsupported renderer."
-msgstr "Tekstityksiä ei ladattu tai muunninta ei tueta."
 
 msgctxt "IDS_LOGO_AUTHOR"
 msgid "Author unknown. Contact us if you made this logo!"
@@ -2771,7 +2769,7 @@ msgstr "Peruuta"
 
 msgctxt "IDS_THUMB_THUMBNAILS"
 msgid "Layout"
-msgstr "Layout"
+msgstr "Asettelu"
 
 msgctxt "IDS_THUMB_PIXELS"
 msgid "Pixels:"
@@ -2787,11 +2785,11 @@ msgstr "&Poista kaikki suotimet käytöstä"
 
 msgctxt "IDS_ENABLE_AUDIO_FILTERS"
 msgid "Enable all audio decoders"
-msgstr "Ota käyttöön kaikki audiodekooderit"
+msgstr "Ota käyttöön kaikki äänidekooderit"
 
 msgctxt "IDS_DISABLE_AUDIO_FILTERS"
 msgid "Disable all audio decoders"
-msgstr "Poista käytöstä kaikki audiodekooderit"
+msgstr "Poista käytöstä kaikki äänidekooderit"
 
 msgctxt "IDS_ENABLE_VIDEO_FILTERS"
 msgid "Enable all video decoders"
@@ -2823,7 +2821,7 @@ msgstr "Kosketa Ikkunaa ulkopuolelta"
 
 msgctxt "IDS_AUDIO_STREAM"
 msgid "Audio: %s"
-msgstr "Audio: %s"
+msgstr "Ääni: %s"
 
 msgctxt "IDS_AG_REOPEN"
 msgid "Reopen File"
@@ -2891,7 +2889,7 @@ msgstr "Windows Media Video"
 
 msgctxt "IDS_MFMT_BINK"
 msgid "Smacker/Bink Video"
-msgstr "Smacker/Bink-video"
+msgstr "Smacker/Bink Video"
 
 msgctxt "IDS_MFMT_FLIC"
 msgid "FLIC Animation"
@@ -2915,11 +2913,11 @@ msgstr "Shockwave Flash"
 
 msgctxt "IDS_MFMT_OTHER_AUDIO"
 msgid "Other Audio"
-msgstr "Muu audio"
+msgstr "Muu ääni"
 
 msgctxt "IDS_MFMT_AC3"
 msgid "AC-3"
-msgstr ""
+msgstr "AC-3"
 
 msgctxt "IDS_MFMT_AIFF"
 msgid "AIFF"
@@ -2947,11 +2945,11 @@ msgstr "Opus Audio Codec"
 
 msgctxt "IDS_MFMT_DTS"
 msgid "DTS/DTS-HD"
-msgstr ""
+msgstr "DTS/DTS-HD"
 
 msgctxt "IDS_MFMT_AMR"
 msgid "AMR"
-msgstr "AM´R"
+msgstr "AMR"
 
 msgctxt "IDS_MFMT_APE"
 msgid "Monkey's Audio"
@@ -2963,7 +2961,7 @@ msgstr "AU/SND"
 
 msgctxt "IDS_MFMT_CDA"
 msgid "Audio CD track"
-msgstr "Audio-CD:n raita"
+msgstr "Ääni-CD raita"
 
 msgctxt "IDS_MFMT_FLAC"
 msgid "FLAC"
@@ -3019,7 +3017,7 @@ msgstr "Soittolista"
 
 msgctxt "IDS_MFMT_BDPLS"
 msgid "Blu-ray playlist"
-msgstr "Blu-ray soittoluettelo"
+msgstr "Blu-ray soittolista"
 
 msgctxt "IDS_MFMT_RAR"
 msgid "RAR Archive"
@@ -3131,7 +3129,7 @@ msgstr "Muuntoperuste: Ehdottoman kolorimetrinen"
 
 msgctxt "IDS_OSD_RS_OUTPUT_RANGE"
 msgid "Output Range: %s"
-msgstr "Tulostusalue: %s"
+msgstr "Ulostulon alue: %s"
 
 msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_ON"
 msgid "Flush GPU before VSync: On"
@@ -3183,11 +3181,11 @@ msgstr "Vaihtoehtoinen VSync: Pois päältä"
 
 msgctxt "IDS_OSD_RS_RESET_DEFAULT"
 msgid "Renderer settings reset to default"
-msgstr "Muuntoasetusten nollaus oletusarvoihin"
+msgstr "Renderöintiasetusten palautus oletusarvoihin"
 
 msgctxt "IDS_OSD_RS_RESET_OPTIMAL"
 msgid "Renderer settings reset to optimal"
-msgstr "Muuntoasetusten nollaus optimaalisiksi"
+msgstr "Renderöintiasetusten palautus optimaalisiksi"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
 msgid "D3D Fullscreen GUI Support: On"
@@ -3199,11 +3197,11 @@ msgstr "D3D Kokonäytön GUI:n tuki: Pois päältä"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_ON"
 msgid "10-bit RGB Output: On"
-msgstr "10 bitin RGB-lähtö: Päällä"
+msgstr "10 bitin RGB-ulostulo: Päällä"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_OFF"
 msgid "10-bit RGB Output: Off"
-msgstr "10 bitin RGB-lähtö: Pois päältä"
+msgstr "10 bitin RGB-ulostulo: Pois päältä"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_IN_ON"
 msgid "Force 10-bit RGB Input: On"
@@ -3259,23 +3257,23 @@ msgstr "Vähennä kylläisyyttä"
 
 msgctxt "IDS_RESET_COLOR"
 msgid "Reset color settings"
-msgstr "Nollaa väriasetukset"
+msgstr "Palauta väriasetukset"
 
 msgctxt "IDS_USING_LATEST_STABLE"
 msgid "\nYou are already using the latest stable version."
-msgstr "\nKäytät jo viimeistä vakaata versiota."
+msgstr "\nKäytät jo viimeisintä vakaata versiota."
 
 msgctxt "IDS_USING_NEWER_VERSION"
 msgid "Your current version is v%s.\n\nThe latest stable version is v%s."
-msgstr "Nykyinen versiosi on v%s.\n\nViimeinen vakaa versio on v%s."
+msgstr "Nykyinen versiosi on v%s.\n\nViimeisin vakaa versio on v%s."
 
 msgctxt "IDS_NEW_UPDATE_AVAILABLE"
 msgid "MPC-HC v%s is now available. You are using v%s.\n\nDo you want to visit MPC-HC's website to download it?"
-msgstr "MPC-HC v%s on nyt saatavilla. Käytät versiota v%s.\n\nHaluatko vierailla MPC-HC:n nettisivulla lataamista varten?"
+msgstr "MPC-HC v%s on nyt saatavilla. Käytät versiota v%s.\n\nHaluatko mennä MPC-HC:n sivustolle ladataksesi sen?"
 
 msgctxt "IDS_UPDATE_ERROR"
 msgid "Update server not found.\n\nPlease check your internet connection or try again later."
-msgstr "Päivityspalvelinta ei löydy.\n\nTarkista internet-yhteytesi ja yritä myöhemmin uudelleen, ole hyvä."
+msgstr "Päivityspalvelinta ei löydy.\n\nTarkista internet-yhteytesi ja yritä myöhemmin uudelleen."
 
 msgctxt "IDS_UPDATE_CLOSE"
 msgid "&Close"
@@ -3347,7 +3345,7 @@ msgstr "KB/sek"
 
 msgctxt "IDS_SPEED_UNIT_M"
 msgid "MB/s"
-msgstr "MB/sek"
+msgstr "MB/s"
 
 msgctxt "IDS_BDA_ERROR_CREATE_TUNER"
 msgid "Could not create the tuner."
@@ -3383,7 +3381,7 @@ msgstr "Virhe jäsennettäessä annettua tekstiä!"
 
 msgctxt "IDS_GOTO_ERROR_PARSING_FPS"
 msgid "Error parsing the entered frame rate!"
-msgstr "Virhe jäsennettäessä annettua kehysnopeutta!"
+msgstr "Virhe tulkittaessa annettua kuvataajuutta!"
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
 msgid "Cannot frame-step, try a different video renderer."
@@ -3391,11 +3389,11 @@ msgstr "Kehystä ei voi askeltaa, yritä eri videomuuntimella."
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for RealMedia.\nSelect one of the DirectX renderers for RealMedia in MPC-HC's output options and reopen the file."
-msgstr "\"Tallenna kuva\" ja \"Tallenna pienoiskuvat\" -toiminnot eivät toimi RealMedian oletusvideomuuntimella.\nValitse jokin DirectX:n RealMedian muuntimista MPC-HC:n lähtövaihtoehdoista ja avaa tiedosto uudelleen."
+msgstr "\"Tallenna kuva\" ja \"Tallenna pienoiskuvat\" -toiminnot eivät toimi RealMedian oletusvideomuuntimella.\nValitse jokin DirectX:n RealMedian renderöijistä MPC-HC:n ulostulon vaihtoehdoista ja avaa tiedosto uudelleen."
 
 msgctxt "IDS_SCREENSHOT_ERROR_QT"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for QuickTime.\nSelect one of the DirectX renderers for QuickTime in MPC-HC's output options and reopen the file."
-msgstr "\"Tallenna kuva\" ja \"Tallenna pienoiskuvat\" -toiminnot eivät toimi QuickTimen oletusvideomuuntimella.\nValitse jokin DirectX:n QuickTimen muuntimista MPC-HC:n lähtövaihtoehdoista ja avaa tiedosto uudelleen."
+msgstr "\"Tallenna kuva\" ja \"Tallenna pienoiskuvat\" -toiminnot eivät toimi QuickTimen oletusvideomuuntimella.\nValitse jokin DirectX:n QuickTimen renderöijistä MPC-HC:n ulostulon vaihtoehdoista ja avaa tiedosto uudelleen."
 
 msgctxt "IDS_SCREENSHOT_ERROR_SHOCKWAVE"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work for Shockwave files."
@@ -3403,11 +3401,7 @@ msgstr "\"Tallenna kuva\" ja \"Tallenna pienoiskuvat\" -toiminnot eivät toimi S
 
 msgctxt "IDS_SCREENSHOT_ERROR_OVERLAY"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the Overlay Mixer video renderer.\nChange the video renderer in MPC's output options and reopen the file."
-msgstr "\"Tallenna kuva\" ja \"Tallenna pienoiskuvat\" -toiminnot eivät toimi Peittokuvamikseri-videomuuntimella.\nVaihda videomuunnin MPC-HC:n lähtövaihtoehdoista ja avaa tiedosto uudelleen."
-
-msgctxt "IDS_SUBDL_DLG_CONNECT_ERROR"
-msgid "Cannot connect to the online subtitles database."
-msgstr "Verkon tekstitystietokantaan ei voi yhdistää."
+msgstr "\"Tallenna kuva\" ja \"Tallenna pienoiskuvat\" -toiminnot eivät toimi Peittokuvamikseri-videorenderöijällä.\nVaihda videorenderöijä MPC-HC:n ulostulon vaihtoehdoista ja avaa tiedosto uudelleen."
 
 msgctxt "IDS_MB_SHOW_EDL_EDITOR"
 msgid "Do you want to activate the EDL editor?"
@@ -3423,7 +3417,7 @@ msgstr "video"
 
 msgctxt "IDS_CAPTURE_ERROR_AUDIO"
 msgid "audio"
-msgstr "audio"
+msgstr "ääni"
 
 msgctxt "IDS_CAPTURE_ERROR_ADD_BUFFER"
 msgid "Can't add the %s buffer filter to the graph."
@@ -3451,19 +3445,19 @@ msgstr "%s virtaa ei voi yhdistää multiplekserisuotimeen."
 
 msgctxt "IDS_CAPTURE_ERROR_VID_CAPT_PIN"
 msgid "No video capture pin was found."
-msgstr "Videokaappausnastaa ei löydy."
+msgstr "Videokaappauspinniä ei löydy."
 
 msgctxt "IDS_CAPTURE_ERROR_AUD_CAPT_PIN"
 msgid "No audio capture pin was found."
-msgstr "Audiokaappausnastaa ei löydy."
+msgstr "Äänenkaappauspinniä ei löydy."
 
 msgctxt "IDS_CAPTURE_ERROR_OUT_FILE"
 msgid "Error initializing the output file."
-msgstr "Lähtötiedoston alustus epäonnistui."
+msgstr "Ulostulotiedoston alustus epäonnistui."
 
 msgctxt "IDS_CAPTURE_ERROR_AUD_OUT_FILE"
 msgid "Error initializing the audio output file."
-msgstr "Audiolähtötiedoston alustus epäonnistui."
+msgstr "Äänen ulostulotiedoston alustus epäonnistui."
 
 msgctxt "IDS_SUBRESYNC_TIME_FORMAT"
 msgid "The correct time format is [-]hh:mm:ss.ms (e.g. 01:23:45.678)."
@@ -3479,11 +3473,11 @@ msgstr "Sinun on otettava uudet asetukset käyttöön ennen niiden testaamista."
 
 msgctxt "IDS_AFTERPLAYBACK_EXIT"
 msgid "After Playback: Exit"
-msgstr "Toiston jälkeen: Lopeta"
+msgstr "Toiston jälkeen: Sulje"
 
 msgctxt "IDS_AFTERPLAYBACK_STANDBY"
 msgid "After Playback: Stand By"
-msgstr "Toiston jälkeen: Horrostila"
+msgstr "Toiston jälkeen: Valmiustila"
 
 msgctxt "IDS_AFTERPLAYBACK_HIBERNATE"
 msgid "After Playback: Hibernate"
@@ -3491,7 +3485,7 @@ msgstr "Toiston jälkeen: Lepotila"
 
 msgctxt "IDS_AFTERPLAYBACK_SHUTDOWN"
 msgid "After Playback: Shutdown"
-msgstr "Toiston jälkeen: Sulje tietokone"
+msgstr "Toiston jälkeen: Sammuta tietokone"
 
 msgctxt "IDS_AFTERPLAYBACK_LOGOFF"
 msgid "After Playback: Log Off"
@@ -3503,7 +3497,7 @@ msgstr "Toiston jälkeen: Lukitse"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
-msgstr "Toiston jälkeen: Sulje näyttö"
+msgstr "Toiston jälkeen: Sammuta näyttö"
 
 msgctxt "IDS_AFTERPLAYBACK_PLAYNEXT"
 msgid "After Playback: Play next file in the folder"
@@ -3547,7 +3541,7 @@ msgstr "Anna haluamasi kielet tähän.\nEsim. kirjoita \"eng jap swe\""
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
-msgstr "Ulkoisilla jakajilla on niiden omat kielivaihtoehtonsa, joten MPC-HC oletuksena ei vaihda niiden alkuperäistä valintaa.\nValitse tämä vaihtoehto jos haluat MPC-HC:n valvovan ulkoisia jakajia."
+msgstr "Ulkoisilla splittereillä voi olla omat kieliasetuksensa ja MPC-HC ei oletusasetuksilla vaihda niiden asettamaa alkuperäistä kielivalintaa.\nLaita tämä päälle jos haluat MPC-HC:n ohjaavan ulkoisia splittereitä."
 
 msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
 msgid "&Blu-Ray playlists"
@@ -3583,7 +3577,7 @@ msgstr "Kytke vain videoformaatteihin"
 
 msgctxt "IDC_ASSOCIATE_AUDIO_FORMATS"
 msgid "Associate with audio formats only"
-msgstr "Kytke vain audioformaatteihin"
+msgstr "Kytke vain ääniformaatteihin"
 
 msgctxt "IDC_CLEAR_ALL_ASSOCIATIONS"
 msgid "Clear all associations"
@@ -3595,9 +3589,377 @@ msgstr "Asetukset"
 
 msgctxt "IDS_SUBTITLE_RENDERER_VS_FILTER"
 msgid "VSFilter / DirectVobSub"
-msgstr ""
+msgstr "VSFilter / DirectVobSub"
 
 msgctxt "IDS_SUBTITLE_RENDERER_XY_SUB_FILTER"
 msgid "XySubFilter"
+msgstr "XySubFilter"
+
+msgctxt "IDS_SUBDL_DLG_PROVIDER_COL"
+msgid "Provider"
+msgstr "Tarjoaja"
+
+msgctxt "IDS_SUBDL_DLG_HI_COL"
+msgid "Hearing Impaired"
+msgstr "Kuulovammaisille"
+
+msgctxt "IDS_SUBDL_DLG_DOWNLOADS_COL"
+msgid "Downloads"
+msgstr "Lataukset"
+
+msgctxt "IDS_SUBDL_DLG_SCORE_COL"
+msgid "Score"
+msgstr "Pisteet"
+
+msgctxt "IDS_SUBDL_DLG_FAILED"
+msgid "Online subtitles search failed."
+msgstr "Tekstitysten haku verkosta epäonnistui."
+
+msgctxt "IDS_SUBDL_DLG_ABORTED"
+msgid "Online subtitles search aborted."
+msgstr "Tekstitysten haku verkosta peruutettiin."
+
+msgctxt "IDS_SUBDL_DLG_FOUND"
+msgid "Online subtitles search completed, %d subtitles found."
+msgstr "Tekstitysten haku verkosta valmis. %d tekstitystä löytyi."
+
+msgctxt "IDS_SUBDL_DLG_NOTFOUND"
+msgid "Online subtitles search completed, no subtitles found."
+msgstr "Tekstitysten haku verkosta valmis. Tekstityksiä ei löytynyt."
+
+msgctxt "IDS_SUBDL_DLG_TITLE"
+msgid "Download subtitles"
+msgstr "Lataa tekstitykset"
+
+msgctxt "IDS_SUBDL_DLG_SEARCHING"
+msgid "Searching for subtitles online, please wait..."
+msgstr "Tekstityksiä haetaan verkosta, ole hyvä ja odota..."
+
+msgctxt "IDS_SUBDL_DLG_ABORTING"
+msgid "Online subtitles search aborting..."
+msgstr "Tekstitysten hakua verkosta peruutetaan..."
+
+msgctxt "IDS_SUBUL_DLG_USERNAME_COL"
+msgid "Username"
+msgstr "Käyttäjänimi"
+
+msgctxt "IDS_SUBUL_DLG_STATUS_COL"
+msgid "Status"
+msgstr "Tila"
+
+msgctxt "IDS_SUBUL_DLG_STATUS_READY"
+msgid "Ready..."
+msgstr "Valmis..."
+
+msgctxt "IDS_SUBUL_DLG_STATUS_NOTIMPLEMENTED"
+msgid "Not implemented."
+msgstr "Ei toteutettu."
+
+msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADING"
+msgid "Uploading..."
+msgstr "Lähetetään..."
+
+msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADED"
+msgid "Subtitles uploaded successfully."
+msgstr "Tekstitysten lähetys onnistui."
+
+msgctxt "IDS_SUBUL_DLG_STATUS_FAILED"
+msgid "Subtitles upload failed."
+msgstr "Tekstitysten lähetys epäonnistui."
+
+msgctxt "IDS_SUBUL_DLG_STATUS_ABORTED"
+msgid "Subtitles upload aborted."
+msgstr "Tekstitysten lähetys keskeytetty."
+
+msgctxt "IDS_SUBUL_DLG_STATUS_ALREADYEXISTS"
+msgid "Subtitles already exist."
+msgstr "Tekstitykset ovat jo olemassa."
+
+msgctxt "IDS_SUBUL_DLG_UPLOADING"
+msgid "Uploading subtitles, please wait..."
+msgstr "Lähetetään tekstityksiä, ole hyvä ja odota..."
+
+msgctxt "IDS_SUBUL_DLG_UPLOADED"
+msgid "Upload finished."
+msgstr "Lähetys onnistui."
+
+msgctxt "IDS_SUBUL_DLG_ABORTED"
+msgid "Upload aborted."
+msgstr "Lähetys keskeytetty."
+
+msgctxt "IDS_SUBUL_DLG_FAILED"
+msgid "Upload failed."
+msgstr "Lähetys epäonnistui."
+
+msgctxt "IDS_SUBMENU_DOWNLOAD"
+msgid "Download && Open"
+msgstr "Lataa && Avaa"
+
+msgctxt "IDS_SUBMENU_SETUP"
+msgid "Setup"
+msgstr "Asetukset"
+
+msgctxt "IDS_SUBMENU_RESET"
+msgid "Reset"
+msgstr "Palauta"
+
+msgctxt "IDS_SUBMENU_MOVEUP"
+msgid "Move Up"
+msgstr "Siirrä ylös"
+
+msgctxt "IDS_SUBMENU_MOVEDOWN"
+msgid "Move Down"
+msgstr "Siirrä alas"
+
+msgctxt "IDS_SUBMENU_OPENURL"
+msgid "Open URL"
+msgstr "Avaa URL"
+
+msgctxt "IDS_SUBPP_DLG_LANGUAGES_COL"
+msgid "Languages"
+msgstr "Kielet"
+
+msgctxt "IDS_SUBPP_DLG_LANGUAGES_ERROR"
+msgid "ERROR: Internet connection could not be established."
+msgstr "VIRHE: Internet yhteyttä ei voitu muodostaa."
+
+msgctxt "IDS_SUB_CREDENTIALS_TITLE"
+msgid "Enter website credentials"
+msgstr "Syötä verkkosivun kirjautumistiedot"
+
+msgctxt "IDS_SUB_CREDENTIALS_MSG"
+msgid "Enter your credentials to connect to: "
+msgstr "Syötä kirjautumistiedot yhdistääksesi: "
+
+msgctxt "IDS_ASPECT_RATIO_SAR"
+msgid "Aspect Ratio: Assume square pixels (SAR)"
+msgstr "Kuvasuhde: Oleta neliömäiset pikselit (SAR)"
+
+msgctxt "IDS_SUBDL_DLG_DOWNLOADED"
+msgid "Downloaded [%s] \"%s\""
+msgstr "Ladattu [%s] \"%s\""
+
+msgctxt "IDS_SUBUL_DLG_TITLE"
+msgid "Upload subtitles"
+msgstr "Lähetä tekstitykset"
+
+msgctxt "IDS_SUBUL_DLG_CONFIRM"
+msgid "Are you sure you want to upload the subtitle file \"%s\"?"
+msgstr "Oletko varma, että haluat lähettää tekstitystiedoston \"%s\"?"
+
+msgctxt "IDS_SUBPP_DLG_FETCHING_LANGUAGES"
+msgid "Fetching supported languages..."
+msgstr ""
+
+msgctxt "IDS_SUB_CREDENTIALS_ERROR"
+msgid "Failed to log in on \"%S\" with username \"%S\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
+msgstr ""
+
+msgctxt "IDS_SUB_AUTODL_IGNORE_TOOLTIP"
+msgid "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\nFor example, type: \"private dir\\videos|work\\\"."
+msgstr ""
+
+msgctxt "IDS_CMD_PATHNAME"
+msgid "\"pathname\"\tThe main file or directory to be loaded\n\t\t(wildcards allowed, \"-\" denotes standard input)"
+msgstr ""
+
+msgctxt "IDS_CMD_DUB"
+msgid "/dub \"dubname\"\tLoad an additional audio file"
+msgstr ""
+
+msgctxt "IDS_CMD_DUBDELAY"
+msgid "/dubdelay \"file\"\tLoad an additional audio file shifted with XXms\n\t\t(if the file contains \"...DELAY XXms...\")"
+msgstr ""
+
+msgctxt "IDS_CMD_D3DFS"
+msgid "/d3dfs\t\tStart rendering in D3D fullscreen mode"
+msgstr ""
+
+msgctxt "IDS_CMD_SUB"
+msgid "/sub \"subname\"\tLoad an additional subtitle file"
+msgstr ""
+
+msgctxt "IDS_CMD_FILTER"
+msgid "/filter \"filtername\"\tLoad DirectShow filters from a dynamic link library (wildcards allowed)"
+msgstr ""
+
+msgctxt "IDS_CMD_DVD"
+msgid "/dvd\t\tRun in DVD mode, \"pathname\" means the DVD folder (optional)"
+msgstr ""
+
+msgctxt "IDS_CMD_DVDPOS_TC"
+msgid "/dvdpos T#C\tStart playback at title T, chapter C"
+msgstr ""
+
+msgctxt "IDS_CMD_DVDPOS_TIME"
+msgid "/dvdpos T#P\tStart playback at title T, position P (hh:mm:ss)"
+msgstr ""
+
+msgctxt "IDS_CMD_CD"
+msgid "/cd\t\tLoad all the tracks of an Audio CD or (S)VCD,\n\t\t\"pathname\" means the drive path (optional)"
+msgstr ""
+
+msgctxt "IDS_CMD_DEVICE"
+msgid "/device\t\tOpen the default video device"
+msgstr ""
+
+msgctxt "IDS_CMD_OPEN"
+msgid "/open\t\tOpen the file, don't automatically start playback"
+msgstr ""
+
+msgctxt "IDS_CMD_PLAY"
+msgid "/play\t\tStart playing the file as soon the player is launched"
+msgstr ""
+
+msgctxt "IDS_CMD_CLOSE"
+msgid "/close\t\tClose the player after playback (only works when used with /play)"
+msgstr ""
+
+msgctxt "IDS_CMD_SHUTDOWN"
+msgid "/shutdown\tShutdown the operating system after playback"
+msgstr ""
+
+msgctxt "IDS_CMD_STANDBY"
+msgid "/standby\t\tPut the operating system in standby mode after playback"
+msgstr ""
+
+msgctxt "IDS_CMD_HIBERNATE"
+msgid "/hibernate\tHibernate operating system after playback"
+msgstr ""
+
+msgctxt "IDS_CMD_LOGOFF"
+msgid "/logoff\t\tLog off after playback"
+msgstr ""
+
+msgctxt "IDS_CMD_LOCK"
+msgid "/lock\t\tLock workstation after playback"
+msgstr ""
+
+msgctxt "IDS_CMD_MONITOROFF"
+msgid "/monitoroff\tTurn off the monitor after playback"
+msgstr ""
+
+msgctxt "IDS_CMD_PLAYNEXT"
+msgid "/playnext\t\tOpen next file in the folder after playback"
+msgstr ""
+
+msgctxt "IDS_CMD_FULLSCREEN"
+msgid "/fullscreen\tStart in fullscreen mode"
+msgstr ""
+
+msgctxt "IDS_CMD_MINIMIZED"
+msgid "/minimized\tStart in minimized mode"
+msgstr ""
+
+msgctxt "IDS_CMD_NEW"
+msgid "/new\t\tUse a new instance of the player"
+msgstr ""
+
+msgctxt "IDS_CMD_ADD"
+msgid "/add\t\tAdd \"pathname\" to playlist, can be combined with /open and /play"
+msgstr ""
+
+msgctxt "IDS_CMD_RANDOMIZE"
+msgid "/randomize\tRandomize the playlist"
+msgstr ""
+
+msgctxt "IDS_CMD_REGVID"
+msgid "/regvid\t\tCreate file associations for video files"
+msgstr ""
+
+msgctxt "IDS_CMD_REGAUD"
+msgid "/regaud\t\tCreate file associations for audio files"
+msgstr ""
+
+msgctxt "IDS_CMD_REGPL"
+msgid "/regpl\t\tCreate file associations for playlist files"
+msgstr ""
+
+msgctxt "IDS_CMD_REGALL"
+msgid "/regall\t\tCreate file associations for all supported file types"
+msgstr ""
+
+msgctxt "IDS_CMD_UNREGALL"
+msgid "/unregall\t\tRemove all file associations"
+msgstr ""
+
+msgctxt "IDS_CMD_START"
+msgid "/start ms\t\tStart playing at \"ms\" (= milliseconds)"
+msgstr ""
+
+msgctxt "IDS_CMD_STARTPOS"
+msgid "/startpos hh:mm:ss\tStart playing at position hh:mm:ss"
+msgstr ""
+
+msgctxt "IDS_CMD_FIXEDSIZE"
+msgid "/fixedsize w,h\tSet a fixed window size"
+msgstr ""
+
+msgctxt "IDS_CMD_MONITOR"
+msgid "/monitor N\tStart player on monitor N, where N starts from 1"
+msgstr ""
+
+msgctxt "IDS_CMD_AUDIORENDERER"
+msgid "/audiorenderer N\tStart using audiorenderer N, where N starts from 1 (see \"Output\" settings)"
+msgstr ""
+
+msgctxt "IDS_CMD_SHADERPRESET"
+msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
+msgstr ""
+
+msgctxt "IDS_CMD_PNS"
+msgid "/pns \"name\"\tSpecify Pan&Scan preset name to use"
+msgstr ""
+
+msgctxt "IDS_CMD_ICONASSOC"
+msgid "/iconsassoc\tReassociate format icons"
+msgstr ""
+
+msgctxt "IDS_CMD_NOFOCUS"
+msgid "/nofocus\t\tOpen MPC-HC in background"
+msgstr ""
+
+msgctxt "IDS_CMD_WEBPORT"
+msgid "/webport N\tStart web interface on specified port"
+msgstr ""
+
+msgctxt "IDS_CMD_DEBUG"
+msgid "/debug\t\tShow debug information in OSD"
+msgstr ""
+
+msgctxt "IDS_CMD_NOCRASHREPORTER"
+msgid "/nocrashreporter\tDisable the crash reporter"
+msgstr ""
+
+msgctxt "IDS_CMD_SLAVE"
+msgid "/slave \"hWnd\"\tUse MPC-HC as slave"
+msgstr ""
+
+msgctxt "IDS_CMD_HWGPU"
+msgid "/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding.\n\t\tOnly available for CUVID and DXVA2 (copy-back)"
+msgstr ""
+
+msgctxt "IDS_CMD_RESET"
+msgid "/reset\t\tRestore default settings"
+msgstr ""
+
+msgctxt "IDS_CMD_HELP"
+msgid "/help /h /?\tShow help about command line switches"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_SCORE"
+msgid "Threshold value for subtitles score which are going to be automatically downloaded. Higher values means that more accurately matched subtitles will be loaded, lower values could result in incorrect subtitles being loaded, but there is no one perfect value. Pick one that works best for you."
+msgstr ""
+
+msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
+msgid "Audio Delay (ms)"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE"
+msgid "Size in pixels of the default toolbar."
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR"
+msgid "Use legacy toolbar instead of new vectorized one."
 msgstr ""
 

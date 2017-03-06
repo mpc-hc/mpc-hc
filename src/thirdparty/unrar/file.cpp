@@ -121,6 +121,12 @@ bool File::Open(const wchar *Name,uint Mode)
     hNewFile=fdopen(handle,UpdateMode ? UPDATEBINARY:READBINARY);
 #endif
   }
+#ifdef _ANDROID
+  // If we open an existing file in r&w mode and external card is read-only
+  // for usual file API.
+  if (hNewFile==FILE_BAD_HANDLE && UpdateMode && errno!=ENOENT)
+    hNewFile=JniOpenFile(Name);
+#endif
   if (hNewFile==FILE_BAD_HANDLE && errno==ENOENT)
     ErrorType=FILE_NOTFOUND;
 #endif
@@ -193,6 +199,8 @@ bool File::Create(const wchar *Name,uint Mode)
 #ifdef _ANDROID
   if (hFile==FILE_BAD_HANDLE)
     hFile=JniCreateFile(Name); // If external card is read-only for usual file API.
+  if (hFile!=FILE_BAD_HANDLE)
+    JniFileNotify(Name,false);
 #endif
 #else
   hFile=fopen(NameA,WriteMode ? WRITEBINARY:CREATEBINARY);
@@ -541,7 +549,7 @@ void File::Prealloc(int64 Size)
 #if defined(_UNIX) && defined(USE_FALLOCATE)
   // fallocate is rather new call. Only latest kernels support it.
   // So we are not using it by default yet.
-  int fd = GetFD(hFile);
+  int fd = GetFD();
   if (fd >= 0)
     fallocate(fd, 0, 0, Size);
 #endif
@@ -567,7 +575,20 @@ bool File::Truncate()
 #ifdef _WIN_ALL
   return SetEndOfFile(hFile)==TRUE;
 #else
-  return false;
+  return ftruncate(GetFD(),(off_t)Tell())==0;
+#endif
+}
+
+
+void File::Flush()
+{
+#ifdef _WIN_ALL
+  FlushFileBuffers(hFile);
+#else
+#ifndef FILE_USE_OPEN
+  fflush(hFile);
+#endif
+  fsync(GetFD());
 #endif
 }
 

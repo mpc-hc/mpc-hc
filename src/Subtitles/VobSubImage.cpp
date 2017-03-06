@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,7 +22,7 @@
 #include "stdafx.h"
 #include "VobSubImage.h"
 #include "RTS.h"
-#include <math.h>
+#include <cmath>
 #include <algorithm>
 
 CVobSubImage::CVobSubImage()
@@ -97,13 +97,13 @@ void CVobSubImage::Free()
     lpPixels = nullptr;
 }
 
-bool CVobSubImage::Decode(BYTE* lpData, size_t packetSize, size_t dataSize, int t,
-                          bool bCustomPal,
-                          int tridx,
-                          RGBQUAD* orgpal /*[16]*/, RGBQUAD* cuspal /*[4]*/,
-                          bool bTrim)
+bool CVobSubImage::Decode(BYTE* _lpData, size_t _packetSize, size_t _dataSize, int _t,
+                          bool _bCustomPal,
+                          int _tridx,
+                          RGBQUAD* _orgpal /*[16]*/, RGBQUAD* _cuspal /*[4]*/,
+                          bool _bTrim)
 {
-    GetPacketInfo(lpData, packetSize, dataSize, t);
+    GetPacketInfo(_lpData, _packetSize, _dataSize, _t);
 
     if (!Alloc(rect.Width(), rect.Height())) {
         return false;
@@ -114,22 +114,22 @@ bool CVobSubImage::Decode(BYTE* lpData, size_t packetSize, size_t dataSize, int 
     nPlane = 0;
     bAligned = true;
 
-    this->bCustomPal = bCustomPal;
-    this->orgpal = orgpal;
-    this->tridx = tridx;
-    this->cuspal = cuspal;
+    bCustomPal = _bCustomPal;
+    orgpal = _orgpal;
+    tridx = _tridx;
+    cuspal = _cuspal;
 
     CPoint p = rect.TopLeft();
 
-    size_t end[] = { nOffset[1], dataSize };
+    size_t end[] = { nOffset[1], _dataSize };
 
     while (nOffset[nPlane] < end[nPlane]) {
         DWORD code;
 
-        if ((code = GetNibble(lpData)) >= 0x4
-                || (code = (code << 4) | GetNibble(lpData)) >= 0x10
-                || (code = (code << 4) | GetNibble(lpData)) >= 0x40
-                || (code = (code << 4) | GetNibble(lpData)) >= 0x100) {
+        if ((code = GetNibble(_lpData)) >= 0x4
+                || (code = (code << 4) | GetNibble(_lpData)) >= 0x10
+                || (code = (code << 4) | GetNibble(_lpData)) >= 0x40
+                || (code = (code << 4) | GetNibble(_lpData)) >= 0x100) {
             DrawPixels(p, code >> 2, code & 3);
             if ((p.x += code >> 2) < rect.right) {
                 continue;
@@ -139,7 +139,7 @@ bool CVobSubImage::Decode(BYTE* lpData, size_t packetSize, size_t dataSize, int 
         DrawPixels(p, rect.right - p.x, code & 3);
 
         if (!bAligned) {
-            GetNibble(lpData);    // align to byte
+            GetNibble(_lpData);    // align to byte
         }
 
         p.x = rect.left;
@@ -149,7 +149,7 @@ bool CVobSubImage::Decode(BYTE* lpData, size_t packetSize, size_t dataSize, int 
 
     rect.bottom = std::min(p.y, rect.bottom);
 
-    if (bTrim) {
+    if (_bTrim) {
         TrimSubImage();
     }
 
@@ -161,7 +161,7 @@ void CVobSubImage::GetPacketInfo(const BYTE* lpData, size_t packetSize, size_t d
     //  delay = 0;
 
     size_t i, nextctrlblk = dataSize;
-    WORD pal = 0, tr = 0;
+    WORD _pal = 0, tr = 0;
     WORD nPal = 0, nTr = 0;
 
     do {
@@ -229,7 +229,7 @@ void CVobSubImage::GetPacketInfo(const BYTE* lpData, size_t packetSize, size_t d
                     delay = tCurrent;
                     break;
                 case 0x03:
-                    pal = (lpData[i] << 8) | lpData[i + 1];
+                    _pal = (lpData[i] << 8) | lpData[i + 1];
                     i += 2;
                     nPal++;
                     break;
@@ -263,7 +263,7 @@ void CVobSubImage::GetPacketInfo(const BYTE* lpData, size_t packetSize, size_t d
     } while (i <= nextctrlblk && i < packetSize);
 
     for (i = 0; i < 4; i++) {
-        this->pal[i].pal = (pal >> (i << 2)) & 0xf;
+        this->pal[i].pal = (_pal >> (i << 2)) & 0xf;
         this->pal[i].tr = (tr >> (i << 2)) & 0xf;
     }
 
@@ -902,13 +902,13 @@ static bool FitBezierVH(COutline& o, CPoint& p1, CPoint& p2)
     return true;
 }
 
-int CVobSubImage::GrabSegment(int start, const COutline& o, COutline& ret)
+int CVobSubImage::GrabSegment(int _start, const COutline& o, COutline& ret)
 {
     ret.RemoveAll();
 
     int len = int(o.pa.GetCount());
 
-    int cur = (start) % len, first = -1, last = -1;
+    int cur = (_start) % len, first = -1, last = -1;
     int lastDir = 0;
 
     for (ptrdiff_t i = 0; i < len; i++) {
@@ -923,19 +923,19 @@ int CVobSubImage::GrabSegment(int start, const COutline& o, COutline& ret)
         }
 
         if (lastDir == o.da[cur]) {
-            CPoint startp = o.pa[first] + o.pa[start];
+            CPoint startp = o.pa[first] + o.pa[_start];
             startp.x >>= 1;
             startp.y >>= 1;
             CPoint endp = o.pa[last] + o.pa[cur];
             endp.x >>= 1;
             endp.y >>= 1;
 
-            if (first < start) {
+            if (first < _start) {
                 first += len;
             }
-            start = ((start + first) >> 1) + 1;
-            if (start >= len) {
-                start -= len;
+            _start = ((_start + first) >> 1) + 1;
+            if (_start >= len) {
+                _start -= len;
             }
             if (cur < last) {
                 cur += len;
@@ -947,12 +947,12 @@ int CVobSubImage::GrabSegment(int start, const COutline& o, COutline& ret)
 
             ret.Add(startp, 0);
 
-            while (start != cur) {
-                ret.Add(o.pa[start], o.da[start]);
+            while (_start != cur) {
+                ret.Add(o.pa[_start], o.da[_start]);
 
-                start++;
-                if (start >= len) {
-                    start -= len;
+                _start++;
+                if (_start >= len) {
+                    _start -= len;
                 }
             }
 
@@ -967,7 +967,7 @@ int CVobSubImage::GrabSegment(int start, const COutline& o, COutline& ret)
 
     ASSERT(0);
 
-    return start;
+    return _start;
 }
 
 void CVobSubImage::SplitOutline(const COutline& o, COutline& o1, COutline& o2)
@@ -1080,8 +1080,8 @@ void CVobSubImage::AddSegment(COutline& o, CAtlArray<BYTE>& pathTypes, CAtlArray
         return;
     }
 
-    int start, end;
-    if (FitLine(o, start, end)) { // b-spline, line, b-spline
+    int _start, _end;
+    if (FitLine(o, _start, _end)) { // b-spline, line, b-spline
         pathTypes.Add(PT_MOVETONC);
         pathPoints.Add(o.pa[0] + (o.pa[0] - o.pa[1]));
 
@@ -1091,26 +1091,26 @@ void CVobSubImage::AddSegment(COutline& o, CAtlArray<BYTE>& pathTypes, CAtlArray
         pathTypes.Add(PT_BSPLINETO);
         pathPoints.Add(o.pa[1]);
 
-        CPoint p[4], pp, d = o.pa[end] - o.pa[start];
+        CPoint p[4], pp, d = o.pa[_end] - o.pa[_start];
         double l = sqrt((double)(d.x * d.x + d.y * d.y)), dx = 1.0 * d.x / l, dy = 1.0 * d.y / l;
 
-        pp = o.pa[start] - o.pa[start - 1];
+        pp = o.pa[_start] - o.pa[_start - 1];
         double l1 = abs(pp.x) + abs(pp.y);
-        pp = o.pa[end] - o.pa[end + 1];
+        pp = o.pa[_end] - o.pa[_end + 1];
         double l2 = abs(pp.x) + abs(pp.y);
-        p[0] = CPoint((int)(1.0 * o.pa[start].x + dx * l1 + 0.5), (int)(1.0 * o.pa[start].y + dy * l1 + 0.5));
-        p[1] = CPoint((int)(1.0 * o.pa[start].x + dx * l1 * 2 + 0.5), (int)(1.0 * o.pa[start].y + dy * l1 * 2 + 0.5));
-        p[2] = CPoint((int)(1.0 * o.pa[end].x - dx * l2 * 2 + 0.5), (int)(1.0 * o.pa[end].y - dy * l2 * 2 + 0.5));
-        p[3] = CPoint((int)(1.0 * o.pa[end].x - dx * l2 + 0.5), (int)(1.0 * o.pa[end].y - dy * l2 + 0.5));
+        p[0] = CPoint((int)(1.0 * o.pa[_start].x + dx * l1 + 0.5), (int)(1.0 * o.pa[_start].y + dy * l1 + 0.5));
+        p[1] = CPoint((int)(1.0 * o.pa[_start].x + dx * l1 * 2 + 0.5), (int)(1.0 * o.pa[_start].y + dy * l1 * 2 + 0.5));
+        p[2] = CPoint((int)(1.0 * o.pa[_end].x - dx * l2 * 2 + 0.5), (int)(1.0 * o.pa[_end].y - dy * l2 * 2 + 0.5));
+        p[3] = CPoint((int)(1.0 * o.pa[_end].x - dx * l2 + 0.5), (int)(1.0 * o.pa[_end].y - dy * l2 + 0.5));
 
-        if (start == 1) {
+        if (_start == 1) {
             pathTypes.Add(PT_BSPLINETO);
             pathPoints.Add(p[0]);
         } else {
             pathTypes.Add(PT_BSPLINETO);
             pathPoints.Add(o.pa[2]);
 
-            for (ptrdiff_t k = 3; k <= start; k++) {
+            for (ptrdiff_t k = 3; k <= _start; k++) {
                 pathTypes.Add(PT_BSPLINEPATCHTO);
                 pathPoints.Add(o.pa[k]);
             }
@@ -1134,7 +1134,7 @@ void CVobSubImage::AddSegment(COutline& o, CAtlArray<BYTE>& pathTypes, CAtlArray
         pathTypes.Add(PT_BSPLINEPATCHTO);
         pathPoints.Add(p[3]);
 
-        for (i = end; i < len; i++) {
+        for (i = _end; i < len; i++) {
             pathTypes.Add(PT_BSPLINEPATCHTO);
             pathPoints.Add(o.pa[i]);
         }

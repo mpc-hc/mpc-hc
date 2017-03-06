@@ -55,6 +55,10 @@ CDirectVobSub::CDirectVobSub()
     m_fMediaFPSEnabled = !!theApp.GetProfileInt(ResStr(IDS_R_TIMING), ResStr(IDS_RTM_MEDIAFPSENABLED), FALSE);
     m_ePARCompensationType = static_cast<CSimpleTextSubtitle::EPARCompensationType>(theApp.GetProfileInt(ResStr(IDS_R_TEXT), ResStr(IDS_RT_AUTOPARCOMPENSATION), 0));
 
+    int gcd = GCD(m_SubtitleSpeedMul, m_SubtitleSpeedDiv);
+    m_SubtitleSpeedNormalizedMul = m_SubtitleSpeedMul / gcd;
+    m_SubtitleSpeedNormalizedDiv = m_SubtitleSpeedDiv / gcd;
+
     BYTE* pData = nullptr;
     UINT nSize;
     if (theApp.GetProfileBinary(ResStr(IDS_R_TIMING), ResStr(IDS_RTM_MEDIAFPS), &pData, &nSize) && pData) {
@@ -458,6 +462,10 @@ STDMETHODIMP CDirectVobSub::put_SubtitleTiming(int delay, int speedmul, int spee
     if (speeddiv > 0) {
         m_SubtitleSpeedDiv = speeddiv;
     }
+
+    int gcd = GCD(m_SubtitleSpeedMul, m_SubtitleSpeedDiv);
+    m_SubtitleSpeedNormalizedMul = m_SubtitleSpeedMul / gcd;
+    m_SubtitleSpeedNormalizedDiv = m_SubtitleSpeedDiv / gcd;
 
     return S_OK;
 }

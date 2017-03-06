@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,32 +22,29 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "AboutDlg.h"
-#include <Tlhelp32.h>
-#include "MainFrm.h"
-#include "DSUtil.h"
-#include "FileVersionInfo.h"
-#include "Struct.h"
-#include "SysVersion.h"
-#include <winternl.h>
-#include <psapi.h>
-#include "Ifo.h"
-#include "Monitors.h"
-#include "WinAPIUtils.h"
-#include "PathUtils.h"
-#include "FileAssoc.h"
-#include "UpdateChecker.h"
-#include "winddk/ntddcdvd.h"
-#include "MhookHelper.h"
-#include <afxsock.h>
-#include <atlsync.h>
-#include <atlutil.h>
-#include <regex>
-#include <share.h>
-#include "mpc-hc_config.h"
-#include "../MathLibFix/MathLibFix.h"
 #include "CmdLineHelpDlg.h"
 #include "CrashReporter.h"
-
+#include "DSUtil.h"
+#include "FakeFilterMapper2.h"
+#include "FileAssoc.h"
+#include "FileVersionInfo.h"
+#include "SysVersion.h"
+#include "Ifo.h"
+#include "MainFrm.h"
+#include "MhookHelper.h"
+#include "PPageFormats.h"
+#include "PPageSheet.h"
+#include "PathUtils.h"
+#include "Struct.h"
+#include "UpdateChecker.h"
+#include "WebServer.h"
+#include "WinAPIUtils.h"
+#include "mpc-hc_config.h"
+#include "winddk/ntddcdvd.h"
+#include <afxsock.h>
+#include <atlsync.h>
+#include <winternl.h>
+#include <regex>
 
 #define HOOKS_BUGS_URL _T("https://trac.mpc-hc.org/ticket/3739")
 
@@ -381,8 +378,9 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
         if (s.Connect(
                     ProxyEnable ? ProxyServer : url.GetHostName(),
                     ProxyEnable ? ProxyPort : url.GetPortNumber())) {
-            CStringA host = CStringA(url.GetHostName());
-            CStringA path = CStringA(url.GetUrlPath()) + CStringA(url.GetExtraInfo());
+            CStringA host = url.GetHostName();
+            CStringA path = url.GetUrlPath();
+            path += url.GetExtraInfo();
 
             if (ProxyEnable) {
                 path = "http://" + host + path;
@@ -1462,7 +1460,6 @@ BOOL CMPlayerCApp::InitInstance()
     if (!IsDebuggerPresent()) {
         CrashReporter::Enable();
     }
-    WorkAroundMathLibraryBug();
 
     if (!HeapSetInformation(nullptr, HeapEnableTerminationOnCorruption, nullptr, 0)) {
         TRACE(_T("Failed to enable \"terminate on corruption\" heap option, error %u\n"), GetLastError());
@@ -2021,9 +2018,11 @@ UINT CMPlayerCApp::GetVKFromAppCommand(UINT nAppCommand)
 
 int CMPlayerCApp::ExitInstance()
 {
-    m_s->SaveSettings();
-
-    m_s = nullptr;
+    // We might be exiting before m_s is initialized.
+    if (m_s) {
+        m_s->SaveSettings();
+        m_s = nullptr;
+    }
 
     CMPCPngImage::CleanUp();
 
@@ -2145,7 +2144,7 @@ void CRemoteCtrlClient::OnReceive(int nErrorCode)
     }
     str.ReleaseBuffer(ret);
 
-    TRACE(_T("CRemoteCtrlClient (OnReceive): %s\n"), CString(str));
+    TRACE(_T("CRemoteCtrlClient (OnReceive): %S\n"), str);
 
     OnCommand(str);
 
@@ -2183,7 +2182,7 @@ CWinLircClient::CWinLircClient()
 
 void CWinLircClient::OnCommand(CStringA str)
 {
-    TRACE(_T("CWinLircClient (OnCommand): %s\n"), CString(str));
+    TRACE(_T("CWinLircClient (OnCommand): %S\n"), str);
 
     int i = 0, j = 0, repcnt = 0;
     for (CStringA token = str.Tokenize(" ", i);
@@ -2205,7 +2204,7 @@ CUIceClient::CUIceClient()
 
 void CUIceClient::OnCommand(CStringA str)
 {
-    TRACE(_T("CUIceClient (OnCommand): %s\n"), CString(str));
+    TRACE(_T("CUIceClient (OnCommand): %S\n"), str);
 
     CStringA cmd;
     int i = 0, j = 0;

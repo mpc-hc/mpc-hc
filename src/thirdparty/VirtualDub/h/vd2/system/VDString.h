@@ -655,6 +655,8 @@ inline VDStringA operator+(const VDStringA& str, char c) {
 	return result;
 }
 
+// Start patch MPC-HC
+/*
 namespace std {
 	template<>
 	struct less<VDStringA> : binary_function<VDStringA, VDStringA, bool> {
@@ -663,6 +665,8 @@ namespace std {
 		}
 	};
 }
+*/
+// End patch MPC-HC
 
 ///////////////////////////////////////////////////////////////////////////
 

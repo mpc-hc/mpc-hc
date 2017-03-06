@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -42,8 +42,8 @@
 
 #define BeginEnumChildren(pNode, pChild)                                                                                \
     {                                                                                                                   \
-        CComPtr<IXMLDOMNode> pChild, pNext;                                                                             \
-        for (pNode->get_firstChild(&pChild); pChild; pNext = nullptr, pChild->get_nextSibling(&pNext), pChild = pNext) {
+        CComPtr<IXMLDOMNode> pChild, pChild##Next;                                                                      \
+        for (pNode->get_firstChild(&pChild); pChild; pChild##Next = nullptr, pChild->get_nextSibling(&pChild##Next), pChild = pChild##Next) {
 
 #define EndEnumChildren }}
 

@@ -74,7 +74,7 @@ HANDLE PASCAL RAROpenArchiveEx(struct RAROpenArchiveDataEx *r)
       delete Data;
       return NULL;
     }
-    if (!Data->Arc.IsArchive(false))
+    if (!Data->Arc.IsArchive(true))
     {
       if (Data->Cmd.DllError!=0)
         r->OpenResult=Data->Cmd.DllError;
@@ -271,7 +271,16 @@ int PASCAL RARReadHeaderEx(HANDLE hArcData,struct RARHeaderDataEx *D)
         D->HashType=RAR_HASH_NONE;
         break;
     }
-    
+
+    D->RedirType=hd->RedirType;
+    // RedirNameSize sanity check is useful in case some developer
+    // did not initialize Reserved area with 0 as required in docs.
+    // We have taken 'Redir*' fields from Reserved area. We may remove
+    // this RedirNameSize check sometimes later.
+    if (hd->RedirType!=FSREDIR_NONE && D->RedirName!=NULL &&
+        D->RedirNameSize>0 && D->RedirNameSize<100000)
+      wcsncpyz(D->RedirName,hd->RedirName,D->RedirNameSize);
+    D->DirTarget=hd->DirTarget;
   }
   catch (RAR_EXIT ErrCode)
   {

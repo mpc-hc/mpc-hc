@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -27,6 +27,7 @@
 
 #include "EventDispatcher.h"
 #include "DpiHelper.h"
+#include "AppSettings.h"
 #include "RenderersSettings.h"
 #include "resource.h"
 
@@ -76,7 +77,9 @@ enum {
     WM_TUNER_SCAN_END,
     WM_TUNER_STATS,
     WM_TUNER_NEW_CHANNEL,
-    WM_DVB_EIT_DATA_READY
+    WM_DVB_EIT_DATA_READY,
+    WM_LOADSUBTITLES,
+    WM_GETSUBTITLES
 };
 
 enum ControlType {
@@ -191,6 +194,5 @@ public:
 
 #define AfxGetAppSettings() (*static_cast<CMPlayerCApp*>(AfxGetApp())->m_s.get())
 #define AfxGetMyApp()       static_cast<CMPlayerCApp*>(AfxGetApp())
-#define AfxGetMainFrame()   dynamic_cast<CMainFrame*>(AfxGetMainWnd())
 
 #define GetEventd() AfxGetMyApp()->m_eventd

@@ -1,15 +1,15 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# M. Somsak, 2014-2015
+# M. Somsak, 2014-2016
 # M. Somsak, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-30 00:33:30+0000\n"
-"PO-Revision-Date: 2015-06-03 10:50+0000\n"
-"Last-Translator: M. Somsak\n"
+"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
+"PO-Revision-Date: 2016-01-31 22:01+0000\n"
+"Last-Translator: Underground78\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/mpc-hc/mpc-hc/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -65,29 +65,25 @@ msgctxt "ID_FILE_SAVE_THUMBNAILS"
 msgid "Save &Thumbnails..."
 msgstr "บันทึกรูป&ย่อ..."
 
-msgctxt "ID_FILE_LOAD_SUBTITLE"
-msgid "&Load Subtitle..."
+msgctxt "POPUP"
+msgid "S&ubtitles"
+msgstr "ศัพท์บรรยาย"
+
+msgctxt "ID_FILE_SUBTITLES_LOAD"
+msgid "&Load Subtitles..."
 msgstr "โห&ลดศัพท์บรรยาย..."
 
-msgctxt "ID_FILE_SAVE_SUBTITLE"
-msgid "Save S&ubtitle..."
-msgstr "บันทึกศัพท์&บรรยาย..."
+msgctxt "ID_FILE_SUBTITLES_SAVE"
+msgid "Save S&ubtitles..."
+msgstr "&บันทึกศัพท์บรรยาย..."
 
-msgctxt "POPUP"
-msgid "Subtitle Data&base"
-msgstr "ฐาน&ข้อมูลศัพท์บรรยาย"
+msgctxt "ID_FILE_SUBTITLES_DOWNLOAD"
+msgid "&Download Subtitles..."
+msgstr "&ดาวน์โหลดศัพท์บรรยาย..."
 
-msgctxt "ID_FILE_ISDB_SEARCH"
-msgid "&Search..."
-msgstr "&ค้นหา..."
-
-msgctxt "ID_FILE_ISDB_UPLOAD"
-msgid "&Upload..."
-msgstr "&อัพโหลด..."
-
-msgctxt "ID_FILE_ISDB_DOWNLOAD"
-msgid "&Download..."
-msgstr "&ดาวน์โหลด..."
+msgctxt "ID_FILE_SUBTITLES_UPLOAD"
+msgid "&Upload Subtitles..."
+msgstr "&อัพโหลดศัพท์บรรยาย..."
 
 msgctxt "ID_FILE_PROPERTIES"
 msgid "P&roperties"
@@ -409,17 +405,13 @@ msgctxt "ID_VIEW_VF_FROMOUTSIDE"
 msgid "Touch Window From &Outside"
 msgstr "สัมผัสหน้าต่างจากด้านนอ&ก"
 
-msgctxt "ID_VIEW_VF_KEEPASPECTRATIO"
-msgid "&Keep Aspect Ratio"
-msgstr "&คงอัตราส่วนภาพ"
-
 msgctxt "POPUP"
-msgid "Override &Aspect Ratio"
-msgstr "&ฝืนอัตราส่วนภาพ"
+msgid "&Aspect Ratio"
+msgstr "อัตราส่วน&ภาพ"
 
-msgctxt "ID_ASPECTRATIO_SOURCE"
-msgid "&Default"
-msgstr "ค่า&ตั้งต้น"
+msgctxt "ID_ASPECTRATIO_DAR"
+msgid "&Default (DAR)"
+msgstr "&ค่าตั้งต้น (ค่าแสดงผล)"
 
 msgctxt "ID_ASPECTRATIO_4_3"
 msgid "&4:3"
@@ -440,6 +432,10 @@ msgstr "&235:100"
 msgctxt "ID_ASPECTRATIO_185_100"
 msgid "1&85:100"
 msgstr "1&85:100"
+
+msgctxt "ID_ASPECTRATIO_SAR"
+msgid "Assume &square pixels (SAR)"
+msgstr ""
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"
@@ -534,8 +530,24 @@ msgid "&Stop"
 msgstr "ห&ยุด"
 
 msgctxt "ID_PLAY_FRAMESTEP"
-msgid "F&rame Step"
+msgid "Fra&me Step"
 msgstr "เดินเ&ฟรม"
+
+msgctxt "POPUP"
+msgid "&Repeat"
+msgstr "การวนซ้ำ"
+
+msgctxt "ID_PLAY_REPEAT_FOREVER"
+msgid "F&orever"
+msgstr "&ตลอดไป"
+
+msgctxt "ID_PLAY_REPEAT_ONEFILE"
+msgid "&File"
+msgstr "ไ&ฟล์"
+
+msgctxt "ID_PLAY_REPEAT_WHOLEPLAYLIST"
+msgid "&Playlist"
+msgstr "&บัญชีการเล่น"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "&Decrease Rate"
@@ -566,7 +578,7 @@ msgid "Su&btitle Track"
 msgstr "แทร็คศัพท์&บรรยาย"
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Track"
+msgid "Vide&o Track"
 msgstr "แทร็ค&วิดีโอ"
 
 msgctxt "POPUP"

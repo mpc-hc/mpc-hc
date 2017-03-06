@@ -175,7 +175,7 @@ namespace GothSync
         // Functions to trace timing performance
         void SyncStats(LONGLONG syncTime);
         void SyncOffsetStats(LONGLONG syncOffset);
-        void DrawText(const RECT& rc, const CString& strText, int _Priority);
+        void InitStats();
         void DrawStats();
 
         template<int texcoords>

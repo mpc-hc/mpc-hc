@@ -1,17 +1,18 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Rancher <djordje.vasiljevich@gmail.com>, 2014
-# vBm <the.vbm@gmail.com>, 2014
-# Zlatan Vasović <legospace9876@gmail.com>, 2014
+# Rancher, 2014
+# Rancher, 2016
+# Goran Džaferi <the.vbm@gmail.com>, 2014
+# Zlatan Vasović <inactive+ZDroid@transifex.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-10-25 18:58:24+0000\n"
-"PO-Revision-Date: 2014-12-11 19:01+0000\n"
-"Last-Translator: Rancher <djordje.vasiljevich@gmail.com>\n"
-"Language-Team: Serbian (http://www.transifex.com/projects/p/mpc-hc/language/sr/)\n"
+"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
+"PO-Revision-Date: 2016-06-16 15:35+0000\n"
+"Last-Translator: Rancher\n"
+"Language-Team: Serbian (http://www.transifex.com/mpc-hc/mpc-hc/language/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -66,29 +67,25 @@ msgctxt "ID_FILE_SAVE_THUMBNAILS"
 msgid "Save &Thumbnails..."
 msgstr "Сачувај с&личице…"
 
-msgctxt "ID_FILE_LOAD_SUBTITLE"
-msgid "&Load Subtitle..."
-msgstr "&Учитај титл…"
-
-msgctxt "ID_FILE_SAVE_SUBTITLE"
-msgid "Save S&ubtitle..."
-msgstr "С&ачувај титл…"
-
 msgctxt "POPUP"
-msgid "Subtitle Data&base"
-msgstr "База тит&лова"
+msgid "S&ubtitles"
+msgstr "Титлови"
 
-msgctxt "ID_FILE_ISDB_SEARCH"
-msgid "&Search..."
-msgstr "&Претражи…"
+msgctxt "ID_FILE_SUBTITLES_LOAD"
+msgid "&Load Subtitles..."
+msgstr "&Учитај…"
 
-msgctxt "ID_FILE_ISDB_UPLOAD"
-msgid "&Upload..."
+msgctxt "ID_FILE_SUBTITLES_SAVE"
+msgid "Save S&ubtitles..."
+msgstr "&Сачувај…"
+
+msgctxt "ID_FILE_SUBTITLES_DOWNLOAD"
+msgid "&Download Subtitles..."
+msgstr "&Преузми…"
+
+msgctxt "ID_FILE_SUBTITLES_UPLOAD"
+msgid "&Upload Subtitles..."
 msgstr "&Отпреми…"
-
-msgctxt "ID_FILE_ISDB_DOWNLOAD"
-msgid "&Download..."
-msgstr "Пр&еузми…"
 
 msgctxt "ID_FILE_PROPERTIES"
 msgid "P&roperties"
@@ -200,15 +197,15 @@ msgstr "&Тест на цепање слике"
 
 msgctxt "ID_VIEW_DISPLAY_RENDERER_STATS"
 msgid "&Display Statistics"
-msgstr ""
+msgstr "&Статистика"
 
 msgctxt "ID_VIEW_OSD_DISPLAY_TIME"
 msgid "Display Current T&ime"
-msgstr ""
+msgstr "&Тренутно време"
 
 msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
 msgid "Show &File Name"
-msgstr ""
+msgstr "&Име датотеке"
 
 msgctxt "POPUP"
 msgid "&Output Range"
@@ -410,17 +407,13 @@ msgctxt "ID_VIEW_VF_FROMOUTSIDE"
 msgid "Touch Window From &Outside"
 msgstr "Додирни прозор &споља"
 
-msgctxt "ID_VIEW_VF_KEEPASPECTRATIO"
-msgid "&Keep Aspect Ratio"
-msgstr "&Задржи однос ширина/висина"
-
 msgctxt "POPUP"
-msgid "Override &Aspect Ratio"
-msgstr "По&тисни однос ширина/висина"
+msgid "&Aspect Ratio"
+msgstr "П&ропорције"
 
-msgctxt "ID_ASPECTRATIO_SOURCE"
-msgid "&Default"
-msgstr "&Подразумевано"
+msgctxt "ID_ASPECTRATIO_DAR"
+msgid "&Default (DAR)"
+msgstr "&Подразумевано (DAR)"
 
 msgctxt "ID_ASPECTRATIO_4_3"
 msgid "&4:3"
@@ -441,6 +434,10 @@ msgstr "&235:100"
 msgctxt "ID_ASPECTRATIO_185_100"
 msgid "1&85:100"
 msgstr "1&85:100"
+
+msgctxt "ID_ASPECTRATIO_SAR"
+msgid "Assume &square pixels (SAR)"
+msgstr "Претпостави да су &пиксели у облику квадрата (SAR)"
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"
@@ -535,8 +532,24 @@ msgid "&Stop"
 msgstr "З&аустави"
 
 msgctxt "ID_PLAY_FRAMESTEP"
-msgid "F&rame Step"
+msgid "Fra&me Step"
 msgstr "По &кадровима"
+
+msgctxt "POPUP"
+msgid "&Repeat"
+msgstr "&Понављање"
+
+msgctxt "ID_PLAY_REPEAT_FOREVER"
+msgid "F&orever"
+msgstr "&у недоглед"
+
+msgctxt "ID_PLAY_REPEAT_ONEFILE"
+msgid "&File"
+msgstr "&датотеке"
+
+msgctxt "ID_PLAY_REPEAT_WHOLEPLAYLIST"
+msgid "&Playlist"
+msgstr "&плеј-листе"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "&Decrease Rate"
@@ -548,7 +561,7 @@ msgstr "У&брзај"
 
 msgctxt "ID_PLAY_RESETRATE"
 msgid "R&eset Rate"
-msgstr "&Првобитна брзина"
+msgstr "Пр&вобитна брзина"
 
 msgctxt "ID_FILTERS"
 msgid "&Filters"
@@ -560,15 +573,15 @@ msgstr "Модули за &сенчење"
 
 msgctxt "ID_AUDIOS"
 msgid "&Audio Track"
-msgstr ""
+msgstr "&Аудио-запис"
 
 msgctxt "ID_SUBTITLES"
 msgid "Su&btitle Track"
-msgstr ""
+msgstr "&Титл"
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Track"
-msgstr ""
+msgid "Vide&o Track"
+msgstr "&Видео-запис"
 
 msgctxt "POPUP"
 msgid "&Volume"
@@ -592,7 +605,7 @@ msgstr "&Након репродукције"
 
 msgctxt "ID_AFTERPLAYBACK_DONOTHING"
 msgid "Do no&thing"
-msgstr ""
+msgstr "&Не ради ништа"
 
 msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
 msgid "Play &next file in the folder"

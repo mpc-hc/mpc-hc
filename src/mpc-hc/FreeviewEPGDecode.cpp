@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2006-2008 Team MediaPortal http://www.team-mediaportal.com
- * (C) 2013, 2015 see Authors.txt
+ * (C) 2013, 2015-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -739,7 +739,7 @@ CString DecodeFreeviewEPG(const BYTE* pBuffer, size_t uLength)
             prevc = nextc;
         } while (nextc != STOP);
     } else {
-        Logger<LogTargets::BDA>::LOG(_T("DecodeFreeviewEPG: unsupported huffman table version %d, only version 1 and 2 are supported\n"), pBuffer[0]);
+        BDA_LOG(_T("unsupported huffman table version %d, only version 1 and 2 are supported"), pBuffer[0]);
     }
 
     return uncompressedString;

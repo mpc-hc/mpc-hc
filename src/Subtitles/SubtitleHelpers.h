@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -24,6 +24,10 @@
 #include <afx.h>
 #include <atlcoll.h>
 
+#define MS2RT(t)        (10000i64 * (t))
+#define RT2MS(t)        ((t) / 10000)
+#define UNITS_FLOAT     (10000000.0)
+
 namespace Subtitle
 {
     enum SubType {
@@ -41,7 +45,14 @@ namespace Subtitle
         SUP
     };
 
+    enum HearingImpairedType {
+        HI_UNKNOWN = -1,
+        HI_NO = 0,
+        HI_YES = 1
+    };
+
     LPCTSTR GetSubtitleFileExt(SubType type);
+    bool IsTextSubtitleFileName(CString filename);
 
     struct SubFile {
         CString fn; /*SubType type;*/
@@ -49,5 +60,5 @@ namespace Subtitle
 
     void GetSubFileNames(CString fn, const CAtlArray<CString>& paths, CAtlArray<SubFile>& ret);
 
-    CString GuessSubtitleName(CString fn, CString videoName);
+    CString GuessSubtitleName(const CString& fn, CString videoName, LCID& lcid, HearingImpairedType& hi);
 };

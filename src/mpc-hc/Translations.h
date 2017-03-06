@@ -1,5 +1,5 @@
 /*
-* (C) 2014 see Authors.txt
+* (C) 2014-2016 see Authors.txt
 *
 * This file is part of MPC-HC.
 *
@@ -20,22 +20,11 @@
 
 #pragma once
 
-#include <Windows.h>
 #include <list>
 
 namespace Translations
 {
     struct LanguageResource {
-        LanguageResource()
-            : LanguageResource(WORD_ERROR, nullptr, nullptr)
-        {};
-
-        LanguageResource(LANGID localeID, LPCTSTR name, LPCTSTR dllPath)
-            : localeID(localeID)
-            , name(name)
-            , dllPath(dllPath)
-        {};
-
         LANGID localeID; // Check http://msdn.microsoft.com/en-us/goglobal/bb964664
         LPCTSTR name;
         LPCTSTR dllPath;
@@ -46,5 +35,5 @@ namespace Translations
     std::list<LanguageResource> GetAvailableLanguageResources();
 
     LANGID SetDefaultLanguage();
-    bool SetLanguage(LanguageResource languageResource, bool showErrorMsg = true);
+    bool SetLanguage(LANGID localeID, bool showErrorMsg = true);
 };

@@ -1,4 +1,4 @@
-# (C) 2015 see Authors.txt
+# (C) 2015-2016 see Authors.txt
 #
 # This file is part of MPC-HC.
 #
@@ -25,12 +25,13 @@ from UpdateISPOT import *
 from UpdateISPO import *
 from UpdateIS import *
 
+
 def processPO(file):
     ret = 'Updating PO file ' + file + '\n'
     result = True
     try:
         UpdateISPO(file)
-    except Exception as e:
+    except Exception:
         ret += ''.join(traceback.format_exception(*sys.exc_info()))
         result = False
 
@@ -42,16 +43,16 @@ if __name__ == '__main__':
     UpdateISPOT()
     print '----------------------'
 
-    pool = Pool();
+    pool = Pool()
     results = []
     for file in os.listdir('PO'):
         if fnmatch.fnmatch(file, 'mpc-hc.installer.*.strings.po'):
-            results.append(pool.apply_async(processPO, [os.path.splitext(file)[0]]));
+            results.append(pool.apply_async(processPO, [os.path.splitext(file)[0]]))
 
     pool.close()
 
     for result in results:
-        ret = result.get(True)
+        ret = result.get(15)
         print ret[1]
         if (not ret[0]):
             os.system('pause')

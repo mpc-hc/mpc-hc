@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -120,19 +120,20 @@ STDMETHODIMP CSubPicImpl::GetDirtyRect(RECT* pDirtyRect) const
 
 STDMETHODIMP CSubPicImpl::GetSourceAndDest(RECT rcWindow, RECT rcVideo,
                                            RECT* pRcSource, RECT* pRcDest,
-                                           const double videoStretchFactor /*= 1.0*/) const
+                                           const double videoStretchFactor /*= 1.0*/,
+                                           int xOffsetInPixels /*= 0*/) const
 {
     CheckPointer(pRcSource, E_POINTER);
     CheckPointer(pRcDest,   E_POINTER);
 
     if (m_size.cx > 0 && m_size.cy > 0) {
         CPoint offset(0, 0);
-        double scaleX = 1.0, scaleY = 1.0;
+        double scaleX, scaleY;
 
         // Enable best fit only for HD contents since SD contents
         // are often anamorphic and thus break the auto-fit logic
         if (m_relativeTo == BEST_FIT && m_virtualTextureSize.cx > 720) {
-            double scaleFactor = 1.0;
+            double scaleFactor;
             CRect videoRect(rcVideo);
             LONG stretch = lround(videoRect.Width() * (1.0 - videoStretchFactor) / 2.0);
             videoRect.left += stretch;
@@ -166,7 +167,8 @@ STDMETHODIMP CSubPicImpl::GetSourceAndDest(RECT rcWindow, RECT rcVideo,
         CRect rcTemp = m_rcDirty;
         *pRcSource = rcTemp;
 
-        rcTemp.OffsetRect(m_virtualTextureTopLeft);
+        rcTemp.OffsetRect(m_virtualTextureTopLeft + CPoint(xOffsetInPixels, 0));
+
         rcTemp = CRect(lround(rcTemp.left   * scaleX),
                        lround(rcTemp.top    * scaleY),
                        lround(rcTemp.right  * scaleX),
@@ -180,9 +182,9 @@ STDMETHODIMP CSubPicImpl::GetSourceAndDest(RECT rcWindow, RECT rcVideo,
         *pRcDest = rcTemp;
 
         return S_OK;
-    } else {
-        return E_INVALIDARG;
     }
+
+    return E_INVALIDARG;
 }
 
 STDMETHODIMP CSubPicImpl::SetDirtyRect(const RECT* pDirtyRect)

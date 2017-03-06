@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2015 see Authors.txt
+ * (C) 2009-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -19,28 +19,19 @@
  */
 
 #include "stdafx.h"
-
-#include <ks.h>
-#include <ksmedia.h>
-#include "BaseClasses/streams.h"
-#include <mpeg2data.h>
-#include <tuner.h>
-#include <time.h>
-#include <dvbsiparser.h>
-
-#include "DSUtil.h"
-#include "GolombBuffer.h"
-#include "../filters/switcher/AudioSwitcher/AudioSwitcher.h"
-#include "moreuuids.h"
-#include "mplayerc.h"
 #include "FGManagerBDA.h"
-#include "DVBChannel.h"
 #include "Mpeg2SectionData.h"
 #include "MainFrm.h"
-#include "SysVersion.h"
 #include "Logger.h"
+#include <ISOLang.h>
+#include <SysVersion.h>
+#include <moreuuids.h>
+#include <dvdmedia.h>
+#include <ks.h>
+#include <ksmedia.h>
+#include <bdamedia.h>
 
-#define LOG Logger<LogTargets::BDA>::LOG
+#define LOG(...) MPCHC_LOG(BDA, __VA_ARGS__)
 #define CheckAndLogBDA(x, msg)  hr = ##x; if (FAILED(hr)) { LOG(msg _T(": 0x%08x\n"), hr); return hr; }
 #define CheckAndLogBDANoRet(x, msg)  hr = ##x; if (FAILED(hr)) { LOG(msg _T(": 0x%08x\n"), hr); }
 
@@ -615,9 +606,10 @@ STDMETHODIMP CFGManagerBDA::SetChannel(int nChannelPrefNumber)
     CDVBChannel* pChannel = s.FindChannelByPref(nChannelPrefNumber);
     LOG(_T("Start SetChannel %d."), nChannelPrefNumber);
     if (pChannel) {
-        if ((m_nDVBRebuildFilterGraph == DVB_REBUILD_FG_NEVER) ||
-                ((m_nDVBRebuildFilterGraph == DVB_REBUILD_FG_WHEN_SWITCHING) && (m_nCurVideoType == pChannel->GetVideoType())) ||
-                ((m_nDVBRebuildFilterGraph == DVB_REBUILD_FG_ALWAYS) && (s.nDVBLastChannel == nChannelPrefNumber))) {
+        if (!((m_nCurAudioType == DVB_UNKNOWN) ^ (pChannel->GetDefaultAudioType() == DVB_UNKNOWN)) &&
+                ((m_nDVBRebuildFilterGraph == DVB_REBUILD_FG_NEVER) ||
+                 ((m_nDVBRebuildFilterGraph == DVB_REBUILD_FG_WHEN_SWITCHING) && (m_nCurVideoType == pChannel->GetVideoType())) ||
+                 ((m_nDVBRebuildFilterGraph == DVB_REBUILD_FG_ALWAYS) && (s.nDVBLastChannel == nChannelPrefNumber)))) {
             hr = SetChannelInternal(pChannel);
         } else {
             s.nDVBLastChannel = nChannelPrefNumber;
@@ -641,34 +633,33 @@ STDMETHODIMP CFGManagerBDA::SetAudio(int nAudioIndex)
     return E_NOTIMPL;
 }
 
-STDMETHODIMP CFGManagerBDA::SetFrequency(ULONG freq)
+STDMETHODIMP CFGManagerBDA::SetFrequency(ULONG ulFrequency, ULONG ulBandwidth)
 {
     HRESULT hr;
-    const CAppSettings& s = AfxGetAppSettings();
-    LOG(_T("SetFrequency to %u."), freq);
+    LOG(_T("Frequency %lu, Bandwidth %lu"), ulFrequency, ulBandwidth);
     CheckPointer(m_pBDAControl, E_FAIL);
     CheckPointer(m_pBDAFreq, E_FAIL);
 
     CheckAndLogBDA(m_pBDAControl->StartChanges(), _T("  SetFrequency StartChanges"));
     CheckAndLogBDANoRet(m_pBDAFreq->put_FrequencyMultiplier(1000), _T("  SetFrequency put_FrequencyMultiplier"));
-    CheckAndLogBDANoRet(m_pBDAFreq->put_Bandwidth(s.iBDABandwidth), _T("  SetFrequency put_Bandwidth"));
-    CheckAndLogBDA(m_pBDAFreq->put_Frequency(freq), _T("  SetFrequency put_Frequency"));
+    CheckAndLogBDANoRet(m_pBDAFreq->put_Bandwidth(ulBandwidth / 1000), _T("  SetFrequency put_Bandwidth"));
+    CheckAndLogBDA(m_pBDAFreq->put_Frequency(ulFrequency), _T("  SetFrequency put_Frequency"));
     CheckAndLogBDA(m_pBDAControl->CheckChanges(), _T("  SetFrequency CheckChanges"));
     CheckAndLogBDA(m_pBDAControl->CommitChanges(), _T("  SetFrequency CommitChanges"));
 
     int i = 50;
     ULONG pState = BDA_CHANGES_PENDING;
     while (SUCCEEDED(hr = m_pBDAControl->GetChangeState(&pState)) && pState == BDA_CHANGES_PENDING && i-- > 0) {
-        LOG(_T("SetFrequency changes pending, waiting for tuner..."));
+        LOG(_T("changes pending, waiting for tuner..."));
         Sleep(50);
     }
 
     if (SUCCEEDED(hr)) {
         if (pState == BDA_CHANGES_PENDING) {
-            LOG(_T("SetFrequency changes pending (timeout error----)"));
+            LOG(_T("changes pending (timeout error----)"));
             hr = VFW_E_TIMEOUT;
         } else {
-            LOG(_T("Frequency set to %u."), freq);
+            LOG(_T("Frequency changed: %lu / %lu."), ulFrequency, ulBandwidth);
 #ifdef _DEBUG
             BOOLEAN bPresent;
             BOOLEAN bLocked;
@@ -719,18 +710,18 @@ HRESULT CFGManagerBDA::ClearMaps()
     return hr;
 }
 
-STDMETHODIMP CFGManagerBDA::Scan(ULONG ulFrequency, HWND hWnd)
+STDMETHODIMP CFGManagerBDA::Scan(ULONG ulFrequency, ULONG ulBandwidth, HWND hWnd)
 {
     HRESULT hr = S_OK;
 
-    if (ulFrequency == 0) {
+    if (ulFrequency == 0 || ulBandwidth == 0) {
         ClearMaps();
     } else {
         CMpeg2DataParser Parser(m_DVBStreams[DVB_PSI].GetFilter());
 
         LOG(_T("Scanning frequency %u.........."), ulFrequency);
 
-        if (FAILED(hr = Parser.ParseSDT(ulFrequency))) {
+        if (FAILED(hr = Parser.ParseSDT(ulFrequency, ulBandwidth))) {
             LOG(_T("ParseSDT failed. Result: 0x%08x."), hr);
         } else if (FAILED(hr = Parser.ParsePAT())) {
             LOG(_T("ParsePAT failed. Result: 0x%08x."), hr);
@@ -921,7 +912,7 @@ STDMETHODIMP CFGManagerBDA::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFl
 
                 if (!pStreamInfo->sLanguage.IsEmpty() && pStreamInfo->GetLCID() == 0) {
                     // Try to convert language code even if LCID was not found.
-                    str += _T(" [") + ISO6392ToLanguage(CStringA(pStreamInfo->sLanguage)) + _T("]");
+                    str += _T(" [") + ISOLang::ISO6392ToLanguage(CStringA(pStreamInfo->sLanguage)) + _T("]");
                 }
 
                 *ppszName = (WCHAR*)CoTaskMemAlloc((str.GetLength() + 1) * sizeof(WCHAR));
@@ -1123,7 +1114,7 @@ HRESULT CFGManagerBDA::SetChannelInternal(CDVBChannel* pChannel)
         CheckNoLog(ChangeState(State_Running));
     }
 
-    CheckNoLog(SetFrequency(pChannel->GetFrequency()));
+    CheckNoLog(SetFrequency(pChannel->GetFrequency(), pChannel->GetBandwidth()));
 
     CheckNoLog(Flush(pChannel->GetVideoType(), pChannel->GetDefaultAudioType()));
 

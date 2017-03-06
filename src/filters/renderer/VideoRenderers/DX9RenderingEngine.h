@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2013, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -69,6 +69,7 @@ namespace DSObjects
         bool                        m_bColorManagement;
 
         CDX9RenderingEngine(HWND hWnd, HRESULT& hr, CString* _pError);
+        virtual ~CDX9RenderingEngine() = default;
 
         void InitRenderingEngine();
         void CleanupRenderingEngine();

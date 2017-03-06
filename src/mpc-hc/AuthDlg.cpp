@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -43,13 +43,13 @@ HRESULT PromptForCredentials(HWND hWnd, const CString& strCaptionText, const CSt
     if (SysVersion::IsVistaOrLater()) {
         // Define CredUI.dll functions for Windows Vista+
         const WinapiFunc<decltype(CredPackAuthenticationBufferW)>
-        fnCredPackAuthenticationBufferW = { "CREDUI.DLL", "CredPackAuthenticationBufferW" };
+        fnCredPackAuthenticationBufferW = { _T("CREDUI.DLL"), "CredPackAuthenticationBufferW" };
 
         const WinapiFunc<decltype(CredUIPromptForWindowsCredentialsW)>
-        fnCredUIPromptForWindowsCredentialsW = { "CREDUI.DLL", "CredUIPromptForWindowsCredentialsW" };
+        fnCredUIPromptForWindowsCredentialsW = { _T("CREDUI.DLL"), "CredUIPromptForWindowsCredentialsW" };
 
         const WinapiFunc<decltype(CredUnPackAuthenticationBufferW)>
-        fnCredUnPackAuthenticationBufferW = { "CREDUI.DLL", "CredUnPackAuthenticationBufferW" };
+        fnCredUnPackAuthenticationBufferW = { _T("CREDUI.DLL"), "CredUnPackAuthenticationBufferW" };
 
         if (fnCredPackAuthenticationBufferW && fnCredUIPromptForWindowsCredentialsW && fnCredUnPackAuthenticationBufferW) {
             PVOID pvInAuthBlob = nullptr;
@@ -93,10 +93,10 @@ HRESULT PromptForCredentials(HWND hWnd, const CString& strCaptionText, const CSt
     } else if (SysVersion::IsXPOrLater()) {
         // Define CredUI.dll functions for Windows XP
         const WinapiFunc<decltype(CredUIPromptForCredentialsW)>
-        fnCredUIPromptForCredentialsW = { "CREDUI.DLL", "CredUIPromptForCredentialsW" };
+        fnCredUIPromptForCredentialsW = { _T("CREDUI.DLL"), "CredUIPromptForCredentialsW" };
 
         const WinapiFunc<decltype(CredUIParseUserNameW)>
-        fnCredUIParseUserNameW = { "CREDUI.DLL", "CredUIParseUserNameW" };
+        fnCredUIParseUserNameW = { _T("CREDUI.DLL"), "CredUIParseUserNameW" };
 
         if (fnCredUIPromptForCredentialsW && fnCredUIParseUserNameW) {
             const DWORD dwAuthError = 0;

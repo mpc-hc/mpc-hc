@@ -1,14 +1,14 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Marián Hikaník <podnety@mojepreklady.net>, 2013-2014
-# Marián Hikaník <podnety@mojepreklady.net>, 2014-2015
+# Marián Hikaník <podnety@mojepreklady.net>, 2014-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-10-19 19:15:11+0000\n"
-"PO-Revision-Date: 2015-10-21 21:47+0000\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2016-07-07 08:11+0000\n"
 "Last-Translator: Marián Hikaník <podnety@mojepreklady.net>\n"
 "Language-Team: Slovak (http://www.transifex.com/mpc-hc/mpc-hc/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -190,8 +190,8 @@ msgid "About"
 msgstr "O programe"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2015 see Authors.txt"
-msgstr "Copyright © 2002-2015, pozrite si súbor Authors.txt"
+msgid "Copyright © 2002-2017 see Authors.txt"
+msgstr "Copyright © 2002-2017, pozrite si súbor Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -422,12 +422,16 @@ msgid "time(s)"
 msgstr "krát"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Repeat mode:"
+msgstr "Režim opakovania:"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
 msgstr "Po prehratí"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Output"
-msgstr "Výstup"
+msgid "Default zoom"
+msgstr "Predvolené priblíženie"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
@@ -566,8 +570,8 @@ msgid "Warning"
 msgstr "Varovanie"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
-msgstr "Ak niekde v nastaveniach svojej grafickej karty zapnete antialiasing v režime pre celú obrazovku, vzhľad titulkov sa o nič nezlepší, zvýši sa však zaťaženie procesora."
+msgid "If you override and enable fullscreen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
+msgstr "Ak niekde v nastaveniach grafickej karty manuálne zapnete antialiasing v režime pre celú obrazovku, vzhľad titulkov sa o nič nezlepší, zvýši sa však zaťaženie procesora."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
 msgid "File extensions"
@@ -1122,8 +1126,8 @@ msgid "Audio Renderer"
 msgstr "Vykresľovač zvuku"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
-msgstr "Nastavenia VMR-7/VMR-9 (bezstratové) a EVR (CP)"
+msgid "VMR-9 (renderless) and EVR (CP) settings"
+msgstr "Nastavenia VMR-9 (bez vykreslenia) EVR (CP)"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"
@@ -1185,6 +1189,10 @@ msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
 msgstr "Vykresľovač titulkov"
 
+msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
+msgid "Cache compiled Shaders"
+msgstr "Uložiť skompilované shadery do vyrov. pamäte"
+
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
 msgstr "Sledovať port:"
@@ -1230,16 +1238,44 @@ msgid "CGI handlers: (.ext1=path1;.ext2=path2;...)"
 msgstr "Obsluha CGI: (.ext1=path1;.ext2=path2;...)"
 
 msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
-msgid "Subtitles available online"
-msgstr "Titulky na internete"
-
-msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
-msgid "Download && Open"
-msgstr "Stiahnuť a otvoriť"
+msgid "Download subtitles"
+msgstr "Stiahnuť titulky"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
 msgid "Replace currently loaded subtitles"
 msgstr "Nahradiť práve načítané titulky"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
+msgid "Download"
+msgstr "Stiahnuť"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON1"
+msgid "Refresh"
+msgstr "Obnoviť"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON2"
+msgid "Abort"
+msgstr "Prerušiť"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON3"
+msgid "Options"
+msgstr "Nastavenia"
+
+msgctxt "IDD_SUBTITLEUP_DLG_CAPTION"
+msgid "Upload subtitles"
+msgstr "Odoslať titulky"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDOK"
+msgid "Upload"
+msgstr "Odoslať"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
+msgid "Abort"
+msgstr "Prerušiť"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON2"
+msgid "Options"
+msgstr "Nastavenia"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
@@ -1542,16 +1578,28 @@ msgid "Reset"
 msgstr "Obnoviť"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Online database"
-msgstr "Online-databáza"
+msgid "Online search, download and upload subtitles"
+msgstr "Vyhľadávanie online, stiahnutie a odoslanie titulkov"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
+msgid "Automatically search and download subtitles if none are found locally"
+msgstr "Automaticky vyhľadať a stiahnuť titulky, ak sa nenájdu žiadne lokálne"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
+msgid "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
+msgstr "Preferovať titulky pre nepočujúcich (ak ich poskytovateľ označí)"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
+msgid "Ignore files containing any of the following word(s):"
+msgstr "Ignorovať súbory obsahujúce niektoré z týchto slov:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Base URL of the online subtitle database:"
-msgstr "Základná URL adresa webovej databázy titulkov:"
+msgid "Languages in order of preference:"
+msgstr "Uprednostňované jazyky v poradí:"
 
-msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON2"
-msgid "Test"
-msgstr "Test"
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
+msgid "Automatically upload active subtitles at the end of video playback"
+msgstr "Automaticky odoslať aktívne titulky na konci prehrávania videa"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"

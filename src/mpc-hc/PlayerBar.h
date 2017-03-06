@@ -1,5 +1,5 @@
 /*
- * (C) 2012-2015 see Authors.txt
+ * (C) 2012-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,6 +21,7 @@
 #pragma once
 
 #include "sizecbar/scbarg.h"
+#include "EventDispatcher.h"
 
 
 class CPlayerBar : public CSizingControlBarG

@@ -1,14 +1,14 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # fubuzz <knedlc@gmail.com>, 2014
-# shvala <simon.hvala@hotmail.com>, 2013-2015
+# shvala <simon.hvala@hotmail.com>, 2013-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-08-06 16:05:43+0000\n"
-"PO-Revision-Date: 2015-09-19 16:54+0000\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2017-01-28 17:15+0000\n"
 "Last-Translator: shvala <simon.hvala@hotmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/mpc-hc/mpc-hc/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -190,8 +190,8 @@ msgid "About"
 msgstr "O programu"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2015 see Authors.txt"
-msgstr "Avtorske pravice © 2002-2015, glej Authors.txt"
+msgid "Copyright © 2002-2017 see Authors.txt"
+msgstr "Avtorske pravice © 2002-2017, glej Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -422,12 +422,16 @@ msgid "time(s)"
 msgstr "krat"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Repeat mode:"
+msgstr "Način ponavljanja:"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
 msgstr "Po predvajanju"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Output"
-msgstr "Izhod"
+msgid "Default zoom"
+msgstr "Privzeta povečava"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
@@ -566,7 +570,7 @@ msgid "Warning"
 msgstr "Opozorilo"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
+msgid "If you override and enable fullscreen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
 msgstr "Če preglasiš in omogočiš celozaslonsko glajenje (antialiasing) kjerkoli v nastavitvah videokartice, podnapisi ne bodo izgledali nič bolje, bo pa CPU zelo obremenjen"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
@@ -675,7 +679,7 @@ msgstr "Prepreči minimiziranje predvajalnika v celozaslon. naćinu na neprivzet
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
 msgid "Use enhanced taskbar features"
-msgstr ""
+msgstr "Uporabi napredne značilnosti opravilne vrstice"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
@@ -1122,8 +1126,8 @@ msgid "Audio Renderer"
 msgstr "Zvočni izvajalnik"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
-msgstr "VMR-7/VMR-9 (brez izrisovalnika) in EVR (CP) nastavitve"
+msgid "VMR-9 (renderless) and EVR (CP) settings"
+msgstr "VMR-9 (brez izrisovalnika) in EVR (CP) nastavitve"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"
@@ -1167,7 +1171,7 @@ msgstr "DXVA"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitles"
-msgstr ""
+msgstr "Podnapisi"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Screenshot"
@@ -1183,7 +1187,11 @@ msgstr "Zasuk"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
-msgstr ""
+msgstr "Izrisovalnik podnapisov"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
+msgid "Cache compiled Shaders"
+msgstr "Medpomni prevedene senčilnike"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
@@ -1230,16 +1238,44 @@ msgid "CGI handlers: (.ext1=path1;.ext2=path2;...)"
 msgstr "CGI upravljalci: (.ext1=pot1;.ext2=pot2;...)"
 
 msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
-msgid "Subtitles available online"
-msgstr "Podnapisi na voljo na spletu"
-
-msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
-msgid "Download && Open"
-msgstr "Prenesi in odpri"
+msgid "Download subtitles"
+msgstr "Prenesi podnapise"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
 msgid "Replace currently loaded subtitles"
 msgstr "Nadomesti trenutno naložene podnapise"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
+msgid "Download"
+msgstr "Prenesi"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON1"
+msgid "Refresh"
+msgstr "Osveži"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON2"
+msgid "Abort"
+msgstr "Prekini"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON3"
+msgid "Options"
+msgstr "Možnosti"
+
+msgctxt "IDD_SUBTITLEUP_DLG_CAPTION"
+msgid "Upload subtitles"
+msgstr "Prenesi podnapise gor"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDOK"
+msgid "Upload"
+msgstr "Prenesi gor"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
+msgid "Abort"
+msgstr "Prekini"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON2"
+msgid "Options"
+msgstr "Možnosti"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
@@ -1542,16 +1578,28 @@ msgid "Reset"
 msgstr "Ponastavi"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Online database"
-msgstr "Medmrežna podatkovna zbirka"
+msgid "Online search, download and upload subtitles"
+msgstr "Išči, prenesi podnapise dol in gor"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
+msgid "Automatically search and download subtitles if none are found locally"
+msgstr "Samodejno išči in prenesi podnapise če jih lokalno ni"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
+msgid "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
+msgstr "Uporabi podnapise za slušno prizadete (ko so tako označeni)"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
+msgid "Ignore files containing any of the following word(s):"
+msgstr "Prezri datoteke, ki vsebujejo katero izmed naslednjih besed:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Base URL of the online subtitle database:"
-msgstr "Osnovni URL od medmrežne zbirke podnapisov:"
+msgid "Languages in order of preference:"
+msgstr "Jeziki v želenem vrstnem redu:"
 
-msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON2"
-msgid "Test"
-msgstr "Test"
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
+msgid "Automatically upload active subtitles at the end of video playback"
+msgstr "Samodejno prenesi gor aktivne podnapise na koncu predvajanja"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"

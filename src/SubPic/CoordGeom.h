@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2014, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,14 +21,8 @@
 
 #pragma once
 
-#include <math.h>
+#include <cmath>
 #include <array>
-
-#define EPSILON      (1e-7)
-#define BIGNUMBER    (1e+9)
-#define IsZero(d)    (fabs(d) < EPSILON)
-#define Sgn(d)       (IsZero(d) ? 0 : (d) > 0 ? 1 : -1)
-//#define SgnPow(d, p) (IsZero(d) ? 0 : (pow(fabs(d), p) * Sgn(d)))
 
 class Vector
 {

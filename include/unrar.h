@@ -31,7 +31,7 @@
 #define RAR_VOL_ASK           0
 #define RAR_VOL_NOTIFY        1
 
-#define RAR_DLL_VERSION       6
+#define RAR_DLL_VERSION       7
 
 #define RAR_HASH_NONE         0
 #define RAR_HASH_CRC32        1
@@ -98,7 +98,11 @@ struct RARHeaderDataEx
   unsigned int DictSize;
   unsigned int HashType;
   char         Hash[32];
-  unsigned int Reserved[1014];
+  unsigned int RedirType;
+  wchar_t      *RedirName;
+  unsigned int RedirNameSize;
+  unsigned int DirTarget;
+  unsigned int Reserved[994];
 };
 
 

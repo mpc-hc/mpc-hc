@@ -47,7 +47,7 @@ Unpack::Unpack(ComprDataIO *DataIO)
 
 Unpack::~Unpack()
 {
-  InitFilters30();
+  InitFilters30(false);
 
   if (Window!=NULL)
     free(Window);
@@ -114,7 +114,7 @@ void Unpack::Init(size_t WinSize,bool Solid)
   if (!Fragmented)
   {
     // Clean the window to generate the same output when unpacking corrupt
-    // RAR files, which may access to unused areas of sliding dictionary.
+    // RAR files, which may access unused areas of sliding dictionary.
     memset(NewWindow,0,WinSize);
 
     // If Window is not NULL, it means that window size has grown.
@@ -122,7 +122,7 @@ void Unpack::Init(size_t WinSize,bool Solid)
     // RAR archiving code does not allow it in solid streams now,
     // but let's implement it anyway just in case we'll change it sometimes.
     if (Grow)
-      for (size_t I=1;I<MaxWinSize;I++)
+      for (size_t I=1;I<=MaxWinSize;I++)
         NewWindow[(UnpPtr-I)&(WinSize-1)]=Window[(UnpPtr-I)&(MaxWinSize-1)];
 
     if (Window!=NULL)
@@ -137,21 +137,27 @@ void Unpack::Init(size_t WinSize,bool Solid)
 
 void Unpack::DoUnpack(int Method,bool Solid)
 {
+  // Methods <50 will crash in Fragmented mode when accessing NULL Window.
+  // They cannot be called in such mode now, but we check it below anyway
+  // just for extra safety.
   switch(Method)
   {
 #ifndef SFX_MODULE
     case 15: // rar 1.5 compression
-      Unpack15(Solid);
+      if (!Fragmented)
+        Unpack15(Solid);
       break;
     case 20: // rar 2.x compression
     case 26: // files larger than 2GB
-      Unpack20(Solid);
+      if (!Fragmented)
+        Unpack20(Solid);
       break;
 #endif
     case 29: // rar 3.x compression
-      Unpack29(Solid);
+      if (!Fragmented)
+        Unpack29(Solid);
       break;
-    case 0: // RAR 5.0 compression algorithm 0.
+    case 50: // RAR 5.0 compression algorithm.
 #ifdef RAR_SMP
       if (MaxUserThreads>1)
       {
@@ -184,9 +190,11 @@ void Unpack::UnpInitData(bool Solid)
     memset(&BlockTables,0,sizeof(BlockTables));
     UnpPtr=WrPtr=0;
     WriteBorder=Min(MaxWinSize,UNPACK_MAX_WRITE)&MaxWinMask;
-
-    InitFilters();
   }
+  // Filters never share several solid files, so we can safely reset them
+  // even in solid archive.
+  InitFilters();
+
   Inp.InitBitInput();
   WrittenFileSize=0;
   ReadTop=0;
@@ -311,7 +319,7 @@ void Unpack::MakeDecodeTables(byte *LengthTable,DecodeTable *Dec,uint Size)
   
     // Find the upper limit for current bit field and adjust the bit length
     // accordingly if necessary.
-    while (BitField>=Dec->DecodeLen[CurBitLength] && CurBitLength<ASIZE(Dec->DecodeLen))
+    while (CurBitLength<ASIZE(Dec->DecodeLen) && BitField>=Dec->DecodeLen[CurBitLength])
       CurBitLength++;
 
     // Translation of right aligned bit string to bit length.

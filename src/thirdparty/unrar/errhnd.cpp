@@ -12,9 +12,9 @@ void ErrorHandler::Clean()
   ErrCount=0;
   EnableBreak=true;
   Silent=false;
-  DoShutdown=false;
   UserBreak=false;
   MainExit=false;
+  DisableShutdown=false;
 }
 
 
@@ -64,7 +64,10 @@ bool ErrorHandler::AskRepeatRead(const wchar *FileName)
   if (!Silent)
   {
     SysErrMsg();
-    return uiAskRepeatRead(FileName);
+    bool Repeat=uiAskRepeatRead(FileName);
+    if (!Repeat) // Disable shutdown if user pressed Cancel in error dialog.
+      DisableShutdown=true;
+    return Repeat;
   }
 #endif
   return false;
@@ -99,8 +102,15 @@ bool ErrorHandler::AskRepeatWrite(const wchar *FileName,bool DiskFull)
 #ifndef SILENT
   if (!Silent)
   {
+#ifndef _ANDROID
+    // We do not display "repeat write" prompt in Android, so we do not
+    // need the matching system error message.
     SysErrMsg();
-    return uiAskRepeatWrite(FileName,DiskFull);
+#endif
+    bool Repeat=uiAskRepeatWrite(FileName,DiskFull);
+    if (!Repeat) // Disable shutdown if user pressed Cancel in error dialog.
+      DisableShutdown=true;
+    return Repeat;
   }
 #endif
   return false;

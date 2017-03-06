@@ -1,18 +1,18 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# schop <aprcel00@fesb.hr>, 2014-2015
+# schop <aprcel00@fesb.hr>, 2014-2016
 # iivana24 <iivana24@gmail.com>, 2014
-# streger <stjepan.treger@gmail.com>, 2014-2015
-# vBm <the.vbm@gmail.com>, 2014
+# streger <stjepan.treger@gmail.com>, 2014-2016
+# Goran Džaferi <the.vbm@gmail.com>, 2014
 # Underground78, 2014
 # Ico2005 <vukasinac@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-10-25 00:51:15+0000\n"
-"PO-Revision-Date: 2015-11-10 16:30+0000\n"
+"POT-Creation-Date: 2016-10-17 00:35:36+0000\n"
+"PO-Revision-Date: 2016-11-02 22:22+0000\n"
 "Last-Translator: streger <stjepan.treger@gmail.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/mpc-hc/mpc-hc/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -65,9 +65,17 @@ msgctxt "IDS_PROPSHEET_PROPERTIES"
 msgid "Properties"
 msgstr "Svojstva"
 
+msgctxt "IDS_PLAY_LOOPMODE_FILE"
+msgid "File"
+msgstr "Datoteka"
+
 msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
 msgid "&Default Style"
 msgstr "Stan&dardni stil"
+
+msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
+msgid "Playlist"
+msgstr "Lista izvođenja"
 
 msgctxt "IDS_FAVFILES"
 msgid "Files"
@@ -119,7 +127,27 @@ msgstr "Stilovi"
 
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
-msgstr "Ako nije zadano odredište renderinga, SSA/ASS titlovi će biti renderirani relativno u odnosu na video okvir dok će svi ostali titlovi biti rederirani relativno u odnosu na prozor."
+msgstr "Ako nije zadano odredište prikazivanja, SSA/ASS titlovi će biti prikazani relativno u odnosu na video okvir dok će svi ostali titlovi biti prikazani relativno u odnosu na prozor."
+
+msgctxt "IDS_PLAYLOOPMODE_PLAYLIST"
+msgid "Repeat Mode: Playlist"
+msgstr "Način ponavljanja: Lista izvođenja"
+
+msgctxt "IDS_PLAYLOOPMODE_FILE"
+msgid "Repeat Mode: File"
+msgstr "Način ponavljanja: Datoteka"
+
+msgctxt "IDS_PLAYLOOP_FOREVER_ON"
+msgid "Repeat Forever: On"
+msgstr "Ponavljaj zauvijek: Uključeno"
+
+msgctxt "IDS_PLAYLOOP_FOREVER_OFF"
+msgid "Repeat Forever: Off"
+msgstr "Ponavljaj zauvijek: Isključeno"
+
+msgctxt "IDS_PLAYLOOP_FOREVER"
+msgid "Repeat Forever"
+msgstr "Ponavljaj zauvijek"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -243,7 +271,7 @@ msgstr "Font"
 
 msgctxt "IDS_DVD_NAV_SOME_PINS_ERROR"
 msgid "Failed to render some of the pins of the DVD Navigator filter"
-msgstr "Nije uspjelo renderiranje nekih pinova DVD-navigacijskog filtra."
+msgstr "Neuspješno prikazivanje nekih znački DVD-navigacijskog filtra."
 
 msgctxt "IDS_DVD_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for DVD playback"
@@ -363,7 +391,7 @@ msgstr "Ciljani okvir za obavijesni graf nije moguće podesiti"
 
 msgctxt "IDS_DVD_NAV_ALL_PINS_ERROR"
 msgid "Failed to render all pins of the DVD Navigator filter"
-msgstr "Nije uspjelo renderiranje nijednog pina od DVD-navigacijskog filtra."
+msgstr "Neuspješno prikazivanje nijedne značke od DVD-navigacijskog filtra."
 
 msgctxt "IDS_PLAYLIST_OPEN"
 msgid "&Open"
@@ -487,7 +515,7 @@ msgstr "Reprodukcija::Uhvati"
 
 msgctxt "IDD_PPAGESYNC"
 msgid "Playback::Sync Renderer Settings"
-msgstr "Reprodukcija::Postavke sinkronizacijskog rendera"
+msgstr "Reprodukcija::Postavke sinkronizacijskog prikazivača"
 
 msgctxt "IDD_PPAGEFULLSCREEN"
 msgid "Playback::Fullscreen"
@@ -495,7 +523,7 @@ msgstr "Reprodukcija::Cijeli ekran"
 
 msgctxt "IDD_PPAGEAUDIORENDERER"
 msgid "Internal Filters::Audio Renderer"
-msgstr "Interni filtri::Renderer zvuka"
+msgstr "Interni filtri::Izvođač zvuka"
 
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
@@ -515,39 +543,31 @@ msgstr "Ovo će popraviti neispravan prikaz ikona nakon nadogradnje biblioteke i
 
 msgctxt "IDS_PPAGE_OUTPUT_OLDRENDERER"
 msgid "Old Video Renderer"
-msgstr "Stari video render"
+msgstr "Stari video prikazivač"
 
 msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
-msgstr "Overlay Mixer Renderer"
-
-msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
-msgid "Video Mixing Renderer 7 (windowed)"
-msgstr "Video Mixing Renderer 7 (u prozoru)"
+msgstr "Overlay Mixer prikazivač"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
 msgid "Video Mixing Renderer 9 (windowed)"
-msgstr "Video Mixing Renderer 9 (u prozoru)"
-
-msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
-msgid "Video Mixing Renderer 7 (renderless)"
-msgstr "Video Mixing Renderer 7 (renderless)"
+msgstr "Video Mixing prikazivač 9 (u prozoru)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
 msgid "Video Mixing Renderer 9 (renderless)"
-msgstr "Video Mixing Renderer 9 (renderless)"
+msgstr "Video Mixing prikazivač 9 (bez-prikazivanja)"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR"
 msgid "Enhanced Video Renderer"
-msgstr "Poboljšani video renderer"
+msgstr "Poboljšani video prikazivač"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR_CUSTOM"
 msgid "Enhanced Video Renderer (custom presenter)"
-msgstr "Poboljšani video renderer (prilagođeni prikazivač)"
+msgstr "Poboljšani video prikazivač (prilagođeni prikazivač)"
 
 msgctxt "IDS_PPAGE_OUTPUT_DXR"
 msgid "Haali Video Renderer"
-msgstr "Haali Video Renderer"
+msgstr "Haali Video prikazivač"
 
 msgctxt "IDS_PPAGE_OUTPUT_NULL_COMP"
 msgid "Null (anything)"
@@ -585,10 +605,6 @@ msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
 msgstr "Izvođač::Web sučelje"
 
-msgctxt "IDD_PPAGESUBDB"
-msgid "Subtitles::Database"
-msgstr "Titlovi::Baza podataka"
-
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
 msgstr "Detalji"
@@ -599,27 +615,19 @@ msgstr "Isječak"
 
 msgctxt "IDC_DSSYSDEF"
 msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason. On Windown XP this is the same as VMR-7 (windowed)."
-msgstr "Zadani video render filtri za DirectShow. Ostali video renderi, ako se ne mogu učitati, će biti postavljeni na ovaj. Na Windows XP je ovo ekvivalent VMR-7 (u prozoru)."
+msgstr "Zadani video filtri prikazivanja za DirectShow. Ostali video prikazivači, ako se ne mogu učitati, će biti postavljeni na ovaj. Na Windows XP je ovo ekvivalent VMR-7 (u prozoru)."
 
 msgctxt "IDC_DSOLD"
 msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
-msgstr "Zadani renderer za Windows 9x/ME/2k. Ovisno o vidljivosti video prozora i mogućnostima vaše video kartice će koristiti GDI, DirectDraw ili Overlay-okvir."
+msgstr "Zadani prikazivač za Windows 9x/ME/2k. Ovisno o vidljivosti video prozora i mogućnostima vaše video kartice će koristiti GDI, DirectDraw ili Overlay-okvir."
 
 msgctxt "IDC_DSOVERLAYMIXER"
 msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
 msgstr "Uvijek prikazuje u gornjem sloju. Općenito samo su YUV formati dozvoljeni ali su prikazani direktno bez konverzije boje u RGB. Ovo je najbrža metoda prikazivanja od svih i jedina kojom možete biti sigurni da je prikaz na cijelom ekranu zrcaljen sa aktiviranje tv-izlaza."
 
-msgctxt "IDC_DSVMR7WIN"
-msgid "The default renderer of Windows XP. Very stable and just a little slower than the Overlay mixer. Uses DirectDraw and runs in Overlay when it can."
-msgstr "Zadani prikazivač za Windows XP. Stabilan i nešto sporiji od Overlay miksera. Koristi DirectDraw i radi sa Overlay-om kad može."
-
 msgctxt "IDC_DSVMR9WIN"
-msgid "Only available if you have DirectX 9 installed. Has the same abilities as VMR-7 (windowed), but it will never use Overlay rendering and because of this it may be a little slower than VMR-7 (windowed)."
-msgstr "Dostupno samo ako imate DirectX 9 instaliran. Ima iste mogućnosti kao VMR-7 (u prozoru), ali nikad ne koristi Overlay prikazivanje i zbog toga može biti sporiji nego VMR-7 (u prozoru)."
-
-msgctxt "IDC_DSVMR7REN"
-msgid "Same as the VMR-7 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring WILL NOT work. \"True Color\" desktop color space recommended."
-msgstr "Isti kao VMR-7 (u prozoru) ali sa Allocator-Presenter dodatkom MPC-HC za titlove. Prikaz u gornjem sloju zrcaljenjem NEĆE raditi. \"True Color\" sustav boja radne površine preporučljiv."
+msgid "Only available if you have DirectX 9 installed. Very stable but it will never use Overlay rendering and because of this it may be a little slower than Overlay mixer."
+msgstr "Dostupno samo ako imate DirectX 9 instaliran. Vrlo stabilno ali nikada neće koristiti prikaz u gornjem sloju i zbog toga može biti sporiji nego Overlay mikser."
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
@@ -627,7 +635,7 @@ msgstr "Isti kao VMR-9 (u prozoru) ali sa Allocator-Presenter dodatkom MPC-HC za
 
 msgctxt "IDC_DSDXR"
 msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
-msgstr "Isti kao VMR-9 (renderless) ali koristi pravi dvoprolazni bikubni mjenjač veličina."
+msgstr "Isti kao VMR-9 (bez-prikazivanja) ali koristi pravi dvoprolazni bikubni mjenjač veličina."
 
 msgctxt "IDC_DSNULL_COMP"
 msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the CPU from working unnecessarily."
@@ -657,25 +665,17 @@ msgctxt "IDC_RMSYSDEF"
 msgid "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
 msgstr "Prikazivač Real. SMIL skripte će raditi ali interakcija nije vjerojatna. Koristi DirectDraw i radi u Overlay kad može."
 
-msgctxt "IDC_RMDX7"
-msgid "The output of Real's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "Izlaz Real prikazan sa DX7 temeljenom na Allocator-Presenter VMR-7 (renderless)."
-
 msgctxt "IDC_RMDX9"
 msgid "The output of Real's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
-msgstr "Izlaz Real prikazan sa DX9 temeljenom na Allocator-Presenter VMR-9 (renderless)."
+msgstr "Izlaz Real prikazan sa DX9 temeljenom na Allocator-Presenter VMR-9 (bez-prikazivanja)."
 
 msgctxt "IDC_QTSYSDEF"
 msgid "QuickTime's own renderer. Gets a little slow when its video area is resized or partially covered by another window. When Overlay is not available it likes to fall back to GDI."
 msgstr "QuickTime prikazivač. Postaje sporiji kad se poveća video ili kad je prekriven sa drugim prozorom. Kada Overlay nije dostupan vraća se na GDI."
 
-msgctxt "IDC_QTDX7"
-msgid "The output of QuickTime's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "Izlaz QuickTime prikazan sa DX7 temeljenom na Allocator-Presenter VMR-7 (renderless)."
-
 msgctxt "IDC_QTDX9"
 msgid "The output of QuickTime's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
-msgstr "Izlaz QuickTime prikazan sa DX9 temeljenom na Allocator-Presenter VMR-9 (renderless)."
+msgstr "Izlaz QuickTime prikazan sa DX9 temeljenom na Allocator-Presenter VMR-9 (bez-prikazivanja)."
 
 msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
@@ -731,15 +731,15 @@ msgstr "Odabrani prikazivač nije instaliran."
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_COMP"
 msgid "Null (anything)"
-msgstr "Null (anything)"
+msgstr "Null (bilo što)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP"
 msgid "Null (uncompressed)"
-msgstr "Null (uncompressed)"
+msgstr "Null (nekomprimirano)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
 msgid "Internal Audio Renderer"
-msgstr "Interni renderer zvuka"
+msgstr "Interni izvođač zvuka"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
@@ -753,9 +753,13 @@ msgctxt "IDS_EMB_RESOURCES_VIEWER_INFO"
 msgid "In order to view an embedded resource in your browser you have to enable the web interface.\n\nUse the \"Save As\" button if you only want to save the information."
 msgstr "Kako bi vidjeli ugrađeni resurs u vašem internet pregledniku morate omogućiti web sučelje.\n\nKoristite \"Spremi kao\" gumb ako samo spremate informaciju."
 
-msgctxt "IDS_DOWNLOAD_SUBS"
-msgid "Download subtitles"
-msgstr "Preuzmi titlove"
+msgctxt "IDS_SUBTITLES_DOWNLOAD"
+msgid "Download Subtitles..."
+msgstr "Preuzmi titlove..."
+
+msgctxt "IDS_SUBTITLES_UPLOAD"
+msgid "Upload Subtitles..."
+msgstr "Pošalji titlove..."
 
 msgctxt "IDS_SUBFILE_DELAY"
 msgid "Delay (ms):"
@@ -799,11 +803,11 @@ msgstr "Ako nema podrške za Pixel Shader 2.0 automatski je korišten jednostavn
 
 msgctxt "IDC_DSVMR9LOADMIXER"
 msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
-msgstr "Stavlja VMR-9 (renderless) u mikser način, ovo znači da će raditi većina kontrola na stranici svojstva, a koristiti će odvojenu radničku nit za prikazujuće slike."
+msgstr "Stavlja VMR-9 (bez-prikazivanja) u mikser način, ovo znači da će raditi većina kontrola na stranici svojstva, a koristiti će odvojenu radničku nit za prikazujuće slike."
 
 msgctxt "IDC_DSVMR9YUVMIXER"
 msgid "Improves performance at the cost of some compatibility of the renderer."
-msgstr "Poboljšava performanse na račun kompatibilnosti nekih rendera."
+msgstr "Poboljšava performanse na račun kompatibilnosti nekih prikazivača."
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."
@@ -812,6 +816,18 @@ msgstr "Smanjuje 'tearing' ali sprječava da se prikažu upravljački elementi."
 msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Reduces tearing by bypassing the default VSync built into D3D."
 msgstr "Smanjuje kidanje zaobilazeći zadani VSync ugrađen u D3D."
+
+msgctxt "IDS_NAVIGATE_TUNERSCAN"
+msgid "Tuner scan"
+msgstr "Pretraga prijemnika"
+
+msgctxt "IDS_SUBTITLES_ERROR"
+msgid "Subtitles are not loaded or unsupported renderer."
+msgstr "Titlovi nisu učitani ili nepodržani od prikazivača."
+
+msgctxt "IDC_CACHESHADERS"
+msgid "Stores compiled shaders in local AppData to speed up load time."
+msgstr "Sprema kompilirane shadere u lokalnu AppData mapu za ubrzano pokretanje."
 
 msgctxt "IDS_SRC_VTS"
 msgid "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"
@@ -823,11 +839,11 @@ msgstr "Temeljeno na RAR datotečnom izvoru, ne podržava komprimirane datoteke.
 
 msgctxt "IDS_INTERNAL_LAVF"
 msgid "Uses LAV Filters"
-msgstr "Koristi LAV filtere"
+msgstr "Koristi LAV Filters"
 
 msgctxt "IDS_INTERNAL_LAVF_WMV"
 msgid "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
-msgstr "Koristi LAV filtere. Onemogućeno po zadanoj postavci zato što su Microsoft filteri uobičajeno stabilniji za te formate.\nAko odaberete ugrađene filtere omogućite ih i za izvor i dekodiranje kako bi imali bolje iskustvo reprodukcije."
+msgstr "Koristi LAV Filters. Onemogućeno po zadanoj postavci zato što su Microsoft filteri uobičajeno stabilniji za te formate.\nAko odaberete ugrađene filtere omogućite ih i za izvor i dekodiranje kako bi imali bolje iskustvo reprodukcije."
 
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
@@ -839,7 +855,7 @@ msgstr "Precizan VSync"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid "If the rendering target is left undefined, it will be inherited from the default style."
-msgstr "Ako render cilj nije definiran, nasljeđuju se postavke od standardnog stila."
+msgstr "Ako cilj prikazivanja nije definiran, nasljeđuju se postavke od standardnog stila."
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
@@ -847,7 +863,7 @@ msgstr "Zabraniti animaciju titlova. Omogućavanje ove opcije smanjiti će upotr
 
 msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
-msgstr "Povećavanje broja spremljenih podslika trebalo bi općenito poboljšati performanse renderiranja na račun povećanog korištenja video RAM-a na GPU."
+msgstr "Povećavanje broja spremljenih podslika trebalo bi općenito poboljšati performanse prikazivanja na račun povećanog korištenja video RAM-a na GPU."
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
@@ -855,7 +871,7 @@ msgstr "Nakon klikanja ovog gumba provjereno stanje grupe formata će se odrazit
 
 msgctxt "IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Disabling this option will prevent the subtitles from blinking but it may cause the video renderer to skip some video frames."
-msgstr "Isključivanjem ove opcije će se spriječiti treptanje titlova ali može prouzročiti da video render preskoči nekoliko slika."
+msgstr "Isključivanjem ove opcije će se spriječiti treptanje titlova ali može prouzročiti da video prikazivač preskoči nekoliko slika."
 
 msgctxt "ID_PLAY_PLAY"
 msgid "Play\nPlay"
@@ -950,12 +966,12 @@ msgid "&Organize Favorites..."
 msgstr "&Organiziraj omiljeno..."
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
-msgid "Shuffle"
-msgstr "Naizmjenično"
+msgid "Sh&uffle"
+msgstr "Nai&zmjenično"
 
 msgctxt "IDS_PLAYLIST_SHOWFOLDER"
-msgid "Open file location"
-msgstr "Otvori lokaciju datoteke"
+msgid "Ope&n file location"
+msgstr "Otvori &lokaciju datoteke"
 
 msgctxt "IDS_CONTROLS_CLOSING"
 msgid "Closing..."
@@ -1023,7 +1039,7 @@ msgstr "PnS rotacija Z-"
 
 msgctxt "IDS_AG_TEARING_TEST"
 msgid "Tearing Test"
-msgstr "Tearing Test"
+msgstr "Test kidanja"
 
 msgctxt "IDS_SCALE_16_9"
 msgid "Scale to 16:9 TV,%.3f,%.3f,%.3f,%.3f"
@@ -1038,8 +1054,8 @@ msgid "Zoom To Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
 msgstr "Zumiraj na ultra široki ekran,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_PLAYLIST_HIDEFS"
-msgid "Hide on Fullscreen"
-msgstr "Sakrij u cijelom zaslonu"
+msgid "&Hide on Fullscreen"
+msgstr "Sa&krij u cijelom zaslonu"
 
 msgctxt "IDS_CONTROLS_STOPPED"
 msgid "Stopped"
@@ -1226,8 +1242,8 @@ msgid "+%d%%"
 msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
-msgid "Add containing folder"
-msgstr "Dodaj mapu sa sadržajem"
+msgid "Add containing &folder"
+msgstr "Dodaj &mapu sa sadržajem"
 
 msgctxt "IDS_HW_INDICATOR"
 msgid "[H/W]"
@@ -1429,13 +1445,13 @@ msgctxt "IDS_OSD_IMAGE_SAVED"
 msgid "Image saved successfully"
 msgstr "Slika uspješno spremljena"
 
-msgctxt "IDS_AG_LOAD_SUBTITLE"
-msgid "Load Subtitle"
-msgstr "Učitaj titlove"
+msgctxt "IDS_AG_LOAD_SUBTITLES"
+msgid "Load Subtitles..."
+msgstr "Učitaj titlove..."
 
-msgctxt "IDS_AG_SAVE_SUBTITLE"
-msgid "Save Subtitle"
-msgstr "Snimi titlove"
+msgctxt "IDS_AG_SAVE_SUBTITLES"
+msgid "Save Subtitles..."
+msgstr "Spremi titlove..."
 
 msgctxt "IDS_AG_PROPERTIES"
 msgid "Properties"
@@ -1511,11 +1527,11 @@ msgstr "Snimi kopiju"
 
 msgctxt "IDS_FASTSEEK_LATEST"
 msgid "Latest keyframe"
-msgstr "Posljednja glavna slika"
+msgstr "Posljednji ključni kadar"
 
 msgctxt "IDS_FASTSEEK_NEAREST"
 msgid "Nearest keyframe"
-msgstr "Najbliža glavna slika"
+msgstr "Najbliži ključni kadar"
 
 msgctxt "IDS_HOOKS_FAILED"
 msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
@@ -1562,7 +1578,7 @@ msgid "Thumbnails saved successfully"
 msgstr "Minijature uspješno spremljene"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
-msgid "&Video Track"
+msgid "Vide&o Track"
 msgstr "&Video zapis"
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
@@ -1643,11 +1659,11 @@ msgstr "Skoči nazad (puno)"
 
 msgctxt "IDS_MPLAYERC_29"
 msgid "Jump Forward (keyframe)"
-msgstr "Skoči naprijed (obilježeni trenutak)"
+msgstr "Skoči naprijed (ključni kadar)"
 
 msgctxt "IDS_MPLAYERC_30"
 msgid "Jump Backward (keyframe)"
-msgstr "Skoči nazad (obilježeni trenutak)"
+msgstr "Skoči nazad (ključni kadar)"
 
 msgctxt "IDS_AG_NEXT"
 msgid "Next"
@@ -1703,11 +1719,11 @@ msgstr "Reproduciraj BD"
 
 msgctxt "IDS_OSD_DISPLAY_RENDERER_STATS"
 msgid "OSD: Display Renderer Statistics"
-msgstr "OSD: Prikaži statistike renderera"
+msgstr "OSD: Prikaži statistike prikazivača"
 
 msgctxt "IDS_OSD_RESET_RENDERER_STATS"
 msgid "OSD: Reset Renderer Statistics"
-msgstr "OSD: Resetiraj statistike renderera"
+msgstr "OSD: Resetiraj statistike prikazivača"
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
@@ -1798,8 +1814,8 @@ msgid "PnS Dec Height"
 msgstr "PnS smanji visinu"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
-msgid "Downloading subtitle(s), please wait."
-msgstr "Preuzimanje titlova, molim pričekajte"
+msgid "Downloading [%s] \"%s\""
+msgstr "Preuzimanje [%s] \"%s\""
 
 msgctxt "IDS_SUBDL_DLG_PARSING"
 msgid "Parsing list..."
@@ -2061,11 +2077,11 @@ msgctxt "IDS_DVB_CHANNEL_ENCRYPTION"
 msgid "Encrypted"
 msgstr "Šifrirano"
 
-msgctxt "IDS_DVB_CHANNEL_ENCRYPTED"
+msgctxt "IDS_YES"
 msgid "Yes"
 msgstr "Da"
 
-msgctxt "IDS_DVB_CHANNEL_NOT_ENCRYPTED"
+msgctxt "IDS_NO"
 msgid "No"
 msgstr "Ne"
 
@@ -2217,14 +2233,6 @@ msgctxt "IDS_THUMB_IMAGE_WIDTH"
 msgid "Image width"
 msgstr "Širina slike"
 
-msgctxt "IDS_PPSDB_URLCORRECT"
-msgid "The URL appears to be correct!"
-msgstr "URL adresa je točna!"
-
-msgctxt "IDS_PPSDB_PROTOCOLERR"
-msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
-msgstr "Verzija protokola se ne podudara, molimo nadogradite vaš player ili odaberite drugu adresu!"
-
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
 msgstr "Omjer slike"
@@ -2291,7 +2299,7 @@ msgstr "Nemoguće kreirati datoteku"
 
 msgctxt "IDS_THUMBNAILS_NO_DURATION"
 msgid "Cannot create thumbnails for files with no duration"
-msgstr "Nemoguće kreirati thumbnailove za datoteke bez trajanja"
+msgstr "Nemoguće kreirati sličice za datoteke bez trajanja"
 
 msgctxt "IDS_THUMBNAILS_NO_FRAME_SIZE"
 msgid "Failed to get video frame size"
@@ -2311,15 +2319,15 @@ msgstr "Veličina datoteke: %s (%s bajta)\\N"
 
 msgctxt "IDS_THUMBNAILS_INFO_HEADER"
 msgid "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: %dx%d %s\\NDuration: %02d:%02d:%02d"
-msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: %dx%d %s\\NDuration: %02d:%02d:%02d."
+msgstr "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Naziv datoteke: %s\\N%sRezolucija: %dx%d %s\\NTrajanje: %02d:%02d:%02d."
 
 msgctxt "IDS_THUMBNAIL_TOO_SMALL"
 msgid "The thumbnails would be too small, impossible to create the file.\n\nTry lowering the number of thumbnails or increasing the total size."
 msgstr "Sličice bi bile premalene, nemoguće je kreirati datoteku.\n\nPokušajte smanjivanjem broja sličica ili povećanjem ukupne veličine."
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
-msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "Za pokretanje titlova promijenite tip video prikazivača i ponovno otvorite datoteku.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR ili Haali\n- RealMedia: Posebni prikazivač za RealMedia ili otvorite direktno sa DirectShow\n- QuickTime: DX7 ili DX9 prikazivač za QuickTime\n- ShockWave: n/a"
+msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+msgstr "Za pokretanje titlova promijenite tip video prikazivača i ponovno otvorite datoteku.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR ili Haali\n- RealMedia: Posebni prikazivač za RealMedia ili otvorite direktno sa DirectShow\n- QuickTime: DX7 ili DX9 prikazivač za QuickTime\n- ShockWave: n/a"
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
@@ -2330,8 +2338,8 @@ msgid "Aspect Ratio: %ld:%ld"
 msgstr "Omjer: %ld:%ld"
 
 msgctxt "IDS_MAINFRM_69"
-msgid "Aspect Ratio: Default"
-msgstr "Omjer: Zadano"
+msgid "Aspect Ratio: Default (DAR)"
+msgstr "Omjer: Zadani (DAR)"
 
 msgctxt "IDS_MAINFRM_70"
 msgid "Audio delay: %I64d ms"
@@ -2367,11 +2375,7 @@ msgstr "Otvaranje prekinuto"
 
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
-msgstr "Greška pri renderiranju datoteke"
-
-msgctxt "IDS_PPSDB_BADURL"
-msgid "Bad URL, could not locate subtitle database there!"
-msgstr "Nevaljali URL - nemoguće locirati data-bazu titlove!"
+msgstr "Greška pri prikazivanju datoteke"
 
 msgctxt "IDS_AG_CHAPTER2"
 msgid "Chapter: "
@@ -2431,7 +2435,7 @@ msgstr "Nemoguće učitati nijednu izvorišnu datoteku"
 
 msgctxt "IDS_MAINFRM_88"
 msgid "Cannot render the file"
-msgstr "Nemoguće renderirati datoteku"
+msgstr "Nemoguće prikazati datoteku"
 
 msgctxt "IDS_MAINFRM_89"
 msgid "Invalid file format"
@@ -2455,7 +2459,7 @@ msgstr "Ne mogu pronaći DVD direktorij"
 
 msgctxt "IDS_MAINFRM_94"
 msgid "Can't create the DVD Navigator filter"
-msgstr "Ne može se kreirati DVD navigacijski filtar"
+msgstr "Nemoguće kreirati DVD navigacijski filtar"
 
 msgctxt "IDS_AG_FAILED"
 msgid "Failed"
@@ -2495,7 +2499,7 @@ msgstr "&Svojstva..."
 
 msgctxt "IDS_MAINFRM_117"
 msgid " (pin) properties..."
-msgstr " (pin) svojstva..."
+msgstr " (značka) svojstva..."
 
 msgctxt "IDS_AG_UNKNOWN_STREAM"
 msgid "Unknown Stream"
@@ -2566,8 +2570,8 @@ msgid "Volume boost Max"
 msgstr "Pojačanje glasnoće max"
 
 msgctxt "IDS_USAGE"
-msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/randomize\tRandomize the playlist\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tUse MPC-HC as slave\n/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding\n\t\tOnly available for CUVID and DXVA2 (copy-back)\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "Korištenje: mpc-hc.exe \"putanja\" [prekidači]\n\n\"putanja\"⇥Glavna datoteka ili mapa za pokrenuti(zamjenski znakovi\n⇥⇥dopušteni, \"-\" označava standardni ulaz)\n/dub \"naziv sinkronizacije\"⇥Pokrenuti dodatnu zvučnu datoteku\n/dubdelay \"datoteka\"⇥Pokrenuti dodatnu audio datoteku pomaknutu\n⇥⇥ za XXms (ako datoteka sadrži \"...POMAK XXms...\")\n/d3dfs⇥⇥Započni izvođenje u D3D načinu punog ekrana\n/sub \"naziv titla\"⇥Pokreni dodatnu titl datoteku\n/filter \"naziv filtera\"⇥Pokreni DirectShow filtere iz knjižnice\n⇥⇥dinamičkog linka (zamjenski znakovi dopušteni)\n/dvd⇥⇥Pokreni u dvd načinu, \"putanja\" znači dvd\n⇥⇥mapa (opcionalno)\n/dvdpos T#C⇥Započeti reprodukciju na nazivu T, poglavlju C\n/dvdpos T#hh:mm⇥Započeti reprodukciju na nazivu T, pozicija hh:mm:ss\n/cd⇥⇥Pokreni sve trake zvučnog cd ili (s)vcd,\n⇥⇥\"putanja\" znači uređaja (opcionalno)\n/device⇥⇥Otvori zadani video uređaj\n/open⇥⇥Otvori datoteku bez automatskog pokretanja reprodukcije\n/play⇥⇥Započeti reprodukciju datoteke čim je izvođač\n⇥⇥pokrenut\n/close⇥⇥Zatvori izvođač nakon reprodukcije (radi samo kad\n⇥⇥se koristi sa /play)\n/shutdown⇥Ugasi operativni sustav nakon reprodukcije\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen⇥Započeti u načinu punog ekrana\n/minimized⇥Započeti u minimaliziranom načinu\n/new⇥⇥Koristiti novu instancu izvođača\n/add⇥⇥Dodati \"putanju\" u listu izvođenja, može biti kombinirano\n⇥⇥sa /open i /play\n/randomize\tRandomize the playlist\n/regvid⇥⇥Stvoriti povezanost nastavaka za video datoteke\n/regaud⇥⇥Stvoriti povezanost nastavaka za zvučne datoteke\n/regpl⇥⇥Stvoriti povezanost nastavaka za datoteke lista izvođenja\n/regall⇥⇥Stvoriti povezanost nastavaka za sve podržane datoteke\n/unregall⇥⇥Maknuti sve povezanosti datotečnih nastavaka\n/start ms⇥⇥Započeti reprodukciju u \"ms\" (= milisekundi)\n/startpos hh:mm:ss⇥Započeti reprodukciju na poziciji hh:mm:ss\n/fixedsize w,h⇥Namjestiti fiksiranu veličinu prozora\n/monitor N⇥Započeti izvođač na ekranu N, gdje N počinje od 1\n/audiorenderer N⇥Započeti zvučni izvođač N, gdje N počinje od 1\n⇥⇥(pogledati \"Izlaz\" postavke)\n/shaderpreset \"Pr\"⇥Započeti koristiti \"Pr\" shader postavku\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tUse MPC-HC as slave\n/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding\n\t\tOnly available for CUVID and DXVA2 (copy-back)\n/reset⇥⇥Vratiti zadane postavke\n/help /h /?⇥Prikazati pomoć prekidača komandne linije\n"
+msgid "Usage: mpc-hc.exe \"pathname\" [switches]"
+msgstr "Upotreba: mpc-hc.exe \"putanja\" [prekidači]"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -2652,14 +2656,6 @@ msgstr "VidFrm zamjena zumiranja"
 msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
 msgstr "&Omogući sve filtre"
-
-msgctxt "IDS_NAVIGATE_TUNERSCAN"
-msgid "Tuner scan"
-msgstr "Pretraga tjunera"
-
-msgctxt "IDS_SUBTITLES_ERROR"
-msgid "Subtitles are not loaded or unsupported renderer."
-msgstr "Titlovi nisu učitani ili nepodržani od renderera."
 
 msgctxt "IDS_LOGO_AUTHOR"
 msgid "Author unknown. Contact us if you made this logo!"
@@ -2783,7 +2779,7 @@ msgstr "Pikseli:"
 
 msgctxt "IDS_TEXTFILE_ENC"
 msgid "Encoding:"
-msgstr "Kodiram:"
+msgstr "Kodiranje:"
 
 msgctxt "IDS_DISABLE_ALL_FILTERS"
 msgid "&Disable all filters"
@@ -3039,7 +3035,7 @@ msgstr "Rezolucija"
 
 msgctxt "IDS_DVB_CHANNEL_ASPECT_RATIO"
 msgid "Aspect Ratio"
-msgstr "Aspect ratio"
+msgstr "Omjer slike"
 
 msgctxt "IDS_OSD_RS_VSYNC_ON"
 msgid "VSync: On"
@@ -3119,19 +3115,19 @@ msgstr "Ambijentalno svjetlo: Mračno (2.4 Gamma)"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_PERCEPT"
 msgid "Rendering Intent: Perceptual"
-msgstr "Namjera renderiranja: Perceptualna"
+msgstr "Namjera prikazivanja: Perceptualna"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_RELATIVE"
 msgid "Rendering Intent: Relative Colorimetric"
-msgstr "Namjera renderiranja: Relativno kolorimetrijska"
+msgstr "Namjera prikazivanja: Relativno kolorimetrijska"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_SATUR"
 msgid "Rendering Intent: Saturation"
-msgstr "Namjera renderiranja: Zasićenje"
+msgstr "Namjera prikazivanja: Zasićenje"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_ABSOLUTE"
 msgid "Rendering Intent: Absolute Colorimetric"
-msgstr "Namjera renderiranja: Apsolutno kolorimetrijska"
+msgstr "Namjera prikazivanja: Apsolutno kolorimetrijska"
 
 msgctxt "IDS_OSD_RS_OUTPUT_RANGE"
 msgid "Output Range: %s"
@@ -3187,11 +3183,11 @@ msgstr "Alternativni VSync: Isklj."
 
 msgctxt "IDS_OSD_RS_RESET_DEFAULT"
 msgid "Renderer settings reset to default"
-msgstr "Postavke izvođača vratiti na zadano"
+msgstr "Postavke prikazivača vratiti na zadano"
 
 msgctxt "IDS_OSD_RS_RESET_OPTIMAL"
 msgid "Renderer settings reset to optimal"
-msgstr "Postavke izvođača vratiti na optimalno"
+msgstr "Postavke prikazivača vratiti na optimalno"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
 msgid "D3D Fullscreen GUI Support: On"
@@ -3235,7 +3231,7 @@ msgstr "Polovična obrada pomičnog zareza: Isključeno"
 
 msgctxt "IDS_BRIGHTNESS_DEC"
 msgid "Brightness decrease"
-msgstr "Smanji svjetlinu"
+msgstr "Smanji osvijetljenost"
 
 msgctxt "IDS_CONTRAST_INC"
 msgid "Contrast increase"
@@ -3275,7 +3271,7 @@ msgstr "Vaša trenutna verzija je v%s.\n\nZadnja stabilna verzija je v%s."
 
 msgctxt "IDS_NEW_UPDATE_AVAILABLE"
 msgid "MPC-HC v%s is now available. You are using v%s.\n\nDo you want to visit MPC-HC's website to download it?"
-msgstr "MPC-HC v%s je dostupan. Vi koristite v%s.\n\nJe li želite posjetiti web-stranicu MPC-HC da biste ju skinuli?"
+msgstr "MPC-HC v%s je dostupan. Vi koristite v%s.\n\nŽelite li posjetiti web-stranicu MPC-HC da biste preuzeli novu?"
 
 msgctxt "IDS_UPDATE_ERROR"
 msgid "Update server not found.\n\nPlease check your internet connection or try again later."
@@ -3391,15 +3387,15 @@ msgstr "Greška slanja unesene brzine izmjene!"
 
 msgctxt "IDS_FRAME_STEP_ERROR_RENDERER"
 msgid "Cannot frame-step, try a different video renderer."
-msgstr "Nemoguć korak slike, pokušajte drukčiji video izvođač."
+msgstr "Nemoguć korak slike, pokušajte drukčiji video prikazivač."
 
 msgctxt "IDS_SCREENSHOT_ERROR_REAL"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for RealMedia.\nSelect one of the DirectX renderers for RealMedia in MPC-HC's output options and reopen the file."
-msgstr "Funkcije \"Spremi sliku\" i \"Spremi minijature\" ne rade sa zadanim video izvođačem za RealMedia.\nOdaberite neki od DirectX izvođača za RealMedia u MPC-HC-ovim izlaznim opcijama i ponovno otvorite datoteku."
+msgstr "Funkcije \"Spremi sliku\" i \"Spremi minijature\" ne rade sa zadanim video prikazivačem za RealMedia.\nOdaberite neki od DirectX prikazivača za RealMedia u MPC-HC-ovim izlaznim opcijama i ponovno otvorite datoteku."
 
 msgctxt "IDS_SCREENSHOT_ERROR_QT"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the default video renderer for QuickTime.\nSelect one of the DirectX renderers for QuickTime in MPC-HC's output options and reopen the file."
-msgstr "Funkcije \"Spremi sliku\" i \"Spremi minijature\" ne rade sa zadanim video izvođačem za QuickTime.\nOdaberite neki od DirectX izvođača za QuickTime u MPC-HC-ovim izlaznim opcijama i ponovno otvorite datoteku."
+msgstr "Funkcije \"Spremi sliku\" i \"Spremi minijature\" ne rade sa zadanim video prikazivačem za QuickTime.\nOdaberite neki od DirectX priakzivača za QuickTime u MPC-HC-ovim izlaznim opcijama i ponovno otvorite datoteku."
 
 msgctxt "IDS_SCREENSHOT_ERROR_SHOCKWAVE"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work for Shockwave files."
@@ -3407,15 +3403,11 @@ msgstr "Funkcije \"Spremi sliku\" i \"Spremi minijature\" ne rade sa Shockwave d
 
 msgctxt "IDS_SCREENSHOT_ERROR_OVERLAY"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the Overlay Mixer video renderer.\nChange the video renderer in MPC's output options and reopen the file."
-msgstr "Funkcije \"Spremi sliku\" i \"Spremi minijature\" ne rade sa sa Overlay Mixer video izvođačem. \nPromijenite video izvođač u MPC-HC-ovim opcijama i ponovno otvorite datoteku."
-
-msgctxt "IDS_SUBDL_DLG_CONNECT_ERROR"
-msgid "Cannot connect to the online subtitles database."
-msgstr "Ne može se pristupiti online bazi titlova."
+msgstr "Funkcije \"Spremi sliku\" i \"Spremi minijature\" ne rade sa sa Overlay Mixer video prikazivačem. \nPromijenite video prikazivač u MPC-HC-ovim opcijama i ponovno otvorite datoteku."
 
 msgctxt "IDS_MB_SHOW_EDL_EDITOR"
 msgid "Do you want to activate the EDL editor?"
-msgstr "Da li želite aktivirati EDL editor?"
+msgstr "Želite li aktivirati EDL uređivač?"
 
 msgctxt "IDS_CAPTURE_ERROR"
 msgid "Capture Error"
@@ -3483,7 +3475,7 @@ msgstr "Prije testiranja morate prihvatiti nove postavke."
 
 msgctxt "IDS_AFTERPLAYBACK_EXIT"
 msgid "After Playback: Exit"
-msgstr "Nakon reprodukcije: izađi"
+msgstr "Nakon reprodukcije: Izađi"
 
 msgctxt "IDS_AFTERPLAYBACK_STANDBY"
 msgid "After Playback: Stand By"
@@ -3519,7 +3511,7 @@ msgstr "Nakon reprodukcije: Nemoj učiniti ništa"
 
 msgctxt "IDS_OSD_BRIGHTNESS"
 msgid "Brightness: %s"
-msgstr "Svjetlina: %s"
+msgstr "Osvijetljenost: %s"
 
 msgctxt "IDS_OSD_CONTRAST"
 msgid "Contrast: %s"
@@ -3543,7 +3535,7 @@ msgstr "Upravljanje bojama nije podržano"
 
 msgctxt "IDS_BRIGHTNESS_INC"
 msgid "Brightness increase"
-msgstr "Povećaj svijetloću"
+msgstr "Povećaj osvjetljenost"
 
 msgctxt "IDS_LANG_PREF_EXAMPLE"
 msgid "Enter your preferred languages here.\nFor example, type: \"eng jap swe\""
@@ -3575,7 +3567,7 @@ msgstr "&Kanali"
 
 msgctxt "IDC_FASTSEEK_CHECK"
 msgid "If \"latest keyframe\" is selected, seek to the first keyframe before the actual seek point.\nIf \"nearest keyframe\" is selected, seek to the first keyframe before or after the seek point depending on which is the closest."
-msgstr "Ako je odabran \"posljednji keyframe\", skoči na prvi prethodni keyframe, uostalom ako je odabran \"bliži keyframe\", skoči unaprijed ili unatrag na najbliži keyframe u ovisnosti o tome koji je bliže."
+msgstr "Ako je odabran \"posljednji ključni kadar\", skoči na prvi prethodni ključni kadar, uostalom ako je odabran \"bliži ključni kadar\", skoči unaprijed ili unatrag na najbliži ključni kadar u ovisnosti o tome koji je bliže."
 
 msgctxt "IDC_ASSOCIATE_ALL_FORMATS"
 msgid "Associate with all formats"
@@ -3604,4 +3596,372 @@ msgstr "VSFilter / DirectVobSub"
 msgctxt "IDS_SUBTITLE_RENDERER_XY_SUB_FILTER"
 msgid "XySubFilter"
 msgstr "XySubFilter"
+
+msgctxt "IDS_SUBDL_DLG_PROVIDER_COL"
+msgid "Provider"
+msgstr "Davatelj"
+
+msgctxt "IDS_SUBDL_DLG_HI_COL"
+msgid "Hearing Impaired"
+msgstr "Za osobe oštećena sluha"
+
+msgctxt "IDS_SUBDL_DLG_DOWNLOADS_COL"
+msgid "Downloads"
+msgstr "Preuzimanja"
+
+msgctxt "IDS_SUBDL_DLG_SCORE_COL"
+msgid "Score"
+msgstr "Ocjena"
+
+msgctxt "IDS_SUBDL_DLG_FAILED"
+msgid "Online subtitles search failed."
+msgstr "Online pretraga nije uspjela."
+
+msgctxt "IDS_SUBDL_DLG_ABORTED"
+msgid "Online subtitles search aborted."
+msgstr "Online pretraga titlova prekinuta."
+
+msgctxt "IDS_SUBDL_DLG_FOUND"
+msgid "Online subtitles search completed, %d subtitles found."
+msgstr "Online pretraga titlova završena, %d titlova pronađeno."
+
+msgctxt "IDS_SUBDL_DLG_NOTFOUND"
+msgid "Online subtitles search completed, no subtitles found."
+msgstr "Online pretraga titlova završena, nema titlova."
+
+msgctxt "IDS_SUBDL_DLG_TITLE"
+msgid "Download subtitles"
+msgstr "Preuzmi titlove"
+
+msgctxt "IDS_SUBDL_DLG_SEARCHING"
+msgid "Searching for subtitles online, please wait..."
+msgstr "Molimo pričekajte, pretraga titlova u tijeku..."
+
+msgctxt "IDS_SUBDL_DLG_ABORTING"
+msgid "Online subtitles search aborting..."
+msgstr "Prekidanje online pretrage titlova..."
+
+msgctxt "IDS_SUBUL_DLG_USERNAME_COL"
+msgid "Username"
+msgstr "Korisničko ime"
+
+msgctxt "IDS_SUBUL_DLG_STATUS_COL"
+msgid "Status"
+msgstr "Status"
+
+msgctxt "IDS_SUBUL_DLG_STATUS_READY"
+msgid "Ready..."
+msgstr "Spremno..."
+
+msgctxt "IDS_SUBUL_DLG_STATUS_NOTIMPLEMENTED"
+msgid "Not implemented."
+msgstr "Nije implementirano."
+
+msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADING"
+msgid "Uploading..."
+msgstr "Slanje..."
+
+msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADED"
+msgid "Subtitles uploaded successfully."
+msgstr "Titlovi uspješno poslani."
+
+msgctxt "IDS_SUBUL_DLG_STATUS_FAILED"
+msgid "Subtitles upload failed."
+msgstr "Slanje titlova neuspješno."
+
+msgctxt "IDS_SUBUL_DLG_STATUS_ABORTED"
+msgid "Subtitles upload aborted."
+msgstr "Prekinuto slanje titlova."
+
+msgctxt "IDS_SUBUL_DLG_STATUS_ALREADYEXISTS"
+msgid "Subtitles already exist."
+msgstr "Titlovi već postoje."
+
+msgctxt "IDS_SUBUL_DLG_UPLOADING"
+msgid "Uploading subtitles, please wait..."
+msgstr "Slanje titlova, molimo pričekajte..."
+
+msgctxt "IDS_SUBUL_DLG_UPLOADED"
+msgid "Upload finished."
+msgstr "Slanje završeno."
+
+msgctxt "IDS_SUBUL_DLG_ABORTED"
+msgid "Upload aborted."
+msgstr "Slanje prekinuto."
+
+msgctxt "IDS_SUBUL_DLG_FAILED"
+msgid "Upload failed."
+msgstr "Slanje neuspješno."
+
+msgctxt "IDS_SUBMENU_DOWNLOAD"
+msgid "Download && Open"
+msgstr "Preuzmi && Otvori"
+
+msgctxt "IDS_SUBMENU_SETUP"
+msgid "Setup"
+msgstr "Postavljanje"
+
+msgctxt "IDS_SUBMENU_RESET"
+msgid "Reset"
+msgstr "Resetiraj"
+
+msgctxt "IDS_SUBMENU_MOVEUP"
+msgid "Move Up"
+msgstr "Pomakni gore"
+
+msgctxt "IDS_SUBMENU_MOVEDOWN"
+msgid "Move Down"
+msgstr "Pomakni dolje"
+
+msgctxt "IDS_SUBMENU_OPENURL"
+msgid "Open URL"
+msgstr "Otvori URL"
+
+msgctxt "IDS_SUBPP_DLG_LANGUAGES_COL"
+msgid "Languages"
+msgstr "Jezici"
+
+msgctxt "IDS_SUBPP_DLG_LANGUAGES_ERROR"
+msgid "ERROR: Internet connection could not be established."
+msgstr "GREŠKA: Internet veza nije uspostavljana."
+
+msgctxt "IDS_SUB_CREDENTIALS_TITLE"
+msgid "Enter website credentials"
+msgstr "Unesite podatke web-stranice"
+
+msgctxt "IDS_SUB_CREDENTIALS_MSG"
+msgid "Enter your credentials to connect to: "
+msgstr "Unesite svoje podatke za povezati se na:"
+
+msgctxt "IDS_ASPECT_RATIO_SAR"
+msgid "Aspect Ratio: Assume square pixels (SAR)"
+msgstr "Omjer: Pretpostavite kvadratne piksele (SAR)"
+
+msgctxt "IDS_SUBDL_DLG_DOWNLOADED"
+msgid "Downloaded [%s] \"%s\""
+msgstr "Preuzeto [%s] \"%s\""
+
+msgctxt "IDS_SUBUL_DLG_TITLE"
+msgid "Upload subtitles"
+msgstr "Pošalji titlove"
+
+msgctxt "IDS_SUBUL_DLG_CONFIRM"
+msgid "Are you sure you want to upload the subtitle file \"%s\"?"
+msgstr "Sigurni želite poslati titl datoteku \"%s\"?"
+
+msgctxt "IDS_SUBPP_DLG_FETCHING_LANGUAGES"
+msgid "Fetching supported languages..."
+msgstr "Dohvaćanje podržanih jezika..."
+
+msgctxt "IDS_SUB_CREDENTIALS_ERROR"
+msgid "Failed to log in on \"%S\" with username \"%S\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
+msgstr "Neuspjela prijava na \"%S\" s korisničkim imenom \"%S\".\n\nMolimo unesite ispravno korisničko ime i šifru ili uklonite podatke da biste se prijavili kao anonimni korisnik."
+
+msgctxt "IDS_SUB_AUTODL_IGNORE_TOOLTIP"
+msgid "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\nFor example, type: \"private dir\\videos|work\\\"."
+msgstr "Automatsko traženje i preuzimanje će biti onemogućeno za sve datoteke čija putanja sadrži bilo koju od unesenih stvari.\nNpr.: \"\\dokumenti\\video|radovi\\\""
+
+msgctxt "IDS_CMD_PATHNAME"
+msgid "\"pathname\"\tThe main file or directory to be loaded\n\t\t(wildcards allowed, \"-\" denotes standard input)"
+msgstr "\"putanja\"\tGlavna datoteka ili mapa za pokretanje\n\t\t(višeznačnici dopušteni, \"-\" označava standardni ulaz)"
+
+msgctxt "IDS_CMD_DUB"
+msgid "/dub \"dubname\"\tLoad an additional audio file"
+msgstr "/dub \"naziv_duba\"\tPokreni dodatnu zvukovnu datoteku"
+
+msgctxt "IDS_CMD_DUBDELAY"
+msgid "/dubdelay \"file\"\tLoad an additional audio file shifted with XXms\n\t\t(if the file contains \"...DELAY XXms...\")"
+msgstr "/dubdelay \"datoteka\"\tPokreni dodatnu zvukovnu datoteku pomaknutu sa XXms\n\t\t(ako datoteka sadrži \"...DELAY XXms...\")"
+
+msgctxt "IDS_CMD_D3DFS"
+msgid "/d3dfs\t\tStart rendering in D3D fullscreen mode"
+msgstr "/d3dfs\t\tPočni prikazivnje u D3D načinu punog ekrana"
+
+msgctxt "IDS_CMD_SUB"
+msgid "/sub \"subname\"\tLoad an additional subtitle file"
+msgstr "/sub \"naziv_titla\"\tPokreni dodatnu titl datoteku"
+
+msgctxt "IDS_CMD_FILTER"
+msgid "/filter \"filtername\"\tLoad DirectShow filters from a dynamic link library (wildcards allowed)"
+msgstr "/filter \"naziv_filtra\"\tPokreni DirectShow filtere iz dinamične vezane biblioteke (višeznačnici dopušteni)"
+
+msgctxt "IDS_CMD_DVD"
+msgid "/dvd\t\tRun in DVD mode, \"pathname\" means the DVD folder (optional)"
+msgstr "/dvd\t\tPokreni u DVD načinu, \"naziv_putanje\" označava DVD mapu (opcionalno)"
+
+msgctxt "IDS_CMD_DVDPOS_TC"
+msgid "/dvdpos T#C\tStart playback at title T, chapter C"
+msgstr "/dvdpos T#C\tPočni reprodukciju na naslovu T, poglavlju C"
+
+msgctxt "IDS_CMD_DVDPOS_TIME"
+msgid "/dvdpos T#P\tStart playback at title T, position P (hh:mm:ss)"
+msgstr "/dvdpos T#P⇥Počni reprodukciju na naslovu T, poziciji P (hh:mm:ss)"
+
+msgctxt "IDS_CMD_CD"
+msgid "/cd\t\tLoad all the tracks of an Audio CD or (S)VCD,\n\t\t\"pathname\" means the drive path (optional)"
+msgstr "/cd\t\tPokreni sve trake s zvukovnog cd-a ili (S)VCD-a,\n\t\t\"naziv_putanje\" označava putanju uređaja (opcionalno)"
+
+msgctxt "IDS_CMD_DEVICE"
+msgid "/device\t\tOpen the default video device"
+msgstr "/device\t\tOtvori zadani video uređaj"
+
+msgctxt "IDS_CMD_OPEN"
+msgid "/open\t\tOpen the file, don't automatically start playback"
+msgstr "/open\t\tOtvora datoteku ali ne započinje automatsku reprodukciju"
+
+msgctxt "IDS_CMD_PLAY"
+msgid "/play\t\tStart playing the file as soon the player is launched"
+msgstr "/play\t\tPočni reprodukciju čim je pokrenut program"
+
+msgctxt "IDS_CMD_CLOSE"
+msgid "/close\t\tClose the player after playback (only works when used with /play)"
+msgstr "/close\t\tZatvori program nakon reprodukcije (radi samo kada se koristi i /play)"
+
+msgctxt "IDS_CMD_SHUTDOWN"
+msgid "/shutdown\tShutdown the operating system after playback"
+msgstr "/shutdown\tUgasi operativni sustav nakon reprodukcije"
+
+msgctxt "IDS_CMD_STANDBY"
+msgid "/standby\t\tPut the operating system in standby mode after playback"
+msgstr "/standby\t\tStavi operativni sustav u način mirovanja nakon reprodukcije"
+
+msgctxt "IDS_CMD_HIBERNATE"
+msgid "/hibernate\tHibernate operating system after playback"
+msgstr "/hibernate\tHiberniraj operativni sustav nakon reprodukcije"
+
+msgctxt "IDS_CMD_LOGOFF"
+msgid "/logoff\t\tLog off after playback"
+msgstr "/logoff\t\tOdjavi se nakon reprodukcije"
+
+msgctxt "IDS_CMD_LOCK"
+msgid "/lock\t\tLock workstation after playback"
+msgstr "/lock\t\tZaključaj operativni sustav nakon reprodukcije"
+
+msgctxt "IDS_CMD_MONITOROFF"
+msgid "/monitoroff\tTurn off the monitor after playback"
+msgstr "/monitoroff\tUgasi zaslon nakon reprodukcije"
+
+msgctxt "IDS_CMD_PLAYNEXT"
+msgid "/playnext\t\tOpen next file in the folder after playback"
+msgstr "/playnext\t\tOtvori slijedeću datoteku u mapi nakon reprodukcije"
+
+msgctxt "IDS_CMD_FULLSCREEN"
+msgid "/fullscreen\tStart in fullscreen mode"
+msgstr "/fullscreen\tPokreni u načinu cijelog ekrana"
+
+msgctxt "IDS_CMD_MINIMIZED"
+msgid "/minimized\tStart in minimized mode"
+msgstr "/minimized\tPokreni u minimiziranom načinu"
+
+msgctxt "IDS_CMD_NEW"
+msgid "/new\t\tUse a new instance of the player"
+msgstr "/new\t\tKoristi novu instancu programa"
+
+msgctxt "IDS_CMD_ADD"
+msgid "/add\t\tAdd \"pathname\" to playlist, can be combined with /open and /play"
+msgstr "/add\t\tDodaj \"naziv_putanje\" u listu za izvođenje, može se kombinirati sa /open i /play"
+
+msgctxt "IDS_CMD_RANDOMIZE"
+msgid "/randomize\tRandomize the playlist"
+msgstr "/randomize\tIzmiješaj popis za izvođenje"
+
+msgctxt "IDS_CMD_REGVID"
+msgid "/regvid\t\tCreate file associations for video files"
+msgstr "/regvid\t\tStvori pridruživanje za datoteke za video datoteke"
+
+msgctxt "IDS_CMD_REGAUD"
+msgid "/regaud\t\tCreate file associations for audio files"
+msgstr "/regaud\t\tStvori pridruživanje za datoteke za audio datoteke"
+
+msgctxt "IDS_CMD_REGPL"
+msgid "/regpl\t\tCreate file associations for playlist files"
+msgstr "/regpl\t\tStvori pridruživanje za datoteke za datoteke listi za izvođenje"
+
+msgctxt "IDS_CMD_REGALL"
+msgid "/regall\t\tCreate file associations for all supported file types"
+msgstr "/regall\t\tStvori pridruživanje za datoteke za sve podržane tipove datoteka"
+
+msgctxt "IDS_CMD_UNREGALL"
+msgid "/unregall\t\tRemove all file associations"
+msgstr "/unregall\t\tUkloni sva pridruživanja datotekama"
+
+msgctxt "IDS_CMD_START"
+msgid "/start ms\t\tStart playing at \"ms\" (= milliseconds)"
+msgstr "/start ms\t\tPočni reprodukciju u \"ms\" (= milliseconde)"
+
+msgctxt "IDS_CMD_STARTPOS"
+msgid "/startpos hh:mm:ss\tStart playing at position hh:mm:ss"
+msgstr "/startpos hh:mm:ss\tPočni reprodukciju na poziciji hh:mm:ss"
+
+msgctxt "IDS_CMD_FIXEDSIZE"
+msgid "/fixedsize w,h\tSet a fixed window size"
+msgstr "/fixedsize w,h\tNamjesti fiksnu veličinu prozora"
+
+msgctxt "IDS_CMD_MONITOR"
+msgid "/monitor N\tStart player on monitor N, where N starts from 1"
+msgstr "/monitor N\tPočni izvođač na ekranu N, gdje N počinje od 1"
+
+msgctxt "IDS_CMD_AUDIORENDERER"
+msgid "/audiorenderer N\tStart using audiorenderer N, where N starts from 1 (see \"Output\" settings)"
+msgstr "/audiorenderer N\tPočni koristiti audiorenderer N, gdje N počinje od 1 (pogledaj \"Izlazne\" postavke)"
+
+msgctxt "IDS_CMD_SHADERPRESET"
+msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
+msgstr "/shaderpreset \"Pr\"\tPočni \"Pr\" shader postavku"
+
+msgctxt "IDS_CMD_PNS"
+msgid "/pns \"name\"\tSpecify Pan&Scan preset name to use"
+msgstr "/pns \"naziv\"\tNavedi Pan&Scan naziv postavke za korištenje"
+
+msgctxt "IDS_CMD_ICONASSOC"
+msgid "/iconsassoc\tReassociate format icons"
+msgstr "/iconsassoc\tPonovno postavi ikone"
+
+msgctxt "IDS_CMD_NOFOCUS"
+msgid "/nofocus\t\tOpen MPC-HC in background"
+msgstr "/nofocus\t\tOtvori MPC-HC u pozadini"
+
+msgctxt "IDS_CMD_WEBPORT"
+msgid "/webport N\tStart web interface on specified port"
+msgstr "/webport N\tPokreni web sučelje na specifičnom portu"
+
+msgctxt "IDS_CMD_DEBUG"
+msgid "/debug\t\tShow debug information in OSD"
+msgstr "/debug\t\tPrikaži debug informacije u OSD-u"
+
+msgctxt "IDS_CMD_NOCRASHREPORTER"
+msgid "/nocrashreporter\tDisable the crash reporter"
+msgstr "/nocrashreporter\tOnemogući izvjestitelja o rušenju programa"
+
+msgctxt "IDS_CMD_SLAVE"
+msgid "/slave \"hWnd\"\tUse MPC-HC as slave"
+msgstr "/slave \"hWnd\"\tKoristi MPC-HC kao roba"
+
+msgctxt "IDS_CMD_HWGPU"
+msgid "/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding.\n\t\tOnly available for CUVID and DXVA2 (copy-back)"
+msgstr "/hwgpu \"index\"\tNamjesti GPU indeks korišten za hardversko dekodiranje.\n\t\tDostupno samo za CUVID i DXVA2 (copy-back)"
+
+msgctxt "IDS_CMD_RESET"
+msgid "/reset\t\tRestore default settings"
+msgstr "/reset\t\tVrati zadane postavke"
+
+msgctxt "IDS_CMD_HELP"
+msgid "/help /h /?\tShow help about command line switches"
+msgstr "/help /h /?\tPrikaži pomoć o prekidačima komandne linije"
+
+msgctxt "IDS_PPAGEADVANCED_SCORE"
+msgid "Threshold value for subtitles score which are going to be automatically downloaded. Higher values means that more accurately matched subtitles will be loaded, lower values could result in incorrect subtitles being loaded, but there is no one perfect value. Pick one that works best for you."
+msgstr "Donja granična vrijednost rezultata titlova koji se planiraju automatski preuzeti. Veće vrijednosti znači da će se točnije podudarani titlovi učitati, niže vrijednosti mogu dovesti do pogrešno učitanih titlova, ali ne postoji jedna savršena vrijednost. Odaberite onu koji najbolje radi za vas."
+
+msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
+msgid "Audio Delay (ms)"
+msgstr "Kašnjenje zvuka (ms)"
+
+msgctxt "IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE"
+msgid "Size in pixels of the default toolbar."
+msgstr "Veličina zadane alatne trake u pikselima."
+
+msgctxt "IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR"
+msgid "Use legacy toolbar instead of new vectorized one."
+msgstr "Koristi zastarjelu alatnu traku umjesto nove vektorske."
 

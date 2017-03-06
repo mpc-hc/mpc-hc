@@ -1,5 +1,5 @@
 /*
- * (C) 2010-2013 see Authors.txt
+ * (C) 2010-2013, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,8 +20,6 @@
 
 #pragma once
 
-#include <atlbase.h>
-#include <atlutil.h>
 #include "Interfaces.h"
 
 class CSyncClockFilter;

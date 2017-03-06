@@ -32,6 +32,8 @@ MKDIR_CODE MakeDir(const wchar *Name,bool SetAttr,uint Attr)
 #ifdef _ANDROID
   if (ErrCode==-1 && errno!=ENOENT)
     ErrCode=JniMkdir(Name) ? 0 : -1;  // If external card is read-only for usual file API.
+  if (ErrCode!=-1)
+    JniFileNotify(Name,false);
 #endif
   if (ErrCode==-1)
     return errno==ENOENT ? MKDIR_BADPATH:MKDIR_ERROR;
@@ -333,11 +335,11 @@ void CalcFileSum(File *SrcFile,uint *CRC32,byte *Blake2,uint Threads,int64 Size,
 {
   SaveFilePos SavePos(*SrcFile);
 #ifndef SILENT
-  int64 FileLength=SrcFile->FileLength();
+  int64 FileLength=Size==INT64NDF ? SrcFile->FileLength() : Size;
 #endif
 
 #ifndef GUI
-  if ((Flags & (CALCFSUM_SHOWTEXT|CALCFSUM_SHOWALL))!=0)
+  if ((Flags & (CALCFSUM_SHOWTEXT|CALCFSUM_SHOWPERCENT))!=0)
 #endif
     uiMsg(UIEVENT_FILESUMSTART);
 
@@ -353,6 +355,7 @@ void CalcFileSum(File *SrcFile,uint *CRC32,byte *Blake2,uint Threads,int64 Size,
   HashBlake2.Init(HASH_BLAKE2,Threads);
 
   int64 BlockCount=0;
+  int64 TotalRead=0;
   while (true)
   {
     size_t SizeToRead;
@@ -363,14 +366,20 @@ void CalcFileSum(File *SrcFile,uint *CRC32,byte *Blake2,uint Threads,int64 Size,
     int ReadSize=SrcFile->Read(&Data[0],SizeToRead);
     if (ReadSize==0)
       break;
+    TotalRead+=ReadSize;
 
     if ((++BlockCount & 0xf)==0)
     {
 #ifndef SILENT
+      if ((Flags & CALCFSUM_SHOWPROGRESS)!=0)
+        uiExtractProgress(TotalRead,FileLength,TotalRead,FileLength);
+      else
+      {
 #ifndef GUI
-      if ((Flags & CALCFSUM_SHOWALL)!=0)
+        if ((Flags & CALCFSUM_SHOWPERCENT)!=0)
 #endif
-        uiMsg(UIEVENT_FILESUMPROGRESS,ToPercent(BlockCount*int64(BufSize),FileLength));
+          uiMsg(UIEVENT_FILESUMPROGRESS,ToPercent(TotalRead,FileLength));
+      }
 #endif
       Wait();
     }
@@ -384,7 +393,7 @@ void CalcFileSum(File *SrcFile,uint *CRC32,byte *Blake2,uint Threads,int64 Size,
       Size-=ReadSize;
   }
 #ifndef GUI
-  if ((Flags & CALCFSUM_SHOWALL)!=0)
+  if ((Flags & CALCFSUM_SHOWPERCENT)!=0)
 #endif
     uiMsg(UIEVENT_FILESUMEND);
 
@@ -420,6 +429,11 @@ bool RenameFile(const wchar *SrcName,const wchar *DestName)
 #ifdef _ANDROID
   if (!Success)
     Success=JniRename(SrcName,DestName); // If external card is read-only for usual file API.
+  if (Success)
+  {
+    JniFileNotify(SrcName,true);
+    JniFileNotify(DestName,false);
+  }
 #endif
   return Success;
 #endif
@@ -444,6 +458,8 @@ bool DelFile(const wchar *Name)
 #ifdef _ANDROID
   if (!Success)
     Success=JniDelete(Name);
+  if (Success)
+    JniFileNotify(Name,true);
 #endif
   return Success;
 #endif

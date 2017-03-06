@@ -84,14 +84,12 @@ END_MESSAGE_MAP()
 BOOL CSaveImageDialog::OnFileNameOK()
 {
     if (SysVersion::IsVistaOrLater()) {
-        IFileDialogCustomize* pfdc = GetIFileDialogCustomize();
-        WCHAR* result;
+        CComPtr<IFileDialogCustomize> pfdc = GetIFileDialogCustomize();
+        CComHeapPtr<WCHAR> result;
 
-        pfdc->GetEditBoxText(IDC_EDIT1, &result);
-        m_nJpegQuality = _wtoi(result);
-        CoTaskMemFree(result);
-
-        pfdc->Release();
+        if (SUCCEEDED(pfdc->GetEditBoxText(IDC_EDIT1, &result))) {
+            m_nJpegQuality = _wtoi(result);
+        }
     } else {
         m_nJpegQuality = m_jpegQualitySpin.GetPos32();
     }

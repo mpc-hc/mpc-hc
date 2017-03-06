@@ -1,5 +1,5 @@
 @ECHO OFF
-REM (C) 2012-2015 see Authors.txt
+REM (C) 2012-2016 see Authors.txt
 REM
 REM This file is part of MPC-HC.
 REM
@@ -30,7 +30,8 @@ CALL :SubCheckVer || GOTO End
 TITLE Running astyle using %FILE_DIR%astyle.ini
 
 IF "%~1" == "" (
-  astyle -r --options=astyle.ini ..\*.h ..\*.cpp
+  astyle -r --options=astyle.ini ..\*.cpp
+  astyle -r --options=astyle.ini --keep-one-line-blocks ..\*.h
 ) ELSE (
   FOR %%G IN (%*) DO astyle --options=astyle.ini %%G
 )

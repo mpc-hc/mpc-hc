@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -147,7 +147,7 @@ void CWebServer::Init()
             ULONG len2 = _countof(ext);
             if (ERROR_SUCCESS == mime.Open(HKEY_CLASSES_ROOT, str + _T("\\") + buff, KEY_READ)
                     && ERROR_SUCCESS == mime.QueryStringValue(_T("Extension"), ext, &len2)) {
-                m_mimes[CStringA(CString(ext).MakeLower())] = CStringA(CString(buff).MakeLower());
+                m_mimes[CStringA(ext).MakeLower()] = CStringA(buff).MakeLower();
             }
         }
     }
@@ -257,7 +257,7 @@ bool CWebServer::ToLocalPath(CString& path, CString& redir)
                     p = p2;
                     redir = path;
                     if (redir.GetAt(redir.GetLength() - 1) != '/') {
-                        redir += '/';
+                        redir += _T('/');
                     }
                     redir += str;
                     break;
@@ -656,7 +656,7 @@ bool CWebServer::CallCGI(CWebClientSocket* pClient, CStringA& hdr, CStringA& bod
     }
 
     TCHAR* cmdln = DEBUG_NEW TCHAR[32768];
-    _sntprintf_s(cmdln, 32768, 32768, _T("\"%s\" \"%s\""), cgi, path);
+    _sntprintf_s(cmdln, 32768, 32768, _T("\"%s\" \"%s\""), cgi.GetString(), path.GetString());
 
     if (hChildStdinRd && hChildStdoutWr)
         if (CreateProcess(
@@ -699,7 +699,7 @@ bool CWebServer::CallCGI(CWebClientSocket* pClient, CStringA& hdr, CStringA& bod
             CloseHandle(piProcInfo.hProcess);
             CloseHandle(piProcInfo.hThread);
         } else {
-            body = _T("CGI Error");
+            body = "CGI Error";
         }
 
     delete [] cmdln;

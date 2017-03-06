@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,21 +21,22 @@
 
 #pragma once
 
-#include "SettingsDefines.h"
-#include "FilterEnum.h"
-#include "RenderersSettings.h"
 #include "../Subtitles/STS.h"
-#include "MediaFormats.h"
-#include "DVBChannel.h"
-#include "MediaPositionList.h"
 #include "../filters/switcher/AudioSwitcher/AudioSwitcher.h"
-#include "Shaders.h"
-#include "FileAssoc.h"
-#include "FakeFilterMapper2.h"
 #include "../thirdparty/sanear/sanear/src/Interfaces.h"
+#include "DVBChannel.h"
+#include "FileAssoc.h"
+#include "FilterEnum.h"
+#include "MediaFormats.h"
+#include "MediaPositionList.h"
+#include "RenderersSettings.h"
+#include "SettingsDefines.h"
+#include "Shaders.h"
 
 #include <afxadv.h>
 #include <afxsock.h>
+
+class FilterOverride;
 
 // flags for CAppSettings::nCS
 enum {
@@ -100,10 +101,8 @@ enum {
     VIDRNDT_DS_DEFAULT,
     VIDRNDT_DS_OLDRENDERER,
     VIDRNDT_DS_OVERLAYMIXER,
-    VIDRNDT_DS_VMR7WINDOWED,
-    VIDRNDT_DS_VMR9WINDOWED,
-    VIDRNDT_DS_VMR7RENDERLESS,
-    VIDRNDT_DS_VMR9RENDERLESS,
+    VIDRNDT_DS_VMR9WINDOWED = 4,
+    VIDRNDT_DS_VMR9RENDERLESS = 6,
     VIDRNDT_DS_DXR,
     VIDRNDT_DS_NULL_COMP,
     VIDRNDT_DS_NULL_UNCOMP,
@@ -219,16 +218,18 @@ struct DisplayMode {
 };
 
 struct AutoChangeMode {
-    AutoChangeMode(bool bChecked, double dFrameRateStart, double dFrameRateStop, DisplayMode dm)
-        : bChecked(bChecked)
-        , dFrameRateStart(dFrameRateStart)
-        , dFrameRateStop(dFrameRateStop)
-        , dm(dm) {
-    };
+    AutoChangeMode(bool _bChecked, double _dFrameRateStart, double _dFrameRateStop, int _msAudioDelay, DisplayMode _dm)
+        : bChecked(_bChecked)
+        , dFrameRateStart(_dFrameRateStart)
+        , dFrameRateStop(_dFrameRateStop)
+        , msAudioDelay(_msAudioDelay)
+        , dm(std::move(_dm)) {
+    }
 
     bool        bChecked;
     double      dFrameRateStart;
     double      dFrameRateStop;
+    int         msAudioDelay;
     DisplayMode dm;
 };
 
@@ -289,18 +290,18 @@ public:
     , rmrepcnt(0) {
     }
 
-    wmcmd(WORD cmd, WORD key, BYTE fVirt, DWORD dwname, UINT appcmd = 0, UINT mouse = NONE, UINT mouseFS = NONE, LPCSTR rmcmd = "", int rmrepcnt = 5)
-        : ACCEL( { fVirt, key, cmd })
-    , backup({ fVirt, key, cmd })
-    , appcmdorg(appcmd)
-    , mouseorg(mouse)
-    , mouseFSorg(mouseFS)
-    , dwname(dwname)
-    , appcmd(appcmd)
-    , mouse(mouse)
-    , mouseFS(mouseFS)
-    , rmcmd(rmcmd)
-    , rmrepcnt(rmrepcnt) {
+    wmcmd(WORD _cmd, WORD _key, BYTE _fVirt, DWORD _dwname, UINT _appcmd = 0, UINT _mouse = NONE, UINT _mouseFS = NONE, LPCSTR _rmcmd = "", int _rmrepcnt = 5)
+        : ACCEL( { _fVirt, _key, _cmd })
+    , backup({ _fVirt, _key, _cmd })
+    , appcmdorg(_appcmd)
+    , mouseorg(_mouse)
+    , mouseFSorg(_mouseFS)
+    , dwname(_dwname)
+    , appcmd(_appcmd)
+    , mouse(_mouse)
+    , mouseFS(_mouseFS)
+    , rmcmd(_rmcmd)
+    , rmrepcnt(_rmrepcnt) {
     }
 
     bool operator == (const wmcmd& wc) const {
@@ -369,7 +370,7 @@ public:
     CUIceClient();
 };
 
-#define APPSETTINGS_VERSION 7
+#define APPSETTINGS_VERSION 8
 
 class CAppSettings
 {
@@ -477,6 +478,12 @@ public:
     int             nBalance;
     int             nLoops;
     bool            fLoopForever;
+
+    enum class LoopMode {
+        FILE,
+        PLAYLIST
+    } eLoopMode;
+
     bool            fRememberZoomLevel;
     int             nAutoFitFactor;
     int             iZoomLevel;
@@ -488,6 +495,7 @@ public:
     bool            fBlockVSFilter;
     UINT            nVolumeStep;
     UINT            nSpeedStep;
+    int             nDefaultToolbarSize;
 
     enum class AfterPlayback {
         DO_NOTHING,
@@ -583,8 +591,14 @@ public:
     bool            fPrioritizeExternalSubtitles;
     bool            fDisableInternalSubtitles;
     bool            bAllowOverridingExternalSplitterChoice;
+    bool            bAutoDownloadSubtitles;
+    int             nAutoDownloadScoreMovies;
+    int             nAutoDownloadScoreSeries;
+    CString         strAutoDownloadSubtitlesExclude;
+    bool            bAutoUploadSubtitles;
+    bool            bPreferHearingImpairedSubtitles;
+    CString         strSubtitlesProviders;
     CString         strSubtitlePaths;
-    CString         strISDb;
 
     // Tweaks
     int             nJumpDistS;
@@ -625,7 +639,6 @@ public:
     // Video Frame
     int             iDefaultVideoSize;
     bool            fKeepAspectRatio;
-    CSize           sizeAspectRatio;
     bool            fCompMonDeskARDiff;
     // Pan&Scan
     CString         strPnSPreset;
@@ -653,7 +666,7 @@ public:
     // OTHER STATES
     CStringW        strLastOpenDir;
     UINT            nLastWindowType;
-    UINT            nLastUsedPage;
+    WORD            nLastUsedPage;
     bool            fRemainingTime;
     bool            bHighPrecisionTimer;
     bool            fLastFullScreen;
@@ -671,6 +684,7 @@ public:
     int             nCoverArtSizeLimit;
 
     bool            bEnableLogging;
+    bool            bUseLegacyToolbar;
 
     bool            IsD3DFullscreen() const;
     CString         SelectedAudioRenderer() const;
@@ -696,6 +710,12 @@ public:
     static bool IsSubtitleRendererRegistered(SubtitleRenderer eSubtitleRenderer);
 
     static bool IsSubtitleRendererSupported(SubtitleRenderer eSubtitleRenderer, int videoRenderer);
+
+    CSize GetAspectRatioOverride() const {
+        ASSERT(fKeepAspectRatio && "Keep Aspect Ratio option have to be enabled if override value is used.");
+        return sizeAspectRatio;
+    };
+    void SetAspectRatioOverride(const CSize& ar) { sizeAspectRatio = ar; }
 
 private:
     struct FilterKey {
@@ -731,6 +751,7 @@ private:
     friend void     CRenderersSettings::UpdateData(bool bSave);
 
     SubtitleRenderer eSubtitleRenderer;
+    CSize            sizeAspectRatio;
 
 public:
     CAppSettings();

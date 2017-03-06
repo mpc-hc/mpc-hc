@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2014, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,6 +20,8 @@
  */
 
 #pragma once
+
+class CMediaType;
 
 interface __declspec(uuid("165BE9D6-0929-4363-9BA3-580D735AA0F6"))
 IGraphBuilder2 :
@@ -49,8 +51,8 @@ IBDATuner :
 public IUnknown {
     STDMETHOD(SetChannel)(int nChannelPrefNumber) PURE;
     STDMETHOD(SetAudio)(int nAudioIndex) PURE;
-    STDMETHOD(SetFrequency)(ULONG ulFrequency) PURE;
-    STDMETHOD(Scan)(ULONG ulFrequency, HWND hWnd) PURE;
+    STDMETHOD(SetFrequency)(ULONG ulFrequency, ULONG ulBandwidth) PURE;
+    STDMETHOD(Scan)(ULONG ulFrequency, ULONG ulBandwidth, HWND hWnd) PURE;
     STDMETHOD(GetStats)(BOOLEAN & bPresent, BOOLEAN & bLocked, LONG & lDbStrength, LONG & lPercentQuality) PURE;
     STDMETHOD(UpdatePSI)(const class CDVBChannel * pChannel, struct EventDescriptor & NowNext) PURE;
 };

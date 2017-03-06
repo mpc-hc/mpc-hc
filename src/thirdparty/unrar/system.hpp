@@ -19,10 +19,14 @@
 
 void InitSystemOptions(int SleepTime);
 void SetPriority(int Priority);
+clock_t MonoClock();
 void Wait();
 bool EmailFile(const wchar *FileName,const wchar *MailToW);
 void Shutdown();
 
+#ifdef _WIN_ALL
+HMODULE WINAPI LoadSysLibrary(const wchar *Name);
+#endif
 
 
 #ifdef USE_SSE

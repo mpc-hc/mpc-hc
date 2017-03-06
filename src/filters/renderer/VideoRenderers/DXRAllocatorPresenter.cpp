@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -88,6 +88,7 @@ HRESULT CDXRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
         // release all resources
         m_pSubPicQueue = nullptr;
         m_pAllocator = nullptr;
+        __super::SetPosition(CRect(), CRect());
         return hr;
     }
 

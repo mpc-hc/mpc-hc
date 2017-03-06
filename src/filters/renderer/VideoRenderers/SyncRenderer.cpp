@@ -1,5 +1,5 @@
 /*
- * (C) 2010-2015 see Authors.txt
+ * (C) 2010-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -28,12 +28,10 @@
 #include "../../../DSUtil/WinAPIUtils.h"
 #include <strsafe.h> // Required in CGenlock
 #include <videoacc.h>
-#include <InitGuid.h>
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <vmr9.h>
 #include <evr.h>
-#include <mfapi.h>
 #include <Mferror.h>
 #include <vector>
 #include "../../../SubPic/DX9SubPic.h"
@@ -42,10 +40,22 @@
 #include "MacrovisionKicker.h"
 #include "IPinHook.h"
 #include "PixelShaderCompiler.h"
-#include "SyncRenderer.h"
-#include "version.h"
 #include "FocusThread.h"
 #include "../../../DSUtil/ArrayUtils.h"
+#include "../../../DSUtil/SysVersion.h"
+#include "../../../DSUtil/vd.h"
+#include <mpc-hc_config.h>
+
+#include <initguid.h>
+#include <mfapi.h>
+#include "SyncRenderer.h"
+
+#define REFERENCE_WIDTH 1920
+#define FONT_HEIGHT     21
+#define BOLD_THRESHOLD  11
+#define TEXT_PADDING    2
+#define GRAPH_HEIGHT    360
+#define GRAPH_WIDTH     1000
 
 // only for debugging
 //#define DISABLE_USING_D3D9EX
@@ -213,19 +223,17 @@ CBaseAP::~CBaseAP()
 
     m_pFont = nullptr;
     m_pLine = nullptr;
+    m_pSprite = nullptr;
+    m_pOSDTexture = nullptr;
+    m_pOSDSurface = nullptr;
     m_pD3DDev = nullptr;
     m_pD3DDevEx = nullptr;
     m_pPSC.Free();
     m_pD3D = nullptr;
     m_pD3DEx = nullptr;
-    if (m_hDWMAPI) {
-        FreeLibrary(m_hDWMAPI);
-        m_hDWMAPI = nullptr;
-    }
-    if (m_hD3D9) {
-        FreeLibrary(m_hD3D9);
-        m_hD3D9 = nullptr;
-    }
+    m_pSubPicQueue = nullptr;
+    m_pAllocator = nullptr;
+
     m_pAudioStats = nullptr;
     SAFE_DELETE(m_pGenlock);
 
@@ -235,6 +243,15 @@ CBaseAP::~CBaseAP()
             ASSERT(FALSE);
             TerminateThread(m_FocusThread->m_hThread, 0xDEAD);
         }
+    }
+
+    if (m_hDWMAPI) {
+        FreeLibrary(m_hDWMAPI);
+        m_hDWMAPI = nullptr;
+    }
+    if (m_hD3D9) {
+        FreeLibrary(m_hD3D9);
+        m_hD3D9 = nullptr;
     }
 }
 
@@ -462,7 +479,8 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
 
     D3DDISPLAYMODE d3ddm;
     ZeroMemory(&d3ddm, sizeof(d3ddm));
-    if (FAILED(m_pD3D->GetAdapterDisplayMode(m_CurrentAdapter, &d3ddm))) {
+    if (FAILED(m_pD3D->GetAdapterDisplayMode(m_CurrentAdapter, &d3ddm))
+            || d3ddm.Width <= 0 || d3ddm.Height <= 0) {
         _Error += L"Can not retrieve display mode data\n";
         return E_UNEXPECTED;
     }
@@ -683,20 +701,6 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
         m_pSubPicQueue->SetSubPicProvider(pSubPicProvider);
     }
 
-    if (m_pD3DXCreateFont) {
-        LONG MinSize = 1600;
-        LONG CurrentSize = std::min(m_ScreenSize.cx, MinSize);
-        double Scale = double(CurrentSize) / double(MinSize);
-        m_TextScale = Scale;
-        m_pD3DXCreateFont(m_pD3DDev, (int)(-24.0 * Scale), (UINT)(-11.0 * Scale), CurrentSize < 800 ? FW_NORMAL : FW_BOLD, 0, FALSE,
-                          DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, FIXED_PITCH | FF_DONTCARE, L"Lucida Console", &m_pFont);
-    }
-    if (m_pD3DXCreateSprite) {
-        m_pD3DXCreateSprite(m_pD3DDev, &m_pSprite);
-    }
-    if (m_pD3DXCreateLine) {
-        m_pD3DXCreateLine(m_pD3DDev, &m_pLine);
-    }
     m_LastAdapterCheck = GetRenderersData()->GetPerfCounter();
     return S_OK;
 }
@@ -774,7 +778,8 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
 
     D3DDISPLAYMODE d3ddm;
     ZeroMemory(&d3ddm, sizeof(d3ddm));
-    if (FAILED(m_pD3D->GetAdapterDisplayMode(GetAdapter(m_pD3D, m_hWnd), &d3ddm))) {
+    if (FAILED(m_pD3D->GetAdapterDisplayMode(GetAdapter(m_pD3D, m_hWnd), &d3ddm))
+            || d3ddm.Width <= 0 || d3ddm.Height <= 0) {
         _Error += L"Can not retrieve display mode data\n";
         return E_UNEXPECTED;
     }
@@ -913,22 +918,9 @@ HRESULT CBaseAP::ResetDXDevice(CString& _Error)
     }
 
     m_pFont = nullptr;
-    if (m_pD3DXCreateFont) {
-        LONG MinSize = 1600;
-        LONG CurrentSize = std::min(m_ScreenSize.cx, MinSize);
-        double Scale = double(CurrentSize) / double(MinSize);
-        m_TextScale = Scale;
-        m_pD3DXCreateFont(m_pD3DDev, (int)(-24.0 * Scale), (UINT)(-11.0 * Scale), CurrentSize < 800 ? FW_NORMAL : FW_BOLD, 0, FALSE,
-                          DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, FIXED_PITCH | FF_DONTCARE, L"Lucida Console", &m_pFont);
-    }
     m_pSprite = nullptr;
-    if (m_pD3DXCreateSprite) {
-        m_pD3DXCreateSprite(m_pD3DDev, &m_pSprite);
-    }
     m_pLine = nullptr;
-    if (m_pD3DXCreateLine) {
-        m_pD3DXCreateLine(m_pD3DDev, &m_pLine);
-    }
+
     return S_OK;
 }
 
@@ -1946,70 +1938,97 @@ STDMETHODIMP_(bool) CBaseAP::DisplayChange()
     return true;
 }
 
-void CBaseAP::DrawText(const RECT& rc, const CString& strText, int _Priority)
+void CBaseAP::InitStats()
 {
-    if (_Priority < 1) {
-        return;
+    ASSERT(m_pD3DDev);
+    static LONG currentHeight = 0;
+    int newHeight = lround(FONT_HEIGHT * (double(m_windowRect.Width()) / REFERENCE_WIDTH));
+
+    if (m_pD3DXCreateFont && (!m_pFont || currentHeight != newHeight)) {
+        m_pFont = nullptr;
+        if (newHeight <= 0) {
+            ASSERT(FALSE);
+        }
+        m_pD3DXCreateFont(m_pD3DDev, newHeight, 0, newHeight < BOLD_THRESHOLD ? FW_NORMAL : FW_BOLD,
+                          0, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS,
+                          SysVersion::IsXPOrLater() ? CLEARTYPE_NATURAL_QUALITY : ANTIALIASED_QUALITY,
+                          FIXED_PITCH | FF_DONTCARE, L"Lucida Console", &m_pFont);
+        currentHeight = newHeight;
     }
 
-    D3DXCOLOR Color1(1.0f, 0.2f, 0.2f, 1.0f);
-    D3DXCOLOR Color0(0.0f, 0.0f, 0.0f, 1.0f);
-    RECT Rect1 = rc;
-    RECT Rect2 = rc;
-    OffsetRect(&Rect2, 2, 2);
+    if (m_pD3DXCreateSprite && !m_pSprite) {
+        m_pD3DXCreateSprite(m_pD3DDev, &m_pSprite);
+    }
 
-    // Draw shadow
-    m_pFont->DrawText(m_pSprite, strText, -1, &Rect2, DT_NOCLIP, Color0);
-    // Draw text
-    m_pFont->DrawText(m_pSprite, strText, -1, &Rect1, DT_NOCLIP, Color1);
+    if (m_pD3DXCreateLine && !m_pLine) {
+        m_pD3DXCreateLine(m_pD3DDev, &m_pLine);
+    }
 }
 
 void CBaseAP::DrawStats()
 {
-    const CRenderersSettings& r = GetRenderersSettings();
     const CRenderersData* rd = GetRenderersData();
 
-    LONGLONG llMaxJitter = m_MaxJitter;
-    LONGLONG llMinJitter = m_MinJitter;
+    InitStats();
+    const float textScale = float(m_windowRect.Width()) / REFERENCE_WIDTH;
+    const int lineHeight = lround((FONT_HEIGHT + TEXT_PADDING) * textScale);
 
-    RECT rc = {20, 20, 520, 520 };
     // pApp->m_iDisplayStats = 1 for full stats, 2 for little less, 3 for basic, 0 for no stats
     if (m_pFont && m_pSprite) {
+        auto drawText = [&](CRect & rc, const CString & strText) {
+            D3DXCOLOR Color1(1.0f, 0.2f, 0.2f, 1.0f);
+            D3DXCOLOR Color0(0.0f, 0.0f, 0.0f, 1.0f);
+
+            RECT shadowRect = rc;
+            OffsetRect(&shadowRect, 2, 2);
+
+            // Draw shadow
+            m_pFont->DrawText(m_pSprite, strText, -1, &shadowRect, DT_NOCLIP, Color0);
+            // Draw text
+            m_pFont->DrawText(m_pSprite, strText, -1, rc, DT_NOCLIP, Color1);
+            rc.OffsetRect(0, lineHeight);
+        };
+
+        const CRenderersSettings& r = GetRenderersSettings();
+        LONGLONG llMaxJitter = m_MaxJitter;
+        LONGLONG llMinJitter = m_MinJitter;
+        CRect rc(lineHeight, lineHeight, 0, 0);
+
         m_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
         CString strText;
-        int TextHeight = (int)(25.0 * m_TextScale + 0.5);
 
-        strText.Format(L"Frames drawn from stream start: %u | Sample time stamp: %ld ms", m_pcFramesDrawn, (LONG)(m_llSampleTime / 10000));
-        DrawText(rc, strText, 1);
-        OffsetRect(&rc, 0, TextHeight);
+        strText.Format(_T("Frames drawn from stream start: %u | Sample time stamp: %ld ms"),
+                       m_pcFramesDrawn, (LONG)(m_llSampleTime / 10000));
+        drawText(rc, strText);
 
         if (rd->m_iDisplayStats == 1) {
-            strText.Format(L"Frame cycle  : %.3f ms [%.3f ms, %.3f ms]  Actual  %+5.3f ms [%+.3f ms, %+.3f ms]", m_dFrameCycle, m_pGenlock->minFrameCycle, m_pGenlock->maxFrameCycle, m_fJitterMean / 10000.0, (double(llMinJitter) / 10000.0), (double(llMaxJitter) / 10000.0));
-            DrawText(rc, strText, 1);
-            OffsetRect(&rc, 0, TextHeight);
+            strText.Format(_T("Frame cycle  : %.3f ms [%.3f ms, %.3f ms]  Actual  %+5.3f ms [%+.3f ms, %+.3f ms]"),
+                           m_dFrameCycle, m_pGenlock->minFrameCycle, m_pGenlock->maxFrameCycle,
+                           m_fJitterMean / 10000.0, (double(llMinJitter) / 10000.0),
+                           (double(llMaxJitter) / 10000.0));
+            drawText(rc, strText);
 
-            strText.Format(L"Display cycle: Measured closest match %.3f ms   Measured base %.3f ms", m_dOptimumDisplayCycle, m_dEstRefreshCycle);
-            DrawText(rc, strText, 1);
-            OffsetRect(&rc, 0, TextHeight);
+            strText.Format(_T("Display cycle: Measured closest match %.3f ms   Measured base %.3f ms"),
+                           m_dOptimumDisplayCycle, m_dEstRefreshCycle);
+            drawText(rc, strText);
 
-            strText.Format(L"Frame rate   : %.3f fps   Actual frame rate: %.3f fps", 1000.0 / m_dFrameCycle, 10000000.0 / m_fJitterMean);
-            DrawText(rc, strText, 1);
-            OffsetRect(&rc, 0, TextHeight);
+            strText.Format(_T("Frame rate   : %.3f fps   Actual frame rate: %.3f fps"),
+                           1000.0 / m_dFrameCycle, 10000000.0 / m_fJitterMean);
+            drawText(rc, strText);
 
-            strText.Format(L"Windows      : Display cycle %.3f ms    Display refresh rate %u Hz", m_dD3DRefreshCycle, m_refreshRate);
-            DrawText(rc, strText, 1);
-            OffsetRect(&rc, 0, TextHeight);
+            strText.Format(_T("Windows      : Display cycle %.3f ms    Display refresh rate %u Hz"),
+                           m_dD3DRefreshCycle, m_refreshRate);
+            drawText(rc, strText);
 
             if (m_pGenlock->powerstripTimingExists) {
-                strText.Format(L"Powerstrip   : Display cycle %.3f ms    Display refresh rate %.3f Hz", 1000.0 / m_pGenlock->curDisplayFreq, m_pGenlock->curDisplayFreq);
-                DrawText(rc, strText, 1);
-                OffsetRect(&rc, 0, TextHeight);
+                strText.Format(_T("Powerstrip   : Display cycle %.3f ms    Display refresh rate %.3f Hz"),
+                               1000.0 / m_pGenlock->curDisplayFreq, m_pGenlock->curDisplayFreq);
+                drawText(rc, strText);
             }
 
             if ((m_caps.Caps & D3DCAPS_READ_SCANLINE) == 0) {
-                strText = L"Scan line err: Graphics device does not support scan line access. No sync is possible";
-                DrawText(rc, strText, 1);
-                OffsetRect(&rc, 0, TextHeight);
+                strText = _T("Scan line err: Graphics device does not support scan line access. No sync is possible");
+                drawText(rc, strText);
             }
 
 #ifdef _DEBUG
@@ -2021,175 +2040,184 @@ void CBaseAP::DrawStats()
                     D3DPRESENTSTATS stats;
                     hr = pSCEx->GetPresentStats(&stats);
                     if (SUCCEEDED(hr)) {
-                        strText = L"Graphics device present stats:";
-                        DrawText(rc, strText, 1);
-                        OffsetRect(&rc, 0, TextHeight);
+                        strText = _T("Graphics device present stats:");
+                        drawText(rc, strText);
 
-                        strText.Format(L"    PresentCount %u PresentRefreshCount %u SyncRefreshCount %u",
+                        strText.Format(_T("    PresentCount %u PresentRefreshCount %u SyncRefreshCount %u"),
                                        stats.PresentCount, stats.PresentRefreshCount, stats.SyncRefreshCount);
-                        DrawText(rc, strText, 1);
-                        OffsetRect(&rc, 0, TextHeight);
+                        drawText(rc, strText);
 
                         LARGE_INTEGER Freq;
                         QueryPerformanceFrequency(&Freq);
                         Freq.QuadPart /= 1000;
-                        strText.Format(L"    SyncQPCTime %dms SyncGPUTime %dms",
-                                       stats.SyncQPCTime.QuadPart / Freq.QuadPart, stats.SyncGPUTime.QuadPart / Freq.QuadPart);
-                        DrawText(rc, strText, 1);
-                        OffsetRect(&rc, 0, TextHeight);
+                        strText.Format(_T("    SyncQPCTime %dms SyncGPUTime %dms"),
+                                       stats.SyncQPCTime.QuadPart / Freq.QuadPart,
+                                       stats.SyncGPUTime.QuadPart / Freq.QuadPart);
+                        drawText(rc, strText);
                     } else {
                         strText = L"Graphics device does not support present stats";
-                        DrawText(rc, strText, 1);
-                        OffsetRect(&rc, 0, TextHeight);
+                        drawText(rc, strText);
                     }
                 }
             }
 #endif
 
-            strText.Format(L"Video size   : %ld x %ld  (AR = %ld : %ld)  Display resolution %ld x %ld ", m_nativeVideoSize.cx, m_nativeVideoSize.cy, m_aspectRatio.cx, m_aspectRatio.cy, m_ScreenSize.cx, m_ScreenSize.cy);
-            DrawText(rc, strText, 1);
-            OffsetRect(&rc, 0, TextHeight);
+            strText.Format(_T("Video size   : %ld x %ld  (AR = %ld : %ld)  Display resolution %ld x %ld "),
+                           m_nativeVideoSize.cx, m_nativeVideoSize.cy, m_aspectRatio.cx, m_aspectRatio.cy,
+                           m_ScreenSize.cx, m_ScreenSize.cy);
+            drawText(rc, strText);
 
             if (r.m_AdvRendSets.bSynchronizeDisplay || r.m_AdvRendSets.bSynchronizeVideo) {
                 if (r.m_AdvRendSets.bSynchronizeDisplay && !m_pGenlock->PowerstripRunning()) {
-                    strText = L"Sync error   : PowerStrip is not running. No display sync is possible.";
-                    DrawText(rc, strText, 1);
-                    OffsetRect(&rc, 0, TextHeight);
+                    strText = _T("Sync error   : PowerStrip is not running. No display sync is possible.");
+                    drawText(rc, strText);
                 } else {
-                    strText.Format(L"Sync adjust  : %d | # of adjustments: %u", m_pGenlock->adjDelta, (m_pGenlock->clockAdjustmentsMade + m_pGenlock->displayAdjustmentsMade) / 2);
-                    DrawText(rc, strText, 1);
-                    OffsetRect(&rc, 0, TextHeight);
+                    strText.Format(_T("Sync adjust  : %d | # of adjustments: %u"),
+                                   m_pGenlock->adjDelta,
+                                   (m_pGenlock->clockAdjustmentsMade + m_pGenlock->displayAdjustmentsMade) / 2);
+                    drawText(rc, strText);
                 }
             }
         }
 
-        strText.Format(L"Sync offset  : Average %3.1f ms [%.1f ms, %.1f ms]   Target %3.1f ms", m_pGenlock->syncOffsetAvg, m_pGenlock->minSyncOffset, m_pGenlock->maxSyncOffset, r.m_AdvRendSets.fTargetSyncOffset);
-        DrawText(rc, strText, 1);
-        OffsetRect(&rc, 0, TextHeight);
+        strText.Format(_T("Sync offset  : Average %3.1f ms [%.1f ms, %.1f ms]   Target %3.1f ms"),
+                       m_pGenlock->syncOffsetAvg, m_pGenlock->minSyncOffset,
+                       m_pGenlock->maxSyncOffset, r.m_AdvRendSets.fTargetSyncOffset);
+        drawText(rc, strText);
 
-        strText.Format(L"Sync status  : glitches %u,  display-frame cycle mismatch: %7.3f %%,  dropped frames %u", m_uSyncGlitches, 100 * m_dCycleDifference, m_pcFramesDropped);
-        DrawText(rc, strText, 1);
-        OffsetRect(&rc, 0, TextHeight);
+        strText.Format(_T("Sync status  : glitches %u,  display-frame cycle mismatch: %7.3f %%,  dropped frames %u"),
+                       m_uSyncGlitches, 100 * m_dCycleDifference, m_pcFramesDropped);
+        drawText(rc, strText);
 
         if (rd->m_iDisplayStats == 1) {
             if (m_pAudioStats && r.m_AdvRendSets.bSynchronizeVideo) {
-                strText.Format(L"Audio lag   : %3lu ms [%ld ms, %ld ms] | %s", m_lAudioLag, m_lAudioLagMin, m_lAudioLagMax, (m_lAudioSlaveMode == 4) ? _T("Audio renderer is matching rate (for analog sound output)") : _T("Audio renderer is not matching rate"));
-                DrawText(rc, strText, 1);
-                OffsetRect(&rc, 0, TextHeight);
+                strText.Format(_T("Audio lag   : %3lu ms [%ld ms, %ld ms] | %s"),
+                               m_lAudioLag, m_lAudioLagMin, m_lAudioLagMax,
+                               (m_lAudioSlaveMode == 4) ?
+                               _T("Audio renderer is matching rate (for analog sound output)") :
+                               _T("Audio renderer is not matching rate"));
+                drawText(rc, strText);
             }
 
-            strText.Format(L"Sample time  : waiting %3ld ms", m_lNextSampleWait);
+            strText.Format(_T("Sample time  : waiting %3ld ms"), m_lNextSampleWait);
             if (r.m_AdvRendSets.bSynchronizeNearest) {
                 CString temp;
-                temp.Format(L"  paint time correction: %3ld ms  Hysteresis: %I64d", m_lShiftToNearest, m_llHysteresis / 10000);
+                temp.Format(_T("  paint time correction: %3ld ms  Hysteresis: %I64d"),
+                            m_lShiftToNearest, m_llHysteresis / 10000);
                 strText += temp;
             }
-            DrawText(rc, strText, 1);
-            OffsetRect(&rc, 0, TextHeight);
+            drawText(rc, strText);
 
-            strText.Format(L"Buffering    : Buffered %3ld    Free %3d    Current Surface %3d", m_nUsedBuffer, m_nDXSurface - m_nUsedBuffer, m_nCurSurface);
-            DrawText(rc, strText, 1);
-            OffsetRect(&rc, 0, TextHeight);
+            strText.Format(_T("Buffering    : Buffered %3ld    Free %3ld    Current Surface %3d"),
+                           m_nUsedBuffer, m_nDXSurface - m_nUsedBuffer, m_nCurSurface);
+            drawText(rc, strText);
 
-            strText = L"Settings     : ";
+            strText = _T("Settings     : ");
 
             if (m_bIsFullscreen) {
-                strText += "D3DFS ";
+                strText += _T("D3DFS ");
             }
             if (r.m_AdvRendSets.bVMRDisableDesktopComposition) {
-                strText += "DisDC ";
+                strText += _T("DisDC ");
             }
             if (r.m_AdvRendSets.bSynchronizeVideo) {
-                strText += "SyncVideo ";
+                strText += _T("SyncVideo ");
             }
             if (r.m_AdvRendSets.bSynchronizeDisplay) {
-                strText += "SyncDisplay ";
+                strText += _T("SyncDisplay ");
             }
             if (r.m_AdvRendSets.bSynchronizeNearest) {
-                strText += "SyncNearest ";
+                strText += _T("SyncNearest ");
             }
             if (m_bHighColorResolution) {
-                strText += "10 bit ";
+                strText += _T("10 bit ");
             }
             if (r.m_AdvRendSets.iEVROutputRange == 0) {
-                strText += "0-255 ";
+                strText += _T("0-255 ");
             } else if (r.m_AdvRendSets.iEVROutputRange == 1) {
-                strText += "16-235 ";
+                strText += _T("16-235 ");
             }
 
-            DrawText(rc, strText, 1);
-            OffsetRect(&rc, 0, TextHeight);
-
-            DrawText(rc, rd->m_strDXVAInfo, 1);
-            OffsetRect(&rc, 0, TextHeight);
+            drawText(rc, strText);
+            drawText(rc, rd->m_strDXVAInfo);
 
             strText.Format(L"DirectX SDK  : %u", rd->GetDXSdkRelease());
-            DrawText(rc, strText, 1);
-            OffsetRect(&rc, 0, TextHeight);
+            drawText(rc, strText);
 
             for (int i = 0; i < 6; i++) {
                 if (m_strStatsMsg[i][0]) {
-                    DrawText(rc, m_strStatsMsg[i], 1);
-                    OffsetRect(&rc, 0, TextHeight);
+                    drawText(rc, m_strStatsMsg[i]);
                 }
             }
         }
-        OffsetRect(&rc, 0, TextHeight); // Extra "line feed"
         m_pSprite->End();
     }
 
     if (m_pLine && (rd->m_iDisplayStats < 3)) {
-        D3DXVECTOR2 Points[NB_JITTER];
-        int nIndex;
+        D3DXVECTOR2 points[NB_JITTER];
+        const float graphWidth = GRAPH_WIDTH * textScale;
+        const float graphHeight = GRAPH_HEIGHT * textScale;
+        const float topLeftX = m_windowRect.Width() - (graphWidth + lineHeight);
+        const float topLeftY = m_windowRect.Height() - (graphHeight + lineHeight);
+        const float gridStepY = graphHeight / 24.0f;
+        const float gridStepX = graphWidth / NB_JITTER;
 
-        int DrawWidth = 625;
-        int DrawHeight = 250;
-        int Alpha = 80;
-        int StartX = m_windowRect.Width() - (DrawWidth + 20);
-        int StartY = m_windowRect.Height() - (DrawHeight + 20);
+        // Draw background
+        DrawRect(RGB(0, 0, 0), 80, CRect(int(topLeftX),
+                                         int(topLeftY),
+                                         int(topLeftX + graphWidth),
+                                         int(topLeftY + graphHeight)));
 
-        DrawRect(RGB(0, 0, 0), Alpha, CRect(StartX, StartY, StartX + DrawWidth, StartY + DrawHeight));
-        m_pLine->SetWidth(2.5);
-        m_pLine->SetAntialias(1);
+        m_pLine->SetWidth(2.5f * textScale);
+        m_pLine->SetAntialias(TRUE);
         m_pLine->Begin();
 
-        for (int i = 0; i <= DrawHeight; i += 5) {
-            Points[0].x = (float)StartX;
-            Points[0].y = (float)(StartY + i);
-            Points[1].x = (float)(StartX + (((i + 25) % 25) ? 50 : 625));
-            Points[1].y = (float)(StartY + i);
-            m_pLine->Draw(Points, 2, D3DCOLOR_XRGB(100, 100, 255));
+        // Draw grid lines
+        for (int i = 1; i < 24; ++i) {
+            points[0].x = topLeftX;
+            points[0].y = topLeftY + i * gridStepY;
+            points[1].y = points[0].y;
+
+            float lineLength;
+            D3DCOLOR color;
+            if (i % 12 == 0) {
+                lineLength = 1.0f;
+                color = D3DCOLOR_XRGB(100, 100, 255);
+            } else if (i % 4 == 0) {
+                lineLength = 0.96f;
+                color = D3DCOLOR_XRGB(100, 100, 180);
+            } else {
+                lineLength = 0.04f;
+                color = D3DCOLOR_XRGB(100, 100, 140);
+            }
+            points[1].x = topLeftX + graphWidth * lineLength;
+            m_pLine->Draw(points, 2, color);
         }
 
-        for (int i = 0; i < DrawWidth; i += 125) { // Every 25:th sample
-            Points[0].x = (float)(StartX + i);
-            Points[0].y = (float)(StartY + DrawHeight / 2);
-            Points[1].x = (float)(StartX + i);
-            Points[1].y = (float)(StartY + DrawHeight / 2 + 10);
-            m_pLine->Draw(Points, 2, D3DCOLOR_XRGB(100, 100, 255));
-        }
-
-        for (int i = 0; i < NB_JITTER; i++) {
-            nIndex = (m_nNextJitter + 1 + i) % NB_JITTER;
+        // Draw jitter
+        for (int i = 1; i <= NB_JITTER; ++i) {
+            int nIndex = (m_nNextJitter + i) % NB_JITTER;
             if (nIndex < 0) {
                 nIndex += NB_JITTER;
+                ASSERT(FALSE);
             }
-            double Jitter = m_pllJitter[nIndex] - m_fJitterMean;
-            Points[i].x  = (float)(StartX + (i * 5));
-            Points[i].y  = (float)(StartY + (Jitter / 2000.0 + 125.0));
+            float jitter = float(m_pllJitter[nIndex] - m_fJitterMean);
+            points[i - 1].x = topLeftX + i * gridStepX;
+            points[i - 1].y = topLeftY + (jitter * textScale / 2000.0f + graphHeight / 2.0f);
         }
-        m_pLine->Draw(Points, NB_JITTER, D3DCOLOR_XRGB(255, 100, 100));
+        m_pLine->Draw(points, NB_JITTER, D3DCOLOR_XRGB(255, 100, 100));
 
         if (rd->m_iDisplayStats == 1) { // Full on-screen statistics
-            for (int i = 0; i < NB_JITTER; i++) {
-                nIndex = (m_nNextSyncOffset + 1 + i) % NB_JITTER;
+            // Draw sync offset
+            for (int i = 1; i <= NB_JITTER; ++i) {
+                int nIndex = (m_nNextSyncOffset + i) % NB_JITTER;
                 if (nIndex < 0) {
                     nIndex += NB_JITTER;
                 }
-                Points[i].x  = (float)(StartX + (i * 5));
-                Points[i].y  = (float)(StartY + ((m_pllSyncOffset[nIndex]) / 2000 + 125));
+                points[i - 1].x = topLeftX + i * gridStepX;
+                points[i - 1].y = topLeftY + (m_pllSyncOffset[nIndex] * textScale / 2000.0f + graphHeight / 2.0f);
             }
-            m_pLine->Draw(Points, NB_JITTER, D3DCOLOR_XRGB(100, 200, 100));
+            m_pLine->Draw(points, NB_JITTER, D3DCOLOR_XRGB(100, 200, 100));
         }
         m_pLine->End();
     }
@@ -2343,22 +2371,11 @@ STDMETHODIMP CBaseAP::GetDIB(BYTE* lpDib, DWORD* size)
         }
     }
 
-    BITMAPINFOHEADER* bih = (BITMAPINFOHEADER*)lpDib;
-    ZeroMemory(bih, sizeof(BITMAPINFOHEADER));
-    bih->biSize = sizeof(BITMAPINFOHEADER);
-    bih->biWidth = desc.Width;
-    bih->biHeight = desc.Height;
-    bih->biBitCount = 32;
-    bih->biPlanes = 1;
-    bih->biSizeImage = bih->biWidth * bih->biHeight * bih->biBitCount >> 3;
-
-    BitBltFromRGBToRGB(bih->biWidth, bih->biHeight,
-                       (BYTE*)(bih + 1), bih->biWidth * bih->biBitCount >> 3, bih->biBitCount,
-                       (BYTE*)r.pBits + r.Pitch * (desc.Height - 1), -(int)r.Pitch, 32);
+    hr = CreateDIBFromSurfaceData(desc, r, lpDib);
 
     pSurface->UnlockRect();
 
-    return S_OK;
+    return hr;
 }
 
 STDMETHODIMP CBaseAP::SetPixelShader(LPCSTR pSrcData, LPCSTR pTarget)
@@ -2428,13 +2445,13 @@ CSyncAP::CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
     , m_nResetToken(0)
     , m_nStepCount(0)
     , m_SampleFreeCallback(this, &CSyncAP::OnSampleFree)
-    , fnDXVA2CreateDirect3DDeviceManager9("dxva2.dll", "DXVA2CreateDirect3DDeviceManager9")
-    , fnMFCreateDXSurfaceBuffer("evr.dll", "MFCreateDXSurfaceBuffer")
-    , fnMFCreateVideoSampleFromSurface("evr.dll", "MFCreateVideoSampleFromSurface")
-    , fnMFCreateMediaType("mfplat.dll", "MFCreateMediaType")
-    , fnAvSetMmThreadCharacteristicsW("avrt.dll", "AvSetMmThreadCharacteristicsW")
-    , fnAvSetMmThreadPriority("avrt.dll", "AvSetMmThreadPriority")
-    , fnAvRevertMmThreadCharacteristics("avrt.dll", "AvRevertMmThreadCharacteristics")
+    , fnDXVA2CreateDirect3DDeviceManager9(_T("dxva2.dll"), "DXVA2CreateDirect3DDeviceManager9")
+    , fnMFCreateDXSurfaceBuffer(_T("evr.dll"), "MFCreateDXSurfaceBuffer")
+    , fnMFCreateVideoSampleFromSurface(_T("evr.dll"), "MFCreateVideoSampleFromSurface")
+    , fnMFCreateMediaType(_T("mfplat.dll"), "MFCreateMediaType")
+    , fnAvSetMmThreadCharacteristicsW(_T("avrt.dll"), "AvSetMmThreadCharacteristicsW")
+    , fnAvSetMmThreadPriority(_T("avrt.dll"), "AvSetMmThreadPriority")
+    , fnAvRevertMmThreadCharacteristics(_T("avrt.dll"), "AvRevertMmThreadCharacteristics")
 {
     const CRenderersSettings& r = GetRenderersSettings();
 

@@ -1,5 +1,5 @@
 /*
- * (C) 2013-2015 see Authors.txt
+ * (C) 2013-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,6 +22,8 @@
 #include "DebugShadersDlg.h"
 #include "mplayerc.h"
 #include "PathUtils.h"
+#include "SettingsDefines.h"
+#include "AppSettings.h"
 
 CModelessDialog::CModelessDialog(UINT nIDTemplate)
     : CResizableDialog(nIDTemplate)
@@ -251,7 +253,7 @@ void CDebugShadersDlg::OnRecompileShader()
             }
             CString disasm, compilerMsg;
             if (SUCCEEDED(m_Compiler.CompileShaderFromFile(shader.filePath, "main", profile,
-                                                           D3DXSHADER_DEBUG, nullptr, &disasm, &compilerMsg))) {
+                                                           D3DCOMPILE_DEBUG, nullptr, &disasm, &compilerMsg))) {
                 if (!compilerMsg.IsEmpty()) {
                     compilerMsg += _T("\n");
                 }

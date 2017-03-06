@@ -1,5 +1,5 @@
 /*
- * (C) 2013 see Authors.txt
+ * (C) 2013, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include <stdint.h>
+#include <cstdint>
 
 #define INT24_MAX       8388607
 #define INT24_MIN     (-8388608)

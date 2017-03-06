@@ -1,17 +1,19 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2015 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
+# Matti Ylönen <maanylon@gmail.com>, 2016
 # Khaida <mrktarvainen@gmail.com>, 2014
 # phewi <phewnix@gmail.com>, 2014
 # Raimo K. Talvio, 2014
+# Sauli Ketola <sauli.ketola@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2014-09-19 20:08:04+0000\n"
-"PO-Revision-Date: 2015-01-12 18:41+0000\n"
-"Last-Translator: Underground78\n"
-"Language-Team: Finnish (http://www.transifex.com/projects/p/mpc-hc/language/fi/)\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2016-07-06 21:36+0000\n"
+"Last-Translator: kasper93\n"
+"Language-Team: Finnish (http://www.transifex.com/mpc-hc/mpc-hc/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -68,7 +70,7 @@ msgstr "V/A Puskurit:"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK5"
 msgid "Audio to wav"
-msgstr "Audio wav-muotoon"
+msgstr "Ääni wav-muotoon"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_BUTTON2"
 msgid "Record"
@@ -84,7 +86,7 @@ msgstr "Normalisoi"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC4"
 msgid "Max amplification:"
-msgstr "Maksimivahvistus"
+msgstr "Maksimivahvistus:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC5"
 msgid "%"
@@ -100,23 +102,23 @@ msgstr "Voimistus:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK3"
 msgid "Down-sample to 44100 Hz"
-msgstr "Laske näytetaajuus 44100 Hz:iin"
+msgstr "Alinäytteistä 44100 Hz:iin"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK4"
 msgid "Audio time shift (ms):"
-msgstr "Äänen ajansiirto (ms)"
+msgstr "Äänen ajansiirto (ms):"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK1"
 msgid "Enable custom channel mapping"
-msgstr "Käytä yksilöllistä kanavakartoitusta"
+msgstr "Käytä mukautettua kanavakartoitusta"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
 msgid "Speaker configuration for"
-msgstr "Kaiutinmäärittely"
+msgstr "Kaiutinasetukset"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
 msgid "input channels:"
-msgstr "Sisääntulokanavat"
+msgstr "Sisääntulokanavat:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
 msgid "Hold shift for immediate changes when clicking something"
@@ -156,7 +158,7 @@ msgstr "Avaa"
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Type the address of a movie or audio file (on the Internet or your computer) and the player will open it for you."
-msgstr "Kirjoita elokuva- tai audiotiedoston osoite (Internetissä tai tietokoneessa) ja soitin avaa sen sinulle."
+msgstr "Kirjoita elokuva- tai äänitiedoston osoite (Internetissä tai tietokoneessa) ja soitin avaa sen sinulle."
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Open:"
@@ -191,8 +193,8 @@ msgid "About"
 msgstr "Tietoja"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2015 see Authors.txt"
-msgstr "Tekijänoikeudet © 2002-2015 katso Authors.txt"
+msgid "Copyright © 2002-2017 see Authors.txt"
+msgstr "Tekijänoikeudet © 2002-2017 katso Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -204,7 +206,7 @@ msgstr "Englanninkielinen käännös tehty MPC-HC:n tiimin toimesta"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build information"
-msgstr "Versiotiedot"
+msgstr "Koontiversiotiedot"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Version:"
@@ -220,7 +222,7 @@ msgstr "Ei käytössä"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build date:"
-msgstr "Version päiväys:"
+msgstr "Koontiversion päiväys:"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Operating system"
@@ -272,7 +274,7 @@ msgstr "Älä aseta etuliitettä"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK13"
 msgid "Replace file name with title"
-msgstr "Korvaa tiedostonnimi otsikolla"
+msgstr "Korvaa tiedostonimi otsikolla"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Other"
@@ -280,11 +282,11 @@ msgstr "Muu"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK3"
 msgid "Tray icon"
-msgstr "Ilmoitusalueen ikoni"
+msgstr "Ilmoitusalueen kuvake"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_SHOW_OSD"
 msgid "Show OSD (requires restart)"
-msgstr "Näytä Graafinen käyttöliittymä (vaatii uudelleenkäynnistyksen)"
+msgstr "Näytä kuvaruutunäyttö (vaatii uudelleenkäynnistyksen)"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK4"
 msgid "Limit window proportions on resize"
@@ -356,7 +358,7 @@ msgstr "Avaa aina oletussijainti:"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "Preferred language for DVD Navigator and the external OGM Splitter"
-msgstr "Esivalittu kieli DVD-selaimelle ja ulkoiselle OGM-jakajalle "
+msgstr "Esivalittu kieli DVD-selaimelle ja ulkoiselle OGM splitterille"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO3"
 msgid "Menu"
@@ -376,7 +378,7 @@ msgstr "Lisäasetukset"
 
 msgctxt "IDD_PPAGEDVD_IDC_CHECK2"
 msgid "Allow closed captions in \"Line 21 Decoder\""
-msgstr "Salli Closed Captions-tekstitykset \"Line 21 Dekooderissa\""
+msgstr "Salli kuulovammaisien tekstitykset \"Line 21 Dekooderissa\""
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Audio"
@@ -423,16 +425,20 @@ msgid "time(s)"
 msgstr "kerta(a)"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Repeat mode:"
+msgstr "Toistotila:"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
 msgstr "Toiston jälkeen"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Output"
-msgstr "Ulostulo"
+msgid "Default zoom"
+msgstr ""
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
-msgstr "Automaattinen zoomaus"
+msgstr "Automaattinen zoomaus:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC2"
 msgid "Auto fit factor:"
@@ -464,11 +470,11 @@ msgstr "Avaa asetukset"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK7"
 msgid "Use worker thread to construct the filter graph"
-msgstr "Käytä työsäijettä grafiikkasuotimen muodostamiseksi"
+msgstr "Käytä työsäiettä suodinkaavion muodostamiseen"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK6"
 msgid "Report pins which fail to render"
-msgstr "Raportoi kohdat, joiden renderöinti epäonnistui"
+msgstr "Raportoi pinnit joiden renderöinti epäonnistui"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
@@ -528,7 +534,7 @@ msgstr "Tekstitykset puskuriin:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Maximum texture resolution:"
-msgstr "Tekstuurien maksimiresoluutio"
+msgstr "Tekstuurien maksimiresoluutio:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_NO_SUB_ANIM"
 msgid "Never animate the subtitles"
@@ -548,7 +554,7 @@ msgstr "Animoi kohdassa"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC8"
 msgid "% of the video frame rate"
-msgstr "% videon kehysnopeutta"
+msgstr "% videon kuvataajuudesta"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Allow dropping some subpictures if the queue is running late"
@@ -556,7 +562,7 @@ msgstr "Salli joidenkin tekstitysten pois jättäminen, jos jono on myöhässä"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Renderer Layout"
-msgstr "Renderöintisuunnitelma"
+msgstr "Renderöintiasettelu"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SUB_AR_COMPENSATION"
 msgid "Apply aspect ratio compensation for anamorphic videos"
@@ -567,7 +573,7 @@ msgid "Warning"
 msgstr "Varoitus"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
+msgid "If you override and enable fullscreen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
 msgstr "Jos pakotat ja otat käyttöön kokoruututilan antialiasoinnin näytönohjaimesi asetuksissa, tekstitykset eivät näy yhtään paremmin mutta syövät prosessoritehoa."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
@@ -648,7 +654,7 @@ msgstr "DVD"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK3"
 msgid "Audio CD"
-msgstr "Audio-CD"
+msgstr "Ääni-CD"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "Jump distances (small, medium, large in ms)"
@@ -676,7 +682,7 @@ msgstr "Estä kokoruututilassa soittimen pienentäminen muulla kuin oletusnäyt�
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
 msgid "Use enhanced taskbar features"
-msgstr ""
+msgstr "Käytä laajennetun tehtäväpalkin ominaisuuksia"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
@@ -688,7 +694,7 @@ msgstr "Käytä aika-työkaluvihjettä:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "OSD font:"
-msgstr "OSD:n fontti:"
+msgstr "Kuvaruutunäytön fontti:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_LCD"
 msgid "Enable Logitech LCD support (experimental)"
@@ -740,7 +746,7 @@ msgstr "Poista"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON8"
 msgid "Reset List"
-msgstr "Nollaa lista"
+msgstr "Palauta lista"
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Type:"
@@ -892,11 +898,11 @@ msgstr "Varoitus"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC1"
 msgid "MPC-HC could not render some of the pins in the graph, you may not have the needed codecs or filters installed on the system."
-msgstr "MPC-HC ei voi renderöidä joitakin grafiikan osia. Tarvittavia koodekkeja tai suotimia ei luultavasti ole asennettu järjestelmään."
+msgstr "MPC-HC ei voi renderöidä joitakin kaavion pinnejä. Tarvittavia koodekkeja tai suotimia ei luultavasti ole asennettu järjestelmään."
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC2"
 msgid "The following pin(s) failed to find a connectable filter:"
-msgstr "Seuraaville kohdille ei löydy kytkettävää suodinta: "
+msgstr "Seuraaville pinneille ei löydy kytkettävää suodinta: "
 
 msgctxt "IDD_MEDIATYPES_DLG_IDOK"
 msgid "Close"
@@ -932,7 +938,7 @@ msgstr "Tallenna oma tyyli"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
-msgstr "JPEG -laatu"
+msgstr "JPEG-laatu:"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "Thumbnails:"
@@ -1016,7 +1022,7 @@ msgstr "Varjo"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Screen Alignment && Margins"
-msgstr ""
+msgstr "Näytön Sovitus && Marginaalit"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Left"
@@ -1088,11 +1094,11 @@ msgstr "Jakaja"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_VIDEO_DEC_CONF"
 msgid "Video decoder"
-msgstr "Videodekooderi"
+msgstr "Videon dekooderi"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_AUDIO_DEC_CONF"
 msgid "Audio decoder"
-msgstr "Audiodekooderi"
+msgstr "Äänen dekooderi"
 
 msgctxt "IDD_PPAGELOGO_IDC_RADIO1"
 msgid "Internal:"
@@ -1120,11 +1126,11 @@ msgstr "QuickTime Video"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Audio Renderer"
-msgstr "Audiorenderöitsijä"
+msgstr "Äänen renderoija"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
-msgstr "VMR-7/VMR-9 (renderöimätön) ja EVR (CP) asetukset"
+msgid "VMR-9 (renderless) and EVR (CP) settings"
+msgstr "VMR-9 (renderöimätön) ja EVR (CP) asetukset"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"
@@ -1168,11 +1174,11 @@ msgstr "DXVA"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitles"
-msgstr ""
+msgstr "Tekstitys"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Screenshot"
-msgstr "Kuvankaappaus"
+msgstr "Kuvakaappaus"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Shaders"
@@ -1184,6 +1190,10 @@ msgstr "Kääntö"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
+msgstr "Tekstityksen renderöijä"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
+msgid "Cache compiled Shaders"
 msgstr ""
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
@@ -1192,7 +1202,7 @@ msgstr "Kuuntele porttia:"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC1"
 msgid "Launch in web browser..."
-msgstr "Avaa selaimessa:"
+msgstr "Avaa selaimessa..."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK3"
 msgid "Enable compression"
@@ -1200,11 +1210,11 @@ msgstr "Käytä pakkausta"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK5"
 msgid "Allow access from localhost only"
-msgstr "Salli saanto vain paikallisesti"
+msgstr "Salli käyttö vain paikallisesti"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK6"
 msgid "Enable preview"
-msgstr ""
+msgstr "Esikatselu päällä"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
 msgid "Print debug information"
@@ -1231,16 +1241,44 @@ msgid "CGI handlers: (.ext1=path1;.ext2=path2;...)"
 msgstr "CGI käsittelijät: (.ext1=path1;.ext2=path2;...)"
 
 msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
-msgid "Subtitles available online"
-msgstr "Tekstitykset saatavissa online:"
-
-msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
-msgid "Download && Open"
-msgstr "Lataa && Avaa"
+msgid "Download subtitles"
+msgstr "Lataa tekstitykset"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
 msgid "Replace currently loaded subtitles"
 msgstr "Korvaa nykyiset ladatut tekstitykset"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
+msgid "Download"
+msgstr "Lataa"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON1"
+msgid "Refresh"
+msgstr "Päivitä"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON2"
+msgid "Abort"
+msgstr "Keskeytä"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON3"
+msgid "Options"
+msgstr "Optiot"
+
+msgctxt "IDD_SUBTITLEUP_DLG_CAPTION"
+msgid "Upload subtitles"
+msgstr "Lähetä tekstitykset"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDOK"
+msgid "Upload"
+msgstr "Lähetä"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
+msgid "Abort"
+msgstr "Keskeytä"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON2"
+msgid "Options"
+msgstr "Asetukset"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
@@ -1248,7 +1286,7 @@ msgstr "Tallenna nimellä..."
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Color controls (for VMR-9, EVR and madVR)"
-msgstr "Värien valvonta ( VMR-9:lle, EVR:lle ja madVR:lle)"
+msgstr "Värien säätö (VMR-9:lle, EVR:lle ja madVR:lle)"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Brightness"
@@ -1276,11 +1314,11 @@ msgstr "Päivitysten tarkistus"
 
 msgctxt "IDD_PPAGEMISC_IDC_CHECK1"
 msgid "Enable automatic update check"
-msgstr "Salli päivitysten automaattinen tarkistus"
+msgstr "Päivitysten automaattinen tarkistus päällä"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
 msgid "Check every:"
-msgstr ""
+msgstr "Tarkista joka:"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"
@@ -1392,15 +1430,15 @@ msgstr "Vastaanotin"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST10"
 msgid "Channel switching approach:"
-msgstr "Kanavan vaihdon lähestyminen"
+msgstr "Kanavan vaihdon lähestymistapa:"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST11"
 msgid "Rebuild filter graph"
-msgstr "Rakenna grafiikkasuodin uudelleen"
+msgstr "Rakenna suodinkaavio uudelleen"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST12"
 msgid "Stop filter graph"
-msgstr "Pysäytä grafiikkasuodin"
+msgstr "Pysäytä suodinkaavio"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCVIDEO"
 msgid "Sync video to display"
@@ -1432,7 +1470,7 @@ msgstr "Esiintymä lähimmässä VSync:issa"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC5"
 msgid "Target sync offset:"
-msgstr "Kohde synkronointioffset"
+msgstr "Kohteen synkronoinnin offset:"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC6"
 msgid "ms"
@@ -1460,7 +1498,7 @@ msgstr "Käynnistä tiedostot koko näytössä"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK4"
 msgid "Hide controls in fullscreen"
-msgstr "Kätke säätimet kokoruututilassa"
+msgstr "Piilota säätimet kokoruututilassa"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC1"
 msgid "ms"
@@ -1543,16 +1581,28 @@ msgid "Reset"
 msgstr "Palauta"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Online database"
-msgstr "Online-tietokanta"
+msgid "Online search, download and upload subtitles"
+msgstr "Hae verkosta, lataa ja lähetä tekstityksiä."
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
+msgid "Automatically search and download subtitles if none are found locally"
+msgstr "Etsi ja lataa tekstitykset automaattisesti jos paikallista tekstitystä ei löydy"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
+msgid "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
+msgstr "Suosi kuulovammaisille tarkoitettuja tekstityksiä (kun se on merkitty tekstitysten tarjoajan toimesta)"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
+msgid "Ignore files containing any of the following word(s):"
+msgstr "Ohita tiedostot joissa esiintyy mikä tahansa seuraavista sanoista:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Base URL of the online subtitle database:"
-msgstr "Online-tekstitysten tietokannan perus-URL-osoite"
+msgid "Languages in order of preference:"
+msgstr "Kielet tärkeysjärjestyksessä:"
 
-msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON2"
-msgid "Test"
-msgstr "Testi"
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
+msgid "Automatically upload active subtitles at the end of video playback"
+msgstr "Lähetä aktiiviset tekstitykset automaattisesti toiston päätyttyä"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
@@ -1564,7 +1614,7 @@ msgstr "Lataa nyt"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_LATER_BUTTON"
 msgid "Remind me &later"
-msgstr "Muistuta minua myöhemmin"
+msgstr "Muistuta myöhemmin"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_IGNORE_BUTTON"
 msgid "&Ignore this update"
@@ -1656,51 +1706,51 @@ msgstr "Oletus"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
 msgid "Device"
-msgstr ""
+msgstr "Laite"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK1"
 msgid "Exclusive mode"
-msgstr ""
+msgstr "Erikoistila"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK2"
 msgid "Allow bitstreaming"
-msgstr ""
+msgstr "Salli bitstreaming"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
 msgid "Options"
-msgstr ""
+msgstr "Asetukset"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK3"
 msgid "Enable stereo crossfeed (for headphones)"
-msgstr ""
+msgstr "Stereon ristisyöttö päällä (kuulokkeille)"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON1"
 msgid "C. Moy"
-msgstr ""
+msgstr "C. Moy"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON2"
 msgid "J. Meier"
-msgstr ""
+msgstr "J. Meier"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC1"
 msgid "Cut-off:"
-msgstr ""
+msgstr "Katkaisu:"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC3"
 msgid "Level:"
-msgstr ""
+msgstr "Taso:"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
 msgid "Note"
-msgstr ""
+msgstr "Huomautus"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
 msgid "To minimize audio distortion, it is recommended to keep player volume at around 85% when playing loud lossy-encoded content."
-msgstr ""
+msgstr "Särön minimoiseksi suositellaan soittimen maksimitasoksi n. 85% kun toistetaan äänekästä häviöllistä sisältöä."
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
-msgstr "JPEG -laatu"
+msgstr "JPEG-laatu:"
 
 msgctxt "IDD_CMD_LINE_HELP_CAPTION"
 msgid "Command line help"
@@ -1712,37 +1762,37 @@ msgstr "OK"
 
 msgctxt "IDD_CRASH_REPORTER_CAPTION"
 msgid "Crash reporter"
-msgstr ""
+msgstr "Kaatumisraportoija"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC"
 msgid "We are sorry, it seems MPC-HC just crashed. :("
-msgstr ""
+msgstr "Olemme pahoillamme, mutta MPC-HC kaatui :("
 
 msgctxt "IDD_CRASH_REPORTER_IDC_CHECK1"
 msgid "Send a bug report to help us diagnose and fix the problem."
-msgstr ""
+msgstr "Lähetä vikaraportti jotta voimme tutkia ja korjata ongelman."
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
 msgid "Optional information"
-msgstr ""
+msgstr "Lisätiedot"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
 msgid "Email:"
-msgstr ""
+msgstr "Sähköposti:"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC3"
 msgid "Your email address is optional and will only be used if the developers need to contact you for more information."
-msgstr ""
+msgstr "Sähköpostiosoitteesi on valinnainen ja sitä käytetään vain jos kehittäjillä on tarvetta pyytää sinulta lisätietoja."
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
 msgid "Problem description (use English only):"
-msgstr ""
+msgstr "Ongelman kuvaus (vain englanniksi):"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON1"
 msgid "Restart MPC-HC"
-msgstr ""
+msgstr "Uudelleenkäynnistä MPC-HC"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON2"
 msgid "Quit MPC-HC"
-msgstr ""
+msgstr "Lopeta MPC-HC"
 

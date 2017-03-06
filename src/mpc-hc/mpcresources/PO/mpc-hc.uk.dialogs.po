@@ -1,14 +1,15 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# arestarh1986 <arestarh@ukr.net>, 2014-2015
+# arestarh1986 <arestarh@ukr.net>, 2014-2016
 # Денис <denyspokhylenko@gmail.com>, 2015
+# Александр Невидомский <neviksasha@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-08-06 16:05:43+0000\n"
-"PO-Revision-Date: 2015-09-05 08:50+0000\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2016-10-23 10:50+0000\n"
 "Last-Translator: arestarh1986 <arestarh@ukr.net>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/mpc-hc/mpc-hc/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -190,8 +191,8 @@ msgid "About"
 msgstr "Про програму"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2015 see Authors.txt"
-msgstr "Copyright © 2002-2015, див. файл Authors.txt"
+msgid "Copyright © 2002-2017 see Authors.txt"
+msgstr "Copyright © 2002-2017, див. файл Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -422,12 +423,16 @@ msgid "time(s)"
 msgstr "раз"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Repeat mode:"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
 msgstr "Після відтворення"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Output"
-msgstr "Вивід"
+msgid "Default zoom"
+msgstr ""
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
@@ -566,7 +571,7 @@ msgid "Warning"
 msgstr "Увага"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
+msgid "If you override and enable fullscreen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
 msgstr "Якщо Ви зміните положення та увімкнете повноекранне згладжування в налаштуваннях відеокарти, вигляд субтитрів не покращиться, але навантаження процесора збільшиться."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
@@ -675,7 +680,7 @@ msgstr "Заблокувати ЗГОРТАННЯ, якщо повноекран
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
 msgid "Use enhanced taskbar features"
-msgstr ""
+msgstr "Використовувати особливості панелі завдань"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
@@ -1122,8 +1127,8 @@ msgid "Audio Renderer"
 msgstr "DirectShow аудіо"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
-msgstr "Налаштування VMR-7/VMR-9 (renderless) і EVR (користув.)"
+msgid "VMR-9 (renderless) and EVR (CP) settings"
+msgstr "Налаштування VMR-9 (renderless) і EVR (користув.)"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"
@@ -1167,7 +1172,7 @@ msgstr "DXVA"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitles"
-msgstr ""
+msgstr "Субтитри"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Screenshot"
@@ -1183,6 +1188,10 @@ msgstr "Обертання"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
+msgstr "Рендерер субтитрів"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
+msgid "Cache compiled Shaders"
 msgstr ""
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
@@ -1230,16 +1239,44 @@ msgid "CGI handlers: (.ext1=path1;.ext2=path2;...)"
 msgstr "Інтерпретація CGI: (.ext1=path1;.ext2=path2;...)"
 
 msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
-msgid "Subtitles available online"
-msgstr "Список доступних субтитрів"
-
-msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
-msgid "Download && Open"
-msgstr "Завантажити та використати"
+msgid "Download subtitles"
+msgstr "Завантажити субтитри"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
 msgid "Replace currently loaded subtitles"
 msgstr "Заміняти вже відкриті субтитри"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
+msgid "Download"
+msgstr "Завантажити"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON1"
+msgid "Refresh"
+msgstr "Оновити"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON2"
+msgid "Abort"
+msgstr "Перервати"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON3"
+msgid "Options"
+msgstr "Опції"
+
+msgctxt "IDD_SUBTITLEUP_DLG_CAPTION"
+msgid "Upload subtitles"
+msgstr ""
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDOK"
+msgid "Upload"
+msgstr ""
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
+msgid "Abort"
+msgstr "Перервати"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON2"
+msgid "Options"
+msgstr "Опції"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
@@ -1542,16 +1579,28 @@ msgid "Reset"
 msgstr "Скинути"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Online database"
-msgstr "Онлайн база"
+msgid "Online search, download and upload subtitles"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
+msgid "Automatically search and download subtitles if none are found locally"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
+msgid "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
+msgid "Ignore files containing any of the following word(s):"
+msgstr ""
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Base URL of the online subtitle database:"
-msgstr "URL онлайн бази субтитрів:"
+msgid "Languages in order of preference:"
+msgstr ""
 
-msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON2"
-msgid "Test"
-msgstr "Тест"
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
+msgid "Automatically upload active subtitles at the end of video playback"
+msgstr ""
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
@@ -1667,7 +1716,7 @@ msgstr "Дозволити Потоковий"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
 msgid "Options"
-msgstr ""
+msgstr "Опції"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK3"
 msgid "Enable stereo crossfeed (for headphones)"
@@ -1687,7 +1736,7 @@ msgstr ""
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC3"
 msgid "Level:"
-msgstr ""
+msgstr "Рівень:"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
 msgid "Note"
@@ -1739,9 +1788,9 @@ msgstr "Описання проблеми (лише англійською):"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON1"
 msgid "Restart MPC-HC"
-msgstr ""
+msgstr "Перезапустити MPC-HC"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON2"
 msgid "Quit MPC-HC"
-msgstr ""
+msgstr "Вийти з MPC-HC"
 

@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2013 see Authors.txt
+ * (C) 2009-2013, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,6 +21,10 @@
 #pragma once
 
 #include "DVBChannel.h"
+#include <mpeg2structs.h>
+#include <mpeg2data.h>
+
+class CGolombBuffer;
 
 #pragma pack(push, 1)
 struct SI_HEADER {
@@ -66,7 +70,7 @@ class CMpeg2DataParser
 public:
     CMpeg2DataParser(IBaseFilter* pFilter);
 
-    HRESULT     ParseSDT(ULONG ulFreq);
+    HRESULT     ParseSDT(ULONG ulFrequency, ULONG ulBandwidth);
     HRESULT     ParsePAT();
     HRESULT     ParseNIT();
     HRESULT     ParseEIT(ULONG ulSID, EventDescriptor& NowNext);

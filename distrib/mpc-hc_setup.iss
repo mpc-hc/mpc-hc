@@ -1,4 +1,4 @@
-; (C) 2009-2015 see Authors.txt
+; (C) 2009-2016 see Authors.txt
 ;
 ; This file is part of MPC-HC.
 ;
@@ -20,8 +20,8 @@
 ; Inno Setup Unicode: http://www.jrsoftware.org/isdl.php
 
 
-#if VER < EncodeVer(5,5,5)
-  #error Update your Inno Setup version (5.5.5 or newer)
+#if VER < EncodeVer(5,5,9)
+  #error Update your Inno Setup version (5.5.9 or newer)
 #endif
 
 #ifndef UNICODE
@@ -163,6 +163,7 @@ Name: en;    MessagesFile: compiler:Default.isl
 Name: ar;    MessagesFile: Languages\Arabic.isl
 Name: be;    MessagesFile: Languages\Belarusian.isl
 Name: bn;    MessagesFile: Languages\Bengali.islu
+Name: bs_BA; MessagesFile: Languages\Bosnian.isl
 Name: ca;    MessagesFile: compiler:Languages\Catalan.isl
 Name: cs;    MessagesFile: compiler:Languages\Czech.isl
 Name: da;    MessagesFile: compiler:Languages\Danish.isl
@@ -177,7 +178,7 @@ Name: gl;    MessagesFile: Languages\Galician.isl
 Name: he;    MessagesFile: compiler:Languages\Hebrew.isl
 Name: hr;    MessagesFile: Languages\Croatian.isl
 Name: hu;    MessagesFile: compiler:Languages\Hungarian.isl
-Name: hy;    MessagesFile: Languages\Armenian.islu
+Name: hy;    MessagesFile: compiler:Languages\Armenian.islu
 Name: id;    MessagesFile: Languages\Indonesian.isl
 Name: it;    MessagesFile: compiler:Languages\Italian.isl
 Name: ja;    MessagesFile: compiler:Languages\Japanese.isl
@@ -435,6 +436,7 @@ end;
 procedure CleanUpSettingsAndFiles();
 begin
   DeleteFile(ExpandConstant('{app}\{#mpchc_ini}'));
+  DelTree(ExpandConstant('{userappdata}\MPC-HC\ShaderCache'), True, True, True);  
   DeleteFile(ExpandConstant('{userappdata}\MPC-HC\default.mpcpl'));
   RemoveDir(ExpandConstant('{userappdata}\MPC-HC'));
   RegDeleteKeyIncludingSubkeys(HKCU, 'Software\MPC-HC\Filters');

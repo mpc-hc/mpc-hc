@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2014 see Authors.txt
+ * (C) 2006-2014, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -571,7 +571,7 @@ namespace Plugin
             bool FssProc(VDXFilterActivation* fa, const VDXFilterFunctions* ff, char* buf, int buflen) {
                 CStringA fn(GetFileName());
                 fn.Replace("\\", "\\\\");
-                _snprintf_s(buf, buflen, buflen, "Config(\"%s\")", fn);
+                _snprintf_s(buf, buflen, buflen, "Config(\"%s\")", fn.GetString());
                 return true;
             }
         };
@@ -610,7 +610,7 @@ namespace Plugin
 
             void StringProc(const VDXFilterActivation* fa, const VDXFilterFunctions* ff, char* str) {
                 if (!GetFileName().IsEmpty()) {
-                    sprintf_s(str, STRING_PROC_BUFFER_SIZE, " (%s, %d)", CStringA(GetFileName()), GetCharSet());
+                    sprintf_s(str, STRING_PROC_BUFFER_SIZE, " (%s, %d)", CStringA(GetFileName()).GetString(), GetCharSet());
                 } else {
                     sprintf_s(str, STRING_PROC_BUFFER_SIZE, " (empty)");
                 }
@@ -619,7 +619,7 @@ namespace Plugin
             bool FssProc(VDXFilterActivation* fa, const VDXFilterFunctions* ff, char* buf, int buflen) {
                 CStringA fn(GetFileName());
                 fn.Replace("\\", "\\\\");
-                _snprintf_s(buf, buflen, buflen, "Config(\"%s\", %d)", fn, GetCharSet());
+                _snprintf_s(buf, buflen, buflen, "Config(\"%s\", %d)", fn.GetString(), GetCharSet());
                 return true;
             }
         };
@@ -1068,7 +1068,7 @@ UINT_PTR CALLBACK OpenHookProc(HWND hDlg, UINT uiMsg, WPARAM wParam, LPARAM lPar
 
             for (ptrdiff_t i = 0; i < CharSetLen; i++) {
                 CString s;
-                s.Format(_T("%s (%d)"), CharSetNames[i], CharSetList[i]);
+                s.Format(_T("%s (%u)"), CharSetNames[i], CharSetList[i]);
                 SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)(LPCTSTR)s);
                 if (CharSetList[i] == (int)((OPENFILENAME*)lParam)->lCustData) {
                     SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_SETCURSEL, i, 0);

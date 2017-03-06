@@ -1,13 +1,13 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# A S Alam <apreet.alam@gmail.com>, 2015
+# A S Alam <apreet.alam@gmail.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-09-08 19:47:48+0000\n"
-"PO-Revision-Date: 2015-10-03 14:03+0000\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2016-12-02 01:18+0000\n"
 "Last-Translator: A S Alam <apreet.alam@gmail.com>\n"
 "Language-Team: Panjabi (Punjabi) (http://www.transifex.com/mpc-hc/mpc-hc/language/pa/)\n"
 "MIME-Version: 1.0\n"
@@ -110,7 +110,7 @@ msgstr ""
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
 msgid "Speaker configuration for"
-msgstr ""
+msgstr "ਇਸ ਵਾਸਤੇ ਸਪੀਕਰ ਦੀ ਸੰਰਚਨਾ"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
 msgid "input channels:"
@@ -189,8 +189,8 @@ msgid "About"
 msgstr "ਇਸ ਬਾਰੇ"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2015 see Authors.txt"
-msgstr "Copyright © 2002-2015 Authors.txt ਦੇਖੋ"
+msgid "Copyright © 2002-2017 see Authors.txt"
+msgstr "Copyright © 2002-2017 Authors.txt ਦੇਖੋ"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -421,12 +421,16 @@ msgid "time(s)"
 msgstr "ਵਾਰ"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Repeat mode:"
+msgstr ""
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
 msgstr "ਚਲਾਓ ਬਾਅਦ"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Output"
-msgstr "ਆਉਟਪੁੱਟ"
+msgid "Default zoom"
+msgstr "ਡਿਫਾਲਟ ਜ਼ੂਮ"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
@@ -565,7 +569,7 @@ msgid "Warning"
 msgstr "ਚੇਤਾਵਨੀ"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
+msgid "If you override and enable fullscreen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
 msgstr ""
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
@@ -870,7 +874,7 @@ msgstr ""
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
 msgid "Zoom: 0.2 -> 3.0"
-msgstr ""
+msgstr "ਜ਼ੂਮ: 0.2 -> 3.0"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_CHECK2"
 msgid "Global Media Keys"
@@ -1121,7 +1125,7 @@ msgid "Audio Renderer"
 msgstr "ਆਡੀਓ ਰੈਂਡਰਰ"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
+msgid "VMR-9 (renderless) and EVR (CP) settings"
 msgstr ""
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
@@ -1184,6 +1188,10 @@ msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
 msgstr ""
 
+msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
+msgid "Cache compiled Shaders"
+msgstr ""
+
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
 msgstr "ਪੋਰਟ ਉੱਤੇ ਸੁਣੋ:"
@@ -1229,16 +1237,44 @@ msgid "CGI handlers: (.ext1=path1;.ext2=path2;...)"
 msgstr "CGI ਹੈਂਡਲਰ: (.ext1=path1;.ext2=path2;...)"
 
 msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
-msgid "Subtitles available online"
-msgstr "ਸਬ-ਟਾਈਟਲ ਆਨਲਾਈਨ ਮੌਜੂਦ ਹਨ"
-
-msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
-msgid "Download && Open"
-msgstr "ਡਾਊਨਲੋਡ ਕਰੋ ਤੇ ਖੋਲ੍ਹੋ"
+msgid "Download subtitles"
+msgstr "ਸਬ-ਟਾਈਟਲ ਡਾਊਨਲੋਡ ਕਰੋ"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
 msgid "Replace currently loaded subtitles"
 msgstr ""
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
+msgid "Download"
+msgstr "ਡਾਊਨਲੋਡ ਕਰੋ"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON1"
+msgid "Refresh"
+msgstr "ਤਾਜ਼ਾ ਕਰੋ"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON2"
+msgid "Abort"
+msgstr "ਅਧੂਰਾ ਛੱਡੋ"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON3"
+msgid "Options"
+msgstr "ਚੋਣਾਂ"
+
+msgctxt "IDD_SUBTITLEUP_DLG_CAPTION"
+msgid "Upload subtitles"
+msgstr "ਸਬ-ਟਾਈਟਲ ਅੱਪਲੋਡ ਕਰੋ"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDOK"
+msgid "Upload"
+msgstr "ਅੱਪਲੋਡ ਕਰੋ"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
+msgid "Abort"
+msgstr "ਅਧੂਰਾ ਛੱਡੋ"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON2"
+msgid "Options"
+msgstr "ਚੋਣਾਂ"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
@@ -1438,7 +1474,7 @@ msgstr "ਮਿ.ਸ."
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC7"
 msgid "Control limits:"
-msgstr ""
+msgstr "ਕੰਟਰੋਲ ਲਿਮਟ:"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC8"
 msgid "+/-"
@@ -1541,16 +1577,28 @@ msgid "Reset"
 msgstr "ਮੁੜ-ਸੈੱਟ ਕਰੋ"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Online database"
-msgstr "ਆਡੀਓ ਡਾਟਾਬੇਸ"
-
-msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Base URL of the online subtitle database:"
+msgid "Online search, download and upload subtitles"
 msgstr ""
 
-msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON2"
-msgid "Test"
-msgstr "ਟੈਸਟ"
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
+msgid "Automatically search and download subtitles if none are found locally"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
+msgid "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
+msgid "Ignore files containing any of the following word(s):"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
+msgid "Languages in order of preference:"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
+msgid "Automatically upload active subtitles at the end of video playback"
+msgstr ""
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"

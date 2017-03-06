@@ -1,5 +1,5 @@
 /*
-* (C) 2015 see Authors.txt
+* (C) 2015-2016 see Authors.txt
 *
 * This file is part of MPC-HC.
 *
@@ -22,8 +22,7 @@
 
 #include "PPageBase.h"
 #include "resource.h"
-#include <afxwin.h>
-#include <afxcmn.h>
+#include "EventDispatcher.h"
 #include <utility>
 #include <memory>
 #include <map>
@@ -83,7 +82,7 @@ public:
         , defaultValue(defaultValue)
         , currentValue(settingReference)
         , settingReference(settingReference)
-        , range(range) {
+        , range(std::move(range)) {
     }
 
     bool IsDefault() const { return currentValue == defaultValue; }
@@ -101,7 +100,7 @@ class SettingsCombo : public SettingsInt
 public:
     SettingsCombo(CString name, int defaultValue, int& settingReference, std::deque<CString> list, CString toolTipText)
         : SettingsInt(name, defaultValue, settingReference, std::make_pair(0, (int)list.size() - 1), toolTipText)
-        , list(list) {
+        , list(std::move(list)) {
     }
 
     std::deque<CString> GetList() const { return list; }
@@ -144,7 +143,11 @@ private:
         FILE_POS_LONGER,
         FILE_POS_AUDIO,
         COVER_SIZE_LIMIT,
-        LOGGING
+        LOGGING,
+        AUTO_DOWNLOAD_SCORE_MOVIES,
+        AUTO_DOWNLOAD_SCORE_SERIES,
+        DEFAULT_TOOLBAR_SIZE,
+        USE_LEGACY_TOOLBAR,
     };
 
     enum {
@@ -152,8 +155,11 @@ private:
         COL_VALUE
     };
 
+    EventClient m_eventc;
+
     CFont m_fontBold;
     CComboBox m_comboBox;
+    CSpinButtonCtrl m_spinButtonCtrl;
 
     std::map<ADVANCED_SETTINGS, std::shared_ptr<SettingsBase>> m_hiddenOptions;
 

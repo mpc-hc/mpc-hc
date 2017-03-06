@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -97,7 +97,8 @@ public:
 
     STDMETHODIMP SetVirtualTextureSize(const SIZE pSize, const POINT pTopLeft);
     STDMETHODIMP GetSourceAndDest(RECT rcWindow, RECT rcVideo, RECT* pRcSource,
-                                  RECT* pRcDest, const double videoStretchFactor = 1.0) const;
+                                  RECT* pRcDest, const double videoStretchFactor = 1.0,
+                                  int xOffsetInPixels = 1) const;
     STDMETHODIMP GetRelativeTo(RelativeTo* pRelativeTo) const;
     STDMETHODIMP SetRelativeTo(RelativeTo relativeTo);
 

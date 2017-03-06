@@ -1,17 +1,17 @@
 # MPC-HC - Strings extracted from menus
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Burak <burakgarci@gmail.com>, 2013
 # Devrim, 2013
 # kasper93, 2013
-# Sinan H., 2014-2015
+# Sinan H., 2014-2016
 # Sinan H., 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-30 00:33:30+0000\n"
-"PO-Revision-Date: 2015-06-02 20:41+0000\n"
+"POT-Creation-Date: 2016-01-17 21:31:34+0000\n"
+"PO-Revision-Date: 2016-02-04 22:27+0000\n"
 "Last-Translator: Sinan H.\n"
 "Language-Team: Turkish (http://www.transifex.com/mpc-hc/mpc-hc/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -68,29 +68,25 @@ msgctxt "ID_FILE_SAVE_THUMBNAILS"
 msgid "Save &Thumbnails..."
 msgstr "Küçük &Resim Kaydet..."
 
-msgctxt "ID_FILE_LOAD_SUBTITLE"
-msgid "&Load Subtitle..."
+msgctxt "POPUP"
+msgid "S&ubtitles"
+msgstr "A&lt Yazılar"
+
+msgctxt "ID_FILE_SUBTITLES_LOAD"
+msgid "&Load Subtitles..."
 msgstr "&Alt Yazı Yükle..."
 
-msgctxt "ID_FILE_SAVE_SUBTITLE"
-msgid "Save S&ubtitle..."
-msgstr "Alt Yazı K&aydet..."
+msgctxt "ID_FILE_SUBTITLES_SAVE"
+msgid "Save S&ubtitles..."
+msgstr "Alt Yazı K&aydet.."
 
-msgctxt "POPUP"
-msgid "Subtitle Data&base"
-msgstr "Alt Ya&zı Veritabanı"
+msgctxt "ID_FILE_SUBTITLES_DOWNLOAD"
+msgid "&Download Subtitles..."
+msgstr "&Alt Yazı İndir..."
 
-msgctxt "ID_FILE_ISDB_SEARCH"
-msgid "&Search..."
-msgstr "A&ra..."
-
-msgctxt "ID_FILE_ISDB_UPLOAD"
-msgid "&Upload..."
-msgstr "&Gönder..."
-
-msgctxt "ID_FILE_ISDB_DOWNLOAD"
-msgid "&Download..."
-msgstr "&İndir..."
+msgctxt "ID_FILE_SUBTITLES_UPLOAD"
+msgid "&Upload Subtitles..."
+msgstr "&Alt Yazı Gönder..."
 
 msgctxt "ID_FILE_PROPERTIES"
 msgid "P&roperties"
@@ -412,17 +408,13 @@ msgctxt "ID_VIEW_VF_FROMOUTSIDE"
 msgid "Touch Window From &Outside"
 msgstr "Pencereye Dışarıdan U&yarla"
 
-msgctxt "ID_VIEW_VF_KEEPASPECTRATIO"
-msgid "&Keep Aspect Ratio"
-msgstr "&Taraf Oranını Koru"
-
 msgctxt "POPUP"
-msgid "Override &Aspect Ratio"
-msgstr "Taraf Oranını &Kilitle"
+msgid "&Aspect Ratio"
+msgstr "&Taraf Oranı"
 
-msgctxt "ID_ASPECTRATIO_SOURCE"
-msgid "&Default"
-msgstr "&Varsayılan"
+msgctxt "ID_ASPECTRATIO_DAR"
+msgid "&Default (DAR)"
+msgstr "&Varsayılan (DAR)"
 
 msgctxt "ID_ASPECTRATIO_4_3"
 msgid "&4:3"
@@ -443,6 +435,10 @@ msgstr "&235:100"
 msgctxt "ID_ASPECTRATIO_185_100"
 msgid "1&85:100"
 msgstr "1&85:100"
+
+msgctxt "ID_ASPECTRATIO_SAR"
+msgid "Assume &square pixels (SAR)"
+msgstr "Kare &çerçeve oranını kullan (SAR)"
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"
@@ -514,7 +510,7 @@ msgstr "&Her zaman"
 
 msgctxt "ID_ONTOP_WHILEPLAYING"
 msgid "While &Playing"
-msgstr "O&ynatılırken"
+msgstr "Medya o&ynatılırken"
 
 msgctxt "ID_ONTOP_WHILEPLAYINGVIDEO"
 msgid "While Playing &Video"
@@ -537,8 +533,24 @@ msgid "&Stop"
 msgstr "&Durdur"
 
 msgctxt "ID_PLAY_FRAMESTEP"
-msgid "F&rame Step"
+msgid "Fra&me Step"
 msgstr "G&örüntü Atlaması"
+
+msgctxt "POPUP"
+msgid "&Repeat"
+msgstr "&Tekrarla"
+
+msgctxt "ID_PLAY_REPEAT_FOREVER"
+msgid "F&orever"
+msgstr "S&ürekli"
+
+msgctxt "ID_PLAY_REPEAT_ONEFILE"
+msgid "&File"
+msgstr "&Dosya"
+
+msgctxt "ID_PLAY_REPEAT_WHOLEPLAYLIST"
+msgid "&Playlist"
+msgstr "&Oynatma listesi"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "&Decrease Rate"
@@ -569,8 +581,8 @@ msgid "Su&btitle Track"
 msgstr "Al&t Yazı Parçası"
 
 msgctxt "ID_VIDEO_STREAMS"
-msgid "&Video Track"
-msgstr "&Video Parçası"
+msgid "Vide&o Track"
+msgstr "Vide&o Parçası"
 
 msgctxt "POPUP"
 msgid "&Volume"
@@ -598,11 +610,11 @@ msgstr "Bir &İşlem Yapma"
 
 msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
 msgid "Play &next file in the folder"
-msgstr "Klasördeki &sıradaki dosyayı yürüt"
+msgstr "Klasördeki &Sıradaki Dosyayı Yürüt"
 
 msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
 msgid "Turn off the &monitor"
-msgstr "E&kranı kapat"
+msgstr "E&kranı Kapat"
 
 msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
@@ -626,7 +638,7 @@ msgstr "Oturumu &Kapat"
 
 msgctxt "ID_AFTERPLAYBACK_LOCK"
 msgid "&Lock"
-msgstr "&Kilitle"
+msgstr "&Bilgisayarı Kilitle"
 
 msgctxt "POPUP"
 msgid "&Navigate"

@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2015 see Authors.txt
+ * (C) 2009-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,11 +20,12 @@
 
 #pragma once
 
-#include <bdatypes.h>
-#include <bdamedia.h>
-#include <bdaiface.h>
 #include "FGManager.h"
+#include "DVBChannel.h"
+#include <bdaiface.h>
 
+enum DVB_RebuildFilterGraph;
+typedef struct tagVIDEOINFOHEADER2 VIDEOINFOHEADER2;
 
 class CDVBStream
 {
@@ -120,8 +121,8 @@ public:
     // IBDATuner
     STDMETHODIMP SetChannel(int nChannelPrefNumber);
     STDMETHODIMP SetAudio(int nAudioIndex);
-    STDMETHODIMP SetFrequency(ULONG freq);
-    STDMETHODIMP Scan(ULONG ulFrequency, HWND hWnd);
+    STDMETHODIMP SetFrequency(ULONG ulFrequency, ULONG ulBandwidth);
+    STDMETHODIMP Scan(ULONG ulFrequency, ULONG ulBandwidth, HWND hWnd);
     STDMETHODIMP GetStats(BOOLEAN& bPresent, BOOLEAN& bLocked, LONG& lDbStrength, LONG& lPercentQuality);
 
     // IAMStreamSelect

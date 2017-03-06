@@ -3,6 +3,8 @@
 echo "$(pwd)" | grep -q '[[:blank:]]' &&
   echo "Out of tree builds are impossible with whitespace in source path." && exit 1
 
+bin_folder=bin
+
 if [ "${1}" == "x64" ]; then
   arch=x86_64
   archdir=x64
@@ -18,24 +20,20 @@ else
 fi
 
 if [ "${2}" == "Debug" ]; then
-  FFMPEG_DLL_PATH=$(readlink -f ../../..)/bin/${mpc_hc_folder}_Debug/${lav_folder}
+  FFMPEG_DLL_PATH=$(readlink -f ../../..)/${bin_folder}/${mpc_hc_folder}_Debug/${lav_folder}
   BASEDIR=$(pwd)/src/bin_${archdir}d
 else
-  FFMPEG_DLL_PATH=$(readlink -f ../../..)/bin/${mpc_hc_folder}/${lav_folder}
+  FFMPEG_DLL_PATH=$(readlink -f ../../..)/${bin_folder}/${mpc_hc_folder}/${lav_folder}
   BASEDIR=$(pwd)/src/bin_${archdir}
 fi
 
 THIRDPARTYPREFIX=${BASEDIR}/thirdparty
 FFMPEG_BUILD_PATH=${THIRDPARTYPREFIX}/ffmpeg
 FFMPEG_LIB_PATH=${BASEDIR}/lib
-DCADEC_SOURCE_PATH=$(pwd)/src/thirdparty/dcadec
-DCADEC_BUILD_PATH=${THIRDPARTYPREFIX}/dcadec
-export PKG_CONFIG_PATH="${DCADEC_BUILD_PATH}"
 
 make_dirs() {
   mkdir -p ${FFMPEG_LIB_PATH}
   mkdir -p ${FFMPEG_BUILD_PATH}
-  mkdir -p ${DCADEC_BUILD_PATH}
   mkdir -p ${FFMPEG_DLL_PATH}
 }
 
@@ -61,21 +59,10 @@ configure() {
     --disable-static                \
     --enable-version3               \
     --enable-w32threads             \
-    --disable-demuxer=asf           \
     --disable-demuxer=matroska      \
     --disable-filters               \
-    --enable-filter=yadif           \
-    --enable-filter=scale           \
-    --disable-protocols             \
-    --enable-protocol=file          \
-    --enable-protocol=pipe          \
-    --enable-protocol=mmsh          \
-    --enable-protocol=mmst          \
-    --enable-protocol=rtp           \
-    --enable-protocol=http          \
-    --enable-protocol=crypto        \
-    --enable-protocol=rtmp          \
-    --enable-protocol=rtmpt         \
+    --enable-filter=scale,yadif,w3fdif \
+    --disable-protocol=async,cache,concat,httpproxy,icecast,md5,subfile \
     --disable-muxers                \
     --enable-muxer=spdif            \
     --disable-hwaccels              \
@@ -84,8 +71,7 @@ configure() {
     --enable-hwaccel=vc1_dxva2      \
     --enable-hwaccel=wmv3_dxva2     \
     --enable-hwaccel=mpeg2_dxva2    \
-    --disable-decoder=dca           \
-    --enable-libdcadec              \
+    --enable-hwaccel=vp9_dxva2      \
     --enable-libspeex               \
     --enable-libopencore-amrnb      \
     --enable-libopencore-amrwb      \
@@ -103,7 +89,7 @@ configure() {
     --build-suffix=-lav             \
     --arch=${arch}"
 
-  EXTRA_CFLAGS="-D_WIN32_WINNT=0x0502 -DWINVER=0x0502 -I../../../thirdparty/include"
+  EXTRA_CFLAGS="-fno-tree-vectorize -D_WIN32_WINNT=0x0502 -DWINVER=0x0502 -I../../../thirdparty/include"
   EXTRA_LDFLAGS=""
   if [ "${arch}" == "x86_64" ]; then
     OPTIONS="${OPTIONS} --enable-cross-compile --cross-prefix=${cross_prefix} --target-os=mingw32 --pkg-config=pkg-config"
@@ -150,19 +136,6 @@ configureAndBuild() {
   cd ${BASEDIR}
 }
 
-build_dcadec() {
-  cd ${DCADEC_BUILD_PATH}
-  make -f "${DCADEC_SOURCE_PATH}/Makefile" -j$NUMBER_OF_PROCESSORS CONFIG_WINDOWS=1 CONFIG_SMALL=1 CC=${cross_prefix}gcc AR=${cross_prefix}ar lib
-  make -f "${DCADEC_SOURCE_PATH}/Makefile" PREFIX="${THIRDPARTYPREFIX}" LIBDIR="${DCADEC_BUILD_PATH}/libdcadec" INCLUDEDIR="${DCADEC_SOURCE_PATH}" dcadec.pc
-  cd ${BASEDIR}
-}
-
-clean_dcadec() {
-  cd ${DCADEC_BUILD_PATH}
-  make -f "${DCADEC_SOURCE_PATH}/Makefile" CONFIG_WINDOWS=1 clean
-  cd ${BASEDIR}
-}
-
 echo Building ffmpeg in GCC ${arch} Release config...
 
 make_dirs
@@ -170,7 +143,6 @@ make_dirs
 CONFIGRETVAL=0
 
 if [ "${3}" == "Clean" ]; then
-  clean_dcadec
   clean
   CONFIGRETVAL=$?
 else
@@ -181,15 +153,12 @@ else
     CLEANBUILD=1
   fi
 
-  build_dcadec
-
   configureAndBuild
 
   ## In case of error and only if we didn't start with a clean build,
   ## we try to rebuild from scratch including a full reconfigure
   if [ ! ${CONFIGRETVAL} -eq 0 ] && [ ${CLEANBUILD} -eq 0 ]; then
     echo Trying again with forced reconfigure...
-    clean_dcadec && build_dcadec
     clean && configureAndBuild
   fi
 fi

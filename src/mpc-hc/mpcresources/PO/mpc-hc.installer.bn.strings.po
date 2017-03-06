@@ -1,8 +1,8 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Mehedi Hussain, 2014
+# Mehzad Galib, 2014
 # Mehedi Hussain, 2014
 # mehzad, 2014
 # Underground78, 2014

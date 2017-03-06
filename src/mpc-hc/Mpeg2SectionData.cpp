@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2015 see Authors.txt
+ * (C) 2009-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -27,8 +27,6 @@
 #include "FreeviewEPGDecode.h"
 #include "resource.h"
 #include "Logger.h"
-
-#define BDA_LOG Logger<LogTargets::BDA>::LOG
 
 #define BeginEnumDescriptors(gb, nType, nLength)                    \
 {                                                                   \
@@ -250,7 +248,7 @@ HRESULT CMpeg2DataParser::ParseSIHeader(CGolombBuffer& gb, DVB_SI SIType, WORD& 
     return S_OK;
 }
 
-HRESULT CMpeg2DataParser::ParseSDT(ULONG ulFreq)
+HRESULT CMpeg2DataParser::ParseSDT(ULONG ulFrequency, ULONG ulBandwidth)
 {
     HRESULT hr;
     CComPtr<ISectionList> pSectionList;
@@ -259,7 +257,7 @@ HRESULT CMpeg2DataParser::ParseSDT(ULONG ulFreq)
     WORD wTSID;
     WORD wONID;
     WORD wSectionLength;
-    WORD serviceType;
+    WORD serviceType = 0;
 
     CheckNoLog(m_pData->GetSection(PID_SDT, SI_SDT, &m_Filter, 15000, &pSectionList));
     CheckNoLog(pSectionList->GetSectionData(0, &dwLength, &data));
@@ -274,7 +272,8 @@ HRESULT CMpeg2DataParser::ParseSDT(ULONG ulFreq)
 
     while (gb.GetSize() - gb.GetPos() > 4) {
         CDVBChannel Channel;
-        Channel.SetFrequency(ulFreq);
+        Channel.SetFrequency(ulFrequency);
+        Channel.SetBandwidth(ulBandwidth);
         Channel.SetTSID(wTSID);
         Channel.SetONID(wONID);
         Channel.SetSID((ULONG)gb.BitRead(16));                  // service_id   uimsbf
@@ -472,7 +471,7 @@ HRESULT CMpeg2DataParser::ParsePMT(CDVBChannel& Channel)
 
 HRESULT CMpeg2DataParser::SetTime(CGolombBuffer& gb, EventDescriptor& NowNext)
 {
-    char    descBuffer[10];
+    wchar_t descBuffer[10];
     time_t  tNow, tTime;
     tm      tmTime;
     long    timezone;
@@ -502,7 +501,7 @@ HRESULT CMpeg2DataParser::SetTime(CGolombBuffer& gb, EventDescriptor& NowNext)
     }
 
     localtime_s(&tmTime, &tTime);
-    strftime(descBuffer, 6, "%H:%M", &tmTime);
+    wcsftime(descBuffer, 6, L"%H:%M", &tmTime);
     descBuffer[6] = '\0';
     NowNext.strStartTime = descBuffer;
 
@@ -516,7 +515,7 @@ HRESULT CMpeg2DataParser::SetTime(CGolombBuffer& gb, EventDescriptor& NowNext)
 
     tTime += NowNext.duration;
     localtime_s(&tmTime, &tTime);
-    strftime(descBuffer, 6, "%H:%M", &tmTime);
+    wcsftime(descBuffer, 6, L"%H:%M", &tmTime);
     descBuffer[6] = '\0';
     NowNext.strEndTime = descBuffer;
 
@@ -656,7 +655,7 @@ HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, EventDescriptor& NowNext)
                                             IDS_CONTENT_LEISURE
                                         };
 
-                                        NowNext.content.Append(ResStr(contents[content - 1]));
+                                        NowNext.content.AppendFormat(contents[content - 1]);
                                     }
                                     nLength -= 2;
                                 }

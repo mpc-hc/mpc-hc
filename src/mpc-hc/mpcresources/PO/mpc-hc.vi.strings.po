@@ -1,16 +1,16 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Dat Luong Anh <datanhlg@gmail.com>, 2014
-# TRẦN ANH MINH <anhminhvks@yahoo.com>, 2014-2015
+# DatSoft, 2014
+# TRẦN ANH MINH <anhminhvks@yahoo.com>, 2014-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-05-21 13:30:54+0000\n"
-"PO-Revision-Date: 2015-06-05 10:03+0000\n"
+"POT-Creation-Date: 2016-10-17 00:35:36+0000\n"
+"PO-Revision-Date: 2016-11-10 02:40+0000\n"
 "Last-Translator: TRẦN ANH MINH <anhminhvks@yahoo.com>\n"
-"Language-Team: Vietnamese (http://www.transifex.com/projects/p/mpc-hc/language/vi/)\n"
+"Language-Team: Vietnamese (http://www.transifex.com/mpc-hc/mpc-hc/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 msgctxt "IDS_INFOBAR_LOCATION"
 msgid "Location"
-msgstr "Vị trí"
+msgstr "Vị trí lưu"
 
 msgctxt "IDS_INFOBAR_VIDEO"
 msgid "Video"
@@ -61,9 +61,17 @@ msgctxt "IDS_PROPSHEET_PROPERTIES"
 msgid "Properties"
 msgstr "Thuộc tính"
 
+msgctxt "IDS_PLAY_LOOPMODE_FILE"
+msgid "File"
+msgstr "Tập tin"
+
 msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
 msgid "&Default Style"
 msgstr "&Phong cách mặc định"
+
+msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
+msgid "Playlist"
+msgstr "Danh sách phát"
 
 msgctxt "IDS_FAVFILES"
 msgid "Files"
@@ -116,6 +124,26 @@ msgstr "Dạng"
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
 msgstr "Nếu loại dựng phụ đề không được xác định, thì phụ đề SSA/ASS sẽ được dựng lại tương đối so với khung hình trong khi tất cả các phụ đề văn bản sẽ được dựng lại tương đối so với cửa sổ."
+
+msgctxt "IDS_PLAYLOOPMODE_PLAYLIST"
+msgid "Repeat Mode: Playlist"
+msgstr "Chế độ lặp lại: Danh sách phát"
+
+msgctxt "IDS_PLAYLOOPMODE_FILE"
+msgid "Repeat Mode: File"
+msgstr "Chế độ lặp lại: Tập tin"
+
+msgctxt "IDS_PLAYLOOP_FOREVER_ON"
+msgid "Repeat Forever: On"
+msgstr "Lặp lại mãi: Mở"
+
+msgctxt "IDS_PLAYLOOP_FOREVER_OFF"
+msgid "Repeat Forever: Off"
+msgstr "Lặp lại mãi: Tắt"
+
+msgctxt "IDS_PLAYLOOP_FOREVER"
+msgid "Repeat Forever"
+msgstr "Lặp lại mãi"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -491,7 +519,7 @@ msgstr "Phát lại::Toàn màn hình"
 
 msgctxt "IDD_PPAGEAUDIORENDERER"
 msgid "Internal Filters::Audio Renderer"
-msgstr ""
+msgstr "Bộ lọc trong::Bộ dựng âm thanh"
 
 msgctxt "IDS_AUDIOSWITCHER"
 msgid "Audio Switcher"
@@ -517,17 +545,9 @@ msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
 msgstr "Bộ phủ hòa âm render"
 
-msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
-msgid "Video Mixing Renderer 7 (windowed)"
-msgstr "Video Mixing Renderer 7 (cửa sổ)"
-
 msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
 msgid "Video Mixing Renderer 9 (windowed)"
 msgstr "Video Mixing Renderer 9 (cửa sổ)"
-
-msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
-msgid "Video Mixing Renderer 7 (renderless)"
-msgstr "Video Mixing Renderer 7 (render ít hơn)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
 msgid "Video Mixing Renderer 9 (renderless)"
@@ -581,10 +601,6 @@ msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
 msgstr "Trình phát::Giao diện Web"
 
-msgctxt "IDD_PPAGESUBDB"
-msgid "Subtitles::Database"
-msgstr "Phụ đề::Cơ sở dữ liệu"
-
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
 msgstr "Chi tiết"
@@ -595,27 +611,19 @@ msgstr "Clip"
 
 msgctxt "IDC_DSSYSDEF"
 msgid "Default video renderer filter for DirectShow. Others will fall back to this one when they can't be loaded for some reason. On Windown XP this is the same as VMR-7 (windowed)."
-msgstr "Mặc định đoạn bộ lọc video render DirectShow. Những người khác sẽ trở lại một khi họ không thể được nạp cho một số lý do. Trên Windown XP điều này cũng giống như VMR-7 (cửa sổ)."
+msgstr "Bộ lọc dựng hình mặc định cho DirectShow. Bộ lọc này sẽ được sử dụng khi các bộ lọc khác không thể nạp vì lý do nào đó. Trên Windown XP, điều này cũng giống như VMR-7 (ở chế độ cửa sổ)."
 
 msgctxt "IDC_DSOLD"
 msgid "This is the default renderer of Windows 9x/me/2k. Depending on the visibility of the video window and your video card's abilities, it will switch between GDI, DirectDraw, Overlay rendering modes dynamically."
-msgstr "Đây là dựng hình mặc định của Windows 9x/me/2k. Tùy thuộc vào khả năng hiển thị của cửa sổ video và khả năng video card của bạn, nó sẽ chuyển đổi giữa GDI, DirectDraw, Overlay dựng chế độ tự động."
+msgstr "Đây là bộ dựng hình mặc định của Windows 9x/me/2k. Tùy thuộc vào khả năng hiển thị của cửa sổ hình ảnh và khả năng của cạc màn hình, nó sẽ chuyển đổi tự động giữa các chế độ dựng hình GDI, DirectDraw, Overlay."
 
 msgctxt "IDC_DSOVERLAYMIXER"
 msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
 msgstr "Luôn luôn ám trong lớp phủ. Thường chỉ định dạng YUV được cho phép, nhưng họ được trình bày trực tiếp mà không cần bất kỳ chuyển đổi màu RGB. Đây là phương pháp dựng hình nhanh nhất của tất cả và duy nhất mà bạn có thể chắc chắn về video toàn màn hình phản chiếu để kích hoạt ngõ ra tv."
 
-msgctxt "IDC_DSVMR7WIN"
-msgid "The default renderer of Windows XP. Very stable and just a little slower than the Overlay mixer. Uses DirectDraw and runs in Overlay when it can."
-msgstr "Trình dựng hình mặc định của Windows XP. Rất ổn định và chỉ một chút chậm hơn so với bộ trộn Overlay. Sử dụng DirectDraw và chạy trong Overlay khi nó có thể."
-
 msgctxt "IDC_DSVMR9WIN"
-msgid "Only available if you have DirectX 9 installed. Has the same abilities as VMR-7 (windowed), but it will never use Overlay rendering and because of this it may be a little slower than VMR-7 (windowed)."
-msgstr "Chỉ có nếu bạn có cài đặt DirectX 9. Có khả năng tương tự như VMR-7 (cửa sổ), nhưng nó sẽ không bao giờ sử dụng dựng hình Overlay và vì điều này có thể là một chút chậm hơn so với VMR-7 (cửa sổ)."
-
-msgctxt "IDC_DSVMR7REN"
-msgid "Same as the VMR-7 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring WILL NOT work. \"True Color\" desktop color space recommended."
-msgstr "Giống như VMR-7 (cửa sổ), nhưng với các plugin cấp phát của MPC-HC cho phụ đề. Lớp phủ phản chiếu phim sẽ không làm việc. \"True Color\" không gian màu máy tính để bàn được khuyến khích."
+msgid "Only available if you have DirectX 9 installed. Very stable but it will never use Overlay rendering and because of this it may be a little slower than Overlay mixer."
+msgstr "Chỉ có giá trị nếu bạn đã cài đặt DirectX 9. Rất ổn định nhưng nó sẽ không bao giờ sử dụng bộ dựng hình Overlay và điều này có thể gây ra việc xử lý chậm hơn so với bộ trộn Overlay."
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
@@ -653,10 +661,6 @@ msgctxt "IDC_RMSYSDEF"
 msgid "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
 msgstr "Dựng hình của Real. Kịch bản SMIL sẽ làm việc, nhưng không có khả năng tương tác. Sử dụng DirectDraw và chạy trong Overlay khi nó có thể."
 
-msgctxt "IDC_RMDX7"
-msgid "The output of Real's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "Đầu ra công cụ của Real đưa ra bởi các DX7 dựa trên cấp phát của VMR-7 (ít render hơn)."
-
 msgctxt "IDC_RMDX9"
 msgid "The output of Real's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
 msgstr "Đầu ra công cụ của Real đưa ra bởi các DX9 dựa trên cấp phát của VMR-9 (ít render hơn)."
@@ -664,10 +668,6 @@ msgstr "Đầu ra công cụ của Real đưa ra bởi các DX9 dựa trên cấ
 msgctxt "IDC_QTSYSDEF"
 msgid "QuickTime's own renderer. Gets a little slow when its video area is resized or partially covered by another window. When Overlay is not available it likes to fall back to GDI."
 msgstr "Dựng hình của QuickTime. Được một chút chậm khi khu vực video của nó được thay đổi kích cỡ hoặc phủ một phần bởi một cửa sổ khác. Lớp phủ khi không có nó thích rơi trở lại GDI."
-
-msgctxt "IDC_QTDX7"
-msgid "The output of QuickTime's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "Đầu ra công cụ của QuickTime kết xuất của DX7 dựa trên cấp phát của VMR-7 (ít render hơn)."
 
 msgctxt "IDC_QTDX9"
 msgid "The output of QuickTime's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
@@ -735,7 +735,7 @@ msgstr "Null (không nén)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
 msgid "Internal Audio Renderer"
-msgstr ""
+msgstr "Bộ dựng âm thanh bên trong"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
@@ -749,9 +749,13 @@ msgctxt "IDS_EMB_RESOURCES_VIEWER_INFO"
 msgid "In order to view an embedded resource in your browser you have to enable the web interface.\n\nUse the \"Save As\" button if you only want to save the information."
 msgstr "Để xem một nguồn tài nguyên nhúng trong trình duyệt của bạn, bạn phải kích hoạt giao diện web.\n\nSử dụng \"Lưu dạng nút nếu bạn chỉ muốn để lưu thông tin."
 
-msgctxt "IDS_DOWNLOAD_SUBS"
-msgid "Download subtitles"
-msgstr "Tải phụ đề"
+msgctxt "IDS_SUBTITLES_DOWNLOAD"
+msgid "Download Subtitles..."
+msgstr "Tải phụ đề xuống..."
+
+msgctxt "IDS_SUBTITLES_UPLOAD"
+msgid "Upload Subtitles..."
+msgstr "Tải phụ đề lên..."
 
 msgctxt "IDS_SUBFILE_DELAY"
 msgid "Delay (ms):"
@@ -795,7 +799,7 @@ msgstr "Nếu không có hỗ trợ Pixel Shader 2.0, Bilinear đơn giản đư
 
 msgctxt "IDC_DSVMR9LOADMIXER"
 msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
-msgstr "Đặt VMR-9 (ít render hơn) vào chế độ trộn, điều này có nghĩa là hầu hết các điều khiển trên trang thuộc tính của nó sẽ làm việc và nó sẽ sử dụng một sợi nhân viên riêng biệt để dựng hình khung."
+msgstr "Đặt VMR-9 (dựng hình kém hơn) vào chế độ trộn, điều này có nghĩa là hầu hết việc điều khiển trên trang riêng của nó sẽ sử dụng các luồng riêng biệt để dựng các khung hình."
 
 msgctxt "IDC_DSVMR9YUVMIXER"
 msgid "Improves performance at the cost of some compatibility of the renderer."
@@ -809,9 +813,21 @@ msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Reduces tearing by bypassing the default VSync built into D3D."
 msgstr "Giảm rách bằng cách bỏ qua mặc định VSync được xây dựng vào D3D."
 
+msgctxt "IDS_NAVIGATE_TUNERSCAN"
+msgid "Tuner scan"
+msgstr "Quét"
+
+msgctxt "IDS_SUBTITLES_ERROR"
+msgid "Subtitles are not loaded or unsupported renderer."
+msgstr "Phụ đề không được nạp hoặc bộ dựng không được hỗ trợ."
+
+msgctxt "IDC_CACHESHADERS"
+msgid "Stores compiled shaders in local AppData to speed up load time."
+msgstr "Lưu trữ bộ đổ bóng biên dịch vào AppData để tăng tốc nạp."
+
 msgctxt "IDS_SRC_VTS"
 msgid "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"
-msgstr "Mở VTS_xx_0.ifo để tải các tập tin VTS_xx_x.vob trong một mảnh"
+msgstr "Mở VTS_xx_0.ifo để nạp toàn bộ các tập tin VTS_xx_x.vob"
 
 msgctxt "IDS_SRC_RFS"
 msgid "Based on RARFileSource, doesn't support compressed files"
@@ -823,7 +839,7 @@ msgstr "Sử dụng bộ lọc LAV"
 
 msgctxt "IDS_INTERNAL_LAVF_WMV"
 msgid "Uses LAV Filters. Disabled by default since Microsoft filters are usually more stable for those formats.\nIf you choose to use the internal filters, enable them for both source and decoding to have a better playback experience."
-msgstr "Sử dụng bộ lọc LAV. Tắt theo mặc định từ các bộ lọc Microsoft thường ổn định hơn cho những định dạng.\nNếu bạn chọn để sử dụng các bộ lọc nội bộ, cho phép họ cho cả nguồn và giải mã để có một kinh nghiệm phát lại tốt hơn."
+msgstr "Sử dụng bộ lọc LAV. Được tắt bởi mặc định, vì các bộ lọc Microsoft thường ổn định hơn cho các định dạng đó.\nNếu bạn chọn sử dụng các bộ lọc nội bộ, kích hoạt chúng cho cả nguồn và việc giải mã thì sẽ có một trải nghiệm phát lại tốt hơn."
 
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
@@ -946,12 +962,12 @@ msgid "&Organize Favorites..."
 msgstr "Tổ &chức ưa thích"
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
-msgid "Shuffle"
-msgstr "Xáo trộn"
+msgid "Sh&uffle"
+msgstr "&Xáo trộn"
 
 msgctxt "IDS_PLAYLIST_SHOWFOLDER"
-msgid "Open file location"
-msgstr "Mở vị trí tệp"
+msgid "Ope&n file location"
+msgstr "&Mở vị trí tập tin"
 
 msgctxt "IDS_CONTROLS_CLOSING"
 msgid "Closing..."
@@ -1034,8 +1050,8 @@ msgid "Zoom To Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
 msgstr "Phóng cho màn hình rộng,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_PLAYLIST_HIDEFS"
-msgid "Hide on Fullscreen"
-msgstr "Ẩn toàn màn hình"
+msgid "&Hide on Fullscreen"
+msgstr "&Ẩn trên toàn màn hình"
 
 msgctxt "IDS_CONTROLS_STOPPED"
 msgid "Stopped"
@@ -1171,7 +1187,7 @@ msgstr "Trình đổ bóng được biên dịch lại tự động khi các t�
 
 msgctxt "IDS_SHADER_DLL_ERR_0"
 msgid "Cannot load %s, pixel shaders will not work."
-msgstr "Không thể tải %s, trình đổ bóng pixel sẽ không làm việc."
+msgstr "Không thể nạp %s, bộ đổ bóng pixel sẽ không làm việc."
 
 msgctxt "IDS_SHADER_DLL_ERR_1"
 msgid "Cannot find necessary function entry points in %s, pixel shaders will not work."
@@ -1222,8 +1238,8 @@ msgid "+%d%%"
 msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
-msgid "Add containing folder"
-msgstr "Thêm thư mục chứa"
+msgid "Add containing &folder"
+msgstr "&Thêm thư mục chứa"
 
 msgctxt "IDS_HW_INDICATOR"
 msgid "[H/W]"
@@ -1235,7 +1251,7 @@ msgstr "Phần mềm giải mã"
 
 msgctxt "IDS_STATSBAR_PLAYBACK_RATE"
 msgid "Playback rate"
-msgstr "&Tốc độ phát"
+msgstr "&Tốc độ phát lại"
 
 msgctxt "IDS_FILTERS_COPY_TO_CLIPBOARD"
 msgid "&Copy filters list to clipboard"
@@ -1259,7 +1275,7 @@ msgstr "Chủ đề Giáo dục/Khoa học/Thực tế"
 
 msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
 msgid "Hides controls and panels also in windowed mode."
-msgstr "Ẩn các điều chỉnh và cửa sổ trong chế độ cửa sổ."
+msgstr "Ẩn các bảng điều khiển trong chế độ cửa sổ."
 
 msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
 msgid "Prevent external subtitle renderer to be loaded when internal is in use."
@@ -1319,7 +1335,7 @@ msgstr "Chất lượng (%):"
 
 msgctxt "IDS_PPAGEADVANCED_COVER_SIZE_LIMIT"
 msgid "Maximum size (NxNpx) of a cover-art loaded in the audio only mode."
-msgstr "Kích thước tối đa (NxNpx) của một bìa album được tải trong chế độ âm thanh."
+msgstr "Kích thước tối đa (NxNpx) của một bìa album được nạp trong chế độ chỉ âm thanh."
 
 msgctxt "IDS_SUBTITLE_DELAY_STEP_TOOLTIP"
 msgid "The subtitle delay will be decreased/increased by this value each time the corresponding hotkeys are used (%s/%s)."
@@ -1387,23 +1403,23 @@ msgstr "Sau khi phát xong: Đóng"
 
 msgctxt "IDS_FRAME_INIT_FAILED"
 msgid "MPC-HC encountered a problem during initialization. With your help we might be able to fix the issue.\n\nDo you want to report it?"
-msgstr ""
+msgstr "MPC-HC gặp vấn đề trong quá trình khởi động. Với sự giúp đỡ của bạn, chúng tôi có thể sửa lỗi.\n\nBạn có muốn báo cáo lỗi này?"
 
 msgctxt "IDS_TIME_SHIFT_TOOLTIP"
 msgid "Enter a positive value if the audio is early, a negative value if it is late."
-msgstr ""
+msgstr "Nhập giá trị dương nếu âm thanh phát sớm, giá trị âm nếu âm thanh phát trễ."
 
 msgctxt "IDS_WEBUI_DISABLED_PREVIEW_MSG"
 msgid "Preview is currently disabled. You can enable it in MPC-HC's options."
-msgstr ""
+msgstr "Xem trước đã bị vô hiệu hóa. Bạn có thể kích hoạt lại trong phần Tùy chọn của MPC-HC."
 
 msgctxt "IDS_WEBUI_PREVIEW_WARNING"
 msgid "This option can be used to preview media files from remote location. Use it only on a properly secured private network.\n\nDo you really want to enable this option?"
-msgstr ""
+msgstr "Tùy chọn này có thể được sử dụng để xem trước tập tin đa phương tiện từ vị trí lưu từ xa. Chỉ sử dụng tùy chọn này trên một kết nối mạng riêng tư đảm bảo an toàn và chắc chắn.\n\nBạn có thật sự muốn kích hoạt tùy chọn này?"
 
 msgctxt "IDS_SUBTITLE_RENDERER_INTERNAL"
 msgid "Internal Subtitle Renderer"
-msgstr ""
+msgstr "Bộ dựng phụ đề bên trong"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1425,13 +1441,13 @@ msgctxt "IDS_OSD_IMAGE_SAVED"
 msgid "Image saved successfully"
 msgstr "Hình đã được lưu thành công"
 
-msgctxt "IDS_AG_LOAD_SUBTITLE"
-msgid "Load Subtitle"
-msgstr "Nạp phụ đề"
+msgctxt "IDS_AG_LOAD_SUBTITLES"
+msgid "Load Subtitles..."
+msgstr "Nạp phụ đề..."
 
-msgctxt "IDS_AG_SAVE_SUBTITLE"
-msgid "Save Subtitle"
-msgstr "Lưu phụ đề"
+msgctxt "IDS_AG_SAVE_SUBTITLES"
+msgid "Save Subtitles..."
+msgstr "Lưu phụ đề..."
 
 msgctxt "IDS_AG_PROPERTIES"
 msgid "Properties"
@@ -1515,7 +1531,7 @@ msgstr "Khung hình gần nhất"
 
 msgctxt "IDS_HOOKS_FAILED"
 msgid "MPC-HC encountered a problem during initialization. DVD playback may not work correctly. This might be caused by some incompatibilities with certain security tools.\n\nDo you want to report this issue?"
-msgstr "MPC-HC gặp một vấn đề trong quá trình khởi tạo. Phát lại DVD có thể không hoạt động chính xác. Điều này có thể được gây ra bởi một số không tương thích với các công cụ bảo mật nhất định.\n\nBạn có muốn báo cáo vấn đề này?"
+msgstr "MPC-HC gặp một vấn đề trong quá trình khởi tạo. Phát lại DVD có thể không hoạt động chính xác. Điều này có thể được gây ra bởi một số vấn đề không tương thích với các công cụ bảo mật nhất định.\n\nBạn có muốn báo cáo vấn đề này?"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOWNEVER"
 msgid "Never show"
@@ -1558,7 +1574,7 @@ msgid "Thumbnails saved successfully"
 msgstr "Hình thu nhỏ đã được lưu"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
-msgid "&Video Track"
+msgid "Vide&o Track"
 msgstr "&Rãnh hình ảnh"
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
@@ -1691,11 +1707,11 @@ msgstr "MHHT: Hiển thị tên tập tin"
 
 msgctxt "IDS_PLAY_DVD"
 msgid "Play DVD"
-msgstr ""
+msgstr "Phát DVD"
 
 msgctxt "IDS_PLAY_BD"
 msgid "Play BD"
-msgstr ""
+msgstr "Phát BD"
 
 msgctxt "IDS_OSD_DISPLAY_RENDERER_STATS"
 msgid "OSD: Display Renderer Statistics"
@@ -1794,8 +1810,8 @@ msgid "PnS Dec Height"
 msgstr "Độ rộng PnS Dec"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
-msgid "Downloading subtitle(s), please wait."
-msgstr "Tải phụ đề(s), xin vui lòng chờ đợi."
+msgid "Downloading [%s] \"%s\""
+msgstr "Đang tải xuống [%s] \"%s\""
 
 msgctxt "IDS_SUBDL_DLG_PARSING"
 msgid "Parsing list..."
@@ -1979,19 +1995,19 @@ msgstr "Tùy chọn"
 
 msgctxt "IDS_AG_NEXT_AUDIO"
 msgid "Next Audio Track"
-msgstr ""
+msgstr "Rãnh âm thanh kế tiếp"
 
 msgctxt "IDS_AG_PREV_AUDIO"
 msgid "Prev Audio Track"
-msgstr ""
+msgstr "Rãnh âm thanh trước đó"
 
 msgctxt "IDS_AG_NEXT_SUBTITLE"
 msgid "Next Subtitle Track"
-msgstr ""
+msgstr "Rãnh phụ đề kế tiếp"
 
 msgctxt "IDS_AG_PREV_SUBTITLE"
 msgid "Prev Subtitle Track"
-msgstr ""
+msgstr "Rãnh phụ đề trước đó"
 
 msgctxt "IDS_MPLAYERC_85"
 msgid "On/Off Subtitle"
@@ -2011,19 +2027,19 @@ msgstr "Góc trước (DVD)"
 
 msgctxt "IDS_MPLAYERC_93"
 msgid "Next Audio Track (DVD)"
-msgstr ""
+msgstr "Rãnh âm thanh kế tiếp (DVD)"
 
 msgctxt "IDS_MPLAYERC_94"
 msgid "Prev Audio Track (DVD)"
-msgstr ""
+msgstr "Rãnh âm thanh trước đó (DVD)"
 
 msgctxt "IDS_MPLAYERC_95"
 msgid "Next Subtitle Track (DVD)"
-msgstr ""
+msgstr "Rãnh phụ đề kế tiếp (DVD)"
 
 msgctxt "IDS_MPLAYERC_96"
 msgid "Prev Subtitle Track (DVD)"
-msgstr ""
+msgstr "Rãnh phụ đề trước đó (DVD)"
 
 msgctxt "IDS_MPLAYERC_97"
 msgid "On/Off Subtitle (DVD)"
@@ -2057,11 +2073,11 @@ msgctxt "IDS_DVB_CHANNEL_ENCRYPTION"
 msgid "Encrypted"
 msgstr "Đã mã hóa"
 
-msgctxt "IDS_DVB_CHANNEL_ENCRYPTED"
+msgctxt "IDS_YES"
 msgid "Yes"
 msgstr "Có"
 
-msgctxt "IDS_DVB_CHANNEL_NOT_ENCRYPTED"
+msgctxt "IDS_NO"
 msgid "No"
 msgstr "Không"
 
@@ -2139,7 +2155,7 @@ msgstr "MPC-HC không có đủ quyền để thay đổi hỗ trợ định d�
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
-msgstr "MPC-HC là một phương tiện truyền thông máy nghe nhạc mở nguồn cho Windows. Nó hỗ trợ tất cả các video phổ biến và các định dạng tập tin âm thanh có sẵn để phát lại. Phần mềm này 100% phần mềm miễn phí, không có quảng cáo hoặc các thanh công cụ."
+msgstr "MPC-HC là một trình phát phương tiện truyền thông mã nguồn mở, cực kỳ nhỏ gọn dành cho Windows. Nó hỗ trợ phát lại tất cả các định dạng tập tin âm thanh và phim ảnh phổ biến. Phần mềm này 100% không chứa phần mềm gián điệp, không có quảng cáo hoặc các thanh công cụ đính kèm."
 
 msgctxt "IDS_MAINFRM_12"
 msgid "channel"
@@ -2187,7 +2203,7 @@ msgstr "DVD: Không tương thích đĩa và bộ giải mã vùng"
 
 msgctxt "IDS_D3DFS_WARNING"
 msgid "This option is designed to avoid tearing. However, it will also prevent MPC-HC from displaying the context menu and any dialog box during playback.\n\nDo you really want to activate this option?"
-msgstr "Tùy chọn này được thiết kế để tránh bị nhiễu. Tuy nhiên, nó cũng sẽ ngăn chặn MPC-HC hiển thị menu ngữ cảnh và bất kỳ hộp thoại trong khi phát.\n\nBạn có thực sự muốn kích hoạt tùy chọn này?"
+msgstr "Tùy chọn này được thiết kế để tránh làm phiền. Tuy nhiên, nó cũng sẽ ngăn chặn MPC-HC trong việc hiển thị trình đơn ngữ cảnh và các hộp thoại trong khi phát lại.\n\nBạn có thực sự muốn kích hoạt tùy chọn này?"
 
 msgctxt "IDS_MAINFRM_139"
 msgid "Sub delay: %ld ms"
@@ -2212,14 +2228,6 @@ msgstr "Cột:"
 msgctxt "IDS_THUMB_IMAGE_WIDTH"
 msgid "Image width"
 msgstr "Bề rộng hình ảnh"
-
-msgctxt "IDS_PPSDB_URLCORRECT"
-msgid "The URL appears to be correct!"
-msgstr "URL sẽ xuất hiện là đúng!"
-
-msgctxt "IDS_PPSDB_PROTOCOLERR"
-msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
-msgstr "Phiên bản giao thức không phù hợp, hãy nâng cấp máy nghe nhạc của bạn hoặc chọn một địa chỉ khác nhau!"
 
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
@@ -2314,8 +2322,8 @@ msgid "The thumbnails would be too small, impossible to create the file.\n\nTry 
 msgstr "Các hình ảnh thu nhỏ sẽ quá nhỏ, không thể tạo tập tin.\n\nHãy giảm số lượng các hình ảnh thu nhỏ hoặc tăng tổng kích thước."
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
-msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "Để nạp phụ đề bạn phải thay đổi loại bộ dựng hình và mở lại tập tin.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR hoặc Haali\n- RealMedia: Bộ dựng hình dành riêng cho RealMedia, hoặc mở nó bằng DirectShow\n- QuickTime: Bộ dựng hình DX7 hoặc DX9 cho QuickTime\n- ShockWave: Không có sẵn"
+msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+msgstr "Để nạp phụ đề bạn phải thay đổi loại bộ dựng hình và mở lại tập tin.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR hoặc Haali\n- RealMedia: Bộ dựng hình dành riêng cho RealMedia, hoặc mở nó bằng DirectShow\n- QuickTime: Bộ dựng hình DX7 hoặc DX9 cho QuickTime\n- ShockWave: Không có sẵn"
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
@@ -2326,8 +2334,8 @@ msgid "Aspect Ratio: %ld:%ld"
 msgstr "Tỷ lệ khung hình: %ld:%ld"
 
 msgctxt "IDS_MAINFRM_69"
-msgid "Aspect Ratio: Default"
-msgstr "Tỉ lệ khung hình: Mặc định"
+msgid "Aspect Ratio: Default (DAR)"
+msgstr "Tỉ lệ khung hình: Mặc định (DAR)"
 
 msgctxt "IDS_MAINFRM_70"
 msgid "Audio delay: %I64d ms"
@@ -2364,10 +2372,6 @@ msgstr "Hủy mở"
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
 msgstr "Thất bại trong việc dựng các tập tin"
-
-msgctxt "IDS_PPSDB_BADURL"
-msgid "Bad URL, could not locate subtitle database there!"
-msgstr "URL xấu, không thể xác định vị trí cơ sở dữ liệu phụ đề đó!"
 
 msgctxt "IDS_AG_CHAPTER2"
 msgid "Chapter: "
@@ -2423,7 +2427,7 @@ msgstr "Không thể kết nối các bộ lọc"
 
 msgctxt "IDS_MAINFRM_87"
 msgid "Cannot load any source filter"
-msgstr "Không thể tải bất kỳ bộ lọc nguồn"
+msgstr "Không thể nạp bất kỳ bộ lọc nguồn"
 
 msgctxt "IDS_MAINFRM_88"
 msgid "Cannot render the file"
@@ -2562,8 +2566,8 @@ msgid "Volume boost Max"
 msgstr "Khối lượng âm lớn nhất"
 
 msgctxt "IDS_USAGE"
-msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/randomize\tRandomize the playlist\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tUse MPC-HC as slave\n/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding\n\t\tOnly available for CUVID and DXVA2 (copy-back)\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "Cách sử dụng: mpc-hc.exe \"pathname\" [chuyển]\n\n\"pathname\"\tCác tập tin hoặc thư mục chính được nạp (ký tự đại diện\n\t\tcho phép, \"-\" biểu thị đầu vào tiêu chuẩn)\n/dub \"dubname\"\tNạp một tập tin âm thanh khác\n/dubdelay \"file\"\tNạp một tập tin âm thanh thêm dịch chuyển XXms (nếu\n\t\ttệp chứa \"...Độ trễ XX giây...\")\n/d3dfs\t\tBắt đầu dựng hình trong chế độ toàn màn hình D3D\n/sub \"subname\"\tNạp một file phụ đề thêm\n/filter \"filtername\"\tBộ lọc DirectShow tải từ một liên thư viện\n\t\tkết động(ký tự đại diện)\n/dvd\t\tChạy chế độ dvd, \"pathname\" nghĩa là thư mục\n\t\tDVD(tùy chọn)\n/dvdpos T#C\tBắt đầu phát lại tại tiêu đề T, chương C\n/dvdpos T#hh:mm\tPhát lại tại tiêu đề T, vị trí gg:pp:gg\n/cd\t\tTải tất cả các bài hát của một đĩa CD âm thanh hoặc (s) VCD,\n\t\t\"pathname\" nghĩa là đường dẫn cd(tùy chọn)\n/device\t\tMở thiết bị video mặc định\n/open\t\tMở tập tin, không tự động bắt đầu phát lại\n/play\t\tBắt đầu chơi các tập tin ngay sau trình phát nhạc\n\t\tđã chạy\n/close\t\tĐóng trình phát nhạc sau khi phát lại (chỉ hoạt động khi\n\t\tdùng với /phát)\n/shutdown\tTắt máy tính, hệ điều hành sau khi phát lại\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tBắt đầu trong chế độ toàn màn hình\n/minimized\tBắt đầu trong chế độ giảm thiểu\n/new\t\tSử dụng một trường hợp mới của trình phát nhạc\n/add\t\tThêm\"pathname\" vào danh sách phát, sẽ kết hợp\n\t\tvới/mở và/phát\n/randomize\tRandomize the playlist\n/regvid\t\tTạo ra các phần mở rộng cho các tập tin video\n/regaud\t\tTạo ra các phần mở rộng cho các tập tin âm thanh\n/regpl\t\tTạo ra các phần mở rộng cho các tập tin danh sách phát\n/regall\t\tTạo ra các phần mở rộng cho các tất cả các tập tin \n/unregall\t\tLoại bỏ phần mở rộng\n/start ms\t\tBắt đầu phát lúc \"mlg\" (= mili giây)\n/startpos hh:mm:ss\tPhát tại vị trí gg:pp:gg\n/fixedsize w,h\tThiết lập một kích thước cửa sổ cố định\n/monitor N\tBắt đầu chơi trên màn hình N, trong đó N bắt đầu từ 1\n/audiorenderer N\tBắt đầu sử dụng trình âm N, trong đó N bắt đầu từ 1\n\t\t(xem thiết lập\"Ngõ ra\")\n/shaderpreset \"Pr\"\tBắt đầu sử dụng \"Pr\" tạo bóng đặt trước\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tUse MPC-HC as slave\n/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding\n\t\tOnly available for CUVID and DXVA2 (copy-back)\n/reset\t\tKhôi phục cài đặt mặc định\n/help /h /?\tHiện giúp đỡ về chuyển dòng lệnh\n"
+msgid "Usage: mpc-hc.exe \"pathname\" [switches]"
+msgstr "Cách sử dụng: \"đường dẫn\" mpc-hc.exe [chuyển đổi]"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -2648,14 +2652,6 @@ msgstr "Chuyển phóng khung"
 msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
 msgstr "&Kích hoạt bộ lọc"
-
-msgctxt "IDS_NAVIGATE_TUNERSCAN"
-msgid "Tuner scan"
-msgstr "Quét"
-
-msgctxt "IDS_SUBTITLES_ERROR"
-msgid "Subtitles are not loaded or unsupported renderer."
-msgstr "Phụ đề không được nạp hoặc render không được hỗ trợ."
 
 msgctxt "IDS_LOGO_AUTHOR"
 msgid "Author unknown. Contact us if you made this logo!"
@@ -3405,10 +3401,6 @@ msgctxt "IDS_SCREENSHOT_ERROR_OVERLAY"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the Overlay Mixer video renderer.\nChange the video renderer in MPC's output options and reopen the file."
 msgstr "\"Lưu ảnh\" và \"Lưu hình nhỏ\" chức năng không làm việc với video dựng hình bộ trộn.\nThay đổi trình phát video trong các tùy chọn đầu ra của MPC và mở lại tập tin."
 
-msgctxt "IDS_SUBDL_DLG_CONNECT_ERROR"
-msgid "Cannot connect to the online subtitles database."
-msgstr "Không thể kết nối với cơ sở dữ liệu phụ đề trực tuyến."
-
 msgctxt "IDS_MB_SHOW_EDL_EDITOR"
 msgid "Do you want to activate the EDL editor?"
 msgstr "Bạn có muốn kích hoạt  trình soạn thảo EDL?"
@@ -3483,27 +3475,27 @@ msgstr "Sau khi phát xong: Thoát"
 
 msgctxt "IDS_AFTERPLAYBACK_STANDBY"
 msgid "After Playback: Stand By"
-msgstr "Sau khi xem lại: Chuyển chế độ"
+msgstr "Sau khi phát xong: Chế độ chờ"
 
 msgctxt "IDS_AFTERPLAYBACK_HIBERNATE"
 msgid "After Playback: Hibernate"
-msgstr "Sau khi xem lại: Ngủ đông"
+msgstr "Sau khi phát xong: Ngủ đông"
 
 msgctxt "IDS_AFTERPLAYBACK_SHUTDOWN"
 msgid "After Playback: Shutdown"
-msgstr "Sau khi xem lại: Tắt máy"
+msgstr "Sau khi phát xong: Tắt máy"
 
 msgctxt "IDS_AFTERPLAYBACK_LOGOFF"
 msgid "After Playback: Log Off"
-msgstr "Sau khi xem lại: Đổi"
+msgstr "Sau khi phát xong: Đăng xuất"
 
 msgctxt "IDS_AFTERPLAYBACK_LOCK"
 msgid "After Playback: Lock"
-msgstr "Sau khi xem lại: Khóa"
+msgstr "Sau khi phát xong: Khóa"
 
 msgctxt "IDS_AFTERPLAYBACK_MONITOROFF"
 msgid "After Playback: Turn off the monitor"
-msgstr "Sau khi phát lại: Tắt màn hình"
+msgstr "Sau khi phát xong: Tắt màn hình"
 
 msgctxt "IDS_AFTERPLAYBACK_PLAYNEXT"
 msgid "After Playback: Play next file in the folder"
@@ -3595,9 +3587,377 @@ msgstr "Thiết lập"
 
 msgctxt "IDS_SUBTITLE_RENDERER_VS_FILTER"
 msgid "VSFilter / DirectVobSub"
-msgstr ""
+msgstr "VSFilter / DirectVobSub"
 
 msgctxt "IDS_SUBTITLE_RENDERER_XY_SUB_FILTER"
 msgid "XySubFilter"
-msgstr ""
+msgstr "XySubFilter"
+
+msgctxt "IDS_SUBDL_DLG_PROVIDER_COL"
+msgid "Provider"
+msgstr "Nguồn cấp"
+
+msgctxt "IDS_SUBDL_DLG_HI_COL"
+msgid "Hearing Impaired"
+msgstr "Âm thanh không rõ"
+
+msgctxt "IDS_SUBDL_DLG_DOWNLOADS_COL"
+msgid "Downloads"
+msgstr "Tải xuống"
+
+msgctxt "IDS_SUBDL_DLG_SCORE_COL"
+msgid "Score"
+msgstr "Bản ghi"
+
+msgctxt "IDS_SUBDL_DLG_FAILED"
+msgid "Online subtitles search failed."
+msgstr "Việc tìm kiếm phụ đề trực tuyến đã thất bại."
+
+msgctxt "IDS_SUBDL_DLG_ABORTED"
+msgid "Online subtitles search aborted."
+msgstr "Việc tìm kiếm phụ đề trực tuyến đã bị hủy."
+
+msgctxt "IDS_SUBDL_DLG_FOUND"
+msgid "Online subtitles search completed, %d subtitles found."
+msgstr "Việc tìm kiếm phụ đề trực tuyến đã hoàn thành, tìm thấy %d phụ đề."
+
+msgctxt "IDS_SUBDL_DLG_NOTFOUND"
+msgid "Online subtitles search completed, no subtitles found."
+msgstr "Việc tìm kiếm phụ đề trực tuyến đã hoàn thành, nhưng không tìm thấy phụ đề nào."
+
+msgctxt "IDS_SUBDL_DLG_TITLE"
+msgid "Download subtitles"
+msgstr "Tải phụ đề xuống"
+
+msgctxt "IDS_SUBDL_DLG_SEARCHING"
+msgid "Searching for subtitles online, please wait..."
+msgstr "Đang tìm kiếm phụ đề trực tuyến, vui lòng chờ..."
+
+msgctxt "IDS_SUBDL_DLG_ABORTING"
+msgid "Online subtitles search aborting..."
+msgstr "Đang hủy việc tìm kiếm phụ đề trực tuyến..."
+
+msgctxt "IDS_SUBUL_DLG_USERNAME_COL"
+msgid "Username"
+msgstr "Tên người dùng"
+
+msgctxt "IDS_SUBUL_DLG_STATUS_COL"
+msgid "Status"
+msgstr "Tình trạng"
+
+msgctxt "IDS_SUBUL_DLG_STATUS_READY"
+msgid "Ready..."
+msgstr "Sẵn sàng..."
+
+msgctxt "IDS_SUBUL_DLG_STATUS_NOTIMPLEMENTED"
+msgid "Not implemented."
+msgstr "Không được thực thi."
+
+msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADING"
+msgid "Uploading..."
+msgstr "Đang tải lên..."
+
+msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADED"
+msgid "Subtitles uploaded successfully."
+msgstr "Phụ đề đã được tải lên thành công."
+
+msgctxt "IDS_SUBUL_DLG_STATUS_FAILED"
+msgid "Subtitles upload failed."
+msgstr "Việc tải phụ đề lên đã thất bại."
+
+msgctxt "IDS_SUBUL_DLG_STATUS_ABORTED"
+msgid "Subtitles upload aborted."
+msgstr "Việc tải phụ đề lên đã bị hủy."
+
+msgctxt "IDS_SUBUL_DLG_STATUS_ALREADYEXISTS"
+msgid "Subtitles already exist."
+msgstr "Phụ đề này đã có sẵn."
+
+msgctxt "IDS_SUBUL_DLG_UPLOADING"
+msgid "Uploading subtitles, please wait..."
+msgstr "Đang tải phụ đề lên, vui lòng chờ..."
+
+msgctxt "IDS_SUBUL_DLG_UPLOADED"
+msgid "Upload finished."
+msgstr "Việc tải lên đã hoàn thành."
+
+msgctxt "IDS_SUBUL_DLG_ABORTED"
+msgid "Upload aborted."
+msgstr "Việc tải lên đã bị hủy."
+
+msgctxt "IDS_SUBUL_DLG_FAILED"
+msgid "Upload failed."
+msgstr "Việc tải lên đã thất bại."
+
+msgctxt "IDS_SUBMENU_DOWNLOAD"
+msgid "Download && Open"
+msgstr "&Tải xuống & Mở "
+
+msgctxt "IDS_SUBMENU_SETUP"
+msgid "Setup"
+msgstr "Thiết lập"
+
+msgctxt "IDS_SUBMENU_RESET"
+msgid "Reset"
+msgstr "Thiết lập lại"
+
+msgctxt "IDS_SUBMENU_MOVEUP"
+msgid "Move Up"
+msgstr "Chuyển lên"
+
+msgctxt "IDS_SUBMENU_MOVEDOWN"
+msgid "Move Down"
+msgstr "Chuyển xuống"
+
+msgctxt "IDS_SUBMENU_OPENURL"
+msgid "Open URL"
+msgstr "Mở URL"
+
+msgctxt "IDS_SUBPP_DLG_LANGUAGES_COL"
+msgid "Languages"
+msgstr "Ngôn ngữ"
+
+msgctxt "IDS_SUBPP_DLG_LANGUAGES_ERROR"
+msgid "ERROR: Internet connection could not be established."
+msgstr "LỖI: Kết nối mạng chưa được thiết lập."
+
+msgctxt "IDS_SUB_CREDENTIALS_TITLE"
+msgid "Enter website credentials"
+msgstr "Nhập các chứng nhận cho trang web"
+
+msgctxt "IDS_SUB_CREDENTIALS_MSG"
+msgid "Enter your credentials to connect to: "
+msgstr "Nhập các chứng nhận của bạn để kết nối đến:"
+
+msgctxt "IDS_ASPECT_RATIO_SAR"
+msgid "Aspect Ratio: Assume square pixels (SAR)"
+msgstr "Tỉ lệ khung hình: Giả định điểm ảnh vuông (SAR)"
+
+msgctxt "IDS_SUBDL_DLG_DOWNLOADED"
+msgid "Downloaded [%s] \"%s\""
+msgstr "Đã tải xuống [%s] \"%s\""
+
+msgctxt "IDS_SUBUL_DLG_TITLE"
+msgid "Upload subtitles"
+msgstr "Tải phụ đề lên "
+
+msgctxt "IDS_SUBUL_DLG_CONFIRM"
+msgid "Are you sure you want to upload the subtitle file \"%s\"?"
+msgstr "Bạn có chắc là muốn tải tập tin phụ đề \"%s\" lên?"
+
+msgctxt "IDS_SUBPP_DLG_FETCHING_LANGUAGES"
+msgid "Fetching supported languages..."
+msgstr "Đang tìm và nạp ngôn ngữ được hỗ trợ..."
+
+msgctxt "IDS_SUB_CREDENTIALS_ERROR"
+msgid "Failed to log in on \"%S\" with username \"%S\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
+msgstr "Không thể đăng nhập vào \"% S\" bằng tên người dùng \"% S\".\n\nVui lòng nhập tên người dùng và mật khẩu chính xác hoặc thiết lập lại các thông tin đăng nhập như một người dùng vô danh."
+
+msgctxt "IDS_SUB_AUTODL_IGNORE_TOOLTIP"
+msgid "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\nFor example, type: \"private dir\\videos|work\\\"."
+msgstr "Tự động tìm kiếm và tải về sẽ bị vô hiệu hóa đối với mọi tập tin đa phương tiện có chứa đoạn đường dẫn như đã nhập vào đây.\nVí dụ, gõ: \"private dir\\videos|work\\\"."
+
+msgctxt "IDS_CMD_PATHNAME"
+msgid "\"pathname\"\tThe main file or directory to be loaded\n\t\t(wildcards allowed, \"-\" denotes standard input)"
+msgstr "\"pathname\"\tTập tin hoặc thư mục chính được nạp\n\t\t(cho phép ký tự đại diện, ký tự \"-\" được coi là nhập liệu chuẩn)"
+
+msgctxt "IDS_CMD_DUB"
+msgid "/dub \"dubname\"\tLoad an additional audio file"
+msgstr "/dub \"dubname\"\tNạp tập tin âm thanh lồng tiếng"
+
+msgctxt "IDS_CMD_DUBDELAY"
+msgid "/dubdelay \"file\"\tLoad an additional audio file shifted with XXms\n\t\t(if the file contains \"...DELAY XXms...\")"
+msgstr "/dubdelay \"file\"\tNạp tập tin âm thanh lồng tiếng có độ chênh lệch là XXms\n\t\t(Nếu tập tin có chứa \"...DELAY XXms...\")"
+
+msgctxt "IDS_CMD_D3DFS"
+msgid "/d3dfs\t\tStart rendering in D3D fullscreen mode"
+msgstr "/d3dfs\t\tKhởi động bộ dựng hình trong chế độ D3D toàn màn hình"
+
+msgctxt "IDS_CMD_SUB"
+msgid "/sub \"subname\"\tLoad an additional subtitle file"
+msgstr "/sub \"subname\"\tNạp tập tin phụ đề bổ sung"
+
+msgctxt "IDS_CMD_FILTER"
+msgid "/filter \"filtername\"\tLoad DirectShow filters from a dynamic link library (wildcards allowed)"
+msgstr "/filter \"filtername\"\tNạp bộ lọc DirectShow từ thư viện liên kết động (cho phép ký tự đại diện)"
+
+msgctxt "IDS_CMD_DVD"
+msgid "/dvd\t\tRun in DVD mode, \"pathname\" means the DVD folder (optional)"
+msgstr "/dvd\t\tChạy trong chế độ DVD, \"đường dẫn\" nghĩa là thư mục DVD (tùy chọn)"
+
+msgctxt "IDS_CMD_DVDPOS_TC"
+msgid "/dvdpos T#C\tStart playback at title T, chapter C"
+msgstr "/dvdpos T#C\tKhởi chạy tại tiêu đề T, chương C"
+
+msgctxt "IDS_CMD_DVDPOS_TIME"
+msgid "/dvdpos T#P\tStart playback at title T, position P (hh:mm:ss)"
+msgstr "/dvdpos T#P\tKhởi chạy tại tiêu đề T, vị trí P (hh:mm:ss)"
+
+msgctxt "IDS_CMD_CD"
+msgid "/cd\t\tLoad all the tracks of an Audio CD or (S)VCD,\n\t\t\"pathname\" means the drive path (optional)"
+msgstr "/cd\t\tNạp tất cả các rãnh của CD âm thanh hoặc (S)VCD,\n\t\t\"đường dẫn\" nghĩa là đường dẫn ổ đĩa (tùy chọn)"
+
+msgctxt "IDS_CMD_DEVICE"
+msgid "/device\t\tOpen the default video device"
+msgstr "/device\t\tMở thiết bị phim ảnh mặc định"
+
+msgctxt "IDS_CMD_OPEN"
+msgid "/open\t\tOpen the file, don't automatically start playback"
+msgstr "/open\t\tMở tập tin, không tự động khởi chạy"
+
+msgctxt "IDS_CMD_PLAY"
+msgid "/play\t\tStart playing the file as soon the player is launched"
+msgstr "/play\t\tKhởi chạy tập tin ngay khi trình phát được khởi động"
+
+msgctxt "IDS_CMD_CLOSE"
+msgid "/close\t\tClose the player after playback (only works when used with /play)"
+msgstr "/close\t\tĐóng trình phát sau khi phát xong (chỉ khi được sử dụng với /phát)"
+
+msgctxt "IDS_CMD_SHUTDOWN"
+msgid "/shutdown\tShutdown the operating system after playback"
+msgstr "/shutdown\tTắt hệ thống sau khi phát xong"
+
+msgctxt "IDS_CMD_STANDBY"
+msgid "/standby\t\tPut the operating system in standby mode after playback"
+msgstr "/standby\t\tĐặt hệ thống vào chế độ chờ sau khi phát xong"
+
+msgctxt "IDS_CMD_HIBERNATE"
+msgid "/hibernate\tHibernate operating system after playback"
+msgstr "/hibernate\tĐặt hệ thống vào chế độ ngủ đông sau khi phát xong"
+
+msgctxt "IDS_CMD_LOGOFF"
+msgid "/logoff\t\tLog off after playback"
+msgstr "/logoff\t\tĐăng xuất khỏi hệ thống sau khi phát xong"
+
+msgctxt "IDS_CMD_LOCK"
+msgid "/lock\t\tLock workstation after playback"
+msgstr "/lock\t\tKhóa trạm làm việc sau khi phát xong"
+
+msgctxt "IDS_CMD_MONITOROFF"
+msgid "/monitoroff\tTurn off the monitor after playback"
+msgstr "/monitoroff\tTắt màn hình sau khi phát xong"
+
+msgctxt "IDS_CMD_PLAYNEXT"
+msgid "/playnext\t\tOpen next file in the folder after playback"
+msgstr "/playnext\t\tMở tập tin kế tiếp trong thư mục sau khi phát xong"
+
+msgctxt "IDS_CMD_FULLSCREEN"
+msgid "/fullscreen\tStart in fullscreen mode"
+msgstr "/fullscreen\tKhởi động trong chế độ toàn màn hình"
+
+msgctxt "IDS_CMD_MINIMIZED"
+msgid "/minimized\tStart in minimized mode"
+msgstr "/minimized\tKhởi động trong chế độ cực tiểu hóa"
+
+msgctxt "IDS_CMD_NEW"
+msgid "/new\t\tUse a new instance of the player"
+msgstr "/new\t\tSử dụng mẫu mới của trình phát"
+
+msgctxt "IDS_CMD_ADD"
+msgid "/add\t\tAdd \"pathname\" to playlist, can be combined with /open and /play"
+msgstr "/add\t\tthêm \"đường dẫn\" vào danh sách phát, có thể kết hợp với /mở và /phát"
+
+msgctxt "IDS_CMD_RANDOMIZE"
+msgid "/randomize\tRandomize the playlist"
+msgstr "/randomize\tNgẫu nhiên hóa danh sách phát"
+
+msgctxt "IDS_CMD_REGVID"
+msgid "/regvid\t\tCreate file associations for video files"
+msgstr "/regvid\t\tTạo liên kết cho các tập tin phim ảnh"
+
+msgctxt "IDS_CMD_REGAUD"
+msgid "/regaud\t\tCreate file associations for audio files"
+msgstr "/regaud\t\tTạo liên kết cho các tập tin âm thanh"
+
+msgctxt "IDS_CMD_REGPL"
+msgid "/regpl\t\tCreate file associations for playlist files"
+msgstr "/regpl\t\tTạo liên kết cho các tập tin danh sách phát"
+
+msgctxt "IDS_CMD_REGALL"
+msgid "/regall\t\tCreate file associations for all supported file types"
+msgstr "/regall\t\tTạo liên kết cho tất cả các loại tập tin được hỗ trợ"
+
+msgctxt "IDS_CMD_UNREGALL"
+msgid "/unregall\t\tRemove all file associations"
+msgstr "/unregall\t\tXóa bỏ tất cả các liên kết tập tin"
+
+msgctxt "IDS_CMD_START"
+msgid "/start ms\t\tStart playing at \"ms\" (= milliseconds)"
+msgstr "/start ms\t\tKhởi chạy tại \"ms\" (= mili giây)"
+
+msgctxt "IDS_CMD_STARTPOS"
+msgid "/startpos hh:mm:ss\tStart playing at position hh:mm:ss"
+msgstr "/startpos hh:mm:ss\tKhởi chạy tại vị trí hh:mm:ss"
+
+msgctxt "IDS_CMD_FIXEDSIZE"
+msgid "/fixedsize w,h\tSet a fixed window size"
+msgstr "/fixedsize w,h\tThiết lập kích cỡ cửa sổ đã được ấn định"
+
+msgctxt "IDS_CMD_MONITOR"
+msgid "/monitor N\tStart player on monitor N, where N starts from 1"
+msgstr "/monitor N\tKhởi động trình phát trên màn hình N, với N bắt đầu bằng 1"
+
+msgctxt "IDS_CMD_AUDIORENDERER"
+msgid "/audiorenderer N\tStart using audiorenderer N, where N starts from 1 (see \"Output\" settings)"
+msgstr "/audiorenderer N\tKhởi động sử dụng bộ dựng âm thanh N, với N bắt đầu bằng 1 (xem các thiết lập về \"Ngõ ra\")"
+
+msgctxt "IDS_CMD_SHADERPRESET"
+msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
+msgstr "/shaderpreset \"Pr\"\tKhởi động sử dụng thiết lập đổ bóng sẵn có \"Pr\""
+
+msgctxt "IDS_CMD_PNS"
+msgid "/pns \"name\"\tSpecify Pan&Scan preset name to use"
+msgstr "/pns \"name\"\tChỉ định tên thiết lập Pan&Scan sẵn có để sử dụng"
+
+msgctxt "IDS_CMD_ICONASSOC"
+msgid "/iconsassoc\tReassociate format icons"
+msgstr "/iconsassoc\tLiên kết lại các biểu tượng định dạng"
+
+msgctxt "IDS_CMD_NOFOCUS"
+msgid "/nofocus\t\tOpen MPC-HC in background"
+msgstr "/nofocus\t\tMở MPC-HC dưới nền"
+
+msgctxt "IDS_CMD_WEBPORT"
+msgid "/webport N\tStart web interface on specified port"
+msgstr "/webport N\tKhởi động giao diện web ở cổng được chỉ định"
+
+msgctxt "IDS_CMD_DEBUG"
+msgid "/debug\t\tShow debug information in OSD"
+msgstr "/debug\t\tHiện thông tin gỡ lỗi trên màn hình hiển thị"
+
+msgctxt "IDS_CMD_NOCRASHREPORTER"
+msgid "/nocrashreporter\tDisable the crash reporter"
+msgstr "/nocrashreporter\tTắt báo cáo lỗi"
+
+msgctxt "IDS_CMD_SLAVE"
+msgid "/slave \"hWnd\"\tUse MPC-HC as slave"
+msgstr "/slave \"hWnd\"\tSử dụng MPC-HC thụ động"
+
+msgctxt "IDS_CMD_HWGPU"
+msgid "/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding.\n\t\tOnly available for CUVID and DXVA2 (copy-back)"
+msgstr "/hwgpu \"index\"\tThiết lập bảng chỉ mục của GPU để sử dụng cho việc giải mã phần cứng.\n\t\tChỉ có hiệu lực đối với CUVID và DXVA2 (sao chép-quay lại)"
+
+msgctxt "IDS_CMD_RESET"
+msgid "/reset\t\tRestore default settings"
+msgstr "/reset\t\tPhục hồi các thiết lập mặc định"
+
+msgctxt "IDS_CMD_HELP"
+msgid "/help /h /?\tShow help about command line switches"
+msgstr "/help /h /?\tHiện trợ giúp về chuyển đổi chế độ dòng lệnh"
+
+msgctxt "IDS_PPAGEADVANCED_SCORE"
+msgid "Threshold value for subtitles score which are going to be automatically downloaded. Higher values means that more accurately matched subtitles will be loaded, lower values could result in incorrect subtitles being loaded, but there is no one perfect value. Pick one that works best for you."
+msgstr "Giá trị ngưỡng cho điểm số của phụ đề sẽ được tự động tải về. Giá trị cao hơn có nghĩa là phụ đề được nạp sẽ phù hợp và chính xác hơn, giá trị thấp hơn có thể dẫn đến phụ đề được nạp không phù hợp và chính xác, tuy nhiên không có một giá trị nào là hoàn hảo. Hãy chọn một cái phù hợp nhất đối với bạn."
+
+msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
+msgid "Audio Delay (ms)"
+msgstr "Độ trễ của âm thanh (ms)"
+
+msgctxt "IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE"
+msgid "Size in pixels of the default toolbar."
+msgstr "Kích cỡ điểm ảnh của thanh công cụ mặc định."
+
+msgctxt "IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR"
+msgid "Use legacy toolbar instead of new vectorized one."
+msgstr "Sử dụng thanh công cụ kiểu cũ thay vì kiểu vectơ mới"
 

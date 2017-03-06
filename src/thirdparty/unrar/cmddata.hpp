@@ -12,7 +12,6 @@ class CommandData:public RAROptions
     void ProcessSwitchesString(const wchar *Str);
     void ProcessSwitch(const wchar *Switch);
     void BadSwitch(const wchar *Switch);
-    bool ExclCheckArgs(StringList *Args,bool Dir,const wchar *CheckName,bool CheckFullPath,int MatchMode);
     uint GetExclAttr(const wchar *Str);
 
     bool FileLists;
@@ -33,6 +32,7 @@ class CommandData:public RAROptions
     void OutHelp(RAR_EXIT ExitCode);
     bool IsSwitch(int Ch);
     bool ExclCheck(const wchar *CheckName,bool Dir,bool CheckFullPath,bool CheckInclList);
+    static bool CheckArgs(StringList *Args,bool Dir,const wchar *CheckName,bool CheckFullPath,int MatchMode);
     bool ExclDirByAttr(uint FileAttr);
     bool TimeCheck(RarTime &ft);
     bool SizeCheck(int64 Size);

@@ -1,5 +1,5 @@
 /*
- * (C) 2015 see Authors.txt
+ * (C) 2015-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -26,6 +26,8 @@
 
 #include <FunctionDiscoveryKeys_devpkey.h>
 #include <Mmdeviceapi.h>
+#include <sanear/sanear/src/Settings.h>
+#include "AppSettings.h"
 
 namespace
 {

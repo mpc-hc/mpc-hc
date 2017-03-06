@@ -37,7 +37,7 @@ class BitInput
       BitField|=(uint)InBuf[InAddr+1] << 8;
       BitField|=(uint)InBuf[InAddr+2];
       BitField >>= (8-InBit);
-      return(BitField & 0xffff);
+      return BitField & 0xffff;
     }
 
     // Return 32 bits from current position in the buffer.
@@ -50,7 +50,7 @@ class BitInput
       BitField|=(uint)InBuf[InAddr+3];
       BitField <<= InBit;
       BitField|=(uint)InBuf[InAddr+4] >> (8-InBit);
-      return(BitField & 0xffffffff);
+      return BitField & 0xffffffff;
     }
     
     void faddbits(uint Bits);
@@ -60,7 +60,7 @@ class BitInput
     // if buffer will be overflown.
     bool Overflow(uint IncPtr) 
     {
-      return(InAddr+IncPtr>=MAX_SIZE);
+      return InAddr+IncPtr>=MAX_SIZE;
     }
 
     void SetExternalBuffer(byte *Buf);

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -26,9 +26,9 @@
 #include "DVBSub.h"
 #include "PGSSub.h"
 
-#include <InitGuid.h>
 #include <uuids.h>
 #include "moreuuids.h"
+#include "../DSUtil/ISOLang.h"
 
 // our first format id
 #define __GAB1__ "GAB1"
@@ -57,7 +57,9 @@ CSubtitleInputPin::CSubtitleInputPin(CBaseFilter* pFilter, CCritSec* pLock, CCri
     , m_bStopDecoding(false)
 {
     m_bCanReconnectWhenActive = true;
-    m_decodeThread = std::thread([this]() { DecodeSamples(); });
+    m_decodeThread = std::thread([this]() {
+        DecodeSamples();
+    });
 }
 
 CSubtitleInputPin::~CSubtitleInputPin()
@@ -101,8 +103,8 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
         if (psi != nullptr) {
             dwOffset = psi->dwOffset;
 
-            name = ISO6392ToLanguage(psi->IsoLang);
-            lcid = ISO6392ToLcid(psi->IsoLang);
+            name = ISOLang::ISO6392ToLanguage(psi->IsoLang);
+            lcid = ISOLang::ISO6392ToLcid(psi->IsoLang);
 
             CString trackName(psi->TrackName);
             trackName.Trim();
@@ -377,14 +379,14 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSam
                 ptr += 2;
 
                 if (tag == __GAB1_LANGUAGE__) {
-                    pRTS->m_name = CString(ptr);
+                    pRTS->m_name = ptr;
                 } else if (tag == __GAB1_ENTRY__) {
-                    pRTS->Add(AToW(&ptr[8]), false, *(int*)ptr, *(int*)(ptr + 4));
+                    pRTS->Add(AToW(&ptr[8]), false, MS2RT(*(int*)ptr), MS2RT(*(int*)(ptr + 4)));
                     bInvalidate = true;
                 } else if (tag == __GAB1_LANGUAGE_UNICODE__) {
                     pRTS->m_name = (WCHAR*)ptr;
                 } else if (tag == __GAB1_ENTRY_UNICODE__) {
-                    pRTS->Add((WCHAR*)(ptr + 8), true, *(int*)ptr, *(int*)(ptr + 4));
+                    pRTS->Add((WCHAR*)(ptr + 8), true, MS2RT(*(int*)ptr), MS2RT(*(int*)(ptr + 4)));
                     bInvalidate = true;
                 }
 
@@ -416,7 +418,7 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSam
             str.Trim();
 
             if (!str.IsEmpty()) {
-                pRTS->Add(AToW(str), false, (int)(pSample->rtStart / 10000), (int)(pSample->rtStop / 10000));
+                pRTS->Add(AToW(str), false, pSample->rtStart, pSample->rtStop);
                 bInvalidate = true;
             }
         }
@@ -426,7 +428,7 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSam
 
             CStringW str = UTF8To16(CStringA((LPCSTR)pSample->data.data(), (int)pSample->data.size())).Trim();
             if (!str.IsEmpty()) {
-                pRTS->Add(str, true, (int)(pSample->rtStart / 10000), (int)(pSample->rtStop / 10000));
+                pRTS->Add(str, true, pSample->rtStart, pSample->rtStop);
                 bInvalidate = true;
             }
         } else if (m_mt.subtype == MEDIASUBTYPE_SSA || m_mt.subtype == MEDIASUBTYPE_ASS || m_mt.subtype == MEDIASUBTYPE_ASS2) {
@@ -456,7 +458,7 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSam
                 }
 
                 if (!stse.str.IsEmpty()) {
-                    pRTS->Add(stse.str, true, (int)(pSample->rtStart / 10000), (int)(pSample->rtStop / 10000),
+                    pRTS->Add(stse.str, true, pSample->rtStart, pSample->rtStop,
                               stse.style, stse.actor, stse.effect, stse.marginRect, stse.layer, stse.readorder);
                     bInvalidate = true;
                 }

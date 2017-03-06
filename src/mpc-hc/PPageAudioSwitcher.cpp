@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -20,7 +20,7 @@
  */
 
 #include "stdafx.h"
-#include <math.h>
+#include <cmath>
 #include "mplayerc.h"
 #include "MainFrm.h"
 #include "PPageAudioSwitcher.h"
@@ -384,12 +384,12 @@ BOOL CPPageAudioSwitcher::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResu
 
     switch (nID) {
         case IDC_SLIDER1:
-            strTipText.Format(ResStr(IDS_BOOST), m_AudioBoostCtrl.GetPos());
+            strTipText.Format(IDS_BOOST, m_AudioBoostCtrl.GetPos());
             bRet = true;
             break;
         case IDC_EDIT2:
         case IDC_SPIN2:
-            strTipText.LoadStringW(IDS_TIME_SHIFT_TOOLTIP);
+            strTipText.LoadString(IDS_TIME_SHIFT_TOOLTIP);
             bRet = true;
             break;
     }

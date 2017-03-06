@@ -1,24 +1,26 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Alex Luís Silva <alex.mooca@hotmail.com>, 2014-2015
+# Alex Luís Silva <alex.mooca@hotmail.com>, 2014-2016
 # Alex Luís Silva <alex.mooca@hotmail.com>, 2014
 # Charles Fernando da Silva <eu.charles@hotmail.com>, 2015
 # Edgar Peres <edgarvperes@gmail.com>, 2015
 # Erick Simões <erick.simoes@yahoo.com.br>, 2015
+# Everton Leite <etcholeite@gmail.com>, 2016
 # Gustavo Cegolini Togni <gustavotogni@gmail.com>, 2015
-# Roger Filipe <lipe2000@outlook.com>, 2013-2014
+# Roger Filipe Barros <lipe2000@outlook.com>, 2013-2014
 # Luis Henrique <henriqlh@gmail.com>, 2014
+# Michael Moser <michi.celin@gmail.com>, 2016
 # mvpetri <mvpetri@gmail.com>, 2014
 # Raphael Mendonça, 2014
-# Roger Filipe <lipe2000@outlook.com>, 2014
+# Roger Filipe Barros <lipe2000@outlook.com>, 2014,2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-10-19 19:15:11+0000\n"
-"PO-Revision-Date: 2015-10-21 14:38+0000\n"
-"Last-Translator: Erick Simões <erick.simoes@yahoo.com.br>\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2016-12-22 21:43+0000\n"
+"Last-Translator: Roger Filipe Barros <lipe2000@outlook.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/mpc-hc/mpc-hc/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -199,8 +201,8 @@ msgid "About"
 msgstr "Sobre"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2015 see Authors.txt"
-msgstr "Copyright © 2002-2015 - veja o arquivo Authors.txt"
+msgid "Copyright © 2002-2017 see Authors.txt"
+msgstr "Copyright © 2002-2017 - veja o arquivo Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -208,7 +210,7 @@ msgstr "Este programa é gratuito e foi licenciado sob os termos da Licença Ger
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
-msgstr "Traduzido para o Português por Roger Filipe"
+msgstr "Traduzido para o Português por Roger Filipe Barros"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build information"
@@ -424,19 +426,23 @@ msgstr "Reproduzir"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_RADIO2"
 msgid "Repeat forever"
-msgstr "Repetir sempre"
+msgstr "Repetir para sempre"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC1"
 msgid "time(s)"
 msgstr "vez (vezes)"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Repeat mode:"
+msgstr "Modo de repetição:"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
 msgstr "Após reprodução"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Output"
-msgstr "Saída"
+msgid "Default zoom"
+msgstr "Zoom padrão"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
@@ -575,7 +581,7 @@ msgid "Warning"
 msgstr "Aviso"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
+msgid "If you override and enable fullscreen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
 msgstr "Se você tiver antisserrilhamento forçado ativado nas configurações de sua placa de vídeo, é bem provável que sua CPU não conseguirá exibir as legendas em tempo real."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
@@ -1004,7 +1010,7 @@ msgstr "Escala (y,%)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Border Style"
-msgstr "Estilo de Bordas"
+msgstr "Estilo de bordas"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO1"
 msgid "Outline"
@@ -1080,11 +1086,11 @@ msgstr "Se preferir utilizar filtros externos, desative os filtros internos aqui
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Source Filters"
-msgstr "Filtros Fonte"
+msgstr "Filtros fonte"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Transform Filters"
-msgstr "Filtros de Transformação"
+msgstr "Filtros de transformação"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Internal LAV Filters settings"
@@ -1096,11 +1102,11 @@ msgstr "Divisor"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_VIDEO_DEC_CONF"
 msgid "Video decoder"
-msgstr "Decodificador Vídeo"
+msgstr "Decodificador vídeo"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_AUDIO_DEC_CONF"
 msgid "Audio decoder"
-msgstr "Decodificador Áudio"
+msgstr "Decodificador áudio"
 
 msgctxt "IDD_PPAGELOGO_IDC_RADIO1"
 msgid "Internal:"
@@ -1131,8 +1137,8 @@ msgid "Audio Renderer"
 msgstr "Áudio DirectShow"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
-msgstr "VMR-7/VMR-9 (sem render) e ajustes EVR (CP)"
+msgid "VMR-9 (renderless) and EVR (CP) settings"
+msgstr "VMR-9 (sem render) e ajustes EVR (CP)"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"
@@ -1192,7 +1198,11 @@ msgstr "Rotação"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
-msgstr "Renderizar Legendas"
+msgstr "Renderizar legendas"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
+msgid "Cache compiled Shaders"
+msgstr "Shaders compilados em cache"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
@@ -1239,16 +1249,44 @@ msgid "CGI handlers: (.ext1=path1;.ext2=path2;...)"
 msgstr "Gerenciadores de CGI: (.ext1=caminho1;.ext2=caminho2;...)"
 
 msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
-msgid "Subtitles available online"
-msgstr "Legendas disponíveis online"
-
-msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
-msgid "Download && Open"
-msgstr "Baixar e abrir"
+msgid "Download subtitles"
+msgstr "Baixar legendas"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
 msgid "Replace currently loaded subtitles"
 msgstr "Substituir legendas carregadas atualmente"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
+msgid "Download"
+msgstr "Baixar"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON1"
+msgid "Refresh"
+msgstr "Atualizar"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON2"
+msgid "Abort"
+msgstr "Abortar"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON3"
+msgid "Options"
+msgstr "Opções"
+
+msgctxt "IDD_SUBTITLEUP_DLG_CAPTION"
+msgid "Upload subtitles"
+msgstr "Enviar legendas"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDOK"
+msgid "Upload"
+msgstr "Enviar"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
+msgid "Abort"
+msgstr "Abortar"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON2"
+msgid "Options"
+msgstr "Opções"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
@@ -1356,7 +1394,7 @@ msgstr "Use um offset"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Default Device"
-msgstr "Dispositivo Padrão"
+msgstr "Dispositivo padrão"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_RADIO1"
 msgid "Analog"
@@ -1388,7 +1426,7 @@ msgstr "Configurações digitais (BDA)"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC4"
 msgid "Network Provider"
-msgstr "Provedor de Sinal"
+msgstr "Provedor de rede"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC5"
 msgid "Tuner"
@@ -1551,28 +1589,40 @@ msgid "Reset"
 msgstr "Resetar"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Online database"
-msgstr "Banco de dados online"
+msgid "Online search, download and upload subtitles"
+msgstr "Procurar, baixar e enviar legendas online"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
+msgid "Automatically search and download subtitles if none are found locally"
+msgstr "Buscar e baixar legendas automaticamente caso não exista nenhuma"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
+msgid "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
+msgstr "Dar preferência à legendas adaptadas para deficientes auditivos (quando for marcada como tal pelo provedor da legenda)"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
+msgid "Ignore files containing any of the following word(s):"
+msgstr "Ignorar arquivos que contenham qualquer uma da(s) seguinte(s) palavra(s):"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Base URL of the online subtitle database:"
-msgstr "Digite a URL do banco de dados de legendas:"
+msgid "Languages in order of preference:"
+msgstr "Idiomas em ordem de preferência:"
 
-msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON2"
-msgid "Test"
-msgstr "Testar"
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
+msgid "Automatically upload active subtitles at the end of video playback"
+msgstr "Enviar automaticamente as legendas ativas no fim da reprodução dos vídeos"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
-msgstr "Verificação de Atualizações"
+msgstr "Verificação de atualizações"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_DL_BUTTON"
 msgid "&Download now"
-msgstr "&Baixe agora"
+msgstr "Baixar agora"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_LATER_BUTTON"
 msgid "Remind me &later"
-msgstr "Lembre-me &depois"
+msgstr "Lembre-me depois"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_IGNORE_BUTTON"
 msgid "&Ignore this update"
@@ -1624,11 +1674,11 @@ msgstr "Ativar pós-redimensionamento de shaders"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_CAPTION"
 msgid "Debug Shaders"
-msgstr "Depurar Shaders"
+msgstr "Depurar shaders"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_STATIC"
 msgid "Debug Information"
-msgstr "Informação de Depuração"
+msgstr "Informação de depuração"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO1"
 msgid "PS 2.0"
@@ -1732,7 +1782,7 @@ msgstr "Envie-nos um relatório de erros para ajudar-nos a diagnosticar e corrig
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
 msgid "Optional information"
-msgstr "Informação Opcional"
+msgstr "Informação opcional"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
 msgid "Email:"

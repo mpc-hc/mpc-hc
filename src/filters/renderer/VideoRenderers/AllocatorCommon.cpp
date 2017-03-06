@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2013, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -19,7 +19,6 @@
  */
 
 #include "stdafx.h"
-#include <InitGuid.h>
 #include "AllocatorCommon.h"
 #include "../DSUtil/DSUtil.h"
 

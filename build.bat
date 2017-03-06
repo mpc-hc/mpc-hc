@@ -1,5 +1,5 @@
 @ECHO OFF
-REM (C) 2009-2015 see Authors.txt
+REM (C) 2009-2016 see Authors.txt
 REM
 REM This file is part of MPC-HC.
 REM
@@ -42,7 +42,7 @@ FOR %%G IN (%ARG%) DO (
   IF /I "%%G" == "Win32"        SET "PPLATFORM=Win32"    & SET /A ARGPL+=1
   IF /I "%%G" == "x86"          SET "PPLATFORM=Win32"    & SET /A ARGPL+=1
   IF /I "%%G" == "x64"          SET "PPLATFORM=x64"      & SET /A ARGPL+=1
-  IF /I "%%G" == "All"          SET "CONFIG=All"         & SET /A ARGC+=1
+  IF /I "%%G" == "All"          SET "CONFIG=All"         & SET /A ARGC+=1  & SET "NO_LITE=True"
   IF /I "%%G" == "Main"         SET "CONFIG=Main"        & SET /A ARGC+=1  & SET "NO_INST=True" & SET "NO_ZIP=True"
   IF /I "%%G" == "Filters"      SET "CONFIG=Filters"     & SET /A ARGC+=1  & SET "NO_INST=True" & SET "NO_LITE=True"
   IF /I "%%G" == "Filter"       SET "CONFIG=Filters"     & SET /A ARGC+=1  & SET "NO_INST=True" & SET "NO_LITE=True"
@@ -55,7 +55,7 @@ FOR %%G IN (%ARG%) DO (
   IF /I "%%G" == "Translations" SET "CONFIG=Translation" & SET /A ARGC+=1  & SET "NO_INST=True" & SET "NO_ZIP=True" & SET "NO_LITE=True"
   IF /I "%%G" == "Debug"        SET "BUILDCFG=Debug"     & SET /A ARGBC+=1 & SET "NO_INST=True"
   IF /I "%%G" == "Release"      SET "BUILDCFG=Release"   & SET /A ARGBC+=1
-  IF /I "%%G" == "VS2013"       SET "COMPILER=VS2013"    & SET /A ARGCOMP+=1
+  IF /I "%%G" == "VS2015"       SET "COMPILER=VS2015"    & SET /A ARGCOMP+=1
   IF /I "%%G" == "Packages"     SET "PACKAGES=True"      & SET /A VALID+=1
   IF /I "%%G" == "Installer"    SET "INSTALLER=True"     & SET /A VALID+=1
   IF /I "%%G" == "7z"           SET "ZIP=True"           & SET /A VALID+=1
@@ -82,7 +82,7 @@ IF %ARGB%    GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGB% == 0    (SET "BUILDTY
 IF %ARGPL%   GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGPL% == 0   (SET "PPLATFORM=Both")
 IF %ARGC%    GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGC% == 0    (SET "CONFIG=MPCHC")
 IF %ARGBC%   GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGBC% == 0   (SET "BUILDCFG=Release")
-IF %ARGCOMP% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGCOMP% == 0 (SET "COMPILER=VS2013")
+IF %ARGCOMP% GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGCOMP% == 0 (SET "COMPILER=VS2015")
 
 IF /I "%PACKAGES%" == "True" SET "INSTALLER=True" & SET "ZIP=True"
 
@@ -91,8 +91,8 @@ IF /I "%ZIP%" == "True"         IF "%NO_ZIP%" == "True"  GOTO UnsupportedSwitch
 IF /I "%MPCHC_LITE%" == "True"  IF "%NO_LITE%" == "True" GOTO UnsupportedSwitch
 IF /I "%CLEAN%" == "LAVFilters" IF "%NO_LAV%" == "True"  GOTO UnsupportedSwitch
 
-IF NOT DEFINED VS120COMNTOOLS GOTO MissingVar
-SET "TOOLSET=%VS120COMNTOOLS%..\..\VC\vcvarsall.bat"
+IF NOT DEFINED VS140COMNTOOLS GOTO MissingVar
+SET "TOOLSET=%VS140COMNTOOLS%..\..\VC\vcvarsall.bat"
 SET "BIN_DIR=bin"
 
 IF EXIST "%FILE_DIR%signinfo.txt" (
@@ -477,14 +477,14 @@ EXIT /B
 TITLE %~nx0 Help
 ECHO.
 ECHO Usage:
-ECHO %~nx0 [Clean^|Build^|Rebuild] [x86^|x64^|Both] [Main^|Resources^|MPCHC^|IconLib^|Translations^|Filters^|API^|All] [Debug^|Release] [Lite] [Packages^|Installer^|7z] [LAVFilters] [VS2013] [Analyze]
+ECHO %~nx0 [Clean^|Build^|Rebuild] [x86^|x64^|Both] [Main^|Resources^|MPCHC^|IconLib^|Translations^|Filters^|API^|All] [Debug^|Release] [Lite] [Packages^|Installer^|7z] [LAVFilters] [VS2015] [Analyze]
 ECHO.
 ECHO Notes: You can also prefix the commands with "-", "--" or "/".
 ECHO        Debug only applies to mpc-hc.sln.
 ECHO        The arguments are not case sensitive and can be ommitted.
 ECHO. & ECHO.
 ECHO Executing %~nx0 without any arguments will use the default ones:
-ECHO "%~nx0 Build Both MPCHC Release VS2013"
+ECHO "%~nx0 Build Both MPCHC Release VS2015"
 ECHO. & ECHO.
 ECHO Examples:
 ECHO %~nx0 x86 Resources     -Builds the x86 resources

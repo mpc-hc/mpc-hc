@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -24,12 +24,13 @@
 #include "FGFilter.h"
 #include "MainFrm.h"
 #include "DSUtil.h"
-#include "AllocatorCommon7.h"
-#include "AllocatorCommon.h"
-#include "SyncAllocatorPresenter.h"
 #include "IPinHook.h" // For the NVIDIA driver bug work-around
 #include "moreuuids.h"
 #include <mvrInterfaces.h>
+
+#include <initguid.h>
+#include "AllocatorCommon.h"
+#include "SyncAllocatorPresenter.h"
 
 
 //
@@ -470,8 +471,6 @@ HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnkno
         }
     } else if (m_clsid == CLSID_VMR9AllocatorPresenter || m_clsid == CLSID_DXRAllocatorPresenter) {
         CheckNoLog(CreateAP9(m_clsid, m_hWnd, isD3DFullScreenMode(), &pCAP));
-    } else if (m_clsid == CLSID_VMR7AllocatorPresenter) {
-        CheckNoLog(CreateAP7(m_clsid, m_hWnd, &pCAP));
     } else {
         CComPtr<IBaseFilter> pBF;
         CheckNoLog(pBF.CoCreateInstance(m_clsid));

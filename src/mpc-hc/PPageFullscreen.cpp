@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -106,7 +106,7 @@ void CPPageFullscreen::ModesUpdate()
     // Populate the vector with default modes on first initialization
     if (m_autoChangeFSModes.empty()) {
         auto addMode = [this, &currentDisplayMode](double dFRStart, double dFRStop) {
-            m_autoChangeFSModes.emplace_back(true, dFRStart, dFRStop, currentDisplayMode);
+            m_autoChangeFSModes.emplace_back(true, dFRStart, dFRStop, 0, currentDisplayMode);
         };
         addMode(0.0, 0.0); // Default mode
         addMode(23.500, 23.981);
@@ -146,16 +146,22 @@ void CPPageFullscreen::ModesUpdate()
 
         m_list.SetItemText(nItem, COL_DISPLAY_MODE, formatStringFromDisplayMode(mode.dm));
 
+        TCHAR buffer[11];
         if (nItem == 0) { // Special case for default mode
             VERIFY(m_list.SetItemText(nItem, COL_N, ResStr(IDS_PPAGE_FS_DEFAULT)));
             VERIFY(m_list.SetItemText(nItem, COL_FRAMERATE_START, ResStr(IDS_PPAGE_FS_OTHER)));
             VERIFY(m_list.SetItemText(nItem, COL_FRAMERATE_STOP, ResStr(IDS_PPAGE_FS_OTHER)));
+            const auto& s = AfxGetAppSettings();
+            _itot_s(s.fAudioTimeShift ? s.iAudioTimeShift : 0, buffer, 10);
+            VERIFY(m_list.SetItemText(nItem, COL_AUDIO_DELAY, buffer));
         } else {
             CString strFrameRate;
             strFrameRate.Format(_T("%.3f"), mode.dFrameRateStart);
             VERIFY(m_list.SetItemText(nItem, COL_FRAMERATE_START, strFrameRate));
             strFrameRate.Format(_T("%.3f"), mode.dFrameRateStop);
             VERIFY(m_list.SetItemText(nItem, COL_FRAMERATE_STOP, strFrameRate));
+            _itot_s(mode.msAudioDelay, buffer, 10);
+            VERIFY(m_list.SetItemText(nItem, COL_AUDIO_DELAY, buffer));
         }
 
         nItem++;
@@ -288,7 +294,7 @@ BOOL CPPageFullscreen::OnInitDialog()
     m_list.InsertColumn(COL_FRAMERATE_START, ResStr(IDS_PPAGE_FS_CLN_FROM_FPS), LVCFMT_RIGHT, 60);
     m_list.InsertColumn(COL_FRAMERATE_STOP, ResStr(IDS_PPAGE_FS_CLN_TO_FPS), LVCFMT_RIGHT, 60);
     m_list.InsertColumn(COL_DISPLAY_MODE, ResStr(IDS_PPAGE_FS_CLN_DISPLAY_MODE), LVCFMT_LEFT, 135);
-
+    m_list.InsertColumn(COL_AUDIO_DELAY, ResStr(IDS_PPAGE_FS_CLN_AUDIO_DELAY), LVCFMT_LEFT, 52);
 
     m_bHideFullscreenControls = s.bHideFullscreenControls;
     m_uHideFullscreenControlsDelay = s.uHideFullscreenControlsDelay;
@@ -367,15 +373,18 @@ BOOL CPPageFullscreen::OnApply()
     m_autoChangeFSModes.clear();
     for (int nItem = 0, count = m_list.GetItemCount(); nItem < count; nItem++) {
         double dFRStart, dFRStop;
+        int msAudioDelay;
         if (nItem == 0) { // Special case for default mode
             dFRStart = 0.0;
             dFRStop = 0.0;
+            msAudioDelay = s.iAudioTimeShift;
         } else {
             dFRStart = _tcstod(m_list.GetItemText(nItem, COL_FRAMERATE_START), nullptr);
             dFRStop = _tcstod(m_list.GetItemText(nItem, COL_FRAMERATE_STOP), nullptr);
+            msAudioDelay = _tcstol(m_list.GetItemText(nItem, COL_AUDIO_DELAY), nullptr, 10);
         }
 
-        m_autoChangeFSModes.emplace_back(!!m_list.GetCheck(nItem), dFRStart, dFRStop, m_displayModes[m_list.GetItemData(nItem)]);
+        m_autoChangeFSModes.emplace_back(!!m_list.GetCheck(nItem), dFRStart, dFRStop, msAudioDelay, m_displayModes[m_list.GetItemData(nItem)]);
     }
     s.autoChangeFSMode.modes = m_autoChangeFSModes;
 
@@ -450,6 +459,7 @@ void CPPageFullscreen::OnAdd()
     VERIFY(m_list.SetItemText(nItem, COL_FRAMERATE_START, _T("1.000")));
     VERIFY(m_list.SetItemText(nItem, COL_FRAMERATE_STOP, _T("1.000")));
     VERIFY(m_list.SetItemText(nItem, COL_DISPLAY_MODE, m_CurrentDisplayModeString));
+    VERIFY(m_list.SetItemText(nItem, COL_AUDIO_DELAY, _T("0")));
     VERIFY(m_list.SetItemData(nItem, (DWORD_PTR)m_nCurrentDisplayModeIndex));
     m_list.SetCheck(nItem, FALSE);
     VERIFY(m_list.SetItemState(nItem, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED));
@@ -504,6 +514,7 @@ void CPPageFullscreen::OnMoveUp()
         CString strFRStart = m_list.GetItemText(nItem, COL_FRAMERATE_START);
         CString strFRStop = m_list.GetItemText(nItem, COL_FRAMERATE_STOP);
         CString strDM = m_list.GetItemText(nItem, COL_DISPLAY_MODE);
+        CString strAudioDelay = m_list.GetItemText(nItem, COL_AUDIO_DELAY);
         BOOL nCheckCur = m_list.GetCheck(nItem);
         DWORD_PTR data = m_list.GetItemData(nItem);
         VERIFY(m_list.DeleteItem(nItem));
@@ -515,6 +526,7 @@ void CPPageFullscreen::OnMoveUp()
         VERIFY(m_list.SetItemText(nItem, COL_FRAMERATE_START, strFRStart));
         VERIFY(m_list.SetItemText(nItem, COL_FRAMERATE_STOP, strFRStop));
         VERIFY(m_list.SetItemText(nItem, COL_DISPLAY_MODE, strDM));
+        VERIFY(m_list.SetItemText(nItem, COL_AUDIO_DELAY, strAudioDelay));
         VERIFY(m_list.SetItemData(nItem, data));
         m_list.SetCheck(nItem, nCheckCur);
         m_list.SetSelectionMark(nItem);
@@ -549,6 +561,7 @@ void CPPageFullscreen::OnMoveDown()
         CString strFRStart = m_list.GetItemText(nItem, COL_FRAMERATE_START);
         CString strFRStop = m_list.GetItemText(nItem, COL_FRAMERATE_STOP);
         CString strDM = m_list.GetItemText(nItem, COL_DISPLAY_MODE);
+        CString strAudioDelay = m_list.GetItemText(nItem, COL_AUDIO_DELAY);
         BOOL nCheckCur = m_list.GetCheck(nItem);
         DWORD_PTR data = m_list.GetItemData(nItem);
         VERIFY(m_list.DeleteItem(nItem));
@@ -560,6 +573,7 @@ void CPPageFullscreen::OnMoveDown()
         VERIFY(m_list.SetItemText(nItem, COL_FRAMERATE_START, strFRStart));
         VERIFY(m_list.SetItemText(nItem, COL_FRAMERATE_STOP, strFRStop));
         VERIFY(m_list.SetItemText(nItem, COL_DISPLAY_MODE, strDM));
+        VERIFY(m_list.SetItemText(nItem, COL_AUDIO_DELAY, strAudioDelay));
         VERIFY(m_list.SetItemData(nItem, data));
         m_list.SetCheck(nItem, nCheckCur);
         m_list.SetSelectionMark(nItem);
@@ -615,6 +629,11 @@ void CPPageFullscreen::OnListDoEdit(NMHDR* pNMHDR, LRESULT* pResult)
                 m_list.ShowInPlaceFloatEdit(pItem->iItem, pItem->iSubItem);
             }
             break;
+        case COL_AUDIO_DELAY:
+            if (pItem->iItem != 0) {
+                m_list.ShowInPlaceEdit(pItem->iItem, pItem->iSubItem);
+            }
+            break;
     }
 
     m_list.RedrawWindow();
@@ -648,6 +667,14 @@ void CPPageFullscreen::OnListEndEdit(NMHDR* pNMHDR, LRESULT* pResult)
                 double dFR = std::min(std::max(_tcstod(str, nullptr), 1.0), 125.999);
                 str.Format(_T("%.3f"), dFR);
                 m_list.SetItemText(pItem->iItem, pItem->iSubItem, str);
+            }
+            break;
+        case COL_AUDIO_DELAY:
+            if (pItem->pszText) {
+                TCHAR buffer[11];
+                int msAudioDelay = _tcstol(pItem->pszText, nullptr, 10);
+                _itot_s(msAudioDelay, buffer, 10);
+                m_list.SetItemText(pItem->iItem, pItem->iSubItem, buffer);
             }
             break;
     }

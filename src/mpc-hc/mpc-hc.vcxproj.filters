@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Player Config">
       <UniqueIdentifier>{43c75f5f-5e94-4d15-8f45-b39b7c36bd62}</UniqueIdentifier>
@@ -86,6 +86,9 @@
     <Filter Include="Crash Reporter">
       <UniqueIdentifier>{1d73f7db-64e8-4bc8-b0ca-72847253f467}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Subtitles">
+      <UniqueIdentifier>{20afe682-61a3-4123-9012-4c918a03f482}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppSettings.cpp">
@@ -167,9 +170,6 @@
       <Filter>DVB</Filter>
     </ClCompile>
     <ClCompile Include="Ifo.cpp">
-      <Filter>Helpers</Filter>
-    </ClCompile>
-    <ClCompile Include="ISDb.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
     <ClCompile Include="LcdSupport.cpp">
@@ -343,8 +343,20 @@
     <ClCompile Include="StatusLabel.cpp">
       <Filter>Custom Controls</Filter>
     </ClCompile>
+    <ClCompile Include="SubtitlesProvider.cpp">
+      <Filter>Subtitles</Filter>
+    </ClCompile>
+    <ClCompile Include="SubtitlesProviders.cpp">
+      <Filter>Subtitles</Filter>
+    </ClCompile>
+    <ClCompile Include="SubtitlesProvidersUtils.cpp">
+      <Filter>Subtitles</Filter>
+    </ClCompile>
+    <ClCompile Include="SubtitleUpDlg.cpp">
+      <Filter>Subtitles</Filter>
+    </ClCompile>
     <ClCompile Include="SubtitleDlDlg.cpp">
-      <Filter>Modal Dialogs</Filter>
+      <Filter>Subtitles</Filter>
     </ClCompile>
     <ClCompile Include="Translations.cpp">
       <Filter>Player Config</Filter>
@@ -446,6 +458,15 @@
     <ClCompile Include="DpiHelper.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
+    <ClCompile Include="..\thirdparty\XmlRpc4Win\TimXmlRpc.cpp">
+      <Filter>Subtitles</Filter>
+    </ClCompile>
+    <ClCompile Include="SVGImage.cpp">
+      <Filter>Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageGrayer.cpp">
+      <Filter>Helpers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h">
@@ -531,9 +552,6 @@
     </ClInclude>
     <ClInclude Include="InternalFiltersConfig.h">
       <Filter>Player Config</Filter>
-    </ClInclude>
-    <ClInclude Include="ISDb.h">
-      <Filter>Helpers</Filter>
     </ClInclude>
     <ClInclude Include="LcdSupport.h">
       <Filter>Integration\Logitech LCD</Filter>
@@ -715,8 +733,20 @@
     <ClInclude Include="Struct.h">
       <Filter>Helpers</Filter>
     </ClInclude>
+    <ClInclude Include="SubtitlesProvider.h">
+      <Filter>Subtitles</Filter>
+    </ClInclude>
+    <ClInclude Include="SubtitlesProviders.h">
+      <Filter>Subtitles</Filter>
+    </ClInclude>
+    <ClInclude Include="SubtitlesProvidersUtils.h">
+      <Filter>Subtitles</Filter>
+    </ClInclude>
+    <ClInclude Include="SubtitleUpDlg.h">
+      <Filter>Subtitles</Filter>
+    </ClInclude>
     <ClInclude Include="SubtitleDlDlg.h">
-      <Filter>Modal Dialogs</Filter>
+      <Filter>Subtitles</Filter>
     </ClInclude>
     <ClInclude Include="TimerWrappers.h">
       <Filter>Helpers</Filter>
@@ -832,6 +862,15 @@
       <Filter>Property Dialogs\Player Options\Pages</Filter>
     </ClInclude>
     <ClInclude Include="DpiHelper.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\XmlRpc4Win\timxmlrpc.h">
+      <Filter>Subtitles</Filter>
+    </ClInclude>
+    <ClInclude Include="SVGImage.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageGrayer.h">
       <Filter>Helpers</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1067,6 +1106,23 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\uncheck_all.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\subtitles\favicon_opensubtitles.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\subtitles\favicon_podnapisi.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\subtitles\favicon_subdb.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\subtitles\favicon_titlovi.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\subtitles\favicon_ysubs.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

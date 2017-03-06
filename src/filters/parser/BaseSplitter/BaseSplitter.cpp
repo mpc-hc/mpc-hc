@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -21,7 +21,6 @@
 
 #include "stdafx.h"
 #include "../../../DSUtil/DSUtil.h"
-#include <InitGuid.h>
 #include "moreuuids.h"
 #include "../../switcher/AudioSwitcher/AudioSwitcher.h"
 #include "BaseSplitter.h"
@@ -65,7 +64,7 @@ CAutoPtr<Packet> CPacketQueue::Remove()
 {
     CAutoLock cAutoLock(this);
     ASSERT(__super::GetCount() > 0);
-    CAutoPtr<Packet> p = RemoveHead();
+    CAutoPtr<Packet> p(RemoveHead().Detach());
     if (p) {
         m_size -= p->GetDataSize();
     }
@@ -388,7 +387,8 @@ int CBaseSplitterOutputPin::QueueSize()
 
 HRESULT CBaseSplitterOutputPin::QueueEndOfStream()
 {
-    return QueuePacket(CAutoPtr<Packet>()); // NULL means EndOfStream
+    CAutoPtr<Packet> p;
+    return QueuePacket(p); // NULL means EndOfStream
 }
 
 HRESULT CBaseSplitterOutputPin::QueuePacket(CAutoPtr<Packet> p)
@@ -480,7 +480,7 @@ DWORD CBaseSplitterOutputPin::ThreadProc()
             {
                 CAutoLock cAutoLock(&m_queue);
                 if ((cnt = m_queue.GetCount()) > 0) {
-                    p = m_queue.Remove();
+                    p.Attach(m_queue.Remove().Detach());
                 }
             }
 
@@ -905,7 +905,7 @@ HRESULT CBaseSplitterFilter::DeleteOutputs()
     }
 
     while (m_pOutputs.GetCount()) {
-        CAutoPtr<CBaseSplitterOutputPin> pPin = m_pOutputs.RemoveHead();
+        CAutoPtr<CBaseSplitterOutputPin> pPin(m_pOutputs.RemoveHead().Detach());
         if (IPin* pPinTo = pPin->GetConnected()) {
             pPinTo->Disconnect();
         }
@@ -950,6 +950,8 @@ void CBaseSplitterFilter::DeliverEndFlush()
     m_eEndFlush.Set();
 }
 
+#pragma warning(push)
+#pragma warning(disable: 4702)
 DWORD CBaseSplitterFilter::ThreadProc()
 {
     if (m_pSyncReader) {
@@ -1012,11 +1014,8 @@ DWORD CBaseSplitterFilter::ThreadProc()
             m_pActivePins.GetNext(pos)->QueueEndOfStream();
         }
     }
-
-    ASSERT(0); // we should only exit via CMD_EXIT
-
-    m_hThread = nullptr;
-    return 0;
+    UNREACHABLE_CODE(); // we should only exit via CMD_EXIT
+#pragma warning(pop)
 }
 
 HRESULT CBaseSplitterFilter::DeliverPacket(CAutoPtr<Packet> p)
@@ -1254,7 +1253,7 @@ STDMETHODIMP CBaseSplitterFilter::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYP
     if (FAILED(hr)
             || FAILED(hr = DeleteOutputs())
             || FAILED(hr = CreateOutputs(pAsyncReader))) {
-        m_fn = "";
+        m_fn.Empty();
         return hr;
     }
 

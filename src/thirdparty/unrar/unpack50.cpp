@@ -189,11 +189,15 @@ bool Unpack::ReadFilter(BitInput &Inp,UnpackFilter &Filter)
 
 bool Unpack::AddFilter(UnpackFilter &Filter)
 {
-  if (Filters.Size()>=MAX_UNPACK_FILTERS-1)
+  if (Filters.Size()>=MAX_UNPACK_FILTERS)
+  {
     UnpWriteBuf(); // Write data, apply and flush filters.
+    if (Filters.Size()>=MAX_UNPACK_FILTERS)
+      InitFilters(); // Still too many filters, prevent excessive memory use.
+  }
 
   // If distance to filter start is that large that due to circular dictionary
-  // mode it points to old not written yet data, then we set 'NextWindow'
+  // mode now it points to old not written yet data, then we set 'NextWindow'
   // flag and process this filter only after processing that older data.
   Filter.NextWindow=WrPtr!=UnpPtr && ((WrPtr-UnpPtr)&MaxWinMask)<=Filter.BlockStart;
 
@@ -250,7 +254,7 @@ void Unpack::UnpWriteBuf()
   for (size_t I=0;I<Filters.Size();I++)
   {
     // Here we apply filters to data which we need to write.
-    // We always copy data to virtual machine memory before processing.
+    // We always copy data to another memory block before processing.
     // We cannot process them just in place in Window buffer, because
     // these data can be used for future string matches, so we must
     // preserve them in original form.
@@ -261,7 +265,7 @@ void Unpack::UnpWriteBuf()
     if (flt->NextWindow)
     {
       // Here we skip filters which have block start in current data range
-      // due to address warp around in circular dictionary, but actually
+      // due to address wrap around in circular dictionary, but actually
       // belong to next dictionary block. If such filter start position
       // is included to current write range, then we reset 'NextWindow' flag.
       // In fact we can reset it even without such check, because current
@@ -372,7 +376,8 @@ void Unpack::UnpWriteBuf()
   }
 
   // We prefer to write data in blocks not exceeding UNPACK_MAX_WRITE
-  // instead of potentially huge MaxWinSize blocks.
+  // instead of potentially huge MaxWinSize blocks. It also allows us
+  // to keep the size of Filters array reasonable.
   WriteBorder=(UnpPtr+Min(MaxWinSize,UNPACK_MAX_WRITE))&MaxWinMask;
 
   // Choose the nearest among WriteBorder and WrPtr actual written border.
@@ -644,5 +649,5 @@ bool Unpack::ReadTables(BitInput &Inp,UnpackBlockHeader &Header,UnpackBlockTable
 
 void Unpack::InitFilters()
 {
-  Filters.Reset();
+  Filters.SoftReset();
 }

@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2013 see Authors.txt
+ * (C) 2006-2013, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -92,9 +92,8 @@ HRESULT CDeinterlacerFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
     int bppOut = !(bihOut.biBitCount & 7) ? bihOut.biBitCount : 8;
     int pitchIn = bihIn.biWidth * bppIn >> 3;
     int pitchOut = bihOut.biWidth * bppOut >> 3;
-    BYTE* pDataOut2 = pDataOut;
+
     if (fFlip) {
-        pDataOut2 += pitchOut * (bihIn.biHeight - 1);
         pitchOut = -pitchOut;
     }
 

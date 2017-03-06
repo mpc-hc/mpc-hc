@@ -1,5 +1,5 @@
 /*
- * (C) 2011-2014 see Authors.txt
+ * (C) 2011-2014, 2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -19,8 +19,6 @@
  */
 
 #pragma once
-
-#include <Windows.h>
 
 struct IDirect3D9;
 

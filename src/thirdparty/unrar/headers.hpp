@@ -20,9 +20,9 @@
 #define  SIZEOF_STREAMHEAD      26
 
 #define  VER_PACK               29
-#define  VER_PACK5               0
+#define  VER_PACK5              50 // It is stored as 0, but we subtract 50 when saving an archive.
 #define  VER_UNPACK             29
-#define  VER_UNPACK5             0
+#define  VER_UNPACK5            50 // It is stored as 0, but we add 50 when reading an archive.
 
 #define  MHD_VOLUME         0x0001U
 

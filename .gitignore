@@ -2,6 +2,7 @@
 *.aps
 *.db
 *.old
+*.opendb
 *.opensdf
 *.psess
 *.pyc

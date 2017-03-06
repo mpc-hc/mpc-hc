@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -124,7 +124,7 @@ void CWebClientSocket::HandleRequest()
 
     CStringA reshdr, resbody;
 
-    if (m_cmd == _T("GET") || m_cmd == _T("HEAD") || m_cmd == _T("POST")) {
+    if (m_cmd == "GET" || m_cmd == "HEAD" || m_cmd == "POST") {
         int i = m_path.Find('?');
         if (i >= 0) {
             m_query = m_path.Mid(i + 1);
@@ -213,7 +213,7 @@ void CWebClientSocket::HandleRequest()
 
         Send(reshdr, reshdr.GetLength());
 
-        if (m_cmd != _T("HEAD") && reshdr.Find("HTTP/1.0 200 OK") == 0 && !resbody.IsEmpty()) {
+        if (m_cmd != "HEAD" && reshdr.Find("HTTP/1.0 200 OK") == 0 && !resbody.IsEmpty()) {
             Send(resbody, resbody.GetLength());
         }
 
@@ -258,7 +258,7 @@ void CWebClientSocket::ParseHeader(const char* headerEnd)
         m_hdrlines[key.MakeLower()] = val;
     }
 
-    if (m_cmd == _T("POST")) {
+    if (m_cmd == "POST") {
         CStringA str;
         if (m_hdrlines.Lookup("content-length", str)) {
             m_dataLen = strtol(str, nullptr, 10);
@@ -379,7 +379,7 @@ bool CWebClientSocket::OnCommand(CStringA& hdr, CStringA& body, CStringA& mime)
                 m_pMainFrame->SendMessage(WM_COMMAND, id);
             }
         } else {
-            if (arg == CMD_SETPOS && m_request.Lookup("position", arg)) {
+            if (arg == _T(CMD_SETPOS) && m_request.Lookup("position", arg)) {
                 int h, m, s, ms = 0;
                 TCHAR c;
                 if (_stscanf_s(arg, _T("%d%c%d%c%d%c%d"), &h, &c, 1, &m, &c, 1, &s, &c, 1, &ms) >= 5) {
@@ -391,12 +391,12 @@ bool CWebClientSocket::OnCommand(CStringA& hdr, CStringA& body, CStringA& mime)
                         }
                     }
                 }
-            } else if (arg == CMD_SETPOS && m_request.Lookup("percent", arg)) {
+            } else if (arg == _T(CMD_SETPOS) && m_request.Lookup("percent", arg)) {
                 float percent = 0;
                 if (_stscanf_s(arg, _T("%f"), &percent) == 1) {
                     m_pMainFrame->SeekTo((REFERENCE_TIME)(percent / 100 * m_pMainFrame->GetDur()));
                 }
-            } else if (arg == CMD_SETVOLUME && m_request.Lookup("volume", arg)) {
+            } else if (arg == _T(CMD_SETVOLUME) && m_request.Lookup("volume", arg)) {
                 int volume = _tcstol(arg, nullptr, 10);
                 m_pMainFrame->m_wndToolBar.Volume = std::min(std::max(volume, 0), 100);
                 m_pMainFrame->OnPlayVolume(0);
@@ -548,7 +548,7 @@ bool CWebClientSocket::OnBrowser(CStringA& hdr, CStringA& body, CStringA& mime)
             files += "</tr>\r\n";
         }
 
-        path = "Root";
+        path = _T("Root");
     } else {
         CString parent;
 
@@ -804,7 +804,7 @@ bool CWebClientSocket::OnPlayer(CStringA& hdr, CStringA& body, CStringA& mime)
         body.Replace("[preview]",
                      "<img src=\"snapshot.jpg\" id=\"snapshot\" alt=\"snapshot\" onload=\"onLoadSnapshot()\" onabort=\"onAbortErrorSnapshot()\" onerror=\"onAbortErrorSnapshot()\">");
     } else {
-        body.Replace("[preview]", UTF8(ResStr(IDS_WEBUI_DISABLED_PREVIEW_MSG)));
+        body.Replace("[preview]", UTF8(StrRes(IDS_WEBUI_DISABLED_PREVIEW_MSG)));
     }
     return true;
 }
@@ -899,7 +899,7 @@ bool CWebClientSocket::OnViewRes(CStringA& hdr, CStringA& body, CStringA& mime)
     }
 
     body = CStringA((const char*)res->data.GetData(), (int)res->data.GetCount());
-    mime = CStringA(res->mime);
+    mime = res->mime;
 
     return true;
 }

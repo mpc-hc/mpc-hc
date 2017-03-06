@@ -187,7 +187,7 @@ class CMouseWheelHook
                                     static_cast<UINT>(wParam),
                                     CMouse::GetMouseFlags() | msex.mouseData,
                                     MAKELPARAM(msex.pt.x, msex.pt.y),
-                                    GetMessageTime(),
+                                    static_cast<DWORD>(GetMessageTime()),
                                     msex.pt
                                 };
 

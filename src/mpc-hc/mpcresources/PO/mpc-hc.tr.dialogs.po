@@ -1,16 +1,16 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Burak <burakgarci@gmail.com>, 2013
 # Mesut Aktaş <mesuthan_42@hotmail.com>, 2015
-# Sinan H., 2014-2015
+# Sinan H., 2014-2016
 # Sinan H., 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-10-19 19:15:11+0000\n"
-"PO-Revision-Date: 2015-11-02 19:07+0000\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2017-02-11 20:33+0000\n"
 "Last-Translator: Sinan H.\n"
 "Language-Team: Turkish (http://www.transifex.com/mpc-hc/mpc-hc/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -192,8 +192,8 @@ msgid "About"
 msgstr "Hakkında"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2015 see Authors.txt"
-msgstr "Telif Hakkı © 2002-2015, Authors.txt dosyasına bakınız"
+msgid "Copyright © 2002-2017 see Authors.txt"
+msgstr "Telif Hakkı © 2002-2017, Authors.txt dosyasına bakınız"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -424,12 +424,16 @@ msgid "time(s)"
 msgstr "kez oynat"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Repeat mode:"
+msgstr "Tekrar kipi:"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
 msgstr "Oynatmadan Sonra"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Output"
-msgstr "Çıkış"
+msgid "Default zoom"
+msgstr "Varsayılan yakınlaştırma"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
@@ -449,7 +453,7 @@ msgstr "Varsayılan parça seçimi"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Subtitles:"
-msgstr "Alt Yazı :"
+msgstr "Alt Yazılar:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Audio:"
@@ -568,7 +572,7 @@ msgid "Warning"
 msgstr "Uyarı"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
+msgid "If you override and enable fullscreen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
 msgstr "Ekran kartınızın ayarlarından Tam ekran keskinlik yumuşatması seçeneğini açarsanız, alt yazılar düzgün görülmeyecek ve daha fazla işlemci kullanımına neden olacaktır."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
@@ -1124,8 +1128,8 @@ msgid "Audio Renderer"
 msgstr "Ses İşleyicisi"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
-msgstr "VKI-7/VKI-9 (çevrilmeden) ve GVI (CP) ayarları"
+msgid "VMR-9 (renderless) and EVR (CP) settings"
+msgstr "VKI-9 (çevrilmeden) ve GVI (CP) ayarları"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"
@@ -1187,6 +1191,10 @@ msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
 msgstr "Alt Yazı İşleyicisi"
 
+msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
+msgid "Cache compiled Shaders"
+msgstr "Derlenmiş Tonlayıcıları önbellekle"
+
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
 msgstr "Bağlantı noktasını dinle:"
@@ -1232,16 +1240,44 @@ msgid "CGI handlers: (.ext1=path1;.ext2=path2;...)"
 msgstr "CGI komutları: (.uzantı1=yol1;.uzantı2=yol2;...)"
 
 msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
-msgid "Subtitles available online"
-msgstr "Çevrimiçi bulunabilen alt yazılar"
-
-msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
-msgid "Download && Open"
-msgstr "innDir && Aç"
+msgid "Download subtitles"
+msgstr "Alt yazı indir"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
 msgid "Replace currently loaded subtitles"
-msgstr "Geçerli alt yazıları değiştir"
+msgstr "Geçerli alt yazıyı değiştir"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
+msgid "Download"
+msgstr "İndir"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON1"
+msgid "Refresh"
+msgstr "Yenile"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON2"
+msgid "Abort"
+msgstr "Durdur"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON3"
+msgid "Options"
+msgstr "Ayarlar"
+
+msgctxt "IDD_SUBTITLEUP_DLG_CAPTION"
+msgid "Upload subtitles"
+msgstr "Alt yazı gönder"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDOK"
+msgid "Upload"
+msgstr "Gönder"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
+msgid "Abort"
+msgstr "Durdur"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON2"
+msgid "Options"
+msgstr "Ayarlar"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
@@ -1544,16 +1580,28 @@ msgid "Reset"
 msgstr "Sıfırla"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Online database"
-msgstr "Çevrimiçi veritabanı"
+msgid "Online search, download and upload subtitles"
+msgstr "Çevrimiçi alt yazı arama, indirme ve gönderme"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
+msgid "Automatically search and download subtitles if none are found locally"
+msgstr "Geçerli konumda bulunmuyorsa alt yazıları otomatik olarak ara ve indir"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
+msgid "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
+msgstr "İşitme engelliler için hazırlanmış alt yazıları tercih et (sağlayıcı tanımlamışsa)"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
+msgid "Ignore files containing any of the following word(s):"
+msgstr "Belirtilen kelime(leri) içeren dosyaları göz ardı et:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Base URL of the online subtitle database:"
-msgstr "Çevrimiçi alt yazı veritabanı adresi:"
+msgid "Languages in order of preference:"
+msgstr "Tercih edilen dil sıralaması:"
 
-msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON2"
-msgid "Test"
-msgstr "Dene"
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
+msgid "Automatically upload active subtitles at the end of video playback"
+msgstr "Oynatmanın sonunda mevcut alt yazıları otomatik olarak gönder"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"

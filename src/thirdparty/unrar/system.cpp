@@ -21,6 +21,10 @@ void SetPriority(int Priority)
   {
     PriorityClass=IDLE_PRIORITY_CLASS;
     PriorityLevel=THREAD_PRIORITY_IDLE;
+
+//  Background mode for Vista, can be slow for many small files.
+//    if (WinNT()>=WNT_VISTA)
+//      SetPriorityClass(GetCurrentProcess(),PROCESS_MODE_BACKGROUND_BEGIN);
   }
   else
     if (Priority<7)
@@ -58,13 +62,27 @@ void SetPriority(int Priority)
   ThreadPool::SetPriority(PriorityLevel);
 #endif
 
-//  Background mode for Vista, too slow for real life use.
-//  if (WinNT()>=WNT_VISTA && Priority==1)
-//    SetPriorityClass(GetCurrentProcess(),PROCESS_MODE_BACKGROUND_BEGIN);
-
 #endif
 }
 #endif
+
+
+// Monotonic clock. Like clock(), returns time passed in CLOCKS_PER_SEC items.
+// In Android 5+ and Unix usual clock() returns time spent by all threads
+// together, so we cannot use it to measure time intervals anymore.
+clock_t MonoClock()
+{
+#if defined(_ANDROID) && defined(_UNIX) && defined(CLOCK_MONOTONIC)
+  struct timespec CurTime;
+  clock_gettime(CLOCK_MONOTONIC, &CurTime);
+  int64 nsec = int64(CurTime.tv_sec)*1000000000 + CurTime.tv_nsec;
+  nsec /= 1000000000 / CLOCKS_PER_SEC;
+  return (clock_t)nsec;
+#else
+  return clock();
+#endif
+}
+
 
 
 #ifndef SETUP
@@ -74,7 +92,18 @@ void Wait()
     ErrHandler.Exit(RARX_USERBREAK);
 #if defined(_WIN_ALL) && !defined(SFX_MODULE)
   if (SleepTime!=0)
-    Sleep(SleepTime);
+  {
+    static clock_t LastTime=MonoClock();
+    if (MonoClock()-LastTime>10*CLOCKS_PER_SEC/1000)
+    {
+      Sleep(SleepTime);
+      LastTime=MonoClock();
+    }
+  }
+#endif
+#ifdef _WIN_ALL
+  // Reset system sleep timer to prevent system going sleep.
+  SetThreadExecutionState(ES_SYSTEM_REQUIRED);
 #endif
 }
 #endif
@@ -99,6 +128,21 @@ void Shutdown()
 }
 #endif
 
+
+
+
+#ifdef _WIN_ALL
+// Load library from Windows System32 folder. Use this function to prevent
+// loading a malicious code from current folder or same folder as exe.
+HMODULE WINAPI LoadSysLibrary(const wchar *Name)
+{
+  wchar SysDir[NM];
+  if (GetSystemDirectory(SysDir,ASIZE(SysDir))==0)
+    return NULL;
+  MakeName(SysDir,Name,SysDir,ASIZE(SysDir));
+  return LoadLibrary(SysDir);
+}
+#endif
 
 
 #ifdef USE_SSE

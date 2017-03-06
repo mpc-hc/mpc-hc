@@ -1,15 +1,15 @@
 # MPC-HC - Strings extracted from string tables
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Daniel <danny34ever@yahoo.com>, 2014-2015
-# lordkag <lord.kagula@gmail.com>, 2014-2015
+# Daniel <danny3@tutanota.com>, 2014-2016
+# lordkag <lord.kagula@gmail.com>, 2014-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-10-25 00:51:15+0000\n"
-"PO-Revision-Date: 2015-11-08 09:31+0000\n"
-"Last-Translator: JellyFrog\n"
+"POT-Creation-Date: 2016-10-17 00:35:36+0000\n"
+"PO-Revision-Date: 2016-11-12 12:32+0000\n"
+"Last-Translator: Daniel <danny3@tutanota.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/mpc-hc/mpc-hc/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 msgctxt "IDS_INFOBAR_LOCATION"
 msgid "Location"
-msgstr "Dosar"
+msgstr "Locație"
 
 msgctxt "IDS_INFOBAR_VIDEO"
 msgid "Video"
@@ -31,7 +31,7 @@ msgstr "Audio"
 
 msgctxt "IDS_INFOBAR_SUBTITLES"
 msgid "Subtitles"
-msgstr "Subtitrări"
+msgstr "Subtitluri"
 
 msgctxt "IDS_INFOBAR_CHAPTER"
 msgid "Chapter"
@@ -55,15 +55,23 @@ msgstr "Redă CD Audio"
 
 msgctxt "IDS_AUTOPLAY_PLAYDVDMOVIE"
 msgid "Play DVD Movie"
-msgstr "Redă film DVD"
+msgstr "Redă filmul de pe discul DVD"
 
 msgctxt "IDS_PROPSHEET_PROPERTIES"
 msgid "Properties"
 msgstr "Proprietăți"
 
+msgctxt "IDS_PLAY_LOOPMODE_FILE"
+msgid "File"
+msgstr "Fișier"
+
 msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
 msgid "&Default Style"
 msgstr "&Stil implicit"
+
+msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
+msgid "Playlist"
+msgstr "Listă de redare"
 
 msgctxt "IDS_FAVFILES"
 msgid "Files"
@@ -71,7 +79,7 @@ msgstr "Fișiere"
 
 msgctxt "IDS_FAVDVDS"
 msgid "DVDs"
-msgstr "DVD-uri"
+msgstr "Discuri DVD"
 
 msgctxt "IDS_INFOBAR_CHANNEL"
 msgid "Channel"
@@ -99,7 +107,7 @@ msgstr "Rată de biţi"
 
 msgctxt "IDS_STATSBAR_BITRATE_AVG_CUR"
 msgid "(avg/cur)"
-msgstr "(medie/curentă)"
+msgstr "(medie/actuală)"
 
 msgctxt "IDS_STATSBAR_SIGNAL"
 msgid "Signal"
@@ -115,7 +123,27 @@ msgstr "Stiluri"
 
 msgctxt "IDS_TEXT_SUB_RENDERING_TARGET"
 msgid "If the rendering target is left undefined, SSA/ASS subtitles will be rendered relative to the video frame while all other text subtitles will be rendered relative to the window."
-msgstr "Dacă zona ţintă pentru randare este nedefinită, subtitrările SSA/ASS vor fi randate relativ la cadrul video, în timp ce toate celelalte subtitrări text vor fi randate relativ la fereastră."
+msgstr "Dacă zona ţintă pentru randare este nedefinită, subtitlurile SSA/ASS vor fi randate relativ la cadrul video, în timp ce toate celelalte subtitlurii text vor fi randate relativ la fereastră."
+
+msgctxt "IDS_PLAYLOOPMODE_PLAYLIST"
+msgid "Repeat Mode: Playlist"
+msgstr "Mod de repetare: Listă de redare"
+
+msgctxt "IDS_PLAYLOOPMODE_FILE"
+msgid "Repeat Mode: File"
+msgstr "Mod de repetare: Fișier"
+
+msgctxt "IDS_PLAYLOOP_FOREVER_ON"
+msgid "Repeat Forever: On"
+msgstr "Repetare la nesfârșit: Pornită"
+
+msgctxt "IDS_PLAYLOOP_FOREVER_OFF"
+msgid "Repeat Forever: Off"
+msgstr "Repetare la nesfârșit: Oprită"
+
+msgctxt "IDS_PLAYLOOP_FOREVER"
+msgid "Repeat Forever"
+msgstr "Repetă la nesfârșit"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG0"
 msgid "Never (fastest approach)"
@@ -123,7 +151,7 @@ msgstr "Niciodată (cea mai rapidă metodă)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG1"
 msgid "Only when switching different video types (default)"
-msgstr "Doar când se schimbă tipuri video diferite (implicit)"
+msgstr "Doar când se schimbă tipurile video diferite (implicit)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG2"
 msgid "Always (slowest option)"
@@ -131,7 +159,7 @@ msgstr "Întotdeauna (cea mai lentă metodă)"
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
 msgid "Not supported by some devices. Two video decoders always present in the filter graph."
-msgstr "Nu este suportată de unele dispozitive. Două decodoare video sunt întotdeauna prezente în graficul filtrelor."
+msgstr "Nu este sprijinită de unele dispozitive. Două decodoare video sunt întotdeauna prezente în graficul filtrelor."
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
 msgid "Fast except when switching between different video streams. Only one video decoder present in the filter graph."
@@ -143,7 +171,7 @@ msgstr "Nu este recomandată. Doar pentru testare."
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG0"
 msgid "Never if possible (fastest, but not supported by most filters)"
-msgstr "Niciodată, dacă este posibil (cea mai rapidă, dar nu este suportată de cele mai multe filtre)"
+msgstr "Niciodată, dacă este posibil (cea mai rapidă, dar nu este sprijinită de cele mai multe filtre)"
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG1"
 msgid "Only when switching different video types (default)"
@@ -175,23 +203,23 @@ msgstr "Film/Dramă"
 
 msgctxt "IDS_CONTENT_NEWS_CURRENTAFFAIRS"
 msgid "News/Current affairs"
-msgstr "Ştiri/Evenimente curente"
+msgstr "Știri/Evenimente actuale"
 
 msgctxt "IDS_SPEED_UNIT_G"
 msgid "GB/s"
-msgstr "GB/s"
+msgstr "GO/s"
 
 msgctxt "IDS_FILE_FAV_ADDED"
 msgid "File added to favorites"
-msgstr "Fişier adăugat la favorite"
+msgstr "Fișier adăugat la favorite"
 
 msgctxt "IDS_DVD_FAV_ADDED"
 msgid "DVD added to favorites"
-msgstr "DVD adăugat la favorite"
+msgstr "Disc DVD adăugat la favorite"
 
 msgctxt "IDS_CAPTURE_SETTINGS"
 msgid "Capture Settings"
-msgstr "Setări pentru captură"
+msgstr "Stabiliri captură"
 
 msgctxt "IDS_NAVIGATION_BAR"
 msgid "Navigation Bar"
@@ -199,7 +227,7 @@ msgstr "Bară de Navigare"
 
 msgctxt "IDS_SUBRESYNC_CAPTION"
 msgid "Subresync"
-msgstr "Resincronizare subtitrări"
+msgstr "Resincronizare subtitluri"
 
 msgctxt "IDS_SUBRESYNC_CLN_TIME"
 msgid "Time"
@@ -239,11 +267,11 @@ msgstr "Font"
 
 msgctxt "IDS_DVD_NAV_SOME_PINS_ERROR"
 msgid "Failed to render some of the pins of the DVD Navigator filter"
-msgstr "Eşuare la randarea unora dintre pinii filtrului DVD Navigator"
+msgstr "Eșuare la randarea unora dintre pinii filtrului navigator DVD"
 
 msgctxt "IDS_DVD_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for DVD playback"
-msgstr "Eşuare la interogarea interfeţelor necesare pentru redare DVD"
+msgstr "Eșuare la interogarea interfeţelor necesare pentru redarea discului DVD"
 
 msgctxt "IDS_CAPTURE_LIVE"
 msgid "Live"
@@ -271,15 +299,15 @@ msgstr "Editorul listei de editare"
 
 msgctxt "IDS_GOTO_ERROR_INVALID_TIME"
 msgid "The entered time is greater than the file duration."
-msgstr "Timpul introdus este mai mare decât durata fişierului."
+msgstr "Timpul introdus este mai mare decât durata fișierului."
 
 msgctxt "IDS_MISSING_ICONS_LIB"
 msgid "The icons library \"mpciconlib.dll\" is missing.\nThe player's default icon will be used for file associations.\nPlease, reinstall MPC-HC to get \"mpciconlib.dll\"."
-msgstr "Biblioteca de pictograme „mpciconlib.dll” lipseşte.\nPictograma implicită a playerului va fi folosită pentru asocierile fişierelor.\nVă rugăm să reinstalaţi MPC-HC pentru a obţine „mpciconlib.dll”."
+msgstr "Biblioteca de pictograme „mpciconlib.dll” lipsește.\nPictograma implicită a playerului va fi folosită pentru asocierile fișierelor.\nVă rugăm să reinstalaţi MPC-HC pentru a obţine „mpciconlib.dll”."
 
 msgctxt "IDS_SUBDL_DLG_FILENAME_COL"
 msgid "File"
-msgstr "Fişier"
+msgstr "Fișier"
 
 msgctxt "IDS_SUBDL_DLG_LANGUAGE_COL"
 msgid "Language"
@@ -327,11 +355,11 @@ msgstr "Pornit/Oprit"
 
 msgctxt "IDS_PPAGE_FS_CLN_FROM_FPS"
 msgid "From (FPS)"
-msgstr "De la (FPS)"
+msgstr "De la (CPS)"
 
 msgctxt "IDS_PPAGE_FS_CLN_TO_FPS"
 msgid "To (FPS)"
-msgstr "La (FPS)"
+msgstr "La (CPS)"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
@@ -351,7 +379,7 @@ msgstr "Implicit al sistemului"
 
 msgctxt "IDS_GRAPH_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for playback"
-msgstr "Eşuare la interogarea interfeţelor necesare pentru redare"
+msgstr "Eșuare la interogarea interfeţelor necesare pentru redare"
 
 msgctxt "IDS_GRAPH_TARGET_WND_ERROR"
 msgid "Could not set target window for graph notification"
@@ -359,7 +387,7 @@ msgstr "Nu se poate seta fereastra ţintă pentru notificările graficului"
 
 msgctxt "IDS_DVD_NAV_ALL_PINS_ERROR"
 msgid "Failed to render all pins of the DVD Navigator filter"
-msgstr "Eşuare la randarea tuturor pinilor filtrului DVD Navigator"
+msgstr "Eșuare la randarea tuturor pinilor filtrului navigator DVD"
 
 msgctxt "IDS_PLAYLIST_OPEN"
 msgid "&Open"
@@ -379,11 +407,11 @@ msgstr "Ș&terge"
 
 msgctxt "IDS_PLAYLIST_COPYTOCLIPBOARD"
 msgid "&Copy to clipboard"
-msgstr "&Copiază în clipboard"
+msgstr "&Copiază în zona de transfer"
 
 msgctxt "IDS_PLAYLIST_SAVEAS"
 msgid "&Save As..."
-msgstr "&Salvează ca..."
+msgstr "&Salvare ca..."
 
 msgctxt "IDS_PLAYLIST_SORTBYLABEL"
 msgid "Sort by &label"
@@ -415,15 +443,15 @@ msgstr "D&uplică"
 
 msgctxt "IDS_SUBRESYNC_RESET"
 msgid "&Reset"
-msgstr "&Resetează"
+msgstr "&Restabilește"
 
 msgctxt "IDS_MPLAYERC_104"
 msgid "Subtitle Delay -"
-msgstr "Întârziere subtitrare -"
+msgstr "Întârziere subtitlu -"
 
 msgctxt "IDS_MPLAYERC_105"
 msgid "Subtitle Delay +"
-msgstr "Întârziere subtitrare +"
+msgstr "Întârziere subtitlu +"
 
 msgctxt "IDS_FILE_SAVE_THUMBNAILS"
 msgid "Save thumbnails"
@@ -443,7 +471,7 @@ msgstr "Redare::DVD/OGM"
 
 msgctxt "IDD_PPAGESUBTITLES"
 msgid "Subtitles"
-msgstr "Subtitrări"
+msgstr "Subtitluri"
 
 msgctxt "IDD_PPAGEFORMATS"
 msgid "Player::Formats"
@@ -463,7 +491,7 @@ msgstr "Filtre externe"
 
 msgctxt "IDD_PPAGESHADERS"
 msgid "Playback::Shaders"
-msgstr "Redare::Shadere"
+msgstr "Redare::Nuanțatoare"
 
 msgctxt "IDD_FILEPROPRES"
 msgid "Resources"
@@ -483,7 +511,7 @@ msgstr "Redare::Captură"
 
 msgctxt "IDD_PPAGESYNC"
 msgid "Playback::Sync Renderer Settings"
-msgstr "Redare::Setările randorului Sync"
+msgstr "Redare::Stabiliri randor Sincronizare"
 
 msgctxt "IDD_PPAGEFULLSCREEN"
 msgid "Playback::Fullscreen"
@@ -515,23 +543,15 @@ msgstr "Randor video vechi"
 
 msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
-msgstr "Randor Mixare Overlay"
-
-msgctxt "IDS_PPAGE_OUTPUT_VMR7WINDOWED"
-msgid "Video Mixing Renderer 7 (windowed)"
-msgstr "VMR-7 - Randor Mixare Video 7 (în fereastră)"
+msgstr "Randor amestecător strat suprapus"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
 msgid "Video Mixing Renderer 9 (windowed)"
-msgstr "VMR-9 - Randor Mixare Video 9 (în fereastră)"
-
-msgctxt "IDS_PPAGE_OUTPUT_VMR7RENDERLESS"
-msgid "Video Mixing Renderer 7 (renderless)"
-msgstr "VMR-7 - Randor Mixare Video 7 (fără randare)"
+msgstr "VMR-9 - Randor amestecare video 9 (în fereastră)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
 msgid "Video Mixing Renderer 9 (renderless)"
-msgstr "VMR-9 - Randor Mixare Video 9 (fără randare)"
+msgstr "VMR-9 - Randor amestecare video 9 (fără randare)"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR"
 msgid "Enhanced Video Renderer"
@@ -563,7 +583,7 @@ msgstr "Player::Taste rapide"
 
 msgctxt "IDD_PPAGESUBSTYLE"
 msgid "Subtitles::Default Style"
-msgstr "Subtitrări::Stil implicit"
+msgstr "Subtitluri::Stil implicit"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS"
 msgid "Internal Filters"
@@ -580,10 +600,6 @@ msgstr "Redare::Ieșire"
 msgctxt "IDD_PPAGEWEBSERVER"
 msgid "Player::Web Interface"
 msgstr "Player::Interfață web"
-
-msgctxt "IDD_PPAGESUBDB"
-msgid "Subtitles::Database"
-msgstr "Subtitrări::Bază de date"
 
 msgctxt "IDD_FILEPROPDETAILS"
 msgid "Details"
@@ -603,27 +619,19 @@ msgstr "Acesta este randorul implicit pentru Windows 9x/me/2k. În funcție de v
 
 msgctxt "IDC_DSOVERLAYMIXER"
 msgid "Always renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
-msgstr "Randează întotdeauna în overlay (suprapunere). În mod normal doar formatele YUV sunt permise, dar ele sunt prezentate direct fără nicio conversie de culoare către RGB. Aceasta este cea mai rapidă metodă de randare dintre toate și singura în care puteți fi sigur(ă) de oglindirea/recopierea videoului în ecran complet la activarea tv-out (Ieşire TV)."
-
-msgctxt "IDC_DSVMR7WIN"
-msgid "The default renderer of Windows XP. Very stable and just a little slower than the Overlay mixer. Uses DirectDraw and runs in Overlay when it can."
-msgstr "Randorul implicit pentru Windows XP. Foarte stabil și doar puțin mai încet decât mixarea Overlay. Folosește DirectDraw și rulează în Overlay atunci când poate."
+msgstr "Randează întotdeauna într-un strat suprapus. În mod normal doar formatele YUV sunt permise, dar ele sunt prezentate direct fără nicio conversie de culoare către RGB. Aceasta este cea mai rapidă metodă de randare dintre toate și singura în care puteți fi sigur(ă) de oglindirea/recopierea videoului în ecran complet la activarea ieșirii tv (tv-out)."
 
 msgctxt "IDC_DSVMR9WIN"
-msgid "Only available if you have DirectX 9 installed. Has the same abilities as VMR-7 (windowed), but it will never use Overlay rendering and because of this it may be a little slower than VMR-7 (windowed)."
-msgstr "Disponibil numai dacă aveți DirectX 9 instalat. Are aceleași abilităţi ca și VMR-7 (în fereastră), dar nu va folosi niciodată randare în Overlay și din această cauză s-ar putea să fie puțin mai încet decât VMR-7 (în fereastră)."
-
-msgctxt "IDC_DSVMR7REN"
-msgid "Same as the VMR-7 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring WILL NOT work. \"True Color\" desktop color space recommended."
-msgstr "Asemănător cu VMR-7 (în fereastră), dar cu modulul Allocator-Presenter din MPC-HC pentru subtitrări. Oglindirea video în overlay NU va funcționa. Spațiul de culori recomandat pentru desktop este „True Color”."
+msgid "Only available if you have DirectX 9 installed. Very stable but it will never use Overlay rendering and because of this it may be a little slower than Overlay mixer."
+msgstr "Disponibil numai dacă aveți DirectX 9 instalat. Foarte stabil, dar nu va folosi niciodată randare în strat suprapus și din această cauză s-ar putea să fie puțin mai încet decât randorul amestecător strat suprapus."
 
 msgctxt "IDC_DSVMR9REN"
 msgid "Same as the VMR-9 (windowed), but with the Allocator-Presenter plugin of MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" desktop color space recommended. Recommended for Windows XP."
-msgstr "Asemănător cu VMR-9 (în fereastră), dar cu modulul Allocator-Presenter din MPC-HC pentru subtitrări. Oglindirea video în overlay S-AR PUTEA să funcționeze. Spațiul de culori recomandat pentru desktop este „True Color”. Recomandat pentru Windows XP."
+msgstr "Asemănător cu VMR-9 (în fereastră), dar cu modulul Allocator-Presenter din MPC-HC pentru subtitluri. Oglindirea video în strat suprapus S-AR PUTEA să funcționeze. Spațiul de culori recomandat pentru desktop este „True Color”. Recomandat pentru Windows XP."
 
 msgctxt "IDC_DSDXR"
 msgid "Same as the VMR-9 (renderless), but uses a true two-pass bicubic resizer."
-msgstr "Asemănător cu VMR-9 (fără randare), dar foloseşte o redimensionare bicubică în doi paşi adevărată."
+msgstr "Asemănător cu VMR-9 (fără randare), dar folosește o redimensionare bicubică în doi pași adevărată."
 
 msgctxt "IDC_DSNULL_COMP"
 msgid "Connects to any video-like media type and will send the incoming samples to nowhere. Use it when you don't need the video display and want to save the CPU from working unnecessarily."
@@ -639,11 +647,11 @@ msgstr "Disponibil doar pentru Vista sau mai nou, sau pentru XP cu cel puţin .N
 
 msgctxt "IDC_DSEVR_CUSTOM"
 msgid "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling and postprocessing. Recommended for Windows Vista or later."
-msgstr "Asemănător cu EVR, dar cu modulul Allocator-Presenter din MPC-HC pentru subtitrare şi postprocesare. Recomandat pentru Windows Vista sau mai nou."
+msgstr "Asemănător cu EVR, dar cu modulul Allocator-Presenter din MPC-HC pentru subtitlu și postprocesare. Recomandat pentru Windows Vista sau mai nou."
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
-msgstr "Randor de calitate înaltă, necesită o placă grafică ce suportă D3D9 sau mai nou."
+msgstr "Randor de calitate ridicată, necesită o placă grafică ce sprijină D3D9 sau mai nou."
 
 msgctxt "IDC_DSSYNC"
 msgid "Same as the EVR (CP), but offers several options to synchronize the video frame rate with the display refresh rate to eliminate skipped or duplicated video frames."
@@ -651,11 +659,7 @@ msgstr "Asemănător cu EVR (CP), dar oferă câteva opţiuni pentru a sincroniz
 
 msgctxt "IDC_RMSYSDEF"
 msgid "Real's own renderer. SMIL scripts will work, but interaction not likely. Uses DirectDraw and runs in Overlay when it can."
-msgstr "Randor propriu al Real. Scripturile SMIL vor funcționa, dar interacțiunea puțin probabil. Folosește DirectDraw și rulează în Overlay atunci când poate."
-
-msgctxt "IDC_RMDX7"
-msgid "The output of Real's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "Ieșirea motorului Real randată de modulul Allocator-Presenter bazat pe DX7 al lui VMR-7 (fără randare)."
+msgstr "Randor propriu al lui Real. Scripturile SMIL vor funcționa, dar interacțiunea puțin probabil. Folosește DirectDraw și rulează în strat suprapus atunci când poate."
 
 msgctxt "IDC_RMDX9"
 msgid "The output of Real's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
@@ -664,10 +668,6 @@ msgstr "Ieșirea motorului Real randată de modulul Allocator-Presenter bazat pe
 msgctxt "IDC_QTSYSDEF"
 msgid "QuickTime's own renderer. Gets a little slow when its video area is resized or partially covered by another window. When Overlay is not available it likes to fall back to GDI."
 msgstr "Randor propriu al QuickTime. Încetinește puțin atunci când zona video este redimensionată sau este acoperită parțial de altă fereastră. Când Overlay nu este disponibil preferă să revină la GDI."
-
-msgctxt "IDC_QTDX7"
-msgid "The output of QuickTime's engine rendered by the DX7-based Allocator-Presenter of VMR-7 (renderless)."
-msgstr "Ieșirea motorului QuickTime randată de modulul Allocator-Presenter bazat pe DX7 al lui VMR-7 (fără randare)."
 
 msgctxt "IDC_QTDX9"
 msgid "The output of QuickTime's engine rendered by the DX9-based Allocator-Presenter of VMR-9 (renderless)."
@@ -679,11 +679,11 @@ msgstr "Suprafața video va fi alocată ca o suprafață normală offscreen."
 
 msgctxt "IDS_PPAGE_OUTPUT_SYNC"
 msgid "Sync Renderer"
-msgstr "Randor Sync"
+msgstr "Randor Sincronizare"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
 msgid "Regular offscreen plain surface"
-msgstr "Suprafaţă netedă offscreen obişnuită"
+msgstr "Suprafaţă netedă offscreen obișnuită"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_2D"
 msgid "2D surfaces"
@@ -699,23 +699,23 @@ msgstr "Cel mai apropiat vecin"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BILIN"
 msgid "Bilinear"
-msgstr "Biliniar"
+msgstr "Biliniară"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BIL_PS"
 msgid "Bilinear (PS 2.0)"
-msgstr "Biliniar (PS 2.0)"
+msgstr "Biliniară (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB1"
 msgid "Bicubic A=-0.60 (PS 2.0)"
-msgstr "Bicubic A=-0.60 (PS 2.0)"
+msgstr "Bicubică A=-0.60 (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB2"
 msgid "Bicubic A=-0.75 (PS 2.0)"
-msgstr "Bicubic A=-0.75 (PS 2.0)"
+msgstr "Bicubică A=-0.75 (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_RESIZER_BICUB3"
 msgid "Bicubic A=-1.00 (PS 2.0)"
-msgstr "Bicubic A=-1.00 (PS 2.0)"
+msgstr "Bicubică A=-1.00 (PS 2.0)"
 
 msgctxt "IDS_PPAGE_OUTPUT_UNAVAILABLE"
 msgid "**unavailable**"
@@ -749,9 +749,13 @@ msgctxt "IDS_EMB_RESOURCES_VIEWER_INFO"
 msgid "In order to view an embedded resource in your browser you have to enable the web interface.\n\nUse the \"Save As\" button if you only want to save the information."
 msgstr "Pentru a vedea o resursă încorporată în browser-ul dumneavoastră trebuie să activaţi interfaţa web.\n\nFolosiţi butonul „Salvează ca” dacă doriţi doar să salvaţi infomaţia."
 
-msgctxt "IDS_DOWNLOAD_SUBS"
-msgid "Download subtitles"
-msgstr "Descarcă subtitrări"
+msgctxt "IDS_SUBTITLES_DOWNLOAD"
+msgid "Download Subtitles..."
+msgstr "Descărcare subtitluri..."
+
+msgctxt "IDS_SUBTITLES_UPLOAD"
+msgid "Upload Subtitles..."
+msgstr "Încărcare subtitluri..."
 
 msgctxt "IDS_SUBFILE_DELAY"
 msgid "Delay (ms):"
@@ -767,15 +771,15 @@ msgstr "Nu există taste rapide (scurtături) pentru exportare."
 
 msgctxt "IDS_RFS_NO_FILES"
 msgid "No media files found in the archive"
-msgstr "Nu s-au găsit fişiere media în arhivă"
+msgstr "Nu s-au găsit fișiere media în arhivă"
 
 msgctxt "IDS_RFS_COMPRESSED"
 msgid "Compressed files are not supported"
-msgstr "Fişierele comprimate nu sunt suportate"
+msgstr "Fișierele comprimate nu sunt compatibile"
 
 msgctxt "IDS_RFS_ENCRYPTED"
 msgid "Encrypted files are not supported"
-msgstr "Fişierele criptate nu sunt suportate"
+msgstr "Fișierele criptate nu sunt compatibile"
 
 msgctxt "IDS_RFS_MISSING_VOLS"
 msgid "Couldn't find all archive volumes"
@@ -787,15 +791,15 @@ msgstr "Suprafața video va fi alocată ca o textură, dar tot funcțiile 2D vor
 
 msgctxt "IDC_TEXTURESURF3D"
 msgid "Video surface will be allocated as a texture and drawn as two triangles in 3d. Antialiasing turned on at the display settings may have a bad effect on the rendering speed."
-msgstr "Suprafața video va fi alocată ca o textură și desenată ca două triunghiuri în 3D. Activarea dezimțuirii (antialiasing) din setările de afișare ar putea avea un efect negativ asupra vitezei de randare."
+msgstr "Suprafața video va fi alocată ca o textură și desenată ca două triunghiuri în 3D. Activarea dezimțuirii (antialiasing) din stabilirile de afișare ar putea avea un efect negativ asupra vitezei de randare."
 
 msgctxt "IDC_DX9RESIZER_COMBO"
 msgid "If there is no Pixel Shader 2.0 support, simple bilinear is used automatically."
-msgstr "Dacă nu există suport pentru Pixel Shader 2.0, biliniar simplu este folosit automat."
+msgstr "Dacă nu există sprijin pentru Nuanțatorul de pixeli 2.0, biliniară simplă este folosită automat."
 
 msgctxt "IDC_DSVMR9LOADMIXER"
 msgid "Puts VMR-9 (renderless) into mixer mode, this means most of the controls on its property page will work and it will use a separate worker thread to renderer frames."
-msgstr "Pune VMR-9 (fără randare) în mod mixare, aceasta înseamnă că majoritatea controalelor de pe pagina proprie de proprietăți vor funcționa și va folosi un fir de execuţie secundar separat pentru randarea cadrelor."
+msgstr "Pune VMR-9 (fără randare) în modul amestecător, aceasta înseamnă că majoritatea controalelor de pe pagina proprie de proprietăți vor funcționa și va folosi un fir de execuţie secundar separat pentru randarea cadrelor."
 
 msgctxt "IDC_DSVMR9YUVMIXER"
 msgid "Improves performance at the cost of some compatibility of the renderer."
@@ -807,7 +811,19 @@ msgstr "Reduce efectul de rupere (tearing), dar împiedică afișarea barei de i
 
 msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Reduces tearing by bypassing the default VSync built into D3D."
-msgstr "Reduce efectul de rupere (tearing) prin ocolirea sincronizării verticale (VSync) implicite încorporate în D3D."
+msgstr "Reduce efectul de rupere (tearing) prin ocolirea sincronizării verticale implicite încorporate în D3D."
+
+msgctxt "IDS_NAVIGATE_TUNERSCAN"
+msgid "Tuner scan"
+msgstr "Scanare prinzător"
+
+msgctxt "IDS_SUBTITLES_ERROR"
+msgid "Subtitles are not loaded or unsupported renderer."
+msgstr "Subtitlurile nu sunt încărcate sau randorul este nesprijinit."
+
+msgctxt "IDC_CACHESHADERS"
+msgid "Stores compiled shaders in local AppData to speed up load time."
+msgstr "Stochează nuanțatoarele compilate în dosarul AppData local pentru a accelera timpul de încărcare."
 
 msgctxt "IDS_SRC_VTS"
 msgid "Open VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"
@@ -815,7 +831,7 @@ msgstr "Deschideți VTS_xx_0.ifo pentru a încărca fișierele VTS_xx_x.vob dint
 
 msgctxt "IDS_SRC_RFS"
 msgid "Based on RARFileSource, doesn't support compressed files"
-msgstr "Bazat pe RARFileSource, nu suportă fişiere comprimate"
+msgstr "Bazat pe RARFileSource, nu sprijină fișierele comprimate"
 
 msgctxt "IDS_INTERNAL_LAVF"
 msgid "Uses LAV Filters"
@@ -831,19 +847,19 @@ msgstr "Comută bara de navigare"
 
 msgctxt "IDS_AG_VSYNCACCURATE"
 msgid "Accurate VSync"
-msgstr "VSync precis"
+msgstr "Sincronizare verticală precisă"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid "If the rendering target is left undefined, it will be inherited from the default style."
-msgstr "Dacă zona ţintă pentru randare este nedefinită, aceasta va fi moştenită din stilul implicit."
+msgstr "Dacă zona ţintă pentru randare este nedefinită, aceasta va fi moștenită din stilul implicit."
 
 msgctxt "IDC_CHECK_NO_SUB_ANIM"
 msgid "Disallow subtitle animation. Enabling this option will lower CPU usage. You can use it if you experience flashing subtitles."
-msgstr "Dezactivează animația subtitrărilor. Activarea acestei opțiuni va micșora folosirea procesorului. O puteți folosi dacă întâmpinați subtitrări ce clipesc."
+msgstr "Dezactivează animația subtitlurilor. Activarea acestei opțiuni va reduce folosirea procesorului. O puteți folosi dacă întâmpinați subtitluri ce clipesc."
 
 msgctxt "IDC_SUBPIC_TO_BUFFER"
 msgid "Increasing the number of buffered subpictures should in general improve the rendering performance at the cost of a higher video RAM usage on the GPU."
-msgstr "Creșterea numărului de imagini subtitrare pentru preîncărcare ar trebui, în general, să îmbunătățească performanța randării, cu costul creșterii memoriei video utilizate de placa video."
+msgstr "Creșterea numărului de imagini subtitlu pentru preîncărcare ar trebui, în general, să îmbunătățească performanța randării, cu costul creșterii memoriei video utilizate de placa video."
 
 msgctxt "IDC_BUTTON_EXT_SET"
 msgid "After clicking this button, the checked state of the format group will reflect the actual file association for MPC-HC. A newly added extension will usually make it grayed, so don't forget to check it again before closing this dialog!"
@@ -851,7 +867,7 @@ msgstr "După ce dați clic pe acest buton, starea bifată a grupului de formate
 
 msgctxt "IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Disabling this option will prevent the subtitles from blinking but it may cause the video renderer to skip some video frames."
-msgstr "Dezactivarea acestei opțiuni va preveni clipirea subtitrărilor, cu riscul abandonării unor cadre video de către randorul video."
+msgstr "Dezactivarea acestei opțiuni va preveni clipirea subtitlurilor, cu riscul omiterii unor cadre video de către randorul video."
 
 msgctxt "ID_PLAY_PLAY"
 msgid "Play\nPlay"
@@ -859,11 +875,11 @@ msgstr "Redă\nRedă"
 
 msgctxt "ID_PLAY_PAUSE"
 msgid "Pause\nPause"
-msgstr "Pauză\nPauză"
+msgstr "Pauzează\nPauzează"
 
 msgctxt "ID_PLAY_STOP"
 msgid "Stop\nStop"
-msgstr "Stop\nStop"
+msgstr "Oprește\nOprește"
 
 msgctxt "ID_PLAY_FRAMESTEP"
 msgid "Step\nStep"
@@ -871,11 +887,11 @@ msgstr "Avansează câte un cadru\nAvansează câte un cadru"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "Decrease speed\nDecrease speed"
-msgstr "Micșorează viteză\nMicșorează viteză"
+msgstr "Micșorare viteză\nMicșorează viteza"
 
 msgctxt "ID_PLAY_INCRATE"
 msgid "Increase speed\nIncrease speed"
-msgstr "Mărește viteză\nMărește viteză"
+msgstr "Mărire viteză\nMărește viteza"
 
 msgctxt "ID_VOLUME_MUTE"
 msgid "Mute"
@@ -903,7 +919,7 @@ msgstr "&Original"
 
 msgctxt "IDS_SUBRESYNC_CURRENT"
 msgid "&Current"
-msgstr "&Curent"
+msgstr "&Actual"
 
 msgctxt "IDS_SUBRESYNC_EDIT"
 msgid "&Edit"
@@ -931,11 +947,11 @@ msgstr "Opțiuni"
 
 msgctxt "IDS_SHADERS_SELECT"
 msgid "&Select Shaders..."
-msgstr "&Selectare shadere..."
+msgstr "&Selectare nuanțatoare..."
 
 msgctxt "IDS_SHADERS_DEBUG"
 msgid "&Debug Shaders..."
-msgstr "&Depanare shadere..."
+msgstr "&Depanare nuanțatoare..."
 
 msgctxt "IDS_FAVORITES_ADD"
 msgid "&Add to Favorites..."
@@ -946,11 +962,11 @@ msgid "&Organize Favorites..."
 msgstr "&Organizare favorite..."
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
-msgid "Shuffle"
+msgid "Sh&uffle"
 msgstr "Amestecă"
 
 msgctxt "IDS_PLAYLIST_SHOWFOLDER"
-msgid "Open file location"
+msgid "Ope&n file location"
 msgstr "Deschide dosarul fișierului"
 
 msgctxt "IDS_CONTROLS_CLOSING"
@@ -963,7 +979,7 @@ msgstr "În redare"
 
 msgctxt "IDS_CONTROLS_PAUSED"
 msgid "Paused"
-msgstr "În pauză"
+msgstr "Pauzat"
 
 msgctxt "IDS_AG_EDL_NEW_CLIP"
 msgid "EDL new clip"
@@ -999,23 +1015,23 @@ msgstr "EDL: Punct de ieșire"
 
 msgctxt "IDS_AG_PNS_ROTATEX_M"
 msgid "PnS Rotate X-"
-msgstr "PnS: Rotație X-"
+msgstr "Panoramare trunchiată: Rotește X-"
 
 msgctxt "IDS_AG_PNS_ROTATEY_P"
 msgid "PnS Rotate Y+"
-msgstr "PnS: Rotație Y+"
+msgstr "Panoramare trunchiată: Rotește Y+"
 
 msgctxt "IDS_AG_PNS_ROTATEY_M"
 msgid "PnS Rotate Y-"
-msgstr "PnS: Rotație Y-"
+msgstr "Panoramare trunchiată: Rotește Y-"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_P"
 msgid "PnS Rotate Z+"
-msgstr "PnS: Rotație Z+"
+msgstr "Panoramare trunchiată: Rotește Z+"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_M"
 msgid "PnS Rotate Z-"
-msgstr "PnS: Rotație Z-"
+msgstr "Panoramare trunchiată: Rotește Z-"
 
 msgctxt "IDS_AG_TEARING_TEST"
 msgid "Tearing Test"
@@ -1034,7 +1050,7 @@ msgid "Zoom To Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"
 msgstr "Scalează pentru ecran ultra-lat,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_PLAYLIST_HIDEFS"
-msgid "Hide on Fullscreen"
+msgid "&Hide on Fullscreen"
 msgstr "Ascunde în modul ecran complet"
 
 msgctxt "IDS_CONTROLS_STOPPED"
@@ -1155,39 +1171,39 @@ msgstr "Deschide fișier"
 
 msgctxt "IDS_AG_OPEN_DVD"
 msgid "Open DVD/BD"
-msgstr "Deschide DVD/BD"
+msgstr "Deschide disc DVD/BD"
 
 msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
 msgid "Failed to set post-resize shaders"
-msgstr "Eșuare la setarea shaderelor post-redimensionare"
+msgstr "Eșuare la stabilirea nuanțatoarelor post-redimensionare"
 
 msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
 msgid "Failed to set both pre-resize and post-resize shaders"
-msgstr "Eșuare la setarea shaderelor pre-redimensionare și post-redimensionare"
+msgstr "Eșuare la stabilirea nuanțatoarelor pre-redimensionare și post-redimensionare"
 
 msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
 msgid "Shaders are recompiled automatically when the corresponding files are modified."
-msgstr "Shaderele sunt recompilate automat atunci când fișierele corespunzătoare sunt modificate."
+msgstr "Nuanțatoarele sunt recompilate automat atunci când fișierele corespunzătoare sunt modificate."
 
 msgctxt "IDS_SHADER_DLL_ERR_0"
 msgid "Cannot load %s, pixel shaders will not work."
-msgstr "Nu se poate încărca %s, shaderele pixeli nu vor funcționa."
+msgstr "Nu se poate încărca %s, nuanțatoarele de pixeli nu vor funcționa."
 
 msgctxt "IDS_SHADER_DLL_ERR_1"
 msgid "Cannot find necessary function entry points in %s, pixel shaders will not work."
-msgstr "Nu se pot găsi punctele de intrare necesare ale funcției în %s, shaderele pixeli nu vor funcționa."
+msgstr "Nu se pot găsi punctele de intrare ale funcției necesare în %s, nuanțatoarele de pixeli nu vor funcționa."
 
 msgctxt "IDS_OSD_SHADERS_PRESET"
 msgid "Shader preset: %s"
-msgstr "Setare prestabilită pentru shader: %s"
+msgstr "Prestabilire nuanțator: %s"
 
 msgctxt "IDS_AG_SHADERS_PRESET_NEXT"
 msgid "Next Shader Preset"
-msgstr "Următoarea setare prestabilită pentru shader"
+msgstr "Următoarea prestabilire nuanțator"
 
 msgctxt "IDS_AG_SHADERS_PRESET_PREV"
 msgid "Prev Shader Preset"
-msgstr "Precedenta setare prestabilită pentru shader"
+msgstr "Precedenta prestabilire nuanțator"
 
 msgctxt "IDS_STRING_COLON"
 msgid "%s:"
@@ -1222,7 +1238,7 @@ msgid "+%d%%"
 msgstr "+%d%%"
 
 msgctxt "IDS_PLAYLIST_ADDFOLDER"
-msgid "Add containing folder"
+msgid "Add containing &folder"
 msgstr "Adaugă dosar cu conținut"
 
 msgctxt "IDS_HW_INDICATOR"
@@ -1239,11 +1255,11 @@ msgstr "Rata de redare"
 
 msgctxt "IDS_FILTERS_COPY_TO_CLIPBOARD"
 msgid "&Copy filters list to clipboard"
-msgstr "&Copiază lista de filtre în clipboard"
+msgstr "&Copiază lista de filtre în zona de transfer"
 
 msgctxt "IDS_CREDENTIALS_SERVER"
 msgid "Enter server credentials"
-msgstr "Introduceți datele de autentificare pe server"
+msgstr "Introduceți datele de autentificare pe servitor"
 
 msgctxt "IDS_CREDENTIALS_CONNECT"
 msgid "Enter your credentials to connect"
@@ -1255,15 +1271,15 @@ msgstr "Salvează stil personalizat"
 
 msgctxt "IDS_CONTENT_EDUCATION_SCIENCE"
 msgid "Education/Science/Factual topics"
-msgstr "Educaţie/Ştiinţă/Subiecte actuale"
+msgstr "Educaţie/Știinţă/Subiecte actuale"
 
 msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
 msgid "Hides controls and panels also in windowed mode."
-msgstr "Ascunde controale şi panouri de asemenea în modul fereastră."
+msgstr "Ascunde controalele și panourile și în modul fereastră."
 
 msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
 msgid "Prevent external subtitle renderer to be loaded when internal is in use."
-msgstr "Împiedică încărcarea randorului extern de subtitrări când cel intern este în folosinţă."
+msgstr "Împiedică încărcarea randorului extern de subtitluri când cel intern este în folosinţă."
 
 msgctxt "IDS_PPAGEADVANCED_COL_NAME"
 msgid "Name"
@@ -1275,7 +1291,7 @@ msgstr "Valoare"
 
 msgctxt "IDS_PPAGEADVANCED_RECENT_FILES_NUMBER"
 msgid "Maximum number of files shown in the \"Recent files\" menu and for which the position is potentially saved."
-msgstr "Numărul maxim de fişiere afişate în meniul „Fişiere recente” şi a căror poziţie este posibil să fie salvată."
+msgstr "Numărul maxim de fișiere afișate în meniul „Fișiere recente” și a căror poziţie este posibil să fie salvată."
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
@@ -1295,7 +1311,7 @@ msgstr "Redă următorul fișier din dosar"
 
 msgctxt "IDS_AFTER_PLAYBACK_REWIND"
 msgid "Rewind current file"
-msgstr "Derulează înapoi fișierul curent"
+msgstr "Derulează înapoi fișierul actual"
 
 msgctxt "IDS_AFTER_PLAYBACK_CLOSE"
 msgid "Close"
@@ -1303,7 +1319,7 @@ msgstr "Închide"
 
 msgctxt "IDS_AFTER_PLAYBACK_EXIT"
 msgid "Exit"
-msgstr "Ieșire"
+msgstr "Închide programul"
 
 msgctxt "IDS_AFTER_PLAYBACK_MONITOROFF"
 msgid "Turn off the monitor"
@@ -1323,7 +1339,7 @@ msgstr "Mărimea maximă (NxN px) a unei coperți de album în timpul redării u
 
 msgctxt "IDS_SUBTITLE_DELAY_STEP_TOOLTIP"
 msgid "The subtitle delay will be decreased/increased by this value each time the corresponding hotkeys are used (%s/%s)."
-msgstr "Întârzierea subtitrării va scade/crește cu această valoare de fiecare dată când tastele rapide corespunzătoare vor fi utilizate (%s/%s)."
+msgstr "Întârzierea subtitlului va scade/crește cu această valoare de fiecare dată când tastele rapide corespunzătoare vor fi utilizate (%s/%s)."
 
 msgctxt "IDS_HOTKEY_NOT_DEFINED"
 msgid "<not defined>"
@@ -1379,7 +1395,7 @@ msgstr "Precizie ridicată"
 
 msgctxt "IDS_AFTERPLAYBACK_REWIND"
 msgid "After Playback: Rewind current file"
-msgstr "După redare: Derulează înapoi fișierul curent"
+msgstr "După redare: Derulează înapoi fișierul actual"
 
 msgctxt "IDS_AFTERPLAYBACK_CLOSE"
 msgid "After Playback: Close"
@@ -1403,7 +1419,7 @@ msgstr "Această opțiune poate fi folosită pentru a previzualiza fișiere medi
 
 msgctxt "IDS_SUBTITLE_RENDERER_INTERNAL"
 msgid "Internal Subtitle Renderer"
-msgstr "Randor subtitrări intern"
+msgstr "Randor subtitluri intern"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1425,13 +1441,13 @@ msgctxt "IDS_OSD_IMAGE_SAVED"
 msgid "Image saved successfully"
 msgstr "Imagine salvată cu succes"
 
-msgctxt "IDS_AG_LOAD_SUBTITLE"
-msgid "Load Subtitle"
-msgstr "Încarcă subtitrare"
+msgctxt "IDS_AG_LOAD_SUBTITLES"
+msgid "Load Subtitles..."
+msgstr "Încărcare subtitluri..."
 
-msgctxt "IDS_AG_SAVE_SUBTITLE"
-msgid "Save Subtitle"
-msgstr "Salvează subtitrare"
+msgctxt "IDS_AG_SAVE_SUBTITLES"
+msgid "Save Subtitles..."
+msgstr "Salvare subtitluri..."
 
 msgctxt "IDS_AG_PROPERTIES"
 msgid "Properties"
@@ -1443,11 +1459,11 @@ msgstr "Ieșire"
 
 msgctxt "IDS_AG_PLAYPAUSE"
 msgid "Play/Pause"
-msgstr "Redă/Pauză"
+msgstr "Redă/Pauzează"
 
 msgctxt "IDS_AG_PLAY"
 msgid "Play"
-msgstr "Redă"
+msgstr "Redare"
 
 msgctxt "IDS_AG_STOP"
 msgid "Stop"
@@ -1531,7 +1547,7 @@ msgstr "Arată când se trece peste controale, ascunde după:"
 
 msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
 msgid "Failed to set pre-resize shaders"
-msgstr "Eșuare la setarea shaderelor pre-redimensionare"
+msgstr "Eșuare la stabilirea nuanțatoarelor pre-redimensionare"
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
 msgid "Frame Time Correction: On"
@@ -1543,22 +1559,22 @@ msgstr "Corecție de timp a cadrelor: Dezactivată"
 
 msgctxt "IDS_OSD_RS_TARGET_VSYNC_OFFSET"
 msgid "Target VSync Offset: %.1f"
-msgstr "Decalaj VSync vizat: %.1f"
+msgstr "Decalaj sincronizare verticală vizată: %.1f"
 
 msgctxt "IDS_OSD_RS_VSYNC_OFFSET"
 msgid "VSync Offset: %d"
-msgstr "Decalaj VSync: %d"
+msgstr "Decalaj sincronizare verticală: %d"
 
 msgctxt "IDS_OSD_SPEED"
 msgid "Speed: %.2lfx"
-msgstr "Viteză redare: %.2lfx"
+msgstr "Viteză de redare: %.2lfx"
 
 msgctxt "IDS_OSD_THUMBS_SAVED"
 msgid "Thumbnails saved successfully"
 msgstr "Miniaturi salvate cu succes"
 
 msgctxt "IDS_MENU_VIDEO_STREAM"
-msgid "&Video Track"
+msgid "Vide&o Track"
 msgstr "Pistă &video"
 
 msgctxt "IDS_MENU_VIDEO_ANGLE"
@@ -1567,19 +1583,19 @@ msgstr "Un&ghi video"
 
 msgctxt "IDS_RESET_SETTINGS"
 msgid "Reset settings"
-msgstr "Resetează setările"
+msgstr "Restabilește stabilirile"
 
 msgctxt "IDS_RESET_SETTINGS_WARNING"
 msgid "Are you sure you want to restore MPC-HC to its default settings?\nBe warned that ALL your current settings will be lost!"
-msgstr "Sigur doriți să restaurați MPC-HC la setările implicite?\nTrebuie să știți că TOATE setările curente vor fi pierdute!"
+msgstr "Sigur doriți să restaurați MPC-HC la stabilirile lui implicite?\nTrebuie să știți că TOATE stabilirile (configurările) actuale vor fi pierdute!"
 
 msgctxt "IDS_RESET_SETTINGS_MUTEX"
 msgid "Please close all instances of MPC-HC so that the default settings can be restored."
-msgstr "Închideți toate instanțele programului MPC-HC pentru ca setările implicite să poată fi restaurate."
+msgstr "Închideți toate instanțele programului MPC-HC pentru ca stabilirile implicite să poată fi restaurate."
 
 msgctxt "IDS_EXPORT_SETTINGS"
 msgid "Export settings"
-msgstr "Exportă setările"
+msgstr "Exportă stabilirile"
 
 msgctxt "IDS_EXPORT_SETTINGS_WARNING"
 msgid "Some changes have not been saved yet.\nDo you want to save them before exporting?"
@@ -1587,7 +1603,7 @@ msgstr "Unele modificări nu au fost încă salvate.\nDoriți să le salvați î
 
 msgctxt "IDS_EXPORT_SETTINGS_SUCCESS"
 msgid "The settings have been successfully exported."
-msgstr "Setările au fost exportate cu succes."
+msgstr "Stabilirile au fost exportate cu succes."
 
 msgctxt "IDS_EXPORT_SETTINGS_FAILED"
 msgid "The export failed! This can happen when you don't have the correct rights."
@@ -1603,7 +1619,7 @@ msgstr "Micșorează rata"
 
 msgctxt "IDS_AG_RESET_RATE"
 msgid "Reset Rate"
-msgstr "Resetează rata"
+msgstr "Restabilește rata"
 
 msgctxt "IDS_MPLAYERC_21"
 msgid "Audio Delay +10 ms"
@@ -1667,19 +1683,19 @@ msgstr "Comută ecran complet Direct3D"
 
 msgctxt "IDS_MPLAYERC_100"
 msgid "Goto Prev Subtitle"
-msgstr "Du-te la subtitrarea anterioară"
+msgstr "Du-te la subtitlul anterior"
 
 msgctxt "IDS_MPLAYERC_101"
 msgid "Goto Next Subtitle"
-msgstr "Du-te la subtitrarea următoare"
+msgstr "Du-te la subtitlul următor"
 
 msgctxt "IDS_MPLAYERC_102"
 msgid "Shift Subtitle Left"
-msgstr "Deplasează subtitrarea la stânga"
+msgstr "Deplasează subtitlul la stânga"
 
 msgctxt "IDS_MPLAYERC_103"
 msgid "Shift Subtitle Right"
-msgstr "Deplasează subtitrarea la dreapta"
+msgstr "Deplasează subtitlul la dreapta"
 
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"
@@ -1691,7 +1707,7 @@ msgstr "OSD: Arată numele fișierului"
 
 msgctxt "IDS_PLAY_DVD"
 msgid "Play DVD"
-msgstr "Redare DVD"
+msgstr "Redare disc DVD"
 
 msgctxt "IDS_PLAY_BD"
 msgid "Play BD"
@@ -1703,11 +1719,11 @@ msgstr "OSD: Afișează statistici randor"
 
 msgctxt "IDS_OSD_RESET_RENDERER_STATS"
 msgid "OSD: Reset Renderer Statistics"
-msgstr "OSD: Resetează statistici randor"
+msgstr "OSD: Restabilire statistici randor"
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
-msgstr "Subtitrări::Diverse"
+msgstr "Subtitluri::Diverse"
 
 msgctxt "IDS_VIEW_BORDERLESS"
 msgid "Hide &borders"
@@ -1723,11 +1739,11 @@ msgstr "&Arată Titlu && Meniu"
 
 msgctxt "IDS_VIEW_HIDEMENU"
 msgid "Hide &Menu"
-msgstr "Ascunde &meniu"
+msgstr "Ascunde &meniul"
 
 msgctxt "IDD_PPAGEADVANCED"
 msgid "Advanced"
-msgstr "Avansat"
+msgstr "Avansate"
 
 msgctxt "IDS_AG_VIEW_MINIMAL"
 msgid "View Minimal"
@@ -1771,31 +1787,31 @@ msgstr "Întotdeauna în prim plan"
 
 msgctxt "IDS_AG_PNS_INC_SIZE"
 msgid "PnS Inc Size"
-msgstr "PnS: Crește mărimea"
+msgstr "Panoramare trunchiată: Crește mărimea"
 
 msgctxt "IDS_AG_PNS_INC_WIDTH"
 msgid "PnS Inc Width"
-msgstr "PnS: Crește lățimea"
+msgstr "Panoramare trunchiată: Crește lățimea"
 
 msgctxt "IDS_MPLAYERC_47"
 msgid "PnS Inc Height"
-msgstr "PnS: Crește înălțimea"
+msgstr "Panoramare trunchiată: Crește înălțimea"
 
 msgctxt "IDS_AG_PNS_DEC_SIZE"
 msgid "PnS Dec Size"
-msgstr "PnS: Scade mărimea"
+msgstr "Panoramare trunchiată: Scade mărimea"
 
 msgctxt "IDS_AG_PNS_DEC_WIDTH"
 msgid "PnS Dec Width"
-msgstr "PnS: Scade lățimea"
+msgstr "Panoramare trunchiată: Scade lățimea"
 
 msgctxt "IDS_MPLAYERC_50"
 msgid "PnS Dec Height"
-msgstr "PnS: Scade înălțimea"
+msgstr "Panoramare trunchiată: Scade înălțimea"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
-msgid "Downloading subtitle(s), please wait."
-msgstr "Descărcare subtitrare/subtitrări, vă rugăm să aşteptaţi."
+msgid "Downloading [%s] \"%s\""
+msgstr "Se descarcă [%s] „%s”"
 
 msgctxt "IDS_SUBDL_DLG_PARSING"
 msgid "Parsing list..."
@@ -1803,11 +1819,11 @@ msgstr "Analizare listă..."
 
 msgctxt "IDS_SUBDL_DLG_NOT_FOUND"
 msgid "No subtitles found."
-msgstr "Nu s-au găsit subtitrări."
+msgstr "Nu s-au găsit subtitluri."
 
 msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
 msgid "%d subtitle(s) available."
-msgstr "Nr. subtitrări disponibile: %d"
+msgstr "Nr. de subtitluri disponibile: %d"
 
 msgctxt "IDS_UPDATE_CONFIG_AUTO_CHECK"
 msgid "Do you want to check periodically for MPC-HC updates?\n\nThis feature can be disabled later from the Miscellaneous options page."
@@ -1843,7 +1859,7 @@ msgstr "Scalare: Automată (doar cele mari)"
 
 msgctxt "IDS_TOOLTIP_EXPLORE_TO_FILE"
 msgid "Double click to open file location"
-msgstr "Dublu-clic pentru a deschide dosarul fişierului"
+msgstr "Clic dublu pentru a deschide dosarul fișierului"
 
 msgctxt "IDS_TOOLTIP_REMAINING_TIME"
 msgid "Toggle between elapsed and remaining time"
@@ -1855,43 +1871,43 @@ msgstr "Întârzierea nu este validă"
 
 msgctxt "IDS_UPDATE_DELAY_ERROR_MSG"
 msgid "Please enter a number between 1 and 365."
-msgstr "Introduceţi un număr între 1 şi 365."
+msgstr "Introduceţi un număr între 1 și 365."
 
 msgctxt "IDS_AG_PNS_CENTER"
 msgid "PnS Center"
-msgstr "PnS: Centrare"
+msgstr "Panoramare trunchiată: Centrează"
 
 msgctxt "IDS_AG_PNS_LEFT"
 msgid "PnS Left"
-msgstr "PnS: Deplasare la stânga"
+msgstr "Panoramare trunchiată: Deplasează la stânga"
 
 msgctxt "IDS_AG_PNS_RIGHT"
 msgid "PnS Right"
-msgstr "PnS: Deplasare la dreapta"
+msgstr "Panoramare trunchiată: Deplasează la dreapta"
 
 msgctxt "IDS_AG_PNS_UP"
 msgid "PnS Up"
-msgstr "PnS: Deplasare în sus"
+msgstr "Panoramare trunchiată: Deplasează în sus"
 
 msgctxt "IDS_AG_PNS_DOWN"
 msgid "PnS Down"
-msgstr "PnS: Deplasare în jos"
+msgstr "Panoramare trunchiată: Deplasează în jos"
 
 msgctxt "IDS_AG_PNS_UPLEFT"
 msgid "PnS Up/Left"
-msgstr "PnS: Deplasare în Sus/Stânga"
+msgstr "Panoramare trunchiată: Deplasează în sus/stânga"
 
 msgctxt "IDS_AG_PNS_UPRIGHT"
 msgid "PnS Up/Right"
-msgstr "PnS: Deplasare în Sus/Drepta"
+msgstr "Panoramare trunchiată: Deplasează în sus/drepta"
 
 msgctxt "IDS_AG_PNS_DOWNLEFT"
 msgid "PnS Down/Left"
-msgstr "PnS: Deplasare în Jos/Stânga"
+msgstr "Panoramare trunchiată: Deplasează în jos/stânga"
 
 msgctxt "IDS_MPLAYERC_59"
 msgid "PnS Down/Right"
-msgstr "PnS: Deplasare în Jos/Dreapta"
+msgstr "Panoramare trunchiată: Deplasare în jos/dreapta"
 
 msgctxt "IDS_AG_VOLUME_UP"
 msgid "Volume Up"
@@ -1915,7 +1931,7 @@ msgstr "Meniu DVD principal"
 
 msgctxt "IDS_MPLAYERC_65"
 msgid "DVD Subtitle Menu"
-msgstr "Meniu DVD pentru subtitrări"
+msgstr "Meniu DVD pentru subtitluri"
 
 msgctxt "IDS_MPLAYERC_66"
 msgid "DVD Audio Menu"
@@ -1955,7 +1971,7 @@ msgstr "Meniu DVD: înapoi"
 
 msgctxt "IDS_MPLAYERC_75"
 msgid "DVD Menu Leave"
-msgstr "Meniu DVD: ieşire"
+msgstr "Meniu DVD: ieșire"
 
 msgctxt "IDS_AG_BOSS_KEY"
 msgid "Boss key"
@@ -1987,19 +2003,19 @@ msgstr "Pista audio precedentă"
 
 msgctxt "IDS_AG_NEXT_SUBTITLE"
 msgid "Next Subtitle Track"
-msgstr "Subtitrarea următoare"
+msgstr "Subtitlul următor"
 
 msgctxt "IDS_AG_PREV_SUBTITLE"
 msgid "Prev Subtitle Track"
-msgstr "Subtitrarea precedentă"
+msgstr "Subtitlul precedent"
 
 msgctxt "IDS_MPLAYERC_85"
 msgid "On/Off Subtitle"
-msgstr "Activare/Dezactivare subtitrare"
+msgstr "Activare/Dezactivare subtitlu"
 
 msgctxt "IDS_MPLAYERC_86"
 msgid "Reload Subtitles"
-msgstr "Reîncarcă subtitrările"
+msgstr "Reîncarcă subtitlurile"
 
 msgctxt "IDS_MPLAYERC_91"
 msgid "Next Angle (DVD)"
@@ -2019,19 +2035,19 @@ msgstr "Precedenta pistă audio (DVD)"
 
 msgctxt "IDS_MPLAYERC_95"
 msgid "Next Subtitle Track (DVD)"
-msgstr "Subtitrarea următoare (DVD)"
+msgstr "Subtitlul următor (DVD)"
 
 msgctxt "IDS_MPLAYERC_96"
 msgid "Prev Subtitle Track (DVD)"
-msgstr "Subtitrarea precedentă (DVD)"
+msgstr "Subtitlul precedent (DVD)"
 
 msgctxt "IDS_MPLAYERC_97"
 msgid "On/Off Subtitle (DVD)"
-msgstr "Activare/Dezactivare subtitrare (DVD)"
+msgstr "Activare/Dezactivare subtitlu (DVD)"
 
 msgctxt "IDS_OSD_DISPLAY_CURRENT_TIME"
 msgid "OSD: Display Current Time"
-msgstr "OSD: Afișează ora curentă"
+msgstr "OSD: Afișează ora actuală"
 
 msgctxt "IDS_PPAGEWEBSERVER_0"
 msgid "Select the directory"
@@ -2057,11 +2073,11 @@ msgctxt "IDS_DVB_CHANNEL_ENCRYPTION"
 msgid "Encrypted"
 msgstr "Criptat"
 
-msgctxt "IDS_DVB_CHANNEL_ENCRYPTED"
+msgctxt "IDS_YES"
 msgid "Yes"
 msgstr "Da"
 
-msgctxt "IDS_DVB_CHANNEL_NOT_ENCRYPTED"
+msgctxt "IDS_NO"
 msgid "No"
 msgstr "Nu"
 
@@ -2091,11 +2107,11 @@ msgstr "Focalizare pierdută la: %s - %s"
 
 msgctxt "IDS_AG_SUBTITLES_SAVED"
 msgid "Subtitles saved"
-msgstr "Subtitrări salvate"
+msgstr "Subtitluri salvate"
 
 msgctxt "IDS_MAINFRM_4"
 msgid "Cannot save subtitles"
-msgstr "Subtitrările nu pot fi salvate"
+msgstr "Subtitlurile nu pot fi salvate"
 
 msgctxt "IDS_AG_FRAMERATE"
 msgid "Frame rate"
@@ -2123,7 +2139,7 @@ msgstr "Unghi: %02lu/%02lu, %lux%lu %luHz %lu:%lu"
 
 msgctxt "IDS_MAINFRM_11"
 msgid "%s, %s %u Hz %d bits %d %s"
-msgstr "%s, %s %uHz %dbiți %d %s"
+msgstr "%s, %s %uHz %d biți %d %s"
 
 msgctxt "IDS_ADD_TO_PLAYLIST"
 msgid "Add to MPC-HC Playlist"
@@ -2139,7 +2155,7 @@ msgstr "MPC-HC nu are destule drepturi pentru a schimba asocierea cu formatele d
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid "MPC-HC is an extremely light-weight, open source media player for Windows. It supports all common video and audio file formats available for playback. We are 100% spyware free, there are no advertisements or toolbars."
-msgstr "MPC-HC este un player media pentru Windows, ce necesită extrem de puține resurse și are sursă publică. Suportă toate formatele comune de fișiere audio și video disponibile pentru redare. Suntem 100% curați în privința programelor de spionare, nu există reclame sau bare de instrumente externe."
+msgstr "MPC-HC este un player media pentru Windows, ce necesită extrem de puține resurse și are sursă publică. Sprijină toate formatele comune de fișiere audio și video disponibile pentru redare. Suntem 100% curați în privința programelor de spionare, nu există reclame sau bare de instrumente externe."
 
 msgctxt "IDS_MAINFRM_12"
 msgid "channel"
@@ -2191,7 +2207,7 @@ msgstr "Această opțiune a fost proiectată pentru a evita efectul de rupere (t
 
 msgctxt "IDS_MAINFRM_139"
 msgid "Sub delay: %ld ms"
-msgstr "Întârziere subtitrare: %ld ms"
+msgstr "Întârziere subtitlu: %ld ms"
 
 msgctxt "IDS_AG_TITLE2"
 msgid "Title: %02d/%02d"
@@ -2199,7 +2215,7 @@ msgstr "Titlu: %02d/%02d"
 
 msgctxt "IDS_REALVIDEO_INCOMPATIBLE"
 msgid "Filename contains unsupported characters (use only A-Z, 0-9)"
-msgstr "Numele fișierului conține caractere nesuportate (folosiți doar A-Z, 0-9)"
+msgstr "Numele fișierului conține caractere nesprijinite (folosiți doar A-Z, 0-9)"
 
 msgctxt "IDS_THUMB_ROWNUMBER"
 msgid "Rows:"
@@ -2212,14 +2228,6 @@ msgstr "Coloane:"
 msgctxt "IDS_THUMB_IMAGE_WIDTH"
 msgid "Image width"
 msgstr "Lățime imagine:"
-
-msgctxt "IDS_PPSDB_URLCORRECT"
-msgid "The URL appears to be correct!"
-msgstr "URL-ul este corect."
-
-msgctxt "IDS_PPSDB_PROTOCOLERR"
-msgid "Protocol version mismatch, please upgrade your player or choose a different address!"
-msgstr "Nepotrivire versiune protocol, actualizați playerul sau alegeți o altă adresă!"
 
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
@@ -2255,11 +2263,11 @@ msgstr "Eroare"
 
 msgctxt "IDS_SUBTITLE_STREAM_OFF"
 msgid "Subtitle: off"
-msgstr "Subtitrare: oprită"
+msgstr "Subtitlu: oprit"
 
 msgctxt "IDS_SUBTITLE_STREAM"
 msgid "Subtitle: %s"
-msgstr "Subtitrare: %s"
+msgstr "Subtitlu: %s"
 
 msgctxt "IDS_MAINFRM_46"
 msgid "Select the path for the DVD/BD:"
@@ -2267,7 +2275,7 @@ msgstr "Selectați calea către DVD/BD:"
 
 msgctxt "IDS_SUB_LOADED_SUCCESS"
 msgid " loaded successfully"
-msgstr " încărcată cu succes"
+msgstr " încărcat cu succes"
 
 msgctxt "IDS_ALL_FILES_FILTER"
 msgid "All files (*.*)|*.*||"
@@ -2279,7 +2287,7 @@ msgstr "GetDIB a eșuat, hr = %08x"
 
 msgctxt "IDS_GETCURRENTIMAGE_FAILED"
 msgid "GetCurrentImage failed, hr = %08x"
-msgstr "Obţinerea cadrului curent a eșuat, hr = %08x"
+msgstr "Obţinerea cadrului actual a eșuat, hr = %08x"
 
 msgctxt "IDS_SCREENSHOT_ERROR"
 msgid "Cannot create file"
@@ -2314,20 +2322,20 @@ msgid "The thumbnails would be too small, impossible to create the file.\n\nTry 
 msgstr "Miniaturile ar fi prea mici, imposibil de creat fișierul.\n\nÎncercați să micșorați numărul de miniaturi sau să măriți dimensiunea totală."
 
 msgctxt "IDS_CANNOT_LOAD_SUB"
-msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-7/VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
-msgstr "Pentru a încărca subtitrări trebuie să schimbați tipul randorului video și să redeschideți fișierul.\n- DirectShow: VMR-7/VMR-9 (fără randare), EVR (CP), Sync, madVR sau Haali\n- RealMedia: Randor special pentru RealMedia sau deschideţi cu DirectShow\n- QuickTime: Randor DX7 sau DX9 pentru QuickTime\n- ShockWave: indisponibil"
+msgid "To load subtitles you have to change the video renderer type and reopen the file.\n- DirectShow: VMR-9 (renderless), EVR (CP), Sync, madVR or Haali\n- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n- QuickTime: DX7 or DX9 renderer for QuickTime\n- ShockWave: n/a"
+msgstr "Pentru a încărca subtitluri trebuie să schimbați tipul randorului video și să redeschideți fișierul.\n- DirectShow: VMR-9 (fără randare), EVR (CP), Sincronizare, madVR sau Haali\n- RealMedia: Randor special pentru RealMedia sau deschideți cu DirectShow\n- QuickTime: Randor DX7 sau DX9 pentru QuickTime\n- ShockWave: indisponibil"
 
 msgctxt "IDS_SUBTITLE_FILES_FILTER"
 msgid "Subtitle files"
-msgstr "Fişiere subtitrare"
+msgstr "Fișiere subtitlu"
 
 msgctxt "IDS_MAINFRM_68"
 msgid "Aspect Ratio: %ld:%ld"
 msgstr "Raport de aspect: %ld:%ld"
 
 msgctxt "IDS_MAINFRM_69"
-msgid "Aspect Ratio: Default"
-msgstr "Raport de aspect: Implicit"
+msgid "Aspect Ratio: Default (DAR)"
+msgstr "Raport de aspect: Implicit (DAR)"
 
 msgctxt "IDS_MAINFRM_70"
 msgid "Audio delay: %I64d ms"
@@ -2335,7 +2343,7 @@ msgstr "Întârziere audio: %I64dms"
 
 msgctxt "IDS_AG_CHAPTER"
 msgid "Chapter %d"
-msgstr "Capitol %d"
+msgstr "Capitolul %d"
 
 msgctxt "IDS_AG_OUT_OF_MEMORY"
 msgid "Out of memory"
@@ -2347,7 +2355,7 @@ msgstr "Eroare: Este necesar Adobe Flash Player pentru Internet Explorer"
 
 msgctxt "IDS_MAINFRM_78"
 msgid "QuickTime not yet supported for X64 (apple library not available)"
-msgstr "QuickTime nu este încă compatibil cu X64 (librăria Apple nu este disponibilă)"
+msgstr "QuickTime nu este încă sprijinit pentru X64 (librăria Apple nu este disponibilă)"
 
 msgctxt "IDS_MAINFRM_80"
 msgid "Failed to create the filter graph object"
@@ -2364,10 +2372,6 @@ msgstr "Deschidere abandonată"
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
 msgstr "Fișierul nu a putut fi randat"
-
-msgctxt "IDS_PPSDB_BADURL"
-msgid "Bad URL, could not locate subtitle database there!"
-msgstr "URL nevalid, baza de date a subtitrărilor nu a putut fi localizată!"
 
 msgctxt "IDS_AG_CHAPTER2"
 msgid "Chapter: "
@@ -2387,7 +2391,7 @@ msgstr "Balans: %s"
 
 msgctxt "IDS_FULLSCREENMONITOR_CURRENT"
 msgid "Current"
-msgstr "Curent"
+msgstr "Actual"
 
 msgctxt "IDS_MAINFRM_DIR_TITLE"
 msgid "Select Directory"
@@ -2503,7 +2507,7 @@ msgstr "Necunoscut %u"
 
 msgctxt "IDS_AG_VSYNC"
 msgid "VSync"
-msgstr "Activează VSync (Sincronizare verticală)"
+msgstr "Activează sincronizarea verticală"
 
 msgctxt "IDS_MAINFRM_121"
 msgid " (Director Comments 1)"
@@ -2515,7 +2519,7 @@ msgstr " (Comentarii regizor 2)"
 
 msgctxt "IDS_DVD_SUBTITLES_ENABLE"
 msgid "Enable DVD subtitles"
-msgstr "Activează subtitrări DVD"
+msgstr "Activează subtitluri DVD"
 
 msgctxt "IDS_AG_ANGLE"
 msgid "Angle %u"
@@ -2523,7 +2527,7 @@ msgstr "Unghi %u"
 
 msgctxt "IDS_AG_VSYNCOFFSET_INCREASE"
 msgid "Increase VSync Offset"
-msgstr "Mărește decalaj VSync"
+msgstr "Mărește decalajul sincronizării verticale"
 
 msgctxt "IDS_AG_DISABLED"
 msgid "Disabled"
@@ -2531,7 +2535,7 @@ msgstr "Dezactivat"
 
 msgctxt "IDS_AG_VSYNCOFFSET_DECREASE"
 msgid "Decrease VSync Offset"
-msgstr "Micșorează decalaj VSync"
+msgstr "Micșorează decalajul sincronizării verticale"
 
 msgctxt "IDS_MAINFRM_136"
 msgid "MPC-HC D3D Fullscreen"
@@ -2543,7 +2547,7 @@ msgstr "Format necunoscut"
 
 msgctxt "IDS_MAINFRM_138"
 msgid "Sub shift: %ld ms"
-msgstr "Decalaj subtitrare: %ld ms"
+msgstr "Decalaj subtitlu: %ld ms"
 
 msgctxt "IDS_VOLUME_BOOST_INC"
 msgid "Volume boost increase"
@@ -2562,8 +2566,8 @@ msgid "Volume boost Max"
 msgstr "Amplificare volum maximă"
 
 msgctxt "IDS_USAGE"
-msgid "Usage: mpc-hc.exe \"pathname\" [switches]\n\n\"pathname\"\tThe main file or directory to be loaded (wildcards\n\t\tallowed, \"-\" denotes standard input)\n/dub \"dubname\"\tLoad an additional audio file\n/dubdelay \"file\"\tLoad an additional audio file shifted with XXms (if\n\t\tthe file contains \"...DELAY XXms...\")\n/d3dfs\t\tStart rendering in D3D fullscreen mode\n/sub \"subname\"\tLoad an additional subtitle file\n/filter \"filtername\"\tLoad DirectShow filters from a dynamic link\n\t\tlibrary (wildcards allowed)\n/dvd\t\tRun in dvd mode, \"pathname\" means the dvd\n\t\tfolder (optional)\n/dvdpos T#C\tStart playback at title T, chapter C\n/dvdpos T#hh:mm\tStart playback at title T, position hh:mm:ss\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t\"pathname\" means the drive path (optional)\n/device\t\tOpen the default video device\n/open\t\tOpen the file, don't automatically start playback\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched\n/close\t\tClose the player after playback (only works when\n\t\tused with /play)\n/shutdown\tShutdown the operating system after playback\n/standby\t\tPut the operating system in standby mode after playback\n/hibernate\tHibernate operating system after playback\n/logoff\t\tLog off after playback\n/lock\t\tLock workstation after playback\n/monitoroff\tTurn off the monitor after playback\n/playnext\t\tOpen next file in the folder after playback\n/fullscreen\tStart in full-screen mode\n/minimized\tStart in minimized mode\n/new\t\tUse a new instance of the player\n/add\t\tAdd \"pathname\" to playlist, can be combined\n\t\twith /open and /play\n/randomize\tRandomize the playlist\n/regvid\t\tCreate file associations for video files\n/regaud\t\tCreate file associations for audio files\n/regpl\t\tCreate file associations for playlist files\n/regall\t\tCreate file associations for all supported file types\n/unregall\t\tRemove all file associations\n/start ms\t\tStart playing at \"ms\" (= milliseconds)\n/startpos hh:mm:ss\tStart playing at position hh:mm:ss\n/fixedsize w,h\tSet a fixed window size\n/monitor N\tStart player on monitor N, where N starts from 1\n/audiorenderer N\tStart using audiorenderer N, where N starts from 1\n\t\t(see \"Output\" settings)\n/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset\n/pns \"name\"\tSpecify Pan&Scan preset name to use\n/iconsassoc\tReassociate format icons\n/nofocus\t\tOpen MPC-HC in background\n/webport N\tStart web interface on specified port\n/debug\t\tShow debug information in OSD\n/nocrashreporter\tDisable the crash reporter\n/slave \"hWnd\"\tUse MPC-HC as slave\n/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding\n\t\tOnly available for CUVID and DXVA2 (copy-back)\n/reset\t\tRestore default settings\n/help /h /?\tShow help about command line switches\n"
-msgstr "Utilizare: mpc-hc.exe \"cale\" [comutatoare]\n\n\"cale\"\t\tFișierul principal sau directorul ce trebuie încărcat (metacaractere\n\t\tpermise, \"-\" indică intrare standard)\n/dub \"dublaj\"\tÎncarcă un fișier audio adițional\n/dubdelay \"fișier\"\tÎncarcă un fișier audio adițional decalat cu XXms (dacă\n\t\tfișierul conține \"...DELAY XXms...\")\n/d3dfs\t\tPornește randarea în mod ecran complet D3D\n/sub \"subtitrare\"\tÎncarcă o subtitrare adițională\n/filter \"filtru\"\tÎncarcă filtre DirectShow dintr-o librărie\n\t\tcu încărcare dinamică (metacaractere permise)\n/dvd\t\tRulează în mod DVD, \"cale\" înseamnă dosarul\n\t\tdvd-ului (opțional)\n/dvdpos T#C\tPornește redarea de la titlul T, capitolul C\n/dvdpos T#hh:mm\tPornește redarea de la titlul T, poziția hh:mm:ss\n/cd\t\tÎncarcă toate pistele unui CD audio sau (S)VCD,\n\t\t\"cale\" înseamnă calea unității (opțional)\n/device\t\tDeschide dispozitivul video implicit\n/open\t\tDeschide fișierul, nu porni redarea în mod automat\n/play\t\tÎncepe redarea fișierului imediat ce playerul este lansat\n/close\t\tÎnchide playerul după redare (funcționează doar când\n\t\teste folosit cu /play)\n/shutdown\tÎnchide sistemul după redare\n/standby\t\tIntră în repaus după redare\n/hibernate\tIntră în hibernare după redare\n/logoff\t\tÎnchide sesiunea după redare\n/lock\t\tBlochează desktopul după redare\n/monitoroff\tÎnchide monitorul după redare\n/playnext\t\tRedă următorul fișier din dosar după redare\n/fullscreen\tPornește în modul ecran complet\n/minimized\tPornește în modul minimizat\n/new\t\tFolosește o instanță nouă a playerului\n/add\t\tAdaugă \"cale\" la lista de redare, poate fi combinat\n\t\tcu /open și /play\n/randomize\tRedă lista aleatoriu\n/regvid\t\tCreează asocieri de fișiere pentru fișiere video\n/regaud\t\tCreează asocieri de fișiere pentru fișiere audio\n/regpl\t\tCreează asocieri de fișiere pentru fișiere listă de redare\n/regall\t\tCreează asocieri de fișiere pentru toate tipurile de fișiere suportate\n/unregall\t\tElimină toate asocierile de fișiere\n/start ms\t\tPornește redarea la \"ms\" (= milisecunde)\n/startpos hh:mm:ss\tPornește redarea la poziția hh:mm:ss\n/fixedsize L,l\tSetează o dimensiune fixă Lxl pentru fereastră\n/monitor N\tPornește redarea pe monitorul N, unde N începe de la 1\n/audiorenderer N\tPornește folosind randorul audio N, unde N începe de la 1\n\t\t(vedeți setările \"Ieșire\")\n/shaderpreset \"Pr\"\tPornește folosind setarea predefinită \"Pr\" pentru shader\n/pns \"nume\"\tSpecifică numele setării predefinite Pan&Scan ce va fi folosită\n/iconsassoc\tReasociază iconițele specifice formatelor\n/nofocus\t\tDeschide MPC-HC în fundal\n/webport N\tPornește interfața web pe portul specificat\n/debug\t\tArată informații de depanare în OSD\n/nocrashreporter\tDezactivează raportorul de defecte\n/slave \"hWnd\"\tFolosește MPC-HC în modul sclav sau dependent\n/hwgpu \"index\"\tSetează indexul plăcii grafice (GPU)  ce va fi folosită pentru decodare hardware\n\t\tDisponibil doar pentru CUVID și DXVA2 (copy-back)\n/reset\t\tRestaurează setări implicite\n/help /h /?\tArată ajutor pentru comutatoarele din linia de comandă\n"
+msgid "Usage: mpc-hc.exe \"pathname\" [switches]"
+msgstr "Utilizare: mpc-hc.exe \"cale\" [comutatoare]"
 
 msgctxt "IDS_UNKNOWN_SWITCH"
 msgid "Unrecognized switch(es) found in command line string: \n\n"
@@ -2583,7 +2587,7 @@ msgstr "Comută stare"
 
 msgctxt "IDS_AG_TOGGLE_SUBRESYNC"
 msgid "Toggle Subresync Bar"
-msgstr "Comută bara de resincronizare subtitrări"
+msgstr "Comută bara de resincronizare subtitluri"
 
 msgctxt "IDS_AG_TOGGLE_PLAYLIST"
 msgid "Toggle Playlist Bar"
@@ -2595,7 +2599,7 @@ msgstr "Comută bara de captură"
 
 msgctxt "IDS_AG_TOGGLE_DEBUGSHADERS"
 msgid "Toggle Debug Shaders"
-msgstr "Comută depanatorul de shadere"
+msgstr "Comută depanatorul de nuanțatoare"
 
 msgctxt "IDS_AG_ZOOM_50"
 msgid "Zoom 50%"
@@ -2627,11 +2631,11 @@ msgstr "Cadru video: Atinge fereastra din exterior"
 
 msgctxt "IDS_AG_PNS_RESET"
 msgid "PnS Reset"
-msgstr "Reseteză PnS (Pan & Scan)"
+msgstr "Restabilește Panoramarea trunchiată"
 
 msgctxt "IDS_AG_PNS_ROTATEX_P"
 msgid "PnS Rotate X+"
-msgstr "PnS: Rotație X+"
+msgstr "Panoramare trunchiată: Rotește X+"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "VidFrm Zoom 1"
@@ -2649,21 +2653,13 @@ msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
 msgstr "Activ&ează toate filtrele"
 
-msgctxt "IDS_NAVIGATE_TUNERSCAN"
-msgid "Tuner scan"
-msgstr "Scanare tuner"
-
-msgctxt "IDS_SUBTITLES_ERROR"
-msgid "Subtitles are not loaded or unsupported renderer."
-msgstr "Subtitrările nu sunt încărcate sau randorul nu este suportat."
-
 msgctxt "IDS_LOGO_AUTHOR"
 msgid "Author unknown. Contact us if you made this logo!"
 msgstr "Autor necunoscut. Dacă ai făcut acest logo, contactează-ne!"
 
 msgctxt "IDS_NO_MORE_MEDIA"
 msgid "No more media in the current folder."
-msgstr "Nu mai există media în dosarul curent."
+msgstr "Nu mai există fișiere media în dosarul actual."
 
 msgctxt "IDS_FIRST_IN_FOLDER"
 msgid "The first file of the folder is already loaded."
@@ -2763,7 +2759,7 @@ msgstr "Aplică"
 
 msgctxt "IDS_CLEAR"
 msgid "Clear"
-msgstr "Goleşte"
+msgstr "Golește"
 
 msgctxt "IDS_CANCEL"
 msgid "Cancel"
@@ -3027,7 +3023,7 @@ msgstr "Arhivă RAR"
 
 msgctxt "IDS_DVB_CHANNEL_FPS"
 msgid "FPS"
-msgstr "FPS"
+msgstr "CPS (cadre pe secundă)"
 
 msgctxt "IDS_DVB_CHANNEL_RESOLUTION"
 msgid "Resolution"
@@ -3039,19 +3035,19 @@ msgstr "Raport de aspect"
 
 msgctxt "IDS_OSD_RS_VSYNC_ON"
 msgid "VSync: On"
-msgstr "VSync: Activat"
+msgstr "Sincronizare verticală: Activată"
 
 msgctxt "IDS_OSD_RS_VSYNC_OFF"
 msgid "VSync: Off"
-msgstr "VSync: oprit"
+msgstr "Sincronizare verticală: dezactivată"
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_ON"
 msgid "Accurate VSync: On"
-msgstr "VSync precis: Activat"
+msgstr "Sincronizare verticală precisă: Activată"
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_OFF"
 msgid "Accurate VSync: Off"
-msgstr "VSync precis: Dezactivat"
+msgstr "Sincronizare verticală precisă: dezactivată"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_ON"
 msgid "Synchronize Video to Display: On"
@@ -3071,19 +3067,19 @@ msgstr "Sincronizare afișare cu video: Dezactivată"
 
 msgctxt "IDS_OSD_RS_PRESENT_NEAREST_ON"
 msgid "Present at Nearest VSync: On"
-msgstr "Prezentare la cel mai apropiat VSync: Activată"
+msgstr "Prezentare la cel mai apropiată sincronizare verticală: Activată"
 
 msgctxt "IDS_OSD_RS_PRESENT_NEAREST_OFF"
 msgid "Present at Nearest VSync: Off"
-msgstr "Prezentare la cel mai apropiat VSync: Dezactivată"
+msgstr "Prezentare la cel mai apropiată sincronizare verticală: Dezactivată"
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_ON"
 msgid "Color Management: On"
-msgstr "Administrare culori: Activată"
+msgstr "Gestionare culori: Activată"
 
 msgctxt "IDS_OSD_RS_COLOR_MANAGEMENT_OFF"
 msgid "Color Management: Off"
-msgstr "Administrare culori: Dezactivată"
+msgstr "Gestionare culori: Dezactivată"
 
 msgctxt "IDS_OSD_RS_INPUT_TYPE_AUTO"
 msgid "Input Type: Auto-Detect"
@@ -3103,7 +3099,7 @@ msgstr "Tip de intrare: SDTV PAL"
 
 msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_BRIGHT"
 msgid "Ambient Light: Bright (2.2 Gamma)"
-msgstr "Lumină ambientală: Luminos (2.2 Gamma)"
+msgstr "Lumină ambientală: Luminoasă (2.2 Gamma)"
 
 msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DIM"
 msgid "Ambient Light: Dim (2.35 Gamma)"
@@ -3111,7 +3107,7 @@ msgstr "Lumină ambientală: Estompat (2.35 Gamma)"
 
 msgctxt "IDS_OSD_RS_AMBIENT_LIGHT_DARK"
 msgid "Ambient Light: Dark (2.4 Gamma)"
-msgstr "Lumină ambientală: Întunecat (2.4 Gamma)"
+msgstr "Lumină ambientală: Întunecată (2.4 Gamma)"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_PERCEPT"
 msgid "Rendering Intent: Perceptual"
@@ -3119,7 +3115,7 @@ msgstr "Intenţie de randare: Perceptual"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_RELATIVE"
 msgid "Rendering Intent: Relative Colorimetric"
-msgstr "Intenţie de randare: Colorimetric relativ"
+msgstr "Intenţie de randare: Colorimetrică relativă"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_SATUR"
 msgid "Rendering Intent: Saturation"
@@ -3127,7 +3123,7 @@ msgstr "Intenţie de randare: Saturație"
 
 msgctxt "IDS_OSD_RS_REND_INTENT_ABSOLUTE"
 msgid "Rendering Intent: Absolute Colorimetric"
-msgstr "Intenţie de randare: Colorimetric absolut"
+msgstr "Intenţie de randare: Colorimetrică absolută"
 
 msgctxt "IDS_OSD_RS_OUTPUT_RANGE"
 msgid "Output Range: %s"
@@ -3135,27 +3131,27 @@ msgstr "Interval de ieșire: %s"
 
 msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_ON"
 msgid "Flush GPU before VSync: On"
-msgstr "Golire GPU înainte de VSync: Activată"
+msgstr "Golire unitate grafică înainte de sincronizarea verticală: Activată"
 
 msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_OFF"
 msgid "Flush GPU before VSync: Off"
-msgstr "Golire GPU înainte de VSync: Dezactivată"
+msgstr "Golire unitate grafică înainte de sincronizarea verticală: Dezactivată"
 
 msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_ON"
 msgid "Flush GPU after Present: On"
-msgstr "Golire GPU după prezentare: Activată"
+msgstr "Golire unitate grafică după prezentare: Activată"
 
 msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_OFF"
 msgid "Flush GPU after Present: Off"
-msgstr "Golire GPU după prezentare: Dezactivată"
+msgstr "Golire unitate grafică după prezentare: Dezactivată"
 
 msgctxt "IDS_OSD_RS_WAIT_ON"
 msgid "Wait for GPU Flush: On"
-msgstr "Așteptare golire GPU: Activată"
+msgstr "Așteptare golire unitate grafică: Activată"
 
 msgctxt "IDS_OSD_RS_WAIT_OFF"
 msgid "Wait for GPU Flush: Off"
-msgstr "Așteptare golire GPU: Dezactivată"
+msgstr "Așteptare golire unitate grafică: Dezactivată"
 
 msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_ON"
 msgid "D3D Fullscreen: On"
@@ -3175,19 +3171,19 @@ msgstr "Dezactivare compoziție desktop (Aero): Nu"
 
 msgctxt "IDS_OSD_RS_ALT_VSYNC_ON"
 msgid "Alternative VSync: On"
-msgstr "VSync alternativ: Activat"
+msgstr "Sincronizare verticală alternativă: Activată"
 
 msgctxt "IDS_OSD_RS_ALT_VSYNC_OFF"
 msgid "Alternative VSync: Off"
-msgstr "VSync alternativ: Dezactivat"
+msgstr "Sincronizare verticală alternativă: Dezactivată"
 
 msgctxt "IDS_OSD_RS_RESET_DEFAULT"
 msgid "Renderer settings reset to default"
-msgstr "Setările randorului resetate la implicit"
+msgstr "Stabilirile randorului restabilite la implicite"
 
 msgctxt "IDS_OSD_RS_RESET_OPTIMAL"
 msgid "Renderer settings reset to optimal"
-msgstr "Setările randorului resetate la optim"
+msgstr "Stabilirile randorului restabilite la optime"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
 msgid "D3D Fullscreen GUI Support: On"
@@ -3259,7 +3255,7 @@ msgstr "Micșorare saturație"
 
 msgctxt "IDS_RESET_COLOR"
 msgid "Reset color settings"
-msgstr "Resetează setările de culoare"
+msgstr "Restabilește stabilirile de culoare"
 
 msgctxt "IDS_USING_LATEST_STABLE"
 msgid "\nYou are already using the latest stable version."
@@ -3267,7 +3263,7 @@ msgstr "\nFolosiţi deja ultima versiune stabilă."
 
 msgctxt "IDS_USING_NEWER_VERSION"
 msgid "Your current version is v%s.\n\nThe latest stable version is v%s."
-msgstr "Versiunea dumneavoastră curentă este v%s.\n\nUltima versiune stabilă este v%s."
+msgstr "Versiunea dumneavoastră actuală este v%s.\n\nUltima versiune stabilă este v%s."
 
 msgctxt "IDS_NEW_UPDATE_AVAILABLE"
 msgid "MPC-HC v%s is now available. You are using v%s.\n\nDo you want to visit MPC-HC's website to download it?"
@@ -3275,7 +3271,7 @@ msgstr "MPC-HC v%s este disponibil acum. Folosiţi v%s.\n\nDoriţi să vizitaţi
 
 msgctxt "IDS_UPDATE_ERROR"
 msgid "Update server not found.\n\nPlease check your internet connection or try again later."
-msgstr "Serverul pentru actualizare nu a fost găsit.\n\nVerificaţi conexiunea la internet sau încercaţi mai târziu."
+msgstr "Servitorul de actualizări nu a fost găsit.\n\nVerificaţi conexiunea la internet sau încercaţi mai târziu."
 
 msgctxt "IDS_UPDATE_CLOSE"
 msgid "&Close"
@@ -3331,23 +3327,23 @@ msgstr "octeți"
 
 msgctxt "IDS_SIZE_UNIT_K"
 msgid "KB"
-msgstr "KB"
+msgstr "KO"
 
 msgctxt "IDS_SIZE_UNIT_M"
 msgid "MB"
-msgstr "MB"
+msgstr "MO"
 
 msgctxt "IDS_SIZE_UNIT_G"
 msgid "GB"
-msgstr "GB"
+msgstr "GO"
 
 msgctxt "IDS_SPEED_UNIT_K"
 msgid "KB/s"
-msgstr "KB/s"
+msgstr "KO/s"
 
 msgctxt "IDS_SPEED_UNIT_M"
 msgid "MB/s"
-msgstr "MB/s"
+msgstr "MO/s"
 
 msgctxt "IDS_BDA_ERROR_CREATE_TUNER"
 msgid "Could not create the tuner."
@@ -3403,11 +3399,7 @@ msgstr "Funcțiile „Salvează imagine” și „Salvează miniaturi” nu func
 
 msgctxt "IDS_SCREENSHOT_ERROR_OVERLAY"
 msgid "The \"Save Image\" and \"Save Thumbnails\" functions do not work with the Overlay Mixer video renderer.\nChange the video renderer in MPC's output options and reopen the file."
-msgstr "Funcțiile „Salvează imagine” și „Salvează miniaturi” nu funcționează cu randorul video Overlay Mixer.\nSchimbați randorul video în opțiunile de ieșire ale MPC și redeschideți fișierul."
-
-msgctxt "IDS_SUBDL_DLG_CONNECT_ERROR"
-msgid "Cannot connect to the online subtitles database."
-msgstr "Nu se poate conecta la baza de subtitrări online."
+msgstr "Funcțiile „Salvare imagine” și „Salvare miniaturi” nu funcționează cu randorul video amestecător strat suprapus.\nSchimbați randorul video în opțiunile de ieșire ale MPC și redeschideți fișierul."
 
 msgctxt "IDS_MB_SHOW_EDL_EDITOR"
 msgid "Do you want to activate the EDL editor?"
@@ -3475,7 +3467,7 @@ msgstr "Acest tip se află deja în listă!"
 
 msgctxt "IDS_WEBSERVER_ERROR_TEST"
 msgid "You need to apply the new settings before testing them."
-msgstr "Trebuie să aplicați noile setări înainte de a le testa."
+msgstr "Trebuie să aplicați noile stabiliri înainte de a le testa."
 
 msgctxt "IDS_AFTERPLAYBACK_EXIT"
 msgid "After Playback: Exit"
@@ -3531,11 +3523,11 @@ msgstr "Saturație: %s"
 
 msgctxt "IDS_OSD_RESET_COLOR"
 msgid "Color settings restored"
-msgstr "Setările de culoare au fost restaurate"
+msgstr "Stabilirile de culoare au fost restaurate"
 
 msgctxt "IDS_OSD_NO_COLORCONTROL"
 msgid "Color control is not supported"
-msgstr "Controalele de culoare nu sunt suportate"
+msgstr "Controalele de culoare nu sunt sprijinite"
 
 msgctxt "IDS_BRIGHTNESS_INC"
 msgid "Brightness increase"
@@ -3591,7 +3583,7 @@ msgstr "Anulează toate asocierile"
 
 msgctxt "IDS_FILTER_SETTINGS_CAPTION"
 msgid "Settings"
-msgstr "Setări"
+msgstr "Stabiliri"
 
 msgctxt "IDS_SUBTITLE_RENDERER_VS_FILTER"
 msgid "VSFilter / DirectVobSub"
@@ -3600,4 +3592,372 @@ msgstr "VSFilter / DirectVobSub"
 msgctxt "IDS_SUBTITLE_RENDERER_XY_SUB_FILTER"
 msgid "XySubFilter"
 msgstr "XySubFilter"
+
+msgctxt "IDS_SUBDL_DLG_PROVIDER_COL"
+msgid "Provider"
+msgstr "Furnizor"
+
+msgctxt "IDS_SUBDL_DLG_HI_COL"
+msgid "Hearing Impaired"
+msgstr "Cu probleme de auz"
+
+msgctxt "IDS_SUBDL_DLG_DOWNLOADS_COL"
+msgid "Downloads"
+msgstr "Descărcări"
+
+msgctxt "IDS_SUBDL_DLG_SCORE_COL"
+msgid "Score"
+msgstr "Scor"
+
+msgctxt "IDS_SUBDL_DLG_FAILED"
+msgid "Online subtitles search failed."
+msgstr "Căutarea pe Internet a subtitlurilor a eșuat."
+
+msgctxt "IDS_SUBDL_DLG_ABORTED"
+msgid "Online subtitles search aborted."
+msgstr "Căutarea pe Internet a subtitlurilor a fost abandonată."
+
+msgctxt "IDS_SUBDL_DLG_FOUND"
+msgid "Online subtitles search completed, %d subtitles found."
+msgstr "Căutarea pe Internet a subtitlurilor s-a terminat, %d subtitluri găsite."
+
+msgctxt "IDS_SUBDL_DLG_NOTFOUND"
+msgid "Online subtitles search completed, no subtitles found."
+msgstr "Căutarea pe Internet a subtitlurilor s-a terminat, niciun subtitlu găsit."
+
+msgctxt "IDS_SUBDL_DLG_TITLE"
+msgid "Download subtitles"
+msgstr "Descarcă subtitluri"
+
+msgctxt "IDS_SUBDL_DLG_SEARCHING"
+msgid "Searching for subtitles online, please wait..."
+msgstr "Se caută subtitluri pe Internet, așteptați..."
+
+msgctxt "IDS_SUBDL_DLG_ABORTING"
+msgid "Online subtitles search aborting..."
+msgstr "Se abandonează căutarea pe Internet a subtitlurilor..."
+
+msgctxt "IDS_SUBUL_DLG_USERNAME_COL"
+msgid "Username"
+msgstr "Nume de utilizator"
+
+msgctxt "IDS_SUBUL_DLG_STATUS_COL"
+msgid "Status"
+msgstr "Stare"
+
+msgctxt "IDS_SUBUL_DLG_STATUS_READY"
+msgid "Ready..."
+msgstr "Pregătit..."
+
+msgctxt "IDS_SUBUL_DLG_STATUS_NOTIMPLEMENTED"
+msgid "Not implemented."
+msgstr "Neimplementat."
+
+msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADING"
+msgid "Uploading..."
+msgstr "Se încarcă..."
+
+msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADED"
+msgid "Subtitles uploaded successfully."
+msgstr "Subtitlurile au fost încărcate cu succes."
+
+msgctxt "IDS_SUBUL_DLG_STATUS_FAILED"
+msgid "Subtitles upload failed."
+msgstr "Încărcarea subtitlurilor a eșuat."
+
+msgctxt "IDS_SUBUL_DLG_STATUS_ABORTED"
+msgid "Subtitles upload aborted."
+msgstr "Încărcarea subtitlurilor a fost abantodonată."
+
+msgctxt "IDS_SUBUL_DLG_STATUS_ALREADYEXISTS"
+msgid "Subtitles already exist."
+msgstr "Subtitlurile există deja."
+
+msgctxt "IDS_SUBUL_DLG_UPLOADING"
+msgid "Uploading subtitles, please wait..."
+msgstr "Se descarcă subtitluri, așteptați..."
+
+msgctxt "IDS_SUBUL_DLG_UPLOADED"
+msgid "Upload finished."
+msgstr "Încărcare terminată."
+
+msgctxt "IDS_SUBUL_DLG_ABORTED"
+msgid "Upload aborted."
+msgstr "Încărcare abandonată."
+
+msgctxt "IDS_SUBUL_DLG_FAILED"
+msgid "Upload failed."
+msgstr "Încărcare eșuată."
+
+msgctxt "IDS_SUBMENU_DOWNLOAD"
+msgid "Download && Open"
+msgstr "Descarcă && Deschide"
+
+msgctxt "IDS_SUBMENU_SETUP"
+msgid "Setup"
+msgstr "Configurare"
+
+msgctxt "IDS_SUBMENU_RESET"
+msgid "Reset"
+msgstr "Restabilește"
+
+msgctxt "IDS_SUBMENU_MOVEUP"
+msgid "Move Up"
+msgstr "Mută în sus"
+
+msgctxt "IDS_SUBMENU_MOVEDOWN"
+msgid "Move Down"
+msgstr "Mută în jos"
+
+msgctxt "IDS_SUBMENU_OPENURL"
+msgid "Open URL"
+msgstr "Deschide URL-ul"
+
+msgctxt "IDS_SUBPP_DLG_LANGUAGES_COL"
+msgid "Languages"
+msgstr "Limbi"
+
+msgctxt "IDS_SUBPP_DLG_LANGUAGES_ERROR"
+msgid "ERROR: Internet connection could not be established."
+msgstr "EROARE: Conexiunea la Internet nu a putut fi stabilită."
+
+msgctxt "IDS_SUB_CREDENTIALS_TITLE"
+msgid "Enter website credentials"
+msgstr "Introduceți datele de autentificare pe site web"
+
+msgctxt "IDS_SUB_CREDENTIALS_MSG"
+msgid "Enter your credentials to connect to: "
+msgstr "Introduceți datele de autentificare pentru a vă conecta la: "
+
+msgctxt "IDS_ASPECT_RATIO_SAR"
+msgid "Aspect Ratio: Assume square pixels (SAR)"
+msgstr "Raport de aspect: Presupune că pixelii sunt pătrați (SAR)"
+
+msgctxt "IDS_SUBDL_DLG_DOWNLOADED"
+msgid "Downloaded [%s] \"%s\""
+msgstr "Descărcat [%s] „%s”"
+
+msgctxt "IDS_SUBUL_DLG_TITLE"
+msgid "Upload subtitles"
+msgstr "Încarcă subtitluri"
+
+msgctxt "IDS_SUBUL_DLG_CONFIRM"
+msgid "Are you sure you want to upload the subtitle file \"%s\"?"
+msgstr "Sigur doriți să încărcați fișierul subtitlu „%s”?"
+
+msgctxt "IDS_SUBPP_DLG_FETCHING_LANGUAGES"
+msgid "Fetching supported languages..."
+msgstr "Se obțin limbile sprijinite..."
+
+msgctxt "IDS_SUB_CREDENTIALS_ERROR"
+msgid "Failed to log in on \"%S\" with username \"%S\".\n\nPlease enter the correct username and password or reset the credentials to log in as anonymous user."
+msgstr "Autentificarea pe „%S” cu numele de utilizator „%S” a eșuat.\n\nIntroduceți numele de utilizator sau parola corectă sau restabiliți datele de conectare pentru a vă autentifica ca un utilizator anonim."
+
+msgctxt "IDS_SUB_AUTODL_IGNORE_TOOLTIP"
+msgid "Automatic search and download will be disabled for all media files whose path contains any of the patterns entered here.\nFor example, type: \"private dir\\videos|work\\\"."
+msgstr "Căutarea și descărcarea automată va fi dezactivată pentru toate fișierele media ale căror cale conține oricare dintre tiparele introduse aici.\nDe exemplu, tip: „private dir\\videos|work\\”."
+
+msgctxt "IDS_CMD_PATHNAME"
+msgid "\"pathname\"\tThe main file or directory to be loaded\n\t\t(wildcards allowed, \"-\" denotes standard input)"
+msgstr "\"cale\"\tFișierul sau directorul principal ce trebuie încărcat\n\t\t(metacaractere permise, \"-\" indică intrare standard)"
+
+msgctxt "IDS_CMD_DUB"
+msgid "/dub \"dubname\"\tLoad an additional audio file"
+msgstr "/dub \"dublaj\"\tÎncarcă un fișier audio adițional"
+
+msgctxt "IDS_CMD_DUBDELAY"
+msgid "/dubdelay \"file\"\tLoad an additional audio file shifted with XXms\n\t\t(if the file contains \"...DELAY XXms...\")"
+msgstr "/dubdelay \"fișier\"\tÎncarcă un fișier audio adițional decalat cu XXms\n\t\t(dacă fișierul conține \"...DELAY XXms...\")"
+
+msgctxt "IDS_CMD_D3DFS"
+msgid "/d3dfs\t\tStart rendering in D3D fullscreen mode"
+msgstr "/d3dfs\t\tPornește randarea în mod ecran complet D3D"
+
+msgctxt "IDS_CMD_SUB"
+msgid "/sub \"subname\"\tLoad an additional subtitle file"
+msgstr "/sub \"subtitlu\"\tÎncarcă un fișier subtitlu adițional"
+
+msgctxt "IDS_CMD_FILTER"
+msgid "/filter \"filtername\"\tLoad DirectShow filters from a dynamic link library (wildcards allowed)"
+msgstr "/filter \"filtru\"\tÎncarcă filtre DirectShow dintr-o librărie cu încărcare dinamică (metacaractere permise)"
+
+msgctxt "IDS_CMD_DVD"
+msgid "/dvd\t\tRun in DVD mode, \"pathname\" means the DVD folder (optional)"
+msgstr "/dvd\t\tRulează în mod DVD, \"cale\" înseamnă dosarul DVD-ului (opțional)"
+
+msgctxt "IDS_CMD_DVDPOS_TC"
+msgid "/dvdpos T#C\tStart playback at title T, chapter C"
+msgstr "/dvdpos T#C\tPornește redarea de la titlul T, capitolul C"
+
+msgctxt "IDS_CMD_DVDPOS_TIME"
+msgid "/dvdpos T#P\tStart playback at title T, position P (hh:mm:ss)"
+msgstr "/dvdpos T#P\tPornește redarea de la titlul T, poziția P (hh:mm:ss)"
+
+msgctxt "IDS_CMD_CD"
+msgid "/cd\t\tLoad all the tracks of an Audio CD or (S)VCD,\n\t\t\"pathname\" means the drive path (optional)"
+msgstr "/cd\t\tÎncarcă toate pistele unui CD audio sau (S)VCD,\n\t\t\"cale\" înseamnă calea unității (opțional)"
+
+msgctxt "IDS_CMD_DEVICE"
+msgid "/device\t\tOpen the default video device"
+msgstr "/device\t\tDeschide dispozitivul video implicit"
+
+msgctxt "IDS_CMD_OPEN"
+msgid "/open\t\tOpen the file, don't automatically start playback"
+msgstr "/open\t\tDeschide fișierul, nu porni redarea în mod automat"
+
+msgctxt "IDS_CMD_PLAY"
+msgid "/play\t\tStart playing the file as soon the player is launched"
+msgstr "/play\t\tÎncepe redarea fișierului imediat ce playerul este lansat"
+
+msgctxt "IDS_CMD_CLOSE"
+msgid "/close\t\tClose the player after playback (only works when used with /play)"
+msgstr "/close\t\tÎnchide playerul după redare (funcționează doar când este folosit cu /play)"
+
+msgctxt "IDS_CMD_SHUTDOWN"
+msgid "/shutdown\tShutdown the operating system after playback"
+msgstr "/shutdown\tÎnchide sistemul după redare"
+
+msgctxt "IDS_CMD_STANDBY"
+msgid "/standby\t\tPut the operating system in standby mode after playback"
+msgstr "/standby\t\tIntră în repaus după redare"
+
+msgctxt "IDS_CMD_HIBERNATE"
+msgid "/hibernate\tHibernate operating system after playback"
+msgstr "/hibernate\tIntră în hibernare după redare"
+
+msgctxt "IDS_CMD_LOGOFF"
+msgid "/logoff\t\tLog off after playback"
+msgstr "/logoff\t\tÎnchide sesiunea după redare"
+
+msgctxt "IDS_CMD_LOCK"
+msgid "/lock\t\tLock workstation after playback"
+msgstr "/lock\t\tBlochează desktopul după redare"
+
+msgctxt "IDS_CMD_MONITOROFF"
+msgid "/monitoroff\tTurn off the monitor after playback"
+msgstr "/monitoroff\tÎnchide monitorul după redare"
+
+msgctxt "IDS_CMD_PLAYNEXT"
+msgid "/playnext\t\tOpen next file in the folder after playback"
+msgstr "/playnext\t\tDeschide următorul fișier din dosar după redare"
+
+msgctxt "IDS_CMD_FULLSCREEN"
+msgid "/fullscreen\tStart in fullscreen mode"
+msgstr "/fullscreen\tPornește în modul ecran complet"
+
+msgctxt "IDS_CMD_MINIMIZED"
+msgid "/minimized\tStart in minimized mode"
+msgstr "/minimized\tPornește în modul minimizat"
+
+msgctxt "IDS_CMD_NEW"
+msgid "/new\t\tUse a new instance of the player"
+msgstr "/new\t\tFolosește o instanță nouă a playerului"
+
+msgctxt "IDS_CMD_ADD"
+msgid "/add\t\tAdd \"pathname\" to playlist, can be combined with /open and /play"
+msgstr "/add\t\tAdaugă \"cale\" la lista de redare, poate fi combinat cu /open și /play"
+
+msgctxt "IDS_CMD_RANDOMIZE"
+msgid "/randomize\tRandomize the playlist"
+msgstr "/randomize\tRedă lista aleatoriu"
+
+msgctxt "IDS_CMD_REGVID"
+msgid "/regvid\t\tCreate file associations for video files"
+msgstr "/regvid\t\tCreează asocieri de fișiere pentru fișiere video"
+
+msgctxt "IDS_CMD_REGAUD"
+msgid "/regaud\t\tCreate file associations for audio files"
+msgstr "/regaud\t\tCreează asocieri de fișiere pentru fișiere audio"
+
+msgctxt "IDS_CMD_REGPL"
+msgid "/regpl\t\tCreate file associations for playlist files"
+msgstr "/regpl\t\tCreează asocieri de fișiere pentru fișiere listă de redare"
+
+msgctxt "IDS_CMD_REGALL"
+msgid "/regall\t\tCreate file associations for all supported file types"
+msgstr "/regall\t\tCreează asocieri de fișiere pentru toate tipurile de fișiere sprijinite"
+
+msgctxt "IDS_CMD_UNREGALL"
+msgid "/unregall\t\tRemove all file associations"
+msgstr "/unregall\t\tElimină toate asocierile de fișiere"
+
+msgctxt "IDS_CMD_START"
+msgid "/start ms\t\tStart playing at \"ms\" (= milliseconds)"
+msgstr "/start ms\t\tPornește redarea la \"ms\" (= milisecunde)"
+
+msgctxt "IDS_CMD_STARTPOS"
+msgid "/startpos hh:mm:ss\tStart playing at position hh:mm:ss"
+msgstr "/startpos hh:mm:ss\tPornește redarea la poziția hh:mm:ss"
+
+msgctxt "IDS_CMD_FIXEDSIZE"
+msgid "/fixedsize w,h\tSet a fixed window size"
+msgstr "/fixedsize L,Î\tStabilește o dimensiune fixă LxÎ pentru fereastră"
+
+msgctxt "IDS_CMD_MONITOR"
+msgid "/monitor N\tStart player on monitor N, where N starts from 1"
+msgstr "/monitor N\tPornește redarea pe monitorul N, unde N începe de la 1"
+
+msgctxt "IDS_CMD_AUDIORENDERER"
+msgid "/audiorenderer N\tStart using audiorenderer N, where N starts from 1 (see \"Output\" settings)"
+msgstr "/audiorenderer N\tPornește folosind randorul audio N, unde N începe de la 1 (vedeți setările \"Ieșire\")"
+
+msgctxt "IDS_CMD_SHADERPRESET"
+msgid "/shaderpreset \"Pr\"\tStart using \"Pr\" shader preset"
+msgstr "/shaderpreset \"Pr\"\tPornește folosind prestabilirea „Pr” pentru nuanțator"
+
+msgctxt "IDS_CMD_PNS"
+msgid "/pns \"name\"\tSpecify Pan&Scan preset name to use"
+msgstr "/pns \"nume\"\tSpecifică numele prestabilirii panoramării trunchiate ce va fi folosită"
+
+msgctxt "IDS_CMD_ICONASSOC"
+msgid "/iconsassoc\tReassociate format icons"
+msgstr "/iconsassoc\tReasociază pictogramele specifice formatelor"
+
+msgctxt "IDS_CMD_NOFOCUS"
+msgid "/nofocus\t\tOpen MPC-HC in background"
+msgstr "/nofocus\t\tDeschide MPC-HC în fundal"
+
+msgctxt "IDS_CMD_WEBPORT"
+msgid "/webport N\tStart web interface on specified port"
+msgstr "/webport N\tPornește interfața web pe portul specificat"
+
+msgctxt "IDS_CMD_DEBUG"
+msgid "/debug\t\tShow debug information in OSD"
+msgstr "/debug\t\tArată informații de depanare în OSD"
+
+msgctxt "IDS_CMD_NOCRASHREPORTER"
+msgid "/nocrashreporter\tDisable the crash reporter"
+msgstr "/nocrashreporter\tDezactivează raportorul de defecte"
+
+msgctxt "IDS_CMD_SLAVE"
+msgid "/slave \"hWnd\"\tUse MPC-HC as slave"
+msgstr "/slave \"hWnd\"\tFolosește MPC-HC în modul sclav sau dependent"
+
+msgctxt "IDS_CMD_HWGPU"
+msgid "/hwgpu \"index\"\tSet the index of the GPU used for hardware decoding.\n\t\tOnly available for CUVID and DXVA2 (copy-back)"
+msgstr "/hwgpu \"index\"\tStabilește indexul plăcii grafice ce va fi folosită pentru decodare prin componentă fizică.\n\t\tDisponibil doar pentru CUVID și DXVA2 (copy-back)"
+
+msgctxt "IDS_CMD_RESET"
+msgid "/reset\t\tRestore default settings"
+msgstr "/reset\t\tRestaurează stabilirile implicite"
+
+msgctxt "IDS_CMD_HELP"
+msgid "/help /h /?\tShow help about command line switches"
+msgstr "/help /h /?\tArată ajutor pentru comutatoarele din linia de comandă"
+
+msgctxt "IDS_PPAGEADVANCED_SCORE"
+msgid "Threshold value for subtitles score which are going to be automatically downloaded. Higher values means that more accurately matched subtitles will be loaded, lower values could result in incorrect subtitles being loaded, but there is no one perfect value. Pick one that works best for you."
+msgstr "Valoarea limită pentru scorul subtitlurilor ce vor fi descărcate automat. Valorile mai mari corespund încărcării acelor subtitluri ce se potrivesc cu mai multă acuratețe, valorile mai mici pot rezulta în încărcarea unor subtitluri incorecte, însă nu există o valoare perfectă. Alegeți acea valoare ce funcționează cel mai bine pentru dumneavoastră."
+
+msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
+msgid "Audio Delay (ms)"
+msgstr "Întârziere audio (ms)"
+
+msgctxt "IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE"
+msgid "Size in pixels of the default toolbar."
+msgstr "Mărimea în pixeli a barei de instrumente implicite."
+
+msgctxt "IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR"
+msgid "Use legacy toolbar instead of new vectorized one."
+msgstr "Folosește bara de instrumente tradițională în locul celei noi vectoriale."
 

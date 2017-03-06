@@ -8,50 +8,64 @@ Legend:
 ! Fixed
 
 
-1.7.10 - 14 November 2015
-=========================
-+ Add Indonesian, Lithuanian and Punjabi translations
-+ Ticket #5411, Add an option to disable the preview in the web interface. This option is
-  disabled by default since it must be used only on a properly secured private network
-* Completely new Internal Audio Renderer:
-    - Uses sanear project as backend
-    - Requires Windows Vista or newer
-    - Outputs sound through WASAPI (shared or exclusive)
-    - Employs automatic channel downmixing
-    - Provides stereo crossfeed processing option (for headphones)
-    - Tries to preserve signal pitch when playing at custom rate (time stretching)
-    - Supports bitstreaming
-    - Fixes tickets #203, #1961, #2731, #3653, #4047, #5267
-* Ticket #3356, Initial support for per-monitor DPI scaling
-* Use internal audio decoder by default for Opus decoding
-* Ticket #5450/#5479, Improved crash reporting dialog for better stability and user experience
-* Ticket #5472, Make it easier to input value to the "Audio time shift" field in options
-* OGM stream switching hotkeys were unified with generic ones
-* Updated MediaInfoLib to v0.7.75
-* Updated Little CMS to v2.7 (git 07da965)
-* Updated LAV Filters to stable version 0.66.0:
-    - LAV Splitter: New ASF/WMV demuxer
-    - Ticket #5548, LAV Splitter: Fix some rare deadlocks at startup
-    - LAV Video Decoder: Allow hardware decoding of UHD video with AMD cards
-* Updated Arabic, Armenian, Basque, Bengali, British English, Catalan, Chinese (Simplified and Traditional),
-  Croatian, Czech, Danish, Dutch, French, Galician, German, Greek, Hungarian, Japanese, Korean, Malay,
-  Polish, Portuguese (Brazil), Romanian, Russian, Slovenian, Slovak, Spanish, Swedish, Thai, Turkish,
-  Ukrainian and Vietnamese translations
-! Fix a rare crash when exiting DVB mode
-! QuickTime: Fix a crash when using system default renderer
-! Fix "snap to desktop edge" and "autofit zoom" on Windows 10
-! Fix reliability and stability of the D3D Fullscreen mode
-! Ticket #4086, Logitech LCD: Correctly initialize the volume at start-up
-! Ticket #5248, Adjust mouse behavior for Windows 10
-! Ticket #5454, Deleting an item from the playlist sometimes did not work when shuffle mode was enabled
-! Ticket #5464, If the main window was minimized while the D3D Fullscreen window was displayed on another screen,
-  it was impossible to use the mouse buttons to play, pause, exit fullscreen, etc.
-! Ticket #5488, Suggested filename was wrong when saving subtitles in specific cases
-! Ticket #5496, Subtitle downloader dialog: the preferred languages were sometimes not displayed first
-! Ticket #5515, Blu-ray (PGS) subtitles were sometimes not displayed
-! Ticket #5519, SRT subtitles: Support parsing files with negative timecodes
-! Ticket #5573, /monitor command line was ignored when remember window position was enabled
-! Ticket #5573, The window could return to the wrong monitor when started fullscreen using the command line
-  `/monitor N /fullscreen` if "remember window size" was enabled and "remember window position" was disabled
-! Ticket #5643, Stream selection did not work when using external audio file in specific cases
-! Ticket #5647, Drag&Drop was not starting playback if source folder was read only
+1.7.11 - 6 March 2017
+===============================
++ Ability to control playback repeat mode
++ Add a cache to avoid recompiling pixel shaders when possible
++ Add SVG support for custom toolbars
++ Add Bosnian translation
++ Option to set audio delay values for each display mode
+* Updated Little CMS to v2.8 (1272acb)
+* Updated tinyxml2 to v4.0.1
+* Updated MediaInfoLib to v0.7.92
+* Updated ZenLib to v0.4.34
+* Updated Unrar to v5.4.5
+* Updated zlib to v1.2.11
+* Updated LAV Filters to v0.69:
+    - LAV Splitter: Support HTTPS protocol
+    - LAV Splitter: Switch back to an improved version of the old ASF demuxer
+    - LAV Splitter: Support demuxing H264 MVC
+    - Ticket #5815, LAV Splitter: Improve the detection of the forced flag for some MP4 subtitle tracks
+    - LAV Video Decoder: Add experimental support for VP9 DXVA2 decoding (disabled by default)
+    - LAV Video Decoder: Enable hardware decoding for HEVC and 4K/UHD by default
+    - LAV Video Decoder: Add a basic H264 MVC decoder based on Intel MediaSDK.
+      Note that for now the Intel MediaSDK library is not distributed with MPC-HC.
+      If you want to use this new decoder, you have to download the library
+       - 32-bit: http://files.1f0.de/lavf/plugins/libmfxsw32-v1.7z
+       - 64-bit: http://files.1f0.de/lavf/plugins/libmfxsw64-v1.7z
+      and decompress it to the LAVFilters(64) folder.
+    - LAV Video Decoder: Offer Weston Three Field Deinterlacing (w3fdif) as an alternative to YADIF
+    - Ticket #3974, LAV Video Decoder: Fix DXVA decoding of interlaced H.264 videos on some Intel GPU
+    - Ticket #5666, LAV Video Decoder: YADIF deinterlacing sometimes caused black screen in DVD menus
+    - LAV Audio Decoder: Fix a possible crash when using bitstreaming
+* Old DirectX 7 renderers have been removed. Settings will be updated automatically to use the corresponding VMR-9 renderers.
+  If you really want to use a renderer similar to VMR-7 (windowed), use Overlay mixer or the "system default" renderer
+* Make Video Renderer statistics scalable to window size and unify graph look for EVR Sync and other renderers
+* "Replace currently loaded subtitles" option no longer removes subtitles provided by splitter
+* Change Pan&Scan logic:
+    - PnS Rotate Y- now flips horizontally
+    - PnS Rotate X- now flips vertically
+    - PnS Rotate Z- now rotates 90 degrees (counter-clockwise)
+    - The postive rotate functions still do 1 degree rotation around their axis
+* Hide the infobar in normal view preset. This makes it equal to default view
+* Ticket #2022/#4779: Rewrite subtitles downloading framework
+    - Support for multiple subtitle providers including the default OpenSubtitles as well as
+      podnapisi, titlovi, SubDB, ysubs and Napisy24 which can be enabled in Options (Subtitles -> Misc)
+    - Ticket #5193, Ability to upload subtitles to OpenSubtitles and SubDB
+    - Ability to login into OpenSubtitles
+    - Ticket #5406, Ability to filter subtitle list by selected languages
+    - Option to automatically search and download subtitles at the beginning of playback without user interaction
+    - Prioritize subtitles for hearing impaired where indicated
+* Ticket #5472, Append language code when saving the subtitles file
+* Updated Arabic, Armenian, Basque, Belarusian, Bengali, British English, Catalan, Chinese (Simplified and Traditional),
+  Croatian, Czech, Danish, Dutch, Finnish, French, Galician, German, Greek, Hebrew, Hungarian, Indonesian, Italian,
+  Japanese, Korean, Lithuanian, Malay, Polish, Portuguese (Brazil), Punjabi, Romanian, Russian, Serbian, Slovak,
+  Slovenian, Swedish, Spanish, Tatar, Thai, Turkish, Ukrainian and Vietnamese translations
+! Window position and/or size could be wrong when exiting fullscreen mode for the first time and
+  "Launch files in fullscreen" option is enabled
+! Ticket #2202, Automatically rotate MP4/MOV/FLV files when the rotation info is available
+! Ticket #5557, Show the correct language name for Serbian subtitles. They used to show as Croatian
+! Ticket #5748, Track selection menus did not work when using DVB capture
+! Ticket #5828, Update seekbar position when generating thumbnails
+! Ticket #5829, Creating thumbnails while the video was stopped left the player in an undefined state. The stopped state
+  is now properly restored after creating the thumbnails

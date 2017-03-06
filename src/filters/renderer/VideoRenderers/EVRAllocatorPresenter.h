@@ -194,6 +194,7 @@ namespace DSObjects
         CCritSec                         m_SampleQueueLock;
         CCritSec                         m_ImageProcessingLock;
         CCritSec                         m_MediaTypeLock;
+        CCritSec                         m_ThreadsLock;
 
         UINT32                           m_nCurrentGroupId;
         CInterfaceList<IMFSample>        m_FreeSamples;

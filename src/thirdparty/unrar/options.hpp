@@ -95,6 +95,7 @@ class RAROptions
     RAR_CHARSET CommentCharset;
     RAR_CHARSET FilelistCharset;
     RAR_CHARSET ErrlogCharset;
+    RAR_CHARSET RedirectCharset;
 
     wchar ArcPath[NM];
     SecPassword Password;
@@ -113,6 +114,7 @@ class RAROptions
     bool DisablePercentage;
     bool DisableCopyright;
     bool DisableDone;
+    bool PrintVersion;
     int Solid;
     int SolidCount;
     bool ClearArc;
@@ -138,6 +140,10 @@ class RAROptions
     bool KeepBroken;
     bool OpenShared;
     bool DeleteFiles;
+
+#ifdef _WIN_ALL
+    bool AllowIncompatNames; // Allow names with trailing dots and spaces.
+#endif
 
 
 #ifndef SFX_MODULE

@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2015 see Authors.txt
+ * (C) 2006-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -23,6 +23,7 @@
 #include "../../../SubPic/DX9SubPic.h"
 #include "../../../SubPic/SubPicQueueImpl.h"
 #include "RenderersSettings.h"
+#include <initguid.h>
 #include <mvrInterfaces.h>
 
 
@@ -60,6 +61,7 @@ STDMETHODIMP CmadVRAllocatorPresenter::NonDelegatingQueryInterface(REFIID riid, 
     return QI(ISubRenderCallback)
            QI(ISubRenderCallback2)
            QI(ISubRenderCallback3)
+           QI(ISubRenderCallback4)
            __super::NonDelegatingQueryInterface(riid, ppv);
 }
 
@@ -71,6 +73,7 @@ HRESULT CmadVRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
         // release all resources
         m_pSubPicQueue = nullptr;
         m_pAllocator = nullptr;
+        __super::SetPosition(CRect(), CRect());
         return S_OK;
     }
 
@@ -108,13 +111,14 @@ HRESULT CmadVRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
 
 // ISubRenderCallback3
 
-HRESULT CmadVRAllocatorPresenter::RenderEx2(REFERENCE_TIME rtStart,
+HRESULT CmadVRAllocatorPresenter::RenderEx3(REFERENCE_TIME rtStart,
                                             REFERENCE_TIME /*rtStop*/,
                                             REFERENCE_TIME atpf,
                                             RECT croppedVideoRect,
                                             RECT /*originalVideoRect*/,
                                             RECT viewportRect,
-                                            const double videoStretchFactor)
+                                            const double videoStretchFactor /*= 1.0*/,
+                                            int xOffsetInPixels /*= 0*/, DWORD flags /*= 0*/)
 {
     CheckPointer(m_pSubPicQueue, E_UNEXPECTED);
 
@@ -126,7 +130,7 @@ HRESULT CmadVRAllocatorPresenter::RenderEx2(REFERENCE_TIME rtStart,
         m_fps = 10000000.0 / atpf;
         m_pSubPicQueue->SetFPS(m_fps);
     }
-    AlphaBltSubPic(viewportRect, croppedVideoRect, nullptr, videoStretchFactor);
+    AlphaBltSubPic(viewportRect, croppedVideoRect, nullptr, videoStretchFactor, xOffsetInPixels);
     return S_OK;
 }
 
@@ -170,6 +174,8 @@ STDMETHODIMP_(SIZE) CmadVRAllocatorPresenter::GetVideoSize(bool bCorrectAR) cons
 
     if (!bCorrectAR) {
         if (CComQIPtr<IBasicVideo> pBV = m_pMVR) {
+            // Final size of the video, after all scaling and cropping operations
+            // This is also aspect ratio adjusted
             pBV->GetVideoSize(&size.cx, &size.cy);
         }
     } else {

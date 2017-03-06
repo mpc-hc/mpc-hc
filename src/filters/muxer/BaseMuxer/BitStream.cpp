@@ -30,8 +30,8 @@ CBitStream::CBitStream(IStream* pStream, bool fThrowError)
     : CUnknown(_T("CBitStream"), nullptr)
     , m_pStream(pStream)
     , m_fThrowError(fThrowError)
-    , m_bitlen(0)
     , m_bitbuff(0)
+    , m_bitlen(0)
 {
     ASSERT(m_pStream);
 

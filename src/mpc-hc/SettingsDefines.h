@@ -1,5 +1,5 @@
 /*
- * (C) 2009-2015 see Authors.txt
+ * (C) 2009-2016 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -55,6 +55,7 @@
 #define IDS_RS_TITLEBARTEXTSTYLE            _T("TitleBarTextStyle")
 #define IDS_RS_CONTROLSTATE                 _T("ControlState")
 #define IDS_RS_LOOP                         _T("Loop")
+#define IDS_RS_LOOPMODE                     _T("LoopMode")
 #define IDS_RS_LOOPNUM                      _T("LoopNum")
 #define IDS_RS_SNAPTODESKTOPEDGES           _T("SnapToDesktopEdges")
 #define IDS_RS_ENABLESUBTITLES              _T("EnableSubtitles")
@@ -62,6 +63,13 @@
 #define IDS_RS_PRIORITIZEEXTERNALSUBTITLES  _T("PrioritizeExternalSubtitles")
 #define IDS_RS_DISABLEINTERNALSUBTITLES     _T("DisableInternalSubtitles")
 #define IDS_RS_ALLOW_OVERRIDING_EXT_SPLITTER _T("AllowOverridingExternalSplitterSubtitleChoice")
+#define IDS_RS_AUTODOWNLOADSUBTITLES        _T("AutoDownloadSubtitles")
+#define IDS_RS_AUTODOWNLOADSCOREMOVIES      _T("AutoDownloadScoreMovies")
+#define IDS_RS_AUTODOWNLOADSCORESERIES      _T("AutoDownloadScoreSeries")
+#define IDS_RS_AUTODOWNLOADSUBTITLESEXCLUDE _T("AutoDownloadSubtitlesExclude")
+#define IDS_RS_AUTOUPLOADSUBTITLES          _T("AutoUploadSubtitles")
+#define IDS_RS_SUBTITLESPROVIDERS           _T("SubtitlesProviders")
+#define IDS_RS_PREFERHEARINGIMPAIREDSUBTITLES _T("PreferHearingImpairedSubtitles")
 #define IDS_RS_SUBTITLEPATHS                _T("SubtitlePaths")
 #define IDS_RS_USEDEFAULTSUBTITLESSTYLE     _T("UseDefaultsubtitlesStyle")
 #define IDS_RS_THUMBWIDTH                   _T("ThumbWidth")
@@ -69,6 +77,7 @@
 #define IDS_RS_D3DFULLSCREEN                _T("D3DFullScreen")
 //#define IDS_RS_MONITOR_AUTOREFRESHRATE      _T("MonitorAutoRefreshRate")
 #define IDS_RS_SPEEDSTEP                    _T("SpeedStep")
+#define IDS_RS_DEFAULTTOOLBARSIZE           _T("DefaultToolbarSize")
 
 // Audio
 #define IDS_RS_VOLUME                       _T("Volume")
@@ -183,7 +192,6 @@
 #define IDS_RS_PRIORITY                     _T("Priority")
 #define IDS_RS_SNAPSHOTEXT                  _T("SnapshotExt")
 #define IDS_RS_LAUNCHFULLSCREEN             _T("LaunchFullScreen")
-#define IDS_RS_ISDB                         _T("ISDb")
 #define IDS_RS_WEBROOT                      _T("WebRoot")
 #define IDS_RS_WEBSERVERLOCALHOSTONLY       _T("WebServerLocalhostOnly")
 #define IDS_RS_ASPECTRATIO_X                _T("AspectRatioX")
@@ -225,6 +233,7 @@
 #define IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_CHECKED         _T("Checked")
 #define IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_FRAMERATESTART  _T("FrameRateStart")
 #define IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_FRAMERATESTOP   _T("FrameRateStop")
+#define IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_AUDIODELAY      _T("AudioDelay")
 #define IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_DM_BPP          _T("BPP")
 #define IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_DM_FREQ         _T("Freq")
 #define IDS_RS_FULLSCREEN_AUTOCHANGE_MODE_MODE_DM_SIZEX        _T("SizeX")
@@ -276,6 +285,11 @@
 
 #define IDS_R_DLG_SUBTITLEDL                _T("Dialogs\\SubtitleDl")
 #define IDS_RS_DLG_SUBTITLEDL_COLWIDTH      _T("ColWidth")
+#define IDS_RS_DLG_SUBTITLEDL_SORTCOLUMN    _T("SortColumn")
+#define IDS_RS_DLG_SUBTITLEDL_SORTORDER     _T("SortOrder")
+
+#define IDS_R_DLG_SUBTITLEUP                _T("Dialogs\\SubtitleUp")
+#define IDS_RS_DLG_SUBTITLEUP_COLWIDTH      _T("ColWidth")
 
 #define IDS_R_DLG_ORGANIZE_FAV              _T("Dialogs\\OrganizeFavorites")
 
@@ -291,10 +305,13 @@
 #define IDS_RS_DEBUG_SHADERS_LASTVERSION    _T("LastVersion")
 #define IDS_RS_DEBUG_SHADERS_LASTFILE       _T("LastFile")
 #define IDS_RS_DEBUG_SHADERS_FIRSTRUN       _T("FirstRun")
+#define IDS_RS_CACHESHADERS                 _T("CacheShaders")
+#define IDS_R_SHADER_CACHE                  _T("ShaderCache")
 
 #define IDS_RS_COVER_ART                    _T("EnableCoverArt")
 #define IDS_RS_COVER_ART_SIZE_LIMIT         _T("CoverArtSizeLimit")
 #define IDS_RS_LOGGING                      _T("EnableLogging")
+#define IDS_RS_USE_LEGACY_TOOLBAR           _T("UseLegacyToolbar")
 
 #define IDS_RS_SUBTITLE_RENDERER            _T("SubtitleRenderer")
 

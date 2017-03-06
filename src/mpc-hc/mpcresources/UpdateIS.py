@@ -1,4 +1,4 @@
-# (C) 2013, 2015 see Authors.txt
+# (C) 2013, 2015-2016 see Authors.txt
 #
 # This file is part of MPC-HC.
 #
@@ -15,7 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import sys
 import glob
 
 from TranslationDataIS import *
@@ -37,7 +36,9 @@ def UpdateIS(normalizePOFile=True):
 
             translationsConfigAndData.append((config, translationData))
 
-    TranslationDataIS.translateIS(translationsConfigAndData, r'..\..\..\distrib\custom_messages.iss', r'..\..\..\distrib\custom_messages_translated.iss')
+    TranslationDataIS.translateIS(translationsConfigAndData,
+                                  r'..\..\..\distrib\custom_messages.iss',
+                                  r'..\..\..\distrib\custom_messages_translated.iss')
 
 if __name__ == '__main__':
     UpdateIS()

@@ -1,17 +1,18 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# Rancher <djordje.vasiljevich@gmail.com>, 2014-2015
-# vBm <the.vbm@gmail.com>, 2014
-# vBm <the.vbm@gmail.com>, 2014
+# Rancher, 2014-2015
+# Rancher, 2016
+# Goran Džaferi <the.vbm@gmail.com>, 2014
+# Goran Džaferi <the.vbm@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-03-16 18:09:30+0000\n"
-"PO-Revision-Date: 2015-03-24 22:12+0000\n"
-"Last-Translator: Rancher <djordje.vasiljevich@gmail.com>\n"
-"Language-Team: Serbian (http://www.transifex.com/projects/p/mpc-hc/language/sr/)\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2016-07-06 21:36+0000\n"
+"Last-Translator: kasper93\n"
+"Language-Team: Serbian (http://www.transifex.com/mpc-hc/mpc-hc/language/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -48,7 +49,7 @@ msgstr "Излаз"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK1"
 msgid "Record Video"
-msgstr "Снимање видео-записа"
+msgstr "Сними видео"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK2"
 msgid "Preview"
@@ -80,7 +81,7 @@ msgstr "Уграђени филтер за промену звука (захте
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK5"
 msgid "Normalize"
-msgstr "Нормализуј"
+msgstr "Нормализација"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC4"
 msgid "Max amplification:"
@@ -100,15 +101,15 @@ msgstr "Појачање:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK3"
 msgid "Down-sample to 44100 Hz"
-msgstr "Претвори у 44100 Hz"
+msgstr "Смањи квалитет на 44100 Hz"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK4"
 msgid "Audio time shift (ms):"
-msgstr "Померање времена звука (мс):"
+msgstr "Померање звука (мс):"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK1"
 msgid "Enable custom channel mapping"
-msgstr "Мапирање прилагођених канала"
+msgstr "Прилагођено мапирање канала"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
 msgid "Speaker configuration for"
@@ -120,7 +121,7 @@ msgstr "улазна канала:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
 msgid "Hold shift for immediate changes when clicking something"
-msgstr "Држите Shift да бисте измене видели одмах након клика."
+msgstr "Држите Shift за тренутни приказ измена након клика."
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."
@@ -128,7 +129,7 @@ msgstr "Прелазак на…"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time. You do not need to enter the separators explicitly."
-msgstr "Унесите време у формату [hh:]mm:ss.ms да бисте прескочили на одређено време. Разделнике није потребно уносити."
+msgstr "Унесите време у формату чч:мм:сс.мс да бисте прешли на одређено време."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Time"
@@ -140,7 +141,7 @@ msgstr "&Пређи"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Enter two numbers to jump to a specified frame, the first is the frame number, the second is the frame rate."
-msgstr "Унесите два броја ради прескакања на одређени кадар: први је број кадра а други његова брзина."
+msgstr "Унесите два броја ради преласка на одређени кадар: први је број кадра а други његова брзина."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Frame"
@@ -156,7 +157,7 @@ msgstr "Отварање"
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Type the address of a movie or audio file (on the Internet or your computer) and the player will open it for you."
-msgstr "Унесите адресу аудио или видео датотеке (на рачунару или интернету) и програм ће је отворити."
+msgstr "Унесите адресу аудио или видео датотеке (на рачунару или интернету)."
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Open:"
@@ -191,12 +192,12 @@ msgid "About"
 msgstr "О програму"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2015 see Authors.txt"
-msgstr "Ауторска права © 2002–2015 погледајте Authors.txt"
+msgid "Copyright © 2002-2017 see Authors.txt"
+msgstr "Ауторска права © 2002-2017; погледајте датотеку Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
-msgstr "Овај програм је бесплатан и издат је под GNU-овом општом јавном лиценцом."
+msgstr "Овај програм је бесплатан и издат је под лиценцом GNU GPL."
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
@@ -220,7 +221,7 @@ msgstr "Не користи се"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build date:"
-msgstr "Датум издања:"
+msgstr "Датум израде:"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Operating system"
@@ -260,19 +261,19 @@ msgstr "Насловна трака"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO3"
 msgid "Display full path"
-msgstr "Прикажи пуну путању"
+msgstr "Пуна путања"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO4"
 msgid "File name only"
-msgstr "Само име датотеке"
+msgstr "Име датотеке"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO5"
 msgid "Don't prefix anything"
-msgstr "Не стављај префикс"
+msgstr "Ништа"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK13"
 msgid "Replace file name with title"
-msgstr "Замени име датотеке са насловом"
+msgstr "Замени име датотеке насловом"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Other"
@@ -292,7 +293,7 @@ msgstr "Пропорције прозора сразмерне видео-кад
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK12"
 msgid "Snap to desktop edges"
-msgstr "Прилепи за углове радне површине"
+msgstr "Прилепи уз ивице екрана"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK8"
 msgid "Store settings in .ini file"
@@ -304,7 +305,7 @@ msgstr "Онемогући мени „Отвори диск“"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK9"
 msgid "Process priority above normal"
-msgstr "Приоритет процеса изнад нормале"
+msgstr "Повишени приоритет процеса"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK14"
 msgid "Enable cover-art support"
@@ -316,7 +317,7 @@ msgstr "Историја"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK1"
 msgid "Keep history of recently opened files"
-msgstr "Задржи историју скорашњих датотека"
+msgstr "Чувај историју отворених датотека"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK2"
 msgid "Remember last playlist"
@@ -332,19 +333,19 @@ msgstr "Запамти позицију DVD-а"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK6"
 msgid "Remember last window position"
-msgstr "Запамти позицију последњег прозора"
+msgstr "Запамти положај прозора"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK7"
 msgid "Remember last window size"
-msgstr "Запамти величину последњег прозора"
+msgstr "Запамти величину прозора"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
 msgid "Remember last Pan-n-Scan Zoom"
-msgstr "Запамти последњи зум"
+msgstr "Запамти поставке зума"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
-msgstr "Понашање команде „Отвори DVD/BD“"
+msgstr "Понашање команде „Отвори DVD/BD…“"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO1"
 msgid "Prompt for location"
@@ -420,15 +421,19 @@ msgstr "Понављај"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC1"
 msgid "time(s)"
-msgstr "време"
+msgstr "пута"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Repeat mode:"
+msgstr "Понављање:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
 msgstr "Након репродукције"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Output"
-msgstr "Излаз"
+msgid "Default zoom"
+msgstr "Подразумевани зум"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
@@ -468,7 +473,7 @@ msgstr "Користи радну нит за израду графикона ф
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK6"
 msgid "Report pins which fail to render"
-msgstr "Пријави пинове који не могу да се обраде"
+msgstr "Пријави неисправне пинове"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
@@ -536,7 +541,7 @@ msgstr "Никад не анимирај титлове"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC5"
 msgid "Render at"
-msgstr "Рендеруј"
+msgstr "Рендеровање"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC6"
 msgid "% of the animation"
@@ -544,7 +549,7 @@ msgstr "% анимације"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC7"
 msgid "Animate at"
-msgstr "Анимирај"
+msgstr "Анимација"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC8"
 msgid "% of the video frame rate"
@@ -552,7 +557,7 @@ msgstr "% учесталости кадрова"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Allow dropping some subpictures if the queue is running late"
-msgstr "Дозволи испуштање подслика ако ред касни"
+msgstr "Дозволи испуштање подслика при кашњењу"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Renderer Layout"
@@ -560,15 +565,15 @@ msgstr "Распоред рендерера"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SUB_AR_COMPENSATION"
 msgid "Apply aspect ratio compensation for anamorphic videos"
-msgstr "Компензуј однос ширина/висина за анаморфне видео-записе"
+msgstr "Компензуј пропорције за анаморфне видео-записе"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Warning"
 msgstr "Упозорење"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
-msgstr "Ако негде у поставкама графичке картице омогућите уклањање назубљености у режиму целог екрана, титлови неће изгледати боље, већ ћете само оптеретити процесор."
+msgid "If you override and enable fullscreen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
+msgstr "Опција уклањања назубљености у режиму приказа преко целог екрана не доприноси квалитету титлова, већ само оптерећује процесор. Препоручујемо вам да је искључите у поставкама графичке картице."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
 msgid "File extensions"
@@ -576,7 +581,7 @@ msgstr "Наставци датотека"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON2"
 msgid "Default"
-msgstr "Подразумевано"
+msgstr "Подразум."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON_EXT_SET"
 msgid "Set"
@@ -596,11 +601,11 @@ msgstr "Покрени као &администратор"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON7"
 msgid "Set as &default program"
-msgstr "Постави као &подразумевани програм"
+msgstr "Постави као &подразум. програм"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Real-Time Streaming Protocol handler (for rtsp://... URLs)"
-msgstr "Руковалац Real-Time Streaming Protocol-а (за rtsp:// адресе)"
+msgstr "Руковалац Real-Time Streaming Protocol-ом (за rtsp:// адресе)"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_RADIO1"
 msgid "RealMedia"
@@ -648,15 +653,15 @@ msgstr "DVD"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK3"
 msgid "Audio CD"
-msgstr "Audio CD"
+msgstr "Аудио CD"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "Jump distances (small, medium, large in ms)"
-msgstr "Интервал прескока (мали, средњи и велики; у милисекундама)"
+msgstr "Интервал преласка у милисекундама (мали, средњи и велики)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_BUTTON1"
 msgid "Default"
-msgstr "Подразумевано"
+msgstr "Подразум."
 
 msgctxt "IDD_PPAGETWEAKS_IDC_FASTSEEK_CHECK"
 msgid "Fast seek (on keyframe)"
@@ -668,19 +673,19 @@ msgstr "Ознаке поглавља у траци за премотавање"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK4"
 msgid "Display \"Now Playing\" information in Skype's mood message"
-msgstr "Информација „Репродукује се“ на статусу Skype-а"
+msgstr "Прикажи име датотеке која се репродукује на статусу Skype-а"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid "Prevent minimizing the player when in fullscreen on a non default monitor"
-msgstr "Спречи умањивање плејера у режиму целог екрана на секундарном монитору"
+msgstr "Спречи умањивање плејера на секундарном монитору у режиму целог екрана"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
 msgid "Use enhanced taskbar features"
-msgstr ""
+msgstr "Проширене функције траке задатака"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid "Open previous/next file in folder on \"Skip back/forward\" when there is only one item in playlist"
-msgstr "Отвори претходну/следећу датотеку у фасцикли при коришћењу опције „Прескочи уназад/унапред“ када је у плеј-листи само једна датотека"
+msgstr "Отвори претходну/следећу датотеку у фасцикли дугмадима „Унапред/уназад“ када је у плеј-листи само једна датотека"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
 msgid "Show time tooltip:"
@@ -696,7 +701,7 @@ msgstr "Подршка за Logitech LCD (експериментално)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
 msgid "Auto-hide the mouse pointer during playback in windowed mode"
-msgstr "Сакриј курсор миша при репродукцији у режиму приказа у прозору"
+msgstr "Сакриј курсор миша при репродуковању у прозору"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
 msgid "Add Filter..."
@@ -728,15 +733,15 @@ msgstr "&Доле"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON5"
 msgid "Add Media Type..."
-msgstr "Додај тип &медија…"
+msgstr "Додај &тип…"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON6"
 msgid "Add Sub Type..."
-msgstr "Додај тип &титла…"
+msgstr "Додај &подтип…"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON7"
 msgid "Delete"
-msgstr "&Обриши"
+msgstr "&Избриши"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON8"
 msgid "Reset List"
@@ -760,7 +765,7 @@ msgstr "Резолуција:"
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Created:"
-msgstr "Креирано:"
+msgstr "Направљено:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Clip:"
@@ -828,7 +833,7 @@ msgstr "Помери на&доле"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON2"
 msgid "Delete"
-msgstr "&Обриши"
+msgstr "&Избриши"
 
 msgctxt "IDD_FAVORGANIZE_IDOK"
 msgid "OK"
@@ -836,7 +841,7 @@ msgstr "&У реду"
 
 msgctxt "IDD_PNSPRESET_DLG_CAPTION"
 msgid "Pan&Scan Presets"
-msgstr "Шаблони размера и положаја"
+msgstr "Шаблони размере и положаја"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"
 msgid "New"
@@ -844,7 +849,7 @@ msgstr "&Ново"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON3"
 msgid "Delete"
-msgstr "&Обриши"
+msgstr "&Избриши"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON4"
 msgid "Up"
@@ -868,11 +873,11 @@ msgstr "&Сачувај"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
 msgid "Pos: 0.0 -> 1.0"
-msgstr "Позиција: 0.0 -> 1.0"
+msgstr "Позиција: 0.0 → 1.0"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
 msgid "Zoom: 0.2 -> 3.0"
-msgstr "Зум: 0.2 -> 3.0"
+msgstr "Размера: 0.2 → 3.0"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_CHECK2"
 msgid "Global Media Keys"
@@ -892,11 +897,11 @@ msgstr "Упозорење"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC1"
 msgid "MPC-HC could not render some of the pins in the graph, you may not have the needed codecs or filters installed on the system."
-msgstr "MPC-HC не може да обради неке од пинова у графикону. Вероватно немате потребне кодеке или филтере на систему."
+msgstr "MPC-HC не може да обради неке од пинова у графикону. Вероватно немате потребне кодеке или филтере."
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC2"
 msgid "The following pin(s) failed to find a connectable filter:"
-msgstr "Следећи пинови не могу да пронађу филтер с којим би се повезали:"
+msgstr "За следеће пинове није пронађен одговарајући филтер:"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDOK"
 msgid "Close"
@@ -1020,19 +1025,19 @@ msgstr "Поравнање и маргине"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Left"
-msgstr "Лево"
+msgstr "Лева"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Right"
-msgstr "Десно"
+msgstr "Десна"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Top"
-msgstr "Врх"
+msgstr "Горња"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Bottom"
-msgstr "Дно"
+msgstr "Доња"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK_RELATIVETO"
 msgid "Position subtitles relative to the video frame"
@@ -1068,15 +1073,15 @@ msgstr "Повежи алфа канале"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "If you would like to use the stand-alone versions of these filters or another replacement, disable them here."
-msgstr "Ако желите да користите самосталне верзије ових филтера или желите замену, овде их онемогућите."
+msgstr "Ако желите да користите самосталну верзију ових филтера или другу алтернативу, овде их онемогућите."
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Source Filters"
-msgstr "Филтери извора"
+msgstr "Филтери за изворе"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Transform Filters"
-msgstr "Декодери"
+msgstr "Филтери за трансформацију"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Internal LAV Filters settings"
@@ -1123,8 +1128,8 @@ msgid "Audio Renderer"
 msgstr "Аудио-рендерер"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
-msgstr "Поставке рендерера VMR-7/VMR-9 (без рендера) и EVR (CP)"
+msgid "VMR-9 (renderless) and EVR (CP) settings"
+msgstr "Поставке рендерера VMR-9 (renderless) и EVR (CP)"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"
@@ -1136,11 +1141,11 @@ msgstr "Интерполација:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_D3D9DEVICE"
 msgid "Select D3D9 Render Device"
-msgstr "Изабери D3D9 уређај за рендер."
+msgstr "Изабери D3D9 уређај за рендеровање"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_RESETDEVICE"
 msgid "Reinitialize when changing display"
-msgstr "Поново покрени при промени приказа"
+msgstr "Поново покрени при промени екрана"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "D3D Fullscreen"
@@ -1152,11 +1157,11 @@ msgstr "Алтернативна верт. синхр."
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9LOADMIXER"
 msgid "VMR-9 Mixer Mode"
-msgstr "VMR-9 миксер"
+msgstr "Режим VMR-9 Mixer"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9YUVMIXER"
 msgid "YUV Mixing"
-msgstr "YUV миксовање"
+msgstr "YUV Mixing"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_EVR_BUFFERS_TXT"
 msgid "EVR Buffers:"
@@ -1168,7 +1173,7 @@ msgstr "DXVA"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitles"
-msgstr ""
+msgstr "Титлови"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Screenshot"
@@ -1184,7 +1189,11 @@ msgstr "Ротација"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
-msgstr ""
+msgstr "Рендерер титлова"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
+msgid "Cache compiled Shaders"
+msgstr "Кеширај компилиране модуле за сенчење"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
@@ -1196,7 +1205,7 @@ msgstr "Покрени у веб-прегледачу…"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK3"
 msgid "Enable compression"
-msgstr "Компримирање"
+msgstr "Компримовање"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK5"
 msgid "Allow access from localhost only"
@@ -1204,7 +1213,7 @@ msgstr "Дозволи приступ само са локалног хоста"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK6"
 msgid "Enable preview"
-msgstr ""
+msgstr "Омогући преглед"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
 msgid "Print debug information"
@@ -1231,16 +1240,44 @@ msgid "CGI handlers: (.ext1=path1;.ext2=path2;...)"
 msgstr "CGI руковаоци (.ext1=path1;.ext2=path2;…):"
 
 msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
-msgid "Subtitles available online"
-msgstr "Преузимање титлова са интернета"
-
-msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
-msgid "Download && Open"
-msgstr "&Преузми и отвори"
+msgid "Download subtitles"
+msgstr "Преузми титл"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
 msgid "Replace currently loaded subtitles"
-msgstr "Замени тренутно учитане титлове"
+msgstr "Замени учитане титлове"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
+msgid "Download"
+msgstr "Преузми"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON1"
+msgid "Refresh"
+msgstr "Освежи"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON2"
+msgid "Abort"
+msgstr "Прекини"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON3"
+msgid "Options"
+msgstr "Опције"
+
+msgctxt "IDD_SUBTITLEUP_DLG_CAPTION"
+msgid "Upload subtitles"
+msgstr "Отпремање титлова"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDOK"
+msgid "Upload"
+msgstr "Отпреми"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
+msgid "Abort"
+msgstr "Прекини"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON2"
+msgid "Options"
+msgstr "Опције"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
@@ -1268,7 +1305,7 @@ msgstr "Засићеност"
 
 msgctxt "IDD_PPAGEMISC_IDC_RESET"
 msgid "Reset"
-msgstr "Подразумевано"
+msgstr "Подразум."
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Update check"
@@ -1292,15 +1329,15 @@ msgstr "Управљање поставкама"
 
 msgctxt "IDD_PPAGEMISC_IDC_RESET_SETTINGS"
 msgid "Reset"
-msgstr "Подразумевано"
+msgstr "Подразум."
 
 msgctxt "IDD_PPAGEMISC_IDC_EXPORT_SETTINGS"
 msgid "Export"
-msgstr "Извези"
+msgstr "Извези…"
 
 msgctxt "IDD_PPAGEMISC_IDC_EXPORT_KEYS"
 msgid "Export keys"
-msgstr "Извези тастере"
+msgstr "Извези тастере…"
 
 msgctxt "IDD_TUNER_SCAN_CAPTION"
 msgid "Tuner scan"
@@ -1308,7 +1345,7 @@ msgstr "Скенирање тјунера"
 
 msgctxt "IDD_TUNER_SCAN_ID_START"
 msgid "Start"
-msgstr "Покрени"
+msgstr "&Покрени"
 
 msgctxt "IDD_TUNER_SCAN_IDCANCEL"
 msgid "Cancel"
@@ -1316,7 +1353,7 @@ msgstr "&Откажи"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Freq. Start"
-msgstr "Учесталост покретања"
+msgstr "Почетна учесталост"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Bandwidth"
@@ -1324,7 +1361,7 @@ msgstr "Пропусни опсег"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Freq. End"
-msgstr "Учесталост завршавања"
+msgstr "Завршна учесталост"
 
 msgctxt "IDD_TUNER_SCAN_IDC_CHECK_IGNORE_ENCRYPTED"
 msgid "Ignore encrypted channels"
@@ -1404,7 +1441,7 @@ msgstr "Заустави граф. филт."
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCVIDEO"
 msgid "Sync video to display"
-msgstr "Синхронизуј видео са приказом"
+msgstr "Синхронизуј видео са екраном"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC1"
 msgid "Frequency adjustment:"
@@ -1412,7 +1449,7 @@ msgstr "Учесталост:"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCDISPLAY"
 msgid "Sync display to video"
-msgstr "Синхронизуј приказ са видеом"
+msgstr "Синхронизуј екран са видеом"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC2"
 msgid "Frequency adjustment:"
@@ -1456,7 +1493,7 @@ msgstr "Измене ступају на снагу након што понов
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK1"
 msgid "Launch files in fullscreen"
-msgstr "Покрени датотеке преко целог екрана"
+msgstr "Покрећи датотеке преко целог екрана"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK4"
 msgid "Hide controls in fullscreen"
@@ -1476,11 +1513,11 @@ msgstr "Изађи из режима целог екрана на крају р�
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Fullscreen monitor"
-msgstr "Монитор за цео екран"
+msgstr "Монитор за режим целог екрана"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK2"
 msgid "Use autochange fullscreen monitor mode"
-msgstr "Режим монитора у режиму целог екрана"
+msgstr "Аутоматска промена монитора у режиму целог екрана"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON1"
 msgid "Add"
@@ -1488,7 +1525,7 @@ msgstr "&Додај"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON2"
 msgid "Del"
-msgstr "&Обриши"
+msgstr "&Избриши"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON3"
 msgid "Up"
@@ -1524,35 +1561,47 @@ msgstr "Скенирај"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK1"
 msgid "Prefer forced and/or default subtitles tracks"
-msgstr "Преферирај наметнуте или подразумеване титлове"
+msgstr "Приоритет имају унутрашњи титлови уместо спољних"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK2"
 msgid "Prefer external subtitles over embedded subtitles"
-msgstr "Преферирај спољне титлове над уграђеним"
+msgstr "Приоритет имају спољни титлови уместо унутрашњих"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK3"
 msgid "Ignore embedded subtitles"
-msgstr "Занемари уграђене титлове"
+msgstr "Занемари унутрашње титлове"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Autoload paths"
-msgstr "Путање за аутоматско учитавање"
+msgstr "Путања за спољне титлове"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON1"
 msgid "Reset"
-msgstr "Подразумевано"
+msgstr "Подразум."
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Online database"
-msgstr "Базе на мрежи"
+msgid "Online search, download and upload subtitles"
+msgstr "Интернет претрага, преузимање и отпремање титлова"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
+msgid "Automatically search and download subtitles if none are found locally"
+msgstr "Аутоматски тражи и преузимај титлове ако нису пронађени локално"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
+msgid "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
+msgstr "Приоритет имају титлови за особе са оштећеним слухом (ако их извор наводи)"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
+msgid "Ignore files containing any of the following word(s):"
+msgstr "Занемари датотеке које садрже следеће речи:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Base URL of the online subtitle database:"
-msgstr "URL базе са титловима:"
+msgid "Languages in order of preference:"
+msgstr "Језици по жељеном редоследу:"
 
-msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON2"
-msgid "Test"
-msgstr "Тестирај"
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
+msgid "Automatically upload active subtitles at the end of video playback"
+msgstr "Аутоматски отпреми активне титлове по завршетку репродукције"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
@@ -1560,7 +1609,7 @@ msgstr "Потражња ажурирања"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_DL_BUTTON"
 msgid "&Download now"
-msgstr "&Преузми сад"
+msgstr "&Преузми"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_LATER_BUTTON"
 msgid "Remind me &later"
@@ -1604,7 +1653,7 @@ msgstr "&Сачувај"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON5"
 msgid "Delete"
-msgstr "&Обриши"
+msgstr "&Избриши"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active pre-resize shaders"
@@ -1652,51 +1701,51 @@ msgstr "Нетачно"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
-msgstr "Подразумевано"
+msgstr "Подразум."
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
 msgid "Device"
-msgstr ""
+msgstr "Уређај"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK1"
 msgid "Exclusive mode"
-msgstr ""
+msgstr "Искључиви режим"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK2"
 msgid "Allow bitstreaming"
-msgstr ""
+msgstr "Битстриминг"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
 msgid "Options"
-msgstr ""
+msgstr "Опције"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK3"
 msgid "Enable stereo crossfeed (for headphones)"
-msgstr ""
+msgstr "Стапање стерео-канала (за слушалице)"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON1"
 msgid "C. Moy"
-msgstr ""
+msgstr "C. Moy"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON2"
 msgid "J. Meier"
-msgstr ""
+msgstr "J. Meier"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC1"
 msgid "Cut-off:"
-msgstr ""
+msgstr "Праг:"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC3"
 msgid "Level:"
-msgstr ""
+msgstr "Ниво:"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
 msgid "Note"
-msgstr ""
+msgstr "Напомена"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
 msgid "To minimize audio distortion, it is recommended to keep player volume at around 85% when playing loud lossy-encoded content."
-msgstr ""
+msgstr "У циљу смањења изобличења, препоручена јачина звука при репродуковању гласног компримираног материјала је око 85%."
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
@@ -1712,37 +1761,37 @@ msgstr "&У реду"
 
 msgctxt "IDD_CRASH_REPORTER_CAPTION"
 msgid "Crash reporter"
-msgstr ""
+msgstr "Пријава грешака"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC"
 msgid "We are sorry, it seems MPC-HC just crashed. :("
-msgstr ""
+msgstr "Нажалост, MPC-HC је отказао."
 
 msgctxt "IDD_CRASH_REPORTER_IDC_CHECK1"
 msgid "Send a bug report to help us diagnose and fix the problem."
-msgstr ""
+msgstr "Пошаљите нам извештај о грешци како бисмо пронашли и уклонили проблем."
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
 msgid "Optional information"
-msgstr ""
+msgstr "Необавезне информације"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC2"
 msgid "Email:"
-msgstr ""
+msgstr "Е-адреса:"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC3"
 msgid "Your email address is optional and will only be used if the developers need to contact you for more information."
-msgstr ""
+msgstr "Е-адреса није обавезна, али се може користити ради комуницирања са програмерима."
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
 msgid "Problem description (use English only):"
-msgstr ""
+msgstr "Опис проблема (само на енглеском):"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON1"
 msgid "Restart MPC-HC"
-msgstr ""
+msgstr "Поново покрени MPC-HC"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON2"
 msgid "Quit MPC-HC"
-msgstr ""
+msgstr "Изађи из MPC-HC-а"
 

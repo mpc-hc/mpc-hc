@@ -1,15 +1,15 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# M. Somsak, 2014-2015
+# M. Somsak, 2014-2016
 # M. Somsak, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-10-19 19:15:11+0000\n"
-"PO-Revision-Date: 2015-10-21 11:14+0000\n"
-"Last-Translator: M. Somsak\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2016-07-06 21:36+0000\n"
+"Last-Translator: kasper93\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/mpc-hc/mpc-hc/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -190,8 +190,8 @@ msgid "About"
 msgstr "เกี่ยวกับ"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2015 see Authors.txt"
-msgstr "สงวนลิขสิทธิ์ © 2002-2015 ดูที่ Authors.txt"
+msgid "Copyright © 2002-2017 see Authors.txt"
+msgstr "สงวนลิขสิทธิ์ © 2002-2017 ดูที่ Authors.txt"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -422,12 +422,16 @@ msgid "time(s)"
 msgstr "ครั้ง"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Repeat mode:"
+msgstr "โหมดวนซ้ำ:"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
 msgstr "หลังเล่นจบ"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Output"
-msgstr "ขาออก"
+msgid "Default zoom"
+msgstr ""
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
@@ -566,7 +570,7 @@ msgid "Warning"
 msgstr "คำเตือน"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
+msgid "If you override and enable fullscreen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
 msgstr "ถ้าคุณฝืนและใช้งานการลดรอยหยักในโหมดเต็มจอบางที่ที่การตั้งค่าการ์ดจอของคุณ ศัพท์บรรยายจะไม่ได้ดูดีขึ้นแต่จะเปลือง CPU ของคุณ"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
@@ -1122,8 +1126,8 @@ msgid "Audio Renderer"
 msgstr "ตัวแปลผลเสียง"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
-msgstr "การตั้งค่า VMR-7/VMR-9 (renderless) และ EVR (CP)"
+msgid "VMR-9 (renderless) and EVR (CP) settings"
+msgstr "การตั้งค่า VMR-9 (renderless) และ EVR (CP)"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"
@@ -1185,6 +1189,10 @@ msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
 msgstr "ตัวแปลผลศัพท์บรรยาย"
 
+msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
+msgid "Cache compiled Shaders"
+msgstr ""
+
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
 msgstr "ฟังบนพอร์ต:"
@@ -1230,16 +1238,44 @@ msgid "CGI handlers: (.ext1=path1;.ext2=path2;...)"
 msgstr "ตัวจัดการ CGI: (.ext1=path1;.ext2=path2;...)"
 
 msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
-msgid "Subtitles available online"
-msgstr "มีศัพท์บรรยายออนไลน์"
-
-msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
-msgid "Download && Open"
-msgstr "ดาวน์โหลด และเปิด"
+msgid "Download subtitles"
+msgstr "ดาวน์โหลดศัพท์บรรยาย"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
 msgid "Replace currently loaded subtitles"
 msgstr "แทนที่ศัพท์บรรยายที่โหลดอยู่ปัจจุบัน"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
+msgid "Download"
+msgstr "ดาวน์โหลด"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON1"
+msgid "Refresh"
+msgstr "เรียกใหม่"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON2"
+msgid "Abort"
+msgstr "ยกเลิก"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON3"
+msgid "Options"
+msgstr "ตัวเลือก"
+
+msgctxt "IDD_SUBTITLEUP_DLG_CAPTION"
+msgid "Upload subtitles"
+msgstr "อัพโหลดศัพท์บรรยาย"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDOK"
+msgid "Upload"
+msgstr "อัพโหลด"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
+msgid "Abort"
+msgstr "ยกเลิก"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON2"
+msgid "Options"
+msgstr "ตัวเลือก"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
@@ -1542,16 +1578,28 @@ msgid "Reset"
 msgstr "คืนค่า"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Online database"
-msgstr "ฐานข้อมูลออนไลน์"
+msgid "Online search, download and upload subtitles"
+msgstr "ค้นหา, ดาวน์โหลด และอัพโหลดศัพท์บรรยายออนไลน์"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
+msgid "Automatically search and download subtitles if none are found locally"
+msgstr "ค้นหาและดาวน์โหลดศัพท์บรรยายอัตโนมัติ ถ้าค้นหาในท้องถิ่นแล้วไม่มี"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
+msgid "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
+msgstr "ศัพท์บรรยายที่ชอบสำหรับผู้บกพร่องทางการได้ยิน (เมื่อได้ระบุไว้โดยผู้จัดหาศัพท์บรรยาย)"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
+msgid "Ignore files containing any of the following word(s):"
+msgstr "ไม่สนใจไฟล์ที่ประกอบด้วยคำใดก็ตามต่อไปนี้:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Base URL of the online subtitle database:"
-msgstr "URL พื้่นฐานของฐานข้อมูลศัพท์บรรยายออนไลน์:"
+msgid "Languages in order of preference:"
+msgstr "ภาษาตามลำดับความชอบ:"
 
-msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON2"
-msgid "Test"
-msgstr "ทดสอบ"
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
+msgid "Automatically upload active subtitles at the end of video playback"
+msgstr "อัพโหลดศัพท์บรรยายที่แอ็คทีฟอัตโนมัติ เมื่อจบการเล่นวิดีโอ"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
@@ -1687,7 +1735,7 @@ msgstr ""
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC3"
 msgid "Level:"
-msgstr ""
+msgstr "ระดับ:"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC"
 msgid "Note"

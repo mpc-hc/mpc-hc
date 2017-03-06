@@ -8,6 +8,7 @@
 
 #include "../DSUtil/GolombBuffer.h"
 #include "../DSUtil/DSUtil.h"
+#include "../DSUtil/ISOLang.h"
 
 #define AUDIO_BLOCK_SIZE    66
 #define SUBTITLE_BLOCK_SIZE 194
@@ -517,7 +518,7 @@ bool CVobFile::Open(CString fn, CAtlList<CString>& vobs, ULONG nProgNum /*= 1*/,
         gb.ReadBuffer((BYTE*)lang, 2);
         gb.ReadDword();// skip
         if (ToAdd) {
-            m_pStream_Lang[ToAdd + i] = ISO6391ToLanguage(lang);
+            m_pStream_Lang[ToAdd + i] = ISOLang::ISO6391ToLanguage(lang);
         }
     }
 
@@ -531,7 +532,7 @@ bool CVobFile::Open(CString fn, CAtlList<CString>& vobs, ULONG nProgNum /*= 1*/,
         char lang[2];
         gb_s.ReadBuffer((BYTE*)lang, 2);
         gb_s.ReadShort();
-        m_pStream_Lang[0x20 + i] = ISO6391ToLanguage(lang);
+        m_pStream_Lang[0x20 + i] = ISOLang::ISO6391ToLanguage(lang);
     }
 
     // Chapters ...
@@ -695,7 +696,7 @@ bool CVobFile::Authenticate()
                 break;
             }
 
-            if (tp_udf_file f = udf_find_file(m_hDrive, 0, CStringA(m_files[i].fn.Mid(m_files[i].fn.Find(':') + 1)))) {
+            if (tp_udf_file f = udf_find_file(m_hDrive, 0, CStringA(m_files[i].fn.Mid(m_files[i].fn.Find(_T(':')) + 1)))) {
                 DWORD start, end;
                 if (udf_get_lba(m_hDrive, f, &start, &end)) {
                     if (BeginSession()) {
@@ -721,7 +722,7 @@ bool CVobFile::Authenticate()
                     break;
                 }
 
-                if (tp_udf_file f = udf_find_file(m_hDrive, 0, CStringA(m_files[i].fn.Mid(m_files[i].fn.Find(':') + 1)))) {
+                if (tp_udf_file f = udf_find_file(m_hDrive, 0, CStringA(m_files[i].fn.Mid(m_files[i].fn.Find(_T(':')) + 1)))) {
                     DWORD start, end;
                     if (udf_get_lba(m_hDrive, f, &start, &end)) {
                         if (BeginSession()) {

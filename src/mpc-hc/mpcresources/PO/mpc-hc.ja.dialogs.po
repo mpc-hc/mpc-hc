@@ -1,13 +1,13 @@
 # MPC-HC - Strings extracted from dialogs
-# Copyright (C) 2002 - 2013 see Authors.txt
+# Copyright (C) 2002 - 2017 see Authors.txt
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
-# ever_green, 2014-2015
+# ever_green, 2014-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2015-10-19 19:15:11+0000\n"
-"PO-Revision-Date: 2015-10-21 10:43+0000\n"
+"POT-Creation-Date: 2016-04-11 21:52:56+0000\n"
+"PO-Revision-Date: 2016-10-27 17:36+0000\n"
 "Last-Translator: ever_green\n"
 "Language-Team: Japanese (http://www.transifex.com/mpc-hc/mpc-hc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -126,7 +126,7 @@ msgstr "指定位置に移動..."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time. You do not need to enter the separators explicitly."
-msgstr "指定した時間にジャンプするには [hh:]mm:ss.ms の形式を使用してタイムコードを入力してください。区切り記号を入力する必要はありません。"
+msgstr "指定時間にジャンプするには、[hh:]mm:ss.ms の形式を使用してタイムコードを入力してください。区切り記号を入力する必要はありません。"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Time"
@@ -138,7 +138,7 @@ msgstr "移動"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Enter two numbers to jump to a specified frame, the first is the frame number, the second is the frame rate."
-msgstr "指定したフレームにジャンプするにはフレーム番号、フレーム レートの順に二つの数値を入力してください。"
+msgstr "指定フレームにジャンプするには、フレーム番号、フレーム レートの順に二つの数値を入力してください。"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Frame"
@@ -189,8 +189,8 @@ msgid "About"
 msgstr "バージョン情報"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright © 2002-2015 see Authors.txt"
-msgstr "Copyright © 2002-2015 (Authors.txt ファイルを参照)"
+msgid "Copyright © 2002-2017 see Authors.txt"
+msgstr "Copyright © 2002-2017 (Authors.txt ファイルを参照)"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "This program is freeware and released under the GNU General Public License."
@@ -286,7 +286,7 @@ msgstr "OSD を表示する (再起動が必要)"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK4"
 msgid "Limit window proportions on resize"
-msgstr "サイズ変更時にウィンドウ サイズの縦横比を固定する"
+msgstr "サイズ変更時にウィンドウの縦横比を固定する"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK12"
 msgid "Snap to desktop edges"
@@ -414,19 +414,23 @@ msgstr "再生"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_RADIO2"
 msgid "Repeat forever"
-msgstr "連続再生"
+msgstr "連続再生(無限)"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC1"
 msgid "time(s)"
 msgstr "回"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
+msgid "Repeat mode:"
+msgstr "連続再生モード:"
+
+msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
 msgstr "再生終了後の動作"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
-msgid "Output"
-msgstr "出力"
+msgid "Default zoom"
+msgstr "既定の拡大率"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
@@ -518,7 +522,7 @@ msgstr "ミリ秒"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Texture settings (open the video again to see the changes)"
-msgstr "テクスチャの設定 (変更を有効にするにはビデオを再度開いてください)"
+msgstr "テクスチャの設定 (変更を有効にするにはビデオを開き直してください)"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Sub pictures to buffer:"
@@ -565,8 +569,8 @@ msgid "Warning"
 msgstr "警告"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
-msgid "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
-msgstr "字幕の配置を強制的に指定し、ビデオカードの設定で全画面表示のアンチエイリアスを有効にした場合、CPU を消費するのみで字幕は少しも綺麗になりません。"
+msgid "If you override and enable fullscreen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your CPU."
+msgstr "字幕の配置を強制的に指定してビデオカードの設定で全画面表示のアンチエイリアスを有効にした場合、CPU を消費するのみで字幕は少しも綺麗になりません。"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
 msgid "File extensions"
@@ -586,7 +590,7 @@ msgstr "関連付け"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK8"
 msgid "Use the format-specific icons"
-msgstr "ファイル形式に固有のアイコンを使用する"
+msgstr "形式固有のアイコンを使用する"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON1"
 msgid "Run as &administrator"
@@ -738,7 +742,7 @@ msgstr "削除"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON8"
 msgid "Reset List"
-msgstr "リストをリセット"
+msgstr "一覧をリセット"
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Type:"
@@ -1002,7 +1006,7 @@ msgstr "輪郭"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO2"
 msgid "Opaque box"
-msgstr "不透明な四角"
+msgstr "不透明なボックス"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Width"
@@ -1121,8 +1125,8 @@ msgid "Audio Renderer"
 msgstr "オーディオ レンダラ"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "VMR-7/VMR-9 (renderless) and EVR (CP) settings"
-msgstr "VMR-7/VMR-9 (レンダーレス) および EVR (カスタム プレゼンタ) の設定"
+msgid "VMR-9 (renderless) and EVR (CP) settings"
+msgstr "VMR-9 (レンダーレス) および EVR (カスタム プレゼンタ) の設定"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"
@@ -1184,6 +1188,10 @@ msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
 msgstr "字幕レンダラ"
 
+msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
+msgid "Cache compiled Shaders"
+msgstr "コンパイルされたシェーダをキャッシュする"
+
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
 msgstr "このポートで待機:"
@@ -1229,16 +1237,44 @@ msgid "CGI handlers: (.ext1=path1;.ext2=path2;...)"
 msgstr "CGI ハンドラ: (拡張子1=パス1; 拡張子2=パス2;...)"
 
 msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
-msgid "Subtitles available online"
-msgstr "オンラインで利用できる字幕"
-
-msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
-msgid "Download && Open"
-msgstr "ダウンロードして開く"
+msgid "Download subtitles"
+msgstr "字幕をダウンロード"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
 msgid "Replace currently loaded subtitles"
 msgstr "現在読み込まれている字幕を置き換える"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
+msgid "Download"
+msgstr "ダウンロード"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON1"
+msgid "Refresh"
+msgstr "更新"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON2"
+msgid "Abort"
+msgstr "中止"
+
+msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON3"
+msgid "Options"
+msgstr "オプション"
+
+msgctxt "IDD_SUBTITLEUP_DLG_CAPTION"
+msgid "Upload subtitles"
+msgstr "字幕をアップロード"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDOK"
+msgid "Upload"
+msgstr "アップロード"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON1"
+msgid "Abort"
+msgstr "中止"
+
+msgctxt "IDD_SUBTITLEUP_DLG_IDC_BUTTON2"
+msgid "Options"
+msgstr "オプション"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
@@ -1298,7 +1334,7 @@ msgstr "エクスポート"
 
 msgctxt "IDD_PPAGEMISC_IDC_EXPORT_KEYS"
 msgid "Export keys"
-msgstr "キーバインドをエクスポート"
+msgstr "キーをエクスポート"
 
 msgctxt "IDD_TUNER_SCAN_CAPTION"
 msgid "Tuner scan"
@@ -1450,7 +1486,7 @@ msgstr "ミリ秒"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC10"
 msgid "Changes take effect after the playback has been closed and restarted."
-msgstr "再生を終了してファイルを再度開いた後に変更が有効になります。"
+msgstr "ファイルを開き直すと、変更が有効になります。"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK1"
 msgid "Launch files in fullscreen"
@@ -1541,16 +1577,28 @@ msgid "Reset"
 msgstr "リセット"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Online database"
-msgstr "オンライン データベース"
+msgid "Online search, download and upload subtitles"
+msgstr "字幕のオンライン検索, ダウンロードおよびアップロード"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
+msgid "Automatically search and download subtitles if none are found locally"
+msgstr "ローカルで何も見つからない場合、字幕を自動的に検索してダウンロードする"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
+msgid "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
+msgstr "聴覚障害者用の字幕を優先する (字幕プロバイダによって示された場合)"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
+msgid "Ignore files containing any of the following word(s):"
+msgstr "次の単語のいずれかを含むファイルを無視する:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
-msgid "Base URL of the online subtitle database:"
-msgstr "オンライン字幕データベースの基本 URL:"
+msgid "Languages in order of preference:"
+msgstr "言語の優先順位:"
 
-msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON2"
-msgid "Test"
-msgstr "テスト"
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK6"
+msgid "Automatically upload active subtitles at the end of video playback"
+msgstr "ビデオの再生終了時にアクティブな字幕を自動的にアップロードする"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
