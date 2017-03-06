@@ -1,5 +1,5 @@
 /*
- * (C) 2015-2016 see Authors.txt
+ * (C) 2015-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -78,8 +78,14 @@ private:
         // Check if logging is enabled only during initialization to avoid incomplete logs
         ASSERT(s.IsInitialized());
         CString savePath;
-        VERIFY(AfxGetMyApp()->GetAppSavePath(savePath));
-        m_file = s.bEnableLogging ? _tfsopen(PathUtils::CombinePaths(savePath, GetFileName<TARGET>()), _T("at"), SH_DENYWR) : nullptr;
+        if (s.bEnableLogging && AfxGetMyApp()->GetAppSavePath(savePath)) {
+            if (!PathUtils::Exists(savePath)) {
+                ::CreateDirectory(savePath, nullptr);
+            }
+            m_file = _tfsopen(PathUtils::CombinePaths(savePath, GetFileName<TARGET>()), _T("at"), SH_DENYWR);
+        } else {
+            m_file = nullptr;
+        }
         ASSERT(!s.bEnableLogging || m_file);
     }
 
