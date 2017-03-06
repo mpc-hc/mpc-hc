@@ -1,5 +1,5 @@
 /*
- * (C) 2010-2016 see Authors.txt
+ * (C) 2010-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -41,7 +41,6 @@
 #include "IPinHook.h"
 #include "PixelShaderCompiler.h"
 #include "FocusThread.h"
-#include "../../../DSUtil/ArrayUtils.h"
 #include "../../../DSUtil/SysVersion.h"
 #include "../../../DSUtil/vd.h"
 #include <mpc-hc_config.h>
@@ -2958,13 +2957,13 @@ HRESULT CSyncAP::CreateOptimalOutputType(IMFMediaType* pMixerProposedType, IMFMe
     CHECK_HR(fnMFCreateMediaType(&pOptimalMediaType));
     CHECK_HR(pMixerProposedType->CopyAllItems(pOptimalMediaType));
 
-    auto colorAttributes = make_array(
-                               MF_MT_VIDEO_LIGHTING,
-                               MF_MT_VIDEO_PRIMARIES,
-                               MF_MT_TRANSFER_FUNCTION,
-                               MF_MT_YUV_MATRIX,
-                               MF_MT_VIDEO_CHROMA_SITING
-                           );
+    const GUID colorAttributes[] = {
+        MF_MT_VIDEO_LIGHTING,
+        MF_MT_VIDEO_PRIMARIES,
+        MF_MT_TRANSFER_FUNCTION,
+        MF_MT_YUV_MATRIX,
+        MF_MT_VIDEO_CHROMA_SITING
+    };
 
     auto copyAttribute = [](IMFAttributes * pFrom, IMFAttributes * pTo, REFGUID guidKey) {
         PROPVARIANT val;

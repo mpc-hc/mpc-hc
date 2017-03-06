@@ -1,6 +1,6 @@
 /*
  * (C) 2003-2006 Gabest
- * (C) 2006-2016 see Authors.txt
+ * (C) 2006-2017 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,18 +22,17 @@
 #include "stdafx.h"
 #include "SubtitleHelpers.h"
 #include "TextFile.h"
-#include "../DSUtil/ArrayUtils.h"
 #include "../DSUtil/PathUtils.h"
 #include "../DSUtil/ISOLang.h"
 #include <regex>
 
 namespace
 {
-    constexpr auto subTypesExt = make_array(
-                                     _T("srt"), _T("sub"), _T("smi"), _T("psb"),
-                                     _T("ssa"), _T("ass"), _T("idx"), _T("usf"),
-                                     _T("xss"), _T("txt"), _T("rt"), _T("sup")
-                                 );
+    constexpr std::array<LPCTSTR, 12> subTypesExt = {
+        _T("srt"), _T("sub"), _T("smi"), _T("psb"),
+        _T("ssa"), _T("ass"), _T("idx"), _T("usf"),
+        _T("xss"), _T("txt"), _T("rt"), _T("sup")
+    };
 
     LPCTSTR separators = _T(".\\-_");
     LPCTSTR extListVid = _T("(avi)|(mkv)|(mp4)|((m2)?ts)");
